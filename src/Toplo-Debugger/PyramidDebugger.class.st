@@ -5,10 +5,11 @@ Class {
 	#classTraits : 'TDebugger classTrait',
 	#instVars : [
 		'view',
-		'stack',
-		'buttons',
-		'code',
-		'debuggerActionModel'
+		'stackWidget',
+		'codeWidget',
+		'debuggerActionModel',
+		'allButtons',
+		'synonyms'
 	],
 	#category : #'Toplo-Debugger'
 }
@@ -26,36 +27,31 @@ PyramidDebugger class >> view [
 	"This class has been generated using Pyramid.
 
 	By: YannLEGOFF
-	2025-02-05 16:47:51"
+	2025-02-06 11:17:55"
 
 	<pyStash>
-	^ [ {(BlElement new
-   background: (BlPaintBackground new
-         paint: (BlColorPaint new
-               color: (Color r: 0.6510263929618768 g: 0.47214076246334313 b: 0.7145650048875856 alpha: 1.0);
-               yourself);
-         opacity: 1.0;
-         yourself);
+	^ [ | blinsets1 |
+blinsets1 := BlInsets all: 8.0.
+{(BlElement new
+   clipChildren: false;
    addChildren: {(BlElement new
          background: (BlPaintBackground new
                paint: (BlColorPaint new
-                     color: (Color r: 0.6177908113391984 g: 0.015640273704789834 b: 0.6520039100684262 alpha: 1.0);
+                     color: (Color r: 1.0 g: 1.0 b: 1.0 alpha: 1.0);
                      yourself);
                opacity: 1.0;
                yourself);
-         constraintsDo: [:constraints |  constraints horizontal matchParent.
-            constraints vertical matchParent ];
-         id: #stack;
-         yourself) . 
-      (BlElement new
-         background: (BlPaintBackground new
+         border: (BlBorderBuilder new
                paint: (BlColorPaint new
-                     color: (Color r: 0.024437927663734114 g: 0.49853372434017595 b: 0.4056695992179863 alpha: 1.0);
+                     color: (Color r: 0.6275659824046921 g: 0.6275659824046921 b: 0.6275659824046921 alpha: 1.0);
                      yourself);
-               opacity: 1.0;
+               build);
+         constraintsDo: [:constraints |  constraints horizontal fitContent.
+            constraints vertical matchParent.
+            constraints padding: (BlInsets all: 8.0) ];
+         layout: (BlLinearLayout vertical
+               cellSpacing: 8.0;
                yourself);
-         constraintsDo: [:constraints |  constraints horizontal matchParent.
-            constraints vertical exact: 24.0 ];
          id: #toolbar;
          yourself) . 
       (BlElement new
@@ -65,70 +61,204 @@ PyramidDebugger class >> view [
                      yourself);
                opacity: 1.0;
                yourself);
-         constraintsDo: [:constraints |  constraints horizontal matchParent.
-            constraints vertical matchParent ];
-         id: #code;
-         yourself) . 
-      (BlElement new
-         background: (BlPaintBackground new
+         border: (BlBorderBuilder new
                paint: (BlColorPaint new
-                     color: (Color r: 0.270772238514174 g: 0.8651026392961877 b: 0.7810361681329423 alpha: 1.0);
+                     color: (Color r: 0.6275659824046921 g: 0.6275659824046921 b: 0.6275659824046921 alpha: 1.0);
                      yourself);
-               opacity: 1.0;
-               yourself);
+               lineJoin: BlStrokeLineJoin bevel;
+               build);
          addChildren: {(BlElement new
                background: (BlPaintBackground new
                      paint: (BlColorPaint new
-                           color: (Color r: 0.8269794721407625 g: 0.5366568914956011 b: 0.739980449657869 alpha: 1.0);
+                           color: (Color r: 1.0 g: 1.0 b: 1.0 alpha: 1.0);
                            yourself);
                      opacity: 1.0;
                      yourself);
+               border: (BlBorderBuilder new
+                     paint: (BlColorPaint new
+                           color: (Color r: 0.6275659824046921 g: 0.6275659824046921 b: 0.6275659824046921 alpha: 1.0);
+                           yourself);
+                     lineJoin: BlStrokeLineJoin bevel;
+                     build);
                constraintsDo: [:constraints |  constraints horizontal matchParent.
-                  constraints vertical matchParent ];
-               id: #left;
+                  constraints vertical matchParent.
+                  constraints padding: blinsets1 ];
+               id: #stack;
                yourself) . 
             (BlElement new
                background: (BlPaintBackground new
                      paint: (BlColorPaint new
-                           color: (Color r: 0.2756598240469208 g: 0.4389051808406647 b: 0.3304007820136852 alpha: 1.0);
+                           color: (Color r: 1.0 g: 1.0 b: 1.0 alpha: 1.0);
                            yourself);
                      opacity: 1.0;
                      yourself);
+               border: (BlBorderBuilder new
+                     paint: (BlColorPaint new
+                           color: (Color r: 0.6275659824046921 g: 0.6275659824046921 b: 0.6275659824046921 alpha: 1.0);
+                           yourself);
+                     lineJoin: BlStrokeLineJoin bevel;
+                     build);
                constraintsDo: [:constraints |  constraints horizontal matchParent.
-                  constraints vertical matchParent ];
-               id: #right;
+                  constraints vertical matchParent.
+                  constraints padding: blinsets1 ];
+               id: #code;
+               yourself) . 
+            (BlElement new
+               background: (BlPaintBackground new
+                     paint: (BlColorPaint new
+                           color: (Color r: 1.0 g: 1.0 b: 1.0 alpha: 1.0);
+                           yourself);
+                     opacity: 1.0;
+                     yourself);
+               border: (BlBorderBuilder new
+                     paint: (BlColorPaint new
+                           color: (Color r: 0.6275659824046921 g: 0.6275659824046921 b: 0.6275659824046921 alpha: 1.0);
+                           yourself);
+                     lineJoin: BlStrokeLineJoin bevel;
+                     build);
+               addChildren: {(BlElement new
+                     background: (BlPaintBackground new
+                           paint: (BlColorPaint new
+                                 color: (Color r: 1.0 g: 1.0 b: 1.0 alpha: 1.0);
+                                 yourself);
+                           opacity: 1.0;
+                           yourself);
+                     border: (BlBorderBuilder new
+                           paint: (BlColorPaint new
+                                 color: (Color r: 0.6275659824046921 g: 0.6275659824046921 b: 0.6275659824046921 alpha: 1.0);
+                                 yourself);
+                           lineJoin: BlStrokeLineJoin bevel;
+                           build);
+                     constraintsDo: [:constraints |  constraints horizontal matchParent.
+                        constraints vertical matchParent.
+                        constraints padding: blinsets1 ];
+                     id: #left;
+                     yourself) . 
+                  (BlElement new
+                     background: (BlPaintBackground new
+                           paint: (BlColorPaint new
+                                 color: (Color r: 1.0 g: 1.0 b: 1.0 alpha: 1.0);
+                                 yourself);
+                           opacity: 1.0;
+                           yourself);
+                     border: (BlBorderBuilder new
+                           paint: (BlColorPaint new
+                                 color: (Color r: 0.6275659824046921 g: 0.6275659824046921 b: 0.6275659824046921 alpha: 1.0);
+                                 yourself);
+                           lineJoin: BlStrokeLineJoin bevel;
+                           build);
+                     constraintsDo: [:constraints |  constraints horizontal matchParent.
+                        constraints vertical matchParent.
+                        constraints padding: blinsets1 ];
+                     id: #right;
+                     yourself)};
+               constraintsDo: [:constraints |  constraints horizontal matchParent.
+                  constraints vertical matchParent.
+                  constraints padding: blinsets1 ];
+               layout: BlLinearLayout horizontal;
+               id: #inspector;
                yourself)};
          constraintsDo: [:constraints |  constraints horizontal matchParent.
-            constraints vertical matchParent ];
-         layout: BlLinearLayout horizontal;
-         id: #inspector;
+            constraints vertical matchParent.
+            constraints padding: blinsets1 ];
+         layout: BlLinearLayout vertical;
+         id: #mainPanel;
          yourself)};
    constraintsDo: [:constraints |  constraints horizontal matchParent.
       constraints vertical matchParent ];
-   layout: BlLinearLayout vertical;
+   layout: BlLinearLayout horizontal;
    id: #root;
    yourself)} ] value
+]
+
+{ #category : #accessing }
+PyramidDebugger >> allButtons [
+
+	^ allButtons
+]
+
+{ #category : #accessing }
+PyramidDebugger >> codeWidget [
+
+	^ codeWidget
+]
+
+{ #category : #accessing }
+PyramidDebugger >> debuggerActionModel [
+
+	^ debuggerActionModel
+]
+
+{ #category : #accessing }
+PyramidDebugger >> debuggerActionModel: anObject [
+
+	debuggerActionModel := anObject
 ]
 
 { #category : #testing }
 PyramidDebugger >> defaultSelectedCodeRangeForContext: aContext [
 
-	^ debuggerActionModel selectedCodeRangeForContext: aContext
+	^ self debuggerActionModel selectedCodeRangeForContext: aContext
 ]
 
 { #category : #initialization }
 PyramidDebugger >> initialize [
 
 	super initialize.
-	self initializeView.
+	self initializeSynonyms.
+	self initializeWidgets.
+	self initializeButtons.
+	self initializeView
+]
 
+{ #category : #initialization }
+PyramidDebugger >> initializeButtons [
+
+	allButtons := OrderedCollection new.
+	
+	allButtons := StDebuggerToolbarCommandTreeBuilder new executionControlCommandClasses collect: [ :commandClass |
+		(self
+			 newButtonWithLabel: commandClass defaultName
+			 withIcon: (Smalltalk ui icons iconNamed: (self synonyms at: commandClass defaultIconName))
+			 withCallback: [ commandClass new execute ]).
+		 ]
+]
+
+{ #category : #initialization }
+PyramidDebugger >> initializeSynonyms [
+	
+	synonyms := Dictionary new.
+	synonyms
+		at: #debuggerCopyStack put: #smallCopy;
+		at: #debuggerDefineEntity put: #changeAdd;
+		at: #debuggerPeelToFirst put: #down;
+		at: #debuggerProceed put: #glamorousGo;
+		at: #debuggerRestart put: #glamorousRestart;
+		at: #debuggerReturn put: #refresh;
+		at: #debuggerStepInto put: #glamorousInto;
+		at: #debuggerStepOver put: #glamorousOver;
+		at: #debuggerStepThrough put: #glamorousThrough;
+		at: #debuggerRunToSelection put: #glamorousRightSide;
+		at: #debuggerWhereIs put: #glamorousSearch
 ]
 
 { #category : #initialization }
 PyramidDebugger >> initializeView [
 
 	view := self class view first.
-	stack := ToListElement new
+	((view childWithId: #mainPanel) childWithId: #stack) addChild:
+		self stackWidget.
+	((view childWithId: #mainPanel) childWithId: #code) addChild:
+		self codeWidget.
+
+	self allButtons do: [ :button |
+		(view childWithId: #toolbar) addChild: button ]
+]
+
+{ #category : #initialization }
+PyramidDebugger >> initializeWidgets [
+
+	stackWidget := ToListElement new
 		         constraintsDo: [ :c |
 			         c vertical matchParent.
 			         c horizontal matchParent ];
@@ -141,12 +271,23 @@ PyramidDebugger >> initializeView [
 				          do: [ :evt | self stackSelectionChanged: evt ]);
 		         withRowNumbers;
 		         yourself.
-	code := ToAlbum new
+
+	codeWidget := ToAlbum new
+		        styler: BlPharoCodeStyler new;
 		        withRowNumbers;
-		        yourself.
-	code styler: BlPharoCodeStyler new.
-	(view childWithId: #stack) addChild: stack.
-	(view childWithId: #code) addChild: code
+		        yourself
+]
+
+{ #category : #initialization }
+PyramidDebugger >> newButtonWithLabel: aString withIcon: aForm withCallback: aBlock [
+
+	^ ToButton new
+		  labelText: aString;
+		  iconImage: aForm;
+		  whenClickedDo: aBlock;
+		  beVertical;
+		constraintsDo: [ :c | c horizontal matchParent ];
+		  yourself
 ]
 
 { #category : #'instance creation' }
@@ -154,6 +295,7 @@ PyramidDebugger >> open [
 
 	| space |
 	space := view openInNewSpace.
+	space addEventHandlerOn: BlSpaceShownEvent do: [ :evt | evt target center ].
 	space
 		addEventHandlerOn: BlSpaceClosedEvent
 		do: [ :evt | self releaseSession ]
@@ -162,13 +304,13 @@ PyramidDebugger >> open [
 { #category : #'as yet unclassified' }
 PyramidDebugger >> releaseSession [
 
-	debuggerActionModel clearDebugSession 
+	self debuggerActionModel clearDebugSession
 ]
 
 { #category : #highlighting }
 PyramidDebugger >> selectedCodeRangeForContext: aContext [
 
-	^ debuggerActionModel exception
+	^ self debuggerActionModel exception
 		  selectedCodeRangeForContext: aContext
 		  forDebugger: self
 ]
@@ -189,22 +331,41 @@ PyramidDebugger >> stackSelectionChanged: anEvent [
 
 	| selectedContext interval selecter |
 	anEvent selectedIndexes ifEmpty: [ ^ self ].
-	selectedContext := stack dataAccessor at:
+	selectedContext := stackWidget dataAccessor at:
 		                   anEvent selectedIndexes first.
 
-	code styler classOrMetaClass: selectedContext receiver class.
-	code text: selectedContext sourceCode.
-	code editor deselecter deselect.
+	self codeWidget styler classOrMetaClass:
+		selectedContext receiver class.
+	self codeWidget text: selectedContext sourceCode.
+	self codeWidget editor deselecter deselect.
 	interval := self selectedCodeRangeForContext: selectedContext.
-	selecter := code editor selecter.
-	selecter from: interval first to: interval last - 1.
-	code editor navigator moveTo: interval last.
-	code editor navigator apply.
+	selecter := self codeWidget editor selecter.
+	selecter from: interval first - 1 to: interval last.
+	self codeWidget editor navigator moveTo: interval last.
+	self codeWidget editor navigator apply.
 	selecter select
+]
+
+{ #category : #accessing }
+PyramidDebugger >> stackWidget [
+
+	^ stackWidget
+]
+
+{ #category : #initialization }
+PyramidDebugger >> synonyms [
+
+	^ synonyms
 ]
 
 { #category : #stack }
 PyramidDebugger >> updateStackFromSession: aSession [
 
-	stack dataAccessor addAll: aSession stack
+	self stackWidget dataAccessor addAll: aSession stack
+]
+
+{ #category : #accessing }
+PyramidDebugger >> view [
+
+	^ view
 ]

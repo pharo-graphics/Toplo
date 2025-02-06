@@ -23,6 +23,12 @@ ToSelectionModel >> allIndexes [
 	^ (1 to: self itemCount) asArray
 ]
 
+{ #category : #enumerating }
+ToSelectionModel >> allIndexesDo: aValuable [
+
+	1 to: self itemCount do: [ :idx | aValuable value: idx ]
+]
+
 { #category : #'api - testing' }
 ToSelectionModel >> containsIndex: anIndex [
 

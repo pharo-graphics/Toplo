@@ -10,9 +10,8 @@ ToAccordionListSelectionCommandHandler >> addIndexesFromCommand: aCommand [
 	| indexes |
 	indexes := aCommand indexes.
 	aCommand operation deselectAllBefore ifTrue: [
-		currentTarget nodesDo: [ :node |
-			(indexes includes: node holder position) ifFalse: [
-				node item isExpanded: false ] ] ].
+		currentTarget selectionModel allIndexesDo: [ :idx |
+			self removeIndex: idx ] ].
 	indexes do: [ :idx |
 		(currentTarget nodeAt: idx) ifNotNil: [ :node |
 			node item isExpanded: true ] ]
@@ -37,13 +36,24 @@ ToAccordionListSelectionCommandHandler >> addWholeSelectionCommand: aCommand [
 ]
 
 { #category : #'command handling' }
+ToAccordionListSelectionCommandHandler >> removeAllIndexes: anIndexCollection [
+
+	anIndexCollection do: [ :idx |
+		self removeIndex: idx ]
+]
+
+{ #category : #'command handling' }
+ToAccordionListSelectionCommandHandler >> removeIndex: anIndex [
+
+	(currentTarget nodeAt: anIndex) ifNotNil: [ :node |
+		node item isExpanded: false ].
+	currentTarget cleanUpRecyclerAt: anIndex
+]
+
+{ #category : #'command handling' }
 ToAccordionListSelectionCommandHandler >> removeIndexesFromCommand: aCommand [
 
-	| indexes |
-	indexes := aCommand indexes.
-	indexes do: [ :idx |
-		(currentTarget nodeAt: idx) ifNotNil: [ :node |
-			node item isExpanded: false ] ]
+	self removeAllIndexes: aCommand indexes
 ]
 
 { #category : #'command handling' }

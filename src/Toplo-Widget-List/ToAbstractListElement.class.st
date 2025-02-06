@@ -382,7 +382,7 @@ ToAbstractListElement >> newUnselectableSelectionMode [
 	^ ToListUnselectableSelectionMode parentMode: self primarySelectionMode
 ]
 
-{ #category : #'t - infinite accessing' }
+{ #category : #'t - list element decorator - infinite accessing' }
 ToAbstractListElement >> next [
 
 	^ next

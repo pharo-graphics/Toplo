@@ -43,3 +43,9 @@ ToInfinitePositionBasedRecycler >> recycleElement: anElement in: anInfiniteEleme
 	" just store the node for futur reuse "
 	pool at: anElement holder position put: anElement
 ]
+
+{ #category : #'element fetching' }
+ToInfinitePositionBasedRecycler >> removeNodeAt: aPosition in: anInfiniteElement [
+
+	^ pool removeKey: aPosition ifAbsent: []
+]

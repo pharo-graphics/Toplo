@@ -17,7 +17,6 @@ Class {
 		'isCollapsed',
 		'nbChildren',
 		'children',
-		'nodeHolder',
 		'dataSource'
 	],
 	#category : #'Toplo-Widget-Tree-Core'
@@ -40,13 +39,14 @@ ToTreeDataSourceWrapper >> collapse [
 
 	self isCollapsed ifTrue: [ ^ self ].
 
-	isCollapsed := true.
 	self children do: [ :data |
 		| wrapper |
 		wrapper := (self dataSource select: [ :e | e dataItem = data ])
 			           anyOne.
 		wrapper collapse.
-		self dataSource removeWrapper: wrapper ]
+		self dataSource removeWrapper: wrapper ].
+	
+	isCollapsed := true.
 ]
 
 { #category : #accessing }
@@ -77,15 +77,16 @@ ToTreeDataSourceWrapper >> dataSource: aDataSource [
 ToTreeDataSourceWrapper >> expand [
 
 	| currentWrapper |
-	
 	self isLeaf ifTrue: [ ^ self ].
+	isCollapsed := false.
+	
 	currentWrapper := self.
 	self children do: [ :nextWrapper |
 		dataSource add: nextWrapper after: currentWrapper.
 		currentWrapper := dataSource at:
 			                  (dataSource indexOf: currentWrapper) + 1 ].
 
-	isCollapsed := false
+	
 ]
 
 { #category : #initialization }
@@ -117,18 +118,6 @@ ToTreeDataSourceWrapper >> nbChildren [
 ToTreeDataSourceWrapper >> nbChildren: aNumber [
 
 	nbChildren := aNumber 
-]
-
-{ #category : #accessing }
-ToTreeDataSourceWrapper >> nodeHolder [ 
-
-	 ^ nodeHolder
-]
-
-{ #category : #accessing }
-ToTreeDataSourceWrapper >> nodeHolder: aToTreeNodeHolder [
-
-	nodeHolder := aToTreeNodeHolder 
 ]
 
 { #category : #accessing }

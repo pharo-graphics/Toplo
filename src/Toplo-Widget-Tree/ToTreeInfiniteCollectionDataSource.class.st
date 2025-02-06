@@ -69,8 +69,6 @@ ToTreeInfiniteCollectionDataSource >> removeWrapper: aToTreeDataSourceWrapper [
 { #category : #wrapping }
 ToTreeInfiniteCollectionDataSource >> wrapObject: anObject [
 
-	^ ToTreeDataSourceWrapper new
-		  wrapAround: anObject
-		  with: childSelector new;
-		dataSource: self
+	^ ToTreeDataSourceWrapper new dataSource: self;
+		  wrapAround: anObject with: childSelector new
 ]

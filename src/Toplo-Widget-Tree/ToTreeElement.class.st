@@ -1,12 +1,17 @@
 "
 I am a Tree Element,
 
-I display data in a tree structure by holding Tree Nodes
+I display data in a tree structure by holding Tree Nodes.
+
+My model relies on a DataSource holding the data displayed and a TreeNodeManager dealing with the TreeNodes
 "
 Class {
 	#name : #ToTreeElement,
 	#superclass : #ToListElement,
-	#category : #'Toplo-Widget-Tree'
+	#instVars : [
+		'childSelector'
+	],
+	#category : #'Toplo-Widget-Tree-Core'
 }
 
 { #category : #'as yet unclassified' }
@@ -35,6 +40,24 @@ ToTreeElement class >> exampleExpandCollapse [
 	l openInSpace
 ]
 
+{ #category : #accessing }
+ToTreeElement >> childSelector [
+
+	^ childSelector ifNil: [ self defaultTreeChildSelector ]
+]
+
+{ #category : #accessing }
+ToTreeElement >> childSelector: aToTreeChildSelector [
+
+	childSelector := aToTreeChildSelector 
+]
+
+{ #category : #initialization }
+ToTreeElement >> defaultDataSource [
+
+	^ ToTreeInfiniteCollectionDataSource new
+]
+
 { #category : #initialization }
 ToTreeElement >> defaultNodeManagerClass [
 
@@ -42,8 +65,24 @@ ToTreeElement >> defaultNodeManagerClass [
 ]
 
 { #category : #initialization }
-ToTreeElement >> initialize [ 
+ToTreeElement >> defaultTreeChildSelector [
+
+	^ ToTreeClassChildSelector
+]
+
+{ #category : #initialization }
+ToTreeElement >> initialize [
 
 	super initialize.
-	nodeManager treeElement: self.
+	nodeManager
+		treeElement: self
+
+	"maybe add a default Child Selector ?"
+]
+
+{ #category : #initialization }
+ToTreeElement >> initializeDataSource [
+
+	super initializeDataSource.
+	self dataSource childSelector: self childSelector 
 ]

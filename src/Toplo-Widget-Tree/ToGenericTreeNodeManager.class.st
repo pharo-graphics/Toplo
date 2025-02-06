@@ -1,11 +1,15 @@
+"
+I am a ToGenericTreeNodeManager
+
+I hold the logic of building and destroying NodeHolders and TreeNodes whenever the DataSource is updated
+"
 Class {
 	#name : #ToGenericTreeNodeManager,
 	#superclass : #ToGenericListNodeManager,
 	#instVars : [
-		'nodeWrapperClass',
 		'treeElement'
 	],
-	#category : #'Toplo-Widget-Tree'
+	#category : #'Toplo-Widget-Tree-Core'
 }
 
 { #category : #initialization }
@@ -25,7 +29,7 @@ ToGenericTreeNodeManager >> defaultNodeBuilder [
 		  holder click ].
 	  node addChild: (ToTripletElement new
 			   startElement: start;
-			   middleElement: (ToLabel text: dataItem asString);
+			   middleElement: (ToLabel text: dataItem  asString);
 			   startInterspace: 5) ]
 ]
 
@@ -33,8 +37,6 @@ ToGenericTreeNodeManager >> defaultNodeBuilder [
 ToGenericTreeNodeManager >> defaultNodeFactory [
 
 	^ [ :holder |
-	  holder wrapper: self defaultNodeWrapperClass new.
-	  holder treeElement: self treeElement.
 	  ToTreeNode new nodeHolder: holder ]
 ]
 
@@ -42,19 +44,6 @@ ToGenericTreeNodeManager >> defaultNodeFactory [
 ToGenericTreeNodeManager >> defaultNodeUnbuilder [
 
 	^ [ :node :dataItem :holder | ]
-]
-
-{ #category : #initialization }
-ToGenericTreeNodeManager >> defaultNodeWrapperClass [ 
-
-	^ ToTreeClassWrapper
-]
-
-{ #category : #initialization }
-ToGenericTreeNodeManager >> initialize [ 
-
-	super initialize.
-	nodeWrapperClass := self defaultNodeWrapperClass 
 ]
 
 { #category : #initialization }

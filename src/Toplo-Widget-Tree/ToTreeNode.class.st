@@ -9,7 +9,7 @@ Class {
 	#instVars : [
 		'nodeHolder'
 	],
-	#category : #'Toplo-Widget-Tree'
+	#category : #'Toplo-Widget-Tree-Core'
 }
 
 { #category : #initialization }

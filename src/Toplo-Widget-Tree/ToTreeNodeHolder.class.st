@@ -2,117 +2,79 @@ Class {
 	#name : #ToTreeNodeHolder,
 	#superclass : #ToListNodeHolder,
 	#instVars : [
-		'collapsed',
-		'wrapper',
-		'treeElement'
+		'dataWrapper'
 	],
-	#category : #'Toplo-Widget-Tree'
+	#category : #'Toplo-Widget-Tree-Core'
 }
 
 { #category : #accessing }
 ToTreeNodeHolder >> bindDataItem: aDataItem [
 
 	super bindDataItem: aDataItem.
-	self wrapper wrappedObject: aDataItem.
-]
-
-{ #category : #testing }
-ToTreeNodeHolder >> canHaveChildren [ 
-
-	^ self children size > 0
+	"self childSelector dataItem: aDataItem"
 ]
 
 { #category : #accessing }
-ToTreeNodeHolder >> children [ 
+ToTreeNodeHolder >> children [
 
-	^ self wrapper children
+	^ self dataWrapper children
 ]
 
 { #category : #public }
 ToTreeNodeHolder >> click [
 
-	collapsed
-		ifTrue: [ self expand ]
-		ifFalse: [ self collapse ]
+	self isCollapsed 
+		ifTrue: [ self dataWrapper expand ]
+		ifFalse: [ self dataWrapper collapse ]
 ]
 
 { #category : #'expanding-collapsing' }
 ToTreeNodeHolder >> collapse [
 
-	self isCollapsed ifTrue: [ ^ self ].
+	self dataWrapper collapse
+]
 
-	collapsed := true.
-	1 to: self children size do: [ :i | "1 to: self children size do: [ :i |
-		self node nextSiblingDo: [ :s |
-			s nodeHolder isCollapsed ifFalse: [ s nodeHolder collapse ] ] ].
+{ #category : #accessing }
+ToTreeNodeHolder >> dataItem [
 
-	self treeElement dataAccessor remove: self wrappedObject""start := self treeElement dataAccessor indexOf:
-		         self wrapper wrappedObject.
-	stop := start + self wrapper children size.
-	self treeElement dataAccessor removeFrom: start + 1 to: stop"
-		self node nextSiblingDo: [ :sibling |
-			"self halt."
-			sibling nodeHolder collapse.
-			"self halt."
-			self treeElement dataAccessor remove:
-				sibling nodeHolder wrappedObject.
-			self halt.
-			"self treeElement notifyDataSourceChanged.
-			self halt" ] ]
+	^ dataItem
+	"self childSelector dataItem"
+]
+
+{ #category : #accessing }
+ToTreeNodeHolder >> dataItem: aDataItem [ 
+
+	self dataWrapper: aDataItem.
+	dataItem := aDataItem dataItem
+]
+
+{ #category : #accessing }
+ToTreeNodeHolder >> dataWrapper [
+
+	^ dataWrapper
+]
+
+{ #category : #accessing }
+ToTreeNodeHolder >> dataWrapper: aToTreeDataSourceWrapper [
+
+	dataWrapper := aToTreeDataSourceWrapper.
+	dataWrapper nodeHolder: self.
 ]
 
 { #category : #'expanding-collapsing' }
 ToTreeNodeHolder >> expand [
 
-	| oldObject |
-	self canHaveChildren ifFalse: [ ^ self ].
-	oldObject := self wrappedObject.
-	self children do: [ :nextObject |
-		self treeElement dataAccessor add: nextObject after: oldObject.
-		oldObject := nextObject ].
-	
-	collapsed := false.
-]
-
-{ #category : #initialization }
-ToTreeNodeHolder >> initialize [
-
-	super initialize.
-	collapsed := true
+	self dataWrapper expand.
 ]
 
 { #category : #accessing }
-ToTreeNodeHolder >> isCollapsed [ 
+ToTreeNodeHolder >> isCollapsed [
 
- ^ collapsed 
+	^ self dataWrapper isCollapsed 
 ]
 
-{ #category : #accessing }
-ToTreeNodeHolder >> treeElement [ 
+{ #category : #testing }
+ToTreeNodeHolder >> isLeaf [
 
-	^ treeElement
-]
-
-{ #category : #accessing }
-ToTreeNodeHolder >> treeElement: aTreeElement [
-
-	treeElement := aTreeElement 
-]
-
-{ #category : #accessing }
-ToTreeNodeHolder >> wrappedObject [ 
-
-	^ self wrapper wrappedObject 
-]
-
-{ #category : #accessing }
-ToTreeNodeHolder >> wrapper [
-
-	^ wrapper
-]
-
-{ #category : #accessing }
-ToTreeNodeHolder >> wrapper: aNodeWrapper [ 
-
-	wrapper := aNodeWrapper 
+	^ self wrapper isLeaf
 ]

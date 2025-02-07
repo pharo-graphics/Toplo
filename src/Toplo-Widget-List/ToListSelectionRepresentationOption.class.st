@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'selectionOption',
-		'currentSelectionRepresentations'
+		'currentSelectionRepresentations',
+		'consecutiveRefreshCount'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
@@ -32,10 +33,18 @@ ToListSelectionRepresentationOption >> currentSelectionRepresentationsFrom: aLis
 	^ self subclassResponsibility 
 ]
 
+{ #category : #'nodes collecting' }
+ToListSelectionRepresentationOption >> forceRefreshSelectionIn: aListElement withSelectionModel: aSelectionModel [
+
+	consecutiveRefreshCount := 0.
+	self refreshSelectionIn: aListElement withSelectionModel: aSelectionModel
+]
+
 { #category : #initialization }
 ToListSelectionRepresentationOption >> initialize [ 
 
 	super initialize.
+	consecutiveRefreshCount := 0.
 	currentSelectionRepresentations := #(  )
 ]
 
@@ -63,6 +72,25 @@ ToListSelectionRepresentationOption >> isSeparate [
 	^ false
 ]
 
+{ #category : #'nodes collecting' }
+ToListSelectionRepresentationOption >> launchUpdateSelectionIn: aListElement withSelectionModel: aSelectionModel [
+
+	| newRepresentations |
+	newRepresentations := self
+		             currentSelectionRepresentationsFrom: aListElement
+		             withSelectionModel: aSelectionModel.
+	(self selectionRepresentationsChangeWith: newRepresentations) ifFalse: [ ^ false ].
+	" send deselected even groups is empty. 
+	As an example, if not, if a selected node is turned as unselectable, 
+	the content of the node will not be updated correctly 
+	because the content skin will not receive the DeselectedSkinEvent "
+
+	self notifyNodesDeselectedIn: aListElement.
+	self removeSelectionRepresentationsIn: aListElement.
+	currentSelectionRepresentations := newRepresentations.
+	^ true
+]
+
 { #category : #'private - selection updating' }
 ToListSelectionRepresentationOption >> notifyNodesDeselectedIn: aListElement [
 
@@ -82,9 +110,14 @@ ToListSelectionRepresentationOption >> notifyNodesSelectedIn: aListElement [
 { #category : #'nodes collecting' }
 ToListSelectionRepresentationOption >> refreshSelectionIn: aListElement withSelectionModel: aSelectionModel [
 
+	consecutiveRefreshCount := consecutiveRefreshCount + 1.
+	consecutiveRefreshCount > 1 ifTrue: [
+		Error signal:
+			'Two selection refreshes do not have to be consecutive.'.
+		^ self ].
 	self removeSelectionRepresentationsIn: aListElement.
 	self
-		updateSelectionIn: aListElement
+		launchUpdateSelectionIn: aListElement
 		withSelectionModel: aSelectionModel
 ]
 
@@ -130,17 +163,8 @@ ToListSelectionRepresentationOption >> triggerSelectionState [
 { #category : #'nodes collecting' }
 ToListSelectionRepresentationOption >> updateSelectionIn: aListElement withSelectionModel: aSelectionModel [
 
-	| newRepresentations |
-	newRepresentations := self
-		             currentSelectionRepresentationsFrom: aListElement
-		             withSelectionModel: aSelectionModel.
-	(self selectionRepresentationsChangeWith: newRepresentations) ifFalse: [ ^ false ].
-	" send deselected even groups is empty. 
-	As an example, if not, if a selected node is turned as unselectable, 
-	the content of the node will not be updated correctly 
-	because the content skin will not receive the DeselectedSkinEvent "
-	self notifyNodesDeselectedIn: aListElement.
-	self removeSelectionRepresentationsIn: aListElement.
-	currentSelectionRepresentations := newRepresentations.
-	^ true
+	consecutiveRefreshCount := 0.
+	^ self
+		  launchUpdateSelectionIn: aListElement
+		  withSelectionModel: aSelectionModel
 ]

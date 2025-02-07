@@ -1428,6 +1428,18 @@ ToSandBox class >> example_ListOneClass [
 ]
 
 { #category : #list }
+ToSandBox class >> example_ListOneClass2 [
+
+	| l |
+	l := ToListElement new nodeBuilder: [ :node :dataItem  :holder |
+		     node addChild: (ToLabel new
+				      text: dataItem name;
+				      hMatchParent) ].
+	l dataAccessor addAll: { Smalltalk globals allClasses first }.
+	l openInSpace
+]
+
+{ #category : #list }
 ToSandBox class >> example_ListWith6Elements [
 
 	| l |

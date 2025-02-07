@@ -15,6 +15,7 @@ ToElementState >> applyOn: anElement fromQueue: aQueue [
 
 	| se |
 	se := self skinEvent.
+	se isConsumed ifTrue: [ ^ self ].
 	anElement spaceDo: [ :sp | se timestamp: anElement space time now ].
 	anElement dispatchEvent: se.
 	self onAppliedOn: anElement fromQueue: aQueue
@@ -35,6 +36,8 @@ ToElementState >> onAppliedOn: anElement [
 
 { #category : #'look event sending' }
 ToElementState >> onAppliedOn: anElement fromQueue: aQueue [
+
+	self skinEvent consume
 
 ]
 

@@ -136,7 +136,6 @@ ToNodeHolder >> nodeManager [
 
 { #category : #accessing }
 ToNodeHolder >> notifyDeselectedWithOption: aSelectionElementOption [
-
 	self isSelected ifTrue: [ ^ self ].
 	self node dispatchEvent: (ToListNodeSelectedEvent new
 			 listElement: self listElement;

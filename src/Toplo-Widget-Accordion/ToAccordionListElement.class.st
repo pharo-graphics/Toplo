@@ -23,7 +23,7 @@ ToAccordionListElement class >> example1 [
 							 border: Color random;
 							 background: Color random;
 							 size: 50 @ 50) ] ].
-	list dataAccessor addAll: (1 to: 25).
+	list dataAccessor addAll: (1 to: 100).
 	list withRowNumbers.
 	list matchParent.
 	list openInSpace

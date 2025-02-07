@@ -22,7 +22,7 @@ ToListSelectionElementEventHandler >> refreshSelectionFromEvent: anEvent [
 	target := anEvent currentTarget.
 	anEvent selectionOption ifNotNil: [ :option |
 		option
-			refreshSelectionIn: target
+			forceRefreshSelectionIn: target
 			withSelectionModel: anEvent selectionModel ]
 ]
 

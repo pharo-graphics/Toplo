@@ -52,7 +52,9 @@ ToStillPressedEventHandler >> mouseUpEvent: anEvent [
 { #category : #'instance creation' }
 ToStillPressedEventHandler >> newRepeatedEvent [
 
-	^ ToStillPressedEvent new sourceHandler: self; yourself
+	^ ToStillPressedEvent new
+		  emitter: self;
+		  yourself
 ]
 
 { #category : #'instance creation' }

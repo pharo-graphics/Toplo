@@ -29,6 +29,8 @@ ToListSelecter >> addCommand: aCommand [
 ToListSelecter >> applyBasicCommand: aCommand [
 
 	| previousModel |
+	"((aCommand isKindOf: ToIntervalSelectionCommand ) and: [ aCommand operation isKindOf: ToRemoveSelectionOperation ]) ifTrue: [ self halt ]."
+
 	previousModel := selectionModel copy.
 	aCommand applyWithOperator: operator.
 	previousModel = aCommand selectionModel ifTrue: [ ^ self ].

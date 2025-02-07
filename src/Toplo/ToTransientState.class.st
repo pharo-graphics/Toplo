@@ -24,11 +24,11 @@ ToTransientState >> applyOn: anElement fromQueue: aQueue [
 
 { #category : #'look event sending' }
 ToTransientState >> onAppliedOn: anElement fromQueue: aQueue [
+	" A transient state is applied only one time"
 
-	super onAppliedOn: anElement fromQueue: aQueue.
 	skinEvent isConsumed ifTrue: [ self sourceEvent consume ].
-	skinEvent := nil
-
+	" send to super last because the skin event is systematically consumed in super. "
+	super onAppliedOn: anElement fromQueue: aQueue
 ]
 
 { #category : #accessing }

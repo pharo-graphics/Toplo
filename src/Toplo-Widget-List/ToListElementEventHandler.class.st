@@ -301,7 +301,7 @@ ToListElementEventHandler >> refreshSelectionIn: aTarget [
 	aTarget selectionModes do: [ :mode |
 		mode selectionOptionDo: [ :option |
 			option
-				refreshSelectionIn: aTarget
+				forceRefreshSelectionIn: aTarget
 				withSelectionModel: mode selectionModel ] ].
 	selectionRefreshTask := nil
 ]

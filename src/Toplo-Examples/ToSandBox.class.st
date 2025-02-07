@@ -4,6 +4,95 @@ Class {
 	#category : #'Toplo-Examples-SandBox'
 }
 
+{ #category : #accordion }
+ToSandBox class >> accordionBaseWithLabel [
+
+	^ self accordionBaseWithLabelText: 'Header'
+]
+
+{ #category : #accordion }
+ToSandBox class >> accordionBaseWithLabelAndAlbumInBody [
+
+	| inst |
+	inst := ToAccordionBaseElement new.
+	inst headerBuilder: [ :header |
+		header addChild: (ToLabel text: 'Header') ].
+	inst bodyBuilder: [ :body |
+		| album |
+		album := ToAlbum new
+			         withSaveCapability;
+			         whenSaveRequestedDo: [ :saveRequested |
+				         saveRequested accepted: true ];
+			         whenCancelRequestedDo: [ :cancelRequested |
+				         cancelRequested editorElement text: '' ];
+			         yourself.
+		album hMatchParent.
+		album vFitContent.
+		album next constraintsDo: [ :c |
+			c vertical fitContent.
+			c horizontal matchParent ].
+		album infinite constraintsDo: [ :c |
+			c vertical fitContent.
+			c horizontal matchParent ].
+		album minHeight: 50.
+		album text: 'AAAAAAAA'.
+		body addChild: album ].
+	inst
+		addEventHandlerOn: ToAccordionCheckedEvent
+		do: [ :evt | evt traceCr ].
+	^ inst
+]
+
+{ #category : #accordion }
+ToSandBox class >> accordionBaseWithLabelText: aString [
+
+	| inst |
+	inst := ToAccordionBaseElement new.
+	inst headerBuilder: [ :header |
+		header addChild: (ToLabel text: aString) ].
+	inst bodyBuilder: [ :body |
+		body addChild:
+			(ToLabel new text: 'Body with random background color').
+		body
+			hMatchParent;
+			height: 100;
+			background: Color random ].
+	inst
+		vFitContent;
+		hMatchParent.
+	inst
+		addEventHandlerOn: ToAccordionCheckedEvent
+		do: [ :evt | evt traceCr ].
+	^ inst
+]
+
+{ #category : #accordion }
+ToSandBox class >> accordionItemWithLabel [
+
+	^ self accordionItemWithLabelText: 'Header'
+]
+
+{ #category : #accordion }
+ToSandBox class >> accordionItemWithLabelText: aString [
+
+	| inst |
+	inst := ToAccordionItemElement new.
+	inst headerBuilder: [ :header |
+		header addChild: (ToLabel text: aString) ].
+	inst bodyBuilder: [ :body |
+		body addChild:
+			(ToLabel new text: 'Body with random background color').
+		body
+			hMatchParent;
+			height: 100;
+			background: Color random ].
+	inst
+		vFitContent;
+		hMatchParent.
+
+	^ inst
+]
+
 { #category : #bar }
 ToSandBox class >> barConfigurationBoardFor: aBar [
 
@@ -387,6 +476,259 @@ ToSandBox class >> checkingStrategyChooserFor: aCheckableBar [
 	checkingStrategyContainer addChildren:
 		checkingStrategyGroup registeredCheckables.
 	^ checkingStrategyContainer
+]
+
+{ #category : #accordion }
+ToSandBox class >> exampleAccordionItemWithLabel [
+
+	<script>
+	| inst |
+	inst := self accordionItemWithLabel.
+	inst
+		addEventHandlerOn: BlClickEvent
+		do: [ :evt | inst privateSwitchExpanded ].
+	inst openInSpace.
+	^ inst
+]
+
+{ #category : #accordion }
+ToSandBox class >> exampleAccordionListElement [
+
+	<script>
+	| list |
+	list := ToAccordionListElement new.
+	list itemBuilder: [ :item :anInteger :holder |
+		item
+			headerBuilder: [ :header |
+				header addChild: (ToLabel text: 'Header ' , anInteger asString)
+							preventSelectionSkinEvents ];
+			bodyBuilder: [ :body |
+				body addChild: (BlElement new
+							 background: (Color random alpha: 0.4);
+							 size: 50 @ 30) ] ].
+	list dataAccessor addAll: (1 to: 100).
+	list withRowNumbers.
+	list matchParent.
+	list openInSpace
+]
+
+{ #category : #accordion }
+ToSandBox class >> exampleAccordionListWithClassComments [
+
+	<script>
+	| list pane filterField sieve |
+	pane := ToPane new
+		        beVertical;
+		        matchParent.
+	filterField := ToTextField new.
+	filterField margin: (BlInsets all: 2).
+	filterField placeholderBuilder: [ :placeholder :e |
+		placeholder addChild:
+			((ToAttributedLabel text: 'Class name filter')
+				 foreground: Color lightGray;
+				 yourself) ].
+	list := ToAccordionListElement new.
+	list withRowNumbers.
+	list selectionMode multiple: true.
+	sieve := ToListElementSieve new.
+	sieve onInstalledIn: list.
+	sieve dataFilter: [ :item :aPattern |
+		item name beginsWith: aPattern caseSensitive: false ].
+
+	filterField whenTextEditedDo: [
+		| pattern |
+		pattern := filterField text asString.
+		sieve pattern: pattern ].
+
+	list placeholderBuilder: [ :ph :e |
+		| lab |
+		ph layout alignCenter.
+		lab := (ToAttributedLabel text: 'No Data')
+			       foreground: Color lightGray;
+			       fontSize: 24;
+			       yourself.
+		ph addChild: lab ].
+
+	list itemBuilder: [ :item :cls :holder |
+		item addAllStamps: { #borderless. #ghost }.
+		item
+			headerBuilder: [ :header |
+				header addChild:
+						(ToLabel text: cls name) preventSelectionSkinEvents ];
+			bodyBuilder: [ :body |
+				| album |
+				body margin: (BlInsets all: 5).
+				album := ToAlbum new
+					         withSaveCapability;
+					         whenSaveRequestedDo: [ :saveRequested |
+						         saveRequested accepted: true ];
+					         whenCancelRequestedDo: [ :cancelRequested |
+						         cancelRequested editorElement text: cls comment ];
+					         yourself.
+				album hMatchParent.
+				album vFitContent.
+				album next constraintsDo: [ :c |
+					c vertical fitContent.
+					c horizontal matchParent ].
+				album infinite constraintsDo: [ :c |
+					c vertical fitContent.
+					c horizontal matchParent ].
+				album minHeight: 50.
+				album text: cls comment.
+				body addChild: album ];
+			yourself ].
+
+	list dataAccessor addAll: Smalltalk globals allClasses. "reject: [ :cls | cls comment isEmpty ]"
+	"list selectionOption masked: true."
+	list matchParent.
+
+	pane addChild: list.
+	pane addChild: filterField.
+	pane openInSpace
+]
+
+{ #category : #accordion }
+ToSandBox class >> exampleAccordionWithLabel [
+
+	<script>
+	| inst |
+	inst := self accordionBaseWithLabel.
+	inst openInSpace.
+
+	^ inst
+]
+
+{ #category : #accordion }
+ToSandBox class >> exampleAccordionWithLabelAndAlbumInBody [
+
+	<script>
+	| inst |
+	inst := self accordionBaseWithLabelAndAlbumInBody.
+	inst openInSpace.
+	^ inst
+]
+
+{ #category : #accordion }
+ToSandBox class >> exampleAccordionWithLabelChecked [
+
+	<script>
+	| inst |
+	inst := self accordionBaseWithLabel.
+	inst checked: true.
+	inst openInSpace.
+	^ inst
+]
+
+{ #category : #accordion }
+ToSandBox class >> exampleAccordionWithLabelExpanded [
+
+	<script>
+	| inst |
+	inst := self accordionBaseWithLabel.
+	inst isExpanded: true.
+	inst openInSpace.
+	^ inst
+]
+
+{ #category : #accordion }
+ToSandBox class >> exampleAccordionWithLabelNotPreservingBody [
+
+	<script>
+	| inst |
+	inst := self accordionBaseWithLabel.
+	inst preserveBody: false.
+	inst openInSpace.
+	^ inst
+]
+
+{ #category : #accordion }
+ToSandBox class >> exampleAccordionWithLabelNotPreservingBodyAndExpanded [
+
+	<script>
+	| inst |
+	inst := self accordionBaseWithLabel.
+	inst preserveBody: false.
+	inst isExpanded: true.
+	inst openInSpace.
+	^ inst
+]
+
+{ #category : #accordion }
+ToSandBox class >> exampleBorderlessAccordionWithLabel [
+
+	<script>
+	| inst |
+	inst := self accordionBaseWithLabel.
+	inst addStamp: #borderless.
+	inst openInSpace.
+
+	^ inst
+]
+
+{ #category : #accordion }
+ToSandBox class >> exampleGhostAccordionWithLabel [
+
+	<script>
+	| inst |
+	inst := self accordionBaseWithLabel.
+	inst addStamp: #ghost.
+	inst openInSpace.
+
+	^ inst
+]
+
+{ #category : #accordion }
+ToSandBox class >> examplePaneWithAccordionsWithCheckableGroup [
+
+	<script>
+	| pane group |
+	pane := ToPane new.
+	pane layout: BlLinearLayout vertical.
+	pane hMatchParent.
+	group := ToCheckableGroup new.
+	pane vFitContent.
+	(1 to: 5) collect: [ :i |
+		pane addChild: ((self accordionBaseWithLabelText: 'Header ' , i asString) isExpanded: false)].
+	group registerAll: pane children.
+	pane openInSpace.
+	^ pane
+]
+
+{ #category : #accordion }
+ToSandBox class >> examplePaneWithAccordionsWithLabel [
+
+	<script>
+	| pane |
+	pane := ToPane new.
+	pane layout: BlLinearLayout vertical.
+	pane hMatchParent.
+	pane vFitContent.
+	(1 to: 5) collect: [ :i |
+		pane addChild: ((self accordionBaseWithLabelText: 'Header ' , i asString) isExpanded: false)].
+	pane openInSpace.
+	^ pane
+]
+
+{ #category : #accordion }
+ToSandBox class >> examplePaneWithNestedAccordions [
+
+	<script>
+	| pane |
+	pane := ToPane new.
+	pane layout: BlLinearLayout vertical.
+	pane hMatchParent.
+	pane vFitContent.
+	(1 to: 5) collect: [ :i |
+		| accordion |
+		accordion := ToAccordionBaseElement new.
+		accordion headerBuilder: [ :header |
+			header addChild: (ToLabel text: 'This is panel header 1') ].
+		accordion bodyBuilder: [ :body |
+			body addChild:
+				(self accordionBaseWithLabelText: 'This is panel nest panel') ].
+		pane addChild: accordion ].
+	pane openInSpace.
+	^ pane
 ]
 
 { #category : #list }

@@ -4,19 +4,6 @@ Class {
 	#category : #'Toplo-Widget-Accordion-Core'
 }
 
-{ #category : #examples }
-ToAccordionItemElement class >> exampleWithLabel [
-
-	<script>
-	| inst |
-	inst := self itemWithLabel.
-	inst
-		addEventHandlerOn: BlClickEvent
-		do: [ :evt | inst privateSwitchExpanded ].
-	inst openInSpace.
-	^ inst
-]
-
 { #category : #testing }
 ToAccordionItemElement >> isExpanded [
 	

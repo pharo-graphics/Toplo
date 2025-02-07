@@ -53,6 +53,8 @@ ToAccordionHeaderElement >> initialize [
 
 	iconContainer := ToElement new.
 	iconContainer fitContent.
+	iconContainer constraintsDo: [ :c | c linear vertical alignCenter ].
+	self constraintsDo: [ :c | c linear vertical alignCenter ].
 	self addChild: iconContainer.
 	self addChild: content
 ]

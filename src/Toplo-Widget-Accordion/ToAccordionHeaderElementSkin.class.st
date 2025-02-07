@@ -15,9 +15,8 @@ ToAccordionHeaderElementSkin >> checkedSkinEvent: anEvent [
 ToAccordionHeaderElementSkin >> collapseHeader: anHeader [
 
 	| arrowTk |
-	arrowTk := #'submenu-arrow-up'.
-	anHeader icon: (anHeader valueOfTokenNamed: arrowTk) value.
-	anHeader background: Color transparent
+	arrowTk := #'submenu-arrow-right'.
+	anHeader icon: (anHeader valueOfTokenNamed: arrowTk) value
 ]
 
 { #category : #'event handling' }
@@ -33,9 +32,7 @@ ToAccordionHeaderElementSkin >> expandHeader: anHeader [
 
 	| arrowTk |
 	arrowTk := #'submenu-arrow-down'.
-	anHeader icon: (anHeader valueOfTokenNamed: arrowTk) value.
-	anHeader background:
-		(anHeader valueOfTokenNamed: #'color-secondary-selection')
+	anHeader icon: (anHeader valueOfTokenNamed: arrowTk) value
 ]
 
 { #category : #'event handling' }
@@ -44,13 +41,17 @@ ToAccordionHeaderElementSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| arrowTk |
+		e padding: (BlInsets
+				 horizontal: (e valueOfTokenNamed: #'padding-content-HS')
+				 vertical: (e valueOfTokenNamed: #'padding-content-V')).
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e valueOfTokenNamed: 'border-radius')).
 		arrowTk := e isExpanded
 			           ifTrue: [ #'submenu-arrow-down' ]
-			           ifFalse: [ #'submenu-arrow-up' ].
+			           ifFalse: [ #'submenu-arrow-right' ].
 		e icon: (e valueOfTokenNamed: arrowTk) value.
-		e background: Color transparent ]
+		(e parent hasStamp: #ghost) ifFalse: [
+			e background: (e valueOfTokenNamed: #'color-secondary-selection') ] ]
 ]
 
 { #category : #'event handling' }

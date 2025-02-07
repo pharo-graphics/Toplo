@@ -48,9 +48,17 @@ ToAccordionBodyElement >> initializeContent [
 		           layout: BlLinearLayout vertical;
 		           constraintsDo: [ :c |
 			           c vertical fitContent.
-			           c horizontal matchParent ];
+			           c horizontal matchParent.
+			           c linear vertical alignCenter ];
 		           yourself.
-	self addChild: content
+	content visibility: BlVisibility gone.
+	self addChild: content.
+]
+
+{ #category : #'instance creation' }
+ToAccordionBodyElement >> newRawSkin [ 
+
+	^ ToAccordionBodyElementSkin new
 ]
 
 { #category : #accessing }

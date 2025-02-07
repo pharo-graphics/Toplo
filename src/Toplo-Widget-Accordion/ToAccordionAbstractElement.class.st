@@ -8,68 +8,6 @@ Class {
 	#category : #'Toplo-Widget-Accordion-Core'
 }
 
-{ #category : #examples }
-ToAccordionAbstractElement class >> itemWithLabel [
-
-	^ self itemWithLabelText: 'Header'
-]
-
-{ #category : #examples }
-ToAccordionAbstractElement class >> itemWithLabelAndAlbumInBody [
-
-	| inst |
-	inst := self new.
-	inst headerBuilder: [ :header |
-		header addChild: (ToLabel text: 'Header') ].
-	inst bodyBuilder: [ :body |
-		| album |
-		album := ToAlbum new
-			         withSaveCapability;
-			         whenSaveRequestedDo: [ :saveRequested |
-				         saveRequested accepted: true ];
-			         whenCancelRequestedDo: [ :cancelRequested |
-				         cancelRequested editorElement text: '' ];
-			         yourself.
-		album hMatchParent.
-		album vFitContent.
-		album next constraintsDo: [ :c |
-			c vertical fitContent.
-			c horizontal matchParent ].
-		album infinite constraintsDo: [ :c |
-			c vertical fitContent.
-			c horizontal matchParent ].
-		album minHeight: 50.
-		album text: 'AAAAAAAA'.
-		body addChild: album ].
-	inst
-		addEventHandlerOn: ToAccordionCheckedEvent
-		do: [ :evt | evt traceCr ].
-	^ inst
-]
-
-{ #category : #examples }
-ToAccordionAbstractElement class >> itemWithLabelText: aString [
-
-	| inst |
-	inst := self new.
-	inst headerBuilder: [ :header |
-		header addChild: (ToLabel text: aString) ].
-	inst bodyBuilder: [ :body |
-		body addChild:
-			(ToLabel new text: 'Body with random background color').
-		body
-			hMatchParent;
-			height: 100;
-			background: Color random ].
-	inst
-		vFitContent;
-		hMatchParent.
-	inst
-		addEventHandlerOn: ToAccordionCheckedEvent
-		do: [ :evt | evt traceCr ].
-	^ inst
-]
-
 { #category : #accessing }
 ToAccordionAbstractElement >> bodyBuilder: aValuable [
 	"With a body content as argument"

@@ -146,17 +146,6 @@ ToSelectPopupWindowManager >> popupWindowClass [
 	^ ToSelectPopupWindow 
 ]
 
-{ #category : #'window handling' }
-ToSelectPopupWindowManager >> popupWindowHiddenEvent: anEvent [
-
-	(currentWindow notNil and: [ currentWindow isOpened ]) ifTrue: [
-		^ self ].
-	currentWindow ifNil: [ self newWindowEvent: anEvent ].
-	" currentWindow can be nil in case the element is disabled "
-	currentWindow visibility: BlVisibility hidden.
-	currentWindow popupEvent: anEvent
-]
-
 { #category : #accessing }
 ToSelectPopupWindowManager >> sieve [ 
 

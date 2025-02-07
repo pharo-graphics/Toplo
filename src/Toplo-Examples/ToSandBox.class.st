@@ -3064,18 +3064,7 @@ ToSandBox class >> example_ThemeSelectNoDeselectionPopupOnTop [
 	select allowDeselection: false.
 	select position: 10 @ 150.
 	select width: 200.
-	select manager placement:
-		(ToActionPlacement new action: [ :theWin :evt |
-			 | theElem theRoot |
-			 theElem := theWin element.
-			 theRoot := theWin anchorRoot.
-			 " change the window width to force the layout computation "
-			 theWin width: theElem width.
-			 " since the resizing of the root is changed, 
-			one have to wait a layout to have the right win height "
-			 theWin whenLayoutedDoOnce: [
-				 theWin position:
-					 theElem bounds inSpace bounds topLeft - (0 @ theWin height) ] ]).
+	select popupWindowPlacement: ToUpLeftUpPlacement new.
 	select openInSpace
 ]
 
@@ -5544,7 +5533,7 @@ ToSandBox class >> example_textFieldWithAutocompletePopup_experiment [
 			 do: [ :event |
 				 | sub selecter wordStart currIdx |
 				currIdx := event toIndex.
-				 t atTextIndex: event fromIndex do: [ :e :lidx |
+				 t atTextIndex: event index do: [ :e :lidx |
 					 | origin |
 					 origin := e screenCornerAt: lidx.
 					 e localPointToGlobal: origin "traceCr" ].

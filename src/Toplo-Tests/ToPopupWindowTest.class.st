@@ -223,7 +223,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseUpOutsideAssociateElement [
 		     position: 50 @ 50.
 	other := ToElement new
 		         background: Color blue;
-		         size: 10 @ 10;
+		         size: 50 @ 50;
 		         position: 500 @ 500.
 	space root addChild: e.
 	space root addChild: other.
@@ -231,14 +231,21 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseUpOutsideAssociateElement [
 	windowManager := ToPopupWindowManager new windowBuilder: [
 		                 :anchWin
 		                 :element |
-		                 anchWin addChild: (ToElement new size: 20 @ 20) ].
+		                 anchWin addChild: (ToElement new size: 100 @ 100) ].
 	e addEventHandler: windowManager.
-	windowManager autoCloseDelay: 0 milliSeconds.
+	windowManager autoCloseDelay: 100 milliSeconds.
 
+	self waitTestingSpaces.
 	" mouse down on widget then up on popup"
 	BlSpace simulateMouseDownOn: e.
+	BlSpace simulateMouseUpOn: e.
+
+	self assert: windowManager currentWindow notNil.
 	self assert: windowManager currentWindow isOpened.
+	BlSpace simulateMouseDownOn: windowManager currentWindow.
 	BlSpace simulateMouseUpOn: windowManager currentWindow.
+	100 milliSeconds asDelay wait.
+	self waitTestingSpaces.
 	self assert: windowManager currentWindow isOpened.
 	self waitTestingSpaces.
 	closed := false.

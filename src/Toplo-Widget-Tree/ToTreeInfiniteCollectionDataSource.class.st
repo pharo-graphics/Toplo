@@ -33,6 +33,15 @@ ToTreeInfiniteCollectionDataSource >> add: newObject beforeIndex: index [
 ]
 
 { #category : #'t - observable collection - adding' }
+ToTreeInfiniteCollectionDataSource >> addAllLast: aCollection [
+
+	| wrapperCollection|
+	aCollection ifEmpty: [ ^ self ].
+	wrapperCollection := aCollection collect: [ :each | self wrapObject: each ].
+	super addAllLast: wrapperCollection
+]
+
+{ #category : #'t - observable collection - adding' }
 ToTreeInfiniteCollectionDataSource >> addFirst: newObject [
 
 	| wrappedObject |

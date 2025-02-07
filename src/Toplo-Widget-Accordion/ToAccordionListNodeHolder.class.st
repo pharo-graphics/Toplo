@@ -1,14 +1,19 @@
 Class {
 	#name : #ToAccordionListNodeHolder,
-	#superclass : #ToItemBarNodeHolder,
+	#superclass : #ToNodeHolder,
+	#instVars : [
+		'recyclingHandler'
+	],
 	#category : #'Toplo-Widget-Accordion-List'
 }
 
 { #category : #accessing }
-ToAccordionListNodeHolder >> initializeNode [
+ToAccordionListNodeHolder >> bindDataItem: aDataItem [
 
-	super initializeNode.
-	self dataItem itemConstraintsDo: [ :ic |
-		self dataItem isExpanded ifTrue: [
-			self listElement selecter selectIndex: self position ] ]
+	super bindDataItem: aDataItem.
+	recyclingHandler ifNotNil: [ ^ self ].
+	recyclingHandler := self node item
+		                    addEventHandlerOn: ToAccordionCheckedEvent
+		                    do: [ :event |
+		                    self recyclingRequested: event target isExpanded ]
 ]

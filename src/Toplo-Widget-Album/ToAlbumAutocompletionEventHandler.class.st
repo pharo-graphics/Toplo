@@ -151,12 +151,7 @@ ToAlbumAutocompletionEventHandler >> onInstalledIn: anElement [
 	windowManager windowBuilder: [ :anchWin :element |
 		anchWin root hMatchParent.
 		anchWin root vFitContent.
-		anchWin root addChild: self listElement ].
-
-	windowManager widthHook: [ :theWindow :theElement :event |
-		200 ].
-	windowManager positionHook: [ :theWindow :theElement :event |
-		self windowPosition ]
+		anchWin root addChild: self listElement ]
 ]
 
 { #category : #'event handling' }

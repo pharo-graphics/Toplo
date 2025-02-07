@@ -3,7 +3,7 @@ I'm a data item for menu item list.
 "
 Class {
 	#name : #ToMenuItemElement,
-	#superclass : #ToItemElement,
+	#superclass : #ToBarItemElement,
 	#traits : 'TToMenuItem',
 	#classTraits : 'TToMenuItem classTrait',
 	#category : #'Toplo-Widget-Menu-Items'
@@ -127,11 +127,11 @@ ToMenuItemElement >> onRemovedFromItemBarOwner: aMenu [
 { #category : #'t - menu window model' }
 ToMenuItemElement >> rootMenu [
 
-	(self barOwner isNil or: [ self barOwner isMenuBar ]) ifTrue: [
+	(self menuBarOwner isNil or: [ self menuBarOwner isMenuBar ]) ifTrue: [
 		^ self isMenu
 			  ifTrue: [ self ]
 			  ifFalse: [  ] ].
-	^ self barOwner rootMenu
+	^ self menuBarOwner rootMenu
 ]
 
 { #category : #'t - menu window model' }

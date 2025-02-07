@@ -7,7 +7,7 @@ Class {
 	#category : #'Toplo-Widget-Tag-Bar'
 }
 
-{ #category : #'node building' }
+{ #category : #'t - generic node manager' }
 ToTagNodeManager >> buildNode: aNode [ 
 	" tagModel can be nil for the fakeNode "
 	aNode holder tagModel ifNil: [ ^ self ].

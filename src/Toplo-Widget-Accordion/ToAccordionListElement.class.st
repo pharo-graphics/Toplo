@@ -1,6 +1,8 @@
 Class {
 	#name : #ToAccordionListElement,
-	#superclass : #ToListElement,
+	#superclass : #ToAbstractListElement,
+	#traits : 'TToListElementWithDecoration',
+	#classTraits : 'TToListElementWithDecoration classTrait',
 	#category : #'Toplo-Widget-Accordion-List'
 }
 
@@ -10,69 +12,101 @@ ToAccordionListElement class >> example1 [
 	<script>
 	| list |
 	list := ToAccordionListElement new.
-	list dataAccessor addAll: ((1 to: 50) collect: [ :i |
-			 ToAccordionItemElement new
-				 headerBuilder: [ :header |
-					 header addChild: (ToLabel text: 'Header ' , i asString) ];
-				 bodyBuilder: [ :body |
-					 body addChild: (BlElement new
-								  margin: (BlInsets all: 5);
-								  border: Color random;
-								  background: Color random;
-								  size: 50 @ 50) ];
-							expand ]).
-	list nodeBuilder: [ :node :accordionElement :holder | node addChild: accordionElement ].
-	list matchParent.
-	list openInSpace.
-	"list inspect"
-]
-
-{ #category : #examples }
-ToAccordionListElement class >> example2WithAlbumInBody [
-
-	<script>
-	| list rand |
-	rand := Random new.
-	list := ToAccordionListElement new.
-	list dataAccessor addAll: ((1 to: 500) collect: [ :i |
-			 | loremString |
-			 loremString := String loremIpsum:
-				                (rand nextIntegerBetween: 100 and: 600).
-			 ToAccordionItemElement new
-				 headerBuilder: [ :header |
-					 header addChild: (ToLabel text: 'Lorem ' , i asString) ];
-				 bodyBuilder: [ :body |
-					 | album |
-					body margin: (BlInsets all: 5).
-					 album := ToAlbum new
-						          withSaveCapability;
-						          whenSaveRequestedDo: [ :saveRequested |
-							          saveRequested accepted: true ];
-						          whenCancelRequestedDo: [ :cancelRequested |
-							          cancelRequested editorElement text: loremString ];
-						          yourself.
-					 album hMatchParent.
-					 album vFitContent.
-					 album next constraintsDo: [ :c |
-						 c vertical fitContent.
-						 c horizontal matchParent ].
-					 album infinite constraintsDo: [ :c |
-						 c vertical fitContent.
-						 c horizontal matchParent ].
-					 album minHeight: 50.
-					 album text: loremString.
-					 body addChild: album ];
-				 yourself ]).
-	list nodeBuilder: [ :node :accordion :holder |
-		node addChild: accordion ].
+	list itemBuilder: [ :item :anInteger :holder |
+		item
+			headerBuilder: [ :header |
+				header addChild: (ToLabel text: 'Header ' , anInteger asString)
+							preventSelectionSkinEvents ];
+			bodyBuilder: [ :body |
+				body addChild: (BlElement new
+							 margin: (BlInsets all: 5);
+							 border: Color random;
+							 background: Color random;
+							 size: 50 @ 50) ] ].
+	list dataAccessor addAll: (1 to: 100).
+	list withRowNumbers.
 	list matchParent.
 	list openInSpace
 ]
 
-{ #category : #initialization }
-ToAccordionListElement >> defaultEventHandler [
+{ #category : #examples }
+ToAccordionListElement class >> example2WithClassComments3 [
 
-	^ ToAccordionListElementEventHandler new
+	<script>
+	| list pane filterField sieve |
+	pane := ToPane new
+		        beVertical;
+		        matchParent.
+	filterField := ToTextField new.
+	filterField margin: (BlInsets all: 2).
+	filterField placeholderBuilder: [ :placeholder :e |
+		placeholder addChild:
+			((ToAttributedLabel text: 'Class name filter')
+				 foreground: Color lightGray;
+				 yourself) ].
+	list := ToAccordionListElement new.
+	list withRowNumbers.
+	list selectionMode multiple: true.
+	sieve := ToListElementSieve new.
+	sieve onInstalledIn: list.
+	sieve dataFilter: [ :item :aPattern |
+		item name beginsWith: aPattern caseSensitive: false ].
+
+	filterField whenTextEditedDo: [
+		| pattern |
+		pattern := filterField text asString.
+		sieve pattern: pattern ].
+
+	list placeholderBuilder: [ :ph :e |
+		| lab |
+		ph layout alignCenter.
+		lab := (ToAttributedLabel text: 'No Data')
+			       foreground: Color lightGray;
+			       fontSize: 24;
+			       yourself.
+		ph addChild: lab ].
+
+	list itemBuilder: [ :item :cls :holder |
+		item
+			headerBuilder: [ :header |
+				header addChild:
+						(ToLabel text: cls name) preventSelectionSkinEvents ];
+			bodyBuilder: [ :body |
+				| album |
+				body margin: (BlInsets all: 5).
+				album := ToAlbum new
+					         withSaveCapability;
+					         whenSaveRequestedDo: [ :saveRequested |
+						         saveRequested accepted: true ];
+					         whenCancelRequestedDo: [ :cancelRequested |
+						         cancelRequested editorElement text: cls comment ];
+					         yourself.
+				album hMatchParent.
+				album vFitContent.
+				album next constraintsDo: [ :c |
+					c vertical fitContent.
+					c horizontal matchParent ].
+				album infinite constraintsDo: [ :c |
+					c vertical fitContent.
+					c horizontal matchParent ].
+				album minHeight: 50.
+				album text: cls comment.
+				body addChild: album ];
+			yourself ].
+
+	list dataAccessor addAll: Smalltalk globals allClasses. "reject: [ :cls | cls comment isEmpty ]"
+	"list selectionOption masked: true."
+	list matchParent.
+
+	pane addChild: list.
+	pane addChild: filterField.
+	pane openInSpace
+]
+
+{ #category : #initialization }
+ToAccordionListElement >> defaultInnerElement [ 
+
+	^ ToInfiniteElement onListElement: self
 ]
 
 { #category : #initialization }
@@ -83,11 +117,26 @@ ToAccordionListElement >> defaultNodeManagerClass [
 ]
 
 { #category : #initialization }
-ToAccordionListElement >> initialize [ 
+ToAccordionListElement >> initialize [
 
 	super initialize.
-	self primarySelectionMode selectOnPressed: true.
-	self primarySelectionMode deselectOnPressed: true.
-	self primarySelectionMode makeDisabledUnselectable: true
+	self addEventHandler:
+		(ToAccordionListSelectionCommandHandler new
+			 selectionModel: self selectionModel;
+			 yourself).
+	self selectionOption withEmbeddedRepresentation
+]
 
+{ #category : #initialization }
+ToAccordionListElement >> itemBuilder: aValuable [
+	" aValuable has 3 arguments: the ccordionElement (the item), the data and the holder "
+
+	self nodeManager itemBuilder: aValuable
+]
+
+{ #category : #initialization }
+ToAccordionListElement >> itemFactory: aValuable [
+	" aValuable has the node as argument"
+
+	self nodeManager itemFactory: aValuable
 ]

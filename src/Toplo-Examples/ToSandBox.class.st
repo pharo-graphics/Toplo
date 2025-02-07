@@ -1208,7 +1208,7 @@ ToSandBox class >> example_HorizontalListWithIndexedColors [
 ToSandBox class >> example_HugeIntegerList [
 
 	| l nbItems vscrollBar space |
-	nbItems := 50000.
+	nbItems := 500.
 	l := ToListElement new.
 	l dataAccessor addAll: (1 to: nbItems).
 	l nodeBuilder: [ :node :anInteger |
@@ -1428,6 +1428,18 @@ ToSandBox class >> example_ListOneClass [
 ]
 
 { #category : #list }
+ToSandBox class >> example_ListOneClass2 [
+
+	| l |
+	l := ToListElement new nodeBuilder: [ :node :dataItem  :holder |
+		     node addChild: (ToLabel new
+				      text: dataItem name;
+				      hMatchParent) ].
+	l dataAccessor addAll: { Smalltalk globals allClasses first }.
+	l openInSpace
+]
+
+{ #category : #list }
 ToSandBox class >> example_ListWith6Elements [
 
 	| l |
@@ -1545,27 +1557,12 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 ToSandBox class >> example_ListWithAllClassesAsToggleButton [
 
 	| l |
-	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
-		     | toggle |
-		     toggle := ToToggleButton new
-			               label: (ToLabel new
-					                text: dataItem name;
-					                withNullSkin);
-			               hMatchParent;
-			               checked: holder isSelected.
-		     toggle takeFocusOnClick: false.
-		     toggle whenClickedDo: [ :event | " management of the liste primary selection "
-			     'click ' traceCr.
-			     toggle isChecked
-				     ifTrue: [
-				     holder listElement selecter selectIndex: holder position ]
-				     ifFalse: [
-				     holder listElement selecter deselectIndex: holder position ] ].
-		     node addChild: toggle ].
-	l dataAccessor addAll: Smalltalk globals allClasses.
-	l primarySelectionMode selectOnPressed: true.	
-	l primarySelectionMode deselectOnPressed: true.
-	"l primarySelectionMode option masked: true."
+	l := ToCheckableListElement new.
+	l group withoutCheckingStrategy.
+	l addAllItems: (Smalltalk globals allClasses collect: [ :cls |
+			 ToToggleButton new
+				 label: (ToLabel new text: cls name) preventSelectionSkinEvents;
+				 hMatchParent ]).
 	l openInSpace
 ]
 
@@ -1697,7 +1694,7 @@ ToSandBox class >> example_ListWithPanes [
 				        (BlRoundedRectangleGeometry cornerRadius: 6).
 			        blContent border: (BlBorder paint: Color lightGray).
 			        node addChild: blContent ].
-	list primarySelectionMode selectionElementOption beneath: false.
+	list primarySelectionMode selectionOption beneath: false.
 	list dataAccessor addAll: (1 to: 1000).
 	list openInSpace
 ]
@@ -1743,7 +1740,7 @@ ToSandBox class >> example_ListWithSelectionTrace [
 	" mandatory option here: the selection are separate (one selection element for each selected node)"
 	statesList selectionOption grouped: false.
 	statesList selectionOption elementFactory: [
-		ToListBasicSelectionElement new defaultSkin:
+		ToListSelectionElement new defaultSkin:
 			ToTraceListPrimarySelectionElementSkin new ].
 	statesList openInSpace
 ]
@@ -1859,7 +1856,7 @@ ToSandBox class >> example_PicsumPhotosGallery [
 		grouped: false;
 		beneath: false;
 		elementFactory: [
-			ToListBasicSelectionElement new defaultSkin:
+			ToListSelectionElement new defaultSkin:
 					ToPicsumSelectionSkin new ].
 
 	[
@@ -2163,7 +2160,7 @@ ToSandBox class >> example_SelectMonoFiltrable [
 	select placeholderText:
 		('Select a state' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select manager anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 50.
 	select filterTextField requestFocus.
@@ -2206,7 +2203,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	select popupListElement selectionOption grouped: false.
 	select popupListElement selectionOption beneath: false.
 	select popupListElement selectionOption elementFactory: [
-		ToListBasicSelectionElement new defaultSkin:
+		ToListSelectionElement new defaultSkin:
 			ToMultiSelectElementCheckSkin new ].
 
 	newTagFactory := [ :stateColorAssoc |
@@ -2375,7 +2372,7 @@ ToSandBox class >> example_SelectMultiFiltrableScrolling [
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select manager anchorRoot: innerWindow root.
 	select hMatchParent.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
@@ -2419,7 +2416,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected2 [
 	select placeholderText:
 		('Selected are removed' asRopedText foreground: Color veryLightGray).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select manager anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 10.
 	innerWindow pane addChild: select.
@@ -2870,6 +2867,20 @@ ToSandBox class >> example_SimplePopupBottomLeft [
 ]
 
 { #category : #window }
+ToSandBox class >> example_SimplePopupBottomLeftOver [
+
+	| p |
+	p := self newPopup.
+	p placement: (ToActionPlacement new action: [ :theWin :evt |
+			 | theElem theRoot |
+			 theElem := theWin element.
+			 theRoot := theWin anchorRoot.
+			 theWin position:
+				 theElem bounds inSpace bounds bottomLeft - (0 @ (theWin height)) ]).
+	p element openInSpace
+]
+
+{ #category : #window }
 ToSandBox class >> example_SimplePopupBottomRight [
 
 	| p |
@@ -2917,6 +2928,20 @@ ToSandBox class >> example_SimplePopupTopLeft [
 				 theElem bounds inSpace bounds topLeft
 				 - (0 @ theElem height) ]).
 
+	p element openInSpace
+]
+
+{ #category : #window }
+ToSandBox class >> example_SimplePopupTopLeftOver [
+
+	| p |
+	p := self newPopup.
+	p placement: (ToActionPlacement new action: [ :theWin :evt |
+			 | theElem theRoot |
+			 theElem := theWin element.
+			 theRoot := theWin anchorRoot.
+			 theWin position:
+				 theElem bounds inSpace bounds topLeft - (0 @ theWin height) ]).
 	p element openInSpace
 ]
 
@@ -3022,6 +3047,24 @@ ToSandBox class >> example_ThemeSelectNoDeselection [
 		do: [ :event | event selectedData asString traceCr ].
 	select selecter selectIndex: 4.
 	select allowDeselection: false.
+	select openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_ThemeSelectNoDeselectionPopupOnTop [
+
+	| select |
+	select := self themeSelect.
+	select placeholderText:
+		('Select a Toplo theme' asRopedText foreground: Color lightGray).
+	select
+		addEventHandlerOn: ToSelectChangedEvent
+		do: [ :event | event selectedData asString traceCr ].
+	select selecter selectIndex: 4.
+	select allowDeselection: false.
+	select position: 10 @ 150.
+	select width: 200.
+	select popupWindowPlacement: ToUpLeftUpPlacement new.
 	select openInSpace
 ]
 
@@ -5490,7 +5533,7 @@ ToSandBox class >> example_textFieldWithAutocompletePopup_experiment [
 			 do: [ :event |
 				 | sub selecter wordStart currIdx |
 				currIdx := event toIndex.
-				 t atTextIndex: event fromIndex do: [ :e :lidx |
+				 t atTextIndex: event index do: [ :e :lidx |
 					 | origin |
 					 origin := e screenCornerAt: lidx.
 					 e localPointToGlobal: origin "traceCr" ].
@@ -6881,7 +6924,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 	option grouped: false.
 	option beneath: false.
 	option elementFactory: [
-		ToListBasicSelectionElement new defaultSkin:
+		ToListSelectionElement new defaultSkin:
 			ToListDisabledSelectionElementExampleSkin new ].
 	disabledMode changeSelectionOptionWith: option.
 
@@ -6890,7 +6933,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 	option grouped: false.
 	option beneath: false.
 	option elementFactory: [
-		ToListBasicSelectionElement new defaultSkin:
+		ToListSelectionElement new defaultSkin:
 			ToListUnselectableSelectionElementExampleSkin new ].
 	unselectableMode changeSelectionOptionWith: option.
 
@@ -7106,11 +7149,12 @@ ToSandBox class >> newPopup [
 		     id: #popup;
 		     geometry: (BlRoundedRectangleGeometry cornerRadius: 6);
 		     background: (Color red alpha: 0.2);
-		     position: 200 @ 100;
+		     position: 200 @ 140;
 		     yourself.
 	popupWindowHandler := ToPopupWindowManager new.
 	popupWindowHandler windowBuilder: [ :popup :request |
 		popup border: Color gray.
+		popup height: 100.
 		popup addChild: (ToLabel new text: 'A popup window') ].
 	e addEventHandler: popupWindowHandler.
 	^ popupWindowHandler

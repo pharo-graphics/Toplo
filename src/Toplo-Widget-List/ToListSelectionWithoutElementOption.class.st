@@ -22,12 +22,12 @@ ToListSelectionWithoutElementOption >> isEmbedded [
 ]
 
 { #category : #'nodes collecting' }
-ToListSelectionWithoutElementOption >> updateSelectionIn: aListElement withSelectionModel: aSelectionModel [
+ToListSelectionWithoutElementOption >> launchUpdateSelectionIn: aListElement withSelectionModel: aSelectionModel [
 
 	(super
-		 updateSelectionIn: aListElement
+		 launchUpdateSelectionIn: aListElement
 		 withSelectionModel: aSelectionModel) ifFalse: [ ^ false ].
-	self notifyNodesDeselectedIn: aListElement.
+	
 	self notifyNodesSelectedIn: aListElement.
 	^ true
 

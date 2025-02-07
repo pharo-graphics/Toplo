@@ -22,7 +22,6 @@ ToSievedListElementEventHandler >> buildOriginalIndexMapFrom: aListElement [
 ToSievedListElementEventHandler >> eventsToHandle [
 
 	^ {
-		 " ToObservableCollectionFilterResultEvent."
 		  BlInfiniteDataSourceChanged.
 		  BlInfiniteDataSourceItemRangeChanged.
 		  BlInfiniteDataSourceItemRangeInserted.

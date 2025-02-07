@@ -2,21 +2,19 @@ Class {
 	#name : #ToCommandApplicationStrategy,
 	#superclass : #Object,
 	#instVars : [
-		'element',
-		'commandApplier'
+		'element'
 	],
 	#category : #'Toplo-Widget-List-Command-Support'
 }
 
 { #category : #accessing }
-ToCommandApplicationStrategy >> addCommand: aCommand [ 
+ToCommandApplicationStrategy >> addCommand: aCommand from: aCommandApplier [
 
 	self subclassResponsibility 
 ]
 
 { #category : #accessing }
-ToCommandApplicationStrategy >> commandApplier: aCommandApplier element: anElement [
+ToCommandApplicationStrategy >> element: anElement [
 
-	commandApplier := aCommandApplier.
 	element := anElement
 ]

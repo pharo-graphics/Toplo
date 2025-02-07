@@ -11,7 +11,7 @@ Class {
 	#category : #'Toplo-Examples-Parts'
 }
 
-{ #category : #'event handling' }
+{ #category : #'command handling' }
 ToListSelectionHistoryExampleEventHandler >> addIndexesSelectionCommand: aCommand [
 
 	aCommand operation deselectAllBefore ifTrue: [
@@ -19,7 +19,7 @@ ToListSelectionHistoryExampleEventHandler >> addIndexesSelectionCommand: aComman
 	historyList data add: (currentTarget data at: aCommand indexes last)
 ]
 
-{ #category : #'event handling' }
+{ #category : #'command handling' }
 ToListSelectionHistoryExampleEventHandler >> addIntervalSelectionCommand: aCommand [
 
 	| s |
@@ -31,7 +31,7 @@ ToListSelectionHistoryExampleEventHandler >> addIntervalSelectionCommand: aComma
 	historyList dataAccessor add: s
 ]
 
-{ #category : #'event handling' }
+{ #category : #'command handling' }
 ToListSelectionHistoryExampleEventHandler >> addWholeSelectionCommand: aCommand [
 
 	(historyList dataAccessor includes: currentTarget dataAccessor last)
@@ -68,13 +68,13 @@ ToListSelectionHistoryExampleEventHandler >> listSelectionCommandAppliedEvent: a
 	currentTarget := nil
 ]
 
-{ #category : #'event handling' }
+{ #category : #'command handling' }
 ToListSelectionHistoryExampleEventHandler >> removeIndexesSelectionCommand: aCommand [
 
 
 ]
 
-{ #category : #'event handling' }
+{ #category : #'command handling' }
 ToListSelectionHistoryExampleEventHandler >> removeIntervalSelectionCommand: aCommand [
 
 	(historyList dataAccessor includes:
@@ -83,7 +83,7 @@ ToListSelectionHistoryExampleEventHandler >> removeIntervalSelectionCommand: aCo
 		(currentTarget dataAccessor at: aCommand to)
 ]
 
-{ #category : #'event handling' }
+{ #category : #'command handling' }
 ToListSelectionHistoryExampleEventHandler >> removeWholeSelectionCommand: aCommand [
 
 	historyList dataAccessor removeAll

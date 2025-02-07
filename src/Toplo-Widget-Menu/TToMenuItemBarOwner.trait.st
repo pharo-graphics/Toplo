@@ -16,6 +16,12 @@ TToMenuItemBarOwner >> closeAllWindowsForItemsSatisfying: aBlock [
 		(aBlock value: it) ifTrue: [ it menuWindowDo: [ :w | w close ] ] ]
 ]
 
+{ #category : #'t - menu item bar owner  - initialization' }
+TToMenuItemBarOwner >> initializeAsMenuItemBarOwner [ 
+
+	self itemBar menuBarOwner: self
+]
+
 { #category : #'t - menu item bar owner - double dispatch' }
 TToMenuItemBarOwner >> onAddedCustomMenuItem: aMenuItem [
 

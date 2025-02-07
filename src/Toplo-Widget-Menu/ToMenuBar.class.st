@@ -69,6 +69,8 @@ ToMenuBar >> initialize [
 
 	super initialize.
 	self initializeAsItemBarOwner.
+	self initializeAsMenuItemBarOwner.
+
 	autoOpen := false.
 	isSubBar := false.
 	self layout: BlLinearLayout horizontal.
@@ -208,7 +210,7 @@ ToMenuBar >> removeMenu: aMenu [
 { #category : #accessing }
 ToMenuBar >> rootMenuBar [
 
-	^ self barOwner ifNotNil: [ :bo | bo rootMenuBar ] ifNil: [ self ]
+	^ self menuBarOwner ifNotNil: [ :bo | bo rootMenuBar ] ifNil: [ self ]
 ]
 
 { #category : #'auto opening' }

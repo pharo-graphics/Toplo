@@ -29,6 +29,12 @@ ToInfiniteElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 	listElement applyDataSourceSieveCommand: aDataSourceCommand
 ]
 
+{ #category : #'t - infinite accessing' }
+ToInfiniteElement >> cleanUpRecyclerAt: anIndex [
+
+	self customRecycler removeNodeAt: anIndex in: self
+]
+
 { #category : #'t - list node holder' }
 ToInfiniteElement >> configureLayoutIn: aListElement [
 
@@ -36,6 +42,12 @@ ToInfiniteElement >> configureLayoutIn: aListElement [
 	self horizontal: aListElement isHorizontal.
 	aListElement isHMatchParent ifFalse: [ self hFitContent ].
 	aListElement isVMatchParent ifFalse: [ self vFitContent ].
+]
+
+{ #category : #'t - infinite accessing' }
+ToInfiniteElement >> customRecycler [
+
+	^ self recycler customRecycler
 ]
 
 { #category : #initialization }
@@ -68,6 +80,12 @@ ToInfiniteElement >> defaultMouseScrollEventHandler [
 	^ BlInfiniteMouseScrollListener new
 		  restrictedByOrientation: true;
 		  yourself
+]
+
+{ #category : #initialization }
+ToInfiniteElement >> defaultRecycler [
+
+	^ ToInfiniteRecycler new
 ]
 
 { #category : #initialization }
@@ -140,6 +158,13 @@ ToInfiniteElement >> listElement: aListElement [
 ToInfiniteElement >> newNodeHolderFromDataSource: aDataSource [
 
 	^ listElement nodeManager newHolder
+]
+
+{ #category : #'t - list node holder' }
+ToInfiniteElement >> nodeAt: aPosition [
+
+	^ (self findElementHolderForDataSourcePosition: aPosition) ifNotNil: [
+		  :holder | holder node ]
 ]
 
 { #category : #'accessing - children' }

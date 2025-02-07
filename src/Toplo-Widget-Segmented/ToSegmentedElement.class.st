@@ -99,5 +99,5 @@ ToSegmentedElement >> withWeakCheckingStrategy [
 { #category : #'t - checkable group owner' }
 ToSegmentedElement >> withoutCheckingStrategy [
 
-	self itemList withoutCheckingStrategy
+	self itemBar withoutCheckingStrategy
 ]

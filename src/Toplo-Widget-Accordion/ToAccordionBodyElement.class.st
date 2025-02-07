@@ -1,5 +1,5 @@
 Class {
-	#name : #ToAccordionItemBodyElement,
+	#name : #ToAccordionBodyElement,
 	#superclass : #ToElement,
 	#instVars : [
 		'builder',
@@ -11,7 +11,7 @@ Class {
 }
 
 { #category : #accessing }
-ToAccordionItemBodyElement >> builder: aValuable [
+ToAccordionBodyElement >> builder: aValuable [
 	"With content as argument"
 
 	isBuilt := false.
@@ -19,19 +19,19 @@ ToAccordionItemBodyElement >> builder: aValuable [
 ]
 
 { #category : #accessing }
-ToAccordionItemBodyElement >> content [ 
+ToAccordionBodyElement >> content [ 
 
 	^ content
 ]
 
 { #category : #initialization }
-ToAccordionItemBodyElement >> defaultLayout [ 
+ToAccordionBodyElement >> defaultLayout [ 
 
 	^ BlLinearLayout vertical
 ]
 
 { #category : #initialization }
-ToAccordionItemBodyElement >> initialize [ 
+ToAccordionBodyElement >> initialize [ 
 
 	super initialize.
 	isBuilt := false.
@@ -40,7 +40,7 @@ ToAccordionItemBodyElement >> initialize [
 ]
 
 { #category : #initialization }
-ToAccordionItemBodyElement >> initializeContent [
+ToAccordionBodyElement >> initializeContent [
 
 	content := ToElement new
 		           withNullSkin;
@@ -54,20 +54,20 @@ ToAccordionItemBodyElement >> initializeContent [
 ]
 
 { #category : #accessing }
-ToAccordionItemBodyElement >> preservedContent: aBoolean [
+ToAccordionBodyElement >> preservedContent: aBoolean [
 
 	preservedContent := aBoolean
 ]
 
 { #category : #'expanding-collapsing' }
-ToAccordionItemBodyElement >> switchCollapsed [
+ToAccordionBodyElement >> switchCollapsed [
 
 	preservedContent ifFalse: [ content removeChildren ].
 	content visibility: BlVisibility gone
 ]
 
 { #category : #'expanding-collapsing' }
-ToAccordionItemBodyElement >> switchExpanded [
+ToAccordionBodyElement >> switchExpanded [
 
 	(isBuilt and: [ preservedContent ]) ifFalse: [
 		content removeChildren.

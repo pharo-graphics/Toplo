@@ -7,7 +7,8 @@ Class {
 		'next',
 		'dataSource',
 		'nodeManager',
-		'selectionModeMap'
+		'selectionModeMap',
+		'commandApplicationStrategy'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -47,6 +48,12 @@ ToAbstractListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 					in: self selectionModel ] ]
 		ifEmpty: [
 		self selectionModel copySelectionFrom: sieve selectionModel ]
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> commandApplicationStrategy [
+
+	^ commandApplicationStrategy
 ]
 
 { #category : #'t - bar element' }
@@ -189,6 +196,12 @@ ToAbstractListElement >> defaultSecondarySelectionMode [
 ]
 
 { #category : #'accessing selecters' }
+ToAbstractListElement >> deselectedAtPosition: anInteger [
+
+	self selecter deselectIndex: anInteger
+]
+
+{ #category : #'accessing selecters' }
 ToAbstractListElement >> disabledAtPosition: anInteger [
 
 	self disabledSelecter selectIndex: anInteger
@@ -266,6 +279,7 @@ ToAbstractListElement >> initialize [
 
 	super initialize.
 
+	commandApplicationStrategy := self newCommandApplicationStrategy element: self.
 	nodeManager := self defaultNodeManager.
 	selectionModeMap := IdentityDictionary new.
 
@@ -307,6 +321,12 @@ ToAbstractListElement >> isMultipleSelection [
 	^ self primarySelectionMode isMultipleSelection
 ]
 
+{ #category : #'accessing selecters' }
+ToAbstractListElement >> isSelectedAtPosition: anInteger [
+
+	^ self selectionModel containsIndex: anInteger
+]
+
 { #category : #'t - menu item' }
 ToAbstractListElement >> itemContaining: anElement [
 
@@ -328,6 +348,12 @@ ToAbstractListElement >> layoutStrategy [
 	^ self layout
 
 	
+]
+
+{ #category : #'instance creation' }
+ToAbstractListElement >> newCommandApplicationStrategy [
+
+	^ ToQueueBasedCommandApplicationStrategy new
 ]
 
 { #category : #'instance creation' }
@@ -356,7 +382,7 @@ ToAbstractListElement >> newUnselectableSelectionMode [
 	^ ToListUnselectableSelectionMode parentMode: self primarySelectionMode
 ]
 
-{ #category : #'t - infinite accessing' }
+{ #category : #'t - list element decorator - infinite accessing' }
 ToAbstractListElement >> next [
 
 	^ next
@@ -487,6 +513,12 @@ ToAbstractListElement >> secondarySelectionModel [
 ToAbstractListElement >> selectableAtPosition: anInteger [
 
 	self unselectableSelecter deselectIndex: anInteger
+]
+
+{ #category : #'accessing selecters' }
+ToAbstractListElement >> selectedAtPosition: anInteger [
+
+	self selecter selectIndex: anInteger
 ]
 
 { #category : #'accessing selecters' }

@@ -14,12 +14,6 @@ ToWindowMode >> arrangeWindow: aWindow onEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToWindowMode >> barOwner [ 
-
-	^ self element barOwner
-]
-
-{ #category : #accessing }
 ToWindowMode >> element [ 
 
 	^ manager element

@@ -35,7 +35,7 @@ ToSelectElement >> allowDeselection [
 { #category : #'accessing - window' }
 ToSelectElement >> currentPopupWindow [
 
-	^ self windowManager currentWindow
+	^ self manager currentWindow
 ]
 
 { #category : #'accessing - list' }
@@ -312,6 +312,12 @@ ToSelectElement >> popupWindowManager [
 		transformWith: '`@rcvr popupWindowManager' -> '`@rcvr windowManager'.
 
 	^ self windowManager 
+]
+
+{ #category : #'accessing - window' }
+ToSelectElement >> popupWindowPlacement: aPlacement [
+
+	self manager placement: aPlacement
 ]
 
 { #category : #accessing }

@@ -11,6 +11,12 @@ Class {
 }
 
 { #category : #accessing }
+ToSelecterEventTargetStub >> commandApplicationStrategy [
+
+	^ nil
+]
+
+{ #category : #accessing }
 ToSelecterEventTargetStub >> itemCount [
 
 	^ 100

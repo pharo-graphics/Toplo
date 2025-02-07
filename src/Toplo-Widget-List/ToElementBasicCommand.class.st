@@ -12,8 +12,20 @@ Class {
 ToElementBasicCommand >> addedIn: aCommandApplier [
 ]
 
+{ #category : #application }
+ToElementBasicCommand >> applicationResquestIn: aCommandApplier [
+
+	aCommandApplier applyBasicCommand: self
+]
+
 { #category : #'private - hook' }
 ToElementBasicCommand >> applyWithOperator: anOperator [
 
 	" ask the operator passed as argument to actually apply the command. "
+]
+
+{ #category : #application }
+ToElementBasicCommand >> onAppliedIn: aCommandApplier [
+
+	aCommandApplier onBasicCommandApplied: self
 ]

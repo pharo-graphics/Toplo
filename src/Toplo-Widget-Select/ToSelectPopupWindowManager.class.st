@@ -117,8 +117,6 @@ ToSelectPopupWindowManager >> onInstalledIn: anElement [
 			 yourself).
 
 	self windowBuilder: [ :selectWin :request |
-		selectWin root hMatchParent.
-		selectWin root vFitContent.
 		selectWin root addChild: self listElement ].
 
 	sieve := ToListElementSieve new.
@@ -146,17 +144,6 @@ ToSelectPopupWindowManager >> onUninstalledIn: anElement [
 ToSelectPopupWindowManager >> popupWindowClass [
 
 	^ ToSelectPopupWindow 
-]
-
-{ #category : #'window handling' }
-ToSelectPopupWindowManager >> popupWindowHiddenEvent: anEvent [
-
-	(currentWindow notNil and: [ currentWindow isOpened ]) ifTrue: [
-		^ self ].
-	currentWindow ifNil: [ self newWindowEvent: anEvent ].
-	" currentWindow can be nil in case the element is disabled "
-	currentWindow visibility: BlVisibility hidden.
-	currentWindow popupEvent: anEvent
 ]
 
 { #category : #accessing }

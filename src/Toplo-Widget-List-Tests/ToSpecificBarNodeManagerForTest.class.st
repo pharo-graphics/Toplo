@@ -58,7 +58,6 @@ ToSpecificBarNodeManagerForTest >> nextCount [
 { #category : #initialization }
 ToSpecificBarNodeManagerForTest >> unbuildNode: aNode [
 
-	aNode removeChildren.
 	aNode holder num: 0
 
 ]

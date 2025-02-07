@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToItemBarOwner,
-	#category : #'Toplo-Widget-List-ItemBar'
+	#category : #'Toplo-Widget-List-ItemList'
 }
 
 { #category : #'t - item bar owner - adding/removing' }
@@ -62,6 +62,12 @@ TToItemBarOwner >> dataAccessor [
 TToItemBarOwner >> dataSource [
 
 	^ self itemBar dataSource
+]
+
+{ #category : #'t - item bar owner - hidden/visible' }
+TToItemBarOwner >> deselectedAtPosition: anInteger [
+
+	self itemBar deselectedAtPosition: anInteger
 ]
 
 { #category : #'t - item bar owner - disable/ enable' }
@@ -133,9 +139,7 @@ TToItemBarOwner >> initializeAsItemBarOwner [
 
 	| bar |
 	bar := self newItemBar.
-	self userData at: #itemBar put: bar.
-	bar barOwner: self
-	
+	self userData at: #itemBar put: bar
 ]
 
 { #category : #'t - item bar owner - accessing' }
@@ -321,6 +325,12 @@ TToItemBarOwner >> selectableAtPosition: anInteger [
 TToItemBarOwner >> selectableItem: anItem [
 
 	self itemBar selectableItem: anItem
+]
+
+{ #category : #'t - item bar owner - hidden/visible' }
+TToItemBarOwner >> selectedAtPosition: anInteger [
+
+	self itemBar selectedAtPosition: anInteger
 ]
 
 { #category : #'t - item bar owner - accessing' }

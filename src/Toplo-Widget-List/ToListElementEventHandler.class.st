@@ -261,7 +261,7 @@ ToListElementEventHandler >> mouseDownEvent: anEvent [
 	currTarget := anEvent currentTarget.
 	currTarget stopScroll.
 	self withTargetNodeFromEvent: anEvent do: [ :node |
-		node dispatchEvent: anEvent copy.
+		"node dispatchEvent: anEvent copy."
 		anEvent consume ].
 	(currTarget isFocusable not or: [ currTarget isFocused ]) ifTrue: [ ^ self ].
 	currTarget requestFocus.
@@ -301,7 +301,7 @@ ToListElementEventHandler >> refreshSelectionIn: aTarget [
 	aTarget selectionModes do: [ :mode |
 		mode selectionOptionDo: [ :option |
 			option
-				refreshSelectionIn: aTarget
+				forceRefreshSelectionIn: aTarget
 				withSelectionModel: mode selectionModel ] ].
 	selectionRefreshTask := nil
 ]

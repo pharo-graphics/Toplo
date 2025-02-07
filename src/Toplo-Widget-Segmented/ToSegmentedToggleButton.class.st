@@ -8,23 +8,10 @@ Class {
 	#traits : 'TToOrientable + TToTripletElement + TToLabeledIcon + TToItem + TToClickable + TToCheckable',
 	#classTraits : 'TToOrientable classTrait + TToTripletElement classTrait + TToLabeledIcon classTrait + TToItem classTrait + TToClickable classTrait + TToCheckable classTrait',
 	#instVars : [
-		'optCheckableData',
 		'tripletProperties'
 	],
 	#category : #'Toplo-Widget-Segmented-Button'
 }
-
-{ #category : #'t - checkable - accessing' }
-ToSegmentedToggleButton >> checkableData [
-
-	^ optCheckableData 
-]
-
-{ #category : #'t - checkable - accessing' }
-ToSegmentedToggleButton >> checkableData: aCheckableData [
-
-	optCheckableData := aCheckableData
-]
 
 { #category : #initialization }
 ToSegmentedToggleButton >> defaultLayout [ 

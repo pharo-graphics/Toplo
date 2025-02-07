@@ -5,17 +5,10 @@ Class {
 		'commandQueue',
 		'finishedAction',
 		'posponedRequestTask',
-		'applier',
 		'element'
 	],
 	#category : #'Toplo-Widget-List-Command-Support'
 }
-
-{ #category : #accessing }
-ToCommandApplicationTask >> applier: aCommandApplier [
-
-	applier := aCommandApplier
-]
 
 { #category : #'api - running' }
 ToCommandApplicationTask >> applyAll [
@@ -61,7 +54,7 @@ ToCommandApplicationTask >> privateApplyAll [
 	| nextInQueue |
 	[ commandQueue isEmpty ] whileFalse: [
 		nextInQueue := commandQueue removeFirst.
-		applier applyCommand: nextInQueue ]
+		nextInQueue applier applyCommand: nextInQueue command]
 ]
 
 { #category : #'api - running' }

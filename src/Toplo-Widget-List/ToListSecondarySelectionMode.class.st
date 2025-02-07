@@ -14,8 +14,7 @@ ToListSecondarySelectionMode >> defaultSelectionOption [
 		  grouped: false;
 		  beneath: true;
 		  elementFactory: [
-			  ToListBasicSelectionElement new defaultSkin:
-					  ToListSecondarySelectionElementSkin new ]
+			  ToListSecondarySelectionElement new ]
 ]
 
 { #category : #initialization }

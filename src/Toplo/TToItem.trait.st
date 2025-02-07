@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToItem,
-	#category : #'Toplo-Widget-List-ItemBar'
+	#category : #'Toplo-Core'
 }
 
 { #category : #'t - item' }
@@ -19,18 +19,6 @@ TToItem >> barElement: anItemBarElement [
 TToItem >> barElementDo: aBlock [
 
 	self barElement ifNotNil: [ :be | aBlock value: be ]
-]
-
-{ #category : #'t - item' }
-TToItem >> barOwner [
-
-	^ self barElement ifNotNil: [ :be | be barOwner ] 
-]
-
-{ #category : #'t - item' }
-TToItem >> barOwnerDo: aValuable [
-
-	self barOwner ifNotNil: [ :bo | aValuable value: bo ]
 ]
 
 { #category : #'t - item' }
@@ -63,9 +51,23 @@ TToItem >> hidden: aBoolean [
 ]
 
 { #category : #'t - item' }
+TToItem >> isSelected [
+
+	self barElementDo: [ :l | ^ l isSelectedItem: self ].
+	self itemConstraintsDo: [ :c | ^ c selected ].
+	^ false
+]
+
+{ #category : #'t - item' }
 TToItem >> itemConstraints [
 
 	^ self userData at: #itemConstraints ifAbsent: [  ]
+]
+
+{ #category : #'t - item' }
+TToItem >> itemConstraintsClass [
+
+	^ ToItemConstraints 
 ]
 
 { #category : #'t - item' }
@@ -78,13 +80,23 @@ TToItem >> itemConstraintsDo: aValuable [
 { #category : #'t - item' }
 TToItem >> newItemConstraints [
 
-	^ ToItemConstraints new
+	^ self itemConstraintsClass new
 ]
 
 { #category : #'t - item' }
 TToItem >> positionInBar [
 
 	^ self holder position
+]
+
+{ #category : #'t - item' }
+TToItem >> selected: aBoolean [
+
+	self storeSelected: aBoolean.
+	self barElementDo: [ :l |
+		aBoolean
+			ifTrue: [ l selectedItem: self ]
+			ifFalse: [ l deselectedItem: self ] ]
 ]
 
 { #category : #'t - item' }
@@ -97,6 +109,12 @@ TToItem >> storeDisabled: aBoolean [
 TToItem >> storeHidden: aBoolean [
 
 	self ensuredItemConstraints hidden: aBoolean
+]
+
+{ #category : #'t - item' }
+TToItem >> storeSelected: aBoolean [
+
+	self ensuredItemConstraints selected: aBoolean
 ]
 
 { #category : #'t - item' }

@@ -314,6 +314,12 @@ ToSelectElement >> popupWindowManager [
 	^ self windowManager 
 ]
 
+{ #category : #'accessing - window' }
+ToSelectElement >> popupWindowPlacement: aPlacement [
+
+	self manager placement: aPlacement
+]
+
 { #category : #accessing }
 ToSelectElement >> refresh [
 

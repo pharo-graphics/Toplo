@@ -2160,7 +2160,7 @@ ToSandBox class >> example_SelectMonoFiltrable [
 	select placeholderText:
 		('Select a state' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select manager anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 50.
 	select filterTextField requestFocus.
@@ -2416,7 +2416,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected2 [
 	select placeholderText:
 		('Selected are removed' asRopedText foreground: Color veryLightGray).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select manager anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 10.
 	innerWindow pane addChild: select.
@@ -2867,6 +2867,20 @@ ToSandBox class >> example_SimplePopupBottomLeft [
 ]
 
 { #category : #window }
+ToSandBox class >> example_SimplePopupBottomLeftOver [
+
+	| p |
+	p := self newPopup.
+	p placement: (ToActionPlacement new action: [ :theWin :evt |
+			 | theElem theRoot |
+			 theElem := theWin element.
+			 theRoot := theWin anchorRoot.
+			 theWin position:
+				 theElem bounds inSpace bounds bottomLeft - (0 @ (theWin height)) ]).
+	p element openInSpace
+]
+
+{ #category : #window }
 ToSandBox class >> example_SimplePopupBottomRight [
 
 	| p |
@@ -2914,6 +2928,20 @@ ToSandBox class >> example_SimplePopupTopLeft [
 				 theElem bounds inSpace bounds topLeft
 				 - (0 @ theElem height) ]).
 
+	p element openInSpace
+]
+
+{ #category : #window }
+ToSandBox class >> example_SimplePopupTopLeftOver [
+
+	| p |
+	p := self newPopup.
+	p placement: (ToActionPlacement new action: [ :theWin :evt |
+			 | theElem theRoot |
+			 theElem := theWin element.
+			 theRoot := theWin anchorRoot.
+			 theWin position:
+				 theElem bounds inSpace bounds topLeft - (0 @ theWin height) ]).
 	p element openInSpace
 ]
 
@@ -3019,6 +3047,35 @@ ToSandBox class >> example_ThemeSelectNoDeselection [
 		do: [ :event | event selectedData asString traceCr ].
 	select selecter selectIndex: 4.
 	select allowDeselection: false.
+	select openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_ThemeSelectNoDeselectionPopupOnTop [
+
+	| select |
+	select := self themeSelect.
+	select placeholderText:
+		('Select a Toplo theme' asRopedText foreground: Color lightGray).
+	select
+		addEventHandlerOn: ToSelectChangedEvent
+		do: [ :event | event selectedData asString traceCr ].
+	select selecter selectIndex: 4.
+	select allowDeselection: false.
+	select position: 10 @ 150.
+	select width: 200.
+	select manager placement:
+		(ToActionPlacement new action: [ :theWin :evt |
+			 | theElem theRoot |
+			 theElem := theWin element.
+			 theRoot := theWin anchorRoot.
+			 " change the window width to force the layout computation "
+			 theWin width: theElem width.
+			 " since the resizing of the root is changed, 
+			one have to wait a layout to have the right win height "
+			 theWin whenLayoutedDoOnce: [
+				 theWin position:
+					 theElem bounds inSpace bounds topLeft - (0 @ theWin height) ] ]).
 	select openInSpace
 ]
 
@@ -7103,11 +7160,12 @@ ToSandBox class >> newPopup [
 		     id: #popup;
 		     geometry: (BlRoundedRectangleGeometry cornerRadius: 6);
 		     background: (Color red alpha: 0.2);
-		     position: 200 @ 100;
+		     position: 200 @ 140;
 		     yourself.
 	popupWindowHandler := ToPopupWindowManager new.
 	popupWindowHandler windowBuilder: [ :popup :request |
 		popup border: Color gray.
+		popup height: 100.
 		popup addChild: (ToLabel new text: 'A popup window') ].
 	e addEventHandler: popupWindowHandler.
 	^ popupWindowHandler

@@ -112,7 +112,10 @@ TToAnchoredWindowElement >> popupEvent: anEvent [
 
 	self visibility: BlVisibility hidden.
 	self open.
-	self whenLayoutedDoOnce: [ " ok, now that sizes are known, 
+	self whenLayoutedDoOnce: [ 
+		self requestLayout.
+		self whenLayoutedDoOnce: [ 
+		" ok, now that sizes are known, 
 		position and size of mine or of my children can be adapted "
 		self arrangeWindowOnEvent: anEvent.
 		" since the position/size could have been changed, 
@@ -121,7 +124,7 @@ TToAnchoredWindowElement >> popupEvent: anEvent [
 		self whenLayoutedDoOnce: [
 			self afterCustomizedToFitAnchorRootDo: [
 				self toFront.
-				self visibility: BlVisibility visible ] ] ]
+				self visibility: BlVisibility visible ] ] ] ]
 ]
 
 { #category : #'t - inline window element - accessing' }

@@ -10,6 +10,14 @@ ToSelectPopupWindow >> defaultElevation [
 	^ BlRelativeElevation elevation: (SmallInteger maxVal - 300)
 ]
 
+{ #category : #initialization }
+ToSelectPopupWindow >> initializeRootElement [
+
+	super initializeRootElement.
+	rootElement hMatchParent.
+	rootElement vFitContent
+]
+
 { #category : #skin }
 ToSelectPopupWindow >> installRawStyle [
 

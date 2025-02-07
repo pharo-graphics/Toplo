@@ -10,7 +10,7 @@ I wrap this item and keep references to :
  - the state of the node linked to this object (collapsed or expanded)
 "
 Class {
-	#name : #ToTreeDataSourceWrapper,
+	#name : #ToTreeDataItemWrapper,
 	#superclass : #Object,
 	#instVars : [
 		'dataItem',
@@ -24,19 +24,19 @@ Class {
 }
 
 { #category : #accessing }
-ToTreeDataSourceWrapper >> children [ 
+ToTreeDataItemWrapper >> children [ 
 
 	^ children 
 ]
 
 { #category : #accessing }
-ToTreeDataSourceWrapper >> children: aCollection [
+ToTreeDataItemWrapper >> children: aCollection [
 
 	children := aCollection 
 ]
 
 { #category : #accessing }
-ToTreeDataSourceWrapper >> collapse [
+ToTreeDataItemWrapper >> collapse [
 
 	self isCollapsed ifTrue: [ ^ self ].
 
@@ -48,32 +48,32 @@ ToTreeDataSourceWrapper >> collapse [
 ]
 
 { #category : #accessing }
-ToTreeDataSourceWrapper >> dataItem [ 
+ToTreeDataItemWrapper >> dataItem [ 
 
 	^ dataItem 
 ]
 
 { #category : #accessing }
-ToTreeDataSourceWrapper >> dataItem: anObject [ 
+ToTreeDataItemWrapper >> dataItem: anObject [ 
 
 	dataItem := anObject 
 ]
 
 { #category : #accessing }
-ToTreeDataSourceWrapper >> dataSource [
+ToTreeDataItemWrapper >> dataSource [
 
 	^ dataSource 
 ]
 
 { #category : #accessing }
-ToTreeDataSourceWrapper >> dataSource: aDataSource [
+ToTreeDataItemWrapper >> dataSource: aDataSource [
 
 	dataSource := aDataSource.
 	
 ]
 
 { #category : #accessing }
-ToTreeDataSourceWrapper >> expand [
+ToTreeDataItemWrapper >> expand [
 
 	| currentWrapper |
 	self isLeaf ifTrue: [ ^ self ].
@@ -86,7 +86,7 @@ ToTreeDataSourceWrapper >> expand [
 ]
 
 { #category : #initialization }
-ToTreeDataSourceWrapper >> initialize [
+ToTreeDataItemWrapper >> initialize [
 
 	super initialize.
 	isCollapsed := true.
@@ -94,43 +94,43 @@ ToTreeDataSourceWrapper >> initialize [
 ]
 
 { #category : #accessing }
-ToTreeDataSourceWrapper >> isCollapsed [ 
+ToTreeDataItemWrapper >> isCollapsed [ 
 
 	^ isCollapsed 
 ]
 
 { #category : #testing }
-ToTreeDataSourceWrapper >> isLeaf [
+ToTreeDataItemWrapper >> isLeaf [
 
 	^ self children size = 0
 ]
 
 { #category : #accessing }
-ToTreeDataSourceWrapper >> nbChildren [ 
+ToTreeDataItemWrapper >> nbChildren [ 
 
 	^ nbChildren 
 ]
 
 { #category : #accessing }
-ToTreeDataSourceWrapper >> nbChildren: aNumber [
+ToTreeDataItemWrapper >> nbChildren: aNumber [
 
 	nbChildren := aNumber 
 ]
 
 { #category : #accessing }
-ToTreeDataSourceWrapper >> nodeDepth [
+ToTreeDataItemWrapper >> nodeDepth [
 
 	^ nodeDepth
 ]
 
 { #category : #accessing }
-ToTreeDataSourceWrapper >> nodeDepth: aNumber [
+ToTreeDataItemWrapper >> nodeDepth: aNumber [
 
 	nodeDepth := aNumber 
 ]
 
 { #category : #accessing }
-ToTreeDataSourceWrapper >> wrapAround: anObject with: aChildSelector [
+ToTreeDataItemWrapper >> wrapAround: anObject with: aChildSelector [
 
 	dataItem := anObject.
 	aChildSelector dataItem: anObject.
@@ -142,7 +142,7 @@ ToTreeDataSourceWrapper >> wrapAround: anObject with: aChildSelector [
 ]
 
 { #category : #accessing }
-ToTreeDataSourceWrapper >> wrapAround: anObject with: aChildSelector atDepth: aNumber [
+ToTreeDataItemWrapper >> wrapAround: anObject with: aChildSelector atDepth: aNumber [
 
 	self nodeDepth: aNumber.
 	self wrapAround: anObject with: aChildSelector.

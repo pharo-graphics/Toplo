@@ -26,12 +26,6 @@ ToTreeNodeHolder >> click [
 		ifFalse: [ self dataWrapper collapse ].
 ]
 
-{ #category : #'expanding-collapsing' }
-ToTreeNodeHolder >> collapse [
-
-	self dataWrapper collapse
-]
-
 { #category : #accessing }
 ToTreeNodeHolder >> dataItem: aDataItem [ 
 
@@ -51,20 +45,8 @@ ToTreeNodeHolder >> dataWrapper: aToTreeDataSourceWrapper [
 	dataWrapper := aToTreeDataSourceWrapper.
 ]
 
-{ #category : #'expanding-collapsing' }
-ToTreeNodeHolder >> expand [
-
-	self dataWrapper expand.
-]
-
 { #category : #accessing }
 ToTreeNodeHolder >> isCollapsed [
 
 	^ self dataWrapper isCollapsed 
-]
-
-{ #category : #testing }
-ToTreeNodeHolder >> isLeaf [
-
-	^ self wrapper isLeaf
 ]

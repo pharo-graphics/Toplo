@@ -36,12 +36,13 @@ ToGenericTreeNodeManager >> defaultNodeBuilder [
 	  start addEventHandlerOn: BlClickEvent do: [ :e |
 		  e consume.
 		  holder click.
-		self treeElement notifyDataSourceChanged ].
-	  node addChild: (ToTripletElement new
-			   margin: (BlInsets left: 20 * (dataWrapper nodeDepth - 1));
-			   startElement: start;
-			   middleElement: (ToLabel text: dataWrapper dataItem asString);
-			   startInterspace: 5) ]
+		  self treeElement notifyDataSourceChanged ].
+	  node
+		  margin: (BlInsets left: 20 * (dataWrapper nodeDepth - 1));
+		  addChild: (ToTripletElement new
+				   startElement: start;
+				   middleElement: (ToLabel text: dataWrapper dataItem asString);
+				   startInterspace: 5) ]
 ]
 
 { #category : #initialization }

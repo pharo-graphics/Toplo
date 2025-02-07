@@ -92,7 +92,7 @@ ToTreeInfiniteCollectionDataSource >> removeWrapper: aToTreeDataSourceWrapper [
 { #category : #wrapping }
 ToTreeInfiniteCollectionDataSource >> wrapObject: anObject [
 
-	^ ToTreeDataSourceWrapper new
+	^ ToTreeDataItemWrapper new
 		  dataSource: self;
 		  wrapAround: anObject with: self childSelector new
 ]

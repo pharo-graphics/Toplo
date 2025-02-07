@@ -84,6 +84,19 @@ ToTreeInfiniteCollectionDataSource >> childSelector: aToTreeChildSelector [
 	childSelector := aToTreeChildSelector 
 ]
 
+{ #category : #'expanding-collapsing' }
+ToTreeInfiniteCollectionDataSource >> collapseAll [
+
+	self collection collect: [ :each | each ifNotNil: [
+		each nodeDepth = 1 ifTrue: [ each collapse ] ]]
+]
+
+{ #category : #'expanding-collapsing' }
+ToTreeInfiniteCollectionDataSource >> expandAll [
+
+	self collection copy do: [ :each | each expandAll ]
+]
+
 { #category : #'t - observable collection - removing' }
 ToTreeInfiniteCollectionDataSource >> remove: aDataItem [
 
@@ -103,5 +116,5 @@ ToTreeInfiniteCollectionDataSource >> wrapObject: anObject [
 
 	^ ToTreeDataItemWrapper new
 		  dataSource: self;
-		  wrapAround: anObject with: self childSelector new
+		  wrapAround: anObject with: self childSelector
 ]

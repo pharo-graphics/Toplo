@@ -15,11 +15,34 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+ToTreeElement class >> exampleExpandAllAndCollapseAll [
+
+	| tree expandAllButton collapseAllButton container |
+	tree := self new.
+	tree childSelector: ToTreeIntegerHalfChildSelector new.
+	tree dataAccessor addAll: (1 to: 10).
+
+	expandAllButton := ToButton new label:
+		                   (ToLabel text: 'Expand All');
+		whenClickedDo: [:e | tree expandAll ].
+	collapseAllButton := ToButton new label:
+		                     (ToLabel text: 'Collapse All');
+		whenClickedDo: [:e | tree collapseAll ].
+
+	container := ToElement new layout: BlLinearLayout vertical; hMatchParent; vMatchParent .
+	container addChildren: {
+			expandAllButton.
+			collapseAllButton.
+			tree }.
+	container openInSpace
+]
+
+{ #category : #'as yet unclassified' }
 ToTreeElement class >> exampleIntegerHalf [
 
 	| l |
 	l := self new.
-	l childSelector: ToTreeIntegerHalfChildSelector.
+	l childSelector: ToTreeIntegerHalfChildSelector new.
 	l dataAccessor addAll: (1 to: 10).
 
 
@@ -63,6 +86,12 @@ ToTreeElement >> childSelector: aToTreeChildSelector [
 	dataSource childSelector: aToTreeChildSelector 
 ]
 
+{ #category : #'expanding-collapsing' }
+ToTreeElement >> collapseAll [ 
+
+	self dataAccessor collapseAll
+]
+
 { #category : #initialization }
 ToTreeElement >> defaultDataSource [
 
@@ -78,17 +107,20 @@ ToTreeElement >> defaultNodeManagerClass [
 { #category : #initialization }
 ToTreeElement >> defaultTreeChildSelector [
 
-	^ ToTreeClassChildSelector
+	^ ToTreeClassChildSelector new
+]
+
+{ #category : #'expanding-collapsing' }
+ToTreeElement >> expandAll [ 
+
+	self dataAccessor expandAll
 ]
 
 { #category : #initialization }
 ToTreeElement >> initialize [
 
 	super initialize.
-	nodeManager
-		treeElement: self
-
-	"maybe add a default Child Selector ?"
+	nodeManager treeElement: self
 ]
 
 { #category : #initialization }

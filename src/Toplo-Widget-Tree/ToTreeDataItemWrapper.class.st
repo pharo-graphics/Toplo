@@ -44,7 +44,9 @@ ToTreeDataItemWrapper >> collapse [
 		wrapper collapse.
 		self dataSource removeWrapper: wrapper ].
 
-	isCollapsed := true
+	isCollapsed := true.
+	
+	self dataSource notifyChanged
 ]
 
 { #category : #accessing }
@@ -76,13 +78,22 @@ ToTreeDataItemWrapper >> dataSource: aDataSource [
 ToTreeDataItemWrapper >> expand [
 
 	| currentWrapper |
-	self isLeaf ifTrue: [ ^ self ].
+	(self isLeaf or: self isCollapsed not) ifTrue: [ ^ self ].
 	isCollapsed := false.
 
 	currentWrapper := self.
 	self children do: [ :nextWrapper |
 		dataSource addWrapper: nextWrapper after: currentWrapper.
-		currentWrapper := nextWrapper ]
+		currentWrapper := nextWrapper ].
+
+	self dataSource notifyChanged
+]
+
+{ #category : #accessing }
+ToTreeDataItemWrapper >> expandAll [
+
+	self expand.
+	self children do: [ :each | each expandAll ].
 ]
 
 { #category : #initialization }

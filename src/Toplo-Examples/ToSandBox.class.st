@@ -6461,7 +6461,7 @@ ToSandBox class >> example_toImageFromUrl [
 ToSandBox class >> example_toImageFromUrl2 [
 
 	| im |
-	im := ToImage fromUrl: 'https://raw.githubusercontent.com/Templarian/MaterialDesign-SVG/9e04201d4557e729822fb57f62a316c3dea1d4a8/svg/account-box-edit-outline.svg'.
+	im := ToImage fromUrl: 'https://dev.w3.org/SVG/tools/svgweb/samples/svg-files/check.svg'.
 	im matchParent.
 	im openInSpace
 ]

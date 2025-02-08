@@ -54,10 +54,13 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty
 			   name: #'sh-style-table'
 			   value: SHRBTextStyler defaultStyleTable).
-		  (ToTokenProperty
-			   name: #'default-empty-form'
-			   value: self defaultEmptySimpleForm).
 		  (ToTokenProperty name: #'background-color' value: Color white).
+		  (ToTokenProperty name: #'empty_box' value: [
+			   (ToMiscellaneousIcons iconNamed:
+					    'filled_emptyBox')
+				   size: 50 asPoint;
+				   innerImageColor: Color lightGray;
+				   yourself ]).
 		  (ToTokenProperty name: #'submenu-arrow-right' value: [
 			   (ToMaterialDesignIconProvider iconNamed:
 					    'outlined_keyboardarrowright')

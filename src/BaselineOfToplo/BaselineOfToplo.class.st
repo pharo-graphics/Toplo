@@ -70,16 +70,20 @@ BaselineOfToplo >> registerPackages: spec [
 		package: #'Toplo-Widget-Button'
 		with: [
 		spec requires: #( #Toplo #'Toplo-Widget-Image' #'Toplo-Theme' ) ].
-	
+
+	spec
+		package: #'Toplo-Widget-Empty'
+		with: [ spec requires: #( #Toplo ) ].
+
 	spec
 		package: #'Toplo-Widget-Button-Tests'
 		with: [ spec requires: #( #Toplo #'Toplo-Widget-Button' ) ].
 
-	spec
-		package: #'Toplo-Widget-Accordion'
-		with: [
-		spec requires: #( #Toplo #'Toplo-Widget-Button' #'Toplo-Widget-List' #'Toplo-Theme' ) ].
-	
+	spec package: #'Toplo-Widget-Accordion' with: [
+		spec requires:
+			#( #Toplo #'Toplo-Widget-Button' #'Toplo-Widget-List'
+			   #'Toplo-Theme' ) ].
+
 	spec
 		package: #'Toplo-Widget-Image'
 		with: [ spec requires: #( #Toplo #'Toplo-Theme' ) ].
@@ -102,10 +106,9 @@ BaselineOfToplo >> registerPackages: spec [
 		package: #'Toplo-Widget-List-Tests'
 		with: [ spec requires: #( #Toplo #'Toplo-Widget-List' ) ].
 
-	spec
-		package: #'Toplo-Widget-Menu'
-		with: [
-			spec requires: #( #Toplo #'Toplo-Widget-Button' #'Toplo-Widget-List'
+	spec package: #'Toplo-Widget-Menu' with: [
+		spec requires:
+			#( #Toplo #'Toplo-Widget-Button' #'Toplo-Widget-List'
 			   #'Toplo-Theme' ) ].
 
 	spec
@@ -149,11 +152,11 @@ BaselineOfToplo >> registerPackages: spec [
 
 	spec package: #'Toplo-Widget-Segmented' with: [
 		spec requires:
-			#( #Toplo  #'Toplo-Widget-Button' #'Toplo-Widget-List' ) ].
-		
+			#( #Toplo #'Toplo-Widget-Button' #'Toplo-Widget-List' ) ].
+
 	spec package: #'Toplo-Widget-Tag' with: [
 		spec requires:
-			#( #Toplo  #'Toplo-Widget-Button' #'Toplo-Widget-List') ].
+			#( #Toplo #'Toplo-Widget-Button' #'Toplo-Widget-List' ) ].
 
 	spec
 		package: #'Toplo-Widget-TabPane-Tests'

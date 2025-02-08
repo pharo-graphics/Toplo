@@ -9,6 +9,23 @@ Class {
 	#category : #'Toplo-Widget-Button-Core'
 }
 
+{ #category : #'t - labeled icon' }
+ToButton class >> labelText: aTextOrString [
+
+	^ self new
+		  labelText: aTextOrString;
+		  yourself
+]
+
+{ #category : #'t - labeled icon' }
+ToButton class >> labelText: aTextOrString icon: anImage [
+
+	^ self new
+		  labelText: aTextOrString;
+		  icon: anImage;
+		  yourself
+]
+
 { #category : #configuration }
 ToButton >> beCheckable [
 

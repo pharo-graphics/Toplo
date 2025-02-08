@@ -4097,6 +4097,31 @@ ToSandBox class >> example_elementWithEditor [
 	e openInSpace
 ]
 
+{ #category : #empty }
+ToSandBox class >> example_empty [
+
+	| empty |
+	empty := ToEmpty new.
+	empty openInSpace
+]
+
+{ #category : #empty }
+ToSandBox class >> example_emptyBox [
+
+	| box |
+	box := self newEmptyBox.
+	box openInSpace
+]
+
+{ #category : #empty }
+ToSandBox class >> example_emptyBoxWithButton [
+
+	| box |
+	box := self newEmptyBox.
+	box builder: [ :e | e addChild: (ToButton labelText: 'Add new item') ].
+	box openInSpace
+]
+
 { #category : #'header positionning' }
 ToSandBox class >> example_headerOnBottomCenter [
 
@@ -7480,6 +7505,12 @@ ToSandBox class >> listWithEditableAndContextMenu [
 { #category : #accessing }
 ToSandBox class >> methodText [
 	^ self  class sourceCodeAt: #example_CodeEditor
+]
+
+{ #category : #empty }
+ToSandBox class >> newEmptyBox [
+
+	^ ToEmpty box
 ]
 
 { #category : #window }

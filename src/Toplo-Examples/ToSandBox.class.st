@@ -4122,6 +4122,18 @@ ToSandBox class >> example_emptyBoxWithButton [
 	box openInSpace
 ]
 
+{ #category : #empty }
+ToSandBox class >> example_emptyBoxWithCustomLabel [
+
+	| box labelText |
+	box := self newEmptyBox.
+	labelText := 'Nothing in the box' asRopedText
+		             fontSize: 24;
+		             yourself.
+	box labelText: labelText.
+	box openInSpace
+]
+
 { #category : #'header positionning' }
 ToSandBox class >> example_headerOnBottomCenter [
 
@@ -7282,7 +7294,7 @@ ToSandBox class >> labeledIconlWithIconAndText [
 { #category : #list }
 ToSandBox class >> listWithEditableAndContextMenu [
 
-	| l selectionMenu menuFactory phtext disabledMode unselectableMode option |
+	| l selectionMenu menuFactory disabledMode unselectableMode option |
 	l := ToListElement new.
 
 	disabledMode := l disabledSelectionMode.
@@ -7304,23 +7316,14 @@ ToSandBox class >> listWithEditableAndContextMenu [
 			ToListUnselectableSelectionElementExampleSkin new ].
 	unselectableMode changeSelectionOptionWith: option.
 
-	phtext := (('Invoke the context menu ' , String cr
-	            , 'with a right-click' , String cr
-	            , 'to initialize the list') asRopedText
-		           foreground: Color lightGray;
-		           yourself)
-		          fontSize: 24;
-		          yourself.
-
 	l placeholderBuilder: [ :placeholder :e |
-		| lab |
+		| empty |
+		empty := ToEmpty box.
+		empty labelText:
+			'Invoke the context menu ' , String cr , 'to initialize the list'.
 		placeholder layout alignCenter.
-		placeholder preventMeAndChildrenMouseEvents.
-		lab := ToAttributedLabel new
-			       beMultiLine;
-			       text: phtext;
-			       yourself.
-		placeholder addChild: lab ].
+		placeholder preventMouseEvents.
+		placeholder addChild: empty ].
 
 	l nodeBuilder: [ :node :dataItem :holder |
 		| lab |
@@ -7397,8 +7400,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 						                whenClickedDo: [ :event |
 							                target selectionOption masked: true ];
 						                yourself) ].
-		               target selectionOption
-			               isAnimated
+		               target selectionOption isAnimated
 			               ifTrue: [
 				               menu addItem: (ToMenuItem new
 						                labelText: 'stop selection transition animation';

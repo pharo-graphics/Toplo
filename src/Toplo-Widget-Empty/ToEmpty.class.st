@@ -2,7 +2,8 @@ Class {
 	#name : #ToEmpty,
 	#superclass : #ToElement,
 	#instVars : [
-		'image'
+		'image',
+		'label'
 	],
 	#category : #'Toplo-Widget-Empty'
 }
@@ -31,7 +32,8 @@ ToEmpty >> defaultLayout [
 ToEmpty >> initialize [ 
 
 	super initialize.
-	self matchParent
+	self labelText: 'No data'.
+	self fitContent
 ]
 
 { #category : #initialization }
@@ -46,6 +48,21 @@ ToEmpty >> installInnerImage: anInnerImage [
 		c linear vertical alignCenter.
 		c linear vertical alignCenter ].
 	self addChild: image at: 1
+]
+
+{ #category : #initialization }
+ToEmpty >> labelText: aStringOrText [
+
+	label ifNotNil: [ label removeFromParent ].
+	aStringOrText ifNil: [
+		label := nil.
+		^ self ].
+	label := ToSelectableLabel new text: aStringOrText.
+	label addStamp: #placeholder.
+	label constraintsDo: [ :c |
+		c linear vertical alignCenter.
+		c linear vertical alignCenter ].
+	self addChild: label 
 ]
 
 { #category : #skin }

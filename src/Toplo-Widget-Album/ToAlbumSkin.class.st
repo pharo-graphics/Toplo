@@ -70,20 +70,16 @@ ToAlbumSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		(e hasStamp: #placeholder)
-			ifTrue: [
-				e text
-					fontSize: 24;
-					foreground: Color gray lighter ]
+		(e hasStamp: #'sh-styled')
+			ifTrue: [ e styleTable: (e valueOfTokenNamed: #'sh-style-table') ]
 			ifFalse: [
-				(e hasStamp: #'sh-styled')
-					ifTrue: [ e styleTable: (e valueOfTokenNamed: #'sh-style-table') ]
-					ifFalse: [
-						(e hasStamp: #preformatted) ifFalse: [
-							e text
-								defaultFontSize: (e valueOfTokenNamed: #'font-size');
-								lineSpacing: (e valueOfTokenNamed: #'line-height');
-								foreground: (e valueOfTokenNamed: #'color-text') ] ] ].
+				(e hasStamp: #preformatted) ifFalse: [
+					e text
+						defaultFontSize: (e valueOfTokenNamed: #'font-size');
+						lineSpacing: (e valueOfTokenNamed: #'line-height').
+					(e hasStamp: #placeholder)
+						ifTrue: [ e text foreground: Color gray lighter ]
+						ifFalse: [ e foreground: (e valueOfTokenNamed: #'color-text') ] ] ].
 
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e valueOfTokenNamed: #'border-radius')).

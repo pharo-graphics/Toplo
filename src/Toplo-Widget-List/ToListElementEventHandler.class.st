@@ -119,8 +119,6 @@ ToListElementEventHandler >> focusEvent: anEvent [
 { #category : #'infinite event handling' }
 ToListElementEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEvent [
 
-	| target |
-	target := anEvent currentTarget.
 	self showHidePlaceholderIn: target
 ]
 

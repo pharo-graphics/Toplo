@@ -79,7 +79,7 @@ ToAlbumSkin >> installSkinEvent: anEvent [
 						lineSpacing: (e valueOfTokenNamed: #'line-height').
 					(e hasStamp: #placeholder)
 						ifTrue: [ e text foreground: Color gray lighter ]
-						ifFalse: [ e foreground: (e valueOfTokenNamed: #'color-text') ] ] ].
+						ifFalse: [ e text foreground: (e valueOfTokenNamed: #'color-text') ] ] ].
 
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e valueOfTokenNamed: #'border-radius')).

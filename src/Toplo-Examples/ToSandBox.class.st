@@ -6450,6 +6450,14 @@ ToSandBox class >> example_toImage1 [
 ]
 
 { #category : #image }
+ToSandBox class >> example_toImageFromUrl [
+
+	| im |
+	im := ToImage fromUrl: 'https://unsplash.it/400/300?image=1083'.
+	im openInSpace
+]
+
+{ #category : #image }
 ToSandBox class >> example_toImageWithSVG [
 
 	| im |

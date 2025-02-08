@@ -2,7 +2,8 @@ Class {
 	#name : #ToImage,
 	#superclass : #ToElement,
 	#instVars : [
-		'innerImage'
+		'innerImage',
+		'loader'
 	],
 	#category : #'Toplo-Widget-Image-Core'
 }
@@ -11,6 +12,12 @@ Class {
 ToImage class >> formInnerImageId [
 
 	^ #form
+]
+
+{ #category : #'instance creation' }
+ToImage class >> fromUrl: anUrl [
+
+	^ self new fromUrl: anUrl
 ]
 
 { #category : #'instance creation' }
@@ -82,6 +89,29 @@ ToImage >> formColor: aColor [
 ToImage >> formInnerImageId [
 
 	^ self class formInnerImageId
+]
+
+{ #category : #'private loading' }
+ToImage >> fromUrl: anUrl [
+
+	| loadedInnerImage |
+	self terminateLoader.
+	loader := [
+	          | timesRetry byteArray |
+	          timesRetry := 0.
+	          [
+	          (byteArray := [ anUrl asUrl retrieveContents ]
+		                        on: Error
+		                        do: [  ]) isNil and: [ timesRetry < 5 ] ]
+		          whileTrue: [ timesRetry := timesRetry + 1 ].
+	          loader := nil.
+	          byteArray ifNotNil: [
+		          loadedInnerImage := Form fromBinaryStream:
+			                              byteArray readStream.
+		          self innerImage: loadedInnerImage ] ] newProcess.
+	loader priority: Processor userBackgroundPriority.
+	loader name: 'ToImage loader'.
+	loader resume
 ]
 
 { #category : #testing }
@@ -187,6 +217,13 @@ ToImage >> rotateBy: aDegreesAngle [
 ToImage >> svgInnerImageId [
 
 	^ self class svgInnerImageId
+]
+
+{ #category : #'private loading' }
+ToImage >> terminateLoader [
+
+	loader ifNotNil: #terminate.
+	loader := nil
 ]
 
 { #category : #accessing }

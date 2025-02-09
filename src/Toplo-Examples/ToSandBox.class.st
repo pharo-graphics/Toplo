@@ -371,19 +371,11 @@ ToSandBox class >> barWithData: aCollection [
 { #category : #select }
 ToSandBox class >> buildSelectListElementIn: aSelectElement withIconProvider: anIconProviderClass [
 
-	| phtext icProvider styles iconDescs |
-	aSelectElement manager minHeight: 35.
+	| icProvider styles iconDescs |
+	aSelectElement manager minHeight: 85.
 	aSelectElement popupListElement withRowNumbers.
-	phtext := ('No Icon' asRopedText
-		           foreground: Color lightGray;
-		           yourself)
-		          fontSize: 24;
-		          yourself.
 	aSelectElement popupListElement placeholderBuilder: [ :placeholder :e |
-		| lab |
-		placeholder layout alignCenter.
-		lab := ToAttributedLabel text: phtext.
-		placeholder addChild: lab ].
+		placeholder empty labelText: 'No Icon' ].
 
 	icProvider := anIconProviderClass.
 	styles := ToIconStyle allSubclasses asArray sort: [ :a :b |
@@ -2486,11 +2478,7 @@ ToSandBox class >> example_SelectMonoFiltrable [
 		          fontSize: 24;
 		          yourself.
 	select sample: 'X'.
-	select popupListElement placeholderBuilder: [ :placeholder :e |
-		| lab |
-		placeholder layout alignCenter.
-		lab := ToAttributedLabel text: phtext.
-		placeholder addChild: lab ].
+
 	select dataViewBuilder: [ :dataItemView :aString |
 		dataItemView addChild: ((ToLabel text: aString)
 				 fontSize: 18;
@@ -2822,20 +2810,10 @@ ToSandBox class >> example_SelectMultiNotFiltrable [
 { #category : #select }
 ToSandBox class >> example_SelectMultiNotFiltrableWithGroups [
 
-	| select innerWindow phtext |
+	| select innerWindow  |
 	select := ToMultiSelectElement new.
 	select withGroups: true.
-	select manager minHeight: 35.
-	phtext := ('No Data' asRopedText
-		           foreground: Color lightGray;
-		           yourself)
-		          fontSize: 24;
-		          yourself.
-	select popupListElement placeholderBuilder: [ :placeholder :e |
-		| lab |
-		placeholder layout alignCenter.
-		lab := ToAttributedLabel text: phtext.
-		placeholder addChild: lab ].
+	select manager minHeight: 85.
 
 	select filtrable: false.
 	self statesOfAmericaWithGroups do: [ :assoc |
@@ -3024,16 +3002,6 @@ ToSandBox class >> example_SieveOnList2With_AllClassNames [
 				 pattern := filterField text asString.
 				 sieve pattern: pattern ].
 
-	listElement placeholderBuilder: [ :ph :e |
-		| lab |
-		ph layout alignCenter.
-		lab := (ToAttributedLabel text: 'No Data') 
-			      
-				       foreground: Color lightGray;
-				       fontSize: 24;
-				       yourself.
-		ph addChild: lab ].
-
 	pane addChild: listElement.
 	pane addChild: filterField.
 	pane openInSpace
@@ -3077,15 +3045,6 @@ ToSandBox class >> example_SieveOnList2With_AllMethods [
 				 | pattern |
 				 pattern := filterField text asString.
 				 sieve pattern: pattern ].
-
-	listElement placeholderBuilder: [ :ph :e |
-		| lab |
-		ph layout alignCenter.
-		lab := (ToAttributedLabel text: 'No Data') 
-				       foreground: Color lightGray;
-				       fontSize: 24;
-				       yourself.
-		ph addChild: lab ].
 	pane addChild: listElement.
 	pane addChild: filterField.
 	pane openInSpace.
@@ -3136,14 +3095,6 @@ ToSandBox class >> example_SieveOnList2With_AllMethods_OnCR [
 				 self inform: pattern.
 				 sieve pattern: pattern ] yourself).
 
-	listElement placeholderBuilder: [ :ph :e |
-		| lab |
-		ph layout alignCenter.
-		lab := (ToAttributedLabel text: 'No Data') 
-				       foreground: Color lightGray;
-				       fontSize: 24;
-				       yourself.
-		ph addChild: lab ].
 	pane addChild: listElement.
 	pane addChild: filterField.
 	pane openInSpace
@@ -3419,12 +3370,6 @@ ToSandBox class >> example_ThemeSelectWithPlaceholder [
 	choice := ToSingleSelectElement new.
 	choice popupDataAccessor addAll:
 		{ 'OS-X'. 'Windows'. 'Linux' }.
-	choice placeholderBuilder: [ :ph :e |
-		ph addChild:
-			((ToAttributedLabel text: 'Invalid choice' asRopedText)
-				 foreground: Color red;
-				 freeze;
-				 yourself) ].
 	win pane addChild: choice.
 	win openInSpace
 ]
@@ -7333,14 +7278,10 @@ ToSandBox class >> listWithEditableAndContextMenu [
 			ToListUnselectableSelectionElementExampleSkin new ].
 	unselectableMode changeSelectionOptionWith: option.
 
+	l withPlaceholder.
 	l placeholderBuilder: [ :placeholder :e |
-		| empty |
-		empty := ToEmpty box.
-		empty labelText:
-			'Invoke the context menu ' , String cr , 'to initialize the list'.
-		placeholder layout alignCenter.
-		placeholder preventMouseEvents.
-		placeholder addChild: empty ].
+		placeholder empty labelText:
+			'Invoke the context menu ' , String cr , 'to initialize the list' ].
 
 	l nodeBuilder: [ :node :dataItem :holder |
 		| lab |

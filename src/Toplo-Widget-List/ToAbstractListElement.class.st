@@ -452,6 +452,12 @@ ToAbstractListElement >> onSievedWith: aSieve [
 ]
 
 { #category : #'t - element with placeholder' }
+ToAbstractListElement >> placeholderClass [
+
+	^ ToEmptyPlaceholderLayer
+]
+
+{ #category : #'t - element with placeholder' }
 ToAbstractListElement >> placeholderElevation [
 
 	^ self innerElement elevation

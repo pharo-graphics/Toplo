@@ -11,5 +11,8 @@ ToEmptySkin >> installSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e layout alignCenter.
 		(e hasStamp: #box) ifTrue: [
-			e installInnerImage: (e valueOfTokenNamed: #empty_box) value ] ]
+			e installInnerImage: (e valueOfTokenNamed: #empty_box).
+			e image
+				size: 50 asPoint;
+				innerImageColor: Color lightGray ] ]
 ]

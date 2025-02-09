@@ -28,6 +28,12 @@ ToEmpty >> defaultLayout [
 	^ BlLinearLayout vertical
 ]
 
+{ #category : #accessing }
+ToEmpty >> image [ 
+
+	^ image
+]
+
 { #category : #initialization }
 ToEmpty >> initialize [ 
 

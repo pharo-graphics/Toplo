@@ -20,6 +20,20 @@ ToImportedIconProvider class >> iconNamed: aName ifAbsent: aBlock [
 		  do: [ :err | aBlock value ]
 ]
 
+{ #category : #accessing }
+ToImportedIconProvider class >> innerImageNamed: aName [
+
+	^ self innerImageNamed: aName ifAbsent: [  ]
+]
+
+{ #category : #accessing }
+ToImportedIconProvider class >> innerImageNamed: aName ifAbsent: aBlock [
+
+	^ [ self perform: aName asSymbol ]
+		  on: Error
+		  do: [ :err | aBlock value ]
+]
+
 { #category : #'_private - utilities' }
 ToImportedIconProvider class >> listElementWithAllIcons [
 	"
@@ -110,11 +124,25 @@ ToImportedIconProvider class >> listElementWithAllIcons [
 ]
 
 { #category : #accessing }
-ToImportedIconProvider >> iconNamed: aName [ 
+ToImportedIconProvider >> iconNamed: aName [
+
 	^ self class iconNamed: aName 
 ]
 
 { #category : #accessing }
 ToImportedIconProvider >> iconNamed: aName ifAbsent: aBlock [ 
+
 	^ self class iconNamed: aName ifAbsent: aBlock 
+]
+
+{ #category : #accessing }
+ToImportedIconProvider >> innerImageNamed: aName [
+
+	^ self class innerImageNamed: aName 
+]
+
+{ #category : #accessing }
+ToImportedIconProvider >> innerImageNamed: aName ifAbsent: aBlock [ 
+
+	^ self class innerImageNamed: aName ifAbsent: aBlock 
 ]

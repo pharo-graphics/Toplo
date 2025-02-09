@@ -11,7 +11,7 @@ ToMenuSkin >> installSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e isSubmenu
 			ifTrue: [
-				| arrowTk |
+				| arrowTk arrowIm |
 				e endFlexible: true.
 				e endInterspace:
 					(e valueOfTokenNamed: #'menu-item-start-alignment').
@@ -21,7 +21,12 @@ ToMenuSkin >> installSkinEvent: anEvent [
 							           ifTrue: [ #'submenu-arrow-up' ]
 							           ifFalse: [ #'submenu-arrow-down' ] ]
 					           ifFalse: [ #'submenu-arrow-right' ].
-				e endElement addChild: (e valueOfTokenNamed: arrowTk) value ]
+
+				arrowIm := ToImage inner: (e valueOfTokenNamed: arrowTk).
+				arrowIm
+					size: 18 asPoint;
+					innerImageColor: (e valueOfTokenNamed: #'color-text').
+				e endElement addChild: arrowIm ]
 			ifFalse: [
 				(e hasIcon and: [ e hasLabel ])
 					ifTrue: [

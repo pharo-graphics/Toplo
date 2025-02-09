@@ -17,6 +17,13 @@ ToIconStyle class >> iconNamed: anIconName inProvider: anIconProvider [
 		  (self prefix , '_', anIconName) asSymbol
 ]
 
+{ #category : #accessing }
+ToIconStyle class >> innerImageNamed: anIconName inProvider: anIconProvider [
+
+	^ anIconProvider innerImageNamed:
+		  (self prefix , '_', anIconName) asSymbol
+]
+
 { #category : #'instance creation' }
 ToIconStyle class >> outlined [
 
@@ -38,6 +45,11 @@ ToIconStyle class >> twotone [
 { #category : #accessing }
 ToIconStyle >> iconNamed: anIconName inProvider: anIconProvider [ 
 	^ self class iconNamed: anIconName inProvider: anIconProvider 
+]
+
+{ #category : #accessing }
+ToIconStyle >> innerImageNamed: anIconName inProvider: anIconProvider [ 
+	^ self class innerImageNamed: anIconName inProvider: anIconProvider 
 ]
 
 { #category : #accessing }

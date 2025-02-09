@@ -95,6 +95,7 @@ ToImage >> formInnerImageId [
 ToImage >> fromUrl: anUrl [
 
 	self terminateLoader.
+	self innerImage: ToMiscellaneousIcons filled_pending_work.
 	loader := [
 	          | timesRetry contents |
 	          timesRetry := 0.
@@ -104,13 +105,16 @@ ToImage >> fromUrl: anUrl [
 		                       do: [  ]) isNil and: [ timesRetry < 5 ] ]
 		          whileTrue: [ timesRetry := timesRetry + 1 ].
 	          loader := nil.
-	          contents ifNotNil: [
-		          | source |
-		          source := contents isString
-			                    ifTrue: [ contents ]
-			                    ifFalse: [
-			                    Form fromBinaryStream: contents readStream ].
-		          self innerImage: source ] ] newProcess.
+	          contents
+		          ifNil: [
+		          self innerImage: ToMiscellaneousIcons round_close ]
+		          ifNotNil: [
+			          | source |
+			          source := contents isString
+				                    ifTrue: [ contents ]
+				                    ifFalse: [
+				                    Form fromBinaryStream: contents readStream ].
+			          self innerImage: source ] ] newProcess.
 	loader priority: Processor userBackgroundPriority.
 	loader name: 'ToImage loader'.
 	loader resume

@@ -104,7 +104,6 @@ ToImage >> fromUrl: anUrl [
 		                       on: Error
 		                       do: [  ]) isNil and: [ timesRetry < 5 ] ]
 		          whileTrue: [ timesRetry := timesRetry + 1 ].
-	          loader := nil.
 	          contents
 		          ifNil: [
 		          self innerImage: ToMiscellaneousIcons round_close ]
@@ -114,7 +113,8 @@ ToImage >> fromUrl: anUrl [
 				                    ifTrue: [ contents ]
 				                    ifFalse: [
 				                    Form fromBinaryStream: contents readStream ].
-			          self innerImage: source ] ] newProcess.
+			          self innerImage: source ].
+	          loader := nil ] newProcess.
 	loader priority: Processor userBackgroundPriority.
 	loader name: 'ToImage loader'.
 	loader resume
@@ -209,6 +209,12 @@ ToImage >> innerSvgImageColor: aColor [
 			e withAllChildrenDepthFirstDo: [ :child |
 				child hasChildren ifFalse: [ child background: aColor ] ] ]
 		ifNone: [  ]
+]
+
+{ #category : #'private loading' }
+ToImage >> isLoading [
+
+	^ loader notNil
 ]
 
 { #category : #rotation }

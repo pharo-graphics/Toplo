@@ -7,8 +7,7 @@ Class {
 { #category : #api }
 ToOverlayPlacement >> arrangeWindow: aWindow onEvent: anEvent [
 
-	| root element |
-	root := aWindow anchorRoot.
+	| element |
 	element := aWindow element.
 
 	super arrangeWindow: aWindow onEvent: anEvent.

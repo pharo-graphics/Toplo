@@ -1,15 +1,15 @@
 Class {
-	#name : #ToUpLeftUpPlacement,
+	#name : #ToTopRightPlacement,
 	#superclass : #ToWindowPlacement,
 	#category : #'Toplo-Core-Window'
 }
 
 { #category : #api }
-ToUpLeftUpPlacement >> arrangeWindow: aWindow onEvent: anEvent [
+ToTopRightPlacement >> arrangeWindow: aWindow onEvent: anEvent [
 
 	| root element |
 	root := aWindow anchorRoot.
 	element := aWindow element.
 	aWindow root width: element width.
-	aWindow position: (element bounds inParent: root) topLeft - (0 @ (aWindow root height))
+	aWindow position: (element bounds inParent: root) topRight - (0 @ (aWindow root measuredHeight))
 ]

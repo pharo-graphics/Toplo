@@ -195,6 +195,7 @@ ToSkinStateGenerator >> mouseLeaveEvent: anEvent [
 
 	leaved ifTrue: [ ^ self ].
 	leaved := true.
+	target isEnabled ifFalse: [ ^ self ].
 	self enqueueSkinState:
 		(ToTransientState skinEvent:
 			 (ToLeavedSkinEvent sourceEvent: anEvent))

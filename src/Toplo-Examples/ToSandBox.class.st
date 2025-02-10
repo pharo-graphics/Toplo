@@ -3249,7 +3249,7 @@ ToSandBox class >> example_SimplePopupTopRight [
 				theElem := theWin element.
 				theRoot := theWin anchorRoot.	
 			 theWin position: theElem bounds inSpace bounds topRight
-				 - (theWin width @ theElem height) ]).
+				 - (0 @ theWin height) ]).
 
 	p element openInSpace
 ]
@@ -3355,10 +3355,10 @@ ToSandBox class >> example_ThemeSelectNoDeselectionPopupOnTop [
 		do: [ :event | event selectedData asString traceCr ].
 	select selecter selectIndex: 4.
 	select allowDeselection: false.
-	select position: 10 @ 150.
+	select position: 210 @ 150.
 	select width: 200.
-	select popupWindowPlacement: ToUpLeftUpPlacement new.
-	select openInSpace
+	select popupWindowPlacement: ToTopLeftPlacement new.
+	select openInSpace 
 ]
 
 { #category : #select }

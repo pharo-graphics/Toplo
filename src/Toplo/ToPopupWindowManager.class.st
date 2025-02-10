@@ -148,7 +148,7 @@ ToPopupWindowManager >> defaultCloseOnPicking [
 { #category : #initializing }
 ToPopupWindowManager >> defaultPlacement [
 
-	^ ToBottomLeftDownPlacement new
+	^ ToBottomLeftPlacement new
 ]
 
 { #category : #'api - accessing' }

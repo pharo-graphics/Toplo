@@ -110,21 +110,34 @@ TToAnchoredWindowElement >> popupEvent: anEvent [
 	self isOpened ifTrue: [
 		Error signal: 'An opened window shouldn''t be asked to popup' ].
 
+	self flag: 'Workarround and crappy code to be fixed'.
 	self visibility: BlVisibility hidden.
-	self open.
-	self whenLayoutedDoOnce: [ 
-		self requestLayout.
-		self whenLayoutedDoOnce: [ 
-		" ok, now that sizes are known, 
-		position and size of mine or of my children can be adapted "
+	self root requestLayout.
+	self root whenLayoutedDoOnce: [
+		| mextent |
 		self arrangeWindowOnEvent: anEvent.
-		" since the position/size could have been changed, 
+		self root requestLayout.
+		self root whenLayoutedDoOnce: [
+			| count |
+			" ok, now that sizes are known, 
+			position and size of mine or of my children can be adapted "
+			mextent := self root size.
+			count := 1.
+			[ count < 2 "and: [ mextent ~= self root measuredExtent ]" ]
+				whileTrue: [
+					"count traceCr."
+					mextent := self root size.
+					self arrangeWindowOnEvent: anEvent.
+					count := count + 1.
+					self requestLayout ].
+			" since the position/size could have been changed, 
 		one have to wait a second layout"
-		self requestLayout.
-		self whenLayoutedDoOnce: [
-			self afterCustomizedToFitAnchorRootDo: [
-				self toFront.
-				self visibility: BlVisibility visible ] ] ] ]
+			self root requestLayout.
+			self root whenLayoutedDoOnce: [
+				self afterCustomizedToFitAnchorRootDo: [
+					self toFront.
+					self visibility: BlVisibility visible ] ] ] ].
+	self open
 ]
 
 { #category : #'t - inline window element - accessing' }

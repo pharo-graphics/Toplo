@@ -1569,6 +1569,7 @@ ToSandBox class >> example_HugeIntegerList [
 ToSandBox class >> example_Inline1 [
 
 	| menu popupWindowHandler |
+	self flag: 'not working when trying to popup 2 times'.
 	menu := ToElement new
 		        layout: BlLinearLayout vertical;
 		        background: Color transparent;
@@ -1583,6 +1584,7 @@ ToSandBox class >> example_Inline1 [
 	popupWindowHandler beInline.
 	popupWindowHandler windowBuilder: [ :popup :element |
 		| item |
+		popup size: 80 asPoint.
 		popup border: Color black.
 		item := ToElement new
 			        height: 50;
@@ -2263,7 +2265,7 @@ ToSandBox class >> example_Popup1 [
 	popupWindowHandler := ToPopupWindowManager new.
 	popupWindowHandler windowBuilder: [ :popup :element |
 		popup border: Color black.
-		item := ToElement new size: 50 @ 90.
+		item := ToElement new size: 150 @ 90.
 		item background: Color yellow.
 		item addEventHandler: (BlEventHandler
 				 on: BlPrimaryClickEvent
@@ -2271,7 +2273,7 @@ ToSandBox class >> example_Popup1 [
 		popup root addChild: item ].
 	menu addEventHandler: popupWindowHandler.
 	container pane addChild: menu.
-	container openInSpace
+	container openInSpace 
 ]
 
 { #category : #checkbox }
@@ -3137,17 +3139,8 @@ ToSandBox class >> example_SimplePopupBottomCenter [
 
 	| p |
 	p := self newPopup.
-	p placement:
-		(ToActionPlacement new action: [ :theWin :evt | 
-			| theElem theRoot x1 x2 w1 w2 pos |
-				theElem := theWin element.
-				theRoot := theWin anchorRoot.
-			 x1 := theElem position x.
-			 w1 := theElem width / 2.0.
-			 w2 := theWin width / 2.0.
-			 x2 := x1 + w1 - w2.
-			 pos := x2 @ (theElem position y + theElem height).
-			 theWin position: pos ]).
+	p placement: ToBottomCenterPlacement new.
+	p measurement: (ToActionMeasurement new action: [ :w :e | w width: 130 ]).
 	p element openInSpace
 ]
 
@@ -3156,20 +3149,7 @@ ToSandBox class >> example_SimplePopupBottomLeft [
 
 	| p |
 	p := self newPopup.
-	p element openInSpace
-]
-
-{ #category : #window }
-ToSandBox class >> example_SimplePopupBottomLeftOver [
-
-	| p |
-	p := self newPopup.
-	p placement: (ToActionPlacement new action: [ :theWin :evt |
-			 | theElem theRoot |
-			 theElem := theWin element.
-			 theRoot := theWin anchorRoot.
-			 theWin position:
-				 theElem bounds inSpace bounds bottomLeft - (0 @ (theWin height)) ]).
+	p placement: ToBottomLeftPlacement new.
 	p element openInSpace
 ]
 
@@ -3178,13 +3158,7 @@ ToSandBox class >> example_SimplePopupBottomRight [
 
 	| p |
 	p := self newPopup.
-	p placement:
-		(ToActionPlacement new action: [ :theWin :evt | 
-			|  theElem theRoot |
-			theElem := theWin element.
-			theRoot := theWin anchorRoot.
-			theWin position: theElem bounds inSpace bounds bottomRight
-			 - (theWin width @ 0) ]).
+	p placement: ToBottomRightPlacement new.
 	p element openInSpace
 ]
 
@@ -3193,17 +3167,7 @@ ToSandBox class >> example_SimplePopupTopCenter [
 
 	| p |
 	p := self newPopup.
-	p placement:
-		(ToActionPlacement new action: [ :theWin  :evt | 
-			| theElem theRoot x1 x2 w1 w2 |
-				theElem := theWin  element.
-				theRoot := theWin  anchorRoot.	
-			 x1 := theElem position x.
-			 w1 := theElem width / 2.0.
-			 w2 := theWin width / 2.0.
-			 x2 := x1 + w1 - w2.
-			 theWin position:
-				 x2 @ (theElem position y - theElem height) ]).
+	p placement: ToTopCenterPlacement new.
 	p element openInSpace
 ]
 
@@ -3212,15 +3176,7 @@ ToSandBox class >> example_SimplePopupTopLeft [
 
 	| p |
 	p := self newPopup.
-	p placement:
-		(ToActionPlacement new action: [ :theWin  :evt | 
-			| theElem theRoot |
-				theElem := theWin  element.
-				theRoot := theWin  anchorRoot.	
-			 theWin position:
-				 theElem bounds inSpace bounds topLeft
-				 - (0 @ theElem height) ]).
-
+	p placement: ToTopLeftPlacement new.
 	p element openInSpace
 ]
 
@@ -3243,14 +3199,7 @@ ToSandBox class >> example_SimplePopupTopRight [
 
 	| p |
 	p := self newPopup.
-	p placement:
-		(ToActionPlacement new action: [ :theWin  :evt | 
-			| theElem theRoot |
-				theElem := theWin element.
-				theRoot := theWin anchorRoot.	
-			 theWin position: theElem bounds inSpace bounds topRight
-				 - (0 @ theWin height) ]).
-
+	p placement: ToTopRightPlacement new.
 	p element openInSpace
 ]
 
@@ -3357,8 +3306,11 @@ ToSandBox class >> example_ThemeSelectNoDeselectionPopupOnTop [
 	select allowDeselection: false.
 	select position: 210 @ 150.
 	select width: 200.
-	select popupWindowPlacement: ToTopLeftPlacement new.
-	select openInSpace 
+	"select manager measurement:
+		(ToActionMeasurement new action: [ :w :evt |
+			 w root hFitContent ])."
+	select popupWindowPlacement: ToTopCenterPlacement new.
+	select openInSpace
 ]
 
 { #category : #select }
@@ -4694,13 +4646,19 @@ ToSandBox class >> example_overlayWindow2 [
 		     size: 300 @ 300;
 		     position: 50 @ 50.
 	windowManager := ToAnchoredWindowManager new.
-	windowManager placement: (ToActionPlacement new action: [ :theWin  :evt | 
-			| theElem theRoot |
-				theElem := theWin  element.
-				theRoot := theWin  anchorRoot.	
-			theWin position: (theElem bounds inParent: theRoot) bounds topLeft + (20 @ 40).
-	theWin width: theElem width - 40.
-	theWin height: theElem height - 60  ]).
+	windowManager measurement:
+		(ToActionMeasurement new action: [ :theWin :evt |
+			 | theElem |
+			 theElem := theWin element.
+			 theWin width: theElem width - 40.
+			 theWin height: theElem height - 60 ]).
+	windowManager placement:
+		(ToActionPlacement new action: [ :theWin :evt |
+			 | theElem theRoot |
+			 theElem := theWin element.
+			 theRoot := theWin anchorRoot.
+			 theWin position:
+				 (theElem bounds inParent: theRoot) bounds topLeft + (20 @ 40) ]).
 
 	windowManager anchorRoot: e.
 	e addEventHandler: windowManager.

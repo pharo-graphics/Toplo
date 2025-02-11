@@ -4,6 +4,19 @@ Class {
 	#category : #'Toplo-Widget-Menu-Window'
 }
 
+{ #category : #'api - displaying' }
+ToMenuInlineWindowMode >> arrangeWindow: aWindow onEvent: anEvent [
+
+	| w |
+	w := 0.
+	manager element parentMenuDo: [ :pm |
+		pm menuWindow collectedNodesDo: [ :node |
+			w := w max: node measuredWidth ] ].
+	manager element parentMenuDo: [ :pm |
+		pm menuWindow collectedNodesDo: [ :node |
+			node measuredExtent: w @ node measuredHeight ] ]
+]
+
 { #category : #accessing }
 ToMenuInlineWindowMode >> menuBarOwner [ 
 

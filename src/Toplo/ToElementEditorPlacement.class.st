@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'innerElement'
 	],
-	#category : #'Toplo-Core-Window'
+	#category : #'Toplo-Core-Window-Support'
 }
 
 { #category : #api }

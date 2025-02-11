@@ -21,29 +21,27 @@ ToSelectPopupWindowManager >> defaultMaxHeight [
 ]
 
 { #category : #initialization }
+ToSelectPopupWindowManager >> defaultMeasurement [
+
+	^ ToSameWidthMeasurement new
+]
+
+{ #category : #initialization }
 ToSelectPopupWindowManager >> defaultMinHeight [
 
 	^ 0
 ]
 
-{ #category : #initializing }
+{ #category : #initialization }
 ToSelectPopupWindowManager >> defaultPlacement [
 
 	^ ToActionPlacement new
 		  action: [ :theWin  :evt | | theElem theRoot |
 			  theElem := theWin  element.
 			  theRoot := theWin  anchorRoot.
-			  theWin width: theElem measuredWidth.
 			  theWin position:
 					  (theElem bounds inParent: theRoot) bounds bottomLeft ];
 		  yourself
-]
-
-{ #category : #initialization }
-ToSelectPopupWindowManager >> defaultWidthHook [
-
-	^ [ :theWindow :theElement :event |
-	  theElement measuredWidth ]
 ]
 
 { #category : #accessing }

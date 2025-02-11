@@ -14,7 +14,8 @@ Class {
 ToAnchoredWindowManager class >> overlay [
 
 	^ self new
-		  placement: ToOverlayPlacement new;
+		  placement: ToTopLeftDownPlacement new;
+		  measurement: ToOverlayMeasurement new;
 		  yourself
 ]
 
@@ -32,7 +33,7 @@ ToAnchoredWindowManager >> anchorRoot: anElement [
 	mode anchorRoot: anElement
 ]
 
-{ #category : #'bounds hook' }
+{ #category : #'window handling' }
 ToAnchoredWindowManager >> arrangeWindowOnEvent: anEvent [
 
 	currentWindow ifNil: [ ^ self ].
@@ -111,12 +112,18 @@ ToAnchoredWindowManager >> defaultBuilder [
 ]
 
 { #category : #initialization }
+ToAnchoredWindowManager >> defaultMeasurement [
+
+	^ ToNoWindowMeasurement new
+]
+
+{ #category : #initialization }
 ToAnchoredWindowManager >> defaultMode [
 
 	^ self newPopupMode 
 ]
 
-{ #category : #initializing }
+{ #category : #initialization }
 ToAnchoredWindowManager >> defaultPlacement [ 
 
 	^ ToTopLeftDownPlacement new
@@ -203,6 +210,12 @@ ToAnchoredWindowManager >> inlineWindowClass [
 ToAnchoredWindowManager >> isInline [ 
 
 	^ mode isInline
+]
+
+{ #category : #accessing }
+ToAnchoredWindowManager >> measurement: aMeasurement [
+
+	mode measurement: aMeasurement 
 ]
 
 { #category : #accessing }

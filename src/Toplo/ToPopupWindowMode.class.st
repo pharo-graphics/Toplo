@@ -3,9 +3,10 @@ Class {
 	#superclass : #ToWindowMode,
 	#instVars : [
 		'anchorRoot',
-		'placement'
+		'placement',
+		'measurement'
 	],
-	#category : #'Toplo-Core-Window'
+	#category : #'Toplo-Core-Window-Support'
 }
 
 { #category : #accessing }
@@ -25,7 +26,20 @@ ToPopupWindowMode >> anchorRoot: anElement [
 { #category : #'api - displaying' }
 ToPopupWindowMode >> arrangeWindow: aWindow onEvent: anEvent [
 
+	self measurement arrangeWindow: aWindow onEvent: anEvent.
 	self placement arrangeWindow: aWindow onEvent: anEvent
+]
+
+{ #category : #accessing }
+ToPopupWindowMode >> measurement [ 
+
+	^ measurement ifNil: [ measurement := manager defaultMeasurement ] 
+]
+
+{ #category : #accessing }
+ToPopupWindowMode >> measurement: aMeasurement [
+
+	measurement := aMeasurement 
 ]
 
 { #category : #accessing }

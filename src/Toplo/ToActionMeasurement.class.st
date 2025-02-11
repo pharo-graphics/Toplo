@@ -1,6 +1,6 @@
 Class {
-	#name : #ToActionPlacement,
-	#superclass : #ToWindowPlacement,
+	#name : #ToActionMeasurement,
+	#superclass : #ToWindowMeasurement,
 	#instVars : [
 		'action'
 	],
@@ -8,14 +8,14 @@ Class {
 }
 
 { #category : #accessing }
-ToActionPlacement >> action: aValuable [
+ToActionMeasurement >> action: aValuable [
 	" aValuable takes the window and the event as arguments "
 
 	action := aValuable
 ]
 
 { #category : #api }
-ToActionPlacement >> arrangeWindow: aWindow onEvent: anEvent [
+ToActionMeasurement >> arrangeWindow: aWindow onEvent: anEvent [
 
 	action value: aWindow value: anEvent 
 ]

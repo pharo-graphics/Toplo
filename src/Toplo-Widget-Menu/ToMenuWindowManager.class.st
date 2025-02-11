@@ -28,7 +28,7 @@ ToMenuWindowManager >> canCloseOnPickingEvent: anEvent [
 	^ super canCloseOnPickingEvent: anEvent
 ]
 
-{ #category : #initializing }
+{ #category : #initialization }
 ToMenuWindowManager >> defaultPlacement [
 
 	^ ToMenuPlacement new

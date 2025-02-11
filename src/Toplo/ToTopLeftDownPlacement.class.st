@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTopLeftDownPlacement,
 	#superclass : #ToWindowPlacement,
-	#category : #'Toplo-Core-Window'
+	#category : #'Toplo-Core-Window-Support'
 }
 
 { #category : #api }

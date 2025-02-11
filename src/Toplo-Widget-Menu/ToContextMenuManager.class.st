@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
-{ #category : #initializing }
+{ #category : #initialization }
 ToContextMenuManager >> defaultPlacement [
 
 	^ ToPickedPlacement new

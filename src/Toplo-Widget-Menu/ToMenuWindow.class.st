@@ -6,11 +6,11 @@ Class {
 	#category : #'Toplo-Widget-Menu-Window'
 }
 
-{ #category : #'api - displaying' }
+{ #category : #'t - inline window element - accessing' }
 ToMenuWindow >> correctedPositionWithinAnchorRoot [
 
 	| t rect rootRect parentMenu parentMenuBounds rootMenuOrMenuBar |
-	rect := self bounds inSpace bounds asRectangle.
+	rect := self measuredBounds inSpace bounds asRectangle.
 	rootRect := 0 @ 0 extent: self anchorRoot extent.
 	t := rect amountToTranslateWithin: rootRect.
 	" the parent menu is the element of my window manager "

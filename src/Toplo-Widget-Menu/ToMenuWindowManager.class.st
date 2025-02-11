@@ -29,6 +29,12 @@ ToMenuWindowManager >> canCloseOnPickingEvent: anEvent [
 ]
 
 { #category : #initialization }
+ToMenuWindowManager >> defaultMeasurement [
+
+	^ ToMenuMeasurement new
+]
+
+{ #category : #initialization }
 ToMenuWindowManager >> defaultPlacement [
 
 	^ ToMenuPlacement new
@@ -45,7 +51,7 @@ ToMenuWindowManager >> eventsToHandle [
 { #category : #accessing }
 ToMenuWindowManager >> inlineWindowClass [
 
-	^ ToInlineMenuWindowElement
+	^ ToMenuInlineWindowElement
 ]
 
 { #category : #'event handling' }

@@ -7,12 +7,6 @@ Class {
 	#category : #'Toplo-Core-Window-Support'
 }
 
-{ #category : #'api - displaying' }
-ToWindowMode >> arrangeWindow: aWindow onEvent: anEvent [
-
-	self subclassResponsibility 
-]
-
 { #category : #accessing }
 ToWindowMode >> element [ 
 
@@ -29,6 +23,12 @@ ToWindowMode >> isInline [
 ToWindowMode >> manager: aManager [
 
 	manager := aManager
+]
+
+{ #category : #'api - displaying' }
+ToWindowMode >> measureWindow: aWindow onEvent: anEvent [
+
+	self subclassResponsibility 
 ]
 
 { #category : #'instance creation' }
@@ -49,6 +49,12 @@ ToWindowMode >> onInstalledIn: aManager [
 ToWindowMode >> onUninstalledIn: aManager [
 
 	manager := nil
+]
+
+{ #category : #'api - displaying' }
+ToWindowMode >> positionWindow: aWindow onEvent: anEvent [
+
+	self subclassResponsibility 
 ]
 
 { #category : #'window handling' }

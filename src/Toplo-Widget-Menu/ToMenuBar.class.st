@@ -189,7 +189,8 @@ ToMenuBar >> onMeasure: anExtentMeasurementSpec [
 	w := 0.
 	self collectedNodesDo: [ :child | w := w max: child measuredWidth ].
 	self collectedNodesDo: [ :child |
-		child measuredExtent: w @ child measuredHeight ]
+		child measuredWidth < w ifTrue: [
+			child measuredExtent: w @ child measuredHeight ] ]
 ]
 
 { #category : #'adding-removing' }

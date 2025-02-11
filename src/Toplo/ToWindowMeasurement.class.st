@@ -3,3 +3,10 @@ Class {
 	#superclass : #ToWindowPreparing,
 	#category : #'Toplo-Core-Window-Support'
 }
+
+{ #category : #api }
+ToWindowMeasurement >> measureWindow: aWindow onEvent: anEvent [
+
+	self subclassResponsibility 
+
+]

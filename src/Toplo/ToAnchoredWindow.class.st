@@ -27,6 +27,21 @@ ToAnchoredWindow >> dispatchOpenedEvent [
 	self element dispatchEvent: self newOpenedEvent 
 ]
 
+{ #category : #layout }
+ToAnchoredWindow >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
+
+	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
+	self checkLayoutStepOnLayout: aBounds context: aBlElementBoundsUpdateContext
+]
+
+{ #category : #layout }
+ToAnchoredWindow >> onMeasure: anExtentMeasurementSpec [
+
+	super onMeasure: anExtentMeasurementSpec.
+	self lastPopupEvent ifNil: [ ^ self ]. 
+	self measureWindowOnEvent: self lastPopupEvent 
+]
+
 { #category : #'api - displaying' }
 ToAnchoredWindow >> toThemeInstalled [
 

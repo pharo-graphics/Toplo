@@ -5,16 +5,17 @@ Class {
 }
 
 { #category : #'api - displaying' }
-ToMenuInlineWindowMode >> arrangeWindow: aWindow onEvent: anEvent [
+ToMenuInlineWindowMode >> measureWindow: aWindow onEvent: anEvent [
 
-	| w |
-	w := 0.
-	manager element parentMenuDo: [ :pm |
-		pm menuWindow collectedNodesDo: [ :node |
-			w := w max: node measuredWidth ] ].
-	manager element parentMenuDo: [ :pm |
-		pm menuWindow collectedNodesDo: [ :node |
-			node measuredExtent: w @ node measuredHeight ] ]
+	"| winWidth nodesWidth |
+	winWidth := aWindow measuredWidth.
+	nodesWidth := 0.0.
+	aWindow collectedNodesDo: [ :node |
+		nodesWidth := nodesWidth max: node measuredWidth ].
+	winWidth < nodesWidth ifTrue: [
+		aWindow measuredExtent: nodesWidth @ aWindow measuredHeight ].
+	aWindow collectedNodesDo: [ :node |
+		node measuredWidth < nodesWidth ifTrue: [ node width: nodesWidth ] ]"
 ]
 
 { #category : #accessing }

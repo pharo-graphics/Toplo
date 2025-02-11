@@ -14,8 +14,8 @@ ToActionMeasurement >> action: aValuable [
 	action := aValuable
 ]
 
-{ #category : #api }
-ToActionMeasurement >> arrangeWindow: aWindow onEvent: anEvent [
+{ #category : #'as yet unclassified' }
+ToActionMeasurement >> measureWindow: aWindow onEvent: anEvent [
 
 	action value: aWindow value: anEvent 
 ]

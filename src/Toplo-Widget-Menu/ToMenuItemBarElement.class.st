@@ -21,6 +21,12 @@ ToMenuItemBarElement >> configureLayoutIn: aListHolder [
 		ifFalse: [ self vFitContent ]
 ]
 
+{ #category : #'t - bar element' }
+ToMenuItemBarElement >> defaultInnerElement [
+
+	^ ToMenuInnerBarElement onBarElement: self
+]
+
 { #category : #'t - item bar element - accessing' }
 ToMenuItemBarElement >> defaultNodeManagerClass [
 

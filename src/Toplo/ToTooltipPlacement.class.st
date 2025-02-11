@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #api }
-ToTooltipPlacement >> arrangeWindow: aWindow onEvent: anEvent [
+ToTooltipPlacement >> positionWindow: aWindow onEvent: anEvent [
 
 	| root element pos |
 	root := aWindow anchorRoot.

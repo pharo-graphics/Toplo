@@ -22,8 +22,6 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 				inlineGap := e valueOfTokenNamed: #'inline-item-gap'.
 				anyHaveIcon ifTrue: [
 					align := e valueOfTokenNamed: #'menu-item-start-alignment' ].
-				e isInInlineWindow ifTrue: [
-					align := align + (e inlineWindowLevel * inlineGap) ].
 				e button startAlignment: align.
 				anyIsMenu ifTrue: [
 					e isStartToEnd

@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #api }
-ToSameWidthMeasurement >> arrangeWindow: aWindow onEvent: anEvent [
+ToSameWidthMeasurement >> measureWindow: aWindow onEvent: anEvent [
 
 	aWindow width: aWindow element measuredWidth 
 ]

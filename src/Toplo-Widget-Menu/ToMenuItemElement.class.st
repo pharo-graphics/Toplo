@@ -70,7 +70,7 @@ ToMenuItemElement >> inlineWindowLevel [
 	| l |
 	l := 0.
 	self withAllParentsDo: [ :p |
-		(p isKindOf: ToInlineMenuWindowElement) ifTrue: [ l := l + 1 ] ].
+		(p isKindOf: ToMenuInlineWindowElement) ifTrue: [ l := l + 1 ] ].
 	^ l
 ]
 

@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #api }
-ToTopLeftDownPlacement >> arrangeWindow: aWindow onEvent: anEvent [
+ToTopLeftDownPlacement >> positionWindow: aWindow onEvent: anEvent [
 
 	| root element pos |
 	root := aWindow anchorRoot.

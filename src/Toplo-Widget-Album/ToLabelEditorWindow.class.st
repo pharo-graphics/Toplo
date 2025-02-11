@@ -4,12 +4,6 @@ Class {
 	#category : #'Toplo-Widget-Album-LabelEditor'
 }
 
-{ #category : #'api - displaying' }
-ToLabelEditorWindow >> afterCustomizedToFitAnchorRootDo: aBlock [
-
-	aBlock value
-]
-
 { #category : #accessing }
 ToLabelEditorWindow >> closedEventClass [ 
 

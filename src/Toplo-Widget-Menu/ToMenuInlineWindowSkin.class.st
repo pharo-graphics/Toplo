@@ -1,11 +1,11 @@
 Class {
-	#name : #ToInlineMenuWindowSkin,
+	#name : #ToMenuInlineWindowSkin,
 	#superclass : #ToRawSkin,
 	#category : #'Toplo-Widget-Menu-Window'
 }
 
 { #category : #'event handling' }
-ToInlineMenuWindowSkin >> installSkinEvent: anEvent [
+ToMenuInlineWindowSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -13,7 +13,7 @@ ToInlineMenuWindowSkin >> installSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToInlineMenuWindowSkin >> openedSkinEvent: anEvent [
+ToMenuInlineWindowSkin >> openedSkinEvent: anEvent [
 
 	super openedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |

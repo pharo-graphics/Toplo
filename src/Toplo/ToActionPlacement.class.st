@@ -15,7 +15,7 @@ ToActionPlacement >> action: aValuable [
 ]
 
 { #category : #api }
-ToActionPlacement >> arrangeWindow: aWindow onEvent: anEvent [
+ToActionPlacement >> positionWindow: aWindow onEvent: anEvent [
 
 	action value: aWindow value: anEvent 
 ]

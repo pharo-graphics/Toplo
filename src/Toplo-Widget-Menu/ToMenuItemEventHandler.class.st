@@ -47,7 +47,7 @@ ToMenuItemEventHandler >> mouseLeaveEvent: anEvent [
 		ifTrue: [ ^ self ].
 	target isEnabled ifFalse: [ ^ self ].
 	(target firstInParentChainSatisfying: [ :e |
-		 e isKindOf: ToInlineMenuWindowElement ]) ifNotNil: [ :w | ^ self ].
+		 e isKindOf: ToMenuInlineWindowElement ]) ifNotNil: [ :w | ^ self ].
 
 	target closeAllOtherPopupMenuWindows 
 ]

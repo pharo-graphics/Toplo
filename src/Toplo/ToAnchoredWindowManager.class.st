@@ -37,7 +37,8 @@ ToAnchoredWindowManager >> anchorRoot: anElement [
 ToAnchoredWindowManager >> arrangeWindowOnEvent: anEvent [
 
 	currentWindow ifNil: [ ^ self ].
-	mode arrangeWindow: currentWindow onEvent: anEvent
+	self measureWindowOnEvent: anEvent.
+	self positionWindowOnEvent: anEvent
 ]
 
 { #category : #'window handling' }
@@ -139,14 +140,14 @@ ToAnchoredWindowManager >> element [
 ToAnchoredWindowManager >> elementExtentChangedEvent: anEvent [
 
 	currentWindow ifNil: [ ^ self ].
-	mode arrangeWindow: currentWindow onEvent: nil
+	self arrangeWindowOnEvent: nil
 ]
 
 { #category : #'event handling' }
 ToAnchoredWindowManager >> elementPositionInSpaceChangedEvent: anEvent [
 
 	currentWindow ifNil: [ ^ self ].
-	mode arrangeWindow: currentWindow onEvent: anEvent
+	self arrangeWindowOnEvent: anEvent
 ]
 
 { #category : #'event handling' }
@@ -210,6 +211,13 @@ ToAnchoredWindowManager >> inlineWindowClass [
 ToAnchoredWindowManager >> isInline [ 
 
 	^ mode isInline
+]
+
+{ #category : #'window handling' }
+ToAnchoredWindowManager >> measureWindowOnEvent: anEvent [
+
+	currentWindow ifNil: [ ^ self ].
+	mode measureWindow: currentWindow onEvent: anEvent
 ]
 
 { #category : #accessing }
@@ -328,6 +336,13 @@ ToAnchoredWindowManager >> placement: aPlacement [
 ToAnchoredWindowManager >> popupWindowClass [
 
 	^ ToAnchoredWindow 
+]
+
+{ #category : #'window handling' }
+ToAnchoredWindowManager >> positionWindowOnEvent: anEvent [
+
+	currentWindow ifNil: [ ^ self ].
+	mode positionWindow: currentWindow onEvent: anEvent
 ]
 
 { #category : #'window handling' }

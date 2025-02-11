@@ -1,5 +1,5 @@
 Class {
-	#name : #ToInlineMenuWindowElement,
+	#name : #ToMenuInlineWindowElement,
 	#superclass : #ToCustomMenuItem,
 	#traits : 'TToAnchoredWindowElement + TToMenuWindowModel + TToMenuItemElementContainer',
 	#classTraits : 'TToAnchoredWindowElement classTrait + TToMenuWindowModel classTrait + TToMenuItemElementContainer classTrait',
@@ -7,13 +7,13 @@ Class {
 }
 
 { #category : #'t - menu window model' }
-ToInlineMenuWindowElement >> closeWindow [
+ToMenuInlineWindowElement >> closeWindow [
 
 	self close
 ]
 
 { #category : #'api - displaying' }
-ToInlineMenuWindowElement >> dispatchClosedEvent [
+ToMenuInlineWindowElement >> dispatchClosedEvent [
 
 	" need to dispatch also to the element holding the window
 	so that the window manager can manage the window 
@@ -24,7 +24,7 @@ ToInlineMenuWindowElement >> dispatchClosedEvent [
 ]
 
 { #category : #testing }
-ToInlineMenuWindowElement >> includes: anElement [
+ToMenuInlineWindowElement >> includes: anElement [
 
 	self = anElement ifTrue: [ ^ true ].
 	(self items anySatisfy: [ :e | e includes: anElement ]) ifTrue: [
@@ -33,44 +33,44 @@ ToInlineMenuWindowElement >> includes: anElement [
 ]
 
 { #category : #initialization }
-ToInlineMenuWindowElement >> initialize [ 
+ToMenuInlineWindowElement >> initialize [ 
 
 	super initialize.
 	self addEventHandler: ToMenuWindowEventHandler new
 ]
 
 { #category : #'t - menu window model' }
-ToInlineMenuWindowElement >> isInline [ 
+ToMenuInlineWindowElement >> isInline [ 
 
 	^ true
 ]
 
 { #category : #'t - menu window model' }
-ToInlineMenuWindowElement >> isSubmenu [
+ToMenuInlineWindowElement >> isSubmenu [
 
 	^ super isSubmenu
 ]
 
 { #category : #'t - menu window model' }
-ToInlineMenuWindowElement >> isTopMenu [
+ToMenuInlineWindowElement >> isTopMenu [
 
 	^ false
 ]
 
 { #category : #accessing }
-ToInlineMenuWindowElement >> itemBar [
+ToMenuInlineWindowElement >> itemBar [
 
 	^ self element itemBar
 ]
 
 { #category : #accessing }
-ToInlineMenuWindowElement >> itemContainer [
+ToMenuInlineWindowElement >> itemContainer [
 
 	^ self element
 ]
 
 { #category : #accessing }
-ToInlineMenuWindowElement >> itemList [
+ToMenuInlineWindowElement >> itemList [
 
 	self
 		deprecated: 'Use itemBar instead'
@@ -80,31 +80,45 @@ ToInlineMenuWindowElement >> itemList [
 ]
 
 { #category : #accessing }
-ToInlineMenuWindowElement >> items [
+ToMenuInlineWindowElement >> items [
 
 	^ self itemContainer ifNil: [ ^ #(  ) ] ifNotNil: [ :w | w items ]
 ]
 
 { #category : #'t - menu window model' }
-ToInlineMenuWindowElement >> menuWindow [
+ToMenuInlineWindowElement >> menuWindow [
 
 	^ self 
 ]
 
 { #category : #skin }
-ToInlineMenuWindowElement >> newRawSkin [ 
+ToMenuInlineWindowElement >> newRawSkin [ 
 
-	^ ToInlineMenuWindowSkin new
+	^ ToMenuInlineWindowSkin new
+]
+
+{ #category : #layout }
+ToMenuInlineWindowElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
+
+	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
+	self checkLayoutStepOnLayout: aBounds context: aBlElementBoundsUpdateContext
+]
+
+{ #category : #layout }
+ToMenuInlineWindowElement >> onMeasure: anExtentMeasurementSpec [
+
+	super onMeasure: anExtentMeasurementSpec.
+	self measureWindowOnEvent: self lastPopupEvent 
 ]
 
 { #category : #'t - inline window element - accessing' }
-ToInlineMenuWindowElement >> root [ 
+ToMenuInlineWindowElement >> root [ 
 
 	^ self
 ]
 
 { #category : #'api - displaying' }
-ToInlineMenuWindowElement >> toThemeInstalled [
+ToMenuInlineWindowElement >> toThemeInstalled [
 
 	| lt |
 	self element ifNotNil: [ :e |

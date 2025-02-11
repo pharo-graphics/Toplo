@@ -4,16 +4,21 @@ Class {
 	#category : #'Toplo-Core-Window-Support'
 }
 
-{ #category : #'api - displaying' }
-ToInlineWindowMode >> arrangeWindow: aWindow onEvent: anEvent [
-
-	
-]
-
 { #category : #testing }
 ToInlineWindowMode >> isInline [ 
 
 	^ true
+]
+
+{ #category : #'api - displaying' }
+ToInlineWindowMode >> measureWindow: aWindow onEvent: anEvent [
+
+
+]
+
+{ #category : #'api - displaying' }
+ToInlineWindowMode >> positionWindow: aWindow onEvent: anEvent [
+
 ]
 
 { #category : #'window handling' }

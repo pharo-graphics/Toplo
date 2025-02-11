@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #api }
-ToPickedPlacement >> arrangeWindow: aWindow onEvent: anEvent [
+ToPickedPlacement >> positionWindow: aWindow onEvent: anEvent [
 
 	anEvent ifNil: [ ^ self ].
 	aWindow position: anEvent position

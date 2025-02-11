@@ -2249,7 +2249,6 @@ ToSandBox class >> example_Popup1 [
 		             position: 10 @ 10;
 		             size: 400 @ 200;
 		             yourself.
-
 	menu := ToElement new
 		        layout: BlLinearLayout vertical;
 		        id: #'red-button';
@@ -2267,9 +2266,6 @@ ToSandBox class >> example_Popup1 [
 		popup border: Color black.
 		item := ToElement new size: 150 @ 90.
 		item background: Color yellow.
-		item addEventHandler: (BlEventHandler
-				 on: BlPrimaryClickEvent
-				 do: [ self inform: 'Click' ]).
 		popup root addChild: item ].
 	menu addEventHandler: popupWindowHandler.
 	container pane addChild: menu.
@@ -2800,7 +2796,7 @@ ToSandBox class >> example_SelectMultiNotFiltrable [
 	select popupListElement nodeBuilder: [ :node :dataItem :holder |
 		node addChild: (ToLabel text: dataItem asString) hMatchParent ].
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select manager anchorRoot: innerWindow root.
 	select hExact: 300.
 	select position: 50 @ 50.
 
@@ -3624,6 +3620,87 @@ ToSandBox class >> example_TwoCoordinateLists [
 ]
 
 { #category : #menu }
+ToSandBox class >> example_WithCheckBox [
+
+	| menu sub subsub grp right center left frame subsubsub |
+	menu := ToMenu new.
+	menu labelText: 'File'.
+	menu addItem: (ToMenuItem new
+			 labelText: 'Inspect';
+			 whenClickedDo: [ menu space root inspect ];
+			 yourself).
+	menu addItem: (ToToggleMenuItem new
+			 labelText: 'Toggle';
+			 yourself).
+	menu addItem: (ToMenuItem new labelText: 'Open file').
+	menu items last icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	menu addItem: (ToMenuItem new labelText: 'Disabled').
+	menu items last icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	"menu disableAtPosition: menu items last positionInItemList."
+	menu items last disable.
+
+	menu addSeparator.
+
+	sub := ToMenu new labelText: 'Save All'.
+	sub beInline.
+	sub addItem: (ToMenuItem new
+			 labelText: 'Locally';
+			 yourself).
+
+	subsub := ToMenu new
+		          labelText: 'Externally';
+		          icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	"subsub beInline."
+	subsubsub := ToMenu new
+		             labelText: 'When';
+		             icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	subsubsub beInline.
+	subsubsub addItem: (ToMenuItem new
+			 labelText: 'now';
+			 yourself).
+	subsubsub addItem: (ToMenuItem new
+			 labelText: 'later';
+			 yourself).
+
+	subsub addItem: subsubsub.
+	sub addItem: subsub.
+	menu addItem: sub.
+	menu addSeparator.
+
+	menu addItem: (ToRadioMenuItem new
+			 label: (ToLabel text: 'Check');
+			 whenClickedDo: [ :event | event currentTarget isChecked traceCr ];
+			 yourself).
+	grp := ToCheckableGroup new.
+	right := ToCheckMenuItem new
+		         labelText: 'Right';
+		         id: #right.
+	center := ToCheckMenuItem new
+		          labelText: 'Center';
+		          id: #center.
+	left := ToCheckMenuItem new
+		        labelText: 'Left';
+		        id: #left.
+	center checked: true.
+
+	grp register: right button.
+	grp register: center button.
+	grp register: left button.
+
+	menu addSeparator.
+	menu addAllItems: {
+			right.
+			center.
+			left }.
+	menu addSeparator.
+
+	menu position: 10 @ 10.
+	frame := ToInnerWindow new.
+	frame pane addChild: menu.
+	frame openInSpace
+]
+
+{ #category : #menu }
 ToSandBox class >> example_WithSeparator [
 
 	| menu container |
@@ -4266,37 +4343,230 @@ ToSandBox class >> example_inline1 [
 	menu := ToMenu new.
 	space := BlSpace new.
 	menu labelText: 'File'.
-	"menu addItem: (ToMenu new labelText: 'Sub menu')."
-	"sub := ToMenu new
-		       labelText: 'Sub menu';
-		       "" icon: (ToImage inner: (self iconNamed: #solidMenu));""
-			       yourself.
-	sub addItem: (ToMenuItem new labelText: 'Sub item').
-	menu addItem: sub."
 
 	sub := ToMenu new
 		       labelText: 'Save All';
 		       icon: (ToImage inner: (self iconNamed: #solidMenu));
 		       yourself.
 	sub beInline.
-	"sub addItem: (ToMenuItem new
-			 labelText: 'Locally';
-			 yourself)."
 	subsub := ToMenu new
 		          labelText: 'X';
-		          "icon: (ToImage inner: (self iconNamed: #solidMenu));"
 		          yourself.
 	subsub beInline.
 	subsub closeOnPicking: false.
-	"subsub addItem: (ToMenuItem new
-			 labelText: 'Inspect';
-			 whenClickedDo: [ space root inspect ];
-			 yourself)."
 
 	sub addItem: subsub.
 	menu addItem: sub.
 	space root addChild: menu.
 	space show
+]
+
+{ #category : #menu }
+ToSandBox class >> example_inline2 [
+
+	| menu sub subsub frame subsubsub |
+	menu := ToMenu new.
+	menu labelText: 'File'.
+	menu addItem: (ToMenuItem new
+			 labelText: 'Inspect';
+			 whenClickedDo: [ menu space root inspect ];
+			 yourself).
+	sub := ToMenu new labelText: 'Save All'.
+	sub beInline.
+	sub addItem: (ToMenuItem new
+			 labelText: 'Locally';
+			 yourself).
+
+	subsub := ToMenu new
+		          labelText: 'Externally';
+		          icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	"subsub beInline."
+	subsubsub := ToMenu new
+		             labelText: 'When';
+		             icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	subsubsub beInline.
+	subsubsub addItem: (ToMenuItem new
+			 labelText: 'now';
+			 yourself).
+	subsubsub addItem: (ToMenuItem new
+			 labelText: 'later';
+			 yourself).
+
+	subsub addItem: subsubsub.
+	sub addItem: subsub.
+	menu addItem: sub.
+	menu addSeparator.
+
+	menu position: 10 @ 10.
+	frame := ToInnerWindow new.
+	frame pane addChild: menu.
+	frame openInSpace
+]
+
+{ #category : #menu }
+ToSandBox class >> example_inline3 [
+
+	| menu sub subsub frame subsubsub |
+	menu := ToMenu new.
+	menu labelText: 'File'.
+	menu addItem: (ToMenuItem new
+			 labelText: 'Inspect';
+			 whenClickedDo: [ menu space root inspect ];
+			 yourself).
+	sub := ToMenu new labelText: 'Save All'.
+	sub beInline.
+	sub addItem: (ToMenuItem new
+			 labelText: 'Locally';
+			 yourself).
+
+	subsub := ToMenu new
+		          labelText: 'E';
+		          icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	"subsub beInline."
+	subsubsub := ToMenu new
+		             labelText: 'When';
+		             icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	subsubsub beInline.
+	subsubsub addItem: (ToMenuItem new
+			 labelText: 'now';
+			 yourself).
+	subsubsub addItem: (ToMenuItem new
+			 labelText: 'later';
+			 yourself).
+
+	subsub addItem: subsubsub.
+	sub addItem: subsub.
+	menu addItem: sub.
+	menu addSeparator.
+
+	menu position: 10 @ 10.
+	frame := ToInnerWindow new.
+	frame pane addChild: menu.
+	frame openInSpace
+]
+
+{ #category : #menu }
+ToSandBox class >> example_inline4 [
+
+	| menu sub subsub frame subsubsub |
+	menu := ToMenu new.
+	menu labelText: 'File'.
+	menu addItem: (ToMenuItem new
+			 labelText: 'Inspect';
+			 whenClickedDo: [ menu space root inspect ];
+			 yourself).
+	sub := ToMenu new labelText: 'Save All'.
+	sub beInline.
+	sub addItem: (ToMenuItem new
+			 labelText: 'Locally';
+			 yourself).
+
+	subsub := ToMenu new
+		          labelText: 'E';
+		          icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	subsub beInline.
+	subsubsub := ToMenu new
+		             labelText: 'When';
+		             icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	subsubsub beInline.
+	subsubsub addItem: (ToMenuItem new
+			 labelText: 'now';
+			 yourself).
+	subsubsub addItem: (ToMenuItem new
+			 labelText: 'later';
+			 yourself).
+
+	subsub addItem: subsubsub.
+	sub addItem: subsub.
+	menu addItem: sub.
+	menu addSeparator.
+
+	menu position: 10 @ 10.
+	frame := ToInnerWindow new.
+	frame pane addChild: menu.
+	frame openInSpace
+]
+
+{ #category : #menu }
+ToSandBox class >> example_inline5 [
+
+	| menu sub subsub frame subsubsub |
+	menu := ToMenu new.
+	menu labelText: 'File'.
+	menu addItem: (ToMenuItem new
+			 labelText: 'Inspect';
+			 whenClickedDo: [ menu space root inspect ];
+			 yourself).
+	sub := ToMenu new labelText: 'Save All'.
+	sub beInline.
+	sub addItem: (ToMenuItem new
+			 labelText: 'Locally';
+			 yourself).
+
+	subsub := ToMenu new
+		          labelText: 'Externally';
+		          icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	subsub beInline.
+	subsubsub := ToMenu new
+		             labelText: 'When';
+		             icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	subsubsub beInline.
+	subsubsub addItem: (ToMenuItem new
+			 labelText: 'now';
+			 yourself).
+	subsubsub addItem: (ToMenuItem new
+			 labelText: 'later';
+			 yourself).
+
+	subsub addItem: subsubsub.
+	sub addItem: subsub.
+	menu addItem: sub.
+	menu addSeparator.
+
+	menu position: 10 @ 10.
+	frame := ToInnerWindow new.
+	frame pane addChild: menu.
+	frame openInSpace
+]
+
+{ #category : #menu }
+ToSandBox class >> example_inline6 [
+
+	| menu sub subsub frame subsubsub |
+	menu := ToMenu new.
+	menu labelText: 'File'.
+	menu addItem: (ToMenuItem new
+			 labelText: 'Inspect';
+			 whenClickedDo: [ menu space root inspect ];
+			 yourself).
+	sub := ToMenu new labelText: 'Save All'.
+	sub beInline.
+	sub addItem: (ToMenuItem new
+			 labelText: 'Locally';
+			 yourself).
+
+	subsub := ToMenu new
+		          labelText: 'Externally'.
+	subsub beInline.
+	subsubsub := ToMenu new
+		             labelText: 'When'.
+	subsubsub beInline.
+	subsubsub addItem: (ToMenuItem new
+			 labelText: 'now';
+			 yourself).
+	subsubsub addItem: (ToMenuItem new
+			 labelText: 'later';
+			 yourself).
+
+	subsub addItem: subsubsub.
+	sub addItem: subsub.
+	menu addItem: sub.
+	menu addSeparator.
+
+	menu position: 10 @ 10.
+	frame := ToInnerWindow new.
+	frame pane addChild: menu.
+	frame openInSpace
 ]
 
 { #category : #menu }
@@ -6955,87 +7225,6 @@ ToSandBox class >> example_verticalPaneWithDividerAndSubpanesWithWeight [
 ]
 
 { #category : #menu }
-ToSandBox class >> example_withCheckBox [
-
-	| menu sub subsub grp right center left frame subsubsub |
-	menu := ToMenu new.
-	menu labelText: 'File'.
-	menu addItem: (ToMenuItem new
-			 labelText: 'Inspect';
-			 whenClickedDo: [ menu space root inspect ];
-			 yourself).
-	menu addItem: (ToToggleMenuItem new
-			 labelText: 'Toggle';
-			 yourself).
-	menu addItem: (ToMenuItem new labelText: 'Open file').
-	menu items last icon: (ToImage inner: (self iconNamed: #solidMenu)).
-	menu addItem: (ToMenuItem new labelText: 'Disabled').
-	menu items last icon: (ToImage inner: (self iconNamed: #solidMenu)).
-	"menu disableAtPosition: menu items last positionInItemList."
-	menu items last disable.
-
-	menu addSeparator.
-
-	sub := ToMenu new labelText: 'Save All'.
-	sub beInline.
-	sub addItem: (ToMenuItem new
-			 labelText: 'Locally';
-			 yourself).
-
-	subsub := ToMenu new
-		          labelText: 'Externally';
-		          icon: (ToImage inner: (self iconNamed: #solidMenu)).
-	"subsub beInline."
-	subsubsub := ToMenu new
-		             labelText: 'When';
-		             icon: (ToImage inner: (self iconNamed: #solidMenu)).
-	subsubsub beInline.
-	subsubsub addItem: (ToMenuItem new
-			 labelText: 'now';
-			 yourself).
-	subsubsub addItem: (ToMenuItem new
-			 labelText: 'later';
-			 yourself).
-
-	subsub addItem: subsubsub.
-	sub addItem: subsub.
-	menu addItem: sub.
-	menu addSeparator.
-
-	menu addItem: (ToRadioMenuItem new
-			 label: (ToLabel text: 'Check');
-			 whenClickedDo: [ :event | event currentTarget isChecked traceCr ];
-			 yourself).
-	grp := ToCheckableGroup new.
-	right := ToCheckMenuItem new
-		         labelText: 'Right';
-		         id: #right.
-	center := ToCheckMenuItem new
-		          labelText: 'Center';
-		          id: #center.
-	left := ToCheckMenuItem new
-		        labelText: 'Left';
-		        id: #left.
-	center checked: true.
-
-	grp register: right button.
-	grp register: center button.
-	grp register: left button.
-
-	menu addSeparator.
-	menu addAllItems: {
-			right.
-			center.
-			left }.
-	menu addSeparator.
-
-	menu position: 10 @ 10.
-	frame := ToInnerWindow new.
-	frame pane addChild: menu.
-	frame openInSpace
-]
-
-{ #category : #menu }
 ToSandBox class >> example_withCustomMenuItems [
 
 	| menu grp right center left textField sub lbl item |
@@ -7468,6 +7657,7 @@ ToSandBox class >> newPopup [
 	popupWindowHandler := ToPopupWindowManager new.
 	popupWindowHandler windowBuilder: [ :popup :request |
 		popup border: Color gray.
+		popup hFitContent.
 		popup height: 100.
 		popup addChild: (ToLabel new text: 'A popup window') ].
 	e addEventHandler: popupWindowHandler.

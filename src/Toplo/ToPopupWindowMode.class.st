@@ -24,10 +24,9 @@ ToPopupWindowMode >> anchorRoot: anElement [
 ]
 
 { #category : #'api - displaying' }
-ToPopupWindowMode >> arrangeWindow: aWindow onEvent: anEvent [
+ToPopupWindowMode >> measureWindow: aWindow onEvent: anEvent [
 
-	self measurement arrangeWindow: aWindow onEvent: anEvent.
-	self placement arrangeWindow: aWindow onEvent: anEvent
+	self measurement measureWindow: aWindow onEvent: anEvent
 ]
 
 { #category : #accessing }
@@ -52,6 +51,12 @@ ToPopupWindowMode >> placement [
 ToPopupWindowMode >> placement: aPlacement [
 
 	placement := aPlacement
+]
+
+{ #category : #'api - displaying' }
+ToPopupWindowMode >> positionWindow: aWindow onEvent: anEvent [
+
+	self placement positionWindow: aWindow onEvent: anEvent
 ]
 
 { #category : #'window handling' }

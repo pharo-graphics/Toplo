@@ -4,8 +4,8 @@ Class {
 	#category : #'Toplo-Core-Window-Support'
 }
 
-{ #category : #api }
-ToBottomCenterPlacement >> arrangeWindow: aWindow onEvent: anEvent [
+{ #category : #'as yet unclassified' }
+ToBottomCenterPlacement >> positionWindow: aWindow onEvent: anEvent [
 
 	| theElem theRoot etopLeft ewidth w x |
 	theElem := aWindow element.

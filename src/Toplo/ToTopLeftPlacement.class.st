@@ -4,8 +4,8 @@ Class {
 	#category : #'Toplo-Core-Window-Support'
 }
 
-{ #category : #api }
-ToTopLeftPlacement >> arrangeWindow: aWindow onEvent: anEvent [
+{ #category : #'api - displaying' }
+ToTopLeftPlacement >> positionWindow: aWindow onEvent: anEvent [
 
 	| root element |
 	root := aWindow anchorRoot.

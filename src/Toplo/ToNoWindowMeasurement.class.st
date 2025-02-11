@@ -5,5 +5,5 @@ Class {
 }
 
 { #category : #api }
-ToNoWindowMeasurement >> arrangeWindow: aWindow onEvent: anEvent [
+ToNoWindowMeasurement >> measureWindow: aWindow onEvent: anEvent [
 ]

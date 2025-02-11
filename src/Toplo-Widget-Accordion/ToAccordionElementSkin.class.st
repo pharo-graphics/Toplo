@@ -1,11 +1,11 @@
 Class {
-	#name : #ToAccordionBaseElementSkin,
+	#name : #ToAccordionElementSkin,
 	#superclass : #ToRawSkin,
 	#category : #'Toplo-Widget-Accordion-Core'
 }
 
 { #category : #'event handling' }
-ToAccordionBaseElementSkin >> installSkinEvent: anEvent [
+ToAccordionElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |

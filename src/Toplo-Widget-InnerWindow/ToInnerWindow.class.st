@@ -4,15 +4,10 @@ Class {
 	#traits : 'TToElementWithResizeGrips',
 	#classTraits : 'TToElementWithResizeGrips classTrait',
 	#instVars : [
-		'title',
-		'titleLabel',
-		'barPullHandler',
 		'paneElement',
-		'barElement',
-		'closeButton',
-		'expandButton'
+		'barElement'
 	],
-	#category : #'Toplo-Widget-InnerWindow'
+	#category : #'Toplo-Widget-InnerWindow-Core'
 }
 
 { #category : #accessing }
@@ -22,29 +17,17 @@ ToInnerWindow >> bar [
 ]
 
 { #category : #accessing }
-ToInnerWindow >> bar: anElement [
-
-	barElement ifNotNil: [
-		barElement removeEventHandler: barPullHandler.
-		barElement removeFromParent ].
-	barPullHandler ifNil: [ barPullHandler := self newBarPullHandler ].
-	barElement := anElement.
-	barElement ifNotNil: [ :be |
-		be addEventHandler: barPullHandler.
-		self root addChild: be at: 1 ]
-]
-
-{ #category : #accessing }
 ToInnerWindow >> closeButton [ 
 
-	^ closeButton 
+	^ barElement childWithId: #'close-button' ifNone: [  ]
 ]
 
 { #category : #initialization }
 ToInnerWindow >> defaultBarElement [
 
-	| b fill1 fill2 fill3 fill4 |
+	| b fill1 fill2 fill3 fill4 closeButton expandButton titleLabel |
 	b := ToPane horizontal
+		     id: #'innerWindow-bar';
 		     vFitContent;
 		     yourself.
 	b addEventHandler: (BlEventHandler
@@ -65,23 +48,22 @@ ToInnerWindow >> defaultBarElement [
 	expandButton whenClickedDo: [ self maximize ].
 	expandButton withNullSkin.
 
-	fill1 := BlElement new
-		         constraintsDo: [ :c |
-			         c vertical exact: 1.
-			         c horizontal exact: 6 ].
-	fill2 := BlElement new
-		         constraintsDo: [ :c |
-			         c vertical exact: 1.
-			         c horizontal matchParent ].
-	fill3 := BlElement new
-		         constraintsDo: [ :c |
-			         c vertical exact: 1.
-			         c horizontal matchParent ].
-	fill4 := BlElement new
-		         constraintsDo: [ :c |
-			         c vertical exact: 1.
-			         c horizontal exact: 8 ].
-	titleLabel := ToLabel new text: self title.
+	fill1 := BlElement new constraintsDo: [ :c |
+		         c vertical exact: 1.
+		         c horizontal exact: 6 ].
+	fill2 := BlElement new constraintsDo: [ :c |
+		         c vertical exact: 1.
+		         c horizontal matchParent ].
+	fill3 := BlElement new constraintsDo: [ :c |
+		         c vertical exact: 1.
+		         c horizontal matchParent ].
+	fill4 := BlElement new constraintsDo: [ :c |
+		         c vertical exact: 1.
+		         c horizontal exact: 8 ].
+	titleLabel := ToLabel new
+		              id: #'title-label';
+		              text: self defaultTitle;
+		              yourself.
 	titleLabel hMatchParent.
 
 	b addChildren: {
@@ -101,6 +83,7 @@ ToInnerWindow >> defaultBarElement [
 ToInnerWindow >> defaultPaneElement [
 
 	^ ToInnerWindowPane new
+		  id: #'innerWindow-pane';
 		  matchParent;
 		  layout: self defaultPaneLayout;
 		  yourself
@@ -110,13 +93,6 @@ ToInnerWindow >> defaultPaneElement [
 ToInnerWindow >> defaultPaneLayout [
 
 	^ BlBasicLayout uniqueInstance 
-]
-
-{ #category : #initialization }
-ToInnerWindow >> defaultRootElement [
-
-	^ super defaultRootElement
-		  matchParent
 ]
 
 { #category : #initialization }
@@ -134,7 +110,7 @@ ToInnerWindow >> defaultTitle [
 { #category : #accessing }
 ToInnerWindow >> expandButton [ 
 
-	^ expandButton 
+	^ barElement childWithId: #'expand-button' ifNone: [  ]
 ]
 
 { #category : #initialization }
@@ -143,17 +119,25 @@ ToInnerWindow >> initialize [
 	super initialize.
 	self layout: BlLinearLayout vertical.
 	self size: self defaultSize.
+	self initializeBarElement.
+	self initializePaneElement.
 	self initializeGrips.
-	self grips do: [ :g | g elevation: self defaultElevation ]
 
 ]
 
-{ #category : #initialization }
-ToInnerWindow >> initializeRootElement [
+{ #category : #accessing }
+ToInnerWindow >> initializeBarElement [
 
-	super initializeRootElement.
-	self bar: self defaultBarElement.
-	self pane: self defaultPaneElement	
+	barElement := self defaultBarElement.
+	barElement addEventHandler: self newBarPullHandler.
+	self root addChild: barElement at: 1
+]
+
+{ #category : #accessing }
+ToInnerWindow >> initializePaneElement [
+
+	paneElement := self defaultPaneElement.
+	self root addChild: paneElement after: barElement
 ]
 
 { #category : #skin }
@@ -193,25 +177,19 @@ ToInnerWindow >> pane [
 ]
 
 { #category : #accessing }
-ToInnerWindow >> pane: anElement [
-
-	paneElement ifNotNil: [ :pe | pe removeFromParent ].
-	paneElement := anElement.
-	paneElement ifNotNil: [ :pe |
-		self bar
-			ifNil: [ self root addChild: pe ]
-			ifNotNil: [ :b | self root addChild: pe after: b ] ]
-]
-
-{ #category : #accessing }
 ToInnerWindow >> title [
 
-	^ title ifNil: [ title := self defaultTitle ]
+	^ self titleLabel text asString
 ]
 
 { #category : #accessing }
 ToInnerWindow >> title: aString [
 
-	title := aString.
-	titleLabel ifNotNil: [ titleLabel text: aString ]
+	self titleLabel ifNotNil: [ :tl | tl text: aString ]
+]
+
+{ #category : #accessing }
+ToInnerWindow >> titleLabel [
+
+	^ barElement childWithId: #'title-label' ifNone: [  ]
 ]

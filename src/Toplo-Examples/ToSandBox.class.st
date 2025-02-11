@@ -5,16 +5,43 @@ Class {
 }
 
 { #category : #accordion }
-ToSandBox class >> accordionBaseWithLabel [
+ToSandBox class >> accordionItemWithLabel [
 
-	^ self accordionBaseWithLabelText: 'Header'
+	^ self accordionItemWithLabelText: 'Header'
 ]
 
 { #category : #accordion }
-ToSandBox class >> accordionBaseWithLabelAndAlbumInBody [
+ToSandBox class >> accordionItemWithLabelText: aString [
 
 	| inst |
-	inst := ToAccordionBaseElement new.
+	inst := ToAccordionItemElement new.
+	inst headerBuilder: [ :header |
+		header addChild: (ToLabel text: aString) ].
+	inst bodyBuilder: [ :body |
+		body addChild:
+			(ToLabel new text: 'Body with random background color').
+		body
+			hMatchParent;
+			height: 100;
+			background: Color random ].
+	inst
+		vFitContent;
+		hMatchParent.
+
+	^ inst
+]
+
+{ #category : #accordion }
+ToSandBox class >> accordionWithLabel [
+
+	^ self accordionWithLabelText: 'Header'
+]
+
+{ #category : #accordion }
+ToSandBox class >> accordionWithLabelAndAlbumInBody [
+
+	| inst |
+	inst := ToAccordionElement new.
 	inst headerBuilder: [ :header |
 		header addChild: (ToLabel text: 'Header') ].
 	inst bodyBuilder: [ :body |
@@ -44,10 +71,10 @@ ToSandBox class >> accordionBaseWithLabelAndAlbumInBody [
 ]
 
 { #category : #accordion }
-ToSandBox class >> accordionBaseWithLabelText: aString [
+ToSandBox class >> accordionWithLabelText: aString [
 
 	| inst |
-	inst := ToAccordionBaseElement new.
+	inst := ToAccordionElement new.
 	inst headerBuilder: [ :header |
 		header addChild: (ToLabel text: aString) ].
 	inst bodyBuilder: [ :body |
@@ -63,33 +90,6 @@ ToSandBox class >> accordionBaseWithLabelText: aString [
 	inst
 		addEventHandlerOn: ToAccordionCheckedEvent
 		do: [ :evt | evt traceCr ].
-	^ inst
-]
-
-{ #category : #accordion }
-ToSandBox class >> accordionItemWithLabel [
-
-	^ self accordionItemWithLabelText: 'Header'
-]
-
-{ #category : #accordion }
-ToSandBox class >> accordionItemWithLabelText: aString [
-
-	| inst |
-	inst := ToAccordionItemElement new.
-	inst headerBuilder: [ :header |
-		header addChild: (ToLabel text: aString) ].
-	inst bodyBuilder: [ :body |
-		body addChild:
-			(ToLabel new text: 'Body with random background color').
-		body
-			hMatchParent;
-			height: 100;
-			background: Color random ].
-	inst
-		vFitContent;
-		hMatchParent.
-
 	^ inst
 ]
 
@@ -584,7 +584,7 @@ ToSandBox class >> exampleAccordionWithLabel [
 
 	<script>
 	| inst |
-	inst := self accordionBaseWithLabel.
+	inst := self accordionWithLabel.
 	inst openInSpace.
 
 	^ inst
@@ -595,7 +595,7 @@ ToSandBox class >> exampleAccordionWithLabelAndAlbumInBody [
 
 	<script>
 	| inst |
-	inst := self accordionBaseWithLabelAndAlbumInBody.
+	inst := self accordionWithLabelAndAlbumInBody.
 	inst openInSpace.
 	^ inst
 ]
@@ -605,7 +605,7 @@ ToSandBox class >> exampleAccordionWithLabelChecked [
 
 	<script>
 	| inst |
-	inst := self accordionBaseWithLabel.
+	inst := self accordionWithLabel.
 	inst checked: true.
 	inst openInSpace.
 	^ inst
@@ -616,7 +616,7 @@ ToSandBox class >> exampleAccordionWithLabelExpanded [
 
 	<script>
 	| inst |
-	inst := self accordionBaseWithLabel.
+	inst := self accordionWithLabel.
 	inst isExpanded: true.
 	inst openInSpace.
 	^ inst
@@ -627,7 +627,7 @@ ToSandBox class >> exampleAccordionWithLabelNotPreservingBody [
 
 	<script>
 	| inst |
-	inst := self accordionBaseWithLabel.
+	inst := self accordionWithLabel.
 	inst preserveBody: false.
 	inst openInSpace.
 	^ inst
@@ -638,7 +638,7 @@ ToSandBox class >> exampleAccordionWithLabelNotPreservingBodyAndExpanded [
 
 	<script>
 	| inst |
-	inst := self accordionBaseWithLabel.
+	inst := self accordionWithLabel.
 	inst preserveBody: false.
 	inst isExpanded: true.
 	inst openInSpace.
@@ -650,7 +650,7 @@ ToSandBox class >> exampleBorderlessAccordionWithLabel [
 
 	<script>
 	| inst |
-	inst := self accordionBaseWithLabel.
+	inst := self accordionWithLabel.
 	inst addStamp: #borderless.
 	inst openInSpace.
 
@@ -662,7 +662,7 @@ ToSandBox class >> exampleGhostAccordionWithLabel [
 
 	<script>
 	| inst |
-	inst := self accordionBaseWithLabel.
+	inst := self accordionWithLabel.
 	inst addStamp: #ghost.
 	inst openInSpace.
 
@@ -680,7 +680,7 @@ ToSandBox class >> examplePaneWithAccordionsWithCheckableGroup [
 	group := ToCheckableGroup new.
 	pane vFitContent.
 	(1 to: 5) collect: [ :i |
-		pane addChild: ((self accordionBaseWithLabelText: 'Header ' , i asString) isExpanded: false)].
+		pane addChild: ((self accordionWithLabelText: 'Header ' , i asString) isExpanded: false)].
 	group registerAll: pane children.
 	pane openInSpace.
 	^ pane
@@ -696,7 +696,7 @@ ToSandBox class >> examplePaneWithAccordionsWithLabel [
 	pane hMatchParent.
 	pane vFitContent.
 	(1 to: 5) collect: [ :i |
-		pane addChild: ((self accordionBaseWithLabelText: 'Header ' , i asString) isExpanded: false)].
+		pane addChild: ((self accordionWithLabelText: 'Header ' , i asString) isExpanded: false)].
 	pane openInSpace.
 	^ pane
 ]
@@ -712,12 +712,12 @@ ToSandBox class >> examplePaneWithNestedAccordions [
 	pane vFitContent.
 	(1 to: 5) collect: [ :i |
 		| accordion |
-		accordion := ToAccordionBaseElement new.
+		accordion := ToAccordionElement new.
 		accordion headerBuilder: [ :header |
 			header addChild: (ToLabel text: 'This is panel header 1') ].
 		accordion bodyBuilder: [ :body |
 			body addChild:
-				(self accordionBaseWithLabelText: 'This is panel nest panel') ].
+				(self accordionWithLabelText: 'This is panel nest panel') ].
 		pane addChild: accordion ].
 	pane openInSpace.
 	^ pane
@@ -3203,7 +3203,7 @@ ToSandBox class >> example_SimplePopupTopRight [
 	p element openInSpace
 ]
 
-{ #category : #'look event' }
+{ #category : #'skin event' }
 ToSandBox class >> example_SkinEventTrace [
 
 	| but |

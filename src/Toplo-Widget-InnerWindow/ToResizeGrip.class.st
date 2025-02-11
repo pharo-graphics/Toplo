@@ -9,7 +9,7 @@ Class {
 		'initialPosition',
 		'initialSize'
 	],
-	#category : #'Toplo-Widget-InnerWindow'
+	#category : #'Toplo-Widget-InnerWindow-Support'
 }
 
 { #category : #accessing }

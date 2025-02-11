@@ -153,12 +153,6 @@ TToAnchoredWindowElement >> preventPickOutsideClosing [
 	self manager unplugPickOutsideFilter
 ]
 
-{ #category : #'t - inline window element - accessing' }
-TToAnchoredWindowElement >> root [ 
-
-	^ self explicitRequirement 
-]
-
 { #category : #'t - inline window element - displaying' }
 TToAnchoredWindowElement >> toFront [
 

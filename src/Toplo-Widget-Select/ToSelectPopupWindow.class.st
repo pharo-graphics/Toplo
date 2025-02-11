@@ -11,11 +11,11 @@ ToSelectPopupWindow >> defaultElevation [
 ]
 
 { #category : #initialization }
-ToSelectPopupWindow >> initializeRootElement [
+ToSelectPopupWindow >> initialize [
 
-	super initializeRootElement.
-	rootElement hMatchParent.
-	rootElement vFitContent
+	super initialize.
+	self hMatchParent.
+	self vFitContent
 ]
 
 { #category : #skin }

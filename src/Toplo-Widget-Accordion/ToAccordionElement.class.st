@@ -1,17 +1,17 @@
 Class {
-	#name : #ToAccordionBaseElement,
+	#name : #ToAccordionElement,
 	#superclass : #ToAccordionAbstractElement,
 	#category : #'Toplo-Widget-Accordion-Core'
 }
 
 { #category : #accessing }
-ToAccordionBaseElement >> group: aCheckableGroup [
+ToAccordionElement >> group: aCheckableGroup [
 
 	header group: aCheckableGroup
 ]
 
 { #category : #initialization }
-ToAccordionBaseElement >> initialize [
+ToAccordionElement >> initialize [
 
 	super initialize.
 	header addEventHandlerOn: ToCheckableCheckEvent do: [
@@ -19,49 +19,49 @@ ToAccordionBaseElement >> initialize [
 ]
 
 { #category : #testing }
-ToAccordionBaseElement >> isChecked [ 
+ToAccordionElement >> isChecked [ 
 	
 	^ header isChecked
 ]
 
 { #category : #testing }
-ToAccordionBaseElement >> isExpanded [
+ToAccordionElement >> isExpanded [
 
 	^ self isChecked
 ]
 
 { #category : #accessing }
-ToAccordionBaseElement >> isExpanded: aBoolean [
+ToAccordionElement >> isExpanded: aBoolean [
 
 	header checked: aBoolean
 ]
 
 { #category : #'instance creation' }
-ToAccordionBaseElement >> newHeader [ 
+ToAccordionElement >> newHeader [ 
 
 	^  ToAccordionCheckableHeaderElement new
 ]
 
 { #category : #skin }
-ToAccordionBaseElement >> newRawSkin [
+ToAccordionElement >> newRawSkin [
 
-	^ ToAccordionBaseElementSkin new
+	^ ToAccordionElementSkin new
 ]
 
 { #category : #'t - checkable - group' }
-ToAccordionBaseElement >> privateChecked: aBoolean [
+ToAccordionElement >> privateChecked: aBoolean [
 
 	header privateChecked: aBoolean
 ]
 
 { #category : #'t - checkable - group' }
-ToAccordionBaseElement >> registerInGroup: aGroup [
+ToAccordionElement >> registerInGroup: aGroup [
 
 	header registerInGroup: aGroup
 ]
 
 { #category : #'t - checkable - group' }
-ToAccordionBaseElement >> unregisterFromGroup [
+ToAccordionElement >> unregisterFromGroup [
 
 	header unregisterFromGroup
 ]

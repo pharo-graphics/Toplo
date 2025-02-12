@@ -38,8 +38,7 @@ ToAnchoredWindow >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 ToAnchoredWindow >> onMeasure: anExtentMeasurementSpec [
 
 	super onMeasure: anExtentMeasurementSpec.
-	self lastPopupEvent ifNil: [ ^ self ]. 
-	self measureWindowOnEvent: self lastPopupEvent 
+	self measureWindowOnEvent: self lastPopupEvent
 ]
 
 { #category : #'api - displaying' }

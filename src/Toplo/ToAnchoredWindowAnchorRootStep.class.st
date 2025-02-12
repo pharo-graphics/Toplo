@@ -11,7 +11,6 @@ ToAnchoredWindowAnchorRootStep >> nextStepFor: aWindow onEvent: anEvent [
 	p := aWindow correctedPositionWithinAnchorRoot.
 	p ~= aWindow measuredPosition ifTrue: [
 		aWindow position: p ].
-	aWindow lastPopupEvent: nil.
 	aWindow toFront.
 	aWindow visibility: BlVisibility visible.
 	^ nil

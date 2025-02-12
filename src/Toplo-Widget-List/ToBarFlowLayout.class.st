@@ -4,8 +4,8 @@ Class {
 	#instVars : [
 		'uniformNodeWidth',
 		'uniformNodeHeight',
-		'wishedNodeWidth',
-		'wishedNodeHeight'
+		'minNodeHeight',
+		'minNodeWidth'
 	],
 	#category : #'Toplo-Widget-List-InnerBar'
 }
@@ -32,6 +32,30 @@ ToBarFlowLayout >> initialize [
 	super initialize.
 	uniformNodeWidth := false.
 	uniformNodeHeight := false
+]
+
+{ #category : #accessing }
+ToBarFlowLayout >> minNodeHeight [
+
+	^ minNodeHeight
+]
+
+{ #category : #accessing }
+ToBarFlowLayout >> minNodeHeight: aNumber [
+
+	minNodeHeight := aNumber
+]
+
+{ #category : #accessing }
+ToBarFlowLayout >> minNodeWidth [
+
+	^ minNodeWidth
+]
+
+{ #category : #accessing }
+ToBarFlowLayout >> minNodeWidth: aNumber [
+
+	minNodeWidth := aNumber
 ]
 
 { #category : #initialization }
@@ -62,28 +86,4 @@ ToBarFlowLayout >> uniformNodeWidth [
 ToBarFlowLayout >> uniformNodeWidth: aBoolean [
 	" an option that set the same width to all elements of a line "
 	uniformNodeWidth := aBoolean
-]
-
-{ #category : #accessing }
-ToBarFlowLayout >> wishedNodeHeight [
-
-	^ wishedNodeHeight
-]
-
-{ #category : #accessing }
-ToBarFlowLayout >> wishedNodeHeight: aNumber [
-
-	wishedNodeHeight := aNumber
-]
-
-{ #category : #accessing }
-ToBarFlowLayout >> wishedNodeWidth [
-
-	^ wishedNodeWidth
-]
-
-{ #category : #accessing }
-ToBarFlowLayout >> wishedNodeWidth: aNumber [
-
-	wishedNodeWidth := aNumber
 ]

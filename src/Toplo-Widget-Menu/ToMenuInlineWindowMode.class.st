@@ -7,15 +7,19 @@ Class {
 { #category : #'api - displaying' }
 ToMenuInlineWindowMode >> measureWindow: aWindow onEvent: anEvent [
 
-	"| winWidth nodesWidth |
-	winWidth := aWindow measuredWidth.
-	nodesWidth := 0.0.
-	aWindow collectedNodesDo: [ :node |
-		nodesWidth := nodesWidth max: node measuredWidth ].
-	winWidth < nodesWidth ifTrue: [
-		aWindow measuredExtent: nodesWidth @ aWindow measuredHeight ].
-	aWindow collectedNodesDo: [ :node |
-		node measuredWidth < nodesWidth ifTrue: [ node width: nodesWidth ] ]"
+	| w |
+	" self element is the inline ToMenu "
+	w := 0.0.
+	
+	aWindow collectedNodesDo: [ :node | w := w max: node measuredWidth ].
+	w := w max: self element measuredWidth.
+
+	" change the ToMenu width according to the computed width"
+	self element measuredWidth < w ifTrue: [
+		self element measuredExtent: w @ self element measuredHeight ].
+	" change the window width if necessary "
+	aWindow measuredWidth < w ifFalse: [ ^ self ].
+	aWindow measuredExtent: w @ aWindow measuredHeight
 ]
 
 { #category : #accessing }
@@ -28,7 +32,7 @@ ToMenuInlineWindowMode >> menuBarOwner [
 ToMenuInlineWindowMode >> startWindow: aWindow [
 
 	" the manager element is a ToMenu. 
-	The window is added after the the ToMenu in its barOwner"
+	The window is added after the ToMenu in its barOwner"
 	self menuBarOwner 
 		addItem: aWindow
 		afterIndex: self element positionInBar.

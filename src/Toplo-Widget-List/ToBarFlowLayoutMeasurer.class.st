@@ -14,29 +14,45 @@ ToBarFlowLayoutMeasurer >> elementsDo: aBlock [
 { #category : #measure }
 ToBarFlowLayoutMeasurer >> maxSizeDo: aBlock [
 
-	| lwidth lheight |
+	| width height |
 	
-	lwidth := layout wishedNodeWidth ifNil: [ 0 ] ifNotNil: [ :w | w ].
-	lheight := layout wishedNodeHeight ifNil: [ 0 ] ifNotNil: [ :w | w ].
+	width := layout minNodeWidth ifNil: [ 0 ] ifNotNil: [ :w | w ].
+	height := layout minNodeHeight ifNil: [ 0 ] ifNotNil: [ :w | w ].
 
 	self elementsDo: [ :e |
 		| ms |
 		ms := self measuredSizeFor: e.
-		lwidth := lwidth max: ms x.
-		lheight := lheight max: ms y ].
+		width := width max: ms x.
+		height := height max: ms y ].
 
-	aBlock value: lwidth @ lheight
+	aBlock value: width @ height
 ]
 
 { #category : #measure }
 ToBarFlowLayoutMeasurer >> measure: anElement with: anExtentSpec [
 
+	| measureAgain |
 	super measure: anElement with: anExtentSpec.
+	self shouldCheckUniformSize ifFalse: [ ^ self ].
 
-	(layout uniformNodeWidth or: [ layout uniformNodeHeight ]) ifFalse: [
-		^ self ].
-	(self uniformMeasure: anElement with: anExtentSpec) ifFalse: [ ^ self ].
+	measureAgain := false.
+	self maxSizeDo: [ :maxSize |
+		| width height |
+		width := maxSize x.
+		height := maxSize y.
 
+		self elementsDo: [ :element |
+			element isFake ifFalse: [
+				layout uniformNodeWidth ifTrue: [
+					element measuredWidth < width ifTrue: [
+						element width: width.
+						measureAgain := true ] ].
+				layout uniformNodeHeight ifTrue: [
+					element measuredHeight < height ifTrue: [
+						element height: height.
+						measureAgain := true ] ] ] ] ].
+
+	measureAgain ifFalse: [ ^ self ].
 	self measure: anElement with: anExtentSpec
 ]
 
@@ -47,33 +63,7 @@ ToBarFlowLayoutMeasurer >> measuredSizeFor: anElement [
 ]
 
 { #category : #measure }
-ToBarFlowLayoutMeasurer >> uniformMeasure: anElement with: anExtentSpec [
+ToBarFlowLayoutMeasurer >> shouldCheckUniformSize [
 
-	| measureAgain |
-	measureAgain := false.
-
-	self maxSizeDo: [ :maxSize |
-		| lwidth lheight |
-		lwidth := maxSize x.
-		lheight := maxSize y.
-
-		self elementsDo: [ :e |
-			e isFake ifFalse: [
-				| mw mh |
-				mw := e measuredWidth.
-				mh := e measuredHeight.
-
-				layout uniformNodeWidth ifTrue: [
-					mw < lwidth ifTrue: [
-						mw := lwidth.
-						measureAgain := true ] ].
-
-				layout uniformNodeHeight ifTrue: [
-					mh < lheight ifTrue: [
-						mh := lheight.
-						measureAgain := true ] ].
-
-				e size: mw @ mh ] ] ].
-
-	^ measureAgain
+	^ layout uniformNodeWidth or: [ layout uniformNodeHeight ]
 ]

@@ -25,8 +25,7 @@ TToAnchoredWindowElement >> checkLayoutStepOnLayout: aBounds context: aBlElement
 	self layoutStep ifNotNil: [ :ls |
 		self layoutStep: (ls nextStepFor: self onEvent: self lastPopupEvent).
 		self layoutStep ifNotNil: [
-			self requestLayout.
-			self parent requestLayout ] ]
+			self requestLayout ] ]
 ]
 
 { #category : #'t - inline window element - displaying' }

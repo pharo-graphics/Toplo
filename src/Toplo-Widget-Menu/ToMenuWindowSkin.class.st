@@ -12,7 +12,6 @@ ToMenuWindowSkin >> installSkinEvent: anEvent [
 		e padding: (BlInsets
 				 horizontal: (e valueOfTokenNamed: #'menu-window-padding-H')
 				 vertical: (e valueOfTokenNamed: #'menu-window-padding-V')).
-		"(e valueOfTokenNamed: #'animation-window-opening') value: e."
 		e effect: (e valueOfTokenNamed: #'effect-window') ]
 ]
 

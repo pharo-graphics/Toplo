@@ -21,7 +21,6 @@ ToMenuSkin >> installSkinEvent: anEvent [
 							           ifTrue: [ #'submenu-arrow-up' ]
 							           ifFalse: [ #'submenu-arrow-down' ] ]
 					           ifFalse: [ #'submenu-arrow-right' ].
-
 				arrowIm := ToImage inner: (e valueOfTokenNamed: arrowTk).
 				arrowIm
 					size: 18 asPoint;

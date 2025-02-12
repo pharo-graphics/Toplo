@@ -10,27 +10,29 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e isTopMenu ifFalse: [
-			e hMatchParent.
+			| anyHaveIcon anyIsMenu align |
+			
+			anyHaveIcon := false.
+			anyIsMenu := false.
+			align := 0.0.
+
 			e parentMenuDo: [ :pm |
-				| anyHaveIcon anyIsMenu align inlineGap |
-				anyHaveIcon := false.
-				anyIsMenu := false.
 				pm items do: [ :item |
 					item hasIcon ifTrue: [ anyHaveIcon := true ].
-					item isMenu ifTrue: [ anyIsMenu := true ] ].
-				align := 0.0.
-				inlineGap := e valueOfTokenNamed: #'inline-item-gap'.
-				anyHaveIcon ifTrue: [
-					align := e valueOfTokenNamed: #'menu-item-start-alignment' ].
-				e button startAlignment: align.
-				anyIsMenu ifTrue: [
-					e isStartToEnd
-						ifTrue: [
-							e endInterspace:
-								(e valueOfTokenNamed: #'menu-item-start-alignment').
-							e endFlexible: true ]
-						ifFalse: [
-							e startInterspace:
-								(e valueOfTokenNamed: #'menu-item-start-alignment').
-							e startFlexible: true ] ] ] ] ]
+					item isMenu ifTrue: [ anyIsMenu := true ] ] ].
+			
+			anyHaveIcon ifTrue: [
+				align := e valueOfTokenNamed: #'menu-item-start-alignment' ].
+			e button startAlignment: align.
+			
+			anyIsMenu ifTrue: [
+				e isStartToEnd
+					ifTrue: [
+						e endInterspace:
+							(e valueOfTokenNamed: #'menu-item-start-alignment').
+						e endFlexible: true ]
+					ifFalse: [
+						e startInterspace:
+							(e valueOfTokenNamed: #'menu-item-start-alignment').
+						e startFlexible: true ] ] ] ]
 ]

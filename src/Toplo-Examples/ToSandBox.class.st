@@ -4500,11 +4500,11 @@ ToSandBox class >> example_inline5 [
 	sub := ToMenu new labelText: 'Save All'.
 	sub beInline.
 	sub addItem: (ToMenuItem new
-			 labelText: 'Locally';
+			 labelText: 'L';
 			 yourself).
 
 	subsub := ToMenu new
-		          labelText: 'Externally';
+		          labelText: 'Ext.';
 		          icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	subsub beInline.
 	subsubsub := ToMenu new
@@ -4542,7 +4542,7 @@ ToSandBox class >> example_inline6 [
 	sub := ToMenu new labelText: 'Save All'.
 	sub beInline.
 	sub addItem: (ToMenuItem new
-			 labelText: 'Locally';
+			 labelText: 'Locallyyyyyyyy';
 			 yourself).
 
 	subsub := ToMenu new

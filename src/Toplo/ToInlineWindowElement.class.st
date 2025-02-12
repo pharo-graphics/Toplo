@@ -17,7 +17,7 @@ ToInlineWindowElement >> onLayout: aBounds context: aBlElementBoundsUpdateContex
 ToInlineWindowElement >> onMeasure: anExtentMeasurementSpec [
 
 	super onMeasure: anExtentMeasurementSpec.
-	self measureWindowOnEvent: self lastPopupEvent 
+	self measureWindowOnEvent: self lastPopupEvent
 ]
 
 { #category : #'t - inline window element - accessing' }

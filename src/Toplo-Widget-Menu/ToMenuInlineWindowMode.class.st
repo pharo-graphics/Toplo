@@ -10,16 +10,12 @@ ToMenuInlineWindowMode >> measureWindow: aWindow onEvent: anEvent [
 	| w |
 	" self element is the inline ToMenu "
 	w := 0.0.
-	
 	aWindow collectedNodesDo: [ :node | w := w max: node measuredWidth ].
 	w := w max: self element measuredWidth.
-
-	" change the ToMenu width according to the computed width"
-	self element measuredWidth < w ifTrue: [
-		self element measuredExtent: w @ self element measuredHeight ].
 	" change the window width if necessary "
 	aWindow measuredWidth < w ifFalse: [ ^ self ].
-	aWindow measuredExtent: w @ aWindow measuredHeight
+	aWindow measuredExtent: w @ aWindow measuredHeight.
+	aWindow collectedNodesDo: [ :node | node width: w]
 ]
 
 { #category : #accessing }

@@ -4508,7 +4508,7 @@ ToSandBox class >> example_inline5 [
 		          icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	subsub beInline.
 	subsubsub := ToMenu new
-		             labelText: 'When';
+		             labelText: 'Whenn';
 		             icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	subsubsub beInline.
 	subsubsub addItem: (ToMenuItem new
@@ -4542,7 +4542,7 @@ ToSandBox class >> example_inline6 [
 	sub := ToMenu new labelText: 'Save All'.
 	sub beInline.
 	sub addItem: (ToMenuItem new
-			 labelText: 'Locallyyyyyyyy';
+			 labelText: 'Locallyyyyyyyyyyyyyyyyyyy';
 			 yourself).
 
 	subsub := ToMenu new
@@ -4560,6 +4560,33 @@ ToSandBox class >> example_inline6 [
 
 	subsub addItem: subsubsub.
 	sub addItem: subsub.
+	menu addItem: sub.
+	menu addSeparator.
+
+	menu position: 10 @ 10.
+	frame := ToInnerWindow new.
+	frame pane addChild: menu.
+	frame openInSpace
+]
+
+{ #category : #menu }
+ToSandBox class >> example_inline7 [
+
+	| menu sub  frame  |
+	menu := ToMenu new.
+	menu labelText: 'File'.
+	menu addItem: (ToMenuItem new
+			 labelText: 'Inspect';
+			 whenClickedDo: [ menu space root inspect ];
+			 yourself).
+	sub := ToMenu new labelText: 'Save All'.
+	sub beInline.
+	sub addItem: (ToMenuItem new
+			 labelText: 'Locally';
+			 yourself).
+	sub addItem: (ToMenuItem new
+			 labelText: 'Externally';
+			 yourself).
 	menu addItem: sub.
 	menu addSeparator.
 

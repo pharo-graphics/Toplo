@@ -38,7 +38,6 @@ ToGenericTreeNodeManager >> defaultNodeBuilder [
 		  holder click.
 		  self treeElement notifyDataSourceChanged ].
 	  node
-		  margin: (BlInsets left: 20 * (dataWrapper nodeDepth - 1));
 		  addChild: (ToTripletElement new
 				   startElement: start;
 				   middleElement: (ToLabel text: dataWrapper dataItem asString);
@@ -61,18 +60,19 @@ ToGenericTreeNodeManager >> defaultNodeUnbuilder [
 { #category : #initialization }
 ToGenericTreeNodeManager >> indentationDependingOnWrapper: aDataSourceWrapper [
 
-	| icon |
-	icon := Smalltalk ui icons iconNamed: (aDataSourceWrapper isLeaf
-			         ifTrue: [ #glamorousGrayCircleEmpty ]
-			         ifFalse: [
-				         aDataSourceWrapper isCollapsed
-					         ifTrue: [ #glamorousGrayCircle ]
-					         ifFalse: [ #glamorousDropDown ] ]).
-	
+	| elt |
+	elt := aDataSourceWrapper isLeaf
+		       ifTrue: [ BlElement new background: Color transparent  ]
+		       ifFalse: [
+			       BlSvgConverter convertFromString:
+				       (aDataSourceWrapper isCollapsed
+					        ifTrue: [
+					        ToMaterialDesignIconProvider outlined_keyboardarrowright ]
+					        ifFalse: [
+					        ToMaterialDesignIconProvider outlined_keyboardarrowdown ]) ].
 
-	^ ToElement new
-		  size: 20 @ 20;
-		  background: icon
+
+	^ elt size: 20 asPoint; margin: (BlInsets left: 20 * (aDataSourceWrapper nodeDepth - 1))
 ]
 
 { #category : #accessing }

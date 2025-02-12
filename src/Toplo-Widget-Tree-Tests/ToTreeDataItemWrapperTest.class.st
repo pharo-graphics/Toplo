@@ -134,14 +134,3 @@ ToTreeDataItemWrapperTest >> testWrappersHasRightDepth [
 		do: [ :child |
 			self assert: child nodeDepth equals: 2 ]
 ]
-
-{ #category : #tests }
-ToTreeDataItemWrapperTest >> testWrappersHasRightNumberOfChildren [
-
-	self assert: tree dataAccessor isEmpty.
-	tree dataAccessor add: Collection.
-
-	self
-		assert: (tree dataAccessor at: 1) nbChildren 
-		equals: Collection subclasses size
-]

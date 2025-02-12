@@ -15,7 +15,6 @@ Class {
 	#instVars : [
 		'dataItem',
 		'isCollapsed',
-		'nbChildren',
 		'children',
 		'dataSource',
 		'nodeDepth'
@@ -117,18 +116,6 @@ ToTreeDataItemWrapper >> isLeaf [
 ]
 
 { #category : #accessing }
-ToTreeDataItemWrapper >> nbChildren [ 
-
-	^ nbChildren 
-]
-
-{ #category : #accessing }
-ToTreeDataItemWrapper >> nbChildren: aNumber [
-
-	nbChildren := aNumber 
-]
-
-{ #category : #accessing }
 ToTreeDataItemWrapper >> nodeDepth [
 
 	^ nodeDepth
@@ -148,8 +135,9 @@ ToTreeDataItemWrapper >> wrapAround: anObject with: aChildSelector [
 	children := aChildSelector children collect: [ :each |
 		            self class new
 			            dataSource: self dataSource;
-			            wrapAround: each with: aChildSelector atDepth: self nodeDepth + 1 ].
-	nbChildren := children size
+			            wrapAround: each
+			            with: aChildSelector
+			            atDepth: self nodeDepth + 1 ].
 ]
 
 { #category : #accessing }

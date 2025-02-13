@@ -18,7 +18,7 @@ ToTreeDataItemWrapperTest >> testExpandAllAndCollapseAll [
 
 	| wrapper |
 	self assert: tree dataAccessor isEmpty.
-	tree childSelector: ToTreeIntegerHalfChildSelector new.
+	tree dataWrapperClass: ToTreeDataItemIntegerHalfWrapper.
 	tree dataAccessor addAll: (1 to: 5).
 
 	self assert: tree dataAccessor size equals: 5.
@@ -51,7 +51,7 @@ ToTreeDataItemWrapperTest >> testWrappersExpandsAddsChildren [
 
 	| wrapper |
 	self assert: tree dataAccessor isEmpty.
-	tree childSelector: ToTreeIntegerHalfChildSelector new.
+	tree dataWrapperClass: ToTreeDataItemIntegerHalfWrapper .
 	tree dataAccessor add: 2.
 
 	wrapper := tree dataAccessor at: 1.
@@ -67,7 +67,7 @@ ToTreeDataItemWrapperTest >> testWrappersExpandsAddsChildrenAndCollapsesRemovesT
 
 	| wrapper |
 	self assert: tree dataAccessor isEmpty.
-	tree childSelector: ToTreeIntegerHalfChildSelector new.
+	tree dataWrapperClass: ToTreeDataItemIntegerHalfWrapper.
 	tree dataAccessor add: 2.
 
 	wrapper := tree dataAccessor at: 1.
@@ -78,7 +78,7 @@ ToTreeDataItemWrapperTest >> testWrappersExpandsAddsChildrenAndCollapsesRemovesT
 	self assert: tree dataAccessor size equals: 2.
 	wrapper collapse.
 	self assert: tree dataAccessor size equals: 1.
-	self assert: wrapper isCollapsed.
+	self assert: wrapper isCollapsed
 ]
 
 { #category : #tests }
@@ -102,11 +102,14 @@ ToTreeDataItemWrapperTest >> testWrappersExpandsAndCollapses [
 ToTreeDataItemWrapperTest >> testWrappersHasRightChildrenWrappers [
 
 	self assert: tree dataAccessor isEmpty.
+	tree dataWrapperClass: ToTreeDataItemClassWrapper.
 	tree dataAccessor add: Collection.
 
-	(tree dataAccessor at: 1) children with: Collection subclasses do: [ :wrapper :subclass|
-		self assert: wrapper className equals: #ToTreeDataItemWrapper.
-		self assert: wrapper dataItem equals: subclass].
+	(tree dataAccessor at: 1) children
+		with: Collection subclasses
+		do: [ :wrapper :subclass |
+			self assert: wrapper className equals: #ToTreeDataItemClassWrapper.
+			self assert: wrapper dataItem equals: subclass ]
 ]
 
 { #category : #tests }
@@ -125,12 +128,13 @@ ToTreeDataItemWrapperTest >> testWrappersHasRightDepth [
 
 	| wrapper |
 	self assert: tree dataAccessor isEmpty.
+	tree dataWrapperClass: ToTreeDataItemClassWrapper.
 	tree dataAccessor add: Collection.
 
 	wrapper := tree dataAccessor at: 1.
 	self assert: wrapper nodeDepth equals: 1.
-	
-	wrapper children
-		do: [ :child |
-			self assert: child nodeDepth equals: 2 ]
+
+	wrapper determineAndWrapChildren.
+	wrapper children do: [ :child |
+		self assert: child nodeDepth equals: 2 ]
 ]

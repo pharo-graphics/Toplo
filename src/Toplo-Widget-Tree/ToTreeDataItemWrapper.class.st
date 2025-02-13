@@ -17,35 +17,23 @@ Class {
 		'isCollapsed',
 		'children',
 		'dataSource',
-		'nodeDepth'
+		'parentWrapper'
 	],
 	#category : #'Toplo-Widget-Tree-Core'
 }
 
 { #category : #accessing }
-ToTreeDataItemWrapper >> children [ 
-
-	^ children 
-]
-
-{ #category : #accessing }
-ToTreeDataItemWrapper >> children: aCollection [
-
-	children := aCollection 
-]
-
-{ #category : #accessing }
 ToTreeDataItemWrapper >> collapse [
 
-	self isCollapsed ifTrue: [ ^ self ].
+	isCollapsed ifTrue: [ ^ self ].
 
-	self children do: [ :wrapper |
+	children do: [ :wrapper |
 		wrapper collapse.
-		self dataSource removeWrapper: wrapper ].
+		dataSource removeWrapper: wrapper ].
 
 	isCollapsed := true.
-	
-	self dataSource notifyChanged
+
+	dataSource notifyChanged
 ]
 
 { #category : #accessing }
@@ -61,38 +49,46 @@ ToTreeDataItemWrapper >> dataItem: anObject [
 ]
 
 { #category : #accessing }
-ToTreeDataItemWrapper >> dataSource [
-
-	^ dataSource 
-]
-
-{ #category : #accessing }
 ToTreeDataItemWrapper >> dataSource: aDataSource [
 
 	dataSource := aDataSource.
 	
 ]
 
+{ #category : #'as yet unclassified' }
+ToTreeDataItemWrapper >> determineAndWrapChildren [
+
+	children ifNotNil: [ ^ self ].
+	self determineChildren.
+	self wrapChildren
+]
+
+{ #category : #'as yet unclassified' }
+ToTreeDataItemWrapper >> determineChildren [
+
+	children := OrderedCollection empty.
+]
+
 { #category : #accessing }
 ToTreeDataItemWrapper >> expand [
 
 	| currentWrapper |
-	(self isLeaf or: self isCollapsed not) ifTrue: [ ^ self ].
+	(self isLeaf or: isCollapsed not) ifTrue: [ ^ self ].
 	isCollapsed := false.
 
 	currentWrapper := self.
-	self children do: [ :nextWrapper |
+	children do: [ :nextWrapper |
 		dataSource addWrapper: nextWrapper after: currentWrapper.
 		currentWrapper := nextWrapper ].
 
-	self dataSource notifyChanged
+	dataSource notifyChanged
 ]
 
 { #category : #accessing }
 ToTreeDataItemWrapper >> expandAll [
 
 	self expand.
-	self children do: [ :each | each expandAll ].
+	children do: [ :each | each expandAll ]
 ]
 
 { #category : #initialization }
@@ -100,7 +96,6 @@ ToTreeDataItemWrapper >> initialize [
 
 	super initialize.
 	isCollapsed := true.
-	nodeDepth := 1
 ]
 
 { #category : #accessing }
@@ -112,38 +107,35 @@ ToTreeDataItemWrapper >> isCollapsed [
 { #category : #testing }
 ToTreeDataItemWrapper >> isLeaf [
 
-	^ self children size = 0
+	^ children size = 0
 ]
 
 { #category : #accessing }
 ToTreeDataItemWrapper >> nodeDepth [
 
-	^ nodeDepth
+	^ parentWrapper
+		  ifNil: [ 1 ]
+		  ifNotNil: [ parentWrapper nodeDepth + 1 ]
 ]
 
 { #category : #accessing }
-ToTreeDataItemWrapper >> nodeDepth: aNumber [
+ToTreeDataItemWrapper >> parentWrapper [ 
 
-	nodeDepth := aNumber 
+	^ parentWrapper 
 ]
 
 { #category : #accessing }
-ToTreeDataItemWrapper >> wrapAround: anObject with: aChildSelector [
+ToTreeDataItemWrapper >> parentWrapper: aDataItemWrapper [ 
 
-	dataItem := anObject.
-	aChildSelector dataItem: anObject.
-	children := aChildSelector children collect: [ :each |
+	parentWrapper := aDataItemWrapper 
+]
+
+{ #category : #'as yet unclassified' }
+ToTreeDataItemWrapper >> wrapChildren [
+
+	children := children collect: [ :each |
 		            self class new
-			            dataSource: self dataSource;
-			            wrapAround: each
-			            with: aChildSelector
-			            atDepth: self nodeDepth + 1 ].
-]
-
-{ #category : #accessing }
-ToTreeDataItemWrapper >> wrapAround: anObject with: aChildSelector atDepth: aNumber [
-
-	self nodeDepth: aNumber.
-	self wrapAround: anObject with: aChildSelector.
-
+			            dataSource: dataSource;
+			            dataItem: each;
+			            parentWrapper: self ]
 ]

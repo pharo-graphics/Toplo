@@ -2,7 +2,7 @@ Class {
 	#name : #ToTreeInfiniteCollectionDataSource,
 	#superclass : #ToInfiniteCollectionDataSource,
 	#instVars : [
-		'childSelector'
+		'dataWrapperClass'
 	],
 	#category : #'Toplo-Widget-Tree-Core'
 }
@@ -35,9 +35,11 @@ ToTreeInfiniteCollectionDataSource >> add: newObject beforeIndex: index [
 { #category : #'t - observable collection - adding' }
 ToTreeInfiniteCollectionDataSource >> addAllLast: aCollection [
 
-	| wrapperCollection|
+	| wrapperCollection |
 	aCollection ifEmpty: [ ^ self ].
-	wrapperCollection := aCollection collect: [ :each | self wrapObject: each ].
+	wrapperCollection := aCollection collect: [ :each |
+		                     self wrapObject: each ].
+	
 	super addAllLast: wrapperCollection
 ]
 
@@ -71,24 +73,24 @@ ToTreeInfiniteCollectionDataSource >> addWrapper: aDataSourceWrapper afterIndex:
 	super add: aDataSourceWrapper afterIndex: index
 ]
 
-{ #category : #accessing }
-ToTreeInfiniteCollectionDataSource >> childSelector [ 
-
-	^ childSelector 
-	
-]
-
-{ #category : #accessing }
-ToTreeInfiniteCollectionDataSource >> childSelector: aToTreeChildSelector [
-
-	childSelector := aToTreeChildSelector 
-]
-
 { #category : #'expanding-collapsing' }
 ToTreeInfiniteCollectionDataSource >> collapseAll [
 
 	self collection collect: [ :each | each ifNotNil: [
 		each nodeDepth = 1 ifTrue: [ each collapse ] ]]
+]
+
+{ #category : #accessing }
+ToTreeInfiniteCollectionDataSource >> dataWrapperClass [ 
+
+	^ dataWrapperClass 
+	
+]
+
+{ #category : #accessing }
+ToTreeInfiniteCollectionDataSource >> dataWrapperClass: aToTreeChildSelector [
+
+	dataWrapperClass := aToTreeChildSelector 
 ]
 
 { #category : #'expanding-collapsing' }
@@ -114,7 +116,7 @@ ToTreeInfiniteCollectionDataSource >> removeWrapper: aToTreeDataSourceWrapper [
 { #category : #wrapping }
 ToTreeInfiniteCollectionDataSource >> wrapObject: anObject [
 
-	^ ToTreeDataItemWrapper new
+	^ dataWrapperClass new
 		  dataSource: self;
-		  wrapAround: anObject with: self childSelector
+		  dataItem: anObject
 ]

@@ -15,10 +15,11 @@ Class {
 { #category : #'t - generic node manager' }
 ToGenericTreeNodeManager >> buildNode: aNode [
 
-	nodeBuilder
-		cull: aNode
-		cull: aNode holder dataWrapper 
-		cull: aNode holder
+	| wrapper |
+	wrapper := aNode holder dataWrapper.
+	wrapper determineAndWrapChildren.
+
+	nodeBuilder cull: aNode cull: wrapper cull: aNode holder
 ]
 
 { #category : #initialization }
@@ -36,12 +37,11 @@ ToGenericTreeNodeManager >> defaultNodeBuilder [
 	  start addEventHandlerOn: BlClickEvent do: [ :e |
 		  e consume.
 		  holder click.
-		  self treeElement notifyDataSourceChanged ].
-	  node
-		  addChild: (ToTripletElement new
-				   startElement: start;
-				   middleElement: (ToLabel text: dataWrapper dataItem asString);
-				   startInterspace: 5) ]
+		  "self treeElement notifyDataSourceChanged" ].
+	  node addChild: (ToTripletElement new
+			   startElement: start;
+			   middleElement: (ToLabel text: dataWrapper dataItem asString);
+			   startInterspace: 5) ]
 ]
 
 { #category : #initialization }

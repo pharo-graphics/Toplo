@@ -17,20 +17,20 @@ ToTreeElementTest >> setUp [
 ToTreeElementTest >> testTreeElementChildSelectorChangesAlsoInDataSource [
 
 	self
-		assert: tree childSelector className
-		equals: #ToTreeClassChildSelector.
+		assert: tree dataWrapperClass name
+		equals: #ToTreeDataItemWrapper.
 	self
-		assert: tree dataAccessor childSelector className
-		equals: #ToTreeClassChildSelector.
+		assert: tree dataAccessor dataWrapperClass name
+		equals: #ToTreeDataItemWrapper.
 
-	tree childSelector: ToTreeIntegerHalfChildSelector new.
+	tree dataWrapperClass: ToTreeDataItemIntegerHalfWrapper new.
 
 	self
-		assert: tree childSelector className
-		equals: #ToTreeIntegerHalfChildSelector.
+		assert: tree dataWrapperClass className
+		equals: #ToTreeDataItemIntegerHalfWrapper.
 	self
-		assert: tree dataAccessor childSelector className
-		equals: #ToTreeIntegerHalfChildSelector
+		assert: tree dataAccessor dataWrapperClass className
+		equals: #ToTreeDataItemIntegerHalfWrapper
 ]
 
 { #category : #tests }

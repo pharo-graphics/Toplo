@@ -9,7 +9,7 @@ Class {
 	#name : #ToTreeElement,
 	#superclass : #ToListElement,
 	#instVars : [
-		'childSelector'
+		'dataWrapperClass'
 	],
 	#category : #'Toplo-Widget-Tree-Core'
 }
@@ -19,17 +19,20 @@ ToTreeElement class >> exampleExpandAllAndCollapseAll [
 
 	| tree expandAllButton collapseAllButton container |
 	tree := self new.
-	tree childSelector: ToTreeIntegerHalfChildSelector new.
+	tree dataWrapperClass: ToTreeDataItemIntegerHalfWrapper.
 	tree dataAccessor addAll: (1 to: 10).
 
-	expandAllButton := ToButton new label:
-		                   (ToLabel text: 'Expand All');
-		whenClickedDo: [:e | tree expandAll ].
-	collapseAllButton := ToButton new label:
-		                     (ToLabel text: 'Collapse All');
-		whenClickedDo: [:e | tree collapseAll ].
+	expandAllButton := ToButton new
+		                   label: (ToLabel text: 'Expand All');
+		                   whenClickedDo: [ :e | tree expandAll ].
+	collapseAllButton := ToButton new
+		                     label: (ToLabel text: 'Collapse All');
+		                     whenClickedDo: [ :e | tree collapseAll ].
 
-	container := ToElement new layout: BlLinearLayout vertical; hMatchParent; vMatchParent .
+	container := ToElement new
+		             layout: BlLinearLayout vertical;
+		             hMatchParent;
+		             vMatchParent.
 	container addChildren: {
 			expandAllButton.
 			collapseAllButton.
@@ -42,7 +45,7 @@ ToTreeElement class >> exampleIntegerHalf [
 
 	| l |
 	l := self new.
-	l childSelector: ToTreeIntegerHalfChildSelector new.
+	l dataWrapperClass: ToTreeDataItemIntegerHalfWrapper.
 	l dataAccessor addAll: (1 to: 10).
 
 
@@ -55,6 +58,7 @@ ToTreeElement class >> exampleProtoObjectSubclasses [
 
 	| l |
 	l := self new.
+	l dataWrapperClass: ToTreeDataItemClassWrapper.
 	l dataAccessor add: ProtoObject.
 
 	l openInSpace
@@ -66,6 +70,7 @@ ToTreeElement class >> exampleWithFewClasses [
 
 	| l |
 	l := self new.
+	l dataWrapperClass: ToTreeDataItemClassWrapper.
 	l dataAccessor add: BlElement.
 	l dataAccessor add: Collection.
 	l dataAccessor add: String.
@@ -73,23 +78,23 @@ ToTreeElement class >> exampleWithFewClasses [
 	l openInSpace
 ]
 
-{ #category : #accessing }
-ToTreeElement >> childSelector [
-
-	^ childSelector ifNil: [ self defaultTreeChildSelector ]
-]
-
-{ #category : #accessing }
-ToTreeElement >> childSelector: aToTreeChildSelector [
-
-	childSelector := aToTreeChildSelector.
-	dataSource childSelector: aToTreeChildSelector 
-]
-
 { #category : #'expanding-collapsing' }
 ToTreeElement >> collapseAll [ 
 
 	self dataAccessor collapseAll
+]
+
+{ #category : #accessing }
+ToTreeElement >> dataWrapperClass [
+
+	^ dataWrapperClass ifNil: [ self defaultDataWrapperClass ]
+]
+
+{ #category : #accessing }
+ToTreeElement >> dataWrapperClass: aToTreeDataItemWrapperClass [
+
+	dataWrapperClass := aToTreeDataItemWrapperClass.
+	dataSource dataWrapperClass: aToTreeDataItemWrapperClass 
 ]
 
 { #category : #initialization }
@@ -99,15 +104,15 @@ ToTreeElement >> defaultDataSource [
 ]
 
 { #category : #initialization }
-ToTreeElement >> defaultNodeManagerClass [
+ToTreeElement >> defaultDataWrapperClass [
 
-	^ ToGenericTreeNodeManager  
+	^ ToTreeDataItemWrapper 
 ]
 
 { #category : #initialization }
-ToTreeElement >> defaultTreeChildSelector [
+ToTreeElement >> defaultNodeManagerClass [
 
-	^ ToTreeClassChildSelector new
+	^ ToGenericTreeNodeManager  
 ]
 
 { #category : #'expanding-collapsing' }
@@ -127,5 +132,5 @@ ToTreeElement >> initialize [
 ToTreeElement >> initializeDataSource [
 
 	super initializeDataSource.
-	self dataSource childSelector: self childSelector 
+	dataSource dataWrapperClass: self dataWrapperClass
 ]

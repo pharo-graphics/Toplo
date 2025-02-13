@@ -23,9 +23,12 @@ TToAnchoredWindowElement >> anchorRoot [
 TToAnchoredWindowElement >> checkLayoutStepOnLayout: aBounds context: aBlElementBoundsUpdateContext [
 
 	self layoutStep ifNotNil: [ :ls |
-		self layoutStep: (ls nextStepFor: self onEvent: self lastPopupEvent).
-		self layoutStep ifNotNil: [
-			self requestLayout ] ]
+		self layoutStep: (ls
+				 nextStepFor: self
+				 onEvent: self lastPopupEvent
+				 onLayout: aBounds
+				 context: aBlElementBoundsUpdateContext).
+		self layoutStep ifNotNil: [ self requestLayout ] ]
 ]
 
 { #category : #'t - inline window element - displaying' }
@@ -82,9 +85,7 @@ TToAnchoredWindowElement >> lastPopupEvent: anEvent [
 { #category : #'t - inline window element - private layout' }
 TToAnchoredWindowElement >> launchOpening [
 
-	self layoutStep: (ToAnchoredWindowOpeningStartStep new
-			 nextStepFor: self
-			 onEvent: self lastPopupEvent ).
+	self layoutStep: ToAnchoredWindowOpeningStartStep new.
 	self open
 ]
 
@@ -115,9 +116,9 @@ TToAnchoredWindowElement >> manager: aWindowHandler [
 ]
 
 { #category : #'t - inline window element - displaying' }
-TToAnchoredWindowElement >> measureWindowOnEvent: anEvent [
+TToAnchoredWindowElement >> onMeasure: anExtentMeasurementSpec onEvent: anEvent [
 
-	self manager measureWindowOnEvent: anEvent
+	self manager onMeasure: anExtentMeasurementSpec onEvent: anEvent
 ]
 
 { #category : #'t - inline window element - displaying' }
@@ -165,15 +166,22 @@ TToAnchoredWindowElement >> popupTimestamp [
 ]
 
 { #category : #'t - inline window element - displaying' }
-TToAnchoredWindowElement >> positionWindowOnEvent: anEvent [
+TToAnchoredWindowElement >> positionWindowOnEvent: anEvent context: aBlElementBoundsUpdateContext [
 
-	self manager positionWindowOnEvent: anEvent
+	self manager positionWindowOnEvent: anEvent context: aBlElementBoundsUpdateContext
 ]
 
 { #category : #'t - inline window element - displaying' }
 TToAnchoredWindowElement >> preventPickOutsideClosing [
 
 	self manager unplugPickOutsideFilter
+]
+
+{ #category : #'t - inline window element - private layout' }
+TToAnchoredWindowElement >> refreshLayout [
+
+	self layoutStep: ToAnchoredWindowArrangingStep new.
+	self requestLayout
 ]
 
 { #category : #'t - inline window element - displaying' }

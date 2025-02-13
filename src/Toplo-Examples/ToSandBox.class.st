@@ -2593,7 +2593,7 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistribution [
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select manager anchorRoot: innerWindow root.
 	select hMatchParent.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.

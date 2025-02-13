@@ -14,8 +14,8 @@ ToActionPlacement >> action: aValuable [
 	action := aValuable
 ]
 
-{ #category : #api }
-ToActionPlacement >> positionWindow: aWindow onEvent: anEvent [
+{ #category : #'api - displaying' }
+ToActionPlacement >> positionWindow: aWindow onEvent: anEvent context: aBlElementBoundsUpdateContext [
 
 	action value: aWindow value: anEvent 
 ]

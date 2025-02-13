@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #api }
-ToWindowMeasurement >> measureWindow: aWindow onEvent: anEvent [
+ToWindowMeasurement >> onMeasure: anExtentMeasurementSpec window: aWindow onEvent: anEvent [
 
 	self subclassResponsibility 
 

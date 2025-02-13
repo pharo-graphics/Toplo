@@ -7,8 +7,34 @@ Class {
 { #category : #measure }
 ToBarFlowLayoutMeasurer >> elementsDo: aBlock [
 
-	lines do: [ :aLine |
-		aLine children do: [ :aChild | aBlock value: aChild element ] ]
+	children do: [ :aChild | aBlock value: aChild element ]
+]
+
+{ #category : #measure }
+ToBarFlowLayoutMeasurer >> fillChildrenFor: anElement with: anExtentSpec [
+
+	super fillChildrenFor: anElement with: anExtentSpec.
+	self shouldCheckUniformSize ifFalse: [ ^ self ].
+
+	self maxSizeDo: [ :maxSize |
+		| mw mh |
+		mw := maxSize x.
+		mh := maxSize y.
+
+		children do: [ :child |
+			| element |
+			element := child element.
+			element isFake ifFalse: [
+				| esize w h |
+				esize := element measuredExtent.
+				w := esize x.
+				h := esize y.
+				layout uniformNodeWidth ifTrue: [ w := mw max: w ].
+				layout uniformNodeHeight ifTrue: [ h := mh max: h ].
+				(esize x = w and: [ esize y = h ]) ifFalse: [
+					element measure: (BlExtentMeasurementSpec exact: w @ h).
+					child width: element measuredWidth.
+					child height: element measuredHeight ] ] ] ]
 ]
 
 { #category : #measure }
@@ -26,34 +52,6 @@ ToBarFlowLayoutMeasurer >> maxSizeDo: aBlock [
 		height := height max: ms y ].
 
 	aBlock value: width @ height
-]
-
-{ #category : #measure }
-ToBarFlowLayoutMeasurer >> measure: anElement with: anExtentSpec [
-
-	| measureAgain |
-	super measure: anElement with: anExtentSpec.
-	self shouldCheckUniformSize ifFalse: [ ^ self ].
-
-	measureAgain := false.
-	self maxSizeDo: [ :maxSize |
-		| width height |
-		width := maxSize x.
-		height := maxSize y.
-
-		self elementsDo: [ :element |
-			element isFake ifFalse: [
-				layout uniformNodeWidth ifTrue: [
-					element measuredWidth < width ifTrue: [
-						element width: width.
-						measureAgain := true ] ].
-				layout uniformNodeHeight ifTrue: [
-					element measuredHeight < height ifTrue: [
-						element height: height.
-						measureAgain := true ] ] ] ] ].
-
-	measureAgain ifFalse: [ ^ self ].
-	self measure: anElement with: anExtentSpec
 ]
 
 { #category : #measure }

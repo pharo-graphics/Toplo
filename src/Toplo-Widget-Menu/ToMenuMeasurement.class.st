@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #api }
-ToMenuMeasurement >> measureWindow: aWindow onEvent: anEvent [
+ToMenuMeasurement >> onMeasure: anExtentMeasurementSpec window: aWindow onEvent: anEvent [
 
 "	| w |
 	w := 0.

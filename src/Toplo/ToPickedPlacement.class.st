@@ -4,8 +4,8 @@ Class {
 	#category : #'Toplo-Core-Window-Support'
 }
 
-{ #category : #api }
-ToPickedPlacement >> positionWindow: aWindow onEvent: anEvent [
+{ #category : #'api - displaying' }
+ToPickedPlacement >> positionWindow: aWindow onEvent: anEvent context: aBlElementBoundsUpdateContext [
 
 	anEvent ifNil: [ ^ self ].
 	aWindow position: anEvent position

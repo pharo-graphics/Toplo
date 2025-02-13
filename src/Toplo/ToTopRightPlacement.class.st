@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'api - displaying' }
-ToTopRightPlacement >> positionWindow: aWindow onEvent: anEvent [
+ToTopRightPlacement >> positionWindow: aWindow onEvent: anEvent context: aBlElementBoundsUpdateContext [
 
 	| root element |
 	root := aWindow anchorRoot.

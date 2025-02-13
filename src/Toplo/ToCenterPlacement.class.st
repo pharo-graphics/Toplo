@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'api - displaying' }
-ToCenterPlacement >> positionWindow: aWindow onEvent: anEvent [
+ToCenterPlacement >> positionWindow: aWindow onEvent: anEvent context: aBlElementBoundsUpdateContext [
 
 	| theElem theRoot etopLeft ewidth eheight w h x y |
 	theElem := aWindow element.

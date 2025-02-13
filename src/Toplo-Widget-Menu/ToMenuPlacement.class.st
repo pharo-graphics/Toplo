@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'api - displaying' }
-ToMenuPlacement >> positionWindow: aWindow onEvent: anEvent [
+ToMenuPlacement >> positionWindow: aWindow onEvent: anEvent context: aBlElementBoundsUpdateContext [
 	" The window placing is at top right or bottom left according to menu or the menubar "
 
 	| root element pos rootMenuOrMenuBar |
@@ -17,5 +17,5 @@ ToMenuPlacement >> positionWindow: aWindow onEvent: anEvent [
 			        rootMenuOrMenuBar isVertical ] ])
 		       ifTrue: [ (element measuredBounds inParent: root) topRight ]
 		       ifFalse: [ (element measuredBounds inParent: root) bottomLeft ].
-	aWindow position: pos
+	aWindow position: pos "extent: aWindow measuredExtent context: aBlElementBoundsUpdateContext"
 ]

@@ -25,12 +25,6 @@ ToWindowMode >> manager: aManager [
 	manager := aManager
 ]
 
-{ #category : #'api - displaying' }
-ToWindowMode >> measureWindow: aWindow onEvent: anEvent [
-
-	self subclassResponsibility 
-]
-
 { #category : #'instance creation' }
 ToWindowMode >> newWindow [
 
@@ -45,16 +39,16 @@ ToWindowMode >> onInstalledIn: aManager [
 	manager := aManager
 ]
 
+{ #category : #'api - displaying' }
+ToWindowMode >> onMeasure: anExtentMeasurementSpec window: aWindow onEvent: anEvent [
+
+	self subclassResponsibility 
+]
+
 { #category : #'api - hooks' }
 ToWindowMode >> onUninstalledIn: aManager [
 
 	manager := nil
-]
-
-{ #category : #'api - displaying' }
-ToWindowMode >> positionWindow: aWindow onEvent: anEvent [
-
-	self subclassResponsibility 
 ]
 
 { #category : #'window handling' }

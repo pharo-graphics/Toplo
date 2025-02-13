@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #running }
-ToAnchoredWindowOpeningStep >> nextStepFor: aWindow onEvent: anEvent [
+ToAnchoredWindowOpeningStep >> nextStepFor: aWindow onEvent: anEvent onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
 	self subclassResponsibility 
 ]

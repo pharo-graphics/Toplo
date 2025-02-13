@@ -4,24 +4,24 @@ Class {
 	#category : #'Toplo-Widget-Menu-Window'
 }
 
-{ #category : #'api - displaying' }
-ToMenuInlineWindowMode >> measureWindow: aWindow onEvent: anEvent [
-
-	| w |
-	" self element is the inline ToMenu "
-	w := 0.0.
-	aWindow collectedNodesDo: [ :node | w := w max: node measuredWidth ].
-	w := w max: self element measuredWidth.
-	" change the window width if necessary "
-	aWindow measuredWidth < w ifFalse: [ ^ self ].
-	aWindow measuredExtent: w @ aWindow measuredHeight.
-	aWindow collectedNodesDo: [ :node | node width: w]
-]
-
 { #category : #accessing }
 ToMenuInlineWindowMode >> menuBarOwner [ 
 
 	^ self element menuBarOwner
+]
+
+{ #category : #'api - displaying' }
+ToMenuInlineWindowMode >> onMeasure: anExtentMeasurementSpec window: aWindow onEvent: anEvent [
+
+	| w |
+	" self element is the inline ToMenu "
+	w := self element measuredWidth.
+	aWindow collectedNodesDo: [ :node | w := w max: node measuredWidth ].
+	" change the window width if necessary "
+	anExtentMeasurementSpec widthSpec size < w ifFalse: [ ^ self ].
+	anExtentMeasurementSpec widthSpec size: w.
+	"aWindow collectedNodesDo: [ :node | node item width < w ifTrue: [node item width: w ] ]."
+
 ]
 
 { #category : #'window handling' }

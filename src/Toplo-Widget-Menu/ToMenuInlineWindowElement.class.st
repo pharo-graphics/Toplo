@@ -108,7 +108,7 @@ ToMenuInlineWindowElement >> onLayout: aBounds context: aBlElementBoundsUpdateCo
 ToMenuInlineWindowElement >> onMeasure: anExtentMeasurementSpec [
 
 	super onMeasure: anExtentMeasurementSpec.
-	self measureWindowOnEvent: self lastPopupEvent 
+	self onMeasure: anExtentMeasurementSpec onEvent: self lastPopupEvent 
 ]
 
 { #category : #'t - inline window element - accessing' }

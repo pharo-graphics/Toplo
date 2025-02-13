@@ -23,12 +23,6 @@ ToPopupWindowMode >> anchorRoot: anElement [
 	anchorRoot := anElement
 ]
 
-{ #category : #'api - displaying' }
-ToPopupWindowMode >> measureWindow: aWindow onEvent: anEvent [
-
-	self measurement measureWindow: aWindow onEvent: anEvent
-]
-
 { #category : #accessing }
 ToPopupWindowMode >> measurement [ 
 
@@ -39,6 +33,12 @@ ToPopupWindowMode >> measurement [
 ToPopupWindowMode >> measurement: aMeasurement [
 
 	measurement := aMeasurement 
+]
+
+{ #category : #'api - displaying' }
+ToPopupWindowMode >> onMeasure: anExtentMeasurementSpec window: aWindow onEvent: anEvent [
+
+	self measurement onMeasure: anExtentMeasurementSpec window: aWindow onEvent: anEvent
 ]
 
 { #category : #accessing }
@@ -54,9 +54,9 @@ ToPopupWindowMode >> placement: aPlacement [
 ]
 
 { #category : #'api - displaying' }
-ToPopupWindowMode >> positionWindow: aWindow onEvent: anEvent [
+ToPopupWindowMode >> positionWindow: aWindow onEvent: anEvent context: aBlElementBoundsUpdateContext [
 
-	self placement positionWindow: aWindow onEvent: anEvent
+	self placement positionWindow: aWindow onEvent: anEvent context: aBlElementBoundsUpdateContext
 ]
 
 { #category : #'window handling' }

@@ -34,14 +34,6 @@ ToAnchoredWindowManager >> anchorRoot: anElement [
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> arrangeWindowOnEvent: anEvent [
-
-	currentWindow ifNil: [ ^ self ].
-	self measureWindowOnEvent: anEvent.
-	self positionWindowOnEvent: anEvent
-]
-
-{ #category : #'window handling' }
 ToAnchoredWindowManager >> beInline [
 
 	self mode: self newInlineMode 
@@ -140,14 +132,14 @@ ToAnchoredWindowManager >> element [
 ToAnchoredWindowManager >> elementExtentChangedEvent: anEvent [
 
 	currentWindow ifNil: [ ^ self ].
-	self arrangeWindowOnEvent: nil
+	currentWindow refreshLayout
 ]
 
 { #category : #'event handling' }
 ToAnchoredWindowManager >> elementPositionInSpaceChangedEvent: anEvent [
 
 	currentWindow ifNil: [ ^ self ].
-	self arrangeWindowOnEvent: anEvent
+	currentWindow refreshLayout
 ]
 
 { #category : #'event handling' }
@@ -211,13 +203,6 @@ ToAnchoredWindowManager >> inlineWindowClass [
 ToAnchoredWindowManager >> isInline [ 
 
 	^ mode isInline
-]
-
-{ #category : #'window handling' }
-ToAnchoredWindowManager >> measureWindowOnEvent: anEvent [
-
-	currentWindow ifNil: [ ^ self ].
-	mode measureWindow: currentWindow onEvent: anEvent
 ]
 
 { #category : #accessing }
@@ -305,6 +290,13 @@ ToAnchoredWindowManager >> onInstalledIn: anElement [
 ]
 
 { #category : #'window handling' }
+ToAnchoredWindowManager >> onMeasure: anExtentMeasurementSpec onEvent: anEvent [
+
+	currentWindow ifNil: [ ^ self ].
+	mode onMeasure: anExtentMeasurementSpec window: currentWindow onEvent: anEvent
+]
+
+{ #category : #'window handling' }
 ToAnchoredWindowManager >> onOpened [
 
 ]
@@ -339,10 +331,13 @@ ToAnchoredWindowManager >> popupWindowClass [
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> positionWindowOnEvent: anEvent [
+ToAnchoredWindowManager >> positionWindowOnEvent: anEvent context: aBlElementBoundsUpdateContext [
 
 	currentWindow ifNil: [ ^ self ].
-	mode positionWindow: currentWindow onEvent: anEvent
+	mode
+		positionWindow: currentWindow
+		onEvent: anEvent
+		context: aBlElementBoundsUpdateContext
 ]
 
 { #category : #'window handling' }

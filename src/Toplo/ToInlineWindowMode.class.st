@@ -11,13 +11,13 @@ ToInlineWindowMode >> isInline [
 ]
 
 { #category : #'api - displaying' }
-ToInlineWindowMode >> measureWindow: aWindow onEvent: anEvent [
+ToInlineWindowMode >> onMeasure: anExtentMeasurementSpec window: aWindow onEvent: anEvent [
 
 
 ]
 
 { #category : #'api - displaying' }
-ToInlineWindowMode >> positionWindow: aWindow onEvent: anEvent [
+ToInlineWindowMode >> positionWindow: aWindow onEvent: anEvent context: aBlElementBoundsUpdateContext [
 
 ]
 

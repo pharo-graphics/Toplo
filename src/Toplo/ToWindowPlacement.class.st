@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'api - displaying' }
-ToWindowPlacement >> positionWindow: aWindow onEvent: anEvent [
+ToWindowPlacement >> positionWindow: aWindow onEvent: anEvent context: aBlElementBoundsUpdateContext [
 
 	self subclassResponsibility 
 ]

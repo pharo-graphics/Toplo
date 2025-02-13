@@ -4,8 +4,8 @@ Class {
 	#category : #'Toplo-Core-Tooltip'
 }
 
-{ #category : #api }
-ToTooltipPlacement >> positionWindow: aWindow onEvent: anEvent [
+{ #category : #'api - displaying' }
+ToTooltipPlacement >> positionWindow: aWindow onEvent: anEvent context: aBlElementBoundsUpdateContext [
 
 	| root element pos |
 	root := aWindow anchorRoot.

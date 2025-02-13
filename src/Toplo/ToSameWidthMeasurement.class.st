@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #api }
-ToSameWidthMeasurement >> measureWindow: aWindow onEvent: anEvent [
+ToSameWidthMeasurement >> onMeasure: anExtentMeasurementSpec window: aWindow onEvent: anEvent [
 
-	aWindow width: aWindow element measuredWidth 
+	anExtentMeasurementSpec widthSpec size: aWindow element measuredWidth
 ]

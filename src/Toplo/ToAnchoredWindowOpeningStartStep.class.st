@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #running }
-ToAnchoredWindowOpeningStartStep >> nextStepFor: aWindow onEvent: anEvent [
+ToAnchoredWindowOpeningStartStep >> nextStepFor: aWindow onEvent: anEvent onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
 	aWindow visibility: BlVisibility hidden.
 	^ ToAnchoredWindowArrangingStep new

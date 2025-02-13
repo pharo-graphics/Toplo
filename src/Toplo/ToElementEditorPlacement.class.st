@@ -19,8 +19,8 @@ ToElementEditorPlacement >> innerElement: anElement [
 	innerElement := anElement
 ]
 
-{ #category : #api }
-ToElementEditorPlacement >> positionWindow: aWindow onEvent: anEvent [
+{ #category : #'api - displaying' }
+ToElementEditorPlacement >> positionWindow: aWindow onEvent: anEvent context: aBlElementBoundsUpdateContext [
 
 	| root element inner pos |
 	root := aWindow anchorRoot.

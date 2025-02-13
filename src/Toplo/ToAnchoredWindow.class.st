@@ -31,14 +31,17 @@ ToAnchoredWindow >> dispatchOpenedEvent [
 ToAnchoredWindow >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
-	self checkLayoutStepOnLayout: aBounds context: aBlElementBoundsUpdateContext
+	self checkLayoutStepOnLayout: aBounds context: aBlElementBoundsUpdateContext.
+
+
 ]
 
 { #category : #layout }
 ToAnchoredWindow >> onMeasure: anExtentMeasurementSpec [
 
+	self onMeasure: anExtentMeasurementSpec onEvent: self lastPopupEvent.
 	super onMeasure: anExtentMeasurementSpec.
-	self measureWindowOnEvent: self lastPopupEvent
+
 ]
 
 { #category : #'api - displaying' }

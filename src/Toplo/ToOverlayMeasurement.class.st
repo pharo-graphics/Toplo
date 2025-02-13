@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #api }
-ToOverlayMeasurement >> measureWindow: aWindow onEvent: anEvent [
+ToOverlayMeasurement >> onMeasure: anExtentMeasurementSpec window: aWindow onEvent: anEvent [
 
 	aWindow size: aWindow element measuredWidth @ aWindow element measuredHeight
 ]

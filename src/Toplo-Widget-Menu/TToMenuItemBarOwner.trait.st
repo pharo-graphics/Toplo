@@ -84,7 +84,7 @@ TToMenuItemBarOwner >> onRemovedFillerMenuItem: aFiller [
 { #category : #'t - menu item bar owner - double dispatch' }
 TToMenuItemBarOwner >> onRemovedMenu: aMenu [
 
-	aMenu isSubmenu: false
+	aMenu isMenuBarMenu: false.
 ]
 
 { #category : #'t - menu item bar owner - double dispatch' }

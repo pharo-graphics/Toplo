@@ -174,7 +174,7 @@ ToMenuBar >> onAddedInItemBarOwner: aMenuItemBar [
 { #category : #'t - menu item bar owner - double dispatch' }
 ToMenuBar >> onAddedMenu: aMenu [
 
-	aMenu isSubmenu: false
+	aMenu isMenuBarMenu: true.
 ]
 
 { #category : #layout }

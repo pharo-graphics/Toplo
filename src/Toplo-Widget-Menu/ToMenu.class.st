@@ -10,7 +10,8 @@ Class {
 		'isSubmenu',
 		'builder',
 		'windowManager',
-		'openOnHovered'
+		'openOnHovered',
+		'isMenuBarMenu'
 	],
 	#category : #'Toplo-Widget-Menu-Items'
 }
@@ -88,6 +89,7 @@ ToMenu >> initialize [
 	self initializeAsMenuItemBarOwner.
 
 	isSubmenu := false.
+	isMenuBarMenu := false.
 	openOnHovered := true.
 	self applySkinInstallerOnFirstRequest: true.
 
@@ -113,6 +115,18 @@ ToMenu >> isMenu [
 	^ true
 ]
 
+{ #category : #testing }
+ToMenu >> isMenuBarMenu [
+
+	^ isMenuBarMenu
+]
+
+{ #category : #accessing }
+ToMenu >> isMenuBarMenu: aBoolean [
+
+	isMenuBarMenu := aBoolean
+]
+
 { #category : #'t - menu window model' }
 ToMenu >> isOpened [ 
 
@@ -134,7 +148,7 @@ ToMenu >> isSubmenu: aBoolean [
 { #category : #'t - menu window model' }
 ToMenu >> isTopMenu [
 
-	^ self isSubmenu not
+	^ self isSubmenu not or: [ self isMenuBarMenu ]
 ]
 
 { #category : #accessing }

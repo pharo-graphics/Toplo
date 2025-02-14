@@ -34,9 +34,10 @@ ToButtonSkin >> enabledSkinEvent: anEvent [
 					e icon innerImageColor: (e valueOfTokenNamed: #'color-primary') ] ]
 			ifNone: [
 				e isMenuButton ifFalse: [
-					e border: (BlBorder
-							 paint: (e valueOfTokenNamed: #'color-border')
-							 width: (e valueOfTokenNamed: #'line-width')) ].
+					(e hasStamp: #borderless) ifFalse: [
+						e border: (BlBorder
+								 paint: (e valueOfTokenNamed: #'color-border')
+								 width: (e valueOfTokenNamed: #'line-width')) ] ].
 				e iconDo: [ :ic |
 					ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
 		e endElementDo: [ :ic |

@@ -80,6 +80,12 @@ ToMenuItemElement >> isInline [
 	^ false
 ]
 
+{ #category : #testing }
+ToMenuItemElement >> isMenuBarMenu [
+
+	^ false
+]
+
 { #category : #'t - menu window model' }
 ToMenuItemElement >> isOpened [
 

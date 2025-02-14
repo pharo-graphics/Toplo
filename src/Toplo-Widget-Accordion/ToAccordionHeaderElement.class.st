@@ -3,7 +3,10 @@ Class {
 	#superclass : #ToElement,
 	#instVars : [
 		'iconContainer',
-		'content'
+		'content',
+		'expandIconAtStart',
+		'triplet',
+		'extraContainer'
 	],
 	#category : #'Toplo-Widget-Accordion-Core'
 }
@@ -33,6 +36,36 @@ ToAccordionHeaderElement >> content [
 ]
 
 { #category : #accessing }
+ToAccordionHeaderElement >> expandIconAtStart: aBoolean [
+
+	expandIconAtStart = aBoolean ifTrue: [ ^ self ].
+	expandIconAtStart := aBoolean.
+	expandIconAtStart
+		ifTrue: [
+			triplet startElement: iconContainer.
+			triplet endElement: extraContainer ]
+		ifFalse: [
+			| end |
+			triplet startElement: nil.
+			triplet endElement: nil.
+			end := ToElement new
+				       fitContent;
+				       layout: BlLinearLayout horizontal;
+				       yourself.
+			end addChild: extraContainer.
+			end addChild: iconContainer.
+			end layout cellSpacing: 5.
+			triplet endElement: end ]
+]
+
+{ #category : #accessing }
+ToAccordionHeaderElement >> headerExtraBuilder: aValuable [
+
+	
+	aValuable value: extraContainer
+]
+
+{ #category : #accessing }
 ToAccordionHeaderElement >> icon: aToImage [
 
 	iconContainer removeChildren.
@@ -42,21 +75,30 @@ ToAccordionHeaderElement >> icon: aToImage [
 { #category : #initialization }
 ToAccordionHeaderElement >> initialize [
 
-	super initialize. 
+	super initialize.
 	self layout: BlLinearLayout horizontal.
 	self hMatchParent.
 	self vFitContent.
+	triplet := ToTripletElement new
+		           hMatchParent;
+		           vFitContent;
+		           yourself.
 	content := ToElement new.
 	content layout: BlLinearLayout horizontal.
-	content hMatchParent.
-	content vFitContent.
+	content fitContent.
+	triplet middleElement: content.
+	triplet startFlexible: false.
+	triplet endFlexible: true.
 
 	iconContainer := ToElement new.
 	iconContainer fitContent.
 	iconContainer constraintsDo: [ :c | c linear vertical alignCenter ].
+	extraContainer := ToElement new.
+	extraContainer fitContent.
+	extraContainer constraintsDo: [ :c | c linear vertical alignCenter ].
 	self constraintsDo: [ :c | c linear vertical alignCenter ].
-	self addChild: iconContainer.
-	self addChild: content
+	self addChild: triplet.
+	self expandIconAtStart: true
 ]
 
 { #category : #testing }

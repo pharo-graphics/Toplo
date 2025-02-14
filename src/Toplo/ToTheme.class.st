@@ -58,14 +58,17 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty
 			   name: #empty_box
 			   value: (ToMiscellaneousIcons innerImageNamed: 'filled_emptyBox')).
-		  (ToTokenProperty name: #'submenu-arrow-right' value:
-			   (ToMaterialDesignIconProvider innerImageNamed:
+		  (ToTokenProperty
+			   name: #'submenu-arrow-right'
+			   value: (ToMaterialDesignIconProvider innerImageNamed:
 					    'outlined_keyboardarrowright')).
-		  (ToTokenProperty name: #'submenu-arrow-down' value:
-			   (ToMaterialDesignIconProvider innerImageNamed:
+		  (ToTokenProperty
+			   name: #'submenu-arrow-down'
+			   value: (ToMaterialDesignIconProvider innerImageNamed:
 					    'outlined_keyboardarrowdown')).
-		  (ToTokenProperty name: #'submenu-arrow-up' value:
-			   (ToMaterialDesignIconProvider innerImageNamed:
+		  (ToTokenProperty
+			   name: #'submenu-arrow-up'
+			   value: (ToMaterialDesignIconProvider innerImageNamed:
 					    'outlined_keyboardarrowup')).
 		  (ToTokenProperty name: #'border-radius' value: 4).
 		  (ToTokenProperty name: #'border-radius-LG' value: 8).
@@ -230,6 +233,9 @@ ToTheme class >> defaultTokenProperties [
 			   value: self defaultColorPrimary).
 		  (ToTokenProperty name: #'border-width' value: 1).
 		  (ToTokenProperty name: #'border-paint' value: Color lightGray).
+		  (ToTokenProperty
+			   name: #'menuBar-border-paint'
+			   value: (Color veryLightGray alpha: 0.2)).
 
 		  "Size, margin and padding"
 		  (ToTokenProperty name: #'control-height' value: 32).

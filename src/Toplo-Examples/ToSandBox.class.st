@@ -16,6 +16,7 @@ ToSandBox class >> accordionItemWithLabelText: aString [
 	| inst |
 	inst := ToAccordionItemElement new.
 	inst headerBuilder: [ :header |
+		header padding: (BlInsets all: 4).
 		header addChild: (ToLabel text: aString) ].
 	inst bodyBuilder: [ :body |
 		body addChild:
@@ -680,7 +681,11 @@ ToSandBox class >> examplePaneWithAccordionsWithCheckableGroup [
 	group := ToCheckableGroup new.
 	pane vFitContent.
 	(1 to: 5) collect: [ :i |
-		pane addChild: ((self accordionWithLabelText: 'Header ' , i asString) isExpanded: false)].
+		pane addChild:
+			((self accordionWithLabelText: 'Header ' , i asString)
+				 isExpanded: false;
+				 expandIconAtStart: false;
+				 yourself) ].
 	group registerAll: pane children.
 	pane openInSpace.
 	^ pane
@@ -691,13 +696,39 @@ ToSandBox class >> examplePaneWithAccordionsWithLabel [
 
 	<script>
 	| pane |
-	pane := ToPane new.
-	pane layout: BlLinearLayout vertical.
-	pane hMatchParent.
-	pane vFitContent.
-	(1 to: 5) collect: [ :i |
-		pane addChild: ((self accordionWithLabelText: 'Header ' , i asString) isExpanded: false)].
+	pane := self paneWithAccordionsWithLabel.
 	pane openInSpace.
+	^ pane
+]
+
+{ #category : #accordion }
+ToSandBox class >> examplePaneWithAccordionsWithLabelWithExtra [
+
+	<script>
+	| pane |
+	pane := self paneWithAccordionsWithLabel.
+	pane childrenDo: [ :acc |
+		| im btn |
+		im := ToImage inner:
+			      (ToAntDesignIconProvider innerImageNamed: 'outlined_search').
+		im size: 18 asPoint.
+		btn := ToButton new icon: im.
+		btn whenClickedDo: [ :evt | evt consume ].
+		btn addStamp: #iconic.
+		btn addStamp: #borderless.
+		acc headerExtraBuilder: [ :extra | extra addChild: btn ] ].
+	pane openInSpace.
+	^ pane
+]
+
+{ #category : #accordion }
+ToSandBox class >> examplePaneWithAccordionsWithLabelWithExtra2 [
+
+	<script>
+	| pane |
+	pane := self examplePaneWithAccordionsWithLabelWithExtra.
+	pane childrenDo: [ :acc |
+		acc expandIconAtStart: false ].
 	^ pane
 ]
 
@@ -2094,6 +2125,34 @@ ToSandBox class >> example_Menu0 [
 	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	container pane addChild: menu.
 	container openInSpace
+]
+
+{ #category : #menu }
+ToSandBox class >> example_MenuWithAccordeon [
+
+	| menu pane item |
+	menu := ToMenu new.
+	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	pane := self paneWithAccordionsWithLabel.
+	item := ToCustomMenuItem new in: [ :e | e addChild: pane ].
+	menu addItem: item.
+	menu openInSpace
+]
+
+{ #category : #menu }
+ToSandBox class >> example_MenuWithAccordeon2 [
+
+	| menu pane item |
+	menu := ToMenu new.
+	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	pane := self paneWithAccordionsWithLabel.
+	pane childrenDo: [ :child |
+		child expandIconAtStart: false.
+		child addStamp: #ghost.
+		child addStamp: #borderless ].
+	item := ToCustomMenuItem new in: [ :e | e addChild: pane ].
+	menu addItem: item.
+	menu openInSpace
 ]
 
 { #category : #menu }
@@ -4598,6 +4657,46 @@ ToSandBox class >> example_inline7 [
 	menu addSeparator.
 
 	menu position: 10 @ 10.
+	frame := ToInnerWindow new.
+	frame pane addChild: menu.
+	frame openInSpace
+]
+
+{ #category : #menu }
+ToSandBox class >> example_inlineInMenuBar [
+
+	| menu sub subsub frame subsubsub |
+	menu := ToMenuBar new.
+	menu vertical: true.
+	menu hFitContent.
+	menu vMatchParent.
+	menu addItem: (ToMenuItem new
+			 labelText: 'Inspect';
+			 whenClickedDo: [ menu space root inspect ];
+			 yourself).
+	sub := ToMenu new labelText: 'Save All'.
+	sub beInline.
+	sub addItem: (ToMenuItem new
+			 labelText: 'Locallyyyyyyyyyyyyyyyyyyy';
+			 yourself).
+
+	subsub := ToMenu new
+		          labelText: 'Externally'.
+	subsub beInline.
+	subsubsub := ToMenu new
+		             labelText: 'When'.
+	subsubsub beInline.
+	subsubsub addItem: (ToMenuItem new
+			 labelText: 'now';
+			 yourself).
+	subsubsub addItem: (ToMenuItem new
+			 labelText: 'later';
+			 yourself).
+
+	subsub addItem: subsubsub.
+	sub addItem: subsub.
+	menu addItem: sub.
+
 	frame := ToInnerWindow new.
 	frame pane addChild: menu.
 	frame openInSpace
@@ -7696,6 +7795,19 @@ ToSandBox class >> newPopup [
 		popup addChild: (ToLabel new text: 'A popup window') ].
 	e addEventHandler: popupWindowHandler.
 	^ popupWindowHandler
+]
+
+{ #category : #accordion }
+ToSandBox class >> paneWithAccordionsWithLabel [
+
+	| pane |
+	pane := ToPane new.
+	pane layout: BlLinearLayout vertical.
+	pane hMatchParent.
+	pane vFitContent.
+	(1 to: 5) collect: [ :i |
+		pane addChild: ((self accordionWithLabelText: 'Header ' , i asString) isExpanded: false)].
+	^ pane
 ]
 
 { #category : #accessing }

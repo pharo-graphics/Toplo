@@ -26,7 +26,7 @@ ToMenuBarSkin >> installSkinEvent: anEvent [
 		e background: (e valueOfTokenNamed: #'background-color').
 		e itemBar background: BlBackground transparent.
 		e isSubBar ifFalse: [ e padding: (BlInsets all: 4) ].
-		e border: BlBorder empty ]
+		e border: (e valueOfTokenNamed: #'menuBar-border-paint') ]
 ]
 
 { #category : #'event handling' }

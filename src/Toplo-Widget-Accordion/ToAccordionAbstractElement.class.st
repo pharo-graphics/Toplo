@@ -34,6 +34,12 @@ ToAccordionAbstractElement >> expand [
 ]
 
 { #category : #accessing }
+ToAccordionAbstractElement >> expandIconAtStart: aBoolean [
+
+	header expandIconAtStart: aBoolean
+]
+
+{ #category : #accessing }
 ToAccordionAbstractElement >> header [
 
 	^ header
@@ -44,6 +50,12 @@ ToAccordionAbstractElement >> headerBuilder: aValuable [
 	"With an header as argument"
 	
 	header builder: aValuable
+]
+
+{ #category : #accessing }
+ToAccordionAbstractElement >> headerExtraBuilder: aValuable [
+
+	header headerExtraBuilder: aValuable
 ]
 
 { #category : #initialization }

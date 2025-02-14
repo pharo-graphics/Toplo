@@ -44,14 +44,6 @@ TToItemBarOwner >> addItem: anItem beforeIndex: anInteger [
 	self onAddedItem: anItem
 ]
 
-{ #category : #'t - item bar owner - initializing' }
-TToItemBarOwner >> configureLayout [
-
-	self isHorizontal
-		ifTrue: [ self itemList horizontal: true ]
-		ifFalse: [ self itemList horizontal: false ]
-]
-
 { #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> dataAccessor [
 

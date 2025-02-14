@@ -8,15 +8,17 @@ Class {
 }
 
 { #category : #layout }
-ToMenuBarFlowLayout >> layout: anElement in: newBounds context: aBlElementBoundsUpdateContext [
+ToMenuBarFlowLayout >> checkMinNodeWidth [
 
-	"(menuBarOwner notNil and: [
-		 menuBarOwner isSubmenu and: [ menuBarOwner isInline ] ]) ifTrue: [
-		minNodeWidth := menuBarOwner width ]."
-	super
-		layout: anElement
-		in: newBounds
-		context: aBlElementBoundsUpdateContext
+	(menuBarOwner notNil and: [ menuBarOwner isInline ]) ifTrue: [
+		self minNodeWidth: menuBarOwner measuredWidth ]
+]
+
+{ #category : #measure }
+ToMenuBarFlowLayout >> measure: anElement with: anExtentSpec [
+
+	self checkMinNodeWidth.
+	super measure: anElement with: anExtentSpec
 ]
 
 { #category : #accessing }

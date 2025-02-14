@@ -17,24 +17,19 @@ ToBarFlowLayoutMeasurer >> fillChildrenFor: anElement with: anExtentSpec [
 	self shouldCheckUniformSize ifFalse: [ ^ self ].
 
 	self maxSizeDo: [ :maxSize |
-		| mw mh |
-		mw := maxSize x.
-		mh := maxSize y.
-
 		children do: [ :child |
 			| element |
 			element := child element.
 			element isFake ifFalse: [
-				| esize w h |
-				esize := element measuredExtent.
-				w := esize x.
-				h := esize y.
-				layout uniformNodeWidth ifTrue: [ w := mw max: w ].
-				layout uniformNodeHeight ifTrue: [ h := mh max: h ].
-				(esize x = w and: [ esize y = h ]) ifFalse: [
+				| w h |
+				w := child width.
+				h := child height.
+				layout uniformNodeWidth ifTrue: [ w := maxSize x max: w ].
+				layout uniformNodeHeight ifTrue: [ h := maxSize y max: h ].
+				(child width < w or: [ child height < h ]) ifTrue: [
 					element measure: (BlExtentMeasurementSpec exact: w @ h).
-					child width: element measuredWidth.
-					child height: element measuredHeight ] ] ] ]
+					child width: w.
+					child height: h ] ] ] ]
 ]
 
 { #category : #measure }

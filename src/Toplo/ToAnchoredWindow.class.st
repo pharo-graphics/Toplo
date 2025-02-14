@@ -27,6 +27,15 @@ ToAnchoredWindow >> dispatchOpenedEvent [
 	self element dispatchEvent: self newOpenedEvent 
 ]
 
+{ #category : #initialization }
+ToAnchoredWindow >> initialize [
+
+	super initialize.
+	self
+		addEventHandlerOn: BlElementExtentChangedEvent
+		do: [ self refreshLayout ]
+]
+
 { #category : #layout }
 ToAnchoredWindow >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 

@@ -3650,7 +3650,7 @@ ToSandBox class >> example_WithCheckBox [
 	subsub := ToMenu new
 		          labelText: 'Externally';
 		          icon: (ToImage inner: (self iconNamed: #solidMenu)).
-	"subsub beInline."
+	subsub beInline.
 	subsubsub := ToMenu new
 		             labelText: 'When';
 		             icon: (ToImage inner: (self iconNamed: #solidMenu)).
@@ -4349,13 +4349,20 @@ ToSandBox class >> example_inline1 [
 		       icon: (ToImage inner: (self iconNamed: #solidMenu));
 		       yourself.
 	sub beInline.
-	subsub := ToMenu new
+	subsub := ToMenuItem new
 		          labelText: 'X';
 		          yourself.
-	subsub beInline.
-	subsub closeOnPicking: false.
 
 	sub addItem: subsub.
+	subsub := ToMenuItem new
+		          labelText: 'Y';
+		          yourself.
+	sub addItem: subsub.
+	subsub := ToMenuItem new
+		          labelText: 'Zm';
+		          yourself.
+	sub addItem: subsub.
+
 	menu addItem: sub.
 	space root addChild: menu.
 	space show
@@ -4380,7 +4387,7 @@ ToSandBox class >> example_inline2 [
 	subsub := ToMenu new
 		          labelText: 'Externally';
 		          icon: (ToImage inner: (self iconNamed: #solidMenu)).
-	"subsub beInline."
+	subsub beInline.
 	subsubsub := ToMenu new
 		             labelText: 'When';
 		             icon: (ToImage inner: (self iconNamed: #solidMenu)).

@@ -17,5 +17,5 @@ ToMenuPlacement >> positionWindow: aWindow onEvent: anEvent context: aBlElementB
 			        rootMenuOrMenuBar isVertical ] ])
 		       ifTrue: [ (element measuredBounds inParent: root) topRight ]
 		       ifFalse: [ (element measuredBounds inParent: root) bottomLeft ].
-	aWindow position: pos "extent: aWindow measuredExtent context: aBlElementBoundsUpdateContext"
+	aWindow position: pos
 ]

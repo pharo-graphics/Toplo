@@ -9,8 +9,8 @@ ToAnchoredWindowArrangingStep >> nextStepFor: aWindow onEvent: anEvent onLayout:
 
 	| bnds |
 	bnds := aWindow measuredBounds asRectangle.
-	aWindow positionWindowOnEvent: anEvent context: aBlElementBoundsUpdateContext.
-	aWindow measuredBounds asRectangle = bnds ifTrue: [
-		^ ToAnchoredWindowAnchorRootStep new ].
-	^ self
+	aWindow
+		positionOnEvent: anEvent
+		context: aBlElementBoundsUpdateContext.
+	^ ToAnchoredWindowAnchorRootStep new
 ]

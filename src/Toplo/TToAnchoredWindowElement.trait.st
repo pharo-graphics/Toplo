@@ -166,7 +166,7 @@ TToAnchoredWindowElement >> popupTimestamp [
 ]
 
 { #category : #'t - inline window element - displaying' }
-TToAnchoredWindowElement >> positionWindowOnEvent: anEvent context: aBlElementBoundsUpdateContext [
+TToAnchoredWindowElement >> positionOnEvent: anEvent context: aBlElementBoundsUpdateContext [
 
 	self manager positionWindowOnEvent: anEvent context: aBlElementBoundsUpdateContext
 ]

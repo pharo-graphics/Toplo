@@ -10,9 +10,6 @@ ToBottomLeftPlacement >> positionWindow: aWindow onEvent: anEvent context: aBlEl
 	| root element |
 	root := aWindow anchorRoot.
 	element := aWindow element.
-	aWindow
-		position: (element bounds inParent: root) bottomLeft
-			- (aWindow measuredWidth @ 0)
-		"extent: aWindow measuredExtent
-		context: aBlElementBoundsUpdateContext"
+	aWindow position: (element bounds inParent: root) bottomLeft
+		- (aWindow measuredWidth @ 0)
 ]

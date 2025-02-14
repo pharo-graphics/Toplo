@@ -122,7 +122,7 @@ ToMenu >> isOpened [
 { #category : #'t - menu window model' }
 ToMenu >> isSubmenu [
 
-	^ isSubmenu
+	^ isSubmenu ifNil: [ false ]
 ]
 
 { #category : #accessing }

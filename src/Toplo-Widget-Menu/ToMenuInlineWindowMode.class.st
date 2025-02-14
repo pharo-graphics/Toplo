@@ -19,9 +19,7 @@ ToMenuInlineWindowMode >> onMeasure: anExtentMeasurementSpec window: aWindow onE
 	aWindow collectedNodesDo: [ :node | w := w max: node measuredWidth ].
 	" change the window width if necessary "
 	anExtentMeasurementSpec widthSpec size < w ifFalse: [ ^ self ].
-	anExtentMeasurementSpec widthSpec size: w.
-	"aWindow collectedNodesDo: [ :node | node item width < w ifTrue: [node item width: w ] ]."
-
+	anExtentMeasurementSpec widthSpec size: w
 ]
 
 { #category : #'window handling' }

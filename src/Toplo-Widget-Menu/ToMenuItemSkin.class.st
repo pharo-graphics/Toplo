@@ -9,7 +9,7 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		(e isTopMenu not or: [ e isMenuBarMenu ]) ifTrue: [
+		(e isTopMenu not or: [ e hasStamp: #'with-expand-button' ]) ifTrue: [
 			| anyHaveIcon anyIsMenu align |
 			anyHaveIcon := false.
 			anyIsMenu := false.
@@ -24,9 +24,7 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 				align := e valueOfTokenNamed: #'menu-item-start-alignment' ].
 			e button startAlignment: align.
 
-			(anyIsMenu or: [
-				 e isMenuBarMenu and: [
-					 e menuBarOwner notNil and: [ e menuBarOwner isVertical ] ] ])
+			(anyIsMenu or: [ e hasStamp: #'with-expand-button' ])
 				ifTrue: [
 					e isStartToEnd
 						ifTrue: [

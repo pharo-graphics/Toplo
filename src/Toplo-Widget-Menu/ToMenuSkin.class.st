@@ -9,9 +9,7 @@ ToMenuSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		(e isSubmenu or: [
-			 e isMenuBarMenu and: [
-				 e menuBarOwner notNil and: [ e menuBarOwner isVertical ] ] ])
+		(e isSubmenu or: [ e hasStamp: #'with-expand-button' ])
 			ifTrue: [
 				| arrowTk arrowIm |
 				arrowTk := e isInline

@@ -30,7 +30,7 @@ ToMenuItemEventHandler >> mouseEnterEvent: anEvent [
 	target isMenu ifFalse: [ ^ self ].
 
 	target closeAllOtherPopupMenuWindows.
-	target menuBar
+	target menuPane
 		ifNil: [ target isSubmenu ifFalse: [ ^ self ] ]
 		ifNotNil: [ :mb | mb isAutoOpen ifFalse: [ ^ self ] ].
 
@@ -57,7 +57,7 @@ ToMenuItemEventHandler >> mouseUpEvent: anEvent [
 	" check event and current target "
 
 	target isMenu ifTrue: [
-		target menuBarDo: [ :mb | mb switchAutoOpen ] ].
+		target menuPaneDo: [ :mb | mb switchAutoOpen ] ].
 	self onPickingEvent: anEvent
 ]
 

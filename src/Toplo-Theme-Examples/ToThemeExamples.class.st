@@ -8,10 +8,10 @@ Class {
 }
 
 { #category : #private }
-ToThemeExamples class >> createThemeMenuBar: aSpace [
+ToThemeExamples class >> createThemeMenuPane: aSpace [
 
 	| bar themeMenu inspectMenu beeMenu rawMenu |
-	bar := ToMenuBar new
+	bar := ToMenuPane new
 		       hMatchParent;
 		       vFitContent.
 	bar addMenu: (themeMenu := ToMenu new labelText: 'Theme').
@@ -546,7 +546,7 @@ ToThemeExamples class >> openThemeExampleSpace [
 		c horizontal matchParent ].
 
 	"Create UI"
-	space root addChild: (self createThemeMenuBar: space).
+	space root addChild: (self createThemeMenuPane: space).
 	space root addChild: (ToElement id: #themeSandBox).
 
 	"Configure default Theme"

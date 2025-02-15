@@ -1,14 +1,14 @@
 Class {
-	#name : #ToMenuBarEventHandler,
+	#name : #ToMenuPaneEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'target'
 	],
-	#category : #'Toplo-Widget-Menu-Bar'
+	#category : #'Toplo-Widget-Menu-Pane'
 }
 
 { #category : #'api - accessing' }
-ToMenuBarEventHandler >> eventsToHandle [
+ToMenuPaneEventHandler >> eventsToHandle [
 
 	^ {
 		  BlMouseLeaveEvent.
@@ -19,13 +19,13 @@ ToMenuBarEventHandler >> eventsToHandle [
 ]
 
 { #category : #'event handling' }
-ToMenuBarEventHandler >> layoutDirectionChangedEvent: anEvent [
+ToMenuPaneEventHandler >> layoutDirectionChangedEvent: anEvent [
 
 	anEvent currentTarget configureLayout
 ]
 
 { #category : #'event handling' }
-ToMenuBarEventHandler >> layoutOrientationChangedEvent: anEvent [
+ToMenuPaneEventHandler >> layoutOrientationChangedEvent: anEvent [
 
 	target isHorizontal
 		ifTrue: [
@@ -38,32 +38,32 @@ ToMenuBarEventHandler >> layoutOrientationChangedEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToMenuBarEventHandler >> layoutResizerChangedEvent: anEvent [
+ToMenuPaneEventHandler >> layoutResizerChangedEvent: anEvent [
 
 	anEvent currentTarget configureLayout
 ]
 
 { #category : #'event handling' }
-ToMenuBarEventHandler >> mouseLeaveEvent: anEvent [
+ToMenuPaneEventHandler >> mouseLeaveEvent: anEvent [
 
 	target itemBar secondarySelecter deselectAll
 ]
 
 { #category : #'event handling' }
-ToMenuBarEventHandler >> mouseOverEvent: anEvent [
+ToMenuPaneEventHandler >> mouseOverEvent: anEvent [
 
 	target mouseOverEvent: anEvent
 ]
 
 { #category : #'api - hooks' }
-ToMenuBarEventHandler >> onInstalledIn: anElement [
+ToMenuPaneEventHandler >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	target := anElement
 ]
 
 { #category : #'api - hooks' }
-ToMenuBarEventHandler >> onUninstalledIn: anElement [
+ToMenuPaneEventHandler >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
 	target := nil

@@ -81,7 +81,7 @@ ToMenuItemElement >> isInline [
 ]
 
 { #category : #testing }
-ToMenuItemElement >> isMenuBarMenu [
+ToMenuItemElement >> isMenuPaneMenu [
 
 	^ false
 ]
@@ -101,10 +101,10 @@ ToMenuItemElement >> isTopMenu [
 ]
 
 { #category : #'t - menu window model' }
-ToMenuItemElement >> menuBarDo: aBlock [
+ToMenuItemElement >> menuPaneDo: aBlock [
 
 	| mb |
-	mb := self menuBar ifNil: [ ^ self ].
+	mb := self menuPane ifNil: [ ^ self ].
 	aBlock value: mb
 ]
 
@@ -133,7 +133,7 @@ ToMenuItemElement >> onRemovedFromItemBarOwner: aMenu [
 { #category : #'t - menu window model' }
 ToMenuItemElement >> rootMenu [
 
-	(self menuBarOwner isNil or: [ self menuBarOwner isMenuBar ]) ifTrue: [
+	(self menuBarOwner isNil or: [ self menuBarOwner isMenuPane ]) ifTrue: [
 		^ self isMenu
 			  ifTrue: [ self ]
 			  ifFalse: [  ] ].

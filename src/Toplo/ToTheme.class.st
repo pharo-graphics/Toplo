@@ -234,7 +234,7 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'border-width' value: 1).
 		  (ToTokenProperty name: #'border-paint' value: Color lightGray).
 		  (ToTokenProperty
-			   name: #'menuBar-border-paint'
+			   name: #'menu-pane-border-paint'
 			   value: (Color veryLightGray alpha: 0.2)).
 
 		  "Size, margin and padding"

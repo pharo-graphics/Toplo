@@ -8,7 +8,7 @@ Class {
 ToMenuWindowManager >> autoCloseWindow [ 
 
 	super autoCloseWindow.
-	element menuBarDo: [ :mb | mb cancelAutoOpen ]
+	element menuPaneDo: [ :mb | mb cancelAutoOpen ]
 ]
 
 { #category : #'window handling' }
@@ -89,7 +89,7 @@ ToMenuWindowManager >> onOpened [
 ToMenuWindowManager >> pickOutsideEvent: anEvent [
 
 	super pickOutsideEvent: anEvent.
-	element menuBarDo: [ :mb |
+	element menuPaneDo: [ :mb |
 		mb cancelAutoOpen ]
 ]
 

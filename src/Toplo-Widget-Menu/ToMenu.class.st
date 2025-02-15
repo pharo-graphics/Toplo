@@ -11,7 +11,7 @@ Class {
 		'builder',
 		'windowManager',
 		'openOnHovered',
-		'isMenuBarMenu'
+		'isMenuPaneMenu'
 	],
 	#category : #'Toplo-Widget-Menu-Items'
 }
@@ -89,7 +89,7 @@ ToMenu >> initialize [
 	self initializeAsMenuItemBarOwner.
 
 	isSubmenu := false.
-	isMenuBarMenu := false.
+	isMenuPaneMenu := false.
 	openOnHovered := true.
 	self applySkinInstallerOnFirstRequest: true.
 
@@ -116,15 +116,15 @@ ToMenu >> isMenu [
 ]
 
 { #category : #testing }
-ToMenu >> isMenuBarMenu [
+ToMenu >> isMenuPaneMenu [
 
-	^ isMenuBarMenu
+	^ isMenuPaneMenu
 ]
 
 { #category : #accessing }
-ToMenu >> isMenuBarMenu: aBoolean [
+ToMenu >> isMenuPaneMenu: aBoolean [
 
-	isMenuBarMenu := aBoolean
+	isMenuPaneMenu := aBoolean
 ]
 
 { #category : #'t - menu window model' }
@@ -148,7 +148,7 @@ ToMenu >> isSubmenu: aBoolean [
 { #category : #'t - menu window model' }
 ToMenu >> isTopMenu [
 
-	^ self isSubmenu not or: [ self isMenuBarMenu ]
+	^ self isSubmenu not or: [ self isMenuPaneMenu ]
 ]
 
 { #category : #accessing }
@@ -195,10 +195,24 @@ ToMenu >> onAddedInItemBarOwner: aMenu [
 	aMenu onAddedMenu: self
 ]
 
+{ #category : #'t - menu item bar owner - double dispatch' }
+ToMenu >> onAddedMenu: aMenu [
+
+	aMenu isSubmenu: true.
+	aMenu closeOnPicking: false
+]
+
 { #category : #'adding-removing' }
 ToMenu >> onRemovedFromItemBarOwner: aMenu [
 
 	aMenu onRemovedMenu: self
+]
+
+{ #category : #'t - menu item bar owner - double dispatch' }
+ToMenu >> onRemovedMenu: aMenu [
+
+	aMenu isSubmenu: false.
+	aMenu closeOnPicking: false
 ]
 
 { #category : #accessing }

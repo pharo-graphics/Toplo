@@ -1,10 +1,10 @@
 Trait {
-	#name : #TToMenuItemElementContainer,
+	#name : #TToMenuItemContainer,
 	#category : #'Toplo-Widget-Menu-Items'
 }
 
 { #category : #'t - menu item element container' }
-TToMenuItemElementContainer >> collectedNodesDo: aValuable [
+TToMenuItemContainer >> collectedNodesDo: aValuable [
 
 	self allChildrenBreadthFirstDo: [ :child |
 		(child isKindOf: ToMenuItemNode) ifTrue: [

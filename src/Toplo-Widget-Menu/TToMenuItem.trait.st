@@ -14,7 +14,7 @@ TToMenuItem >> allMenuWindows [
 TToMenuItem >> allMenuWindowsDo: aValuable [
 
 	| r |
-	r := self rootMenuWindowOrMenuBar ifNil: [ ^ self ].
+	r := self rootMenuItemContainer ifNil: [ ^ self ].
 	r allChildrenDepthFirstDo: [ :child |
 		(child isKindOf: ToMenu) ifTrue: [ child menuWindowDo: aValuable ] ]
 ]
@@ -30,7 +30,7 @@ TToMenuItem >> allOtherMenuWindows [
 TToMenuItem >> allOtherMenuWindowsDo: aValuable [
 
 	| r |
-	r := self rootMenuWindowOrMenuBar ifNil: [ ^ self ].
+	r := self rootMenuItemContainer ifNil: [ ^ self ].
 	r allChildrenDepthFirstDo: [ :child |
 		(child ~= self and: [
 			 (child isKindOf: ToMenu) ]) ifTrue: [
@@ -83,24 +83,24 @@ TToMenuItem >> isSubmenu [
 ]
 
 { #category : #'t - menu item' }
-TToMenuItem >> menuBar [
-
-	self parentChainReverseDo: [ :e |
-		(e isKindOf: ToMenuBar) ifTrue: [ ^ e ] ].
-	^ nil
-]
-
-{ #category : #'t - menu item' }
 TToMenuItem >> menuBarOwner [
 
 	^ self barElement ifNotNil: [ :be | be menuBarOwner ] 
 ]
 
 { #category : #'t - menu item' }
+TToMenuItem >> menuPane [
+
+	self parentChainReverseDo: [ :e |
+		(e isKindOf: ToMenuPane) ifTrue: [ ^ e ] ].
+	^ nil
+]
+
+{ #category : #'t - menu item' }
 TToMenuItem >> parentMenu [
 
 	^ self menuBarOwner ifNotNil: [ :bo |
-		  bo isMenuBar
+		  bo isMenuPane
 			  ifTrue: [  ]
 			  ifFalse: [ bo ] ]
 ]
@@ -112,10 +112,10 @@ TToMenuItem >> parentMenuDo: aBlock [
 ]
 
 { #category : #'t - menu item' }
-TToMenuItem >> rootMenuWindowOrMenuBar [
+TToMenuItem >> rootMenuItemContainer [
 
 	self parentChainReverseDo: [ :e |
-		((e isKindOf: ToMenuWindow) or: [ e isKindOf: ToMenuBar ]) ifTrue: [
+		((e isKindOf: ToMenuWindow) or: [ e isKindOf: ToMenuPane ]) ifTrue: [
 			^ e ] ].
 	^ nil
 ]

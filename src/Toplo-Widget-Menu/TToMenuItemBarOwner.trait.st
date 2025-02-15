@@ -40,21 +40,20 @@ TToMenuItemBarOwner >> onAddedFillerMenuItem: aFiller [
 { #category : #'t - menu item bar owner - double dispatch' }
 TToMenuItemBarOwner >> onAddedMenu: aMenu [
 
-	aMenu isSubmenu: true.
-	aMenu closeOnPicking: false
-]
 
-{ #category : #'t - menu item bar owner - double dispatch' }
-TToMenuItemBarOwner >> onAddedMenuBar: aMenuBar [
-
-	self onAddedMenuItem: aMenuBar.
-	aMenuBar isSubBar: true.
-	aMenuBar configureLayout.
-	aMenuBar unselectable: true
 ]
 
 { #category : #'t - menu item bar owner - double dispatch' }
 TToMenuItemBarOwner >> onAddedMenuItem: aMenuItem [
+]
+
+{ #category : #'t - menu item bar owner - double dispatch' }
+TToMenuItemBarOwner >> onAddedMenuPane: aMenuPane [
+
+	self onAddedMenuItem: aMenuPane.
+	aMenuPane isSubPane: true.
+	aMenuPane configureLayout.
+	aMenuPane unselectable: true
 ]
 
 { #category : #'t - menu item bar owner - double dispatch' }
@@ -84,22 +83,22 @@ TToMenuItemBarOwner >> onRemovedFillerMenuItem: aFiller [
 { #category : #'t - menu item bar owner - double dispatch' }
 TToMenuItemBarOwner >> onRemovedMenu: aMenu [
 
-	aMenu isMenuBarMenu: false.
-]
-
-{ #category : #'t - menu item bar owner - double dispatch' }
-TToMenuItemBarOwner >> onRemovedMenuBar: aMenuBar [
-
-	self itemList unselectableSelecter deselectIndex:
-		aMenuBar positionInBar.
-	aMenuBar isSubBar: false.
-	aMenuBar configureLayout.
-	self onRemovedMenuItem: aMenuBar.
 
 ]
 
 { #category : #'t - menu item bar owner - double dispatch' }
 TToMenuItemBarOwner >> onRemovedMenuItem: aMenuItem [
+
+]
+
+{ #category : #'t - menu item bar owner - double dispatch' }
+TToMenuItemBarOwner >> onRemovedMenuPane: aMenuPane [
+
+	self itemList unselectableSelecter deselectIndex:
+		aMenuPane positionInBar.
+	aMenuPane isSubPane: false.
+	aMenuPane configureLayout.
+	self onRemovedMenuItem: aMenuPane
 
 ]
 

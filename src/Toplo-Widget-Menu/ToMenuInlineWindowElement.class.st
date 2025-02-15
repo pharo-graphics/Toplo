@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuInlineWindowElement,
 	#superclass : #ToCustomMenuItem,
-	#traits : 'TToAnchoredWindowElement + TToMenuWindowModel + TToMenuItemElementContainer',
-	#classTraits : 'TToAnchoredWindowElement classTrait + TToMenuWindowModel classTrait + TToMenuItemElementContainer classTrait',
+	#traits : 'TToAnchoredWindowElement + TToMenuWindowModel + TToMenuItemContainer',
+	#classTraits : 'TToAnchoredWindowElement classTrait + TToMenuWindowModel classTrait + TToMenuItemContainer classTrait',
 	#category : #'Toplo-Widget-Menu-Window'
 }
 

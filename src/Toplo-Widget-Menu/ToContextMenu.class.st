@@ -94,8 +94,8 @@ ToContextMenu >> layoutStrategy [
 ]
 
 { #category : #accessing }
-ToContextMenu >> menuBar [ 
-	" a context menu can't be in a menubar "
+ToContextMenu >> menuPane [ 
+	" a context menu can't be in a menupane "
 	^ nil
 ]
 
@@ -109,6 +109,20 @@ ToContextMenu >> menuWindow [
 ToContextMenu >> newItemBar [
 
 	^ ToMenuItemBarElement new
+]
+
+{ #category : #'t - menu item bar owner - double dispatch' }
+ToContextMenu >> onAddedMenu: aMenu [
+
+	aMenu isSubmenu: true.
+	aMenu closeOnPicking: false
+]
+
+{ #category : #'t - menu item bar owner - double dispatch' }
+ToContextMenu >> onRemovedMenu: aMenu [
+
+	aMenu isSubmenu: false.
+	aMenu closeOnPicking: false
 ]
 
 { #category : #'t - menu window model' }

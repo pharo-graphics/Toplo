@@ -1226,7 +1226,7 @@ ToSandBox class >> example_CheckboxWithIndeterminate [
 { #category : #album }
 ToSandBox class >> example_CodeEditor [
 
-	| pane menuBar text album menuBuilder disabox inspectBtn showStatisticsBtn fileMenu |
+	| pane menuPane text album menuBuilder disabox inspectBtn showStatisticsBtn fileMenu |
 	pane := ToPane vertical matchParent.
 
 	text := self methodText asRopedText.
@@ -1296,14 +1296,14 @@ ToSandBox class >> example_CodeEditor [
 	showStatisticsBtn := ToMenuItem new labelText: 'Statistics'.
 	disabox := ToCheckMenuItem new label: (ToLabel text: 'Disable').
 
-	menuBar := ToMenuBar new.
-	menuBar hMatchParent.
-	menuBar addItem: fileMenu.
-	menuBar addItem: inspectBtn.
-	menuBar addItem: showStatisticsBtn.
-	menuBar addItem: disabox.
+	menuPane := ToMenuPane new.
+	menuPane hMatchParent.
+	menuPane addItem: fileMenu.
+	menuPane addItem: inspectBtn.
+	menuPane addItem: showStatisticsBtn.
+	menuPane addItem: disabox.
 
-	pane addChild: menuBar.
+	pane addChild: menuPane.
 	pane addChild: album.
 
 	inspectBtn whenClickedDo: [ :evt | album space root inspect ].
@@ -1352,7 +1352,7 @@ ToSandBox class >> example_EditableList2WithAllClassesNames [
 { #category : #album }
 ToSandBox class >> example_EditorWithMinHeight [
 
-	| pane menuBar text album disabox inspectBtn showStatisticsBtn |
+	| pane menuPane text album disabox inspectBtn showStatisticsBtn |
 	pane := ToPane vertical matchParent.
 
 	text := ''.
@@ -1372,13 +1372,13 @@ ToSandBox class >> example_EditorWithMinHeight [
 	showStatisticsBtn := ToMenuItem new labelText: 'Statistics'.
 	disabox := ToCheckMenuItem new label: (ToLabel text: 'Disable').
 
-	menuBar := ToMenuBar new.
-	menuBar hMatchParent.
-	menuBar addItem: inspectBtn.
-	menuBar addItem: showStatisticsBtn.
-	menuBar addItem: disabox.
+	menuPane := ToMenuPane new.
+	menuPane hMatchParent.
+	menuPane addItem: inspectBtn.
+	menuPane addItem: showStatisticsBtn.
+	menuPane addItem: disabox.
 
-	pane addChild: menuBar.
+	pane addChild: menuPane.
 	pane addChild: album.
 
 	inspectBtn whenClickedDo: [ :evt | album space root inspect ].
@@ -4663,10 +4663,10 @@ ToSandBox class >> example_inline7 [
 ]
 
 { #category : #menu }
-ToSandBox class >> example_inlineInMenuBar [
+ToSandBox class >> example_inlineInMenuPane [
 
 	| menu sub subsub frame subsubsub |
-	menu := ToMenuBar new.
+	menu := ToMenuPane new.
 	menu vertical: true.
 	menu hFitContent.
 	menu vMatchParent.
@@ -4703,10 +4703,10 @@ ToSandBox class >> example_inlineInMenuBar [
 ]
 
 { #category : #menu }
-ToSandBox class >> example_menuBar0 [
+ToSandBox class >> example_menuPane0 [
 
 	| bar menu sub |
-	bar := ToMenuBar new.
+	bar := ToMenuPane new.
 	bar hMatchParent.
 	menu := ToMenu new labelText: 'Menu 2'.
 	menu addItem: (ToMenuItem new labelText: 'item 1').
@@ -4723,14 +4723,14 @@ ToSandBox class >> example_menuBar0 [
 ]
 
 { #category : #menu }
-ToSandBox class >> example_menuBar1 [
+ToSandBox class >> example_menuPane1 [
 
 	| win bar fileMenu |
 	win := ToInnerWindow new.
 	win title: 'Menu bar example'.
 	win width: 600.
 
-	bar := ToMenuBar new
+	bar := ToMenuPane new
 		       hMatchParent;
 		       yourself.
 
@@ -4765,10 +4765,10 @@ ToSandBox class >> example_menuBar1 [
 ]
 
 { #category : #menu }
-ToSandBox class >> example_menuBar2 [
+ToSandBox class >> example_menuPane2 [
 
 	| menu frame bar |
-	bar := ToMenuBar new
+	bar := ToMenuPane new
 		       hMatchParent;
 		       vFitContent.
 	frame := ToInnerWindow new.
@@ -4812,10 +4812,10 @@ ToSandBox class >> example_menuBar2 [
 ]
 
 { #category : #menu }
-ToSandBox class >> example_menuBar3 [
+ToSandBox class >> example_menuPane3 [
 
 	| menu frame bar rand |
-	bar := ToMenuBar new.
+	bar := ToMenuPane new.
 	bar beHorizontal.
 	rand := Random new.
 	frame := ToInnerWindow new.
@@ -4877,71 +4877,10 @@ ToSandBox class >> example_menuBar3 [
 ]
 
 { #category : #menu }
-ToSandBox class >> example_menuBarInMenuBar [
-
-	| topMenuBar |
-	topMenuBar := ToMenuBar new.
-
-	3 timesRepeat: [
-		| mb |
-		mb := ToMenuBar new.
-		1 to: 3 do: [ :i |
-			| m |
-			m := ToMenu new labelText: 'Menu' , i asString.
-			1 to: 3 do: [ :j |
-			m addItem: (ToMenuItem new labelText: 'item ' , j asString) ].
-			mb addItem: m ].
-
-		topMenuBar addItem: mb.
-		(mb items at: 2) disable.		
-		topMenuBar addFiller ].
-	
-	topMenuBar addItem: (ToMenuItem new
-			 labelText: 'Inspect';
-			 whenClickedDo: [ topMenuBar inspect ];
-			 yourself).
-	topMenuBar hMatchParent.
-
-	topMenuBar openInSpace
-]
-
-{ #category : #menu }
-ToSandBox class >> example_menuBarInMenuBarVertical [
-
-	| topMenuBar |
-	topMenuBar := ToMenuBar new.
-	topMenuBar beVertical.
-	topMenuBar nodeWrapping: false.
-	
-	3 timesRepeat: [
-		| mb |
-		mb := ToMenuBar new.
-		mb beVertical.
-		mb vMatchParent.
-		1 to: 3 do: [ :i |
-			| m |
-			m := ToMenu new labelText: 'Menu' , i asString.
-			1 to: 3 do: [ :j |
-			m addItem: (ToMenuItem new labelText: 'item ' , j asString) ].
-			mb addItem: m ].
-		topMenuBar addItem: mb.
-		topMenuBar addFiller ].
-
-	topMenuBar addItem: (ToMenuItem new
-			 labelText: 'Inspect';
-			 whenClickedDo: [ topMenuBar inspect ];
-			 yourself).
-
-	topMenuBar hMatchParent.
-
-	topMenuBar openInInnerWindow 
-]
-
-{ #category : #menu }
-ToSandBox class >> example_menuBarVertical [
+ToSandBox class >> example_menuPaneVertical [
 
 	| menu frame bar |
-	bar := ToMenuBar new.
+	bar := ToMenuPane new.
 
 	frame := ToInnerWindow new.
 	bar addItem: (ToMenuItem new
@@ -5132,7 +5071,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 
 			menu addItem: sub ] ].
 
-	bar := ToMenuBar new
+	bar := ToMenuPane new
 		       hMatchParent;
 		       vFitContent.
 	bar nodeWrapping: false.
@@ -5178,7 +5117,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 ]
 
 { #category : #menu }
-ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
+ToSandBox class >> example_rootFrameWithContextMenu_menuPaneVertical [
 
 	| win menu sub subsub bar |
 	win := ToInnerWindow new title: 'Context menu Example'.
@@ -5205,7 +5144,7 @@ ToSandBox class >> example_rootFrameWithContextMenu_menubarVertical [
 
 	win pane contextMenu: [ :contextMenu :request |  ].
 
-	bar := ToMenuBar new
+	bar := ToMenuPane new
 		       hMatchParent;
 		       vFitContent.
 	bar addItem: (ToMenu new
@@ -5531,6 +5470,69 @@ ToSandBox class >> example_stillPressedEvent [
 				 e background: color ]).
 
 	e openInSpace
+]
+
+{ #category : #menu }
+ToSandBox class >> example_subMenuPane [
+
+	| topMenuBar |
+	topMenuBar := ToMenuPane new.
+
+	3 timesRepeat: [
+		| mb |
+		mb := ToMenuPane new.
+		1 to: 3 do: [ :i |
+			| m |
+			m := ToMenu new labelText: 'Menu' , i asString.
+			1 to: 3 do: [ :j |
+			m addItem: (ToMenuItem new labelText: 'item ' , j asString) ].
+			mb addItem: m ].
+
+		topMenuBar addItem: mb.
+		(mb items at: 2) disable.		
+		topMenuBar addFiller ].
+	
+	topMenuBar addItem: (ToMenuItem new
+			 labelText: 'Inspect';
+			 whenClickedDo: [ topMenuBar inspect ];
+			 yourself).
+	topMenuBar hMatchParent.
+
+	topMenuBar openInSpace
+]
+
+{ #category : #menu }
+ToSandBox class >> example_subMenuPaneVertical [
+
+	| topMenuBar |
+	topMenuBar := ToMenuPane new.
+	topMenuBar beVertical.
+	topMenuBar nodeWrapping: false.
+	
+	3 timesRepeat: [
+		| mb |
+		mb := ToMenuPane new.
+		mb beVertical.
+		mb vMatchParent.
+		1 to: 3 do: [ :i |
+			| m |
+			m := ToMenu new labelText: 'Menu' , i asString.
+			m addStamp: #'with-expand-button'.
+			1 to: 3 do: [ :j |
+			m addItem: (ToMenuItem new labelText: 'item ' , j asString) ].
+			mb addItem: m ].
+		topMenuBar addItem: mb.
+		topMenuBar addFiller ].
+
+	topMenuBar addFiller.
+	topMenuBar addItem: (ToMenuItem new
+			 labelText: 'Inspect';
+			 whenClickedDo: [ topMenuBar inspect ];
+			 yourself).
+
+	topMenuBar hMatchParent.
+
+	topMenuBar openInInnerWindow 
 ]
 
 { #category : #'switch button' }

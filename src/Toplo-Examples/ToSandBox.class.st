@@ -6865,10 +6865,11 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeave [
 { #category : #tooltip }
 ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 
-	| but text origString |
+	| but text origString win |
 	but := ToButton new.
 	but labelText: 'Button with editable tooltip'.
 	but closeTooltipOnMouseLeave: false.
+	
 
 	origString := 'Edit <Mouse still pressed> - Accept <Return>'.
 	text := origString asRopedText.
@@ -6908,7 +6909,8 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 		window root addChild: resetBtn ].
 
 	but whenClickedDo: [ :ann | 'Button clicked' traceCr ].
-	but openInSpace
+	win := but openInInnerWindow.
+	but tooltipWindowManager anchorRoot: win.
 ]
 
 { #category : #label }

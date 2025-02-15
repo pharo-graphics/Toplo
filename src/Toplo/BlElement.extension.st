@@ -437,7 +437,8 @@ BlElement >> openInInnerWindow [
 	| frame |
 	frame := ToInnerWindow new.
 	frame pane addChild: self.
-	frame openInSpace
+	frame openInSpace.
+	^ frame
 ]
 
 { #category : #'*Toplo' }

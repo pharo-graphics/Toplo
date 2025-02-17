@@ -18,6 +18,12 @@ ToTreeNode >> initialize [
 	super initialize.
 ]
 
+{ #category : #skin }
+ToTreeNode >> newRawSkin [ 
+	
+	^ ToTreeNodeSkin new
+]
+
 { #category : #accessing }
 ToTreeNode >> nodeHolder [ 
 	

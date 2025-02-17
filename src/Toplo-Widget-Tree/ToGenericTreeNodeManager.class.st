@@ -17,7 +17,7 @@ ToGenericTreeNodeManager >> buildNode: aNode [
 
 	| wrapper |
 	wrapper := aNode holder dataWrapper.
-	wrapper determineAndWrapChildren.
+	"wrapper wrapChildren."
 
 	nodeBuilder cull: aNode cull: wrapper cull: aNode holder
 ]
@@ -32,14 +32,8 @@ ToGenericTreeNodeManager >> defaultHolderClass [
 ToGenericTreeNodeManager >> defaultNodeBuilder [
 
 	^ [ :node :dataWrapper :holder |
-	  | start |
-	  start := self indentationDependingOnWrapper: dataWrapper.
-	  start addEventHandlerOn: BlClickEvent do: [ :e |
-		  e consume.
-		  holder click.
-		  "self treeElement notifyDataSourceChanged" ].
+
 	  node addChild: (ToTripletElement new
-			   startElement: start;
 			   middleElement: (ToLabel text: dataWrapper dataItem asString);
 			   startInterspace: 5) ]
 ]
@@ -48,41 +42,11 @@ ToGenericTreeNodeManager >> defaultNodeBuilder [
 ToGenericTreeNodeManager >> defaultNodeFactory [
 
 	^ [ :holder |
-	  ToTreeNode new nodeHolder: holder ]
+	  ToTreeNode new ]
 ]
 
 { #category : #initialization }
 ToGenericTreeNodeManager >> defaultNodeUnbuilder [
 
 	^ [ :node :dataItem :holder | ]
-]
-
-{ #category : #initialization }
-ToGenericTreeNodeManager >> indentationDependingOnWrapper: aDataSourceWrapper [
-
-	| elt |
-	elt := aDataSourceWrapper isLeaf
-		       ifTrue: [ BlElement new background: Color transparent  ]
-		       ifFalse: [
-			       BlSvgConverter convertFromString:
-				       (aDataSourceWrapper isCollapsed
-					        ifTrue: [
-					        ToMaterialDesignIconProvider outlined_keyboardarrowright ]
-					        ifFalse: [
-					        ToMaterialDesignIconProvider outlined_keyboardarrowdown ]) ].
-
-
-	^ elt size: 20 asPoint; margin: (BlInsets left: 20 * (aDataSourceWrapper nodeDepth - 1))
-]
-
-{ #category : #accessing }
-ToGenericTreeNodeManager >> treeElement [ 
-
-	^ treeElement
-]
-
-{ #category : #accessing }
-ToGenericTreeNodeManager >> treeElement: aTreeElement [
-
-	treeElement := aTreeElement 
 ]

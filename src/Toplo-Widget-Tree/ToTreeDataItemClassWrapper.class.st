@@ -1,11 +1,11 @@
 Class {
 	#name : #ToTreeDataItemClassWrapper,
 	#superclass : #ToTreeDataItemWrapper,
-	#category : #'Toplo-Widget-Tree'
+	#category : #'Toplo-Widget-Tree-Core'
 }
 
 { #category : #'as yet unclassified' }
 ToTreeDataItemClassWrapper >> determineChildren [
 
-	children := dataItem subclasses asOrderedCollection
+	^ dataItem subclasses asOrderedCollection
 ]

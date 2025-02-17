@@ -33,7 +33,6 @@ ToTreeDataItemWrapper >> collapse [
 
 	isCollapsed := true.
 
-	dataSource notifyChanged
 ]
 
 { #category : #accessing }
@@ -56,17 +55,9 @@ ToTreeDataItemWrapper >> dataSource: aDataSource [
 ]
 
 { #category : #'as yet unclassified' }
-ToTreeDataItemWrapper >> determineAndWrapChildren [
-
-	children ifNotNil: [ ^ self ].
-	self determineChildren.
-	self wrapChildren
-]
-
-{ #category : #'as yet unclassified' }
 ToTreeDataItemWrapper >> determineChildren [
 
-	children := OrderedCollection empty.
+	^ OrderedCollection empty.
 ]
 
 { #category : #accessing }
@@ -80,8 +71,6 @@ ToTreeDataItemWrapper >> expand [
 	children do: [ :nextWrapper |
 		dataSource addWrapper: nextWrapper after: currentWrapper.
 		currentWrapper := nextWrapper ].
-
-	dataSource notifyChanged
 ]
 
 { #category : #accessing }
@@ -107,6 +96,7 @@ ToTreeDataItemWrapper >> isCollapsed [
 { #category : #testing }
 ToTreeDataItemWrapper >> isLeaf [
 
+	children ifNil: [self wrapChildren].
 	^ children size = 0
 ]
 
@@ -133,9 +123,11 @@ ToTreeDataItemWrapper >> parentWrapper: aDataItemWrapper [
 { #category : #'as yet unclassified' }
 ToTreeDataItemWrapper >> wrapChildren [
 
-	children := children collect: [ :each |
+	| wrappedChildren |
+	wrappedChildren := self determineChildren collect: [ :each |
 		            self class new
 			            dataSource: dataSource;
 			            dataItem: each;
-			            parentWrapper: self ]
+			            parentWrapper: self ].
+	children := wrappedChildren
 ]

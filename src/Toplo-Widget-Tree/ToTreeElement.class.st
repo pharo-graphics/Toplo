@@ -122,13 +122,6 @@ ToTreeElement >> expandAll [
 ]
 
 { #category : #initialization }
-ToTreeElement >> initialize [
-
-	super initialize.
-	nodeManager treeElement: self
-]
-
-{ #category : #initialization }
 ToTreeElement >> initializeDataSource [
 
 	super initializeDataSource.

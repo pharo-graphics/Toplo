@@ -1628,6 +1628,33 @@ ToSandBox class >> example_Inline1 [
 	menu openInSpace
 ]
 
+{ #category : #list }
+ToSandBox class >> example_IntegerList [
+
+	| l nbItems space rand |
+	nbItems := 500.
+	rand := Random new.
+	l := ToListElement new.
+	l dataAccessor addAll: (1 to: nbItems).
+	l nodeBuilder: [ :node :anInteger |
+		node addChild: (ToLabel new text: anInteger asString asRopedText) ].
+	l addEventHandler: (BlEventHandler
+			 on: ToListStrongSelectionEvent
+			 do: [ :event |
+				 | pos nb |
+				 pos := event indexes first.
+				 nb := rand nextIntegerBetween: 3 and: 8.
+				 1 to: nb do: [ :i |
+				 l dataAccessor add: i afterIndex: pos + i - 1 ] ]).
+
+	space := BlSpace new
+		         extent: 100 @ 600;
+		         title: 'List with ' , nbItems asString , ' integers'.
+
+	space root addChild: l.
+	space show
+]
+
 { #category : #label }
 ToSandBox class >> example_LabelAndSelectableLabelAndTextField [
 

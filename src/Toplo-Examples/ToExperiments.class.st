@@ -320,6 +320,62 @@ ToExperiments class >> example_FrameLayout [
 	frame openInNewSpace
 ]
 
+{ #category : #tree }
+ToExperiments class >> example_IntegerTree [
+
+	| l nbItems space rand childrenHook |
+	nbItems := 10.
+	rand := Random new.
+	l := ToListElement new.
+	childrenHook := [ :anInteger |
+	                | nb |
+	                nb := rand nextIntegerBetween: 3 and: 8.
+	                1 to: nb ].
+
+	l dataAccessor addAll: ((1 to: nbItems) collect: [ :anInteger |
+			 ToExTreeDataWrapper new
+				 wrapped: anInteger;
+				 childrenHook: childrenHook;
+				 yourself ]).
+
+	l nodeBuilder: [ :node :anExWrapper :holder |
+		| align triplet |
+		anExWrapper holder: holder.
+		align := anExWrapper level * 10.
+		triplet := ToTripletElement new.
+		triplet horizontal: true.
+		triplet middleElement:
+			(ToLabel new text: anExWrapper wrapped asString).
+		triplet startAlignment: align.
+		triplet hMatchParent.
+		node addChild: triplet ].
+
+	l addEventHandler: (BlEventHandler
+			 on: ToListStrongSelectionEvent
+			 do: [ :event |
+				 | pos wrapper children |
+				 pos := event indexes first.
+				 wrapper := l dataAccessor at: pos.
+				 wrapper isExpanded
+					 ifTrue: [
+						 | childrenInterval |
+						 childrenInterval := wrapper childWrappersInterval.
+						 l dataAccessor removeFrom: childrenInterval first to: childrenInterval last.
+						 wrapper collapse ]
+					 ifFalse: [
+						 wrapper expand.
+						 children := wrapper currentChildren.
+						 children withIndexDo: [ :w :idx |
+							 l dataAccessor add: w afterIndex: pos + idx - 1 ] ] ]).
+
+	space := BlSpace new
+		         extent: 100 @ 600;
+		         title: 'List with ' , nbItems asString , ' integers'.
+
+	space root addChild: l.
+	space show
+]
+
 { #category : #frame }
 ToExperiments class >> example_LinearLayout [
 

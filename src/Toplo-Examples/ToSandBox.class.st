@@ -3343,10 +3343,59 @@ ToSandBox class >> example_TabBar [
 	| tb |
 	tb := ToTabBarElement new.
 	tb withCloseButton: true.
+	tb horizontal: true.
 	tb nodeWrapping: false.
 	tb dataAccessor addAll: ((ToSandBox statesOfAmerica collect: [ :s |
-			 ToButton new labelText: s ]) copyFrom: 1 to: 8).
+			 ToTabElement new middleElement: (ToLabel text: s) ]) copyFrom: 1 to: 8).
 	tb openInSpace 
+]
+
+{ #category : #tag }
+ToSandBox class >> example_TabBarWithLabels [
+
+	| tabBar dashBoard rootPane feedbackPane maj |
+	tabBar := ToTabBarElement new.
+
+	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
+		tabBar addItem:
+			(ToTabElement new middleElement: (ToLabel text: l); yourself) ].
+
+	(tabBar items at: 2) disable.
+	dashBoard := self segmentedDashBoardFor: tabBar.
+
+	feedbackPane := ToPane horizontal.
+	feedbackPane layout alignCenter.
+	maj := [
+	       | t |
+	       feedbackPane removeChildren.
+	       t := String streamContents: [ :stream |
+		            tabBar dataAccessor withIndexDo: [ :e :idx |
+			            stream
+				            nextPutAll: e middleElement text asString;
+				            nextPutAll: ': '.
+			            (tabBar selectionModel containsIndex: idx)
+				            ifTrue: [ stream nextPutAll: 'V ' ]
+				            ifFalse: [ stream nextPutAll: 'X ' ].
+			            stream nextPutAll: e checked asString.
+			            stream nextPutAll: ' '.
+			            idx < tabBar dataAccessor itemCount ifTrue: [
+				            stream nextPutAll: '- ' ] ] ].
+	       feedbackPane addChild: (ToLabel text: t) ].
+
+	tabBar addEventHandler: (BlEventHandler
+			 on: ToListStrongSelectionEvent
+			 do: [ :event |
+				 ' double click ' trace.
+				 event indexes traceCr ]).
+
+	tabBar addEventHandlerOn: ToListPrimarySelectionChangedEvent do: maj.
+	tabBar addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.
+	rootPane := ToPane vertical.
+	rootPane matchParent.
+	rootPane addChildren: {
+			dashBoard.
+			feedbackPane }.
+	rootPane openInSpace
 ]
 
 { #category : #tag }
@@ -5241,6 +5290,57 @@ ToSandBox class >> example_segmentedWithLabels [
 
 	| seg dashBoard rootPane feedbackPane maj |
 	seg := ToSegmentedElement new.
+
+	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
+		seg addItem: (ToSegmentedToggleButton new
+				 labelText: l;
+				 yourself) ].
+
+	(seg items at: 2) disable.
+	dashBoard := self segmentedDashBoardFor: seg.
+
+	feedbackPane := ToPane horizontal.
+	feedbackPane layout alignCenter.
+	maj := [
+	       | t |
+	       feedbackPane removeChildren.
+	       t := String streamContents: [ :stream |
+		            seg dataAccessor withIndexDo: [ :e :idx |
+			            stream
+				            nextPutAll: e label text asString;
+				            nextPutAll: ': '.
+			            (seg selectionModel containsIndex: idx)
+				            ifTrue: [ stream nextPutAll: 'V ' ]
+				            ifFalse: [ stream nextPutAll: 'X ' ].
+			            stream nextPutAll: e checked asString.
+			            stream nextPutAll: ' '.
+			            idx < seg dataAccessor itemCount ifTrue: [
+				            stream nextPutAll: '- ' ] ] ].
+	       feedbackPane addChild: (ToLabel text: t) ].
+
+	seg addEventHandler: (BlEventHandler
+			 on: ToListStrongSelectionEvent
+			 do: [ :event |
+				 ' double click ' trace.
+				 event indexes traceCr ]).
+
+	seg 
+		addEventHandlerOn: ToListPrimarySelectionChangedEvent
+		do: maj.
+	seg addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.
+	rootPane := ToPane vertical.
+	rootPane matchParent.
+	rootPane addChildren: {
+			dashBoard.
+			feedbackPane }.
+	rootPane openInSpace
+]
+
+{ #category : #segmented }
+ToSandBox class >> example_segmentedWithLabels2 [
+
+	| seg dashBoard rootPane feedbackPane maj |
+	seg := ToSegmentedBarElement new.
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		seg addItem: (ToSegmentedToggleButton new
@@ -8223,6 +8323,33 @@ ToSandBox class >> subsubsubTabPane [
 		but paneBuilder: [ :pane :theNoteBook | pane background: Color random ].
 		nb addTab: but ].
 	^ nb
+]
+
+{ #category : #tag }
+ToSandBox class >> tabBarDashBoardFor: aTabBarElement [
+
+	| mainPane barPane confPane checkingStrategyPane |
+	mainPane := ToPane horizontal.
+	mainPane matchParent.
+
+	confPane := self barConfigurationBoardFor: aTabBarElement.
+	(confPane childWithId: #selectOnPressedSwitch) disable.
+	(confPane childWithId: #deselectOnPressedSwitch) disable.
+	confPane padding: (BlInsets all: 5).
+	confPane width: 250.
+	confPane border: Color lightGray.
+	barPane := ToPane vertical.
+	barPane matchParent.
+	
+	checkingStrategyPane := self checkingStrategyChooserFor: aTabBarElement.
+	confPane addChild: checkingStrategyPane.
+	
+	mainPane addChildren: {
+			confPane.
+			barPane }.
+	barPane addChild: aTabBarElement.
+
+	^ mainPane
 ]
 
 { #category : #select }

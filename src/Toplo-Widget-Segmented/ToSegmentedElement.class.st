@@ -46,7 +46,7 @@ ToSegmentedElement >> initialize [
 
 	self group
 		addEventHandlerOn: ToCheckableGroupChangedEvent
-		do: [ :event | self dispatchEvent: event ].
+		do: [ :event | self dispatchEvent: event copy ].
 
 	self itemBar
 		addEventHandlerOn: ToListSelectionChangedEvent

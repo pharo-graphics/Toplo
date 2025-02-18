@@ -1,43 +1,19 @@
 Class {
 	#name : #ToTabNodeManager,
-	#superclass : #ToAbstractBarNodeManager,
+	#superclass : #ToCheckableBarNodeManager,
 	#category : #'Toplo-Widget-Tag-Tab'
 }
 
 { #category : #initialization }
-ToTabNodeManager >> buildNode: aNode [
+ToTabNodeManager >> defaultFakeDataItem [
 
-	| holder |
-	holder := aNode holder.
-	aNode tab: holder dataItem
-]
-
-{ #category : #initialization }
-ToTabNodeManager >> constraintNode: aNode [
-
-	super constraintNode: aNode
-]
-
-{ #category : #initialization }
-ToTabNodeManager >> defaultFakeDataItem [ 
-
-	^ ToButton new
-]
-
-{ #category : #'instance creation' }
-ToTabNodeManager >> newHolder [
-
-	^ ToNodeHolder new
+	^ ToItemToggleButton new
+		  middleElement: (ToLabel text: 'X');
+		  yourself
 ]
 
 { #category : #'instance creation' }
 ToTabNodeManager >> newNodeForHolder: aNodeHolder [
 
 	^ ToTabNode new
-]
-
-{ #category : #initialization }
-ToTabNodeManager >> unbuildNode: aNode [
-
-	aNode tab removeFromParent
 ]

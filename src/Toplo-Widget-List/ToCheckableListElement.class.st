@@ -19,7 +19,7 @@ ToCheckableListElement >> initialize [
 	
 	self group
 		addEventHandlerOn: ToCheckableGroupChangedEvent
-		do: [ :event | self dispatchEvent: event ].
+		do: [ :event | self dispatchEvent: event copy ].
 
 	self primarySelectionMode selectionOption
 		grouped: false;

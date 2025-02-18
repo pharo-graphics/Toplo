@@ -32,7 +32,7 @@ ToTagBarElement >> initialize [
 	self hMatchParent 
 ]
 
-{ #category : #'t - children - accessing' }
+{ #category : #'t - list element decorator - children - accessing' }
 ToTagBarElement >> nodes [
 
 	^ self innerElement nodes
@@ -48,19 +48,19 @@ ToTagBarElement >> nodesCount [
 	^ count
 ]
 
-{ #category : #accessing }
+{ #category : #'t - list element decorator - children - accessing' }
 ToTagBarElement >> nodesDo: aBlock [
 
 	self innerElement nodesDo: aBlock
 ]
 
-{ #category : #accessing }
+{ #category : #'t - list element decorator - children - accessing' }
 ToTagBarElement >> nodesSelect: aBlock [
 
 	^ self innerElement nodesSelect: aBlock
 ]
 
-{ #category : #accessing }
+{ #category : #'t - bar element' }
 ToTagBarElement >> sample: aData [
 
 	super sample: (ToSingleTag new

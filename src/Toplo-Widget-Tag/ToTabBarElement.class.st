@@ -1,15 +1,13 @@
 Class {
 	#name : #ToTabBarElement,
-	#superclass : #ToAbstractListElement,
-	#traits : 'TToBarElement',
-	#classTraits : 'TToBarElement classTrait',
+	#superclass : #ToCheckableBarElement,
 	#instVars : [
 		'withCloseButton'
 	],
 	#category : #'Toplo-Widget-Tag-Tab'
 }
 
-{ #category : #initialization }
+{ #category : #'t - item list - accessing' }
 ToTabBarElement >> defaultNodeManagerClass [
 
 	^ ToTabNodeManager

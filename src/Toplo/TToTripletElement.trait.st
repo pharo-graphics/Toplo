@@ -162,13 +162,13 @@ TToTripletElement >> hasEndElement [
 { #category : #'t - triplet element - testing' }
 TToTripletElement >> hasMiddleElement [
 
-	^ self props middleElement notNil
+	^ self tripletProperties middleElement notNil
 ]
 
 { #category : #'t - triplet element - testing' }
 TToTripletElement >> hasStartElement [
 
-	^ self props startElement notNil
+	^ self tripletProperties startElement notNil
 ]
 
 { #category : #'t - triplet element - initialization' }

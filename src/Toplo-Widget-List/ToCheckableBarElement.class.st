@@ -35,16 +35,16 @@ ToCheckableBarElement >> defaultNodeManagerClass [
 ToCheckableBarElement >> initialize [
 
 	super initialize.
-	
+
 	self group
 		addEventHandlerOn: ToCheckableGroupChangedEvent
-		do: [ :event | self dispatchEvent: event ].
+		do: [ :event | self dispatchEvent: event copy ].
 
 	self primarySelectionMode selectionOption
 		grouped: false;
 		beneath: true;
 		triggerSelectionState: true.
-	
+
 	self contextMenuSelectionMode selectionOption
 		grouped: false;
 		beneath: false.

@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-Segmented-Bar'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 ToSegmentedNodeManager >> defaultFakeDataItem [
 
 	^ ToSegmentedToggleButton new
@@ -12,7 +12,7 @@ ToSegmentedNodeManager >> defaultFakeDataItem [
 		  yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 ToSegmentedNodeManager >> newNodeForHolder: aNodeHolder [
 
 	^ ToSegmentedNode new

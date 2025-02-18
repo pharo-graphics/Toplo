@@ -7,7 +7,7 @@ Class {
 	#category : #'Toplo-Widget-Segmented-Bar'
 }
 
-{ #category : #initialization }
+{ #category : #'t - item list - accessing' }
 ToSegmentedBarElement >> defaultNodeManagerClass [ 
 
 	^ ToSegmentedNodeManager 

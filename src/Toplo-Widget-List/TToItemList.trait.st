@@ -65,7 +65,7 @@ TToItemList >> disabledItem: anItem [
 { #category : #'t - item list - disabled/enabled' }
 TToItemList >> enabledItem: anItem [
 
-	self enabledAtPosition: anItem positionInBar
+	self enabledAtPosition: anItem positionInList
 ]
 
 { #category : #'t - item list - hidden/visible' }

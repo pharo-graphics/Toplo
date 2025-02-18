@@ -21,9 +21,3 @@ ToCheckableNode >> clickEventHandlerClasses [
 
 	^  { ToCheckableNodeSelectionEventHandler } 
 ]
-
-{ #category : #skin }
-ToCheckableNode >> newRawSkin [ 
-
-	^ ToSegmentedNodeSkin new
-]

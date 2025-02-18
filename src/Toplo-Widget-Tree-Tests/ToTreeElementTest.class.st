@@ -14,32 +14,35 @@ ToTreeElementTest >> setUp [
 ]
 
 { #category : #tests }
-ToTreeElementTest >> testTreeElementChildSelectorChangesAlsoInDataSource [
+ToTreeElementTest >> testTreeElementDataAccessorIsDataSourceWrapper [
+
+	self
+		assert: tree dataAccessor className
+		equals: #ToTreeDataSourceWrapper.
+
+]
+
+{ #category : #tests }
+ToTreeElementTest >> testTreeElementDataItemWrapperChangesCorrectly [
 
 	self
 		assert: tree dataWrapperClass name
 		equals: #ToTreeDataItemWrapper.
-	self
-		assert: tree dataAccessor dataWrapperClass name
-		equals: #ToTreeDataItemWrapper.
 
-	tree dataWrapperClass: ToTreeDataItemRandomIntegersWrapper new.
+	tree dataWrapperClass: ToTreeDataItemPreviousIntegerWrapper new.
 
 	self
 		assert: tree dataWrapperClass className
-		equals: #ToTreeDataItemRandomIntegersWrapper.
-	self
-		assert: tree dataAccessor dataWrapperClass className
-		equals: #ToTreeDataItemRandomIntegersWrapper
+		equals: #ToTreeDataItemPreviousIntegerWrapper.
 ]
 
 { #category : #tests }
 ToTreeElementTest >> testTreeElementInitializesDataSourceAndNodeManager [
 
-	self assert:
-		(tree dataAccessor class inheritsFrom:
-			 ToInfiniteCollectionDataSource).
+	self
+		assert: tree dataSource className
+		equals: #ToInfiniteCollectionDataSource.
 
-	self assert:
-		(tree nodeManager class inheritsFrom: ToGenericListNodeManager)
+	self assert: tree nodeManager className
+	equals: #ToGenericTreeNodeManager 
 ]

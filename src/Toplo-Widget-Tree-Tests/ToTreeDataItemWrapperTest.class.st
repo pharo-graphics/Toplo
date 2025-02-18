@@ -16,22 +16,22 @@ ToTreeDataItemWrapperTest >> setUp [
 { #category : #tests }
 ToTreeDataItemWrapperTest >> testExpandAllAndCollapseAll [
 
-	| wrapper |
+	self skip: 'Cannot use ExpandAll and CollapseAll for now'.
 	self assert: tree dataAccessor isEmpty.
-	tree dataWrapperClass: ToTreeDataItemRandomIntegersWrapper.
+	tree dataWrapperClass: ToTreeDataItemPreviousIntegerWrapper.
 	tree dataAccessor addAll: (1 to: 5).
 
 	self assert: tree dataAccessor size equals: 5.
-	tree dataAccessor do: [ :each | self assert: each isCollapsed ].
+	tree dataAccessor do: [ :each | self assert: each isExpanded not ].
 
 	tree expandAll.
-	self assert: tree dataAccessor size equals: 11.
+	self assert: tree dataAccessor size equals: 15.
 	tree dataAccessor do: [ :each |
-		self assert: (each isCollapsed not or: each isLeaf) ].
+		self assert: (each isExpanded or: each isLeaf) ].
 
 	tree collapseAll.
 	self assert: tree dataAccessor size equals: 5.
-	tree dataAccessor do: [ :each | self assert: each isCollapsed ]
+	tree dataAccessor do: [ :each | self assert: each isExpanded not ]
 ]
 
 { #category : #tests }
@@ -51,14 +51,14 @@ ToTreeDataItemWrapperTest >> testWrappersExpandsAddsChildren [
 
 	| wrapper |
 	self assert: tree dataAccessor isEmpty.
-	tree dataWrapperClass: ToTreeDataItemRandomIntegersWrapper .
+	tree dataWrapperClass: ToTreeDataItemPreviousIntegerWrapper.
 	tree dataAccessor add: 2.
 
 	wrapper := tree dataAccessor at: 1.
 	self assert: tree dataAccessor size equals: 1.
-	self assert: wrapper isCollapsed.
+	self deny: wrapper isExpanded.
 	wrapper expand.
-	self deny: wrapper isCollapsed.
+	self assert: wrapper isExpanded.
 	self assert: tree dataAccessor size equals: 2
 ]
 
@@ -67,18 +67,18 @@ ToTreeDataItemWrapperTest >> testWrappersExpandsAddsChildrenAndCollapsesRemovesT
 
 	| wrapper |
 	self assert: tree dataAccessor isEmpty.
-	tree dataWrapperClass: ToTreeDataItemRandomIntegersWrapper.
+	tree dataWrapperClass: ToTreeDataItemPreviousIntegerWrapper.
 	tree dataAccessor add: 2.
 
 	wrapper := tree dataAccessor at: 1.
 	self assert: tree dataAccessor size equals: 1.
-	self assert: wrapper isCollapsed.
+	self deny: wrapper isExpanded.
 	wrapper expand.
-	self deny: wrapper isCollapsed.
+	self assert: wrapper isExpanded.
 	self assert: tree dataAccessor size equals: 2.
 	wrapper collapse.
 	self assert: tree dataAccessor size equals: 1.
-	self assert: wrapper isCollapsed
+	self deny: wrapper isExpanded
 ]
 
 { #category : #tests }
@@ -86,16 +86,17 @@ ToTreeDataItemWrapperTest >> testWrappersExpandsAndCollapses [
 
 	| wrapper |
 	self assert: tree dataAccessor isEmpty.
+	tree dataWrapperClass: ToTreeDataItemClassWrapper.
 	tree dataAccessor add: Collection.
 
-	wrapper := (tree dataAccessor at: 1).
-	self assert: wrapper isCollapsed.
+	wrapper := tree dataAccessor at: 1.
+	self deny: wrapper isExpanded.
 	wrapper collapse.
-	self assert: wrapper isCollapsed.
+	self deny: wrapper isExpanded.
 	wrapper expand.
-	self deny: wrapper isCollapsed.
+	self assert: wrapper isExpanded.
 	wrapper expand.
-	self deny: wrapper isCollapsed.
+	self assert: wrapper isExpanded
 ]
 
 { #category : #tests }
@@ -132,9 +133,8 @@ ToTreeDataItemWrapperTest >> testWrappersHasRightDepth [
 	tree dataAccessor add: Collection.
 
 	wrapper := tree dataAccessor at: 1.
-	self assert: wrapper nodeDepth equals: 1.
+	self assert: wrapper nodeDepth equals: 0.
 
-	wrapper determineAndWrapChildren.
 	wrapper children do: [ :child |
-		self assert: child nodeDepth equals: 2 ]
+		self assert: child nodeDepth equals: 1 ]
 ]

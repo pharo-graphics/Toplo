@@ -38,7 +38,7 @@ ToTreeDataItemWrapper >> collapse [
 
 	expanded ifFalse: [ ^ self ].
 
-	children do: [ :wrapper |
+	self children do: [ :wrapper |
 		wrapper collapse.
 		dataSource remove: wrapper ].
 
@@ -73,25 +73,20 @@ ToTreeDataItemWrapper >> determineChildren [
 { #category : #accessing }
 ToTreeDataItemWrapper >> expand [
 
-	| currentWrapper pos |
+	| pos |
 	(self isLeaf or: expanded) ifTrue: [ ^ self ].
 	expanded := true.
 
 	pos := self position.
 	self children withIndexDo: [ :wrapper :idx |
-		dataSource add: wrapper afterIndex: pos + idx - 1 ].
-	
-	"currentWrapper := self.
-	children do: [ :nextWrapper |
-		dataSource add: nextWrapper after: currentWrapper.
-		currentWrapper := nextWrapper ]"
+		dataSource add: wrapper afterIndex: pos + idx - 1 ]
 ]
 
 { #category : #accessing }
 ToTreeDataItemWrapper >> expandAll [
 
 	self expand.
-	children do: [ :each | each expandAll ]
+	self children do: [ :each | each expandAll ]
 ]
 
 { #category : #initialization }
@@ -110,7 +105,7 @@ ToTreeDataItemWrapper >> isExpanded [
 { #category : #testing }
 ToTreeDataItemWrapper >> isLeaf [
 
-	^ self children size = 0
+	^ self children isEmpty
 ]
 
 { #category : #accessing }

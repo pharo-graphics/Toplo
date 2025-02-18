@@ -15,23 +15,23 @@ Class {
 { #category : #'t - generic node manager' }
 ToGenericTreeNodeManager >> buildNode: aNode [
 
-	nodeBuilder cull: aNode cull: aNode holder dataWrapper cull: aNode holder
+	| dataItem |
+	dataItem := aNode holder dataItem.
+	aNode addChild: (ToTripletElement new
+			 middleElement: (ToLabel text: dataItem asString);
+			 startInterspace: 5)
+]
+
+{ #category : #initialization }
+ToGenericTreeNodeManager >> constraintNode: aNode [ 
+
+	aNode hMatchParent; vFitContent 
 ]
 
 { #category : #initialization }
 ToGenericTreeNodeManager >> defaultHolderClass [
 
 	^ ToTreeNodeHolder
-]
-
-{ #category : #initialization }
-ToGenericTreeNodeManager >> defaultNodeBuilder [
-
-	^ [ :node :dataWrapper :holder |
-
-	  node addChild: (ToTripletElement new
-			   middleElement: (ToLabel text: dataWrapper dataItem asString);
-			   startInterspace: 5) ]
 ]
 
 { #category : #initialization }

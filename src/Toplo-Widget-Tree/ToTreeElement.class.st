@@ -18,9 +18,11 @@ Class {
 { #category : #'as yet unclassified' }
 ToTreeElement class >> exampleExpandAllAndCollapseAll [
 
+	"This example doesn't work for now as ExpandAll and CollapseAll are not correctly implemented"
+
 	| tree expandAllButton collapseAllButton container |
 	tree := self new.
-	tree dataWrapperClass: ToTreeDataItemRandomIntegersWrapper.
+	tree dataWrapperClass: ToTreeDataItemPreviousIntegerWrapper.
 	tree dataAccessor addAll: (1 to: 10).
 
 	expandAllButton := ToButton new
@@ -42,11 +44,11 @@ ToTreeElement class >> exampleExpandAllAndCollapseAll [
 ]
 
 { #category : #'as yet unclassified' }
-ToTreeElement class >> exampleIntegerHalf [
+ToTreeElement class >> examplePreviousIntegers [
 
 	| l |
 	l := self new.
-	l dataWrapperClass: ToTreeDataItemRandomIntegersWrapper.
+	l dataWrapperClass: ToTreeDataItemPreviousIntegerWrapper.
 	l dataAccessor addAll: (1 to: 10).
 
 
@@ -61,6 +63,19 @@ ToTreeElement class >> exampleProtoObjectSubclasses [
 	l := self new.
 	l dataWrapperClass: ToTreeDataItemClassWrapper.
 	l dataAccessor add: ProtoObject.
+
+	l openInSpace
+]
+
+{ #category : #'as yet unclassified' }
+ToTreeElement class >> exampleStringWithoutFirstLetter [
+
+	| l |
+	l := self new.
+	l dataWrapperClass: ToTreeDataItemStringWithoutFirstLetterWrapper.
+	l dataAccessor add: 'BlElement'.
+	l dataAccessor add: 'Collection'.
+	l dataAccessor add: 'String'.
 
 	l openInSpace
 ]

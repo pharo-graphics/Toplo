@@ -62,6 +62,20 @@ ToTreeDataSourceWrapper >> addLast: aDataItem [
 ]
 
 { #category : #accessing }
+ToTreeDataSourceWrapper >> at: anIndex [
+
+	^ dataSource at: anIndex 
+]
+
+{ #category : #'expanding-collapsing' }
+ToTreeDataSourceWrapper >> collapseAll [
+
+	| currentWrappers |
+	currentWrappers := dataSource collection select: [ :each | each nodeDepth = 0 ].
+	currentWrappers do: [ :w | w collapse ]
+]
+
+{ #category : #accessing }
 ToTreeDataSourceWrapper >> dataSource: aDataSource [ 
 
 	dataSource := aDataSource 
@@ -73,10 +87,31 @@ ToTreeDataSourceWrapper >> dataWrapperClass: aToTreeDataItemWrapperClass [
 	dataWrapperClass := aToTreeDataItemWrapperClass 
 ]
 
+{ #category : #enumerating }
+ToTreeDataSourceWrapper >> do: aBlock [ 
+
+	dataSource do: aBlock 
+]
+
+{ #category : #'expanding-collapsing' }
+ToTreeDataSourceWrapper >> expandAll [
+
+	| currentWrappers |
+	currentWrappers := dataSource collection copy.
+	currentWrappers do: [ :w |
+		w expandAll ]
+]
+
 { #category : #testing }
 ToTreeDataSourceWrapper >> ifEmpty: aBlock [ 
 
 	dataSource ifEmpty: aBlock
+]
+
+{ #category : #testing }
+ToTreeDataSourceWrapper >> isEmpty [ 
+
+	^ dataSource isEmpty 
 ]
 
 { #category : #adding }
@@ -98,6 +133,12 @@ ToTreeDataSourceWrapper >> removeAll [
 ToTreeDataSourceWrapper >> removeAt: anIndex [ 
 
 	dataSource removeAt: anIndex 
+]
+
+{ #category : #accessing }
+ToTreeDataSourceWrapper >> size [ 
+
+	^ dataSource size
 ]
 
 { #category : #wrapping }

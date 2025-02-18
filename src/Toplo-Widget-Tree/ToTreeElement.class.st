@@ -9,7 +9,8 @@ Class {
 	#name : #ToTreeElement,
 	#superclass : #ToListElement,
 	#instVars : [
-		'dataWrapperClass'
+		'dataWrapperClass',
+		'dataSourceWrapper'
 	],
 	#category : #'Toplo-Widget-Tree-Core'
 }
@@ -85,6 +86,12 @@ ToTreeElement >> collapseAll [
 ]
 
 { #category : #accessing }
+ToTreeElement >> dataAccessor [ 
+
+	^ dataSourceWrapper
+]
+
+{ #category : #accessing }
 ToTreeElement >> dataWrapperClass [
 
 	^ dataWrapperClass ifNil: [ self defaultDataWrapperClass ]
@@ -94,13 +101,14 @@ ToTreeElement >> dataWrapperClass [
 ToTreeElement >> dataWrapperClass: aToTreeDataItemWrapperClass [
 
 	dataWrapperClass := aToTreeDataItemWrapperClass.
-	dataSource dataWrapperClass: aToTreeDataItemWrapperClass 
+"	dataSource dataWrapperClass: aToTreeDataItemWrapperClass."
+	dataSourceWrapper dataWrapperClass: aToTreeDataItemWrapperClass.
 ]
 
 { #category : #initialization }
 ToTreeElement >> defaultDataSource [
 
-	^ ToTreeInfiniteCollectionDataSource new
+	^ ToInfiniteCollectionDataSource new
 ]
 
 { #category : #initialization }
@@ -122,8 +130,22 @@ ToTreeElement >> expandAll [
 ]
 
 { #category : #initialization }
+ToTreeElement >> initialize [ 
+
+	super initialize.
+	self initializeDataSourceWrapper.
+]
+
+{ #category : #initialization }
 ToTreeElement >> initializeDataSource [
 
 	super initializeDataSource.
-	dataSource dataWrapperClass: self dataWrapperClass
+	"dataSource dataWrapperClass: self dataWrapperClass"
+]
+
+{ #category : #initialization }
+ToTreeElement >> initializeDataSourceWrapper [
+
+	dataSourceWrapper := ToTreeDataSourceWrapper new dataSource: dataSource.
+	dataSourceWrapper dataWrapperClass: self dataWrapperClass.
 ]

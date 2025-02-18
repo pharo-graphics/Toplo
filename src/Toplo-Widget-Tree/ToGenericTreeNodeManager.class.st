@@ -15,11 +15,7 @@ Class {
 { #category : #'t - generic node manager' }
 ToGenericTreeNodeManager >> buildNode: aNode [
 
-	| wrapper |
-	wrapper := aNode holder dataWrapper.
-	"wrapper wrapChildren."
-
-	nodeBuilder cull: aNode cull: wrapper cull: aNode holder
+	nodeBuilder cull: aNode cull: aNode holder dataWrapper cull: aNode holder
 ]
 
 { #category : #initialization }

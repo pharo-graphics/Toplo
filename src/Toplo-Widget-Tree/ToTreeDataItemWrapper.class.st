@@ -29,7 +29,7 @@ ToTreeDataItemWrapper >> collapse [
 
 	children do: [ :wrapper |
 		wrapper collapse.
-		dataSource removeWrapper: wrapper ].
+		dataSource remove: wrapper ].
 
 	isCollapsed := true.
 
@@ -69,7 +69,7 @@ ToTreeDataItemWrapper >> expand [
 
 	currentWrapper := self.
 	children do: [ :nextWrapper |
-		dataSource addWrapper: nextWrapper after: currentWrapper.
+		dataSource add: nextWrapper after: currentWrapper.
 		currentWrapper := nextWrapper ].
 ]
 

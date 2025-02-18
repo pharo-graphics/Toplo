@@ -96,10 +96,9 @@ BaselineOfToplo >> registerPackages: spec [
 		package: #'Toplo-Widget-List-Tests'
 		with: [ spec requires: #( #Toplo #'Toplo-Widget-List' ) ].
 
-	spec
-		package: #'Toplo-Widget-Menu'
-		with: [
-			spec requires: #( #Toplo #'Toplo-Widget-Button' #'Toplo-Widget-List'
+	spec package: #'Toplo-Widget-Menu' with: [
+		spec requires:
+			#( #Toplo #'Toplo-Widget-Button' #'Toplo-Widget-List'
 			   #'Toplo-Theme' ) ].
 
 	spec
@@ -143,15 +142,21 @@ BaselineOfToplo >> registerPackages: spec [
 
 	spec package: #'Toplo-Widget-Segmented' with: [
 		spec requires:
-			#( #Toplo  #'Toplo-Widget-Button' #'Toplo-Widget-List' ) ].
-		
+			#( #Toplo #'Toplo-Widget-Button' #'Toplo-Widget-List' ) ].
+
 	spec package: #'Toplo-Widget-Tag' with: [
 		spec requires:
-			#( #Toplo  #'Toplo-Widget-Button' #'Toplo-Widget-List') ].
+			#( #Toplo #'Toplo-Widget-Button' #'Toplo-Widget-List' ) ].
 
 	spec
 		package: #'Toplo-Widget-TabPane-Tests'
 		with: [ spec requires: #( #Toplo #'Toplo-Widget-TabPane' ) ].
+		
+	spec package: #'Toplo-Widget-Tree'
+		with: [ spec requires: #( #'Toplo-Widget-List' ) ].
+		
+	spec package: #'Toplo-Widget-Tree-Tests'
+		with: [ spec requires: #( #'Toplo-Widget-Tree' ) ].
 
 	spec package: #'Toplo-Theme-Bee' with: [
 		spec requires:
@@ -172,5 +177,5 @@ BaselineOfToplo >> registerPackages: spec [
 
 	spec
 		package: #'Toplo-Imported-Icons-MaterialDesign'
-		with: [ spec requires: #(  ) ]
+		with: [ spec requires: #(  ) ].
 ]

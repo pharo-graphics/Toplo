@@ -11,24 +11,6 @@ ToRawDarkTheme class >> defaultTokenProperties [
 		  (ToTokenProperty
 			   name: #'sh-style-table'
 			   value: SHRBTextStyler darkStyleTable).
-		  (ToTokenProperty name: #'submenu-arrow-right' value: [
-			   (ToMaterialDesignIconProvider iconNamed:
-					    'outlined_keyboardarrowright')
-				   size: 18 asPoint;
-				   innerImageColor: (Color r: 255 g: 255 b: 255);
-				   yourself ]).
-		  (ToTokenProperty name: #'submenu-arrow-down' value: [
-			   (ToMaterialDesignIconProvider iconNamed:
-					    'outlined_keyboardarrowdown')
-				   size: 18 asPoint;
-				   innerImageColor: (Color r: 255 g: 255 b: 255);
-				   yourself ]).
-		  (ToTokenProperty name: #'submenu-arrow-up' value: [
-			   (ToMaterialDesignIconProvider iconNamed:
-					    'outlined_keyboardarrowup')
-				   size: 18 asPoint;
-				   innerImageColor: (Color r: 255 g: 255 b: 255);
-				   yourself ]).
 		  (ToTokenProperty
 			   name: #'background-color'
 			   value: (Color fromHexString: '#313339')).

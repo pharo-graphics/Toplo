@@ -123,7 +123,10 @@ ToSkinManager >> defaultSkin: aSkin [
 { #category : #'skin - installing / uninstalling' }
 ToSkinManager >> enablementChangedIn: anElement [
 
-	self skinStateQueue enablementChangedIn: anElement
+	self
+		addSkinStateGeneration: [
+		self skinStateQueue enablementChangedIn: anElement ]
+		for: anElement
 ]
 
 { #category : #'skin state generation' }
@@ -258,6 +261,9 @@ ToSkinManager >> requestInstallSkinIn: anElement [
 	Thus, applying each request instantly could increase time consuming for nothing **** "
 	(self canApplySkinInstallerNowIn: anElement) ifFalse: [ ^ self ].
 	" then apply the installer now "
+	" but before, apply the uninstaller if any"
+	self skinUninstaller ifNotNil: [ :u | u applyOn: anElement ].
+	" finally install the skin"
 	self skinInstaller applyOn: anElement
 ]
 

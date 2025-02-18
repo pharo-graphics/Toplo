@@ -29,6 +29,12 @@ ToDeselectedSkinEvent >> fromState: aState [
 ]
 
 { #category : #accessing }
+ToDeselectedSkinEvent >> selectionMode [
+
+	^ self selectionOption selectionMode
+]
+
+{ #category : #accessing }
 ToDeselectedSkinEvent >> selectionOption [
 
 	^ selectionOption

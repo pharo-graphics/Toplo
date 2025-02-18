@@ -313,13 +313,13 @@ BlElement >> isMenu [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> isMenuBar [
+BlElement >> isMenuItem [
 
 	^ false
 ]
 
 { #category : #'*Toplo' }
-BlElement >> isMenuItem [
+BlElement >> isMenuPane [
 
 	^ false
 ]
@@ -437,7 +437,8 @@ BlElement >> openInInnerWindow [
 	| frame |
 	frame := ToInnerWindow new.
 	frame pane addChild: self.
-	frame openInSpace
+	frame openInSpace.
+	^ frame
 ]
 
 { #category : #'*Toplo' }

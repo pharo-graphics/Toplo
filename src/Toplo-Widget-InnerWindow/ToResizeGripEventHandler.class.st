@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'gripTarget'
 	],
-	#category : #'Toplo-Widget-InnerWindow'
+	#category : #'Toplo-Widget-InnerWindow-Support'
 }
 
 { #category : #'event handling' }

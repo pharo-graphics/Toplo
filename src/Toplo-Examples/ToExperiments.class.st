@@ -70,6 +70,23 @@ AeFontStretch: condensed expanded extraCondensed extraExpanded normal semiConden
 	^ text
 ]
 
+{ #category : #tree }
+ToExperiments class >> example_ClassTree [
+
+	| tree childrenHook pane |
+	pane := self newTreePane.
+	tree := pane childWithId: #treeElement.
+	childrenHook := [ :aClass | aClass subclasses ].
+
+	tree dataAccessor add: (ToExTreeDataWrapper new
+			 dataAccessor: tree dataAccessor;
+			 wrapped: ToElement;
+			 childrenHook: childrenHook;
+			 yourself).
+			
+	pane openInInnerWindow
+]
+
 { #category : #'drag and drop' }
 ToExperiments class >> example_DragAndDropWithLinearLayout [
 
@@ -318,6 +335,29 @@ ToExperiments class >> example_FrameLayout [
 	frame addChild: fill.
 	frame addChild: right.
 	frame openInNewSpace
+]
+
+{ #category : #tree }
+ToExperiments class >> example_IntegerTree [
+
+	| tree nbItems rand childrenHook pane |
+	nbItems := 50000.
+	rand := Random new.
+	pane := self newTreePane.
+	tree := pane childWithId: #treeElement.
+	childrenHook := [ :anInteger |
+	                | nb |
+	                nb := rand nextIntegerBetween: 0 and: 4.
+	                1 to: nb ].
+
+	tree dataAccessor addAll: ((1 to: nbItems) collect: [ :anInteger |
+			 ToExTreeDataWrapper new
+				 dataAccessor: tree dataAccessor;
+				 wrapped: anInteger;
+				 childrenHook: childrenHook;
+				 yourself ]).
+
+	pane openInInnerWindow
 ]
 
 { #category : #frame }
@@ -1458,4 +1498,83 @@ ToExperiments class >> example_verticalLabel [
 			 t rotateBy: 270 ])
 		border: (BlBorder paint: Color gray);
 		openInSpace
+]
+
+{ #category : #tree }
+ToExperiments class >> newTreeElement [
+
+	| tree |
+	tree := ToListElement new.
+	tree withRowNumbers.
+
+	tree nodeBuilder: [ :node :anExWrapper :holder |
+		| align triplet arrowIcon arrowButton iconContainer hasChildren |
+		align := anExWrapper level * 25.
+		triplet := ToTripletElement new.
+		triplet horizontal: true.
+		triplet middleElement:
+			(ToLabel new text: anExWrapper wrapped asString).
+		arrowIcon := ToImage new.
+		hasChildren := anExWrapper hasChildren.
+		hasChildren ifTrue: [
+			| arrowTk |
+			arrowTk := anExWrapper isExpanded
+				           ifTrue: [ #'submenu-arrow-down' ]
+				           ifFalse: [ #'submenu-arrow-right' ].
+			arrowIcon innerImage: (tree valueOfTokenNamed: arrowTk) ].
+		arrowIcon
+			size: 18 asPoint;
+			id: #arrow.
+		iconContainer := ToElement new
+			                 fitContent;
+			                 yourself.
+		iconContainer layout: BlLinearLayout horizontal.
+		iconContainer addChild: (ToElement new size: align @ 0).
+		arrowButton := ToButton new
+			       icon: arrowIcon;
+			       yourself.
+		arrowButton addAllStamps: #( #iconic #borderless ).
+		iconContainer addChild: arrowButton.
+		triplet startInterspace: 10.
+		triplet startElement: iconContainer.
+		hasChildren ifTrue: [
+			arrowButton whenClickedDo: [ :evt |
+				| newArrowTk |
+				anExWrapper toggle.
+				newArrowTk := anExWrapper isExpanded
+					              ifTrue: [ #'submenu-arrow-down' ]
+					              ifFalse: [ #'submenu-arrow-right' ].
+				arrowIcon innerImage: (tree valueOfTokenNamed: newArrowTk) ] ].
+		triplet hMatchParent.
+		node addChild: triplet ].
+	
+	^ tree
+]
+
+{ #category : #tree }
+ToExperiments class >> newTreePane [
+
+	| tree inspectBtn showStatisticsBtn disabox menuPane pane |
+	tree := self newTreeElement.
+	tree id: #treeElement.
+	inspectBtn := ToMenuItem new labelText: 'Inspect'.
+	showStatisticsBtn := ToMenuItem new labelText: 'Statistics'.
+	disabox := ToCheckMenuItem new label: (ToLabel text: 'Disable').
+
+	menuPane := ToMenuPane new.
+	menuPane hMatchParent.
+	menuPane addItem: inspectBtn.
+	menuPane addItem: showStatisticsBtn.
+	menuPane addItem: disabox.
+
+	inspectBtn whenClickedDo: [ :evt | tree space root inspect ].
+	disabox whenClickedDo: [ :evt | tree disabled: disabox isChecked ].
+	showStatisticsBtn whenClickedDo: [ :evt |
+		tree space showStatisticsWindow ].
+
+	pane := ToPane vertical matchParent.
+	pane addChild: menuPane.
+	pane addChild: tree.
+
+	^ pane
 ]

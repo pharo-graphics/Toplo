@@ -4,19 +4,42 @@ Class {
 	#category : #'Toplo-Widget-Menu-Window'
 }
 
+{ #category : #accessing }
+ToMenuInlineWindowMode >> menuBarOwner [ 
+
+	^ self element menuBarOwner
+]
+
+{ #category : #'api - displaying' }
+ToMenuInlineWindowMode >> onMeasure: anExtentMeasurementSpec element: aWindow onEvent: anEvent [
+
+	| w |
+	" self element is the inline ToMenu "
+	w := self element measuredWidth.
+	aWindow collectedNodesDo: [ :node | w := w max: node measuredWidth ].
+	" change the window width if necessary "
+	anExtentMeasurementSpec widthSpec size < w ifFalse: [ ^ self ].
+	anExtentMeasurementSpec widthSpec size: w
+]
+
 { #category : #'window handling' }
 ToMenuInlineWindowMode >> startWindow: aWindow [
+	" the manager element is a ToMenu. 
+	The window is added after the ToMenu in its barOwner"
 
-	manager element parent item barOwner 
+	self menuBarOwner
 		addItem: aWindow
-		afterIndex: manager element parent holder position.
-	manager element requestNewSkin
+		afterIndex: self element positionInList.
+	self element requestNewSkin
 ]
 
 { #category : #'window handling' }
 ToMenuInlineWindowMode >> stopWindow: aWindow [
 
-	manager element parent item barOwner
+	" the manager element is a ToMenu. 
+	remove the window from the ToMenu barOwner ( see startWindow: ) "
+
+	self menuBarOwner
 		removeItem: aWindow.
-	manager element requestNewSkin
+	self element requestNewSkin
 ]

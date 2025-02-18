@@ -22,11 +22,29 @@ ToListSelecter >> addCommand: aCommand [
 
 	enabled ifFalse: [ ^ self ].
 	aCommand addedIn: self.
-	commandApplicationStrategy addCommand: aCommand 
+	commandApplicationStrategy addCommand: aCommand from: self
+]
+
+{ #category : #'command application' }
+ToListSelecter >> applyBasicCommand: aCommand [
+
+	| previousModel |
+	"((aCommand isKindOf: ToIntervalSelectionCommand ) and: [ aCommand operation isKindOf: ToRemoveSelectionOperation ]) ifTrue: [ self halt ]."
+
+	previousModel := selectionModel copy.
+	aCommand applyWithOperator: operator.
+	previousModel = aCommand selectionModel ifTrue: [ ^ self ].
+	self onCommandApplied: aCommand
 ]
 
 { #category : #'command application' }
 ToListSelecter >> applyCommand: aCommand [
+
+	aCommand applicationResquestIn: self
+]
+
+{ #category : #'command application' }
+ToListSelecter >> applyCompositeCommand: aCommand [
 
 	| previousModel |
 	previousModel := selectionModel copy.
@@ -78,7 +96,7 @@ ToListSelecter >> currentIndex [
 { #category : #initialization }
 ToListSelecter >> defaultCommandApplicationStrategy [
 
-	^ ToQueueBasedCommandApplicationStrategy new
+	^ nil
 ]
 
 { #category : #operations }
@@ -242,7 +260,7 @@ ToListSelecter >> nextSelectableIndexToScrollTo [
 ]
 
 { #category : #'command application' }
-ToListSelecter >> onCommandApplied: aCommand [
+ToListSelecter >> onBasicCommandApplied: aCommand [
 
 	| req |
 	selectionChangedEventClass ifNil: [ ^ self ].
@@ -260,12 +278,27 @@ ToListSelecter >> onCommandApplied: aCommand [
 	element dispatchAuthorisationRequest: req.
 ]
 
+{ #category : #'command application' }
+ToListSelecter >> onCommandApplied: aCommand [
+
+	aCommand onAppliedIn: self
+]
+
+{ #category : #'command application' }
+ToListSelecter >> onCompositeCommandApplied: aCommand [
+
+	self onBasicCommandApplied: aCommand
+]
+
 { #category : #'api - hooks' }
 ToListSelecter >> onInstalledIn: anElement [
 
 	element := anElement.
 	selectionModel on: anElement.
-	commandApplicationStrategy commandApplier: self element: element
+	commandApplicationStrategy
+		ifNil: [
+		commandApplicationStrategy := element commandApplicationStrategy ]
+		ifNotNil: [ commandApplicationStrategy element: element ]
 ]
 
 { #category : #'api - hooks' }

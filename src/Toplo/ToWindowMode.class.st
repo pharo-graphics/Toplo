@@ -4,13 +4,13 @@ Class {
 	#instVars : [
 		'manager'
 	],
-	#category : #'Toplo-Core-Window'
+	#category : #'Toplo-Core-Window-Support'
 }
 
-{ #category : #'api - displaying' }
-ToWindowMode >> arrangeWindow: aWindow onEvent: anEvent [
+{ #category : #accessing }
+ToWindowMode >> element [
 
-	self subclassResponsibility 
+	^ manager anchorElement
 ]
 
 { #category : #testing }
@@ -37,6 +37,12 @@ ToWindowMode >> newWindow [
 ToWindowMode >> onInstalledIn: aManager [
 
 	manager := aManager
+]
+
+{ #category : #'api - displaying' }
+ToWindowMode >> onMeasure: anExtentMeasurementSpec element: aWindow onEvent: anEvent [
+
+	self subclassResponsibility 
 ]
 
 { #category : #'api - hooks' }

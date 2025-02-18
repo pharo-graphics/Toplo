@@ -150,12 +150,12 @@ TToElementWithTooltipTest >> testTooltip [
 	tt := BlElement new.
 	e := ToElement new.
 	self assert: e hasTooltip not.
-	e tooltip: [:win :theRequest | win root addChild: tt].
+	e tooltip: [ :win :theRequest | win root addChild: tt ].
 	self assert: e hasTooltip.
 	ttwin := e newTooltipWindowEvent: nil.
 	self assert: e currentTooltipWindow identicalTo: ttwin.
 	self assert: ttwin root firstChild identicalTo: tt.
-	self assert: ttwin element identicalTo: e.
+	self assert: ttwin anchorElement identicalTo: e.
 	^ e
 ]
 
@@ -262,11 +262,11 @@ TToElementWithTooltipTest >> testTooltipWindowManager [
 	e := ToElement new.
 	self assert: e currentTooltipWindow isNil.
 	self assert: e rawTooltipWindowManager isNil.
-	e tooltip: [:win :theRequest | win root addChild: ToElement new].
+	e tooltip: [ :win :theRequest | win root addChild: ToElement new ].
 	self assert: e hasTooltip.
 	self assert: e rawTooltipWindowManager notNil.
 	e newTooltipWindowEvent: nil.
 	self assert: e tooltipWindowManager currentWindow notNil.
-	self assert: e tooltipWindowManager element identicalTo: e.
+	self assert: e tooltipWindowManager anchorElement identicalTo: e.
 	^ e
 ]

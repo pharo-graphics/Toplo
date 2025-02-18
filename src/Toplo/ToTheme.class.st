@@ -55,24 +55,21 @@ ToTheme class >> defaultTokenProperties [
 			   name: #'sh-style-table'
 			   value: SHRBTextStyler defaultStyleTable).
 		  (ToTokenProperty name: #'background-color' value: Color white).
-		  (ToTokenProperty name: #'submenu-arrow-right' value: [
-			   (ToMaterialDesignIconProvider iconNamed:
-					    'outlined_keyboardarrowright')
-				   size: 18 asPoint;
-				   innerImageColor: Color gray;
-				   yourself ]).
-		  (ToTokenProperty name: #'submenu-arrow-down' value: [
-			   (ToMaterialDesignIconProvider iconNamed:
-					    'outlined_keyboardarrowdown')
-				   size: 18 asPoint;
-				   innerImageColor: Color gray;
-				   yourself ]).
-		  (ToTokenProperty name: #'submenu-arrow-up' value: [
-			   (ToMaterialDesignIconProvider iconNamed:
-					    'outlined_keyboardarrowup')
-				   size: 18 asPoint;
-				   innerImageColor: Color gray;
-				   yourself ]).
+		  (ToTokenProperty
+			   name: #empty_box
+			   value: (ToMiscellaneousIcons innerImageNamed: 'filled_emptyBox')).
+		  (ToTokenProperty
+			   name: #'submenu-arrow-right'
+			   value: (ToMaterialDesignIconProvider innerImageNamed:
+					    'outlined_keyboardarrowright')).
+		  (ToTokenProperty
+			   name: #'submenu-arrow-down'
+			   value: (ToMaterialDesignIconProvider innerImageNamed:
+					    'outlined_keyboardarrowdown')).
+		  (ToTokenProperty
+			   name: #'submenu-arrow-up'
+			   value: (ToMaterialDesignIconProvider innerImageNamed:
+					    'outlined_keyboardarrowup')).
 		  (ToTokenProperty name: #'border-radius' value: 4).
 		  (ToTokenProperty name: #'border-radius-LG' value: 8).
 		  (ToTokenProperty name: #'border-radius-SM' value: 4).
@@ -236,6 +233,9 @@ ToTheme class >> defaultTokenProperties [
 			   value: self defaultColorPrimary).
 		  (ToTokenProperty name: #'border-width' value: 1).
 		  (ToTokenProperty name: #'border-paint' value: Color lightGray).
+		  (ToTokenProperty
+			   name: #'menu-pane-border-paint'
+			   value: (Color veryLightGray alpha: 0.2)).
 
 		  "Size, margin and padding"
 		  (ToTokenProperty name: #'control-height' value: 32).
@@ -318,6 +318,9 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty
 			   name: #'color-primary-selection-disabled'
 			   value: (Color gray alpha: 0.3)).
+		  (ToTokenProperty
+			   name: #'color-secondary-selection'
+			   value: (Color veryLightGray alpha: 0.1)).
 
 		  (ToTokenProperty name: #'border-width-primary-selection' value: 1).
 		  (ToTokenProperty

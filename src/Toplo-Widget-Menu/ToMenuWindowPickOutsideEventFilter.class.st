@@ -11,7 +11,8 @@ ToMenuWindowPickOutsideEventFilter >> isPickedOutsideEvent: anEvent [
 	| target |
 	target := anEvent target.
 	(target firstInParentChainSatisfying: [ :e |
-		 e isKindOf: ToPopupWindow ]) ifNotNil: [ :w | target := w element ].
+		 e isKindOf: ToPopupWindow ]) ifNotNil: [ :w |
+		target := w anchorElement ].
 	(target hasAnyInParentChainSatisfying: [ :e |
 		 e isKindOf: ToMenuItemElement ]) ifTrue: [ ^ false ].
 	^ super isPickedOutsideEvent: anEvent
@@ -27,7 +28,7 @@ ToMenuWindowPickOutsideEventFilter >> onMouseUpEvent: anEvent [
 	" Clicking on a menu item that is not a top item 
 	should cancel the menubar auto-open"
 
-	self element menuBarDo: [ :mb |
+	self element menuPaneDo: [ :mb |
 		(anEvent target firstInParentChainSatisfying: [ :e |
 			 e isKindOf: ToMenuItemElement ]) ifNotNil: [ :w |
 			w isTopMenu ifFalse: [ mb cancelAutoOpen ] ] ].

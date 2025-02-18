@@ -15,37 +15,15 @@ ToGenericBarNodeManager >> buildNode: aNode [
 		cull: aNode holder
 ]
 
-{ #category : #initialization }
-ToGenericBarNodeManager >> defaultHolderClass [
-
-	^ ToListNodeHolder
-]
-
-{ #category : #initialization }
-ToGenericBarNodeManager >> defaultNodeBuilder [
-
-	^ [ :node :dataItem :holder |
-	  node addChild: (ToLabel text: dataItem asString)  ]
-]
-
-{ #category : #initialization }
+{ #category : #'t - generic node manager' }
 ToGenericBarNodeManager >> defaultNodeFactory [
 
 	^ [ :holder | ToBarNode new ]
 ]
 
 { #category : #initialization }
-ToGenericBarNodeManager >> defaultNodeUnbuilder [
-
-	^ [ :node :dataItem :holder | node removeChildren  ]
-]
-
-{ #category : #initialization }
 ToGenericBarNodeManager >> initialize [ 
 
 	super initialize.
-		holderClass := self defaultHolderClass.
-	nodeBuilder := self defaultNodeBuilder.
-	nodeUnbuilder := self defaultNodeUnbuilder.
-	nodeFactory := self defaultNodeFactory
+	self initializeAsGenericNodeManager 
 ]

@@ -41,14 +41,6 @@ ToStyleSheet class >> defaultWritablePropertyList [
 
 		  "others"
 		  (ToPseudoProperty
-			   name: #'background-color'
-			   reader: [ :e |
-				   e background paint
-					   ifNotNil: [ :f | f color ]
-					   ifNil: [ Color transparent ] ]
-			   writer: [ :e :v | e background: v ]).
-
-		  (ToPseudoProperty
 			   name: #'border-with-builder'
 			   reader: [ :e | e border ]
 			   writer: [ :e :v | e border: v build ]).

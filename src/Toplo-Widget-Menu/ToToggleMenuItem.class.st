@@ -10,7 +10,7 @@ Class {
 	#category : #'Toplo-Widget-Menu-Items'
 }
 
-{ #category : #accessing }
+{ #category : #'t - button holder' }
 ToToggleMenuItem >> button: aCheckbox [
 
 	super button: aCheckbox.
@@ -18,13 +18,13 @@ ToToggleMenuItem >> button: aCheckbox [
 
 ]
 
-{ #category : #initialization }
+{ #category : #'t - button holder' }
 ToToggleMenuItem >> buttonClass [
 
 	^ ToToggleButton
 ]
 
-{ #category : #initialization }
+{ #category : #'t - button holder' }
 ToToggleMenuItem >> buttonClickEventClass [ 
 
 	^ ToCheckableCheckEvent 
@@ -42,7 +42,7 @@ ToToggleMenuItem >> checkableData: aCheckableData [
 	^ self shouldNotImplement 
 ]
 
-{ #category : #'t - menu item' }
+{ #category : #'t - button holder' }
 ToToggleMenuItem >> closeOnPicking [ 
 
 	^ false

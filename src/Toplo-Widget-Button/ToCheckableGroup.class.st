@@ -72,7 +72,7 @@ ToCheckableGroup >> checkedButtons [
 { #category : #accessing }
 ToCheckableGroup >> checkedList [
 
-	^ registeredCheckables select: [ :b | b checked ]
+	^ registeredCheckables select: [ :b | b isChecked ]
 ]
 
 { #category : #accessing }
@@ -113,9 +113,7 @@ ToCheckableGroup >> initialize [
 	super initialize.
 	eventDispatcher := BlDirectEventDispatcher on: self.
 	checkingStrategy := self defaultCheckStrategy.
-	registeredCheckables := ToObservableCollection new.
-	registeredCheckables addEventHandler: (ToCheckableGroupCollectionEventHandler new checkableGroup: self; yourself).
-
+	registeredCheckables := OrderedCollection new.
 	self notifyChanged
 ]
 
@@ -131,13 +129,14 @@ ToCheckableGroup >> notifyChanged [
 { #category : #'registering / unregistering' }
 ToCheckableGroup >> register: aCheckable [
 
-	registeredCheckables add: aCheckable
+	registeredCheckables add: aCheckable.
+	self checkingStrategy register: aCheckable in: self
 ]
 
 { #category : #'registering / unregistering' }
 ToCheckableGroup >> registerAll: aCollection [
 
-	registeredCheckables addAll: aCollection
+	aCollection do: [ :e | self register: e ]
 ]
 
 { #category : #accessing }
@@ -170,15 +169,15 @@ ToCheckableGroup >> removeAll [
 { #category : #'checking / unchecking request' }
 ToCheckableGroup >> uncheckAll [
 
-	self checkedList do: [ :b | b checkableData privateChecked: false ]
+	self checkedList do: [ :b | b privateChecked: false ]
 ]
 
 { #category : #'checking / unchecking request' }
 ToCheckableGroup >> uncheckAllExcept: aButton [
 
 	(self registeredCheckables select: [ :b |
-		 b ~= aButton and: [ b checked ] ]) do: [ :b |
-		b checkableData privateChecked: false ]
+		 b ~= aButton and: [ b isChecked ] ]) do: [ :b |
+		b privateChecked: false ]
 ]
 
 { #category : #accessing }
@@ -194,18 +193,20 @@ ToCheckableGroup >> uncheckedButtons [
 { #category : #accessing }
 ToCheckableGroup >> uncheckedList [
 
-	^ registeredCheckables reject: [ :b | b checked ]
+	^ registeredCheckables reject: [ :b | b isChecked ]
 ]
 
 { #category : #'registering / unregistering' }
 ToCheckableGroup >> unregister: aCheckable [
 
+	self checkingStrategy unregister: aCheckable from: self.
 	registeredCheckables remove: aCheckable
 ]
 
 { #category : #'registering / unregistering' }
 ToCheckableGroup >> unregisterAll [
 
+	registeredCheckables do: [:e | self checkingStrategy unregister: e from: self].
 	registeredCheckables removeAll
 ]
 

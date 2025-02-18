@@ -23,12 +23,10 @@ ToOverlayWindowTest >> testWindowSize [
 	win popup.
 	self waitTestingSpaces.
 	self assert: win bounds inSpace extent equals: 10 asPoint.
-	self assert: win root bounds inSpace extent equals: 0 asPoint.
 
 	e size: 20 asPoint.
 	self waitTestingSpaces.
 	self assert: win bounds inSpace extent equals: 20 asPoint.
-	self assert: win root bounds inSpace extent equals: 0 asPoint
 ]
 
 { #category : #tests }
@@ -49,9 +47,7 @@ ToOverlayWindowTest >> testWindowSize2 [
 	win popup.
 	self waitTestingSpaces.
 	self assert: win bounds inSpace extent equals: 10 asPoint.
-	self assert: win root bounds inSpace extent equals: 100 asPoint.
 	e size: 20 asPoint.
 	self waitTestingSpaces.
-	self assert: win bounds inSpace extent equals: 20 asPoint.
-	self assert: win root bounds inSpace extent equals: 100 asPoint
+	self assert: win bounds inSpace extent equals: 20 asPoint
 ]

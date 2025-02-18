@@ -155,26 +155,30 @@ ToScrollableBarTrackElement >> isNodeWrapping [
 ]
 
 { #category : #layout }
-ToScrollableBarTrackElement >> linearLayoutClass [
+ToScrollableBarTrackElement >> newFlowLayoutIn: aBarElement [
 
-	^ BlLinearLayout
+	^ (horizontal
+		   ifTrue: [ self flowLayoutClass horizontal ]
+		   ifFalse: [ self flowLayoutClass vertical ])
+		  uniformNodeWidth: flowLineUniformWidth;
+		  uniformNodeHeight: flowLineUniformHeight;
+		  yourself
 ]
 
 { #category : #layout }
 ToScrollableBarTrackElement >> newLayoutStrategyIn: aBarElement [
 
 	^ nodeWrapping
-		  ifTrue: [
-			  (horizontal
-				   ifTrue: [ self flowLayoutClass horizontal ]
-				   ifFalse: [ self flowLayoutClass vertical ])
-				  uniformNodeWidth: flowLineUniformWidth;
-				  uniformNodeHeight: flowLineUniformHeight;
-				  yourself ]
-		  ifFalse: [
-			  horizontal
-				  ifTrue: [ self linearLayoutClass horizontal ]
-				  ifFalse: [ self linearLayoutClass vertical ] ]
+		  ifTrue: [ self newFlowLayoutIn: aBarElement ]
+		  ifFalse: [ self newLinearLayoutIn: aBarElement ]
+]
+
+{ #category : #layout }
+ToScrollableBarTrackElement >> newLinearLayoutIn: aBarElement [
+
+	^ horizontal
+		  ifTrue: [ BlLinearLayout horizontal ]
+		  ifFalse: [ BlLinearLayout vertical ]
 ]
 
 { #category : #accessing }

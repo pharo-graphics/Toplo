@@ -8,14 +8,14 @@ Class {
 }
 
 { #category : #accessing }
-ToTaskBasedCommandApplicationStrategy >> addCommand: aCommand [ 
+ToTaskBasedCommandApplicationStrategy >> addCommand: aCommand from: aCommandApplier [
 
 	weak ifTrue: [
 		element isAttachedToSceneGraph ifFalse: [
-			commandApplier applyCommand: aCommand.
+			aCommandApplier applyCommand: aCommand.
 			^ self ] ].
 	element enqueueTask:
-		(BlTaskAction new action: [ commandApplier applyCommand: aCommand ])
+		(BlTaskAction new action: [ aCommandApplier applyCommand: aCommand ])
 ]
 
 { #category : #initialization }

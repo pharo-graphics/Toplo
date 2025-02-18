@@ -40,21 +40,12 @@ ToBasicWindowElementTest >> testDefaultLayout [
 ]
 
 { #category : #tests }
-ToBasicWindowElementTest >> testDefaultRootElement [
-
-	| w |
-	w := ToBasicWindowElement new.
-	self assert: w root layout class identicalTo: w defaultRootElement layout class.
-	self assert: w root id equals: w defaultRootId
-]
-
-{ #category : #tests }
 ToBasicWindowElementTest >> testInitialize [
 
 	| w |
 	w := ToBasicWindowElement new.
 	self assert: (w root isKindOf: ToElement).
-	self assert: w root parent identicalTo: w
+	self assert: w root identicalTo: w
 ]
 
 { #category : #tests }
@@ -80,13 +71,10 @@ ToBasicWindowElementTest >> testIsOpened [
 { #category : #tests }
 ToBasicWindowElementTest >> testRoot [
 
-	| w r prev |
+	| w |
 	w := ToBasicWindowElement new.
-	prev := w root.
-	r := ToElement new.
-	w root: r.
-	self assert: w root identicalTo: r.
-	self assert: prev parent isNil
+	self assert: w root identicalTo: w.
+
 ]
 
 { #category : #tests }

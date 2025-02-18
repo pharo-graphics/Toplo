@@ -184,6 +184,7 @@ ToSkinStateGenerator >> mouseDownEvent: anEvent [
 ToSkinStateGenerator >> mouseEnterEvent: anEvent [
 
 	leaved := false.
+	target isEnabled ifFalse: [ ^ self ].
 	self enqueueSkinState:
 		(ToTransientState skinEvent:
 			 (ToHoveredSkinEvent sourceEvent: anEvent))
@@ -194,6 +195,7 @@ ToSkinStateGenerator >> mouseLeaveEvent: anEvent [
 
 	leaved ifTrue: [ ^ self ].
 	leaved := true.
+	target isEnabled ifFalse: [ ^ self ].
 	self enqueueSkinState:
 		(ToTransientState skinEvent:
 			 (ToLeavedSkinEvent sourceEvent: anEvent))

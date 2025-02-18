@@ -1,5 +1,5 @@
 Class {
 	#name : #ToInnerWindowPane,
 	#superclass : #ToElement,
-	#category : #'Toplo-Widget-InnerWindow'
+	#category : #'Toplo-Widget-InnerWindow-Core'
 }

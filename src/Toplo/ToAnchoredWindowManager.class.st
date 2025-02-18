@@ -4,8 +4,8 @@ Class {
 	#instVars : [
 		'mode',
 		'currentWindow',
-		'element',
-		'windowBuilder'
+		'windowBuilder',
+		'anchorElement'
 	],
 	#category : #'Toplo-Core-Window'
 }
@@ -14,8 +14,15 @@ Class {
 ToAnchoredWindowManager class >> overlay [
 
 	^ self new
-		  placement: ToOverlayPlacement new;
+		  placement: ToTopLeftDownPlacement new;
+		  measurement: ToOverlayMeasurement new;
 		  yourself
+]
+
+{ #category : #accessing }
+ToAnchoredWindowManager >> anchorElement [
+
+	^ anchorElement
 ]
 
 { #category : #accessing }
@@ -30,13 +37,6 @@ ToAnchoredWindowManager >> anchorRoot: anElement [
 
 	" the root element in which the window is placed "
 	mode anchorRoot: anElement
-]
-
-{ #category : #'bounds hook' }
-ToAnchoredWindowManager >> arrangeWindowOnEvent: anEvent [
-
-	currentWindow ifNil: [ ^ self ].
-	mode arrangeWindow: currentWindow onEvent: anEvent
 ]
 
 { #category : #'window handling' }
@@ -111,12 +111,18 @@ ToAnchoredWindowManager >> defaultBuilder [
 ]
 
 { #category : #initialization }
+ToAnchoredWindowManager >> defaultMeasurement [
+
+	^ ToNoMeasurement new
+]
+
+{ #category : #initialization }
 ToAnchoredWindowManager >> defaultMode [
 
 	^ self newPopupMode 
 ]
 
-{ #category : #initializing }
+{ #category : #initialization }
 ToAnchoredWindowManager >> defaultPlacement [ 
 
 	^ ToTopLeftDownPlacement new
@@ -125,21 +131,22 @@ ToAnchoredWindowManager >> defaultPlacement [
 { #category : #accessing }
 ToAnchoredWindowManager >> element [
 
-	^ element
+	self deprecated: 'Use #anchorElement instead' transformWith: '`@rcvr element'->'`@rcvr anchorElement'.
+	^ self anchorElement
 ]
 
 { #category : #'event handling' }
 ToAnchoredWindowManager >> elementExtentChangedEvent: anEvent [
 
 	currentWindow ifNil: [ ^ self ].
-	mode arrangeWindow: currentWindow onEvent: nil
+	currentWindow refreshLayout
 ]
 
 { #category : #'event handling' }
 ToAnchoredWindowManager >> elementPositionInSpaceChangedEvent: anEvent [
 
 	currentWindow ifNil: [ ^ self ].
-	mode arrangeWindow: currentWindow onEvent: anEvent
+	currentWindow refreshLayout
 ]
 
 { #category : #'event handling' }
@@ -206,6 +213,12 @@ ToAnchoredWindowManager >> isInline [
 ]
 
 { #category : #accessing }
+ToAnchoredWindowManager >> measurement: aMeasurement [
+
+	mode measurement: aMeasurement 
+]
+
+{ #category : #accessing }
 ToAnchoredWindowManager >> mode: aWindowMode [
 
 	mode ifNotNil: [ mode onUninstalledIn: self ].
@@ -239,18 +252,18 @@ ToAnchoredWindowManager >> newWindowEvent: anEvent [
 	| request |
 	currentWindow ifNotNil: [
 		^ Error signal: 'Asking for a window building twice' ].
-	self element ifNil: [
+	self anchorElement ifNil: [
 		^ Error signal: 'An element is required for building a window' ].
 	self windowBuilder ifNil: [
 		^ Error signal: 'A window builder is required for building a window' ].
 
-	self element isEnabled ifFalse: [ ^ nil ].
+	self anchorElement isEnabled ifFalse: [ ^ nil ].
 
 	request := self newWindowRequestFrom: anEvent.
 
 	" dispatch the event. handlers can eventually feed the event with additional data 
 	that can be used by the builder "
-	self element dispatchEvent: request.
+	self anchorElement dispatchEvent: request.
 
 	" the event is dispatched, eventually updated with additional data, 
 	the current window can be created then built"
@@ -280,7 +293,14 @@ ToAnchoredWindowManager >> onClosed [
 ToAnchoredWindowManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	element := anElement
+	anchorElement := anElement
+]
+
+{ #category : #'window handling' }
+ToAnchoredWindowManager >> onMeasure: anExtentMeasurementSpec onEvent: anEvent [
+
+	currentWindow ifNil: [ ^ self ].
+	mode onMeasure: anExtentMeasurementSpec element: currentWindow onEvent: anEvent
 ]
 
 { #category : #'window handling' }
@@ -292,7 +312,7 @@ ToAnchoredWindowManager >> onOpened [
 ToAnchoredWindowManager >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
-	element := nil
+	anchorElement := nil
 ]
 
 { #category : #'event handling' }
@@ -315,6 +335,16 @@ ToAnchoredWindowManager >> placement: aPlacement [
 ToAnchoredWindowManager >> popupWindowClass [
 
 	^ ToAnchoredWindow 
+]
+
+{ #category : #'window handling' }
+ToAnchoredWindowManager >> positionWindowOnEvent: anEvent context: aBlElementBoundsUpdateContext [
+
+	currentWindow ifNil: [ ^ self ].
+	mode
+		positionElement: currentWindow
+		onEvent: anEvent
+		context: aBlElementBoundsUpdateContext
 ]
 
 { #category : #'window handling' }

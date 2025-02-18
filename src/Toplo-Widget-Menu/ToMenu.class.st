@@ -4,13 +4,14 @@ I'm a composite of Menu items. I can behave as a menu item (this is why I inheri
 Class {
 	#name : #ToMenu,
 	#superclass : #ToMenuItem,
-	#traits : 'TToItemBarOwner + TToMenuItemBarOwner + TToMenuWindowModel',
-	#classTraits : 'TToItemBarOwner classTrait + TToMenuItemBarOwner classTrait + TToMenuWindowModel classTrait',
+	#traits : 'TToItemListOwner + TToMenuItemListOwner + TToMenuWindowModel',
+	#classTraits : 'TToItemListOwner classTrait + TToMenuItemListOwner classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
 		'isSubmenu',
 		'builder',
 		'windowManager',
-		'openOnHovered'
+		'openOnHovered',
+		'isMenuPaneMenu'
 	],
 	#category : #'Toplo-Widget-Menu-Items'
 }
@@ -85,8 +86,10 @@ ToMenu >> initialize [
 	super initialize.
 	self fitContent.
 	self initializeAsItemBarOwner.
+	self initializeAsMenuItemListOwner.
 
 	isSubmenu := false.
+	isMenuPaneMenu := false.
 	openOnHovered := true.
 	self applySkinInstallerOnFirstRequest: true.
 
@@ -112,6 +115,18 @@ ToMenu >> isMenu [
 	^ true
 ]
 
+{ #category : #testing }
+ToMenu >> isMenuPaneMenu [
+
+	^ isMenuPaneMenu
+]
+
+{ #category : #accessing }
+ToMenu >> isMenuPaneMenu: aBoolean [
+
+	isMenuPaneMenu := aBoolean
+]
+
 { #category : #'t - menu window model' }
 ToMenu >> isOpened [ 
 
@@ -121,7 +136,7 @@ ToMenu >> isOpened [
 { #category : #'t - menu window model' }
 ToMenu >> isSubmenu [
 
-	^ isSubmenu
+	^ isSubmenu ifNil: [ false ]
 ]
 
 { #category : #accessing }
@@ -133,7 +148,7 @@ ToMenu >> isSubmenu: aBoolean [
 { #category : #'t - menu window model' }
 ToMenu >> isTopMenu [
 
-	^ self isSubmenu not
+	^ self isSubmenu not or: [ self isMenuPaneMenu ]
 ]
 
 { #category : #accessing }
@@ -162,7 +177,7 @@ ToMenu >> mouseOverEvent: anEvent [
 		ifFalse: [ self closeWindow ]
 ]
 
-{ #category : #'t - item bar owner - accessing' }
+{ #category : #'t - item list owner - accessing' }
 ToMenu >> newItemBar [
 
 	^ ToMenuItemBarElement new
@@ -180,10 +195,24 @@ ToMenu >> onAddedInItemBarOwner: aMenu [
 	aMenu onAddedMenu: self
 ]
 
+{ #category : #'t - menu item list owner - double dispatch' }
+ToMenu >> onAddedMenu: aMenu [
+
+	aMenu isSubmenu: true.
+	aMenu closeOnPicking: false
+]
+
 { #category : #'adding-removing' }
 ToMenu >> onRemovedFromItemBarOwner: aMenu [
 
 	aMenu onRemovedMenu: self
+]
+
+{ #category : #'t - menu item list owner - double dispatch' }
+ToMenu >> onRemovedMenu: aMenu [
+
+	aMenu isSubmenu: false.
+	aMenu closeOnPicking: false
 ]
 
 { #category : #accessing }

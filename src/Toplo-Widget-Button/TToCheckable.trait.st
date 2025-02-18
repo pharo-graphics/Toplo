@@ -37,13 +37,13 @@ TToCheckable >> check [
 { #category : #'t - checkable - accessing' }
 TToCheckable >> checkableData [
 
-	^ self explicitRequirement 
+	^ self userData at: #checkableData ifAbsent: [  ]
 ]
 
 { #category : #'t - checkable - accessing' }
 TToCheckable >> checkableData: aCheckableData [
 
-	^ self explicitRequirement 
+	self userData at: #checkableData put: aCheckableData
 ]
 
 { #category : #'t - checkable - accessing' }
@@ -138,6 +138,12 @@ TToCheckable >> newCheckableEventHandler [
 	^ self checkableEventHandlerClass new
 ]
 
+{ #category : #'t - checkable - accessing' }
+TToCheckable >> privateChecked: aBoolean [
+
+	self checkableData privateChecked: aBoolean
+]
+
 { #category : #'t - checkable - group' }
 TToCheckable >> registerInGroup: aGroup [
 
@@ -180,5 +186,5 @@ TToCheckable >> uncheck [
 { #category : #'t - checkable - group' }
 TToCheckable >> unregisterFromGroup [
 
-	self group unregister: self
+	self group ifNotNil: [:grp | grp unregister: self ]
 ]

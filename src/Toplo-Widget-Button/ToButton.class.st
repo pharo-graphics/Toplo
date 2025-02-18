@@ -4,11 +4,27 @@ Class {
 	#traits : 'TToOrientable + TToTripletElement + TToLabeledIcon + TToCheckable',
 	#classTraits : 'TToOrientable classTrait + TToTripletElement classTrait + TToLabeledIcon classTrait + TToCheckable classTrait',
 	#instVars : [
-		'optCheckableData',
 		'tripletProperties'
 	],
 	#category : #'Toplo-Widget-Button-Core'
 }
+
+{ #category : #'t - labeled icon' }
+ToButton class >> labelText: aTextOrString [
+
+	^ self new
+		  labelText: aTextOrString;
+		  yourself
+]
+
+{ #category : #'t - labeled icon' }
+ToButton class >> labelText: aTextOrString icon: anImage [
+
+	^ self new
+		  labelText: aTextOrString;
+		  icon: anImage;
+		  yourself
+]
 
 { #category : #configuration }
 ToButton >> beCheckable [
@@ -23,7 +39,7 @@ ToButton >> beNotCheckable [
 
 	self isCheckable ifFalse: [ ^ self ].
 	self releaseCheckable.
-	optCheckableData := nil.
+	self checkableData: nil.
 	self requestNewSkin
 ]
 
@@ -33,18 +49,6 @@ ToButton >> checkable: aBoolean [
 	aBoolean
 		ifTrue: [ self beCheckable ]
 		ifFalse: [ self beNotCheckable ]
-]
-
-{ #category : #'t - checkable - accessing' }
-ToButton >> checkableData [
-
-	^ optCheckableData 
-]
-
-{ #category : #'t - checkable - accessing' }
-ToButton >> checkableData: aCheckableData [
-
-	optCheckableData := aCheckableData
 ]
 
 { #category : #'t - labeled icon' }
@@ -97,13 +101,13 @@ ToButton >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 ]
 
 { #category : #'t - triplet element - private - accessing' }
-ToButton >> properties [
+ToButton >> tripletProperties [
 
 	^ tripletProperties
 ]
 
 { #category : #'t - triplet element - private - accessing' }
-ToButton >> properties: aTripletElementProperties [
+ToButton >> tripletProperties: aTripletElementProperties [
 
 	tripletProperties := aTripletElementProperties
 ]

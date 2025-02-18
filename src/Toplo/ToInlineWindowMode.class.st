@@ -1,20 +1,8 @@
 Class {
 	#name : #ToInlineWindowMode,
 	#superclass : #ToWindowMode,
-	#category : #'Toplo-Core-Window'
+	#category : #'Toplo-Core-Window-Support'
 }
-
-{ #category : #'api - displaying' }
-ToInlineWindowMode >> arrangeWindow: aWindow onEvent: anEvent [
-
-	| w |
-	w := 0.
-	aWindow popupWindowParentMenuDo: [ :pm |
-		pm collectedNodesDo: [ :node |
-			w := w max: node width ] ].
-	aWindow popupWindowParentMenuDo: [ :pm |
-		pm collectedNodesDo: [ :node | node width: w ] ]
-]
 
 { #category : #testing }
 ToInlineWindowMode >> isInline [ 
@@ -22,18 +10,29 @@ ToInlineWindowMode >> isInline [
 	^ true
 ]
 
+{ #category : #'api - displaying' }
+ToInlineWindowMode >> onMeasure: anExtentMeasurementSpec element: aWindow onEvent: anEvent [
+
+
+]
+
+{ #category : #'api - displaying' }
+ToInlineWindowMode >> positionElement: aWindow onEvent: anEvent context: aBlElementBoundsUpdateContext [
+
+]
+
 { #category : #'window handling' }
 ToInlineWindowMode >> startWindow: aWindow [
 
-	manager element addChild: aWindow.
-	manager element requestNewSkin
+	self element addChild: aWindow.
+	self element requestNewSkin
 ]
 
 { #category : #'window handling' }
 ToInlineWindowMode >> stopWindow: aWindow [
 
 	aWindow removeFromParent.
-	manager element requestNewSkin
+	self element requestNewSkin
 ]
 
 { #category : #accessing }

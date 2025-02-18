@@ -102,3 +102,9 @@ TToElementWithPlaceholder >> showPlaceholder [
 				 placeholder: ph;
 				 yourself) ]
 ]
+
+{ #category : #'t - element with placeholder' }
+TToElementWithPlaceholder >> withPlaceholder [
+
+	self placeholderBuilder: [ :ph :e | ]
+]

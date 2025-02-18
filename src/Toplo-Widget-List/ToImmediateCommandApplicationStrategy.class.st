@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #accessing }
-ToImmediateCommandApplicationStrategy >> addCommand: aCommand [ 
+ToImmediateCommandApplicationStrategy >> addCommand: aCommand from: aCommandApplier [
 
-	commandApplier applyCommand: aCommand
+	aCommandApplier applyCommand: aCommand
 ]

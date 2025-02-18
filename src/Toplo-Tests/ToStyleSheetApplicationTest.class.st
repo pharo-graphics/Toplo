@@ -580,7 +580,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules0 [
 		sr
 			when: ToDisabledSkinEvent
 			write: (styleSheet property: #background)
-			with: [ :e | Color lightGray ] ].
+			with: [ :e | Color yellow ] ].
 
 	button := ToElement new.
 	space root addChild: button.
@@ -595,7 +595,15 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules0 [
 	button skinManager applySkinReinstallIn: button.
 	self assert: button background paint isColorPaint.
 	self assert: button background paint color equals: Color black.
+	
+	button disabled: true.
+	space applyAllSkinPhases.
+	self assert: button background paint isColorPaint.
+	self
+		assert: button background paint color
+		equals: (Color yellow).
 
+	button disabled: false.
 	button addStamp: #danger.
 	writers := theme applicableListenersFor: button.
 	skin := ToStyleSheetSkin new.
@@ -607,7 +615,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules0 [
 	self assert: button background paint color equals: Color red.
 
 	button disabled: true.
-	button skinManager applySkinReinstallIn: button.
+	space applyAllSkinPhases.
 	self assert: button background paint isColorPaint.
 	self
 		assert: button background paint color

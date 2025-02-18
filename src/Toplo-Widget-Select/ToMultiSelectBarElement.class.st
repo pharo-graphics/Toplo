@@ -70,6 +70,12 @@ ToMultiSelectBarElement >> defaultLayout [
 	^ BlLinearLayout horizontal
 ]
 
+{ #category : #initialization }
+ToMultiSelectBarElement >> defaultNodeManagerClass [ 
+
+	^ ToMultiSelectNodeManager
+]
+
 { #category : #layout }
 ToMultiSelectBarElement >> extentChanged [
 
@@ -123,7 +129,6 @@ ToMultiSelectBarElement >> initialize [
 	self selectionOption masked: true.
 	self primarySelectionMode makeDisabledUnselectable: true.
 	self secondarySelectionMode selectionOption masked: true.
-	self nodeHolderClass: ToMultiSelectHolder.
 	self focusability: BlFocusability ignore.
 	maxSelectedCount := 0.
 	keepPickOrder := false.

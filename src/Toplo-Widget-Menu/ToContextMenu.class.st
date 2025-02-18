@@ -1,8 +1,8 @@
 Class {
 	#name : #ToContextMenu,
 	#superclass : #ToMenuWindow,
-	#traits : 'TToOrientable + TToItemBarOwner + TToMenuItemBarOwner + TToMenuWindowModel',
-	#classTraits : 'TToOrientable classTrait + TToItemBarOwner classTrait + TToMenuItemBarOwner classTrait + TToMenuWindowModel classTrait',
+	#traits : 'TToOrientable + TToItemListOwner + TToMenuItemListOwner + TToMenuWindowModel',
+	#classTraits : 'TToOrientable classTrait + TToItemListOwner classTrait + TToMenuItemListOwner classTrait + TToMenuWindowModel classTrait',
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
@@ -32,11 +32,11 @@ ToContextMenu >> closeWindow [
 ToContextMenu >> correctedPositionWithinAnchorRoot [
 
 	| t rect rootRect |
-	rect := self bounds inSpace bounds asRectangle.
+	rect := self measuredBounds inSpace bounds asRectangle.
 	rootRect := 0 @ 0 extent: self anchorRoot extent.
 	" just translate the position to remain (if possible) within the root bounds "
 	t := rect amountToTranslateWithin: rootRect.
-	^ self position + t
+	^ self measuredPosition + t
 ]
 
 { #category : #initialization }
@@ -45,6 +45,7 @@ ToContextMenu >> initialize [
 	super initialize.
 	self fitContent.
 	self initializeAsItemBarOwner.
+	self initializeAsMenuItemListOwner.
 	self root addChild: self itemBar
 ]
 
@@ -93,8 +94,8 @@ ToContextMenu >> layoutStrategy [
 ]
 
 { #category : #accessing }
-ToContextMenu >> menuBar [ 
-	" a context menu can't be in a menubar "
+ToContextMenu >> menuPane [ 
+	" a context menu can't be in a menupane "
 	^ nil
 ]
 
@@ -104,10 +105,24 @@ ToContextMenu >> menuWindow [
 	^ super menuWindow
 ]
 
-{ #category : #'t - item bar owner - accessing' }
+{ #category : #'t - item list owner - accessing' }
 ToContextMenu >> newItemBar [
 
 	^ ToMenuItemBarElement new
+]
+
+{ #category : #'t - menu item list owner - double dispatch' }
+ToContextMenu >> onAddedMenu: aMenu [
+
+	aMenu isSubmenu: true.
+	aMenu closeOnPicking: false
+]
+
+{ #category : #'t - menu item list owner - double dispatch' }
+ToContextMenu >> onRemovedMenu: aMenu [
+
+	aMenu isSubmenu: false.
+	aMenu closeOnPicking: false
 ]
 
 { #category : #'t - menu window model' }

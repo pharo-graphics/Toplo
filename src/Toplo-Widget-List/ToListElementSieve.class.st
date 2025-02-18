@@ -59,6 +59,7 @@ ToListElementSieve >> onInstalledIn: aListElement [
 
 	originalData ifNotNil: [
 		^ (BlImmutableObjectChangeError object: self) signal ].
+	aListElement withPlaceholder.
 	originalIndexMap := IdentityDictionary new.
 	selectionModel := aListElement selectionModel copy.
 

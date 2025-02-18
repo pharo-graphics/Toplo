@@ -3,20 +3,11 @@ I'm a data item for menu item list.
 "
 Class {
 	#name : #ToMenuItemElement,
-	#superclass : #ToItemElement,
+	#superclass : #ToBarItemElement,
 	#traits : 'TToMenuItem',
 	#classTraits : 'TToMenuItem classTrait',
 	#category : #'Toplo-Widget-Menu-Items'
 }
-
-{ #category : #'adding-removing' }
-ToMenuItemElement >> closeSiblingMenuWindow [
-
-	self barOwner ifNil: [ ^ self ].
-	self barOwner closeAllWindowsForItemsSatisfying: [ :it |
-		it notNil and: [
-			it ~= self and: [ it isInline not ] ] ]
-]
 
 { #category : #'t - menu window model' }
 ToMenuItemElement >> closeWindow [
@@ -79,12 +70,18 @@ ToMenuItemElement >> inlineWindowLevel [
 	| l |
 	l := 0.
 	self withAllParentsDo: [ :p |
-		(p isKindOf: ToInlineMenuWindowElement) ifTrue: [ l := l + 1 ] ].
+		(p isKindOf: ToMenuInlineWindowElement) ifTrue: [ l := l + 1 ] ].
 	^ l
 ]
 
 { #category : #testing }
 ToMenuItemElement >> isInline [
+
+	^ false
+]
+
+{ #category : #testing }
+ToMenuItemElement >> isMenuPaneMenu [
 
 	^ false
 ]
@@ -104,10 +101,10 @@ ToMenuItemElement >> isTopMenu [
 ]
 
 { #category : #'t - menu window model' }
-ToMenuItemElement >> menuBarDo: aBlock [
+ToMenuItemElement >> menuPaneDo: aBlock [
 
 	| mb |
-	mb := self menuBar ifNil: [ ^ self ].
+	mb := self menuPane ifNil: [ ^ self ].
 	aBlock value: mb
 ]
 
@@ -136,11 +133,11 @@ ToMenuItemElement >> onRemovedFromItemBarOwner: aMenu [
 { #category : #'t - menu window model' }
 ToMenuItemElement >> rootMenu [
 
-	(self barOwner isNil or: [ self barOwner isMenuBar ]) ifTrue: [
+	(self menuBarOwner isNil or: [ self menuBarOwner isMenuPane ]) ifTrue: [
 		^ self isMenu
 			  ifTrue: [ self ]
 			  ifFalse: [  ] ].
-	^ self barOwner rootMenu
+	^ self menuBarOwner rootMenu
 ]
 
 { #category : #'t - menu window model' }

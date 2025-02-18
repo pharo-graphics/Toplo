@@ -13,6 +13,12 @@ ToMultiSelectListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 	selectElement checkMaxSelectedCount
 ]
 
+{ #category : #initialization }
+ToMultiSelectListElement >> defaultNodeManagerClass [ 
+
+	^ ToMultiSelectListNodeManager 
+]
+
 { #category : #'accessing - selection' }
 ToMultiSelectListElement >> hideSelection [
 
@@ -30,6 +36,5 @@ ToMultiSelectListElement >> initialize [
 	self primarySelectionMode makeDisabledUnselectable: true.
 	self primarySelectionMode selectOnPressed: true.
 	self primarySelectionMode requestFocusOnPressed: false.
-	self nodeHolderClass: ToMultiSelectListNodeHolder.
 	self nodeFactory: [ :holder | ToMultiSelectListNode new ]
 ]

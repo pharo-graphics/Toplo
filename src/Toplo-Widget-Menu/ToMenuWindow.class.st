@@ -1,25 +1,27 @@
 Class {
 	#name : #ToMenuWindow,
 	#superclass : #ToPopupWindow,
+	#traits : 'TToMenuItemContainer',
+	#classTraits : 'TToMenuItemContainer classTrait',
 	#category : #'Toplo-Widget-Menu-Window'
 }
 
-{ #category : #'api - displaying' }
+{ #category : #'t - inline window element - accessing' }
 ToMenuWindow >> correctedPositionWithinAnchorRoot [
 
-	| t rect rootRect parentMenu parentMenuBounds rootMenuOrMenuBar |
-	rect := self bounds inSpace bounds asRectangle.
+	| t rect rootRect parentMenu parentMenuBounds rootMenuOrMenuPane |
+	rect := self measuredBounds inSpace bounds asRectangle.
 	rootRect := 0 @ 0 extent: self anchorRoot extent.
 	t := rect amountToTranslateWithin: rootRect.
 	" the parent menu is the element of my window manager "
-	parentMenu := self manager element.
+	parentMenu := self manager anchorElement.
 	" in case of a root menu (including context menu), just keep the computed position.
 	If not, then in case of an horizontal menubar, keep also the computed position.
 	In case of a vertical menubar, it may be necessary to also fix the position x "
-	rootMenuOrMenuBar := parentMenu rootMenuWindowOrMenuBar.
+	rootMenuOrMenuPane := parentMenu rootMenuItemContainer.
 	(t x isZero or: [
 		 parentMenu isSubmenu not and: [
-			 rootMenuOrMenuBar isNil or: [ rootMenuOrMenuBar isHorizontal ] ] ])
+			 rootMenuOrMenuPane isNil or: [ rootMenuOrMenuPane isHorizontal ] ] ])
 		ifTrue: [ ^ super correctedPositionWithinAnchorRoot + t ].
 	" If a translation is necessary, then open on the parent menu left "
 	parentMenuBounds := parentMenu bounds inParent: self anchorRoot.
@@ -49,21 +51,21 @@ ToMenuWindow >> initialize [
 ]
 
 { #category : #testing }
-ToMenuWindow >> isInline [ 
+ToMenuWindow >> isInline [
 
-	^ self element isInline
+	^ self anchorElement isInline
 ]
 
 { #category : #accessing }
 ToMenuWindow >> itemBar [
 
-	^ self element itemBar
+	^ self anchorElement itemBar
 ]
 
 { #category : #accessing }
 ToMenuWindow >> itemContainer [
 
-	^ self element
+	^ self anchorElement
 ]
 
 { #category : #accessing }

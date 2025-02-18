@@ -1,21 +1,21 @@
 Class {
 	#name : #ToActionPlacement,
-	#superclass : #ToWindowPlacement,
+	#superclass : #ToElementPlacement,
 	#instVars : [
 		'action'
 	],
-	#category : #'Toplo-Core-Window'
+	#category : #'Toplo-Core-Window-Support'
 }
 
 { #category : #accessing }
 ToActionPlacement >> action: aValuable [
-	" aValuable takes the window and the event as arguments "
+	" aValuable takes the anElement and the event as arguments "
 
 	action := aValuable
 ]
 
-{ #category : #api }
-ToActionPlacement >> arrangeWindow: aWindow onEvent: anEvent [
+{ #category : #'api - displaying' }
+ToActionPlacement >> positionElement: aWindow onEvent: anEvent context: aBlElementBoundsUpdateContext [
 
 	action value: aWindow value: anEvent 
 ]

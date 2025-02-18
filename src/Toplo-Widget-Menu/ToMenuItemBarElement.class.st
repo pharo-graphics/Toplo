@@ -4,25 +4,34 @@ I'm a list whose node contents is a menu item element.
 Class {
 	#name : #ToMenuItemBarElement,
 	#superclass : #ToItemBarElement,
+	#traits : 'TToMenuItemBar',
+	#classTraits : 'TToMenuItemBar classTrait',
 	#category : #'Toplo-Widget-Menu-ItemBar'
 }
 
 { #category : #'t - list node holder' }
-ToMenuItemBarElement >> configureLayoutIn: aListHolder [
+ToMenuItemBarElement >> configureLayoutIn: anItemBarOwner [
 
-	self horizontal: aListHolder isHorizontal.
-	aListHolder isHMatchParent
+	self horizontal: anItemBarOwner isHorizontal.
+	anItemBarOwner isHMatchParent
 		ifTrue: [ self hMatchParent ]
 		ifFalse: [ self hFitContent ].
-	aListHolder isVMatchParent
+	anItemBarOwner isVMatchParent
 		ifTrue: [ self vMatchParent ]
-		ifFalse: [ self vFitContent ]
+		ifFalse: [ self vFitContent ].
+	self configureLayout
 ]
 
-{ #category : #initialization }
-ToMenuItemBarElement >> defaultNodeManager [
+{ #category : #'t - bar element' }
+ToMenuItemBarElement >> defaultInnerElement [
 
-	^ ToMenuItemNodeManager new
+	^ ToMenuInnerBarElement onBarElement: self
+]
+
+{ #category : #'t - item bar element - accessing' }
+ToMenuItemBarElement >> defaultNodeManagerClass [
+
+	^ ToMenuItemNodeManager
 ]
 
 { #category : #initialization }

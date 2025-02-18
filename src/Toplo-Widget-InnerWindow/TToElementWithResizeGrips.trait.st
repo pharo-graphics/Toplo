@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToElementWithResizeGrips,
-	#category : #'Toplo-Widget-InnerWindow'
+	#category : #'Toplo-Widget-InnerWindow-Support'
 }
 
 { #category : #'t - element with resize grips - accessing' }
@@ -32,7 +32,6 @@ TToElementWithResizeGrips >> initializeGrips [
 				 yourself ]).
 
 	self addChildren: self grips.
-
 	self addEventHandler: (BlEventHandler
 			 on: BlElementExtentChangedEvent
 			 do: [ :evt | self layoutGrips ])

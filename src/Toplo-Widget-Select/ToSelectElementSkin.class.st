@@ -28,7 +28,7 @@ ToSelectElementSkin >> shortcutsToInstallIn: aSelect [
 						          nextSelectableIndexToScrollTo.
 					   listElement secondarySelecter selectOnlyIndex: idx.
 					   listElement secondarySelecter scrollToDataSourcePosition: idx.
-					   aSelect windowManager popupEvent: aShortcutEvent ]).
+					   aSelect manager popupEvent: aShortcutEvent ]).
 
 		  stream nextPut: (BlShortcutWithAction new
 				   combination: BlKeyCombination builder arrowUp build;
@@ -55,14 +55,14 @@ ToSelectElementSkin >> shortcutsToInstallIn: aSelect [
 					   cmd := ToListElementCompositeCommand new.
 					   aSelect isMultipleSelection ifFalse: [
 							   aSelect allowDeselection
-								   ifTrue: [ cmd add: ToWholeSelectionCommand remove ]
+								   ifTrue: [ cmd addCommand: ToWholeSelectionCommand remove ]
 								   ifFalse: [
 									   selIdxes ifNotEmpty: [
 											   (listElement selecter containsIndex: selIdxes first)
-												   ifFalse: [ cmd add: ToWholeSelectionCommand remove ] ] ] ].
+												   ifFalse: [ cmd addCommand: ToWholeSelectionCommand remove ] ] ] ].
 					   aSelect allowDeselection ifTrue: [
-							   cmd add: (ToIndexesSelectionCommand remove: deselIdxes) ].
-					   cmd add: (ToIndexesSelectionCommand add: selIdxes).
+							   cmd addCommand: (ToIndexesSelectionCommand remove: deselIdxes) ].
+					   cmd addCommand: (ToIndexesSelectionCommand add: selIdxes).
 					   listElement selecter addCommand: cmd ]) ]
 ]
 

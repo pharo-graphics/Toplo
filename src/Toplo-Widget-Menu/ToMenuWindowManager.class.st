@@ -5,23 +5,36 @@ Class {
 }
 
 { #category : #'window handling' }
+ToMenuWindowManager >> autoCloseWindow [ 
+
+	super autoCloseWindow.
+	anchorElement menuPaneDo: [ :mb | mb cancelAutoOpen ]
+]
+
+{ #category : #'window handling' }
 ToMenuWindowManager >> beInline [ 
 
 	super beInline.
-	element openOnHovered: false
+	anchorElement openOnHovered: false
 ]
 
 { #category : #'event handling' }
-ToMenuWindowManager >> checkCloseOnPickingEvent: anEvent [
+ToMenuWindowManager >> canCloseOnPickingEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
 	(target isInline or: [ target isInInlineWindow ]) ifTrue: [
 		^ currentWindow notNil ].
-	^ super checkCloseOnPickingEvent: anEvent
+	^ super canCloseOnPickingEvent: anEvent
 ]
 
-{ #category : #initializing }
+{ #category : #initialization }
+ToMenuWindowManager >> defaultMeasurement [
+
+	^ ToMenuMeasurement new
+]
+
+{ #category : #initialization }
 ToMenuWindowManager >> defaultPlacement [
 
 	^ ToMenuPlacement new
@@ -38,13 +51,13 @@ ToMenuWindowManager >> eventsToHandle [
 { #category : #accessing }
 ToMenuWindowManager >> inlineWindowClass [
 
-	^ ToInlineMenuWindowElement
+	^ ToMenuInlineWindowElement
 ]
 
 { #category : #'event handling' }
 ToMenuWindowManager >> mouseEnterEvent: anEvent [
 
-	element itemBar secondarySelecter deselectAll
+	anchorElement itemBar secondarySelecter deselectAll
 ]
 
 { #category : #'event handling' }
@@ -62,21 +75,21 @@ ToMenuWindowManager >> newInlineMode [
 ToMenuWindowManager >> onClosed [
 
 	super onClosed.
-	element itemBar secondarySelecter deselectAll
+	anchorElement itemBar secondarySelecter deselectAll
 ]
 
 { #category : #'window handling' }
 ToMenuWindowManager >> onOpened [
 
 	super onOpened.
-	element itemBar requestFocus
+	anchorElement itemBar requestFocus
 ]
 
 { #category : #'event handling' }
 ToMenuWindowManager >> pickOutsideEvent: anEvent [
 
 	super pickOutsideEvent: anEvent.
-	element menuBarDo: [ :mb |
+	anchorElement menuPaneDo: [ :mb |
 		mb cancelAutoOpen ]
 ]
 

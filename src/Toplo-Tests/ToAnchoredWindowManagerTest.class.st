@@ -117,7 +117,7 @@ ToAnchoredWindowManagerTest >> testElement [
 	" create the window -> plug-in the window handler "
 	win := windowManager newWindowEvent: nil.
 
-	self assert: win element identicalTo: e.
+	self assert: win anchorElement identicalTo: e.
 
 	" a window handler can be used only for one window  "
 	self should: [ windowManager newWindowEvent: nil ] raise: Error.
@@ -133,7 +133,7 @@ ToAnchoredWindowManagerTest >> testElement [
 	e addEventHandler: (BlEventHandler
 			 on: ToClosedEvent
 			 do: [ :event | closeEventFromWidget := event ]).
-	self assert: win element equals: e.
+	self assert: win anchorElement equals: e.
 
 	win popup.
 	self waitTestingSpaces.
@@ -176,7 +176,7 @@ ToAnchoredWindowManagerTest >> testElementEventHandlerClass [
 	win := windowManager newWindowEvent: nil.
 	win popup.
 	self waitTestingSpaces.
-	self assert: win element equals: e.
+	self assert: win anchorElement equals: e.
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
 			 eh isKindOf: ToAnchoredWindowManager ]).
 	win close.
@@ -196,13 +196,14 @@ ToAnchoredWindowManagerTest >> testElementPositionInSpaceChangedEvent [
 	e position: 10 asPoint.
 	e size: 10 asPoint.
 	self waitTestingSpaces.
-
+	self assert: e position equals: 10 asPoint.
 	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
 	e addEventHandler: windowManager.
 	win := windowManager newWindowEvent: nil.
 	win popup.
+	self waitTestingSpaces.
 	self waitTestingSpaces.
 	self
 		assert: win bounds inSpace bounds origin
@@ -330,6 +331,7 @@ ToAnchoredWindowManagerTest >> testPositionHook [
 	win := windowManager newWindowEvent: nil.
 	win popup.
 	self waitTestingSpaces.
+	self waitTestingSpaces.
 	self
 		assert: win bounds inSpace bounds origin
 		equals: e bounds inSpace bounds origin.
@@ -358,11 +360,13 @@ ToAnchoredWindowManagerTest >> testPositionHook2 [
 	win := windowManager newWindowEvent: nil.
 	win popup.
 	self waitTestingSpaces.
+	self waitTestingSpaces.
 	windowManager placement: (ToActionPlacement new
-			 action: [ :window :evt | | theElem theRoot |
-				theElem := window element.
-				theRoot := window anchorRoot.
-				window position: (theElem bounds inParent: theRoot) bottomRight ];
+			 action: [ :window :evt |
+				 | theElem theRoot |
+				 theElem := window anchorElement.
+				 theRoot := window anchorRoot.
+				 window position: (theElem bounds inParent: theRoot) bottomRight ];
 			 yourself).
 	self
 		assert: win bounds inSpace bounds origin
@@ -397,6 +401,7 @@ ToAnchoredWindowManagerTest >> testPositionHook3 [
 	win := windowManager newWindowEvent: nil.
 
 	win popup.
+	self waitTestingSpaces.
 	self waitTestingSpaces.
 	self assert: win bounds inSpace bounds origin equals: 30 @ 30.
 	e position: 20 asPoint.

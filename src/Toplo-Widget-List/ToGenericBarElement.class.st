@@ -58,11 +58,3 @@ ToGenericBarElement >> nodeFactory: aValuable [
 	super nodeFactory: aValuable.
 	self notifyDataSourceChanged
 ]
-
-{ #category : #accessing }
-ToGenericBarElement >> nodeHolderClass: aNodeHolderClass [
-	" aValuable that takes a node holder as unique argument and which running results in a new node "
-
-	super nodeHolderClass: aNodeHolderClass.
-	self notifyDataSourceChanged
-]

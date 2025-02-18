@@ -3,16 +3,17 @@ Class {
 	#superclass : #ToWindowMode,
 	#instVars : [
 		'anchorRoot',
-		'placement'
+		'placement',
+		'measurement'
 	],
-	#category : #'Toplo-Core-Window'
+	#category : #'Toplo-Core-Window-Support'
 }
 
 { #category : #accessing }
 ToPopupWindowMode >> anchorRoot [
-
 	" the root element in which the window is placed "
-	^ anchorRoot ifNil: [ anchorRoot := manager element space root ]
+
+	^ anchorRoot ifNil: [ anchorRoot := manager anchorElement space root ]
 ]
 
 { #category : #accessing }
@@ -22,10 +23,22 @@ ToPopupWindowMode >> anchorRoot: anElement [
 	anchorRoot := anElement
 ]
 
-{ #category : #'api - displaying' }
-ToPopupWindowMode >> arrangeWindow: aWindow onEvent: anEvent [
+{ #category : #accessing }
+ToPopupWindowMode >> measurement [ 
 
-	self placement arrangeWindow: aWindow onEvent: anEvent
+	^ measurement ifNil: [ measurement := manager defaultMeasurement ] 
+]
+
+{ #category : #accessing }
+ToPopupWindowMode >> measurement: aMeasurement [
+
+	measurement := aMeasurement 
+]
+
+{ #category : #'api - displaying' }
+ToPopupWindowMode >> onMeasure: anExtentMeasurementSpec element: anElement onEvent: anEvent [
+
+	self measurement onMeasure: anExtentMeasurementSpec element: anElement onEvent: anEvent
 ]
 
 { #category : #accessing }
@@ -38,6 +51,12 @@ ToPopupWindowMode >> placement [
 ToPopupWindowMode >> placement: aPlacement [
 
 	placement := aPlacement
+]
+
+{ #category : #'api - displaying' }
+ToPopupWindowMode >> positionElement: anElement onEvent: anEvent context: aBlElementBoundsUpdateContext [
+
+	self placement positionElement: anElement onEvent: anEvent context: aBlElementBoundsUpdateContext
 ]
 
 { #category : #'window handling' }

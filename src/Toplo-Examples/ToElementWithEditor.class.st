@@ -23,7 +23,7 @@ ToElementWithEditor >> beforeEditorOpened: anEditor fromManager: aManager [
 		do: [ :event | aManager closeWindow ].
 
 	anEditor text: (contents ifNil: [self background paint color asString]).
-	anEditor infinite requestFocus.
+	anEditor requestFocus.
 	anEditor selecter
 		all;
 		apply.

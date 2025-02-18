@@ -21,29 +21,27 @@ ToSelectPopupWindowManager >> defaultMaxHeight [
 ]
 
 { #category : #initialization }
+ToSelectPopupWindowManager >> defaultMeasurement [
+
+	^ ToSameWidthMeasurement new
+]
+
+{ #category : #initialization }
 ToSelectPopupWindowManager >> defaultMinHeight [
 
 	^ 0
 ]
 
-{ #category : #initializing }
+{ #category : #initialization }
 ToSelectPopupWindowManager >> defaultPlacement [
 
 	^ ToActionPlacement new
 		  action: [ :theWin  :evt | | theElem theRoot |
 			  theElem := theWin  element.
 			  theRoot := theWin  anchorRoot.
-			  theWin width: theElem measuredWidth.
 			  theWin position:
 					  (theElem bounds inParent: theRoot) bounds bottomLeft ];
 		  yourself
-]
-
-{ #category : #initialization }
-ToSelectPopupWindowManager >> defaultWidthHook [
-
-	^ [ :theWindow :theElement :event |
-	  theElement measuredWidth ]
 ]
 
 { #category : #accessing }
@@ -109,16 +107,14 @@ ToSelectPopupWindowManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	listElement := self newListElement.
-	listElement selectElement: self element.
+	listElement selectElement: self anchorElement.
 	listElement focusability: BlFocusability none.
 
 	listElement addEventHandler: (self defaultListElementEventHandler
-			 select: self element;
+			 select: self anchorElement;
 			 yourself).
 
 	self windowBuilder: [ :selectWin :request |
-		selectWin root hMatchParent.
-		selectWin root vFitContent.
 		selectWin root addChild: self listElement ].
 
 	sieve := ToListElementSieve new.
@@ -146,17 +142,6 @@ ToSelectPopupWindowManager >> onUninstalledIn: anElement [
 ToSelectPopupWindowManager >> popupWindowClass [
 
 	^ ToSelectPopupWindow 
-]
-
-{ #category : #'window handling' }
-ToSelectPopupWindowManager >> popupWindowHiddenEvent: anEvent [
-
-	(currentWindow notNil and: [ currentWindow isOpened ]) ifTrue: [
-		^ self ].
-	currentWindow ifNil: [ self newWindowEvent: anEvent ].
-	" currentWindow can be nil in case the element is disabled "
-	currentWindow visibility: BlVisibility hidden.
-	currentWindow popupEvent: anEvent
 ]
 
 { #category : #accessing }

@@ -1,9 +1,6 @@
 Class {
 	#name : #ToBasicWindowElement,
 	#superclass : #ToElement,
-	#instVars : [
-		'rootElement'
-	],
 	#category : #'Toplo-Core-Window'
 }
 
@@ -22,29 +19,7 @@ ToBasicWindowElement >> defaultElevation [
 { #category : #initialization }
 ToBasicWindowElement >> defaultLayout [
 
-	^ BlFrameLayout new
-]
-
-{ #category : #initialization }
-ToBasicWindowElement >> defaultRootElement [
-
-	^ ToElement new
-		  id: self defaultRootId;
-		  layout: self defaultRootLayout;
-		  fitContent
-]
-
-{ #category : #initialization }
-ToBasicWindowElement >> defaultRootId [
-
-	^ 'window-root'
-]
-
-{ #category : #initialization }
-ToBasicWindowElement >> defaultRootLayout [
-
-	^ BlLinearLayout vertical 
-
+	^ BlLinearLayout vertical
 ]
 
 { #category : #initialization }
@@ -55,16 +30,7 @@ ToBasicWindowElement >> initialize [
 		elevation: self defaultElevation;
 		layout: self defaultLayout;
 		fitContent.
-	self constraintsDo: [ :c | c ignoreByLayout ].	
-	rootElement := self defaultRootElement.
-	self addChild: rootElement.
-	self initializeRootElement 
-]
-
-{ #category : #initialization }
-ToBasicWindowElement >> initializeRootElement [
-
-
+	self constraintsDo: [ :c | c ignoreByLayout ]
 ]
 
 { #category : #skin }
@@ -95,19 +61,7 @@ ToBasicWindowElement >> root [
 	"Return my current root element.
 	root can not be nil"
 	
-	^ rootElement
-]
-
-{ #category : #accessing }
-ToBasicWindowElement >> root: anElement [
-
-	"Make a given element my root element.
-	anElement must not be nil.
-	anElement must not be added to any scene graph"
-
-	rootElement ifNotNil: [ 
-		rootElement removeFromParent ].
-	rootElement := anElement
+	^ self
 ]
 
 { #category : #'api - displaying' }

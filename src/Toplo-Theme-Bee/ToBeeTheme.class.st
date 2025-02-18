@@ -77,26 +77,26 @@ ToBeeTheme >> declareBackgroundStyleWithTokenDefault: aDefaultColorToken tokenHo
 
 	| backgroundColorAnim |
 	" the animation must be shared by all writers which are using it to stop it correctly "
-	backgroundColorAnim := ToPropertyColorTransitionAnimation new
+	backgroundColorAnim := ToPropertyBackgroundColorTransitionAnimation new
 		                       duration: 150 milliSeconds.
 
 	self
 		when: ToInstallSkinEvent
-		write: (self property: #'background-color')
+		write: (self property: #'background')
 		with: [ :e | e valueOfTokenNamed: aDefaultColorToken ].
 	self
 		when: ToLeavedSkinEvent
-		write: (self property: #'background-color')
+		write: (self property: #'background')
 		with: [ :e | e valueOfTokenNamed: aDefaultColorToken ]
 		animation: backgroundColorAnim.
 	self
 		when: ToHoveredSkinEvent
-		write: (self property: #'background-color')
+		write: (self property: #'background')
 		with: [ :e | e valueOfTokenNamed: aHoverColorToken ]
 		animation: backgroundColorAnim.
 	self
 		when: ToPressedSkinEvent
-		write: (self property: #'background-color')
+		write: (self property: #'background')
 		with: [ :e | e valueOfTokenNamed: aPressedColorToken ]
 		animation: backgroundColorAnim
 ]
@@ -310,11 +310,11 @@ ToBeeTheme >> declareDefaultButtonRules [
 	"Background"
 	self
 		when: ToDisabledSkinEvent
-		write: (self property: #'background-color')
+		write: (self property: #'background')
 		with: [ :e | e valueOfTokenNamed: #'color-bg-container-disabled' ].
 	self
 		when: ToInstallSkinEvent
-		write: (self property: #'background-color')
+		write: (self property: #'background')
 		with: [ :e | e valueOfTokenNamed: #'color-bg-container' ].
 
 	"Border"
@@ -584,7 +584,7 @@ ToBeeTheme >> declareLinkButtonRules [
 		self declareNoBorder.
 		self
 			when: ToDisabledSkinEvent
-			write: (self property: #'background-color')
+			write: (self property: #'background')
 			with: [ :e | Color transparent ].
 
 		"Label"
@@ -645,7 +645,7 @@ ToBeeTheme >> declarePrimaryButtonRules [
 		style: [ "Background and border"
 			self
 				when: ToDisabledSkinEvent
-				write: (self property: #'background-color')
+				write: (self property: #'background')
 				with: [ :e | e valueOfTokenNamed: #'color-bg-container-disabled' ].
 
 			self select: #danger asStampSelector not style: [
@@ -681,7 +681,7 @@ ToBeeTheme >> declareTextButtonRules [
 		self declareNoBorder.
 		self
 		when: ToDisabledSkinEvent
-		write: (self property: #'background-color')
+		write: (self property: #'background')
 		with: [ :e | Color transparent ].
 
 		"Background"

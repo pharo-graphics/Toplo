@@ -7,16 +7,16 @@ Trait {
 	#category : #'Toplo-Core-Window'
 }
 
-{ #category : #'t - inline window element - displaying' }
-TToAnchoredWindowElement >> afterCustomizedToFitAnchorRootDo: aBlock [
-
-	aBlock value
-]
-
 { #category : #'t - inline window element - testing' }
 TToAnchoredWindowElement >> allowPickOutsideClosing [
 
 	self manager plugPickOutsideFilter
+]
+
+{ #category : #'t - inline window element - accessing' }
+TToAnchoredWindowElement >> anchorElement [
+
+	^ self manager ifNotNil: [ :h | h anchorElement ]
 ]
 
 { #category : #'t - inline window element - accessing' }
@@ -25,10 +25,16 @@ TToAnchoredWindowElement >> anchorRoot [
 	^ self manager anchorRoot
 ]
 
-{ #category : #'t - inline window element - displaying' }
-TToAnchoredWindowElement >> arrangeWindowOnEvent: anEvent [
+{ #category : #'t - inline window element - private layout' }
+TToAnchoredWindowElement >> checkLayoutStepOnLayout: aBounds context: aBlElementBoundsUpdateContext [
 
-	self manager arrangeWindowOnEvent: anEvent
+	self layoutStep ifNotNil: [ :ls |
+		self layoutStep: (ls
+				 nextStepFor: self
+				 onEvent: self lastPopupEvent
+				 onLayout: aBounds
+				 context: aBlElementBoundsUpdateContext).
+		self layoutStep ifNotNil: [ self requestLayout ] ]
 ]
 
 { #category : #'t - inline window element - displaying' }
@@ -41,6 +47,12 @@ TToAnchoredWindowElement >> close [
 ]
 
 { #category : #'t - inline window element - accessing' }
+TToAnchoredWindowElement >> correctedPositionWithinAnchorRoot [
+
+	^ self measuredPosition
+]
+
+{ #category : #'t - inline window element - accessing' }
 TToAnchoredWindowElement >> defaultElevation [
 
 	^ BlRelativeElevation elevation: (SmallInteger maxVal - 900)
@@ -49,19 +61,53 @@ TToAnchoredWindowElement >> defaultElevation [
 { #category : #'t - inline window element - accessing' }
 TToAnchoredWindowElement >> element [
 
-	^ self manager ifNotNil: [:h | h element]
+	self deprecated: 'Use #anchorElement instead' transformWith: '`@rcvr element'->'`@rcvr anchorElement'.
+	^ self anchorElement
 ]
 
 { #category : #'t - inline window element - testing' }
 TToAnchoredWindowElement >> hasAssociateElement [
 
-	^ self element notNil
+	^ self anchorElement notNil
 ]
 
 { #category : #'t - inline window element - testing' }
 TToAnchoredWindowElement >> isOpened [
 
 	^ self hasParent
+]
+
+{ #category : #'t - inline window element - private layout' }
+TToAnchoredWindowElement >> lastPopupEvent [
+
+	^ self userData at: #lastPopupEvent ifAbsent: [  ]
+]
+
+{ #category : #'t - inline window element - private layout' }
+TToAnchoredWindowElement >> lastPopupEvent: anEvent [
+
+	self userData at: #lastPopupEvent put: anEvent
+]
+
+{ #category : #'t - inline window element - private layout' }
+TToAnchoredWindowElement >> launchOpening [
+
+	self layoutStep: ToAnchoredWindowOpeningStartStep new.
+	self open
+]
+
+{ #category : #'t - inline window element - accessing' }
+TToAnchoredWindowElement >> layoutStep [
+
+	^ self userData at: #layoutStep ifAbsent: [  ]
+]
+
+{ #category : #'t - inline window element - accessing' }
+TToAnchoredWindowElement >> layoutStep: aLayoutStep [
+
+	aLayoutStep ifNil: [
+		^ self userData removeKey: #layoutStep ifAbsent: [  ] ].
+	self userData at: #layoutStep put: aLayoutStep
 ]
 
 { #category : #'t - inline window element - accessing' }
@@ -77,10 +123,17 @@ TToAnchoredWindowElement >> manager: aWindowHandler [
 ]
 
 { #category : #'t - inline window element - displaying' }
+TToAnchoredWindowElement >> onMeasure: anExtentMeasurementSpec onEvent: anEvent [
+
+	self manager onMeasure: anExtentMeasurementSpec onEvent: anEvent
+]
+
+{ #category : #'t - inline window element - displaying' }
 TToAnchoredWindowElement >> open [
 
 	self manager startWindow: self.
-	self localTheme ifNil: [ self localTheme: self element lookupTheme ].
+	self localTheme ifNil: [
+		self localTheme: self anchorElement lookupTheme ].
 	popupTimestamp := self space time now.
 	self dispatchOpenedEvent
 ]
@@ -101,27 +154,17 @@ TToAnchoredWindowElement >> popupEvent: anEvent [
 	self hasAssociateElement ifFalse: [
 		Error signal:
 			'Can''t popup an anchored window without associate element' ].
-	self element isAttachedToSceneGraph ifFalse: [
+	self anchorElement isAttachedToSceneGraph ifFalse: [
 		Error signal:
 			'Can''t popup an anchored window if the element is not attached to a space' ].
-	self element isDisabled ifTrue: [
+	self anchorElement isDisabled ifTrue: [
 		Error signal: 'A window with a disabled element shouldn''t popup' ].
 
 	self isOpened ifTrue: [
 		Error signal: 'An opened window shouldn''t be asked to popup' ].
 
-	self visibility: BlVisibility hidden.
-	self open.
-	self whenLayoutedDoOnce: [ " ok, now that sizes are known, 
-		position and size of mine or of my children can be adapted "
-		self arrangeWindowOnEvent: anEvent.
-		" since the position/size could have been changed, 
-		one have to wait a second layout"
-		self requestLayout.
-		self whenLayoutedDoOnce: [
-			self afterCustomizedToFitAnchorRootDo: [
-				self toFront.
-				self visibility: BlVisibility visible ] ] ]
+	self lastPopupEvent: anEvent.
+	self launchOpening
 ]
 
 { #category : #'t - inline window element - accessing' }
@@ -131,15 +174,22 @@ TToAnchoredWindowElement >> popupTimestamp [
 ]
 
 { #category : #'t - inline window element - displaying' }
+TToAnchoredWindowElement >> positionOnEvent: anEvent context: aBlElementBoundsUpdateContext [
+
+	self manager positionWindowOnEvent: anEvent context: aBlElementBoundsUpdateContext
+]
+
+{ #category : #'t - inline window element - displaying' }
 TToAnchoredWindowElement >> preventPickOutsideClosing [
 
 	self manager unplugPickOutsideFilter
 ]
 
-{ #category : #'t - inline window element - accessing' }
-TToAnchoredWindowElement >> root [ 
+{ #category : #'t - inline window element - private layout' }
+TToAnchoredWindowElement >> refreshLayout [
 
-	^ self explicitRequirement 
+	self layoutStep: ToAnchoredWindowArrangingStep new.
+	self requestLayout
 ]
 
 { #category : #'t - inline window element - displaying' }

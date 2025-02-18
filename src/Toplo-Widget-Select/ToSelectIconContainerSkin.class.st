@@ -26,7 +26,11 @@ ToSelectIconContainerSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e middleContainer padding: (BlInsets horizontal: 5).
-		e icon ifNil: [ e icon: (e valueOfTokenNamed: #'submenu-arrow-down') value ] ]
+		e icon ifNil: [ | image |
+			image := ToImage inner: (e valueOfTokenNamed: #'submenu-arrow-down').
+			image size: 18 asPoint.
+			image innerImageColor: (e valueOfTokenNamed: #'color-text').
+			e icon: image ] ]
 ]
 
 { #category : #'event handling' }

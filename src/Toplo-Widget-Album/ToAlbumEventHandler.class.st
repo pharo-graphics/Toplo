@@ -73,6 +73,7 @@ ToAlbumEventHandler >> mouseDownEvent: anEvent [
 
 	" copy the event, else the double click can't works in textfield in case of clicking outside the infinite bounds" 
 	target infinite dispatchEvent: anEvent copy.
+	anEvent primaryButtonPressed ifFalse: [ ^ self ].
 	anEvent consume
 ]
 

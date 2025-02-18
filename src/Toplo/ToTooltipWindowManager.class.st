@@ -25,7 +25,7 @@ ToTooltipWindowManager >> defaultCloseOnPicking [
 	^ false
 ]
 
-{ #category : #initializing }
+{ #category : #initialization }
 ToTooltipWindowManager >> defaultPlacement [
 
 	^ ToTooltipPlacement new

@@ -13,45 +13,26 @@ ToGenericListNodeManager >> constraintNode: aNode [
 		| l |
 		l := aNode holder listElement.
 		l isHorizontal
-			ifTrue: [
-				c horizontal fitContent.
-				c vertical fitContent ]
-			ifFalse: [
-				c horizontal matchParent.
-				c vertical fitContent ] ]
-]
-
-{ #category : #initialization }
-ToGenericListNodeManager >> defaultHolderClass [
-
-	^ ToListNodeHolder
-]
-
-{ #category : #initialization }
-ToGenericListNodeManager >> defaultNodeBuilder [
-
-	^ [ :node :dataItem :holder |
-	  node addChild: (ToLabel text: dataItem asString)  ]
-]
-
-{ #category : #initialization }
-ToGenericListNodeManager >> defaultNodeFactory [
-
-	^ [ :holder | ToListNode new ]
-]
-
-{ #category : #initialization }
-ToGenericListNodeManager >> defaultNodeUnbuilder [
-
-	^ [ :node :dataItem :holder | ]
+			ifTrue: [ c horizontal fitContent ]
+			ifFalse: [ c horizontal matchParent ].
+		c vertical fitContent ]
 ]
 
 { #category : #initialization }
 ToGenericListNodeManager >> initialize [
 
 	super initialize.
-	holderClass := self defaultHolderClass.
-	nodeBuilder := self defaultNodeBuilder.
-	nodeUnbuilder := self defaultNodeUnbuilder.
-	nodeFactory := self defaultNodeFactory
+	self initializeAsGenericNodeManager 
+]
+
+{ #category : #'t - generic node manager' }
+ToGenericListNodeManager >> newHolder [
+
+	^ ToNodeHolder new
+]
+
+{ #category : #'t - generic node manager' }
+ToGenericListNodeManager >> unbuildNode: aNode [
+
+	nodeUnbuilder cull: aNode cull: aNode holder dataItem cull: aNode holder
 ]

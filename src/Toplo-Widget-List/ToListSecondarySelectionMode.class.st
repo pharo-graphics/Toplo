@@ -14,8 +14,7 @@ ToListSecondarySelectionMode >> defaultSelectionOption [
 		  grouped: false;
 		  beneath: true;
 		  elementFactory: [
-			  ToListBasicSelectionElement new defaultSkin:
-					  ToListSecondarySelectionElementSkin new ]
+			  ToListSecondarySelectionElement new ]
 ]
 
 { #category : #initialization }
@@ -29,6 +28,12 @@ ToListSecondarySelectionMode >> initialize [
 ToListSecondarySelectionMode >> isMultipleSelection [
 
 	^ multiple
+]
+
+{ #category : #testing }
+ToListSecondarySelectionMode >> isSecondary [ 
+
+	^ true
 ]
 
 { #category : #accessing }

@@ -40,8 +40,7 @@ ToPopupPickOutsideEventFilter >> checkUpCount [
 { #category : #accessing }
 ToPopupPickOutsideEventFilter >> element [
 
-	^ windowManager element
-
+	^ windowManager anchorElement
 ]
 
 { #category : #'api - accessing' }

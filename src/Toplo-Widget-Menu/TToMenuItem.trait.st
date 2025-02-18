@@ -14,7 +14,7 @@ TToMenuItem >> allMenuWindows [
 TToMenuItem >> allMenuWindowsDo: aValuable [
 
 	| r |
-	r := self rootMenuWindowOrMenuBar ifNil: [ ^ self ].
+	r := self rootMenuItemContainer ifNil: [ ^ self ].
 	r allChildrenDepthFirstDo: [ :child |
 		(child isKindOf: ToMenu) ifTrue: [ child menuWindowDo: aValuable ] ]
 ]
@@ -30,11 +30,17 @@ TToMenuItem >> allOtherMenuWindows [
 TToMenuItem >> allOtherMenuWindowsDo: aValuable [
 
 	| r |
-	r := self rootMenuWindowOrMenuBar ifNil: [ ^ self ].
+	r := self rootMenuItemContainer ifNil: [ ^ self ].
 	r allChildrenDepthFirstDo: [ :child |
 		(child ~= self and: [
 			 (child isKindOf: ToMenu) ]) ifTrue: [
 			child menuWindowDo: aValuable ] ]
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> barOwnerDo: aValuable [
+
+	self menuBarOwner ifNotNil: [ :bo | aValuable value: bo ]
 ]
 
 { #category : #'t - menu item' }
@@ -71,31 +77,32 @@ TToMenuItem >> isMenuItem [
 ]
 
 { #category : #'t - menu item' }
-TToMenuItem >> isRootMenuItem [ 
-
-	^ self barOwner isNil  or: [ self barOwner isMenuBar ]
-]
-
-{ #category : #'t - menu item' }
 TToMenuItem >> isSubmenu [ 
 
 	^ false
 ]
 
 { #category : #'t - menu item' }
-TToMenuItem >> menuBar [
+TToMenuItem >> menuBarOwner [
+
+	^ self listElement ifNotNil: [ :be | be menuBarOwner ]
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> menuPane [
 
 	self parentChainReverseDo: [ :e |
-		(e isKindOf: ToMenuBar) ifTrue: [ ^ e ] ].
+		(e isKindOf: ToMenuPane) ifTrue: [ ^ e ] ].
 	^ nil
 ]
 
 { #category : #'t - menu item' }
 TToMenuItem >> parentMenu [
 
-	self barOwner ifNil: [ ^ nil ].
-	self barOwner isMenuBar ifTrue: [ ^ nil ].
-	^ self barOwner
+	^ self menuBarOwner ifNotNil: [ :bo |
+		  bo isMenuPane
+			  ifTrue: [  ]
+			  ifFalse: [ bo ] ]
 ]
 
 { #category : #'t - menu item' }
@@ -105,26 +112,10 @@ TToMenuItem >> parentMenuDo: aBlock [
 ]
 
 { #category : #'t - menu item' }
-TToMenuItem >> popupWindowParentMenu [
-
-	| win |
-	win := self firstInParentChainSatisfying: [ :p |
-		       p isKindOf: ToMenuWindow ].
-	win ifNotNil: [ ^ win itemContainer ].
-	^ nil
-]
-
-{ #category : #'t - menu item' }
-TToMenuItem >> popupWindowParentMenuDo: aBlock [
-
-	self popupWindowParentMenu ifNotNil: [ :p | aBlock value: p ]
-]
-
-{ #category : #'t - menu item' }
-TToMenuItem >> rootMenuWindowOrMenuBar [
+TToMenuItem >> rootMenuItemContainer [
 
 	self parentChainReverseDo: [ :e |
-		((e isKindOf: ToMenuWindow) or: [ e isKindOf: ToMenuBar ]) ifTrue: [
+		((e isKindOf: ToMenuWindow) or: [ e isKindOf: ToMenuPane ]) ifTrue: [
 			^ e ] ].
 	^ nil
 ]

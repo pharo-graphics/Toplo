@@ -1,6 +1,6 @@
 Class {
 	#name : #ToListNodeSkin,
-	#superclass : #ToRawSkin,
+	#superclass : #ToBasicNodeSkin,
 	#category : #'Toplo-Widget-List-Node'
 }
 
@@ -9,7 +9,6 @@ ToListNodeSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e outskirts: BlOutskirts inside.
 		e padding: (BlInsets
 				 horizontal: (e valueOfTokenNamed: #'list-node-padding-H')
 				 vertical: (e valueOfTokenNamed: #'list-node-padding-V')) ]

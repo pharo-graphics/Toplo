@@ -16,7 +16,6 @@ ToTreeDataItemWrapperTest >> setUp [
 { #category : #tests }
 ToTreeDataItemWrapperTest >> testExpandAllAndCollapseAll [
 
-	self skip: 'Cannot use ExpandAll and CollapseAll for now'.
 	self assert: tree dataAccessor isEmpty.
 	tree dataWrapperClass: ToTreeDataItemPreviousIntegerWrapper.
 	tree dataAccessor addAll: (1 to: 5).

@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-Tree-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToTreeDataItemStringWithoutFirstLetterWrapper >> determineChildren [
 
 	^ dataItem size = 1

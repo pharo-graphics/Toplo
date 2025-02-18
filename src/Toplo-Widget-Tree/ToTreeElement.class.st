@@ -18,8 +18,6 @@ Class {
 { #category : #'as yet unclassified' }
 ToTreeElement class >> exampleExpandAllAndCollapseAll [
 
-	"This example doesn't work for now as ExpandAll and CollapseAll are not correctly implemented"
-
 	| tree expandAllButton collapseAllButton container |
 	tree := self new.
 	tree dataWrapperClass: ToTreeDataItemPreviousIntegerWrapper.

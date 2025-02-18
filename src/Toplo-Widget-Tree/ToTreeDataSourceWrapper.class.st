@@ -1,3 +1,10 @@
+"
+I am a ToTreeDataSourceWrapper 
+
+My job is to wrap objects that users wish to add to a dataSource of a TreeElement, I present a similar API than a dataSource but I take care of using DataItemWrappers to wrap objects before putting them into the dataSource
+
+
+"
 Class {
 	#name : #ToTreeDataSourceWrapper,
 	#superclass : #Object,
@@ -70,9 +77,12 @@ ToTreeDataSourceWrapper >> at: anIndex [
 { #category : #'expanding-collapsing' }
 ToTreeDataSourceWrapper >> collapseAll [
 
-	| currentWrappers |
-	currentWrappers := dataSource collection select: [ :each | each nodeDepth = 0 ].
-	currentWrappers do: [ :w | w collapse ]
+	| rootWrappers |
+	rootWrappers := dataSource collection select: [ :each |
+		                   each nodeDepth = 0 ].
+	rootWrappers do: [ :w | w collapse ].
+	
+	dataSource notifyChanged 
 ]
 
 { #category : #accessing }
@@ -96,10 +106,11 @@ ToTreeDataSourceWrapper >> do: aBlock [
 { #category : #'expanding-collapsing' }
 ToTreeDataSourceWrapper >> expandAll [
 
-	| currentWrappers |
-	currentWrappers := dataSource collection copy.
-	currentWrappers do: [ :w |
-		w expandAll ]
+	| rootWrappers |
+	rootWrappers := dataSource collection select: [ :each |
+		                   each nodeDepth = 0 ].
+	rootWrappers do: [ :w | w expandAll ].
+	dataSource notifyChanged 
 ]
 
 { #category : #testing }

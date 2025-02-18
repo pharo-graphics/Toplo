@@ -22,7 +22,7 @@ Class {
 	#category : #'Toplo-Widget-Tree-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToTreeDataItemWrapper >> children [
 
 	^ children ifNil: [ children := self determineChildren collect: [ :each |
@@ -64,7 +64,7 @@ ToTreeDataItemWrapper >> dataSource: aDataSource [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToTreeDataItemWrapper >> determineChildren [
 
 	^ OrderedCollection empty.

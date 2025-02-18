@@ -2,34 +2,49 @@ Class {
 	#name : #ToExTreeDataWrapper,
 	#superclass : #Object,
 	#instVars : [
-		'holder',
+		'dataAccessor',
 		'parentWrapper',
 		'dataItem',
 		'childrenHook',
-		'currentChildren'
+		'currentChildren',
+		'expanded'
 	],
 	#category : #'Toplo-Examples-Experiments'
 }
 
-{ #category : #accessing }
+{ #category : #'private - accessing' }
 ToExTreeDataWrapper >> childWrappersInterval [
 
-	| firstHolder lastHolder |
-	currentChildren ifNil: [ ^ 1 to: 0 ].
-	firstHolder := currentChildren first holder.
-	lastHolder := currentChildren last holder.
-	^ firstHolder position to: lastHolder position
+	| idx first last |
+	self children ifEmpty: [ ^ 1 to: 0 ].
+	idx := self position.
+
+	[
+	idx <= dataAccessor size and: [
+			(dataAccessor at: idx) parentWrapper = self ] ] whileFalse: [
+		idx := idx + 1 ].
+	first := idx.
+	[
+	idx <= dataAccessor size and: [
+		(dataAccessor at: idx) parentWrapper notNil and: [
+			(dataAccessor at: idx) hasParentWrapper: self ] ] ] whileTrue: [
+		idx := idx + 1 ].
+	last := idx - 1.
+	^ first to: last
 ]
 
 { #category : #accessing }
 ToExTreeDataWrapper >> children [
 
-	^ (childrenHook value: dataItem) collect: [ :aChild |
-		  self class new
-			  parentWrapper: self;
-			  wrapped: aChild;
-			  childrenHook: childrenHook;
-			  yourself ]
+	^ currentChildren ifNil: [
+		  currentChildren := (childrenHook value: dataItem) collect: [
+			                     :aChild |
+			                     self class new
+				                     dataAccessor: dataAccessor;
+				                     parentWrapper: self;
+				                     wrapped: aChild;
+				                     childrenHook: childrenHook;
+				                     yourself ] ]
 ]
 
 { #category : #accessing }
@@ -38,57 +53,67 @@ ToExTreeDataWrapper >> childrenHook: anObject [
 	childrenHook := anObject
 ]
 
-{ #category : #accessing }
-ToExTreeDataWrapper >> collapse [ 
+{ #category : #'expanding-collapsing' }
+ToExTreeDataWrapper >> collapse [
 
-	currentChildren ifNil: [ ^ self ].
-	currentChildren := nil
+	| childrenInterval |
+	childrenInterval := self childWrappersInterval.
+	childrenInterval do: [ :idx |
+		(dataAccessor at: idx) privateExpanded: false ].
+	dataAccessor
+		removeFrom: childrenInterval first
+		to: childrenInterval last.
+	expanded := false
 ]
 
 { #category : #accessing }
-ToExTreeDataWrapper >> currentChildren [ 
+ToExTreeDataWrapper >> dataAccessor [
 
-	^ currentChildren 
+	^ dataAccessor 
 ]
 
 { #category : #accessing }
-ToExTreeDataWrapper >> expand [ 
+ToExTreeDataWrapper >> dataAccessor: anObject [
 
-	currentChildren ifNotNil: [ ^ self ].
-	currentChildren := self children
+	dataAccessor := anObject
 ]
 
-{ #category : #accessing }
-ToExTreeDataWrapper >> hasParent: aWrapper [
+{ #category : #'expanding-collapsing' }
+ToExTreeDataWrapper >> expand [
 
-	aWrapper ifNil: [ ^ false ].
+	| pos |
+	pos := self position.
+	self children withIndexDo: [ :w :idx |
+		dataAccessor add: w afterIndex: pos + idx - 1 ].
+	expanded := true
+]
+
+{ #category : #testing }
+ToExTreeDataWrapper >> hasChildren [
+
+	^ self children notEmpty
+]
+
+{ #category : #'private - testing' }
+ToExTreeDataWrapper >> hasParentWrapper: aWrapper [
+
+	parentWrapper ifNil: [ ^ false ].
 	parentWrapper = aWrapper ifTrue: [ ^ true ].
-	^ parentWrapper hasParent: aWrapper
-]
-
-{ #category : #accessing }
-ToExTreeDataWrapper >> holder [
-
-	^ holder
-]
-
-{ #category : #accessing }
-ToExTreeDataWrapper >> holder: anObject [
-
-	holder := anObject
+	^ parentWrapper hasParentWrapper: aWrapper
 ]
 
 { #category : #initialization }
 ToExTreeDataWrapper >> initialize [
 
 	super initialize.
+	expanded := false.
 	childrenHook := [ :d | #(  ) ]
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 ToExTreeDataWrapper >> isExpanded [ 
 
-	^ currentChildren notNil
+	^ expanded
 ]
 
 { #category : #accessing }
@@ -113,6 +138,30 @@ ToExTreeDataWrapper >> parentWrapper [
 ToExTreeDataWrapper >> parentWrapper: aWrapper [
 
 	parentWrapper := aWrapper
+]
+
+{ #category : #accessing }
+ToExTreeDataWrapper >> position [
+
+	| idx |
+	idx := 1.
+	[ idx <= dataAccessor size and: [ (dataAccessor at: idx) = self ] ]
+		whileFalse: [ idx := idx + 1 ].
+	^ idx
+]
+
+{ #category : #'private - accessing' }
+ToExTreeDataWrapper >> privateExpanded: aBoolean [
+
+	expanded := aBoolean
+]
+
+{ #category : #'expanding-collapsing' }
+ToExTreeDataWrapper >> toggle [
+
+	self isExpanded
+		ifTrue: [ self collapse ]
+		ifFalse: [ self expand ]
 ]
 
 { #category : #accessing }

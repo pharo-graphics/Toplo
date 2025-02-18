@@ -70,6 +70,40 @@ AeFontStretch: condensed expanded extraCondensed extraExpanded normal semiConden
 	^ text
 ]
 
+{ #category : #tree }
+ToExperiments class >> example_ClassTree [
+
+	| tree childrenHook inspectBtn showStatisticsBtn disabox menuPane pane |
+	tree := self newTree.
+	childrenHook := [ :aClass | aClass subclasses ].
+
+	tree dataAccessor add: (ToExTreeDataWrapper new
+			 dataAccessor: tree dataAccessor;
+			 wrapped: Object;
+			 childrenHook: childrenHook;
+			 yourself).
+
+	inspectBtn := ToMenuItem new labelText: 'Inspect'.
+	showStatisticsBtn := ToMenuItem new labelText: 'Statistics'.
+	disabox := ToCheckMenuItem new label: (ToLabel text: 'Disable').
+
+	menuPane := ToMenuPane new.
+	menuPane hMatchParent.
+	menuPane addItem: inspectBtn.
+	menuPane addItem: showStatisticsBtn.
+	menuPane addItem: disabox.
+
+	inspectBtn whenClickedDo: [ :evt | tree space root inspect ].
+	disabox whenClickedDo: [ :evt | tree disabled: disabox isChecked ].
+	showStatisticsBtn whenClickedDo: [ :evt |
+		tree space showStatisticsWindow ].
+
+	pane := ToPane vertical matchParent.
+	pane addChild: menuPane.
+	pane addChild: tree.
+	pane openInInnerWindow
+]
+
 { #category : #'drag and drop' }
 ToExperiments class >> example_DragAndDropWithLinearLayout [
 
@@ -323,57 +357,41 @@ ToExperiments class >> example_FrameLayout [
 { #category : #tree }
 ToExperiments class >> example_IntegerTree [
 
-	| l nbItems space rand childrenHook |
-	nbItems := 10.
+	| tree nbItems rand childrenHook inspectBtn showStatisticsBtn disabox menuPane pane |
+	nbItems := 50000.
 	rand := Random new.
-	l := ToListElement new.
+	tree := self newTree.
 	childrenHook := [ :anInteger |
 	                | nb |
-	                nb := rand nextIntegerBetween: 3 and: 8.
+	                nb := rand nextIntegerBetween: 0 and: 4.
 	                1 to: nb ].
 
-	l dataAccessor addAll: ((1 to: nbItems) collect: [ :anInteger |
+	tree dataAccessor addAll: ((1 to: nbItems) collect: [ :anInteger |
 			 ToExTreeDataWrapper new
+				 dataAccessor: tree dataAccessor;
 				 wrapped: anInteger;
 				 childrenHook: childrenHook;
 				 yourself ]).
 
-	l nodeBuilder: [ :node :anExWrapper :holder |
-		| align triplet |
-		anExWrapper holder: holder.
-		align := anExWrapper level * 10.
-		triplet := ToTripletElement new.
-		triplet horizontal: true.
-		triplet middleElement:
-			(ToLabel new text: anExWrapper wrapped asString).
-		triplet startAlignment: align.
-		triplet hMatchParent.
-		node addChild: triplet ].
+	inspectBtn := ToMenuItem new labelText: 'Inspect'.
+	showStatisticsBtn := ToMenuItem new labelText: 'Statistics'.
+	disabox := ToCheckMenuItem new label: (ToLabel text: 'Disable').
 
-	l addEventHandler: (BlEventHandler
-			 on: ToListStrongSelectionEvent
-			 do: [ :event |
-				 | pos wrapper children |
-				 pos := event indexes first.
-				 wrapper := l dataAccessor at: pos.
-				 wrapper isExpanded
-					 ifTrue: [
-						 | childrenInterval |
-						 childrenInterval := wrapper childWrappersInterval.
-						 l dataAccessor removeFrom: childrenInterval first to: childrenInterval last.
-						 wrapper collapse ]
-					 ifFalse: [
-						 wrapper expand.
-						 children := wrapper currentChildren.
-						 children withIndexDo: [ :w :idx |
-							 l dataAccessor add: w afterIndex: pos + idx - 1 ] ] ]).
+	menuPane := ToMenuPane new.
+	menuPane hMatchParent.
+	menuPane addItem: inspectBtn.
+	menuPane addItem: showStatisticsBtn.
+	menuPane addItem: disabox.
 
-	space := BlSpace new
-		         extent: 100 @ 600;
-		         title: 'List with ' , nbItems asString , ' integers'.
+	inspectBtn whenClickedDo: [ :evt | tree space root inspect ].
+	disabox whenClickedDo: [ :evt | tree disabled: disabox isChecked ].
+	showStatisticsBtn whenClickedDo: [ :evt |
+		tree space showStatisticsWindow ].
 
-	space root addChild: l.
-	space show
+	pane := ToPane vertical matchParent.
+	pane addChild: menuPane.
+	pane addChild: tree.
+	pane openInInnerWindow
 ]
 
 { #category : #frame }
@@ -1514,4 +1532,55 @@ ToExperiments class >> example_verticalLabel [
 			 t rotateBy: 270 ])
 		border: (BlBorder paint: Color gray);
 		openInSpace
+]
+
+{ #category : #tree }
+ToExperiments class >> newTree [
+
+	| tree |
+	tree := ToListElement new.
+	tree withRowNumbers.
+
+	tree nodeBuilder: [ :node :anExWrapper :holder |
+		| align triplet arrowIm iconContainer btn hasChildren |
+		align := anExWrapper level * 25.
+		triplet := ToTripletElement new.
+		triplet horizontal: true.
+		triplet middleElement:
+			(ToLabel new text: anExWrapper wrapped asString).
+		arrowIm := ToImage new.
+		hasChildren := anExWrapper hasChildren.
+		hasChildren ifTrue: [
+			| arrowTk |
+			arrowTk := anExWrapper isExpanded
+				           ifTrue: [ #'submenu-arrow-down' ]
+				           ifFalse: [ #'submenu-arrow-right' ].
+			arrowIm innerImage: (tree valueOfTokenNamed: arrowTk) ].
+		arrowIm
+			size: 18 asPoint;
+			id: #arrow.
+		iconContainer := ToElement new
+			                 fitContent;
+			                 yourself.
+		iconContainer layout: BlLinearLayout horizontal.
+		iconContainer addChild: (ToElement new size: align @ 0).
+		btn := ToButton new
+			       icon: arrowIm;
+			       yourself.
+		btn addAllStamps: #( #iconic #borderless ).
+		iconContainer addChild: btn.
+		triplet startInterspace: 10.
+		triplet startElement: iconContainer.
+		hasChildren ifTrue: [
+			btn whenClickedDo: [ :evt |
+				| newArrowTk |
+				anExWrapper toggle.
+				newArrowTk := anExWrapper isExpanded
+					              ifTrue: [ #'submenu-arrow-down' ]
+					              ifFalse: [ #'submenu-arrow-right' ].
+				arrowIm innerImage: (tree valueOfTokenNamed: newArrowTk) ] ].
+		triplet hMatchParent.
+		node addChild: triplet ].
+	
+	^ tree
 ]

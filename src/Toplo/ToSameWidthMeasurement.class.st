@@ -1,11 +1,11 @@
 Class {
 	#name : #ToSameWidthMeasurement,
-	#superclass : #ToWindowMeasurement,
+	#superclass : #ToElementMeasurement,
 	#category : #'Toplo-Core-Window-Support'
 }
 
 { #category : #api }
-ToSameWidthMeasurement >> onMeasure: anExtentMeasurementSpec window: aWindow onEvent: anEvent [
+ToSameWidthMeasurement >> onMeasure: anExtentMeasurementSpec element: anElement onEvent: anEvent [
 
-	anExtentMeasurementSpec widthSpec size: aWindow element measuredWidth
+	anExtentMeasurementSpec widthSpec size: anElement element measuredWidth
 ]

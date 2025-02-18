@@ -11,9 +11,9 @@ Class {
 
 { #category : #accessing }
 ToPopupWindowMode >> anchorRoot [
-
 	" the root element in which the window is placed "
-	^ anchorRoot ifNil: [ anchorRoot := manager element space root ]
+
+	^ anchorRoot ifNil: [ anchorRoot := manager anchorElement space root ]
 ]
 
 { #category : #accessing }
@@ -36,9 +36,9 @@ ToPopupWindowMode >> measurement: aMeasurement [
 ]
 
 { #category : #'api - displaying' }
-ToPopupWindowMode >> onMeasure: anExtentMeasurementSpec window: aWindow onEvent: anEvent [
+ToPopupWindowMode >> onMeasure: anExtentMeasurementSpec element: anElement onEvent: anEvent [
 
-	self measurement onMeasure: anExtentMeasurementSpec window: aWindow onEvent: anEvent
+	self measurement onMeasure: anExtentMeasurementSpec element: anElement onEvent: anEvent
 ]
 
 { #category : #accessing }
@@ -54,9 +54,9 @@ ToPopupWindowMode >> placement: aPlacement [
 ]
 
 { #category : #'api - displaying' }
-ToPopupWindowMode >> positionWindow: aWindow onEvent: anEvent context: aBlElementBoundsUpdateContext [
+ToPopupWindowMode >> positionElement: anElement onEvent: anEvent context: aBlElementBoundsUpdateContext [
 
-	self placement positionWindow: aWindow onEvent: anEvent context: aBlElementBoundsUpdateContext
+	self placement positionElement: anElement onEvent: anEvent context: aBlElementBoundsUpdateContext
 ]
 
 { #category : #'window handling' }

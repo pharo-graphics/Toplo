@@ -1,15 +1,15 @@
 Class {
 	#name : #ToBottomLeftPlacement,
-	#superclass : #ToWindowPlacement,
+	#superclass : #ToElementPlacement,
 	#category : #'Toplo-Core-Window-Support'
 }
 
 { #category : #'api - displaying' }
-ToBottomLeftPlacement >> positionWindow: aWindow onEvent: anEvent context: aBlElementBoundsUpdateContext [
+ToBottomLeftPlacement >> positionElement: anElement onEvent: anEvent context: aBlElementBoundsUpdateContext [
 
 	| root element |
-	root := aWindow anchorRoot.
-	element := aWindow element.
-	aWindow position: (element bounds inParent: root) bottomLeft
-		- (aWindow measuredWidth @ 0)
+	root := anElement anchorRoot.
+	element := anElement element.
+	anElement position: (element bounds inParent: root) bottomLeft
+		- (anElement measuredWidth @ 0)
 ]

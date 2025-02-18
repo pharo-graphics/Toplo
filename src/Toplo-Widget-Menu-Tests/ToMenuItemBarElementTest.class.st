@@ -46,8 +46,8 @@ ToMenuItemBarElementTest >> testAddItem [
 	self assert: (n isKindOf: ToMenuItemNode).
 	self assert: (n holder isKindOf: ToItemNodeHolder).
 	self assert: (n holder dataItem isKindOf: ToMenuItem).
-	self assert: item barElement identicalTo: l.
-	self assert: item positionInBar equals: 1
+	self assert: item listElement identicalTo: l.
+	self assert: item positionInList equals: 1
 ]
 
 { #category : #tests }
@@ -59,21 +59,20 @@ ToMenuItemBarElementTest >> testDisableItemAfterAdding [
 	l addItem: item.
 	item disable.
 	self waitTestingSpaces.
-	
+
 	n := l nodes first.
 	self assert: n holder dataItem identicalTo: item.
-	self assert: item positionInBar equals: 1.
-	self assert: (l disabledSelectionModel containsIndex: item positionInBar).
+	self assert: item positionInList equals: 1.
+	self assert:
+		(l disabledSelectionModel containsIndex: item positionInList).
 	self assert: item isDisabled.
-	self assert: n isDisabled.
-
-
+	self assert: n isDisabled
 ]
 
 { #category : #tests }
 ToMenuItemBarElementTest >> testDisableItemAfterAdding2 [
 
-	| n item|
+	| n item |
 	self assert: l nodes size equals: 0.
 	item := ToMenuItem new labelText: 'A'.
 	l addItem: item.
@@ -83,29 +82,28 @@ ToMenuItemBarElementTest >> testDisableItemAfterAdding2 [
 	item := ToMenuItem new labelText: 'C'.
 	l addItem: item.
 	self waitTestingSpaces.
-	
+
 	n := l nodes first.
-	self assert: n item positionInBar equals: 1.
-	self deny: (l disabledSelectionModel containsIndex: n item positionInBar).
+	self assert: n item positionInList equals: 1.
+	self deny:
+		(l disabledSelectionModel containsIndex: n item positionInList).
 	self deny: n item isDisabled.
 	self deny: n isDisabled.
-	
+
 	n := l nodes second.
 	self waitTestingSpaces.
-	self assert: n item positionInBar equals: 2.
-	self assert: (l disabledSelectionModel containsIndex: n item positionInBar).
+	self assert: n item positionInList equals: 2.
+	self assert:
+		(l disabledSelectionModel containsIndex: n item positionInList).
 	self assert: n item isDisabled.
 	self assert: n isDisabled.
-	
+
 	n := l nodes third.
 	self assert: n item positionInBar equals: 3.
-	self deny: (l disabledSelectionModel containsIndex: n item positionInBar).
+	self deny:
+		(l disabledSelectionModel containsIndex: n item positionInBar).
 	self deny: n item isDisabled.
-	self deny: n isDisabled.
-	
-
-
-
+	self deny: n isDisabled
 ]
 
 { #category : #tests }
@@ -121,17 +119,17 @@ ToMenuItemBarElementTest >> testDisableItemBeforeAdding [
 	n := l nodes first.
 	self assert: n holder dataItem identicalTo: item.
 	self assert: item isDisabled.
-	self assert: item positionInBar equals: 1.
-	self assert: (l disabledSelectionModel containsIndex: item positionInBar).
+	self assert: item positionInList equals: 1.
+	self assert:
+		(l disabledSelectionModel containsIndex: item positionInList).
 	self assert: item isDisabled.
-	self assert: n isDisabled.
-
+	self assert: n isDisabled
 ]
 
 { #category : #tests }
 ToMenuItemBarElementTest >> testDisableItemBeforeAdding2 [
 
-	| n item|
+	| n item |
 	self assert: l nodes size equals: 0.
 	item := ToMenuItem new labelText: 'A'.
 	l addItem: item.
@@ -141,27 +139,26 @@ ToMenuItemBarElementTest >> testDisableItemBeforeAdding2 [
 	item := ToMenuItem new labelText: 'C'.
 	l addItem: item.
 	self waitTestingSpaces.
-	
+
 	n := l nodes first.
-	self assert: n item positionInBar equals: 1.
-	self deny: (l disabledSelectionModel containsIndex: n item positionInBar).
+	self assert: n item positionInList equals: 1.
+	self deny:
+		(l disabledSelectionModel containsIndex: n item positionInList).
 	self deny: n item isDisabled.
 	self deny: n isDisabled.
-	
+
 	n := l nodes second.
 	self waitTestingSpaces.
-	self assert: n item positionInBar equals: 2.
-	self assert: (l disabledSelectionModel containsIndex: n item positionInBar).
+	self assert: n item positionInList equals: 2.
+	self assert:
+		(l disabledSelectionModel containsIndex: n item positionInList).
 	self assert: n item isDisabled.
 	self assert: n isDisabled.
-	
+
 	n := l nodes third.
 	self assert: n item positionInBar equals: 3.
-	self deny: (l disabledSelectionModel containsIndex: n item positionInBar).
+	self deny:
+		(l disabledSelectionModel containsIndex: n item positionInBar).
 	self deny: n item isDisabled.
-	self deny: n isDisabled.
-	
-
-
-
+	self deny: n isDisabled
 ]

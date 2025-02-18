@@ -1,6 +1,6 @@
 Class {
 	#name : #ToActionMeasurement,
-	#superclass : #ToWindowMeasurement,
+	#superclass : #ToElementMeasurement,
 	#instVars : [
 		'action'
 	],
@@ -9,13 +9,13 @@ Class {
 
 { #category : #accessing }
 ToActionMeasurement >> action: aValuable [
-	" aValuable takes the window and the event as arguments "
+	" aValuable takes the anElement and the event as arguments "
 
 	action := aValuable
 ]
 
 { #category : #api }
-ToActionMeasurement >> onMeasure: anExtentMeasurementSpec window: aWindow onEvent: anEvent [
+ToActionMeasurement >> onMeasure: anExtentMeasurementSpec element: anElement onEvent: anEvent [
 
-	action value: aWindow value: anEvent 
+	action value: anElement value: anEvent 
 ]

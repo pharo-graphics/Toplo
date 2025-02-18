@@ -1,8 +1,8 @@
 Class {
 	#name : #ToSegmentedElement,
 	#superclass : #ToElement,
-	#traits : 'TToItemBarOwner + TToOrientable',
-	#classTraits : 'TToItemBarOwner classTrait + TToOrientable classTrait',
+	#traits : 'TToItemListOwner + TToOrientable',
+	#classTraits : 'TToItemListOwner classTrait + TToOrientable classTrait',
 	#category : #'Toplo-Widget-Segmented-Bar'
 }
 
@@ -63,7 +63,7 @@ ToSegmentedElement >> layoutStrategy [
 	
 ]
 
-{ #category : #'t - item bar owner - accessing' }
+{ #category : #'t - item list owner - accessing' }
 ToSegmentedElement >> newItemBar [
 
 	^ ToSegmentedBarElement new

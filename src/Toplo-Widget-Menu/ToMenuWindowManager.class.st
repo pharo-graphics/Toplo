@@ -8,14 +8,14 @@ Class {
 ToMenuWindowManager >> autoCloseWindow [ 
 
 	super autoCloseWindow.
-	element menuPaneDo: [ :mb | mb cancelAutoOpen ]
+	anchorElement menuPaneDo: [ :mb | mb cancelAutoOpen ]
 ]
 
 { #category : #'window handling' }
 ToMenuWindowManager >> beInline [ 
 
 	super beInline.
-	element openOnHovered: false
+	anchorElement openOnHovered: false
 ]
 
 { #category : #'event handling' }
@@ -57,7 +57,7 @@ ToMenuWindowManager >> inlineWindowClass [
 { #category : #'event handling' }
 ToMenuWindowManager >> mouseEnterEvent: anEvent [
 
-	element itemBar secondarySelecter deselectAll
+	anchorElement itemBar secondarySelecter deselectAll
 ]
 
 { #category : #'event handling' }
@@ -75,21 +75,21 @@ ToMenuWindowManager >> newInlineMode [
 ToMenuWindowManager >> onClosed [
 
 	super onClosed.
-	element itemBar secondarySelecter deselectAll
+	anchorElement itemBar secondarySelecter deselectAll
 ]
 
 { #category : #'window handling' }
 ToMenuWindowManager >> onOpened [
 
 	super onOpened.
-	element itemBar requestFocus
+	anchorElement itemBar requestFocus
 ]
 
 { #category : #'event handling' }
 ToMenuWindowManager >> pickOutsideEvent: anEvent [
 
 	super pickOutsideEvent: anEvent.
-	element menuPaneDo: [ :mb |
+	anchorElement menuPaneDo: [ :mb |
 		mb cancelAutoOpen ]
 ]
 

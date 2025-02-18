@@ -25,7 +25,7 @@ ToCheckableBarElement >> defaultEventHandler [
 	^ ToCheckableBarElementEventHandler new
 ]
 
-{ #category : #initialization }
+{ #category : #'t - item list - accessing' }
 ToCheckableBarElement >> defaultNodeManagerClass [ 
 
 	^ ToCheckableBarNodeManager 

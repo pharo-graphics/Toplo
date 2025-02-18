@@ -8,9 +8,9 @@ Class {
 }
 
 { #category : #accessing }
-ToWindowMode >> element [ 
+ToWindowMode >> element [
 
-	^ manager element
+	^ manager anchorElement
 ]
 
 { #category : #testing }
@@ -40,7 +40,7 @@ ToWindowMode >> onInstalledIn: aManager [
 ]
 
 { #category : #'api - displaying' }
-ToWindowMode >> onMeasure: anExtentMeasurementSpec window: aWindow onEvent: anEvent [
+ToWindowMode >> onMeasure: anExtentMeasurementSpec element: aWindow onEvent: anEvent [
 
 	self subclassResponsibility 
 ]

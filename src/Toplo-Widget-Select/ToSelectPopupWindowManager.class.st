@@ -107,11 +107,11 @@ ToSelectPopupWindowManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	listElement := self newListElement.
-	listElement selectElement: self element.
+	listElement selectElement: self anchorElement.
 	listElement focusability: BlFocusability none.
 
 	listElement addEventHandler: (self defaultListElementEventHandler
-			 select: self element;
+			 select: self anchorElement;
 			 yourself).
 
 	self windowBuilder: [ :selectWin :request |

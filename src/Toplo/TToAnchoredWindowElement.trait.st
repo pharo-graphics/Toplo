@@ -14,6 +14,12 @@ TToAnchoredWindowElement >> allowPickOutsideClosing [
 ]
 
 { #category : #'t - inline window element - accessing' }
+TToAnchoredWindowElement >> anchorElement [
+
+	^ self manager ifNotNil: [ :h | h anchorElement ]
+]
+
+{ #category : #'t - inline window element - accessing' }
 TToAnchoredWindowElement >> anchorRoot [
 
 	^ self manager anchorRoot
@@ -55,13 +61,14 @@ TToAnchoredWindowElement >> defaultElevation [
 { #category : #'t - inline window element - accessing' }
 TToAnchoredWindowElement >> element [
 
-	^ self manager ifNotNil: [:h | h element]
+	self deprecated: 'Use #anchorElement instead' transformWith: '`@rcvr element'->'`@rcvr anchorElement'.
+	^ self anchorElement
 ]
 
 { #category : #'t - inline window element - testing' }
 TToAnchoredWindowElement >> hasAssociateElement [
 
-	^ self element notNil
+	^ self anchorElement notNil
 ]
 
 { #category : #'t - inline window element - testing' }
@@ -125,7 +132,8 @@ TToAnchoredWindowElement >> onMeasure: anExtentMeasurementSpec onEvent: anEvent 
 TToAnchoredWindowElement >> open [
 
 	self manager startWindow: self.
-	self localTheme ifNil: [ self localTheme: self element lookupTheme ].
+	self localTheme ifNil: [
+		self localTheme: self anchorElement lookupTheme ].
 	popupTimestamp := self space time now.
 	self dispatchOpenedEvent
 ]
@@ -146,17 +154,17 @@ TToAnchoredWindowElement >> popupEvent: anEvent [
 	self hasAssociateElement ifFalse: [
 		Error signal:
 			'Can''t popup an anchored window without associate element' ].
-	self element isAttachedToSceneGraph ifFalse: [
+	self anchorElement isAttachedToSceneGraph ifFalse: [
 		Error signal:
 			'Can''t popup an anchored window if the element is not attached to a space' ].
-	self element isDisabled ifTrue: [
+	self anchorElement isDisabled ifTrue: [
 		Error signal: 'A window with a disabled element shouldn''t popup' ].
 
 	self isOpened ifTrue: [
 		Error signal: 'An opened window shouldn''t be asked to popup' ].
 
 	self lastPopupEvent: anEvent.
-	self launchOpening.
+	self launchOpening
 ]
 
 { #category : #'t - inline window element - accessing' }

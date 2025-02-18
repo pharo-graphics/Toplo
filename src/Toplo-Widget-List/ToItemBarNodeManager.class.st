@@ -32,7 +32,7 @@ ToItemBarNodeManager >> newNodeForHolder: aNodeHolder [
 	^ ToItemNode new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 ToItemBarNodeManager >> unbuildNode: aNode [
 
 	aNode item removeFromParent

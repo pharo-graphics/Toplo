@@ -66,7 +66,7 @@ ToPopupWindowManagerTest >> testElementEventHandlerClass [
 	win := windowManager newWindowEvent: nil.
 	win popup.
 	self waitTestingSpaces.
-	self assert: win element equals: e.
+	self assert: win anchorElement equals: e.
 	win close.
 	self deny: win hasAssociateElement.
 	self should: [ win popup ] raise: Error

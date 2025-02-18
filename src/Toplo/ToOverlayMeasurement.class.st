@@ -1,11 +1,12 @@
 Class {
 	#name : #ToOverlayMeasurement,
-	#superclass : #ToWindowMeasurement,
+	#superclass : #ToElementMeasurement,
 	#category : #'Toplo-Core-Window-Support'
 }
 
 { #category : #api }
-ToOverlayMeasurement >> onMeasure: anExtentMeasurementSpec window: aWindow onEvent: anEvent [
+ToOverlayMeasurement >> onMeasure: anExtentMeasurementSpec element: anElement onEvent: anEvent [
 
-	aWindow size: aWindow element measuredWidth @ aWindow element measuredHeight
+	anElement size: anElement anchorElement measuredWidth
+		@ anElement anchorElement measuredHeight
 ]

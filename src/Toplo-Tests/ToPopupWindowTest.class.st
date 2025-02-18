@@ -27,7 +27,7 @@ ToPopupWindowTest >> testElement [
 	win popup.
 
 	self waitTestingSpaces.
-	self assert: win element equals: e.
+	self assert: win anchorElement equals: e.
 	self assert: win isOpened.
 	win close.
 	self waitTestingSpaces.
@@ -37,7 +37,7 @@ ToPopupWindowTest >> testElement [
 	win := windowManager newWindowEvent: nil.
 	win popup.
 	self waitTestingSpaces.
-	self assert: win element equals: e.
+	self assert: win anchorElement equals: e.
 	self assert: win isOpened.
 	win close.
 	self waitTestingSpaces.

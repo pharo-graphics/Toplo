@@ -22,7 +22,7 @@ ToListElementContextMenuManager >> newWindowRequestFrom: anEvent [
 { #category : #'window handling' }
 ToListElementContextMenuManager >> onClosed [
 
-	element contextMenuSelecter deselectAll.
+	anchorElement contextMenuSelecter deselectAll.
 	super onClosed.
 
 ]

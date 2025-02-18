@@ -10,7 +10,7 @@ ToMenuPaneSkin >> hoveredSkinEvent: anEvent [
 	super hoveredSkinEvent: anEvent.
 	anEvent enabledElementDo: [ :e |
 		e itemBar background: BlBackground transparent.
-		e barElementDo: [ :l |
+		e listElementDo: [ :l |
 			e background: (Color veryLightGray alpha: 0.1) ] ]
 ]
 
@@ -35,6 +35,5 @@ ToMenuPaneSkin >> leavedSkinEvent: anEvent [
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e itemBar background: BlBackground transparent.
-		e barElementDo: [ :l |
-			e background: BlBackground transparent ] ]
+		e listElementDo: [ :l | e background: BlBackground transparent ] ]
 ]

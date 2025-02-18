@@ -1,8 +1,8 @@
 Class {
 	#name : #ToItemListElement,
 	#superclass : #ToAbstractListElement,
-	#traits : 'TToItemListElement + TToListElementWithDecoration',
-	#classTraits : 'TToItemListElement classTrait + TToListElementWithDecoration classTrait',
+	#traits : 'TToItemList + TToListElementWithDecoration',
+	#classTraits : 'TToItemList classTrait + TToListElementWithDecoration classTrait',
 	#category : #'Toplo-Widget-List-ItemList'
 }
 
@@ -12,7 +12,7 @@ ToItemListElement >> defaultInnerElement [
 	^ ToInfiniteElement onListElement: self
 ]
 
-{ #category : #'t - item bar element - accessing' }
+{ #category : #'t - item list - accessing' }
 ToItemListElement >> defaultNodeManagerClass [
 
 	^ ToItemListNodeManager
@@ -22,5 +22,5 @@ ToItemListElement >> defaultNodeManagerClass [
 ToItemListElement >> initialize [
 
 	super initialize.
-	self initializeAsItemBarElement 
+	self initializeAsItemListElement 
 ]

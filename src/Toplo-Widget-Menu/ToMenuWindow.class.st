@@ -14,7 +14,7 @@ ToMenuWindow >> correctedPositionWithinAnchorRoot [
 	rootRect := 0 @ 0 extent: self anchorRoot extent.
 	t := rect amountToTranslateWithin: rootRect.
 	" the parent menu is the element of my window manager "
-	parentMenu := self manager element.
+	parentMenu := self manager anchorElement.
 	" in case of a root menu (including context menu), just keep the computed position.
 	If not, then in case of an horizontal menubar, keep also the computed position.
 	In case of a vertical menubar, it may be necessary to also fix the position x "
@@ -51,21 +51,21 @@ ToMenuWindow >> initialize [
 ]
 
 { #category : #testing }
-ToMenuWindow >> isInline [ 
+ToMenuWindow >> isInline [
 
-	^ self element isInline
+	^ self anchorElement isInline
 ]
 
 { #category : #accessing }
 ToMenuWindow >> itemBar [
 
-	^ self element itemBar
+	^ self anchorElement itemBar
 ]
 
 { #category : #accessing }
 ToMenuWindow >> itemContainer [
 
-	^ self element
+	^ self anchorElement
 ]
 
 { #category : #accessing }

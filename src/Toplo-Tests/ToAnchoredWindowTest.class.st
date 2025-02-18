@@ -129,7 +129,7 @@ ToAnchoredWindowTest >> testElement [
 
 	| win e windowManager |
 	win := ToAnchoredWindow new.
-	self assert: win element isNil.
+	self assert: win anchorElement isNil.
 	e := ToElement new.
 	space root addChild: e.
 	self waitTestingSpaces.
@@ -137,7 +137,7 @@ ToAnchoredWindowTest >> testElement [
 	windowManager := ToAnchoredWindowManagerForTest new.
 	e addEventHandler: windowManager.
 	win := windowManager newWindowEvent: nil.
-	self assert: win element identicalTo: e
+	self assert: win anchorElement identicalTo: e
 ]
 
 { #category : #tests }

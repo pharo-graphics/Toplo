@@ -10,7 +10,7 @@ ToMultiSelectPopupWindowManager >> checkCloseWindowOnPickingEvent: anEvent [
 
 	| target |
 	target := anEvent target.
-	(element barElement itemContaining: target) ifNotNil: [ :found |
+	(anchorElement barElement itemContaining: target) ifNotNil: [ :found |
 		^ self ].
 	super checkCloseWindowOnPickingEvent: anEvent
 ]

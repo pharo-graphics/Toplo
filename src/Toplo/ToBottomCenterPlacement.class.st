@@ -1,18 +1,18 @@
 Class {
 	#name : #ToBottomCenterPlacement,
-	#superclass : #ToWindowPlacement,
+	#superclass : #ToElementPlacement,
 	#category : #'Toplo-Core-Window-Support'
 }
 
 { #category : #'api - displaying' }
-ToBottomCenterPlacement >> positionWindow: aWindow onEvent: anEvent context: aBlElementBoundsUpdateContext [
+ToBottomCenterPlacement >> positionElement: anElement onEvent: anEvent context: aBlElementBoundsUpdateContext [
 
 	| theElem theRoot etopLeft ewidth w x |
-	theElem := aWindow element.
-	theRoot := aWindow anchorRoot.
+	theElem := anElement anchorElement.
+	theRoot := anElement anchorRoot.
 	etopLeft := (theElem bounds inParent: theRoot) bounds topLeft.
 	ewidth := theElem measuredWidth / 2.0.
-	w := aWindow measuredWidth / 2.0.
+	w := anElement measuredWidth / 2.0.
 	x := etopLeft x + ewidth - w.
-	aWindow position: x @ (etopLeft y + theElem height)
+	anElement position: x @ (etopLeft y + theElem height)
 ]

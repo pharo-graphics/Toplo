@@ -4,8 +4,8 @@ Class {
 	#instVars : [
 		'mode',
 		'currentWindow',
-		'element',
-		'windowBuilder'
+		'windowBuilder',
+		'anchorElement'
 	],
 	#category : #'Toplo-Core-Window'
 }
@@ -17,6 +17,12 @@ ToAnchoredWindowManager class >> overlay [
 		  placement: ToTopLeftDownPlacement new;
 		  measurement: ToOverlayMeasurement new;
 		  yourself
+]
+
+{ #category : #accessing }
+ToAnchoredWindowManager >> anchorElement [
+
+	^ anchorElement
 ]
 
 { #category : #accessing }
@@ -107,7 +113,7 @@ ToAnchoredWindowManager >> defaultBuilder [
 { #category : #initialization }
 ToAnchoredWindowManager >> defaultMeasurement [
 
-	^ ToNoWindowMeasurement new
+	^ ToNoMeasurement new
 ]
 
 { #category : #initialization }
@@ -125,7 +131,8 @@ ToAnchoredWindowManager >> defaultPlacement [
 { #category : #accessing }
 ToAnchoredWindowManager >> element [
 
-	^ element
+	self deprecated: 'Use #anchorElement instead' transformWith: '`@rcvr element'->'`@rcvr anchorElement'.
+	^ self anchorElement
 ]
 
 { #category : #'event handling' }
@@ -245,18 +252,18 @@ ToAnchoredWindowManager >> newWindowEvent: anEvent [
 	| request |
 	currentWindow ifNotNil: [
 		^ Error signal: 'Asking for a window building twice' ].
-	self element ifNil: [
+	self anchorElement ifNil: [
 		^ Error signal: 'An element is required for building a window' ].
 	self windowBuilder ifNil: [
 		^ Error signal: 'A window builder is required for building a window' ].
 
-	self element isEnabled ifFalse: [ ^ nil ].
+	self anchorElement isEnabled ifFalse: [ ^ nil ].
 
 	request := self newWindowRequestFrom: anEvent.
 
 	" dispatch the event. handlers can eventually feed the event with additional data 
 	that can be used by the builder "
-	self element dispatchEvent: request.
+	self anchorElement dispatchEvent: request.
 
 	" the event is dispatched, eventually updated with additional data, 
 	the current window can be created then built"
@@ -286,14 +293,14 @@ ToAnchoredWindowManager >> onClosed [
 ToAnchoredWindowManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	element := anElement
+	anchorElement := anElement
 ]
 
 { #category : #'window handling' }
 ToAnchoredWindowManager >> onMeasure: anExtentMeasurementSpec onEvent: anEvent [
 
 	currentWindow ifNil: [ ^ self ].
-	mode onMeasure: anExtentMeasurementSpec window: currentWindow onEvent: anEvent
+	mode onMeasure: anExtentMeasurementSpec element: currentWindow onEvent: anEvent
 ]
 
 { #category : #'window handling' }
@@ -305,7 +312,7 @@ ToAnchoredWindowManager >> onOpened [
 ToAnchoredWindowManager >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
-	element := nil
+	anchorElement := nil
 ]
 
 { #category : #'event handling' }
@@ -335,7 +342,7 @@ ToAnchoredWindowManager >> positionWindowOnEvent: anEvent context: aBlElementBou
 
 	currentWindow ifNil: [ ^ self ].
 	mode
-		positionWindow: currentWindow
+		positionElement: currentWindow
 		onEvent: anEvent
 		context: aBlElementBoundsUpdateContext
 ]

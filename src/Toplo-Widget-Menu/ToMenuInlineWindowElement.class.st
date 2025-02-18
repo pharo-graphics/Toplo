@@ -14,13 +14,12 @@ ToMenuInlineWindowElement >> closeWindow [
 
 { #category : #'api - displaying' }
 ToMenuInlineWindowElement >> dispatchClosedEvent [
-
 	" need to dispatch also to the element holding the window
 	so that the window manager can manage the window 
 	(recall that the window manager is an event handler of the element)"
-	super dispatchClosedEvent.
-	self element  dispatchEvent: self newClosedEvent.
 
+	super dispatchClosedEvent.
+	self anchorElement dispatchEvent: self newClosedEvent
 ]
 
 { #category : #testing }
@@ -60,7 +59,7 @@ ToMenuInlineWindowElement >> isTopMenu [
 { #category : #accessing }
 ToMenuInlineWindowElement >> itemBar [
 
-	^ self element itemBar
+	^ self anchorElement itemBar
 ]
 
 { #category : #accessing }
@@ -121,7 +120,7 @@ ToMenuInlineWindowElement >> root [
 ToMenuInlineWindowElement >> toThemeInstalled [
 
 	| lt |
-	self element ifNotNil: [ :e |
+	self anchorElement ifNotNil: [ :e |
 		lt := e lookupTheme.
 		self localTheme = lt ifFalse: [ self localTheme: lt ] ].
 	super toThemeInstalled

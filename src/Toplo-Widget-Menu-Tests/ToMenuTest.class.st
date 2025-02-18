@@ -31,8 +31,8 @@ ToMenuTest >> testAddItem [
 	self assert: (n isKindOf: ToMenuItemNode).
 	self assert: (n holder isKindOf: ToItemNodeHolder).
 	self assert: (n holder dataItem isKindOf: ToMenuItem).
-	self assert: item barElement identicalTo: m menuWindow itemBar.
-	self assert: item positionInBar equals: 1
+	self assert: item listElement identicalTo: m menuWindow itemBar.
+	self assert: item positionInList equals: 1
 ]
 
 { #category : #tests }
@@ -49,7 +49,7 @@ ToMenuTest >> testBuilderDisableItemAfterAdding [
 	n := m menuWindow itemBar nodes first.
 	self assert:
 		(m menuWindow itemBar disabledSelectionModel containsIndex:
-			 item positionInBar).
+			 item positionInList).
 	self assert: item isDisabled.
 	self assert: n isDisabled
 ]
@@ -68,7 +68,7 @@ ToMenuTest >> testBuilderDisableItemBeforeAdding [
 	n := m menuWindow itemBar nodes first.
 	self assert:
 		(m menuWindow itemBar disabledSelectionModel containsIndex:
-			 item positionInBar).
+			 item positionInList).
 	self assert: item isDisabled.
 	self assert: n isDisabled
 ]
@@ -86,7 +86,7 @@ ToMenuTest >> testDisableItemAfterAdding [
 	n := m menuWindow itemBar nodes first.
 	self assert:
 		(m menuWindow itemBar disabledSelectionModel containsIndex:
-			 item positionInBar).
+			 item positionInList).
 	self assert: item isDisabled.
 	self assert: n isDisabled
 ]
@@ -104,7 +104,7 @@ ToMenuTest >> testDisableItemBeforeAdding [
 	n := m menuWindow itemBar nodes first.
 	self assert:
 		(m menuWindow itemBar disabledSelectionModel containsIndex:
-			 item positionInBar).
+			 item positionInList).
 	self assert: item isDisabled.
 	self assert: n isDisabled
 ]

@@ -8,7 +8,7 @@ Class {
 ToLabelEditorManager >> defaultPlacement [
 
 	^ super defaultPlacement
-		  innerElement: element innerElement;
+		  innerElement: anchorElement innerElement;
 		  yourself
 ]
 

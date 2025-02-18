@@ -6,19 +6,31 @@ Trait {
 { #category : #'t - item' }
 TToItem >> barElement [ 
 
-	^ self userData at: #barElement ifAbsent: [  ]
+	self
+		deprecated: 'Use #listElement instead'
+		transformWith:
+		'`@rcvr barElement' -> '`@rcvr listElement'.
+	^ self listElement
 ]
 
 { #category : #'t - item' }
-TToItem >> barElement: anItemBarElement [ 
+TToItem >> barElement: anItemBarElement [
 
-	self userData at: #barElement put: anItemBarElement
+	self
+		deprecated: 'Use #listElement: instead'
+		transformWith:
+		'`@rcvr barElement: `@arg1' -> '`@rcvr listElement: `@arg1'.
+		
+	self listElement: anItemBarElement
 ]
 
 { #category : #'t - item' }
 TToItem >> barElementDo: aBlock [
-
-	self barElement ifNotNil: [ :be | aBlock value: be ]
+	self
+		deprecated: 'Use #listElementDo: instead'
+		transformWith:
+		'`@rcvr barElementDo: `@arg1' -> '`@rcvr listElementDo: `@arg1'.
+	self listElementDo: aBlock
 ]
 
 { #category : #'t - item' }
@@ -33,7 +45,7 @@ TToItem >> ensuredItemConstraints [
 TToItem >> flagAsDisabled: aBoolean [
 
 	self storeDisabled: aBoolean.
-	self barElementDo: [ :be |
+	self listElementDo: [ :be |
 		aBoolean
 			ifTrue: [ be disabledItem: self ]
 			ifFalse: [ be enabledItem: self ] ].
@@ -78,6 +90,24 @@ TToItem >> itemConstraintsDo: aValuable [
 ]
 
 { #category : #'t - item' }
+TToItem >> listElement [ 
+
+	^ self userData at: #listElement ifAbsent: [  ]
+]
+
+{ #category : #'t - item' }
+TToItem >> listElement: anItemListElement [ 
+
+	self userData at: #listElement put: anItemListElement
+]
+
+{ #category : #'t - item' }
+TToItem >> listElementDo: aBlock [
+
+	self listElement ifNotNil: [ :be | aBlock value: be ]
+]
+
+{ #category : #'t - item' }
 TToItem >> newItemConstraints [
 
 	^ self itemConstraintsClass new
@@ -85,6 +115,16 @@ TToItem >> newItemConstraints [
 
 { #category : #'t - item' }
 TToItem >> positionInBar [
+	self
+		deprecated: 'Use #positionInList instead'
+		transformWith:
+		'`@rcvr positionInBar' -> '`@rcvr positionInList'.
+
+	^ self positionInList
+]
+
+{ #category : #'t - item' }
+TToItem >> positionInList [
 
 	^ self holder position
 ]
@@ -127,8 +167,8 @@ TToItem >> storeUnselectable: aBoolean [
 TToItem >> unselectable: aBoolean [
 
 	self storeUnselectable: aBoolean.
-	self barElementDo: [ :l |
-			aBoolean
-				ifTrue: [ l unselectableItem: self ]
-				ifFalse: [ l selectableItem: self ] ]
+	self listElementDo: [ :l |
+		aBoolean
+			ifTrue: [ l unselectableItem: self ]
+			ifFalse: [ l selectableItem: self ] ]
 ]

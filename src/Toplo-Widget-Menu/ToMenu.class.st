@@ -4,8 +4,8 @@ I'm a composite of Menu items. I can behave as a menu item (this is why I inheri
 Class {
 	#name : #ToMenu,
 	#superclass : #ToMenuItem,
-	#traits : 'TToItemBarOwner + TToMenuItemBarOwner + TToMenuWindowModel',
-	#classTraits : 'TToItemBarOwner classTrait + TToMenuItemBarOwner classTrait + TToMenuWindowModel classTrait',
+	#traits : 'TToItemListOwner + TToMenuItemListOwner + TToMenuWindowModel',
+	#classTraits : 'TToItemListOwner classTrait + TToMenuItemListOwner classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
 		'isSubmenu',
 		'builder',
@@ -86,7 +86,7 @@ ToMenu >> initialize [
 	super initialize.
 	self fitContent.
 	self initializeAsItemBarOwner.
-	self initializeAsMenuItemBarOwner.
+	self initializeAsMenuItemListOwner.
 
 	isSubmenu := false.
 	isMenuPaneMenu := false.
@@ -177,7 +177,7 @@ ToMenu >> mouseOverEvent: anEvent [
 		ifFalse: [ self closeWindow ]
 ]
 
-{ #category : #'t - item bar owner - accessing' }
+{ #category : #'t - item list owner - accessing' }
 ToMenu >> newItemBar [
 
 	^ ToMenuItemBarElement new
@@ -195,7 +195,7 @@ ToMenu >> onAddedInItemBarOwner: aMenu [
 	aMenu onAddedMenu: self
 ]
 
-{ #category : #'t - menu item bar owner - double dispatch' }
+{ #category : #'t - menu item list owner - double dispatch' }
 ToMenu >> onAddedMenu: aMenu [
 
 	aMenu isSubmenu: true.
@@ -208,7 +208,7 @@ ToMenu >> onRemovedFromItemBarOwner: aMenu [
 	aMenu onRemovedMenu: self
 ]
 
-{ #category : #'t - menu item bar owner - double dispatch' }
+{ #category : #'t - menu item list owner - double dispatch' }
 ToMenu >> onRemovedMenu: aMenu [
 
 	aMenu isSubmenu: false.

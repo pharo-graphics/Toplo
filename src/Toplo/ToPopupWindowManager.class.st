@@ -49,7 +49,7 @@ ToPopupWindowManager >> autoPopupDelay: aDuration [
 			autoPopupHandler := ToStillHoveredEventHandler new
 				                    startDelay: aDuration;
 				                    yourself.
-			element addEventHandler: autoPopupHandler ]
+			anchorElement addEventHandler: autoPopupHandler ]
 		ifNotNil: [ autoPopupHandler startDelay: aDuration ]
 ]
 
@@ -176,7 +176,7 @@ ToPopupWindowManager >> installPickOutsideFilter [
 
 	pickOutsideFilter ifNotNil: [ ^ self ].
 	pickOutsideFilter := self newPickOutsideFilter.
-	element space root addEventFilter: pickOutsideFilter.
+	anchorElement space root addEventFilter: pickOutsideFilter.
 ]
 
 { #category : #'event handling' }
@@ -253,7 +253,7 @@ ToPopupWindowManager >> plugPickOutsideFilter [
 ToPopupWindowManager >> popupEvent: anEvent [
 
 	currentWindow ifNotNil: [ ^ self ].
-	element isEnabled ifFalse: [ ^ self ].
+	anchorElement isEnabled ifFalse: [ ^ self ].
 	upCountRequired := 1.
 	self popupNewWindowEvent: anEvent
 ]
@@ -290,8 +290,8 @@ ToPopupWindowManager >> startStillHoveredEvent: anEvent [
 ToPopupWindowManager >> uninstallPickOutsideFilter [
 
 	pickOutsideFilter ifNil: [ ^ self ].
-	element space ifNil: [ ^ self ].
-	element space root removeEventFilter: pickOutsideFilter.
+	anchorElement space ifNil: [ ^ self ].
+	anchorElement space root removeEventFilter: pickOutsideFilter.
 	pickOutsideFilter := nil.
 
 ]
@@ -308,7 +308,7 @@ ToPopupWindowManager >> unplugPickOutsideFilter [
 ToPopupWindowManager >> unqueuePopupTaskFromEvent: anEvent [
 
 	autoPopupHandler ifNil: [ ^ self ].
-	autoPopupHandler stopTaskFromEvent: anEvent in: element
+	autoPopupHandler stopTaskFromEvent: anEvent in: anchorElement
 ]
 
 { #category : #initialization }

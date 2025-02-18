@@ -3222,8 +3222,9 @@ ToSandBox class >> example_SimplePopupBottomCenter [
 	| p |
 	p := self newPopup.
 	p placement: ToBottomCenterPlacement new.
-	p measurement: (ToActionMeasurement new action: [ :w :e | w width: 130 ]).
-	p element openInSpace
+	p measurement:
+		(ToActionMeasurement new action: [ :w :e | w width: 130 ]).
+	p anchorElement openInSpace
 ]
 
 { #category : #window }
@@ -3250,7 +3251,7 @@ ToSandBox class >> example_SimplePopupTopCenter [
 	| p |
 	p := self newPopup.
 	p placement: ToTopCenterPlacement new.
-	p element openInSpace
+	p anchorElement openInSpace
 ]
 
 { #category : #window }
@@ -3282,7 +3283,7 @@ ToSandBox class >> example_SimplePopupTopRight [
 	| p |
 	p := self newPopup.
 	p placement: ToTopRightPlacement new.
-	p element openInSpace
+	p anchorElement openInSpace
 ]
 
 { #category : #'skin event' }

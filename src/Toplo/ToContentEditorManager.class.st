@@ -11,7 +11,7 @@ Class {
 ToContentEditorManager >> currentEditorEventHandlers [
 
 	^ Array streamContents: [ :stream |
-		  element eventDispatcher handlersDo: [ :h |
+		  anchorElement eventDispatcher handlersDo: [ :h |
 			  (h isKindOf: ToElementEditorEvent)  ifTrue: [
 				  stream nextPut: h ] ] ]
 ]
@@ -44,13 +44,13 @@ ToContentEditorManager >> editorOpenedEventClass [
 ToContentEditorManager >> onClosed [
 
 	super onClosed.
-	element dispatchEvent: (self editorClosedEventClass new
+	anchorElement dispatchEvent: (self editorClosedEventClass new
 			 editorElement: editor;
 			 yourself).
 
-	element beforeEditorClosed: editor fromManager: self.
+	anchorElement beforeEditorClosed: editor fromManager: self.
 	self currentEditorEventHandlers do: [ :h |
-		element removeEventHandler: h ].
+		anchorElement removeEventHandler: h ].
 
 	editor := nil
 ]
@@ -67,13 +67,13 @@ ToContentEditorManager >> onOpened [
 
 	super onOpened.
 
-	editor := element newEditorForManager: self.
+	editor := anchorElement newEditorForManager: self.
 
-	element beforeEditorOpened: editor fromManager: self.
+	anchorElement beforeEditorOpened: editor fromManager: self.
 
 	currentWindow root addChild: editor.
-	element enqueueTask: (BlTaskAction new action: [
-			 element dispatchEvent: (self editorOpenedEventClass new
+	anchorElement enqueueTask: (BlTaskAction new action: [
+			 anchorElement dispatchEvent: (self editorOpenedEventClass new
 					  editorElement: editor;
 					  yourself) ])
 ]
@@ -90,12 +90,12 @@ ToContentEditorManager >> onUninstalledIn: anElement [
 ToContentEditorManager >> whenEditorClosedDo: aValuable [
 
 	" aValuable takes the event as argument "
-	^ element addEventHandlerOn: self editorClosedEventClass do: aValuable
+	^ anchorElement addEventHandlerOn: self editorClosedEventClass do: aValuable
 ]
 
 { #category : #enumerating }
 ToContentEditorManager >> whenEditorOpenedDo: aValuable [
 
 	" aValuable takes the event as argument "
-	^ element addEventHandlerOn: self editorOpenedEventClass do: aValuable
+	^ anchorElement addEventHandlerOn: self editorOpenedEventClass do: aValuable
 ]

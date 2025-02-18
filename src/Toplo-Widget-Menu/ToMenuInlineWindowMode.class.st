@@ -11,7 +11,7 @@ ToMenuInlineWindowMode >> menuBarOwner [
 ]
 
 { #category : #'api - displaying' }
-ToMenuInlineWindowMode >> onMeasure: anExtentMeasurementSpec window: aWindow onEvent: anEvent [
+ToMenuInlineWindowMode >> onMeasure: anExtentMeasurementSpec element: aWindow onEvent: anEvent [
 
 	| w |
 	" self element is the inline ToMenu "
@@ -24,12 +24,12 @@ ToMenuInlineWindowMode >> onMeasure: anExtentMeasurementSpec window: aWindow onE
 
 { #category : #'window handling' }
 ToMenuInlineWindowMode >> startWindow: aWindow [
-
 	" the manager element is a ToMenu. 
 	The window is added after the ToMenu in its barOwner"
-	self menuBarOwner 
+
+	self menuBarOwner
 		addItem: aWindow
-		afterIndex: self element positionInBar.
+		afterIndex: self element positionInList.
 	self element requestNewSkin
 ]
 

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToContextMenu,
 	#superclass : #ToMenuWindow,
-	#traits : 'TToOrientable + TToItemBarOwner + TToMenuItemBarOwner + TToMenuWindowModel',
-	#classTraits : 'TToOrientable classTrait + TToItemBarOwner classTrait + TToMenuItemBarOwner classTrait + TToMenuWindowModel classTrait',
+	#traits : 'TToOrientable + TToItemListOwner + TToMenuItemListOwner + TToMenuWindowModel',
+	#classTraits : 'TToOrientable classTrait + TToItemListOwner classTrait + TToMenuItemListOwner classTrait + TToMenuWindowModel classTrait',
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
@@ -45,7 +45,7 @@ ToContextMenu >> initialize [
 	super initialize.
 	self fitContent.
 	self initializeAsItemBarOwner.
-	self initializeAsMenuItemBarOwner.
+	self initializeAsMenuItemListOwner.
 	self root addChild: self itemBar
 ]
 
@@ -105,20 +105,20 @@ ToContextMenu >> menuWindow [
 	^ super menuWindow
 ]
 
-{ #category : #'t - item bar owner - accessing' }
+{ #category : #'t - item list owner - accessing' }
 ToContextMenu >> newItemBar [
 
 	^ ToMenuItemBarElement new
 ]
 
-{ #category : #'t - menu item bar owner - double dispatch' }
+{ #category : #'t - menu item list owner - double dispatch' }
 ToContextMenu >> onAddedMenu: aMenu [
 
 	aMenu isSubmenu: true.
 	aMenu closeOnPicking: false
 ]
 
-{ #category : #'t - menu item bar owner - double dispatch' }
+{ #category : #'t - menu item list owner - double dispatch' }
 ToContextMenu >> onRemovedMenu: aMenu [
 
 	aMenu isSubmenu: false.

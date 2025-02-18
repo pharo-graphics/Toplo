@@ -85,7 +85,7 @@ TToMenuItem >> isSubmenu [
 { #category : #'t - menu item' }
 TToMenuItem >> menuBarOwner [
 
-	^ self barElement ifNotNil: [ :be | be menuBarOwner ] 
+	^ self listElement ifNotNil: [ :be | be menuBarOwner ]
 ]
 
 { #category : #'t - menu item' }

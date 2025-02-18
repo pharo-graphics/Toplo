@@ -8,13 +8,12 @@ Class {
 
 { #category : #'api - displaying' }
 ToAnchoredWindow >> dispatchClosedEvent [
- 
 	" need to dispatch also to the element holding the window
 	so that the window manager can manage the window 
 	(recall that the window manager is an event handler of the element)"
-	super dispatchClosedEvent.
-	self element  dispatchEvent: self newClosedEvent.
 
+	super dispatchClosedEvent.
+	self anchorElement dispatchEvent: self newClosedEvent
 ]
 
 { #category : #'api - displaying' }
@@ -24,7 +23,7 @@ ToAnchoredWindow >> dispatchOpenedEvent [
 	" need to dispatch also to the element holding the window
 	so that the window manager can manage the window 
 	(recall that the window manager is an event handler of the element)"
-	self element dispatchEvent: self newOpenedEvent 
+	self anchorElement dispatchEvent: self newOpenedEvent
 ]
 
 { #category : #initialization }
@@ -57,7 +56,7 @@ ToAnchoredWindow >> onMeasure: anExtentMeasurementSpec [
 ToAnchoredWindow >> toThemeInstalled [
 
 	| lt |
-	self element ifNotNil: [ :e |
+	self anchorElement ifNotNil: [ :e |
 		lt := e lookupTheme.
 		self localTheme = lt ifFalse: [ self localTheme: lt ] ].
 	super toThemeInstalled

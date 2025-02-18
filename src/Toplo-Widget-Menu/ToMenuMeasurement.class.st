@@ -1,11 +1,11 @@
 Class {
 	#name : #ToMenuMeasurement,
-	#superclass : #ToWindowMeasurement,
+	#superclass : #ToElementMeasurement,
 	#category : #'Toplo-Widget-Menu-Window'
 }
 
 { #category : #api }
-ToMenuMeasurement >> onMeasure: anExtentMeasurementSpec window: aWindow onEvent: anEvent [
+ToMenuMeasurement >> onMeasure: anExtentMeasurementSpec element: aWindow onEvent: anEvent [
 
 "	| w |
 	w := 0.

@@ -38,6 +38,7 @@ ToTreeDataItemWrapper >> collapse [
 
 	expanded ifFalse: [ ^ self ].
 
+	self flag: 'Hum. not efficient at all, this should be done with one #removeFrom:to:'.
 	self children do: [ :wrapper |
 		wrapper collapse.
 		dataSource remove: wrapper ].
@@ -67,6 +68,7 @@ ToTreeDataItemWrapper >> dataSource: aDataSource [
 { #category : #accessing }
 ToTreeDataItemWrapper >> determineChildren [
 
+	self flag: 'Could you find another name :)'.
 	^ OrderedCollection empty.
 ]
 
@@ -141,5 +143,7 @@ ToTreeDataItemWrapper >> toggle [
 		ifTrue: [ self collapse ]
 		ifFalse: [ self expand ].
 
-	dataSource notifyChanged.
+	self flag: 'Should use notifyItemsChanged: but we should find a way to not compute the position but keep it in the wrapper (pay attention, it have to be recomputed when extending/collapsing). Have a look at  morphic fast table to see how the do that'
+	"dataSource notifyItemsChanged: (self position to: self position)."
+	dataSource notifyChanged
 ]

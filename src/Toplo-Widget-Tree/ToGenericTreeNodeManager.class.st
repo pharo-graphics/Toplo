@@ -29,12 +29,6 @@ ToGenericTreeNodeManager >> constraintNode: aNode [
 ]
 
 { #category : #initialization }
-ToGenericTreeNodeManager >> defaultHolderClass [
-
-	^ ToTreeNodeHolder
-]
-
-{ #category : #initialization }
 ToGenericTreeNodeManager >> defaultNodeFactory [
 
 	^ [ :holder |
@@ -45,4 +39,10 @@ ToGenericTreeNodeManager >> defaultNodeFactory [
 ToGenericTreeNodeManager >> defaultNodeUnbuilder [
 
 	^ [ :node :dataItem :holder | ]
+]
+
+{ #category : #'t - generic node manager' }
+ToGenericTreeNodeManager >> newHolder [
+
+	^ ToTreeNodeHolder new
 ]

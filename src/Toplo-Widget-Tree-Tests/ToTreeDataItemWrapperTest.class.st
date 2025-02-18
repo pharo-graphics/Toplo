@@ -18,7 +18,7 @@ ToTreeDataItemWrapperTest >> testExpandAllAndCollapseAll [
 
 	| wrapper |
 	self assert: tree dataAccessor isEmpty.
-	tree dataWrapperClass: ToTreeDataItemIntegerHalfWrapper.
+	tree dataWrapperClass: ToTreeDataItemRandomIntegersWrapper.
 	tree dataAccessor addAll: (1 to: 5).
 
 	self assert: tree dataAccessor size equals: 5.
@@ -51,7 +51,7 @@ ToTreeDataItemWrapperTest >> testWrappersExpandsAddsChildren [
 
 	| wrapper |
 	self assert: tree dataAccessor isEmpty.
-	tree dataWrapperClass: ToTreeDataItemIntegerHalfWrapper .
+	tree dataWrapperClass: ToTreeDataItemRandomIntegersWrapper .
 	tree dataAccessor add: 2.
 
 	wrapper := tree dataAccessor at: 1.
@@ -67,7 +67,7 @@ ToTreeDataItemWrapperTest >> testWrappersExpandsAddsChildrenAndCollapsesRemovesT
 
 	| wrapper |
 	self assert: tree dataAccessor isEmpty.
-	tree dataWrapperClass: ToTreeDataItemIntegerHalfWrapper.
+	tree dataWrapperClass: ToTreeDataItemRandomIntegersWrapper.
 	tree dataAccessor add: 2.
 
 	wrapper := tree dataAccessor at: 1.

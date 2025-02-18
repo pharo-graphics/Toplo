@@ -23,14 +23,14 @@ ToTreeElementTest >> testTreeElementChildSelectorChangesAlsoInDataSource [
 		assert: tree dataAccessor dataWrapperClass name
 		equals: #ToTreeDataItemWrapper.
 
-	tree dataWrapperClass: ToTreeDataItemIntegerHalfWrapper new.
+	tree dataWrapperClass: ToTreeDataItemRandomIntegersWrapper new.
 
 	self
 		assert: tree dataWrapperClass className
-		equals: #ToTreeDataItemIntegerHalfWrapper.
+		equals: #ToTreeDataItemRandomIntegersWrapper.
 	self
 		assert: tree dataAccessor dataWrapperClass className
-		equals: #ToTreeDataItemIntegerHalfWrapper
+		equals: #ToTreeDataItemRandomIntegersWrapper
 ]
 
 { #category : #tests }

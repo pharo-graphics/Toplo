@@ -14,25 +14,35 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'dataItem',
-		'isCollapsed',
 		'children',
 		'dataSource',
-		'parentWrapper'
+		'parentWrapper',
+		'expanded'
 	],
 	#category : #'Toplo-Widget-Tree-Core'
 }
 
+{ #category : #'as yet unclassified' }
+ToTreeDataItemWrapper >> children [
+
+	^ children ifNil: [ children := self determineChildren collect: [ :each |
+		                   self class new
+			                   dataSource: dataSource;
+			                   dataItem: each;
+			                   parentWrapper: self ]].
+
+]
+
 { #category : #accessing }
 ToTreeDataItemWrapper >> collapse [
 
-	isCollapsed ifTrue: [ ^ self ].
+	expanded ifFalse: [ ^ self ].
 
 	children do: [ :wrapper |
 		wrapper collapse.
 		dataSource remove: wrapper ].
 
-	isCollapsed := true.
-
+	expanded := false
 ]
 
 { #category : #accessing }
@@ -63,14 +73,18 @@ ToTreeDataItemWrapper >> determineChildren [
 { #category : #accessing }
 ToTreeDataItemWrapper >> expand [
 
-	| currentWrapper |
-	(self isLeaf or: isCollapsed not) ifTrue: [ ^ self ].
-	isCollapsed := false.
+	| currentWrapper pos |
+	(self isLeaf or: expanded) ifTrue: [ ^ self ].
+	expanded := true.
 
-	currentWrapper := self.
+	pos := self position.
+	self children withIndexDo: [ :wrapper :idx |
+		dataSource add: wrapper afterIndex: pos + idx - 1 ].
+	
+	"currentWrapper := self.
 	children do: [ :nextWrapper |
 		dataSource add: nextWrapper after: currentWrapper.
-		currentWrapper := nextWrapper ].
+		currentWrapper := nextWrapper ]"
 ]
 
 { #category : #accessing }
@@ -84,27 +98,26 @@ ToTreeDataItemWrapper >> expandAll [
 ToTreeDataItemWrapper >> initialize [
 
 	super initialize.
-	isCollapsed := true.
+	expanded := false
 ]
 
 { #category : #accessing }
-ToTreeDataItemWrapper >> isCollapsed [ 
+ToTreeDataItemWrapper >> isExpanded [ 
 
-	^ isCollapsed 
+	^ expanded 
 ]
 
 { #category : #testing }
 ToTreeDataItemWrapper >> isLeaf [
 
-	children ifNil: [self wrapChildren].
-	^ children size = 0
+	^ self children size = 0
 ]
 
 { #category : #accessing }
 ToTreeDataItemWrapper >> nodeDepth [
 
 	^ parentWrapper
-		  ifNil: [ 1 ]
+		  ifNil: [ 0 ]
 		  ifNotNil: [ parentWrapper nodeDepth + 1 ]
 ]
 
@@ -120,14 +133,18 @@ ToTreeDataItemWrapper >> parentWrapper: aDataItemWrapper [
 	parentWrapper := aDataItemWrapper 
 ]
 
-{ #category : #'as yet unclassified' }
-ToTreeDataItemWrapper >> wrapChildren [
+{ #category : #accessing }
+ToTreeDataItemWrapper >> position [ 
 
-	| wrappedChildren |
-	wrappedChildren := self determineChildren collect: [ :each |
-		            self class new
-			            dataSource: dataSource;
-			            dataItem: each;
-			            parentWrapper: self ].
-	children := wrappedChildren
+	^ dataSource indexOf: self
+]
+
+{ #category : #operations }
+ToTreeDataItemWrapper >> toggle [
+
+	self isExpanded
+		ifTrue: [ self collapse ]
+		ifFalse: [ self expand ].
+
+	dataSource notifyChanged.
 ]

@@ -20,7 +20,7 @@ ToTreeElement class >> exampleExpandAllAndCollapseAll [
 
 	| tree expandAllButton collapseAllButton container |
 	tree := self new.
-	tree dataWrapperClass: ToTreeDataItemIntegerHalfWrapper.
+	tree dataWrapperClass: ToTreeDataItemRandomIntegersWrapper.
 	tree dataAccessor addAll: (1 to: 10).
 
 	expandAllButton := ToButton new
@@ -46,7 +46,7 @@ ToTreeElement class >> exampleIntegerHalf [
 
 	| l |
 	l := self new.
-	l dataWrapperClass: ToTreeDataItemIntegerHalfWrapper.
+	l dataWrapperClass: ToTreeDataItemRandomIntegersWrapper.
 	l dataAccessor addAll: (1 to: 10).
 
 

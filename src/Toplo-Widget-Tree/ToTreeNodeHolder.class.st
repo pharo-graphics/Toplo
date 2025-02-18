@@ -18,14 +18,6 @@ Class {
 	#category : #'Toplo-Widget-Tree-Core'
 }
 
-{ #category : #public }
-ToTreeNodeHolder >> click [
-
-	self isCollapsed
-		ifTrue: [ self dataWrapper expand ]
-		ifFalse: [ self dataWrapper collapse ].
-]
-
 { #category : #accessing }
 ToTreeNodeHolder >> dataItem: aDataItem [ 
 
@@ -43,10 +35,4 @@ ToTreeNodeHolder >> dataWrapper [
 ToTreeNodeHolder >> dataWrapper: aToTreeDataSourceWrapper [
 
 	dataWrapper := aToTreeDataSourceWrapper.
-]
-
-{ #category : #accessing }
-ToTreeNodeHolder >> isCollapsed [
-
-	^ self dataWrapper isCollapsed 
 ]

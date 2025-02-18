@@ -1,11 +1,11 @@
 Class {
-	#name : #ToTreeDataItemStringWithoutFirstWrapper,
+	#name : #ToTreeDataItemStringWithoutFirstLetterWrapper,
 	#superclass : #ToTreeDataItemWrapper,
-	#category : #'Toplo-Widget-Tree'
+	#category : #'Toplo-Widget-Tree-Core'
 }
 
 { #category : #'as yet unclassified' }
-ToTreeDataItemStringWithoutFirstWrapper >> determineChildren [
+ToTreeDataItemStringWithoutFirstLetterWrapper >> determineChildren [
 
 	^ dataItem size = 1
 		  ifFalse: [

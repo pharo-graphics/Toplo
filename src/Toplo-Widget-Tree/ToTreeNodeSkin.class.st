@@ -4,50 +4,58 @@ Class {
 	#category : #'Toplo-Widget-Tree-Skin'
 }
 
-{ #category : #'as yet unclassified' }
-ToTreeNodeSkin >> indentElementForWrapper: aWrapper [ 
+{ #category : #icons }
+ToTreeNodeSkin >> iconAndIndentForNode: aNode [
 
-	^ aWrapper isLeaf
-		       ifTrue: [ self nodeLeafElement  ]
-		       ifFalse: [
-			       aWrapper isCollapsed
-					        ifTrue: [
-					        self nodeCollapsedElement ]
-					        ifFalse: [
-					        self nodeExpandedElement ] ]
+	| align arrowIcon iconContainer arrowButton aWrapper |
+	aWrapper := aNode holder dataWrapper.
+	align := aWrapper nodeDepth * 20.
+	arrowIcon := ToImage new.
+	aWrapper isLeaf ifFalse: [
+		| arrowTk |
+		arrowTk := aWrapper isExpanded
+			           ifFalse: [ self nodeCollapsedIcon ]
+			           ifTrue: [ self nodeExpandedIcon ].
+		arrowIcon innerImage:
+			(aNode holder listElement valueOfTokenNamed: arrowTk) value ].
+	arrowIcon
+		size: 18 asPoint;
+		id: #arrow.
+	iconContainer := ToElement new
+		                 fitContent;
+		                 yourself.
+	iconContainer layout: BlLinearLayout horizontal.
+	iconContainer addChild: (ToElement new size: align @ 0).
+	arrowButton := ToButton new
+		               icon: arrowIcon;
+		               yourself.
+	arrowButton addAllStamps: #( #iconic #borderless ).
+	iconContainer addChild: arrowButton.
+	aWrapper isLeaf ifFalse: [
+		arrowButton whenClickedDo: [ :evt | aWrapper toggle ]].
+	
+
+	^ iconContainer
 ]
 
 { #category : #'event handling' }
-ToTreeNodeSkin >> installSkinEvent: anEvent [ 
+ToTreeNodeSkin >> installSkinEvent: anEvent [
 
-	| elt wrapper |
+	| elt |
 	super installSkinEvent: anEvent.
-	anEvent elementDo: [ :e | 
-		wrapper := e holder dataWrapper.
-		elt := self indentElementForWrapper: wrapper.
-		elt size: 20 asPoint; margin: (BlInsets left: 20 * (wrapper nodeDepth - 1)).
-		elt addEventHandlerOn: BlClickEvent do: [ :event |
-		  event consume.
-		  e holder click.
-		  e listElementDo: #notifyDataSourceChanged ].
-		e firstChild startElement: elt. ]
-	
+	anEvent elementDo: [ :e |
+		elt := self iconAndIndentForNode: e.
+		e firstChild startElement: elt ]
 ]
 
-{ #category : #'as yet unclassified' }
-ToTreeNodeSkin >> nodeCollapsedElement [
+{ #category : #icons }
+ToTreeNodeSkin >> nodeCollapsedIcon [
 
-	^ BlSvgConverter convertFromString: ToMaterialDesignIconProvider outlined_keyboardarrowright
+	^ #'submenu-arrow-right'
 ]
 
-{ #category : #'as yet unclassified' }
-ToTreeNodeSkin >> nodeExpandedElement [
+{ #category : #icons }
+ToTreeNodeSkin >> nodeExpandedIcon [
 
-	^ BlSvgConverter convertFromString: ToMaterialDesignIconProvider outlined_keyboardarrowdown
-]
-
-{ #category : #'as yet unclassified' }
-ToTreeNodeSkin >> nodeLeafElement [
-
-	^ BlElement new background: Color transparent
+	^ #'submenu-arrow-down'
 ]

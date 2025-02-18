@@ -73,6 +73,12 @@ ToTreeDataSourceWrapper >> dataWrapperClass: aToTreeDataItemWrapperClass [
 	dataWrapperClass := aToTreeDataItemWrapperClass 
 ]
 
+{ #category : #testing }
+ToTreeDataSourceWrapper >> ifEmpty: aBlock [ 
+
+	dataSource ifEmpty: aBlock
+]
+
 { #category : #adding }
 ToTreeDataSourceWrapper >> remove: aDataItem [ 
 	"this method doesn't check if the dataItem is present multiple times"

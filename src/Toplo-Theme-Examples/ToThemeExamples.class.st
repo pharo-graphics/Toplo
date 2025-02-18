@@ -14,8 +14,8 @@ ToThemeExamples class >> createThemeMenuPane: aSpace [
 	bar := ToMenuPane new
 		       hMatchParent;
 		       vFitContent.
-	bar addMenu: (themeMenu := ToMenu new labelText: 'Theme').
-	bar addMenu: (inspectMenu := ToMenu new labelText: 'Tools').
+	bar addItem: (themeMenu := ToMenu new labelText: 'Theme').
+	bar addItem: (inspectMenu := ToMenu new labelText: 'Tools').
 
 	"Theme menu"
 	"Button to switch between light and dark theme"
@@ -35,7 +35,7 @@ ToThemeExamples class >> createThemeMenuPane: aSpace [
 	rawMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Switch to Dark');
 			 whenClickedDo: [ self switchTheme: ToRawDarkTheme new for: aSpace ]).
-			
+
 	themeMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Randomize color');
 			 whenClickedDo: [ self randomizePrimaryColorFor: aSpace ]).

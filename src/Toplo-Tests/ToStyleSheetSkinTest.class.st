@@ -189,7 +189,7 @@ ToStyleSheetSkinTest >> testWithAnimationOn2EventClasses [
 	space root addChild: w.
 	skin := ToStyleSheetSkin new.
 	animation := ToPropertyColorTransitionAnimation new.
-	prop := self writablePropertyIndex propertyNamed: #'background-color'.
+	prop := self writablePropertyIndex propertyNamed: #'background'.
 
 	skin skinEventListeners: {
 			(ToPropertyWriter new

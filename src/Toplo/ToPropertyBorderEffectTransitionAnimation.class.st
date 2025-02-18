@@ -4,11 +4,6 @@ Class {
 	#category : #'Toplo-Core-StyleSheet'
 }
 
-{ #category : #visiting }
-ToPropertyBorderEffectTransitionAnimation >> accept: aToThemeToSourceCodeVisitor [ 
-	aToThemeToSourceCodeVisitor visitPropertyBorderEffectTransitionAnimation: self
-]
-
 { #category : #'instance creation' }
 ToPropertyBorderEffectTransitionAnimation >> newRawAnimationFor: anElement to: aStopBorder [
 

@@ -195,16 +195,14 @@ ToThemeApplication >> panelModels [
 { #category : #'as yet unclassified' }
 ToThemeApplication >> refreshThemeSelectorMenu [
 
-	| defaultThemes generatedThemes |
-	generatedThemes := ToEmptyStyleSheetThemeGenerated allSubclasses
-		                   collect: [ :each | each printString -> [each new] ].
+	| defaultThemes  |
 	defaultThemes := {
 		                 ('Raw Theme light' -> [ ToRawTheme new ]).
 		                 ('Raw Theme dark' -> [ToRawDarkTheme new]).
 		                 ('Bee Theme light' -> [ToBeeTheme new]).
 		                 ('Bee Theme dark' -> [ToBeeDarkTheme new]) }.
 	self themeSelectorMenu data removeAll.
-	self themeSelectorMenu data addAll: defaultThemes , generatedThemes.
+	self themeSelectorMenu data addAll: defaultThemes.
 	self themeSelectorMenu selectIndex: 1
 ]
 

@@ -232,10 +232,8 @@ ToTheme class >> defaultTokenProperties [
 			   name: #'focus-border-paint'
 			   value: self defaultColorPrimary).
 		  (ToTokenProperty name: #'border-width' value: 1).
-		  (ToTokenProperty name: #'border-paint' value: Color lightGray).
-		  (ToTokenProperty
-			   name: #'menu-pane-border-paint'
-			   value: (Color veryLightGray alpha: 0.2)).
+		  (ToTokenProperty name: #'border-paint' value: (Color veryLightGray alpha: 0.2)).
+		  (ToTokenProperty name: #'menu-pane-border-paint' value: (Color transparent)).
 
 		  "Size, margin and padding"
 		  (ToTokenProperty name: #'control-height' value: 32).

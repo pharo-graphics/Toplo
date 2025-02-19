@@ -9,7 +9,7 @@ ToMenuInlineWindowSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e border: (e valueOfTokenNamed: #'menu-pane-border-paint')
+		e border: (e valueOfTokenNamed: #'border-paint').
 		"e padding: (BlInsets
 				 top: (e valueOfTokenNamed: #'menu-window-padding-V')
 				 left: (e valueOfTokenNamed: #'menu-window-padding-H')

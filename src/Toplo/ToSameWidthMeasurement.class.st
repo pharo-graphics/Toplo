@@ -7,5 +7,6 @@ Class {
 { #category : #api }
 ToSameWidthMeasurement >> onMeasure: anExtentMeasurementSpec element: anElement onEvent: anEvent [
 
-	anExtentMeasurementSpec widthSpec size: anElement element measuredWidth
+	anExtentMeasurementSpec widthSpec size:
+		anElement anchorElement measuredWidth
 ]

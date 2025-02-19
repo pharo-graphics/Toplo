@@ -17,6 +17,20 @@ ToCheckableBarNodeManager >> buildNode: aNode [
 ]
 
 { #category : #initialization }
+ToCheckableBarNodeManager >> defaultFakeDataItem [
+
+	^ ToItemToggleButton new
+		  labelText: 'X';
+		  yourself
+]
+
+{ #category : #'instance creation' }
+ToCheckableBarNodeManager >> newNodeForHolder: aNodeHolder [
+
+	^ ToCheckableNode new
+]
+
+{ #category : #initialization }
 ToCheckableBarNodeManager >> unbuildNode: aNode [
 
 	aNode holder dataItem unregisterFromGroup.

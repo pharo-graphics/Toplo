@@ -99,9 +99,9 @@ ToItemBarElementTest >> testDisableItemAfterAdding2 [
 	self assert: n isDisabled.
 
 	n := l nodes third.
-	self assert: n item positionInBar equals: 3.
+	self assert: n item positionInList equals: 3.
 	self deny:
-		(l disabledSelectionModel containsIndex: n item positionInBar).
+		(l disabledSelectionModel containsIndex: n item positionInList).
 	self deny: n item isDisabled.
 	self deny: n isDisabled
 ]
@@ -156,9 +156,9 @@ ToItemBarElementTest >> testDisableItemBeforeAdding2 [
 	self assert: n isDisabled.
 
 	n := l nodes third.
-	self assert: n item positionInBar equals: 3.
+	self assert: n item positionInList equals: 3.
 	self deny:
-		(l disabledSelectionModel containsIndex: n item positionInBar).
+		(l disabledSelectionModel containsIndex: n item positionInList).
 	self deny: n item isDisabled.
 	self deny: n isDisabled
 ]

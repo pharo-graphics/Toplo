@@ -5,8 +5,6 @@ I'm one of the leave of menu composite.
 Class {
 	#name : #ToSegmentedToggleButton,
 	#superclass : #ToItemToggleButton,
-	#traits : 'TToLabeledIcon',
-	#classTraits : 'TToLabeledIcon classTrait',
 	#category : #'Toplo-Widget-Segmented-Button'
 }
 
@@ -14,16 +12,4 @@ Class {
 ToSegmentedToggleButton >> newRawSkin [ 
 
 	^ ToSegmentedToggleButtonSkin new
-]
-
-{ #category : #'adding-removing' }
-ToSegmentedToggleButton >> onAddedInItemBarOwner: aSegmentedElement [
-
-	aSegmentedElement onAddedSegmentedButton: self
-]
-
-{ #category : #'adding-removing' }
-ToSegmentedToggleButton >> onRemovedFromItemBarOwner: aSegmentedElement [
-
-	aSegmentedElement onRemovedSegmentedButton: self
 ]

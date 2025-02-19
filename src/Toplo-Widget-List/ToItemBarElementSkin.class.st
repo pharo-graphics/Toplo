@@ -22,7 +22,11 @@ ToItemBarElementSkin >> installSkinEvent: anEvent [
 			withStamp: #background
 			do: [ :v | e background: v ]
 			ifNone: [
-			e background: BlBackground transparent ].
+			e background: ((e valueOfTokenNamed: #'color-bg-container')) ].
+		(e hasStamp: #borderless) ifFalse: [
+			e border: (BlBorder
+				 paint: (e valueOfTokenNamed: #'border-paint')
+				 width: (e valueOfTokenNamed: #'border-width'))].
 		e padding: (BlInsets
 				 horizontal: (e valueOfTokenNamed: #'padding-content-HS')
 				 vertical: (e valueOfTokenNamed: #'padding-content-VXS')).
@@ -57,4 +61,11 @@ ToItemBarElementSkin >> unfocusedSkinEvent: anEvent [
 
 	super unfocusedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |  ]
+]
+
+{ #category : #'event handling' }
+ToItemBarElementSkin >> uninstallSkinEvent: anEvent [
+
+	super uninstallSkinEvent: anEvent.
+	anEvent elementDo: [ :e | e uninstallShortcuts ]
 ]

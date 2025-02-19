@@ -7,8 +7,8 @@ Class {
 	#category : #'Toplo-Widget-Segmented-Bar'
 }
 
-{ #category : #'t - item list - accessing' }
-ToSegmentedBarElement >> defaultNodeManagerClass [ 
+{ #category : #skin }
+ToSegmentedBarElement >> newRawSkin [ 
 
-	^ ToSegmentedNodeManager 
+	^ ToSegmentedBarElementSkin new
 ]

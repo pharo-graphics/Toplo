@@ -36,9 +36,10 @@ ToSelectPopupWindowManager >> defaultMinHeight [
 ToSelectPopupWindowManager >> defaultPlacement [
 
 	^ ToActionPlacement new
-		  action: [ :theWin  :evt | | theElem theRoot |
-			  theElem := theWin  element.
-			  theRoot := theWin  anchorRoot.
+		  action: [ :theWin :evt |
+			  | theElem theRoot |
+			  theElem := theWin anchorElement.
+			  theRoot := theWin anchorRoot.
 			  theWin position:
 					  (theElem bounds inParent: theRoot) bounds bottomLeft ];
 		  yourself
@@ -99,7 +100,7 @@ ToSelectPopupWindowManager >> onClosed [
 
 	super onClosed.
 	" if case one of my children has focus "
-	self element onPopupWindowClosed
+	self anchorElement onPopupWindowClosed
 ]
 
 { #category : #'api - hooks' }
@@ -125,7 +126,7 @@ ToSelectPopupWindowManager >> onInstalledIn: anElement [
 ToSelectPopupWindowManager >> onOpened [
 
 	super onOpened.
-	self element onPopupWindowOpened
+	self anchorElement onPopupWindowOpened
 ]
 
 { #category : #'api - hooks' }

@@ -197,7 +197,7 @@ ToSelectElement >> newInnerElement [
 { #category : #'instance creation' }
 ToSelectElement >> newPopupWindowManager [
 
-	^ ToSelectPopupWindowManager new
+	^ ToSelectPopupManager new
 ]
 
 { #category : #skin }

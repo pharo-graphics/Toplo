@@ -6,7 +6,7 @@ Class {
 		'placement',
 		'measurement'
 	],
-	#category : #'Toplo-Core-Window-Support'
+	#category : #'Toplo-Core-Window'
 }
 
 { #category : #accessing }

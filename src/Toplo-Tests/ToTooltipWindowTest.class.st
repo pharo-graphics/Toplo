@@ -15,7 +15,7 @@ ToTooltipWindowTest >> testContent [
 	e := ToElement new  size: 100@100.
 	e tooltipContent: (ToLabel text: 'Tooltip content').
 	windowManager := e tooltipWindowManager.
-	self assert: (windowManager isKindOf: ToTooltipWindowManager).
+	self assert: (windowManager isKindOf: ToTooltipPopupManager).
 	space root addChild: e.
 
 	BlSpace simulateMouseMoveInside: e.

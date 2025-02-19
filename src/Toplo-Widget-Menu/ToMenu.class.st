@@ -93,7 +93,7 @@ ToMenu >> initialize [
 	openOnHovered := true.
 	self applySkinInstallerOnFirstRequest: true.
 
-	windowManager := ToMenuWindowManager new
+	windowManager := ToMenuPopupManager new
 		                 windowBuilder: [ :window :request |
 			                 builder ifNotNil: [
 					                 self removeAllItems.

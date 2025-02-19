@@ -5,21 +5,20 @@ Class {
 }
 
 { #category : #accessing }
-ToMenuInlineWindowMode >> menuBarOwner [ 
+ToMenuInlineWindowMode >> menuBarOwner [
 
-	^ self element menuBarOwner
+	^ self anchorElement menuBarOwner
 ]
 
 { #category : #'api - displaying' }
 ToMenuInlineWindowMode >> onMeasure: anExtentMeasurementSpec element: aWindow onEvent: anEvent [
 
 	| w |
-	" self element is the inline ToMenu "
-	w := self element measuredWidth.
+	" self anchor element is the inline ToMenu which open the inline window"
+	w := self anchorElement measuredWidth.
 	aWindow collectedNodesDo: [ :node | w := w max: node measuredWidth ].
-	" change the window width if necessary "
-	anExtentMeasurementSpec widthSpec size < w ifFalse: [ ^ self ].
-	anExtentMeasurementSpec widthSpec size: w
+	" change the window width "
+	anExtentMeasurementSpec widthSpec beExact: w
 ]
 
 { #category : #'window handling' }
@@ -29,17 +28,15 @@ ToMenuInlineWindowMode >> startWindow: aWindow [
 
 	self menuBarOwner
 		addItem: aWindow
-		afterIndex: self element positionInList.
-	self element requestNewSkin
+		afterIndex: self anchorElement positionInList.
+	self anchorElement requestNewSkin
 ]
 
 { #category : #'window handling' }
 ToMenuInlineWindowMode >> stopWindow: aWindow [
-
 	" the manager element is a ToMenu. 
 	remove the window from the ToMenu barOwner ( see startWindow: ) "
 
-	self menuBarOwner
-		removeItem: aWindow.
-	self element requestNewSkin
+	self menuBarOwner removeItem: aWindow.
+	self anchorElement requestNewSkin
 ]

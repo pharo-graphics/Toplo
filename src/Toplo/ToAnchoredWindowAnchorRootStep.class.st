@@ -10,7 +10,7 @@ ToAnchoredWindowAnchorRootStep >> nextStepFor: aWindow onEvent: anEvent onLayout
 	| p |
 	p := aWindow correctedPositionWithinAnchorRoot.
 	p ~= aWindow measuredPosition ifTrue: [
-		aWindow position: p "extent: aWindow measuredExtent context: aBlElementBoundsUpdateContext"].
+		aWindow position: p].
 	aWindow toFront.
 	aWindow visibility: BlVisibility visible.
 	^ nil

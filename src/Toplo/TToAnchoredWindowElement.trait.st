@@ -41,7 +41,7 @@ TToAnchoredWindowElement >> checkLayoutStepOnLayout: aBounds context: aBlElement
 TToAnchoredWindowElement >> close [
 
 	self isOpened ifFalse: [ Error signal: 'Closing a closed window' ].
-	self manager stopWindow: self.
+	self stop.
 	self dispatchClosedEvent.
 
 ]
@@ -66,7 +66,7 @@ TToAnchoredWindowElement >> element [
 ]
 
 { #category : #'t - inline window element - testing' }
-TToAnchoredWindowElement >> hasAssociateElement [
+TToAnchoredWindowElement >> hasAnchorElement [
 
 	^ self anchorElement notNil
 ]
@@ -131,7 +131,7 @@ TToAnchoredWindowElement >> onMeasure: anExtentMeasurementSpec onEvent: anEvent 
 { #category : #'t - inline window element - displaying' }
 TToAnchoredWindowElement >> open [
 
-	self manager startWindow: self.
+	self start.
 	self localTheme ifNil: [
 		self localTheme: self anchorElement lookupTheme ].
 	popupTimestamp := self space time now.
@@ -151,7 +151,7 @@ TToAnchoredWindowElement >> popupEvent: anEvent [
 	self manager ifNil: [
 		Error signal:
 			'Can''t popup an anchored window without window manager' ].
-	self hasAssociateElement ifFalse: [
+	self hasAnchorElement ifFalse: [
 		Error signal:
 			'Can''t popup an anchored window without associate element' ].
 	self anchorElement isAttachedToSceneGraph ifFalse: [
@@ -190,6 +190,18 @@ TToAnchoredWindowElement >> refreshLayout [
 
 	self layoutStep: ToAnchoredWindowArrangingStep new.
 	self requestLayout
+]
+
+{ #category : #'t - inline window element - displaying' }
+TToAnchoredWindowElement >> start [
+
+	self manager startWindow: self
+]
+
+{ #category : #'t - inline window element - displaying' }
+TToAnchoredWindowElement >> stop [
+
+	self manager stopWindow: self
 ]
 
 { #category : #'t - inline window element - displaying' }

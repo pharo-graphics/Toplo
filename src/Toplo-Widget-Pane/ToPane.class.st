@@ -5,8 +5,8 @@ I can have dividers in between my elements.
 Class {
 	#name : #ToPane,
 	#superclass : #ToElement,
-	#traits : 'TToOrientable + TToPasteUpPane + TToElementWithPlaceholder',
-	#classTraits : 'TToOrientable classTrait + TToPasteUpPane classTrait + TToElementWithPlaceholder classTrait',
+	#traits : 'TToWithOrientableLayout + TToPasteUpPane + TToElementWithPlaceholder',
+	#classTraits : 'TToWithOrientableLayout classTrait + TToPasteUpPane classTrait + TToElementWithPlaceholder classTrait',
 	#category : #'Toplo-Widget-Pane-Core'
 }
 
@@ -67,14 +67,6 @@ ToPane >> installRawStyle [
 	self background: (self valueOfTokenNamed: #'background-color').
 	self geometry: (BlRoundedRectangleGeometry cornerRadius:
 			 (self valueOfTokenNamed: #'border-radius'))
-]
-
-{ #category : #'t - orientable - accessing' }
-ToPane >> layoutStrategy [
-
-	^ self layout
-
-
 ]
 
 { #category : #layout }

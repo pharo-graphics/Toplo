@@ -4,13 +4,20 @@ Class {
 	#instVars : [
 		'manager'
 	],
-	#category : #'Toplo-Core-Window-Support'
+	#category : #'Toplo-Core-Window'
 }
+
+{ #category : #accessing }
+ToWindowMode >> anchorElement [
+
+	^ manager anchorElement
+]
 
 { #category : #accessing }
 ToWindowMode >> element [
 
-	^ manager anchorElement
+	self deprecated: 'Use #anchorElement instead' transformWith: '`@rcvr element'->'`@rcvr anchorElement'.
+	^ self anchorElement
 ]
 
 { #category : #testing }
@@ -49,6 +56,12 @@ ToWindowMode >> onMeasure: anExtentMeasurementSpec element: aWindow onEvent: anE
 ToWindowMode >> onUninstalledIn: aManager [
 
 	manager := nil
+]
+
+{ #category : #'api - displaying' }
+ToWindowMode >> positionElement: aWindow onEvent: anEvent context: aBlElementBoundsUpdateContext [
+
+	self subclassResponsibility 
 ]
 
 { #category : #'window handling' }

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToAbstractListElement,
 	#superclass : #ToElement,
-	#traits : 'TToListElementDecorator + TToElementWithPlaceholder + TToOrientable',
-	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait + TToOrientable classTrait',
+	#traits : 'TToListElementDecorator + TToElementWithPlaceholder + TToWithOrientableLayout',
+	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait + TToWithOrientableLayout classTrait',
 	#instVars : [
 		'next',
 		'dataSource',
@@ -340,14 +340,6 @@ ToAbstractListElement >> itemContaining: anElement [
 ToAbstractListElement >> itemCount [
 
 	^ self dataSource itemCount
-]
-
-{ #category : #'t - orientable - accessing' }
-ToAbstractListElement >> layoutStrategy [
-
-	^ self layout
-
-	
 ]
 
 { #category : #'instance creation' }

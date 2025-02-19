@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'action'
 	],
-	#category : #'Toplo-Core-Window-Support'
+	#category : #'Toplo-Core-Support'
 }
 
 { #category : #accessing }

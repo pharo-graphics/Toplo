@@ -1,25 +1,25 @@
 Class {
-	#name : #ToMenuWindowManager,
-	#superclass : #ToPopupWindowManager,
+	#name : #ToMenuPopupManager,
+	#superclass : #ToPopupManager,
 	#category : #'Toplo-Widget-Menu-Window'
 }
 
 { #category : #'window handling' }
-ToMenuWindowManager >> autoCloseWindow [ 
+ToMenuPopupManager >> autoCloseWindow [ 
 
 	super autoCloseWindow.
 	anchorElement menuPaneDo: [ :mb | mb cancelAutoOpen ]
 ]
 
 { #category : #'window handling' }
-ToMenuWindowManager >> beInline [ 
+ToMenuPopupManager >> beInline [ 
 
 	super beInline.
 	anchorElement openOnHovered: false
 ]
 
 { #category : #'event handling' }
-ToMenuWindowManager >> canCloseOnPickingEvent: anEvent [
+ToMenuPopupManager >> canCloseOnPickingEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
@@ -29,19 +29,19 @@ ToMenuWindowManager >> canCloseOnPickingEvent: anEvent [
 ]
 
 { #category : #initialization }
-ToMenuWindowManager >> defaultMeasurement [
+ToMenuPopupManager >> defaultMeasurement [
 
 	^ ToMenuMeasurement new
 ]
 
 { #category : #initialization }
-ToMenuWindowManager >> defaultPlacement [
+ToMenuPopupManager >> defaultPlacement [
 
 	^ ToMenuPlacement new
 ]
 
 { #category : #'api - accessing' }
-ToMenuWindowManager >> eventsToHandle [
+ToMenuPopupManager >> eventsToHandle [
 
 	^ super eventsToHandle , {
 		  BlMouseEnterEvent.
@@ -49,44 +49,44 @@ ToMenuWindowManager >> eventsToHandle [
 ]
 
 { #category : #accessing }
-ToMenuWindowManager >> inlineWindowClass [
+ToMenuPopupManager >> inlineWindowClass [
 
 	^ ToMenuInlineWindowElement
 ]
 
 { #category : #'event handling' }
-ToMenuWindowManager >> mouseEnterEvent: anEvent [
+ToMenuPopupManager >> mouseEnterEvent: anEvent [
 
 	anchorElement itemBar secondarySelecter deselectAll
 ]
 
 { #category : #'event handling' }
-ToMenuWindowManager >> mouseLeaveEvent: anEvent [
+ToMenuPopupManager >> mouseLeaveEvent: anEvent [
 
 ]
 
 { #category : #'window handling' }
-ToMenuWindowManager >> newInlineMode [ 
+ToMenuPopupManager >> newInlineMode [ 
 
 	^ ToMenuInlineWindowMode new
 ]
 
 { #category : #'window handling' }
-ToMenuWindowManager >> onClosed [
+ToMenuPopupManager >> onClosed [
 
 	super onClosed.
 	anchorElement itemBar secondarySelecter deselectAll
 ]
 
 { #category : #'window handling' }
-ToMenuWindowManager >> onOpened [
+ToMenuPopupManager >> onOpened [
 
 	super onOpened.
 	anchorElement itemBar requestFocus
 ]
 
 { #category : #'event handling' }
-ToMenuWindowManager >> pickOutsideEvent: anEvent [
+ToMenuPopupManager >> pickOutsideEvent: anEvent [
 
 	super pickOutsideEvent: anEvent.
 	anchorElement menuPaneDo: [ :mb |
@@ -94,20 +94,20 @@ ToMenuWindowManager >> pickOutsideEvent: anEvent [
 ]
 
 { #category : #'window handling' }
-ToMenuWindowManager >> pickOutsideFilterClass [ 
+ToMenuPopupManager >> pickOutsideFilterClass [ 
 
 	^ ToMenuWindowPickOutsideEventFilter
 ]
 
 { #category : #'window handling' }
-ToMenuWindowManager >> popupNewWindowEvent: anEvent [
+ToMenuPopupManager >> popupNewWindowEvent: anEvent [
 
 	"element items ifEmpty: [ ^ self ]."
 	super popupNewWindowEvent: anEvent
 ]
 
 { #category : #accessing }
-ToMenuWindowManager >> popupWindowClass [
+ToMenuPopupManager >> popupWindowClass [
 
 	^ ToMenuWindow
 ]

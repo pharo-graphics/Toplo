@@ -1,6 +1,6 @@
 Class {
-	#name : #ToTooltipWindowManager,
-	#superclass : #ToPopupWindowManager,
+	#name : #ToTooltipPopupManager,
+	#superclass : #ToPopupManager,
 	#instVars : [
 		'closeOnMouseLeave'
 	],
@@ -8,37 +8,37 @@ Class {
 }
 
 { #category : #accessing }
-ToTooltipWindowManager >> closeOnMouseLeave: aBoolean [
+ToTooltipPopupManager >> closeOnMouseLeave: aBoolean [
 
 	closeOnMouseLeave := aBoolean
 ]
 
 { #category : #accessing }
-ToTooltipWindowManager >> defaultAutoPopupDelay [
+ToTooltipPopupManager >> defaultAutoPopupDelay [
 
 	^ 700 milliSeconds
 ]
 
 { #category : #initialization }
-ToTooltipWindowManager >> defaultCloseOnPicking [
+ToTooltipPopupManager >> defaultCloseOnPicking [
 
 	^ false
 ]
 
 { #category : #initialization }
-ToTooltipWindowManager >> defaultPlacement [
+ToTooltipPopupManager >> defaultPlacement [
 
 	^ ToTooltipPlacement new
 ]
 
 { #category : #'api - accessing' }
-ToTooltipWindowManager >> eventsToHandle [
+ToTooltipPopupManager >> eventsToHandle [
 
 	^ super eventsToHandle , { BlMouseLeaveEvent }
 ]
 
 { #category : #initialization }
-ToTooltipWindowManager >> initialize [
+ToTooltipPopupManager >> initialize [
 
 	super initialize.
 	self useNoMouseButton.
@@ -46,7 +46,7 @@ ToTooltipWindowManager >> initialize [
 ]
 
 { #category : #'event handling' }
-ToTooltipWindowManager >> mouseLeaveEvent: anEvent [
+ToTooltipPopupManager >> mouseLeaveEvent: anEvent [
 
 	self unqueuePopupTaskFromEvent: anEvent.
 	closeOnMouseLeave ifFalse: [ ^ self ].
@@ -55,7 +55,7 @@ ToTooltipWindowManager >> mouseLeaveEvent: anEvent [
 ]
 
 { #category : #'api - hooks' }
-ToTooltipWindowManager >> onInstalledIn: anElement [
+ToTooltipPopupManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	self autoPopupDelay: self defaultAutoPopupDelay 
@@ -63,13 +63,13 @@ ToTooltipWindowManager >> onInstalledIn: anElement [
 ]
 
 { #category : #accessing }
-ToTooltipWindowManager >> popupOnMouseDown [
+ToTooltipPopupManager >> popupOnMouseDown [
 
 	^ false
 ]
 
 { #category : #accessing }
-ToTooltipWindowManager >> popupWindowClass [
+ToTooltipPopupManager >> popupWindowClass [
 
 	^ ToTooltipWindow 
 ]

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToContentEditorManager,
-	#superclass : #ToAnchoredWindowManager,
+	#superclass : #ToAnchoredElementManager,
 	#instVars : [
 		'editor'
 	],

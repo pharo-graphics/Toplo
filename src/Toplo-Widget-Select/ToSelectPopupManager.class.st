@@ -1,6 +1,6 @@
 Class {
-	#name : #ToSelectPopupWindowManager,
-	#superclass : #ToPopupWindowManager,
+	#name : #ToSelectPopupManager,
+	#superclass : #ToPopupManager,
 	#instVars : [
 		'listElement',
 		'sieve'
@@ -9,31 +9,31 @@ Class {
 }
 
 { #category : #'api - hooks' }
-ToSelectPopupWindowManager >> defaultListElementEventHandler [ 
+ToSelectPopupManager >> defaultListElementEventHandler [ 
 
 	^ ToSelectListElementEventHandler new
 ]
 
 { #category : #initialization }
-ToSelectPopupWindowManager >> defaultMaxHeight [
+ToSelectPopupManager >> defaultMaxHeight [
 
 	^ 300
 ]
 
 { #category : #initialization }
-ToSelectPopupWindowManager >> defaultMeasurement [
+ToSelectPopupManager >> defaultMeasurement [
 
-	^ ToSameWidthMeasurement new
+	^ ToAnchoredSameWidthMeasurement new
 ]
 
 { #category : #initialization }
-ToSelectPopupWindowManager >> defaultMinHeight [
+ToSelectPopupManager >> defaultMinHeight [
 
 	^ 0
 ]
 
 { #category : #initialization }
-ToSelectPopupWindowManager >> defaultPlacement [
+ToSelectPopupManager >> defaultPlacement [
 
 	^ ToActionPlacement new
 		  action: [ :theWin :evt |
@@ -46,43 +46,43 @@ ToSelectPopupWindowManager >> defaultPlacement [
 ]
 
 { #category : #accessing }
-ToSelectPopupWindowManager >> listElement [
+ToSelectPopupManager >> listElement [
 
 	^ listElement 
 ]
 
 { #category : #initialization }
-ToSelectPopupWindowManager >> listElementClass [
+ToSelectPopupManager >> listElementClass [
 
 	^ ToSelectListElement
 ]
 
 { #category : #accessing }
-ToSelectPopupWindowManager >> maxHeight [
+ToSelectPopupManager >> maxHeight [
 
 	^ listElement maxHeight
 ]
 
 { #category : #accessing }
-ToSelectPopupWindowManager >> maxHeight: aNumber [
+ToSelectPopupManager >> maxHeight: aNumber [
 
 	listElement maxHeight: aNumber
 ]
 
 { #category : #accessing }
-ToSelectPopupWindowManager >> minHeight [
+ToSelectPopupManager >> minHeight [
 
 	^ listElement minHeight
 ]
 
 { #category : #accessing }
-ToSelectPopupWindowManager >> minHeight: aNumber [
+ToSelectPopupManager >> minHeight: aNumber [
 
 	listElement minHeight: aNumber
 ]
 
 { #category : #initialization }
-ToSelectPopupWindowManager >> newListElement [
+ToSelectPopupManager >> newListElement [
 
 	| newListElement |
 	newListElement := self listElementClass new.
@@ -96,7 +96,7 @@ ToSelectPopupWindowManager >> newListElement [
 ]
 
 { #category : #'window handling' }
-ToSelectPopupWindowManager >> onClosed [
+ToSelectPopupManager >> onClosed [
 
 	super onClosed.
 	" if case one of my children has focus "
@@ -104,7 +104,7 @@ ToSelectPopupWindowManager >> onClosed [
 ]
 
 { #category : #'api - hooks' }
-ToSelectPopupWindowManager >> onInstalledIn: anElement [
+ToSelectPopupManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	listElement := self newListElement.
@@ -123,14 +123,14 @@ ToSelectPopupWindowManager >> onInstalledIn: anElement [
 ]
 
 { #category : #'window handling' }
-ToSelectPopupWindowManager >> onOpened [
+ToSelectPopupManager >> onOpened [
 
 	super onOpened.
 	self anchorElement onPopupWindowOpened
 ]
 
 { #category : #'api - hooks' }
-ToSelectPopupWindowManager >> onUninstalledIn: anElement [
+ToSelectPopupManager >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
 	sieve onInstalledIn: listElement.
@@ -140,13 +140,13 @@ ToSelectPopupWindowManager >> onUninstalledIn: anElement [
 ]
 
 { #category : #accessing }
-ToSelectPopupWindowManager >> popupWindowClass [
+ToSelectPopupManager >> popupWindowClass [
 
 	^ ToSelectPopupWindow 
 ]
 
 { #category : #accessing }
-ToSelectPopupWindowManager >> sieve [ 
+ToSelectPopupManager >> sieve [ 
 
 	^ sieve
 ]

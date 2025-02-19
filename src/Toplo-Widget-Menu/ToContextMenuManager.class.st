@@ -1,13 +1,13 @@
 Class {
 	#name : #ToContextMenuManager,
-	#superclass : #ToPopupWindowManager,
+	#superclass : #ToPopupManager,
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
 { #category : #initialization }
 ToContextMenuManager >> defaultPlacement [
 
-	^ ToPickedPlacement new
+	^ ToAnchoredPickedPlacement new
 ]
 
 { #category : #'event handling' }

@@ -145,7 +145,7 @@ ToAnchoredWindowTest >> testHasAssociateElement [
 
 	| win e windowManager |
 	win := ToAnchoredWindow new.
-	self deny: win hasAssociateElement.
+	self deny: win hasAnchorElement.
 	self should: [ win popup ] raise: Error.
 	e := ToElement new.
 	space root addChild: e.
@@ -154,7 +154,7 @@ ToAnchoredWindowTest >> testHasAssociateElement [
 	windowManager := ToAnchoredWindowManagerForTest new.
 	e addEventHandler: windowManager.
 	win := windowManager newWindowEvent: nil.
-	self assert: win hasAssociateElement
+	self assert: win hasAnchorElement
 ]
 
 { #category : #tests }
@@ -318,7 +318,7 @@ ToAnchoredWindowTest >> testPopupEventNotInSpace [
 		                 :element |  ].
 	e addEventHandler: windowManager.
 	win := windowManager newWindowEvent: nil.
-	self assert: win hasAssociateElement.
+	self assert: win hasAnchorElement.
 	win addEventHandler: (BlEventHandler
 			 on: ToOpenedEvent
 			 do: [ :event | openEventFromWindow := event ]).
@@ -365,7 +365,7 @@ ToAnchoredWindowTest >> testPopupEventWithoutElement [
 
 	| w |
 	w := ToAnchoredWindow new.
-	self assert: w hasAssociateElement not.
+	self assert: w hasAnchorElement not.
 	self should: [ w popup ] raise: Error
 ]
 

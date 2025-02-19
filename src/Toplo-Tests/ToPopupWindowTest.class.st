@@ -19,7 +19,7 @@ ToPopupWindowTest >> testElement [
 
 	" have to layout the space here to ensure that no position changed event is sent (which should close the window and make the test failing fail the test)"
 	self waitTestingSpaces.
-	windowManager := ToPopupWindowManager new windowBuilder: [
+	windowManager := ToPopupManager new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
 	e addEventHandler: windowManager.
@@ -56,7 +56,7 @@ ToPopupWindowTest >> testElementWithLabelEditorAndPopupWindowManager [
 	e isEditable: true.
 	space root addChild: e.
 	
-	windowManager := ToPopupWindowManager new.
+	windowManager := ToPopupManager new.
 	e addEventHandler: windowManager.
 	BlSpace simulateMouseDownOn: e.
 	self waitTestingSpaces.
@@ -87,7 +87,7 @@ ToPopupWindowTest >> testElementWithTooltipAndPopupWindowManager [
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowManager := ToPopupWindowManager new windowBuilder: [
+	windowManager := ToPopupManager new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
 	e addEventHandler: windowManager.
@@ -123,7 +123,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp [
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowManager := ToPopupWindowManager new windowBuilder: [
+	windowManager := ToPopupManager new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
 	e addEventHandler: windowManager.
@@ -155,7 +155,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp2 [
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowManager := ToPopupWindowManager new windowBuilder: [
+	windowManager := ToPopupManager new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
 	e addEventHandler: windowManager.
@@ -182,7 +182,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownOutside [
 		     position: 50 @ 50.
 	space root addChild: e.
 
-	windowManager := ToPopupWindowManager new windowBuilder: [
+	windowManager := ToPopupManager new windowBuilder: [
 		                 :anchWin
 		                 :element |
 		                 anchWin addChild: (ToElement new size: 20 @ 20) ].
@@ -228,7 +228,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseUpOutsideAssociateElement [
 	space root addChild: e.
 	space root addChild: other.
 
-	windowManager := ToPopupWindowManager new windowBuilder: [
+	windowManager := ToPopupManager new windowBuilder: [
 		                 :anchWin
 		                 :element |
 		                 anchWin addChild: (ToElement new size: 100 @ 100) ].

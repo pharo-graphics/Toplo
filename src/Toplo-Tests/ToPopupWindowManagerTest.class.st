@@ -12,7 +12,7 @@ ToPopupWindowManagerTest >> testAutoCloseDelay [
 
 	| windowManager |
 
-	windowManager := ToPopupWindowManager new .
+	windowManager := ToPopupManager new .
 	self assert: windowManager autoCloseDelay equals: windowManager defaultAutoCloseDelay.
 	windowManager autoCloseDelay: 1 second.
 	self assert: windowManager autoCloseDelay equals: 1 second.
@@ -30,7 +30,7 @@ ToPopupWindowManagerTest >> testAutoClosePickOutsideEventClass [
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowManager := ToPopupWindowManager new.
+	windowManager := ToPopupManager new.
 	e addEventHandler: windowManager.
 	BlSpace simulateMouseDownOn: e.
 	self waitTestingSpaces.
@@ -61,14 +61,14 @@ ToPopupWindowManagerTest >> testElementEventHandlerClass [
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowManager := ToPopupWindowManager new.
+	windowManager := ToPopupManager new.
 	e addEventHandler: windowManager.
 	win := windowManager newWindowEvent: nil.
 	win popup.
 	self waitTestingSpaces.
 	self assert: win anchorElement equals: e.
 	win close.
-	self deny: win hasAssociateElement.
+	self deny: win hasAnchorElement.
 	self should: [ win popup ] raise: Error
 ]
 
@@ -82,7 +82,7 @@ ToPopupWindowManagerTest >> testElementPositionInSpaceChangedEvent [
 	e size: 10 asPoint.
 	self waitTestingSpaces.
 
-	windowManager := ToPopupWindowManager new.
+	windowManager := ToPopupManager new.
 	e addEventHandler: windowManager.
 	win := windowManager newWindowEvent: nil.
 	win popup.
@@ -102,7 +102,7 @@ ToPopupWindowManagerTest >> testMouseDownEvent [
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowManager := ToPopupWindowManager new.
+	windowManager := ToPopupManager new.
 
 	e addEventHandler: windowManager.
 	position := e bounds inSpace center.
@@ -123,7 +123,7 @@ ToPopupWindowManagerTest >> testMouseDownInElementEvent [
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowManager := ToPopupWindowManager new.
+	windowManager := ToPopupManager new.
 
 	e addEventHandler: windowManager.
 	BlSpace simulateMouseDownOn: e.
@@ -141,7 +141,7 @@ ToPopupWindowManagerTest >> testMouseUpEvent [
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowManager := ToPopupWindowManager new.
+	windowManager := ToPopupManager new.
 
 	e addEventHandler: windowManager.
 	BlSpace simulateMouseDownOn: e.
@@ -173,7 +173,7 @@ ToPopupWindowManagerTest >> testMouseUpInElementEvent [
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowManager := ToPopupWindowManager new.
+	windowManager := ToPopupManager new.
 
 	e addEventHandler: windowManager.
 	BlSpace simulateMouseDownOn: e.
@@ -200,7 +200,7 @@ ToPopupWindowManagerTest >> testMouseUpInElementEventAfterLongDelayShouldCloseWi
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowManager := ToPopupWindowManager new.
+	windowManager := ToPopupManager new.
 
 	e addEventHandler: windowManager.
 	BlSpace simulateMouseDownOn: e.
@@ -228,7 +228,7 @@ ToPopupWindowManagerTest >> testMouseUpOutsideEvent [
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowManager := ToPopupWindowManager new.
+	windowManager := ToPopupManager new.
 
 	e addEventHandler: windowManager.
 	BlSpace simulateMouseDownOn: e.
@@ -258,7 +258,7 @@ ToPopupWindowManagerTest >> testNoAutoCloseEvenAfterLongDelay [
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowManager := ToPopupWindowManager new.
+	windowManager := ToPopupManager new.
 	closed := false.
 	" should avoid auto-close"
 	windowManager autoCloseDelay: 0 milliSeconds.
@@ -302,7 +302,7 @@ ToPopupWindowManagerTest >> testOnInstalledIn [
 
 	| e windowManager  |
 	e := ToElement new.
-	windowManager := ToPopupWindowManager new.
+	windowManager := ToPopupManager new.
 	e addEventHandler: windowManager
 ]
 
@@ -311,7 +311,7 @@ ToPopupWindowManagerTest >> testOnUninstalledIn [
 
 	| e windowManager |
 	e := ToElement new.
-	windowManager := ToPopupWindowManager new.
+	windowManager := ToPopupManager new.
 	e addEventHandler: windowManager.
 
 ]
@@ -325,7 +325,7 @@ ToPopupWindowManagerTest >> testUseNoMouseButton [
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowManager := ToPopupWindowManager new.
+	windowManager := ToPopupManager new.
 	windowManager useNoMouseButton.
 	e addEventHandler: windowManager.
 	event := BlMouseDownEvent primary.
@@ -344,7 +344,7 @@ ToPopupWindowManagerTest >> testUsePrimaryMouseButton [
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowManager := ToPopupWindowManager new.
+	windowManager := ToPopupManager new.
 	windowManager usePrimaryMouseButton.
 	e addEventHandler: windowManager.
 	event := BlMouseDownEvent primary.
@@ -364,7 +364,7 @@ ToPopupWindowManagerTest >> testUsePrimaryMouseButton2 [
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowManager := ToPopupWindowManager new.
+	windowManager := ToPopupManager new.
 	windowManager usePrimaryMouseButton.
 	e addEventHandler: windowManager.
 	event := BlMouseDownEvent secondary.
@@ -382,7 +382,7 @@ ToPopupWindowManagerTest >> testUseSecondaryMouseButton [
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowManager := ToPopupWindowManager new.
+	windowManager := ToPopupManager new.
 	windowManager useSecondaryMouseButton.
 	e addEventHandler: windowManager.
 	event := BlMouseDownEvent secondary.
@@ -402,7 +402,7 @@ ToPopupWindowManagerTest >> testUseSecondaryMouseButton2 [
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowManager := ToPopupWindowManager new.
+	windowManager := ToPopupManager new.
 	windowManager useSecondaryMouseButton.
 	e addEventHandler: windowManager.
 	event := BlMouseDownEvent primary.

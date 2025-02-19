@@ -22,6 +22,12 @@ ToTabBarElement >> haveInvisibleNodes: theInvisibleNodes [
 	" ok the node menu can be shown "
 ]
 
+{ #category : #skin }
+ToTabBarElement >> newRawSkin [ 
+
+	^ ToTabBarElementSkin new
+]
+
 { #category : #accessing }
 ToTabBarElement >> withCloseButton [
 

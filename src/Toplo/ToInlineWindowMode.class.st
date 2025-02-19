@@ -1,7 +1,7 @@
 Class {
 	#name : #ToInlineWindowMode,
 	#superclass : #ToWindowMode,
-	#category : #'Toplo-Core-Window-Support'
+	#category : #'Toplo-Core-Window'
 }
 
 { #category : #testing }

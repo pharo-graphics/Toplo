@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuPane,
 	#superclass : #ToElement,
-	#traits : 'TToItem + TToMenuItem + TToItemListOwner + TToMenuItemListOwner + TToMenuItemContainer + TToOrientable',
-	#classTraits : 'TToItem classTrait + TToMenuItem classTrait + TToItemListOwner classTrait + TToMenuItemListOwner classTrait + TToMenuItemContainer classTrait + TToOrientable classTrait',
+	#traits : 'TToItem + TToMenuItem + TToItemListOwner + TToMenuItemListOwner + TToMenuItemContainer + TToWithOrientableLayout',
+	#classTraits : 'TToItem classTrait + TToMenuItem classTrait + TToItemListOwner classTrait + TToMenuItemListOwner classTrait + TToMenuItemContainer classTrait + TToWithOrientableLayout classTrait',
 	#instVars : [
 		'autoOpen',
 		'isSubPane'
@@ -122,14 +122,6 @@ ToMenuPane >> itemContaining: anElement [
 		  item isMenuPane
 			  ifTrue: [ item itemContaining: anElement ]
 			  ifFalse: [ item ] ]
-]
-
-{ #category : #'t - orientable - accessing' }
-ToMenuPane >> layoutStrategy [
-
-	^ self layout
-
-
 ]
 
 { #category : #'t - menu window model' }

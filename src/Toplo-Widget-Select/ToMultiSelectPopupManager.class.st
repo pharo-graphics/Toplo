@@ -1,11 +1,11 @@
 Class {
-	#name : #ToMultiSelectPopupWindowManager,
-	#superclass : #ToSelectPopupWindowManager,
+	#name : #ToMultiSelectPopupManager,
+	#superclass : #ToSelectPopupManager,
 	#category : #'Toplo-Widget-Select-List'
 }
 
 { #category : #'window handling' }
-ToMultiSelectPopupWindowManager >> checkCloseWindowOnPickingEvent: anEvent [
+ToMultiSelectPopupManager >> checkCloseWindowOnPickingEvent: anEvent [
 	" don't autoclose if mouse up on a select bar item "
 
 	| target |
@@ -16,19 +16,19 @@ ToMultiSelectPopupWindowManager >> checkCloseWindowOnPickingEvent: anEvent [
 ]
 
 { #category : #'api - hooks' }
-ToMultiSelectPopupWindowManager >> defaultListElementEventHandler [ 
+ToMultiSelectPopupManager >> defaultListElementEventHandler [ 
 
 	^ ToMultiSelectListElementEventHandler new
 ]
 
 { #category : #initialization }
-ToMultiSelectPopupWindowManager >> listElementClass [
+ToMultiSelectPopupManager >> listElementClass [
 
 	^ ToMultiSelectListElement
 ]
 
 { #category : #initialization }
-ToMultiSelectPopupWindowManager >> newListElement [
+ToMultiSelectPopupManager >> newListElement [
 
 	| newListElement |
 	newListElement := super newListElement.
@@ -37,7 +37,7 @@ ToMultiSelectPopupWindowManager >> newListElement [
 ]
 
 { #category : #'api - hooks' }
-ToMultiSelectPopupWindowManager >> nodeHolderClass [
+ToMultiSelectPopupManager >> nodeHolderClass [
 
 	^ ToMultiSelectListNodeHolder
 ]

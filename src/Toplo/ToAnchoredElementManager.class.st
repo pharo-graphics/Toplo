@@ -1,5 +1,5 @@
 Class {
-	#name : #ToAnchoredWindowManager,
+	#name : #ToAnchoredElementManager,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'mode',
@@ -11,48 +11,48 @@ Class {
 }
 
 { #category : #modes }
-ToAnchoredWindowManager class >> overlay [
+ToAnchoredElementManager class >> overlay [
 
 	^ self new
-		  placement: ToTopLeftDownPlacement new;
+		  placement: ToAnchoredTopLeftDownPlacement new;
 		  measurement: ToOverlayMeasurement new;
 		  yourself
 ]
 
 { #category : #accessing }
-ToAnchoredWindowManager >> anchorElement [
+ToAnchoredElementManager >> anchorElement [
 
 	^ anchorElement
 ]
 
 { #category : #accessing }
-ToAnchoredWindowManager >> anchorRoot [
+ToAnchoredElementManager >> anchorRoot [
 
 	" the root element in which the window is placed "
 	^ mode anchorRoot 
 ]
 
 { #category : #accessing }
-ToAnchoredWindowManager >> anchorRoot: anElement [
+ToAnchoredElementManager >> anchorRoot: anElement [
 
 	" the root element in which the window is placed "
 	mode anchorRoot: anElement
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> beInline [
+ToAnchoredElementManager >> beInline [
 
 	self mode: self newInlineMode 
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> buildCurrentWindowFromRequest: aRequest [
+ToAnchoredElementManager >> buildCurrentWindowFromRequest: aRequest [
 
 	windowBuilder value: currentWindow value: aRequest
 ]
 
 { #category : #accessing }
-ToAnchoredWindowManager >> builder [
+ToAnchoredElementManager >> builder [
 
 	self
 		deprecated: 'Use #windowBuilder'
@@ -63,7 +63,7 @@ ToAnchoredWindowManager >> builder [
 ]
 
 { #category : #accessing }
-ToAnchoredWindowManager >> builder: aWindowBuilderValuable [
+ToAnchoredElementManager >> builder: aWindowBuilderValuable [
 	self
 		deprecated: 'Use #windowBuilder:'
 		transformWith:
@@ -72,7 +72,7 @@ ToAnchoredWindowManager >> builder: aWindowBuilderValuable [
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> closeWindow [
+ToAnchoredElementManager >> closeWindow [
 
 	currentWindow ifNil: [ ^ self ].
 	currentWindow isOpened ifFalse: [ ^ self ].
@@ -80,7 +80,7 @@ ToAnchoredWindowManager >> closeWindow [
 ]
 
 { #category : #'event handling' }
-ToAnchoredWindowManager >> closedEvent: anEvent [
+ToAnchoredElementManager >> closedEvent: anEvent [
 
 	" send from the window. Since I'm the only handler whatever the closed event, 
 	I must be sure that the event is sent from my current window "
@@ -90,19 +90,19 @@ ToAnchoredWindowManager >> closedEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToAnchoredWindowManager >> currentWindow [
+ToAnchoredElementManager >> currentWindow [
 
 	^ currentWindow
 ]
 
 { #category : #accessing }
-ToAnchoredWindowManager >> currentWindowDo: aValuable [
+ToAnchoredElementManager >> currentWindowDo: aValuable [
 
 	currentWindow ifNotNil: [ :cw | aValuable value: cw ]
 ]
 
 { #category : #initialization }
-ToAnchoredWindowManager >> defaultBuilder [
+ToAnchoredElementManager >> defaultBuilder [
 	" return a valuable used to build the window. The window is passed as first argument and the argument is request event "
 
 	^ [ :theWindow :theRequest | ]
@@ -111,58 +111,58 @@ ToAnchoredWindowManager >> defaultBuilder [
 ]
 
 { #category : #initialization }
-ToAnchoredWindowManager >> defaultMeasurement [
+ToAnchoredElementManager >> defaultMeasurement [
 
 	^ ToNoMeasurement new
 ]
 
 { #category : #initialization }
-ToAnchoredWindowManager >> defaultMode [
+ToAnchoredElementManager >> defaultMode [
 
 	^ self newPopupMode 
 ]
 
 { #category : #initialization }
-ToAnchoredWindowManager >> defaultPlacement [ 
+ToAnchoredElementManager >> defaultPlacement [ 
 
-	^ ToTopLeftDownPlacement new
+	^ ToAnchoredTopLeftDownPlacement new
 ]
 
 { #category : #accessing }
-ToAnchoredWindowManager >> element [
+ToAnchoredElementManager >> element [
 
 	self deprecated: 'Use #anchorElement instead' transformWith: '`@rcvr element'->'`@rcvr anchorElement'.
 	^ self anchorElement
 ]
 
 { #category : #'event handling' }
-ToAnchoredWindowManager >> elementExtentChangedEvent: anEvent [
+ToAnchoredElementManager >> elementExtentChangedEvent: anEvent [
 
 	currentWindow ifNil: [ ^ self ].
 	currentWindow refreshLayout
 ]
 
 { #category : #'event handling' }
-ToAnchoredWindowManager >> elementPositionInSpaceChangedEvent: anEvent [
+ToAnchoredElementManager >> elementPositionInSpaceChangedEvent: anEvent [
 
 	currentWindow ifNil: [ ^ self ].
 	currentWindow refreshLayout
 ]
 
 { #category : #'event handling' }
-ToAnchoredWindowManager >> elementRemovedFromParentEvent: anEvent [
+ToAnchoredElementManager >> elementRemovedFromParentEvent: anEvent [
 
 	self currentWindowDo: [ :cw | cw isOpened ifTrue: [ cw close ] ]
 ]
 
 { #category : #'event handling' }
-ToAnchoredWindowManager >> elementRemovedFromSceneGraphEvent: anEvent [
+ToAnchoredElementManager >> elementRemovedFromSceneGraphEvent: anEvent [
 
 	self currentWindowDo: [ :cw | cw close ]
 ]
 
 { #category : #'api - accessing' }
-ToAnchoredWindowManager >> eventsToHandle [
+ToAnchoredElementManager >> eventsToHandle [
 
 	^ {
 		  ToWindowRequest.
@@ -175,19 +175,19 @@ ToAnchoredWindowManager >> eventsToHandle [
 ]
 
 { #category : #'api - event managing' }
-ToAnchoredWindowManager >> handleEvent: anEvent [
+ToAnchoredElementManager >> handleEvent: anEvent [
 
 	anEvent sendToWindowManager: self
 ]
 
 { #category : #testing }
-ToAnchoredWindowManager >> hasWindow [
+ToAnchoredElementManager >> hasWindow [
 
 	^ currentWindow notNil
 ]
 
 { #category : #initialization }
-ToAnchoredWindowManager >> initialize [
+ToAnchoredElementManager >> initialize [
 
 	super initialize.
 	windowBuilder := self defaultBuilder.
@@ -195,31 +195,31 @@ ToAnchoredWindowManager >> initialize [
 ]
 
 { #category : #initialization }
-ToAnchoredWindowManager >> initializeMode [
+ToAnchoredElementManager >> initializeMode [
 
 	self mode: self defaultMode
 ]
 
 { #category : #accessing }
-ToAnchoredWindowManager >> inlineWindowClass [
+ToAnchoredElementManager >> inlineWindowClass [
 
 	^ ToInlineWindowElement 
 ]
 
 { #category : #testing }
-ToAnchoredWindowManager >> isInline [ 
+ToAnchoredElementManager >> isInline [ 
 
 	^ mode isInline
 ]
 
 { #category : #accessing }
-ToAnchoredWindowManager >> measurement: aMeasurement [
+ToAnchoredElementManager >> measurement: aMeasurement [
 
 	mode measurement: aMeasurement 
 ]
 
 { #category : #accessing }
-ToAnchoredWindowManager >> mode: aWindowMode [
+ToAnchoredElementManager >> mode: aWindowMode [
 
 	mode ifNotNil: [ mode onUninstalledIn: self ].
 	mode := aWindowMode.
@@ -227,19 +227,19 @@ ToAnchoredWindowManager >> mode: aWindowMode [
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> newInlineMode [
+ToAnchoredElementManager >> newInlineMode [
 
 	^ ToInlineWindowMode new
 ]
 
 { #category : #initialization }
-ToAnchoredWindowManager >> newPopupMode [
+ToAnchoredElementManager >> newPopupMode [
 
 	^ ToPopupWindowMode new
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> newWindow [
+ToAnchoredElementManager >> newWindow [
 
 	^ self popupWindowClass new
 		  manager: self;
@@ -247,7 +247,7 @@ ToAnchoredWindowManager >> newWindow [
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> newWindowEvent: anEvent [
+ToAnchoredElementManager >> newWindowEvent: anEvent [
 
 	| request |
 	currentWindow ifNotNil: [
@@ -273,7 +273,7 @@ ToAnchoredWindowManager >> newWindowEvent: anEvent [
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> newWindowRequestFrom: anEvent [
+ToAnchoredElementManager >> newWindowRequestFrom: anEvent [
 
 	^ self windowRequestClass new
 		  sourceEvent: anEvent;
@@ -281,7 +281,7 @@ ToAnchoredWindowManager >> newWindowRequestFrom: anEvent [
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> onClosed [
+ToAnchoredElementManager >> onClosed [
 
 	currentWindow ifNil: [ ^ self ].
 	currentWindow root removeChildren.
@@ -290,33 +290,33 @@ ToAnchoredWindowManager >> onClosed [
 ]
 
 { #category : #'api - hooks' }
-ToAnchoredWindowManager >> onInstalledIn: anElement [
+ToAnchoredElementManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	anchorElement := anElement
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> onMeasure: anExtentMeasurementSpec onEvent: anEvent [
+ToAnchoredElementManager >> onMeasure: anExtentMeasurementSpec onEvent: anEvent [
 
 	currentWindow ifNil: [ ^ self ].
 	mode onMeasure: anExtentMeasurementSpec element: currentWindow onEvent: anEvent
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> onOpened [
+ToAnchoredElementManager >> onOpened [
 
 ]
 
 { #category : #'api - hooks' }
-ToAnchoredWindowManager >> onUninstalledIn: anElement [
+ToAnchoredElementManager >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
 	anchorElement := nil
 ]
 
 { #category : #'event handling' }
-ToAnchoredWindowManager >> openedEvent: anEvent [
+ToAnchoredElementManager >> openedEvent: anEvent [
 
 	"self trace. ' openedEvent: ' trace. currentWindow trace. ' ' trace. anEvent window traceCr."
 	" send from the window. Since I'm the only handler whatever the opened event, 
@@ -326,19 +326,19 @@ ToAnchoredWindowManager >> openedEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToAnchoredWindowManager >> placement: aPlacement [
+ToAnchoredElementManager >> placement: aPlacement [
 
 	mode placement: aPlacement 
 ]
 
 { #category : #accessing }
-ToAnchoredWindowManager >> popupWindowClass [
+ToAnchoredElementManager >> popupWindowClass [
 
 	^ ToAnchoredWindow 
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> positionWindowOnEvent: anEvent context: aBlElementBoundsUpdateContext [
+ToAnchoredElementManager >> positionWindowOnEvent: anEvent context: aBlElementBoundsUpdateContext [
 
 	currentWindow ifNil: [ ^ self ].
 	mode
@@ -348,47 +348,47 @@ ToAnchoredWindowManager >> positionWindowOnEvent: anEvent context: aBlElementBou
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> startWindow: aWindow [ 
+ToAnchoredElementManager >> startWindow: aWindow [ 
 
 	mode startWindow: aWindow
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> stopWindow: aWindow [ 
+ToAnchoredElementManager >> stopWindow: aWindow [ 
 
 	mode stopWindow: aWindow
 ]
 
 { #category : #'event handling' }
-ToAnchoredWindowManager >> themeInstalledEvent: anEvent [
+ToAnchoredElementManager >> themeInstalledEvent: anEvent [
 
 	self withAllSubwindowsDo: [ :cw | cw toThemeInstalled ]
 ]
 
 { #category : #accessing }
-ToAnchoredWindowManager >> windowBuilder [
+ToAnchoredElementManager >> windowBuilder [
 
 	^ windowBuilder
 ]
 
 { #category : #accessing }
-ToAnchoredWindowManager >> windowBuilder: aWindowBuilderValuable [
+ToAnchoredElementManager >> windowBuilder: aWindowBuilderValuable [
 
 	windowBuilder := aWindowBuilderValuable
 ]
 
 { #category : #'event handling' }
-ToAnchoredWindowManager >> windowRequest: anEvent [
+ToAnchoredElementManager >> windowRequest: anEvent [
 ]
 
 { #category : #accessing }
-ToAnchoredWindowManager >> windowRequestClass [
+ToAnchoredElementManager >> windowRequestClass [
 
 	^ ToWindowRequest 
 ]
 
 { #category : #'event handling' }
-ToAnchoredWindowManager >> withAllSubwindowsDo: aBlock [
+ToAnchoredElementManager >> withAllSubwindowsDo: aBlock [
 
 	self currentWindowDo: [ :cw |
 		cw withAllSubwindowsDo: aBlock ]

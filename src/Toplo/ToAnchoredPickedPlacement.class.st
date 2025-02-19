@@ -1,16 +1,16 @@
 Class {
-	#name : #ToPickedPlacement,
+	#name : #ToAnchoredPickedPlacement,
 	#superclass : #ToElementPlacement,
-	#category : #'Toplo-Core-Window-Support'
+	#category : #'Toplo-Core-Support'
 }
 
 { #category : #'api - displaying' }
-ToPickedPlacement >> positionElement: anElement onEvent: anEvent context: aBlElementBoundsUpdateContext [
+ToAnchoredPickedPlacement >> positionElement: anElement onEvent: anEvent context: aBlElementBoundsUpdateContext [
 
-	| theRoot element |
+	| theRoot theAnchor |
 	anEvent ifNil: [ ^ self ].
 	theRoot := anElement anchorRoot.
-	element := anElement anchorElement.
+	theAnchor := anElement anchorElement.
 	"gap ifNil: [  
 	positionInRoot := theRoot globalPointToLocal: anEvent position.
 	elementPositionInRoot := theRoot localPointToMine: element position position fromChild: element.

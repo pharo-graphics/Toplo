@@ -5,8 +5,8 @@ I'm one of the leave of menu composite.
 Class {
 	#name : #ToItemToggleButton,
 	#superclass : #ToElement,
-	#traits : 'TToOrientable + TToTripletElement + TToLabeledIcon + TToItem + TToClickable + TToCheckable',
-	#classTraits : 'TToOrientable classTrait + TToTripletElement classTrait + TToLabeledIcon classTrait + TToItem classTrait + TToClickable classTrait + TToCheckable classTrait',
+	#traits : 'TToWithOrientableLayout + TToTripletElement + TToLabeledIcon + TToItem + TToClickable + TToCheckable',
+	#classTraits : 'TToWithOrientableLayout classTrait + TToTripletElement classTrait + TToLabeledIcon classTrait + TToItem classTrait + TToClickable classTrait + TToCheckable classTrait',
 	#instVars : [
 		'tripletProperties'
 	],
@@ -27,14 +27,6 @@ ToItemToggleButton >> initialize [
 	self initializeAsTripletElement.
 	self initializeAsCheckable.
 	self clickEventClass: ToCheckableCheckEvent
-]
-
-{ #category : #'t - orientable - accessing' }
-ToItemToggleButton >> layoutStrategy [
-
-	^ self layout
-
-	
 ]
 
 { #category : #layout }

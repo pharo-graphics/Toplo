@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'innerElement'
 	],
-	#category : #'Toplo-Core-Window-Support'
+	#category : #'Toplo-Core-Support'
 }
 
 { #category : #accessing }
@@ -22,13 +22,13 @@ ToElementEditorPlacement >> innerElement: anElement [
 { #category : #'api - displaying' }
 ToElementEditorPlacement >> positionElement: anElement onEvent: anEvent context: aBlElementBoundsUpdateContext [
 
-	| root element inner pos |
+	| root theAnchor inner pos |
 	root := anElement anchorRoot.
-	element := anElement anchorElement.
-	inner := innerElement ifNil: [ element ].
+	theAnchor := anElement anchorElement.
+	inner := innerElement ifNil: [ theAnchor ].
 	" take into accound the gap used to compute the textField padding "
 	pos := (inner bounds inParent: root) topLeft
-	       - ((element valueOfTokenNamed: #'padding-content-HS')
-		        @ (element valueOfTokenNamed: #'padding-content-VS')).
+	       - ((theAnchor valueOfTokenNamed: #'padding-content-HS')
+		        @ (theAnchor valueOfTokenNamed: #'padding-content-VS')).
 	anElement position: pos
 ]

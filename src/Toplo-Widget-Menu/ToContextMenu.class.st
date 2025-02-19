@@ -1,8 +1,8 @@
 Class {
 	#name : #ToContextMenu,
 	#superclass : #ToMenuWindow,
-	#traits : 'TToOrientable + TToItemListOwner + TToMenuItemListOwner + TToMenuWindowModel',
-	#classTraits : 'TToOrientable classTrait + TToItemListOwner classTrait + TToMenuItemListOwner classTrait + TToMenuWindowModel classTrait',
+	#traits : 'TToWithOrientableLayout + TToItemListOwner + TToMenuItemListOwner + TToMenuWindowModel',
+	#classTraits : 'TToWithOrientableLayout classTrait + TToItemListOwner classTrait + TToMenuItemListOwner classTrait + TToMenuWindowModel classTrait',
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
@@ -83,14 +83,6 @@ ToContextMenu >> isTopMenu [
 ToContextMenu >> itemContainer [
 
 	^ self 
-]
-
-{ #category : #'t - orientable - accessing' }
-ToContextMenu >> layoutStrategy [
-
-	^ self layout 
-
-	
 ]
 
 { #category : #accessing }

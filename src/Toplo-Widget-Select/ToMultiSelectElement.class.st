@@ -97,7 +97,7 @@ ToMultiSelectElement >> newIconContainer [
 { #category : #'instance creation' }
 ToMultiSelectElement >> newPopupWindowManager [
 
-	^ ToMultiSelectPopupWindowManager new
+	^ ToMultiSelectPopupManager new
 ]
 
 { #category : #skin }

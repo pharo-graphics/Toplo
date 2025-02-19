@@ -1,8 +1,8 @@
 Class {
 	#name : #ToButton,
 	#superclass : #ToGeneralButton,
-	#traits : 'TToOrientable + TToTripletElement + TToLabeledIcon + TToCheckable',
-	#classTraits : 'TToOrientable classTrait + TToTripletElement classTrait + TToLabeledIcon classTrait + TToCheckable classTrait',
+	#traits : 'TToWithOrientableLayout + TToTripletElement + TToLabeledIcon + TToCheckable',
+	#classTraits : 'TToWithOrientableLayout classTrait + TToTripletElement classTrait + TToLabeledIcon classTrait + TToCheckable classTrait',
 	#instVars : [
 		'tripletProperties'
 	],
@@ -75,14 +75,6 @@ ToButton >> label: anElement [
 	self middleElement: anElement.
 	self labelDo: [ :lab | lab addStamp: #'parent-button' withValue: self ].
 
-]
-
-{ #category : #'t - orientable - accessing' }
-ToButton >> layoutStrategy [
-
-	^ self layout 
-
-	
 ]
 
 { #category : #skin }

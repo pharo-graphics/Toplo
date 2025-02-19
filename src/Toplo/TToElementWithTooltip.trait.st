@@ -127,7 +127,7 @@ TToElementWithTooltip >> tooltipWindowManager [
 
 	^ self userData at: #tooltipWindowManager ifAbsentPut: [
 		  | handler |
-		  handler := ToTooltipWindowManager new.
+		  handler := ToTooltipPopupManager new.
 			" pay attention that the handler must be added before changing the delay "
 		  self addEventHandler: handler.
 		  self tooltipPopupDelay ifNotNil: [ :d | handler autoPopupDelay: d ].

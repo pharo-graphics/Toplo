@@ -50,6 +50,7 @@ ToAnchoredWindow >> onMeasure: anExtentMeasurementSpec [
 	self onMeasure: anExtentMeasurementSpec onEvent: self lastPopupEvent.
 	super onMeasure: anExtentMeasurementSpec.
 
+
 ]
 
 { #category : #'api - displaying' }

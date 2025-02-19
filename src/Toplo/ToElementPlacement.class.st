@@ -1,7 +1,7 @@
 Class {
 	#name : #ToElementPlacement,
 	#superclass : #Object,
-	#category : #'Toplo-Core-Window-Support'
+	#category : #'Toplo-Core-Support'
 }
 
 { #category : #'api - displaying' }

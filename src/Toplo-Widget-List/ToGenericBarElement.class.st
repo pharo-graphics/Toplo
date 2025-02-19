@@ -27,14 +27,6 @@ ToGenericBarElement >> initialize [
 	self configureLayout
 ]
 
-{ #category : #'t - orientable - accessing' }
-ToGenericBarElement >> layoutStrategy [
-
-	^ self layout
-
-	
-]
-
 { #category : #skin }
 ToGenericBarElement >> newRawSkin [ 
 

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToTripletElement,
 	#superclass : #ToElement,
-	#traits : 'TToOrientable + TToTripletElement',
-	#classTraits : 'TToOrientable classTrait + TToTripletElement classTrait',
+	#traits : 'TToWithOrientableLayout + TToTripletElement',
+	#classTraits : 'TToWithOrientableLayout classTrait + TToTripletElement classTrait',
 	#instVars : [
 		'properties'
 	],
@@ -33,12 +33,6 @@ ToTripletElement >> installRawStyle [
 			c linear horizontal alignCenter ] ].
 
 	
-]
-
-{ #category : #'t - orientable - accessing' }
-ToTripletElement >> layoutStrategy [
-
-	^ self layout
 ]
 
 { #category : #layout }

@@ -5,8 +5,8 @@ A tab header contains a group of me.
 Class {
 	#name : #ToTab,
 	#superclass : #ToGeneralButton,
-	#traits : 'TToCheckable + TToOrientable',
-	#classTraits : 'TToCheckable classTrait + TToOrientable classTrait',
+	#traits : 'TToCheckable + TToWithOrientableLayout',
+	#classTraits : 'TToCheckable classTrait + TToWithOrientableLayout classTrait',
 	#instVars : [
 		'checkHandler',
 		'innerPane',
@@ -158,14 +158,6 @@ ToTab >> labelText: aText [
 	| lab |
 	lab := ToLabel text: aText asRopedText.
 	self addChild: lab at: 1
-]
-
-{ #category : #'t - orientable - accessing' }
-ToTab >> layoutStrategy [
-
-	^ self layout
-
-	
 ]
 
 { #category : #skin }

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToInfiniteElement,
 	#superclass : #BlInfiniteElement,
-	#traits : 'TToListNodeHolder + TBlLayoutResizable + TToOrientable',
-	#classTraits : 'TToListNodeHolder classTrait + TBlLayoutResizable classTrait + TToOrientable classTrait',
+	#traits : 'TToListNodeHolder + TBlLayoutResizable + TToWithOrientableLayout',
+	#classTraits : 'TToListNodeHolder classTrait + TBlLayoutResizable classTrait + TToWithOrientableLayout classTrait',
 	#instVars : [
 		'listElement'
 	],
@@ -132,14 +132,6 @@ ToInfiniteElement >> initialize [
 ToInfiniteElement >> innerElement [ 
 
 	^ self
-]
-
-{ #category : #'t - orientable - accessing' }
-ToInfiniteElement >> layoutStrategy [
-
-	^ self layout
-
-	
 ]
 
 { #category : #accessing }

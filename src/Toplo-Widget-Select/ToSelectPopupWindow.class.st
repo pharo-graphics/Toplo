@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSelectPopupWindow,
-	#superclass : #ToPopupWindow,
+	#superclass : #ToAnchoredWindow,
 	#category : #'Toplo-Widget-Select-List'
 }
 

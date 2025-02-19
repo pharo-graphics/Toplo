@@ -6,6 +6,12 @@ Class {
 	#category : #'Toplo-Core-Window'
 }
 
+{ #category : #accessing }
+ToAnchoredWindow >> closedEventClass [ 
+
+	^ ToAnchoredElementClosedEvent 
+]
+
 { #category : #'api - displaying' }
 ToAnchoredWindow >> dispatchClosedEvent [
 	" need to dispatch also to the element holding the window
@@ -51,6 +57,12 @@ ToAnchoredWindow >> onMeasure: anExtentMeasurementSpec [
 	super onMeasure: anExtentMeasurementSpec.
 
 
+]
+
+{ #category : #accessing }
+ToAnchoredWindow >> openedEventClass [ 
+
+	^ ToAnchoredElementOpenedEvent 
 ]
 
 { #category : #'api - displaying' }

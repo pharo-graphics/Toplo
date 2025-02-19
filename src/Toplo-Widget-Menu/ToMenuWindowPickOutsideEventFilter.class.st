@@ -11,7 +11,7 @@ ToMenuWindowPickOutsideEventFilter >> isPickedOutsideEvent: anEvent [
 	| target |
 	target := anEvent target.
 	(target firstInParentChainSatisfying: [ :e |
-		 e isKindOf: ToPopupWindow ]) ifNotNil: [ :w |
+		 e isKindOf: ToAnchoredWindow ]) ifNotNil: [ :w |
 		target := w anchorElement ].
 	(target hasAnyInParentChainSatisfying: [ :e |
 		 e isKindOf: ToMenuItemElement ]) ifTrue: [ ^ false ].

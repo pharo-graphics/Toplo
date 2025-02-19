@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMenuWindow,
-	#superclass : #ToPopupWindow,
+	#superclass : #ToAnchoredWindow,
 	#traits : 'TToMenuItemContainer',
 	#classTraits : 'TToMenuItemContainer classTrait',
 	#category : #'Toplo-Widget-Menu-Window'

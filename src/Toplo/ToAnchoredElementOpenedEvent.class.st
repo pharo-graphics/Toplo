@@ -1,5 +1,5 @@
 Class {
-	#name : #ToPopupWindowOpenedEvent,
+	#name : #ToAnchoredElementOpenedEvent,
 	#superclass : #ToOpenedEvent,
 	#category : #'Toplo-Core-Window'
 }

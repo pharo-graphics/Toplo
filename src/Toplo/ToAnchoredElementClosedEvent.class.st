@@ -1,5 +1,5 @@
 Class {
-	#name : #ToPopupWindowClosedEvent,
+	#name : #ToAnchoredElementClosedEvent,
 	#superclass : #ToClosedEvent,
 	#category : #'Toplo-Core-Window'
 }

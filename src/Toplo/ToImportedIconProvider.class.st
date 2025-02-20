@@ -39,6 +39,7 @@ ToImportedIconProvider class >> listElementWithAllIcons [
 	"
 	ToMaterialDesignIconProvider listElementWithAllIcons openInSpace.
 	ToAntDesignIconProvider listElementWithAllIcons openInSpace.
+	ToMiscellaneousIcons listElementWithAllIcons openInSpace.
 	"
 
 	| l icProvider styles assocs |

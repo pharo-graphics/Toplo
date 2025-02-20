@@ -8,7 +8,7 @@ Class {
 ToDemoButterflySkin2 >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
-	anEvent enabledElementDo: [ :e |
+	anEvent elementDo: [ :e |
 		e background: (e valueOfTokenNamed: #'color-success') ]
 ]
 
@@ -34,7 +34,7 @@ ToDemoButterflySkin2 >> installSkinEvent: anEvent [
 ToDemoButterflySkin2 >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
-	anEvent enabledElementDo: [ :e |
+	anEvent elementDo: [ :e |
 		e background: (e valueOfTokenNamed: #'color-primary') ]
 ]
 

@@ -30,7 +30,7 @@ ToPaneNodeExampleSkin >> createNodeButton [
 ToPaneNodeExampleSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
-	anEvent enabledElementDo: [ :e | 
+	anEvent elementDo: [ :e | 
 		" hovered skin can be dispatched whereas no leaved look event has been dispatched 
 		(in case of click event as an example)"
 		nodeButton ifNil: [

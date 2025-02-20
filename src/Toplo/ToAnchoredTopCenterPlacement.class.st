@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAnchoredTopCenterPlacement,
-	#superclass : #ToElementPlacement,
+	#superclass : #ToElementCustomPlacement,
 	#category : #'Toplo-Core-Support'
 }
 

@@ -1,5 +1,5 @@
 Class {
 	#name : #ToAnchoredWindowManagerForTest,
-	#superclass : #ToAnchoredElementManager,
+	#superclass : #ToAnchoredWindowManager,
 	#category : #'Toplo-Tests-Core-Window'
 }

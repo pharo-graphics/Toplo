@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTooltipPlacement,
-	#superclass : #ToElementPlacement,
+	#superclass : #ToElementCustomPlacement,
 	#category : #'Toplo-Core-Tooltip'
 }
 

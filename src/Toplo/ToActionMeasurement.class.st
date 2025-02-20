@@ -1,6 +1,6 @@
 Class {
 	#name : #ToActionMeasurement,
-	#superclass : #ToElementMeasurement,
+	#superclass : #ToElementCustomMeasurement,
 	#instVars : [
 		'action'
 	],

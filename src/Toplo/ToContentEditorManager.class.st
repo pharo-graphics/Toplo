@@ -1,6 +1,6 @@
 Class {
 	#name : #ToContentEditorManager,
-	#superclass : #ToAnchoredElementManager,
+	#superclass : #ToAnchoredWindowManager,
 	#instVars : [
 		'editor'
 	],
@@ -16,7 +16,7 @@ ToContentEditorManager >> currentEditorEventHandlers [
 				  stream nextPut: h ] ] ]
 ]
 
-{ #category : #initializing }
+{ #category : #initialization }
 ToContentEditorManager >> defaultPlacement [
 
 	^ ToElementEditorPlacement new

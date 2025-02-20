@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTooltipPopupManager,
-	#superclass : #ToPopupManager,
+	#superclass : #ToPopupWindowManager,
 	#instVars : [
 		'closeOnMouseLeave'
 	],

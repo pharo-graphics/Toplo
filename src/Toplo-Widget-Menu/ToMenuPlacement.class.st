@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMenuPlacement,
-	#superclass : #ToElementPlacement,
+	#superclass : #ToElementCustomPlacement,
 	#category : #'Toplo-Widget-Menu-Window'
 }
 

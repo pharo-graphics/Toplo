@@ -25,7 +25,8 @@ ToAccordionHeaderElement class >> exampleWithLabel [
 { #category : #accessing }
 ToAccordionHeaderElement >> builder: aValuable [
 	"With an header as argument"
-	
+
+	content removeChildren.
 	aValuable value: content
 ]
 
@@ -76,6 +77,7 @@ ToAccordionHeaderElement >> icon: aToImage [
 ToAccordionHeaderElement >> initialize [
 
 	super initialize.
+	self applySkinInstallerOnFirstRequest: true.
 	self layout: BlLinearLayout horizontal.
 	self hMatchParent.
 	self vFitContent.

@@ -1,51 +1,51 @@
 Class {
-	#name : #ToTabElementSkin,
+	#name : #ToTabItemElementSkin,
 	#superclass : #ToRawSkin,
 	#category : #'Toplo-Widget-Tag-Tab'
 }
 
 { #category : #'event handling' }
-ToTabElementSkin >> disabledSkinEvent: anEvent [
+ToTabItemElementSkin >> disabledSkinEvent: anEvent [
 
 	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		"e iconDo: [ :ic |
+		e iconDo: [ :ic |
 			ic innerImageColor: (e valueOfTokenNamed: #'color-text-disabled') ].
 		e endElementDo: [ :ic |
 			(ic respondsTo: #innerImageColor:) ifTrue: [
-				ic innerImageColor: (e valueOfTokenNamed: #'color-text-disabled') ] ]."
+				ic innerImageColor: (e valueOfTokenNamed: #'color-text-disabled') ] ].
 		e background: (e valueOfTokenNamed: #'color-bg-container-disabled').
-		"e labelDo: [ :lab |
+		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text-disabled').
-			lab applyStyle ]" ]
+			lab applyStyle ] ]
 ]
 
 { #category : #'event handling' }
-ToTabElementSkin >> enabledSkinEvent: anEvent [
+ToTabItemElementSkin >> enabledSkinEvent: anEvent [
 
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		"e iconDo: [ :ic |
-			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ]."
+		e iconDo: [ :ic |
+			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
 		e endElementDo: [ :ic |
 			(ic respondsTo: #innerImageColor:) ifTrue: [
 				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
 		e background: BlBackground transparent.
-		"e labelDo: [ :lab |
+		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text').
-			lab applyStyle ]" ]
+			lab applyStyle ] ]
 ]
 
 { #category : #'event handling' }
-ToTabElementSkin >> hoveredSkinEvent: anEvent [
+ToTabItemElementSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
-	anEvent enabledElementDo: [ :e |
+	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor webLink ]
 ]
 
 { #category : #'event handling' }
-ToTabElementSkin >> installSkinEvent: anEvent [
+ToTabItemElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -67,7 +67,7 @@ ToTabElementSkin >> installSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToTabElementSkin >> leavedSkinEvent: anEvent [
+ToTabItemElementSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |

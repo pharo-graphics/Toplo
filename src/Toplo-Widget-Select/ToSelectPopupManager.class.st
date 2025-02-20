@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSelectPopupManager,
-	#superclass : #ToPopupManager,
+	#superclass : #ToPopupWindowManager,
 	#instVars : [
 		'listElement',
 		'sieve'
@@ -36,7 +36,7 @@ ToSelectPopupManager >> defaultMinHeight [
 ToSelectPopupManager >> defaultPlacement [
 
 	^ ToActionPlacement new
-		  action: [ :theWin :evt |
+		  action: [ :theWin :evt :aBoundsUpdater |
 			  | theElem theRoot |
 			  theElem := theWin anchorElement.
 			  theRoot := theWin anchorRoot.

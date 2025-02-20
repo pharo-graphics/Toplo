@@ -79,9 +79,7 @@ ToSandBox class >> accordionWithLabelText: aString [
 	inst headerBuilder: [ :header |
 		header addChild: (ToLabel text: aString) ].
 	inst bodyBuilder: [ :body |
-		body addChild:
-			(ToLabel new text: 'Body with random background color').
-		body
+		body addChild: (ToLabel text: 'Body with random color');
 			hMatchParent;
 			height: 100;
 			background: Color random ].
@@ -1609,7 +1607,7 @@ ToSandBox class >> example_Inline1 [
 		        size: 100 @ 100;
 		        position: 50 @ 50.
 
-	popupWindowHandler := ToPopupManager new.
+	popupWindowHandler := ToPopupWindowManager new.
 	menu addEventHandler: popupWindowHandler.
 
 	popupWindowHandler beInline.
@@ -2035,6 +2033,31 @@ ToSandBox class >> example_ListWithAllMethods [
 ]
 
 { #category : #list }
+ToSandBox class >> example_ListWithCustomSelectionMeasurementAndPlacement [
+
+	| statesList |
+	statesList := ToListElement new matchParent.
+	statesList nodeBuilder: [ :node :dataItem :holder |
+		node
+			addChild: (ToLabel text: dataItem);
+			preventSelectionSkinEvents;
+			hMatchParent ].
+	statesList dataAccessor addAll: self statesOfAmerica.
+	" mandatory option here: the selection are separate (one selection element for each selected node)"
+	statesList selectionOption grouped: false.
+	statesList selectionOption elementFactory: [
+		ToListPrimarySelectionElement new
+			placement:
+				(ToActionPlacement new action: [ :elem :evt :aBoundsUpdater | 
+						 elem position: elem node bounds inParent position
+								 + (0 @ (elem node measuredHeight - 2)) ]);
+			measurement: (ToActionMeasurement new action: [ :spec :elem :evt |
+						 spec heightSpec beExact: 2 ]);
+			yourself ].
+	statesList openInSpace
+]
+
+{ #category : #list }
 ToSandBox class >> example_ListWithEditableAndContextMenu [
 
 	| l |
@@ -2347,7 +2370,7 @@ ToSandBox class >> example_Popup1 [
 		       size: 20 @ 20;
 		       position: 10 @ 10.
 	menu addChild: sub.
-	popupWindowHandler := ToPopupManager new.
+	popupWindowHandler := ToPopupWindowManager new.
 	popupWindowHandler windowBuilder: [ :popup :element |
 		popup border: Color black.
 		item := ToElement new size: 150 @ 90.
@@ -3269,7 +3292,7 @@ ToSandBox class >> example_SimplePopupTopLeftOver [
 
 	| p |
 	p := self newPopup.
-	p placement: (ToActionPlacement new action: [ :theWin :evt |
+	p placement: (ToActionPlacement new action: [ :theWin :evt :aBoundsUpdater|
 			 | theElem theRoot |
 			 theElem := theWin anchorElement.
 			 theRoot := theWin anchorRoot.
@@ -3339,17 +3362,18 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 ]
 
 { #category : #tag }
-ToSandBox class >> example_TabBarWithLabels [
+ToSandBox class >> example_TabsElement [
 
-	| tabBar dashBoard rootPane feedbackPane maj |
-	tabBar := ToTabBarElement new.
+	| tabs dashBoard rootPane feedbackPane maj |
+	tabs := ToTabsElement new.
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		tabBar addItem:
-			(ToTabElement new middleElement: (ToLabel text: l); yourself) ].
+		tabs addItem: (ToTabItemElement new
+				 middleElement: (ToLabel text: l) preventSelectionSkinEvents;
+				 yourself) ].
 
-	(tabBar items at: 2) disable.
-	dashBoard := self segmentedDashBoardFor: tabBar.
+	(tabs items at: 2) disable.
+	dashBoard := self tabBarDashBoardFor: tabs.
 
 	feedbackPane := ToPane horizontal.
 	feedbackPane layout alignCenter.
@@ -3357,27 +3381,27 @@ ToSandBox class >> example_TabBarWithLabels [
 	       | t |
 	       feedbackPane removeChildren.
 	       t := String streamContents: [ :stream |
-		            tabBar dataAccessor withIndexDo: [ :e :idx |
+		            tabs dataAccessor withIndexDo: [ :e :idx |
 			            stream
 				            nextPutAll: e middleElement text asString;
 				            nextPutAll: ': '.
-			            (tabBar selectionModel containsIndex: idx)
+			            (tabs selectionModel containsIndex: idx)
 				            ifTrue: [ stream nextPutAll: 'V ' ]
 				            ifFalse: [ stream nextPutAll: 'X ' ].
 			            stream nextPutAll: e checked asString.
 			            stream nextPutAll: ' '.
-			            idx < tabBar dataAccessor itemCount ifTrue: [
+			            idx < tabs dataAccessor itemCount ifTrue: [
 				            stream nextPutAll: '- ' ] ] ].
 	       feedbackPane addChild: (ToLabel text: t) ].
 
-	tabBar addEventHandler: (BlEventHandler
+	tabs addEventHandler: (BlEventHandler
 			 on: ToListStrongSelectionEvent
 			 do: [ :event |
 				 ' double click ' trace.
 				 event indexes traceCr ]).
 
-	tabBar addEventHandlerOn: ToListPrimarySelectionChangedEvent do: maj.
-	tabBar addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.
+	tabs addEventHandlerOn: ToListPrimarySelectionChangedEvent do: maj.
+	tabs addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.
 	rootPane := ToPane vertical.
 	rootPane matchParent.
 	rootPane addChildren: {
@@ -5032,7 +5056,7 @@ ToSandBox class >> example_overlayWindow1 [
 		     position: 50 @ 50;
 		     background: Color yellow;
 		     border: (BlBorder paint: Color red).
-	windowManager := ToAnchoredElementManager new.
+	windowManager := ToAnchoredWindowManager new.
 	e addEventHandler: windowManager.
 	windowManager windowBuilder: [ :anchWin :element |
 		anchWin withNullSkin.
@@ -5052,7 +5076,7 @@ ToSandBox class >> example_overlayWindow2 [
 	e := ToInnerWindow new
 		     size: 300 @ 300;
 		     position: 50 @ 50.
-	windowManager := ToAnchoredElementManager new.
+	windowManager := ToAnchoredWindowManager new.
 	windowManager measurement:
 		(ToActionMeasurement new action: [ :spec :theWin :evt |
 			 | theElem |
@@ -5060,7 +5084,7 @@ ToSandBox class >> example_overlayWindow2 [
 			 spec widthSpec beExact: theElem measuredWidth - 40.
 			 spec heightSpec beExact: theElem measuredHeight - 60 ]).
 	windowManager placement:
-		(ToActionPlacement new action: [ :theWin :evt |
+		(ToActionPlacement new action: [ :theWin :evt :aBoundsUpdater |
 			 | theElem theRoot |
 			 theElem := theWin anchorElement.
 			 theRoot := theWin anchorRoot.
@@ -7856,7 +7880,7 @@ ToSandBox class >> newPopup [
 		     background: (Color red alpha: 0.2);
 		     position: 200 @ 140;
 		     yourself.
-	popupWindowHandler := ToPopupManager new.
+	popupWindowHandler := ToPopupWindowManager new.
 	popupWindowHandler windowBuilder: [ :popup :request |
 		popup border: Color gray.
 		popup hFitContent.
@@ -8263,28 +8287,39 @@ ToSandBox class >> subsubsubTabPane [
 ]
 
 { #category : #tag }
-ToSandBox class >> tabBarDashBoardFor: aTabBarElement [
+ToSandBox class >> tabBarDashBoardFor: aTabsElement [
 
-	| mainPane barPane confPane checkingStrategyPane |
+	| mainPane barPane confPane checkingStrategyPane startToEndSwitch |
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
 
-	confPane := self barConfigurationBoardFor: aTabBarElement.
+	confPane := self barConfigurationBoardFor: aTabsElement.
 	(confPane childWithId: #selectOnPressedSwitch) disable.
 	(confPane childWithId: #deselectOnPressedSwitch) disable.
+
+	startToEndSwitch := ToSwitchButton new labelText: 'Start to end'.
+	startToEndSwitch startFlexible: true.
+	startToEndSwitch hMatchParent.
+
+	startToEndSwitch whenClickedDo: [ :event |
+		aTabsElement startToEnd: event current ].
+
+	confPane addChild: startToEndSwitch.
+	startToEndSwitch checked: aTabsElement isStartToEnd.
+
 	confPane padding: (BlInsets all: 5).
 	confPane width: 250.
 	confPane border: Color lightGray.
 	barPane := ToPane vertical.
 	barPane matchParent.
-	
-	checkingStrategyPane := self checkingStrategyChooserFor: aTabBarElement.
+
+	checkingStrategyPane := self checkingStrategyChooserFor: aTabsElement.
 	confPane addChild: checkingStrategyPane.
-	
+
 	mainPane addChildren: {
 			confPane.
 			barPane }.
-	barPane addChild: aTabBarElement.
+	barPane addChild: aTabsElement.
 
 	^ mainPane
 ]

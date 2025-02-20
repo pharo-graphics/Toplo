@@ -4,7 +4,9 @@ Class {
 	#instVars : [
 		'listElement',
 		'selectionOption',
-		'nodes'
+		'nodes',
+		'placement',
+		'measurement'
 	],
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
@@ -13,6 +15,8 @@ Class {
 ToListSelectionElement >> initialize [
 
 	super initialize.
+	placement := ToNoCustomPlacement new.
+	measurement := ToNoCustomMeasurement new.
 	self constraintsDo: [ :c | c ignoreByLayout ].
 	" let install the skin immediately to speed-up selection updating "
 	self applySkinInstallerOnFirstRequest: true.
@@ -47,6 +51,18 @@ ToListSelectionElement >> listElement: aListElement [
 ]
 
 { #category : #accessing }
+ToListSelectionElement >> measurement: aToElementCustomMeasurement [
+
+	measurement := aToElementCustomMeasurement
+]
+
+{ #category : #accessing }
+ToListSelectionElement >> node [
+
+	^ nodes first
+]
+
+{ #category : #accessing }
 ToListSelectionElement >> nodes [
 
 	^ nodes
@@ -56,6 +72,28 @@ ToListSelectionElement >> nodes [
 ToListSelectionElement >> nodes: aNodeArray [
 
 	nodes := aNodeArray
+]
+
+{ #category : #layout }
+ToListSelectionElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
+
+	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
+	placement positionElement: self context: aBlElementBoundsUpdateContext
+]
+
+{ #category : #layout }
+ToListSelectionElement >> onMeasure: anExtentMeasurementSpec [
+
+	measurement onMeasure: anExtentMeasurementSpec element: self.
+	super onMeasure: anExtentMeasurementSpec.
+
+
+]
+
+{ #category : #accessing }
+ToListSelectionElement >> placement: aToElementCustomPlacement [
+
+	placement := aToElementCustomPlacement
 ]
 
 { #category : #private }

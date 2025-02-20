@@ -1,6 +1,6 @@
 Class {
 	#name : #ToElementEditorPlacement,
-	#superclass : #ToElementPlacement,
+	#superclass : #ToElementCustomPlacement,
 	#instVars : [
 		'innerElement'
 	],

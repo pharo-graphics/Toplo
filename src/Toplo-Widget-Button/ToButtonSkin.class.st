@@ -51,7 +51,7 @@ ToButtonSkin >> enabledSkinEvent: anEvent [
 ToButtonSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
-	anEvent enabledElementDo: [ :e |
+	anEvent elementDo: [ :e |
 			e iconDo: [ :ic |
 				ic innerImageColor: (e valueOfTokenNamed: #'color-primary') ].
 			e endElementDo: [ :ic |
@@ -87,7 +87,7 @@ ToButtonSkin >> installSkinEvent: anEvent [
 ToButtonSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
-	anEvent enabledElementDo: [ :e |
+	anEvent elementDo: [ :e |
 		e
 			withStamp: #'parent-tag'
 			do: [ :tag |

@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-Album-LabelEditor'
 }
 
-{ #category : #initializing }
+{ #category : #initialization }
 ToLabelEditorManager >> defaultPlacement [
 
 	^ super defaultPlacement

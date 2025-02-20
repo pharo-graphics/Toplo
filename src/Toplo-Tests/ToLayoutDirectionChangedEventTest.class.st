@@ -18,24 +18,24 @@ ToLayoutDirectionChangedEventTest >> test [
 			 on: ToLayoutDirectionChangedEvent
 			 do: [ cpt := cpt + 1 ]).
 	bcpt := cpt.
-	li beLeftToRight.
+	li beStartToEnd.
 	self assert: cpt equals: bcpt + 1.
 	bcpt := cpt.
-	li beRightToLeft.
+	li beEndToStart.
 	self assert: cpt equals: bcpt + 1.
 	bcpt := cpt.
-	li beLeftToRight.
+	li beStartToEnd.
 	self assert: cpt equals: bcpt + 1.
 	bcpt := cpt.
-	li leftToRight: false.
+	li startToEnd: false.
 	self assert: cpt equals: bcpt + 1.
 	bcpt := cpt.
-	li leftToRight: true.
+	li startToEnd: true.
 	self assert: cpt equals: bcpt + 1.
 	bcpt := cpt.
-	li rightToLeft: true.
+	li endToStart: true.
 	self assert: cpt equals: bcpt + 1.
 	bcpt := cpt.
-	li rightToLeft: false.
+	li endToStart: false.
 	self assert: cpt equals: bcpt + 1
 ]

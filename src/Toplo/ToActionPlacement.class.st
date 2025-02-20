@@ -1,6 +1,6 @@
 Class {
 	#name : #ToActionPlacement,
-	#superclass : #ToElementPlacement,
+	#superclass : #ToElementCustomPlacement,
 	#instVars : [
 		'action'
 	],
@@ -15,7 +15,7 @@ ToActionPlacement >> action: aValuable [
 ]
 
 { #category : #'api - displaying' }
-ToActionPlacement >> positionElement: aWindow onEvent: anEvent context: aBlElementBoundsUpdateContext [
+ToActionPlacement >> positionElement: aWindow onEvent: anEvent context: aBlElementBoundsUpdater [
 
-	action value: aWindow value: anEvent 
+	action value: aWindow value: anEvent value: aBlElementBoundsUpdater
 ]

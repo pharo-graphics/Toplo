@@ -1,6 +1,6 @@
 Class {
 	#name : #ToOverlayMeasurement,
-	#superclass : #ToElementMeasurement,
+	#superclass : #ToElementCustomMeasurement,
 	#category : #'Toplo-Core-Support'
 }
 

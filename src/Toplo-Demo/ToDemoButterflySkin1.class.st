@@ -8,7 +8,7 @@ Class {
 ToDemoButterflySkin1 >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
-	anEvent enabledElementDo: [ :e |
+	anEvent elementDo: [ :e |
 		e background: Color white.
 		e border: (BlBorder paint: Color blue width: 4) ]
 ]
@@ -27,7 +27,7 @@ ToDemoButterflySkin1 >> installSkinEvent: anEvent [
 ToDemoButterflySkin1 >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
-	anEvent enabledElementDo: [ :e |
+	anEvent elementDo: [ :e |
 		e background: Color lightGray.
 		e border: (BlBorder paint: Color yellow width: 4) ]
 ]

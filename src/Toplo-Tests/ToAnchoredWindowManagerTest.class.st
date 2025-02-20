@@ -178,10 +178,10 @@ ToAnchoredWindowManagerTest >> testElementEventHandlerClass [
 	self waitTestingSpaces.
 	self assert: win anchorElement equals: e.
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: ToAnchoredElementManager ]).
+			 eh isKindOf: ToAnchoredWindowManager ]).
 	win close.
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: ToAnchoredElementManager ]).
+			 eh isKindOf: ToAnchoredWindowManager ]).
 
 	self deny: win hasAnchorElement.
 	self should: [ win popup ] raise: Error
@@ -308,7 +308,7 @@ ToAnchoredWindowManagerTest >> testNewWindowEvent2 [
 ToAnchoredWindowManagerTest >> testPopupWindowClass [
 
 	| windowManager |
-	windowManager := ToAnchoredElementManager new windowBuilder: [
+	windowManager := ToAnchoredWindowManager new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
 	self assert: windowManager popupWindowClass identicalTo: ToAnchoredWindow
@@ -362,7 +362,7 @@ ToAnchoredWindowManagerTest >> testPositionHook2 [
 	self waitTestingSpaces.
 	self waitTestingSpaces.
 	windowManager placement: (ToActionPlacement new
-			 action: [ :window :evt |
+			 action: [ :window :evt :aBoundsUpdater|
 				 | theElem theRoot |
 				 theElem := window anchorElement.
 				 theRoot := window anchorRoot.
@@ -394,7 +394,7 @@ ToAnchoredWindowManagerTest >> testPositionHook3 [
 		                 :element |  ].
 	e addEventHandler: windowManager.
 		windowManager placement: (ToActionPlacement new
-			 action: [ :theWin :evt | 
+			 action: [ :theWin :evt :aBoundsUpdater | 
 				theWin position: 30 @ 30 ];
 			 yourself).
 
@@ -414,7 +414,7 @@ ToAnchoredWindowManagerTest >> testPositionHook3 [
 ToAnchoredWindowManagerTest >> testWindowOpenRequestClass [
 
 	| windowManager |
-	windowManager := ToAnchoredElementManager new windowBuilder: [
+	windowManager := ToAnchoredWindowManager new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
 	self

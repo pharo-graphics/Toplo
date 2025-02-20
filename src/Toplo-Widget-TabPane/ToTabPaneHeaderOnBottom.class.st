@@ -9,7 +9,7 @@ ToTabPaneHeaderOnBottom >> applyOn: aTabPane [
 
 	super applyOn: aTabPane.
 	aTabPane beVertical.
-	aTabPane beLeftToRight.
+	aTabPane beStartToEnd.
 	aTabPane header beHorizontal.
 	aTabPane header hMatchParent.
 	aTabPane header vFitContent.

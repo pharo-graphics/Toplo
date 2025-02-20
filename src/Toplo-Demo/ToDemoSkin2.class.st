@@ -8,7 +8,7 @@ Class {
 ToDemoSkin2 >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
-	anEvent enabledElementDo: [ :e |
+	anEvent elementDo: [ :e |
 		e background: Color red.
 		e border: (BlBorder paint: Color blue width: 4) ]
 ]
@@ -26,7 +26,7 @@ ToDemoSkin2 >> installSkinEvent: anEvent [
 ToDemoSkin2 >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
-	anEvent enabledElementDo: [ :e |
+	anEvent elementDo: [ :e |
 		e background: Color white.
 		e border: (BlBorder paint: Color red width: 1)  ]
 ]

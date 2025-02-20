@@ -1,11 +1,11 @@
 Class {
-	#name : #ToTabElement,
+	#name : #ToTabItemElement,
 	#superclass : #ToItemToggleButton,
 	#category : #'Toplo-Widget-Tag-Tab'
 }
 
 { #category : #skin }
-ToTabElement >> newRawSkin [ 
+ToTabItemElement >> newRawSkin [ 
 
-	^ ToTabElementSkin new
+	^ ToTabItemElementSkin new
 ]

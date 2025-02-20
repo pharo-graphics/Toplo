@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMenuMeasurement,
-	#superclass : #ToElementMeasurement,
+	#superclass : #ToElementCustomMeasurement,
 	#category : #'Toplo-Widget-Menu-Window'
 }
 

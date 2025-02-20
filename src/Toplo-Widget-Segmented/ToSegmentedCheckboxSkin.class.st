@@ -42,7 +42,7 @@ ToSegmentedCheckboxSkin >> enabledSkinEvent: anEvent [
 ToSegmentedCheckboxSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
-	anEvent enabledElementDo: [ :e | 
+	anEvent elementDo: [ :e | 
 			e border: BlBorder empty.
 			e icon border: (BlBorder paint: (e valueOfTokenNamed: #'color-primary') width: 1) ]
 ]
@@ -79,7 +79,7 @@ ToSegmentedCheckboxSkin >> installSkinEvent: anEvent [
 ToSegmentedCheckboxSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
-	anEvent enabledElementDo: [ :e |
+	anEvent elementDo: [ :e |
 		e border: BlBorder empty.
 		e icon border: (e valueOfTokenNamed: #'color-border') ]
 ]

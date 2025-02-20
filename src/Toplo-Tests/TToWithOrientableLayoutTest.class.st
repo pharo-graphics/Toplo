@@ -2,7 +2,7 @@
 A TToOrientableTest is a test class for testing the behavior of TToOrientable
 "
 Class {
-	#name : #TToOrientableTest,
+	#name : #TToWithOrientableLayoutTest,
 	#superclass : #ToParameterizedHostTest,
 	#instVars : [
 		'pane',
@@ -15,7 +15,7 @@ Class {
 }
 
 { #category : #running }
-TToOrientableTest >> setUp [
+TToWithOrientableLayoutTest >> setUp [
 
 	super setUp.
 	pane := ToPane new.
@@ -36,7 +36,7 @@ TToOrientableTest >> setUp [
 ]
 
 { #category : #tests }
-TToOrientableTest >> testBeHorizontal [
+TToWithOrientableLayoutTest >> testBeHorizontal [
 
 	| ocpt |
 	" to be sure pane is horizontal"
@@ -58,7 +58,7 @@ TToOrientableTest >> testBeHorizontal [
 ]
 
 { #category : #tests }
-TToOrientableTest >> testBeLeftToRight [
+TToWithOrientableLayoutTest >> testBeLeftToRight [
 
 	| dcpt |
 	" to be sure pane is leftToRight"
@@ -80,7 +80,7 @@ TToOrientableTest >> testBeLeftToRight [
 ]
 
 { #category : #tests }
-TToOrientableTest >> testBeRightToLeft [
+TToWithOrientableLayoutTest >> testBeRightToLeft [
 
 	| dcpt |
 	" to be sure pane is leftToRight"
@@ -102,7 +102,7 @@ TToOrientableTest >> testBeRightToLeft [
 ]
 
 { #category : #tests }
-TToOrientableTest >> testBeVertical [
+TToWithOrientableLayoutTest >> testBeVertical [
 	" to be sure pane is horizontal"
 
 	| ocpt |
@@ -124,7 +124,7 @@ TToOrientableTest >> testBeVertical [
 ]
 
 { #category : #tests }
-TToOrientableTest >> testDirection [
+TToWithOrientableLayoutTest >> testDirection [
 
 	| dcpt |
 	pane direction: BlLayoutDirection rightToLeft.
@@ -165,7 +165,7 @@ TToOrientableTest >> testDirection [
 ]
 
 { #category : #tests }
-TToOrientableTest >> testHorizontal [
+TToWithOrientableLayoutTest >> testHorizontal [
 	" to be sure pane is horizontal"
 
 	| ocpt |
@@ -187,7 +187,7 @@ TToOrientableTest >> testHorizontal [
 ]
 
 { #category : #tests }
-TToOrientableTest >> testIsHorizontal [
+TToWithOrientableLayoutTest >> testIsHorizontal [
 
 	pane beHorizontal.
 	pane beVertical.
@@ -198,7 +198,7 @@ TToOrientableTest >> testIsHorizontal [
 ]
 
 { #category : #tests }
-TToOrientableTest >> testIsLeftToRight [
+TToWithOrientableLayoutTest >> testIsLeftToRight [
 
 	pane beLeftToRight.
 	pane beRightToLeft.
@@ -209,7 +209,7 @@ TToOrientableTest >> testIsLeftToRight [
 ]
 
 { #category : #tests }
-TToOrientableTest >> testIsRightToLeft [
+TToWithOrientableLayoutTest >> testIsRightToLeft [
 
 	pane beRightToLeft.
 	pane beLeftToRight.
@@ -220,7 +220,7 @@ TToOrientableTest >> testIsRightToLeft [
 ]
 
 { #category : #tests }
-TToOrientableTest >> testIsVertical [
+TToWithOrientableLayoutTest >> testIsVertical [
 
 	pane beVertical.
 	pane beHorizontal.
@@ -231,7 +231,7 @@ TToOrientableTest >> testIsVertical [
 ]
 
 { #category : #tests }
-TToOrientableTest >> testLeftToRight [
+TToWithOrientableLayoutTest >> testLeftToRight [
 
 	| dcpt |
 	" to be sure pane is leftToRight"
@@ -253,18 +253,18 @@ TToOrientableTest >> testLeftToRight [
 ]
 
 { #category : #tests }
-TToOrientableTest >> testOrientation [
+TToWithOrientableLayoutTest >> testOrientation [
 
 	| ocpt |
-	pane orientation: BlLinearLayoutVerticalOrientation new.
+	pane orientation: BlLinearLayoutOrientation vertical.
 	ocpt := oriCpt.
 	" sure pane is vertical -> no event sent "
-	pane orientation: BlLinearLayoutVerticalOrientation new.
+	pane orientation: BlLinearLayoutOrientation vertical.
 	" no event sent "
 	self assert: oriCpt equals: ocpt.
-	pane orientation: BlLinearLayoutHorizontalOrientation new.
+	pane orientation: BlLinearLayoutOrientation horizontal.
 	ocpt := oriCpt.
-	pane orientation: BlLinearLayoutVerticalOrientation new.
+	pane orientation: BlLinearLayoutOrientation vertical.
 	" orientation chaged -> and event is sent "
 	self assert: oriCpt equals: ocpt + 1.
 	self assert: pane isVertical.
@@ -274,15 +274,15 @@ TToOrientableTest >> testOrientation [
 	self assert: child1 bounds left equals: child2 bounds left.
 
 	" now for the inverted orientation "
-	pane orientation: BlLinearLayoutHorizontalOrientation new.
+	pane orientation: BlLinearLayoutOrientation horizontal.
 	ocpt := oriCpt.
 	" sure pane is vertical -> no event sent "
-	pane orientation: BlLinearLayoutHorizontalOrientation new.
+	pane orientation: BlLinearLayoutOrientation horizontal.
 	" no event sent "
 	self assert: oriCpt equals: ocpt.
-	pane orientation: BlLinearLayoutVerticalOrientation new.
+	pane orientation: BlLinearLayoutOrientation vertical.
 	ocpt := oriCpt.
-	pane orientation: BlLinearLayoutHorizontalOrientation new.
+	pane orientation: BlLinearLayoutOrientation horizontal.
 	" orientation chaged -> and event is sent "
 	self assert: oriCpt equals: ocpt + 1.
 	self assert: pane isHorizontal.
@@ -294,7 +294,7 @@ TToOrientableTest >> testOrientation [
 ]
 
 { #category : #tests }
-TToOrientableTest >> testRightToLeft [
+TToWithOrientableLayoutTest >> testRightToLeft [
 
 	| dcpt |
 	" to be sure pane is leftToRight"
@@ -316,7 +316,7 @@ TToOrientableTest >> testRightToLeft [
 ]
 
 { #category : #tests }
-TToOrientableTest >> testVertical [
+TToWithOrientableLayoutTest >> testVertical [
 	" to be sure pane is horizontal"
 
 	| ocpt |
@@ -338,7 +338,7 @@ TToOrientableTest >> testVertical [
 ]
 
 { #category : #tests }
-TToOrientableTest >> testVerticalRightToLeft [
+TToWithOrientableLayoutTest >> testVerticalRightToLeft [
 
 	" to be sure pane is leftToRight"
 	pane rightToLeft: true.

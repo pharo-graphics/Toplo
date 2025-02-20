@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAnchoredSameWidthMeasurement,
-	#superclass : #ToElementMeasurement,
+	#superclass : #ToElementCustomMeasurement,
 	#category : #'Toplo-Core-Support'
 }
 

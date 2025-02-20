@@ -9,7 +9,7 @@ ToLabelSkin >> deselectedSkinEvent: anEvent [
 
 	super deselectedSkinEvent: anEvent.
 	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
-	anEvent enabledElementDo: [ :e |
+	anEvent elementDo: [ :e |
 		| to |
 		to := e valueOfTokenNamed: #'color-text'.
 		e foreground: to ]
@@ -50,12 +50,22 @@ ToLabelSkin >> selectedSkinEvent: anEvent [
 
 	super selectedSkinEvent: anEvent.
 	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
-	anEvent enabledElementDo: [ :e |
-		| tokname to |
-		tokname := anEvent focused
-			           ifTrue: [ #'label-selected-focused' ]
-			           ifFalse: [ #'label-selected-unfocused' ].
-		to := e valueOfTokenNamed: tokname.
-		e foreground: to.
+	anEvent elementDo: [ :e |
+		| foreground |
+		anEvent focused
+			ifTrue: [
+				e
+					withStamp: #'label-selected-focused-foreground'
+					do: [ :v | foreground := v ]
+					ifNone: [
+					foreground := e valueOfTokenNamed: #'label-selected-focused' ] ]
+			ifFalse: [
+				e
+					withStamp: #'label-selected-unfocused-foreground'
+					do: [ :v | foreground := v ]
+					ifNone: [
+					foreground := e valueOfTokenNamed: #'label-selected-unfocused' ] ].
+
+		e foreground: foreground.
 		e applyStyle ]
 ]

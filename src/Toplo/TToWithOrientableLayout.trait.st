@@ -6,9 +6,7 @@ Trait {
 { #category : #'t - with orientable layout - direction' }
 TToWithOrientableLayout >> beEndToStart [
 
-	self isEndToStart ifTrue: [ ^ self ].
-	self leftToRight: false.
-	self requestLayout
+	self direction: BlLayoutDirection rightToLeft 
 ]
 
 { #category : #'t - with orientable layout - orientation' }
@@ -20,23 +18,19 @@ TToWithOrientableLayout >> beHorizontal [
 { #category : #'t - with orientable layout - direction' }
 TToWithOrientableLayout >> beLeftToRight [
 
-	self isLeftToRight ifTrue: [ ^ self ].
 	self direction: BlLayoutDirection leftToRight
 ]
 
 { #category : #'t - with orientable layout - direction' }
 TToWithOrientableLayout >> beRightToLeft [
 
-	self isRightToLeft ifTrue: [ ^ self ].
 	self direction: BlLayoutDirection rightToLeft
 ]
 
 { #category : #'t - with orientable layout - direction' }
 TToWithOrientableLayout >> beStartToEnd [
 
-	self isStartToEnd ifTrue: [ ^ self ].
-	self leftToRight: true.
-	self requestLayout
+	self direction: BlLayoutDirection leftToRight
 ]
 
 { #category : #'t - with orientable layout - orientation' }
@@ -48,17 +42,14 @@ TToWithOrientableLayout >> beVertical [
 { #category : #'t - with orientable layout - accessing' }
 TToWithOrientableLayout >> direction [
 
-	^ self layout direction
+	^ self targetLayout direction
 ]
 
 { #category : #'t - with orientable layout - accessing' }
 TToWithOrientableLayout >> direction: aDirection [
 
-	(self layout direction isLeftToRight and: [
-		 aDirection isLeftToRight ]) ifTrue: [ ^ self ].
-	(self layout direction isRightToLeft and: [
-		 aDirection isRightToLeft ]) ifTrue: [ ^ self ].
-	self layout direction: aDirection.
+	self targetLayout direction = aDirection ifTrue: [ ^ self ].
+	self targetLayout direction: aDirection.
 	self dispatchEvent: ToLayoutDirectionChangedEvent new.
 	self requestLayout
 ]
@@ -75,15 +66,15 @@ TToWithOrientableLayout >> horizontal: aBoolean [
 	aBoolean
 		ifTrue: [
 			self isHorizontal ifTrue: [ ^ self ].
-			self layout beHorizontal ]
+			self targetLayout beHorizontal ]
 		ifFalse: [
 			self isVertical ifTrue: [ ^ self ].
-			self layout beVertical ].
+			self targetLayout beVertical ].
 	self dispatchEvent: ToLayoutOrientationChangedEvent new.
 	self requestLayout
 ]
 
-{ #category : #'t - with orientable layout - testing' }
+{ #category : #'t - with orientable layout - direction' }
 TToWithOrientableLayout >> isEndToStart [
 
 	^ self isStartToEnd not
@@ -107,7 +98,7 @@ TToWithOrientableLayout >> isRightToLeft [
 	^ self direction isRightToLeft
 ]
 
-{ #category : #'t - with orientable layout - testing' }
+{ #category : #'t - with orientable layout - direction' }
 TToWithOrientableLayout >> isStartToEnd [
 
 	^ self isLeftToRight
@@ -122,24 +113,22 @@ TToWithOrientableLayout >> isVertical [
 { #category : #'t - with orientable layout - direction' }
 TToWithOrientableLayout >> leftToRight: aBoolean [
 
-	aBoolean = self isLeftToRight ifTrue: [ ^ self ].
-	aBoolean ifTrue: [ self beLeftToRight ] ifFalse: [ self beRightToLeft ]
+	aBoolean
+		ifTrue: [ self beLeftToRight ]
+		ifFalse: [ self beRightToLeft ]
 ]
 
 { #category : #'t - with orientable layout - accessing' }
 TToWithOrientableLayout >> orientation [
 
-	^ self layout orientation
+	^ self targetLayout orientation
 ]
 
 { #category : #'t - with orientable layout - accessing' }
 TToWithOrientableLayout >> orientation: aBlLayoutOrientation [
 
-	(self layout orientation isHorizontal and: [
-		 aBlLayoutOrientation isHorizontal ]) ifTrue: [ ^ self ].
-	(self layout orientation isVertical and: [
-		 aBlLayoutOrientation isVertical ]) ifTrue: [ ^ self ].
-	self layout orientation: aBlLayoutOrientation.
+	self targetLayout orientation = aBlLayoutOrientation ifTrue: [ ^ self ].
+	self targetLayout orientation: aBlLayoutOrientation.
 	self dispatchEvent: ToLayoutOrientationChangedEvent new.
 	self requestLayout
 ]
@@ -147,8 +136,7 @@ TToWithOrientableLayout >> orientation: aBlLayoutOrientation [
 { #category : #'t - with orientable layout - direction' }
 TToWithOrientableLayout >> rightToLeft: aBoolean [
 
-	aBoolean = self isRightToLeft ifTrue: [ ^ self ].
-	aBoolean ifTrue: [ self beRightToLeft ] ifFalse: [ self beLeftToRight ]
+	self leftToRight: aBoolean not
 ]
 
 { #category : #'t - with orientable layout - direction' }
@@ -157,6 +145,12 @@ TToWithOrientableLayout >> startToEnd: aBoolean [
 	aBoolean
 		ifTrue: [ self beStartToEnd ]
 		ifFalse: [ self beEndToStart ]
+]
+
+{ #category : #'t - with orientable layout - accessing' }
+TToWithOrientableLayout >> targetLayout [
+
+	^ self layout
 ]
 
 { #category : #'t - with orientable layout - orientation' }

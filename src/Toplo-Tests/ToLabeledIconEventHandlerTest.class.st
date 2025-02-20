@@ -14,7 +14,7 @@ ToLabeledIconEventHandlerTest >> testDirection [
 	li := ToLabeledIcon new.
 	space root addChild: li.
 
-	li beLeftToRight.
+	li beStartToEnd .
 	li skinManager setSkinInstaller: nil in: li.
 	li direction: BlLayoutDirection rightToLeft.
 	self assert: li skinManager skinInstaller notNil.
@@ -39,23 +39,23 @@ ToLabeledIconEventHandlerTest >> testLayoutDirectionChangedEvent [
 	| li |
 	li := ToLabeledIcon new.
 	space root addChild: li.
-	li beLeftToRight.
-	li beRightToLeft.
+	li beStartToEnd.
+	li beEndToStart.
 	self assert: li skinManager skinInstaller notNil.
 	li skinManager setSkinInstaller: nil in: li.
-	li beLeftToRight.
+	li beStartToEnd.
 	self assert: li skinManager skinInstaller notNil.
 	li skinManager setSkinInstaller: nil in: li.
-	li leftToRight: false.
+	li startToEnd: false.
 	self assert: li skinManager skinInstaller notNil.
 	li skinManager setSkinInstaller: nil in: li.
-	li leftToRight: true.
+	li startToEnd: true.
 	self assert: li skinManager skinInstaller notNil.
 	li skinManager setSkinInstaller: nil in: li.
-	li rightToLeft: true.
+	li endToStart: true.
 	self assert: li skinManager skinInstaller notNil.
 	li skinManager setSkinInstaller: nil in: li.
-	li rightToLeft: false.
+	li endToStart: false.
 	self assert: li skinManager skinInstaller notNil.
 	li skinManager setSkinInstaller: nil in: li
 ]
@@ -93,19 +93,19 @@ ToLabeledIconEventHandlerTest >> testOrientation [
 	| li |
 	li := ToLabeledIcon new.
 	space root addChild: li.
-	li beLeftToRight.
+	li beStartToEnd.
 	li skinManager setSkinInstaller: nil in: li.
-	li orientation: BlLinearLayoutVerticalOrientation new.
+	li orientation: BlLinearLayoutOrientation vertical.
 	self assert: li skinManager skinInstaller notNil.
 	li skinManager setSkinInstaller: nil in: li.
-	li orientation: BlLinearLayoutVerticalOrientation new.
+	li orientation: BlLinearLayoutOrientation vertical.
 	self assert: li skinManager skinInstaller isNil.
 
 	li skinManager setSkinInstaller: nil in: li.
-	li orientation: BlLinearLayoutHorizontalOrientation new.
+	li orientation: BlLinearLayoutOrientation horizontal.
 	self assert: li skinManager skinInstaller notNil.
 	li skinManager setSkinInstaller: nil in: li.
-	li orientation: BlLinearLayoutHorizontalOrientation new.
+	li orientation: BlLinearLayoutOrientation horizontal.
 	self assert: li skinManager skinInstaller isNil
 ]
 

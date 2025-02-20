@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMenuPopupManager,
-	#superclass : #ToPopupManager,
+	#superclass : #ToPopupWindowManager,
 	#category : #'Toplo-Widget-Menu-Window'
 }
 

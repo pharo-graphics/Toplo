@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #accessing }
-ToTreeDataItemClassWrapper >> determineChildren [
+ToTreeDataItemClassWrapper >> computedChildren [
 
 	^ dataItem subclasses asOrderedCollection
 ]

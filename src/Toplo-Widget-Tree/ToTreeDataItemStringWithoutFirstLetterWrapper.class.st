@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #accessing }
-ToTreeDataItemStringWithoutFirstLetterWrapper >> determineChildren [
+ToTreeDataItemStringWithoutFirstLetterWrapper >> computedChildren [
 
 	^ dataItem size = 1
 		  ifFalse: [

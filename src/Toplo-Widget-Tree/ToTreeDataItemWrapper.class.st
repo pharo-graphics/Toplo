@@ -22,10 +22,31 @@ Class {
 	#category : #'Toplo-Widget-Tree-Core'
 }
 
+{ #category : #'private - accessing' }
+ToTreeDataItemWrapper >> childWrappersInterval [
+
+	| idx first last |
+	self children ifEmpty: [ ^ 1 to: 0 ].
+	idx := self position.
+
+	[
+	idx <= dataSource size and: [
+			(dataSource at: idx) parentWrapper = self ] ] whileFalse: [
+		idx := idx + 1 ].
+	first := idx.
+	[
+	idx <= dataSource size and: [
+		(dataSource at: idx) parentWrapper notNil and: [
+			(dataSource at: idx) hasParentWrapper: self ] ] ] whileTrue: [
+		idx := idx + 1 ].
+	last := idx - 1.
+	^ first to: last
+]
+
 { #category : #accessing }
 ToTreeDataItemWrapper >> children [
 
-	^ children ifNil: [ children := self determineChildren collect: [ :each |
+	^ children ifNil: [ children := self computedChildren collect: [ :each |
 		                   self class new
 			                   dataSource: dataSource;
 			                   dataItem: each;
@@ -36,14 +57,23 @@ ToTreeDataItemWrapper >> children [
 { #category : #accessing }
 ToTreeDataItemWrapper >> collapse [
 
+	| childrenInterval |
 	expanded ifFalse: [ ^ self ].
 
-	self flag: 'Hum. not efficient at all, this should be done with one #removeFrom:to:'.
-	self children do: [ :wrapper |
-		wrapper collapse.
-		dataSource remove: wrapper ].
+	childrenInterval := self childWrappersInterval.
+	childrenInterval do: [ :idx |
+		(dataSource at: idx) privateExpanded: false ].
+	dataSource
+		removeFrom: childrenInterval first
+		to: childrenInterval last.
 
 	expanded := false
+]
+
+{ #category : #accessing }
+ToTreeDataItemWrapper >> computedChildren [
+
+	^ OrderedCollection empty
 ]
 
 { #category : #accessing }
@@ -66,13 +96,6 @@ ToTreeDataItemWrapper >> dataSource: aDataSource [
 ]
 
 { #category : #accessing }
-ToTreeDataItemWrapper >> determineChildren [
-
-	self flag: 'Could you find another name :)'.
-	^ OrderedCollection empty.
-]
-
-{ #category : #accessing }
 ToTreeDataItemWrapper >> expand [
 
 	| pos |
@@ -89,6 +112,14 @@ ToTreeDataItemWrapper >> expandAll [
 
 	self expand.
 	self children do: [ :each | each expandAll ]
+]
+
+{ #category : #testing }
+ToTreeDataItemWrapper >> hasParentWrapper: aWrapper [
+
+	parentWrapper ifNil: [ ^ false ].
+	parentWrapper = aWrapper ifTrue: [ ^ true ].
+	^ parentWrapper hasParentWrapper: aWrapper
 ]
 
 { #category : #initialization }
@@ -136,6 +167,12 @@ ToTreeDataItemWrapper >> position [
 	^ dataSource indexOf: self
 ]
 
+{ #category : #testing }
+ToTreeDataItemWrapper >> privateExpanded: aBoolean [
+
+	expanded := aBoolean 
+]
+
 { #category : #operations }
 ToTreeDataItemWrapper >> toggle [
 
@@ -143,7 +180,7 @@ ToTreeDataItemWrapper >> toggle [
 		ifTrue: [ self collapse ]
 		ifFalse: [ self expand ].
 
-	self flag: 'Should use notifyItemsChanged: but we should find a way to not compute the position but keep it in the wrapper (pay attention, it have to be recomputed when extending/collapsing). Have a look at  morphic fast table to see how the do that'
+	self flag: 'Should use notifyItemsChanged: but we should find a way to not compute the position but keep it in the wrapper (pay attention, it have to be recomputed when extending/collapsing). Have a look at  morphic fast table to see how the do that'.
 	"dataSource notifyItemsChanged: (self position to: self position)."
 	dataSource notifyChanged
 ]

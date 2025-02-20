@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #accessing }
-ToTreeDataItemPreviousIntegerWrapper >> determineChildren [
+ToTreeDataItemPreviousIntegerWrapper >> computedChildren [
 
 	^ dataItem = 1
 		  ifTrue: [ {} ]

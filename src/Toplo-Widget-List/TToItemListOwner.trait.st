@@ -45,6 +45,18 @@ TToItemListOwner >> addItem: anItem beforeIndex: anInteger [
 ]
 
 { #category : #'t - item list owner - accessing' }
+TToItemListOwner >> autoDistribute [
+
+	^ self itemBar autoDistribute
+]
+
+{ #category : #'t - item list owner - accessing' }
+TToItemListOwner >> autoDistribute: aBoolean [
+
+	self itemBar autoDistribute: aBoolean
+]
+
+{ #category : #'t - item list owner - accessing' }
 TToItemListOwner >> dataAccessor [
 
 	^ self itemBar dataAccessor
@@ -114,6 +126,30 @@ TToItemListOwner >> hasItems [
 	^ self items notEmpty
 ]
 
+{ #category : #'t - item list owner - accessing' }
+TToItemListOwner >> hasUniformNodeHeight [
+
+	^ self itemBar hasUniformNodeHeight
+]
+
+{ #category : #'t - item list owner - accessing' }
+TToItemListOwner >> hasUniformNodeHeight: aBoolean [
+
+	self itemBar hasUniformNodeHeight: aBoolean
+]
+
+{ #category : #'t - item list owner - accessing' }
+TToItemListOwner >> hasUniformNodeWidth [
+
+	^ self itemBar hasUniformNodeWidth
+]
+
+{ #category : #'t - item list owner - accessing' }
+TToItemListOwner >> hasUniformNodeWidth: aBoolean [
+
+	self itemBar hasUniformNodeWidth: aBoolean
+]
+
 { #category : #'t - item list owner - hidden/visible' }
 TToItemListOwner >> hiddenAtPosition: anInteger [
 
@@ -147,33 +183,29 @@ TToItemListOwner >> isItemContainer [
 ]
 
 { #category : #'t - item list owner - accessing' }
-TToItemListOwner >> isNodeAutoDistribution [
+TToItemListOwner >> isScrolling [
 
-	^ self itemBar isNodeAutoDistribution
+	^ self itemBar isScrolling
 ]
 
 { #category : #'t - item list owner - accessing' }
-TToItemListOwner >> isNodeScrolling [
+TToItemListOwner >> isScrolling: aBoolean [
 
-	^ self itemBar isNodeScrolling
+	self itemBar isScrolling: aBoolean.
+	self requestNewSkin
 ]
 
 { #category : #'t - item list owner - accessing' }
-TToItemListOwner >> isNodeWrapping [
+TToItemListOwner >> isWrapping [
 
-	^ self itemBar isNodeWrapping
+	^ self itemBar isWrapping
 ]
 
 { #category : #'t - item list owner - accessing' }
-TToItemListOwner >> isUniformNodeHeight [
+TToItemListOwner >> isWrapping: aBoolean [
 
-	^ self itemBar isUniformNodeHeight
-]
-
-{ #category : #'t - item list owner - accessing' }
-TToItemListOwner >> isUniformNodeWidth [
-
-	^ self itemBar isUniformNodeWidth
+	self itemBar isWrapping: aBoolean.
+	self requestNewSkin
 ]
 
 { #category : #'t - item list owner - accessing' }
@@ -202,27 +234,6 @@ TToItemListOwner >> items [
 TToItemListOwner >> newItemBar [
 
 	^ ToItemBarElement new
-]
-
-{ #category : #'t - item list owner - accessing' }
-TToItemListOwner >> nodeAutoDistribution: aBoolean [
-
-	self itemBar nodeAutoDistribution: aBoolean.
-	self configureLayout
-]
-
-{ #category : #'t - item list owner - accessing' }
-TToItemListOwner >> nodeScrolling: aBoolean [
-
-	self itemBar nodeScrolling: aBoolean.
-	self configureLayout
-]
-
-{ #category : #'t - item list owner - accessing' }
-TToItemListOwner >> nodeWrapping: aBoolean [
-
-	self itemBar nodeWrapping: aBoolean.
-	self configureLayout
 ]
 
 { #category : #'t - item list owner - double dispatch' }
@@ -335,20 +346,6 @@ TToItemListOwner >> selectionModel [
 TToItemListOwner >> selectionOption [
 
 	^ self itemBar selectionOption
-]
-
-{ #category : #'t - item list owner - accessing' }
-TToItemListOwner >> uniformNodeHeight: aBoolean [
-
-	self itemBar uniformNodeHeight: aBoolean.
-	self configureLayout
-]
-
-{ #category : #'t - item list owner - accessing' }
-TToItemListOwner >> uniformNodeWidth: aBoolean [
-
-	self itemBar uniformNodeWidth: aBoolean.
-	self configureLayout
 ]
 
 { #category : #'t - item list owner - unselectable/selectable' }

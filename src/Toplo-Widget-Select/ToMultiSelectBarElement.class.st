@@ -95,31 +95,6 @@ ToMultiSelectBarElement >> filterTextField: aTextField [
 	filterTextField := aTextField 
 ]
 
-{ #category : #layout }
-ToMultiSelectBarElement >> haveInvisibleNodes: theInvisibleNodes [
-
-	| visibleNodes invisibleNodes composite finalCount |
-	" in case of composite node at first it means that 
-	there is no more visible node to cumulate in a composite node"
-	self nodes size = 1 ifTrue: [ ^ self ].
-
-	visibleNodes := self nodesSelect: [ :n | n isFullyVisible ].
-	invisibleNodes := theInvisibleNodes copy.
-	visibleNodes ifNotEmpty: [
-		invisibleNodes := theInvisibleNodes copyWith: visibleNodes last.
-		visibleNodes := visibleNodes copyWithout: visibleNodes last ].
-	" now cumulate invisible nodes in a composite tag model "
-	composite := ToCompositeTag new.
-	composite items: (Array streamContents: [ :stream |
-			 invisibleNodes do: [ :n |
-				 stream nextPutAll: n holder dataItem items ] ]).
-	finalCount := self nodesCount - visibleNodes size.
-	composite content: '+ ' , finalCount asString , ' ...'.
-	invisibleNodes do: [ :node |
-		self dataAccessor removeAt: node holder position ].
-	self dataAccessor add: composite
-]
-
 { #category : #initialization }
 ToMultiSelectBarElement >> initialize [
 
@@ -165,6 +140,31 @@ ToMultiSelectBarElement >> maxSelectedCount: aNumber [
 
 	maxSelectedCount := aNumber.
 	self refreshFromPopupListSelection
+]
+
+{ #category : #'t - bar element' }
+ToMultiSelectBarElement >> onInvisibleNodes: theInvisibleNodes [
+
+	| visibleNodes invisibleNodes composite finalCount |
+	" in case of composite node at first it means that 
+	there is no more visible node to cumulate in a composite node"
+	self nodes size = 1 ifTrue: [ ^ self ].
+
+	visibleNodes := self nodesSelect: [ :n | n isFullyVisible ].
+	invisibleNodes := theInvisibleNodes copy.
+	visibleNodes ifNotEmpty: [
+		invisibleNodes := theInvisibleNodes copyWith: visibleNodes last.
+		visibleNodes := visibleNodes copyWithout: visibleNodes last ].
+	" now cumulate invisible nodes in a composite tag model "
+	composite := ToCompositeTag new.
+	composite items: (Array streamContents: [ :stream |
+			 invisibleNodes do: [ :n |
+				 stream nextPutAll: n holder dataItem items ] ]).
+	finalCount := self nodesCount - visibleNodes size.
+	composite content: '+ ' , finalCount asString , ' ...'.
+	invisibleNodes do: [ :node |
+		self dataAccessor removeAt: node holder position ].
+	self dataAccessor add: composite
 ]
 
 { #category : #accessing }

@@ -20,6 +20,12 @@ ToMultiSelectElement >> addGroup: anObject withData: aCollection [
 ]
 
 { #category : #accessing }
+ToMultiSelectElement >> autoDistribute: aBoolean [
+
+	self innerElement autoDistribute: aBoolean
+]
+
+{ #category : #accessing }
 ToMultiSelectElement >> barElement [ 
 
 	^ self innerElement
@@ -75,6 +81,18 @@ ToMultiSelectElement >> innerElementClass [
 ]
 
 { #category : #accessing }
+ToMultiSelectElement >> isScrolling: aBoolean [
+
+	self innerElement isScrolling: aBoolean
+]
+
+{ #category : #accessing }
+ToMultiSelectElement >> isWrapping: aBoolean [
+
+	self innerElement isWrapping: aBoolean
+]
+
+{ #category : #accessing }
 ToMultiSelectElement >> keepPickOrder: aBoolean [
 
 	self innerElement keepPickOrder: aBoolean
@@ -107,28 +125,10 @@ ToMultiSelectElement >> newRawSkin [
 ]
 
 { #category : #accessing }
-ToMultiSelectElement >> nodeAutoDistribution: aBoolean [
-
-	self innerElement nodeAutoDistribution: aBoolean
-]
-
-{ #category : #accessing }
 ToMultiSelectElement >> nodeBuilder: aValuable [
 	"aValuable takes 3 optional args: first, the node to build, second, the dataItem and third, the holder in the list element "
 
 	self innerElement nodeBuilder: aValuable
-]
-
-{ #category : #accessing }
-ToMultiSelectElement >> nodeScrolling: aBoolean [
-
-	self innerElement nodeScrolling: aBoolean
-]
-
-{ #category : #accessing }
-ToMultiSelectElement >> nodeWrapping: aBoolean [
-
-	self innerElement nodeWrapping: aBoolean
 ]
 
 { #category : #'accessing - selection' }

@@ -76,8 +76,8 @@ ToMenuPane >> initialize [
 	self layout: BlLinearLayout horizontal.
 	self addEventHandler: ToMenuPaneEventHandler new.
 	self addChild: self itemBar.
-	self nodeWrapping: false.
-	self uniformNodeWidth: false.
+	self isWrapping: false.
+	self hasUniformNodeWidth: false.
 	self beHorizontal
 ]
 

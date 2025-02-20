@@ -133,18 +133,18 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 		                          'Uniform Node width'.
 	uniformNodeWidthSwitch startFlexible: true.
 	uniformNodeWidthSwitch hMatchParent.
-	uniformNodeWidthSwitch checked: aBar isUniformNodeWidth.
+	uniformNodeWidthSwitch checked: aBar hasUniformNodeWidth.
 	confPane addChild: uniformNodeWidthSwitch.
 	uniformNodeHeightSwitch := ToSwitchButton new labelText:
 		                          'Uniform Node height'.
 	uniformNodeHeightSwitch startFlexible: true.
 	uniformNodeHeightSwitch hMatchParent.
-	uniformNodeHeightSwitch checked: aBar isUniformNodeHeight.
+	uniformNodeHeightSwitch checked: aBar hasUniformNodeHeight.
 	confPane addChild: uniformNodeHeightSwitch.
 
 	scrollingSwitch := ToSwitchButton new labelText: 'Scrolling'.
 	scrollingSwitch startFlexible: true.
-	scrollingSwitch checked: aBar isNodeScrolling.
+	scrollingSwitch checked: aBar isScrolling.
 	scrollingSwitch hMatchParent.
 
 	confPane addChild: scrollingSwitch.
@@ -152,7 +152,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	wrappingSwitch whenClickedDo: [ :event |
 		| v |
 		v := event current.
-		aBar nodeWrapping: v.
+		aBar isWrapping: v.
 		uniformNodeWidthSwitch enabled: v.
 		uniformNodeHeightSwitch enabled: v.
 		scrollingSwitch disabled: v ].
@@ -160,27 +160,27 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	uniformNodeWidthSwitch whenClickedDo: [ :event |
 		| v |
 		v := event current.
-		aBar uniformNodeWidth: v ].
+		aBar hasUniformNodeWidth: v ].
 	uniformNodeHeightSwitch whenClickedDo: [ :event |
 		| v |
 		v := event current.
-		aBar uniformNodeHeight: v ].
+		aBar hasUniformNodeHeight: v ].
 
 	scrollingSwitch whenClickedDo: [ :event |
 		| v |
 		v := event current.
-		aBar nodeScrolling: v ].
+		aBar isScrolling: v ].
 
 	autoDistributionSwitch := ToSwitchButton new labelText:
 		                          'Auto-distribution'.
 	autoDistributionSwitch startFlexible: true.
 	autoDistributionSwitch hMatchParent.
-	autoDistributionSwitch checked: aBar isNodeAutoDistribution.
+	autoDistributionSwitch checked: aBar autoDistribute.
 	confPane addChild: autoDistributionSwitch.
 	autoDistributionSwitch whenClickedDo: [ :event |
 		| v |
 		v := event current.
-		aBar nodeAutoDistribution: v ].
+		aBar autoDistribute: v ].
 
 	selectionAnimationSwitch := ToSwitchButton new labelText:
 		                            'Animate selection transition'.
@@ -199,7 +199,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 				 ifTrue: [ 150 milliSeconds ]
 				 ifFalse: [ 0 milliSeconds ]) ].
 
-	wrappingSwitch checked: aBar isNodeWrapping.
+	wrappingSwitch checked: aBar isWrapping.
 
 	selectOnPressedSwitch := ToSwitchButton new
 		                           labelText: 'Select on node pressed';
@@ -2543,7 +2543,7 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 	| select space |
 	select := ToMultiSelectElement new.
 
-	select nodeWrapping: false.
+	select isWrapping: false.
 	select keepPickOrder: true.
 	
 	self
@@ -2635,7 +2635,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 		addEventHandlerOn: ToSelectChangedEvent
 		do: [ :event | event selectedIndexes traceCr ].
 
-	select nodeWrapping: true.
+	select isWrapping: true.
 	select keepPickOrder: true.
 	select popupListElement selectionOption grouped: false.
 	select popupListElement selectionOption beneath: false.
@@ -2693,9 +2693,9 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistribution [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
-	select nodeWrapping: false.
+	select isWrapping: false.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
-	select nodeAutoDistribution: true.
+	select autoDistribute: true.
 
 	select filtrable: true.
 	select popupMaxHeight: 200.
@@ -2715,8 +2715,8 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistributionWithMax [
 	| select innerWindow |
 	select := ToMultiSelectElement new.
 	select maxSelectedCount: 4.
-	select nodeWrapping: false.
-	select nodeAutoDistribution: true.
+	select isWrapping: false.
+	select autoDistribute: true.
 	select hideSelected: false.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select filtrable: true.
@@ -2737,7 +2737,7 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrapping [
 	| select innerWindow |
 	select := ToMultiSelectElement new.
 	select maxSelectedCount: 6.
-	select nodeWrapping: false.
+	select isWrapping: false.
 	select hideSelected: false.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select sample: 'X'.
@@ -2759,7 +2759,7 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrappingKeepPickOrder [
 	| select innerWindow |
 	select := ToMultiSelectElement new.
 	select keepPickOrder: true.
-	select nodeWrapping: false.
+	select isWrapping: false.
 	select hideSelected: false.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select filtrable: true.
@@ -2779,8 +2779,8 @@ ToSandBox class >> example_SelectMultiFiltrableNotWrappingAutoDistribution [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
-	select nodeWrapping: false.
-	select nodeAutoDistribution: true.
+	select isWrapping: false.
+	select autoDistribute: true.
 	select hideSelected: false.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select filtrable: true.
@@ -2800,8 +2800,8 @@ ToSandBox class >> example_SelectMultiFiltrableScrolling [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
-	select nodeScrolling: true.
-	select nodeWrapping: false.
+	select isScrolling: true.
+	select isWrapping: false.
 	select hideSelected: false.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select filtrable: true.
@@ -2875,8 +2875,8 @@ ToSandBox class >> example_SelectMultiFiltrableWrappingAutoDistribution [
 	| select innerWindow |
 	select := ToMultiSelectElement new.
 	"select maxSelectedCount: 6."
-	select nodeWrapping: true.
-	select nodeAutoDistribution: true.
+	select isWrapping: true.
+	select autoDistribute: true.
 	select hideSelected: false.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select filtrable: true.
@@ -2898,7 +2898,7 @@ ToSandBox class >> example_SelectMultiNotFiltrable [
 	select := ToMultiSelectElement new.
 	select maxSelectedCount: 4.
 	select filtrable: false.
-	select nodeWrapping: true.
+	select isWrapping: true.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
@@ -3364,8 +3364,9 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 { #category : #tag }
 ToSandBox class >> example_TabsElement [
 
-	| tabs dashBoard rootPane feedbackPane maj |
+	| tabs dashBoard |
 	tabs := ToTabsElement new.
+	tabs isWrapping: false.
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		tabs addItem: (ToTabItemElement new
@@ -3373,41 +3374,26 @@ ToSandBox class >> example_TabsElement [
 				 yourself) ].
 
 	(tabs items at: 2) disable.
-	dashBoard := self tabBarDashBoardFor: tabs.
+	dashBoard := self tabsElementDashBoardFor: tabs.
 
-	feedbackPane := ToPane horizontal.
-	feedbackPane layout alignCenter.
-	maj := [
-	       | t |
-	       feedbackPane removeChildren.
-	       t := String streamContents: [ :stream |
-		            tabs dataAccessor withIndexDo: [ :e :idx |
-			            stream
-				            nextPutAll: e middleElement text asString;
-				            nextPutAll: ': '.
-			            (tabs selectionModel containsIndex: idx)
-				            ifTrue: [ stream nextPutAll: 'V ' ]
-				            ifFalse: [ stream nextPutAll: 'X ' ].
-			            stream nextPutAll: e checked asString.
-			            stream nextPutAll: ' '.
-			            idx < tabs dataAccessor itemCount ifTrue: [
-				            stream nextPutAll: '- ' ] ] ].
-	       feedbackPane addChild: (ToLabel text: t) ].
+	dashBoard openInSpace
+]
 
-	tabs addEventHandler: (BlEventHandler
-			 on: ToListStrongSelectionEvent
-			 do: [ :event |
-				 ' double click ' trace.
-				 event indexes traceCr ]).
+{ #category : #tag }
+ToSandBox class >> example_TabsElement2 [
 
-	tabs addEventHandlerOn: ToListPrimarySelectionChangedEvent do: maj.
-	tabs addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.
-	rootPane := ToPane vertical.
-	rootPane matchParent.
-	rootPane addChildren: {
-			dashBoard.
-			feedbackPane }.
-	rootPane openInSpace
+	| tabs dashBoard |
+	tabs := ToTabsElement new.
+
+	self statesOfAmerica do: [ :l |
+		tabs addItem: (ToTabItemElement new
+				 middleElement: (ToLabel text: l) preventSelectionSkinEvents;
+				 yourself) ].
+
+	(tabs items at: 2) disable.
+	dashBoard := self tabsElementDashBoardFor: tabs.
+
+	dashBoard openInSpace
 ]
 
 { #category : #tag }
@@ -5163,7 +5149,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 	bar := ToMenuPane new
 		       hMatchParent;
 		       vFitContent.
-	bar nodeWrapping: false.
+	bar isWrapping: false.
 	bar itemBar hMatchParent.
 
 	bar addItem: (ToCustomMenuItem new in: [ :e |
@@ -5596,7 +5582,7 @@ ToSandBox class >> example_subMenuPaneVertical [
 	| topMenuBar |
 	topMenuBar := ToMenuPane new.
 	topMenuBar beVertical.
-	topMenuBar nodeWrapping: false.
+	topMenuBar isWrapping: false.
 	
 	3 timesRepeat: [
 		| mb |
@@ -8287,9 +8273,9 @@ ToSandBox class >> subsubsubTabPane [
 ]
 
 { #category : #tag }
-ToSandBox class >> tabBarDashBoardFor: aTabsElement [
+ToSandBox class >> tabsElementDashBoardFor: aTabsElement [
 
-	| mainPane barPane confPane checkingStrategyPane startToEndSwitch |
+	| mainPane barPane confPane checkingStrategyPane startToEndSwitch feedbackPane maj rootPane |
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
 
@@ -8316,12 +8302,51 @@ ToSandBox class >> tabBarDashBoardFor: aTabsElement [
 	checkingStrategyPane := self checkingStrategyChooserFor: aTabsElement.
 	confPane addChild: checkingStrategyPane.
 
+	feedbackPane := ToPane horizontal.
+	feedbackPane layout alignCenter.
+	maj := [
+	       | t |
+	       feedbackPane removeChildren.
+	       t := String streamContents: [ :stream |
+		            aTabsElement dataAccessor withIndexDo: [ :e :idx |
+			            stream
+				            nextPutAll: e middleElement text asString;
+				            nextPutAll: ': '.
+			            (aTabsElement selectionModel containsIndex: idx)
+				            ifTrue: [ stream nextPutAll: 'V ' ]
+				            ifFalse: [ stream nextPutAll: 'X ' ].
+			            stream nextPutAll: e checked asString.
+			            stream nextPutAll: ' '.
+			            idx < aTabsElement dataAccessor itemCount ifTrue: [
+				            stream nextPutAll: '- ' ] ] ].
+	       feedbackPane addChild: (ToLabel text: t) ].
+
+	aTabsElement addEventHandler: (BlEventHandler
+			 on: ToListStrongSelectionEvent
+			 do: [ :event |
+				 ' double click ' trace.
+				 event indexes traceCr ]).
+
+	aTabsElement
+		addEventHandlerOn: ToListPrimarySelectionChangedEvent
+		do: maj.
+	aTabsElement
+		addEventHandlerOn: BlElementAddedToSceneGraphEvent
+		do: maj.
+
 	mainPane addChildren: {
 			confPane.
 			barPane }.
 	barPane addChild: aTabsElement.
 
-	^ mainPane
+	rootPane := ToPane vertical.
+	rootPane matchParent.
+	rootPane addChildren: {
+			mainPane.
+			feedbackPane }.
+
+
+	^ rootPane
 ]
 
 { #category : #select }

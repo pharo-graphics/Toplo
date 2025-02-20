@@ -11,6 +11,22 @@ Trait {
 }
 
 { #category : #'t - bar element' }
+TToBarElement >> autoDistribute [
+
+	^ nodeAutoDistribution ifNil: [ nodeAutoDistribution := false ] 
+]
+
+{ #category : #'t - bar element' }
+TToBarElement >> autoDistribute: aBoolean [
+
+	nodeAutoDistribution = aBoolean ifTrue: [ ^ self ].
+	nodeAutoDistribution := aBoolean.
+	" notify dataSource changed to renew all nodes "
+	self notifyDataSourceChanged.
+	self configureLayout
+]
+
+{ #category : #'t - bar element' }
 TToBarElement >> checkFullyVisibleNodes [ 
 
 	self innerElement checkFullyVisibleNodes 
@@ -29,9 +45,33 @@ TToBarElement >> fakeNode [
 ]
 
 { #category : #'t - bar element' }
-TToBarElement >> haveInvisibleNodes: aCollection [
+TToBarElement >> hasUniformNodeHeight [
 
-	
+	^ uniformNodeHeight ifNil: [ uniformNodeHeight := false ]
+]
+
+{ #category : #'t - bar element' }
+TToBarElement >> hasUniformNodeHeight: aBoolean [
+
+	uniformNodeHeight := aBoolean.
+	self configureLayout.
+	self notifyDataSourceChanged
+
+]
+
+{ #category : #'t - bar element' }
+TToBarElement >> hasUniformNodeWidth [
+
+	^ uniformNodeWidth ifNil: [ uniformNodeWidth := false ]
+]
+
+{ #category : #'t - bar element' }
+TToBarElement >> hasUniformNodeWidth: aBoolean [
+
+	uniformNodeWidth := aBoolean.
+	self configureLayout.
+	self notifyDataSourceChanged
+
 ]
 
 { #category : #'t - bar element' }
@@ -41,75 +81,37 @@ TToBarElement >> installFakeNode [
 ]
 
 { #category : #'t - bar element' }
-TToBarElement >> isNodeAutoDistribution [
-
-	^ self nodeAutoDistribution
-]
-
-{ #category : #'t - bar element' }
-TToBarElement >> isNodeScrolling [
-
-	^ self nodeScrolling 
-]
-
-{ #category : #'t - bar element' }
-TToBarElement >> isNodeWrapping [
-
-	^ self nodeWrapping 
-]
-
-{ #category : #'t - bar element' }
-TToBarElement >> isUniformNodeHeight [
-
-	^ self uniformNodeHeight
-]
-
-{ #category : #'t - bar element' }
-TToBarElement >> isUniformNodeWidth [
-
-	^ self uniformNodeWidth 
-]
-
-{ #category : #'t - bar element' }
-TToBarElement >> nodeAutoDistribution [
-
-	^ nodeAutoDistribution ifNil: [ nodeAutoDistribution := false ] 
-]
-
-{ #category : #'t - bar element' }
-TToBarElement >> nodeAutoDistribution: aBoolean [
-
-	nodeAutoDistribution = aBoolean ifTrue: [ ^ self ].
-	nodeAutoDistribution := aBoolean.
-	" notify dataSource changed to renew all nodes "
-	self notifyDataSourceChanged.
-	self configureLayout
-]
-
-{ #category : #'t - bar element' }
-TToBarElement >> nodeScrolling [
+TToBarElement >> isScrolling [
 
 	^ nodeScrolling ifNil: [ nodeScrolling := false ]
 ]
 
 { #category : #'t - bar element' }
-TToBarElement >> nodeScrolling: aBoolean [
+TToBarElement >> isScrolling: aBoolean [
 
 	nodeScrolling := aBoolean.
-	self configureLayout
+	self configureLayout.
+	self requestNewSkin
 ]
 
 { #category : #'t - bar element' }
-TToBarElement >> nodeWrapping [
+TToBarElement >> isWrapping [
 
 	^ nodeWrapping ifNil: [ nodeWrapping := true ]
 ]
 
 { #category : #'t - bar element' }
-TToBarElement >> nodeWrapping: aBoolean [
+TToBarElement >> isWrapping: aBoolean [
 
 	nodeWrapping := aBoolean.
-	self configureLayout
+	self configureLayout.
+	self requestNewSkin
+]
+
+{ #category : #'t - bar element' }
+TToBarElement >> onInvisibleNodes: aCollection [
+
+	
 ]
 
 { #category : #'t - bar element' }
@@ -126,36 +128,6 @@ TToBarElement >> sample: aDataItem [
 	self reinstallFakeNode.
 	self requestLayout
 	
-]
-
-{ #category : #'t - bar element' }
-TToBarElement >> uniformNodeHeight [
-
-	^ uniformNodeHeight ifNil: [ uniformNodeHeight := false ]
-]
-
-{ #category : #'t - bar element' }
-TToBarElement >> uniformNodeHeight: aBoolean [
-
-	uniformNodeHeight := aBoolean.
-	self configureLayout.
-	self notifyDataSourceChanged
-
-]
-
-{ #category : #'t - bar element' }
-TToBarElement >> uniformNodeWidth [
-
-	^ uniformNodeWidth ifNil: [ uniformNodeWidth := false ]
-]
-
-{ #category : #'t - bar element' }
-TToBarElement >> uniformNodeWidth: aBoolean [
-
-	uniformNodeWidth := aBoolean.
-	self configureLayout.
-	self notifyDataSourceChanged
-
 ]
 
 { #category : #'t - bar element' }

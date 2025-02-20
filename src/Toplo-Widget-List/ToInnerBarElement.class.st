@@ -58,7 +58,7 @@ ToInnerBarElement >> checkFullyVisibleNodes [
 ToInnerBarElement >> configureLayoutIn: aBarElement [
 
 	self matchParent.
-	aBarElement isNodeWrapping
+	aBarElement isWrapping
 		ifTrue: [
 			aBarElement isVertical
 				ifTrue: [

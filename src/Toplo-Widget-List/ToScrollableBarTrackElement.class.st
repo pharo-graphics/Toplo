@@ -38,6 +38,12 @@ ToScrollableBarTrackElement >> artlyVisibleNodesSelect: aBlock [
 			  (aBlock value: node) ifTrue: [ stream nextPut: node ] ] ]
 ]
 
+{ #category : #testing }
+ToScrollableBarTrackElement >> autoDistribute [
+
+	^ nodeAutoDistribution
+]
+
 { #category : #layout }
 ToScrollableBarTrackElement >> checkFullyVisibleNodesIn: aListElement [
 
@@ -47,17 +53,17 @@ ToScrollableBarTrackElement >> checkFullyVisibleNodesIn: aListElement [
 	nodeAutoDistribution ifTrue: [ ^ self ].
 	invisibleNodes := self nodesSelect: [ :n | n isFullyVisible not ].
 	invisibleNodes ifEmpty: [ ^ self ].
-	aListElement haveInvisibleNodes: invisibleNodes
+	aListElement onInvisibleNodes: invisibleNodes
 ]
 
 { #category : #layout }
 ToScrollableBarTrackElement >> configureLayoutIn: aBarElement [
 
-	nodeScrolling := aBarElement isNodeScrolling.
-	nodeWrapping := aBarElement isNodeWrapping.
-	nodeAutoDistribution := aBarElement isNodeAutoDistribution.
-	flowLineUniformWidth := aBarElement isUniformNodeWidth.
-	flowLineUniformHeight := aBarElement isUniformNodeHeight.
+	nodeScrolling := aBarElement isScrolling.
+	nodeWrapping := aBarElement isWrapping.
+	nodeAutoDistribution := aBarElement autoDistribute.
+	flowLineUniformWidth := aBarElement hasUniformNodeWidth.
+	flowLineUniformHeight := aBarElement hasUniformNodeHeight.
 	horizontal := aBarElement isHorizontal.
 
 	self layout: (self newLayoutStrategyIn: aBarElement).
@@ -137,19 +143,13 @@ ToScrollableBarTrackElement >> isHorizontal [
 ]
 
 { #category : #testing }
-ToScrollableBarTrackElement >> isNodeAutoDistribution [
-
-	^ nodeAutoDistribution
-]
-
-{ #category : #testing }
-ToScrollableBarTrackElement >> isNodeScrolling [
+ToScrollableBarTrackElement >> isScrolling [
 
 	^ nodeScrolling
 ]
 
 { #category : #testing }
-ToScrollableBarTrackElement >> isNodeWrapping [
+ToScrollableBarTrackElement >> isWrapping [
 
 	^ nodeWrapping
 ]
@@ -160,8 +160,8 @@ ToScrollableBarTrackElement >> newFlowLayoutIn: aBarElement [
 	^ (horizontal
 		   ifTrue: [ self flowLayoutClass horizontal ]
 		   ifFalse: [ self flowLayoutClass vertical ])
-		  uniformNodeWidth: flowLineUniformWidth;
-		  uniformNodeHeight: flowLineUniformHeight;
+		  hasUniformNodeWidth: flowLineUniformWidth;
+		  hasUniformNodeHeight: flowLineUniformHeight;
 		  yourself
 ]
 

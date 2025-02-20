@@ -10,6 +10,30 @@ Class {
 	#category : #'Toplo-Widget-List-InnerBar'
 }
 
+{ #category : #accessing }
+ToBarFlowLayout >> hasUniformNodeHeight [
+
+	^ uniformNodeHeight 
+]
+
+{ #category : #accessing }
+ToBarFlowLayout >> hasUniformNodeHeight: aBoolean [
+	" an option that set the same width to all elements of a line "
+	uniformNodeHeight := aBoolean
+]
+
+{ #category : #accessing }
+ToBarFlowLayout >> hasUniformNodeWidth [
+
+	^ uniformNodeWidth 
+]
+
+{ #category : #accessing }
+ToBarFlowLayout >> hasUniformNodeWidth: aBoolean [
+	" an option that set the same width to all elements of a line "
+	uniformNodeWidth := aBoolean
+]
+
 { #category : #initialization }
 ToBarFlowLayout >> initialize [ 
 
@@ -46,28 +70,4 @@ ToBarFlowLayout >> minNodeWidth: aNumber [
 ToBarFlowLayout >> newMeasurer [ 
 
 	^ ToBarFlowLayoutMeasurer for: self
-]
-
-{ #category : #accessing }
-ToBarFlowLayout >> uniformNodeHeight [
-
-	^ uniformNodeHeight 
-]
-
-{ #category : #accessing }
-ToBarFlowLayout >> uniformNodeHeight: aBoolean [
-	" an option that set the same width to all elements of a line "
-	uniformNodeHeight := aBoolean
-]
-
-{ #category : #accessing }
-ToBarFlowLayout >> uniformNodeWidth [
-
-	^ uniformNodeWidth 
-]
-
-{ #category : #accessing }
-ToBarFlowLayout >> uniformNodeWidth: aBoolean [
-	" an option that set the same width to all elements of a line "
-	uniformNodeWidth := aBoolean
 ]

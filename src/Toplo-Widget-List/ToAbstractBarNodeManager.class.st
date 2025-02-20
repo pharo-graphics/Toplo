@@ -23,7 +23,7 @@ ToAbstractBarNodeManager >> constraintNode: aNode [
 
 	| bar |
 	bar := aNode holder listElement.
-	bar nodeWrapping
+	bar isWrapping
 		ifFalse: [
 			bar isVertical
 				ifTrue: [
@@ -42,9 +42,9 @@ ToAbstractBarNodeManager >> constraintNode: aNode [
 		c linear vertical alignCenter.
 		c flow vertical alignCenter ].
 
-	bar nodeWrapping ifTrue: [ ^ self ].
-	bar nodeScrolling ifTrue: [ ^ self ].
-	bar nodeAutoDistribution ifFalse: [ ^ self ].
+	bar isWrapping ifTrue: [ ^ self ].
+	bar isScrolling ifTrue: [ ^ self ].
+	bar autoDistribute ifFalse: [ ^ self ].
 	
 	bar isHorizontal
 		ifTrue: [ aNode hMatchParent ]

@@ -10,6 +10,19 @@ Class {
 	#category : #'Toplo-Widget-Tag-Tab'
 }
 
+{ #category : #'accessing - orientation' }
+ToTabsElement >> configurationChanged [
+
+	self itemBar horizontal: isHorizontal.
+	isHorizontal
+		ifTrue: [ self layout beVertical ]
+		ifFalse: [ self layout beHorizontal ].
+	isStartToEnd
+		ifTrue: [ self layout direction: BlLayoutDirection leftToRight ]
+		ifFalse: [ self layout direction: BlLayoutDirection rightToLeft ].
+	self requestNewSkin
+]
+
 { #category : #initialization }
 ToTabsElement >> configureLayout [
 
@@ -51,7 +64,7 @@ ToTabsElement >> horizontal: aBoolean [
 
 	isHorizontal = aBoolean ifTrue: [ ^ self ].
 	isHorizontal := aBoolean.
-	self orientationChanged
+	self configurationChanged
 ]
 
 { #category : #initialization }
@@ -106,24 +119,11 @@ ToTabsElement >> newRawSkin [
 ]
 
 { #category : #'accessing - orientation' }
-ToTabsElement >> orientationChanged [
-
-	self itemBar horizontal: isHorizontal.
-	isHorizontal
-		ifTrue: [ self layout beVertical ]
-		ifFalse: [ self layout beHorizontal ].
-	isStartToEnd
-		ifTrue: [ self layout direction: BlLayoutDirection leftToRight ]
-		ifFalse: [ self layout direction: BlLayoutDirection rightToLeft ].
-	self requestNewSkin
-]
-
-{ #category : #'accessing - orientation' }
 ToTabsElement >> startToEnd: aBoolean [
 
 	isStartToEnd = aBoolean ifTrue: [ ^ self ].
 	isStartToEnd := aBoolean.
-	self orientationChanged
+	self configurationChanged
 ]
 
 { #category : #'accessing - orientation' }

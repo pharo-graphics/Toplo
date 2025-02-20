@@ -26,7 +26,6 @@ ToListSelectionWithElementOption >> addSelectionElements: aSelectionElementArray
 ToListSelectionWithElementOption >> addSelectionElementsIn: aListElement startingAt: aPosition [
 
 	| elements |
-	self checkSelectionContainerIn: aListElement.
 	elements := Array streamContents: [ :stream |
 		            aPosition to: currentSelectionRepresentations size do: [ :p |
 			            stream nextPut:
@@ -45,6 +44,8 @@ ToListSelectionWithElementOption >> addSelectionIn: aListElement [
 
 	| first finalBounds startBounds animation |
 	currentSelectionRepresentations ifEmpty: [ ^ self ].
+	self checkSelectionContainerIn: aListElement.
+
 	currentSelectionRepresentations do: [ :grp |
 		grp refreshSelectionElementIn: aListElement option: self ].
 
@@ -66,7 +67,6 @@ ToListSelectionWithElementOption >> addSelectionIn: aListElement [
 	first size: finalBounds extent.
 	first position: finalBounds origin.
 	" directly add the selection and wait the layouting to get the correct final bounds "
-	self checkSelectionContainerIn: aListElement.
 	self addSelectionElement: first.
 	first whenLayoutedDoOnce: [
 		" layout is done, the (eventually customized) final bounds is known "
@@ -144,6 +144,7 @@ ToListSelectionWithElementOption >> launchUpdateSelectionIn: aListElement withSe
 	(super
 		 launchUpdateSelectionIn: aListElement
 		 withSelectionModel: aSelectionModel) ifFalse: [ ^ false ].
+
 	self addSelectionIn: aListElement.
 	self rememberSelectionBoundsIn: aListElement.
 	^ true
@@ -195,7 +196,8 @@ ToListSelectionWithElementOption >> rememberSelectionBoundsIn: aListElement [
 ToListSelectionWithElementOption >> removeSelectionContainer [
 
 	selectionContainer ifNotNil: [
-		selectionContainer removeFromParent ]
+		selectionContainer removeFromParent.
+		selectionContainer := nil ]
 ]
 
 { #category : #accessing }

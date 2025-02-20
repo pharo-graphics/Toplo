@@ -13,19 +13,19 @@ ToTabBarElement >> defaultNodeManagerClass [
 	^ ToTabNodeManager
 ]
 
+{ #category : #skin }
+ToTabBarElement >> newRawSkin [ 
+
+	^ ToTabBarElementSkin new
+]
+
 { #category : #'t - bar element' }
-ToTabBarElement >> haveInvisibleNodes: theInvisibleNodes [
+ToTabBarElement >> onInvisibleNodes: theInvisibleNodes [
 
 	nodeWrapping ifTrue: [ ^ self ].
 	nodeScrolling ifTrue: [ ^ self ].
 	nodeAutoDistribution ifFalse: [ ^ self ].
 	" ok the node menu can be shown "
-]
-
-{ #category : #skin }
-ToTabBarElement >> newRawSkin [ 
-
-	^ ToTabBarElementSkin new
 ]
 
 { #category : #accessing }

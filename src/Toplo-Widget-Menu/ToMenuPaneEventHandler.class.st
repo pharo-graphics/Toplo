@@ -29,11 +29,11 @@ ToMenuPaneEventHandler >> layoutOrientationChangedEvent: anEvent [
 
 	target isHorizontal
 		ifTrue: [
-			target nodeWrapping: false.
-			target uniformNodeWidth: false ]
+			target isWrapping: false.
+			target hasUniformNodeWidth: false ]
 		ifFalse: [
-			target nodeWrapping: true.
-			target uniformNodeWidth: true ].
+			target isWrapping: true.
+			target hasUniformNodeWidth: true ].
 	anEvent currentTarget configureLayout
 ]
 

@@ -18,6 +18,7 @@ ToGenericTreeNodeManager >> buildNode: aNode [
 	| dataItem |
 	dataItem := aNode holder dataItem.
 	aNode addChild: (ToTripletElement new
+			hMatchParent;
 			 middleElement: (ToLabel text: dataItem asString);
 			 startInterspace: 5)
 ]

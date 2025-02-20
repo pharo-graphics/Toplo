@@ -42,6 +42,22 @@ ToTreeElement class >> exampleExpandAllAndCollapseAll [
 ]
 
 { #category : #'as yet unclassified' }
+ToTreeElement class >> exampleMixingSubclassesAndMethods [
+	"For this example we created a new wrapper dealing with classes and methods at the same time, a new Node was also created (ToTreeSubAndMethNode) to apply a new skin (ToTreeNodeSubAndMethSkin) with new icons and a different background color for methods "
+	
+
+	| l |
+	l := self new.
+	l dataWrapperClass: ToTreeDataItemSubclassesAndMethodsWrapper.
+	l nodeManager nodeFactory: [ :holder | ToTreeSubAndMethNode new ].
+	l dataAccessor add: BlElement.
+	l dataAccessor add: Collection.
+	l dataAccessor add: String.
+
+	l openInSpace
+]
+
+{ #category : #'as yet unclassified' }
 ToTreeElement class >> examplePreviousIntegers [
 
 	| l |

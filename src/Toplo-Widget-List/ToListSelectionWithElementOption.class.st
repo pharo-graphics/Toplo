@@ -37,46 +37,54 @@ ToListSelectionWithElementOption >> addSelectionElementsIn: aListElement startin
 ]
 
 { #category : #adding }
-ToListSelectionWithElementOption >> addSelectionIn: aListElement [ 
+ToListSelectionWithElementOption >> addSelectionIn: aListElement [
 	" add new selection with animation if possible. 
 	Pay attention, an animation can be used. In case of animation, the SelectedSkinEvent is sent only
 	when the animation ends to have a nice visual effect. If no animation is used, then SelectedSkinEvent is
 	sent just after the selection is added "
 
 	| first finalBounds startBounds animation |
-
 	currentSelectionRepresentations ifEmpty: [ ^ self ].
 	currentSelectionRepresentations do: [ :grp |
-		grp
-			refreshSelectionElementIn: aListElement
-			option: self ].
+		grp refreshSelectionElementIn: aListElement option: self ].
 
 	startBounds := previousSelectionBounds.
-	finalBounds := currentSelectionRepresentations first preComputedBounds.
+	finalBounds := currentSelectionRepresentations first
+		               preComputedBounds.
 	" animation is used if the start and the final bounds differs and in case of one selection group only "
 	(startBounds = finalBounds or: [
-		 (self canAnimateSelectionUpdate and: [ currentSelectionRepresentations size = 1 ]) not ])
-		ifTrue: [
-			self addSelectionElementsIn: aListElement startingAt: 1.
-			self notifyNodesSelectedIn: aListElement.
-			^ self ].
+		 (self canAnimateSelectionUpdate and: [
+			  currentSelectionRepresentations size = 1 ]) not ]) ifTrue: [
+		self addSelectionElementsIn: aListElement startingAt: 1.
+		self notifyNodesSelectedIn: aListElement.
+		^ self ].
 
+	"get the selection and make it hidden to compute the final bounds "
 	first := currentSelectionRepresentations first selectionElement.
-	first position: startBounds origin.
-	first size: startBounds extent.
-
-	animation := self
-		             boundsAnimationFrom: startBounds
-		             to: finalBounds
-		             onGroup: currentSelectionRepresentations first
-		             in: aListElement.
-
-	first addAnimation: animation.
-	" directly add the selection element without computing its bounds "
+	first visibility: BlVisibility hidden.
+	" set the final bounds - notice that the selection element may have custom position and measurement"
+	first size: finalBounds extent.
+	first position: finalBounds origin.
+	" directly add the selection and wait the layouting to get the correct final bounds "
 	self checkSelectionContainerIn: aListElement.
 	self addSelectionElement: first.
-	" add others "
-	self addSelectionElementsIn: aListElement startingAt: 2
+	first whenLayoutedDoOnce: [
+		" layout is done, the (eventually customized) final bounds is known "
+		finalBounds := first measuredBounds asRectangle.
+		first position: startBounds origin.
+		first size: startBounds extent.
+		" now the make the selection visible afain and launch the animation "
+		first visibility: BlVisibility visible.
+
+		animation := self
+			             boundsAnimationFrom: startBounds
+			             to: finalBounds
+			             onGroup: currentSelectionRepresentations first
+			             in: aListElement.
+
+		first addAnimation: animation.
+		" add others "
+		self addSelectionElementsIn: aListElement startingAt: 2 ]
 ]
 
 { #category : #'private - selection updating' }

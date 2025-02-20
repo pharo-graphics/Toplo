@@ -68,23 +68,23 @@ ToListSelectionWithElementOption >> addSelectionIn: aListElement [
 	first position: finalBounds origin.
 	" directly add the selection and wait the layouting to get the correct final bounds "
 	self addSelectionElement: first.
-	first whenLayoutedDoOnce: [
+	first whenLayoutedDoOnce: [ 
 		" layout is done, the (eventually customized) final bounds is known "
 		finalBounds := first measuredBounds asRectangle.
 		first position: startBounds origin.
 		first size: startBounds extent.
-		" now the make the selection visible afain and launch the animation "
-		first visibility: BlVisibility visible.
+		first whenLayoutedDoOnce: [ 
+			" now the make the selection visible afain and launch the animation "
+			first visibility: BlVisibility visible.
+			animation := self
+				             boundsAnimationFrom: startBounds
+				             to: finalBounds
+				             onGroup: currentSelectionRepresentations first
+				             in: aListElement.
 
-		animation := self
-			             boundsAnimationFrom: startBounds
-			             to: finalBounds
-			             onGroup: currentSelectionRepresentations first
-			             in: aListElement.
-
-		first addAnimation: animation.
-		" add others "
-		self addSelectionElementsIn: aListElement startingAt: 2 ]
+			first addAnimation: animation.
+			" add others "
+			self addSelectionElementsIn: aListElement startingAt: 2 ] ]
 ]
 
 { #category : #'private - selection updating' }

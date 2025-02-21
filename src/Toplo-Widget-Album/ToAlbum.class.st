@@ -255,7 +255,8 @@ ToAlbum >> text: aBlText [
 
 	aBlText == self text ifTrue: [ ^ self ].
 	self next text: aBlText.
-	self edited: false
+	self edited: false.
+	self requestNewSkin 
 ]
 
 { #category : #'event handling' }

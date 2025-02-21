@@ -16,7 +16,7 @@ ToElementState >> applyOn: anElement fromQueue: aQueue [
 	| se |
 	se := self skinEvent.
 	se isConsumed ifTrue: [ ^ self ].
-	anElement spaceDo: [ :sp | se timestamp: anElement space time now ].
+	anElement spaceDo: [ :sp | se fillFromTime: anElement space time ].
 	anElement dispatchEvent: se.
 	self onAppliedOn: anElement fromQueue: aQueue
 ]

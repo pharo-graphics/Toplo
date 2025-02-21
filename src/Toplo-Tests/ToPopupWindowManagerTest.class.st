@@ -155,7 +155,7 @@ ToPopupWindowManagerTest >> testMouseUpEvent [
 	(windowManager autoCloseDelay + 1 milliSecond) wait.
 	position := e bounds inSpace center.
 	event := BlMouseUpEvent primary position: position.
-	event timestamp: e space time now.
+	event fillFromTime: e space time.
 	e dispatchEvent: event.
 	self waitTestingSpaces.
 
@@ -240,7 +240,7 @@ ToPopupWindowManagerTest >> testMouseUpOutsideEvent [
 			 on: ToClosedEvent
 			 do: [ closed := true ]).
 	(windowManager autoCloseDelay + 1 milliSecond) wait.
-	event := BlMouseUpEvent primary position: 0 @ 0; timestamp: space time now.
+	event := BlMouseUpEvent primary position: 0 @ 0; fillFromTime: space time.
 	e dispatchEvent: event.
 	self waitTestingSpaces.
 

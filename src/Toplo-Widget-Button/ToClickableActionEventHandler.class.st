@@ -31,7 +31,7 @@ ToClickableActionEventHandler >> handleEvent: anEvent [
 	" Since the event is consumed, fire an action performed event to let the button or a parent element react "
 	target isAttachedToSceneGraph ifFalse: [ ^ self ].
 	target fireEvent: (ToClickableActionPerformedEvent new
-			 timestamp: target space time now;
+			 fillFromTime: target space time;
 			 yourself)
 ]
 

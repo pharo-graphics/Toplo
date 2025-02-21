@@ -363,7 +363,7 @@ ToBeeTheme >> declareIconInLabeledIconRules [
 
 	self
 		select: (ToImage asTypeSelector
-				 withParent: #'labeled-icon' asStampSelector
+				 withParent: ToLabeledIcon asTypeSelector
 				 atDepth: 2)
 		style: [
 			self write: (self property: #'layout-constraints') with: [ :e |
@@ -524,7 +524,7 @@ ToBeeTheme >> declareLabelStyleWithTokenDefault: aDefaultColorToken tokenHover: 
 ToBeeTheme >> declareLabeledIconInButtonRules [
 
 	self
-		select: (#'labeled-icon' asStampSelector
+		select: (ToLabeledIcon asTypeSelector
 				 withParent: #button asStampSelector
 				 atDepth: 1)
 		style: [

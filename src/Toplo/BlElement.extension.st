@@ -59,6 +59,10 @@ BlElement >> applyEnqueuedStatesDeeply [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> applyInnerConfiguration [
+]
+
+{ #category : #'*Toplo' }
 BlElement >> applySkinInstallerOnFirstRequest: aBoolean [
 
 	self skinManagerDo: [ :sm | sm  applySkinInstallerOnFirstRequest: aBoolean ]

@@ -120,47 +120,47 @@ ToLabeledIconEventHandlerTest >> testlayoutConstraintsChangedEvent [
 	li skinManager setSkinInstaller: nil in: li.
 	self assert: li skinManager skinInstaller isNil.
 	li fitContent.
-	self assert: li skinManager skinInstaller notNil.
+	self assert: li skinManager skinInstaller isNil.
 	li skinManager setSkinInstaller: nil in: li.
 	self assert: li skinManager skinInstaller isNil.
 	li fitContentLimited.
-	self assert: li skinManager skinInstaller notNil.
+	self assert: li skinManager skinInstaller isNil.
 	li skinManager setSkinInstaller: nil in: li.
 	self assert: li skinManager skinInstaller isNil.
 	li hExact: 20.
-	self assert: li skinManager skinInstaller notNil.
+	self assert: li skinManager skinInstaller isNil.
 	li skinManager setSkinInstaller: nil in: li.
 	self assert: li skinManager skinInstaller isNil.
 	li hFitContent.
-	self assert: li skinManager skinInstaller notNil.
+	self assert: li skinManager skinInstaller isNil.
 	li skinManager setSkinInstaller: nil in: li.
 	self assert: li skinManager skinInstaller isNil.
 	li hFitContentLimited.
-	self assert: li skinManager skinInstaller notNil.
+	self assert: li skinManager skinInstaller isNil.
 	li skinManager setSkinInstaller: nil in: li.
 	self assert: li skinManager skinInstaller isNil.
 	li hMatchParent.
-	self assert: li skinManager skinInstaller notNil.
+	self assert: li skinManager skinInstaller isNil.
 	li skinManager setSkinInstaller: nil in: li.
 	self assert: li skinManager skinInstaller isNil.
 	li matchParent.
-	self assert: li skinManager skinInstaller notNil.
+	self assert: li skinManager skinInstaller isNil.
 	li skinManager setSkinInstaller: nil in: li.
 	self assert: li skinManager skinInstaller isNil.
 	li vExact: 20.
-	self assert: li skinManager skinInstaller notNil.
+	self assert: li skinManager skinInstaller isNil.
 	li skinManager setSkinInstaller: nil in: li.
 	self assert: li skinManager skinInstaller isNil.
 	li vFitContent.
-	self assert: li skinManager skinInstaller notNil.
+	self assert: li skinManager skinInstaller isNil.
 	li skinManager setSkinInstaller: nil in: li.
 	self assert: li skinManager skinInstaller isNil.
 	li vFitContentLimited.
-	self assert: li skinManager skinInstaller notNil.
+	self assert: li skinManager skinInstaller isNil.
 	li skinManager setSkinInstaller: nil in: li.
 	self assert: li skinManager skinInstaller isNil.
 	li vMatchParent.
-	self assert: li skinManager skinInstaller notNil.
+	self assert: li skinManager skinInstaller isNil.
 	li skinManager setSkinInstaller: nil in: li.
 	self assert: li skinManager skinInstaller isNil
 ]

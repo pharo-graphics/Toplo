@@ -7,9 +7,6 @@ Class {
 	#superclass : #ToElement,
 	#traits : 'TToWithOrientableLayout + TToTripletElement + TToLabeledIcon + TToItem + TToClickable + TToCheckable',
 	#classTraits : 'TToWithOrientableLayout classTrait + TToTripletElement classTrait + TToLabeledIcon classTrait + TToItem classTrait + TToClickable classTrait + TToCheckable classTrait',
-	#instVars : [
-		'tripletProperties'
-	],
 	#category : #'Toplo-Widget-List-ItemList'
 }
 
@@ -24,26 +21,7 @@ ToItemToggleButton >> initialize [
 
 	super initialize.
 	self addEventHandler: ToClickableFocusEventHandler new.
-	self initializeAsTripletElement.
+	self initializeAsTripletElementOn: self.
 	self initializeAsCheckable.
 	self clickEventClass: ToCheckableCheckEvent
-]
-
-{ #category : #layout }
-ToItemToggleButton >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
-
-	self configureLayout.
-	super onLayout: aBounds context: aBlElementBoundsUpdateContext
-]
-
-{ #category : #'t - triplet element - private accessing' }
-ToItemToggleButton >> tripletProperties [
-
-	^ tripletProperties
-]
-
-{ #category : #'t - triplet element - private accessing' }
-ToItemToggleButton >> tripletProperties: aTripletElementProperties [
-
-	tripletProperties := aTripletElementProperties
 ]

@@ -81,7 +81,6 @@ ToThemeTest >> testThemeChangedWithStyleSheetTheme3 [
 		(e skinManager installedSkin) isNil.
 	" because of the token properties installation -> have a skin installer/uninstaller "
 	self assert: e skinManager skinInstaller notNil.
-	"self assert: e skinManager skinUninstaller notNil."
 	self applyAllEnqueuedStates.
 	self waitTestingSpaces.
 	self assert: e skinManager skinInstaller isNil.

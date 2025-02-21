@@ -236,8 +236,9 @@ ToLabeledIconTest >> testInterspaceWithLabelAndVertical [
 
 	| li |
 	li := ToLabeledIcon new.
-	li startInterspace: 10.
 	li vertical: true.
+	li startInterspace: 10.
+
 	li label: (ToLabel text: 'A').
 	li icon: (ToImage inner: (BlElement new
 				  size: 60 @ 20;

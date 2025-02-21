@@ -42,7 +42,6 @@ TToLabeledIcon >> icon [
 { #category : #'t - labeled icon' }
 TToLabeledIcon >> icon: anElement [
 
-	self icon = anElement ifTrue: [ ^ self ].
 	self startElement: anElement
 ]
 
@@ -79,7 +78,6 @@ TToLabeledIcon >> label [
 { #category : #'t - labeled icon' }
 TToLabeledIcon >> label: anElement [
 
-	self label = anElement ifTrue: [ ^ self ].
 	self middleElement: anElement
 ]
 

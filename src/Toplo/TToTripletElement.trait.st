@@ -1,48 +1,15 @@
 Trait {
 	#name : #TToTripletElement,
+	#instVars : [
+		'tripletProperties'
+	],
 	#category : #'Toplo-Core'
 }
 
-{ #category : #'t - triplet element - layout' }
-TToTripletElement >> configureLayout [
+{ #category : #'t - triplet element - initialization' }
+TToTripletElement >> applyInnerConfiguration [ 
 
-	self isStartFlexible
-		ifTrue: [
-			self startFiller resizerDo: [ :c |
-				c vertical matchParent.
-				c horizontal matchParent ] ]
-		ifFalse: [
-			self startFiller resizerDo: [ :c |
-				c vertical fitContent.
-				c horizontal fitContent ] ].
-	self isEndFlexible
-		ifTrue: [
-			self endFiller resizerDo: [ :c |
-				c vertical matchParent.
-				c horizontal matchParent ] ]
-		ifFalse: [
-			self endFiller resizerDo: [ :c |
-				c vertical fitContent.
-				c horizontal fitContent ] ].
-	self isHorizontal
-		ifTrue: [
-			self childrenDo: [ :child |
-				child constraints linear vertical alignCenter ].
-			self startGap size = (self startInterspace @ 0) ifFalse: [
-				self startGap size: self startInterspace @ 0 ].
-			self endGap size = (self endInterspace @ 0) ifFalse: [
-				self endGap size: self endInterspace @ 0 ].
-			self endElement ifNotNil: [ :ee |
-				ee constraints frame horizontal alignRight ] ]
-		ifFalse: [
-			self childrenDo: [ :child |
-				child constraints linear horizontal alignCenter ].
-			self startGap size = (0 @ self startInterspace) ifFalse: [
-				self startGap size: 0 @ self startInterspace ].
-			self endGap size = (0 @ self endInterspace) ifFalse: [
-				self endGap size: 0 @ self endInterspace ].
-			self endElement ifNotNil: [ :ee |
-				ee constraints frame vertical alignBottom ] ]
+	self tripletProperties ifNotNil: [:tp | tp applyInnerConfiguration ]
 ]
 
 { #category : #'t - triplet element - accessing' }
@@ -52,26 +19,9 @@ TToTripletElement >> defaultTripletEventHandler [
 ]
 
 { #category : #'t - triplet element - accessing' }
-TToTripletElement >> endAlignment [
-
-	^ self tripletProperties endAlignment
-]
-
-{ #category : #'t - triplet element - accessing' }
 TToTripletElement >> endAlignment: aNumber [
 
-	self endAlignment = aNumber ifTrue: [ ^ self ].
-	self tripletProperties endAlignment: aNumber.
-	self endAlignment ifNotNil: [
-		self isHorizontal
-			ifTrue: [
-				self endContainer constraintsDo: [ :c |
-					c horizontal exact: self endAlignment.
-					c vertical fitContent ] ]
-			ifFalse: [
-				self endContainer constraintsDo: [ :c |
-					c vertical exact: self endAlignment.
-					c horizontal fitContent ] ] ]
+	self tripletProperties endAlignment: aNumber
 ]
 
 { #category : #'t - triplet element - accessing' }
@@ -89,11 +39,7 @@ TToTripletElement >> endElement [
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endElement: anElement [
 
-	anElement = self endElement ifTrue: [ ^ self ].
-	self endElement ifNotNil: [ :s | s removeFromParent ].
-	self tripletProperties endElement: anElement.
-	anElement ifNil: [ ^ self ].
-	self endContainer addChild: anElement
+	self tripletProperties endElement: anElement
 ]
 
 { #category : #'t - triplet element - accessing' }
@@ -117,27 +63,13 @@ TToTripletElement >> endFlexible [
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endFlexible: aBoolean [
 
-	self endFlexible = aBoolean ifTrue: [ ^ self ].
 	self tripletProperties endFlexible: aBoolean
-]
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> endGap [
-
-	^ self tripletProperties endGap
-]
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> endInterspace [
-
-	^ self tripletProperties endInterspace
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endInterspace: aNumber [
 
-	self tripletProperties endInterspace: aNumber.
-	self requestLayout
+	self tripletProperties endInterspace: aNumber
 ]
 
 { #category : #'t - triplet element - accessing' }
@@ -172,22 +104,15 @@ TToTripletElement >> hasStartElement [
 ]
 
 { #category : #'t - triplet element - initialization' }
-TToTripletElement >> initializeAsTripletElement [
+TToTripletElement >> initializeAsTripletElementOn: anElement [
 
-	self tripletProperties: ToTripletElementProperties new.
-	self tripletProperties on: self.
+	anElement == self
+		ifTrue: [ self tripletProperties: ToTripletElementProperties new ]
+		ifFalse: [
+			self tripletProperties: anElement tripletProperties.
+			^ self ].
 
-	self addChildren: {
-			self startContainer.
-			self startGap.
-			self startFiller.
-			self middleContainer.
-			self endFiller.
-			self endGap.
-			self endContainer }.
-
-	self addEventHandler: self defaultTripletEventHandler.
-	self fitContent
+	self tripletProperties on: self
 ]
 
 { #category : #'t - triplet element - testing' }
@@ -224,11 +149,7 @@ TToTripletElement >> middleElement [
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> middleElement: anElement [
 
-	anElement = self middleElement ifTrue: [ ^ self ].
-	self middleElement ifNotNil: [ :s | s removeFromParent ].
-	self tripletProperties middleElement: anElement.
-	anElement ifNil: [ ^ self ].
-	self middleContainer addChild: anElement
+	self tripletProperties middleElement: anElement
 ]
 
 { #category : #'t - triplet element - instance creation' }
@@ -274,18 +195,7 @@ TToTripletElement >> startAlignment [
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startAlignment: aNumber [
 
-	self startAlignment = aNumber ifTrue: [ ^ self ].
-	self tripletProperties startAlignment: aNumber.
-	self startAlignment ifNotNil: [
-		self isHorizontal
-			ifTrue: [
-				self startContainer constraintsDo: [ :c |
-					c horizontal exact: self startAlignment.
-					c vertical fitContent ] ]
-			ifFalse: [
-				self startContainer constraintsDo: [ :c |
-					c vertical exact: self startAlignment.
-					c horizontal fitContent ] ] ]
+	self tripletProperties startAlignment: aNumber
 ]
 
 { #category : #'t - triplet element - accessing' }
@@ -303,11 +213,7 @@ TToTripletElement >> startElement [
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startElement: anElement [
 
-	anElement = self startElement ifTrue: [ ^ self ].
-	self startElement ifNotNil: [ :s | s removeFromParent ].
-	self tripletProperties startElement: anElement.
-	anElement ifNil: [ ^ self ].
-	self startContainer addChild: anElement
+	self tripletProperties startElement: anElement
 ]
 
 { #category : #'t - triplet element - accessing' }
@@ -325,14 +231,7 @@ TToTripletElement >> startFlexible [
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startFlexible: aBoolean [
 
-	self startFlexible = aBoolean ifTrue: [ ^ self ].
 	self tripletProperties startFlexible: aBoolean
-]
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> startGap [
-
-	^ self tripletProperties startGap
 ]
 
 { #category : #'t - triplet element - accessing' }
@@ -351,11 +250,13 @@ TToTripletElement >> startInterspace: aNumber [
 { #category : #'t - triplet element - private - accessing' }
 TToTripletElement >> tripletProperties [
 
-	^ self explicitRequirement 
+	^ tripletProperties
 ]
 
 { #category : #'t - triplet element - private - accessing' }
 TToTripletElement >> tripletProperties: aTripletProperties [
 
-	^ self explicitRequirement 
+	tripletProperties ifNotNil: [
+		(BlImmutableObjectChangeError object: self) signal ].
+	tripletProperties := aTripletProperties
 ]

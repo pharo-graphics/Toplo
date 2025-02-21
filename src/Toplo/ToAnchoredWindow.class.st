@@ -45,9 +45,7 @@ ToAnchoredWindow >> initialize [
 ToAnchoredWindow >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
-	self checkLayoutStepOnLayout: aBounds context: aBlElementBoundsUpdateContext.
-
-
+	self checkLayoutStepOnLayout: aBounds context: aBlElementBoundsUpdateContext
 ]
 
 { #category : #layout }

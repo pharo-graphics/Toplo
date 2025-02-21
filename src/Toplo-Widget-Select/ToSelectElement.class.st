@@ -326,12 +326,6 @@ ToSelectElement >> refresh [
 	self innerElement refreshFromPopupListSelection
 ]
 
-{ #category : #layout }
-ToSelectElement >> requestLayout: x [
-
-	super requestLayout: x.
-]
-
 { #category : #accessing }
 ToSelectElement >> sample: aDataItem [
 

@@ -6707,7 +6707,7 @@ ToSandBox class >> example_toButtonWithIconAndTextAndExtra [
 	but label: (ToLabel text: 'Button').
 	but iconImage: ToThemeIcons searchOutlined16x16.
 	but endElement: (BlElement new
-			 size: 5 @ 9;
+			 size: 15 @ 9;
 			 background: ToThemeIcons plainTriangle5x9;
 			 yourself).
 

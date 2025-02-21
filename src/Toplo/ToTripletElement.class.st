@@ -3,9 +3,6 @@ Class {
 	#superclass : #ToElement,
 	#traits : 'TToWithOrientableLayout + TToTripletElement',
 	#classTraits : 'TToWithOrientableLayout classTrait + TToTripletElement classTrait',
-	#instVars : [
-		'properties'
-	],
 	#category : #'Toplo-Core'
 }
 
@@ -20,7 +17,7 @@ ToTripletElement >> defaultLayout [
 ToTripletElement >> initialize [
 
 	super initialize.
-	self initializeAsTripletElement 
+	self initializeAsTripletElementOn: self
 ]
 
 { #category : #skin }
@@ -33,32 +30,4 @@ ToTripletElement >> installRawStyle [
 			c linear horizontal alignCenter ] ].
 
 	
-]
-
-{ #category : #layout }
-ToTripletElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
-
-	self configureLayout.
-	super onLayout: aBounds context: aBlElementBoundsUpdateContext
-]
-
-{ #category : #dependencies }
-ToTripletElement >> release [ 
-
-	super release.
-	properties release.
-	properties := nil
-]
-
-{ #category : #'t - triplet element - private - accessing' }
-ToTripletElement >> tripletProperties [
-
-	^ properties
-]
-
-{ #category : #'t - triplet element - private - accessing' }
-ToTripletElement >> tripletProperties: aTripletElementProperties [
-
-	properties ifNotNil: [ (BlImmutableObjectChangeError object: self) signal ].
-	properties := aTripletElementProperties
 ]

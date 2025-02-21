@@ -1,8 +1,8 @@
 Class {
 	#name : #ToElement,
 	#superclass : #BlElement,
-	#traits : 'TBlLayoutResizable + TToElement + TToElementWithTooltip + TToElementWithContextMenu + TToAuthorisationRequestTarget',
-	#classTraits : 'TBlLayoutResizable classTrait + TToElement classTrait + TToElementWithTooltip classTrait + TToElementWithContextMenu classTrait + TToAuthorisationRequestTarget classTrait',
+	#traits : 'TToElement + TBlLayoutResizable + TToElementWithTooltip + TToElementWithContextMenu + TToAuthorisationRequestTarget',
+	#classTraits : 'TToElement classTrait + TBlLayoutResizable classTrait + TToElementWithTooltip classTrait + TToElementWithContextMenu classTrait + TToAuthorisationRequestTarget classTrait',
 	#category : #'Toplo-Core'
 }
 
@@ -43,4 +43,11 @@ ToElement >> initialize [
 ToElement >> newScrollable [
 
 	^ ToScrollableElement new
+]
+
+{ #category : #layout }
+ToElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
+
+	self applyInnerConfiguration.
+	super onLayout: aBounds context: aBlElementBoundsUpdateContext
 ]

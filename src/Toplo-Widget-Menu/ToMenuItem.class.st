@@ -20,6 +20,7 @@ ToMenuItem >> buttonClass [
 ToMenuItem >> initialize [ 
 
 	super initialize.
+	self initializeAsTripletElementOn: self button.
 	self addStamp: #'menu-item'.
 	self endElement: self newRightHandSide
 ]
@@ -42,23 +43,4 @@ ToMenuItem >> newRightHandSide [
 		c linear vertical alignCenter.
 		c linear horizontal alignCenter ].
 	^ rhs
-]
-
-{ #category : #layout }
-ToMenuItem >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
-
-	"self configureLayout."
-	super onLayout: aBounds context: aBlElementBoundsUpdateContext
-]
-
-{ #category : #'t - triplet element - private - accessing' }
-ToMenuItem >> tripletProperties [
-
-	^ self button tripletProperties
-]
-
-{ #category : #'t - triplet element - private - accessing' }
-ToMenuItem >> tripletProperties: aTripletElementProperties [
-
-	self shouldNotImplement 
 ]

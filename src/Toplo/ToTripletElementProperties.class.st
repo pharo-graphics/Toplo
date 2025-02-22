@@ -28,6 +28,7 @@ Class {
 ToTripletElementProperties >> applyInnerConfiguration [
 
 	configurationRequested ifFalse: [ ^ self ].
+	"'applyInnerConfiguration in ' trace. owner traceCr."
 	self configureEndContainer.
 	self configureEndFiller.
 	self configureEndGap.

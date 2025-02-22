@@ -68,7 +68,7 @@ ToListNodeSelectionEventHandler >> notifyClickOnNodeFromEvent: anEvent [
 	req := ToListClickOnNodeRequestEvent new
 		       requestedAction: [
 			       node dispatchEvent: (ToListClickOnNodeEvent new
-						        timestamp: node space time now;
+						        fillFromTime: node space time;
 						        sourceEvent: anEvent;
 						        yourself) ];
 		       yourself.

@@ -179,10 +179,12 @@ TToTripletElement >> newFiller [
 { #category : #'t - triplet element - instance creation' }
 TToTripletElement >> newMiddleContainer [
 
-	^ ToElement  new
+	^ BlElement  new
 		  constraintsDo: [ :c |
 			  c horizontal fitContent.
 			  c vertical fitContent ];
+		layout: BlFrameLayout new;
+		background: BlBackground transparent;
 		  yourself
 ]
 

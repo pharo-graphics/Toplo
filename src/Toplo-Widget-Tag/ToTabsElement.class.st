@@ -1,8 +1,8 @@
 Class {
 	#name : #ToTabsElement,
 	#superclass : #ToElement,
-	#traits : 'TToItemListOwner',
-	#classTraits : 'TToItemListOwner classTrait',
+	#traits : 'TToTripletElement + TToItemListOwner',
+	#classTraits : 'TToTripletElement classTrait + TToItemListOwner classTrait',
 	#instVars : [
 		'isHorizontal',
 		'isStartToEnd'
@@ -26,6 +26,9 @@ ToTabsElement >> configurationChanged [
 { #category : #initialization }
 ToTabsElement >> configureLayout [
 
+	self middleContainer constraintsDo: [ :c |
+			  c horizontal matchParent.
+			  c vertical matchParent ].
 	self itemBar configureLayoutIn: self
 ]
 
@@ -72,8 +75,10 @@ ToTabsElement >> initialize [
 
 	super initialize.
 	self initializeAsItemBarOwner.
+	self initializeAsTripletElementOn: self.
+	self middleContainer clipChildren: false.
 
-	self addChild: self itemBar.
+	self middleElement: self itemBar.
 
 	self group
 		addEventHandlerOn: ToCheckableGroupChangedEvent

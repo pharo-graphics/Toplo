@@ -21,7 +21,7 @@ ToMenuPaneEventHandler >> eventsToHandle [
 { #category : #'event handling' }
 ToMenuPaneEventHandler >> layoutDirectionChangedEvent: anEvent [
 
-	anEvent currentTarget configureLayout
+	anEvent currentTarget requestInnerConfiguration
 ]
 
 { #category : #'event handling' }
@@ -33,14 +33,13 @@ ToMenuPaneEventHandler >> layoutOrientationChangedEvent: anEvent [
 			target hasUniformNodeWidth: false ]
 		ifFalse: [
 			target isWrapping: true.
-			target hasUniformNodeWidth: true ].
-	anEvent currentTarget configureLayout
+			target hasUniformNodeWidth: true ]
 ]
 
 { #category : #'event handling' }
 ToMenuPaneEventHandler >> layoutResizerChangedEvent: anEvent [
 
-	anEvent currentTarget configureLayout
+	anEvent currentTarget requestInnerConfiguration
 ]
 
 { #category : #'event handling' }

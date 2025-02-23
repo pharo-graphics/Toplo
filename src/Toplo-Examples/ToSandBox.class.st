@@ -65,9 +65,6 @@ ToSandBox class >> accordionWithLabelAndAlbumInBody [
 		album minHeight: 50.
 		album text: 'AAAAAAAA'.
 		body addChild: album ].
-	inst
-		addEventHandlerOn: ToAccordionCheckedEvent
-		do: [ :evt | evt traceCr ].
 	^ inst
 ]
 
@@ -86,9 +83,6 @@ ToSandBox class >> accordionWithLabelText: aString [
 	inst
 		vFitContent;
 		hMatchParent.
-	inst
-		addEventHandlerOn: ToAccordionCheckedEvent
-		do: [ :evt | evt traceCr ].
 	^ inst
 ]
 
@@ -103,6 +97,11 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 
 	menu := ToMenu new.
 	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
+
+	menu addItem: (ToMenuItem new
+			 label: (ToLabel text: 'Space statistics');
+			 whenClickedDo: [ aBar space showStatisticsWindow ];
+			 yourself).
 	menu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Inspect');
 			 whenClickedDo: [ aBar space root inspect ];
@@ -4063,10 +4062,6 @@ ToSandBox class >> example_contactList [
 	panel layout cellSpacing: 10.
 
 	list := ToListElement new.
-	list addEventHandler: (BlEventHandler
-			 on: ToListPrimarySelectionChangedEvent
-			 do: [ :evt | evt traceCr ]).
-
 	nameTxtF := ToTextField new
 		            width: 100;
 		            placeholderBuilder: [ :placeholder :e |
@@ -5556,6 +5551,7 @@ ToSandBox class >> example_subMenuPane [
 	3 timesRepeat: [
 		| mb |
 		mb := ToMenuPane new.
+		mb horizontal: true.
 		1 to: 3 do: [ :i |
 			| m |
 			m := ToMenu new labelText: 'Menu' , i asString.

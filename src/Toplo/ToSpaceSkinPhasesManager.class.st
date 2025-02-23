@@ -287,6 +287,13 @@ ToSpaceSkinPhasesManager >> startSkinStateApplicationPhaseIn: aSpace [
 ]
 
 { #category : #'phases installation' }
+ToSpaceSkinPhasesManager >> stopInnerConfigurationPhaseIn: aSpace [
+
+	(self installedInnerConfigurationPhaseIn: aSpace) ifNotNil: [ :phase |
+		aSpace frame removePhase: phase ]
+]
+
+{ #category : #'phases installation' }
 ToSpaceSkinPhasesManager >> stopSkinInstallerPhaseIn: aSpace [
 
 	(self installedSkinInstallerPhaseIn: aSpace) ifNotNil: [ :phase |
@@ -302,6 +309,7 @@ ToSpaceSkinPhasesManager >> stopSkinPhasesIn: aSpace [
 	
 	self skinPhasesInstalled ifFalse: [ ^ self ].
 	self
+		stopInnerConfigurationPhaseIn: aSpace;
 		stopSkinInstallerPhaseIn: aSpace;
 		stopSkinStateApplicationPhaseIn: aSpace.
 	

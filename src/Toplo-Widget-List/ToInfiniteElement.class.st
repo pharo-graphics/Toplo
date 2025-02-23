@@ -39,9 +39,9 @@ ToInfiniteElement >> cleanUpRecyclerAt: anIndex [
 ToInfiniteElement >> configureLayoutIn: aListElement [
 
 	self matchParent.
-	self horizontal: aListElement isHorizontal.
-	aListElement isHMatchParent ifFalse: [ self hFitContent ].
-	aListElement isVMatchParent ifFalse: [ self vFitContent ].
+	self horizontal: listElement isHorizontal.
+	listElement isHMatchParent ifFalse: [ self hFitContent ].
+	listElement isVMatchParent ifFalse: [ self vFitContent ].
 ]
 
 { #category : #'t - infinite accessing' }

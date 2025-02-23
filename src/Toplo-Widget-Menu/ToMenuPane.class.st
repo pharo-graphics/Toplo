@@ -25,6 +25,13 @@ ToMenuPane >> addMenu: aMenu [
 	self addItem: aMenu
 ]
 
+{ #category : #'t - triplet element - initialization' }
+ToMenuPane >> applyInnerConfiguration [ 
+
+	self configureLayout.
+	super applyInnerConfiguration
+]
+
 { #category : #'auto opening' }
 ToMenuPane >> autoOpen [
 
@@ -41,6 +48,13 @@ ToMenuPane >> autoOpen: anObject [
 ToMenuPane >> cancelAutoOpen [
 
 	self rootMenuPane autoOpen: false
+]
+
+{ #category : #configuration }
+ToMenuPane >> checkInnerConfiguration [ 
+
+	super checkInnerConfiguration.
+	self configureLayout
 ]
 
 { #category : #'t - menu window model' }
@@ -61,7 +75,14 @@ ToMenuPane >> configureLayout [
 		ifFalse: [
 			self hFitContent.
 			self isSubPane ifTrue: [ self vFitContent ] ].
-	self itemBar configureLayoutIn: self
+		
+	self itemBar horizontal: self isHorizontal.
+	self isHMatchParent
+		ifTrue: [ self itemBar hMatchParent ]
+		ifFalse: [ self itemBar hFitContent ].
+	self isVMatchParent
+		ifTrue: [ self itemBar vMatchParent ]
+		ifFalse: [ self itemBar vFitContent ]
 ]
 
 { #category : #initialization }

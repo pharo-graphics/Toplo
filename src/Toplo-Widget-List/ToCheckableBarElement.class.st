@@ -9,16 +9,6 @@ Class {
 	#category : #'Toplo-Widget-List-ItemList'
 }
 
-{ #category : #'t - list node holder' }
-ToCheckableBarElement >> configureLayoutIn: aBarOwner [
-
-	self matchParent.
-	self horizontal: aBarOwner isHorizontal.
-	aBarOwner isHMatchParent ifFalse: [ self hFitContent ].
-	aBarOwner isVMatchParent ifFalse: [ self vFitContent ].
-	self configureLayout
-]
-
 { #category : #initialization }
 ToCheckableBarElement >> defaultEventHandler [
 

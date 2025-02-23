@@ -19,7 +19,7 @@ ToSpaceSkinStateApplicationPhaseTest >> testStartSkinPhases [
 	" shoud result in a requestSkin which do the installation if needed "
 	" The skin specific phase is added"
 	space addEventHandlerOn: ToSpaceSkinPhasesStarted doOnce: [
-		self assert: space frame phases size equals: nb + 2.
+		self assert: space frame phases size equals: nb + 3.
 		self assert: (space frame phases anySatisfy: [ :p |
 				 p isKindOf: ToSpaceSkinInstallerPhase ]).
 		self assert: (space frame phases anySatisfy: [ :p |
@@ -40,7 +40,7 @@ ToSpaceSkinStateApplicationPhaseTest >> testStartStopSkinStatePhases [
 	space addEventHandlerOn: ToSpaceSkinPhasesStarted doOnce: [
 		started := true.
 		" The skin specific phase is added"
-		self assert: space frame phases size equals: nb + 2.
+		self assert: space frame phases size equals: nb + 3.
 		self assert: (space frame phases anySatisfy: [ :p |
 				 p isKindOf: ToSpaceSkinInstallerPhase ]).
 		self assert: (space frame phases anySatisfy: [ :p |

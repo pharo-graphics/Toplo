@@ -19,7 +19,8 @@ ToItemBarElement >> defaultInnerElement [
 ToItemBarElement >> initialize [
 
 	super initialize.
-	self initializeAsItemListElement 
+	self initializeAsItemListElement.
+	self configureLayout
 ]
 
 { #category : #skin }

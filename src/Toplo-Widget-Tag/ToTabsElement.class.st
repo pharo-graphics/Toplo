@@ -15,45 +15,48 @@ ToTabsElement >> alignCenter [
 
 	self startFlexible: true.
 	self endFlexible: true.
-	self configurationChanged
 ]
 
 { #category : #'accessing - orientation' }
 ToTabsElement >> alignEnd [
 
 	self startFlexible: true.
-	self endFlexible: false.
-	self configurationChanged
+	self endFlexible: false
 ]
 
 { #category : #'accessing - orientation' }
 ToTabsElement >> alignStart [
 
 	self startFlexible:false.
-	self endFlexible: true.
-	self configurationChanged
+	self endFlexible: true
 ]
 
-{ #category : #'accessing - orientation' }
-ToTabsElement >> configurationChanged [
+{ #category : #configuration }
+ToTabsElement >> checkInnerConfiguration [ 
+
+	self configureLayout.
+	super checkInnerConfiguration 
+]
+
+{ #category : #configuration }
+ToTabsElement >> configureLayout [
 
 	self itemBar horizontal: isHorizontal.
+	self itemBar matchParent.
+	self isHMatchParent ifFalse: [ self itemBar hFitContent ].
+	self isVMatchParent ifFalse: [ self itemBar vFitContent ].
 	isHorizontal
 		ifTrue: [ self layout beVertical ]
 		ifFalse: [ self layout beHorizontal ].
 	isStartToEnd
 		ifTrue: [ self layout direction: BlLayoutDirection leftToRight ]
 		ifFalse: [ self layout direction: BlLayoutDirection rightToLeft ].
-	self requestNewSkin
-]
-
-{ #category : #initialization }
-ToTabsElement >> configureLayout [
-
 	self middleContainer constraintsDo: [ :c |
 			  c horizontal matchParent.
 			  c vertical matchParent ].
-	self itemBar configureLayoutIn: self
+	self requestNewSkin.
+
+
 ]
 
 { #category : #initialization }
@@ -91,7 +94,7 @@ ToTabsElement >> horizontal: aBoolean [
 
 	isHorizontal = aBoolean ifTrue: [ ^ self ].
 	isHorizontal := aBoolean.
-	self configurationChanged
+	self requestInnerConfiguration 
 ]
 
 { #category : #initialization }
@@ -114,7 +117,8 @@ ToTabsElement >> initialize [
 
 	isStartToEnd := true.
 	self horizontal: true.
-	self addEventHandler: self defaultEventHandler
+	self addEventHandler: self defaultEventHandler.
+	self alignCenter
 ]
 
 { #category : #'accessing - orientation' }
@@ -152,7 +156,7 @@ ToTabsElement >> startToEnd: aBoolean [
 
 	isStartToEnd = aBoolean ifTrue: [ ^ self ].
 	isStartToEnd := aBoolean.
-	self configurationChanged
+	self requestInnerConfiguration 
 ]
 
 { #category : #'accessing - orientation' }

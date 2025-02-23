@@ -55,29 +55,29 @@ ToInnerBarElement >> checkFullyVisibleNodes [
 ]
 
 { #category : #'t - list node holder' }
-ToInnerBarElement >> configureLayoutIn: aBarElement [
+ToInnerBarElement >> configureLayoutIn: aBarElementx [
 
 	self matchParent.
-	aBarElement isWrapping
+	listElement isWrapping
 		ifTrue: [
-			aBarElement isVertical
+			listElement isVertical
 				ifTrue: [
-					aBarElement isHMatchParent
+					listElement isHMatchParent
 						ifTrue: [ self hMatchParent ]
 						ifFalse: [ self hFitContent ] ]
 				ifFalse: [
-					aBarElement isVMatchParent
+					listElement isVMatchParent
 						ifTrue: [ self vMatchParent ]
 						ifFalse: [ self vFitContent ] ] ]
 		ifFalse: [
-			aBarElement isHMatchParent
+			listElement isHMatchParent
 				ifTrue: [ self hMatchParent ]
 				ifFalse: [ self hFitContent ].
-			aBarElement isVMatchParent
+			listElement isVMatchParent
 				ifTrue: [ self vMatchParent ]
 				ifFalse: [ self vFitContent ] ].
 			
-	trackElement configureLayoutIn: aBarElement
+	trackElement configureLayoutIn: listElement
 ]
 
 { #category : #'private - commands' }
@@ -512,11 +512,10 @@ ToInnerBarElement >> stopScrollersInternal [
 { #category : #accessing }
 ToInnerBarElement >> trackElement: anElement [
 
-	trackElement = anElement ifTrue: [ ^ self ].
-	trackElement ifNotNil: [ trackElement removeFromParent ].
+	trackElement ifNotNil: [ (BlImmutableObjectChangeError object: self) signal ].
 	trackElement := anElement.
-	trackElement ifNil: [ ^ self ].
 	trackElement id: #track.
+	trackElement onScrollableElement: self.
 	self addChild: trackElement 
 ]
 

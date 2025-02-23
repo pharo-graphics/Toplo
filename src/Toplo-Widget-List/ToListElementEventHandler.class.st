@@ -159,19 +159,20 @@ ToListElementEventHandler >> infiniteDataSourceItemsFiltered: anEvent [
 { #category : #'element events handling' }
 ToListElementEventHandler >> layoutDirectionChangedEvent: anEvent [
 
-	anEvent currentTarget configureLayout
+	anEvent currentTarget requestInnerConfiguration
+
 ]
 
 { #category : #'element events handling' }
 ToListElementEventHandler >> layoutOrientationChangedEvent: anEvent [
 
-	anEvent currentTarget configureLayout
+	anEvent currentTarget requestInnerConfiguration
 ]
 
 { #category : #'element events handling' }
 ToListElementEventHandler >> layoutResizerChangedEvent: anEvent [
 
-	anEvent currentTarget configureLayout
+	anEvent currentTarget requestInnerConfiguration
 ]
 
 { #category : #'infinite event handling' }

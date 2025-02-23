@@ -52,8 +52,9 @@ TToMenuItemListOwner >> onAddedMenuPane: aMenuPane [
 
 	self onAddedMenuItem: aMenuPane.
 	aMenuPane isSubPane: true.
-	aMenuPane configureLayout.
-	aMenuPane unselectable: true
+	aMenuPane unselectable: true.
+	self requestInnerConfiguration.
+
 ]
 
 { #category : #'t - menu item list owner - double dispatch' }
@@ -97,8 +98,9 @@ TToMenuItemListOwner >> onRemovedMenuPane: aMenuPane [
 	self itemList unselectableSelecter deselectIndex:
 		aMenuPane positionInBar.
 	aMenuPane isSubPane: false.
-	aMenuPane configureLayout.
-	self onRemovedMenuItem: aMenuPane
+	self onRemovedMenuItem: aMenuPane.
+	self requestInnerConfiguration.
+
 
 ]
 

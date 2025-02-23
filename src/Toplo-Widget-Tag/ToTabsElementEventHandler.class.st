@@ -7,7 +7,7 @@ Class {
 { #category : #'element events handling' }
 ToTabsElementEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
-	anEvent currentTarget configureLayout
+	anEvent currentTarget requestInnerConfiguration
 ]
 
 { #category : #'api - accessing' }
@@ -23,17 +23,17 @@ ToTabsElementEventHandler >> eventsToHandle [
 { #category : #'element events handling' }
 ToTabsElementEventHandler >> layoutDirectionChangedEvent: anEvent [
 
-	anEvent currentTarget configureLayout
+	anEvent currentTarget requestInnerConfiguration
 ]
 
 { #category : #'element events handling' }
 ToTabsElementEventHandler >> layoutOrientationChangedEvent: anEvent [
 
-	anEvent currentTarget configureLayout
+	anEvent currentTarget requestInnerConfiguration
 ]
 
 { #category : #'element events handling' }
 ToTabsElementEventHandler >> layoutResizerChangedEvent: anEvent [
 
-	anEvent currentTarget configureLayout
+	anEvent currentTarget requestInnerConfiguration
 ]

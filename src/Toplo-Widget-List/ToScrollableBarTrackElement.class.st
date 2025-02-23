@@ -8,7 +8,8 @@ Class {
 		'horizontal',
 		'flowLineUniformWidth',
 		'fakeNode',
-		'flowLineUniformHeight'
+		'flowLineUniformHeight',
+		'scrollableElement'
 	],
 	#category : #'Toplo-Widget-List-InnerBar'
 }
@@ -208,6 +209,12 @@ ToScrollableBarTrackElement >> nodesWithIndexDo: aBlock [
 
 	self nodesDo: [ :node |
 		aBlock value: node value: node holder position]
+]
+
+{ #category : #initialization }
+ToScrollableBarTrackElement >> onScrollableElement: aScrollableElement [
+
+	scrollableElement := aScrollableElement 
 ]
 
 { #category : #'accessing - children' }

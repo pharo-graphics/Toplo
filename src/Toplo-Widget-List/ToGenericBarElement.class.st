@@ -24,7 +24,6 @@ ToGenericBarElement >> initialize [
 		grouped: false;
 		beneath: false.
 	self matchParent.
-	self configureLayout
 ]
 
 { #category : #skin }

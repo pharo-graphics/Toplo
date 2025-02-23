@@ -23,7 +23,7 @@ TToBarElement >> autoDistribute: aBoolean [
 	nodeAutoDistribution := aBoolean.
 	" notify dataSource changed to renew all nodes "
 	self notifyDataSourceChanged.
-	self configureLayout
+	self requestInnerConfiguration 
 ]
 
 { #category : #'t - bar element' }
@@ -54,7 +54,7 @@ TToBarElement >> hasUniformNodeHeight [
 TToBarElement >> hasUniformNodeHeight: aBoolean [
 
 	uniformNodeHeight := aBoolean.
-	self configureLayout.
+	self requestInnerConfiguration.
 	self notifyDataSourceChanged
 
 ]
@@ -69,7 +69,7 @@ TToBarElement >> hasUniformNodeWidth [
 TToBarElement >> hasUniformNodeWidth: aBoolean [
 
 	uniformNodeWidth := aBoolean.
-	self configureLayout.
+	self requestInnerConfiguration.
 	self notifyDataSourceChanged
 
 ]
@@ -90,7 +90,7 @@ TToBarElement >> isScrolling [
 TToBarElement >> isScrolling: aBoolean [
 
 	nodeScrolling := aBoolean.
-	self configureLayout.
+	self requestInnerConfiguration.
 	self requestNewSkin
 ]
 
@@ -104,7 +104,7 @@ TToBarElement >> isWrapping [
 TToBarElement >> isWrapping: aBoolean [
 
 	nodeWrapping := aBoolean.
-	self configureLayout.
+	self requestInnerConfiguration.
 	self requestNewSkin
 ]
 

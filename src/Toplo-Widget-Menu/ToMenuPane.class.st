@@ -50,13 +50,6 @@ ToMenuPane >> cancelAutoOpen [
 	self rootMenuPane autoOpen: false
 ]
 
-{ #category : #configuration }
-ToMenuPane >> checkInnerConfiguration [ 
-
-	super checkInnerConfiguration.
-	self configureLayout
-]
-
 { #category : #'t - menu window model' }
 ToMenuPane >> closeWindow [
 
@@ -99,7 +92,8 @@ ToMenuPane >> initialize [
 	self addChild: self itemBar.
 	self isWrapping: false.
 	self hasUniformNodeWidth: false.
-	self beHorizontal
+	self beHorizontal.
+	self configureLayout
 ]
 
 { #category : #testing }

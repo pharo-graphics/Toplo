@@ -50,7 +50,7 @@ ToAbstractListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 		self selectionModel copySelectionFrom: sieve selectionModel ]
 ]
 
-{ #category : #'t - bar element' }
+{ #category : #configuration }
 ToAbstractListElement >> applyInnerConfiguration [ 
 
 	self configureLayout.
@@ -63,7 +63,7 @@ ToAbstractListElement >> commandApplicationStrategy [
 	^ commandApplicationStrategy
 ]
 
-{ #category : #'t - bar element' }
+{ #category : #configuration }
 ToAbstractListElement >> configureLayout [
 
 	self innerElement configureLayoutIn: self
@@ -305,7 +305,8 @@ ToAbstractListElement >> initialize [
 	self newHiddenSelectionMode onInstalledIn: self.
 	self newDisabledSelectionMode onInstalledIn: self.
 
-	self matchParent
+	self matchParent.
+	self configureLayout
 ]
 
 { #category : #initialization }

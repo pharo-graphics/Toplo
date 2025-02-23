@@ -1,8 +1,8 @@
 Class {
 	#name : #ToInfiniteElement,
 	#superclass : #BlInfiniteElement,
-	#traits : 'TToListNodeHolder + TBlLayoutResizable + TToWithOrientableLayout',
-	#classTraits : 'TToListNodeHolder classTrait + TBlLayoutResizable classTrait + TToWithOrientableLayout classTrait',
+	#traits : 'TToListNodeContainer + TBlLayoutResizable + TToWithOrientableLayout',
+	#classTraits : 'TToListNodeContainer classTrait + TBlLayoutResizable classTrait + TToWithOrientableLayout classTrait',
 	#instVars : [
 		'listElement'
 	],

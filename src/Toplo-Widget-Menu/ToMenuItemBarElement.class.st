@@ -33,8 +33,7 @@ ToMenuItemBarElement >> initialize [
 	self fitContent.
 	self vertical: true.
 	self hasUniformNodeWidth: true.
-	self selectionOption masked: true.
-	self configureLayout
+	self selectionOption masked: true
 ]
 
 { #category : #skin }

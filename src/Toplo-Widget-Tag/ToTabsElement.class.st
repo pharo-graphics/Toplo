@@ -32,10 +32,10 @@ ToTabsElement >> alignStart [
 ]
 
 { #category : #configuration }
-ToTabsElement >> checkInnerConfiguration [ 
+ToTabsElement >> applyInnerConfiguration [ 
 
 	self configureLayout.
-	super checkInnerConfiguration 
+	super applyInnerConfiguration 
 ]
 
 { #category : #configuration }

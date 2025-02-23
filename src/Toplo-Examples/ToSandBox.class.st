@@ -2228,9 +2228,6 @@ ToSandBox class >> example_NodeContainerWithStatesOfAmerica [
 
 	| l |
 	l := ToGenericBarElement new.
-	l addEventHandler: (BlEventHandler
-			 on: ToListPrimarySelectionChangedEvent
-			 do: [ :evt | evt traceCr ]).
 	l horizontal: true.
 	l dataAccessor addAll: self statesOfAmerica.
 	l openInSpace

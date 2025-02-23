@@ -23,7 +23,7 @@ ToGenericBarElement >> initialize [
 	self contextMenuSelectionMode selectionOption
 		grouped: false;
 		beneath: false.
-	self matchParent.
+	self matchParent
 ]
 
 { #category : #skin }

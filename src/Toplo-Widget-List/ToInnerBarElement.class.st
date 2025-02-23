@@ -1,8 +1,8 @@
 Class {
 	#name : #ToInnerBarElement,
 	#superclass : #ToScrollableElement,
-	#traits : 'TToListNodeHolder',
-	#classTraits : 'TToListNodeHolder classTrait',
+	#traits : 'TToListNodeContainer',
+	#classTraits : 'TToListNodeContainer classTrait',
 	#instVars : [
 		'dataSource',
 		'dataSourceManager',
@@ -19,14 +19,6 @@ ToInnerBarElement class >> onBarElement: aBarElement [
 	^ self basicNew
 		  onBarElement: aBarElement;
 		  initialize
-]
-
-{ #category : #'instance creation' }
-ToInnerBarElement class >> onInnerBarElement: anInnerBarElement [
-
-	^ self new
-		  onInnerBarElement: anInnerBarElement;
-		  yourself
 ]
 
 { #category : #'accessing - nodes' }

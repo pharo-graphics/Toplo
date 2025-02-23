@@ -35,6 +35,12 @@ BlSpace >> applyAllEnqueuedStates [
 ]
 
 { #category : #'*Toplo' }
+BlSpace >> applyAllInnerConfigurations [
+
+	self skinPhasesManager applyAllInnerConfigurationsIn: self
+]
+
+{ #category : #'*Toplo' }
 BlSpace >> applyAllSkinInstallers [
 
 	self skinPhasesManager applyAllSkinInstallersIn: self
@@ -52,6 +58,13 @@ BlSpace >> checkSkinPhases [
 
 	self skinPhasesManager skinPhasesInstalled ifTrue: [^ self ].
 	self skinPhasesManager onInstalledIn: self
+]
+
+{ #category : #'*Toplo' }
+BlSpace >> needInnerConfigurationPass: aBoolean [
+
+	self skinPhasesManager needInnerConfigurationPass: aBoolean.
+	aBoolean ifTrue: [ self requestNextPulse ]
 ]
 
 { #category : #'*Toplo' }

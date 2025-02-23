@@ -9,7 +9,8 @@ Trait {
 { #category : #'t - triplet element - initialization' }
 TToTripletElement >> applyInnerConfiguration [ 
 
-	self tripletProperties ifNotNil: [:tp | tp applyInnerConfiguration ]
+	self tripletProperties ifNotNil: [:tp | tp applyInnerConfiguration ].
+	super applyInnerConfiguration
 ]
 
 { #category : #'t - triplet element - accessing' }
@@ -184,7 +185,6 @@ TToTripletElement >> newMiddleContainer [
 			  c horizontal fitContent.
 			  c vertical fitContent ];
 		layout: BlFrameLayout new;
-		background: BlBackground transparent;
 		  yourself
 ]
 

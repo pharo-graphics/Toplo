@@ -60,6 +60,8 @@ BlElement >> applyEnqueuedStatesDeeply [
 
 { #category : #'*Toplo' }
 BlElement >> applyInnerConfiguration [
+
+
 ]
 
 { #category : #'*Toplo' }
@@ -88,6 +90,21 @@ BlElement >> areSelectionSkinEventsPrevented [
 BlElement >> borderBuilder [
 
 	^ self skinManager borderBuilder
+]
+
+{ #category : #'*Toplo' }
+BlElement >> checkInnerConfiguration [
+
+	self innerConfigurationRequested ifFalse: [ ^ self ].
+	self applyInnerConfiguration.
+	self innerConfigurationRequested: false
+]
+
+{ #category : #'*Toplo' }
+BlElement >> checkInnerConfigurationsDeeply [
+
+	self withAllChildrenBreadthFirstDo: [ :child |
+		child checkInnerConfiguration ]
 ]
 
 { #category : #'*Toplo' }
@@ -265,6 +282,18 @@ BlElement >> hasStamp: aSymbol [
 BlElement >> holder [
 
 	^ self constraints infinite holder
+]
+
+{ #category : #'*Toplo' }
+BlElement >> innerConfigurationRequested [
+
+	^ self userData at: #innerConfigurationRequested ifAbsent: [ false ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> innerConfigurationRequested: aBoolean [
+
+	self userData at: #innerConfigurationRequested put: aBoolean
 ]
 
 { #category : #'*Toplo' }
@@ -526,6 +555,14 @@ BlElement >> removeTokenNamed: aSymbol [
 
 { #category : #'*Toplo' }
 BlElement >> removedFromMenu: aMenu [
+]
+
+{ #category : #'*Toplo' }
+BlElement >> requestInnerConfiguration [
+
+	self innerConfigurationRequested ifTrue: [ ^ self ].
+	self innerConfigurationRequested: true.
+	self spaceDo: [ :sp | sp needInnerConfigurationPass: true ]
 ]
 
 { #category : #'*Toplo' }

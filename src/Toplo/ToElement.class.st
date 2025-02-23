@@ -44,10 +44,3 @@ ToElement >> newScrollable [
 
 	^ ToScrollableElement new
 ]
-
-{ #category : #layout }
-ToElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
-
-	self applyInnerConfiguration.
-	super onLayout: aBounds context: aBlElementBoundsUpdateContext
-]

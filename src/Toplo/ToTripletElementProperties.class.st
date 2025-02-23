@@ -18,8 +18,7 @@ Class {
 		'endAlignment',
 		'endInterspace',
 		'startInterspace',
-		'owner',
-		'configurationRequested'
+		'owner'
 	],
 	#category : #'Toplo-Core'
 }
@@ -27,8 +26,8 @@ Class {
 { #category : #initialization }
 ToTripletElementProperties >> applyInnerConfiguration [
 
-	configurationRequested ifFalse: [ ^ self ].
 	"'applyInnerConfiguration in ' trace. owner traceCr."
+	
 	self configureEndContainer.
 	self configureEndFiller.
 	self configureEndGap.
@@ -36,8 +35,7 @@ ToTripletElementProperties >> applyInnerConfiguration [
 	self configureStartFiller.
 	self configureStartGap.
 	self configureEndElement.
-	self configureChildren.
-	configurationRequested := false
+	self configureChildren
 ]
 
 { #category : #initialization }
@@ -164,7 +162,7 @@ ToTripletElementProperties >> endAlignment: aNumber [
 
 	endAlignment = aNumber ifTrue: [ ^ self ].
 	endAlignment := aNumber.
-	self requestInnerConfiguration
+	owner requestInnerConfiguration
 ]
 
 { #category : #accessing }
@@ -187,7 +185,7 @@ ToTripletElementProperties >> endElement: anElement [
 	endElement := anElement.
 	anElement ifNil: [ ^ self ].
 	endContainer addChild: anElement.
-	self requestInnerConfiguration
+	owner requestInnerConfiguration
 ]
 
 { #category : #accessing }
@@ -207,7 +205,7 @@ ToTripletElementProperties >> endFlexible: aBoolean [
 
 	endFlexible = aBoolean ifTrue: [ ^ self ].
 	endFlexible := aBoolean.
-	self requestInnerConfiguration
+	owner requestInnerConfiguration
 ]
 
 { #category : #accessing }
@@ -215,14 +213,13 @@ ToTripletElementProperties >> endInterspace: aNumber [
 
 	endInterspace = aNumber ifTrue: [ ^ self ].
 	endInterspace := aNumber.
-	self requestInnerConfiguration
+	owner requestInnerConfiguration
 ]
 
 { #category : #initialization }
 ToTripletElementProperties >> initialize [ 
 
 	super initialize.
-	configurationRequested := true.
 	startFlexible := false.
 	endFlexible := false.
 	startInterspace := 0.
@@ -264,15 +261,19 @@ ToTripletElementProperties >> on: anElement [
 	startGap := anElement newFiller
 		            id: #'start-gap';
 		            yourself.
+	"startGap background: Color blue."
 	endGap := anElement newFiller
 		          id: #'end-gap';
 		          yourself.
+	"endGap background: Color blue."
 	startFiller := anElement newFiller
 		               id: #'start-filler';
 		               yourself.
+	"startFiller background: Color yellow."
 	endFiller := anElement newFiller
 		             id: #'end-filler';
 		             yourself.
+	"endFiller background: Color yellow."
 	startContainer := anElement newBaseContainer
 		                  id: #'start-container';
 		                  yourself.
@@ -311,7 +312,6 @@ ToTripletElementProperties >> on: anElement resizerDo: aBlock [
 	aBlock value: anElement constraints.
 	(hr = anElement constraints horizontal resizer and: [
 		 vr = anElement constraints vertical resizer ]) ifTrue: [ ^ self ].
-	owner dispatchEvent: BlLayoutResizerChangedEvent new.
 	owner requestLayout
 ]
 
@@ -330,12 +330,6 @@ ToTripletElementProperties >> release [
 	endElement := nil
 ]
 
-{ #category : #initialization }
-ToTripletElementProperties >> requestInnerConfiguration [
-
-	configurationRequested := true
-]
-
 { #category : #accessing }
 ToTripletElementProperties >> startAlignment [
 
@@ -347,7 +341,7 @@ ToTripletElementProperties >> startAlignment: aNumber [
 
 	startAlignment = aNumber ifTrue: [ ^ self ].
 	startAlignment := aNumber.
-	self requestInnerConfiguration
+	owner requestInnerConfiguration
 ]
 
 { #category : #accessing }
@@ -395,7 +389,7 @@ ToTripletElementProperties >> startFlexible: aBoolean [
 
 	startFlexible = aBoolean ifTrue: [ ^ self ].
 	startFlexible := aBoolean.
-	self requestInnerConfiguration
+	owner requestInnerConfiguration
 ]
 
 { #category : #accessing }
@@ -409,5 +403,5 @@ ToTripletElementProperties >> startInterspace: aNumber [
 
 	startInterspace = aNumber ifTrue: [ ^ self ].
 	startInterspace := aNumber.
-	self requestInnerConfiguration
+	owner requestInnerConfiguration
 ]

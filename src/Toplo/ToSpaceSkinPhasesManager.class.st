@@ -7,7 +7,8 @@ Class {
 		'spaceShownEventHandler',
 		'needSkinInstallPass',
 		'needSkinStateApplicationPass',
-		'stateGenerations'
+		'stateGenerations',
+		'needInnerConfigurationPass'
 	],
 	#category : #'Toplo-Core-SpaceFrame'
 }
@@ -42,6 +43,14 @@ ToSpaceSkinPhasesManager >> applyAllEnqueuedStatesIn: aSpace [
 ]
 
 { #category : #'phases application' }
+ToSpaceSkinPhasesManager >> applyAllInnerConfigurationsIn: aSpace [
+
+	self needInnerConfigurationPass ifFalse: [ ^ self ].
+	self needInnerConfigurationPass: false.
+	aSpace root checkInnerConfigurationsDeeply
+]
+
+{ #category : #'phases application' }
 ToSpaceSkinPhasesManager >> applyAllSkinInstallersIn: aSpace [
 
 	self needSkinInstallPass ifFalse: [ ^ self ].
@@ -68,7 +77,16 @@ ToSpaceSkinPhasesManager >> initialize [
 	allowSkinPhases := true.
 	needSkinInstallPass := true.
 	needSkinStateApplicationPass := true.
+	needInnerConfigurationPass := true.
 	stateGenerations := OrderedCollection new
+]
+
+{ #category : #'phases installation' }
+ToSpaceSkinPhasesManager >> installedInnerConfigurationPhaseIn: aSpace [
+
+	^ aSpace frame phases
+		  detect: [ :p | p isKindOf: ToSpaceInnerConfigurationPhase ]
+		  ifNone: [  ]
 ]
 
 { #category : #'phases installation' }
@@ -88,6 +106,12 @@ ToSpaceSkinPhasesManager >> installedSkinStateApplicationPhaseIn: aSpace [
 ]
 
 { #category : #testing }
+ToSpaceSkinPhasesManager >> isInnerConfigurationPhaseInstalledIn: aSpace [
+
+	^ (self installedInnerConfigurationPhaseIn: aSpace) notNil
+]
+
+{ #category : #testing }
 ToSpaceSkinPhasesManager >> isSkinInstallerPhaseInstalledIn: aSpace [
 
 	^ (self installedSkinInstallerPhaseIn: aSpace) notNil
@@ -103,6 +127,18 @@ ToSpaceSkinPhasesManager >> isSkinPhasesInstallationPostponed [
 ToSpaceSkinPhasesManager >> isSkinStateApplicationPhaseInstalledIn: aSpace [
 
 	^ (self installedSkinStateApplicationPhaseIn: aSpace) notNil
+]
+
+{ #category : #accessing }
+ToSpaceSkinPhasesManager >> needInnerConfigurationPass [
+
+	^ needInnerConfigurationPass
+]
+
+{ #category : #accessing }
+ToSpaceSkinPhasesManager >> needInnerConfigurationPass: aBoolean [
+
+	needInnerConfigurationPass := aBoolean
 ]
 
 { #category : #accessing }
@@ -187,13 +223,29 @@ ToSpaceSkinPhasesManager >> skinPhasesInstalled: aBoolean [
 ]
 
 { #category : #'phases installation' }
-ToSpaceSkinPhasesManager >> startSkinInstallerPhaseIn: aSpace [
-	| phaseAfter |
+ToSpaceSkinPhasesManager >> startInnerConfigurationPhaseIn: aSpace [
 
+	| phaseAfter |
+	(self isInnerConfigurationPhaseInstalledIn: aSpace) ifTrue: [ ^ self ].
+	" The skin phase must be inserted before the layout phase (that must be present) "
+	phaseAfter := aSpace frame detectPhase: [ :f |
+		              f class = ToSpaceSkinInstallerPhase ].
+	aSpace frame
+		addPhase: ToSpaceInnerConfigurationPhase new
+		before: phaseAfter
+]
+
+{ #category : #'phases installation' }
+ToSpaceSkinPhasesManager >> startSkinInstallerPhaseIn: aSpace [
+
+	| phaseAfter |
 	(self isSkinInstallerPhaseInstalledIn: aSpace) ifTrue: [ ^ self ].
 	" The skin phase must be inserted before the layout phase (that must be present) "
-	phaseAfter := aSpace frame detectPhase: [ :f | f class = BlSpaceFrameLayoutPhase ].
-	aSpace frame addPhase: ToSpaceSkinInstallerPhase new before: phaseAfter
+	phaseAfter := aSpace frame detectPhase: [ :f |
+		              f class = BlSpaceFrameLayoutPhase ].
+	aSpace frame
+		addPhase: ToSpaceSkinInstallerPhase new
+		before: phaseAfter
 ]
 
 { #category : #'phases installation' }
@@ -206,7 +258,8 @@ ToSpaceSkinPhasesManager >> startSkinPhasesIn: aSpace [
 		spaceShownEventHandler := nil ].
 	self
 		startSkinInstallerPhaseIn: aSpace;
-		startSkinStateApplicationPhaseIn: aSpace.
+		startSkinStateApplicationPhaseIn: aSpace;
+		startInnerConfigurationPhaseIn: aSpace.
 	self skinPhasesInstalled: true.
 	" If no theme has been already set, now I can set the root default theme
 	( *** before skinPhasesInstalled: true *** it would start an endless loop )"

@@ -1867,7 +1867,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 		     node addChild: (ToLabeledIcon new
 				      label: lab;
 				      icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
-				      startInterspace: 10;
+				      startAlignment: 30;
 				      hMatchParent) ].
 	l primarySelectionMode selectionOption animationDuration:
 		200 milliSeconds.
@@ -3375,7 +3375,7 @@ ToSandBox class >> example_TabsElement [
 
 	(tabs items at: 2) disable.
 	dashBoard := self tabsElementDashBoardFor: tabs.
-
+	tabs alignCenter.
 	dashBoard openInSpace
 ]
 
@@ -6640,25 +6640,8 @@ ToSandBox class >> example_toButtonOrientationChanger [
 		ann currentTarget orientation: but orientation inverted ].
 	space := BlSpace new.
 	space root addChild: but.
-	space show
-]
-
-{ #category : #'button-dep' }
-ToSandBox class >> example_toButtonOrientationChanger3 [
-
-	| but space iconImage count |
-	but := ToButton new.
-	but label: (ToLabel text:'Button' asRopedText bold).
-	iconImage := BlElement new
-		             size: 20 @ 20;
-		             background: Color lightGray;
-		             yourself.
-	but iconImage: iconImage.
-	count := 0.
-	but whenClickedDo: [ :ann | count := count + 1. count traceCr. ann currentTarget orientation: but orientation inverted ].
-	space := BlSpace new.
-	space root addChild: but.
-	space show 
+	space show.
+	space showStatisticsWindow
 ]
 
 { #category : #tooltip }
@@ -6703,14 +6686,12 @@ ToSandBox class >> example_toButtonWithIconAndTextAndExtra [
 
 	| but space |
 	but := ToButton new.
-
 	but label: (ToLabel text: 'Button').
 	but iconImage: ToThemeIcons searchOutlined16x16.
 	but endElement: (BlElement new
-			 size: 15 @ 9;
+			 size: 8 @ 9;
 			 background: ToThemeIcons plainTriangle5x9;
 			 yourself).
-
 	space := BlSpace new.
 	space root addChild: but.
 	space show

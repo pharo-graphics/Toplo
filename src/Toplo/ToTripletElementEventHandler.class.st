@@ -27,11 +27,13 @@ ToTripletElementEventHandler >> eventsToHandle [
 { #category : #'events handling' }
 ToTripletElementEventHandler >> layoutDirectionChangedEvent: anEvent [
 
+	anEvent currentTarget requestInnerConfiguration.
 	anEvent currentTarget requestNewSkin
 ]
 
 { #category : #'events handling' }
 ToTripletElementEventHandler >> layoutOrientationChangedEvent: anEvent [
 
+	anEvent currentTarget requestInnerConfiguration.
 	anEvent currentTarget requestNewSkin
 ]

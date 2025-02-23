@@ -11,6 +11,30 @@ Class {
 }
 
 { #category : #'accessing - orientation' }
+ToTabsElement >> alignCenter [
+
+	self startFlexible: true.
+	self endFlexible: true.
+	self configurationChanged
+]
+
+{ #category : #'accessing - orientation' }
+ToTabsElement >> alignEnd [
+
+	self startFlexible: true.
+	self endFlexible: false.
+	self configurationChanged
+]
+
+{ #category : #'accessing - orientation' }
+ToTabsElement >> alignStart [
+
+	self startFlexible:false.
+	self endFlexible: true.
+	self configurationChanged
+]
+
+{ #category : #'accessing - orientation' }
 ToTabsElement >> configurationChanged [
 
 	self itemBar horizontal: isHorizontal.

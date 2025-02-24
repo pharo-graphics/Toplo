@@ -49,26 +49,14 @@ ToInnerBarElement >> checkFullyVisibleNodes [
 { #category : #'t - list node holder' }
 ToInnerBarElement >> configureLayout [
 
-	self matchParent.
-	listElement isWrapping
-		ifTrue: [
-			listElement isVertical
-				ifTrue: [
-					listElement isHMatchParent
-						ifTrue: [ self hMatchParent ]
-						ifFalse: [ self hFitContent ] ]
-				ifFalse: [
-					listElement isVMatchParent
-						ifTrue: [ self vMatchParent ]
-						ifFalse: [ self vFitContent ] ] ]
-		ifFalse: [
-			listElement isHMatchParent
-				ifTrue: [ self hMatchParent ]
-				ifFalse: [ self hFitContent ].
-			listElement isVMatchParent
-				ifTrue: [ self vMatchParent ]
-				ifFalse: [ self vFitContent ] ].
-			
+	listElement isHFitContent
+		ifTrue: [ self hFitContent ]
+		ifFalse: [ self hMatchParent ].
+
+	listElement isVFitContent
+		ifTrue: [ self vFitContent ]
+		ifFalse: [ self vMatchParent ].
+
 	trackElement configureLayout
 ]
 

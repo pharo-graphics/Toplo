@@ -25,13 +25,6 @@ ToMenuPane >> addMenu: aMenu [
 	self addItem: aMenu
 ]
 
-{ #category : #configuration }
-ToMenuPane >> applyInnerConfiguration [ 
-
-	self configureLayout.
-	super applyInnerConfiguration
-]
-
 { #category : #'auto opening' }
 ToMenuPane >> autoOpen [
 

@@ -50,13 +50,6 @@ ToAbstractListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 		self selectionModel copySelectionFrom: sieve selectionModel ]
 ]
 
-{ #category : #configuration }
-ToAbstractListElement >> applyInnerConfiguration [ 
-
-	self configureLayout.
-	super applyInnerConfiguration
-]
-
 { #category : #accessing }
 ToAbstractListElement >> commandApplicationStrategy [
 
@@ -66,6 +59,7 @@ ToAbstractListElement >> commandApplicationStrategy [
 { #category : #configuration }
 ToAbstractListElement >> configureLayout [
 
+	super configureLayout.
 	self innerElement configureLayout 
 ]
 

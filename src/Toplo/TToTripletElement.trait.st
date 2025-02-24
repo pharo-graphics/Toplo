@@ -6,6 +6,34 @@ Trait {
 	#category : #'Toplo-Core'
 }
 
+{ #category : #'t - triplet element - alignment' }
+TToTripletElement >> alignCenter [
+
+	self startFlexible: true.
+	self endFlexible: true.
+]
+
+{ #category : #'t - triplet element - alignment' }
+TToTripletElement >> alignEnd [
+
+	self startFlexible: true.
+	self endFlexible: false
+]
+
+{ #category : #'t - triplet element - alignment' }
+TToTripletElement >> alignNone [
+
+	self startFlexible: false.
+	self endFlexible: false.
+]
+
+{ #category : #'t - triplet element - alignment' }
+TToTripletElement >> alignStart [
+
+	self startFlexible: false.
+	self endFlexible: true
+]
+
 { #category : #'t - triplet element - configuration' }
 TToTripletElement >> applyInnerConfiguration [ 
 
@@ -117,6 +145,30 @@ TToTripletElement >> initializeAsTripletElementOn: anElement [
 ]
 
 { #category : #'t - triplet element - testing' }
+TToTripletElement >> isAlignCenter [
+
+	self isStartFlexible and: [ self isEndFlexible ]
+]
+
+{ #category : #'t - triplet element - testing' }
+TToTripletElement >> isAlignEnd [
+
+	^ self isStartFlexible and: [ self isEndFlexible not ]
+]
+
+{ #category : #'t - triplet element - testing' }
+TToTripletElement >> isAlignStart [
+
+	^ self isStartFlexible not and: [ self isEndFlexible ]
+]
+
+{ #category : #'t - triplet element - testing' }
+TToTripletElement >> isAligned [
+
+	^ self isStartFlexible or: [ self isEndFlexible ]
+]
+
+{ #category : #'t - triplet element - testing' }
 TToTripletElement >> isEndFlexible [
 
 	^ self tripletProperties endFlexible
@@ -180,7 +232,7 @@ TToTripletElement >> newFiller [
 { #category : #'t - triplet element - instance creation' }
 TToTripletElement >> newMiddleContainer [
 
-	^ BlElement  new
+	^ ToElement  new
 		  constraintsDo: [ :c |
 			  c horizontal fitContent.
 			  c vertical fitContent ];

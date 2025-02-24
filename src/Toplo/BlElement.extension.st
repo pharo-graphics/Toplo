@@ -61,7 +61,7 @@ BlElement >> applyEnqueuedStatesDeeply [
 { #category : #'*Toplo' }
 BlElement >> applyInnerConfiguration [
 
-
+	self configureLayout
 ]
 
 { #category : #'*Toplo' }
@@ -111,6 +111,12 @@ BlElement >> checkInnerConfigurationsDeeply [
 BlElement >> closedEventClass [
 
 	^ ToClosedEvent 
+]
+
+{ #category : #'*Toplo' }
+BlElement >> configureLayout [
+
+
 ]
 
 { #category : #'*Toplo' }

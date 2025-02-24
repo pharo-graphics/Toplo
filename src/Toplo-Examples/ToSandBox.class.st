@@ -87,6 +87,43 @@ ToSandBox class >> accordionWithLabelText: aString [
 ]
 
 { #category : #bar }
+ToSandBox class >> alignmentChooserFor: aCheckableBar [
+
+	| buttons alignContainer alignGroup |
+	alignGroup := ToCheckableGroup new.
+	buttons := OrderedCollection new.
+	{ #None. #Start. #Center. #End } do: [ :mode |
+		| chb |
+		chb := ToCheckbox new
+			       labelText: mode asString;
+			       id: mode.
+		buttons add: chb ].
+
+	alignGroup registerAll: buttons.
+	alignGroup addEventHandler: (BlEventHandler
+			 on: ToCheckableGroupChangedEvent
+			 do: [ :event |
+				 | mode |
+				 mode := event checkedList first id asSymbol.
+				 mode = #None
+					 ifTrue: [ aCheckableBar alignNone ]
+					 ifFalse: [
+						 mode = #Start
+							 ifTrue: [ aCheckableBar alignStart ]
+							 ifFalse: [
+								 mode = #Center
+									 ifTrue: [ aCheckableBar alignCenter ]
+									 ifFalse: [ aCheckableBar alignEnd ] ] ] ]).
+	buttons first checked: true.
+	alignContainer := ToPane vertical.
+	alignContainer hMatchParent.
+	alignContainer addChild: (ToLabel text: 'Alignment').
+	alignContainer layout cellSpacing: 0.
+	alignContainer addChildren: alignGroup registeredCheckables.
+	^ alignContainer
+]
+
+{ #category : #bar }
 ToSandBox class >> barConfigurationBoardFor: aBar [
 
 	| menu confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch uniformNodeWidthSwitch selectionAnimationSwitch selectOnPressedSwitch deselectOnPressedSwitch makeDisabledUnselectableSwitch uniformNodeHeightSwitch |
@@ -3371,7 +3408,6 @@ ToSandBox class >> example_TabsElement [
 
 	(tabs items at: 2) disable.
 	dashBoard := self tabsElementDashBoardFor: tabs.
-	tabs alignCenter.
 	dashBoard openInSpace
 ]
 
@@ -7985,8 +8021,8 @@ ToSandBox class >> resizerBoardFor: aBar [
 			size ifNotNil: [
 				saveRequested accepted: true.
 				dir = #Horizontal
-					ifTrue: [ aBar width: size ]
-					ifFalse: [ aBar height: size ] ] ].
+					ifTrue: [ aBar hExact: size ]
+					ifFalse: [ aBar vExact: size ] ] ].
 
 		sizeInputPane addChild: sizeInput.
 		sizeInputPane childrenDo: [ :child |
@@ -8249,7 +8285,7 @@ ToSandBox class >> subsubsubTabPane [
 { #category : #tag }
 ToSandBox class >> tabsElementDashBoardFor: aTabsElement [
 
-	| mainPane barPane confPane checkingStrategyPane startToEndSwitch feedbackPane maj rootPane |
+	| mainPane barPane confPane checkingStrategyPane startToEndSwitch feedbackPane maj rootPane alignmentPane |
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
 
@@ -8275,6 +8311,8 @@ ToSandBox class >> tabsElementDashBoardFor: aTabsElement [
 
 	checkingStrategyPane := self checkingStrategyChooserFor: aTabsElement.
 	confPane addChild: checkingStrategyPane.
+	alignmentPane := self alignmentChooserFor: aTabsElement.
+	confPane addChild: alignmentPane.
 
 	feedbackPane := ToPane horizontal.
 	feedbackPane layout alignCenter.

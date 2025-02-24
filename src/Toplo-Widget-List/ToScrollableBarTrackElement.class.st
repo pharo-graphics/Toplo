@@ -56,9 +56,13 @@ ToScrollableBarTrackElement >> configureLayout [
 
 	self layout: self newLayoutStrategy.
 
-	self matchParent.
-	listElement isHMatchParent ifFalse: [ self hFitContent ].
-	listElement isVMatchParent ifFalse: [ self vFitContent ].
+	listElement isHFitContent
+		ifTrue: [ self hFitContent ]
+		ifFalse: [ self hMatchParent ].
+
+	listElement isVFitContent
+		ifTrue: [ self vFitContent ]
+		ifFalse: [ self vMatchParent ].
 
 	(self isWrapping not and: [ self isScrolling ]) ifTrue: [
 		self isHorizontal

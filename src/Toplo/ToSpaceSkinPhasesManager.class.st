@@ -3,8 +3,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'skinPhasesInstalled',
-		'allowSkinPhases',
-		'spaceShownEventHandler',
+		'startHandler',
 		'needSkinInstallPass',
 		'needSkinStateApplicationPass',
 		'stateGenerations',
@@ -19,53 +18,37 @@ ToSpaceSkinPhasesManager >> addSkinStateGeneration: aValuable [
 	stateGenerations add: aValuable
 ]
 
-{ #category : #accessing }
-ToSpaceSkinPhasesManager >> allowSkinPhases [
-
-	" useful for testing. tests may want to run phases programmatically"
-	^ allowSkinPhases
-]
-
-{ #category : #accessing }
-ToSpaceSkinPhasesManager >> allowSkinPhases: aBoolean [
-
-	" useful for testing. tests may want to run phases programmatically"
-	allowSkinPhases := aBoolean
-]
-
-{ #category : #'phases application' }
+{ #category : #'skins application' }
 ToSpaceSkinPhasesManager >> applyAllEnqueuedStatesIn: aSpace [
 
 	self runStateGenerations.
-	self needSkinStateApplicationPass ifFalse: [ ^ self ].
+	needSkinStateApplicationPass ifFalse: [ ^ self ].
 	aSpace root applyEnqueuedStatesDeeply.
-	self needSkinStateApplicationPass: false
+	needSkinStateApplicationPass := false
 ]
 
-{ #category : #'phases application' }
+{ #category : #'configurations application' }
 ToSpaceSkinPhasesManager >> applyAllInnerConfigurationsIn: aSpace [
 
-	self needInnerConfigurationPass ifFalse: [ ^ self ].
-	self needInnerConfigurationPass: false.
+	needInnerConfigurationPass ifFalse: [ ^ self ].
+	needInnerConfigurationPass := false.
 	aSpace root checkInnerConfigurationsDeeply
 ]
 
-{ #category : #'phases application' }
+{ #category : #'skins installation' }
 ToSpaceSkinPhasesManager >> applyAllSkinInstallersIn: aSpace [
 
-	self needSkinInstallPass ifFalse: [ ^ self ].
+	needSkinInstallPass ifFalse: [ ^ self ].
 	" flag it now, before a skin installation pass because nothing prevent a skin installation to ask for another installation.
 	This is normally not the case. One known case is the space root installation that induce a skin installation "
 	self needSkinInstallPass: false.
 	aSpace root applySkinInstallersDeeply
 ]
 
-{ #category : #'phases installation' }
+{ #category : #initialization }
 ToSpaceSkinPhasesManager >> checkSkinPhasesIn: aSpace [
 
-	self allowSkinPhases ifFalse: [
-		self onUninstalledIn: aSpace.
-		^ self ].
+	skinPhasesInstalled ifTrue: [^ self ].
 	self onInstalledIn: aSpace
 ]
 
@@ -74,7 +57,6 @@ ToSpaceSkinPhasesManager >> initialize [
 
 	super initialize.
 	skinPhasesInstalled := false.
-	allowSkinPhases := true.
 	needSkinInstallPass := true.
 	needSkinStateApplicationPass := true.
 	needInnerConfigurationPass := true.
@@ -120,7 +102,7 @@ ToSpaceSkinPhasesManager >> isSkinInstallerPhaseInstalledIn: aSpace [
 { #category : #testing }
 ToSpaceSkinPhasesManager >> isSkinPhasesInstallationPostponed [
 
-	^ spaceShownEventHandler notNil
+	^ startHandler notNil
 ]
 
 { #category : #testing }
@@ -168,8 +150,7 @@ ToSpaceSkinPhasesManager >> needSkinStateApplicationPass: aBoolean [
 { #category : #'phases installation' }
 ToSpaceSkinPhasesManager >> onInstalledIn: aSpace [
 
-	self skinPhasesInstalled ifTrue: [ ^ self ].
-	self allowSkinPhases ifFalse: [ ^ self ].
+	skinPhasesInstalled ifTrue: [ ^ self ].
 	aSpace isOpened
 		ifTrue: [ 
 			"'space already opened -> startSkinPhasesIn:' traceCr."
@@ -192,17 +173,14 @@ ToSpaceSkinPhasesManager >> onUninstalledIn: aSpace [
 { #category : #'phases installation' }
 ToSpaceSkinPhasesManager >> postponeStartSkinPhasesIn: aSpace [
 
-	spaceShownEventHandler := BlEventHandler new.
-	spaceShownEventHandler eventClass: BlSpaceShownEvent.
-	spaceShownEventHandler action: [
-		"'space opened -> startSkinPhasesIn:' traceCr."
-		aSpace removeEventHandler: spaceShownEventHandler.
-		spaceShownEventHandler := nil.
-		self startSkinPhasesIn: aSpace ].
-	aSpace addEventHandler: spaceShownEventHandler
+	startHandler := aSpace
+		                addEventHandlerOn: BlSpaceShownEvent
+		                doOnce: [ "'space opened -> startSkinPhasesIn:' traceCr."
+			                startHandler := nil.
+			                self startSkinPhasesIn: aSpace ]
 ]
 
-{ #category : #'phases application' }
+{ #category : #'skins application' }
 ToSpaceSkinPhasesManager >> runStateGenerations [
 
 	stateGenerations ifNil: [ ^ self ].
@@ -251,11 +229,10 @@ ToSpaceSkinPhasesManager >> startSkinInstallerPhaseIn: aSpace [
 { #category : #'phases installation' }
 ToSpaceSkinPhasesManager >> startSkinPhasesIn: aSpace [
 
-	self skinPhasesInstalled ifTrue: [ ^ self ].
-	self allowSkinPhases ifFalse: [ ^ self ].
+	skinPhasesInstalled ifTrue: [ ^ self ].
 	self isSkinPhasesInstallationPostponed ifTrue: [
-		aSpace removeEventHandler: spaceShownEventHandler.
-		spaceShownEventHandler := nil ].
+		aSpace removeEventHandler: startHandler.
+		startHandler := nil ].
 	self
 		startSkinInstallerPhaseIn: aSpace;
 		startSkinStateApplicationPhaseIn: aSpace;
@@ -304,14 +281,14 @@ ToSpaceSkinPhasesManager >> stopSkinInstallerPhaseIn: aSpace [
 ToSpaceSkinPhasesManager >> stopSkinPhasesIn: aSpace [
 
 	self isSkinPhasesInstallationPostponed ifTrue: [ 
-		aSpace removeEventHandler: spaceShownEventHandler.
-		spaceShownEventHandler := nil. ].
+		aSpace removeEventHandler: startHandler.
+		startHandler := nil. ].
 	
-	self skinPhasesInstalled ifFalse: [ ^ self ].
+	skinPhasesInstalled ifFalse: [ ^ self ].
 	self
-		stopInnerConfigurationPhaseIn: aSpace;
 		stopSkinInstallerPhaseIn: aSpace;
-		stopSkinStateApplicationPhaseIn: aSpace.
+		stopSkinStateApplicationPhaseIn: aSpace;
+		stopInnerConfigurationPhaseIn: aSpace.
 	
 	" 'stopSkinPhasesIn:' traceCr. "
 	self skinPhasesInstalled: false.

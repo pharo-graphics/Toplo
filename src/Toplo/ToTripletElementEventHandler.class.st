@@ -9,10 +9,11 @@ ToTripletElementEventHandler >> clickAbortedEvent: anEvent [
 
 	| aClickEvent target |
 	target := anEvent currentTarget.
-	(anEvent upEvent target hasInParentChain: target) ifFalse: [ ^ self ].
+	(anEvent upEvent target withAllParentsInclude: target) ifFalse: [
+		^ self ].
 	aClickEvent := anEvent asClickEvent.
 	target dispatchEvent: aClickEvent.
-	anEvent consume.
+	anEvent consume
 ]
 
 { #category : #'api - accessing' }

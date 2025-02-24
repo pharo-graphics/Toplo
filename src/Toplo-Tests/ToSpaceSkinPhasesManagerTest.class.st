@@ -8,18 +8,6 @@ Class {
 }
 
 { #category : #tests }
-ToSpaceSkinPhasesManagerTest >> testAllowSkinPhases [
-
-	| m |
-	m := ToSpaceSkinPhasesManager new.
-	self assert: m allowSkinPhases.
-	m allowSkinPhases: false.
-	self deny: m allowSkinPhases.
-
-	
-]
-
-{ #category : #tests }
 ToSpaceSkinPhasesManagerTest >> testApplyAllEnqueuedStatesIn [
 
 	| e |
@@ -48,16 +36,9 @@ ToSpaceSkinPhasesManagerTest >> testCheckSkinPhasesIn [
 	space checkSkinPhases.
 	" since space is not opened, the skin phases installation should be postponed "
 	self assert: space skinPhasesManager isSkinPhasesInstallationPostponed.
-	space allowSkinPhases: false.
-	space skinPhasesManager startSkinPhasesIn: space.
-	self deny: space skinPhasesManager isSkinPhasesInstallationPostponed.
 	self deny: space skinPhasesManager skinPhasesInstalled.
-
 	space checkSkinPhases.
-	" since skin phases are not allowed "
-	self deny: space skinPhasesManager skinPhasesInstalled.
 	" now allow skin phases "
-	space allowSkinPhases: true.
 	self assert: space skinPhasesManager isSkinPhasesInstallationPostponed.
 	space skinPhasesManager startSkinPhasesIn: space.
 	" since skin phases are allowed and the space is opened "
@@ -72,7 +53,6 @@ ToSpaceSkinPhasesManagerTest >> testInitialize [
 	m := ToSpaceSkinPhasesManager new.
 	self deny: m skinPhasesInstalled.
 	self deny: m  isSkinPhasesInstallationPostponed.
-	self assert: m allowSkinPhases.
 	self assert: m needSkinInstallPass 
 ]
 
@@ -133,20 +113,20 @@ ToSpaceSkinPhasesManagerTest >> testNeedSkinInstallPass [
 	| e |
 	e := ToElement new.
 	space applyAllSkinInstallers.
-	self deny: space needSkinInstallPass.
+	self deny: space skinPhasesManager needSkinInstallPass.
 	space root addChild: e.
-	self assert: space needSkinInstallPass.
+	self assert: space skinPhasesManager needSkinInstallPass.
 	space applyAllSkinInstallers.
 	" the previous skin installation has armed a skin installer for the space root "
-	self assert: space needSkinInstallPass.
+	self assert: space skinPhasesManager needSkinInstallPass.
 	space applyAllSkinInstallers.
 	" all skin installers should have been applied "
-	self deny: space needSkinInstallPass.
+	self deny: space skinPhasesManager needSkinInstallPass.
 	e addStamp: #stamp.
-	self assert: space needSkinInstallPass.
+	self assert: space skinPhasesManager needSkinInstallPass.
 	space applyAllSkinInstallers.
 	" all skin installers should have been applied "
-	self deny: space needSkinInstallPass.
+	self deny: space skinPhasesManager needSkinInstallPass.
 
 	
 
@@ -161,24 +141,24 @@ ToSpaceSkinPhasesManagerTest >> testNeedSkinStateApplicationPass [
 	| e |
 	e := ToElement new.
 	space applyAllSkinInstallers.
-	self deny: space needSkinInstallPass.
-	self assert: space needSkinStateApplicationPass.
+	self deny: space skinPhasesManager needSkinInstallPass.
+	self assert: space skinPhasesManager needSkinStateApplicationPass.
 	space applyAllEnqueuedStates.
-	self deny: space needSkinStateApplicationPass.
+	self deny: space skinPhasesManager needSkinStateApplicationPass.
 	space root addChild: e.
-	self assert: space needSkinInstallPass.
-	self deny: space needSkinStateApplicationPass.
+	self assert: space skinPhasesManager needSkinInstallPass.
+	self deny: space skinPhasesManager needSkinStateApplicationPass.
 	space applyAllSkinInstallers.
-	self assert: space needSkinStateApplicationPass.
+	self assert: space skinPhasesManager needSkinStateApplicationPass.
 	space applyAllEnqueuedStates.
-	self deny: space needSkinStateApplicationPass.
+	self deny: space skinPhasesManager needSkinStateApplicationPass.
 
 	space applyAllSkinInstallers.
-	self deny: space needSkinStateApplicationPass.
-	self deny: space needSkinInstallPass.
+	self deny: space skinPhasesManager needSkinStateApplicationPass.
+	self deny: space skinPhasesManager needSkinInstallPass.
 	e addStamp: #stamp.
-	self assert: space needSkinInstallPass.
-	self deny: space needSkinStateApplicationPass.
+	self assert: space skinPhasesManager needSkinInstallPass.
+	self deny: space skinPhasesManager needSkinStateApplicationPass.
 
 
 

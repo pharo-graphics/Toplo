@@ -372,7 +372,7 @@ BlElement >> isPreventedSkinEventClass: aSkinEventClass [
 { #category : #'*Toplo' }
 BlElement >> itemContaining: anElement [
 
-	^ (anElement hasInParentChain: self)
+	^ (anElement withAllParentsInclude: self)
 		  ifTrue: [ self ]
 		  ifFalse: [ nil ]
 ]

@@ -18,7 +18,7 @@ ToScriptableSkinTest >> testOnHoveredSkinEvent [
 		e background: Color yellow ].
 	te defaultRawSkin: skin.
 	space root addChild: te.
-	space startSkinPhases.
+	space startToploPhases.
 	BlSpace simulateMouseMoveInside: te.
 	self waitTestingSpaces.
 	self assert: te background paint color equals: Color yellow.
@@ -36,7 +36,7 @@ ToScriptableSkinTest >> testOnInstalledSkinEvent [
 		e background: Color yellow ].
 	te defaultRawSkin: skin.
 	space root addChild: te.
-	space startSkinPhases.
+	space startToploPhases.
 	self waitTestingSpaces.
 	self assert: te background paint color equals: Color yellow.
 	self assert: te size equals: 30 asPoint
@@ -53,7 +53,7 @@ ToScriptableSkinTest >> testOnLeavedSkinEvent [
 		e background: Color yellow ].
 	te defaultRawSkin: skin.
 	space root addChild: te.
-	space startSkinPhases.
+	space startToploPhases.
 	BlSpace simulateMouseMoveInside: te.
 	BlSpace simulateMouseMoveOutside: te.
 	self waitTestingSpaces.

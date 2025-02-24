@@ -249,7 +249,7 @@ ToSkinManager >> requestInstallSkinIn: anElement [
 	self skinInstaller ifNil: [ "'requestInstallSkinIn: ' trace. anElement traceCr."
 		skinRequestCount := skinRequestCount + 1.
 		" check that the skin related space phases are installed "
-		anElement space checkSkinPhases.
+		anElement space checkToploPhases.
 		self setSkinInstaller: ToSkinInstaller new in: anElement ].
 	skinRequestCount = 1 ifFalse: [ ^ self ].
 	" *** Important point: a skin can be installed instantly.

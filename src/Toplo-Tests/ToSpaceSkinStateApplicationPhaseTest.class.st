@@ -18,7 +18,7 @@ ToSpaceSkinStateApplicationPhaseTest >> testStartSkinPhases [
 
 	" shoud result in a requestSkin which do the installation if needed "
 	" The skin specific phase is added"
-	space addEventHandlerOn: ToSpaceSkinPhasesStarted doOnce: [
+	space addEventHandlerOn: ToSpacePhasesStarted doOnce: [
 		self assert: space frame phases size equals: nb + 3.
 		self assert: (space frame phases anySatisfy: [ :p |
 				 p isKindOf: ToSpaceSkinInstallerPhase ]).
@@ -26,7 +26,7 @@ ToSpaceSkinStateApplicationPhaseTest >> testStartSkinPhases [
 				 p isKindOf: ToSpaceSkinStateApplicationPhase ]).
 		space close ].
 
-	space skinPhasesManager startSkinPhasesIn: space
+	space phasesManager startPhasesIn: space
 ]
 
 { #category : #tests }
@@ -37,7 +37,7 @@ ToSpaceSkinStateApplicationPhaseTest >> testStartStopSkinStatePhases [
 
 	started := false.
 
-	space addEventHandlerOn: ToSpaceSkinPhasesStarted doOnce: [
+	space addEventHandlerOn: ToSpacePhasesStarted doOnce: [
 		started := true.
 		" The skin specific phase is added"
 		self assert: space frame phases size equals: nb + 3.
@@ -46,11 +46,11 @@ ToSpaceSkinStateApplicationPhaseTest >> testStartStopSkinStatePhases [
 		self assert: (space frame phases anySatisfy: [ :p |
 				 p isKindOf: ToSpaceSkinStateApplicationPhase ]) ].
 
-	space startSkinPhases.
+	space startToploPhases.
 	self assert: started.
 
 	stopped := false.
-	space addEventHandlerOn: ToSpaceSkinPhasesStopped doOnce: [
+	space addEventHandlerOn: ToSpacePhasesStopped doOnce: [
 		stopped := true.
 		" The skin specific phase is removed "
 		self assert: space frame phases size equals: nb.
@@ -59,6 +59,6 @@ ToSpaceSkinStateApplicationPhaseTest >> testStartStopSkinStatePhases [
 		self assert: (space frame phases noneSatisfy: [ :p |
 				 p isKindOf: ToSpaceSkinInstallerPhase ]) ].
 
-	space stopSkinPhases.
+	space stopToploPhases.
 	self assert: stopped
 ]

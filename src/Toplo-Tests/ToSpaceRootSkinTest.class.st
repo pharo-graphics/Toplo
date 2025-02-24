@@ -19,11 +19,11 @@ ToSpaceRootSkinTest >> testInstallSkinEvent [
 	self assert: e background isTransparent.
 	goneHere := false.
 	space addEventHandler: (BlEventHandler
-			 on: ToSpaceSkinPhasesStarted
+			 on: ToSpacePhasesStarted
 			 do: [
 				 goneHere := true.
 				 e skinManager applySkinReinstallIn: e.
 				 self deny: e background isTransparent ]).
-	space startSkinPhases.
+	space startToploPhases.
 	self assert: goneHere
 ]

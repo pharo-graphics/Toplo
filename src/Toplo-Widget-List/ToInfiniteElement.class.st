@@ -36,7 +36,7 @@ ToInfiniteElement >> cleanUpRecyclerAt: anIndex [
 ]
 
 { #category : #'t - list node holder' }
-ToInfiniteElement >> configureLayoutIn: aListElement [
+ToInfiniteElement >> configureLayout [
 
 	self matchParent.
 	self horizontal: listElement isHorizontal.

@@ -101,8 +101,6 @@ ToListElementEventHandler >> eventsToHandle [
 		  BlInfiniteDataSourceItemRangeRemoved.
 
 		  BlLayoutResizerChangedEvent.
-		  ToLayoutOrientationChangedEvent.
-		  ToLayoutDirectionChangedEvent.
 
 		  ToListPrimarySelectionModeChangedEvent.
 		  ToListSecondarySelectionModeChangedEvent.
@@ -154,19 +152,6 @@ ToListElementEventHandler >> infiniteDataSourceItemRangeRemoved: anEvent [
 
 { #category : #'list element handling' }
 ToListElementEventHandler >> infiniteDataSourceItemsFiltered: anEvent [
-]
-
-{ #category : #'element events handling' }
-ToListElementEventHandler >> layoutDirectionChangedEvent: anEvent [
-
-	anEvent currentTarget requestInnerConfiguration
-
-]
-
-{ #category : #'element events handling' }
-ToListElementEventHandler >> layoutOrientationChangedEvent: anEvent [
-
-	anEvent currentTarget requestInnerConfiguration
 ]
 
 { #category : #'element events handling' }

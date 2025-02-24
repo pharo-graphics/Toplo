@@ -25,7 +25,7 @@ ToMenuPane >> addMenu: aMenu [
 	self addItem: aMenu
 ]
 
-{ #category : #'t - triplet element - initialization' }
+{ #category : #configuration }
 ToMenuPane >> applyInnerConfiguration [ 
 
 	self configureLayout.
@@ -68,14 +68,17 @@ ToMenuPane >> configureLayout [
 		ifFalse: [
 			self hFitContent.
 			self isSubPane ifTrue: [ self vFitContent ] ].
-		
+
 	self itemBar horizontal: self isHorizontal.
 	self isHMatchParent
 		ifTrue: [ self itemBar hMatchParent ]
 		ifFalse: [ self itemBar hFitContent ].
 	self isVMatchParent
 		ifTrue: [ self itemBar vMatchParent ]
-		ifFalse: [ self itemBar vFitContent ]
+		ifFalse: [ self itemBar vFitContent ].
+
+	self itemBar configureLayout.
+
 ]
 
 { #category : #initialization }

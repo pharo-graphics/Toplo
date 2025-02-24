@@ -43,11 +43,11 @@ ToInnerBarElement >> addHolder: anHolder at: aPosition [
 { #category : #layout }
 ToInnerBarElement >> checkFullyVisibleNodes [
 
-	trackElement checkFullyVisibleNodesIn: listElement 
+	trackElement checkFullyVisibleNodes
 ]
 
 { #category : #'t - list node holder' }
-ToInnerBarElement >> configureLayoutIn: aBarElementx [
+ToInnerBarElement >> configureLayout [
 
 	self matchParent.
 	listElement isWrapping
@@ -69,7 +69,7 @@ ToInnerBarElement >> configureLayoutIn: aBarElementx [
 				ifTrue: [ self vMatchParent ]
 				ifFalse: [ self vFitContent ] ].
 			
-	trackElement configureLayoutIn: listElement
+	trackElement configureLayout
 ]
 
 { #category : #'private - commands' }
@@ -507,7 +507,7 @@ ToInnerBarElement >> trackElement: anElement [
 	trackElement ifNotNil: [ (BlImmutableObjectChangeError object: self) signal ].
 	trackElement := anElement.
 	trackElement id: #track.
-	trackElement onScrollableElement: self.
+	trackElement onListElement: listElement .
 	self addChild: trackElement 
 ]
 

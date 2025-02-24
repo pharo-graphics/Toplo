@@ -9,6 +9,18 @@ Class {
 	#category : #'Toplo-Widget-Menu-ItemBar'
 }
 
+{ #category : #configuration }
+ToMenuItemBarElement >> configureLayout [
+
+	"self menuBarOwner isHMatchParent
+		ifTrue: [ self hMatchParent ]
+		ifFalse: [ self hFitContent ].
+	self menuBarOwner isVMatchParent
+		ifTrue: [ self vMatchParent ]
+		ifFalse: [ self vFitContent ]."
+	super configureLayout
+]
+
 { #category : #'t - bar element' }
 ToMenuItemBarElement >> defaultInnerElement [
 

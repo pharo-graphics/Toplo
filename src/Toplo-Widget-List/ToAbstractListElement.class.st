@@ -66,7 +66,7 @@ ToAbstractListElement >> commandApplicationStrategy [
 { #category : #configuration }
 ToAbstractListElement >> configureLayout [
 
-	self innerElement configureLayoutIn: self
+	self innerElement configureLayout 
 ]
 
 { #category : #'accessing selecters' }

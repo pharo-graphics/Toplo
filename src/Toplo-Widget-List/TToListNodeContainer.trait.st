@@ -4,7 +4,7 @@ Trait {
 }
 
 { #category : #'t - list node holder' }
-TToListNodeContainer >> configureLayoutIn: aBarElement [
+TToListNodeContainer >> configureLayout [
 
 	self explicitRequirement 
 ]

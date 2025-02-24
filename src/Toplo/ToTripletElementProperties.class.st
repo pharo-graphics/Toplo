@@ -23,7 +23,7 @@ Class {
 	#category : #'Toplo-Core'
 }
 
-{ #category : #initialization }
+{ #category : #configuration }
 ToTripletElementProperties >> applyInnerConfiguration [
 
 	"'applyInnerConfiguration in ' trace. owner traceCr."
@@ -38,7 +38,7 @@ ToTripletElementProperties >> applyInnerConfiguration [
 	self configureChildren
 ]
 
-{ #category : #initialization }
+{ #category : #configuration }
 ToTripletElementProperties >> configureChildren [
 
 	owner isHorizontal
@@ -52,7 +52,7 @@ ToTripletElementProperties >> configureChildren [
 				child constraints frame horizontal alignCenter ] ]
 ]
 
-{ #category : #initialization }
+{ #category : #configuration }
 ToTripletElementProperties >> configureEndContainer [
 
 	owner isHorizontal
@@ -70,7 +70,7 @@ ToTripletElementProperties >> configureEndContainer [
 				c horizontal fitContent ] ]
 ]
 
-{ #category : #initialization }
+{ #category : #configuration }
 ToTripletElementProperties >> configureEndElement [
 
 	endElement ifNil: [ ^ self ].
@@ -83,7 +83,7 @@ ToTripletElementProperties >> configureEndElement [
 			endElement constraints linear vertical alignBottom ]
 ]
 
-{ #category : #initialization }
+{ #category : #configuration }
 ToTripletElementProperties >> configureEndFiller [
 
 	endFlexible
@@ -97,7 +97,7 @@ ToTripletElementProperties >> configureEndFiller [
 				c horizontal fitContent ] ]
 ]
 
-{ #category : #initialization }
+{ #category : #configuration }
 ToTripletElementProperties >> configureEndGap [
 
 	owner isHorizontal
@@ -111,7 +111,7 @@ ToTripletElementProperties >> configureEndGap [
 				c vertical exact: endInterspace ] ]
 ]
 
-{ #category : #initialization }
+{ #category : #configuration }
 ToTripletElementProperties >> configureStartContainer [
 
 	owner isHorizontal
@@ -129,7 +129,7 @@ ToTripletElementProperties >> configureStartContainer [
 				c horizontal fitContent ] ]
 ]
 
-{ #category : #initialization }
+{ #category : #configuration }
 ToTripletElementProperties >> configureStartFiller [
 
 	startFlexible
@@ -143,7 +143,7 @@ ToTripletElementProperties >> configureStartFiller [
 				c horizontal fitContent ] ]
 ]
 
-{ #category : #initialization }
+{ #category : #configuration }
 ToTripletElementProperties >> configureStartGap [
 
 	owner isHorizontal

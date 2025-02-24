@@ -6,7 +6,7 @@ Trait {
 	#category : #'Toplo-Core'
 }
 
-{ #category : #'t - triplet element - initialization' }
+{ #category : #'t - triplet element - configuration' }
 TToTripletElement >> applyInnerConfiguration [ 
 
 	self tripletProperties ifNotNil: [:tp | tp applyInnerConfiguration ].

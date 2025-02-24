@@ -6,8 +6,8 @@ Class {
 		'startHandler',
 		'needSkinInstallPass',
 		'needSkinStateApplicationPass',
-		'stateGenerations',
-		'needInnerConfigurationPass'
+		'needInnerConfigurationPass',
+		'stateGenerations'
 	],
 	#category : #'Toplo-Core-SpaceFrame'
 }

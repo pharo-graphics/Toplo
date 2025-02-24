@@ -227,6 +227,17 @@ ToSpaceSkinPhasesManagerTest >> testSkinPhasesInstalled [
 ]
 
 { #category : #tests }
+ToSpaceSkinPhasesManagerTest >> testStartInnerConfigurationPhaseIn [
+
+	space checkSkinPhases.
+	space skinPhasesManager onUninstalledIn: space.
+	" here nothing is installed nor postponed"
+	space skinPhasesManager startSkinInstallerPhaseIn: space.
+	space skinPhasesManager startInnerConfigurationPhaseIn: space.
+	self assert: (space skinPhasesManager isInnerConfigurationPhaseInstalledIn: space)
+]
+
+{ #category : #tests }
 ToSpaceSkinPhasesManagerTest >> testStartSkinInstallerPhaseIn [
 
 	space checkSkinPhases.
@@ -256,6 +267,20 @@ ToSpaceSkinPhasesManagerTest >> testStartSkinStateApplicationPhaseIn [
 	" here nothing is installed nor postponed"
 	space skinPhasesManager startSkinStateApplicationPhaseIn: space.
 	self assert: (space skinPhasesManager isSkinStateApplicationPhaseInstalledIn: space)
+]
+
+{ #category : #tests }
+ToSpaceSkinPhasesManagerTest >> testStopInnerConfigurationPhaseIn [
+
+	space checkSkinPhases.
+	space skinPhasesManager onUninstalledIn: space.
+	" here nothing is installed nor postponed"
+	space skinPhasesManager startSkinInstallerPhaseIn: space.
+	space skinPhasesManager startInnerConfigurationPhaseIn: space.
+	self assert: (space skinPhasesManager isInnerConfigurationPhaseInstalledIn: space).
+	space skinPhasesManager stopInnerConfigurationPhaseIn: space.
+	self deny: (space skinPhasesManager isInnerConfigurationPhaseInstalledIn: space).
+
 ]
 
 { #category : #tests }

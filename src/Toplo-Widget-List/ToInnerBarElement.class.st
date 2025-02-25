@@ -57,6 +57,25 @@ ToInnerBarElement >> configureLayout [
 		ifTrue: [ self vFitContent ]
 		ifFalse: [ self vMatchParent ].
 
+	"listElement isWrapping
+		ifTrue: [
+			listElement isVertical
+				ifTrue: [
+					listElement isHMatchParent
+						ifTrue: [ self hMatchParent ]
+						ifFalse: [ self hFitContent ] ]
+				ifFalse: [
+					listElement isVMatchParent
+						ifTrue: [ self vMatchParent ]
+						ifFalse: [ self vFitContent ] ] ]
+		ifFalse: [
+			listElement isHMatchParent
+				ifTrue: [ self hMatchParent ]
+				ifFalse: [ self hFitContent ].
+			listElement isVMatchParent
+				ifTrue: [ self vMatchParent ]
+				ifFalse: [ self vFitContent ] ]."
+
 	trackElement configureLayout
 ]
 

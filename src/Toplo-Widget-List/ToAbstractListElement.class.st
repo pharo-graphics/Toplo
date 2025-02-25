@@ -60,7 +60,8 @@ ToAbstractListElement >> commandApplicationStrategy [
 ToAbstractListElement >> configureLayout [
 
 	super configureLayout.
-	self innerElement configureLayout 
+	self innerElement configureLayout.
+	self refreshAllSelections
 ]
 
 { #category : #'accessing selecters' }
@@ -470,6 +471,16 @@ ToAbstractListElement >> primarySelectionMode: aSelectionMode [
 	aSelectionMode ifNotNil: [ aSelectionMode onInstalledIn: self ].
 	self dispatchEvent: ToListPrimarySelectionModeChangedEvent new.
 	self requestNewSkin
+]
+
+{ #category : #'selection updating' }
+ToAbstractListElement >> refreshAllSelections [
+
+	self selectionModes do: [ :mode |
+		mode selectionOption ifNotNil: [ :option |
+			option
+				refreshSelectionIn: self
+				withSelectionModel: mode selectionModel ] ]
 ]
 
 { #category : #accessing }

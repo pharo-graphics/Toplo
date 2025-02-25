@@ -8,5 +8,5 @@ Class {
 ToTabNodeSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
-	anEvent elementDo: [ :e |  ]
+	anEvent elementDo: [ :e | e padding: (BlInsets all: 5) ]
 ]

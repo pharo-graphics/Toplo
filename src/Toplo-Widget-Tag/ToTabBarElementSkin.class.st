@@ -13,6 +13,7 @@ ToTabBarElementSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: BlBorder empty.
+		e clipChildren: false.
 		previousSelectionFactory := e selectionOption elementFactory.
 		e isWrapping ifFalse: [
 			e selectionOption elementFactory: [

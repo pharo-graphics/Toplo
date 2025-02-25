@@ -17,21 +17,14 @@ ToTabsElementSkin >> installSkinEvent: anEvent [
 				            background: (e valueOfTokenNamed: #'border-paint');
 				            id: #'selection-track'.
 			e itemBar userData at: #'selection-track' put: selTrack.
-			selTrack visibility: BlVisibility hidden.
-			e itemBar whenLayoutedDoOnce: [
-				e isHorizontal
-					ifTrue: [
-						selTrack
-							margin: (BlInsets vertical: 3);
-							height: 3;
-							width: 0"e  measuredWidth" ]
-					ifFalse: [
-						selTrack
-							margin: (BlInsets horizontal: 3);
-							width: 3;
-							height: 0"e  measuredHeight" ].
-				selTrack whenLayoutedDoOnce: [
-					selTrack visibility: BlVisibility visible ] ].
+			e isHorizontal
+				ifTrue: [
+					selTrack height: 1.
+					selTrack hMatchParent ]
+				ifFalse: [
+					selTrack width: 1.
+					selTrack vMatchParent ].
+			selTrack margin: (BlInsets vertical: 5).
 			e addChild: selTrack ] ]
 ]
 

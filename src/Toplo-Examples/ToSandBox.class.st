@@ -115,6 +115,9 @@ ToSandBox class >> alignmentChooserFor: aCheckableBar [
 									 ifTrue: [ aCheckableBar alignCenter ]
 									 ifFalse: [ aCheckableBar alignEnd ] ] ] ]).
 	buttons first checked: true.
+	aCheckableBar isAlignStart ifTrue: [ buttons second checked: true ].
+	aCheckableBar isAlignCenter ifTrue: [ buttons third checked: true ].
+	aCheckableBar isAlignEnd ifTrue: [ buttons fourth checked: true ].
 	alignContainer := ToPane vertical.
 	alignContainer hMatchParent.
 	alignContainer addChild: (ToLabel text: 'Alignment').
@@ -1607,7 +1610,7 @@ ToSandBox class >> example_HorizontalListWithIndexedColors [
 ToSandBox class >> example_HugeIntegerList [
 
 	| l nbItems vscrollBar space |
-	nbItems := 500.
+	nbItems := 5000.
 	l := ToListElement new.
 	l dataAccessor addAll: (1 to: nbItems).
 	l nodeBuilder: [ :node :anInteger |
@@ -3392,6 +3395,23 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 		addChild: root;
 		addChild: vscrollBar.
 	container openInSpace
+]
+
+{ #category : #tag }
+ToSandBox class >> example_TabBarElement [
+
+	| tabs dashBoard |
+	tabs := ToTabBarElement new.
+	tabs isWrapping: false.
+
+	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
+		tabs addItem: (ToTabItemElement new
+				 middleElement: (ToLabel text: l) preventSelectionSkinEvents;
+				 yourself) ].
+
+	(tabs items at: 2) disable.
+	dashBoard := self tabsElementDashBoardFor: tabs.
+	dashBoard openInSpace
 ]
 
 { #category : #tag }
@@ -8285,7 +8305,7 @@ ToSandBox class >> subsubsubTabPane [
 { #category : #tag }
 ToSandBox class >> tabsElementDashBoardFor: aTabsElement [
 
-	| mainPane barPane confPane checkingStrategyPane startToEndSwitch feedbackPane maj rootPane alignmentPane |
+	| mainPane barPane confPane checkingStrategyPane startToEndSwitch feedbackPane maj rootPane  |
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
 
@@ -8311,8 +8331,6 @@ ToSandBox class >> tabsElementDashBoardFor: aTabsElement [
 
 	checkingStrategyPane := self checkingStrategyChooserFor: aTabsElement.
 	confPane addChild: checkingStrategyPane.
-	alignmentPane := self alignmentChooserFor: aTabsElement.
-	confPane addChild: alignmentPane.
 
 	feedbackPane := ToPane horizontal.
 	feedbackPane layout alignCenter.

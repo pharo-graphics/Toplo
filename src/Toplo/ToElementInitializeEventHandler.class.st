@@ -23,7 +23,6 @@ ToElementInitializeEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 	addedToSceneGraph := true.
 	target := anEvent currentTarget.
 	target requestInnerConfiguration.
-
 	target spaceDo: [ :sp | sp needInnerConfigurationPass: true ].
 	target ensuredSkinManager requestInstallSkinIn: target
 ]

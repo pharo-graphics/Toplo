@@ -22,10 +22,7 @@ ToTabBarElement >> newRawSkin [
 { #category : #'t - bar element' }
 ToTabBarElement >> onInvisibleNodes: theInvisibleNodes [
 
-	nodeWrapping ifTrue: [ ^ self ].
-	nodeScrolling ifTrue: [ ^ self ].
-	nodeAutoDistribution ifFalse: [ ^ self ].
-	" ok the node menu can be shown "
+	theInvisibleNodes traceCr
 ]
 
 { #category : #accessing }

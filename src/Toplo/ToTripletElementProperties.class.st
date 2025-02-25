@@ -28,6 +28,7 @@ ToTripletElementProperties >> applyInnerConfiguration [
 
 	"'applyInnerConfiguration in ' trace. owner traceCr."
 	
+	self configureChildren.
 	self configureEndContainer.
 	self configureEndFiller.
 	self configureEndGap.
@@ -35,7 +36,8 @@ ToTripletElementProperties >> applyInnerConfiguration [
 	self configureStartFiller.
 	self configureStartGap.
 	self configureEndElement.
-	self configureChildren
+	self configureMiddleElement.
+
 ]
 
 { #category : #configuration }
@@ -109,6 +111,23 @@ ToTripletElementProperties >> configureEndGap [
 			self on: endGap resizerDo: [ :c |
 				c horizontal exact: 0.
 				c vertical exact: endInterspace ] ]
+]
+
+{ #category : #configuration }
+ToTripletElementProperties >> configureMiddleElement [
+
+	middleElement ifNil: [ ^ self ].
+	owner isHorizontal
+		ifTrue: [
+			middleElement constraints frame vertical alignCenter.
+			middleElement constraints linear vertical alignCenter.
+			middleElement constraints frame horizontal alignCenter.
+			middleElement constraints linear horizontal alignCenter ]
+		ifFalse: [
+			middleElement constraints frame horizontal alignCenter.
+			middleElement constraints linear horizontal alignCenter.
+			middleElement constraints frame vertical alignCenter.
+			middleElement constraints linear vertical alignCenter ]
 ]
 
 { #category : #configuration }

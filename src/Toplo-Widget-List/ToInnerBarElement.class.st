@@ -147,6 +147,7 @@ ToInnerBarElement >> initialize [
 	self initializeDataSource.
 	self addEventHandler: ToListInnerElementEventHandler new.
 	self trackElement: self scrollableBarTrackElementClass new.
+	self installFakeNode.
 
 	self matchParent.
 	self focusability: BlFocusability ignore

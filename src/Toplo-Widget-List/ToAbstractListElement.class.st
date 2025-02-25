@@ -299,8 +299,8 @@ ToAbstractListElement >> initialize [
 	self newHiddenSelectionMode onInstalledIn: self.
 	self newDisabledSelectionMode onInstalledIn: self.
 
-	self matchParent.
-	self configureLayout
+	self matchParent".
+	self configureLayout"
 ]
 
 { #category : #initialization }

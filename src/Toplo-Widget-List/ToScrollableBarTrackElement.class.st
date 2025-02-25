@@ -76,7 +76,7 @@ ToScrollableBarTrackElement >> configureLayout [
 { #category : #layout }
 ToScrollableBarTrackElement >> constraintFakeNode [
 
-	fakeNode ifNil: [ listElement installFakeNode ].
+	"fakeNode ifNil: [ listElement installFakeNode ]."
 	listElement nodeManager constraintFakeNode: fakeNode
 ]
 

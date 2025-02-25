@@ -28,7 +28,7 @@ ToTabsElement >> configureLayout [
 			self middleContainer vMatchParent ].
 		
 	self itemBar horizontal: self isHorizontal.
-	"self itemBar configureLayout."
+	self itemBar configureLayout.
 
 	self requestNewSkin
 ]

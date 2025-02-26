@@ -9,10 +9,9 @@ ToCheckboxSkin >> checkedSkinEvent: anEvent [
 
 	super checkedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e icon innerImage border: (BlBorder
-				 paint: (e valueOfTokenNamed: #'color-primary-checked')
-				 width: 5).
-		e indeterminateBar background: Color transparent ]
+		e icon
+			innerImage: (e valueOfTokenNamed: #'checkbox-checked-image');
+			innerImageColor: (e valueOfTokenNamed: #'color-primary') ]
 ]
 
 { #category : #'event handling' }
@@ -20,12 +19,15 @@ ToCheckboxSkin >> disabledSkinEvent: anEvent [
 
 	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e border: BlBorder empty.
-		e background: Color transparent.
-		e icon innerImage border:
-			(e valueOfTokenNamed: #'color-border-disabled').
-		e icon border: (e valueOfTokenNamed: #'color-border-disabled').
-		e indeterminateBar background: Color transparent ]
+		e iconDo: [ :ic |
+			ic innerImageColor: (e valueOfTokenNamed: #'color-text-disabled') ].
+		e endElementDo: [ :ic |
+			(ic respondsTo: #innerImageColor:) ifTrue: [
+				ic innerImageColor: (e valueOfTokenNamed: #'color-text-disabled') ] ].
+		e labelDo: [ :lab |
+			lab foreground: (e valueOfTokenNamed: #'color-text-disabled') ].
+		e background: BlBackground transparent.
+		e border: BlBorder empty ]
 ]
 
 { #category : #'event handling' }
@@ -39,17 +41,15 @@ ToCheckboxSkin >> enabledSkinEvent: anEvent [
 				 p isKindOf: ToAbstractListNode ] ])
 			ifTrue: [ e background: BlBackground transparent ]
 			ifFalse: [
-			e background: (e valueOfTokenNamed: #'color-bg-container') ].
-		e icon border: (e valueOfTokenNamed: #'color-border') ]
+			e icon innerImageColor: (e valueOfTokenNamed: #'color-primary') ] ]
 ]
 
 { #category : #'event handling' }
 ToCheckboxSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
-	anEvent elementDo: [ :e | 
-			e border: BlBorder empty.
-			e icon border: (BlBorder paint: (e valueOfTokenNamed: #'color-primary') width: 1) ]
+	anEvent elementDo: [ :e |
+		e border: BlBorder empty ]
 ]
 
 { #category : #accessing }
@@ -63,8 +63,9 @@ ToCheckboxSkin >> indeterminateSkinEvent: anEvent [
 
 	super indeterminateSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e icon innerImage border: (BlBorder paint: (e valueOfTokenNamed: #'color-primary') width: 0).
-		e indeterminateBar background: (e valueOfTokenNamed: #'color-primary')]
+		e icon
+			innerImage: (e valueOfTokenNamed: 'checkbox-indeterminate-image');
+			innerImageColor: (e valueOfTokenNamed: #'color-primary') ]
 ]
 
 { #category : #'event handling' }
@@ -73,11 +74,20 @@ ToCheckboxSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e isMenuButton ifFalse: [
-			e startInterspace: (e valueOfTokenNamed: #'button-interspace') ].
-		e border: BlBorder empty.
-		e iconImage: (e valueOfTokenNamed: #'checkbox-image-builder') value.
+			e hasLabel
+				ifTrue: [
+				e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
+				ifFalse: [ e startInterspace: 0 ].
+			(e hasEndElement and: [ e hasLabel ])
+				ifTrue: [
+				e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
+				ifFalse: [ e endInterspace: 0 ] ].
+		e icon:
+			(ToImage inner: (e valueOfTokenNamed: #'checkbox-unchecked-image')).
+		e icon size: (e valueOfTokenNamed: #'checkable-icon-size').
+		e icon innerImageColor: (e valueOfTokenNamed: #'color-primary').
 		e icon geometry: (self iconGeometryIn: e).
-		e icon border: (e valueOfTokenNamed: #'color-border') ]
+		e border: BlBorder empty ]
 ]
 
 { #category : #'event handling' }
@@ -85,8 +95,11 @@ ToCheckboxSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e border: BlBorder empty.
-		e icon border: (e valueOfTokenNamed: #'color-border') ]
+		e iconDo: [ :ic |
+					ic innerImageColor: (e valueOfTokenNamed: #'color-primary') ].
+		e labelDo: [ :lab |
+			lab foreground: (e valueOfTokenNamed: #'color-text') ].
+		e border: BlBorder empty ]
 ]
 
 { #category : #'event handling' }
@@ -102,8 +115,14 @@ ToCheckboxSkin >> uncheckedSkinEvent: anEvent [
 
 	super uncheckedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e border: BlBorder empty.
-		e icon innerImage border:
-			(BlBorder paint: (e valueOfTokenNamed: #'color-primary') width: 0).
-		e indeterminateBar background: Color transparent ]
+		e icon
+			innerImage: (e valueOfTokenNamed: #'checkbox-unchecked-image');
+			innerImageColor: (e valueOfTokenNamed: #'color-primary') ]
+]
+
+{ #category : #'event handling' }
+ToCheckboxSkin >> uninstallSkinEvent: anEvent [
+
+	super uninstallSkinEvent: anEvent.
+	anEvent elementDo: [ :e |  ]
 ]

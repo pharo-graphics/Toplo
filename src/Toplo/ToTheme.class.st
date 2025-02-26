@@ -15,35 +15,21 @@ ToTheme class >> canBeDefault [
 ]
 
 { #category : #accessing }
-ToTheme class >> defaultCheckboxBlankImage [
-
-	| bar im |
-	bar := BlElement new id: #'indeterminate-bar'.
-	bar constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical exact: 3.
-		c frame horizontal alignCenter.
-		c frame vertical alignCenter ].
-	bar margin: (BlInsets left: 2 right: 2).
-	bar geometry: (BlRoundedRectangleGeometry cornerRadius: 2).
-	im := BlElement new id: #'icon-image'.
-	im layout: BlFrameLayout new.
-	im size: self defaultCheckboxHeight asPoint.
-	im addChild: bar.
-	im addAllStamps: #( #'inner-image' #unchecked ).
-	^ im
-]
-
-{ #category : #accessing }
 ToTheme class >> defaultCheckboxHeight [
 
-	^ 14
+	^ 20
 ]
 
 { #category : #accessing }
 ToTheme class >> defaultColorPrimary [
 
 	^ Color fromHexString: '#1677ff'
+]
+
+{ #category : #accessing }
+ToTheme class >> defaultSwitchIconHeight [
+
+	^ 14
 ]
 
 { #category : #accessing }
@@ -117,7 +103,7 @@ ToTheme class >> defaultTokenProperties [
 			   value: Color transparent).
 		  (ToTokenProperty
 			   name: #'color-border-disabled'
-			   value: (Color black alpha: 0.2)).
+			   value: (Color veryLightGray alpha: 0.2)).
 		  (ToTokenProperty
 			   name: #'color-border-indeterminate'
 			   value: self defaultColorPrimary lighter).
@@ -170,7 +156,7 @@ ToTheme class >> defaultTokenProperties [
 			   value: (self defaultColorPrimary alpha: 0.5)).
 		  (ToTokenProperty
 			   name: #'color-primary-hover'
-			   value: self defaultColorPrimary lighter lighter).
+			   value: (self defaultColorPrimary alpha: 0.1)).
 
 		  (ToTokenProperty
 			   name: #'color-success'
@@ -280,8 +266,25 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'menu-item-start-alignment' value: 22).
 		  (ToTokenProperty name: #'inline-item-gap' value: 7).
 		  (ToTokenProperty
-			   name: #'checkbox-image-builder'
-			   value: [ self defaultCheckboxBlankImage ]).
+			   name: #'checkbox-checked-image'
+			   value: (ToMaterialDesignIconProvider innerImageNamed:
+					    'outlined_checkbox')).
+		  (ToTokenProperty
+			   name: #'checkbox-unchecked-image'
+			   value: (ToMaterialDesignIconProvider innerImageNamed:
+					    'outlined_checkboxoutlineblank')).
+		  (ToTokenProperty
+			   name: #'checkbox-indeterminate-image'
+			   value: (ToMaterialDesignIconProvider innerImageNamed:
+					    'outlined_indeterminatecheckbox')).
+		  (ToTokenProperty
+			   name: #'radio-checked-image'
+			   value: (ToMaterialDesignIconProvider innerImageNamed:
+					    'outlined_checkcircle')).
+		  (ToTokenProperty
+			   name: #'radio-unchecked-image'
+			   value: (ToMaterialDesignIconProvider innerImageNamed:
+					    'outlined_circle')).
 		  (ToTokenProperty
 			   name: #'switch-checked-background'
 			   value: self defaultColorPrimary).
@@ -299,7 +302,10 @@ ToTheme class >> defaultTokenProperties [
 			   value: Color white).
 		  (ToTokenProperty
 			   name: #'switch-icon-size'
-			   value: 24 @ self defaultCheckboxHeight).
+			   value: 24 @ self defaultSwitchIconHeight).
+		  (ToTokenProperty
+			   name: #'checkable-icon-size'
+			   value: self defaultCheckboxHeight asPoint).
 
 		  (ToTokenProperty
 			   name: #'color-primary-selection-focused'

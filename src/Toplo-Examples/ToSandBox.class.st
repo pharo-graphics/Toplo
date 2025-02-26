@@ -466,7 +466,7 @@ ToSandBox class >> buildSelectListElementIn: aSelectElement withIconProvider: an
 			child constraintsDo: [ :c | c linear vertical alignCenter ] ] ].
 
 	aSelectElement sieve dataFilter: [ :iconDesc :pattern |
-		(iconDesc style prefix beginsWith: pattern caseSensitive: true) or: [
+		(iconDesc style prefix includesSubstring: pattern caseSensitive: true) or: [
 			iconDesc name beginsWith: pattern caseSensitive: true ] ].
 
 	aSelectElement popupListElement dataAccessor addAll: iconDescs
@@ -1985,12 +1985,25 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 ]
 
 { #category : #list }
+ToSandBox class >> example_ListWithAllClassesAsCheckbox [
+
+	| l |
+	l := ToCheckableListElement new.
+	l group withoutCheckingStrategy.
+	l addAllItems: ((Smalltalk globals allClasses) collect: [ :cls |
+			 ToCheckbox new
+				 label: (ToLabel new text: cls name) preventSelectionSkinEvents;
+				 hMatchParent ]).
+	l openInSpace
+]
+
+{ #category : #list }
 ToSandBox class >> example_ListWithAllClassesAsToggleButton [
 
 	| l |
 	l := ToCheckableListElement new.
 	l group withoutCheckingStrategy.
-	l addAllItems: (Smalltalk globals allClasses collect: [ :cls |
+	l addAllItems: ((Smalltalk globals allClasses copyFrom: 1 to: 200) collect: [ :cls |
 			 ToToggleButton new
 				 label: (ToLabel new text: cls name) preventSelectionSkinEvents;
 				 hMatchParent ]).
@@ -3653,10 +3666,46 @@ ToSandBox class >> example_ToggleButtonInListElement [
 			e preventSelectionSkinEvents ].
 		node addChild: moveElement.
 		node addChild: inspectButton ].
-	moveListElement size: 800 @ 600.
+	moveListElement matchParent.
 	moveListElement dataAccessor addAll: {
 			{ 1. 'e4'. 'e5' }.
-			{ 2. nil. nil } }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			
+			
+			
+			 }.
 
 	space := BlSpace new.
 	space root addChild: moveListElement.

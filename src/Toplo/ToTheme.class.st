@@ -185,7 +185,7 @@ ToTheme class >> defaultTokenProperties [
 			   value: (Color black alpha: 0.45)).
 		  (ToTokenProperty
 			   name: #'color-text-disabled'
-			   value: Color lightGray).
+			   value: (Color lightGray alpha: 0.6)).
 		  (ToTokenProperty
 			   name: #'color-text-heading'
 			   value: (Color black alpha: 0.88)).
@@ -303,7 +303,7 @@ ToTheme class >> defaultTokenProperties [
 
 		  (ToTokenProperty
 			   name: #'color-primary-selection-focused'
-			   value: (self defaultColorPrimary alpha: 0.6)).
+			   value: (self defaultColorPrimary)).
 		  (ToTokenProperty
 			   name: #'color-primary-selection-over-focused'
 			   value: (self defaultColorPrimary alpha: 0.1)).
@@ -318,7 +318,10 @@ ToTheme class >> defaultTokenProperties [
 			   value: (Color gray alpha: 0.3)).
 		  (ToTokenProperty
 			   name: #'color-secondary-selection'
-			   value: (Color veryLightGray alpha: 0.1)).
+			   value: (Color gray alpha: 0.1)).
+		  (ToTokenProperty
+			   name: #'tab-color-secondary-selection'
+			   value: (Color gray alpha: 0.5)).
 
 		  (ToTokenProperty name: #'border-width-primary-selection' value: 1).
 		  (ToTokenProperty

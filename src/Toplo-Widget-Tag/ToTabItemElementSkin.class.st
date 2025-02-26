@@ -13,11 +13,7 @@ ToTabItemElementSkin >> disabledSkinEvent: anEvent [
 			ic innerImageColor: (e valueOfTokenNamed: #'color-text-disabled') ].
 		e endElementDo: [ :ic |
 			(ic respondsTo: #innerImageColor:) ifTrue: [
-				ic innerImageColor: (e valueOfTokenNamed: #'color-text-disabled') ] ].
-		e background: (e valueOfTokenNamed: #'color-bg-container-disabled').
-		e labelDo: [ :lab |
-			lab foreground: (e valueOfTokenNamed: #'color-text-disabled').
-			lab applyStyle ] ]
+				ic innerImageColor: (e valueOfTokenNamed: #'color-text-disabled') ] ] ]
 ]
 
 { #category : #'event handling' }
@@ -29,11 +25,7 @@ ToTabItemElementSkin >> enabledSkinEvent: anEvent [
 			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
 		e endElementDo: [ :ic |
 			(ic respondsTo: #innerImageColor:) ifTrue: [
-				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
-		e background: BlBackground transparent.
-		e labelDo: [ :lab |
-			lab foreground: (e valueOfTokenNamed: #'color-text').
-			lab applyStyle ] ]
+				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ] ]
 ]
 
 { #category : #'event handling' }
@@ -50,8 +42,14 @@ ToTabItemElementSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e holder listElement isWrapping
-			ifTrue: [ e allowSelectionSkinEvents ]
-			ifFalse: [ e preventSelectionSkinEvents ].
+			ifTrue: [
+				e labelDo: [ :me |
+					me removeStamp: #'label-selected-focused-foreground' ] ]
+			ifFalse: [
+				e labelDo: [ :me |
+					me
+						addStamp: #'label-selected-focused-foreground'
+						withValue: (e valueOfTokenNamed: #'color-primary-selection-focused') ] ].
 		e focusability: BlFocusability ignore.
 		e layout alignCenter.
 		e border: BlBorder empty.

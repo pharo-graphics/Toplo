@@ -11,6 +11,7 @@ ToLabelSkin >> deselectedSkinEvent: anEvent [
 	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
 	anEvent elementDo: [ :e |
 		| to |
+		"e text asString trace. ' ' trace. anEvent traceCr."
 		to := e valueOfTokenNamed: #'color-text'.
 		e foreground: to ]
 ]
@@ -20,6 +21,7 @@ ToLabelSkin >> disabledSkinEvent: anEvent [
 
 	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
+		"e text asString trace. ' ' trace. anEvent traceCr."
 		e foreground: (e valueOfTokenNamed: #'color-text-disabled').
 		e applyStyle ]
 ]
@@ -29,6 +31,7 @@ ToLabelSkin >> enabledSkinEvent: anEvent [
 
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
+		"e text asString trace. ' ' trace. anEvent traceCr."
 		e foreground: (e valueOfTokenNamed: #'color-text').
 		e applyStyle ]
 ]
@@ -38,6 +41,7 @@ ToLabelSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
+		"e text asString trace. ' ' trace. anEvent traceCr."
 		e textAttributesBuilder
 			defaultFontSize: (e valueOfTokenNamed: #'font-size');
 			lineSpacing: (e valueOfTokenNamed: #'line-height');
@@ -52,6 +56,7 @@ ToLabelSkin >> selectedSkinEvent: anEvent [
 	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
 	anEvent elementDo: [ :e |
 		| foreground |
+		"e text asString trace. ' ' trace. anEvent traceCr."
 		anEvent focused
 			ifTrue: [
 				e
@@ -65,7 +70,6 @@ ToLabelSkin >> selectedSkinEvent: anEvent [
 					do: [ :v | foreground := v ]
 					ifNone: [
 					foreground := e valueOfTokenNamed: #'label-selected-unfocused' ] ].
-e text asString traceCr.
 		e foreground: foreground.
 		e applyStyle ]
 ]

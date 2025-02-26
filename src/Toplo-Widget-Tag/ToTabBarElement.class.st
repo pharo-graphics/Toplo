@@ -11,8 +11,7 @@ Class {
 ToTabBarElement >> applyInnerConfiguration [ 
 
 	super applyInnerConfiguration.
-	self nodesDo: [ :node | node item requestNewSkin ].
-	self selectionOption notifyNodesSelectedIn: self
+	self nodesDo: [ :node | node item requestNewSkin ]
 ]
 
 { #category : #'t - item list - accessing' }

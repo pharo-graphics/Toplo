@@ -2,7 +2,8 @@ Class {
 	#name : #ToTabBarElementSkin,
 	#superclass : #ToItemBarElementSkin,
 	#instVars : [
-		'previousSelectionFactory'
+		'previousSelectionFactory',
+		'previousSecondarySelectionFactory'
 	],
 	#category : #'Toplo-Widget-Tag-Tab'
 }
@@ -15,8 +16,17 @@ ToTabBarElementSkin >> installSkinEvent: anEvent [
 		e border: BlBorder empty.
 		e clipChildren: false.
 		previousSelectionFactory := e selectionOption elementFactory.
+		previousSecondarySelectionFactory := e secondarySelectionOption elementFactory.
 		e selectionOption elementFactory: [
 			ToTabBarSelectionElement new
+				placement: (ToRawSkinTabBarSelectionPlacement new
+						 tabBar: e;
+						 yourself);
+				measurement: (ToRawSkinTabBarSelectionMeasurement new
+						 tabBar: e;
+						 yourself) ].
+		e secondarySelectionOption elementFactory: [
+			ToTabBarSecondarySelectionElement new
 				placement: (ToRawSkinTabBarSelectionPlacement new
 						 tabBar: e;
 						 yourself);
@@ -39,5 +49,8 @@ ToTabBarElementSkin >> uninstallSkinEvent: anEvent [
 	super uninstallSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e selectionOption elementFactory: previousSelectionFactory.
-		previousSelectionFactory := nil ]
+		e secondarySelectionOption elementFactory:
+			previousSecondarySelectionFactory.
+		previousSelectionFactory := nil.
+		previousSecondarySelectionFactory := nil ]
 ]

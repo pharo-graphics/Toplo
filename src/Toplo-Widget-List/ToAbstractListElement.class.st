@@ -520,6 +520,12 @@ ToAbstractListElement >> secondarySelectionModel [
 	^ self secondarySelectionMode selectionModel
 ]
 
+{ #category : #accessing }
+ToAbstractListElement >> secondarySelectionOption [
+
+	^ self secondarySelectionMode selectionOption
+]
+
 { #category : #'accessing selecters' }
 ToAbstractListElement >> selectableAtPosition: anInteger [
 

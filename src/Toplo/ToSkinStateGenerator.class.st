@@ -158,6 +158,7 @@ ToSkinStateGenerator >> handleEvent: anEvent [
 { #category : #'list selection' }
 ToSkinStateGenerator >> listNodeSelectedEvent: anEvent [
 
+	target isEnabled ifFalse: [ ^ self ].
 	target withAllChildrenBreadthFirstDo: [ :child |
 		child areSelectionSkinEventsPrevented ifTrue: [ ^ self ]. 
 		self

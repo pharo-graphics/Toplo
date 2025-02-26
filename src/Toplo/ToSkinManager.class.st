@@ -164,7 +164,8 @@ ToSkinManager >> installSkin: aSkin in: anElement [
 
 	self ensureHaveSkinContext.
 	self skinContext installSkin: aSkin in: anElement.
-	self skinStateQueue enqueueInstallStateForElement: anElement
+	self skinStateQueue enqueueInstallStateForElement: anElement.
+	anElement onSkinInstalled: aSkin 
 ]
 
 { #category : #'accessing - installed skin' }
@@ -429,11 +430,14 @@ ToSkinManager >> tokenPropertyValue: aSymbol from: anElement [
 ToSkinManager >> uninstallSkinIn: anElement [
 	" uninstall the skin "
 
-	self skinContext ifNil: [ ^ self ].
+	| skin |
+	skinContext ifNil: [ ^ self ].
 	self skinStateQueue enqueueUninstallStateForElement: anElement.
 	" do not wait the next pulse to ensure the uninstallation is done here "
-	self skinStateQueue applyEnqueuedStatesIn: anElement.
-	self skinContext uninstallSkinIn: anElement.
+	skinStateQueue applyEnqueuedStatesIn: anElement.
+	skin := skinContext installedSkin.
+	skinContext uninstallSkinIn: anElement.
+	anElement onSkinUninstalled: skin.
 	skinContext := nil
 
 ]

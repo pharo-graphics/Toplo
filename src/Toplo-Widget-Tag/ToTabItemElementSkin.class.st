@@ -49,6 +49,9 @@ ToTabItemElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
+		e holder listElement isWrapping
+			ifTrue: [ e allowSelectionSkinEvents ]
+			ifFalse: [ e preventSelectionSkinEvents ].
 		e focusability: BlFocusability ignore.
 		e layout alignCenter.
 		e border: BlBorder empty.
@@ -59,10 +62,12 @@ ToTabItemElementSkin >> installSkinEvent: anEvent [
 				 bottom: (e valueOfTokenNamed: #'padding-content-VXS')
 				 right: (e valueOfTokenNamed: #'padding-XS')).
 		(e hasStartElement and: [ e hasMiddleElement ])
-			ifTrue: [ e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
+			ifTrue: [
+			e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
 			ifFalse: [ e startInterspace: 0 ].
 		(e hasEndElement and: [ e hasMiddleElement ])
-			ifTrue: [ e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
+			ifTrue: [
+			e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
 			ifFalse: [ e endInterspace: 0 ] ]
 ]
 

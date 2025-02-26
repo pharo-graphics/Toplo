@@ -65,7 +65,7 @@ ToLabelSkin >> selectedSkinEvent: anEvent [
 					do: [ :v | foreground := v ]
 					ifNone: [
 					foreground := e valueOfTokenNamed: #'label-selected-unfocused' ] ].
-
+e text asString traceCr.
 		e foreground: foreground.
 		e applyStyle ]
 ]

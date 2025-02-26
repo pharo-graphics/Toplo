@@ -3406,7 +3406,7 @@ ToSandBox class >> example_TabBarElement [
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		tabs addItem: (ToTabItemElement new
-				 middleElement: (ToLabel text: l) preventSelectionSkinEvents;
+				 middleElement: (ToLabel text: l);
 				 yourself) ].
 
 	(tabs items at: 2) disable.
@@ -3423,7 +3423,7 @@ ToSandBox class >> example_TabsElement [
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		tabs addItem: (ToTabItemElement new
-				 middleElement: (ToLabel text: l) preventSelectionSkinEvents;
+				 middleElement: (ToLabel text: l);
 				 yourself) ].
 
 	(tabs items at: 2) disable.
@@ -3439,7 +3439,7 @@ ToSandBox class >> example_TabsElement2 [
 
 	self statesOfAmerica do: [ :l |
 		tabs addItem: (ToTabItemElement new
-				 middleElement: (ToLabel text: l) preventSelectionSkinEvents;
+				 middleElement: (ToLabel text: l);
 				 yourself) ].
 
 	(tabs items at: 2) disable.

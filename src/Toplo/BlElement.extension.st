@@ -471,6 +471,14 @@ BlElement >> onRemovedFromItemBarOwner: anItemBar [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> onSkinInstalled: aSkin [
+]
+
+{ #category : #'*Toplo' }
+BlElement >> onSkinUninstalled: aSkin [
+]
+
+{ #category : #'*Toplo' }
 BlElement >> openInInnerWindow [
 
 	| frame |

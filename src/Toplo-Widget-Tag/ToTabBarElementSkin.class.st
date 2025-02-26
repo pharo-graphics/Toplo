@@ -15,15 +15,22 @@ ToTabBarElementSkin >> installSkinEvent: anEvent [
 		e border: BlBorder empty.
 		e clipChildren: false.
 		previousSelectionFactory := e selectionOption elementFactory.
-		e isWrapping ifFalse: [
-			e selectionOption elementFactory: [
-				ToListPrimarySelectionElement new
-					placement: (ToRawSkinTabBarSelectionPlacement new
-							 tabBar: e;
-							 yourself);
-					measurement: (ToRawSkinTabBarSelectionMeasurement new
-							 tabBar: e;
-							 yourself) ] ] ]
+		e selectionOption elementFactory: [
+			ToTabBarSelectionElement new
+				placement: (ToRawSkinTabBarSelectionPlacement new
+						 tabBar: e;
+						 yourself);
+				measurement: (ToRawSkinTabBarSelectionMeasurement new
+						 tabBar: e;
+						 yourself) ] ]
+]
+
+{ #category : #'event handling' }
+ToTabBarElementSkin >> leavedSkinEvent: anEvent [
+
+	super leavedSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e secondarySelecter deselectAll ]
 ]
 
 { #category : #'event handling' }

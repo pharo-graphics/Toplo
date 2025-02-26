@@ -7,6 +7,14 @@ Class {
 	#category : #'Toplo-Widget-Tag-Tab'
 }
 
+{ #category : #'t - triplet element - configuration' }
+ToTabBarElement >> applyInnerConfiguration [ 
+
+	super applyInnerConfiguration.
+	self nodesDo: [ :node | node item requestNewSkin ].
+	self selectionOption notifyNodesSelectedIn: self
+]
+
 { #category : #'t - item list - accessing' }
 ToTabBarElement >> defaultNodeManagerClass [
 

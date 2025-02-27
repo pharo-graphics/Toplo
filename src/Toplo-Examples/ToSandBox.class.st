@@ -668,6 +668,40 @@ ToSandBox class >> exampleGhostAccordionWithLabel [
 	^ inst
 ]
 
+{ #category : #theme }
+ToSandBox class >> exampleLocalThemeChangesChildrenLookup [	
+
+	| space parent child changeButton |
+	space := BlSpace new.
+
+	parent := ToButton new
+		          size: 200 asPoint;
+		          position: 50 asPoint;
+		          border: (BlBorder paint: Color red width: 4).
+
+	child := ToButton new
+		         size: 100 @ 50;
+		         constraintsDo: [ :c | c ignoreByLayout ];
+		         position: 30 asPoint.
+
+	space root addChild: parent.
+	parent addChild: child.
+
+	changeButton := ToButton new
+		                size: 200 @ 50;
+		                position: 300 @ 50;
+		                whenClickedDo: [
+			                (parent localTheme isNil or: (parent localTheme class = ToRawTheme))
+				                ifTrue: [ parent localTheme: ToRawDarkTheme new ]
+				                ifFalse: [ parent localTheme: ToRawTheme new ] ];
+		                label: (ToLabel text: 'Change parent local theme');
+		                yourself.
+
+	space root addChild: changeButton.
+
+	space show
+]
+
 { #category : #accordion }
 ToSandBox class >> examplePaneWithAccordionsWithCheckableGroup [
 

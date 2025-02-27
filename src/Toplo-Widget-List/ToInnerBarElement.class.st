@@ -379,7 +379,7 @@ ToInnerBarElement >> scrollDeltaFromDataSourcePosition: anIndex [
 	| node bnds pad |
 	node := self nodeAt: anIndex.
 	node ifNil: [ ^ nil ].
-	node isFullyVisible ifTrue: [ ^ nil ].
+	node isFullyVisibleInInnerElement ifTrue: [ ^ nil ].
 	bnds := node measuredBounds inParent: listElement.
 	pad := listElement isHorizontal
 		       ifTrue: [ listElement padding left ]
@@ -393,7 +393,7 @@ ToInnerBarElement >> scrollDeltaTowardEndFromDataSourcePosition: anIndex [
 	| node bnds offset padding |
 	node := self nodeAt: anIndex.
 	node ifNil: [ ^ nil ].
-	node isFullyVisible ifTrue: [ ^ nil ].
+	node isFullyVisibleInInnerElement ifTrue: [ ^ nil ].
 	bnds := node measuredBounds inParent: listElement.
 	padding := listElement padding.
 	offset := listElement isHorizontal
@@ -409,7 +409,7 @@ ToInnerBarElement >> scrollDeltaTowardStartFromDataSourcePosition: anIndex [
 	| node bnds pad |
 	node := self nodeAt: anIndex.
 	node ifNil: [ ^ nil ].
-	node isFullyVisible ifTrue: [ ^ nil ].
+	node isFullyVisibleInInnerElement ifTrue: [ ^ nil ].
 	bnds := node measuredBounds inParent: listElement.
 	pad := listElement isHorizontal
 		       ifTrue: [ listElement padding left ]

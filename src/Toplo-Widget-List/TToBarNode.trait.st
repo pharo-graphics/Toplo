@@ -10,7 +10,7 @@ TToBarNode >> isFake [
 ]
 
 { #category : #'t - bar node' }
-TToBarNode >> isFullyVisible [
+TToBarNode >> isFullyVisibleInInnerElement [
 
 	| bnds list intersection |
 	list := self holder listElement.

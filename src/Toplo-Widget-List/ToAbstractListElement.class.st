@@ -131,15 +131,15 @@ ToAbstractListElement >> dataUpdater [
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultContextMenuSelectionMode [
+ToAbstractListElement >> defaultContextMenuManagerClass [
 
-	^ ToListContextMenuSelectionMode new
+	^ ToListElementContextMenuManager
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultContextMenuWindowManagerClass [
+ToAbstractListElement >> defaultContextMenuSelectionMode [
 
-	^ ToListElementContextMenuManager
+	^ ToListContextMenuSelectionMode new
 ]
 
 { #category : #initialization }
@@ -290,17 +290,16 @@ ToAbstractListElement >> initialize [
 
 	self layout: self defaultLayout.
 
-	self addEventHandler: (self defaultEventHandler target: self; yourself).
+	self addEventHandler: self defaultEventHandler.
 	self primarySelectionMode: self defaultPrimarySelectionMode.
 	self secondarySelectionMode: self defaultSecondarySelectionMode.
 	self contextMenuSelectionMode: self defaultContextMenuSelectionMode.
-	self contextMenuWindowManagerClass:
-		self defaultContextMenuWindowManagerClass.
+	self contextMenuManagerClass: self defaultContextMenuManagerClass.
 	self newUnselectableSelectionMode onInstalledIn: self.
 	self newHiddenSelectionMode onInstalledIn: self.
 	self newDisabledSelectionMode onInstalledIn: self.
 
-	self matchParent".
+	self matchParent ".
 	self configureLayout"
 ]
 

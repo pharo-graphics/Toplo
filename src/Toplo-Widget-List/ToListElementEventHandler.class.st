@@ -4,7 +4,6 @@ Class {
 	#traits : 'TToListElementEventHandler',
 	#classTraits : 'TToListElementEventHandler classTrait',
 	#instVars : [
-		'target',
 		'selectionRefreshTask'
 	],
 	#category : #'Toplo-Widget-List-Core'
@@ -55,7 +54,7 @@ ToListElementEventHandler >> doubleClickEvent: anEvent [
 { #category : #'element events handling' }
 ToListElementEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 
-	self showHidePlaceholderIn: target
+	self showHidePlaceholderIn: anEvent currentTarget
 ]
 
 { #category : #'selection managing' }
@@ -117,7 +116,7 @@ ToListElementEventHandler >> focusEvent: anEvent [
 { #category : #'infinite event handling' }
 ToListElementEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEvent [
 
-	self showHidePlaceholderIn: target
+	self showHidePlaceholderIn: anEvent currentTarget
 ]
 
 { #category : #'infinite event handling' }
@@ -265,7 +264,7 @@ ToListElementEventHandler >> primaryClickEvent: anEvent [
 		withTargetNodeFromEvent: anEvent
 		do: [ :node | node hasFocus ifTrue: [ ^ self ] ].
 	"no focused node, then I take the focus"
-	target requestFocus
+	anEvent currentTarget requestFocus
 ]
 
 { #category : #'selection managing' }
@@ -310,16 +309,4 @@ ToListElementEventHandler >> syncNodesSelectionIn: aListElement [
 	| option |
 	option := aListElement selectionOption.
 	option notifyNodesSelectedIn: aListElement
-]
-
-{ #category : #accessing }
-ToListElementEventHandler >> target [
-
-	^ target
-]
-
-{ #category : #accessing }
-ToListElementEventHandler >> target: aListElement [
-
-	target := aListElement
 ]

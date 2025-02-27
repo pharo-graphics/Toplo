@@ -36,12 +36,9 @@ ToCheckboxSkin >> enabledSkinEvent: anEvent [
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e border: BlBorder empty.
-		(e isMenuButton or: [
-			 e hasAnyInParentChainSatisfying: [ :p |
-				 p isKindOf: ToAbstractListNode ] ])
-			ifTrue: [ e background: BlBackground transparent ]
-			ifFalse: [
-			e icon innerImageColor: (e valueOfTokenNamed: #'color-primary') ] ]
+		(e isMenuButton or: [ e hasAnyInParentChainSatisfying: [ :p | p isKindOf: ToAbstractListNode ] ]) 
+			ifTrue: [ e background: BlBackground transparent ].
+		e icon innerImageColor: (e valueOfTokenNamed: #'color-primary') ]
 ]
 
 { #category : #'event handling' }

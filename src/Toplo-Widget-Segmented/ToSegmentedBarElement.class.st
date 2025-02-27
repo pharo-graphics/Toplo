@@ -7,13 +7,6 @@ Class {
 	#category : #'Toplo-Widget-Segmented-Bar'
 }
 
-{ #category : #'t - triplet element - configuration' }
-ToSegmentedBarElement >> applyInnerConfiguration [ 
-
-	super applyInnerConfiguration.
-	self nodesDo: [ :node | node item requestNewSkin ]
-]
-
 { #category : #skin }
 ToSegmentedBarElement >> newRawSkin [ 
 

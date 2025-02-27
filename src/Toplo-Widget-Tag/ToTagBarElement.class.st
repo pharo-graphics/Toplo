@@ -25,11 +25,7 @@ ToTagBarElement >> defaultNodeManagerClass [
 ToTagBarElement >> initialize [
 
 	super initialize.
-	self sample: 'X'.
-	" mandatory resizer setting. 
-	Normally, should not be changed"
-	self vFitContent.
-	self hMatchParent 
+	self sample: 'X'
 ]
 
 { #category : #'t - list element decorator - children - accessing' }

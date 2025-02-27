@@ -11,6 +11,8 @@ Class {
 ToTabBarElement >> applyInnerConfiguration [ 
 
 	super applyInnerConfiguration.
+	" need to renew the nodes item skin because the foreground 
+	of a selected label can be different according to the #isWrapping property  "
 	self nodesDo: [ :node | node item requestNewSkin ]
 ]
 
@@ -27,9 +29,10 @@ ToTabBarElement >> newRawSkin [
 ]
 
 { #category : #'t - bar element' }
-ToTabBarElement >> onInvisibleNodes: theInvisibleNodes [
+ToTabBarElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes [
 
-	theInvisibleNodes traceCr
+	theVisibleNodes do: [ :n | n visibility: BlVisibility visible ].
+	theInvisibleNodes do: [ :n | n visibility: BlVisibility hidden ]
 ]
 
 { #category : #accessing }

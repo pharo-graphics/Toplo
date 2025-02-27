@@ -5,12 +5,26 @@ Class {
 }
 
 { #category : #'event handling' }
+ToSelectElementSkin >> closedSkinEvent: anEvent [
+
+	super closedSkinEvent: anEvent.
+	anEvent elementDo: [ :e | e iconContainer dispatchEvent: anEvent copy ]
+]
+
+{ #category : #'event handling' }
 ToSelectElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e | e padding: (BlInsets
 			 horizontal: (e valueOfTokenNamed: #'list-node-padding-H')
 			 vertical: (e valueOfTokenNamed: #'list-node-padding-V')) ]
+]
+
+{ #category : #'event handling' }
+ToSelectElementSkin >> openedSkinEvent: anEvent [
+
+	super openedSkinEvent: anEvent.
+	anEvent elementDo: [ :e | e iconContainer dispatchEvent: anEvent copy ]
 ]
 
 { #category : #'accessing - shortcuts' }

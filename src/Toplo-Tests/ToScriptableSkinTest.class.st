@@ -13,7 +13,7 @@ ToScriptableSkinTest >> testOnHoveredSkinEvent [
 	| te skin |
 	te := ToElement new.
 	skin := ToScriptableSkin new.
-	skin onHoveredSkinEvent: [ :e |
+	skin onHoveredSkinEvent: [ :e :evt |
 		e size: 30 asPoint.
 		e background: Color yellow ].
 	te defaultRawSkin: skin.
@@ -31,7 +31,7 @@ ToScriptableSkinTest >> testOnInstalledSkinEvent [
 	| te skin |
 	te := ToElement new.
 	skin := ToScriptableSkin new.
-	skin onInstallSkinEvent: [ :e |
+	skin onInstallSkinEvent: [ :e :evt |
 		e size: 30 asPoint.
 		e background: Color yellow ].
 	te defaultRawSkin: skin.
@@ -48,7 +48,7 @@ ToScriptableSkinTest >> testOnLeavedSkinEvent [
 	| te skin |
 	te := ToElement new.
 	skin := ToScriptableSkin new.
-	skin onLeavedSkinEvent: [ :e |
+	skin onLeavedSkinEvent: [ :e :evt |
 		e size: 30 asPoint.
 		e background: Color yellow ].
 	te defaultRawSkin: skin.

@@ -42,13 +42,13 @@ ToScrollableBarTrackElement >> autoDistribute [
 { #category : #layout }
 ToScrollableBarTrackElement >> checkFullyVisibleNodes [
 
-	| invisibleNodes |
+	| invisibleNodes visibleNodes |
 	self isWrapping ifTrue: [ ^ self ].
 	self isScrolling ifTrue: [ ^ self ].
 	self autoDistribute ifTrue: [ ^ self ].
-	invisibleNodes := self nodesSelect: [ :n | n isFullyVisible not ].
-	invisibleNodes ifEmpty: [ ^ self ].
-	listElement onInvisibleNodes: invisibleNodes
+	invisibleNodes := self nodesSelect: [ :n | n isFullyVisibleInInnerElement not ].
+	visibleNodes := self nodes difference: invisibleNodes.
+	listElement onInvisibleNodes: invisibleNodes visibleNodes: visibleNodes
 ]
 
 { #category : #layout }
@@ -103,7 +103,7 @@ ToScrollableBarTrackElement >> fullyVisibleNodes [
 ToScrollableBarTrackElement >> fullyVisibleNodesDo: aBlock [
 
 	self nodesDo: [ :node |
-		node isFullyVisible ifTrue: [ aBlock value: node ] ]
+		node isFullyVisibleInInnerElement ifTrue: [ aBlock value: node ] ]
 ]
 
 { #category : #'accessing - children' }
@@ -111,7 +111,7 @@ ToScrollableBarTrackElement >> fullyVisibleNodesSelect: aBlock [
 
 	^ Array streamContents: [ :stream |
 		  self nodesDo: [ :node |
-			  node isFullyVisible ifTrue: [
+			  node isFullyVisibleInInnerElement ifTrue: [
 				  (aBlock value: node) ifTrue: [ stream nextPut: node ] ] ] ]
 ]
 

@@ -109,7 +109,7 @@ TToBarElement >> isWrapping: aBoolean [
 ]
 
 { #category : #'t - bar element' }
-TToBarElement >> onInvisibleNodes: aCollection [
+TToBarElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes [
 
 	
 ]

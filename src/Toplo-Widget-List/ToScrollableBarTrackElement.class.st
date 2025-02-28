@@ -141,6 +141,12 @@ ToScrollableBarTrackElement >> isWrapping [
 ]
 
 { #category : #layout }
+ToScrollableBarTrackElement >> linearLayoutClass [
+
+	^ ToBarLinearLayout
+]
+
+{ #category : #layout }
 ToScrollableBarTrackElement >> newFlowLayout [
 
 	^ (self isHorizontal
@@ -162,9 +168,12 @@ ToScrollableBarTrackElement >> newLayoutStrategy [
 { #category : #layout }
 ToScrollableBarTrackElement >> newLinearLayout [
 
-	^ self isHorizontal
-		  ifTrue: [ BlLinearLayout horizontal ]
-		  ifFalse: [ BlLinearLayout vertical ]
+	^ (self isHorizontal
+		   ifTrue: [ self linearLayoutClass horizontal ]
+		   ifFalse: [ self linearLayoutClass vertical ])
+		  hasUniformNodeWidth: listElement hasUniformNodeWidth;
+		  hasUniformNodeHeight: listElement hasUniformNodeHeight;
+		  yourself
 ]
 
 { #category : #accessing }

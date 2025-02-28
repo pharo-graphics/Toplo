@@ -192,8 +192,6 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 		| v |
 		v := event current.
 		aBar isWrapping: v.
-		uniformNodeWidthSwitch enabled: v.
-		uniformNodeHeightSwitch enabled: v.
 		scrollingSwitch disabled: v ].
 
 	uniformNodeWidthSwitch whenClickedDo: [ :event |

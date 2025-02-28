@@ -77,7 +77,6 @@ ToAccordionHeaderElement >> icon: aToImage [
 ToAccordionHeaderElement >> initialize [
 
 	super initialize.
-	self applySkinInstallerOnFirstRequest: false.
 	self layout: BlLinearLayout horizontal.
 	self hMatchParent.
 	self vFitContent.

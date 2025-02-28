@@ -330,7 +330,6 @@ ToSkinManager >> setSkinUninstaller: aSkinUninstaller in: anElement [
 	aSkinUninstaller ifNil: [
 		self userData removeKey: #skinUninstaller ifAbsent: [  ].
 		^ self ].
-	anElement spaceDo: [ :sp | sp needSkinInstallPass: true ].
 	self userData at: #skinUninstaller put: aSkinUninstaller
 ]
 

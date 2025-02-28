@@ -3,7 +3,7 @@ A ToLabelTest is a test class for testing the behavior of ToLabel
 "
 Class {
 	#name : #ToLabelTest,
-	#superclass : #ToTestCaseWithSpace,
+	#superclass : #ToParameterizedHostTest,
 	#category : #'Toplo-Widget-Album-Tests-Label'
 }
 
@@ -46,12 +46,12 @@ ToLabelTest >> testSkinUpdatedAfterTextChanged [
 	theme := ToStyleSheetTheme new.
 	theme styleSheet addWritableProperty: (ToPseudoProperty new
 			 name: #'text-attributes-with-builder';
-			 writer: [ :e :v | e text attributes: v attributes ]).
+			 writer: [ :e :v | e text attributes: v attributes. e applyStyle ]).
 
 	theme select: #HUGE asStampSelector style: [ :sr |
 		sr
 			write: (theme property: #'text-attributes-with-builder')
-			with: [ :e |
+			with: [ :e | 
 				e textAttributesBuilder
 					defaultFontSize: hugeFontSize;
 					yourself ] ].
@@ -60,16 +60,15 @@ ToLabelTest >> testSkinUpdatedAfterTextChanged [
 	label := ToLabel text: 'Hello'.
 	space root addChild: label.
 
-	space applyAllSkinPhases.
+	self waitTestingSpaces.
 	attributes := label text attributesAt: 1.
 
-	" no attribute because there is no rule that can be applied"
+	" The default stylesheet theme has no rule by default, so the default attributes is not installed"
 	self assert: attributes isEmpty.
-
 	"adding a stamp should renew the skin (and then take the stamp into account)"
 	label addStamp: #HUGE.
 
-	space applyAllSkinPhases.
+	self waitTestingSpaces.
 	fontSizeAttr := label text iterator
 		                detectAttribute: [ :a |
 		                a isKindOf: BlFontSizeDefaultAttribute ]

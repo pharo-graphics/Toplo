@@ -3,7 +3,7 @@ A ToThemeManagerTest is a test class for testing the behavior of ToThemeManager
 "
 Class {
 	#name : #ToSkinManagerTest,
-	#superclass : #ToTestCaseWithSpace,
+	#superclass : #ToParameterizedHostTest,
 	#category : #'Toplo-Tests-Core-Theme'
 }
 
@@ -92,13 +92,14 @@ ToSkinManagerTest >> testComputedStyleSheetChainIn [
 		assert:
 		(childchildchild skinManager computedStyleSheetChainIn: childchildchild)
 		equals: #(  ).
-	space := BlSpace new.
 	space root addChild: e.
 	" no styleSheet theme by default "
 	self assert:
 		(childchildchild skinManager computedStyleSheetChainIn: childchildchild)
 			isEmpty.
 	space toTheme: ToStyleSheetTheme new.
+	self waitTestingSpaces.
+
 	" one style sheet in theme by default "
 	self assert:
 		(childchildchild skinManager computedStyleSheetChainIn: childchildchild)
@@ -385,7 +386,6 @@ ToSkinManagerTest >> testIsSetUpForTheme [
 
 	| e theme skin |
 	e := ToElement new.
-	space := BlSpace new.
 	theme := ToRawTheme new.
 	self deny: (e skinManager isSetUpForTheme: theme).
 	self assert: e skinManager registeredThemeClasses isEmpty.
@@ -725,7 +725,6 @@ ToSkinManagerTest >> testSetUpForThemeIn2 [
 
 	| e theme skin |
 	e := ToElement new.
-	space := BlSpace new.
 	self assert: e skinManager registeredThemeClasses notNil.
 	self assert: e skinManager registeredThemeClasses isEmpty.
 	theme := ToRawTheme new.

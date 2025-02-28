@@ -2,12 +2,11 @@ Class {
 	#name : #ToSpacePhasesManager,
 	#superclass : #Object,
 	#instVars : [
-		'startHandler',
 		'needSkinInstallPass',
 		'needSkinStateApplicationPass',
 		'needInnerConfigurationPass',
 		'stateGenerations',
-		'arePhasesInstalled'
+		'phasesInstallationDone'
 	],
 	#category : #'Toplo-Core-SpaceFrame'
 }
@@ -45,16 +44,10 @@ ToSpacePhasesManager >> applyAllSkinInstallersIn: aSpace [
 	aSpace root applySkinInstallersDeeply
 ]
 
-{ #category : #testing }
-ToSpacePhasesManager >> arePhasesInstalled [
-
-	^ arePhasesInstalled
-]
-
 { #category : #initialization }
 ToSpacePhasesManager >> checkPhasesIn: aSpace [
 
-	arePhasesInstalled ifTrue: [^ self ].
+	phasesInstallationDone ifTrue: [^ self ].
 	self onInstalledIn: aSpace
 ]
 
@@ -62,7 +55,7 @@ ToSpacePhasesManager >> checkPhasesIn: aSpace [
 ToSpacePhasesManager >> initialize [ 
 
 	super initialize.
-	arePhasesInstalled := false.
+	phasesInstallationDone := false.
 	needSkinInstallPass := true.
 	needSkinStateApplicationPass := true.
 	needInnerConfigurationPass := true.
@@ -97,12 +90,6 @@ ToSpacePhasesManager >> installedSkinStateApplicationPhaseIn: aSpace [
 ToSpacePhasesManager >> isInnerConfigurationPhaseInstalledIn: aSpace [
 
 	^ (self installedInnerConfigurationPhaseIn: aSpace) notNil
-]
-
-{ #category : #testing }
-ToSpacePhasesManager >> isPhasesInstallationPostponed [
-
-	^ startHandler notNil
 ]
 
 { #category : #testing }
@@ -156,17 +143,8 @@ ToSpacePhasesManager >> needSkinStateApplicationPass: aBoolean [
 { #category : #'phases installation' }
 ToSpacePhasesManager >> onInstalledIn: aSpace [
 
-	arePhasesInstalled ifTrue: [ ^ self ].
-	aSpace isOpened
-		ifTrue: [ 
-			"'space already opened -> startSkinPhasesIn:' traceCr."
-			self startPhasesIn: aSpace ]
-		ifFalse: [
-			self isPhasesInstallationPostponed ifTrue: [ 
-				"'space not oppened -> startSkinPhasesArmed already armed' traceCr."
-				^ self ].
-			"'space not oppened -> startSkinPhasesArmed ' traceCr."
-			self postponeStartPhasesIn: aSpace ]
+	phasesInstallationDone ifTrue: [ ^ self ].
+	self startPhasesIn: aSpace 
 ]
 
 { #category : #'phases installation' }
@@ -176,14 +154,10 @@ ToSpacePhasesManager >> onUninstalledIn: aSpace [
 
 ]
 
-{ #category : #'phases installation' }
-ToSpacePhasesManager >> postponeStartPhasesIn: aSpace [
+{ #category : #testing }
+ToSpacePhasesManager >> phasesInstallationDone [
 
-	startHandler := aSpace
-		                addEventHandlerOn: BlSpaceShownEvent
-		                doOnce: [ "'space opened -> startSkinPhasesIn:' traceCr."
-			                startHandler := nil.
-			                self startPhasesIn: aSpace ]
+	^ phasesInstallationDone
 ]
 
 { #category : #'skins application' }
@@ -210,15 +184,12 @@ ToSpacePhasesManager >> startInnerConfigurationPhaseIn: aSpace [
 { #category : #'phases installation' }
 ToSpacePhasesManager >> startPhasesIn: aSpace [
 
-	arePhasesInstalled ifTrue: [ ^ self ].
-	self isPhasesInstallationPostponed ifTrue: [
-		aSpace removeEventHandler: startHandler.
-		startHandler := nil ].
+	phasesInstallationDone ifTrue: [ ^ self ].
 	self
 		startSkinInstallerPhaseIn: aSpace;
 		startSkinStateApplicationPhaseIn: aSpace;
 		startInnerConfigurationPhaseIn: aSpace.
-	arePhasesInstalled := true.
+	phasesInstallationDone := true.
 	" If no theme has been already set, now I can set the root default theme
 	( *** before skinPhasesInstalled: true *** it would start an endless loop )"
 
@@ -266,19 +237,15 @@ ToSpacePhasesManager >> stopInnerConfigurationPhaseIn: aSpace [
 
 { #category : #'phases installation' }
 ToSpacePhasesManager >> stopPhasesIn: aSpace [
-
-	self isPhasesInstallationPostponed ifTrue: [ 
-		aSpace removeEventHandler: startHandler.
-		startHandler := nil. ].
 	
-	arePhasesInstalled ifFalse: [ ^ self ].
+	phasesInstallationDone ifFalse: [ ^ self ].
 	self
 		stopSkinInstallerPhaseIn: aSpace;
 		stopSkinStateApplicationPhaseIn: aSpace;
 		stopInnerConfigurationPhaseIn: aSpace.
 	
 	" 'stopSkinPhasesIn:' traceCr. "
-	arePhasesInstalled := false.
+	phasesInstallationDone := false.
 	aSpace dispatchEvent: ToSpacePhasesStopped new
 ]
 

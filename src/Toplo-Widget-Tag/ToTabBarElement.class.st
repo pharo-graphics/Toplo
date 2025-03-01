@@ -31,7 +31,7 @@ ToTabBarElement >> newRawSkin [
 { #category : #'t - bar element' }
 ToTabBarElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes [
 
-"	theVisibleNodes do: [ :n | n visibility: BlVisibility visible ].
+	"theVisibleNodes do: [ :n | n visibility: BlVisibility visible ].
 	theInvisibleNodes do: [ :n | n visibility: BlVisibility hidden ]"
 ]
 

@@ -37,7 +37,7 @@ ToTabsElement >> configureLayout [
 		ifFalse: [ self itemBar hMatchParent ].
 	self isVFitContent
 		ifTrue: [ self itemBar vFitContent ]
-		ifFalse: [ self itemBar vMatchParent ].
+		ifFalse: [ self itemBar vMatchParent ]
 ]
 
 { #category : #initialization }

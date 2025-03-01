@@ -35,5 +35,6 @@ ToTabsElementSkin >> uninstallSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e itemBar userData removeKey: #'selection-track' ifAbsent: [  ].
 		(e childWithId: #'selection-track' ifNone: [  ]) ifNotNil: [
-			:selTrack | selTrack removeFromParent ] ]
+			:selTrack | 
+				selTrack removeFromParent ] ]
 ]

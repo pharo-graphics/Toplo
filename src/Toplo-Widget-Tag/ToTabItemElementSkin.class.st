@@ -40,18 +40,18 @@ ToTabItemElementSkin >> hoveredSkinEvent: anEvent [
 ToTabItemElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
+	anEvent elementDo: [ :e | " have to take care of the label foreground: set it with a specific one in not wrapping 
+		(in this case a track is added and the selection element is added outside the item bounds)
+		In case of wrapping, the selection is added over the item (as in any item bar)"
 		e holder listElement isWrapping
-			ifTrue: [
-				e labelDo: [ :me |
-					me removeStamp: #'label-selected-focused-foreground' ] ]
+			ifTrue: [ e labelDo: [ :me | me removeStamp: #'label-selected-focused-foreground' ] ]
 			ifFalse: [
 				e labelDo: [ :me |
 					me
 						addStamp: #'label-selected-focused-foreground'
 						withValue: (e valueOfTokenNamed: #'color-primary-selection-focused') ] ].
 		e focusability: BlFocusability ignore.
-		e layout alignCenter.
+		e holder listElement isHorizontal ifTrue: [ e layout alignCenter ].
 		e border: BlBorder empty.
 		e background: BlBackground transparent.
 		e padding: (BlInsets
@@ -60,12 +60,10 @@ ToTabItemElementSkin >> installSkinEvent: anEvent [
 				 bottom: (e valueOfTokenNamed: #'padding-content-VXS')
 				 right: (e valueOfTokenNamed: #'padding-XS')).
 		(e hasStartElement and: [ e hasMiddleElement ])
-			ifTrue: [
-			e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
+			ifTrue: [ e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
 			ifFalse: [ e startInterspace: 0 ].
 		(e hasEndElement and: [ e hasMiddleElement ])
-			ifTrue: [
-			e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
+			ifTrue: [ e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
 			ifFalse: [ e endInterspace: 0 ] ]
 ]
 

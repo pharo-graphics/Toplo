@@ -5108,15 +5108,14 @@ ToSandBox class >> example_menuPaneVertical [
 		menu := ToMenu new.
 		count = 2 ifTrue: [ menu beInline ].
 		menu label: (ToLabel text: 'Levels').
-		menu icon:
-			(ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+		menu icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
 
 		menu builder: [ :m |
 			1 to: 6 do: [ :index |
 				| subMenu |
-				subMenu := ToMenu new label:
-					           (ToLabel new text: (String streamContents: [ :out |
+				subMenu := ToMenu new label: (ToLabel new text: (String streamContents: [ :out |
 							             out
+								             nextPutAll: 'Level ';
 								             print: index;
 								             nextPutAll: 'x';
 								             print: index ])).
@@ -5137,8 +5136,7 @@ ToSandBox class >> example_menuPaneVertical [
 						color := Color random.
 						iconImage := BlElement new
 							             padding: (BlInsets all: 2);
-							             geometry:
-								             (BlRoundedRectangleGeometry cornerRadius: 3);
+							             geometry: (BlRoundedRectangleGeometry cornerRadius: 3);
 							             background: color;
 							             size: 16 asPoint;
 							             yourself.
@@ -5154,7 +5152,7 @@ ToSandBox class >> example_menuPaneVertical [
 	bar vertical: true.
 	bar vFitContent.
 	frame pane addChild: bar.
-	frame openInSpace.
+	frame openInSpace
 	"frame inspect"
 ]
 

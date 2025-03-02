@@ -54,11 +54,14 @@ ToMenuPane >> configureLayout [
 	" just force the resizer of the secondary direction 
 	( vertical direction in case of an horizontal bar )"
 
+	super configureLayout.
 	self isHorizontal
 		ifTrue: [
+			self hasUniformNodeWidth: false.
 			self vFitContent.
 			self isSubPane ifTrue: [ self hFitContent ] ]
 		ifFalse: [
+			self hasUniformNodeWidth: true.
 			self hFitContent.
 			self isSubPane ifTrue: [ self vFitContent ] ].
 
@@ -87,9 +90,7 @@ ToMenuPane >> initialize [
 	self addEventHandler: ToMenuPaneEventHandler new.
 	self addChild: self itemBar.
 	self isWrapping: false.
-	self hasUniformNodeWidth: false.
-	self beHorizontal.
-	self configureLayout
+	self beHorizontal
 ]
 
 { #category : #testing }
@@ -178,22 +179,6 @@ ToMenuPane >> onAddedInItemBarOwner: aMenuItemBar [
 ToMenuPane >> onAddedMenu: aMenu [
 
 	aMenu isMenuPaneMenu: true.
-]
-
-{ #category : #layout }
-ToMenuPane >> onMeasure: anExtentMeasurementSpec [
-	"By default let layout strategy do the measuring job.
-	If needed override this method to do some additional
-	actions or just implement custom layout strategy"
-
-	| w |
-	super onMeasure: anExtentMeasurementSpec.
-	self isHorizontal ifTrue: [ ^ self ].
-	w := 0.
-	self collectedNodesDo: [ :child | w := w max: child measuredWidth ].
-	self collectedNodesDo: [ :child |
-		child measuredWidth < w ifTrue: [
-			child measuredExtent: w @ child measuredHeight ] ]
 ]
 
 { #category : #'adding-removing' }

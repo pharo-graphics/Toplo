@@ -6,7 +6,7 @@ Trait {
 { #category : #'t - bar measurer' }
 TToBarMeasurer >> barNodes [
 
-	^ self explicitRequirement
+	^ self shouldBeImplemented 
 ]
 
 { #category : #'t - bar measurer' }

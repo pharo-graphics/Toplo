@@ -13,12 +13,11 @@ ToMenuInlineWindowMode >> menuBarOwner [
 { #category : #'api - displaying' }
 ToMenuInlineWindowMode >> onMeasure: anExtentMeasurementSpec element: aWindow onEvent: anEvent [
 
-	| w |
-	" self anchor element is the inline ToMenu which open the inline window"
+	" self anchor element is the inline ToMenu which open the inline window
 	w := self anchorElement measuredWidth.
-	aWindow collectedNodesDo: [ :node | w := w max: node measuredWidth ].
+	aWindow collectedNodesDo: [ :node | w := w max: node measuredWidth ]."
 	" change the window width "
-	anExtentMeasurementSpec widthSpec beExact: w
+	"anExtentMeasurementSpec widthSpec beExact: w"
 ]
 
 { #category : #'window handling' }

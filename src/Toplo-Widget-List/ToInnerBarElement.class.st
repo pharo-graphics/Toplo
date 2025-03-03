@@ -330,10 +330,13 @@ ToInnerBarElement >> onItemsChanged [
 ]
 
 { #category : #layout }
-ToInnerBarElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
+ToInnerBarElement >> onLayout: aBounds context: aBlElementBoundsUpdater [
 
-	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
-	self checkFullyVisibleNodes
+	super onLayout: aBounds context: aBlElementBoundsUpdater.
+	self checkFullyVisibleNodes.
+	self spaceDo: [ :sp | 
+		sp mouseProcessor handleLastMouseMove ].
+
 ]
 
 { #category : #'t - list node holder' }

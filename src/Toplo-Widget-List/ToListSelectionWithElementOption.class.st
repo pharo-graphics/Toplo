@@ -90,20 +90,25 @@ ToListSelectionWithElementOption >> addSelectionIn: aListElement [
 { #category : #'private - selection updating' }
 ToListSelectionWithElementOption >> boundsAnimationFrom: startBounds to: finalBounds onGroup: aGroup in: aListElement [
 
-	| theSelectionElement |
+	| theSelectionElement towardsEnd |
 	theSelectionElement := aGroup selectionElement.
+	towardsEnd := (aListElement isHorizontal and: [
+		               startBounds origin x < finalBounds origin x ]) or: [
+		              aListElement isVertical and: [
+			              startBounds origin y < finalBounds origin y ] ].
+	
 	^ ToBoundsTransition new
 		  from: startBounds;
 		  to: finalBounds;
 		  duration: selectionOption animationDuration;
-		  onStepDo: [ :anArray :target |
-			  theSelectionElement position: anArray origin.
-			  theSelectionElement size: anArray extent ];
+		  onStepDo: [ :aRectangle :target |
+			towardsEnd ifFalse: [ theSelectionElement size: finalBounds extent ].
+			  theSelectionElement position: aRectangle origin ];
 		  onFinishedDo: [
 			  theSelectionElement position: finalBounds origin.
 			  theSelectionElement size: finalBounds extent.
 			  theSelectionElement whenLayoutedDoOnce: [
-					  self notifyNodesSelectedIn: aListElement. ] ]
+					  self notifyNodesSelectedIn: aListElement ] ]
 ]
 
 { #category : #'private - selection updating' }

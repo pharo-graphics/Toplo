@@ -322,7 +322,6 @@ ToSandBox class >> barWithData: aCollection [
 		triplet startElement: but.
 		triplet middleElement: label.
 		triplet startInterspace: 10.
-		"triplet startFlexible: true."
 		triplet constraintsDo: [ :c |
 			c linear vertical alignCenter ].
 		node addChild: triplet ].
@@ -356,6 +355,11 @@ ToSandBox class >> barWithData: aCollection [
 									  whenClickedDo: [
 										  Array withAll:
 												  (idxes collect: [ :idx | target nodeAt: idx ]) inspect ]).
+						 m addItem: (ToMenuItem new
+								  labelText: 'Remove';
+								  whenClickedDo: [
+									  idxes reverseDo: [ :idx |
+											  bar dataAccessor removeAt: idx ] ]).
 						 m addItem: (ToMenuItem new
 								  labelText: 'Unable/disable';
 								  whenClickedDo: [

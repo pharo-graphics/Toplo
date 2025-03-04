@@ -10,6 +10,18 @@ TToMenuItemListOwner >> addSeparator [
 ]
 
 { #category : #'t - menu item list owner - adding/removing' }
+TToMenuItemListOwner >> addSeparatorAfterIndex: anInteger [
+
+	self addItem: ToSeparatorMenuItem new afterIndex: anInteger
+]
+
+{ #category : #'t - menu item list owner - adding/removing' }
+TToMenuItemListOwner >> addSeparatorBeforeIndex: anInteger [
+
+	self addItem: ToSeparatorMenuItem new beforeIndex: anInteger
+]
+
+{ #category : #'t - menu item list owner - adding/removing' }
 TToMenuItemListOwner >> closeAllWindowsForItemsSatisfying: aBlock [
 
 	self items do: [ :it |

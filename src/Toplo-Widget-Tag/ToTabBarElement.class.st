@@ -59,6 +59,7 @@ ToTabBarElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleN
 	invisibleNodes := theInvisibleNodes asArray.
 	visibleNodes := theVisibleNodes asArray.
 	self requestNewSkin.
+	self nodeMenu ifNil: [ ^ self ].
 	self nodeMenu requestNewSkin
 ]
 

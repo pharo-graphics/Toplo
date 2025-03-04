@@ -5,12 +5,54 @@ Class {
 }
 
 { #category : #'event handling' }
+ToTabsElementSkin >> checkNodeMenuIn: aTabsElement [
+
+	| menuImage nodeMenu |
+	(aTabsElement isWrapping or: [ aTabsElement isScrolling ]) ifTrue: [ ^ self ].
+	menuImage := ToMaterialDesignIconProvider innerImageNamed:
+		             'outlined_menu'.
+	nodeMenu := ToTabNodeMenu new iconImage: menuImage.
+	nodeMenu icon size: 20 asPoint.
+	nodeMenu constraintsDo: [ :c | c ignoreByLayout ].
+	nodeMenu padding: (BlInsets all: 10).
+
+	nodeMenu builder: (self defaultNodeMenuBuilderIn: aTabsElement).
+	aTabsElement itemBar userData at: #nodeMenu put: nodeMenu.
+	aTabsElement addChild: nodeMenu
+]
+
+{ #category : #initialization }
+ToTabsElementSkin >> defaultNodeMenuBuilderIn: aTabsElement [
+
+	^ [ :menu :request |
+	  | group middlePos |
+	  group := ToCheckableGroup new.
+	  middlePos := aTabsElement visibleNodes
+		               ifEmpty: [ 0 ]
+		               ifNotEmpty: [ :vn | vn first holder position - 1 ].
+	  aTabsElement invisibleNodes do: [ :node |
+		  node isEnabled ifTrue: [
+			  group register: (ToRadioMenuItem new
+					   labelText: node item label text asString;
+					   checked: node item isChecked;
+					   whenClickedDo: [ :event |
+						   aTabsElement itemBar selecter scrollTowardStartToDataSourcePosition:
+								   node holder position.
+						   aTabsElement itemBar requestFocus.
+						   node item checked: true ];
+					   yourself) ] ].
+	  menu addAllItems: group registeredCheckables.
+	  menu addSeparatorBeforeIndex: (middlePos max: 1) ]
+]
+
+{ #category : #'event handling' }
 ToTabsElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| selTrack |
 		e clipChildren: true.
+		self checkNodeMenuIn: e.
 		e isWrapping ifFalse: [
 			selTrack := ToElement new
 				            background: (e valueOfTokenNamed: #'border-paint');
@@ -32,7 +74,7 @@ ToTabsElementSkin >> installSkinEvent: anEvent [
 					selTrack vMatchParent ].
 			e addChild: selTrack ].
 		e background: Color transparent.
-		e border: BlBorder empty ]
+		e border: BlBorder empty]
 ]
 
 { #category : #'event handling' }
@@ -40,8 +82,9 @@ ToTabsElementSkin >> uninstallSkinEvent: anEvent [
 
 	super uninstallSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
+		e nodeMenu ifNotNil: [ :nm | nm removeFromParent ].
+		e itemBar userData removeKey: #nodeMenu ifAbsent: [  ].
 		e itemBar userData removeKey: #'selection-track' ifAbsent: [  ].
 		(e childWithId: #'selection-track' ifNone: [  ]) ifNotNil: [
-			:selTrack | 
-				selTrack removeFromParent ] ]
+			:selTrack | selTrack removeFromParent ] ]
 ]

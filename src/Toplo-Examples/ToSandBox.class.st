@@ -3480,6 +3480,8 @@ ToSandBox class >> example_TabsElement [
 				 yourself) ].
 
 	(tabs items at: 2) disable.
+	(tabs items at: 3) checked: true.
+	tabs requestFocus.
 	dashBoard := self tabsElementDashBoardFor: tabs.
 	dashBoard openInSpace
 ]

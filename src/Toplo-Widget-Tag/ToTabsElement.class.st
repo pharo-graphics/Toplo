@@ -27,7 +27,7 @@ ToTabsElement >> beStartToEnd [
 ToTabsElement >> configureLayout [
 
 	super configureLayout.
-	self requestNewSkin.
+
 	self isHorizontal
 		ifFalse: [ self layout beHorizontal ]
 		ifTrue: [ self layout beVertical ].
@@ -39,12 +39,7 @@ ToTabsElement >> configureLayout [
 	self isVFitContent
 		ifTrue: [ self itemBar vFitContent ]
 		ifFalse: [ self itemBar vMatchParent ].
-	self nodeMenu removeFromParent.
-	(self isWrapping or: [ self isScrolling ]) ifTrue: [ ^ self ].
-	self addChild: self nodeMenu.
-	self nodeMenu requestNewSkin.
-	self requestLayout
-
+	self requestNewSkin
 ]
 
 { #category : #initialization }
@@ -83,28 +78,9 @@ ToTabsElement >> horizontal: aBoolean [
 { #category : #initialization }
 ToTabsElement >> initialize [
 
-	| menuImage nodeMenu |
 	super initialize.
 	self initializeAsItemBarOwner.
 	self addChild: self itemBar.
-	menuImage := ToMaterialDesignIconProvider innerImageNamed:
-		             'outlined_menu'.
-	nodeMenu := ToTabNodeMenu new iconImage: menuImage.
-	nodeMenu icon size: 20 asPoint.
-	nodeMenu constraintsDo: [ :c | c ignoreByLayout ].
-	nodeMenu padding: (BlInsets all: 10).
-	nodeMenu builder: [ :menu :request |
-		self itemBar invisibleNodes do: [ :node |
-			node isEnabled ifTrue: [
-				menu addItem: (ToMenuItem new
-						 labelText: node item label text asString;
-						 whenClickedDo: [ :event |
-							 self itemBar selecter scrollTowardStartToDataSourcePosition:
-									 node holder position.
-							 self itemBar requestFocus.
-							 node item checked: true ];
-						 yourself) ] ] ].
-	self itemBar userData at: #nodeMenu put: nodeMenu.
 	self group
 		addEventHandlerOn: ToCheckableGroupChangedEvent
 		do: [ :event | self dispatchEvent: event ].

@@ -57,18 +57,20 @@ ToScrollableBarTrackElement >> configureLayout [
 
 	self layout: self newLayoutStrategy.
 
-	listElement isHFitContent
-		ifTrue: [ self hFitContent ]
-		ifFalse: [ self hMatchParent ].
-
-	listElement isVFitContent
-		ifTrue: [ self vFitContent ]
-		ifFalse: [ self vMatchParent ].
-
-	(self isWrapping not and: [ self isScrolling ]) ifTrue: [
-		self isHorizontal
-			ifTrue: [ self hFitContent ]
-			ifFalse: [ self vFitContent ] ].
+	self isWrapping
+		ifTrue: [
+			listElement isHFitContent
+				ifTrue: [ self hFitContent ]
+				ifFalse: [ self hMatchParent ].
+			listElement isVFitContent
+				ifTrue: [ self vFitContent ]
+				ifFalse: [ self vMatchParent ] ]
+		ifFalse: [
+			self fitContent.
+			self isScrolling ifTrue: [
+				self isHorizontal
+					ifTrue: [ self hFitContent ]
+					ifFalse: [ self vFitContent ] ] ].
 
 	self constraintFakeNode.
 	self nodesDo: [ :n | listElement nodeManager constraintNode: n ]

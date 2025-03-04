@@ -15,26 +15,33 @@ TToBarNode >> isFullyVisibleInInnerElement [
 	| bnds list intersection |
 	list := self holder listElement.
 	bnds := (self measuredBounds inSpace) asRectangle.
-	intersection := self nodeAndInnerElementIntersection.
+	intersection := self nodeAndListElementIntersection.
 	^ intersection = bnds
 ]
 
 { #category : #'t - bar node' }
 TToBarNode >> isPartlyVisible [
 
-	^ self nodeAndInnerElementIntersection
+	^ self nodeAndListElementIntersection
 		  ifNotNil: [ :i | i isZero not ]
 		  ifNil: [ false ]
 ]
 
 { #category : #'t - bar node' }
-TToBarNode >> nodeAndInnerElementIntersection [
+TToBarNode >> listElementReferenceBoundsInSpace [
+
+	|  list |
+	list := self holder listElement.
+	^ list innerElement bounds inSpace
+]
+
+{ #category : #'t - bar node' }
+TToBarNode >> nodeAndListElementIntersection [
 
 	| intersection bnds pbnds list |
-	self measuredWidth isZero ifTrue: [ ^ nil ].
 	list := self holder listElement.
-	bnds := (self measuredBounds inSpace) bounds asRectangle.
-	pbnds := list innerElement bounds inSpace bounds asRectangle.
+	bnds := self measuredBounds inSpace bounds asRectangle.
+	pbnds := self listElementReferenceBoundsInSpace asRectangle.
 	intersection := bnds intersect: pbnds.
-	^ intersection 
+	^ intersection
 ]

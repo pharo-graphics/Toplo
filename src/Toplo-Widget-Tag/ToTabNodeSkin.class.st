@@ -16,9 +16,11 @@ ToTabNodeSkin >> hoveredSkinEvent: anEvent [
 ToTabNodeSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
-	anEvent elementDo: [ :e | 
+	anEvent elementDo: [ :e |
 		e layout alignCenter.
-		e padding: (BlInsets all: 5) ]
+		e padding: (BlInsets
+				 horizontal: (e valueOfTokenNamed: #'padding-content-HS')
+				 vertical: (e valueOfTokenNamed: #'padding-content-VS')) ]
 ]
 
 { #category : #'event handling' }

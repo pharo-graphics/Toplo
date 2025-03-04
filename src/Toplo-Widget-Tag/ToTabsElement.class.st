@@ -27,6 +27,7 @@ ToTabsElement >> beStartToEnd [
 ToTabsElement >> configureLayout [
 
 	super configureLayout.
+	self requestNewSkin.
 	self isHorizontal
 		ifFalse: [ self layout beHorizontal ]
 		ifTrue: [ self layout beVertical ].
@@ -37,7 +38,13 @@ ToTabsElement >> configureLayout [
 		ifFalse: [ self itemBar hMatchParent ].
 	self isVFitContent
 		ifTrue: [ self itemBar vFitContent ]
-		ifFalse: [ self itemBar vMatchParent ]
+		ifFalse: [ self itemBar vMatchParent ].
+	self nodeMenu removeFromParent.
+	(self isWrapping or: [ self isScrolling ]) ifTrue: [ ^ self ].
+	self addChild: self nodeMenu.
+	self nodeMenu requestNewSkin.
+	self requestLayout
+
 ]
 
 { #category : #initialization }
@@ -76,21 +83,44 @@ ToTabsElement >> horizontal: aBoolean [
 { #category : #initialization }
 ToTabsElement >> initialize [
 
+	| menuImage nodeMenu |
 	super initialize.
 	self initializeAsItemBarOwner.
 	self addChild: self itemBar.
-
+	menuImage := ToMaterialDesignIconProvider innerImageNamed:
+		             'outlined_menu'.
+	nodeMenu := ToTabNodeMenu new iconImage: menuImage.
+	nodeMenu icon size: 20 asPoint.
+	nodeMenu constraintsDo: [ :c | c ignoreByLayout ].
+	nodeMenu padding: (BlInsets all: 10).
+	nodeMenu builder: [ :menu :request |
+		self itemBar invisibleNodes do: [ :node |
+			node isEnabled ifTrue: [
+				menu addItem: (ToMenuItem new
+						 labelText: node item label text asString;
+						 whenClickedDo: [ :event |
+							 self itemBar selecter scrollTowardStartToDataSourcePosition:
+									 node holder position.
+							 self itemBar requestFocus.
+							 node item checked: true ];
+						 yourself) ] ] ].
+	self itemBar userData at: #nodeMenu put: nodeMenu.
 	self group
 		addEventHandlerOn: ToCheckableGroupChangedEvent
 		do: [ :event | self dispatchEvent: event ].
 
 	self itemBar
 		addEventHandlerOn: ToListSelectionChangedEvent
-		do: [ :event | self dispatchEvent: event copy].
+		do: [ :event | self dispatchEvent: event copy ].
 
 	self isHorizontal: true.
-	self addEventHandler: self defaultEventHandler.
-	self clipChildren: false
+	self addEventHandler: self defaultEventHandler
+]
+
+{ #category : #accessing }
+ToTabsElement >> invisibleNodes [ 
+
+	^ self itemBar invisibleNodes
 ]
 
 { #category : #accessing }
@@ -130,6 +160,12 @@ ToTabsElement >> newRawSkin [
 ]
 
 { #category : #accessing }
+ToTabsElement >> nodeMenu [
+
+	^ self itemBar nodeMenu
+]
+
+{ #category : #accessing }
 ToTabsElement >> startToEnd: aBoolean [
 
 	aBoolean
@@ -141,6 +177,12 @@ ToTabsElement >> startToEnd: aBoolean [
 ToTabsElement >> vertical: aBoolean [
 
 	self horizontal: aBoolean not
+]
+
+{ #category : #accessing }
+ToTabsElement >> visibleNodes [
+
+	^ self itemBar visibleNodes
 ]
 
 { #category : #'t - checkable group owner' }

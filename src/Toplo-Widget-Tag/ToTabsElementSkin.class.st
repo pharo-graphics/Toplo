@@ -10,22 +10,29 @@ ToTabsElementSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| selTrack |
-		e background: Color transparent.
-		e border: BlBorder empty.
+		e clipChildren: true.
 		e isWrapping ifFalse: [
 			selTrack := ToElement new
 				            background: (e valueOfTokenNamed: #'border-paint');
 				            id: #'selection-track'.
+			selTrack constraintsDo: [ :c | c ignoreByLayout ].
 			e itemBar userData at: #'selection-track' put: selTrack.
 			e isHorizontal
 				ifTrue: [
-					selTrack height: 1.
+					selTrack constraintsDo: [ :c |
+						c ignored horizontal alignLeft.
+						c ignored vertical alignBottom ].
+					selTrack height: 2.
 					selTrack hMatchParent ]
 				ifFalse: [
-					selTrack width: 1.
+					selTrack constraintsDo: [ :c |
+						c ignored horizontal alignRight.
+						c ignored vertical alignTop ].
+					selTrack width: 2.
 					selTrack vMatchParent ].
-			selTrack margin: (BlInsets vertical: 5).
-			e addChild: selTrack ] ]
+			e addChild: selTrack ].
+		e background: Color transparent.
+		e border: BlBorder empty ]
 ]
 
 { #category : #'event handling' }

@@ -48,7 +48,8 @@ ToListSelectionOption >> elementFactory [
 ToListSelectionOption >> elementFactory: aSelectionElementFactoryValuable [
 
 	elementFactory := aSelectionElementFactoryValuable.
-	representationOption removeSelectionContainer 
+	aSelectionElementFactoryValuable ifNil: [
+		representationOption removeSelectionContainer ]
 ]
 
 { #category : #'private - selection updating' }

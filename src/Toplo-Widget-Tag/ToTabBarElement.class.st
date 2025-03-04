@@ -2,18 +2,29 @@ Class {
 	#name : #ToTabBarElement,
 	#superclass : #ToCheckableBarElement,
 	#instVars : [
-		'withCloseButton'
+		'invisibleNodes',
+		'visibleNodes'
 	],
 	#category : #'Toplo-Widget-Tag-Tab'
 }
 
-{ #category : #'t - triplet element - configuration' }
-ToTabBarElement >> applyInnerConfiguration [ 
+{ #category : #configuration }
+ToTabBarElement >> configureLayout [
 
-	super applyInnerConfiguration.
+	super configureLayout.
+	"self isScrolling
+		ifTrue: [ self enableScrolledEvent ]
+		ifFalse: [ self disableScrolledEvent ]."
 	" need to renew the nodes item skin because the foreground 
 	of a selected label can be different according to the #isWrapping property  "
-	self nodesDo: [ :node | node item requestNewSkin ]
+	self nodesDo: [ :n |
+		n item requestNewSkin ]
+]
+
+{ #category : #'t - bar element' }
+ToTabBarElement >> defaultInnerElement [
+
+	^ ToTabInnerBarElement onBarElement: self
 ]
 
 { #category : #'t - item list - accessing' }
@@ -22,27 +33,37 @@ ToTabBarElement >> defaultNodeManagerClass [
 	^ ToTabNodeManager
 ]
 
+{ #category : #accessing }
+ToTabBarElement >> invisibleNodes [
+
+	^ invisibleNodes ifNil: [ invisibleNodes := #() ]
+]
+
 { #category : #skin }
 ToTabBarElement >> newRawSkin [ 
 
 	^ ToTabBarElementSkin new
 ]
 
+{ #category : #accessing }
+ToTabBarElement >> nodeMenu [
+
+	^ self userData at: #nodeMenu ifAbsent: [  ]
+]
+
 { #category : #'t - bar element' }
 ToTabBarElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes [
 
-	"theVisibleNodes do: [ :n | n visibility: BlVisibility visible ].
-	theInvisibleNodes do: [ :n | n visibility: BlVisibility hidden ]"
+	(theInvisibleNodes = self invisibleNodes and: [
+		 theVisibleNodes = self visibleNodes ]) ifTrue: [ ^ self ].
+	invisibleNodes := theInvisibleNodes asArray.
+	visibleNodes := theVisibleNodes asArray.
+	self requestNewSkin.
+	self nodeMenu requestNewSkin
 ]
 
 { #category : #accessing }
-ToTabBarElement >> withCloseButton [
+ToTabBarElement >> visibleNodes [
 
-	^ withCloseButton ifNil: [ withCloseButton := false ]
-]
-
-{ #category : #accessing }
-ToTabBarElement >> withCloseButton: aBoolean [
-
-	withCloseButton := aBoolean
+	^ visibleNodes ifNil: [ visibleNodes := #() ]
 ]

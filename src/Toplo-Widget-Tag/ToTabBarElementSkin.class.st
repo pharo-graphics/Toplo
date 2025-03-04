@@ -13,18 +13,20 @@ ToTabBarElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e border: BlBorder empty.
 		e clipChildren: false.
+		e border: BlBorder empty.
 		" keep the element factory to set them again on skin uninstalling "
 		previousSelectionFactory := e selectionOption elementFactory.
-		previousSecondarySelectionFactory := e secondarySelectionOption elementFactory.
+		previousSecondarySelectionFactory := e secondarySelectionOption
+			                                     elementFactory.
 		" change the element factory with a specific placement and measurement "
 		e selectionOption elementFactory: [
-			ToTabBarSelectionElement new
+			ToTabBarPrimarySelectionElement new
 				placement: (ToRawSkinTabBarSelectionPlacement new
 						 tabBar: e;
 						 yourself);
 				measurement: (ToRawSkinTabBarSelectionMeasurement new
+						 width: 4;
 						 tabBar: e;
 						 yourself) ].
 		e secondarySelectionOption elementFactory: [
@@ -33,6 +35,7 @@ ToTabBarElementSkin >> installSkinEvent: anEvent [
 						 tabBar: e;
 						 yourself);
 				measurement: (ToRawSkinTabBarSelectionMeasurement new
+						 width: 2;
 						 tabBar: e;
 						 yourself) ] ]
 ]
@@ -49,8 +52,7 @@ ToTabBarElementSkin >> leavedSkinEvent: anEvent [
 ToTabBarElementSkin >> uninstallSkinEvent: anEvent [
 
 	super uninstallSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		" change the element factory with the original one "
+	anEvent elementDo: [ :e | " change the element factory with the original one "
 		e selectionOption elementFactory: previousSelectionFactory.
 		e secondarySelectionOption elementFactory:
 			previousSecondarySelectionFactory.

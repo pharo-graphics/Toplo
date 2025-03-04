@@ -2,10 +2,18 @@ Class {
 	#name : #ToRawSkinTabBarSelectionMeasurement,
 	#superclass : #ToElementCustomMeasurement,
 	#instVars : [
-		'tabBar'
+		'tabBar',
+		'width'
 	],
 	#category : #'Toplo-Widget-Tag-Tab'
 }
+
+{ #category : #initialization }
+ToRawSkinTabBarSelectionMeasurement >> initialize [ 
+
+	super initialize.
+	width := 2.
+]
 
 { #category : #api }
 ToRawSkinTabBarSelectionMeasurement >> onMeasure: anExtentMeasurementSpec element: anElement onEvent: anEvent [
@@ -13,12 +21,18 @@ ToRawSkinTabBarSelectionMeasurement >> onMeasure: anExtentMeasurementSpec elemen
 	| track |
 	track := tabBar userData at: #'selection-track' ifAbsent: [ ^ self ].
 	tabBar isHorizontal
-		ifTrue: [ anExtentMeasurementSpec heightSpec beExact: track height + 2]
-		ifFalse: [ anExtentMeasurementSpec widthSpec beExact: track width + 2]
+		ifTrue: [ anExtentMeasurementSpec heightSpec beExact: width]
+		ifFalse: [ anExtentMeasurementSpec widthSpec beExact: width]
 ]
 
 { #category : #accessing }
 ToRawSkinTabBarSelectionMeasurement >> tabBar: anObject [
 
 	tabBar := anObject
+]
+
+{ #category : #accessing }
+ToRawSkinTabBarSelectionMeasurement >> width: aNumber [
+
+	width := aNumber
 ]

@@ -40,6 +40,7 @@ ToTabItemElementSkin >> hoveredSkinEvent: anEvent [
 ToTabItemElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
+
 	anEvent elementDo: [ :e | " have to take care of the label foreground: set it with a specific one in not wrapping 
 		(in this case a track is added and the selection element is added outside the item bounds)
 		In case of wrapping, the selection is added over the item (as in any item bar)"

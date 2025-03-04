@@ -3490,9 +3490,10 @@ ToSandBox class >> example_TabsElement2 [
 	| tabs dashBoard |
 	tabs := ToTabsElement new.
 
-	self statesOfAmerica do: [ :l |
+	(self statesOfAmerica copyFrom: 1 to: 20) do: [ :l |
 		tabs addItem: (ToTabItemElement new
 				 middleElement: (ToLabel text: l);
+				fitContent;
 				 yourself) ].
 
 	(tabs items at: 2) disable.

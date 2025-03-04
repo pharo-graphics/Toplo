@@ -6,6 +6,12 @@ Class {
 	#category : #'Toplo-Widget-Pane-Core'
 }
 
+{ #category : #initialization }
+ToScrollableElement >> defaultEventHandler [
+
+	^ ToScrollableElementEventHandler new
+]
+
 { #category : #layout }
 ToScrollableElement >> layoutFixGap: aLayoutNode [
 

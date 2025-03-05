@@ -1,57 +1,40 @@
 Class {
 	#name : #ToTabsElement,
-	#superclass : #ToElement,
+	#superclass : #ToTripletElement,
 	#traits : 'TToItemListOwner',
 	#classTraits : 'TToItemListOwner classTrait',
-	#instVars : [
-		'isHorizontal'
-	],
 	#category : #'Toplo-Widget-Tag-Tab'
 }
 
-{ #category : #accessing }
-ToTabsElement >> beEndToStart [
+{ #category : #'t - triplet element - configuration' }
+ToTabsElement >> applyInnerConfiguration [ 
 
-	self layout direction: BlLayoutDirection rightToLeft.
-	self requestInnerConfiguration 
-]
-
-{ #category : #accessing }
-ToTabsElement >> beStartToEnd [
-
-	self layout direction: BlLayoutDirection leftToRight.
-	self requestInnerConfiguration 
-]
-
-{ #category : #configuration }
-ToTabsElement >> configureLayout [
-
-	super configureLayout.
-
-	self isHorizontal
-		ifFalse: [ self layout beHorizontal ]
-		ifTrue: [ self layout beVertical ].
+	super applyInnerConfiguration.
 	self itemBar horizontal: self isHorizontal.
 	self itemBar matchParent.
 	self isHFitContent
-		ifTrue: [ self itemBar hFitContent ]
-		ifFalse: [ self itemBar hMatchParent ].
+		ifTrue: [
+			self middleContainer hFitContent.
+			self itemBar hFitContent ]
+		ifFalse: [
+			self middleContainer hMatchParent.
+			self itemBar hMatchParent ].
 	self isVFitContent
-		ifTrue: [ self itemBar vFitContent ]
-		ifFalse: [ self itemBar vMatchParent ].
-	self requestNewSkin
+		ifTrue: [
+			self middleContainer vFitContent.
+			self itemBar vFitContent ]
+		ifFalse: [
+			self middleContainer vMatchParent.
+			self itemBar vMatchParent ].
+	self requestNewSkin.
+	self itemBar requestInnerConfiguration 
+
 ]
 
 { #category : #initialization }
 ToTabsElement >> defaultEventHandler [
 
 	^ ToTabsElementEventHandler new
-]
-
-{ #category : #initialization }
-ToTabsElement >> defaultLayout [ 
-
-	^ BlLinearLayout new
 ]
 
 { #category : #'focus requesting' }
@@ -66,21 +49,13 @@ ToTabsElement >> group [
 	^ self itemBar group
 ]
 
-{ #category : #accessing }
-ToTabsElement >> horizontal: aBoolean [
-
-	isHorizontal = aBoolean ifTrue: [ ^ self ].
-	isHorizontal := aBoolean.
-	self requestNewSkin.
-	self requestInnerConfiguration 
-]
-
 { #category : #initialization }
 ToTabsElement >> initialize [
 
 	super initialize.
 	self initializeAsItemBarOwner.
-	self addChild: self itemBar.
+	
+	self middleElement: self itemBar.
 	self group
 		addEventHandlerOn: ToCheckableGroupChangedEvent
 		do: [ :event | self dispatchEvent: event ].
@@ -89,7 +64,6 @@ ToTabsElement >> initialize [
 		addEventHandlerOn: ToListSelectionChangedEvent
 		do: [ :event | self dispatchEvent: event copy ].
 
-	self isHorizontal: true.
 	self addEventHandler: self defaultEventHandler
 ]
 
@@ -97,30 +71,6 @@ ToTabsElement >> initialize [
 ToTabsElement >> invisibleNodes [ 
 
 	^ self itemBar invisibleNodes
-]
-
-{ #category : #accessing }
-ToTabsElement >> isHorizontal [ 
-
-	^ isHorizontal
-]
-
-{ #category : #accessing }
-ToTabsElement >> isHorizontal: aBoolean [
-
-	self horizontal: aBoolean
-]
-
-{ #category : #accessing }
-ToTabsElement >> isStartToEnd [ 
-
-	^ self layout direction isLeftToRight 
-]
-
-{ #category : #accessing }
-ToTabsElement >> isVertical [ 
-
-	^ self isHorizontal not
 ]
 
 { #category : #'t - item list owner - accessing' }
@@ -133,26 +83,6 @@ ToTabsElement >> newItemBar [
 ToTabsElement >> newRawSkin [ 
 
 	^ ToTabsElementSkin new
-]
-
-{ #category : #accessing }
-ToTabsElement >> nodeMenu [
-
-	^ self itemBar nodeMenu
-]
-
-{ #category : #accessing }
-ToTabsElement >> startToEnd: aBoolean [
-
-	aBoolean
-		ifTrue: [ self beStartToEnd ]
-		ifFalse: [ self beEndToStart ]
-]
-
-{ #category : #accessing }
-ToTabsElement >> vertical: aBoolean [
-
-	self horizontal: aBoolean not
 ]
 
 { #category : #accessing }

@@ -12,13 +12,12 @@ ToTabsElementSkin >> checkNodeMenuIn: aTabsElement [
 	menuImage := ToMaterialDesignIconProvider innerImageNamed:
 		             'outlined_menu'.
 	nodeMenu := ToTabNodeMenu new iconImage: menuImage.
+	nodeMenu tabsElement: aTabsElement.
 	nodeMenu icon size: 20 asPoint.
-	nodeMenu constraintsDo: [ :c | c ignoreByLayout ].
-	nodeMenu padding: (BlInsets all: 10).
 
 	nodeMenu builder: (self defaultNodeMenuBuilderIn: aTabsElement).
 	aTabsElement itemBar userData at: #nodeMenu put: nodeMenu.
-	aTabsElement addChild: nodeMenu
+	aTabsElement endElement: nodeMenu
 ]
 
 { #category : #initialization }
@@ -35,9 +34,10 @@ ToTabsElementSkin >> defaultNodeMenuBuilderIn: aTabsElement [
 			  group register: (ToRadioMenuItem new
 					   labelText: node item label text asString;
 					   checked: node item isChecked;
+					   closeOnPicking: false;
 					   whenClickedDo: [ :event |
-						   aTabsElement itemBar selecter scrollTowardStartToDataSourcePosition:
-								   node holder position.
+						   aTabsElement itemBar selecter
+							   scrollTowardStartToDataSourcePosition: node holder position.
 						   aTabsElement itemBar requestFocus.
 						   node item checked: true ];
 					   yourself) ] ].
@@ -52,6 +52,7 @@ ToTabsElementSkin >> installSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		| selTrack |
 		e clipChildren: true.
+		e middleContainer clipChildren: true.
 		self checkNodeMenuIn: e.
 		e isWrapping ifFalse: [
 			selTrack := ToElement new
@@ -72,7 +73,7 @@ ToTabsElementSkin >> installSkinEvent: anEvent [
 						c ignored vertical alignTop ].
 					selTrack width: 2.
 					selTrack vMatchParent ].
-			e addChild: selTrack ].
+			e middleContainer addChild: selTrack ].
 		e background: Color transparent.
 		e border: BlBorder empty]
 ]
@@ -82,7 +83,7 @@ ToTabsElementSkin >> uninstallSkinEvent: anEvent [
 
 	super uninstallSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e nodeMenu ifNotNil: [ :nm | nm removeFromParent ].
+		e itemBar nodeMenu ifNotNil: [ :nm | nm removeFromParent ].
 		e itemBar userData removeKey: #nodeMenu ifAbsent: [  ].
 		e itemBar userData removeKey: #'selection-track' ifAbsent: [  ].
 		(e childWithId: #'selection-track' ifNone: [  ]) ifNotNil: [

@@ -3472,7 +3472,6 @@ ToSandBox class >> example_TabsElement [
 
 	| tabs dashBoard |
 	tabs := ToTabsElement new.
-	tabs isWrapping: false.
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		tabs addItem: (ToTabItemElement new

@@ -191,6 +191,7 @@ TToItemListOwner >> isScrolling [
 { #category : #'t - item list owner - accessing' }
 TToItemListOwner >> isScrolling: aBoolean [
 
+	self itemBar isScrolling = aBoolean ifTrue: [ ^ self ].
 	self itemBar isScrolling: aBoolean.
 	self requestInnerConfiguration 
 ]
@@ -204,6 +205,7 @@ TToItemListOwner >> isWrapping [
 { #category : #'t - item list owner - accessing' }
 TToItemListOwner >> isWrapping: aBoolean [
 
+	self itemBar isWrapping = aBoolean ifTrue: [ ^ self ].
 	self itemBar isWrapping: aBoolean.
 	self requestInnerConfiguration 
 ]

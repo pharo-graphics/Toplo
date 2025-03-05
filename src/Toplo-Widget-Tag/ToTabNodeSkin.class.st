@@ -20,7 +20,7 @@ ToTabNodeSkin >> installSkinEvent: anEvent [
 		e layout alignCenter.
 		e padding: (BlInsets
 				 horizontal: (e valueOfTokenNamed: #'padding-content-HS')
-				 vertical: (e valueOfTokenNamed: #'padding-content-VS')) ]
+				 vertical: (e valueOfTokenNamed: #'padding-content-V')) ]
 ]
 
 { #category : #'event handling' }

@@ -203,8 +203,7 @@ ToTripletElementProperties >> endElement: anElement [
 	endElement ifNotNil: [ :s | s removeFromParent ].
 	endElement := anElement.
 	anElement ifNil: [ ^ self ].
-	endContainer addChild: anElement.
-	owner requestInnerConfiguration
+	endContainer addChild: anElement
 ]
 
 { #category : #accessing }

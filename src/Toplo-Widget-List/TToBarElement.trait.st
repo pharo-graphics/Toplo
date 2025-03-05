@@ -53,6 +53,7 @@ TToBarElement >> hasUniformNodeHeight [
 { #category : #'t - bar element' }
 TToBarElement >> hasUniformNodeHeight: aBoolean [
 
+	uniformNodeHeight = aBoolean ifTrue: [ ^ self ].
 	uniformNodeHeight := aBoolean.
 	self requestInnerConfiguration.
 	self notifyDataSourceChanged
@@ -68,6 +69,7 @@ TToBarElement >> hasUniformNodeWidth [
 { #category : #'t - bar element' }
 TToBarElement >> hasUniformNodeWidth: aBoolean [
 
+	uniformNodeWidth = aBoolean ifTrue: [ ^ self ].
 	uniformNodeWidth := aBoolean.
 	self requestInnerConfiguration.
 	self notifyDataSourceChanged
@@ -89,6 +91,7 @@ TToBarElement >> isScrolling [
 { #category : #'t - bar element' }
 TToBarElement >> isScrolling: aBoolean [
 
+	nodeScrolling = aBoolean ifTrue: [ ^ self ].
 	nodeScrolling := aBoolean.
 	self requestInnerConfiguration.
 	self requestNewSkin
@@ -103,6 +106,7 @@ TToBarElement >> isWrapping [
 { #category : #'t - bar element' }
 TToBarElement >> isWrapping: aBoolean [
 
+	nodeWrapping = aBoolean ifTrue: [ ^ self ].
 	nodeWrapping := aBoolean.
 	self requestInnerConfiguration.
 	self requestNewSkin

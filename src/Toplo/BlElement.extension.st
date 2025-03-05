@@ -61,7 +61,7 @@ BlElement >> applyEnqueuedStatesDeeply [
 { #category : #'*Toplo' }
 BlElement >> applyInnerConfiguration [
 
-	self configureLayout
+	self onInnerConfigurationApplied
 ]
 
 { #category : #'*Toplo' }
@@ -111,12 +111,6 @@ BlElement >> checkInnerConfigurationsDeeply [
 BlElement >> closedEventClass [
 
 	^ ToClosedEvent 
-]
-
-{ #category : #'*Toplo' }
-BlElement >> configureLayout [
-
-
 ]
 
 { #category : #'*Toplo' }
@@ -462,6 +456,11 @@ BlElement >> newTextAttributesBuilder [
 BlElement >> onAddedInItemBarOwner: anItemBar [
 
 	anItemBar onAddedUnknownItemKind: self
+]
+
+{ #category : #'*Toplo' }
+BlElement >> onInnerConfigurationApplied [
+
 ]
 
 { #category : #'*Toplo' }

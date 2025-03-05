@@ -25,6 +25,34 @@ ToMenuPane >> addMenu: aMenu [
 	self addItem: aMenu
 ]
 
+{ #category : #'t - item bar owner - initializing' }
+ToMenuPane >> applyInnerConfiguration [
+	" just force the resizer of the secondary direction 
+	( vertical direction in case of an horizontal bar )"
+
+	super applyInnerConfiguration.
+	self isHorizontal
+		ifTrue: [
+			self hasUniformNodeWidth: false.
+			self vFitContent.
+			self isSubPane ifTrue: [ self hFitContent ] ]
+		ifFalse: [
+			self hasUniformNodeWidth: true.
+			self hFitContent.
+			self isSubPane ifTrue: [ self vFitContent ] ].
+
+	self itemBar horizontal: self isHorizontal.
+	self isHMatchParent
+		ifTrue: [ self itemBar hMatchParent ]
+		ifFalse: [ self itemBar hFitContent ].
+	self isVMatchParent
+		ifTrue: [ self itemBar vMatchParent ]
+		ifFalse: [ self itemBar vFitContent ].
+
+	self itemBar applyInnerConfiguration.
+
+]
+
 { #category : #'auto opening' }
 ToMenuPane >> autoOpen [
 
@@ -47,34 +75,6 @@ ToMenuPane >> cancelAutoOpen [
 ToMenuPane >> closeWindow [
 
 	self itemList do: [ :it | it isMenuItem ifTrue: [ it closeWindow ] ]
-]
-
-{ #category : #'t - item bar owner - initializing' }
-ToMenuPane >> configureLayout [
-	" just force the resizer of the secondary direction 
-	( vertical direction in case of an horizontal bar )"
-
-	super configureLayout.
-	self isHorizontal
-		ifTrue: [
-			self hasUniformNodeWidth: false.
-			self vFitContent.
-			self isSubPane ifTrue: [ self hFitContent ] ]
-		ifFalse: [
-			self hasUniformNodeWidth: true.
-			self hFitContent.
-			self isSubPane ifTrue: [ self vFitContent ] ].
-
-	self itemBar horizontal: self isHorizontal.
-	self isHMatchParent
-		ifTrue: [ self itemBar hMatchParent ]
-		ifFalse: [ self itemBar hFitContent ].
-	self isVMatchParent
-		ifTrue: [ self itemBar vMatchParent ]
-		ifFalse: [ self itemBar vFitContent ].
-
-	self itemBar configureLayout.
-
 ]
 
 { #category : #initialization }

@@ -4,12 +4,6 @@ Trait {
 }
 
 { #category : #'t - list node holder' }
-TToListNodeContainer >> configureLayout [
-
-	self explicitRequirement 
-]
-
-{ #category : #'t - list node holder' }
 TToListNodeContainer >> disableScrolledEvent [
 
 	self eventDispatcher disableScrolledEvent 

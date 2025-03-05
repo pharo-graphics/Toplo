@@ -9,12 +9,9 @@ Class {
 }
 
 { #category : #configuration }
-ToTabBarElement >> configureLayout [
+ToTabBarElement >> applyInnerConfiguration [
 
-	super configureLayout.
-	"self isScrolling
-		ifTrue: [ self enableScrolledEvent ]
-		ifFalse: [ self disableScrolledEvent ]."
+	super applyInnerConfiguration.
 	" need to renew the nodes item skin because the foreground 
 	of a selected label can be different according to the #isWrapping property  "
 	self nodesDo: [ :n |

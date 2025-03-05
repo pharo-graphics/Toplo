@@ -25,35 +25,10 @@ ToScrollableBarTrackElement >> addHolder: anHolder at: aPosition [
 	self addChild: node at: aPosition + 1
 ]
 
-{ #category : #'accessing - children' }
-ToScrollableBarTrackElement >> artlyVisibleNodesSelect: aBlock [
-
-	^ Array streamContents: [ :stream |
-		  self partlyVisibleNodesDo: [ :node |
-			  (aBlock value: node) ifTrue: [ stream nextPut: node ] ] ]
-]
-
-{ #category : #testing }
-ToScrollableBarTrackElement >> autoDistribute [
-
-	^ listElement autoDistribute
-]
-
 { #category : #layout }
-ToScrollableBarTrackElement >> checkFullyVisibleNodes [
+ToScrollableBarTrackElement >> applyInnerConfiguration [
 
-	| invisibleNodes visibleNodes |
-	self isWrapping ifTrue: [ ^ self ].
-	self autoDistribute ifTrue: [ ^ self ].
-	invisibleNodes := self nodesSelect: [ :n | 
-		n isFullyVisibleInInnerElement not ].
-	visibleNodes := self nodes difference: invisibleNodes.
-	listElement onInvisibleNodes: invisibleNodes visibleNodes: visibleNodes
-]
-
-{ #category : #layout }
-ToScrollableBarTrackElement >> configureLayout [
-
+	super applyInnerConfiguration.
 	self layout: self newLayoutStrategy.
 
 	listElement isHFitContent
@@ -79,6 +54,32 @@ ToScrollableBarTrackElement >> configureLayout [
 
 	self constraintFakeNode.
 	self nodesDo: [ :n | listElement nodeManager constraintNode: n ]
+]
+
+{ #category : #'accessing - children' }
+ToScrollableBarTrackElement >> artlyVisibleNodesSelect: aBlock [
+
+	^ Array streamContents: [ :stream |
+		  self partlyVisibleNodesDo: [ :node |
+			  (aBlock value: node) ifTrue: [ stream nextPut: node ] ] ]
+]
+
+{ #category : #testing }
+ToScrollableBarTrackElement >> autoDistribute [
+
+	^ listElement autoDistribute
+]
+
+{ #category : #layout }
+ToScrollableBarTrackElement >> checkFullyVisibleNodes [
+
+	| invisibleNodes visibleNodes |
+	self isWrapping ifTrue: [ ^ self ].
+	self autoDistribute ifTrue: [ ^ self ].
+	invisibleNodes := self nodesSelect: [ :n | 
+		n isFullyVisibleInInnerElement not ].
+	visibleNodes := self nodes difference: invisibleNodes.
+	listElement onInvisibleNodes: invisibleNodes visibleNodes: visibleNodes
 ]
 
 { #category : #layout }

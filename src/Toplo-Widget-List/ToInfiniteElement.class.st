@@ -29,19 +29,20 @@ ToInfiniteElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 	listElement applyDataSourceSieveCommand: aDataSourceCommand
 ]
 
-{ #category : #'t - infinite accessing' }
-ToInfiniteElement >> cleanUpRecyclerAt: anIndex [
-
-	self customRecycler removeNodeAt: anIndex in: self
-]
-
 { #category : #'t - list node holder' }
-ToInfiniteElement >> configureLayout [
+ToInfiniteElement >> applyInnerConfiguration [
 
+	super applyInnerConfiguration.
 	self matchParent.
 	self horizontal: listElement isHorizontal.
 	listElement isHMatchParent ifFalse: [ self hFitContent ].
 	listElement isVMatchParent ifFalse: [ self vFitContent ].
+]
+
+{ #category : #'t - infinite accessing' }
+ToInfiniteElement >> cleanUpRecyclerAt: anIndex [
+
+	self customRecycler removeNodeAt: anIndex in: self
 ]
 
 { #category : #'t - infinite accessing' }

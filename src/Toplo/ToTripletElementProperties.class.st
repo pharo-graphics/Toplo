@@ -24,23 +24,6 @@ Class {
 }
 
 { #category : #configuration }
-ToTripletElementProperties >> applyInnerConfiguration [
-
-	"'applyInnerConfiguration in ' trace. owner traceCr."
-	
-	self configureChildren.
-	self configureEndContainer.
-	self configureEndFiller.
-	self configureEndGap.
-	self configureStartContainer.
-	self configureStartFiller.
-	self configureStartGap.
-	self configureEndElement.
-	self configureMiddleElement.
-
-]
-
-{ #category : #configuration }
 ToTripletElementProperties >> configureChildren [
 
 	owner isHorizontal
@@ -331,6 +314,23 @@ ToTripletElementProperties >> on: anElement resizerDo: aBlock [
 	(hr = anElement constraints horizontal resizer and: [
 		 vr = anElement constraints vertical resizer ]) ifTrue: [ ^ self ].
 	owner requestLayout
+]
+
+{ #category : #configuration }
+ToTripletElementProperties >> onInnerConfigurationApplied [
+
+	"'onInnerConfigurationApplied in ' trace. owner traceCr."
+	
+	self configureChildren.
+	self configureEndContainer.
+	self configureEndFiller.
+	self configureEndGap.
+	self configureStartContainer.
+	self configureStartFiller.
+	self configureStartGap.
+	self configureEndElement.
+	self configureMiddleElement.
+
 ]
 
 { #category : #dependencies }

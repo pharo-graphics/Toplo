@@ -6,13 +6,6 @@ Trait {
 	#category : #'Toplo-Core'
 }
 
-{ #category : #'t - triplet element - configuration' }
-TToTripletElement >> applyInnerConfiguration [ 
-
-	self tripletProperties ifNotNil: [:tp | tp applyInnerConfiguration ].
-	super applyInnerConfiguration
-]
-
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> defaultTripletEventHandler [
 
@@ -186,6 +179,13 @@ TToTripletElement >> newMiddleContainer [
 			  c vertical fitContent ];
 		  layout: BlFrameLayout new;
 		  yourself
+]
+
+{ #category : #'t - triplet element - configuration' }
+TToTripletElement >> onInnerConfigurationApplied [ 
+
+	self tripletProperties ifNotNil: [:tp | tp onInnerConfigurationApplied ].
+	super onInnerConfigurationApplied
 ]
 
 { #category : #'t - triplet element - accessing' }

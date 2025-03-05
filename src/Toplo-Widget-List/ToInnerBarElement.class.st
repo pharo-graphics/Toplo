@@ -40,15 +40,10 @@ ToInnerBarElement >> addHolder: anHolder at: aPosition [
 	trackElement addChild: anHolder node at: aPosition + 1
 ]
 
-{ #category : #layout }
-ToInnerBarElement >> checkFullyVisibleNodes [
-
-	trackElement checkFullyVisibleNodes
-]
-
 { #category : #'t - list node holder' }
-ToInnerBarElement >> configureLayout [
+ToInnerBarElement >> applyInnerConfiguration [
 
+	super applyInnerConfiguration.
 	listElement isHFitContent
 		ifTrue: [ self hFitContent ]
 		ifFalse: [ self hMatchParent ].
@@ -57,26 +52,13 @@ ToInnerBarElement >> configureLayout [
 		ifTrue: [ self vFitContent ]
 		ifFalse: [ self vMatchParent ].
 
-	"listElement isWrapping
-		ifTrue: [
-			listElement isVertical
-				ifTrue: [
-					listElement isHMatchParent
-						ifTrue: [ self hMatchParent ]
-						ifFalse: [ self hFitContent ] ]
-				ifFalse: [
-					listElement isVMatchParent
-						ifTrue: [ self vMatchParent ]
-						ifFalse: [ self vFitContent ] ] ]
-		ifFalse: [
-			listElement isHMatchParent
-				ifTrue: [ self hMatchParent ]
-				ifFalse: [ self hFitContent ].
-			listElement isVMatchParent
-				ifTrue: [ self vMatchParent ]
-				ifFalse: [ self vFitContent ] ]."
+	trackElement applyInnerConfiguration
+]
 
-	trackElement configureLayout
+{ #category : #layout }
+ToInnerBarElement >> checkFullyVisibleNodes [
+
+	trackElement checkFullyVisibleNodes
 ]
 
 { #category : #'private - commands' }

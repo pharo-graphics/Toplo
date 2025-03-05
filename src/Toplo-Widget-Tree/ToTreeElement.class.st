@@ -15,7 +15,7 @@ Class {
 	#category : #'Toplo-Widget-Tree-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #examples }
 ToTreeElement class >> exampleExpandAllAndCollapseAll [
 
 	| tree expandAllButton collapseAllButton container |
@@ -41,7 +41,7 @@ ToTreeElement class >> exampleExpandAllAndCollapseAll [
 	container openInSpace
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #examples }
 ToTreeElement class >> exampleMixingSubclassesAndMethods [
 	"For this example we created a new wrapper dealing with classes and methods at the same time, a new Node was also created (ToTreeSubAndMethNode) to apply a new skin (ToTreeNodeSubAndMethSkin) with new icons and a different background color for methods "
 	
@@ -57,7 +57,7 @@ ToTreeElement class >> exampleMixingSubclassesAndMethods [
 	l openInSpace
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #examples }
 ToTreeElement class >> examplePreviousIntegers [
 
 	| l |
@@ -69,7 +69,7 @@ ToTreeElement class >> examplePreviousIntegers [
 	l openInSpace
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #examples }
 ToTreeElement class >> exampleProtoObjectSubclasses [
 	"This example shows classes as a list but using TreeNodes, tree logic is not implemented at this time of writing the example"
 
@@ -81,7 +81,7 @@ ToTreeElement class >> exampleProtoObjectSubclasses [
 	l openInSpace
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #examples }
 ToTreeElement class >> exampleStringWithoutFirstLetter [
 
 	| l |
@@ -94,7 +94,7 @@ ToTreeElement class >> exampleStringWithoutFirstLetter [
 	l openInSpace
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #examples }
 ToTreeElement class >> exampleWithFewClasses [
 	"This example allows us to expand and collapse classes to see their subclasses, however the collapsing is not done recursively on the children, causing issues if we expand classes to at least depth 3 and collapse depth 1"
 

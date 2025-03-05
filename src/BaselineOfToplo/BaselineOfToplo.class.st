@@ -161,6 +161,12 @@ BaselineOfToplo >> registerPackages: spec [
 	spec
 		package: #'Toplo-Widget-TabPane-Tests'
 		with: [ spec requires: #( #Toplo #'Toplo-Widget-TabPane' ) ].
+		
+	spec package: #'Toplo-Widget-Tree'
+		with: [ spec requires: #( #'Toplo-Widget-List' ) ].
+		
+	spec package: #'Toplo-Widget-Tree-Tests'
+		with: [ spec requires: #( #'Toplo-Widget-Tree' ) ].
 
 	spec package: #'Toplo-Theme-Bee' with: [
 		spec requires:
@@ -181,5 +187,5 @@ BaselineOfToplo >> registerPackages: spec [
 
 	spec
 		package: #'Toplo-Imported-Icons-MaterialDesign'
-		with: [ spec requires: #(  ) ]
+		with: [ spec requires: #(  ) ].
 ]

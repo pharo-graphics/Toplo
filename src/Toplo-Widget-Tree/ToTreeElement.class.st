@@ -135,12 +135,6 @@ ToTreeElement >> dataWrapperClass: aToTreeDataItemWrapperClass [
 ]
 
 { #category : #initialization }
-ToTreeElement >> defaultDataSource [
-
-	^ ToInfiniteCollectionDataSource new
-]
-
-{ #category : #initialization }
 ToTreeElement >> defaultDataWrapperClass [
 
 	^ ToTreeDataItemWrapper 
@@ -163,13 +157,6 @@ ToTreeElement >> initialize [
 
 	super initialize.
 	self initializeDataSourceWrapper.
-]
-
-{ #category : #initialization }
-ToTreeElement >> initializeDataSource [
-
-	super initializeDataSource.
-	"dataSource dataWrapperClass: self dataWrapperClass"
 ]
 
 { #category : #initialization }

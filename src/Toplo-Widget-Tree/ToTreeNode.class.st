@@ -6,9 +6,8 @@ I visually represent a line of data from a tree structure
 Class {
 	#name : #ToTreeNode,
 	#superclass : #ToListNode,
-	#instVars : [
-		'nodeHolder'
-	],
+	#traits : 'TToTripletElement',
+	#classTraits : 'TToTripletElement classTrait',
 	#category : #'Toplo-Widget-Tree-Core'
 }
 
@@ -16,22 +15,12 @@ Class {
 ToTreeNode >> initialize [
 
 	super initialize.
+	self initializeAsTripletElementOn: self.
+	self applySkinInstallerOnFirstRequest: true
 ]
 
 { #category : #skin }
 ToTreeNode >> newRawSkin [ 
 	
 	^ ToTreeNodeSkin new
-]
-
-{ #category : #accessing }
-ToTreeNode >> nodeHolder [ 
-	
-	^ nodeHolder 
-]
-
-{ #category : #accessing }
-ToTreeNode >> nodeHolder: aToTreeNodeHolder [ 
-	
-	nodeHolder := aToTreeNodeHolder 
 ]

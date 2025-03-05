@@ -105,6 +105,14 @@ BaselineOfToplo >> registerPackages: spec [
 	spec
 		package: #'Toplo-Widget-List-Tests'
 		with: [ spec requires: #( #Toplo #'Toplo-Widget-List' ) ].
+		
+	spec package: #'Toplo-Widget-Tree' with: [
+		spec requires:
+			#( #Toplo #'Toplo-Widget-List' ) ].
+
+	spec
+		package: #'Toplo-Widget-Tree-Tests'
+		with: [ spec requires: #( #Toplo #'Toplo-Widget-Tree' ) ].
 
 	spec package: #'Toplo-Widget-Menu' with: [
 		spec requires:

@@ -54,7 +54,7 @@ ToTreeNodeSubAndMethSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e holder dataItem isClass ifFalse: [
-			e firstChild middleElement background: Color green ] ]
+			e middleElement background: Color green ] ]
 ]
 
 { #category : #'as yet unclassified' }

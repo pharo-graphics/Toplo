@@ -7,7 +7,7 @@ Class {
 { #category : #icons }
 ToTreeNodeSkin >> iconAndIndentForNode: aNode [
 
-	| align arrowIcon iconContainer arrowButton aWrapper |
+	| align arrowIcon aWrapper |
 	aWrapper := aNode holder dataWrapper.
 	align := aWrapper nodeDepth * 20.
 	arrowIcon := ToImage new.
@@ -19,23 +19,15 @@ ToTreeNodeSkin >> iconAndIndentForNode: aNode [
 		arrowIcon innerImage:
 			(aNode holder listElement valueOfTokenNamed: arrowTk) value ].
 	arrowIcon
-		size: 18 asPoint;
+		size: 20 asPoint;
 		id: #arrow.
-	iconContainer := ToElement new
-		                 fitContent;
-		                 yourself.
-	iconContainer layout: BlLinearLayout horizontal.
-	iconContainer addChild: (ToElement new size: align @ 0).
-	arrowButton := ToButton new
-		               icon: arrowIcon;
-		               yourself.
-	arrowButton addAllStamps: #( #iconic #borderless ).
-	iconContainer addChild: arrowButton.
+	arrowIcon margin: (BlInsets left: align).
 	aWrapper isLeaf ifFalse: [
-		arrowButton whenClickedDo: [ :evt | aWrapper toggle ]].
-	
+		arrowIcon
+			addEventHandlerOn: BlClickEvent
+			do: [ :evt | aWrapper toggle ] ].
 
-	^ iconContainer
+	^ arrowIcon
 ]
 
 { #category : #'event handling' }
@@ -45,7 +37,8 @@ ToTreeNodeSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		elt := self iconAndIndentForNode: e.
-		e firstChild startElement: elt ]
+		e startInterspace: 15.
+		e startElement: elt ]
 ]
 
 { #category : #icons }

@@ -5,6 +5,20 @@ Class {
 }
 
 { #category : #'event handling' }
+ToTabItemElementSkin >> configureLabelInItemElement: anItemElement [
+
+	anItemElement labelDo: [ :label |
+		anItemElement holder listElement isWrapping
+			ifTrue: [ label removeStamp: #'label-selected-focused-foreground' ]
+			ifFalse: [
+				label
+					addStamp: #'label-selected-focused-foreground'
+					withValue:
+					(anItemElement valueOfTokenNamed:
+						 #'color-primary-selection-focused') ] ]
+]
+
+{ #category : #'event handling' }
 ToTabItemElementSkin >> disabledSkinEvent: anEvent [
 
 	super disabledSkinEvent: anEvent.
@@ -42,6 +56,7 @@ ToTabItemElementSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 
 	anEvent elementDo: [ :e |
+		self configureLabelInItemElement: e.
 		e focusability: BlFocusability ignore.
 		e border: BlBorder empty.
 		e background: BlBackground transparent.
@@ -74,12 +89,5 @@ ToTabItemElementSkin >> selectedSkinEvent: anEvent [
 	super selectedSkinEvent: anEvent.
 
 	anEvent elementDo: [ :e |
-		e labelDo: [ :me |
-			e holder listElement isWrapping
-				ifTrue: [ me removeStamp: #'label-selected-focused-foreground' ]
-				ifFalse: [
-					me
-						addStamp: #'label-selected-focused-foreground'
-						withValue:
-						(e valueOfTokenNamed: #'color-primary-selection-focused') ] ] ]
+		self configureLabelInItemElement: e ]
 ]

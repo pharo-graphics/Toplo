@@ -12,10 +12,13 @@ Class {
 }
 
 { #category : #'t - triplet element - configuration' }
-ToTabsElement >> applyInnerConfiguration [ 
+ToTabsElement >> applyInnerConfiguration [
 
 	super applyInnerConfiguration.
 	self itemBar horizontal: self isHorizontal.
+	self isHorizontal
+		ifTrue: [ self itemBar tabPosition: ToTabAtTop new ]
+		ifFalse: [ self itemBar tabPosition: ToTabAtLeft new ].
 	self itemBar matchParent.
 	self isHFitContent
 		ifTrue: [
@@ -31,8 +34,7 @@ ToTabsElement >> applyInnerConfiguration [
 		ifFalse: [
 			self middleContainer vMatchParent.
 			self itemBar vMatchParent ].
-	self itemBar requestInnerConfiguration 
-
+	self itemBar requestInnerConfiguration
 ]
 
 { #category : #'event handling' }

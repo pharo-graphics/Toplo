@@ -18,20 +18,29 @@ ToTabBarElementSkin >> installSelectionTrackIn: aTabBarElement [
 			            (aTabBarElement valueOfTokenNamed: #'border-paint');
 		            id: #'selection-track'.
 	selTrack constraintsDo: [ :c | c ignoreByLayout ].
+
 	aTabBarElement userData at: #'selection-track' put: selTrack.
-	aTabBarElement isHorizontal
-		ifTrue: [
-			selTrack constraintsDo: [ :c |
-				c ignored horizontal alignLeft.
-				c ignored vertical alignBottom ].
-			selTrack height: 2.
-			selTrack hMatchParent ]
-		ifFalse: [
-			selTrack constraintsDo: [ :c |
-				c ignored horizontal alignRight.
-				c ignored vertical alignTop ].
-			selTrack width: 2.
-			selTrack vMatchParent ].
+
+	aTabBarElement isHorizontal ifTrue: [
+		selTrack constraintsDo: [ :c | c ignored horizontal alignLeft ].
+		selTrack height: 2.
+		selTrack hMatchParent.
+		aTabBarElement isAtTop
+			ifTrue: [
+			selTrack constraintsDo: [ :c | c ignored vertical alignBottom ] ]
+			ifFalse: [
+			selTrack constraintsDo: [ :c | c ignored vertical alignTop ] ] ].
+
+	aTabBarElement isVertical ifTrue: [
+		selTrack constraintsDo: [ :c | c ignored vertical alignTop ].
+		selTrack width: 2.
+		selTrack vMatchParent.
+		aTabBarElement isAtLeft
+			ifTrue: [
+			selTrack constraintsDo: [ :c | c ignored horizontal alignRight ] ]
+			ifFalse: [
+			selTrack constraintsDo: [ :c | c ignored horizontal alignLeft ] ] ].
+
 	aTabBarElement addChild: selTrack
 ]
 

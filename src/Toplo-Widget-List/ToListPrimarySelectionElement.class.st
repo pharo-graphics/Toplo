@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
-{ #category : #'instance creation' }
+{ #category : #skin }
 ToListPrimarySelectionElement >> newRawSkin [
 
 	^ ToListPrimarySelectionElementSkin new

@@ -92,9 +92,11 @@ ToPopupWindowManager >> canCloseWindowAfter: aTimestamp [
 { #category : #'window handling' }
 ToPopupWindowManager >> checkCloseWindowOnPickingEvent: anEvent [
 
+
 	(self canCloseWindowAfter: anEvent timestamp) ifFalse: [ ^ self ].
 	self autoCloseWindow.
-	anEvent consume
+	anEvent consume.
+
 ]
 
 { #category : #accessing }
@@ -255,7 +257,8 @@ ToPopupWindowManager >> popupEvent: anEvent [
 	currentWindow ifNotNil: [ ^ self ].
 	anchorElement isEnabled ifFalse: [ ^ self ].
 	upCountRequired := 1.
-	self popupNewWindowEvent: anEvent
+	self popupNewWindowEvent: anEvent.
+	anEvent ifNotNil: [:evt | evt consume ]
 ]
 
 { #category : #'window handling' }

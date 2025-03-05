@@ -170,6 +170,7 @@ ToAlbum >> requestSave [
 
 	| request answer |
 	request := ToAlbumSaveRequestedEvent new
+		           editorElement: self;
 		           unacceptedEdits: self edited;
 		           yourself.
 

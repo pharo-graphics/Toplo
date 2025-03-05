@@ -12,7 +12,5 @@ TToMenuItemBar >> menuBarOwner [
 { #category : #'t - menu item bar  - accessing' }
 TToMenuItemBar >> menuBarOwner: aBarOwner [
 
-	self userData at: #menuBarOwner put: aBarOwner.
-	" have to configure layout because the trackelement layout may use the menuBarOwner "
-	self configureLayout
+	self userData at: #menuBarOwner put: aBarOwner
 ]

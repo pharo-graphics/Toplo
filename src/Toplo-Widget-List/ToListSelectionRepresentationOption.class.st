@@ -77,9 +77,11 @@ ToListSelectionRepresentationOption >> launchUpdateSelectionIn: aListElement wit
 
 	| newRepresentations |
 	newRepresentations := self
-		             currentSelectionRepresentationsFrom: aListElement
-		             withSelectionModel: aSelectionModel.
-	(self selectionRepresentationsChangeWith: newRepresentations) ifFalse: [ ^ false ].
+		                      currentSelectionRepresentationsFrom:
+		                      aListElement
+		                      withSelectionModel: aSelectionModel.
+	(self selectionRepresentationsChangeWith: newRepresentations)
+		ifFalse: [ ^ false ].
 	" send deselected even groups is empty. 
 	As an example, if not, if a selected node is turned as unselectable, 
 	the content of the node will not be updated correctly 
@@ -112,8 +114,6 @@ ToListSelectionRepresentationOption >> refreshSelectionIn: aListElement withSele
 
 	consecutiveRefreshCount := consecutiveRefreshCount + 1.
 	consecutiveRefreshCount > 1 ifTrue: [
-		Error signal:
-			'Two selection refreshes do not have to be consecutive.'.
 		^ self ].
 	self removeSelectionRepresentationsIn: aListElement.
 	self

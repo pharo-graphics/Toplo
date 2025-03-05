@@ -1,6 +1,6 @@
 Class {
 	#name : #ToBarNodeSkin,
-	#superclass : #ToBasicNodeSkin,
+	#superclass : #ToRawSkin,
 	#category : #'Toplo-Widget-List-Node'
 }
 

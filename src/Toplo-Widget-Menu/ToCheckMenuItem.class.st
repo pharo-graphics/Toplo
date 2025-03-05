@@ -10,12 +10,6 @@ ToCheckMenuItem >> buttonClass [
 	^ ToCheckbox
 ]
 
-{ #category : #'as yet unclassified' }
-ToCheckMenuItem >> indeterminateBar [
-
-	^ self button indeterminateBar
-]
-
 { #category : #skin }
 ToCheckMenuItem >> newRawSkin [ 
 

@@ -26,9 +26,3 @@ ToMenuBarFlowLayout >> menuBarOwner: aMenuBarOwner [
 
 	menuBarOwner := aMenuBarOwner
 ]
-
-{ #category : #initialization }
-ToMenuBarFlowLayout >> newMeasurer [ 
-
-	^ ToMenuBarFlowLayoutMeasurer for: self
-]

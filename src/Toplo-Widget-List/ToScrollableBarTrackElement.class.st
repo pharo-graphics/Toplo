@@ -2,13 +2,8 @@ Class {
 	#name : #ToScrollableBarTrackElement,
 	#superclass : #ToElement,
 	#instVars : [
-		'nodeScrolling',
-		'nodeWrapping',
-		'nodeAutoDistribution',
-		'horizontal',
-		'flowLineUniformWidth',
 		'fakeNode',
-		'flowLineUniformHeight'
+		'listElement'
 	],
 	#category : #'Toplo-Widget-List-InnerBar'
 }
@@ -30,6 +25,37 @@ ToScrollableBarTrackElement >> addHolder: anHolder at: aPosition [
 	self addChild: node at: aPosition + 1
 ]
 
+{ #category : #layout }
+ToScrollableBarTrackElement >> applyInnerConfiguration [
+
+	super applyInnerConfiguration.
+	self layout: self newLayoutStrategy.
+
+	listElement isHFitContent
+		ifTrue: [ self hFitContent ]
+		ifFalse: [ self hMatchParent ].
+
+	listElement isVFitContent
+		ifTrue: [ self vFitContent ]
+		ifFalse: [ self vMatchParent ].
+
+	self autoDistribute
+		ifTrue: [
+			self isHorizontal
+				ifTrue: [
+				listElement isHFitContent ifFalse: [ self hMatchParent ] ]
+				ifFalse: [
+				listElement isVFitContent ifFalse: [ self vMatchParent ] ] ]
+		ifFalse: [
+			(self isWrapping not and: [ self isScrolling ]) ifTrue: [
+				self isHorizontal
+					ifTrue: [ self hFitContent ]
+					ifFalse: [ self vFitContent ] ] ].
+
+	self constraintFakeNode.
+	self nodesDo: [ :n | listElement nodeManager constraintNode: n ]
+]
+
 { #category : #'accessing - children' }
 ToScrollableBarTrackElement >> artlyVisibleNodesSelect: aBlock [
 
@@ -41,51 +67,26 @@ ToScrollableBarTrackElement >> artlyVisibleNodesSelect: aBlock [
 { #category : #testing }
 ToScrollableBarTrackElement >> autoDistribute [
 
-	^ nodeAutoDistribution
+	^ listElement autoDistribute
 ]
 
 { #category : #layout }
-ToScrollableBarTrackElement >> checkFullyVisibleNodesIn: aListElement [
+ToScrollableBarTrackElement >> checkFullyVisibleNodes [
 
-	| invisibleNodes |
-	nodeWrapping ifTrue: [ ^ self ].
-	nodeScrolling ifTrue: [ ^ self ].
-	nodeAutoDistribution ifTrue: [ ^ self ].
-	invisibleNodes := self nodesSelect: [ :n | n isFullyVisible not ].
-	invisibleNodes ifEmpty: [ ^ self ].
-	aListElement onInvisibleNodes: invisibleNodes
+	| invisibleNodes visibleNodes |
+	self isWrapping ifTrue: [ ^ self ].
+	self autoDistribute ifTrue: [ ^ self ].
+	invisibleNodes := self nodesSelect: [ :n | 
+		n isFullyVisibleInInnerElement not ].
+	visibleNodes := self nodes difference: invisibleNodes.
+	listElement onInvisibleNodes: invisibleNodes visibleNodes: visibleNodes
 ]
 
 { #category : #layout }
-ToScrollableBarTrackElement >> configureLayoutIn: aBarElement [
+ToScrollableBarTrackElement >> constraintFakeNode [
 
-	nodeScrolling := aBarElement isScrolling.
-	nodeWrapping := aBarElement isWrapping.
-	nodeAutoDistribution := aBarElement autoDistribute.
-	flowLineUniformWidth := aBarElement hasUniformNodeWidth.
-	flowLineUniformHeight := aBarElement hasUniformNodeHeight.
-	horizontal := aBarElement isHorizontal.
-
-	self layout: (self newLayoutStrategyIn: aBarElement).
-
-	self matchParent.
-	aBarElement isHMatchParent ifFalse: [ self hFitContent ].
-	aBarElement isVMatchParent ifFalse: [ self vFitContent ].
-
-	(nodeWrapping not and: [ nodeScrolling ]) ifTrue: [
-		self isHorizontal
-			ifTrue: [ self hFitContent ]
-			ifFalse: [ self vFitContent ] ].
-
-	self constraintFakeNodeIn: aBarElement.
-	self nodesDo: [ :n | aBarElement nodeManager constraintNode: n ]
-]
-
-{ #category : #layout }
-ToScrollableBarTrackElement >> constraintFakeNodeIn: aBarElement [
-
-	fakeNode ifNil: [ aBarElement installFakeNode ].
-	aBarElement nodeManager constraintFakeNode: fakeNode
+	"fakeNode ifNil: [ listElement installFakeNode ]."
+	listElement nodeManager constraintFakeNode: fakeNode
 ]
 
 { #category : #accessing }
@@ -111,7 +112,7 @@ ToScrollableBarTrackElement >> fullyVisibleNodes [
 ToScrollableBarTrackElement >> fullyVisibleNodesDo: aBlock [
 
 	self nodesDo: [ :node |
-		node isFullyVisible ifTrue: [ aBlock value: node ] ]
+		node isFullyVisibleInInnerElement ifTrue: [ aBlock value: node ] ]
 ]
 
 { #category : #'accessing - children' }
@@ -119,14 +120,8 @@ ToScrollableBarTrackElement >> fullyVisibleNodesSelect: aBlock [
 
 	^ Array streamContents: [ :stream |
 		  self nodesDo: [ :node |
-			  node isFullyVisible ifTrue: [
+			  node isFullyVisibleInInnerElement ifTrue: [
 				  (aBlock value: node) ifTrue: [ stream nextPut: node ] ] ] ]
-]
-
-{ #category : #accessing }
-ToScrollableBarTrackElement >> horizontal: anObject [ 
-
-	horizontal := anObject
 ]
 
 { #category : #initialization }
@@ -139,46 +134,55 @@ ToScrollableBarTrackElement >> initialize [
 { #category : #testing }
 ToScrollableBarTrackElement >> isHorizontal [
 
-	^ horizontal
+	^ listElement isHorizontal
 ]
 
 { #category : #testing }
 ToScrollableBarTrackElement >> isScrolling [
 
-	^ nodeScrolling
+	^ listElement isScrolling
 ]
 
 { #category : #testing }
 ToScrollableBarTrackElement >> isWrapping [
 
-	^ nodeWrapping
+	^ listElement isWrapping
 ]
 
 { #category : #layout }
-ToScrollableBarTrackElement >> newFlowLayoutIn: aBarElement [
+ToScrollableBarTrackElement >> linearLayoutClass [
 
-	^ (horizontal
+	^ ToBarLinearLayout
+]
+
+{ #category : #layout }
+ToScrollableBarTrackElement >> newFlowLayout [
+
+	^ (self isHorizontal
 		   ifTrue: [ self flowLayoutClass horizontal ]
 		   ifFalse: [ self flowLayoutClass vertical ])
-		  hasUniformNodeWidth: flowLineUniformWidth;
-		  hasUniformNodeHeight: flowLineUniformHeight;
+		  hasUniformNodeWidth: listElement hasUniformNodeWidth;
+		  hasUniformNodeHeight: listElement hasUniformNodeHeight;
 		  yourself
 ]
 
 { #category : #layout }
-ToScrollableBarTrackElement >> newLayoutStrategyIn: aBarElement [
+ToScrollableBarTrackElement >> newLayoutStrategy [
 
-	^ nodeWrapping
-		  ifTrue: [ self newFlowLayoutIn: aBarElement ]
-		  ifFalse: [ self newLinearLayoutIn: aBarElement ]
+	^ self isWrapping
+		  ifTrue: [ self newFlowLayout ]
+		  ifFalse: [ self newLinearLayout ]
 ]
 
 { #category : #layout }
-ToScrollableBarTrackElement >> newLinearLayoutIn: aBarElement [
+ToScrollableBarTrackElement >> newLinearLayout [
 
-	^ horizontal
-		  ifTrue: [ BlLinearLayout horizontal ]
-		  ifFalse: [ BlLinearLayout vertical ]
+	^ (self isHorizontal
+		   ifTrue: [ self linearLayoutClass horizontal ]
+		   ifFalse: [ self linearLayoutClass vertical ])
+		  hasUniformNodeWidth: listElement hasUniformNodeWidth;
+		  hasUniformNodeHeight: listElement hasUniformNodeHeight;
+		  yourself
 ]
 
 { #category : #accessing }
@@ -208,6 +212,12 @@ ToScrollableBarTrackElement >> nodesWithIndexDo: aBlock [
 
 	self nodesDo: [ :node |
 		aBlock value: node value: node holder position]
+]
+
+{ #category : #initialization }
+ToScrollableBarTrackElement >> onListElement: aListElement [
+
+	listElement := aListElement 
 ]
 
 { #category : #'accessing - children' }

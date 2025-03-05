@@ -1,59 +1,56 @@
 Class {
 	#name : #ToTabsElement,
-	#superclass : #ToElement,
-	#traits : 'TToTripletElement + TToItemListOwner',
-	#classTraits : 'TToTripletElement classTrait + TToItemListOwner classTrait',
+	#superclass : #ToTripletElement,
+	#traits : 'TToItemListOwner',
+	#classTraits : 'TToItemListOwner classTrait',
 	#instVars : [
-		'isHorizontal',
-		'isStartToEnd'
+		'invisibleNodes',
+		'visibleNodes',
+		'nodeMenu'
 	],
 	#category : #'Toplo-Widget-Tag-Tab'
 }
 
-{ #category : #'accessing - orientation' }
-ToTabsElement >> alignCenter [
+{ #category : #'t - triplet element - configuration' }
+ToTabsElement >> applyInnerConfiguration [ 
 
-	self startFlexible: true.
-	self endFlexible: true.
-	self configurationChanged
+	super applyInnerConfiguration.
+	self itemBar horizontal: self isHorizontal.
+	self itemBar matchParent.
+	self isHFitContent
+		ifTrue: [
+			self middleContainer hFitContent.
+			self itemBar hFitContent ]
+		ifFalse: [
+			self middleContainer hMatchParent.
+			self itemBar hMatchParent ].
+	self isVFitContent
+		ifTrue: [
+			self middleContainer vFitContent.
+			self itemBar vFitContent ]
+		ifFalse: [
+			self middleContainer vMatchParent.
+			self itemBar vMatchParent ].
+	self itemBar requestInnerConfiguration 
+
 ]
 
-{ #category : #'accessing - orientation' }
-ToTabsElement >> alignEnd [
+{ #category : #'event handling' }
+ToTabsElement >> checkNodeMenu [
 
-	self startFlexible: true.
-	self endFlexible: false.
-	self configurationChanged
-]
+	| menuImage |
+	nodeMenu ifNil: [
+		menuImage := ToMaterialDesignIconProvider innerImageNamed:
+			             'outlined_menu'.
+		nodeMenu := ToMenu new iconImage: menuImage.
+		nodeMenu icon size: 20 asPoint.
+		nodeMenu builder: self defaultNodeMenuBuilder.
+		nodeMenu visibility: BlVisibility gone.
+		self endElement: nodeMenu ].
 
-{ #category : #'accessing - orientation' }
-ToTabsElement >> alignStart [
-
-	self startFlexible:false.
-	self endFlexible: true.
-	self configurationChanged
-]
-
-{ #category : #'accessing - orientation' }
-ToTabsElement >> configurationChanged [
-
-	self itemBar horizontal: isHorizontal.
-	isHorizontal
-		ifTrue: [ self layout beVertical ]
-		ifFalse: [ self layout beHorizontal ].
-	isStartToEnd
-		ifTrue: [ self layout direction: BlLayoutDirection leftToRight ]
-		ifFalse: [ self layout direction: BlLayoutDirection rightToLeft ].
-	self requestNewSkin
-]
-
-{ #category : #initialization }
-ToTabsElement >> configureLayout [
-
-	self middleContainer constraintsDo: [ :c |
-			  c horizontal matchParent.
-			  c vertical matchParent ].
-	self itemBar configureLayoutIn: self
+	self invisibleNodes
+		ifNotEmpty: [ self showNodeMenu: true ]
+		ifEmpty: [ self showNodeMenu: false ]
 ]
 
 { #category : #initialization }
@@ -63,15 +60,32 @@ ToTabsElement >> defaultEventHandler [
 ]
 
 { #category : #initialization }
-ToTabsElement >> defaultLayout [ 
+ToTabsElement >> defaultNodeMenuBuilder [
 
-	^ BlLinearLayout horizontal
-]
-
-{ #category : #'accessing - orientation' }
-ToTabsElement >> endToStart: aBoolean [
-
-	self startToEnd: aBoolean not
+	^ [ :menu :request |
+	  | middlePos |
+	  middlePos := self visibleNodes
+		               ifEmpty: [ 0 ]
+		               ifNotEmpty: [ :vn | vn first holder position - 1 ].
+	  self invisibleNodes do: [ :node |
+		  node isEnabled ifTrue: [
+			  | mitem |
+			  mitem := ToMenuItem new
+				           labelText: node item label text asString;
+				           whenClickedDo: [ :event |
+					           self selecter
+						           scrollTowardStartToDataSourcePosition:
+							           node holder position.
+					           self requestFocus.
+					           node item checked: true ];
+				           yourself.
+			  node item isChecked ifTrue: [
+				  mitem icon:
+					  (ToImage inner: (self valueOfTokenNamed: #check)).
+				  mitem icon size:
+					  (self valueOfTokenNamed: #'checkable-icon-size') ].
+			  menu addItem: mitem ] ].
+	  menu addSeparatorBeforeIndex: (middlePos max: 1) ]
 ]
 
 { #category : #'focus requesting' }
@@ -86,79 +100,75 @@ ToTabsElement >> group [
 	^ self itemBar group
 ]
 
-{ #category : #'accessing - orientation' }
-ToTabsElement >> horizontal: aBoolean [
-
-	isHorizontal = aBoolean ifTrue: [ ^ self ].
-	isHorizontal := aBoolean.
-	self configurationChanged
-]
-
 { #category : #initialization }
 ToTabsElement >> initialize [
 
 	super initialize.
 	self initializeAsItemBarOwner.
-	self initializeAsTripletElementOn: self.
-	self middleContainer clipChildren: false.
-
+	
 	self middleElement: self itemBar.
-
 	self group
 		addEventHandlerOn: ToCheckableGroupChangedEvent
 		do: [ :event | self dispatchEvent: event ].
 
 	self itemBar
 		addEventHandlerOn: ToListSelectionChangedEvent
-		do: [ :event | self dispatchEvent: event copy].
+		do: [ :event | self dispatchEvent: event copy ].
 
-	isStartToEnd := true.
-	self horizontal: true.
 	self addEventHandler: self defaultEventHandler
 ]
 
-{ #category : #'accessing - orientation' }
-ToTabsElement >> isHorizontal [ 
+{ #category : #accessing }
+ToTabsElement >> invisibleNodes [ 
 
-	^ isHorizontal
-]
-
-{ #category : #'accessing - orientation' }
-ToTabsElement >> isStartToEnd [ 
-
-	^ isStartToEnd 
-]
-
-{ #category : #'accessing - orientation' }
-ToTabsElement >> isVertical [ 
-
-	^ self isHorizontal not
+	^ invisibleNodes 
 ]
 
 { #category : #'t - item list owner - accessing' }
 ToTabsElement >> newItemBar [
 
 	^ ToTabBarElement new
+		  parentTabsElement: self;
+		  yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : #skin }
 ToTabsElement >> newRawSkin [ 
 
 	^ ToTabsElementSkin new
 ]
 
-{ #category : #'accessing - orientation' }
-ToTabsElement >> startToEnd: aBoolean [
+{ #category : #'t - bar element' }
+ToTabsElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes [
 
-	isStartToEnd = aBoolean ifTrue: [ ^ self ].
-	isStartToEnd := aBoolean.
-	self configurationChanged
+	(theInvisibleNodes = self invisibleNodes and: [
+		 theVisibleNodes = self visibleNodes ]) ifTrue: [ ^ self ].
+	
+	invisibleNodes := theInvisibleNodes asArray.
+	visibleNodes := theVisibleNodes asArray.
+	self dispatchEvent: ToVisibleTabsChanged new.
+
 ]
 
-{ #category : #'accessing - orientation' }
-ToTabsElement >> vertical: aBoolean [
+{ #category : #accessing }
+ToTabsElement >> selecter [
 
-	self horizontal: aBoolean not
+	^ self itemBar selecter
+]
+
+{ #category : #'event handling' }
+ToTabsElement >> showNodeMenu: aBoolean [
+
+	nodeMenu parentDo: [ :p |
+		aBoolean
+			ifTrue: [ nodeMenu visibility: BlVisibility visible ]
+			ifFalse: [ nodeMenu visibility: BlVisibility gone ] ]
+]
+
+{ #category : #accessing }
+ToTabsElement >> visibleNodes [
+
+	^ visibleNodes 
 ]
 
 { #category : #'t - checkable group owner' }

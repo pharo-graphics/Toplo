@@ -172,7 +172,7 @@ ToMenu >> mouseLeaveEvent: anEvent [
 { #category : #'event handling' }
 ToMenu >> mouseOverEvent: anEvent [
 
-	(anEvent target hasInParentChain: self)
+	(anEvent target withAllParentsInclude: self)
 		ifTrue: [ self menuWindow ifNil: [ self popupEvent: anEvent ] ]
 		ifFalse: [ self closeWindow ]
 ]

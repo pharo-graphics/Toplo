@@ -6,13 +6,6 @@ Trait {
 	#category : #'Toplo-Core'
 }
 
-{ #category : #'t - triplet element - initialization' }
-TToTripletElement >> applyInnerConfiguration [ 
-
-	self tripletProperties ifNotNil: [:tp | tp applyInnerConfiguration ].
-	super applyInnerConfiguration
-]
-
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> defaultTripletEventHandler [
 
@@ -160,7 +153,7 @@ TToTripletElement >> newBaseContainer [
 		  constraintsDo: [ :c |
 			  c horizontal fitContent.
 			  c vertical fitContent ];
-		  layout: BlLinearLayout new;
+		  layout: BlFrameLayout new;
 		  yourself
 ]
 
@@ -180,12 +173,19 @@ TToTripletElement >> newFiller [
 { #category : #'t - triplet element - instance creation' }
 TToTripletElement >> newMiddleContainer [
 
-	^ BlElement  new
+	^ ToElement new
 		  constraintsDo: [ :c |
 			  c horizontal fitContent.
 			  c vertical fitContent ];
-		layout: BlFrameLayout new;
+		  layout: BlFrameLayout new;
 		  yourself
+]
+
+{ #category : #'t - triplet element - configuration' }
+TToTripletElement >> onInnerConfigurationApplied [ 
+
+	self tripletProperties ifNotNil: [:tp | tp onInnerConfigurationApplied ].
+	super onInnerConfigurationApplied
 ]
 
 { #category : #'t - triplet element - accessing' }

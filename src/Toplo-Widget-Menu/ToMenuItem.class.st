@@ -44,3 +44,9 @@ ToMenuItem >> newRightHandSide [
 		c linear horizontal alignCenter ].
 	^ rhs
 ]
+
+{ #category : #'t - with orientable layout - accessing' }
+ToMenuItem >> targetLayout [ 
+
+	^ self button targetLayout
+]

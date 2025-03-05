@@ -9,17 +9,11 @@ Class {
 	#category : #'Toplo-Widget-List-ItemList'
 }
 
-{ #category : #'t - bar element' }
-ToItemBarElement >> defaultInnerElement [
-
-	^ ToInnerBarElement onBarElement: self
-]
-
 { #category : #initialization }
 ToItemBarElement >> initialize [
 
 	super initialize.
-	self initializeAsItemListElement 
+	self initializeAsItemListElement
 ]
 
 { #category : #skin }

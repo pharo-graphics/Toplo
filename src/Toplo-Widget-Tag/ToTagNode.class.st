@@ -14,31 +14,16 @@ ToTagNode >> initialize [
 	removable := true
 ]
 
-{ #category : #skin }
-ToTagNode >> installRawStyle [
-
-	super installRawStyle.
-	self constraintsDo: [ :c | c linear vertical alignCenter ].
-	self geometry: (BlRoundedRectangleGeometry cornerRadius:
-			 (self valueOfTokenNamed: 'border-radius')).
-	self padding: (BlInsets
-			 horizontal: (self valueOfTokenNamed: #'bar-node-padding-H')
-			 vertical: (self valueOfTokenNamed: #'bar-node-padding-V')).
-	" the tagModel can be nil in case of the default fakeDataItem "
-	self holder tagModel ifNotNil: [ :tm |
-		tm isComposite ifTrue: [
-			self tooltipBuilder: [ :win :theElement |
-				| pane |
-				pane := ToPane vertical.
-				self holder tagModel items do: [ :item |
-					pane addChild: (ToLabel text: item data asString) ].
-				win root addChild: pane ] ] ]
-]
-
 { #category : #testing }
 ToTagNode >> isRemovable [
 
 	^ removable and: [  self nodesCount = 1 ]
+]
+
+{ #category : #skin }
+ToTagNode >> newRawSkin [ 
+
+	^ ToTagNodeSkin new
 ]
 
 { #category : #accessing }

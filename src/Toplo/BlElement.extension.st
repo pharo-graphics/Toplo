@@ -61,7 +61,7 @@ BlElement >> applyEnqueuedStatesDeeply [
 { #category : #'*Toplo' }
 BlElement >> applyInnerConfiguration [
 
-
+	self onInnerConfigurationApplied
 ]
 
 { #category : #'*Toplo' }
@@ -372,7 +372,7 @@ BlElement >> isPreventedSkinEventClass: aSkinEventClass [
 { #category : #'*Toplo' }
 BlElement >> itemContaining: anElement [
 
-	^ (anElement hasInParentChain: self)
+	^ (anElement withAllParentsInclude: self)
 		  ifTrue: [ self ]
 		  ifFalse: [ nil ]
 ]
@@ -459,9 +459,22 @@ BlElement >> onAddedInItemBarOwner: anItemBar [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> onInnerConfigurationApplied [
+
+]
+
+{ #category : #'*Toplo' }
 BlElement >> onRemovedFromItemBarOwner: anItemBar [
 
 	anItemBar onRemovedUnknownItemKind: self
+]
+
+{ #category : #'*Toplo' }
+BlElement >> onSkinInstalled: aSkin [
+]
+
+{ #category : #'*Toplo' }
+BlElement >> onSkinUninstalled: aSkin [
 ]
 
 { #category : #'*Toplo' }

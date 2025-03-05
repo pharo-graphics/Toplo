@@ -65,9 +65,6 @@ ToSandBox class >> accordionWithLabelAndAlbumInBody [
 		album minHeight: 50.
 		album text: 'AAAAAAAA'.
 		body addChild: album ].
-	inst
-		addEventHandlerOn: ToAccordionCheckedEvent
-		do: [ :evt | evt traceCr ].
 	^ inst
 ]
 
@@ -86,10 +83,47 @@ ToSandBox class >> accordionWithLabelText: aString [
 	inst
 		vFitContent;
 		hMatchParent.
-	inst
-		addEventHandlerOn: ToAccordionCheckedEvent
-		do: [ :evt | evt traceCr ].
 	^ inst
+]
+
+{ #category : #bar }
+ToSandBox class >> alignmentChooserFor: aCheckableBar [
+
+	| buttons alignContainer alignGroup |
+	alignGroup := ToCheckableGroup new.
+	buttons := OrderedCollection new.
+	{ #None. #Start. #Center. #End } do: [ :mode |
+		| chb |
+		chb := ToCheckbox new
+			       labelText: mode asString;
+			       id: mode.
+		buttons add: chb ].
+
+	alignGroup registerAll: buttons.
+	alignGroup addEventHandler: (BlEventHandler
+			 on: ToCheckableGroupChangedEvent
+			 do: [ :event |
+				 | mode |
+				 mode := event checkedList first id asSymbol.
+				 mode = #None
+					 ifTrue: [ aCheckableBar alignNone ]
+					 ifFalse: [
+						 mode = #Start
+							 ifTrue: [ aCheckableBar alignStart ]
+							 ifFalse: [
+								 mode = #Center
+									 ifTrue: [ aCheckableBar alignCenter ]
+									 ifFalse: [ aCheckableBar alignEnd ] ] ] ]).
+	buttons first checked: true.
+	aCheckableBar isAlignStart ifTrue: [ buttons second checked: true ].
+	aCheckableBar isAlignCenter ifTrue: [ buttons third checked: true ].
+	aCheckableBar isAlignEnd ifTrue: [ buttons fourth checked: true ].
+	alignContainer := ToPane vertical.
+	alignContainer hMatchParent.
+	alignContainer addChild: (ToLabel text: 'Alignment').
+	alignContainer layout cellSpacing: 0.
+	alignContainer addChildren: alignGroup registeredCheckables.
+	^ alignContainer
 ]
 
 { #category : #bar }
@@ -103,6 +137,11 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 
 	menu := ToMenu new.
 	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
+
+	menu addItem: (ToMenuItem new
+			 label: (ToLabel text: 'Space statistics');
+			 whenClickedDo: [ aBar space showStatisticsWindow ];
+			 yourself).
 	menu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Inspect');
 			 whenClickedDo: [ aBar space root inspect ];
@@ -153,8 +192,6 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 		| v |
 		v := event current.
 		aBar isWrapping: v.
-		uniformNodeWidthSwitch enabled: v.
-		uniformNodeHeightSwitch enabled: v.
 		scrollingSwitch disabled: v ].
 
 	uniformNodeWidthSwitch whenClickedDo: [ :event |
@@ -285,7 +322,6 @@ ToSandBox class >> barWithData: aCollection [
 		triplet startElement: but.
 		triplet middleElement: label.
 		triplet startInterspace: 10.
-		"triplet startFlexible: true."
 		triplet constraintsDo: [ :c |
 			c linear vertical alignCenter ].
 		node addChild: triplet ].
@@ -319,6 +355,11 @@ ToSandBox class >> barWithData: aCollection [
 									  whenClickedDo: [
 										  Array withAll:
 												  (idxes collect: [ :idx | target nodeAt: idx ]) inspect ]).
+						 m addItem: (ToMenuItem new
+								  labelText: 'Remove';
+								  whenClickedDo: [
+									  idxes reverseDo: [ :idx |
+											  bar dataAccessor removeAt: idx ] ]).
 						 m addItem: (ToMenuItem new
 								  labelText: 'Unable/disable';
 								  whenClickedDo: [
@@ -427,7 +468,7 @@ ToSandBox class >> buildSelectListElementIn: aSelectElement withIconProvider: an
 			child constraintsDo: [ :c | c linear vertical alignCenter ] ] ].
 
 	aSelectElement sieve dataFilter: [ :iconDesc :pattern |
-		(iconDesc style prefix beginsWith: pattern caseSensitive: true) or: [
+		(iconDesc style prefix includesSubstring: pattern caseSensitive: true) or: [
 			iconDesc name beginsWith: pattern caseSensitive: true ] ].
 
 	aSelectElement popupListElement dataAccessor addAll: iconDescs
@@ -1605,7 +1646,7 @@ ToSandBox class >> example_HorizontalListWithIndexedColors [
 ToSandBox class >> example_HugeIntegerList [
 
 	| l nbItems vscrollBar space |
-	nbItems := 500.
+	nbItems := 5000.
 	l := ToListElement new.
 	l dataAccessor addAll: (1 to: nbItems).
 	l nodeBuilder: [ :node :anInteger |
@@ -1980,12 +2021,25 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 ]
 
 { #category : #list }
+ToSandBox class >> example_ListWithAllClassesAsCheckbox [
+
+	| l |
+	l := ToCheckableListElement new.
+	l group withoutCheckingStrategy.
+	l addAllItems: ((Smalltalk globals allClasses) collect: [ :cls |
+			 ToCheckbox new
+				 label: (ToLabel new text: cls name) preventSelectionSkinEvents;
+				 hMatchParent ]).
+	l openInSpace
+]
+
+{ #category : #list }
 ToSandBox class >> example_ListWithAllClassesAsToggleButton [
 
 	| l |
 	l := ToCheckableListElement new.
 	l group withoutCheckingStrategy.
-	l addAllItems: (Smalltalk globals allClasses collect: [ :cls |
+	l addAllItems: ((Smalltalk globals allClasses copyFrom: 1 to: 200) collect: [ :cls |
 			 ToToggleButton new
 				 label: (ToLabel new text: cls name) preventSelectionSkinEvents;
 				 hMatchParent ]).
@@ -2263,9 +2317,6 @@ ToSandBox class >> example_NodeContainerWithStatesOfAmerica [
 
 	| l |
 	l := ToGenericBarElement new.
-	l addEventHandler: (BlEventHandler
-			 on: ToListPrimarySelectionChangedEvent
-			 do: [ :evt | evt traceCr ]).
 	l horizontal: true.
 	l dataAccessor addAll: self statesOfAmerica.
 	l openInSpace
@@ -2851,6 +2902,44 @@ ToSandBox class >> example_SelectMultiFiltrableScrolling [
 ]
 
 { #category : #select }
+ToSandBox class >> example_SelectMultiFiltrableWithCheckboxes [
+
+	| select skinBuilder |
+	
+	select := ToMultiSelectElement new.
+	select popupListElement selectionOption withEmbeddedRepresentation.
+	select popupListElement dataAccessor addAll: self statesOfAmerica.
+
+	skinBuilder := [
+	               ToScriptableSkin new
+		               onInstallSkinEvent: [ :e :evt |
+			               e icon: (ToImage inner: (e valueOfTokenNamed: #'checkbox-unchecked-image')).
+			               e icon size: (e valueOfTokenNamed: #'checkable-icon-size').
+			               e icon innerImageColor: (e valueOfTokenNamed: #'color-primary') ];
+		               onSelectedSkinEvent: [ :e :evt |
+			               e icon
+				               innerImage: (e valueOfTokenNamed: #'checkbox-checked-image');
+				               innerImageColor: (e valueOfTokenNamed: #'color-primary') ];
+		               onDeselectedSkinEvent: [ :e :evt |
+			               e icon
+				               innerImage: (e valueOfTokenNamed: #'checkbox-unchecked-image');
+				               innerImageColor: (e valueOfTokenNamed: #'color-primary') ];
+		               yourself ].
+	select popupListElement nodeBuilder: [ :node :aState :holder |
+		| box |
+		box := ToLabeledIcon new
+			       labelText: aState;
+			       startFlexible: true;
+			       hMatchParent;
+			       beEndToStart;
+			       yourself.
+		
+		node addChild: box.
+		box defaultSkin: skinBuilder value. ].
+	select openInSpace
+]
+
+{ #category : #select }
 ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 
 	| select innerWindow |
@@ -3396,20 +3485,37 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 ]
 
 { #category : #tag }
-ToSandBox class >> example_TabsElement [
+ToSandBox class >> example_TabBarElement [
 
 	| tabs dashBoard |
-	tabs := ToTabsElement new.
+	tabs := ToTabBarElement new.
 	tabs isWrapping: false.
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		tabs addItem: (ToTabItemElement new
-				 middleElement: (ToLabel text: l) preventSelectionSkinEvents;
+				 middleElement: (ToLabel text: l);
 				 yourself) ].
 
 	(tabs items at: 2) disable.
 	dashBoard := self tabsElementDashBoardFor: tabs.
-	tabs alignCenter.
+	dashBoard openInSpace
+]
+
+{ #category : #tag }
+ToSandBox class >> example_TabsElement [
+
+	| tabs dashBoard |
+	tabs := ToTabsElement new.
+
+	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
+		tabs addItem: (ToTabItemElement new
+				 middleElement: (ToLabel text: l);
+				 yourself) ].
+
+	(tabs items at: 2) disable.
+	(tabs items at: 3) checked: true.
+	tabs requestFocus.
+	dashBoard := self tabsElementDashBoardFor: tabs.
 	dashBoard openInSpace
 ]
 
@@ -3419,9 +3525,10 @@ ToSandBox class >> example_TabsElement2 [
 	| tabs dashBoard |
 	tabs := ToTabsElement new.
 
-	self statesOfAmerica do: [ :l |
+	(self statesOfAmerica copyFrom: 1 to: 20) do: [ :l |
 		tabs addItem: (ToTabItemElement new
-				 middleElement: (ToLabel text: l) preventSelectionSkinEvents;
+				 middleElement: (ToLabel text: l);
+				fitContent;
 				 yourself) ].
 
 	(tabs items at: 2) disable.
@@ -3635,10 +3742,46 @@ ToSandBox class >> example_ToggleButtonInListElement [
 			e preventSelectionSkinEvents ].
 		node addChild: moveElement.
 		node addChild: inspectButton ].
-	moveListElement size: 800 @ 600.
+	moveListElement matchParent.
 	moveListElement dataAccessor addAll: {
 			{ 1. 'e4'. 'e5' }.
-			{ 2. nil. nil } }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			{ 1. 'e4'. 'e5' }.
+			{ 2. nil. nil }.
+			
+			
+			
+			 }.
 
 	space := BlSpace new.
 	space root addChild: moveListElement.
@@ -3914,6 +4057,15 @@ ToSandBox class >> example_buttonWith2Icons [
 ]
 
 { #category : #button }
+ToSandBox class >> example_buttonWith2IconsFlexible [
+
+	| but  |
+	but := self example_buttonWith2Icons.
+	but flexible: true.
+	but hMatchParent
+]
+
+{ #category : #button }
 ToSandBox class >> example_buttonWith2IconsVertical [
 
 	| but  |
@@ -4097,10 +4249,6 @@ ToSandBox class >> example_contactList [
 	panel layout cellSpacing: 10.
 
 	list := ToListElement new.
-	list addEventHandler: (BlEventHandler
-			 on: ToListPrimarySelectionChangedEvent
-			 do: [ :evt | evt traceCr ]).
-
 	nameTxtF := ToTextField new
 		            width: 100;
 		            placeholderBuilder: [ :placeholder :e |
@@ -5000,15 +5148,14 @@ ToSandBox class >> example_menuPaneVertical [
 		menu := ToMenu new.
 		count = 2 ifTrue: [ menu beInline ].
 		menu label: (ToLabel text: 'Levels').
-		menu icon:
-			(ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+		menu icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
 
 		menu builder: [ :m |
 			1 to: 6 do: [ :index |
 				| subMenu |
-				subMenu := ToMenu new label:
-					           (ToLabel new text: (String streamContents: [ :out |
+				subMenu := ToMenu new label: (ToLabel new text: (String streamContents: [ :out |
 							             out
+								             nextPutAll: 'Level ';
 								             print: index;
 								             nextPutAll: 'x';
 								             print: index ])).
@@ -5029,8 +5176,7 @@ ToSandBox class >> example_menuPaneVertical [
 						color := Color random.
 						iconImage := BlElement new
 							             padding: (BlInsets all: 2);
-							             geometry:
-								             (BlRoundedRectangleGeometry cornerRadius: 3);
+							             geometry: (BlRoundedRectangleGeometry cornerRadius: 3);
 							             background: color;
 							             size: 16 asPoint;
 							             yourself.
@@ -5046,7 +5192,7 @@ ToSandBox class >> example_menuPaneVertical [
 	bar vertical: true.
 	bar vFitContent.
 	frame pane addChild: bar.
-	frame openInSpace.
+	frame openInSpace
 	"frame inspect"
 ]
 
@@ -5590,6 +5736,7 @@ ToSandBox class >> example_subMenuPane [
 	3 timesRepeat: [
 		| mb |
 		mb := ToMenuPane new.
+		mb horizontal: true.
 		1 to: 3 do: [ :i |
 			| m |
 			m := ToMenu new labelText: 'Menu' , i asString.
@@ -8026,8 +8173,8 @@ ToSandBox class >> resizerBoardFor: aBar [
 			size ifNotNil: [
 				saveRequested accepted: true.
 				dir = #Horizontal
-					ifTrue: [ aBar width: size ]
-					ifFalse: [ aBar height: size ] ] ].
+					ifTrue: [ aBar hExact: size ]
+					ifFalse: [ aBar vExact: size ] ] ].
 
 		sizeInputPane addChild: sizeInput.
 		sizeInputPane childrenDo: [ :child |
@@ -8290,7 +8437,7 @@ ToSandBox class >> subsubsubTabPane [
 { #category : #tag }
 ToSandBox class >> tabsElementDashBoardFor: aTabsElement [
 
-	| mainPane barPane confPane checkingStrategyPane startToEndSwitch feedbackPane maj rootPane |
+	| mainPane barPane confPane checkingStrategyPane startToEndSwitch feedbackPane maj rootPane  |
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
 

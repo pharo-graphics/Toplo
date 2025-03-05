@@ -2,10 +2,17 @@ Class {
 	#name : #ToTabBarElement,
 	#superclass : #ToCheckableBarElement,
 	#instVars : [
-		'withCloseButton'
+		'parentTabsElement'
 	],
 	#category : #'Toplo-Widget-Tag-Tab'
 }
+
+{ #category : #configuration }
+ToTabBarElement >> applyInnerConfiguration [ 
+
+	super applyInnerConfiguration.
+	self requestNewSkin
+]
 
 { #category : #'t - item list - accessing' }
 ToTabBarElement >> defaultNodeManagerClass [
@@ -20,22 +27,14 @@ ToTabBarElement >> newRawSkin [
 ]
 
 { #category : #'t - bar element' }
-ToTabBarElement >> onInvisibleNodes: theInvisibleNodes [
+ToTabBarElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes [
 
-	nodeWrapping ifTrue: [ ^ self ].
-	nodeScrolling ifTrue: [ ^ self ].
-	nodeAutoDistribution ifFalse: [ ^ self ].
-	" ok the node menu can be shown "
+	parentTabsElement ifNotNil: [ :p |
+		p onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes ]
 ]
 
 { #category : #accessing }
-ToTabBarElement >> withCloseButton [
+ToTabBarElement >> parentTabsElement: anObject [
 
-	^ withCloseButton ifNil: [ withCloseButton := false ]
-]
-
-{ #category : #accessing }
-ToTabBarElement >> withCloseButton: aBoolean [
-
-	withCloseButton := aBoolean
+	parentTabsElement := anObject
 ]

@@ -8,7 +8,7 @@ Class {
 ToTabsElementSkin >> checkNodeMenuIn: aTabsElement [
 
 	| menuImage nodeMenu |
-	(aTabsElement isWrapping or: [ aTabsElement isScrolling ]) ifTrue: [ ^ self ].
+	aTabsElement isWrapping ifTrue: [ ^ self ].
 	menuImage := ToMaterialDesignIconProvider innerImageNamed:
 		             'outlined_menu'.
 	nodeMenu := ToTabNodeMenu new iconImage: menuImage.
@@ -24,24 +24,28 @@ ToTabsElementSkin >> checkNodeMenuIn: aTabsElement [
 ToTabsElementSkin >> defaultNodeMenuBuilderIn: aTabsElement [
 
 	^ [ :menu :request |
-	  | group middlePos |
-	  group := ToCheckableGroup new.
+	  | middlePos |
 	  middlePos := aTabsElement visibleNodes
 		               ifEmpty: [ 0 ]
 		               ifNotEmpty: [ :vn | vn first holder position - 1 ].
 	  aTabsElement invisibleNodes do: [ :node |
 		  node isEnabled ifTrue: [
-			  group register: (ToRadioMenuItem new
-					   labelText: node item label text asString;
-					   checked: node item isChecked;
-					   closeOnPicking: false;
-					   whenClickedDo: [ :event |
-						   aTabsElement itemBar selecter
-							   scrollTowardStartToDataSourcePosition: node holder position.
-						   aTabsElement itemBar requestFocus.
-						   node item checked: true ];
-					   yourself) ] ].
-	  menu addAllItems: group registeredCheckables.
+			  | mitem |
+			  mitem := ToMenuItem new
+				           labelText: node item label text asString;
+				           whenClickedDo: [ :event |
+					           aTabsElement itemBar selecter
+						           scrollTowardStartToDataSourcePosition:
+							           node holder position.
+					           aTabsElement requestFocus.
+					           node item checked: true ];
+				           yourself.
+			  node item isChecked ifTrue: [
+				  mitem icon:
+					  (ToImage inner: (aTabsElement valueOfTokenNamed: #check)).
+				  mitem icon size:
+					  (aTabsElement valueOfTokenNamed: #'checkable-icon-size') ].
+			  menu addItem: mitem ] ].
 	  menu addSeparatorBeforeIndex: (middlePos max: 1) ]
 ]
 

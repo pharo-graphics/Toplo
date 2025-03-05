@@ -10,10 +10,9 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		(e isTopMenu not or: [ e hasStamp: #'with-expand-button' ]) ifTrue: [
-			| anyHaveIcon anyIsMenu align |
+			| anyHaveIcon anyIsMenu |
 			anyHaveIcon := false.
 			anyIsMenu := false.
-			align := 0.0.
 
 			e parentMenuDo: [ :pm |
 				pm items do: [ :item |
@@ -21,18 +20,18 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 					item isMenu ifTrue: [ anyIsMenu := true ] ] ].
 
 			anyHaveIcon ifTrue: [
-				align := e valueOfTokenNamed: #'menu-item-start-alignment' ].
-			e button startAlignment: align.
+				| align |
+				align := e valueOfTokenNamed: #'menu-item-start-alignment'.
+				e button startAlignment: align ].
 
-			(anyIsMenu or: [ e hasStamp: #'with-expand-button' ])
-				ifTrue: [
-					e isStartToEnd
-						ifTrue: [
-							e endInterspace:
-								(e valueOfTokenNamed: #'menu-item-start-alignment').
-							e endFlexible: true ]
-						ifFalse: [
-							e startInterspace:
-								(e valueOfTokenNamed: #'menu-item-start-alignment').
-							e startFlexible: true ] ] ] ]
+			(anyIsMenu or: [ e hasStamp: #'with-expand-button' ]) ifTrue: [
+				e isStartToEnd
+					ifTrue: [
+						e endInterspace:
+							(e valueOfTokenNamed: #'menu-item-start-alignment').
+						e endFlexible: true ]
+					ifFalse: [
+						e startInterspace:
+							(e valueOfTokenNamed: #'menu-item-start-alignment').
+						e startFlexible: true ] ] ] ]
 ]

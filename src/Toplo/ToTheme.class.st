@@ -45,6 +45,10 @@ ToTheme class >> defaultTokenProperties [
 			   name: #empty_box
 			   value: (ToMiscellaneousIcons innerImageNamed: 'filled_emptyBox')).
 		  (ToTokenProperty
+			   name: #'check'
+			   value: (ToMaterialDesignIconProvider innerImageNamed:
+					    'outlined_check')).
+		  (ToTokenProperty
 			   name: #'submenu-arrow-right'
 			   value: (ToMaterialDesignIconProvider innerImageNamed:
 					    'outlined_keyboardarrowright')).
@@ -262,7 +266,7 @@ ToTheme class >> defaultTokenProperties [
 			   value: (Color black alpha: 0.1)).
 		  (ToTokenProperty name: #'text-editor-padding-H' value: 3).
 		  (ToTokenProperty name: #'text-editor-padding-V' value: 2).
-		  (ToTokenProperty name: #'menu-item-start-alignment' value: 22).
+		  (ToTokenProperty name: #'menu-item-start-alignment' value: 28).
 		  (ToTokenProperty name: #'inline-item-gap' value: 7).
 		  (ToTokenProperty
 			   name: #'checkbox-checked-image'

@@ -44,7 +44,6 @@ ToScrollableBarTrackElement >> checkFullyVisibleNodes [
 
 	| invisibleNodes visibleNodes |
 	self isWrapping ifTrue: [ ^ self ].
-	self isScrolling ifTrue: [ ^ self ].
 	self autoDistribute ifTrue: [ ^ self ].
 	invisibleNodes := self nodesSelect: [ :n | 
 		n isFullyVisibleInInnerElement not ].
@@ -57,17 +56,23 @@ ToScrollableBarTrackElement >> configureLayout [
 
 	self layout: self newLayoutStrategy.
 
-	self isWrapping
+	listElement isHFitContent
+		ifTrue: [ self hFitContent ]
+		ifFalse: [ self hMatchParent ].
+
+	listElement isVFitContent
+		ifTrue: [ self vFitContent ]
+		ifFalse: [ self vMatchParent ].
+
+	self autoDistribute
 		ifTrue: [
-			listElement isHFitContent
-				ifTrue: [ self hFitContent ]
-				ifFalse: [ self hMatchParent ].
-			listElement isVFitContent
-				ifTrue: [ self vFitContent ]
-				ifFalse: [ self vMatchParent ] ]
+			self isHorizontal
+				ifTrue: [
+				listElement isHFitContent ifFalse: [ self hMatchParent ] ]
+				ifFalse: [
+				listElement isVFitContent ifFalse: [ self vMatchParent ] ] ]
 		ifFalse: [
-			self fitContent.
-			self isScrolling ifTrue: [
+			(self isWrapping not and: [ self isScrolling ]) ifTrue: [
 				self isHorizontal
 					ifTrue: [ self hFitContent ]
 					ifFalse: [ self vFitContent ] ] ].

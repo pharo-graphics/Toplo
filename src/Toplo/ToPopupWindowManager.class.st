@@ -92,9 +92,10 @@ ToPopupWindowManager >> canCloseWindowAfter: aTimestamp [
 { #category : #'window handling' }
 ToPopupWindowManager >> checkCloseWindowOnPickingEvent: anEvent [
 
-	anEvent consume.
+
 	(self canCloseWindowAfter: anEvent timestamp) ifFalse: [ ^ self ].
 	self autoCloseWindow.
+	anEvent consume.
 
 ]
 

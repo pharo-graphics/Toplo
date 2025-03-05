@@ -93,8 +93,7 @@ TToBarElement >> isScrolling: aBoolean [
 
 	nodeScrolling = aBoolean ifTrue: [ ^ self ].
 	nodeScrolling := aBoolean.
-	self requestInnerConfiguration.
-	self requestNewSkin
+	self requestInnerConfiguration
 ]
 
 { #category : #'t - bar element' }
@@ -108,8 +107,7 @@ TToBarElement >> isWrapping: aBoolean [
 
 	nodeWrapping = aBoolean ifTrue: [ ^ self ].
 	nodeWrapping := aBoolean.
-	self requestInnerConfiguration.
-	self requestNewSkin
+	self requestInnerConfiguration
 ]
 
 { #category : #'t - bar element' }

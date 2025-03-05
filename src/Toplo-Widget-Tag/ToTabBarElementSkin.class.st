@@ -9,11 +9,38 @@ Class {
 }
 
 { #category : #'event handling' }
+ToTabBarElementSkin >> installSelectionTrackIn: aTabBarElement [
+
+	| selTrack |
+	aTabBarElement isWrapping ifTrue: [ ^ self ].
+	selTrack := ToElement new
+		            background:
+			            (aTabBarElement valueOfTokenNamed: #'border-paint');
+		            id: #'selection-track'.
+	selTrack constraintsDo: [ :c | c ignoreByLayout ].
+	aTabBarElement userData at: #'selection-track' put: selTrack.
+	aTabBarElement isHorizontal
+		ifTrue: [
+			selTrack constraintsDo: [ :c |
+				c ignored horizontal alignLeft.
+				c ignored vertical alignBottom ].
+			selTrack height: 2.
+			selTrack hMatchParent ]
+		ifFalse: [
+			selTrack constraintsDo: [ :c |
+				c ignored horizontal alignRight.
+				c ignored vertical alignTop ].
+			selTrack width: 2.
+			selTrack vMatchParent ].
+	aTabBarElement addChild: selTrack
+]
+
+{ #category : #'event handling' }
 ToTabBarElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e clipChildren: false.
+		self installSelectionTrackIn: e.
 		e border: BlBorder empty.
 		" keep the element factory to set them again on skin uninstalling "
 		previousSelectionFactory := e selectionOption elementFactory.
@@ -53,6 +80,9 @@ ToTabBarElementSkin >> uninstallSkinEvent: anEvent [
 
 	super uninstallSkinEvent: anEvent.
 	anEvent elementDo: [ :e | " change the element factory with the original one "
+		e userData removeKey: #'selection-track' ifAbsent: [  ].
+		(e childWithId: #'selection-track' ifNone: [  ]) ifNotNil: [
+			:selTrack | selTrack removeFromParent ].
 		e selectionOption elementFactory: previousSelectionFactory.
 		e secondarySelectionOption elementFactory:
 			previousSecondarySelectionFactory.

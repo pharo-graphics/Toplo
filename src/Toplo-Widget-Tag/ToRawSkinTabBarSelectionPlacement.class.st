@@ -21,11 +21,11 @@ ToRawSkinTabBarSelectionPlacement >> positionElement: aSelectionElement onEvent:
 	tabBar isHorizontal
 		ifTrue: [
 			x := nodeBounds position x.
-			y := tabBar isAtTop
+			y := tabBar isAtStartSide
 				     ifTrue: [ trackBounds position y - aSelectionElement height ]
 				     ifFalse: [ trackBounds position y + aSelectionElement height ] ]
 		ifFalse: [
-			x := tabBar isAtLeft
+			x := tabBar isAtStartSide
 				     ifTrue: [ trackBounds position x - aSelectionElement width ]
 				     ifFalse: [ trackBounds position x + aSelectionElement width ].
 			y := nodeBounds position y ].

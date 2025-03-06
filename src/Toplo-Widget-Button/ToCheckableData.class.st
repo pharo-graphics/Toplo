@@ -6,7 +6,8 @@ Class {
 		'group',
 		'checked',
 		'withIndeterminate',
-		'eventHandler'
+		'eventHandler',
+		'controlLink'
 	],
 	#category : #'Toplo-Widget-Button-Checkable'
 }

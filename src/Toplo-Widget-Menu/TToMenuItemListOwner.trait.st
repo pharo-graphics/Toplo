@@ -65,7 +65,7 @@ TToMenuItemListOwner >> onAddedMenuPane: aMenuPane [
 	self onAddedMenuItem: aMenuPane.
 	aMenuPane isSubPane: true.
 	aMenuPane unselectable: true.
-	self requestInnerConfiguration.
+	self requestNewConfiguration.
 
 ]
 
@@ -111,7 +111,7 @@ TToMenuItemListOwner >> onRemovedMenuPane: aMenuPane [
 		aMenuPane positionInBar.
 	aMenuPane isSubPane: false.
 	self onRemovedMenuItem: aMenuPane.
-	self requestInnerConfiguration.
+	self requestNewConfiguration.
 
 
 ]

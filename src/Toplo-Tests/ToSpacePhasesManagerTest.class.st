@@ -116,7 +116,7 @@ ToSpacePhasesManagerTest >> testNeedInnerConfigurationPass [
 	e := ToElement new.
 	space applyAllInnerConfigurations.
 	self deny: space phasesManager needInnerConfigurationPass.
-	e requestInnerConfiguration.
+	e requestNewConfiguration.
 	space root addChild: e.
 	self assert: space phasesManager needInnerConfigurationPass.
 	space applyAllInnerConfigurations.

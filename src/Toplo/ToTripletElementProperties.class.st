@@ -164,7 +164,7 @@ ToTripletElementProperties >> endAlignment: aNumber [
 
 	endAlignment = aNumber ifTrue: [ ^ self ].
 	endAlignment := aNumber.
-	owner requestInnerConfiguration
+	owner requestNewConfiguration
 ]
 
 { #category : #accessing }
@@ -206,7 +206,7 @@ ToTripletElementProperties >> endFlexible: aBoolean [
 
 	endFlexible = aBoolean ifTrue: [ ^ self ].
 	endFlexible := aBoolean.
-	owner requestInnerConfiguration
+	owner requestNewConfiguration
 ]
 
 { #category : #accessing }
@@ -214,7 +214,7 @@ ToTripletElementProperties >> endInterspace: aNumber [
 
 	endInterspace = aNumber ifTrue: [ ^ self ].
 	endInterspace := aNumber.
-	owner requestInnerConfiguration
+	owner requestNewConfiguration
 ]
 
 { #category : #initialization }
@@ -359,7 +359,7 @@ ToTripletElementProperties >> startAlignment: aNumber [
 
 	startAlignment = aNumber ifTrue: [ ^ self ].
 	startAlignment := aNumber.
-	owner requestInnerConfiguration
+	owner requestNewConfiguration
 ]
 
 { #category : #accessing }
@@ -407,7 +407,7 @@ ToTripletElementProperties >> startFlexible: aBoolean [
 
 	startFlexible = aBoolean ifTrue: [ ^ self ].
 	startFlexible := aBoolean.
-	owner requestInnerConfiguration
+	owner requestNewConfiguration
 ]
 
 { #category : #accessing }
@@ -421,5 +421,5 @@ ToTripletElementProperties >> startInterspace: aNumber [
 
 	startInterspace = aNumber ifTrue: [ ^ self ].
 	startInterspace := aNumber.
-	owner requestInnerConfiguration
+	owner requestNewConfiguration
 ]

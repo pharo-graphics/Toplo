@@ -3,7 +3,7 @@ Class {
 	#superclass : #ToCheckableBarElement,
 	#instVars : [
 		'parentTabsElement',
-		'tabPosition'
+		'atStartSide'
 	],
 	#category : #'Toplo-Widget-Tag-Tab'
 }
@@ -15,6 +15,20 @@ ToTabBarElement >> applyInnerConfiguration [
 	self requestNewSkin
 ]
 
+{ #category : #accessing }
+ToTabBarElement >> atStartSide [
+
+	^ atStartSide
+]
+
+{ #category : #accessing }
+ToTabBarElement >> atStartSide: aBoolean [
+
+	atStartSide = aBoolean ifTrue: [ ^ self ].
+	atStartSide := aBoolean.
+	self requestNewConfiguration 
+]
+
 { #category : #'t - item list - accessing' }
 ToTabBarElement >> defaultNodeManagerClass [
 
@@ -22,40 +36,22 @@ ToTabBarElement >> defaultNodeManagerClass [
 ]
 
 { #category : #initialization }
-ToTabBarElement >> defaultTabPosition [
-
-	^ ToTabAtTop new
-]
-
-{ #category : #initialization }
 ToTabBarElement >> initialize [ 
 
 	super initialize.
-	tabPosition := self defaultTabPosition
+	atStartSide := true
 ]
 
 { #category : #testing }
-ToTabBarElement >> isAtBottom [
+ToTabBarElement >> isAtEndSide [ 
 
-	^ tabPosition isAtBottom
+	^ self isAtStartSide not
 ]
 
 { #category : #testing }
-ToTabBarElement >> isAtLeft [
+ToTabBarElement >> isAtStartSide [
 
-	^ tabPosition isAtLeft
-]
-
-{ #category : #testing }
-ToTabBarElement >> isAtRight [
-
-	^ tabPosition isAtRight
-]
-
-{ #category : #testing }
-ToTabBarElement >> isAtTop [
-
-	^ tabPosition isAtTop
+	^ atStartSide
 ]
 
 { #category : #skin }
@@ -75,18 +71,4 @@ ToTabBarElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleN
 ToTabBarElement >> parentTabsElement: anObject [
 
 	parentTabsElement := anObject
-]
-
-{ #category : #accessing }
-ToTabBarElement >> tabPosition [
-
-	^ tabPosition
-]
-
-{ #category : #accessing }
-ToTabBarElement >> tabPosition: aTabPosition [
-
-	aTabPosition = tabPosition ifTrue: [ ^ self ].
-	tabPosition := aTabPosition.
-	self requestInnerConfiguration 
 ]

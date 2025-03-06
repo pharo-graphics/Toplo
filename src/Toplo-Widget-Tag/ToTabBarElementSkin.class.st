@@ -25,7 +25,7 @@ ToTabBarElementSkin >> installSelectionTrackIn: aTabBarElement [
 		selTrack constraintsDo: [ :c | c ignored horizontal alignLeft ].
 		selTrack height: 2.
 		selTrack hMatchParent.
-		aTabBarElement isAtTop
+		aTabBarElement isAtStartSide
 			ifTrue: [
 			selTrack constraintsDo: [ :c | c ignored vertical alignBottom ] ]
 			ifFalse: [
@@ -35,7 +35,7 @@ ToTabBarElementSkin >> installSelectionTrackIn: aTabBarElement [
 		selTrack constraintsDo: [ :c | c ignored vertical alignTop ].
 		selTrack width: 2.
 		selTrack vMatchParent.
-		aTabBarElement isAtLeft
+		aTabBarElement isAtStartSide
 			ifTrue: [
 			selTrack constraintsDo: [ :c | c ignored horizontal alignRight ] ]
 			ifFalse: [

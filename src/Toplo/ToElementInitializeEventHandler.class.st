@@ -22,7 +22,7 @@ ToElementInitializeEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 	addedToSceneGraph ifTrue: [ ^ self ].
 	addedToSceneGraph := true.
 	target := anEvent currentTarget.
-	target requestInnerConfiguration.
+	target requestNewConfiguration.
 	target spaceDo: [ :sp |
 		sp checkToploPhases.
 		sp needInnerConfigurationPass: true ].

@@ -6,7 +6,8 @@ Class {
 	#instVars : [
 		'invisibleNodes',
 		'visibleNodes',
-		'nodeMenu'
+		'nodeMenu',
+		'atStartSide'
 	],
 	#category : #'Toplo-Widget-Tag-Tab'
 }
@@ -16,10 +17,8 @@ ToTabsElement >> applyInnerConfiguration [
 
 	super applyInnerConfiguration.
 	self itemBar horizontal: self isHorizontal.
-	self isHorizontal
-		ifTrue: [ self itemBar tabPosition: ToTabAtTop new ]
-		ifFalse: [ self itemBar tabPosition: ToTabAtLeft new ].
-	self itemBar matchParent.
+	self itemBar atStartSide: atStartSide.
+	self itemBar matchParent. 
 	self isHFitContent
 		ifTrue: [
 			self middleContainer hFitContent.
@@ -34,7 +33,21 @@ ToTabsElement >> applyInnerConfiguration [
 		ifFalse: [
 			self middleContainer vMatchParent.
 			self itemBar vMatchParent ].
-	self itemBar requestInnerConfiguration
+	self itemBar requestNewConfiguration
+]
+
+{ #category : #accessing }
+ToTabsElement >> atStartSide [
+
+	^ atStartSide
+]
+
+{ #category : #accessing }
+ToTabsElement >> atStartSide: aBoolean [
+
+	atStartSide = aBoolean ifTrue: [ ^ self ].
+	atStartSide := aBoolean.
+	self requestNewConfiguration
 ]
 
 { #category : #'event handling' }
@@ -108,7 +121,10 @@ ToTabsElement >> initialize [
 	super initialize.
 	self initializeAsItemBarOwner.
 	
+	atStartSide := true.
+	
 	self middleElement: self itemBar.
+	
 	self group
 		addEventHandlerOn: ToCheckableGroupChangedEvent
 		do: [ :event | self dispatchEvent: event ].
@@ -124,6 +140,18 @@ ToTabsElement >> initialize [
 ToTabsElement >> invisibleNodes [ 
 
 	^ invisibleNodes 
+]
+
+{ #category : #testing }
+ToTabsElement >> isAtEndSide [ 
+
+	^ self isAtStartSide not
+]
+
+{ #category : #testing }
+ToTabsElement >> isAtStartSide [
+
+	^ atStartSide
 ]
 
 { #category : #'t - item list owner - accessing' }
@@ -156,6 +184,12 @@ ToTabsElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNod
 ToTabsElement >> selecter [
 
 	^ self itemBar selecter
+]
+
+{ #category : #accessing }
+ToTabsElement >> selectionMode [
+
+	^ self itemBar selectionMode
 ]
 
 { #category : #'event handling' }

@@ -132,6 +132,12 @@ TToCheckable >> isUnchecked [
 	^ self checkableData  isUnchecked
 ]
 
+{ #category : #'t - checkable - accessing' }
+TToCheckable >> linkClass [
+
+	^ ToCheckableLink
+]
+
 { #category : #'t - checkable  - protocol' }
 TToCheckable >> newCheckableEventHandler [
 

@@ -1,21 +1,21 @@
 Class {
 	#name : #ToCheckableLink,
-	#superclass : #ToWidgetWithModelLink,
+	#superclass : #ToPropertyLink,
 	#category : #'Toplo-Core-Properties'
 }
 
 { #category : #initialization }
-ToCheckableLink >> configureToUpdateModel: aModel fromWidget: aControlWidget [
+ToCheckableLink >> configureToUpdate: aCheckable fromModel: aModel [
 
-	aControlWidget
-		addEventHandlerOn: ToCheckableCheckEvent
-		do: [ :event | self write: event current to: aModel ]
+	aCheckable
+		addEventHandlerOn: BlElementAddedToSceneGraphEvent 
+		do: [ :event | aCheckable checked: (self read: aModel) ]
 ]
 
 { #category : #initialization }
-ToCheckableLink >> configureToUpdateWidget: aControlWidget fromModel: aModel [
+ToCheckableLink >> configureToUpdateModel: aModel from: aCheckable [
 
-	aControlWidget
-		addEventHandlerOn: BlElementAddedToSceneGraphEvent 
-		do: [ :event | aControlWidget checked: (self read: aModel) ]
+	aCheckable
+		addEventHandlerOn: ToCheckableCheckEvent
+		do: [ :event | self applyChangeOn: aModel with: event current ]
 ]

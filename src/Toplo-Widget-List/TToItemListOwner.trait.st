@@ -320,6 +320,12 @@ TToItemListOwner >> secondarySelectionModel [
 	^ self itemList secondarySelectionModel
 ]
 
+{ #category : #'t - item list owner - accessing' }
+TToItemListOwner >> secondarySelectionOption [
+
+	^ self itemBar secondarySelectionOption
+]
+
 { #category : #'t - item list owner - unselectable/selectable' }
 TToItemListOwner >> selectableAtPosition: anInteger [
 
@@ -336,6 +342,18 @@ TToItemListOwner >> selectableItem: anItem [
 TToItemListOwner >> selectedAtPosition: anInteger [
 
 	self itemBar selectedAtPosition: anInteger
+]
+
+{ #category : #'t - item list owner - accessing' }
+TToItemListOwner >> selecter [
+
+	^ self itemBar selecter
+]
+
+{ #category : #'t - item list owner - accessing' }
+TToItemListOwner >> selectionMode [
+
+	^ self itemBar selectionMode
 ]
 
 { #category : #'t - item list owner - accessing' }

@@ -154,10 +154,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	confPane addChild: menu.
 
 	verticalSwitch := ToSwitchButton new labelText: 'Vertical'.
-	verticalSwitch
-		linkFeatureName: #isVertical
-		writerName: #vertical:
-		with: aBar.
+	verticalSwitch newModelLinkWith: aBar reader: #isVertical writer: #vertical:.
 	verticalSwitch startFlexible: true.
 	verticalSwitch hMatchParent.
 	confPane addChild: verticalSwitch.
@@ -170,8 +167,8 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	uniformNodeWidthSwitch := ToSwitchButton new labelText:
 		                          'Uniform width'.
 	uniformNodeWidthSwitch
-		linkFeatureName: #hasUniformNodeWidth
-		with: aBar.
+		newModelLinkWith: aBar
+		feature: #hasUniformNodeWidth.
 	uniformNodeWidthSwitch startFlexible: true.
 	uniformNodeWidthSwitch hMatchParent.
 	confPane addChild: uniformNodeWidthSwitch.
@@ -181,38 +178,41 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	uniformNodeHeightSwitch startFlexible: true.
 	uniformNodeHeightSwitch hMatchParent.
 	uniformNodeHeightSwitch
-		linkFeatureName: #hasUniformNodeHeight
-		with: aBar.
+		newModelLinkWith: aBar
+		feature: #hasUniformNodeHeight.
 	confPane addChild: uniformNodeHeightSwitch.
 
 	scrollingSwitch := ToSwitchButton new labelText: 'Scrolling'.
 	scrollingSwitch startFlexible: true.
-	scrollingSwitch linkFeatureName: #isScrolling with: aBar.
+	scrollingSwitch newModelLinkWith: aBar feature: #isScrolling.
+
 	scrollingSwitch hMatchParent.
 	confPane addChild: scrollingSwitch.
 
-	link := wrappingSwitch linkFeatureName: #isWrapping with: aBar.
+	link := wrappingSwitch newModelLinkWith: aBar feature: #isWrapping.
 	link onModelValueChangedDo: [ :v | scrollingSwitch disabled: v ].
 
 	autoDistributionSwitch := ToSwitchButton new labelText:
 		                          'Auto-distribution'.
-	autoDistributionSwitch linkFeatureName: #autoDistribute with: aBar.
+	autoDistributionSwitch
+		newModelLinkWith: aBar
+		feature: #autoDistribute.
 	autoDistributionSwitch startFlexible: true.
 	autoDistributionSwitch hMatchParent.
 	confPane addChild: autoDistributionSwitch.
 
 	selectionAnimationSwitch := ToSwitchButton new labelText:
-		                            'Animate selection transition'.
-	selectionAnimationSwitch
-		linkReader: [ :m | m selectionOption isAnimated ]
-		writer: [ :m :v |
+		                            'Animate transition'.
+	ToCheckableActionLink new
+		link: selectionAnimationSwitch
+		withModel: aBar
+		action: [ :m :v |
 			m selectionOption animationDuration: (v
 					 ifTrue: [ 200 milliSeconds ]
 					 ifFalse: [ 0 milliSeconds ]).
-			m secondarySelectionMode selectionOption animationDuration: (v
+			m secondarySelectionOption animationDuration: (v
 					 ifTrue: [ 150 milliSeconds ]
-					 ifFalse: [ 0 milliSeconds ]) ]
-		with: aBar.
+					 ifFalse: [ 0 milliSeconds ]) ].
 	selectionAnimationSwitch startFlexible: true.
 	selectionAnimationSwitch hMatchParent.
 	confPane addChild: selectionAnimationSwitch.
@@ -220,7 +220,10 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	selectOnPressedSwitch := ToSwitchButton new
 		                         labelText: 'Select on node pressed';
 		                         id: #selectOnPressedSwitch.
-	selectOnPressedSwitch linkFeatureName: #selectOnPressed with: aBar selectionMode.	
+	selectOnPressedSwitch
+		newModelLinkWith: aBar selectionMode
+		feature: #selectOnPressed.
+
 	selectOnPressedSwitch startFlexible: true.
 	selectOnPressedSwitch hMatchParent.
 	confPane addChild: selectOnPressedSwitch.
@@ -228,7 +231,10 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	deselectOnPressedSwitch := ToSwitchButton new
 		                           labelText: 'Deselect on node pressed';
 		                           id: #deselectOnPressedSwitch.
-	deselectOnPressedSwitch linkFeatureName: #deselectOnPressed with: aBar selectionMode.	
+	deselectOnPressedSwitch
+		newModelLinkWith: aBar selectionMode
+		feature: #deselectOnPressed.
+
 	deselectOnPressedSwitch startFlexible: true.
 	deselectOnPressedSwitch hMatchParent.
 
@@ -237,7 +243,10 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 			                                  'Make disabled unselectable';
 		                                  id:
 			                                  #makeDisabledUnselectableSwitch.
-	makeDisabledUnselectableSwitch linkFeatureName: #makeDisabledUnselectable with: aBar selectionMode.	
+	makeDisabledUnselectableSwitch
+		newModelLinkWith: aBar selectionMode
+		feature: #makeDisabledUnselectable.
+
 	makeDisabledUnselectableSwitch startFlexible: true.
 	makeDisabledUnselectableSwitch hMatchParent.
 
@@ -453,25 +462,25 @@ ToSandBox class >> checkingStrategyChooserFor: aCheckableBar [
 	| buttons checkingStrategyContainer checkingStrategyGroup |
 	checkingStrategyGroup := ToCheckableGroup new.
 	buttons := OrderedCollection new.
-	{ #Strict. #Weak. #None } do: [ :mode |
+	{
+		(#Strict -> #withStrictCheckingStrategy).
+		(#Weak -> #withWeakCheckingStrategy).
+		(#None -> #withoutCheckingStrategy) } do: [ :modeAssoc |
 		| chb |
 		chb := ToCheckbox new
-			       labelText: mode asString;
-			       id: mode.
+			       labelText: modeAssoc key asString;
+			       id: modeAssoc value.
 		buttons add: chb ].
 
 	checkingStrategyGroup registerAll: buttons.
-	checkingStrategyGroup addEventHandler: (BlEventHandler
-			 on: ToCheckableGroupChangedEvent
-			 do: [ :event |
-				 | mode |
-				 mode := event checkedList first id asSymbol.
-				 mode = #Strict
-					 ifTrue: [ aCheckableBar withStrictCheckingStrategy ]
-					 ifFalse: [
-						 mode = #Weak
-							 ifTrue: [ aCheckableBar withWeakCheckingStrategy ]
-							 ifFalse: [ aCheckableBar withoutCheckingStrategy ] ] ]).
+	ToCheckableGroupActionLink new
+		link: checkingStrategyGroup
+		withModel: aCheckableBar
+		action: [ :model :checkedList |
+			| message | 
+			message := checkedList first id asSymbol.
+			model perform: message ].
+
 	buttons first checked: true.
 	checkingStrategyContainer := ToPane vertical.
 	checkingStrategyContainer hMatchParent.
@@ -1341,7 +1350,7 @@ ToSandBox class >> example_CodeEditor [
 	inspectBtn := ToMenuItem new labelText: 'Inspect'.
 	showStatisticsBtn := ToMenuItem new labelText: 'Statistics'.
 	disabox := ToCheckMenuItem new label: (ToLabel text: 'Disable').
-	disabox linkFeatureName: #isDisabled writerName: #disabled: with: album.
+	disabox newModelLinkWith: album reader: #isDisabled writer: #disabled:.
 
 	menuPane := ToMenuPane new.
 	menuPane hMatchParent.
@@ -3513,12 +3522,20 @@ ToSandBox class >> example_TabsElement2 [
 { #category : #tag }
 ToSandBox class >> example_TagBar [
 
-	| tb |
+	| tb dashBoard rootPane |
 	tb := ToTagBarElement new.
 	tb horizontal: true.
 	tb dataAccessor addAll: (ToSandBox statesOfAmerica collect: [ :s |
 			 ToSingleTag new data: s ]).
-	tb openInSpace
+	dashBoard := self barConfigurationBoardFor: tb.
+	rootPane := ToPane horizontal.
+	rootPane padding: (BlInsets all: 5).
+	rootPane matchParent.
+
+	rootPane addChild: dashBoard.
+	rootPane addChild: tb.
+	rootPane addDividers.
+	rootPane openInSpace
 ]
 
 { #category : #select }
@@ -8421,7 +8438,8 @@ ToSandBox class >> tabsElementDashBoardFor: aTabsElement [
 	(confPane childWithId: #deselectOnPressedSwitch) disable.
 
 	startToEndSwitch := ToSwitchButton new labelText: 'At start'.
-	startToEndSwitch linkFeatureName: #atStartSide with: aTabsElement.
+	startToEndSwitch newModelLinkWith: aTabsElement feature: #atStartSide.
+
 	startToEndSwitch startFlexible: true.
 	startToEndSwitch hMatchParent.
 	confPane addChild: startToEndSwitch.

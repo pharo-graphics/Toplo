@@ -180,18 +180,6 @@ ToTabsElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNod
 
 ]
 
-{ #category : #accessing }
-ToTabsElement >> selecter [
-
-	^ self itemBar selecter
-]
-
-{ #category : #accessing }
-ToTabsElement >> selectionMode [
-
-	^ self itemBar selectionMode
-]
-
 { #category : #'event handling' }
 ToTabsElement >> showNodeMenu: aBoolean [
 

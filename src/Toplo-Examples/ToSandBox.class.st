@@ -469,17 +469,15 @@ ToSandBox class >> checkingStrategyChooserFor: aCheckableBar [
 		| chb |
 		chb := ToCheckbox new
 			       labelText: modeAssoc key asString;
-			       id: modeAssoc value.
-		buttons add: chb ].
+			       yourself.
+		buttons add: chb.
+		chb newModelLinkWith: aCheckableBar action: [ :bar :value |
+			value ifTrue: [
+				| message |
+				message := modeAssoc value.
+				bar perform: message ] ] ].
 
 	checkingStrategyGroup registerAll: buttons.
-	ToCheckableGroupActionLink new
-		link: checkingStrategyGroup
-		withModel: aCheckableBar
-		action: [ :model :checkedList |
-			| message | 
-			message := checkedList first id asSymbol.
-			model perform: message ].
 
 	buttons first checked: true.
 	checkingStrategyContainer := ToPane vertical.
@@ -8141,7 +8139,7 @@ ToSandBox class >> resizerBoardFor: aBar [
 
 	| pane group buttons container |
 	pane := ToPane horizontal.
-	{ #horizontal. #vertical } do: [ :dir |
+	{ #Horizontal. #Vertical } do: [ :dir |
 		| sizeInputPane sizeInput |
 		sizeInputPane := ToPane horizontal.
 		sizeInputPane layout cellSpacing: 5.
@@ -8154,7 +8152,7 @@ ToSandBox class >> resizerBoardFor: aBar [
 			             yourself.
 
 		aBar addEventHandlerOn: BlElementExtentChangedEvent do: [ :event |
-			dir = #horizontal
+			dir = #Horizontal
 				ifTrue: [ sizeInput text: aBar width asString ]
 				ifFalse: [ sizeInput text: aBar height asString ] ].
 
@@ -8163,7 +8161,7 @@ ToSandBox class >> resizerBoardFor: aBar [
 			size := saveRequested editorElement text asString asInteger.
 			size ifNotNil: [
 				saveRequested accepted: true.
-				dir = #horizontal
+				dir = #Horizontal
 					ifTrue: [ aBar hExact: size ]
 					ifFalse: [ aBar vExact: size ] ] ].
 
@@ -8173,32 +8171,31 @@ ToSandBox class >> resizerBoardFor: aBar [
 
 		group := ToCheckableGroup new.
 		buttons := OrderedCollection new.
-		{ #MatchParent. #FitContent. #Exact } do: [ :r |
+		
+		{ #MatchParent. #FitContent. #Exact } do: [ :mode |
 			| cbox |
 			cbox := ToCheckbox new
-				        labelText: r asString;
-				        id: r.
-			buttons add: cbox ].
-			
+				        labelText: mode asString;
+				        yourself.
+			buttons add: cbox.
+			cbox newModelLinkWith: aBar action: [ :bar :value |
+			value ifTrue: [
+				sizeInputPane enabled: false.
+				mode = #MatchParent
+					ifTrue: [
+						dir = #Horizontal
+							ifTrue: [ bar hMatchParent ]
+							ifFalse: [ bar vMatchParent ] ]
+					ifFalse: [
+						mode = #FitContent
+							ifTrue: [
+								dir = #Horizontal
+									ifTrue: [ bar hFitContent ]
+									ifFalse: [ bar vFitContent ] ]
+							ifFalse: [ sizeInputPane enabled: true ] ] ] ] ].
+
 		group registerAll: buttons.
-		group addEventHandler: (BlEventHandler
-				 on: ToCheckableGroupChangedEvent
-				 do: [ :event |
-					 | mode |
-					 sizeInputPane enabled: false.
-					 mode := event checkedList first id asSymbol.
-					 mode = #MatchParent
-						 ifTrue: [
-							 dir = #horizontal
-								 ifTrue: [ aBar hMatchParent ]
-								 ifFalse: [ aBar vMatchParent ] ]
-						 ifFalse: [
-							 mode = #FitContent
-								 ifTrue: [
-									 dir = #horizontal
-										 ifTrue: [ aBar hFitContent ]
-										 ifFalse: [ aBar vFitContent ] ]
-								 ifFalse: [ sizeInputPane enabled: true ] ] ]).
+
 		buttons second checked: true.
 		container := ToPane vertical.
 		container border: Color lightGray.
@@ -8293,29 +8290,28 @@ ToSandBox class >> selectableLabeledIconlWithIconAndText [
 { #category : #bar }
 ToSandBox class >> selectionModeChooserFor: aBar [
 
-	| selectionModeGroup buttons selectionModeContainer |
+	| selectionModeGroup selectionModeContainer |
 	selectionModeGroup := ToCheckableGroup new.
-	buttons := OrderedCollection new.
-	{ #Multiple. #Single. #Disabled } do: [ :mode |
+	{
+		(#Multiple -> #multiple:).
+		(#Single -> #single:).
+		(#Disabled -> nil) } do: [ :modeAssoc |
 		| chb |
 		chb := ToCheckbox new
-			       labelText: mode asString;
-			       id: mode.
-		buttons add: chb ].
+			       labelText: modeAssoc key asString;
+			       yourself.
+		selectionModeGroup register: chb.
+		chb
+			newModelLinkWith: aBar primarySelectionMode
+			action: [ :selMode :value |
+				value ifTrue: [
+					| chosen |
+					chosen := modeAssoc key.
+					selMode enabled: chosen ~= #Disabled.
+					modeAssoc value ifNotNil: [ :message |
+						selMode perform: message asSymbol with: true ] ] ] ].
 
-	selectionModeGroup registerAll: buttons.
-	selectionModeGroup addEventHandler: (BlEventHandler
-			 on: ToCheckableGroupChangedEvent
-			 do: [ :event |
-				 | mode |
-				 mode := event checkedList first id asSymbol.
-				 aBar primarySelectionMode enabled: mode ~= #Disabled.
-				 mode = #Multiple
-					 ifTrue: [ aBar primarySelectionMode multiple: true ]
-					 ifFalse: [
-						 mode = #Single ifTrue: [
-							 aBar primarySelectionMode multiple: false ] ] ]).
-	buttons first checked: true.
+	selectionModeGroup registeredCheckables first checked: true.
 	selectionModeContainer := ToPane vertical.
 	selectionModeContainer border: Color lightGray.
 	selectionModeContainer padding: (BlInsets all: 2).

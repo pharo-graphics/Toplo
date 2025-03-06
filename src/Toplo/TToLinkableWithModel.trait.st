@@ -4,15 +4,24 @@ Trait {
 }
 
 { #category : #'t - linkableWithModel' }
-TToLinkableWithModel >> newModelLink [
+TToLinkableWithModel >> newActionLink [
 
-	^ self linkClass new
+	^ self actionLinkClass new
+]
+
+{ #category : #'t - linkableWithModel' }
+TToLinkableWithModel >> newModelLinkWith: aModel action: aValuable [ 
+
+	^ self newActionLink
+		  link: self
+		  withModel: aModel
+		  action: aValuable
 ]
 
 { #category : #'t - linkableWithModel' }
 TToLinkableWithModel >> newModelLinkWith: aModel feature: aFeatureName [
 
-	^ self newModelLink
+	^ self newPropertyLink
 		  link: self
 		  withModel: aModel
 		  reader: aFeatureName asSymbol
@@ -22,9 +31,15 @@ TToLinkableWithModel >> newModelLinkWith: aModel feature: aFeatureName [
 { #category : #'t - linkableWithModel' }
 TToLinkableWithModel >> newModelLinkWith: aModel reader: aReader writer: aWriter [
 
-	^ self newModelLink
+	^ self newPropertyLink
 		  link: self
 		  withModel: aModel
 		  reader: aReader
 		  writer: aWriter
+]
+
+{ #category : #'t - linkableWithModel' }
+TToLinkableWithModel >> newPropertyLink [
+
+	^ self propertyLinkClass new
 ]

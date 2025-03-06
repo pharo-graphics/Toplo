@@ -219,3 +219,9 @@ ToListPrimarySelectionMode >> selectionChangedEventClass [
 
 	^ ToListPrimarySelectionChangedEvent
 ]
+
+{ #category : #accessing }
+ToListPrimarySelectionMode >> single: aBoolean [
+
+	self multiple: aBoolean not
+]

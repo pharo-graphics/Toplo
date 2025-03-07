@@ -62,7 +62,7 @@ ToTabBarElementSkin >> installSkinEvent: anEvent [
 						 tabBar: e;
 						 yourself);
 				measurement: (ToRawSkinTabBarSelectionMeasurement new
-						 width: 4;
+						 width: 2;
 						 tabBar: e;
 						 yourself) ].
 		e secondarySelectionOption elementFactory: [

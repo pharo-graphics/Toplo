@@ -4,18 +4,28 @@ A ToStyleSheetTest is a test class for testing the behavior of ToStyleSheet
 Class {
 	#name : #ToStyleSheetApplicationTest,
 	#superclass : #ToTestCaseWithSpace,
+	#instVars : [
+		'styleSheet',
+		'theme'
+	],
 	#category : #'Toplo-Tests-Core-StyleSheet'
 }
 
-{ #category : #tests }
-ToStyleSheetApplicationTest >> testButtonLabelSkin0 [
+{ #category : #running }
+ToStyleSheetApplicationTest >> setUp [
 
-	| styleSheet button labelSkin attributes foregroundAttr prop writers label theme |
-	" declare a local only stylesheet "
+	super setUp.
 	styleSheet := ToStyleSheet new
 		              inherits: false;
 		              yourself.
 	theme := ToStyleSheetTheme new.
+]
+
+{ #category : #tests }
+ToStyleSheetApplicationTest >> testButtonLabelSkin0 [
+
+	| button labelSkin attributes foregroundAttr prop writers label |
+	" declare a local only stylesheet "
 	prop := ToPseudoProperty new name: #'text-attributes'.
 	prop writer: [ :e :v |
 		e text attributes:
@@ -82,12 +92,7 @@ ToStyleSheetApplicationTest >> testButtonLabelSkin0 [
 { #category : #tests }
 ToStyleSheetApplicationTest >> testButtonSkin0 [
 
-	| styleSheet button skin labelSkin attributes foregroundAttr writers label theme nb |
-	styleSheet := ToStyleSheet new
-		              inherits: false;
-		              yourself.
-	theme := ToStyleSheetTheme new.
-
+	| button skin labelSkin attributes foregroundAttr writers label nb |
 	" default button rule "
 	styleSheet
 		select: (ToStampSelector new addStamp: #button)
@@ -200,17 +205,12 @@ ToStyleSheetApplicationTest >> testButtonSkin0 [
 { #category : #tests }
 ToStyleSheetApplicationTest >> testButtonSkinWithInterspace [
 
-	| elem writers skin interspaceProp layoutProp theme styleSheet |
-	theme := ToStyleSheetTheme new.
+	| elem writers skin interspaceProp layoutProp |
 	interspaceProp := ToPseudoProperty
 		                  name: #'layout-interspace'
 		                  reader: [ :e | e layout startInterspace ]
 		                  writer: [ :e :v | e layout interspace: v ].
 	layoutProp := ToFeatureProperty name: #layout.
-
-	styleSheet := ToStyleSheet new
-		              inherits: false;
-		              yourself.
 
 	styleSheet
 		select: (ToStampSelector new addStamp: #button)
@@ -238,22 +238,13 @@ ToStyleSheetApplicationTest >> testButtonSkinWithInterspace [
 { #category : #tests }
 ToStyleSheetApplicationTest >> testEmptyStyleSheet [
 
-	| ss ssi |
-	ss := ToStyleSheet new inherits: false; yourself.
-	ssi := ToStyleSheetTheme new.
-	self assert: (ssi applicableListenersFor: (ToElement new)) isEmpty
+	self assert: (theme applicableListenersFor: ToElement new) isEmpty
 ]
 
 { #category : #tests }
 ToStyleSheetApplicationTest >> testSkinWith2SkinEventActionOnSameSkinEventEvent [
 
-	| elem listeners skin styleSheet theme |
-	styleSheet := ToStyleSheet new
-		              inherits: false;
-		              yourself.
-
-	theme := ToStyleSheetTheme new.
-
+	| elem listeners skin |
 	" here the border should be blue because only the last one is applied (for the same event) "
 	styleSheet select: (ToIdSelector new id: #a) style: [ :sr |
 		sr
@@ -281,11 +272,7 @@ ToStyleSheetApplicationTest >> testSkinWith2SkinEventActionOnSameSkinEventEvent 
 { #category : #tests }
 ToStyleSheetApplicationTest >> testSkinWithAnUniversalRule [
 
-	| styleSheet elem skin writers theme |
-	styleSheet := ToStyleSheet new
-		              inherits: false;
-		              yourself.
-	theme := ToStyleSheetTheme new.
+	| elem skin writers |
 
 	styleSheet select: ToUniversalSelector new style: [ :sr |
 		sr
@@ -308,12 +295,7 @@ ToStyleSheetApplicationTest >> testSkinWithAnUniversalRule [
 ToStyleSheetApplicationTest >> testSkinWithChildRule [
 	" with a direct child "
 
-	| skin parent child writers theme styleSheet |
-	styleSheet := ToStyleSheet new
-		              inherits: false;
-		              yourself.
-
-	theme := ToStyleSheetTheme new.
+	| skin parent child writers|
 
 	styleSheet
 		select: ((ToIdSelector new id: #child) withParent:
@@ -350,12 +332,7 @@ ToStyleSheetApplicationTest >> testSkinWithChildRule [
 ToStyleSheetApplicationTest >> testSkinWithChildRule2 [
 	" with a direct child "
 
-	| skin parent child writers subParent styleSheet theme |
-	styleSheet := ToStyleSheet new
-		              inherits: false;
-		              yourself.
-
-	theme := ToStyleSheetTheme new.
+	| skin parent child writers subParent |
 
 	styleSheet
 		select: ((ToIdSelector new id: #child)
@@ -392,12 +369,7 @@ ToStyleSheetApplicationTest >> testSkinWithChildRule2 [
 { #category : #tests }
 ToStyleSheetApplicationTest >> testSkinWithIdRule [
 
-	| elem writers skin styleSheet theme |
-	styleSheet := ToStyleSheet new
-		              inherits: false;
-		              yourself.
-
-	theme := ToStyleSheetTheme new.
+	| elem writers skin |
 
 	styleSheet select: (ToIdSelector new id: #a) style: [ :sr |
 		sr
@@ -424,12 +396,7 @@ ToStyleSheetApplicationTest >> testSkinWithIdRule [
 { #category : #tests }
 ToStyleSheetApplicationTest >> testSkinWithSkinEventAction [
 
-	| elem listeners skin styleSheet theme |
-	styleSheet := ToStyleSheet new
-		              inherits: false;
-		              yourself.
-
-	theme := ToStyleSheetTheme new.
+	| elem listeners skin |
 
 	styleSheet select: (ToIdSelector new id: #a) style: [ :sr |
 		sr do: [ :e | e border: (BlBorder paint: Color red width: 3) ] ].
@@ -454,12 +421,7 @@ ToStyleSheetApplicationTest >> testSkinWithSkinEventAction [
 { #category : #tests }
 ToStyleSheetApplicationTest >> testSkinWithSkinEventAction2 [
 
-	| elem listeners skin styleSheet theme |
-	styleSheet := ToStyleSheet new
-		              inherits: false;
-		              yourself.
-
-	theme := ToStyleSheetTheme new.
+	| elem listeners skin |
 
 	styleSheet select: (ToIdSelector new id: #a) style: [ :sr |
 		sr
@@ -486,12 +448,7 @@ ToStyleSheetApplicationTest >> testSkinWithSkinEventAction2 [
 { #category : #tests }
 ToStyleSheetApplicationTest >> testSkinWithSkinEventActionMixedWithWriter [
 
-	| elem listeners skin styleSheet theme |
-	styleSheet := ToStyleSheet new
-		              inherits: false;
-		              yourself.
-
-	theme := ToStyleSheetTheme new.
+	| elem listeners skin |
 
 	" here the border should be blue even the skinEventAction is added after "
 	styleSheet select: (ToIdSelector new id: #a) style: [ :sr |
@@ -522,12 +479,7 @@ ToStyleSheetApplicationTest >> testSkinWithSkinEventActionMixedWithWriter [
 { #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyle0 [
 
-	| button skin writers styleSheet theme |
-	styleSheet := ToStyleSheet new
-		              inherits: false;
-		              yourself.
-
-	theme := ToStyleSheetTheme new.
+	| button skin writers |
 
 	styleSheet select: #button asStampSelector style: [ :sr |
 		sr write: (styleSheet property: #background) with: Color white.
@@ -558,12 +510,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyle0 [
 { #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules0 [
 
-	| button skin writers styleSheet theme |
-	styleSheet := ToStyleSheet new
-		              inherits: false;
-		              yourself.
-
-	theme := ToStyleSheetTheme new.
+	| button skin writers |
 
 	styleSheet select: #button asStampSelector style: [ :sr |
 		sr select: #danger asStampSelector style: [
@@ -595,13 +542,11 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules0 [
 	button skinManager applySkinReinstallIn: button.
 	self assert: button background paint isColorPaint.
 	self assert: button background paint color equals: Color black.
-	
+
 	button disabled: true.
 	space applyAllSkinPhases.
 	self assert: button background paint isColorPaint.
-	self
-		assert: button background paint color
-		equals: (Color yellow).
+	self assert: button background paint color equals: Color yellow.
 
 	button disabled: false.
 	button addStamp: #danger.
@@ -625,11 +570,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules0 [
 { #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules1 [
 
-	| elem child childchild1 childchild2 skin writers styleSheet theme |
-	styleSheet := ToStyleSheet new
-		              inherits: false;
-		              yourself.
-	theme := ToStyleSheetTheme new.
+	| elem child childchild1 childchild2 skin writers |
 
 	elem := ToElement new addStamp: #elem.
 	space root addChild: elem.
@@ -670,11 +611,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules1 [
 { #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules2 [
 
-	| elem child childchild1 childchild2 skin writers styleSheet theme |
-	styleSheet := ToStyleSheet new
-		              inherits: false;
-		              yourself.
-	theme := ToStyleSheetTheme new.
+	| elem child childchild1 childchild2 skin writers |
 
 	elem := ToElement new addStamp: #elem.
 	space root addChild: elem.
@@ -720,11 +657,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules2 [
 { #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules22 [
 
-	| elem child childchild1 childchild2 skin writers styleSheet theme |
-	styleSheet := ToStyleSheet new
-		              inherits: false;
-		              yourself.
-	theme := ToStyleSheetTheme new.
+	| elem child childchild1 childchild2 skin writers |
 
 	elem := ToElement new addAllStamps: #( elem #red ).
 	space root addChild: elem.
@@ -770,11 +703,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules22 [
 { #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules3 [
 
-	| elem child childchild1 childchild2 skin writers styleSheet theme |
-	styleSheet := ToStyleSheet new
-		              inherits: false;
-		              yourself.
-	theme := ToStyleSheetTheme new.
+	| elem child childchild1 childchild2 skin writers |
 
 	elem := ToElement new addAllStamps: #( elem #red ).
 	space root addChild: elem.
@@ -821,11 +750,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules3 [
 { #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules32 [
 
-	| elem child childchild1 childchild2 skin writers styleSheet theme |
-	styleSheet := ToStyleSheet new
-		              inherits: false;
-		              yourself.
-	theme := ToStyleSheetTheme new.
+	| elem child childchild1 childchild2 skin writers |
 
 	elem := ToElement new addAllStamps: #( elem #red ).
 	space root addChild: elem.
@@ -872,11 +797,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules32 [
 { #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules33 [
 
-	| elem child childchild1 childchild2 skin writers styleSheet theme |
-	styleSheet := ToStyleSheet new
-		              inherits: false;
-		              yourself.
-	theme := ToStyleSheetTheme new.
+	| elem child childchild1 childchild2 skin writers |
 
 	elem := ToElement new addAllStamps: #( elem #red ).
 	space root addChild: elem.
@@ -926,11 +847,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules33 [
 { #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules1 [
 
-	| elem child childchild1 childchild2 skin writers styleSheet theme |
-	styleSheet := ToStyleSheet new
-		              inherits: false;
-		              yourself.
-	theme := ToStyleSheetTheme new.
+	| elem child childchild1 childchild2 skin writers |
 
 	elem := ToElement new addStamp: #elem.
 	space root addChild: elem.
@@ -964,11 +881,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules1 [
 { #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules2 [
 
-	| elem child childchild1 childchild2 skin writers styleSheet theme |
-	styleSheet := ToStyleSheet new
-		              inherits: false;
-		              yourself.
-	theme := ToStyleSheetTheme new.
+	| elem child childchild1 childchild2 skin writers |
 
 	elem := ToElement new addStamp: #elem.
 	space root addChild: elem.
@@ -1005,11 +918,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules2 [
 { #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules3 [
 
-	| elem child childchild1 childchild2 skin writers styleSheet theme |
-	styleSheet := ToStyleSheet new
-		              inherits: false;
-		              yourself.
-	theme := ToStyleSheetTheme new.
+	| elem child childchild1 childchild2 skin writers |
 
 	elem := ToElement new addAllStamps: #( elem #red ).
 	space root addChild: elem.
@@ -1050,11 +959,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules3 [
 { #category : #'tests - style sheet style' }
 ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules4 [
 
-	| elem child childchild1 childchild2 writers skin styleSheet theme |
-	styleSheet := ToStyleSheet new
-		              inherits: false;
-		              yourself.
-	theme := ToStyleSheetTheme new.
+	| elem child childchild1 childchild2 writers skin |
 
 	elem := ToElement new addAllStamps: #( #elem #red ).
 	space root addChild: elem.

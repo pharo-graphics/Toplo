@@ -39,13 +39,13 @@ ToInnerWindow >> defaultBarElement [
 	closeButton := ToButton new
 		               id: #'close-button';
 		               yourself.
-	closeButton whenClickedDo: [ self close ].
+	closeButton linkClickAction: [ self close ].
 	closeButton withNullSkin.
 	closeButton border: (Color red alpha: 0.3).
 	expandButton := ToButton new
 		                id: #'expand-button';
 		                yourself.
-	expandButton whenClickedDo: [ self maximize ].
+	expandButton linkClickAction: [ self maximize ].
 	expandButton withNullSkin.
 
 	fill1 := BlElement new constraintsDo: [ :c |

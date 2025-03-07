@@ -9,7 +9,21 @@ Class {
 	#category : #'Toplo-Core-WidgetLink'
 }
 
-{ #category : #'reading-writing' }
+{ #category : #adding }
+ToWidgetLink >> addedHandler: anEventHandler [
+
+	self addedHandler: anEventHandler in: self
+]
+
+{ #category : #adding }
+ToWidgetLink >> addedHandler: anEventHandler in: aTarget [
+
+	self
+		addEventHandlerOn: ToWidgetLinkDissociateEvent
+		doOnce: [ :event | aTarget removeEventHandler: anEventHandler ]
+]
+
+{ #category : #running }
 ToWidgetLink >> applyChangeOn: aModel with: aValue [
 
 	self dispatchEvent: (ToModelChangedEvent new
@@ -33,10 +47,8 @@ ToWidgetLink >> eventDispatcher [
 		  eventDispatcher := BlDirectEventDispatcher on: self ]
 ]
 
-{ #category : #'reading-writing' }
-ToWidgetLink >> onModelValueChangedDo: aValuable [
+{ #category : #initialization }
+ToWidgetLink >> unlink [
 
-	self
-		addEventHandlerOn: ToModelChangedEvent
-		do: [ :evt | aValuable value: (self read: evt model) ]
+	self dispatchEvent: ToWidgetLinkDissociateEvent new
 ]

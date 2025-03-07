@@ -1,5 +1,8 @@
 Trait {
 	#name : #TToClickable,
+	#instVars : [
+		'clickAction'
+	],
 	#category : #'Toplo-Widget-Button-Core'
 }
 
@@ -23,33 +26,31 @@ TToClickable >> clickEventClass: anEventClass [
 ]
 
 { #category : #'t - clickable' }
-TToClickable >> clickHandler [
+TToClickable >> linkClickAction: aValuable [
 
-	^ self userData at: #clickHandler ifAbsent: [  ]
+	clickAction ifNotNil: [ :ca | ca unlink ].
+	clickAction := super linkClickAction: aValuable.
+	^ clickAction
 ]
 
 { #category : #'t - clickable' }
-TToClickable >> clickHandler: anEventHandler [
+TToClickable >> removeClickAction [
+	"remove the click action"
 
-	anEventHandler ifNil: [
-		self userData removeKey: #clickHandler.
-		^ self ].
-	self userData at: #clickHandler put: anEventHandler
-]
-
-{ #category : #'t - clickable' }
-TToClickable >> newClickHandlerWith: aBlock [
-
-	^ ToClickableActionEventHandler action: aBlock
+	clickAction ifNotNil: [ :ca |
+		ca unlink.
+		clickAction := nil ]
 ]
 
 { #category : #'t - clickable' }
 TToClickable >> removeClickHandler [
 	"remove the click action"
 
-	self clickHandler ifNotNil: [ :ch |
-		self removeEventHandler: ch.
-		self clickHandler: nil ]
+	self
+		deprecated: 'Use #removeClickAction instead'
+		transformWith:
+		'`@rcvr removeClickHandler' -> '`@rcvr removeClickAction'.
+	self removeClickAction
 ]
 
 { #category : #'t - clickable' }
@@ -62,8 +63,5 @@ TToClickable >> takeFocusOnClick [
 TToClickable >> whenClickedDo: aBlock [
 	"Inform that the widget has been clicked."
 
-	" only one official handler "
-	self removeClickHandler.
-	self clickHandler: (self newClickHandlerWith: aBlock).
-	self addEventHandler: self clickHandler
+	^ self addEventHandlerOn: self clickEventClass do: aBlock
 ]

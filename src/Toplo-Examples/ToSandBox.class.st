@@ -140,16 +140,15 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 
 	menu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Space statistics');
-			 whenClickedDo: [ aBar space showStatisticsWindow ];
+			 linkClickAction: [ aBar space showStatisticsWindow ];
 			 yourself).
 	menu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Inspect');
-			 whenClickedDo: [ aBar space root inspect ];
+			 linkClickAction: [ aBar space root inspect ];
 			 yourself).
 	menu addItem: (ToCheckMenuItem new
 			 label: (ToLabel text: 'Disable bar');
-			 in: [ :cbox |
-				 cbox linkCheckWith: aBar reader: #isDisabled writer: #disabled: ];
+			 linkCheckWith: aBar reader: #isDisabled writer: #disabled:;
 			 yourself).
 	confPane addChild: menu.
 
@@ -299,7 +298,7 @@ ToSandBox class >> barWithData: aCollection [
 		but addStamp: #circle.
 		but icon: (ToImage inner: (self iconNamed: #windowClose)).
 		but constraintsDo: [ :c | c linear vertical alignCenter ].
-		but whenClickedDo: [ :event |
+		but linkClickAction: [ 
 			holder listElement dataAccessor removeAt: holder position ].
 		triplet startElement: but.
 		triplet middleElement: label.
@@ -314,18 +313,18 @@ ToSandBox class >> barWithData: aCollection [
 		idxes := request selectedIndexes.
 		menu addItem: (ToMenuItem new
 				 labelText: 'Inspect list';
-				 whenClickedDo: [ :event | target inspect ]).
+				 linkClickAction: [ target inspect ]).
 		menu addItem: (ToMenuItem new
 				 labelText: 'Remove all';
-				 whenClickedDo: [ target dataAccessor removeAll ]).
+				 linkClickAction: [ target dataAccessor removeAll ]).
 		menu addItem: (ToMenuItem new
 				 labelText: 'Add first a new item';
-				 whenClickedDo: [
+				 linkClickAction: [
 					 target dataAccessor addFirst:
 							 String loremIpsum substrings first , ' (added first)' ]).
 		menu addItem: (ToMenuItem new
 				 labelText: 'Add last a new item';
-				 whenClickedDo: [
+				 linkClickAction: [
 					 target dataAccessor add:
 							 String loremIpsum substrings first , ' (added last)' ]).
 		idxes ifNotEmpty: [
@@ -334,27 +333,27 @@ ToSandBox class >> barWithData: aCollection [
 					 in: [ :m |
 						 m addItem: (ToMenuItem new
 									  labelText: 'Inspect';
-									  whenClickedDo: [
+									  linkClickAction: [
 										  Array withAll:
 												  (idxes collect: [ :idx | target nodeAt: idx ]) inspect ]).
 						 m addItem: (ToMenuItem new
 								  labelText: 'Remove';
-								  whenClickedDo: [
+								  linkClickAction: [
 									  idxes reverseDo: [ :idx |
 											  bar dataAccessor removeAt: idx ] ]).
 						 m addItem: (ToMenuItem new
 								  labelText: 'Unable/disable';
-								  whenClickedDo: [
+								  linkClickAction: [
 									  idxes do: [ :idx |
 											  (bar nodeAt: idx) disable ] ]).
 						 m addItem: (ToMenuItem new
 								  labelText: 'Unselectable';
-								  whenClickedDo: [
+								  linkClickAction: [
 									  idxes do: [ :idx |
 											  bar unselectableSelecter selectIndex: idx ] ]).
 						 m addItem: (ToMenuItem new
 								  labelText: 'Insert before';
-								  whenClickedDo: [ :event |
+								  linkClickAction: [ 
 									  | idx |
 									  idx := idxes first.
 									  target dataAccessor
@@ -364,7 +363,7 @@ ToSandBox class >> barWithData: aCollection [
 								  yourself).
 						 m addItem: (ToMenuItem new
 								  labelText: 'Insert after';
-								  whenClickedDo: [ :event |
+								  linkClickAction: [ 
 									  | idx |
 									  idx := idxes last.
 									  target dataAccessor
@@ -712,7 +711,7 @@ ToSandBox class >> exampleLocalThemeChangesChildrenLookup [
 	changeButton := ToButton new
 		                size: 200 @ 50;
 		                position: 300 @ 50;
-		                whenClickedDo: [
+		                linkClickAction: [
 			                (parent localTheme isNil or: (parent localTheme class = ToRawTheme))
 				                ifTrue: [ parent localTheme: ToRawDarkTheme new ]
 				                ifFalse: [ parent localTheme: ToRawTheme new ] ];
@@ -767,7 +766,7 @@ ToSandBox class >> examplePaneWithAccordionsWithLabelWithExtra [
 			      (ToAntDesignIconProvider innerImageNamed: 'outlined_search').
 		im size: 18 asPoint.
 		btn := ToButton new icon: im.
-		btn whenClickedDo: [ :evt | evt consume ].
+		btn linkClickAction: [ :evt | evt consume ].
 		btn addStamp: #iconic.
 		btn addStamp: #borderless.
 		acc headerExtraBuilder: [ :extra | extra addChild: btn ] ].
@@ -1017,8 +1016,8 @@ ToSandBox class >> example_CheckboxChecked [
 	"chb addEventHandler: (BlEventHandler
 			 on: ToSkinEvent
 			 do: [ :evt | evt target = chb ifTrue: [ evt traceCr ] ])."
-	chb whenClickedDo: [ :event |
-		event currentTarget isChecked traceCr ].
+	chb linkCheckAction: [ :target :value |
+		target isChecked traceCr ].
 	chb checked: true.
 	chb isChecked traceCr.
 	chb openInInnerWindow
@@ -1031,13 +1030,13 @@ ToSandBox class >> example_CheckboxCheckedDisabled [
 	ToTheme cleanUp.
 	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
 	chb addEventHandlerOn: ToSkinEvent do: [ :evt | evt traceCr ].
-	chb whenClickedDo: [ :event |
+	chb linkCheckAction: [ :target :value |
 		'isChecked: ' trace.
-		event currentTarget isChecked traceCr ].
+		target isChecked traceCr ].
 	chb checked: true.
 	chb disabled: true.
 	disBtn := ToSwitchButton new labelText: 'Enable/disable'.
-	disBtn whenClickedDo: [ :event | chb enabled: chb isEnabled not ].
+	disBtn linkCheckAction: [ chb enabled: chb isEnabled not ].
 	disBtn checked: chb isEnabled.
 
 	sp := BlSpace new.
@@ -1577,7 +1576,7 @@ ToSandBox class >> example_GeneralButtonWithIconAndLabel [
 	but geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
 	but border: Color black.
 	but addChild: pane.
-	but whenClickedDo: [ self inform: 'clicked' ].
+	but linkClickAction: [ self inform: 'clicked' ].
 	but openInSpace.
 	^ but
 ]
@@ -1603,7 +1602,7 @@ ToSandBox class >> example_GeneralButtonWithLabel [
 	but addChild: (ToLabel text: 'General button').
 	but border: Color black.
 	but fitContent.
-	but whenClickedDo: [ self inform: 'clicked' ].
+	but linkClickAction: [ self inform: 'clicked' ].
 	but openInSpace.
 	^ but
 ]
@@ -3335,12 +3334,12 @@ ToSandBox class >> example_SimpleOpenSaveSaveAsClose [
 			 icon: ((ToImage inner: (self iconNamed: #solidMenu)));
 			 label: (ToLabel text: 'Save as');
 			 background: (Color random alpha: 0.2)).
-	menu items last whenClickedDo: [ :event | event currentTarget inspect ].
+	menu items last linkClickAction: [ :target | target inspect ].
 	menu addSeparator.
 	menu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Close');
 			 background: (Color random alpha: 0.2)).
-	menu items last whenClickedDo: [ :event | event currentTarget inspect ].
+	menu items last linkClickAction: [ :target | target inspect ].
 	container pane addChild: menu.
 	
 	container openInSpace
@@ -3632,9 +3631,8 @@ ToSandBox class >> example_ToggleButtonChecked [
 	toggle addEventHandler: (BlEventHandler
 			 on: ToSkinEvent
 			 do: [ :evt | evt target = toggle ifTrue: [ evt traceCr ] ]).
-	toggle whenClickedDo: [ :event |
-		event currentTarget isChecked traceCr.
-		event traceCr ].
+	toggle linkCheckAction: [ :target |
+		target isChecked traceCr ].
 	toggle checked: true.
 	toggle openInInnerWindow
 ]
@@ -3724,7 +3722,7 @@ ToSandBox class >> example_ToggleButtonInListElement [
 		moveElement addChild: blackMoveLabel.
 		inspectButton := ToButton new
 			                 labelText: 'Inspect';
-			                 whenClickedDo: [ node inspect ];
+			                 linkClickAction: [ node inspect ];
 			                 yourself.
 
 
@@ -3931,7 +3929,7 @@ ToSandBox class >> example_WithCheckBox [
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 whenClickedDo: [ menu space root inspect ];
+			 linkClickAction: [ menu space root inspect ];
 			 yourself).
 	menu addItem: (ToToggleMenuItem new
 			 labelText: 'Toggle';
@@ -3973,7 +3971,7 @@ ToSandBox class >> example_WithCheckBox [
 
 	menu addItem: (ToRadioMenuItem new
 			 label: (ToLabel text: 'Check');
-			 whenClickedDo: [ :event | event currentTarget isChecked traceCr ];
+			 linkCheckAction: [ :target | target isChecked traceCr ];
 			 yourself).
 	grp := ToCheckableGroup new.
 	right := ToCheckMenuItem new
@@ -4043,7 +4041,7 @@ ToSandBox class >> example_buttonWith2Icons [
 	| but  |
 	but := self example_buttonWithIcon.
 	"but addEventHandlerOn: ToSkinEvent do: [ :event | event traceCr ]."
-	but whenClickedDo: [ :event | event traceCr ].
+	but linkClickAction: [ :target | target traceCr ].
 	but label: (ToLabel text: 'Button with 2 icons').
 	but endElement: (ToImage inner: ToThemeIcons searchOutlined16x16).
 	^ but
@@ -4076,7 +4074,7 @@ ToSandBox class >> example_buttonWithActionControl [
 	but := ToButton new.
 	but label: (ToLabel text: 'Button with label').
 	count := 0.
-	but whenClickedDo: [ :event | self inform: 'Action runned' ].
+	but linkClickAction: [ self inform: 'Action runned' ].
 	but openInSpace.
 	^ but
 ]
@@ -4096,8 +4094,8 @@ ToSandBox class >> example_buttonWithDisableEnable [
 	button := (ToButton id: #buttonA)
 		          labelText: 'Button';
 		          yourself.
-	disabox whenClickedDo: [ :evt | button disabled: disabox isChecked ].
-	button whenClickedDo: [ :evt | disabox checked: true. button disabled: true ].
+	disabox linkCheckAction: [ :target :value | button disabled: disabox isChecked ].
+	button linkClickAction: [ :target | disabox checked: true. button disabled: true ].
 	button addEventHandlerOn: ToHoveredSkinEvent do: [ :evt |  ].
 	pane addChild: disabox.
 	pane addChild: button.
@@ -4126,7 +4124,7 @@ ToSandBox class >> example_buttonWithIconAndLabel [
 	| but  |
 	but := self example_buttonWithIcon.
 	but label: (ToLabel text: 'Button with label').
-	but whenClickedDo: [ :event | self inform: 'Action runned' ].
+	but linkClickAction: [ self inform: 'Action runned' ].
 	^ but
 ]
 
@@ -4223,7 +4221,7 @@ ToSandBox class >> example_closeableTabs [
 	(Color wheel: 5) withIndexDo: [ :eachColor :index |
 		but := ToTab new.
 		but closable: true.
-		but whenClickedDo: [ :event | event current traceCr ].
+		but linkCheckAction: [ :target :value | value traceCr ].
 		but labelText: 'Button ' , index asString.
 		but paneBuilder: [ :pane :theNoteBook | pane background: eachColor ].
 		nb addTab: but ].
@@ -4277,7 +4275,7 @@ ToSandBox class >> example_contactList [
 					 addressTxtF text: contact address ] ]).
 
 	button := ToButton new label: (ToLabel text: 'Update table').
-	button whenClickedDo: [
+	button linkClickAction: [
 		| n p a c idx |
 		n := nameTxtF text asString.
 		p := phoneTxtF text asString.
@@ -4357,7 +4355,7 @@ ToSandBox class >> example_contextMenu [
 	container contextMenu: [ :win :request |
 		win addItem: (ToMenuItem new
 				 labelText: 'Open';
-				 whenClickedDo: [ self inform: 'Open' ];
+				 linkClickAction: [ self inform: 'Open' ];
 				 yourself) ].
 
 	container openInSpace
@@ -4632,10 +4630,10 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 			e2.
 			e3 }.
 	btn := ToButton new labelText: 'Change orientation'.
-	btn whenClickedDo: [ pane orientation: pane orientation inverted ].
+	btn linkClickAction: [ pane orientation: pane orientation inverted ].
 	pane addChild: btn.
 	btn := ToButton new labelText: 'Change direction'.
-	btn whenClickedDo: [ pane direction: pane direction inverted ].
+	btn linkClickAction: [ pane direction: pane direction inverted ].
 	pane addChild: btn.
 
 	pane addDividers.
@@ -4685,7 +4683,7 @@ ToSandBox class >> example_inline2 [
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 whenClickedDo: [ menu space root inspect ];
+			 linkClickAction: [ menu space root inspect ];
 			 yourself).
 	sub := ToMenu new labelText: 'Save All'.
 	sub beInline.
@@ -4727,7 +4725,7 @@ ToSandBox class >> example_inline3 [
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 whenClickedDo: [ menu space root inspect ];
+			 linkClickAction: [ menu space root inspect ];
 			 yourself).
 	sub := ToMenu new labelText: 'Save All'.
 	sub beInline.
@@ -4769,7 +4767,7 @@ ToSandBox class >> example_inline4 [
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 whenClickedDo: [ menu space root inspect ];
+			 linkClickAction: [ menu space root inspect ];
 			 yourself).
 	sub := ToMenu new labelText: 'Save All'.
 	sub beInline.
@@ -4811,7 +4809,7 @@ ToSandBox class >> example_inline5 [
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 whenClickedDo: [ menu space root inspect ];
+			 linkClickAction: [ menu space root inspect ];
 			 yourself).
 	sub := ToMenu new labelText: 'Save All'.
 	sub beInline.
@@ -4853,7 +4851,7 @@ ToSandBox class >> example_inline6 [
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 whenClickedDo: [ menu space root inspect ];
+			 linkClickAction: [ menu space root inspect ];
 			 yourself).
 	sub := ToMenu new labelText: 'Save All'.
 	sub beInline.
@@ -4893,7 +4891,7 @@ ToSandBox class >> example_inline7 [
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 whenClickedDo: [ menu space root inspect ];
+			 linkClickAction: [ menu space root inspect ];
 			 yourself).
 	sub := ToMenu new labelText: 'Save All'.
 	sub beInline.
@@ -4922,7 +4920,7 @@ ToSandBox class >> example_inlineInMenuPane [
 	menu vMatchParent.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 whenClickedDo: [ menu space root inspect ];
+			 linkClickAction: [ menu space root inspect ];
 			 yourself).
 	sub := ToMenu new labelText: 'Save All'.
 	sub beInline.
@@ -4992,12 +4990,12 @@ ToSandBox class >> example_menuPane1 [
 	fileMenu addItem: (ToMenuItem new
 			 labelText: 'Open';
 			 tooltipString: 'open stuffs';
-			 whenClickedDo: [ :event | event traceCr ]).
+			 linkClickAction: [ :target | target traceCr ]).
 	fileMenu addSeparator.
 	fileMenu addItem: (ToMenuItem new
 			 labelText: 'Close';
 			 tooltipString: 'close stuffs';
-			 whenClickedDo: [ :event | event traceCr ]).
+			 linkClickAction: [ :target | target traceCr ]).
 
 	bar addFiller.
 	bar addItem: (ToMenu new
@@ -5051,7 +5049,7 @@ ToSandBox class >> example_menuPane2 [
 						            nextPutAll: ' Grid ';
 						            print: i ].
 				subMenu addItem: ((ToMenuItem new labelText: stream)
-						 whenClickedDo: [ :event | self inform: selector asSymbol ];
+						 linkClickAction: [ self inform: selector asSymbol ];
 						 yourself) ].
 			menu addItem: subMenu ].
 
@@ -5072,7 +5070,7 @@ ToSandBox class >> example_menuPane3 [
 	bar addFiller.
 	bar addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 whenClickedDo: [ frame space root inspect ];
+			 linkClickAction: [ frame space root inspect ];
 			 yourself).
 	bar addFiller.
 	3 timesRepeat: [
@@ -5115,7 +5113,7 @@ ToSandBox class >> example_menuPane3 [
 						sm addItem: ((ToMenuItem new
 								  labelText: stream;
 								  iconImage: iconImage)
-								 whenClickedDo: [ :event | frame background: color ];
+								 linkClickAction: [ frame background: color ];
 								 yourself) ] ].
 				m addItem: subMenu ] ].
 
@@ -5135,7 +5133,7 @@ ToSandBox class >> example_menuPaneVertical [
 	frame := ToInnerWindow new.
 	bar addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 whenClickedDo: [ frame space root inspect ];
+			 linkClickAction: [ frame space root inspect ];
 			 yourself).
 	1 to: 3 do: [ :count |
 		menu := ToMenu new.
@@ -5176,7 +5174,7 @@ ToSandBox class >> example_menuPaneVertical [
 						sm addItem: ((ToMenuItem new
 								  labelText: stream;
 								  iconImage: iconImage)
-								 whenClickedDo: [ :event | frame background: color ];
+								 linkClickAction: [frame background: color ];
 								 yourself) ] ].
 				m addItem: subMenu ] ].
 
@@ -5354,7 +5352,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 		            tooltipString: 'help stuffs'.
 	helpMenu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 whenClickedDo: [ bar inspect ];
+			 linkClickAction: [ bar inspect ];
 			 yourself).
 	bar addItem: helpMenu.
 
@@ -5743,7 +5741,7 @@ ToSandBox class >> example_subMenuPane [
 	
 	topMenuBar addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 whenClickedDo: [ topMenuBar inspect ];
+			 linkClickAction: [ topMenuBar inspect ];
 			 yourself).
 	topMenuBar hMatchParent.
 
@@ -5776,7 +5774,7 @@ ToSandBox class >> example_subMenuPaneVertical [
 	topMenuBar addFiller.
 	topMenuBar addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 whenClickedDo: [ topMenuBar inspect ];
+			 linkClickAction: [ topMenuBar inspect ];
 			 yourself).
 
 	topMenuBar hMatchParent.
@@ -5809,7 +5807,7 @@ ToSandBox class >> example_switchButton2 [
 		((ToImage inner: (self iconNamed: #glamorousClose))
 			 innerImageColor: Color white).
 
-	th whenClickedDo: [ :event | event current traceCr ].
+	th linkCheckAction: [ :target :value | value traceCr ].
 	sp := th openInSpace
 ]
 
@@ -6723,7 +6721,7 @@ ToSandBox class >> example_toBasicButton0 [
 
 	| but |
 	but := ToGeneralButton new.
-	but whenClickedDo: [ self inform: 'clicked' ].
+	but linkClickAction: [ self inform: 'clicked' ].
 	but openInSpace
 ]
 
@@ -6735,7 +6733,7 @@ ToSandBox class >> example_toBasicButton1 [
 	but addChild: (BlElement new
 			 size: 30 @ 30;
 			 yourself).
-	but whenClickedDo: [ self inform: 'clicked' ].
+	but linkClickAction: [ self inform: 'clicked' ].
 	but background: (Color blue alpha: 0.3).
 	but openInSpace
 ]
@@ -6751,7 +6749,7 @@ ToSandBox class >> example_toBasicButton2 [
 	but matchParent.
 	but addChild: lab.
 	but layout alignCenter.
-	but whenClickedDo: [ self inform: 'clicked' ].
+	but linkClickAction: [ self inform: 'clicked' ].
 	but openInSpace
 ]
 
@@ -6764,7 +6762,7 @@ ToSandBox class >> example_toBasicButton3 [
 				         yourself)).
 	but matchParent.
 	but layout alignCenter.
-	but whenClickedDo: [ self inform: 'clicked' ].
+	but linkClickAction: [ self inform: 'clicked' ].
 	but openInSpace
 ]
 
@@ -6784,7 +6782,7 @@ ToSandBox class >> example_toBasicButton4 [
 	but matchParent.
 	but addChild: pane.
 	but layout alignCenter.
-	but whenClickedDo: [ self inform: 'clicked' ].
+	but linkClickAction: [ self inform: 'clicked' ].
 	but openInSpace
 ]
 
@@ -6907,7 +6905,7 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 	but layout cellSpacing: 10.
 	count := 0.
 	but addEventHandlerOn: BlClickEvent do: [ :event | count := count + 1. count traceCr ].
-	but whenClickedDo: [ :ann | but icon background: Color random ].
+	but linkClickAction: [ :ann | but icon background: Color random ].
 	space := BlSpace new.
 	space root addChild: but.
 	space show 
@@ -6924,7 +6922,7 @@ ToSandBox class >> example_toButtonWithTextAndIconVertical [
 			 background: (Color blue alpha: 0.2);
 			 yourself).
 	but layout cellSpacing: 10.
-	but whenClickedDo: [ :ann | but icon background: Color random ].
+	but linkClickAction: [ but icon background: Color random ].
 	space := BlSpace new.
 	space root addChild: but.
 	space show 
@@ -6937,7 +6935,7 @@ ToSandBox class >> example_toButtonWithTextOnly [
 	but := ToButton new.
 	but label: (ToLabel text: 'Button').
 	but padding: (BlInsets all: 4).
-	but whenClickedDo: [ self inform: 'clicked' ].
+	but linkClickAction: [ self inform: 'clicked' ].
 
 	space := BlSpace new.
 	space root addChild: but.
@@ -6951,7 +6949,7 @@ ToSandBox class >> example_toButtonWithTooltipString [
 	but := ToButton new.
 	but labelText: 'Button with tooltip string'.
 	but tooltipString: ('This is a button', String cr, 'so, click on me...'). 
-	but whenClickedDo: [ :ann | self inform: 'Button clicked' ].
+	but linkClickAction: [ self inform: 'Button clicked' ].
 	but openInInnerWindow 
  
 ]
@@ -6963,7 +6961,7 @@ ToSandBox class >> example_toButtonWithTooltipText [
 	but := ToButton new.
 	but labelText: 'Button with tooltip text'.
 	but tooltipText: ('This is a button', String cr, 'so, click on me...') asRopedText. 
-	but whenClickedDo: [ :ann | self inform: 'Button clicked' ].
+	but linkClickAction: [ self inform: 'Button clicked' ].
 	but openInSpace
  
 ]
@@ -7130,7 +7128,7 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 
 		resetBtn := ToButton new
 			            labelText: 'Reset';
-			            whenClickedDo: [
+			            linkClickAction: [
 				            text := origString asRopedText.
 				            editedLabel text: text ];
 			            yourself.
@@ -7138,7 +7136,7 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 		window root addChild: editedLabel.
 		window root addChild: resetBtn ].
 
-	but whenClickedDo: [ :ann | 'Button clicked' traceCr ].
+	but linkClickAction: [ 'Button clicked' traceCr ].
 	win := but openInInnerWindow.
 	but tooltipWindowManager anchorRoot: win.
 ]
@@ -7562,10 +7560,10 @@ ToSandBox class >> example_verticalPaneWithDivider [
 			e2.
 			e3 }.
 	btn := ToButton new labelText: 'Change orientation'.
-	btn whenClickedDo: [ pane orientation: pane orientation inverted ].
+	btn linkClickAction: [ pane orientation: pane orientation inverted ].
 	pane addChild: btn.
 	btn := ToButton new labelText: 'Change direction'.
-	btn whenClickedDo: [ pane direction: pane direction inverted ].
+	btn linkClickAction: [ pane direction: pane direction inverted ].
 	pane addChild: btn.
 	pane addDividers.
 	pane openInInnerWindow 
@@ -7599,18 +7597,18 @@ ToSandBox class >> example_withCustomMenuItems [
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Open file';
-			 whenClickedDo: [ self inform: 'Open file' ];
+			 linkClickAction: [ self inform: 'Open file' ];
 			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
 
 	item := ToMenuItem new
 		        labelText: 'Export';
-		        whenClickedDo: [ self inform: 'Export' ].
+		        linkClickAction: [ self inform: 'Export' ].
 	menu addItem: item.
 	item disable.
 
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 whenClickedDo: [ menu space root inspect ]).
+			 linkClickAction: [ menu space root inspect ]).
 	menu addSeparator.
 	menu addItem: (ToToggleMenuItem new
 			 labelText: 'Toggle';
@@ -7857,49 +7855,49 @@ ToSandBox class >> listWithEditableAndContextMenu [
 	               indexes := request selectedIndexes.
 	               menu addItem: (ToMenuItem new
 			                labelText: 'Add initial Items';
-			                whenClickedDo: [ :event |
+			                linkClickAction: [ 
 				                target dataAccessor addAll:
 						                (String loremIpsum: 20000) substrings ]).
 	               menu addItem: (ToMenuItem new
 			                labelText: 'Inspect list';
-			                whenClickedDo: [ :event | target inspect ]).
+			                linkClickAction: [ target inspect ]).
 	               menu addItem: (ToMenuItem new
 			                labelText: 'Statistics window';
-			                whenClickedDo: [ :evt |
-				                evt currentTarget space showStatisticsWindow ]).
+			                linkClickAction: [ 
+				                target space showStatisticsWindow ]).
 	               target dataAccessor ifNotEmpty: [
 		               menu addItem: (ToMenuItem new
 				                labelText: 'Select all';
-				                whenClickedDo: [ :event |
+				                linkClickAction: [
 					                target selecter selectAll ]).
 		               menu addItem: (ToMenuItem new
 				                labelText: 'Remove all';
-				                whenClickedDo: [ :event |
+				                linkClickAction: [ 
 					                target dataAccessor removeAll ];
 				                yourself).
 		               menu addItem: (ToMenuItem new
 				                labelText: 'Show all';
-				                whenClickedDo: [ :event |
+				                linkClickAction: [
 					                target hiddenSelecter deselectAll ];
 				                yourself).
 		               target selectionOption isMasked
 			               ifTrue: [
 				               menu addItem: (ToMenuItem new
 						                labelText: 'stop primary selection masking';
-						                whenClickedDo: [ :event |
+						                linkClickAction: [ 
 							                target selectionOption masked: false ];
 						                yourself) ]
 			               ifFalse: [
 				               menu addItem: (ToMenuItem new
 						                labelText: 'start primary selection masking';
-						                whenClickedDo: [ :event |
+						                linkClickAction: [
 							                target selectionOption masked: true ];
 						                yourself) ].
 		               target selectionOption isAnimated
 			               ifTrue: [
 				               menu addItem: (ToMenuItem new
 						                labelText: 'stop selection transition animation';
-						                whenClickedDo: [ :event |
+						                linkClickAction: [ 
 							                target selectionMode selectionElementOption
 								                animationDuration: 0 milliSeconds ];
 						                yourself) ]
@@ -7907,7 +7905,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 				               menu addItem: (ToMenuItem new
 						                labelText:
 							                'start selection transition animation';
-						                whenClickedDo: [ :event |
+						                linkClickAction: [ 
 							                target primarySelectionMode selectionOption
 								                animationDuration: 200 milliSeconds ];
 						                yourself) ] ].
@@ -7921,30 +7919,30 @@ ToSandBox class >> listWithEditableAndContextMenu [
 			               label := node firstChild label.
 			               selectionMenu addItem: (ToMenuItem new
 					                labelText: 'Inspect node';
-					                whenClickedDo: [ :event | node inspect ];
+					                linkClickAction: [ node inspect ];
 					                yourself).
 			               selectionMenu addItem: (ToMenuItem new
 					                labelText: 'Edit';
-					                whenClickedDo: [ :event |
+					                linkClickAction: [ 
 						                label popupEditorEvent: nil ];
 					                yourself).
 			               selectionMenu addItem: (ToMenuItem new
 					                labelText: (label isMonoLine
 							                 ifTrue: [ 'Be multiline' ]
 							                 ifFalse: [ 'Be monoline' ]);
-					                whenClickedDo: [ :event |
+					                linkClickAction: [
 						                node firstChild label monoLine:
 								                label isMonoLine not ];
 					                yourself).
 			               selectionMenu addItem: (ToMenuItem new
 					                labelText: 'Inspect';
-					                whenClickedDo: [ :event | node inspect ];
+					                linkClickAction: [ node inspect ];
 					                yourself).
 			               selectionMenu addSeparator ].
 
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Enable/Disable';
-				                whenClickedDo: [ :event |
+				                linkClickAction: [
 					                indexes do: [ :idx |
 							                | di |
 							                di := (l nodeAt: idx) isDisabled.
@@ -7952,19 +7950,19 @@ ToSandBox class >> listWithEditableAndContextMenu [
 				                yourself).
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Set unselectable';
-				                whenClickedDo: [ :event |
+				                linkClickAction: [
 					                indexes do: [ :idx |
 							                target unselectableSelecter selectIndex: idx ] ];
 				                yourself).
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Hide';
-				                whenClickedDo: [ :event |
+				                linkClickAction: [ 
 					                indexes do: [ :idx |
 							                target hiddenSelecter selectIndex: idx ] ];
 				                yourself).
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Insert before';
-				                whenClickedDo: [ :event |
+				                linkClickAction: [
 					                | idx |
 					                idx := indexes first.
 					                target dataAccessor
@@ -7975,7 +7973,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 				                yourself).
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Insert after';
-				                whenClickedDo: [ :event |
+				                linkClickAction: [
 					                | idx |
 					                idx := indexes last.
 					                target dataAccessor
@@ -7987,7 +7985,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 		               selectionMenu addSeparator.
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Remove';
-				                whenClickedDo: [ :event |
+				                linkClickAction: [
 					                indexes sort reverseDo: [ :idx |
 							                target dataAccessor removeAt: idx ] ];
 				                yourself).

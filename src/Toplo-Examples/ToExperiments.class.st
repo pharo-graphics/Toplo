@@ -950,12 +950,12 @@ ToExperiments class >> example_frame [
 	bar addEventHandler: pullHandler.
 	
 	close := ToButton new iconImage: Smalltalk ui theme windowCloseForm; labelText: 'close'.
-	close whenClickedDo: [ frame removeFromParent ].
+	close linkClickAction: [ frame removeFromParent ].
 	close background: Color transparent.
 	expand := ToButton new iconImage: Smalltalk ui theme windowMaximizeForm.
-	expand whenClickedDo: [ 
+	expand linkClickAction: [ 
 		frame 
-			relocate: 0@0; 
+			position: 0@0; 
 			size: frame parent size ].	
 
 	title := ToLabel new
@@ -1538,7 +1538,7 @@ ToExperiments class >> newTreeElement [
 		triplet startInterspace: 10.
 		triplet startElement: iconContainer.
 		hasChildren ifTrue: [
-			arrowButton whenClickedDo: [ :evt |
+			arrowButton linkClickAction: [ 
 				| newArrowTk |
 				anExWrapper toggle.
 				newArrowTk := anExWrapper isExpanded
@@ -1567,9 +1567,9 @@ ToExperiments class >> newTreePane [
 	menuPane addItem: showStatisticsBtn.
 	menuPane addItem: disabox.
 
-	inspectBtn whenClickedDo: [ :evt | tree space root inspect ].
-	disabox whenClickedDo: [ :evt | tree disabled: disabox isChecked ].
-	showStatisticsBtn whenClickedDo: [ :evt |
+	inspectBtn linkClickAction: [ tree space root inspect ].
+	disabox linkClickAction: [ tree disabled: disabox isChecked ].
+	showStatisticsBtn linkClickAction: [ 
 		tree space showStatisticsWindow ].
 
 	pane := ToPane vertical matchParent.

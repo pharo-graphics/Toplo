@@ -68,7 +68,7 @@ ToThemeApplication >> initializeNavigationPanel [
 	self panelModels do: [ :model |
 		navigation addChild: model button.
 		self selectedPanelModel: model.
-		model button whenClickedDo: [
+		model button linkClickAction: [
 			self currentPanel removeChildren.
 			self currentPanel addChild: model panel ] ]
 ]
@@ -119,13 +119,13 @@ ToThemeApplication >> initializeThemeSelector [
 	themeSelector addChild: (ToButton new
 			 labelText: 'refresh list';
 			 constraintsDo: [ :c | c minWidth: 128 ];
-			 whenClickedDo: [ self refreshThemeSelectorMenu ];
+			 linkClickAction: [ self refreshThemeSelectorMenu ];
 			 yourself).
 	themeSelector addChild: themeSelectorMenu.
 	themeSelector addChild: (ToButton new
 			 labelText: 'apply theme';
 			 constraintsDo: [ :c | c minWidth: 128 ];
-			 whenClickedDo: [ self applyThemeSelectorMenu ];
+			 linkClickAction: [ self applyThemeSelectorMenu ];
 			 yourself)
 ]
 
@@ -143,7 +143,7 @@ ToThemeApplication >> intializeStampButtons [
 			          labelText: stampText;
 			          registerInGroup: group;
 			          constraintsDo: [ :c | c horizontal matchParent ];
-			          whenClickedDo: [
+			          linkClickAction: [
 				          self panelModels do: [ :each |
 						          each applyStamp: stampText ] ];
 			          yourself.

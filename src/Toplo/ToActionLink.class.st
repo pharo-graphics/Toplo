@@ -7,7 +7,7 @@ Class {
 	#category : #'Toplo-Core-WidgetLink'
 }
 
-{ #category : #'reading-writing' }
+{ #category : #running }
 ToActionLink >> applyChangeOn: aModel with: aValue [
 
 	action cull: aModel cull: aValue.

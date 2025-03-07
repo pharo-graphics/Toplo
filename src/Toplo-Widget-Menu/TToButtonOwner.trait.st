@@ -52,8 +52,15 @@ TToButtonOwner >> initializeAsButtonOwner [
 ]
 
 { #category : #'t - button holder' }
+TToButtonOwner >> linkClickAction: aValuable [ 
+	"Inform that the widget has been clicked."
+
+	self button linkClickAction: aValuable 
+]
+
+{ #category : #'t - button holder' }
 TToButtonOwner >> whenClickedDo: aBlock [
 	"Inform that the widget has been clicked."
 
-	self button whenClickedDo: aBlock
+	^ self button whenClickedDo: aBlock
 ]

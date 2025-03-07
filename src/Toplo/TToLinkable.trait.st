@@ -4,6 +4,12 @@ Trait {
 }
 
 { #category : #'t - linkable' }
+TToLinkable >> linkCheckAction: aValuable [ 
+
+	^ self linkCheckWith: self action: aValuable
+]
+
+{ #category : #'t - linkable' }
 TToLinkable >> linkCheckWith: aModel action: aValuable [ 
 
 	^ self newCheckActionLink

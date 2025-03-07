@@ -7,7 +7,7 @@ Class {
 	#category : #'Toplo-Core-WidgetLink'
 }
 
-{ #category : #'reading-writing' }
+{ #category : #running }
 ToPropertyLink >> applyChangeOn: aModel with: aValue [
 
 	property write: aValue to: aModel.
@@ -41,7 +41,15 @@ ToPropertyLink >> link: aWidget withModel: aModel reader: aReader writer: aWrite
 	self configureToUpdateModel: aModel from: aWidget
 ]
 
-{ #category : #'reading-writing' }
+{ #category : #running }
+ToPropertyLink >> onModelValueChangedDo: aValuable [
+
+	self addedHandler: (self
+			 addEventHandlerOn: ToModelChangedEvent
+			 do: [ :evt | aValuable value: (self read: evt model) ])
+]
+
+{ #category : #running }
 ToPropertyLink >> read: aModel [
 
 	^ property read: aModel

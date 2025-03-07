@@ -17,8 +17,7 @@ ToPaneNodeExampleSkin >> createNodeButton [
 	nodeButton := ToButton new
 		              label: label;
 		              yourself.
-	nodeButton whenClickedDo: [ :event |
-		event consume.
+	nodeButton linkClickAction: [
 		self inform: 'CLICK' ].
 	nodeButton constraintsDo: [ :c |
 		c ignoreByLayout.

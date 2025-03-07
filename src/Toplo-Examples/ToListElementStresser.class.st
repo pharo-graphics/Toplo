@@ -367,7 +367,7 @@ ToListElementStresser >> newSelectionBoardOn: aListElement [
 	pane padding: (BlInsets all: 3).
 	pane addChild: (ToButton new
 			 labelText: 'Statistics';
-			 whenClickedDo: [ :evt | evt target space showStatisticsWindow ];
+			 linkClickAction: [ :target | target space showStatisticsWindow ];
 			 yourself).
 	pane addChild: (lab := ToLabel new).
 	aListElement

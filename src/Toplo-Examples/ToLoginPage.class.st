@@ -114,7 +114,7 @@ ToLoginPage >> open [
 	space resizable: false.
 	space addEventHandlerOn: BlSpaceShownEvent do: [ space center ].
 
-	btnCancel whenClickedDo: [ space close ]
+	btnCancel linkClickAction: [ space close ]
 ]
 
 { #category : #'see class side' }

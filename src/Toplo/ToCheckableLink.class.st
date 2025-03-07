@@ -7,15 +7,22 @@ Class {
 { #category : #initialization }
 ToCheckableLink >> configureToUpdate: aCheckable fromModel: aModel [
 
-	aCheckable
-		addEventHandlerOn: ToAddedToSpaceEvent 
-		do: [ :event | aCheckable checked: (self read: aModel) ]
+	| handler |
+	handler := aCheckable
+		           addEventHandlerOn: ToAddedToSpaceEvent
+		           do: [ :event |
+			           aCheckable checked: (self read: aModel) ].
+	self addedHandler: handler in: aCheckable
 ]
 
 { #category : #initialization }
 ToCheckableLink >> configureToUpdateModel: aModel from: aCheckable [
 
-	aCheckable
-		addEventHandlerOn: ToCheckableCheckEvent
-		do: [ :event | self applyChangeOn: aModel with: event current ]
+	| handler |
+	handler := aCheckable
+		           addEventHandlerOn: ToCheckableCheckEvent
+		           do: [ :event |
+			           event consume.
+			           self applyChangeOn: aModel with: event current ].
+	self addedHandler: handler in: aCheckable
 ]

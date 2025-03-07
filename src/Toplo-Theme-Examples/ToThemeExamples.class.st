@@ -23,40 +23,40 @@ ToThemeExamples class >> createThemeMenuPane: aSpace [
 
 	beeMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Switch to Light');
-			 whenClickedDo: [ self switchTheme: ToBeeTheme new for: aSpace ]).
+			 linkClickAction: [ self switchTheme: ToBeeTheme new for: aSpace ]).
 	beeMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Switch to Dark');
-			 whenClickedDo: [ self switchTheme: ToBeeDarkTheme new for: aSpace ]).
+			 linkClickAction: [ self switchTheme: ToBeeDarkTheme new for: aSpace ]).
 
 	themeMenu addItem: (rawMenu := ToMenu new labelText: 'Raw theme').
 	rawMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Switch to Light');
-			 whenClickedDo: [ self switchTheme: ToRawTheme new for: aSpace ]).
+			 linkClickAction: [ self switchTheme: ToRawTheme new for: aSpace ]).
 	rawMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Switch to Dark');
-			 whenClickedDo: [ self switchTheme: ToRawDarkTheme new for: aSpace ]).
+			 linkClickAction: [ self switchTheme: ToRawDarkTheme new for: aSpace ]).
 
 	themeMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Randomize color');
-			 whenClickedDo: [ self randomizePrimaryColorFor: aSpace ]).
+			 linkClickAction: [ self randomizePrimaryColorFor: aSpace ]).
 
 	"Inspect menu"
 	inspectMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Inspect Space');
 			 tooltipText: 'Inspect the BlSpace';
-			 whenClickedDo: [ self inspectSpace: aSpace ]).
+			 linkClickAction: [ self inspectSpace: aSpace ]).
 	inspectMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Inspect Theme');
 			 tooltipText: 'Inspect the current theme';
-			 whenClickedDo: [ self inspectSpaceToTheme: aSpace ]).
+			 linkClickAction: [ self inspectSpaceToTheme: aSpace ]).
 	inspectMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'CSS like Style Sheet');
 			 tooltipText: 'Show the current style sheet source code';
-			 whenClickedDo: [ self displaySpaceCSSLikeStyleSheet: aSpace ]).
+			 linkClickAction: [ self displaySpaceCSSLikeStyleSheet: aSpace ]).
 	inspectMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Style Sheet');
 			 tooltipText: 'Show the current style sheet source code';
-			 whenClickedDo: [ self displaySpaceStyleSheet: aSpace ]).
+			 linkClickAction: [ self displaySpaceStyleSheet: aSpace ]).
 
 	^ bar
 ]
@@ -392,7 +392,7 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 		                  yourself.
 
 	primaryButton2 := (ToButton id: #buttonA) labelText: 'Button 2'.
-	primaryButton1 whenClickedDo: [
+	primaryButton1 linkClickAction: [
 		c := Color random.
 		primaryButton2 addTokenNamed: #'color-primary' withValue: c.
 		primaryButton2
@@ -401,13 +401,13 @@ ToThemeExamples class >> example_beeButtonsInRawPane [
 		primaryButton2
 			addTokenNamed: #'color-primary-hover'
 			withValue: c twiceLighter ].
-	chb whenClickedDo: [ :evt |
-				 evt current
+	chb linkCheckAction: [ :target :value |
+				 value
 					 ifTrue: [ primaryButton2 addStamp: #primary ]
 					 ifFalse: [ primaryButton2 removeStamp: #primary ] ].
 	chb checked: true.
-	disachb whenClickedDo: [ :evt |
-				 evt current
+	disachb linkCheckAction: [ :target :value |
+				 value
 					 ifTrue: [
 						 pane childrenDo: [ :child |
 							 child ~= disachb ifTrue: [ child disable ] ] ]

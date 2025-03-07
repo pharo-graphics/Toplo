@@ -7,7 +7,11 @@ Class {
 { #category : #initialization }
 ToCheckableActionLink >> configureToUpdateModel: aModel from: aTarget [
 
-	aTarget
-		addEventHandlerOn: ToCheckableCheckEvent
-		do: [ :event | self applyChangeOn: aModel with: event current ]
+	| handler |
+	handler := aTarget
+		           addEventHandlerOn: ToCheckableCheckEvent
+		           do: [ :event |
+			           event consume.
+			           self applyChangeOn: aModel with: event current ].
+	self addedHandler: handler in: aTarget
 ]

@@ -87,7 +87,7 @@ ToTabsElement >> defaultNodeMenuBuilder [
 			  | mitem |
 			  mitem := ToMenuItem new
 				           labelText: node item label text asString;
-				           whenClickedDo: [ :event |
+				           linkClickAction: [ 
 					           self selecter
 						           scrollTowardStartToDataSourcePosition:
 							           node holder position.

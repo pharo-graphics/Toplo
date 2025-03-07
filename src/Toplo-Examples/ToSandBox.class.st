@@ -212,7 +212,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	confPane addChild: selectionAnimationSwitch.
 
 	selectOnPressedSwitch := ToSwitchButton new
-		                         labelText: 'Select on node pressed';
+		                         labelText: 'Select on pressed';
 		                         id: #selectOnPressedSwitch.
 	selectOnPressedSwitch
 		checkFeature: #selectOnPressed
@@ -223,7 +223,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	confPane addChild: selectOnPressedSwitch.
 
 	deselectOnPressedSwitch := ToSwitchButton new
-		                           labelText: 'Deselect on node pressed';
+		                           labelText: 'Deselect on pressed';
 		                           id: #deselectOnPressedSwitch.
 	deselectOnPressedSwitch
 		checkFeature: #deselectOnPressed
@@ -466,7 +466,7 @@ ToSandBox class >> checkingStrategyChooserFor: aCheckableBar [
 			       yourself.
 		buttons add: chb.
 		chb
-			checkAction: [ :evt :value :bar |
+			checkAction: [ :evt :bar :value |
 				value ifTrue: [
 					| message |
 					message := modeAssoc value.
@@ -8181,7 +8181,7 @@ ToSandBox class >> resizerBoardFor: aBar [
 				        yourself.
 			buttons add: cbox.
 			cbox
-				checkAction: [ :evt :value :bar |
+				checkAction: [ :evt :bar :value |
 					value ifTrue: [
 						sizeInputPane enabled: false.
 						mode = #MatchParent

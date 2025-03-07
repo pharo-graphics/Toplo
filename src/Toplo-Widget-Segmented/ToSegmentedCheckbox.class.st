@@ -5,12 +5,6 @@ Class {
 }
 
 { #category : #skin }
-ToSegmentedCheckbox >> indeterminateBar [
-
-	^ self childWithId: #'indeterminate-bar' ifNone: [  ]
-]
-
-{ #category : #skin }
 ToSegmentedCheckbox >> newRawSkin [ 
 
 	^ ToSegmentedCheckboxSkin new

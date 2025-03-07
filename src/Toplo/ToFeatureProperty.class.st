@@ -1,6 +1,9 @@
 Class {
 	#name : #ToFeatureProperty,
 	#superclass : #ToWritableProperty,
+	#instVars : [
+		'writerName'
+	],
 	#category : #'Toplo-Core-Properties'
 }
 
@@ -21,5 +24,12 @@ ToFeatureProperty >> read: anObject [
 { #category : #operating }
 ToFeatureProperty >> write: aPropertyValue to: anObject [
 
-	anObject perform: self name asSymbol asMutator with: aPropertyValue
+	writerName ifNil: [ writerName := self name asSymbol asMutator ].
+	anObject perform: writerName asSymbol with: aPropertyValue
+]
+
+{ #category : #accessing }
+ToFeatureProperty >> writerName: aName [
+
+	writerName := aName
 ]

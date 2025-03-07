@@ -13,7 +13,7 @@ TToElementWithContextMenu >> contextMenu: aValuable [
 { #category : #'t - element with context menu' }
 TToElementWithContextMenu >> contextMenuBuilder [
 
-	^ self contextMenuWindowManager builder
+	^ self contextMenuManager builder
 ]
 
 { #category : #'t - element with context menu' }
@@ -21,63 +21,63 @@ TToElementWithContextMenu >> contextMenuBuilder: aValuable [
 	" aValuable take the context menu to build as first argument and the request event  as second aargument "
 
 	aValuable ifNil: [
-		self contextMenuWindowManager: nil.
+		self contextMenuManager: nil.
 		^ self ].
-	self contextMenuWindowManager windowBuilder: aValuable
+	self contextMenuManager windowBuilder: aValuable
 ]
 
 { #category : #'t - element with context menu' }
 TToElementWithContextMenu >> contextMenuContent: anArray [
 
 	anArray ifNil: [
-		self removeContextMenuWindowManager.
+		self removeContextMenuManager.
 		^ self ].
 	self contextMenuBuilder: [ :win :theRequestEvent | win addAllItems: anArray ]
 ]
 
 { #category : #'t - element with context menu' }
-TToElementWithContextMenu >> contextMenuWindowManager [
+TToElementWithContextMenu >> contextMenuManager [
 
-	^ self userData at: #contextMenuWindowManager ifAbsentPut: [
+	^ self userData at: #contextMenuManager ifAbsentPut: [
 		  | handler |
-		  handler := self contextMenuWindowManagerClass new.
+		  handler := self contextMenuManagerClass new.
 		  self addEventHandler: handler.
 		  handler ]
 ]
 
 { #category : #'t - element with context menu' }
-TToElementWithContextMenu >> contextMenuWindowManager: aWindowHandler [
+TToElementWithContextMenu >> contextMenuManager: aWindowHandler [
 
-	self rawContextMenuWindowManager = aWindowHandler ifTrue: [ ^ self ].
-	self removeContextMenuWindowManager.
+	self rawContextMenuManager = aWindowHandler ifTrue: [ ^ self ].
+	self removeContextMenuManager.
 	aWindowHandler ifNil: [ ^ self ].
 	self addEventHandler: aWindowHandler.
-	self userData at: #contextMenuWindowManager put: aWindowHandler
+	self userData at: #contextMenuManager put: aWindowHandler
 ]
 
 { #category : #'t - element with context menu' }
-TToElementWithContextMenu >> contextMenuWindowManagerClass [
+TToElementWithContextMenu >> contextMenuManagerClass [
 
-	^ self userData at: #contextMenuWindowManagerClass ifAbsentPut: [ ToContextMenuManager]
+	^ self userData at: #contextMenuManagerClass ifAbsentPut: [ ToContextMenuManager]
 ]
 
 { #category : #'t - element with context menu' }
-TToElementWithContextMenu >> contextMenuWindowManagerClass: aHandlerClass [
+TToElementWithContextMenu >> contextMenuManagerClass: aHandlerClass [
 
-	self userData at: #contextMenuWindowManagerClass put: aHandlerClass
+	self userData at: #contextMenuManagerClass put: aHandlerClass
 ]
 
 { #category : #'t - element with context menu' }
 TToElementWithContextMenu >> currentContextMenu [
 
-	^ self rawContextMenuWindowManager ifNotNil: [ :h | h currentWindow ]
+	^ self rawContextMenuManager ifNotNil: [ :h | h currentWindow ]
 ]
 
 { #category : #'t - element with context menu' }
 TToElementWithContextMenu >> hasContextMenu [
 	" do not use #contextMenuWindowHandler to avoid ContextMenuWindowHandler installation here "
 
-	^ self rawContextMenuWindowManager notNil
+	^ self rawContextMenuManager notNil
 ]
 
 { #category : #'t - element with context menu' }
@@ -90,28 +90,28 @@ TToElementWithContextMenu >> hasOpenedContextMenu [
 { #category : #'t - element with context menu' }
 TToElementWithContextMenu >> newContextMenuEvent: anEvent [
 
-	^ self rawContextMenuWindowManager newWindowEvent: anEvent
+	^ self rawContextMenuManager newWindowEvent: anEvent
 ]
 
 { #category : #'t - element with context menu' }
-TToElementWithContextMenu >> rawContextMenuWindowManager [
+TToElementWithContextMenu >> rawContextMenuManager [
 
-	^ self userData at: #contextMenuWindowManager ifAbsent: [ ]
+	^ self userData at: #contextMenuManager ifAbsent: [ ]
 ]
 
 { #category : #'t - element with context menu' }
 TToElementWithContextMenu >> removeContextMenu [
 
-	self removeContextMenuWindowManager
+	self removeContextMenuManager
 ]
 
 { #category : #'t - element with context menu' }
-TToElementWithContextMenu >> removeContextMenuWindowManager [
+TToElementWithContextMenu >> removeContextMenuManager [
 
 	| manager |
-	manager := self rawContextMenuWindowManager.
+	manager := self rawContextMenuManager.
 	manager ifNil: [ ^ self ].
 	manager hasWindow ifTrue: [ manager currentWindow close ].
 	self removeEventHandler: manager.
-	self userData removeKey: #contextMenuWindowManager
+	self userData removeKey: #contextMenuManager
 ]

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToInfiniteElement,
 	#superclass : #BlInfiniteElement,
-	#traits : 'TToListNodeHolder + TBlLayoutResizable + TToWithOrientableLayout',
-	#classTraits : 'TToListNodeHolder classTrait + TBlLayoutResizable classTrait + TToWithOrientableLayout classTrait',
+	#traits : 'TToListNodeContainer + TBlLayoutResizable + TToWithOrientableLayout',
+	#classTraits : 'TToListNodeContainer classTrait + TBlLayoutResizable classTrait + TToWithOrientableLayout classTrait',
 	#instVars : [
 		'listElement'
 	],
@@ -29,19 +29,20 @@ ToInfiniteElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 	listElement applyDataSourceSieveCommand: aDataSourceCommand
 ]
 
+{ #category : #'t - list node holder' }
+ToInfiniteElement >> applyInnerConfiguration [
+
+	super applyInnerConfiguration.
+	self matchParent.
+	self horizontal: listElement isHorizontal.
+	listElement isHMatchParent ifFalse: [ self hFitContent ].
+	listElement isVMatchParent ifFalse: [ self vFitContent ].
+]
+
 { #category : #'t - infinite accessing' }
 ToInfiniteElement >> cleanUpRecyclerAt: anIndex [
 
 	self customRecycler removeNodeAt: anIndex in: self
-]
-
-{ #category : #'t - list node holder' }
-ToInfiniteElement >> configureLayoutIn: aListElement [
-
-	self matchParent.
-	self horizontal: aListElement isHorizontal.
-	aListElement isHMatchParent ifFalse: [ self hFitContent ].
-	aListElement isVMatchParent ifFalse: [ self vFitContent ].
 ]
 
 { #category : #'t - infinite accessing' }

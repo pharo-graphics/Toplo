@@ -143,14 +143,14 @@ ToMultiSelectBarElement >> maxSelectedCount: aNumber [
 ]
 
 { #category : #'t - bar element' }
-ToMultiSelectBarElement >> onInvisibleNodes: theInvisibleNodes [
+ToMultiSelectBarElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes [
 
 	| visibleNodes invisibleNodes composite finalCount |
+	theInvisibleNodes ifEmpty: [ ^ self ].
 	" in case of composite node at first it means that 
 	there is no more visible node to cumulate in a composite node"
 	self nodes size = 1 ifTrue: [ ^ self ].
-
-	visibleNodes := self nodesSelect: [ :n | n isFullyVisible ].
+	visibleNodes := theVisibleNodes copy.
 	invisibleNodes := theInvisibleNodes copy.
 	visibleNodes ifNotEmpty: [
 		invisibleNodes := theInvisibleNodes copyWith: visibleNodes last.

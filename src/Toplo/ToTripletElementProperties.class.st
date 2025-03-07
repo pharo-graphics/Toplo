@@ -23,22 +23,7 @@ Class {
 	#category : #'Toplo-Core'
 }
 
-{ #category : #initialization }
-ToTripletElementProperties >> applyInnerConfiguration [
-
-	"'applyInnerConfiguration in ' trace. owner traceCr."
-	
-	self configureEndContainer.
-	self configureEndFiller.
-	self configureEndGap.
-	self configureStartContainer.
-	self configureStartFiller.
-	self configureStartGap.
-	self configureEndElement.
-	self configureChildren
-]
-
-{ #category : #initialization }
+{ #category : #configuration }
 ToTripletElementProperties >> configureChildren [
 
 	owner isHorizontal
@@ -52,7 +37,7 @@ ToTripletElementProperties >> configureChildren [
 				child constraints frame horizontal alignCenter ] ]
 ]
 
-{ #category : #initialization }
+{ #category : #configuration }
 ToTripletElementProperties >> configureEndContainer [
 
 	owner isHorizontal
@@ -70,7 +55,7 @@ ToTripletElementProperties >> configureEndContainer [
 				c horizontal fitContent ] ]
 ]
 
-{ #category : #initialization }
+{ #category : #configuration }
 ToTripletElementProperties >> configureEndElement [
 
 	endElement ifNil: [ ^ self ].
@@ -83,7 +68,7 @@ ToTripletElementProperties >> configureEndElement [
 			endElement constraints linear vertical alignBottom ]
 ]
 
-{ #category : #initialization }
+{ #category : #configuration }
 ToTripletElementProperties >> configureEndFiller [
 
 	endFlexible
@@ -97,7 +82,7 @@ ToTripletElementProperties >> configureEndFiller [
 				c horizontal fitContent ] ]
 ]
 
-{ #category : #initialization }
+{ #category : #configuration }
 ToTripletElementProperties >> configureEndGap [
 
 	owner isHorizontal
@@ -111,7 +96,24 @@ ToTripletElementProperties >> configureEndGap [
 				c vertical exact: endInterspace ] ]
 ]
 
-{ #category : #initialization }
+{ #category : #configuration }
+ToTripletElementProperties >> configureMiddleElement [
+
+	middleElement ifNil: [ ^ self ].
+	owner isHorizontal
+		ifTrue: [
+			middleElement constraints frame vertical alignCenter.
+			middleElement constraints linear vertical alignCenter.
+			middleElement constraints frame horizontal alignCenter.
+			middleElement constraints linear horizontal alignCenter ]
+		ifFalse: [
+			middleElement constraints frame horizontal alignCenter.
+			middleElement constraints linear horizontal alignCenter.
+			middleElement constraints frame vertical alignCenter.
+			middleElement constraints linear vertical alignCenter ]
+]
+
+{ #category : #configuration }
 ToTripletElementProperties >> configureStartContainer [
 
 	owner isHorizontal
@@ -129,7 +131,7 @@ ToTripletElementProperties >> configureStartContainer [
 				c horizontal fitContent ] ]
 ]
 
-{ #category : #initialization }
+{ #category : #configuration }
 ToTripletElementProperties >> configureStartFiller [
 
 	startFlexible
@@ -143,7 +145,7 @@ ToTripletElementProperties >> configureStartFiller [
 				c horizontal fitContent ] ]
 ]
 
-{ #category : #initialization }
+{ #category : #configuration }
 ToTripletElementProperties >> configureStartGap [
 
 	owner isHorizontal
@@ -162,7 +164,7 @@ ToTripletElementProperties >> endAlignment: aNumber [
 
 	endAlignment = aNumber ifTrue: [ ^ self ].
 	endAlignment := aNumber.
-	owner requestInnerConfiguration
+	owner requestNewConfiguration
 ]
 
 { #category : #accessing }
@@ -184,8 +186,7 @@ ToTripletElementProperties >> endElement: anElement [
 	endElement ifNotNil: [ :s | s removeFromParent ].
 	endElement := anElement.
 	anElement ifNil: [ ^ self ].
-	endContainer addChild: anElement.
-	owner requestInnerConfiguration
+	endContainer addChild: anElement
 ]
 
 { #category : #accessing }
@@ -205,7 +206,7 @@ ToTripletElementProperties >> endFlexible: aBoolean [
 
 	endFlexible = aBoolean ifTrue: [ ^ self ].
 	endFlexible := aBoolean.
-	owner requestInnerConfiguration
+	owner requestNewConfiguration
 ]
 
 { #category : #accessing }
@@ -213,7 +214,7 @@ ToTripletElementProperties >> endInterspace: aNumber [
 
 	endInterspace = aNumber ifTrue: [ ^ self ].
 	endInterspace := aNumber.
-	owner requestInnerConfiguration
+	owner requestNewConfiguration
 ]
 
 { #category : #initialization }
@@ -315,6 +316,23 @@ ToTripletElementProperties >> on: anElement resizerDo: aBlock [
 	owner requestLayout
 ]
 
+{ #category : #configuration }
+ToTripletElementProperties >> onInnerConfigurationApplied [
+
+	"'onInnerConfigurationApplied in ' trace. owner traceCr."
+	
+	self configureChildren.
+	self configureEndContainer.
+	self configureEndFiller.
+	self configureEndGap.
+	self configureStartContainer.
+	self configureStartFiller.
+	self configureStartGap.
+	self configureEndElement.
+	self configureMiddleElement.
+
+]
+
 { #category : #dependencies }
 ToTripletElementProperties >> release [ 
 
@@ -341,7 +359,7 @@ ToTripletElementProperties >> startAlignment: aNumber [
 
 	startAlignment = aNumber ifTrue: [ ^ self ].
 	startAlignment := aNumber.
-	owner requestInnerConfiguration
+	owner requestNewConfiguration
 ]
 
 { #category : #accessing }
@@ -389,7 +407,7 @@ ToTripletElementProperties >> startFlexible: aBoolean [
 
 	startFlexible = aBoolean ifTrue: [ ^ self ].
 	startFlexible := aBoolean.
-	owner requestInnerConfiguration
+	owner requestNewConfiguration
 ]
 
 { #category : #accessing }
@@ -403,5 +421,5 @@ ToTripletElementProperties >> startInterspace: aNumber [
 
 	startInterspace = aNumber ifTrue: [ ^ self ].
 	startInterspace := aNumber.
-	owner requestInnerConfiguration
+	owner requestNewConfiguration
 ]

@@ -5,8 +5,11 @@ I'm one of the leave of menu composite.
 Class {
 	#name : #ToToggleMenuItem,
 	#superclass : #ToMenuItem,
-	#traits : 'TToCheckable + TToCheckableOwner',
-	#classTraits : 'TToCheckable classTrait + TToCheckableOwner classTrait',
+	#traits : 'TToLinkableWithModel + TToCheckable + TToCheckableOwner',
+	#classTraits : 'TToLinkableWithModel classTrait + TToCheckable classTrait + TToCheckableOwner classTrait',
+	#instVars : [
+		'closeOnPicking'
+	],
 	#category : #'Toplo-Widget-Menu-Items'
 }
 
@@ -45,7 +48,13 @@ ToToggleMenuItem >> checkableData: aCheckableData [
 { #category : #'t - button holder' }
 ToToggleMenuItem >> closeOnPicking [ 
 
-	^ false
+	^ closeOnPicking ifNil: [ closeOnPicking := false ]
+]
+
+{ #category : #'t - button holder' }
+ToToggleMenuItem >> closeOnPicking: aBoolean [
+
+	closeOnPicking := aBoolean
 ]
 
 { #category : #skin }

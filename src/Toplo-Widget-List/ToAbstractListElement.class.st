@@ -50,16 +50,18 @@ ToAbstractListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 		self selectionModel copySelectionFrom: sieve selectionModel ]
 ]
 
+{ #category : #configuration }
+ToAbstractListElement >> applyInnerConfiguration [
+
+	super applyInnerConfiguration.
+	self innerElement applyInnerConfiguration.
+	self refreshAllSelections
+]
+
 { #category : #accessing }
 ToAbstractListElement >> commandApplicationStrategy [
 
 	^ commandApplicationStrategy
-]
-
-{ #category : #'t - bar element' }
-ToAbstractListElement >> configureLayout [
-
-	self innerElement configureLayoutIn: self
 ]
 
 { #category : #'accessing selecters' }
@@ -129,15 +131,15 @@ ToAbstractListElement >> dataUpdater [
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultContextMenuSelectionMode [
+ToAbstractListElement >> defaultContextMenuManagerClass [
 
-	^ ToListContextMenuSelectionMode new
+	^ ToListElementContextMenuManager
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultContextMenuWindowManagerClass [
+ToAbstractListElement >> defaultContextMenuSelectionMode [
 
-	^ ToListElementContextMenuManager
+	^ ToListContextMenuSelectionMode new
 ]
 
 { #category : #initialization }
@@ -288,17 +290,17 @@ ToAbstractListElement >> initialize [
 
 	self layout: self defaultLayout.
 
-	self addEventHandler: (self defaultEventHandler target: self; yourself).
+	self addEventHandler: self defaultEventHandler.
 	self primarySelectionMode: self defaultPrimarySelectionMode.
 	self secondarySelectionMode: self defaultSecondarySelectionMode.
 	self contextMenuSelectionMode: self defaultContextMenuSelectionMode.
-	self contextMenuWindowManagerClass:
-		self defaultContextMenuWindowManagerClass.
+	self contextMenuManagerClass: self defaultContextMenuManagerClass.
 	self newUnselectableSelectionMode onInstalledIn: self.
 	self newHiddenSelectionMode onInstalledIn: self.
 	self newDisabledSelectionMode onInstalledIn: self.
 
-	self matchParent
+	self matchParent ".
+	self configureLayout"
 ]
 
 { #category : #initialization }
@@ -470,6 +472,16 @@ ToAbstractListElement >> primarySelectionMode: aSelectionMode [
 	self requestNewSkin
 ]
 
+{ #category : #'selection updating' }
+ToAbstractListElement >> refreshAllSelections [
+
+	self selectionModes do: [ :mode |
+		mode selectionOption ifNotNil: [ :option |
+			option
+				refreshSelectionIn: self
+				withSelectionModel: mode selectionModel ] ]
+]
+
 { #category : #accessing }
 ToAbstractListElement >> removeSelectionMode: aSelectionMode [
 
@@ -505,6 +517,12 @@ ToAbstractListElement >> secondarySelectionMode: aSelectionMode [
 ToAbstractListElement >> secondarySelectionModel [
 
 	^ self secondarySelectionMode selectionModel
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> secondarySelectionOption [
+
+	^ self secondarySelectionMode selectionOption
 ]
 
 { #category : #'accessing selecters' }

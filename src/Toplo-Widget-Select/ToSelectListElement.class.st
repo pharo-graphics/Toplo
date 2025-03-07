@@ -7,12 +7,6 @@ Class {
 	#category : #'Toplo-Widget-Select-List'
 }
 
-{ #category : #initialization }
-ToSelectListElement >> defaultLayout [
-
-	^ BlLinearLayout vertical
-]
-
 { #category : #accessing }
 ToSelectListElement >> groupSelecter [
 

@@ -25,6 +25,34 @@ ToMenuPane >> addMenu: aMenu [
 	self addItem: aMenu
 ]
 
+{ #category : #'t - item bar owner - initializing' }
+ToMenuPane >> applyInnerConfiguration [
+	" just force the resizer of the secondary direction 
+	( vertical direction in case of an horizontal bar )"
+
+	super applyInnerConfiguration.
+	self isHorizontal
+		ifTrue: [
+			self hasUniformNodeWidth: false.
+			self vFitContent.
+			self isSubPane ifTrue: [ self hFitContent ] ]
+		ifFalse: [
+			self hasUniformNodeWidth: true.
+			self hFitContent.
+			self isSubPane ifTrue: [ self vFitContent ] ].
+
+	self itemBar horizontal: self isHorizontal.
+	self isHMatchParent
+		ifTrue: [ self itemBar hMatchParent ]
+		ifFalse: [ self itemBar hFitContent ].
+	self isVMatchParent
+		ifTrue: [ self itemBar vMatchParent ]
+		ifFalse: [ self itemBar vFitContent ].
+
+	self itemBar applyInnerConfiguration.
+
+]
+
 { #category : #'auto opening' }
 ToMenuPane >> autoOpen [
 
@@ -49,21 +77,6 @@ ToMenuPane >> closeWindow [
 	self itemList do: [ :it | it isMenuItem ifTrue: [ it closeWindow ] ]
 ]
 
-{ #category : #'t - item bar owner - initializing' }
-ToMenuPane >> configureLayout [
-	" just force the resizer of the secondary direction 
-	( vertical direction in case of an horizontal bar )"
-
-	self isHorizontal
-		ifTrue: [
-			self vFitContent.
-			self isSubPane ifTrue: [ self hFitContent ] ]
-		ifFalse: [
-			self hFitContent.
-			self isSubPane ifTrue: [ self vFitContent ] ].
-	self itemBar configureLayoutIn: self
-]
-
 { #category : #initialization }
 ToMenuPane >> initialize [
 
@@ -77,7 +90,6 @@ ToMenuPane >> initialize [
 	self addEventHandler: ToMenuPaneEventHandler new.
 	self addChild: self itemBar.
 	self isWrapping: false.
-	self hasUniformNodeWidth: false.
 	self beHorizontal
 ]
 
@@ -167,22 +179,6 @@ ToMenuPane >> onAddedInItemBarOwner: aMenuItemBar [
 ToMenuPane >> onAddedMenu: aMenu [
 
 	aMenu isMenuPaneMenu: true.
-]
-
-{ #category : #layout }
-ToMenuPane >> onMeasure: anExtentMeasurementSpec [
-	"By default let layout strategy do the measuring job.
-	If needed override this method to do some additional
-	actions or just implement custom layout strategy"
-
-	| w |
-	super onMeasure: anExtentMeasurementSpec.
-	self isHorizontal ifTrue: [ ^ self ].
-	w := 0.
-	self collectedNodesDo: [ :child | w := w max: child measuredWidth ].
-	self collectedNodesDo: [ :child |
-		child measuredWidth < w ifTrue: [
-			child measuredExtent: w @ child measuredHeight ] ]
 ]
 
 { #category : #'adding-removing' }

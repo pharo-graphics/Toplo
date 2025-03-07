@@ -202,6 +202,7 @@ ToLabeledIconTest >> testInterspace [
 	| li |
 	li := ToLabeledIcon new.
 	li startInterspace: 10.
+	li applyInnerConfiguration.
 	li forceLayout.
 	self assert: li size equals: 10@0.
 	li vFitContent.
@@ -225,6 +226,7 @@ ToLabeledIconTest >> testInterspaceWithLabel [
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
+	li applyInnerConfiguration.
 	li forceLayout.
 	self
 		assert: li labelContainer bounds left
@@ -244,6 +246,7 @@ ToLabeledIconTest >> testInterspaceWithLabelAndVertical [
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
+	li applyInnerConfiguration.
 	li forceLayout.
 	self
 		assert: li labelContainer bounds top
@@ -378,10 +381,12 @@ ToLabeledIconTest >> testStartAlignment [
 		assert: li labelContainer bounds left
 		equals: li iconContainer bounds right.
 	li startAlignment: 100.
+	li applyInnerConfiguration.
 	li forceLayout.
 	self assert: li iconContainer bounds width equals: 100.
 	self assert: li labelContainer bounds left equals: 100.
 	li startAlignment: 50.
+	li applyInnerConfiguration.
 	li forceLayout.
 	self assert: li labelContainer bounds left equals: 50.
 	self assert: li iconContainer bounds width equals: 50.
@@ -437,6 +442,7 @@ ToLabeledIconTest >> testStartFlexibleWithLabel [
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
+	li applyInnerConfiguration.
 	container forceLayout.
 	self assert: li labelContainer bounds right closeTo: container width.
 	self assert: li iconContainer bounds left closeTo: 0
@@ -457,6 +463,7 @@ ToLabeledIconTest >> testStartFlexibleWithLabelAndVertical [
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
+	li applyInnerConfiguration.
 	container forceLayout.
 	self assert: li labelContainer bounds bottom equals: container height.
 	self assert: li iconContainer bounds top equals: 0

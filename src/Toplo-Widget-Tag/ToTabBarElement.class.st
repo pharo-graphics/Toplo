@@ -2,15 +2,56 @@ Class {
 	#name : #ToTabBarElement,
 	#superclass : #ToCheckableBarElement,
 	#instVars : [
-		'withCloseButton'
+		'parentTabsElement',
+		'atStartSide'
 	],
 	#category : #'Toplo-Widget-Tag-Tab'
 }
+
+{ #category : #configuration }
+ToTabBarElement >> applyInnerConfiguration [ 
+
+	super applyInnerConfiguration.
+	self requestNewSkin
+]
+
+{ #category : #accessing }
+ToTabBarElement >> atStartSide [
+
+	^ atStartSide
+]
+
+{ #category : #accessing }
+ToTabBarElement >> atStartSide: aBoolean [
+
+	atStartSide = aBoolean ifTrue: [ ^ self ].
+	atStartSide := aBoolean.
+	self requestNewConfiguration 
+]
 
 { #category : #'t - item list - accessing' }
 ToTabBarElement >> defaultNodeManagerClass [
 
 	^ ToTabNodeManager
+]
+
+{ #category : #initialization }
+ToTabBarElement >> initialize [ 
+
+	super initialize.
+	atStartSide := true
+]
+
+{ #category : #testing }
+ToTabBarElement >> isAtEndSide [ 
+
+	^ self isAtStartSide not
+]
+
+{ #category : #testing }
+ToTabBarElement >> isAtStartSide [
+
+	^ atStartSide
 ]
 
 { #category : #skin }
@@ -20,22 +61,14 @@ ToTabBarElement >> newRawSkin [
 ]
 
 { #category : #'t - bar element' }
-ToTabBarElement >> onInvisibleNodes: theInvisibleNodes [
+ToTabBarElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes [
 
-	nodeWrapping ifTrue: [ ^ self ].
-	nodeScrolling ifTrue: [ ^ self ].
-	nodeAutoDistribution ifFalse: [ ^ self ].
-	" ok the node menu can be shown "
+	parentTabsElement ifNotNil: [ :p |
+		p onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes ]
 ]
 
 { #category : #accessing }
-ToTabBarElement >> withCloseButton [
+ToTabBarElement >> parentTabsElement: anObject [
 
-	^ withCloseButton ifNil: [ withCloseButton := false ]
-]
-
-{ #category : #accessing }
-ToTabBarElement >> withCloseButton: aBoolean [
-
-	withCloseButton := aBoolean
+	parentTabsElement := anObject
 ]

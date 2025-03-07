@@ -9,19 +9,6 @@ Class {
 	#category : #'Toplo-Widget-Menu-ItemBar'
 }
 
-{ #category : #'t - list node holder' }
-ToMenuItemBarElement >> configureLayoutIn: anItemBarOwner [
-
-	self horizontal: anItemBarOwner isHorizontal.
-	anItemBarOwner isHMatchParent
-		ifTrue: [ self hMatchParent ]
-		ifFalse: [ self hFitContent ].
-	anItemBarOwner isVMatchParent
-		ifTrue: [ self vMatchParent ]
-		ifFalse: [ self vFitContent ].
-	self configureLayout
-]
-
 { #category : #'t - bar element' }
 ToMenuItemBarElement >> defaultInnerElement [
 
@@ -46,8 +33,7 @@ ToMenuItemBarElement >> initialize [
 	self fitContent.
 	self vertical: true.
 	self hasUniformNodeWidth: true.
-	self selectionOption masked: true.
-	self configureLayout
+	self selectionOption masked: true
 ]
 
 { #category : #skin }

@@ -1,49 +1,28 @@
 Extension { #name : #BlSpace }
 
 { #category : #'*Toplo' }
-BlSpace >> addDraggedSkinStateGeneration: aValuable [
-
-	self skinPhasesManager addSkinStateGeneration: aValuable.
-	self requestNextPulse 
-]
-
-{ #category : #'*Toplo' }
 BlSpace >> addSkinStateGeneration: aValuable [
 
-	self skinPhasesManager addSkinStateGeneration: aValuable.
+	self phasesManager addSkinStateGeneration: aValuable.
 	self requestNextPulse
-]
-
-{ #category : #'*Toplo' }
-BlSpace >> allowSkinPhases [
-
-	^ self skinPhasesManager allowSkinPhases
-]
-
-{ #category : #'*Toplo' }
-BlSpace >> allowSkinPhases: aBoolean [
-
-	" useful for testing. tests may want to run phases programmatically"
-	self skinPhasesManager allowSkinPhases: aBoolean.
-	self skinPhasesManager checkSkinPhasesIn: self
 ]
 
 { #category : #'*Toplo' }
 BlSpace >> applyAllEnqueuedStates [
 
-	self skinPhasesManager applyAllEnqueuedStatesIn: self
+	self phasesManager applyAllEnqueuedStatesIn: self
 ]
 
 { #category : #'*Toplo' }
 BlSpace >> applyAllInnerConfigurations [
 
-	self skinPhasesManager applyAllInnerConfigurationsIn: self
+	self phasesManager applyAllInnerConfigurationsIn: self
 ]
 
 { #category : #'*Toplo' }
 BlSpace >> applyAllSkinInstallers [
 
-	self skinPhasesManager applyAllSkinInstallersIn: self
+	self phasesManager applyAllSkinInstallersIn: self
 ]
 
 { #category : #'*Toplo' }
@@ -54,43 +33,36 @@ BlSpace >> applyAllSkinPhases [
 ]
 
 { #category : #'*Toplo' }
-BlSpace >> checkSkinPhases [
+BlSpace >> checkToploPhases [
 
-	self skinPhasesManager skinPhasesInstalled ifTrue: [^ self ].
-	self skinPhasesManager onInstalledIn: self
+	self phasesManager checkPhasesIn: self
 ]
 
 { #category : #'*Toplo' }
 BlSpace >> needInnerConfigurationPass: aBoolean [
 
-	self skinPhasesManager needInnerConfigurationPass: aBoolean.
+	self phasesManager needInnerConfigurationPass: aBoolean.
 	aBoolean ifTrue: [ self requestNextPulse ]
-]
-
-{ #category : #'*Toplo' }
-BlSpace >> needSkinInstallPass [
-
-	^ self skinPhasesManager needSkinInstallPass
 ]
 
 { #category : #'*Toplo' }
 BlSpace >> needSkinInstallPass: aBoolean [
 
-	self skinPhasesManager needSkinInstallPass: aBoolean.
+	self phasesManager needSkinInstallPass: aBoolean.
 	aBoolean ifTrue: [ self requestNextPulse ]
-]
-
-{ #category : #'*Toplo' }
-BlSpace >> needSkinStateApplicationPass [
-
-	^ self skinPhasesManager needSkinStateApplicationPass
 ]
 
 { #category : #'*Toplo' }
 BlSpace >> needSkinStateApplicationPass: aBoolean [
 
-	self skinPhasesManager needSkinStateApplicationPass: aBoolean.
+	self phasesManager needSkinStateApplicationPass: aBoolean.
 	aBoolean ifTrue: [ self requestNextPulse ]
+]
+
+{ #category : #'*Toplo' }
+BlSpace >> phasesManager [
+
+	^ self userData at: #phasesManager ifAbsentPut: [ ToSpacePhasesManager new ]
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
@@ -100,33 +72,15 @@ BlSpace >> resetToTheme [
 ]
 
 { #category : #'*Toplo' }
-BlSpace >> runStateGenerations [
+BlSpace >> startToploPhases [
 
-	self skinPhasesManager runStateGenerations
+	self phasesManager startPhasesIn: self
 ]
 
 { #category : #'*Toplo' }
-BlSpace >> skinPhasesInstalled [
+BlSpace >> stopToploPhases [
 
-	^ self skinPhasesManager skinPhasesInstalled
-]
-
-{ #category : #'*Toplo' }
-BlSpace >> skinPhasesManager [
-
-	^ self userData at: #skinPhasesManager ifAbsentPut: [ ToSpaceSkinPhasesManager new ]
-]
-
-{ #category : #'*Toplo' }
-BlSpace >> startSkinPhases [
-
-	self skinPhasesManager startSkinPhasesIn: self
-]
-
-{ #category : #'*Toplo' }
-BlSpace >> stopSkinPhases [
-
-	self skinPhasesManager stopSkinPhasesIn: self
+	self phasesManager stopPhasesIn: self
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
@@ -147,10 +101,4 @@ BlSpace >> toTheme: aTheme [
 	self userData at: #toTheme put: aTheme.
 	self root ensureCanManageSkin.
 	self root localTheme: aTheme
-]
-
-{ #category : #'*Toplo' }
-BlSpace >> uninstallSkinPhases [
-
-	self skinPhasesManager onUninstalledIn: self
 ]

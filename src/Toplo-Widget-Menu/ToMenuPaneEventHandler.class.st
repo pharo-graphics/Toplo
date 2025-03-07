@@ -13,34 +13,13 @@ ToMenuPaneEventHandler >> eventsToHandle [
 	^ {
 		  BlMouseLeaveEvent.
 		  BlMouseOverEvent.
-		  ToLayoutOrientationChangedEvent.
-		  ToLayoutDirectionChangedEvent.
 		  BlLayoutResizerChangedEvent }
-]
-
-{ #category : #'event handling' }
-ToMenuPaneEventHandler >> layoutDirectionChangedEvent: anEvent [
-
-	anEvent currentTarget configureLayout
-]
-
-{ #category : #'event handling' }
-ToMenuPaneEventHandler >> layoutOrientationChangedEvent: anEvent [
-
-	target isHorizontal
-		ifTrue: [
-			target isWrapping: false.
-			target hasUniformNodeWidth: false ]
-		ifFalse: [
-			target isWrapping: true.
-			target hasUniformNodeWidth: true ].
-	anEvent currentTarget configureLayout
 ]
 
 { #category : #'event handling' }
 ToMenuPaneEventHandler >> layoutResizerChangedEvent: anEvent [
 
-	anEvent currentTarget configureLayout
+	anEvent currentTarget requestNewConfiguration
 ]
 
 { #category : #'event handling' }

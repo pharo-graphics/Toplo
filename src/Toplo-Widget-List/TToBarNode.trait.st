@@ -10,31 +10,38 @@ TToBarNode >> isFake [
 ]
 
 { #category : #'t - bar node' }
-TToBarNode >> isFullyVisible [
+TToBarNode >> isFullyVisibleInInnerElement [
 
-	| bnds list |
+	| bnds list intersection |
 	list := self holder listElement.
-	bnds := (self measuredBounds inParent: list innerElement) asRectangle.
-	^ self nodeContainerIntersection = bnds
+	bnds := (self measuredBounds inSpace) asRectangle.
+	intersection := self nodeAndListElementIntersection.
+	^ intersection = bnds
 ]
 
 { #category : #'t - bar node' }
 TToBarNode >> isPartlyVisible [
 
-	^ self nodeContainerIntersection
+	^ self nodeAndListElementIntersection
 		  ifNotNil: [ :i | i isZero not ]
 		  ifNil: [ false ]
 ]
 
 { #category : #'t - bar node' }
-TToBarNode >> nodeContainerIntersection [
+TToBarNode >> listElementReferenceBoundsInSpace [
+
+	|  list |
+	list := self holder listElement.
+	^ list innerElement bounds inSpace
+]
+
+{ #category : #'t - bar node' }
+TToBarNode >> nodeAndListElementIntersection [
 
 	| intersection bnds pbnds list |
-	self measuredWidth isZero ifTrue: [ ^ nil ].
 	list := self holder listElement.
-	bnds := (self measuredBounds inParent: list innerElement) asRectangle.
-	pbnds := list innerElement measuredBounds asRectangle.
-	pbnds := pbnds withRight: pbnds right.
+	bnds := self measuredBounds inSpace bounds asRectangle.
+	pbnds := self listElementReferenceBoundsInSpace asRectangle.
 	intersection := bnds intersect: pbnds.
-	^ intersection 
+	^ intersection
 ]

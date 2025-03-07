@@ -28,6 +28,7 @@ ToTestCaseWithSpace >> installNewSkinNowIn: anElement [
 ToTestCaseWithSpace >> setUp [ 
 
 	super setUp.
-	space := BlSpace new
+	space := BlSpace new.
+	space checkToploPhases 
 
 ]

@@ -27,7 +27,8 @@ ToTabPane >> addTabWithText: aText [
 
 	| but |
 	but := ToTab new labelText: aText asString.
-	self addTab: but
+	self addTab: but.
+	^ self
 ]
 
 { #category : #'adding-removing' }
@@ -98,7 +99,7 @@ ToTabPane >> initialize [
 	header := ToTabPaneHeader new.
 	header tabsPane: self.
 	header applyPositioning.
-	body := ToPane vertical matchParent.
+	body := ToBodyPane vertical matchParent.
 	self addChild: body as: #body.
 	self addChild: header as: #header.
 	self withVerticalBody.

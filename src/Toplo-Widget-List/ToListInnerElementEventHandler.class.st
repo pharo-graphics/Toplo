@@ -29,7 +29,7 @@ ToListInnerElementEventHandler >> elementPositionChangedEvent: anEvent [
 ToListInnerElementEventHandler >> elementScrolledEvent: anEvent [
 
 	anEvent delta = (0 @ 0) ifTrue: [ ^ self ].
-	anEvent currentTarget listElement dispatchEvent: anEvent 
+	anEvent currentTarget listElement dispatchEvent: anEvent copy
 ]
 
 { #category : #'api - accessing' }

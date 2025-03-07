@@ -15,15 +15,14 @@ ToSpaceRootSkinTest >> testInstallSkinEvent [
 	space := BlSpace new.
 	e := ToElement new.
 	e defaultSkin: ToSpaceRootSkin new.
-	space root addChild: e.
-	self assert: e background isTransparent.
 	goneHere := false.
 	space addEventHandler: (BlEventHandler
-			 on: ToSpaceSkinPhasesStarted
+			 on: ToSpacePhasesStarted
 			 do: [
 				 goneHere := true.
 				 e skinManager applySkinReinstallIn: e.
 				 self deny: e background isTransparent ]).
-	space startSkinPhases.
+	space root addChild: e.
+	self assert: e background paint color equals: (e valueOfTokenNamed: #'background-color').
 	self assert: goneHere
 ]

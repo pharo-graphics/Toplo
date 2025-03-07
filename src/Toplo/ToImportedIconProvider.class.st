@@ -77,7 +77,7 @@ ToImportedIconProvider class >> listElementWithAllIcons [
 		indexes size = 1 ifTrue: [
 			menu addItem: (ToMenuItem new
 					 labelText: 'Inspect image';
-					 linkClickAction: [ 
+					 clickAction: [ 
 						 | dataItem element |
 						 dataItem := target dataAccessor at: indexes first.
 						 element := (dataItem value

@@ -24,11 +24,11 @@ ToWidgetLink >> addedHandler: anEventHandler in: aTarget [
 ]
 
 { #category : #running }
-ToWidgetLink >> applyChangeOn: aModel with: aValue [
+ToWidgetLink >> applyChangeIn: aModel onEvent: anEvent withValue: aValue [
 
 	self dispatchEvent: (ToModelChangedEvent new
 			 model: aModel;
-			 writtenValue: aValue;
+			 event: anEvent;
 			 yourself)
 ]
 

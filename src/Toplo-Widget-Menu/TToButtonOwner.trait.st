@@ -37,6 +37,13 @@ TToButtonOwner >> buttonClickEventClass [
 ]
 
 { #category : #'t - button holder' }
+TToButtonOwner >> clickAction: aValuable [ 
+	"Inform that the widget has been clicked."
+
+	self button clickAction: aValuable 
+]
+
+{ #category : #'t - button holder' }
 TToButtonOwner >> clickEventClass [
 
 	^ self button clickEventClass
@@ -49,13 +56,6 @@ TToButtonOwner >> initializeAsButtonOwner [
 	self button takeFocusOnClick: false.
 	self button clickEventClass: self buttonClickEventClass.
 	self layout: self defaultLayout
-]
-
-{ #category : #'t - button holder' }
-TToButtonOwner >> linkClickAction: aValuable [ 
-	"Inform that the widget has been clicked."
-
-	self button linkClickAction: aValuable 
 ]
 
 { #category : #'t - button holder' }

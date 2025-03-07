@@ -4,13 +4,13 @@ Trait {
 }
 
 { #category : #'t - linkable' }
-TToLinkable >> linkCheckAction: aValuable [ 
+TToLinkable >> checkAction: aValuable [
 
-	^ self linkCheckWith: self action: aValuable
+	^ self checkAction: aValuable with: self
 ]
 
 { #category : #'t - linkable' }
-TToLinkable >> linkCheckWith: aModel action: aValuable [ 
+TToLinkable >> checkAction: aValuable with: aModel [ 
 
 	^ self newCheckActionLink
 		  link: self
@@ -19,7 +19,7 @@ TToLinkable >> linkCheckWith: aModel action: aValuable [
 ]
 
 { #category : #'t - linkable' }
-TToLinkable >> linkCheckWith: aModel feature: aFeatureName [
+TToLinkable >> checkFeature: aFeatureName with: aModel [
 
 	^ self newCheckPropertyLink
 		  link: self
@@ -29,7 +29,7 @@ TToLinkable >> linkCheckWith: aModel feature: aFeatureName [
 ]
 
 { #category : #'t - linkable' }
-TToLinkable >> linkCheckWith: aModel reader: aReader writer: aWriter [
+TToLinkable >> checkReader: aReader writer: aWriter with: aModel [
 
 	^ self newCheckPropertyLink
 		  link: self
@@ -39,13 +39,13 @@ TToLinkable >> linkCheckWith: aModel reader: aReader writer: aWriter [
 ]
 
 { #category : #'t - linkable' }
-TToLinkable >> linkClickAction: aValuable [
+TToLinkable >> clickAction: aValuable [
 
-	^ self linkClickWith: self action: aValuable
+	^ self clickAction: aValuable with: self
 ]
 
 { #category : #'t - linkable' }
-TToLinkable >> linkClickWith: aModel action: aValuable [ 
+TToLinkable >> clickAction: aValuable with: aModel [ 
 
 	^ self newClickActionLink
 		  link: self

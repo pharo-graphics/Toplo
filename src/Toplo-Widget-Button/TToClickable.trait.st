@@ -7,6 +7,14 @@ Trait {
 }
 
 { #category : #'t - clickable' }
+TToClickable >> clickAction: aValuable [
+
+	clickAction ifNotNil: [ :ca | ca unlink ].
+	clickAction := super clickAction: aValuable.
+	^ clickAction
+]
+
+{ #category : #'t - clickable' }
 TToClickable >> clickEvent: anEvent [
 ]
 
@@ -23,14 +31,6 @@ TToClickable >> clickEventClass: anEventClass [
 		self userData removeKey: #clickEventClass.
 		^ self ].
 	self userData at: #clickEventClass put: anEventClass
-]
-
-{ #category : #'t - clickable' }
-TToClickable >> linkClickAction: aValuable [
-
-	clickAction ifNotNil: [ :ca | ca unlink ].
-	clickAction := super linkClickAction: aValuable.
-	^ clickAction
 ]
 
 { #category : #'t - clickable' }

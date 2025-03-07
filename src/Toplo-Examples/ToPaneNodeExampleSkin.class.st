@@ -17,7 +17,7 @@ ToPaneNodeExampleSkin >> createNodeButton [
 	nodeButton := ToButton new
 		              label: label;
 		              yourself.
-	nodeButton linkClickAction: [
+	nodeButton clickAction: [
 		self inform: 'CLICK' ].
 	nodeButton constraintsDo: [ :c |
 		c ignoreByLayout.

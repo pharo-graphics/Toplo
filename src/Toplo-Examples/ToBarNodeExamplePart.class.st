@@ -34,7 +34,7 @@ ToBarNodeExamplePart >> initializeRemoveButton [
 	but constraintsDo: [ :c | c linear vertical alignCenter ].
 	but geometry: BlCircleGeometry new.
 
-	but linkClickAction: [ :event | self removeFromBar ].
+	but clickAction: [ self removeFromBar ].
 
 	but id: #removeButton.
 	triplet startElement: but.

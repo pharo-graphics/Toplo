@@ -11,7 +11,6 @@ ToCheckableActionLink >> configureToUpdateModel: aModel from: aTarget [
 	handler := aTarget
 		           addEventHandlerOn: ToCheckableCheckEvent
 		           do: [ :event |
-			           event consume.
-			           self applyChangeOn: aModel with: event current ].
+			           self applyChangeIn: aModel onEvent: event withValue: event current ].
 	self addedHandler: handler in: aTarget
 ]

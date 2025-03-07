@@ -8,10 +8,10 @@ Class {
 }
 
 { #category : #running }
-ToPropertyLink >> applyChangeOn: aModel with: aValue [
+ToPropertyLink >> applyChangeIn: aModel onEvent: anEvent withValue: aValue [
 
 	property write: aValue to: aModel.
-	super applyChangeOn: aModel with: aValue
+	super applyChangeIn: aModel onEvent: anEvent withValue: aValue
 ]
 
 { #category : #initialization }

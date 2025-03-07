@@ -126,7 +126,7 @@ ToMiniBrowser >> newClassPane [
 	classesPane addChild: classesButtonPane.
 
 	sideToggle checked: self classSide.
-	sideToggle linkCheckAction: [ :target :value |
+	sideToggle checkAction: [ :evt :value |
 				 classSide := value.
 				 self refreshClassSelectionWithSelectedIndexes:
 					 classes selectionModel selectedIndexes ].

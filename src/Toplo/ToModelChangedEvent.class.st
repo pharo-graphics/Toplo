@@ -3,10 +3,22 @@ Class {
 	#superclass : #BlEvent,
 	#instVars : [
 		'model',
-		'writtenValue'
+		'event'
 	],
 	#category : #'Toplo-Core-Properties'
 }
+
+{ #category : #accessing }
+ToModelChangedEvent >> event [
+
+	^ event
+]
+
+{ #category : #accessing }
+ToModelChangedEvent >> event: anEvent [
+
+	event := anEvent
+]
 
 { #category : #accessing }
 ToModelChangedEvent >> model [
@@ -18,16 +30,4 @@ ToModelChangedEvent >> model [
 ToModelChangedEvent >> model: anObject [
 
 	model := anObject
-]
-
-{ #category : #accessing }
-ToModelChangedEvent >> writtenValue [
-
-	^ writtenValue
-]
-
-{ #category : #accessing }
-ToModelChangedEvent >> writtenValue: anObject [
-
-	writtenValue := anObject
 ]

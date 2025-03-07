@@ -52,7 +52,7 @@ ToButtonTest >> testClickAborted [
 				  background: Color blue;
 				  yourself)).
 	but matchParent.
-	but linkClickAction: [ count := count + 1 ].
+	but clickAction: [ count := count + 1 ].
 	space root addChild: but.
 	BlSpace simulateMouseDownOn: but.
 	BlSpace simulateMouseUpOn: but icon.
@@ -88,7 +88,7 @@ ToButtonTest >> testClickAborted2 [
 				  background: Color blue;
 				  yourself)).
 	but matchParent.
-	but linkClickAction: [ count := count + 1 ].
+	but clickAction: [ count := count + 1 ].
 	space root addChild: but.
 	BlSpace simulateMouseDownOn: but label.
 	BlSpace simulateMouseUpOn: but icon.
@@ -102,10 +102,10 @@ ToButtonTest >> testClickReplacingHandler [
 	| but done |
 	but := ToButton new.
 	done := 0.
-	but linkClickAction: [ done := done + 1 ].
+	but clickAction: [ done := done + 1 ].
 	but dispatchEvent: BlMouseUpEvent primary asClickEvent.
 	self assert: done equals: 1.
-	but linkClickAction: [ done := done + 10 ].
+	but clickAction: [ done := done + 10 ].
 	but dispatchEvent: BlMouseUpEvent primary asClickEvent.
 	self assert: done equals: 11.
 
@@ -120,7 +120,7 @@ ToButtonTest >> testClickWhenDisabled [
 	but := ToButton new.
 	but disable.
 	done := 0.
-	but linkClickAction: [ done := done +1 ].
+	but clickAction: [ done := done +1 ].
 	self assert: done equals: 0.
 	
 ]
@@ -131,7 +131,7 @@ ToButtonTest >> testClickWithSimpleHandler [
 	| but done |
 	but := ToButton new.
 	done := 0.
-	but linkClickAction: [ done := done +1 ].
+	but clickAction: [ done := done +1 ].
 	but dispatchEvent: BlMouseUpEvent primary asClickEvent.
 	self assert: done equals: 1
 	
@@ -153,7 +153,7 @@ ToButtonTest >> testLinkClickAction [
 	count := 0.
 	but := ToButton new.
 	but matchParent.
-	but linkClickAction: [ count := count + 1 ].
+	but clickAction: [ count := count + 1 ].
 	space root addChild: but.
 	BlSpace simulateMouseDownOn: but.
 	BlSpace simulateMouseUpOn: but.
@@ -167,7 +167,7 @@ ToButtonTest >> testRemoveClickAction [
 	| but done |
 	but := ToButton new.
 	done := 0.
-	but linkClickAction: [ done := done + 1 ].
+	but clickAction: [ done := done + 1 ].
 	but dispatchEvent: BlMouseUpEvent primary asClickEvent.
 	self assert: done equals: 1.
 	but removeClickAction.

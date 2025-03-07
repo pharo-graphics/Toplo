@@ -8,10 +8,10 @@ Class {
 }
 
 { #category : #running }
-ToActionLink >> applyChangeOn: aModel with: aValue [
+ToActionLink >> applyChangeIn: aModel onEvent: anEvent withValue: aValue [
 
-	action cull: aModel cull: aValue.
-	super applyChangeOn: aModel with: aValue
+	action cull: anEvent cull: aModel cull: aValue.
+	super applyChangeIn: aModel onEvent: anEvent withValue: aValue
 ]
 
 { #category : #initialization }

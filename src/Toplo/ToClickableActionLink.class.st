@@ -15,7 +15,7 @@ ToClickableActionLink >> configureToUpdateModel: aModel from: aTarget [
 			           event consume.
 			           space := aTarget space.
 			           time := space ifNotNil: [ :sp | sp time ].
-			           self applyChangeOn: aModel with: nil.
+			           self applyChangeIn: aModel onEvent: event withValue: nil.
 			           aTarget fireEvent: (ToClickableActionPerformedEvent new
 					            fillFromTime: time;
 					            yourself) ].

@@ -115,11 +115,11 @@ ToBlElementTest >> testRequestSkin [
 	self assert: e skinManager skinInstaller isNil.
 	self assert: e skinManager installedSkin isNil.
 	space root addChild: e.
-	self assert: e skinManager skinInstaller notNil.
+	self assert: e skinManager skinInstaller isNil.
 	self assert: e skinManager installedSkin isNil.
 	space applyAllSkinInstallers.
 	self assert: e skinManager skinInstaller isNil.
-	self assert: e skinManager installedSkin notNil
+	self assert: e skinManager installedSkin isNil
 ]
 
 { #category : #tests }

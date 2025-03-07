@@ -5,14 +5,14 @@ Class {
 }
 
 { #category : #'event handling' }
-ToSelectEventHandler >> elementAddedToSceneGraphEvent: anEvent [
+ToSelectEventHandler >> addedToSpaceEvent: anEvent [
 
 	anEvent currentTarget refresh 
 ]
 
 { #category : #'api - accessing' }
 ToSelectEventHandler >> eventsToHandle [
-	^ { BlElementAddedToSceneGraphEvent. ToPlaceholderShownEvent }
+	^ { ToAddedToSpaceEvent. ToPlaceholderShownEvent }
 ]
 
 { #category : #'event handling' }

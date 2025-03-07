@@ -39,7 +39,7 @@ ToStillPressedPickOutsideEventFilter >> mouseUpEvent: anEvent [
 		^ self ].
 
 	" It it ouside my target, do nothing "
-	(anEvent target hasInParentChain: element) ifTrue: [ ^ self ].
+	(anEvent target withAllParentsInclude: element) ifTrue: [ ^ self ].
 
 	anEvent consume.
 	holder ifNil: [ ^ self ].

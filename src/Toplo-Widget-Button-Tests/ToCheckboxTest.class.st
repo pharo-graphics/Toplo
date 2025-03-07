@@ -89,7 +89,7 @@ ToCheckboxTest >> testStartChecked [
 	space root addChild: cb.
 	self assert: cb checked.
 	cb addEventHandler: (BlEventHandler
-			 on: BlElementAddedToSceneGraphEvent
+			 on: ToAddedToSpaceEvent 
 			 do: [ space close ])
 ]
 
@@ -104,7 +104,7 @@ ToCheckboxTest >> testStartCheckedThenDisabled [
 	cb disable.
 	self assert: cb checked.
 	cb addEventHandler: (BlEventHandler
-			 on: BlElementAddedToSceneGraphEvent
+			 on: ToAddedToSpaceEvent 
 			 do: [ space close ])
 ]
 
@@ -117,6 +117,6 @@ ToCheckboxTest >> testStartUnchecked [
 	space root addChild: cb.
 	self assert: cb checked not.
 	cb addEventHandler: (BlEventHandler
-			 on: BlElementAddedToSceneGraphEvent
+			 on: ToAddedToSpaceEvent 
 			 do: [ space close ])
 ]

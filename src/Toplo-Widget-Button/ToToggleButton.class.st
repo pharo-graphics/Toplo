@@ -1,8 +1,8 @@
 Class {
 	#name : #ToToggleButton,
 	#superclass : #ToButton,
-	#traits : 'TToLinkableWithModel + TToItem',
-	#classTraits : 'TToLinkableWithModel classTrait + TToItem classTrait',
+	#traits : 'TToItem',
+	#classTraits : 'TToItem classTrait',
 	#category : #'Toplo-Widget-Button-Checkable'
 }
 

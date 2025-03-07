@@ -9,6 +9,12 @@ Class {
 	#category : #'Toplo-Widget-List-Core'
 }
 
+{ #category : #'element events handling' }
+ToListElementEventHandler >> addedToSpaceEvent: anEvent [
+
+	self showHidePlaceholderIn: anEvent currentTarget
+]
+
 { #category : #'event handling' }
 ToListElementEventHandler >> blurEvent: anEvent [
 
@@ -51,12 +57,6 @@ ToListElementEventHandler >> doubleClickEvent: anEvent [
 	anEvent consume
 ]
 
-{ #category : #'element events handling' }
-ToListElementEventHandler >> elementAddedToSceneGraphEvent: anEvent [
-
-	self showHidePlaceholderIn: anEvent currentTarget
-]
-
 { #category : #'selection managing' }
 ToListElementEventHandler >> elementExtentChangedEvent: anEvent [
 
@@ -79,7 +79,7 @@ ToListElementEventHandler >> eventsToHandle [
 	^ {
 		  BlFocusEvent.
 		  BlBlurEvent.
-		  BlElementAddedToSceneGraphEvent.
+		  ToAddedToSpaceEvent.
 
 		  BlMouseDownEvent.
 		  BlClickEvent.

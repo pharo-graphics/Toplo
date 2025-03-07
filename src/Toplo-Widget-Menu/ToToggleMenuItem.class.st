@@ -5,8 +5,8 @@ I'm one of the leave of menu composite.
 Class {
 	#name : #ToToggleMenuItem,
 	#superclass : #ToMenuItem,
-	#traits : 'TToLinkableWithModel + TToCheckable + TToCheckableOwner',
-	#classTraits : 'TToLinkableWithModel classTrait + TToCheckable classTrait + TToCheckableOwner classTrait',
+	#traits : 'TToCheckable + TToCheckableOwner',
+	#classTraits : 'TToCheckable classTrait + TToCheckableOwner classTrait',
 	#instVars : [
 		'closeOnPicking'
 	],

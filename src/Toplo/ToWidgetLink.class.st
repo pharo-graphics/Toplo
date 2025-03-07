@@ -1,16 +1,16 @@
 Class {
-	#name : #ToModelLink,
+	#name : #ToWidgetLink,
 	#superclass : #Object,
 	#traits : 'TBlEventTarget',
 	#classTraits : 'TBlEventTarget classTrait',
 	#instVars : [
 		'eventDispatcher'
 	],
-	#category : #'Toplo-Core-Properties'
+	#category : #'Toplo-Core-WidgetLink'
 }
 
 { #category : #'reading-writing' }
-ToModelLink >> applyChangeOn: aModel with: aValue [
+ToWidgetLink >> applyChangeOn: aModel with: aValue [
 
 	self dispatchEvent: (ToModelChangedEvent new
 			 model: aModel;
@@ -19,13 +19,13 @@ ToModelLink >> applyChangeOn: aModel with: aValue [
 ]
 
 { #category : #initialization }
-ToModelLink >> configureToUpdateModel: aModel from: aValueProvider [
+ToWidgetLink >> configureToUpdateModel: aModel from: aValueProvider [
 
 	self subclassResponsibility 
 ]
 
 { #category : #'event management accessing' }
-ToModelLink >> eventDispatcher [
+ToWidgetLink >> eventDispatcher [
 	"Return an object responsible for event dispatching"
 
 	<return: #BlDirectEventDispatcher>
@@ -34,7 +34,7 @@ ToModelLink >> eventDispatcher [
 ]
 
 { #category : #'reading-writing' }
-ToModelLink >> onModelValueChangedDo: aValuable [
+ToWidgetLink >> onModelValueChangedDo: aValuable [
 
 	self
 		addEventHandlerOn: ToModelChangedEvent

@@ -1,10 +1,34 @@
 Class {
 	#name : #ToElement,
 	#superclass : #BlElement,
-	#traits : 'TToElement + TBlLayoutResizable + TToElementWithTooltip + TToElementWithContextMenu + TToAuthorisationRequestTarget',
-	#classTraits : 'TToElement classTrait + TBlLayoutResizable classTrait + TToElementWithTooltip classTrait + TToElementWithContextMenu classTrait + TToAuthorisationRequestTarget classTrait',
+	#traits : 'TToElement + TToLinkable + TBlLayoutResizable + TToElementWithTooltip + TToElementWithContextMenu + TToAuthorisationRequestTarget',
+	#classTraits : 'TToElement classTrait + TToLinkable classTrait + TBlLayoutResizable classTrait + TToElementWithTooltip classTrait + TToElementWithContextMenu classTrait + TToAuthorisationRequestTarget classTrait',
 	#category : #'Toplo-Core'
 }
+
+{ #category : #'t - checkable - accessing' }
+ToElement >> checkActionLinkClass [
+
+	^ Error signal: 'No check property link kind available'
+]
+
+{ #category : #'t - checkable - accessing' }
+ToElement >> checkPropertyLinkClass [ 
+
+	^ Error signal: 'No check property link kind available'
+]
+
+{ #category : #'t - checkable - accessing' }
+ToElement >> clickActionLinkClass [ 
+
+	^ ToClickableActionLink 
+]
+
+{ #category : #'event creation' }
+ToElement >> clickEventClass [ 
+
+	^ BlPrimaryClickEvent 
+]
 
 { #category : #initialization }
 ToElement >> defaultLayout [ 

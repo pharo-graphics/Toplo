@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'borderBuilder',
 		'installedSkin',
-		'removeFromSceneGraphHandler'
+		'removedFromSpaceHandler'
 	],
 	#category : #'Toplo-Core-Skin'
 }
@@ -18,10 +18,8 @@ ToInstalledSkinContext >> borderBuilder [
 { #category : #accessing }
 ToInstalledSkinContext >> installSkin: aSkin in: anElement [
 
-	
-	
 	installedSkin = aSkin ifTrue: [ ^ self ].
-	
+
 	self
 		assert: [ (anElement eventDispatcher handlers includes: aSkin) not ]
 		description: [ 'The skin must not be already registered!' ].
@@ -29,17 +27,14 @@ ToInstalledSkinContext >> installSkin: aSkin in: anElement [
 	installedSkin := aSkin.
 
 	" install the event handler that will ask for a skin uninstaller when element is removed from space"
-	removeFromSceneGraphHandler := BlEventHandler
-		                               on:
-		                               BlElementRemovedFromSceneGraphEvent
-		                               do: [ :evt |
-			                               evt currentTarget skinManagerDo: [
-				                               :sm |
-				                               sm requestUninstallSkinIn:
-					                               evt currentTarget ] ].
-	anElement addEventHandler: removeFromSceneGraphHandler.
-	anElement addEventHandler: aSkin.
-
+	removedFromSpaceHandler := BlEventHandler
+		                           on: ToRemovedFromSpaceEvent
+		                           do: [ :evt |
+			                           evt currentTarget skinManagerDo: [ :sm |
+				                           sm requestUninstallSkinIn:
+					                           evt currentTarget ] ].
+	anElement addEventHandler: removedFromSpaceHandler.
+	anElement addEventHandler: aSkin
 ]
 
 { #category : #accessing }
@@ -51,7 +46,7 @@ ToInstalledSkinContext >> installedSkin [
 { #category : #accessing }
 ToInstalledSkinContext >> uninstallSkinIn: anElement [
 
-	anElement removeEventHandler: removeFromSceneGraphHandler.
+	anElement removeEventHandler: removedFromSpaceHandler.
 	anElement removeEventHandler: installedSkin.
 	installedSkin := nil
 ]

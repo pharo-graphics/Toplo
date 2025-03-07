@@ -298,6 +298,7 @@ ToAnchoredWindowTest >> testPopupEvent [
 	win popupEvent: nil.
 	self waitTestingSpaces.
 	win close.
+	self waitTestingSpaces.
 	sourceEvent := BlEvent new.
 	win := windowManager newWindowEvent: nil.
 	win addEventHandler: (BlEventHandler

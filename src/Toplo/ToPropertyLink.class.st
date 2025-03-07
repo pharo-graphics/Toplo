@@ -1,10 +1,10 @@
 Class {
 	#name : #ToPropertyLink,
-	#superclass : #ToModelLink,
+	#superclass : #ToWidgetLink,
 	#instVars : [
 		'property'
 	],
-	#category : #'Toplo-Core-Properties'
+	#category : #'Toplo-Core-WidgetLink'
 }
 
 { #category : #'reading-writing' }

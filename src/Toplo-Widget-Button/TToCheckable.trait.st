@@ -3,12 +3,6 @@ Trait {
 	#category : #'Toplo-Widget-Button-Checkable'
 }
 
-{ #category : #'t - checkable - accessing' }
-TToCheckable >> actionLinkClass [
-
-	^ ToCheckableActionLink
-]
-
 { #category : #'t - checkable - group' }
 TToCheckable >> addToGroup: aGroup [
 
@@ -38,6 +32,18 @@ TToCheckable >> allowIndeterminate: aBoolean [
 TToCheckable >> check [
 
 	self checked: true
+]
+
+{ #category : #'t - checkable - accessing' }
+TToCheckable >> checkActionLinkClass [
+
+	^ ToCheckableActionLink
+]
+
+{ #category : #'t - checkable - accessing' }
+TToCheckable >> checkPropertyLinkClass [
+
+	^ ToCheckableLink
 ]
 
 { #category : #'t - checkable - accessing' }
@@ -148,12 +154,6 @@ TToCheckable >> newCheckableEventHandler [
 TToCheckable >> privateChecked: aBoolean [
 
 	self checkableData privateChecked: aBoolean
-]
-
-{ #category : #'t - checkable - accessing' }
-TToCheckable >> propertyLinkClass [
-
-	^ ToCheckableLink
 ]
 
 { #category : #'t - checkable - group' }

@@ -47,7 +47,7 @@ ToInstalledSkinContextTest >> testInstallSkinIn [
 	self assert: (e eventDispatcher handlers
 			 detect: [ :h |
 				 (h isKindOf: BlEventHandler) and: [
-					 h eventClass = BlElementRemovedFromSceneGraphEvent ] ]
+					 h eventClass = ToRemovedFromSpaceEvent ] ]
 			 ifNone: [  ]) notNil.
 	self assert: (e eventDispatcher handlers
 			 detect: [ :h | h == skin ]

@@ -302,10 +302,10 @@ ToListElementStresser >> initialize [
 		                              yourself.
 
 	self tabsPanel
-		addEventHandlerOn: BlElementAddedToSceneGraphEvent
+		addEventHandlerOn: ToAddedToSpaceEvent 
 		do: [ :event | tabSelectionProcess resume ].
 	self tabsPanel
-		addEventHandlerOn: BlElementRemovedFromSceneGraphEvent
+		addEventHandlerOn: ToRemovedFromSpaceEvent 
 		do: [ :event | tabSelectionProcess terminate ]
 ]
 
@@ -431,12 +431,12 @@ ToListElementStresser >> newStressedListNumber: aNumber [
 	process priority: priority.
 
 	self tabsPanel
-		addEventHandlerOn: BlElementAddedToSceneGraphEvent
+		addEventHandlerOn: ToAddedToSpaceEvent 
 		do: [ :event |
 			sieve isInstalled ifFalse: [ sieve onInstalledIn: list ].
 			process resume ].
 	self tabsPanel
-		addEventHandlerOn: BlElementRemovedFromSceneGraphEvent
+		addEventHandlerOn: ToRemovedFromSpaceEvent 
 		do: [ :event |
 			process terminate.
 			sieve isInstalled ifTrue: [ sieve onUninstalledIn: list ] ].

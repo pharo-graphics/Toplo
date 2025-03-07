@@ -1,16 +1,16 @@
 Class {
 	#name : #ToActionLink,
-	#superclass : #ToModelLink,
+	#superclass : #ToWidgetLink,
 	#instVars : [
 		'action'
 	],
-	#category : #'Toplo-Core-Properties'
+	#category : #'Toplo-Core-WidgetLink'
 }
 
 { #category : #'reading-writing' }
 ToActionLink >> applyChangeOn: aModel with: aValue [
 
-	action value: aModel value: aValue.
+	action cull: aModel cull: aValue.
 	super applyChangeOn: aModel with: aValue
 ]
 

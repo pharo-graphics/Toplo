@@ -21,6 +21,7 @@ TToElementWithContextMenuTest >> testContextMenu [
 	self assert: ttwin root firstChild nodes first item identicalTo: tt.
 	self assert: ttwin anchorElement identicalTo: e.
 	ttwin close.
+	self waitTestingSpaces.
 	^ e
 ]
 
@@ -124,6 +125,7 @@ TToElementWithContextMenuTest >> testContextMenuContent [
 	e contextMenuContent: nil.
 	self assert: e currentContextMenu isNil.
 	self assert: e hasContextMenu not.
+	self waitTestingSpaces.
 	self should: [ttwin close] raise: Error.
 	^ e
 ]

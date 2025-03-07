@@ -26,13 +26,15 @@ ToElementInitializeEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 	target spaceDo: [ :sp |
 		sp checkToploPhases.
 		sp needInnerConfigurationPass: true ].
-	target ensuredSkinManager requestInstallSkinIn: target
+	target ensuredSkinManager requestInstallSkinIn: target.
+	target dispatchEvent: ToAddedToSpaceEvent new
 ]
 
 { #category : #'event handling' }
 ToElementInitializeEventHandler >> elementRemovedFromSceneGraphEvent: anEvent [
 
-	addedToSceneGraph := false
+	addedToSceneGraph := false.
+	anEvent currentTarget dispatchEvent: ToRemovedFromSpaceEvent new
 ]
 
 { #category : #'api - accessing' }

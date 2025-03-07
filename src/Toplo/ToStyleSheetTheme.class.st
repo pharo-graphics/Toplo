@@ -21,6 +21,12 @@ ToStyleSheetTheme >> accept: aVisitor [
 	aVisitor visitStyleSheetTheme: self.
 ]
 
+{ #category : #'accessing - writable properties' }
+ToStyleSheetTheme >> addWritableProperty: aProperty [
+
+	self styleSheet addWritableProperty: aProperty
+]
+
 { #category : #styling }
 ToStyleSheetTheme >> applicableListenersFor: anElement [
 	" for an element, several listeners can be found (actions and writers). These listeners 

@@ -148,13 +148,16 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 			 yourself).
 	menu addItem: (ToCheckMenuItem new
 			 label: (ToLabel text: 'Disable bar');
-			 whenClickedDo: [ :event |
-				 aBar disabled: event currentTarget isChecked ];
+			 in: [ :cbox |
+				 cbox linkCheckWith: aBar reader: #isDisabled writer: #disabled: ];
 			 yourself).
 	confPane addChild: menu.
 
 	verticalSwitch := ToSwitchButton new labelText: 'Vertical'.
-	verticalSwitch newModelLinkWith: aBar reader: #isVertical writer: #vertical:.
+	verticalSwitch
+		linkCheckWith: aBar
+		reader: #isVertical
+		writer: #vertical:.
 	verticalSwitch startFlexible: true.
 	verticalSwitch hMatchParent.
 	confPane addChild: verticalSwitch.
@@ -167,7 +170,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	uniformNodeWidthSwitch := ToSwitchButton new labelText:
 		                          'Uniform width'.
 	uniformNodeWidthSwitch
-		newModelLinkWith: aBar
+		linkCheckWith: aBar
 		feature: #hasUniformNodeWidth.
 	uniformNodeWidthSwitch startFlexible: true.
 	uniformNodeWidthSwitch hMatchParent.
@@ -178,25 +181,23 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	uniformNodeHeightSwitch startFlexible: true.
 	uniformNodeHeightSwitch hMatchParent.
 	uniformNodeHeightSwitch
-		newModelLinkWith: aBar
+		linkCheckWith: aBar
 		feature: #hasUniformNodeHeight.
 	confPane addChild: uniformNodeHeightSwitch.
 
 	scrollingSwitch := ToSwitchButton new labelText: 'Scrolling'.
 	scrollingSwitch startFlexible: true.
-	scrollingSwitch newModelLinkWith: aBar feature: #isScrolling.
+	scrollingSwitch linkCheckWith: aBar feature: #isScrolling.
 
 	scrollingSwitch hMatchParent.
 	confPane addChild: scrollingSwitch.
 
-	link := wrappingSwitch newModelLinkWith: aBar feature: #isWrapping.
+	link := wrappingSwitch linkCheckWith: aBar feature: #isWrapping.
 	link onModelValueChangedDo: [ :v | scrollingSwitch disabled: v ].
 
 	autoDistributionSwitch := ToSwitchButton new labelText:
 		                          'Auto-distribution'.
-	autoDistributionSwitch
-		newModelLinkWith: aBar
-		feature: #autoDistribute.
+	autoDistributionSwitch linkCheckWith: aBar feature: #autoDistribute.
 	autoDistributionSwitch startFlexible: true.
 	autoDistributionSwitch hMatchParent.
 	confPane addChild: autoDistributionSwitch.
@@ -221,7 +222,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 		                         labelText: 'Select on node pressed';
 		                         id: #selectOnPressedSwitch.
 	selectOnPressedSwitch
-		newModelLinkWith: aBar selectionMode
+		linkCheckWith: aBar selectionMode
 		feature: #selectOnPressed.
 
 	selectOnPressedSwitch startFlexible: true.
@@ -232,7 +233,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 		                           labelText: 'Deselect on node pressed';
 		                           id: #deselectOnPressedSwitch.
 	deselectOnPressedSwitch
-		newModelLinkWith: aBar selectionMode
+		linkCheckWith: aBar selectionMode
 		feature: #deselectOnPressed.
 
 	deselectOnPressedSwitch startFlexible: true.
@@ -244,7 +245,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 		                                  id:
 			                                  #makeDisabledUnselectableSwitch.
 	makeDisabledUnselectableSwitch
-		newModelLinkWith: aBar selectionMode
+		linkCheckWith: aBar selectionMode
 		feature: #makeDisabledUnselectable.
 
 	makeDisabledUnselectableSwitch startFlexible: true.
@@ -471,7 +472,7 @@ ToSandBox class >> checkingStrategyChooserFor: aCheckableBar [
 			       labelText: modeAssoc key asString;
 			       yourself.
 		buttons add: chb.
-		chb newModelLinkWith: aCheckableBar action: [ :bar :value |
+		chb linkCheckWith: aCheckableBar action: [ :bar :value |
 			value ifTrue: [
 				| message |
 				message := modeAssoc value.
@@ -1298,8 +1299,8 @@ ToSandBox class >> example_CodeEditor [
 	menuBuilder := [ :menu :request |
 	               menu addItem: (ToMenuItem new
 			                labelText: 'Select all';
-			                whenClickedDo: [ :event |
-				                album selecter
+			                linkClickWith: album action: [ :a |
+				                a selecter
 					                all;
 					                apply ];
 			                yourself).
@@ -1309,22 +1310,23 @@ ToSandBox class >> example_CodeEditor [
 				                | item |
 				                item := ToMenuItem new
 					                        labelText: 'Copy';
-					                        whenClickedDo: [ :event |
-						                        album editor copySelected ];
+					                        linkClickWith: album editor
+					                        action: [ :ed | ed copySelected ];
 					                        yourself.
 				                album hasSelection ifFalse: [ item disable ].
 				                m addItem: item.
 				                m addItem: (ToMenuItem new
 						                 labelText: 'Cut';
-						                 whenClickedDo: [ :event |
-							                 album editor cutSelected ];
+						                 linkClickWith: album editor
+						                 action: [ :ed | ed cutSelected ];
 						                 yourself).
 				                album hasSelection ifFalse: [
 					                m items last disable ].
 
 				                m addItem: (ToMenuItem new
 						                 labelText: 'Paste';
-						                 whenClickedDo: [ :event | album editor paste ];
+						                 linkClickWith: album editor
+						                 action: [ :ed | ed paste ];
 						                 yourself).
 				                album editor paster fromClipboard isEmpty ifTrue: [
 					                m items last disable ].
@@ -1332,23 +1334,31 @@ ToSandBox class >> example_CodeEditor [
 
 				                m addItem: (ToMenuItem new
 						                 labelText: 'Accept';
-						                 whenClickedDo: [ :event | album requestSave ];
+						                 linkClickAction: [ album requestSave ];
 						                 yourself).
 				                album edited ifFalse: [ m items last disable ].
 
 				                m addItem: (ToMenuItem new
 						                 labelText: 'Cancel';
-						                 whenClickedDo: [ :event | album requestCancel ];
+						                 linkClickAction: [ album requestCancel ];
 						                 yourself).
 				                album edited ifFalse: [ m items last disable ] ]) ].
 	album contextMenu: menuBuilder.
 
 	fileMenu := ToMenu new labelText: 'Edit'.
 	fileMenu builder: menuBuilder.
-	inspectBtn := ToMenuItem new labelText: 'Inspect'.
-	showStatisticsBtn := ToMenuItem new labelText: 'Statistics'.
-	disabox := ToCheckMenuItem new label: (ToLabel text: 'Disable').
-	disabox newModelLinkWith: album reader: #isDisabled writer: #disabled:.
+	inspectBtn := ToMenuItem new
+		              labelText: 'Inspect';
+		              linkClickAction: [ album space root inspect ];
+		              yourself.
+	showStatisticsBtn := ToMenuItem new
+		                     labelText: 'Statistics';
+		                     linkClickAction: [ album space showStatisticsWindow ];
+		                     yourself.
+	disabox := ToCheckMenuItem new
+		           label: (ToLabel text: 'Disable');
+		           linkCheckWith: album feature: #isDisabled;
+		           yourself.
 
 	menuPane := ToMenuPane new.
 	menuPane hMatchParent.
@@ -1359,11 +1369,6 @@ ToSandBox class >> example_CodeEditor [
 
 	pane addChild: menuPane.
 	pane addChild: album.
-
-	inspectBtn whenClickedDo: [ :evt | album space root inspect ].
-	showStatisticsBtn whenClickedDo: [ :evt |
-		album space showStatisticsWindow ].
-
 	pane openInInnerWindow
 ]
 
@@ -1434,10 +1439,9 @@ ToSandBox class >> example_EditorWithMinHeight [
 	pane addChild: menuPane.
 	pane addChild: album.
 
-	inspectBtn whenClickedDo: [ :evt | album space root inspect ].
-	disabox whenClickedDo: [ :evt | album disabled: disabox isChecked ].
-	showStatisticsBtn whenClickedDo: [ :evt |
-		album space showStatisticsWindow ].
+	inspectBtn linkClickAction: [ album space root inspect ].
+	disabox linkCheckWith: album feature: #isDisabled.
+	showStatisticsBtn linkClickAction: [ album space showStatisticsWindow ].
 
 	pane openInSpace
 ]
@@ -3496,6 +3500,7 @@ ToSandBox class >> example_TabsElement [
 	(tabs items at: 3) checked: true.
 	tabs requestFocus.
 	dashBoard := self tabsElementDashBoardFor: tabs.
+	tabs disabled: true.
 	dashBoard openInSpace
 ]
 
@@ -5493,7 +5498,7 @@ ToSandBox class >> example_segmentedWithLabels [
 	seg 
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent
 		do: maj.
-	seg addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.
+	seg addEventHandlerOn: ToAddedToSpaceEvent do: maj.
 	rootPane := ToPane vertical.
 	rootPane matchParent.
 	rootPane addChildren: {
@@ -5542,7 +5547,7 @@ ToSandBox class >> example_segmentedWithLabelsAndIcons [
 				 event indexes traceCr ]).
 
 	seg addEventHandlerOn: ToListPrimarySelectionChangedEvent do: maj.
-	seg addEventHandlerOn: BlElementAddedToSceneGraphEvent do: maj.
+	seg addEventHandlerOn: ToAddedToSpaceEvent do: maj.
 	rootPane := ToPane vertical.
 	rootPane matchParent.
 	rootPane addChildren: {
@@ -6803,10 +6808,10 @@ ToSandBox class >> example_toButtonOrientationChanger [
 		             yourself.
 	but iconImage: iconImage.
 	count := 0.
-	but whenClickedDo: [ :ann |
+	but linkClickAction: [ :b | 
 		count := count + 1.
 		count traceCr.
-		ann currentTarget orientation: but orientation inverted ].
+		b orientation: b orientation inverted ].
 	space := BlSpace new.
 	space root addChild: but.
 	space show.
@@ -6836,10 +6841,10 @@ ToSandBox class >> example_toButtonWithIconAndText [
 	but label: (ToLabel text: 'Button').
 	icon := ToImage new innerImage: ToThemeIcons searchOutlined16x16.
 	but icon: icon.
-	"but effect: (BlGaussianShadowEffect
+	but effect: (BlGaussianShadowEffect
 					color: Color green
 					width: 4.5
-					offset: 0 @ 0)."
+					offset: 0 @ 0).
 	but effect: (BlBlurAboveEffect new radius: 20).
 	but addEventHandler: (BlEventHandler
 			 on: BlPrimaryClickEvent
@@ -8178,7 +8183,7 @@ ToSandBox class >> resizerBoardFor: aBar [
 				        labelText: mode asString;
 				        yourself.
 			buttons add: cbox.
-			cbox newModelLinkWith: aBar action: [ :bar :value |
+			cbox linkCheckWith: aBar action: [ :bar :value |
 			value ifTrue: [
 				sizeInputPane enabled: false.
 				mode = #MatchParent
@@ -8302,7 +8307,7 @@ ToSandBox class >> selectionModeChooserFor: aBar [
 			       yourself.
 		selectionModeGroup register: chb.
 		chb
-			newModelLinkWith: aBar primarySelectionMode
+			linkCheckWith: aBar primarySelectionMode
 			action: [ :selMode :value |
 				value ifTrue: [
 					| chosen |
@@ -8434,7 +8439,7 @@ ToSandBox class >> tabsElementDashBoardFor: aTabsElement [
 	(confPane childWithId: #deselectOnPressedSwitch) disable.
 
 	startToEndSwitch := ToSwitchButton new labelText: 'At start'.
-	startToEndSwitch newModelLinkWith: aTabsElement feature: #atStartSide.
+	startToEndSwitch linkCheckWith: aTabsElement feature: #atStartSide.
 
 	startToEndSwitch startFlexible: true.
 	startToEndSwitch hMatchParent.
@@ -8478,7 +8483,7 @@ ToSandBox class >> tabsElementDashBoardFor: aTabsElement [
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent
 		do: maj.
 	aTabsElement
-		addEventHandlerOn: BlElementAddedToSceneGraphEvent
+		addEventHandlerOn: ToAddedToSpaceEvent 
 		do: maj.
 
 	mainPane addChildren: {

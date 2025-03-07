@@ -9,6 +9,12 @@ Class {
 }
 
 { #category : #'event handling' }
+ToAlbumEventHandler >> addedToSpaceEvent: anEvent [
+
+	self checkTextIn: target
+]
+
+{ #category : #'event handling' }
 ToAlbumEventHandler >> blurEvent: anEvent [
 
 ]
@@ -30,14 +36,6 @@ ToAlbumEventHandler >> doubleClickEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToAlbumEventHandler >> elementAddedToSceneGraphEvent: anEvent [
-
-	| target |
-	target := anEvent currentTarget.
-	self checkTextIn: target
-]
-
-{ #category : #'event handling' }
 ToAlbumEventHandler >> enablementChangedEvent: anEvent [
 
 	target isEnabled
@@ -55,7 +53,7 @@ ToAlbumEventHandler >> eventsToHandle [
 		  BlMouseDownEvent.
 		  BlMouseUpEvent.
 		  BlDoubleClickEvent.
-		  BlElementAddedToSceneGraphEvent.
+		  ToAddedToSpaceEvent.
 		  AlbTextEditedEvent.
 		  AlbTextReplacedEvent.
 		  ToEnablementChangedEvent.

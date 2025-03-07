@@ -207,7 +207,7 @@ ToSkinManager >> postponeRequestSkinIn: anElement [
 	| handler |
 	self hasPostponedInstallSkinHandler ifTrue: [ ^ self ].
 	handler := BlEventHandler new.
-	handler eventClass: BlElementAddedToSceneGraphEvent.
+	handler eventClass: ToAddedToSpaceEvent.
 	handler action: [ :evt |
 		evt target removeEventHandler: self postponedInstallSkinHandler.
 		self postponedInstallSkinHandler: nil.

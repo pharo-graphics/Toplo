@@ -1,8 +1,6 @@
 Class {
 	#name : #ToSwitchButton,
 	#superclass : #ToButton,
-	#traits : 'TToLinkableWithModel',
-	#classTraits : 'TToLinkableWithModel classTrait',
 	#instVars : [
 		'wishedTrackSize'
 	],

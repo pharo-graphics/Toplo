@@ -322,9 +322,21 @@ BlElement >> isDisabled [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> isDisabled: aBoolean [
+
+	self disabled: aBoolean
+]
+
+{ #category : #'*Toplo' }
 BlElement >> isEnabled [
 
 	^ self userData at: #enabled ifAbsentPut: [ true ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> isEnabled: aBoolean [
+
+	self enabled: aBoolean
 ]
 
 { #category : #'*Toplo' }

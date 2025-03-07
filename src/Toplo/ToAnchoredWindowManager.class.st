@@ -155,12 +155,6 @@ ToAnchoredWindowManager >> elementRemovedFromParentEvent: anEvent [
 	self currentWindowDo: [ :cw | cw isOpened ifTrue: [ cw close ] ]
 ]
 
-{ #category : #'event handling' }
-ToAnchoredWindowManager >> elementRemovedFromSceneGraphEvent: anEvent [
-
-	self currentWindowDo: [ :cw | cw close ]
-]
-
 { #category : #'api - accessing' }
 ToAnchoredWindowManager >> eventsToHandle [
 
@@ -169,7 +163,7 @@ ToAnchoredWindowManager >> eventsToHandle [
 		  ToOpenedClosedEvent.
 		  BlElementExtentChangedEvent.
 		  BlElementRemovedFromParentEvent.
-		  BlElementRemovedFromSceneGraphEvent.
+		  ToRemovedFromSpaceEvent.
 		  BlElementPositionInSpaceChangedEvent.
 		  ToThemeInstalledEvent }
 ]
@@ -345,6 +339,12 @@ ToAnchoredWindowManager >> positionWindowOnEvent: anEvent context: aBlElementBou
 		positionElement: currentWindow
 		onEvent: anEvent
 		context: aBlElementBoundsUpdateContext
+]
+
+{ #category : #'event handling' }
+ToAnchoredWindowManager >> removedFromSpaceEvent: anEvent [
+
+	self currentWindowDo: [ :cw | cw isOpened ifTrue: [ cw close ] ]
 ]
 
 { #category : #'window handling' }

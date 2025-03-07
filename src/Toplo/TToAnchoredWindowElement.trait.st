@@ -125,6 +125,7 @@ TToAnchoredWindowElement >> manager: aWindowHandler [
 { #category : #'t - anchored window element - displaying' }
 TToAnchoredWindowElement >> onMeasure: anExtentMeasurementSpec onEvent: anEvent [
 
+	self manager ifNil: [ ^ self ].
 	self manager onMeasure: anExtentMeasurementSpec onEvent: anEvent
 ]
 
@@ -176,6 +177,7 @@ TToAnchoredWindowElement >> popupTimestamp [
 { #category : #'t - anchored window element - displaying' }
 TToAnchoredWindowElement >> positionOnEvent: anEvent context: aBlElementBoundsUpdateContext [
 
+	self manager ifNil: [ ^ self ].
 	self manager positionWindowOnEvent: anEvent context: aBlElementBoundsUpdateContext
 ]
 

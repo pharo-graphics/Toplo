@@ -14,12 +14,6 @@ ToListInnerElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent 
 ]
 
 { #category : #'infinite event handling' }
-ToListInnerElementEventHandler >> elementAddedToSceneGraphEvent: anEvent [
-
-	"anEvent currentTarget listElement updateAllSelections"
-]
-
-{ #category : #'infinite event handling' }
 ToListInnerElementEventHandler >> elementPositionChangedEvent: anEvent [
 
 	anEvent currentTarget listElement updateAllSelections
@@ -36,7 +30,6 @@ ToListInnerElementEventHandler >> elementScrolledEvent: anEvent [
 ToListInnerElementEventHandler >> eventsToHandle [
 
 	^ {
-		  BlElementAddedToSceneGraphEvent.
 		  ToInfiniteScrollFinishedEvent.
 		  ToInfiniteDataSourceEmptinessChangedEvent.
 		  BlInfiniteElementAttachedEvent.

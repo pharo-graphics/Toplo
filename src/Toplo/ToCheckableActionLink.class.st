@@ -1,7 +1,7 @@
 Class {
 	#name : #ToCheckableActionLink,
 	#superclass : #ToActionLink,
-	#category : #'Toplo-Core-Properties'
+	#category : #'Toplo-Core-WidgetLink'
 }
 
 { #category : #initialization }

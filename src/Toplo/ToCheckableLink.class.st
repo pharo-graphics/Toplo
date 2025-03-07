@@ -1,14 +1,14 @@
 Class {
 	#name : #ToCheckableLink,
 	#superclass : #ToPropertyLink,
-	#category : #'Toplo-Core-Properties'
+	#category : #'Toplo-Core-WidgetLink'
 }
 
 { #category : #initialization }
 ToCheckableLink >> configureToUpdate: aCheckable fromModel: aModel [
 
 	aCheckable
-		addEventHandlerOn: BlElementAddedToSceneGraphEvent 
+		addEventHandlerOn: ToAddedToSpaceEvent 
 		do: [ :event | aCheckable checked: (self read: aModel) ]
 ]
 

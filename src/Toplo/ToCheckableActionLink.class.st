@@ -5,14 +5,14 @@ Class {
 }
 
 { #category : #initialization }
-ToCheckableActionLink >> configureToUpdateLinkedObject: anObject from: aCheckable [
+ToCheckableActionLink >> configureToUpdateLinkedObject: anObjectOrValuable from: aCheckable [
 
 	| handler |
 	handler := aCheckable
 		           addEventHandlerOn: ToCheckableChangedEvent
 		           do: [ :event |
 			           self
-				           launchWithLinkedObject: anObject
+				           launchWithLinkedObject: anObjectOrValuable 
 				           from: aCheckable
 				           onEvent: event
 				           withValue: event checked ].

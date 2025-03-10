@@ -1032,8 +1032,67 @@ ToSandBox class >> example_CheckReader [
 ToSandBox class >> example_CheckReaderAndGroup [
 
 	| containerElement group model |
-	self flag:
-		'Not working as expected. Individual check action with a checkable group is maybe impossible. To be checked'.
+	containerElement := ToPane vertical.
+	
+	model := Array new: 1.
+	model at: 1 put: 1.
+	(group := ToCheckableGroup new)
+		withStrictCheckingStrategy;
+		registerAll: {
+				(ToRadioButton new
+					 id: #r1;
+					 labelText: 'Choice 1';
+					 yourself).
+				(ToRadioButton new
+					 id: #r2;
+					 labelText: 'Choice 2';
+					 yourself) }.
+	containerElement addChildren: group registeredCheckables.
+
+	containerElement
+		newCheckGroupAction: [ :evt :grp :l |
+			l do: [ :rbtn |
+				model at: 1 put: (group registeredCheckables indexOf: rbtn) ].
+			model traceCr ]
+		with: group.
+	group registeredCheckables second checked: true.
+
+	containerElement openInSpace
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_CheckReaderAndGroup2 [
+
+	| containerElement group |
+	containerElement := ToPane vertical.
+	(group := ToCheckableGroup new)
+		withStrictCheckingStrategy;
+		registerAll: {
+				(ToRadioButton new
+					 id: #r1;
+					 labelText: 'Light theme';
+					 newCheckAction: [ :evt :space :v |
+						 v ifTrue: [ space toTheme: ToRawTheme new ] ]
+					 with: [ :radio | radio space ];
+					 yourself).
+				(ToRadioButton new
+					 id: #r2;
+					 labelText: 'Dark theme';
+					 newCheckAction: [ :evt :space :v |
+						 v ifTrue: [ space toTheme: ToRawDarkTheme new ] ]
+					 with: [ :radio | radio space ];
+					 yourself) }.
+	
+	group registeredCheckables second checked: true.
+	containerElement addChildren: group registeredCheckables.
+
+	containerElement openInSpace
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_CheckReaderAndGroup3 [
+
+	| containerElement group model |
 	containerElement := ToPane vertical.
 	model := Array new: 1.
 	model at: 1 put: 1.
@@ -1043,51 +1102,18 @@ ToSandBox class >> example_CheckReaderAndGroup [
 				(ToRadioButton new
 					 id: #r1;
 					 labelText: 'Choice 1';
-					 newCheckReader: [ model first = 1 ]
-					 writer: [ :_ :v | v ifTrue: [ model at: 1 put: 1 ] ];
+					 newCheckAction: [ :evt :btn :v | model at: 1 put: 1 ];
 					 yourself).
 				(ToRadioButton new
 					 id: #r2;
 					 labelText: 'Choice 2';
-					 newCheckReader: [ model first = 2 ]
-					 writer: [ :_ :v | v ifTrue: [ model at: 1 put: 2 ] ];
+					 newCheckAction: [ :evt :btn :v | model at: 1 put: 2 ];
 					 yourself) }.
 	containerElement addChildren: group registeredCheckables.
 
-	containerElement newAction: [ model traceCr ] withCheckGroup: group.
-	"group registeredCheckables second checked: true."
-
-	containerElement openInSpace
-]
-
-{ #category : #checkbox }
-ToSandBox class >> example_CheckReaderAndGroup2 [
-
-	| containerElement group |
-	self flag:
-		'Not working as expected. Individual check action with a checkable group is maybe impossible. To be checked'.
-	containerElement := ToPane vertical.
-	(group := ToCheckableGroup new)
-		withStrictCheckingStrategy;
-		registerAll: {
-				(ToRadioButton new
-					 id: #r1;
-					 labelText: 'Light theme';
-					 newCheckReader: [ :space | space toTheme class = ToRawTheme ]
-					 writer: [ :space :v |
-						 v ifTrue: [ space toTheme: ToRawTheme new ] ]
-					 with: [ :radio | radio space ];
-					 yourself).
-				(ToRadioButton new
-					 id: #r2;
-					 labelText: 'Dark theme';
-					 newCheckReader: [ :space | space toTheme class = ToRawDarkTheme ]
-					 writer: [ :space :v |
-						 v ifTrue: [ space toTheme: ToRawDarkTheme new ] ]
-					 with: [ :radio | radio space ];
-					 yourself) }.
-	containerElement addChildren: group registeredCheckables.
+	containerElement newCheckGroupAction: [ :evt :grp :l | model traceCr ] with: group.
 	group registeredCheckables second checked: true.
+
 	containerElement openInSpace
 ]
 
@@ -1146,8 +1172,8 @@ ToSandBox class >> example_CheckboxGroupAndNoneStrategy [
 
 	container := ToElement new.
 	container
-		newAction: [ :event :m :checkedList | checkedList traceCr ]
-		withCheckGroup: group.
+		newCheckGroupAction: [ :event :m :checkedList | checkedList traceCr ]
+		with: group.
 
 	container constraintsDo: [ :c |
 		c horizontal matchParent.
@@ -1177,8 +1203,8 @@ ToSandBox class >> example_CheckboxGroupAndStrictStrategy [
 	group registerAll: buttons.
 	container := ToElement new.
 	container
-		newAction: [ :evt :grp :list | list traceCr ]
-		withCheckGroup: group.
+		newCheckGroupAction: [ :evt :grp :list | list traceCr ]
+		with: group.
 	container constraintsDo: [ :c |
 		c horizontal matchParent.
 		c vertical matchParent ].
@@ -1209,8 +1235,8 @@ ToSandBox class >> example_CheckboxGroupAndWeakStrategy [
 
 	container := ToElement new.
 	container
-		newAction: [ :evt :grp :list | list traceCr ]
-		withCheckGroup: group.
+		newCheckGroupAction: [ :evt :grp :list | list traceCr ]
+		with: group.
 	container constraintsDo: [ :c |
 		c horizontal matchParent.
 		c vertical matchParent ].
@@ -1265,8 +1291,8 @@ ToSandBox class >> example_CheckboxStartFlexibleWithGroup [
 
 	container := ToElement new.
 	container
-		newAction: [ :evt :grp :list | list traceCr ]
-		withCheckGroup: group.
+		newCheckGroupAction: [ :evt :grp :list | list traceCr ]
+		with: group.
 	container background: Color veryLightGray.
 	container matchParent.
 
@@ -1323,8 +1349,8 @@ ToSandBox class >> example_CheckboxVerticalGroupHorizontal [
 	container layout: BlLinearLayout horizontal.
 	container addChildren: group registeredCheckables.
 	container
-		newAction: [ :evt :grp :list | list traceCr ]
-		withCheckGroup: group.
+		newCheckGroupAction: [ :evt :grp :list | list traceCr ]
+		with: group.
 	container openInInnerWindow
 ]
 
@@ -3727,8 +3753,8 @@ ToSandBox class >> example_ToggleButtonGroupAndStrictStrategy [
 
 	groupContainer := ToPane vertical.
 	groupContainer
-		newAction: [ :evt :grp :list | list traceCr ]
-		withCheckGroup: group.
+		newCheckGroupAction: [ :evt :grp :list | list traceCr ]
+		with: group.
 
 	groupContainer width: 150.
 	groupContainer addChildren: group registeredCheckables.
@@ -3749,8 +3775,8 @@ ToSandBox class >> example_ToggleButtonGroupAndWeakStrategy [
 	group registeredCheckables second checked: true.
 	groupContainer := ToPane vertical.
 	groupContainer
-		newAction: [ :evt :grp :list | list traceCr ]
-		withCheckGroup: group.
+		newCheckGroupAction: [ :evt :grp :list | list traceCr ]
+		with: group.
 
 	groupContainer width: 150.
 	groupContainer addChildren: group registeredCheckables.
@@ -4235,9 +4261,9 @@ ToSandBox class >> example_closeableTabs [
 
 	| nb but |
 	nb := ToTabPane new.
-	nb group addEventHandler: (BlEventHandler
-			 on: ToCheckableGroupChangedEvent
-			 do: [ :event | event traceCr ]).
+	nb 
+		newCheckGroupAction: [ :evt :grp :l | l traceCr ]
+		with: nb group.
 	nb preservePaneOnSelect: false.
 	(Color wheel: 5) withIndexDo: [ :eachColor :index |
 		but := ToTab new.
@@ -4452,8 +4478,8 @@ ToSandBox class >> example_group [
 	group registeredCheckables last checked: true.
 	container addChildren: group registeredCheckables.
 	container
-		newAction: [ :evt :grp :l | l traceCr ]
-		withCheckGroup: group.
+		newCheckGroupAction: [ :evt :grp :l | l traceCr ]
+		with: group.
 	container openInInnerWindow
 ]
 
@@ -5924,8 +5950,8 @@ ToSandBox class >> example_tabPaneInTabPane [
 	| tabPane tab |
 	tabPane := ToTabPane new.
 	tabPane
-		newAction: [ :evt :grp :list | list traceCr ]
-		withCheckGroup: tabPane group.
+		newCheckGroupAction: [ :evt :grp :list | list traceCr ]
+		with: tabPane group.
 
 	1 to: 3 do: [ :index |
 		tab := ToTab new.
@@ -7605,8 +7631,8 @@ ToSandBox class >> example_withCustomMenuItems [
 			left }.
 
 	menu
-		newAction: [ :evt :group :list | list traceCr ]
-		withCheckGroup: grp.
+		newCheckGroupAction: [ :evt :group :list | list traceCr ]
+		with: grp.
 	menu addSeparator.
 
 	lbl := ToAttributedLabel text: 'Radio button icon first'.
@@ -7642,8 +7668,8 @@ ToSandBox class >> example_withCustomMenuItems [
 			center.
 			left }.
 	menu
-		newAction: [ :evt :group :list | list traceCr ]
-		withCheckGroup: grp.
+		newCheckGroupAction: [ :evt :group :list | list traceCr ]
+		with: grp.
 	menu addSeparator.
 
 	lbl := ToAttributedLabel new text:

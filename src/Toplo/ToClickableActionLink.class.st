@@ -5,14 +5,14 @@ Class {
 }
 
 { #category : #initialization }
-ToClickableActionLink >> configureToUpdateLinkedObject: anObject from: aClickable [
+ToClickableActionLink >> configureToUpdateLinkedObject: anObjectOrValuable from: aClickable [
 
 	| handler |
 	handler := aClickable
 		           addEventHandlerOn: aClickable clickEventClass
 		           do: [ :event |
 			           self
-				           launchWithLinkedObject: anObject
+				           launchWithLinkedObject: anObjectOrValuable 
 				           from: aClickable
 				           onEvent: event
 				           withValue: nil ].

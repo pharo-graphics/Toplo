@@ -4,15 +4,6 @@ Trait {
 }
 
 { #category : #'t - linkable' }
-TToLinkable >> newAction: aValuable withCheckGroup: aCheckableGroup [
-
-	^ ToCheckableGroupActionLink new
-		  link: self
-		  with: aCheckableGroup
-		  action: aValuable
-]
-
-{ #category : #'t - linkable' }
 TToLinkable >> newCheckAction: aValuable [
 	" link the receiver through a valuable action. 
 	Tha valuable take the event, the receiver 
@@ -46,6 +37,15 @@ TToLinkable >> newCheckFeature: aFeatureName with: aLinkedObject [
 		  with: aLinkedObject
 		  reader: aFeatureName asSymbol
 		  writer: aFeatureName asSymbol asMutator
+]
+
+{ #category : #'t - linkable' }
+TToLinkable >> newCheckGroupAction: aValuable with: aCheckableGroup [
+
+	^ ToCheckableGroupActionLink new
+		  link: self
+		  with: aCheckableGroup
+		  action: aValuable
 ]
 
 { #category : #'t - linkable' }

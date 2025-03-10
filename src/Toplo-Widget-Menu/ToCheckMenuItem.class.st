@@ -10,6 +10,12 @@ ToCheckMenuItem >> buttonClass [
 	^ ToCheckbox
 ]
 
+{ #category : #'t - labeled icon' }
+ToCheckMenuItem >> hasIcon [
+
+	^ true
+]
+
 { #category : #skin }
 ToCheckMenuItem >> newRawSkin [ 
 

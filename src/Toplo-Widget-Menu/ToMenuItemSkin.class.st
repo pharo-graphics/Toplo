@@ -22,7 +22,7 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 			anyHaveIcon ifTrue: [
 				| align |
 				align := e valueOfTokenNamed: #'menu-item-start-alignment'.
-				e button startAlignment: align ].
+				e startAlignment: align ].
 
 			(anyIsMenu or: [ e hasStamp: #'with-expand-button' ]) ifTrue: [
 				e isStartToEnd

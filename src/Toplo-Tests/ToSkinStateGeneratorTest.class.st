@@ -37,10 +37,7 @@ ToSkinStateGeneratorTest >> testGenerateCheckStateFromEvent [
 
 	nextStatesSize := nextStates size.
 
-	evt := ToCheckableCheckEvent new
-		       current: false;
-		       previous: true;
-		       yourself.
+	evt := ToCheckableCheckEvent checked: false.
 
 	self assert: nextStates size equals: nextStatesSize.
 
@@ -51,20 +48,14 @@ ToSkinStateGeneratorTest >> testGenerateCheckStateFromEvent [
 
 	nextStatesSize := nextStates size.
 
-	evt := ToCheckableCheckEvent new
-		       current: false;
-		       previous: true;
-		       yourself.
+	evt := ToCheckableCheckEvent checked: false.
 	e dispatchEvent: evt.
 	e space phasesManager runStateGenerations.
 
 	" no changed since the element is in the same state (2 successives uncheck) "
 	self assert: nextStates size equals: nextStatesSize + 1.
 
-	evt := ToCheckableCheckEvent new
-		       current: true;
-		       previous: false;
-		       yourself.
+	evt := ToCheckableCheckEvent checked: true.
 	e dispatchEvent: evt.
 	e space phasesManager runStateGenerations.
 	self assert: nextStates size equals: nextStatesSize + 2

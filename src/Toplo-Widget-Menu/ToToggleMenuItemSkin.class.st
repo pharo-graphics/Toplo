@@ -9,7 +9,7 @@ ToToggleMenuItemSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e | 
-		e button startAlignment: (e valueOfTokenNamed: #'menu-item-start-alignment') ].
+		e startAlignment: (e valueOfTokenNamed: #'menu-item-start-alignment') ].
 
 	
 ]

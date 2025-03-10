@@ -4,25 +4,6 @@ Class {
 	#category : #'Toplo-Widget-TabPane-Examples'
 }
 
-{ #category : #tabs }
-ToTabExamples class >> example_closeableTabs [
-
-	| nb but |
-	nb := ToTabPane new.
-	nb group addEventHandler: (BlEventHandler
-			 on: ToCheckableGroupChangedEvent
-			 do: [ :event | event traceCr ]).
-	nb preservePaneOnSelect: false.
-	(Color wheel: 5) withIndexDo: [ :eachColor :index |
-		but := ToTab new.
-		but closable: true.
-		but newClickAction: [ 'clicked ' trace ].
-		but labelText: 'Button ' , index asString.
-		but paneBuilder: [ :pane :theNoteBook | pane background: eachColor ].
-		nb addTab: but ].
-	nb openInSpace
-]
-
 { #category : #'header positionning' }
 ToTabExamples class >> example_headerOnBottomCenter [
 
@@ -264,9 +245,6 @@ ToTabExamples class >> example_tabPaneInTabPane [
 
 	| tabPane tab |
 	tabPane := ToTabPane new.
-	tabPane group
-		addEventHandlerOn: ToCheckableGroupChangedEvent
-		do: [ :event | event traceCr ].
 	1 to: 3 do: [ :index |
 		tab := ToTab new.
 		tab labelText: 'Tab ' , index asString.

@@ -122,16 +122,12 @@ ToCheckableData >> privateChecked: aBooleanOrIndeterminate [
 	Sent locally from the checkable>>checked: method and can be sent from
 	the checkableGroup of the checkable."
 
-	| prev request |
-	request := aBooleanOrIndeterminate.
-	checked = request ifTrue: [ ^ self ].
-	prev := checked.
-	checked := request.
+	checked = aBooleanOrIndeterminate ifTrue: [ ^ self ].
+	checked := aBooleanOrIndeterminate.
 	" finally dispatch the event used to generate the state for the skin.
 	implementation note: we need this additional event for the skin.
 	This event can be used if one need to handle the look change "
-	owner dispatchEvent:
-		(ToCheckableCheckEvent current: request previous: prev)
+	owner dispatchEvent: (ToCheckableCheckEvent checked: checked)
 ]
 
 { #category : #'checking protocol' }

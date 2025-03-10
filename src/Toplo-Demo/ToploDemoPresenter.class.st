@@ -69,11 +69,11 @@ ToploDemoPresenter class >> demo3 [
 					                 yourself) }.
 
 	containerElement
-		newAction: [ :evt :grp :list |
+		newCheckGroupAction: [ :evt :grp :list |
 			list first = lightThemeBtn
 				ifTrue: [ containerElement space toTheme: ToRawTheme new ]
 				ifFalse: [ containerElement space toTheme: ToRawDarkTheme new ] ]
-		withCheckGroup: checkableGroup.
+		with: checkableGroup.
 		
 	checkableGroup registeredCheckables second checked: true.
 	containerElement addChildren: checkableGroup registeredCheckables.

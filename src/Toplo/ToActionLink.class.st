@@ -15,11 +15,15 @@ ToActionLink >> link: aTarget with: anObject action: aValuable [
 ]
 
 { #category : #running }
-ToActionLink >> runWithLinkedObject: anObject from: aTarget onEvent: anEvent withValue: aValue [
+ToActionLink >> runWithLinkedObject: anObjectOrValuable from: aTarget onEvent: anEvent withValue: aValue [
 
-	action cull: anEvent cull: anObject cull: aValue.
+	| linked |
+	linked := anObjectOrValuable isBlock
+		          ifTrue: [ anObjectOrValuable cull: aTarget ]
+		          ifFalse: [ anObjectOrValuable ].
+	action cull: anEvent cull: linked cull: aValue.
 	super
-		runWithLinkedObject: anObject
+		runWithLinkedObject: linked
 		from: aTarget
 		onEvent: anEvent
 		withValue: aValue

@@ -67,10 +67,11 @@ ToTabPaneHeader >> endFiller [
 ToTabPaneHeader >> initialize [
 
 	super initialize.
-	
-	self group addEventHandler: (BlEventHandler
-			 on: ToCheckableGroupChangedEvent
-			 do: [ :event | self checkableGroupChangedEvent: event ]).
+
+	self
+		newCheckGroupAction: [ :evt :grp :l |
+		self checkableGroupChangedEvent: evt ]
+		with: self group.
 	tabs := OrderedCollection new.
 	startFiller := ToElement new.
 	endFiller := ToElement new.

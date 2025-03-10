@@ -40,8 +40,7 @@ ToSwitchIcon >> checked: aBoolean [
 
 	checked = aBoolean ifTrue: [ ^ self ].
 	checked := aBoolean.
-	self dispatchEvent:
-		(ToCheckableCheckEvent current: checked previous: checked not)
+	self dispatchEvent: (ToCheckableCheckEvent checked: checked)
 ]
 
 { #category : #accessing }

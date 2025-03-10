@@ -35,18 +35,6 @@ TToCheckable >> check [
 ]
 
 { #category : #'t - checkable - accessing' }
-TToCheckable >> checkActionLinkClass [
-
-	^ ToCheckableActionLink
-]
-
-{ #category : #'t - checkable - accessing' }
-TToCheckable >> checkPropertyLinkClass [
-
-	^ ToCheckableLink
-]
-
-{ #category : #'t - checkable - accessing' }
 TToCheckable >> checkableData [
 
 	^ self userData at: #checkableData ifAbsent: [  ]

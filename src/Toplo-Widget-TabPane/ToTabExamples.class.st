@@ -16,7 +16,7 @@ ToTabExamples class >> example_closeableTabs [
 	(Color wheel: 5) withIndexDo: [ :eachColor :index |
 		but := ToTab new.
 		but closable: true.
-		but clickAction: [ 'clicked ' trace ].
+		but newClickAction: [ 'clicked ' trace ].
 		but labelText: 'Button ' , index asString.
 		but paneBuilder: [ :pane :theNoteBook | pane background: eachColor ].
 		nb addTab: but ].

@@ -7,17 +7,17 @@ Class {
 	#category : #'Toplo-Widget-Menu-Items'
 }
 
-{ #category : #'mouse handlers' }
-ToMenuItemEventHandler >> clickableActionPerformedEvent: anEvent [
-	" check event and current target "
-
-	self onPickingEvent: anEvent
-]
-
 { #category : #'api - accessing' }
 ToMenuItemEventHandler >> eventsToHandle [
 
-	^  { BlMouseEnterEvent. BlMouseLeaveEvent. BlMouseUpEvent. ToClickableActionPerformedEvent }
+	^  { BlMouseEnterEvent. BlMouseLeaveEvent. BlMouseUpEvent. ToLinkActionRunnedEvent }
+]
+
+{ #category : #'mouse handlers' }
+ToMenuItemEventHandler >> linkActionRunnedEvent: anEvent [
+	" check event and current target "
+
+	self onPickingEvent: anEvent
 ]
 
 { #category : #'mouse handlers' }

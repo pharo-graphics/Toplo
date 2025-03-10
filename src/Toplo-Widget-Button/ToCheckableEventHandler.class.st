@@ -9,7 +9,7 @@ ToCheckableEventHandler >> checkableChangedEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	target group ifNotNil: [ :grp | grp checkableChangedEvent: anEvent ]
+	target group ifNotNil: [ :grp | grp checkableChangedEvent: anEvent copy ]
 ]
 
 { #category : #'event handling' }

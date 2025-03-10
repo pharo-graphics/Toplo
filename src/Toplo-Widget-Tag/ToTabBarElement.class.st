@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #configuration }
-ToTabBarElement >> applyInnerConfiguration [ 
+ToTabBarElement >> applyInnerConfiguration [
 
 	super applyInnerConfiguration.
 	self requestNewSkin

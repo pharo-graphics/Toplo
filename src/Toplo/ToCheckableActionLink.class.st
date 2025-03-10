@@ -5,12 +5,16 @@ Class {
 }
 
 { #category : #initialization }
-ToCheckableActionLink >> configureToUpdateModel: aModel from: aTarget [
+ToCheckableActionLink >> configureToUpdateLinkedObject: anObject from: aCheckable [
 
 	| handler |
-	handler := aTarget
-		           addEventHandlerOn: ToCheckableCheckEvent
+	handler := aCheckable
+		           addEventHandlerOn: ToCheckableChangedEvent
 		           do: [ :event |
-			           self applyChangeIn: aModel onEvent: event withValue: event current ].
-	self addedHandler: handler in: aTarget
+			           self
+				           launchWithLinkedObject: anObject
+				           from: aCheckable
+				           onEvent: event
+				           withValue: event checked ].
+	self addedHandler: handler in: aCheckable
 ]

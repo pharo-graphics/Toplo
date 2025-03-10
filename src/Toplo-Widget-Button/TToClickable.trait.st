@@ -1,18 +1,7 @@
 Trait {
 	#name : #TToClickable,
-	#instVars : [
-		'clickAction'
-	],
 	#category : #'Toplo-Widget-Button-Core'
 }
-
-{ #category : #'t - clickable' }
-TToClickable >> clickAction: aValuable [
-
-	clickAction ifNotNil: [ :ca | ca unlink ].
-	clickAction := super clickAction: aValuable.
-	^ clickAction
-]
 
 { #category : #'t - clickable' }
 TToClickable >> clickEvent: anEvent [
@@ -37,9 +26,8 @@ TToClickable >> clickEventClass: anEventClass [
 TToClickable >> removeClickAction [
 	"remove the click action"
 
-	clickAction ifNotNil: [ :ca |
-		ca unlink.
-		clickAction := nil ]
+	self
+		deprecated: 'Use the action link #unlink feature instead'
 ]
 
 { #category : #'t - clickable' }
@@ -47,10 +35,7 @@ TToClickable >> removeClickHandler [
 	"remove the click action"
 
 	self
-		deprecated: 'Use #removeClickAction instead'
-		transformWith:
-		'`@rcvr removeClickHandler' -> '`@rcvr removeClickAction'.
-	self removeClickAction
+		deprecated: 'Use the action link #unlink feature instead'
 ]
 
 { #category : #'t - clickable' }
@@ -60,8 +45,8 @@ TToClickable >> takeFocusOnClick [
 ]
 
 { #category : #'t - clickable' }
-TToClickable >> whenClickedDo: aBlock [
+TToClickable >> whenClickedDo: aValuable [
 	"Inform that the widget has been clicked."
 
-	^ self addEventHandlerOn: self clickEventClass do: aBlock
+	^ self newClickAction: aValuable
 ]

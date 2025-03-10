@@ -18,12 +18,6 @@ ToCheckableGroupStrategy >> allowChangeWith: aCheckValue in: aGroup forCheckable
 ]
 
 { #category : #testing }
-ToCheckableGroupStrategy >> allowUnchecking [
-
-	^ true
-]
-
-{ #category : #testing }
 ToCheckableGroupStrategy >> isNoneStrategy [
 
 	^ false

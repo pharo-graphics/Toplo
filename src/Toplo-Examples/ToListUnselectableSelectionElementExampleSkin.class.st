@@ -20,7 +20,7 @@ ToListUnselectableSelectionElementExampleSkin >> installSkinEvent: anEvent [
 			c frame horizontal alignRight.
 			c frame vertical alignCenter ].
 
-		btn clickAction: [ 
+		btn newClickAction: [ 
 			e nodes do: [ :node |
 				node holder listElement unselectableSelecter deselectIndex:
 					node holder position ] ].

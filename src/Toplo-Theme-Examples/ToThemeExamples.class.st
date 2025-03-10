@@ -23,40 +23,40 @@ ToThemeExamples class >> createThemeMenuPane: aSpace [
 
 	beeMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Switch to Light');
-			 clickAction: [ self switchTheme: ToBeeTheme new for: aSpace ]).
+			 newClickAction: [ self switchTheme: ToBeeTheme new for: aSpace ]).
 	beeMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Switch to Dark');
-			 clickAction: [ self switchTheme: ToBeeDarkTheme new for: aSpace ]).
+			 newClickAction: [ self switchTheme: ToBeeDarkTheme new for: aSpace ]).
 
 	themeMenu addItem: (rawMenu := ToMenu new labelText: 'Raw theme').
 	rawMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Switch to Light');
-			 clickAction: [ self switchTheme: ToRawTheme new for: aSpace ]).
+			 newClickAction: [ self switchTheme: ToRawTheme new for: aSpace ]).
 	rawMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Switch to Dark');
-			 clickAction: [ self switchTheme: ToRawDarkTheme new for: aSpace ]).
+			 newClickAction: [ self switchTheme: ToRawDarkTheme new for: aSpace ]).
 
 	themeMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Randomize color');
-			 clickAction: [ self randomizePrimaryColorFor: aSpace ]).
+			 newClickAction: [ self randomizePrimaryColorFor: aSpace ]).
 
 	"Inspect menu"
 	inspectMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Inspect Space');
 			 tooltipText: 'Inspect the BlSpace';
-			 clickAction: [ self inspectSpace: aSpace ]).
+			 newClickAction: [ self inspectSpace: aSpace ]).
 	inspectMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Inspect Theme');
 			 tooltipText: 'Inspect the current theme';
-			 clickAction: [ self inspectSpaceToTheme: aSpace ]).
+			 newClickAction: [ self inspectSpaceToTheme: aSpace ]).
 	inspectMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'CSS like Style Sheet');
 			 tooltipText: 'Show the current style sheet source code';
-			 clickAction: [ self displaySpaceCSSLikeStyleSheet: aSpace ]).
+			 newClickAction: [ self displaySpaceCSSLikeStyleSheet: aSpace ]).
 	inspectMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Style Sheet');
 			 tooltipText: 'Show the current style sheet source code';
-			 clickAction: [ self displaySpaceStyleSheet: aSpace ]).
+			 newClickAction: [ self displaySpaceStyleSheet: aSpace ]).
 
 	^ bar
 ]
@@ -149,8 +149,8 @@ ToThemeExamples class >> example_BlElementWithTheme [
 	pn constraintsDo: [ :c |
 		c vertical matchParent.
 		c horizontal matchParent ].
-	
-	pn2 := BlElement new layout: (BlFrameLayout new).
+
+	pn2 := BlElement new layout: BlFrameLayout new.
 	pn2 constraintsDo: [ :c |
 		c vertical matchParent.
 		c horizontal matchParent ].
@@ -162,35 +162,37 @@ ToThemeExamples class >> example_BlElementWithTheme [
 
 	themeSwitcher := ToCheckbox new
 		                 labelText: 'Dark Theme';
-		                 beEndToStart.
-		
+		                 beEndToStart;
+		                 newCheckAction: [ :evt :pane :v |
+			                 pane localTheme: (v
+						                  ifTrue: [ ToBeeDarkTheme new ]
+						                  ifFalse: [ ToBeeTheme new ]).
+			                 v
+				                 ifTrue: [ pn background: Color gray ]
+				                 ifFalse: [ pn background: Color white ] ]
+		                 with: pn;
+		                 yourself.
+
 	themeSwitcher defaultSkin: ToCheckboxSkin new.
-	themeSwitcher addEventHandler: (BlEventHandler
-			 on: ToCheckableChangedEvent
-			 do: [ :event |
-				 pn localTheme: (themeSwitcher isChecked
-						  ifTrue: [ ToBeeDarkTheme new ]
-						  ifFalse: [ ToBeeTheme new ]).
-				 themeSwitcher isChecked
-					 ifTrue: [ pn background: Color gray ]
-					 ifFalse: [ pn background: Color white ] ]).
 
 	pn addChild: themeSwitcher.
 	space root addChild: pn2.
-	
+
 	hello := ToLabel new text: 'Hello H1'.
-	hello addAllStamps: #(#H1 #success).
-	
+	hello addAllStamps: #( #H1 #success ).
+
 	helloWorld := ToTextField new text: 'Hello world'.
 	helloWorld addStamp: #description.
-	helloWorld withLineWrapping; beReadonlyWithoutSelection.
+	helloWorld
+		withLineWrapping;
+		beReadonlyWithoutSelection.
 	helloWorld localTheme: ToBeeTheme new.
 	pn addChild: hello.
 	pn addChild: helloWorld.
 
 
 	listElement := ToListElement new nodeBuilder: [ :node :dataItem :holder |
-		               |  lab |
+		               | lab |
 		               lab := dataItem.
 		               lab removeFromParent.
 		               lab hMatchParent.
@@ -266,13 +268,12 @@ ToThemeExamples class >> example_ToLabelWithHeadingSkin [
 		                 labelText: 'Dark Theme';
 		                 beEndToStart.
 	themeSwitcher defaultSkin: ToCheckboxSkin new.
-	themeSwitcher addEventHandler: (BlEventHandler
-			 on: ToCheckableChangedEvent
-			 do: [ :event |
-				 space toTheme: (themeSwitcher isChecked
-						  ifTrue: [ ToBeeDarkTheme new ]
-						  ifFalse: [ ToBeeTheme new ]) ]).
-
+	themeSwitcher
+		newCheckAction: [ :evt :cbox :v |
+			cbox space toTheme: (v
+					 ifTrue: [ ToBeeDarkTheme new ]
+					 ifFalse: [ ToBeeTheme new ]) ].
+	themeSwitcher checked: true.
 	space root addChild: themeSwitcher.
 
 	listElement := ToListElement new nodeBuilder: [ :node :dataItem :holder |
@@ -339,92 +340,6 @@ ToThemeExamples class >> example_WithLateBoundPropertyWriter [
 	parent addChild: lab.
 	parent openInSpace.
 	lab inspect
-]
-
-{ #category : #'examples - buttons' }
-ToThemeExamples class >> example_beeButtonsInRawPane [
-
-	| space primaryButton2 pane c chb disachb themeSelect themePane mainPane |
-	space := BlSpace new.
-	space root layout: BlLinearLayout vertical.
-
-	themePane := ToPane horizontal.
-	themePane localTheme: ToRawTheme new.
-	themePane geometry: (BlRoundedRectangleGeometry cornerRadius: 6).
-	themePane padding: (BlInsets all: 5).
-	pane := ToPane vertical.
-
-	pane layout cellSpacing: 5.
-	pane padding: (BlInsets all: 5).
-
-
-	themeSelect := ToChoiceMenu new.
-	themeSelect dataToTextConverter: [ :assoc | assoc key ].
-	themeSelect withStrictCheckingStrategy.
-	themeSelect data addAll: {
-			('Raw Light Theme' -> ToRawTheme).
-			('Raw Dark Theme' -> ToRawDarkTheme).
-			('Bee Light Theme' -> ToBeeTheme).
-			('Bee Dark Theme' -> ToBeeDarkTheme) }.
-
-	themeSelect addEventHandler: (BlEventHandler
-			 on: ToChoiceChangedEvent
-			 do: [ space toTheme: themeSelect selectedData value new ]).
-	themeSelect selectIndex: 1.
-
-	disachb := ToCheckbox new label:
-		           (ToLabel text: 'Disable all buttons').
-	pane addChild: disachb.
-
-	disachb defaultSkin: ToCheckboxSkin new.
-
-	chb := ToCheckbox new label: (ToLabel text: 'Swith primary').
-	chb defaultSkin: ToCheckboxSkin new.
-
-	"Create some buttons with different skins"
-	primaryButton1 := (ToButton id: #buttonA)
-		                  labelText: 'Change button 2 primary color';
-		                  icon:
-			                  (ToImage inner: ToThemeIcons searchOutlined16x16);
-		                  tooltipText:
-			                  'When clicked, change the theme primary color to a random one';
-		                  addStamp: #'large-sizing';
-		                  yourself.
-
-	primaryButton2 := (ToButton id: #buttonA) labelText: 'Button 2'.
-	primaryButton1 clickAction: [
-		c := Color random.
-		primaryButton2 addTokenNamed: #'color-primary' withValue: c.
-		primaryButton2
-			addTokenNamed: #'color-primary-pressed'
-			withValue: c twiceDarker.
-		primaryButton2
-			addTokenNamed: #'color-primary-hover'
-			withValue: c twiceLighter ].
-	chb checkAction: [ :evt :value |
-				 value
-					 ifTrue: [ primaryButton2 addStamp: #primary ]
-					 ifFalse: [ primaryButton2 removeStamp: #primary ] ].
-	chb checked: true.
-	disachb checkAction: [ :evt :value |
-				 value
-					 ifTrue: [
-						 pane childrenDo: [ :child |
-							 child ~= disachb ifTrue: [ child disable ] ] ]
-					 ifFalse: [
-						 pane childrenDo: [ :child |
-							 child ~= disachb ifTrue: [ child enable ] ] ] ].
-
-	pane addChild: primaryButton1.
-	pane addChild: chb.
-	pane addChild: primaryButton2.
-	themePane addChild: themeSelect.
-	mainPane := ToPane vertical.
-	mainPane padding: (BlInsets all: 10).
-	mainPane addChild: themePane.
-	mainPane addChild: pane.
-	space root addChild: mainPane.
-	space show
 ]
 
 { #category : #'examples - buttons' }

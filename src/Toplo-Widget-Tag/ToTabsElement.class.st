@@ -87,7 +87,7 @@ ToTabsElement >> defaultNodeMenuBuilder [
 			  | mitem |
 			  mitem := ToMenuItem new
 				           labelText: node item label text asString;
-				           clickAction: [ 
+				           newClickAction: [ 
 					           self selecter
 						           scrollTowardStartToDataSourcePosition:
 							           node holder position.
@@ -122,7 +122,6 @@ ToTabsElement >> initialize [
 	self initializeAsItemBarOwner.
 	
 	atStartSide := true.
-	
 	self middleElement: self itemBar.
 	
 	self group

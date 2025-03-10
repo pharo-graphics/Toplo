@@ -7,50 +7,51 @@ Class {
 	#category : #'Toplo-Core-WidgetLink'
 }
 
-{ #category : #running }
-ToPropertyLink >> applyChangeIn: aModel onEvent: anEvent withValue: aValue [
-
-	property write: aValue to: aModel.
-	super applyChangeIn: aModel onEvent: anEvent withValue: aValue
-]
-
 { #category : #initialization }
-ToPropertyLink >> configureToUpdate: aValueOwner fromModel: aModel [
+ToPropertyLink >> configureToUpdate: aValueOwner fromLinkedObject: anObjectOrValuable [
 
 	self subclassResponsibility 
 ]
 
 { #category : #initialization }
-ToPropertyLink >> link: aWidget withModel: aModel reader: aReader [
+ToPropertyLink >> link: aWidget with: anObjectOrValuable reader: aReader writer: aWriter [
 
-	property := ToFeatureProperty new
-		            name: aReader;
+	property := ToSmartProperty new
+		            reader: aReader;
+		            writer: aWriter;
 		            yourself.
-	self configureToUpdate: aWidget fromModel: aModel.
-	self configureToUpdateModel: aModel from: aWidget
-]
-
-{ #category : #initialization }
-ToPropertyLink >> link: aWidget withModel: aModel reader: aReader writer: aWriter [
-
-	property := ToFeatureProperty new
-		            name: aReader;
-		            writerName: aWriter;
-		            yourself.
-	self configureToUpdate: aWidget fromModel: aModel.
-	self configureToUpdateModel: aModel from: aWidget
+	self configureToUpdate: aWidget fromLinkedObject: anObjectOrValuable.
+	self configureToUpdateLinkedObject: anObjectOrValuable from: aWidget
 ]
 
 { #category : #running }
-ToPropertyLink >> onModelValueChangedDo: aValuable [
+ToPropertyLink >> read: aLinkedObjectOrValuable [
 
-	self addedHandler: (self
-			 addEventHandlerOn: ToModelChangedEvent
-			 do: [ :evt | aValuable value: (self read: evt model) ])
+	^ property read: aLinkedObjectOrValuable
 ]
 
 { #category : #running }
-ToPropertyLink >> read: aModel [
+ToPropertyLink >> read: aLinkedObjectOrValuable for: aLinkCreator [
 
-	^ property read: aModel
+	| linked |
+	linked := aLinkedObjectOrValuable isBlock
+		          ifTrue: [ aLinkedObjectOrValuable cull: aLinkCreator ]
+		          ifFalse: [ aLinkedObjectOrValuable ].
+	^ self read: linked
+]
+
+{ #category : #running }
+ToPropertyLink >> runWithLinkedObject: anObjectOrValuable from: aTarget onEvent: anEvent withValue: aValue [
+
+	| linked |
+	linked := anObjectOrValuable isBlock
+		          ifTrue: [ anObjectOrValuable cull: aTarget ]
+		          ifFalse: [ anObjectOrValuable ].
+
+	property write: aValue to: linked.
+	super
+		runWithLinkedObject: linked
+		from: aTarget
+		onEvent: anEvent
+		withValue: aValue
 ]

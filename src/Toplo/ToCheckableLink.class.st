@@ -5,23 +5,28 @@ Class {
 }
 
 { #category : #initialization }
-ToCheckableLink >> configureToUpdate: aCheckable fromModel: aModel [
+ToCheckableLink >> configureToUpdate: aCheckable fromLinkedObject: anObjectOrValuable [
 
 	| handler |
 	handler := aCheckable
 		           addEventHandlerOn: ToAddedToSpaceEvent
 		           do: [ :event |
-			           aCheckable checked: (self read: aModel) ].
+			           aCheckable checked:
+				           (self read: anObjectOrValuable for: aCheckable) ].
 	self addedHandler: handler in: aCheckable
 ]
 
 { #category : #initialization }
-ToCheckableLink >> configureToUpdateModel: aModel from: aCheckable [
+ToCheckableLink >> configureToUpdateLinkedObject: anObjectOrValuable from: aCheckable [
 
 	| handler |
 	handler := aCheckable
-		           addEventHandlerOn: ToCheckableCheckEvent
+		           addEventHandlerOn: ToCheckableChangedEvent
 		           do: [ :event |
-			           self applyChangeIn: aModel onEvent: event withValue: event current ].
+			           self
+				           launchWithLinkedObject: anObjectOrValuable
+				           from: aCheckable
+				           onEvent: event
+				           withValue: event checked ].
 	self addedHandler: handler in: aCheckable
 ]

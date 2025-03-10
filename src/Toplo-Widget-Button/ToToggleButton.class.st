@@ -17,7 +17,7 @@ ToToggleButton >> initialize [
 
 	super initialize.
 	self initializeAsCheckable.
-	self clickEventClass: ToCheckableCheckEvent.
+	self clickEventClass: ToCheckableChangedEvent.
 
 ]
 

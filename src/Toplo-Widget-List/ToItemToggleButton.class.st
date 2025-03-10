@@ -23,5 +23,5 @@ ToItemToggleButton >> initialize [
 	self addEventHandler: ToClickableFocusEventHandler new.
 	self initializeAsTripletElementOn: self.
 	self initializeAsCheckable.
-	self clickEventClass: ToCheckableCheckEvent
+	self clickEventClass: ToCheckableChangedEvent
 ]

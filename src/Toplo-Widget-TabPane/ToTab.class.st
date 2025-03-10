@@ -109,7 +109,7 @@ ToTab >> initialize [
 	filler id: #filler.
 	self addChild: filler.
 	self initializeAsCheckable.
-	self clickEventClass: ToCheckableCheckEvent.
+	self clickEventClass: ToCheckableChangedEvent.
 	
 ]
 

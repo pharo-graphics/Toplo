@@ -11,7 +11,7 @@ ToCheckboxSkin >> checkedSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e icon
 			innerImage: (e valueOfTokenNamed: #'checkbox-checked-image');
-			innerImageColor: (e valueOfTokenNamed: #'color-primary') ]
+			innerImageColor: (e valueOfTokenNamed: #'color-primary'). ]
 ]
 
 { #category : #'event handling' }
@@ -62,7 +62,8 @@ ToCheckboxSkin >> indeterminateSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e icon
 			innerImage: (e valueOfTokenNamed: 'checkbox-indeterminate-image');
-			innerImageColor: (e valueOfTokenNamed: #'color-primary') ]
+			innerImageColor: (e valueOfTokenNamed: #'color-primary');
+			size: (e valueOfTokenNamed: #'checkable-icon-size') ]
 ]
 
 { #category : #'event handling' }
@@ -83,7 +84,6 @@ ToCheckboxSkin >> installSkinEvent: anEvent [
 			(ToImage inner: (e valueOfTokenNamed: #'checkbox-unchecked-image')).
 		e icon size: (e valueOfTokenNamed: #'checkable-icon-size').
 		e icon innerImageColor: (e valueOfTokenNamed: #'color-primary').
-		e icon geometry: (self iconGeometryIn: e).
 		e border: BlBorder empty ]
 ]
 

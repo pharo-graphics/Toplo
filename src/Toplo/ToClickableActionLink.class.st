@@ -5,19 +5,16 @@ Class {
 }
 
 { #category : #initialization }
-ToClickableActionLink >> configureToUpdateModel: aModel from: aTarget [
+ToClickableActionLink >> configureToUpdateLinkedObject: anObject from: aClickable [
 
 	| handler |
-	handler := aTarget
-		           addEventHandlerOn: aTarget clickEventClass
+	handler := aClickable
+		           addEventHandlerOn: aClickable clickEventClass
 		           do: [ :event |
-			           | space time |
-			           event consume.
-			           space := aTarget space.
-			           time := space ifNotNil: [ :sp | sp time ].
-			           self applyChangeIn: aModel onEvent: event withValue: nil.
-			           aTarget fireEvent: (ToClickableActionPerformedEvent new
-					            fillFromTime: time;
-					            yourself) ].
-	self addedHandler: handler in: aTarget
+			           self
+				           launchWithLinkedObject: anObject
+				           from: aClickable
+				           onEvent: event
+				           withValue: nil ].
+	self addedHandler: handler in: aClickable
 ]

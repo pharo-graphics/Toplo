@@ -25,10 +25,10 @@ ToTreeElement class >> exampleExpandAllAndCollapseAll [
 
 	expandAllButton := ToButton new
 		                   label: (ToLabel text: 'Expand All');
-		                   clickAction: [ tree expandAll ].
+		                   newClickAction: [ tree expandAll ].
 	collapseAllButton := ToButton new
 		                     label: (ToLabel text: 'Collapse All');
-		                     clickAction: [ tree collapseAll ].
+		                     newClickAction: [ tree collapseAll ].
 
 	container := ToElement new
 		             layout: BlLinearLayout vertical;

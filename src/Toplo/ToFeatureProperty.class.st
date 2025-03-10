@@ -22,10 +22,10 @@ ToFeatureProperty >> read: anObject [
 ]
 
 { #category : #operating }
-ToFeatureProperty >> write: aPropertyValue to: anObject [
+ToFeatureProperty >> write: aValue to: anObject [
 
 	writerName ifNil: [ writerName := self name asSymbol asMutator ].
-	anObject perform: writerName asSymbol with: aPropertyValue
+	anObject perform: writerName asSymbol with: aValue
 ]
 
 { #category : #accessing }

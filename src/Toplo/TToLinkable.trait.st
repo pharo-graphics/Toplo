@@ -4,69 +4,85 @@ Trait {
 }
 
 { #category : #'t - linkable' }
-TToLinkable >> checkAction: aValuable [
+TToLinkable >> newAction: aValuable withCheckGroup: aCheckableGroup [
 
-	^ self checkAction: aValuable with: self
-]
-
-{ #category : #'t - linkable' }
-TToLinkable >> checkAction: aValuable with: aModel [ 
-
-	^ self newCheckActionLink
+	^ ToCheckableGroupActionLink new
 		  link: self
-		  withModel: aModel
+		  with: aCheckableGroup
 		  action: aValuable
 ]
 
 { #category : #'t - linkable' }
-TToLinkable >> checkFeature: aFeatureName with: aModel [
+TToLinkable >> newCheckAction: aValuable [
+	" link the receiver through a valuable action. 
+	Tha valuable take the event, the receiver 
+	and the boolean value of checkable receiver
+	as arguments."
 
-	^ self newCheckPropertyLink
+	^ self newCheckAction: aValuable with: self
+]
+
+{ #category : #'t - linkable' }
+TToLinkable >> newCheckAction: aValuable with: linkedObject [ 
+
+	" link the receiver through a valuable action along with a linked object. 
+	Tha valuable take the event, the linked object and
+	the boolean value of checkable receiver as arguments."
+	^ ToCheckableActionLink new
 		  link: self
-		  withModel: aModel
+		  with: linkedObject
+		  action: aValuable
+]
+
+{ #category : #'t - linkable' }
+TToLinkable >> newCheckFeature: aFeatureName with: aLinkedObject [
+	" link the receiver through a message and a message receiver.
+	The link is a read and write association.
+	aFeatureName is a receiver feature used for the reading of the boolean value (read acessor).
+	The write accessor is computed from the read accessor (with #asMutator) "
+
+	^ ToCheckableLink new
+		  link: self
+		  with: aLinkedObject
 		  reader: aFeatureName asSymbol
 		  writer: aFeatureName asSymbol asMutator
 ]
 
 { #category : #'t - linkable' }
-TToLinkable >> checkReader: aReader writer: aWriter with: aModel [
+TToLinkable >> newCheckReader: aReader writer: aWriter [ 
+	" link the receiver through a read message and a write message.
+	The link is a read and write association.
+	the reader message is used for the reading of the boolean value (read acessor).
+	The write message is use to update the linked object  "
+	^ self newCheckReader: aReader writer: aWriter with: self
+]
 
-	^ self newCheckPropertyLink
+{ #category : #'t - linkable' }
+TToLinkable >> newCheckReader: aReader writer: aWriter with: aLinkedObject [
+	" link the receiver through a read message and a write message.
+	The link is a read and write association.
+	the reader message is used for the reading of the boolean value (read acessor).
+	The write message is use to update the linked object  "
+
+	^ ToCheckableLink new
 		  link: self
-		  withModel: aModel
+		  with: aLinkedObject
 		  reader: aReader
 		  writer: aWriter
 ]
 
 { #category : #'t - linkable' }
-TToLinkable >> clickAction: aValuable [
+TToLinkable >> newClickAction: aValuable [
 
-	^ self clickAction: aValuable with: self
+	^ self newClickAction: aValuable with: self
 ]
 
 { #category : #'t - linkable' }
-TToLinkable >> clickAction: aValuable with: aModel [ 
+TToLinkable >> newClickAction: aValuable with: anObject [ 
 
-	^ self newClickActionLink
+	^ ToClickableActionLink new
 		  link: self
-		  withModel: aModel
-		  action: aValuable
-]
-
-{ #category : #'t - linkable' }
-TToLinkable >> newCheckActionLink [
-
-	^ self checkActionLinkClass new
-]
-
-{ #category : #'t - linkable' }
-TToLinkable >> newCheckPropertyLink [
-
-	^ self checkPropertyLinkClass new
-]
-
-{ #category : #'t - linkable' }
-TToLinkable >> newClickActionLink [
-
-	^ self clickActionLinkClass new
+		  with: anObject
+		  action: aValuable;
+		yourself
 ]

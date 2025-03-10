@@ -30,7 +30,7 @@ ToToggleMenuItem >> buttonClass [
 { #category : #'t - button holder' }
 ToToggleMenuItem >> buttonClickEventClass [ 
 
-	^ ToCheckableCheckEvent 
+	^ ToCheckableChangedEvent 
 ]
 
 { #category : #'t - checkable - accessing' }

@@ -6,24 +6,6 @@ Class {
 	#category : #'Toplo-Core'
 }
 
-{ #category : #'t - checkable - accessing' }
-ToElement >> checkActionLinkClass [
-
-	^ Error signal: 'No check property link kind available'
-]
-
-{ #category : #'t - checkable - accessing' }
-ToElement >> checkPropertyLinkClass [ 
-
-	^ Error signal: 'No check property link kind available'
-]
-
-{ #category : #'t - checkable - accessing' }
-ToElement >> clickActionLinkClass [ 
-
-	^ ToClickableActionLink 
-]
-
 { #category : #'event creation' }
 ToElement >> clickEventClass [ 
 

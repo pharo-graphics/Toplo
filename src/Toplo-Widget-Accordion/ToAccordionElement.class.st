@@ -14,7 +14,7 @@ ToAccordionElement >> group: aCheckableGroup [
 ToAccordionElement >> initialize [
 
 	super initialize.
-	header addEventHandlerOn: ToCheckableCheckEvent do: [
+	header addEventHandlerOn: ToCheckableChangedEvent do: [
 		self privateExpanded: self isChecked ]
 ]
 

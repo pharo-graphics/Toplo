@@ -23,17 +23,8 @@ ToWidgetLink >> addedHandler: anEventHandler in: aTarget [
 		doOnce: [ :event | aTarget removeEventHandler: anEventHandler ]
 ]
 
-{ #category : #running }
-ToWidgetLink >> applyChangeIn: aModel onEvent: anEvent withValue: aValue [
-
-	self dispatchEvent: (ToModelChangedEvent new
-			 model: aModel;
-			 event: anEvent;
-			 yourself)
-]
-
 { #category : #initialization }
-ToWidgetLink >> configureToUpdateModel: aModel from: aValueProvider [
+ToWidgetLink >> configureToUpdateLinkedObject: anObject from: aValueProvider [
 
 	self subclassResponsibility 
 ]
@@ -45,6 +36,50 @@ ToWidgetLink >> eventDispatcher [
 	<return: #BlDirectEventDispatcher>
 	^ eventDispatcher ifNil: [
 		  eventDispatcher := BlDirectEventDispatcher on: self ]
+]
+
+{ #category : #running }
+ToWidgetLink >> launchWithLinkedObject: anObject from: aTarget onEvent: anEvent withValue: aValue [
+
+	| space action |
+	action := [
+	          self
+		          runWithLinkedObject: anObject
+		          from: aTarget
+		          onEvent: anEvent
+		          withValue: aValue ].
+	space := aTarget space.
+	space
+		ifNil: [ aTarget enqueueTask: (BlTaskAction new action: action) ]
+		ifNotNil: [ action value ]
+]
+
+{ #category : #running }
+ToWidgetLink >> onActionRunnedDo: aValuable [
+
+	self addedHandler:
+		(self addEventHandlerOn: ToLinkActionRunnedEvent do: [ :evt |
+			 aValuable
+				 cull: evt sourceEvent
+				 cull: evt linkedObject
+				 cull: evt changedValue ])
+]
+
+{ #category : #running }
+ToWidgetLink >> runWithLinkedObject: anObject from: aTarget onEvent: anEvent withValue: aValue [
+
+	| space time evt |
+	space := aTarget space.
+	time := space ifNotNil: [ :sp | sp time ].
+	evt := ToLinkActionRunnedEvent new
+		       fillFromTime: time;
+		       linkedObject: anObject;
+		       sourceEvent: anEvent;
+		       changedValue: aValue;
+		       yourself.
+	self dispatchEvent: evt.
+	aTarget = self ifTrue: [ ^ self ].
+	aTarget fireEvent: evt copy
 ]
 
 { #category : #initialization }

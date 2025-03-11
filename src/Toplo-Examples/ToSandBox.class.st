@@ -2100,7 +2100,7 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 	l addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :evt | evt traceCr ]).
-	l primarySelectionMode selectionOption beneath: false.
+	l selectionOption masked: true.
 	l openInSpace
 ]
 
@@ -2123,7 +2123,7 @@ ToSandBox class >> example_ListWithAllClassesAsToggleButton [
 	| l |
 	l := ToCheckableListElement new.
 	l group withoutCheckingStrategy.
-	l addAllItems: ((Smalltalk globals allClasses copyFrom: 1 to: 200) collect: [ :cls |
+	l addAllItems: ((Smalltalk globals allClasses ) collect: [ :cls |
 			 ToToggleButton new
 				 label: (ToLabel new text: cls name) preventSelectionSkinEvents;
 				 hMatchParent ]).

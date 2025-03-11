@@ -9,7 +9,10 @@ Class {
 		'styleSheet',
 		'registeredThemeClasses',
 		'skinStateQueue',
-		'textAttributesBuilder'
+		'textAttributesBuilder',
+		'postponedInstallSkinHandler',
+		'skinInstaller',
+		'skinUninstaller'
 	],
 	#category : #'Toplo-Core-Skin'
 }
@@ -147,7 +150,7 @@ ToSkinManager >> ensureHaveSkinContext [
 ToSkinManager >> hasPostponedInstallSkinHandler [
 
 	
-	^ self postponedInstallSkinHandler notNil
+	^ postponedInstallSkinHandler notNil
 ]
 
 { #category : #initialization }
@@ -205,30 +208,21 @@ ToSkinManager >> onSkinChangedIn: anElement [
 ToSkinManager >> postponeRequestSkinIn: anElement [
 
 	| handler |
-	self hasPostponedInstallSkinHandler ifTrue: [ ^ self ].
+	postponedInstallSkinHandler ifNotNil: [ ^ self ].
 	handler := BlEventHandler new.
 	handler eventClass: ToAddedToSpaceEvent.
 	handler action: [ :evt |
-		evt target removeEventHandler: self postponedInstallSkinHandler.
-		self postponedInstallSkinHandler: nil.
+		evt target removeEventHandler: postponedInstallSkinHandler.
+		postponedInstallSkinHandler := nil.
 		self requestInstallSkinIn: evt target ].
-	self postponedInstallSkinHandler: handler.
+	postponedInstallSkinHandler := handler.
 	anElement addEventHandler: handler
 ]
 
 { #category : #'skin - install / uninstall request' }
 ToSkinManager >> postponedInstallSkinHandler [
 
-	^ self userData at: #postponedInstallSkinHandler ifAbsent: [  ]
-]
-
-{ #category : #'skin - install / uninstall request' }
-ToSkinManager >> postponedInstallSkinHandler: anHandler [
-
-	anHandler ifNil: [
-		self userData removeKey: #postponedInstallSkinHandler ifAbsent: [  ].
-		^ self ].
-	self userData at: #postponedInstallSkinHandler put: anHandler
+	^ postponedInstallSkinHandler
 ]
 
 { #category : #'element setup' }
@@ -288,7 +282,7 @@ ToSkinManager >> requestUninstallSkinIn: anElement [
 	installer := self skinInstaller.
 	(installer notNil and: [ installer isInstalling ]) ifTrue: [ ^ self ].
 	self skinUninstaller ifNotNil: [ ^ self ].
-	self setSkinUninstaller: ToSkinUninstaller new in: anElement
+	skinUninstaller := ToSkinUninstaller new
 ]
 
 { #category : #'skin - install / uninstall request' }
@@ -317,20 +311,16 @@ ToSkinManager >> setDefaultSkin: aSkin in: anElement [
 { #category : #'skin - install / uninstall request' }
 ToSkinManager >> setSkinInstaller: aSkinInstaller in: anElement [
 
-	aSkinInstaller ifNil: [
-		self userData removeKey: #skinInstaller ifAbsent: [  ].
-		^ self ].
-	anElement spaceDo: [ :sp | sp needSkinInstallPass: true ].
-	self userData at: #skinInstaller put: aSkinInstaller
+	
+	skinInstaller := aSkinInstaller.
+	aSkinInstaller ifNil: [ ^ self ].
+	anElement spaceDo: [ :sp | sp needSkinInstallPass: true ]
 ]
 
 { #category : #'skin - install / uninstall request' }
 ToSkinManager >> setSkinUninstaller: aSkinUninstaller in: anElement [
 
-	aSkinUninstaller ifNil: [
-		self userData removeKey: #skinUninstaller ifAbsent: [  ].
-		^ self ].
-	self userData at: #skinUninstaller put: aSkinUninstaller
+	skinUninstaller := aSkinUninstaller
 ]
 
 { #category : #'accessing - styleSheet' }
@@ -359,7 +349,7 @@ ToSkinManager >> skinContext [
 { #category : #accessing }
 ToSkinManager >> skinInstaller [ 
 
-	^ self userData at: #skinInstaller ifAbsent: [  ]
+	^ skinInstaller
 ]
 
 { #category : #'skin - install / uninstall request' }
@@ -392,7 +382,7 @@ ToSkinManager >> skinToInstallIn: anElement [
 { #category : #accessing }
 ToSkinManager >> skinUninstaller [
 
-	^ self userData at: #skinUninstaller ifAbsent: [  ]
+	^ skinUninstaller 
 ]
 
 { #category : #'accessing - styleSheet' }

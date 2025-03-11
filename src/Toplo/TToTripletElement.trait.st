@@ -160,8 +160,7 @@ TToTripletElement >> newBaseContainer [
 { #category : #'t - triplet element - instance creation' }
 TToTripletElement >> newFiller [
 
-	^ ToElement new
-		  withNullSkin;
+	^ BlElement new
 		  size: 0 @ 0;
 		  layout: BlLinearLayout new;
 		  constraintsDo: [ :c |
@@ -173,7 +172,7 @@ TToTripletElement >> newFiller [
 { #category : #'t - triplet element - instance creation' }
 TToTripletElement >> newMiddleContainer [
 
-	^ ToElement new
+	^ BlElement new
 		  constraintsDo: [ :c |
 			  c horizontal fitContent.
 			  c vertical fitContent ];

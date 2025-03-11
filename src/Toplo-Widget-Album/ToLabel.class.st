@@ -420,12 +420,9 @@ ToLabel >> text: aBlTextOrString [
 	| newText |
 	self isFrozen ifTrue: [ ^ self ].
 	self text = aBlTextOrString ifTrue: [ ^ self ].
-	" unsubscribe previous text "
-	self text ifNotNil: [self text unsubscribe: self].
 	" subscribe to internal text state change (insertion/deletion/attribute change) "
 	newText := (aBlTextOrString ifNil: [ self defaultText ]) asRopedText.
 	self privateText: newText.
-	self dispatchEvent: (ToLabelTextReplacedEvent new text: self text).
 	self requestNewSkin
 ]
 

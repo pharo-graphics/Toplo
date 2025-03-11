@@ -18,20 +18,21 @@ ToTabsElement >> applyInnerConfiguration [
 	super applyInnerConfiguration.
 	self itemBar horizontal: self isHorizontal.
 	self itemBar atStartSide: atStartSide.
-	self itemBar matchParent. 
+	self itemBar matchParent.
 	self isHFitContent
 		ifTrue: [
-			self middleContainer hFitContent.
+			self middleContainer constraintsDo: [ :c | c horizontal fitContent ].
 			self itemBar hFitContent ]
 		ifFalse: [
-			self middleContainer hMatchParent.
+			self middleContainer constraintsDo: [ :c |
+				c horizontal matchParent ].
 			self itemBar hMatchParent ].
 	self isVFitContent
 		ifTrue: [
-			self middleContainer vFitContent.
+			self middleContainer constraintsDo: [ :c | c vertical fitContent ].
 			self itemBar vFitContent ]
 		ifFalse: [
-			self middleContainer vMatchParent.
+			self middleContainer constraintsDo: [ :c | c vertical matchParent ].
 			self itemBar vMatchParent ].
 	self itemBar requestNewConfiguration
 ]

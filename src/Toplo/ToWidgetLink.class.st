@@ -39,12 +39,12 @@ ToWidgetLink >> eventDispatcher [
 ]
 
 { #category : #running }
-ToWidgetLink >> launchWithLinkedObject: anObject from: aTarget onEvent: anEvent withValue: aValue [
+ToWidgetLink >> launchWithLinkedObject: anObjectOrValuable from: aTarget onEvent: anEvent withValue: aValue [
 
 	| space action |
 	action := [
 	          self
-		          runWithLinkedObject: anObject
+		          runWithLinkedObject: anObjectOrValuable
 		          from: aTarget
 		          onEvent: anEvent
 		          withValue: aValue ].

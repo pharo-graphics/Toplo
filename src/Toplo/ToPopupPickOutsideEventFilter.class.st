@@ -120,7 +120,7 @@ ToPopupPickOutsideEventFilter >> onMouseUpEvent: anEvent [
 	(self isPickedOutsideEvent: anEvent) ifFalse: [ ^ self ].
 
 	" ok, mouseUp outside the element and outside of the popup window "
-	anEvent consume.
+	"anEvent consume."
 	self element dispatchEvent: (ToPickOutsideEvent new
 			 fillFromTime: anEvent target space time;
 			 yourself)

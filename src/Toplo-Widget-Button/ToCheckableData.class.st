@@ -45,9 +45,7 @@ ToCheckableData >> checked: aBooleanOrIndeterminate [
 			ifFalse: [ ^ self ] ].
 	aBooleanOrIndeterminate = current ifTrue: [ ^ self ].
 	self privateChecked: aBooleanOrIndeterminate.
-	owner dispatchEvent: (ToCheckableChangedEvent new
-			 checked: checked;
-			 yourself)
+	self notifyChanged
 ]
 
 { #category : #accessing }
@@ -102,6 +100,14 @@ ToCheckableData >> nextCheckValue [
 		owner isChecked ifTrue: [ ^ false ].
 		^ #indeterminate ].
 	^ self checked not
+]
+
+{ #category : #'t - checkable  - protocol' }
+ToCheckableData >> notifyChanged [ 
+
+	owner dispatchEvent: (ToCheckableChangedEvent new
+			 checked: self isChecked;
+			 yourself)
 ]
 
 { #category : #accessing }

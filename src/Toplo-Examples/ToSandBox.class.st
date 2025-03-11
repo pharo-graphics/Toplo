@@ -946,6 +946,26 @@ ToSandBox class >> example_ButtonTurnedAsToggleButton [
 	toggle openInInnerWindow
 ]
 
+{ #category : #checkbox }
+ToSandBox class >> example_CheckAction [
+
+	| containerElement r1 |
+	(containerElement := ToPane vertical) padding: (BlInsets all: 10).
+
+	r1 := ToRadioButton new
+		      id: #r1;
+		      labelText: 'Dark theme';
+		      newCheckAction: [ :evt :space :v |
+			      space toTheme: (v
+						       ifTrue: [ ToRawDarkTheme new ]
+						       ifFalse: [ ToRawTheme new ]) ]
+		      with: [ :radio | radio space ];
+		      yourself.
+
+	containerElement addChildren: { r1 }.
+	containerElement openInSpace
+]
+
 { #category : #'button-dep' }
 ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheet [
 
@@ -1015,105 +1035,16 @@ ToSandBox class >> example_CheckReader [
 
 	r1 := ToRadioButton new
 		      id: #r1;
-		      labelText: 'Dark theme';
-		      newCheckReader: [ :space | space toTheme class = ToRawDarkTheme ]
+		      labelText: 'Light theme';
+		      newCheckReader: [ :space | space toTheme class = ToRawTheme ]
 		      writer: [ :space :v |
 			      space toTheme: (v
-						       ifTrue: [ ToRawDarkTheme new ]
-						       ifFalse: [ ToRawTheme new ]) ]
+						       ifTrue: [ ToRawTheme new ]
+						       ifFalse: [ ToRawDarkTheme new ]) ]
 		      with: [ :radio | radio space ];
 		      yourself.
 
 	containerElement addChildren: { r1 }.
-	containerElement openInSpace
-]
-
-{ #category : #checkbox }
-ToSandBox class >> example_CheckReaderAndGroup [
-
-	| containerElement group model |
-	containerElement := ToPane vertical.
-	
-	model := Array new: 1.
-	model at: 1 put: 1.
-	(group := ToCheckableGroup new)
-		withStrictCheckingStrategy;
-		registerAll: {
-				(ToRadioButton new
-					 id: #r1;
-					 labelText: 'Choice 1';
-					 yourself).
-				(ToRadioButton new
-					 id: #r2;
-					 labelText: 'Choice 2';
-					 yourself) }.
-	containerElement addChildren: group registeredCheckables.
-
-	containerElement
-		newCheckGroupAction: [ :evt :grp :l |
-			l do: [ :rbtn |
-				model at: 1 put: (group registeredCheckables indexOf: rbtn) ].
-			model traceCr ]
-		with: group.
-	group registeredCheckables second checked: true.
-
-	containerElement openInSpace
-]
-
-{ #category : #checkbox }
-ToSandBox class >> example_CheckReaderAndGroup2 [
-
-	| containerElement group |
-	containerElement := ToPane vertical.
-	(group := ToCheckableGroup new)
-		withStrictCheckingStrategy;
-		registerAll: {
-				(ToRadioButton new
-					 id: #r1;
-					 labelText: 'Light theme';
-					 newCheckAction: [ :evt :space :v |
-						 v ifTrue: [ space toTheme: ToRawTheme new ] ]
-					 with: [ :radio | radio space ];
-					 yourself).
-				(ToRadioButton new
-					 id: #r2;
-					 labelText: 'Dark theme';
-					 newCheckAction: [ :evt :space :v |
-						 v ifTrue: [ space toTheme: ToRawDarkTheme new ] ]
-					 with: [ :radio | radio space ];
-					 yourself) }.
-	
-	group registeredCheckables second checked: true.
-	containerElement addChildren: group registeredCheckables.
-
-	containerElement openInSpace
-]
-
-{ #category : #checkbox }
-ToSandBox class >> example_CheckReaderAndGroup3 [
-
-	| containerElement group model |
-	containerElement := ToPane vertical.
-	model := Array new: 1.
-	model at: 1 put: 1.
-	(group := ToCheckableGroup new)
-		withStrictCheckingStrategy;
-		registerAll: {
-				(ToRadioButton new
-					 id: #r1;
-					 labelText: 'Choice 1';
-					 newCheckAction: [ :evt :btn :v | model at: 1 put: 1 ];
-					 yourself).
-				(ToRadioButton new
-					 id: #r2;
-					 labelText: 'Choice 2';
-					 newCheckAction: [ :evt :btn :v | model at: 1 put: 2 ];
-					 yourself) }.
-	containerElement addChildren: group registeredCheckables.
-
-	containerElement newCheckGroupAction: [ :evt :grp :l | model traceCr ] with: group.
-	group registeredCheckables second checked: true.
-
 	containerElement openInSpace
 ]
 
@@ -4481,6 +4412,88 @@ ToSandBox class >> example_group [
 		newCheckGroupAction: [ :evt :grp :l | l traceCr ]
 		with: group.
 	container openInInnerWindow
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_group2 [
+
+	| containerElement group  |
+	containerElement := ToPane vertical.
+
+	(group := ToCheckableGroup new)
+		withStrictCheckingStrategy;
+		registerAll: {
+				(ToRadioButton new
+					 labelText: 'Light theme';
+					 in: [ :btn | btn userData at: #theme put: ToRawTheme ];
+					 yourself).
+				(ToRadioButton new
+					 labelText: 'Dark theme';
+					 in: [ :btn | btn userData at: #theme put: ToRawDarkTheme ];
+					 yourself) }.
+	containerElement addChildren: group registeredCheckables.
+
+	containerElement
+		newCheckGroupAction: [ :evt :grp :l |
+		Toplo defaultThemeClass: (l first userData at: #theme) ]
+		with: group.
+	group registeredCheckables second checked: true.
+
+	containerElement openInSpace
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_group3 [
+
+	| containerElement group |
+	containerElement := ToPane vertical.
+
+	(group := ToCheckableGroup new)
+		withStrictCheckingStrategy;
+		registerAll: {
+				(ToRadioButton new
+					 id: #r1;
+					 labelText: 'Light theme';
+					 newCheckAction: [ :evt :space :v |
+						 v ifTrue: [ space toTheme: ToRawTheme new ] ]
+					 with: [ :radio | radio space ];
+					 yourself).
+				(ToRadioButton new
+					 id: #r2;
+					 labelText: 'Dark theme';
+					 newCheckAction: [ :evt :space :v |
+						 v ifTrue: [ space toTheme: ToRawDarkTheme new ] ]
+					 with: [ :radio | radio space ];
+					 yourself) }.
+	
+	group registeredCheckables second checked: true.
+	containerElement addChildren: group registeredCheckables.
+
+	containerElement openInSpace
+]
+
+{ #category : #checkbox }
+ToSandBox class >> example_group4 [
+
+	| containerElement group |
+	containerElement := ToPane vertical.
+	
+	(group := ToCheckableGroup new)
+		withStrictCheckingStrategy;
+		registerAll: {
+				(ToRadioButton new
+					 labelText: 'Light theme';
+					 newCheckAction: [ :evt :btn :v | Toplo defaultThemeClass: ToRawTheme ];
+					 yourself).
+				(ToRadioButton new
+					 labelText: 'Dark theme';
+					 newCheckAction: [ :evt :btn :v | Toplo defaultThemeClass: ToRawDarkTheme ];
+					 yourself) }.
+
+	containerElement addChildren: group registeredCheckables.
+	group registeredCheckables second checked: true.
+
+	containerElement openInSpace
 ]
 
 { #category : #'header positionning' }

@@ -192,6 +192,7 @@ ToCheckableGroup >> uncheckedList [
 { #category : #'registering / unregistering' }
 ToCheckableGroup >> unregister: aCheckable [
 
+	aCheckable group = self ifFalse: [ Error signal: 'A checkable can be unregistered from its own group only' ].
 	self checkingStrategy unregister: aCheckable from: self.
 	registeredCheckables remove: aCheckable
 ]

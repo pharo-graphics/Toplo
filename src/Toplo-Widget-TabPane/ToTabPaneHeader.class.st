@@ -106,6 +106,7 @@ ToTabPaneHeader >> onTabRemoved: aTab [
 		         ifFalse: [ 0 ].
 
 	self tabs remove: aTab.
+	aTab checked: false.
 	self group unregister: aTab.
 	index > 0 ifFalse: [ ^ self ].
 	self tabs ifEmpty: [ ^ self ].

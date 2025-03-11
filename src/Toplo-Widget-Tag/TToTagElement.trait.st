@@ -17,7 +17,7 @@ TToTagElement >> addRemoveButton [
 	but constraintsDo: [ :c | c linear vertical alignCenter ].
 	but newClickAction: [ self fireEvent: ToTagRemovedEvent new ].
 	but id: #removeButton.
-	self addChild: but after: self endContainer
+	self endElement: but
 ]
 
 { #category : #accessing }

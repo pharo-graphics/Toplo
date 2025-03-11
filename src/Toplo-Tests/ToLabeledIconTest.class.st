@@ -45,8 +45,13 @@ ToLabeledIconTest >> testFiller [
 
 	| li |
 	li := self testInitialize.
-	self assert: li startFiller notNil.
-	self assert: li startFiller size equals: 0 asPoint
+	self assert: li startFiller isNil.
+	li startFlexible: false.
+	li onInnerConfigurationApplied.
+	self assert: li startFiller isNil.
+	li startFlexible: true.
+	li onInnerConfigurationApplied.
+	self assert: li startFiller notNil
 ]
 
 { #category : #tests }
@@ -98,13 +103,13 @@ ToLabeledIconTest >> testIconContainer [
 
 	| li |
 	li := self testInitialize.
-	self assert: li iconContainer hasChildren not.
-	self assert: li iconContainer size equals: 0 asPoint.
+	self assert: li iconContainer isNil.
 	li icon: (ToImage inner: (BlElement new
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
 	li forceLayout.
+	self assert: li startContainer notNil.
 	self assert: li width equals: li iconContainer width.
 	self assert: li height equals: li iconContainer height.
 	^ li
@@ -399,10 +404,11 @@ ToLabeledIconTest >> testStartFlexible [
 
 	| li |
 	li := self testInitialize.
-	self assert: li startFiller notNil.
-	self assert: li startFiller size equals: 0 asPoint.
+	self assert: li startFiller isNil.
 	li startFlexible: true.
 	li forceLayout.
+	li onInnerConfigurationApplied.
+	self assert: li startFiller notNil.
 	self assert: li isStartFlexible
 ]
 

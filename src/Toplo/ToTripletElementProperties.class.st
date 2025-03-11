@@ -24,6 +24,30 @@ Class {
 }
 
 { #category : #configuration }
+ToTripletElementProperties >> checkEndContainer [
+
+	endContainer ifNotNil: [ ^ self ].
+	endContainer := owner newBaseContainer
+		                  id: #'end-container';
+		                  yourself.
+	owner addChild: endContainer.
+	self configureChildren.
+	self configureEndContainer 
+]
+
+{ #category : #configuration }
+ToTripletElementProperties >> checkStartContainer [
+
+	startContainer ifNotNil: [ ^ self ].
+	startContainer := owner newBaseContainer
+		                  id: #'start-container';
+		                  yourself.
+	owner addChild: startContainer at: 1.
+	self configureChildren.
+	self configureStartContainer 
+]
+
+{ #category : #configuration }
 ToTripletElementProperties >> configureChildren [
 
 	owner isHorizontal
@@ -40,6 +64,7 @@ ToTripletElementProperties >> configureChildren [
 { #category : #configuration }
 ToTripletElementProperties >> configureEndContainer [
 
+	endContainer ifNil: [ ^ self ].
 	owner isHorizontal
 		ifTrue: [
 			self on: endContainer resizerDo: [ :c |
@@ -73,27 +98,43 @@ ToTripletElementProperties >> configureEndFiller [
 
 	endFlexible
 		ifTrue: [
+			endFiller ifNil: [
+				endFiller := owner newFiller
+					               id: #'end-filler';
+					               yourself.
+				owner addChild: endFiller after: middleContainer ].
 			self on: endFiller resizerDo: [ :c |
 				c vertical matchParent.
 				c horizontal matchParent ] ]
 		ifFalse: [
-			self on: endFiller resizerDo: [ :c |
-				c vertical fitContent.
-				c horizontal fitContent ] ]
+			endFiller ifNil: [ ^ self ].
+			endFiller removeFromParent.
+			endFiller := nil ]
 ]
 
 { #category : #configuration }
 ToTripletElementProperties >> configureEndGap [
 
-	owner isHorizontal
-		ifTrue: [
-			self on: endGap resizerDo: [ :c |
-				c vertical exact: 0.
-				c horizontal exact: endInterspace ] ]
+	endInterspace isZero
 		ifFalse: [
-			self on: endGap resizerDo: [ :c |
-				c horizontal exact: 0.
-				c vertical exact: endInterspace ] ]
+			endGap ifNil: [
+				endGap := owner newFiller
+					          id: #'end-gap';
+					          yourself.
+				owner addChild: endGap after: middleContainer ].
+			owner isHorizontal
+				ifTrue: [
+					self on: endGap resizerDo: [ :c |
+						c vertical exact: 0.
+						c horizontal exact: endInterspace ] ]
+				ifFalse: [
+					self on: endGap resizerDo: [ :c |
+						c horizontal exact: 0.
+						c vertical exact: endInterspace ] ] ]
+		ifTrue: [
+			endGap ifNil: [ ^ self ].
+			endGap removeFromParent.
+			endGap := nil ]
 ]
 
 { #category : #configuration }
@@ -116,6 +157,7 @@ ToTripletElementProperties >> configureMiddleElement [
 { #category : #configuration }
 ToTripletElementProperties >> configureStartContainer [
 
+	startContainer ifNil: [ ^ self ].
 	owner isHorizontal
 		ifTrue: [
 			self on: startContainer resizerDo: [ :c |
@@ -136,27 +178,43 @@ ToTripletElementProperties >> configureStartFiller [
 
 	startFlexible
 		ifTrue: [
+			startFiller ifNil: [
+				startFiller := owner newFiller
+					               id: #'start-filler';
+					               yourself.
+				owner addChild: startFiller before: middleContainer ].
 			self on: startFiller resizerDo: [ :c |
 				c vertical matchParent.
 				c horizontal matchParent ] ]
 		ifFalse: [
-			self on: startFiller resizerDo: [ :c |
-				c vertical fitContent.
-				c horizontal fitContent ] ]
+			startFiller ifNil: [ ^ self ].
+			startFiller removeFromParent.
+			startFiller := nil ]
 ]
 
 { #category : #configuration }
 ToTripletElementProperties >> configureStartGap [
 
-	owner isHorizontal
-		ifTrue: [
-			self on: startGap resizerDo: [ :c |
-				c vertical exact: 0.
-				c horizontal exact: startInterspace ] ]
+	startInterspace isZero
 		ifFalse: [
-			self on: startGap resizerDo: [ :c |
-				c horizontal exact: 0.
-				c vertical exact: startInterspace ] ]
+			startGap ifNil: [
+				startGap := owner newFiller
+					            id: #'start-gap';
+					            yourself.
+				owner addChild: startGap before: middleContainer ].
+			owner isHorizontal
+				ifTrue: [
+					self on: startGap resizerDo: [ :c |
+						c vertical exact: 0.
+						c horizontal exact: startInterspace ] ]
+				ifFalse: [
+					self on: startGap resizerDo: [ :c |
+						c horizontal exact: 0.
+						c vertical exact: startInterspace ] ] ]
+		ifTrue: [
+			startGap ifNil: [ ^ self ].
+			startGap removeFromParent.
+			startGap := nil ]
 ]
 
 { #category : #accessing }
@@ -164,6 +222,7 @@ ToTripletElementProperties >> endAlignment: aNumber [
 
 	endAlignment = aNumber ifTrue: [ ^ self ].
 	endAlignment := aNumber.
+	self checkEndContainer.
 	owner requestNewConfiguration
 ]
 
@@ -185,7 +244,8 @@ ToTripletElementProperties >> endElement: anElement [
 	anElement = endElement ifTrue: [ ^ self ].
 	endElement ifNotNil: [ :s | s removeFromParent ].
 	endElement := anElement.
-	anElement ifNil: [ ^ self ].
+	endElement ifNil: [ ^ self ].
+	self checkEndContainer.
 	endContainer addChild: anElement
 ]
 
@@ -259,41 +319,10 @@ ToTripletElementProperties >> middleElement: anElement [
 ToTripletElementProperties >> on: anElement [
 
 	owner := anElement.
-	startGap := anElement newFiller
-		            id: #'start-gap';
-		            yourself.
-	"startGap background: Color blue."
-	endGap := anElement newFiller
-		          id: #'end-gap';
-		          yourself.
-	"endGap background: Color blue."
-	startFiller := anElement newFiller
-		               id: #'start-filler';
-		               yourself.
-	"startFiller background: Color yellow."
-	endFiller := anElement newFiller
-		             id: #'end-filler';
-		             yourself.
-	"endFiller background: Color yellow."
-	startContainer := anElement newBaseContainer
-		                  id: #'start-container';
-		                  yourself.
 	middleContainer := anElement newMiddleContainer
 		                   id: #'middle-container';
 		                   yourself.
-	endContainer := anElement newBaseContainer
-		                id: #'end-container';
-		                yourself.
-
-	owner addChildren: {
-			startContainer.
-			startGap.
-			startFiller.
-			middleContainer.
-			endFiller.
-			endGap.
-			endContainer }.
-
+	owner addChild: middleContainer.
 	owner addEventHandler: owner defaultTripletEventHandler.
 	owner fitContent
 ]
@@ -359,6 +388,7 @@ ToTripletElementProperties >> startAlignment: aNumber [
 
 	startAlignment = aNumber ifTrue: [ ^ self ].
 	startAlignment := aNumber.
+	self checkStartContainer.
 	owner requestNewConfiguration
 ]
 
@@ -366,12 +396,6 @@ ToTripletElementProperties >> startAlignment: aNumber [
 ToTripletElementProperties >> startContainer [
 
 	^ startContainer
-]
-
-{ #category : #accessing }
-ToTripletElementProperties >> startContainer: anElement [
-
-	startContainer := anElement
 ]
 
 { #category : #accessing }
@@ -386,7 +410,8 @@ ToTripletElementProperties >> startElement: anElement [
 	anElement = startElement ifTrue: [ ^ self ].
 	startElement ifNotNil: [ :s | s removeFromParent ].
 	startElement := anElement.
-	anElement ifNil: [ ^ self ].
+	startElement ifNil: [ ^ self ].
+	self checkStartContainer.
 	startContainer addChild: anElement
 ]
 

@@ -11,7 +11,6 @@ ToLabeledIcon >> installBeeStyle [
 
 	super installBeeStyle.
 
-	self startFiller addStamp: #'labeled-icon-filler'.
 	self icon ifNotNil: [ :ic | ic addStamp: #icon ].
 	self label ifNotNil: [ :la | la addStamp: #label ].
 

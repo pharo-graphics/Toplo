@@ -491,6 +491,13 @@ ToAbstractListElement >> removeSelectionMode: aSelectionMode [
 	selectionModeMap removeKey: aSelectionMode selectionChangedEventClass
 ]
 
+{ #category : #configuration }
+ToAbstractListElement >> requestNewConfiguration [
+
+	super requestNewConfiguration.
+	self innerElement requestNewConfiguration
+]
+
 { #category : #'accessing selecters' }
 ToAbstractListElement >> secondarySelecter [ 
 

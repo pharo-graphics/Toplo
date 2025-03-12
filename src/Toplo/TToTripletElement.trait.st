@@ -6,6 +6,18 @@ Trait {
 	#category : #'Toplo-Core'
 }
 
+{ #category : #'t - triplet element - instance creation' }
+TToTripletElement >> createEndContainer [
+
+	self tripletProperties checkEndContainer
+]
+
+{ #category : #'t - triplet element - instance creation' }
+TToTripletElement >> createStartContainer [
+
+	self tripletProperties checkStartContainer
+]
+
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> defaultTripletEventHandler [
 
@@ -163,9 +175,6 @@ TToTripletElement >> newFiller [
 	^ BlElement new
 		  size: 0 @ 0;
 		  layout: BlLinearLayout new;
-		  constraintsDo: [ :c |
-			  c horizontal fitContent.
-			  c vertical fitContent ];
 		  yourself
 ]
 

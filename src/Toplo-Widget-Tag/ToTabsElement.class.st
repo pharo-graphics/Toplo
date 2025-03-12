@@ -7,7 +7,8 @@ Class {
 		'invisibleNodes',
 		'visibleNodes',
 		'nodeMenu',
-		'atStartSide'
+		'atStartSide',
+		'endExtraContainer'
 	],
 	#category : #'Toplo-Widget-Tag-Tab'
 }
@@ -33,7 +34,13 @@ ToTabsElement >> applyInnerConfiguration [
 			self itemBar vFitContent ]
 		ifFalse: [
 			self middleContainer constraintsDo: [ :c | c vertical matchParent ].
-			self itemBar vMatchParent ]
+			self itemBar vMatchParent ].
+
+	self isHorizontal
+		ifTrue: [ self endElement layout beHorizontal ]
+		ifFalse: [ self endElement layout beVertical ].
+
+	self checkNodeMenu
 ]
 
 { #category : #accessing }
@@ -51,21 +58,18 @@ ToTabsElement >> atStartSide: aBoolean [
 ]
 
 { #category : #'event handling' }
+ToTabsElement >> canShowMenu [
+
+	^ self isWrapping not and: [
+		  invisibleNodes notNil and: [ invisibleNodes notEmpty ] ]
+]
+
+{ #category : #'event handling' }
 ToTabsElement >> checkNodeMenu [
 
-	| menuImage |
-	nodeMenu ifNil: [
-		menuImage := ToMaterialDesignIconProvider innerImageNamed:
-			             'outlined_menu'.
-		nodeMenu := ToMenu new iconImage: menuImage.
-		nodeMenu icon size: 20 asPoint.
-		nodeMenu builder: self defaultNodeMenuBuilder.
-		nodeMenu visibility: BlVisibility gone.
-		self endElement: nodeMenu ].
-
-	self invisibleNodes
-		ifNotEmpty: [ self showNodeMenu: true ]
-		ifEmpty: [ self showNodeMenu: false ]
+	self canShowMenu
+		ifTrue: [ self showNodeMenu: true ]
+		ifFalse: [ self showNodeMenu: false ]
 ]
 
 { #category : #initialization }
@@ -103,6 +107,12 @@ ToTabsElement >> defaultNodeMenuBuilder [
 	  menu addSeparatorBeforeIndex: (middlePos max: 1) ]
 ]
 
+{ #category : #accessing }
+ToTabsElement >> endExtraBuilder: aValuable [
+
+	aValuable value: endExtraContainer 
+]
+
 { #category : #'focus requesting' }
 ToTabsElement >> focusHolder [
 
@@ -120,10 +130,10 @@ ToTabsElement >> initialize [
 
 	super initialize.
 	self initializeAsItemBarOwner.
-	
+
 	atStartSide := true.
 	self middleElement: self itemBar.
-	
+
 	self group
 		addEventHandlerOn: ToCheckableGroupChangedEvent
 		do: [ :event | self dispatchEvent: event ].
@@ -132,7 +142,36 @@ ToTabsElement >> initialize [
 		addEventHandlerOn: ToListSelectionChangedEvent
 		do: [ :event | self dispatchEvent: event copy ].
 
-	self addEventHandler: self defaultEventHandler
+	self addEventHandler: self defaultEventHandler.
+	self initializeExtras 
+]
+
+{ #category : #initialization }
+ToTabsElement >> initializeExtras [
+
+	| menuImage container |
+	menuImage := ToMaterialDesignIconProvider innerImageNamed:
+		             'outlined_menu'.
+	nodeMenu := ToMenu new iconImage: menuImage.
+	nodeMenu icon size: 20 asPoint.
+	nodeMenu builder: self defaultNodeMenuBuilder.
+	nodeMenu visibility: BlVisibility gone.
+
+	self startElement: self newBaseContainer.
+
+	container := self newBaseContainer.
+	container layout: BlLinearLayout new.
+	endExtraContainer := self newBaseContainer.
+	container addChild: nodeMenu.
+	container addChild: endExtraContainer.
+	self endElement: container.
+	self endContainer layout: BlLinearLayout new.
+	nodeMenu constraintsDo: [ :c |
+		c linear horizontal alignCenter.
+		c linear vertical alignCenter ].
+	endExtraContainer constraintsDo: [ :c |
+		c linear horizontal alignCenter.
+		c linear vertical alignCenter ]
 ]
 
 { #category : #accessing }
@@ -179,6 +218,13 @@ ToTabsElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNod
 
 ]
 
+{ #category : #configuration }
+ToTabsElement >> requestNewConfiguration [ 
+
+	super requestNewConfiguration.
+	self itemBar requestNewConfiguration
+]
+
 { #category : #'event handling' }
 ToTabsElement >> showNodeMenu: aBoolean [
 
@@ -186,6 +232,12 @@ ToTabsElement >> showNodeMenu: aBoolean [
 		aBoolean
 			ifTrue: [ nodeMenu visibility: BlVisibility visible ]
 			ifFalse: [ nodeMenu visibility: BlVisibility gone ] ]
+]
+
+{ #category : #accessing }
+ToTabsElement >> startExtraBuilder: aValuable [
+
+	aValuable value: self startElement
 ]
 
 { #category : #accessing }

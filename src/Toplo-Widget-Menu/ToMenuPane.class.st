@@ -49,7 +49,7 @@ ToMenuPane >> applyInnerConfiguration [
 		ifTrue: [ self itemBar vMatchParent ]
 		ifFalse: [ self itemBar vFitContent ].
 
-	self itemBar applyInnerConfiguration.
+	self itemBar requestNewConfiguration .
 
 ]
 

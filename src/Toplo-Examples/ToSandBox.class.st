@@ -156,7 +156,10 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	confPane addChild: menu.
 
 	verticalSwitch := ToSwitchButton new labelText: 'Vertical'.
-	verticalSwitch newCheckReader: #isVertical writer: #vertical: with: aBar.
+	verticalSwitch
+		newCheckReader: #isVertical
+		writer: #vertical:
+		with: aBar.
 	verticalSwitch startFlexible: true.
 	verticalSwitch hMatchParent.
 	confPane addChild: verticalSwitch.
@@ -168,7 +171,9 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 
 	uniformNodeWidthSwitch := ToSwitchButton new labelText:
 		                          'Uniform width'.
-	uniformNodeWidthSwitch newCheckFeature: #hasUniformNodeWidth with: aBar.
+	uniformNodeWidthSwitch
+		newCheckFeature: #hasUniformNodeWidth
+		with: aBar.
 	uniformNodeWidthSwitch startFlexible: true.
 	uniformNodeWidthSwitch hMatchParent.
 	confPane addChild: uniformNodeWidthSwitch.
@@ -208,8 +213,10 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 					         ifTrue: [ 200 milliSeconds ]
 					         ifFalse: [ 0 milliSeconds ]) ]
 		        with: aBar selectionOption.
-	link onActionRunnedDo: [ :v |
-		aBar secondarySelectionOption animationDuration: v ].
+	link onActionRunnedDo: [ :evt :option :v |
+		aBar secondarySelectionOption animationDuration: (v
+				 ifTrue: [ 200 milliSeconds ]
+				 ifFalse: [ 0 milliSeconds ]) ].
 
 	selectionAnimationSwitch startFlexible: true.
 	selectionAnimationSwitch hMatchParent.
@@ -3513,7 +3520,7 @@ ToSandBox class >> example_TabBarElement [
 ]
 
 { #category : #tag }
-ToSandBox class >> example_TabsElement [
+ToSandBox class >> example_TabsElementWithDaily [
 
 	| tabs dashBoard |
 	tabs := ToTabsElement new.
@@ -3528,11 +3535,30 @@ ToSandBox class >> example_TabsElement [
 	tabs requestFocus.
 	dashBoard := self tabsElementDashBoardFor: tabs.
 	tabs disabled: true.
-	dashBoard openInSpace
+	dashBoard openInSpace.
+	^ tabs
 ]
 
 { #category : #tag }
-ToSandBox class >> example_TabsElement2 [
+ToSandBox class >> example_TabsElementWithStartAndEndExtras [
+
+	| tabs |
+	tabs := self example_TabsElementWithUSStates.
+
+	tabs startExtraBuilder: [ :extra |
+		| im menu |
+		im := ToMaterialDesignIconProvider innerImageNamed: 'filled_article'.
+		menu := ToMenu new iconImage: im.
+		menu icon size: 20 asPoint.
+		extra addChild: menu ].
+	
+	tabs endExtraBuilder: [ :extra |
+		extra addChild: (ToButton new labelText: 'Bookmarks') ].
+	^ tabs
+]
+
+{ #category : #tag }
+ToSandBox class >> example_TabsElementWithUSStates [
 
 	| tabs dashBoard |
 	tabs := ToTabsElement new.
@@ -3546,7 +3572,8 @@ ToSandBox class >> example_TabsElement2 [
 	(tabs items at: 2) disable.
 	dashBoard := self tabsElementDashBoardFor: tabs.
 
-	dashBoard openInSpace
+	dashBoard openInSpace.
+	^ tabs
 ]
 
 { #category : #tag }

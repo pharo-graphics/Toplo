@@ -52,7 +52,7 @@ ToInnerBarElement >> applyInnerConfiguration [
 		ifTrue: [ self vFitContent ]
 		ifFalse: [ self vMatchParent ].
 
-	trackElement applyInnerConfiguration
+	trackElement applyInnerConfiguration 
 ]
 
 { #category : #layout }

@@ -73,7 +73,8 @@ ToTabBarElementSkin >> installSkinEvent: anEvent [
 				measurement: (ToRawSkinTabBarSelectionMeasurement new
 						 width: 2;
 						 tabBar: e;
-						 yourself) ] ]
+						 yourself) ].
+		e refreshAllSelections ]
 ]
 
 { #category : #'event handling' }

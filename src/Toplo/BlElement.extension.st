@@ -95,9 +95,9 @@ BlElement >> borderBuilder [
 { #category : #'*Toplo' }
 BlElement >> checkInnerConfiguration [
 
-	self innerConfigurationRequested ifFalse: [ ^ self ].
-	self applyInnerConfiguration.
-	self innerConfigurationRequested: false
+	self nextConfigurationPass = self space runningConfigurationPass
+		ifFalse: [ ^ self ].
+	self applyInnerConfiguration
 ]
 
 { #category : #'*Toplo' }
@@ -285,18 +285,6 @@ BlElement >> holder [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> innerConfigurationRequested [
-
-	^ self userData at: #innerConfigurationRequested ifAbsent: [ false ]
-]
-
-{ #category : #'*Toplo' }
-BlElement >> innerConfigurationRequested: aBoolean [
-
-	self userData at: #innerConfigurationRequested put: aBoolean
-]
-
-{ #category : #'*Toplo' }
 BlElement >> installRawStyle [
 
 	
@@ -465,6 +453,18 @@ BlElement >> newTextAttributesBuilder [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> nextConfigurationPass [
+
+	^ self userData at: #nextConfigurationPass ifAbsent: [ 0 ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> nextConfigurationPass: aNumber [
+
+	self userData at: #nextConfigurationPass put: aNumber
+]
+
+{ #category : #'*Toplo' }
 BlElement >> onAddedInItemBarOwner: anItemBar [
 
 	anItemBar onAddedUnknownItemKind: self
@@ -585,9 +585,12 @@ BlElement >> removedFromMenu: aMenu [
 { #category : #'*Toplo' }
 BlElement >> requestNewConfiguration [
 
-	self innerConfigurationRequested ifTrue: [ ^ self ].
-	self innerConfigurationRequested: true.
-	self spaceDo: [ :sp | sp needInnerConfigurationPass: true ]
+	self spaceDo: [ :sp |
+		"sp isApplyingConfigurations ifTrue: [
+			self trace. 
+			' Requesting new configuration during configuration phase' traceCr ]"
+		self nextConfigurationPass: sp nextConfigurationPass.
+		sp  requestNewConfigurationPass ]
 ]
 
 { #category : #'*Toplo' }

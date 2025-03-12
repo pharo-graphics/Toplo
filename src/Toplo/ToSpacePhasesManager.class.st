@@ -6,7 +6,9 @@ Class {
 		'needSkinStateApplicationPass',
 		'needInnerConfigurationPass',
 		'stateGenerations',
-		'phasesInstallationDone'
+		'phasesInstallationDone',
+		'nextConfigurationPass',
+		'runningConfigurationPass'
 	],
 	#category : #'Toplo-Core-SpaceFrame'
 }
@@ -31,7 +33,10 @@ ToSpacePhasesManager >> applyAllInnerConfigurationsIn: aSpace [
 
 	needInnerConfigurationPass ifFalse: [ ^ self ].
 	needInnerConfigurationPass := false.
-	aSpace root checkInnerConfigurationsDeeply
+	runningConfigurationPass := nextConfigurationPass.
+	aSpace root checkInnerConfigurationsDeeply.
+	nextConfigurationPass := nextConfigurationPass + 1.
+
 ]
 
 { #category : #'skins installation' }
@@ -55,6 +60,7 @@ ToSpacePhasesManager >> checkPhasesIn: aSpace [
 ToSpacePhasesManager >> initialize [ 
 
 	super initialize.
+	nextConfigurationPass := 0.
 	phasesInstallationDone := false.
 	needSkinInstallPass := true.
 	needSkinStateApplicationPass := true.
@@ -87,6 +93,12 @@ ToSpacePhasesManager >> installedSkinStateApplicationPhaseIn: aSpace [
 ]
 
 { #category : #testing }
+ToSpacePhasesManager >> isApplyingConfigurations [ 
+
+	^ nextConfigurationPass = runningConfigurationPass 
+]
+
+{ #category : #testing }
 ToSpacePhasesManager >> isInnerConfigurationPhaseInstalledIn: aSpace [
 
 	^ (self installedInnerConfigurationPhaseIn: aSpace) notNil
@@ -108,12 +120,6 @@ ToSpacePhasesManager >> isSkinStateApplicationPhaseInstalledIn: aSpace [
 ToSpacePhasesManager >> needInnerConfigurationPass [
 
 	^ needInnerConfigurationPass
-]
-
-{ #category : #accessing }
-ToSpacePhasesManager >> needInnerConfigurationPass: aBoolean [
-
-	needInnerConfigurationPass := aBoolean
 ]
 
 { #category : #accessing }
@@ -140,6 +146,12 @@ ToSpacePhasesManager >> needSkinStateApplicationPass: aBoolean [
 	needSkinStateApplicationPass := aBoolean
 ]
 
+{ #category : #testing }
+ToSpacePhasesManager >> nextConfigurationPass [ 
+
+	^ nextConfigurationPass 
+]
+
 { #category : #'phases installation' }
 ToSpacePhasesManager >> onInstalledIn: aSpace [
 
@@ -160,12 +172,25 @@ ToSpacePhasesManager >> phasesInstallationDone [
 	^ phasesInstallationDone
 ]
 
+{ #category : #accessing }
+ToSpacePhasesManager >> requestNewConfigurationPass [
+
+	self isApplyingConfigurations ifTrue: [ ^ self ].
+	needInnerConfigurationPass := true
+]
+
 { #category : #'skins application' }
 ToSpacePhasesManager >> runStateGenerations [
 
 	stateGenerations ifNil: [ ^ self ].
 	stateGenerations do: [ :g | g value ].
 	stateGenerations reset
+]
+
+{ #category : #'configurations application' }
+ToSpacePhasesManager >> runningConfigurationPass [
+
+	^ runningConfigurationPass
 ]
 
 { #category : #'phases installation' }

@@ -34,7 +34,7 @@ ToTabsElement >> applyInnerConfiguration [
 		ifFalse: [
 			self middleContainer constraintsDo: [ :c | c vertical matchParent ].
 			self itemBar vMatchParent ].
-	self itemBar requestNewConfiguration
+	self itemBar applyInnerConfiguration
 ]
 
 { #category : #accessing }

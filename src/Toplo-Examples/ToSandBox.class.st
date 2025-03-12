@@ -2601,8 +2601,6 @@ ToSandBox class >> example_SelectAntDesignIconMultiFiltrable [
 	select hMatchParent.
 	select placeholderText:
 		('Select icons' asRopedText foreground: Color red).
-
-	select filterTextField requestFocus.
 	select openInSpace
 ]
 
@@ -2616,6 +2614,7 @@ ToSandBox class >> example_SelectMaterialDesignIconMonoFiltrable [
 		withIconProvider: ToMaterialDesignIconProvider.
 
 	select filtrable: true.
+	select sample: select popupListElement dataAccessor first.
 
 	select dataViewBuilder: [ :dataItemView :iconDesc |
 		dataItemView addChild:
@@ -2627,13 +2626,11 @@ ToSandBox class >> example_SelectMaterialDesignIconMonoFiltrable [
 		dataItemView childrenDo: [ :child |
 			child constraintsDo: [ :c | c linear vertical alignCenter ] ] ].
 
-	select sample: select popupListElement dataAccessor first.
 
 	select hMatchParent.
 	select placeholderText:
 		('Select an icon' asRopedText foreground: Color red).
-
-	select filterTextField requestFocus.
+		
 	select openInSpace
 ]
 
@@ -2645,12 +2642,12 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 
 	select isWrapping: false.
 	select keepPickOrder: true.
-	
+		select filtrable: true.
 	self
 		buildSelectListElementIn: select
 		withIconProvider: ToMaterialDesignIconProvider.
 
-	select filtrable: true.
+
 	select nodeBuilder: [ :node :iconDesc :holder |
 		| tag |
 		tag := ToTagElement new.
@@ -2664,7 +2661,6 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 	select placeholderText:
 		('Select icons' asRopedText foreground: Color red).
 
-	select filterTextField requestFocus.
 	space := select openInSpace
 ]
 
@@ -2700,7 +2696,6 @@ ToSandBox class >> example_SelectMonoFiltrable [
 	select manager anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 50.
-	select filterTextField requestFocus.
 	innerWindow pane addChild: select.
 	innerWindow height: 500.
 	innerWindow openInSpace
@@ -2729,6 +2724,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 
 	| select innerWindow newTagFactory |
 	select := ToMultiSelectElement new.
+	select filtrable: true.
 	select manager autoPopupDelay: 400 milliSeconds.
 
 	select
@@ -2737,6 +2733,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 
 	select isWrapping: true.
 	select keepPickOrder: true.
+	
 	select popupListElement selectionOption grouped: false.
 	select popupListElement selectionOption beneath: false.
 	select popupListElement selectionOption elementFactory: [
@@ -2773,14 +2770,13 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	select hideSelected: false.
 	select popupListElement dataAccessor addAll:
 		self statesOfAmericaWithColor.
-	select filtrable: true.
+
 	select popupMaxHeight: 200.
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
-	select position: 5 @ 10.
-	select width: 380.
+	select hMatchParent.
 	select selecter selectIndex: 2.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
@@ -2959,9 +2955,8 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
+	select isWrapping: true.
 	select withCloseButton: true.
-	select popupListElement selectionOption masked:
-		true.
 	select hideSelected: true.
 	select popupListElement dataAccessor updateAllWith:
 		self statesOfAmerica.
@@ -3004,6 +2999,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithMax [
 
 	| select  |
 	select := self example_SelectMultiFiltrable.
+	select width: 300.
 	select maxSelectedCount: 4
 ]
 
@@ -5689,7 +5685,7 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 			includesSubstring: aPattern asString
 			caseSensitive: false ].
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select manager anchorRoot: innerWindow root.
 	select hMatchParent.
 	select popupListElement dataAccessor updateAllWith:
 		Smalltalk globals allClasses.
@@ -8231,7 +8227,7 @@ ToSandBox class >> selectWithEditingMultiSelection [
 		lab := ToAttributedLabel text: phtext.
 		placeholder addChild: lab ].
 
-	select whenSaveAcceptedDo: [ :event |
+	"select whenSaveAcceptedDo: [ :event |
 		| d |
 		d := event client text asString asSymbol.
 		event client text: ''.
@@ -8245,7 +8241,7 @@ ToSandBox class >> selectWithEditingMultiSelection [
 		event accepted: idx isZero.
 		idx > 0 ifTrue: [
 			event client text: ''.
-			target listElement selection selectIndex: idx ] ].
+			target listElement selection selectIndex: idx ] ]."
 	^ select
 ]
 

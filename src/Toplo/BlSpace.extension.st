@@ -39,10 +39,9 @@ BlSpace >> checkToploPhases [
 ]
 
 { #category : #'*Toplo' }
-BlSpace >> needInnerConfigurationPass: aBoolean [
+BlSpace >> isApplyingConfigurations [
 
-	self phasesManager needInnerConfigurationPass: aBoolean.
-	aBoolean ifTrue: [ self requestNextPulse ]
+	^ self phasesManager isApplyingConfigurations
 ]
 
 { #category : #'*Toplo' }
@@ -60,15 +59,33 @@ BlSpace >> needSkinStateApplicationPass: aBoolean [
 ]
 
 { #category : #'*Toplo' }
+BlSpace >> nextConfigurationPass [
+
+	^ self phasesManager nextConfigurationPass 
+]
+
+{ #category : #'*Toplo' }
 BlSpace >> phasesManager [
 
 	^ self userData at: #phasesManager ifAbsentPut: [ ToSpacePhasesManager new ]
+]
+
+{ #category : #'*Toplo' }
+BlSpace >> requestNewConfigurationPass [
+
+	self phasesManager requestNewConfigurationPass
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
 BlSpace >> resetToTheme [
 
 	self toTheme: Toplo newDefaultThemeInstance
+]
+
+{ #category : #'*Toplo' }
+BlSpace >> runningConfigurationPass [
+
+	^ self phasesManager runningConfigurationPass 
 ]
 
 { #category : #'*Toplo' }

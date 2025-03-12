@@ -25,7 +25,7 @@ ToSpacePhasesManagerTest >> testApplyAllEnqueuedStatesIn [
 { #category : #tests }
 ToSpacePhasesManagerTest >> testApplyAllInnerConfigurationsIn [
 
-	space phasesManager needInnerConfigurationPass: true.
+	space phasesManager requestNewConfigurationPass.
 	space phasesManager applyAllInnerConfigurationsIn: space.
 	self deny: space phasesManager needInnerConfigurationPass 
 

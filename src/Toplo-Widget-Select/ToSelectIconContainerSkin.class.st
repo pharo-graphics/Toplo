@@ -8,7 +8,9 @@ Class {
 ToSelectIconContainerSkin >> closedSkinEvent: anEvent [
 
 	super closedSkinEvent: anEvent.
-	anEvent elementDo: [ :e | e icon innerImage: (e valueOfTokenNamed: #'submenu-arrow-up') ]
+	anEvent elementDo: [ :e | 
+		e icon innerImage: (e valueOfTokenNamed: #'submenu-arrow-up').
+		e icon innerImageColor: (e valueOfTokenNamed: #'color-text'). ]
 ]
 
 { #category : #'event handling' }
@@ -52,7 +54,9 @@ ToSelectIconContainerSkin >> leavedSkinEvent: anEvent [
 ToSelectIconContainerSkin >> openedSkinEvent: anEvent [
 
 	super openedSkinEvent: anEvent.
-	anEvent elementDo: [ :e | e icon innerImage: (e valueOfTokenNamed: #'submenu-arrow-down') ]
+	anEvent elementDo: [ :e | 
+		e icon innerImage: (e valueOfTokenNamed: #'submenu-arrow-down').
+		e icon innerImageColor: (e valueOfTokenNamed: #'color-text'). ]
 ]
 
 { #category : #'event handling' }

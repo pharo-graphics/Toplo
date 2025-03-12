@@ -47,10 +47,10 @@ ToLabeledIconTest >> testFiller [
 	li := self testInitialize.
 	self assert: li startFiller isNil.
 	li startFlexible: false.
-	li onInnerConfigurationApplied.
+	li applyInnerConfiguration.
 	self assert: li startFiller isNil.
 	li startFlexible: true.
-	li onInnerConfigurationApplied.
+	li applyInnerConfiguration.
 	self assert: li startFiller notNil
 ]
 
@@ -407,7 +407,7 @@ ToLabeledIconTest >> testStartFlexible [
 	self assert: li startFiller isNil.
 	li startFlexible: true.
 	li forceLayout.
-	li onInnerConfigurationApplied.
+	li applyInnerConfiguration.
 	self assert: li startFiller notNil.
 	self assert: li isStartFlexible
 ]

@@ -4,7 +4,10 @@ Class {
 	#instVars : [
 		'hideSelected',
 		'withCloseButton',
-		'withGroups'
+		'withGroups',
+		'isWrapping',
+		'keepPickOrder',
+		'maxSelectedCount'
 	],
 	#category : #'Toplo-Widget-Select-Multi'
 }
@@ -17,6 +20,21 @@ ToMultiSelectElement >> addGroup: anObject withData: aCollection [
 	grpIdx := self dataAccessor itemCount.
 	self setGroupIndex: grpIdx.
 	self dataAccessor addAll: aCollection
+]
+
+{ #category : #configuration }
+ToMultiSelectElement >> applyInnerConfiguration [ 
+
+	super applyInnerConfiguration.
+	self innerElement isWrapping: isWrapping.
+	self innerElement keepPickOrder: keepPickOrder.
+	" in case of hide selected, the picking outside handler should not be activated.
+	If not, an unexpected list closing occurs when clicking on the last popup list item "
+	self manager checkPickOutside: hideSelected not.
+	 
+	self iconContainer maxSelectedCount: maxSelectedCount .
+	self innerElement maxSelectedCount: maxSelectedCount.
+
 ]
 
 { #category : #accessing }
@@ -53,7 +71,7 @@ ToMultiSelectElement >> hideSelected [
 ToMultiSelectElement >> hideSelected: aBoolean [
 
 	hideSelected := aBoolean.
-	self manager checkPickOutside: aBoolean not
+	self requestNewConfiguration
 ]
 
 { #category : #accessing }
@@ -71,7 +89,10 @@ ToMultiSelectElement >> initialize [
 
 	super initialize.
 	hideSelected := false.
-	withGroups := false
+	withGroups := false.
+	isWrapping := false.
+	keepPickOrder := false.
+	maxSelectedCount := 0
 ]
 
 { #category : #'instance creation' }
@@ -89,21 +110,23 @@ ToMultiSelectElement >> isScrolling: aBoolean [
 { #category : #accessing }
 ToMultiSelectElement >> isWrapping: aBoolean [
 
-	self innerElement isWrapping: aBoolean
+	isWrapping := aBoolean.
+	self requestNewConfiguration 
 ]
 
 { #category : #accessing }
 ToMultiSelectElement >> keepPickOrder: aBoolean [
 
-	self innerElement keepPickOrder: aBoolean
+	keepPickOrder := aBoolean.
+	self requestNewConfiguration 
+	
 ]
 
 { #category : #accessing }
 ToMultiSelectElement >> maxSelectedCount: aNumber [
 
-	self iconContainer maxSelectedCount: aNumber.
-	self innerElement maxSelectedCount: aNumber.
-
+	maxSelectedCount := aNumber.
+	self requestNewConfiguration
 ]
 
 { #category : #'instance creation' }

@@ -21,7 +21,8 @@ Class {
 		'filtrable',
 		'iconContainer',
 		'innerElement',
-		'windowManager'
+		'windowManager',
+		'sample'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -30,6 +31,15 @@ Class {
 ToSelectElement >> allowDeselection [
 
 	^ true
+]
+
+{ #category : #configuration }
+ToSelectElement >> applyInnerConfiguration [ 
+
+	super applyInnerConfiguration.
+	self filterTextField selectFiltrable: filtrable.
+	filtrable ifTrue: [ self filterTextField requestFocus ].
+	sample ifNotNil: [ self innerElement sample: sample ]
 ]
 
 { #category : #'accessing - window' }
@@ -89,7 +99,7 @@ ToSelectElement >> filtrable [
 ToSelectElement >> filtrable: aBoolean [
 
 	filtrable := aBoolean.
-	self filterTextField selectFiltrable: aBoolean
+	self requestNewConfiguration 
 ]
 
 { #category : #accessing }
@@ -329,7 +339,8 @@ ToSelectElement >> refresh [
 { #category : #accessing }
 ToSelectElement >> sample: aDataItem [
 
-	self innerElement sample: aDataItem
+	sample := aDataItem.
+	self requestNewConfiguration 
 ]
 
 { #category : #accessing }

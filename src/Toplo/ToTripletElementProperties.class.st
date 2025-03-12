@@ -349,7 +349,7 @@ ToTripletElementProperties >> on: anElement resizerDo: aBlock [
 ToTripletElementProperties >> onInnerConfigurationApplied [
 
 	"'onInnerConfigurationApplied in ' trace. owner traceCr."
-	
+
 	self configureChildren.
 	self configureEndContainer.
 	self configureEndFiller.

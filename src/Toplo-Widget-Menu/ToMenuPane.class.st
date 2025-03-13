@@ -87,6 +87,7 @@ ToMenuPane >> initialize [
 	autoOpen := false.
 	isSubPane := false.
 	self layout: BlLinearLayout horizontal.
+	self layout alignCenter.
 	self addEventHandler: ToMenuPaneEventHandler new.
 	self addChild: self itemBar.
 	self isWrapping: false.

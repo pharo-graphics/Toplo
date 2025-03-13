@@ -1675,12 +1675,12 @@ ToSandBox class >> example_HorizontalListWithIndexedColors [
 ToSandBox class >> example_HugeIntegerList [
 
 	| l nbItems vscrollBar space |
-	nbItems := 5000.
+	nbItems := 50000.
 	l := ToListElement new.
 	l dataAccessor addAll: (1 to: nbItems).
 	l nodeBuilder: [ :node :anInteger |
 		node addChild:
-			(ToLabel new text: anInteger asString asRopedText) ].
+			(BlTextElement new text: anInteger asString asRopedText) ].
 	vscrollBar := BlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
 		c ignoreByLayout.
@@ -3553,11 +3553,13 @@ ToSandBox class >> example_TabsElementWithStartAndEndExtras [
 	tabs := self example_TabsElementWithUSStates.
 
 	tabs startExtraBuilder: [ :extra |
-		| im menu |
+		| im menu menuPane |
+		menuPane := ToMenuPane new.
 		im := ToMaterialDesignIconProvider innerImageNamed: 'filled_checklist'.
 		menu := ToMenu new iconImage: im.
 		menu icon size: 20 asPoint.
-		extra addChild: menu ].
+		menuPane addItem: menu.
+		extra addChild: menuPane ].
 	
 	tabs endExtraBuilder: [ :extra |
 		extra addChild: (ToButton new labelText: 'Bookmarks') ].
@@ -8332,7 +8334,7 @@ ToSandBox class >> selectionModeChooserFor: aBar [
 ToSandBox class >> statesOfAmerica [
 
 	^ { #Alabama. #Alaska. #Arizona. #Arkansas. #California. #Colorado.
-		#Connecticut. #Delaware. #Florida. #Georgia. #Hawaii. #Idaho. #'Illinois Indiana'.
+		#Connecticut. #Delaware. #Florida. #Georgia. #Hawaii. #Idaho. #Illinois. #Indiana.
 		#Iowa. #Kansas. #Kentucky. #Louisiana. #Maine. #Maryland. #Massachusetts.
 		#Michigan. #Minnesota. #Mississippi. #Missouri. #Montana. #Nebraska.
 		#Nevada. #'New Hampshire'. #'New Jersey'. #'New Mexico'.

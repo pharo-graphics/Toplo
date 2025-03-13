@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'tabBar'
 	],
-	#category : #'Toplo-Widget-Tag-Tab'
+	#category : #'Toplo-Widget-Tag-Tab-RawThemeSupport'
 }
 
 { #category : #'api - displaying' }

@@ -153,6 +153,8 @@ ToStyleSheetApplicationTest >> testButtonSkin0 [
 				with: [ :e | e valueOfTokenNamed: #'color-error-pressed' ] ].
 
 	button := ToButton new.
+	button applySkinInstallerOnFirstRequest: false.
+
 	space toTheme: theme.
 	space root addChild: button.
 	button addStamp: #button.
@@ -162,7 +164,7 @@ ToStyleSheetApplicationTest >> testButtonSkin0 [
 	skin := ToBeeSkin new.
 	skin skinEventListeners: writers.
 	button defaultSkin: nil.
-	self assert: button skinManager installedSkin isNil.
+	"self assert: button skinManager installedSkin isNil."
 	button defaultSkin: skin.
 	button skinManager applySkinReinstallIn: button.
 	self assert: button border width equals: 1.

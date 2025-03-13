@@ -26,9 +26,9 @@ ToScrollableBarTrackElement >> addHolder: anHolder at: aPosition [
 ]
 
 { #category : #layout }
-ToScrollableBarTrackElement >> applyInnerConfiguration [
+ToScrollableBarTrackElement >> applyToploConfiguration [
 
-	super applyInnerConfiguration.
+	super applyToploConfiguration.
 	self layout: self newLayoutStrategy.
 
 	listElement isHFitContent
@@ -153,6 +153,12 @@ ToScrollableBarTrackElement >> isWrapping [
 ToScrollableBarTrackElement >> linearLayoutClass [
 
 	^ ToBarLinearLayout
+]
+
+{ #category : #accessing }
+ToScrollableBarTrackElement >> maxMeasuredNodeSize [
+
+	^ self layout maxMeasuredNodeSize
 ]
 
 { #category : #layout }

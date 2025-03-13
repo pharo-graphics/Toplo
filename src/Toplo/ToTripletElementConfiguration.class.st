@@ -1,15 +1,7 @@
 Class {
-	#name : #ToTripletElementProperties,
-	#superclass : #Object,
+	#name : #ToTripletElementConfiguration,
+	#superclass : #ToElementConfiguration,
 	#instVars : [
-		'startContainer',
-		'middleContainer',
-		'endContainer',
-		'startFiller',
-		'endFiller',
-		'startElement',
-		'middleElement',
-		'endElement',
 		'startFlexible',
 		'endFlexible',
 		'endGap',
@@ -18,13 +10,30 @@ Class {
 		'endAlignment',
 		'endInterspace',
 		'startInterspace',
-		'owner'
+		'isHorizontal'
 	],
 	#category : #'Toplo-Core'
 }
 
 { #category : #configuration }
-ToTripletElementProperties >> checkEndContainer [
+ToTripletElementConfiguration >> applyOn: anElement [
+
+	"'onInnerConfigurationApplied in ' trace. owner traceCr."
+
+	self configureChildrenIn: anElement.
+	self configureEndContainerIn: anElement.
+	self configureEndFillerIn: anElement.
+	self configureEndGapIn: anElement.
+	self configureStartContainerIn: anElement.
+	self configureStartFillerIn: anElement.
+	self configureStartGapIn: anElement.
+	self configureEndElementIn: anElement.
+	self configureMiddleElementIn: anElement.
+
+]
+
+{ #category : #configuration }
+ToTripletElementConfiguration >> checkEndContainer [
 
 	endContainer ifNotNil: [ ^ self ].
 	endContainer := owner newBaseContainer
@@ -36,7 +45,7 @@ ToTripletElementProperties >> checkEndContainer [
 ]
 
 { #category : #configuration }
-ToTripletElementProperties >> checkStartContainer [
+ToTripletElementConfiguration >> checkStartContainer [
 
 	startContainer ifNotNil: [ ^ self ].
 	startContainer := owner newBaseContainer
@@ -48,7 +57,7 @@ ToTripletElementProperties >> checkStartContainer [
 ]
 
 { #category : #configuration }
-ToTripletElementProperties >> configureChildren [
+ToTripletElementConfiguration >> configureChildren [
 
 	owner isHorizontal
 		ifTrue: [
@@ -62,7 +71,21 @@ ToTripletElementProperties >> configureChildren [
 ]
 
 { #category : #configuration }
-ToTripletElementProperties >> configureEndContainer [
+ToTripletElementConfiguration >> configureChildrenIn: anElement [
+
+	self isHorizontal
+		ifTrue: [
+			anElement childrenDo: [ :child |
+				child constraints linear vertical alignCenter.
+				child constraints frame vertical alignCenter ] ]
+		ifFalse: [
+			anElement childrenDo: [ :child |
+				child constraints linear horizontal alignCenter.
+				child constraints frame horizontal alignCenter ] ]
+]
+
+{ #category : #configuration }
+ToTripletElementConfiguration >> configureEndContainer [
 
 	endContainer ifNil: [ ^ self ].
 	owner isHorizontal
@@ -81,7 +104,7 @@ ToTripletElementProperties >> configureEndContainer [
 ]
 
 { #category : #configuration }
-ToTripletElementProperties >> configureEndElement [
+ToTripletElementConfiguration >> configureEndElement [
 
 	endElement ifNil: [ ^ self ].
 	owner isHorizontal
@@ -94,7 +117,7 @@ ToTripletElementProperties >> configureEndElement [
 ]
 
 { #category : #configuration }
-ToTripletElementProperties >> configureEndFiller [
+ToTripletElementConfiguration >> configureEndFiller [
 
 	endFlexible
 		ifTrue: [
@@ -113,7 +136,7 @@ ToTripletElementProperties >> configureEndFiller [
 ]
 
 { #category : #configuration }
-ToTripletElementProperties >> configureEndGap [
+ToTripletElementConfiguration >> configureEndGap [
 
 	endInterspace isZero
 		ifFalse: [
@@ -138,7 +161,7 @@ ToTripletElementProperties >> configureEndGap [
 ]
 
 { #category : #configuration }
-ToTripletElementProperties >> configureMiddleElement [
+ToTripletElementConfiguration >> configureMiddleElement [
 
 	middleElement ifNil: [ ^ self ].
 	owner isHorizontal
@@ -155,7 +178,7 @@ ToTripletElementProperties >> configureMiddleElement [
 ]
 
 { #category : #configuration }
-ToTripletElementProperties >> configureStartContainer [
+ToTripletElementConfiguration >> configureStartContainer [
 
 	startContainer ifNil: [ ^ self ].
 	owner isHorizontal
@@ -174,7 +197,7 @@ ToTripletElementProperties >> configureStartContainer [
 ]
 
 { #category : #configuration }
-ToTripletElementProperties >> configureStartFiller [
+ToTripletElementConfiguration >> configureStartFiller [
 
 	startFlexible
 		ifTrue: [
@@ -193,7 +216,7 @@ ToTripletElementProperties >> configureStartFiller [
 ]
 
 { #category : #configuration }
-ToTripletElementProperties >> configureStartGap [
+ToTripletElementConfiguration >> configureStartGap [
 
 	startInterspace isZero
 		ifFalse: [
@@ -218,7 +241,7 @@ ToTripletElementProperties >> configureStartGap [
 ]
 
 { #category : #accessing }
-ToTripletElementProperties >> endAlignment: aNumber [
+ToTripletElementConfiguration >> endAlignment: aNumber [
 
 	endAlignment = aNumber ifTrue: [ ^ self ].
 	endAlignment := aNumber.
@@ -227,19 +250,19 @@ ToTripletElementProperties >> endAlignment: aNumber [
 ]
 
 { #category : #accessing }
-ToTripletElementProperties >> endContainer [
+ToTripletElementConfiguration >> endContainer [
 
 	^ endContainer
 ]
 
 { #category : #accessing }
-ToTripletElementProperties >> endElement [
+ToTripletElementConfiguration >> endElement [
 
 	^ endElement
 ]
 
 { #category : #accessing }
-ToTripletElementProperties >> endElement: anElement [
+ToTripletElementConfiguration >> endElement: anElement [
 
 	anElement = endElement ifTrue: [ ^ self ].
 	endElement ifNotNil: [ :s | s removeFromParent ].
@@ -250,19 +273,19 @@ ToTripletElementProperties >> endElement: anElement [
 ]
 
 { #category : #accessing }
-ToTripletElementProperties >> endFiller [
+ToTripletElementConfiguration >> endFiller [
 
 	^ endFiller
 ]
 
 { #category : #accessing }
-ToTripletElementProperties >> endFlexible [
+ToTripletElementConfiguration >> endFlexible [
 
 	^ endFlexible
 ]
 
 { #category : #accessing }
-ToTripletElementProperties >> endFlexible: aBoolean [
+ToTripletElementConfiguration >> endFlexible: aBoolean [
 
 	endFlexible = aBoolean ifTrue: [ ^ self ].
 	endFlexible := aBoolean.
@@ -270,7 +293,7 @@ ToTripletElementProperties >> endFlexible: aBoolean [
 ]
 
 { #category : #accessing }
-ToTripletElementProperties >> endInterspace: aNumber [
+ToTripletElementConfiguration >> endInterspace: aNumber [
 
 	endInterspace = aNumber ifTrue: [ ^ self ].
 	endInterspace := aNumber.
@@ -278,7 +301,7 @@ ToTripletElementProperties >> endInterspace: aNumber [
 ]
 
 { #category : #initialization }
-ToTripletElementProperties >> initialize [ 
+ToTripletElementConfiguration >> initialize [ 
 
 	super initialize.
 	startFlexible := false.
@@ -288,25 +311,37 @@ ToTripletElementProperties >> initialize [
 ]
 
 { #category : #accessing }
-ToTripletElementProperties >> middleContainer [
+ToTripletElementConfiguration >> isHorizontal [ 
+
+	^ isHorizontal
+]
+
+{ #category : #accessing }
+ToTripletElementConfiguration >> isHorizontal: aBoolean [
+
+	isHorizontal := aBoolean
+]
+
+{ #category : #accessing }
+ToTripletElementConfiguration >> middleContainer [
 
 	^ middleContainer
 ]
 
 { #category : #accessing }
-ToTripletElementProperties >> middleContainer: anElement [
+ToTripletElementConfiguration >> middleContainer: anElement [
 
 	middleContainer := anElement
 ]
 
 { #category : #accessing }
-ToTripletElementProperties >> middleElement [
+ToTripletElementConfiguration >> middleElement [
 
 	^ middleElement
 ]
 
 { #category : #accessing }
-ToTripletElementProperties >> middleElement: anElement [
+ToTripletElementConfiguration >> middleElement: anElement [
 
 	anElement = middleElement ifTrue: [ ^ self ].
 	middleElement ifNotNil: [ :s | s removeFromParent ].
@@ -316,7 +351,7 @@ ToTripletElementProperties >> middleElement: anElement [
 ]
 
 { #category : #initialization }
-ToTripletElementProperties >> on: anElement [
+ToTripletElementConfiguration >> on: anElement [
 
 	owner := anElement.
 	middleContainer := anElement newMiddleContainer
@@ -328,7 +363,7 @@ ToTripletElementProperties >> on: anElement [
 ]
 
 { #category : #private }
-ToTripletElementProperties >> on: anElement resizerDo: aBlock [ 
+ToTripletElementConfiguration >> on: anElement resizerDo: aBlock [ 
 	"Perform aBlock with anElement constraints as argument.
 	Note: After evaluation my owner requests a layout update!
 	aBlock must not be nil.
@@ -346,7 +381,7 @@ ToTripletElementProperties >> on: anElement resizerDo: aBlock [
 ]
 
 { #category : #configuration }
-ToTripletElementProperties >> onToploConfigurationApplied [
+ToTripletElementConfiguration >> onToploConfigurationApplied [
 
 	"'onInnerConfigurationApplied in ' trace. owner traceCr."
 
@@ -363,7 +398,7 @@ ToTripletElementProperties >> onToploConfigurationApplied [
 ]
 
 { #category : #dependencies }
-ToTripletElementProperties >> release [ 
+ToTripletElementConfiguration >> release [ 
 
 	super release.
 	owner := nil.
@@ -378,13 +413,13 @@ ToTripletElementProperties >> release [
 ]
 
 { #category : #accessing }
-ToTripletElementProperties >> startAlignment [
+ToTripletElementConfiguration >> startAlignment [
 
 	^ startAlignment
 ]
 
 { #category : #accessing }
-ToTripletElementProperties >> startAlignment: aNumber [
+ToTripletElementConfiguration >> startAlignment: aNumber [
 
 	startAlignment = aNumber ifTrue: [ ^ self ].
 	startAlignment := aNumber.
@@ -393,19 +428,19 @@ ToTripletElementProperties >> startAlignment: aNumber [
 ]
 
 { #category : #accessing }
-ToTripletElementProperties >> startContainer [
+ToTripletElementConfiguration >> startContainer [
 
 	^ startContainer
 ]
 
 { #category : #accessing }
-ToTripletElementProperties >> startElement [
+ToTripletElementConfiguration >> startElement [
 
 	^ startElement
 ]
 
 { #category : #accessing }
-ToTripletElementProperties >> startElement: anElement [
+ToTripletElementConfiguration >> startElement: anElement [
 
 	anElement = startElement ifTrue: [ ^ self ].
 	startElement ifNotNil: [ :s | s removeFromParent ].
@@ -416,19 +451,19 @@ ToTripletElementProperties >> startElement: anElement [
 ]
 
 { #category : #accessing }
-ToTripletElementProperties >> startFiller [
+ToTripletElementConfiguration >> startFiller [
 
 	^ startFiller
 ]
 
 { #category : #accessing }
-ToTripletElementProperties >> startFlexible [
+ToTripletElementConfiguration >> startFlexible [
 
 	^ startFlexible
 ]
 
 { #category : #accessing }
-ToTripletElementProperties >> startFlexible: aBoolean [
+ToTripletElementConfiguration >> startFlexible: aBoolean [
 
 	startFlexible = aBoolean ifTrue: [ ^ self ].
 	startFlexible := aBoolean.
@@ -436,13 +471,13 @@ ToTripletElementProperties >> startFlexible: aBoolean [
 ]
 
 { #category : #accessing }
-ToTripletElementProperties >> startInterspace [
+ToTripletElementConfiguration >> startInterspace [
 
 	^ startInterspace
 ]
 
 { #category : #accessing }
-ToTripletElementProperties >> startInterspace: aNumber [
+ToTripletElementConfiguration >> startInterspace: aNumber [
 
 	startInterspace = aNumber ifTrue: [ ^ self ].
 	startInterspace := aNumber.

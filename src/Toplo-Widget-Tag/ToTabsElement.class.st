@@ -14,9 +14,9 @@ Class {
 }
 
 { #category : #'t - triplet element - configuration' }
-ToTabsElement >> applyInnerConfiguration [
+ToTabsElement >> applyToploConfiguration [
 
-	super applyInnerConfiguration.
+	super applyToploConfiguration.
 	self itemBar horizontal: self isHorizontal.
 	self itemBar atStartSide: atStartSide.
 	self itemBar matchParent.
@@ -54,7 +54,7 @@ ToTabsElement >> atStartSide: aBoolean [
 
 	atStartSide = aBoolean ifTrue: [ ^ self ].
 	atStartSide := aBoolean.
-	self requestNewConfiguration
+	self requestNewConfigurationPass
 ]
 
 { #category : #'event handling' }
@@ -216,13 +216,6 @@ ToTabsElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNod
 	visibleNodes := theVisibleNodes asArray.
 	self dispatchEvent: ToVisibleTabsChanged new.
 
-]
-
-{ #category : #configuration }
-ToTabsElement >> requestNewConfiguration [ 
-
-	super requestNewConfiguration.
-	self itemBar requestNewConfiguration
 ]
 
 { #category : #'event handling' }

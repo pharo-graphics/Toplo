@@ -30,9 +30,9 @@ ToInfiniteElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 ]
 
 { #category : #'t - list node holder' }
-ToInfiniteElement >> applyInnerConfiguration [
+ToInfiniteElement >> applyToploConfiguration [
 
-	super applyInnerConfiguration.
+	super applyToploConfiguration.
 	self matchParent.
 	self horizontal: listElement isHorizontal.
 	listElement isHMatchParent ifFalse: [ self hFitContent ].

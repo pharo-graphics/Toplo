@@ -28,6 +28,8 @@ ToBarLinearLayoutVerticalMeasurer >> preMeasure [
 	"See how wide/tall everyone is. Also remember max breadth."
 
 	super preMeasure.
+	self maxSizeDo: [ :maxSize | self layout maxMeasuredNodeSize: maxSize ].
+
 	self shouldCheckUniformSize ifFalse: [ ^ self ].
 	self barUniformMeasure
 ]

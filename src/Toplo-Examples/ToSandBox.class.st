@@ -138,7 +138,13 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 
 	menu := ToMenu new.
 	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
-
+	menu addItem: (ToCheckMenuItem new
+			 label: (ToLabel text: 'Dark theme');
+			 newCheckReader: [ :cbox | cbox space toTheme class = ToRawDarkTheme ]
+			 writer: [ :cbox :v | cbox space toTheme: (v
+							  ifTrue: [ ToRawDarkTheme new ]
+							  ifFalse: [ ToRawTheme new ]) ];
+			 yourself).
 	menu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Space statistics');
 			 newClickAction: [ aBar space showStatisticsWindow ];
@@ -148,7 +154,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 			 newClickAction: [ aBar space root inspect ];
 			 yourself).
 	menu addItem: (ToCheckMenuItem new
-			 label: (ToLabel text: 'Disable bar');
+			 label: (ToLabel text: 'Disabled bar');
 			 newCheckReader: [ :e | e isDisabled ]
 			 writer: [ :e :v | e disabled: v ]
 			 with: aBar;
@@ -301,6 +307,7 @@ ToSandBox class >> barWithData: aCollection [
 		but := ToButton new.
 		but addStamp: #iconic.
 		but addStamp: #circle.
+		but addStamp: #borderless.
 		but icon: (ToImage inner: (self iconNamed: #windowClose)).
 		but constraintsDo: [ :c | c linear vertical alignCenter ].
 		but newClickAction: [ 
@@ -3547,7 +3554,7 @@ ToSandBox class >> example_TabsElementWithStartAndEndExtras [
 
 	tabs startExtraBuilder: [ :extra |
 		| im menu |
-		im := ToMaterialDesignIconProvider innerImageNamed: 'filled_article'.
+		im := ToMaterialDesignIconProvider innerImageNamed: 'filled_checklist'.
 		menu := ToMenu new iconImage: im.
 		menu icon size: 20 asPoint.
 		extra addChild: menu ].

@@ -51,10 +51,10 @@ ToAbstractListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 ]
 
 { #category : #configuration }
-ToAbstractListElement >> applyInnerConfiguration [
+ToAbstractListElement >> applyToploConfiguration [
 
-	super applyInnerConfiguration.
-	self innerElement applyInnerConfiguration.
+	super applyToploConfiguration.
+	self innerElement applyToploConfiguration.
 	self refreshAllSelections
 ]
 
@@ -489,13 +489,6 @@ ToAbstractListElement >> removeSelectionMode: aSelectionMode [
 		at: aSelectionMode selectionChangedEventClass
 		ifAbsent: [ Error signal: 'Selection mode not found' ].
 	selectionModeMap removeKey: aSelectionMode selectionChangedEventClass
-]
-
-{ #category : #configuration }
-ToAbstractListElement >> requestNewConfiguration [
-
-	super requestNewConfiguration.
-	self innerElement requestNewConfiguration
 ]
 
 { #category : #'accessing selecters' }

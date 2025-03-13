@@ -14,12 +14,6 @@ BlSpace >> applyAllEnqueuedStates [
 ]
 
 { #category : #'*Toplo' }
-BlSpace >> applyAllInnerConfigurations [
-
-	self phasesManager applyAllInnerConfigurationsIn: self
-]
-
-{ #category : #'*Toplo' }
 BlSpace >> applyAllSkinInstallers [
 
 	self phasesManager applyAllSkinInstallersIn: self
@@ -30,6 +24,12 @@ BlSpace >> applyAllSkinPhases [
 
 	self applyAllSkinInstallers.
 	self applyAllEnqueuedStates.
+]
+
+{ #category : #'*Toplo' }
+BlSpace >> applyAllToploConfigurations [
+
+	self phasesManager applyAllConfigurationsIn: self
 ]
 
 { #category : #'*Toplo' }

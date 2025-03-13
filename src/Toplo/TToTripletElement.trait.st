@@ -190,10 +190,10 @@ TToTripletElement >> newMiddleContainer [
 ]
 
 { #category : #'t - triplet element - configuration' }
-TToTripletElement >> onInnerConfigurationApplied [ 
+TToTripletElement >> onToploConfigurationApplied [ 
 
-	super onInnerConfigurationApplied.
-	self tripletProperties ifNotNil: [:tp | tp onInnerConfigurationApplied ].
+	super onToploConfigurationApplied.
+	self tripletProperties ifNotNil: [:tp | tp onToploConfigurationApplied ].
 
 ]
 

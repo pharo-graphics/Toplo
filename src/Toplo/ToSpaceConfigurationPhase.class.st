@@ -1,18 +1,18 @@
 Class {
-	#name : #ToSpaceInnerConfigurationPhase,
+	#name : #ToSpaceConfigurationPhase,
 	#superclass : #BlSpaceFramePhase,
 	#category : #'Toplo-Core-SpaceFrame'
 }
 
 { #category : #accessing }
-ToSpaceInnerConfigurationPhase >> name [
+ToSpaceConfigurationPhase >> name [
 	<return: #String>
 	
 	^ 'Inner configuration phase'
 ]
 
 { #category : #actions }
-ToSpaceInnerConfigurationPhase >> runOn: aSpace [
+ToSpaceConfigurationPhase >> runOn: aSpace [
 
-	aSpace applyAllInnerConfigurations
+	aSpace applyAllToploConfigurations
 ]

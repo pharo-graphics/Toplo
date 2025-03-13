@@ -9,10 +9,13 @@ Class {
 }
 
 { #category : #configuration }
-ToTabBarElement >> applyInnerConfiguration [
+ToTabBarElement >> applyToploConfiguration [
 
-	super applyInnerConfiguration.
-	self requestNewSkin
+	super applyToploConfiguration.
+	self requestNewSkin.
+	"self nodesDo: [ :node | node item requestNewSkin].
+	self refreshAllSelections."
+
 ]
 
 { #category : #accessing }
@@ -26,7 +29,7 @@ ToTabBarElement >> atStartSide: aBoolean [
 
 	atStartSide = aBoolean ifTrue: [ ^ self ].
 	atStartSide := aBoolean.
-	self requestNewConfiguration 
+	self requestNewConfigurationPass 
 ]
 
 { #category : #'t - item list - accessing' }

@@ -156,7 +156,7 @@ ToListElementEventHandler >> infiniteDataSourceItemsFiltered: anEvent [
 { #category : #'element events handling' }
 ToListElementEventHandler >> layoutResizerChangedEvent: anEvent [
 
-	anEvent currentTarget requestNewConfiguration
+	anEvent currentTarget requestNewConfigurationPass
 ]
 
 { #category : #'infinite event handling' }

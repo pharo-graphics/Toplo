@@ -12,6 +12,7 @@ ToScriptableSkinTest >> testOnHoveredSkinEvent [
 
 	| te skin |
 	te := ToElement new.
+	te size: 100 asPoint.
 	skin := ToScriptableSkin new.
 	skin onHoveredSkinEvent: [ :e :evt |
 		e size: 30 asPoint.
@@ -47,6 +48,7 @@ ToScriptableSkinTest >> testOnLeavedSkinEvent [
 
 	| te skin |
 	te := ToElement new.
+	te size: 100 asPoint.
 	skin := ToScriptableSkin new.
 	skin onLeavedSkinEvent: [ :e :evt |
 		e size: 30 asPoint.

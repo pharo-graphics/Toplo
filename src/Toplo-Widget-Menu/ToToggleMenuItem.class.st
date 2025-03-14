@@ -14,38 +14,6 @@ Class {
 }
 
 { #category : #'t - button holder' }
-ToToggleMenuItem >> button: aCheckbox [
-
-	super button: aCheckbox.
-	self registerInCheckable 
-
-]
-
-{ #category : #'t - button holder' }
-ToToggleMenuItem >> buttonClass [
-
-	^ ToToggleButton
-]
-
-{ #category : #'t - button holder' }
-ToToggleMenuItem >> buttonClickEventClass [ 
-
-	^ ToCheckableChangedEvent 
-]
-
-{ #category : #'t - checkable - accessing' }
-ToToggleMenuItem >> checkableData [
-
-	^ self button checkableData
-]
-
-{ #category : #'t - checkable - accessing' }
-ToToggleMenuItem >> checkableData: aCheckableData [
-
-	^ self shouldNotImplement 
-]
-
-{ #category : #'t - button holder' }
 ToToggleMenuItem >> closeOnPicking [ 
 
 	^ closeOnPicking ifNil: [ closeOnPicking := false ]
@@ -55,6 +23,13 @@ ToToggleMenuItem >> closeOnPicking [
 ToToggleMenuItem >> closeOnPicking: aBoolean [
 
 	closeOnPicking := aBoolean
+]
+
+{ #category : #initialization }
+ToToggleMenuItem >> initialize [
+
+	super initialize.
+	self initializeAsCheckable 
 ]
 
 { #category : #skin }

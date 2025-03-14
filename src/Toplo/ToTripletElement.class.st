@@ -13,13 +13,6 @@ ToTripletElement >> defaultLayout [
 
 ]
 
-{ #category : #initialization }
-ToTripletElement >> initialize [
-
-	super initialize.
-	self initializeAsTripletElementOn: self
-]
-
 { #category : #skin }
 ToTripletElement >> installRawStyle [
 
@@ -30,4 +23,10 @@ ToTripletElement >> installRawStyle [
 			c linear horizontal alignCenter ] ].
 
 	
+]
+
+{ #category : #configuration }
+ToTripletElement >> newToploConfiguration [ 
+
+	^ ToTripletElementConfiguration new
 ]

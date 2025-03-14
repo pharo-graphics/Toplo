@@ -600,9 +600,6 @@ BlElement >> removedFromMenu: aMenu [
 BlElement >> requestNewConfigurationPass [
 
 	self spaceDo: [ :sp |
-		"sp isApplyingConfigurations ifTrue: [
-			self trace. 
-			' Requesting new configuration during configuration phase' traceCr ]"
 		self nextConfigurationPass: sp nextConfigurationPass.
 		sp  requestNewConfigurationPass ]
 ]
@@ -771,7 +768,6 @@ BlElement >> toStyleStoreDo: aBlock [
 { #category : #'*Toplo-LookAndFeel' }
 BlElement >> toThemeInstalled [
 
-	self resetToploConfiguration.
 	self childrenDo: [ :c | c toThemeInstalled ].
 	self dispatchEvent: ToThemeInstalledEvent new.
 	self requestNewSkin
@@ -803,18 +799,22 @@ BlElement >> tokenValueNamed: aSymbol [
 { #category : #'*Toplo' }
 BlElement >> toploConfiguration [
 
-	^ self userData at: #toploConfiguration ifAbsent: [
-		  self toploConfiguration: self newToploConfiguration.
-		  self userData at: #toploConfiguration ]
+	^ self userData at: #toploConfiguration ifAbsentPut: [
+		  | conf |
+		  conf := self newToploConfiguration.
+		  conf ifNotNil: [ conf onInstalledIn: self ].
+		  conf ]
 ]
 
 { #category : #'*Toplo' }
 BlElement >> toploConfiguration: anElementConfiguration [
 
-	(self userData at: #toploConfiguration ifAbsent: [  ]) ifNotNil: [
-		:conf | conf onUninstalledIn: self ].
+	self userData at: #toploConfiguration ifPresent: [ :conf |
+		conf onUninstalledIn: self.
+		self userData removeKey: #toploConfiguration ].
+	anElementConfiguration ifNil: [ ^ self ].
 	self userData at: #toploConfiguration put: anElementConfiguration.
-	anElementConfiguration ifNotNil: [ :conf | conf onInstalledIn: self ]
+	anElementConfiguration onInstalledIn: self
 ]
 
 { #category : #'*Toplo' }

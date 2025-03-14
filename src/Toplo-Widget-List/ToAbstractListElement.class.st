@@ -54,8 +54,7 @@ ToAbstractListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 ToAbstractListElement >> applyToploConfiguration [
 
 	super applyToploConfiguration.
-	self innerElement applyToploConfiguration.
-	self refreshAllSelections
+	self innerElement applyToploConfiguration
 ]
 
 { #category : #accessing }

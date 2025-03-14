@@ -23,6 +23,12 @@ TToClickable >> clickEventClass: anEventClass [
 ]
 
 { #category : #'t - clickable' }
+TToClickable >> initializeAsClickable [ 
+
+	self addEventHandler: ToClickableFocusEventHandler new.
+]
+
+{ #category : #'t - clickable' }
 TToClickable >> removeClickAction [
 	"remove the click action"
 

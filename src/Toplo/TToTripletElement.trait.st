@@ -1,21 +1,18 @@
 Trait {
 	#name : #TToTripletElement,
-	#instVars : [
-		'tripletProperties'
-	],
 	#category : #'Toplo-Core'
 }
 
 { #category : #'t - triplet element - instance creation' }
 TToTripletElement >> createEndContainer [
 
-	self tripletProperties checkEndContainer
+	self toploConfiguration checkEndContainer
 ]
 
 { #category : #'t - triplet element - instance creation' }
 TToTripletElement >> createStartContainer [
 
-	self tripletProperties checkStartContainer
+	self toploConfiguration checkStartContainer
 ]
 
 { #category : #'t - triplet element - accessing' }
@@ -25,27 +22,38 @@ TToTripletElement >> defaultTripletEventHandler [
 ]
 
 { #category : #'t - triplet element - accessing' }
+TToTripletElement >> endAlignment [
+
+	^ self toploConfiguration endAlignment
+]
+
+{ #category : #'t - triplet element - accessing' }
 TToTripletElement >> endAlignment: aNumber [
 
-	self tripletProperties endAlignment: aNumber
+	self endAlignment = aNumber ifTrue: [ ^ self ].
+	self toploConfiguration endAlignment: aNumber.
+	self toploConfiguration checkEndContainerIn: self.
+	self requestNewConfigurationPass 
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endContainer [
 
-	^ self tripletProperties endContainer
+	^ self toploConfiguration endContainer
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endElement [
 
-	^ self tripletProperties endElement
+	^ self toploConfiguration endElement
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endElement: anElement [
 
-	self tripletProperties endElement: anElement
+	self endElement = anElement ifTrue: [ ^ self ].
+	self toploConfiguration endElement: anElement in: self.
+	self requestNewConfigurationPass 
 ]
 
 { #category : #'t - triplet element - accessing' }
@@ -57,25 +65,35 @@ TToTripletElement >> endElementDo: aBlock [
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endFiller [
 
-	^ self tripletProperties endFiller
+	^ self toploConfiguration endFiller
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endFlexible [
 
-	^ self tripletProperties endFlexible
+	^ self toploConfiguration endFlexible
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endFlexible: aBoolean [
 
-	self tripletProperties endFlexible: aBoolean
+	self endFlexible = aBoolean ifTrue: [ ^ self ].
+	self toploConfiguration endFlexible: aBoolean.
+	self requestNewConfigurationPass 
+]
+
+{ #category : #'t - triplet element - accessing' }
+TToTripletElement >> endInterspace [
+
+	^ self toploConfiguration endInterspace
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endInterspace: aNumber [
 
-	self tripletProperties endInterspace: aNumber
+	self endInterspace = aNumber ifTrue: [ ^ self ].
+	self toploConfiguration endInterspace: aNumber.
+	self requestNewConfigurationPass 
 ]
 
 { #category : #'t - triplet element - accessing' }
@@ -94,37 +112,25 @@ TToTripletElement >> flexible: aBoolean [
 { #category : #'t - triplet element - testing' }
 TToTripletElement >> hasEndElement [
 
-	^ self tripletProperties endElement notNil
+	^ self toploConfiguration endElement notNil
 ]
 
 { #category : #'t - triplet element - testing' }
 TToTripletElement >> hasMiddleElement [
 
-	^ self tripletProperties middleElement notNil
+	^ self toploConfiguration middleElement notNil
 ]
 
 { #category : #'t - triplet element - testing' }
 TToTripletElement >> hasStartElement [
 
-	^ self tripletProperties startElement notNil
-]
-
-{ #category : #'t - triplet element - initialization' }
-TToTripletElement >> initializeAsTripletElementOn: anElement [
-
-	anElement == self
-		ifTrue: [ self tripletProperties: ToTripletElementProperties new ]
-		ifFalse: [
-			self tripletProperties: anElement tripletProperties.
-			^ self ].
-
-	self tripletProperties on: self
+	^ self toploConfiguration startElement notNil
 ]
 
 { #category : #'t - triplet element - testing' }
 TToTripletElement >> isEndFlexible [
 
-	^ self tripletProperties endFlexible
+	^ self toploConfiguration endFlexible
 ]
 
 { #category : #'t - triplet element - testing' }
@@ -137,25 +143,27 @@ TToTripletElement >> isExact [
 { #category : #'t - triplet element - testing' }
 TToTripletElement >> isStartFlexible [
 
-	^ self tripletProperties startFlexible
+	^ self toploConfiguration startFlexible
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> middleContainer [
 
-	^ self tripletProperties middleContainer
+	^ self toploConfiguration middleContainer
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> middleElement [
 
-	^ self tripletProperties middleElement
+	^ self toploConfiguration middleElement
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> middleElement: anElement [
 
-	self tripletProperties middleElement: anElement
+	self middleElement = anElement ifTrue: [ ^ self ].
+	self toploConfiguration middleElement: anElement in: self.
+	self requestNewConfigurationPass 
 ]
 
 { #category : #'t - triplet element - instance creation' }
@@ -189,85 +197,70 @@ TToTripletElement >> newMiddleContainer [
 		  yourself
 ]
 
-{ #category : #'t - triplet element - configuration' }
-TToTripletElement >> onToploConfigurationApplied [ 
-
-	super onToploConfigurationApplied.
-	self tripletProperties ifNotNil: [:tp | tp onToploConfigurationApplied ].
-
-]
-
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startAlignment [
 
-	^ self tripletProperties startAlignment
+	^ self toploConfiguration startAlignment
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startAlignment: aNumber [
 
-	self tripletProperties startAlignment: aNumber
+	self startAlignment = aNumber ifTrue: [ ^ self ].
+	self toploConfiguration startAlignment: aNumber in: self.
+	self requestNewConfigurationPass 
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startContainer [
 
-	^ self tripletProperties startContainer
+	^ self toploConfiguration startContainer
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startElement [
 
-	^ self tripletProperties startElement
+	^ self toploConfiguration startElement
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startElement: anElement [
 
-	self tripletProperties startElement: anElement
+	anElement = self startElement ifTrue: [ ^ self ].
+	self toploConfiguration startElement: anElement in: self.
+	self requestNewConfigurationPass 
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startFiller [
 
-	^ self tripletProperties startFiller
+	^ self toploConfiguration startFiller
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startFlexible [
 
-	^ self tripletProperties startFlexible
+	^ self toploConfiguration startFlexible
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startFlexible: aBoolean [
 
-	self tripletProperties startFlexible: aBoolean
+	self startFlexible = aBoolean ifTrue: [ ^ self ].
+	self toploConfiguration startFlexible: aBoolean.
+	self requestNewConfigurationPass 
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startInterspace [
 
-	^ self tripletProperties startInterspace
+	^ self toploConfiguration startInterspace
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startInterspace: aNumber [
 
-	self tripletProperties startInterspace: aNumber.
-	self requestLayout
-]
-
-{ #category : #'t - triplet element - private - accessing' }
-TToTripletElement >> tripletProperties [
-
-	^ tripletProperties
-]
-
-{ #category : #'t - triplet element - private - accessing' }
-TToTripletElement >> tripletProperties: aTripletProperties [
-
-	tripletProperties ifNotNil: [
-		(BlImmutableObjectChangeError object: self) signal ].
-	tripletProperties := aTripletProperties
+	self startInterspace = aNumber ifTrue: [ ^ self ].
+	self toploConfiguration startInterspace: aNumber.
+	self requestNewConfigurationPass 
 ]

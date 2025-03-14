@@ -24,6 +24,7 @@ ToLabeledIconTest >> testBeIconFirst [
 				  background: (Color blue alpha: 0.2);
 				  yourself).
 	li beStartToEnd.
+	li applyToploConfiguration.
 	self assert: li isStartToEnd
 ]
 
@@ -196,7 +197,9 @@ ToLabeledIconTest >> testInitialize [
 	li := ToLabeledIcon new.
 	self assert: li isStartToEnd.
 	self assert: li isHorizontal.
+	li applyToploConfiguration.
 	li forceLayout.
+
 	self assert: li size equals: 0	asPoint.
 	^ li
 ]
@@ -345,6 +348,8 @@ ToLabeledIconTest >> testLabelFirst [
 	li labelText: 'X'.
 	li endToStart: true.
 	li forceLayout.
+	li applyToploConfiguration.
+
 	self assert: (li label bounds inParent: li) right equals: (li icon bounds inParent: li) left.
 	^ li
 ]
@@ -486,6 +491,7 @@ ToLabeledIconTest >> testStartToEnd [
 				  yourself).
 	li labelText: 'X'.
 	li startToEnd: true.
+	li applyToploConfiguration.
 	li forceLayout.
 	self assert: (li icon bounds inParent: li) right equals: (li label bounds inParent: li) left.
 	^ li

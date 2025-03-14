@@ -70,6 +70,7 @@ ToStyleSheetApplicationTest >> testButtonLabelSkin0 [
 	to be of class #danger and the label to be with style class #'button-label'"
 	self assert: writers isEmpty.
 	button addAllStamps: #( #button #danger ).
+	button applyToploConfiguration.
 	writers := theme applicableListenersFor: button label.
 	self assert: writers size equals: 4.
 
@@ -185,6 +186,7 @@ ToStyleSheetApplicationTest >> testButtonSkin0 [
 	" should be empty since the label rule expect the button to be of class #danger "
 	self assert: writers size equals: nb.
 	button addAllStamps: #( #button #danger ).
+	button applyToploConfiguration.
 	writers := theme applicableListenersFor: button label.
 	self assert: writers size equals: nb + 4.
 

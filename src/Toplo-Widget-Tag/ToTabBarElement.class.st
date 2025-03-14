@@ -12,10 +12,13 @@ Class {
 ToTabBarElement >> applyToploConfiguration [
 
 	super applyToploConfiguration.
-	self requestNewSkin.
-	"self nodesDo: [ :node | node item requestNewSkin].
-	self refreshAllSelections."
-
+	self refreshAllSelections.
+	"self uniformNodeHeight: true.
+	self isVertical
+		ifTrue: [ self uniformNodeWidth: true ]
+		ifFalse: [
+		self isWrapping ifFalse: [ self uniformNodeWidth: false ] ]."
+	self requestNewSkin
 ]
 
 { #category : #accessing }

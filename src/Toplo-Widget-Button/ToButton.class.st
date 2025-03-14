@@ -57,13 +57,6 @@ ToButton >> icon: anElement [
 	self iconDo: [ :ic | ic addStamp: #'parent-button' withValue: self ]
 ]
 
-{ #category : #initialization }
-ToButton >> initialize [
-
-	super initialize.
-	self initializeAsTripletElementOn: self
-]
-
 { #category : #'t - labeled icon' }
 ToButton >> label: anElement [
 
@@ -80,4 +73,10 @@ ToButton >> newRawSkin [
 	^ self isCheckable
 		  ifTrue: [ ToToggleButtonSkin new ]
 		  ifFalse: [ ToButtonSkin new ]
+]
+
+{ #category : #configuration }
+ToButton >> newToploConfiguration [ 
+
+	^ ToTripletElementConfiguration new
 ]

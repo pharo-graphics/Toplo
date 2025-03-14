@@ -33,11 +33,11 @@ ToMenuPane >> applyToploConfiguration [
 	super applyToploConfiguration.
 	self isHorizontal
 		ifTrue: [
-			self hasUniformNodeWidth: false.
+			self uniformNodeWidth: false.
 			self vFitContent.
 			self isSubPane ifTrue: [ self hFitContent ] ]
 		ifFalse: [
-			self hasUniformNodeWidth: true.
+			self uniformNodeWidth: true.
 			self hFitContent.
 			self isSubPane ifTrue: [ self vFitContent ] ].
 
@@ -49,7 +49,7 @@ ToMenuPane >> applyToploConfiguration [
 		ifTrue: [ self itemBar vMatchParent ]
 		ifFalse: [ self itemBar vFitContent ].
 
-	self itemBar requestNewConfigurationPass .
+	self itemBar applyToploConfiguration .
 
 ]
 

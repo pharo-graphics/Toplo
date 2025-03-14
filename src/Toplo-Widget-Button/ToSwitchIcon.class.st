@@ -1,7 +1,6 @@
 Class {
 	#name : #ToSwitchIcon,
-	#superclass : #ToGeneralButton,
-	#classTraits : 'TToCheckable classTrait',
+	#superclass : #ToElement,
 	#instVars : [
 		'track',
 		'handle',

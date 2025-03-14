@@ -10,7 +10,7 @@ TToClickable >> clickEvent: anEvent [
 { #category : #'t - clickable' }
 TToClickable >> clickEventClass [
 
-	^ self userData at: #clickEventClass ifAbsent: [ super clickEventClass ]
+	^ self userData at: #clickEventClass ifAbsent: [ BlPrimaryClickEvent  ]
 ]
 
 { #category : #'t - clickable' }

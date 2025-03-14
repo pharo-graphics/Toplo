@@ -287,8 +287,9 @@ TToWithOrientableLayoutTest >> testOrientation [
 	self assert: oriCpt equals: ocpt + 1.
 	self assert: pane isHorizontal.
 	self assert: pane isVertical not.
-
+	pane requestNewSkin.
 	self waitTestingSpaces.
+
 	self assert: child1 bounds right equals: child2 bounds left.
 	self assert: child1 bounds top equals: child2 bounds top
 ]

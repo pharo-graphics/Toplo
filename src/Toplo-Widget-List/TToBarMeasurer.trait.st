@@ -21,8 +21,8 @@ TToBarMeasurer >> barUniformMeasure [
 				| w h |
 				w := child element measuredWidth.
 				h := child element measuredHeight.
-				self layout hasUniformNodeWidth ifTrue: [ w := maxSize x max: w ].
-				self layout hasUniformNodeHeight ifTrue: [ h := maxSize y max: h ].
+				self layout uniformNodeWidth ifTrue: [ w := maxSize x max: w ].
+				self layout uniformNodeHeight ifTrue: [ h := maxSize y max: h ].
 				(child element measuredWidth < w or: [ child element measuredHeight < h ]) ifTrue: [
 					element measure: (BlExtentMeasurementSpec exact: w @ h) ] ] ] ]
 ]
@@ -58,5 +58,5 @@ TToBarMeasurer >> measuredSizeFor: anElement [
 { #category : #'t - bar measurer' }
 TToBarMeasurer >> shouldCheckUniformSize [
 
-	^ self layout hasUniformNodeWidth or: [ self layout hasUniformNodeHeight ]
+	^ self layout uniformNodeWidth or: [ self layout uniformNodeHeight ]
 ]

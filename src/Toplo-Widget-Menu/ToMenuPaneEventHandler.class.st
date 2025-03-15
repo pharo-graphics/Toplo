@@ -19,7 +19,7 @@ ToMenuPaneEventHandler >> eventsToHandle [
 { #category : #'event handling' }
 ToMenuPaneEventHandler >> layoutResizerChangedEvent: anEvent [
 
-	anEvent currentTarget requestNewConfiguration
+	anEvent currentTarget requestNewConfigurationPass
 ]
 
 { #category : #'event handling' }

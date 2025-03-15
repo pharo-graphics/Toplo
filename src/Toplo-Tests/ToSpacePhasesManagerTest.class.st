@@ -8,6 +8,15 @@ Class {
 }
 
 { #category : #tests }
+ToSpacePhasesManagerTest >> testApplyAllConfigurationsIn [
+
+	space phasesManager requestNewConfigurationPass.
+	space phasesManager applyAllConfigurationsIn: space.
+	self deny: space phasesManager needConfigurationPass 
+
+]
+
+{ #category : #tests }
 ToSpacePhasesManagerTest >> testApplyAllEnqueuedStatesIn [
 
 	| e |
@@ -20,15 +29,6 @@ ToSpacePhasesManagerTest >> testApplyAllEnqueuedStatesIn [
 	self assert: e skinManager skinStateQueue nextStates size > 0.
 	space phasesManager applyAllEnqueuedStatesIn: space.
 	self assert: e skinManager skinStateQueue nextStates size equals: 0
-]
-
-{ #category : #tests }
-ToSpacePhasesManagerTest >> testApplyAllInnerConfigurationsIn [
-
-	space phasesManager requestNewConfigurationPass.
-	space phasesManager applyAllInnerConfigurationsIn: space.
-	self deny: space phasesManager needInnerConfigurationPass 
-
 ]
 
 { #category : #tests }
@@ -55,14 +55,14 @@ ToSpacePhasesManagerTest >> testInitialize [
 	m := ToSpacePhasesManager new.
 	self deny: m phasesInstallationDone.
 	self assert: m needSkinInstallPass.
-	self assert: m needInnerConfigurationPass 
+	self assert: m needConfigurationPass 
 ]
 
 { #category : #tests }
 ToSpacePhasesManagerTest >> testInstalledInnerConfigurationPhaseIn [
 
 	space phasesManager startPhasesIn: space.
-	self assert: ((space phasesManager installedInnerConfigurationPhaseIn: space) isKindOf: ToSpaceInnerConfigurationPhase).
+	self assert: ((space phasesManager installedInnerConfigurationPhaseIn: space) isKindOf: ToSpaceConfigurationPhase).
 
 
 ]
@@ -110,18 +110,18 @@ ToSpacePhasesManagerTest >> testIsSkinStateApplicationPhaseInstalledIn [
 ]
 
 { #category : #tests }
-ToSpacePhasesManagerTest >> testNeedInnerConfigurationPass [
+ToSpacePhasesManagerTest >> testNeedConfigurationPass [
 
 	| e |
 	e := ToElement new.
-	space applyAllInnerConfigurations.
-	self deny: space phasesManager needInnerConfigurationPass.
-	e requestNewConfiguration.
+	space applyAllToploConfigurations.
+	self deny: space phasesManager needConfigurationPass.
+	e requestNewConfigurationPass.
 	space root addChild: e.
-	self assert: space phasesManager needInnerConfigurationPass.
-	space applyAllInnerConfigurations.
+	self assert: space phasesManager needConfigurationPass.
+	space applyAllToploConfigurations.
 	" all configurations should have been applied "
-	self deny: space phasesManager needInnerConfigurationPass.
+	self deny: space phasesManager needConfigurationPass.
 
 	
 
@@ -160,6 +160,7 @@ ToSpacePhasesManagerTest >> testNeedSkinStateApplicationPass [
 
 	| e |
 	e := ToElement new.
+	e applySkinInstallerOnFirstRequest: false.
 	space applyAllSkinInstallers.
 	self deny: space phasesManager needSkinInstallPass.
 	self assert: space phasesManager needSkinStateApplicationPass.

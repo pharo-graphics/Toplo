@@ -43,6 +43,9 @@ ToElement >> initialize [
 	self layout: self defaultLayout.
 	self initializeForToplo.
 	self applySkinInstallerOnFirstRequest: false.
+	self constraints horizontal fitContent.	
+	self constraints vertical fitContent.
+
 ]
 
 { #category : #converting }

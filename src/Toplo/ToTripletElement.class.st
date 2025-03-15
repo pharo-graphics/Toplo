@@ -1,8 +1,8 @@
 Class {
 	#name : #ToTripletElement,
 	#superclass : #ToElement,
-	#traits : 'TToWithOrientableLayout + TToTripletElement',
-	#classTraits : 'TToWithOrientableLayout classTrait + TToTripletElement classTrait',
+	#traits : 'TToOrientable + TToTripletElement',
+	#classTraits : 'TToOrientable classTrait + TToTripletElement classTrait',
 	#category : #'Toplo-Core'
 }
 
@@ -11,13 +11,6 @@ ToTripletElement >> defaultLayout [
 
 	^ BlLinearLayout horizontal.
 
-]
-
-{ #category : #initialization }
-ToTripletElement >> initialize [
-
-	super initialize.
-	self initializeAsTripletElementOn: self
 ]
 
 { #category : #skin }
@@ -30,4 +23,10 @@ ToTripletElement >> installRawStyle [
 			c linear horizontal alignCenter ] ].
 
 	
+]
+
+{ #category : #configuration }
+ToTripletElement >> newToploConfiguration [ 
+
+	^ ToTripletElementConfiguration new
 ]

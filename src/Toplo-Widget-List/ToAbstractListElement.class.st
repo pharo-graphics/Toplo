@@ -1,8 +1,8 @@
 Class {
 	#name : #ToAbstractListElement,
 	#superclass : #ToElement,
-	#traits : 'TToListElementDecorator + TToElementWithPlaceholder + TToWithOrientableLayout',
-	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait + TToWithOrientableLayout classTrait',
+	#traits : 'TToListElementDecorator + TToElementWithPlaceholder + TToOrientable',
+	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait + TToOrientable classTrait',
 	#instVars : [
 		'next',
 		'dataSource',
@@ -51,11 +51,10 @@ ToAbstractListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 ]
 
 { #category : #configuration }
-ToAbstractListElement >> applyInnerConfiguration [
+ToAbstractListElement >> applyToploConfiguration [
 
-	super applyInnerConfiguration.
-	self innerElement applyInnerConfiguration.
-	self refreshAllSelections
+	super applyToploConfiguration.
+	self innerElement applyToploConfiguration
 ]
 
 { #category : #accessing }
@@ -317,6 +316,12 @@ ToAbstractListElement >> initializeInnerElement [
 	self addChild: self next
 ]
 
+{ #category : #'t - list element decorator - infinite accessing' }
+ToAbstractListElement >> innerElementDo: aValuable [
+
+	aValuable value: self innerElement
+]
+
 { #category : #testing }
 ToAbstractListElement >> isMultipleSelection [
 
@@ -489,13 +494,6 @@ ToAbstractListElement >> removeSelectionMode: aSelectionMode [
 		at: aSelectionMode selectionChangedEventClass
 		ifAbsent: [ Error signal: 'Selection mode not found' ].
 	selectionModeMap removeKey: aSelectionMode selectionChangedEventClass
-]
-
-{ #category : #configuration }
-ToAbstractListElement >> requestNewConfiguration [
-
-	super requestNewConfiguration.
-	self innerElement requestNewConfiguration
 ]
 
 { #category : #'accessing selecters' }

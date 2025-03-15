@@ -59,12 +59,6 @@ BlElement >> applyEnqueuedStatesDeeply [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> applyInnerConfiguration [
-
-	self onInnerConfigurationApplied
-]
-
-{ #category : #'*Toplo' }
 BlElement >> applySkinInstallerOnFirstRequest: aBoolean [
 
 	self skinManagerDo: [ :sm | sm  applySkinInstallerOnFirstRequest: aBoolean ]
@@ -77,6 +71,13 @@ BlElement >> applySkinInstallersDeeply [
 		child skinManagerDo: [ :sm |
 			sm applySkinUninstallerIn: child.
 			sm applySkinInstallerIn: child ] ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> applyToploConfiguration [
+
+	self toploConfiguration ifNotNil: [ :tc | tc applyOn: self ].
+	self onToploConfigurationApplied
 ]
 
 { #category : #'*Toplo' }
@@ -93,18 +94,25 @@ BlElement >> borderBuilder [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> checkInnerConfiguration [
+BlElement >> changeToploConfigurationWith: aValuable [
 
-	self nextConfigurationPass = self space runningConfigurationPass
-		ifFalse: [ ^ self ].
-	self applyInnerConfiguration
+	self toploConfigurationDo: aValuable.
+	self requestNewConfigurationPass 
 ]
 
 { #category : #'*Toplo' }
-BlElement >> checkInnerConfigurationsDeeply [
+BlElement >> checkToploConfigurationPass [
+
+	self nextConfigurationPass = self space runningConfigurationPass
+		ifFalse: [ ^ self ].
+	self applyToploConfiguration
+]
+
+{ #category : #'*Toplo' }
+BlElement >> checkToploConfigurationPassDeeply [
 
 	self withAllChildrenBreadthFirstDo: [ :child |
-		child checkInnerConfiguration ]
+		child checkToploConfigurationPass ]
 ]
 
 { #category : #'*Toplo' }
@@ -453,6 +461,12 @@ BlElement >> newTextAttributesBuilder [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> newToploConfiguration [
+
+	^ nil
+]
+
+{ #category : #'*Toplo' }
 BlElement >> nextConfigurationPass [
 
 	^ self userData at: #nextConfigurationPass ifAbsent: [ 0 ]
@@ -471,11 +485,6 @@ BlElement >> onAddedInItemBarOwner: anItemBar [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> onInnerConfigurationApplied [
-
-]
-
-{ #category : #'*Toplo' }
 BlElement >> onRemovedFromItemBarOwner: anItemBar [
 
 	anItemBar onRemovedUnknownItemKind: self
@@ -487,6 +496,11 @@ BlElement >> onSkinInstalled: aSkin [
 
 { #category : #'*Toplo' }
 BlElement >> onSkinUninstalled: aSkin [
+]
+
+{ #category : #'*Toplo' }
+BlElement >> onToploConfigurationApplied [
+
 ]
 
 { #category : #'*Toplo' }
@@ -583,12 +597,9 @@ BlElement >> removedFromMenu: aMenu [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> requestNewConfiguration [
+BlElement >> requestNewConfigurationPass [
 
 	self spaceDo: [ :sp |
-		"sp isApplyingConfigurations ifTrue: [
-			self trace. 
-			' Requesting new configuration during configuration phase' traceCr ]"
 		self nextConfigurationPass: sp nextConfigurationPass.
 		sp  requestNewConfigurationPass ]
 ]
@@ -613,6 +624,12 @@ BlElement >> requestUninstallSkin [
 		transformWith: '`@receiver requestUninstallSkin' -> '`@receiver skinManagerDo: [ :sm | sm requestUninstallSkinIn: `@receiver ]'.
 
 	self skinManagerDo: [ :sm | sm requestUninstallSkinIn: self ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> resetToploConfiguration [
+
+	self userData removeKey: #toploConfiguration ifAbsent: [  ]
 ]
 
 { #category : #'*Toplo' }
@@ -777,6 +794,33 @@ BlElement >> tokenValueNamed: aSymbol [
 		transformWith: '`@receiver tokenValueNamed: `@arg' -> '`@receiver valueOfTokenNamed: `@arg'.
 
 	^ self valueOfTokenNamed: aSymbol
+]
+
+{ #category : #'*Toplo' }
+BlElement >> toploConfiguration [
+
+	^ self userData at: #toploConfiguration ifAbsentPut: [
+		  | conf |
+		  conf := self newToploConfiguration.
+		  conf ifNotNil: [ conf onInstalledIn: self ].
+		  conf ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> toploConfiguration: anElementConfiguration [
+
+	self userData at: #toploConfiguration ifPresent: [ :conf |
+		conf onUninstalledIn: self.
+		self userData removeKey: #toploConfiguration ].
+	anElementConfiguration ifNil: [ ^ self ].
+	self userData at: #toploConfiguration put: anElementConfiguration.
+	anElementConfiguration onInstalledIn: self
+]
+
+{ #category : #'*Toplo' }
+BlElement >> toploConfigurationDo: aValuable [
+
+	self toploConfiguration ifNotNil: [ :c | aValuable value: c ]
 ]
 
 { #category : #'*Toplo' }

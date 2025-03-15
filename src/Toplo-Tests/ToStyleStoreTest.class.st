@@ -385,6 +385,7 @@ ToStyleStoreTest >> testTokenPropertyNamedFromBeforeSpaceShown2 [
 	space := BlSpace new.
 	goneHere := false.
 	e := ToElement new.
+	e applySkinInstallerOnFirstRequest: false.
 	space addEventHandler: (BlEventHandler
 			 on: ToSpacePhasesStarted
 			 do: [

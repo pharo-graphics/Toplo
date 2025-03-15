@@ -9,9 +9,15 @@ Class {
 }
 
 { #category : #configuration }
-ToTabBarElement >> applyInnerConfiguration [
+ToTabBarElement >> applyToploConfiguration [
 
-	super applyInnerConfiguration.
+	super applyToploConfiguration.
+	self refreshAllSelections.
+	"self uniformNodeHeight: true.
+	self isVertical
+		ifTrue: [ self uniformNodeWidth: true ]
+		ifFalse: [
+		self isWrapping ifFalse: [ self uniformNodeWidth: false ] ]."
 	self requestNewSkin
 ]
 
@@ -26,7 +32,7 @@ ToTabBarElement >> atStartSide: aBoolean [
 
 	atStartSide = aBoolean ifTrue: [ ^ self ].
 	atStartSide := aBoolean.
-	self requestNewConfiguration 
+	self requestNewConfigurationPass 
 ]
 
 { #category : #'t - item list - accessing' }

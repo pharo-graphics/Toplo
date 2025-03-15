@@ -5,7 +5,7 @@ Class {
 		'tabBar',
 		'width'
 	],
-	#category : #'Toplo-Widget-Tag-Tab'
+	#category : #'Toplo-Widget-Tag-Tab-RawThemeSupport'
 }
 
 { #category : #initialization }

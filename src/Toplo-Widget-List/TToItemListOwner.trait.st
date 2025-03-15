@@ -126,30 +126,6 @@ TToItemListOwner >> hasItems [
 	^ self items notEmpty
 ]
 
-{ #category : #'t - item list owner - accessing' }
-TToItemListOwner >> hasUniformNodeHeight [
-
-	^ self itemBar hasUniformNodeHeight
-]
-
-{ #category : #'t - item list owner - accessing' }
-TToItemListOwner >> hasUniformNodeHeight: aBoolean [
-
-	self itemBar hasUniformNodeHeight: aBoolean
-]
-
-{ #category : #'t - item list owner - accessing' }
-TToItemListOwner >> hasUniformNodeWidth [
-
-	^ self itemBar hasUniformNodeWidth
-]
-
-{ #category : #'t - item list owner - accessing' }
-TToItemListOwner >> hasUniformNodeWidth: aBoolean [
-
-	self itemBar hasUniformNodeWidth: aBoolean
-]
-
 { #category : #'t - item list owner - hidden/visible' }
 TToItemListOwner >> hiddenAtPosition: anInteger [
 
@@ -193,7 +169,7 @@ TToItemListOwner >> isScrolling: aBoolean [
 
 	self itemBar isScrolling = aBoolean ifTrue: [ ^ self ].
 	self itemBar isScrolling: aBoolean.
-	self requestNewConfiguration 
+	self requestNewConfigurationPass 
 ]
 
 { #category : #'t - item list owner - accessing' }
@@ -207,7 +183,7 @@ TToItemListOwner >> isWrapping: aBoolean [
 
 	self itemBar isWrapping = aBoolean ifTrue: [ ^ self ].
 	self itemBar isWrapping: aBoolean.
-	self requestNewConfiguration 
+	self requestNewConfigurationPass 
 ]
 
 { #category : #'t - item list owner - accessing' }
@@ -366,6 +342,30 @@ TToItemListOwner >> selectionModel [
 TToItemListOwner >> selectionOption [
 
 	^ self itemBar selectionOption
+]
+
+{ #category : #'t - item list owner - accessing' }
+TToItemListOwner >> uniformNodeHeight [
+
+	^ self itemBar uniformNodeHeight
+]
+
+{ #category : #'t - item list owner - accessing' }
+TToItemListOwner >> uniformNodeHeight: aBoolean [
+
+	self itemBar uniformNodeHeight: aBoolean
+]
+
+{ #category : #'t - item list owner - accessing' }
+TToItemListOwner >> uniformNodeWidth [
+
+	^ self itemBar uniformNodeWidth
+]
+
+{ #category : #'t - item list owner - accessing' }
+TToItemListOwner >> uniformNodeWidth: aBoolean [
+
+	self itemBar uniformNodeWidth: aBoolean
 ]
 
 { #category : #'t - item list owner - unselectable/selectable' }

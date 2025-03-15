@@ -81,6 +81,12 @@ ToMenuItemElement >> isInline [
 ]
 
 { #category : #testing }
+ToMenuItemElement >> isMenuButton [
+
+	^ true
+]
+
+{ #category : #testing }
 ToMenuItemElement >> isMenuPaneMenu [
 
 	^ false

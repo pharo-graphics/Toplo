@@ -15,7 +15,6 @@ Class {
 ToTreeNode >> initialize [
 
 	super initialize.
-	self initializeAsTripletElementOn: self.
 	self applySkinInstallerOnFirstRequest: true
 ]
 

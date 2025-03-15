@@ -34,9 +34,9 @@ ToSelectElement >> allowDeselection [
 ]
 
 { #category : #configuration }
-ToSelectElement >> applyInnerConfiguration [ 
+ToSelectElement >> applyToploConfiguration [ 
 
-	super applyInnerConfiguration.
+	super applyToploConfiguration.
 	self filterTextField selectFiltrable: filtrable.
 	filtrable ifTrue: [ self filterTextField requestFocus ].
 	sample ifNotNil: [ self innerElement sample: sample ]
@@ -99,7 +99,7 @@ ToSelectElement >> filtrable [
 ToSelectElement >> filtrable: aBoolean [
 
 	filtrable := aBoolean.
-	self requestNewConfiguration 
+	self requestNewConfigurationPass 
 ]
 
 { #category : #accessing }
@@ -340,7 +340,7 @@ ToSelectElement >> refresh [
 ToSelectElement >> sample: aDataItem [
 
 	sample := aDataItem.
-	self requestNewConfiguration 
+	self requestNewConfigurationPass 
 ]
 
 { #category : #accessing }

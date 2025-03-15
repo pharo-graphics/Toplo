@@ -3,6 +3,9 @@ Class {
 	#superclass : #BlFlowLayoutMeasurer,
 	#traits : 'TToBarMeasurer',
 	#classTraits : 'TToBarMeasurer classTrait',
+	#instVars : [
+		'maxMeasuredNodeSize'
+	],
 	#category : #'Toplo-Widget-List-InnerBar'
 }
 
@@ -16,6 +19,7 @@ ToBarFlowLayoutMeasurer >> barNodes [
 ToBarFlowLayoutMeasurer >> fillChildrenFor: anElement with: anExtentSpec [
 
 	super fillChildrenFor: anElement with: anExtentSpec.
+	self maxSizeDo: [ :maxSize | maxMeasuredNodeSize := maxSize ].
 	self shouldCheckUniformSize ifFalse: [ ^ self ].
 
 	self barUniformMeasure.
@@ -26,4 +30,10 @@ ToBarFlowLayoutMeasurer >> fillChildrenFor: anElement with: anExtentSpec [
 		element isFake ifFalse: [
 			child width: element measuredWidth.
 			child height: element measuredHeight ] ]
+]
+
+{ #category : #accessing }
+ToBarFlowLayoutMeasurer >> maxMeasuredNodeSize [
+
+	^ maxMeasuredNodeSize
 ]

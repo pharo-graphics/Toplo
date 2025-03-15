@@ -5,56 +5,30 @@ Class {
 	#classTraits : 'TToItemListOwner classTrait',
 	#instVars : [
 		'invisibleNodes',
-		'visibleNodes',
-		'nodeMenu',
-		'atStartSide',
-		'endExtraContainer'
+		'visibleNodes'
 	],
 	#category : #'Toplo-Widget-Tag-Tab'
 }
 
 { #category : #'t - triplet element - configuration' }
-ToTabsElement >> applyInnerConfiguration [
+ToTabsElement >> applyToploConfiguration [
 
-	super applyInnerConfiguration.
-	self itemBar horizontal: self isHorizontal.
-	self itemBar atStartSide: atStartSide.
-	self itemBar matchParent.
-	self isHFitContent
-		ifTrue: [
-			self middleContainer constraintsDo: [ :c | c horizontal fitContent ].
-			self itemBar hFitContent ]
-		ifFalse: [
-			self middleContainer constraintsDo: [ :c |
-				c horizontal matchParent ].
-			self itemBar hMatchParent ].
-	self isVFitContent
-		ifTrue: [
-			self middleContainer constraintsDo: [ :c | c vertical fitContent ].
-			self itemBar vFitContent ]
-		ifFalse: [
-			self middleContainer constraintsDo: [ :c | c vertical matchParent ].
-			self itemBar vMatchParent ].
+	super applyToploConfiguration.
 
-	self isHorizontal
-		ifTrue: [ self endElement layout beHorizontal ]
-		ifFalse: [ self endElement layout beVertical ].
-
-	self checkNodeMenu
 ]
 
 { #category : #accessing }
 ToTabsElement >> atStartSide [
 
-	^ atStartSide
+	^ self toploConfiguration atStartSide
 ]
 
 { #category : #accessing }
 ToTabsElement >> atStartSide: aBoolean [
 
-	atStartSide = aBoolean ifTrue: [ ^ self ].
-	atStartSide := aBoolean.
-	self requestNewConfiguration
+	self atStartSide = aBoolean ifTrue: [ ^ self ].
+	self toploConfiguration atStartSide: aBoolean.
+	self requestNewConfigurationPass
 ]
 
 { #category : #'event handling' }
@@ -110,7 +84,7 @@ ToTabsElement >> defaultNodeMenuBuilder [
 { #category : #accessing }
 ToTabsElement >> endExtraBuilder: aValuable [
 
-	aValuable value: endExtraContainer 
+	aValuable value: self toploConfiguration endExtraContainer 
 ]
 
 { #category : #'focus requesting' }
@@ -131,7 +105,6 @@ ToTabsElement >> initialize [
 	super initialize.
 	self initializeAsItemBarOwner.
 
-	atStartSide := true.
 	self middleElement: self itemBar.
 
 	self group
@@ -143,35 +116,7 @@ ToTabsElement >> initialize [
 		do: [ :event | self dispatchEvent: event copy ].
 
 	self addEventHandler: self defaultEventHandler.
-	self initializeExtras 
-]
-
-{ #category : #initialization }
-ToTabsElement >> initializeExtras [
-
-	| menuImage container |
-	menuImage := ToMaterialDesignIconProvider innerImageNamed:
-		             'outlined_menu'.
-	nodeMenu := ToMenu new iconImage: menuImage.
-	nodeMenu icon size: 20 asPoint.
-	nodeMenu builder: self defaultNodeMenuBuilder.
-	nodeMenu visibility: BlVisibility gone.
-
-	self startElement: self newBaseContainer.
-
-	container := self newBaseContainer.
-	container layout: BlLinearLayout new.
-	endExtraContainer := self newBaseContainer.
-	container addChild: nodeMenu.
-	container addChild: endExtraContainer.
-	self endElement: container.
-	self endContainer layout: BlLinearLayout new.
-	nodeMenu constraintsDo: [ :c |
-		c linear horizontal alignCenter.
-		c linear vertical alignCenter ].
-	endExtraContainer constraintsDo: [ :c |
-		c linear horizontal alignCenter.
-		c linear vertical alignCenter ]
+	"self initializeExtras "
 ]
 
 { #category : #accessing }
@@ -189,7 +134,7 @@ ToTabsElement >> isAtEndSide [
 { #category : #testing }
 ToTabsElement >> isAtStartSide [
 
-	^ atStartSide
+	^ self atStartSide
 ]
 
 { #category : #'t - item list owner - accessing' }
@@ -206,6 +151,18 @@ ToTabsElement >> newRawSkin [
 	^ ToTabsElementSkin new
 ]
 
+{ #category : #configuration }
+ToTabsElement >> newToploConfiguration [ 
+
+	^ ToTabsElementConfiguration new
+]
+
+{ #category : #accessing }
+ToTabsElement >> nodeMenu [ 
+
+	^ self toploConfiguration nodeMenu
+]
+
 { #category : #'t - bar element' }
 ToTabsElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes [
 
@@ -218,20 +175,13 @@ ToTabsElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNod
 
 ]
 
-{ #category : #configuration }
-ToTabsElement >> requestNewConfiguration [ 
-
-	super requestNewConfiguration.
-	self itemBar requestNewConfiguration
-]
-
 { #category : #'event handling' }
 ToTabsElement >> showNodeMenu: aBoolean [
 
-	nodeMenu parentDo: [ :p |
+	self nodeMenu parentDo: [ :p |
 		aBoolean
-			ifTrue: [ nodeMenu visibility: BlVisibility visible ]
-			ifFalse: [ nodeMenu visibility: BlVisibility gone ] ]
+			ifTrue: [ self nodeMenu visibility: BlVisibility visible ]
+			ifFalse: [ self nodeMenu visibility: BlVisibility gone ] ]
 ]
 
 { #category : #accessing }

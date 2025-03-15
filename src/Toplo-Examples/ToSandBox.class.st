@@ -138,7 +138,12 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 
 	menu := ToMenu new.
 	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
-
+	menu addItem: (ToCheckMenuItem new
+			 label: (ToLabel text: 'Dark theme');
+			 newCheckAction: [ :evt :cbox :v | cbox space toTheme: (v
+							  ifTrue: [ ToRawDarkTheme new ]
+							  ifFalse: [ ToRawTheme new ]) ];
+			 yourself).
 	menu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Space statistics');
 			 newClickAction: [ aBar space showStatisticsWindow ];
@@ -148,7 +153,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 			 newClickAction: [ aBar space root inspect ];
 			 yourself).
 	menu addItem: (ToCheckMenuItem new
-			 label: (ToLabel text: 'Disable bar');
+			 label: (ToLabel text: 'Disabled bar');
 			 newCheckReader: [ :e | e isDisabled ]
 			 writer: [ :e :v | e disabled: v ]
 			 with: aBar;
@@ -172,7 +177,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	uniformNodeWidthSwitch := ToSwitchButton new labelText:
 		                          'Uniform width'.
 	uniformNodeWidthSwitch
-		newCheckFeature: #hasUniformNodeWidth
+		newCheckFeature: #uniformNodeWidth
 		with: aBar.
 	uniformNodeWidthSwitch startFlexible: true.
 	uniformNodeWidthSwitch hMatchParent.
@@ -183,7 +188,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	uniformNodeHeightSwitch startFlexible: true.
 	uniformNodeHeightSwitch hMatchParent.
 	uniformNodeHeightSwitch
-		newCheckFeature: #hasUniformNodeHeight
+		newCheckFeature: #uniformNodeHeight
 		with: aBar.
 	confPane addChild: uniformNodeHeightSwitch.
 
@@ -301,6 +306,7 @@ ToSandBox class >> barWithData: aCollection [
 		but := ToButton new.
 		but addStamp: #iconic.
 		but addStamp: #circle.
+		but addStamp: #borderless.
 		but icon: (ToImage inner: (self iconNamed: #windowClose)).
 		but constraintsDo: [ :c | c linear vertical alignCenter ].
 		but newClickAction: [ 
@@ -384,7 +390,7 @@ ToSandBox class >> barWithData: aCollection [
 
 	bar dataAccessor addAll: aCollection.
 	bar isWrapping: true.
-	bar hasUniformNodeWidth: true.
+	bar uniformNodeWidth: true.
 	rootPane := ToPane horizontal.
 	rootPane padding: (BlInsets all: 5).
 	rootPane matchParent.
@@ -1668,12 +1674,12 @@ ToSandBox class >> example_HorizontalListWithIndexedColors [
 ToSandBox class >> example_HugeIntegerList [
 
 	| l nbItems vscrollBar space |
-	nbItems := 5000.
+	nbItems := 50000.
 	l := ToListElement new.
 	l dataAccessor addAll: (1 to: nbItems).
 	l nodeBuilder: [ :node :anInteger |
 		node addChild:
-			(ToLabel new text: anInteger asString asRopedText) ].
+			(BlTextElement new text: anInteger asString asRopedText) ].
 	vscrollBar := BlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
 		c ignoreByLayout.
@@ -1727,7 +1733,7 @@ ToSandBox class >> example_Inline1 [
 ToSandBox class >> example_IntegerList [
 
 	| l nbItems space rand |
-	nbItems := 500.
+	nbItems := 50000.
 	rand := Random new.
 	l := ToListElement new.
 	l dataAccessor addAll: (1 to: nbItems).
@@ -1852,6 +1858,16 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_labelFirst_vertical_start
 	but := self example_LabeledIconlWithIconAndText_labelFirst_vertical.
 	but startFlexible: true.
 	but matchParent.
+	^ but
+]
+
+{ #category : #'labeled icon' }
+ToSandBox class >> example_LabeledIconlWithIconAndText_startAlignment [
+
+	| but |
+	but := self example_LabeledIconlWithIconAndText.
+	but border: Color black.
+	but startAlignment: 100.
 	^ but
 ]
 
@@ -3546,11 +3562,13 @@ ToSandBox class >> example_TabsElementWithStartAndEndExtras [
 	tabs := self example_TabsElementWithUSStates.
 
 	tabs startExtraBuilder: [ :extra |
-		| im menu |
-		im := ToMaterialDesignIconProvider innerImageNamed: 'filled_article'.
+		| im menu menuPane |
+		menuPane := ToMenuPane new.
+		im := ToMaterialDesignIconProvider innerImageNamed: 'filled_checklist'.
 		menu := ToMenu new iconImage: im.
 		menu icon size: 20 asPoint.
-		extra addChild: menu ].
+		menuPane addItem: menu.
+		extra addChild: menuPane ].
 	
 	tabs endExtraBuilder: [ :extra |
 		extra addChild: (ToButton new labelText: 'Bookmarks') ].
@@ -4037,9 +4055,9 @@ ToSandBox class >> example_WithCheckBox [
 		        id: #left.
 	center checked: true.
 
-	grp register: right button.
-	grp register: center button.
-	grp register: left button.
+	grp register: right.
+	grp register: center.
+	grp register: left.
 
 	menu addSeparator.
 	menu addAllItems: {
@@ -5820,6 +5838,65 @@ ToSandBox class >> example_stillPressedEvent [
 				 e background: color ]).
 
 	e openInSpace
+]
+
+{ #category : #stylesheet }
+ToSandBox class >> example_stylesheet [
+
+	| theme elem space verticalElem horizontalElem biggerElem |
+	theme := ToStyleSheetTheme new.
+	theme styleSheet addWritableProperty:
+		(ToFeatureProperty name: #background).
+	theme styleSheet select: ToElement asTypeSelector style: [ :sr |
+		sr
+			when: ToInstallSkinEvent
+			write: (theme property: #background)
+			with: [ :e | Color red ].
+		sr
+			select:
+				(ToActionSelector new action: [ :e | "e halt." e width = 50 ])
+				|| (ToActionSelector new action: [ :e | e height = 50 ])
+			style: [ :squared |
+				squared
+					when: ToInstallSkinEvent
+					write: (theme property: #background)
+					with: [ :e | Color green ].
+
+				squared
+					select: [ :e | e width = 50 ] asActionSelector not
+					style: [ :vertical |
+						vertical
+							when: ToInstallSkinEvent
+							write: (theme property: #background)
+							with: [ :e | Color blue ] ].
+				squared
+					select: [ :e | e height = 50 ] asActionSelector not
+					style: [ :horizontal |
+						horizontal
+							when: ToInstallSkinEvent
+							write: (theme property: #background)
+							with: [ :e | Color yellow ] ] ] ].
+
+	elem := ToElement new
+		        size: 50 asPoint;
+		        position: 50 asPoint.
+	verticalElem := ToElement new
+		                size: 50 @ 100;
+		                position: 50 @ 150.
+	horizontalElem := ToElement new
+		                  size: 100 @ 50;
+		                  position: 150 @ 50.
+	biggerElem := ToElement new
+		              size: 100 asPoint;
+		              position: 150 asPoint.
+
+	space := BlSpace new.
+	space root whenLayoutedDoOnce: [ space toTheme: theme ].
+	space root addChild: elem.
+	space root addChild: verticalElem.
+	space root addChild: horizontalElem.
+	space root addChild: biggerElem.
+	space show
 ]
 
 { #category : #menu }
@@ -7629,13 +7706,16 @@ ToSandBox class >> example_withCustomMenuItems [
 
 	item := ToMenuItem new
 		        labelText: 'Export';
-		        newClickAction: [ self inform: 'Export' ].
+		        newClickAction: [ self inform: 'Export' ];
+		        yourself.
 	menu addItem: item.
 	item disable.
 
-	menu addItem: (ToMenuItem new
-			 labelText: 'Inspect';
-			 newClickAction: [ menu space root inspect ]).
+	menu
+		addItem: (ToMenuItem new
+				 labelText: 'Inspect';
+				 newClickAction: [ menu space root inspect ];
+				 yourself).
 	menu addSeparator.
 	menu addItem: (ToToggleMenuItem new
 			 labelText: 'Toggle';
@@ -7849,25 +7929,27 @@ ToSandBox class >> listWithEditableAndContextMenu [
 	               indexes := request selectedIndexes.
 	               menu addItem: (ToMenuItem new
 			                labelText: 'Add initial Items';
-			                newClickAction: [ 
+			                newClickAction: [
 				                target dataAccessor addAll:
-						                (String loremIpsum: 20000) substrings ]).
+						                (String loremIpsum: 20000) substrings ];
+			                yourself).
 	               menu addItem: (ToMenuItem new
 			                labelText: 'Inspect list';
-			                newClickAction: [ target inspect ]).
+			                newClickAction: [ target inspect ];
+			                yourself).
 	               menu addItem: (ToMenuItem new
 			                labelText: 'Statistics window';
-			                newClickAction: [ 
-				                target space showStatisticsWindow ]).
+			                newClickAction: [
+				                target space showStatisticsWindow ];
+			                yourself).
 	               target dataAccessor ifNotEmpty: [
 		               menu addItem: (ToMenuItem new
 				                labelText: 'Select all';
-				                newClickAction: [
-					                target selecter selectAll ]).
+				                newClickAction: [ target selecter selectAll ];
+				                yourself).
 		               menu addItem: (ToMenuItem new
 				                labelText: 'Remove all';
-				                newClickAction: [ 
-					                target dataAccessor removeAll ];
+				                newClickAction: [ target dataAccessor removeAll ];
 				                yourself).
 		               menu addItem: (ToMenuItem new
 				                labelText: 'Show all';
@@ -7878,7 +7960,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 			               ifTrue: [
 				               menu addItem: (ToMenuItem new
 						                labelText: 'stop primary selection masking';
-						                newClickAction: [ 
+						                newClickAction: [
 							                target selectionOption masked: false ];
 						                yourself) ]
 			               ifFalse: [
@@ -7891,7 +7973,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 			               ifTrue: [
 				               menu addItem: (ToMenuItem new
 						                labelText: 'stop selection transition animation';
-						                newClickAction: [ 
+						                newClickAction: [
 							                target selectionMode selectionElementOption
 								                animationDuration: 0 milliSeconds ];
 						                yourself) ]
@@ -7899,7 +7981,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 				               menu addItem: (ToMenuItem new
 						                labelText:
 							                'start selection transition animation';
-						                newClickAction: [ 
+						                newClickAction: [
 							                target primarySelectionMode selectionOption
 								                animationDuration: 200 milliSeconds ];
 						                yourself) ] ].
@@ -7917,8 +7999,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 					                yourself).
 			               selectionMenu addItem: (ToMenuItem new
 					                labelText: 'Edit';
-					                newClickAction: [ 
-						                label popupEditorEvent: nil ];
+					                newClickAction: [ label popupEditorEvent: nil ];
 					                yourself).
 			               selectionMenu addItem: (ToMenuItem new
 					                labelText: (label isMonoLine
@@ -7950,7 +8031,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 				                yourself).
 		               selectionMenu addItem: (ToMenuItem new
 				                labelText: 'Hide';
-				                newClickAction: [ 
+				                newClickAction: [
 					                indexes do: [ :idx |
 							                target hiddenSelecter selectIndex: idx ] ];
 				                yourself).
@@ -8325,7 +8406,7 @@ ToSandBox class >> selectionModeChooserFor: aBar [
 ToSandBox class >> statesOfAmerica [
 
 	^ { #Alabama. #Alaska. #Arizona. #Arkansas. #California. #Colorado.
-		#Connecticut. #Delaware. #Florida. #Georgia. #Hawaii. #Idaho. #'Illinois Indiana'.
+		#Connecticut. #Delaware. #Florida. #Georgia. #Hawaii. #Idaho. #Illinois. #Indiana.
 		#Iowa. #Kansas. #Kentucky. #Louisiana. #Maine. #Maryland. #Massachusetts.
 		#Michigan. #Minnesota. #Mississippi. #Missouri. #Montana. #Nebraska.
 		#Nevada. #'New Hampshire'. #'New Jersey'. #'New Mexico'.

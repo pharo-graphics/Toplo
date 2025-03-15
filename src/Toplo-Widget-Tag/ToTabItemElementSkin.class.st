@@ -19,6 +19,15 @@ ToTabItemElementSkin >> configureLabelInItemElement: anItemElement [
 ]
 
 { #category : #'event handling' }
+ToTabItemElementSkin >> deselectedSkinEvent: anEvent [
+
+	super deselectedSkinEvent: anEvent.
+
+	anEvent elementDo: [ :e |
+		self configureLabelInItemElement: e ]
+]
+
+{ #category : #'event handling' }
 ToTabItemElementSkin >> disabledSkinEvent: anEvent [
 
 	super disabledSkinEvent: anEvent.
@@ -35,6 +44,7 @@ ToTabItemElementSkin >> enabledSkinEvent: anEvent [
 
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
+		self configureLabelInItemElement: e.
 		e iconDo: [ :ic |
 			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
 		e endElementDo: [ :ic |

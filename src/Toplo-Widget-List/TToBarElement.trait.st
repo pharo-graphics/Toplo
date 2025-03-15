@@ -23,7 +23,7 @@ TToBarElement >> autoDistribute: aBoolean [
 	nodeAutoDistribution := aBoolean.
 	" notify dataSource changed to renew all nodes "
 	self notifyDataSourceChanged.
-	self requestNewConfiguration 
+	self requestNewConfigurationPass 
 ]
 
 { #category : #'t - bar element' }
@@ -45,38 +45,6 @@ TToBarElement >> fakeNode [
 ]
 
 { #category : #'t - bar element' }
-TToBarElement >> hasUniformNodeHeight [
-
-	^ uniformNodeHeight ifNil: [ uniformNodeHeight := false ]
-]
-
-{ #category : #'t - bar element' }
-TToBarElement >> hasUniformNodeHeight: aBoolean [
-
-	uniformNodeHeight = aBoolean ifTrue: [ ^ self ].
-	uniformNodeHeight := aBoolean.
-	self requestNewConfiguration.
-	self notifyDataSourceChanged
-
-]
-
-{ #category : #'t - bar element' }
-TToBarElement >> hasUniformNodeWidth [
-
-	^ uniformNodeWidth ifNil: [ uniformNodeWidth := false ]
-]
-
-{ #category : #'t - bar element' }
-TToBarElement >> hasUniformNodeWidth: aBoolean [
-
-	uniformNodeWidth = aBoolean ifTrue: [ ^ self ].
-	uniformNodeWidth := aBoolean.
-	self requestNewConfiguration.
-	self notifyDataSourceChanged
-
-]
-
-{ #category : #'t - bar element' }
 TToBarElement >> installFakeNode [
 
 	self innerElement installFakeNode
@@ -93,7 +61,7 @@ TToBarElement >> isScrolling: aBoolean [
 
 	nodeScrolling = aBoolean ifTrue: [ ^ self ].
 	nodeScrolling := aBoolean.
-	self requestNewConfiguration
+	self requestNewConfigurationPass
 ]
 
 { #category : #'t - bar element' }
@@ -107,7 +75,13 @@ TToBarElement >> isWrapping: aBoolean [
 
 	nodeWrapping = aBoolean ifTrue: [ ^ self ].
 	nodeWrapping := aBoolean.
-	self requestNewConfiguration
+	self requestNewConfigurationPass
+]
+
+{ #category : #'t - bar element' }
+TToBarElement >> maxMeasuredNodeSize [
+
+	^ self innerElement maxMeasuredNodeSize
 ]
 
 { #category : #'t - bar element' }
@@ -130,6 +104,38 @@ TToBarElement >> sample: aDataItem [
 	self reinstallFakeNode.
 	self requestLayout
 	
+]
+
+{ #category : #'t - bar element' }
+TToBarElement >> uniformNodeHeight [
+
+	^ uniformNodeHeight ifNil: [ uniformNodeHeight := false ]
+]
+
+{ #category : #'t - bar element' }
+TToBarElement >> uniformNodeHeight: aBoolean [
+
+	uniformNodeHeight = aBoolean ifTrue: [ ^ self ].
+	uniformNodeHeight := aBoolean.
+	self requestNewConfigurationPass.
+	self notifyDataSourceChanged
+
+]
+
+{ #category : #'t - bar element' }
+TToBarElement >> uniformNodeWidth [
+
+	^ uniformNodeWidth ifNil: [ uniformNodeWidth := false ]
+]
+
+{ #category : #'t - bar element' }
+TToBarElement >> uniformNodeWidth: aBoolean [
+
+	uniformNodeWidth = aBoolean ifTrue: [ ^ self ].
+	uniformNodeWidth := aBoolean.
+	self requestNewConfigurationPass.
+	self notifyDataSourceChanged
+
 ]
 
 { #category : #'t - bar element' }

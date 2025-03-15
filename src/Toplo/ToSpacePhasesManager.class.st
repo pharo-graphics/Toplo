@@ -4,11 +4,11 @@ Class {
 	#instVars : [
 		'needSkinInstallPass',
 		'needSkinStateApplicationPass',
-		'needInnerConfigurationPass',
 		'stateGenerations',
 		'phasesInstallationDone',
 		'nextConfigurationPass',
-		'runningConfigurationPass'
+		'runningConfigurationPass',
+		'needConfigurationPass'
 	],
 	#category : #'Toplo-Core-SpaceFrame'
 }
@@ -19,6 +19,17 @@ ToSpacePhasesManager >> addSkinStateGeneration: aValuable [
 	stateGenerations add: aValuable
 ]
 
+{ #category : #'configurations application' }
+ToSpacePhasesManager >> applyAllConfigurationsIn: aSpace [
+
+	needConfigurationPass ifFalse: [ ^ self ].
+	needConfigurationPass := false.
+	runningConfigurationPass := nextConfigurationPass.
+	aSpace root checkToploConfigurationPassDeeply.
+	nextConfigurationPass := nextConfigurationPass + 1.
+
+]
+
 { #category : #'skins application' }
 ToSpacePhasesManager >> applyAllEnqueuedStatesIn: aSpace [
 
@@ -26,17 +37,6 @@ ToSpacePhasesManager >> applyAllEnqueuedStatesIn: aSpace [
 	needSkinStateApplicationPass ifFalse: [ ^ self ].
 	aSpace root applyEnqueuedStatesDeeply.
 	needSkinStateApplicationPass := false
-]
-
-{ #category : #'configurations application' }
-ToSpacePhasesManager >> applyAllInnerConfigurationsIn: aSpace [
-
-	needInnerConfigurationPass ifFalse: [ ^ self ].
-	needInnerConfigurationPass := false.
-	runningConfigurationPass := nextConfigurationPass.
-	aSpace root checkInnerConfigurationsDeeply.
-	nextConfigurationPass := nextConfigurationPass + 1.
-
 ]
 
 { #category : #'skins installation' }
@@ -64,7 +64,7 @@ ToSpacePhasesManager >> initialize [
 	phasesInstallationDone := false.
 	needSkinInstallPass := true.
 	needSkinStateApplicationPass := true.
-	needInnerConfigurationPass := true.
+	needConfigurationPass := true.
 	stateGenerations := OrderedCollection new
 ]
 
@@ -72,7 +72,7 @@ ToSpacePhasesManager >> initialize [
 ToSpacePhasesManager >> installedInnerConfigurationPhaseIn: aSpace [
 
 	^ aSpace frame phases
-		  detect: [ :p | p isKindOf: ToSpaceInnerConfigurationPhase ]
+		  detect: [ :p | p isKindOf: ToSpaceConfigurationPhase ]
 		  ifNone: [  ]
 ]
 
@@ -117,9 +117,9 @@ ToSpacePhasesManager >> isSkinStateApplicationPhaseInstalledIn: aSpace [
 ]
 
 { #category : #accessing }
-ToSpacePhasesManager >> needInnerConfigurationPass [
+ToSpacePhasesManager >> needConfigurationPass [
 
-	^ needInnerConfigurationPass
+	^ needConfigurationPass
 ]
 
 { #category : #accessing }
@@ -176,7 +176,7 @@ ToSpacePhasesManager >> phasesInstallationDone [
 ToSpacePhasesManager >> requestNewConfigurationPass [
 
 	self isApplyingConfigurations ifTrue: [ ^ self ].
-	needInnerConfigurationPass := true
+	needConfigurationPass := true
 ]
 
 { #category : #'skins application' }
@@ -202,7 +202,7 @@ ToSpacePhasesManager >> startInnerConfigurationPhaseIn: aSpace [
 	phaseAfter := aSpace frame detectPhase: [ :f |
 		              f class = ToSpaceSkinInstallerPhase ].
 	aSpace frame
-		addPhase: ToSpaceInnerConfigurationPhase new
+		addPhase: ToSpaceConfigurationPhase new
 		before: phaseAfter
 ]
 

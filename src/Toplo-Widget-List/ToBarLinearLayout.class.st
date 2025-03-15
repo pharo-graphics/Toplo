@@ -3,8 +3,23 @@ Class {
 	#superclass : #BlLinearLayout,
 	#traits : 'TToBarLayout',
 	#classTraits : 'TToBarLayout classTrait',
+	#instVars : [
+		'maxMeasuredNodeSize'
+	],
 	#category : #'Toplo-Widget-List-InnerBar'
 }
+
+{ #category : #accessing }
+ToBarLinearLayout >> maxMeasuredNodeSize [
+
+	^ maxMeasuredNodeSize
+]
+
+{ #category : #accessing }
+ToBarLinearLayout >> maxMeasuredNodeSize: aSize [
+
+	maxMeasuredNodeSize := aSize
+]
 
 { #category : #measure }
 ToBarLinearLayout >> newHorizontalMeasurer [ 

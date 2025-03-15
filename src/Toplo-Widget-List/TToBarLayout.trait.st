@@ -10,30 +10,6 @@ Trait {
 }
 
 { #category : #'t - bar layout' }
-TToBarLayout >> hasUniformNodeHeight [
-
-	^ uniformNodeHeight ifNil: [ uniformNodeHeight := false ]
-]
-
-{ #category : #'t - bar layout' }
-TToBarLayout >> hasUniformNodeHeight: aBoolean [
-	" an option that set the same width to all elements of a line "
-	uniformNodeHeight := aBoolean
-]
-
-{ #category : #'t - bar layout' }
-TToBarLayout >> hasUniformNodeWidth [
-
-	^ uniformNodeWidth ifNil: [ uniformNodeWidth := false ]
-]
-
-{ #category : #'t - bar layout' }
-TToBarLayout >> hasUniformNodeWidth: aBoolean [
-	" an option that set the same width to all elements of a line "
-	uniformNodeWidth := aBoolean
-]
-
-{ #category : #'t - bar layout' }
 TToBarLayout >> minNodeHeight [
 
 	^ minNodeHeight 
@@ -55,4 +31,28 @@ TToBarLayout >> minNodeWidth [
 TToBarLayout >> minNodeWidth: aNumber [
 
 	minNodeWidth := aNumber
+]
+
+{ #category : #'t - bar layout' }
+TToBarLayout >> uniformNodeHeight [
+
+	^ uniformNodeHeight ifNil: [ uniformNodeHeight := false ]
+]
+
+{ #category : #'t - bar layout' }
+TToBarLayout >> uniformNodeHeight: aBoolean [
+	" an option that set the same width to all elements of a line "
+	uniformNodeHeight := aBoolean
+]
+
+{ #category : #'t - bar layout' }
+TToBarLayout >> uniformNodeWidth [
+
+	^ uniformNodeWidth ifNil: [ uniformNodeWidth := false ]
+]
+
+{ #category : #'t - bar layout' }
+TToBarLayout >> uniformNodeWidth: aBoolean [
+	" an option that set the same width to all elements of a line "
+	uniformNodeWidth := aBoolean
 ]

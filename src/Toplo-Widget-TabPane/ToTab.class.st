@@ -5,8 +5,8 @@ A tab header contains a group of me.
 Class {
 	#name : #ToTab,
 	#superclass : #ToGeneralButton,
-	#traits : 'TToCheckable + TToWithOrientableLayout',
-	#classTraits : 'TToCheckable classTrait + TToWithOrientableLayout classTrait',
+	#traits : 'TToCheckable',
+	#classTraits : 'TToCheckable classTrait',
 	#instVars : [
 		'checkHandler',
 		'innerPane',

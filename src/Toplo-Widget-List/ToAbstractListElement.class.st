@@ -1,8 +1,8 @@
 Class {
 	#name : #ToAbstractListElement,
 	#superclass : #ToElement,
-	#traits : 'TToListElementDecorator + TToElementWithPlaceholder + TToWithOrientableLayout',
-	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait + TToWithOrientableLayout classTrait',
+	#traits : 'TToListElementDecorator + TToElementWithPlaceholder + TToOrientable',
+	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait + TToOrientable classTrait',
 	#instVars : [
 		'next',
 		'dataSource',
@@ -314,6 +314,12 @@ ToAbstractListElement >> initializeInnerElement [
 	next := self defaultInnerElement.
 	self next elevation: (BlRelativeElevation elevation: 10).
 	self addChild: self next
+]
+
+{ #category : #'t - list element decorator - infinite accessing' }
+ToAbstractListElement >> innerElementDo: aValuable [
+
+	aValuable value: self innerElement
 ]
 
 { #category : #testing }

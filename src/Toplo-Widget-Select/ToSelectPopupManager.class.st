@@ -87,9 +87,10 @@ ToSelectPopupManager >> newListElement [
 	| newListElement |
 	newListElement := self listElementClass new.
 	newListElement primarySelectionMode multiple: false.
-	newListElement innerElement maxHeight: self defaultMaxHeight.
-	newListElement innerElement minHeight: self defaultMinHeight.
-	newListElement innerElement vFitContent.
+	newListElement innerElementDo: [ :inner |
+		inner maxHeight: self defaultMaxHeight.
+		inner minHeight: self defaultMinHeight.
+		inner constraintsDo: [ :c | c vertical fitContent ] ].
 	newListElement vFitContent.
 	newListElement hMatchParent.
 	^ newListElement

@@ -5,8 +5,8 @@ I'm one of the leave of menu composite.
 Class {
 	#name : #ToItemToggleButton,
 	#superclass : #ToElement,
-	#traits : 'TToWithOrientableLayout + TToTripletElement + TToLabeledIcon + TToItem + TToClickable + TToCheckable',
-	#classTraits : 'TToWithOrientableLayout classTrait + TToTripletElement classTrait + TToLabeledIcon classTrait + TToItem classTrait + TToClickable classTrait + TToCheckable classTrait',
+	#traits : 'TToOrientable + TToTripletElement + TToLabeledIcon + TToItem + TToClickable + TToCheckable',
+	#classTraits : 'TToOrientable classTrait + TToTripletElement classTrait + TToLabeledIcon classTrait + TToItem classTrait + TToClickable classTrait + TToCheckable classTrait',
 	#category : #'Toplo-Widget-List-ItemList'
 }
 

@@ -33,9 +33,7 @@ ToInfiniteElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 ToInfiniteElement >> applyToploConfiguration [
 
 	super applyToploConfiguration.
-	self listElement isHorizontal
-		ifTrue: [ self layout beHorizontal ]
-		ifFalse: [ self layout beVertical ].
+	self layout beHorizontal: self listElement isHorizontal.
 	self constraintsDo: [ :c |
 		self listElement isHMatchParent ifFalse: [ c horizontal fitContent ].
 		self listElement isVMatchParent ifFalse: [ c vertical fitContent ] ]

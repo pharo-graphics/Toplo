@@ -2,7 +2,7 @@
 A TToOrientableTest is a test class for testing the behavior of TToOrientable
 "
 Class {
-	#name : #TToWithOrientableLayoutTest,
+	#name : #TToOrientableTest,
 	#superclass : #ToParameterizedHostTest,
 	#instVars : [
 		'pane',
@@ -15,7 +15,7 @@ Class {
 }
 
 { #category : #running }
-TToWithOrientableLayoutTest >> setUp [
+TToOrientableTest >> setUp [
 
 	super setUp.
 	pane := ToPane new.
@@ -36,7 +36,7 @@ TToWithOrientableLayoutTest >> setUp [
 ]
 
 { #category : #tests }
-TToWithOrientableLayoutTest >> testBeHorizontal [
+TToOrientableTest >> testBeHorizontal [
 
 	| ocpt |
 	" to be sure pane is horizontal"
@@ -58,7 +58,7 @@ TToWithOrientableLayoutTest >> testBeHorizontal [
 ]
 
 { #category : #tests }
-TToWithOrientableLayoutTest >> testBeLeftToRight [
+TToOrientableTest >> testBeLeftToRight [
 
 	| dcpt |
 	" to be sure pane is leftToRight"
@@ -80,7 +80,7 @@ TToWithOrientableLayoutTest >> testBeLeftToRight [
 ]
 
 { #category : #tests }
-TToWithOrientableLayoutTest >> testBeRightToLeft [
+TToOrientableTest >> testBeRightToLeft [
 
 	| dcpt |
 	" to be sure pane is leftToRight"
@@ -102,7 +102,7 @@ TToWithOrientableLayoutTest >> testBeRightToLeft [
 ]
 
 { #category : #tests }
-TToWithOrientableLayoutTest >> testBeVertical [
+TToOrientableTest >> testBeVertical [
 	" to be sure pane is horizontal"
 
 	| ocpt |
@@ -124,7 +124,7 @@ TToWithOrientableLayoutTest >> testBeVertical [
 ]
 
 { #category : #tests }
-TToWithOrientableLayoutTest >> testDirection [
+TToOrientableTest >> testDirection [
 
 	| dcpt |
 	pane direction: BlLayoutDirection rightToLeft.
@@ -165,7 +165,7 @@ TToWithOrientableLayoutTest >> testDirection [
 ]
 
 { #category : #tests }
-TToWithOrientableLayoutTest >> testHorizontal [
+TToOrientableTest >> testHorizontal [
 	" to be sure pane is horizontal"
 
 	| ocpt |
@@ -187,7 +187,7 @@ TToWithOrientableLayoutTest >> testHorizontal [
 ]
 
 { #category : #tests }
-TToWithOrientableLayoutTest >> testIsHorizontal [
+TToOrientableTest >> testIsHorizontal [
 
 	pane beHorizontal.
 	pane beVertical.
@@ -198,7 +198,7 @@ TToWithOrientableLayoutTest >> testIsHorizontal [
 ]
 
 { #category : #tests }
-TToWithOrientableLayoutTest >> testIsLeftToRight [
+TToOrientableTest >> testIsLeftToRight [
 
 	pane beLeftToRight.
 	pane beRightToLeft.
@@ -209,7 +209,7 @@ TToWithOrientableLayoutTest >> testIsLeftToRight [
 ]
 
 { #category : #tests }
-TToWithOrientableLayoutTest >> testIsRightToLeft [
+TToOrientableTest >> testIsRightToLeft [
 
 	pane beRightToLeft.
 	pane beLeftToRight.
@@ -220,7 +220,7 @@ TToWithOrientableLayoutTest >> testIsRightToLeft [
 ]
 
 { #category : #tests }
-TToWithOrientableLayoutTest >> testIsVertical [
+TToOrientableTest >> testIsVertical [
 
 	pane beVertical.
 	pane beHorizontal.
@@ -231,7 +231,7 @@ TToWithOrientableLayoutTest >> testIsVertical [
 ]
 
 { #category : #tests }
-TToWithOrientableLayoutTest >> testLeftToRight [
+TToOrientableTest >> testLeftToRight [
 
 	| dcpt |
 	" to be sure pane is leftToRight"
@@ -253,7 +253,7 @@ TToWithOrientableLayoutTest >> testLeftToRight [
 ]
 
 { #category : #tests }
-TToWithOrientableLayoutTest >> testOrientation [
+TToOrientableTest >> testOrientation [
 
 	| ocpt |
 	pane orientation: BlLinearLayoutOrientation vertical.
@@ -295,7 +295,7 @@ TToWithOrientableLayoutTest >> testOrientation [
 ]
 
 { #category : #tests }
-TToWithOrientableLayoutTest >> testRightToLeft [
+TToOrientableTest >> testRightToLeft [
 
 	| dcpt |
 	" to be sure pane is leftToRight"
@@ -317,7 +317,7 @@ TToWithOrientableLayoutTest >> testRightToLeft [
 ]
 
 { #category : #tests }
-TToWithOrientableLayoutTest >> testVertical [
+TToOrientableTest >> testVertical [
 	" to be sure pane is horizontal"
 
 	| ocpt |
@@ -339,7 +339,7 @@ TToWithOrientableLayoutTest >> testVertical [
 ]
 
 { #category : #tests }
-TToWithOrientableLayoutTest >> testVerticalRightToLeft [
+TToOrientableTest >> testVerticalRightToLeft [
 
 	" to be sure pane is leftToRight"
 	pane rightToLeft: true.

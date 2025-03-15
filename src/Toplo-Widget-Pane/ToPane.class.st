@@ -5,8 +5,8 @@ I can have dividers in between my elements.
 Class {
 	#name : #ToPane,
 	#superclass : #ToElement,
-	#traits : 'TToWithOrientableLayout + TToPasteUpPane + TToElementWithPlaceholder',
-	#classTraits : 'TToWithOrientableLayout classTrait + TToPasteUpPane classTrait + TToElementWithPlaceholder classTrait',
+	#traits : 'TToOrientable + TToPasteUpPane + TToElementWithPlaceholder',
+	#classTraits : 'TToOrientable classTrait + TToPasteUpPane classTrait + TToElementWithPlaceholder classTrait',
 	#category : #'Toplo-Widget-Pane-Core'
 }
 

@@ -76,7 +76,7 @@ ToButton >> newRawSkin [
 ]
 
 { #category : #configuration }
-ToButton >> newToploConfiguration [ 
+ToButton >> newWidgetConfiguration [ 
 
 	^ ToTripletElementConfiguration new
 ]

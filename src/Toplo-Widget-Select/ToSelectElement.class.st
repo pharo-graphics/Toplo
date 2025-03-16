@@ -34,9 +34,9 @@ ToSelectElement >> allowDeselection [
 ]
 
 { #category : #configuration }
-ToSelectElement >> applyToploConfiguration [ 
+ToSelectElement >> applyWidgetConfiguration [ 
 
-	super applyToploConfiguration.
+	super applyWidgetConfiguration.
 	self filterTextField selectFiltrable: filtrable.
 	filtrable ifTrue: [ self filterTextField requestFocus ].
 	sample ifNotNil: [ self innerElement sample: sample ]

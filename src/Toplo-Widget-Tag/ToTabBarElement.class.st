@@ -9,9 +9,9 @@ Class {
 }
 
 { #category : #configuration }
-ToTabBarElement >> applyToploConfiguration [
+ToTabBarElement >> applyWidgetConfiguration [
 
-	super applyToploConfiguration.
+	super applyWidgetConfiguration.
 	self refreshAllSelections.
 	"self uniformNodeHeight: true.
 	self isVertical

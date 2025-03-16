@@ -25,7 +25,7 @@ ToSpacePhasesManager >> applyAllConfigurationsIn: aSpace [
 	needConfigurationPass ifFalse: [ ^ self ].
 	needConfigurationPass := false.
 	runningConfigurationPass := nextConfigurationPass.
-	aSpace root checkToploConfigurationPassDeeply.
+	aSpace root checkWidgetConfigurationPassDeeply.
 	nextConfigurationPass := nextConfigurationPass + 1.
 
 ]
@@ -69,7 +69,7 @@ ToSpacePhasesManager >> initialize [
 ]
 
 { #category : #'phases installation' }
-ToSpacePhasesManager >> installedInnerConfigurationPhaseIn: aSpace [
+ToSpacePhasesManager >> installedConfigurationPhaseIn: aSpace [
 
 	^ aSpace frame phases
 		  detect: [ :p | p isKindOf: ToSpaceConfigurationPhase ]
@@ -99,9 +99,9 @@ ToSpacePhasesManager >> isApplyingConfigurations [
 ]
 
 { #category : #testing }
-ToSpacePhasesManager >> isInnerConfigurationPhaseInstalledIn: aSpace [
+ToSpacePhasesManager >> isConfigurationPhaseInstalledIn: aSpace [
 
-	^ (self installedInnerConfigurationPhaseIn: aSpace) notNil
+	^ (self installedConfigurationPhaseIn: aSpace) notNil
 ]
 
 { #category : #testing }
@@ -194,10 +194,10 @@ ToSpacePhasesManager >> runningConfigurationPass [
 ]
 
 { #category : #'phases installation' }
-ToSpacePhasesManager >> startInnerConfigurationPhaseIn: aSpace [
+ToSpacePhasesManager >> startConfigurationPhaseIn: aSpace [
 
 	| phaseAfter |
-	(self isInnerConfigurationPhaseInstalledIn: aSpace) ifTrue: [ ^ self ].
+	(self isConfigurationPhaseInstalledIn: aSpace) ifTrue: [ ^ self ].
 	" The skin phase must be inserted before the layout phase (that must be present) "
 	phaseAfter := aSpace frame detectPhase: [ :f |
 		              f class = ToSpaceSkinInstallerPhase ].
@@ -213,7 +213,7 @@ ToSpacePhasesManager >> startPhasesIn: aSpace [
 	self
 		startSkinInstallerPhaseIn: aSpace;
 		startSkinStateApplicationPhaseIn: aSpace;
-		startInnerConfigurationPhaseIn: aSpace.
+		startConfigurationPhaseIn: aSpace.
 	phasesInstallationDone := true.
 	" If no theme has been already set, now I can set the root default theme
 	( *** before skinPhasesInstalled: true *** it would start an endless loop )"
@@ -254,9 +254,9 @@ ToSpacePhasesManager >> startSkinStateApplicationPhaseIn: aSpace [
 ]
 
 { #category : #'phases installation' }
-ToSpacePhasesManager >> stopInnerConfigurationPhaseIn: aSpace [
+ToSpacePhasesManager >> stopConfigurationPhaseIn: aSpace [
 
-	(self installedInnerConfigurationPhaseIn: aSpace) ifNotNil: [ :phase |
+	(self installedConfigurationPhaseIn: aSpace) ifNotNil: [ :phase |
 		aSpace frame removePhase: phase ]
 ]
 
@@ -267,7 +267,7 @@ ToSpacePhasesManager >> stopPhasesIn: aSpace [
 	self
 		stopSkinInstallerPhaseIn: aSpace;
 		stopSkinStateApplicationPhaseIn: aSpace;
-		stopInnerConfigurationPhaseIn: aSpace.
+		stopConfigurationPhaseIn: aSpace.
 	
 	" 'stopSkinPhasesIn:' traceCr. "
 	phasesInstallationDone := false.

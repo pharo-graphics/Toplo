@@ -437,7 +437,7 @@ ToSelectorInterpreterTest >> testVisitParentSatisfyingSelector [
 	engine check: selector on: label.
 	self deny: engine result.
 	button label: label.
-	button applyToploConfiguration.
+	button applyWidgetConfiguration.
 
 	engine check: selector on: label.
 	self deny: engine result.
@@ -499,7 +499,7 @@ ToSelectorInterpreterTest >> testVisitParentSatisfyingSelector3 [
 	engine check: selector on: label.
 	self deny: engine result.
 	element label: label.
-	element applyToploConfiguration.
+	element applyWidgetConfiguration.
 
 	engine check: selector on: label.
 	self deny: engine result.
@@ -524,7 +524,7 @@ ToSelectorInterpreterTest >> testVisitParentSatisfyingSelector4 [
 	engine check: selector on: label.
 	self deny: engine result.
 	element label: label.
-	element applyToploConfiguration.
+	element applyWidgetConfiguration.
 
 	engine check: selector on: label.
 	self deny: engine result.
@@ -885,7 +885,7 @@ ToSelectorInterpreterTest >> testVisitTypeSelectorAndChildSelector [
 		            (ToTypeSelector new type: ToLabel).
 	e := ToLabeledIcon new.
 	e label: (ToLabel text: 'A').
-	e applyToploConfiguration.
+	e applyWidgetConfiguration.
 
 	engine := ToSelectorInterpreter new.
 	engine check: selector on: e.
@@ -898,7 +898,7 @@ ToSelectorInterpreterTest >> testVisitTypeSelectorAndParentSelector [
 	| selector e engine |
 	e := ToLabeledIcon new.
 	e label: (ToLabel text: 'A').
-	e applyToploConfiguration.
+	e applyWidgetConfiguration.
 
 	selector := (ToTypeSelector new type: ToLabel)
 		            withParent: (ToTypeSelector new type: ToLabeledIcon)

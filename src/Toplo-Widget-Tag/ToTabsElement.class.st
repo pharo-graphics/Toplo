@@ -11,23 +11,23 @@ Class {
 }
 
 { #category : #'t - triplet element - configuration' }
-ToTabsElement >> applyToploConfiguration [
+ToTabsElement >> applyWidgetConfiguration [
 
-	super applyToploConfiguration.
+	super applyWidgetConfiguration.
 
 ]
 
 { #category : #accessing }
 ToTabsElement >> atStartSide [
 
-	^ self toploConfiguration atStartSide
+	^ self widgetConfiguration atStartSide
 ]
 
 { #category : #accessing }
 ToTabsElement >> atStartSide: aBoolean [
 
 	self atStartSide = aBoolean ifTrue: [ ^ self ].
-	self toploConfiguration atStartSide: aBoolean.
+	self widgetConfiguration atStartSide: aBoolean.
 	self requestNewConfigurationPass
 ]
 
@@ -84,7 +84,7 @@ ToTabsElement >> defaultNodeMenuBuilder [
 { #category : #accessing }
 ToTabsElement >> endExtraBuilder: aValuable [
 
-	aValuable value: self toploConfiguration endExtraContainer 
+	aValuable value: self widgetConfiguration endExtraContainer 
 ]
 
 { #category : #'focus requesting' }
@@ -152,7 +152,7 @@ ToTabsElement >> newRawSkin [
 ]
 
 { #category : #configuration }
-ToTabsElement >> newToploConfiguration [ 
+ToTabsElement >> newWidgetConfiguration [ 
 
 	^ ToTabsElementConfiguration new
 ]
@@ -160,7 +160,7 @@ ToTabsElement >> newToploConfiguration [
 { #category : #accessing }
 ToTabsElement >> nodeMenu [ 
 
-	^ self toploConfiguration nodeMenu
+	^ self widgetConfiguration nodeMenu
 ]
 
 { #category : #'t - bar element' }

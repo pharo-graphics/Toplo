@@ -23,9 +23,9 @@ ToMultiSelectElement >> addGroup: anObject withData: aCollection [
 ]
 
 { #category : #configuration }
-ToMultiSelectElement >> applyToploConfiguration [ 
+ToMultiSelectElement >> applyWidgetConfiguration [ 
 
-	super applyToploConfiguration.
+	super applyWidgetConfiguration.
 	self innerElement isWrapping: isWrapping.
 	self innerElement keepPickOrder: keepPickOrder.
 	" in case of hide selected, the picking outside handler should not be activated.

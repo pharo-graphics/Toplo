@@ -26,7 +26,7 @@ ToItemToggleButton >> initialize [
 ]
 
 { #category : #'instance creation' }
-ToItemToggleButton >> newToploConfiguration [ 
+ToItemToggleButton >> newWidgetConfiguration [ 
 
 	^ ToTripletElementConfiguration new
 ]

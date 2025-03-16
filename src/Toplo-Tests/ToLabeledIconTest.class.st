@@ -24,7 +24,7 @@ ToLabeledIconTest >> testBeIconFirst [
 				  background: (Color blue alpha: 0.2);
 				  yourself).
 	li beStartToEnd.
-	li applyToploConfiguration.
+	li applyWidgetConfiguration.
 	self assert: li isStartToEnd
 ]
 
@@ -48,10 +48,10 @@ ToLabeledIconTest >> testFiller [
 	li := self testInitialize.
 	self assert: li startFiller isNil.
 	li startFlexible: false.
-	li applyToploConfiguration.
+	li applyWidgetConfiguration.
 	self assert: li startFiller isNil.
 	li startFlexible: true.
-	li applyToploConfiguration.
+	li applyWidgetConfiguration.
 	self assert: li startFiller notNil
 ]
 
@@ -197,7 +197,7 @@ ToLabeledIconTest >> testInitialize [
 	li := ToLabeledIcon new.
 	self assert: li isStartToEnd.
 	self assert: li isHorizontal.
-	li applyToploConfiguration.
+	li applyWidgetConfiguration.
 	li forceLayout.
 
 	self assert: li size equals: 0	asPoint.
@@ -210,7 +210,7 @@ ToLabeledIconTest >> testInterspace [
 	| li |
 	li := ToLabeledIcon new.
 	li startInterspace: 10.
-	li applyToploConfiguration.
+	li applyWidgetConfiguration.
 	li forceLayout.
 	self assert: li size equals: 10@0.
 	li vFitContent.
@@ -234,7 +234,7 @@ ToLabeledIconTest >> testInterspaceWithLabel [
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
-	li applyToploConfiguration.
+	li applyWidgetConfiguration.
 	li forceLayout.
 	self
 		assert: li labelContainer bounds left
@@ -254,7 +254,7 @@ ToLabeledIconTest >> testInterspaceWithLabelAndVertical [
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
-	li applyToploConfiguration.
+	li applyWidgetConfiguration.
 	li forceLayout.
 	self
 		assert: li labelContainer bounds top
@@ -348,7 +348,7 @@ ToLabeledIconTest >> testLabelFirst [
 	li labelText: 'X'.
 	li endToStart: true.
 	li forceLayout.
-	li applyToploConfiguration.
+	li applyWidgetConfiguration.
 
 	self assert: (li label bounds inParent: li) right equals: (li icon bounds inParent: li) left.
 	^ li
@@ -391,12 +391,12 @@ ToLabeledIconTest >> testStartAlignment [
 		assert: li labelContainer bounds left
 		equals: li iconContainer bounds right.
 	li startAlignment: 100.
-	li applyToploConfiguration.
+	li applyWidgetConfiguration.
 	li forceLayout.
 	self assert: li iconContainer bounds width equals: 100.
 	self assert: li labelContainer bounds left equals: 100.
 	li startAlignment: 50.
-	li applyToploConfiguration.
+	li applyWidgetConfiguration.
 	li forceLayout.
 	self assert: li labelContainer bounds left equals: 50.
 	self assert: li iconContainer bounds width equals: 50.
@@ -412,7 +412,7 @@ ToLabeledIconTest >> testStartFlexible [
 	self assert: li startFiller isNil.
 	li startFlexible: true.
 	li forceLayout.
-	li applyToploConfiguration.
+	li applyWidgetConfiguration.
 	self assert: li startFiller notNil.
 	self assert: li isStartFlexible
 ]
@@ -453,7 +453,7 @@ ToLabeledIconTest >> testStartFlexibleWithLabel [
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
-	li applyToploConfiguration.
+	li applyWidgetConfiguration.
 	container forceLayout.
 	self assert: li labelContainer bounds right closeTo: container width.
 	self assert: li iconContainer bounds left closeTo: 0
@@ -474,7 +474,7 @@ ToLabeledIconTest >> testStartFlexibleWithLabelAndVertical [
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
-	li applyToploConfiguration.
+	li applyWidgetConfiguration.
 	container forceLayout.
 	self assert: li labelContainer bounds bottom equals: container height.
 	self assert: li iconContainer bounds top equals: 0
@@ -491,7 +491,7 @@ ToLabeledIconTest >> testStartToEnd [
 				  yourself).
 	li labelText: 'X'.
 	li startToEnd: true.
-	li applyToploConfiguration.
+	li applyWidgetConfiguration.
 	li forceLayout.
 	self assert: (li icon bounds inParent: li) right equals: (li label bounds inParent: li) left.
 	^ li

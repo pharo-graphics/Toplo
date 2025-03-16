@@ -27,7 +27,7 @@ BlSpace >> applyAllSkinPhases [
 ]
 
 { #category : #'*Toplo' }
-BlSpace >> applyAllToploConfigurations [
+BlSpace >> applyAllWidgetConfigurations [
 
 	self phasesManager applyAllConfigurationsIn: self
 ]

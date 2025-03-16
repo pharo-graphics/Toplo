@@ -41,9 +41,9 @@ ToInnerBarElement >> addHolder: anHolder at: aPosition [
 ]
 
 { #category : #'t - list node holder' }
-ToInnerBarElement >> applyToploConfiguration [
+ToInnerBarElement >> applyWidgetConfiguration [
 
-	super applyToploConfiguration.
+	super applyWidgetConfiguration.
 	listElement isHFitContent
 		ifTrue: [ self hFitContent ]
 		ifFalse: [ self hMatchParent ].
@@ -52,7 +52,7 @@ ToInnerBarElement >> applyToploConfiguration [
 		ifTrue: [ self vFitContent ]
 		ifFalse: [ self vMatchParent ].
 
-	trackElement applyToploConfiguration 
+	trackElement applyWidgetConfiguration 
 ]
 
 { #category : #layout }

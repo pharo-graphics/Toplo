@@ -45,7 +45,7 @@ ToMenuItem >> newRightHandSide [
 ]
 
 { #category : #configuration }
-ToMenuItem >> newToploConfiguration [ 
+ToMenuItem >> newWidgetConfiguration [ 
 
 	^ ToTripletElementConfiguration new
 ]

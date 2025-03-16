@@ -8,11 +8,11 @@ Class {
 ToSpaceConfigurationPhase >> name [
 	<return: #String>
 	
-	^ 'Inner configuration phase'
+	^ 'Configuration phase'
 ]
 
 { #category : #actions }
 ToSpaceConfigurationPhase >> runOn: aSpace [
 
-	aSpace applyAllToploConfigurations
+	aSpace applyAllWidgetConfigurations
 ]

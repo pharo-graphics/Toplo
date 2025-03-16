@@ -51,10 +51,10 @@ ToAbstractListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 ]
 
 { #category : #configuration }
-ToAbstractListElement >> applyToploConfiguration [
+ToAbstractListElement >> applyWidgetConfiguration [
 
-	super applyToploConfiguration.
-	self innerElement applyToploConfiguration
+	super applyWidgetConfiguration.
+	self innerElement applyWidgetConfiguration
 ]
 
 { #category : #accessing }

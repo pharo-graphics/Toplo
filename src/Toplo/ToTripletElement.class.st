@@ -26,7 +26,7 @@ ToTripletElement >> installRawStyle [
 ]
 
 { #category : #configuration }
-ToTripletElement >> newToploConfiguration [ 
+ToTripletElement >> newWidgetConfiguration [ 
 
 	^ ToTripletElementConfiguration new
 ]

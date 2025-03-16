@@ -9,7 +9,7 @@ Class {
 { #category : #hook }
 ToTripletElementConfiguration >> applyOn: anElement [
 
-	"'onInnerConfigurationApplied in ' trace. owner traceCr."
+	"'applyOn: ' trace. anElement traceCr."
 
 	self configureChildrenIn: anElement.
 	self configureEndContainerIn: anElement.

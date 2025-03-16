@@ -74,10 +74,10 @@ BlElement >> applySkinInstallersDeeply [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> applyToploConfiguration [
+BlElement >> applyWidgetConfiguration [
 
-	self toploConfiguration ifNotNil: [ :tc | tc applyOn: self ].
-	self onToploConfigurationApplied
+	self widgetConfiguration ifNotNil: [ :tc | tc applyOn: self ].
+	self onWidgetConfigurationApplied
 ]
 
 { #category : #'*Toplo' }
@@ -94,25 +94,25 @@ BlElement >> borderBuilder [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> changeToploConfigurationWith: aValuable [
+BlElement >> changeWidgetConfigurationWith: aValuable [
 
-	self toploConfigurationDo: aValuable.
+	self widgetConfigurationDo: aValuable.
 	self requestNewConfigurationPass 
 ]
 
 { #category : #'*Toplo' }
-BlElement >> checkToploConfigurationPass [
+BlElement >> checkWidgetConfigurationPass [
 
 	self nextConfigurationPass = self space runningConfigurationPass
 		ifFalse: [ ^ self ].
-	self applyToploConfiguration
+	self applyWidgetConfiguration
 ]
 
 { #category : #'*Toplo' }
-BlElement >> checkToploConfigurationPassDeeply [
+BlElement >> checkWidgetConfigurationPassDeeply [
 
 	self withAllChildrenBreadthFirstDo: [ :child |
-		child checkToploConfigurationPass ]
+		child checkWidgetConfigurationPass ]
 ]
 
 { #category : #'*Toplo' }
@@ -461,7 +461,7 @@ BlElement >> newTextAttributesBuilder [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> newToploConfiguration [
+BlElement >> newWidgetConfiguration [
 
 	^ nil
 ]
@@ -499,7 +499,7 @@ BlElement >> onSkinUninstalled: aSkin [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> onToploConfigurationApplied [
+BlElement >> onWidgetConfigurationApplied [
 
 ]
 
@@ -627,9 +627,9 @@ BlElement >> requestUninstallSkin [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> resetToploConfiguration [
+BlElement >> resetWidgetConfiguration [
 
-	self userData removeKey: #toploConfiguration ifAbsent: [  ]
+	self userData removeKey: #widgetConfiguration ifAbsent: [  ]
 ]
 
 { #category : #'*Toplo' }
@@ -797,33 +797,6 @@ BlElement >> tokenValueNamed: aSymbol [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> toploConfiguration [
-
-	^ self userData at: #toploConfiguration ifAbsentPut: [
-		  | conf |
-		  conf := self newToploConfiguration.
-		  conf ifNotNil: [ conf onInstalledIn: self ].
-		  conf ]
-]
-
-{ #category : #'*Toplo' }
-BlElement >> toploConfiguration: anElementConfiguration [
-
-	self userData at: #toploConfiguration ifPresent: [ :conf |
-		conf onUninstalledIn: self.
-		self userData removeKey: #toploConfiguration ].
-	anElementConfiguration ifNil: [ ^ self ].
-	self userData at: #toploConfiguration put: anElementConfiguration.
-	anElementConfiguration onInstalledIn: self
-]
-
-{ #category : #'*Toplo' }
-BlElement >> toploConfigurationDo: aValuable [
-
-	self toploConfiguration ifNotNil: [ :c | aValuable value: c ]
-]
-
-{ #category : #'*Toplo' }
 BlElement >> uninstallRawStyle [
 
 ]
@@ -859,6 +832,33 @@ BlElement >> valueOfTokenNamed: aSymbol [
 		found := sm tokenPropertyValue: aSymbol from: self ].
 	found ifNil: [ (ToElementPropertyNotFound name: aSymbol) signal ].
 	^ found
+]
+
+{ #category : #'*Toplo' }
+BlElement >> widgetConfiguration [
+
+	^ self userData at: #widgetConfiguration ifAbsentPut: [
+		  | conf |
+		  conf := self newWidgetConfiguration.
+		  conf ifNotNil: [ conf onInstalledIn: self ].
+		  conf ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> widgetConfiguration: anElementConfiguration [
+
+	self userData at: #widgetConfiguration ifPresent: [ :conf |
+		conf onUninstalledIn: self.
+		self userData removeKey: #widgetConfiguration ].
+	anElementConfiguration ifNil: [ ^ self ].
+	self userData at: #widgetConfiguration put: anElementConfiguration.
+	anElementConfiguration onInstalledIn: self
+]
+
+{ #category : #'*Toplo' }
+BlElement >> widgetConfigurationDo: aValuable [
+
+	self widgetConfiguration ifNotNil: [ :c | aValuable value: c ]
 ]
 
 { #category : #'*Toplo' }

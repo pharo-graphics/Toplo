@@ -26,9 +26,9 @@ ToScrollableBarTrackElement >> addHolder: anHolder at: aPosition [
 ]
 
 { #category : #layout }
-ToScrollableBarTrackElement >> applyToploConfiguration [
+ToScrollableBarTrackElement >> applyWidgetConfiguration [
 
-	super applyToploConfiguration.
+	super applyWidgetConfiguration.
 	self layout: self newLayoutStrategy.
 
 	listElement isHFitContent

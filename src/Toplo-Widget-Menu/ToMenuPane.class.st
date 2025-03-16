@@ -26,11 +26,11 @@ ToMenuPane >> addMenu: aMenu [
 ]
 
 { #category : #'t - item bar owner - initializing' }
-ToMenuPane >> applyToploConfiguration [
+ToMenuPane >> applyWidgetConfiguration [
 	" just force the resizer of the secondary direction 
 	( vertical direction in case of an horizontal bar )"
 
-	super applyToploConfiguration.
+	super applyWidgetConfiguration.
 	self isHorizontal
 		ifTrue: [
 			self uniformNodeWidth: false.
@@ -49,7 +49,7 @@ ToMenuPane >> applyToploConfiguration [
 		ifTrue: [ self itemBar vMatchParent ]
 		ifFalse: [ self itemBar vFitContent ].
 
-	self itemBar applyToploConfiguration .
+	self itemBar applyWidgetConfiguration .
 
 ]
 

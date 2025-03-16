@@ -34,6 +34,42 @@ TToLabeledIcon >> hasLabel [
 ]
 
 { #category : #'t - labeled icon' }
+TToLabeledIcon >> hideEndIcon [
+
+	^ self hideEnd
+]
+
+{ #category : #'t - labeled icon' }
+TToLabeledIcon >> hideEndIcon: aBoolean [
+
+	self hideEnd: aBoolean
+]
+
+{ #category : #'t - labeled icon' }
+TToLabeledIcon >> hideIcon [
+
+	^ self hideStart
+]
+
+{ #category : #'t - labeled icon' }
+TToLabeledIcon >> hideIcon: aBoolean [
+
+	self hideStart: aBoolean
+]
+
+{ #category : #'t - labeled icon' }
+TToLabeledIcon >> hideLabel [
+
+	^ self hideMiddle
+]
+
+{ #category : #'t - labeled icon' }
+TToLabeledIcon >> hideLabel: aBoolean [
+
+	self hideMiddle: aBoolean
+]
+
+{ #category : #'t - labeled icon' }
 TToLabeledIcon >> icon [
 
 	^ self startElement

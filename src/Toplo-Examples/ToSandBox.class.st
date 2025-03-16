@@ -140,7 +140,8 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	menu addItem: (ToCheckMenuItem new
 			 label: (ToLabel text: 'Dark theme');
-			 newCheckAction: [ :evt :cbox :v | cbox space toTheme: (v
+			 newCheckAction: [ :evt :cbox :v |
+				 cbox space toTheme: (v
 							  ifTrue: [ ToRawDarkTheme new ]
 							  ifFalse: [ ToRawTheme new ]) ];
 			 yourself).
@@ -176,9 +177,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 
 	uniformNodeWidthSwitch := ToSwitchButton new labelText:
 		                          'Uniform width'.
-	uniformNodeWidthSwitch
-		newCheckFeature: #uniformNodeWidth
-		with: aBar.
+	uniformNodeWidthSwitch newCheckFeature: #uniformNodeWidth with: aBar.
 	uniformNodeWidthSwitch startFlexible: true.
 	uniformNodeWidthSwitch hMatchParent.
 	confPane addChild: uniformNodeWidthSwitch.

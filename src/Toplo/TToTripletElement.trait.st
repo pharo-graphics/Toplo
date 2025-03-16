@@ -3,6 +3,18 @@ Trait {
 	#category : #'Toplo-Core'
 }
 
+{ #category : #'t - triplet element - testing' }
+TToTripletElement >> canHidePart [
+
+	^ self widgetConfiguration canHidePart
+]
+
+{ #category : #'t - triplet element - testing' }
+TToTripletElement >> canHidePart: aBoolean [
+
+	self widgetConfiguration canHidePart: aBoolean
+]
+
 { #category : #'t - triplet element - instance creation' }
 TToTripletElement >> createEndContainer [
 
@@ -125,6 +137,51 @@ TToTripletElement >> hasMiddleElement [
 TToTripletElement >> hasStartElement [
 
 	^ self widgetConfiguration startElement notNil
+]
+
+{ #category : #'t - triplet element - accessing' }
+TToTripletElement >> hideEnd [
+
+	^ self widgetConfiguration hideEnd
+]
+
+{ #category : #'t - triplet element - accessing' }
+TToTripletElement >> hideEnd: aBoolean [
+
+	self hideEnd = aBoolean ifTrue: [ ^ self ].
+	self widgetConfiguration hideEnd: aBoolean.
+	self requestNewConfigurationPass 
+
+]
+
+{ #category : #'t - triplet element - accessing' }
+TToTripletElement >> hideMiddle [
+
+	^ self widgetConfiguration hideMiddle
+]
+
+{ #category : #'t - triplet element - accessing' }
+TToTripletElement >> hideMiddle: aBoolean [
+
+	self hideMiddle = aBoolean ifTrue: [ ^ self ].
+	self widgetConfiguration hideMiddle: aBoolean.
+	self requestNewConfigurationPass 
+
+]
+
+{ #category : #'t - triplet element - accessing' }
+TToTripletElement >> hideStart [
+
+	^ self widgetConfiguration hideStart
+]
+
+{ #category : #'t - triplet element - accessing' }
+TToTripletElement >> hideStart: aBoolean [
+
+	self hideStart = aBoolean ifTrue: [ ^ self ].
+	self widgetConfiguration hideStart: aBoolean.
+	self requestNewConfigurationPass 
+
 ]
 
 { #category : #'t - triplet element - testing' }

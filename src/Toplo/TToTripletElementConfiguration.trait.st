@@ -16,10 +16,40 @@ Trait {
 		'startAlignment',
 		'endAlignment',
 		'endInterspace',
-		'startInterspace'
+		'startInterspace',
+		'hideStart',
+		'hideMiddle',
+		'hideEnd',
+		'canHidePart'
 	],
 	#category : #'Toplo-Core'
 }
+
+{ #category : #'t - triplet element configuration' }
+TToTripletElementConfiguration >> applyTripletElementConfigurationOn: anElement [
+
+	self configureChildrenIn: anElement.
+	self configureEndContainerIn: anElement.
+	self configureEndFillerIn: anElement.
+	self configureEndGapIn: anElement.
+	self configureStartContainerIn: anElement.
+	self configureStartFillerIn: anElement.
+	self configureStartGapIn: anElement.
+	self configureHiddenPartIn: anElement
+
+]
+
+{ #category : #'t - triplet element accessing' }
+TToTripletElementConfiguration >> canHidePart [
+
+	^ canHidePart
+]
+
+{ #category : #'t - triplet element accessing' }
+TToTripletElementConfiguration >> canHidePart: aBoolean [
+
+	canHidePart := aBoolean
+]
 
 { #category : #'t - triplet element configuration' }
 TToTripletElementConfiguration >> checkEndContainerIn: anElement [
@@ -143,6 +173,33 @@ TToTripletElementConfiguration >> configureEndGapIn: anElement [
 ]
 
 { #category : #'t - triplet element configuration' }
+TToTripletElementConfiguration >> configureHiddenPartIn: anElement [
+
+	hideStart
+		ifTrue: [
+			self startChildren do: [ :child |
+				child visibility: BlVisibility gone ] ]
+		ifFalse: [
+			self startChildren do: [ :child |
+				child visibility: BlVisibility visible ] ].
+	hideMiddle
+		ifTrue: [
+			self middleChildren do: [ :child |
+				child visibility: BlVisibility gone ] ]
+		ifFalse: [
+			self middleChildren do: [ :child |
+				child visibility: BlVisibility visible ] ].
+	hideEnd
+		ifTrue: [
+			self endChildren do: [ :child |
+				child visibility: BlVisibility gone ] ]
+		ifFalse: [
+			self endChildren do: [ :child |
+				child visibility: BlVisibility visible ] ]
+
+]
+
+{ #category : #'t - triplet element configuration' }
 TToTripletElementConfiguration >> configureMiddleElementIn: anElement [
 
 	middleElement ifNil: [ ^ self ].
@@ -253,6 +310,15 @@ TToTripletElementConfiguration >> endAlignment: aNumber [
 
 ]
 
+{ #category : #'t - triplet element configuration' }
+TToTripletElementConfiguration >> endChildren [
+
+	^ Array streamContents: [ :stream |
+		  endContainer ifNotNil: [ :s | stream nextPut: s ].
+		  endGap ifNotNil: [ :s | stream nextPut: s ].
+		  endFiller ifNotNil: [ :s | stream nextPut: s ] ]
+]
+
 { #category : #'t - triplet element accessing' }
 TToTripletElementConfiguration >> endContainer [
 
@@ -305,6 +371,61 @@ TToTripletElementConfiguration >> endInterspace: aNumber [
 ]
 
 { #category : #'t - triplet element accessing' }
+TToTripletElementConfiguration >> hideEnd [
+
+	^ hideEnd
+]
+
+{ #category : #'t - triplet element accessing' }
+TToTripletElementConfiguration >> hideEnd: aBoolean [
+
+	hideEnd := aBoolean
+]
+
+{ #category : #'t - triplet element accessing' }
+TToTripletElementConfiguration >> hideMiddle [
+
+	^ hideMiddle
+]
+
+{ #category : #'t - triplet element accessing' }
+TToTripletElementConfiguration >> hideMiddle: aBoolean [
+
+	hideMiddle := aBoolean
+]
+
+{ #category : #'t - triplet element accessing' }
+TToTripletElementConfiguration >> hideStart [
+
+	^ hideStart
+]
+
+{ #category : #'t - triplet element accessing' }
+TToTripletElementConfiguration >> hideStart: aBoolean [
+
+	hideStart := aBoolean
+]
+
+{ #category : #'t - triplet element configuration' }
+TToTripletElementConfiguration >> initializeAsTripletElementConfiguration [
+
+	hideStart := false.
+	hideMiddle := false.
+	hideEnd := false.
+	startFlexible := false.
+	endFlexible := false.
+	startInterspace := 0.
+	endInterspace := 0.
+	canHidePart := false
+]
+
+{ #category : #'t - triplet element configuration' }
+TToTripletElementConfiguration >> middleChildren [
+
+	^ { middleContainer }
+]
+
+{ #category : #'t - triplet element accessing' }
 TToTripletElementConfiguration >> middleContainer [
 
 	^ middleContainer
@@ -349,6 +470,18 @@ TToTripletElementConfiguration >> on: anElement resizerDo: aBlock [
 
 ]
 
+{ #category : #'t - triplet element configuration' }
+TToTripletElementConfiguration >> onInstalledTripletElementConfigurationIn: anElement [
+
+	middleContainer ifNotNil: [ BlImmutableObjectChangeError signal ].
+	middleContainer := anElement newMiddleContainer
+		                   id: #'middle-container';
+		                   yourself.
+	anElement addChild: middleContainer.
+	anElement addEventHandler: anElement defaultTripletEventHandler.
+
+]
+
 { #category : #'t - triplet element accessing' }
 TToTripletElementConfiguration >> startAlignment [
 
@@ -360,6 +493,15 @@ TToTripletElementConfiguration >> startAlignment: aNumber in: anOwner [
 
 	startAlignment := aNumber.
 	self checkStartContainerIn: anOwner
+]
+
+{ #category : #'t - triplet element configuration' }
+TToTripletElementConfiguration >> startChildren [
+
+	^ Array streamContents: [ :stream |
+		  startContainer ifNotNil: [ :s | stream nextPut: s ].
+		  startGap ifNotNil: [ :s | stream nextPut: s ].
+		  startFiller ifNotNil: [ :s | stream nextPut: s ] ]
 ]
 
 { #category : #'t - triplet element accessing' }

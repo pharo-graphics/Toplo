@@ -73,7 +73,8 @@ BlSpace >> phasesManager [
 { #category : #'*Toplo' }
 BlSpace >> requestNewConfigurationPass [
 
-	self phasesManager requestNewConfigurationPass
+	self phasesManager requestNewConfigurationPass.
+	self requestNextPulse 
 ]
 
 { #category : #'*Toplo-LookAndFeel' }

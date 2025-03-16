@@ -11,36 +11,21 @@ ToTripletElementConfiguration >> applyOn: anElement [
 
 	"'applyOn: ' trace. anElement traceCr."
 
-	self configureChildrenIn: anElement.
-	self configureEndContainerIn: anElement.
-	self configureEndFillerIn: anElement.
-	self configureEndGapIn: anElement.
-	self configureStartContainerIn: anElement.
-	self configureStartFillerIn: anElement.
-	self configureStartGapIn: anElement.
-
+	self applyTripletElementConfigurationOn: anElement
 ]
 
 { #category : #initialization }
 ToTripletElementConfiguration >> initialize [ 
 
 	super initialize.
-	startFlexible := false.
-	endFlexible := false.
-	startInterspace := 0.
-	endInterspace := 0
+	self initializeAsTripletElementConfiguration
 ]
 
 { #category : #hook }
 ToTripletElementConfiguration >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	middleContainer ifNotNil: [ BlImmutableObjectChangeError signal ].
-	middleContainer := anElement newMiddleContainer
-		                   id: #'middle-container';
-		                   yourself.
-	anElement addChild: middleContainer.
-	anElement addEventHandler: anElement defaultTripletEventHandler.
+	self onInstalledTripletElementConfigurationIn: anElement
 
 ]
 

@@ -479,6 +479,14 @@ BlElement >> nextConfigurationPass: aNumber [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> notifyTripletPartVisibilityRequest: aRequest [
+
+	self childrenDo: [ :child |
+		child dispatchEvent: aRequest.
+		child notifyTripletPartVisibilityRequest: aRequest ]
+]
+
+{ #category : #'*Toplo' }
 BlElement >> onAddedInItemBarOwner: anItemBar [
 
 	anItemBar onAddedUnknownItemKind: self

@@ -138,7 +138,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 
 	menu := ToMenu new.
 	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
-	menu addItem: (ToCheckMenuItem new
+	menu addItem: (ToRadioMenuItem new
 			 label: (ToLabel text: 'Dark theme');
 			 newCheckAction: [ :evt :cbox :v |
 				 cbox space toTheme: (v
@@ -153,7 +153,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 			 label: (ToLabel text: 'Inspect');
 			 newClickAction: [ aBar space root inspect ];
 			 yourself).
-	menu addItem: (ToCheckMenuItem new
+	menu addItem: (ToRadioMenuItem new
 			 label: (ToLabel text: 'Disabled bar');
 			 newCheckReader: [ :e | e isDisabled ]
 			 writer: [ :e :v | e disabled: v ]
@@ -8251,7 +8251,7 @@ ToSandBox class >> resizerBoardFor: aBar [
 
 		{ #MatchParent. #FitContent. #Exact } do: [ :mode |
 			| cbox |
-			cbox := ToCheckbox new
+			cbox := ToRadioButton new
 				        labelText: mode asString;
 				        yourself.
 			buttons add: cbox.
@@ -8376,7 +8376,7 @@ ToSandBox class >> selectionModeChooserFor: aBar [
 		(#Single -> #single:).
 		(#Disabled -> nil) } do: [ :modeAssoc |
 		| chb |
-		chb := ToCheckbox new
+		chb := ToRadioButton new
 			       labelText: modeAssoc key asString;
 			       yourself.
 		selectionModeGroup register: chb.

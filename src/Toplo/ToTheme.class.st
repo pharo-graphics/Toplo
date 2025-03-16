@@ -29,7 +29,7 @@ ToTheme class >> defaultColorPrimary [
 { #category : #accessing }
 ToTheme class >> defaultSwitchIconHeight [
 
-	^ 14
+	^ 16
 ]
 
 { #category : #accessing }
@@ -283,11 +283,11 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty
 			   name: #'radio-checked-image'
 			   value: (ToMaterialDesignIconProvider innerImageNamed:
-					    'outlined_checkcircle')).
+					    'outlined_radiobuttonchecked')).
 		  (ToTokenProperty
 			   name: #'radio-unchecked-image'
 			   value: (ToMaterialDesignIconProvider innerImageNamed:
-					    'outlined_circle')).
+					    'outlined_radiobuttonunchecked')).
 		  (ToTokenProperty
 			   name: #'switch-checked-background'
 			   value: self defaultColorPrimary).

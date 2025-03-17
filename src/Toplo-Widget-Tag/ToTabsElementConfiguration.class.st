@@ -13,6 +13,10 @@ ToTabsElementConfiguration >> applyOn: aTabsElement [
 	super applyOn: aTabsElement.
 	aTabsElement itemBar horizontal: aTabsElement isHorizontal.
 	aTabsElement itemBar atStartSide: atStartSide.
+
+	aTabsElement isScrolling: aTabsElement isWrapping not.
+	aTabsElement uniformNodeWidth: aTabsElement isVertical.
+	aTabsElement uniformNodeHeight: true.
 	aTabsElement itemBar matchParent.
 	
 	aTabsElement isHFitContent

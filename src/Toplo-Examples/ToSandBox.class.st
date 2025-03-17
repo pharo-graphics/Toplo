@@ -192,6 +192,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	confPane addChild: uniformNodeHeightSwitch.
 
 	scrollingSwitch := ToSwitchButton new labelText: 'Scrolling'.
+	scrollingSwitch id: #scrollingSwitch.
 	scrollingSwitch startFlexible: true.
 	scrollingSwitch newCheckFeature: #isScrolling with: aBar.
 
@@ -199,8 +200,8 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	confPane addChild: scrollingSwitch.
 
 	link := wrappingSwitch newCheckFeature: #isWrapping with: aBar.
-	link onActionRunnedDo: [ :evt :bar :value |
-		scrollingSwitch disabled: value ].
+	"link onActionRunnedDo: [ :evt :bar :value |
+		scrollingSwitch disabled: value ]."
 
 	autoDistributionSwitch := ToSwitchButton new labelText:
 		                          'Auto-distribution'.
@@ -3582,12 +3583,12 @@ ToSandBox class >> example_TabsElementWithUSStates [
 
 	(self statesOfAmerica copyFrom: 1 to: 20) do: [ :l |
 		tabs addItem: (ToTabItemElement new
-				 middleElement: (ToLabel text: l);
-				fitContent;
+				 labelText: l;
 				 yourself) ].
 
 	(tabs items at: 2) disable.
 	dashBoard := self tabsElementDashBoardFor: tabs.
+	tabs items third checked: true.
 
 	dashBoard openInSpace.
 	^ tabs
@@ -8511,6 +8512,7 @@ ToSandBox class >> tabsElementDashBoardFor: aTabsElement [
 	confPane := self barConfigurationBoardFor: aTabsElement.
 	(confPane childWithId: #selectOnPressedSwitch) disable.
 	(confPane childWithId: #deselectOnPressedSwitch) disable.
+	(confPane childWithId: #scrollingSwitch) disable.
 
 	startToEndSwitch := ToSwitchButton new labelText: 'At start'.
 	startToEndSwitch newCheckFeature: #atStartSide with: aTabsElement.

@@ -13,6 +13,7 @@ ToRawSkinTabBarSelectionPlacement >> positionElement: aSelectionElement onEvent:
 	| track x y node nodeBounds trackBounds  |
 	" compute the selection element to be over the parent track element "
 	node := aSelectionElement node.
+	node space ifNil: [ ^ self ].
 	track := tabBar userData at: #'selection-track' ifAbsent: [ ^ self ].
 	nodeBounds := node measuredBounds inSpace inChild:
 		              aSelectionElement parent.

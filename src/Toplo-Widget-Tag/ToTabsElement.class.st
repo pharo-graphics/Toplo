@@ -97,27 +97,13 @@ ToTabsElement >> group [
 { #category : #initialization }
 ToTabsElement >> initialize [
 
-	| container |
 	super initialize.
 	self initializeAsItemBarOwner.
-	self initializeInvisibleNodesMenu.
-
-	self startElement: self newBaseContainer.
-	self middleElement: self itemBar.
-	container := self newBaseContainer.
-	container layout: BlLinearLayout new.
-	endExtraContainer := self newBaseContainer.
-	container addChild: invisibleNodesMenu.
-	container addChild: endExtraContainer.
-	self endElement: container.
-	self endContainer layout: BlLinearLayout new.
-	endExtraContainer constraintsDo: [ :c |
-		c linear horizontal alignCenter.
-		c linear vertical alignCenter ].
+	self initializeParts.
 
 	self group
 		addEventHandlerOn: ToCheckableGroupChangedEvent
-		do: [ :event | self dispatchEvent: event ].
+		do: [ :event | self dispatchEvent: event copy ].
 
 	self itemBar
 		addEventHandlerOn: ToListSelectionChangedEvent
@@ -136,6 +122,25 @@ ToTabsElement >> initializeInvisibleNodesMenu [
 		c linear horizontal alignCenter.
 		c linear vertical alignCenter ].
 
+]
+
+{ #category : #initialization }
+ToTabsElement >> initializeParts [
+
+	| container |
+	self initializeInvisibleNodesMenu.
+	self startElement: self newBaseContainer.
+	self middleElement: self itemBar.
+	container := self newBaseContainer.
+	container layout: BlLinearLayout new.
+	endExtraContainer := self newBaseContainer.
+	container addChild: invisibleNodesMenu.
+	container addChild: endExtraContainer.
+	self endElement: container.
+	self endContainer layout: BlLinearLayout new.
+	endExtraContainer constraintsDo: [ :c |
+		c linear horizontal alignCenter.
+		c linear vertical alignCenter ]
 ]
 
 { #category : #accessing }

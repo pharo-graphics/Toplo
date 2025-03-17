@@ -15,8 +15,7 @@ ToMultiSelectIconContainer >> initialize [
 	super initialize.
 	selectedCountLabel := ToLabel new.
 	selectedCountLabel constraintsDo: [ :c | c linear vertical alignCenter ].
-	self startElement: selectedCountLabel.
-	self startContainer padding: (BlInsets left: 2)
+	self startElement: selectedCountLabel
 ]
 
 { #category : #accessing }

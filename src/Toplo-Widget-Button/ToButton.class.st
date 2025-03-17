@@ -57,6 +57,13 @@ ToButton >> icon: anElement [
 	self iconDo: [ :ic | ic addStamp: #'parent-button' withValue: self ]
 ]
 
+{ #category : #initialization }
+ToButton >> initialize [ 
+
+	super initialize.
+	self initializeAsTripletElement
+]
+
 { #category : #'t - labeled icon' }
 ToButton >> label: anElement [
 

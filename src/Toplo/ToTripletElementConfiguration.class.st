@@ -21,24 +21,12 @@ ToTripletElementConfiguration >> initialize [
 	self initializeAsTripletElementConfiguration
 ]
 
-{ #category : #hook }
-ToTripletElementConfiguration >> onInstalledIn: anElement [
-
-	super onInstalledIn: anElement.
-	self onInstalledTripletElementConfigurationIn: anElement
-
-]
-
 { #category : #dependencies }
 ToTripletElementConfiguration >> release [ 
 
 	super release.
-	startContainer := nil.
-	middleContainer := nil.
-	endContainer := nil.
 	startFiller := nil.
 	endFiller := nil.
-	startElement := nil.
-	middleElement := nil.
-	endElement := nil
+	endGap := nil.
+	startGap := nil
 ]

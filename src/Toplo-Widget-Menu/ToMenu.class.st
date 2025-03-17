@@ -183,7 +183,7 @@ ToMenu >> newItemBar [
 	^ ToMenuItemBarElement new
 ]
 
-{ #category : #accessing }
+{ #category : #skin }
 ToMenu >> newRawSkin [ 
 
 	^ ToMenuSkin new

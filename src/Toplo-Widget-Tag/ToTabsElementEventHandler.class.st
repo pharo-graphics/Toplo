@@ -19,5 +19,5 @@ ToTabsElementEventHandler >> layoutResizerChangedEvent: anEvent [
 { #category : #'element events handling' }
 ToTabsElementEventHandler >> visibleTabsChanged: anEvent [
 
-	anEvent currentTarget checkNodeMenu
+	anEvent currentTarget checkInvisibleNodesMenu
 ]

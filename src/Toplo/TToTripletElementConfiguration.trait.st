@@ -1,14 +1,8 @@
 Trait {
 	#name : #TToTripletElementConfiguration,
 	#instVars : [
-		'startContainer',
-		'middleContainer',
-		'endContainer',
 		'startFiller',
 		'endFiller',
-		'startElement',
-		'middleElement',
-		'endElement',
 		'startFlexible',
 		'endFlexible',
 		'endGap',
@@ -52,30 +46,6 @@ TToTripletElementConfiguration >> canHidePart: aBoolean [
 ]
 
 { #category : #'t - triplet element configuration' }
-TToTripletElementConfiguration >> checkEndContainerIn: anElement [
-
-	endContainer ifNotNil: [ ^ self ].
-	endContainer := anElement newBaseContainer
-		                  id: #'end-container';
-		                  yourself.
-	anElement addChild: endContainer.
-	self configureChildrenIn: anElement.
-	self configureEndContainerIn: anElement
-]
-
-{ #category : #'t - triplet element configuration' }
-TToTripletElementConfiguration >> checkStartContainerIn: anElement [
-
-	startContainer ifNotNil: [ ^ self ].
-	startContainer := anElement newBaseContainer
-		                  id: #'start-container';
-		                  yourself.
-	anElement addChild: startContainer at: 1.
-	self configureChildrenIn: anElement.
-	self configureStartContainerIn: anElement
-]
-
-{ #category : #'t - triplet element configuration' }
 TToTripletElementConfiguration >> configureChildrenIn: anElement [
 
 	self configureStartElementIn: anElement.
@@ -96,16 +66,16 @@ TToTripletElementConfiguration >> configureChildrenIn: anElement [
 { #category : #'t - triplet element configuration' }
 TToTripletElementConfiguration >> configureEndContainerIn: anElement [
 
-	endContainer ifNil: [ ^ self ].
+	anElement endContainer ifNil: [ ^ self ].
 	anElement isHorizontal
 		ifTrue: [
-			self on: endContainer resizerDo: [ :c |
+			self on: anElement endContainer resizerDo: [ :c |
 				endAlignment
 					ifNil: [ c horizontal fitContent ]
 					ifNotNil: [ c horizontal exact: endAlignment ].
 				c vertical fitContent ] ]
 		ifFalse: [
-			self on: endContainer resizerDo: [ :c |
+			self on: anElement endContainer resizerDo: [ :c |
 				endAlignment
 					ifNil: [ c vertical fitContent ]
 					ifNotNil: [ c vertical exact: endAlignment ].
@@ -115,17 +85,14 @@ TToTripletElementConfiguration >> configureEndContainerIn: anElement [
 { #category : #'t - triplet element configuration' }
 TToTripletElementConfiguration >> configureEndElementIn: anElement [
 
-	endElement ifNil: [ ^ self ].
-	self checkEndContainerIn: anElement.
-	endElement parent = endContainer ifFalse: [
-		endContainer addChild: endElement ].
+	anElement endElement ifNil: [ ^ self ].
 	anElement isHorizontal
 		ifTrue: [
-			endElement constraints frame horizontal alignRight.
-			endElement constraints linear horizontal alignRight ]
+			anElement endElement constraints frame horizontal alignRight.
+			anElement endElement constraints linear horizontal alignRight ]
 		ifFalse: [
-			endElement constraints frame vertical alignBottom.
-			endElement constraints linear vertical alignBottom ]
+			anElement endElement constraints frame vertical alignBottom.
+			anElement endElement constraints linear vertical alignBottom ]
 ]
 
 { #category : #'t - triplet element configuration' }
@@ -137,7 +104,7 @@ TToTripletElementConfiguration >> configureEndFillerIn: anElement [
 				endFiller := anElement newFiller
 					               id: #'end-filler';
 					               yourself.
-				anElement addChild: endFiller after: middleContainer ].
+				anElement addChild: endFiller after: anElement middleContainer ].
 			self on: endFiller resizerDo: [ :c |
 				c vertical matchParent.
 				c horizontal matchParent ] ]
@@ -156,7 +123,7 @@ TToTripletElementConfiguration >> configureEndGapIn: anElement [
 				endGap := anElement newFiller
 					          id: #'end-gap';
 					          yourself.
-				anElement addChild: endGap after: middleContainer ].
+				anElement addChild: endGap after: anElement middleContainer ].
 			anElement isHorizontal
 				ifTrue: [
 					self on: endGap resizerDo: [ :c |
@@ -177,24 +144,24 @@ TToTripletElementConfiguration >> configureHiddenPartIn: anElement [
 
 	hideStart
 		ifTrue: [
-			self startChildren do: [ :child |
+			anElement startChildren do: [ :child |
 				child visibility: BlVisibility gone ] ]
 		ifFalse: [
-			self startChildren do: [ :child |
+			anElement startChildren do: [ :child |
 				child visibility: BlVisibility visible ] ].
 	hideMiddle
 		ifTrue: [
-			self middleChildren do: [ :child |
+			anElement middleChildren do: [ :child |
 				child visibility: BlVisibility gone ] ]
 		ifFalse: [
-			self middleChildren do: [ :child |
+			anElement middleChildren do: [ :child |
 				child visibility: BlVisibility visible ] ].
 	hideEnd
 		ifTrue: [
-			self endChildren do: [ :child |
+			anElement endChildren do: [ :child |
 				child visibility: BlVisibility gone ] ]
 		ifFalse: [
-			self endChildren do: [ :child |
+			anElement endChildren do: [ :child |
 				child visibility: BlVisibility visible ] ]
 
 ]
@@ -202,35 +169,33 @@ TToTripletElementConfiguration >> configureHiddenPartIn: anElement [
 { #category : #'t - triplet element configuration' }
 TToTripletElementConfiguration >> configureMiddleElementIn: anElement [
 
-	middleElement ifNil: [ ^ self ].
-	middleElement parent = middleContainer ifFalse: [
-		middleContainer addChild: middleElement ].
+	anElement middleElement ifNil: [ ^ self ].
 	anElement isHorizontal
 		ifTrue: [
-			middleElement constraints frame vertical alignCenter.
-			middleElement constraints linear vertical alignCenter.
-			middleElement constraints frame horizontal alignCenter.
-			middleElement constraints linear horizontal alignCenter ]
+			anElement middleElement constraints frame vertical alignCenter.
+			anElement middleElement constraints linear vertical alignCenter.
+			anElement middleElement constraints frame horizontal alignCenter.
+			anElement middleElement constraints linear horizontal alignCenter ]
 		ifFalse: [
-			middleElement constraints frame horizontal alignCenter.
-			middleElement constraints linear horizontal alignCenter.
-			middleElement constraints frame vertical alignCenter.
-			middleElement constraints linear vertical alignCenter ]
+			anElement middleElement constraints frame horizontal alignCenter.
+			anElement middleElement constraints linear horizontal alignCenter.
+			anElement middleElement constraints frame vertical alignCenter.
+			anElement middleElement constraints linear vertical alignCenter ]
 ]
 
 { #category : #'t - triplet element configuration' }
 TToTripletElementConfiguration >> configureStartContainerIn: anElement [
 
-	startContainer ifNil: [ ^ self ].
+	anElement startContainer ifNil: [ ^ self ].
 	anElement isHorizontal
 		ifTrue: [
-			self on: startContainer resizerDo: [ :c |
+			self on: anElement startContainer resizerDo: [ :c |
 				startAlignment
 					ifNil: [ c horizontal fitContent ]
 					ifNotNil: [ c horizontal exact: startAlignment ].
 				c vertical fitContent ] ]
 		ifFalse: [
-			self on: startContainer resizerDo: [ :c |
+			self on: anElement startContainer resizerDo: [ :c |
 				startAlignment
 					ifNil: [ c vertical fitContent ]
 					ifNotNil: [ c vertical exact: startAlignment ].
@@ -240,16 +205,14 @@ TToTripletElementConfiguration >> configureStartContainerIn: anElement [
 { #category : #'t - triplet element configuration' }
 TToTripletElementConfiguration >> configureStartElementIn: anElement [
 
-	startElement ifNil: [ ^ self ].
-	startElement parent = startContainer ifFalse: [
-		startContainer addChild: startElement ].
+	anElement startElement ifNil: [ ^ self ].
 	anElement isHorizontal
 		ifTrue: [
-			startElement constraints frame horizontal alignLeft.
-			startElement constraints linear horizontal alignLeft ]
+			anElement startElement constraints frame horizontal alignLeft.
+			anElement startElement constraints linear horizontal alignLeft ]
 		ifFalse: [
-			startElement constraints frame vertical alignBottom.
-			startElement constraints linear vertical alignBottom ]
+			anElement startElement constraints frame vertical alignBottom.
+			anElement startElement constraints linear vertical alignBottom ]
 ]
 
 { #category : #'t - triplet element configuration' }
@@ -261,7 +224,7 @@ TToTripletElementConfiguration >> configureStartFillerIn: anElement [
 				startFiller := anElement newFiller
 					               id: #'start-filler';
 					               yourself.
-				anElement addChild: startFiller before: middleContainer ].
+				anElement addChild: startFiller before: anElement middleContainer ].
 			self on: startFiller resizerDo: [ :c |
 				c vertical matchParent.
 				c horizontal matchParent ] ]
@@ -280,7 +243,7 @@ TToTripletElementConfiguration >> configureStartGapIn: anElement [
 				startGap := anElement newFiller
 					            id: #'start-gap';
 					            yourself.
-				anElement addChild: startGap before: middleContainer ].
+				anElement addChild: startGap before: anElement middleContainer ].
 			anElement isHorizontal
 				ifTrue: [
 					self on: startGap resizerDo: [ :c |
@@ -310,36 +273,6 @@ TToTripletElementConfiguration >> endAlignment: aNumber [
 
 ]
 
-{ #category : #'t - triplet element configuration' }
-TToTripletElementConfiguration >> endChildren [
-
-	^ Array streamContents: [ :stream |
-		  endContainer ifNotNil: [ :s | stream nextPut: s ].
-		  endGap ifNotNil: [ :s | stream nextPut: s ].
-		  endFiller ifNotNil: [ :s | stream nextPut: s ] ]
-]
-
-{ #category : #'t - triplet element accessing' }
-TToTripletElementConfiguration >> endContainer [
-
-	^ endContainer
-]
-
-{ #category : #'t - triplet element accessing' }
-TToTripletElementConfiguration >> endElement [
-
-	^ endElement
-]
-
-{ #category : #'t - triplet element accessing' }
-TToTripletElementConfiguration >> endElement: anElement in: anOwner [
-
-	endElement ifNotNil: [ :s | s removeFromParent ].
-	self checkEndContainerIn: anOwner.
-	endElement := anElement.
-	self configureEndElementIn: anOwner
-]
-
 { #category : #'t - triplet element accessing' }
 TToTripletElementConfiguration >> endFiller [
 
@@ -356,6 +289,12 @@ TToTripletElementConfiguration >> endFlexible [
 TToTripletElementConfiguration >> endFlexible: aBoolean [
 
 	endFlexible := aBoolean
+]
+
+{ #category : #'t - triplet element accessing' }
+TToTripletElementConfiguration >> endGap [
+
+	^ endGap
 ]
 
 { #category : #'t - triplet element accessing' }
@@ -409,46 +348,14 @@ TToTripletElementConfiguration >> hideStart: aBoolean [
 { #category : #'t - triplet element configuration' }
 TToTripletElementConfiguration >> initializeAsTripletElementConfiguration [
 
+	canHidePart := false.
 	hideStart := false.
 	hideMiddle := false.
 	hideEnd := false.
 	startFlexible := false.
 	endFlexible := false.
 	startInterspace := 0.
-	endInterspace := 0.
-	canHidePart := false
-]
-
-{ #category : #'t - triplet element configuration' }
-TToTripletElementConfiguration >> middleChildren [
-
-	^ { middleContainer }
-]
-
-{ #category : #'t - triplet element accessing' }
-TToTripletElementConfiguration >> middleContainer [
-
-	^ middleContainer
-]
-
-{ #category : #'t - triplet element accessing' }
-TToTripletElementConfiguration >> middleContainer: anElement [
-
-	middleContainer := anElement
-]
-
-{ #category : #'t - triplet element accessing' }
-TToTripletElementConfiguration >> middleElement [
-
-	^ middleElement
-]
-
-{ #category : #'t - triplet element accessing' }
-TToTripletElementConfiguration >> middleElement: anElement in: anOwner [
-
-	middleElement ifNotNil: [ :s | s removeFromParent ].
-	middleElement := anElement.
-	self configureMiddleElementIn: anOwner
+	endInterspace := 0
 ]
 
 { #category : #'t - triplet element configuration' }
@@ -470,18 +377,6 @@ TToTripletElementConfiguration >> on: anElement resizerDo: aBlock [
 
 ]
 
-{ #category : #'t - triplet element configuration' }
-TToTripletElementConfiguration >> onInstalledTripletElementConfigurationIn: anElement [
-
-	middleContainer ifNotNil: [ BlImmutableObjectChangeError signal ].
-	middleContainer := anElement newMiddleContainer
-		                   id: #'middle-container';
-		                   yourself.
-	anElement addChild: middleContainer.
-	anElement addEventHandler: anElement defaultTripletEventHandler.
-
-]
-
 { #category : #'t - triplet element accessing' }
 TToTripletElementConfiguration >> startAlignment [
 
@@ -489,40 +384,9 @@ TToTripletElementConfiguration >> startAlignment [
 ]
 
 { #category : #'t - triplet element accessing' }
-TToTripletElementConfiguration >> startAlignment: aNumber in: anOwner [
+TToTripletElementConfiguration >> startAlignment: aNumber [
 
-	startAlignment := aNumber.
-	self checkStartContainerIn: anOwner
-]
-
-{ #category : #'t - triplet element configuration' }
-TToTripletElementConfiguration >> startChildren [
-
-	^ Array streamContents: [ :stream |
-		  startContainer ifNotNil: [ :s | stream nextPut: s ].
-		  startGap ifNotNil: [ :s | stream nextPut: s ].
-		  startFiller ifNotNil: [ :s | stream nextPut: s ] ]
-]
-
-{ #category : #'t - triplet element accessing' }
-TToTripletElementConfiguration >> startContainer [
-
-	^ startContainer
-]
-
-{ #category : #'t - triplet element accessing' }
-TToTripletElementConfiguration >> startElement [
-
-	^ startElement
-]
-
-{ #category : #'t - triplet element accessing' }
-TToTripletElementConfiguration >> startElement: anElement in: anOwner [
-
-	startElement ifNotNil: [ :s | s removeFromParent ].
-	self checkStartContainerIn: anOwner.
-	startElement := anElement.
-	self configureStartElementIn: anOwner
+	startAlignment := aNumber
 ]
 
 { #category : #'t - triplet element accessing' }
@@ -541,6 +405,12 @@ TToTripletElementConfiguration >> startFlexible [
 TToTripletElementConfiguration >> startFlexible: aBoolean [
 
 	startFlexible := aBoolean
+]
+
+{ #category : #'t - triplet element accessing' }
+TToTripletElementConfiguration >> startGap [
+
+	^ startGap
 ]
 
 { #category : #'t - triplet element accessing' }

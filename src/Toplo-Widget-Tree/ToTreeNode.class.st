@@ -15,6 +15,7 @@ Class {
 ToTreeNode >> initialize [
 
 	super initialize.
+	self initializeAsTripletElement.
 	self applySkinInstallerOnFirstRequest: true
 ]
 
@@ -22,4 +23,10 @@ ToTreeNode >> initialize [
 ToTreeNode >> newRawSkin [ 
 	
 	^ ToTreeNodeSkin new
+]
+
+{ #category : #configuration }
+ToTreeNode >> newWidgetConfiguration [ 
+
+	^ ToTripletElementConfiguration new
 ]

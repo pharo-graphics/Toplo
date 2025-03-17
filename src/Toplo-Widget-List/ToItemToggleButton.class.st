@@ -21,11 +21,12 @@ ToItemToggleButton >> initialize [
 
 	super initialize.
 	self addEventHandler: ToClickableFocusEventHandler new.
+	self initializeAsTripletElement.
 	self initializeAsCheckable.
 	self clickEventClass: ToCheckableChangedEvent
 ]
 
-{ #category : #'instance creation' }
+{ #category : #configuration }
 ToItemToggleButton >> newWidgetConfiguration [ 
 
 	^ ToTripletElementConfiguration new

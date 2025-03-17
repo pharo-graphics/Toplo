@@ -5,17 +5,12 @@ Class {
 	#classTraits : 'TToItemListOwner classTrait',
 	#instVars : [
 		'invisibleNodes',
-		'visibleNodes'
+		'visibleNodes',
+		'invisibleNodesMenu',
+		'endExtraContainer'
 	],
 	#category : #'Toplo-Widget-Tag-Tab'
 }
-
-{ #category : #'t - triplet element - configuration' }
-ToTabsElement >> applyWidgetConfiguration [
-
-	super applyWidgetConfiguration.
-
-]
 
 { #category : #accessing }
 ToTabsElement >> atStartSide [
@@ -31,19 +26,19 @@ ToTabsElement >> atStartSide: aBoolean [
 	self requestNewConfigurationPass
 ]
 
-{ #category : #'event handling' }
-ToTabsElement >> canShowMenu [
+{ #category : #configuration }
+ToTabsElement >> canShowInvisibleNodesMenu [
 
 	^ self isWrapping not and: [
 		  invisibleNodes notNil and: [ invisibleNodes notEmpty ] ]
 ]
 
-{ #category : #'event handling' }
-ToTabsElement >> checkNodeMenu [
+{ #category : #configuration }
+ToTabsElement >> checkInvisibleNodesMenu [
 
-	self canShowMenu
-		ifTrue: [ self showNodeMenu: true ]
-		ifFalse: [ self showNodeMenu: false ]
+	self canShowInvisibleNodesMenu
+		ifTrue: [ self showInvisibleNodesMenu: true ]
+		ifFalse: [ self showInvisibleNodesMenu: false ]
 ]
 
 { #category : #initialization }
@@ -53,7 +48,7 @@ ToTabsElement >> defaultEventHandler [
 ]
 
 { #category : #initialization }
-ToTabsElement >> defaultNodeMenuBuilder [
+ToTabsElement >> defaultInvisibleNodesMenuBuilder [
 
 	^ [ :menu :request |
 	  | middlePos |
@@ -84,7 +79,7 @@ ToTabsElement >> defaultNodeMenuBuilder [
 { #category : #accessing }
 ToTabsElement >> endExtraBuilder: aValuable [
 
-	aValuable value: self widgetConfiguration endExtraContainer 
+	aValuable value: endExtraContainer 
 ]
 
 { #category : #'focus requesting' }
@@ -102,10 +97,23 @@ ToTabsElement >> group [
 { #category : #initialization }
 ToTabsElement >> initialize [
 
+	| container |
 	super initialize.
 	self initializeAsItemBarOwner.
+	self initializeInvisibleNodesMenu.
 
+	self startElement: self newBaseContainer.
 	self middleElement: self itemBar.
+	container := self newBaseContainer.
+	container layout: BlLinearLayout new.
+	endExtraContainer := self newBaseContainer.
+	container addChild: invisibleNodesMenu.
+	container addChild: endExtraContainer.
+	self endElement: container.
+	self endContainer layout: BlLinearLayout new.
+	endExtraContainer constraintsDo: [ :c |
+		c linear horizontal alignCenter.
+		c linear vertical alignCenter ].
 
 	self group
 		addEventHandlerOn: ToCheckableGroupChangedEvent
@@ -115,14 +123,31 @@ ToTabsElement >> initialize [
 		addEventHandlerOn: ToListSelectionChangedEvent
 		do: [ :event | self dispatchEvent: event copy ].
 
-	self addEventHandler: self defaultEventHandler.
-	"self initializeExtras "
+	self addEventHandler: self defaultEventHandler
+]
+
+{ #category : #initialization }
+ToTabsElement >> initializeInvisibleNodesMenu [
+
+	invisibleNodesMenu := ToTabsInvisibleItemsMenu new tabsElement: self.
+	invisibleNodesMenu builder: self defaultInvisibleNodesMenuBuilder.
+	invisibleNodesMenu visibility: BlVisibility gone.
+	invisibleNodesMenu constraintsDo: [ :c |
+		c linear horizontal alignCenter.
+		c linear vertical alignCenter ].
+
 ]
 
 { #category : #accessing }
 ToTabsElement >> invisibleNodes [ 
 
 	^ invisibleNodes 
+]
+
+{ #category : #accessing }
+ToTabsElement >> invisibleNodesMenu [ 
+
+	^ invisibleNodesMenu
 ]
 
 { #category : #testing }
@@ -157,12 +182,6 @@ ToTabsElement >> newWidgetConfiguration [
 	^ ToTabsElementConfiguration new
 ]
 
-{ #category : #accessing }
-ToTabsElement >> nodeMenu [ 
-
-	^ self widgetConfiguration nodeMenu
-]
-
 { #category : #'t - bar element' }
 ToTabsElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes [
 
@@ -175,13 +194,20 @@ ToTabsElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNod
 
 ]
 
-{ #category : #'event handling' }
-ToTabsElement >> showNodeMenu: aBoolean [
+{ #category : #configuration }
+ToTabsElement >> onWidgetConfigurationApplied [ 
 
-	self nodeMenu parentDo: [ :p |
+	super onWidgetConfigurationApplied.
+	invisibleNodesMenu requestNewSkin
+]
+
+{ #category : #configuration }
+ToTabsElement >> showInvisibleNodesMenu: aBoolean [
+
+	self invisibleNodesMenu parentDo: [ :p |
 		aBoolean
-			ifTrue: [ self nodeMenu visibility: BlVisibility visible ]
-			ifFalse: [ self nodeMenu visibility: BlVisibility gone ] ]
+			ifTrue: [ self invisibleNodesMenu visibility: BlVisibility visible ]
+			ifFalse: [ self invisibleNodesMenu visibility: BlVisibility gone ] ]
 ]
 
 { #category : #accessing }

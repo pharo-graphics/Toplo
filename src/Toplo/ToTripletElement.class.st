@@ -13,6 +13,13 @@ ToTripletElement >> defaultLayout [
 
 ]
 
+{ #category : #initialization }
+ToTripletElement >> initialize [ 
+
+	super initialize.
+	self initializeAsTripletElement
+]
+
 { #category : #skin }
 ToTripletElement >> installRawStyle [
 

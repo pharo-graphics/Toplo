@@ -30,7 +30,8 @@ ToTabsElement >> atStartSide: aBoolean [
 ToTabsElement >> canShowInvisibleNodesMenu [
 
 	^ self isWrapping not and: [
-		  invisibleNodes notNil and: [ invisibleNodes notEmpty ] ]
+		  self autoDistribute not and: [
+			  invisibleNodes notNil and: [ invisibleNodes notEmpty ] ] ]
 ]
 
 { #category : #configuration }

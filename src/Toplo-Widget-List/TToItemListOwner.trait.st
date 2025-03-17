@@ -53,7 +53,9 @@ TToItemListOwner >> autoDistribute [
 { #category : #'t - item list owner - accessing' }
 TToItemListOwner >> autoDistribute: aBoolean [
 
-	self itemBar autoDistribute: aBoolean
+	self itemBar autoDistribute = aBoolean ifTrue: [ ^ self ].
+	self itemBar autoDistribute: aBoolean.
+	self requestNewConfigurationPass 
 ]
 
 { #category : #'t - item list owner - accessing' }

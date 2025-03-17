@@ -13,7 +13,9 @@ TToTagElement >> addRemoveButton [
 	but addStamp: #'parent-tag' withValue: self.
 	but addStamp: #circle.
 	but addStamp: #iconic.
-	but icon: (ToImage inner: (self iconNamed: #windowClose)).
+	but icon: (ToImage inner: (ToMaterialDesignIconProvider innerImageNamed: 'outlined_close')).
+	but icon size: 12 asPoint.
+
 	but constraintsDo: [ :c | c linear vertical alignCenter ].
 	but newClickAction: [ self fireEvent: ToTagRemovedEvent new ].
 	but id: #removeButton.

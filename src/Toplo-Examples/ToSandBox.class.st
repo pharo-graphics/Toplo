@@ -306,7 +306,8 @@ ToSandBox class >> barWithData: aCollection [
 		but addStamp: #iconic.
 		but addStamp: #circle.
 		but addStamp: #borderless.
-		but icon: (ToImage inner: (self iconNamed: #windowClose)).
+		but icon: (ToImage inner: (ToMaterialDesignIconProvider innerImageNamed: 'outlined_close')).
+		but icon size: 12 asPoint.
 		but constraintsDo: [ :c | c linear vertical alignCenter ].
 		but newClickAction: [ 
 			holder listElement dataAccessor removeAt: holder position ].
@@ -4350,7 +4351,8 @@ ToSandBox class >> example_contactList [
 		line addChild: ToElement new matchParent.
 		remBut := ToButton new.
 		remBut withNullSkin.
-		remBut icon: (ToImage inner: (self iconNamed: #windowClose)).
+		remBut icon: (ToImage inner: (ToMaterialDesignIconProvider innerImageNamed: 'outlined_close')).
+		remBut icon size: 12 asPoint.
 		remBut constraintsDo: [ :c | c linear vertical alignCenter ].
 		remBut addEventHandler: (BlEventHandler
 				 on: BlClickEvent

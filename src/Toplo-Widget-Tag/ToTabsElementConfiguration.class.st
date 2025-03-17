@@ -13,7 +13,8 @@ Class {
 ToTabsElementConfiguration >> applyOn: aTabsElement [
 
 	super applyOn: aTabsElement.
-	
+	nodeMenu iconImage: (self menuImageIn: aTabsElement).
+	nodeMenu icon size: 20 asPoint.
 	aTabsElement itemBar horizontal: aTabsElement isHorizontal.
 	aTabsElement itemBar atStartSide: atStartSide.
 	aTabsElement itemBar matchParent.
@@ -67,6 +68,16 @@ ToTabsElementConfiguration >> initialize [
 
 ]
 
+{ #category : #hook }
+ToTabsElementConfiguration >> menuImageIn: aTabsElement [
+
+	^ aTabsElement isHorizontal
+		  ifTrue: [
+		  ToMaterialDesignIconProvider innerImageNamed: 'outlined_morehoriz' ]
+		  ifFalse: [
+		  ToMaterialDesignIconProvider innerImageNamed: 'outlined_morevert' ]
+]
+
 { #category : #accessing }
 ToTabsElementConfiguration >> nodeMenu [ 
 
@@ -76,13 +87,10 @@ ToTabsElementConfiguration >> nodeMenu [
 { #category : #hook }
 ToTabsElementConfiguration >> onInstalledIn: aTabsElement [
 
-	| menuImage container |
+	|  container |
 	super onInstalledIn: aTabsElement.
 
-	menuImage := ToMaterialDesignIconProvider innerImageNamed:
-		             'outlined_menu'.
-	nodeMenu := ToMenu new iconImage: menuImage.
-	nodeMenu icon size: 20 asPoint.
+	nodeMenu := ToMenu new
 	nodeMenu builder: aTabsElement defaultNodeMenuBuilder.
 	nodeMenu visibility: BlVisibility gone.
 

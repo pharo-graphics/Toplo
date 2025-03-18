@@ -10,7 +10,7 @@ Class {
 { #category : #'infinite event handling' }
 ToListInnerElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
 
-	anEvent currentTarget listElement dispatchEvent: anEvent
+	anEvent currentTarget listElement dispatchEvent: anEvent copy
 ]
 
 { #category : #'infinite event handling' }
@@ -42,7 +42,7 @@ ToListInnerElementEventHandler >> eventsToHandle [
 { #category : #'infinite event handling' }
 ToListInnerElementEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEvent [
 
-	anEvent currentTarget listElement dispatchEvent: anEvent 
+	anEvent currentTarget listElement dispatchEvent: anEvent copy
 ]
 
 { #category : #'infinite event handling' }
@@ -88,5 +88,5 @@ ToListInnerElementEventHandler >> infiniteElementDetachedEvent: anEvent [
 { #category : #'infinite event handling' }
 ToListInnerElementEventHandler >> infiniteScrollFinishedEvent: anEvent [
 
-	anEvent currentTarget listElement dispatchEvent: anEvent
+	anEvent currentTarget listElement dispatchEvent: anEvent copy
 ]

@@ -11,7 +11,7 @@ ToTabsInvisibleItemsMenuSkin >> installSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e iconImage: (self menuImageIn: e tabsElement).
 		e icon size: 20 asPoint.
-		e tabsElement checkInvisibleNodesMenu ]
+		e tabsElement checkInvisibleNodes ]
 ]
 
 { #category : #private }

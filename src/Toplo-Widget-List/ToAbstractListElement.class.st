@@ -298,8 +298,7 @@ ToAbstractListElement >> initialize [
 	self newHiddenSelectionMode onInstalledIn: self.
 	self newDisabledSelectionMode onInstalledIn: self.
 
-	self matchParent ".
-	self configureLayout"
+	self matchParent 
 ]
 
 { #category : #initialization }
@@ -480,8 +479,10 @@ ToAbstractListElement >> primarySelectionMode: aSelectionMode [
 { #category : #'selection updating' }
 ToAbstractListElement >> refreshAllSelections [
 
-	self selectionModes do: [ :mode |
-		self refreshModeSelectionFrom: mode ]
+	self whenLayoutedDoOnce: [
+		self selectionModes do: [ :mode |
+			self refreshModeSelectionFrom: mode ] ].
+	self requestLayout
 ]
 
 { #category : #'selection updating' }

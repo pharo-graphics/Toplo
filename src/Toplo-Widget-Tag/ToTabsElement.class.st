@@ -35,11 +35,14 @@ ToTabsElement >> canShowInvisibleNodesMenu [
 ]
 
 { #category : #configuration }
-ToTabsElement >> checkInvisibleNodesMenu [
+ToTabsElement >> checkInvisibleNodes [
 
 	self canShowInvisibleNodesMenu
 		ifTrue: [ self showInvisibleNodesMenu: true ]
-		ifFalse: [ self showInvisibleNodesMenu: false ]
+		ifFalse: [
+			self showInvisibleNodesMenu: false.
+			self nodesDo: [ :node |
+				node visibility: BlVisibility visible ] ]
 ]
 
 { #category : #initialization }
@@ -193,11 +196,15 @@ ToTabsElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNod
 
 	(theInvisibleNodes = self invisibleNodes and: [
 		 theVisibleNodes = self visibleNodes ]) ifTrue: [ ^ self ].
-	
+
 	invisibleNodes := theInvisibleNodes asArray.
 	visibleNodes := theVisibleNodes asArray.
-	self dispatchEvent: ToVisibleTabsChanged new.
-
+	visibleNodes ifNotEmpty: [ 
+		self selecter scrollTowardStartToDataSourcePosition:
+			visibleNodes first holder position ].
+	visibleNodes do: [ :n | n visibility: BlVisibility visible ].
+	invisibleNodes do: [ :n | n visibility: BlVisibility hidden ].
+	self dispatchEvent: ToVisibleTabsChanged new
 ]
 
 { #category : #configuration }

@@ -11,7 +11,7 @@ Class {
 ToTabsElementConfiguration >> applyOn: aTabsElement [
 
 	super applyOn: aTabsElement.
-	aTabsElement checkInvisibleNodesMenu.
+	aTabsElement checkInvisibleNodes.
 	aTabsElement itemBar horizontal: aTabsElement isHorizontal.
 	aTabsElement itemBar atStartSide: atStartSide.
 
@@ -43,7 +43,9 @@ ToTabsElementConfiguration >> applyOn: aTabsElement [
 
 	aTabsElement isHorizontal
 		ifTrue: [ aTabsElement endElement layout beHorizontal ]
-		ifFalse: [ aTabsElement endElement layout beVertical ]
+		ifFalse: [ aTabsElement endElement layout beVertical ].
+		
+	aTabsElement itemBar refreshAllSelections 
 ]
 
 { #category : #accessing }

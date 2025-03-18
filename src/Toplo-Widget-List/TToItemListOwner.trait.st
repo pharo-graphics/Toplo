@@ -216,6 +216,12 @@ TToItemListOwner >> newItemBar [
 	^ ToItemBarElement new
 ]
 
+{ #category : #'t - item list owner - accessing' }
+TToItemListOwner >> nodesDo: aValuable [
+
+	self itemBar nodesDo: aValuable
+]
+
 { #category : #'t - item list owner - double dispatch' }
 TToItemListOwner >> onAddedAnyItemKind: anItem [
 

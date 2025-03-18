@@ -132,7 +132,12 @@ ToCheckableData >> privateChecked: aBooleanOrIndeterminate [
 	checked := aBooleanOrIndeterminate.
 	" finally dispatch the event used to generate the state for the skin.
 	implementation note: we need this additional event for the skin.
-	This event can be used if one need to handle the look change "
+	This event can be used if one need to handle the look change or a 
+	change in a checkable group (when an item in a group is checked, 
+	the others may be unchecked according to the group strategy). If one
+	need to handle the case where a checkable is unchecked because another
+	group item is checked, then one can use this event 
+	(example: ToAccordionElement)"
 	owner dispatchEvent: (ToCheckableCheckEvent checked: checked)
 ]
 

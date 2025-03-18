@@ -531,7 +531,8 @@ ToSandBox class >> exampleAccordionListElement [
 			bodyBuilder: [ :body |
 				body addChild: (BlElement new
 							 background: (Color random alpha: 0.4);
-							 size: 50 @ 30) ] ].
+							 size: 50 @ 30).
+				body addChild: (ToLabel text: 'body ', anInteger asString ) ] ].
 	list dataAccessor addAll: (1 to: 100).
 	list withRowNumbers.
 	list matchParent.
@@ -580,7 +581,7 @@ ToSandBox class >> exampleAccordionListWithClassComments [
 		item
 			headerBuilder: [ :header |
 				header addChild:
-						(ToLabel text: cls name) preventSelectionSkinEvents ];
+						(ToLabel text: cls name) ];
 			bodyBuilder: [ :body |
 				| album |
 				body margin: (BlInsets all: 5).
@@ -746,6 +747,7 @@ ToSandBox class >> examplePaneWithAccordionsWithCheckableGroup [
 	pane layout: BlLinearLayout vertical.
 	pane hMatchParent.
 	group := ToCheckableGroup new.
+	group withWeakCheckingStrategy.
 	pane vFitContent.
 	(1 to: 5) collect: [ :i |
 		pane addChild:
@@ -2067,7 +2069,7 @@ ToSandBox class >> example_ListWithAllClassesAsCheckbox [
 	l group withoutCheckingStrategy.
 	l addAllItems: ((Smalltalk globals allClasses) collect: [ :cls |
 			 ToCheckbox new
-				 label: (ToLabel new text: cls name) preventSelectionSkinEvents;
+				 label: (ToLabel new text: cls name);
 				 hMatchParent ]).
 	l openInSpace
 ]
@@ -2080,7 +2082,7 @@ ToSandBox class >> example_ListWithAllClassesAsToggleButton [
 	l group withoutCheckingStrategy.
 	l addAllItems: ((Smalltalk globals allClasses ) collect: [ :cls |
 			 ToToggleButton new
-				 label: (ToLabel new text: cls name) preventSelectionSkinEvents;
+				 label: (ToLabel new text: cls name);
 				 hMatchParent ]).
 	l openInSpace
 ]
@@ -2126,7 +2128,7 @@ ToSandBox class >> example_ListWithAllClassesWithEmbeddedSelection [
 	l := ToListElement new.
 	l nodeBuilder: [ :node :dataItem :holder |
 		node defaultRawSkin: ToListEmbeddedNodeExampleSkin new.
-		node addChild: (ToLabel text: dataItem) withNullSkin ].
+		node addChild: (ToLabel text: dataItem) ].
 	l selectionOption withEmbeddedRepresentation.
 	l dataAccessor addAll:
 		(Smalltalk globals allClasses collect: [ :cls | cls name ]).

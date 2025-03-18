@@ -82,7 +82,7 @@ ToListSelectionRepresentationOption >> launchUpdateSelectionIn: aListElement wit
 		                      withSelectionModel: aSelectionModel.
 	(self selectionRepresentationsChangeWith: newRepresentations)
 		ifFalse: [ ^ false ].
-	" send deselected even groups is empty. 
+	" send deselected even if groups is empty. 
 	As an example, if not, if a selected node is turned as unselectable, 
 	the content of the node will not be updated correctly 
 	because the content skin will not receive the DeselectedSkinEvent "

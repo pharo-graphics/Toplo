@@ -481,10 +481,28 @@ ToAbstractListElement >> primarySelectionMode: aSelectionMode [
 ToAbstractListElement >> refreshAllSelections [
 
 	self selectionModes do: [ :mode |
-		mode selectionOption ifNotNil: [ :option |
-			option
-				refreshSelectionIn: self
-				withSelectionModel: mode selectionModel ] ]
+		self refreshModeSelectionFrom: mode ]
+]
+
+{ #category : #'selection updating' }
+ToAbstractListElement >> refreshModeSelectionFrom: aMode [
+
+	aMode selectionOption ifNotNil: [ :option |
+		option
+			refreshSelectionIn: self
+			withSelectionModel: aMode selectionModel ]
+]
+
+{ #category : #'selection updating' }
+ToAbstractListElement >> refreshPrimarySelection [
+
+	self refreshModeSelectionFrom: self selectionMode
+]
+
+{ #category : #'selection updating' }
+ToAbstractListElement >> refreshSecondarySelection [
+
+	self refreshModeSelectionFrom: self secondarySelectionMode
 ]
 
 { #category : #accessing }
@@ -624,11 +642,16 @@ ToAbstractListElement >> unselectableSelectionModel [
 { #category : #'selection updating' }
 ToAbstractListElement >> updateAllSelections [
 
-	self selectionModes do: [ :mode |
-		mode selectionOption ifNotNil: [ :option |
-			option
-				updateSelectionIn: self
-				withSelectionModel: mode selectionModel ] ]
+	self selectionModes do: [ :mode | self updateModeSelectionFrom: mode ]
+]
+
+{ #category : #'selection updating' }
+ToAbstractListElement >> updateModeSelectionFrom: aMode [
+
+	aMode selectionOption ifNotNil: [ :option |
+		option
+			updateSelectionIn: self
+			withSelectionModel: aMode selectionModel ]
 ]
 
 { #category : #'accessing selecters' }

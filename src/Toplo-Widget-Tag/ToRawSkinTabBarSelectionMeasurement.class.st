@@ -18,8 +18,7 @@ ToRawSkinTabBarSelectionMeasurement >> initialize [
 { #category : #api }
 ToRawSkinTabBarSelectionMeasurement >> onMeasure: anExtentMeasurementSpec element: anElement onEvent: anEvent [
 
-	| track |
-	track := tabBar userData at: #'selection-track' ifAbsent: [ ^ self ].
+	tabBar isWrapping ifTrue: [ ^ self ].
 	tabBar isHorizontal
 		ifTrue: [ anExtentMeasurementSpec heightSpec beExact: width]
 		ifFalse: [ anExtentMeasurementSpec widthSpec beExact: width]

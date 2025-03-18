@@ -8,19 +8,6 @@ Class {
 	#category : #'Toplo-Widget-Tag-Tab'
 }
 
-{ #category : #configuration }
-ToTabBarElement >> applyWidgetConfiguration [
-
-	super applyWidgetConfiguration.
-	self refreshAllSelections.
-	"self uniformNodeHeight: true.
-	self isVertical
-		ifTrue: [ self uniformNodeWidth: true ]
-		ifFalse: [
-		self isWrapping ifFalse: [ self uniformNodeWidth: false ] ]."
-	self requestNewSkin
-]
-
 { #category : #accessing }
 ToTabBarElement >> atStartSide [
 

@@ -48,17 +48,22 @@ TToTripletElementConfiguration >> canHidePart: aBoolean [
 { #category : #'t - triplet element configuration' }
 TToTripletElementConfiguration >> configureChildrenIn: anElement [
 
+	| allChildren |
 	self configureStartElementIn: anElement.
 	self configureMiddleElementIn: anElement.
 	self configureEndElementIn: anElement.
-
+	allChildren := Array streamContents: [ :stream |
+		               stream nextPutAll: anElement startChildren.
+		               stream nextPutAll: anElement middleChildren.
+		               stream nextPutAll: anElement endChildren ].
+	
 	anElement isHorizontal
 		ifTrue: [
-			anElement childrenDo: [ :child |
+			allChildren do: [ :child |
 				child constraints linear vertical alignCenter.
 				child constraints frame vertical alignCenter ] ]
 		ifFalse: [
-			anElement childrenDo: [ :child |
+			allChildren do: [ :child |
 				child constraints linear horizontal alignCenter.
 				child constraints frame horizontal alignCenter ] ]
 ]

@@ -45,7 +45,8 @@ ToTabsElementConfiguration >> applyOn: aTabsElement [
 		ifTrue: [ aTabsElement endElement layout beHorizontal ]
 		ifFalse: [ aTabsElement endElement layout beVertical ].
 		
-	aTabsElement itemBar refreshAllSelections 
+	aTabsElement itemBar refreshAllSelections.
+	aTabsElement requestNewSkin
 ]
 
 { #category : #accessing }

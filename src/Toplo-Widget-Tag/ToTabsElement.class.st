@@ -134,7 +134,9 @@ ToTabsElement >> initializeParts [
 	| container |
 	self initializeInvisibleNodesMenu.
 	self startElement: self newBaseContainer.
+	self startContainer constraintsDo: [ :c | c vertical matchParent ].
 	self middleElement: self itemBar.
+	self middleContainer clipChildren: false.
 	container := self newBaseContainer.
 	container layout: BlLinearLayout new.
 	endExtraContainer := self newBaseContainer.
@@ -199,11 +201,11 @@ ToTabsElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNod
 
 	invisibleNodes := theInvisibleNodes asArray.
 	visibleNodes := theVisibleNodes asArray.
-	visibleNodes ifNotEmpty: [ 
+	"visibleNodes ifNotEmpty: [ 
 		self selecter scrollTowardStartToDataSourcePosition:
-			visibleNodes first holder position ].
-	visibleNodes do: [ :n | n visibility: BlVisibility visible ].
-	invisibleNodes do: [ :n | n visibility: BlVisibility hidden ].
+			visibleNodes first holder position ]."
+	"visibleNodes do: [ :n | n visibility: BlVisibility visible ].
+	invisibleNodes do: [ :n | n visibility: BlVisibility hidden ]."
 	self dispatchEvent: ToVisibleTabsChanged new
 ]
 

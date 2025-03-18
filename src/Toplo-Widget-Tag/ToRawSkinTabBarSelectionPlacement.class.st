@@ -10,22 +10,24 @@ Class {
 { #category : #'api - displaying' }
 ToRawSkinTabBarSelectionPlacement >> positionElement: aSelectionElement onEvent: anEvent context: aBlElementBoundsUpdateContext [
 
-	| track x y node nodeBounds trackBounds  |
+	| x y node nodeBounds |
+	tabBar isWrapping ifTrue: [ ^ self ].
 	" compute the selection element to be over the parent track element "
 	node := aSelectionElement node.
 	node space ifNil: [ ^ self ].
-	track := tabBar userData at: #'selection-track' ifAbsent: [ ^ self ].
 	nodeBounds := node measuredBounds inSpace inChild:
 		              aSelectionElement parent.
-	trackBounds := track measuredBounds inSpace inChild:
-		               aSelectionElement parent.
 	tabBar isHorizontal
 		ifTrue: [
 			x := nodeBounds position x.
-			y := trackBounds position y ]
+			y := tabBar atStartSide
+				     ifTrue: [ nodeBounds bottom - aSelectionElement measuredHeight]
+				     ifFalse: [ nodeBounds top ] ]
 		ifFalse: [
-			x := trackBounds position x.
-			y := nodeBounds position y ].
+			y := nodeBounds position y.
+			x := tabBar atStartSide
+				     ifTrue: [ nodeBounds right - aSelectionElement measuredWidth]
+				     ifFalse: [ nodeBounds left ] ].
 
 	aSelectionElement position: x @ y
 ]

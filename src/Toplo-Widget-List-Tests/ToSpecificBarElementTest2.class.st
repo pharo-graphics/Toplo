@@ -403,7 +403,6 @@ ToSpecificBarElementTest2 >> testSelectionWithOneNode [
 	self assert: l nodes size equals: 1.
 	self assert: l selectionModel isEmpty.
 	l selecter selectIndex: 1.
-	self assert: l selectionModel isEmpty.
 	self waitTestingSpaces.
 	self assert: l selecter selectedIndex equals: 1.
 	self assert: l selectionModel selectedIndexes equals: { 1 }

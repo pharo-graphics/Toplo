@@ -24,6 +24,7 @@ ToInstalledSkinContextTest >> testElementRemovedFromSceneGraph [
 
 	| skin e space |
 	e := ToElement new.
+	e applySkinInstallerOnFirstRequest: false.
 	space := BlSpace new.
 	space root addChild: e.
 	skin := ToSkin new.

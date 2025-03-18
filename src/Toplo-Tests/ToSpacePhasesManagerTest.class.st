@@ -8,6 +8,15 @@ Class {
 }
 
 { #category : #tests }
+ToSpacePhasesManagerTest >> testApplyAllConfigurationsIn [
+
+	space phasesManager requestNewConfigurationPass.
+	space phasesManager applyAllConfigurationsIn: space.
+	self deny: space phasesManager needConfigurationPass 
+
+]
+
+{ #category : #tests }
 ToSpacePhasesManagerTest >> testApplyAllEnqueuedStatesIn [
 
 	| e |
@@ -20,15 +29,6 @@ ToSpacePhasesManagerTest >> testApplyAllEnqueuedStatesIn [
 	self assert: e skinManager skinStateQueue nextStates size > 0.
 	space phasesManager applyAllEnqueuedStatesIn: space.
 	self assert: e skinManager skinStateQueue nextStates size equals: 0
-]
-
-{ #category : #tests }
-ToSpacePhasesManagerTest >> testApplyAllInnerConfigurationsIn [
-
-	space phasesManager requestNewConfigurationPass.
-	space phasesManager applyAllInnerConfigurationsIn: space.
-	self deny: space phasesManager needInnerConfigurationPass 
-
 ]
 
 { #category : #tests }
@@ -49,20 +49,28 @@ ToSpacePhasesManagerTest >> testCheckPhasesIn [
 ]
 
 { #category : #tests }
+ToSpacePhasesManagerTest >> testConfigurationPhaseInstalledIn [
+
+	space checkToploPhases.
+	" since space is not opened, the skin phases installation should be postponed "
+	self assert: (space phasesManager isConfigurationPhaseInstalledIn: space).
+]
+
+{ #category : #tests }
 ToSpacePhasesManagerTest >> testInitialize [
 
 	| m |
 	m := ToSpacePhasesManager new.
 	self deny: m phasesInstallationDone.
 	self assert: m needSkinInstallPass.
-	self assert: m needInnerConfigurationPass 
+	self assert: m needConfigurationPass 
 ]
 
 { #category : #tests }
-ToSpacePhasesManagerTest >> testInstalledInnerConfigurationPhaseIn [
+ToSpacePhasesManagerTest >> testInstalledConfigurationPhaseIn [
 
 	space phasesManager startPhasesIn: space.
-	self assert: ((space phasesManager installedInnerConfigurationPhaseIn: space) isKindOf: ToSpaceInnerConfigurationPhase).
+	self assert: ((space phasesManager installedConfigurationPhaseIn: space) isKindOf: ToSpaceConfigurationPhase).
 
 
 ]
@@ -84,14 +92,6 @@ ToSpacePhasesManagerTest >> testInstalledSkinStateApplicationPhaseIn [
 ]
 
 { #category : #tests }
-ToSpacePhasesManagerTest >> testIsInnerConfigurationPhaseInstalledIn [
-
-	space checkToploPhases.
-	" since space is not opened, the skin phases installation should be postponed "
-	self assert: (space phasesManager isInnerConfigurationPhaseInstalledIn: space).
-]
-
-{ #category : #tests }
 ToSpacePhasesManagerTest >> testIsSkinInstallerPhaseInstalledIn [
 
 	space checkToploPhases.
@@ -110,18 +110,18 @@ ToSpacePhasesManagerTest >> testIsSkinStateApplicationPhaseInstalledIn [
 ]
 
 { #category : #tests }
-ToSpacePhasesManagerTest >> testNeedInnerConfigurationPass [
+ToSpacePhasesManagerTest >> testNeedConfigurationPass [
 
 	| e |
 	e := ToElement new.
-	space applyAllInnerConfigurations.
-	self deny: space phasesManager needInnerConfigurationPass.
-	e requestNewConfiguration.
+	space applyAllWidgetConfigurations.
+	self deny: space phasesManager needConfigurationPass.
+	e requestNewConfigurationPass.
 	space root addChild: e.
-	self assert: space phasesManager needInnerConfigurationPass.
-	space applyAllInnerConfigurations.
+	self assert: space phasesManager needConfigurationPass.
+	space applyAllWidgetConfigurations.
 	" all configurations should have been applied "
-	self deny: space phasesManager needInnerConfigurationPass.
+	self deny: space phasesManager needConfigurationPass.
 
 	
 
@@ -160,6 +160,7 @@ ToSpacePhasesManagerTest >> testNeedSkinStateApplicationPass [
 
 	| e |
 	e := ToElement new.
+	e applySkinInstallerOnFirstRequest: false.
 	space applyAllSkinInstallers.
 	self deny: space phasesManager needSkinInstallPass.
 	self assert: space phasesManager needSkinStateApplicationPass.
@@ -224,14 +225,14 @@ ToSpacePhasesManagerTest >> testPhasesInstallationDone [
 ]
 
 { #category : #tests }
-ToSpacePhasesManagerTest >> testStartInnerConfigurationPhaseIn [
+ToSpacePhasesManagerTest >> testStartConfigurationPhaseIn [
 
 	space checkToploPhases.
 	space phasesManager onUninstalledIn: space.
 	" here nothing is installed nor postponed"
 	space phasesManager startSkinInstallerPhaseIn: space.
-	space phasesManager startInnerConfigurationPhaseIn: space.
-	self assert: (space phasesManager isInnerConfigurationPhaseInstalledIn: space)
+	space phasesManager startConfigurationPhaseIn: space.
+	self assert: (space phasesManager isConfigurationPhaseInstalledIn: space)
 ]
 
 { #category : #tests }
@@ -267,16 +268,16 @@ ToSpacePhasesManagerTest >> testStartSkinStateApplicationPhaseIn [
 ]
 
 { #category : #tests }
-ToSpacePhasesManagerTest >> testStopInnerConfigurationPhaseIn [
+ToSpacePhasesManagerTest >> testStopConfigurationPhaseIn [
 
 	space checkToploPhases.
 	space phasesManager onUninstalledIn: space.
 	" here nothing is installed nor postponed"
 	space phasesManager startSkinInstallerPhaseIn: space.
-	space phasesManager startInnerConfigurationPhaseIn: space.
-	self assert: (space phasesManager isInnerConfigurationPhaseInstalledIn: space).
-	space phasesManager stopInnerConfigurationPhaseIn: space.
-	self deny: (space phasesManager isInnerConfigurationPhaseInstalledIn: space).
+	space phasesManager startConfigurationPhaseIn: space.
+	self assert: (space phasesManager isConfigurationPhaseInstalledIn: space).
+	space phasesManager stopConfigurationPhaseIn: space.
+	self deny: (space phasesManager isConfigurationPhaseInstalledIn: space).
 
 ]
 

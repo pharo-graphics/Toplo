@@ -1,8 +1,8 @@
 Class {
 	#name : #ToButton,
 	#superclass : #ToGeneralButton,
-	#traits : 'TToWithOrientableLayout + TToTripletElement + TToLabeledIcon + TToCheckable',
-	#classTraits : 'TToWithOrientableLayout classTrait + TToTripletElement classTrait + TToLabeledIcon classTrait + TToCheckable classTrait',
+	#traits : 'TToTripletElement + TToLabeledIcon + TToCheckable + TToOrientable',
+	#classTraits : 'TToTripletElement classTrait + TToLabeledIcon classTrait + TToCheckable classTrait + TToOrientable classTrait',
 	#category : #'Toplo-Widget-Button-Core'
 }
 
@@ -58,10 +58,10 @@ ToButton >> icon: anElement [
 ]
 
 { #category : #initialization }
-ToButton >> initialize [
+ToButton >> initialize [ 
 
 	super initialize.
-	self initializeAsTripletElementOn: self
+	self initializeAsTripletElement
 ]
 
 { #category : #'t - labeled icon' }
@@ -80,4 +80,10 @@ ToButton >> newRawSkin [
 	^ self isCheckable
 		  ifTrue: [ ToToggleButtonSkin new ]
 		  ifFalse: [ ToButtonSkin new ]
+]
+
+{ #category : #configuration }
+ToButton >> newWidgetConfiguration [ 
+
+	^ ToTripletElementConfiguration new
 ]

@@ -32,7 +32,7 @@ ToMenuItemBarElement >> initialize [
 	self isWrapping: true.
 	self fitContent.
 	self vertical: true.
-	self hasUniformNodeWidth: true.
+	self uniformNodeWidth: true.
 	self selectionOption masked: true
 ]
 

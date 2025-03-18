@@ -5,8 +5,8 @@ Basically I'm composed of three subelements a start, a middle and an end part.
 Class {
 	#name : #ToMenuItem,
 	#superclass : #ToGeneralButtonMenuItem,
-	#traits : 'TToWithOrientableLayout + TToTripletElement + TToLabeledIcon',
-	#classTraits : 'TToWithOrientableLayout classTrait + TToTripletElement classTrait + TToLabeledIcon classTrait',
+	#traits : 'TToOrientable + TToTripletElement + TToLabeledIcon + TToCheckable',
+	#classTraits : 'TToOrientable classTrait + TToTripletElement classTrait + TToLabeledIcon classTrait + TToCheckable classTrait',
 	#category : #'Toplo-Widget-Menu-Items'
 }
 
@@ -20,7 +20,7 @@ ToMenuItem >> buttonClass [
 ToMenuItem >> initialize [ 
 
 	super initialize.
-	self initializeAsTripletElementOn: self button.
+	self initializeAsTripletElement.
 	self addStamp: #'menu-item'.
 	self endElement: self newRightHandSide
 ]
@@ -45,8 +45,8 @@ ToMenuItem >> newRightHandSide [
 	^ rhs
 ]
 
-{ #category : #'t - with orientable layout - accessing' }
-ToMenuItem >> targetLayout [ 
+{ #category : #configuration }
+ToMenuItem >> newWidgetConfiguration [ 
 
-	^ self button targetLayout
+	^ ToTripletElementConfiguration new
 ]

@@ -90,6 +90,7 @@ ToButtonTest >> testClickAborted2 [
 	but matchParent.
 	but newClickAction: [ count := count + 1 ].
 	space root addChild: but.
+	self waitTestingSpaces.
 	BlSpace simulateMouseDownOn: but label.
 	BlSpace simulateMouseUpOn: but icon.
 	self waitTestingSpaces.

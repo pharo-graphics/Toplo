@@ -70,6 +70,7 @@ ToCheckboxSkin >> indeterminateSkinEvent: anEvent [
 ToCheckboxSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
+
 	anEvent elementDo: [ :e |
 		e isMenuButton ifFalse: [
 			e hasLabel

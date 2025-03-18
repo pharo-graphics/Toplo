@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuPane,
 	#superclass : #ToElement,
-	#traits : 'TToItem + TToMenuItem + TToItemListOwner + TToMenuItemListOwner + TToMenuItemContainer + TToWithOrientableLayout',
-	#classTraits : 'TToItem classTrait + TToMenuItem classTrait + TToItemListOwner classTrait + TToMenuItemListOwner classTrait + TToMenuItemContainer classTrait + TToWithOrientableLayout classTrait',
+	#traits : 'TToItem + TToMenuItem + TToItemListOwner + TToMenuItemListOwner + TToMenuItemContainer + TToOrientable',
+	#classTraits : 'TToItem classTrait + TToMenuItem classTrait + TToItemListOwner classTrait + TToMenuItemListOwner classTrait + TToMenuItemContainer classTrait + TToOrientable classTrait',
 	#instVars : [
 		'autoOpen',
 		'isSubPane'
@@ -26,18 +26,18 @@ ToMenuPane >> addMenu: aMenu [
 ]
 
 { #category : #'t - item bar owner - initializing' }
-ToMenuPane >> applyInnerConfiguration [
+ToMenuPane >> applyWidgetConfiguration [
 	" just force the resizer of the secondary direction 
 	( vertical direction in case of an horizontal bar )"
 
-	super applyInnerConfiguration.
+	super applyWidgetConfiguration.
 	self isHorizontal
 		ifTrue: [
-			self hasUniformNodeWidth: false.
+			self uniformNodeWidth: false.
 			self vFitContent.
 			self isSubPane ifTrue: [ self hFitContent ] ]
 		ifFalse: [
-			self hasUniformNodeWidth: true.
+			self uniformNodeWidth: true.
 			self hFitContent.
 			self isSubPane ifTrue: [ self vFitContent ] ].
 
@@ -49,7 +49,7 @@ ToMenuPane >> applyInnerConfiguration [
 		ifTrue: [ self itemBar vMatchParent ]
 		ifFalse: [ self itemBar vFitContent ].
 
-	self itemBar requestNewConfiguration .
+	self itemBar applyWidgetConfiguration .
 
 ]
 
@@ -87,6 +87,7 @@ ToMenuPane >> initialize [
 	autoOpen := false.
 	isSubPane := false.
 	self layout: BlLinearLayout horizontal.
+	self layout alignCenter.
 	self addEventHandler: ToMenuPaneEventHandler new.
 	self addChild: self itemBar.
 	self isWrapping: false.

@@ -6,70 +6,40 @@ Class {
 	#instVars : [
 		'invisibleNodes',
 		'visibleNodes',
-		'nodeMenu',
-		'atStartSide',
+		'invisibleNodesMenu',
 		'endExtraContainer'
 	],
 	#category : #'Toplo-Widget-Tag-Tab'
 }
 
-{ #category : #'t - triplet element - configuration' }
-ToTabsElement >> applyInnerConfiguration [
-
-	super applyInnerConfiguration.
-	self itemBar horizontal: self isHorizontal.
-	self itemBar atStartSide: atStartSide.
-	self itemBar matchParent.
-	self isHFitContent
-		ifTrue: [
-			self middleContainer constraintsDo: [ :c | c horizontal fitContent ].
-			self itemBar hFitContent ]
-		ifFalse: [
-			self middleContainer constraintsDo: [ :c |
-				c horizontal matchParent ].
-			self itemBar hMatchParent ].
-	self isVFitContent
-		ifTrue: [
-			self middleContainer constraintsDo: [ :c | c vertical fitContent ].
-			self itemBar vFitContent ]
-		ifFalse: [
-			self middleContainer constraintsDo: [ :c | c vertical matchParent ].
-			self itemBar vMatchParent ].
-
-	self isHorizontal
-		ifTrue: [ self endElement layout beHorizontal ]
-		ifFalse: [ self endElement layout beVertical ].
-
-	self checkNodeMenu
-]
-
 { #category : #accessing }
 ToTabsElement >> atStartSide [
 
-	^ atStartSide
+	^ self widgetConfiguration atStartSide
 ]
 
 { #category : #accessing }
 ToTabsElement >> atStartSide: aBoolean [
 
-	atStartSide = aBoolean ifTrue: [ ^ self ].
-	atStartSide := aBoolean.
-	self requestNewConfiguration
+	self atStartSide = aBoolean ifTrue: [ ^ self ].
+	self widgetConfiguration atStartSide: aBoolean.
+	self requestNewConfigurationPass
 ]
 
-{ #category : #'event handling' }
-ToTabsElement >> canShowMenu [
+{ #category : #configuration }
+ToTabsElement >> canShowInvisibleNodesMenu [
 
 	^ self isWrapping not and: [
-		  invisibleNodes notNil and: [ invisibleNodes notEmpty ] ]
+		  self autoDistribute not and: [
+			  invisibleNodes notNil and: [ invisibleNodes notEmpty ] ] ]
 ]
 
-{ #category : #'event handling' }
-ToTabsElement >> checkNodeMenu [
+{ #category : #configuration }
+ToTabsElement >> checkInvisibleNodesMenu [
 
-	self canShowMenu
-		ifTrue: [ self showNodeMenu: true ]
-		ifFalse: [ self showNodeMenu: false ]
+	self canShowInvisibleNodesMenu
+		ifTrue: [ self showInvisibleNodesMenu: true ]
+		ifFalse: [ self showInvisibleNodesMenu: false ]
 ]
 
 { #category : #initialization }
@@ -79,7 +49,7 @@ ToTabsElement >> defaultEventHandler [
 ]
 
 { #category : #initialization }
-ToTabsElement >> defaultNodeMenuBuilder [
+ToTabsElement >> defaultInvisibleNodesMenuBuilder [
 
 	^ [ :menu :request |
 	  | middlePos |
@@ -130,45 +100,45 @@ ToTabsElement >> initialize [
 
 	super initialize.
 	self initializeAsItemBarOwner.
-
-	atStartSide := true.
-	self middleElement: self itemBar.
+	self initializeParts.
 
 	self group
 		addEventHandlerOn: ToCheckableGroupChangedEvent
-		do: [ :event | self dispatchEvent: event ].
+		do: [ :event | self dispatchEvent: event copy ].
 
 	self itemBar
 		addEventHandlerOn: ToListSelectionChangedEvent
 		do: [ :event | self dispatchEvent: event copy ].
 
-	self addEventHandler: self defaultEventHandler.
-	self initializeExtras 
+	self addEventHandler: self defaultEventHandler
 ]
 
 { #category : #initialization }
-ToTabsElement >> initializeExtras [
+ToTabsElement >> initializeInvisibleNodesMenu [
 
-	| menuImage container |
-	menuImage := ToMaterialDesignIconProvider innerImageNamed:
-		             'outlined_menu'.
-	nodeMenu := ToMenu new iconImage: menuImage.
-	nodeMenu icon size: 20 asPoint.
-	nodeMenu builder: self defaultNodeMenuBuilder.
-	nodeMenu visibility: BlVisibility gone.
+	invisibleNodesMenu := ToTabsInvisibleItemsMenu new tabsElement: self.
+	invisibleNodesMenu builder: self defaultInvisibleNodesMenuBuilder.
+	invisibleNodesMenu visibility: BlVisibility gone.
+	invisibleNodesMenu constraintsDo: [ :c |
+		c linear horizontal alignCenter.
+		c linear vertical alignCenter ].
 
+]
+
+{ #category : #initialization }
+ToTabsElement >> initializeParts [
+
+	| container |
+	self initializeInvisibleNodesMenu.
 	self startElement: self newBaseContainer.
-
+	self middleElement: self itemBar.
 	container := self newBaseContainer.
 	container layout: BlLinearLayout new.
 	endExtraContainer := self newBaseContainer.
-	container addChild: nodeMenu.
+	container addChild: invisibleNodesMenu.
 	container addChild: endExtraContainer.
 	self endElement: container.
 	self endContainer layout: BlLinearLayout new.
-	nodeMenu constraintsDo: [ :c |
-		c linear horizontal alignCenter.
-		c linear vertical alignCenter ].
 	endExtraContainer constraintsDo: [ :c |
 		c linear horizontal alignCenter.
 		c linear vertical alignCenter ]
@@ -180,6 +150,12 @@ ToTabsElement >> invisibleNodes [
 	^ invisibleNodes 
 ]
 
+{ #category : #accessing }
+ToTabsElement >> invisibleNodesMenu [ 
+
+	^ invisibleNodesMenu
+]
+
 { #category : #testing }
 ToTabsElement >> isAtEndSide [ 
 
@@ -189,7 +165,7 @@ ToTabsElement >> isAtEndSide [
 { #category : #testing }
 ToTabsElement >> isAtStartSide [
 
-	^ atStartSide
+	^ self atStartSide
 ]
 
 { #category : #'t - item list owner - accessing' }
@@ -206,6 +182,12 @@ ToTabsElement >> newRawSkin [
 	^ ToTabsElementSkin new
 ]
 
+{ #category : #configuration }
+ToTabsElement >> newWidgetConfiguration [ 
+
+	^ ToTabsElementConfiguration new
+]
+
 { #category : #'t - bar element' }
 ToTabsElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes [
 
@@ -219,19 +201,19 @@ ToTabsElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNod
 ]
 
 { #category : #configuration }
-ToTabsElement >> requestNewConfiguration [ 
+ToTabsElement >> onWidgetConfigurationApplied [ 
 
-	super requestNewConfiguration.
-	self itemBar requestNewConfiguration
+	super onWidgetConfigurationApplied.
+	invisibleNodesMenu requestNewSkin
 ]
 
-{ #category : #'event handling' }
-ToTabsElement >> showNodeMenu: aBoolean [
+{ #category : #configuration }
+ToTabsElement >> showInvisibleNodesMenu: aBoolean [
 
-	nodeMenu parentDo: [ :p |
+	self invisibleNodesMenu parentDo: [ :p |
 		aBoolean
-			ifTrue: [ nodeMenu visibility: BlVisibility visible ]
-			ifFalse: [ nodeMenu visibility: BlVisibility gone ] ]
+			ifTrue: [ self invisibleNodesMenu visibility: BlVisibility visible ]
+			ifFalse: [ self invisibleNodesMenu visibility: BlVisibility gone ] ]
 ]
 
 { #category : #accessing }

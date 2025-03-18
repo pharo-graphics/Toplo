@@ -41,9 +41,9 @@ ToInnerBarElement >> addHolder: anHolder at: aPosition [
 ]
 
 { #category : #'t - list node holder' }
-ToInnerBarElement >> applyInnerConfiguration [
+ToInnerBarElement >> applyWidgetConfiguration [
 
-	super applyInnerConfiguration.
+	super applyWidgetConfiguration.
 	listElement isHFitContent
 		ifTrue: [ self hFitContent ]
 		ifFalse: [ self hMatchParent ].
@@ -52,7 +52,7 @@ ToInnerBarElement >> applyInnerConfiguration [
 		ifTrue: [ self vFitContent ]
 		ifFalse: [ self vMatchParent ].
 
-	trackElement applyInnerConfiguration 
+	trackElement applyWidgetConfiguration 
 ]
 
 { #category : #layout }
@@ -200,6 +200,12 @@ ToInnerBarElement >> listElement [
 ToInnerBarElement >> listElement: aListElement [
 
 	listElement := aListElement
+]
+
+{ #category : #accessing }
+ToInnerBarElement >> maxMeasuredNodeSize [
+
+	^ trackElement maxMeasuredNodeSize
 ]
 
 { #category : #'instance creation' }

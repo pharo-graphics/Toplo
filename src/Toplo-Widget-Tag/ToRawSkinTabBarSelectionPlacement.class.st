@@ -4,15 +4,16 @@ Class {
 	#instVars : [
 		'tabBar'
 	],
-	#category : #'Toplo-Widget-Tag-Tab'
+	#category : #'Toplo-Widget-Tag-Tab-RawThemeSupport'
 }
 
 { #category : #'api - displaying' }
 ToRawSkinTabBarSelectionPlacement >> positionElement: aSelectionElement onEvent: anEvent context: aBlElementBoundsUpdateContext [
 
-	| track x y node nodeBounds trackBounds |
+	| track x y node nodeBounds trackBounds  |
 	" compute the selection element to be over the parent track element "
 	node := aSelectionElement node.
+	node space ifNil: [ ^ self ].
 	track := tabBar userData at: #'selection-track' ifAbsent: [ ^ self ].
 	nodeBounds := node measuredBounds inSpace inChild:
 		              aSelectionElement parent.

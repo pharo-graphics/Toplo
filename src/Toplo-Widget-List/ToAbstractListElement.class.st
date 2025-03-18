@@ -1,8 +1,8 @@
 Class {
 	#name : #ToAbstractListElement,
 	#superclass : #ToElement,
-	#traits : 'TToListElementDecorator + TToElementWithPlaceholder + TToWithOrientableLayout',
-	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait + TToWithOrientableLayout classTrait',
+	#traits : 'TToListElementDecorator + TToElementWithPlaceholder + TToOrientable',
+	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait + TToOrientable classTrait',
 	#instVars : [
 		'next',
 		'dataSource',
@@ -51,11 +51,10 @@ ToAbstractListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 ]
 
 { #category : #configuration }
-ToAbstractListElement >> applyInnerConfiguration [
+ToAbstractListElement >> applyWidgetConfiguration [
 
-	super applyInnerConfiguration.
-	self innerElement applyInnerConfiguration.
-	self refreshAllSelections
+	super applyWidgetConfiguration.
+	self innerElement applyWidgetConfiguration
 ]
 
 { #category : #accessing }
@@ -317,6 +316,12 @@ ToAbstractListElement >> initializeInnerElement [
 	self addChild: self next
 ]
 
+{ #category : #'t - list element decorator - infinite accessing' }
+ToAbstractListElement >> innerElementDo: aValuable [
+
+	aValuable value: self innerElement
+]
+
 { #category : #testing }
 ToAbstractListElement >> isMultipleSelection [
 
@@ -476,10 +481,28 @@ ToAbstractListElement >> primarySelectionMode: aSelectionMode [
 ToAbstractListElement >> refreshAllSelections [
 
 	self selectionModes do: [ :mode |
-		mode selectionOption ifNotNil: [ :option |
-			option
-				refreshSelectionIn: self
-				withSelectionModel: mode selectionModel ] ]
+		self refreshModeSelectionFrom: mode ]
+]
+
+{ #category : #'selection updating' }
+ToAbstractListElement >> refreshModeSelectionFrom: aMode [
+
+	aMode selectionOption ifNotNil: [ :option |
+		option
+			refreshSelectionIn: self
+			withSelectionModel: aMode selectionModel ]
+]
+
+{ #category : #'selection updating' }
+ToAbstractListElement >> refreshPrimarySelection [
+
+	self refreshModeSelectionFrom: self selectionMode
+]
+
+{ #category : #'selection updating' }
+ToAbstractListElement >> refreshSecondarySelection [
+
+	self refreshModeSelectionFrom: self secondarySelectionMode
 ]
 
 { #category : #accessing }
@@ -489,13 +512,6 @@ ToAbstractListElement >> removeSelectionMode: aSelectionMode [
 		at: aSelectionMode selectionChangedEventClass
 		ifAbsent: [ Error signal: 'Selection mode not found' ].
 	selectionModeMap removeKey: aSelectionMode selectionChangedEventClass
-]
-
-{ #category : #configuration }
-ToAbstractListElement >> requestNewConfiguration [
-
-	super requestNewConfiguration.
-	self innerElement requestNewConfiguration
 ]
 
 { #category : #'accessing selecters' }
@@ -626,11 +642,16 @@ ToAbstractListElement >> unselectableSelectionModel [
 { #category : #'selection updating' }
 ToAbstractListElement >> updateAllSelections [
 
-	self selectionModes do: [ :mode |
-		mode selectionOption ifNotNil: [ :option |
-			option
-				updateSelectionIn: self
-				withSelectionModel: mode selectionModel ] ]
+	self selectionModes do: [ :mode | self updateModeSelectionFrom: mode ]
+]
+
+{ #category : #'selection updating' }
+ToAbstractListElement >> updateModeSelectionFrom: aMode [
+
+	aMode selectionOption ifNotNil: [ :option |
+		option
+			updateSelectionIn: self
+			withSelectionModel: aMode selectionModel ]
 ]
 
 { #category : #'accessing selecters' }

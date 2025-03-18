@@ -26,9 +26,9 @@ ToScrollableBarTrackElement >> addHolder: anHolder at: aPosition [
 ]
 
 { #category : #layout }
-ToScrollableBarTrackElement >> applyInnerConfiguration [
+ToScrollableBarTrackElement >> applyWidgetConfiguration [
 
-	super applyInnerConfiguration.
+	super applyWidgetConfiguration.
 	self layout: self newLayoutStrategy.
 
 	listElement isHFitContent
@@ -155,14 +155,20 @@ ToScrollableBarTrackElement >> linearLayoutClass [
 	^ ToBarLinearLayout
 ]
 
+{ #category : #accessing }
+ToScrollableBarTrackElement >> maxMeasuredNodeSize [
+
+	^ self layout maxMeasuredNodeSize
+]
+
 { #category : #layout }
 ToScrollableBarTrackElement >> newFlowLayout [
 
 	^ (self isHorizontal
 		   ifTrue: [ self flowLayoutClass horizontal ]
 		   ifFalse: [ self flowLayoutClass vertical ])
-		  hasUniformNodeWidth: listElement hasUniformNodeWidth;
-		  hasUniformNodeHeight: listElement hasUniformNodeHeight;
+		  uniformNodeWidth: listElement uniformNodeWidth;
+		  uniformNodeHeight: listElement uniformNodeHeight;
 		  yourself
 ]
 
@@ -180,8 +186,8 @@ ToScrollableBarTrackElement >> newLinearLayout [
 	^ (self isHorizontal
 		   ifTrue: [ self linearLayoutClass horizontal ]
 		   ifFalse: [ self linearLayoutClass vertical ])
-		  hasUniformNodeWidth: listElement hasUniformNodeWidth;
-		  hasUniformNodeHeight: listElement hasUniformNodeHeight;
+		  uniformNodeWidth: listElement uniformNodeWidth;
+		  uniformNodeHeight: listElement uniformNodeHeight;
 		  yourself
 ]
 

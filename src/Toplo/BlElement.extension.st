@@ -59,12 +59,6 @@ BlElement >> applyEnqueuedStatesDeeply [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> applyInnerConfiguration [
-
-	self onInnerConfigurationApplied
-]
-
-{ #category : #'*Toplo' }
 BlElement >> applySkinInstallerOnFirstRequest: aBoolean [
 
 	self skinManagerDo: [ :sm | sm  applySkinInstallerOnFirstRequest: aBoolean ]
@@ -77,6 +71,13 @@ BlElement >> applySkinInstallersDeeply [
 		child skinManagerDo: [ :sm |
 			sm applySkinUninstallerIn: child.
 			sm applySkinInstallerIn: child ] ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> applyWidgetConfiguration [
+
+	self widgetConfiguration ifNotNil: [ :tc | tc applyOn: self ].
+	self onWidgetConfigurationApplied
 ]
 
 { #category : #'*Toplo' }
@@ -93,18 +94,25 @@ BlElement >> borderBuilder [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> checkInnerConfiguration [
+BlElement >> changeWidgetConfigurationWith: aValuable [
 
-	self nextConfigurationPass = self space runningConfigurationPass
-		ifFalse: [ ^ self ].
-	self applyInnerConfiguration
+	self widgetConfigurationDo: aValuable.
+	self requestNewConfigurationPass 
 ]
 
 { #category : #'*Toplo' }
-BlElement >> checkInnerConfigurationsDeeply [
+BlElement >> checkWidgetConfigurationPass [
+
+	self nextConfigurationPass = self space runningConfigurationPass
+		ifFalse: [ ^ self ].
+	self applyWidgetConfiguration
+]
+
+{ #category : #'*Toplo' }
+BlElement >> checkWidgetConfigurationPassDeeply [
 
 	self withAllChildrenBreadthFirstDo: [ :child |
-		child checkInnerConfiguration ]
+		child checkWidgetConfigurationPass ]
 ]
 
 { #category : #'*Toplo' }
@@ -453,6 +461,12 @@ BlElement >> newTextAttributesBuilder [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> newWidgetConfiguration [
+
+	^ nil
+]
+
+{ #category : #'*Toplo' }
 BlElement >> nextConfigurationPass [
 
 	^ self userData at: #nextConfigurationPass ifAbsent: [ 0 ]
@@ -465,14 +479,17 @@ BlElement >> nextConfigurationPass: aNumber [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> onAddedInItemBarOwner: anItemBar [
+BlElement >> notifyTripletPartVisibilityRequest: aRequest [
 
-	anItemBar onAddedUnknownItemKind: self
+	self childrenDo: [ :child |
+		child dispatchEvent: aRequest.
+		child notifyTripletPartVisibilityRequest: aRequest ]
 ]
 
 { #category : #'*Toplo' }
-BlElement >> onInnerConfigurationApplied [
+BlElement >> onAddedInItemBarOwner: anItemBar [
 
+	anItemBar onAddedUnknownItemKind: self
 ]
 
 { #category : #'*Toplo' }
@@ -487,6 +504,11 @@ BlElement >> onSkinInstalled: aSkin [
 
 { #category : #'*Toplo' }
 BlElement >> onSkinUninstalled: aSkin [
+]
+
+{ #category : #'*Toplo' }
+BlElement >> onWidgetConfigurationApplied [
+
 ]
 
 { #category : #'*Toplo' }
@@ -583,12 +605,9 @@ BlElement >> removedFromMenu: aMenu [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> requestNewConfiguration [
+BlElement >> requestNewConfigurationPass [
 
 	self spaceDo: [ :sp |
-		"sp isApplyingConfigurations ifTrue: [
-			self trace. 
-			' Requesting new configuration during configuration phase' traceCr ]"
 		self nextConfigurationPass: sp nextConfigurationPass.
 		sp  requestNewConfigurationPass ]
 ]
@@ -613,6 +632,12 @@ BlElement >> requestUninstallSkin [
 		transformWith: '`@receiver requestUninstallSkin' -> '`@receiver skinManagerDo: [ :sm | sm requestUninstallSkinIn: `@receiver ]'.
 
 	self skinManagerDo: [ :sm | sm requestUninstallSkinIn: self ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> resetWidgetConfiguration [
+
+	self userData removeKey: #widgetConfiguration ifAbsent: [  ]
 ]
 
 { #category : #'*Toplo' }
@@ -815,6 +840,33 @@ BlElement >> valueOfTokenNamed: aSymbol [
 		found := sm tokenPropertyValue: aSymbol from: self ].
 	found ifNil: [ (ToElementPropertyNotFound name: aSymbol) signal ].
 	^ found
+]
+
+{ #category : #'*Toplo' }
+BlElement >> widgetConfiguration [
+
+	^ self userData at: #widgetConfiguration ifAbsentPut: [
+		  | conf |
+		  conf := self newWidgetConfiguration.
+		  conf ifNotNil: [ conf onInstalledIn: self ].
+		  conf ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> widgetConfiguration: anElementConfiguration [
+
+	self userData at: #widgetConfiguration ifPresent: [ :conf |
+		conf onUninstalledIn: self.
+		self userData removeKey: #widgetConfiguration ].
+	anElementConfiguration ifNil: [ ^ self ].
+	self userData at: #widgetConfiguration put: anElementConfiguration.
+	anElementConfiguration onInstalledIn: self
+]
+
+{ #category : #'*Toplo' }
+BlElement >> widgetConfigurationDo: aValuable [
+
+	self widgetConfiguration ifNotNil: [ :c | aValuable value: c ]
 ]
 
 { #category : #'*Toplo' }

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToInfiniteElement,
 	#superclass : #BlInfiniteElement,
-	#traits : 'TToListNodeContainer + TBlLayoutResizable + TToWithOrientableLayout',
-	#classTraits : 'TToListNodeContainer classTrait + TBlLayoutResizable classTrait + TToWithOrientableLayout classTrait',
+	#traits : 'TToListNodeContainer',
+	#classTraits : 'TToListNodeContainer classTrait',
 	#instVars : [
 		'listElement'
 	],
@@ -29,14 +29,14 @@ ToInfiniteElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 	listElement applyDataSourceSieveCommand: aDataSourceCommand
 ]
 
-{ #category : #'t - list node holder' }
-ToInfiniteElement >> applyInnerConfiguration [
+{ #category : #configuration }
+ToInfiniteElement >> applyWidgetConfiguration [
 
-	super applyInnerConfiguration.
-	self matchParent.
-	self horizontal: listElement isHorizontal.
-	listElement isHMatchParent ifFalse: [ self hFitContent ].
-	listElement isVMatchParent ifFalse: [ self vFitContent ].
+	super applyWidgetConfiguration.
+	self layout beHorizontal: self listElement isHorizontal.
+	self constraintsDo: [ :c |
+		self listElement isHMatchParent ifFalse: [ c horizontal fitContent ].
+		self listElement isVMatchParent ifFalse: [ c vertical fitContent ] ]
 ]
 
 { #category : #'t - infinite accessing' }
@@ -126,7 +126,7 @@ ToInfiniteElement >> initialize [
 
 	super initialize.
 	self addEventHandler: ToListInnerElementEventHandler new.
-	self matchParent
+	self constraintsDo: [ :c | c horizontal matchParent. c vertical matchParent ]
 ]
 
 { #category : #'t - infinite accessing' }

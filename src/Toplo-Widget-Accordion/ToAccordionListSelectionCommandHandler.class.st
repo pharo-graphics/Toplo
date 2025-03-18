@@ -35,6 +35,20 @@ ToAccordionListSelectionCommandHandler >> addWholeSelectionCommand: aCommand [
 	self addIndexesFromCommand: aCommand
 ]
 
+{ #category : #'event handling' }
+ToAccordionListSelectionCommandHandler >> listSelectionCommandAppliedEvent: aCommandAppliedEvent [
+	" entry point method that launch the command handlers "
+
+	super listSelectionCommandAppliedEvent: aCommandAppliedEvent.
+	aCommandAppliedEvent selectionModel == selectionModel ifFalse: [
+		^ self ].
+	" have to do secondary selection update because the bounds of a node 
+	change when it is checked. Then, the secondary selection have to be updated
+	but after the layout is done "
+	aCommandAppliedEvent currentTarget whenLayoutedDoOnce: [
+		aCommandAppliedEvent currentTarget refreshSecondarySelection ]
+]
+
 { #category : #'command handling' }
 ToAccordionListSelectionCommandHandler >> removeAllIndexes: anIndexCollection [
 

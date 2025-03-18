@@ -1,8 +1,8 @@
 Class {
 	#name : #ToContextMenu,
 	#superclass : #ToMenuWindow,
-	#traits : 'TToWithOrientableLayout + TToItemListOwner + TToMenuItemListOwner + TToMenuWindowModel',
-	#classTraits : 'TToWithOrientableLayout classTrait + TToItemListOwner classTrait + TToMenuItemListOwner classTrait + TToMenuWindowModel classTrait',
+	#traits : 'TToOrientable + TToItemListOwner + TToMenuItemListOwner + TToMenuWindowModel',
+	#classTraits : 'TToOrientable classTrait + TToItemListOwner classTrait + TToMenuItemListOwner classTrait + TToMenuWindowModel classTrait',
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 

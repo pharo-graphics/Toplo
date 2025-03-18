@@ -68,6 +68,12 @@ ToListSelectionOption >> grouped: aBoolean [
 	self representation: opt
 ]
 
+{ #category : #testing }
+ToListSelectionOption >> hasEmbeddedRepresentation [
+
+	^ representationOption isEmbedded 
+]
+
 { #category : #initialization }
 ToListSelectionOption >> initialize [ 
 

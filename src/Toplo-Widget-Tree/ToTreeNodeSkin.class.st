@@ -22,6 +22,7 @@ ToTreeNodeSkin >> installSkinEvent: anEvent [
 			elt addEventHandlerOn: BlClickEvent do: [ :evt |
 				evt consume.
 				wrapper toggle ] ].
+
 		e startInterspace: 15.
 		e startElement: elt ]
 ]

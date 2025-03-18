@@ -30,7 +30,9 @@ ToBarNodeExamplePart >> initializeRemoveButton [
 	| but |
 	but := ToButton new.
 	but withNullSkin.
-	but icon: (ToImage inner: (self iconNamed: #windowClose)).
+	but icon: (ToImage inner: (ToMaterialDesignIconProvider innerImageNamed: 'outlined_close')).
+	but icon size: 12 asPoint.
+
 	but constraintsDo: [ :c | c linear vertical alignCenter ].
 	but geometry: BlCircleGeometry new.
 

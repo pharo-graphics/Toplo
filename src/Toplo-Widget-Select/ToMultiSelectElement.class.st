@@ -23,9 +23,9 @@ ToMultiSelectElement >> addGroup: anObject withData: aCollection [
 ]
 
 { #category : #configuration }
-ToMultiSelectElement >> applyInnerConfiguration [ 
+ToMultiSelectElement >> applyWidgetConfiguration [ 
 
-	super applyInnerConfiguration.
+	super applyWidgetConfiguration.
 	self innerElement isWrapping: isWrapping.
 	self innerElement keepPickOrder: keepPickOrder.
 	" in case of hide selected, the picking outside handler should not be activated.
@@ -71,7 +71,7 @@ ToMultiSelectElement >> hideSelected [
 ToMultiSelectElement >> hideSelected: aBoolean [
 
 	hideSelected := aBoolean.
-	self requestNewConfiguration
+	self requestNewConfigurationPass
 ]
 
 { #category : #accessing }
@@ -111,14 +111,14 @@ ToMultiSelectElement >> isScrolling: aBoolean [
 ToMultiSelectElement >> isWrapping: aBoolean [
 
 	isWrapping := aBoolean.
-	self requestNewConfiguration 
+	self requestNewConfigurationPass 
 ]
 
 { #category : #accessing }
 ToMultiSelectElement >> keepPickOrder: aBoolean [
 
 	keepPickOrder := aBoolean.
-	self requestNewConfiguration 
+	self requestNewConfigurationPass 
 	
 ]
 
@@ -126,7 +126,7 @@ ToMultiSelectElement >> keepPickOrder: aBoolean [
 ToMultiSelectElement >> maxSelectedCount: aNumber [
 
 	maxSelectedCount := aNumber.
-	self requestNewConfiguration
+	self requestNewConfigurationPass
 ]
 
 { #category : #'instance creation' }

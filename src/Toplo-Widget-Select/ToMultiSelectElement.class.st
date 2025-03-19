@@ -3,7 +3,6 @@ Class {
 	#superclass : #ToSelectElement,
 	#instVars : [
 		'hideSelected',
-		'withCloseButton',
 		'withGroups',
 		'isWrapping',
 		'keepPickOrder',
@@ -173,22 +172,17 @@ ToMultiSelectElement >> setGroupIndex: anIndex [
 	self popupListElement groupSelecter selectIndex: anIndex
 ]
 
+{ #category : #accessing }
+ToMultiSelectElement >> tagBuilder: aValuable [
+	"aValuable takes 3 optional args: first, the node to build, second, the dataItem and third, the holder in the list element "
+
+	self innerElement tagBuilder: aValuable
+]
+
 { #category : #private }
 ToMultiSelectElement >> updateSelectedCountLabel [
 
 	self iconContainer updateSelectedCountLabel
-]
-
-{ #category : #accessing }
-ToMultiSelectElement >> withCloseButton [
-
-	^ withCloseButton ifNil: [ withCloseButton := true ]
-]
-
-{ #category : #accessing }
-ToMultiSelectElement >> withCloseButton: aBoolean [
-
-	withCloseButton := aBoolean
 ]
 
 { #category : #accessing }

@@ -6,7 +6,7 @@ Trait {
 	#category : #'Toplo-Widget-Tag-Core'
 }
 
-{ #category : #adding }
+{ #category : #'t - tag element' }
 TToTagElement >> addRemoveButton [
 
 	| ic |
@@ -16,7 +16,7 @@ TToTagElement >> addRemoveButton [
 	self endElement: ic
 ]
 
-{ #category : #accessing }
+{ #category : #'t - tag element' }
 TToTagElement >> backgroundColor: aColorOrNil [
 
 	aColorOrNil
@@ -24,13 +24,25 @@ TToTagElement >> backgroundColor: aColorOrNil [
 		ifNotNil: [ self addStamp: #backgroundColor withValue: aColorOrNil ]
 ]
 
-{ #category : #accessing }
+{ #category : #'t - tag element' }
 TToTagElement >> bordered: aBoolean [
 
-	self addStamp: #bordered withValue: aBoolean
+	self
+		deprecated: 'Use #borderless: '
+		transformWith:
+		'`@rcvr bordered: `@arg' -> '`@rcvr borderless: `@arg not'.
+	self borderless: aBoolean not
 ]
 
-{ #category : #accessing }
+{ #category : #'t - tag element' }
+TToTagElement >> borderless: aBoolean [
+
+	aBoolean
+		ifTrue: [ self addStamp: #borderless ]
+		ifFalse: [ self removeStamp: #borderless ]
+]
+
+{ #category : #'t - tag element' }
 TToTagElement >> foregroundColor: aColorOrNil [
 
 	aColorOrNil
@@ -38,7 +50,7 @@ TToTagElement >> foregroundColor: aColorOrNil [
 		ifNotNil: [ self addStamp: #foregroundColor withValue: aColorOrNil ]
 ]
 
-{ #category : #configurating }
+{ #category : #'t - tag element' }
 TToTagElement >> removable: aBoolean [
 
 	removable = aBoolean ifTrue: [ ^ self ].
@@ -46,13 +58,13 @@ TToTagElement >> removable: aBoolean [
 	self requestNewConfigurationPass
 ]
 
-{ #category : #accessing }
+{ #category : #'t - tag element' }
 TToTagElement >> removeButton [
 
 	^ self childWithId: #'remove-iconic-button' ifNone: [  ]
 ]
 
-{ #category : #adding }
+{ #category : #'t - tag element' }
 TToTagElement >> removeRemoveButton [
 
 	self endElement: nil

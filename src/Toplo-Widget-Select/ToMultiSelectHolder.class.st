@@ -33,9 +33,3 @@ ToMultiSelectHolder >> selecter [
 
 	^ self selectElement selecter
 ]
-
-{ #category : #accessing }
-ToMultiSelectHolder >> withCloseButton [
-
-	^ self selectElement withCloseButton
-]

@@ -2609,12 +2609,9 @@ ToSandBox class >> example_SelectAntDesignIconMultiFiltrable [
 
 	select filtrable: true.
 
-	select nodeBuilder: [ :node :iconDesc :holder |
-		| tag |
-		tag := ToTagElement new.
+	select tagBuilder: [ :tag :iconDesc :holder |
 		tag icon: (iconDesc icon size: 48 asPoint).
-		tag removable: true.
-		node addChild: tag ].
+		tag removable: true ].
 	select sample: select popupListElement dataAccessor first.
 
 	select hMatchParent.
@@ -2667,13 +2664,10 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 		withIconProvider: ToMaterialDesignIconProvider.
 
 
-	select nodeBuilder: [ :node :iconDesc :holder |
-		| tag |
-		tag := ToTagElement new.
+	select tagBuilder: [ :tag :iconDesc :holder |
 		tag removable: true.
-		tag bordered: false.
-		tag icon: (iconDesc icon size: 48 asPoint).
-		node addChild: tag ].
+		tag borderless: false.
+		tag icon: (iconDesc icon size: 48 asPoint) ].
 	select sample: select popupListElement dataAccessor first.
 
 	select hMatchParent.
@@ -2752,7 +2746,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 
 	select isWrapping: true.
 	select keepPickOrder: true.
-	
+
 	select popupListElement selectionOption grouped: false.
 	select popupListElement selectionOption beneath: false.
 	select popupListElement selectionOption elementFactory: [
@@ -2764,11 +2758,10 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	                 tag := ToTagElement new
 		                        labelText: stateColorAssoc key asString;
 		                        yourself.
+	                 tag borderless: true.
 	                 tag hMatchParent.
 	                 tag foregroundColor: stateColorAssoc value.
-	                 tag
-		                 addStamp: #backgroundColor
-		                 withValue:
+	                 tag backgroundColor:
 		                 (stateColorAssoc value veryMuchLighter alpha: 0.5).
 	                 tag ].
 
@@ -2776,8 +2769,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	select nodeBuilder: [ :node :stateColorAssoc :holder |
 		| tag |
 		tag := newTagFactory value: stateColorAssoc.
-		tag bordered: true.
-		node removable: true.
+		tag borderless: false.
 		tag removable: true.
 		node addChild: tag ].
 
@@ -2840,7 +2832,7 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistributionWithMax [
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
-	select windowManager anchorRoot: innerWindow root.
+	select manager anchorRoot: innerWindow root.
 	select hMatchParent.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
@@ -2976,7 +2968,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 	| select innerWindow |
 	select := ToMultiSelectElement new.
 	select isWrapping: true.
-	select withCloseButton: true.
+	select tagBuilder: [ :tag | tag removable: true ].
 	select hideSelected: true.
 	select popupListElement dataAccessor updateAllWith:
 		self statesOfAmerica.
@@ -3597,8 +3589,11 @@ ToSandBox class >> example_TagBar [
 	| tb dashBoard rootPane |
 	tb := ToTagBarElement new.
 	tb horizontal: true.
-	tb dataAccessor addAll: (ToSandBox statesOfAmerica collect: [ :s |
-			 ToSingleTag new data: s ]).
+	tb dataAccessor addAll:
+		(ToSandBox statesOfAmerica collect: [ :s | ToSingleTag new data: s ]).
+	tb tagBuilder: [ :tagElement :aStateName :holder |
+		tagElement labelText: aStateName , ' ' , holder position asString.
+		tagElement removable: true ].
 	dashBoard := self barConfigurationBoardFor: tb.
 	rootPane := ToPane horizontal.
 	rootPane padding: (BlInsets all: 5).

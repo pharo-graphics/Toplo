@@ -18,9 +18,3 @@ ToTagNodeHolder >> tagModel [
 
 	^ self dataItem
 ]
-
-{ #category : #accessing }
-ToTagNodeHolder >> withCloseButton [
-
-	^  self listElement withCloseButton
-]

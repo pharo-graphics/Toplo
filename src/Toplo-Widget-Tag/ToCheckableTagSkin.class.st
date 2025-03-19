@@ -1,6 +1,6 @@
 Class {
 	#name : #ToCheckableTagSkin,
-	#superclass : #ToTagSkin,
+	#superclass : #ToTagElementSkin,
 	#category : #'Toplo-Widget-Tag-Core'
 }
 

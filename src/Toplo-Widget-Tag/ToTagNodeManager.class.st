@@ -2,13 +2,15 @@ Class {
 	#name : #ToTagNodeManager,
 	#superclass : #ToGenericBarNodeManager,
 	#instVars : [
-		'compositeNodeBuilder'
+		'compositeNodeBuilder',
+		'tagBuilder'
 	],
 	#category : #'Toplo-Widget-Tag-Bar'
 }
 
 { #category : #'t - generic node manager' }
 ToTagNodeManager >> buildNode: aNode [ 
+
 	" tagModel can be nil for the fakeNode "
 	aNode holder tagModel ifNil: [ ^ self ].
 	aNode holder tagModel
@@ -28,7 +30,7 @@ ToTagNodeManager >> buildNode: aNode forCompositeTagModel: aTagModel [
 { #category : #'node building' }
 ToTagNodeManager >> buildNode: aNode forSingleTagModel: aTagModel [
 
-	nodeBuilder value: aNode value: aTagModel data value: aNode holder.
+	nodeBuilder cull: aNode cull: aTagModel data cull: aNode holder.
 	aNode addEventHandlerOn: ToRemoveShotEvent do: [ :event |
 		event consume.
 		event currentTarget removeFromBar ]
@@ -42,6 +44,12 @@ ToTagNodeManager >> compositeNodeBuilder: aValuable [
 ]
 
 { #category : #initialization }
+ToTagNodeManager >> constraintNode: aNode [
+
+	super constraintNode: aNode
+]
+
+{ #category : #initialization }
 ToTagNodeManager >> defaultCompositeNodeBuilder [
 
 	^ [ :node :compositeTagModel :holder |
@@ -51,15 +59,13 @@ ToTagNodeManager >> defaultCompositeNodeBuilder [
 { #category : #'t - generic node manager' }
 ToTagNodeManager >> defaultNodeBuilder [
 
-	^ [ :node :tagModel :holder |
-	  | tag |
-	  tag := ToTagElement new
-		         labelText: tagModel asString;
-		         flexible: true;
-		         hMatchParent.
-	  tag removable: holder withCloseButton.
-	  node addChild: tag.
-	  tag constraintsDo: [ :c | c linear vertical alignCenter ] ]
+	^ [ :node :data :holder |
+	  | tagElement |
+	  tagElement := ToTagElement new.
+	  tagBuilder cull: tagElement cull: data cull: holder.
+	  tagElement hMatchParent.
+	  tagElement endFlexible: true.
+	  node addChild: tagElement ]
 ]
 
 { #category : #'t - generic node manager' }
@@ -69,14 +75,34 @@ ToTagNodeManager >> defaultNodeFactory [
 ]
 
 { #category : #initialization }
-ToTagNodeManager >> initialize [ 
+ToTagNodeManager >> defaultTagBuilder [
 
-	super initialize.
-	compositeNodeBuilder := self defaultCompositeNodeBuilder
+	^ [ :tag :data :holder | tag labelText: data asString ]
 ]
 
 { #category : #initialization }
+ToTagNodeManager >> initialize [ 
+
+	super initialize.
+	compositeNodeBuilder := self defaultCompositeNodeBuilder.
+	tagBuilder := self defaultTagBuilder 
+]
+
+{ #category : #'t - generic node manager' }
 ToTagNodeManager >> newHolder [
 
 	^ ToTagNodeHolder new
+]
+
+{ #category : #'t - generic node manager' }
+ToTagNodeManager >> newNodeForHolder: aNodeHolder [
+
+	^  ToTagNode new
+]
+
+{ #category : #accessing }
+ToTagNodeManager >> tagBuilder: aValuable [
+	" a valuable takes the tag element, the data and the holder as argument "
+
+	tagBuilder := aValuable
 ]

@@ -1,9 +1,6 @@
 Class {
 	#name : #ToTagBarElement,
 	#superclass : #ToGenericBarElement,
-	#instVars : [
-		'withCloseButton'
-	],
 	#category : #'Toplo-Widget-Tag-Bar'
 }
 
@@ -65,13 +62,8 @@ ToTagBarElement >> sample: aData [
 ]
 
 { #category : #accessing }
-ToTagBarElement >> withCloseButton [
+ToTagBarElement >> tagBuilder: aValuable [
 
-	^ withCloseButton ifNil: [ withCloseButton := false ]
-]
-
-{ #category : #accessing }
-ToTagBarElement >> withCloseButton: aBoolean [
-
-	withCloseButton := aBoolean
+	self nodeManager tagBuilder: aValuable.
+	self notifyDataSourceChanged 
 ]

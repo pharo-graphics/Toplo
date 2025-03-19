@@ -1,11 +1,11 @@
 Class {
-	#name : #ToTagSkin,
+	#name : #ToTagElementSkin,
 	#superclass : #ToRawSkin,
 	#category : #'Toplo-Widget-Tag-Core'
 }
 
 { #category : #'event handling' }
-ToTagSkin >> disabledSkinEvent: anEvent [
+ToTagElementSkin >> disabledSkinEvent: anEvent [
 
 	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -20,37 +20,38 @@ ToTagSkin >> disabledSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToTagSkin >> enabledSkinEvent: anEvent [
+ToTagElementSkin >> enabledSkinEvent: anEvent [
 
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		| backgroundColor foregroundColor defaultTokn |
-		defaultTokn := #'border-color-primary-selection'.
+		| backgroundColor foregroundColor defaultToken |
+		defaultToken := #'border-color-primary-selection'.
 		e
 			withStamp: #foregroundColor
 			do: [ :v | foregroundColor := v ]
-			ifNone: [ foregroundColor := e valueOfTokenNamed: defaultTokn ].
-		defaultTokn := #'color-primary-selection-unfocused'.
+			ifNone: [ foregroundColor := e valueOfTokenNamed: defaultToken ].
+		defaultToken := #'color-primary-selection-unfocused'.
 		e
 			withStamp: #backgroundColor
 			do: [ :v | backgroundColor := v ]
-			ifNone: [ backgroundColor := e valueOfTokenNamed: defaultTokn ].
+			ifNone: [ backgroundColor := e valueOfTokenNamed: defaultToken ].
 
 		e background: backgroundColor.
-		
-		e withStamp: #bordered do: [ :v |
-			v
-				ifTrue: [
-					e border: (BlBorder
-							 paint: foregroundColor
-							 width: (e valueOfTokenNamed: #'line-width')) ]
-				ifFalse: [ e border: BlBorder empty ] ].
+		e labelDo: [ :lab |
+			lab addStamp: #foreground withValue: foregroundColor ].
+		e endElementDo: [ :ic | 
+			ic addStamp: #color withValue: foregroundColor ].
 
-		e labelDo: [ :lab | lab defaultRawSkin: ToTagLabelSkin new ] ]
+		(e hasStamp: #borderless)
+			ifTrue: [ e border: BlBorder empty ]
+			ifFalse: [
+				e border: (BlBorder
+						 paint: foregroundColor
+						 width: (e valueOfTokenNamed: #'line-width')) ] ]
 ]
 
 { #category : #'event handling' }
-ToTagSkin >> installSkinEvent: anEvent [
+ToTagElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e | 

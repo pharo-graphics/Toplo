@@ -1,10 +1,13 @@
 Class {
 	#name : #ToIconicButtonSkin,
 	#superclass : #ToRawSkin,
+	#instVars : [
+		'color'
+	],
 	#category : #'Toplo-Widget-Button-Iconic'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event handling' }
 ToIconicButtonSkin >> deselectedSkinEvent: anEvent [
 
 	super deselectedSkinEvent: anEvent.
@@ -12,11 +15,10 @@ ToIconicButtonSkin >> deselectedSkinEvent: anEvent [
 	anEvent selectionMode selectionOption isMasked ifTrue: [ ^ self ].
 	anEvent selectionMode selectionOption hasEmbeddedRepresentation
 		ifTrue: [ ^ self ].
-	anEvent elementDo: [ :e |
-		e innerImageColor: (e valueOfTokenNamed: #'color-text') ]
+	anEvent elementDo: [ :e | e innerImageColor: color ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event handling' }
 ToIconicButtonSkin >> disabledSkinEvent: anEvent [
 
 	super disabledSkinEvent: anEvent.
@@ -24,15 +26,14 @@ ToIconicButtonSkin >> disabledSkinEvent: anEvent [
 		e innerImageColor: (e valueOfTokenNamed: #'color-text-disabled') ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event handling' }
 ToIconicButtonSkin >> enabledSkinEvent: anEvent [
 
 	super enabledSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e innerImageColor: (e valueOfTokenNamed: #'color-text') ]
+	anEvent elementDo: [ :e | e innerImageColor: color ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event handling' }
 ToIconicButtonSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
@@ -44,17 +45,21 @@ ToIconicButtonSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
+		e
+			withStamp: #color
+			do: [ :v | color := v ]
+			ifNone: [ color := e valueOfTokenNamed: #'color-text' ].
 		e size: (e valueOfTokenNamed: #'font-size') asPoint ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event handling' }
 ToIconicButtonSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e | e mouseCursor: Cursor normal ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event handling' }
 ToIconicButtonSkin >> selectedSkinEvent: anEvent [
 
 	super selectedSkinEvent: anEvent.
@@ -64,10 +69,10 @@ ToIconicButtonSkin >> selectedSkinEvent: anEvent [
 		ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e |
 		| foreground |
-		anEvent focused
-			ifTrue: [
-			foreground := e valueOfTokenNamed: #'label-selected-focused' ]
-			ifFalse: [
-			foreground := e valueOfTokenNamed: #'label-selected-unfocused' ].
+		foreground := anEvent focused
+			              ifTrue: [
+			              e valueOfTokenNamed: #'label-selected-focused' ]
+			              ifFalse: [
+			              e valueOfTokenNamed: #'label-selected-unfocused' ].
 		e innerImageColor: foreground ]
 ]

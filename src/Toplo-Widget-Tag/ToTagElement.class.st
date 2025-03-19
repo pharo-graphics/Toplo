@@ -6,13 +6,14 @@ Class {
 	#category : #'Toplo-Widget-Tag-Core'
 }
 
-{ #category : #configurating }
+{ #category : #configuration }
 ToTagElement >> applyWidgetConfiguration [ 
 
 	super applyWidgetConfiguration.
 	removable
 		ifTrue: [ self addRemoveButton ]
-		ifFalse: [ self removeRemoveButton ]
+		ifFalse: [ self removeRemoveButton ].
+	self requestNewSkin 
 ]
 
 { #category : #'t - labeled icon' }
@@ -52,7 +53,7 @@ ToTagElement >> newRawSkin [
 
 	^ self isCheckable
 		  ifTrue: [ ToCheckableTagSkin new ]
-		  ifFalse: [ ToTagSkin new ]
+		  ifFalse: [ ToTagElementSkin new ]
 ]
 
 { #category : #accessing }

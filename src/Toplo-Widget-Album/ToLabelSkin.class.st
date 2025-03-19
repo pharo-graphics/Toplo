@@ -1,6 +1,9 @@
 Class {
 	#name : #ToLabelSkin,
 	#superclass : #ToRawSkin,
+	#instVars : [
+		'foreground'
+	],
 	#category : #'Toplo-Widget-Album-Label'
 }
 
@@ -12,10 +15,8 @@ ToLabelSkin >> deselectedSkinEvent: anEvent [
 	anEvent selectionMode selectionOption isMasked ifTrue: [ ^ self ].
 	anEvent selectionMode selectionOption hasEmbeddedRepresentation ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e |
-		| to |
 		"e text asString trace. ' ' trace. anEvent traceCr."
-		to := e valueOfTokenNamed: #'color-text'.
-		e foreground: to ]
+		e foreground: foreground ]
 ]
 
 { #category : #'event handling' }
@@ -34,7 +35,7 @@ ToLabelSkin >> enabledSkinEvent: anEvent [
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		"e text asString trace. ' ' trace. anEvent traceCr."
-		e foreground: (e valueOfTokenNamed: #'color-text').
+		e foreground: foreground.
 		e applyStyle ]
 ]
 
@@ -44,10 +45,13 @@ ToLabelSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		"e text asString trace. ' ' trace. anEvent traceCr."
+		e withStamp: #foreground
+					do: [ :v | foreground := v ]
+					ifNone: [  foreground := e valueOfTokenNamed: #'color-text' ].
 		e textAttributesBuilder
 			defaultFontSize: (e valueOfTokenNamed: #'font-size');
 			lineSpacing: (e valueOfTokenNamed: #'line-height');
-			foreground: (e valueOfTokenNamed: #'color-text').
+			foreground: foreground.
 		e applyStyle ]
 ]
 
@@ -59,21 +63,21 @@ ToLabelSkin >> selectedSkinEvent: anEvent [
 	anEvent selectionMode selectionOption isMasked ifTrue: [ ^ self ].
 	anEvent selectionMode selectionOption hasEmbeddedRepresentation ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e |
-		| foreground |
+		| f |
 		"e text asString trace. ' ' trace. anEvent traceCr."
 		anEvent focused
 			ifTrue: [
 				e
 					withStamp: #'label-selected-focused-foreground'
-					do: [ :v | foreground := v ]
+					do: [ :v | f := v ]
 					ifNone: [
-					foreground := e valueOfTokenNamed: #'label-selected-focused' ] ]
+					f := e valueOfTokenNamed: #'label-selected-focused' ] ]
 			ifFalse: [
 				e
 					withStamp: #'label-selected-unfocused-foreground'
-					do: [ :v | foreground := v ]
+					do: [ :v | f := v ]
 					ifNone: [
-					foreground := e valueOfTokenNamed: #'label-selected-unfocused' ] ].
-		e foreground: foreground.
+					f := e valueOfTokenNamed: #'label-selected-unfocused' ] ].
+		e foreground: f.
 		e applyStyle ]
 ]

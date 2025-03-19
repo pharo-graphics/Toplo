@@ -46,12 +46,6 @@ ToMenu >> builder: aValuable [
 	builder := aValuable
 ]
 
-{ #category : #accessing }
-ToMenu >> buttonClickEventClass [
-
-	^ BlMouseDownEvent
-]
-
 { #category : #testing }
 ToMenu >> closeOnPicking [
 

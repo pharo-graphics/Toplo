@@ -29,7 +29,7 @@ ToTagNodeManager >> buildNode: aNode forCompositeTagModel: aTagModel [
 ToTagNodeManager >> buildNode: aNode forSingleTagModel: aTagModel [
 
 	nodeBuilder value: aNode value: aTagModel data value: aNode holder.
-	aNode addEventHandlerOn: ToTagRemovedEvent do: [ :event |
+	aNode addEventHandlerOn: ToRemoveShotEvent do: [ :event |
 		event consume.
 		event currentTarget removeFromBar ]
 ]

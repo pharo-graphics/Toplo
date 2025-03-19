@@ -16,10 +16,7 @@ ToListElementTest >> listWithRemoveRowButtons [
 	list nodeBuilder: [ :node :dataItem :holder |
 		| line remBut filler |
 		line := ToPane horizontal id: #row.
-		remBut := ToButton new id: #'remove-button-' , holder position asString.
-		remBut withNullSkin.
-		remBut icon: (ToImage inner: (ToMaterialDesignIconProvider innerImageNamed: 'outlined_close')).
-		remBut icon size: 12 asPoint.
+		remBut := ToRemoveIconicButton new id: #'remove-button-' , holder position asString.
 		remBut constraintsDo: [ :c | c linear vertical alignCenter ].
 		remBut addEventHandler: (BlEventHandler
 				 on: BlClickEvent

@@ -41,7 +41,7 @@ ToTagNode >> removable: aBoolean [
 { #category : #accessing }
 ToTagNode >> removeButton [ 
 
-	^ self childWithId: #removeButton ifNone: [  ]
+	^ self childWithId: #'remove-iconic-button' ifNone: [  ]
 ]
 
 { #category : #private }

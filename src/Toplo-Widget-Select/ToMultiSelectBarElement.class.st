@@ -146,6 +146,7 @@ ToMultiSelectBarElement >> maxSelectedCount: aNumber [
 ToMultiSelectBarElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes [
 
 	| visibleNodes invisibleNodes composite finalCount |
+	self isScrolling ifTrue: [ ^ self ].
 	theInvisibleNodes ifEmpty: [ ^ self ].
 	" in case of composite node at first it means that 
 	there is no more visible node to cumulate in a composite node"
@@ -223,7 +224,8 @@ ToMultiSelectBarElement >> refreshFromPopupListSelection [
 	keepPickOrder ifTrue: [
 		newTagModels sort: [ :a :b | a pickOrder < b pickOrder ] ].
 
-	" replace all in one datasource command "
+	" if the list has changed then replace all in one datasource command "
+	self dataAccessor asOrderedCollection = newTagModels ifTrue: [ ^ self ].
 	self dataAccessor updateAllWith: newTagModels.
 	self checkHideSelectionFromListElement.
 	self checkMaxSelectedCount

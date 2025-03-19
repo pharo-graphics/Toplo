@@ -316,7 +316,9 @@ TToTripletElement >> newBaseContainer [
 	^ BlElement new
 		  constraintsDo: [ :c |
 			  c horizontal fitContent.
-			  c vertical fitContent ];
+			  c vertical fitContent.
+			  c linear vertical alignCenter.
+			  c linear horizontal alignCenter ];
 		  layout: BlFrameLayout new;
 		  yourself
 ]
@@ -333,12 +335,7 @@ TToTripletElement >> newFiller [
 { #category : #'t - triplet element - instance creation' }
 TToTripletElement >> newMiddleContainer [
 
-	^ BlElement new
-		  constraintsDo: [ :c |
-			  c horizontal fitContent.
-			  c vertical fitContent ];
-		  layout: BlFrameLayout new;
-		  yourself
+	^ self newBaseContainer 
 ]
 
 { #category : #'t - triplet element - accessing' }

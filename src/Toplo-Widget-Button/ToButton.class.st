@@ -3,7 +3,7 @@ Class {
 	#superclass : #ToGeneralButton,
 	#traits : 'TToTripletElement + TToLabeledIcon + TToCheckable + TToOrientable',
 	#classTraits : 'TToTripletElement classTrait + TToLabeledIcon classTrait + TToCheckable classTrait + TToOrientable classTrait',
-	#category : #'Toplo-Widget-Button-Core'
+	#category : #'Toplo-Widget-Button-Clickable'
 }
 
 { #category : #'t - labeled icon' }

@@ -1,25 +1,19 @@
 Trait {
 	#name : #TToTagElement,
+	#instVars : [
+		'removable'
+	],
 	#category : #'Toplo-Widget-Tag-Core'
 }
 
 { #category : #adding }
 TToTagElement >> addRemoveButton [
 
-	| but |
+	| ic |
 	self removeButton ifNotNil: [ ^ self ].
-	but := ToButton new.
-	but applySkinInstallerOnFirstRequest: true.
-	but addStamp: #'parent-tag' withValue: self.
-	but addStamp: #circle.
-	but addStamp: #iconic.
-	but icon: (ToImage inner: (ToMaterialDesignIconProvider innerImageNamed: 'outlined_close')).
-	but icon size: 12 asPoint.
-
-	but constraintsDo: [ :c | c linear vertical alignCenter ].
-	but newClickAction: [ self fireEvent: ToTagRemovedEvent new ].
-	but id: #removeButton.
-	self endElement: but
+	ic := ToRemoveIconicButton new.
+	ic addStamp: #'parent-tag' withValue: self.
+	self endElement: ic
 ]
 
 { #category : #accessing }
@@ -44,35 +38,23 @@ TToTagElement >> foregroundColor: aColorOrNil [
 		ifNotNil: [ self addStamp: #foregroundColor withValue: aColorOrNil ]
 ]
 
-{ #category : #accessing }
-TToTagElement >> rawRemovable [
-
-	^ self explicitRequirement
-]
-
-{ #category : #accessing }
-TToTagElement >> rawRemovable: aBoolean [
-
-	self explicitRequirement
-]
-
 { #category : #configurating }
 TToTagElement >> removable: aBoolean [
 
-	aBoolean
-		ifTrue: [ self addRemoveButton ]
-		ifFalse: [ self removeRemoveButton ]
+	removable = aBoolean ifTrue: [ ^ self ].
+	removable := aBoolean.
+	self requestNewConfigurationPass
 ]
 
 { #category : #accessing }
 TToTagElement >> removeButton [
 
-	^ self childWithId: #removeButton ifNone: [  ]
+	^ self childWithId: #'remove-iconic-button' ifNone: [  ]
 ]
 
 { #category : #adding }
 TToTagElement >> removeRemoveButton [
 
-	self icon: nil
+	self endElement: nil
 
 ]

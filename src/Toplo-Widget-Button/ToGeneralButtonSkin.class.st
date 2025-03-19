@@ -1,7 +1,7 @@
 Class {
 	#name : #ToGeneralButtonSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Widget-Button-Core'
+	#category : #'Toplo-Widget-Button-Clickable'
 }
 
 { #category : #'event handling' }

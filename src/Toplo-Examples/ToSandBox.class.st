@@ -303,13 +303,7 @@ ToSandBox class >> barWithData: aCollection [
 				          holder position asString , ': ' , dataItem asString)
 			         fontSize: fontSize;
 			         yourself.
-		but := ToButton new.
-		but addStamp: #iconic.
-		but addStamp: #circle.
-		but addStamp: #borderless.
-		but icon: (ToImage inner: (ToMaterialDesignIconProvider innerImageNamed: 'outlined_close')).
-		but icon size: 12 asPoint.
-		but constraintsDo: [ :c | c linear vertical alignCenter ].
+		but := ToRemoveIconicButton new.
 		but newClickAction: [ 
 			holder listElement dataAccessor removeAt: holder position ].
 		triplet startElement: but.
@@ -2783,6 +2777,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 		| tag |
 		tag := newTagFactory value: stateColorAssoc.
 		tag bordered: true.
+		node removable: true.
 		tag removable: true.
 		node addChild: tag ].
 
@@ -4245,7 +4240,8 @@ ToSandBox class >> example_closeableTabs [
 		but labelText: 'Button ' , index asString.
 		but paneBuilder: [ :pane :theNoteBook | pane background: eachColor ].
 		nb addTab: but ].
-	nb openInSpace
+	nb openInSpace.
+	nb inspect
 ]
 
 { #category : #list }
@@ -4350,10 +4346,7 @@ ToSandBox class >> example_contactList [
 				 width: 200;
 				 margin: (BlInsets right: 10)).
 		line addChild: ToElement new matchParent.
-		remBut := ToButton new.
-		remBut withNullSkin.
-		remBut icon: (ToImage inner: (ToMaterialDesignIconProvider innerImageNamed: 'outlined_close')).
-		remBut icon size: 12 asPoint.
+		remBut := ToRemoveIconicButton new.
 		remBut constraintsDo: [ :c | c linear vertical alignCenter ].
 		remBut addEventHandler: (BlEventHandler
 				 on: BlClickEvent

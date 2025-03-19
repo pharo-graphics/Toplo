@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToClickable,
-	#category : #'Toplo-Widget-Button-Core'
+	#category : #'Toplo-Widget-Button-Clickable'
 }
 
 { #category : #'t - clickable' }

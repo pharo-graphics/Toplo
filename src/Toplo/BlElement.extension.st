@@ -111,7 +111,7 @@ BlElement >> checkWidgetConfigurationPass [
 { #category : #'*Toplo' }
 BlElement >> checkWidgetConfigurationPassDeeply [
 
-	self withAllChildrenBreadthFirstDo: [ :child |
+	self withAllChildrenDepthFirstDo: [ :child |
 		child checkWidgetConfigurationPass ]
 ]
 
@@ -888,4 +888,10 @@ BlElement >> withStamp: aSymbol do: aValuable ifNone: noneValuable [
 		noneValuable value.
 		^ self ].
 	aValuable value: (self valueOfStamp: aSymbol)
+]
+
+{ #category : #'*Toplo' }
+BlElement >> withStamp: aSymbol ifNone: aValuable [
+
+	self withStamp: aSymbol do: [:v | ] ifNone: aValuable
 ]

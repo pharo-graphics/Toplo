@@ -3,12 +3,17 @@ Class {
 	#superclass : #ToButton,
 	#traits : 'TToTagElement',
 	#classTraits : 'TToTagElement classTrait',
-	#instVars : [
-		'removable',
-		'withBorder'
-	],
 	#category : #'Toplo-Widget-Tag-Core'
 }
+
+{ #category : #configurating }
+ToTagElement >> applyWidgetConfiguration [ 
+
+	super applyWidgetConfiguration.
+	removable
+		ifTrue: [ self addRemoveButton ]
+		ifFalse: [ self removeRemoveButton ]
+]
 
 { #category : #'t - labeled icon' }
 ToTagElement >> icon: anElement [
@@ -22,9 +27,9 @@ ToTagElement >> icon: anElement [
 ToTagElement >> initialize [ 
 
 	super initialize.
+	self applySkinInstallerOnFirstRequest: true.
 	self takeFocusOnClick: false.
-	withBorder := true.
-	self removable: false
+	removable := false
 ]
 
 { #category : #'t - checkable  - protocol' }
@@ -51,13 +56,7 @@ ToTagElement >> newRawSkin [
 ]
 
 { #category : #accessing }
-ToTagElement >> rawRemovable [
+ToTagElement >> requestNewConfigurationPass [ 
 
-	^ removable ifNil: [ removable := false ]
-]
-
-{ #category : #accessing }
-ToTagElement >> rawRemovable: aBoolean [
-
-	removable := aBoolean
+	super requestNewConfigurationPass
 ]

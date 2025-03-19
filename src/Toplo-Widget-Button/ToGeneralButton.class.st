@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'takeFocusOnClick'
 	],
-	#category : #'Toplo-Widget-Button-Core'
+	#category : #'Toplo-Widget-Button-Clickable'
 }
 
 { #category : #initialization }

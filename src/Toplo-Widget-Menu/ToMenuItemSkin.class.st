@@ -23,18 +23,8 @@ ToMenuItemSkin >> enabledSkinEvent: anEvent [
 
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e
-			withStamp: #'parent-tag'
-			do: [ :tag |
-				e border: BlBorder empty.
-				tag
-					withStamp: #foregroundColor
-					do: [ :v | e icon innerImageColor: v ]
-					ifNone: [
-					e icon innerImageColor: (e valueOfTokenNamed: #'color-primary') ] ]
-			ifNone: [
-				e iconDo: [ :ic |
-					ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
+		e iconDo: [ :ic |
+			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
 		e endElementDo: [ :ic |
 			(ic respondsTo: #innerImageColor:) ifTrue: [
 				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
@@ -47,13 +37,13 @@ ToMenuItemSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-			e iconDo: [ :ic |
-				ic innerImageColor: (e valueOfTokenNamed: #'color-primary') ].
-			e endElementDo: [ :ic |
-				(ic respondsTo: #innerImageColor:) ifTrue: [
-					ic innerImageColor: (e valueOfTokenNamed: #'color-primary') ] ].
-			e labelDo: [ :lab |
-				lab foreground: (e valueOfTokenNamed: #'color-primary') ] ]
+		e iconDo: [ :ic |
+			ic innerImageColor: (e valueOfTokenNamed: #'color-primary') ].
+		e endElementDo: [ :ic |
+			(ic respondsTo: #innerImageColor:) ifTrue: [
+				ic innerImageColor: (e valueOfTokenNamed: #'color-primary') ] ].
+		e labelDo: [ :lab |
+			lab foreground: (e valueOfTokenNamed: #'color-primary') ] ]
 ]
 
 { #category : #'event handling' }
@@ -100,16 +90,8 @@ ToMenuItemSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e
-			withStamp: #'parent-tag'
-			do: [ :tag |
-				e border: BlBorder empty.
-				tag
-					withStamp: #foregroundColor
-					do: [ :v | e icon innerImageColor: v ] ]
-			ifNone: [
-				e iconDo: [ :ic |
-					ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
+		e iconDo: [ :ic |
+			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
 		e endElementDo: [ :ic |
 			(ic respondsTo: #innerImageColor:) ifTrue: [
 				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].

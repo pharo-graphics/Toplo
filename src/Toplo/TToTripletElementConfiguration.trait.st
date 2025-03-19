@@ -56,7 +56,7 @@ TToTripletElementConfiguration >> configureChildrenIn: anElement [
 		               stream nextPutAll: anElement startChildren.
 		               stream nextPutAll: anElement middleChildren.
 		               stream nextPutAll: anElement endChildren ].
-	
+
 	anElement isHorizontal
 		ifTrue: [
 			allChildren do: [ :child |
@@ -65,7 +65,8 @@ TToTripletElementConfiguration >> configureChildrenIn: anElement [
 		ifFalse: [
 			allChildren do: [ :child |
 				child constraints linear horizontal alignCenter.
-				child constraints frame horizontal alignCenter ] ]
+				child constraints frame horizontal alignCenter ] ].
+	anElement requestLayout
 ]
 
 { #category : #'t - triplet element configuration' }

@@ -303,7 +303,7 @@ ToSandBox class >> barWithData: aCollection [
 				          holder position asString , ': ' , dataItem asString)
 			         fontSize: fontSize;
 			         yourself.
-		but := ToRemoveIconicButton new.
+		but := ToIconicRemoveButton new.
 		but newClickAction: [ 
 			holder listElement dataAccessor removeAt: holder position ].
 		triplet startElement: but.
@@ -2968,7 +2968,9 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 	| select innerWindow |
 	select := ToMultiSelectElement new.
 	select isWrapping: true.
-	select tagBuilder: [ :tag | tag removable: true ].
+	select tagBuilder: [ :tag :stateName | 
+		tag labelText: stateName.
+		tag removable: true ].
 	select hideSelected: true.
 	select popupListElement dataAccessor updateAllWith:
 		self statesOfAmerica.
@@ -3532,6 +3534,7 @@ ToSandBox class >> example_TabsElementWithDaily [
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		tabs addItem: (ToTabItemElement new
+				 removable: true;
 				 middleElement: (ToLabel text: l);
 				 yourself) ].
 
@@ -3573,6 +3576,7 @@ ToSandBox class >> example_TabsElementWithUSStates [
 	(self statesOfAmerica copyFrom: 1 to: 20) do: [ :l |
 		tabs addItem: (ToTabItemElement new
 				 labelText: l;
+				 removable: true;
 				 yourself) ].
 
 	(tabs items at: 2) disable.
@@ -4341,7 +4345,7 @@ ToSandBox class >> example_contactList [
 				 width: 200;
 				 margin: (BlInsets right: 10)).
 		line addChild: ToElement new matchParent.
-		remBut := ToRemoveIconicButton new.
+		remBut := ToIconicRemoveButton new.
 		remBut constraintsDo: [ :c | c linear vertical alignCenter ].
 		remBut addEventHandler: (BlEventHandler
 				 on: BlClickEvent

@@ -36,11 +36,11 @@ ToInnerWindow >> defaultBarElement [
 	b addEventHandler: (BlEventHandler
 			 on: BlMouseDownEvent
 			 do: [ self toFront ]).
-	closeButton := ToRemoveIconicButton new
+	closeButton := ToIconicRemoveButton new
 		               id: #'close-button';
 		               yourself.
 	closeButton newClickAction: [ self close ].
-	expandButton := ToExpandIconicButton new
+	expandButton := ToIconicExpandButton new
 		                id: #'expand-button';
 		                yourself.
 	expandButton newClickAction: [ self maximize ].

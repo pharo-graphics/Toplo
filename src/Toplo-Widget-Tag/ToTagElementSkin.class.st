@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTagElementSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Widget-Tag-Core'
+	#category : #'Toplo-Widget-Tag-Tag'
 }
 
 { #category : #'event handling' }
@@ -54,16 +54,27 @@ ToTagElementSkin >> enabledSkinEvent: anEvent [
 ToTagElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
-	anEvent elementDo: [ :e | 
+	anEvent elementDo: [ :e |
+		e isRemovable ifTrue: [ e addRemoveButton ].
+
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e valueOfTokenNamed: 'border-radius')).
 		e padding: (BlInsets
 				 horizontal: (e valueOfTokenNamed: #'bar-node-padding-H')
 				 vertical: (e valueOfTokenNamed: #'bar-node-padding-V')).
 		(e hasIcon and: [ e hasLabel ])
-			ifTrue: [ e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
+			ifTrue: [
+			e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
 			ifFalse: [ e startInterspace: 0 ].
 		(e hasEndElement and: [ e hasLabel ])
-			ifTrue: [ e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
+			ifTrue: [
+			e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
 			ifFalse: [ e endInterspace: 0 ] ]
+]
+
+{ #category : #'event handling' }
+ToTagElementSkin >> uninstallSkinEvent: anEvent [
+
+	super uninstallSkinEvent: anEvent.
+	anEvent elementDo: [ :e | e removeRemoveButton ]
 ]

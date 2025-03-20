@@ -52,7 +52,7 @@ ToTab >> closable: aBoolean [
 	aBoolean
 		ifTrue: [
 			| but |
-			but := ToRemoveIconicButton new.
+			but := ToIconicRemoveButton new.
 			but constraintsDo: [ :c | c linear vertical alignCenter ].
 			but addEventHandler: (BlEventHandler
 					 on: BlClickEvent

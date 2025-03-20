@@ -1,7 +1,7 @@
 Class {
 	#name : #ToCheckableTagSkin,
 	#superclass : #ToTagElementSkin,
-	#category : #'Toplo-Widget-Tag-Core'
+	#category : #'Toplo-Widget-Tag-Tag'
 }
 
 { #category : #'event handling' }

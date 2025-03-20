@@ -5,7 +5,7 @@ Class {
 		'compositeNodeBuilder',
 		'tagBuilder'
 	],
-	#category : #'Toplo-Widget-Tag-Bar'
+	#category : #'Toplo-Widget-Tag-Tag'
 }
 
 { #category : #'t - generic node manager' }

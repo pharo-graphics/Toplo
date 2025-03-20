@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'data'
 	],
-	#category : #'Toplo-Widget-Tag-Bar'
+	#category : #'Toplo-Widget-Tag-Tag'
 }
 
 { #category : #'node building' }

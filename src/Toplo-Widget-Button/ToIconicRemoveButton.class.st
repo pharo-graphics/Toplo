@@ -1,19 +1,19 @@
 Class {
-	#name : #ToRemoveIconicButton,
+	#name : #ToIconicRemoveButton,
 	#superclass : #ToIconicButton,
 	#category : #'Toplo-Widget-Button-Iconic'
 }
 
 { #category : #initialization }
-ToRemoveIconicButton >> initialize [ 
+ToIconicRemoveButton >> initialize [ 
 
 	super initialize.
 	self newClickAction: [ self fireEvent: ToRemoveShotEvent new ].
-	self id: #'remove-iconic-button'
+	self id: #'remove-button'
 ]
 
 { #category : #'instance creation' }
-ToRemoveIconicButton >> newRawSkin [ 
+ToIconicRemoveButton >> newRawSkin [ 
 
-	^ ToRemoveIconicButtonSkin new
+	^ ToIconicRemoveButtonSkin new
 ]

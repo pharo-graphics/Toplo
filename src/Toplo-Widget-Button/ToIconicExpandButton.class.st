@@ -1,11 +1,11 @@
 Class {
-	#name : #ToExpandIconicButton,
+	#name : #ToIconicExpandButton,
 	#superclass : #ToIconicButton,
 	#category : #'Toplo-Widget-Button-Iconic'
 }
 
 { #category : #initialization }
-ToExpandIconicButton >> initialize [ 
+ToIconicExpandButton >> initialize [ 
 
 	super initialize.
 	self newClickAction: [ self fireEvent: ToExpandShotEvent new ].
@@ -13,7 +13,7 @@ ToExpandIconicButton >> initialize [
 ]
 
 { #category : #'instance creation' }
-ToExpandIconicButton >> newRawSkin [ 
+ToIconicExpandButton >> newRawSkin [ 
 
-	^ ToExpandIconicButtonSkin new
+	^ ToIconicExpandButtonSkin new
 ]

@@ -42,6 +42,7 @@ ToWidgetLink >> eventDispatcher [
 ToWidgetLink >> launchWithLinkedObject: anObjectOrValuable from: aTarget onEvent: anEvent withValue: aValue [
 
 	| space action |
+	aTarget isDisabled ifTrue: [ ^ self ].
 	action := [
 	          self
 		          runWithLinkedObject: anObjectOrValuable

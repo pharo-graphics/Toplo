@@ -1,19 +1,20 @@
 Class {
 	#name : #ToTagElement,
 	#superclass : #ToButton,
-	#traits : 'TToTagElement',
-	#classTraits : 'TToTagElement classTrait',
-	#category : #'Toplo-Widget-Tag-Core'
+	#traits : 'TToRemovableItemElement + TToColorableItemElement',
+	#classTraits : 'TToRemovableItemElement classTrait + TToColorableItemElement classTrait',
+	#category : #'Toplo-Widget-Tag-Tag'
 }
 
-{ #category : #configuration }
-ToTagElement >> applyWidgetConfiguration [ 
+{ #category : #'t - removable item element' }
+ToTagElement >> addRemoveButton [
 
-	super applyWidgetConfiguration.
-	removable
-		ifTrue: [ self addRemoveButton ]
-		ifFalse: [ self removeRemoveButton ].
-	self requestNewSkin 
+	| ic |
+	self removeButton ifNotNil: [ ^ self ].
+	ic := ToIconicRemoveButton new.
+	ic id: #'tag-remove-button'.
+	ic addStamp: #'parent-tag' withValue: self.
+	self endElement: ic
 ]
 
 { #category : #'t - labeled icon' }
@@ -56,8 +57,15 @@ ToTagElement >> newRawSkin [
 		  ifFalse: [ ToTagElementSkin new ]
 ]
 
-{ #category : #accessing }
-ToTagElement >> requestNewConfigurationPass [ 
+{ #category : #'t - removable item element' }
+ToTagElement >> removeButton [
 
-	super requestNewConfigurationPass
+	^ self childWithId: #'tag-remove-button' ifNone: [  ] 
+]
+
+{ #category : #'t - removable item element' }
+ToTagElement >> removeRemoveButton [
+
+	self endElement: nil
+
 ]

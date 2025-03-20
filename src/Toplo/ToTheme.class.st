@@ -231,12 +231,14 @@ ToTheme class >> defaultTokenProperties [
 
 		  (ToTokenProperty name: #'margin-XS' value: 8).
 
+		  (ToTokenProperty name: #'padding-iconic-button' value: 1).
 		  (ToTokenProperty name: #'padding-content-H' value: 12).
 		  (ToTokenProperty name: #'padding-content-HS' value: 4).
 		  (ToTokenProperty name: #'padding-content-HXS' value: 2).
 		  (ToTokenProperty name: #'padding-content-V' value: 6).
 		  (ToTokenProperty name: #'padding-content-VS' value: 4).
 		  (ToTokenProperty name: #'padding-content-VXS' value: 2).
+		  (ToTokenProperty name: #'padding-S' value: 14).
 		  (ToTokenProperty name: #'padding-XS' value: 8).
 		  (ToTokenProperty name: #'padding-XXS' value: 3).
 

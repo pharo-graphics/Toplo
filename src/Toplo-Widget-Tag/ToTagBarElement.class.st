@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTagBarElement,
 	#superclass : #ToGenericBarElement,
-	#category : #'Toplo-Widget-Tag-Bar'
+	#category : #'Toplo-Widget-Tag-Tag'
 }
 
 { #category : #'instance creation' }

@@ -66,13 +66,18 @@ ToTabItemElementSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 
 	anEvent elementDo: [ :e |
+		| leftPadding |
+		leftPadding := e valueOfTokenNamed: #'padding-XS'.
+		e isRemovable ifTrue: [
+			e addRemoveButton.
+			leftPadding := leftPadding + 15 ].
 		self configureLabelInItemElement: e.
 		e focusability: BlFocusability ignore.
 		e border: BlBorder empty.
 		e background: BlBackground transparent.
 		e padding: (BlInsets
 				 top: (e valueOfTokenNamed: #'padding-content-VXS')
-				 left: (e valueOfTokenNamed: #'padding-XS')
+				 left: leftPadding
 				 bottom: (e valueOfTokenNamed: #'padding-content-VXS')
 				 right: (e valueOfTokenNamed: #'padding-XS')).
 		(e hasStartElement and: [ e hasMiddleElement ])
@@ -100,4 +105,11 @@ ToTabItemElementSkin >> selectedSkinEvent: anEvent [
 
 	anEvent elementDo: [ :e |
 		self configureLabelInItemElement: e ]
+]
+
+{ #category : #'event handling' }
+ToTabItemElementSkin >> uninstallSkinEvent: anEvent [
+
+	super uninstallSkinEvent: anEvent.
+	anEvent elementDo: [ :e | e removeRemoveButton ]
 ]

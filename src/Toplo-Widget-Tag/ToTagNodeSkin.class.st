@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTagNodeSkin,
 	#superclass : #ToBarNodeSkin,
-	#category : #'Toplo-Widget-Tag-Bar'
+	#category : #'Toplo-Widget-Tag-Tag'
 }
 
 { #category : #'event handling' }

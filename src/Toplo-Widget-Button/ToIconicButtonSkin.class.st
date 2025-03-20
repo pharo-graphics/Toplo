@@ -45,11 +45,15 @@ ToIconicButtonSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
+		| pad |
+		pad := e valueOfTokenNamed: #'padding-iconic-button'.
+		e geometry: BlCircleGeometry new.
+		e padding: (BlInsets all: pad).
 		e
 			withStamp: #color
 			do: [ :v | color := v ]
 			ifNone: [ color := e valueOfTokenNamed: #'color-text' ].
-		e size: (e valueOfTokenNamed: #'font-size') asPoint ]
+		e size: ((e valueOfTokenNamed: #'font-size') + pad) asPoint ]
 ]
 
 { #category : #'event handling' }
@@ -69,10 +73,18 @@ ToIconicButtonSkin >> selectedSkinEvent: anEvent [
 		ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e |
 		| foreground |
-		foreground := anEvent focused
-			              ifTrue: [
-			              e valueOfTokenNamed: #'label-selected-focused' ]
-			              ifFalse: [
-			              e valueOfTokenNamed: #'label-selected-unfocused' ].
+		anEvent focused
+			ifTrue: [
+				e
+					withStamp: #'selected-focused-foreground'
+					do: [ :v | foreground := v ]
+					ifNone: [
+					foreground := e valueOfTokenNamed: #'label-selected-focused' ] ]
+			ifFalse: [
+				e
+					withStamp: #'selected-unfocused-foreground'
+					do: [ :v | foreground := v ]
+					ifNone: [
+					foreground := e valueOfTokenNamed: #'label-selected-unfocused' ] ].
 		e innerImageColor: foreground ]
 ]

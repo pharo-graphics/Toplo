@@ -5,7 +5,7 @@ Class {
 		'content',
 		'items'
 	],
-	#category : #'Toplo-Widget-Tag-Bar'
+	#category : #'Toplo-Widget-Tag-Tag'
 }
 
 { #category : #'node building' }

@@ -1,23 +1,13 @@
 Class {
 	#name : #ToTagNode,
 	#superclass : #ToBarNode,
-	#instVars : [
-		'removable'
-	],
-	#category : #'Toplo-Widget-Tag-Bar'
+	#category : #'Toplo-Widget-Tag-Tag'
 }
-
-{ #category : #initialization }
-ToTagNode >> initialize [
-
-	super initialize.
-	removable := true
-]
 
 { #category : #testing }
 ToTagNode >> isRemovable [
 
-	^ removable and: [  self nodesCount = 1 ]
+	^ self nodesCount = 1
 ]
 
 { #category : #skin }
@@ -32,20 +22,9 @@ ToTagNode >> nodesCount [
 	^ self holder tagModel nodesCount
 ]
 
-{ #category : #accessing }
-ToTagNode >> removable: aBoolean [
-
-	removable := aBoolean
-]
-
-{ #category : #accessing }
-ToTagNode >> removeButton [ 
-
-	^ self childWithId: #'remove-iconic-button' ifNone: [  ]
-]
-
 { #category : #private }
 ToTagNode >> removeFromBar [
 
+	self isRemovable ifFalse: [ ^ self ].
 	self holder removeNodeFromBar 
 ]

@@ -61,6 +61,13 @@ ToTabBarElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleN
 		p onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes ]
 ]
 
+{ #category : #configuration }
+ToTabBarElement >> onWidgetConfigurationApplied [ 
+
+	super onWidgetConfigurationApplied.
+	self nodesDo: [ :node | node item  requestNewSkin ]
+]
+
 { #category : #accessing }
 ToTabBarElement >> parentTabsElement: anObject [
 

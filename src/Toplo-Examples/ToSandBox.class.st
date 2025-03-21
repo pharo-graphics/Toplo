@@ -8509,7 +8509,6 @@ ToSandBox class >> tabsElementDashBoardFor: aTabsElement [
 	confPane := self barConfigurationBoardFor: aTabsElement.
 	(confPane childWithId: #selectOnPressedSwitch) disable.
 	(confPane childWithId: #deselectOnPressedSwitch) disable.
-	(confPane childWithId: #scrollingSwitch) disable.
 
 	startToEndSwitch := ToSwitchButton new labelText: 'At start'.
 	startToEndSwitch newCheckFeature: #atStartSide with: aTabsElement.

@@ -21,14 +21,16 @@ ToTreeElement class >> exampleExpandAllAndCollapseAll [
 	| tree expandAllButton collapseAllButton container |
 	tree := self new.
 	tree dataWrapperClass: ToTreeDataItemPreviousIntegerWrapper.
-	tree dataAccessor addAll: (1 to: 10).
+	tree dataAccessor addAll: (1 to: 100).
 
 	expandAllButton := ToButton new
 		                   label: (ToLabel text: 'Expand All');
-		                   newClickAction: [ tree expandAll ].
+		                   newClickAction: [ tree expandAll ];
+		                   yourself.
 	collapseAllButton := ToButton new
 		                     label: (ToLabel text: 'Collapse All');
-		                     newClickAction: [ tree collapseAll ].
+		                     newClickAction: [ tree collapseAll ];
+		                     yourself.
 
 	container := ToElement new
 		             layout: BlLinearLayout vertical;

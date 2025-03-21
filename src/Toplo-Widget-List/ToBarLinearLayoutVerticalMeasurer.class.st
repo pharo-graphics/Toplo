@@ -13,6 +13,23 @@ ToBarLinearLayoutVerticalMeasurer >> barNodes [
 ]
 
 { #category : #measurement }
+ToBarLinearLayoutVerticalMeasurer >> canMeasureExactUsingExcessSpaceForNode: aNode [
+
+	^ (super canMeasureExactUsingExcessSpaceForNode: aNode) and: [
+		  self shouldCheckUniformSize not ]
+]
+
+{ #category : #'private - measurement' }
+ToBarLinearLayoutVerticalMeasurer >> childBreadthSpecForNode: aNode [
+
+	| spec |
+	spec := super childBreadthSpecForNode: aNode.
+	self layout uniformNodeWidth ifTrue: [
+		spec beExact: self layout maxMeasuredNodeSize x ].
+	^ spec
+]
+
+{ #category : #measurement }
 ToBarLinearLayoutVerticalMeasurer >> largestMeasure [
 	"I re-measure my length for the case when we consider all children to have the minimum size of the largest child"
 
@@ -29,7 +46,6 @@ ToBarLinearLayoutVerticalMeasurer >> preMeasure [
 
 	super preMeasure.
 	self maxSizeDo: [ :maxSize | self layout maxMeasuredNodeSize: maxSize ].
-
-	self shouldCheckUniformSize ifFalse: [ ^ self ].
+	self layout uniformNodeWidth ifFalse: [ ^ self ].
 	self barUniformMeasure
 ]

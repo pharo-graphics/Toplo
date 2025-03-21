@@ -19,7 +19,7 @@ ToTabBarElement >> atStartSide: aBoolean [
 
 	atStartSide = aBoolean ifTrue: [ ^ self ].
 	atStartSide := aBoolean.
-	self requestNewConfigurationPass 
+	self requestNewConfiguration
 ]
 
 { #category : #'t - item list - accessing' }
@@ -59,13 +59,6 @@ ToTabBarElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleN
 
 	parentTabsElement ifNotNil: [ :p |
 		p onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes ]
-]
-
-{ #category : #configuration }
-ToTabBarElement >> onWidgetConfigurationApplied [ 
-
-	super onWidgetConfigurationApplied.
-	self nodesDo: [ :node | node item  requestNewSkin ]
 ]
 
 { #category : #accessing }

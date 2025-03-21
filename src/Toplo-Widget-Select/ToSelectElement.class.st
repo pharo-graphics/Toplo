@@ -99,7 +99,7 @@ ToSelectElement >> filtrable [
 ToSelectElement >> filtrable: aBoolean [
 
 	filtrable := aBoolean.
-	self requestNewConfigurationPass 
+	self requestNewConfiguration
 ]
 
 { #category : #accessing }
@@ -340,7 +340,7 @@ ToSelectElement >> refresh [
 ToSelectElement >> sample: aDataItem [
 
 	sample := aDataItem.
-	self requestNewConfigurationPass 
+	self requestNewConfiguration
 ]
 
 { #category : #accessing }

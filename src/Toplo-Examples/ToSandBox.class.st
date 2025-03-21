@@ -131,7 +131,9 @@ ToSandBox class >> alignmentChooserFor: aCheckableBar [
 ToSandBox class >> barConfigurationBoardFor: aBar [
 
 	| menu confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch uniformNodeWidthSwitch selectionAnimationSwitch selectOnPressedSwitch deselectOnPressedSwitch makeDisabledUnselectableSwitch uniformNodeHeightSwitch link |
+	
 	confPane := ToPane vertical.
+
 	confPane padding: (BlInsets all: 5).
 	confPane width: 300.
 	confPane border: Color lightGray.
@@ -473,7 +475,7 @@ ToSandBox class >> checkingStrategyChooserFor: aCheckableBar [
 		(#Weak -> #withWeakCheckingStrategy).
 		(#None -> #withoutCheckingStrategy) } do: [ :modeAssoc |
 		| chb |
-		chb := ToCheckbox new
+		chb := ToRadioButton new
 			       labelText: modeAssoc key asString;
 			       yourself.
 		buttons add: chb.
@@ -489,6 +491,7 @@ ToSandBox class >> checkingStrategyChooserFor: aCheckableBar [
 
 	buttons first checked: true.
 	checkingStrategyContainer := ToPane vertical.
+	checkingStrategyContainer vFitContent.
 	checkingStrategyContainer hMatchParent.
 	checkingStrategyContainer addChild:
 		(ToLabel text: 'Checking strategy').
@@ -2653,7 +2656,7 @@ ToSandBox class >> example_SelectMaterialDesignIconMonoFiltrable [
 { #category : #select }
 ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 
-	| select space |
+	| select |
 	select := ToMultiSelectElement new.
 
 	select isWrapping: false.
@@ -2674,7 +2677,7 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 	select placeholderText:
 		('Select icons' asRopedText foreground: Color red).
 
-	space := select openInSpace
+	select openInInnerWindow 
 ]
 
 { #category : #select }
@@ -3521,7 +3524,7 @@ ToSandBox class >> example_TabBarElement [
 				 middleElement: (ToLabel text: l);
 				 yourself) ].
 
-	(tabs items at: 2) disable.
+	"(tabs items at: 2) disable."
 	dashBoard := self tabsElementDashBoardFor: tabs.
 	dashBoard openInSpace
 ]
@@ -8499,7 +8502,7 @@ ToSandBox class >> subsubsubTabPane [
 { #category : #tag }
 ToSandBox class >> tabsElementDashBoardFor: aTabsElement [
 
-	| mainPane barPane confPane checkingStrategyPane startToEndSwitch feedbackPane maj rootPane |
+	| mainPane barPane confPane startToEndSwitch rootPane |
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
 
@@ -8518,41 +8521,11 @@ ToSandBox class >> tabsElementDashBoardFor: aTabsElement [
 	confPane padding: (BlInsets all: 5).
 	confPane width: 250.
 	confPane border: Color lightGray.
+	
 	barPane := ToPane vertical.
 	barPane matchParent.
 
-	checkingStrategyPane := self checkingStrategyChooserFor: aTabsElement.
-	confPane addChild: checkingStrategyPane.
-
-	feedbackPane := ToPane horizontal.
-	feedbackPane layout alignCenter.
-	maj := [
-	       | t |
-	       feedbackPane removeChildren.
-	       t := String streamContents: [ :stream |
-		            aTabsElement dataAccessor withIndexDo: [ :e :idx |
-			            stream
-				            nextPutAll: e middleElement text asString;
-				            nextPutAll: ': '.
-			            (aTabsElement selectionModel containsIndex: idx)
-				            ifTrue: [ stream nextPutAll: 'V ' ]
-				            ifFalse: [ stream nextPutAll: 'X ' ].
-			            stream nextPutAll: e checked asString.
-			            stream nextPutAll: ' '.
-			            idx < aTabsElement dataAccessor itemCount ifTrue: [
-				            stream nextPutAll: '- ' ] ] ].
-	       feedbackPane addChild: (ToLabel text: t) ].
-
-	aTabsElement addEventHandler: (BlEventHandler
-			 on: ToListStrongSelectionEvent
-			 do: [ :event |
-				 ' double click ' trace.
-				 event indexes traceCr ]).
-
-	aTabsElement
-		addEventHandlerOn: ToListPrimarySelectionChangedEvent
-		do: maj.
-	aTabsElement addEventHandlerOn: ToAddedToSpaceEvent do: maj.
+	confPane addChild: (self checkingStrategyChooserFor: aTabsElement).
 
 	mainPane addChildren: {
 			confPane.
@@ -8561,9 +8534,7 @@ ToSandBox class >> tabsElementDashBoardFor: aTabsElement [
 
 	rootPane := ToPane vertical.
 	rootPane matchParent.
-	rootPane addChildren: {
-			mainPane.
-			feedbackPane }.
+	rootPane addChildren: { mainPane }.
 
 
 	^ rootPane

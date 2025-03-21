@@ -12,13 +12,13 @@ ToTabsElementConfiguration >> applyOn: aTabsElement [
 
 	super applyOn: aTabsElement.
 	aTabsElement checkInvisibleNodes.
+
 	aTabsElement itemBar horizontal: aTabsElement isHorizontal.
 	aTabsElement itemBar atStartSide: atStartSide.
 
-	aTabsElement isScrolling:
-		(aTabsElement isWrapping or: [ aTabsElement autoDistribute ]) not.
-	aTabsElement uniformNodeWidth: aTabsElement isVertical.
-	aTabsElement uniformNodeHeight: true.
+	aTabsElement uniformNodeWidth: (aTabsElement isVertical).
+	aTabsElement uniformNodeHeight: (aTabsElement isHorizontal).
+	aTabsElement itemBar autoDistribute: aTabsElement autoDistribute.
 	aTabsElement itemBar matchParent.
 
 	aTabsElement isHFitContent
@@ -44,9 +44,11 @@ ToTabsElementConfiguration >> applyOn: aTabsElement [
 	aTabsElement isHorizontal
 		ifTrue: [ aTabsElement endElement layout beHorizontal ]
 		ifFalse: [ aTabsElement endElement layout beVertical ].
-		
+
 	aTabsElement itemBar refreshAllSelections.
-	aTabsElement requestNewSkin
+	
+	aTabsElement requestNewSkin.
+	aTabsElement invisibleNodesMenu requestNewSkin
 ]
 
 { #category : #accessing }

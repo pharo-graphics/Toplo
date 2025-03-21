@@ -77,7 +77,9 @@ BlElement >> applySkinInstallersDeeply [
 BlElement >> applyWidgetConfiguration [
 
 	self widgetConfiguration ifNotNil: [ :tc | tc applyOn: self ].
-	self onWidgetConfigurationApplied
+	self onWidgetConfigurationApplied.
+	self spaceDo: [ :sp |
+		self nextConfigurationPass: sp runningConfigurationPass ]
 ]
 
 { #category : #'*Toplo' }
@@ -91,13 +93,6 @@ BlElement >> areSelectionSkinEventsPrevented [
 BlElement >> borderBuilder [
 
 	^ self skinManager borderBuilder
-]
-
-{ #category : #'*Toplo' }
-BlElement >> changeWidgetConfigurationWith: aValuable [
-
-	self widgetConfigurationDo: aValuable.
-	self requestNewConfigurationPass 
 ]
 
 { #category : #'*Toplo' }
@@ -605,11 +600,21 @@ BlElement >> removedFromMenu: aMenu [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> requestNewConfigurationPass [
+BlElement >> requestNewConfiguration [
 
 	self spaceDo: [ :sp |
 		self nextConfigurationPass: sp nextConfigurationPass.
 		sp  requestNewConfigurationPass ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> requestNewConfigurationPass [
+
+	self
+		deprecated: 'Use #requestNewConfiguration'
+		transformWith: '`@rcvr requestNewConfigurationPass'
+			-> '`@rcvr requestNewConfiguration'.
+	self requestNewConfiguration
 ]
 
 { #category : #'*Toplo' }

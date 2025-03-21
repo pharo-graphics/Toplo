@@ -12,7 +12,7 @@ Class {
 { #category : #accessing }
 ToBarLinearLayout >> maxMeasuredNodeSize [
 
-	^ maxMeasuredNodeSize
+	^ maxMeasuredNodeSize ifNil: [ maxMeasuredNodeSize := 0@0 ]
 ]
 
 { #category : #accessing }

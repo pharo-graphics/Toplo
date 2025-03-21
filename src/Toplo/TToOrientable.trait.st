@@ -50,7 +50,7 @@ TToOrientable >> direction: aDirection [
 
 	self targetLayout direction = aDirection ifTrue: [ ^ self ].
 	self targetLayout direction: aDirection.
-	self requestNewConfigurationPass.
+	self requestNewConfiguration.
 	self requestNewSkin.
 	self dispatchEvent: ToLayoutDirectionChangedEvent new
 ]
@@ -71,9 +71,9 @@ TToOrientable >> horizontal: aBoolean [
 		ifFalse: [
 			self isVertical ifTrue: [ ^ self ].
 			self targetLayout beVertical ].
-	self requestNewConfigurationPass.
+	self requestNewConfiguration.
 	self dispatchEvent: ToLayoutOrientationChangedEvent new.
-	self requestNewSkin 
+	self requestNewSkin
 ]
 
 { #category : #'t - orientable' }
@@ -131,7 +131,7 @@ TToOrientable >> orientation: aBlLayoutOrientation [
 
 	self targetLayout orientation = aBlLayoutOrientation ifTrue: [ ^ self ].
 	self targetLayout orientation: aBlLayoutOrientation.
-	self requestNewConfigurationPass.
+	self requestNewConfiguration.
 	self dispatchEvent: ToLayoutOrientationChangedEvent new.
 	self requestNewSkin 
 ]

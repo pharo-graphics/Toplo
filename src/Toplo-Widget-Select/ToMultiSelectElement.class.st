@@ -70,7 +70,7 @@ ToMultiSelectElement >> hideSelected [
 ToMultiSelectElement >> hideSelected: aBoolean [
 
 	hideSelected := aBoolean.
-	self requestNewConfigurationPass
+	self requestNewConfiguration
 ]
 
 { #category : #accessing }
@@ -110,22 +110,21 @@ ToMultiSelectElement >> isScrolling: aBoolean [
 ToMultiSelectElement >> isWrapping: aBoolean [
 
 	isWrapping := aBoolean.
-	self requestNewConfigurationPass 
+	self requestNewConfiguration
 ]
 
 { #category : #accessing }
 ToMultiSelectElement >> keepPickOrder: aBoolean [
 
 	keepPickOrder := aBoolean.
-	self requestNewConfigurationPass 
-	
+	self requestNewConfiguration
 ]
 
 { #category : #accessing }
 ToMultiSelectElement >> maxSelectedCount: aNumber [
 
 	maxSelectedCount := aNumber.
-	self requestNewConfigurationPass
+	self requestNewConfiguration
 ]
 
 { #category : #'instance creation' }

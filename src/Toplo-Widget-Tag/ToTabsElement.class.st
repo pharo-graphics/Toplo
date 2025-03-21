@@ -12,6 +12,13 @@ Class {
 	#category : #'Toplo-Widget-Tag-Tab'
 }
 
+{ #category : #configuration }
+ToTabsElement >> applyWidgetConfiguration [ 
+
+	super applyWidgetConfiguration.
+	self itemBar applyWidgetConfiguration.
+]
+
 { #category : #accessing }
 ToTabsElement >> atStartSide [
 
@@ -23,7 +30,7 @@ ToTabsElement >> atStartSide: aBoolean [
 
 	self atStartSide = aBoolean ifTrue: [ ^ self ].
 	self widgetConfiguration atStartSide: aBoolean.
-	self requestNewConfigurationPass
+	self requestNewConfiguration
 ]
 
 { #category : #configuration }
@@ -207,13 +214,6 @@ ToTabsElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNod
 	"visibleNodes do: [ :n | n visibility: BlVisibility visible ].
 	invisibleNodes do: [ :n | n visibility: BlVisibility hidden ]."
 	self dispatchEvent: ToVisibleTabsChanged new
-]
-
-{ #category : #configuration }
-ToTabsElement >> onWidgetConfigurationApplied [ 
-
-	super onWidgetConfigurationApplied.
-	invisibleNodesMenu requestNewSkin
 ]
 
 { #category : #configuration }

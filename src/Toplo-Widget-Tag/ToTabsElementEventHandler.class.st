@@ -13,7 +13,7 @@ ToTabsElementEventHandler >> eventsToHandle [
 { #category : #'element events handling' }
 ToTabsElementEventHandler >> layoutResizerChangedEvent: anEvent [
 
-	anEvent currentTarget requestNewConfigurationPass
+	anEvent currentTarget requestNewConfiguration
 ]
 
 { #category : #'element events handling' }

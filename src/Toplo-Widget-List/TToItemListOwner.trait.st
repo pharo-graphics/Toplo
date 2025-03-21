@@ -55,7 +55,7 @@ TToItemListOwner >> autoDistribute: aBoolean [
 
 	self itemBar autoDistribute = aBoolean ifTrue: [ ^ self ].
 	self itemBar autoDistribute: aBoolean.
-	self requestNewConfigurationPass 
+	self requestNewConfiguration
 ]
 
 { #category : #'t - item list owner - accessing' }
@@ -171,7 +171,7 @@ TToItemListOwner >> isScrolling: aBoolean [
 
 	self itemBar isScrolling = aBoolean ifTrue: [ ^ self ].
 	self itemBar isScrolling: aBoolean.
-	self requestNewConfigurationPass 
+	self requestNewConfiguration
 ]
 
 { #category : #'t - item list owner - accessing' }
@@ -185,7 +185,7 @@ TToItemListOwner >> isWrapping: aBoolean [
 
 	self itemBar isWrapping = aBoolean ifTrue: [ ^ self ].
 	self itemBar isWrapping: aBoolean.
-	self requestNewConfigurationPass 
+	self requestNewConfiguration
 ]
 
 { #category : #'t - item list owner - accessing' }

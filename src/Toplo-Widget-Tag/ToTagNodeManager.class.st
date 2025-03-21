@@ -44,12 +44,6 @@ ToTagNodeManager >> compositeNodeBuilder: aValuable [
 ]
 
 { #category : #initialization }
-ToTagNodeManager >> constraintNode: aNode [
-
-	super constraintNode: aNode
-]
-
-{ #category : #initialization }
 ToTagNodeManager >> defaultCompositeNodeBuilder [
 
 	^ [ :node :compositeTagModel :holder |

@@ -13,6 +13,22 @@ ToBarLinearLayoutHorizontalMeasurer >> barNodes [
 ]
 
 { #category : #measurement }
+ToBarLinearLayoutHorizontalMeasurer >> canMeasureExactUsingExcessSpaceForNode: aNode [
+
+	^ (super canMeasureExactUsingExcessSpaceForNode: aNode) and: [self shouldCheckUniformSize not]
+]
+
+{ #category : #'private - measurement' }
+ToBarLinearLayoutHorizontalMeasurer >> childBreadthSpecForNode: aNode [
+
+	| spec |
+	spec := super childBreadthSpecForNode: aNode.
+	self layout uniformNodeHeight ifTrue: [
+		spec beExact: self layout maxMeasuredNodeSize y ].
+	^ spec
+]
+
+{ #category : #measurement }
 ToBarLinearLayoutHorizontalMeasurer >> largestMeasure [
 	"I re-measure my length for the case when we consider all children to have the minimum size of the largest child"
 

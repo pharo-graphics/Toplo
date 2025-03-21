@@ -35,5 +35,5 @@ ToBarFlowLayoutMeasurer >> fillChildrenFor: anElement with: anExtentSpec [
 { #category : #accessing }
 ToBarFlowLayoutMeasurer >> maxMeasuredNodeSize [
 
-	^ maxMeasuredNodeSize
+	^ maxMeasuredNodeSize ifNil: [ maxMeasuredNodeSize := 0@0 ]
 ]

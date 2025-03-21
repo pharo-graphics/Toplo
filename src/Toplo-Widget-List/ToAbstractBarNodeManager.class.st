@@ -30,12 +30,16 @@ ToAbstractBarNodeManager >> constraintNode: aNode [
 					bar isHMatchParent
 						ifTrue: [ aNode hMatchParent ]
 						ifFalse: [ aNode hFitContent ].
-					aNode vFitContent ]
+					bar autoDistribute
+						ifTrue: [ aNode vMatchParent ]
+						ifFalse: [ aNode vFitContent ] ]
 				ifFalse: [
 					bar isVMatchParent
 						ifTrue: [ aNode vMatchParent ]
 						ifFalse: [ aNode vFitContent ].
-					aNode hFitContent ] ]
+					bar autoDistribute
+						ifTrue: [ aNode hMatchParent ]
+						ifFalse: [ aNode hFitContent ] ] ]
 		ifTrue: [ aNode fitContent ].
 
 	aNode constraintsDo: [ :c |
@@ -45,7 +49,7 @@ ToAbstractBarNodeManager >> constraintNode: aNode [
 	bar isWrapping ifTrue: [ ^ self ].
 	bar isScrolling ifTrue: [ ^ self ].
 	bar autoDistribute ifFalse: [ ^ self ].
-	
+
 	bar isHorizontal
 		ifTrue: [ aNode hMatchParent ]
 		ifFalse: [ aNode vMatchParent ]

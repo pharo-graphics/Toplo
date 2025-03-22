@@ -7,7 +7,7 @@ Class {
 	#category : #'Toplo-Widget-Button-Iconic'
 }
 
-{ #category : #'event handling' }
+{ #category : #'as yet unclassified' }
 ToIconicButtonSkin >> deselectedSkinEvent: anEvent [
 
 	super deselectedSkinEvent: anEvent.
@@ -18,7 +18,7 @@ ToIconicButtonSkin >> deselectedSkinEvent: anEvent [
 	anEvent elementDo: [ :e | e innerImageColor: color ]
 ]
 
-{ #category : #'event handling' }
+{ #category : #'as yet unclassified' }
 ToIconicButtonSkin >> disabledSkinEvent: anEvent [
 
 	super disabledSkinEvent: anEvent.
@@ -26,14 +26,14 @@ ToIconicButtonSkin >> disabledSkinEvent: anEvent [
 		e innerImageColor: (e valueOfTokenNamed: #'color-text-disabled') ]
 ]
 
-{ #category : #'event handling' }
+{ #category : #'as yet unclassified' }
 ToIconicButtonSkin >> enabledSkinEvent: anEvent [
 
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e | e innerImageColor: color ]
 ]
 
-{ #category : #'event handling' }
+{ #category : #'as yet unclassified' }
 ToIconicButtonSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
@@ -56,14 +56,14 @@ ToIconicButtonSkin >> installSkinEvent: anEvent [
 		e size: ((e valueOfTokenNamed: #'font-size') + pad) asPoint ]
 ]
 
-{ #category : #'event handling' }
+{ #category : #'as yet unclassified' }
 ToIconicButtonSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e | e mouseCursor: Cursor normal ]
 ]
 
-{ #category : #'event handling' }
+{ #category : #'as yet unclassified' }
 ToIconicButtonSkin >> selectedSkinEvent: anEvent [
 
 	super selectedSkinEvent: anEvent.

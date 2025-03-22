@@ -7,17 +7,11 @@ Class {
 		'invisibleNodes',
 		'visibleNodes',
 		'invisibleNodesMenu',
-		'endExtraContainer'
+		'endExtraContainer',
+		'menusContainer'
 	],
 	#category : #'Toplo-Widget-Tag-Tab'
 }
-
-{ #category : #configuration }
-ToTabsElement >> applyWidgetConfiguration [ 
-
-	super applyWidgetConfiguration.
-	self itemBar applyWidgetConfiguration.
-]
 
 { #category : #accessing }
 ToTabsElement >> atStartSide [
@@ -46,10 +40,7 @@ ToTabsElement >> checkInvisibleNodes [
 
 	self canShowInvisibleNodesMenu
 		ifTrue: [ self showInvisibleNodesMenu: true ]
-		ifFalse: [
-			self showInvisibleNodesMenu: false.
-			self nodesDo: [ :node |
-				node visibility: BlVisibility visible ] ]
+		ifFalse: [ self showInvisibleNodesMenu: false ]
 ]
 
 { #category : #initialization }
@@ -71,16 +62,22 @@ ToTabsElement >> defaultInvisibleNodesMenuBuilder [
 			  | mitem |
 			  mitem := ToMenuItem new
 				           labelText: node item label text asString;
-				           newClickAction: [ 
-					           self selecter
-						           scrollTowardStartToDataSourcePosition:
+				           newClickAction: [
+					           self selecter scrollTowardStartToDataSourcePosition:
 							           node holder position.
 					           self requestFocus.
 					           node item checked: true ];
 				           yourself.
+			  node isRemovable ifTrue: [
+				  mitem endElement: ToIconicRemoveButton new.
+				  mitem endFlexible: true.
+				  mitem endInterspace: 10.
+				  mitem addEventHandlerOn: ToRemoveShotEvent do: [ :event |
+					  event consume.
+					  node item removeFromBar.
+					self checkInvisibleNodes ] ].
 			  node item isChecked ifTrue: [
-				  mitem icon:
-					  (ToImage inner: (self valueOfTokenNamed: #check)).
+				  mitem icon: (ToImage inner: (self valueOfTokenNamed: #check)).
 				  mitem icon size:
 					  (self valueOfTokenNamed: #'checkable-icon-size') ].
 			  menu addItem: mitem ] ].
@@ -140,20 +137,16 @@ ToTabsElement >> initializeParts [
 
 	| container |
 	self initializeInvisibleNodesMenu.
-	self startElement: self newBaseContainer.
-	self startContainer constraintsDo: [ :c | c vertical matchParent ].
+	self startElement: self newLinearContainer.
 	self middleElement: self itemBar.
-	self middleContainer clipChildren: false.
-	container := self newBaseContainer.
-	container layout: BlLinearLayout new.
-	endExtraContainer := self newBaseContainer.
-	container addChild: invisibleNodesMenu.
+	container := self newLinearContainer.
+	endExtraContainer := self newLinearContainer.
+	menusContainer := self newLinearContainer.
+	menusContainer addChild: invisibleNodesMenu.
+	container addChild: menusContainer.
 	container addChild: endExtraContainer.
 	self endElement: container.
-	self endContainer layout: BlLinearLayout new.
-	endExtraContainer constraintsDo: [ :c |
-		c linear horizontal alignCenter.
-		c linear vertical alignCenter ]
+	self endContainer layout: BlLinearLayout new
 ]
 
 { #category : #accessing }
@@ -208,11 +201,6 @@ ToTabsElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNod
 
 	invisibleNodes := theInvisibleNodes asArray.
 	visibleNodes := theVisibleNodes asArray.
-	"visibleNodes ifNotEmpty: [ 
-		self selecter scrollTowardStartToDataSourcePosition:
-			visibleNodes first holder position ]."
-	"visibleNodes do: [ :n | n visibility: BlVisibility visible ].
-	invisibleNodes do: [ :n | n visibility: BlVisibility hidden ]."
 	self dispatchEvent: ToVisibleTabsChanged new
 ]
 

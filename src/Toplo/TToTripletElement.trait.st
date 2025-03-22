@@ -53,7 +53,7 @@ TToTripletElement >> checkStartContainer [
 { #category : #'t - triplet element - instance creation' }
 TToTripletElement >> createEndContainer [
 
-	endContainer := self newBaseContainer
+	endContainer := self newFrameContainer
 		                  id: #'end-container';
 		                  yourself.
 	self addChild: endContainer
@@ -63,7 +63,7 @@ TToTripletElement >> createEndContainer [
 TToTripletElement >> createMiddleContainer [
 
 	middleContainer ifNotNil: [ ^ self ].
-	middleContainer := self newBaseContainer.
+	middleContainer := self newFrameContainer.
 	middleContainer id: #'middle-container'.
 	self addChild: middleContainer
 ]
@@ -71,7 +71,7 @@ TToTripletElement >> createMiddleContainer [
 { #category : #'t - triplet element - instance creation' }
 TToTripletElement >> createStartContainer [
 
-	startContainer := self newBaseContainer
+	startContainer := self newFrameContainer
 		                  id: #'start-container';
 		                  yourself.
 	self addChild: startContainer at: 1
@@ -310,19 +310,6 @@ TToTripletElement >> middleElement: anElement [
 ]
 
 { #category : #'t - triplet element - instance creation' }
-TToTripletElement >> newBaseContainer [
-
-	^ BlElement new
-		  constraintsDo: [ :c |
-			  c horizontal fitContent.
-			  c vertical fitContent.
-			  c linear vertical alignCenter.
-			  c linear horizontal alignCenter ];
-		  layout: BlFrameLayout new;
-		  yourself
-]
-
-{ #category : #'t - triplet element - instance creation' }
 TToTripletElement >> newFiller [
 
 	^ BlElement new
@@ -332,9 +319,33 @@ TToTripletElement >> newFiller [
 ]
 
 { #category : #'t - triplet element - instance creation' }
-TToTripletElement >> newMiddleContainer [
+TToTripletElement >> newFrameContainer [
 
-	^ self newBaseContainer 
+	^ BlElement new
+		  constraintsDo: [ :c |
+			  c horizontal fitContent.
+			  c vertical fitContent.
+			  c linear vertical alignCenter.
+			  c linear horizontal alignCenter.
+			  c frame vertical alignCenter.
+			  c frame horizontal alignCenter ];
+		  layout: BlFrameLayout new;
+		  yourself
+]
+
+{ #category : #'t - triplet element - instance creation' }
+TToTripletElement >> newLinearContainer [
+
+	^ BlElement new
+		  constraintsDo: [ :c |
+			  c horizontal fitContent.
+			  c vertical fitContent.
+			  c linear vertical alignCenter.
+			  c linear horizontal alignCenter.
+			  c frame vertical alignCenter.
+			  c frame horizontal alignCenter ];
+		  layout: BlLinearLayout new;
+		  yourself
 ]
 
 { #category : #'t - triplet element - accessing' }

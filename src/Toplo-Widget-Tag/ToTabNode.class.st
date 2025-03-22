@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-Tag-Tab'
 }
 
+{ #category : #testing }
+ToTabNode >> isRemovable [ 
+
+	^ self item isRemovable
+]
+
 { #category : #'t - bar node' }
 ToTabNode >> listElementReferenceBoundsInSpace [
 

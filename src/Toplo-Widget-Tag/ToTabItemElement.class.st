@@ -31,6 +31,12 @@ ToTabItemElement >> addRemoveButton [
 
 ]
 
+{ #category : #converting }
+ToTabItemElement >> asString [
+
+	^ self label asString
+]
+
 { #category : #initialization }
 ToTabItemElement >> initialize [
 

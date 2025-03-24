@@ -1,5 +1,5 @@
 Class {
-	#name : #ToTabsInvisibleItemsMenu,
+	#name : #ToTabsInvisibleNodesMenu,
 	#superclass : #ToMenu,
 	#instVars : [
 		'tabsElement'
@@ -8,21 +8,21 @@ Class {
 }
 
 { #category : #skin }
-ToTabsInvisibleItemsMenu >> newRawSkin [
+ToTabsInvisibleNodesMenu >> newRawSkin [
 
-	^ ToTabsInvisibleItemsMenuSkin new
+	^ ToTabsInvisibleNodesMenuSkin new
 
 
 ]
 
 { #category : #accessing }
-ToTabsInvisibleItemsMenu >> tabsElement [
+ToTabsInvisibleNodesMenu >> tabsElement [
 
 	^ tabsElement
 ]
 
 { #category : #accessing }
-ToTabsInvisibleItemsMenu >> tabsElement: aTabsElement [
+ToTabsInvisibleNodesMenu >> tabsElement: aTabsElement [
 
 	tabsElement := aTabsElement
 ]

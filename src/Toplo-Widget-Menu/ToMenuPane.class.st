@@ -31,6 +31,7 @@ ToMenuPane >> applyWidgetConfiguration [
 	( vertical direction in case of an horizontal bar )"
 
 	super applyWidgetConfiguration.
+	self isWrapping: false.
 	self isHorizontal
 		ifTrue: [
 			self uniformNodeWidth: false.
@@ -90,7 +91,7 @@ ToMenuPane >> initialize [
 	self layout alignCenter.
 	self addEventHandler: ToMenuPaneEventHandler new.
 	self addChild: self itemBar.
-	self isWrapping: false.
+	self isScrolling: false.
 	self beHorizontal
 ]
 

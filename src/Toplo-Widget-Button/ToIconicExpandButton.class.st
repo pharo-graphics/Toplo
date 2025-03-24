@@ -8,7 +8,7 @@ Class {
 ToIconicExpandButton >> initialize [ 
 
 	super initialize.
-	self newClickAction: [ self fireEvent: ToExpandShotEvent new ].
+	self newClickAction: [ self fireEvent: ToExpandButtonClickedEvent new ].
 	self id: #'expand-iconic-button'
 ]
 

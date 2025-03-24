@@ -42,7 +42,7 @@ ToTabItemElement >> initialize [
 
 	super initialize.
 	self applySkinInstallerOnFirstRequest: true.
-	self addEventHandlerOn: ToRemoveShotEvent do: [ :event |
+	self addEventHandlerOn: ToRemoveButtonClickedEvent do: [ :event |
 		event consume.
 		event currentTarget removeFromBar ]
 	

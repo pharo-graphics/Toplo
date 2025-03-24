@@ -12,7 +12,8 @@ ToTabsElementConfiguration >> applyOn: aTabsElement [
 
 	super applyOn: aTabsElement.
 	aTabsElement checkInvisibleNodes.
-
+	aTabsElement checkAddNewTabItemButton.
+	
 	aTabsElement itemBar horizontal: aTabsElement isHorizontal.
 	aTabsElement itemBar atStartSide: atStartSide.
 

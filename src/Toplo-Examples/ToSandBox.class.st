@@ -8546,7 +8546,7 @@ ToSandBox class >> subsubsubTabPane [
 { #category : #tag }
 ToSandBox class >> tabsElementDashBoardFor: aTabsElement [
 
-	| mainPane barPane confPane startToEndSwitch rootPane |
+	| mainPane barPane confPane startToEndSwitch addTabItemButtonSwicth rootPane |
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
 
@@ -8560,6 +8560,13 @@ ToSandBox class >> tabsElementDashBoardFor: aTabsElement [
 	startToEndSwitch startFlexible: true.
 	startToEndSwitch hMatchParent.
 	confPane addChild: startToEndSwitch.
+
+	addTabItemButtonSwicth := ToSwitchButton new labelText: 'Show new tab button'.
+	addTabItemButtonSwicth newCheckFeature: #showAddTabItemButton with: aTabsElement.
+
+	addTabItemButtonSwicth startFlexible: true.
+	addTabItemButtonSwicth hMatchParent.
+	confPane addChild: addTabItemButtonSwicth.
 
 	confPane padding: (BlInsets all: 5).
 	confPane width: 250.

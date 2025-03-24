@@ -1,5 +1,0 @@
-Class {
-	#name : #ToRemoveShotEvent,
-	#superclass : #ToIconicButtonShotEvent,
-	#category : #'Toplo-Widget-Button-Iconic'
-}

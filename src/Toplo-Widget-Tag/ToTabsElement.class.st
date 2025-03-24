@@ -9,10 +9,28 @@ Class {
 		'invisibleNodesMenu',
 		'endExtraContainer',
 		'menusContainer',
-		'invisibleNodeMenuItemBuilder'
+		'invisibleNodeMenuItemBuilder',
+		'addTabItemButton',
+		'newTabItemBuilder',
+		'showAddTabItemButton'
 	],
 	#category : #'Toplo-Widget-Tag-Tab'
 }
+
+{ #category : #adding }
+ToTabsElement >> addNewTagItem [
+
+	| newItem |
+	newItem := ToTabItemElement new.
+	newTabItemBuilder cull: newItem cull: self.
+	self itemBar
+		addEventHandlerOn: ToListNodeAddedEvent
+		doOnce: [ :event |
+			self selecter scrollTowardEndToDataSourcePosition:
+				event node holder position.
+			event node item checked: true ].
+	self addItem: newItem
+]
 
 { #category : #accessing }
 ToTabsElement >> atStartSide [
@@ -34,6 +52,14 @@ ToTabsElement >> canShowInvisibleNodesMenu [
 	^ self isWrapping not and: [
 		  self autoDistribute not and: [
 			  invisibleNodes notNil and: [ invisibleNodes notEmpty ] ] ]
+]
+
+{ #category : #configuration }
+ToTabsElement >> checkAddNewTabItemButton [
+
+	showAddTabItemButton 
+		ifTrue: [ addTabItemButton visibility: BlVisibility visible ]
+		ifFalse: [ addTabItemButton visibility: BlVisibility gone ]
 ]
 
 { #category : #configuration }
@@ -65,7 +91,7 @@ ToTabsElement >> defaultInvisibleNodeMenuItemBuilder [
 		  aMenuItem endElement: ToIconicRemoveButton new.
 		  aMenuItem endFlexible: true.
 		  aMenuItem endInterspace: 10.
-		  aMenuItem addEventHandlerOn: ToRemoveShotEvent do: [ :event |
+		  aMenuItem addEventHandlerOn: ToRemoveButtonClickedEvent do: [ :event |
 			  event consume.
 			  aNode item removeFromBar.
 			  self checkInvisibleNodes ] ].
@@ -90,6 +116,25 @@ ToTabsElement >> defaultInvisibleNodesMenuBuilder [
 			  invisibleNodeMenuItemBuilder cull: mitem cull: node cull: request.
 			  menu addItem: mitem ] ].
 	  menu addSeparatorBeforeIndex: (middlePos max: 1) ]
+]
+
+{ #category : #initialization }
+ToTabsElement >> defaultNewTabItemBuilder [
+
+	^ [ :aTabItem :tabsElement |
+	  | wasFocused |
+	  wasFocused := tabsElement isFocused.
+	  aTabItem labelText: 'New Tab'.
+	  aTabItem label beEditable.
+	  aTabItem removable: true.
+	  aTabItem label whenEditorOpenedDo: [ :editorEvent |
+		  editorEvent editorElement whenSaveRequestedDo: [ :request |
+			  request accepted: true ].
+		  editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
+			  editorEvent target text: acceptedEvent target text.
+			  tabsElement selecter scrollTowardEndToDataSourcePosition:
+				  aTabItem holder position.
+			  wasFocused ifTrue: [ tabsElement requestFocus ] ] ] ]
 ]
 
 { #category : #accessing }
@@ -125,7 +170,19 @@ ToTabsElement >> initialize [
 		addEventHandlerOn: ToListSelectionChangedEvent
 		do: [ :event | self dispatchEvent: event copy ].
 
-	self addEventHandler: self defaultEventHandler
+	self addEventHandler: self defaultEventHandler.
+	newTabItemBuilder := self defaultNewTabItemBuilder.
+	showAddTabItemButton := false
+]
+
+{ #category : #initialization }
+ToTabsElement >> initializeAddTabItemButton [
+
+	addTabItemButton := ToTabsAddItemButton new.
+	addTabItemButton visibility: BlVisibility gone.
+	addTabItemButton constraintsDo: [ :c |
+		c linear horizontal alignCenter.
+		c linear vertical alignCenter ]
 ]
 
 { #category : #initialization }
@@ -145,6 +202,7 @@ ToTabsElement >> initializeParts [
 
 	| container |
 	self initializeInvisibleNodesMenu.
+	self initializeAddTabItemButton.
 	self startElement: self newLinearContainer.
 	self middleElement: self itemBar.
 	container := self newLinearContainer.
@@ -152,6 +210,7 @@ ToTabsElement >> initializeParts [
 	menusContainer := self newLinearContainer.
 	invisibleNodeMenuItemBuilder := self defaultInvisibleNodeMenuItemBuilder.
 	menusContainer addChild: invisibleNodesMenu.
+	container addChild: addTabItemButton.
 	container addChild: menusContainer.
 	container addChild: endExtraContainer.
 	self endElement: container.
@@ -210,6 +269,13 @@ ToTabsElement >> newRawSkin [
 	^ ToTabsElementSkin new
 ]
 
+{ #category : #accessing }
+ToTabsElement >> newTabItemBuilder: aValuable [
+	" aValuable takes the new TabItemElement and the TabsElement as arguments "
+
+	newTabItemBuilder := aValuable
+]
+
 { #category : #configuration }
 ToTabsElement >> newWidgetConfiguration [ 
 
@@ -225,6 +291,20 @@ ToTabsElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNod
 	invisibleNodes := theInvisibleNodes asArray.
 	visibleNodes := theVisibleNodes asArray.
 	self dispatchEvent: ToVisibleTabsChanged new
+]
+
+{ #category : #accessing }
+ToTabsElement >> showAddTabItemButton [
+
+	^ showAddTabItemButton
+]
+
+{ #category : #accessing }
+ToTabsElement >> showAddTabItemButton: aBoolean [
+
+	showAddTabItemButton = aBoolean ifTrue: [ ^ self ].
+	showAddTabItemButton := aBoolean.
+	self requestNewConfiguration 
 ]
 
 { #category : #configuration }

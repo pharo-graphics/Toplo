@@ -1,8 +1,8 @@
 Class {
 	#name : #ToLabel,
 	#superclass : #ToElement,
-	#traits : 'TToElementWithContentEditor',
-	#classTraits : 'TToElementWithContentEditor classTrait',
+	#traits : 'TToElementWithContentEditor + TToShrinkable',
+	#classTraits : 'TToElementWithContentEditor classTrait + TToShrinkable classTrait',
 	#instVars : [
 		'innerElement',
 		'editorWindowManager',

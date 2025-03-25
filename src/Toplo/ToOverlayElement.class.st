@@ -7,7 +7,7 @@ Class {
 		'positionHook',
 		'sizeHook'
 	],
-	#category : #'Toplo-Core'
+	#category : #'Toplo-Core-Overlay'
 }
 
 { #category : #'hook - geometry' }
@@ -53,6 +53,12 @@ ToOverlayElement >> positionHook: aValuable [
 	 "
 	
 	positionHook := aValuable
+]
+
+{ #category : #accessing }
+ToOverlayElement >> referenceElement [
+
+	^ referenceElement 
 ]
 
 { #category : #accessing }

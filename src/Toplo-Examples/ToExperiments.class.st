@@ -1500,6 +1500,19 @@ ToExperiments class >> example_verticalLabel [
 		openInSpace
 ]
 
+{ #category : #label }
+ToExperiments class >> labelWithForegroundWithGradient [ 
+
+	<script>
+	| l |
+	l := ToAttributedLabel new.
+	l foreground: ((BlLinearGradientPaint direction: 1 @ 1)
+				from: Color red
+				to: Color blue).
+	l text: 'AZERTYUIOP'.
+	l openInSpace 
+]
+
 { #category : #tree }
 ToExperiments class >> newTreeElement [
 

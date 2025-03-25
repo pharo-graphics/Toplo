@@ -337,6 +337,16 @@ BlElement >> isFake [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> isFullyVisibleInParent: aParentElement [
+
+	| bnds pbnds intersection |
+	bnds := self measuredBounds inSpace bounds asRectangle.
+	pbnds := aParentElement inSpace bounds asRectangle.
+	intersection := bnds intersect: pbnds.
+	^ intersection = bnds
+]
+
+{ #category : #'*Toplo' }
 BlElement >> isItemContainer [
 
 	^ false

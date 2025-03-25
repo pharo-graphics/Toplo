@@ -12,8 +12,7 @@ TToBarNode >> isFake [
 { #category : #'t - bar node' }
 TToBarNode >> isFullyVisibleInInnerElement [
 
-	| bnds list intersection |
-	list := self holder listElement.
+	| bnds  intersection |
 	bnds := (self measuredBounds inSpace) asRectangle.
 	intersection := self nodeAndListElementIntersection.
 	^ intersection = bnds

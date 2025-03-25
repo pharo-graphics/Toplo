@@ -1,8 +1,8 @@
 Class {
 	#name : #ToTabItemElement,
 	#superclass : #ToItemToggleButton,
-	#traits : 'TToRemovableItemElement',
-	#classTraits : 'TToRemovableItemElement classTrait',
+	#traits : 'TToRemovableItemElement + TToShrinkable',
+	#classTraits : 'TToRemovableItemElement classTrait + TToShrinkable classTrait',
 	#instVars : [
 		'removeButton'
 	],
@@ -46,6 +46,13 @@ ToTabItemElement >> initialize [
 		event consume.
 		event currentTarget removeFromBar ]
 	
+]
+
+{ #category : #'t - triplet element - accessing' }
+ToTabItemElement >> middleElement: anElement [
+
+	super middleElement: anElement.
+	"anElement addShrinkFeedbackLayerWithReferenceParent: self "
 ]
 
 { #category : #skin }

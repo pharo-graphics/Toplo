@@ -5,12 +5,22 @@ Class {
 	#classTraits : 'TAlbInfiniteDecorator classTrait + TBlAnnouncerProvider classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [
 		'next',
-		'editsFeedbackLayer',
 		'edited',
 		'autocompleteRule'
 	],
 	#category : #'Toplo-Widget-Album-TextPane'
 }
+
+{ #category : #layers }
+ToAlbum >> addEditsFeedbackLayer [
+
+	| layer |
+	self editsFeedbackLayer ifNotNil: [ ^ self ].
+	layer := ToAlbumEditsFeedbackLayer new.
+	layer id: #editsFeedbackLayer.
+	layer attachTo: self.
+	self addChild: layer
+]
 
 { #category : #initialization }
 ToAlbum >> autocompleteRule [
@@ -72,6 +82,12 @@ ToAlbum >> edited: aBoolean [
 
 	edited = aBoolean ifTrue: [ ^ self ].
 	edited := aBoolean
+]
+
+{ #category : #layers }
+ToAlbum >> editsFeedbackLayer [
+
+	^ self childWithId: #editsFeedbackLayer ifNone: []
 ]
 
 { #category : #'client - protocol' }
@@ -156,6 +172,15 @@ ToAlbum >> placeholderClass [
 ToAlbum >> primarySelectionElementClass [
 
 	^ ToAlbumPrimarySelectionElement 
+]
+
+{ #category : #layers }
+ToAlbum >> removeEditsFeedbackLayer [
+
+	| layer |
+	layer := self editsFeedbackLayer ifNil: [ ^ self ].
+	layer detach.
+	self removeChild: layer
 ]
 
 { #category : #'transaction hook' }
@@ -333,18 +358,17 @@ ToAlbum >> whenTextStyleRequested: aToTextStyleRequested [
 ]
 
 { #category : #layers }
-ToAlbum >> withEditsFeedback [
+ToAlbum >> withEditsFeedback: aBoolean [
 
-	editsFeedbackLayer ifNotNil: [ ^ self ].
-	editsFeedbackLayer := ToAlbumEditsFeedbackLayer new.
-	editsFeedbackLayer attachTo: self.
-	self addChild: editsFeedbackLayer
+	aBoolean
+		ifTrue: [ self addEditsFeedbackLayer ]
+		ifFalse: [ self removeEditsFeedbackLayer ]
 ]
 
 { #category : #initialization }
 ToAlbum >> withSaveCapability [
 
-	self withEditsFeedback.
+	self addEditsFeedbackLayer.
 
 	self addEditorShortcut: (BlShortcutWithAction new
 			 combination: BlKeyCombination primaryS;
@@ -358,26 +382,9 @@ ToAlbum >> withSaveCapability [
 			 description: 'Cancel changes and rollback the previous accepted source code.')
 ]
 
-{ #category : #layers }
-ToAlbum >> withoutEditsFeedback [
-
-	editsFeedbackLayer ifNil: [ ^ self ].
-
-	editsFeedbackLayer detach.
-	self removeChild: editsFeedbackLayer.
-
-	editsFeedbackLayer := nil
-]
-
 { #category : #initialization }
 ToAlbum >> withoutLineWrapping [
 
 	self infinite hFitContent.
 	self next hFitContent
-]
-
-{ #category : #layers }
-ToAlbum >> withoutPlaceholder [ 
-
-	self hidePlaceholder 
 ]

@@ -1535,7 +1535,7 @@ ToSandBox class >> example_EditorWithPlaceholderWithAlbum [
 		        withSaveCapability;
 		        whenSaveRequestedDo: [ :saveRequested |
 			        saveRequested accepted: true ];
-		        withEditsFeedback.
+		        addEditsFeedbackLayer.
 	view openInInnerWindow
 ]
 
@@ -1549,7 +1549,7 @@ ToSandBox class >> example_EditorWithoutSoftLine [
 		        withSaveCapability;
 		        whenSaveRequestedDo: [ :saveRequested |
 			        saveRequested accepted: true  ];
-		        withEditsFeedback.
+		        addEditsFeedbackLayer.
 	view withoutSoftLine.
 	view text: ((String loremIpsum: 10000) asRopedText fontName: 'Source Code Pro').
 	view openInSpace
@@ -5067,6 +5067,22 @@ ToSandBox class >> example_inlineInMenuPane [
 	frame := ToInnerWindow new.
 	frame pane addChild: menu.
 	frame openInSpace
+]
+
+{ #category : #label }
+ToSandBox class >> example_labelFieldWithShrinkFeedback [
+
+	| t innerWindow |
+	t := ToLabel new text: 'AZERTYUIOPAZERTYUIOP'.
+	t beEditable.
+	t whenEditorOpenedDo: [ :editorEvent |
+		editorEvent editorElement whenSaveRequestedDo: [ :request |
+			request accepted: true ].
+		editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
+			editorEvent target text: acceptedEvent target text ] ].
+	innerWindow := t openInInnerWindow.
+	t fitContent.
+	t addShrinkFeedbackLayerWithReferenceParent: innerWindow pane
 ]
 
 { #category : #menu }

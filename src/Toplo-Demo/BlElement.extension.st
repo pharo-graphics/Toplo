@@ -19,6 +19,12 @@ BlElement >> newButterflySkin [
 ]
 
 { #category : #'*Toplo-Demo' }
+BlElement >> newSkinDemoSkin [ 
+
+	^ ToSkinDemoSkin new
+]
+
+{ #category : #'*Toplo-Demo' }
 BlElement >> uninstallButterflyStyle [
 
 	

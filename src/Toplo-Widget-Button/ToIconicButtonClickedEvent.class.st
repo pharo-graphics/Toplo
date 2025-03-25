@@ -1,5 +1,5 @@
 Class {
-	#name : #ToIconicButtonShotEvent,
+	#name : #ToIconicButtonClickedEvent,
 	#superclass : #BlEvent,
 	#category : #'Toplo-Widget-Button-Iconic'
 }

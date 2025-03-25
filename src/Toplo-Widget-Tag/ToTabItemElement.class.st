@@ -31,12 +31,18 @@ ToTabItemElement >> addRemoveButton [
 
 ]
 
+{ #category : #converting }
+ToTabItemElement >> asString [
+
+	^ self label asString
+]
+
 { #category : #initialization }
 ToTabItemElement >> initialize [
 
 	super initialize.
 	self applySkinInstallerOnFirstRequest: true.
-	self addEventHandlerOn: ToRemoveShotEvent do: [ :event |
+	self addEventHandlerOn: ToRemoveButtonClickedEvent do: [ :event |
 		event consume.
 		event currentTarget removeFromBar ]
 	

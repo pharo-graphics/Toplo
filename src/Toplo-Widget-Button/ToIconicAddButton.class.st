@@ -8,7 +8,7 @@ Class {
 ToIconicAddButton >> initialize [ 
 
 	super initialize.
-	self newClickAction: [ self fireEvent: ToAddShotEvent new ].
+	self newClickAction: [ self fireEvent: ToAddButtonClickedEvent new ].
 	self id: #'add-iconic-button'
 ]
 

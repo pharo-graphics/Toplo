@@ -31,7 +31,7 @@ ToTagNodeManager >> buildNode: aNode forCompositeTagModel: aTagModel [
 ToTagNodeManager >> buildNode: aNode forSingleTagModel: aTagModel [
 
 	nodeBuilder cull: aNode cull: aTagModel data cull: aNode holder.
-	aNode addEventHandlerOn: ToRemoveShotEvent do: [ :event |
+	aNode addEventHandlerOn: ToRemoveButtonClickedEvent do: [ :event |
 		event consume.
 		event currentTarget removeFromBar ]
 ]

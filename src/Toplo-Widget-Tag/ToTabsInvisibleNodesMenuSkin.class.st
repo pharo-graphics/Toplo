@@ -1,11 +1,11 @@
 Class {
-	#name : #ToTabsInvisibleItemsMenuSkin,
+	#name : #ToTabsInvisibleNodesMenuSkin,
 	#superclass : #ToMenuSkin,
 	#category : #'Toplo-Widget-Tag-Tab'
 }
 
 { #category : #'event handling' }
-ToTabsInvisibleItemsMenuSkin >> installSkinEvent: anEvent [
+ToTabsInvisibleNodesMenuSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -15,7 +15,7 @@ ToTabsInvisibleItemsMenuSkin >> installSkinEvent: anEvent [
 ]
 
 { #category : #private }
-ToTabsInvisibleItemsMenuSkin >> menuImageIn: aTabsElement [
+ToTabsInvisibleNodesMenuSkin >> menuImageIn: aTabsElement [
 
 	^ aTabsElement isHorizontal
 		  ifTrue: [

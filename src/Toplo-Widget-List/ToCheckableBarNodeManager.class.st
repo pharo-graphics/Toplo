@@ -12,7 +12,7 @@ ToCheckableBarNodeManager >> buildNode: aNode [
 	holder := aNode holder.
 	checkableElement := holder dataItem.
 	checkableElement hMatchParent.
-	"the TToCheckable must be registered in the checkable group managed by the segmented bar"
+	"the TToCheckable must be registered in the checkable group managed by the checkable bar"
 	checkableElement registerInGroup: holder listElement group
 ]
 

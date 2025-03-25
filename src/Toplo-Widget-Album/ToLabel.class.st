@@ -33,6 +33,12 @@ ToLabel >> applyStyle [
 	self attributesBuilder applyOn: self text
 ]
 
+{ #category : #converting }
+ToLabel >> asString [ 
+
+	^ self text asString
+]
+
 { #category : #accessing }
 ToLabel >> attributes: anArray [
 

@@ -5306,6 +5306,50 @@ ToSandBox class >> example_menuPaneVertical [
 	"frame inspect"
 ]
 
+{ #category : #menu }
+ToSandBox class >> example_menuPaneVertical2 [
+
+	| frame bar sub subsub subsubsub |
+	bar := ToMenuPane new.
+
+	frame := ToInnerWindow new.
+	bar addItem: (ToMenuItem new
+			 labelText: 'Inspect';
+			 newClickAction: [ frame space root inspect ];
+			 yourself).
+	bar vertical: true.
+	sub := ToMenu new labelText: 'Save All'.
+	sub beInline.
+	sub addItem: (ToMenuItem new
+			 labelText: 'Locally';
+			 yourself).
+
+	subsub := ToMenu new
+		          labelText: 'Externally';
+		          icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	subsub beInline.
+	subsubsub := ToMenu new
+		             labelText: 'When';
+		             icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	subsubsub beInline.
+	subsubsub addItem: (ToMenuItem new
+			 labelText: 'now';
+			 yourself).
+	subsubsub addItem: (ToMenuItem new
+			 labelText: 'later';
+			 yourself).
+
+	subsub addItem: subsubsub.
+	sub addItem: subsub.
+	bar addItem: sub.
+	bar addSeparator.
+	bar isScrolling: true.
+	bar vMatchParent.
+	frame pane addChild: bar.
+	frame openInSpace
+	"frame inspect"
+]
+
 { #category : #tabs }
 ToSandBox class >> example_notPreservingPane [
 
@@ -8502,7 +8546,7 @@ ToSandBox class >> subsubsubTabPane [
 { #category : #tag }
 ToSandBox class >> tabsElementDashBoardFor: aTabsElement [
 
-	| mainPane barPane confPane startToEndSwitch rootPane |
+	| mainPane barPane confPane startToEndSwitch addTabItemButtonSwicth rootPane |
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
 
@@ -8516,6 +8560,13 @@ ToSandBox class >> tabsElementDashBoardFor: aTabsElement [
 	startToEndSwitch startFlexible: true.
 	startToEndSwitch hMatchParent.
 	confPane addChild: startToEndSwitch.
+
+	addTabItemButtonSwicth := ToSwitchButton new labelText: 'Show new tab button'.
+	addTabItemButtonSwicth newCheckFeature: #showAddTabItemButton with: aTabsElement.
+
+	addTabItemButtonSwicth startFlexible: true.
+	addTabItemButtonSwicth hMatchParent.
+	confPane addChild: addTabItemButtonSwicth.
 
 	confPane padding: (BlInsets all: 5).
 	confPane width: 250.

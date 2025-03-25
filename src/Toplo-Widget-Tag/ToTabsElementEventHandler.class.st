@@ -4,10 +4,17 @@ Class {
 	#category : #'Toplo-Widget-Tag-Tab'
 }
 
+{ #category : #adding }
+ToTabsElementEventHandler >> addButtonClickedEvent: anEvent [
+
+	anEvent currentTarget addNewTagItem.
+	anEvent consume
+]
+
 { #category : #'api - accessing' }
 ToTabsElementEventHandler >> eventsToHandle [
 
-	^ { ToVisibleTabsChanged. BlLayoutResizerChangedEvent }
+	^ { ToVisibleTabsChanged. BlLayoutResizerChangedEvent. ToAddButtonClickedEvent }
 ]
 
 { #category : #'element events handling' }

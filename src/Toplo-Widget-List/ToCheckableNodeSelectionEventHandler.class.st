@@ -16,6 +16,7 @@ ToCheckableNodeSelectionEventHandler >> clickEvent: anEvent [
 
 { #category : #'api - accessing' }
 ToCheckableNodeSelectionEventHandler >> eventsToHandle [
+
 	^ { BlPrimaryClickEvent }
 ]
 

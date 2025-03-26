@@ -142,17 +142,6 @@ ToCheckableData >> privateChecked: aBooleanOrIndeterminate [
 ]
 
 { #category : #'checking protocol' }
-ToCheckableData >> registerHolder: anElement [
-
-	owner addEventHandler: (BlEventHandler
-			 on: ToCheckableCheckEvent
-			 do: [ :event | anElement dispatchEvent: event copy ]).
-	owner addEventHandler: (BlEventHandler
-			 on: ToCheckableChangedEvent
-			 do: [ :event | anElement dispatchEvent: event copy ])
-]
-
-{ #category : #'checking protocol' }
 ToCheckableData >> switchToNextCheckState [
 
 	self checked: self nextCheckValue 

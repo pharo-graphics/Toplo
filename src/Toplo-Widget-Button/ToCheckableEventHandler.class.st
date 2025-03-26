@@ -18,14 +18,25 @@ ToCheckableEventHandler >> checkableChangedEvent: anEvent [
 { #category : #'event handling' }
 ToCheckableEventHandler >> clickEvent: anEvent [
 
-	| target |
-	target := anEvent currentTarget.
-	target switchToNextCheckState.
-	anEvent consume
+	anEvent
+		ifPrimary: [ self primaryClickEvent: anEvent ]
+		secondary: [  ]
+		middle: [  ]
+		other: [  ]
+
 ]
 
 { #category : #'api - accessing' }
 ToCheckableEventHandler >> eventsToHandle [
 
 	^ { ToCheckableChangedEvent. BlClickEvent  }
+]
+
+{ #category : #'event handling' }
+ToCheckableEventHandler >> primaryClickEvent: anEvent [
+
+	| target |
+	target := anEvent currentTarget.
+	target switchToNextCheckState.
+	anEvent consume
 ]

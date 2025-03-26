@@ -75,7 +75,6 @@ ToToggleButtonSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e layout alignCenter.
 		(e hasIcon and: [ e hasLabel ])
 			ifTrue: [
 			e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]

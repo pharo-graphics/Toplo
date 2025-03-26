@@ -3580,6 +3580,9 @@ ToSandBox class >> example_TabsElementWithUSStates [
 		tabs addItem: (ToTabItemElement new
 				 labelText: l;
 				 removable: true;
+				 constraintsDo: [ :c |
+					 c linear horizontal alignCenter.
+					 c linear vertical alignCenter ];
 				 yourself) ].
 
 	(tabs items at: 2) disable.

@@ -4,7 +4,14 @@ Class {
 	#category : #'Toplo-Widget-List-Tests-Core-ListElement'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
+ToSpecificListNodeForTest >> initialize [ 
+
+	super initialize.
+	self fitContent
+]
+
+{ #category : #'t - labeled icon' }
 ToSpecificListNodeForTest >> labelText [ 
 
 	^ self holder num asString, ':', self holder dataItem asString

@@ -4,14 +4,6 @@ Class {
 	#category : #'Toplo-Examples-PhotoGalleryParts'
 }
 
-{ #category : #initialization }
-ToPicsumNodeManager >> constraintNode: aNode [
-
-	aNode constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical fitContent ]
-]
-
 { #category : #'instance creation' }
 ToPicsumNodeManager >> newHolder [
 

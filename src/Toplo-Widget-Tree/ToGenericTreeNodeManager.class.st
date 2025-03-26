@@ -17,14 +17,6 @@ ToGenericTreeNodeManager >> buildNode: aNode [
 	aNode middleElement: (ToLabel text: dataItem asString)
 ]
 
-{ #category : #initialization }
-ToGenericTreeNodeManager >> constraintNode: aNode [
-
-	aNode
-		hMatchParent;
-		vFitContent
-]
-
 { #category : #'t - generic node manager' }
 ToGenericTreeNodeManager >> defaultNodeFactory [
 

@@ -8,47 +8,24 @@ Class {
 }
 
 { #category : #initialization }
-ToAbstractBarNodeManager >> constraintFakeNode: aNode [
+ToAbstractBarNodeManager >> applyFakeNodeConstraintsOn: aNode [
 
 	| bar |
 	bar := aNode holder listElement.
-	self constraintNode: aNode.
+	self applyNodeConstraintsOn: aNode.
 	bar isHorizontal
 		ifTrue: [ aNode constraintsDo: [ :c | c horizontal exact: 0 ] ]
 		ifFalse: [ aNode constraintsDo: [ :c | c vertical exact: 0 ] ]
 ]
 
 { #category : #initialization }
-ToAbstractBarNodeManager >> constraintNode: aNode [
+ToAbstractBarNodeManager >> constraintFakeNode: aNode [
 
-	| bar |
-	bar := aNode holder listElement.
-	bar isWrapping
-		ifFalse: [
-			bar isVertical
-				ifTrue: [
-					bar isHMatchParent
-						ifTrue: [ aNode hMatchParent ]
-						ifFalse: [ aNode hFitContent ].
-					bar autoDistribute
-						ifTrue: [ aNode vMatchParent ]
-						ifFalse: [ aNode vFitContent ] ]
-				ifFalse: [
-					bar isVMatchParent
-						ifTrue: [ aNode vMatchParent ]
-						ifFalse: [ aNode vFitContent ].
-					bar autoDistribute
-						ifTrue: [ aNode hMatchParent ]
-						ifFalse: [ aNode hFitContent ] ] ]
-		ifTrue: [ aNode fitContent ].
-
-	bar isWrapping ifTrue: [ ^ self ].
-	bar isScrolling ifTrue: [ ^ self ].
-	bar autoDistribute ifFalse: [ ^ self ].
-
-	bar isHorizontal
-		ifTrue: [ aNode hMatchParent ]
-		ifFalse: [ aNode vMatchParent ]
+	self
+		deprecated: 'Use #applyFakeNodeConstraintsOn:'
+		transformWith: '`@rcvr constraintFakeNode: `@arg'
+			-> '`@rcvr applyFakeNodeConstraintsOn: `@arg'.
+	self applyFakeNodeConstraintsOn: aNode
 ]
 
 { #category : #initialization }

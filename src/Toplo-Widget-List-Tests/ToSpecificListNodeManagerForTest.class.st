@@ -14,14 +14,6 @@ ToSpecificListNodeManagerForTest >> buildNode: aNode [
 ]
 
 { #category : #initialization }
-ToSpecificListNodeManagerForTest >> constraintNode: aNode [
-
-	aNode constraintsDo: [ :c |
-		c horizontal fitContent.
-		c vertical fitContent ]
-]
-
-{ #category : #initialization }
 ToSpecificListNodeManagerForTest >> initialize [ 
 
 	super initialize.

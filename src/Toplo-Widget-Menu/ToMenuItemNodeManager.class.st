@@ -5,9 +5,8 @@ Class {
 }
 
 { #category : #initialization }
-ToMenuItemNodeManager >> constraintNode: aNode [
+ToMenuItemNodeManager >> applyNodeConstraintsOn: aNode [
 
-	super constraintNode: aNode.
 	aNode holder dataItem constraintMenuNode: aNode.
 
 ]

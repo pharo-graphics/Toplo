@@ -3,10 +3,17 @@ Trait {
 	#instVars : [
 		'nodeFactory',
 		'nodeBuilder',
-		'nodeUnbuilder'
+		'nodeUnbuilder',
+		'nodeConstraintsHook'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
+
+{ #category : #'t - generic node manager' }
+TToGenericNodeManager >> applyNodeConstraintsOn: aNode [ 
+
+	nodeConstraintsHook cull: aNode cull: aNode holder dataItem cull: aNode holder
+]
 
 { #category : #'t - generic node manager' }
 TToGenericNodeManager >> buildNode: aNode [ 
@@ -16,10 +23,22 @@ TToGenericNodeManager >> buildNode: aNode [
 ]
 
 { #category : #'t - generic node manager' }
+TToGenericNodeManager >> constraintsNode: aValuable [
+
+	nodeConstraintsHook := aValuable
+]
+
+{ #category : #'t - generic node manager' }
 TToGenericNodeManager >> defaultNodeBuilder [
 
 	^ [ :node :dataItem :holder |
 	  node addChild: (ToLabel text: dataItem asString)  ]
+]
+
+{ #category : #'t - generic node manager' }
+TToGenericNodeManager >> defaultNodeConstraintsHook [
+
+	^ [ :node :dataItem :holder |  ]
 ]
 
 { #category : #'t - generic node manager' }
@@ -39,7 +58,8 @@ TToGenericNodeManager >> initializeAsGenericNodeManager [
 
 	nodeBuilder := self defaultNodeBuilder.
 	nodeUnbuilder := self defaultNodeUnbuilder.
-	nodeFactory := self defaultNodeFactory
+	nodeFactory := self defaultNodeFactory.
+	nodeConstraintsHook := self defaultNodeConstraintsHook 
 ]
 
 { #category : #'t - generic node manager' }

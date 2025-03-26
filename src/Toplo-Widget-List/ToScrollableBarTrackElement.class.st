@@ -53,7 +53,8 @@ ToScrollableBarTrackElement >> applyWidgetConfiguration [
 					ifFalse: [ self vFitContent ] ] ].
 
 	self constraintFakeNode.
-	self nodesDo: [ :n | listElement nodeManager constraintNode: n ]
+	self nodesDo: [ :n |
+		listElement nodeManager applyNodeConstraintsOn: n ]
 ]
 
 { #category : #'accessing - children' }
@@ -84,9 +85,9 @@ ToScrollableBarTrackElement >> checkFullyVisibleNodes [
 
 { #category : #layout }
 ToScrollableBarTrackElement >> constraintFakeNode [
-
 	"fakeNode ifNil: [ listElement installFakeNode ]."
-	listElement nodeManager constraintFakeNode: fakeNode
+
+	listElement nodeManager applyFakeNodeConstraintsOn: fakeNode
 ]
 
 { #category : #accessing }

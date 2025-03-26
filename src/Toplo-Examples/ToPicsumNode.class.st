@@ -31,7 +31,10 @@ ToPicsumNode >> initialize [
 		         yourself.
 	label background: Color black.
 	label withNullSkin.
-	self addChild: label
+	self addChild: label.
+	self constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical fitContent ]
 ]
 
 { #category : #accessing }

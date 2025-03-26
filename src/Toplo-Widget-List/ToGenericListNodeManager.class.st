@@ -7,15 +7,16 @@ Class {
 }
 
 { #category : #initialization }
-ToGenericListNodeManager >> constraintNode: aNode [
+ToGenericListNodeManager >> defaultNodeConstraintsHook [
 
-	aNode constraintsDo: [ :c |
-		| l |
-		l := aNode holder listElement.
-		l isHorizontal
-			ifTrue: [ c horizontal fitContent ]
-			ifFalse: [ c horizontal matchParent ].
-		c vertical fitContent ]
+	^ [ :node :dataItem :holder |
+	  node constraintsDo: [ :c |
+		  | l |
+		  l := node holder listElement.
+		  l isHorizontal
+			  ifTrue: [ c horizontal fitContent ]
+			  ifFalse: [ c horizontal matchParent ].
+		  c vertical fitContent ] ]
 ]
 
 { #category : #initialization }

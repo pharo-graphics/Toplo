@@ -179,15 +179,12 @@ ToInnerBarElement >> installFakeNode [
 
 	| fakeNode |
 	fakeNode := self nodeManager newFakeNodeIn: self.
-	
+
 	" add the fake node (to keep a constant minimum size ).
 	Pay attention to add the fake node ** before ** the fake node building "
 	self addFakeNode: fakeNode.
 	self nodeManager buildNode: fakeNode.
-	self nodeManager constraintFakeNode: fakeNode
-
-
-
+	self nodeManager applyFakeNodeConstraintsOn: fakeNode
 ]
 
 { #category : #accessing }

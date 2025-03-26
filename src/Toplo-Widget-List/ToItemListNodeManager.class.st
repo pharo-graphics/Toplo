@@ -5,15 +5,7 @@ Class {
 }
 
 { #category : #initialization }
-ToItemListNodeManager >> buildNode: aNode [
-
-	| holder |
-	holder := aNode holder.
-	aNode item: holder dataItem
-]
-
-{ #category : #initialization }
-ToItemListNodeManager >> constraintNode: aNode [
+ToItemListNodeManager >> applyNodeConstraintsOn: aNode [
 
 	| list |
 	list := aNode holder listElement.
@@ -28,6 +20,14 @@ ToItemListNodeManager >> constraintNode: aNode [
 				ifTrue: [ aNode vMatchParent ]
 				ifFalse: [ aNode vFitContent ].
 			aNode hFitContent ]
+]
+
+{ #category : #initialization }
+ToItemListNodeManager >> buildNode: aNode [
+
+	| holder |
+	holder := aNode holder.
+	aNode item: holder dataItem
 ]
 
 { #category : #'instance creation' }

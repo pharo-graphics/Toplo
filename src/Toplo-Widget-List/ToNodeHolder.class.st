@@ -201,7 +201,7 @@ ToNodeHolder >> setDataItemAndBuildNode: aDataItem [
 	self dataItem: aDataItem.
 	nodeManager := self nodeManager.
 	nodeManager buildNode: self node.
-	nodeManager constraintNode: self node.
+	nodeManager applyNodeConstraintsOn: self node.
 	self initializeNode
 ]
 

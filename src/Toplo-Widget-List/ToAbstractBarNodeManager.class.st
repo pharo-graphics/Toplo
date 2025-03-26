@@ -42,10 +42,6 @@ ToAbstractBarNodeManager >> constraintNode: aNode [
 						ifFalse: [ aNode hFitContent ] ] ]
 		ifTrue: [ aNode fitContent ].
 
-	aNode constraintsDo: [ :c |
-		c linear vertical alignCenter.
-		c flow vertical alignCenter ].
-
 	bar isWrapping ifTrue: [ ^ self ].
 	bar isScrolling ifTrue: [ ^ self ].
 	bar autoDistribute ifFalse: [ ^ self ].

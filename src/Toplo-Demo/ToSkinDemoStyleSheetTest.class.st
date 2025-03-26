@@ -74,7 +74,7 @@ ToSkinDemoStyleSheetTest >> testRuleBackgroundDependsOnParentOrChildren [
 { #category : #nil }
 ToSkinDemoStyleSheetTest >> testRuleBackgroundDependsOnSibling [
 
-	| theme elem parentElem childElem container sibling1 sibling2 |
+	| theme container sibling1 sibling2 |
 	theme := ToStyleSheetTheme new.
 	theme styleSheet addWritableProperty:
 		(ToFeatureProperty name: #background).
@@ -125,14 +125,12 @@ ToSkinDemoStyleSheetTest >> testRuleBackgroundDependsOnSibling [
 { #category : #tests }
 ToSkinDemoStyleSheetTest >> testRuleBackgroundDependsOnSizeWithActionBlock [
 
-	| theme elem verticalElem horizontalElem biggerElem |
+	| theme elem verticalElem horizontalElem biggerElem assertsTested |
 	
-	self skip.
-	self flag: 'Skipped as it needs to be fixed for now'.
 	theme := ToStyleSheetTheme new.
-	theme styleSheet addWritableProperty:
+	theme addWritableProperty:
 		(ToFeatureProperty name: #background).
-	theme styleSheet select: ToElement asTypeSelector style: [ :sr |
+	theme select: ToElement asTypeSelector style: [ :sr |
 		sr
 			when: ToInstallSkinEvent
 			write: (theme property: #background)
@@ -141,6 +139,7 @@ ToSkinDemoStyleSheetTest >> testRuleBackgroundDependsOnSizeWithActionBlock [
 			select: (ToActionSelector new action: [ :e | e width = 50 ])
 				|| (ToActionSelector new action: [ :e | e height = 50 ])
 			style: [ :squared |
+				
 				squared
 					when: ToInstallSkinEvent
 					write: (theme property: #background)
@@ -173,13 +172,16 @@ ToSkinDemoStyleSheetTest >> testRuleBackgroundDependsOnSizeWithActionBlock [
 	biggerElem := ToElement new
 		              size: 100 asPoint;
 		              position: 150 asPoint.
+		
 	space root addChild: elem.
 	space root addChild: verticalElem.
 	space root addChild: horizontalElem.
 	space root addChild: biggerElem.
-	space root whenLayoutedDoOnce: [
-		space toTheme: theme.
 
+	assertsTested := false.
+	space root whenLayoutedDoOnce: [
+		assertsTested := true.
+		space toTheme: theme.
 		self waitTestingSpaces.
 		self assert: elem background paint color equals: Color green.
 		self
@@ -188,7 +190,10 @@ ToSkinDemoStyleSheetTest >> testRuleBackgroundDependsOnSizeWithActionBlock [
 		self
 			assert: horizontalElem background paint color
 			equals: Color blue.
-		self assert: biggerElem background paint color equals: Color red ]
+		self assert: biggerElem background paint color equals: Color red ].
+	
+	space root forceLayout.
+	self assert: assertsTested.
 ]
 
 { #category : #tests }

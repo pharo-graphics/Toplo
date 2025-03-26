@@ -8,8 +8,13 @@ Class {
 }
 
 { #category : #tests }
-ToAlbumTest >> testWithoutEditsFeedback [
+ToAlbumTest >> testWithEditsFeedback [
 
-	self flag: #toImplement.
-	self assert: false
+	| a |
+	a := ToAlbum new.
+	a withEditsFeedback: false.
+	self assert: a editsFeedbackLayer isNil.
+	a withEditsFeedback: true.
+	self assert: a editsFeedbackLayer notNil.
+
 ]

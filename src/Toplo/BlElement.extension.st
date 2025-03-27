@@ -513,10 +513,6 @@ BlElement >> onSkinUninstalled: aSkin [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> onWidgetConfigurationApplied [
-]
-
-{ #category : #'*Toplo' }
 BlElement >> openInInnerWindow [
 
 	| frame |
@@ -647,10 +643,6 @@ BlElement >> requestUninstallSkin [
 		transformWith: '`@receiver requestUninstallSkin' -> '`@receiver skinManagerDo: [ :sm | sm requestUninstallSkinIn: `@receiver ]'.
 
 	self skinManagerDo: [ :sm | sm requestUninstallSkinIn: self ]
-]
-
-{ #category : #'*Toplo' }
-BlElement >> resetWidgetConfiguration [
 ]
 
 { #category : #'*Toplo' }
@@ -874,10 +866,6 @@ BlElement >> widgetConfiguration: anElementConfiguration [
 	anElementConfiguration ifNil: [ ^ self ].
 	self userData at: #widgetConfiguration put: anElementConfiguration.
 	anElementConfiguration onInstalledIn: self
-]
-
-{ #category : #'*Toplo' }
-BlElement >> widgetConfigurationDo: x [
 ]
 
 { #category : #'*Toplo' }

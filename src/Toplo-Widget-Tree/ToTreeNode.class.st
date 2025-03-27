@@ -28,5 +28,5 @@ ToTreeNode >> newRawSkin [
 { #category : #configuration }
 ToTreeNode >> newWidgetConfiguration [ 
 
-	^ ToTripletElementConfiguration new
+	^ ToTreeNodeConfiguration new
 ]

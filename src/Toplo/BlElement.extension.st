@@ -77,7 +77,8 @@ BlElement >> applySkinInstallersDeeply [
 BlElement >> applyWidgetConfiguration [
 
 	self widgetConfiguration ifNotNil: [ :tc | tc applyOn: self ].
-	self onWidgetConfigurationApplied.
+	" now consume the request for configuration to avoid 
+	an application during next pass "
 	self spaceDo: [ :sp |
 		self nextConfigurationPass: sp runningConfigurationPass ]
 ]
@@ -513,7 +514,6 @@ BlElement >> onSkinUninstalled: aSkin [
 
 { #category : #'*Toplo' }
 BlElement >> onWidgetConfigurationApplied [
-
 ]
 
 { #category : #'*Toplo' }
@@ -651,8 +651,6 @@ BlElement >> requestUninstallSkin [
 
 { #category : #'*Toplo' }
 BlElement >> resetWidgetConfiguration [
-
-	self userData removeKey: #widgetConfiguration ifAbsent: [  ]
 ]
 
 { #category : #'*Toplo' }
@@ -879,9 +877,7 @@ BlElement >> widgetConfiguration: anElementConfiguration [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> widgetConfigurationDo: aValuable [
-
-	self widgetConfiguration ifNotNil: [ :c | aValuable value: c ]
+BlElement >> widgetConfigurationDo: x [
 ]
 
 { #category : #'*Toplo' }

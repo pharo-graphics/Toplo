@@ -118,6 +118,8 @@ ToSpacePhasesManagerTest >> testNeedConfigurationPass [
 	self deny: space phasesManager needConfigurationPass.
 	e requestNewConfiguration.
 	space root addChild: e.
+	self deny: space phasesManager needConfigurationPass.
+	e requestNewConfiguration.
 	self assert: space phasesManager needConfigurationPass.
 	space applyAllWidgetConfigurations.
 	" all configurations should have been applied "

@@ -8,6 +8,13 @@ Class {
 	#category : #'Toplo-Widget-Tag-Tab'
 }
 
+{ #category : #configuration }
+ToTabBarElement >> applyWidgetConfiguration [ 
+
+	super applyWidgetConfiguration.
+	self nodesDo: [ :node | node item requestNewSkin ]
+]
+
 { #category : #accessing }
 ToTabBarElement >> atStartSide [
 
@@ -59,13 +66,6 @@ ToTabBarElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleN
 
 	parentTabsElement ifNotNil: [ :p |
 		p onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes ]
-]
-
-{ #category : #configuration }
-ToTabBarElement >> onWidgetConfigurationApplied [ 
-
-	super onWidgetConfigurationApplied.
-	self nodesDo: [ :node | node item  requestNewSkin ]
 ]
 
 { #category : #accessing }

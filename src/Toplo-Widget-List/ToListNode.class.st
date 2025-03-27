@@ -18,3 +18,9 @@ ToListNode >> newRawSkin [
 
 	^ ToListNodeSkin new
 ]
+
+{ #category : #configuration }
+ToListNode >> newWidgetConfiguration [
+
+	^ ToListNodeConfiguration new
+]

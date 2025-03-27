@@ -5,24 +5,6 @@ Class {
 }
 
 { #category : #initialization }
-ToItemListNodeManager >> applyNodeConstraintsOn: aNode [
-
-	| list |
-	list := aNode holder listElement.
-	list isVertical
-		ifTrue: [
-			list isHMatchParent
-				ifTrue: [ aNode hMatchParent ]
-				ifFalse: [ aNode hFitContent ].
-			aNode vFitContent ]
-		ifFalse: [
-			list isVMatchParent
-				ifTrue: [ aNode vMatchParent ]
-				ifFalse: [ aNode vFitContent ].
-			aNode hFitContent ]
-]
-
-{ #category : #initialization }
 ToItemListNodeManager >> buildNode: aNode [
 
 	| holder |

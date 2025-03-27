@@ -184,7 +184,7 @@ ToInnerBarElement >> installFakeNode [
 	Pay attention to add the fake node ** before ** the fake node building "
 	self addFakeNode: fakeNode.
 	self nodeManager buildNode: fakeNode.
-	self nodeManager applyFakeNodeConstraintsOn: fakeNode
+	self requestNewConfiguration
 ]
 
 { #category : #accessing }

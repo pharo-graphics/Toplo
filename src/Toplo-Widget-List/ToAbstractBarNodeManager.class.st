@@ -8,27 +8,6 @@ Class {
 }
 
 { #category : #initialization }
-ToAbstractBarNodeManager >> applyFakeNodeConstraintsOn: aNode [
-
-	| bar |
-	bar := aNode holder listElement.
-	self applyNodeConstraintsOn: aNode.
-	bar isHorizontal
-		ifTrue: [ aNode constraintsDo: [ :c | c horizontal exact: 0 ] ]
-		ifFalse: [ aNode constraintsDo: [ :c | c vertical exact: 0 ] ]
-]
-
-{ #category : #initialization }
-ToAbstractBarNodeManager >> constraintFakeNode: aNode [
-
-	self
-		deprecated: 'Use #applyFakeNodeConstraintsOn:'
-		transformWith: '`@rcvr constraintFakeNode: `@arg'
-			-> '`@rcvr applyFakeNodeConstraintsOn: `@arg'.
-	self applyFakeNodeConstraintsOn: aNode
-]
-
-{ #category : #initialization }
 ToAbstractBarNodeManager >> defaultFakeDataItem [
 
 	^ nil

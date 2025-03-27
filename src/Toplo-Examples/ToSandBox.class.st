@@ -2659,7 +2659,7 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 	| select |
 	select := ToMultiSelectElement new.
 
-	select isWrapping: false.
+	select isWrapping: true.
 	select keepPickOrder: true.
 		select filtrable: true.
 	self

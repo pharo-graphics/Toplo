@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTripletElementConfiguration,
-	#superclass : #ToElementConfiguration,
+	#superclass : #ToWidgetConfiguration,
 	#traits : 'TToTripletElementConfiguration',
 	#classTraits : 'TToTripletElementConfiguration classTrait',
 	#category : #'Toplo-Core'
@@ -11,6 +11,7 @@ ToTripletElementConfiguration >> applyOn: anElement [
 
 	"'applyOn: ' trace. anElement traceCr."
 
+	super applyOn: anElement.
 	self applyTripletElementConfigurationOn: anElement
 ]
 

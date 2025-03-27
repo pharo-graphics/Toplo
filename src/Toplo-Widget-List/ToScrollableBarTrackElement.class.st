@@ -25,7 +25,7 @@ ToScrollableBarTrackElement >> addHolder: anHolder at: aPosition [
 	self addChild: node at: aPosition + 1
 ]
 
-{ #category : #layout }
+{ #category : #configuration }
 ToScrollableBarTrackElement >> applyWidgetConfiguration [
 
 	super applyWidgetConfiguration.
@@ -52,17 +52,11 @@ ToScrollableBarTrackElement >> applyWidgetConfiguration [
 					ifTrue: [ self hFitContent ]
 					ifFalse: [ self vFitContent ] ] ].
 
-	self constraintFakeNode.
-	self nodesDo: [ :n |
-		listElement nodeManager applyNodeConstraintsOn: n ]
-]
-
-{ #category : #'accessing - children' }
-ToScrollableBarTrackElement >> artlyVisibleNodesSelect: aBlock [
-
-	^ Array streamContents: [ :stream |
-		  self partlyVisibleNodesDo: [ :node |
-			  (aBlock value: node) ifTrue: [ stream nextPut: node ] ] ]
+	fakeNode applyWidgetConfiguration.
+	self isHorizontal
+		ifTrue: [ fakeNode constraintsDo: [ :c | c horizontal exact: 0 ] ]
+		ifFalse: [ fakeNode constraintsDo: [ :c | c vertical exact: 0 ] ].
+	self nodesDo: [ :n | n applyWidgetConfiguration ]
 ]
 
 { #category : #testing }
@@ -81,13 +75,6 @@ ToScrollableBarTrackElement >> checkFullyVisibleNodes [
 		n isFullyVisibleInInnerElement not ].
 	visibleNodes := self nodes difference: invisibleNodes.
 	listElement onInvisibleNodes: invisibleNodes visibleNodes: visibleNodes
-]
-
-{ #category : #layout }
-ToScrollableBarTrackElement >> constraintFakeNode [
-	"fakeNode ifNil: [ listElement installFakeNode ]."
-
-	listElement nodeManager applyFakeNodeConstraintsOn: fakeNode
 ]
 
 { #category : #accessing }

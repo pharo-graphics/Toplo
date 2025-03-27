@@ -264,7 +264,7 @@ ToInnerBarElement >> onItemRangeChanged: aPositionStart itemCount: anItemCount [
 		pos := node holder position.
 		(pos >= aPositionStart and: [ pos < (aPositionStart + anItemCount) ])
 			ifTrue: [
-				node holder initializeNode ] ]
+				node requestNewConfiguration ] ]
 ]
 
 { #category : #'data source updates' }

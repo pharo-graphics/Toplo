@@ -14,5 +14,6 @@ ToListNodeConfiguration >> applyOn: aNode [
 		l isHorizontal
 			ifTrue: [ c horizontal fitContent ]
 			ifFalse: [ c horizontal matchParent ].
-		c vertical fitContent ]
+		c vertical fitContent ].
+	aNode holder initializeNode
 ]

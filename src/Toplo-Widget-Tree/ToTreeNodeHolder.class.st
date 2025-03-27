@@ -11,7 +11,7 @@ This also explains why my API mainly refers to the dataWrapper API.
 "
 Class {
 	#name : #ToTreeNodeHolder,
-	#superclass : #ToListNodeHolder,
+	#superclass : #ToNodeHolder,
 	#instVars : [
 		'dataWrapper'
 	],

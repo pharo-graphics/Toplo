@@ -2620,7 +2620,7 @@ ToSandBox class >> example_SelectAntDesignIconMultiFiltrable [
 	select hMatchParent.
 	select placeholderText:
 		('Select icons' asRopedText foreground: Color red).
-	select openInSpace
+	select openInInnerWindow
 ]
 
 { #category : #select }

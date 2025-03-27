@@ -14,9 +14,10 @@ ToNodeHolder >> bindDataItem: aDataItem [
 
 	self flag: 'The recycling case have to be re-worked'.
 	" I can already have a node in case of recycling "
-	self node ifNil: [
-		self setupNodeWith: (self nodeManager newNodeForHolder: self).
-		self setDataItemAndBuildNode: aDataItem ]
+	self node ifNotNil: [ ^ self ].
+	self setupNodeWith: (self nodeManager newNodeForHolder: self).
+	self dataItem: aDataItem.
+	self nodeManager buildNode: self node
 ]
 
 { #category : #accessing }
@@ -136,6 +137,7 @@ ToNodeHolder >> nodeManager [
 
 { #category : #accessing }
 ToNodeHolder >> notifyDeselectedWithOption: aSelectionElementOption [
+
 	self isSelected ifTrue: [ ^ self ].
 	self node dispatchEvent: (ToListNodeSelectedEvent new
 			 listElement: self listElement;
@@ -165,7 +167,7 @@ ToNodeHolder >> recyclingRequested: aBoolean [
 	recyclingRequested := aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : #dependencies }
 ToNodeHolder >> release [
 
 	super release.
@@ -192,16 +194,6 @@ ToNodeHolder >> selecter [
 ToNodeHolder >> selectionModel [
 
 	^ self listElement selectionModel
-]
-
-{ #category : #accessing }
-ToNodeHolder >> setDataItemAndBuildNode: aDataItem [ 
-
-	| nodeManager |
-	self dataItem: aDataItem.
-	nodeManager := self nodeManager.
-	nodeManager buildNode: self node.
-	self initializeNode
 ]
 
 { #category : #accessing }

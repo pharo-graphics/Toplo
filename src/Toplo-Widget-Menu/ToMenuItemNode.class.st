@@ -7,6 +7,5 @@ Class {
 { #category : #'instance creation' }
 ToMenuItemNode >> newWidgetConfiguration [
 
-	^ ToConfigurationAction new action: [ :aNode |
-		  aNode holder dataItem constraintMenuNode: aNode ]
+	^ ToMenuItemNodeConfiguration new
 ]

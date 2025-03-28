@@ -3515,18 +3515,16 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 { #category : #tag }
 ToSandBox class >> example_TabBarElement [
 
-	| tabs dashBoard |
+	| tabs board |
 	tabs := ToTabBarElement new.
-	tabs isWrapping: false.
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		tabs addItem: (ToTabItemElement new
 				 middleElement: (ToLabel text: l);
 				 yourself) ].
 
-	"(tabs items at: 2) disable."
-	dashBoard := self tabsElementDashBoardFor: tabs.
-	dashBoard openInSpace
+	board := self tabBarElementDashBoardFor: tabs.
+	board openInSpace
 ]
 
 { #category : #tag }
@@ -3580,9 +3578,6 @@ ToSandBox class >> example_TabsElementWithUSStates [
 		tabs addItem: (ToTabItemElement new
 				 labelText: l;
 				 removable: true;
-				 constraintsDo: [ :c |
-					 c linear horizontal alignCenter.
-					 c linear vertical alignCenter ];
 				 yourself) ].
 
 	(tabs items at: 2) disable.
@@ -8560,6 +8555,24 @@ ToSandBox class >> subsubsubTabPane [
 		but paneBuilder: [ :pane :theNoteBook | pane background: Color random ].
 		nb addTab: but ].
 	^ nb
+]
+
+{ #category : #tag }
+ToSandBox class >> tabBarElementDashBoardFor: aTabBarElement [
+
+	| confPane barPane mainPane |
+	confPane := self barConfigurationBoardFor: aTabBarElement.
+	barPane := ToPane vertical.
+	barPane matchParent.
+	barPane addChild: aTabBarElement.
+
+	mainPane := ToPane horizontal.
+	mainPane matchParent.
+	mainPane addChildren: {
+			confPane.
+			barPane }.
+
+	^ mainPane
 ]
 
 { #category : #tag }

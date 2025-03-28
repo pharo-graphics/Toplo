@@ -7,15 +7,12 @@ Class {
 { #category : #'event handling' }
 ToCheckableBarElementEventHandler >> checkableGroupChangedEvent: anEvent [
 
-	| currTarget checkList uncheckedList |
+	| currTarget selectedIndexes |
 	currTarget := anEvent currentTarget.
-	checkList := anEvent checkedList.
-	uncheckedList := anEvent uncheckedList.
-	currTarget dataAccessor withIndexDo: [ :e :idx |
-		e isChecked
-			ifTrue: [ currTarget selecter selectIndex: idx ]
-			ifFalse: [ currTarget selecter deselectIndex: idx ] ].
-
+	selectedIndexes := Array streamContents: [ :stream |
+		                   anEvent checkedList do: [ :e |
+			                   stream nextPut: e holder position ] ].
+	currTarget selecter selectOnlyIndexes: selectedIndexes
 ]
 
 { #category : #'api - accessing' }

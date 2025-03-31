@@ -13,16 +13,7 @@ ToTagElement >> addRemoveButton [
 	self removeButton ifNotNil: [ ^ self ].
 	ic := ToIconicRemoveButton new.
 	ic id: #'tag-remove-button'.
-	ic addStamp: #'parent-tag' withValue: self.
 	self endElement: ic
-]
-
-{ #category : #'t - labeled icon' }
-ToTagElement >> icon: anElement [
-
-	self iconDo: [ :ic | ic removeStamp: #'parent-tag' ].
-	super icon: anElement.
-	self iconDo: [ :ic | ic addStamp: #'parent-tag' withValue: self ]
 ]
 
 { #category : #initialization }
@@ -41,12 +32,13 @@ ToTagElement >> initializeAsCheckable [
 	self takeFocusOnClick: true
 ]
 
-{ #category : #'t - labeled icon' }
-ToTagElement >> label: anElement [
+{ #category : #skin }
+ToTagElement >> installRawStyle [
 
-	self labelDo: [ :lab | lab removeStamp: #'parent-tag' ].
-	super label: anElement.
-	self labelDo: [ :lab | lab addStamp: #'parent-tag' withValue: self ]
+	super installRawStyle.
+	self isRemovable
+		ifTrue: [ self addRemoveButton ]
+		ifFalse: [ self removeRemoveButton ]
 ]
 
 { #category : #skin }

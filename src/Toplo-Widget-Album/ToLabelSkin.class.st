@@ -45,7 +45,7 @@ ToLabelSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		"e text asString trace. ' ' trace. anEvent traceCr."
-		e withStamp: #foreground
+		e withStamp: #'foreground-color'
 					do: [ :v | foreground := v ]
 					ifNone: [  foreground := e valueOfTokenNamed: #'color-text' ].
 		e textAttributesBuilder
@@ -64,7 +64,6 @@ ToLabelSkin >> selectedSkinEvent: anEvent [
 	anEvent selectionMode selectionOption hasEmbeddedRepresentation ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e |
 		| f |
-		"e text asString trace. ' ' trace. anEvent traceCr."
 		anEvent focused
 			ifTrue: [
 				e
@@ -78,6 +77,5 @@ ToLabelSkin >> selectedSkinEvent: anEvent [
 					do: [ :v | f := v ]
 					ifNone: [
 					f := e valueOfTokenNamed: #'label-selected-unfocused' ] ].
-		e foreground: f.
-		e applyStyle ]
+		e foreground: f ]
 ]

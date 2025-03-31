@@ -61,6 +61,12 @@ ToTabItemElement >> newRawSkin [
 	^ ToTabItemElementSkin new
 ]
 
+{ #category : #configuration }
+ToTabItemElement >> newWidgetConfiguration [ 
+
+	^ ToTabItemElementConfiguration new
+]
+
 { #category : #'t - removable item element' }
 ToTabItemElement >> removeButton [
 

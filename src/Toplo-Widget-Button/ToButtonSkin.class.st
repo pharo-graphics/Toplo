@@ -23,23 +23,13 @@ ToButtonSkin >> enabledSkinEvent: anEvent [
 
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e
-			withStamp: #'parent-tag'
-			do: [ :tag |
-				e border: BlBorder empty.
-				tag
-					withStamp: #foregroundColor
-					do: [ :v | e icon innerImageColor: v ]
-					ifNone: [
-					e icon innerImageColor: (e valueOfTokenNamed: #'color-primary') ] ]
-			ifNone: [
-				e isMenuButton ifFalse: [
-					(e hasStamp: #borderless) ifFalse: [
-						e border: (BlBorder
-								 paint: (e valueOfTokenNamed: #'color-border')
-								 width: (e valueOfTokenNamed: #'line-width')) ] ].
-				e iconDo: [ :ic |
-					ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
+		e isMenuButton ifFalse: [
+			(e hasStamp: #borderless) ifFalse: [
+				e border: (BlBorder
+						 paint: (e valueOfTokenNamed: #'color-border')
+						 width: (e valueOfTokenNamed: #'line-width')) ].
+			e iconDo: [ :ic |
+				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
 		e endElementDo: [ :ic |
 			(ic respondsTo: #innerImageColor:) ifTrue: [
 				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
@@ -88,16 +78,8 @@ ToButtonSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e
-			withStamp: #'parent-tag'
-			do: [ :tag |
-				e border: BlBorder empty.
-				tag
-					withStamp: #foregroundColor
-					do: [ :v | e icon innerImageColor: v ] ]
-			ifNone: [
-				e iconDo: [ :ic |
-					ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
+		e iconDo: [ :ic |
+			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
 		e endElementDo: [ :ic |
 			(ic respondsTo: #innerImageColor:) ifTrue: [
 				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].

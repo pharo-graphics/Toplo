@@ -11,12 +11,6 @@ Class {
 }
 
 { #category : #initialization }
-ToMenuItem >> buttonClass [
-
-	^ ToButton 
-]
-
-{ #category : #initialization }
 ToMenuItem >> initialize [ 
 
 	super initialize.

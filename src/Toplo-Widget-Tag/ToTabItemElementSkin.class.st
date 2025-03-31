@@ -69,7 +69,6 @@ ToTabItemElementSkin >> installSkinEvent: anEvent [
 		| leftPadding |
 		leftPadding := e valueOfTokenNamed: #'padding-XS'.
 		e isRemovable ifTrue: [
-			e addRemoveButton.
 			leftPadding := leftPadding + 15 ].
 		self configureLabelInItemElement: e.
 		e focusability: BlFocusability ignore.
@@ -105,11 +104,4 @@ ToTabItemElementSkin >> selectedSkinEvent: anEvent [
 
 	anEvent elementDo: [ :e |
 		self configureLabelInItemElement: e ]
-]
-
-{ #category : #'event handling' }
-ToTabItemElementSkin >> uninstallSkinEvent: anEvent [
-
-	super uninstallSkinEvent: anEvent.
-	anEvent elementDo: [ :e | e removeRemoveButton ]
 ]

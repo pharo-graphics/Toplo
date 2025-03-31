@@ -33,7 +33,7 @@ TToRemovableItemElement >> removable: aBoolean [
 
 	removable = aBoolean ifTrue: [ ^ self ].
 	removable := aBoolean.
-	self requestNewSkin
+	self requestNewConfiguration
 ]
 
 { #category : #'t - removable item element' }

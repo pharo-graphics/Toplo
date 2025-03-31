@@ -1945,6 +1945,20 @@ ToSandBox class >> example_ListOneClass2 [
 ]
 
 { #category : #list }
+ToSandBox class >> example_ListTwoClasses [
+
+	| l |
+	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
+		     node
+			     addChild: (ToLabeledIcon new labelText: dataItem name);
+			     hMatchParent ].
+	l dataAccessor addAll:
+		(Smalltalk globals allClasses copyFrom: 1 to: 12).
+	l openInSpace.
+	l inspect
+]
+
+{ #category : #list }
 ToSandBox class >> example_ListWith6Elements [
 
 	| l |

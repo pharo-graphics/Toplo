@@ -7,8 +7,8 @@ Trait {
 TToColorableItemElement >> backgroundColor: aColorOrNil [
 
 	aColorOrNil
-		ifNil: [ self removeStamp: #backgroundColor ]
-		ifNotNil: [ self addStamp: #backgroundColor withValue: aColorOrNil ]
+		ifNil: [ self removeStamp: #'background-color' ]
+		ifNotNil: [ self addStamp: #'background-color' withValue: aColorOrNil ]
 ]
 
 { #category : #'t - colorable item element' }
@@ -23,6 +23,6 @@ TToColorableItemElement >> borderless: aBoolean [
 TToColorableItemElement >> foregroundColor: aColorOrNil [
 
 	aColorOrNil
-		ifNil: [ self removeStamp: #foregroundColor ]
-		ifNotNil: [ self addStamp: #foregroundColor withValue: aColorOrNil ]
+		ifNil: [ self removeStamp: #'foreground-color' ]
+		ifNotNil: [ self addStamp: #'foreground-color' withValue: aColorOrNil ]
 ]

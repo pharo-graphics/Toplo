@@ -274,7 +274,9 @@ ToListElementEventHandler >> refreshSelectionFromEvent: anEvent [
 	currTarget := anEvent currentTarget.
 	selectionRefreshTask ifNotNil: [ ^ self ].
 	selectionRefreshTask := BlTaskAction new.
-	selectionRefreshTask action: [ self refreshSelectionIn: currTarget ].
+	selectionRefreshTask action: [
+		self refreshSelectionIn: currTarget.
+		selectionRefreshTask := nil ].
 	currTarget enqueueTask: selectionRefreshTask
 ]
 
@@ -285,8 +287,7 @@ ToListElementEventHandler >> refreshSelectionIn: aTarget [
 		mode selectionOptionDo: [ :option |
 			option
 				forceRefreshSelectionIn: aTarget
-				withSelectionModel: mode selectionModel ] ].
-	selectionRefreshTask := nil
+				withSelectionModel: mode selectionModel ] ]
 ]
 
 { #category : #'event handling' }

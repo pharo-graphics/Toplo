@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-Button-Iconic'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event handling' }
 ToIconicRemoveButtonSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
@@ -20,7 +20,7 @@ ToIconicRemoveButtonSkin >> installSkinEvent: anEvent [
 			(ToMaterialDesignIconProvider innerImageNamed: 'outlined_close') ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event handling' }
 ToIconicRemoveButtonSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.

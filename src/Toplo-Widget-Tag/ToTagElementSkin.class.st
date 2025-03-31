@@ -13,8 +13,10 @@ ToTagElementSkin >> disabledSkinEvent: anEvent [
 		e background: (e valueOfTokenNamed: #'color-bg-container-disabled').
 		e iconDo: [ :ic |
 			ic formColor: (e valueOfTokenNamed: #'color-text-disabled') ].
-		e endElementDo: [ :ic |
-			ic formColor: (e valueOfTokenNamed: #'color-text-disabled') ].
+		e removeButton ifNotNil: [ :rb |
+			rb
+				addStamp: #color
+				withValue: (e valueOfTokenNamed: #'color-text-disabled') ].
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text-disabled') ] ]
 ]
@@ -27,20 +29,20 @@ ToTagElementSkin >> enabledSkinEvent: anEvent [
 		| backgroundColor foregroundColor defaultToken |
 		defaultToken := #'border-color-primary-selection'.
 		e
-			withStamp: #foregroundColor
+			withStamp: #'foreground-color'
 			do: [ :v | foregroundColor := v ]
 			ifNone: [ foregroundColor := e valueOfTokenNamed: defaultToken ].
 		defaultToken := #'color-primary-selection-unfocused'.
 		e
-			withStamp: #backgroundColor
+			withStamp: #'background-color'
 			do: [ :v | backgroundColor := v ]
 			ifNone: [ backgroundColor := e valueOfTokenNamed: defaultToken ].
 
 		e background: backgroundColor.
 		e labelDo: [ :lab |
-			lab addStamp: #foreground withValue: foregroundColor ].
-		e endElementDo: [ :ic | 
-			ic addStamp: #color withValue: foregroundColor ].
+			lab addStamp: #'foreground-color' withValue: foregroundColor ].
+		e removeButton ifNotNil: [ :rb |
+			rb addStamp: #color withValue: foregroundColor ].
 
 		(e hasStamp: #borderless)
 			ifTrue: [ e border: BlBorder empty ]
@@ -54,9 +56,8 @@ ToTagElementSkin >> enabledSkinEvent: anEvent [
 ToTagElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e isRemovable ifTrue: [ e addRemoveButton ].
 
+	anEvent elementDo: [ :e |
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e valueOfTokenNamed: 'border-radius')).
 		e padding: (BlInsets
@@ -70,11 +71,4 @@ ToTagElementSkin >> installSkinEvent: anEvent [
 			ifTrue: [
 			e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
 			ifFalse: [ e endInterspace: 0 ] ]
-]
-
-{ #category : #'event handling' }
-ToTagElementSkin >> uninstallSkinEvent: anEvent [
-
-	super uninstallSkinEvent: anEvent.
-	anEvent elementDo: [ :e | e removeRemoveButton ]
 ]

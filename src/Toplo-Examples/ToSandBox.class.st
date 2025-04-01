@@ -1920,6 +1920,35 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_vertical_interspace [
 ]
 
 { #category : #list }
+ToSandBox class >> example_List12Classes [
+
+	| l menuFactory |
+	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
+		     node addChild: (ToLabel new
+				      text: dataItem name;
+				      hMatchParent) ].
+	l dataAccessor addAll:
+		(Smalltalk globals allClasses copyFrom: 1 to: 12).
+	menuFactory := [ :menu :request |
+	               | selectionModel indexes target |
+	               target := request currentTarget.
+	               selectionModel := request selectionModel.
+	               indexes := request selectedIndexes.
+	               menu addItem: (ToMenuItem new
+			                labelText: 'Remove';
+			                newClickAction: [
+				                indexes sort reverseDo: [ :idx |
+						                target dataAccessor removeAt: idx ] ];
+			                yourself).
+	               menu addItem: (ToMenuItem new
+			                labelText: 'Inspect list';
+			                newClickAction: [ target inspect ];
+			                yourself) ].
+	l contextMenu: menuFactory.
+	l openInSpace
+]
+
+{ #category : #list }
 ToSandBox class >> example_ListOneClass [
 
 	| l |
@@ -1952,6 +1981,7 @@ ToSandBox class >> example_ListTwoClasses [
 		     node
 			     addChild: (ToLabeledIcon new labelText: dataItem name);
 			     hMatchParent ].
+	l withRowNumbers.
 	l dataAccessor addAll:
 		(Smalltalk globals allClasses copyFrom: 1 to: 12).
 	l openInSpace.

@@ -38,17 +38,11 @@ ToSelectionWithElement >> boundsOfNode: aNode in: aListElement [
 ]
 
 { #category : #'private - selection element' }
-ToSelectionWithElement >> computeSelectionElementBoundsIn: aListElement [
-
-	preComputedBounds := self boundsFromNodesIn: aListElement
-]
-
-{ #category : #'private - selection element' }
 ToSelectionWithElement >> createSelectionElementIn: aListElement option: aSelectionRepresentationOption [
 
 	cachedSelectionElement := aSelectionRepresentationOption newSelectionElementIn: aListElement.
 	cachedSelectionElement nodes: self nodes.
-	self computeSelectionElementBoundsIn: aListElement
+	preComputedBounds := self boundsFromNodesIn: aListElement
 ]
 
 { #category : #removing }
@@ -69,11 +63,9 @@ ToSelectionWithElement >> preComputedBounds [
 { #category : #'private - selection element' }
 ToSelectionWithElement >> refreshSelectionElementIn: aListElement option: aSelectionRepresentationOption [
 
-	cachedSelectionElement ifNil: [
-		self createSelectionElementIn: aListElement option: aSelectionRepresentationOption.
-		^ self ].
-	self computeSelectionElementBoundsIn: aListElement.
-	cachedSelectionElement := self updatedSelectionElementIn: aListElement
+	self
+		createSelectionElementIn: aListElement
+		option: aSelectionRepresentationOption
 ]
 
 { #category : #accessing }

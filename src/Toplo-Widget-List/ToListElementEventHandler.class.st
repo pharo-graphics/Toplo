@@ -183,17 +183,17 @@ ToListElementEventHandler >> listDataSourceItemsRemovedEvent: anEvent [
 	If done by the selecter, the model update is postponed, the consequence
 	can be that the skin can be updated whereas the selection model 
 	is not up-to-date leading to a baddly SelectedSkinEvent sent"
-	currTarget selectionModel withAllSubModelsDo: [ :sm |
+	"currTarget selectionModel withAllSubModelsDo: [ :sm |
 		sm
 			deselectIndex: anEvent position
-			to: anEvent position + anEvent itemCount - 1 ].
+			to: anEvent position + anEvent itemCount - 1 ]."
 	" since the delection model as been updated, one have to force the renewal 
 	of selection elements "
 	currTarget selecter
 		shiftSelection: anEvent itemCount negated
 		from: anEvent position.
 
-	currTarget updateAllSelections
+	"currTarget updateAllSelections"
 ]
 
 { #category : #'infinite event handling' }
@@ -272,12 +272,13 @@ ToListElementEventHandler >> refreshSelectionFromEvent: anEvent [
 
 	| currTarget |
 	currTarget := anEvent currentTarget.
-	selectionRefreshTask ifNotNil: [ ^ self ].
+	self refreshSelectionIn: currTarget.
+	"selectionRefreshTask ifNotNil: [ ^ self ].
 	selectionRefreshTask := BlTaskAction new.
 	selectionRefreshTask action: [
 		self refreshSelectionIn: currTarget.
 		selectionRefreshTask := nil ].
-	currTarget enqueueTask: selectionRefreshTask
+	currTarget enqueueTask: selectionRefreshTask"
 ]
 
 { #category : #'selection managing' }

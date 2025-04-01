@@ -76,18 +76,18 @@ ToListSelectionRepresentationOption >> isSeparate [
 ToListSelectionRepresentationOption >> launchUpdateSelectionIn: aListElement withSelectionModel: aSelectionModel [
 
 	| newRepresentations |
+	"aListElement selectionModel = aSelectionModel ifTrue: [
+		self halt ]."
 	newRepresentations := self
 		                      currentSelectionRepresentationsFrom:
 		                      aListElement
 		                      withSelectionModel: aSelectionModel.
-	(self selectionRepresentationsChangeWith: newRepresentations)
-		ifFalse: [ ^ false ].
 	" send deselected even if groups is empty. 
 	As an example, if not, if a selected node is turned as unselectable, 
 	the content of the node will not be updated correctly 
 	because the content skin will not receive the DeselectedSkinEvent "
-
-	self notifyNodesDeselectedIn: aListElement.
+	aSelectionModel = aListElement selectionModel ifTrue: [
+		self notifyNodesDeselectedIn: aListElement ].
 	self removeSelectionRepresentationsIn: aListElement.
 	currentSelectionRepresentations := newRepresentations.
 	^ true
@@ -115,7 +115,7 @@ ToListSelectionRepresentationOption >> refreshSelectionIn: aListElement withSele
 	consecutiveRefreshCount := consecutiveRefreshCount + 1.
 	consecutiveRefreshCount > 1 ifTrue: [
 		^ self ].
-	self removeSelectionRepresentationsIn: aListElement.
+	"self removeSelectionRepresentationsIn: aListElement."
 	self
 		launchUpdateSelectionIn: aListElement
 		withSelectionModel: aSelectionModel

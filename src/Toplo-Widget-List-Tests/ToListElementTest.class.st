@@ -281,6 +281,7 @@ ToListElementTest >> testMakeDisabledUnselectable [
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	l disabledSelecter selectIndex: 3.
 	self waitTestingSpaces.
+	self waitTestingSpaces.
 	self assert: l disabledSelecter selectedIndexes equals: { 3 }.
 	self assert: l unselectableSelecter selectedIndexes equals: {  }.
 	l selecter selectIndex: 3.
@@ -288,6 +289,7 @@ ToListElementTest >> testMakeDisabledUnselectable [
 	self assert: l selecter selectedIndexes equals: {  }.
 	l selectionMode makeDisabledUnselectable: false.
 	l selecter selectIndex: 3.
+	self waitTestingSpaces.
 	self waitTestingSpaces.
 	self assert: l selecter selectedIndexes equals: { 3 }.
 
@@ -578,8 +580,9 @@ ToListElementTest >> testSelectionUpdatedAfterRemove [
 	l forceLayout.
 	l selecter selectOnlyIndex: 3.
 	l dataAccessor removeAt: 2.
-	sp := l inSpace.
-	sp pulse.
+	space root addChild: l.
+	self waitTestingSpaces.
+	self waitTestingSpaces.
 	self assert: l selectionModel selectedIndexes equals: { 2 }
 ]
 
@@ -633,6 +636,7 @@ ToListElementTest >> testSelectionUpdatedAfterRemove3 [
 	self assert: l selectionModel selectedIndexes equals: #( 3 4 ).
 	l dataAccessor removeAt: 2.
 	self waitTestingSpaces.
+	self waitTestingSpaces.
 	self assert: l selectionModel selectedIndexes equals: #( 2 3 )
 ]
 
@@ -652,6 +656,7 @@ ToListElementTest >> testSelectionUpdatedAfterRemove4 [
 	self assert: l selectionModel selectedIndexes equals: #( 2 ).
 	l dataAccessor removeAt: 2.
 	self waitTestingSpaces.
+	self waitTestingSpaces.
 	self assert: l selectionModel selectedIndexes isEmpty
 ]
 
@@ -668,6 +673,7 @@ ToListElementTest >> testSelectionUpdatedAfterRemove5 [
 	self waitTestingSpaces.
 	self assert: l selectionModel selectedIndexes equals: #( 3 4 ).
 	l dataAccessor removeAt: 3.
+	self waitTestingSpaces.
 	self waitTestingSpaces.
 	self assert: l selectionModel selectedIndexes equals: #( 3 )
 ]
@@ -686,6 +692,7 @@ ToListElementTest >> testSelectionUpdatedAfterRemove6 [
 	self assert: l selectionModel selectedIndexes equals: #( 3 4 ).
 	l dataAccessor removeAt: 3.
 	l dataAccessor removeAt: 3.
+	self waitTestingSpaces.
 	self waitTestingSpaces.
 	self assert: l selectionModel selectedIndexes equals: #(  )
 ]

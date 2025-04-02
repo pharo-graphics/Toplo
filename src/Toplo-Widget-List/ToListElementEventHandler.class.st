@@ -175,25 +175,14 @@ ToListElementEventHandler >> listDataSourceItemsRemovedEvent: anEvent [
 
 	| currTarget |
 	currTarget := anEvent currentTarget.
-	" update the secondary selection because it can be on the removed nodes "
-	currTarget secondarySelecter
-		deselectIndex: anEvent position
-		to: anEvent position + anEvent itemCount - 1.
-	"Have to update directly the selection model here (not from the selecter).
-	If done by the selecter, the model update is postponed, the consequence
-	can be that the skin can be updated whereas the selection model 
-	is not up-to-date leading to a baddly SelectedSkinEvent sent"
-	"currTarget selectionModel withAllSubModelsDo: [ :sm |
-		sm
+	currTarget whenLayoutedDoOnce: [ 
+		" update the secondary selection because it can be on the removed nodes "
+		currTarget secondarySelecter
 			deselectIndex: anEvent position
-			to: anEvent position + anEvent itemCount - 1 ]."
-	" since the delection model as been updated, one have to force the renewal 
-	of selection elements "
-	currTarget selecter
-		shiftSelection: anEvent itemCount negated
-		from: anEvent position.
-
-	"currTarget updateAllSelections"
+			to: anEvent position + anEvent itemCount - 1.
+		currTarget selecter
+			shiftSelection: anEvent itemCount negated
+			from: anEvent position ]
 ]
 
 { #category : #'infinite event handling' }

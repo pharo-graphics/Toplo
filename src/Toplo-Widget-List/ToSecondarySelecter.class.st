@@ -7,5 +7,6 @@ Class {
 { #category : #initialization }
 ToSecondarySelecter >> defaultCommandApplicationStrategy [
 
-	^ ToDataSourceCommandApplicationStrategy new
+	"^ ToDataSourceCommandApplicationStrategy new"
+	^ ToImmediateCommandApplicationStrategy new
 ]

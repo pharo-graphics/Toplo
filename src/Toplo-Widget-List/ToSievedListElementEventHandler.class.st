@@ -9,51 +9,10 @@ Class {
 	#category : #'Toplo-Widget-List-Sieve'
 }
 
-{ #category : #'api - hooks' }
-ToSievedListElementEventHandler >> buildOriginalIndexMapFrom: aListElement [
-
-
-	dataPositionIndex removeAll.
-	aListElement dataAccessor withIndexDo: [ :aData :idx |
-		dataPositionIndex at: aData put: idx ]
-]
-
 { #category : #'api - accessing' }
 ToSievedListElementEventHandler >> eventsToHandle [
 
-	^ {
-		  BlInfiniteDataSourceChanged.
-		  BlInfiniteDataSourceItemRangeChanged.
-		  BlInfiniteDataSourceItemRangeInserted.
-		  BlInfiniteDataSourceItemRangeRemoved.
-		  ToListSelectionCommandAppliedEvent }
-]
-
-{ #category : #'data source events handling' }
-ToSievedListElementEventHandler >> infiniteDataSourceChanged: anEvent [
-
-	sieve pattern ifNotEmpty: [ ^ self ].
-	self buildOriginalIndexMapFrom: anEvent currentTarget
-]
-
-{ #category : #'data source events handling' }
-ToSievedListElementEventHandler >> infiniteDataSourceItemRangeChanged: anEvent [
-
-	sieve pattern ifNotEmpty: [ ^ self ].
-	self buildOriginalIndexMapFrom: anEvent currentTarget
-]
-
-{ #category : #'data source events handling' }
-ToSievedListElementEventHandler >> infiniteDataSourceItemRangeInserted: anEvent [
-
-	sieve pattern ifNotEmpty: [ ^ self ].
-	self buildOriginalIndexMapFrom: anEvent currentTarget
-]
-
-{ #category : #'data source events handling' }
-ToSievedListElementEventHandler >> infiniteDataSourceItemRangeRemoved: anEvent [
-
-	" no need to update dataPositionIndex here "
+	^ { ToListSelectionCommandAppliedEvent }
 ]
 
 { #category : #'element handlers' }
@@ -102,8 +61,7 @@ ToSievedListElementEventHandler >> onInstalledIn: aListElement [
 
 	super onInstalledIn: aListElement.
 	sieveSelectionModel := sieve selectionModel.
-	self originalIndexMap: sieve originalIndexMap.
-	self buildOriginalIndexMapFrom: aListElement
+	self originalIndexMap: sieve originalIndexMap
 ]
 
 { #category : #accessing }

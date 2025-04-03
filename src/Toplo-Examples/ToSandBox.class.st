@@ -306,13 +306,12 @@ ToSandBox class >> barWithData: aCollection [
 			         fontSize: fontSize;
 			         yourself.
 		but := ToIconicRemoveButton new.
-		but newClickAction: [ 
+		but newClickAction: [
 			holder listElement dataAccessor removeAt: holder position ].
 		triplet startElement: but.
 		triplet middleElement: label.
 		triplet startInterspace: 10.
-		triplet constraintsDo: [ :c |
-			c linear vertical alignCenter ].
+		triplet constraintsDo: [ :c | c linear vertical alignCenter ].
 		node addChild: triplet ].
 
 	bar contextMenu: [ :menu :request |
@@ -321,20 +320,24 @@ ToSandBox class >> barWithData: aCollection [
 		idxes := request selectedIndexes.
 		menu addItem: (ToMenuItem new
 				 labelText: 'Inspect list';
-				 newClickAction: [ target inspect ]).
+				 newClickAction: [ target inspect ];
+				 yourself).
 		menu addItem: (ToMenuItem new
 				 labelText: 'Remove all';
-				 newClickAction: [ target dataAccessor removeAll ]).
+				 newClickAction: [ target dataAccessor removeAll ];
+				 yourself).
 		menu addItem: (ToMenuItem new
 				 labelText: 'Add first a new item';
 				 newClickAction: [
 					 target dataAccessor addFirst:
-							 String loremIpsum substrings first , ' (added first)' ]).
+							 String loremIpsum substrings first , ' (added first)' ];
+				 yourself).
 		menu addItem: (ToMenuItem new
 				 labelText: 'Add last a new item';
 				 newClickAction: [
 					 target dataAccessor add:
-							 String loremIpsum substrings first , ' (added last)' ]).
+							 String loremIpsum substrings first , ' (added last)' ];
+				 yourself).
 		idxes ifNotEmpty: [
 			menu addItem: (ToMenu new
 					 labelText: 'Selected node';
@@ -343,25 +346,27 @@ ToSandBox class >> barWithData: aCollection [
 									  labelText: 'Inspect';
 									  newClickAction: [
 										  Array withAll:
-												  (idxes collect: [ :idx | target nodeAt: idx ]) inspect ]).
+												  (idxes collect: [ :idx | target nodeAt: idx ]) inspect ];
+									  yourself).
 						 m addItem: (ToMenuItem new
 								  labelText: 'Remove';
 								  newClickAction: [
-									  idxes reverseDo: [ :idx |
-											  bar dataAccessor removeAt: idx ] ]).
+									  idxes reverseDo: [ :idx | bar dataAccessor removeAt: idx ] ];
+								  yourself).
 						 m addItem: (ToMenuItem new
 								  labelText: 'Unable/disable';
 								  newClickAction: [
-									  idxes do: [ :idx |
-											  (bar nodeAt: idx) disable ] ]).
+									  idxes do: [ :idx | (bar nodeAt: idx) disable ] ];
+								  yourself).
 						 m addItem: (ToMenuItem new
 								  labelText: 'Unselectable';
 								  newClickAction: [
 									  idxes do: [ :idx |
-											  bar unselectableSelecter selectIndex: idx ] ]).
+											  bar unselectableSelecter selectIndex: idx ] ];
+								  yourself).
 						 m addItem: (ToMenuItem new
 								  labelText: 'Insert before';
-								  newClickAction: [ 
+								  newClickAction: [
 									  | idx |
 									  idx := idxes first.
 									  target dataAccessor
@@ -371,7 +376,7 @@ ToSandBox class >> barWithData: aCollection [
 								  yourself).
 						 m addItem: (ToMenuItem new
 								  labelText: 'Insert after';
-								  newClickAction: [ 
+								  newClickAction: [
 									  | idx |
 									  idx := idxes last.
 									  target dataAccessor

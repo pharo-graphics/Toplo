@@ -36,3 +36,9 @@ ToInnerBarDataSourceManager >> onItemsChanged [
 
 	innerBarElement onItemsChanged
 ]
+
+{ #category : #'data source updates' }
+ToInnerBarDataSourceManager >> onSelecterCommand: aCommand appliedBy: aCommandApplier [
+
+	aCommandApplier applyCommand: aCommand
+]

@@ -45,6 +45,13 @@ ToInfiniteElement >> cleanUpRecyclerAt: anIndex [
 	self customRecycler removeNodeAt: anIndex in: self
 ]
 
+{ #category : #layout }
+ToInfiniteElement >> consumeFinalStepCommands [
+
+	dataSourceManager consumeFinalStepCommandsIn: self.
+
+]
+
 { #category : #'t - infinite accessing' }
 ToInfiniteElement >> customRecycler [
 
@@ -99,8 +106,7 @@ ToInfiniteElement >> defaultScrollFlinger [
 ToInfiniteElement >> dispatchLayoutFinalStep [
 
 	super dispatchLayoutFinalStep.
-	dataSourceManager consumeFinalStepCommandsIn: self.
-
+	self consumeFinalStepCommands
 ]
 
 { #category : #'t - list node holder' }

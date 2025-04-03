@@ -31,17 +31,6 @@ ToInfiniteDataSource >> notifyItemsSievedWith: aSieve [
 		sieve: aSieve )
 ]
 
-{ #category : #'event firing' }
-ToInfiniteDataSource >> notifySelecterCommandApplicationRequest: aCommand from: aSelecter [
-	"Notify any registered observers that a selecter request the application of a command.
-	This is not a structural change event"
-
-	self notifyWithEvent: (ToSelecterCommandApplicationRequest new
-			 selecter: aSelecter;
-			 command: aCommand;
-			 yourself)
-]
-
 { #category : #'instance creation' }
 ToInfiniteDataSource >> onCreateHolder: anInfiniteElement [ 
 

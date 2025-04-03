@@ -13,7 +13,8 @@ Class {
 		'eventDispatcher',
 		'originalIndexMap',
 		'sieveEventHandler',
-		'commandEventHandler'
+		'commandEventHandler',
+		'dataSourceHandler'
 	],
 	#category : #'Toplo-Widget-List-Sieve'
 }
@@ -81,6 +82,9 @@ ToListElementSieve >> onInstalledIn: aListElement [
 	selectionHandler := ToSievedListElementEventHandler new.
 	selectionHandler sieve: self.
 	aListElement addEventHandler: selectionHandler.
+	dataSourceHandler := ToSievedListDataSourceEventHandler new.
+	dataSourceHandler sieve: self.
+	aListElement dataSource addEventHandler: dataSourceHandler.
 
 	sieveEventHandler := ToSieveEventHandler new
 		                     listElement: aListElement;
@@ -103,6 +107,7 @@ ToListElementSieve >> onUninstalledIn: aListElement [
 	" uninstall list element handlers and the queyrunner properly "
 
 	aListElement removeEventHandler: selectionHandler.
+	aListElement dataSource removeEventHandler: dataSourceHandler.
 	queryRunner onUninstalledIn: originalData.
 	self removeEventHandler: sieveEventHandler.
 	self removeEventHandler: commandEventHandler.

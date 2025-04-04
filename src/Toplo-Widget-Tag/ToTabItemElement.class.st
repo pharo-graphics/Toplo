@@ -18,17 +18,7 @@ ToTabItemElement >> addRemoveButton [
 		c ignoreByLayout.
 		c ignored horizontal alignLeft.
 		c ignored vertical alignCenter ].
-	self addChild: removeButton.
-	self holder listElement isWrapping ifTrue: [ ^ self ].
-	removeButton
-		addStamp: #'selected-focused-foreground'
-		withValue:
-		(self valueOfTokenNamed: #'color-primary-selection-focused').
-	removeButton
-		addStamp: #'selected-unfocused-foreground'
-		withValue:
-		(self valueOfTokenNamed: #'color-primary-selection-focused').
-
+	self addChild: removeButton
 ]
 
 { #category : #converting }

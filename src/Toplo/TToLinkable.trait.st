@@ -4,6 +4,36 @@ Trait {
 }
 
 { #category : #'t - linkable' }
+TToLinkable >> checkAction: aValuable [
+	" link the receiver through a valuable action. 
+	Tha valuable take the event, the receiver 
+	and the boolean value of checkable receiver
+	as arguments."
+
+	self newCheckAction: aValuable
+]
+
+{ #category : #'t - linkable' }
+TToLinkable >> checkAction: aValuable with: linkedObject [ 
+
+	self newCheckAction: aValuable with: linkedObject 
+
+
+]
+
+{ #category : #'t - linkable' }
+TToLinkable >> clickAction: aValuable [
+
+	self newClickAction: aValuable
+]
+
+{ #category : #'t - linkable' }
+TToLinkable >> clickAction: aValuable with: anObject [ 
+
+	self newClickAction: aValuable with: anObject 
+]
+
+{ #category : #'t - linkable' }
 TToLinkable >> newCheckAction: aValuable [
 	" link the receiver through a valuable action. 
 	Tha valuable take the event, the receiver 

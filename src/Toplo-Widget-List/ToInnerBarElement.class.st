@@ -318,10 +318,7 @@ ToInnerBarElement >> onItemsChanged [
 ToInnerBarElement >> onLayout: aBounds context: aBlElementBoundsUpdater [
 
 	super onLayout: aBounds context: aBlElementBoundsUpdater.
-	self checkFullyVisibleNodes.
-	self spaceDo: [ :sp | 
-		sp mouseProcessor handleLastMouseMove ].
-
+	self checkFullyVisibleNodes
 ]
 
 { #category : #'hooks - scrolling' }

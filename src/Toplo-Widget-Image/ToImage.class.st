@@ -3,7 +3,8 @@ Class {
 	#superclass : #ToElement,
 	#instVars : [
 		'innerImage',
-		'loader'
+		'loader',
+		'innerImageColor'
 	],
 	#category : #'Toplo-Widget-Image-Core'
 }
@@ -187,9 +188,10 @@ ToImage >> innerImage: anImage [
 
 { #category : #'inner accessing' }
 ToImage >> innerImageColor: aColor [
-
-	self innerSvgImage ifNotNil: [ ^ self innerSvgImageColor: aColor ].
-	self innerFormImage ifNotNil: [ ^ self innerFormImageColor: aColor ]
+	innerImageColor = aColor ifTrue: [ ^ self ].
+	self innerSvgImage ifNotNil: [ self innerSvgImageColor: aColor ].
+	self innerFormImage ifNotNil: [ self innerFormImageColor: aColor ].
+	innerImageColor := aColor
 ]
 
 { #category : #'inner accessing' }

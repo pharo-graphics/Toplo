@@ -5,26 +5,23 @@ Class {
 }
 
 { #category : #'event handling' }
-ToTabItemElementSkin >> configureLabelInItemElement: anItemElement [
+ToTabItemElementSkin >> configureSelectionTokensIn: anItemElement [
 
-	anItemElement labelDo: [ :label |
-		anItemElement holder listElement isWrapping
-			ifTrue: [ label removeStamp: #'label-selected-focused-foreground' ]
-			ifFalse: [
-				label
-					addStamp: #'label-selected-focused-foreground'
-					withValue:
-					(anItemElement valueOfTokenNamed:
-						 #'color-primary-selection-focused') ] ]
-]
-
-{ #category : #'event handling' }
-ToTabItemElementSkin >> deselectedSkinEvent: anEvent [
-
-	super deselectedSkinEvent: anEvent.
-
-	anEvent elementDo: [ :e |
-		self configureLabelInItemElement: e ]
+	anItemElement holder listElement isWrapping
+		ifTrue: [
+			anItemElement removeTokenNamed: #'selected-focused-foreground'.
+			anItemElement removeTokenNamed: #'selected-unfocused-foreground' ]
+		ifFalse: [
+			anItemElement
+				addTokenNamed: #'selected-focused-foreground'
+				withValue:
+				(anItemElement valueOfTokenNamed:
+					 #'color-primary-selection-focused').
+			anItemElement
+				addTokenNamed: #'selected-unfocused-foreground'
+				withValue:
+				(anItemElement valueOfTokenNamed:
+					 #'color-primary-selection-focused') ]
 ]
 
 { #category : #'event handling' }
@@ -44,7 +41,7 @@ ToTabItemElementSkin >> enabledSkinEvent: anEvent [
 
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		self configureLabelInItemElement: e.
+		self configureSelectionTokensIn: e.
 		e iconDo: [ :ic |
 			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
 		e endElementDo: [ :ic |
@@ -69,8 +66,7 @@ ToTabItemElementSkin >> installSkinEvent: anEvent [
 		| leftPadding |
 		leftPadding := e valueOfTokenNamed: #'padding-XS'.
 		e isRemovable ifTrue: [
-			leftPadding := leftPadding + 15 ].
-		self configureLabelInItemElement: e.
+			leftPadding := leftPadding + e removeButton measuredWidth].
 		e focusability: BlFocusability ignore.
 		e border: BlBorder empty.
 		e background: BlBackground transparent.
@@ -95,13 +91,4 @@ ToTabItemElementSkin >> leavedSkinEvent: anEvent [
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal ]
-]
-
-{ #category : #'event handling' }
-ToTabItemElementSkin >> selectedSkinEvent: anEvent [
-
-	super selectedSkinEvent: anEvent.
-
-	anEvent elementDo: [ :e |
-		self configureLabelInItemElement: e ]
 ]

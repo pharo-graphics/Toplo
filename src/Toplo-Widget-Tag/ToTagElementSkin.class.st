@@ -40,7 +40,7 @@ ToTagElementSkin >> enabledSkinEvent: anEvent [
 
 		e background: backgroundColor.
 		e labelDo: [ :lab |
-			lab addStamp: #'foreground-color' withValue: foregroundColor ].
+			lab addTokenNamed: #'color-text' withValue: foregroundColor ].
 		e removeButton ifNotNil: [ :rb |
 			rb addStamp: #color withValue: foregroundColor ].
 

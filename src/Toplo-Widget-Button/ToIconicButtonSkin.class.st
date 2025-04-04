@@ -73,18 +73,10 @@ ToIconicButtonSkin >> selectedSkinEvent: anEvent [
 		ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e |
 		| foreground |
-		anEvent focused
-			ifTrue: [
-				e
-					withStamp: #'selected-focused-foreground'
-					do: [ :v | foreground := v ]
-					ifNone: [
-					foreground := e valueOfTokenNamed: #'label-selected-focused' ] ]
-			ifFalse: [
-				e
-					withStamp: #'selected-unfocused-foreground'
-					do: [ :v | foreground := v ]
-					ifNone: [
-					foreground := e valueOfTokenNamed: #'label-selected-unfocused' ] ].
+		foreground := anEvent focused
+			              ifTrue: [
+			              e valueOfTokenNamed: #'selected-focused-foreground' ]
+			              ifFalse: [
+			              e valueOfTokenNamed: #'selected-unfocused-foreground' ].
 		e innerImageColor: foreground ]
 ]

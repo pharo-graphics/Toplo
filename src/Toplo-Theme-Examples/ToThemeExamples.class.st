@@ -269,7 +269,7 @@ ToThemeExamples class >> example_ToLabelWithHeadingSkin [
 		                 beEndToStart.
 	themeSwitcher defaultSkin: ToCheckboxSkin new.
 	themeSwitcher
-		newCheckAction: [ :evt :cbox :v |
+		checkAction: [ :evt :cbox :v |
 			cbox space toTheme: (v
 					 ifTrue: [ ToBeeDarkTheme new ]
 					 ifFalse: [ ToBeeTheme new ]) ].

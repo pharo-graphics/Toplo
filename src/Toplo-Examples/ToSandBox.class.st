@@ -142,18 +142,18 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	menu addItem: (ToRadioMenuItem new
 			 label: (ToLabel text: 'Dark theme');
-			 newCheckAction: [ :evt :cbox :v |
+			 checkAction: [ :evt :cbox :v |
 				 cbox space toTheme: (v
 							  ifTrue: [ ToRawDarkTheme new ]
 							  ifFalse: [ ToRawTheme new ]) ];
 			 yourself).
 	menu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Space statistics');
-			 newClickAction: [ aBar space showStatisticsWindow ];
+			 clickAction: [ aBar space showStatisticsWindow ];
 			 yourself).
 	menu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Inspect');
-			 newClickAction: [ aBar space root inspect ];
+			 clickAction: [ aBar space root inspect ];
 			 yourself).
 	menu addItem: (ToRadioMenuItem new
 			 label: (ToLabel text: 'Disabled bar');
@@ -1072,7 +1072,7 @@ ToSandBox class >> example_CheckboxChecked [
 	| chb |
 	ToTheme cleanUp.
 	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
-	chb newCheckAction: [ :evt :target :value  |
+	chb checkAction: [ :evt :target :value  |
 		value traceCr ].
 	chb checked: true.
 	chb openInInnerWindow
@@ -1085,13 +1085,13 @@ ToSandBox class >> example_CheckboxCheckedDisabled [
 	ToTheme cleanUp.
 	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
 	chb addEventHandlerOn: ToSkinEvent do: [ :evt | evt traceCr ].
-	chb newCheckAction: [ :evt :target :value |
+	chb checkAction: [ :evt :target :value |
 		'isChecked: ' trace.
 		value traceCr ].
 	chb checked: true.
 	chb disabled: true.
 	disBtn := ToSwitchButton new labelText: 'Enable/disable'.
-	disBtn newCheckAction: [ chb enabled: chb isEnabled not ].
+	disBtn checkAction: [ chb enabled: chb isEnabled not ].
 	disBtn checked: chb isEnabled.
 
 	sp := BlSpace new.
@@ -3750,7 +3750,7 @@ ToSandBox class >> example_ToggleButtonChecked [
 	toggle addEventHandler: (BlEventHandler
 			 on: ToSkinEvent
 			 do: [ :evt | evt target = toggle ifTrue: [ evt traceCr ] ]).
-	toggle newCheckAction: [ :evt :target :value |
+	toggle checkAction: [ :evt :target :value |
 		value traceCr ].
 	toggle checked: true.
 	toggle openInInnerWindow
@@ -4087,7 +4087,7 @@ ToSandBox class >> example_WithCheckBox [
 
 	menu addItem: (ToRadioMenuItem new
 			 label: (ToLabel text: 'Check');
-			 newCheckAction: [ :evt :target :value | value traceCr ];
+			 checkAction: [ :evt :target :value | value traceCr ];
 			 yourself).
 	grp := ToCheckableGroup new.
 	right := ToCheckMenuItem new
@@ -4209,7 +4209,7 @@ ToSandBox class >> example_buttonWithDisableEnable [
 	button := (ToButton id: #buttonA)
 		          labelText: 'Button';
 		          yourself.
-	disabox newCheckAction: [ :evt :target :value | button disabled: value ].
+	disabox checkAction: [ :evt :target :value | button disabled: value ].
 	button newClickAction: [ :evt :target | disabox checked: true. button disabled: true ].
 	button addEventHandlerOn: ToHoveredSkinEvent do: [ :evt |  ].
 	pane addChild: disabox.
@@ -4285,7 +4285,7 @@ ToSandBox class >> example_closeableTabs [
 	(Color wheel: 5) withIndexDo: [ :eachColor :index |
 		but := ToTab new.
 		but closable: true.
-		but newCheckAction: [ :evt :target :value | value traceCr ].
+		but checkAction: [ :evt :target :value | value traceCr ].
 		but labelText: 'Button ' , index asString.
 		but paneBuilder: [ :pane :theNoteBook | pane background: eachColor ].
 		nb addTab: but ].
@@ -4568,11 +4568,11 @@ ToSandBox class >> example_group4 [
 		registerAll: {
 				(ToRadioButton new
 					 labelText: 'Light theme';
-					 newCheckAction: [ :evt :btn :v | Toplo defaultThemeClass: ToRawTheme ];
+					 checkAction: [ :evt :btn :v | Toplo defaultThemeClass: ToRawTheme ];
 					 yourself).
 				(ToRadioButton new
 					 labelText: 'Dark theme';
-					 newCheckAction: [ :evt :btn :v | Toplo defaultThemeClass: ToRawDarkTheme ];
+					 checkAction: [ :evt :btn :v | Toplo defaultThemeClass: ToRawDarkTheme ];
 					 yourself) }.
 
 	containerElement addChildren: group registeredCheckables.
@@ -6092,7 +6092,7 @@ ToSandBox class >> example_switchButton2 [
 		((ToImage inner: (self iconNamed: #glamorousClose))
 			 innerImageColor: Color white).
 
-	th newCheckAction: [ :evt :target :value | value traceCr ].
+	th checkAction: [ :evt :target :value | value traceCr ].
 	sp := th openInSpace
 ]
 

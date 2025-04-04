@@ -10,6 +10,24 @@ ToInfiniteDataSource >> dataAccessor [
 	^ self subclassResponsibility 
 ]
 
+{ #category : #notifications }
+ToInfiniteDataSource >> notifyChangedDataItem: aDataItem [
+
+	self subclassResponsibility 
+]
+
+{ #category : #notifications }
+ToInfiniteDataSource >> notifyDataItemChangeIndex: anInteger [
+	
+	self notifyDataItemChangeInterval: (anInteger to: anInteger)
+]
+
+{ #category : #notifications }
+ToInfiniteDataSource >> notifyDataItemChangeInterval: anInterval [
+	
+	self notifyItemsChanged: anInterval
+]
+
 { #category : #'event firing' }
 ToInfiniteDataSource >> notifyItemsFiltered [
 	"Notify any registered observers that data source have been newly filtered.

@@ -38,6 +38,15 @@ ToInfiniteCollectionDataSource >> itemCount [
 	^ self size
 ]
 
+{ #category : #notifications }
+ToInfiniteCollectionDataSource >> notifyChangedDataItem: aDataItem [
+
+	| idx |
+	idx := self indexOf: aDataItem.
+	idx isZero ifTrue: [ Error signal: 'Data item not found' ].
+	self notifyDataItemChangeIndex: idx
+]
+
 { #category : #hooks }
 ToInfiniteCollectionDataSource >> onAttached: anInfiniteElement [
 

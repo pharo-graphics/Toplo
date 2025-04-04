@@ -393,27 +393,6 @@ ToAbstractListElement >> nodeManager [
 ]
 
 { #category : #notifications }
-ToAbstractListElement >> notifyChangedDataItem: aDataItem [
-
-	| idx |
-	idx := self dataAccessor indexOf: aDataItem.
-	idx isZero ifTrue: [ Error signal: 'Data item not found' ].
-	self notifyDataItemChangeIndex: idx
-]
-
-{ #category : #notifications }
-ToAbstractListElement >> notifyDataItemChangeIndex: anInteger [
-	
-	self notifyDataItemChangeInterval: (anInteger to: anInteger)
-]
-
-{ #category : #notifications }
-ToAbstractListElement >> notifyDataItemChangeInterval: anInterval [
-	
-	self dataSource notifyItemsChanged: anInterval
-]
-
-{ #category : #notifications }
 ToAbstractListElement >> notifyDataSourceChanged [
 
 	
@@ -425,16 +404,6 @@ ToAbstractListElement >> notifyDataSourceItemsFiltered: aDataSourceEvent [
 
 	
 	self dispatchEvent: aDataSourceEvent
-]
-
-{ #category : #notifications }
-ToAbstractListElement >> notifyPrimarySelectionDirty [
-
-	self
-		deprecated: 'use #updateAllSelections instead'
-		transformWith:
-		'`@rcvr notifyPrimarySelectionDirty' -> '`@rcvr updateAllSelections'.
-	self updateAllSelections
 ]
 
 { #category : #'private - commands' }

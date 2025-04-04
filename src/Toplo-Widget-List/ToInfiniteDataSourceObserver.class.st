@@ -16,7 +16,10 @@ ToInfiniteDataSourceObserver >> infiniteDataSourceChanged: anEvent [
 { #category : #'event handling' }
 ToInfiniteDataSourceObserver >> infiniteDataSourceItemRangeChanged: anEvent [	
 
-	super infiniteDataSourceItemRangeChanged: anEvent	
+	| listElement |
+	super infiniteDataSourceItemRangeChanged: anEvent	.
+	listElement := infiniteElement listElement.
+	listElement whenLayoutedDoOnce: [ listElement updateAllSelections ]
 ]
 
 { #category : #'event handling' }

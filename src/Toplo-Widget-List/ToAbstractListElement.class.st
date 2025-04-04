@@ -393,16 +393,31 @@ ToAbstractListElement >> nodeManager [
 ]
 
 { #category : #notifications }
+ToAbstractListElement >> notifyChangedDataItem: aDataItem [
+
+	| idx |
+	idx := self dataAccessor indexOf: aDataItem.
+	idx isZero ifTrue: [ Error signal: 'Data item not found' ].
+	self notifyDataItemChangeIndex: idx
+]
+
+{ #category : #notifications }
+ToAbstractListElement >> notifyDataItemChangeIndex: anInteger [
+	
+	self notifyDataItemChangeInterval: (anInteger to: anInteger)
+]
+
+{ #category : #notifications }
+ToAbstractListElement >> notifyDataItemChangeInterval: anInterval [
+	
+	self dataSource notifyItemsChanged: anInterval
+]
+
+{ #category : #notifications }
 ToAbstractListElement >> notifyDataSourceChanged [
 
 	
 	self dataSource notifyChanged
-]
-
-{ #category : #notifications }
-ToAbstractListElement >> notifyDataSourceItemChanged: aDataSourceEvent [
-
-	self dispatchEvent: aDataSourceEvent
 ]
 
 { #category : #notifications }

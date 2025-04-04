@@ -174,6 +174,7 @@ ToImage >> innerImage: anImage [
 
 	| element |
 	anImage = innerImage ifTrue: [ ^ self ].
+	innerImageColor := nil.
 	element := anImage ifNil: [ self defaultInnerImage ].
 	element := self convertedAsInnerImage: element.
 	self removeChildren.

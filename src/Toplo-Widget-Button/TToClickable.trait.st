@@ -4,10 +4,6 @@ Trait {
 }
 
 { #category : #'t - clickable' }
-TToClickable >> clickEvent: anEvent [
-]
-
-{ #category : #'t - clickable' }
 TToClickable >> clickEventClass [
 
 	^ self userData at: #clickEventClass ifAbsent: [ BlPrimaryClickEvent  ]
@@ -48,11 +44,4 @@ TToClickable >> removeClickHandler [
 TToClickable >> takeFocusOnClick [
 
 	^ false
-]
-
-{ #category : #'t - clickable' }
-TToClickable >> whenClickedDo: aValuable [
-	"Inform that the widget has been clicked."
-
-	^ self newClickAction: aValuable
 ]

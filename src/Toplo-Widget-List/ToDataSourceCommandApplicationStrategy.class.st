@@ -10,8 +10,7 @@ ToDataSourceCommandApplicationStrategy >> addCommand: aCommand from: aCommandApp
 	element isAttachedToSceneGraph ifFalse: [
 		aCommandApplier applyCommand: aCommand.
 		^ self ].
-	element dataSource
-		notifySelecterCommandApplicationRequest: aCommand
-		from: aCommandApplier.
-	element spaceDo: [ :sp | sp requestNextPulse ]
+	element innerElement dataSourceManager
+		onSelecterCommand: aCommand appliedBy: aCommandApplier.
+	element innerElement requestLayout
 ]

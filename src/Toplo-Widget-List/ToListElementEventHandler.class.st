@@ -93,11 +93,8 @@ ToListElementEventHandler >> eventsToHandle [
 		  BlElementScrolledEvent.
 
 		  " data source "
-		  ToListDataSourceItemsChangeEvent.
 		  ToCollectionUpdateAllRequest.
 		  ToInfiniteDataSourceEmptinessChangedEvent.
-		  BlInfiniteDataSourceItemRangeInserted.
-		  BlInfiniteDataSourceItemRangeRemoved.
 
 		  BlLayoutResizerChangedEvent.
 
@@ -119,36 +116,6 @@ ToListElementEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEvent [
 	self showHidePlaceholderIn: anEvent currentTarget
 ]
 
-{ #category : #'infinite event handling' }
-ToListElementEventHandler >> infiniteDataSourceItemRangeInserted: anEvent [
-	" when data source elements are added (before the layout). 
-	Pay attention that a sieve will handle also this event ** before ** the list element 
-	is actually layouted (and visually up-to-date)."
-
-	| target dataSourceChangeEvent |
-	target := anEvent currentTarget.
-	dataSourceChangeEvent := ToListDataSourceItemsAddedEvent new
-		                         itemCount: anEvent itemCount;
-		                         position: anEvent position;
-		                         yourself.
-	target notifyDataSourceItemChanged: dataSourceChangeEvent
-]
-
-{ #category : #'infinite event handling' }
-ToListElementEventHandler >> infiniteDataSourceItemRangeRemoved: anEvent [
-	" when data source elements are removed (before the layout). 
-	Pay attention that a sieve will handle also this event ** before ** the list element 
-	is actually layouted (and visually up-to-date)."
-
-	| target dataSourceChangeEvent |
-	target := anEvent currentTarget.
-	dataSourceChangeEvent := ToListDataSourceItemsRemovedEvent new
-		                         itemCount: anEvent itemCount;
-		                         position: anEvent position;
-		                         yourself.
-	target notifyDataSourceItemChanged: dataSourceChangeEvent
-]
-
 { #category : #'list element handling' }
 ToListElementEventHandler >> infiniteDataSourceItemsFiltered: anEvent [
 ]
@@ -157,32 +124,6 @@ ToListElementEventHandler >> infiniteDataSourceItemsFiltered: anEvent [
 ToListElementEventHandler >> layoutResizerChangedEvent: anEvent [
 
 	anEvent currentTarget requestNewConfiguration
-]
-
-{ #category : #'infinite event handling' }
-ToListElementEventHandler >> listDataSourceItemsAddedEvent: anEvent [
-
-	| currTarget |
-
-	currTarget := anEvent currentTarget.
-	currTarget selecter
-		shiftSelection: anEvent itemCount
-		from: anEvent position
-]
-
-{ #category : #'infinite event handling' }
-ToListElementEventHandler >> listDataSourceItemsRemovedEvent: anEvent [
-
-	| currTarget |
-	currTarget := anEvent currentTarget.
-	currTarget whenLayoutedDoOnce: [ 
-		" update the secondary selection because it can be on the removed nodes "
-		currTarget secondarySelecter
-			deselectIndex: anEvent position
-			to: anEvent position + anEvent itemCount - 1.
-		currTarget selecter
-			shiftSelection: anEvent itemCount negated
-			from: anEvent position ]
 ]
 
 { #category : #'infinite event handling' }

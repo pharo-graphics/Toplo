@@ -8,4 +8,5 @@ Class {
 ToSecondarySelecter >> defaultCommandApplicationStrategy [
 
 	^ ToDataSourceCommandApplicationStrategy new
+	"^ ToImmediateCommandApplicationStrategy new"
 ]

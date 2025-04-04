@@ -351,7 +351,7 @@ ToAbstractListElement >> itemCount [
 { #category : #'instance creation' }
 ToAbstractListElement >> newCommandApplicationStrategy [
 
-	^ ToQueueBasedCommandApplicationStrategy new
+	^ ToDataSourceCommandApplicationStrategy new
 ]
 
 { #category : #'instance creation' }

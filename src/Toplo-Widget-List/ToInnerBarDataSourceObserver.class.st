@@ -17,9 +17,7 @@ ToInnerBarDataSourceObserver class >> on: anInnerLinearBarElement [
 { #category : #'event handling' }
 ToInnerBarDataSourceObserver >> infiniteDataSourceChanged: anEvent [
 
-	innerBarElement dataSourceManager onItemsChanged.
-	innerBarElement listElement dispatchEvent: anEvent copy
-
+	innerBarElement dataSourceManager onItemsChanged
 ]
 
 { #category : #'event handling' }
@@ -27,9 +25,7 @@ ToInnerBarDataSourceObserver >> infiniteDataSourceItemRangeChanged: anEvent [
 
 	innerBarElement dataSourceManager
 		onItemRangeChanged: anEvent position
-		itemCount: anEvent itemCount.
-	innerBarElement listElement dispatchEvent: anEvent copy
-
+		itemCount: anEvent itemCount
 ]
 
 { #category : #'event handling' }
@@ -50,8 +46,9 @@ ToInnerBarDataSourceObserver >> infiniteDataSourceItemRangeInserted: anEvent [
 	innerBarElement dataSourceManager
 		onItemRangeInserted: anEvent position
 		itemCount: anEvent itemCount.
-	innerBarElement listElement dispatchEvent: anEvent copy
-
+	innerBarElement listElement selecter
+		shiftSelection: anEvent itemCount
+		from: anEvent position
 ]
 
 { #category : #'event handling' }
@@ -60,8 +57,13 @@ ToInnerBarDataSourceObserver >> infiniteDataSourceItemRangeRemoved: anEvent [
 	innerBarElement dataSourceManager
 		onItemRangeRemoved: anEvent position
 		itemCount: anEvent itemCount.
-	innerBarElement listElement dispatchEvent: anEvent copy
-
+	" update the secondary selection because it can be on the removed nodes "
+	innerBarElement listElement secondarySelecter
+		deselectIndex: anEvent position
+		to: anEvent position + anEvent itemCount - 1.
+	innerBarElement listElement selecter
+		shiftSelection: anEvent itemCount negated
+		from: anEvent position
 ]
 
 { #category : #'event handling' }
@@ -91,13 +93,4 @@ ToInnerBarDataSourceObserver >> initializeWith: anInnerLinearBarElement [
 		description: [ 'I can be initialized only once!' ].
 	
 	innerBarElement := anInnerLinearBarElement
-]
-
-{ #category : #'event handling' }
-ToInnerBarDataSourceObserver >> selecterCommandApplicationRequest: aCommandApplicationRequest [
-
-	| command selecter |
-	command := aCommandApplicationRequest command.
-	selecter := aCommandApplicationRequest selecter.
-	selecter applyCommand: command
 ]

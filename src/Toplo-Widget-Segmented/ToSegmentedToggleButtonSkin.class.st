@@ -5,6 +5,18 @@ Class {
 }
 
 { #category : #'event handling' }
+ToSegmentedToggleButtonSkin >> deselectedSkinEvent: anEvent [
+
+	super deselectedSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e iconDo: [ :ic |
+			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
+		e endElementDo: [ :ic |
+			(ic respondsTo: #innerImageColor:) ifTrue: [
+				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ] ]
+]
+
+{ #category : #'event handling' }
 ToSegmentedToggleButtonSkin >> disabledSkinEvent: anEvent [
 
 	super disabledSkinEvent: anEvent.
@@ -32,8 +44,7 @@ ToSegmentedToggleButtonSkin >> enabledSkinEvent: anEvent [
 				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
 		e background: BlBackground transparent.
 		e labelDo: [ :lab |
-			lab foreground: (e valueOfTokenNamed: #'color-text').
-			lab applyStyle ] ]
+			lab foreground: (e valueOfTokenNamed: #'color-text')] ]
 ]
 
 { #category : #'event handling' }
@@ -71,4 +82,21 @@ ToSegmentedToggleButtonSkin >> leavedSkinEvent: anEvent [
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal ]
+]
+
+{ #category : #'event handling' }
+ToSegmentedToggleButtonSkin >> selectedSkinEvent: anEvent [
+
+	super selectedSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		| f |
+		f := anEvent focused
+			     ifTrue: [ e valueOfTokenNamed: #'selected-focused-foreground' ]
+			     ifFalse: [
+			     e valueOfTokenNamed: #'selected-unfocused-foreground' ].
+		e iconDo: [ :ic |
+			ic innerImageColor: f ].
+		e endElementDo: [ :ic |
+			(ic respondsTo: #innerImageColor:) ifTrue: [
+				ic innerImageColor: f ] ] ]
 ]

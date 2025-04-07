@@ -3621,6 +3621,25 @@ ToSandBox class >> example_TabGroupElementWithUSStates [
 ]
 
 { #category : #tag }
+ToSandBox class >> example_TabPaneElementWithUSStates [
+
+	| tpane dashBoard |
+	tpane := ToTabPaneElement new.
+	tpane beVertical.
+	tpane matchParent.
+	(self statesOfAmerica copyFrom: 1 to: 20) do: [ :l |
+		tpane addItem: (ToTabItemElement new
+				 labelText: l;
+				 removable: true;
+				 yourself) ].
+
+	tpane isWrapping: false.
+	tpane isScrolling: true.
+	dashBoard := self tabGroupElementDashBoardFor: tpane.
+	dashBoard openInSpace
+]
+
+{ #category : #tag }
 ToSandBox class >> example_TagBar [
 
 	| tb dashBoard rootPane |

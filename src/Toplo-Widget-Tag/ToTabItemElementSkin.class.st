@@ -66,7 +66,7 @@ ToTabItemElementSkin >> installSkinEvent: anEvent [
 		| leftPadding |
 		leftPadding := e valueOfTokenNamed: #'padding-XS'.
 		e isRemovable ifTrue: [
-			leftPadding := leftPadding + e removeButton measuredWidth].
+			leftPadding := leftPadding + 15"e removeButton measuredWidth"].
 		e focusability: BlFocusability ignore.
 		e border: BlBorder empty.
 		e background: BlBackground transparent.

@@ -399,3 +399,9 @@ TToItemListOwner >> visibleItem: anItem [
 
 	self itemBar visibleItem: anItem
 ]
+
+{ #category : #'t - item list owner - initializing' }
+TToItemListOwner >> wrapItemBar: anItemBar [
+
+	self userData at: #itemBar put: anItemBar
+]

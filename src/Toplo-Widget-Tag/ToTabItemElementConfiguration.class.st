@@ -10,5 +10,6 @@ ToTabItemElementConfiguration >> applyOn: aTabItemElement [
 	super applyOn: aTabItemElement.
 	aTabItemElement isRemovable
 		ifTrue: [ aTabItemElement addRemoveButton ]
-		ifFalse: [ aTabItemElement removeRemoveButton ]
+		ifFalse: [ aTabItemElement removeRemoveButton ].
+	aTabItemElement requestNewSkin 
 ]

@@ -3560,10 +3560,10 @@ ToSandBox class >> example_TabBarElement [
 ]
 
 { #category : #tag }
-ToSandBox class >> example_TabsElementWithDaily [
+ToSandBox class >> example_TabGroupElementWithDaily [
 
 	| tabs dashBoard |
-	tabs := ToTabsElement new.
+	tabs := ToTabGroupElement new.
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		tabs addItem: (ToTabItemElement new
@@ -3574,17 +3574,17 @@ ToSandBox class >> example_TabsElementWithDaily [
 	(tabs items at: 2) disable.
 	(tabs items at: 3) checked: true.
 	tabs requestFocus.
-	dashBoard := self tabsElementDashBoardFor: tabs.
+	dashBoard := self tabGroupElementDashBoardFor: tabs.
 	tabs disabled: true.
 	dashBoard openInSpace.
 	^ tabs
 ]
 
 { #category : #tag }
-ToSandBox class >> example_TabsElementWithStartAndEndExtras [
+ToSandBox class >> example_TabGroupElementWithStartAndEndExtras [
 
 	| tabs |
-	tabs := self example_TabsElementWithUSStates.
+	tabs := self example_TabGroupElementWithUSStates.
 
 	tabs startExtraBuilder: [ :extra |
 		| im menu menuPane |
@@ -3601,10 +3601,10 @@ ToSandBox class >> example_TabsElementWithStartAndEndExtras [
 ]
 
 { #category : #tag }
-ToSandBox class >> example_TabsElementWithUSStates [
+ToSandBox class >> example_TabGroupElementWithUSStates [
 
 	| tabs dashBoard |
-	tabs := ToTabsElement new.
+	tabs := ToTabGroupElement new.
 
 	(self statesOfAmerica copyFrom: 1 to: 20) do: [ :l |
 		tabs addItem: (ToTabItemElement new
@@ -3613,7 +3613,7 @@ ToSandBox class >> example_TabsElementWithUSStates [
 				 yourself) ].
 
 	(tabs items at: 2) disable.
-	dashBoard := self tabsElementDashBoardFor: tabs.
+	dashBoard := self tabGroupElementDashBoardFor: tabs.
 	tabs items third checked: true.
 
 	dashBoard openInSpace.
@@ -4256,7 +4256,7 @@ ToSandBox class >> example_buttonWithLabel [
 	^ but
 ]
 
-{ #category : #tabs }
+{ #category : #'tabPane-dep' }
 ToSandBox class >> example_closeableTabs [
 
 	| nb but |
@@ -4582,7 +4582,7 @@ ToSandBox class >> example_headerOnBottomLeft [
 	^ nb
 ]
 
-{ #category : #tabs }
+{ #category : #'tabPane-dep' }
 ToSandBox class >> example_headerOnBottomResizablePanes [
 
 	| nb |
@@ -4618,7 +4618,7 @@ ToSandBox class >> example_headerOnLeftCenter [
 	^ nb
 ]
 
-{ #category : #tabs }
+{ #category : #'tabPane-dep' }
 ToSandBox class >> example_headerOnLeftResizablePanes [
 
 	| nb |
@@ -4722,7 +4722,7 @@ ToSandBox class >> example_headerOnTopLeft [
 	^ nb
 ]
 
-{ #category : #tabs }
+{ #category : #'tabPane-dep' }
 ToSandBox class >> example_headerOnTopResizablePanes [
 
 	| nb |
@@ -4731,7 +4731,7 @@ ToSandBox class >> example_headerOnTopResizablePanes [
 	nb withResizablePanes 
 ]
 
-{ #category : #tabs }
+{ #category : #'tabPane-dep' }
 ToSandBox class >> example_headerOnTopResizablePanesHorizontalBody [
 
 	| nb |
@@ -5396,7 +5396,7 @@ ToSandBox class >> example_menuPaneVertical2 [
 	"frame inspect"
 ]
 
-{ #category : #tabs }
+{ #category : #'tabPane-dep' }
 ToSandBox class >> example_notPreservingPane [
 
 	| nb but |
@@ -5467,7 +5467,7 @@ ToSandBox class >> example_overlayWindow2 [
 	(windowManager newWindowEvent: nil) popup
 ]
 
-{ #category : #tabs }
+{ #category : #'tabPane-dep' }
 ToSandBox class >> example_preservingPane [
 
 	| nb but |
@@ -6125,7 +6125,7 @@ ToSandBox class >> example_switchButtonWithSize [
 	th openInSpace
 ]
 
-{ #category : #tabs }
+{ #category : #'tabPane-dep' }
 ToSandBox class >> example_tabPane [
 
 	| nb but |
@@ -6144,7 +6144,7 @@ ToSandBox class >> example_tabPane [
 	^ nb
 ]
 
-{ #category : #tabs }
+{ #category : #'tabPane-dep' }
 ToSandBox class >> example_tabPaneInTabPane [
 
 	| tabPane tab |
@@ -6162,7 +6162,7 @@ ToSandBox class >> example_tabPaneInTabPane [
 	tabPane openInSpace
 ]
 
-{ #category : #tabs }
+{ #category : #'tabPane-dep' }
 ToSandBox class >> example_tabPaneWithCustomSelectionBar [
 
 	| nb |
@@ -6172,7 +6172,7 @@ ToSandBox class >> example_tabPaneWithCustomSelectionBar [
 	^ nb
 ]
 
-{ #category : #tabs }
+{ #category : #'tabPane-dep' }
 ToSandBox class >> example_tabPaneWithPyramidGeneratedPane [
 
 	| nb but |
@@ -6636,7 +6636,7 @@ ToSandBox class >> example_tabPaneWithPyramidGeneratedPane [
 	^ nb
 ]
 
-{ #category : #tabs }
+{ #category : #'tabPane-dep' }
 ToSandBox class >> example_tabPaneWithStartContainer [
 	| nb but header |
 	nb := ToTabPane new.
@@ -6663,7 +6663,7 @@ ToSandBox class >> example_tabPaneWithStartContainer [
 	^ nb
 ]
 
-{ #category : #tabs }
+{ #category : #'tabPane-dep' }
 ToSandBox class >> example_tabsWith2Pages [
 
 	| aNotebook redPage greenPage redCount greenCount |
@@ -7597,7 +7597,7 @@ ToSandBox class >> example_twoSubPanesWithDivider [
 	pane openInSpace
 ]
 
-{ #category : #tabs }
+{ #category : #'tabPane-dep' }
 ToSandBox class >> example_twoTabsWithLabel [
 
 	| tabsPanel lab1 lab2 tab1 tab2 |
@@ -7617,7 +7617,7 @@ ToSandBox class >> example_twoTabsWithLabel [
 	tabsPanel openInSpace
 ]
 
-{ #category : #tabs }
+{ #category : #'tabPane-dep' }
 ToSandBox class >> example_twoTabsWithListElement [
 
 	| tabsPanel list1 list2 tab1 tab2 |
@@ -8543,7 +8543,7 @@ ToSandBox class >> statesOfAmericaWithGroups [
 			   #Maine. #Vermont" }) }
 ]
 
-{ #category : #tabs }
+{ #category : #'tabPane-dep' }
 ToSandBox class >> subTabPane [
 
 	| nb but |
@@ -8557,7 +8557,7 @@ ToSandBox class >> subTabPane [
 	^ nb
 ]
 
-{ #category : #tabs }
+{ #category : #'tabPane-dep' }
 ToSandBox class >> subsubTabPane [
 
 	| nb but |
@@ -8571,7 +8571,7 @@ ToSandBox class >> subsubTabPane [
 	^ nb
 ]
 
-{ #category : #tabs }
+{ #category : #'tabPane-dep' }
 ToSandBox class >> subsubsubTabPane [
 
 	| nb but |
@@ -8604,25 +8604,25 @@ ToSandBox class >> tabBarElementDashBoardFor: aTabBarElement [
 ]
 
 { #category : #tag }
-ToSandBox class >> tabsElementDashBoardFor: aTabsElement [
+ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 
 	| mainPane barPane confPane startToEndSwitch addTabItemButtonSwicth rootPane |
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
 
-	confPane := self barConfigurationBoardFor: aTabsElement.
+	confPane := self barConfigurationBoardFor: aTabGroupElement.
 	(confPane childWithId: #selectOnPressedSwitch) disable.
 	(confPane childWithId: #deselectOnPressedSwitch) disable.
 
 	startToEndSwitch := ToSwitchButton new labelText: 'At start'.
-	startToEndSwitch newCheckFeature: #atStartSide with: aTabsElement.
+	startToEndSwitch newCheckFeature: #atStartSide with: aTabGroupElement.
 
 	startToEndSwitch startFlexible: true.
 	startToEndSwitch hMatchParent.
 	confPane addChild: startToEndSwitch.
 
 	addTabItemButtonSwicth := ToSwitchButton new labelText: 'Show new tab button'.
-	addTabItemButtonSwicth newCheckFeature: #showAddTabItemButton with: aTabsElement.
+	addTabItemButtonSwicth newCheckFeature: #showAddTabItemButton with: aTabGroupElement.
 
 	addTabItemButtonSwicth startFlexible: true.
 	addTabItemButtonSwicth hMatchParent.
@@ -8635,12 +8635,12 @@ ToSandBox class >> tabsElementDashBoardFor: aTabsElement [
 	barPane := ToPane vertical.
 	barPane matchParent.
 
-	confPane addChild: (self checkingStrategyChooserFor: aTabsElement).
+	confPane addChild: (self checkingStrategyChooserFor: aTabGroupElement).
 
 	mainPane addChildren: {
 			confPane.
 			barPane }.
-	barPane addChild: aTabsElement.
+	barPane addChild: aTabGroupElement.
 
 	rootPane := ToPane vertical.
 	rootPane matchParent.

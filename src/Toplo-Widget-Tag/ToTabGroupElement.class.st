@@ -1,5 +1,5 @@
 Class {
-	#name : #ToTabsElement,
+	#name : #ToTabGroupElement,
 	#superclass : #ToTripletElement,
 	#traits : 'TToItemListOwner',
 	#classTraits : 'TToItemListOwner classTrait',
@@ -18,7 +18,7 @@ Class {
 }
 
 { #category : #adding }
-ToTabsElement >> addNewTagItem [
+ToTabGroupElement >> addNewTagItem [
 
 	| newItem |
 	newItem := ToTabItemElement new.
@@ -33,13 +33,13 @@ ToTabsElement >> addNewTagItem [
 ]
 
 { #category : #accessing }
-ToTabsElement >> atStartSide [
+ToTabGroupElement >> atStartSide [
 
 	^ self widgetConfiguration atStartSide
 ]
 
 { #category : #accessing }
-ToTabsElement >> atStartSide: aBoolean [
+ToTabGroupElement >> atStartSide: aBoolean [
 
 	self atStartSide = aBoolean ifTrue: [ ^ self ].
 	self widgetConfiguration atStartSide: aBoolean.
@@ -47,7 +47,7 @@ ToTabsElement >> atStartSide: aBoolean [
 ]
 
 { #category : #configuration }
-ToTabsElement >> canShowInvisibleNodesMenu [
+ToTabGroupElement >> canShowInvisibleNodesMenu [
 
 	^ self isWrapping not and: [
 		  self autoDistribute not and: [
@@ -55,7 +55,7 @@ ToTabsElement >> canShowInvisibleNodesMenu [
 ]
 
 { #category : #configuration }
-ToTabsElement >> checkAddNewTabItemButton [
+ToTabGroupElement >> checkAddNewTabItemButton [
 
 	showAddTabItemButton 
 		ifTrue: [ addTabItemButton visibility: BlVisibility visible ]
@@ -63,7 +63,7 @@ ToTabsElement >> checkAddNewTabItemButton [
 ]
 
 { #category : #configuration }
-ToTabsElement >> checkInvisibleNodes [
+ToTabGroupElement >> checkInvisibleNodes [
 
 	self canShowInvisibleNodesMenu
 		ifTrue: [ self showInvisibleNodesMenu: true ]
@@ -71,13 +71,13 @@ ToTabsElement >> checkInvisibleNodes [
 ]
 
 { #category : #initialization }
-ToTabsElement >> defaultEventHandler [
+ToTabGroupElement >> defaultEventHandler [
 
-	^ ToTabsElementEventHandler new
+	^ ToTabGroupElementEventHandler new
 ]
 
 { #category : #initialization }
-ToTabsElement >> defaultInvisibleNodeMenuItemBuilder [
+ToTabGroupElement >> defaultInvisibleNodeMenuItemBuilder [
 
 	^ [ :aMenuItem :aNode :aRequest |
 	  aMenuItem
@@ -102,7 +102,7 @@ ToTabsElement >> defaultInvisibleNodeMenuItemBuilder [
 ]
 
 { #category : #initialization }
-ToTabsElement >> defaultInvisibleNodesMenuBuilder [
+ToTabGroupElement >> defaultInvisibleNodesMenuBuilder [
 
 	^ [ :menu :request |
 	  | middlePos |
@@ -119,11 +119,11 @@ ToTabsElement >> defaultInvisibleNodesMenuBuilder [
 ]
 
 { #category : #initialization }
-ToTabsElement >> defaultNewTabItemBuilder [
+ToTabGroupElement >> defaultNewTabItemBuilder [
 
-	^ [ :aTabItem :tabsElement |
+	^ [ :aTabItem :tabGroupElement |
 	  | wasFocused |
-	  wasFocused := tabsElement isFocused.
+	  wasFocused := tabGroupElement isFocused.
 	  aTabItem labelText: 'New Tab'.
 	  aTabItem label beEditable.
 	  aTabItem removable: true.
@@ -132,31 +132,31 @@ ToTabsElement >> defaultNewTabItemBuilder [
 			  request accepted: true ].
 		  editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
 			  editorEvent target text: acceptedEvent target text.
-			  tabsElement selecter scrollTowardEndToDataSourcePosition:
+			  tabGroupElement selecter scrollTowardEndToDataSourcePosition:
 				  aTabItem holder position.
-			  wasFocused ifTrue: [ tabsElement requestFocus ] ] ] ]
+			  wasFocused ifTrue: [ tabGroupElement requestFocus ] ] ] ]
 ]
 
 { #category : #accessing }
-ToTabsElement >> endExtraBuilder: aValuable [
+ToTabGroupElement >> endExtraBuilder: aValuable [
 
 	aValuable value: endExtraContainer 
 ]
 
 { #category : #'focus requesting' }
-ToTabsElement >> focusHolder [
+ToTabGroupElement >> focusHolder [
 
 	^ self itemBar
 ]
 
 { #category : #accessing }
-ToTabsElement >> group [
+ToTabGroupElement >> group [
 
 	^ self itemBar group
 ]
 
 { #category : #initialization }
-ToTabsElement >> initialize [
+ToTabGroupElement >> initialize [
 
 	super initialize.
 	self initializeAsItemBarOwner.
@@ -176,9 +176,9 @@ ToTabsElement >> initialize [
 ]
 
 { #category : #initialization }
-ToTabsElement >> initializeAddTabItemButton [
+ToTabGroupElement >> initializeAddTabItemButton [
 
-	addTabItemButton := ToTabsAddItemButton new.
+	addTabItemButton := ToAddTabButton new.
 	addTabItemButton visibility: BlVisibility gone.
 	addTabItemButton constraintsDo: [ :c |
 		c linear horizontal alignCenter.
@@ -186,9 +186,9 @@ ToTabsElement >> initializeAddTabItemButton [
 ]
 
 { #category : #initialization }
-ToTabsElement >> initializeInvisibleNodesMenu [
+ToTabGroupElement >> initializeInvisibleNodesMenu [
 
-	invisibleNodesMenu := ToTabsInvisibleNodesMenu new tabsElement: self.
+	invisibleNodesMenu := ToTabInvisibleNodesMenu new tabGroupElement: self.
 	invisibleNodesMenu builder: self defaultInvisibleNodesMenuBuilder.
 	invisibleNodesMenu visibility: BlVisibility gone.
 	invisibleNodesMenu constraintsDo: [ :c |
@@ -198,7 +198,7 @@ ToTabsElement >> initializeInvisibleNodesMenu [
 ]
 
 { #category : #initialization }
-ToTabsElement >> initializeParts [
+ToTabGroupElement >> initializeParts [
 
 	| container |
 	self initializeInvisibleNodesMenu.
@@ -218,72 +218,72 @@ ToTabsElement >> initializeParts [
 ]
 
 { #category : #accessing }
-ToTabsElement >> invisibleNodeMenuItemBuilder: aValuable [
+ToTabGroupElement >> invisibleNodeMenuItemBuilder: aValuable [
 	"a valuable takes the menu item, the invisible node and the menu request as arguments "
 
 	invisibleNodeMenuItemBuilder := aValuable
 ]
 
 { #category : #accessing }
-ToTabsElement >> invisibleNodes [ 
+ToTabGroupElement >> invisibleNodes [ 
 
 	^ invisibleNodes 
 ]
 
 { #category : #accessing }
-ToTabsElement >> invisibleNodesMenu [ 
+ToTabGroupElement >> invisibleNodesMenu [ 
 
 	^ invisibleNodesMenu
 ]
 
 { #category : #initialization }
-ToTabsElement >> invisibleNodesMenuBuilder: aValuable [
+ToTabGroupElement >> invisibleNodesMenuBuilder: aValuable [
 	" a valuable is a menu builder, it takes the menu and the request as arguments "
 
 	invisibleNodesMenu builder: aValuable
 ]
 
 { #category : #testing }
-ToTabsElement >> isAtEndSide [ 
+ToTabGroupElement >> isAtEndSide [ 
 
 	^ self isAtStartSide not
 ]
 
 { #category : #testing }
-ToTabsElement >> isAtStartSide [
+ToTabGroupElement >> isAtStartSide [
 
 	^ self atStartSide
 ]
 
 { #category : #'t - item list owner - accessing' }
-ToTabsElement >> newItemBar [
+ToTabGroupElement >> newItemBar [
 
 	^ ToTabBarElement new
-		  parentTabsElement: self;
+		  parentTabGroupElement: self;
 		  yourself
 ]
 
 { #category : #skin }
-ToTabsElement >> newRawSkin [ 
+ToTabGroupElement >> newRawSkin [ 
 
-	^ ToTabsElementSkin new
+	^ ToTabGroupElementSkin new
 ]
 
 { #category : #accessing }
-ToTabsElement >> newTabItemBuilder: aValuable [
-	" aValuable takes the new TabItemElement and the TabsElement as arguments "
+ToTabGroupElement >> newTabItemBuilder: aValuable [
+	" aValuable takes the new TabItemElement and the TabGroupElement as arguments "
 
 	newTabItemBuilder := aValuable
 ]
 
 { #category : #configuration }
-ToTabsElement >> newWidgetConfiguration [ 
+ToTabGroupElement >> newWidgetConfiguration [ 
 
-	^ ToTabsElementConfiguration new
+	^ ToTabGroupElementConfiguration new
 ]
 
 { #category : #'t - bar element' }
-ToTabsElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes [
+ToTabGroupElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes [
 
 	(theInvisibleNodes = self invisibleNodes and: [
 		 theVisibleNodes = self visibleNodes ]) ifTrue: [ ^ self ].
@@ -294,13 +294,13 @@ ToTabsElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNod
 ]
 
 { #category : #accessing }
-ToTabsElement >> showAddTabItemButton [
+ToTabGroupElement >> showAddTabItemButton [
 
 	^ showAddTabItemButton
 ]
 
 { #category : #accessing }
-ToTabsElement >> showAddTabItemButton: aBoolean [
+ToTabGroupElement >> showAddTabItemButton: aBoolean [
 
 	showAddTabItemButton = aBoolean ifTrue: [ ^ self ].
 	showAddTabItemButton := aBoolean.
@@ -308,7 +308,7 @@ ToTabsElement >> showAddTabItemButton: aBoolean [
 ]
 
 { #category : #configuration }
-ToTabsElement >> showInvisibleNodesMenu: aBoolean [
+ToTabGroupElement >> showInvisibleNodesMenu: aBoolean [
 
 	self invisibleNodesMenu parentDo: [ :p |
 		aBoolean
@@ -317,31 +317,31 @@ ToTabsElement >> showInvisibleNodesMenu: aBoolean [
 ]
 
 { #category : #accessing }
-ToTabsElement >> startExtraBuilder: aValuable [
+ToTabGroupElement >> startExtraBuilder: aValuable [
 
 	aValuable value: self startElement
 ]
 
 { #category : #accessing }
-ToTabsElement >> visibleNodes [
+ToTabGroupElement >> visibleNodes [
 
 	^ visibleNodes 
 ]
 
 { #category : #'t - checkable group owner' }
-ToTabsElement >> withStrictCheckingStrategy [
+ToTabGroupElement >> withStrictCheckingStrategy [
 
 	self itemBar withStrictCheckingStrategy
 ]
 
 { #category : #'t - checkable group owner' }
-ToTabsElement >> withWeakCheckingStrategy [
+ToTabGroupElement >> withWeakCheckingStrategy [
 
 	self itemBar withWeakCheckingStrategy
 ]
 
 { #category : #'t - checkable group owner' }
-ToTabsElement >> withoutCheckingStrategy [
+ToTabGroupElement >> withoutCheckingStrategy [
 
 	self itemBar withoutCheckingStrategy
 ]

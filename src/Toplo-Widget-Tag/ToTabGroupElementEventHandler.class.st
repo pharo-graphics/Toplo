@@ -1,30 +1,30 @@
 Class {
-	#name : #ToTabsElementEventHandler,
+	#name : #ToTabGroupElementEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#category : #'Toplo-Widget-Tag-Tab'
 }
 
 { #category : #adding }
-ToTabsElementEventHandler >> addButtonClickedEvent: anEvent [
+ToTabGroupElementEventHandler >> addButtonClickedEvent: anEvent [
 
 	anEvent currentTarget addNewTagItem.
 	anEvent consume
 ]
 
 { #category : #'api - accessing' }
-ToTabsElementEventHandler >> eventsToHandle [
+ToTabGroupElementEventHandler >> eventsToHandle [
 
 	^ { ToVisibleTabsChanged. BlLayoutResizerChangedEvent. ToAddButtonClickedEvent }
 ]
 
 { #category : #'element events handling' }
-ToTabsElementEventHandler >> layoutResizerChangedEvent: anEvent [
+ToTabGroupElementEventHandler >> layoutResizerChangedEvent: anEvent [
 
 	anEvent currentTarget requestNewConfiguration
 ]
 
 { #category : #'element events handling' }
-ToTabsElementEventHandler >> visibleTabsChanged: anEvent [
+ToTabGroupElementEventHandler >> visibleTabsChanged: anEvent [
 
 	anEvent currentTarget checkInvisibleNodes
 ]

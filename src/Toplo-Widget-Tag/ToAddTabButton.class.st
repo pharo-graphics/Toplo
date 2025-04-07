@@ -1,11 +1,11 @@
 Class {
-	#name : #ToTabsAddItemButton,
+	#name : #ToAddTabButton,
 	#superclass : #ToIconicAddButton,
 	#category : #'Toplo-Widget-Tag-Tab'
 }
 
 { #category : #'instance creation' }
-ToTabsAddItemButton >> newRawSkin [ 
+ToAddTabButton >> newRawSkin [ 
 
-	^ ToTabsAddItemButtonSkin new
+	^ ToAddTabButtonSkin new
 ]

@@ -1,23 +1,23 @@
 Class {
-	#name : #ToTabsInvisibleNodesMenuSkin,
+	#name : #ToTabInvisibleNodesMenuSkin,
 	#superclass : #ToMenuSkin,
 	#category : #'Toplo-Widget-Tag-Tab'
 }
 
 { #category : #'event handling' }
-ToTabsInvisibleNodesMenuSkin >> installSkinEvent: anEvent [
+ToTabInvisibleNodesMenuSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e iconImage: (self menuImageIn: e tabsElement).
+		e iconImage: (self menuImageIn: e tabGroupElement).
 		e icon size: 20 asPoint.
-		e tabsElement checkInvisibleNodes ]
+		e tabGroupElement checkInvisibleNodes ]
 ]
 
 { #category : #private }
-ToTabsInvisibleNodesMenuSkin >> menuImageIn: aTabsElement [
+ToTabInvisibleNodesMenuSkin >> menuImageIn: aTabGroupElement [
 
-	^ aTabsElement isHorizontal
+	^ aTabGroupElement isHorizontal
 		  ifTrue: [
 		  ToMaterialDesignIconProvider innerImageNamed: 'outlined_morehoriz' ]
 		  ifFalse: [

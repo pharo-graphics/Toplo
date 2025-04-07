@@ -862,9 +862,6 @@ ToSandBox class >> example_BasicListWithAllClasses3 [
 				      icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
 				      startInterspace: 10;
 				      hMatchParent) ].
-	l addEventHandler: (BlEventHandler
-			 on: ToListPrimarySelectionChangedEvent
-			 do: [ :evt | evt traceCr ]).
 
 	l withRowNumbers.
 	l dataAccessor addAll: Smalltalk globals allClasses.
@@ -1578,7 +1575,7 @@ ToSandBox class >> example_FilterOnList2WithStatesOfAmerica [
 	filterField margin: (BlInsets all: 2).
 
 	selector := ToObservableCollectionFilter new.
-	selector applicationResultAction: [
+	selector action: [
 		listElement selecter selectOnlyIndexes: selector selectedIndexes ].
 	listElement dataAccessor addAll: data.
 
@@ -1588,15 +1585,6 @@ ToSandBox class >> example_FilterOnList2WithStatesOfAmerica [
 				 | pattern |
 				 pattern := filterField text asString.
 				 selector pattern: pattern ].
-
-	listElement placeholderBuilder: [ :ph :e |
-		| lab |
-		lab := (ToLabel text: 'No Data')
-			       foreground: Color lightGray;
-			       fontSize: 24;
-			       yourself.
-		lab matchParent.
-		ph addChild: lab ].
 
 	"handler inspect."
 	pane addChild: listElement.
@@ -1684,7 +1672,8 @@ ToSandBox class >> example_HugeIntegerList [
 	l dataAccessor addAll: (1 to: nbItems).
 	l nodeBuilder: [ :node :anInteger |
 		node addChild:
-			(BlTextElement new text: anInteger asString asRopedText) ].
+			(BlTextElement new text: anInteger asString asRopedText)
+				labelMeasurement ].
 	vscrollBar := BlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
 		c ignoreByLayout.
@@ -1695,7 +1684,7 @@ ToSandBox class >> example_HugeIntegerList [
 
 	space := BlSpace new
 		         extent: 100 @ 600;
-		         title: 'List with ', nbItems asString, ' integers'.
+		         title: 'List with ' , nbItems asString , ' integers'.
 
 	space root addChild: l.
 	space root addChild: vscrollBar.
@@ -1743,7 +1732,7 @@ ToSandBox class >> example_IntegerList [
 	l := ToListElement new.
 	l dataAccessor addAll: (1 to: nbItems).
 	l nodeBuilder: [ :node :anInteger |
-		node addChild: (ToLabel new text: anInteger asString asRopedText) ].
+		node addChild: (ToLabel new text: anInteger asString) ].
 	l addEventHandler: (BlEventHandler
 			 on: ToListStrongSelectionEvent
 			 do: [ :event |
@@ -3338,14 +3327,8 @@ ToSandBox class >> example_SieveOnList2With_AllMethods [
 		do: [ :event |
 			'selected: ' trace.
 			event selectionModel selectedIndexes traceCr ].
-
-	sieve dataFilter: [ :aCompiledMethod :aPattern |
-		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
-
-
 	listElement nodeBuilder: [ :node :dataItem :holder |
 		node addChild: (ToLabel new text: dataItem printString) ].
-
 	sieve dataFilter: [ :aCompiledMethod :aPattern |
 		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
 	filterField whenTextEditedDo: [

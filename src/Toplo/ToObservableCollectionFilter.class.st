@@ -15,9 +15,9 @@ Class {
 }
 
 { #category : #accessing }
-ToObservableCollectionFilter >> applicationResultAction: aValuable [
+ToObservableCollectionFilter >> action: aValuable [
 
-	" A valuable takes the collection as argument "
+	" A valuable takes myself and the collection as arguments "
 	resultAction := aValuable
 ]
 
@@ -85,7 +85,7 @@ ToObservableCollectionFilter >> newProcessIn: anObservableCollection [
 ToObservableCollectionFilter >> onAppliedOn: anObservableCollection [
 
 	resultAction ifNil: [ ^ self ].
-	resultAction cull: anObservableCollection 
+	resultAction cull: self cull: anObservableCollection 
 ]
 
 { #category : #'api - hooks' }

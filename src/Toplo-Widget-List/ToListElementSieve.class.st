@@ -71,7 +71,7 @@ ToListElementSieve >> onInstalledIn: aListElement [
 	 ask the list to process the appropiate data source command and to update the selection model.
 	A task must be used to avoid that the list update occurs during the BlSpaceFrameEventPhase  
 	 which can cause an issue because the layout must be launched each time a sieve result occurs "
-	queryRunner applicationResultAction: [
+	queryRunner action: [
 		self updateCurrentData.
 		aListElement enqueueTask: (BlTaskAction new action: [
 				 aListElement onSievedWith: self ]) ].

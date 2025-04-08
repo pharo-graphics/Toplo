@@ -16,8 +16,8 @@ ToLabelMonoLineInnerElement >> initialize [
 { #category : #initialization }
 ToLabelMonoLineInnerElement >> initializeMeasurement [
 
-	self labelMeasurement.
-	"self editorMeasurement"
+	"self labelMeasurement."
+	self editorMeasurement
 ]
 
 { #category : #testing }

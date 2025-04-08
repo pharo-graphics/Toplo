@@ -98,6 +98,12 @@ TToBarElement >> reinstallFakeNode [
 ]
 
 { #category : #'t - bar element' }
+TToBarElement >> sample [
+
+	^ self nodeManager fakeDataItem
+]
+
+{ #category : #'t - bar element' }
 TToBarElement >> sample: aDataItem [
 
 	self nodeManager fakeDataItem: aDataItem.

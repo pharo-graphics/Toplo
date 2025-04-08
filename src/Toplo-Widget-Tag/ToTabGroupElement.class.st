@@ -82,19 +82,17 @@ ToTabGroupElement >> defaultInvisibleNodeMenuItemBuilder [
 	^ [ :aMenuItem :aNode :aRequest |
 	  aMenuItem
 		  labelText: aNode item asString;
-		  newClickAction: [
-			  self selecter scrollTowardStartToDataSourcePosition:
-					  aNode holder position.
-			  self requestFocus.
-			  aNode item checked: true ].
+		  clickAction: [ self showInvisibleTabItem: aNode item ].
 	  aNode isRemovable ifTrue: [
 		  aMenuItem endElement: ToIconicRemoveButton new.
 		  aMenuItem endFlexible: true.
 		  aMenuItem endInterspace: 10.
-		  aMenuItem addEventHandlerOn: ToRemoveButtonClickedEvent do: [ :event |
-			  event consume.
-			  aNode item removeFromBar.
-			  self checkInvisibleNodes ] ].
+		  aMenuItem
+			  addEventHandlerOn: ToRemoveButtonClickedEvent
+			  do: [ :event |
+				  event consume.
+				  aNode item removeFromBar.
+				  self checkInvisibleNodes ] ].
 	  aNode item isChecked ifTrue: [
 		  aMenuItem icon: (ToImage inner: (self valueOfTokenNamed: #check)).
 		  aMenuItem icon size:
@@ -285,11 +283,24 @@ ToTabGroupElement >> newWidgetConfiguration [
 { #category : #'t - bar element' }
 ToTabGroupElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes [
 
+	| startIdx endIdx |
 	(theInvisibleNodes = self invisibleNodes and: [
 		 theVisibleNodes = self visibleNodes ]) ifTrue: [ ^ self ].
 
 	invisibleNodes := theInvisibleNodes asArray.
 	visibleNodes := theVisibleNodes asArray.
+	startIdx := visibleNodes
+		            ifEmpty: [ 0 ]
+		            ifNotEmpty: [ visibleNodes first holder position ].
+	endIdx := visibleNodes
+		          ifEmpty: [ 0 ]
+		          ifNotEmpty: [ visibleNodes last holder position ].
+	invisibleNodes do: [ :n |
+		"n holder position < startIdx ifTrue: [
+			n visibility: BlVisibility hidden ]."
+		n holder position > endIdx ifTrue: [
+			n visibility: BlVisibility hidden ] ].
+	visibleNodes do: [ :n | n visibility: BlVisibility visible ].
 	self dispatchEvent: ToVisibleTabsChanged new
 ]
 
@@ -314,6 +325,15 @@ ToTabGroupElement >> showInvisibleNodesMenu: aBoolean [
 		aBoolean
 			ifTrue: [ self invisibleNodesMenu visibility: BlVisibility visible ]
 			ifFalse: [ self invisibleNodesMenu visibility: BlVisibility gone ] ]
+]
+
+{ #category : #accessing }
+ToTabGroupElement >> showInvisibleTabItem: aTabItemElement [
+
+	self selecter scrollTowardStartToDataSourcePosition:
+		aTabItemElement holder position.
+	self requestFocus.
+	aTabItemElement checked: true
 ]
 
 { #category : #accessing }

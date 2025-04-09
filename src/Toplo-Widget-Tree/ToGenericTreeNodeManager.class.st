@@ -12,9 +12,13 @@ Class {
 { #category : #'t - generic node manager' }
 ToGenericTreeNodeManager >> buildNode: aNode [
 
-	| dataItem |
-	dataItem := aNode holder dataItem.
-	aNode middleElement: (ToLabel text: dataItem asString)
+	aNode middleElement: (ToElement new
+			 fitContent;
+			 yourself).
+	nodeBuilder
+		cull: aNode middleElement
+		cull: aNode holder dataItem
+		cull: aNode holder
 ]
 
 { #category : #'t - generic node manager' }

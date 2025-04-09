@@ -1,11 +1,11 @@
 Class {
-	#name : #ToIconicExpandButtonSkin,
+	#name : #ToIconicExpandToFullScreenButtonSkin,
 	#superclass : #ToIconicButtonSkin,
-	#category : #'Toplo-Widget-Button-Iconic'
+	#category : #'Toplo-Widget-InnerWindow-Support'
 }
 
 { #category : #'event handling' }
-ToIconicExpandButtonSkin >> installSkinEvent: anEvent [
+ToIconicExpandToFullScreenButtonSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |

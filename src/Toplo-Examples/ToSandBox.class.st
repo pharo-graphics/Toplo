@@ -3625,9 +3625,7 @@ ToSandBox class >> example_TabPaneElementWithUSStates [
 
 	| tpane dashBoard |
 	tpane := ToTabPaneElement new.
-	tpane beVertical.
-	tpane matchParent.
-	(self statesOfAmerica copyFrom: 1 to: 20) do: [ :l |
+	self statesOfAmerica do: [ :l |
 		tpane addItem: (ToTabItemElement new
 				 labelText: l;
 				 removable: true;
@@ -4158,7 +4156,8 @@ ToSandBox class >> example_buttonWith2Icons [
 
 	| but  |
 	but := self example_buttonWithIcon.
-	but newClickAction: [ :evt :target | target traceCr ].
+	but clickAction: [ :evt :target | target traceCr ].
+	but addEventHandlerOn: BlDoubleClickEvent do: [ :event | event traceCr ].
 	but label: (ToLabel text: 'Button with 2 icons').
 	but endElement: (ToImage inner: ToThemeIcons searchOutlined16x16).
 	^ but

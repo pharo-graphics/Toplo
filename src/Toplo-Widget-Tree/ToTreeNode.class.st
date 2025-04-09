@@ -6,8 +6,8 @@ I visually represent a line of data from a tree structure
 Class {
 	#name : #ToTreeNode,
 	#superclass : #ToListNode,
-	#traits : 'TToTripletElement',
-	#classTraits : 'TToTripletElement classTrait',
+	#traits : 'TToTripletElement + TToLabeledIcon',
+	#classTraits : 'TToTripletElement classTrait + TToLabeledIcon classTrait',
 	#category : #'Toplo-Widget-Tree-Core'
 }
 

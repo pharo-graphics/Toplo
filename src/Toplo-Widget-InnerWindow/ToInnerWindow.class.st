@@ -40,7 +40,7 @@ ToInnerWindow >> defaultBarElement [
 		               id: #'close-button';
 		               yourself.
 	closeButton newClickAction: [ self close ].
-	expandButton := ToIconicExpandButton new
+	expandButton := ToIconicExpandToFullScreenButton new
 		                id: #'expand-button';
 		                yourself.
 	expandButton newClickAction: [ self maximize ].

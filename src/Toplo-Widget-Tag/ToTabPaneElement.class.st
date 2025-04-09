@@ -12,6 +12,18 @@ Class {
 }
 
 { #category : #accessing }
+ToTabPaneElement >> atStartSide [
+
+	^ tabGroup atStartSide
+]
+
+{ #category : #accessing }
+ToTabPaneElement >> atStartSide: aBoolean [
+
+	tabGroup atStartSide: aBoolean
+]
+
+{ #category : #accessing }
 ToTabPaneElement >> body [ 
 
 	^ bodyContainer 
@@ -51,7 +63,37 @@ ToTabPaneElement >> newWidgetConfiguration [
 ]
 
 { #category : #accessing }
+ToTabPaneElement >> showAddTabItemButton [
+
+	^ tabGroup showAddTabItemButton
+]
+
+{ #category : #accessing }
+ToTabPaneElement >> showAddTabItemButton: aBoolean [
+
+	tabGroup showAddTabItemButton: aBoolean
+]
+
+{ #category : #accessing }
 ToTabPaneElement >> tabGroup [ 
 
 	^ tabGroup 
+]
+
+{ #category : #'t - checkable group owner' }
+ToTabPaneElement >> withStrictCheckingStrategy [ 
+
+	tabGroup withStrictCheckingStrategy
+]
+
+{ #category : #'t - checkable group owner' }
+ToTabPaneElement >> withWeakCheckingStrategy [ 
+
+	tabGroup withWeakCheckingStrategy
+]
+
+{ #category : #'t - checkable group owner' }
+ToTabPaneElement >> withoutCheckingStrategy [ 
+
+	tabGroup withoutCheckingStrategy
 ]

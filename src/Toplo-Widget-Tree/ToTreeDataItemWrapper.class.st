@@ -180,7 +180,8 @@ ToTreeDataItemWrapper >> toggle [
 		ifTrue: [ self collapse ]
 		ifFalse: [ self expand ].
 
-	self flag: 'Should use notifyItemsChanged: but we should find a way to not compute the position but keep it in the wrapper (pay attention, it have to be recomputed when extending/collapsing). Have a look at  morphic fast table to see how the do that'.
-	dataSource notifyItemsChanged: (self position to: self position).
+	self flag:
+		'Should use notifyItemsChanged: but we should find a way to not compute the position but keep it in the wrapper (pay attention, it have to be recomputed when extending/collapsing). Have a look at  morphic fast table to see how the do that'.
+	dataSource notifyItemsChanged: (self position to: self position)
 	"dataSource notifyChanged"
 ]

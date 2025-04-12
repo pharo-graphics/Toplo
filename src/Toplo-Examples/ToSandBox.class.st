@@ -1983,6 +1983,28 @@ ToSandBox class >> example_ListTwoClasses [
 ]
 
 { #category : #list }
+ToSandBox class >> example_ListWith3Columns [
+
+	| list |
+	list := ToListElement new
+		        withRowNumbers;
+		        nodeBuilder: [ :node :arr :holder |
+			        | columns |
+			        columns := arr collect: [ :elem |
+					                   ToLabel new
+						                   text: elem asString;
+						                   width: 80;
+						                   yourself ].
+			        node addChildren: columns ].
+	list dataAccessor addAll: ((1 to: 20 by: 3) collect: [ :idx |
+			 {
+				 idx.
+				 (idx + 1).
+				 (idx + 2) } ]).
+	list openInSpace
+]
+
+{ #category : #list }
 ToSandBox class >> example_ListWith6Elements [
 
 	| l |

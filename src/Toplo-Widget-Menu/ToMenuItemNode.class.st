@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-Menu-ItemBar'
 }
 
-{ #category : #'instance creation' }
+{ #category : #configuration }
 ToMenuItemNode >> newWidgetConfiguration [
 
 	^ ToMenuItemNodeConfiguration new

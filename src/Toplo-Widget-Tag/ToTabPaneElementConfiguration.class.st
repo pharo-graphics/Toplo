@@ -8,6 +8,9 @@ Class {
 ToTabPaneElementConfiguration >> applyOn: aTabPaneElement [
 
 	aTabPaneElement tabGroup horizontal: aTabPaneElement isHorizontal not.
+	aTabPaneElement atStartSide
+		ifTrue: [ aTabPaneElement beStartToEnd ]
+		ifFalse: [ aTabPaneElement beEndToStart ].
 	aTabPaneElement isHorizontal
 		ifTrue: [
 			aTabPaneElement header

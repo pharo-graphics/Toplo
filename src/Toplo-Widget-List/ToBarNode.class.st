@@ -18,7 +18,7 @@ ToBarNode >> newRawSkin [
 	^ ToBarNodeSkin new
 ]
 
-{ #category : #'instance creation' }
+{ #category : #configuration }
 ToBarNode >> newWidgetConfiguration [
 
 	^ ToBarNodeConfiguration new

@@ -20,7 +20,8 @@ ToTabPaneElement >> atStartSide [
 { #category : #accessing }
 ToTabPaneElement >> atStartSide: aBoolean [
 
-	tabGroup atStartSide: aBoolean
+	tabGroup atStartSide: aBoolean.
+	self requestNewConfiguration 
 ]
 
 { #category : #accessing }
@@ -56,7 +57,7 @@ ToTabPaneElement >> initialize [
 			bodyContainer }
 ]
 
-{ #category : #'instance creation' }
+{ #category : #configuration }
 ToTabPaneElement >> newWidgetConfiguration [ 
 
 	^ ToTabPaneElementConfiguration new

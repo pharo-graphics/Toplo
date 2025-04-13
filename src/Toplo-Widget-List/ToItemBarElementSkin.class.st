@@ -29,7 +29,7 @@ ToItemBarElementSkin >> installSkinEvent: anEvent [
 				 width: (e valueOfTokenNamed: #'border-width'))].
 		e padding: (BlInsets
 				 horizontal: (e valueOfTokenNamed: #'padding-content-HS')
-				 vertical: (e valueOfTokenNamed: #'padding-content-VXS')).
+				 vertical: (e valueOfTokenNamed: #'padding-content-VS')).
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e valueOfTokenNamed: 'border-radius')) ]
 ]

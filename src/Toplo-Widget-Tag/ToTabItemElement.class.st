@@ -15,9 +15,7 @@ ToTabItemElement >> addRemoveButton [
 	removeButton ifNotNil: [ ^ self ].
 	removeButton := ToIconicRemoveButton new.
 	removeButton constraintsDo: [ :c |
-		c ignoreByLayout.
-		c ignored horizontal alignLeft.
-		c ignored vertical alignCenter ].
+		c ignoreByLayout ].
 	self addChild: removeButton
 ]
 

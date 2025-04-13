@@ -12,7 +12,7 @@ Class {
 ToTabBarElement >> applyWidgetConfiguration [ 
 
 	super applyWidgetConfiguration.
-	self nodesDo: [ :node | node item requestNewSkin ]
+	self nodesDo: [ :node | node item requestNewConfiguration ]
 ]
 
 { #category : #accessing }

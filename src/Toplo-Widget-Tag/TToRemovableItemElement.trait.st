@@ -43,6 +43,13 @@ TToRemovableItemElement >> removeButton [
 ]
 
 { #category : #'t - removable item element' }
+TToRemovableItemElement >> removeButtonDo: aValuable [
+
+	self removeButton ifNil: [ ^ self ].
+	aValuable value: self removeButton
+]
+
+{ #category : #'t - removable item element' }
 TToRemovableItemElement >> removeRemoveButton [
 
 	self shouldBeImplemented 

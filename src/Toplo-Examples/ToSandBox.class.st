@@ -3654,6 +3654,7 @@ ToSandBox class >> example_TabPaneElementWithUSStates [
 		tpane addItem: (ToTabItemElement new
 				 label: lab;
 				 removable: true;
+				width: 80;
 				 yourself) ].
 
 	tpane isWrapping: false.

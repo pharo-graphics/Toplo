@@ -1,6 +1,8 @@
 Trait {
 	#name : #TToBarElement,
 	#instVars : [
+		'exactNodeWidth',
+		'exactNodeHeight',
 		'uniformNodeWidth',
 		'uniformNodeHeight',
 		'isScrolling',
@@ -36,6 +38,38 @@ TToBarElement >> checkFullyVisibleNodes [
 TToBarElement >> defaultInnerElement [
 
 	^ ToInnerBarElement onBarElement: self
+]
+
+{ #category : #accessing }
+TToBarElement >> exactNodeHeight [
+
+	^ exactNodeHeight
+]
+
+{ #category : #accessing }
+TToBarElement >> exactNodeHeight: aNumberOrNil [
+
+	exactNodeHeight = aNumberOrNil ifTrue:[ ^ self ].
+	exactNodeHeight := aNumberOrNil.
+	self requestNewConfiguration.
+	self notifyDataSourceChanged.
+	self requestLayout
+]
+
+{ #category : #accessing }
+TToBarElement >> exactNodeWidth [
+
+	^ exactNodeWidth
+]
+
+{ #category : #accessing }
+TToBarElement >> exactNodeWidth: aNumberOrNil [
+
+	exactNodeWidth = aNumberOrNil ifTrue:[ ^ self ].
+	exactNodeWidth := aNumberOrNil.
+	self requestNewConfiguration.
+	self notifyDataSourceChanged.
+	self requestLayout
 ]
 
 { #category : #'t - bar element' }

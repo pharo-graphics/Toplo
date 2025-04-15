@@ -176,17 +176,7 @@ TToTripletElementConfiguration >> configureHiddenPartIn: anElement [
 TToTripletElementConfiguration >> configureMiddleElementIn: anElement [
 
 	anElement middleElement ifNil: [ ^ self ].
-	anElement isHorizontal
-		ifTrue: [
-			anElement middleElement constraints frame vertical alignCenter.
-			anElement middleElement constraints linear vertical alignCenter.
-			anElement middleElement constraints frame horizontal alignCenter.
-			anElement middleElement constraints linear horizontal alignCenter ]
-		ifFalse: [
-			anElement middleElement constraints frame horizontal alignCenter.
-			anElement middleElement constraints linear horizontal alignCenter.
-			anElement middleElement constraints frame vertical alignCenter.
-			anElement middleElement constraints linear vertical alignCenter ]
+	anElement configureMiddleElement
 ]
 
 { #category : #'t - triplet element configuration' }

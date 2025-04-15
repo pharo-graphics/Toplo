@@ -3647,14 +3647,16 @@ ToSandBox class >> example_TabPaneElementWithUSStates [
 
 	| tpane dashBoard |
 	tpane := ToTabPaneElement new.
-	self statesOfAmerica do: [ :l | 
+	tpane exactNodeWidth: 80.
+	self statesOfAmerica do: [ :l |
 		| lab |
 		lab := ToLabel text: l.
+		"lab width: 50."
 		"lab rotateBy: 270."
 		tpane addItem: (ToTabItemElement new
 				 label: lab;
-				 removable: true;
-				width: 80;
+				 "removable: true;"
+				" width: 80;"
 				 yourself) ].
 
 	tpane isWrapping: false.

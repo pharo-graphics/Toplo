@@ -50,6 +50,13 @@ TToTripletElement >> checkStartContainer [
 
 ]
 
+{ #category : #'t - triplet element - initialization' }
+TToTripletElement >> configureMiddleElement [
+
+	self defaultMiddleElementConstraintsAction value:
+		self middleElement constraints
+]
+
 { #category : #'t - triplet element - instance creation' }
 TToTripletElement >> createEndContainer [
 
@@ -75,6 +82,23 @@ TToTripletElement >> createStartContainer [
 		                  id: #'start-container';
 		                  yourself.
 	self addChild: startContainer at: 1
+]
+
+{ #category : #'t - triplet element - initialization' }
+TToTripletElement >> defaultMiddleElementConstraintsAction [
+
+	^ [ :c |
+	  self isHorizontal
+		  ifTrue: [
+			  c frame vertical alignCenter.
+			  c linear vertical alignCenter.
+			  c frame horizontal alignCenter.
+			  c linear horizontal alignCenter ]
+		  ifFalse: [
+			  c frame horizontal alignCenter.
+			  c linear horizontal alignCenter.
+			  c frame vertical alignCenter.
+			  c linear vertical alignCenter ] ]
 ]
 
 { #category : #'t - triplet element - initialization' }

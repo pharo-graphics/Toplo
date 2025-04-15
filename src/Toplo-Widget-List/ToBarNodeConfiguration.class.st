@@ -26,5 +26,8 @@ ToBarNodeConfiguration >> applyOn: aNode [
 					bar autoDistribute
 						ifTrue: [ aNode hMatchParent ]
 						ifFalse: [ aNode hFitContent ] ] ].
-	aNode holder initializeNode
+	aNode holder initializeNode.
+	bar exactNodeWidth ifNotNil: [ :w | aNode width: w ].
+	bar exactNodeHeight ifNotNil: [ :h | aNode height: h ]
+	
 ]

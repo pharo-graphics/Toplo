@@ -1,22 +1,26 @@
 Class {
 	#name : #ToItemNode,
 	#superclass : #ToBarNode,
+	#instVars : [
+		'item'
+	],
 	#category : #'Toplo-Widget-List-ItemList'
 }
 
 { #category : #accessing }
 ToItemNode >> item [
 
-	^ self firstChild
+	^ item
 ]
 
 { #category : #accessing }
-ToItemNode >> item: aMenuItem [
+ToItemNode >> item: anElement [
 
-	aMenuItem ifNil: [ ^ self ].
-	aMenuItem parent = self ifTrue: [ ^ self ].
-	aMenuItem removeFromParent.
-	self addChild: aMenuItem at: 1
+	item = anElement ifTrue: [ ^ self ].
+	item ifNotNil: [ item removeFromParent ].
+	item := anElement.
+	item ifNil: [ ^ self ].
+	self addChild: item at: 1
 ]
 
 { #category : #skin }

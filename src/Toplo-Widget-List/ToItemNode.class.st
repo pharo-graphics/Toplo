@@ -20,6 +20,7 @@ ToItemNode >> item: anElement [
 	item ifNotNil: [ item removeFromParent ].
 	item := anElement.
 	item ifNil: [ ^ self ].
+	item removeFromParent.
 	self addChild: item at: 1
 ]
 

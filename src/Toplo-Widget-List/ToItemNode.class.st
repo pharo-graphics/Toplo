@@ -2,10 +2,20 @@ Class {
 	#name : #ToItemNode,
 	#superclass : #ToBarNode,
 	#instVars : [
-		'item'
+		'item',
+		'itemContainer'
 	],
 	#category : #'Toplo-Widget-List-ItemList'
 }
+
+{ #category : #initialization }
+ToItemNode >> initialize [ 
+
+	super initialize.
+	itemContainer := ToElement new.
+	self addChild: itemContainer.
+	self fitContent 
+]
 
 { #category : #accessing }
 ToItemNode >> item [
@@ -21,7 +31,7 @@ ToItemNode >> item: anElement [
 	item := anElement.
 	item ifNil: [ ^ self ].
 	item removeFromParent.
-	self addChild: item at: 1
+	itemContainer addChild: item at: 1
 ]
 
 { #category : #skin }

@@ -17,9 +17,26 @@ ToTabNodeSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
+		| listElement leftPad rightPad topPad bottomPad |
+		leftPad := rightPad := e valueOfTokenNamed: #'padding-content-H'.
+		topPad := bottomPad := e valueOfTokenNamed: #'padding-content-V'.
+		listElement := e holder listElement.
+		
+		listElement isVertical
+			ifTrue: [
+				listElement atStartSide
+					ifTrue: [ rightPad := rightPad + 15 ]
+					ifFalse: [ leftPad := leftPad + 15 ] ]
+			ifFalse: [
+				listElement atStartSide
+					ifTrue: [ bottomPad := bottomPad + 5 ]
+					ifFalse: [ topPad := topPad + 5 ] ].
+
 		e padding: (BlInsets
-				 horizontal: (e valueOfTokenNamed: #'padding-content-H')
-				 vertical: (e valueOfTokenNamed: #'padding-content-V')) ]
+				 top: topPad
+				 left: leftPad
+				 bottom: bottomPad
+				 right: rightPad) ]
 ]
 
 { #category : #'event handling' }

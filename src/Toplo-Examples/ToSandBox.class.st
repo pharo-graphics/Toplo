@@ -3655,7 +3655,7 @@ ToSandBox class >> example_TabPaneElementWithUSStates [
 		"lab rotateBy: 270."
 		tpane addItem: (ToTabItemElement new
 				 label: lab;
-				 "removable: true;"
+				 removable: true;
 				" width: 80;"
 				 yourself) ].
 

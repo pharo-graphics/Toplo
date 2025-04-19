@@ -64,9 +64,9 @@ ToTabItemElementSkin >> installSkinEvent: anEvent [
 
 	anEvent elementDo: [ :e |
 		| leftPadding rightPadding |
-		leftPadding := e valueOfTokenNamed: #'padding-S'.
-		rightPadding := e valueOfTokenNamed: #'padding-S'.
-		e isRemovable ifTrue: [  ].
+		leftPadding := 0.
+		rightPadding := 0.
+		e isRemovable ifTrue: [
 		e removeButtonDo: [ :rb |
 			rb constraintsDo: [ :c |
 				(e listElement isVertical and: [ e listElement atStartSide not ])
@@ -76,7 +76,7 @@ ToTabItemElementSkin >> installSkinEvent: anEvent [
 					ifFalse: [
 						leftPadding := leftPadding + 15.
 						c ignored horizontal alignLeft ].
-				c ignored vertical alignCenter ] ].
+				c ignored vertical alignCenter ] ] ].
 		e focusability: BlFocusability ignore.
 		e border: BlBorder empty.
 		e background: BlBackground transparent.

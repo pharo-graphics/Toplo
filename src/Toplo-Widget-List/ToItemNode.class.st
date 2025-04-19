@@ -13,6 +13,7 @@ ToItemNode >> initialize [
 
 	super initialize.
 	itemContainer := ToElement new.
+	itemContainer layout: BlLinearLayout horizontal.
 	self addChild: itemContainer.
 	self fitContent 
 ]
@@ -32,6 +33,12 @@ ToItemNode >> item: anElement [
 	item ifNil: [ ^ self ].
 	item removeFromParent.
 	itemContainer addChild: item at: 1
+]
+
+{ #category : #accessing }
+ToItemNode >> itemContainer [ 
+
+	^ itemContainer 
 ]
 
 { #category : #skin }

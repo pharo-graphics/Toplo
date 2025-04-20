@@ -1,8 +1,23 @@
 Class {
 	#name : #ToTagNode,
 	#superclass : #ToBarNode,
+	#traits : 'TToRemovableNode',
+	#classTraits : 'TToRemovableNode classTrait',
+	#instVars : [
+		'removeButton'
+	],
 	#category : #'Toplo-Widget-Tag-Tag'
 }
+
+{ #category : #'t - removable item element' }
+ToTagNode >> addRemoveButton [
+
+	removeButton ifNotNil: [ ^ self ].
+	removeButton := ToIconicRemoveButton new.
+	removeButton constraintsDo: [ :c |
+		c ignoreByLayout ].
+	self addChild: removeButton
+]
 
 { #category : #testing }
 ToTagNode >> isRemovable [
@@ -22,9 +37,23 @@ ToTagNode >> nodesCount [
 	^ self holder tagModel nodesCount
 ]
 
+{ #category : #'t - removable item element' }
+ToTagNode >> removeButton [
+
+	^ removeButton 
+]
+
 { #category : #private }
 ToTagNode >> removeFromBar [
 
 	self isRemovable ifFalse: [ ^ self ].
 	self holder removeNodeFromBar 
+]
+
+{ #category : #'t - removable item element' }
+ToTagNode >> removeRemoveButton [
+
+	removeButton ifNil: [ ^ self ].
+	removeButton removeFromParent.
+	removeButton := nil
 ]

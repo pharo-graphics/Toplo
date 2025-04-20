@@ -32,7 +32,7 @@ ToTabNode >> initialize [
 { #category : #testing }
 ToTabNode >> isRemovable [ 
 
-	^ self item isRemovable
+	^ removable 
 ]
 
 { #category : #'t - bar node' }

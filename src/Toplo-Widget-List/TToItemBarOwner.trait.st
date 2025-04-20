@@ -123,6 +123,22 @@ TToItemBarOwner >> enabledItem: anItem [
 ]
 
 { #category : #'t - item bar owner - accessing' }
+TToItemBarOwner >> exactItemHeight: aNumberOrNil [
+
+	self itemBar exactItemHeight = aNumberOrNil ifTrue: [ ^ self ].
+	self itemBar exactItemHeight: aNumberOrNil.
+	self requestNewConfiguration
+]
+
+{ #category : #'t - item bar owner - accessing' }
+TToItemBarOwner >> exactItemWidth: aNumberOrNil [
+
+	self itemBar exactItemWidth = aNumberOrNil ifTrue: [ ^ self ].
+	self itemBar exactItemWidth: aNumberOrNil.
+	self requestNewConfiguration
+]
+
+{ #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> exactNodeHeight: aNumberOrNil [
 
 	self itemBar exactNodeHeight = aNumberOrNil ifTrue: [ ^ self ].

@@ -27,7 +27,7 @@ ToBarNodeConfiguration >> applyOn: aNode [
 						ifTrue: [ aNode hMatchParent ]
 						ifFalse: [ aNode hFitContent ] ] ].
 	aNode holder initializeNode.
-	bar exactNodeWidth ifNotNil: [ :w | aNode item width: w ].
-	bar exactNodeHeight ifNotNil: [ :h | aNode item height: h ]
+	bar exactNodeWidth ifNotNil: [ :w | aNode width: w ].
+	bar exactNodeHeight ifNotNil: [ :h | aNode height: h ]
 	
 ]

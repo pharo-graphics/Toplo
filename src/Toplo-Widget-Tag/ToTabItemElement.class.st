@@ -1,23 +1,13 @@
 Class {
 	#name : #ToTabItemElement,
 	#superclass : #ToItemToggleButton,
-	#traits : 'TToRemovableItemElement + TToShrinkable',
-	#classTraits : 'TToRemovableItemElement classTrait + TToShrinkable classTrait',
+	#traits : 'TToShrinkable',
+	#classTraits : 'TToShrinkable classTrait',
 	#instVars : [
-		'removeButton'
+		'removable'
 	],
 	#category : #'Toplo-Widget-Tag-Tab'
 }
-
-{ #category : #'t - removable item element' }
-ToTabItemElement >> addRemoveButton [
-
-	removeButton ifNotNil: [ ^ self ].
-	removeButton := ToIconicRemoveButton new.
-	removeButton constraintsDo: [ :c |
-		c ignoreByLayout ].
-	self addChild: removeButton
-]
 
 { #category : #converting }
 ToTabItemElement >> asString [
@@ -29,11 +19,13 @@ ToTabItemElement >> asString [
 ToTabItemElement >> initialize [
 
 	super initialize.
-	self applySkinInstallerOnFirstRequest: true.
-	self addEventHandlerOn: ToRemoveButtonClickedEvent do: [ :event |
-		event consume.
-		event currentTarget removeFromBar ]
-	
+	self applySkinInstallerOnFirstRequest: true
+]
+
+{ #category : #accessing }
+ToTabItemElement >> isRemovable [
+
+	^ removable ifNil: [ false ]
 ]
 
 { #category : #'t - triplet element - accessing' }
@@ -49,16 +41,10 @@ ToTabItemElement >> newRawSkin [
 	^ ToTabItemElementSkin new
 ]
 
-{ #category : #configuration }
-ToTabItemElement >> newWidgetConfiguration [ 
+{ #category : #accessing }
+ToTabItemElement >> removable: aBoolean [
 
-	^ ToTabItemElementConfiguration new
-]
-
-{ #category : #'t - removable item element' }
-ToTabItemElement >> removeButton [
-
-	^ removeButton 
+	removable := aBoolean
 ]
 
 { #category : #removing }
@@ -78,12 +64,4 @@ ToTabItemElement >> removeFromBar [
 		               ifTrue: [ dataAccessor last ]
 		               ifFalse: [ dataAccessor at: index ].
 	nextChecked checked: true
-]
-
-{ #category : #'t - removable item element' }
-ToTabItemElement >> removeRemoveButton [
-
-	removeButton ifNil: [ ^ self ].
-	removeButton removeFromParent.
-	removeButton := nil
 ]

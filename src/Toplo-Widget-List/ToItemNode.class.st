@@ -8,6 +8,16 @@ Class {
 	#category : #'Toplo-Widget-List-ItemList'
 }
 
+{ #category : #configuration }
+ToItemNode >> applyWidgetConfiguration [
+
+	| list |
+	super applyWidgetConfiguration.
+	list := self holder listElement.
+	list exactItemWidth ifNotNil: [ :w | item width: w ].
+	list exactItemHeight ifNotNil: [ :h | item height: h ]
+]
+
 { #category : #initialization }
 ToItemNode >> initialize [ 
 

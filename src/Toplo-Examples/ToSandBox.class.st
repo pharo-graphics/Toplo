@@ -3574,6 +3574,7 @@ ToSandBox class >> example_TabBarElement [
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		tabs addItem: (ToTabItemElement new
+				 removable: true;
 				 middleElement: (ToLabel text: l);
 				 yourself) ].
 
@@ -3647,16 +3648,14 @@ ToSandBox class >> example_TabPaneElementWithUSStates [
 
 	| tpane dashBoard |
 	tpane := ToTabPaneElement new.
-	tpane exactNodeWidth: 80.
+	tpane exactItemWidth: 80.
 	self statesOfAmerica do: [ :l |
 		| lab |
 		lab := ToLabel text: l.
-		"lab width: 50."
 		"lab rotateBy: 270."
 		tpane addItem: (ToTabItemElement new
 				 label: lab;
 				 removable: true;
-				" width: 80;"
 				 yourself) ].
 
 	tpane isWrapping: false.

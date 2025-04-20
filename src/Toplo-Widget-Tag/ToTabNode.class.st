@@ -1,8 +1,8 @@
 Class {
 	#name : #ToTabNode,
 	#superclass : #ToCheckableNode,
-	#traits : 'TToRemovableItemElement',
-	#classTraits : 'TToRemovableItemElement classTrait',
+	#traits : 'TToRemovableNode',
+	#classTraits : 'TToRemovableNode classTrait',
 	#instVars : [
 		'removeButton'
 	],

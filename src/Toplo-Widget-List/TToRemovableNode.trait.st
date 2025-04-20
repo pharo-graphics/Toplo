@@ -1,19 +1,19 @@
 Trait {
-	#name : #TToRemovableItemElement,
+	#name : #TToRemovableNode,
 	#instVars : [
 		'removable'
 	],
-	#category : #'Toplo-Widget-Tag-Tag'
+	#category : #'Toplo-Widget-List-Node'
 }
 
 { #category : #'t - removable item element' }
-TToRemovableItemElement >> addRemoveButton [
+TToRemovableNode >> addRemoveButton [
 
 	self shouldBeImplemented 
 ]
 
 { #category : #'t - removable item element' }
-TToRemovableItemElement >> bordered: aBoolean [
+TToRemovableNode >> bordered: aBoolean [
 
 	self
 		deprecated: 'Use #borderless: '
@@ -23,13 +23,13 @@ TToRemovableItemElement >> bordered: aBoolean [
 ]
 
 { #category : #'t - removable item element' }
-TToRemovableItemElement >> isRemovable [
+TToRemovableNode >> isRemovable [
 
 	^ removable ifNil: [ false ]
 ]
 
 { #category : #'t - removable item element' }
-TToRemovableItemElement >> removable: aBoolean [
+TToRemovableNode >> removable: aBoolean [
 
 	removable = aBoolean ifTrue: [ ^ self ].
 	removable := aBoolean.
@@ -37,20 +37,20 @@ TToRemovableItemElement >> removable: aBoolean [
 ]
 
 { #category : #'t - removable item element' }
-TToRemovableItemElement >> removeButton [
+TToRemovableNode >> removeButton [
 
 	^ self shouldBeImplemented 
 ]
 
 { #category : #'t - removable item element' }
-TToRemovableItemElement >> removeButtonDo: aValuable [
+TToRemovableNode >> removeButtonDo: aValuable [
 
 	self removeButton ifNil: [ ^ self ].
 	aValuable value: self removeButton
 ]
 
 { #category : #'t - removable item element' }
-TToRemovableItemElement >> removeRemoveButton [
+TToRemovableNode >> removeRemoveButton [
 
 	self shouldBeImplemented 
 ]

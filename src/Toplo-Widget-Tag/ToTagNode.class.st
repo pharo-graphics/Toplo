@@ -9,7 +9,7 @@ Class {
 	#category : #'Toplo-Widget-Tag-Tag'
 }
 
-{ #category : #'t - removable item element' }
+{ #category : #'t - removable node' }
 ToTagNode >> addRemoveButton [
 
 	removeButton ifNotNil: [ ^ self ].
@@ -37,7 +37,7 @@ ToTagNode >> nodesCount [
 	^ self holder tagModel nodesCount
 ]
 
-{ #category : #'t - removable item element' }
+{ #category : #'t - removable node' }
 ToTagNode >> removeButton [
 
 	^ removeButton 
@@ -50,7 +50,7 @@ ToTagNode >> removeFromBar [
 	self holder removeNodeFromBar 
 ]
 
-{ #category : #'t - removable item element' }
+{ #category : #'t - removable node' }
 ToTagNode >> removeRemoveButton [
 
 	removeButton ifNil: [ ^ self ].

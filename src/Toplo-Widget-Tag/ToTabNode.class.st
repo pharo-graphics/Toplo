@@ -9,7 +9,7 @@ Class {
 	#category : #'Toplo-Widget-Tag-Tab'
 }
 
-{ #category : #'t - removable item element' }
+{ #category : #'t - removable node' }
 ToTabNode >> addRemoveButton [
 
 	removeButton ifNotNil: [ ^ self ].
@@ -27,12 +27,6 @@ ToTabNode >> initialize [
 		event consume.
 		event currentTarget item removeFromBar ]
 	
-]
-
-{ #category : #testing }
-ToTabNode >> isRemovable [ 
-
-	^ removable 
 ]
 
 { #category : #'t - bar node' }
@@ -55,13 +49,13 @@ ToTabNode >> newWidgetConfiguration [
 	^ ToTabNodeConfiguration new
 ]
 
-{ #category : #'t - removable item element' }
+{ #category : #'t - removable node' }
 ToTabNode >> removeButton [
 
 	^ removeButton 
 ]
 
-{ #category : #'t - removable item element' }
+{ #category : #'t - removable node' }
 ToTabNode >> removeRemoveButton [
 
 	removeButton ifNil: [ ^ self ].

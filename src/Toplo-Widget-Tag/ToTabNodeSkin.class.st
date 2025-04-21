@@ -48,17 +48,6 @@ ToTabNodeSkin >> installSkinEvent: anEvent [
 		leftPad := rightPad := e valueOfTokenNamed: #'padding-content-H'.
 		topPad := bottomPad := e valueOfTokenNamed: #'padding-content-V'.
 		listElement := e holder listElement.
-
-		listElement isVertical
-			ifTrue: [
-				listElement atStartSide
-					ifTrue: [ rightPad := rightPad + 15 ]
-					ifFalse: [ leftPad := leftPad + 15 ] ]
-			ifFalse: [
-				listElement atStartSide
-					ifTrue: [ bottomPad := bottomPad + 5 ]
-					ifFalse: [ topPad := topPad + 5 ] ].
-
 		e removeButtonDo: [ :rb |
 			rb constraintsDo: [ :c |
 				(listElement isVertical and: [ listElement atStartSide not ])

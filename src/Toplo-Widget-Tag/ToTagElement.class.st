@@ -1,8 +1,8 @@
 Class {
 	#name : #ToTagElement,
 	#superclass : #ToButton,
-	#traits : 'TToColorableItemElement',
-	#classTraits : 'TToColorableItemElement classTrait',
+	#traits : 'TToColorableItemElement + TToRemovableItem',
+	#classTraits : 'TToColorableItemElement classTrait + TToRemovableItem classTrait',
 	#category : #'Toplo-Widget-Tag-Tag'
 }
 

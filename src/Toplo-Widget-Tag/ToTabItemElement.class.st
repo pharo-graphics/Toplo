@@ -1,8 +1,8 @@
 Class {
 	#name : #ToTabItemElement,
 	#superclass : #ToItemToggleButton,
-	#traits : 'TToShrinkable',
-	#classTraits : 'TToShrinkable classTrait',
+	#traits : 'TToShrinkable + TToRemovableItem',
+	#classTraits : 'TToShrinkable classTrait + TToRemovableItem classTrait',
 	#instVars : [
 		'removable'
 	],
@@ -22,12 +22,6 @@ ToTabItemElement >> initialize [
 	self applySkinInstallerOnFirstRequest: true
 ]
 
-{ #category : #accessing }
-ToTabItemElement >> isRemovable [
-
-	^ removable ifNil: [ false ]
-]
-
 { #category : #'t - triplet element - accessing' }
 ToTabItemElement >> middleElement: anElement [
 
@@ -39,12 +33,6 @@ ToTabItemElement >> middleElement: anElement [
 ToTabItemElement >> newRawSkin [ 
 
 	^ ToTabItemElementSkin new
-]
-
-{ #category : #accessing }
-ToTabItemElement >> removable: aBoolean [
-
-	removable := aBoolean
 ]
 
 { #category : #removing }

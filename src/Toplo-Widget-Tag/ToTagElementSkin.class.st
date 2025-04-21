@@ -13,10 +13,10 @@ ToTagElementSkin >> disabledSkinEvent: anEvent [
 		e background: (e valueOfTokenNamed: #'color-bg-container-disabled').
 		e iconDo: [ :ic |
 			ic formColor: (e valueOfTokenNamed: #'color-text-disabled') ].
-		e removeButton ifNotNil: [ :rb |
+		"e removeButton ifNotNil: [ :rb |
 			rb
 				addStamp: #color
-				withValue: (e valueOfTokenNamed: #'color-text-disabled') ].
+				withValue: (e valueOfTokenNamed: #'color-text-disabled') ]."
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text-disabled') ] ]
 ]
@@ -41,8 +41,8 @@ ToTagElementSkin >> enabledSkinEvent: anEvent [
 		e background: backgroundColor.
 		e labelDo: [ :lab |
 			lab addTokenNamed: #'color-text' withValue: foregroundColor ].
-		e removeButton ifNotNil: [ :rb |
-			rb addStamp: #color withValue: foregroundColor ].
+		"e removeButton ifNotNil: [ :rb |
+			rb addStamp: #color withValue: foregroundColor ]."
 
 		(e hasStamp: #borderless)
 			ifTrue: [ e border: BlBorder empty ]

@@ -78,7 +78,7 @@ ToTagNodeManager >> initialize [
 	tagBuilder := self defaultTagBuilder 
 ]
 
-{ #category : #'t - generic node manager' }
+{ #category : #'instance creation' }
 ToTagNodeManager >> newHolder [
 
 	^ ToTagNodeHolder new

@@ -55,7 +55,7 @@ ToTagNodeManager >> defaultNodeBuilder [
 	  tagElement := self newTagElementForHolder: holder.
 	  tagBuilder cull: tagElement cull: data cull: holder.
 	  tagElement hMatchParent.
-	  node tagElement: tagElement ]
+	  node addChild: tagElement ]
 ]
 
 { #category : #'t - generic node manager' }

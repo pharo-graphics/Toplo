@@ -91,7 +91,7 @@ ToTabGroupElement >> defaultInvisibleNodeMenuItemBuilder [
 			  addEventHandlerOn: ToRemoveButtonClickedEvent
 			  do: [ :event |
 				  event consume.
-				  aNode item removeFromBar.
+				  aNode removeFromBar.
 				  self checkInvisibleNodes ] ].
 	  aNode item isChecked ifTrue: [
 		  aMenuItem icon: (ToImage inner: (self valueOfTokenNamed: #check)).

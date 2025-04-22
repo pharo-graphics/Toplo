@@ -1,17 +1,28 @@
 Class {
 	#name : #ToTagElement,
 	#superclass : #ToButton,
-	#traits : 'TToColorableItemElement + TToRemovableItem',
-	#classTraits : 'TToColorableItemElement classTrait + TToRemovableItem classTrait',
+	#traits : 'TToColorableItemElement + TToRemovableItem + (TToRemovableNode - {#isRemovable})',
+	#classTraits : 'TToColorableItemElement classTrait + TToRemovableItem classTrait + TToRemovableNode classTrait',
 	#category : #'Toplo-Widget-Tag-Tag'
 }
+
+{ #category : #configuration }
+ToTagElement >> applyWidgetConfiguration [ 
+
+	super applyWidgetConfiguration.
+	self removeRemoveButton.
+	self isRemovable
+		ifTrue: [ self addRemoveButton ].
+	self requestNewSkin 
+]
 
 { #category : #initialization }
 ToTagElement >> initialize [ 
 
 	super initialize.
 	self applySkinInstallerOnFirstRequest: true.
-	self takeFocusOnClick: false
+	self takeFocusOnClick: false.
+	removable := false
 ]
 
 { #category : #'t - checkable  - protocol' }

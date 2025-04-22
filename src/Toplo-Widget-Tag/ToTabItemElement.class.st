@@ -9,6 +9,21 @@ Class {
 	#category : #'Toplo-Widget-Tag-Tab'
 }
 
+{ #category : #configuration }
+ToTabItemElement >> applyWidgetConfiguration [
+
+	| listElement |
+	super applyWidgetConfiguration.
+	listElement := self holder listElement.
+	(listElement isVertical and: [ listElement atStartSide not ])
+		ifTrue: [
+			self startFlexible: true.
+			self endFlexible: false ]
+		ifFalse: [
+			self startFlexible: false.
+			self endFlexible: true ]
+]
+
 { #category : #converting }
 ToTabItemElement >> asString [
 
@@ -33,23 +48,4 @@ ToTabItemElement >> middleElement: anElement [
 ToTabItemElement >> newRawSkin [ 
 
 	^ ToTabItemElementSkin new
-]
-
-{ #category : #removing }
-ToTabItemElement >> removeFromBar [
-	" remove from bar and make sure that the next tab (or the last one) is checked after"
-
-	| index nextChecked dataAccessor |
-	self isRemovable ifFalse: [ ^ self ].
-	dataAccessor := self holder listElement dataAccessor.
-	index := self isChecked
-		         ifTrue: [ self holder position ]
-		         ifFalse: [ 0 ].
-	self holder removeNodeFromBar.
-	index > 0 ifFalse: [ ^ self ].
-	dataAccessor ifEmpty: [ ^ self ].
-	nextChecked := dataAccessor size < index
-		               ifTrue: [ dataAccessor last ]
-		               ifFalse: [ dataAccessor at: index ].
-	nextChecked checked: true
 ]

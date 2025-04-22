@@ -30,10 +30,7 @@ ToTagNodeManager >> buildNode: aNode forCompositeTagModel: aTagModel [
 { #category : #'node building' }
 ToTagNodeManager >> buildNode: aNode forSingleTagModel: aTagModel [
 
-	nodeBuilder cull: aNode cull: aTagModel data cull: aNode holder.
-	aNode addEventHandlerOn: ToRemoveButtonClickedEvent do: [ :event |
-		event consume.
-		event currentTarget removeFromBar ]
+	nodeBuilder cull: aNode cull: aTagModel data cull: aNode holder
 ]
 
 { #category : #accessing }
@@ -55,11 +52,10 @@ ToTagNodeManager >> defaultNodeBuilder [
 
 	^ [ :node :data :holder |
 	  | tagElement |
-	  tagElement := ToTagElement new.
+	  tagElement := self newTagElementForHolder: holder.
 	  tagBuilder cull: tagElement cull: data cull: holder.
 	  tagElement hMatchParent.
-	  tagElement endFlexible: true.
-	  node addChild: tagElement ]
+	  node tagElement: tagElement ]
 ]
 
 { #category : #'t - generic node manager' }
@@ -89,9 +85,11 @@ ToTagNodeManager >> newHolder [
 ]
 
 { #category : #'t - generic node manager' }
-ToTagNodeManager >> newNodeForHolder: aNodeHolder [
+ToTagNodeManager >> newTagElementForHolder: aTagHolder [
 
-	^  ToTagNode new
+	| tagElement |
+	tagElement := ToTagElement new.
+	^ tagElement
 ]
 
 { #category : #accessing }

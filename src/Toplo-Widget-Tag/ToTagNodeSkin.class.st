@@ -5,16 +5,20 @@ Class {
 }
 
 { #category : #'event handling' }
+ToTagNodeSkin >> disabledSkinEvent: anEvent [
+
+	super disabledSkinEvent: anEvent.
+	anEvent elementDo: [ :e | ]
+]
+
+{ #category : #'event handling' }
 ToTagNodeSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e constraintsDo: [ :c | c linear vertical alignCenter ].
-		e geometry:
-			(BlRoundedRectangleGeometry cornerRadius: (e valueOfTokenNamed: 'border-radius')).
-		e padding: (BlInsets
-				 horizontal: (e valueOfTokenNamed: #'bar-node-padding-H')
-				 vertical: (e valueOfTokenNamed: #'bar-node-padding-V')).
+		e geometry: (BlRoundedRectangleGeometry cornerRadius:
+				 (e valueOfTokenNamed: 'border-radius')).
 		" the tagModel can be nil in case of the default fakeDataItem "
 		e holder tagModel ifNotNil: [ :tm |
 			tm isComposite ifTrue: [

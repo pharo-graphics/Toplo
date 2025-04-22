@@ -384,6 +384,12 @@ TToItemBarOwner >> selectionOption [
 	^ self itemBar selectionOption
 ]
 
+{ #category : #'t - item bar owner - initializing' }
+TToItemBarOwner >> setItemBar: anItemBar [
+
+	self userData at: #itemBar put: anItemBar
+]
+
 { #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> uniformNodeHeight [
 
@@ -430,10 +436,4 @@ TToItemBarOwner >> visibleAtPosition: anInteger [
 TToItemBarOwner >> visibleItem: anItem [
 
 	self itemBar visibleItem: anItem
-]
-
-{ #category : #'t - item bar owner - initializing' }
-TToItemBarOwner >> wrapItemBar: anItemBar [
-
-	self userData at: #itemBar put: anItemBar
 ]

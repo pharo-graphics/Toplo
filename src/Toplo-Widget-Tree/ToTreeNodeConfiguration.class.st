@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTreeNodeConfiguration,
-	#superclass : #ToListNodeConfiguration,
+	#superclass : #ToWidgetConfiguration,
 	#traits : 'TToTripletElementConfiguration',
 	#classTraits : 'TToTripletElementConfiguration classTrait',
 	#category : #'Toplo-Widget-Tree-Core'

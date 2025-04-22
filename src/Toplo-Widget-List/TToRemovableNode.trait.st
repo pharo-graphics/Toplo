@@ -1,12 +1,19 @@
 Trait {
 	#name : #TToRemovableNode,
+	#instVars : [
+		'removeButton'
+	],
 	#category : #'Toplo-Widget-List-Node'
 }
 
 { #category : #'t - removable node' }
 TToRemovableNode >> addRemoveButton [
 
-	self shouldBeImplemented 
+	removeButton ifNotNil: [ ^ self ].
+	removeButton := ToIconicRemoveButton new.
+	removeButton constraintsDo: [ :c |
+		c ignoreByLayout ].
+	self addChild: removeButton
 ]
 
 { #category : #'t - removable node' }
@@ -18,18 +25,20 @@ TToRemovableNode >> isRemovable [
 { #category : #'t - removable node' }
 TToRemovableNode >> removeButton [
 
-	^ self shouldBeImplemented 
+	^ removeButton 
 ]
 
 { #category : #'t - removable node' }
 TToRemovableNode >> removeButtonDo: aValuable [
 
-	self removeButton ifNil: [ ^ self ].
+	removeButton ifNil: [ ^ self ].
 	aValuable value: self removeButton
 ]
 
 { #category : #'t - removable node' }
 TToRemovableNode >> removeRemoveButton [
 
-	self shouldBeImplemented 
+	removeButton ifNil: [ ^ self ].
+	removeButton removeFromParent.
+	removeButton := nil
 ]

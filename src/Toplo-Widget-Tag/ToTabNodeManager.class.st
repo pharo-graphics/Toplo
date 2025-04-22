@@ -13,6 +13,12 @@ ToTabNodeManager >> defaultFakeDataItem [
 ]
 
 { #category : #'instance creation' }
+ToTabNodeManager >> newHolder [ 
+
+	^ ToTabNodeHolder new
+]
+
+{ #category : #'instance creation' }
 ToTabNodeManager >> newNodeForHolder: aNodeHolder [
 
 	^ ToTabNode new

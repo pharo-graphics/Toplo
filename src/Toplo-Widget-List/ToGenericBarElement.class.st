@@ -12,6 +12,12 @@ ToGenericBarElement >> defaultNodeManagerClass [
 	^ ToGenericBarNodeManager 
 ]
 
+{ #category : #accessing }
+ToGenericBarElement >> fakeNode [
+
+	^ self innerElement fakeNode
+]
+
 { #category : #initialization }
 ToGenericBarElement >> initialize [
 

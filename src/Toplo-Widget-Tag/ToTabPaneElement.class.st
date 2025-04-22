@@ -5,11 +5,37 @@ Class {
 	#classTraits : 'TToItemBarOwner classTrait',
 	#instVars : [
 		'tabGroup',
-		'headContainer',
-		'bodyContainer'
+		'bodyContainer',
+		'headerContainer'
 	],
 	#category : #'Toplo-Widget-Tag-Tab'
 }
+
+{ #category : #configuration }
+ToTabPaneElement >> applyWidgetConfiguration [
+
+	super applyWidgetConfiguration.
+
+	tabGroup horizontal: self isHorizontal not.
+	self atStartSide
+		ifTrue: [ self beStartToEnd ]
+		ifFalse: [ self beEndToStart ].
+	self isHorizontal
+		ifTrue: [
+			self header
+				vMatchParent;
+				hFitContent.
+			tabGroup
+				vMatchParent;
+				hFitContent ]
+		ifFalse: [
+			self header
+				hMatchParent;
+				vFitContent.
+			tabGroup
+				hMatchParent;
+				vFitContent ]
+]
 
 { #category : #accessing }
 ToTabPaneElement >> atStartSide [
@@ -33,14 +59,14 @@ ToTabPaneElement >> body [
 { #category : #accessing }
 ToTabPaneElement >> header [ 
 
-	^ headContainer 
+	^ headerContainer 
 ]
 
 { #category : #initialization }
 ToTabPaneElement >> initialize [
 
 	super initialize.
-	headContainer := ToElement new
+	headerContainer := ToElement new
 		                 id: #header;
 		                 yourself.
 	bodyContainer := ToElement new
@@ -50,17 +76,11 @@ ToTabPaneElement >> initialize [
 	bodyContainer background: Color red.
 	tabGroup := ToTabGroupElement new.
 	tabGroup matchParent.
-	self wrapItemBar: tabGroup itemBar.
-	headContainer addChild: tabGroup.
+	self setItemBar: tabGroup itemBar.
+	headerContainer addChild: tabGroup.
 	self addChildren: {
-			headContainer.
+			headerContainer.
 			bodyContainer }
-]
-
-{ #category : #configuration }
-ToTabPaneElement >> newWidgetConfiguration [ 
-
-	^ ToTabPaneElementConfiguration new
 ]
 
 { #category : #accessing }

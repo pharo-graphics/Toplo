@@ -295,7 +295,7 @@ ToSandBox class >> barWithData: aCollection [
 	bar := ToGenericBarElement new.
 	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
 	bar nodeBuilder: [ :node :dataItem :holder |
-		| fontSize triplet but label |
+		| fontSize triplet label |
 		triplet := ToTripletElement new.
 		triplet
 			hMatchParent;
@@ -305,10 +305,7 @@ ToSandBox class >> barWithData: aCollection [
 				          holder position asString , ': ' , dataItem asString)
 			         fontSize: fontSize;
 			         yourself.
-		but := ToIconicRemoveButton new.
-		but newClickAction: [
-			holder listElement dataAccessor removeAt: holder position ].
-		triplet startElement: but.
+		triplet startElement: ToIconicRemoveButton new.
 		triplet middleElement: label.
 		triplet startInterspace: 10.
 		triplet constraintsDo: [ :c | c linear vertical alignCenter ].
@@ -3656,7 +3653,7 @@ ToSandBox class >> example_TabPaneElementWithUSStates [
 		"lab rotateBy: 270."
 		tpane addItem: (ToTabItemElement new
 				 label: lab;
-				 "removable: true;"
+				 removable: true;
 				 yourself) ].
 
 	tpane isWrapping: false.
@@ -3675,7 +3672,7 @@ ToSandBox class >> example_TagBar [
 		(ToSandBox statesOfAmerica collect: [ :s | ToSingleTag new data: s ]).
 	tb tagBuilder: [ :tagElement :aStateName :holder |
 		tagElement labelText: aStateName , ' ' , holder position asString.
-		tagElement removable: true ].
+		"tagElement removable: true" ].
 	dashBoard := self barConfigurationBoardFor: tb.
 	rootPane := ToPane horizontal.
 	rootPane padding: (BlInsets all: 5).

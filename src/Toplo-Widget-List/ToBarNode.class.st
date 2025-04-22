@@ -6,10 +6,49 @@ Class {
 	#category : #'Toplo-Widget-List-Node'
 }
 
+{ #category : #configuration }
+ToBarNode >> applyWidgetConfiguration [ 
+
+	| bar |
+	super applyWidgetConfiguration.
+	bar := self holder listElement.
+	bar isWrapping
+		ifFalse: [
+			bar isVertical
+				ifTrue: [
+					bar isHMatchParent
+						ifTrue: [ self hMatchParent ]
+						ifFalse: [ self hFitContent ].
+					bar autoDistribute
+						ifTrue: [ self vMatchParent ]
+						ifFalse: [ self vFitContent ] ]
+				ifFalse: [
+					bar isVMatchParent
+						ifTrue: [ self vMatchParent ]
+						ifFalse: [ self vFitContent ].
+					bar autoDistribute
+						ifTrue: [ self hMatchParent ]
+						ifFalse: [ self hFitContent ] ] ].
+	self holder initializeNode.
+	bar exactNodeWidth ifNotNil: [ :w | self width: w ].
+	bar exactNodeHeight ifNotNil: [ :h | self height: h ]
+	
+]
+
 { #category : #'t - list node' }
 ToBarNode >> clickEventHandlerClasses [
 
 	^  { ToListNodeMultiSelectionClickEventHandler } 
+]
+
+{ #category : #initialization }
+ToBarNode >> initialize [ 
+
+	super initialize.
+	self addEventHandlerOn: ToRemoveButtonClickedEvent do: [ :event |
+		event consume.
+		event currentTarget removeFromBar ]
+	
 ]
 
 { #category : #skin }
@@ -18,8 +57,8 @@ ToBarNode >> newRawSkin [
 	^ ToBarNodeSkin new
 ]
 
-{ #category : #configuration }
-ToBarNode >> newWidgetConfiguration [
+{ #category : #removing }
+ToBarNode >> removeFromBar [
 
-	^ ToBarNodeConfiguration new
+	self holder removeNodeFromBar 
 ]

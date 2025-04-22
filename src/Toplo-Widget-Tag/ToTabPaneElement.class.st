@@ -74,13 +74,25 @@ ToTabPaneElement >> initialize [
 		                 yourself.
 	bodyContainer matchParent.
 	bodyContainer background: Color red.
-	tabGroup := ToTabGroupElement new.
-	tabGroup matchParent.
+	tabGroup := self newTabGroupElement.
 	self setItemBar: tabGroup itemBar.
 	headerContainer addChild: tabGroup.
 	self addChildren: {
 			headerContainer.
 			bodyContainer }
+]
+
+{ #category : #initialization }
+ToTabPaneElement >> newTabGroupElement [
+
+	| tg |
+	tg := ToTabPaneGroupElement new.
+	"tg
+		addEventHandlerOn: ToCheckableGroupChangedEvent
+		do: [ :event | event checkedList traceCr ]."
+	tg matchParent.
+	^ tg
+
 ]
 
 { #category : #accessing }

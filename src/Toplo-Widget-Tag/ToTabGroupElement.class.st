@@ -18,7 +18,7 @@ Class {
 }
 
 { #category : #adding }
-ToTabGroupElement >> addNewTagItem [
+ToTabGroupElement >> addNewTabItem [
 
 	| newItem |
 	newItem := ToTabItemElement new.
@@ -44,6 +44,12 @@ ToTabGroupElement >> atStartSide: aBoolean [
 	self atStartSide = aBoolean ifTrue: [ ^ self ].
 	self widgetConfiguration atStartSide: aBoolean.
 	self requestNewConfiguration
+]
+
+{ #category : #initialization }
+ToTabGroupElement >> barElementClass [
+
+	^ ToTabBarElement 
 ]
 
 { #category : #configuration }
@@ -160,9 +166,9 @@ ToTabGroupElement >> initialize [
 	self initializeAsItemBarOwner.
 	self initializeParts.
 
-	self group
+	"self group
 		addEventHandlerOn: ToCheckableGroupChangedEvent
-		do: [ :event | self dispatchEvent: event copy ].
+		do: [ :event | self dispatchEvent: event copy ]."
 
 	self itemBar
 		addEventHandlerOn: ToListSelectionChangedEvent
@@ -256,7 +262,7 @@ ToTabGroupElement >> isAtStartSide [
 { #category : #'t - item bar owner - accessing' }
 ToTabGroupElement >> newItemBar [
 
-	^ ToTabBarElement new
+	^ self barElementClass new
 		  parentTabGroupElement: self;
 		  yourself
 ]

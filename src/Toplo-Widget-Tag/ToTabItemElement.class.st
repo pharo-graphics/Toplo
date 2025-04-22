@@ -24,12 +24,6 @@ ToTabItemElement >> applyWidgetConfiguration [
 			self endFlexible: true ]
 ]
 
-{ #category : #converting }
-ToTabItemElement >> asString [
-
-	^ self label asString
-]
-
 { #category : #initialization }
 ToTabItemElement >> initialize [
 

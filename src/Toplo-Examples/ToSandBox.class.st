@@ -3651,7 +3651,7 @@ ToSandBox class >> example_TabPaneElementWithUSStates [
 		| lab |
 		lab := ToLabel text: l.
 		"lab rotateBy: 270."
-		tpane addItem: (ToTabItemElement new
+		tpane addItem: (ToTabButton new
 				 label: lab;
 				 removable: true;
 				 yourself) ].

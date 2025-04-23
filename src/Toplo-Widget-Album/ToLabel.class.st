@@ -34,9 +34,9 @@ ToLabel >> applyStyle [
 ]
 
 { #category : #converting }
-ToLabel >> asToLabelText [ 
+ToLabel >> asString [ 
 
-	^ self text copy
+	^ self text asString
 ]
 
 { #category : #accessing }
@@ -350,12 +350,6 @@ ToLabel >> popupEditorEvent: anEvent [
 	self hasEditor ifTrue: [ ^ self ].
 	(editorWindowManager newWindowEvent: anEvent) ifNotNil: [ :win |
 		win popupEvent: anEvent ]
-]
-
-{ #category : #printing }
-ToLabel >> printOn: aStream [
-
-	aStream << self class name << '(' << self text asString << ')'
 ]
 
 { #category : #'private-change' }

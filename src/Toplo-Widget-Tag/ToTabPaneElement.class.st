@@ -6,8 +6,7 @@ Class {
 	#instVars : [
 		'tabGroup',
 		'bodyContainer',
-		'headerContainer',
-		'preservePane'
+		'headerContainer'
 	],
 	#category : #'Toplo-Widget-Tag-Tab'
 }
@@ -57,12 +56,6 @@ ToTabPaneElement >> body [
 	^ bodyContainer 
 ]
 
-{ #category : #initialization }
-ToTabPaneElement >> defaultEventHandler [ 
-
-	^ ToTabPaneEventHandler new
-]
-
 { #category : #accessing }
 ToTabPaneElement >> header [ 
 
@@ -73,7 +66,6 @@ ToTabPaneElement >> header [
 ToTabPaneElement >> initialize [
 
 	super initialize.
-	preservePane := true.
 	headerContainer := ToElement new
 		                 id: #header;
 		                 yourself.
@@ -81,13 +73,13 @@ ToTabPaneElement >> initialize [
 		                 id: #body;
 		                 yourself.
 	bodyContainer matchParent.
+	bodyContainer background: Color red.
 	tabGroup := self newTabGroupElement.
 	self setItemBar: tabGroup itemBar.
 	headerContainer addChild: tabGroup.
 	self addChildren: {
 			headerContainer.
-			bodyContainer }.
-	self addEventHandler: self defaultEventHandler 
+			bodyContainer }
 ]
 
 { #category : #initialization }
@@ -95,21 +87,12 @@ ToTabPaneElement >> newTabGroupElement [
 
 	| tg |
 	tg := ToTabPaneGroupElement new.
+	"tg
+		addEventHandlerOn: ToCheckableGroupChangedEvent
+		do: [ :event | event checkedList traceCr ]."
 	tg matchParent.
 	^ tg
 
-]
-
-{ #category : #accessing }
-ToTabPaneElement >> preservePane [
-
-	^ preservePane
-]
-
-{ #category : #accessing }
-ToTabPaneElement >> preservePane: aBoolean [
-
-	preservePane := aBoolean
 ]
 
 { #category : #accessing }

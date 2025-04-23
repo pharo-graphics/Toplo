@@ -39,6 +39,18 @@ ToInfiniteCollectionDataSource >> itemCount [
 ]
 
 { #category : #notifications }
+ToInfiniteCollectionDataSource >> notifyChangedAllDataItems: aDataItemArray [
+
+	| idxes |
+	idxes := aDataItemArray collect: [ :d |
+		         | idx |
+		         idx := self indexOf: d.
+		         idx isZero ifTrue: [ Error signal: 'Data item not found' ].
+		         idx ].
+	self notifyDataItemChangeIndexes: idxes
+]
+
+{ #category : #notifications }
 ToInfiniteCollectionDataSource >> notifyChangedDataItem: aDataItem [
 
 	| idx |

@@ -11,6 +11,12 @@ ToInfiniteDataSource >> dataAccessor [
 ]
 
 { #category : #notifications }
+ToInfiniteDataSource >> notifyChangedAllDataItems: aDataItemArray [
+
+	self subclassResponsibility 
+]
+
+{ #category : #notifications }
 ToInfiniteDataSource >> notifyChangedDataItem: aDataItem [
 
 	self subclassResponsibility 
@@ -20,6 +26,12 @@ ToInfiniteDataSource >> notifyChangedDataItem: aDataItem [
 ToInfiniteDataSource >> notifyDataItemChangeIndex: anInteger [
 	
 	self notifyDataItemChangeInterval: (anInteger to: anInteger)
+]
+
+{ #category : #notifications }
+ToInfiniteDataSource >> notifyDataItemChangeIndexes: anIntegerArray [
+
+	anIntegerArray do: [ :idx | self notifyDataItemChangeIndex: idx ]
 ]
 
 { #category : #notifications }

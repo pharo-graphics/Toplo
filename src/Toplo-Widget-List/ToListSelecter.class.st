@@ -29,8 +29,6 @@ ToListSelecter >> addCommand: aCommand [
 ToListSelecter >> applyBasicCommand: aCommand [
 
 	| previousModel |
-	"((aCommand isKindOf: ToIntervalSelectionCommand ) and: [ aCommand operation isKindOf: ToRemoveSelectionOperation ]) ifTrue: [ self halt ]."
-
 	previousModel := selectionModel copy.
 	aCommand applyWithOperator: operator.
 	previousModel = aCommand selectionModel ifTrue: [ ^ self ].
@@ -533,10 +531,19 @@ ToListSelecter >> selectionOption [
 { #category : #operations }
 ToListSelecter >> shiftSelection: anInteger from: anIndex [
 
-	self addCommand: (ToSelectionShiftCommand new
+	| cmd |
+	cmd := ToListElementCompositeCommand new.
+	(anInteger < 0 and: [ self itemCount >= anIndex ]) ifTrue: [
+		| count |
+		count := anInteger abs.
+		cmd addCommand: (ToIntervalSelectionCommand new
+				 from: anIndex to: anIndex + count - 1;
+				 operation: ToRemoveSelectionOperation new) ].
+	cmd addCommand: (ToSelectionShiftCommand new
 			 itemCount: anInteger;
 			 fromIndex: anIndex;
-			 yourself)
+			 yourself).
+	self addCommand: cmd
 ]
 
 { #category : #private }

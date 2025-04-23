@@ -84,6 +84,7 @@ ToListElementSieve >> onInstalledIn: aListElement [
 	aListElement addEventHandler: selectionHandler.
 	dataSourceHandler := ToSievedListDataSourceEventHandler new.
 	dataSourceHandler sieve: self.
+	dataSourceHandler listElement: aListElement.
 	aListElement dataSource addEventHandler: dataSourceHandler.
 
 	sieveEventHandler := ToSieveEventHandler new
@@ -91,7 +92,8 @@ ToListElementSieve >> onInstalledIn: aListElement [
 		                     yourself.
 	" selectionChangedEventClass: is needed to update the selection 
 	of the list when the selecter is used programmatically.
-	This is the case when a tag in a ToSelect is removed from its remove button"
+	This is the case when a tag with a remove button in a ToSelect 
+	is removed as a consequence of a click on the remove button of the tag "
 	selecter := ToSieveSelecter new
 		            selectionModel: self selectionModel;
 		            selectionChangedEventClass:

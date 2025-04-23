@@ -119,6 +119,12 @@ ToAbstractListElement >> dataSource: aDataSource [
 ]
 
 { #category : #accessing }
+ToAbstractListElement >> dataSourceManager [
+
+	^ self innerElement dataSourceManager 
+]
+
+{ #category : #accessing }
 ToAbstractListElement >> dataUpdater [
 
 	self

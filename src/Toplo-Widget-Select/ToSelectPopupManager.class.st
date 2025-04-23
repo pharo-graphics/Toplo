@@ -29,7 +29,7 @@ ToSelectPopupManager >> defaultMeasurement [
 { #category : #initialization }
 ToSelectPopupManager >> defaultMinHeight [
 
-	^ 0
+	^ 80
 ]
 
 { #category : #initialization }

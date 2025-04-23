@@ -34,12 +34,12 @@ ToInfiniteDataSourceManager >> onItemsFiltered: aPositionStart itemCount: anItem
 	otherwise false"
 
 	"Register add command"
-	finalStepCommands add: (ToInfiniteDataSourceFilterCommand new
+	self posponeCommand: (ToInfiniteDataSourceFilterCommand new
 			 positionStart: aPositionStart;
 			 itemCount: anItemCount;
 			 yourself).
 
-	^ finalStepCommands notEmpty
+	^ true
 ]
 
 { #category : #'data source updates' }
@@ -48,26 +48,25 @@ ToInfiniteDataSourceManager >> onItemsSieved: aPositionStart itemCount: anItemCo
 	otherwise false"
 
 	"Register the sieve command"
-	finalStepCommands add: (ToInfiniteDataSourceSieveCommand new
+	self posponeCommand: (ToInfiniteDataSourceSieveCommand new
 			 positionStart: aPositionStart;
 			 itemCount: anItemCount;
 			 sieve: aSieve;
 			 yourself).
 
-	^ finalStepCommands notEmpty
+	^ true
 ]
 
 { #category : #'data source updates' }
-ToInfiniteDataSourceManager >> onSelecterCommand: aCommand appliedBy: aSelecter [
-	"Return true if pending commands should be processed,
-	otherwise false"
+ToInfiniteDataSourceManager >> posponeAction: aValuable [
 
-	"Register add command"
+	self posponeCommand: (ToInfiniteDataSourceActionCommand new
+			 action: aValuable;
+			 yourself)
+]
 
-	finalStepCommands add: (ToSelecterCommandApplication new
-			 selecter: aSelecter;
-			 command: aCommand;
-			 yourself).
+{ #category : #'data source updates' }
+ToInfiniteDataSourceManager >> posponeCommand: aCommand [
 
-	^ true
+	finalStepCommands add: aCommand
 ]

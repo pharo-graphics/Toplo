@@ -38,7 +38,13 @@ ToInnerBarDataSourceManager >> onItemsChanged [
 ]
 
 { #category : #'data source updates' }
-ToInnerBarDataSourceManager >> onSelecterCommand: aCommand appliedBy: aCommandApplier [
+ToInnerBarDataSourceManager >> posponeAction: aValuable [
 
-	aCommandApplier applyCommand: aCommand
+	aValuable value
+]
+
+{ #category : #'data source updates' }
+ToInnerBarDataSourceManager >> posponeCommand: aCommand [
+
+	aCommand action value
 ]

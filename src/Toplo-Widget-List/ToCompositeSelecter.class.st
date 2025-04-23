@@ -30,11 +30,6 @@ ToCompositeSelecter >> recordSubSelecter: aSelecter [
 { #category : #operations }
 ToCompositeSelecter >> shiftSelection: anInteger from: anIndex [
 
-	(anInteger < 0 and: [ self itemCount >= anIndex ]) ifTrue: [
-		| count |
-		count := anInteger abs.
-		self deselectIndex: anIndex to: anIndex + count - 1 ].
-	" must send to super ** here ** to deselect the right index if needed "
 	super shiftSelection: anInteger from: anIndex.
 	subSelecterIndex valuesDo: [ :s |
 		s shiftSelection: anInteger from: anIndex ]

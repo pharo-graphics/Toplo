@@ -3,6 +3,7 @@ Class {
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'sieve',
+		'listElement',
 		'dataPositionIndex',
 		'sieveSelectionModel'
 	],
@@ -10,12 +11,14 @@ Class {
 }
 
 { #category : #'data source events handling' }
-ToSievedListDataSourceEventHandler >> buildOriginalIndexMapFrom: aListElement [
-
+ToSievedListDataSourceEventHandler >> buildOriginalIndexMap [
 
 	dataPositionIndex removeAll.
-	aListElement dataAccessor withIndexDo: [ :aData :idx |
-		dataPositionIndex at: aData put: idx ]
+	sieveSelectionModel deselectAll.
+	listElement dataSourceManager posponeAction: [
+		listElement dataAccessor withIndexDo: [ :aData :idx |
+			dataPositionIndex at: aData put: idx ].
+		sieveSelectionModel copySelectionFrom: listElement selectionModel ]
 ]
 
 { #category : #'api - accessing' }
@@ -32,27 +35,34 @@ ToSievedListDataSourceEventHandler >> eventsToHandle [
 ToSievedListDataSourceEventHandler >> infiniteDataSourceChanged: anEvent [
 
 	sieve pattern ifNotEmpty: [ ^ self ].
-	self buildOriginalIndexMapFrom: anEvent currentTarget
+	self buildOriginalIndexMap
 ]
 
 { #category : #'data source events handling' }
 ToSievedListDataSourceEventHandler >> infiniteDataSourceItemRangeChanged: anEvent [
 
 	sieve pattern ifNotEmpty: [ ^ self ].
-	self buildOriginalIndexMapFrom: anEvent currentTarget
+	self buildOriginalIndexMap
 ]
 
 { #category : #'data source events handling' }
 ToSievedListDataSourceEventHandler >> infiniteDataSourceItemRangeInserted: anEvent [
 
 	sieve pattern ifNotEmpty: [ ^ self ].
-	self buildOriginalIndexMapFrom: anEvent currentTarget
+	self buildOriginalIndexMap
 ]
 
 { #category : #'data source events handling' }
 ToSievedListDataSourceEventHandler >> infiniteDataSourceItemRangeRemoved: anEvent [
 
-	" no need to update dataPositionIndex here "
+	sieve pattern ifNotEmpty: [ ^ self ].
+	self buildOriginalIndexMap
+]
+
+{ #category : #accessing }
+ToSievedListDataSourceEventHandler >> listElement: aListElement [
+
+	listElement := aListElement
 ]
 
 { #category : #'api - hooks' }
@@ -61,7 +71,7 @@ ToSievedListDataSourceEventHandler >> onInstalledIn: aListElement [
 	super onInstalledIn: aListElement.
 	sieveSelectionModel := sieve selectionModel.
 	self originalIndexMap: sieve originalIndexMap.
-	self buildOriginalIndexMapFrom: aListElement
+	self buildOriginalIndexMap
 ]
 
 { #category : #accessing }

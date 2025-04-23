@@ -87,7 +87,7 @@ ToTabGroupElement >> defaultInvisibleNodeMenuItemBuilder [
 
 	^ [ :aMenuItem :aNode :aRequest |
 	  aMenuItem
-		  labelText: aNode item asString;
+		  labelText: aNode item asToLabelText;
 		  clickAction: [ self showInvisibleTabItem: aNode item ].
 	  aNode isRemovable ifTrue: [
 		  aMenuItem endElement: ToIconicRemoveButton new.

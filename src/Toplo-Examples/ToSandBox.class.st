@@ -3646,14 +3646,20 @@ ToSandBox class >> example_TabPaneElementWithUSStates [
 
 	| tpane dashBoard |
 	tpane := ToTabPaneElement new.
-	tpane exactItemWidth: 80.
+	tpane preservePane: true.
+	tpane exactItemWidth: 70.
 	self statesOfAmerica do: [ :l |
 		| lab |
 		lab := ToLabel text: l.
 		"lab rotateBy: 270."
 		tpane addItem: (ToTabButton new
 				 label: lab;
+				 tooltipString: l;
 				 removable: true;
+				 paneBuilder: [ :pane |
+					 pane withNullSkin.
+					 pane border: Color veryLightGray.
+					 pane background: Color random ];
 				 yourself) ].
 
 	tpane isWrapping: false.

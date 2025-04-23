@@ -2735,7 +2735,7 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 	select placeholderText:
 		('Select icons' asRopedText foreground: Color red).
 
-	select openInInnerWindow 
+	select openInSpace
 ]
 
 { #category : #select }

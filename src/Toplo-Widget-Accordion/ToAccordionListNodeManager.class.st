@@ -17,7 +17,7 @@ ToAccordionListNodeManager >> buildNode: aNode [
 	itemBuilder cull: item cull: aNode holder dataItem cull: aNode holder.
 	(aNode holder listElement selectionModel containsIndex:
 		 aNode holder position) ifTrue: [ item checked: true ].
-	aNode addChild: item at: 1
+	aNode item: item 
 ]
 
 { #category : #initialization }
@@ -70,7 +70,7 @@ ToAccordionListNodeManager >> newItemForNode: aNode [
 ToAccordionListNodeManager >> newNodeForHolder: aNodeHolder [
 
 	| node |
-	node := ToItemNode new.
+	node := ToAccordionListNode new.
 	node hMatchParent.
 	node vFitContent.
 	^ node

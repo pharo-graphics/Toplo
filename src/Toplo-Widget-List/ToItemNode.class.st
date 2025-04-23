@@ -2,10 +2,31 @@ Class {
 	#name : #ToItemNode,
 	#superclass : #ToBarNode,
 	#instVars : [
-		'item'
+		'item',
+		'itemContainer'
 	],
 	#category : #'Toplo-Widget-List-ItemList'
 }
+
+{ #category : #configuration }
+ToItemNode >> applyWidgetConfiguration [
+
+	| list |
+	super applyWidgetConfiguration.
+	list := self holder listElement.
+	list exactItemWidth ifNotNil: [ :w | item width: w ].
+	list exactItemHeight ifNotNil: [ :h | item height: h ]
+]
+
+{ #category : #initialization }
+ToItemNode >> initialize [ 
+
+	super initialize.
+	itemContainer := ToElement new.
+	itemContainer layout: BlLinearLayout horizontal.
+	self addChild: itemContainer.
+	self fitContent 
+]
 
 { #category : #accessing }
 ToItemNode >> item [
@@ -21,7 +42,13 @@ ToItemNode >> item: anElement [
 	item := anElement.
 	item ifNil: [ ^ self ].
 	item removeFromParent.
-	self addChild: item at: 1
+	itemContainer addChild: item at: 1
+]
+
+{ #category : #accessing }
+ToItemNode >> itemContainer [ 
+
+	^ itemContainer 
 ]
 
 { #category : #skin }

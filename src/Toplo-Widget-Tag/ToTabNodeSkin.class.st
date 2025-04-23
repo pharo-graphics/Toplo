@@ -5,6 +5,33 @@ Class {
 }
 
 { #category : #'event handling' }
+ToTabNodeSkin >> configureSelectionTokensIn: anItemElement [
+
+	anItemElement holder listElement isWrapping
+		ifTrue: [
+			anItemElement removeTokenNamed: #'selected-focused-foreground'.
+			anItemElement removeTokenNamed: #'selected-unfocused-foreground' ]
+		ifFalse: [
+			anItemElement
+				addTokenNamed: #'selected-focused-foreground'
+				withValue:
+				(anItemElement valueOfTokenNamed:
+					 #'color-primary-selection-focused').
+			anItemElement
+				addTokenNamed: #'selected-unfocused-foreground'
+				withValue:
+				(anItemElement valueOfTokenNamed:
+					 #'color-primary-selection-focused') ]
+]
+
+{ #category : #'event handling' }
+ToTabNodeSkin >> enabledSkinEvent: anEvent [
+
+	super enabledSkinEvent: anEvent.
+	anEvent elementDo: [ :e | self configureSelectionTokensIn: e ]
+]
+
+{ #category : #'event handling' }
 ToTabNodeSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
@@ -17,9 +44,26 @@ ToTabNodeSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
+		| listElement leftPad rightPad topPad bottomPad |
+		leftPad := rightPad := e valueOfTokenNamed: #'padding-content-H'.
+		topPad := bottomPad := e valueOfTokenNamed: #'padding-content-V'.
+		listElement := e holder listElement.
+		e removeButtonDo: [ :rb |
+			rb constraintsDo: [ :c |
+				(listElement isVertical and: [ listElement atStartSide not ])
+					ifTrue: [
+						rightPad := rightPad + 15.
+						c ignored horizontal alignRight ]
+					ifFalse: [
+						leftPad := leftPad + 15.
+						c ignored horizontal alignLeft ].
+				c ignored vertical alignCenter ] ].
+
 		e padding: (BlInsets
-				 horizontal: (e valueOfTokenNamed: #'padding-content-H')
-				 vertical: (e valueOfTokenNamed: #'padding-content-V')) ]
+				 top: topPad
+				 left: leftPad
+				 bottom: bottomPad
+				 right: rightPad) ]
 ]
 
 { #category : #'event handling' }

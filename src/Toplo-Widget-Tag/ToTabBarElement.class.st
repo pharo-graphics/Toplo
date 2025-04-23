@@ -9,10 +9,12 @@ Class {
 }
 
 { #category : #configuration }
-ToTabBarElement >> applyWidgetConfiguration [ 
+ToTabBarElement >> applyWidgetConfiguration [
 
 	super applyWidgetConfiguration.
-	self nodesDo: [ :node | node item requestNewConfiguration ]
+	self nodesDo: [ :node |
+		node item requestNewConfiguration.
+		node requestNewSkin ]
 ]
 
 { #category : #accessing }

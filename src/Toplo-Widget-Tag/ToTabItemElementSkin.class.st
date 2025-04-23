@@ -5,26 +5,6 @@ Class {
 }
 
 { #category : #'event handling' }
-ToTabItemElementSkin >> configureSelectionTokensIn: anItemElement [
-
-	anItemElement holder listElement isWrapping
-		ifTrue: [
-			anItemElement removeTokenNamed: #'selected-focused-foreground'.
-			anItemElement removeTokenNamed: #'selected-unfocused-foreground' ]
-		ifFalse: [
-			anItemElement
-				addTokenNamed: #'selected-focused-foreground'
-				withValue:
-				(anItemElement valueOfTokenNamed:
-					 #'color-primary-selection-focused').
-			anItemElement
-				addTokenNamed: #'selected-unfocused-foreground'
-				withValue:
-				(anItemElement valueOfTokenNamed:
-					 #'color-primary-selection-focused') ]
-]
-
-{ #category : #'event handling' }
 ToTabItemElementSkin >> disabledSkinEvent: anEvent [
 
 	super disabledSkinEvent: anEvent.
@@ -41,7 +21,6 @@ ToTabItemElementSkin >> enabledSkinEvent: anEvent [
 
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		self configureSelectionTokensIn: e.
 		e iconDo: [ :ic |
 			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
 		e endElementDo: [ :ic |
@@ -63,28 +42,9 @@ ToTabItemElementSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 
 	anEvent elementDo: [ :e |
-		| leftPadding rightPadding |
-		leftPadding := e valueOfTokenNamed: #'padding-S'.
-		rightPadding := e valueOfTokenNamed: #'padding-S'.
-		e isRemovable ifTrue: [  ].
-		e removeButtonDo: [ :rb |
-			rb constraintsDo: [ :c |
-				(e listElement isVertical and: [ e listElement atStartSide not ])
-					ifTrue: [
-						rightPadding := rightPadding + 15.
-						c ignored horizontal alignRight ]
-					ifFalse: [
-						leftPadding := leftPadding + 15.
-						c ignored horizontal alignLeft ].
-				c ignored vertical alignCenter ] ].
 		e focusability: BlFocusability ignore.
 		e border: BlBorder empty.
 		e background: BlBackground transparent.
-		e padding: (BlInsets
-				 top: (e valueOfTokenNamed: #'padding-content-V')
-				 left: leftPadding
-				 bottom: (e valueOfTokenNamed: #'padding-content-V')
-				 right: rightPadding).
 		(e hasStartElement and: [ e hasMiddleElement ])
 			ifTrue: [
 			e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]

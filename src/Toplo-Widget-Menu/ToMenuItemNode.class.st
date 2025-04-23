@@ -5,7 +5,8 @@ Class {
 }
 
 { #category : #configuration }
-ToMenuItemNode >> newWidgetConfiguration [
+ToMenuItemNode >> applyWidgetConfiguration [
 
-	^ ToMenuItemNodeConfiguration new
+	super applyWidgetConfiguration.
+	self holder dataItem constraintMenuNode: self
 ]

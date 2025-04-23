@@ -9,10 +9,12 @@ Trait {
 }
 
 { #category : #'t - generic node manager' }
-TToGenericNodeManager >> buildNode: aNode [ 
+TToGenericNodeManager >> buildNode: aNode [
 
-
-	nodeBuilder cull: aNode cull: aNode holder dataItem cull: aNode holder
+	nodeBuilder
+		cull: aNode
+		cull: aNode holder dataItem
+		cull: aNode holder
 ]
 
 { #category : #'t - generic node manager' }

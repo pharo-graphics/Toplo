@@ -4,6 +4,20 @@ Class {
 	#category : #'Toplo-Widget-Tag-Tab'
 }
 
+{ #category : #initialization }
+ToTabNodeManager >> defaultFakeDataItem [
+
+	^ ToTabItemElement new
+		  labelText: 'X';
+		  yourself
+]
+
+{ #category : #'instance creation' }
+ToTabNodeManager >> newHolder [ 
+
+	^ ToTabNodeHolder new
+]
+
 { #category : #'instance creation' }
 ToTabNodeManager >> newNodeForHolder: aNodeHolder [
 

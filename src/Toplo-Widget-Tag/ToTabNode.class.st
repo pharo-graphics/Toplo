@@ -1,13 +1,19 @@
 Class {
 	#name : #ToTabNode,
 	#superclass : #ToCheckableNode,
+	#traits : 'TToRemovableNode',
+	#classTraits : 'TToRemovableNode classTrait',
 	#category : #'Toplo-Widget-Tag-Tab'
 }
 
-{ #category : #testing }
-ToTabNode >> isRemovable [ 
+{ #category : #configuration }
+ToTabNode >> applyWidgetConfiguration [ 
 
-	^ self item isRemovable
+	super applyWidgetConfiguration.
+	self removeRemoveButton.
+	self isRemovable
+		ifTrue: [ self addRemoveButton ].
+	self requestNewSkin 
 ]
 
 { #category : #'t - bar node' }

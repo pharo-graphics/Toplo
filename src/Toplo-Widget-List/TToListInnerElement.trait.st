@@ -1,28 +1,28 @@
 Trait {
-	#name : #TToListNodeContainer,
+	#name : #TToListInnerElement,
 	#category : #'Toplo-Widget-List-Core-BarElement'
 }
 
 { #category : #'t - list node holder' }
-TToListNodeContainer >> disableScrolledEvent [
+TToListInnerElement >> disableScrolledEvent [
 
 	self eventDispatcher disableScrolledEvent 
 ]
 
 { #category : #'t - list node holder' }
-TToListNodeContainer >> enableScrolledEvent [
+TToListInnerElement >> enableScrolledEvent [
 
 	self eventDispatcher enableScrolledEvent
 ]
 
 { #category : #'t - list node holder' }
-TToListNodeContainer >> findElementHolderForDataSourcePosition: aPosition [
+TToListInnerElement >> findElementHolderForDataSourcePosition: aPosition [
 
 	self explicitRequirement 
 ]
 
 { #category : #'t - list node holder' }
-TToListNodeContainer >> nodeAt: anIndex [
+TToListInnerElement >> nodeAt: anIndex [
 
 	" return the holder for the data at anIndex according to currently viewed data range. 
 	Returns nil if anIndex is not currently viewed in the infinite element"
@@ -32,7 +32,7 @@ TToListNodeContainer >> nodeAt: anIndex [
 ]
 
 { #category : #'t - list node holder' }
-TToListNodeContainer >> nodeGroupsSatisfying: aBlock [
+TToListInnerElement >> nodeGroupsSatisfying: aBlock [
 	" return an array of collection. Each collection contains a list of adjacent selected nodes "
 
 	^ Array streamContents: [ :stream |
@@ -49,57 +49,57 @@ TToListNodeContainer >> nodeGroupsSatisfying: aBlock [
 ]
 
 { #category : #'t - list node holder' }
-TToListNodeContainer >> nodes [
+TToListInnerElement >> nodes [
 
 	^ self explicitRequirement 
 ]
 
 { #category : #'t - list node holder' }
-TToListNodeContainer >> nodesDo: aBlock [
+TToListInnerElement >> nodesDo: aBlock [
 
 	^ self explicitRequirement 
 ]
 
 { #category : #'t - list node holder' }
-TToListNodeContainer >> nodesSelect: aBlock [
+TToListInnerElement >> nodesSelect: aBlock [
 
 	^ self explicitRequirement 
 ]
 
 { #category : #'t - list node holder' }
-TToListNodeContainer >> nodesWithIndexDo: aBlock [
+TToListInnerElement >> nodesWithIndexDo: aBlock [
 
 	^ self explicitRequirement 
 ]
 
 { #category : #'t - list node holder' }
-TToListNodeContainer >> notifyChildAttached: anElement [
+TToListInnerElement >> notifyChildAttached: anElement [
 	"Notify all event handlers that element (a node) is attached "
 
 	self dispatchEvent: (BlInfiniteElementAttachedEvent element: anElement)
 ]
 
 { #category : #'t - list node holder' }
-TToListNodeContainer >> notifyChildDetached: anElement [
+TToListInnerElement >> notifyChildDetached: anElement [
 	"Notify all event handlers that element ( a node) is detached "
 
 	self dispatchEvent: (BlInfiniteElementDetachedEvent element: anElement)
 ]
 
 { #category : #'t - list node holder' }
-TToListNodeContainer >> partlyVisibleNodesDo: aBlock [
+TToListInnerElement >> partlyVisibleNodesDo: aBlock [
 
 	^ self explicitRequirement 
 ]
 
 { #category : #'t - list node holder' }
-TToListNodeContainer >> partlyVisibleNodesSelect: aBlock [
+TToListInnerElement >> partlyVisibleNodesSelect: aBlock [
 
 	^ self explicitRequirement 
 ]
 
 { #category : #'t - list node holder' }
-TToListNodeContainer >> selectableNodeContainingGlobalPosition: aPoint [
+TToListInnerElement >> selectableNodeContainingGlobalPosition: aPoint [
 
 	self nodesDo: [ :node |
 		((node containsGlobalPoint: aPoint) and: [ node holder isSelectable ])

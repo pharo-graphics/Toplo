@@ -18,7 +18,7 @@ Class {
 }
 
 { #category : #adding }
-ToTabGroupElement >> addNewTagItem [
+ToTabGroupElement >> addNewTabItem [
 
 	| newItem |
 	newItem := ToTabItemElement new.
@@ -44,6 +44,12 @@ ToTabGroupElement >> atStartSide: aBoolean [
 	self atStartSide = aBoolean ifTrue: [ ^ self ].
 	self widgetConfiguration atStartSide: aBoolean.
 	self requestNewConfiguration
+]
+
+{ #category : #initialization }
+ToTabGroupElement >> barElementClass [
+
+	^ ToTabBarElement 
 ]
 
 { #category : #configuration }
@@ -81,7 +87,7 @@ ToTabGroupElement >> defaultInvisibleNodeMenuItemBuilder [
 
 	^ [ :aMenuItem :aNode :aRequest |
 	  aMenuItem
-		  labelText: aNode item asString;
+		  labelText: aNode item asToLabelText;
 		  clickAction: [ self showInvisibleTabItem: aNode item ].
 	  aNode isRemovable ifTrue: [
 		  aMenuItem endElement: ToIconicRemoveButton new.
@@ -91,7 +97,7 @@ ToTabGroupElement >> defaultInvisibleNodeMenuItemBuilder [
 			  addEventHandlerOn: ToRemoveButtonClickedEvent
 			  do: [ :event |
 				  event consume.
-				  aNode item removeFromBar.
+				  aNode removeFromBar.
 				  self checkInvisibleNodes ] ].
 	  aNode item isChecked ifTrue: [
 		  aMenuItem icon: (ToImage inner: (self valueOfTokenNamed: #check)).
@@ -160,9 +166,9 @@ ToTabGroupElement >> initialize [
 	self initializeAsItemBarOwner.
 	self initializeParts.
 
-	self group
+	"self group
 		addEventHandlerOn: ToCheckableGroupChangedEvent
-		do: [ :event | self dispatchEvent: event copy ].
+		do: [ :event | self dispatchEvent: event copy ]."
 
 	self itemBar
 		addEventHandlerOn: ToListSelectionChangedEvent
@@ -256,7 +262,7 @@ ToTabGroupElement >> isAtStartSide [
 { #category : #'t - item bar owner - accessing' }
 ToTabGroupElement >> newItemBar [
 
-	^ ToTabBarElement new
+	^ self barElementClass new
 		  parentTabGroupElement: self;
 		  yourself
 ]

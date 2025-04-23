@@ -5,11 +5,38 @@ Class {
 	#classTraits : 'TToItemBarOwner classTrait',
 	#instVars : [
 		'tabGroup',
-		'headContainer',
-		'bodyContainer'
+		'bodyContainer',
+		'headerContainer',
+		'preservePane'
 	],
 	#category : #'Toplo-Widget-Tag-Tab'
 }
+
+{ #category : #configuration }
+ToTabPaneElement >> applyWidgetConfiguration [
+
+	super applyWidgetConfiguration.
+
+	tabGroup horizontal: self isHorizontal not.
+	self atStartSide
+		ifTrue: [ self beStartToEnd ]
+		ifFalse: [ self beEndToStart ].
+	self isHorizontal
+		ifTrue: [
+			self header
+				vMatchParent;
+				hFitContent.
+			tabGroup
+				vMatchParent;
+				hFitContent ]
+		ifFalse: [
+			self header
+				hMatchParent;
+				vFitContent.
+			tabGroup
+				hMatchParent;
+				vFitContent ]
+]
 
 { #category : #accessing }
 ToTabPaneElement >> atStartSide [
@@ -30,37 +57,59 @@ ToTabPaneElement >> body [
 	^ bodyContainer 
 ]
 
+{ #category : #initialization }
+ToTabPaneElement >> defaultEventHandler [ 
+
+	^ ToTabPaneEventHandler new
+]
+
 { #category : #accessing }
 ToTabPaneElement >> header [ 
 
-	^ headContainer 
+	^ headerContainer 
 ]
 
 { #category : #initialization }
 ToTabPaneElement >> initialize [
 
 	super initialize.
-	headContainer := ToElement new
+	preservePane := true.
+	headerContainer := ToElement new
 		                 id: #header;
 		                 yourself.
 	bodyContainer := ToElement new
 		                 id: #body;
 		                 yourself.
 	bodyContainer matchParent.
-	bodyContainer background: Color red.
-	tabGroup := ToTabGroupElement new.
-	tabGroup matchParent.
-	self wrapItemBar: tabGroup itemBar.
-	headContainer addChild: tabGroup.
+	tabGroup := self newTabGroupElement.
+	self setItemBar: tabGroup itemBar.
+	headerContainer addChild: tabGroup.
 	self addChildren: {
-			headContainer.
-			bodyContainer }
+			headerContainer.
+			bodyContainer }.
+	self addEventHandler: self defaultEventHandler 
 ]
 
-{ #category : #configuration }
-ToTabPaneElement >> newWidgetConfiguration [ 
+{ #category : #initialization }
+ToTabPaneElement >> newTabGroupElement [
 
-	^ ToTabPaneElementConfiguration new
+	| tg |
+	tg := ToTabPaneGroupElement new.
+	tg matchParent.
+	^ tg
+
+]
+
+{ #category : #accessing }
+ToTabPaneElement >> preservePane [
+
+	^ preservePane
+]
+
+{ #category : #accessing }
+ToTabPaneElement >> preservePane: aBoolean [
+
+	preservePane := aBoolean
 ]
 
 { #category : #accessing }

@@ -123,6 +123,22 @@ TToItemBarOwner >> enabledItem: anItem [
 ]
 
 { #category : #'t - item bar owner - accessing' }
+TToItemBarOwner >> exactItemHeight: aNumberOrNil [
+
+	self itemBar exactItemHeight = aNumberOrNil ifTrue: [ ^ self ].
+	self itemBar exactItemHeight: aNumberOrNil.
+	self requestNewConfiguration
+]
+
+{ #category : #'t - item bar owner - accessing' }
+TToItemBarOwner >> exactItemWidth: aNumberOrNil [
+
+	self itemBar exactItemWidth = aNumberOrNil ifTrue: [ ^ self ].
+	self itemBar exactItemWidth: aNumberOrNil.
+	self requestNewConfiguration
+]
+
+{ #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> exactNodeHeight: aNumberOrNil [
 
 	self itemBar exactNodeHeight = aNumberOrNil ifTrue: [ ^ self ].
@@ -368,6 +384,12 @@ TToItemBarOwner >> selectionOption [
 	^ self itemBar selectionOption
 ]
 
+{ #category : #'t - item bar owner - initializing' }
+TToItemBarOwner >> setItemBar: anItemBar [
+
+	self userData at: #itemBar put: anItemBar
+]
+
 { #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> uniformNodeHeight [
 
@@ -414,10 +436,4 @@ TToItemBarOwner >> visibleAtPosition: anInteger [
 TToItemBarOwner >> visibleItem: anItem [
 
 	self itemBar visibleItem: anItem
-]
-
-{ #category : #'t - item bar owner - initializing' }
-TToItemBarOwner >> wrapItemBar: anItemBar [
-
-	self userData at: #itemBar put: anItemBar
 ]

@@ -4,12 +4,6 @@ Class {
 	#category : #'Toplo-Widget-Tag-Tag'
 }
 
-{ #category : #testing }
-ToTagNode >> isRemovable [
-
-	^ self nodesCount = 1
-]
-
 { #category : #skin }
 ToTagNode >> newRawSkin [ 
 
@@ -22,9 +16,12 @@ ToTagNode >> nodesCount [
 	^ self holder tagModel nodesCount
 ]
 
-{ #category : #private }
-ToTagNode >> removeFromBar [
+{ #category : #accessing }
+ToTagNode >> tagElement: aTagElement [
 
-	self isRemovable ifFalse: [ ^ self ].
-	self holder removeNodeFromBar 
+	| infiniteConstraints |
+	infiniteConstraints := aTagElement constraints infinite.
+	infiniteConstraints holder: self holder.
+	self addChild: aTagElement
+
 ]

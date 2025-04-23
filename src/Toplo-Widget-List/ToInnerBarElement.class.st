@@ -1,8 +1,8 @@
 Class {
 	#name : #ToInnerBarElement,
 	#superclass : #ToScrollableElement,
-	#traits : 'TToListNodeContainer',
-	#classTraits : 'TToListNodeContainer classTrait',
+	#traits : 'TToListInnerElement',
+	#classTraits : 'TToListInnerElement classTrait',
 	#instVars : [
 		'dataSource',
 		'dataSourceManager',

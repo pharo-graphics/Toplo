@@ -13,10 +13,6 @@ ToTagElementSkin >> disabledSkinEvent: anEvent [
 		e background: (e valueOfTokenNamed: #'color-bg-container-disabled').
 		e iconDo: [ :ic |
 			ic formColor: (e valueOfTokenNamed: #'color-text-disabled') ].
-		e removeButton ifNotNil: [ :rb |
-			rb
-				addStamp: #color
-				withValue: (e valueOfTokenNamed: #'color-text-disabled') ].
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text-disabled') ] ]
 ]
@@ -41,7 +37,7 @@ ToTagElementSkin >> enabledSkinEvent: anEvent [
 		e background: backgroundColor.
 		e labelDo: [ :lab |
 			lab addTokenNamed: #'color-text' withValue: foregroundColor ].
-		e removeButton ifNotNil: [ :rb |
+		e removeButtonDo: [ :rb |
 			rb addStamp: #color withValue: foregroundColor ].
 
 		(e hasStamp: #borderless)
@@ -58,11 +54,23 @@ ToTagElementSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 
 	anEvent elementDo: [ :e |
+		| leftPad rightPad topPad bottomPad |
+		leftPad := rightPad := e valueOfTokenNamed: #'bar-node-padding-H'.
+		topPad := bottomPad := e valueOfTokenNamed: #'bar-node-padding-V'.
+		e removeButtonDo: [ :rb |
+			rb constraintsDo: [ :c |
+				leftPad := leftPad + 15.
+				c ignored horizontal alignLeft.
+				c ignored vertical alignCenter ] ].
+
+		e padding: (BlInsets
+				 top: topPad
+				 left: leftPad
+				 bottom: bottomPad
+				 right: rightPad).
+				
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e valueOfTokenNamed: 'border-radius')).
-		e padding: (BlInsets
-				 horizontal: (e valueOfTokenNamed: #'bar-node-padding-H')
-				 vertical: (e valueOfTokenNamed: #'bar-node-padding-V')).
 		(e hasIcon and: [ e hasLabel ])
 			ifTrue: [
 			e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]

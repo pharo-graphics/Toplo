@@ -5,6 +5,20 @@ Class {
 	#category : #'Toplo-Widget-List-Node'
 }
 
+{ #category : #configuration }
+ToListNode >> applyWidgetConfiguration [
+
+	super applyWidgetConfiguration.
+	self constraintsDo: [ :c |
+		| l |
+		l := self holder listElement.
+		l isHorizontal
+			ifTrue: [ c horizontal fitContent ]
+			ifFalse: [ c horizontal matchParent ].
+		c vertical fitContent ].
+	self holder initializeNode
+]
+
 { #category : #'t - list node' }
 ToListNode >> clickEventHandlerClasses [
 
@@ -17,10 +31,4 @@ ToListNode >> clickEventHandlerClasses [
 ToListNode >> newRawSkin [ 
 
 	^ ToListNodeSkin new
-]
-
-{ #category : #configuration }
-ToListNode >> newWidgetConfiguration [
-
-	^ ToListNodeConfiguration new
 ]

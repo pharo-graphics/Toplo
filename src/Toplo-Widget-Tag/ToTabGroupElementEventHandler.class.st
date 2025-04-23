@@ -7,7 +7,7 @@ Class {
 { #category : #adding }
 ToTabGroupElementEventHandler >> addButtonClickedEvent: anEvent [
 
-	anEvent currentTarget addNewTagItem.
+	anEvent currentTarget addNewTabItem.
 	anEvent consume
 ]
 

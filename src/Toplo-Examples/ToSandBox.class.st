@@ -295,7 +295,7 @@ ToSandBox class >> barWithData: aCollection [
 	bar := ToGenericBarElement new.
 	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
 	bar nodeBuilder: [ :node :dataItem :holder |
-		| fontSize triplet but label |
+		| fontSize triplet label |
 		triplet := ToTripletElement new.
 		triplet
 			hMatchParent;
@@ -305,10 +305,7 @@ ToSandBox class >> barWithData: aCollection [
 				          holder position asString , ': ' , dataItem asString)
 			         fontSize: fontSize;
 			         yourself.
-		but := ToIconicRemoveButton new.
-		but newClickAction: [
-			holder listElement dataAccessor removeAt: holder position ].
-		triplet startElement: but.
+		triplet startElement: ToIconicRemoveButton new.
 		triplet middleElement: label.
 		triplet startInterspace: 10.
 		triplet constraintsDo: [ :c | c linear vertical alignCenter ].
@@ -2415,6 +2412,7 @@ ToSandBox class >> example_NodeContainerWithStatesOfAmerica [
 
 	| l |
 	l := ToGenericBarElement new.
+	l exactNodeWidth: 100.
 	l horizontal: true.
 	l dataAccessor addAll: self statesOfAmerica.
 	l openInSpace
@@ -3574,6 +3572,7 @@ ToSandBox class >> example_TabBarElement [
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		tabs addItem: (ToTabItemElement new
+				 removable: true;
 				 middleElement: (ToLabel text: l);
 				 yourself) ].
 
@@ -3647,16 +3646,22 @@ ToSandBox class >> example_TabPaneElementWithUSStates [
 
 	| tpane dashBoard |
 	tpane := ToTabPaneElement new.
-	tpane exactNodeWidth: 80.
+
+	tpane preservePane: true.
+	tpane exactItemWidth: 70.
+
 	self statesOfAmerica do: [ :l |
 		| lab |
 		lab := ToLabel text: l.
-		"lab width: 50."
 		"lab rotateBy: 270."
-		tpane addItem: (ToTabItemElement new
+		tpane addItem: (ToTabButton new
 				 label: lab;
+				 tooltipString: l;
 				 removable: true;
-				" width: 80;"
+				 paneBuilder: [ :pane |
+					 pane withNullSkin.
+					 pane border: Color veryLightGray.
+					 pane background: Color random ];
 				 yourself) ].
 
 	tpane isWrapping: false.
@@ -3675,7 +3680,7 @@ ToSandBox class >> example_TagBar [
 		(ToSandBox statesOfAmerica collect: [ :s | ToSingleTag new data: s ]).
 	tb tagBuilder: [ :tagElement :aStateName :holder |
 		tagElement labelText: aStateName , ' ' , holder position asString.
-		tagElement removable: true ].
+		"tagElement removable: true" ].
 	dashBoard := self barConfigurationBoardFor: tb.
 	rootPane := ToPane horizontal.
 	rootPane padding: (BlInsets all: 5).

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToInfiniteElement,
 	#superclass : #BlInfiniteElement,
-	#traits : 'TToListNodeContainer',
-	#classTraits : 'TToListNodeContainer classTrait',
+	#traits : 'TToListInnerElement',
+	#classTraits : 'TToListInnerElement classTrait',
 	#instVars : [
 		'listElement'
 	],

@@ -3646,7 +3646,8 @@ ToSandBox class >> example_TabPaneElementWithUSStates [
 
 	| tpane dashBoard |
 	tpane := ToTabPaneElement new.
-	tpane exactItemWidth: 80.
+	tpane preservePane: true.
+	tpane exactItemWidth: 70.
 	self statesOfAmerica do: [ :l |
 		| lab |
 		lab := ToLabel text: l.

@@ -226,7 +226,7 @@ ToMultiSelectElementTest >> testWithStructuredData [
 	selectedData := cb popupListElement dataAccessor at: idx.
 	self assert: selectedData value identicalTo: ToBeeTheme.
 	self assert: cb innerElement nodes first firstChild text asString equals: d first key.
-	cb selecter deselectIndex: 1.
+	cb selecter deselectAll.
 	self waitTestingSpaces.
 	self assert: cb selectionModel selectedIndexes isEmpty.
 	self assert: cb innerElement nodes isEmpty

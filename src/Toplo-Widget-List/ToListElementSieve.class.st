@@ -54,6 +54,12 @@ ToListElementSieve >> isInstalled [
 	^ originalData notNil
 ]
 
+{ #category : #private }
+ToListElementSieve >> itemCount [ 
+
+	^ SmallInteger maxVal
+]
+
 { #category : #'api - hooks' }
 ToListElementSieve >> onInstalledIn: aListElement [
 	" install the sieve on the listElement "

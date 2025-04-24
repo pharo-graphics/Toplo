@@ -567,13 +567,7 @@ ToSandBox class >> exampleAccordionListWithClassComments [
 		sieve pattern: pattern ].
 
 	list placeholderBuilder: [ :ph :e |
-		| lab |
-		ph layout alignCenter.
-		lab := (ToAttributedLabel text: 'No Data')
-			       foreground: Color lightGray;
-			       fontSize: 24;
-			       yourself.
-		ph addChild: lab ].
+		ph empty labelText: 'No class'].
 
 	list itemBuilder: [ :item :cls :holder |
 		item addAllStamps: { #borderless. #ghost }.
@@ -604,7 +598,8 @@ ToSandBox class >> exampleAccordionListWithClassComments [
 				body addChild: album ];
 			yourself ].
 
-	list dataAccessor addAll: Smalltalk globals allClasses. "reject: [ :cls | cls comment isEmpty ]"
+	list dataAccessor addAll: Smalltalk globals allClasses. 
+	"reject: [ :cls | cls comment isEmpty ]"
 	"list selectionOption masked: true."
 	list matchParent.
 

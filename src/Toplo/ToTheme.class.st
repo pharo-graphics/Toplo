@@ -314,13 +314,13 @@ ToTheme class >> defaultTokenProperties [
 
 		  (ToTokenProperty
 			   name: #'color-primary-selection-focused'
-			   value: (self defaultColorPrimary)).
+			   value: (self defaultColorPrimary alpha: 0.3)).
 		  (ToTokenProperty
 			   name: #'color-primary-selection-over-focused'
 			   value: (self defaultColorPrimary alpha: 0.1)).
 		  (ToTokenProperty
 			   name: #'color-primary-selection-unfocused'
-			   value: (self defaultColorPrimary alpha: 0.1)).
+			   value: (self defaultColorPrimary lighter alpha: 0.1)).
 		  (ToTokenProperty
 			   name: #'color-primary-selection-over-unfocused'
 			   value: (self defaultColorPrimary alpha: 0.05)).
@@ -340,7 +340,7 @@ ToTheme class >> defaultTokenProperties [
 			   value: Color red).
 		  (ToTokenProperty
 			   name: #'border-color-primary-selection'
-			   value: self defaultColorPrimary).
+			   value: self defaultColorPrimary darker).
 		  (ToTokenProperty
 			   name: #'list-context-menu-selection-border-gap'
 			   value: 1.0) }

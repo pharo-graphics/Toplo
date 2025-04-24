@@ -65,7 +65,7 @@ TToItem >> hidden: aBoolean [
 { #category : #'t - item' }
 TToItem >> isSelected [
 
-	self barElementDo: [ :l | ^ l isSelectedItem: self ].
+	self listElementDo: [ :l | ^ l isSelectedItem: self ].
 	self itemConstraintsDo: [ :c | ^ c selected ].
 	^ false
 ]

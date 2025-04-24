@@ -52,7 +52,7 @@ ToInnerBarElement >> applyWidgetConfiguration [
 		ifTrue: [ self vFitContent ]
 		ifFalse: [ self vMatchParent ].
 
-	trackElement applyWidgetConfiguration 
+	trackElement applyWidgetConfiguration
 ]
 
 { #category : #layout }
@@ -141,10 +141,9 @@ ToInnerBarElement >> fullyVisibleNodesSelect: aBlock [
 ]
 
 { #category : #initialization }
-ToInnerBarElement >> initialize [ 
+ToInnerBarElement >> initialize [
 
 	super initialize.
-
 	self initializeDataSource.
 	self addEventHandler: ToListInnerElementEventHandler new.
 	self trackElement: self scrollableBarTrackElementClass new.
@@ -152,7 +151,6 @@ ToInnerBarElement >> initialize [
 
 	self matchParent.
 	self focusability: BlFocusability ignore
-
 ]
 
 { #category : #initialization }
@@ -254,6 +252,8 @@ ToInnerBarElement >> onEnterLayoutOrScroll [
 
 { #category : #'hooks - layout' }
 ToInnerBarElement >> onExitLayoutOrScroll [
+
+
 ]
 
 { #category : #'data source updates' }
@@ -314,20 +314,19 @@ ToInnerBarElement >> onItemsChanged [
 
 ]
 
-{ #category : #layout }
-ToInnerBarElement >> onLayout: aBounds context: aBlElementBoundsUpdater [
-
-	super onLayout: aBounds context: aBlElementBoundsUpdater.
-	self checkFullyVisibleNodes
-]
-
 { #category : #'hooks - scrolling' }
 ToInnerBarElement >> onScrolled: aPoint [
 	"Sent when the scroll position of this InfiniteElement changes. Subclasses should use
 	this method to respond to scrolling within the datasource's data set instead of an explicit event handler.
 	I will always be invoked before event handlers. If a subclass needs to perform any additional upkeep
 	or bookkeeping after scrolling but before events fired, this is a good place to do so"
-	listElement onScrolled: aPoint
+
+	listElement onScrolled: aPoint.
+	self checkFullyVisibleNodes.
+	"Since moving the mouse over the bar leads to layout/scrolling, a task is used to avoid layout recusrsion"
+	self spaceDo: [ :sp |
+		sp enqueueTask:
+			(BlTaskAction new action: [ sp mouseProcessor handleLastMouseMove ]) ]
 ]
 
 { #category : #'t - list node holder' }

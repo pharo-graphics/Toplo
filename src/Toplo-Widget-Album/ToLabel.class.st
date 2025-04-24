@@ -300,15 +300,6 @@ ToLabel >> onInstalledEditorManager: anEditorManager [
 	editorWindowManager := anEditorManager
 ]
 
-{ #category : #layout }
-ToLabel >> onMeasure: anExtentMeasurementSpec [
-
-	super onMeasure: anExtentMeasurementSpec.
-	"(self measuredWidth isZero not and: [
-		 self innerElement width > self measuredWidth ]) ifTrue: [
-		self addShrinkFeedbackLayer ]"
-]
-
 { #category : #'private-change' }
 ToLabel >> onStringsInserted: aBlTextStringsInserted [
 

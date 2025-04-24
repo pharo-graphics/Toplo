@@ -95,6 +95,7 @@ TToBarElement >> isScrolling: aBoolean [
 
 	isScrolling = aBoolean ifTrue: [ ^ self ].
 	isScrolling := aBoolean.
+	self requestLayout.
 	self requestNewConfiguration
 ]
 

@@ -42,6 +42,12 @@ ToTabItemElementSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 
 	anEvent elementDo: [ :e |
+		"setup the selection color for the ShrinkFeedbackLayer of the TabButton "
+		e holder listElement isWrapping
+			ifFalse: [
+				e
+					addTokenNamed: #'color-primary-selection-focused'
+					withValue: (e valueOfTokenNamed: #'color-bg-container') ].
 		e focusability: BlFocusability ignore.
 		e border: BlBorder empty.
 		e background: BlBackground transparent.
@@ -61,4 +67,14 @@ ToTabItemElementSkin >> leavedSkinEvent: anEvent [
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal ]
+]
+
+{ #category : #'event handling' }
+ToTabItemElementSkin >> uninstallSkinEvent: anEvent [
+
+	super uninstallSkinEvent: anEvent.
+
+	anEvent elementDo: [ :e |
+		"setup the selection color for the ShrinkFeedbackLayer of the TabButton "
+		e removeTokenNamed: #'color-primary-selection-focused' ]
 ]

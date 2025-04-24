@@ -1,8 +1,6 @@
 Class {
 	#name : #ToTabButton,
 	#superclass : #ToTabItemElement,
-	#traits : 'TToShrinkable',
-	#classTraits : 'TToShrinkable classTrait',
 	#instVars : [
 		'paneBuilder'
 	],
@@ -13,8 +11,13 @@ Class {
 ToTabButton >> initialize [ 
 
 	super initialize.
-	paneBuilder := [ :pane :button :node :holder | ].
-	self addShrinkFeedbackLayer 
+	paneBuilder := [ :pane :button :node :holder | ]
+]
+
+{ #category : #skin }
+ToTabButton >> newRawSkin [ 
+
+	^ ToTabButtonSkin new
 ]
 
 { #category : #accessing }

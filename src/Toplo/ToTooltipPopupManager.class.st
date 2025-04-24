@@ -43,6 +43,7 @@ ToTooltipPopupManager >> initialize [
 	super initialize.
 	self useNoMouseButton.
 	closeOnMouseLeave := true.
+	upCountRequired := 0
 ]
 
 { #category : #'event handling' }
@@ -52,6 +53,10 @@ ToTooltipPopupManager >> mouseLeaveEvent: anEvent [
 	closeOnMouseLeave ifFalse: [ ^ self ].
 	self closeWindow
 
+]
+
+{ #category : #'window handling' }
+ToTooltipPopupManager >> onAutoClosedOnEvent: anEvent [
 ]
 
 { #category : #'api - hooks' }

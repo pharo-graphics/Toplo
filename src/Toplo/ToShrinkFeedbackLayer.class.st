@@ -13,7 +13,6 @@ ToShrinkFeedbackLayer >> checkVisibility [
 
 	(pbnds containsRect: ebnds) 
 		ifTrue: [
-				pbnds trace. ' ' trace. ebnds trace. ' ' trace. (pbnds intersect: ebnds) traceCr.
 			 self visibility: BlVisibility hidden ]
 		ifFalse: [
 			self visibility: BlVisibility visible.

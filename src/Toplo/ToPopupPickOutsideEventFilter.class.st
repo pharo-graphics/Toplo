@@ -111,7 +111,6 @@ ToPopupPickOutsideEventFilter >> onMouseUpEvent: anEvent [
 	"
 
 	| delay |
-
 	" check a minimum delay between opening and closing - 
 	useful to not close immediately context menu on mouse up"
 	delay := anEvent timestamp - self popupWindow popupTimestamp.
@@ -120,8 +119,8 @@ ToPopupPickOutsideEventFilter >> onMouseUpEvent: anEvent [
 	(self isPickedOutsideEvent: anEvent) ifFalse: [ ^ self ].
 
 	" ok, mouseUp outside the element and outside of the popup window "
-	anEvent consume.
 	self element dispatchEvent: (ToPickOutsideEvent new
+			 sourceEvent: anEvent;
 			 fillFromTime: anEvent target space time;
 			 yourself)
 ]

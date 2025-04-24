@@ -119,7 +119,7 @@ TToItemList >> initializeAsItemListElement [
 { #category : #'t - item list - hidden/visible' }
 TToItemList >> isSelectedItem: anItem [
 
-	^ self isSelectedAtPosition: anItem positionInBar
+	^ self isSelectedAtPosition: anItem positionInList
 ]
 
 { #category : #'t - item list - accessing' }

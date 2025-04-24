@@ -3576,6 +3576,27 @@ ToSandBox class >> example_TabBarElement [
 ]
 
 { #category : #tag }
+ToSandBox class >> example_TabGroupElement [
+
+	| tabs dashBoard |
+	tabs := ToTabGroupElement new.
+	tabs isWrapping: false.
+	tabs isScrolling: true.
+	tabs hMatchParent.
+	tabs showAddTabItemButton: true.
+	50 to: 70 do: [ :i |
+		tabs addItem: (ToTabItemElement new
+				 labelText: i asString;
+				 removable: true;
+				 yourself) ].
+	tabs items first check.
+	tabs requestFocus.
+	dashBoard := self tabGroupElementDashBoardFor: tabs.
+	dashBoard openInSpace.
+	^ tabs
+]
+
+{ #category : #tag }
 ToSandBox class >> example_TabGroupElementWithDaily [
 
 	| tabs dashBoard |
@@ -3660,7 +3681,7 @@ ToSandBox class >> example_TabPaneElementWithUSStates [
 				 yourself) ].
 
 	tpane isWrapping: false.
-	"tpane isScrolling: true."
+	tpane isScrolling: true.
 	dashBoard := self tabGroupElementDashBoardFor: tpane.
 	dashBoard openInSpace
 ]

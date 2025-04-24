@@ -15,20 +15,6 @@ TToShrinkable >> addShrinkFeedbackLayer [
 ]
 
 { #category : #'t - shrinkable' }
-TToShrinkable >> addShrinkFeedbackLayerWithReferenceParent: anElement [
-
-	" an element is one of the parents of the receiver. 
-	It is used to check the visibility of the shrink layer.
-	If the size of the receiver is greater than the size of the 
-	reference parent, then the receiver become visible"
-
-	self shrinkFeedbackLayer ifNotNil: [ ^ self ].
-	self addShrinkFeedbackLayer.
-	self shrinkFeedbackLayer referenceParent: anElement
-	
-]
-
-{ #category : #'t - shrinkable' }
 TToShrinkable >> removeShrinkFeedbackLayer [
 
 	| layer |

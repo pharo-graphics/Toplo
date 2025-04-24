@@ -19,13 +19,15 @@ ToItemNode >> applyWidgetConfiguration [
 ]
 
 { #category : #initialization }
-ToItemNode >> initialize [ 
+ToItemNode >> initialize [
 
 	super initialize.
-	itemContainer := ToElement new.
+	itemContainer := ToElement new
+		                 id: #itemContainer;
+		                 yourself.
 	itemContainer layout: BlLinearLayout horizontal.
 	self addChild: itemContainer.
-	self fitContent 
+	self fitContent
 ]
 
 { #category : #accessing }

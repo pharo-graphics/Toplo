@@ -13,18 +13,19 @@ ToShrinkFeedbackLayerSkin >> installSkinEvent: anEvent [
 		bg := e valueOfTokenNamed: #'color-bg-container'.
 		inner := ToMaterialDesignIconProvider innerImageNamed:
 			         'outlined_morehoriz'.
-		imw := (e valueOfTokenNamed: #'font-size') + 10.
+		imw := 14.
 		im := ToImage inner: inner.
 		im constraintsDo: [ :c |
 			c horizontal exact: imw.
 			c vertical matchParent ].
-		im position: (e referenceParent width - imw) @ 0.
+		im position: (e width - imw) @ 0.
 		im background: bg.
 		"e addChild: im."
 		e background: (BlLinearGradientPaint new
 				 stops: {
 						 (0 -> (bg alpha: 0.0)).
-						 (0.65 -> (bg alpha: 0.60)).
+						 (0.6 -> (bg alpha: 0.0)).
+						 (0.8 -> (bg alpha: 0.60)).
 						 (1 -> (bg alpha: 1.0)) };
 				 start: 0 @ 0;
 				 end: 1 @ 1;

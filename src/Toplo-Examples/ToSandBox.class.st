@@ -3660,7 +3660,7 @@ ToSandBox class >> example_TabPaneElementWithUSStates [
 				 yourself) ].
 
 	tpane isWrapping: false.
-	tpane isScrolling: true.
+	"tpane isScrolling: true."
 	dashBoard := self tabGroupElementDashBoardFor: tpane.
 	dashBoard openInSpace
 ]
@@ -5158,7 +5158,7 @@ ToSandBox class >> example_labelFieldWithShrinkFeedback [
 			editorEvent target text: acceptedEvent target text ] ].
 	innerWindow := t openInInnerWindow.
 	t fitContent.
-	t addShrinkFeedbackLayerWithReferenceParent: innerWindow pane
+	t addShrinkFeedbackLayer
 ]
 
 { #category : #menu }

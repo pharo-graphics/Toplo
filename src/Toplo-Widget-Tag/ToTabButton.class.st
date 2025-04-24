@@ -1,6 +1,8 @@
 Class {
 	#name : #ToTabButton,
 	#superclass : #ToTabItemElement,
+	#traits : 'TToShrinkable',
+	#classTraits : 'TToShrinkable classTrait',
 	#instVars : [
 		'paneBuilder'
 	],
@@ -12,6 +14,7 @@ ToTabButton >> initialize [
 
 	super initialize.
 	paneBuilder := [ :pane :button :node :holder | ].
+	self addShrinkFeedbackLayer 
 ]
 
 { #category : #accessing }

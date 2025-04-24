@@ -69,12 +69,18 @@ ToScrollableBarTrackElement >> autoDistribute [
 ToScrollableBarTrackElement >> checkFullyVisibleNodes [
 
 	| invisibleNodes visibleNodes |
-	self isWrapping ifTrue: [ ^ self ].
-	self autoDistribute ifTrue: [ ^ self ].
-	invisibleNodes := self nodesSelect: [ :n | 
-		n isFullyVisibleInInnerElement not ].
-	visibleNodes := self nodes difference: invisibleNodes.
-	listElement onInvisibleNodes: invisibleNodes visibleNodes: visibleNodes
+	(self isWrapping or: [ self autoDistribute ])
+		ifTrue: [
+			invisibleNodes := #(  ).
+			visibleNodes := self nodes ]
+		ifFalse: [
+			invisibleNodes := self nodesSelect: [ :n |
+				                  n isFullyVisibleInInnerElement not ].
+			visibleNodes := self nodes difference: invisibleNodes ].
+
+	listElement
+		onInvisibleNodes: invisibleNodes
+		visibleNodes: visibleNodes
 ]
 
 { #category : #accessing }

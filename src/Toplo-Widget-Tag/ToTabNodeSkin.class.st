@@ -36,6 +36,9 @@ ToTabNodeSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
+		e removeButtonDo: [ :rb |
+			rb visibility: BlVisibility visible.
+			(e valueOfTokenNamed: #'animation-window-opening') value: rb ].
 		e mouseCursor: Cursor webLink ]
 ]
 
@@ -45,17 +48,20 @@ ToTabNodeSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		| listElement leftPad rightPad topPad bottomPad |
-		leftPad := rightPad := e valueOfTokenNamed: #'padding-content-H'.
-		topPad := bottomPad := e valueOfTokenNamed: #'padding-content-V'.
 		listElement := e holder listElement.
+		leftPad := rightPad := e valueOfTokenNamed: #'padding-content-HS'.
+		topPad := bottomPad := e valueOfTokenNamed: #'padding-content-VS'.
 		e removeButtonDo: [ :rb |
+			rb visibility: BlVisibility hidden.
 			rb constraintsDo: [ :c |
+				rightPad := rightPad + 15.
+						leftPad := leftPad + 15.
 				(listElement isVertical and: [ listElement atStartSide not ])
 					ifTrue: [
-						rightPad := rightPad + 15.
+						
 						c ignored horizontal alignRight ]
 					ifFalse: [
-						leftPad := leftPad + 15.
+						
 						c ignored horizontal alignLeft ].
 				c ignored vertical alignCenter ] ].
 
@@ -71,5 +77,6 @@ ToTabNodeSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
+		e removeButtonDo: [ :rb | rb visibility: BlVisibility hidden ].
 		e mouseCursor: Cursor normal ]
 ]

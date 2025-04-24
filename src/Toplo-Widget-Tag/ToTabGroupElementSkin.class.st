@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTabGroupElementSkin,
-	#superclass : #ToItemBarElementSkin,
+	#superclass : #ToRawSkin,
 	#category : #'Toplo-Widget-Tag-Tab'
 }
 

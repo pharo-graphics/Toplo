@@ -56,8 +56,7 @@ ToTabGroupElement >> barElementClass [
 ToTabGroupElement >> canShowInvisibleNodesMenu [
 
 	^ self isWrapping not and: [
-		  self autoDistribute not and: [
-			  invisibleNodes notNil and: [ invisibleNodes notEmpty ] ] ]
+		  self autoDistribute not and: [ invisibleNodes notEmpty ] ]
 ]
 
 { #category : #configuration }
@@ -163,16 +162,13 @@ ToTabGroupElement >> group [
 ToTabGroupElement >> initialize [
 
 	super initialize.
+	self resetInvisibleNodes.
 	self initializeAsItemBarOwner.
 	self initializeParts.
 
-	"self group
-		addEventHandlerOn: ToCheckableGroupChangedEvent
-		do: [ :event | self dispatchEvent: event copy ]."
-
 	self itemBar
 		addEventHandlerOn: ToListSelectionChangedEvent
-		do: [ :event | self dispatchEvent: event copy ].
+		do: [ :event | self fireEvent: event copy ].
 
 	self addEventHandler: self defaultEventHandler.
 	newTabItemBuilder := self defaultNewTabItemBuilder.
@@ -260,6 +256,14 @@ ToTabGroupElement >> isAtStartSide [
 ]
 
 { #category : #'t - item bar owner - accessing' }
+ToTabGroupElement >> isWrapping: aBoolean [
+
+	self itemBar isWrapping = aBoolean ifTrue: [ ^ self ].
+	self itemBar isWrapping: aBoolean.
+	self requestNewConfiguration
+]
+
+{ #category : #'t - item bar owner - accessing' }
 ToTabGroupElement >> newItemBar [
 
 	^ self barElementClass new
@@ -290,24 +294,32 @@ ToTabGroupElement >> newWidgetConfiguration [
 ToTabGroupElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes [
 
 	| startIdx endIdx |
-	(theInvisibleNodes = self invisibleNodes and: [
-		 theVisibleNodes = self visibleNodes ]) ifTrue: [ ^ self ].
-
+	
 	invisibleNodes := theInvisibleNodes asArray.
 	visibleNodes := theVisibleNodes asArray.
+	
 	startIdx := visibleNodes
 		            ifEmpty: [ 0 ]
 		            ifNotEmpty: [ visibleNodes first holder position ].
 	endIdx := visibleNodes
 		          ifEmpty: [ 0 ]
 		          ifNotEmpty: [ visibleNodes last holder position ].
+		
 	invisibleNodes do: [ :n |
-		"n holder position < startIdx ifTrue: [
-			n visibility: BlVisibility hidden ]."
 		n holder position > endIdx ifTrue: [
 			n visibility: BlVisibility hidden ] ].
 	visibleNodes do: [ :n | n visibility: BlVisibility visible ].
+
 	self dispatchEvent: ToVisibleTabsChanged new
+]
+
+{ #category : #initialization }
+ToTabGroupElement >> resetInvisibleNodes [
+
+	invisibleNodes := #().
+	visibleNodes := #()
+
+	
 ]
 
 { #category : #accessing }

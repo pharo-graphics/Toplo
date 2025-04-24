@@ -11,15 +11,15 @@ Class {
 ToTabGroupElementConfiguration >> applyOn: aTabGroupElement [
 
 	super applyOn: aTabGroupElement.
-	aTabGroupElement checkInvisibleNodes.
 	aTabGroupElement checkAddNewTabItemButton.
-	
+
 	aTabGroupElement itemBar horizontal: aTabGroupElement isHorizontal.
 	aTabGroupElement itemBar atStartSide: atStartSide.
 
-	aTabGroupElement uniformNodeWidth: (aTabGroupElement isVertical).
-	aTabGroupElement uniformNodeHeight: (aTabGroupElement isHorizontal).
-	aTabGroupElement itemBar autoDistribute: aTabGroupElement autoDistribute.
+	aTabGroupElement uniformNodeWidth: aTabGroupElement isVertical.
+	aTabGroupElement uniformNodeHeight: aTabGroupElement isHorizontal.
+	aTabGroupElement itemBar autoDistribute:
+		aTabGroupElement autoDistribute.
 	aTabGroupElement itemBar matchParent.
 
 	aTabGroupElement isHFitContent
@@ -47,7 +47,7 @@ ToTabGroupElementConfiguration >> applyOn: aTabGroupElement [
 		ifFalse: [ aTabGroupElement endElement layout beVertical ].
 
 	aTabGroupElement itemBar refreshAllSelections.
-	
+
 	aTabGroupElement requestNewSkin.
 	aTabGroupElement invisibleNodesMenu requestNewSkin
 ]

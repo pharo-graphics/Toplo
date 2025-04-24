@@ -95,7 +95,7 @@ ToPopupWindowManager >> checkCloseWindowOnPickingEvent: anEvent [
 
 	(self canCloseWindowAfter: anEvent timestamp) ifFalse: [ ^ self ].
 	self autoCloseWindow.
-	anEvent consume.
+	self onAutoClosedOnEvent: anEvent
 
 ]
 
@@ -170,7 +170,8 @@ ToPopupWindowManager >> initialize [
 	self usePrimaryMouseButton .
  	autoCloseDelay := self defaultAutoCloseDelay.
 	closeOnPicking := self defaultCloseOnPicking.
-	checkPickOutside := true
+	checkPickOutside := true.
+	upCountRequired := 1
 ]
 
 { #category : #'window handling' }
@@ -214,6 +215,13 @@ ToPopupWindowManager >> newPickOutsideFilter [
 ]
 
 { #category : #'window handling' }
+ToPopupWindowManager >> onAutoClosedOnEvent: anEvent [
+
+	anEvent consume.
+
+]
+
+{ #category : #'window handling' }
 ToPopupWindowManager >> onClosed [
 
 	self uninstallPickOutsideFilter.
@@ -234,7 +242,7 @@ ToPopupWindowManager >> onOpened [
 ToPopupWindowManager >> pickOutsideEvent: anEvent [
 
 	self isInline ifTrue: [ ^ self ].
-	self checkCloseWindowOnPickingEvent: anEvent
+	self checkCloseWindowOnPickingEvent: anEvent sourceEvent
 ]
 
 { #category : #'window handling' }
@@ -256,7 +264,6 @@ ToPopupWindowManager >> popupEvent: anEvent [
 
 	currentWindow ifNotNil: [ ^ self ].
 	anchorElement isEnabled ifFalse: [ ^ self ].
-	upCountRequired := 1.
 	self popupNewWindowEvent: anEvent.
 	anEvent ifNotNil: [:evt | evt consume ]
 ]

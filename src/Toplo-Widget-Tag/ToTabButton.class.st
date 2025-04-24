@@ -11,7 +11,13 @@ Class {
 ToTabButton >> initialize [ 
 
 	super initialize.
-	paneBuilder := [ :pane :button :node :holder | ].
+	paneBuilder := [ :pane :button :node :holder | ]
+]
+
+{ #category : #skin }
+ToTabButton >> newRawSkin [ 
+
+	^ ToTabButtonSkin new
 ]
 
 { #category : #accessing }

@@ -34,14 +34,8 @@ ToTabItemElement >> asToLabelText [
 ToTabItemElement >> initialize [
 
 	super initialize.
-	self applySkinInstallerOnFirstRequest: true
-]
-
-{ #category : #'t - triplet element - accessing' }
-ToTabItemElement >> middleElement: anElement [
-
-	super middleElement: anElement.
-	"anElement addShrinkFeedbackLayerWithReferenceParent: self "
+	self applySkinInstallerOnFirstRequest: true.
+	self addShrinkFeedbackLayer
 ]
 
 { #category : #skin }

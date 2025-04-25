@@ -92,7 +92,7 @@ TToAnchoredWindowElement >> lastPopupEvent: anEvent [
 { #category : #'t - anchored window element - private layout' }
 TToAnchoredWindowElement >> launchOpening [
 
-	self layoutStep: self newFirstLayoutStep.
+	self layoutStep: self newStartLayoutStep.
 	self open
 ]
 
@@ -123,7 +123,7 @@ TToAnchoredWindowElement >> manager: aWindowHandler [
 ]
 
 { #category : #'t - anchored window element - private layout' }
-TToAnchoredWindowElement >> newFirstLayoutStep [ 
+TToAnchoredWindowElement >> newStartLayoutStep [ 
 
 	^ ToAnchoredWindowOpeningStartStep new
 ]
@@ -196,7 +196,7 @@ TToAnchoredWindowElement >> preventPickOutsideClosing [
 { #category : #'t - anchored window element - private layout' }
 TToAnchoredWindowElement >> refreshLayout [
 
-	self layoutStep: ToAnchoredWindowArrangingStep new.
+	self layoutStep: self newStartLayoutStep.
 	self requestLayout
 ]
 

@@ -71,6 +71,12 @@ ToMenuPopupManager >> newInlineMode [
 	^ ToMenuInlineWindowMode new
 ]
 
+{ #category : #initialization }
+ToMenuPopupManager >> newPopupMode [
+
+	^ ToPopupMenuMode new
+]
+
 { #category : #'window handling' }
 ToMenuPopupManager >> onClosed [
 

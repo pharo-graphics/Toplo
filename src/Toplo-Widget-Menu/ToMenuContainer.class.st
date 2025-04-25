@@ -43,13 +43,13 @@ ToMenuContainer >> correctedPositionWithinAnchorRoot [
 	^ parentMenuBounds topLeft - (self width @ t y negated)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'t - anchored window element - accessing' }
 ToMenuContainer >> defaultElevation [
 
 	^ BlRelativeElevation elevation: (SmallInteger maxVal - 400)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'t - anchored window element - accessing' }
 ToMenuContainer >> includes: anElement [
 
 	self = anElement ifTrue: [ ^ true ].
@@ -65,7 +65,7 @@ ToMenuContainer >> initialize [
 	self addEventHandler: ToMenuContainerEventHandler new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'t - anchored window element - accessing' }
 ToMenuContainer >> isInline [
 
 	^ self anchorElement isInline
@@ -101,15 +101,15 @@ ToMenuContainer >> menuWindow [
 ]
 
 { #category : #'t - anchored window element - accessing' }
-ToMenuContainer >> newFirstLayoutStep [ 
-
-	^ ToMenuContainerOpeningStartStep new
-]
-
-{ #category : #'t - anchored window element - accessing' }
 ToMenuContainer >> newRawSkin [ 
 
 	^ ToMenuContainerSkin new
+]
+
+{ #category : #'t - anchored window element - private layout' }
+ToMenuContainer >> newStartLayoutStep [ 
+
+	^ ToMenuContainerOpeningStartStep new
 ]
 
 { #category : #'t - anchored window element - accessing' }

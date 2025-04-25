@@ -12,6 +12,14 @@ ToMenuInlineWindowElement >> closeWindow [
 	self close
 ]
 
+{ #category : #enumerating }
+ToMenuInlineWindowElement >> collectedNodesDo: aValuable [ 
+ 
+ 	self allChildrenBreadthFirstDo: [ :child |
+ 		(child isKindOf: ToMenuItemNode) ifTrue: [
+ 			child isFake ifFalse: [ aValuable value: child ] ] ]
+]
+
 { #category : #'api - displaying' }
 ToMenuInlineWindowElement >> dispatchClosedEvent [
 	" need to dispatch also to the element holding the window

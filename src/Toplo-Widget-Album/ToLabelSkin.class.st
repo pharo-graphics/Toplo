@@ -13,9 +13,9 @@ ToLabelSkin >> deselectedSkinEvent: anEvent [
 	super deselectedSkinEvent: anEvent.
 	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
 	anEvent selectionMode selectionOption isMasked ifTrue: [ ^ self ].
-	anEvent selectionMode selectionOption hasEmbeddedRepresentation ifTrue: [ ^ self ].
-	anEvent elementDo: [ :e |
-		"e text asString trace. ' ' trace. anEvent traceCr."
+	anEvent selectionMode selectionOption hasEmbeddedRepresentation
+		ifTrue: [ ^ self ].
+	anEvent elementDo: [ :e | "e text asString trace. ' ' trace. anEvent traceCr."
 		e foreground: foreground ]
 ]
 
@@ -23,8 +23,7 @@ ToLabelSkin >> deselectedSkinEvent: anEvent [
 ToLabelSkin >> disabledSkinEvent: anEvent [
 
 	super disabledSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		"e text asString trace. ' ' trace. anEvent traceCr."
+	anEvent elementDo: [ :e | "e text asString trace. ' ' trace. anEvent traceCr."
 		e foreground: (e valueOfTokenNamed: #'color-text-disabled') ]
 ]
 
@@ -32,8 +31,7 @@ ToLabelSkin >> disabledSkinEvent: anEvent [
 ToLabelSkin >> enabledSkinEvent: anEvent [
 
 	super enabledSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		"e text asString trace. ' ' trace. anEvent traceCr."
+	anEvent elementDo: [ :e | "e text asString trace. ' ' trace. anEvent traceCr."
 		e foreground: foreground ]
 ]
 
@@ -41,8 +39,7 @@ ToLabelSkin >> enabledSkinEvent: anEvent [
 ToLabelSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		"e text asString trace. ' ' trace. anEvent traceCr."
+	anEvent elementDo: [ :e | "e text asString trace. ' ' trace. anEvent traceCr."
 		foreground := e valueOfTokenNamed: #'color-text'.
 		e textAttributesBuilder
 			defaultFontSize: (e valueOfTokenNamed: #'font-size');

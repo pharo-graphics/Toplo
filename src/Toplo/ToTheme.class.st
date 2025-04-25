@@ -313,6 +313,19 @@ ToTheme class >> defaultTokenProperties [
 			   value: self defaultCheckboxHeight asPoint).
 
 		  (ToTokenProperty
+			   name: #'color-list-primary-selection-focused'
+			   value: (self defaultColorPrimary)).
+		  (ToTokenProperty
+			   name: #'color-list-primary-selection-over-focused'
+			   value: (self defaultColorPrimary alpha: 0.3)).
+		  (ToTokenProperty
+			   name: #'color-list-primary-selection-unfocused'
+			   value: (self defaultColorPrimary alpha: 0.2)).
+		  (ToTokenProperty
+			   name: #'color-list-primary-selection-over-unfocused'
+			   value: (self defaultColorPrimary alpha: 0.1)).
+
+		  (ToTokenProperty
 			   name: #'color-primary-selection-focused'
 			   value: (self defaultColorPrimary alpha: 0.3)).
 		  (ToTokenProperty

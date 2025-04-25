@@ -199,10 +199,8 @@ ToNodeHolder >> selectionModel [
 { #category : #accessing }
 ToNodeHolder >> setupNodeWith: aNode [
 
-	| infiniteConstraints |
 	self node: aNode.
-	infiniteConstraints := aNode constraints infinite.
-	infiniteConstraints holder: self
+	aNode holder: self
 ]
 
 { #category : #accessing }

@@ -15,13 +15,11 @@ ToTabNodeSkin >> configureSelectionTokensIn: anItemElement [
 			anItemElement
 				addTokenNamed: #'selected-focused-foreground'
 				withValue:
-				(anItemElement valueOfTokenNamed:
-					 #'color-primary-selection-focused').
+				(anItemElement valueOfTokenNamed: #'color-primary-checked').
 			anItemElement
 				addTokenNamed: #'selected-unfocused-foreground'
 				withValue:
-				(anItemElement valueOfTokenNamed:
-					 #'color-primary-selection-focused') ]
+				(anItemElement valueOfTokenNamed: #'color-text-disabled') ]
 ]
 
 { #category : #'event handling' }
@@ -55,14 +53,10 @@ ToTabNodeSkin >> installSkinEvent: anEvent [
 			rb visibility: BlVisibility hidden.
 			rb constraintsDo: [ :c |
 				rightPad := rightPad + 15.
-						leftPad := leftPad + 15.
+				leftPad := leftPad + 15.
 				(listElement isVertical and: [ listElement atStartSide not ])
-					ifTrue: [
-						
-						c ignored horizontal alignRight ]
-					ifFalse: [
-						
-						c ignored horizontal alignLeft ].
+					ifTrue: [ c ignored horizontal alignRight ]
+					ifFalse: [ c ignored horizontal alignLeft ].
 				c ignored vertical alignCenter ] ].
 
 		e padding: (BlInsets

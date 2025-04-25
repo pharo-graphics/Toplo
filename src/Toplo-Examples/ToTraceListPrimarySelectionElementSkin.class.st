@@ -20,6 +20,6 @@ ToTraceListPrimarySelectionElementSkin >> installSkinEvent: anEvent [
 			          e nodes anyOne holder position)
 			         ifTrue: [ Color red ]
 			         ifFalse: [
-			         e valueOfTokenNamed: #'color-primary-selection-focused' ].
+			         e valueOfTokenNamed: #'color-list-primary-selection-focused' ].
 		e background: color ]
 ]

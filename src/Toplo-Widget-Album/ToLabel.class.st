@@ -445,6 +445,12 @@ ToLabel >> textChanged [
 ]
 
 { #category : #'api - text weight' }
+ToLabel >> thin [
+
+	self attributesBuilder attribute: BlFontWeightAttribute thin
+]
+
+{ #category : #'api - text weight' }
 ToLabel >> weight: aNumber [
 
 	self attributesBuilder attribute: (BlFontWeightAttribute weight: aNumber)

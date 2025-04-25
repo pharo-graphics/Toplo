@@ -64,7 +64,7 @@ ToShrinkFeedbackLayerSkin >> selectedSkinEvent: anEvent [
 		ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e |
 		| bg  |
-		bg := (e valueOfTokenNamed: #'color-primary-selection-focused').
+		bg := (e valueOfTokenNamed: #'color-list-primary-selection-focused').
 		e background: (BlLinearGradientPaint new
 				 stops: {
 						 (0 -> (bg alpha: 0.0)).

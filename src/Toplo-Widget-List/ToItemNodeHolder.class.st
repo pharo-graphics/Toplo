@@ -7,10 +7,8 @@ Class {
 { #category : #accessing }
 ToItemNodeHolder >> dataItem: aDataItem [
 
-	| infiniteConstraints |
 	super dataItem: aDataItem.
-	infiniteConstraints := aDataItem constraints infinite.
-	infiniteConstraints holder: self
+	aDataItem holder: self
 ]
 
 { #category : #accessing }

@@ -118,13 +118,6 @@ BlElement >> closedEventClass [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> constraintMenuNode: aNode [
-
-	" Sent to let any menu item to adapt its resizer/layout  constraints before the node is added in the menu list. Notice that I am sent before the node adding + the selections shift is actually finished. Thus, this place is not adequate for changing one of the list selections (use #addedInMenu for that) "
-
-]
-
-{ #category : #'*Toplo' }
 BlElement >> defaultRawSkin: aSkin [
 
 	self ensuredSkinManager setDefaultRawSkin: aSkin in: self
@@ -260,6 +253,12 @@ BlElement >> hasEnablementFlag [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> hasHolder [
+
+	^ self constraints hasHolder
+]
+
+{ #category : #'*Toplo' }
 BlElement >> hasParentSatisfying: aValuable [
 	"Return true if the valuable answers true with my parent "
 
@@ -286,6 +285,20 @@ BlElement >> hasStamp: aSymbol [
 BlElement >> holder [
 
 	^ self constraints infinite holder
+]
+
+{ #category : #'*Toplo' }
+BlElement >> holder: aNodeHolder [
+
+	| infiniteConstraints |
+	infiniteConstraints := self constraints infinite.
+	infiniteConstraints holder: aNodeHolder
+]
+
+{ #category : #'*Toplo' }
+BlElement >> holderDo: aValuable [
+
+	self constraints holderDo: aValuable
 ]
 
 { #category : #'*Toplo' }

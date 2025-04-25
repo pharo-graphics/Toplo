@@ -8,5 +8,5 @@ Class {
 ToMenuItemNode >> applyWidgetConfiguration [
 
 	super applyWidgetConfiguration.
-	self item applyWidgetConfiguration
+	self holder dataItem applyWidgetConfiguration
 ]

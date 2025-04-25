@@ -33,7 +33,6 @@ ToMenuItemBarElement >> initialize [
 	self fitContent.
 	self vertical: true.
 	self uniformNodeWidth: true.
-	"No visible primary selection"
 	self selectionOption masked: true
 ]
 

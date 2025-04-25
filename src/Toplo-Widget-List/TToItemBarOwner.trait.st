@@ -1,5 +1,8 @@
 Trait {
 	#name : #TToItemBarOwner,
+	#instVars : [
+		'itemBar'
+	],
 	#category : #'Toplo-Widget-List-ItemList'
 }
 
@@ -175,9 +178,7 @@ TToItemBarOwner >> hiddenItem: anItem [
 { #category : #'t - item bar owner - initializing' }
 TToItemBarOwner >> initializeAsItemBarOwner [
 
-	| bar |
-	bar := self newItemBar.
-	self userData at: #itemBar put: bar
+	self setItemBar: self newItemBar
 ]
 
 { #category : #'t - item bar owner - accessing' }
@@ -223,7 +224,7 @@ TToItemBarOwner >> isWrapping: aBoolean [
 { #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> itemBar [
 
-	^ self userData at: #itemBar ifAbsent: [  ]
+	^ itemBar
 ]
 
 { #category : #'t - item bar owner - accessing' }
@@ -384,10 +385,11 @@ TToItemBarOwner >> selectionOption [
 	^ self itemBar selectionOption
 ]
 
-{ #category : #'t - item bar owner - initializing' }
+{ #category : #'t - item bar owner - accessing' }
 TToItemBarOwner >> setItemBar: anItemBar [
 
-	self userData at: #itemBar put: anItemBar
+	itemBar ifNotNil: [ BlImmutableObjectChangeError signal ].
+	itemBar := anItemBar
 ]
 
 { #category : #'t - item bar owner - accessing' }

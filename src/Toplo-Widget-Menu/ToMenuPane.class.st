@@ -25,33 +25,22 @@ ToMenuPane >> addMenu: aMenu [
 	self addItem: aMenu
 ]
 
-{ #category : #'t - item bar owner - initializing' }
+{ #category : #configuration }
 ToMenuPane >> applyWidgetConfiguration [
 	" just force the resizer of the secondary direction 
 	( vertical direction in case of an horizontal bar )"
 
 	super applyWidgetConfiguration.
-	self isWrapping: false.
-	self isHorizontal
-		ifTrue: [
-			self uniformNodeWidth: false.
-			self vFitContent.
-			self isSubPane ifTrue: [ self hFitContent ] ]
-		ifFalse: [
-			self uniformNodeWidth: true.
-			self hFitContent.
-			self isSubPane ifTrue: [ self vFitContent ] ].
-
+	self uniformNodeWidth: self isVertical.
 	self itemBar horizontal: self isHorizontal.
-	self isHMatchParent
-		ifTrue: [ self itemBar hMatchParent ]
-		ifFalse: [ self itemBar hFitContent ].
-	self isVMatchParent
-		ifTrue: [ self itemBar vMatchParent ]
-		ifFalse: [ self itemBar vFitContent ].
-
-	self itemBar applyWidgetConfiguration .
-
+	self itemBar isScrolling: self isScrolling.
+	self itemBar isWrapping: self isWrapping.
+	self isHFitContent
+		ifTrue: [ self itemBar hFitContent ]
+		ifFalse: [ self itemBar hMatchParent ].
+	self isVFitContent
+		ifTrue: [ self itemBar vFitContent ]
+		ifFalse: [ self itemBar vMatchParent ]
 ]
 
 { #category : #'auto opening' }
@@ -91,8 +80,10 @@ ToMenuPane >> initialize [
 	self layout alignCenter.
 	self addEventHandler: ToMenuPaneEventHandler new.
 	self addChild: self itemBar.
+	self isWrapping: false.
 	self isScrolling: false.
-	self beHorizontal
+	self beHorizontal.
+	self fitContent
 ]
 
 { #category : #testing }

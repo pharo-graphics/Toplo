@@ -1,8 +1,8 @@
 Class {
 	#name : #ToTabGroupElement,
 	#superclass : #ToTripletElement,
-	#traits : 'TToItemBarOwner',
-	#classTraits : 'TToItemBarOwner classTrait',
+	#traits : 'TToItemBarContainer + TToItemBarOwner',
+	#classTraits : 'TToItemBarContainer classTrait + TToItemBarOwner classTrait',
 	#instVars : [
 		'invisibleNodes',
 		'visibleNodes',

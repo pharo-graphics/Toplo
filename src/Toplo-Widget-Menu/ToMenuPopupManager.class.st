@@ -96,7 +96,7 @@ ToMenuPopupManager >> pickOutsideEvent: anEvent [
 { #category : #'window handling' }
 ToMenuPopupManager >> pickOutsideFilterClass [ 
 
-	^ ToMenuWindowPickOutsideEventFilter
+	^ ToMenuPickOutsideEventFilter
 ]
 
 { #category : #'window handling' }

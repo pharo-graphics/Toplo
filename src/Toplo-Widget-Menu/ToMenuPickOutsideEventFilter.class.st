@@ -1,11 +1,11 @@
 Class {
-	#name : #ToMenuWindowPickOutsideEventFilter,
+	#name : #ToMenuPickOutsideEventFilter,
 	#superclass : #ToPopupPickOutsideEventFilter,
 	#category : #'Toplo-Widget-Menu-Window'
 }
 
 { #category : #private }
-ToMenuWindowPickOutsideEventFilter >> isPickedOutsideEvent: anEvent [
+ToMenuPickOutsideEventFilter >> isPickedOutsideEvent: anEvent [
 	" return true if the event is considered as a pick outside event "
 
 	| target |
@@ -19,7 +19,7 @@ ToMenuWindowPickOutsideEventFilter >> isPickedOutsideEvent: anEvent [
 ]
 
 { #category : #'mouse handlers' }
-ToMenuWindowPickOutsideEventFilter >> onMouseUpEvent: anEvent [
+ToMenuPickOutsideEventFilter >> onMouseUpEvent: anEvent [
 	" 
 	do nothing if the original event target is the element with popup or
 	if the original event target is the popup window 

@@ -28,10 +28,9 @@ ToMenuItemBarElement >> initialize [
 	
 	self flag: 'no focusability until focus management is understood and working '.
 	self focusability: BlFocusability none.
-	
-	self isWrapping: true.
+	self vertical: true.	
+	self isWrapping: false.
 	self fitContent.
-	self vertical: true.
 	self uniformNodeWidth: true.
 	"No visible primary selection"
 	self selectionOption masked: true

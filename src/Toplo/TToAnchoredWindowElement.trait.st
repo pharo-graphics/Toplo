@@ -92,7 +92,7 @@ TToAnchoredWindowElement >> lastPopupEvent: anEvent [
 { #category : #'t - anchored window element - private layout' }
 TToAnchoredWindowElement >> launchOpening [
 
-	self layoutStep: ToAnchoredWindowOpeningStartStep new.
+	self layoutStep: self newFirstLayoutStep.
 	self open
 ]
 
@@ -120,6 +120,12 @@ TToAnchoredWindowElement >> manager [
 TToAnchoredWindowElement >> manager: aWindowHandler [
 
 	windowManager := aWindowHandler 
+]
+
+{ #category : #'t - anchored window element - private layout' }
+TToAnchoredWindowElement >> newFirstLayoutStep [ 
+
+	^ ToAnchoredWindowOpeningStartStep new
 ]
 
 { #category : #'t - anchored window element - displaying' }

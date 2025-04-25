@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuInlineWindowElement,
 	#superclass : #ToCustomMenuItem,
-	#traits : 'TToAnchoredWindowElement + TToMenuWindowModel',
-	#classTraits : 'TToAnchoredWindowElement classTrait + TToMenuWindowModel classTrait',
+	#traits : 'TToAnchoredWindowElement + TToMenuWindowModel + TToMenuItemContainer',
+	#classTraits : 'TToAnchoredWindowElement classTrait + TToMenuWindowModel classTrait + TToMenuItemContainer classTrait',
 	#category : #'Toplo-Widget-Menu-Window'
 }
 
@@ -35,7 +35,7 @@ ToMenuInlineWindowElement >> includes: anElement [
 ToMenuInlineWindowElement >> initialize [ 
 
 	super initialize.
-	self addEventHandler: ToMenuContainerEventHandler new
+	self addEventHandler: ToMenuWindowEventHandler new
 ]
 
 { #category : #'t - menu window model' }

@@ -1,16 +1,16 @@
 Class {
-	#name : #ToMenuContainerEventHandler,
+	#name : #ToMenuWindowEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#category : #'Toplo-Widget-Menu-Window'
 }
 
 { #category : #'api - accessing' }
-ToMenuContainerEventHandler >> eventsToHandle [
+ToMenuWindowEventHandler >> eventsToHandle [
 	^ { BlMouseLeaveEvent }
 ]
 
 { #category : #'event handling' }
-ToMenuContainerEventHandler >> mouseLeaveEvent: anEvent [
+ToMenuWindowEventHandler >> mouseLeaveEvent: anEvent [
 
 	anEvent currentTarget isOpened ifFalse: [ ^ self ].
 	anEvent currentTarget itemBar secondarySelecter deselectAll

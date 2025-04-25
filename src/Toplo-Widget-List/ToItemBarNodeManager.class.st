@@ -16,6 +16,8 @@ ToItemBarNodeManager >> buildNode: aNode [
 ToItemBarNodeManager >> defaultFakeDataItem [
 
 	^ ToBarItemElement new
+		  size: 10 asPoint;
+		  yourself
 ]
 
 { #category : #'instance creation' }

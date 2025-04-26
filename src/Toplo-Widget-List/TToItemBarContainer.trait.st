@@ -178,6 +178,20 @@ TToItemBarContainer >> innerElement [
 	^ self itemBar innerElement
 ]
 
+{ #category : #'t - item bar owner - accessing' }
+TToItemBarContainer >> isFlowable [
+
+	^ self itemBar isFlowable
+]
+
+{ #category : #'t - item bar owner - accessing' }
+TToItemBarContainer >> isFlowable: aBoolean [
+
+	self itemBar isFlowable = aBoolean ifTrue: [ ^ self ].
+	self itemBar isFlowable: aBoolean.
+	self requestNewConfiguration
+]
+
 { #category : #'t - item bar owner - testing' }
 TToItemBarContainer >> isItemContainer [
 
@@ -185,31 +199,53 @@ TToItemBarContainer >> isItemContainer [
 ]
 
 { #category : #'t - item bar owner - accessing' }
+TToItemBarContainer >> isScrollable [
+
+	^ self itemBar isScrollable
+]
+
+{ #category : #'t - item bar owner - accessing' }
+TToItemBarContainer >> isScrollable: aBoolean [
+
+	self itemBar isScrollable = aBoolean ifTrue: [ ^ self ].
+	self itemBar isScrollable: aBoolean.
+	self requestNewConfiguration
+]
+
+{ #category : #'t - item bar owner - accessing' }
 TToItemBarContainer >> isScrolling [
 
-	^ self itemBar isScrolling
+	self
+		deprecated: 'Use #isScrollable'
+		transformWith: '`@r isScrolling' -> '`@r isScrollable'.
+	^ self isScrollable
 ]
 
 { #category : #'t - item bar owner - accessing' }
 TToItemBarContainer >> isScrolling: aBoolean [
 
-	self itemBar isScrolling = aBoolean ifTrue: [ ^ self ].
-	self itemBar isScrolling: aBoolean.
-	self requestNewConfiguration
+	self
+		deprecated: 'Use #isScrollable:'
+		transformWith: '`@r isScrolling: `@a' -> '`@r isScrollable: `@a'.
+	self isScrollable: aBoolean
 ]
 
 { #category : #'t - item bar owner - accessing' }
 TToItemBarContainer >> isWrapping [
 
-	^ self itemBar isWrapping
+	self
+		deprecated: 'Use #isFlowable'
+		transformWith: '`@r isWrapping' -> '`@r isFlowable'.
+	^ self isFlowable
 ]
 
 { #category : #'t - item bar owner - accessing' }
 TToItemBarContainer >> isWrapping: aBoolean [
 
-	self itemBar isWrapping = aBoolean ifTrue: [ ^ self ].
-	self itemBar isWrapping: aBoolean.
-	self requestNewConfiguration
+	self
+		deprecated: 'Use #isFlowable:'
+		transformWith: '`@r isWrapping: `@a' -> '`@r isFlowable: `@a'.
+	self isFlowable: aBoolean
 ]
 
 { #category : #'t - item bar owner - accessing' }

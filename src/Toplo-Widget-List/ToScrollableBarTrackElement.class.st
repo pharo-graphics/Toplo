@@ -47,7 +47,7 @@ ToScrollableBarTrackElement >> applyWidgetConfiguration [
 				ifFalse: [
 				listElement isVFitContent ifFalse: [ self vMatchParent ] ] ]
 		ifFalse: [
-			(self isWrapping not and: [ self isScrolling ]) ifTrue: [
+			(self isFlowable not and: [ self isScrollable ]) ifTrue: [
 				self isHorizontal
 					ifTrue: [ self hFitContent ]
 					ifFalse: [ self vFitContent ] ] ].
@@ -69,7 +69,7 @@ ToScrollableBarTrackElement >> autoDistribute [
 ToScrollableBarTrackElement >> checkFullyVisibleNodes [
 
 	| invisibleNodes visibleNodes |
-	(self isWrapping or: [ self autoDistribute ])
+	(self isFlowable or: [ self autoDistribute ])
 		ifTrue: [
 			invisibleNodes := #(  ).
 			visibleNodes := self nodes ]
@@ -126,21 +126,21 @@ ToScrollableBarTrackElement >> initialize [
 ]
 
 { #category : #testing }
+ToScrollableBarTrackElement >> isFlowable [
+
+	^ listElement isFlowable
+]
+
+{ #category : #testing }
 ToScrollableBarTrackElement >> isHorizontal [
 
 	^ listElement isHorizontal
 ]
 
 { #category : #testing }
-ToScrollableBarTrackElement >> isScrolling [
+ToScrollableBarTrackElement >> isScrollable [
 
-	^ listElement isScrolling
-]
-
-{ #category : #testing }
-ToScrollableBarTrackElement >> isWrapping [
-
-	^ listElement isWrapping
+	^ listElement isScrollable
 ]
 
 { #category : #layout }
@@ -169,7 +169,7 @@ ToScrollableBarTrackElement >> newFlowLayout [
 { #category : #layout }
 ToScrollableBarTrackElement >> newLayoutStrategy [
 
-	^ self isWrapping
+	^ self isFlowable
 		  ifTrue: [ self newFlowLayout ]
 		  ifFalse: [ self newLinearLayout ]
 ]

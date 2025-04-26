@@ -55,7 +55,7 @@ ToTabGroupElement >> barElementClass [
 { #category : #configuration }
 ToTabGroupElement >> canShowInvisibleNodesMenu [
 
-	^ self isWrapping not and: [
+	^ self isFlowable not and: [
 		  self autoDistribute not and: [ invisibleNodes notEmpty ] ]
 ]
 
@@ -256,10 +256,10 @@ ToTabGroupElement >> isAtStartSide [
 ]
 
 { #category : #'t - item bar owner - accessing' }
-ToTabGroupElement >> isWrapping: aBoolean [
+ToTabGroupElement >> isFlowable: aBoolean [
 
-	self itemBar isWrapping = aBoolean ifTrue: [ ^ self ].
-	self itemBar isWrapping: aBoolean.
+	self itemBar isFlowable = aBoolean ifTrue: [ ^ self ].
+	self itemBar isFlowable: aBoolean.
 	self requestNewConfiguration
 ]
 

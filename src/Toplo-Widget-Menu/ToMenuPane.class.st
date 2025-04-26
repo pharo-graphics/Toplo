@@ -33,8 +33,8 @@ ToMenuPane >> applyWidgetConfiguration [
 	super applyWidgetConfiguration.
 	self uniformNodeWidth: self isVertical.
 	self itemBar horizontal: self isHorizontal.
-	self itemBar isScrolling: self isScrolling.
-	self itemBar isWrapping: self isWrapping.
+	self itemBar isScrollable: self isScrollable.
+	self itemBar isFlowable: self isFlowable.
 	self isHFitContent
 		ifTrue: [ self itemBar hFitContent ]
 		ifFalse: [ self itemBar hMatchParent ].
@@ -80,8 +80,8 @@ ToMenuPane >> initialize [
 	self layout alignCenter.
 	self addEventHandler: ToMenuPaneEventHandler new.
 	self addChild: self itemBar.
-	self isWrapping: false.
-	self isScrolling: false.
+	self isFlowable: false.
+	self isScrollable: false.
 	self beHorizontal.
 	self fitContent
 ]

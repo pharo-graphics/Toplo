@@ -27,7 +27,7 @@ ToMenuInlineWindowMode >> startWindow: aWindow [
 	The window is added after the ToMenu in its barOwner"
 
 	" an inline window works correctly only with wrapping (need for the flow layout)"
-	aWindow itemBar isWrapping: true.
+	aWindow itemBar isFlowable: true.
 	self menuBarOwner
 		addItem: aWindow
 		afterIndex: self anchorElement positionInList.

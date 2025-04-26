@@ -43,7 +43,7 @@ ToTabItemElementSkin >> installSkinEvent: anEvent [
 
 	anEvent elementDo: [ :e |
 		"setup the selection color for the ShrinkFeedbackLayer of the TabButton "
-		e holder listElement isWrapping
+		e holder listElement isFlowable
 			ifFalse: [
 				e
 					addTokenNamed: #'color-list-primary-selection-focused'

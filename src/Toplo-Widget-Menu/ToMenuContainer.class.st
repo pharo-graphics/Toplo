@@ -8,7 +8,7 @@ Class {
 ToMenuContainer >> applyWidgetConfiguration [ 
 
 	super applyWidgetConfiguration.
-	self isScrolling 
+	self isScrollable 
 		ifTrue: [
 			self itemBar isVertical
 				ifTrue: [
@@ -69,6 +69,24 @@ ToMenuContainer >> initialize [
 ToMenuContainer >> isInline [
 
 	^ self anchorElement isInline
+]
+
+{ #category : #testing }
+ToMenuContainer >> isScrollable [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #'as yet unclassified' }
+ToMenuContainer >> isScrollable: aBoolean [
+
+	^ self subclassResponsibility
+]
+
+{ #category : #accessing }
+ToMenuContainer >> itemBar [ 
+
+	^ self subclassResponsibility 
 ]
 
 { #category : #'t - anchored window element - accessing' }

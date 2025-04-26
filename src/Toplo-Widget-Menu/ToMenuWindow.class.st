@@ -4,16 +4,16 @@ Class {
 	#category : #'Toplo-Widget-Menu-Window'
 }
 
-{ #category : #accessing }
-ToMenuWindow >> isScrolling [ 
+{ #category : #testing }
+ToMenuWindow >> isScrollable [ 
 
-	^ self itemBar isScrolling
+	^ self itemBar isScrollable
 ]
 
 { #category : #accessing }
-ToMenuWindow >> isScrolling: aBoolean [
+ToMenuWindow >> isScrollable: aBoolean [
 
-	self itemBar isScrolling: aBoolean.
+	self itemBar isScrollable: aBoolean.
 	self requestNewConfiguration
 ]
 

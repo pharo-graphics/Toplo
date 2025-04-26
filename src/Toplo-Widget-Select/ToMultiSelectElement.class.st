@@ -4,9 +4,9 @@ Class {
 	#instVars : [
 		'hideSelected',
 		'withGroups',
-		'isWrapping',
 		'keepPickOrder',
-		'maxSelectedCount'
+		'maxSelectedCount',
+		'isFlowable'
 	],
 	#category : #'Toplo-Widget-Select-Multi'
 }
@@ -25,7 +25,7 @@ ToMultiSelectElement >> addGroup: anObject withData: aCollection [
 ToMultiSelectElement >> applyWidgetConfiguration [ 
 
 	super applyWidgetConfiguration.
-	self innerElement isWrapping: isWrapping.
+	self innerElement isFlowable: isFlowable.
 	self innerElement keepPickOrder: keepPickOrder.
 	" in case of hide selected, the picking outside handler should not be activated.
 	If not, an unexpected list closing occurs when clicking on the last popup list item "
@@ -89,7 +89,7 @@ ToMultiSelectElement >> initialize [
 	super initialize.
 	hideSelected := false.
 	withGroups := false.
-	isWrapping := false.
+	isFlowable := false.
 	keepPickOrder := false.
 	maxSelectedCount := 0
 ]
@@ -101,16 +101,16 @@ ToMultiSelectElement >> innerElementClass [
 ]
 
 { #category : #accessing }
-ToMultiSelectElement >> isScrolling: aBoolean [
+ToMultiSelectElement >> isFlowable: aBoolean [
 
-	self innerElement isScrolling: aBoolean
+	isFlowable := aBoolean.
+	self requestNewConfiguration
 ]
 
 { #category : #accessing }
-ToMultiSelectElement >> isWrapping: aBoolean [
+ToMultiSelectElement >> isScrollable: aBoolean [
 
-	isWrapping := aBoolean.
-	self requestNewConfiguration
+	self innerElement isScrollable: aBoolean
 ]
 
 { #category : #accessing }

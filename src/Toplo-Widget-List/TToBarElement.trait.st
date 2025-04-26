@@ -5,9 +5,9 @@ Trait {
 		'exactNodeHeight',
 		'uniformNodeWidth',
 		'uniformNodeHeight',
-		'isScrolling',
 		'autoDistribute',
-		'isWrapping'
+		'isFlowable',
+		'isScrollable'
 	],
 	#category : #'Toplo-Widget-List-Core-BarElement'
 }
@@ -85,32 +85,68 @@ TToBarElement >> installFakeNode [
 ]
 
 { #category : #'t - bar element' }
-TToBarElement >> isScrolling [
+TToBarElement >> isFlowable [
 
-	^ isScrolling ifNil: [ isScrolling := false ]
+	^ isFlowable ifNil: [ isFlowable := true ]
 ]
 
 { #category : #'t - bar element' }
-TToBarElement >> isScrolling: aBoolean [
+TToBarElement >> isFlowable: aBoolean [
 
-	isScrolling = aBoolean ifTrue: [ ^ self ].
-	isScrolling := aBoolean.
+	isFlowable = aBoolean ifTrue: [ ^ self ].
+	isFlowable := aBoolean.
+	self requestNewConfiguration
+]
+
+{ #category : #'t - bar element' }
+TToBarElement >> isScrollable [
+
+	^ isScrollable ifNil: [ isScrollable := false ]
+]
+
+{ #category : #'t - bar element' }
+TToBarElement >> isScrollable: aBoolean [
+
+	isScrollable = aBoolean ifTrue: [ ^ self ].
+	isScrollable := aBoolean.
 	self requestLayout.
 	self requestNewConfiguration
 ]
 
 { #category : #'t - bar element' }
+TToBarElement >> isScrolling [
+
+	self
+		deprecated: 'Use #isScrollable'
+		transformWith: '`@r isScrolling' -> '`@r isScrollable'.
+	^ self isScrollable
+]
+
+{ #category : #'t - bar element' }
+TToBarElement >> isScrolling: aBoolean [
+
+	self
+		deprecated: 'Use #isScrollable:'
+		transformWith: '`@r isScrolling: `@a' -> '`@r isScrollable: `@a'.
+	self isScrollable: aBoolean
+]
+
+{ #category : #'t - bar element' }
 TToBarElement >> isWrapping [
 
-	^ isWrapping ifNil: [ isWrapping := true ]
+	self
+		deprecated: 'Use #isFlowable'
+		transformWith: '`@r isWrapping' -> '`@r isFlowable'.
+	^ self isFlowable
 ]
 
 { #category : #'t - bar element' }
 TToBarElement >> isWrapping: aBoolean [
 
-	isWrapping = aBoolean ifTrue: [ ^ self ].
-	isWrapping := aBoolean.
-	self requestNewConfiguration
+	self
+		deprecated: 'Use #isFlowable:'
+		transformWith: '`@r isWrapping: `@a' -> '`@r isFlowable: `@a'.
+	self isFlowable: aBoolean
 ]
 
 { #category : #'t - bar element' }

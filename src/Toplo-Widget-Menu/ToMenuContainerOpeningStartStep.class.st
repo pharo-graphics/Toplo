@@ -15,10 +15,10 @@ ToMenuContainerOpeningStartStep >> nextStepFor: aWindow onEvent: anEvent onLayou
 	aWindow anchorRoot height <= height
 		ifTrue: [
 			aWindow vMatchParent.
-			aWindow isScrolling: true ]
+			aWindow isScrollable: true ]
 		ifFalse: [
 			aWindow vFitContent.
-			aWindow isScrolling: false ].
+			aWindow isScrollable: false ].
 	^ super
 		  nextStepFor: aWindow
 		  onEvent: anEvent

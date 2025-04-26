@@ -9,7 +9,7 @@ ToTabBarSecondarySelectionElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e listElement isWrapping ifFalse: [
+		e listElement isFlowable ifFalse: [
 			e geometry: BlRectangleGeometry new.
 			e visibility: e node visibility.
 			e background:

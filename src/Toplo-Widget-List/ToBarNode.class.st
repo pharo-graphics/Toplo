@@ -12,7 +12,7 @@ ToBarNode >> applyWidgetConfiguration [
 	| bar |
 	super applyWidgetConfiguration.
 	bar := self holder listElement.
-	bar isWrapping
+	bar isFlowable
 		ifFalse: [
 			bar isVertical
 				ifTrue: [

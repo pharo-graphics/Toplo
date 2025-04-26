@@ -130,7 +130,7 @@ ToSandBox class >> alignmentChooserFor: aCheckableBar [
 { #category : #bar }
 ToSandBox class >> barConfigurationBoardFor: aBar [
 
-	| menu confPane verticalSwitch wrappingSwitch scrollingSwitch autoDistributionSwitch uniformNodeWidthSwitch selectionAnimationSwitch selectOnPressedSwitch deselectOnPressedSwitch makeDisabledUnselectableSwitch uniformNodeHeightSwitch link |
+	| menu confPane verticalSwitch flowableSwitch scrollingSwitch autoDistributionSwitch uniformNodeWidthSwitch selectionAnimationSwitch selectOnPressedSwitch deselectOnPressedSwitch makeDisabledUnselectableSwitch uniformNodeHeightSwitch link |
 	
 	confPane := ToPane vertical.
 
@@ -172,10 +172,10 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	verticalSwitch hMatchParent.
 	confPane addChild: verticalSwitch.
 
-	wrappingSwitch := ToSwitchButton new labelText: 'Wrapping'.
-	wrappingSwitch startFlexible: true.
-	wrappingSwitch hMatchParent.
-	confPane addChild: wrappingSwitch.
+	flowableSwitch := ToSwitchButton new labelText: 'Flowable'.
+	flowableSwitch startFlexible: true.
+	flowableSwitch hMatchParent.
+	confPane addChild: flowableSwitch.
 
 	uniformNodeWidthSwitch := ToSwitchButton new labelText:
 		                          'Uniform width'.
@@ -196,12 +196,12 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	scrollingSwitch := ToSwitchButton new labelText: 'Scrolling'.
 	scrollingSwitch id: #scrollingSwitch.
 	scrollingSwitch startFlexible: true.
-	scrollingSwitch newCheckFeature: #isScrolling with: aBar.
+	scrollingSwitch newCheckFeature: #isScrollable with: aBar.
 
 	scrollingSwitch hMatchParent.
 	confPane addChild: scrollingSwitch.
 
-	link := wrappingSwitch newCheckFeature: #isWrapping with: aBar.
+	link := flowableSwitch newCheckFeature: #isFlowable with: aBar.
 	"link onActionRunnedDo: [ :evt :bar :value |
 		scrollingSwitch disabled: value ]."
 
@@ -388,7 +388,7 @@ ToSandBox class >> barWithData: aCollection [
 	confBoard addChild: selectionModeBoard.
 
 	bar dataAccessor addAll: aCollection.
-	bar isWrapping: true.
+	bar isFlowable: true.
 	bar uniformNodeWidth: true.
 	rootPane := ToPane horizontal.
 	rootPane padding: (BlInsets all: 5).
@@ -2712,7 +2712,7 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 	| select |
 	select := ToMultiSelectElement new.
 
-	select isWrapping: true.
+	select isFlowable: true.
 	select keepPickOrder: true.
 		select filtrable: true.
 	self
@@ -2800,7 +2800,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 		addEventHandlerOn: ToSelectChangedEvent
 		do: [ :event | event selectedIndexes traceCr ].
 
-	select isWrapping: true.
+	select isFlowable: true.
 	select keepPickOrder: true.
 
 	select popupListElement selectionOption grouped: false.
@@ -2857,7 +2857,7 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistribution [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
-	select isWrapping: false.
+	select isFlowable: false.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select autoDistribute: true.
 
@@ -2879,7 +2879,7 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistributionWithMax [
 	| select innerWindow |
 	select := ToMultiSelectElement new.
 	select maxSelectedCount: 4.
-	select isWrapping: false.
+	select isFlowable: false.
 	select autoDistribute: true.
 	select hideSelected: false.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
@@ -2901,7 +2901,7 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrapping [
 	| select innerWindow |
 	select := ToMultiSelectElement new.
 	select maxSelectedCount: 6.
-	select isWrapping: false.
+	select isFlowable: false.
 	select hideSelected: false.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select sample: 'X'.
@@ -2923,7 +2923,7 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrappingKeepPickOrder [
 	| select innerWindow |
 	select := ToMultiSelectElement new.
 	select keepPickOrder: true.
-	select isWrapping: false.
+	select isFlowable: false.
 	select hideSelected: false.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select filtrable: true.
@@ -2943,7 +2943,7 @@ ToSandBox class >> example_SelectMultiFiltrableNotWrappingAutoDistribution [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
-	select isWrapping: false.
+	select isFlowable: false.
 	select autoDistribute: true.
 	select hideSelected: false.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
@@ -2964,8 +2964,8 @@ ToSandBox class >> example_SelectMultiFiltrableScrolling [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
-	select isScrolling: true.
-	select isWrapping: false.
+	select isScrollable: true.
+	select isFlowable: false.
 	select hideSelected: false.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select filtrable: true.
@@ -3023,7 +3023,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
-	select isWrapping: true.
+	select isFlowable: true.
 	select tagBuilder: [ :tag :stateName | 
 		tag labelText: stateName.
 		tag removable: true ].
@@ -3079,7 +3079,7 @@ ToSandBox class >> example_SelectMultiFiltrableWrappingAutoDistribution [
 	| select innerWindow |
 	select := ToMultiSelectElement new.
 	"select maxSelectedCount: 6."
-	select isWrapping: true.
+	select isFlowable: true.
 	select autoDistribute: true.
 	select hideSelected: false.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
@@ -3102,7 +3102,7 @@ ToSandBox class >> example_SelectMultiNotFiltrable [
 	select := ToMultiSelectElement new.
 	select maxSelectedCount: 4.
 	select filtrable: false.
-	select isWrapping: true.
+	select isFlowable: true.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select placeholderText:
 		('Select states' asRopedText foreground: Color red).
@@ -3580,8 +3580,8 @@ ToSandBox class >> example_TabGroupElement [
 
 	| tabs dashBoard |
 	tabs := ToTabGroupElement new.
-	tabs isWrapping: false.
-	tabs isScrolling: true.
+	tabs isFlowable: false.
+	tabs isScrollable: true.
 	tabs hMatchParent.
 	tabs showAddTabItemButton: true.
 	50 to: 70 do: [ :i |
@@ -3680,8 +3680,8 @@ ToSandBox class >> example_TabPaneElementWithUSStates [
 					 pane background: Color random ];
 				 yourself) ].
 
-	tpane isWrapping: false.
-	tpane isScrolling: true.
+	tpane isFlowable: false.
+	tpane isScrollable: true.
 	dashBoard := self tabGroupElementDashBoardFor: tpane.
 	dashBoard openInSpace
 ]
@@ -3751,6 +3751,8 @@ ToSandBox class >> example_ThemeSelectWithPlaceholder [
 	win := ToInnerWindow new title: 'Operating system'.
 
 	choice := ToSingleSelectElement new.
+	choice placeholderText:
+		('Select an OS' asRopedText foreground: Color lightGray).
 	choice popupDataAccessor addAll:
 		{ 'OS-X'. 'Windows'. 'Linux' }.
 	win pane addChild: choice.
@@ -5456,7 +5458,7 @@ ToSandBox class >> example_menuPaneVertical2 [
 	sub addItem: subsub.
 	bar addItem: sub.
 	bar addSeparator.
-	bar isScrolling: true.
+	bar isScrollable: true.
 	bar vMatchParent.
 	frame pane addChild: bar.
 	frame openInSpace
@@ -5521,8 +5523,8 @@ ToSandBox class >> example_menuPaneVerticalScrollable [
 	"bar addFiller."
 	bar vertical: true.
 	bar vMatchParent.
-	bar isScrolling: true.
-	bar isWrapping: false.
+	bar isScrollable: true.
+	bar isFlowable: false.
 	
 	frame pane addChild: bar.
 	frame openInSpace
@@ -5662,7 +5664,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 	bar := ToMenuPane new
 		       hMatchParent;
 		       vFitContent.
-	bar isWrapping: false.
+	bar isFlowable: false.
 	bar itemBar hMatchParent.
 
 	bar addItem: (ToCustomMenuItem new in: [ :e |
@@ -6155,7 +6157,7 @@ ToSandBox class >> example_subMenuPaneVertical [
 	| topMenuBar |
 	topMenuBar := ToMenuPane new.
 	topMenuBar beVertical.
-	topMenuBar isWrapping: false.
+	topMenuBar isFlowable: false.
 	
 	3 timesRepeat: [
 		| mb |

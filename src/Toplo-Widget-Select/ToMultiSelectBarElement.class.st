@@ -146,8 +146,8 @@ ToMultiSelectBarElement >> maxSelectedCount: aNumber [
 ToMultiSelectBarElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes [
 
 	| visibleNodes invisibleNodes composite finalCount |
-	self isWrapping ifTrue: [ ^ self ].
-	self isScrolling ifTrue: [ ^ self ].
+	self isFlowable ifTrue: [ ^ self ].
+	self isScrollable ifTrue: [ ^ self ].
 	theInvisibleNodes ifEmpty: [ ^ self ].
 	" in case of composite node at first it means that 
 	there is no more visible node to cumulate in a composite node"

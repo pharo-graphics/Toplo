@@ -11,7 +11,7 @@ Class {
 ToRawSkinTabBarSelectionPlacement >> positionElement: aSelectionElement onEvent: anEvent context: aBlElementBoundsUpdateContext [
 
 	| x y node nodeBounds parent |
-	tabBar isWrapping ifTrue: [ ^ self ].
+	tabBar isFlowable ifTrue: [ ^ self ].
 	parent := aSelectionElement parent.
 	" compute the selection element to be over the parent track element "
 	node := aSelectionElement node.

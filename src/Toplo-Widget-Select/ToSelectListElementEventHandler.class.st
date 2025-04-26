@@ -17,8 +17,7 @@ ToSelectListElementEventHandler >> eventsToHandle [
 ToSelectListElementEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEvent [
 	" have to refresh the select bar here (see issue #252, https://github.com/pharo-graphics/Toplo/issues/252) "
 
-	select inUIProcessDo: [
-		select innerElement refreshFromPopupListSelection ]
+	select innerElement refreshFromPopupListSelection
 ]
 
 { #category : #accessing }

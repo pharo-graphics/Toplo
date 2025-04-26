@@ -18,9 +18,5 @@ ToSelectEventHandler >> eventsToHandle [
 { #category : #'event handling' }
 ToSelectEventHandler >> placeHolderShownEvent: anEvent [
 
-	self flag:
-		'The width of 16???. Why ? Anyway, it should be handled via a skin'.
-	anEvent placeholder padding: (BlInsets left:
-			 (anEvent currentTarget valueOfTokenNamed: #'padding-XS')).
 	anEvent placeholder layout alignCenterLeft
 ]

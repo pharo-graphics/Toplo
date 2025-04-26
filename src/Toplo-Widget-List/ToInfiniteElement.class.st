@@ -201,6 +201,13 @@ ToInfiniteElement >> nodesWithIndexDo: aBlock [
 		aBlock value: node value: node holder position ]
 ]
 
+{ #category : #layout }
+ToInfiniteElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
+
+	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
+	listElement updateAllSelections
+]
+
 { #category : #'hooks - scrolling' }
 ToInfiniteElement >> onScrolled: aPoint [
 

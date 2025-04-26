@@ -8,12 +8,6 @@ Class {
 }
 
 { #category : #'infinite event handling' }
-ToListInnerElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
-
-	anEvent currentTarget listElement dispatchEvent: anEvent copy
-]
-
-{ #category : #'infinite event handling' }
 ToListInnerElementEventHandler >> elementPositionChangedEvent: anEvent [
 
 	anEvent currentTarget listElement updateAllSelections
@@ -35,8 +29,7 @@ ToListInnerElementEventHandler >> eventsToHandle [
 		  BlInfiniteElementAttachedEvent.
 		  BlInfiniteElementDetachedEvent.
 		  BlElementScrolledEvent.
-		  BlElementPositionChangedEvent.
-		  BlBoundsHasChangedDuringScrollingEvent }
+		  BlElementPositionChangedEvent }
 ]
 
 { #category : #'infinite event handling' }

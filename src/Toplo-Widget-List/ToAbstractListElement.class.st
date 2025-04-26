@@ -240,6 +240,8 @@ ToAbstractListElement >> enabledAtPosition: anInteger [
 
 { #category : #layout }
 ToAbstractListElement >> extentChanged [
+
+	self updateAllSelections
 ]
 
 { #category : #accessing }

@@ -5,7 +5,8 @@ Class {
 		'target',
 		'leaved',
 		'dragged',
-		'pressed'
+		'pressed',
+		'selected'
 	],
 	#category : #'Toplo-Core-States'
 }
@@ -159,6 +160,8 @@ ToSkinStateGenerator >> handleEvent: anEvent [
 ToSkinStateGenerator >> listNodeSelectedEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
+	selected = anEvent selected ifTrue: [ ^ self ].
+	selected := anEvent selected.
 	target withAllChildrenBreadthFirstDo: [ :child |
 		child areSelectionSkinEventsPrevented ifTrue: [ ^ self ]. 
 		self

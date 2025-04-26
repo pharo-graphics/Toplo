@@ -504,6 +504,33 @@ ToSandBox class >> checkingStrategyChooserFor: aCheckableBar [
 ]
 
 { #category : #accordion }
+ToSandBox class >> exampleAccordionBarElement [
+
+	<script>
+	| list |
+	list := ToCheckableBarElement new.
+	list exactItemWidth: 150.
+	list isFlowable: false.
+	list isScrollable: true.
+	list dataAccessor addAll: ((1 to: 2) collect: [ :anInteger |
+		| item |
+		item := ToAccordionElement new.
+		item addEventHandlerOn: ToSkinEvent do: [ :evt | evt traceCr ].
+		item
+			headerBuilder: [ :header |
+				header addChild: (ToLabel text: 'Header ' , anInteger asString)
+							preventSelectionSkinEvents ];
+			bodyBuilder: [ :body |
+				body addChild: (BlElement new
+							 background: (Color random alpha: 0.4);
+							 size: 50 @ 30).
+				body addChild: (ToLabel text: 'body ', anInteger asString ) ] ] ).
+
+	list matchParent.
+	list openInSpace showStatisticsWindow
+]
+
+{ #category : #accordion }
 ToSandBox class >> exampleAccordionItemWithLabel [
 
 	<script>
@@ -2840,8 +2867,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 		self statesOfAmericaWithColor.
 
 	select popupMaxHeight: 200.
-	select placeholderText:
-		('Select states' asRopedText foreground: Color red).
+	select placeholderString: 'Select states'.
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
 	select hMatchParent.

@@ -8,7 +8,8 @@ Class {
 		'dataSourceManager',
 		'listElement',
 		'dataSourceObserver',
-		'trackElement'
+		'trackElement',
+		'prevPoint'
 	],
 	#category : #'Toplo-Widget-List-InnerBar'
 }
@@ -144,6 +145,7 @@ ToInnerBarElement >> fullyVisibleNodesSelect: aBlock [
 ToInnerBarElement >> initialize [
 
 	super initialize.
+	prevPoint := 0 asPoint.
 	self initializeDataSource.
 	self addEventHandler: ToListInnerElementEventHandler new.
 	self trackElement: self scrollableBarTrackElementClass new.
@@ -323,6 +325,9 @@ ToInnerBarElement >> onScrolled: aPoint [
 
 	listElement onScrolled: aPoint.
 	self checkFullyVisibleNodes.
+	(prevPoint isZero and: [ aPoint isZero ]) ifFalse: [
+		listElement updateAllSelections ].
+	prevPoint := aPoint.
 	"Since moving the mouse over the bar leads to layout/scrolling, a task is used to avoid layout recusrsion"
 	self spaceDo: [ :sp |
 		sp enqueueTask:

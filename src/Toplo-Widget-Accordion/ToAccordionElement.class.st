@@ -1,6 +1,8 @@
 Class {
 	#name : #ToAccordionElement,
 	#superclass : #ToAccordionAbstractElement,
+	#traits : 'TToItem',
+	#classTraits : 'TToItem classTrait',
 	#category : #'Toplo-Widget-Accordion-Core'
 }
 

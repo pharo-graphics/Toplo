@@ -13,12 +13,14 @@ ToInfiniteDataSourceManager >> consumeFinalStepCommandsIn: anInfiniteElement [
 
 	"we still consume finale step updates (if there is)."
 
+	finalStepCommands ifEmpty: [ ^ self ].
 	[ finalStepCommands isEmpty ] whileFalse: [
 		| cmd |
 		cmd := finalStepCommands removeFirst.
 		self dispatchCommand: cmd to: anInfiniteElement.
 		self onCommandProcessed: cmd in: anInfiniteElement.
 		self recycleCommand: cmd ].
+	anInfiniteElement requestLayout
 ]
 
 { #category : #initialization }

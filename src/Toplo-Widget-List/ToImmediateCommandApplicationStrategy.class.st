@@ -7,5 +7,6 @@ Class {
 { #category : #accessing }
 ToImmediateCommandApplicationStrategy >> addCommand: aCommand from: aCommandApplier [
 
-	aCommandApplier applyCommand: aCommand
+	aCommandApplier applyCommand: aCommand.
+	element innerElement requestLayout
 ]

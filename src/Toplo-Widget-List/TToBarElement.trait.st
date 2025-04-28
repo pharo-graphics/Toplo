@@ -40,13 +40,13 @@ TToBarElement >> defaultInnerElement [
 	^ ToInnerBarElement onBarElement: self
 ]
 
-{ #category : #accessing }
+{ #category : #'t - bar element' }
 TToBarElement >> exactNodeHeight [
 
 	^ exactNodeHeight
 ]
 
-{ #category : #accessing }
+{ #category : #'t - bar element' }
 TToBarElement >> exactNodeHeight: aNumberOrNil [
 
 	exactNodeHeight = aNumberOrNil ifTrue:[ ^ self ].
@@ -56,13 +56,13 @@ TToBarElement >> exactNodeHeight: aNumberOrNil [
 	self requestLayout
 ]
 
-{ #category : #accessing }
+{ #category : #'t - bar element' }
 TToBarElement >> exactNodeWidth [
 
 	^ exactNodeWidth
 ]
 
-{ #category : #accessing }
+{ #category : #'t - bar element' }
 TToBarElement >> exactNodeWidth: aNumberOrNil [
 
 	exactNodeWidth = aNumberOrNil ifTrue:[ ^ self ].

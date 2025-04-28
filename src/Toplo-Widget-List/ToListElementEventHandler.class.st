@@ -18,14 +18,9 @@ ToListElementEventHandler >> addedToSpaceEvent: anEvent [
 { #category : #'event handling' }
 ToListElementEventHandler >> blurEvent: anEvent [
 
-	anEvent currentTarget selectionElementsDo: [ :se |se dispatchEvent: anEvent copy].
+	anEvent currentTarget selectionElementsDo: [ :se |
+		se dispatchEvent: anEvent copy ].
 	self syncNodesSelectionIn: anEvent currentTarget
-]
-
-{ #category : #'selection managing' }
-ToListElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
-
-	self refreshSelectionFromEvent: anEvent
 ]
 
 { #category : #'event handling' }
@@ -60,7 +55,6 @@ ToListElementEventHandler >> doubleClickEvent: anEvent [
 { #category : #'selection managing' }
 ToListElementEventHandler >> elementExtentChangedEvent: anEvent [
 
-	self refreshSelectionFromEvent: anEvent.
 	anEvent currentTarget extentChanged.
 
 ]
@@ -69,8 +63,7 @@ ToListElementEventHandler >> elementExtentChangedEvent: anEvent [
 ToListElementEventHandler >> elementScrolledEvent: anEvent [
 
 	anEvent currentTarget spaceDo: [ :sp | 
-		sp mouseProcessor handleLastMouseMove ].
-	self refreshSelectionIn: anEvent currentTarget
+		sp mouseProcessor handleLastMouseMove ]
 ]
 
 { #category : #'api - accessing' }
@@ -88,7 +81,6 @@ ToListElementEventHandler >> eventsToHandle [
 		  ToListNodeAddedEvent.
 		  ToListNodeRemovedEvent.
 
-		  BlBoundsHasChangedDuringScrollingEvent.
 		  BlElementExtentChangedEvent.
 		  BlElementScrolledEvent.
 
@@ -106,8 +98,9 @@ ToListElementEventHandler >> eventsToHandle [
 { #category : #'event handling' }
 ToListElementEventHandler >> focusEvent: anEvent [
 
-	anEvent currentTarget selectionElementsDo: [ :se |se dispatchEvent: anEvent copy].
-	self syncNodesSelectionIn: anEvent currentTarget 
+	anEvent currentTarget selectionElementsDo: [ :se |
+		se dispatchEvent: anEvent copy ].
+	self syncNodesSelectionIn: anEvent currentTarget
 ]
 
 { #category : #'infinite event handling' }
@@ -197,30 +190,6 @@ ToListElementEventHandler >> primaryClickEvent: anEvent [
 	anEvent currentTarget requestFocus
 ]
 
-{ #category : #'selection managing' }
-ToListElementEventHandler >> refreshSelectionFromEvent: anEvent [
-
-	| currTarget |
-	currTarget := anEvent currentTarget.
-	self refreshSelectionIn: currTarget.
-	"selectionRefreshTask ifNotNil: [ ^ self ].
-	selectionRefreshTask := BlTaskAction new.
-	selectionRefreshTask action: [
-		self refreshSelectionIn: currTarget.
-		selectionRefreshTask := nil ].
-	currTarget enqueueTask: selectionRefreshTask"
-]
-
-{ #category : #'selection managing' }
-ToListElementEventHandler >> refreshSelectionIn: aTarget [
-
-	aTarget selectionModes do: [ :mode |
-		mode selectionOptionDo: [ :option |
-			option
-				forceRefreshSelectionIn: aTarget
-				withSelectionModel: mode selectionModel ] ]
-]
-
 { #category : #'event handling' }
 ToListElementEventHandler >> secondaryClickEvent: anEvent [
 ]
@@ -230,7 +199,7 @@ ToListElementEventHandler >> showHidePlaceholderIn: aListElement [
 
 	aListElement dataAccessor ifEmpty: [ 
 		aListElement selectionModel deselectAll.
-		self refreshSelectionIn: aListElement.
+		aListElement updateAllSelections.
 		^ aListElement showPlaceholder ].
 	aListElement hidePlaceholder
 ]

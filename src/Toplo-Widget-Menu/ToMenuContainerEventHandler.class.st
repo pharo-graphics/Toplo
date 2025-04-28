@@ -4,9 +4,15 @@ Class {
 	#category : #'Toplo-Widget-Menu-Window'
 }
 
+{ #category : #'event handling' }
+ToMenuContainerEventHandler >> elementExtentChangedEvent: anEvent [
+
+	anEvent currentTarget refreshLayout
+]
+
 { #category : #'api - accessing' }
 ToMenuContainerEventHandler >> eventsToHandle [
-	^ { BlMouseLeaveEvent }
+	^ { BlMouseLeaveEvent. BlElementExtentChangedEvent }
 ]
 
 { #category : #'event handling' }

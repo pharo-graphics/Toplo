@@ -118,6 +118,10 @@ BlElement >> closedEventClass [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> commandAdded: aCommand fromApplier: aCommandApplier [
+]
+
+{ #category : #'*Toplo' }
 BlElement >> defaultRawSkin: aSkin [
 
 	self ensuredSkinManager setDefaultRawSkin: aSkin in: self

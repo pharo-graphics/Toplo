@@ -6,7 +6,8 @@ Class {
 		'leaved',
 		'dragged',
 		'pressed',
-		'selected'
+		'selected',
+		'focusedWhenSelected'
 	],
 	#category : #'Toplo-Core-States'
 }
@@ -160,10 +161,13 @@ ToSkinStateGenerator >> handleEvent: anEvent [
 ToSkinStateGenerator >> listNodeSelectedEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
-	selected = anEvent selected ifTrue: [ ^ self ].
+	(selected = anEvent selected and: [
+		 focusedWhenSelected = anEvent listElement isFocused ]) ifTrue: [
+		^ self ].
 	selected := anEvent selected.
+	focusedWhenSelected := anEvent listElement isFocused.
 	target withAllChildrenBreadthFirstDo: [ :child |
-		child areSelectionSkinEventsPrevented ifTrue: [ ^ self ]. 
+		child areSelectionSkinEventsPrevented ifTrue: [ ^ self ].
 		self
 			enqueueSkinState: (ToSelectionState new
 					 selected: anEvent selected;

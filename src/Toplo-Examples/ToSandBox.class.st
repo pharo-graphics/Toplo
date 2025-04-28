@@ -515,7 +515,7 @@ ToSandBox class >> exampleAccordionBarElement [
 	list dataAccessor addAll: ((1 to: 200) collect: [ :anInteger |
 		| item |
 		item := ToAccordionElement new.
-		item addEventHandlerOn: ToSkinEvent do: [ :evt | evt traceCr ].
+		"item addEventHandlerOn: ToSkinEvent do: [ :evt | evt traceCr ]."
 		item
 			headerBuilder: [ :header |
 				header addChild: (ToLabel text: 'Header ' , anInteger asString)

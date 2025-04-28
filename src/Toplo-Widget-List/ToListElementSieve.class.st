@@ -19,6 +19,12 @@ Class {
 	#category : #'Toplo-Widget-List-Sieve'
 }
 
+{ #category : #'private - commands' }
+ToListElementSieve >> commandAdded: aCommand fromApplier: aCommandApplier [
+
+
+]
+
 { #category : #accessing }
 ToListElementSieve >> currentData [
 

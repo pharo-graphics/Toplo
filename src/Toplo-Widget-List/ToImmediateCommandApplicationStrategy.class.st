@@ -8,5 +8,5 @@ Class {
 ToImmediateCommandApplicationStrategy >> addCommand: aCommand from: aCommandApplier [
 
 	aCommandApplier applyCommand: aCommand.
-	element innerElement requestLayout
+	super addCommand: aCommand from: aCommandApplier
 ]

@@ -10,6 +10,11 @@ Class {
 	#category : #'Toplo-Widget-List-Tests-Selection-Selecter'
 }
 
+{ #category : #'private - commands' }
+ToSelecterEventTargetStub >> commandAdded: aCommand fromApplier: aCommandApplier [
+
+]
+
 { #category : #accessing }
 ToSelecterEventTargetStub >> commandApplicationStrategy [
 

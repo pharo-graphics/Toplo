@@ -60,7 +60,7 @@ ToAbstractListElement >> applyWidgetConfiguration [
 { #category : #'private - commands' }
 ToAbstractListElement >> commandAdded: aCommand fromApplier: aCommandApplier [
 
-	self innerElement requestLayout
+	self innerElement commandAdded: aCommand fromApplier: aCommandApplier
 ]
 
 { #category : #accessing }

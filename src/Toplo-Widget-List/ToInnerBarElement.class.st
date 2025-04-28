@@ -63,6 +63,10 @@ ToInnerBarElement >> checkFullyVisibleNodes [
 ]
 
 { #category : #'private - commands' }
+ToInnerBarElement >> commandAdded: aCommand fromApplier: aCommandApplier [
+]
+
+{ #category : #'private - commands' }
 ToInnerBarElement >> consumePendingDataSourceCommands [
 ]
 

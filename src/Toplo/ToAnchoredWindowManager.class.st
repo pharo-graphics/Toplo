@@ -8,7 +8,7 @@ Class {
 		'anchorRoot',
 		'placement',
 		'measurement',
-		'isInline'
+		'windowStarter'
 	],
 	#category : #'Toplo-Core-Window'
 }
@@ -99,6 +99,12 @@ ToAnchoredWindowManager >> defaultPlacement [
 	^ ToAnchoredTopLeftDownPlacement new
 ]
 
+{ #category : #initialization }
+ToAnchoredWindowManager >> defaultStarter [
+
+	^ ToStandardWindowStarter new
+]
+
 { #category : #accessing }
 ToAnchoredWindowManager >> element [
 
@@ -155,21 +161,20 @@ ToAnchoredWindowManager >> hasWindow [
 ToAnchoredWindowManager >> initialize [
 
 	super initialize.
-	isInline := false.
 	windowBuilder := self defaultBuilder.
-
+	windowStarter := self defaultStarter
 ]
 
 { #category : #testing }
 ToAnchoredWindowManager >> isInline [ 
 
-	^ isInline
+	^ windowStarter isInline
 ]
 
 { #category : #accessing }
-ToAnchoredWindowManager >> measurement [ 
+ToAnchoredWindowManager >> measurement [
 
-	^ measurement ifNil: [ measurement := self defaultMeasurement ] 
+	^ measurement ifNil: [ measurement := self defaultMeasurement ]
 ]
 
 { #category : #accessing }
@@ -269,9 +274,9 @@ ToAnchoredWindowManager >> openedEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToAnchoredWindowManager >> placement [ 
+ToAnchoredWindowManager >> placement [
 
-	^ placement ifNil: [ placement := self defaultPlacement ] 
+	^ placement ifNil: [ placement := self defaultPlacement ]
 ]
 
 { #category : #accessing }
@@ -305,17 +310,13 @@ ToAnchoredWindowManager >> removedFromSpaceEvent: anEvent [
 { #category : #'window handling' }
 ToAnchoredWindowManager >> startWindow: aWindow [ 
 
-	isInline ifTrue: [ ^ self ].
-	self anchorRoot addChild: aWindow.
-	self anchorElement requestNewSkin
+	windowStarter startWindow: aWindow fromManager: self
 ]
 
 { #category : #'window handling' }
 ToAnchoredWindowManager >> stopWindow: aWindow [
 
-	isInline ifTrue: [ ^ self ].
-	aWindow removeFromParent.
-	self anchorElement requestNewSkin
+	windowStarter stopWindow: aWindow fromManager: self
 ]
 
 { #category : #'event handling' }
@@ -339,7 +340,7 @@ ToAnchoredWindowManager >> windowBuilder: aWindowBuilderValuable [
 { #category : #'window handling' }
 ToAnchoredWindowManager >> windowClass [ 
 
-	^ self popupWindowClass 
+	^ windowStarter windowClassFromManager: self
 ]
 
 { #category : #'event handling' }

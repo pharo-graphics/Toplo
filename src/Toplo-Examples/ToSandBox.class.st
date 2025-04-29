@@ -2619,6 +2619,7 @@ ToSandBox class >> example_Popup1 [
 		       position: 10 @ 10.
 	menu addChild: sub.
 	popupWindowHandler := ToPopupWindowManager new.
+	popupWindowHandler anchorRoot: container.
 	popupWindowHandler windowBuilder: [ :popup :element |
 		popup border: Color black.
 		item := ToElement new size: 150 @ 90.
@@ -4236,6 +4237,7 @@ ToSandBox class >> example_WithCheckBox [
 
 	menu position: 10 @ 10.
 	frame := ToInnerWindow new.
+	menu manager anchorRoot: frame.
 	frame pane addChild: menu.
 	frame openInSpace
 ]

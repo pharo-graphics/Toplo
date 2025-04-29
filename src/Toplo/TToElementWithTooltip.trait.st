@@ -70,7 +70,7 @@ TToElementWithTooltip >> tooltip: aValuable [
 { #category : #'t - element with tooltip' }
 TToElementWithTooltip >> tooltipBuilder [
 
-	^ self tooltipWindowManager builder
+	^ self tooltipWindowManager windowBuilder
 ]
 
 { #category : #'t - element with tooltip' }

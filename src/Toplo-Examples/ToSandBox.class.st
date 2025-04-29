@@ -2423,9 +2423,7 @@ ToSandBox class >> example_MenuWithAccordeon3 [
 	(1 to: 5) collect: [ :i |
 		item := ToCustomMenuItem new in: [ :e |
 			        e addChild:
-				        ((self accordionWithLabelText: 'Header ' , i asString)
-					         isExpanded: false;
-					         expandIconAtStart: false) ].
+				        (self accordionWithLabelText: 'Header ' , i asString) ].
 		menu addItem: item ].
 	menu addItem: item.
 

@@ -118,6 +118,13 @@ ToMenuInlineWindowElement >> onMeasure: anExtentMeasurementSpec [
 	self onMeasure: anExtentMeasurementSpec onEvent: self lastPopupEvent 
 ]
 
+{ #category : #'t - anchored window element - private layout' }
+ToMenuInlineWindowElement >> refreshLayout [
+
+	"self layoutStep: self newStartLayoutStep.
+	self requestLayout"
+]
+
 { #category : #'t - inline window element - accessing' }
 ToMenuInlineWindowElement >> root [ 
 

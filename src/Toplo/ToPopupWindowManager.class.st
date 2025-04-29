@@ -8,7 +8,8 @@ Class {
 		'upCountRequired',
 		'autoPopupHandler',
 		'checkPickOutside',
-		'closeOnPicking'
+		'closeOnPicking',
+		'anchorRootHandler'
 	],
 	#category : #'Toplo-Core-Window'
 }
@@ -56,7 +57,7 @@ ToPopupWindowManager >> autoPopupDelay: aDuration [
 { #category : #'window handling' }
 ToPopupWindowManager >> beInline [ 
 
-	super beInline.
+	isInline := true.
 	self unplugPickOutsideFilter
 ]
 
@@ -172,6 +173,12 @@ ToPopupWindowManager >> initialize [
 	closeOnPicking := self defaultCloseOnPicking.
 	checkPickOutside := true.
 	upCountRequired := 1
+]
+
+{ #category : #accessing }
+ToPopupWindowManager >> inlineWindowClass [
+
+	^ ToInlineWindowElement 
 ]
 
 { #category : #'window handling' }
@@ -291,6 +298,28 @@ ToPopupWindowManager >> startStillHoveredEvent: anEvent [
 ]
 
 { #category : #'window handling' }
+ToPopupWindowManager >> startWindow: aWindow [ 
+
+	super startWindow: aWindow.
+	isInline ifTrue: [ ^ self ].
+	anchorRootHandler ifNil: [
+		anchorRootHandler := self anchorRoot
+			                     addEventHandlerOn: BlElementExtentChangedEvent
+			                     do: [ :event | aWindow refreshLayout ] ].
+
+]
+
+{ #category : #'window handling' }
+ToPopupWindowManager >> stopWindow: aWindow [
+
+	isInline ifTrue: [ ^ self ].
+	anchorRootHandler ifNotNil: [
+		self anchorRoot removeEventHandler: anchorRootHandler.
+		anchorRootHandler := nil ].
+	super stopWindow: aWindow 
+]
+
+{ #category : #'window handling' }
 ToPopupWindowManager >> uninstallPickOutsideFilter [
 
 	pickOutsideFilter ifNil: [ ^ self ].
@@ -331,4 +360,12 @@ ToPopupWindowManager >> usePrimaryMouseButton [
 ToPopupWindowManager >> useSecondaryMouseButton [
 
 	mouseButton := BlMouseButton secondary
+]
+
+{ #category : #'window handling' }
+ToPopupWindowManager >> windowClass [
+
+	^ isInline
+		  ifTrue: [ self inlineWindowClass ]
+		  ifFalse: [ self popupWindowClass ]
 ]

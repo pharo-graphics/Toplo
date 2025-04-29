@@ -112,7 +112,7 @@ TToElementWithContextMenuTest >> testContextMenuCanPopupIfElementInSpace [
 ]
 
 { #category : #tests }
-TToElementWithContextMenuTest >> testContextMenuContent [
+TToElementWithContextMenuTest >> testContextMenuItems [
 
 	|  e ttwin |
 	e := self testContextMenu.
@@ -122,7 +122,7 @@ TToElementWithContextMenuTest >> testContextMenuContent [
 	ttwin popupEvent: (BlMouseDownEvent new position: 0@0).
 	self waitTestingSpaces.
 	self assert: ttwin root firstChild notNil.
-	e contextMenuContent: nil.
+	e contextMenuItems: nil.
 	self assert: e currentContextMenu isNil.
 	self assert: e hasContextMenu not.
 	self waitTestingSpaces.
@@ -188,7 +188,7 @@ TToElementWithContextMenuTest >> testCurrentContextMenu [
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
 			 eh isKindOf: ToContextMenuManager ]).
 	ttwin := e newContextMenuEvent: nil.
-	e contextMenuContent: { ToMenuItem new }.
+	e contextMenuItems: { ToMenuItem new }.
 	self assert: e hasContextMenu.
 	self assert: e currentContextMenu notNil.
 	self assert: e currentContextMenu identicalTo: ttwin.
@@ -200,7 +200,7 @@ TToElementWithContextMenuTest >> testCurrentContextMenuWindow [
 
 	| e |
 	e := ToElement new.
-	e contextMenuContent: {ToMenuItem new}.
+	e contextMenuItems: {ToMenuItem new}.
 	self assert: e hasContextMenu.
 	self assert: e currentContextMenu isNil.
 	e newContextMenuEvent: nil.
@@ -218,7 +218,7 @@ TToElementWithContextMenuTest >> testHasContextMenu [
 	e := ToElement new.
 	self assert: e hasContextMenu not.
 	self should: [e newContextMenuEvent: nil] raise: Error.
-	e contextMenuContent: { ToMenuItem new }.
+	e contextMenuItems: { ToMenuItem new }.
 	self assert: e hasContextMenu.
 	^ e
 ]
@@ -228,7 +228,7 @@ TToElementWithContextMenuTest >> testHasOpenedContextMenu [
 
 	| e |
 	e := ToElement new.
-	e contextMenuContent: { ToMenuItem new }.
+	e contextMenuItems: { ToMenuItem new }.
 	self assert: e hasOpenedContextMenu not.
 	self assert: e currentContextMenu isNil.
 	e newContextMenuEvent: nil.
@@ -248,7 +248,7 @@ TToElementWithContextMenuTest >> testNewContextMenuEvent [
 	self assert: e currentContextMenu isNil.
 	self assert: e rawContextMenuManager isNil.
 	self should: [ e newContextMenuEvent: nil ] raise: Error.
-	e contextMenuContent: { }.
+	e contextMenuItems: { }.
 	self assert: e hasContextMenu.
 	self assert: e rawContextMenuManager notNil.
 	e newContextMenuEvent: nil.
@@ -263,17 +263,11 @@ TToElementWithContextMenuTest >> testRawContextMenuManager [
 	| e |
 	e := ToElement new.
 	self assert: e rawContextMenuManager isNil.
-	e contextMenuContent: { }.
+	e contextMenuItems: { }.
 	self assert: e rawContextMenuManager notNil.
 	e removeContextMenuManager.
 	self assert: e rawContextMenuManager isNil.
 
-]
-
-{ #category : #tests }
-TToElementWithContextMenuTest >> testRemoveContextMenu [
-
-	self testRemoveContextMenuManager 
 ]
 
 { #category : #tests }

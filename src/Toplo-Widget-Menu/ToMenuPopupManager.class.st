@@ -66,18 +66,6 @@ ToMenuPopupManager >> mouseLeaveEvent: anEvent [
 ]
 
 { #category : #'window handling' }
-ToMenuPopupManager >> newInlineMode [ 
-
-	^ ToMenuInlineWindowMode new
-]
-
-{ #category : #initialization }
-ToMenuPopupManager >> newPopupMode [
-
-	^ ToPopupMenuMode new
-]
-
-{ #category : #'window handling' }
 ToMenuPopupManager >> onClosed [
 
 	super onClosed.
@@ -116,4 +104,34 @@ ToMenuPopupManager >> popupNewWindowEvent: anEvent [
 ToMenuPopupManager >> popupWindowClass [
 
 	^ ToMenuWindow
+]
+
+{ #category : #'window handling' }
+ToMenuPopupManager >> startWindow: aWindow [
+	" the manager element is a ToMenu. 
+	The window is added after the ToMenu in its barOwner"
+
+	super startWindow: aWindow.
+	isInline ifFalse: [ ^ self ].
+	" an inline window works correctly only with wrapping (need for the flow layout)"
+	aWindow itemBar isFlowable: true.
+	self anchorElement menuBarOwner
+		addItem: aWindow
+		afterIndex: self anchorElement positionInList.
+	" need to install a new skin to change the icon (from closed to opened) "
+	self anchorElement requestNewSkin
+]
+
+{ #category : #'window handling' }
+ToMenuPopupManager >> stopWindow: aWindow [
+	" the manager element is a ToMenu. 
+	The window is removed from its barOwner"
+
+	super stopWindow: aWindow.
+	isInline ifFalse: [ ^ self ].
+	" an inline window works correctly only with wrapping (need for the flow layout)"
+	aWindow itemBar isFlowable: true.
+	self anchorElement menuBarOwner removeItem: aWindow.
+	" need to install a new skin to change the icon (from closed to opened) "
+	self anchorElement requestNewSkin
 ]

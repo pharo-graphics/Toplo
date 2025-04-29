@@ -4237,7 +4237,7 @@ ToSandBox class >> example_WithCheckBox [
 
 	menu position: 10 @ 10.
 	frame := ToInnerWindow new.
-	menu manager anchorRoot: frame.
+	menu manager anchorRoot: frame pane.
 	frame pane addChild: menu.
 	frame openInSpace
 ]

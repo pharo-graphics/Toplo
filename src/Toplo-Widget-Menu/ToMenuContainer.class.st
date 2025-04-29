@@ -25,7 +25,7 @@ ToMenuContainer >> applyWidgetConfiguration [
 ToMenuContainer >> correctedPositionWithinAnchorRoot [
 
 	| t rect rootRect parentMenu parentMenuBounds rootMenuOrMenuPane |
-	rect := self measuredBounds inSpace bounds asRectangle.
+	rect := (self measuredBounds inSpace inChild: self anchorRoot) bounds asRectangle.
 	rootRect := 0 @ 0 extent: self anchorRoot extent.
 	t := rect amountToTranslateWithin: rootRect.
 	" the parent menu is the element of my window manager "

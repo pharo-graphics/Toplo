@@ -77,7 +77,7 @@ ToMenuContainer >> isScrollable [
 	^ self subclassResponsibility 
 ]
 
-{ #category : #testing }
+{ #category : #'as yet unclassified' }
 ToMenuContainer >> isScrollable: aBoolean [
 
 	^ self subclassResponsibility

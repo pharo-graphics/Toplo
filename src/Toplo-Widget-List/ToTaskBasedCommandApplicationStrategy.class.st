@@ -15,8 +15,7 @@ ToTaskBasedCommandApplicationStrategy >> addCommand: aCommand from: aCommandAppl
 			aCommandApplier applyCommand: aCommand.
 			^ self ] ].
 	element enqueueTask:
-		(BlTaskAction new action: [ aCommandApplier applyCommand: aCommand ]).
-	super addCommand: aCommand from: aCommandApplier
+		(BlTaskAction new action: [ aCommandApplier applyCommand: aCommand ])
 ]
 
 { #category : #initialization }

@@ -42,7 +42,7 @@ ToListSelectionWithElementOption >> addSelectionIn: aListElement [
 	when the animation ends to have a nice visual effect. If no animation is used, then SelectedSkinEvent is
 	sent just after the selection is added "
 
-	| first finalBounds startBounds animation |
+	| finalBounds startBounds |
 	currentSelectionRepresentations ifEmpty: [ ^ self ].
 	self checkSelectionContainerIn: aListElement.
 
@@ -60,55 +60,37 @@ ToListSelectionWithElementOption >> addSelectionIn: aListElement [
 		self notifyNodesSelectedIn: aListElement.
 		^ self ].
 
-	"get the selection and make it hidden to compute the final bounds "
-	first := currentSelectionRepresentations first selectionElement.
-	first visibility: BlVisibility hidden.
-	" set the final bounds - notice that the selection element may have custom position and measurement"
-	first size: finalBounds extent.
-	first position: finalBounds origin.
-	" directly add the selection and wait the layouting to get the correct final bounds "
-	self addSelectionElement: first.
-	first whenLayoutedDoOnce: [ 
-		" layout is done, the (eventually customized) final bounds is known "
-		finalBounds := first measuredBounds asRectangle.
-		first position: startBounds origin.
-		first size: startBounds extent.
-		first whenLayoutedDoOnce: [ 
-			" now the make the selection visible afain and launch the animation "
-			first visibility: BlVisibility visible.
-			animation := self
-				             boundsAnimationFrom: startBounds
-				             to: finalBounds
-				             onGroup: currentSelectionRepresentations first
-				             in: aListElement.
+	self
+		boundsAnimationFrom: startBounds
+		to: finalBounds
+		onRepresentation: currentSelectionRepresentations first
+		in: aListElement.
 
-			first addAnimation: animation.
-			" add others "
-			self addSelectionElementsIn: aListElement startingAt: 2 ] ]
+	" add others "
+	self addSelectionElementsIn: aListElement startingAt: 2
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionWithElementOption >> boundsAnimationFrom: startBounds to: finalBounds onGroup: aGroup in: aListElement [
+ToListSelectionWithElementOption >> boundsAnimationFrom: startBounds to: finalBounds onRepresentation: aRepresentation in: aListElement [
 
-	| theSelectionElement towardsEnd |
-	theSelectionElement := aGroup selectionElement.
-	towardsEnd := (aListElement isHorizontal and: [
-		               startBounds origin x < finalBounds origin x ]) or: [
-		              aListElement isVertical and: [
-			              startBounds origin y < finalBounds origin y ] ].
-	
-	^ ToBoundsTransition new
+	| theSelectionElement anim |
+	theSelectionElement := aRepresentation selectionElement.
+	theSelectionElement size: startBounds extent.
+	theSelectionElement position: startBounds origin.
+	self addSelectionElement: theSelectionElement.
+	anim := ToBoundsTransition new
 		  from: startBounds;
 		  to: finalBounds;
 		  duration: selectionOption animationDuration;
 		  onStepDo: [ :aRectangle :target |
-			towardsEnd ifFalse: [ theSelectionElement size: finalBounds extent ].
+			  theSelectionElement size: aRectangle extent.
 			  theSelectionElement position: aRectangle origin ];
 		  onFinishedDo: [
 			  theSelectionElement position: finalBounds origin.
 			  theSelectionElement size: finalBounds extent.
 			  theSelectionElement whenLayoutedDoOnce: [
-					  self notifyNodesSelectedIn: aListElement ] ]
+					  self notifyNodesSelectedIn: aListElement ] ].
+	theSelectionElement addAnimation: anim
 ]
 
 { #category : #'private - selection updating' }

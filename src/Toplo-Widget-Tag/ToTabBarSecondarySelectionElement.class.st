@@ -1,10 +1,10 @@
 Class {
 	#name : #ToTabBarSecondarySelectionElement,
-	#superclass : #ToListSecondarySelectionElement,
+	#superclass : #ToTabBarSelectionElement,
 	#category : #'Toplo-Widget-Tag-Tab'
 }
 
-{ #category : #'instance creation' }
+{ #category : #skin }
 ToTabBarSecondarySelectionElement >> newRawSkin [ 
 
 	^ ToTabBarSecondarySelectionElementSkin new

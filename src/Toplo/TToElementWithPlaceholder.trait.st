@@ -54,6 +54,19 @@ TToElementWithPlaceholder >> placeholderElevation [
 ]
 
 { #category : #'t - element with placeholder' }
+TToElementWithPlaceholder >> placeholderString: aString [
+	"Syntactic sugar to set a string has a placeholder message"
+
+	aString ifNil: [
+		self placeholderBuilder: nil.
+		^ self ].
+
+	self placeholderBuilder: [ :placeholder :e |
+		placeholder padding: e padding.
+		placeholder addChild: (ToLabel text: aString) ]
+]
+
+{ #category : #'t - element with placeholder' }
 TToElementWithPlaceholder >> placeholderText: aText [
 	"Syntactic sugar to set a string has a placeholder message"
 

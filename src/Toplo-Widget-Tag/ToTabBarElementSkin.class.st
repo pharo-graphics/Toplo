@@ -17,23 +17,9 @@ ToTabBarElementSkin >> installSelectionFactoriesIn: aTabBar [
 		                                     elementFactory.
 	" change the element factory with a specific placement and measurement "
 	aTabBar selectionOption elementFactory: [
-		ToTabBarPrimarySelectionElement new
-			placement: (ToRawSkinTabBarSelectionPlacement new
-					 tabBar: aTabBar;
-					 yourself);
-			measurement: (ToRawSkinTabBarSelectionMeasurement new
-					 width: 3;
-					 tabBar: aTabBar;
-					 yourself) ].
+		ToTabBarPrimarySelectionElement new ].
 	aTabBar secondarySelectionOption elementFactory: [
-		ToTabBarSecondarySelectionElement new
-			placement: (ToRawSkinTabBarSelectionPlacement new
-					 tabBar: aTabBar;
-					 yourself);
-			measurement: (ToRawSkinTabBarSelectionMeasurement new
-					 width: 3;
-					 tabBar: aTabBar;
-					 yourself) ]
+		ToTabBarSecondarySelectionElement new ]
 ]
 
 { #category : #'event handling' }

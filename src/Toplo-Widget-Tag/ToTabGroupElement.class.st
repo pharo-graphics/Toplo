@@ -88,16 +88,6 @@ ToTabGroupElement >> defaultInvisibleNodeMenuItemBuilder [
 	  aMenuItem
 		  labelText: aNode item asToLabelText;
 		  clickAction: [ self showInvisibleTabItem: aNode item ].
-	  aNode isRemovable ifTrue: [
-		  aMenuItem endElement: ToIconicRemoveButton new.
-		  aMenuItem endFlexible: true.
-		  aMenuItem endInterspace: 10.
-		  aMenuItem
-			  addEventHandlerOn: ToRemoveButtonClickedEvent
-			  do: [ :event |
-				  event consume.
-				  aNode removeFromBar.
-				  self checkInvisibleNodes ] ].
 	  aNode item isChecked ifTrue: [
 		  aMenuItem icon: (ToImage inner: (self valueOfTokenNamed: #check)).
 		  aMenuItem icon size:

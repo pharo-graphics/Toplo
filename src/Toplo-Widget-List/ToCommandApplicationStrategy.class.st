@@ -10,7 +10,7 @@ Class {
 { #category : #accessing }
 ToCommandApplicationStrategy >> addCommand: aCommand from: aCommandApplier [
 
-	element commandAdded: aCommand fromApplier: aCommandApplier
+	self subclassResponsibility 
 ]
 
 { #category : #accessing }

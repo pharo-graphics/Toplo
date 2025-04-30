@@ -57,12 +57,6 @@ ToAbstractListElement >> applyWidgetConfiguration [
 	self innerElement applyWidgetConfiguration
 ]
 
-{ #category : #'private - commands' }
-ToAbstractListElement >> commandAdded: aCommand fromApplier: aCommandApplier [
-
-	self innerElement commandAdded: aCommand fromApplier: aCommandApplier
-]
-
 { #category : #accessing }
 ToAbstractListElement >> commandApplicationStrategy [
 
@@ -246,8 +240,6 @@ ToAbstractListElement >> enabledAtPosition: anInteger [
 
 { #category : #layout }
 ToAbstractListElement >> extentChanged [
-
-	self updateAllSelections
 ]
 
 { #category : #accessing }

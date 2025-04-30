@@ -67,12 +67,6 @@ ToAccordionHeaderElement >> headerExtraBuilder: aValuable [
 ]
 
 { #category : #accessing }
-ToAccordionHeaderElement >> icon [
-
-	^ iconContainer firstChild
-]
-
-{ #category : #accessing }
 ToAccordionHeaderElement >> icon: aToImage [
 
 	iconContainer removeChildren.

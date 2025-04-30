@@ -89,6 +89,18 @@ TToElementWithPlaceholderTest >> testPlaceholderElevation [
 ]
 
 { #category : #tests }
+TToElementWithPlaceholderTest >> testPlaceholderString [
+
+	| e ph |
+	e := ToTextField new size: 100 asPoint.
+	e placeholderString: 'Enter text...'.
+	e showPlaceholder.
+	
+	ph := e currentPlaceholderLayer.
+	self assert: (ph children first text asString) equals: 'Enter text...'.
+]
+
+{ #category : #tests }
 TToElementWithPlaceholderTest >> testPlaceholderText [
 
 	| e ph |

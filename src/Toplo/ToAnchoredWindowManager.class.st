@@ -2,10 +2,13 @@ Class {
 	#name : #ToAnchoredWindowManager,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
-		'mode',
 		'currentWindow',
 		'windowBuilder',
-		'anchorElement'
+		'anchorElement',
+		'anchorRoot',
+		'placement',
+		'measurement',
+		'windowStarter'
 	],
 	#category : #'Toplo-Core-Window'
 }
@@ -29,46 +32,20 @@ ToAnchoredWindowManager >> anchorElement [
 ToAnchoredWindowManager >> anchorRoot [
 
 	" the root element in which the window is placed "
-	^ mode anchorRoot 
+	^ anchorRoot ifNil: [ anchorRoot := anchorElement space root ]
 ]
 
 { #category : #accessing }
 ToAnchoredWindowManager >> anchorRoot: anElement [
 
 	" the root element in which the window is placed "
-	mode anchorRoot: anElement
-]
-
-{ #category : #'window handling' }
-ToAnchoredWindowManager >> beInline [
-
-	self mode: self newInlineMode 
+	anchorRoot := anElement
 ]
 
 { #category : #'window handling' }
 ToAnchoredWindowManager >> buildCurrentWindowFromRequest: aRequest [
 
 	windowBuilder value: currentWindow value: aRequest
-]
-
-{ #category : #accessing }
-ToAnchoredWindowManager >> builder [
-
-	self
-		deprecated: 'Use #windowBuilder'
-		transformWith:
-		'`@rcvr builder' -> '`@rcvr windowBuilder'.
-		
-	^ self windowBuilder
-]
-
-{ #category : #accessing }
-ToAnchoredWindowManager >> builder: aWindowBuilderValuable [
-	self
-		deprecated: 'Use #windowBuilder:'
-		transformWith:
-		'`@rcvr builder: `@arg' -> '`@rcvr windowBuilder: `@arg'.
-	self windowBuilder: aWindowBuilderValuable
 ]
 
 { #category : #'window handling' }
@@ -117,15 +94,15 @@ ToAnchoredWindowManager >> defaultMeasurement [
 ]
 
 { #category : #initialization }
-ToAnchoredWindowManager >> defaultMode [
-
-	^ self newPopupMode 
-]
-
-{ #category : #initialization }
 ToAnchoredWindowManager >> defaultPlacement [ 
 
 	^ ToAnchoredTopLeftDownPlacement new
+]
+
+{ #category : #initialization }
+ToAnchoredWindowManager >> defaultStarter [
+
+	^ ToStandardWindowStarter new
 ]
 
 { #category : #accessing }
@@ -185,57 +162,31 @@ ToAnchoredWindowManager >> initialize [
 
 	super initialize.
 	windowBuilder := self defaultBuilder.
-	self initializeMode
-]
-
-{ #category : #initialization }
-ToAnchoredWindowManager >> initializeMode [
-
-	self mode: self defaultMode
-]
-
-{ #category : #accessing }
-ToAnchoredWindowManager >> inlineWindowClass [
-
-	^ ToInlineWindowElement 
+	windowStarter := self defaultStarter
 ]
 
 { #category : #testing }
 ToAnchoredWindowManager >> isInline [ 
 
-	^ mode isInline
+	^ windowStarter isInline
+]
+
+{ #category : #accessing }
+ToAnchoredWindowManager >> measurement [
+
+	^ measurement ifNil: [ measurement := self defaultMeasurement ]
 ]
 
 { #category : #accessing }
 ToAnchoredWindowManager >> measurement: aMeasurement [
 
-	mode measurement: aMeasurement 
-]
-
-{ #category : #accessing }
-ToAnchoredWindowManager >> mode: aWindowMode [
-
-	mode ifNotNil: [ mode onUninstalledIn: self ].
-	mode := aWindowMode.
-	mode onInstalledIn: self
-]
-
-{ #category : #'window handling' }
-ToAnchoredWindowManager >> newInlineMode [
-
-	^ ToInlineWindowMode new
-]
-
-{ #category : #initialization }
-ToAnchoredWindowManager >> newPopupMode [
-
-	^ ToPopupWindowMode new
+	measurement := aMeasurement 
 ]
 
 { #category : #'window handling' }
 ToAnchoredWindowManager >> newWindow [
 
-	^ self popupWindowClass new
+	^ self windowClass new
 		  manager: self;
 		  yourself
 ]
@@ -261,7 +212,7 @@ ToAnchoredWindowManager >> newWindowEvent: anEvent [
 
 	" the event is dispatched, eventually updated with additional data, 
 	the current window can be created then built"
-	currentWindow := mode newWindow.
+	currentWindow := self newWindow.
 	self buildCurrentWindowFromRequest: request.
 	^ currentWindow
 ]
@@ -294,7 +245,10 @@ ToAnchoredWindowManager >> onInstalledIn: anElement [
 ToAnchoredWindowManager >> onMeasure: anExtentMeasurementSpec onEvent: anEvent [
 
 	currentWindow ifNil: [ ^ self ].
-	mode onMeasure: anExtentMeasurementSpec element: currentWindow onEvent: anEvent
+	self measurement
+		onMeasure: anExtentMeasurementSpec
+		element: currentWindow
+		onEvent: anEvent
 ]
 
 { #category : #'window handling' }
@@ -320,9 +274,15 @@ ToAnchoredWindowManager >> openedEvent: anEvent [
 ]
 
 { #category : #accessing }
+ToAnchoredWindowManager >> placement [
+
+	^ placement ifNil: [ placement := self defaultPlacement ]
+]
+
+{ #category : #accessing }
 ToAnchoredWindowManager >> placement: aPlacement [
 
-	mode placement: aPlacement 
+	placement := aPlacement
 ]
 
 { #category : #accessing }
@@ -335,7 +295,7 @@ ToAnchoredWindowManager >> popupWindowClass [
 ToAnchoredWindowManager >> positionWindowOnEvent: anEvent context: aBlElementBoundsUpdateContext [
 
 	currentWindow ifNil: [ ^ self ].
-	mode
+	self placement
 		positionElement: currentWindow
 		onEvent: anEvent
 		context: aBlElementBoundsUpdateContext
@@ -350,13 +310,13 @@ ToAnchoredWindowManager >> removedFromSpaceEvent: anEvent [
 { #category : #'window handling' }
 ToAnchoredWindowManager >> startWindow: aWindow [ 
 
-	mode startWindow: aWindow
+	windowStarter startWindow: aWindow fromManager: self
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> stopWindow: aWindow [ 
+ToAnchoredWindowManager >> stopWindow: aWindow [
 
-	mode stopWindow: aWindow
+	windowStarter stopWindow: aWindow fromManager: self
 ]
 
 { #category : #'event handling' }
@@ -375,6 +335,12 @@ ToAnchoredWindowManager >> windowBuilder [
 ToAnchoredWindowManager >> windowBuilder: aWindowBuilderValuable [
 
 	windowBuilder := aWindowBuilderValuable
+]
+
+{ #category : #'window handling' }
+ToAnchoredWindowManager >> windowClass [ 
+
+	^ windowStarter windowClassFromManager: self
 ]
 
 { #category : #'event handling' }

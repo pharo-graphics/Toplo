@@ -11,12 +11,6 @@ TToElementWithContextMenu >> contextMenu: aValuable [
 ]
 
 { #category : #'t - element with context menu' }
-TToElementWithContextMenu >> contextMenuBuilder [
-
-	^ self contextMenuManager builder
-]
-
-{ #category : #'t - element with context menu' }
 TToElementWithContextMenu >> contextMenuBuilder: aValuable [
 	" aValuable take the context menu to build as first argument and the request event  as second aargument "
 
@@ -27,7 +21,7 @@ TToElementWithContextMenu >> contextMenuBuilder: aValuable [
 ]
 
 { #category : #'t - element with context menu' }
-TToElementWithContextMenu >> contextMenuContent: anArray [
+TToElementWithContextMenu >> contextMenuItems: anArray [
 
 	anArray ifNil: [
 		self removeContextMenuManager.
@@ -97,12 +91,6 @@ TToElementWithContextMenu >> newContextMenuEvent: anEvent [
 TToElementWithContextMenu >> rawContextMenuManager [
 
 	^ self userData at: #contextMenuManager ifAbsent: [ ]
-]
-
-{ #category : #'t - element with context menu' }
-TToElementWithContextMenu >> removeContextMenu [
-
-	self removeContextMenuManager
 ]
 
 { #category : #'t - element with context menu' }

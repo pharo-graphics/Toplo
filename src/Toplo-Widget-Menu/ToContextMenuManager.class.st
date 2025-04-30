@@ -31,12 +31,6 @@ ToContextMenuManager >> newPickOutsideFilter [
 		  yourself
 ]
 
-{ #category : #initialization }
-ToContextMenuManager >> newPopupMode [
-
-	^ ToPopupMenuMode new
-]
-
 { #category : #'window handling' }
 ToContextMenuManager >> onOpened [
 

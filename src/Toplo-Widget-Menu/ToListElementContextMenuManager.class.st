@@ -6,7 +6,7 @@ Class {
 
 { #category : #'window handling' }
 ToListElementContextMenuManager >> newWindowRequestFrom: anEvent [
-	" as an example from the ToElementContextMenuEventHandler>>mouseDownEvent: "
+	" as an example, sent from my mouseDownEvent: "
 
 	|  selectionModel |
 	" copy the selection to have unabled, hidden and unselectable selection passed to the menu builder "

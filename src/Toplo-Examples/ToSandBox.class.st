@@ -2384,6 +2384,53 @@ ToSandBox class >> example_MenuWithAccordeon2 [
 ]
 
 { #category : #menu }
+
+ToSandBox class >> example_MenuWithAccordeon3 [
+
+	| menu item sub subsub subsubsub |
+	menu := ToMenu new.
+	menu addItem: (ToMenuItem new
+			 labelText: 'Inspect';
+			 clickAction: [ :evt | evt target space root inspect ];
+			 yourself).
+	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	(1 to: 5) collect: [ :i |
+		item := ToCustomMenuItem new in: [ :e |
+			        e addChild:
+				        (self accordionWithLabelText: 'Header ' , i asString) ].
+		menu addItem: item ].
+	menu addItem: item.
+
+	sub := ToMenu new labelText: 'Save All'.
+	sub beInline.
+	sub addItem: (ToMenuItem new
+			 labelText: 'Locally';
+			 yourself).
+
+	subsub := ToMenu new
+		          labelText: 'Externally';
+		          icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	subsub beInline.
+	subsubsub := ToMenu new
+		             labelText: 'When';
+		             icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	subsubsub beInline.
+	subsubsub addItem: (ToMenuItem new
+			 labelText: 'now';
+			 yourself).
+	subsubsub addItem: (ToMenuItem new
+			 labelText: 'later';
+			 yourself).
+
+	subsub addItem: subsubsub.
+	sub addItem: subsub.
+	menu addItem: sub.
+
+	menu openInSpace
+]
+
+{ #category : #menu }
+
 ToSandBox class >> example_MenuWithSelect [
 
 	| menu selector item |
@@ -2547,6 +2594,7 @@ ToSandBox class >> example_Popup1 [
 		       position: 10 @ 10.
 	menu addChild: sub.
 	popupWindowHandler := ToPopupWindowManager new.
+	popupWindowHandler anchorRoot: container.
 	popupWindowHandler windowBuilder: [ :popup :element |
 		popup border: Color black.
 		item := ToElement new size: 150 @ 90.
@@ -4165,6 +4213,7 @@ ToSandBox class >> example_WithCheckBox [
 
 	menu position: 10 @ 10.
 	frame := ToInnerWindow new.
+	menu manager anchorRoot: frame pane.
 	frame pane addChild: menu.
 	frame openInSpace
 ]

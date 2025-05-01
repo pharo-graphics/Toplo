@@ -2384,7 +2384,6 @@ ToSandBox class >> example_MenuWithAccordeon2 [
 ]
 
 { #category : #menu }
-
 ToSandBox class >> example_MenuWithAccordeon3 [
 
 	| menu item sub subsub subsubsub |
@@ -2430,7 +2429,6 @@ ToSandBox class >> example_MenuWithAccordeon3 [
 ]
 
 { #category : #menu }
-
 ToSandBox class >> example_MenuWithSelect [
 
 	| menu selector item |
@@ -3633,7 +3631,7 @@ ToSandBox class >> example_TabGroupElement [
 	tabs hMatchParent.
 	tabs showAddTabItemButton: true.
 	50 to: 70 do: [ :i |
-		tabs addItem: (ToTabItemElement new
+		tabs addItem: (tabs newTabItem
 				 labelText: i asString;
 				 removable: true;
 				 yourself) ].
@@ -3651,7 +3649,7 @@ ToSandBox class >> example_TabGroupElementWithDaily [
 	tabs := ToTabGroupElement new.
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		tabs addItem: (ToTabItemElement new
+		tabs addItem: (tabs newTabItem
 				 removable: true;
 				 middleElement: (ToLabel text: l);
 				 yourself) ].
@@ -3691,8 +3689,8 @@ ToSandBox class >> example_TabGroupElementWithUSStates [
 	| tabs dashBoard |
 	tabs := ToTabGroupElement new.
 
-	(self statesOfAmerica copyFrom: 1 to: 20) do: [ :l |
-		tabs addItem: (ToTabItemElement new
+	(self statesOfAmerica "copyFrom: 1 to: 20") do: [ :l |
+		tabs addItem: (tabs newTabItem
 				 labelText: l;
 				 removable: true;
 				 yourself) ].

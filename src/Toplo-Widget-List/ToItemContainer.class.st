@@ -1,20 +1,11 @@
 Class {
 	#name : #ToItemContainer,
 	#superclass : #ToElement,
-	#traits : 'TToShrinkable',
-	#classTraits : 'TToShrinkable classTrait',
 	#instVars : [
 		'item'
 	],
 	#category : #'Toplo-Widget-List-ItemList'
 }
-
-{ #category : #initialization }
-ToItemContainer >> initialize [ 
-
-	super initialize.
-	self addShrinkFeedbackLayer 
-]
 
 { #category : #accessing }
 ToItemContainer >> item [
@@ -31,5 +22,5 @@ ToItemContainer >> item: anElement [
 	item ifNil: [ ^ self ].
 	item removeFromParent.
 	self addChild: item at: 1.
-	self requestNewSkin 
+	self requestNewSkin
 ]

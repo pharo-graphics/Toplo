@@ -21,7 +21,7 @@ Class {
 ToTabGroupElement >> addNewTabItem [
 
 	| newItem |
-	newItem := ToTabItemElement new.
+	newItem := self newTabItem.
 	newTabItemBuilder cull: newItem cull: self.
 	self itemBar
 		addEventHandlerOn: ToListNodeAddedEvent
@@ -265,6 +265,12 @@ ToTabGroupElement >> newItemBar [
 ToTabGroupElement >> newRawSkin [ 
 
 	^ ToTabGroupElementSkin new
+]
+
+{ #category : #adding }
+ToTabGroupElement >> newTabItem [
+
+	^ ToTabItemElement new
 ]
 
 { #category : #accessing }

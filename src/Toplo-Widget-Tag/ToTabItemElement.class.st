@@ -12,8 +12,10 @@ Class {
 { #category : #configuration }
 ToTabItemElement >> applyWidgetConfiguration [
 
-	| listElement |
+	| listElement shrinkLayer |
 	super applyWidgetConfiguration.
+	shrinkLayer := self childWithId: #shrinkFeedbackLayer ifNone: [  ].
+	shrinkLayer ifNotNil: [ shrinkLayer shrinked: self middleContainer ].
 	listElement := self holder listElement.
 	(listElement isVertical and: [ listElement atStartSide not ])
 		ifTrue: [

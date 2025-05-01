@@ -56,9 +56,3 @@ ToBarNode >> newRawSkin [
 
 	^ ToBarNodeSkin new
 ]
-
-{ #category : #removing }
-ToBarNode >> removeFromBar [
-
-	self holder removeNodeFromBar 
-]

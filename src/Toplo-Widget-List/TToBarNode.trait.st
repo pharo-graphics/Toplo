@@ -44,3 +44,9 @@ TToBarNode >> nodeAndListElementIntersection [
 	intersection := bnds intersect: pbnds.
 	^ intersection
 ]
+
+{ #category : #'t - bar node' }
+TToBarNode >> removeFromBar [
+
+	self holder removeNodeFromBar 
+]

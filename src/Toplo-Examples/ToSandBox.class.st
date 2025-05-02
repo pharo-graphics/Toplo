@@ -8276,7 +8276,6 @@ ToSandBox class >> listWithEditableAndContextMenu [
 
 	| l menuFactory disabledMode unselectableMode option |
 	l := ToListElement new.
-
 	disabledMode := l disabledSelectionMode.
 
 	option := ToListSelectionOption new.

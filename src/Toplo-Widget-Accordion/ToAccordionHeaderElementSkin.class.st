@@ -16,11 +16,8 @@ ToAccordionHeaderElementSkin >> collapseHeader: anHeader [
 
 	| arrowTk arrowIm |
 	arrowTk := #'submenu-arrow-right'.
-	arrowIm := ToImage inner: (anHeader valueOfTokenNamed: arrowTk).
-	arrowIm
-		size: 18 asPoint;
-		innerImageColor: (anHeader valueOfTokenNamed: #'color-text').
-	anHeader icon: arrowIm
+	arrowIm := anHeader valueOfTokenNamed: arrowTk.
+	anHeader icon innerImage: arrowIm
 ]
 
 { #category : #'event handling' }
@@ -36,11 +33,8 @@ ToAccordionHeaderElementSkin >> expandHeader: anHeader [
 
 	| arrowTk arrowIm |
 	arrowTk := #'submenu-arrow-down'.
-	arrowIm := ToImage inner: (anHeader valueOfTokenNamed: arrowTk).
-	arrowIm
-		size: 18 asPoint;
-		innerImageColor: (anHeader valueOfTokenNamed: #'color-text').
-	anHeader icon: arrowIm
+	arrowIm := anHeader valueOfTokenNamed: arrowTk.
+	anHeader icon innerImage: arrowIm
 ]
 
 { #category : #'event handling' }

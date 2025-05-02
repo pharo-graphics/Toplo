@@ -50,13 +50,6 @@ TToTripletElement >> checkStartContainer [
 
 ]
 
-{ #category : #'t - triplet element - initialization' }
-TToTripletElement >> configureMiddleElement [
-
-	self defaultMiddleElementConstraintsAction value:
-		self middleElement constraints
-]
-
 { #category : #'t - triplet element - instance creation' }
 TToTripletElement >> createEndContainer [
 
@@ -70,7 +63,7 @@ TToTripletElement >> createEndContainer [
 TToTripletElement >> createMiddleContainer [
 
 	middleContainer ifNotNil: [ ^ self ].
-	middleContainer := self newFrameContainer.
+	middleContainer := self newMiddleContainer.
 	middleContainer id: #'middle-container'.
 	self addChild: middleContainer
 ]
@@ -82,23 +75,6 @@ TToTripletElement >> createStartContainer [
 		                  id: #'start-container';
 		                  yourself.
 	self addChild: startContainer at: 1
-]
-
-{ #category : #'t - triplet element - initialization' }
-TToTripletElement >> defaultMiddleElementConstraintsAction [
-
-	^ [ :c |
-	  self isHorizontal
-		  ifTrue: [
-			  c frame vertical alignCenter.
-			  c linear vertical alignCenter.
-			  c frame horizontal alignCenter.
-			  c linear horizontal alignCenter ]
-		  ifFalse: [
-			  c frame horizontal alignCenter.
-			  c linear horizontal alignCenter.
-			  c frame vertical alignCenter.
-			  c linear vertical alignCenter ] ]
 ]
 
 { #category : #'t - triplet element - initialization' }
@@ -370,6 +346,12 @@ TToTripletElement >> newLinearContainer [
 			  c frame horizontal alignCenter ];
 		  layout: BlLinearLayout new;
 		  yourself
+]
+
+{ #category : #'t - triplet element - instance creation' }
+TToTripletElement >> newMiddleContainer [
+
+	^ self newFrameContainer
 ]
 
 { #category : #'t - triplet element - accessing' }

@@ -33,7 +33,8 @@ ToListSelectionElement >> boundsFromNodesIn: aListElement [
 
 	^ Rectangle
 		  origin: (self positionFrom: startBnds origin in: aListElement)
-		  extent: (self sizeFrom: endBnds extent in: aListElement)
+		  extent:
+		  (self sizeFrom: corner - startBnds origin in: aListElement)
 ]
 
 { #category : #initialization }

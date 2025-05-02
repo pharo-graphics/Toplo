@@ -5,6 +5,22 @@ Class {
 }
 
 { #category : #'event handling' }
+ToTabItemElementSkin >> deselectedSkinEvent: anEvent [
+
+	super deselectedSkinEvent: anEvent.
+	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
+	anEvent selectionMode selectionOption isMasked ifTrue: [ ^ self ].
+	anEvent selectionMode selectionOption hasEmbeddedRepresentation
+		ifTrue: [ ^ self ].
+	anEvent elementDo: [ :e |
+		e iconDo: [ :ic |
+			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
+		e endElementDo: [ :ic |
+			(ic respondsTo: #innerImageColor:) ifTrue: [
+				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ] ]
+]
+
+{ #category : #'event handling' }
 ToTabItemElementSkin >> disabledSkinEvent: anEvent [
 
 	super disabledSkinEvent: anEvent.
@@ -67,6 +83,28 @@ ToTabItemElementSkin >> leavedSkinEvent: anEvent [
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal ]
+]
+
+{ #category : #'event handling' }
+ToTabItemElementSkin >> selectedSkinEvent: anEvent [
+
+	super selectedSkinEvent: anEvent.
+	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
+	anEvent selectionMode selectionOption isMasked ifTrue: [ ^ self ].
+	anEvent selectionMode selectionOption hasEmbeddedRepresentation
+		ifTrue: [ ^ self ].
+	anEvent elementDo: [ :e |
+		| foreground |
+		foreground := anEvent focused
+			              ifTrue: [
+			              e valueOfTokenNamed: #'selected-focused-foreground' ]
+			              ifFalse: [
+			              e valueOfTokenNamed: #'selected-unfocused-foreground' ].
+		e iconDo: [ :ic |
+			ic innerImageColor: foreground ].
+		e endElementDo: [ :ic |
+			(ic respondsTo: #innerImageColor:) ifTrue: [
+				ic innerImageColor: foreground ] ] ]
 ]
 
 { #category : #'event handling' }

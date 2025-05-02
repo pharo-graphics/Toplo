@@ -14,7 +14,10 @@ ToTabGroupElementEventHandler >> addButtonClickedEvent: anEvent [
 { #category : #'api - accessing' }
 ToTabGroupElementEventHandler >> eventsToHandle [
 
-	^ { ToVisibleTabsChanged. BlLayoutResizerChangedEvent. ToAddButtonClickedEvent }
+	^ {
+		  ToVisibleTabsChanged.
+		  BlLayoutResizerChangedEvent.
+		  ToAddButtonClickedEvent }
 ]
 
 { #category : #'element events handling' }

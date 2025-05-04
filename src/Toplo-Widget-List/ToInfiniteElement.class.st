@@ -106,7 +106,10 @@ ToInfiniteElement >> defaultScrollFlinger [
 ToInfiniteElement >> dispatchLayoutFinalStep [
 
 	super dispatchLayoutFinalStep.
-	self consumeFinalStepCommands
+	self consumeFinalStepCommands.
+	"If an element bounds change then the selection bounds may be obsolete"
+	self boundsUpdaterHasChanges ifTrue: [ listElement updateAllSelections ].
+
 ]
 
 { #category : #'t - list node holder' }

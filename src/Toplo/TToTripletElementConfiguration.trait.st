@@ -50,13 +50,10 @@ TToTripletElementConfiguration >> configureChildrenIn: anElement [
 
 	| allChildren |
 	self configureStartElementIn: anElement.
-	self configureMiddleElementIn: anElement.
 	self configureEndElementIn: anElement.
 	allChildren := Array streamContents: [ :stream |
 		               stream nextPutAll: anElement startChildren.
-		               stream nextPutAll: anElement middleChildren.
 		               stream nextPutAll: anElement endChildren ].
-
 	anElement isHorizontal
 		ifTrue: [
 			allChildren do: [ :child |
@@ -170,13 +167,6 @@ TToTripletElementConfiguration >> configureHiddenPartIn: anElement [
 			anElement endChildren do: [ :child |
 				child visibility: BlVisibility visible ] ]
 
-]
-
-{ #category : #'t - triplet element configuration' }
-TToTripletElementConfiguration >> configureMiddleElementIn: anElement [
-
-	anElement middleElement ifNil: [ ^ self ].
-	anElement configureMiddleElement
 ]
 
 { #category : #'t - triplet element configuration' }

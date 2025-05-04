@@ -56,7 +56,7 @@ ToPopupWindowManager >> autoPopupDelay: aDuration [
 { #category : #'window handling' }
 ToPopupWindowManager >> beInline [ 
 
-	super beInline.
+	windowStarter := ToInlineWindowStarter new.
 	self unplugPickOutsideFilter
 ]
 
@@ -153,6 +153,12 @@ ToPopupWindowManager >> defaultPlacement [
 	^ ToAnchoredBottomCenterPlacement new
 ]
 
+{ #category : #initialization }
+ToPopupWindowManager >> defaultStarter [
+
+	^ ToStandardPopupStarter new
+]
+
 { #category : #'api - accessing' }
 ToPopupWindowManager >> eventsToHandle [
 
@@ -172,6 +178,12 @@ ToPopupWindowManager >> initialize [
 	closeOnPicking := self defaultCloseOnPicking.
 	checkPickOutside := true.
 	upCountRequired := 1
+]
+
+{ #category : #accessing }
+ToPopupWindowManager >> inlineWindowClass [
+
+	^ ToInlineWindowElement 
 ]
 
 { #category : #'window handling' }

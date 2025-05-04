@@ -21,7 +21,7 @@ Class {
 ToTabGroupElement >> addNewTabItem [
 
 	| newItem |
-	newItem := ToTabItemElement new.
+	newItem := self newTabItem.
 	newTabItemBuilder cull: newItem cull: self.
 	self itemBar
 		addEventHandlerOn: ToListNodeAddedEvent
@@ -88,16 +88,6 @@ ToTabGroupElement >> defaultInvisibleNodeMenuItemBuilder [
 	  aMenuItem
 		  labelText: aNode item asToLabelText;
 		  clickAction: [ self showInvisibleTabItem: aNode item ].
-	  aNode isRemovable ifTrue: [
-		  aMenuItem endElement: ToIconicRemoveButton new.
-		  aMenuItem endFlexible: true.
-		  aMenuItem endInterspace: 10.
-		  aMenuItem
-			  addEventHandlerOn: ToRemoveButtonClickedEvent
-			  do: [ :event |
-				  event consume.
-				  aNode removeFromBar.
-				  self checkInvisibleNodes ] ].
 	  aNode item isChecked ifTrue: [
 		  aMenuItem icon: (ToImage inner: (self valueOfTokenNamed: #check)).
 		  aMenuItem icon size:
@@ -275,6 +265,12 @@ ToTabGroupElement >> newItemBar [
 ToTabGroupElement >> newRawSkin [ 
 
 	^ ToTabGroupElementSkin new
+]
+
+{ #category : #adding }
+ToTabGroupElement >> newTabItem [
+
+	^ ToTabItemElement new
 ]
 
 { #category : #accessing }

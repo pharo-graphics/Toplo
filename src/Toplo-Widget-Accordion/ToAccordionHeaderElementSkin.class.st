@@ -14,12 +14,10 @@ ToAccordionHeaderElementSkin >> checkedSkinEvent: anEvent [
 { #category : #'event handling' }
 ToAccordionHeaderElementSkin >> collapseHeader: anHeader [
 
-	| arrowTk |
+	| arrowTk arrowIm |
 	arrowTk := #'submenu-arrow-right'.
-	anHeader icon
-		innerImage: (anHeader valueOfTokenNamed: arrowTk);
-		innerImageColor: (anHeader valueOfTokenNamed: #'color-text');
-		size: 18 asPoint
+	arrowIm := anHeader valueOfTokenNamed: arrowTk.
+	anHeader icon innerImage: arrowIm
 ]
 
 { #category : #'event handling' }
@@ -33,12 +31,10 @@ ToAccordionHeaderElementSkin >> deselectedSkinEvent: anEvent [
 { #category : #'event handling' }
 ToAccordionHeaderElementSkin >> expandHeader: anHeader [
 
-	| arrowTk |
+	| arrowTk arrowIm |
 	arrowTk := #'submenu-arrow-down'.
-	anHeader icon
-		innerImage: (anHeader valueOfTokenNamed: arrowTk);
-		innerImageColor: (anHeader valueOfTokenNamed: #'color-text');
-		size: 18 asPoint
+	arrowIm := anHeader valueOfTokenNamed: arrowTk.
+	anHeader icon innerImage: arrowIm
 ]
 
 { #category : #'event handling' }

@@ -45,13 +45,6 @@ ToInfiniteElement >> cleanUpRecyclerAt: anIndex [
 	self customRecycler removeNodeAt: anIndex in: self
 ]
 
-{ #category : #nil }
-ToInfiniteElement >> commandAdded: aCommand fromApplier: aCommandApplier [
-
-	" I need a layout since the  commands are runned during the layout (after the final layout step)"
-	self requestLayout 
-]
-
 { #category : #layout }
 ToInfiniteElement >> consumeFinalStepCommands [
 
@@ -206,13 +199,6 @@ ToInfiniteElement >> nodesWithIndexDo: aBlock [
 
 	self nodesDo: [ :node |
 		aBlock value: node value: node holder position ]
-]
-
-{ #category : #layout }
-ToInfiniteElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
-
-	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
-	listElement updateAllSelections
 ]
 
 { #category : #'hooks - scrolling' }

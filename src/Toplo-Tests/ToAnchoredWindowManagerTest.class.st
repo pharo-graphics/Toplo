@@ -8,34 +8,6 @@ Class {
 }
 
 { #category : #tests }
-ToAnchoredWindowManagerTest >> testBuilder [
-
-	| win e windowManager builder |
-	e := ToElement new.
-	space root addChild: e.
-	builder := [ :theWindow :theElement |
-	           | child |
-	           child := ToElement new
-		                    size: 100 asPoint;
-		                    id: #child.
-	           child background: Color red.
-	           theWindow root addChild: child ].
-	windowManager := ToAnchoredWindowManagerForTest new windowBuilder:
-		                 builder.
-	self assert: windowManager windowBuilder identicalTo: builder.
-	e addEventHandler: windowManager.
-	win := windowManager newWindowEvent: nil.
-	self assert: win root children size equals: 1.
-	self assert: win root firstChild id asSymbol identicalTo: #child.
-	win popup.
-	self waitTestingSpaces.
-	self assert: win bounds extent equals: 100 asPoint.
-	e position: 20 asPoint.
-	self waitTestingSpaces.
-	self assert: win bounds extent equals: 100 asPoint
-]
-
-{ #category : #tests }
 ToAnchoredWindowManagerTest >> testCloseWindow [
 
 	| win e windowManager |
@@ -408,6 +380,34 @@ ToAnchoredWindowManagerTest >> testPositionHook3 [
 	self waitTestingSpaces.
 	self assert: e bounds inSpace bounds origin equals: 20 asPoint.
 	self assert: win bounds inSpace bounds origin equals: 30 @ 30
+]
+
+{ #category : #tests }
+ToAnchoredWindowManagerTest >> testWindowBuilder [
+
+	| win e windowManager builder |
+	e := ToElement new.
+	space root addChild: e.
+	builder := [ :theWindow :theElement |
+	           | child |
+	           child := ToElement new
+		                    size: 100 asPoint;
+		                    id: #child.
+	           child background: Color red.
+	           theWindow root addChild: child ].
+	windowManager := ToAnchoredWindowManagerForTest new windowBuilder:
+		                 builder.
+	self assert: windowManager windowBuilder identicalTo: builder.
+	e addEventHandler: windowManager.
+	win := windowManager newWindowEvent: nil.
+	self assert: win root children size equals: 1.
+	self assert: win root firstChild id asSymbol identicalTo: #child.
+	win popup.
+	self waitTestingSpaces.
+	self assert: win bounds extent equals: 100 asPoint.
+	e position: 20 asPoint.
+	self waitTestingSpaces.
+	self assert: win bounds extent equals: 100 asPoint
 ]
 
 { #category : #tests }

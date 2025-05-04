@@ -22,8 +22,7 @@ ToQueueBasedCommandApplicationStrategy >> addCommand: aCommand from: aCommandApp
 			 command: aCommand;
 			 applier: aCommandApplier;
 			 yourself).
-	self postApplicationTask.
-	super addCommand: aCommand from: aCommandApplier
+	self postApplicationTask
 ]
 
 { #category : #accessing }

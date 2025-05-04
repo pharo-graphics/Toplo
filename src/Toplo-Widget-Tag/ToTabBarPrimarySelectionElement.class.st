@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTabBarPrimarySelectionElement,
-	#superclass : #ToListPrimarySelectionElement,
+	#superclass : #ToTabBarSelectionElement,
 	#category : #'Toplo-Widget-Tag-Tab'
 }
 

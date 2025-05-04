@@ -2,7 +2,6 @@ Class {
 	#name : #ToItemNode,
 	#superclass : #ToBarNode,
 	#instVars : [
-		'item',
 		'itemContainer'
 	],
 	#category : #'Toplo-Widget-List-ItemList'
@@ -14,15 +13,15 @@ ToItemNode >> applyWidgetConfiguration [
 	| list |
 	super applyWidgetConfiguration.
 	list := self holder listElement.
-	list exactItemWidth ifNotNil: [ :w | item width: w ].
-	list exactItemHeight ifNotNil: [ :h | item height: h ]
+	list exactItemWidth ifNotNil: [ :w | self item width: w ].
+	list exactItemHeight ifNotNil: [ :h | self item height: h ]
 ]
 
 { #category : #initialization }
 ToItemNode >> initialize [
 
 	super initialize.
-	itemContainer := ToElement new
+	itemContainer := ToItemContainer new
 		                 id: #itemContainer;
 		                 yourself.
 	itemContainer layout: BlLinearLayout horizontal.
@@ -33,18 +32,13 @@ ToItemNode >> initialize [
 { #category : #accessing }
 ToItemNode >> item [
 
-	^ item
+	^ itemContainer item
 ]
 
 { #category : #accessing }
 ToItemNode >> item: anElement [
 
-	item = anElement ifTrue: [ ^ self ].
-	item ifNotNil: [ item removeFromParent ].
-	item := anElement.
-	item ifNil: [ ^ self ].
-	item removeFromParent.
-	itemContainer addChild: item at: 1
+	itemContainer item: anElement
 ]
 
 { #category : #accessing }

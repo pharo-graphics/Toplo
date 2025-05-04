@@ -504,33 +504,6 @@ ToSandBox class >> checkingStrategyChooserFor: aCheckableBar [
 ]
 
 { #category : #accordion }
-ToSandBox class >> exampleAccordionBarElement [
-
-	<script>
-	| list |
-	list := ToCheckableBarElement new.
-	list exactItemWidth: 150.
-	list isFlowable: false.
-	list isScrollable: true.
-	list dataAccessor addAll: ((1 to: 200) collect: [ :anInteger |
-		| item |
-		item := ToAccordionElement new.
-		"item addEventHandlerOn: ToSkinEvent do: [ :evt | evt traceCr ]."
-		item
-			headerBuilder: [ :header |
-				header addChild: (ToLabel text: 'Header ' , anInteger asString)
-							preventSelectionSkinEvents ];
-			bodyBuilder: [ :body |
-				body addChild: (BlElement new
-							 background: (Color random alpha: 0.4);
-							 size: 50 @ 30).
-				body addChild: (ToLabel text: 'body ', anInteger asString ) ] ] ).
-
-	list matchParent.
-	list openInSpace showStatisticsWindow
-]
-
-{ #category : #accordion }
 ToSandBox class >> exampleAccordionItemWithLabel [
 
 	<script>
@@ -2423,9 +2396,7 @@ ToSandBox class >> example_MenuWithAccordeon3 [
 	(1 to: 5) collect: [ :i |
 		item := ToCustomMenuItem new in: [ :e |
 			        e addChild:
-				        ((self accordionWithLabelText: 'Header ' , i asString)
-					         isExpanded: false;
-					         expandIconAtStart: false) ].
+				        (self accordionWithLabelText: 'Header ' , i asString) ].
 		menu addItem: item ].
 	menu addItem: item.
 
@@ -2621,6 +2592,7 @@ ToSandBox class >> example_Popup1 [
 		       position: 10 @ 10.
 	menu addChild: sub.
 	popupWindowHandler := ToPopupWindowManager new.
+	popupWindowHandler anchorRoot: container.
 	popupWindowHandler windowBuilder: [ :popup :element |
 		popup border: Color black.
 		item := ToElement new size: 150 @ 90.
@@ -2914,7 +2886,8 @@ ToSandBox class >> example_SelectMultiFiltrable [
 		self statesOfAmericaWithColor.
 
 	select popupMaxHeight: 200.
-	select placeholderString: 'Select states'.
+	select placeholderText:
+		('Select states' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
 	select hMatchParent.
@@ -3658,7 +3631,7 @@ ToSandBox class >> example_TabGroupElement [
 	tabs hMatchParent.
 	tabs showAddTabItemButton: true.
 	50 to: 70 do: [ :i |
-		tabs addItem: (ToTabItemElement new
+		tabs addItem: (tabs newTabItem
 				 labelText: i asString;
 				 removable: true;
 				 yourself) ].
@@ -3676,7 +3649,7 @@ ToSandBox class >> example_TabGroupElementWithDaily [
 	tabs := ToTabGroupElement new.
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		tabs addItem: (ToTabItemElement new
+		tabs addItem: (tabs newTabItem
 				 removable: true;
 				 middleElement: (ToLabel text: l);
 				 yourself) ].
@@ -3716,8 +3689,8 @@ ToSandBox class >> example_TabGroupElementWithUSStates [
 	| tabs dashBoard |
 	tabs := ToTabGroupElement new.
 
-	(self statesOfAmerica copyFrom: 1 to: 20) do: [ :l |
-		tabs addItem: (ToTabItemElement new
+	(self statesOfAmerica "copyFrom: 1 to: 20") do: [ :l |
+		tabs addItem: (tabs newTabItem
 				 labelText: l;
 				 removable: true;
 				 yourself) ].
@@ -4238,6 +4211,7 @@ ToSandBox class >> example_WithCheckBox [
 
 	menu position: 10 @ 10.
 	frame := ToInnerWindow new.
+	menu manager anchorRoot: frame pane.
 	frame pane addChild: menu.
 	frame openInSpace
 ]
@@ -8302,7 +8276,6 @@ ToSandBox class >> listWithEditableAndContextMenu [
 
 	| l menuFactory disabledMode unselectableMode option |
 	l := ToListElement new.
-
 	disabledMode := l disabledSelectionMode.
 
 	option := ToListSelectionOption new.

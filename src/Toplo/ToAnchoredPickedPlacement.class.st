@@ -7,14 +7,12 @@ Class {
 { #category : #'api - displaying' }
 ToAnchoredPickedPlacement >> positionElement: anElement onEvent: anEvent context: aBlElementBoundsUpdateContext [
 
-	| theRoot theAnchor |
+	| theRoot theAnchor rootPosition localPosition |
 	anEvent ifNil: [ ^ self ].
 	theRoot := anElement anchorRoot.
 	theAnchor := anElement anchorElement.
-	"gap ifNil: [  
-	positionInRoot := theRoot globalPointToLocal: anEvent position.
-	elementPositionInRoot := theRoot localPointToMine: element position position fromChild: element.
-	gap := elementPositionInRoot - positionInRoot].
-	newPosition := theRoot element position + gap"
-	anElement position: (theRoot globalPointToLocal: anEvent position)
+	localPosition := theAnchor globalPointToLocal: anEvent position.
+	rootPosition := theAnchor localPointToGlobal: localPosition.
+	rootPosition := theRoot globalPointToLocal: rootPosition.
+	anElement position: rootPosition
 ]

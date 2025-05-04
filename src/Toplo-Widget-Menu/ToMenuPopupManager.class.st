@@ -14,7 +14,8 @@ ToMenuPopupManager >> autoCloseWindow [
 { #category : #'window handling' }
 ToMenuPopupManager >> beInline [ 
 
-	super beInline.
+	windowStarter := ToInlineMenuStarter new.
+	self unplugPickOutsideFilter
 	anchorElement openOnHovered: false
 ]
 
@@ -63,18 +64,6 @@ ToMenuPopupManager >> mouseEnterEvent: anEvent [
 { #category : #'event handling' }
 ToMenuPopupManager >> mouseLeaveEvent: anEvent [
 
-]
-
-{ #category : #'window handling' }
-ToMenuPopupManager >> newInlineMode [ 
-
-	^ ToMenuInlineWindowMode new
-]
-
-{ #category : #initialization }
-ToMenuPopupManager >> newPopupMode [
-
-	^ ToPopupMenuMode new
 ]
 
 { #category : #'window handling' }

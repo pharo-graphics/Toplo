@@ -57,7 +57,8 @@ TToElementWithPlaceholder >> placeholderElevation [
 TToElementWithPlaceholder >> placeholderString: aString [
 	"Syntactic sugar to set a string has a placeholder message"
 
-	aString ifNil: [ self placeholderBuilder: nil.
+	aString ifNil: [
+		self placeholderBuilder: nil.
 		^ self ].
 
 	self placeholderBuilder: [ :placeholder :e |

@@ -40,6 +40,10 @@ ToInnerBarElement >> addHolder: anHolder at: aPosition [
 	trackElement addChild: anHolder node at: aPosition + 1
 ]
 
+{ #category : #'private - commands' }
+ToInnerBarElement >> addedDataSourceCommand: aCommand [
+]
+
 { #category : #'t - list node holder' }
 ToInnerBarElement >> applyWidgetConfiguration [
 

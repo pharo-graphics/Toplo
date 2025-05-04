@@ -12,5 +12,5 @@ ToDataSourceCommandApplicationStrategy >> addCommand: aCommand from: aCommandApp
 		^ self ].
 	element dataSourceManager posponeAction: [
 		aCommandApplier applyCommand: aCommand ].
-	element innerElement requestLayout
+	element addedDataSourceCommand: aCommand
 ]

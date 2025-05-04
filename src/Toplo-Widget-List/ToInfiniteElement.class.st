@@ -18,6 +18,12 @@ ToInfiniteElement class >> onListElement: aListElement [
 ]
 
 { #category : #'private - commands' }
+ToInfiniteElement >> addedDataSourceCommand: aCommand [
+
+	self requestLayout
+]
+
+{ #category : #'private - commands' }
 ToInfiniteElement >> applyDataSourceFilterCommand: aDataSourceCommand [
 
 	listElement applyDataSourceFilterCommand: aDataSourceCommand

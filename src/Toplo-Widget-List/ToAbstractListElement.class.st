@@ -23,6 +23,12 @@ ToAbstractListElement >> addSelectionMode: aSelectionMode [
 ]
 
 { #category : #'private - commands' }
+ToAbstractListElement >> addedDataSourceCommand: aCommand [
+
+	self innerElementDo: [ :inner | inner addedDataSourceCommand: aCommand ]
+]
+
+{ #category : #'private - commands' }
 ToAbstractListElement >> applyDataSourceFilterCommand: aDataSourceCommand [
 ]
 

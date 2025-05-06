@@ -52,12 +52,6 @@ ToListSelectionOption >> elementFactory: aSelectionElementFactoryValuable [
 		representationOption removeSelectionContainer ]
 ]
 
-{ #category : #'private - selection updating' }
-ToListSelectionOption >> forceRefreshSelectionIn: aListElement withSelectionModel: aSelectionModel [
-
-	representationOption forceRefreshSelectionIn: aListElement withSelectionModel: aSelectionModel
-]
-
 { #category : #accessing }
 ToListSelectionOption >> grouped: aBoolean [
 

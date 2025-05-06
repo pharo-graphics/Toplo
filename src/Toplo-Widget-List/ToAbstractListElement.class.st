@@ -434,10 +434,6 @@ ToAbstractListElement >> offsetPositionRecordsForFilter: aStartPosition itemCoun
 		self selectionModel copySelectionFrom: aSieve selectionModel ]
 ]
 
-{ #category : #'hooks - scrolling' }
-ToAbstractListElement >> onScrolled: aPoint [
-]
-
 { #category : #'private - commands' }
 ToAbstractListElement >> onSievedWith: aSieve [
 
@@ -475,31 +471,20 @@ ToAbstractListElement >> primarySelectionMode: aSelectionMode [
 { #category : #'selection updating' }
 ToAbstractListElement >> refreshAllSelections [
 
-	self whenLayoutedDoOnce: [
-		self selectionModes do: [ :mode |
-			self refreshModeSelectionFrom: mode ] ].
+	self whenLayoutedDoOnce: [ self updateAllSelections ].
 	self requestLayout
-]
-
-{ #category : #'selection updating' }
-ToAbstractListElement >> refreshModeSelectionFrom: aMode [
-
-	aMode selectionOption ifNotNil: [ :option |
-		option
-			refreshSelectionIn: self
-			withSelectionModel: aMode selectionModel ]
 ]
 
 { #category : #'selection updating' }
 ToAbstractListElement >> refreshPrimarySelection [
 
-	self refreshModeSelectionFrom: self selectionMode
+	self updateModeSelectionFrom: self selectionMode
 ]
 
 { #category : #'selection updating' }
 ToAbstractListElement >> refreshSecondarySelection [
 
-	self refreshModeSelectionFrom: self secondarySelectionMode
+	self updateModeSelectionFrom: self secondarySelectionMode
 ]
 
 { #category : #accessing }

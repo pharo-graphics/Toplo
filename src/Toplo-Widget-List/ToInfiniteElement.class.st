@@ -210,10 +210,14 @@ ToInfiniteElement >> nodesWithIndexDo: aBlock [
 		aBlock value: node value: node holder position ]
 ]
 
-{ #category : #'hooks - scrolling' }
-ToInfiniteElement >> onScrolled: aPoint [
+{ #category : #'hooks - layout' }
+ToInfiniteElement >> onLayoutDone [ 
 
-	listElement onScrolled: aPoint
+	super onLayoutDone.
+	self spaceDo: [ :sp |
+		sp enqueueTask:
+			(BlTaskAction new action: [ sp mouseProcessor handleLastMouseMove ]) ].
+
 ]
 
 { #category : #'t - list node holder' }

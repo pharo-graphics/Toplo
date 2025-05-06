@@ -318,6 +318,16 @@ ToInnerBarElement >> onItemsChanged [
 
 ]
 
+{ #category : #'hooks - layout' }
+ToInnerBarElement >> onLayoutDone [ 
+
+	super onLayoutDone.
+	self spaceDo: [ :sp |
+		sp enqueueTask:
+			(BlTaskAction new action: [ sp mouseProcessor handleLastMouseMove ]) ].
+
+]
+
 { #category : #'hooks - scrolling' }
 ToInnerBarElement >> onScrolled: aPoint [
 	"Sent when the scroll position of this InfiniteElement changes. Subclasses should use
@@ -325,12 +335,7 @@ ToInnerBarElement >> onScrolled: aPoint [
 	I will always be invoked before event handlers. If a subclass needs to perform any additional upkeep
 	or bookkeeping after scrolling but before events fired, this is a good place to do so"
 
-	listElement onScrolled: aPoint.
-	self checkFullyVisibleNodes.
-	"Since moving the mouse over the bar leads to layout/scrolling, a task is used to avoid layout recusrsion"
-	self spaceDo: [ :sp |
-		sp enqueueTask:
-			(BlTaskAction new action: [ sp mouseProcessor handleLastMouseMove ]) ]
+	self checkFullyVisibleNodes
 ]
 
 { #category : #'t - list node holder' }

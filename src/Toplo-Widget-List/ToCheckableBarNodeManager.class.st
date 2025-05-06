@@ -26,7 +26,7 @@ ToCheckableBarNodeManager >> defaultFakeDataItem [
 { #category : #'instance creation' }
 ToCheckableBarNodeManager >> newNodeForHolder: aNodeHolder [
 
-	^ ToCheckableNode new
+	^ ToBarCheckableNode new
 ]
 
 { #category : #initialization }

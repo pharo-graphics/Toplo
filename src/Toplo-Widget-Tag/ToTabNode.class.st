@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTabNode,
-	#superclass : #ToCheckableNode,
+	#superclass : #ToBarCheckableNode,
 	#traits : 'TToRemovableNode',
 	#classTraits : 'TToRemovableNode classTrait',
 	#category : #'Toplo-Widget-Tag-Tab'

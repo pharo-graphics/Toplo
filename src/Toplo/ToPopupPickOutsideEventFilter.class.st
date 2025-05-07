@@ -113,8 +113,9 @@ ToPopupPickOutsideEventFilter >> onMouseUpEvent: anEvent [
 	| delay |
 	" check a minimum delay between opening and closing - 
 	useful to not close immediately context menu on mouse up"
-	delay := anEvent timestamp - self popupWindow popupTimestamp.
-	delay < windowManager autoCloseDelay ifTrue: [ ^ self ].
+	self flag: #ToPopupWindowManagerCleaning.
+	"delay := anEvent timestamp - self popupWindow popupTimestamp.
+	delay < windowManager autoCloseDelay ifTrue: [ ^ self ]."
 
 	(self isPickedOutsideEvent: anEvent) ifFalse: [ ^ self ].
 

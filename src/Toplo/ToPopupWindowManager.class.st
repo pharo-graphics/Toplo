@@ -81,7 +81,8 @@ ToPopupWindowManager >> canCloseWindowAfter: aTimestamp [
 	currentWindow ifNil: [ ^ false ].	
 	currentWindow popupTimestamp ifNil: [ ^ false ].	
 	autoCloseDelay ifNil: [ ^ false ].
-	self canCloseWindow ifFalse: [ ^ false ].
+	self flag: #ToPopupWindowManagerCleaning.
+	"self canCloseWindow ifFalse: [ ^ false ]."
 
 	delay := aTimestamp - currentWindow popupTimestamp.
 	delay >= autoCloseDelay ifFalse: [ ^ false ].
@@ -126,7 +127,8 @@ ToPopupWindowManager >> closeOnPicking: aBoolean [
 { #category : #'window handling' }
 ToPopupWindowManager >> closeWindow [ 
 
-	self canCloseWindow ifFalse: [ ^ false ].
+	self flag: #ToPopupWindowManagerCleaning.
+	"self canCloseWindow ifFalse: [ ^ false ]."
 	self unqueuePopupTaskFromEvent: nil.
 	super closeWindow.
 	^ true

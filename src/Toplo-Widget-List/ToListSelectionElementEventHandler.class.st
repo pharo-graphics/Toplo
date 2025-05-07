@@ -16,17 +16,6 @@ ToListSelectionElementEventHandler >> eventsToHandle [
 ]
 
 { #category : #'selection managing' }
-ToListSelectionElementEventHandler >> refreshSelectionFromEvent: anEvent [
-
-	| target |
-	target := anEvent currentTarget.
-	anEvent selectionOption ifNotNil: [ :option |
-		option
-			forceRefreshSelectionIn: target
-			withSelectionModel: anEvent selectionModel ]
-]
-
-{ #category : #'selection managing' }
 ToListSelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
 	" the selection has changed but the touched indexes is empty means 
 	that a selection element remains for removed indexes"

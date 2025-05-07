@@ -3,8 +3,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'selectionOption',
-		'currentSelectionRepresentations',
-		'consecutiveRefreshCount'
+		'currentSelectionRepresentations'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
@@ -33,18 +32,10 @@ ToListSelectionRepresentationOption >> currentSelectionRepresentationsFrom: aLis
 	^ self subclassResponsibility 
 ]
 
-{ #category : #'nodes collecting' }
-ToListSelectionRepresentationOption >> forceRefreshSelectionIn: aListElement withSelectionModel: aSelectionModel [
-
-	consecutiveRefreshCount := 0.
-	self refreshSelectionIn: aListElement withSelectionModel: aSelectionModel
-]
-
 { #category : #initialization }
 ToListSelectionRepresentationOption >> initialize [ 
 
 	super initialize.
-	consecutiveRefreshCount := 0.
 	currentSelectionRepresentations := #(  )
 ]
 
@@ -72,19 +63,6 @@ ToListSelectionRepresentationOption >> isSeparate [
 	^ false
 ]
 
-{ #category : #'nodes collecting' }
-ToListSelectionRepresentationOption >> launchUpdateSelectionIn: aListElement withSelectionModel: aSelectionModel [
-
-	| newRepresentations |
-	newRepresentations := self
-		                      currentSelectionRepresentationsFrom:
-		                      aListElement
-		                      withSelectionModel: aSelectionModel.
-	self removeSelectionRepresentationsIn: aListElement withSelectionModel: aSelectionModel.
-	currentSelectionRepresentations := newRepresentations.
-	^ true
-]
-
 { #category : #'private - selection updating' }
 ToListSelectionRepresentationOption >> notifyNodesDeselectedIn: aListElement [
 
@@ -104,12 +82,8 @@ ToListSelectionRepresentationOption >> notifyNodesSelectedIn: aListElement [
 { #category : #'nodes collecting' }
 ToListSelectionRepresentationOption >> refreshSelectionIn: aListElement withSelectionModel: aSelectionModel [
 
-	consecutiveRefreshCount := consecutiveRefreshCount + 1.
-	consecutiveRefreshCount > 1 ifTrue: [
-		^ self ].
-	"self removeSelectionRepresentationsIn: aListElement."
 	self
-		launchUpdateSelectionIn: aListElement
+		updateSelectionIn: aListElement
 		withSelectionModel: aSelectionModel
 ]
 
@@ -158,8 +132,12 @@ ToListSelectionRepresentationOption >> triggerSelectionState [
 { #category : #'nodes collecting' }
 ToListSelectionRepresentationOption >> updateSelectionIn: aListElement withSelectionModel: aSelectionModel [
 
-	consecutiveRefreshCount := 0.
-	^ self
-		  launchUpdateSelectionIn: aListElement
-		  withSelectionModel: aSelectionModel
+	| newRepresentations |
+	newRepresentations := self
+		                      currentSelectionRepresentationsFrom:
+		                      aListElement
+		                      withSelectionModel: aSelectionModel.
+	self removeSelectionRepresentationsIn: aListElement withSelectionModel: aSelectionModel.
+	currentSelectionRepresentations := newRepresentations.
+	^ true
 ]

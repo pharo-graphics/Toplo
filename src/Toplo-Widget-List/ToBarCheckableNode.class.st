@@ -1,23 +1,23 @@
 Class {
-	#name : #ToCheckableNode,
-	#superclass : #ToItemNode,
+	#name : #ToBarCheckableNode,
+	#superclass : #ToBarItemNode,
 	#category : #'Toplo-Widget-List-ItemList'
 }
 
 { #category : #accessing }
-ToCheckableNode >> checkableElement [ 
+ToBarCheckableNode >> checkableElement [ 
 
 	^ self item
 ]
 
 { #category : #accessing }
-ToCheckableNode >> checkableElement: aCheckable [
+ToBarCheckableNode >> checkableElement: aCheckable [
 
 	self item: aCheckable
 ]
 
 { #category : #'t - list node' }
-ToCheckableNode >> clickEventHandlerClasses [
+ToBarCheckableNode >> clickEventHandlerClasses [
 
 	^  { ToCheckableNodeSelectionEventHandler } 
 ]

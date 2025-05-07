@@ -18,6 +18,12 @@ ToInfiniteElement class >> onListElement: aListElement [
 ]
 
 { #category : #'private - commands' }
+ToInfiniteElement >> addedDataSourceCommand: aCommand [
+
+	self requestLayout
+]
+
+{ #category : #'private - commands' }
 ToInfiniteElement >> applyDataSourceFilterCommand: aDataSourceCommand [
 
 	listElement applyDataSourceFilterCommand: aDataSourceCommand
@@ -106,7 +112,10 @@ ToInfiniteElement >> defaultScrollFlinger [
 ToInfiniteElement >> dispatchLayoutFinalStep [
 
 	super dispatchLayoutFinalStep.
-	self consumeFinalStepCommands
+	self consumeFinalStepCommands.
+	"If an element bounds change then the selection bounds may be obsolete"
+	self boundsUpdaterHasChanges ifTrue: [ listElement updateAllSelections ].
+
 ]
 
 { #category : #'t - list node holder' }
@@ -201,10 +210,14 @@ ToInfiniteElement >> nodesWithIndexDo: aBlock [
 		aBlock value: node value: node holder position ]
 ]
 
-{ #category : #'hooks - scrolling' }
-ToInfiniteElement >> onScrolled: aPoint [
+{ #category : #'hooks - layout' }
+ToInfiniteElement >> onLayoutDone [ 
 
-	listElement onScrolled: aPoint
+	super onLayoutDone.
+	self spaceDo: [ :sp |
+		sp enqueueTask:
+			(BlTaskAction new action: [ sp mouseProcessor handleLastMouseMove ]) ].
+
 ]
 
 { #category : #'t - list node holder' }

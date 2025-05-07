@@ -125,18 +125,6 @@ ToListSelectionWithElementOption >> isBeneath [
 	^ selectionOption isBeneath 
 ]
 
-{ #category : #'nodes collecting' }
-ToListSelectionWithElementOption >> launchUpdateSelectionIn: aListElement withSelectionModel: aSelectionModel [
-
-	(super
-		 launchUpdateSelectionIn: aListElement
-		 withSelectionModel: aSelectionModel) ifFalse: [ ^ false ].
-
-	self addSelectionIn: aListElement.
-	self rememberSelectionBoundsIn: aListElement.
-	^ true
-]
-
 { #category : #'instance creation' }
 ToListSelectionWithElementOption >> newSelectionContainerIn: aListElement [
 
@@ -193,4 +181,16 @@ ToListSelectionWithElementOption >> selectionElements [
 	^ Array streamContents: [ :stream |
 		  currentSelectionRepresentations do: [ :grp |
 			  grp selectionElement ifNotNil: [ :se | stream nextPut: se ] ] ]
+]
+
+{ #category : #'nodes collecting' }
+ToListSelectionWithElementOption >> updateSelectionIn: aListElement withSelectionModel: aSelectionModel [
+
+	(super
+		 updateSelectionIn: aListElement
+		 withSelectionModel: aSelectionModel) ifFalse: [ ^ false ].
+
+	self addSelectionIn: aListElement.
+	self rememberSelectionBoundsIn: aListElement.
+	^ true
 ]

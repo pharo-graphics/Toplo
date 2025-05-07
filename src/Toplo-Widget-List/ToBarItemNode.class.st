@@ -1,5 +1,5 @@
 Class {
-	#name : #ToItemNode,
+	#name : #ToBarItemNode,
 	#superclass : #ToBarNode,
 	#instVars : [
 		'itemContainer'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #configuration }
-ToItemNode >> applyWidgetConfiguration [
+ToBarItemNode >> applyWidgetConfiguration [
 
 	| list |
 	super applyWidgetConfiguration.
@@ -18,7 +18,7 @@ ToItemNode >> applyWidgetConfiguration [
 ]
 
 { #category : #initialization }
-ToItemNode >> initialize [
+ToBarItemNode >> initialize [
 
 	super initialize.
 	itemContainer := ToItemContainer new
@@ -30,25 +30,25 @@ ToItemNode >> initialize [
 ]
 
 { #category : #accessing }
-ToItemNode >> item [
+ToBarItemNode >> item [
 
 	^ itemContainer item
 ]
 
 { #category : #accessing }
-ToItemNode >> item: anElement [
+ToBarItemNode >> item: anElement [
 
 	itemContainer item: anElement
 ]
 
 { #category : #accessing }
-ToItemNode >> itemContainer [ 
+ToBarItemNode >> itemContainer [ 
 
 	^ itemContainer 
 ]
 
 { #category : #skin }
-ToItemNode >> newRawSkin [ 
+ToBarItemNode >> newRawSkin [ 
 
 	^ ToItemNodeSkin new
 ]

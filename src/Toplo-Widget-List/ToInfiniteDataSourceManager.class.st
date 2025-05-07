@@ -18,7 +18,7 @@ ToInfiniteDataSourceManager >> consumeFinalStepCommandsIn: anInfiniteElement [
 		cmd := finalStepCommands removeFirst.
 		self dispatchCommand: cmd to: anInfiniteElement.
 		self onCommandProcessed: cmd in: anInfiniteElement.
-		self recycleCommand: cmd ].
+		self recycleCommand: cmd ]
 ]
 
 { #category : #initialization }

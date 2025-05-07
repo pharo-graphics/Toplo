@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToItemBarContainer,
-	#category : #'Toplo-Widget-List-ItemList'
+	#category : #'Toplo-Widget-List-ItemBar'
 }
 
 { #category : #'t - item bar owner - adding/removing' }

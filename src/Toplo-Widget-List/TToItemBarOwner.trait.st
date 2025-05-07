@@ -3,7 +3,7 @@ Trait {
 	#instVars : [
 		'itemBar'
 	],
-	#category : #'Toplo-Widget-List-ItemList'
+	#category : #'Toplo-Widget-List-ItemBar'
 }
 
 { #category : #initialization }

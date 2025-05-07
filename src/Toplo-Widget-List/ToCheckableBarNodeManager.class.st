@@ -1,7 +1,7 @@
 Class {
 	#name : #ToCheckableBarNodeManager,
 	#superclass : #ToItemBarNodeManager,
-	#category : #'Toplo-Widget-List-ItemList'
+	#category : #'Toplo-Widget-List-ItemBar'
 }
 
 { #category : #initialization }

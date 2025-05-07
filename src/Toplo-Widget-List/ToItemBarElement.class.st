@@ -6,7 +6,7 @@ Class {
 	#superclass : #ToAbstractListElement,
 	#traits : 'TToBarElement + TToItemList',
 	#classTraits : 'TToBarElement classTrait + TToItemList classTrait',
-	#category : #'Toplo-Widget-List-ItemList'
+	#category : #'Toplo-Widget-List-ItemBar'
 }
 
 { #category : #initialization }

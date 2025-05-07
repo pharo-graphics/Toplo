@@ -7,7 +7,7 @@ Class {
 		'unselectable',
 		'hidden'
 	],
-	#category : #'Toplo-Widget-List-ItemList'
+	#category : #'Toplo-Core'
 }
 
 { #category : #'updating list' }

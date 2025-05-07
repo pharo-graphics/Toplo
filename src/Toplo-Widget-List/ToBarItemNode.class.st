@@ -3,7 +3,7 @@ Class {
 	#superclass : #ToBarNode,
 	#traits : 'TToItemNode',
 	#classTraits : 'TToItemNode classTrait',
-	#category : #'Toplo-Widget-List-ItemList'
+	#category : #'Toplo-Widget-List-ItemBar'
 }
 
 { #category : #configuration }

@@ -4,7 +4,7 @@ Trait {
 		'exactItemWidth',
 		'exactItemHeight'
 	],
-	#category : #'Toplo-Widget-List-ItemList'
+	#category : #'Toplo-Widget-List-Core'
 }
 
 { #category : #'t - item list - adding/removing' }

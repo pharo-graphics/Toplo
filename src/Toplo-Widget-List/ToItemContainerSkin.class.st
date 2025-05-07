@@ -1,7 +1,7 @@
 Class {
 	#name : #ToItemContainerSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Widget-List-ItemList'
+	#category : #'Toplo-Widget-List-Core'
 }
 
 { #category : #'event handling' }

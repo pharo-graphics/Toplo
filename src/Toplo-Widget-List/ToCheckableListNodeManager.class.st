@@ -16,6 +16,12 @@ ToCheckableListNodeManager >> buildNode: aNode [
 	checkableElement registerInGroup: holder listElement group
 ]
 
+{ #category : #'instance creation' }
+ToCheckableListNodeManager >> newNodeForHolder: aNodeHolder [
+
+	^ ToListCheckableNode new
+]
+
 { #category : #initialization }
 ToCheckableListNodeManager >> unbuildNode: aNode [
 

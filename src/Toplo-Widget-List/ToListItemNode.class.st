@@ -1,13 +1,13 @@
 Class {
-	#name : #ToBarItemNode,
-	#superclass : #ToBarNode,
+	#name : #ToListItemNode,
+	#superclass : #ToListNode,
 	#traits : 'TToItemNode',
 	#classTraits : 'TToItemNode classTrait',
 	#category : #'Toplo-Widget-List-ItemList'
 }
 
 { #category : #configuration }
-ToBarItemNode >> applyWidgetConfiguration [
+ToListItemNode >> applyWidgetConfiguration [
 
 	| list |
 	super applyWidgetConfiguration.
@@ -17,7 +17,7 @@ ToBarItemNode >> applyWidgetConfiguration [
 ]
 
 { #category : #initialization }
-ToBarItemNode >> initialize [
+ToListItemNode >> initialize [
 
 	super initialize.
 	self initializeAsItemNode 

@@ -48,12 +48,6 @@ TToItemList >> addItem: anItem beforeIndex: anInteger [
 	self onAddedItem: anItem
 ]
 
-{ #category : #'t - item list - accessing' }
-TToItemList >> defaultNodeManagerClass [
-
-	^ ToItemBarNodeManager
-]
-
 { #category : #'t - item list - hidden/visible' }
 TToItemList >> deselectedItem: anItem [
 

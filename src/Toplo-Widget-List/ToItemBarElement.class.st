@@ -10,6 +10,12 @@ Class {
 }
 
 { #category : #initialization }
+ToItemBarElement >> defaultNodeManagerClass [
+
+	^ ToItemBarNodeManager
+]
+
+{ #category : #initialization }
 ToItemBarElement >> initialize [
 
 	super initialize.

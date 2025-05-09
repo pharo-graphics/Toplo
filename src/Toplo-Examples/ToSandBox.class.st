@@ -3688,7 +3688,7 @@ ToSandBox class >> example_TabGroupElementWithUSStates [
 
 	| tabs dashBoard |
 	tabs := ToTabGroupElement new.
-
+	tabs exactItemWidth: 30.
 	(self statesOfAmerica "copyFrom: 1 to: 20") do: [ :l |
 		tabs addItem: (tabs newTabItem
 				 labelText: l;
@@ -3715,12 +3715,12 @@ ToSandBox class >> example_TabPaneElementWithUSStates [
 		| lab item |
 		lab := ToLabel text: l.
 		lab enableShrinkLayer: true.
+		lab shrinkTolerance: 2.0.
+		lab width: 70.
 		"lab rotateBy: 270."
 		item := ToTabButton new
-			        "icon:
+			        icon:
 				        (ToImage new innerImage: (self iconNamed: #solidMenu));
-			        endElement:
-				        (ToImage new innerImage: (self iconNamed: #solidMenu));"
 			        label: lab;
 			        tooltipString: l;
 			        removable: true;
@@ -3729,7 +3729,6 @@ ToSandBox class >> example_TabPaneElementWithUSStates [
 				        pane border: Color veryLightGray.
 				        pane background: Color random ];
 			        yourself.
-		item label width: 70.
 		tpane addItem: item ].
 
 	tpane isFlowable: false.
@@ -5228,6 +5227,7 @@ ToSandBox class >> example_labelFieldWithShrinkFeedback [
 	t := ToLabel new text: 'Make the inner window smaller or edit myself'.
 	t beEditable.
 	t enableShrinkLayer: true.
+	t shrinkTolerance: 2.0.
 	t whenEditorOpenedDo: [ :editorEvent |
 		editorEvent editorElement whenSaveRequestedDo: [ :request |
 			request accepted: true ].

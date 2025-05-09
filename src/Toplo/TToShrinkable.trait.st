@@ -1,5 +1,8 @@
 Trait {
 	#name : #TToShrinkable,
+	#instVars : [
+		'shrinkTolerance'
+	],
 	#category : #'Toplo-Core'
 }
 
@@ -16,6 +19,13 @@ TToShrinkable >> addShrinkFeedbackLayer [
 ]
 
 { #category : #'t - shrinkable' }
+TToShrinkable >> applyShrinkableConfiguration [
+
+	self shrinkFeedbackLayer ifNotNil: [ :layer |
+		layer tolerance: self shrinkTolerance ]
+]
+
+{ #category : #'t - shrinkable' }
 TToShrinkable >> enableShrinkLayer: aBoolean [
 
 	aBoolean
@@ -24,7 +34,8 @@ TToShrinkable >> enableShrinkLayer: aBoolean [
 			self addShrinkFeedbackLayer ]
 		ifFalse: [
 			self shrinkFeedbackLayer ifNil: [ ^ self ].
-			self removeShrinkFeedbackLayer ]
+			self removeShrinkFeedbackLayer ].
+	self requestNewConfiguration
 ]
 
 { #category : #'t - shrinkable' }
@@ -41,4 +52,17 @@ TToShrinkable >> removeShrinkFeedbackLayer [
 TToShrinkable >> shrinkFeedbackLayer [
 
 	^ self childWithId: #shrinkFeedbackLayer ifNone: [].
+]
+
+{ #category : #'t - shrinkable' }
+TToShrinkable >> shrinkTolerance [
+
+	^ shrinkTolerance ifNil: [ shrinkTolerance := 0.0 ]
+]
+
+{ #category : #'t - shrinkable' }
+TToShrinkable >> shrinkTolerance: aNumber [
+
+	shrinkTolerance := aNumber.
+	self requestNewConfiguration 
 ]

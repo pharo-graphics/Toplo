@@ -245,7 +245,7 @@ ToTabGroupElement >> isAtStartSide [
 	^ self atStartSide
 ]
 
-{ #category : #'t - item bar owner - accessing' }
+{ #category : #'t - item bar container - accessing' }
 ToTabGroupElement >> isFlowable: aBoolean [
 
 	self itemBar isFlowable = aBoolean ifTrue: [ ^ self ].
@@ -253,7 +253,7 @@ ToTabGroupElement >> isFlowable: aBoolean [
 	self requestNewConfiguration
 ]
 
-{ #category : #'t - item bar owner - accessing' }
+{ #category : #'t - item bar container - accessing' }
 ToTabGroupElement >> newItemBar [
 
 	^ self barElementClass new

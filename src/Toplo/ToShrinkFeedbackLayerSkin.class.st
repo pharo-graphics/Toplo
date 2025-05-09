@@ -47,8 +47,8 @@ ToShrinkFeedbackLayerSkin >> installSkinEvent: anEvent [
 		e background: (BlLinearGradientPaint new
 				 stops: {
 						 (0 -> (bg alpha: 0.0)).
-						 (0.6 -> (bg alpha: 0.0)).
-						 (0.8 -> (bg alpha: 0.60)).
+						 (0.75 -> (bg alpha: 0.0)).
+						 (0.8 -> (bg alpha: 0.80)).
 						 (1 -> (bg alpha: 1.0)) };
 				 start: 0.5 @ 0.5;
 				 end: 0.5 @ 0.5;

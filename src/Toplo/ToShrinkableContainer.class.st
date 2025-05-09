@@ -6,6 +6,13 @@ Class {
 	#category : #'Toplo-Core'
 }
 
+{ #category : #configuration }
+ToShrinkableContainer >> applyWidgetConfiguration [ 
+
+	super applyWidgetConfiguration.
+	self applyShrinkableConfiguration 
+]
+
 { #category : #'hooks - children' }
 ToShrinkableContainer >> onChildAdded: anElement [
 

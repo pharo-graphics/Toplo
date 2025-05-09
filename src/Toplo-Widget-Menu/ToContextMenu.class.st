@@ -91,7 +91,7 @@ ToContextMenu >> menuPane [
 	^ nil
 ]
 
-{ #category : #'t - item bar owner - accessing' }
+{ #category : #'t - item bar container - accessing' }
 ToContextMenu >> newItemBar [
 
 	^ ToMenuItemBarElement new

@@ -6,19 +6,19 @@ Trait {
 	#category : #'Toplo-Widget-List-ItemBar'
 }
 
-{ #category : #initialization }
+{ #category : #'t - item bar owner' }
 TToItemBarOwner >> initializeAsItemBarOwner [
 
 	self setItemBar: self newItemBar
 ]
 
-{ #category : #accessing }
+{ #category : #'t - item bar owner' }
 TToItemBarOwner >> itemBar [
 
 	^ itemBar
 ]
 
-{ #category : #initialization }
+{ #category : #'t - item bar owner' }
 TToItemBarOwner >> setItemBar: anItemBar [
 
 	itemBar ifNotNil: [ BlImmutableObjectChangeError signal ].

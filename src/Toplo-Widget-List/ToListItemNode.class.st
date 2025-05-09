@@ -9,11 +9,8 @@ Class {
 { #category : #configuration }
 ToListItemNode >> applyWidgetConfiguration [
 
-	| list |
 	super applyWidgetConfiguration.
-	list := self holder listElement.
-	list exactItemWidth ifNotNil: [ :w | self item width: w ].
-	list exactItemHeight ifNotNil: [ :h | self item height: h ]
+	self applyItemNodeConfiguration
 ]
 
 { #category : #initialization }

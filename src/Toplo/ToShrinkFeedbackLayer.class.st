@@ -2,9 +2,9 @@ Class {
 	#name : #ToShrinkFeedbackLayer,
 	#superclass : #ToOverlayElement,
 	#instVars : [
-		'precision',
 		'shrinked',
-		'shrinkedHandler'
+		'shrinkedHandler',
+		'tolerance'
 	],
 	#category : #'Toplo-Core-Overlay'
 }
@@ -16,7 +16,7 @@ ToShrinkFeedbackLayer >> checkVisibility [
 	shrinked ifNil: [ ^ self ].
 	pbnds := referenceElement bounds inSpace asRectangle.
 	ebnds := shrinked bounds inSpace asRectangle.
-	pbnds width - ebnds width > precision negated 
+	pbnds width - ebnds width > tolerance negated 
 		ifTrue: [ self visibility: BlVisibility hidden ]
 		ifFalse: [
 			self visibility: BlVisibility visible.
@@ -39,7 +39,7 @@ ToShrinkFeedbackLayer >> initialize [
 
 	super initialize.
 	self initializeForToplo.
-	precision := 1.0
+	tolerance := 0.0
 ]
 
 { #category : #initialization }
@@ -52,12 +52,6 @@ ToShrinkFeedbackLayer >> newOverlayListener [
 ToShrinkFeedbackLayer >> newRawSkin [ 
 
 	^ ToShrinkFeedbackLayerSkin new
-]
-
-{ #category : #accessing }
-ToShrinkFeedbackLayer >> precision: aNumber [
-
-	precision := aNumber
 ]
 
 { #category : #accessing }
@@ -78,4 +72,10 @@ ToShrinkFeedbackLayer >> shrinked: anElement [
 			                   layer: self;
 			                   yourself.
 		shrinked addEventHandler: shrinkedHandler ]
+]
+
+{ #category : #accessing }
+ToShrinkFeedbackLayer >> tolerance: aNumber [
+
+	tolerance := aNumber
 ]

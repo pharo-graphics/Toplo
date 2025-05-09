@@ -24,7 +24,7 @@ ToTabNode >> listElementReferenceBoundsInSpace [
 	^ list bounds inSpace
 ]
 
-{ #category : #skin }
+{ #category : #'t - item node' }
 ToTabNode >> newRawSkin [ 
 
 	^ ToTabNodeSkin new

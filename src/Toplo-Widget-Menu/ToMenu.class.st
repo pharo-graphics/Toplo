@@ -171,7 +171,7 @@ ToMenu >> mouseOverEvent: anEvent [
 		ifFalse: [ self closeWindow ]
 ]
 
-{ #category : #'t - item bar owner - accessing' }
+{ #category : #'t - item bar container - accessing' }
 ToMenu >> newItemBar [
 
 	^ ToMenuItemBarElement new

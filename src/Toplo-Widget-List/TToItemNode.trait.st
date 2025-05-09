@@ -7,6 +7,15 @@ Trait {
 }
 
 { #category : #'t - item node' }
+TToItemNode >> applyItemNodeConfiguration [
+
+	| list |
+	list := self holder listElement.
+	list exactItemWidth ifNotNil: [ :w | self item width: w ].
+	list exactItemHeight ifNotNil: [ :h | self item height: h ]
+]
+
+{ #category : #'t - item node' }
 TToItemNode >> initializeAsItemNode [
 
 	itemContainer := ToItemContainer new

@@ -13,7 +13,6 @@ ToTabBarElement >> applyWidgetConfiguration [
 
 	super applyWidgetConfiguration.
 	self nodesDo: [ :node |
-		"node visibility: BlVisibility visible."
 		node item requestNewConfiguration.
 		node requestNewSkin ].
 	self requestLayout

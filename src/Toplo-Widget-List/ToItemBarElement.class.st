@@ -9,6 +9,13 @@ Class {
 	#category : #'Toplo-Widget-List-ItemBar'
 }
 
+{ #category : #configuration }
+ToItemBarElement >> applyWidgetConfiguration [ 
+
+	super applyWidgetConfiguration.
+	self applyItemListConfiguration
+]
+
 { #category : #initialization }
 ToItemBarElement >> defaultNodeManagerClass [
 

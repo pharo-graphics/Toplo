@@ -48,6 +48,12 @@ TToItemList >> addItem: anItem beforeIndex: anInteger [
 	self onAddedItem: anItem
 ]
 
+{ #category : #'t - item list - configuration' }
+TToItemList >> applyItemListConfiguration [
+
+	self nodesDo: [ :node | node applyWidgetConfiguration ]
+]
+
 { #category : #'t - item list - hidden/visible' }
 TToItemList >> deselectedItem: anItem [
 

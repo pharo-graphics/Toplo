@@ -57,9 +57,7 @@ ToTabNodeSkin >> installSkinEvent: anEvent [
 					ifTrue: [
 						c ignored horizontal alignRight.
 						rightPad := rightPad + 15 ]
-					ifFalse: [
-						c ignored horizontal alignLeft.
-						"leftPad := leftPad + 15" ].
+					ifFalse: [ c ignored horizontal alignLeft ].
 				c ignored vertical alignCenter ] ].
 
 		e padding: (BlInsets

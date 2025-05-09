@@ -1,11 +1,11 @@
 Class {
-	#name : #ToShrinkFeedbackLayerSkin,
+	#name : #ToGradientShrinkFeedbackLayerSkin,
 	#superclass : #ToRawSkin,
 	#category : #'Toplo-Core-Overlay'
 }
 
 { #category : #'event handling' }
-ToShrinkFeedbackLayerSkin >> deselectedSkinEvent: anEvent [
+ToGradientShrinkFeedbackLayerSkin >> deselectedSkinEvent: anEvent [
 
 	super deselectedSkinEvent: anEvent.
 	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
@@ -13,21 +13,13 @@ ToShrinkFeedbackLayerSkin >> deselectedSkinEvent: anEvent [
 	anEvent selectionMode selectionOption hasEmbeddedRepresentation
 		ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e |
-		| bg  |
+		| bg |
 		bg := e valueOfTokenNamed: #'color-bg-container'.
-		e background: (BlLinearGradientPaint new
-				 stops: {
-						 (0 -> (bg alpha: 0.0)).
-						 (0.6 -> (bg alpha: 0.0)).
-						 (0.8 -> (bg alpha: 0.60)).
-						 (1 -> (bg alpha: 1.0)) };
-				 start: 0 @ 0;
-				 end: 1 @ 1;
-				 yourself) ]
+		e background: (e newBackgroundRampWithColor: bg) ]
 ]
 
 { #category : #'event handling' }
-ToShrinkFeedbackLayerSkin >> installSkinEvent: anEvent [
+ToGradientShrinkFeedbackLayerSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -44,19 +36,11 @@ ToShrinkFeedbackLayerSkin >> installSkinEvent: anEvent [
 		im background: bg."
 		"e addChild: im."
 
-		e background: (BlLinearGradientPaint new
-				 stops: {
-						 (0 -> (bg alpha: 0.0)).
-						 (0.75 -> (bg alpha: 0.0)).
-						 (0.8 -> (bg alpha: 0.80)).
-						 (1 -> (bg alpha: 1.0)) };
-				 start: 0.5 @ 0.5;
-				 end: 0.5 @ 0.5;
-				 yourself) ]
+		e background: (e newBackgroundRampWithColor: bg) ]
 ]
 
 { #category : #'event handling' }
-ToShrinkFeedbackLayerSkin >> selectedSkinEvent: anEvent [
+ToGradientShrinkFeedbackLayerSkin >> selectedSkinEvent: anEvent [
 
 	super selectedSkinEvent: anEvent.
 	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
@@ -64,21 +48,13 @@ ToShrinkFeedbackLayerSkin >> selectedSkinEvent: anEvent [
 	anEvent selectionMode selectionOption hasEmbeddedRepresentation
 		ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e |
-		| bg  |
-		bg := (e valueOfTokenNamed: #'color-list-primary-selection-focused').
-		e background: (BlLinearGradientPaint new
-				 stops: {
-						 (0 -> (bg alpha: 0.0)).
-						 (0.6 -> (bg alpha: 0.0)).
-						 (0.8 -> (bg alpha: 0.60)).
-						 (1 -> (bg alpha: 1.0)) };
-				 start: 0 @ 0;
-				 end: 1 @ 1;
-				 yourself) ]
+		| bg |
+		bg := e valueOfTokenNamed: #'color-list-primary-selection-focused'.
+		e background: (e newBackgroundRampWithColor: bg) ]
 ]
 
 { #category : #'event handling' }
-ToShrinkFeedbackLayerSkin >> uninstallSkinEvent: anEvent [
+ToGradientShrinkFeedbackLayerSkin >> uninstallSkinEvent: anEvent [
 
 	super uninstallSkinEvent: anEvent.
 	anEvent elementDo: [ :e | e removeChildren ]

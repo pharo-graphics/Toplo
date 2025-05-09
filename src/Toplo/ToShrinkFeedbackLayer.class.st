@@ -4,23 +4,40 @@ Class {
 	#instVars : [
 		'shrinked',
 		'shrinkedHandler',
-		'tolerance'
+		'tolerance',
+		'checkedOrientation'
 	],
 	#category : #'Toplo-Core-Overlay'
 }
 
-{ #category : #'hook - geometry' }
+{ #category : #'private - geometry' }
 ToShrinkFeedbackLayer >> checkVisibility [
 
-	| pbnds ebnds |
+	| pbnds ebnds gap |
 	shrinked ifNil: [ ^ self ].
 	pbnds := referenceElement bounds inSpace asRectangle.
 	ebnds := shrinked bounds inSpace asRectangle.
-	pbnds width - ebnds width > tolerance negated 
+	gap := checkedOrientation isHorizontal
+		       ifTrue: [ pbnds width - ebnds width ]
+		       ifFalse: [ pbnds height - ebnds height ].
+	gap >= tolerance negated
 		ifTrue: [ self visibility: BlVisibility hidden ]
 		ifFalse: [
 			self visibility: BlVisibility visible.
 			self requestNewSkin ]
+]
+
+{ #category : #accessing }
+ToShrinkFeedbackLayer >> checkedOrientation [
+
+	^ checkedOrientation
+]
+
+{ #category : #accessing }
+ToShrinkFeedbackLayer >> checkedOrientation: anOrientation [
+
+	checkedOrientation := anOrientation.
+	self checkVisibility 
 ]
 
 { #category : #'api - attaching / detaching' }
@@ -39,19 +56,15 @@ ToShrinkFeedbackLayer >> initialize [
 
 	super initialize.
 	self initializeForToplo.
-	tolerance := 0.0
+	tolerance := 0.0.
+	checkedOrientation := BlLayoutOrientation horizontal.
+	self elevation: (BlRelativeElevation elevation: 1).
 ]
 
 { #category : #initialization }
 ToShrinkFeedbackLayer >> newOverlayListener [ 
 
 	^ ToShrinkFeedbackListener for: self
-]
-
-{ #category : #'instance creation' }
-ToShrinkFeedbackLayer >> newRawSkin [ 
-
-	^ ToShrinkFeedbackLayerSkin new
 ]
 
 { #category : #accessing }
@@ -71,11 +84,14 @@ ToShrinkFeedbackLayer >> shrinked: anElement [
 		shrinkedHandler := ToShrinkedListener new
 			                   layer: self;
 			                   yourself.
-		shrinked addEventHandler: shrinkedHandler ]
+		shrinked addEventHandler: shrinkedHandler ].
+	self checkVisibility 
 ]
 
 { #category : #accessing }
 ToShrinkFeedbackLayer >> tolerance: aNumber [
 
-	tolerance := aNumber
+	tolerance = aNumber ifTrue: [ ^ self ].
+	tolerance := aNumber.
+	self checkVisibility 
 ]

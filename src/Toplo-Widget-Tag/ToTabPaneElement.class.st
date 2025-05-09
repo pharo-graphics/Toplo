@@ -24,6 +24,7 @@ ToTabPaneElement >> applyWidgetConfiguration [
 	self isHorizontal
 		ifTrue: [
 			self header
+				beVertical;
 				vMatchParent;
 				hFitContent.
 			tabGroup
@@ -31,6 +32,7 @@ ToTabPaneElement >> applyWidgetConfiguration [
 				hFitContent ]
 		ifFalse: [
 			self header
+				beHorizontal;
 				hMatchParent;
 				vFitContent.
 			tabGroup
@@ -74,10 +76,10 @@ ToTabPaneElement >> initialize [
 
 	super initialize.
 	preservePane := true.
-	headerContainer := ToElement new
+	headerContainer := ToPane new
 		                 id: #header;
 		                 yourself.
-	bodyContainer := ToElement new
+	bodyContainer := ToPane new
 		                 id: #body;
 		                 yourself.
 	bodyContainer matchParent.
@@ -87,7 +89,7 @@ ToTabPaneElement >> initialize [
 	self addChildren: {
 			headerContainer.
 			bodyContainer }.
-	self addEventHandler: self defaultEventHandler 
+	self addEventHandler: self defaultEventHandler
 ]
 
 { #category : #initialization }

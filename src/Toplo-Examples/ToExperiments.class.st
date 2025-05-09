@@ -1506,7 +1506,7 @@ ToExperiments class >> labelWithForegroundWithGradient [
 	<script>
 	| l |
 	l := ToAttributedLabel new.
-	l foreground: ((BlLinearGradientPaint direction: 1 @ 1)
+	l background: ((BlLinearGradientPaint direction: 0 @ 1)
 				from: Color red
 				to: Color blue).
 	l text: 'AZERTYUIOP'.

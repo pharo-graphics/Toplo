@@ -3,7 +3,7 @@ Class {
 	#superclass : #ToElement,
 	#traits : 'TToShrinkable',
 	#classTraits : 'TToShrinkable classTrait',
-	#category : #'Toplo-Core'
+	#category : #'Toplo-Core-Overlay'
 }
 
 { #category : #configuration }
@@ -17,9 +17,7 @@ ToShrinkableContainer >> applyWidgetConfiguration [
 ToShrinkableContainer >> onChildAdded: anElement [
 
 	super onChildAdded: anElement.
-	self firstChild = anElement ifFalse: [ ^ self ].
-	self shrinkFeedbackLayer ifNil: [ ^ self ].
-	self shrinkFeedbackLayer shrinked: anElement
+	self requestNewConfiguration 
 ]
 
 { #category : #'children dispatching' }
@@ -28,5 +26,6 @@ ToShrinkableContainer >> onChildToBeRemoved: anElement [
 	super onChildToBeRemoved: anElement.
 	self shrinkFeedbackLayer ifNil: [ ^ self ].
 	self shrinkFeedbackLayer shrinked = anElement ifFalse: [ ^ self ].
-	self shrinkFeedbackLayer shrinked: nil
+	self shrinkFeedbackLayer shrinked: nil.
+	self requestNewConfiguration 
 ]

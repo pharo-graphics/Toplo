@@ -1,9 +1,10 @@
 Trait {
 	#name : #TToShrinkable,
 	#instVars : [
-		'shrinkTolerance'
+		'shrinkTolerance',
+		'checkedOrientation'
 	],
-	#category : #'Toplo-Core'
+	#category : #'Toplo-Core-Overlay'
 }
 
 { #category : #'t - shrinkable' }
@@ -11,18 +12,47 @@ TToShrinkable >> addShrinkFeedbackLayer [
 
 	| layer |
 	self shrinkFeedbackLayer ifNotNil: [ ^ self ].
-	layer := ToShrinkFeedbackLayer new.
+	layer := ToGradientShrinkFeedbackLayer new.
 	layer id: #shrinkFeedbackLayer.
 	layer attachTo: self.
 	self addChild: layer.
-	layer shrinked: self firstChild
+
 ]
 
 { #category : #'t - shrinkable' }
 TToShrinkable >> applyShrinkableConfiguration [
 
 	self shrinkFeedbackLayer ifNotNil: [ :layer |
-		layer tolerance: self shrinkTolerance ]
+		layer tolerance: self shrinkTolerance.
+		layer checkedOrientation: self checkedOrientation.
+		(self children detect: [ :child | child ~= layer ] ifNone: [  ])
+			ifNotNil: [ :shrinked | layer shrinked: shrinked ] ]
+]
+
+{ #category : #'t - shrinkable' }
+TToShrinkable >> checkHorizontally [
+
+	self checkedOrientation: BlLayoutOrientation horizontal
+]
+
+{ #category : #'t - shrinkable' }
+TToShrinkable >> checkVertically [
+
+	self checkedOrientation: BlLayoutOrientation vertical
+]
+
+{ #category : #'t - shrinkable' }
+TToShrinkable >> checkedOrientation [
+
+	^ checkedOrientation ifNil: [
+		  checkedOrientation := BlLayoutOrientation horizontal ]
+]
+
+{ #category : #'t - shrinkable' }
+TToShrinkable >> checkedOrientation: anOrientation [
+
+	checkedOrientation := anOrientation.
+	self requestNewConfiguration
 ]
 
 { #category : #'t - shrinkable' }
@@ -30,12 +60,10 @@ TToShrinkable >> enableShrinkLayer: aBoolean [
 
 	aBoolean
 		ifTrue: [
-			self shrinkFeedbackLayer ifNotNil: [ ^ self ].
-			self addShrinkFeedbackLayer ]
+		self shrinkFeedbackLayer ifNil: [ self addShrinkFeedbackLayer ] ]
 		ifFalse: [
-			self shrinkFeedbackLayer ifNil: [ ^ self ].
-			self removeShrinkFeedbackLayer ].
-	self requestNewConfiguration
+			self shrinkFeedbackLayer ifNotNil: [
+				self removeShrinkFeedbackLayer ] ]
 ]
 
 { #category : #'t - shrinkable' }

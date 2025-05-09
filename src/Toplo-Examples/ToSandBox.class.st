@@ -3707,34 +3707,10 @@ ToSandBox class >> example_TabGroupElementWithUSStates [
 ToSandBox class >> example_TabPaneElementWithUSStates [
 
 	| tpane dashBoard |
-	tpane := ToTabPaneElement new.
-
-	tpane preservePane: true.
-
-	self statesOfAmerica do: [ :l |
-		| lab item |
-		lab := ToLabel text: l.
-		lab enableShrinkLayer: true.
-		lab shrinkTolerance: 2.0.
-		lab width: 70.
-		"lab rotateBy: 270."
-		item := ToTabButton new
-			        icon:
-				        (ToImage new innerImage: (self iconNamed: #solidMenu));
-			        label: lab;
-			        tooltipString: l;
-			        removable: true;
-			        paneBuilder: [ :pane |
-				        pane withNullSkin.
-				        pane border: Color veryLightGray.
-				        pane background: Color random ];
-			        yourself.
-		tpane addItem: item ].
-
-	tpane isFlowable: false.
-	tpane isScrollable: true.
+	tpane := self tabPaneElementWithUSStates.
 	dashBoard := self tabGroupElementDashBoardFor: tpane.
-	dashBoard openInSpace
+	dashBoard openInSpace.
+	^ tpane
 ]
 
 { #category : #tag }
@@ -4011,10 +3987,21 @@ ToSandBox class >> example_ToggleButtonWithIndeterminate [
 ]
 
 { #category : #triplet }
+ToSandBox class >> example_TripletElementWith2IconsAnd1LabelInInnerWindow [
+
+	| but  |
+	but := self tripletWith2IconsAnd1Label.
+	but hMatchParent.
+	but flexible: true.
+	but openInInnerWindow.
+	^ but
+]
+
+{ #category : #triplet }
 ToSandBox class >> example_TripletElementWithIconAndText [
 
 	| but  |
-	but := self tripletWithText.
+	but := self tripletWith2Labels.
 	but hMatchParent.
 	but openInSpace.
 	^ but
@@ -4101,9 +4088,23 @@ ToSandBox class >> example_TripletElementWithIconAndText_startFlexible_startInte
 ToSandBox class >> example_TripletElementWithIconAndText_vertical [
 
 	| but  |
-	but := self tripletWithText.
+	but := self tripletWith2Labels.
 	but beVertical.
 	but openInSpace.
+	^ but
+]
+
+{ #category : #triplet }
+ToSandBox class >> example_TripletElementWithMiddleShrinkLayer [
+
+	| but  |
+	but := self example_TripletElementWith2IconsAnd1LabelInInnerWindow.
+	but middleElement enableShrinkLayer: true.
+	but startInterspace: 5.
+	but endInterspace: 5.
+	but middleElement hMatchParent.
+	but flexible: false.
+	but middleContainer constraintsDo: [ :c | c horizontal matchParent ].
 	^ but
 ]
 
@@ -8838,6 +8839,36 @@ ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 	^ rootPane
 ]
 
+{ #category : #tag }
+ToSandBox class >> tabPaneElementWithUSStates [
+
+	| tpane  |
+	tpane := ToTabPaneElement new.
+	tpane preservePane: true.
+	self statesOfAmerica do: [ :l |
+		| lab item |
+		lab := ToLabel text: l.
+		lab enableShrinkLayer: true.
+		lab shrinkTolerance: 2.0.
+		lab width: 70.
+		"lab rotateBy: 270."
+		item := ToTabButton new
+			        "icon:
+				        (ToImage new innerImage: (self iconNamed: #solidMenu));"
+			        label: lab;
+			        tooltipString: l;
+			        removable: true;
+			        paneBuilder: [ :pane |
+				        pane withNullSkin.
+				        pane border: Color veryLightGray.
+				        pane background: Color random ];
+			        yourself.
+		tpane addItem: item ].
+	tpane isFlowable: false.
+	tpane isScrollable: true.
+	^ tpane
+]
+
 { #category : #select }
 ToSandBox class >> themeSelect [
 
@@ -8863,7 +8894,24 @@ ToSandBox class >> themeSelect [
 ]
 
 { #category : #triplet }
-ToSandBox class >> tripletWithText [
+ToSandBox class >> tripletWith2IconsAnd1Label [
+
+	| but |
+	but := ToTripletElement new.
+	but startElement: (BlElement new
+			 size: 25 asPoint;
+			 background: Color red;
+			 yourself).
+	but middleElement: (ToLabel text: 'Middle').
+	but endElement: (BlElement new
+			 size: 25 asPoint;
+			 background: Color red;
+			 yourself).
+	^ but
+]
+
+{ #category : #triplet }
+ToSandBox class >> tripletWith2Labels [
 
 	| but |
 	but := ToTripletElement new.

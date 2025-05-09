@@ -15,6 +15,7 @@ TToShrinkable >> addShrinkFeedbackLayer [
 	layer := ToGradientShrinkFeedbackLayer new.
 	layer id: #shrinkFeedbackLayer.
 	layer attachTo: self.
+	layer visibility: BlVisibility hidden.
 	self addChild: layer.
 
 ]

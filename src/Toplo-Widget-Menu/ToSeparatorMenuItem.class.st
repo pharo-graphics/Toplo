@@ -10,7 +10,7 @@ ToSeparatorMenuItem >> applyWidgetConfiguration [
 
 	super applyWidgetConfiguration.
 	self holderDo: [ :h |
-		h node itemContainer matchParent.
+		h node matchParent.
 		h listElement isHorizontal
 			ifTrue: [
 				self firstChild constraintsDo: [ :c |

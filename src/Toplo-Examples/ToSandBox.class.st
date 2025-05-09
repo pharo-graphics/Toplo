@@ -2356,6 +2356,21 @@ ToSandBox class >> example_Menu0 [
 ]
 
 { #category : #menu }
+ToSandBox class >> example_Menu2 [
+
+	| menu container |
+	container := ToInnerWindow new
+		             position: 10 @ 10;
+		             size: 400 @ 200;
+		             yourself.
+	menu := ToMenu new.
+	menu addItem: (ToMenuItem new labelText: 'Menu item').
+	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	container pane addChild: menu.
+	container openInSpace
+]
+
+{ #category : #menu }
 ToSandBox class >> example_MenuWithAccordeon [
 
 	| menu pane item |
@@ -8854,6 +8869,8 @@ ToSandBox class >> tabPaneElementWithUSStates [
 		"lab rotateBy: 270."
 		item := ToTabButton new
 			        "icon:
+				        (ToImage new innerImage: (self iconNamed: #solidMenu));
+						endElement:
 				        (ToImage new innerImage: (self iconNamed: #solidMenu));"
 			        label: lab;
 			        tooltipString: l;

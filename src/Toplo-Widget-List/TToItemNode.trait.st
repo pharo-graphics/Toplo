@@ -1,7 +1,7 @@
 Trait {
 	#name : #TToItemNode,
 	#instVars : [
-		'itemContainer'
+		'item'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -18,30 +18,26 @@ TToItemNode >> applyItemNodeConfiguration [
 { #category : #'t - item node' }
 TToItemNode >> initializeAsItemNode [
 
-	itemContainer := ToItemContainer new
-		                 id: #itemContainer;
-		                 yourself.
-	itemContainer layout: BlLinearLayout horizontal.
-	self addChild: itemContainer.
+	self layout: BlLinearLayout horizontal.
 	self fitContent
 ]
 
 { #category : #'t - item node' }
 TToItemNode >> item [
 
-	^ itemContainer item
+	^ item
 ]
 
 { #category : #'t - item node' }
 TToItemNode >> item: anElement [
 
-	itemContainer item: anElement
-]
-
-{ #category : #'t - item node' }
-TToItemNode >> itemContainer [ 
-
-	^ itemContainer 
+	item = anElement ifTrue: [ ^ self ].
+	item ifNotNil: [ item removeFromParent ].
+	item := anElement.
+	item ifNil: [ ^ self ].
+	item removeFromParent.
+	self addChild: item at: 1.
+	self requestNewSkin
 ]
 
 { #category : #'t - item node' }

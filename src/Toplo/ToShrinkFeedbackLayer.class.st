@@ -55,8 +55,21 @@ ToShrinkFeedbackLayer >> newRawSkin [
 ]
 
 { #category : #accessing }
+ToShrinkFeedbackLayer >> precision: aNumber [
+
+	precision := aNumber
+]
+
+{ #category : #accessing }
+ToShrinkFeedbackLayer >> shrinked [
+
+	^ shrinked
+]
+
+{ #category : #accessing }
 ToShrinkFeedbackLayer >> shrinked: anElement [
 
+	anElement = self ifTrue: [ ^ self ].
 	shrinked = anElement ifTrue: [ ^ self ].
 	shrinked ifNotNil: [ shrinked removeEventHandler: shrinkedHandler ].
 	shrinked := anElement.

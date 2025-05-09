@@ -1,7 +1,7 @@
 Class {
 	#name : #ToCheckableNodeSelectionEventHandler,
 	#superclass : #BlCustomEventHandler,
-	#category : #'Toplo-Widget-List-Core'
+	#category : #'Toplo-Widget-List-Core-Item'
 }
 
 { #category : #'event handling' }

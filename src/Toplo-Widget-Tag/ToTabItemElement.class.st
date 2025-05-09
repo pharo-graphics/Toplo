@@ -1,8 +1,8 @@
 Class {
 	#name : #ToTabItemElement,
 	#superclass : #ToItemToggleButton,
-	#traits : 'TToShrinkable + TToRemovableItem',
-	#classTraits : 'TToShrinkable classTrait + TToRemovableItem classTrait',
+	#traits : 'TToRemovableItem',
+	#classTraits : 'TToRemovableItem classTrait',
 	#instVars : [
 		'removable'
 	],
@@ -12,10 +12,8 @@ Class {
 { #category : #configuration }
 ToTabItemElement >> applyWidgetConfiguration [
 
-	| listElement shrinkLayer |
+	| listElement |
 	super applyWidgetConfiguration.
-	shrinkLayer := self childWithId: #shrinkFeedbackLayer ifNone: [  ].
-	shrinkLayer ifNotNil: [ shrinkLayer shrinked: self middleContainer ].
 	listElement := self holder listElement.
 	(listElement isVertical and: [ listElement atStartSide not ])
 		ifTrue: [
@@ -30,14 +28,6 @@ ToTabItemElement >> applyWidgetConfiguration [
 ToTabItemElement >> asToLabelText [ 
 
 	^ self label asToLabelText
-]
-
-{ #category : #initialization }
-ToTabItemElement >> initialize [
-
-	super initialize.
-	self applySkinInstallerOnFirstRequest: true.
-	self addShrinkFeedbackLayer
 ]
 
 { #category : #skin }

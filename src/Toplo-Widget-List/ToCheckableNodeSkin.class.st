@@ -1,7 +1,7 @@
 Class {
 	#name : #ToCheckableNodeSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Widget-List-Core'
+	#category : #'Toplo-Widget-List-Core-Item'
 }
 
 { #category : #'event handling' }

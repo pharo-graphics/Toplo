@@ -1,6 +1,6 @@
 Class {
 	#name : #ToLabel,
-	#superclass : #ToElement,
+	#superclass : #ToShrinkableContainer,
 	#traits : 'TToElementWithContentEditor',
 	#classTraits : 'TToElementWithContentEditor classTrait',
 	#instVars : [
@@ -199,7 +199,10 @@ ToLabel >> innerElement: anInnerElement [
 	innerElement = anInnerElement ifTrue: [ ^ self ].
 	innerElement ifNotNil: [ innerElement removeFromParent ].
 	innerElement := anInnerElement.
-	self addChild: innerElement
+	" the first position ensure that the inner element will be used to shrink myself because
+	only the first element is taken into account.
+	see ToShrinkableContainer>>onChildAdded: "
+	self addChild: innerElement at: 1
 ]
 
 { #category : #testing }

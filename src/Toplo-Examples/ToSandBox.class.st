@@ -3710,21 +3710,27 @@ ToSandBox class >> example_TabPaneElementWithUSStates [
 	tpane := ToTabPaneElement new.
 
 	tpane preservePane: true.
-	tpane exactItemWidth: 70.
 
 	self statesOfAmerica do: [ :l |
-		| lab |
+		| lab item |
 		lab := ToLabel text: l.
+		lab enableShrinkLayer: true.
 		"lab rotateBy: 270."
-		tpane addItem: (ToTabButton new
-				 label: lab;
-				 tooltipString: l;
-				 removable: true;
-				 paneBuilder: [ :pane |
-					 pane withNullSkin.
-					 pane border: Color veryLightGray.
-					 pane background: Color random ];
-				 yourself) ].
+		item := ToTabButton new
+			        "icon:
+				        (ToImage new innerImage: (self iconNamed: #solidMenu));
+			        endElement:
+				        (ToImage new innerImage: (self iconNamed: #solidMenu));"
+			        label: lab;
+			        tooltipString: l;
+			        removable: true;
+			        paneBuilder: [ :pane |
+				        pane withNullSkin.
+				        pane border: Color veryLightGray.
+				        pane background: Color random ];
+			        yourself.
+		item label width: 70.
+		tpane addItem: item ].
 
 	tpane isFlowable: false.
 	tpane isScrollable: true.
@@ -5219,16 +5225,17 @@ ToSandBox class >> example_inlineInMenuPane [
 ToSandBox class >> example_labelFieldWithShrinkFeedback [
 
 	| t innerWindow |
-	t := ToLabel new text: 'AZERTYUIOPAZERTYUIOP'.
+	t := ToLabel new text: 'Make the inner window smaller or edit myself'.
 	t beEditable.
+	t enableShrinkLayer: true.
 	t whenEditorOpenedDo: [ :editorEvent |
 		editorEvent editorElement whenSaveRequestedDo: [ :request |
 			request accepted: true ].
 		editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
 			editorEvent target text: acceptedEvent target text ] ].
+	t matchParent.
 	innerWindow := t openInInnerWindow.
-	t fitContent.
-	t addShrinkFeedbackLayer
+
 ]
 
 { #category : #menu }

@@ -8,7 +8,7 @@ Class {
 ToGradientShrinkFeedbackLayer >> newBackgroundRampWithColor: aColor [
 
 	| dir |
-	dir := self checkedOrientation isHorizontal
+	dir := self checkedShrinkabilityOrientation isHorizontal
 		       ifTrue: [ 1 @ 0 ]
 		       ifFalse: [ 0 @ 1 ].
 	^ (BlLinearGradientPaint direction: dir)

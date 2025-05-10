@@ -48,6 +48,136 @@ ToShrinkableContainerTest >> testEnableShrinkLayer2 [
 ]
 
 { #category : #tests }
+ToShrinkableContainerTest >> testIsShrinked [
+
+	| e  child |
+	e := ToShrinkableContainer new.
+	e size: 100 asPoint.
+	space root addChild: e.
+	self deny: e isShrinked.
+	e enableShrinkLayer: true.
+	self deny: e isShrinked.
+	
+	child := ToElement new.
+	child id: #child.
+	" make the child size less than the container size
+	this let the shrink layer invisible"
+	child size: 50 asPoint.
+	e addChild: child.
+
+	self waitTestingSpaces.
+	self deny: e isShrinked.
+	child size: 150 asPoint.
+	self waitTestingSpaces.
+	self assert: e isShrinked.
+	^ e
+]
+
+{ #category : #tests }
+ToShrinkableContainerTest >> testIsShrinkedHorizontally [
+
+	| e  child |
+	e := ToShrinkableContainer new.
+	" horizontal is the default "
+	e checkHorizontalShrinkability.
+	e width: 100.
+	space root addChild: e.
+	child := ToElement new.
+	child id: #child.
+	" make the child size less than the container size
+	this let the shrink layer invisible"
+	child width: 50.
+	e addChild: child.
+	self waitTestingSpaces.
+	self deny: e isShrinked.
+	child width: 150.
+	self waitTestingSpaces.
+	self assert: e isShrinked.
+	e width: 200.
+	self waitTestingSpaces.
+	self deny: e isShrinked.
+	^ e
+]
+
+{ #category : #tests }
+ToShrinkableContainerTest >> testIsShrinkedHorizontally2 [
+
+	| e  child |
+	e := ToShrinkableContainer new.
+	" horizontal is the default "
+	e checkHorizontalShrinkability.
+	e height: 100.
+	space root addChild: e.
+	child := ToElement new.
+	child id: #child.
+	" make the child size less than the container size
+	this let the shrink layer invisible"
+	child height: 50.
+	e addChild: child.
+	self waitTestingSpaces.
+	self deny: e isShrinked.
+	child height: 150.
+	self waitTestingSpaces.
+	self deny: e isShrinked.
+	e height: 200.
+	self waitTestingSpaces.
+	self deny: e isShrinked.
+	^ e
+]
+
+{ #category : #tests }
+ToShrinkableContainerTest >> testIsShrinkedVertically [
+
+	| e  child |
+	e := ToShrinkableContainer new.
+	" horizontal is the default "
+	e checkVerticalShrinkability.
+	e height: 100.
+	space root addChild: e.
+	child := ToElement new.
+	child id: #child.
+	" make the child size less than the container size
+	this let the shrink layer invisible"
+	child height: 50.
+	e addChild: child.
+	self waitTestingSpaces.
+	self deny: e isShrinked.
+	child height: 150.
+	self waitTestingSpaces.
+	self assert: e isShrinked.
+	e height: 200.
+	self waitTestingSpaces.
+	self deny: e isShrinked.
+	^ e
+]
+
+{ #category : #tests }
+ToShrinkableContainerTest >> testIsShrinkedVertically2 [
+
+	| e  child |
+	e := ToShrinkableContainer new.
+	" horizontal is the default "
+	e checkVerticalShrinkability.
+	e width: 100.
+	space root addChild: e.
+	child := ToElement new.
+	child id: #child.
+	" make the child size less than the container size
+	this let the shrink layer invisible"
+	child width: 50.
+	e addChild: child.
+	self waitTestingSpaces.
+	self deny: e isShrinked.
+	child width: 150.
+	self waitTestingSpaces.
+	self deny: e isShrinked.
+	e width: 200.
+	self waitTestingSpaces.
+	self deny: e isShrinked.
+	^ e
+]
+
+{ #category : #tests }
 ToShrinkableContainerTest >> testShrinkableContainerNotVisible [
 
 	| e child |

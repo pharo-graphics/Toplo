@@ -28,13 +28,13 @@ ToShrinkFeedbackLayer >> checkVisibility [
 ]
 
 { #category : #accessing }
-ToShrinkFeedbackLayer >> checkedOrientation [
+ToShrinkFeedbackLayer >> checkedShrinkabilityOrientation [
 
 	^ checkedOrientation
 ]
 
 { #category : #accessing }
-ToShrinkFeedbackLayer >> checkedOrientation: anOrientation [
+ToShrinkFeedbackLayer >> checkedShrinkabilityOrientation: anOrientation [
 
 	checkedOrientation := anOrientation.
 	self checkVisibility 

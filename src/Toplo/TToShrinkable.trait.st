@@ -2,7 +2,7 @@ Trait {
 	#name : #TToShrinkable,
 	#instVars : [
 		'shrinkTolerance',
-		'checkedOrientation'
+		'checkedShrinkabilityOrientation'
 	],
 	#category : #'Toplo-Core-Overlay'
 }
@@ -25,34 +25,36 @@ TToShrinkable >> applyShrinkableConfiguration [
 
 	self shrinkFeedbackLayer ifNotNil: [ :layer |
 		layer tolerance: self shrinkTolerance.
-		layer checkedOrientation: self checkedOrientation.
+		layer checkedShrinkabilityOrientation: self checkedShrinkabilityOrientation.
 		(self children detect: [ :child | child ~= layer ] ifNone: [  ])
 			ifNotNil: [ :shrinked | layer shrinked: shrinked ] ]
 ]
 
 { #category : #'t - shrinkable' }
-TToShrinkable >> checkHorizontally [
+TToShrinkable >> checkHorizontalShrinkability [
 
-	self checkedOrientation: BlLayoutOrientation horizontal
+	self enableShrinkLayer: true.
+	self checkedShrinkabilityOrientation: BlLayoutOrientation horizontal
 ]
 
 { #category : #'t - shrinkable' }
-TToShrinkable >> checkVertically [
+TToShrinkable >> checkVerticalShrinkability [
 
-	self checkedOrientation: BlLayoutOrientation vertical
+	self enableShrinkLayer: true.
+	self checkedShrinkabilityOrientation: BlLayoutOrientation vertical
 ]
 
 { #category : #'t - shrinkable' }
-TToShrinkable >> checkedOrientation [
+TToShrinkable >> checkedShrinkabilityOrientation [
 
-	^ checkedOrientation ifNil: [
-		  checkedOrientation := BlLayoutOrientation horizontal ]
+	^ checkedShrinkabilityOrientation ifNil: [
+		  checkedShrinkabilityOrientation := BlLayoutOrientation horizontal ]
 ]
 
 { #category : #'t - shrinkable' }
-TToShrinkable >> checkedOrientation: anOrientation [
+TToShrinkable >> checkedShrinkabilityOrientation: anOrientation [
 
-	checkedOrientation := anOrientation.
+	checkedShrinkabilityOrientation := anOrientation.
 	self requestNewConfiguration
 ]
 
@@ -65,6 +67,14 @@ TToShrinkable >> enableShrinkLayer: aBoolean [
 		ifFalse: [
 			self shrinkFeedbackLayer ifNotNil: [
 				self removeShrinkFeedbackLayer ] ]
+]
+
+{ #category : #'t - shrinkable' }
+TToShrinkable >> isShrinked [
+
+	^ self shrinkFeedbackLayer
+		  ifNil: [ false ]
+		  ifNotNil: [ :layer | layer isVisible ]
 ]
 
 { #category : #'t - shrinkable' }

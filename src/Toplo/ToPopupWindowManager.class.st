@@ -63,8 +63,7 @@ ToPopupWindowManager >> beInline [
 { #category : #'event handling' }
 ToPopupWindowManager >> canCloseOnPickingEvent: anEvent [
 
-	currentWindow ifNotNil: [ closeOnPicking ifTrue: [ ^ true ] ].
-	^ false
+	^ currentWindow notNil and: [ closeOnPicking ]
 ]
 
 { #category : #'window handling' }

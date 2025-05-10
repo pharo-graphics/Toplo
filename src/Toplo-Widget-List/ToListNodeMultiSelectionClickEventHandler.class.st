@@ -16,7 +16,7 @@ ToListNodeMultiSelectionClickEventHandler >> clickLauncher: aProcessOrNil [
 { #category : #'mouse handlers' }
 ToListNodeMultiSelectionClickEventHandler >> doubleClickEvent: anEvent [
 	
-	self terminateClickLauncherOnNode: anEvent currentTarget.
+	self terminateClickLauncherOnNode: anEvent currentTarget onEvent: anEvent.
 	super doubleClickEvent: anEvent
 ]
 
@@ -41,14 +41,14 @@ ToListNodeMultiSelectionClickEventHandler >> launchClick: aBlock event: anEvent 
 		 listElement primarySelectionMode requestFocusOnPressed ])
 		ifTrue: [
 			mode preserveSelectionOnFocused ifTrue: [
-				self terminateClickLauncherOnNode: node.
+				self terminateClickLauncherOnNode: node onEvent: anEvent.
 				^ self ] ].
 
 	" do not try double click if ctrl or Cmd or shift is pressed "
 	(holder isSelected not or: [
 		 anEvent sourceEvent modifiers isPrimaryModifier or: [
 			 anEvent sourceEvent modifiers isShift ] ]) ifTrue: [
-		self terminateClickLauncherOnNode: node.
+		self terminateClickLauncherOnNode: node onEvent: anEvent.
 		^ aBlock value ].
 
 	" Already have a click launcher "
@@ -70,8 +70,7 @@ ToListNodeMultiSelectionClickEventHandler >> launchClick: aBlock event: anEvent 
 ToListNodeMultiSelectionClickEventHandler >> listClickOnNodeEvent: anEvent [
 
 	super listClickOnNodeEvent: anEvent.
-	self launchClick: [ self onClickOnNodeEvent: anEvent ] event: anEvent.
-	"anEvent consume"
+	self launchClick: [ self onClickOnNodeEvent: anEvent ] event: anEvent
 ]
 
 { #category : #'selection events' }
@@ -86,8 +85,8 @@ ToListNodeMultiSelectionClickEventHandler >> onClickOnNodeEvent: anEvent [
 ]
 
 { #category : #'events handling' }
-ToListNodeMultiSelectionClickEventHandler >> terminateClickLauncherOnNode: aNode [
+ToListNodeMultiSelectionClickEventHandler >> terminateClickLauncherOnNode: aNode onEvent: anEvent [
 
 	clickLauncher ifNotNil: #terminate.
-	clickLauncher := nil
+	clickLauncher := nil.
 ]

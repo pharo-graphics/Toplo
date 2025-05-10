@@ -13,10 +13,16 @@ ToGenericListNodeManager >> initialize [
 	self initializeAsGenericNodeManager 
 ]
 
-{ #category : #'t - generic node manager' }
+{ #category : #'instance creation' }
 ToGenericListNodeManager >> newHolder [
 
 	^ ToNodeHolder new
+]
+
+{ #category : #'instance creation' }
+ToGenericListNodeManager >> newNodeForHolder: aNodeHolder [
+
+	^ nodeFactory cull: aNodeHolder
 ]
 
 { #category : #'t - generic node manager' }

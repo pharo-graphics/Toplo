@@ -2391,11 +2391,10 @@ ToSandBox class >> example_MenuPaneScrollableWithCustomItems [
 	menuPane addItem: item.
 	item disable.
 
-	menuPane
-		addItem: (ToMenuItem new
-				 labelText: 'Inspect';
-				 newClickAction: [ menuPane space root inspect ];
-				 yourself).
+	menuPane addItem: (ToMenuItem new
+			 labelText: 'Inspect';
+			 newClickAction: [ menuPane space root inspect ];
+			 yourself).
 	menuPane addSeparator.
 	menuPane addItem: (ToToggleMenuItem new
 			 labelText: 'Toggle';
@@ -2488,12 +2487,15 @@ ToSandBox class >> example_MenuPaneScrollableWithCustomItems [
 							              ('Your name' asRopedText
 								               foreground: Color lightGray;
 								               yourself)) ];
-		             withLineWrapping;
-		             width: 200.
+		             "withLineWrapping;"vFitContent;
+		             hMatchParent.
 	menuPane addItem:
 		(ToCustomMenuItem new in: [ :e | e addChild: textField ]).
 	menuPane addSeparator.
-	sub := ToMenu new labelText: 'Save All'.
+	sub := ToMenu new
+		       labelText: 'Save All';
+		       showExpandIcon: true;
+		       yourself.
 	sub beInline.
 
 	sub addItem: (ToMenuItem new labelText: 'Locally').
@@ -4015,6 +4017,7 @@ ToSandBox class >> example_ThemeSelectNoDeselection [
 
 	| select |
 	select := self themeSelect.
+	select closeOnPicking: true.
 	select placeholderText:
 		('Select a Toplo theme' asRopedText foreground: Color lightGray).
 	select
@@ -5701,6 +5704,7 @@ ToSandBox class >> example_menuPaneVertical [
 			 yourself).
 	1 to: 3 do: [ :count |
 		menu := ToMenu new.
+		menu showExpandIcon: true.
 		count = 2 ifTrue: [ menu beInline ].
 		menu label: (ToLabel text: 'Levels').
 		menu icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
@@ -6497,7 +6501,7 @@ ToSandBox class >> example_subMenuPaneVertical [
 		1 to: 3 do: [ :i |
 			| m |
 			m := ToMenu new labelText: 'Menu' , i asString.
-			m addStamp: #'with-expand-button'.
+			m showExpandIcon: true.
 			1 to: 3 do: [ :j |
 			m addItem: (ToMenuItem new labelText: 'item ' , j asString) ].
 			mb addItem: m ].

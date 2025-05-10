@@ -119,3 +119,9 @@ TToMenuItem >> rootMenuItemContainer [
 			^ e ] ].
 	^ nil
 ]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> showExpandIcon [
+
+	^ false
+]

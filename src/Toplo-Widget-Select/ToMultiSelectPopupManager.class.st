@@ -15,10 +15,10 @@ ToMultiSelectPopupManager >> checkCloseWindowOnPickingEvent: anEvent [
 	super checkCloseWindowOnPickingEvent: anEvent
 ]
 
-{ #category : #'api - hooks' }
-ToMultiSelectPopupManager >> defaultListElementEventHandler [ 
+{ #category : #initialization }
+ToMultiSelectPopupManager >> defaultCloseOnPicking [
 
-	^ ToMultiSelectListElementEventHandler new
+	^ false
 ]
 
 { #category : #initialization }
@@ -34,10 +34,4 @@ ToMultiSelectPopupManager >> newListElement [
 	newListElement := super newListElement.
 	newListElement primarySelectionMode multiple: true.
 	^ newListElement
-]
-
-{ #category : #'api - hooks' }
-ToMultiSelectPopupManager >> nodeHolderClass [
-
-	^ ToMultiSelectListNodeHolder
 ]

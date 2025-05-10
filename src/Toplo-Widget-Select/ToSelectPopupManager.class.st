@@ -8,12 +8,6 @@ Class {
 	#category : #'Toplo-Widget-Select-List'
 }
 
-{ #category : #'api - hooks' }
-ToSelectPopupManager >> defaultListElementEventHandler [ 
-
-	^ ToSelectListElementEventHandler new
-]
-
 { #category : #initialization }
 ToSelectPopupManager >> defaultMaxHeight [
 
@@ -111,10 +105,6 @@ ToSelectPopupManager >> onInstalledIn: anElement [
 	listElement := self newListElement.
 	listElement selectElement: self anchorElement.
 	listElement focusability: BlFocusability none.
-
-	listElement addEventHandler: (self defaultListElementEventHandler
-			 select: self anchorElement;
-			 yourself).
 
 	self windowBuilder: [ :selectWin :request |
 		selectWin root addChild: self listElement ].

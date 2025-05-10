@@ -14,6 +14,12 @@ ToMultiSelectListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 ]
 
 { #category : #initialization }
+ToMultiSelectListElement >> defaultEventHandler [
+
+	^ ToMultiSelectListElementEventHandler new
+]
+
+{ #category : #initialization }
 ToMultiSelectListElement >> defaultNodeManagerClass [ 
 
 	^ ToMultiSelectListNodeManager 

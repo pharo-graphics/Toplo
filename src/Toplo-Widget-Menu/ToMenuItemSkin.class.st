@@ -58,7 +58,7 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text') ].
 		
-		(e isTopMenu not or: [ e hasStamp: #'with-expand-button' ]) ifTrue: [
+		(e isTopMenu not or: [ e showExpandIcon ]) ifTrue: [
 			| anyHaveIcon anyIsMenu |
 			anyHaveIcon := false.
 			anyIsMenu := false.
@@ -73,7 +73,7 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 				align := e valueOfTokenNamed: #'menu-item-start-alignment'.
 				e startAlignment: align ].
 
-			(anyIsMenu or: [ e hasStamp: #'with-expand-button' ]) ifTrue: [
+			(anyIsMenu or: [ e showExpandIcon ]) ifTrue: [
 				e isStartToEnd
 					ifTrue: [
 						e endInterspace:

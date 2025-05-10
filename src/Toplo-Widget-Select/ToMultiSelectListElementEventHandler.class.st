@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'api - accessing' }
-ToMultiSelectListElementEventHandler >> eventsToHandle [ 
+ToMultiSelectListElementEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , { ToSelectGroupSelectionChangedEvent }
 ]
@@ -13,12 +13,12 @@ ToMultiSelectListElementEventHandler >> eventsToHandle [
 { #category : #'event handling' }
 ToMultiSelectListElementEventHandler >> selectGroupSelectionChangedEvent: anEvent [
 
-	| touchedIntervals target |
+	| touchedIntervals listElement |
 	touchedIntervals := anEvent touchedIntervals.
-	target := anEvent currentTarget.
+	listElement := anEvent currentTarget.
 	touchedIntervals do: [ :int |
-		target disabledSelecter selectIndex: int first to: int last.
+		listElement disabledSelecter selectIndex: int first to: int last.
 		self flag: 'Given that the list is initialized with #makeDisabledUnselectable: true, having to unselect here is not desired. It is necessary here because instead, the secondary selection can be on a group index.'.
-		target unselectableSelecter selectIndex: int first to: int last.
-		target dataSource notifyItemsChanged: int ]
+		listElement unselectableSelecter selectIndex: int first to: int last.
+		listElement dataSource notifyItemsChanged: int ]
 ]

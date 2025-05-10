@@ -23,5 +23,7 @@ ToCheckableNodeSelectionEventHandler >> eventsToHandle [
 { #category : #'event handling' }
 ToCheckableNodeSelectionEventHandler >> primaryClickEvent: anEvent [
 
-	anEvent currentTarget item dispatchEvent: anEvent copy
+	| node |
+	node := anEvent currentTarget.
+	node item dispatchEvent: anEvent copy
 ]

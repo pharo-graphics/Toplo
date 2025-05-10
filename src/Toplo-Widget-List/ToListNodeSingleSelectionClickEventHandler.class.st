@@ -11,6 +11,5 @@ ToListNodeSingleSelectionClickEventHandler >> listClickOnNodeEvent: anEvent [
 	node := anEvent currentTarget.
 	listElement := node holder listElement.
 	mode := listElement primarySelectionMode.
-	mode onClickEvent: anEvent onNode: node.
-	anEvent consume
+	mode onClickEvent: anEvent onNode: node
 ]

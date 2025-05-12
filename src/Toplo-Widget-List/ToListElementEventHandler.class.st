@@ -126,7 +126,8 @@ ToListElementEventHandler >> layoutResizerChangedEvent: anEvent [
 { #category : #'infinite event handling' }
 ToListElementEventHandler >> listHiddenSelectionChangedEvent: anEvent [
 
-	anEvent currentTarget notifyDataSourceChanged 
+	anEvent touchedIntervals do: [ :int |
+		anEvent currentTarget dataSource notifyItemsChanged: int ]
 ]
 
 { #category : #'infinite event handling' }
@@ -167,15 +168,9 @@ ToListElementEventHandler >> middleClickEvent: anEvent [
 { #category : #'mouse handlers' }
 ToListElementEventHandler >> mouseDownEvent: anEvent [
 
-	| currTarget |
-	currTarget := anEvent currentTarget.
-	currTarget stopScroll.
-	self withTargetNodeFromEvent: anEvent do: [ :node |
-		"node dispatchEvent: anEvent copy."
-		anEvent consume ].
-	(currTarget isFocusable not or: [ currTarget isFocused ]) ifTrue: [ ^ self ].
-	currTarget requestFocus.
-	anEvent consume
+	| listElement |
+	listElement := anEvent currentTarget.
+	listElement stopScroll
 ]
 
 { #category : #'event handling' }
@@ -184,13 +179,7 @@ ToListElementEventHandler >> otherClickEvent: anEvent [
 
 { #category : #'event handling' }
 ToListElementEventHandler >> primaryClickEvent: anEvent [
-	"Request the focus only if a node is not focused after it received the click event
-	This can be the case if nodes include a textr field as an example "
 
-	self
-		withTargetNodeFromEvent: anEvent
-		do: [ :node | node hasFocus ifTrue: [ ^ self ] ].
-	"no focused node, then I take the focus"
 	anEvent currentTarget requestFocus
 ]
 

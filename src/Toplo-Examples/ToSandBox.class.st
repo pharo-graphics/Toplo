@@ -3180,10 +3180,11 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistribution [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
+	"select maxSelectedCount: 6."
 	select isFlowable: false.
-	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select autoDistribute: true.
-
+	select hideSelected: false.
+	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
@@ -3247,27 +3248,6 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrappingKeepPickOrder [
 	select := ToMultiSelectElement new.
 	select keepPickOrder: true.
 	select isFlowable: false.
-	select hideSelected: false.
-	select popupListElement dataAccessor addAll: self statesOfAmerica.
-	select filtrable: true.
-	select popupMaxHeight: 200.
-	select placeholderText:
-		('Select states' asRopedText foreground: Color red).
-	innerWindow := ToInnerWindow new.
-	select manager anchorRoot: innerWindow root.
-	select hMatchParent.
-	innerWindow pane addChild: select.
-	innerWindow height: 600.
-	innerWindow openInSpace
-]
-
-{ #category : #select }
-ToSandBox class >> example_SelectMultiFiltrableNotWrappingAutoDistribution [
-
-	| select innerWindow |
-	select := ToMultiSelectElement new.
-	select isFlowable: false.
-	select autoDistribute: true.
 	select hideSelected: false.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select filtrable: true.
@@ -3394,28 +3374,6 @@ ToSandBox class >> example_SelectMultiFiltrableWithMax [
 	select := self example_SelectMultiFiltrable.
 	select width: 300.
 	select maxSelectedCount: 4
-]
-
-{ #category : #select }
-ToSandBox class >> example_SelectMultiFiltrableWrappingAutoDistribution [
-
-	| select innerWindow |
-	select := ToMultiSelectElement new.
-	"select maxSelectedCount: 6."
-	select isFlowable: true.
-	select autoDistribute: true.
-	select hideSelected: false.
-	select popupListElement dataAccessor addAll: self statesOfAmerica.
-	select filtrable: true.
-	select popupMaxHeight: 200.
-	select placeholderText:
-		('Select states' asRopedText foreground: Color red).
-	innerWindow := ToInnerWindow new.
-	select manager anchorRoot: innerWindow root.
-	select hMatchParent.
-	innerWindow pane addChild: select.
-	innerWindow height: 600.
-	innerWindow openInSpace
 ]
 
 { #category : #select }

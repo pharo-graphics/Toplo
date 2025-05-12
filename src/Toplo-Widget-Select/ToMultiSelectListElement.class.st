@@ -36,11 +36,7 @@ ToMultiSelectListElement >> hideSelection [
 ]
 
 { #category : #initialization }
-ToMultiSelectListElement >> initialize [
+ToMultiSelectListElement >> listNodeClass [
 
-	super initialize.
-	self primarySelectionMode makeDisabledUnselectable: true.
-	self primarySelectionMode selectOnPressed: true.
-	self primarySelectionMode requestFocusOnPressed: false.
-	self nodeFactory: [ :holder | ToMultiSelectListNode new ]
+	^ ToMultiSelectListNode
 ]

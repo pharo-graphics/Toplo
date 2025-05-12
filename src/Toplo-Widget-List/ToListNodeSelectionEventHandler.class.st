@@ -59,12 +59,9 @@ ToListNodeSelectionEventHandler >> launchClick: aBlock event: anEvent [
 	mode := listElement primarySelectionMode.
 	dblClickDelay := listElement selectionMode doubleClickTimeout.
 
-	(listElement isFocused not and: [
-		 listElement primarySelectionMode requestFocusOnPressed ])
-		ifTrue: [
-			mode preserveSelectionOnFocused ifTrue: [
-				self terminateClickLauncherOnNode: node onEvent: anEvent.
-				^ self ] ].
+	(listElement isFocused not and: [ listElement isFocusable ]) ifTrue: [
+		self terminateClickLauncherOnNode: node onEvent: anEvent.
+		^ self ].
 
 	" do not try double click if ctrl or Cmd or shift is pressed "
 	(holder isSelected not or: [
@@ -131,9 +128,25 @@ ToListNodeSelectionEventHandler >> multipleSelectionListClickOnNodeEvent: anEven
 { #category : #'mouse handlers' }
 ToListNodeSelectionEventHandler >> notifyClickOnNodeFromEvent: anEvent [
 
-	| node req |
+	| listElement mode node req min |
 	node := anEvent currentTarget.
 	node isAttachedToSceneGraph ifFalse: [ ^ self ].
+	listElement := node holder listElement.
+	listElement isDisabled ifTrue: [ ^ self ].
+	
+	" in case the listElement is not focused (and focusable), 
+	check if the selection has to be preserved.
+	If it is to be preserve the do nothing here.
+	The listElement event handler will request the focus"
+	(listElement isFocusable and: [ listElement isFocused not ]) ifTrue: [
+		" the node may have the focus for keyboard input as an example.
+		The listElement should not take the focus in this case "
+		node hasFocus ifFalse: [listElement requestFocus].
+		mode := listElement selectionMode.
+		min := mode minSelectedIndexesCountForSelectionPreserving.
+		listElement selectionModel selectedIndexesCount > min ifTrue: [
+			^ self ] ].
+	
 	req := ToListClickOnNodeRequestEvent new
 		       requestedAction: [
 			       node dispatchEvent: (ToListClickOnNodeEvent new
@@ -141,6 +154,7 @@ ToListNodeSelectionEventHandler >> notifyClickOnNodeFromEvent: anEvent [
 						        sourceEvent: anEvent;
 						        yourself) ];
 		       yourself.
+
 	node dispatchAuthorisationRequest: req
 ]
 
@@ -160,8 +174,6 @@ ToListNodeSelectionEventHandler >> primaryMouseDownEvent: anEvent [
 	| node listElement mode |
 	node := anEvent currentTarget.
 	listElement := node holder listElement.
-	mode := listElement primarySelectionMode.
-	mode allowRequestFocusOnMouseDown ifFalse: [ anEvent consume ].
 	mode := listElement primarySelectionMode.
 	mode selectOnPressed ifFalse: [ ^ self ].
 	self notifyClickOnNodeFromEvent: anEvent

@@ -20,11 +20,9 @@ ToListNode >> applyWidgetConfiguration [
 ]
 
 { #category : #'t - list node' }
-ToListNode >> clickEventHandlerClasses [
+ToListNode >> clickEventHandlerClass [
 
-	^ self holder listElement isMultipleSelection
-		  ifTrue: [ { ToListNodeMultiSelectionClickEventHandler } ]
-		  ifFalse: [ { ToListNodeSingleSelectionClickEventHandler } ]
+	^  ToListNodeSelectionEventHandler
 ]
 
 { #category : #skin }

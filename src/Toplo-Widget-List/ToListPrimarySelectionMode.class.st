@@ -124,8 +124,7 @@ ToListPrimarySelectionMode >> newSelectionModelIn: aListElement [
 { #category : #accessing }
 ToListPrimarySelectionMode >> onAddedNode: aNode [
 
-	aNode clickEventHandlerClasses do: [ :cls |
-		aNode addEventHandler: cls new ]
+	aNode addEventHandler: aNode clickEventHandlerClass new
 ]
 
 { #category : #'event handling' }
@@ -173,8 +172,7 @@ ToListPrimarySelectionMode >> onClickEvent: anEvent onNode: aNode [
 ToListPrimarySelectionMode >> onRemovedNode: aNode [
 
 	(aNode eventDispatcher handlers select: [ :handler |
-		 aNode clickEventHandlerClasses anySatisfy: [ :cls |
-			 handler class = cls ] ]) do: [ :handler |
+		 handler class = aNode clickEventHandlerClass ]) do: [ :handler |
 		aNode removeEventHandler: handler ]
 ]
 

@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'t - list node' }
-ToBarCheckableNode >> clickEventHandlerClasses [
+ToBarCheckableNode >> clickEventHandlerClass [
 
-	^  { ToCheckableNodeSelectionEventHandler } 
+	^  ToCheckableNodeSelectionEventHandler
 ]

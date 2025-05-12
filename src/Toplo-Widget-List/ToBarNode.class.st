@@ -36,9 +36,9 @@ ToBarNode >> applyWidgetConfiguration [
 ]
 
 { #category : #'t - list node' }
-ToBarNode >> clickEventHandlerClasses [
+ToBarNode >> clickEventHandlerClass [
 
-	^  { ToListNodeMultiSelectionClickEventHandler } 
+	^  ToListNodeSelectionEventHandler
 ]
 
 { #category : #initialization }

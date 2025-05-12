@@ -4,7 +4,7 @@ Trait {
 }
 
 { #category : #'t - list node' }
-TToListNode >> clickEventHandlerClasses [
+TToListNode >> clickEventHandlerClass [
 
 	self explicitRequirement 
 ]

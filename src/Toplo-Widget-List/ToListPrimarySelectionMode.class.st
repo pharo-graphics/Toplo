@@ -124,7 +124,8 @@ ToListPrimarySelectionMode >> newSelectionModelIn: aListElement [
 { #category : #accessing }
 ToListPrimarySelectionMode >> onAddedNode: aNode [
 
-	aNode addEventHandler: aNode clickEventHandlerClass new
+	aNode clickEventHandlerClass ifNotNil: [ :cls |
+		aNode addEventHandler: cls new ]
 ]
 
 { #category : #'event handling' }

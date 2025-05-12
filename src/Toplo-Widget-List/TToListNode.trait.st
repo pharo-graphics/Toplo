@@ -6,7 +6,7 @@ Trait {
 { #category : #'t - list node' }
 TToListNode >> clickEventHandlerClass [
 
-	self explicitRequirement 
+	^ nil
 ]
 
 { #category : #'t - list node' }

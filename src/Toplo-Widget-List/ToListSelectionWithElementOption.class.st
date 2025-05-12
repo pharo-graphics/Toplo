@@ -145,7 +145,6 @@ ToListSelectionWithElementOption >> newSelectionElementIn: aListElement [
 	^ selectionOption elementFactory value
 		  listElement: aListElement;
 		  selectionOption: self;
-		  focused: aListElement isFocused;
 		  yourself
 ]
 

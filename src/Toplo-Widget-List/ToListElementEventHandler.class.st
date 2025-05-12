@@ -180,6 +180,7 @@ ToListElementEventHandler >> otherClickEvent: anEvent [
 { #category : #'event handling' }
 ToListElementEventHandler >> primaryClickEvent: anEvent [
 
+	anEvent currentTarget hasFocus ifTrue: [ ^ self ].
 	anEvent currentTarget requestFocus
 ]
 

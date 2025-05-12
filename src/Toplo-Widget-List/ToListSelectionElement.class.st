@@ -42,6 +42,7 @@ ToListSelectionElement >> initialize [
 
 	super initialize.
 	self constraintsDo: [ :c | c ignoreByLayout ].
+	self focusability: BlFocusability ignore.
 	" let install the skin immediately to speed-up selection updating "
 	self applySkinInstallerOnFirstRequest: true.
 	" must prevent mouse events for the scrolling events "

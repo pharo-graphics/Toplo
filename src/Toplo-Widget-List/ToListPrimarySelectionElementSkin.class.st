@@ -20,6 +20,8 @@ ToListPrimarySelectionElementSkin >> enabledSkinEvent: anEvent [
 
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
+		| focused |
+		focused := e listElement isFocused.
 		e selectionOption isGrouped
 			ifTrue: [
 				e border: (BlBorder
@@ -27,11 +29,11 @@ ToListPrimarySelectionElementSkin >> enabledSkinEvent: anEvent [
 						 width: (e valueOfTokenNamed: #'border-width-primary-selection')) ]
 			ifFalse: [ e border: BlBorder empty ].
 
-		" I must take into account the focused state of the node container element 
+		" I must take into account the focused state of the listElement 
 		here to start with the right background "
 		e isBeneath
 			ifTrue: [
-				e isFocused
+				focused
 					ifTrue: [
 						e background:
 							(e valueOfTokenNamed: #'color-list-primary-selection-focused') ]
@@ -39,13 +41,15 @@ ToListPrimarySelectionElementSkin >> enabledSkinEvent: anEvent [
 						e background:
 							(e valueOfTokenNamed: #'color-list-primary-selection-unfocused') ] ]
 			ifFalse: [
-				e isFocused
+				focused
 					ifTrue: [
 						e background:
-							(e valueOfTokenNamed: #'color-list-primary-selection-over-focused') ]
+							(e valueOfTokenNamed:
+								 #'color-list-primary-selection-over-focused') ]
 					ifFalse: [
 						e background:
-							(e valueOfTokenNamed: #'color-list-primary-selection-over-unfocused') ] ] ]
+							(e valueOfTokenNamed:
+								 #'color-list-primary-selection-over-unfocused') ] ] ]
 ]
 
 { #category : #'event handling' }

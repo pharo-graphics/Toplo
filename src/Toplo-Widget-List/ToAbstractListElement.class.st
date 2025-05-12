@@ -453,6 +453,13 @@ ToAbstractListElement >> placeholderElevation [
 	^ self innerElement elevation
 ]
 
+{ #category : #layout }
+ToAbstractListElement >> posponeAction: aValuable [
+
+	self innerElement requestLayout.
+	self dataSourceManager posponeAction: aValuable
+]
+
 { #category : #accessing }
 ToAbstractListElement >> primarySelectionMode [
 

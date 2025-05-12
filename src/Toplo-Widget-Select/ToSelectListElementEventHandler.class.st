@@ -29,8 +29,8 @@ ToSelectListElementEventHandler >> primaryClickEvent: anEvent [
 	super primaryClickEvent: anEvent.
 	listElement := anEvent currentTarget.
 	selectElement := listElement selectElement.
-	selectElement manager closeOnPicking ifTrue: [
-		selectElement currentPopupWindow close ]
+	selectElement closeOnPicking ifTrue: [
+		listElement posponeAction: [ selectElement currentPopupWindow close ] ]
 ]
 
 { #category : #'element handlers' }

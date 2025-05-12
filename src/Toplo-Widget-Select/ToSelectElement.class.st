@@ -43,6 +43,12 @@ ToSelectElement >> applyWidgetConfiguration [
 ]
 
 { #category : #'accessing - window' }
+ToSelectElement >> closeOnPicking [
+
+	^ self manager closeOnPicking
+]
+
+{ #category : #'accessing - window' }
 ToSelectElement >> closeOnPicking: aBoolean [
 
 	self manager closeOnPicking: aBoolean

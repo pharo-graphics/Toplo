@@ -3498,8 +3498,7 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 				        foreground: Color lightGray;
 				        fontSize: 24;
 				        yourself).
-		lab matchParent.
-		ph addChild: lab ].
+		ph empty label: lab ].
 
 	"handler inspect."
 	pane addChild: listElement.
@@ -3550,8 +3549,7 @@ ToSandBox class >> example_SieveOnList2With_350000_Items [
 				        foreground: Color lightGray;
 				        fontSize: 24;
 				        yourself).
-		lab matchParent.
-		ph addChild: lab ].
+		ph empty label: lab  ].
 
 	"handler inspect."
 	pane addChild: listElement.
@@ -6231,13 +6229,14 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 	| select innerWindow space |
 	self flag: 'To check'.
 	select := self selectWithEditingMultiSelection.
+	select manager minHeight: 100.
 	select filtrable: true.
 	select placeholderText: ('Choose a class' asRopedText
 			 foreground: Color lightGray;
 			 yourself).
 	select popupListElement placeholderBuilder: [ :placeholder :e |
 		placeholder layout alignCenter.
-		placeholder addChild:
+		placeholder empty label:
 			(ToAttributedLabel text: ('No Data' asRopedText
 					  fontSize: 24;
 					  foreground: Color lightGray;
@@ -7229,9 +7228,9 @@ ToSandBox class >> example_textFieldWithPlaceholder [
 		thePlaceholder addChild: (ToAttributedLabel text:
 				 ('Enter to accept' asRopedText foreground: Color lightGray)) ].
 	t whenSaveRequestedDo: [ :saveRequested |
-		saveRequested client text ifNotEmpty: [
-			saveRequested client saveResult: true.
-			text := saveRequested client text copy ] ].
+		saveRequested editorElement text ifNotEmpty: [
+			saveRequested editorElement saveResult: true.
+			text := saveRequested editorElement text copy ] ].
 	t whenCancelRequestedDo: [ :cancelRequested |
 		cancelRequested client text: text copy ].
 	t showPlaceholder.
@@ -7251,9 +7250,9 @@ ToSandBox class >> example_textFieldWithPlaceholder2 [
 				 yourself) ].
 	t whenSaveRequestedDo: [ :saveRequested |
 		saveRequested accepted: true.
-		text := saveRequested client text copy ].
+		text := saveRequested editorElement text copy ].
 	t whenSaveAcceptedDo: [ :saveAccepted |
-		text := saveAccepted client text copy ].
+		text := saveAccepted editorElement text copy ].
 	t whenCancelRequestedDo: [ :cancelRequested |
 		cancelRequested client text: text copy ].
 	t showPlaceholder.
@@ -8414,7 +8413,6 @@ ToSandBox class >> listWithEditableAndContextMenu [
 			ToListUnselectableSelectionElementExampleSkin new ].
 	unselectableMode changeSelectionOptionWith: option.
 
-	l withPlaceholder.
 	l placeholderBuilder: [ :placeholder :e |
 		placeholder empty labelText:
 			'Invoke the context menu ' , String cr , 'to initialize the list' ].

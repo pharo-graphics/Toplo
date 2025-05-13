@@ -221,15 +221,15 @@ ToAlbum >> requestTextStyle [
 ToAlbum >> saveResult: aBoolean [
 
 	| event |
-	
-	self deprecated: 'Send #validated: to the event current target instead '.
-	
+	self deprecated:
+		'Send #validated: to the event current target instead '.
+
 	self edited: aBoolean not.
 	event := aBoolean
 		         ifTrue: [ ToAlbumSaveAcceptedEvent new ]
 		         ifFalse: [ ToAlbumSaveDeniedEvent new ].
 	self dispatchEvent: (event
-			 client: self;
+			 editorElement: self;
 			 yourself)
 ]
 

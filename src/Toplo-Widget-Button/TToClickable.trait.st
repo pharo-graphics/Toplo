@@ -6,7 +6,7 @@ Trait {
 { #category : #'t - clickable' }
 TToClickable >> clickEventClass [
 
-	^ self userData at: #clickEventClass ifAbsent: [ BlMouseUpEvent  ]
+	^ self userData at: #clickEventClass ifAbsent: [ BlPrimaryClickEvent  ]
 ]
 
 { #category : #'t - clickable' }

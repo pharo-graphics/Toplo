@@ -262,7 +262,6 @@ ToListSelecter >> onBasicCommandApplied: aCommand [
 
 	| req |
 	selectionChangedEventClass ifNil: [ ^ self ].
-
 	req := ToListSelectionCommandAppliedEvent new
 		       command: aCommand;
 		       requestedAction: [

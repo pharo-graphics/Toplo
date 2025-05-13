@@ -7,6 +7,16 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
+{ #category : #'mouse handlers' }
+ToListNodeSelectionEventHandler >> clickEvent: anEvent [
+
+	anEvent
+		ifPrimary: [ self primaryClickEvent: anEvent ]
+		secondary: [  ]
+		middle: [  ]
+		other: [  ]
+]
+
 { #category : #'multiple selection' }
 ToListNodeSelectionEventHandler >> clickLauncher: aProcessOrNil [
 
@@ -25,7 +35,7 @@ ToListNodeSelectionEventHandler >> eventsToHandle [
 	^ {
 		  BlDoubleClickEvent.
 		  BlPrimaryMouseDownEvent.
-		  BlPrimaryMouseUpEvent.
+		  BlPrimaryClickEvent.
 		  ToListClickOnNodeRequestEvent.
 		  ToListClickOnNodeEvent }
 ]
@@ -107,16 +117,6 @@ ToListNodeSelectionEventHandler >> mouseDownEvent: anEvent [
 		other: [  ]
 ]
 
-{ #category : #'mouse handlers' }
-ToListNodeSelectionEventHandler >> mouseUpEvent: anEvent [
-
-	anEvent
-		ifPrimary: [ self primaryMouseUpEvent: anEvent ]
-		secondary: [  ]
-		middle: [  ]
-		other: [  ]
-]
-
 { #category : #'multiple selection' }
 ToListNodeSelectionEventHandler >> multipleSelectionListClickOnNodeEvent: anEvent [
 
@@ -167,18 +167,7 @@ ToListNodeSelectionEventHandler >> onClickOnNodeEvent: anEvent [
 ]
 
 { #category : #'mouse handlers' }
-ToListNodeSelectionEventHandler >> primaryMouseDownEvent: anEvent [
-
-	| node listElement mode |
-	node := anEvent currentTarget.
-	listElement := node holder listElement.
-	mode := listElement primarySelectionMode.
-	mode selectOnPressed ifFalse: [ ^ self ].
-	self notifyClickOnNodeFromEvent: anEvent
-]
-
-{ #category : #'mouse handlers' }
-ToListNodeSelectionEventHandler >> primaryMouseUpEvent: anEvent [
+ToListNodeSelectionEventHandler >> primaryClickEvent: anEvent [
 
 	| node listElement mode |
 	node := anEvent currentTarget.
@@ -186,6 +175,17 @@ ToListNodeSelectionEventHandler >> primaryMouseUpEvent: anEvent [
 	listElement isEnabled ifFalse: [ ^ self ].
 	mode := listElement primarySelectionMode.
 	mode selectOnPressed ifTrue: [ ^ self ].
+	self notifyClickOnNodeFromEvent: anEvent
+]
+
+{ #category : #'mouse handlers' }
+ToListNodeSelectionEventHandler >> primaryMouseDownEvent: anEvent [
+
+	| node listElement mode |
+	node := anEvent currentTarget.
+	listElement := node holder listElement.
+	mode := listElement primarySelectionMode.
+	mode selectOnPressed ifFalse: [ ^ self ].
 	self notifyClickOnNodeFromEvent: anEvent
 ]
 

@@ -39,7 +39,7 @@ ToEmpty >> initialize [
 
 	super initialize.
 	self labelText: 'No data'.
-	self fitContent
+	self matchParent
 ]
 
 { #category : #initialization }
@@ -57,18 +57,30 @@ ToEmpty >> installInnerImage: anInnerImage [
 ]
 
 { #category : #initialization }
-ToEmpty >> labelText: aStringOrText [
+ToEmpty >> label: aLabel [
 
-	label ifNotNil: [ label removeFromParent ].
-	aStringOrText ifNil: [
-		label := nil.
-		^ self ].
-	label := ToSelectableLabel new text: aStringOrText.
+	label ifNotNil: [
+		label removeFromParent.
+		label := nil ].
+	aLabel ifNil: [ ^ self ].
+	label := aLabel.
 	label addStamp: #placeholder.
 	label constraintsDo: [ :c |
-		c linear vertical alignCenter.
+		c linear horizontal alignCenter.
 		c linear vertical alignCenter ].
-	self addChild: label 
+	label hFitContent.
+	self addChild: label
+]
+
+{ #category : #initialization }
+ToEmpty >> labelText: aStringOrText [
+
+	aStringOrText ifNil: [
+		self label: nil.
+		^ self ].
+	self label: (ToSelectableLabel new
+			 text: aStringOrText;
+			 yourself)
 ]
 
 { #category : #skin }

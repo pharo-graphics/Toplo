@@ -7,7 +7,7 @@ Trait {
 TToElementWithPlaceholder >> hidePlaceholder [
 
 	self placeholderLayer ifNotNil: [ :ph |
-		ph visibility: BlVisibility hidden ]
+		ph visibility: BlVisibility gone ]
 ]
 
 { #category : #'t - element with placeholder' }
@@ -28,7 +28,7 @@ TToElementWithPlaceholder >> placeholderBuilder: aValuable [
 	ph := self newPlaceholder.
 	ph id: #toploPlaceholder.
 	aValuable value: ph value: self.
-	ph visibility: BlVisibility hidden.
+	ph visibility: BlVisibility gone.
 	ph attachTo: self.
 	ph elevation: self placeholderElevation.
 	self addChild: ph

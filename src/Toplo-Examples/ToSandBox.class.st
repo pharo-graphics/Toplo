@@ -6229,13 +6229,14 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 	| select innerWindow space |
 	self flag: 'To check'.
 	select := self selectWithEditingMultiSelection.
+	select manager minHeight: 100.
 	select filtrable: true.
 	select placeholderText: ('Choose a class' asRopedText
 			 foreground: Color lightGray;
 			 yourself).
 	select popupListElement placeholderBuilder: [ :placeholder :e |
 		placeholder layout alignCenter.
-		placeholder addChild:
+		placeholder empty label:
 			(ToAttributedLabel text: ('No Data' asRopedText
 					  fontSize: 24;
 					  foreground: Color lightGray;

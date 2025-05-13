@@ -11,13 +11,13 @@ ToClickableActionLink >> configureToUpdateLinkedObject: anObjectOrValuable from:
 	handler := aClickable
 		           addEventHandlerOn: aClickable clickEventClass
 		           do: [ :event | " evaluate if the action can be launched "
+			           event consume.
 			           (self launchableFromEvent: event) ifTrue: [
 				           self
 					           launchWithLinkedObject: anObjectOrValuable
 					           from: aClickable
 					           onEvent: event
-					           withValue: nil.
-				           event consume ] ].
+					           withValue: nil ] ].
 	self addedHandler: handler in: aClickable
 ]
 

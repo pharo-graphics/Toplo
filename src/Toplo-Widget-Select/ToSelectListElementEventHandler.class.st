@@ -22,11 +22,11 @@ ToSelectListElementEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEv
 	listElement selectElement innerElement refreshFromPopupListSelection
 ]
 
-{ #category : #'event handling' }
-ToSelectListElementEventHandler >> primaryClickEvent: anEvent [
+{ #category : #'mouse handlers' }
+ToSelectListElementEventHandler >> mouseUpEvent: anEvent [
 
 	| listElement selectElement |
-	super primaryClickEvent: anEvent.
+	super mouseUpEvent: anEvent.
 	listElement := anEvent currentTarget.
 	selectElement := listElement selectElement.
 	selectElement closeOnPicking ifTrue: [

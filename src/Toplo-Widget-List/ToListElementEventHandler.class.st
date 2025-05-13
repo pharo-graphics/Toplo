@@ -79,6 +79,7 @@ ToListElementEventHandler >> eventsToHandle [
 		  ToAddedToSpaceEvent.
 
 		  BlMouseDownEvent.
+		  BlMouseUpEvent.
 		  BlClickEvent.
 		  BlDoubleClickEvent.
 
@@ -167,6 +168,14 @@ ToListElementEventHandler >> middleClickEvent: anEvent [
 
 { #category : #'mouse handlers' }
 ToListElementEventHandler >> mouseDownEvent: anEvent [
+
+	| listElement |
+	listElement := anEvent currentTarget.
+	listElement stopScroll
+]
+
+{ #category : #'mouse handlers' }
+ToListElementEventHandler >> mouseUpEvent: anEvent [
 
 	| listElement |
 	listElement := anEvent currentTarget.

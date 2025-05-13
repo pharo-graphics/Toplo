@@ -70,11 +70,12 @@ TToElementWithPlaceholder >> placeholderString: aString [
 TToElementWithPlaceholder >> placeholderText: aText [
 	"Syntactic sugar to set a string has a placeholder message"
 
-	aText ifNil: [ self placeholderBuilder: nil.
+	aText ifNil: [
+		self placeholderBuilder: nil.
 		^ self ].
 
-	self placeholderBuilder: [ :placeholder :e |
-		placeholder padding: e padding.
+	self placeholderBuilder: [ :placeholder :theElement |
+		placeholder padding: theElement padding.
 		placeholder addChild: (ToAttributedLabel new
 				 text: aText;
 				 yourself) ]

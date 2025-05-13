@@ -7,18 +7,6 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
-{ #category : #'events handling' }
-ToListNodeSelectionEventHandler >> clickEvent: anEvent [
-
-	| node listElement mode |
-	node := anEvent currentTarget.
-	listElement := node holder listElement.
-	listElement isEnabled ifFalse: [ ^ self ].
-	mode := listElement primarySelectionMode.
-	mode selectOnPressed ifTrue: [ ^ self ].
-	self notifyClickOnNodeFromEvent: anEvent
-]
-
 { #category : #'multiple selection' }
 ToListNodeSelectionEventHandler >> clickLauncher: aProcessOrNil [
 
@@ -36,8 +24,8 @@ ToListNodeSelectionEventHandler >> eventsToHandle [
 
 	^ {
 		  BlDoubleClickEvent.
-		  BlPrimaryClickEvent.
 		  BlPrimaryMouseDownEvent.
+		  BlPrimaryMouseUpEvent.
 		  ToListClickOnNodeRequestEvent.
 		  ToListClickOnNodeEvent }
 ]
@@ -119,6 +107,16 @@ ToListNodeSelectionEventHandler >> mouseDownEvent: anEvent [
 		other: [  ]
 ]
 
+{ #category : #'mouse handlers' }
+ToListNodeSelectionEventHandler >> mouseUpEvent: anEvent [
+
+	anEvent
+		ifPrimary: [ self primaryMouseUpEvent: anEvent ]
+		secondary: [  ]
+		middle: [  ]
+		other: [  ]
+]
+
 { #category : #'multiple selection' }
 ToListNodeSelectionEventHandler >> multipleSelectionListClickOnNodeEvent: anEvent [
 
@@ -176,6 +174,18 @@ ToListNodeSelectionEventHandler >> primaryMouseDownEvent: anEvent [
 	listElement := node holder listElement.
 	mode := listElement primarySelectionMode.
 	mode selectOnPressed ifFalse: [ ^ self ].
+	self notifyClickOnNodeFromEvent: anEvent
+]
+
+{ #category : #'mouse handlers' }
+ToListNodeSelectionEventHandler >> primaryMouseUpEvent: anEvent [
+
+	| node listElement mode |
+	node := anEvent currentTarget.
+	listElement := node holder listElement.
+	listElement isEnabled ifFalse: [ ^ self ].
+	mode := listElement primarySelectionMode.
+	mode selectOnPressed ifTrue: [ ^ self ].
 	self notifyClickOnNodeFromEvent: anEvent
 ]
 

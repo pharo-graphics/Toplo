@@ -2364,7 +2364,10 @@ ToSandBox class >> example_Menu2 [
 		             size: 400 @ 200;
 		             yourself.
 	menu := ToMenu new.
-	menu addItem: (ToMenuItem new labelText: 'Menu item').
+	menu addItem: (ToMenuItem new
+			 labelText: 'Menu item';
+			 clickAction: [ :event | event traceCr ];
+			 yourself).
 	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	container pane addChild: menu.
 	container openInSpace
@@ -7296,7 +7299,7 @@ ToSandBox class >> example_textFields [
 ToSandBox class >> example_textFieldsInListElement [
 
 	| pane l |
-	self flag: 'Not working'.
+	self flag: #ToBeChecked.
 	pane := ToPane vertical.
 	pane matchParent.
 	l := ToListElement new.

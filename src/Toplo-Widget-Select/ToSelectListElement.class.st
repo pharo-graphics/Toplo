@@ -44,7 +44,8 @@ ToSelectListElement >> initialize [
 	
 	self nodeFactory: [ :holder | self listNodeClass new ].
 	self newGroupSelectionMode onInstalledIn: self.
-	self primarySelectionMode selectOnPressed: true.
+	self flag: #ToBeChecked.
+	"self primarySelectionMode selectOnPressed: true."
 	self primarySelectionMode deselectOnPressed: true.
 	self primarySelectionMode makeDisabledUnselectable: true
 ]

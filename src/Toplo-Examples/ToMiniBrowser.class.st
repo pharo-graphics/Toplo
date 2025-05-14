@@ -19,18 +19,6 @@ ToMiniBrowser class >> open [
 	self new open
 ]
 
-{ #category : #'class selection' }
-ToMiniBrowser >> candidateProtocolsForClass: aClass [
-
-	| prots |
-	prots := classSide
-		         ifTrue: [
-			         aClass allProtocols select: [ :p |
-				         aClass isLocalMethodsProtocol: p ] ]
-		         ifFalse: [ aClass allProtocols ].
-	^ prots sort: [ :a :b | a name < b name ]
-]
-
 { #category : #'code editor' }
 ToMiniBrowser >> changeCodeInEditor [
 
@@ -40,7 +28,7 @@ ToMiniBrowser >> changeCodeInEditor [
 	selectedSelector := selected.
 	cls := selectedSelector key.
 	sel := selectedSelector value.
-	codePane styler classOrMetaClass: cls.
+	self flag: #todo. #BlPharoCodeStyler."	codePane styler classOrMetaClass: cls."
 	codeText := cls sourceCodeAt: sel.
 	codePane text: codeText copy
 ]
@@ -52,36 +40,19 @@ ToMiniBrowser >> classSelectionChangedEvent: aToSelectionChanged [
 		aToSelectionChanged selectedIndexes
 ]
 
-{ #category : #accessing }
-ToMiniBrowser >> classSide [
-
-	^ classSide ifNil: [ classSide := false ]
-
-]
-
 { #category : #'code editor' }
 ToMiniBrowser >> clearCodeInEditor [
 
-	codePane styler classOrMetaClass: nil.
+	self flag: #todo. #BlPharoCodeStyler. "	codePane styler classOrMetaClass: nil."
 	codePane text: ''
 
 ]
 
-{ #category : #'class selection' }
-ToMiniBrowser >> filteredProtocolsFrom: aListOfProtocols [
+{ #category : #accessing }
+ToMiniBrowser >> isClassSide [
 
-	^ aListOfProtocols collect: [ :assoc | 
-		  | p |
-		  p := assoc value.
-		   assoc ]
-]
+	^ classSide ifNil: [ classSide := false ]
 
-{ #category : #'class selection' }
-ToMiniBrowser >> finalProtocolsFrom: aListOfProtocols forClass: aClass [
-
-	^ Array streamContents: [ :stream | 
-		  aListOfProtocols do: [ :prot | 
-			  stream nextPut: aClass -> prot ] ]
 ]
 
 { #category : #initialization }
@@ -125,7 +96,7 @@ ToMiniBrowser >> newClassPane [
 			               yourself).
 	classesPane addChild: classesButtonPane.
 
-	sideToggle checked: self classSide.
+	sideToggle checked: self isClassSide.
 	sideToggle checkAction: [ :evt :target :value |
 				 classSide := value.
 				 self refreshClassSelectionWithSelectedIndexes:
@@ -136,8 +107,11 @@ ToMiniBrowser >> newClassPane [
 { #category : #initialization }
 ToMiniBrowser >> newCodePane [
 
-	codePane := ToAlbum new withRowNumbers.
-	codePane styler: BlPharoCodeStyler new.
+	codePane := ToAlbum new.
+	codePane withRowNumbers.
+
+	self flag: #todo. #BlPharoCodeStyler. "	codePane styler: BlPharoCodeStyler new."
+
 	codePane contextMenuBuilder: [ :codeMenu :element |
 		codeMenu addItem: (ToMenuItem new labelText: 'Accept') ].
 
@@ -194,8 +168,8 @@ ToMiniBrowser >> newPackagePane [
 			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :event | self packageSelectionChangedEvent: event ]).
 	packages dataAccessor addAll:
-		(RPackage organizer packages asSortedCollection: [ :p1 :p2 |
-			 p1 name < p2 name ]).
+		(self packageOrganizer packages
+			asSortedCollection: [ :p1 :p2 | p1 name < p2 name ]).
 
 	^ packagesPane
 ]
@@ -298,22 +272,18 @@ ToMiniBrowser >> refreshClassSelectionWithSelectedIndexes: aCollection [
 
 	| selectedClasses allProtocols |
 	protocols dataAccessor removeAll.
-	selectedClasses := aCollection collect: [ :idx |
-		                   classes dataAccessor at: idx ].
-	allProtocols := Array streamContents: [ :stream |
-		                selectedClasses do: [ :cls |
-			                | side prots |
-			                side := classSide
-				                        ifTrue: [ cls classSide ]
-				                        ifFalse: [ cls instanceSide ].
-			                prots := self candidateProtocolsForClass: side.
-			                prots := self
-				                         finalProtocolsFrom: prots
-				                         forClass: side.
-			                stream nextPutAll: prots ] ].
 
-	selectedClasses size > 1 ifTrue: [
-		allProtocols := self filteredProtocolsFrom: allProtocols ].
+	selectedClasses :=
+		aCollection collect: [ :idx |
+			classes dataAccessor at: idx ].
+
+	allProtocols :=
+		Array streamContents: [ :stream |
+			selectedClasses do: [ :cls |
+				cls protocols do: [ :each | stream nextPut: cls -> each ] ] ].
+
+	allProtocols sort: [ :a :b | a name < b name ].
+
 	protocols dataAccessor addAll: allProtocols
 ]
 

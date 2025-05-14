@@ -8951,7 +8951,7 @@ ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 { #category : #tag }
 ToSandBox class >> tabPaneElementWithUSStates [
 
-	| tpane  |
+	| tpane |
 	tpane := ToTabPaneElement new.
 	tpane preservePane: true.
 	self statesOfAmerica do: [ :l |
@@ -8964,15 +8964,15 @@ ToSandBox class >> tabPaneElementWithUSStates [
 		item := ToTabButton new
 			        icon:
 				        (ToImage new innerImage: (self iconNamed: #solidMenu));
-						"endElement:
+			        "endElement:
 				        (ToImage new innerImage: (self iconNamed: #solidMenu));"
 			        label: lab;
 			        tooltipString: l;
 			        removable: true;
 			        paneBuilder: [ :pane |
 				        pane withNullSkin.
-				        pane border: Color veryLightGray.
-				        pane background: Color random ];
+				        pane background: (Color random alpha: 0.1).
+				        ToEmptyPlaceholderLayer new attachToParent: pane ];
 			        yourself.
 		tpane addItem: item ].
 	tpane isFlowable: false.

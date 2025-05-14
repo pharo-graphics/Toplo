@@ -28,7 +28,7 @@ ToMiniBrowser >> changeCodeInEditor [
 	selectedSelector := selected.
 	cls := selectedSelector key.
 	sel := selectedSelector value.
-	self flag: #todo. #BlPharoCodeStyler."	codePane styler classOrMetaClass: cls."
+	codePane styler classOrMetaClass: cls.
 	codeText := cls sourceCodeAt: sel.
 	codePane text: codeText copy
 ]
@@ -43,64 +43,56 @@ ToMiniBrowser >> classSelectionChangedEvent: aToSelectionChanged [
 { #category : #'code editor' }
 ToMiniBrowser >> clearCodeInEditor [
 
-	self flag: #todo. #BlPharoCodeStyler. "	codePane styler classOrMetaClass: nil."
+	codePane styler classOrMetaClass: nil.
 	codePane text: ''
 
 ]
 
-{ #category : #accessing }
-ToMiniBrowser >> isClassSide [
-
-	^ classSide ifNil: [ classSide := false ]
-
-]
-
 { #category : #initialization }
-ToMiniBrowser >> mainPane [
+ToMiniBrowser >> initialize [
 
-	| pane |
-	pane := ToPane new beVertical.
-	pane addChild: self newPackageToSelectorListPane.
-	pane addChild: self newCodePane.
-	pane matchParent.
-	pane layout cellSpacing: 3.
-	pane addDividers.
-	^ pane
+	super initialize.
+	
+	classSide := false
 ]
 
 { #category : #initialization }
 ToMiniBrowser >> newClassPane [
 
 	| classesPane classesButtonPane sideToggle |
-	classes := ToListElement new
-		           nodeFactory: [ ToClassNameViewExamplePart new ];
-		           id: #classes;
-		           nodeBuilder: [ :node :dataItem :holder |
-			           node class: dataItem position: holder position ].
-
-	classes addEventHandler: (BlEventHandler
-			 on: ToListPrimarySelectionChangedEvent
-			 do: [ :event | self classSelectionChangedEvent: event ]).
+	classes := ToListElement new.
+	classes
+		nodeFactory: [ ToClassNameViewExamplePart new ];
+		id: #classes;
+		nodeBuilder: [ :node :dataItem :holder |
+			node class: dataItem position: holder position ].
+	classes
+		addEventHandlerOn: ToListPrimarySelectionChangedEvent
+		do: [ :event | self classSelectionChangedEvent: event ].
 
 	classesPane := ToPane new
 		               id: #classesPane;
 		               beVertical;
-		               matchParent.
+		               matchParent;
+		               yourself.
 	classesPane addChild: classes.
+
 	classesButtonPane := ToPane new
 		                     hMatchParent;
-		                     vFitContent.
+		                     vFitContent;
+		                     yourself.
 	classesButtonPane addChild: (sideToggle := ToCheckbox new
 			               label: (ToLabel text: 'Class side');
 			               hMatchParent;
 			               yourself).
 	classesPane addChild: classesButtonPane.
 
-	sideToggle checked: self isClassSide.
+	sideToggle checked: classSide.
 	sideToggle checkAction: [ :evt :target :value |
-				 classSide := value.
-				 self refreshClassSelectionWithSelectedIndexes:
-					 classes selectionModel selectedIndexes ].
+			classSide := value.
+			self refreshClassSelectionWithSelectedIndexes:
+				classes selectionModel selectedIndexes ].
+
 	^ classesPane
 ]
 
@@ -110,7 +102,7 @@ ToMiniBrowser >> newCodePane [
 	codePane := ToAlbum new.
 	codePane withRowNumbers.
 
-	self flag: #todo. #BlPharoCodeStyler. "	codePane styler: BlPharoCodeStyler new."
+	codePane styler: BlPharoCodeStyler new.
 
 	codePane contextMenuBuilder: [ :codeMenu :element |
 		codeMenu addItem: (ToMenuItem new labelText: 'Accept') ].
@@ -119,57 +111,74 @@ ToMiniBrowser >> newCodePane [
 ]
 
 { #category : #initialization }
+ToMiniBrowser >> newMainPane [
+
+	| pane |
+	pane := ToPane new.
+	pane beVertical.
+	pane addChild: self newPackageToSelectorListPane.
+	pane addChild: self newCodePane.
+	pane matchParent.
+	pane layout cellSpacing: 3.
+	pane addDividers.
+	^ pane
+]
+
+{ #category : #initialization }
 ToMiniBrowser >> newPackagePane [
 
 	| packagesPane pkgFilterField pkgSieve packageBottomPane |
-	packagesPane := ToPane new
-		                id: #packagesPane;
-		                beVertical;
-		                matchParent.
+	packagesPane := ToPane new.
+	packagesPane
+		id: #packagesPane;
+		beVertical;
+		matchParent.
 
 	pkgFilterField := ToTextField new.
 	pkgFilterField placeholderText:
 		('Packages filter' asRopedText foreground: Color lightGray).
 
-	packages := ToListElement new
-		            id: #packages;
-		            nodeBuilder: [ :node :dataItem :holder |
-			            node addChild: (ToLabel new
-						             text: dataItem name;
-						             hMatchParent;
-						             yourself) ].
+	packages := ToListElement new.
+	packages
+		id: #packages;
+		nodeBuilder: [ :node :dataItem :holder |
+				node addChild: (ToLabel new
+							 text: dataItem name;
+							 hMatchParent;
+							 yourself) ].
+	packages
+		addEventHandlerOn: ToListStrongSelectionEvent
+		do: [ :event | event traceCr ].
+	packages
+		addEventHandlerOn: ToListPrimarySelectionChangedEvent
+		do: [ :event | self packageSelectionChangedEvent: event ].
+	packages dataAccessor addAll:
+		(self packageOrganizer packages asSortedCollection: [ :p1 :p2 |
+			 p1 name < p2 name ]).
+
+
 
 	pkgSieve := ToListElementSieve new.
 	pkgSieve onInstalledIn: packages.
 
 	pkgSieve dataFilter: [ :aPackage :aPattern |
-		aPackage name
-			includesSubstring: aPattern asString
-			caseSensitive: false ].
+			aPackage name
+				includesSubstring: aPattern asString
+				caseSensitive: false ].
 
 	pkgFilterField whenTextEditedDo: [
-				 | pattern |
-				 pattern := pkgFilterField text asString.
-				 pkgSieve pattern: pattern ].
+			| pattern |
+			pattern := pkgFilterField text asString.
+			pkgSieve pattern: pattern ].
 
-	packageBottomPane := ToPane new
-		                     hMatchParent;
-		                     vFitContent.
+	packageBottomPane := ToPane new.
+	packageBottomPane
+		hMatchParent;
+		vFitContent.
 	packageBottomPane addChild: pkgFilterField.
-
-	packages addEventHandler: (BlEventHandler
-			 on: ToListStrongSelectionEvent
-			 do: [ :event | event traceCr ]).
 
 	packagesPane addChild: packages.
 	packagesPane addChild: packageBottomPane.
-
-	packages addEventHandler: (BlEventHandler
-			 on: ToListPrimarySelectionChangedEvent
-			 do: [ :event | self packageSelectionChangedEvent: event ]).
-	packages dataAccessor addAll:
-		(self packageOrganizer packages
-			asSortedCollection: [ :p1 :p2 | p1 name < p2 name ]).
 
 	^ packagesPane
 ]
@@ -178,7 +187,8 @@ ToMiniBrowser >> newPackagePane [
 ToMiniBrowser >> newPackageToSelectorListPane [
 
 	| listsPane packagesPane classesPane |
-	listsPane := ToPane new id: #listPane.
+	listsPane := ToPane new.
+	listsPane id: #listPane.
 	listsPane matchParent.
 	listsPane layout cellSpacing: 3.
 
@@ -187,10 +197,10 @@ ToMiniBrowser >> newPackageToSelectorListPane [
 	protocols := self newProtocolPane.
 	selectors := self newSelectorPane.
 
-	packages withRowNumbers.
+"	packages withRowNumbers.
 	classes withRowNumbers.
 	protocols withRowNumbers.
-	selectors withRowNumbers.
+	selectors withRowNumbers."
 
 	listsPane addChild: packagesPane.
 	listsPane addChild: classesPane.
@@ -204,53 +214,58 @@ ToMiniBrowser >> newPackageToSelectorListPane [
 { #category : #initialization }
 ToMiniBrowser >> newProtocolPane [
 
-	protocols := ToListElement new
-		             id: #protocols;
-		             nodeBuilder: [ :node :dataItem :holder |
-			             node addChild: (ToLabel new
-						              text: dataItem value;
-						              hMatchParent) ].
-
-	protocols addEventHandler: (BlEventHandler
-			 on: ToListPrimarySelectionChangedEvent
-			 do: [ :event | self protocolSelectionChangedEvent: event ]).
-	^ protocols
+	^ ToListElement new
+		  id: #protocols;
+		  nodeBuilder: [ :node :dataItem :holder |
+				  node addChild: (ToLabel new
+							   text: dataItem value name;
+							   hMatchParent;
+							   yourself) ];
+		  addEventHandlerOn: ToListPrimarySelectionChangedEvent
+		  do: [ :event | self protocolSelectionChangedEvent: event ];
+		  yourself
 ]
 
 { #category : #initialization }
 ToMiniBrowser >> newSelectorPane [
 
-	selectors := ToListElement new
-		             id: #selectors;
-		             nodeBuilder: [ :node :dataItem :holder |
-			             node addChild:
-					             (ToLabel text: dataItem value asString)
-						             hMatchParent ].
-
-	selectors addEventHandler: (BlEventHandler
-			 on: ToListPrimarySelectionChangedEvent
-			 do: [ :event | self selectorSelectionChangedEvent: event ]).
-	^ selectors
+	^ ToListElement new
+		  id: #selectors;
+		  nodeBuilder: [ :node :dataItem :holder |
+				  node addChild: (ToLabel new
+							   text: dataItem value asString;
+							   hMatchParent;
+							   yourself) ];
+		  addEventHandlerOn: ToListPrimarySelectionChangedEvent
+		  do: [ :event | self selectorSelectionChangedEvent: event ];
+		  yourself
 ]
 
 { #category : #opening }
 ToMiniBrowser >> open [
 
-	self mainPane openInSpace title: 'Mini browser'
+	self newMainPane openInSpace title: 'Mini browser'
 ]
 
 { #category : #initialization }
 ToMiniBrowser >> packageSelectionChangedEvent: aToSelectionChanged [
 
 	| selectedPackages clsList |
-
 	classes dataAccessor removeAll.
-	selectedPackages := aToSelectionChanged selectedIndexes collect: [
-		                    :idx | packages dataAccessor at: idx ].
+	protocols dataAccessor removeAll.
+	selectors dataAccessor removeAll.
+	self clearCodeInEditor.
+
+	selectedPackages :=
+		aToSelectionChanged selectedIndexes
+			collect: [ :idx | packages dataAccessor at: idx ].
+
 	clsList := Array streamContents: [ :stream |
 		           selectedPackages do: [ :pkg |
 			           stream nextPutAll: pkg definedClasses ] ].
-	clsList := clsList asSortedCollection: [ :a :b | a name < b name ].
+
+	clsList sort: [ :a :b | a name < b name ].
+
 	classes dataAccessor addAll: clsList
 ]
 
@@ -259,8 +274,12 @@ ToMiniBrowser >> protocolSelectionChangedEvent: aToSelectionChanged [
 
 	| selectedProtocols |
 	selectors dataAccessor removeAll.
-	selectedProtocols := aToSelectionChanged selectedIndexes collect: [
-		                     :idx | protocols dataAccessor at: idx ].
+	self clearCodeInEditor.
+
+	selectedProtocols :=
+		aToSelectionChanged selectedIndexes
+			collect: [ :idx | protocols dataAccessor at: idx ].
+
 	selectedProtocols do: [ :assoc |
 		selectors dataAccessor addAll:
 			(assoc value methodSelectors asSortedCollection collect: [ :sel |
@@ -272,6 +291,8 @@ ToMiniBrowser >> refreshClassSelectionWithSelectedIndexes: aCollection [
 
 	| selectedClasses allProtocols |
 	protocols dataAccessor removeAll.
+	selectors dataAccessor removeAll.
+	self clearCodeInEditor.
 
 	selectedClasses :=
 		aCollection collect: [ :idx |

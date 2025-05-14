@@ -41,6 +41,14 @@ ToTabBarElementSkin >> leavedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToTabBarElementSkin >> leftSkinEvent: anEvent [
+
+	super leftSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e secondarySelecter deselectAll ]
+]
+
+{ #category : #'event handling' }
 ToTabBarElementSkin >> uninstallSelectionFactoriesIn: aTabBar [
 	" change the element factory with the original one "
 

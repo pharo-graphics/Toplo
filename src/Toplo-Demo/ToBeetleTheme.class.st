@@ -37,11 +37,11 @@ ToBeetleTheme >> initializeStyleRules [
 
 		" leaved rules "
 		self
-			when: ToLeavedSkinEvent
+			when: ToLeftSkinEvent
 			write: (self property: #background)
 			with: Color lightGray.
 		self
-			when: ToLeavedSkinEvent
+			when: ToLeftSkinEvent
 			write: (self property: #border)
 			with: (BlBorder paint: Color yellow width: 4) ]
 ]

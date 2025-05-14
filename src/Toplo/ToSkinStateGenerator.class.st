@@ -59,7 +59,7 @@ ToSkinStateGenerator >> dragEndEvent: anEvent [
 			 (ToReleasedSkinEvent sourceEvent: anEvent)).
 	self enqueueSkinState:
 		(ToTransientState skinEvent:
-			 (ToLeavedSkinEvent sourceEvent: anEvent))
+			 (ToLeftSkinEvent sourceEvent: anEvent))
 ]
 
 { #category : #'dnd handlers' }
@@ -225,7 +225,7 @@ ToSkinStateGenerator >> mouseLeaveEvent: anEvent [
 	target isEnabled ifFalse: [ ^ self ].
 	self enqueueSkinState:
 		(ToTransientState skinEvent:
-			 (ToLeavedSkinEvent sourceEvent: anEvent))
+			 (ToLeftSkinEvent sourceEvent: anEvent))
 ]
 
 { #category : #'mouse handlers' }
@@ -286,7 +286,7 @@ ToSkinStateGenerator >> pickOutsideEvent: anEvent [
 	target isEnabled ifFalse: [ ^ self ].
 	self enqueueSkinState:
 		(ToTransientState skinEvent:
-			 (ToLeavedSkinEvent sourceEvent: anEvent))
+			 (ToLeftSkinEvent sourceEvent: anEvent))
 ]
 
 { #category : #'mouse handlers' }

@@ -37,3 +37,12 @@ ToMenuPaneSkin >> leavedSkinEvent: anEvent [
 		e itemBar background: BlBackground transparent.
 		e listElementDo: [ :l | e background: BlBackground transparent ] ]
 ]
+
+{ #category : #'event handling' }
+ToMenuPaneSkin >> leftSkinEvent: anEvent [
+
+	super leftSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e itemBar background: BlBackground transparent.
+		e listElementDo: [ :l | e background: BlBackground transparent ] ]
+]

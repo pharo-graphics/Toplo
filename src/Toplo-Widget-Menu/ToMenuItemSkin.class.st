@@ -100,6 +100,20 @@ ToMenuItemSkin >> leavedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToMenuItemSkin >> leftSkinEvent: anEvent [
+
+	super leftSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e iconDo: [ :ic |
+			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
+		e endElementDo: [ :ic |
+			(ic respondsTo: #innerImageColor:) ifTrue: [
+				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
+		e labelDo: [ :lab |
+			lab foreground: (e valueOfTokenNamed: #'color-text') ] ]
+]
+
+{ #category : #'event handling' }
 ToMenuItemSkin >> pressedSkinEvent: anEvent [
 
 	super pressedSkinEvent: anEvent.

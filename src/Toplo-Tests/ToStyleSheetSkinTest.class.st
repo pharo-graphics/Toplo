@@ -205,7 +205,7 @@ ToStyleSheetSkinTest >> testWithAnimationOn2EventClasses [
 				 yourself).
 			(ToPropertyWriter new
 				 property: prop;
-				 eventClass: ToLeavedSkinEvent;
+				 eventClass: ToLeftSkinEvent;
 				 value: Color white;
 				 animation: animation;
 				 yourself) }.
@@ -225,7 +225,7 @@ ToStyleSheetSkinTest >> testWithAnimationOn2EventClasses [
 
 		w skinManager
 			enqueueSkinState:
-			(ToTransientState skinEvent: ToLeavedSkinEvent new)
+			(ToTransientState skinEvent: ToLeftSkinEvent new)
 			in: w.
 		animation onFinishedDo: [ :xx |
 			self assert: w background paint color equals: Color white ] ]

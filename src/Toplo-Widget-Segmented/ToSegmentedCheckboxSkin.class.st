@@ -96,6 +96,18 @@ ToSegmentedCheckboxSkin >> leavedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToSegmentedCheckboxSkin >> leftSkinEvent: anEvent [
+
+	super leftSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e iconDo: [ :ic |
+					ic innerImageColor: (e valueOfTokenNamed: #'color-primary') ].
+		e labelDo: [ :lab |
+			lab foreground: (e valueOfTokenNamed: #'color-text') ].
+		e border: BlBorder empty ]
+]
+
+{ #category : #'event handling' }
 ToSegmentedCheckboxSkin >> pressedSkinEvent: anEvent [
 
 	super pressedSkinEvent: anEvent.

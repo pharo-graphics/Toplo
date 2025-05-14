@@ -75,3 +75,12 @@ ToTabNodeSkin >> leavedSkinEvent: anEvent [
 		e removeButtonDo: [ :rb | rb visibility: BlVisibility hidden ].
 		e mouseCursor: Cursor normal ]
 ]
+
+{ #category : #'event handling' }
+ToTabNodeSkin >> leftSkinEvent: anEvent [
+
+	super leftSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e removeButtonDo: [ :rb | rb visibility: BlVisibility hidden ].
+		e mouseCursor: Cursor normal ]
+]

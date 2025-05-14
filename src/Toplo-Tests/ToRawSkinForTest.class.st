@@ -132,6 +132,14 @@ ToRawSkinForTest >> leavedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToRawSkinForTest >> leftSkinEvent: anEvent [
+
+	super leftSkinEvent: anEvent.
+	self addReceivedEvent: anEvent
+
+]
+
+{ #category : #'event handling' }
 ToRawSkinForTest >> openedSkinEvent: anEvent [
 
 	super openedSkinEvent: anEvent.

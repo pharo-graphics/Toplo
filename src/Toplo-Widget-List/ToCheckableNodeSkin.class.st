@@ -28,3 +28,11 @@ ToCheckableNodeSkin >> leavedSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal ]
 ]
+
+{ #category : #'event handling' }
+ToCheckableNodeSkin >> leftSkinEvent: anEvent [
+
+	super leftSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e mouseCursor: Cursor normal ]
+]

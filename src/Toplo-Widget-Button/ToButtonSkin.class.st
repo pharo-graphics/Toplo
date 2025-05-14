@@ -88,6 +88,20 @@ ToButtonSkin >> leavedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToButtonSkin >> leftSkinEvent: anEvent [
+
+	super leftSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e iconDo: [ :ic |
+			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
+		e endElementDo: [ :ic |
+			(ic respondsTo: #innerImageColor:) ifTrue: [
+				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
+		e labelDo: [ :lab |
+			lab foreground: (e valueOfTokenNamed: #'color-text') ] ]
+]
+
+{ #category : #'event handling' }
 ToButtonSkin >> pressedSkinEvent: anEvent [
 
 	super pressedSkinEvent: anEvent.

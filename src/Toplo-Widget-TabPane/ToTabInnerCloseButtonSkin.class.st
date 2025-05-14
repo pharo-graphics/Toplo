@@ -28,3 +28,10 @@ ToTabInnerCloseButtonSkin >> leavedSkinEvent: anEvent [
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e | e border: BlBorder empty ]
 ]
+
+{ #category : #'event handling' }
+ToTabInnerCloseButtonSkin >> leftSkinEvent: anEvent [
+
+	super leftSkinEvent: anEvent.
+	anEvent elementDo: [ :e | e border: BlBorder empty ]
+]

@@ -51,6 +51,17 @@ ToTabSkin >> leavedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToTabSkin >> leftSkinEvent: anEvent [
+
+	super leftSkinEvent: anEvent.
+	anEvent elementDo: [ :e | 
+		e isChecked ifFalse: [e background: e defaultBackground].
+		e border: (BlBorder paint: (e valueOfTokenNamed: #'color-border') width: (e valueOfTokenNamed: #'line-width')).
+		e isChecked ifTrue: [ ^ self ] ].
+
+]
+
+{ #category : #'event handling' }
 ToTabSkin >> pressedSkinEvent: anEvent [
 
 	anEvent elementDo: [ :e | e isChecked ifTrue: [ ^ self ] ].

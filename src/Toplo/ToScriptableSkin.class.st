@@ -134,9 +134,9 @@ ToScriptableSkin >> onInstallSkinEvent: aValuable [
 ]
 
 { #category : #'event handling' }
-ToScriptableSkin >> onLeavedSkinEvent: aValuable [
+ToScriptableSkin >> onLeftSkinEvent: aValuable [
 
-	handlerMap at: ToLeavedSkinEvent put: aValuable
+	handlerMap at: ToLeftSkinEvent put: aValuable
 ]
 
 { #category : #'event handling' }

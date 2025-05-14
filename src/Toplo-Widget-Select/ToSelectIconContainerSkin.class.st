@@ -51,6 +51,14 @@ ToSelectIconContainerSkin >> leavedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToSelectIconContainerSkin >> leftSkinEvent: anEvent [
+
+	super leftSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e mouseCursor: Cursor normal  ].
+]
+
+{ #category : #'event handling' }
 ToSelectIconContainerSkin >> openedSkinEvent: anEvent [
 
 	super openedSkinEvent: anEvent.

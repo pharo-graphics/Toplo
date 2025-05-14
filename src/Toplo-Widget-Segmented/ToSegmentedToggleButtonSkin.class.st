@@ -85,6 +85,14 @@ ToSegmentedToggleButtonSkin >> leavedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToSegmentedToggleButtonSkin >> leftSkinEvent: anEvent [
+
+	super leftSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e mouseCursor: Cursor normal ]
+]
+
+{ #category : #'event handling' }
 ToSegmentedToggleButtonSkin >> selectedSkinEvent: anEvent [
 
 	super selectedSkinEvent: anEvent.

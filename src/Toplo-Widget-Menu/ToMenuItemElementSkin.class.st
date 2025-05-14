@@ -37,3 +37,11 @@ ToMenuItemElementSkin >> leavedSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal ]
 ]
+
+{ #category : #'event handling' }
+ToMenuItemElementSkin >> leftSkinEvent: anEvent [
+
+	super leftSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e mouseCursor: Cursor normal ]
+]

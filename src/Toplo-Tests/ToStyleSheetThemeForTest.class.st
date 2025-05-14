@@ -14,13 +14,13 @@ ToStyleSheetThemeForTest >> declareElementRules [
 			self write: (self property: #background) with: Color white.
 			self write: (self property: #background) withAll: {
 					(ToHoveredSkinEvent -> Color blue).
-					(ToLeavedSkinEvent -> Color red) }.
+					(ToLeftSkinEvent -> Color red) }.
 			self
 				when: ToHoveredSkinEvent
 				write: (self property: #background)
 				with: Color yellow.
 			self
-				when: ToLeavedSkinEvent
+				when: ToLeftSkinEvent
 				write: (self property: #background)
 				with: Color brown ]
 ]

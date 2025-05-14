@@ -51,6 +51,15 @@ ToDividerSkin >> leavedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToDividerSkin >> leftSkinEvent: anEvent [
+
+	super leftSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e border: e defaultBorder.
+		e background: e defaultBackground ]
+]
+
+{ #category : #'event handling' }
 ToDividerSkin >> pressedSkinEvent: anEvent [
 
 	super pressedSkinEvent: anEvent.

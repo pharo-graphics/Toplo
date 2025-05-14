@@ -224,6 +224,16 @@ ToBasicSkin >> leavedLookEvent: anEvent [
 
 { #category : #'event handling' }
 ToBasicSkin >> leavedSkinEvent: anEvent [
+
+	self
+		deprecated: 'Use #leftSkinEvent: instead'
+		transformWith:
+		'`@rcvr leavedSkinEvent: `@arg' -> '`@rcvr leftSkinEvent: `@arg'.
+	self leftSkinEvent: anEvent
+]
+
+{ #category : #'event handling' }
+ToBasicSkin >> leftSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }

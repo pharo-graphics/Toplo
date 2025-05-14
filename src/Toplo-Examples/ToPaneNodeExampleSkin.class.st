@@ -80,3 +80,13 @@ ToPaneNodeExampleSkin >> leavedSkinEvent: anEvent [
 		nodeButton removeFromParent.
 		nodeButton := nil ]
 ]
+
+{ #category : #'event handling' }
+ToPaneNodeExampleSkin >> leftSkinEvent: anEvent [
+
+	super leftSkinEvent: anEvent.
+	anEvent target isEnabled ifFalse: [ ^ self ].
+	nodeButton ifNotNil: [
+		nodeButton removeFromParent.
+		nodeButton := nil ]
+]

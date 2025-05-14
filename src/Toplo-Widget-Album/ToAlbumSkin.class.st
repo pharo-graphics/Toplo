@@ -98,6 +98,13 @@ ToAlbumSkin >> leavedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToAlbumSkin >> leftSkinEvent: anEvent [
+
+	super leftSkinEvent: anEvent.
+	anEvent elementDo: [ :e | e mouseCursor: Cursor normal ]
+]
+
+{ #category : #'event handling' }
 ToAlbumSkin >> unfocusedSkinEvent: anEvent [
 
 	super unfocusedSkinEvent: anEvent.

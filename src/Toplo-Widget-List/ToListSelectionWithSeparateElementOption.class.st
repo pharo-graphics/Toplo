@@ -4,8 +4,14 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
+{ #category : #testing }
+ToListSelectionWithSeparateElementOption >> isSeparate [
+
+	^ true
+]
+
 { #category : #'nodes collecting' }
-ToListSelectionWithSeparateElementOption >> currentSelectionRepresentationsFrom: aListElement withSelectionModel: aSelectionModel [
+ToListSelectionWithSeparateElementOption >> newSelectionRepresentationArrayFrom: aListElement withSelectionModel: aSelectionModel [
 
 	^ (aListElement innerElement nodesSelect: [ :node |
 		   | idx |
@@ -13,10 +19,4 @@ ToListSelectionWithSeparateElementOption >> currentSelectionRepresentationsFrom:
 		   (aSelectionModel containsIndex: idx) and: [
 			   aSelectionModel isVisibleIndex: idx ] ]) collect: [ :node |
 		  ToSeparateSelection new node: node ]
-]
-
-{ #category : #testing }
-ToListSelectionWithSeparateElementOption >> isSeparate [
-
-	^ true
 ]

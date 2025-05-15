@@ -22,7 +22,8 @@ ToListElementEventHandler >> blurEvent: anEvent [
 { #category : #'selection managing' }
 ToListElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
 
-	anEvent currentTarget updateAllSelections 
+	self flag: #ToBeChecked.
+	anEvent currentTarget updateAllSelections
 ]
 
 { #category : #'event handling' }

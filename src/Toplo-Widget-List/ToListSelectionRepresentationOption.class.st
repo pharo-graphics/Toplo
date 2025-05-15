@@ -3,7 +3,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'selectionOption',
-		'currentSelectionRepresentations'
+		'representation'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
@@ -26,17 +26,11 @@ ToListSelectionRepresentationOption class >> separate [
 	^ ToListSelectionWithSeparateElementOption new
 ]
 
-{ #category : #'nodes collecting' }
-ToListSelectionRepresentationOption >> currentSelectionRepresentationsFrom: aListElement withSelectionModel: aSelectionModel [
-
-	^ self subclassResponsibility 
-]
-
 { #category : #initialization }
 ToListSelectionRepresentationOption >> initialize [ 
 
 	super initialize.
-	currentSelectionRepresentations := #(  )
+	representation := ToEmptySelectionRepresentation new
 ]
 
 { #category : #testing }
@@ -61,6 +55,28 @@ ToListSelectionRepresentationOption >> isMasked [
 ToListSelectionRepresentationOption >> isSeparate [
 
 	^ false
+]
+
+{ #category : #'nodes collecting' }
+ToListSelectionRepresentationOption >> newSelectionRepresentationArrayFrom: aListElement withSelectionModel: aSelectionModel [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #'nodes collecting' }
+ToListSelectionRepresentationOption >> nextSelectionRepresentationFrom: aListElement withSelectionModel: aSelectionModel [
+
+	| arr |
+	arr := self
+		       newSelectionRepresentationArrayFrom: aListElement
+		       withSelectionModel: aSelectionModel.
+	^ arr ifEmpty: [ ToEmptySelectionRepresentation new ] ifNotEmpty: [
+		  arr size > 1
+			  ifTrue: [
+				  ToCompositeSelectionRepresentation new
+					  representations: arr;
+					  yourself ]
+			  ifFalse: [ arr first ] ]
 ]
 
 { #category : #'private - selection updating' }
@@ -91,16 +107,6 @@ ToListSelectionRepresentationOption >> refreshSelectionIn: aListElement withSele
 ToListSelectionRepresentationOption >> removeSelectionContainer [
 ]
 
-{ #category : #removing }
-ToListSelectionRepresentationOption >> removeSelectionRepresentationsIn: aListElement withSelectionModel: aSelectionModel [
-
-	currentSelectionRepresentations do: [ :g |
-		g onRemovedFromListElement: aListElement ].
-	currentSelectionRepresentations := #(  ).
-	" send deselected when selection element are removed to send DeselectedSkinEvent to nodes "
-	self notifyNodesDeselectedIn: aListElement
-]
-
 { #category : #accessing }
 ToListSelectionRepresentationOption >> selectionElements [
 
@@ -113,16 +119,6 @@ ToListSelectionRepresentationOption >> selectionOption: aSelectionOption [
 	selectionOption := aSelectionOption 
 ]
 
-{ #category : #'nodes collecting' }
-ToListSelectionRepresentationOption >> selectionRepresentationsChangeWith: otherSelectionRepresentationArray [
-
-	currentSelectionRepresentations == otherSelectionRepresentationArray ifTrue: [ ^ false ].
-	currentSelectionRepresentations size ~= otherSelectionRepresentationArray size ifTrue: [ ^ true ].
-	currentSelectionRepresentations withIndexDo: [ :g :idx |
-		g = (otherSelectionRepresentationArray at: idx) ifFalse: [ ^ true ] ].
-	^ false
-]
-
 { #category : #accessing }
 ToListSelectionRepresentationOption >> triggerSelectionState [
 
@@ -132,12 +128,14 @@ ToListSelectionRepresentationOption >> triggerSelectionState [
 { #category : #'nodes collecting' }
 ToListSelectionRepresentationOption >> updateSelectionIn: aListElement withSelectionModel: aSelectionModel [
 
-	| newRepresentations |
-	newRepresentations := self
-		                      currentSelectionRepresentationsFrom:
-		                      aListElement
-		                      withSelectionModel: aSelectionModel.
-	self removeSelectionRepresentationsIn: aListElement withSelectionModel: aSelectionModel.
-	currentSelectionRepresentations := newRepresentations.
+	| rep |
+	rep := self
+		       nextSelectionRepresentationFrom: aListElement
+		       withSelectionModel: aSelectionModel.
+	"rep = representation ifTrue: [ '=' traceCr. ^ false ]."
+	representation onRemovedFromListElement: aListElement.
+	" send deselected when selection element are removed to send DeselectedSkinEvent to nodes "
+	self notifyNodesDeselectedIn: aListElement.
+	representation := rep.
 	^ true
 ]

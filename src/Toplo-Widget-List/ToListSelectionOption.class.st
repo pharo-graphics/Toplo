@@ -32,12 +32,6 @@ ToListSelectionOption >> beneath: aBoolean [
 	representationOption removeSelectionContainer 
 ]
 
-{ #category : #'private - selection updating' }
-ToListSelectionOption >> currentSelectionRepresentationsFrom: aListElement withSelectionModel: aSelectionModel [
-
-	^ representationOption currentSelectionRepresentationsFrom: aListElement withSelectionModel: aSelectionModel
-]
-
 { #category : #accessing }
 ToListSelectionOption >> elementFactory [
 

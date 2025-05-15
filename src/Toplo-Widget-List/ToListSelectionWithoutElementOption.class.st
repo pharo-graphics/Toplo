@@ -4,8 +4,14 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
+{ #category : #testing }
+ToListSelectionWithoutElementOption >> isEmbedded [ 
+
+	^ true
+]
+
 { #category : #'nodes collecting' }
-ToListSelectionWithoutElementOption >> currentSelectionRepresentationsFrom: aListElement withSelectionModel: aSelectionModel [
+ToListSelectionWithoutElementOption >> newSelectionRepresentationArrayFrom: aListElement withSelectionModel: aSelectionModel [
 
 	^ (aListElement innerElement nodesSelect: [ :node |
 		   | idx |
@@ -13,12 +19,6 @@ ToListSelectionWithoutElementOption >> currentSelectionRepresentationsFrom: aLis
 		   (aSelectionModel containsIndex: idx) and: [
 			   aSelectionModel isVisibleIndex: idx ] ]) collect: [ :node |
 		  ToSelectionWithoutElement new node: node ]
-]
-
-{ #category : #testing }
-ToListSelectionWithoutElementOption >> isEmbedded [ 
-
-	^ true
 ]
 
 { #category : #'nodes collecting' }

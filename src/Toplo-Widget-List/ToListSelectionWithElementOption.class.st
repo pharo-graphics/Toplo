@@ -9,30 +9,27 @@ Class {
 }
 
 { #category : #'private - selection updating' }
+ToListSelectionWithElementOption >> addAllSelectionElements: aSelectionElementArray [
+
+	selectionOption isMasked ifTrue: [ ^ self ].
+	selectionContainer addChildren: aSelectionElementArray
+]
+
+{ #category : #'private - selection updating' }
 ToListSelectionWithElementOption >> addSelectionElement: aSelectionElement [
 
 	selectionOption isMasked ifTrue: [ ^ self ].
 	selectionContainer addChild: aSelectionElement
 ]
 
-{ #category : #'private - selection updating' }
-ToListSelectionWithElementOption >> addSelectionElements: aSelectionElementArray [
-
-	selectionOption isMasked ifTrue: [ ^ self ].
-	selectionContainer addChildren: aSelectionElementArray
-]
-
 { #category : #accessing }
 ToListSelectionWithElementOption >> addSelectionElementsIn: aListElement startingAt: aPosition [
 
 	| elements |
-	elements := Array streamContents: [ :stream |
-		            aPosition to: currentSelectionRepresentations size do: [ :p |
-			            stream nextPut:
-				            ((currentSelectionRepresentations at: p)
-					             updatedSelectionElementIn: aListElement) ] ].
-
-	self addSelectionElements: elements
+	elements := representation selectionElements.
+	aPosition > 1 ifTrue: [
+		elements := elements copyFrom: aPosition to: elements size ].
+	self addAllSelectionElements: elements
 ]
 
 { #category : #adding }
@@ -43,27 +40,26 @@ ToListSelectionWithElementOption >> addSelectionIn: aListElement [
 	sent just after the selection is added "
 
 	| finalBounds startBounds |
-	currentSelectionRepresentations ifEmpty: [ ^ self ].
 	self checkSelectionContainerIn: aListElement.
 
-	currentSelectionRepresentations do: [ :grp |
-		grp refreshSelectionElementIn: aListElement option: self ].
+	representation isEmpty ifTrue: [ ^ self ].
+	representation
+		refreshSelectionElementIn: aListElement
+		option: self.
 
-	startBounds := previousSelectionBounds.
-	finalBounds := currentSelectionRepresentations first
-		               preComputedBounds.
 	" animation is used if the start and the final bounds differs and in case of one selection group only "
-	(startBounds = finalBounds or: [
-		 (self canAnimateSelectionUpdate and: [
-			  currentSelectionRepresentations size = 1 ]) not ]) ifTrue: [
+	self canAnimateSelectionUpdate ifFalse: [
 		self addSelectionElementsIn: aListElement startingAt: 1.
 		self notifyNodesSelectedIn: aListElement.
 		^ self ].
 
+	startBounds := previousSelectionBounds.
+	finalBounds := representation selectionBounds.
+
 	self
 		boundsAnimationFrom: startBounds
 		to: finalBounds
-		onRepresentation: currentSelectionRepresentations first
+		onRepresentation: representation
 		in: aListElement.
 
 	" add others "
@@ -96,7 +92,9 @@ ToListSelectionWithElementOption >> boundsAnimationFrom: startBounds to: finalBo
 { #category : #'private - selection updating' }
 ToListSelectionWithElementOption >> canAnimateSelectionUpdate [
 
-	^ self isAnimated and: [ previousSelectionBounds notNil ]
+	^ self isAnimated and: [
+		  representation isComposite not and: [
+			  previousSelectionBounds notNil ] ]
 ]
 
 { #category : #accessing }
@@ -160,10 +158,8 @@ ToListSelectionWithElementOption >> refreshSelectionIn: aListElement withSelecti
 { #category : #'nodes collecting' }
 ToListSelectionWithElementOption >> rememberSelectionBoundsIn: aListElement [
 
-	currentSelectionRepresentations ifEmpty: [ ^ self ].
-	previousSelectionBounds := Rectangle merging:
-		                           (currentSelectionRepresentations collect: [ :g |
-			                            g preComputedBounds ])
+	previousSelectionBounds := representation
+		                           selectionBounds
 ]
 
 { #category : #removing }
@@ -177,9 +173,7 @@ ToListSelectionWithElementOption >> removeSelectionContainer [
 { #category : #accessing }
 ToListSelectionWithElementOption >> selectionElements [
 
-	^ Array streamContents: [ :stream |
-		  currentSelectionRepresentations do: [ :grp |
-			  grp selectionElement ifNotNil: [ :se | stream nextPut: se ] ] ]
+	^ representation selectionElements
 ]
 
 { #category : #'nodes collecting' }

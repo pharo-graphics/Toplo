@@ -141,7 +141,9 @@ ToInfiniteElement >> initialize [
 
 	super initialize.
 	self addEventHandler: ToListInnerElementEventHandler new.
-	self constraintsDo: [ :c | c horizontal matchParent. c vertical matchParent ]
+	self constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical matchParent ]
 ]
 
 { #category : #'t - infinite accessing' }

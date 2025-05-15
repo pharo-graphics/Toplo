@@ -8962,8 +8962,8 @@ ToSandBox class >> tabPaneElementWithUSStates [
 		lab width: 70.
 		"lab rotateBy: 270."
 		item := ToTabButton new
-			        icon:
-				        (ToImage new innerImage: (self iconNamed: #solidMenu));
+			        "icon:
+				        (ToImage new innerImage: (self iconNamed: #solidMenu));"
 			        "endElement:
 				        (ToImage new innerImage: (self iconNamed: #solidMenu));"
 			        label: lab;

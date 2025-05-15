@@ -4,8 +4,14 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
+{ #category : #testing }
+ToListSelectionWithNeighboringElementOption >> isGrouped [ 
+
+	^ true
+]
+
 { #category : #'nodes collecting' }
-ToListSelectionWithNeighboringElementOption >> currentSelectionRepresentationsFrom: aListElement withSelectionModel: aSelectionModel [
+ToListSelectionWithNeighboringElementOption >> newSelectionRepresentationArrayFrom: aListElement withSelectionModel: aSelectionModel [
 
 	^ (aListElement innerElement nodeGroupsSatisfying: [ :node |
 		   | idx |
@@ -13,10 +19,4 @@ ToListSelectionWithNeighboringElementOption >> currentSelectionRepresentationsFr
 		   (aSelectionModel containsIndex: idx) and: [
 			   aSelectionModel isVisibleIndex: idx ] ]) collect: [ :arr |
 		  ToNeighboringSelection new nodes: arr ]
-]
-
-{ #category : #testing }
-ToListSelectionWithNeighboringElementOption >> isGrouped [ 
-
-	^ true
 ]

@@ -25,12 +25,12 @@ ToTopLevelMockTest >> testMocks [
 
 	| errors |
 	self skip.
+
 	errors := OrderedCollection new.
 
 	{
 		ToLoginPage.
 		ToMiniBrowser.
-		ToTextFieldPopupExperiment.
 		ToWorkspaceExample } do: [ :each |
 		[
 		each open.

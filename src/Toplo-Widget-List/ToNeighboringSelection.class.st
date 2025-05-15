@@ -11,7 +11,8 @@ Class {
 ToNeighboringSelection >> = other [
 
 	super = other ifFalse: [ ^ false ].
-	^ nodes = other nodes
+	^ nodes = other nodes and: [
+				  preComputedBounds = other preComputedBounds ]
 ]
 
 { #category : #comparing }

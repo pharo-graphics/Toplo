@@ -13,8 +13,8 @@ ToSelectionWithElement >> createSelectionElementIn: aListElement option: aSelect
 
 	cachedSelectionElement := aSelectionRepresentationOption newSelectionElementIn: aListElement.
 	cachedSelectionElement nodes: self nodes.
-	preComputedBounds := cachedSelectionElement boundsFromNodesIn: aListElement
-
+	preComputedBounds := cachedSelectionElement boundsFromNodesIn: aListElement.
+	self refreshSelectionElementIn: aListElement option: aSelectionRepresentationOption
 ]
 
 { #category : #removing }
@@ -35,7 +35,6 @@ ToSelectionWithElement >> preComputedBounds [
 { #category : #'private - selection element' }
 ToSelectionWithElement >> refreshSelectionElementIn: aListElement option: aSelectionRepresentationOption [
 
-	self createSelectionElementIn: aListElement option: aSelectionRepresentationOption.
 	cachedSelectionElement position: preComputedBounds origin.
 	cachedSelectionElement size: preComputedBounds extent
 ]

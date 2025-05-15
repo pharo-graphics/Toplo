@@ -132,7 +132,7 @@ ToListSelectionRepresentationOption >> updateSelectionIn: aListElement withSelec
 	rep := self
 		       nextSelectionRepresentationFrom: aListElement
 		       withSelectionModel: aSelectionModel.
-	"rep = representation ifTrue: [ '=' traceCr. ^ false ]."
+	rep = representation ifTrue: [ ^ false ]. 
 	representation onRemovedFromListElement: aListElement.
 	" send deselected when selection element are removed to send DeselectedSkinEvent to nodes "
 	self notifyNodesDeselectedIn: aListElement.

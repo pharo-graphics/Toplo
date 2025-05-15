@@ -18,5 +18,8 @@ ToListSelectionWithSeparateElementOption >> newSelectionRepresentationArrayFrom:
 		   idx := node holder position.
 		   (aSelectionModel containsIndex: idx) and: [
 			   aSelectionModel isVisibleIndex: idx ] ]) collect: [ :node |
-		  ToSeparateSelection new node: node ]
+		  ToSeparateSelection new
+			  node: node;
+			  createSelectionElementIn: aListElement option: selectionOption;
+			  yourself ]
 ]

@@ -18,5 +18,8 @@ ToListSelectionWithNeighboringElementOption >> newSelectionRepresentationArrayFr
 		   idx := node holder position.
 		   (aSelectionModel containsIndex: idx) and: [
 			   aSelectionModel isVisibleIndex: idx ] ]) collect: [ :arr |
-		  ToNeighboringSelection new nodes: arr ]
+		  ToNeighboringSelection new
+			  nodes: arr;
+			  createSelectionElementIn: aListElement option: selectionOption;
+			  yourself ]
 ]

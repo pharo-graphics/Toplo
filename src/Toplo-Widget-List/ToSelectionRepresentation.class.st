@@ -4,6 +4,18 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
+{ #category : #comparing }
+ToSelectionRepresentation >> = other [
+
+	^ self class = other class
+]
+
+{ #category : #comparing }
+ToSelectionRepresentation >> hash [
+
+	^ self class hash
+]
+
 { #category : #testing }
 ToSelectionRepresentation >> isComposite [ 
 

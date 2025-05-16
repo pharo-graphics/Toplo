@@ -147,6 +147,20 @@ ToAbstractListSelectionMode >> newSelectionChangedEventHandler [
 ]
 
 { #category : #'instance creation' }
+ToAbstractListSelectionMode >> newSelectionContainerIn: aListElement [
+
+	| container elevation |
+	container := ToOverlayElement new.
+	container clipChildren: true.
+	container attachTo: aListElement innerElement.
+	elevation := self selectionOption isBeneath 
+		             ifTrue: [ BlRelativeElevation elevation: 5 ]
+		             ifFalse: [ BlRelativeElevation elevation: 15 ].
+	container elevation: elevation.
+	^ container
+]
+
+{ #category : #'instance creation' }
 ToAbstractListSelectionMode >> newSelectionModelIn: aListElement [
 
 	^ self subclassResponsibility 

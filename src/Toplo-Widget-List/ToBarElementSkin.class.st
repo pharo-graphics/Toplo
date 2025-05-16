@@ -17,7 +17,7 @@ ToBarElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e padding: BlInsets empty.
+		e padding: (BlInsets all: 1).
 		e border: BlBorder empty.
 		e margin: BlInsets empty.
 		e outskirts: BlOutskirts inside ]

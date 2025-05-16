@@ -32,6 +32,15 @@ ToListContextMenuSelectionMode >> newSelectionChangedEventHandler [
 ]
 
 { #category : #'instance creation' }
+ToListContextMenuSelectionMode >> newSelectionContainerIn: aListElement [
+
+	| container  |
+	container := super newSelectionContainerIn: aListElement.
+	container clipChildren: false.
+	^ container
+]
+
+{ #category : #'instance creation' }
 ToListContextMenuSelectionMode >> newSelectionModelIn: aListElement [
 
 	^ ToSelectionModel new

@@ -77,11 +77,11 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 				e isStartToEnd
 					ifTrue: [
 						e endInterspace:
-							(e valueOfTokenNamed: #'menu-item-start-alignment').
+							(e valueOfTokenNamed: #'menu-item-end-interspace').
 						e endFlexible: true ]
 					ifFalse: [
 						e startInterspace:
-							(e valueOfTokenNamed: #'menu-item-start-alignment').
+							(e valueOfTokenNamed: #'menu-item-end-interspace').
 						e startFlexible: true ] ] ] ]
 ]
 

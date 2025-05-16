@@ -419,7 +419,7 @@ ToSandBox class >> buildSelectListElementIn: aSelectElement withIconProvider: an
 			             s := ('_' , style prefix , '_loaded') asSymbol.
 			             (icProvider respondsTo: s) ifTrue: [
 				             | iconNames |
-				             iconNames := (icProvider perform: s) sort.
+				             iconNames := (icProvider perform: s) sorted.
 				             iconNames do: [ :n |
 					             stream nextPut: (ToIconDescExampleObject new
 							              name: n;

@@ -196,6 +196,9 @@ TToAnchoredWindowElement >> preventPickOutsideClosing [
 { #category : #'t - anchored window element - private layout' }
 TToAnchoredWindowElement >> refreshLayout [
 
+	" don't change the layout step if a layout refreshing is already running.
+	This is important, else, layouting can loop forever "
+	self layoutStep ifNotNil: [ ^ self ].
 	self layoutStep: self newStartLayoutStep.
 	self requestLayout
 ]

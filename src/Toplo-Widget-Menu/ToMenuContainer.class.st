@@ -72,15 +72,16 @@ ToMenuContainer >> isInline [
 ]
 
 { #category : #testing }
-ToMenuContainer >> isScrollable [
+ToMenuContainer >> isScrollable [ 
 
-	^ self subclassResponsibility 
+	^ self itemBar isScrollable
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToMenuContainer >> isScrollable: aBoolean [
 
-	^ self subclassResponsibility
+	self itemBar isScrollable: aBoolean.
+	self requestNewConfiguration
 ]
 
 { #category : #accessing }
@@ -118,7 +119,7 @@ ToMenuContainer >> menuWindow [
 	^ self
 ]
 
-{ #category : #'t - anchored window element - accessing' }
+{ #category : #skin }
 ToMenuContainer >> newRawSkin [ 
 
 	^ ToMenuContainerSkin new

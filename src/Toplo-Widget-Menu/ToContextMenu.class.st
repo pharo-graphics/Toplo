@@ -91,6 +91,12 @@ ToContextMenu >> menuPane [
 	^ nil
 ]
 
+{ #category : #'t - menu window model' }
+ToContextMenu >> menuWindow [
+
+	^ self 
+]
+
 { #category : #'t - item bar container - accessing' }
 ToContextMenu >> newItemBar [
 

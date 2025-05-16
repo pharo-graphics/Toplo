@@ -128,7 +128,7 @@ ToListSelectionWithElementOption >> newSelectionContainerIn: aListElement [
 
 	| container elevation |
 	container := ToOverlayElement new.
-	container clipChildren: false.
+	container clipChildren: true.
 	container attachTo: aListElement innerElement.
 	elevation := self isBeneath
 		             ifTrue: [ BlRelativeElevation elevation: 5 ]

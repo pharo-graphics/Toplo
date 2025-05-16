@@ -47,8 +47,8 @@ ToTabNodeSkin >> installSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		| listElement leftPad rightPad topPad bottomPad |
 		listElement := e holder listElement.
-		leftPad := rightPad := e valueOfTokenNamed: #'padding-content-HS'.
-		topPad := bottomPad := e valueOfTokenNamed: #'padding-content-VS'.
+		leftPad := rightPad := e valueOfTokenNamed: #'padding-content-H'.
+		topPad := bottomPad := e valueOfTokenNamed: #'padding-content-V'.
 		e removeButtonDo: [ :rb |
 			rb visibility: BlVisibility hidden.
 			rb constraintsDo: [ :c |

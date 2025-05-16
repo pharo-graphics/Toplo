@@ -1,8 +1,30 @@
 Class {
 	#name : #ToTabBarSelectionElement,
 	#superclass : #ToListSelectionElement,
+	#instVars : [
+		'breadth'
+	],
 	#category : #'Toplo-Widget-Tag-Tab'
 }
+
+{ #category : #accessing }
+ToTabBarSelectionElement >> breadth [
+
+	^ breadth
+]
+
+{ #category : #accessing }
+ToTabBarSelectionElement >> breadth: aNumber [
+
+	breadth := aNumber
+]
+
+{ #category : #initialization }
+ToTabBarSelectionElement >> initialize [ 
+
+	super initialize.
+	breadth := 3
+]
 
 { #category : #private }
 ToTabBarSelectionElement >> positionFrom: aPoint in: aListElement [
@@ -17,12 +39,12 @@ ToTabBarSelectionElement >> positionFrom: aPoint in: aListElement [
 		ifTrue: [
 			x := aPoint x.
 			y := aListElement atStartSide
-				     ifTrue: [ nodeBounds bottom ]
+				     ifTrue: [ nodeBounds bottom - breadth ]
 				     ifFalse: [ aPoint y - self measuredHeight ] ]
 		ifFalse: [
 			y := aPoint y.
 			x := aListElement atStartSide
-				     ifTrue: [ nodeBounds right ]
+				     ifTrue: [ nodeBounds right - breadth ]
 				     ifFalse: [ aPoint x - self measuredWidth ] ].
 	^ x @ y
 ]
@@ -32,6 +54,6 @@ ToTabBarSelectionElement >> sizeFrom: aPoint in: aListElement [
 
 	aListElement isFlowable ifTrue: [ ^ aPoint ].
 	^ aListElement isHorizontal
-		  ifTrue: [ aPoint x @ 3 ]
-		  ifFalse: [ 3 @ aPoint y ]
+		  ifTrue: [ aPoint x @ breadth ]
+		  ifFalse: [ breadth @ aPoint y ]
 ]

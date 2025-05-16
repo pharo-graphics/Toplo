@@ -37,6 +37,6 @@ ToClickableActionLink >> launchableFromEvent: anEvent [
 			     ifNone: [  ].
 		w ifNotNil: [
 			popupTime := w popupTimestamp.
-			launchable := anEvent timestamp - popupTime > 500 milliSeconds ] ].
+			launchable := popupTime isNil or: [anEvent timestamp - popupTime > 500 milliSeconds ] ] ].
 	^ launchable
 ]

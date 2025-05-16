@@ -7,5 +7,5 @@ Class {
 { #category : #initialization }
 ToSieveSelecter >> defaultCommandApplicationStrategy [
 
-	^ ToImmediateCommandApplicationStrategy new
+	^ BlImmediateCommandApplicationStrategy new
 ]

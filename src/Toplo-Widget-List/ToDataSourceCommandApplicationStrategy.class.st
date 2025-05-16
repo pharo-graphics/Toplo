@@ -1,6 +1,6 @@
 Class {
 	#name : #ToDataSourceCommandApplicationStrategy,
-	#superclass : #ToCommandApplicationStrategy,
+	#superclass : #BlCommandApplicationStrategy,
 	#category : #'Toplo-Widget-List-Command-Support'
 }
 

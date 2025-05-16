@@ -10,7 +10,7 @@ Class {
 { #category : #initialization }
 ToSubSelecter >> defaultCommandApplicationStrategy [
 
-	^ ToImmediateCommandApplicationStrategy new
+	^ BlImmediateCommandApplicationStrategy new
 ]
 
 { #category : #'api - hooks' }

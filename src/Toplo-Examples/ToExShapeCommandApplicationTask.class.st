@@ -1,6 +1,6 @@
 Class {
 	#name : #ToExShapeCommandApplicationTask,
-	#superclass : #ToCommandApplicationTask,
+	#superclass : #BlCommandApplicationTask,
 	#instVars : [
 		'sortBlock'
 	],
@@ -11,7 +11,7 @@ Class {
 ToExShapeCommandApplicationTask >> run [
 
 	sortBlock ifNotNil: [
-		commandQueue add: (ToEnqueuedCommand new
+		commandQueue add: (BlEnqueuedCommand new
 				 applier: element;
 				 command: (ToExShapeSortCommand new sortBlock: sortBlock);
 				 yourself) ].

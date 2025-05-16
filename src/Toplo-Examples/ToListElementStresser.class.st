@@ -296,7 +296,7 @@ ToListElementStresser >> initialize [
 	tabSelectionProcess name: self class name.
 	tabSelectionProcess priority: Processor userBackgroundPriority.
 
-	commandApplicationStrategy := ToQueueBasedCommandApplicationStrategy
+	commandApplicationStrategy := BlQueueBasedCommandApplicationStrategy
 		                              new
 		                              element: self tabsPanel;
 		                              yourself.

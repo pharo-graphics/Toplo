@@ -1,6 +1,6 @@
 Class {
 	#name : #ToContextMenu,
-	#superclass : #ToMenuContainer,
+	#superclass : #ToMenuWindow,
 	#traits : 'TToOrientable + TToMenuItemListOwner + TToMenuWindowModel + TToItemBarOwner + TToItemBarContainer',
 	#classTraits : 'TToOrientable classTrait + TToMenuItemListOwner classTrait + TToMenuWindowModel classTrait + TToItemBarOwner classTrait + TToItemBarContainer classTrait',
 	#category : #'Toplo-Widget-Menu-Context menu'

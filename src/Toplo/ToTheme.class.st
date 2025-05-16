@@ -56,6 +56,9 @@ ToTheme class >> defaultTokenProperties [
 			   name: #'submenu-arrow-down'
 			   value: (ToMaterialDesignIconProvider innerImageNamed:
 					    'outlined_keyboardarrowdown')).
+		(ToTokenProperty
+			   name: #'submenu-arrow-breadth'
+			   value: 18).
 		  (ToTokenProperty
 			   name: #'submenu-arrow-up'
 			   value: (ToMaterialDesignIconProvider innerImageNamed:
@@ -251,8 +254,8 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'bar-node-padding-V' value: 2).
 		  (ToTokenProperty name: #'menu-node-padding-H' value: 6).
 		  (ToTokenProperty name: #'menu-node-padding-V' value: 2).
-		  (ToTokenProperty name: #'menu-button-padding-H' value: 2).
-		  (ToTokenProperty name: #'menu-button-padding-V' value: 2).
+		  (ToTokenProperty name: #'menu-item-padding-H' value: 6).
+		  (ToTokenProperty name: #'menu-item-padding-V' value: 1).
 		  (ToTokenProperty name: #'menu-window-padding-H' value: 8).
 		  (ToTokenProperty name: #'menu-window-padding-V' value: 8).
 		  (ToTokenProperty name: #'segmented-node-padding-H' value: 0).

@@ -58,7 +58,7 @@ ToGeneralButtonSkin >> installSkinEvent: anEvent [
 						 (e valueOfTokenNamed: 'border-radius')) ].
 		(e hasStamp: #iconic) ifFalse: [
 				e padding: (BlInsets
-						 horizontal: (e valueOfTokenNamed: #'padding-XXS')
+						 horizontal: (e valueOfTokenNamed: #'padding-XS')
 						 vertical: (e valueOfTokenNamed: #'padding-content-VXS')) ] ]
 ]
 

@@ -99,7 +99,9 @@ TToMenuItem >> menuPane [
 { #category : #'t - menu item' }
 TToMenuItem >> parentMenu [
 
-	^ self menuBarOwner ifNotNil: [ :bo |
+	self flag: #ToBeChecked.
+	^ self menuBarOwner 
+	ifNotNil: [ :bo |
 		  bo isMenuPane
 			  ifTrue: [  ]
 			  ifFalse: [ bo ] ]

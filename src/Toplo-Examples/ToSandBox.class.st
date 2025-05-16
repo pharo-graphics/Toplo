@@ -5715,6 +5715,66 @@ ToSandBox class >> example_menuPaneVertical [
 ]
 
 { #category : #menu }
+ToSandBox class >> example_menuPaneVertical0 [
+
+	| menu frame bar |
+	bar := ToMenuPane new.
+
+	frame := ToInnerWindow new.
+	1 to: 1 do: [ :count |
+		menu := ToMenu new.
+		menu showExpandIcon: true.
+		count = 2 ifTrue: [ menu beInline ].
+		menu label: (ToLabel text: 'Levels').
+		menu icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+
+		menu builder: [ :m |
+			1 to: 6 do: [ :index |
+				| subMenu |
+				subMenu := ToMenu new label: (ToLabel new text: (String streamContents: [ :out |
+							             out
+								             nextPutAll: 'Level ';
+								             print: index;
+								             nextPutAll: 'x';
+								             print: index ])).
+				subMenu builder: [ :sm |
+					1 to: 10 do: [ :i |
+						| stream selector iconImage color |
+						stream := String streamContents: [ :out |
+							          out
+								          nextPutAll: 'Level ';
+								          space;
+								          print: i ].
+						selector := String streamContents: [ :out |
+							            out
+								            nextPutAll: 'level ';
+								            print: index;
+								            nextPutAll: ' Grid ';
+								            print: i ].
+						color := Color random.
+						iconImage := BlElement new
+							             padding: (BlInsets all: 2);
+							             geometry: (BlRoundedRectangleGeometry cornerRadius: 3);
+							             background: color;
+							             size: 16 asPoint;
+							             yourself.
+						sm addItem: ((ToMenuItem new
+								  labelText: stream;
+								  iconImage: iconImage)
+								 newClickAction: [frame background: color ];
+								 yourself) ] ].
+				m addItem: subMenu ] ].
+
+		bar addItem: menu ].
+	"bar addFiller."
+	bar vertical: true.
+	bar vFitContent.
+	frame pane addChild: bar.
+	frame openInSpace
+	"frame inspect"
+]
+
+{ #category : #menu }
 ToSandBox class >> example_menuPaneVertical2 [
 
 	| frame bar sub subsub subsubsub |

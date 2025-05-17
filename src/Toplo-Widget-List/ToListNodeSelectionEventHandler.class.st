@@ -11,7 +11,7 @@ Class {
 ToListNodeSelectionEventHandler >> clickEvent: anEvent [
 
 	anEvent
-		ifPrimary: [ self primaryClickEvent: anEvent ]
+		ifPrimary: [ self pickEvent: anEvent ]
 		secondary: [  ]
 		middle: [  ]
 		other: [  ]
@@ -167,7 +167,7 @@ ToListNodeSelectionEventHandler >> onClickOnNodeEvent: anEvent [
 ]
 
 { #category : #'mouse handlers' }
-ToListNodeSelectionEventHandler >> primaryClickEvent: anEvent [
+ToListNodeSelectionEventHandler >> pickEvent: anEvent [
 
 	| node listElement mode |
 	node := anEvent currentTarget.

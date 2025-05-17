@@ -10,7 +10,7 @@ Class {
 { #category : #running }
 ToTreeElementTest >> setUp [
 	super setUp.
-	tree := ToTreeElement new.
+	tree := ToAbstractTreeElement new.
 ]
 
 { #category : #tests }

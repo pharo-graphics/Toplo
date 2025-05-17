@@ -10,7 +10,7 @@ Class {
 { #category : #running }
 ToTreeDataItemWrapperTest >> setUp [
 	super setUp.
-		tree := ToTreeElement new.
+	tree := ToAbstractTreeElement new.
 ]
 
 { #category : #tests }

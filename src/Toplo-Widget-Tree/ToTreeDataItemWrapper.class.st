@@ -15,9 +15,9 @@ Class {
 	#instVars : [
 		'dataItem',
 		'children',
-		'dataSource',
 		'parentWrapper',
-		'expanded'
+		'expanded',
+		'dataSourceWrapper'
 	],
 	#category : #'Toplo-Widget-Tree-Core'
 }
@@ -30,14 +30,14 @@ ToTreeDataItemWrapper >> childWrappersInterval [
 	idx := self position.
 
 	[
-	idx <= dataSource size and: [
-			(dataSource at: idx) parentWrapper = self ] ] whileFalse: [
+	idx <= self dataSource size and: [
+			(self dataSource at: idx) parentWrapper = self ] ] whileFalse: [
 		idx := idx + 1 ].
 	first := idx.
 	[
-	idx <= dataSource size and: [
-		(dataSource at: idx) parentWrapper notNil and: [
-			(dataSource at: idx) hasParentWrapper: self ] ] ] whileTrue: [
+	idx <= self dataSource size and: [
+		(self dataSource at: idx) parentWrapper notNil and: [
+			(self dataSource at: idx) hasParentWrapper: self ] ] ] whileTrue: [
 		idx := idx + 1 ].
 	last := idx - 1.
 	^ first to: last
@@ -48,7 +48,7 @@ ToTreeDataItemWrapper >> children [
 
 	^ children ifNil: [ children := self computedChildren collect: [ :each |
 		                   self class new
-			                   dataSource: dataSource;
+			                   dataSourceWrapper: dataSourceWrapper;
 			                   dataItem: each;
 			                   parentWrapper: self ]].
 
@@ -62,8 +62,8 @@ ToTreeDataItemWrapper >> collapse [
 
 	childrenInterval := self childWrappersInterval.
 	childrenInterval do: [ :idx |
-		(dataSource at: idx) privateExpanded: false ].
-	dataSource
+		(self dataSource at: idx) privateExpanded: false ].
+	self dataSource
 		removeFrom: childrenInterval first
 		to: childrenInterval last.
 
@@ -89,9 +89,15 @@ ToTreeDataItemWrapper >> dataItem: anObject [
 ]
 
 { #category : #accessing }
-ToTreeDataItemWrapper >> dataSource: aDataSource [
+ToTreeDataItemWrapper >> dataSource [ 
 
-	dataSource := aDataSource.
+	^ dataSourceWrapper dataSource
+]
+
+{ #category : #accessing }
+ToTreeDataItemWrapper >> dataSourceWrapper: aDataSourceWrapper [
+
+	dataSourceWrapper := aDataSourceWrapper
 	
 ]
 
@@ -104,7 +110,7 @@ ToTreeDataItemWrapper >> expand [
 
 	pos := self position.
 	self children withIndexDo: [ :wrapper :idx |
-		dataSource add: wrapper afterIndex: pos + idx - 1 ]
+		self dataSource add: wrapper afterIndex: pos + idx - 1 ]
 ]
 
 { #category : #accessing }
@@ -164,7 +170,7 @@ ToTreeDataItemWrapper >> parentWrapper: aDataItemWrapper [
 { #category : #accessing }
 ToTreeDataItemWrapper >> position [ 
 
-	^ dataSource indexOf: self
+	^ self dataSource indexOf: self
 ]
 
 { #category : #testing }
@@ -182,6 +188,6 @@ ToTreeDataItemWrapper >> toggle [
 
 	self flag:
 		'Should use notifyItemsChanged: but we should find a way to not compute the position but keep it in the wrapper (pay attention, it have to be recomputed when extending/collapsing). Have a look at  morphic fast table to see how the do that'.
-	dataSource notifyItemsChanged: (self position to: self position)
+	self dataSource notifyItemsChanged: (self position to: self position)
 	"dataSource notifyChanged"
 ]

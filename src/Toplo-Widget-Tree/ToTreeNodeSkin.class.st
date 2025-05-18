@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTreeNodeSkin,
 	#superclass : #ToListNodeSkin,
-	#category : #'Toplo-Widget-Tree-Skin'
+	#category : #'Toplo-Widget-Tree-Core'
 }
 
 { #category : #'event handling' }
@@ -22,7 +22,6 @@ ToTreeNodeSkin >> installSkinEvent: anEvent [
 			elt addEventHandlerOn: BlClickEvent do: [ :evt |
 				evt consume.
 				wrapper toggle ] ].
-
 		e startInterspace: 15.
 		e startElement: elt ]
 ]

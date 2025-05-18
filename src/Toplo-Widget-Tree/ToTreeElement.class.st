@@ -5,18 +5,18 @@ Class {
 }
 
 { #category : #examples }
-ToTreeElement class >> exampleMixingSubclassesAndMethods [
+ToTreeElement class >> exampleClassHierarchiesWithMethods [
 	"For this example we created a new wrapper dealing with classes and methods at the same time, a new Node was also created (ToTreeSubAndMethNode) to apply a new skin (ToTreeNodeSubAndMethSkin) with new icons and a different background color for methods "
 
 	| l |
 	l := self new.
-	l childrenGetter: [ :w |
-		w dataItem isClass
+	l nodeManager childrenGetter: [ :dataItem |
+		dataItem isClass
 			ifTrue: [
 				Array streamContents: [ :stream |
-					stream nextPutAll: w dataItem subclasses.
+					stream nextPutAll: dataItem subclasses.
 					stream nextPutAll:
-						(w dataItem methods collect: [ :each | each selector ]) sorted ] ]
+						(dataItem methods collect: [ :each | each selector ]) sorted ] ]
 			ifFalse: [ #(  ) ] ].
 	l nodeManager nodeFactory: [ :holder | ToTreeSubAndMethNode new ].
 	l dataAccessor add: BlElement.
@@ -32,10 +32,10 @@ ToTreeElement class >> examplePreviousIntegers [
 
 	| l |
 	l := self new.
-	l childrenGetter: [ :w |
-		w dataItem = 1
+	l nodeManager childrenGetter: [ :dataItem |
+		dataItem = 1
 			ifTrue: [ {  } ]
-			ifFalse: [ { (w dataItem - 1) } ] ].
+			ifFalse: [ { (dataItem - 1) } ] ].
 	l dataAccessor addAll: (1 to: 10).
 	l openInSpace
 ]
@@ -46,25 +46,13 @@ ToTreeElement class >> exampleProtoObjectSubclasses [
 
 	| l |
 	l := self new.
-	l childrenGetter: [ :w | w dataItem subclasses asOrderedCollection ].
+	l nodeManager childrenGetter: [ :dataItem | dataItem subclasses asOrderedCollection ].
 	l dataAccessor add: ProtoObject.
 	l openInSpace
 ]
 
-{ #category : #accessing }
-ToTreeElement >> childrenGetter: aValuable [
-
-	dataSourceWrapper childrenGetter: aValuable
-]
-
-{ #category : #accessing }
-ToTreeElement >> dataWrapperClass [
-
-	^ ToGenericTreeDataItemWrapper 
-]
-
 { #category : #initialization }
-ToTreeElement >> initializeDataSourceWrapper [
+ToTreeElement >> defaultNodeManagerClass [ 
 
-	dataSourceWrapper := ToGenericTreeDataSourceWrapper new treeElement: self
+	^ ToGenericTreeNodeManager
 ]

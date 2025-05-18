@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTreeDataItemPreviousIntegerWrapper,
 	#superclass : #ToTreeDataItemWrapper,
-	#category : #'Toplo-Widget-Tree-Core'
+	#category : #'Toplo-Widget-Tree-examples'
 }
 
 { #category : #accessing }

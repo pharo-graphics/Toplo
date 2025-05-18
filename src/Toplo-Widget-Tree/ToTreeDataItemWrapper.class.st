@@ -17,7 +17,7 @@ Class {
 		'children',
 		'parentWrapper',
 		'expanded',
-		'dataSourceWrapper'
+		'treeElement'
 	],
 	#category : #'Toplo-Widget-Tree-Core'
 }
@@ -48,7 +48,7 @@ ToTreeDataItemWrapper >> children [
 
 	^ children ifNil: [ children := self computedChildren collect: [ :each |
 		                   self class new
-			                   dataSourceWrapper: dataSourceWrapper;
+			                   treeElement: treeElement;
 			                   dataItem: each;
 			                   parentWrapper: self ]].
 
@@ -73,7 +73,7 @@ ToTreeDataItemWrapper >> collapse [
 { #category : #accessing }
 ToTreeDataItemWrapper >> computedChildren [
 
-	^ OrderedCollection empty
+	^ self treeElement nodeManager childrenFromDataItem: dataItem
 ]
 
 { #category : #accessing }
@@ -91,14 +91,7 @@ ToTreeDataItemWrapper >> dataItem: anObject [
 { #category : #accessing }
 ToTreeDataItemWrapper >> dataSource [ 
 
-	^ dataSourceWrapper dataSource
-]
-
-{ #category : #accessing }
-ToTreeDataItemWrapper >> dataSourceWrapper: aDataSourceWrapper [
-
-	dataSourceWrapper := aDataSourceWrapper
-	
+	^ self treeElement dataSource
 ]
 
 { #category : #accessing }
@@ -190,4 +183,16 @@ ToTreeDataItemWrapper >> toggle [
 		'Should use notifyItemsChanged: but we should find a way to not compute the position but keep it in the wrapper (pay attention, it have to be recomputed when extending/collapsing). Have a look at  morphic fast table to see how the do that'.
 	self dataSource notifyItemsChanged: (self position to: self position)
 	"dataSource notifyChanged"
+]
+
+{ #category : #accessing }
+ToTreeDataItemWrapper >> treeElement [
+
+	^ treeElement
+]
+
+{ #category : #accessing }
+ToTreeDataItemWrapper >> treeElement: aTreeElement [
+
+	treeElement := aTreeElement 
 ]

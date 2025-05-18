@@ -1,21 +1,23 @@
 Class {
-	#name : #ToClassHierachyTreeElement,
+	#name : #ToClassHierachyWithMethodsTreeElement,
 	#superclass : #ToAbstractTreeElement,
 	#category : #'Toplo-Widget-Tree-examples'
 }
 
 { #category : #examples }
-ToClassHierachyTreeElement class >> example [
+ToClassHierachyWithMethodsTreeElement class >> example [
 	"This example shows classes as a list but using TreeNodes, tree logic is not implemented at this time of writing the example"
 
 	| l |
 	l := self new.
-	l dataAccessor add: ProtoObject.
+	l dataAccessor add: BlElement.
+	l dataAccessor add: Collection.
+	l dataAccessor add: String.
 	l openInSpace
 ]
 
 { #category : #initialization }
-ToClassHierachyTreeElement >> defaultNodeManagerClass [ 
+ToClassHierachyWithMethodsTreeElement >> defaultNodeManagerClass [ 
 
-	^ ToClassHierachyTreeNodeManager
+	^ ToClassHierachyWithMethodsTreeNodeManager
 ]

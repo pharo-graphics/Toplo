@@ -7,12 +7,28 @@ My model relies on a DataSource holding the data displayed and a TreeNodeManager
 "
 Class {
 	#name : #ToAbstractTreeElement,
-	#superclass : #ToListElement,
+	#superclass : #ToAbstractListElement,
 	#instVars : [
 		'dataSourceWrapper'
 	],
 	#category : #'Toplo-Widget-Tree-Core'
 }
+
+{ #category : #examples }
+ToAbstractTreeElement class >> exampleClassHierarchiesWithMethods [
+	"For this example we created a new wrapper dealing with classes and methods at the same time, a new Node was also created (ToTreeSubAndMethNode) to apply a new skin (ToTreeNodeSubAndMethSkin) with new icons and a different background color for methods "
+	
+
+	| l |
+	l := self new.
+	l dataWrapperClass: ToTreeDataItemSubclassesAndMethodsWrapper.
+	l nodeManager nodeFactory: [ :holder | ToTreeSubAndMethNode new ].
+	l dataAccessor add: BlElement.
+	l dataAccessor add: Collection.
+	l dataAccessor add: String.
+
+	l openInSpace
+]
 
 { #category : #examples }
 ToAbstractTreeElement class >> exampleExpandAllAndCollapseAll [
@@ -43,22 +59,6 @@ ToAbstractTreeElement class >> exampleExpandAllAndCollapseAll [
 ]
 
 { #category : #examples }
-ToAbstractTreeElement class >> exampleMixingSubclassesAndMethods [
-	"For this example we created a new wrapper dealing with classes and methods at the same time, a new Node was also created (ToTreeSubAndMethNode) to apply a new skin (ToTreeNodeSubAndMethSkin) with new icons and a different background color for methods "
-	
-
-	| l |
-	l := self new.
-	l dataWrapperClass: ToTreeDataItemSubclassesAndMethodsWrapper.
-	l nodeManager nodeFactory: [ :holder | ToTreeSubAndMethNode new ].
-	l dataAccessor add: BlElement.
-	l dataAccessor add: Collection.
-	l dataAccessor add: String.
-
-	l openInSpace
-]
-
-{ #category : #examples }
 ToAbstractTreeElement class >> examplePreviousIntegers [
 
 	| l |
@@ -66,18 +66,6 @@ ToAbstractTreeElement class >> examplePreviousIntegers [
 	l dataWrapperClass: ToTreeDataItemPreviousIntegerWrapper.
 	l dataAccessor addAll: (1 to: 10).
 
-
-	l openInSpace
-]
-
-{ #category : #examples }
-ToAbstractTreeElement class >> exampleProtoObjectSubclasses [
-	"This example shows classes as a list but using TreeNodes, tree logic is not implemented at this time of writing the example"
-
-	| l |
-	l := self new.
-	l dataWrapperClass: ToTreeDataItemClassWrapper.
-	l dataAccessor add: ProtoObject.
 
 	l openInSpace
 ]
@@ -95,20 +83,6 @@ ToAbstractTreeElement class >> exampleStringWithoutFirstLetter [
 	l openInSpace
 ]
 
-{ #category : #examples }
-ToAbstractTreeElement class >> exampleWithFewClasses [
-	"This example allows us to expand and collapse classes to see their subclasses, however the collapsing is not done recursively on the children, causing issues if we expand classes to at least depth 3 and collapse depth 1"
-
-	| l |
-	l := self new.
-	l dataWrapperClass: ToTreeDataItemClassWrapper.
-	l dataAccessor add: BlElement.
-	l dataAccessor add: Collection.
-	l dataAccessor add: String.
-
-	l openInSpace
-]
-
 { #category : #'expanding-collapsing' }
 ToAbstractTreeElement >> collapseAll [ 
 
@@ -122,15 +96,23 @@ ToAbstractTreeElement >> dataAccessor [
 ]
 
 { #category : #accessing }
-ToAbstractTreeElement >> dataWrapperClass [ 
+ToAbstractTreeElement >> dataSourceWrapper [
 
-	^ self subclassResponsibility 
+	^ dataSourceWrapper
+	
+]
+
+{ #category : #accessing }
+ToAbstractTreeElement >> dataSourceWrapper: aDataSourceWrapper [
+
+	dataSourceWrapper := aDataSourceWrapper
+	
 ]
 
 { #category : #initialization }
-ToAbstractTreeElement >> defaultNodeManagerClass [
+ToAbstractTreeElement >> defaultInnerElement [
 
-	^ ToGenericTreeNodeManager  
+	^ ToInfiniteElement onListElement: self
 ]
 
 { #category : #'expanding-collapsing' }

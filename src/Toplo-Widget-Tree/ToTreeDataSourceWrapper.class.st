@@ -91,9 +91,9 @@ ToTreeDataSourceWrapper >> dataSource [
 ]
 
 { #category : #accessing }
-ToTreeDataSourceWrapper >> dataWrapperClass [
+ToTreeDataSourceWrapper >> dataWrapperClass [ 
 
-	^ treeElement dataWrapperClass 
+	^ ToTreeDataItemWrapper
 ]
 
 { #category : #enumerating }
@@ -161,6 +161,6 @@ ToTreeDataSourceWrapper >> treeElement: aTreeElement [
 ToTreeDataSourceWrapper >> wrapObject: anObject [
 
 	^ self dataWrapperClass new
-		  dataSourceWrapper: self;
+		  treeElement: treeElement;
 		  dataItem: anObject
 ]

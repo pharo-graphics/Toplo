@@ -57,7 +57,7 @@ ToListElementSieve >> isInstalled [
 { #category : #private }
 ToListElementSieve >> itemCount [ 
 
-	^ SmallInteger maxVal
+	^ currentData size
 ]
 
 { #category : #'api - hooks' }

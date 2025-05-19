@@ -136,6 +136,15 @@ ToPragmaCleanMenuBuilder >> arrangeRegistrations [
 			newOwner addItem: item ] ]
 ]
 
+{ #category : #'as yet unclassified' }
+ToPragmaCleanMenuBuilder >> assignOrderWithBlock: aBlock [
+	"Compute recursively MenuRegistration order"
+
+	self itemList ifNotNil: [
+		self itemList: (aBlock value: self itemList).
+		self itemList do: [ :rded | rded assignOrderWithBlock: aBlock ] ]
+]
+
 { #category : #'menu building' }
 ToPragmaCleanMenuBuilder >> buildTree [
 	"Retrieve all menu registrations with the help of a PragmaCollector then,
@@ -207,7 +216,7 @@ ToPragmaCleanMenuBuilder >> initialize [
 	currentRoot := self.
 	pragmaKeywords := OrderedCollection new.
 	itemList := OrderedCollection new.
-	tree := ToMenuRegistration new owner: self.
+	tree := ToCleanMenuRegistration new owner: self.
 	isGroup := true
 ]
 
@@ -381,7 +390,7 @@ ToPragmaCleanMenuBuilder >> removeItem: anItem [
 ToPragmaCleanMenuBuilder >> sortRegistrations [
 	"Try to update MenuRegistration order inst. var and the sort the trees"
 
-	tree assignOrderWithBlock: self class orderAssignBlock.
+	self assignOrderWithBlock: self class orderAssignBlock.
 	tree sort: self class itemSortBlock
 ]
 

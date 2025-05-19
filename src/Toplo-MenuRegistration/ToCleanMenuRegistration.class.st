@@ -186,7 +186,7 @@ spec
 
 "
 Class {
-	#name : #ToMenuRegistration,
+	#name : #ToCleanMenuRegistration,
 	#superclass : #Object,
 	#instVars : [
 		'parentName',
@@ -201,12 +201,12 @@ Class {
 }
 
 { #category : #'instance creation' }
-ToMenuRegistration class >> owner: aMenuRegistration [
+ToCleanMenuRegistration class >> owner: aMenuRegistration [
 	^ self new owner: aMenuRegistration
 ]
 
 { #category : #'spec accessing' }
-ToMenuRegistration >> action: aMessageSendOrABlock [
+ToCleanMenuRegistration >> action: aMessageSendOrABlock [
 	"set the action of the menu"
 
 	aMessageSendOrABlock isBlock
@@ -218,13 +218,14 @@ ToMenuRegistration >> action: aMessageSendOrABlock [
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> addItem: anItem [
+ToCleanMenuRegistration >> addItem: anItem [
 	"Add a MenuRegistration"
-	self ensureItemList add: anItem
+
+	itemList add: anItem
 ]
 
 { #category : #'spec accessing' }
-ToMenuRegistration >> arguments: anArray [
+ToCleanMenuRegistration >> arguments: anArray [
 	"set the arguments for an item with an action"
 
 	spec action
@@ -236,16 +237,8 @@ ToMenuRegistration >> arguments: anArray [
 		ifNotNil: [ spec action arguments: anArray ]
 ]
 
-{ #category : #'as yet unclassified' }
-ToMenuRegistration >> assignOrderWithBlock: aBlock [
-	"Compute recursively MenuRegistration order"
-	self itemList
-		ifNotNil: [self itemList: (aBlock value: self itemList).
-				self itemList do: [:rded | rded assignOrderWithBlock: aBlock]]
-]
-
 { #category : #accessing }
-ToMenuRegistration >> buildMenuSpec: aMenu [
+ToCleanMenuRegistration >> buildMenuSpec: aMenu [
 	"Recursively build the menu spec aMenu passed as argument"
 
 	self itemList ifNotNil: [ :l |
@@ -265,29 +258,12 @@ ToMenuRegistration >> buildMenuSpec: aMenu [
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> builder [
+ToCleanMenuRegistration >> builder [
 	^ owner builder
 ]
 
-{ #category : #'as yet unclassified' }
-ToMenuRegistration >> collectMisplacedItemsIn: aCollection [
-	"Select recursively all MenuRegistration with a parentName
-	different from its owner name. 	This is possible since a parent name
-	can be given in order to force a menu item placement.
-	If my parentName is not the same as my owner name then it means
-	that I'm not in the right place and that my placement has to be resolved"
-
-	self parentName
-		ifNotNil: [owner
-				ifNil: [aCollection add: self]
-				ifNotNil: [owner name = self parentName
-						ifFalse: [aCollection add: self]]].
-	self itemList ifNotNil: [:l |
-		l do: [:item | item collectMisplacedItemsIn: aCollection]]
-]
-
 { #category : #'spec accessing' }
-ToMenuRegistration >> enabled: aBooleanOrABlock [
+ToCleanMenuRegistration >> enabled: aBooleanOrABlock [
 
 	aBooleanOrABlock == true ifTrue: [
 		spec enabled: true.
@@ -299,88 +275,83 @@ ToMenuRegistration >> enabled: aBooleanOrABlock [
 ]
 
 { #category : #'spec accessing' }
-ToMenuRegistration >> enabledBlock [
+ToCleanMenuRegistration >> enabledBlock [
 
 	^ spec enabledBlock
 ]
 
 { #category : #'spec accessing' }
-ToMenuRegistration >> enabledBlock: aBlock [
+ToCleanMenuRegistration >> enabledBlock: aBlock [
 
 	spec enabledBlock: aBlock
 ]
 
-{ #category : #'as yet unclassified' }
-ToMenuRegistration >> ensureItemList [
-	"Return the list of MenuRegistration instances"
-	^ itemList ifNil: [itemList := OrderedCollection new]
-]
-
 { #category : #'sub item creating' }
-ToMenuRegistration >> group: aSymbol [
+ToCleanMenuRegistration >> group: aSymbol [
 	^ (self item: aSymbol) isGroup: true
 ]
 
 { #category : #'spec accessing' }
-ToMenuRegistration >> help: anHelpText [
+ToCleanMenuRegistration >> help: anHelpText [
 	"set the help text"
 
 	spec help: anHelpText
 ]
 
 { #category : #'spec accessing' }
-ToMenuRegistration >> icon: aForm [
+ToCleanMenuRegistration >> icon: aForm [
 	"set the icon that is shown in the menu"
 
 	spec icon: aForm
 ]
 
 { #category : #'spec accessing' }
-ToMenuRegistration >> iconFormSet: aFormSet [
+ToCleanMenuRegistration >> iconFormSet: aFormSet [
 	"set the icon that is shown in the menu"
 
 	spec iconFormSet: aFormSet
 ]
 
 { #category : #initialization }
-ToMenuRegistration >> initialize [
+ToCleanMenuRegistration >> initialize [
 
 	super initialize.
 	spec := ToPluggableMenuItemSpec new.
-	isGroup := false
+	isGroup := false.
+	itemList := OrderedCollection new
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> isGroup [
+ToCleanMenuRegistration >> isGroup [
 
 	^ isGroup
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> isGroup: aBoolean [
+ToCleanMenuRegistration >> isGroup: aBoolean [
 	isGroup := aBoolean
 ]
 
 { #category : #'sub item creating' }
-ToMenuRegistration >> item: aSymbol [
+ToCleanMenuRegistration >> item: aSymbol [
 	"set my name and my label with aSymbol (the label and the name as the same by default) and register myself as a child of my owner"
 	^ (self builder newSubItem) name: aSymbol; label: aSymbol asString
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> itemList [
+ToCleanMenuRegistration >> itemList [
 	"Return my children"
 	^ itemList
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> itemList: aCollection [
+ToCleanMenuRegistration >> itemList: aCollection [
 	"Set the list of MenuRegistration"
 	 itemList := aCollection
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> itemNamed: aName [
+ToCleanMenuRegistration >> itemNamed: aName [
 	"Return the MenuRegistration named aName or nil if none is found"
 
 	| result |
@@ -394,51 +365,51 @@ ToMenuRegistration >> itemNamed: aName [
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> itemReceiver [
+ToCleanMenuRegistration >> itemReceiver [
 	^ self target ifNil: [owner itemReceiver]
 ]
 
 { #category : #'spec accessing' }
-ToMenuRegistration >> keyText: aString [
+ToCleanMenuRegistration >> keyText: aString [
 
 	spec keyText: aString
 ]
 
 { #category : #'spec accessing' }
-ToMenuRegistration >> label [
+ToCleanMenuRegistration >> label [
 	"return my label"
 
 	^ spec label
 ]
 
 { #category : #'spec accessing' }
-ToMenuRegistration >> label: aLabel [
+ToCleanMenuRegistration >> label: aLabel [
 	"set the label that is shown in the menu"
 
 	spec label: aLabel
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> model [
+ToCleanMenuRegistration >> model [
 	^ self builder model
 ]
 
 { #category : #'spec accessing' }
-ToMenuRegistration >> name [
+ToCleanMenuRegistration >> name [
 	"returns my name which is used as a key (should unique over all the menu items"
 
 	^ spec name
 ]
 
 { #category : #'spec accessing' }
-ToMenuRegistration >> name: aSymbol [
+ToCleanMenuRegistration >> name: aSymbol [
 	"set my name (should be unique over all menu items"
 
 	spec name: aSymbol
 ]
 
 { #category : #'sub item creating' }
-ToMenuRegistration >> newSubItem [
+ToCleanMenuRegistration >> newSubItem [
 	| reg |
 	reg := self class owner: self.
 	self addItem: reg.
@@ -446,55 +417,55 @@ ToMenuRegistration >> newSubItem [
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> order [
+ToCleanMenuRegistration >> order [
 	^ order
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> order: aNumber [
+ToCleanMenuRegistration >> order: aNumber [
 	"Set the value of order"
 
 	order := aNumber
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> owner [
+ToCleanMenuRegistration >> owner [
 	^ owner
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> owner: anItem [
+ToCleanMenuRegistration >> owner: anItem [
 	owner := anItem
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> parent: aSymbol [
+ToCleanMenuRegistration >> parent: aSymbol [
 
 	self parentName: aSymbol
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> parentName [
+ToCleanMenuRegistration >> parentName [
 	^ parentName
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> parentName: aSymbol [
+ToCleanMenuRegistration >> parentName: aSymbol [
 	parentName := aSymbol
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> precondition [
+ToCleanMenuRegistration >> precondition [
 	^ precondition ifNil: [[true]]
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> precondition: aValuable [
+ToCleanMenuRegistration >> precondition: aValuable [
 	precondition := aValuable
 ]
 
 { #category : #printing }
-ToMenuRegistration >> printOn: aStream [
+ToCleanMenuRegistration >> printOn: aStream [
 
 	super printOn: aStream.
 	aStream
@@ -504,19 +475,19 @@ ToMenuRegistration >> printOn: aStream [
 ]
 
 { #category : #initialization }
-ToMenuRegistration >> release [
+ToCleanMenuRegistration >> release [
 	itemList := nil.
 	self releaseActionMap
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> removeItem: anItem [
+ToCleanMenuRegistration >> removeItem: anItem [
 	"Remove a MenuRegistration"
 	self itemList remove: anItem
 ]
 
 { #category : #initialization }
-ToMenuRegistration >> reset [
+ToCleanMenuRegistration >> reset [
 	itemList
 		ifNotNil: [
 			itemList do: [:i | i reset].
@@ -525,7 +496,7 @@ ToMenuRegistration >> reset [
 ]
 
 { #category : #'spec accessing' }
-ToMenuRegistration >> selector: aSymbol [
+ToCleanMenuRegistration >> selector: aSymbol [
 	"set the selector for item with an action"
 
 	spec action
@@ -536,7 +507,7 @@ ToMenuRegistration >> selector: aSymbol [
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> sort: aSortBlock [
+ToCleanMenuRegistration >> sort: aSortBlock [
 	"Sort the tree recursively"
 	self itemList
 		ifNotNil: [
@@ -545,20 +516,20 @@ ToMenuRegistration >> sort: aSortBlock [
 ]
 
 { #category : #'spec accessing' }
-ToMenuRegistration >> spec [
+ToCleanMenuRegistration >> spec [
 	"return my PluggableMenuItemSpec"
 
 	^ spec
 ]
 
 { #category : #'spec accessing' }
-ToMenuRegistration >> target [
+ToCleanMenuRegistration >> target [
 
 	^ spec action ifNotNil: [ :action | action receiver ]
 ]
 
 { #category : #'spec accessing' }
-ToMenuRegistration >> target: anObject [
+ToCleanMenuRegistration >> target: anObject [
 	"set the target for the action"
 
 	spec action
@@ -570,12 +541,12 @@ ToMenuRegistration >> target: anObject [
 ]
 
 { #category : #'sub item creating' }
-ToMenuRegistration >> with: aBlock [
+ToCleanMenuRegistration >> with: aBlock [
 	self builder currentRoot: self while: aBlock
 ]
 
 { #category : #'spec accessing' }
-ToMenuRegistration >> withSeparatorAfter [
+ToCleanMenuRegistration >> withSeparatorAfter [
 	"add a separator line after me"
 
 	spec separator: true

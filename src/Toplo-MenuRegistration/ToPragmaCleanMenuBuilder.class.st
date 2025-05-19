@@ -1,6 +1,4 @@
 "
-BEFORE REFACTORING
-
 For the impatients, see MenuRegistrationExample class methods and try it with:
 
 
@@ -53,18 +51,23 @@ currentRoot
 
 "
 Class {
-	#name : #ToPragmaMenuBuilder,
-	#superclass : #ToMenuRegistration,
+	#name : #ToPragmaCleanMenuBuilder,
+	#superclass : #Object,
 	#instVars : [
 		'pragmaKeywords',
 		'model',
-		'currentRoot'
+		'currentRoot',
+		'itemList',
+		'tree',
+		'name',
+		'parentName',
+		'isGroup'
 	],
 	#category : #'Toplo-MenuRegistration'
 }
 
 { #category : #private }
-ToPragmaMenuBuilder class >> itemSortBlock [
+ToPragmaCleanMenuBuilder class >> itemSortBlock [
 	"The block which is used to sort a menu tree"
 	^ [:a :b |
 		((a order isNotNil and: [b order isNotNil]) and: [a order ~= b order])
@@ -75,7 +78,7 @@ ToPragmaMenuBuilder class >> itemSortBlock [
 ]
 
 { #category : #private }
-ToPragmaMenuBuilder class >> orderAssignBlock [
+ToPragmaCleanMenuBuilder class >> orderAssignBlock [
 	"The block which is used to set MenuRegistration tree node order inst var (which is used to sort the tree)"
 
 	^ [ :list |
@@ -100,14 +103,14 @@ ToPragmaMenuBuilder class >> orderAssignBlock [
 ]
 
 { #category : #'instance creation' }
-ToPragmaMenuBuilder class >> pragmaKeyword: aPragmaKeyword model: aModel [
+ToPragmaCleanMenuBuilder class >> pragmaKeyword: aPragmaKeyword model: aModel [
 	"Build a builder using aPragmaKeyword as the pragma keyword and aModel a the model of the resulting builder"
 	
 	^ self pragmaKeywords: {aPragmaKeyword} model: aModel
 ]
 
 { #category : #'instance creation' }
-ToPragmaMenuBuilder class >> pragmaKeywords: aCollection model: aModel [
+ToPragmaCleanMenuBuilder class >> pragmaKeywords: aCollection model: aModel [
 	"Build a builder using aPragmaKeyword as the pragma keyword and aModel a the model of the resulting builder"
 	
 	^ self new
@@ -117,27 +120,27 @@ ToPragmaMenuBuilder class >> pragmaKeywords: aCollection model: aModel [
 ]
 
 { #category : #'registrations handling' }
-ToPragmaMenuBuilder >> allMisplacedItems [
+ToPragmaCleanMenuBuilder >> allMisplacedItems [
 	| misplaced |
 	self collectMisplacedItemsIn: (misplaced := OrderedCollection new).
 	^ misplaced
 ]
 
 { #category : #'registrations handling' }
-ToPragmaMenuBuilder >> arrangeRegistrations [
-	self allMisplacedItems do: [:item |
-		(self itemNamed: item parentName)
-			ifNotNil: [:newOwner | item owner removeItem: item.
-				item owner: newOwner.
-				newOwner addItem: item]]
+ToPragmaCleanMenuBuilder >> arrangeRegistrations [
+
+	self allMisplacedItems do: [ :item |
+		(self itemNamed: item parentName) ifNotNil: [ :newOwner |
+			item owner removeItem: item.
+			item owner: newOwner.
+			newOwner addItem: item ] ]
 ]
 
 { #category : #'menu building' }
-ToPragmaMenuBuilder >> buildTree [
+ToPragmaCleanMenuBuilder >> buildTree [
 	"Retrieve all menu registrations with the help of a PragmaCollector then,
 	reorganise the tree and sort it  - see class comment for more informations"
 
-	"OLD VERSION"
 	itemList := OrderedCollection new.
 	self collectRegistrations.
 	self arrangeRegistrations.
@@ -145,12 +148,28 @@ ToPragmaMenuBuilder >> buildTree [
 ]
 
 { #category : #accessing }
-ToPragmaMenuBuilder >> builder [
+ToPragmaCleanMenuBuilder >> builder [
 	^ self
 ]
 
+{ #category : #accessing }
+ToPragmaCleanMenuBuilder >> collectMisplacedItemsIn: aCollection [
+	"Select recursively all MenuRegistration with a parentName
+	different from its owner name. 	This is possible since a parent name
+	can be given in order to force a menu item placement.
+	If my parentName is not the same as my owner name then it means
+	that I'm not in the right place and that my placement has to be resolved"
+
+	tree parentName ifNotNil: [
+		tree owner ifNil: [ aCollection add: self ] ifNotNil: [
+			currentRoot name = tree parentName ifFalse: [
+				aCollection add: self ] ] ].
+	self itemList ifNotNil: [ :l |
+		l do: [ :item | item collectMisplacedItemsIn: aCollection ] ]
+]
+
 { #category : #'registrations handling' }
-ToPragmaMenuBuilder >> collectRegistrations [
+ToPragmaCleanMenuBuilder >> collectRegistrations [
 	"Retrieve all pragma methods and evaluate them by passing the
 	MenuRegistration class as argument. The result is a list of trees
 	stored in my itemList inst var"
@@ -168,12 +187,12 @@ ToPragmaMenuBuilder >> collectRegistrations [
 ]
 
 { #category : #accessing }
-ToPragmaMenuBuilder >> currentRoot [
+ToPragmaCleanMenuBuilder >> currentRoot [
 	^ currentRoot
 ]
 
 { #category : #'menu building' }
-ToPragmaMenuBuilder >> currentRoot: anItem while: aBlock [
+ToPragmaCleanMenuBuilder >> currentRoot: anItem while: aBlock [
 
 	| old |
 	old := currentRoot.
@@ -182,16 +201,18 @@ ToPragmaMenuBuilder >> currentRoot: anItem while: aBlock [
 ]
 
 { #category : #initialization }
-ToPragmaMenuBuilder >> initialize [
+ToPragmaCleanMenuBuilder >> initialize [
 
 	super initialize.
-	isGroup := true.
 	currentRoot := self.
-	pragmaKeywords := OrderedCollection new
+	pragmaKeywords := OrderedCollection new.
+	itemList := OrderedCollection new.
+	tree := ToMenuRegistration new owner: self.
+	isGroup := true
 ]
 
 { #category : #private }
-ToPragmaMenuBuilder >> interpretRegistration: aRegistration [
+ToPragmaCleanMenuBuilder >> interpretRegistration: aRegistration [
 
 	| root |
 	root := ToMenuRegistration owner: self.
@@ -224,77 +245,147 @@ ToPragmaMenuBuilder >> interpretRegistration: aRegistration [
 ]
 
 { #category : #accessing }
-ToPragmaMenuBuilder >> itemReceiver [
+ToPragmaCleanMenuBuilder >> isGroup [
+	^ isGroup
+]
+
+{ #category : #accessing }
+ToPragmaCleanMenuBuilder >> itemList [
+
+	^ itemList
+]
+
+{ #category : #accessing }
+ToPragmaCleanMenuBuilder >> itemList: aCollection [
+	"Set the list of MenuRegistration"
+
+	itemList := aCollection
+]
+
+{ #category : #accessing }
+ToPragmaCleanMenuBuilder >> itemNamed: aName [
+	"Return the MenuRegistration named aName or nil if none is found"
+
+	| result |
+	self name = aName ifTrue: [ ^ self ].
+	result := self itemList ifNotNil: [ :l |
+		          l
+			          detect: [ :item | (item itemNamed: aName) isNotNil ]
+			          ifNone: [  ] ].
+	^ result ifNotNil: [ result itemNamed: aName ]
+]
+
+{ #category : #accessing }
+ToPragmaCleanMenuBuilder >> itemReceiver [
 	^ model
 ]
 
 { #category : #'public menu building' }
-ToPragmaMenuBuilder >> menuSpec [
+ToPragmaCleanMenuBuilder >> menuSpec [
 	"Returns a ToPluggableMenuSpec build from my contents"
 
 	^ self menuSpecAt: nil
 ]
 
 { #category : #'public menu building' }
-ToPragmaMenuBuilder >> menuSpecAt: aName [
+ToPragmaCleanMenuBuilder >> menuSpecAt: aName [
 	"returns a PluggableMenuSpec build from my contents starting at
 	the inner MenuRegistration named aName or from here if aName is nil"
+
 	| root |
 	self buildTree.
 	root := ToPluggableMenuSpec withModel: nil.
-	(aName ifNil: [self] ifNotNil: [self itemNamed: aName])
-		ifNotNil: [:top | top precondition value ifTrue: [top buildMenuSpec: root]].
+	(aName ifNil: [ self ] ifNotNil: [ self itemNamed: aName ])
+		ifNotNil: [
+		tree precondition value ifTrue: [ tree buildMenuSpec: root ] ].
 	^ root
 ]
 
 { #category : #accessing }
-ToPragmaMenuBuilder >> model [
+ToPragmaCleanMenuBuilder >> model [
 	^ model
 ]
 
 { #category : #accessing }
-ToPragmaMenuBuilder >> model: anObject [
+ToPragmaCleanMenuBuilder >> model: anObject [
 	model := anObject
 ]
 
+{ #category : #accessing }
+ToPragmaCleanMenuBuilder >> name [
+	^ name
+]
+
+{ #category : #accessing }
+ToPragmaCleanMenuBuilder >> name: aSymbol [
+	"set my name (should be unique over all menu items"
+
+	name:= aSymbol
+]
+
 { #category : #'menu building' }
-ToPragmaMenuBuilder >> newSubItem [
+ToPragmaCleanMenuBuilder >> newSubItem [
 
 	| reg |
 	reg := ToMenuRegistration owner: currentRoot.
-	currentRoot addItem: reg.
+	currentRoot itemList add: reg.
 	^ reg
 ]
 
 { #category : #accessing }
-ToPragmaMenuBuilder >> pragmaKeyword: aString [
+ToPragmaCleanMenuBuilder >> parentName [
+
+	^ parentName
+]
+
+{ #category : #accessing }
+ToPragmaCleanMenuBuilder >> parentName: aSymbol [
+
+	parentName := aSymbol
+]
+
+{ #category : #accessing }
+ToPragmaCleanMenuBuilder >> pragmaKeyword: aString [
 	"Set the pragma keyword used to select pragmas"
 	pragmaKeywords add: aString asSymbol
 ]
 
 { #category : #accessing }
-ToPragmaMenuBuilder >> pragmaKeywords [
+ToPragmaCleanMenuBuilder >> pragmaKeywords [
 	"Returns the pragma keyword used to select pragmas (see #pragmaCollector)"
 	^  pragmaKeywords
 ]
 
 { #category : #accessing }
-ToPragmaMenuBuilder >> pragmaKeywords: aCollection [
+ToPragmaCleanMenuBuilder >> pragmaKeywords: aCollection [
 	"Returns the pragma keyword used to select pragmas (see #pragmaCollector)"
 	pragmaKeywords addAll: (aCollection collect: [:k | k asSymbol])
 ]
 
 { #category : #'registrations handling' }
-ToPragmaMenuBuilder >> pragmas [
+ToPragmaCleanMenuBuilder >> pragmas [
 	"Return all pragmas which keyword is self pragmaKeyword"
 
 	^ (self pragmaKeywords flatCollect: [ :each | Pragma allNamed: each ])
 		  select: [ :prg | prg methodSelector numArgs = 1 ]
 ]
 
+{ #category : #removing }
+ToPragmaCleanMenuBuilder >> removeItem: anItem [
+	"Remove a MenuRegistration"
+
+	self itemList remove: anItem
+]
+
 { #category : #'registrations handling' }
-ToPragmaMenuBuilder >> sortRegistrations [
+ToPragmaCleanMenuBuilder >> sortRegistrations [
 	"Try to update MenuRegistration order inst. var and the sort the trees"
-	self assignOrderWithBlock: self class orderAssignBlock.
-	self sort: self class itemSortBlock
+
+	tree assignOrderWithBlock: self class orderAssignBlock.
+	tree sort: self class itemSortBlock
+]
+
+{ #category : #accessing }
+ToPragmaCleanMenuBuilder >> tree [
+	^ tree
 ]

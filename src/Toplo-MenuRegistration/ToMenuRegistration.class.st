@@ -254,6 +254,7 @@ ToMenuRegistration >> buildMenuSpec: aMenu [
 			     ifFalse: [ ToPluggableMenuSpec withModel: nil ]
 			     ifTrue: [ aMenu ].
 		(l reject: [ :i | i precondition value not ]) do: [ :i |
+
 			i buildMenuSpec: m ].
 		isGroup ifFalse: [ spec subMenu: m ] ].
 	isGroup
@@ -347,6 +348,12 @@ ToMenuRegistration >> initialize [
 	super initialize.
 	spec := ToPluggableMenuItemSpec new.
 	isGroup := false
+]
+
+{ #category : #accessing }
+ToMenuRegistration >> isGroup [
+
+	^ isGroup
 ]
 
 { #category : #accessing }

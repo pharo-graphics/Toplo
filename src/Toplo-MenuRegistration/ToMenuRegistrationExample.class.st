@@ -29,11 +29,11 @@ ToMenuRegistrationExample class >> example2 [
 
 	<script>
 	| b |
-	b := (ToPragmaMenuBuilder
-		          pragmaKeyword: #toploWorldMenuExample
-		          model: WorldState new).
-	(b menuEntitled: 'World') popUpInWorld
-	
+	b := ToPragmaMenuBuilder
+		     pragmaKeyword: #toploWorldMenuExample
+		     model: WorldState new.
+	(b menuEntitled: 'World') popUpInWorld.
+	b inspect
 ]
 
 { #category : #'menu declaring' }
@@ -85,7 +85,7 @@ ToMenuRegistrationExample class >> myOwnCoolToolRegistrationOn: aBuilder [
 ToMenuRegistrationExample class >> pharoItemsOn: aBuilder [
 
 	<toploWorldMenuExample>
-	self halt.
+
 	(aBuilder group: #QuitPharo)
 		order: 9999;
 		with: [

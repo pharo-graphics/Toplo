@@ -212,16 +212,6 @@ ToInfiniteElement >> nodesWithIndexDo: aBlock [
 		aBlock value: node value: node holder position ]
 ]
 
-{ #category : #'hooks - layout' }
-ToInfiniteElement >> onLayoutDone [ 
-
-	super onLayoutDone.
-	self spaceDo: [ :sp |
-		sp enqueueTask:
-			(BlTaskAction new action: [ sp mouseProcessor handleLastMouseMove ]) ].
-
-]
-
 { #category : #'t - list node holder' }
 ToInfiniteElement >> partlyVisibleNodesDo: aBlock [
 

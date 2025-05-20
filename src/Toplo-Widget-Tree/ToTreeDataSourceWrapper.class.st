@@ -15,52 +15,62 @@ Class {
 }
 
 { #category : #adding }
-ToTreeDataSourceWrapper >> add: aDataItem [
+ToTreeDataSourceWrapper >> add: aDataItem [ 
 
-	self dataSource add: (self newWrapperFor: aDataItem)
+	self dataSource add: (self wrapObject: aDataItem) 	 
+
+	
 ]
 
 { #category : #adding }
 ToTreeDataSourceWrapper >> add: aDataItem afterIndex: index [
 
-	self dataSource
-		add: (self newWrapperFor: aDataItem)
-		afterIndex: index
+	self dataSource add: (self wrapObject: aDataItem) afterIndex: index	 
+
+	
 ]
 
 { #category : #adding }
 ToTreeDataSourceWrapper >> add: aDataItem beforeIndex: index [
 
-	self dataSource
-		add: (self newWrapperFor: aDataItem)
-		beforeIndex: index
+	self dataSource add: (self wrapObject: aDataItem) beforeIndex: index	 
+
+	
 ]
 
 { #category : #adding }
 ToTreeDataSourceWrapper >> addAll: aCollection [
 
-	| wrappers |
+	| wrapperCollection |
 	aCollection ifEmpty: [ ^ self ].
-	wrappers := aCollection collect: [ :each | self newWrapperFor: each ].
-	self dataSource addAll: wrappers
+	wrapperCollection := aCollection collect: [ :each |
+		                     self wrapObject: each ].
+
+	self dataSource addAll: wrapperCollection	 
+
+	
 ]
 
 { #category : #adding }
-ToTreeDataSourceWrapper >> addFirst: aDataItem [
+ToTreeDataSourceWrapper >> addFirst: aDataItem [ 
 
-	self dataSource addFirst: (self newWrapperFor: aDataItem)
+	self dataSource addFirst: (self wrapObject: aDataItem) 	 
+
+	
 ]
 
 { #category : #adding }
-ToTreeDataSourceWrapper >> addLast: aDataItem [
+ToTreeDataSourceWrapper >> addLast: aDataItem [ 
 
-	self dataSource addLast: (self newWrapperFor: aDataItem)
+	self dataSource addLast: (self wrapObject: aDataItem) 	 
+
+	
 ]
 
 { #category : #accessing }
 ToTreeDataSourceWrapper >> at: anIndex [
 
-	^ (self dataSource at: anIndex) dataItem 
+	^ self dataSource at: anIndex 
 ]
 
 { #category : #'expanding-collapsing' }
@@ -70,7 +80,8 @@ ToTreeDataSourceWrapper >> collapseAll [
 	rootWrappers := self dataSource collection select: [ :each |
 		                   each nodeDepth = 0 ].
 	rootWrappers do: [ :w | w collapse ].
-	self dataSource notifyChanged
+	
+	self dataSource notifyChanged 
 ]
 
 { #category : #accessing }
@@ -86,9 +97,9 @@ ToTreeDataSourceWrapper >> dataWrapperClass [
 ]
 
 { #category : #enumerating }
-ToTreeDataSourceWrapper >> do: aBlock [
+ToTreeDataSourceWrapper >> do: aBlock [ 
 
-	self dataSource do: [ :wrapper | aBlock value: wrapper dataItem ]
+	self dataSource do: aBlock 
 ]
 
 { #category : #'expanding-collapsing' }
@@ -96,9 +107,9 @@ ToTreeDataSourceWrapper >> expandAll [
 
 	| rootWrappers |
 	rootWrappers := self dataSource collection select: [ :each |
-		                each nodeDepth = 0 ].
+		                   each nodeDepth = 0 ].
 	rootWrappers do: [ :w | w expandAll ].
-	self dataSource notifyChanged
+	self dataSource notifyChanged 
 ]
 
 { #category : #testing }
@@ -108,17 +119,9 @@ ToTreeDataSourceWrapper >> ifEmpty: aBlock [
 ]
 
 { #category : #testing }
-ToTreeDataSourceWrapper >> isEmpty [
+ToTreeDataSourceWrapper >> isEmpty [ 
 
-	^ self dataSource isEmpty
-]
-
-{ #category : #wrapping }
-ToTreeDataSourceWrapper >> newWrapperFor: anObject [
-
-	^ self dataWrapperClass new
-		  treeElement: treeElement;
-		  dataItem: anObject
+	^ self dataSource isEmpty 
 ]
 
 { #category : #adding }
@@ -126,7 +129,7 @@ ToTreeDataSourceWrapper >> remove: aDataItem [
 	"this method doesn't check if the dataItem is present multiple times"
 
 	| wrapper |
-	wrapper := (self wrapperSelect: [ :w | w dataItem = aDataItem ]) anyOne.
+	wrapper := (self dataSource select: [ :e | e dataItem = aDataItem ]) anyOne.
 	self dataSource remove: wrapper
 ]
 
@@ -152,4 +155,12 @@ ToTreeDataSourceWrapper >> size [
 ToTreeDataSourceWrapper >> treeElement: aTreeElement [
 
 	treeElement := aTreeElement 
+]
+
+{ #category : #wrapping }
+ToTreeDataSourceWrapper >> wrapObject: anObject [
+
+	^ self dataWrapperClass new
+		  treeElement: treeElement;
+		  dataItem: anObject
 ]

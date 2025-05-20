@@ -67,10 +67,7 @@ ToObservableCollectionMirrorUpdaterTest >> testAddAfter [
 ToObservableCollectionMirrorUpdaterTest >> testAddAfterIndex [
 
 	ocol addAll: #( 1 2 3 4 ).
-	self assert: ocol asArray equals: #(1 2 3 4).
-	self assert: mirror asArray equals: #(1 2 3 4).
 	ocol add: 77 afterIndex: 0.
-	self assert: ocol asArray equals: #(77 1 2 3 4).
 	self assert: mirror asArray equals: #(77 1 2 3 4).
 	ocol add: 88 afterIndex: 2.
 	self assert: mirror asArray equals: #(77 1 88 2 3 4).

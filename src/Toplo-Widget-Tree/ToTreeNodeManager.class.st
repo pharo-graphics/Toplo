@@ -4,6 +4,13 @@ Class {
 	#category : #'Toplo-Widget-Tree-Core'
 }
 
+{ #category : #initialization }
+ToTreeNodeManager >> buildNode: aTreeNode [
+
+	aTreeNode middleElement:
+		(ToLabel text: aTreeNode holder dataItem dataItem asString)
+]
+
 { #category : #'children accessing' }
 ToTreeNodeManager >> childrenFromDataItem: aDataItem [
 
@@ -14,4 +21,10 @@ ToTreeNodeManager >> childrenFromDataItem: aDataItem [
 ToTreeNodeManager >> newHolder [
 
 	^ ToTreeNodeHolder new
+]
+
+{ #category : #'instance creation' }
+ToTreeNodeManager >> newNodeForHolder: aNodeHolder [
+
+	^ ToTreeNode new
 ]

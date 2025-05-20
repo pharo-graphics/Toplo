@@ -19,6 +19,12 @@ ToTreeNode >> initialize [
 	self applySkinInstallerOnFirstRequest: true
 ]
 
+{ #category : #testing }
+ToTreeNode >> isLeaf [
+
+	^ self holder dataItem isLeaf
+]
+
 { #category : #skin }
 ToTreeNode >> newRawSkin [ 
 	
@@ -29,4 +35,16 @@ ToTreeNode >> newRawSkin [
 ToTreeNode >> newWidgetConfiguration [ 
 
 	^ ToTreeNodeConfiguration new
+]
+
+{ #category : #accessing }
+ToTreeNode >> nodeDepth [
+
+	^ self holder dataItem nodeDepth
+]
+
+{ #category : #testing }
+ToTreeNode >> toggle [
+
+	^ self holder dataItem toggle
 ]

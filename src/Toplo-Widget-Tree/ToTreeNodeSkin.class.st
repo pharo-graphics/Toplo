@@ -10,18 +10,17 @@ ToTreeNodeSkin >> installSkinEvent: anEvent [
 	| elt |
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		| align wrapper |
-		wrapper := e holder dataWrapper.
+		| align |
 		elt := self newStartElementForNode: e.
-		align := wrapper nodeDepth * 20.
+		align := e nodeDepth * 20.
 		elt
 			size: 20 asPoint;
 			id: #arrow;
 			margin: (BlInsets left: align).
-		wrapper isLeaf ifFalse: [
+		e isLeaf ifFalse: [
 			elt addEventHandlerOn: BlClickEvent do: [ :evt |
 				evt consume.
-				wrapper toggle ] ].
+				e toggle ] ].
 		e startInterspace: 15.
 		e startElement: elt ]
 ]
@@ -30,7 +29,7 @@ ToTreeNodeSkin >> installSkinEvent: anEvent [
 ToTreeNodeSkin >> newStartElementForNode: aNode [
 
 	| align arrowIcon aWrapper |
-	aWrapper := aNode holder dataWrapper.
+	aWrapper := aNode holder dataItem.
 	align := aWrapper nodeDepth * 20.
 	arrowIcon := ToImage new.
 	aWrapper isLeaf ifFalse: [

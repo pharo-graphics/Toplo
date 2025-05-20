@@ -9,26 +9,10 @@ Class {
 	#name : #ToAbstractTreeElement,
 	#superclass : #ToAbstractListElement,
 	#instVars : [
-		'dataSourceWrapper'
+		'dataAccessor'
 	],
 	#category : #'Toplo-Widget-Tree-Core'
 }
-
-{ #category : #examples }
-ToAbstractTreeElement class >> exampleClassHierarchiesWithMethods [
-	"For this example we created a new wrapper dealing with classes and methods at the same time, a new Node was also created (ToTreeSubAndMethNode) to apply a new skin (ToTreeNodeSubAndMethSkin) with new icons and a different background color for methods "
-	
-
-	| l |
-	l := self new.
-	l dataWrapperClass: ToTreeDataItemSubclassesAndMethodsWrapper.
-	l nodeManager nodeFactory: [ :holder | ToTreeSubAndMethNode new ].
-	l dataAccessor add: BlElement.
-	l dataAccessor add: Collection.
-	l dataAccessor add: String.
-
-	l openInSpace
-]
 
 { #category : #examples }
 ToAbstractTreeElement class >> exampleExpandAllAndCollapseAll [
@@ -70,43 +54,24 @@ ToAbstractTreeElement class >> examplePreviousIntegers [
 	l openInSpace
 ]
 
-{ #category : #examples }
-ToAbstractTreeElement class >> exampleStringWithoutFirstLetter [
-
-	| l |
-	l := self new.
-	l dataWrapperClass: ToTreeDataItemStringWithoutFirstLetterWrapper.
-	l dataAccessor add: 'BlElement'.
-	l dataAccessor add: 'Collection'.
-	l dataAccessor add: 'String'.
-
-	l openInSpace
-]
-
 { #category : #'expanding-collapsing' }
-ToAbstractTreeElement >> collapseAll [ 
+ToAbstractTreeElement >> collapseAll [
 
-	self dataAccessor collapseAll
+	| rootWrappers |
+	rootWrappers := self dataSource select: [ :each | each nodeDepth = 0 ].
+	rootWrappers reverseDo: [ :w | w collapse ]
 ]
 
 { #category : #accessing }
 ToAbstractTreeElement >> dataAccessor [ 
 
-	^ dataSourceWrapper
+	^ dataAccessor
 ]
 
-{ #category : #accessing }
-ToAbstractTreeElement >> dataSourceWrapper [
+{ #category : #initialization }
+ToAbstractTreeElement >> defaultDataAccessor [
 
-	^ dataSourceWrapper
-	
-]
-
-{ #category : #accessing }
-ToAbstractTreeElement >> dataSourceWrapper: aDataSourceWrapper [
-
-	dataSourceWrapper := aDataSourceWrapper
-	
+	^ ToTreeDataAccessor new 
 ]
 
 { #category : #initialization }
@@ -116,20 +81,22 @@ ToAbstractTreeElement >> defaultInnerElement [
 ]
 
 { #category : #'expanding-collapsing' }
-ToAbstractTreeElement >> expandAll [ 
+ToAbstractTreeElement >> expandAll [
 
-	self dataAccessor expandAll
+	| rootWrappers |
+	rootWrappers := self dataSource select: [ :each | each nodeDepth = 0 ].
+	rootWrappers do: [ :w | w expandAll ]
 ]
 
 { #category : #initialization }
 ToAbstractTreeElement >> initialize [ 
 
 	super initialize.
-	self initializeDataSourceWrapper.
+	self initializeDataAccessor.
 ]
 
 { #category : #initialization }
-ToAbstractTreeElement >> initializeDataSourceWrapper [
+ToAbstractTreeElement >> initializeDataAccessor [
 
-	dataSourceWrapper := ToTreeDataSourceWrapper new treeElement: self
+	dataAccessor := self defaultDataAccessor treeElement: self
 ]

@@ -1,6 +1,8 @@
 Class {
 	#name : #ToClassHierachyTreeElement,
 	#superclass : #ToAbstractTreeElement,
+	#traits : 'TToListElementWithDecoration',
+	#classTraits : 'TToListElementWithDecoration classTrait',
 	#category : #'Toplo-Widget-Tree-examples'
 }
 
@@ -10,7 +12,24 @@ ToClassHierachyTreeElement class >> example [
 
 	| l |
 	l := self new.
-	l dataAccessor add: ProtoObject.
+	l withRowNumbers.
+	l dataAccessor add: Object.
+
+	l contextMenu: [ :menu :request |
+		| selectionModel indexes target |
+		target := request currentTarget.
+		selectionModel := request selectionModel.
+		indexes := request selectedIndexes.
+		menu addItem: (ToMenuItem new
+				 labelText: 'Expand all';
+				 clickAction: [
+					 indexes do: [ :idx | (target dataSource at: idx) expandAll ] ];
+				 yourself).
+		menu addItem: (ToMenuItem new
+				 labelText: 'Collapse all';
+				 clickAction: [ target collapseAll ];
+				 yourself) ].
+
 	l openInSpace
 ]
 

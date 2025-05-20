@@ -18,7 +18,7 @@ ToTreeElementTest >> testTreeElementDataAccessorIsDataSourceWrapper [
 
 	self
 		assert: tree dataAccessor className
-		equals: #ToTreeDataSourceWrapper.
+		equals: #ToTreeDataAccessor.
 
 ]
 

@@ -19,20 +19,7 @@ Class {
 }
 
 { #category : #accessing }
-ToTreeNodeHolder >> dataItem: aDataItem [ 
+ToTreeNodeHolder >> treeItem [ 
 
-	self dataWrapper: aDataItem.
-	dataItem := aDataItem dataItem
-]
-
-{ #category : #accessing }
-ToTreeNodeHolder >> dataWrapper [
-
-	^ dataWrapper
-]
-
-{ #category : #accessing }
-ToTreeNodeHolder >> dataWrapper: aToTreeDataSourceWrapper [
-
-	dataWrapper := aToTreeDataSourceWrapper.
+	^ dataItem dataItem
 ]

@@ -18,7 +18,16 @@ ToSelectIconContainerSkin >> disabledSkinEvent: anEvent [
 
 	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
+		e icon innerImageColor: (e valueOfTokenNamed: #'color-text-disabled').
 		e mouseCursor: Cursor normal  ].
+]
+
+{ #category : #'event handling' }
+ToSelectIconContainerSkin >> enabledSkinEvent: anEvent [
+
+	super enabledSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e icon innerImageColor: (e valueOfTokenNamed: #'color-text') ].
 ]
 
 { #category : #'event handling' }
@@ -38,7 +47,6 @@ ToSelectIconContainerSkin >> installSkinEvent: anEvent [
 		e icon ifNil: [ | image |
 			image := ToImage inner: (e valueOfTokenNamed: #'submenu-arrow-up').
 			image size: 18 asPoint.
-			image innerImageColor: (e valueOfTokenNamed: #'color-text').
 			e icon: image ] ]
 ]
 

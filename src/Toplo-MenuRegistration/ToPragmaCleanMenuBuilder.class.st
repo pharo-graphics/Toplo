@@ -77,6 +77,14 @@ ToPragmaCleanMenuBuilder class >> itemSortBlock [
 				ifFalse: [a order ifNil: [false] ifNotNil: [true]]]]
 ]
 
+{ #category : #'instance creation' }
+ToPragmaCleanMenuBuilder class >> model: aModel [
+
+	^ self new
+		  model: aModel;
+		  yourself
+]
+
 { #category : #private }
 ToPragmaCleanMenuBuilder class >> orderAssignBlock [
 	"The block which is used to set MenuRegistration tree node order inst var (which is used to sort the tree)"
@@ -150,8 +158,6 @@ ToPragmaCleanMenuBuilder >> buildTree [
 	"Retrieve all menu registrations with the help of a PragmaCollector then,
 	reorganise the tree and sort it  - see class comment for more informations"
 
-	itemList := OrderedCollection new.
-	self collectRegistrations.
 	self arrangeRegistrations.
 	self sortRegistrations
 ]
@@ -163,18 +169,9 @@ ToPragmaCleanMenuBuilder >> builder [
 
 { #category : #accessing }
 ToPragmaCleanMenuBuilder >> collectMisplacedItemsIn: aCollection [
-	"Select recursively all MenuRegistration with a parentName
-	different from its owner name. 	This is possible since a parent name
-	can be given in order to force a menu item placement.
-	If my parentName is not the same as my owner name then it means
-	that I'm not in the right place and that my placement has to be resolved"
 
-	tree parentName ifNotNil: [
-		tree owner ifNil: [ aCollection add: self ] ifNotNil: [
-			currentRoot name = tree parentName ifFalse: [
-				aCollection add: self ] ] ].
-	self itemList ifNotNil: [ :l |
-		l do: [ :item | item collectMisplacedItemsIn: aCollection ] ]
+	self itemList do: [ :item |
+		item collectMisplacedItemsIn: aCollection ]
 ]
 
 { #category : #'registrations handling' }
@@ -183,14 +180,14 @@ ToPragmaCleanMenuBuilder >> collectRegistrations [
 	MenuRegistration class as argument. The result is a list of trees
 	stored in my itemList inst var"
 
-	| menu |
-	menu := ToPragmaMenuAndShortcutRegistration model: self model.
+	| aBuilder |
+	aBuilder := ToPragmaCleanMenuBuilder model: self model.
 	self pragmas do: [ :prg |
 		self
 			currentRoot: self
 			while: [
-			prg methodClass instanceSide perform: prg methodSelector with: menu ] ].
-	self interpretRegistration: menu
+			prg methodClass instanceSide perform: prg methodSelector with: aBuilder ] ].
+	self interpretRegistration: aBuilder
 ]
 
 { #category : #accessing }
@@ -205,6 +202,28 @@ ToPragmaCleanMenuBuilder >> currentRoot: anItem while: aBlock [
 	old := currentRoot.
 	currentRoot := anItem.
 	[ aBlock value ] ensure: [ currentRoot := old ].
+]
+
+{ #category : #API }
+ToPragmaCleanMenuBuilder >> group: aSymbol [
+	"Create a group"
+	| item |
+	self flag: #todo.
+	"why current root is a builder and not a registration."
+	"item := self newSubItem.
+	item group: aSymbol.
+	^item"
+	^ currentRoot group: aSymbol
+]
+
+{ #category : #accessing }
+ToPragmaCleanMenuBuilder >> handOutItems [
+	"we don't want to hold a reference to the items after they are hand out to the registration"
+
+	| itemsCopy |
+	itemsCopy := itemList copy.
+	itemList removeAll.
+	^ itemsCopy
 ]
 
 { #category : #initialization }
@@ -226,7 +245,7 @@ ToPragmaCleanMenuBuilder >> interpretRegistration: aRegistration [
 	aRegistration handOutItems do: [ :item |
 		| node |
 		node := item group
-			        ifNil: [ root item: item item ]
+			        ifNil: [ root item: item name ]
 			        ifNotNil: [ :grp | root group: grp ].
 		item with ifNil: [
 			item action
@@ -256,6 +275,15 @@ ToPragmaCleanMenuBuilder >> isGroup [
 	^ isGroup
 ]
 
+{ #category : #API }
+ToPragmaCleanMenuBuilder >> item: aSymbol [
+	"Add an item with name aSymbol as item in the list of item."
+	
+	^ self newSubItem
+		  name: aSymbol;
+		  yourself
+]
+
 { #category : #accessing }
 ToPragmaCleanMenuBuilder >> itemList [
 
@@ -275,11 +303,10 @@ ToPragmaCleanMenuBuilder >> itemNamed: aName [
 
 	| result |
 	self name = aName ifTrue: [ ^ self ].
-	result := self itemList ifNotNil: [ :l |
-		          l
-			          detect: [ :item | (item itemNamed: aName) isNotNil ]
-			          ifNone: [  ] ].
-	^ result ifNotNil: [ result itemNamed: aName ]
+	result := self itemList
+		          detect: [ :item | (item itemNamed: aName) isNotNil ]
+		          ifNone: [ ^ nil ].
+	^ result itemNamed: aName
 ]
 
 { #category : #accessing }
@@ -290,7 +317,6 @@ ToPragmaCleanMenuBuilder >> itemReceiver [
 { #category : #'public menu building' }
 ToPragmaCleanMenuBuilder >> menuSpec [
 	"Returns a ToPluggableMenuSpec build from my contents"
-
 	^ self menuSpecAt: nil
 ]
 
@@ -302,9 +328,9 @@ ToPragmaCleanMenuBuilder >> menuSpecAt: aName [
 	| root |
 	self buildTree.
 	root := ToPluggableMenuSpec withModel: nil.
-	(aName ifNil: [ self ] ifNotNil: [ self itemNamed: aName ])
-		ifNotNil: [
-		tree precondition value ifTrue: [ tree buildMenuSpec: root ] ].
+	(aName ifNil: [ tree ] ifNotNil: [ self itemNamed: aName ])
+		ifNotNil: [ :top |
+		top precondition value ifTrue: [ top buildMenuSpec: root ] ].
 	^ root
 ]
 
@@ -334,7 +360,7 @@ ToPragmaCleanMenuBuilder >> name: aSymbol [
 ToPragmaCleanMenuBuilder >> newSubItem [
 
 	| reg |
-	reg := ToMenuRegistration owner: currentRoot.
+	reg := ToCleanMenuRegistration owner: currentRoot.
 	currentRoot itemList add: reg.
 	^ reg
 ]
@@ -395,4 +421,12 @@ ToPragmaCleanMenuBuilder >> sortRegistrations [
 { #category : #accessing }
 ToPragmaCleanMenuBuilder >> tree [
 	^ tree
+]
+
+{ #category : #API }
+ToPragmaCleanMenuBuilder >> withSeparatorAfter [
+	
+	self flag: #todo. 
+	"why current root is a builder and not a registration."
+	currentRoot itemList first withSeparatorAfter
 ]

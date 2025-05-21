@@ -213,6 +213,12 @@ ToCleanMenuRegistration class >> owner: aMenuRegistration [
 	^ self new owner: aMenuRegistration
 ]
 
+{ #category : #accessing }
+ToCleanMenuRegistration >> action [
+
+	^ spec action
+]
+
 { #category : #'spec accessing' }
 ToCleanMenuRegistration >> action: aMessageSendOrABlock [
 	"set the action of the menu"
@@ -228,8 +234,26 @@ ToCleanMenuRegistration >> action: aMessageSendOrABlock [
 { #category : #accessing }
 ToCleanMenuRegistration >> addItem: anItem [
 	"Add a MenuRegistration"
-
+	(anItem isKindOf: ToCleanMenuRegistration ) ifFalse: [ self halt ].
 	itemList add: anItem
+]
+
+{ #category : #accessing }
+ToCleanMenuRegistration >> addItemNamed: aSymbol [
+	"Add a MenuRegistration"
+
+	| reg |
+	reg := self class new.
+	reg name: aSymbol.
+	self addItem: reg.
+	^ reg
+]
+
+{ #category : #'spec accessing' }
+ToCleanMenuRegistration >> arguments [
+	spec action ifNil: [ ^ nil ].
+	spec action isBlock ifFalse: [ ^ spec action arguments ].
+	^ nil
 ]
 
 { #category : #'spec accessing' }
@@ -243,6 +267,15 @@ ToCleanMenuRegistration >> arguments: anArray [
 					 selector: nil
 					 arguments: anArray) ]
 		ifNotNil: [ spec action arguments: anArray ]
+]
+
+{ #category : #accessing }
+ToCleanMenuRegistration >> assignOrderWithBlock: aBlock [
+	"Compute recursively MenuRegistration order"
+
+	self itemList ifNotNil: [
+		self itemList: (aBlock value: self itemList).
+		self itemList do: [ :rded | rded assignOrderWithBlock: aBlock ] ]
 ]
 
 { #category : #accessing }
@@ -270,6 +303,35 @@ ToCleanMenuRegistration >> builder [
 	^ owner builder
 ]
 
+{ #category : #accessing }
+ToCleanMenuRegistration >> collectMisplacedItemsIn: aCollection [
+	"Select recursively all MenuRegistration with a parentName
+	different from its owner name. 	This is possible since a parent name
+	can be given in order to force a menu item placement.
+	If my parentName is not the same as my owner name then it means
+	that I'm not in the right place and that my placement has to be resolved"
+
+	self parentName ifNotNil: [
+		owner
+			ifNil: [ aCollection add: self ]
+			ifNotNil: [
+			owner name = self parentName ifFalse: [ aCollection add: self ] ] ].
+	self itemList ifNotNil: [ :l |
+		l do: [ :item | item collectMisplacedItemsIn: aCollection ] ]
+]
+
+{ #category : #accessing }
+ToCleanMenuRegistration >> default [
+	
+	^ nil "for now"
+]
+
+{ #category : #accessing }
+ToCleanMenuRegistration >> enabled [
+
+	^ spec enabled
+]
+
 { #category : #'spec accessing' }
 ToCleanMenuRegistration >> enabled: aBooleanOrABlock [
 
@@ -294,6 +356,14 @@ ToCleanMenuRegistration >> enabledBlock: aBlock [
 	spec enabledBlock: aBlock
 ]
 
+{ #category : #accessing }
+ToCleanMenuRegistration >> group [
+
+	^ isGroup
+		  ifTrue: [ self name ]
+		  ifFalse: [ nil ]
+]
+
 { #category : #'sub item creating' }
 ToCleanMenuRegistration >> group: aSymbol [
 	^ (self item: aSymbol) isGroup: true
@@ -309,6 +379,12 @@ ToCleanMenuRegistration >> handOutItems [
 	^ itemsCopy
 ]
 
+{ #category : #accessing }
+ToCleanMenuRegistration >> help [
+
+	^ spec help
+]
+
 { #category : #'spec accessing' }
 ToCleanMenuRegistration >> help: anHelpText [
 	"set the help text"
@@ -321,6 +397,12 @@ ToCleanMenuRegistration >> icon: aForm [
 	"set the icon that is shown in the menu"
 
 	spec icon: aForm
+]
+
+{ #category : #accessing }
+ToCleanMenuRegistration >> iconFormSet [
+
+	^ spec iconFormSet
 ]
 
 { #category : #'spec accessing' }
@@ -350,12 +432,17 @@ ToCleanMenuRegistration >> isGroup: aBoolean [
 	isGroup := aBoolean
 ]
 
-{ #category : #'sub item creating' }
+{ #category : #testing }
+ToCleanMenuRegistration >> isWithSeparatorAfter [
+
+	^ spec separator
+]
+
+{ #category : #accessing }
 ToCleanMenuRegistration >> item: aSymbol [
-	"set my name and my label with aSymbol (the label and the name as the same by default) and register myself as a child of my owner"
-	^ self builder newSubItem
-		  name: aSymbol;
-		  label: aSymbol asString
+	"Add a MenuRegistration - should be removed since this is the builder API"
+
+	self addItemNamed: aSymbol
 ]
 
 { #category : #accessing }
@@ -376,17 +463,21 @@ ToCleanMenuRegistration >> itemNamed: aName [
 
 	| result |
 	self name = aName ifTrue: [ ^ self ].
-	result := self itemList
-		ifNotNil: [ :l |
-			l
-				detect: [ :item | (item itemNamed: aName) isNotNil ]
-				ifNone: [  ] ].
-	^ result ifNotNil: [ result itemNamed: aName ]
+	result := self itemList 
+			          detect: [ :item | (item itemNamed: aName) isNotNil ]
+			          ifNone: [ ^ nil ].
+	^ result itemNamed: aName
 ]
 
 { #category : #accessing }
 ToCleanMenuRegistration >> itemReceiver [
 	^ self target ifNil: [owner itemReceiver]
+]
+
+{ #category : #'spec accessing' }
+ToCleanMenuRegistration >> keyText [
+
+	^ spec keyText
 ]
 
 { #category : #'spec accessing' }
@@ -459,6 +550,12 @@ ToCleanMenuRegistration >> owner: anItem [
 ]
 
 { #category : #accessing }
+ToCleanMenuRegistration >> parent [
+	
+	^ parentName "WAT"
+]
+
+{ #category : #accessing }
 ToCleanMenuRegistration >> parent: aSymbol [
 
 	self parentName: aSymbol
@@ -515,6 +612,13 @@ ToCleanMenuRegistration >> reset [
 	spec := nil
 ]
 
+{ #category : #accessing }
+ToCleanMenuRegistration >> selector [
+	spec action ifNil: [ ^ nil ].
+	spec isBlock ifFalse: [ ^ spec action selector ].
+	^ nil
+]
+
 { #category : #'spec accessing' }
 ToCleanMenuRegistration >> selector: aSymbol [
 	"set the selector for item with an action"
@@ -523,7 +627,7 @@ ToCleanMenuRegistration >> selector: aSymbol [
 		ifNil: [
 			spec action:
 				(MessageSend receiver: self itemReceiver selector: aSymbol) ]
-		ifNotNil: [ spec action selector: aSymbol ]
+		ifNotNil: [ spec isBlock ifFalse: [ spec action selector: aSymbol ] ]
 ]
 
 { #category : #accessing }
@@ -558,6 +662,12 @@ ToCleanMenuRegistration >> target: anObject [
 					 receiver: (anObject ifNil: [ owner itemReceiver ])
 					 selector: nil) ]
 		ifNotNil: [ spec action receiver: anObject ]
+]
+
+{ #category : #accessing }
+ToCleanMenuRegistration >> with [
+	
+	^ nil "for now"
 ]
 
 { #category : #'sub item creating' }

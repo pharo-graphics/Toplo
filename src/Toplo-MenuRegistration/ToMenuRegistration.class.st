@@ -236,7 +236,7 @@ ToMenuRegistration >> arguments: anArray [
 		ifNotNil: [ spec action arguments: anArray ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToMenuRegistration >> assignOrderWithBlock: aBlock [
 	"Compute recursively MenuRegistration order"
 	self itemList
@@ -269,7 +269,7 @@ ToMenuRegistration >> builder [
 	^ owner builder
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToMenuRegistration >> collectMisplacedItemsIn: aCollection [
 	"Select recursively all MenuRegistration with a parentName
 	different from its owner name. 	This is possible since a parent name
@@ -277,13 +277,13 @@ ToMenuRegistration >> collectMisplacedItemsIn: aCollection [
 	If my parentName is not the same as my owner name then it means
 	that I'm not in the right place and that my placement has to be resolved"
 
-	self parentName
-		ifNotNil: [owner
-				ifNil: [aCollection add: self]
-				ifNotNil: [owner name = self parentName
-						ifFalse: [aCollection add: self]]].
-	self itemList ifNotNil: [:l |
-		l do: [:item | item collectMisplacedItemsIn: aCollection]]
+	self parentName ifNotNil: [
+		owner
+			ifNil: [ aCollection add: self ]
+			ifNotNil: [
+			owner name = self parentName ifFalse: [ aCollection add: self ] ] ].
+	self itemList ifNotNil: [ :l |
+		l do: [ :item | item collectMisplacedItemsIn: aCollection ] ]
 ]
 
 { #category : #'spec accessing' }
@@ -361,7 +361,7 @@ ToMenuRegistration >> isGroup: aBoolean [
 	isGroup := aBoolean
 ]
 
-{ #category : #'sub item creating' }
+{ #category : #accessing }
 ToMenuRegistration >> item: aSymbol [
 	"set my name and my label with aSymbol (the label and the name as the same by default) and register myself as a child of my owner"
 	^ (self builder newSubItem) name: aSymbol; label: aSymbol asString
@@ -396,6 +396,12 @@ ToMenuRegistration >> itemNamed: aName [
 { #category : #accessing }
 ToMenuRegistration >> itemReceiver [
 	^ self target ifNil: [owner itemReceiver]
+]
+
+{ #category : #'spec accessing' }
+ToMenuRegistration >> keyText [
+
+	spec keyText
 ]
 
 { #category : #'spec accessing' }

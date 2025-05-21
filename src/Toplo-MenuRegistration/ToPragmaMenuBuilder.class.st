@@ -74,6 +74,14 @@ ToPragmaMenuBuilder class >> itemSortBlock [
 				ifFalse: [a order ifNil: [false] ifNotNil: [true]]]]
 ]
 
+{ #category : #'instance creation' }
+ToPragmaMenuBuilder class >> model: aModel [
+
+	^ self new
+		  model: aModel;
+		  yourself
+]
+
 { #category : #private }
 ToPragmaMenuBuilder class >> orderAssignBlock [
 	"The block which is used to set MenuRegistration tree node order inst var (which is used to sort the tree)"
@@ -125,11 +133,12 @@ ToPragmaMenuBuilder >> allMisplacedItems [
 
 { #category : #'registrations handling' }
 ToPragmaMenuBuilder >> arrangeRegistrations [
-	self allMisplacedItems do: [:item |
-		(self itemNamed: item parentName)
-			ifNotNil: [:newOwner | item owner removeItem: item.
-				item owner: newOwner.
-				newOwner addItem: item]]
+
+	self allMisplacedItems do: [ :item |
+		(self itemNamed: item parentName) ifNotNil: [ :newOwner |
+			item owner removeItem: item.
+			item owner: newOwner.
+			newOwner addItem: item ] ]
 ]
 
 { #category : #'menu building' }

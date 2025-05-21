@@ -21,31 +21,31 @@ Class {
 	#category : #'Toplo-MenuRegistration'
 }
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPluggableMenuItemSpec >> action [
 	"Answer the action associated with the receiver"
 	^action
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPluggableMenuItemSpec >> action: aMessageSend [
 	"Answer the action associated with the receiver"
 	action := aMessageSend
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPluggableMenuItemSpec >> checked [
 	"Answer whether the receiver is checked"
 	^checked
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPluggableMenuItemSpec >> checked: aBool [
 	"Indicate whether the receiver is checked"
 	checked := aBool
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPluggableMenuItemSpec >> enabled [
 	"Answer whether the receiver is enabled"
 	^ enabledBlock
@@ -53,113 +53,113 @@ ToPluggableMenuItemSpec >> enabled [
 		ifNotNil: [ enabledBlock value ]
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPluggableMenuItemSpec >> enabled: aBool [
 	"Indicate whether the receiver is enabled"
 	enabled := aBool
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPluggableMenuItemSpec >> enabledBlock [
 
 	^ enabledBlock
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPluggableMenuItemSpec >> enabledBlock: aBlock [
 
 	enabledBlock := aBlock
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPluggableMenuItemSpec >> hasCheckBox [
 
 	^ checked isNotNil
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPluggableMenuItemSpec >> help [
 	"Answer the message to get the help texts of this element."
 	^ help
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPluggableMenuItemSpec >> help: aSymbol [
 	"Indicate the message to retrieve the help texts of this element."
 	help := aSymbol
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPluggableMenuItemSpec >> icon [
 	^ self iconFormSet ifNotNil: [ :formSet | formSet asForm ]
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPluggableMenuItemSpec >> icon: aForm [
 	self iconFormSet: (aForm ifNotNil: [ FormSet form: aForm ])
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPluggableMenuItemSpec >> iconFormSet [
 	^ iconFormSet
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPluggableMenuItemSpec >> iconFormSet: aFormSet [
 	iconFormSet := aFormSet
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPluggableMenuItemSpec >> keyText [
 	^keyText
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPluggableMenuItemSpec >> keyText: aString [
 	keyText := aString
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPluggableMenuItemSpec >> label [
 	"Answer the receiver's label"
 	^label
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPluggableMenuItemSpec >> label: aString [
 	"Set the receiver's label"
 	label := aString
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPluggableMenuItemSpec >> name [
 	^ name
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPluggableMenuItemSpec >> name: anObject [
 	name := anObject
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPluggableMenuItemSpec >> separator [
 	"Answer whether the receiver should be followed by a separator"
 	^separator ifNil:[false]
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPluggableMenuItemSpec >> separator: aBool [
 	"Indicate whether the receiver should be followed by a separator"
 	separator := aBool
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPluggableMenuItemSpec >> subMenu [
 	"Answer the receiver's subMenu"
 	^subMenu
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPluggableMenuItemSpec >> subMenu: aMenuSpec [
 	"Answer the receiver's subMenu"
 	subMenu := aMenuSpec

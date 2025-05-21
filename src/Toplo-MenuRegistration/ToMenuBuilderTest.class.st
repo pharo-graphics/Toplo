@@ -5,7 +5,7 @@ Class {
 		'xmenu',
 		'tmenu'
 	],
-	#category : #'Toplo-MenuRegistration'
+	#category : #'Toplo-MenuRegistration-clean'
 }
 
 { #category : #differential }
@@ -68,9 +68,7 @@ ToMenuBuilderTest >> testDiffChildOrder [
 	| xTools |
 	xTools := xmenu itemNamed: #Tools.
 	self assert: xTools order equals: 70.
-	self
-		assert: xTools order
-		equals: (tmenu itemNamed: #Tools) order
+	self assert: xTools order equals: (tmenu itemNamed: #Tools) order
 ]
 
 { #category : #differential }
@@ -125,7 +123,7 @@ ToMenuBuilderTest >> testDiffItemChildNamed [
 	self assert: xSettings name equals: #Settings.
 	self
 		assert: xSettings name
-		equals: ((tmenu itemNamed: #Pharo) itemNamed: #Settings) name.
+		equals: ((tmenu itemNamed: #Pharo) itemNamed: #Settings) name
 ]
 
 { #category : #differential }
@@ -180,7 +178,7 @@ ToMenuBuilderTest >> testNewBuilderSpec [
 
 	| builder menu item |
 	builder := ToPragmaMenuBuilder new.
-	menu := ToMenuRegistration new.
+	menu := ToCleanMenuRegistration new.
 	menu owner: builder.
 	item := menu item: #MyOwnCoolMenu.
 
@@ -193,7 +191,7 @@ ToMenuBuilderTest >> testNewBuilderSpec [
 ToMenuBuilderTest >> testNewBuilderSpecWithChild [
 
 	| aBuilder |
-	aBuilder := ToMenuRegistration new owner: ToPragmaMenuBuilder new.
+	aBuilder := ToCleanMenuRegistration new owner: ToPragmaMenuBuilder new.
 	(aBuilder item: #MyOwnCoolMenu)
 		parent: #Tools;
 		"place me as a child of the #Tools node (declared by #toolsOn:)"
@@ -213,7 +211,7 @@ ToMenuBuilderTest >> testNewConnectedMenuItem [
 
 	| builder menu item |
 	builder := ToPragmaMenuBuilder new.
-	menu := ToMenuRegistration new.
+	menu := ToCleanMenuRegistration new.
 	menu owner: builder.
 	item := builder item: #MyOwnCoolMenu.
 	"Why this is not a builder item: #my...."
@@ -227,11 +225,11 @@ ToMenuBuilderTest >> testNewUnconnectedMenuItem [
 
 	| builder menu item |
 	builder := ToPragmaMenuBuilder new.
-	menu := ToMenuRegistration new.
+	menu := ToCleanMenuRegistration new.
 	menu owner: builder.
 	item := menu item: #MyOwnCoolMenu.
 
 	self deny: item == menu.
 	self assert: item parentName equals: nil.
-	self assert: item label equals: #MyOwnCoolMenu.
+	self assert: item label equals: #MyOwnCoolMenu
 ]

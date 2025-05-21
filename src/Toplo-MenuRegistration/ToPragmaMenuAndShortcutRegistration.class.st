@@ -284,12 +284,12 @@ ToPragmaMenuAndShortcutRegistration >> target: aSymbol [
 
 { #category : #'menu protocol' }
 ToPragmaMenuAndShortcutRegistration >> with: aBlock [
+
 	| old itemOrGroup |
 	old := self currentRoot.
 	itemOrGroup := self currentItem item ifNil: [ self currentItem group ].
 	self currentRoot: itemOrGroup.
-	[ aBlock value ]
-		ensure: [ self currentRoot: old ]
+	[ aBlock value ] ensure: [ self currentRoot: old ]
 ]
 
 { #category : #'menu protocol' }

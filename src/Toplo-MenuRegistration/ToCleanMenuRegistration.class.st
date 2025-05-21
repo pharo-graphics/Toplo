@@ -197,8 +197,16 @@ Class {
 		'isGroup',
 		'precondition'
 	],
-	#category : #'Toplo-MenuRegistration'
+	#category : #'Toplo-MenuRegistration-clean'
 }
+
+{ #category : #'as yet unclassified' }
+ToCleanMenuRegistration class >> model: aModel [
+
+	^ self new
+		  model: aModel;
+		  yourself
+]
 
 { #category : #'instance creation' }
 ToCleanMenuRegistration class >> owner: aMenuRegistration [
@@ -214,7 +222,7 @@ ToCleanMenuRegistration >> action: aMessageSendOrABlock [
 			self target: aMessageSendOrABlock.
 			self selector: #cull:.
 			self arguments: { self model } ]
-		ifFalse: [ self selector: aMessageSendOrABlock ]
+		ifFalse: [ self selector: aMessageSendOrABlock ].
 ]
 
 { #category : #accessing }
@@ -291,6 +299,16 @@ ToCleanMenuRegistration >> group: aSymbol [
 	^ (self item: aSymbol) isGroup: true
 ]
 
+{ #category : #accessing }
+ToCleanMenuRegistration >> handOutItems [
+	"we don't want to hold a reference to the items after they are hand out to the registration"
+
+	| itemsCopy |
+	itemsCopy := itemList copy.
+	itemList removeAll.
+	^ itemsCopy
+]
+
 { #category : #'spec accessing' }
 ToCleanMenuRegistration >> help: anHelpText [
 	"set the help text"
@@ -335,7 +353,9 @@ ToCleanMenuRegistration >> isGroup: aBoolean [
 { #category : #'sub item creating' }
 ToCleanMenuRegistration >> item: aSymbol [
 	"set my name and my label with aSymbol (the label and the name as the same by default) and register myself as a child of my owner"
-	^ (self builder newSubItem) name: aSymbol; label: aSymbol asString
+	^ self builder newSubItem
+		  name: aSymbol;
+		  label: aSymbol asString
 ]
 
 { #category : #accessing }

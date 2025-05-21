@@ -63,7 +63,7 @@ Class {
 		'parentName',
 		'isGroup'
 	],
-	#category : #'Toplo-MenuRegistration'
+	#category : #'Toplo-MenuRegistration-clean'
 }
 
 { #category : #private }
@@ -185,13 +185,11 @@ ToPragmaCleanMenuBuilder >> collectRegistrations [
 
 	| menu |
 	menu := ToPragmaMenuAndShortcutRegistration model: self model.
-	self pragmas
-		do: [ :prg |
-			self
-				currentRoot: self
-				while: [ prg methodClass instanceSide
-						perform: prg methodSelector
-						with: menu ] ].
+	self pragmas do: [ :prg |
+		self
+			currentRoot: self
+			while: [
+			prg methodClass instanceSide perform: prg methodSelector with: menu ] ].
 	self interpretRegistration: menu
 ]
 

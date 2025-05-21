@@ -12,6 +12,9 @@ ToObservableCollectionMirrorUpdater >> collectionAddEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
+	(mirror isEmpty and: [ anEvent interval first = 1 ]) ifTrue: [
+		mirror addAll: target.
+		^ self ].
 	anEvent interval do: [ :idx |
 		mirror add: (target at: idx) afterIndex: idx - 1 ]
 ]
@@ -21,7 +24,7 @@ ToObservableCollectionMirrorUpdater >> collectionAllUpdatedEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	mirror updateAllWith: target
+	mirror updateAllWith: target 
 ]
 
 { #category : #'data events handling' }

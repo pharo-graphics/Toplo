@@ -102,7 +102,7 @@ ToTreeDataItemWrapper >> expand [
 ToTreeDataItemWrapper >> expandAll [
 
 	self expand.
-	self childWrappers do: [ :each | each expandAll ].
+	self childWrappers reverseDo: [ :each | each expandAll ].
 
 ]
 

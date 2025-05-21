@@ -36,7 +36,7 @@ ToListElementEventHandler >> clickEvent: anEvent [
 ]
 
 { #category : #'infinite event handling' }
-ToListElementEventHandler >> collectionUpdateAllRequest: anEvent [
+ToListElementEventHandler >> collectionAllUpdatedEvent: anEvent [
 
 	anEvent currentTarget selectionModel resetAll
 ]
@@ -92,7 +92,7 @@ ToListElementEventHandler >> eventsToHandle [
 		  BlElementScrolledEvent.
 
 		  " data source "
-		  ToCollectionUpdateAllRequest.
+		  ToCollectionAllUpdatedEvent.
 		  ToInfiniteDataSourceEmptinessChangedEvent.
 
 		  BlLayoutResizerChangedEvent.

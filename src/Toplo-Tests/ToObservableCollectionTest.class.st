@@ -528,13 +528,13 @@ ToObservableCollectionTest >> testUpdateAllWith [
 		     yourself.
 
 	l addEventHandler: (BlEventHandler
-			 on: ToCollectionAllUpdatedEvent
+			 on: ToCollectionRemoveEvent
 			 do: [ :ann | i := ann interval ]).
 
 	l updateAllWith: #(  ).
 
 	self assert: i notNil.
-	self assert: i equals: (1 to: 0).
+	self assert: i equals: (1 to: 4).
 
 	self assert: l asOrderedCollection equals: #(  ) asOrderedCollection.
 
@@ -546,5 +546,5 @@ ToObservableCollectionTest >> testUpdateAllWith [
 		assert: l asOrderedCollection
 		equals: #( 5 6 7 8 9 ) asOrderedCollection.
 
-	self assert: i equals: (1 to: 5)
+	self assert: i equals: nil
 ]

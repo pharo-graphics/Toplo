@@ -49,6 +49,7 @@ ToTreeDataAccessor >> newWrapperFor: anObject [
 
 	^ self dataWrapperClass new
 		  treeElement: treeElement;
+		  parentWrapper: parentWrapper;
 		  dataItem: anObject
 ]
 

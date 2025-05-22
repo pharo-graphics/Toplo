@@ -14,46 +14,6 @@ Class {
 	#category : #'Toplo-Widget-Tree-Core'
 }
 
-{ #category : #examples }
-ToAbstractTreeElement class >> exampleExpandAllAndCollapseAll [
-
-	| tree expandAllButton collapseAllButton container |
-	tree := self new.
-	tree dataWrapperClass: ToTreeDataItemPreviousIntegerWrapper.
-	tree dataAccessor addAll: (1 to: 100).
-
-	expandAllButton := ToButton new
-		                   label: (ToLabel text: 'Expand All');
-		                   newClickAction: [ tree expandAll ];
-		                   yourself.
-	collapseAllButton := ToButton new
-		                     label: (ToLabel text: 'Collapse All');
-		                     newClickAction: [ tree collapseAll ];
-		                     yourself.
-
-	container := ToElement new
-		             layout: BlLinearLayout vertical;
-		             hMatchParent;
-		             vMatchParent.
-	container addChildren: {
-			expandAllButton.
-			collapseAllButton.
-			tree }.
-	container openInSpace
-]
-
-{ #category : #examples }
-ToAbstractTreeElement class >> examplePreviousIntegers [
-
-	| l |
-	l := self new.
-	l dataWrapperClass: ToTreeDataItemPreviousIntegerWrapper.
-	l dataAccessor addAll: (1 to: 10).
-
-
-	l openInSpace
-]
-
 { #category : #'expanding-collapsing' }
 ToAbstractTreeElement >> collapseAll [
 
@@ -84,7 +44,7 @@ ToAbstractTreeElement >> defaultInnerElement [
 ToAbstractTreeElement >> expandAll [
 
 	| rootWrappers |
-	rootWrappers := self dataSource select: [ :each | each nodeDepth = 0 ].
+	rootWrappers := self dataSource select: [ :each | each isRoot ].
 	rootWrappers do: [ :w | w expandAll ]
 ]
 

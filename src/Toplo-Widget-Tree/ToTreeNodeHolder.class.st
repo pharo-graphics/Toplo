@@ -19,7 +19,7 @@ Class {
 }
 
 { #category : #accessing }
-ToTreeNodeHolder >> treeItem [ 
+ToTreeNodeHolder >> treeDataItem [ 
 
-	^ dataItem dataItem
+	^ dataItem unwrapped
 ]

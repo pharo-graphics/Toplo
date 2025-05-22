@@ -8,7 +8,7 @@ Class {
 ToTreeNodeManager >> buildNode: aTreeNode [
 
 	aTreeNode middleElement:
-		(ToLabel text: aTreeNode holder dataItem dataItem asString)
+		(ToLabel text: aTreeNode holder treeDataItem asString)
 ]
 
 { #category : #'children accessing' }

@@ -22,7 +22,7 @@ ToGenericTreeNodeManager >> buildNode: aNode [
 			 yourself).
 	nodeBuilder
 		cull: aNode middleElement
-		cull: aNode holder dataItem
+		cull: aNode holder treeDataItem
 		cull: aNode holder
 ]
 

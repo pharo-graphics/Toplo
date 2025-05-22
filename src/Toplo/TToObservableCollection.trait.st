@@ -26,7 +26,7 @@ TToObservableCollection >> add: newObject after: oldObject [
 	Raises an error if oldObject is not found"
 
 	| idx |
-	idx := self collection indexOf: oldObject.
+	idx := self indexOf: oldObject.
 	self add: newObject afterIndex: idx
 ]
 
@@ -509,7 +509,8 @@ TToObservableCollection >> removeAt: removedIndex [
 	removed := Array with: (self collection at: removedIndex).
 	self notifyEmptinessChangeAfter: [ 
 			self collection removeAt: removedIndex.
-			self notifyRemoved: removed interval: interval ]
+			self notifyRemoved: removed interval: interval ].
+	^ removed first
 ]
 
 { #category : #'t - observable collection - removing' }

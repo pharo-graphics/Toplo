@@ -23,11 +23,18 @@ ToClassHierachyTreeElement class >> example [
 		menu addItem: (ToMenuItem new
 				 labelText: 'Expand all';
 				 clickAction: [
-					 indexes do: [ :idx | (target dataSource at: idx) expandAll ] ];
+					 indexes
+						 ifEmpty: [ target expandAll ]
+						 ifNotEmpty: [
+							 indexes do: [ :idx | (target dataSource at: idx) expandAll ] ] ];
 				 yourself).
 		menu addItem: (ToMenuItem new
 				 labelText: 'Collapse all';
-				 clickAction: [ target collapseAll ];
+				 clickAction: [
+					 indexes
+						 ifEmpty: [ target collapseAll ]
+						 ifNotEmpty: [
+							 indexes do: [ :idx | (target dataSource at: idx) collapse ] ] ];
 				 yourself) ].
 
 	l openInSpace

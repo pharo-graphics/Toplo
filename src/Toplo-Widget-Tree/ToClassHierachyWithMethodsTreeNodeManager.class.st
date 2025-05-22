@@ -4,13 +4,6 @@ Class {
 	#category : #'Toplo-Widget-Tree-examples'
 }
 
-{ #category : #initialization }
-ToClassHierachyWithMethodsTreeNodeManager >> buildNode: aTreeNode [
-
-	aTreeNode middleElement:
-		(ToLabel text: aTreeNode holder dataItem asString)
-]
-
 { #category : #'children accessing' }
 ToClassHierachyWithMethodsTreeNodeManager >> childrenFromDataItem: aClassOrMethod [
 

@@ -38,6 +38,13 @@ ToTreeDataItemWrapper >> childWrappersDo: aBlock [
 ]
 
 { #category : #'private - accessing' }
+ToTreeDataItemWrapper >> childWrappersReverseDo: aBlock [
+
+	self childrenInterval reversed do: [ :p |
+		aBlock value: (treeElement dataSource at: p) ]
+]
+
+{ #category : #'private - accessing' }
 ToTreeDataItemWrapper >> childrenInterval [
 
 	| first nb |
@@ -82,7 +89,7 @@ ToTreeDataItemWrapper >> dataItemChildren [
 
 	^ children ifNil: [
 		  children := treeElement nodeManager childrenFromDataItem:
-			              self dataItem ]
+			              self unwrapped ]
 ]
 
 { #category : #'expanding-collapsing' }
@@ -101,8 +108,9 @@ ToTreeDataItemWrapper >> expand [
 { #category : #'expanding-collapsing' }
 ToTreeDataItemWrapper >> expandAll [
 
+	self collapse.
 	self expand.
-	self childWrappers reverseDo: [ :each | each expandAll ].
+	self childWrappersReverseDo: [ :each | each expandAll ].
 
 ]
 
@@ -132,6 +140,12 @@ ToTreeDataItemWrapper >> isExpanded [
 ToTreeDataItemWrapper >> isLeaf [
 
 	^ self dataItemChildren isEmpty
+]
+
+{ #category : #testing }
+ToTreeDataItemWrapper >> isRoot [
+
+	^ parentWrapper isNil
 ]
 
 { #category : #accessing }
@@ -172,4 +186,16 @@ ToTreeDataItemWrapper >> toggle [
 ToTreeDataItemWrapper >> treeElement: aTreeElement [
 
 	treeElement := aTreeElement 
+]
+
+{ #category : #accessing }
+ToTreeDataItemWrapper >> unwrapped [ 
+
+	^ self dataItem
+]
+
+{ #category : #accessing }
+ToTreeDataItemWrapper >> wrapped: aDataItem [
+
+	self dataItem: aDataItem
 ]

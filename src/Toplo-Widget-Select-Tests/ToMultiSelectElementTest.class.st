@@ -208,6 +208,23 @@ ToMultiSelectElementTest >> testRemoveAll [
 ]
 
 { #category : #tests }
+ToMultiSelectElementTest >> testSelectAll [
+
+	| cb d1 d2 d3 |
+	cb := ToMultiSelectElement new.
+	d1 := '#1'.
+	d2 := '#2'.
+	d3 := '#3'.
+	cb popupDataAccessor addAll: {
+			d1.
+			d2.
+			d3 }.
+	cb selecter selectAll.
+	self assert: cb selecter selectedIndexes equals: #(1 2 3).
+	self assert: cb innerElement nodes size equals: 3
+]
+
+{ #category : #tests }
 ToMultiSelectElementTest >> testWithStructuredData [
 
 	| cb d idx selectedData |

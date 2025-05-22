@@ -58,9 +58,15 @@ ToListElementEventHandler >> doubleClickEvent: anEvent [
 { #category : #'selection managing' }
 ToListElementEventHandler >> elementExtentChangedEvent: anEvent [
 
-	anEvent currentTarget
+	| listElement |
+	listElement := anEvent currentTarget.
+	listElement
 		updateAllSelections;
-		extentChanged
+		extentChanged.
+	listElement spaceDo: [ :sp |
+		sp enqueueTask:
+			(BlTaskAction new action: [ sp mouseProcessor handleLastMouseMove ]) ].
+
 ]
 
 { #category : #'selection managing' }
@@ -68,7 +74,11 @@ ToListElementEventHandler >> elementScrolledEvent: anEvent [
 
 	| listElement |
 	listElement := anEvent currentTarget.
-	listElement updateAllSelections
+	listElement updateAllSelections.
+	listElement spaceDo: [ :sp |
+		sp enqueueTask:
+			(BlTaskAction new action: [ sp mouseProcessor handleLastMouseMove ]) ].
+
 ]
 
 { #category : #'api - accessing' }

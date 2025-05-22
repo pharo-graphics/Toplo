@@ -318,16 +318,6 @@ ToInnerBarElement >> onItemsChanged [
 
 ]
 
-{ #category : #'hooks - layout' }
-ToInnerBarElement >> onLayoutDone [ 
-
-	super onLayoutDone.
-	self spaceDo: [ :sp |
-		sp enqueueTask:
-			(BlTaskAction new action: [ sp mouseProcessor handleLastMouseMove ]) ].
-
-]
-
 { #category : #'hooks - scrolling' }
 ToInnerBarElement >> onScrolled: aPoint [
 	"Sent when the scroll position of this InfiniteElement changes. Subclasses should use

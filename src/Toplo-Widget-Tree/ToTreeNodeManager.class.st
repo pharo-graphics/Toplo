@@ -17,7 +17,7 @@ ToTreeNodeManager >> childrenFromDataItem: aDataItem [
 	^ self subclassResponsibility 
 ]
 
-{ #category : #'t - generic node manager' }
+{ #category : #'instance creation' }
 ToTreeNodeManager >> newHolder [
 
 	^ ToTreeNodeHolder new

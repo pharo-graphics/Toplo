@@ -1,5 +1,5 @@
 Class {
-	#name : #ToAjacentRectanglesGeometry,
+	#name : #ToAdjacentRectanglesGeometry,
 	#superclass : #BlPolygonGeometry,
 	#instVars : [
 		'collector'
@@ -8,24 +8,24 @@ Class {
 }
 
 { #category : #accessing }
-ToAjacentRectanglesGeometry class >> oppositeDelimiterBackgroundColor [
+ToAdjacentRectanglesGeometry class >> oppositeDelimiterBackgroundColor [
 	^ Color lightGray
 ]
 
 { #category : #accessing }
-ToAjacentRectanglesGeometry >> adjacentRectangles: aCollection [
+ToAdjacentRectanglesGeometry >> adjacentRectangles: aCollection [
 	aCollection ifEmpty: [ ^ self ].
 	self vertices: (BlVerticesFromRectanglesOperator new verticesFromRectangles: aCollection)
 ]
 
 { #category : #accessing }
-ToAjacentRectanglesGeometry >> collector [
+ToAdjacentRectanglesGeometry >> collector [
 
 	^ collector
 ]
 
 { #category : #accessing }
-ToAjacentRectanglesGeometry >> collector: aValuable [
+ToAdjacentRectanglesGeometry >> collector: aValuable [
 
 	" takes the PolyElement as argument "
 
@@ -33,14 +33,14 @@ ToAjacentRectanglesGeometry >> collector: aValuable [
 ]
 
 { #category : #initialization }
-ToAjacentRectanglesGeometry >> initialize [ 
+ToAdjacentRectanglesGeometry >> initialize [ 
 
 	super initialize.
 	collector := [ :element | element children accountedByLayout ]
 ]
 
 { #category : #geometry }
-ToAjacentRectanglesGeometry >> matchElement: anElement [
+ToAdjacentRectanglesGeometry >> matchElement: anElement [
 
 	| bnds children |
 	children := self collector value: anElement.

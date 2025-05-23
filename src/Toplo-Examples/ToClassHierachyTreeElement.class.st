@@ -3,7 +3,7 @@ Class {
 	#superclass : #ToAbstractTreeElement,
 	#traits : 'TToListElementWithDecoration',
 	#classTraits : 'TToListElementWithDecoration classTrait',
-	#category : #'Toplo-Widget-Tree-examples'
+	#category : #'Toplo-Examples-TopLevel-Tree'
 }
 
 { #category : #examples }

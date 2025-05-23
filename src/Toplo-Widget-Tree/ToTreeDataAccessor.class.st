@@ -1,11 +1,12 @@
 Class {
 	#name : #ToTreeDataAccessor,
 	#superclass : #Object,
-	#traits : 'TToOrderedCollectionLikeAPI',
-	#classTraits : 'TToOrderedCollectionLikeAPI classTrait',
+	#traits : 'TToOrderedCollectionLikeAPI + TBlEventTarget + TBlDebug',
+	#classTraits : 'TToOrderedCollectionLikeAPI classTrait + TBlEventTarget classTrait + TBlDebug classTrait',
 	#instVars : [
 		'treeElement',
-		'parentWrapper'
+		'parentWrapper',
+		'eventDispatcher'
 	],
 	#category : #'Toplo-Widget-Tree-Core'
 }
@@ -125,6 +126,14 @@ ToTreeDataAccessor >> errorSizeMismatch [
 	SizeMismatch signal
 ]
 
+{ #category : #'event management accessing' }
+ToTreeDataAccessor >> eventDispatcher [
+	"Return an object responsible for event dispatching"
+	<return: #BlDirectEventDispatcher>
+
+	^ eventDispatcher 
+]
+
 { #category : #'t - collection api - accessing' }
 ToTreeDataAccessor >> indexOf: anElement startingAt: start ifAbsent: exceptionBlock [
 	"Answer the index of the first occurrence of anElement after start
@@ -142,6 +151,13 @@ ToTreeDataAccessor >> indexOf: anElement startingAt: start ifAbsent: exceptionBl
 	^ exceptionBlock value
 ]
 
+{ #category : #initialization }
+ToTreeDataAccessor >> initialize [
+
+	super initialize.
+	eventDispatcher := BlDirectEventDispatcher on: self
+]
+
 { #category : #private }
 ToTreeDataAccessor >> invalidOperation [
 
@@ -155,6 +171,16 @@ ToTreeDataAccessor >> newWrapperFor: anObject [
 		  treeElement: treeElement;
 		  parentWrapper: parentWrapper;
 		  dataItem: anObject
+]
+
+{ #category : #'t - observable collection - removing' }
+ToTreeDataAccessor >> onSievedWith: aSieve [
+
+	| interval |
+	interval := 1 to: aSieve currentData size.
+	self dataSource notifyEmptinessChangeAfter: [
+			self initializeWith: aSieve currentData.
+			self dataSource notifySievedWith: aSieve interval: interval ]
 ]
 
 { #category : #'t - collection api - removing' }

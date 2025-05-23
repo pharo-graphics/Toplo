@@ -15,15 +15,19 @@ Class {
 }
 
 { #category : #'t - generic node manager' }
-ToGenericTreeNodeManager >> buildNode: aNode [
+ToGenericTreeNodeManager >> buildNode: aTreeNode [
 
-	aNode middleElement: (ToElement new
-			 fitContent;
-			 yourself).
+	| content |
+	content := ToElement new
+		           hMatchParent;
+		           vFitContent;
+		           yourself.
+	content id: #content.
+	aTreeNode addChild: content.
 	nodeBuilder
-		cull: aNode middleElement
-		cull: aNode holder treeDataItem
-		cull: aNode holder
+		cull: content
+		cull: aTreeNode holder treeDataItem
+		cull: aTreeNode holder
 ]
 
 { #category : #'children accessing' }

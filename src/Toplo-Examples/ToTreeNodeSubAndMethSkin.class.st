@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTreeNodeSubAndMethSkin,
 	#superclass : #ToTreeNodeSkin,
-	#category : #'Toplo-Widget-Tree-examples'
+	#category : #'Toplo-Examples-TopLevel-Tree'
 }
 
 { #category : #icons }
@@ -9,6 +9,13 @@ ToTreeNodeSubAndMethSkin >> classIcon [
 	"this icon comes from smalltalk ui icons"
 
 	^ #class
+]
+
+{ #category : #'event handling' }
+ToTreeNodeSubAndMethSkin >> installSkinEvent: anEvent [
+
+	super installSkinEvent: anEvent.
+	anEvent elementDo: [ :e | e addChild: (self newIconForNode: e) at: 2 ]
 ]
 
 { #category : #icons }
@@ -21,13 +28,13 @@ ToTreeNodeSubAndMethSkin >> methodIcon [
 { #category : #icons }
 ToTreeNodeSubAndMethSkin >> newIconForNode: aNode [
 
-	| arrowIcon aWrapper |
-	aWrapper := aNode holder dataWrapper.
-	arrowIcon := ToImage new.
+	| icon item |
+	item := aNode holder treeDataItem.
+	icon := ToImage new.
 
-	Smalltalk ui iconNamed: (aWrapper dataItem isClass
+	icon innerImage: (Smalltalk ui iconNamed: (item isClass
 			 ifTrue: [ self classIcon ]
-			 ifFalse: [ self methodIcon ]).
+			 ifFalse: [ self methodIcon ])).
 
-	^ arrowIcon
+	^ icon
 ]

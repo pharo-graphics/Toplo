@@ -7,50 +7,48 @@ Class {
 { #category : #'event handling' }
 ToTreeNodeSkin >> installSkinEvent: anEvent [
 
-	| elt |
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		| align |
-		elt := self newStartElementForNode: e.
-		align := e nodeDepth * 20.
-		elt
-			size: 20 asPoint;
+		| w arrow |
+		w := (e nodeDepth + 1) * 20.
+		arrow := self newStartElementForNode: e.
+		arrow 
 			id: #arrow;
-			margin: (BlInsets left: align).
+			margin: (BlInsets left: w right: 20).
 		e isLeaf ifFalse: [
-			elt addEventHandlerOn: BlClickEvent do: [ :evt |
+			arrow addEventHandlerOn: BlClickEvent do: [ :evt |
 				evt consume.
 				e toggle ] ].
-		e startInterspace: 15.
-		e startElement: elt ]
+		e addChild: arrow at: 1 ]
 ]
 
 { #category : #icons }
 ToTreeNodeSkin >> newStartElementForNode: aNode [
 
-	| align arrowIcon aWrapper |
+	| arrowIcon aWrapper |
 	aWrapper := aNode holder dataItem.
-	align := aWrapper nodeDepth * 20.
 	arrowIcon := ToImage new.
+	arrowIcon size:
+		(aNode holder listElement valueOfTokenNamed:
+			 #'submenu-arrow-breadth') asPoint.
 	aWrapper isLeaf ifFalse: [
 		| arrowTk |
 		arrowTk := aWrapper isExpanded
-			           ifFalse: [ self nodeCollapsedIcon ]
-			           ifTrue: [ self nodeExpandedIcon ].
+			           ifFalse: [ #'submenu-arrow-right' ]
+			           ifTrue: [ #'submenu-arrow-down' ].
+
 		arrowIcon innerImage:
 			(aNode holder listElement valueOfTokenNamed: arrowTk) ].
 
 	^ arrowIcon
 ]
 
-{ #category : #icons }
-ToTreeNodeSkin >> nodeCollapsedIcon [
+{ #category : #'event handling' }
+ToTreeNodeSkin >> uninstallSkinEvent: anEvent [
 
-	^ #'submenu-arrow-right'
-]
-
-{ #category : #icons }
-ToTreeNodeSkin >> nodeExpandedIcon [
-
-	^ #'submenu-arrow-down'
+	super uninstallSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		| arrow |
+		arrow := e childWithId: #arrow ifNone: [  ].
+		arrow removeFromParent ]
 ]

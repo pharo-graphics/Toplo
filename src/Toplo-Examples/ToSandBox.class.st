@@ -405,7 +405,7 @@ ToSandBox class >> buildSelectListElementIn: aSelectElement withIconProvider: an
 
 	| icProvider styles iconDescs |
 	aSelectElement manager minHeight: 85.
-	aSelectElement popupListElement withRowNumbers.
+"	aSelectElement popupListElement withRowNumbers."
 	aSelectElement popupListElement placeholderBuilder: [ :placeholder :e |
 		placeholder empty labelText: 'No Icon' ].
 
@@ -686,6 +686,28 @@ ToSandBox class >> exampleBorderlessAccordionWithLabel [
 	^ inst
 ]
 
+{ #category : #tree }
+ToSandBox class >> exampleClassHierarchiesWithMethods [
+	"For this example we created a new wrapper dealing with classes and methods at the same time, a new Node was also created (ToTreeSubAndMethNode) to apply a new skin (ToTreeNodeSubAndMethSkin) with new icons and a different background color for methods "
+
+	| l |
+	l := ToTreeElement new.
+	l nodeManager childrenGetter: [ :dataItem |
+		dataItem isClass
+			ifTrue: [
+				Array streamContents: [ :stream |
+					stream nextPutAll: dataItem subclasses.
+					stream nextPutAll:
+						(dataItem methods collect: [ :each | each selector ]) sorted ] ]
+			ifFalse: [ #(  ) ] ].
+	l nodeManager nodeFactory: [ :holder | ToTreeSubAndMethNode new ].
+	l dataAccessor add: BlElement.
+	l dataAccessor add: Collection.
+	l dataAccessor add: String.
+
+	l openInSpace
+]
+
 { #category : #accordion }
 ToSandBox class >> exampleGhostAccordionWithLabel [
 
@@ -815,6 +837,53 @@ ToSandBox class >> examplePaneWithNestedAccordions [
 		pane addChild: accordion ].
 	pane openInSpace.
 	^ pane
+]
+
+{ #category : #tree }
+ToSandBox class >> examplePreviousIntegers [
+	"This example shows classes as a list but using TreeNodes, tree logic is not implemented at this time of writing the example"
+
+	| l |
+	l := ToTreeElement new.
+	l nodeManager childrenGetter: [ :dataItem |
+		dataItem = 1
+			ifTrue: [ {  } ]
+			ifFalse: [ { (dataItem - 1) } ] ].
+	l dataAccessor addAll: (1 to: 10).
+	l openInSpace
+]
+
+{ #category : #tree }
+ToSandBox class >> exampleProtoObjectSubclasses [
+	"This example shows classes as a list but using TreeNodes, tree logic is not implemented at this time of writing the example"
+
+	| l |
+	l := ToTreeElement new.
+	l nodeManager childrenGetter: [ :dataItem | dataItem subclasses asOrderedCollection ].
+	l nodeManager nodeFactory: [ :holder | ToTreeSubAndMethNode new ].
+	l contextMenu: [ :menu :request |
+		| selectionModel indexes target |
+		target := request currentTarget.
+		selectionModel := request selectionModel.
+		indexes := request selectedIndexes.
+		menu addItem: (ToMenuItem new
+				 labelText: 'Expand all';
+				 clickAction: [
+					 indexes
+						 ifEmpty: [ target expandAll ]
+						 ifNotEmpty: [
+							 indexes do: [ :idx | (target dataSource at: idx) expandAll ] ] ];
+				 yourself).
+		menu addItem: (ToMenuItem new
+				 labelText: 'Collapse all';
+				 clickAction: [
+					 indexes
+						 ifEmpty: [ target collapseAll ]
+						 ifNotEmpty: [
+							 indexes do: [ :idx | (target dataSource at: idx) collapse ] ] ];
+				 yourself) ].
+	l dataAccessor add: ProtoObject.
+	l openInSpace
 ]
 
 { #category : #list }
@@ -3106,7 +3175,6 @@ ToSandBox class >> example_SelectMonoNotFiltrable [
 		('Select a state' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
-	select popupListElement withRowNumbers.
 	select width: 300.
 	select position: 50 @ 50.
 	innerWindow pane addChild: select.
@@ -3141,7 +3209,6 @@ ToSandBox class >> example_SelectMultiFiltrable [
 		                        labelText: stateColorAssoc key asString;
 		                        yourself.
 	                 tag borderless: true.
-	                 tag hMatchParent.
 	                 tag foregroundColor: stateColorAssoc value.
 	                 tag backgroundColor:
 		                 (stateColorAssoc value veryMuchLighter alpha: 0.5).
@@ -3156,7 +3223,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 		node addChild: tag ].
 
 	select popupListElement nodeBuilder: [ :node :stateColorAssoc :holder |
-		node addChild: (newTagFactory value: stateColorAssoc) ].
+		node addChild: (newTagFactory value: stateColorAssoc) hMatchParent; yourself].
 
 	select sieve dataFilter: [ :stateAssoc :pattern |
 		stateAssoc key beginsWith: pattern caseSensitive: false ].

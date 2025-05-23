@@ -1,8 +1,20 @@
 Class {
 	#name : #ToClassHierachyWithMethodsTreeNodeManager,
 	#superclass : #ToTreeNodeManager,
-	#category : #'Toplo-Widget-Tree-examples'
+	#category : #'Toplo-Examples-TopLevel-Tree'
 }
+
+{ #category : #initialization }
+ToClassHierachyWithMethodsTreeNodeManager >> buildNode: aTreeNode [
+
+	| content |
+	content := ToElement new.
+	content vFitContent.
+	content id: #content.
+	content addChild:
+		(ToLabel text: aTreeNode holder treeDataItem asString).
+	aTreeNode addChild: content
+]
 
 { #category : #'children accessing' }
 ToClassHierachyWithMethodsTreeNodeManager >> childrenFromDataItem: aClassOrMethod [

@@ -60,3 +60,12 @@ ToAbstractTreeElement >> initializeDataAccessor [
 
 	dataAccessor := self defaultDataAccessor treeElement: self
 ]
+
+{ #category : #initialization }
+ToAbstractTreeElement >> initializeDataSource [
+
+	super initializeDataSource.
+	dataSource
+		addEventHandlerOn: ToCollectionChangedEvent
+		do: [ :event | self dataAccessor dispatchEvent: event copy ]
+]

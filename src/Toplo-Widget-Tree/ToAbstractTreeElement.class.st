@@ -8,6 +8,8 @@ My model relies on a DataSource holding the data displayed and a TreeNodeManager
 Class {
 	#name : #ToAbstractTreeElement,
 	#superclass : #ToAbstractListElement,
+	#traits : 'TToListElementWithDecoration',
+	#classTraits : 'TToListElementWithDecoration classTrait',
 	#instVars : [
 		'dataAccessor'
 	],

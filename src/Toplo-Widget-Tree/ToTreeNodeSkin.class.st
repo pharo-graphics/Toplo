@@ -9,12 +9,12 @@ ToTreeNodeSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		| w arrow startContent interspace |
+		| w arrow startElement interspace |
 		interspace := e valueOfTokenNamed: #'node-interspace'.
-		startContent := ToElement new.
-		startContent layout: BlLinearLayout horizontal.
+		startElement := ToElement new.
+		startElement layout: BlLinearLayout horizontal.
 		w := (e nodeDepth + 1) * interspace.
-		startContent padding: (BlInsets left: w).
+		startElement padding: (BlInsets left: w).
 		arrow := self newStartElementForNode: e.
 		arrow margin: (BlInsets right: interspace).
 		arrow 
@@ -23,9 +23,9 @@ ToTreeNodeSkin >> installSkinEvent: anEvent [
 			arrow newClickAction: [ :evt |
 				evt consume.
 				e toggle ] ].
-		startContent addChild: arrow at: 1.
+		startElement addChild: arrow at: 1.
 		e content startInterspace: interspace.
-		e content startElement: startContent]
+		e content startElement: startElement]
 ]
 
 { #category : #icons }

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTreeSubAndMethNode,
 	#superclass : #ToTreeNode,
-	#category : #'Toplo-Examples-TopLevel-Tree'
+	#category : #'Toplo-Examples-TopLevel-Trees'
 }
 
 { #category : #skin }

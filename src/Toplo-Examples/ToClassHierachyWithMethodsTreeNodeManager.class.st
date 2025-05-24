@@ -1,7 +1,7 @@
 Class {
 	#name : #ToClassHierachyWithMethodsTreeNodeManager,
 	#superclass : #ToTreeNodeManager,
-	#category : #'Toplo-Examples-TopLevel-Tree'
+	#category : #'Toplo-Examples-TopLevel-Trees'
 }
 
 { #category : #'children accessing' }

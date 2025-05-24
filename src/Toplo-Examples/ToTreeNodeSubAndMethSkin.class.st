@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTreeNodeSubAndMethSkin,
 	#superclass : #ToTreeNodeSkin,
-	#category : #'Toplo-Examples-TopLevel-Tree'
+	#category : #'Toplo-Examples-TopLevel-Trees'
 }
 
 { #category : #'event handling' }

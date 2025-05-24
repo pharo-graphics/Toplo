@@ -62,6 +62,12 @@ TToOrderedCollectionLikeAPI >> addAll: aCollection [
 ]
 
 { #category : #'t - collection api - adding' }
+TToOrderedCollectionLikeAPI >> addAll: aCollection afterIndex: index [
+
+	self subclassResponsibility 
+]
+
+{ #category : #'t - collection api - adding' }
 TToOrderedCollectionLikeAPI >> addAllFirst: aCollection [
 
 	aCollection reverseDo: [ :each | self addFirst: each ].

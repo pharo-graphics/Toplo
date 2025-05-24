@@ -59,6 +59,9 @@ ToTheme class >> defaultTokenProperties [
 		(ToTokenProperty
 			   name: #'submenu-arrow-breadth'
 			   value: 18).
+		(ToTokenProperty
+			   name: #'node-interspace'
+			   value: 18).
 		  (ToTokenProperty
 			   name: #'submenu-arrow-up'
 			   value: (ToMaterialDesignIconProvider innerImageNamed:

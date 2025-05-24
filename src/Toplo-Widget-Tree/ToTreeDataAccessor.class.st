@@ -39,6 +39,21 @@ ToTreeDataAccessor >> add: newObject beforeIndex: index [
 ]
 
 { #category : #'t - collection api - adding' }
+ToTreeDataAccessor >> addAll: aCollection afterIndex: index [
+
+	self dataSource
+		addAll: (aCollection collect: [ :e | self newWrapperFor: e ])
+		afterIndex: index
+]
+
+{ #category : #'t - collection api - adding' }
+ToTreeDataAccessor >> addAllLast: aCollection [
+
+	self dataSource addAllLast:
+		(aCollection collect: [ :o | self newWrapperFor: o ])
+]
+
+{ #category : #'t - collection api - adding' }
 ToTreeDataAccessor >> addFirst: newObject [
 	"Add newObject to the end of the receiver. Answer newObject."
 

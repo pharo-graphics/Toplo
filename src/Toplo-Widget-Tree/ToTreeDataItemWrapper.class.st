@@ -100,8 +100,9 @@ ToTreeDataItemWrapper >> expand [
 	expanded := true.
 	pos := self position.
 	treeElement dataAccessor useParentWrapper: self while: [
-		self dataItemChildren doWithIndex: [ :each :idx |
-			treeElement dataAccessor add: each afterIndex: pos + idx - 1 ] ].
+		treeElement dataAccessor
+			addAll: self dataItemChildren
+			afterIndex: pos ].
 	treeElement dataSource notifyDataItemChangeIndex: pos
 ]
 

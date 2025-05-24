@@ -9,17 +9,23 @@ ToTreeNodeSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		| w arrow |
-		w := (e nodeDepth + 1) * 20.
+		| w arrow startContent interspace |
+		interspace := e valueOfTokenNamed: #'node-interspace'.
+		startContent := ToElement new.
+		startContent layout: BlLinearLayout horizontal.
+		w := (e nodeDepth + 1) * interspace.
+		startContent padding: (BlInsets left: w).
 		arrow := self newStartElementForNode: e.
+		arrow margin: (BlInsets right: interspace).
 		arrow 
-			id: #arrow;
-			margin: (BlInsets left: w right: 20).
+			id: #arrow.
 		e isLeaf ifFalse: [
-			arrow addEventHandlerOn: BlClickEvent do: [ :evt |
+			arrow newClickAction: [ :evt |
 				evt consume.
 				e toggle ] ].
-		e addChild: arrow at: 1 ]
+		startContent addChild: arrow at: 1.
+		e content startInterspace: interspace.
+		e content startElement: startContent]
 ]
 
 { #category : #icons }
@@ -28,6 +34,9 @@ ToTreeNodeSkin >> newStartElementForNode: aNode [
 	| arrowIcon aWrapper |
 	aWrapper := aNode holder dataItem.
 	arrowIcon := ToImage new.
+	arrowIcon constraintsDo: [ :c |
+		c linear horizontal alignLeft.
+		c linear vertical alignCenter ].
 	arrowIcon size:
 		(aNode holder listElement valueOfTokenNamed:
 			 #'submenu-arrow-breadth') asPoint.
@@ -36,7 +45,6 @@ ToTreeNodeSkin >> newStartElementForNode: aNode [
 		arrowTk := aWrapper isExpanded
 			           ifFalse: [ #'submenu-arrow-right' ]
 			           ifTrue: [ #'submenu-arrow-down' ].
-
 		arrowIcon innerImage:
 			(aNode holder listElement valueOfTokenNamed: arrowTk) ].
 
@@ -47,8 +55,5 @@ ToTreeNodeSkin >> newStartElementForNode: aNode [
 ToTreeNodeSkin >> uninstallSkinEvent: anEvent [
 
 	super uninstallSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		| arrow |
-		arrow := e childWithId: #arrow ifNone: [  ].
-		arrow removeFromParent ]
+	anEvent elementDo: [ :e |  ]
 ]

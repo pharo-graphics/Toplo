@@ -674,6 +674,53 @@ ToSandBox class >> exampleAccordionWithLabelNotPreservingBodyAndExpanded [
 	^ inst
 ]
 
+{ #category : #tree }
+ToSandBox class >> exampleAllClasses [
+	"For this example we created a new wrapper dealing with classes and methods at the same time, a new Node was also created (ToTreeSubAndMethNode) to apply a new skin (ToTreeNodeSubAndMethSkin) with new icons and a different background color for methods "
+
+	| l |
+	l := ToTreeElement new.
+	l nodeManager childrenGetter: [ :dataItem |
+		dataItem isClass
+			ifTrue: [
+				Array streamContents: [ :stream |
+					stream nextPutAll: dataItem subclasses.
+					stream nextPutAll:
+						(dataItem methods collect: [ :each | each selector ]) sorted ] ]
+			ifFalse: [ #(  ) ] ].
+	l nodeManager nodeFactory: [ :holder | ToTreeSubAndMethNode new ].
+
+	l contextMenu: [ :menu :request |
+		| selectionModel indexes target |
+		target := request currentTarget.
+		selectionModel := request selectionModel.
+		indexes := request selectedIndexes.
+		indexes traceCr.
+		menu addItem: (ToMenuItem new
+				 labelText: 'Expand all';
+				 clickAction: [
+					 indexes
+						 ifEmpty: [ target expandAll ]
+						 ifNotEmpty: [
+							 indexes reverseDo: [ :idx |
+									 (target dataSource at: idx) expandAll ] ] ];
+				 yourself).
+		menu addItem: (ToMenuItem new
+				 labelText: 'Collapse all';
+				 clickAction: [
+					 indexes
+						 ifEmpty: [ target collapseAll ]
+						 ifNotEmpty: [
+							 indexes reverseDo: [ :idx |
+									 (target dataSource at: idx) collapse ] ] ];
+				 yourself) ].
+
+	l dataAccessor addAll:
+		(Smalltalk globals allClasses sorted: [ :a :b | a name < b name ]).
+
+	l openInSpace
+]
+
 { #category : #accordion }
 ToSandBox class >> exampleBorderlessAccordionWithLabel [
 
@@ -925,7 +972,8 @@ ToSandBox class >> example_BasicListWithAllClasses3 [
 				      hMatchParent) ].
 
 	l withRowNumbers.
-	l dataAccessor addAll: Smalltalk globals allClasses.
+	l dataAccessor addAll:
+		(Smalltalk globals allClasses sorted: [ :a :b | a name < b name ]).
 	l selecter selectIndexes: #(10 12 3).
 
 	l requestFocus.

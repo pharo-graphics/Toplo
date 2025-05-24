@@ -19,11 +19,9 @@ ToGenericTreeNodeManager >> buildNode: aTreeNode [
 
 	| content |
 	content := ToElement new
-		           hMatchParent;
-		           vFitContent;
+		           fitContent;
 		           yourself.
-	content id: #content.
-	aTreeNode addChild: content.
+	aTreeNode content middleElement: content.
 	nodeBuilder
 		cull: content
 		cull: aTreeNode holder treeDataItem

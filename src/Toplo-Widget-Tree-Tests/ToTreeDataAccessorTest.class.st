@@ -67,6 +67,25 @@ ToTreeDataAccessorTest >> testAddAll [
 ]
 
 { #category : #'tests - adding' }
+ToTreeDataAccessorTest >> testAddAllAfterIndex [
+	"Allows one to add each element of an OrderedCollection at the end of another
+	 OrderedCollection"
+
+	tree dataAccessor addAll: #( 1 2 3 4 ).
+	tree dataAccessor addAll: #( 5 6 7 8 9 ) afterIndex: 2.
+	self assert: tree dataAccessor asArray equals: #( 1 2 5 6 7 8 9 3 4 ).
+	self
+		assert: (tree dataSource collect: #unwrapped) asArray
+		equals: #( 1 2 5 6 7 8 9 3 4 ).
+		
+	tree dataAccessor addAll: #( -1 -2 -3 ) afterIndex: 4.
+	self assert: tree dataAccessor asArray equals: #( 1 2 5 6 -1 -2 -3 7 8 9 3 4 ).
+	self
+		assert: (tree dataSource collect: #unwrapped) asArray
+		equals: #( 1 2 5 6 -1 -2 -3 7 8 9 3 4 )
+]
+
+{ #category : #'tests - adding' }
 ToTreeDataAccessorTest >> testAddAllFirst [
 	"Allows one to add each element of an OrderedCollection at the beginning of another OrderedCollection "
 

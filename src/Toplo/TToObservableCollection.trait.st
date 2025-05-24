@@ -72,6 +72,22 @@ TToObservableCollection >> addAll: aCollection [
 ]
 
 { #category : #'t - observable collection - adding' }
+TToObservableCollection >> addAll: aCollection afterIndex: index [
+	"Add the argument elements, aCollection, as elements of the receiver. Put them all in 
+	the sequence just after index. Answer aCollection."
+
+	| interval idx |
+	(index between: 0 and: self size) ifFalse: [
+		^ self errorSubscriptBounds: index ].
+	idx := index + 1.
+	interval := idx to: idx + aCollection size -1.
+	self notifyEmptinessChangeAfter: [
+		aCollection size to: 1 by: -1 do: [ :p |
+		self collection add: (aCollection at: p) afterIndex: index ].
+		self notifyAddedInterval: interval ]
+]
+
+{ #category : #'t - observable collection - adding' }
 TToObservableCollection >> addAllFirst: aCollection [
 
 	| interval |

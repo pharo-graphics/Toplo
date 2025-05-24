@@ -1,11 +1,11 @@
 Class {
-	#name : #ToTreeSubAndMethNode,
+	#name : #ToExTreeSubAndMethNode,
 	#superclass : #ToTreeNode,
 	#category : #'Toplo-Examples-TopLevel-Trees'
 }
 
 { #category : #skin }
-ToTreeSubAndMethNode >> newRawSkin [ 
+ToExTreeSubAndMethNode >> newRawSkin [ 
 
-	 ^ ToTreeNodeSubAndMethSkin new
+	 ^ ToExTreeNodeSubAndMethSkin new
 ]

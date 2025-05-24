@@ -1,11 +1,11 @@
 Class {
-	#name : #ToClassHierachyWithMethodsTreeNodeManager,
+	#name : #ToExClassHierachyWithMethodsTreeNodeManager,
 	#superclass : #ToTreeNodeManager,
 	#category : #'Toplo-Examples-TopLevel-Trees'
 }
 
 { #category : #'children accessing' }
-ToClassHierachyWithMethodsTreeNodeManager >> childrenFromDataItem: aClassOrMethod [
+ToExClassHierachyWithMethodsTreeNodeManager >> childrenFromDataItem: aClassOrMethod [
 
 	^ aClassOrMethod isClass
 			ifTrue: [
@@ -17,7 +17,7 @@ ToClassHierachyWithMethodsTreeNodeManager >> childrenFromDataItem: aClassOrMetho
 ]
 
 { #category : #'instance creation' }
-ToClassHierachyWithMethodsTreeNodeManager >> newNodeForHolder: aNodeHolder [
+ToExClassHierachyWithMethodsTreeNodeManager >> newNodeForHolder: aNodeHolder [
 
-	^  ToTreeSubAndMethNode new
+	^  ToExTreeSubAndMethNode new
 ]

@@ -688,7 +688,7 @@ ToSandBox class >> exampleAllClasses [
 					stream nextPutAll:
 						(dataItem methods collect: [ :each | each selector ]) sorted ] ]
 			ifFalse: [ #(  ) ] ].
-	l nodeManager nodeFactory: [ :holder | ToTreeSubAndMethNode new ].
+	l nodeManager nodeFactory: [ :holder | ToExTreeSubAndMethNode new ].
 
 	l contextMenu: [ :menu :request |
 		| selectionModel indexes target |
@@ -747,7 +747,7 @@ ToSandBox class >> exampleClassHierarchiesWithMethods [
 					stream nextPutAll:
 						(dataItem methods collect: [ :each | each selector ]) sorted ] ]
 			ifFalse: [ #(  ) ] ].
-	l nodeManager nodeFactory: [ :holder | ToTreeSubAndMethNode new ].
+	l nodeManager nodeFactory: [ :holder | ToExTreeSubAndMethNode new ].
 	l dataAccessor add: BlElement.
 	l dataAccessor add: Collection.
 	l dataAccessor add: String.
@@ -907,7 +907,7 @@ ToSandBox class >> exampleProtoObjectSubclasses [
 	| l |
 	l := ToTreeElement new.
 	l nodeManager childrenGetter: [ :dataItem | dataItem subclasses asOrderedCollection ].
-	l nodeManager nodeFactory: [ :holder | ToTreeSubAndMethNode new ].
+	l nodeManager nodeFactory: [ :holder | ToExTreeSubAndMethNode new ].
 	l contextMenu: [ :menu :request |
 		| selectionModel indexes target |
 		target := request currentTarget.
@@ -2911,7 +2911,7 @@ ToSandBox class >> example_PicsumPhotosGallery [
 	" Images loaded from https://picsum.photos "
 
 	| space list vscrollBar |
-	list := ToPicsumListElement new
+	list := ToExPicsumListElement new
 		        matchParent;
 		        yourself.
 
@@ -2920,14 +2920,14 @@ ToSandBox class >> example_PicsumPhotosGallery [
 		beneath: false;
 		elementFactory: [
 			ToListSelectionElement new defaultSkin:
-					ToPicsumSelectionSkin new ].
+					ToExPicsumSelectionSkin new ].
 
 	[
 	| allImagesData |
 	allImagesData := (STONJSON fromString:
 		                  'https://picsum.photos/list' asUrl
 			                  retrieveContents) collect: [ :aDictionary |
-		                 ToPicsumImageData fromDictionary:
+		                 ToExPicsumImageData fromDictionary:
 			                 aDictionary ].
 	allImagesData sort: [ :a :b | a id > b id ].
 	list dataAccessor addAll: allImagesData ] fork.

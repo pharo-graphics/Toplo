@@ -2,7 +2,7 @@
 I'm part of the Photo gallery example. I'm not expected to be used as a standalone.
 "
 Class {
-	#name : #ToPicsumHolder,
+	#name : #ToExPicsumHolder,
 	#superclass : #ToNodeHolder,
 	#instVars : [
 		'loader'
@@ -11,7 +11,7 @@ Class {
 }
 
 { #category : #accessing }
-ToPicsumHolder >> bindDataItem: aImageData [
+ToExPicsumHolder >> bindDataItem: aImageData [
 
 	super bindDataItem: aImageData.
 	self node labelString: aImageData id.
@@ -21,7 +21,7 @@ ToPicsumHolder >> bindDataItem: aImageData [
 ]
 
 { #category : #loading }
-ToPicsumHolder >> loadImage [
+ToExPicsumHolder >> loadImage [
 
 	| form |
 	self terminateLoader.
@@ -52,14 +52,14 @@ ToPicsumHolder >> loadImage [
 ]
 
 { #category : #accessing }
-ToPicsumHolder >> terminateLoader [
+ToExPicsumHolder >> terminateLoader [
 
 	loader ifNotNil: #terminate.
 	loader := nil
 ]
 
 { #category : #accessing }
-ToPicsumHolder >> unbindDataItem [
+ToExPicsumHolder >> unbindDataItem [
 
 	self terminateLoader.
 	super unbindDataItem 
@@ -67,7 +67,7 @@ ToPicsumHolder >> unbindDataItem [
 ]
 
 { #category : #accessing }
-ToPicsumHolder >> urlStringFromNodeSize [
+ToExPicsumHolder >> urlStringFromNodeSize [
 
 	| s |
 	s := self node size asIntegerPoint.

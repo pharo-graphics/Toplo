@@ -1,11 +1,11 @@
 Class {
-	#name : #ToClassHierachyWithMethodsTreeElement,
+	#name : #ToExClassHierachyWithMethodsTreeElement,
 	#superclass : #ToAbstractTreeElement,
 	#category : #'Toplo-Examples-TopLevel-Trees'
 }
 
 { #category : #examples }
-ToClassHierachyWithMethodsTreeElement class >> example [
+ToExClassHierachyWithMethodsTreeElement class >> example [
 	"This example shows classes as a list but using TreeNodes, tree logic is not implemented at this time of writing the example"
 
 	| l |
@@ -39,7 +39,7 @@ ToClassHierachyWithMethodsTreeElement class >> example [
 ]
 
 { #category : #initialization }
-ToClassHierachyWithMethodsTreeElement >> defaultNodeManagerClass [ 
+ToExClassHierachyWithMethodsTreeElement >> defaultNodeManagerClass [ 
 
-	^ ToClassHierachyWithMethodsTreeNodeManager
+	^ ToExClassHierachyWithMethodsTreeNodeManager
 ]

@@ -1,18 +1,18 @@
 Class {
-	#name : #ToClassHierachyTreeNodeManager,
+	#name : #ToExClassHierachyTreeNodeManager,
 	#superclass : #ToTreeNodeManager,
 	#category : #'Toplo-Examples-TopLevel-Trees'
 }
 
 { #category : #'children accessing' }
-ToClassHierachyTreeNodeManager >> childrenFromDataItem: aClass [
+ToExClassHierachyTreeNodeManager >> childrenFromDataItem: aClass [
 
 	^ aClass subclasses asOrderedCollection sort: [ :a :b |
 		  a name < b name ]
 ]
 
 { #category : #'children accessing' }
-ToClassHierachyTreeNodeManager >> newNodeForHolder: aNodeHolder [
+ToExClassHierachyTreeNodeManager >> newNodeForHolder: aNodeHolder [
 
-	^ ToTreeSubAndMethNode new
+	^ ToExTreeSubAndMethNode new
 ]

@@ -1,5 +1,5 @@
 Class {
-	#name : #ToClassHierachyTreeElement,
+	#name : #ToExClassHierachyTreeElement,
 	#superclass : #ToAbstractTreeElement,
 	#traits : 'TToListElementWithDecoration',
 	#classTraits : 'TToListElementWithDecoration classTrait',
@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : #examples }
-ToClassHierachyTreeElement class >> example [
+ToExClassHierachyTreeElement class >> example [
 	"This example shows classes as a list but using TreeNodes, tree logic is not implemented at this time of writing the example"
 
 	| l |
@@ -41,7 +41,7 @@ ToClassHierachyTreeElement class >> example [
 ]
 
 { #category : #initialization }
-ToClassHierachyTreeElement >> defaultNodeManagerClass [ 
+ToExClassHierachyTreeElement >> defaultNodeManagerClass [ 
 
-	^ ToClassHierachyTreeNodeManager
+	^ ToExClassHierachyTreeNodeManager
 ]

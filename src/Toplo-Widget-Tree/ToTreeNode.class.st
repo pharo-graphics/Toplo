@@ -24,6 +24,18 @@ ToTreeNode >> endElement [
 	^ content endElement
 ]
 
+{ #category : #accessing }
+ToTreeNode >> endElement: anElement [
+
+	content endElement: anElement
+]
+
+{ #category : #testing }
+ToTreeNode >> hasLeafDataItem [
+
+	^ self holder dataItem hasLeafDataItem
+]
+
 { #category : #initialization }
 ToTreeNode >> initialize [
 
@@ -38,7 +50,23 @@ ToTreeNode >> initialize [
 { #category : #testing }
 ToTreeNode >> isLeaf [
 
-	^ self holder dataItem isLeaf
+	self
+		deprecated: 'Use #hasLeafDataItem instead'
+		transformWith: '`@rcvr isLeaf' -> '`@rcvr hasLeafDataItem'.
+		
+	^ self hasLeafDataItem
+]
+
+{ #category : #accessing }
+ToTreeNode >> middleElement [
+
+	^ content middleElement
+]
+
+{ #category : #accessing }
+ToTreeNode >> middleElement: anElement [
+
+	content middleElement: anElement
 ]
 
 { #category : #skin }
@@ -57,6 +85,18 @@ ToTreeNode >> nodeDepth [
 ToTreeNode >> startElement [ 
 
 	^ content startElement
+]
+
+{ #category : #accessing }
+ToTreeNode >> startElement: anElement [
+
+	content startElement: anElement
+]
+
+{ #category : #accessing }
+ToTreeNode >> startInterspace: anInteger [
+
+	content startInterspace: anInteger
 ]
 
 { #category : #testing }

@@ -1,17 +1,17 @@
 Class {
-	#name : #ToPicsumListElement,
+	#name : #ToExPicsumListElement,
 	#superclass : #ToAbstractListElement,
 	#category : #'Toplo-Examples-PhotoGalleryParts'
 }
 
 { #category : #initialization }
-ToPicsumListElement >> defaultInnerElement [
+ToExPicsumListElement >> defaultInnerElement [
 
 	^ ToInfiniteElement onListElement: self
 ]
 
 { #category : #initialization }
-ToPicsumListElement >> defaultNodeManagerClass [
+ToExPicsumListElement >> defaultNodeManagerClass [
 
-	^ ToPicsumNodeManager
+	^ ToExPicsumNodeManager
 ]

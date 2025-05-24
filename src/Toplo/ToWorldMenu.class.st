@@ -37,7 +37,7 @@ ToWorldMenu class >> menuExamplesLoginPage: aBuilder [
 		label: 'Login page';
 		help: 'Open a login page';
 		icon: (self iconNamed: #glamorousGo);
-		action:[ ToLoginPage open ].
+		action:[ ToExLoginPage open ].
 ]
 
 { #category : #'menu - toplo - examples' }
@@ -61,7 +61,7 @@ ToWorldMenu class >> menuExamplesSourceCodeBrowser: aBuilder [
 		label: 'Source code Browser';
 		help: 'Open a source code mini browser';
 		icon: (self iconNamed: #glamorousGo);
-		action:[ ToMiniBrowser open ].
+		action:[ ToExMiniBrowser open ].
 ]
 
 { #category : #'menu - toplo' }

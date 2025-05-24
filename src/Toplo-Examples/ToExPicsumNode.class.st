@@ -2,7 +2,7 @@
 I'm part of the Photo gallery example. I'm not expected to be used as a standalone.
 "
 Class {
-	#name : #ToPicsumNode,
+	#name : #ToExPicsumNode,
 	#superclass : #ToListNode,
 	#instVars : [
 		'label'
@@ -11,19 +11,19 @@ Class {
 }
 
 { #category : #initialization }
-ToPicsumNode >> defaultLayout [
+ToExPicsumNode >> defaultLayout [
 
 	^ BlFrameLayout new
 ]
 
 { #category : #initialization }
-ToPicsumNode >> defaultWidth [
+ToExPicsumNode >> defaultWidth [
 
 	^ 500
 ]
 
 { #category : #initialization }
-ToPicsumNode >> initialize [
+ToExPicsumNode >> initialize [
 
 	super initialize.
 	label := ToLabel new
@@ -38,7 +38,7 @@ ToPicsumNode >> initialize [
 ]
 
 { #category : #accessing }
-ToPicsumNode >> labelString: aString [
+ToExPicsumNode >> labelString: aString [
 
 	label text: (aString asRopedText
 			 foreground: Color white;
@@ -46,7 +46,7 @@ ToPicsumNode >> labelString: aString [
 ]
 
 { #category : #layout }
-ToPicsumNode >> onMeasure: anExtentMeasurementSpec [
+ToExPicsumNode >> onMeasure: anExtentMeasurementSpec [
 
 	" ensure a 16/9 size "
 

@@ -1,11 +1,11 @@
 Class {
-	#name : #ToTreeNodeSubAndMethSkin,
+	#name : #ToExTreeNodeSubAndMethSkin,
 	#superclass : #ToTreeNodeSkin,
 	#category : #'Toplo-Examples-TopLevel-Trees'
 }
 
 { #category : #'event handling' }
-ToTreeNodeSubAndMethSkin >> installSkinEvent: anEvent [
+ToExTreeNodeSubAndMethSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -13,7 +13,7 @@ ToTreeNodeSubAndMethSkin >> installSkinEvent: anEvent [
 ]
 
 { #category : #icons }
-ToTreeNodeSubAndMethSkin >> newIconForNode: aNode [
+ToExTreeNodeSubAndMethSkin >> newIconForNode: aNode [
 
 	| icon item |
 	item := aNode holder treeDataItem.

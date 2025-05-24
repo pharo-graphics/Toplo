@@ -14,10 +14,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'parentWrapper',
-		'expanded',
 		'treeElement',
-		'dataItem',
-		'children'
+		'dataItem'
 	],
 	#category : #'Toplo-Widget-Tree-Core'
 }
@@ -62,12 +60,11 @@ ToTreeDataItemWrapper >> childrenInterval [
 ToTreeDataItemWrapper >> collapse [
 
 	| childrenInterval |
-	expanded ifFalse: [ ^ self ].
+	self isExpanded ifFalse: [ ^ self ].
 	childrenInterval := self childrenInterval.
 	treeElement dataAccessor
 		removeFrom: childrenInterval first
 		to: childrenInterval last.
-	expanded := false.
 	treeElement dataSource notifyDataItemChangeIndex: childrenInterval first - 1.
 	
 ]
@@ -87,17 +84,14 @@ ToTreeDataItemWrapper >> dataItem: aDataItem [
 { #category : #accessing }
 ToTreeDataItemWrapper >> dataItemChildren [
 
-	^ children ifNil: [
-		  children := treeElement nodeManager childrenFromDataItem:
-			              self unwrapped ]
+	^ treeElement nodeManager childrenFromDataItem: self unwrapped
 ]
 
 { #category : #'expanding-collapsing' }
 ToTreeDataItemWrapper >> expand [
 
 	| pos |
-	(self isLeaf or: expanded) ifTrue: [ ^ self ].
-	expanded := true.
+	(self hasLeafDataItem or: self isExpanded) ifTrue: [ ^ self ].
 	pos := self position.
 	treeElement dataAccessor useParentWrapper: self while: [
 		treeElement dataAccessor
@@ -115,6 +109,24 @@ ToTreeDataItemWrapper >> expandAll [
 
 ]
 
+{ #category : #'private - accessing' }
+ToTreeDataItemWrapper >> hasChildren [
+
+	| first |
+	first := self position.
+	(first + 1 <= treeElement dataSource size and: [
+		 (treeElement dataSource at: first + 1) hasParentWrapper: self ])
+		ifTrue: [ ^ true ].
+
+	^ false
+]
+
+{ #category : #testing }
+ToTreeDataItemWrapper >> hasLeafDataItem [
+
+	^ self dataItemChildren isEmpty
+]
+
 { #category : #testing }
 ToTreeDataItemWrapper >> hasParentWrapper: aDataItemWrapper [
 
@@ -124,23 +136,19 @@ ToTreeDataItemWrapper >> hasParentWrapper: aDataItemWrapper [
 		  ifNotNil: [ parentWrapper hasParentWrapper: aDataItemWrapper ]
 ]
 
-{ #category : #initialization }
-ToTreeDataItemWrapper >> initialize [
-
-	super initialize.
-	expanded := false
-]
-
 { #category : #testing }
 ToTreeDataItemWrapper >> isExpanded [ 
 
-	^ expanded 
+	^ self hasChildren 
 ]
 
 { #category : #testing }
 ToTreeDataItemWrapper >> isLeaf [
 
-	^ self dataItemChildren isEmpty
+	self
+		deprecated: 'Use #hasLeafDataItem instead'
+		transformWith: '`@rcvr isLeaf' -> '`@rcvr hasLeafDataItem'.
+	^ self hasLeafDataItem
 ]
 
 { #category : #testing }

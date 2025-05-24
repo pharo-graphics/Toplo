@@ -2,7 +2,7 @@
 I'm part of the Photo gallery example. I'm not expected to be used as a standalone.
 "
 Class {
-	#name : #ToPicsumImageData,
+	#name : #ToExPicsumImageData,
 	#superclass : #Object,
 	#instVars : [
 		'format',
@@ -19,7 +19,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-ToPicsumImageData class >> fromDictionary: aDictionary [
+ToExPicsumImageData class >> fromDictionary: aDictionary [
 	^ self new
 		format: (aDictionary at: #format);
 		filename: (aDictionary at: #filename);
@@ -33,93 +33,93 @@ ToPicsumImageData class >> fromDictionary: aDictionary [
 ]
 
 { #category : #accessing }
-ToPicsumImageData >> author [
+ToExPicsumImageData >> author [
 	^ author
 ]
 
 { #category : #accessing }
-ToPicsumImageData >> author: anObject [
+ToExPicsumImageData >> author: anObject [
 	author := anObject
 ]
 
 { #category : #accessing }
-ToPicsumImageData >> authorUrl [
+ToExPicsumImageData >> authorUrl [
 	^ authorUrl
 ]
 
 { #category : #accessing }
-ToPicsumImageData >> authorUrl: anObject [
+ToExPicsumImageData >> authorUrl: anObject [
 	authorUrl := anObject
 ]
 
 { #category : #accessing }
-ToPicsumImageData >> filename [
+ToExPicsumImageData >> filename [
 	^ filename
 ]
 
 { #category : #accessing }
-ToPicsumImageData >> filename: anObject [
+ToExPicsumImageData >> filename: anObject [
 	filename := anObject
 ]
 
 { #category : #accessing }
-ToPicsumImageData >> format [
+ToExPicsumImageData >> format [
 	^ format
 ]
 
 { #category : #accessing }
-ToPicsumImageData >> format: anObject [
+ToExPicsumImageData >> format: anObject [
 	format := anObject
 ]
 
 { #category : #accessing }
-ToPicsumImageData >> height [
+ToExPicsumImageData >> height [
 	^ height
 ]
 
 { #category : #accessing }
-ToPicsumImageData >> height: anObject [
+ToExPicsumImageData >> height: anObject [
 	height := anObject
 ]
 
 { #category : #accessing }
-ToPicsumImageData >> id [
+ToExPicsumImageData >> id [
 	^ id
 ]
 
 { #category : #accessing }
-ToPicsumImageData >> id: anObject [
+ToExPicsumImageData >> id: anObject [
 	id := anObject
 ]
 
 { #category : #accessing }
-ToPicsumImageData >> loadedForm [
+ToExPicsumImageData >> loadedForm [
 
 	^ loadedForm
 ]
 
 { #category : #accessing }
-ToPicsumImageData >> loadedForm: aForm [
+ToExPicsumImageData >> loadedForm: aForm [
 
 	loadedForm := aForm
 ]
 
 { #category : #accessing }
-ToPicsumImageData >> postUrl [
+ToExPicsumImageData >> postUrl [
 	^ postUrl
 ]
 
 { #category : #accessing }
-ToPicsumImageData >> postUrl: anObject [
+ToExPicsumImageData >> postUrl: anObject [
 	postUrl := anObject
 ]
 
 { #category : #accessing }
-ToPicsumImageData >> width [
+ToExPicsumImageData >> width [
 	^ width
 ]
 
 { #category : #accessing }
-ToPicsumImageData >> width: anObject [
+ToExPicsumImageData >> width: anObject [
 	width := anObject
 ]

@@ -13,8 +13,7 @@ ToSelectListNodeSelectionEventHandler >> clickEvent: anEvent [
 { #category : #'api - accessing' }
 ToSelectListNodeSelectionEventHandler >> eventsToHandle [
 
-	^ super eventsToHandle, {
-		 BlMouseUpEvent }
+	^ super eventsToHandle , { BlMouseUpEvent }
 ]
 
 { #category : #'mouse handlers' }

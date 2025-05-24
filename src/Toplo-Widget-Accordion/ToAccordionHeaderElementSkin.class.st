@@ -15,7 +15,7 @@ ToAccordionHeaderElementSkin >> checkedSkinEvent: anEvent [
 ToAccordionHeaderElementSkin >> collapseHeader: anHeader [
 
 	| arrowTk arrowIm |
-	arrowTk := #'submenu-arrow-right'.
+	arrowTk := #'iconic-arrow-right'.
 	arrowIm := anHeader valueOfTokenNamed: arrowTk.
 	anHeader icon innerImage: arrowIm
 ]
@@ -32,7 +32,7 @@ ToAccordionHeaderElementSkin >> deselectedSkinEvent: anEvent [
 ToAccordionHeaderElementSkin >> expandHeader: anHeader [
 
 	| arrowTk arrowIm |
-	arrowTk := #'submenu-arrow-down'.
+	arrowTk := #'iconic-arrow-down'.
 	arrowIm := anHeader valueOfTokenNamed: arrowTk.
 	anHeader icon innerImage: arrowIm
 ]
@@ -49,8 +49,8 @@ ToAccordionHeaderElementSkin >> installSkinEvent: anEvent [
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e valueOfTokenNamed: 'border-radius')).
 		arrowTk := e isExpanded
-			           ifTrue: [ #'submenu-arrow-down' ]
-			           ifFalse: [ #'submenu-arrow-right' ].
+			           ifTrue: [ #'iconic-arrow-down' ]
+			           ifFalse: [ #'iconic-arrow-right' ].
 		arrowIm := ToImage inner: (e valueOfTokenNamed: arrowTk).
 		arrowIm
 			size: 18 asPoint;

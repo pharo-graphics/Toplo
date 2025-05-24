@@ -10,11 +10,6 @@ ToObservableCollectionEventHandler >> collectionAddEvent: anEvent [
 ]
 
 { #category : #'data events handling' }
-ToObservableCollectionEventHandler >> collectionAddRequest: anEvent [
-
-]
-
-{ #category : #'data events handling' }
 ToObservableCollectionEventHandler >> collectionAllUpdatedEvent: anEvent [
 
 	
@@ -22,11 +17,6 @@ ToObservableCollectionEventHandler >> collectionAllUpdatedEvent: anEvent [
 
 { #category : #'data events handling' }
 ToObservableCollectionEventHandler >> collectionEmptinessEvent: anEvent [
-
-]
-
-{ #category : #'data events handling' }
-ToObservableCollectionEventHandler >> collectionFilterRequest: anEvent [
 
 ]
 
@@ -41,17 +31,7 @@ ToObservableCollectionEventHandler >> collectionRemoveEvent: anEvent [
 ]
 
 { #category : #'data events handling' }
-ToObservableCollectionEventHandler >> collectionRemoveRequest: anEvent [
-
-]
-
-{ #category : #'data events handling' }
 ToObservableCollectionEventHandler >> collectionSievedEvent: anEvent [
-
-]
-
-{ #category : #'data events handling' }
-ToObservableCollectionEventHandler >> collectionUpdateAllRequest: anEvent [
 
 ]
 
@@ -60,13 +40,8 @@ ToObservableCollectionEventHandler >> collectionUpdateEvent: anEvent [
 
 ]
 
-{ #category : #'data events handling' }
-ToObservableCollectionEventHandler >> collectionUpdateRequest: anEvent [
-
-]
-
 { #category : #'api - accessing' }
 ToObservableCollectionEventHandler >> eventsToHandle [
 
-	^ { ToCollectionEmptinessEvent. ToCollectionChangeRequest. ToCollectionChangedEvent }
+	^ { ToCollectionEmptinessEvent. ToCollectionChangedEvent }
 ]

@@ -1532,8 +1532,8 @@ ToExperiments class >> newTreeElement [
 		hasChildren ifTrue: [
 			| arrowTk |
 			arrowTk := anExWrapper isExpanded
-				           ifTrue: [ #'submenu-arrow-down' ]
-				           ifFalse: [ #'submenu-arrow-right' ].
+				           ifTrue: [ #'iconic-arrow-down' ]
+				           ifFalse: [ #'iconic-arrow-right' ].
 			arrowIcon innerImage: (tree valueOfTokenNamed: arrowTk) ].
 		arrowIcon
 			size: 18 asPoint;
@@ -1555,8 +1555,8 @@ ToExperiments class >> newTreeElement [
 				| newArrowTk |
 				anExWrapper toggle.
 				newArrowTk := anExWrapper isExpanded
-					              ifTrue: [ #'submenu-arrow-down' ]
-					              ifFalse: [ #'submenu-arrow-right' ].
+					              ifTrue: [ #'iconic-arrow-down' ]
+					              ifFalse: [ #'iconic-arrow-right' ].
 				arrowIcon innerImage: (tree valueOfTokenNamed: newArrowTk) ] ].
 		triplet hMatchParent.
 		node addChild: triplet ].

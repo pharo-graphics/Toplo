@@ -24,7 +24,7 @@ ToObservableCollectionMirrorUpdater >> collectionAllUpdatedEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	mirror updateAllWith: target
+	mirror updateAllWith: target 
 ]
 
 { #category : #'data events handling' }

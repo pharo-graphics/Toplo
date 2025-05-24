@@ -1,5 +1,5 @@
 Class {
-	#name : #ToMiniBrowser,
+	#name : #ToExMiniBrowser,
 	#superclass : #Object,
 	#instVars : [
 		'packages',
@@ -14,13 +14,13 @@ Class {
 }
 
 { #category : #'instance creation' }
-ToMiniBrowser class >> open [
+ToExMiniBrowser class >> open [
 	<script>
 	self new open
 ]
 
 { #category : #'code editor' }
-ToMiniBrowser >> changeCodeInEditor [
+ToExMiniBrowser >> changeCodeInEditor [
 
 	| selected cls sel codeText |
 	selected := selectors dataAccessor at: selectors selectionModel firstIndex.
@@ -34,14 +34,14 @@ ToMiniBrowser >> changeCodeInEditor [
 ]
 
 { #category : #'class selection' }
-ToMiniBrowser >> classSelectionChangedEvent: aToSelectionChanged [
+ToExMiniBrowser >> classSelectionChangedEvent: aToSelectionChanged [
 
 	self refreshClassSelectionWithSelectedIndexes:
 		aToSelectionChanged selectedIndexes
 ]
 
 { #category : #'code editor' }
-ToMiniBrowser >> clearCodeInEditor [
+ToExMiniBrowser >> clearCodeInEditor [
 
 	codePane styler classOrMetaClass: nil.
 	codePane text: ''
@@ -49,7 +49,7 @@ ToMiniBrowser >> clearCodeInEditor [
 ]
 
 { #category : #initialization }
-ToMiniBrowser >> initialize [
+ToExMiniBrowser >> initialize [
 
 	super initialize.
 	
@@ -57,7 +57,7 @@ ToMiniBrowser >> initialize [
 ]
 
 { #category : #initialization }
-ToMiniBrowser >> newClassPane [
+ToExMiniBrowser >> newClassPane [
 
 	| classesPane classesButtonPane sideToggle |
 	classes := ToListElement new.
@@ -97,7 +97,7 @@ ToMiniBrowser >> newClassPane [
 ]
 
 { #category : #initialization }
-ToMiniBrowser >> newCodePane [
+ToExMiniBrowser >> newCodePane [
 
 	codePane := ToAlbum new.
 	codePane withRowNumbers.
@@ -111,7 +111,7 @@ ToMiniBrowser >> newCodePane [
 ]
 
 { #category : #initialization }
-ToMiniBrowser >> newMainPane [
+ToExMiniBrowser >> newMainPane [
 
 	| pane |
 	pane := ToPane new.
@@ -125,7 +125,7 @@ ToMiniBrowser >> newMainPane [
 ]
 
 { #category : #initialization }
-ToMiniBrowser >> newPackagePane [
+ToExMiniBrowser >> newPackagePane [
 
 	| packagesPane pkgFilterField pkgSieve packageBottomPane |
 	packagesPane := ToPane new.
@@ -184,7 +184,7 @@ ToMiniBrowser >> newPackagePane [
 ]
 
 { #category : #initialization }
-ToMiniBrowser >> newPackageToSelectorListPane [
+ToExMiniBrowser >> newPackageToSelectorListPane [
 
 	| listsPane packagesPane classesPane |
 	listsPane := ToPane new.
@@ -212,7 +212,7 @@ ToMiniBrowser >> newPackageToSelectorListPane [
 ]
 
 { #category : #initialization }
-ToMiniBrowser >> newProtocolPane [
+ToExMiniBrowser >> newProtocolPane [
 
 	^ ToListElement new
 		  id: #protocols;
@@ -227,7 +227,7 @@ ToMiniBrowser >> newProtocolPane [
 ]
 
 { #category : #initialization }
-ToMiniBrowser >> newSelectorPane [
+ToExMiniBrowser >> newSelectorPane [
 
 	^ ToListElement new
 		  id: #selectors;
@@ -242,13 +242,13 @@ ToMiniBrowser >> newSelectorPane [
 ]
 
 { #category : #opening }
-ToMiniBrowser >> open [
+ToExMiniBrowser >> open [
 
 	self newMainPane openInSpace title: 'Mini browser'
 ]
 
 { #category : #initialization }
-ToMiniBrowser >> packageSelectionChangedEvent: aToSelectionChanged [
+ToExMiniBrowser >> packageSelectionChangedEvent: aToSelectionChanged [
 
 	| selectedPackages clsList |
 	classes dataAccessor removeAll.
@@ -270,7 +270,7 @@ ToMiniBrowser >> packageSelectionChangedEvent: aToSelectionChanged [
 ]
 
 { #category : #initialization }
-ToMiniBrowser >> protocolSelectionChangedEvent: aToSelectionChanged [
+ToExMiniBrowser >> protocolSelectionChangedEvent: aToSelectionChanged [
 
 	| selectedProtocols |
 	selectors dataAccessor removeAll.
@@ -287,7 +287,7 @@ ToMiniBrowser >> protocolSelectionChangedEvent: aToSelectionChanged [
 ]
 
 { #category : #'class selection' }
-ToMiniBrowser >> refreshClassSelectionWithSelectedIndexes: aCollection [
+ToExMiniBrowser >> refreshClassSelectionWithSelectedIndexes: aCollection [
 
 	| selectedClasses allProtocols |
 	protocols dataAccessor removeAll.
@@ -309,7 +309,7 @@ ToMiniBrowser >> refreshClassSelectionWithSelectedIndexes: aCollection [
 ]
 
 { #category : #initialization }
-ToMiniBrowser >> selectorSelectionChangedEvent: aToSelectionChanged [
+ToExMiniBrowser >> selectorSelectionChangedEvent: aToSelectionChanged [
 
 	aToSelectionChanged selectedIndexes size = 1 ifTrue: [
 		^ self changeCodeInEditor ].

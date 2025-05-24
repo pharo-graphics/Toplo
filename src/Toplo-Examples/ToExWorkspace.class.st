@@ -2,7 +2,7 @@
 I'm a workspace example made with Album/Toplo
 "
 Class {
-	#name : #ToWorkspaceExample,
+	#name : #ToExWorkspace,
 	#superclass : #Object,
 	#instVars : [
 		'bindings',
@@ -12,14 +12,14 @@ Class {
 }
 
 { #category : #'instance creation' }
-ToWorkspaceExample class >> open [
+ToExWorkspace class >> open [
 
 	<script>
 	self openInHost: BlOSWindowSDL2Host new
 ]
 
 { #category : #'instance creation' }
-ToWorkspaceExample class >> openInHost: aBlOSWindowHost [
+ToExWorkspace class >> openInHost: aBlOSWindowHost [
 
 	<script>
 	| space |
@@ -30,21 +30,21 @@ ToWorkspaceExample class >> openInHost: aBlOSWindowHost [
 ]
 
 { #category : #'instance creation' }
-ToWorkspaceExample class >> openInMorphic [
+ToExWorkspace class >> openInMorphic [
 
 	<script>
 	self openInHost: BlMorphicWindowHost new
 ]
 
 { #category : #'instance creation' }
-ToWorkspaceExample class >> openInSDL [
+ToExWorkspace class >> openInSDL [
 
 	<script>
 	self openInHost: BlOSWindowSDL2Host new
 ]
 
 { #category : #binding }
-ToWorkspaceExample >> bindingOf: aString [
+ToExWorkspace >> bindingOf: aString [
 
 	"I want to have workspace that force the user to declare  
 	variables. Still subclasses may want to do something else"
@@ -57,19 +57,19 @@ ToWorkspaceExample >> bindingOf: aString [
 ]
 
 { #category : #bindings }
-ToWorkspaceExample >> bindings [
+ToExWorkspace >> bindings [
 
 	^ bindings 
 ]
 
 { #category : #accessing }
-ToWorkspaceExample >> correctFrom: start to: stop with: aString [
+ToExWorkspace >> correctFrom: start to: stop with: aString [
 
 	('correctFrom: ', start asString, ' to: ', stop asString, ' with: ', aString asString) traceCr
 ]
 
 { #category : #accessing }
-ToWorkspaceExample >> doIt [
+ToExWorkspace >> doIt [
 
 	| toDo |
 	toDo := album selectedText asString.
@@ -85,12 +85,12 @@ ToWorkspaceExample >> doIt [
 ]
 
 { #category : #bindings }
-ToWorkspaceExample >> hasBindingOf: aString [
+ToExWorkspace >> hasBindingOf: aString [
 	^ bindings includesKey: aString asSymbol
 ]
 
 { #category : #initialization }
-ToWorkspaceExample >> initialize [
+ToExWorkspace >> initialize [
 	super initialize.
 	bindings := Dictionary new.
 	album := ToAlbum new.
@@ -98,7 +98,7 @@ ToWorkspaceExample >> initialize [
 ]
 
 { #category : #'user interface' }
-ToWorkspaceExample >> initializeCodeEditor [
+ToExWorkspace >> initializeCodeEditor [
 
 	album
 		withRowNumbers;
@@ -124,24 +124,24 @@ ToWorkspaceExample >> initializeCodeEditor [
 ]
 
 { #category : #accessing }
-ToWorkspaceExample >> isScripting [
+ToExWorkspace >> isScripting [
 
 	^ true
 ]
 
 { #category : #bindings }
-ToWorkspaceExample >> notify: aString at: anInteger in: aString3 [ 
+ToExWorkspace >> notify: aString at: anInteger in: aString3 [ 
 	('parse error: ', aString, ' at: ', anInteger asString) traceCr.
 ]
 
 { #category : #'user interface' }
-ToWorkspaceExample >> open [
+ToExWorkspace >> open [
 
 	self openInSpace: BlSpace new
 ]
 
 { #category : #'user interface' }
-ToWorkspaceExample >> openInSpace: aSpace [
+ToExWorkspace >> openInSpace: aSpace [
 
 	| frame |
 	self initializeCodeEditor.
@@ -153,7 +153,7 @@ ToWorkspaceExample >> openInSpace: aSpace [
 ]
 
 { #category : #accessing }
-ToWorkspaceExample >> text [
+ToExWorkspace >> text [
 
 	^ album text
 ]

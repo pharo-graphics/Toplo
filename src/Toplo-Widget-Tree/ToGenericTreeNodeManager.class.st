@@ -5,20 +5,45 @@ I hold the logic of building and destroying NodeHolders and TreeNodes whenever t
 "
 Class {
 	#name : #ToGenericTreeNodeManager,
-	#superclass : #ToGenericListNodeManager,
+	#superclass : #ToTreeNodeManager,
+	#traits : 'TToGenericNodeManager',
+	#classTraits : 'TToGenericNodeManager classTrait',
+	#instVars : [
+		'childrenGetter'
+	],
 	#category : #'Toplo-Widget-Tree-Core'
 }
 
 { #category : #'t - generic node manager' }
-ToGenericTreeNodeManager >> buildNode: aNode [
+ToGenericTreeNodeManager >> buildNode: aTreeNode [
 
-	aNode middleElement: (ToElement new
-			 fitContent;
-			 yourself).
+	| content |
+	content := ToElement new
+		           fitContent;
+		           yourself.
+	aTreeNode content middleElement: content.
 	nodeBuilder
-		cull: aNode middleElement
-		cull: aNode holder dataItem
-		cull: aNode holder
+		cull: content
+		cull: aTreeNode holder treeDataItem
+		cull: aTreeNode holder
+]
+
+{ #category : #'children accessing' }
+ToGenericTreeNodeManager >> childrenFromDataItem: aDataItem [
+
+	^ childrenGetter value: aDataItem
+]
+
+{ #category : #accessing }
+ToGenericTreeNodeManager >> childrenGetter: aValuable [
+
+	childrenGetter := aValuable
+]
+
+{ #category : #initialization }
+ToGenericTreeNodeManager >> defaultChildrenGetter [
+
+	^ [ :dataItem | #(  ) ]
 ]
 
 { #category : #'t - generic node manager' }
@@ -28,8 +53,16 @@ ToGenericTreeNodeManager >> defaultNodeFactory [
 	  ToTreeNode new ]
 ]
 
+{ #category : #initialization }
+ToGenericTreeNodeManager >> initialize [ 
+
+	super initialize.
+	self initializeAsGenericNodeManager.
+	childrenGetter := self defaultChildrenGetter 
+]
+
 { #category : #'t - generic node manager' }
 ToGenericTreeNodeManager >> newHolder [
 
-	^ ToTreeNodeHolder new
+	^ super newHolder
 ]

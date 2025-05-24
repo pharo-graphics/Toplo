@@ -202,7 +202,6 @@ ToMultiSelectBarElement >> refreshFromPopupListSelection [
 		last isComposite ifTrue: [
 			previousTagModels removeLast.
 			previousTagModels addAll: last items ] ].
-
 	" reconstruct the item list. ensure the reuse of pre-existing items"
 	selectElement selectionModel selectedIndexesDo: [ :idx |
 		| new previous data |
@@ -227,7 +226,8 @@ ToMultiSelectBarElement >> refreshFromPopupListSelection [
 
 	" if the list has changed then replace all in one datasource command "
 	self dataAccessor asOrderedCollection = newTagModels ifTrue: [ ^ self ].
-	self dataAccessor updateAllWith: newTagModels.
+	self dataAccessor removeAll.
+	self dataAccessor addAll: newTagModels.
 	self checkHideSelectionFromListElement.
 	self checkMaxSelectedCount
 ]

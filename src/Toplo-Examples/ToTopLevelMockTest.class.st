@@ -29,9 +29,9 @@ ToTopLevelMockTest >> testMocks [
 	errors := OrderedCollection new.
 
 	{
-		ToLoginPage.
-		ToMiniBrowser.
-		ToWorkspaceExample } do: [ :each |
+		ToExLoginPage.
+		ToExMiniBrowser.
+		ToExWorkspace } do: [ :each |
 		[
 		each open.
 		Delay forMilliseconds: 5000.

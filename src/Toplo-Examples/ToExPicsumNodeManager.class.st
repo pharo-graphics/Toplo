@@ -1,23 +1,23 @@
 Class {
-	#name : #ToPicsumNodeManager,
+	#name : #ToExPicsumNodeManager,
 	#superclass : #ToAbstractNodeManager,
 	#category : #'Toplo-Examples-PhotoGalleryParts'
 }
 
 { #category : #'instance creation' }
-ToPicsumNodeManager >> newHolder [
+ToExPicsumNodeManager >> newHolder [
 
-	^ ToPicsumHolder new
+	^ ToExPicsumHolder new
 ]
 
 { #category : #'instance creation' }
-ToPicsumNodeManager >> newNodeForHolder: aNodeHolder [
+ToExPicsumNodeManager >> newNodeForHolder: aNodeHolder [
 
-	^ ToPicsumNode new 
+	^ ToExPicsumNode new 
 ]
 
 { #category : #initialization }
-ToPicsumNodeManager >> unbuildNode: aNode [
+ToExPicsumNodeManager >> unbuildNode: aNode [
 
 	aNode holder terminateLoader.
 

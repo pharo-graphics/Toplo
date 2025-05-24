@@ -29,7 +29,7 @@ ToTreeDataItemWrapperTest >> testExpandAllAndCollapseAll [
 	tree expandAll.
 	self assert: tree dataAccessor size equals: 15.
 	tree dataSource do: [ :each |
-		self assert: (each isExpanded or: each isLeaf) ].
+		self assert: (each isExpanded or: each hasLeafDataItem) ].
 
 	tree collapseAll.
 	self assert: tree dataAccessor size equals: 5.

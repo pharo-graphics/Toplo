@@ -48,24 +48,26 @@ ToTheme class >> defaultTokenProperties [
 			   name: #'check'
 			   value: (ToMaterialDesignIconProvider innerImageNamed:
 					    'outlined_check')).
+
 		  (ToTokenProperty
-			   name: #'submenu-arrow-right'
+			   name: #'iconic-arrow-right'
 			   value: (ToMaterialDesignIconProvider innerImageNamed:
 					    'outlined_keyboardarrowright')).
 		  (ToTokenProperty
-			   name: #'submenu-arrow-down'
+			   name: #'iconic-arrow-down'
 			   value: (ToMaterialDesignIconProvider innerImageNamed:
 					    'outlined_keyboardarrowdown')).
+		  (ToTokenProperty
+			   name: #'iconic-arrow-up'
+			   value: (ToMaterialDesignIconProvider innerImageNamed:
+					    'outlined_keyboardarrowup')).
+
 		(ToTokenProperty
-			   name: #'submenu-arrow-breadth'
+			   name: #'iconic-arrow-breadth'
 			   value: 18).
 		(ToTokenProperty
 			   name: #'node-interspace'
 			   value: 18).
-		  (ToTokenProperty
-			   name: #'submenu-arrow-up'
-			   value: (ToMaterialDesignIconProvider innerImageNamed:
-					    'outlined_keyboardarrowup')).
 		  (ToTokenProperty name: #'border-radius' value: 4).
 		  (ToTokenProperty name: #'border-radius-LG' value: 8).
 		  (ToTokenProperty name: #'border-radius-SM' value: 4).

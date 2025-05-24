@@ -9,7 +9,7 @@ ToSelectIconContainerSkin >> closedSkinEvent: anEvent [
 
 	super closedSkinEvent: anEvent.
 	anEvent elementDo: [ :e | 
-		e icon innerImage: (e valueOfTokenNamed: #'submenu-arrow-up').
+		e icon innerImage: (e valueOfTokenNamed: #'iconic-arrow-up').
 		e icon innerImageColor: (e valueOfTokenNamed: #'color-text'). ]
 ]
 
@@ -45,7 +45,7 @@ ToSelectIconContainerSkin >> installSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e middleContainer padding: (BlInsets horizontal: 5).
 		e icon ifNil: [ | image |
-			image := ToImage inner: (e valueOfTokenNamed: #'submenu-arrow-up').
+			image := ToImage inner: (e valueOfTokenNamed: #'iconic-arrow-up').
 			image size: 18 asPoint.
 			e icon: image ] ]
 ]
@@ -71,7 +71,7 @@ ToSelectIconContainerSkin >> openedSkinEvent: anEvent [
 
 	super openedSkinEvent: anEvent.
 	anEvent elementDo: [ :e | 
-		e icon innerImage: (e valueOfTokenNamed: #'submenu-arrow-down').
+		e icon innerImage: (e valueOfTokenNamed: #'iconic-arrow-down').
 		e icon innerImageColor: (e valueOfTokenNamed: #'color-text'). ]
 ]
 

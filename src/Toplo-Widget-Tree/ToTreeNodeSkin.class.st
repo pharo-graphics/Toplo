@@ -17,11 +17,6 @@ ToTreeNodeSkin >> installSkinEvent: anEvent [
 		startElement padding: (BlInsets left: w).
 		arrow := self newStartElementForNode: e.
 		arrow margin: (BlInsets right: interspace).
-		arrow id: #arrow.
-		e hasLeafDataItem ifFalse: [
-			arrow newClickAction: [ :evt |
-				evt consume.
-				e toggle ] ].
 		startElement addChild: arrow at: 1.
 		e startInterspace: interspace.
 		e startElement: startElement ]
@@ -33,19 +28,16 @@ ToTreeNodeSkin >> newStartElementForNode: aNode [
 	| arrowIcon aWrapper |
 	aWrapper := aNode holder dataItem.
 	arrowIcon := ToImage new.
+	aWrapper hasLeafDataItem ifFalse: [
+		arrowIcon := aWrapper isExpanded
+			             ifFalse: [ ToIconicArrowButton right ]
+			             ifTrue: [ ToIconicArrowButton down ] ].
 	arrowIcon constraintsDo: [ :c |
 		c linear horizontal alignLeft.
 		c linear vertical alignCenter ].
 	arrowIcon size:
-		(aNode holder listElement valueOfTokenNamed:
-			 #'submenu-arrow-breadth') asPoint.
-	aWrapper hasLeafDataItem ifFalse: [
-		| arrowTk |
-		arrowTk := aWrapper isExpanded
-			           ifFalse: [ #'submenu-arrow-right' ]
-			           ifTrue: [ #'submenu-arrow-down' ].
-		arrowIcon innerImage:
-			(aNode holder listElement valueOfTokenNamed: arrowTk) ].
+		(aNode holder listElement valueOfTokenNamed: #'iconic-arrow-breadth')
+			asPoint.
 
 	^ arrowIcon
 ]

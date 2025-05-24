@@ -12,7 +12,7 @@ ToIconicRemoveButton >> initialize [
 	self id: #'remove-button'
 ]
 
-{ #category : #'instance creation' }
+{ #category : #skin }
 ToIconicRemoveButton >> newRawSkin [ 
 
 	^ ToIconicRemoveButtonSkin new

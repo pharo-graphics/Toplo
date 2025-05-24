@@ -44,7 +44,10 @@ ToTreeNode >> initialize [
 	content := ToTripletElement new.
 	content hMatchParent.
 	content vMatchParent.
-	self addChild: content
+	self addChild: content.
+	self addEventHandlerOn: ToArrowButtonClickedEvent do: [ :event |
+		event consume.
+		self toggle ]
 ]
 
 { #category : #testing }

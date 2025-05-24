@@ -15,18 +15,18 @@ ToMenuSkin >> installSkinEvent: anEvent [
 				arrowTk := e isInline
 					           ifTrue: [
 						           e isOpened
-							           ifTrue: [ #'submenu-arrow-up' ]
-							           ifFalse: [ #'submenu-arrow-down' ] ]
+							           ifTrue: [ #'iconic-arrow-up' ]
+							           ifFalse: [ #'iconic-arrow-down' ] ]
 					           ifFalse: [
 						           e isSubmenu
-							           ifTrue: [ #'submenu-arrow-right' ]
+							           ifTrue: [ #'iconic-arrow-right' ]
 							           ifFalse: [
 								           e isOpened
-									           ifTrue: [ #'submenu-arrow-up' ]
-									           ifFalse: [ #'submenu-arrow-down' ] ] ].
+									           ifTrue: [ #'iconic-arrow-up' ]
+									           ifFalse: [ #'iconic-arrow-down' ] ] ].
 				arrowIm := ToImage inner: (e valueOfTokenNamed: arrowTk).
 				arrowIm
-					size: (e valueOfTokenNamed: #'submenu-arrow-breadth') asPoint;
+					size: (e valueOfTokenNamed: #'iconic-arrow-breadth') asPoint;
 					innerImageColor: (e valueOfTokenNamed: #'color-text').
 				e endElement addChild: arrowIm ]
 			ifFalse: [

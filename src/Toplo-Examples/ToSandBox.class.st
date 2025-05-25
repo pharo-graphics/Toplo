@@ -690,7 +690,7 @@ ToSandBox class >> exampleAllClasses [
 						(dataItem methods collect: [ :each | each selector ]) sorted ] ]
 			ifFalse: [ #(  ) ] ].
 	l nodeManager nodeFactory: [ :holder | ToExTreeSubAndMethNode new ].
-
+	l withRowNumbers.
 	l contextMenu: [ :menu :request |
 		| selectionModel indexes target |
 		target := request currentTarget.

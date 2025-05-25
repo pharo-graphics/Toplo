@@ -1,13 +1,7 @@
 "
 I am a ToTreeDataSourceWrapper 
 
-My purpose is to wrap an Object (called dataItem) when one is added to a ToTreeDataSource.
-
-I wrap this item and keep references to :
- - this object
- - its children, as they are defined by the dataSource childSelector
- - the number of children this object has
- - the state of the node linked to this object (collapsed or expanded)
+My purpose is to wrap an Object (called dataItem) when it is added to a ToTreeDataSource.
 "
 Class {
 	#name : #ToTreeDataItemWrapper,
@@ -65,8 +59,7 @@ ToTreeDataItemWrapper >> collapse [
 	treeElement dataAccessor
 		removeFrom: childrenInterval first
 		to: childrenInterval last.
-	treeElement dataSource notifyDataItemChangeIndex: childrenInterval first - 1.
-	
+	treeElement dataSource notifyDataItemChangeIndex: childrenInterval first - 1
 ]
 
 { #category : #accessing }

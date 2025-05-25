@@ -14,6 +14,12 @@ ToIconicArrowButton class >> down [
 ]
 
 { #category : #accessing }
+ToIconicArrowButton class >> left [
+
+	^ self new orientation: #left
+]
+
+{ #category : #accessing }
 ToIconicArrowButton class >> right [ 
 
 	^ self new orientation: #right
@@ -25,11 +31,34 @@ ToIconicArrowButton class >> up [
 	^ self new orientation: #up
 ]
 
+{ #category : #accessing }
+ToIconicArrowButton >> beDown [ 
+
+	self orientation: #down
+]
+
+{ #category : #accessing }
+ToIconicArrowButton >> beLeft [
+
+	self orientation: #left
+]
+
+{ #category : #accessing }
+ToIconicArrowButton >> beRight [
+
+	self orientation: #right
+]
+
+{ #category : #accessing }
+ToIconicArrowButton >> beUp [
+
+	self orientation: #up
+]
+
 { #category : #initialization }
 ToIconicArrowButton >> initialize [ 
 
 	super initialize.
-	self newClickAction: [ self fireEvent: ToArrowButtonClickedEvent new ].
 	self id: #'arrow-button'.
 	orientation := #right
 ]
@@ -38,6 +67,12 @@ ToIconicArrowButton >> initialize [
 ToIconicArrowButton >> isDown [
 
 	^ orientation = #down
+]
+
+{ #category : #accessing }
+ToIconicArrowButton >> isLeft [
+
+	^ orientation = #left
 ]
 
 { #category : #accessing }

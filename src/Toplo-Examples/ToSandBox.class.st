@@ -306,6 +306,7 @@ ToSandBox class >> barWithData: aCollection [
 			         fontSize: fontSize;
 			         yourself.
 		triplet startElement: ToIconicRemoveButton new.
+		triplet startElement clickAction: [ triplet startElement fireEvent: ToRemoveButtonClickedEvent new ].
 		triplet middleElement: label.
 		triplet startInterspace: 10.
 		triplet constraintsDo: [ :c | c linear vertical alignCenter ].
@@ -716,7 +717,8 @@ ToSandBox class >> exampleAllClasses [
 				 yourself) ].
 
 	l dataAccessor addAll:
-		(Smalltalk globals allClasses sorted: [ :a :b | a name < b name ]).
+		((Smalltalk globals allClasses select: [ :cls |
+			  cls subclasses notEmpty ]) sorted: [ :a :b | a name < b name ]).
 
 	l openInSpace
 ]
@@ -896,6 +898,30 @@ ToSandBox class >> examplePreviousIntegers [
 		dataItem = 1
 			ifTrue: [ {  } ]
 			ifFalse: [ { (dataItem - 1) } ] ].
+	l contextMenu: [ :menu :request |
+		| selectionModel indexes target |
+		target := request currentTarget.
+		selectionModel := request selectionModel.
+		indexes := request selectedIndexes.
+		indexes traceCr.
+		menu addItem: (ToMenuItem new
+				 labelText: 'Expand all';
+				 clickAction: [
+					 indexes
+						 ifEmpty: [ target expandAll ]
+						 ifNotEmpty: [
+							 indexes reverseDo: [ :idx |
+									 (target dataSource at: idx) expandAll ] ] ];
+				 yourself).
+		menu addItem: (ToMenuItem new
+				 labelText: 'Collapse all';
+				 clickAction: [
+					 indexes
+						 ifEmpty: [ target collapseAll ]
+						 ifNotEmpty: [
+							 indexes reverseDo: [ :idx |
+									 (target dataSource at: idx) collapse ] ] ];
+				 yourself) ].
 	l dataAccessor addAll: (1 to: 10).
 	l openInSpace
 ]

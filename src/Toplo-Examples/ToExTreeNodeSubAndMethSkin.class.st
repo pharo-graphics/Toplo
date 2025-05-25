@@ -15,16 +15,16 @@ ToExTreeNodeSubAndMethSkin >> installSkinEvent: anEvent [
 { #category : #icons }
 ToExTreeNodeSubAndMethSkin >> newIconForNode: aNode [
 
-	| icon item |
+	| icon item interspace |
 	item := aNode holder treeDataItem.
 	icon := ToImage new.
-
 	icon innerImage: (Smalltalk ui iconNamed: (item isClass
 			 ifTrue: [ #class ]
 			 ifFalse: [ #page ])).
 	icon constraintsDo: [ :c |
 		c linear horizontal alignLeft.
 		c linear vertical alignCenter ].
-
+	interspace := aNode valueOfTokenNamed: #'node-interspace'.
+	icon margin: (BlInsets left: interspace).
 	^ icon
 ]

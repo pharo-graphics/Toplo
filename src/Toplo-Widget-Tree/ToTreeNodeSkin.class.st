@@ -9,14 +9,14 @@ ToTreeNodeSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		| w arrow startElement interspace |
+		| w arrow startElement interspace indent |
 		interspace := e valueOfTokenNamed: #'node-interspace'.
+		indent := e valueOfTokenNamed: #'node-indent'.
 		startElement := ToElement new.
 		startElement layout: BlLinearLayout horizontal.
-		w := e nodeDepth + 1 * interspace.
+		w := e nodeDepth * indent.
 		startElement padding: (BlInsets left: w).
 		arrow := self newStartElementForNode: e.
-		arrow margin: (BlInsets right: interspace).
 		startElement addChild: arrow at: 1.
 		e startInterspace: interspace.
 		e startElement: startElement ]
@@ -31,14 +31,15 @@ ToTreeNodeSkin >> newStartElementForNode: aNode [
 	aWrapper hasLeafDataItem ifFalse: [
 		arrowIcon := aWrapper isExpanded
 			             ifFalse: [ ToIconicArrowButton right ]
-			             ifTrue: [ ToIconicArrowButton down ] ].
+			             ifTrue: [ ToIconicArrowButton down ].
+		arrowIcon clickAction: [
+			aNode dispatchEvent: ToArrowButtonClickedEvent new ] ].
 	arrowIcon constraintsDo: [ :c |
 		c linear horizontal alignLeft.
 		c linear vertical alignCenter ].
 	arrowIcon size:
 		(aNode holder listElement valueOfTokenNamed: #'iconic-arrow-breadth')
 			asPoint.
-
 	^ arrowIcon
 ]
 

@@ -54,9 +54,7 @@ ToTab >> closable: aBoolean [
 			| but |
 			but := ToIconicRemoveButton new.
 			but constraintsDo: [ :c | c linear vertical alignCenter ].
-			but addEventHandler: (BlEventHandler
-					 on: BlClickEvent
-					 do: [ :event | self removeFromParent ]).
+			but clickAction: [ :event | self removeFromParent ].
 			but id: #innerCloseButton.
 			filler size: 10 @ 10.
 			self addChild: but after: self lastChild ]

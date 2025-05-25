@@ -13,9 +13,12 @@ ToIconicArrowButtonSkin >> installSkinEvent: anEvent [
 		tk := e isUp
 			      ifTrue: [ #'iconic-arrow-up' ]
 			      ifFalse: [
-				      e isRight
-					      ifTrue: [ #'iconic-arrow-right' ]
-					      ifFalse: [ #'iconic-arrow-down' ] ].
+				      e isDown
+					      ifTrue: [ #'iconic-arrow-down' ]
+					      ifFalse: [
+						      e isRight
+							      ifTrue: [ #'iconic-arrow-right' ]
+							      ifFalse: [ #'iconic-arrow-left' ] ] ].
 		e innerImage: (e valueOfTokenNamed: tk).
 		e size: (e valueOfTokenNamed: #'iconic-arrow-breadth') asPoint ]
 ]

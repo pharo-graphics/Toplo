@@ -54,6 +54,10 @@ ToTheme class >> defaultTokenProperties [
 			   value: (ToMaterialDesignIconProvider innerImageNamed:
 					    'outlined_keyboardarrowright')).
 		  (ToTokenProperty
+			   name: #'iconic-arrow-left'
+			   value: (ToMaterialDesignIconProvider innerImageNamed:
+					    'outlined_keyboardarrowleft')).
+		  (ToTokenProperty
 			   name: #'iconic-arrow-down'
 			   value: (ToMaterialDesignIconProvider innerImageNamed:
 					    'outlined_keyboardarrowdown')).
@@ -66,8 +70,11 @@ ToTheme class >> defaultTokenProperties [
 			   name: #'iconic-arrow-breadth'
 			   value: 18).
 		(ToTokenProperty
-			   name: #'node-interspace'
+			   name: #'node-indent'
 			   value: 18).
+		(ToTokenProperty
+			   name: #'node-interspace'
+			   value: 8).
 		  (ToTokenProperty name: #'border-radius' value: 4).
 		  (ToTokenProperty name: #'border-radius-LG' value: 8).
 		  (ToTokenProperty name: #'border-radius-SM' value: 4).

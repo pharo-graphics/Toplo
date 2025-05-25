@@ -11,6 +11,7 @@ TToRemovableNode >> addRemoveButton [
 
 	removeButton ifNotNil: [ ^ self ].
 	removeButton := ToIconicRemoveButton new.
+	removeButton clickAction: [ removeButton fireEvent: ToRemoveButtonClickedEvent new ].
 	removeButton constraintsDo: [ :c |
 		c ignoreByLayout ].
 	self addChild: removeButton

@@ -192,6 +192,13 @@ ToInfiniteElement >> nodes [
 ]
 
 { #category : #'t - list node holder' }
+ToInfiniteElement >> nodesDetect: aBlock [
+
+	self nodesDo: [ :node | (aBlock value: node) ifTrue: [ ^ node ] ].
+	^ nil
+]
+
+{ #category : #'t - list node holder' }
 ToInfiniteElement >> nodesDo: aBlock [
 
 	self childrenDo: [ :node | aBlock value: node ]

@@ -12,27 +12,6 @@ Class {
 	#category : #'Toplo-Examples-Experiments'
 }
 
-{ #category : #'private - accessing' }
-ToExTreeDataWrapper >> childWrappersInterval [
-
-	| idx first last |
-	self children ifEmpty: [ ^ 1 to: 0 ].
-	idx := self position.
-
-	[
-	idx <= dataAccessor size and: [
-			(dataAccessor at: idx) parentWrapper = self ] ] whileFalse: [
-		idx := idx + 1 ].
-	first := idx.
-	[
-	idx <= dataAccessor size and: [
-		(dataAccessor at: idx) parentWrapper notNil and: [
-			(dataAccessor at: idx) hasParentWrapper: self ] ] ] whileTrue: [
-		idx := idx + 1 ].
-	last := idx - 1.
-	^ first to: last
-]
-
 { #category : #accessing }
 ToExTreeDataWrapper >> children [
 
@@ -53,11 +32,32 @@ ToExTreeDataWrapper >> childrenHook: anObject [
 	childrenHook := anObject
 ]
 
+{ #category : #'private - accessing' }
+ToExTreeDataWrapper >> childrenInterval [
+
+	| idx first last |
+	self children ifEmpty: [ ^ 1 to: 0 ].
+	idx := self position.
+
+	[
+	idx <= dataAccessor size and: [
+			(dataAccessor at: idx) parentWrapper = self ] ] whileFalse: [
+		idx := idx + 1 ].
+	first := idx.
+	[
+	idx <= dataAccessor size and: [
+		(dataAccessor at: idx) parentWrapper notNil and: [
+			(dataAccessor at: idx) hasParentWrapper: self ] ] ] whileTrue: [
+		idx := idx + 1 ].
+	last := idx - 1.
+	^ first to: last
+]
+
 { #category : #'expanding-collapsing' }
 ToExTreeDataWrapper >> collapse [
 
 	| childrenInterval |
-	childrenInterval := self childWrappersInterval.
+	childrenInterval := self childrenInterval.
 	childrenInterval do: [ :idx |
 		(dataAccessor at: idx) privateExpanded: false ].
 	dataAccessor

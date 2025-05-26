@@ -226,6 +226,12 @@ ToInnerBarElement >> nodes [
 ]
 
 { #category : #'t - list node holder' }
+ToInnerBarElement >> nodesDetect: aBlock [
+
+	^ trackElement nodesDetect: aBlock 
+]
+
+{ #category : #'t - list node holder' }
 ToInnerBarElement >> nodesDo: aBlock [
 
 	trackElement nodesDo: aBlock

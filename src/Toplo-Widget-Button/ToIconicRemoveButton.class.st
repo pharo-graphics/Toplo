@@ -8,11 +8,10 @@ Class {
 ToIconicRemoveButton >> initialize [ 
 
 	super initialize.
-	self newClickAction: [ self fireEvent: ToRemoveButtonClickedEvent new ].
 	self id: #'remove-button'
 ]
 
-{ #category : #'instance creation' }
+{ #category : #skin }
 ToIconicRemoveButton >> newRawSkin [ 
 
 	^ ToIconicRemoveButtonSkin new

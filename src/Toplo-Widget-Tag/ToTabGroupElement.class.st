@@ -169,6 +169,8 @@ ToTabGroupElement >> initialize [
 ToTabGroupElement >> initializeAddTabItemButton [
 
 	addTabItemButton := ToAddTabButton new.
+	addTabItemButton clickAction: [
+		addTabItemButton fireEvent: ToAddButtonClickedEvent new ].
 	addTabItemButton visibility: BlVisibility gone.
 	addTabItemButton constraintsDo: [ :c |
 		c linear horizontal alignCenter.

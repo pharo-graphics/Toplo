@@ -39,11 +39,11 @@ ToInnerWindow >> defaultBarElement [
 	closeButton := ToIconicRemoveButton new
 		               id: #'close-button';
 		               yourself.
-	closeButton newClickAction: [ self close ].
+	closeButton clickAction: [ self close ].
 	expandButton := ToIconicExpandToFullScreenButton new
 		                id: #'expand-button';
 		                yourself.
-	expandButton newClickAction: [ self maximize ].
+	expandButton clickAction: [ self maximize ].
 
 	fill1 := BlElement new constraintsDo: [ :c |
 		         c vertical exact: 1.

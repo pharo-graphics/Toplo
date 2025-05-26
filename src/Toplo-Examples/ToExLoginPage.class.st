@@ -1,18 +1,18 @@
 Class {
-	#name : #ToLoginPage,
+	#name : #ToExLoginPage,
 	#superclass : #Object,
 	#category : #'Toplo-Examples-TopLevel'
 }
 
 { #category : #'instance creation' }
-ToLoginPage class >> open [
+ToExLoginPage class >> open [
 
 	<script>
 	self new open
 ]
 
 { #category : #'instance creation' }
-ToLoginPage >> open [
+ToExLoginPage >> open [
 
 	| panel loginNamePanel passwdPanel btnLogin loginLabel loginValue pwLabel pwValue groupLogin btnPanel space sep btnCancel |
 	panel := ToPane new.
@@ -118,5 +118,5 @@ ToLoginPage >> open [
 ]
 
 { #category : #'see class side' }
-ToLoginPage >> seeClassSide [
+ToExLoginPage >> seeClassSide [
 ]

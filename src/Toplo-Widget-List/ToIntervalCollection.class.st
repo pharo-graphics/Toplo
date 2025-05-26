@@ -263,7 +263,7 @@ ToIntervalCollection >> removeInterval: anInterval [
 
 { #category : #private }
 ToIntervalCollection >> removeIntervalFromIndex: aFromIndex toIndex: aToIndex [
-
+	"'ToIntervalCollection>>removeIntervalFromIndex: ' trace. aFromIndex trace. ' toIndex: ' trace. aToIndex traceCr."
 	self removeInterval: (aFromIndex to: aToIndex)
 ]
 

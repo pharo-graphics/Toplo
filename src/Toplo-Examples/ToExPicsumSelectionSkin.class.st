@@ -2,13 +2,13 @@
 I'm part of the Photo gallery example. I'm not expected to be used as a standalone.
 "
 Class {
-	#name : #ToPicsumSelectionSkin,
+	#name : #ToExPicsumSelectionSkin,
 	#superclass : #ToRawSkin,
 	#category : #'Toplo-Examples-PhotoGalleryParts'
 }
 
 { #category : #'event handling' }
-ToPicsumSelectionSkin >> installSkinEvent: anEvent [
+ToExPicsumSelectionSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -43,7 +43,7 @@ ToPicsumSelectionSkin >> installSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToPicsumSelectionSkin >> pathCheckSVG [
+ToExPicsumSelectionSkin >> pathCheckSVG [
 
 	<sampleInstance>
 	^ '<?xml version="1.0" standalone="no"?>

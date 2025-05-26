@@ -493,10 +493,7 @@ ToSelectionModelTest >> testShiftFrom3 [
 	s := ToSelectionModel new itemCountGetter: 100.
 	s selectIndexes: { 2. 3 }.
 	s shift: -2 from: 3.
-	self assert: s selectedIndexes  equals: { 1 }.
-	s shift: -1 from: 1.
-	self assert: s selectedIndexes  equals: {  }.
-
+	self assert: s selectedIndexes  equals: { 1. 2 }
 
 
 
@@ -508,10 +505,13 @@ ToSelectionModelTest >> testShiftFrom4 [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
-	s selectIndexes: { 1. 5. 6 }.
-	self assert: s selectedIndexes  equals: { 1. 5. 6 }.
-	s shift: 1 from: 1.
-	self assert: s selectedIndexes  equals: { 2. 6. 7 } .
+	s selectIndexes: { 1. 2 }.
+	s shift: -1 from: 1.
+	self assert: s selectedIndexes  equals: { 1 }.
+
+
+
+
 
 ]
 

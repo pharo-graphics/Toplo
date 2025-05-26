@@ -10,7 +10,7 @@ ToDataSourceCommandApplicationStrategy >> addCommand: aCommand from: aCommandApp
 	element isAttachedToSceneGraph ifFalse: [
 		aCommandApplier applyCommand: aCommand.
 		^ self ].
-	element dataSourceManager posponeAction: [
+	element posponeAction: [
 		aCommandApplier applyCommand: aCommand ].
 	element addedDataSourceCommand: aCommand
 ]

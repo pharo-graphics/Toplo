@@ -193,6 +193,13 @@ ToScrollableBarTrackElement >> nodes [
 ]
 
 { #category : #'accessing - children' }
+ToScrollableBarTrackElement >> nodesDetect: aBlock [
+
+	self nodesDo: [ :node | (aBlock value: node) ifTrue: [ ^ node ] ].
+	^ nil
+]
+
+{ #category : #'accessing - children' }
 ToScrollableBarTrackElement >> nodesDo: aBlock [
 
 	self childrenDo: [ :node |

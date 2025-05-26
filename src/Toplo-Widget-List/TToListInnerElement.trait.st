@@ -55,6 +55,12 @@ TToListInnerElement >> nodes [
 ]
 
 { #category : #'t - list node holder' }
+TToListInnerElement >> nodesDetect: aBlock [
+
+	^ self explicitRequirement 
+]
+
+{ #category : #'t - list node holder' }
 TToListInnerElement >> nodesDo: aBlock [
 
 	^ self explicitRequirement 

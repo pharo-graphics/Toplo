@@ -47,12 +47,6 @@ ToTagBarElement >> nodesDo: aBlock [
 	self innerElement nodesDo: aBlock
 ]
 
-{ #category : #'t - list element decorator - children - accessing' }
-ToTagBarElement >> nodesSelect: aBlock [
-
-	^ self innerElement nodesSelect: aBlock
-]
-
 { #category : #'t - bar element' }
 ToTagBarElement >> sample: aData [
 

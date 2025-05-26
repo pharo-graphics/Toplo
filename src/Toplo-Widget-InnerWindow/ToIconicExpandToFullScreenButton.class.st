@@ -8,7 +8,6 @@ Class {
 ToIconicExpandToFullScreenButton >> initialize [ 
 
 	super initialize.
-	self newClickAction: [ self fireEvent: ToExpandToFullScreenButtonClickedEvent new ].
 	self id: #'expand-iconic-button'
 ]
 

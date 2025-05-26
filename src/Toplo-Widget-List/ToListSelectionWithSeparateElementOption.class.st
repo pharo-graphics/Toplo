@@ -13,7 +13,7 @@ ToListSelectionWithSeparateElementOption >> isSeparate [
 { #category : #'nodes collecting' }
 ToListSelectionWithSeparateElementOption >> newSelectionRepresentationArrayFrom: aListElement withSelectionModel: aSelectionModel [
 
-	^ (aListElement innerElement nodesSelect: [ :node |
+	^ (aListElement nodesSelect: [ :node |
 		   | idx |
 		   idx := node holder position.
 		   (aSelectionModel containsIndex: idx) and: [

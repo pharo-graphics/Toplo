@@ -932,7 +932,8 @@ ToSandBox class >> exampleProtoObjectSubclasses [
 
 	| l |
 	l := ToTreeElement new.
-	l nodeManager childrenGetter: [ :dataItem | dataItem subclasses asOrderedCollection ].
+	l nodeManager childrenGetter: [ :dataItem |
+		dataItem subclasses asOrderedCollection ].
 	l nodeManager nodeFactory: [ :holder | ToExTreeSubAndMethNode new ].
 	l contextMenu: [ :menu :request |
 		| selectionModel indexes target |
@@ -941,9 +942,9 @@ ToSandBox class >> exampleProtoObjectSubclasses [
 		indexes := request selectedIndexes.
 		menu addItem: (ToMenuItem new
 				 labelText: 'Expand all';
-				 clickAction: [
+				 clickAction: [ "[ target expandAll] millisecondsToRun traceCr"
 					 indexes
-						 ifEmpty: [ target expandAll ]
+						 ifEmpty: [ [ target expandAll ] timeToRun traceCr ]
 						 ifNotEmpty: [
 							 indexes do: [ :idx | (target dataSource at: idx) expandAll ] ] ];
 				 yourself).

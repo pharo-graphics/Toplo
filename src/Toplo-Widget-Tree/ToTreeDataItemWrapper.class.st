@@ -9,10 +9,32 @@ Class {
 	#instVars : [
 		'parentWrapper',
 		'treeElement',
-		'dataItem'
+		'dataItem',
+		'cachedChildWrappers'
 	],
 	#category : #'Toplo-Widget-Tree-Core'
 }
+
+{ #category : #'expanding-collapsing' }
+ToTreeDataItemWrapper >> canUseCachedWrappersWithCurrentChildren: aDataItemCollection [
+
+	" There is no magic involved; caching does not allow for significant time optimisation here.
+	However, cached wrappers allow extra information to be stored that can be useful 
+	(for example, one can keep track of children's selections). "
+
+	| idx |
+	cachedChildWrappers ifNil: [ ^ false ].
+	" don't use #= to compare content of children with cachedChildWrappers because 
+		the collection classes may differ and #asArray sends may be time consuming "
+	aDataItemCollection size = cachedChildWrappers size ifFalse: [
+		^ false ].
+	idx := 1.
+	[
+	idx <= cachedChildWrappers size and: [
+		(cachedChildWrappers at: idx) dataItem
+		= (aDataItemCollection at: idx) ] ] whileTrue: [ idx := idx + 1 ].
+	^ idx > cachedChildWrappers size
+]
 
 { #category : #'private - accessing' }
 ToTreeDataItemWrapper >> childWrappers [
@@ -32,8 +54,10 @@ ToTreeDataItemWrapper >> childWrappersDo: aBlock [
 { #category : #'private - accessing' }
 ToTreeDataItemWrapper >> childWrappersReverseDo: aBlock [
 
-	self childrenInterval reversed do: [ :p |
-		aBlock value: (treeElement dataSource at: p) ]
+	| interval |
+	interval := self childrenInterval.
+	interval last to: interval first by: -1 do: [ :p |
+	    aBlock value: (treeElement dataSource at: p) ]
 ]
 
 { #category : #'private - accessing' }
@@ -59,7 +83,7 @@ ToTreeDataItemWrapper >> collapse [
 	treeElement dataAccessor
 		removeFrom: childrenInterval first
 		to: childrenInterval last.
-	treeElement dataSource notifyDataItemChangeIndex: childrenInterval first - 1
+	self updateTreeNodeAtPosition: childrenInterval first - 1
 ]
 
 { #category : #accessing }
@@ -83,14 +107,23 @@ ToTreeDataItemWrapper >> dataItemChildren [
 { #category : #'expanding-collapsing' }
 ToTreeDataItemWrapper >> expand [
 
-	| pos |
+	| pos children |
 	(self hasLeafDataItem or: self isExpanded) ifTrue: [ ^ self ].
+	children := self dataItemChildren.
 	pos := self position.
-	treeElement dataAccessor useParentWrapper: self while: [
-		treeElement dataAccessor
-			addAll: self dataItemChildren
-			afterIndex: pos ].
-	treeElement dataSource notifyDataItemChangeIndex: pos
+
+	(self canUseCachedWrappersWithCurrentChildren: children)
+		ifTrue: [
+		treeElement dataSource addAll: cachedChildWrappers afterIndex: pos ]
+		ifFalse: [
+			cachedChildWrappers := nil.
+			treeElement dataAccessor
+				useParentWrapper: self
+				while: [
+				treeElement dataAccessor addAll: children afterIndex: pos ].
+			cachedChildWrappers := self childWrappers ].
+
+	self updateTreeNodeAtPosition: pos
 ]
 
 { #category : #'expanding-collapsing' }
@@ -194,6 +227,16 @@ ToTreeDataItemWrapper >> treeElement: aTreeElement [
 ToTreeDataItemWrapper >> unwrapped [ 
 
 	^ self dataItem
+]
+
+{ #category : #'expanding-collapsing' }
+ToTreeDataItemWrapper >> updateTreeNodeAtPosition: aPositionInDataSource [
+
+	(treeElement nodesDetect: [ :node | node holder dataItem = self ])
+		ifNotNil: [ :node |
+			node requestNewSkin.
+			treeElement posponeAction: [
+				node holder notifySelectedWithOption: treeElement selectionOption ] ]
 ]
 
 { #category : #accessing }

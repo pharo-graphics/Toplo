@@ -77,6 +77,12 @@ TToListElementDecorator >> nodes [
 ]
 
 { #category : #'t - list element decorator - children - accessing' }
+TToListElementDecorator >> nodesDetect: aValuable [
+
+	^ self next nodesDetect: aValuable
+]
+
+{ #category : #'t - list element decorator - children - accessing' }
 TToListElementDecorator >> nodesDo: aValuable [
 
 	self next nodesDo: aValuable

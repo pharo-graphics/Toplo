@@ -5,8 +5,7 @@ Class {
 		'target',
 		'leaved',
 		'dragged',
-		'pressed',
-		'selectionIndex'
+		'pressed'
 	],
 	#category : #'Toplo-Core-States'
 }
@@ -156,34 +155,27 @@ ToSkinStateGenerator >> handleEvent: anEvent [
 	anEvent sendToSkinStateGenerator: self
 ]
 
-{ #category : #initialization }
-ToSkinStateGenerator >> initialize [ 
-
-	super initialize.
-	selectionIndex := IdentityDictionary new
-]
-
 { #category : #'list selection' }
 ToSkinStateGenerator >> listNodeSelectedEvent: anEvent [
 
-	| record |
 	target isEnabled ifFalse: [ ^ self ].
+	self flag: 'kept in comment for the record for now'.
 	" first check if I need the skin event.
 	I don't need it if I'm already selected for the same focus state "
-	record := selectionIndex at: anEvent selectionOption ifAbsent: [  ].
+"	record := selectionIndex at: anEvent selectionOption ifAbsent: [  ].
 	record
 		ifNil: [
-			" not present, just record the selection state "
+			"" not present, just record the selection state ""
 			selectionIndex at: anEvent selectionOption put: (ToSelectionRecord
 					 selected: anEvent selected
 					 focused: anEvent listElement isFocused) ]
 		ifNotNil: [
-			" check if it is for the same selection state "
+			"" check if it is for the same selection state ""
 			(record
 				 isSelected: anEvent selected
 				 focused: anEvent listElement isFocused) ifTrue: [ ^ self ].
 			record selected: anEvent selected.
-			record focused: anEvent listElement isFocused ].
+			record focused: anEvent listElement isFocused ]."
 
 	target withAllChildrenBreadthFirstDo: [ :child |
 		child areSelectionSkinEventsPrevented ifTrue: [ ^ self ].

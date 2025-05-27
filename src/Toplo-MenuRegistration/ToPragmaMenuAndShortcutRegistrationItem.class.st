@@ -28,7 +28,7 @@ Class {
 		'shortcutName',
 		'keyText'
 	],
-	#category : #'Toplo-MenuRegistration'
+	#category : #'Toplo-MenuRegistration-Old'
 }
 
 { #category : #accessing }

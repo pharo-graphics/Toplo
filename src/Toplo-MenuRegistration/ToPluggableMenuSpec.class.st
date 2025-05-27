@@ -11,7 +11,7 @@ Class {
 		'items',
 		'parentMenu'
 	],
-	#category : #'Toplo-MenuRegistration'
+	#category : #'Toplo-MenuRegistration-Spec'
 }
 
 { #category : #'as yet unclassified' }

@@ -10,7 +10,7 @@ Class {
 		'platform',
 		'model'
 	],
-	#category : #'Toplo-MenuRegistration'
+	#category : #'Toplo-MenuRegistration-Old'
 }
 
 { #category : #'instance creation' }

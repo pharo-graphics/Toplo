@@ -63,7 +63,7 @@ Class {
 		'parentName',
 		'isGroup'
 	],
-	#category : #'Toplo-MenuRegistration-clean'
+	#category : #'Toplo-MenuRegistration-Clean'
 }
 
 { #category : #private }

@@ -60,7 +60,7 @@ Class {
 		'model',
 		'currentRoot'
 	],
-	#category : #'Toplo-MenuRegistration'
+	#category : #'Toplo-MenuRegistration-Old'
 }
 
 { #category : #private }

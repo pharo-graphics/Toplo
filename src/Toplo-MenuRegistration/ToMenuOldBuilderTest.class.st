@@ -5,7 +5,7 @@ Class {
 		'xmenu',
 		'tmenu'
 	],
-	#category : #'Toplo-MenuRegistration-clean'
+	#category : #'Toplo-MenuRegistration-Clean'
 }
 
 { #category : #running }

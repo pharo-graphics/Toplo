@@ -5,13 +5,13 @@ Class {
 		'xmenu',
 		'tmenu'
 	],
-	#category : #'Toplo-MenuRegistration-clean'
+	#category : #'Toplo-MenuRegistration-Clean'
 }
 
 { #category : #differential }
 ToMenuBuilderTest >> menuBuilder: aClass [
 
-	^ (aClass pragmaKeyword: #toploWorldMenuExample model: self)
+	^ (aClass pragmaKeyword: #worldMenu model: self)
 		  collectRegistrations;
 		  menuSpec;
 		  yourself
@@ -64,7 +64,6 @@ ToMenuBuilderTest >> testDiffChildOrder [
 
 	| xTools |
 	xTools := self xmenu itemNamed: #Tools.
-	self halt.
 	self assert: xTools order equals: 70.
 	self assert: xTools order equals: (self tmenu itemNamed: #Tools) order
 ]
@@ -271,7 +270,6 @@ ToMenuBuilderTest >> testNestedItemAsGroup [
 			(aBuilder item: #MyOwnCoolTool)
 				label: 'My own cool tool also here';
 				action: [ 'aString' ] ].
-	self halt.
 	self assert: (aBuilder itemNamed: #MyOwnCoolMenu).
 	nestedItem := aBuilder itemNamed: #MyOwnCoolTool.
 	self assert: nestedItem parent group

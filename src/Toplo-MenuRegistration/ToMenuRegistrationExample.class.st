@@ -8,7 +8,7 @@ I'm here to show you how to use the menu registration. See class side methods an
 Class {
 	#name : #ToMenuRegistrationExample,
 	#superclass : #Object,
-	#category : #'Toplo-MenuRegistration'
+	#category : #'Toplo-MenuRegistration-Old'
 }
 
 { #category : #examples }

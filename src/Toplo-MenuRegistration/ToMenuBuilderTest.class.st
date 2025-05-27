@@ -41,6 +41,23 @@ ToMenuBuilderTest >> testActionSpecifiedAsBlock [
 	self assert: nestedItem arguments equals: { aBuilder model }
 ]
 
+{ #category : #differential }
+ToMenuBuilderTest >> testAnItemCanContainNestedItems [
+
+	| aBuilder |
+	aBuilder := ToPragmaCleanMenuBuilder new.
+	(aBuilder item: #Tintin) with: [
+		(aBuilder group: #Moulinsart) with: [ aBuilder item: #Tournesol ].
+		(aBuilder group: #Moulinsart2) with: [ aBuilder item: #Milou ] ].
+
+	aBuilder menuSpec.
+	self assert: (aBuilder itemNamed: #Tintin) itemList size equals: 2.
+	
+	self assert: (((aBuilder itemNamed: #Tintin) itemList 
+							flatCollect: [ :each | each itemList collect: #name ])
+		allSatisfy: [ :each | #(Tournesol Milou) includes: each ])
+]
+
 { #category : #'simple tests' }
 ToMenuBuilderTest >> testBuilderPragmas [
 
@@ -48,7 +65,7 @@ ToMenuBuilderTest >> testBuilderPragmas [
 	b := ToPragmaCleanMenuBuilder
 		     pragmaKeywords: { #toploWorldMenuExample }
 		     model: nil.
-	self assert: b pragmas size equals: 5
+	self assert: b pragmas size equals: 4
 ]
 
 { #category : #'simple tests' }
@@ -273,23 +290,6 @@ ToMenuBuilderTest >> testNestedItemAsGroup [
 	self assert: (aBuilder itemNamed: #MyOwnCoolMenu).
 	nestedItem := aBuilder itemNamed: #MyOwnCoolTool.
 	self assert: nestedItem parent group
-]
-
-{ #category : #differential }
-ToMenuBuilderTest >> testNestedItems [
-
-	| aBuilder |
-	aBuilder := ToPragmaCleanMenuBuilder new.
-
-	(aBuilder item: #Pharo) with: [
-		(aBuilder group: #Saving2) with: [ aBuilder item: #toto ] ].
-
-	(aBuilder item: #Pharo) with: [
-		(aBuilder group: #Saving) with: [ aBuilder item: #toto ] ].
-
-	aBuilder menuSpec.
-
-	self assert: (aBuilder itemNamed: #Pharo) itemList size equals: 2
 ]
 
 { #category : #'tests - target/action' }

@@ -167,7 +167,7 @@ ToPragmaCleanMenuBuilder >> builder [
 	^ self
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPragmaCleanMenuBuilder >> collectMisplacedItemsIn: aCollection [
 
 	self itemList do: [ :item |
@@ -181,7 +181,7 @@ ToPragmaCleanMenuBuilder >> collectRegistrations [
 	stored in my itemList inst var"
 
 	| aBuilder |
-	aBuilder := ToPragmaCleanMenuBuilder model: self model.
+	aBuilder := ToPragmaCleanMenuBuilder new.
 	self pragmas do: [ :prg |
 		self
 			currentRoot: self
@@ -216,7 +216,7 @@ ToPragmaCleanMenuBuilder >> group: aSymbol [
 	^ currentRoot group: aSymbol
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPragmaCleanMenuBuilder >> handOutItems [
 	"we don't want to hold a reference to the items after they are hand out to the registration"
 
@@ -241,7 +241,7 @@ ToPragmaCleanMenuBuilder >> initialize [
 ToPragmaCleanMenuBuilder >> interpretRegistration: aRegistration [
 
 	| root |
-	root := ToMenuRegistration owner: self.
+	root := MenuRegistration owner: self.
 	aRegistration handOutItems do: [ :item |
 		| node |
 		node := item group
@@ -270,7 +270,7 @@ ToPragmaCleanMenuBuilder >> interpretRegistration: aRegistration [
 		item isWithSeparatorAfter ifTrue: [ node withSeparatorAfter ] ]
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPragmaCleanMenuBuilder >> isGroup [
 	^ isGroup
 ]
@@ -284,20 +284,20 @@ ToPragmaCleanMenuBuilder >> item: aSymbol [
 		  yourself
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPragmaCleanMenuBuilder >> itemList [
 
 	^ itemList
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPragmaCleanMenuBuilder >> itemList: aCollection [
 	"Set the list of MenuRegistration"
 
 	itemList := aCollection
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPragmaCleanMenuBuilder >> itemNamed: aName [
 	"Return the MenuRegistration named aName or nil if none is found"
 
@@ -344,12 +344,12 @@ ToPragmaCleanMenuBuilder >> model: anObject [
 	model := anObject
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPragmaCleanMenuBuilder >> name [
 	^ name
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPragmaCleanMenuBuilder >> name: aSymbol [
 	"set my name (should be unique over all menu items"
 
@@ -365,13 +365,13 @@ ToPragmaCleanMenuBuilder >> newSubItem [
 	^ reg
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPragmaCleanMenuBuilder >> parentName [
 
 	^ parentName
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPragmaCleanMenuBuilder >> parentName: aSymbol [
 
 	parentName := aSymbol
@@ -418,7 +418,7 @@ ToPragmaCleanMenuBuilder >> sortRegistrations [
 	tree sort: self class itemSortBlock
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToPragmaCleanMenuBuilder >> tree [
 	^ tree
 ]

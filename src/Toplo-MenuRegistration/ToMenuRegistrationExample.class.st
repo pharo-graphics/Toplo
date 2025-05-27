@@ -72,7 +72,7 @@ ToMenuRegistrationExample class >> myOwnCoolMenuRegistrationOn: aBuilder [
 
 { #category : #'menu declaring' }
 ToMenuRegistrationExample class >> myOwnCoolToolRegistrationOn: aBuilder [
-	<toploWorldMenuExample>
+	<toploWorldMenuExample2>
 	(aBuilder item: #MyOwnCoolTool)
 		parent: #Tools;
 		label: 'My own cool tool';

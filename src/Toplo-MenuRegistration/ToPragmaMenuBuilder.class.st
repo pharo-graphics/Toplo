@@ -54,7 +54,7 @@ currentRoot
 "
 Class {
 	#name : #ToPragmaMenuBuilder,
-	#superclass : #ToMenuRegistration,
+	#superclass : #Object,
 	#instVars : [
 		'pragmaKeywords',
 		'model',
@@ -202,7 +202,7 @@ ToPragmaMenuBuilder >> initialize [
 ToPragmaMenuBuilder >> interpretRegistration: aRegistration [
 
 	| root |
-	root := ToMenuRegistration owner: self.
+	root := MenuRegistration owner: self.
 	aRegistration handOutItems do: [ :item |
 		| node |
 		node := item group
@@ -269,7 +269,7 @@ ToPragmaMenuBuilder >> model: anObject [
 ToPragmaMenuBuilder >> newSubItem [
 
 	| reg |
-	reg := ToMenuRegistration owner: currentRoot.
+	reg := MenuRegistration owner: currentRoot.
 	currentRoot addItem: reg.
 	^ reg
 ]

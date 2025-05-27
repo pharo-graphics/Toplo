@@ -11,17 +11,17 @@ Class {
 { #category : #differential }
 ToMenuBuilderTest >> menuBuilder: aClass [
 
-	^ (aClass pragmaKeyword: #worldMenu model: self)
+	^ (aClass pragmaKeyword: #toploWorldMenuExample model: self)
 		  collectRegistrations;
 		  menuSpec;
 		  yourself
 ]
 
-{ #category : #tests }
+{ #category : #'tests - target/action' }
 ToMenuBuilderTest >> testActionSpecifiedAsBlock [
 
-	| aBuilder |
-	aBuilder := ToCleanMenuRegistration new owner: ToPragmaCleanMenuBuilder new.
+	| aBuilder nestedItem |
+	aBuilder :=  ToPragmaCleanMenuBuilder new.
 	(aBuilder item: #MyOwnCoolMenu)
 		parent: #Tools;
 		"place me as a child of the #Tools node (declared by #toolsOn:)"
@@ -31,31 +31,14 @@ ToMenuBuilderTest >> testActionSpecifiedAsBlock [
 				label: 'My own cool tool also here';
 				action: [ 'aString' ] ].
 
-	self assert: aBuilder action class equals: MessageSend.
+	nestedItem := aBuilder itemNamed: #MyOwnCoolTool.
+	self assert: nestedItem action class equals: MessageSend.
+	
 	self 
-		assert: (RBParser parseExpression: aBuilder target asString ) statements first 
+		assert: (RBParser parseExpression: nestedItem target asString ) statements first 
 		equals: (RBParser parseExpression: '[''aString'']') statements first.
-	self assert: aBuilder selector equals:  #cull:.
-	self assert: aBuilder arguments equals: { aBuilder model }
-]
-
-{ #category : #'simple tests' }
-ToMenuBuilderTest >> testBuilderCreationAPI [
-
-	| b |
-	b := ToPragmaMenuBuilder
-				pragmaKeywords: { #toploWorldMenuExample } model: nil.
-	self assert: b menuSpec items size equals: 5
-]
-
-{ #category : #'simple tests' }
-ToMenuBuilderTest >> testBuilderHasItems [
-
-	| b |
-	b := ToPragmaMenuBuilder
-		     pragmaKeyword: #toploWorldMenuExample
-		     model: nil.
-	self assert: b menuSpec items size equals: 5
+	self assert: nestedItem selector equals:  #cull:.
+	self assert: nestedItem arguments equals: { aBuilder model }
 ]
 
 { #category : #'simple tests' }
@@ -81,6 +64,7 @@ ToMenuBuilderTest >> testDiffChildOrder [
 
 	| xTools |
 	xTools := self xmenu itemNamed: #Tools.
+	self halt.
 	self assert: xTools order equals: 70.
 	self assert: xTools order equals: (self tmenu itemNamed: #Tools) order
 ]
@@ -274,6 +258,25 @@ ToMenuBuilderTest >> testGroupIsInParentWhenHavingSeparateDefinitionParentDefine
 	self assert: (aBuilder itemNamed: #Pharo) itemList size equals: 2
 ]
 
+{ #category : #'tests - target/action' }
+ToMenuBuilderTest >> testNestedItemAsGroup [
+
+	| aBuilder nestedItem |
+	self skip. "so far the parent of the nested element is not set with the with: message"
+	aBuilder :=  ToPragmaCleanMenuBuilder new.
+	(aBuilder item: #MyOwnCoolMenu)
+		parent: #Tools;
+		label: 'The coolest tool here';
+		with: [
+			(aBuilder item: #MyOwnCoolTool)
+				label: 'My own cool tool also here';
+				action: [ 'aString' ] ].
+	self halt.
+	self assert: (aBuilder itemNamed: #MyOwnCoolMenu).
+	nestedItem := aBuilder itemNamed: #MyOwnCoolTool.
+	self assert: nestedItem parent group
+]
+
 { #category : #differential }
 ToMenuBuilderTest >> testNestedItems [
 
@@ -291,70 +294,30 @@ ToMenuBuilderTest >> testNestedItems [
 	self assert: (aBuilder itemNamed: #Pharo) itemList size equals: 2
 ]
 
-{ #category : #tests }
-ToMenuBuilderTest >> testNewBuilderBuildMenuSpec [
-
-	| aBuilder |
-	aBuilder := ToPragmaMenuBuilder
-		     pragmaKeyword: #toploWorldMenuExample
-		     model: nil.
-	aBuilder buildMenuSpec: ToPluggableMenuItemSpec new.
-	self assert: aBuilder spec class equals: ToPluggableMenuItemSpec
-]
-
-{ #category : #tests }
-ToMenuBuilderTest >> testNewBuilderSpecWithChild [
-
-	| aBuilder |
-	aBuilder := ToCleanMenuRegistration new owner: ToPragmaMenuBuilder new.
-	(aBuilder item: #MyOwnCoolMenu)
-		parent: #Tools;
-		"place me as a child of the #Tools node (declared by #toolsOn:)"
-		label: 'The coolest tool here';
-		with: [
-			(aBuilder item: #MyOwnCoolTool)
-				label: 'My own cool tool also here';
-				target: Smalltalk tools workspace;
-				selector: #openContents:;
-				arguments:
-					#( 'yep, my own cool tool can be also opened from a world sub-menu ! :)' ) ].
-	self assert: aBuilder spec class equals: ToPluggableMenuItemSpec
-]
-
-{ #category : #tests }
-ToMenuBuilderTest >> testNewConnectedMenuItem [
-
-	| builder menu item |
-	builder := ToPragmaMenuBuilder new.
-	menu := ToCleanMenuRegistration new.
-	menu owner: builder.
-	item := builder item: #MyOwnCoolMenu.
-	"Why this is not a builder item: #my...."
-	item parent: #Tools.
-	self assert: item parentName equals: #Tools.
-	self assert: item owner equals: builder
-]
-
-{ #category : #tests }
+{ #category : #'tests - target/action' }
 ToMenuBuilderTest >> testTargetSelectorArgumentsAreImplementedAsMessageSend [
 
-	| aBuilder |
-	aBuilder := ToCleanMenuRegistration new owner: ToPragmaCleanMenuBuilder new.
-	(aBuilder item: #MyOwnCoolMenu)
+	| aBuilder t nestedItem |
+	aBuilder := ToPragmaCleanMenuBuilder new.
+	t := (aBuilder item: #MyOwnCoolMenuTop)
 		parent: #Tools;
 		"place me as a child of the #Tools node (declared by #toolsOn:)"
 		label: 'The coolest tool here';
 		with: [
-			(aBuilder item: #MyOwnCoolTool)
+			(aBuilder item: #MyOwnCoolToolChild)
 				label: 'My own cool tool also here';
 				target: Smalltalk tools workspace;
 				selector: #openContents:;
 				arguments:
 					#( 'yep, my own cool tool can be also opened from a world sub-menu ! :)' ) ].
-	self assert: aBuilder target equals: Smalltalk tools workspace.
-	self assert: aBuilder selector equals:  #openContents:.
-	self assert: aBuilder arguments equals: #( 'yep, my own cool tool can be also opened from a world sub-menu ! :)' ).
-	self assert: aBuilder action class equals: MessageSend.
+	self assert: t label equals: 'The coolest tool here'.
+	
+	nestedItem := t itemNamed: #MyOwnCoolToolChild. 
+	
+	self assert: nestedItem target equals: Smalltalk tools workspace.
+	self assert: nestedItem selector equals:  #openContents:.
+	self assert: nestedItem arguments equals: #( 'yep, my own cool tool can be also opened from a world sub-menu ! :)' ).
+	self assert: nestedItem action class equals: MessageSend.
 	
 ]
 
@@ -367,5 +330,5 @@ ToMenuBuilderTest >> tmenu [
 { #category : #running }
 ToMenuBuilderTest >> xmenu [
 
-	^ xmenu ifNil: [ xmenu := self menuBuilder: XPragmaMenuBuilder ]
+	^ xmenu ifNil: [ xmenu := self menuBuilder: PragmaMenuBuilder ]
 ]

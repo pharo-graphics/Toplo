@@ -231,10 +231,10 @@ ToCleanMenuRegistration >> action: aMessageSendOrABlock [
 		ifFalse: [ self selector: aMessageSendOrABlock ].
 ]
 
-{ #category : #accessing }
+{ #category : #'item management' }
 ToCleanMenuRegistration >> addItem: anItem [
 	"Add a MenuRegistration"
-	(anItem isKindOf: ToCleanMenuRegistration ) ifFalse: [ self halt ].
+	
 	itemList add: anItem
 ]
 
@@ -245,6 +245,7 @@ ToCleanMenuRegistration >> addItemNamed: aSymbol [
 	| reg |
 	reg := self class new.
 	reg name: aSymbol.
+	reg owner: self owner.
 	self addItem: reg.
 	^ reg
 ]
@@ -316,8 +317,7 @@ ToCleanMenuRegistration >> collectMisplacedItemsIn: aCollection [
 			ifNil: [ aCollection add: self ]
 			ifNotNil: [
 			owner name = self parentName ifFalse: [ aCollection add: self ] ] ].
-	self itemList ifNotNil: [ :l |
-		l do: [ :item | item collectMisplacedItemsIn: aCollection ] ]
+	self itemList do: [ :item | item collectMisplacedItemsIn: aCollection ]
 ]
 
 { #category : #accessing }
@@ -366,7 +366,7 @@ ToCleanMenuRegistration >> group [
 
 { #category : #'sub item creating' }
 ToCleanMenuRegistration >> group: aSymbol [
-	^ (self item: aSymbol) isGroup: true
+	^ (self addItemNamed: aSymbol) isGroup: true
 ]
 
 { #category : #accessing }
@@ -441,23 +441,22 @@ ToCleanMenuRegistration >> isWithSeparatorAfter [
 { #category : #accessing }
 ToCleanMenuRegistration >> item: aSymbol [
 	"Add a MenuRegistration - should be removed since this is the builder API"
-
 	self addItemNamed: aSymbol
 ]
 
-{ #category : #accessing }
+{ #category : #'item management' }
 ToCleanMenuRegistration >> itemList [
 	"Return my children"
 	^ itemList
 ]
 
-{ #category : #accessing }
+{ #category : #'item management' }
 ToCleanMenuRegistration >> itemList: aCollection [
 	"Set the list of MenuRegistration"
 	 itemList := aCollection
 ]
 
-{ #category : #accessing }
+{ #category : #'item management' }
 ToCleanMenuRegistration >> itemNamed: aName [
 	"Return the MenuRegistration named aName or nil if none is found"
 
@@ -597,10 +596,10 @@ ToCleanMenuRegistration >> release [
 	self releaseActionMap
 ]
 
-{ #category : #accessing }
+{ #category : #'item management' }
 ToCleanMenuRegistration >> removeItem: anItem [
-	"Remove a MenuRegistration"
-	self itemList remove: anItem
+	
+	itemList remove: anItem
 ]
 
 { #category : #initialization }

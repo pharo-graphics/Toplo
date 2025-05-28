@@ -675,54 +675,6 @@ ToSandBox class >> exampleAccordionWithLabelNotPreservingBodyAndExpanded [
 	^ inst
 ]
 
-{ #category : #tree }
-ToSandBox class >> exampleAllClasses [
-	"For this example we created a new wrapper dealing with classes and methods at the same time, a new Node was also created (ToTreeSubAndMethNode) to apply a new skin (ToTreeNodeSubAndMethSkin) with new icons and a different background color for methods "
-
-	| l |
-	l := ToTreeElement new.
-	l nodeManager childrenGetter: [ :dataItem |
-		dataItem isClass
-			ifTrue: [
-				Array streamContents: [ :stream |
-					stream nextPutAll: dataItem subclasses.
-					stream nextPutAll:
-						(dataItem methods collect: [ :each | each selector ]) sorted ] ]
-			ifFalse: [ #(  ) ] ].
-	l nodeManager nodeFactory: [ :holder | ToExTreeSubAndMethNode new ].
-	l withRowNumbers.
-	l contextMenu: [ :menu :request |
-		| selectionModel indexes target |
-		target := request currentTarget.
-		selectionModel := request selectionModel.
-		indexes := request selectedIndexes.
-		indexes traceCr.
-		menu addItem: (ToMenuItem new
-				 labelText: 'Expand all';
-				 clickAction: [
-					 indexes
-						 ifEmpty: [ target expandAll ]
-						 ifNotEmpty: [
-							 indexes reverseDo: [ :idx |
-									 (target dataSource at: idx) expandAll ] ] ];
-				 yourself).
-		menu addItem: (ToMenuItem new
-				 labelText: 'Collapse all';
-				 clickAction: [
-					 indexes
-						 ifEmpty: [ target collapseAll ]
-						 ifNotEmpty: [
-							 indexes reverseDo: [ :idx |
-									 (target dataSource at: idx) collapse ] ] ];
-				 yourself) ].
-
-	l dataAccessor addAll:
-		((Smalltalk globals allClasses select: [ :cls |
-			  cls subclasses notEmpty ]) sorted: [ :a :b | a name < b name ]).
-
-	l openInSpace
-]
-
 { #category : #accordion }
 ToSandBox class >> exampleBorderlessAccordionWithLabel [
 
@@ -733,28 +685,6 @@ ToSandBox class >> exampleBorderlessAccordionWithLabel [
 	inst openInSpace.
 
 	^ inst
-]
-
-{ #category : #tree }
-ToSandBox class >> exampleClassHierarchiesWithMethods [
-	"For this example we created a new wrapper dealing with classes and methods at the same time, a new Node was also created (ToTreeSubAndMethNode) to apply a new skin (ToTreeNodeSubAndMethSkin) with new icons and a different background color for methods "
-
-	| l |
-	l := ToTreeElement new.
-	l nodeManager childrenGetter: [ :dataItem |
-		dataItem isClass
-			ifTrue: [
-				Array streamContents: [ :stream |
-					stream nextPutAll: dataItem subclasses.
-					stream nextPutAll:
-						(dataItem methods collect: [ :each | each selector ]) sorted ] ]
-			ifFalse: [ #(  ) ] ].
-	l nodeManager nodeFactory: [ :holder | ToExTreeSubAndMethNode new ].
-	l dataAccessor add: BlElement.
-	l dataAccessor add: Collection.
-	l dataAccessor add: String.
-
-	l openInSpace
 ]
 
 { #category : #accordion }
@@ -888,16 +818,41 @@ ToSandBox class >> examplePaneWithNestedAccordions [
 	^ pane
 ]
 
+{ #category : #list }
+ToSandBox class >> example_2ListsWithEditableAndContextMenu [
+
+	| win1 win2 l1 l2 space |
+	l1 := self listWithEditableAndContextMenu.
+	l2 := self listWithEditableAndContextMenu.
+	
+	win1 := ToInnerWindow new.
+	win1 pane addChild: l1.
+	win2 := ToInnerWindow new.
+	win2 pane addChild: l2.
+	
+	space := BlSpace new.
+	space root addChild: win1.
+	space root addChild: win2.
+	space show
+
+]
+
 { #category : #tree }
-ToSandBox class >> examplePreviousIntegers [
-	"This example shows classes as a list but using TreeNodes, tree logic is not implemented at this time of writing the example"
+ToSandBox class >> example_AllClasses [
+	"For this example we created a new wrapper dealing with classes and methods at the same time, a new Node was also created (ToTreeSubAndMethNode) to apply a new skin (ToTreeNodeSubAndMethSkin) with new icons and a different background color for methods "
 
 	| l |
 	l := ToTreeElement new.
 	l nodeManager childrenGetter: [ :dataItem |
-		dataItem = 1
-			ifTrue: [ {  } ]
-			ifFalse: [ { (dataItem - 1) } ] ].
+		dataItem isClass
+			ifTrue: [
+				Array streamContents: [ :stream |
+					stream nextPutAll: dataItem subclasses.
+					stream nextPutAll:
+						(dataItem methods collect: [ :each | each selector ]) sorted ] ]
+			ifFalse: [ #(  ) ] ].
+	l nodeManager nodeFactory: [ :holder | ToExTreeSubAndMethNode new ].
+	l withRowNumbers.
 	l contextMenu: [ :menu :request |
 		| selectionModel indexes target |
 		target := request currentTarget.
@@ -922,61 +877,12 @@ ToSandBox class >> examplePreviousIntegers [
 							 indexes reverseDo: [ :idx |
 									 (target dataSource at: idx) collapse ] ] ];
 				 yourself) ].
-	l dataAccessor addAll: (1 to: 10).
+
+	l dataAccessor addAll:
+		((Smalltalk globals allClasses select: [ :cls |
+			  cls subclasses notEmpty ]) sorted: [ :a :b | a name < b name ]).
+
 	l openInSpace
-]
-
-{ #category : #tree }
-ToSandBox class >> exampleProtoObjectSubclasses [
-	"This example shows classes as a list but using TreeNodes, tree logic is not implemented at this time of writing the example"
-
-	| l |
-	l := ToTreeElement new.
-	l nodeManager childrenGetter: [ :dataItem |
-		dataItem subclasses asOrderedCollection ].
-	l nodeManager nodeFactory: [ :holder | ToExTreeSubAndMethNode new ].
-	l contextMenu: [ :menu :request |
-		| selectionModel indexes target |
-		target := request currentTarget.
-		selectionModel := request selectionModel.
-		indexes := request selectedIndexes.
-		menu addItem: (ToMenuItem new
-				 labelText: 'Expand all';
-				 clickAction: [ "[ target expandAll] millisecondsToRun traceCr"
-					 indexes
-						 ifEmpty: [ [ target expandAll ] timeToRun traceCr ]
-						 ifNotEmpty: [
-							 indexes do: [ :idx | (target dataSource at: idx) expandAll ] ] ];
-				 yourself).
-		menu addItem: (ToMenuItem new
-				 labelText: 'Collapse all';
-				 clickAction: [
-					 indexes
-						 ifEmpty: [ target collapseAll ]
-						 ifNotEmpty: [
-							 indexes do: [ :idx | (target dataSource at: idx) collapse ] ] ];
-				 yourself) ].
-	l dataAccessor add: ProtoObject.
-	l openInSpace
-]
-
-{ #category : #list }
-ToSandBox class >> example_2ListsWithEditableAndContextMenu [
-
-	| win1 win2 l1 l2 space |
-	l1 := self listWithEditableAndContextMenu.
-	l2 := self listWithEditableAndContextMenu.
-	
-	win1 := ToInnerWindow new.
-	win1 pane addChild: l1.
-	win2 := ToInnerWindow new.
-	win2 pane addChild: l2.
-	
-	space := BlSpace new.
-	space root addChild: win1.
-	space root addChild: win2.
-	space show
-
 ]
 
 { #category : #list }
@@ -1454,6 +1360,28 @@ ToSandBox class >> example_CheckboxWithIndeterminate [
 	but := ToCheckbox new labelText: 'Checkbox'.
 	but allowIndeterminate: true.
 	but openInSpace
+]
+
+{ #category : #tree }
+ToSandBox class >> example_ClassHierarchiesWithMethods [
+	"For this example we created a new wrapper dealing with classes and methods at the same time, a new Node was also created (ToTreeSubAndMethNode) to apply a new skin (ToTreeNodeSubAndMethSkin) with new icons and a different background color for methods "
+
+	| l |
+	l := ToTreeElement new.
+	l nodeManager childrenGetter: [ :dataItem |
+		dataItem isClass
+			ifTrue: [
+				Array streamContents: [ :stream |
+					stream nextPutAll: dataItem subclasses.
+					stream nextPutAll:
+						(dataItem methods collect: [ :each | each selector ]) sorted ] ]
+			ifFalse: [ #(  ) ] ].
+	l nodeManager nodeFactory: [ :holder | ToExTreeSubAndMethNode new ].
+	l dataAccessor add: BlElement.
+	l dataAccessor add: Collection.
+	l dataAccessor add: String.
+
+	l openInSpace
 ]
 
 { #category : #album }
@@ -3027,6 +2955,77 @@ ToSandBox class >> example_Popup1 [
 	container openInSpace 
 ]
 
+{ #category : #tree }
+ToSandBox class >> example_PreviousIntegers [
+	"This example shows classes as a list but using TreeNodes, tree logic is not implemented at this time of writing the example"
+
+	| l |
+	l := ToTreeElement new.
+	l nodeManager childrenGetter: [ :dataItem |
+		dataItem = 1
+			ifTrue: [ {  } ]
+			ifFalse: [ { (dataItem - 1) } ] ].
+	l contextMenu: [ :menu :request |
+		| selectionModel indexes target |
+		target := request currentTarget.
+		selectionModel := request selectionModel.
+		indexes := request selectedIndexes.
+		indexes traceCr.
+		menu addItem: (ToMenuItem new
+				 labelText: 'Expand all';
+				 clickAction: [
+					 indexes
+						 ifEmpty: [ target expandAll ]
+						 ifNotEmpty: [
+							 indexes reverseDo: [ :idx |
+									 (target dataSource at: idx) expandAll ] ] ];
+				 yourself).
+		menu addItem: (ToMenuItem new
+				 labelText: 'Collapse all';
+				 clickAction: [
+					 indexes
+						 ifEmpty: [ target collapseAll ]
+						 ifNotEmpty: [
+							 indexes reverseDo: [ :idx |
+									 (target dataSource at: idx) collapse ] ] ];
+				 yourself) ].
+	l dataAccessor addAll: (1 to: 10).
+	l openInSpace
+]
+
+{ #category : #tree }
+ToSandBox class >> example_ProtoObjectSubclasses [
+	"This example shows classes as a list but using TreeNodes, tree logic is not implemented at this time of writing the example"
+
+	| l |
+	l := ToTreeElement new.
+	l nodeManager childrenGetter: [ :dataItem | dataItem subclasses sorted: [ :a :b | a name < b name ]].
+	l withRowNumbers.
+	l contextMenu: [ :menu :request |
+			| selectionModel indexes target |
+			target := request currentTarget.
+			selectionModel := request selectionModel.
+			indexes := request selectedIndexes.
+			menu addItem: (ToMenuItem new
+					 labelText: 'Expand all';
+					 clickAction: [ "[ target expandAll] millisecondsToRun traceCr"
+							 indexes
+								 ifEmpty: [ [ target expandAll ] timeToRun traceCr ]
+								 ifNotEmpty: [
+									 indexes do: [ :idx | (target dataSource at: idx) expandAll ] ] ];
+					 yourself).
+			menu addItem: (ToMenuItem new
+					 labelText: 'Collapse all';
+					 clickAction: [
+							 indexes
+								 ifEmpty: [ target collapseAll ]
+								 ifNotEmpty: [
+									 indexes do: [ :idx | (target dataSource at: idx) collapse ] ] ];
+					 yourself) ].
+	l dataAccessor add: ProtoObject.
+	l openInSpace
+]
+
 { #category : #checkbox }
 ToSandBox class >> example_RadioButtonChecked [
 
@@ -3825,6 +3824,87 @@ ToSandBox class >> example_SieveOnList2With_AllMethods_OnCR [
 				 sieve pattern: pattern ] yourself).
 
 	pane addChild: listElement.
+	pane addChild: filterField.
+	pane openInSpace
+]
+
+{ #category : #tree }
+ToSandBox class >> example_SieveOnTree [
+
+	| treeElement pane filterField data sieve |
+	pane := ToPane new
+		        beVertical;
+		        matchParent.
+
+	filterField := ToTextField new.
+	treeElement := ToTreeElement new.
+	data := SystemNavigation default allMethods.
+	treeElement withRowNumbers.
+	filterField margin: (BlInsets all: 2).
+	filterField placeholderBuilder: [ :placeholder :e |
+			placeholder addChild:
+				((ToAttributedLabel text: ' Method name filter')
+					 foreground: Color lightGray;
+					 yourself) ].
+
+	sieve := ToListElementSieve new.
+	sieve onInstalledIn: treeElement.
+	treeElement dataAccessor addAll: { 'AAA'. 'BBB'. 'CCC'. 'ABB'. 'ACC'. 'BAA'. 'BCC'}.
+
+	sieve dataFilter: [ :aString :aPattern |
+		aString includesSubstring: aPattern caseSensitive: false ].
+
+	treeElement nodeBuilder: [ :node :dataItem :holder |
+		node addChild: (ToLabel new text: dataItem printString) ].
+
+	filterField whenTextEditedDo: [
+			| pattern |
+			pattern := filterField text asString.
+			sieve pattern: pattern ].
+
+	pane addChild: treeElement.
+	pane addChild: filterField.
+	pane openInSpace
+]
+
+{ #category : #tree }
+ToSandBox class >> example_SieveOnTreeWithClasses [
+
+	| treeElement pane filterField data sieve |
+	pane := ToPane new
+		        beVertical;
+		        matchParent.
+
+	filterField := ToTextField new.
+	treeElement := ToTreeElement new.
+	treeElement nodeManager childrenGetter: [ :dataItem |
+		dataItem subclasses ].
+	data := SystemNavigation default allMethods.
+	treeElement withRowNumbers.
+	filterField margin: (BlInsets all: 2).
+	filterField placeholderBuilder: [ :placeholder :e |
+			placeholder addChild:
+				((ToAttributedLabel text: ' Method name filter')
+					 foreground: Color lightGray;
+					 yourself) ].
+
+	sieve := ToListElementSieve new.
+	sieve onInstalledIn: treeElement.
+	treeElement dataAccessor addAll:
+		(Smalltalk globals allClasses sorted: [ :a :b | a name < b name ]).
+
+	sieve dataFilter: [ :aClass :aPattern |
+		aClass name includesSubstring: aPattern caseSensitive: false ].
+
+	treeElement nodeBuilder: [ :node :dataItem :holder |
+		node addChild: (ToLabel new text: dataItem printString) ].
+
+	filterField whenTextEditedDo: [
+			| pattern |
+			pattern := filterField text asString.
+			sieve pattern: pattern ].
+
+	pane addChild: treeElement.
 	pane addChild: filterField.
 	pane openInSpace
 ]

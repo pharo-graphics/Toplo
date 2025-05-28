@@ -173,10 +173,31 @@ ToTreeDataAccessor >> initialize [
 	eventDispatcher := BlDirectEventDispatcher on: self
 ]
 
+{ #category : #initialization }
+ToTreeDataAccessor >> initializeWith: aCollection [
+
+		self removeAll.
+		self addAll: aCollection
+]
+
 { #category : #private }
 ToTreeDataAccessor >> invalidOperation [
 
 	Error signal: 'Invalid data accessor operation'
+]
+
+{ #category : #'t - collection api - accessing' }
+ToTreeDataAccessor >> lastIndexOf: anElement startingAt: lastIndex ifAbsent: exceptionBlock [
+	"Answer the index of the last occurrence of anElement within the
+	receiver. If the receiver does not contain anElement, answer the
+	result of evaluating the argument, exceptionBlock."
+
+	| ds |
+	ds := self dataSource.
+	lastIndex to: 1 by: -1 do:
+		[:index |
+		(ds at: index) unwrapped = anElement ifTrue: [^ index]].
+	^ exceptionBlock value
 ]
 
 { #category : #'accessing - dataSource' }
@@ -188,6 +209,15 @@ ToTreeDataAccessor >> newWrapperFor: anObject [
 		  dataItem: anObject
 ]
 
+{ #category : #'t - observable collection - notifications' }
+ToTreeDataAccessor >> notifySievedWith: aSieve interval: anInterval [
+
+	self dispatchEvent: (ToCollectionSievedEvent new
+			 interval: anInterval;
+			 sieve: aSieve;
+			 yourself)
+]
+
 { #category : #'t - observable collection - removing' }
 ToTreeDataAccessor >> onSievedWith: aSieve [
 
@@ -195,7 +225,7 @@ ToTreeDataAccessor >> onSievedWith: aSieve [
 	interval := 1 to: aSieve currentData size.
 	self dataSource notifyEmptinessChangeAfter: [
 			self initializeWith: aSieve currentData.
-			self dataSource notifySievedWith: aSieve interval: interval ]
+			self notifySievedWith: aSieve interval: interval ]
 ]
 
 { #category : #'t - collection api - removing' }

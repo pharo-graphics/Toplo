@@ -181,8 +181,7 @@ ToListElementSieve >> updateCurrentData [
 		               ifEmpty: [ originalData ]
 		               ifNotEmpty: [
 			               queryRunner selectedIndexes collect: [ :idx |
-				               originalData at: idx ] ].
-
+				               originalData at: idx ] ]
 ]
 
 { #category : #enumerating }

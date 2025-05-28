@@ -400,6 +400,33 @@ TToObservableCollection >> last: n [
 ]
 
 { #category : #'t - observable collection - accessing' }
+TToObservableCollection >> lastIndexOf: anElement [ 
+	"Answer the index of the first occurrence of anElement after start
+	within the receiver. If the receiver does not contain anElement,
+	answer the 	result of evaluating the argument, exceptionBlock."
+
+	^ self collection lastIndexOf: anElement 
+]
+
+{ #category : #'t - observable collection - accessing' }
+TToObservableCollection >> lastIndexOf: anElement ifAbsent: exceptionBlock [
+	"Answer the index of the first occurrence of anElement after start
+	within the receiver. If the receiver does not contain anElement,
+	answer the 	result of evaluating the argument, exceptionBlock."
+
+	^ self collection lastIndexOf: anElement ifAbsent: exceptionBlock
+]
+
+{ #category : #'t - observable collection - accessing' }
+TToObservableCollection >> lastIndexOf: anElement startingAt: start ifAbsent: exceptionBlock [
+	"Answer the index of the first occurrence of anElement after start
+	within the receiver. If the receiver does not contain anElement,
+	answer the 	result of evaluating the argument, exceptionBlock."
+
+	^ self collection lastIndexOf: anElement startingAt: start ifAbsent: exceptionBlock
+]
+
+{ #category : #'t - observable collection - accessing' }
 TToObservableCollection >> newMirror [
 
 	^ ToCollectionMirror new
@@ -411,47 +438,6 @@ TToObservableCollection >> newMirror [
 TToObservableCollection >> noneSatisfy: aBlock [
 
 	^ self collection noneSatisfy: aBlock
-]
-
-{ #category : #'t - observable collection - notifications' }
-TToObservableCollection >> notifyAddedInterval: anInterval [
-
-	self dispatchEvent: (ToCollectionAddEvent new interval: anInterval)
-]
-
-{ #category : #'t - observable collection - notifications' }
-TToObservableCollection >> notifyEmptinessChangeAfter: aBlock [
-
-	| wasEmpty |
-	wasEmpty := self collection isEmpty.
-	aBlock value.
-	wasEmpty = self collection isEmpty ifFalse: [
-		self dispatchEvent: ToCollectionEmptinessEvent new ]
-]
-
-{ #category : #'t - observable collection - notifications' }
-TToObservableCollection >> notifyFilteredInterval: anInterval [
-
-	self dispatchEvent:
-		(ToCollectionFilteredEvent new interval: anInterval)
-]
-
-{ #category : #'t - observable collection - notifications' }
-TToObservableCollection >> notifyRemoved: aCollection interval: anInterval [
-
-	self dispatchEvent: (ToCollectionRemoveEvent new
-			 interval: anInterval;
-			 removed: aCollection;
-			 yourself)
-]
-
-{ #category : #'t - observable collection - notifications' }
-TToObservableCollection >> notifySievedWith: aSieve interval: anInterval [
-
-	self dispatchEvent: (ToCollectionSievedEvent new
-			 interval: anInterval;
-			 sieve: aSieve;
-			 yourself)
 ]
 
 { #category : #'t - observable collection - removing' }

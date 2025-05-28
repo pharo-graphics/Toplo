@@ -363,6 +363,33 @@ TToOrderedCollectionLikeAPI >> last: n [
 ]
 
 { #category : #'t - collection api - accessing' }
+TToOrderedCollectionLikeAPI >> lastIndexOf: anElement [ 
+	"Answer the index of the first occurrence of anElement within the
+	receiver. If the receiver does not contain anElement, answer the
+	result of evaluating the argument, exceptionBlock."
+
+	^ self lastIndexOf: anElement startingAt: self size ifAbsent: [0]
+]
+
+{ #category : #'t - collection api - accessing' }
+TToOrderedCollectionLikeAPI >> lastIndexOf: anElement ifAbsent: exceptionBlock [
+	"Answer the index of the first occurrence of anElement within the
+	receiver. If the receiver does not contain anElement, answer the
+	result of evaluating the argument, exceptionBlock."
+
+	^ self lastIndexOf: anElement startingAt: self size ifAbsent: exceptionBlock
+]
+
+{ #category : #'t - collection api - accessing' }
+TToOrderedCollectionLikeAPI >> lastIndexOf: anElement startingAt: start ifAbsent: exceptionBlock [
+	"Answer the index of the first occurrence of anElement after start
+	within the receiver. If the receiver does not contain anElement,
+	answer the 	result of evaluating the argument, exceptionBlock."
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #'t - collection api - accessing' }
 TToOrderedCollectionLikeAPI >> newMirror [
 
 	^ ToCollectionMirror new

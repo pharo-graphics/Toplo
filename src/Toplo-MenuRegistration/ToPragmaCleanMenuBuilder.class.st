@@ -208,12 +208,10 @@ ToPragmaCleanMenuBuilder >> currentRoot: anItem while: aBlock [
 ToPragmaCleanMenuBuilder >> group: aSymbol [
 	"Create a group"
 	| item |
-	self flag: #todo.
-	"why current root is a builder and not a registration."
-	"item := self newSubItem.
+	item := self newSubItem.
 	item group: aSymbol.
-	^item"
-	^ currentRoot group: aSymbol
+	^item
+	
 ]
 
 { #category : #'as yet unclassified' }

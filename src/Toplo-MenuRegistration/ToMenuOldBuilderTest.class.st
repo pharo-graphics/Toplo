@@ -43,7 +43,6 @@ ToMenuOldBuilderTest >> testItemCurrentRootWithoutWith [
 	self assert: item parentName equals: #Tools."
 	item := aBuilder owner itemNamed: #MyOwnCoolTool.
 	self assert: item parentName equals: #MyOwnCoolMenu.
-	self halt.
 	self assert: item owner currentRoot.
 ]
 

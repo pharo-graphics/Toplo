@@ -40,20 +40,18 @@ ToMenuRegistrationExample class >> example2 [
 ToMenuRegistrationExample class >> mostUsedToolsOn: aBuilder [
 
 	<toploWorldMenuExample>
-	
+	self flag: 'ToEdit'.
 	(aBuilder group: #Tools)
-		withSeparatorAfter;
+		"withSeparatorAfter;
 		order: 0;
-		target: Smalltalk tools;
+		target: Smalltalk tools;"
 		with: [
 			(aBuilder item: #'System browser')
 				selector: #openClassBrowser;
-				icon:
-					(aBuilder iconNamed: Smalltalk tools browser taskbarIconName).
+				icon: (aBuilder iconNamed: #accept).
 			(aBuilder item: #Playground)
 				selector: #openPlayground;
-				icon:
-					(aBuilder iconNamed: Smalltalk tools workspace taskbarIconName) ]
+				icon: (aBuilder iconNamed: #accept) ]
 ]
 
 { #category : #'menu declaring' }
@@ -65,14 +63,15 @@ ToMenuRegistrationExample class >> myOwnCoolMenuRegistrationOn: aBuilder [
 		with: [
 			(aBuilder item: #MyOwnCoolTool)
 				label: 'My own cool tool also here';
-				target: Smalltalk tools workspace;
+				target: self ;
 				selector: #openContents: ;
 				arguments: #('yep, my own cool tool can be also opened from a world sub-menu ! :)')]
 ]
 
 { #category : #'menu declaring' }
 ToMenuRegistrationExample class >> myOwnCoolToolRegistrationOn: aBuilder [
-	<toploWorldMenuExample2>
+	<toploWorldMenuExample>
+	
 	(aBuilder item: #MyOwnCoolTool)
 		parent: #Tools;
 		label: 'My own cool tool';
@@ -83,37 +82,16 @@ ToMenuRegistrationExample class >> myOwnCoolToolRegistrationOn: aBuilder [
 
 { #category : #'menu declaring' }
 ToMenuRegistrationExample class >> pharoItemsOn: aBuilder [
-
 	<toploWorldMenuExample>
-
 	(aBuilder group: #QuitPharo)
 		order: 9999;
-		with: [
-			{
-				{
-					'Save'.
-					{
-						Smalltalk.
-						#saveSession }.
-					'save the current version of the image on disk' }.
-				{
-					'Save as...'.
-					{
-						self.
-						#saveAs }.
-					'save the current version of the image on disk under a new name.' }.
-				{
-					'Save and quit'.
-					{
-						self.
-						#saveAndQuit }.
-					'save the current image on disk, and quit Pharo.' }.
-				{
-					'Quit'.
-					{
-						self.
-						#quitSession }.
-					'quit Pharo.' } } do: [ :triplet |
+		with: [ {
+				{ 'Save'. { Smalltalk. #saveSession }. 'save the current version of the image on disk' }.
+				{ 'Save as...' . { self . #saveAs }. 'save the current version of the image on disk under a new name.' }.
+				{ 'Save and quit'. { self . #saveAndQuit }. 'save the current image on disk, and quit Pharo.' }.
+				{ 'Quit'. { self. #quitSession }. 'quit Pharo.' } } 
+				
+				do: [ :triplet |
 					(aBuilder item: triplet first asSymbol)
 						target: triplet second first;
 						selector: triplet second second;
@@ -139,12 +117,12 @@ ToMenuRegistrationExample class >> quitSession [
 
 { #category : #'menu actions' }
 ToMenuRegistrationExample class >> saveAndQuit [
-	Smalltalk snapshot: true andQuit: true
+	
 ]
 
 { #category : #'menu actions' }
 ToMenuRegistrationExample class >> saveAs [
-	Smalltalk saveAs
+	
 ]
 
 { #category : #'menu declaring' }

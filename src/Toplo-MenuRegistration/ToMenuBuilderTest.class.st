@@ -3,7 +3,8 @@ Class {
 	#superclass : #TestCase,
 	#instVars : [
 		'xmenu',
-		'tmenu'
+		'tmenu',
+		'toploExampleMenu'
 	],
 	#category : #'Toplo-MenuRegistration-Clean'
 }
@@ -65,7 +66,7 @@ ToMenuBuilderTest >> testBuilderPragmas [
 	b := ToPragmaCleanMenuBuilder
 		     pragmaKeywords: { #toploWorldMenuExample }
 		     model: nil.
-	self assert: b pragmas size equals: 4
+	self assert: b pragmas size equals: 5
 ]
 
 { #category : #'simple tests' }
@@ -82,7 +83,9 @@ ToMenuBuilderTest >> testDiffChildOrder [
 	| xTools |
 	xTools := self xmenu itemNamed: #Tools.
 	self assert: xTools order equals: 70.
-	self assert: xTools order equals: (self tmenu itemNamed: #Tools) order
+	self
+		assert: xTools order
+		equals: (self tmenu itemNamed: #Tools) order
 ]
 
 { #category : #differential }

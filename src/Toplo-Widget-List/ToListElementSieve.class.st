@@ -158,6 +158,14 @@ ToListElementSieve >> pattern: aPattern [
 ]
 
 { #category : #accessing }
+ToListElementSieve >> selectedIndexes [
+
+	^ queryRunner selectedIndexes
+
+	
+]
+
+{ #category : #accessing }
 ToListElementSieve >> selecter [ 
 
 	^ selecter

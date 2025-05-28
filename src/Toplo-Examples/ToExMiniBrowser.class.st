@@ -158,7 +158,7 @@ ToExMiniBrowser >> newPackagePane [
 
 
 
-	pkgSieve := ToListElementSieve new.
+	pkgSieve := packages newSieve.
 	pkgSieve onInstalledIn: packages.
 
 	pkgSieve dataFilter: [ :aPackage :aPattern |

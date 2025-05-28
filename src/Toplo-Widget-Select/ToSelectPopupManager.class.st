@@ -109,7 +109,7 @@ ToSelectPopupManager >> onInstalledIn: anElement [
 	self windowBuilder: [ :selectWin :request |
 		selectWin root addChild: self listElement ].
 
-	sieve := ToListElementSieve new.
+	sieve := listElement newSieve.
 	sieve onInstalledIn: listElement
 ]
 

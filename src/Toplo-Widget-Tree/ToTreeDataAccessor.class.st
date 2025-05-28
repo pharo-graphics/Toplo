@@ -222,7 +222,7 @@ ToTreeDataAccessor >> notifySievedWith: aSieve interval: anInterval [
 	self dataSource notifySievedWith: aSieve interval: anInterval
 ]
 
-{ #category : #initialization }
+{ #category : #'t - observable collection - removing' }
 ToTreeDataAccessor >> onSievedWith: aSieve [
 
 	| interval |

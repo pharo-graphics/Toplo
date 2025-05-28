@@ -386,6 +386,12 @@ ToAbstractListElement >> newRawSkin [
 ]
 
 { #category : #'instance creation' }
+ToAbstractListElement >> newSieve [
+
+	^ ToListElementSieve new
+]
+
+{ #category : #'instance creation' }
 ToAbstractListElement >> newUnselectableSelectionMode [
 
 

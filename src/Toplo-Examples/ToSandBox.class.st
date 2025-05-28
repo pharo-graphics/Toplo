@@ -557,7 +557,7 @@ ToSandBox class >> exampleAccordionListWithClassComments [
 	list := ToAccordionListElement new.
 	list withRowNumbers.
 	list selectionMode multiple: true.
-	sieve := ToListElementSieve new.
+	sieve := list newSieve
 	sieve onInstalledIn: list.
 	sieve dataFilter: [ :item :aPattern |
 		item name beginsWith: aPattern caseSensitive: false ].
@@ -3650,7 +3650,7 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 	listElement withRowNumbers.
 	filterField margin: (BlInsets all: 2).
 
-	sieve := ToListElementSieve new.
+	sieve := listElement newSieve.
 	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll: data.
 
@@ -3701,7 +3701,7 @@ ToSandBox class >> example_SieveOnList2With_350000_Items [
 	filterField margin: (BlInsets all: 2).
 	listElement dataAccessor addAll: data.
 
-	sieve := ToListElementSieve new.
+	sieve := listElement newSieve.
 	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll: data.
 	listElement dataAccessor size traceCr.
@@ -3743,7 +3743,7 @@ ToSandBox class >> example_SieveOnList2With_AllClassNames [
 				 foreground: Color lightGray;
 				 yourself) ].
 
-	sieve := ToListElementSieve new.
+	sieve := listElement newSieve.
 	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll:
 		(Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
@@ -3780,7 +3780,7 @@ ToSandBox class >> example_SieveOnList2With_AllMethods [
 	filterField placeholderText:
 		(' Method name filter' asRopedText foreground: Color lightGray).
 
-	sieve := ToListElementSieve new.
+	sieve := listElement newSieve.
 	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll: data.
 	listElement
@@ -3825,7 +3825,7 @@ ToSandBox class >> example_SieveOnList2With_AllMethods_OnCR [
 	listElement withRowNumbers.
 	filterField margin: (BlInsets all: 2).
 
-	sieve := ToListElementSieve new.
+	sieve := listElement newSieve.
 	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll: data.
 
@@ -3861,10 +3861,37 @@ ToSandBox class >> example_SieveOnTree [
 
 	filterField := ToTextField new.
 	treeElement := ToTreeElement new.
+	treeElement childrenGetter: [ :dataItem |
+			dataItem isString
+				ifTrue: [
+						Array streamContents: [ :stream |
+							dataItem do: [ :c | stream nextPut: c asString ] ] ]
+				ifFalse: [ #(  ) ] ].
 	treeElement placeholderBuilder: [ :placeholder :e |
 		placeholder empty ].
 
 	data := SystemNavigation default allMethods.
+	treeElement contextMenu: [ :menu :request |
+			| selectionModel indexes target |
+			target := request currentTarget.
+			selectionModel := request selectionModel.
+			indexes := request selectedIndexes.
+			menu addItem: (ToMenuItem new
+					 labelText: 'Expand all';
+					 clickAction: [ "[ target expandAll] millisecondsToRun traceCr"
+							 indexes
+								 ifEmpty: [ [ target expandAll ] timeToRun traceCr ]
+								 ifNotEmpty: [
+									 indexes do: [ :idx | (target dataSource at: idx) expandAll ] ] ];
+					 yourself).
+			menu addItem: (ToMenuItem new
+					 labelText: 'Collapse all';
+					 clickAction: [
+							 indexes
+								 ifEmpty: [ target collapseAll ]
+								 ifNotEmpty: [
+									 indexes do: [ :idx | (target dataSource at: idx) collapse ] ] ];
+					 yourself) ].
 	treeElement withRowNumbers.
 	filterField margin: (BlInsets all: 2).
 	filterField placeholderBuilder: [ :placeholder :e |
@@ -3873,9 +3900,10 @@ ToSandBox class >> example_SieveOnTree [
 					 foreground: Color lightGray;
 					 yourself) ].
 
-	sieve := ToListElementSieve new.
+	sieve := treeElement newSieve.
 	sieve onInstalledIn: treeElement.
-	treeElement dataAccessor addAll: { 'AAA'. 'BBB'. 'CCC'. 'ABB'. 'ACC'. 'BAA'. 'BCC'}.
+	treeElement dataAccessor addAll:
+		{ 'AAA'. 'BBB'. 'CCC'. 'ABB'. 'ACC'. 'BAA'. 'BCC' }.
 
 	sieve dataFilter: [ :aString :aPattern |
 		aString includesSubstring: aPattern caseSensitive: false ].
@@ -3903,8 +3931,7 @@ ToSandBox class >> example_SieveOnTreeWithClasses [
 
 	filterField := ToTextField new.
 	treeElement := ToTreeElement new.
-	treeElement nodeManager childrenGetter: [ :dataItem |
-		dataItem subclasses ].
+	treeElement childrenGetter: [ :dataItem | dataItem subclasses ].
 	data := SystemNavigation default allMethods.
 	treeElement withRowNumbers.
 	filterField margin: (BlInsets all: 2).
@@ -3914,7 +3941,7 @@ ToSandBox class >> example_SieveOnTreeWithClasses [
 					 foreground: Color lightGray;
 					 yourself) ].
 
-	sieve := ToListElementSieve new.
+	sieve := treeElement newSieve.
 	sieve onInstalledIn: treeElement.
 	treeElement dataAccessor addAll:
 		(Smalltalk globals allClasses sorted: [ :a :b | a name < b name ]).

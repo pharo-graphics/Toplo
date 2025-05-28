@@ -123,6 +123,7 @@ ToTreeDataItemWrapper >> expandDeeplyIn: aCollection [
 
 	| children |
 	isExpanded := true.
+	self nodeDepth > 200 ifTrue: [ Error signal: 'Maximum Node deepth reached' ].
 	children := self dataItemChildren.
 	children do: [ :child |
 			| wrapper |

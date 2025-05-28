@@ -10,12 +10,6 @@ ToObservableCollectionEventHandler >> collectionAddEvent: anEvent [
 ]
 
 { #category : #'data events handling' }
-ToObservableCollectionEventHandler >> collectionAllUpdatedEvent: anEvent [
-
-	
-]
-
-{ #category : #'data events handling' }
 ToObservableCollectionEventHandler >> collectionEmptinessEvent: anEvent [
 
 ]

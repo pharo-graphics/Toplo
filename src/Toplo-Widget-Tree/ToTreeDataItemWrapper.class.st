@@ -10,37 +10,16 @@ Class {
 		'parentWrapper',
 		'treeElement',
 		'dataItem',
-		'cachedChildWrappers',
 		'isExpanded'
 	],
 	#category : #'Toplo-Widget-Tree-Core'
 }
 
 { #category : #'private - accessing' }
-ToTreeDataItemWrapper >> canUseCachedWrappersWithCurrentChildren: aDataItemCollection [
-
-	" There is no magic involved; caching does not allow for significant time optimisation here.
-	However, cached wrappers allow extra information to be stored that can be useful 
-	(for example, one can keep track of children's selections). "
-
-	| idx |
-	cachedChildWrappers ifNil: [ ^ false ].
-	" don't use #= to compare content of children with cachedChildWrappers because 
-		the collection classes may differ and #asArray sends may be time consuming "
-	aDataItemCollection size = cachedChildWrappers size ifFalse: [
-		^ false ].
-	idx := 1.
-	[
-	idx <= cachedChildWrappers size and: [
-		(cachedChildWrappers at: idx) dataItem
-		= (aDataItemCollection at: idx) ] ] whileTrue: [ idx := idx + 1 ].
-	^ idx > cachedChildWrappers size
-]
-
-{ #category : #'private - accessing' }
 ToTreeDataItemWrapper >> childWrappers [
 
-	^ self childrenIntervalFromPosition: self position
+	^ Array streamContents: [ :stream |
+		  self childWrappersDo: [ :w | stream nextPut: w ] ]
 ]
 
 { #category : #'private - accessing' }
@@ -48,23 +27,6 @@ ToTreeDataItemWrapper >> childWrappersDo: aBlock [
 
 	self childrenInterval do: [ :p |
 		aBlock value: (treeElement dataSource at: p) ]
-]
-
-{ #category : #'private - accessing' }
-ToTreeDataItemWrapper >> childWrappersFromPosition: aPosition [
-
-	^ Array streamContents: [ :stream |
-		  (self childrenIntervalFromPosition: aPosition) do: [ :p |
-			  stream nextPut: (treeElement dataSource at: p) ] ]
-]
-
-{ #category : #'private - accessing' }
-ToTreeDataItemWrapper >> childWrappersFromPosition: aPosition reverseDo: aBlock [
-
-	| interval |
-	interval := self childrenIntervalFromPosition: aPosition.
-	interval last to: interval first by: -1 do: [ :p |
-	    aBlock value: (treeElement dataSource at: p) ]
 ]
 
 { #category : #'private - accessing' }
@@ -103,9 +65,8 @@ ToTreeDataItemWrapper >> collapse [
 	self isExpanded ifFalse: [ ^ self ].
 	isExpanded := false.
 	pos := self position.
-	self putCurrentChildWrappersInCacheFromPosition: pos.
 	childrenInterval := self childrenIntervalFromPosition: pos.
-	treeElement dataAccessor
+	treeElement dataSource
 		removeFrom: childrenInterval first
 		to: childrenInterval last.
 	self updateTreeNodeAtPosition: pos
@@ -133,43 +94,49 @@ ToTreeDataItemWrapper >> dataItemChildren [
 ToTreeDataItemWrapper >> expand [
 
 	| pos children |
-	self isExpanded ifTrue: [ ^ nil ].
+	self isExpanded ifTrue: [ ^ self ].
+
 	isExpanded := true.
 	children := self dataItemChildren.
 	pos := self position.
 
-	(self canUseCachedWrappersWithCurrentChildren: children)
-		ifTrue: [
-		treeElement dataSource addAll: cachedChildWrappers afterIndex: pos ]
-		ifFalse: [
-				treeElement dataAccessor
-					useParentWrapper: self
-					while: [
-					treeElement dataAccessor addAll: children afterIndex: pos ] ].
+	treeElement dataAccessor
+		useParentWrapper: self
+		while: [ treeElement dataAccessor addAll: children afterIndex: pos ].
 
-	self updateTreeNodeAtPosition: pos.
-	^ pos
+	self updateTreeNodeAtPosition: pos
 ]
 
 { #category : #'expanding-collapsing' }
 ToTreeDataItemWrapper >> expandAll [
 
-	| pos |
+	| c pos |
 	self collapse.
-	pos := self expand ifNil: [ self position ].
-	self
-		childWrappersFromPosition: pos
-		reverseDo: [ :each | each expandAll ]
+	pos := self position.
+	c := self expandDeeplyIn: OrderedCollection new.
+	treeElement dataSource addAll: c afterIndex: pos.
+	self updateTreeNodeAtPosition: pos
 ]
 
-{ #category : #testing }
-ToTreeDataItemWrapper >> hasChildWrappers [
+{ #category : #'expanding-collapsing' }
+ToTreeDataItemWrapper >> expandDeeplyIn: aCollection [
 
-	^ cachedChildWrappers notNil and: [ cachedChildWrappers notEmpty ]
+	| children |
+	isExpanded := true.
+	children := self dataItemChildren.
+	children do: [ :child |
+			| wrapper |
+			treeElement dataAccessor
+				useParentWrapper: self
+				while: [
+						wrapper := treeElement dataAccessor newWrapperFor: child.
+						aCollection add: wrapper.
+						wrapper expandDeeplyIn: aCollection ] ].
+	^ aCollection
 ]
 
 { #category : #'private - accessing' }
-ToTreeDataItemWrapper >> hasChildren [
+ToTreeDataItemWrapper >> hasChildWrappers [
 
 	| first |
 	first := self position.
@@ -246,19 +213,6 @@ ToTreeDataItemWrapper >> parentWrapper: aDataItemWrapper [
 ToTreeDataItemWrapper >> position [ 
 
 	^ treeElement dataSource indexOf: self 
-]
-
-{ #category : #'private - accessing' }
-ToTreeDataItemWrapper >> putCurrentChildWrappersInCacheFromPosition: aPosition [
-
-	cachedChildWrappers := self childWrappersFromPosition: aPosition.
-	cachedChildWrappers do: [ :w | w putInCache ]
-]
-
-{ #category : #'private - accessing' }
-ToTreeDataItemWrapper >> putInCache [
-
-	isExpanded := false
 ]
 
 { #category : #'expanding-collapsing' }

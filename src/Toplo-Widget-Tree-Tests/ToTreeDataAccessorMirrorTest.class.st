@@ -2,16 +2,17 @@
 A ToCollectionMirrorTest is a test class for testing the behavior of ToCollectionMirror
 "
 Class {
-	#name : #ToCollectionMirrorTest,
+	#name : #ToTreeDataAccessorMirrorTest,
 	#superclass : #TestCase,
-	#category : #'Toplo-Tests-Core-Collection'
+	#category : #'Toplo-Widget-Tree-Tests-Core'
 }
 
 { #category : #tests }
-ToCollectionMirrorTest >> testAdd [
+ToTreeDataAccessorMirrorTest >> testAdd [
 
-	| l m |
-	l := ToObservableCollection new.
+	| tree l m |
+	tree := ToTreeElement new.
+	l := tree dataAccessor.
 	m := l newMirror.
 	l add: 88.
 	self
@@ -24,10 +25,11 @@ ToCollectionMirrorTest >> testAdd [
 ]
 
 { #category : #tests }
-ToCollectionMirrorTest >> testAddAll [
+ToTreeDataAccessorMirrorTest >> testAddAll [
 
-	| l m |
-	l := ToObservableCollection new.
+	| tree l m |
+	tree := ToTreeElement new.
+	l := tree dataAccessor.
 	m := l newMirror.
 	l addAll: #(1 2 3 4).
 	self
@@ -39,10 +41,11 @@ ToCollectionMirrorTest >> testAddAll [
 ]
 
 { #category : #tests }
-ToCollectionMirrorTest >> testRemove [
+ToTreeDataAccessorMirrorTest >> testRemove [
 
-	| l m |
-	l := ToObservableCollection new.
+	| tree l m |
+	tree := ToTreeElement new.
+	l := tree dataAccessor.
 	m := l newMirror.
 	l addAll: #(1 2 3 4).
 	l remove: 2.
@@ -56,10 +59,11 @@ ToCollectionMirrorTest >> testRemove [
 ]
 
 { #category : #tests }
-ToCollectionMirrorTest >> testRemoveAll [
+ToTreeDataAccessorMirrorTest >> testRemoveAll [
 
-	| l m |
-	l := ToObservableCollection new.
+	| tree l m |
+	tree := ToTreeElement new.
+	l := tree dataAccessor.
 	m := l newMirror.
 	l addAll: #(1 2 3 4).
 	l removeAll.
@@ -73,10 +77,11 @@ ToCollectionMirrorTest >> testRemoveAll [
 ]
 
 { #category : #tests }
-ToCollectionMirrorTest >> testRemoveFromTo [
+ToTreeDataAccessorMirrorTest >> testRemoveFromTo [
 
-	| l m |
-	l := ToObservableCollection new.
+	| tree l m |
+	tree := ToTreeElement new.
+	l := tree dataAccessor.
 	m := l newMirror.
 
 	l addAll: #( 2 3 4 6 ).

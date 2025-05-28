@@ -38,9 +38,6 @@ ToObservableCollectionMirrorUpdaterTest >> testAddAfter [
 
 	| i |
 	mirror addEventHandler: (BlEventHandler
-			 on: ToCollectionAllUpdatedEvent
-			 do: [ :ann | i := ann interval ]).
-	mirror addEventHandler: (BlEventHandler
 			 on: ToCollectionAddEvent 
 			 do: [ :ann | i := ann interval ]).
 

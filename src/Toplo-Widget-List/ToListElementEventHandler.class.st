@@ -35,12 +35,6 @@ ToListElementEventHandler >> clickEvent: anEvent [
 		  other: [ self otherClickEvent: anEvent ]
 ]
 
-{ #category : #'infinite event handling' }
-ToListElementEventHandler >> collectionAllUpdatedEvent: anEvent [
-
-	anEvent currentTarget selectionModel resetAll
-]
-
 { #category : #'mouse handlers' }
 ToListElementEventHandler >> doubleClickEvent: anEvent [
 
@@ -102,7 +96,6 @@ ToListElementEventHandler >> eventsToHandle [
 		  BlElementScrolledEvent.
 
 		  " data source "
-		  ToCollectionAllUpdatedEvent.
 		  ToInfiniteDataSourceEmptinessChangedEvent.
 
 		  BlLayoutResizerChangedEvent.

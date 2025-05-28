@@ -3,13 +3,13 @@ Trait {
 	#category : #'Toplo-Core-Collection'
 }
 
-{ #category : #'t - observable collection - notifications' }
+{ #category : #'t - collection changed notifier' }
 TToCollectionChangedNotifier >> notifyAddedInterval: anInterval [
 
 	self dispatchEvent: (ToCollectionAddEvent new interval: anInterval)
 ]
 
-{ #category : #'t - observable collection - notifications' }
+{ #category : #'t - collection changed notifier' }
 TToCollectionChangedNotifier >> notifyEmptinessChangeAfter: aBlock [
 
 	| wasEmpty |
@@ -19,14 +19,14 @@ TToCollectionChangedNotifier >> notifyEmptinessChangeAfter: aBlock [
 		self dispatchEvent: ToCollectionEmptinessEvent new ]
 ]
 
-{ #category : #'t - observable collection - notifications' }
+{ #category : #'t - collection changed notifier' }
 TToCollectionChangedNotifier >> notifyFilteredInterval: anInterval [
 
 	self dispatchEvent:
 		(ToCollectionFilteredEvent new interval: anInterval)
 ]
 
-{ #category : #'t - observable collection - notifications' }
+{ #category : #'t - collection changed notifier' }
 TToCollectionChangedNotifier >> notifyRemoved: aCollection interval: anInterval [
 
 	self dispatchEvent: (ToCollectionRemoveEvent new

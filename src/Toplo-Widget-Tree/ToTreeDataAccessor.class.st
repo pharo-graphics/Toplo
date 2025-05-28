@@ -47,6 +47,13 @@ ToTreeDataAccessor >> addAll: aCollection afterIndex: index [
 ]
 
 { #category : #'t - collection api - adding' }
+ToTreeDataAccessor >> addAll: dataItems in: aCollection [
+
+	aCollection
+		addAll: (dataItems collect: [ :e | self newWrapperFor: e ])
+]
+
+{ #category : #'t - collection api - adding' }
 ToTreeDataAccessor >> addAllLast: aCollection [
 
 	self dataSource addAllLast:
@@ -173,11 +180,11 @@ ToTreeDataAccessor >> initialize [
 	eventDispatcher := BlDirectEventDispatcher on: self
 ]
 
-{ #category : #initialization }
+{ #category : #'t - collection api - initialization' }
 ToTreeDataAccessor >> initializeWith: aCollection [
 
-		self removeAll.
-		self addAll: aCollection
+	self dataSource initializeWith:
+		(aCollection collect: [ :o | self newWrapperFor: o ])
 ]
 
 { #category : #private }
@@ -212,13 +219,10 @@ ToTreeDataAccessor >> newWrapperFor: anObject [
 { #category : #'t - observable collection - notifications' }
 ToTreeDataAccessor >> notifySievedWith: aSieve interval: anInterval [
 
-	self dispatchEvent: (ToCollectionSievedEvent new
-			 interval: anInterval;
-			 sieve: aSieve;
-			 yourself)
+	self dataSource notifySievedWith: aSieve interval: anInterval
 ]
 
-{ #category : #'t - observable collection - removing' }
+{ #category : #initialization }
 ToTreeDataAccessor >> onSievedWith: aSieve [
 
 	| interval |

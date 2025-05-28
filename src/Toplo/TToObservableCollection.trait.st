@@ -361,8 +361,8 @@ TToObservableCollection >> indexOf: anElement startingAt: start ifAbsent: except
 { #category : #'t - observable collection - initialization' }
 TToObservableCollection >> initializeWith: aCollection [
 
-		self collection removeAll.
-		self collection addAll: aCollection
+	self collection reset.
+	self collection addAll: aCollection
 ]
 
 { #category : #'t - observable collection - testing' }
@@ -440,7 +440,7 @@ TToObservableCollection >> noneSatisfy: aBlock [
 	^ self collection noneSatisfy: aBlock
 ]
 
-{ #category : #'t - observable collection - removing' }
+{ #category : #'t - observable collection - initialization' }
 TToObservableCollection >> onSievedWith: aSieve [
 
 	| interval |
@@ -543,12 +543,12 @@ TToObservableCollection >> removeFrom: start to: stop [
 	| interval removed |
 	interval := start to: stop.
 	removed := Array withAll: (self collection copyFrom: start to: stop).
-	self notifyEmptinessChangeAfter: [ 
-			| idx |
-			idx := start.
-			[ idx > stop ] whileFalse: [
-				self collection removeAt: start.
-				idx := idx + 1 ].
+	self notifyEmptinessChangeAfter: [
+			| newCollection |
+			newCollection := self collection copyFrom: 1 to: start - 1.
+			newCollection addAll:
+				(self collection copyFrom: stop + 1 to: self collection size).
+			self initializeWith: newCollection.
 			self notifyRemoved: removed interval: interval ]
 ]
 

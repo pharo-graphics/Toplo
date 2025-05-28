@@ -1368,6 +1368,31 @@ ToSandBox class >> example_ClassHierarchiesWithMethods [
 
 	| l |
 	l := ToTreeElement new.
+	l withRowNumbers.
+	l contextMenu: [ :menu :request |
+		| selectionModel indexes target |
+		target := request currentTarget.
+		selectionModel := request selectionModel.
+		indexes := request selectedIndexes.
+		indexes traceCr.
+		menu addItem: (ToMenuItem new
+				 labelText: 'Expand all';
+				 clickAction: [
+					 indexes
+						 ifEmpty: [ target expandAll ]
+						 ifNotEmpty: [
+							 indexes reverseDo: [ :idx |
+									 (target dataSource at: idx) expandAll ] ] ];
+				 yourself).
+		menu addItem: (ToMenuItem new
+				 labelText: 'Collapse all';
+				 clickAction: [
+					 indexes
+						 ifEmpty: [ target collapseAll ]
+						 ifNotEmpty: [
+							 indexes reverseDo: [ :idx |
+									 (target dataSource at: idx) collapse ] ] ];
+				 yourself) ].
 	l nodeManager childrenGetter: [ :dataItem |
 		dataItem isClass
 			ifTrue: [
@@ -1377,6 +1402,7 @@ ToSandBox class >> example_ClassHierarchiesWithMethods [
 						(dataItem methods collect: [ :each | each selector ]) sorted ] ]
 			ifFalse: [ #(  ) ] ].
 	l nodeManager nodeFactory: [ :holder | ToExTreeSubAndMethNode new ].
+	l dataAccessor add: ProtoObject.
 	l dataAccessor add: BlElement.
 	l dataAccessor add: Collection.
 	l dataAccessor add: String.
@@ -3722,15 +3748,12 @@ ToSandBox class >> example_SieveOnList2With_AllClassNames [
 	listElement dataAccessor addAll:
 		(Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
 
-	sieve dataFilter: [ :aCompiledMethod :aPattern |
-		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
-
-
 	listElement nodeBuilder: [ :node :dataItem :holder |
 		node addChild: (ToLabel new text: dataItem printString) ].
 
 	sieve dataFilter: [ :aClass :aPattern |
-		aClass name beginsWith: aPattern caseSensitive: true ].
+		aClass name includesSubstring: aPattern caseSensitive: false ].
+	
 	filterField whenTextEditedDo: [
 				 | pattern |
 				 pattern := filterField text asString.
@@ -3838,6 +3861,9 @@ ToSandBox class >> example_SieveOnTree [
 
 	filterField := ToTextField new.
 	treeElement := ToTreeElement new.
+	treeElement placeholderBuilder: [ :placeholder :e |
+		placeholder empty ].
+
 	data := SystemNavigation default allMethods.
 	treeElement withRowNumbers.
 	filterField margin: (BlInsets all: 2).

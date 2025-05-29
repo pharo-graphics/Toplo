@@ -48,6 +48,14 @@ ToListElementSieve >> initialize [
 	eventDispatcher := BlDirectEventDispatcher on: self
 ]
 
+{ #category : #'api - hooks' }
+ToListElementSieve >> installQueryRunnerIn: aListElement [
+
+	" the query is applied on the original data "
+	originalData := aListElement dataAccessor newMirror.
+	queryRunner onInstalledIn: originalData
+]
+
 { #category : #accessing }
 ToListElementSieve >> isInstalled [
 
@@ -61,6 +69,24 @@ ToListElementSieve >> itemCount [
 ]
 
 { #category : #'api - hooks' }
+ToListElementSieve >> newQueryRunnerIn: aListElement [
+
+	| runner |
+	runner := ToObservableCollectionFilter new.
+	" When a query has occured (because the query pattern has changed), update the list element accordingly then
+	 ask the list to process the appropiate data source command and to update the selection model.
+	A task must be used to avoid that the list update occurs during the BlSpaceFrameEventPhase  
+	 which can cause an issue because the layout must be launched each time a sieve result occurs "
+
+	runner action: [
+			self updateCurrentData.
+			aListElement enqueueTask:
+				(BlTaskAction new action: [ aListElement onSievedWith: self ]) ].
+			
+	^ runner
+]
+
+{ #category : #'api - hooks' }
 ToListElementSieve >> onInstalledIn: aListElement [
 	" install the sieve on the listElement "
 
@@ -69,18 +95,8 @@ ToListElementSieve >> onInstalledIn: aListElement [
 	originalIndexMap := IdentityDictionary new.
 	selectionModel := aListElement selectionModel copy.
 
-	originalData := aListElement dataAccessor newMirror.
-
-	queryRunner := ToObservableCollectionFilter new.
-	" When a query has occured (because the query pattern has changed), update the list element accordingly then
-	 ask the list to process the appropiate data source command and to update the selection model.
-	A task must be used to avoid that the list update occurs during the BlSpaceFrameEventPhase  
-	 which can cause an issue because the layout must be launched each time a sieve result occurs "
-	queryRunner action: [
-		self updateCurrentData.
-		aListElement enqueueTask: (BlTaskAction new action: [
-				 aListElement onSievedWith: self ]) ].
-	queryRunner onInstalledIn: originalData.
+	queryRunner := self newQueryRunnerIn: aListElement.
+	self installQueryRunnerIn: aListElement.
 
 	" initialization of the current result with the current pattern "
 	self updateCurrentData.
@@ -115,13 +131,11 @@ ToListElementSieve >> onUninstalledIn: aListElement [
 
 	aListElement removeEventHandler: selectionHandler.
 	aListElement dataSource removeEventHandler: dataSourceHandler.
-	queryRunner onUninstalledIn: originalData.
+	self uninstallQueryRunnerIn: aListElement.
 	self removeEventHandler: sieveEventHandler.
 	self removeEventHandler: commandEventHandler.
 	sieveEventHandler := nil.
 	commandEventHandler := nil.
-	originalData unmirrored.
-	originalData := nil.
 	currentData := nil.
 	queryRunner := nil
 ]
@@ -175,6 +189,15 @@ ToListElementSieve >> selecter [
 ToListElementSieve >> selectionModel [ 
 
 	^ selectionModel
+]
+
+{ #category : #'api - hooks' }
+ToListElementSieve >> uninstallQueryRunnerIn: aListElement [
+
+	queryRunner onUninstalledIn: originalData.
+	originalData unmirrored.
+	originalData := nil.
+
 ]
 
 { #category : #'selection updating' }

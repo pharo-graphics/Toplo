@@ -38,13 +38,13 @@ ToInnerBarDataSourceManager >> onItemsChanged [
 ]
 
 { #category : #'data source updates' }
-ToInnerBarDataSourceManager >> posponeAction: aValuable [
+ToInnerBarDataSourceManager >> postponeAction: aValuable [
 
 	aValuable value
 ]
 
 { #category : #'data source updates' }
-ToInnerBarDataSourceManager >> posponeCommand: aCommand [
+ToInnerBarDataSourceManager >> postponeCommand: aCommand [
 
 	aCommand action value
 ]

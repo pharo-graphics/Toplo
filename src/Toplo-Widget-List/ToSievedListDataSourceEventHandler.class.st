@@ -15,7 +15,7 @@ ToSievedListDataSourceEventHandler >> buildOriginalIndexMap [
 
 	dataPositionIndex removeAll.
 	sieveSelectionModel deselectAll.
-	listElement posponeAction: [
+	listElement postponeAction: [
 		listElement dataAccessor withIndexDo: [ :aData :idx |
 			dataPositionIndex at: aData put: idx ].
 		sieveSelectionModel copySelectionFrom: listElement selectionModel ]

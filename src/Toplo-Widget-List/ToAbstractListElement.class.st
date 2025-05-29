@@ -460,10 +460,10 @@ ToAbstractListElement >> placeholderElevation [
 ]
 
 { #category : #layout }
-ToAbstractListElement >> posponeAction: aValuable [
+ToAbstractListElement >> postponeAction: aValuable [
 
 	self innerElement requestLayout.
-	self dataSourceManager posponeAction: aValuable
+	self dataSourceManager postponeAction: aValuable
 ]
 
 { #category : #accessing }

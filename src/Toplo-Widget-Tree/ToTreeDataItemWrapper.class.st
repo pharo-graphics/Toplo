@@ -113,7 +113,7 @@ ToTreeDataItemWrapper >> expandAll [
 	| c pos |
 	self collapse.
 	pos := self position.
-	c := self expandDeeplyIn: OrderedCollection new.
+	c := self expandDeeplyIn: (OrderedCollection new).
 	treeElement dataSource addAll: c afterIndex: pos.
 	self updateTreeNodeAtPosition: pos
 ]
@@ -242,7 +242,7 @@ ToTreeDataItemWrapper >> updateTreeNodeAtPosition: aPositionInDataSource [
 	(treeElement nodesDetect: [ :node | node holder dataItem = self ])
 		ifNotNil: [ :node |
 			node requestNewSkin.
-			treeElement posponeAction: [
+			treeElement postponeAction: [
 				node holder notifySelectedWithOption: treeElement selectionOption ] ]
 ]
 

@@ -71,3 +71,9 @@ ToAbstractTreeElement >> initializeDataSource [
 		addEventHandlerOn: ToCollectionChangedEvent
 		do: [ :event | self dataAccessor dispatchEvent: event copy ]
 ]
+
+{ #category : #'instance creation' }
+ToAbstractTreeElement >> newSieve [
+
+	^ ToTreeElementSieve new
+]

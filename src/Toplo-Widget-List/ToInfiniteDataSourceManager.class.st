@@ -34,7 +34,7 @@ ToInfiniteDataSourceManager >> onItemsFiltered: aPositionStart itemCount: anItem
 	otherwise false"
 
 	"Register add command"
-	self posponeCommand: (ToInfiniteDataSourceFilterCommand new
+	self postponeCommand: (ToInfiniteDataSourceFilterCommand new
 			 positionStart: aPositionStart;
 			 itemCount: anItemCount;
 			 yourself).
@@ -48,7 +48,7 @@ ToInfiniteDataSourceManager >> onItemsSieved: aPositionStart itemCount: anItemCo
 	otherwise false"
 
 	"Register the sieve command"
-	self posponeCommand: (ToInfiniteDataSourceSieveCommand new
+	self postponeCommand: (ToInfiniteDataSourceSieveCommand new
 			 positionStart: aPositionStart;
 			 itemCount: anItemCount;
 			 sieve: aSieve;
@@ -58,15 +58,15 @@ ToInfiniteDataSourceManager >> onItemsSieved: aPositionStart itemCount: anItemCo
 ]
 
 { #category : #'data source updates' }
-ToInfiniteDataSourceManager >> posponeAction: aValuable [
+ToInfiniteDataSourceManager >> postponeAction: aValuable [
 
-	self posponeCommand: (ToInfiniteDataSourceActionCommand new
+	self postponeCommand: (ToInfiniteDataSourceActionCommand new
 			 action: aValuable;
 			 yourself)
 ]
 
 { #category : #'data source updates' }
-ToInfiniteDataSourceManager >> posponeCommand: aCommand [
+ToInfiniteDataSourceManager >> postponeCommand: aCommand [
 
 	finalStepCommands add: aCommand
 ]

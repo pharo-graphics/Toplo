@@ -443,7 +443,7 @@ ToAbstractListElement >> offsetPositionRecordsForFilter: aStartPosition itemCoun
 { #category : #'private - commands' }
 ToAbstractListElement >> onSievedWith: aSieve [
 
-	self dataAccessor onSievedWith: aSieve.
+	self dataSource onSievedWith: aSieve.
 	self requestLayout
 ]
 

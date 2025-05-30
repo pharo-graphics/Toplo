@@ -52,7 +52,7 @@ ToListElementSieve >> initialize [
 ToListElementSieve >> installQueryRunnerIn: aListElement [
 
 	" the query is applied on the original data "
-	originalData := aListElement dataAccessor newMirror.
+	originalData := aListElement dataSource newMirror.
 	queryRunner onInstalledIn: originalData
 ]
 

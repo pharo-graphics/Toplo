@@ -37,6 +37,12 @@ ToAbstractTreeElement >> defaultDataAccessor [
 ]
 
 { #category : #initialization }
+ToAbstractTreeElement >> defaultDataSource [
+
+	^ ToTreeDataSource new
+]
+
+{ #category : #initialization }
 ToAbstractTreeElement >> defaultInnerElement [
 
 	^ ToInfiniteElement onListElement: self

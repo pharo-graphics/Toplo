@@ -36,16 +36,15 @@ ToSievedListElementEventHandler >> listSelectionCommandAppliedEvent: aPreNotific
 	- if empty, the whole selection set is set from the whole list element selection model 
 	- if not empty, the selection set is computed according to the current list node list "
 	sieve pattern
-		ifEmpty: [
-			sieveSelectionModel copySelectionFrom: listSelModel ]
-		ifNotEmpty: [ 
-			listElement dataAccessor withIndexDo: [ :d :localIndex |
-				| originalIndex |
-				originalIndex := dataPositionIndex at: d.
-				listSelModel
-					transferSelectionFromIndex: localIndex
-					toIndex: originalIndex
-					in: sieveSelectionModel ] ].
+		ifEmpty: [ sieveSelectionModel copySelectionFrom: listSelModel ]
+		ifNotEmpty: [
+				listElement dataAccessor withIndexDo: [ :d :localIndex |
+						dataPositionIndex at: d ifPresent: [ :originalIndex |
+								originalIndex ifNotNil: [
+										listSelModel
+											transferSelectionFromIndex: localIndex
+											toIndex: originalIndex
+											in: sieveSelectionModel ] ] ] ].
 
 	" dispatch a specific, different from the primary selection change event that will be sent after.
 	It is useful for sieve list user that relies on the sieve internal selection to adapt themeself 

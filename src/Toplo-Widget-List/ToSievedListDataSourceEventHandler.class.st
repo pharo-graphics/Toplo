@@ -48,7 +48,7 @@ ToSievedListDataSourceEventHandler >> infiniteDataSourceItemRangeChanged: anEven
 { #category : #'data source events handling' }
 ToSievedListDataSourceEventHandler >> infiniteDataSourceItemRangeInserted: anEvent [
 
-	sieve pattern ifNotEmpty: [ ^ self ].
+	"sieve pattern ifNotEmpty: [ ^ self ]."
 	self buildOriginalIndexMap
 ]
 

@@ -58,6 +58,7 @@ MenuBuilderTest >> testDuplicatedIdenticalItemWithDifferentChild [
 
 	(builder item: #MyOwnCoolMenu) with: [ builder item: #BobbyLeMenu ].
 	(builder item: #MyOwnCoolMenu) with: [ builder item: #BobLeMenu ].
+	builder resolve.
 	self assert: builder collectedItems size equals: 1.
 	self
 		assert: builder collectedItems first childrenItems size

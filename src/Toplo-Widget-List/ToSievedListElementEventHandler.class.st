@@ -16,21 +16,22 @@ ToSievedListElementEventHandler >> eventsToHandle [
 ]
 
 { #category : #'element handlers' }
-ToSievedListElementEventHandler >> listSelectionCommandAppliedEvent: aPreNotification [
+ToSievedListElementEventHandler >> listSelectionCommandAppliedEvent: aSelectionCommandAppliedEvent [
 	" the list selection change event is about to be dispatched.
 	I take care of the sieve internal selectionSet according to the list element selection model"
 
 	| listElement listSelModel |
-	listElement := aPreNotification currentTarget.
+	listElement := aSelectionCommandAppliedEvent currentTarget.
 	listSelModel := listElement selectionModel.
 	" first check if the request is for the primary selection model "
-	listSelModel == aPreNotification selectionModel ifFalse: [ ^ self ].
+	listSelModel == aSelectionCommandAppliedEvent selectionModel
+		ifFalse: [ ^ self ].
 
 	" have to do nothing if the list is empty. Else, the selection can be lost in case of single select"
-	listElement dataAccessor ifEmpty: [ ^ self ].
+	listElement dataSource ifEmpty: [ ^ self ].
 	" reset the selection in case of single selection mode "
-	aPreNotification currentTarget isMultipleSelection ifFalse: [
-		sieveSelectionModel deselectAll ].
+	aSelectionCommandAppliedEvent currentTarget isMultipleSelection
+		ifFalse: [ sieveSelectionModel deselectAll ].
 
 	" the selection set is updated according to the pattern:
 	- if empty, the whole selection set is set from the whole list element selection model 
@@ -38,7 +39,7 @@ ToSievedListElementEventHandler >> listSelectionCommandAppliedEvent: aPreNotific
 	sieve pattern
 		ifEmpty: [ sieveSelectionModel copySelectionFrom: listSelModel ]
 		ifNotEmpty: [
-				listElement dataAccessor withIndexDo: [ :d :localIndex |
+				listElement dataSource withIndexDo: [ :d :localIndex |
 						dataPositionIndex at: d ifPresent: [ :originalIndex |
 								originalIndex ifNotNil: [
 										listSelModel

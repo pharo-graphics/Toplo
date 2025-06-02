@@ -29,7 +29,7 @@ ToSieveEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 		ifEmpty: [
 		listElement selectionModel copySelectionFrom: sieveSelectionModel ]
 		ifNotEmpty: [
-			listElement dataAccessor withIndexDo: [ :dataItem :localIndex |
+			listElement dataSource withIndexDo: [ :dataItem :localIndex |
 				| originalIndex |
 				originalIndex := originalIndexMap at: dataItem.
 				sieveSelectionModel

@@ -15,8 +15,9 @@ ToSievedListDataSourceEventHandler >> buildOriginalIndexMap [
 
 	dataPositionIndex removeAll.
 	sieveSelectionModel deselectAll.
+	
 	listElement postponeAction: [
-		listElement dataAccessor withIndexDo: [ :aData :idx |
+		listElement dataSource withIndexDo: [ :aData :idx |
 			dataPositionIndex at: aData put: idx ].
 		sieveSelectionModel copySelectionFrom: listElement selectionModel ]
 ]
@@ -48,7 +49,7 @@ ToSievedListDataSourceEventHandler >> infiniteDataSourceItemRangeChanged: anEven
 { #category : #'data source events handling' }
 ToSievedListDataSourceEventHandler >> infiniteDataSourceItemRangeInserted: anEvent [
 
-	"sieve pattern ifNotEmpty: [ ^ self ]."
+	sieve pattern ifNotEmpty: [ ^ self ].
 	self buildOriginalIndexMap
 ]
 

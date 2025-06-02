@@ -1,5 +1,13 @@
 Class {
 	#name : #DuplicatedItem,
-	#superclass : #Error,
+	#superclass : #Object,
+	#instVars : [
+		'itemName'
+	],
 	#category : #'Toplo-MenuRegistration-NewCreate'
 }
+
+{ #category : #'item management' }
+DuplicatedItem >> itemNamed: aString [ 
+	itemName := aString
+]

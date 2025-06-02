@@ -6,7 +6,8 @@ Class {
 		'collectedItems',
 		'hasNoConflict',
 		'groups',
-		'pragmaKeywords'
+		'pragmaKeywords',
+		'conflicts'
 	],
 	#category : #'Toplo-MenuRegistration-NewCreate'
 }
@@ -35,6 +36,11 @@ ToMenuBuilder class >> pragmaKeywords: aCollection [
 		yourself
 ]
 
+{ #category : #adding }
+ToMenuBuilder >> addConflict: aDuplicatedItem [ 
+	conflicts add: aDuplicatedItem 
+]
+
 { #category : #'as yet unclassified' }
 ToMenuBuilder >> allNamedItems [
 
@@ -47,8 +53,9 @@ ToMenuBuilder >> arrangeItems [
 	| newCollectedItem |
 	newCollectedItem := OrderedCollection new.
 	collectedItems do: [ :item |
-		item parentName ifNil: [ newCollectedItem add: item ] ].
-	collectedItems := newCollectedItem.
+		(item parent isNil or:
+		 (self allNamedItems includes: item parent) not) ifTrue: [ newCollectedItem add: item ] ].
+	collectedItems := newCollectedItem
 ]
 
 { #category : #'as yet unclassified' }
@@ -67,9 +74,9 @@ ToMenuBuilder >> changeParent: aMenuRegistration for: aSymbol [
 	| item |
 	item := self findInCollectedItems: aSymbol.
 	item isCollection ifTrue: [ self item: aSymbol ].
-	(item parentName = aMenuRegistration name or:
-		 item parentName isNil) ifTrue: [
-			item parentName: aMenuRegistration name.
+	(item parent = aMenuRegistration name or:
+		 item parent isNil) ifTrue: [
+			item parent: aMenuRegistration name.
 			^ self
 		].
 	hasNoConflict := false.
@@ -83,6 +90,11 @@ ToMenuBuilder >> collectedItems [
 { #category : #accessing }
 ToMenuBuilder >> collectedItems: anOrderedCollectionOfMenuRegistration [
 	collectedItems := anOrderedCollectionOfMenuRegistration 
+]
+
+{ #category : #accessing }
+ToMenuBuilder >> conflicts [
+	^ conflicts
 ]
 
 { #category : #accessing }
@@ -121,9 +133,12 @@ ToMenuBuilder >> groups: aDictionnary [
 ToMenuBuilder >> handleAddToParent: aMenuRegistration [
 
 	| parentMenu |
-	aMenuRegistration parentName ifNil: [ currentRoot addChild: aMenuRegistration. ^ self ].
-	parentMenu := self findInCollectedItems: aMenuRegistration parentName.
-	aMenuRegistration parent: parentMenu.
+	(aMenuRegistration parent isNil or:
+		 (self allNamedItems includes: aMenuRegistration parent) not) ifTrue: [
+		currentRoot addChild: aMenuRegistration.
+		^ self ].
+	parentMenu := self findInCollectedItems: aMenuRegistration parent.
+	aMenuRegistration parentMenuItem: parentMenu.
 	parentMenu addChild: aMenuRegistration
 ]
 
@@ -140,32 +155,33 @@ ToMenuBuilder >> handleGroupsUsage: anItem [
 ToMenuBuilder >> handleUnknownParent: anItem [
 
 	| pName |
-	pName := anItem parentName.
+	pName := anItem parent.
 	((self allNamedItems includes: pName) or: pName isNil) ifTrue: [
 		^ self ].
-	hasNoConflict := false.
-	anItem parentName: nil.
-	anItem parent: nil.
+	self addConflict: ParentNotFound new.
+	anItem parentMenuItem: nil
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
+ToMenuBuilder >> hasConflict [
+
+	^ conflicts isNotEmpty
+]
+
+{ #category : #testing }
 ToMenuBuilder >> hasNoConflict [
-	^ hasNoConflict
-]
 
-{ #category : #accessing }
-ToMenuBuilder >> hasNoConflict: aBoolean [
-	hasNoConflict := aBoolean
+	^ conflicts isEmpty
 ]
 
 { #category : #initialization }
 ToMenuBuilder >> initialize [
 
 	super initialize.
-	hasNoConflict := true.
+	conflicts := OrderedCollection new. 
 	currentRoot := ToMenuRegistration new.
 	collectedItems := OrderedCollection new.
-	groups := Dictionary new.
+	groups := Dictionary new
 ]
 
 { #category : #'as yet unclassified' }
@@ -184,9 +200,11 @@ ToMenuBuilder >> item: aSymbol [
 
 	| newItem |
 	(self isInCollectedItems: aSymbol) ifTrue: [
-		hasNoConflict := false.
+		self addConflict: (DuplicatedItem new itemNamed: aSymbol; yourself ).
 		^ self findInCollectedItems: aSymbol ].
-	newItem := ToMenuRegistration new name: aSymbol; builder: self.
+	newItem := ToMenuRegistration new
+		           name: aSymbol;
+		           builder: self.
 	collectedItems add: newItem.
 	^ newItem
 ]

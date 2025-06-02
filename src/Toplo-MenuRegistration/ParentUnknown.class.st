@@ -1,5 +1,5 @@
 Class {
 	#name : #ParentUnknown,
-	#superclass : #Error,
+	#superclass : #Object,
 	#category : #'Toplo-MenuRegistration-NewCreate'
 }

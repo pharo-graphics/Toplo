@@ -6,10 +6,12 @@ Class {
 		'childrenItems',
 		'name',
 		'label',
-		'parentName',
+		'parentMenuItem',
 		'parent',
 		'precondition',
-		'groupName'
+		'groupName',
+		'shortcut',
+		'order'
 	],
 	#category : #'Toplo-MenuRegistration-NewCreate'
 }
@@ -76,24 +78,38 @@ ToMenuRegistration >> name: aSymbol [
 ]
 
 { #category : #accessing }
+ToMenuRegistration >> order [
+
+	^ order
+]
+
+{ #category : #accessing }
+ToMenuRegistration >> order: anInteger [
+
+	order := anInteger
+]
+
+{ #category : #accessing }
 ToMenuRegistration >> parent [
 	^ parent
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> parent: aMenuRegistration [
+ToMenuRegistration >> parent: aSymbol [
 
-	parent := aMenuRegistration.
+	parent := aSymbol
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> parentName [
-	^ parentName
+ToMenuRegistration >> parentMenuItem [
+
+	^ parentMenuItem
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> parentName: aSymbol [
-	parentName := aSymbol
+ToMenuRegistration >> parentMenuItem: aMenuRegistration [
+
+	parentMenuItem := aMenuRegistration
 ]
 
 { #category : #accessing }
@@ -106,11 +122,22 @@ ToMenuRegistration >> precondition: aBlock [
 	precondition := aBlock
 ]
 
+{ #category : #accessing }
+ToMenuRegistration >> shortcut [
+	^ shortcut
+]
+
+{ #category : #accessing }
+ToMenuRegistration >> shortcut: aString [
+
+	shortcut := aString
+]
+
 { #category : #'instance creation' }
 ToMenuRegistration >> with: aBlock [
 
 	| menu |
 	menu := aBlock value.
-	menu parentName = name ifTrue: [ ^ self ].
+	menu parent = name ifTrue: [ ^ self ].
 	aBlock value builder changeParent: self for: menu name
 ]

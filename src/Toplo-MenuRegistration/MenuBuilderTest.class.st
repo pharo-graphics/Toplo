@@ -8,6 +8,19 @@ Class {
 }
 
 { #category : #'general-testing' }
+MenuBuilderTest >> testBeforeResolveSimpleItemNoParentAvailable [
+
+	| builder |
+	builder := ToMenuBuilder new.
+	(builder item: #MyOwnCoolTool)
+		parent: #Tools;
+		label: 'My own cool tool'.
+
+	self assert: builder collectedItems size equals: 1.
+	self assert: builder collectedItems first parent equals: #Tools
+]
+
+{ #category : #'tests - duplicated items' }
 MenuBuilderTest >> testDefinitionOfTwoSimilarParentIsAConflict [
 
 	| builder |
@@ -15,29 +28,27 @@ MenuBuilderTest >> testDefinitionOfTwoSimilarParentIsAConflict [
 	(builder item: #Tools) label: 'The root tools'.
 
 	(builder item: #MyOwnCoolTool)
-		parentName: #Tools;
+		parent: #Tools;
 		label: 'My own cool tool'.
 
 	(builder item: #Tools) label: 'The root tools'.
-	self deny: builder hasNoConflict
+	self assert: builder hasConflict
 ]
 
-{ #category : #'general-testing' }
+{ #category : #'tests - duplicated items' }
 MenuBuilderTest >> testDuplicatedIdenticalItem [
-	
+
 	| builder |
 	builder := ToMenuBuilder new.
-	
+
 	builder item: #MyOwnCoolMenu.
 	builder item: #MyOwnCoolMenu.
 
-	self 
-		assert: builder collectedItems size 
-		equals: 1.
-		
+	self assert: builder collectedItems size equals: 1.
+	self assert: builder hasConflict
 ]
 
-{ #category : #'general-testing' }
+{ #category : #'tests - duplicated items' }
 MenuBuilderTest >> testDuplicatedIdenticalItemWithChild [
 
 	| builder |
@@ -46,11 +57,17 @@ MenuBuilderTest >> testDuplicatedIdenticalItemWithChild [
 	(builder item: #MyOwnCoolMenu) with: [ builder item: #BobbyLeMenu ].
 	(builder item: #MyOwnCoolMenu) with: [ builder item: #BobbyLeMenu ].
 	builder resolve.
-	self assert: builder collectedItems size equals: 1.
-	self assert: builder collectedItems first childrenItems size equals: 1
+	self 
+		assert: builder collectedItems size 
+		equals: 1.
+	self
+		assert: builder collectedItems first childrenItems size
+		equals: 1.
+	self
+		assert: builder hasConflict
 ]
 
-{ #category : #'general-testing' }
+{ #category : #'tests - duplicated items' }
 MenuBuilderTest >> testDuplicatedIdenticalItemWithDifferentChild [
 
 	| builder |
@@ -59,34 +76,156 @@ MenuBuilderTest >> testDuplicatedIdenticalItemWithDifferentChild [
 	(builder item: #MyOwnCoolMenu) with: [ builder item: #BobbyLeMenu ].
 	(builder item: #MyOwnCoolMenu) with: [ builder item: #BobLeMenu ].
 	builder resolve.
-	self assert: builder collectedItems size equals: 1.
+	self 
+		assert: builder collectedItems size 
+		equals: 1.
 	self
 		assert: builder collectedItems first childrenItems size
-		equals: 2
+		equals: 2.
+	self 
+		assert: builder hasConflict
 ]
 
-{ #category : #'general-testing' }
-MenuBuilderTest >> testSimpleItemBeforeParentDefinition [
-	
+{ #category : #'tests - todo' }
+MenuBuilderTest >> testResolveAnUnknownParent [
+
 	| builder |
 	builder := ToMenuBuilder new.
 	(builder item: #MyOwnCoolTool)
-		parentName: #Tools;
+		parent: #Tools;
 		label: 'My own cool tool'.
-	
-	(builder item: #Tools)
-		label: 'The root tools'.
-	
-	self 
-		assert: builder collectedItems size 
-		equals: 2. 
-	self 
-		assert: builder collectedItems first parentName 
-		equals: #Tools. 
+
+	builder resolve.
+	self assert: (builder findInCollectedItems: #MyOwnCoolTool) parent equals: #Tools.
+	self assert: (builder findInCollectedItems: #MyOwnCoolTool) parentMenuItem isNil.
+
+	self assert: builder hasConflict.
+	self assert: builder conflicts first class equals: ParentNotFound
+]
+
+{ #category : #'tests - duplicated items' }
+MenuBuilderTest >> testResolveThreeDepth [
+
+	| builder |
+	builder := ToMenuBuilder new.
+	(builder item: #Root) label: 'The root tools'.
+
+	(builder item: #Sub)
+		parent: #Root;
+		label: 'A subitem'.
+
+	(builder item: #SubSub)
+		parent: #Sub;
+		label: 'A subsubitem'.
+
+	builder resolve.
+
+	self assert: builder collectedItems size equals: 1
+]
+
+{ #category : #'tests - duplicated items' }
+MenuBuilderTest >> testResolveThreeDepthBroken [
+
+	| builder |
+	builder := ToMenuBuilder new.
+	(builder item: #Root) label: 'The root tools'.
+
+	(builder item: #Sub)
+		parent: #Root;
+		label: 'A subitem'.
+
+	(builder item: #SubSub)
+		parent: #SubBroken;
+		label: 'A subsubitem'.
+
+	builder resolve.
+
+	self assert: builder collectedItems size equals: 2
+]
+
+{ #category : #'tests - resolve phase' }
+MenuBuilderTest >> testResolveWithDeclaresOneItemWithAChild [
+
+	| builder |
+	builder := ToMenuBuilder new.
+
+	(builder item: #MyMenu)
+		parent: #Tools;
+		"place me as a child of the #Tools node (declared by #toolsOn:)"
+		label: 'The coolest tool here';
+		with: [
+			(builder item: #MyMenuChild)
+				parent: #MyMenu;
+				label: 'My own cool tool also here' ].
+
+	builder resolve.
+
+	self assert: builder collectedItems size equals: 1.
+
+	self
+		assert: (builder findInCollectedItems: #MyMenu) childrenItems first label
+		equals: 'My own cool tool also here'.
+
+	self
+		assert: (builder findInCollectedItems: #MyMenu) childrenItems first parent
+		equals: #MyMenu
+]
+
+{ #category : #'tests - resolve phase' }
+MenuBuilderTest >> testResolveWithItemWithExplicitParentUnknowDeclared [
+
+	| builder |
+	builder := ToMenuBuilder new.
+	(builder item: #MyMenu)
+		parent: #Tools;
+		label: 'The coolest tool here';
+		with: [
+			(builder item: #MyBrokenItem)
+				parent: #MyBrokenMenu;
+				label: 'My own cool tool also here'.
+			(builder item: #MyItem)
+				parent: #MyMenu;
+				label: 'My own cool tool also here' ].
+	builder resolve.
+
+	"The broken menu item is kept as root element even if the resolve phase could resolve the parent since we can do it.
+	But the resolve phase does not fix the problem because else we would end up with broken parentName: declarations
+	and we want to force the developer to fix the usage (no use of parentName: in with: form. ) 
+	"
+	self assert: builder collectedItems size equals: 2.
+
+	self
+		assert:
+		(builder findInCollectedItems: #MyMenu) childrenItems first name
+		equals: #MyItem.
+
+	self
+		assert: (builder findInCollectedItems: #MyBrokenItem) parent
+		equals: #MyBrokenMenu.
+
+	"we do not lose information even if it is wrong."
+	self
+		assert: (builder findInCollectedItems: #MyBrokenItem) parent
+		equals: #MyBrokenMenu
+]
+
+{ #category : #toploExample }
+MenuBuilderTest >> testSimpleItemBeforeParentDefinition [
+
+	| builder |
+	builder := ToMenuBuilder new.
+	(builder item: #MyOwnCoolTool)
+		parent: #Tools;
+		label: 'My own cool tool'.
+
+	(builder item: #Tools) label: 'The root tools'.
+
+	self assert: builder collectedItems size equals: 2.
+	self assert: builder collectedItems first parent equals: #Tools
 ]
 
 { #category : #'general-testing' }
-MenuBuilderTest >> testSimpleItemInAnUndeclaredGroup [
+MenuBuilderTest >> testSimpleItemInAnUndeclaredGroupCreatesGroup [
 
 	| builder |
 	builder := ToMenuBuilder new.
@@ -103,137 +242,154 @@ MenuBuilderTest >> testSimpleItemInAnUndeclaredGroup [
 
 { #category : #'general-testing' }
 MenuBuilderTest >> testSimpleItemInGroupAlreadyDeclared [
-	
+
 	| builder |
 	builder := ToMenuBuilder new.
 	builder group: #OurGroup.
-	
+
 	(builder item: #Tools)
 		label: 'The root tools';
 		groupName: #OurGroup.
 	builder resolve.
 	self 
 		assert: builder collectedItems size 
-		equals: 1. 
+		equals: 1.
 	self 
 		assert: (builder groups at: #OurGroup) first name 
-		equals: #Tools. 
+		equals: #Tools
 ]
 
-{ #category : #'general-testing' }
-MenuBuilderTest >> testSimpleItemNoParentAvailable [
-	
-	| builder |
-	builder := ToMenuBuilder new.
-	(builder item: #MyOwnCoolTool)
-		parentName: #Tools;
-		label: 'My own cool tool'.
-		
-	self 
-		assert: builder collectedItems size 
-		equals: 1. 
-	self 
-		assert: builder collectedItems first parentName 
-		equals: #Tools. 
-]
-
-{ #category : #'general-testing' }
-MenuBuilderTest >> testSimpleItemWithItem [
-	
-	| builder |
-	builder := ToMenuBuilder new.
-	
-	(builder item: #MyOwnCoolMenu)
-		parentName: #Tools; "place me as a child of the #Tools node (declared by #toolsOn:)"
-		label: 'The coolest tool here';
-		with: [ (builder item: #MyOwnCoolTool) 
-						parentName: #MyOwnCoolMenu;
-						label: 'My own cool tool also here' ].
-	builder resolve.	
-	self 
-		assert: builder collectedItems size 
-		equals: 1.
-
-	self 
-		assert: builder collectedItems first childrenItems first label equals: 'My own cool tool also here'.
-	
-	self 
-		assert: builder collectedItems first childrenItems first parentName equals: #MyOwnCoolMenu.
-		
-]
-
-{ #category : #'general-testing' }
+{ #category : #'tests - resolve phase' }
 MenuBuilderTest >> testSimpleItemWithItemNoParentDeclared [
-	
+
 	| builder |
 	builder := ToMenuBuilder new.
-	
+
 	(builder item: #MyOwnCoolMenu)
-		parentName: #Tools; "place me as a child of the #Tools node (declared by #toolsOn:)"
+		parent: #Tools;
+		"place me as a child of the #Tools node (declared by #toolsOn:)"
 		label: 'The coolest tool here';
-		with: [ (builder item: #MyOwnCoolTool) 
-						label: 'My own cool tool also here' ].
+		with: [
+			(builder item: #MyOwnCoolTool) label: 'My own cool tool also here' ].
 	builder resolve.
-	self 
-		assert: builder collectedItems size 
-		equals: 1.
-	self 
-		assert: builder collectedItems first parentName 
-		equals: nil. 
-	self 
-		assert: builder collectedItems first childrenItems first label equals: 'My own cool tool also here'.
-	
-	self 
-		assert: builder collectedItems first childrenItems first parentName equals: #MyOwnCoolMenu.
-		
+
+	self assert: builder collectedItems size equals: 1.
+	self
+		assert: (builder findInCollectedItems: #MyOwnCoolMenu) parent
+		equals: #Tools.
+	self
+		assert:
+			(builder findInCollectedItems: #MyOwnCoolMenu) childrenItems first
+				label
+		equals: 'My own cool tool also here'.
+
+	self
+		assert:
+			(builder findInCollectedItems: #MyOwnCoolMenu) childrenItems first
+				parent
+		equals: #MyOwnCoolMenu
 ]
 
-{ #category : #'general-testing' }
+{ #category : #'tests - resolve phase' }
 MenuBuilderTest >> testSimpleItemWithItemWithExplicitParentDeclared [
-	
+
 	| builder |
 	builder := ToMenuBuilder new.
-	
-	(builder item: #MyOwnCoolMenu)
-		parentName: #Tools;
-		label: 'The coolest tool here';
-		with: [ (builder item: #MyOwnCoolTool) 
-						parentName: #MyOwnCoolMenu;
-						label: 'My own cool tool also here' ].
-	builder resolve.
-	self 
-		assert: builder collectedItems size 
-		equals: 1.
 
-	self 
-		assert: builder collectedItems first childrenItems first label equals: 'My own cool tool also here'.
-	
-	self 
-		assert: builder collectedItems first childrenItems first parentName equals: #MyOwnCoolMenu.
+	(builder item: #MyOwnCoolMenu)
+		parent: #Tools;
+		label: 'The coolest tool here';
+		with: [
+			(builder item: #MyOwnCoolTool)
+				parent: #MyOwnCoolMenu;
+				label: 'My own cool tool also here' ].
+	builder resolve.
+
+	self assert: builder collectedItems size equals: 1.
+
+	self
+		assert:
+			(builder findInCollectedItems: #MyOwnCoolMenu) childrenItems first
+				label
+		equals: 'My own cool tool also here'.
+
+	self
+		assert:
+			(builder findInCollectedItems: #MyOwnCoolMenu) childrenItems first
+				parent
+		equals: #MyOwnCoolMenu
+]
+
+{ #category : #'tests - duplicated items' }
+MenuBuilderTest >> testThreeDepth [
+
+	| builder |
+	builder := ToMenuBuilder new.
+	(builder item: #Root) label: 'The root tools'.
+
+	(builder item: #Sub)
+		parent: #Root;
+		label: 'A subitem'.
+
+	(builder item: #SubSub)
+		parent: #Sub;
+		label: 'A subsubitem'.
+
+
+	self assert: builder collectedItems size equals: 3
+]
+
+{ #category : #'tests - todo' }
+MenuBuilderTest >> testTwoGroupsWithSameName [ 
+
+	| builder |
+	self skip.
+	builder := ToMenuBuilder new.
+
+	(builder group: #Tools)
+		label: 'The root tools'.
 		
+	(builder group: #Tools)
+		label: 'The root tools'.
+
+	builder resolve.
+	self assert: builder groups size equals: 1.
+	self assert: (builder groups includesKey: #OurGroup).
+	self 
+		assert: (builder groups at: #OurGroup) first name 
+		equals: #Tools
 ]
 
 { #category : #'general-testing' }
-MenuBuilderTest >> testSimpleItemWithItemWithExplicitUnknownParentDeclared [
+MenuBuilderTest >> testWithDeclaresOneItemWithAChild [
 
-	| builder child |
+	| builder |
 	builder := ToMenuBuilder new.
 
-	child := (builder item: #MyOwnCoolTool) parentName: #Potato.
+	(builder item: #MyMenu)
+		parent: #Tools;
+		"place me as a child of the #Tools node (declared by #toolsOn:)"
+		label: 'The coolest tool here';
+		with: [
+			(builder item: #MyMenuChild)
+				parent: #MyMenu;
+				label: 'My own cool tool also here' ].
 
-	(builder item: #MyOwnCoolMenu)
-		parentName: #Tools;
-		with: [ child ].
+	"At this stage (before resolving) the child is created by the builder but not in the parent list and 
+	as such removed from the collected items."
 
-	builder resolve.
-
-	"Hypothese : Default case will put the child at the root or in the corrected parent"
 	self assert: builder collectedItems size equals: 2.
 
-	self deny:
-		(builder collectedItems first childrenItems includes: child).
-	self deny: builder hasNoConflict.
-	self assert: builder collectedItems second parentName equals: nil
+	self assert:
+		(builder findInCollectedItems: #MyMenuChild) parent equals: #MyMenu.
+
+	self
+		assert: (builder findInCollectedItems: #MyMenuChild) parent
+		equals: #MyMenu.
+
+	self
+		assert: (builder findInCollectedItems: #MyMenuChild) label
+		equals: 'My own cool tool also here'
 ]
 
 { #category : #'general-testing' }

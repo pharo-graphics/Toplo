@@ -1,5 +1,5 @@
 Class {
 	#name : #ParentNotFound,
-	#superclass : #NotFound,
+	#superclass : #Object,
 	#category : #'Toplo-MenuRegistration-NewCreate'
 }

@@ -56,6 +56,11 @@ ToMenuRegistration >> initialize [
 ]
 
 { #category : #accessing }
+ToMenuRegistration >> label [
+	^ label
+]
+
+{ #category : #accessing }
 ToMenuRegistration >> label: aString [
 	label := aString 
 ]
@@ -77,7 +82,8 @@ ToMenuRegistration >> parent [
 
 { #category : #accessing }
 ToMenuRegistration >> parent: aMenuRegistration [
-	parent := aMenuRegistration
+
+	parent := aMenuRegistration.
 ]
 
 { #category : #accessing }
@@ -105,7 +111,6 @@ ToMenuRegistration >> with: aBlock [
 
 	| menu |
 	menu := aBlock value.
-	(menu parentName = name or: menu parentName isNil) ifFalse: [ ^ self ].
-	aBlock value parentName: name.
-	aBlock value parent: self.
+	menu parentName = name ifTrue: [ ^ self ].
+	aBlock value builder changeParent: self for: menu name
 ]

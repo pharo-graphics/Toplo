@@ -15,7 +15,7 @@ MenuBuilderTest >> testDefinitionOfTwoSimilarParentIsAConflict [
 	(builder item: #Tools) label: 'The root tools'.
 
 	(builder item: #MyOwnCoolTool)
-		parent: #Tools;
+		parentName: #Tools;
 		label: 'My own cool tool'.
 
 	(builder item: #Tools) label: 'The root tools'.
@@ -39,17 +39,15 @@ MenuBuilderTest >> testDuplicatedIdenticalItem [
 
 { #category : #'general-testing' }
 MenuBuilderTest >> testDuplicatedIdenticalItemWithChild [
-	
+
 	| builder |
 	builder := ToMenuBuilder new.
-	
-	(builder item: #MyOwnCoolMenu) with: [builder item: #BobbyLeMenu].
-	(builder item: #MyOwnCoolMenu) with: [builder item: #BobbyLeMenu].
-	self 
-		assert: builder collectedItems size 
-		equals: 1.
-	self assert: builder collectedItems first size equals: 1
-		
+
+	(builder item: #MyOwnCoolMenu) with: [ builder item: #BobbyLeMenu ].
+	(builder item: #MyOwnCoolMenu) with: [ builder item: #BobbyLeMenu ].
+	builder resolve.
+	self assert: builder collectedItems size equals: 1.
+	self assert: builder collectedItems first childrenItems size equals: 1
 ]
 
 { #category : #'general-testing' }
@@ -174,12 +172,13 @@ MenuBuilderTest >> testSimpleItemWithItemNoParentDeclared [
 		label: 'The coolest tool here';
 		with: [ (builder item: #MyOwnCoolTool) 
 						label: 'My own cool tool also here' ].
+	builder resolve.
 	self 
 		assert: builder collectedItems size 
 		equals: 1.
 	self 
 		assert: builder collectedItems first parentName 
-		equals: #Tools. 
+		equals: nil. 
 	self 
 		assert: builder collectedItems first childrenItems first label equals: 'My own cool tool also here'.
 	

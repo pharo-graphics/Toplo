@@ -44,12 +44,35 @@ ToMenuBuilder >> allNamedItems [
 { #category : #'as yet unclassified' }
 ToMenuBuilder >> arrangeItems [
 
-	| itemsCopy |
-	itemsCopy := collectedItems copy.
-	itemsCopy do: [ :item |
+	| newCollectedItem |
+	newCollectedItem := OrderedCollection new.
+	collectedItems do: [ :item |
+		item parentName ifNil: [ newCollectedItem add: item ] ].
+	collectedItems := newCollectedItem.
+]
+
+{ #category : #'as yet unclassified' }
+ToMenuBuilder >> arrangeItemsParameters [
+
+	collectedItems do: [ :item |
 		self handleGroupsUsage: item.
 		self handleUnknownParent: item.
-		item parentName ifNotNil: [ ]].
+		self handleAddToParent: item ]
+]
+
+{ #category : #'as yet unclassified' }
+ToMenuBuilder >> changeParent: aMenuRegistration for: aSymbol [
+	"Change the parent for an item, if the item doesn't exist we create one"
+
+	| item |
+	item := self findInCollectedItems: aSymbol.
+	item isCollection ifTrue: [ self item: aSymbol ].
+	(item parentName = aMenuRegistration name or:
+		 item parentName isNil) ifTrue: [
+			item parentName: aMenuRegistration name.
+			^ self
+		].
+	hasNoConflict := false.
 ]
 
 { #category : #accessing }
@@ -95,6 +118,16 @@ ToMenuBuilder >> groups: aDictionnary [
 ]
 
 { #category : #'as yet unclassified' }
+ToMenuBuilder >> handleAddToParent: aMenuRegistration [
+
+	| parentMenu |
+	aMenuRegistration parentName ifNil: [ currentRoot addChild: aMenuRegistration. ^ self ].
+	parentMenu := self findInCollectedItems: aMenuRegistration parentName.
+	aMenuRegistration parent: parentMenu.
+	parentMenu addChild: aMenuRegistration
+]
+
+{ #category : #'as yet unclassified' }
 ToMenuBuilder >> handleGroupsUsage: anItem [
 
 	anItem groupName ifNil: [ ^ self ].
@@ -111,7 +144,8 @@ ToMenuBuilder >> handleUnknownParent: anItem [
 	((self allNamedItems includes: pName) or: pName isNil) ifTrue: [
 		^ self ].
 	hasNoConflict := false.
-	anItem parentName: nil
+	anItem parentName: nil.
+	anItem parent: nil.
 ]
 
 { #category : #accessing }
@@ -151,8 +185,8 @@ ToMenuBuilder >> item: aSymbol [
 	| newItem |
 	(self isInCollectedItems: aSymbol) ifTrue: [
 		hasNoConflict := false.
-		^ self findInCollectedItems: self ].
-	newItem := ToMenuRegistration new name: aSymbol.
+		^ self findInCollectedItems: aSymbol ].
+	newItem := ToMenuRegistration new name: aSymbol; builder: self.
 	collectedItems add: newItem.
 	^ newItem
 ]
@@ -169,7 +203,7 @@ ToMenuBuilder >> pragmaKeywords: aCollectionOfSymbol [
 
 { #category : #'as yet unclassified' }
 ToMenuBuilder >> resolve [
-	self arrangeItems
 
-	
+	self arrangeItemsParameters.
+	self arrangeItems
 ]

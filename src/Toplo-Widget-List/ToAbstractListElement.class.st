@@ -69,6 +69,14 @@ ToAbstractListElement >> commandApplicationStrategy [
 	^ commandApplicationStrategy
 ]
 
+{ #category : #layout }
+ToAbstractListElement >> consumeFinalStepCommands [
+
+	self innerElement consumeFinalStepCommands
+
+	
+]
+
 { #category : #'accessing selecters' }
 ToAbstractListElement >> contextMenuSelecter [ 
 

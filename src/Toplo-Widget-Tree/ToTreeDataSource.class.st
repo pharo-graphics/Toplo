@@ -4,14 +4,8 @@ Class {
 	#category : #'Toplo-Widget-Tree-Core'
 }
 
-{ #category : #'t - observable collection - initialization' }
-ToTreeDataSource >> onSievedWith: aSieve [
+{ #category : #enumerating }
+ToTreeDataSource >> rootsDo: aBlock [
 
-	| interval roots |
-	interval := 1 to: aSieve currentData size.
-	roots := aSieve currentData select: [:w | w isRoot ].
-	roots do: [ :r | r collapse ].
-	self notifyEmptinessChangeAfter: [
-			self initializeWith: (roots).
-			self notifySievedWith: aSieve interval: interval ]
+	self do: [ :w | w isRoot ifTrue: [ aBlock value: w ] ]
 ]

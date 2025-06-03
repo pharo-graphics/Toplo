@@ -216,12 +216,6 @@ ToTreeDataAccessor >> newWrapperFor: anObject [
 		  dataItem: anObject
 ]
 
-{ #category : #'t - observable collection - notifications' }
-ToTreeDataAccessor >> notifySievedWith: aSieve interval: anInterval [
-
-	self dataSource notifySievedWith: aSieve interval: anInterval
-]
-
 { #category : #'t - collection api - removing' }
 ToTreeDataAccessor >> removeAll [
 

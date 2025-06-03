@@ -1,22 +1,11 @@
 Class {
-	#name : #ToSievedListElementEventHandler,
-	#superclass : #BlCustomEventHandler,
-	#instVars : [
-		'sieve',
-		'sieveSelectionModel',
-		'originalIndexMap'
-	],
-	#category : #'Toplo-Widget-List-Sieve'
+	#name : #ToSievedTreeElementEventHandler,
+	#superclass : #ToSievedListElementEventHandler,
+	#category : #'Toplo-Widget-Tree-Sieve'
 }
 
-{ #category : #'api - accessing' }
-ToSievedListElementEventHandler >> eventsToHandle [
-
-	^ { ToListSelectionCommandAppliedEvent }
-]
-
 { #category : #'element handlers' }
-ToSievedListElementEventHandler >> listSelectionCommandAppliedEvent: aSelectionCommandAppliedEvent [
+ToSievedTreeElementEventHandler >> listSelectionCommandAppliedEvent: aSelectionCommandAppliedEvent [
 	" the list selection change event is about to be dispatched.
 	I take care of the sieve internal selectionSet according to the list element selection model"
 
@@ -32,7 +21,6 @@ ToSievedListElementEventHandler >> listSelectionCommandAppliedEvent: aSelectionC
 	" reset the selection in case of single selection mode "
 	aSelectionCommandAppliedEvent currentTarget isMultipleSelection
 		ifFalse: [ sieveSelectionModel deselectAll ].
-
 	" the selection set is updated according to the pattern:
 	- if empty, the whole selection set is set from the whole list element selection model 
 	- if not empty, the selection set is computed according to the current list node list "
@@ -40,11 +28,12 @@ ToSievedListElementEventHandler >> listSelectionCommandAppliedEvent: aSelectionC
 		ifEmpty: [ sieveSelectionModel copySelectionFrom: listSelModel ]
 		ifNotEmpty: [
 				listElement dataSource withIndexDo: [ :d :localIndex |
-						originalIndexMap at: d ifPresent: [ :originalIndex |
-								listSelModel
-									transferSelectionFromIndex: localIndex
-									toIndex: originalIndex
-									in: sieveSelectionModel ] ] ].
+						d isRoot ifTrue: [
+								originalIndexMap at: d ifPresent: [ :originalIndex |
+										listSelModel
+											transferSelectionFromIndex: localIndex
+											toIndex: originalIndex
+											in: sieveSelectionModel ] ] ] ].
 
 	" dispatch a specific, different from the primary selection change event that will be sent after.
 	It is useful for sieve list user that relies on the sieve internal selection to adapt themeself 
@@ -53,24 +42,4 @@ ToSievedListElementEventHandler >> listSelectionCommandAppliedEvent: aSelectionC
 			 sieve: sieve;
 			 selectionModel: sieveSelectionModel;
 			 yourself)
-]
-
-{ #category : #'api - hooks' }
-ToSievedListElementEventHandler >> onInstalledIn: aListElement [
-
-	super onInstalledIn: aListElement.
-	sieveSelectionModel := sieve selectionModel.
-	self originalIndexMap: sieve originalIndexMap
-]
-
-{ #category : #accessing }
-ToSievedListElementEventHandler >> originalIndexMap: aDictionary [
-
-	originalIndexMap := aDictionary
-]
-
-{ #category : #accessing }
-ToSievedListElementEventHandler >> sieve: aListElementSieve [
-
-	sieve := aListElementSieve
 ]

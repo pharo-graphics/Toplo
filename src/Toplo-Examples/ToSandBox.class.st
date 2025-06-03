@@ -3898,7 +3898,6 @@ ToSandBox class >> example_SieveOnTree [
 					 yourself) ].
 
 	sieve := treeElement newSieve.
-	sieve inspect.
 	sieve onInstalledIn: treeElement.
 	treeElement dataAccessor addAll:
 		{ #AAA. #BBB. #CCC. #ABB. #ACC. #BAA. #BCC }.

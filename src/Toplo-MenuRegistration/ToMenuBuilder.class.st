@@ -41,7 +41,7 @@ ToMenuBuilder >> addConflict: aDuplicatedItem [
 	conflicts add: aDuplicatedItem 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToMenuBuilder >> allNamedItems [
 
 	^ collectedItems collect: [ :item | item name].
@@ -54,8 +54,11 @@ ToMenuBuilder >> arrangeItems [
 	newCollectedItem := OrderedCollection new.
 	collectedItems do: [ :item |
 		(item parent isNil or:
-		 (self allNamedItems includes: item parent) not) ifTrue: [ newCollectedItem add: item ] ].
-	collectedItems := newCollectedItem
+			 (self allNamedItems includes: item parent) not) ifTrue: [
+			newCollectedItem add: item ] ].
+	collectedItems := newCollectedItem.
+	self sortItems.
+	collectedItems do: [ :item | self sortedTree: item ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -64,7 +67,8 @@ ToMenuBuilder >> arrangeItemsParameters [
 	collectedItems do: [ :item |
 		self handleGroupsUsage: item.
 		self handleUnknownParent: item.
-		self handleAddToParent: item ]
+		self handleAddToParent: item.
+		]
 ]
 
 { #category : #'as yet unclassified' }
@@ -72,14 +76,13 @@ ToMenuBuilder >> changeParent: aMenuRegistration for: aSymbol [
 	"Change the parent for an item, if the item doesn't exist we create one"
 
 	| item |
-	item := self findInCollectedItems: aSymbol.
+	item := self itemsNamed: aSymbol.
 	item isCollection ifTrue: [ self item: aSymbol ].
-	(item parent = aMenuRegistration name or:
-		 item parent isNil) ifTrue: [
-			item parent: aMenuRegistration name.
-			^ self
-		].
-	hasNoConflict := false.
+	(item parent = aMenuRegistration name or: item parent isNil) ifFalse: [
+ 		self addConflict: WrongParentPlacement new. 	
+	].
+	item parent: aMenuRegistration name.
+		item groupName: aMenuRegistration groupName.
 ]
 
 { #category : #accessing }
@@ -107,37 +110,47 @@ ToMenuBuilder >> currentRoot: aMenuRegistration [
 	currentRoot := aMenuRegistration
 ]
 
-{ #category : #'as yet unclassified' }
-ToMenuBuilder >> findInCollectedItems: aSymbol [
-	collectedItems do: [ :item | (item name = aSymbol) ifTrue: [^ item]].
-	^ currentRoot
-]
-
 { #category : #'menu protocol' }
 ToMenuBuilder >> group: aSymbol [
 	"Create a new group"
-	groups at: aSymbol put: OrderedCollection new
+
+	| newGroup |
+	(self groups includes: aSymbol) ifTrue: [
+		^ self groupsNamed: aSymbol ].
+	newGroup := ToMenuRegistration new
+		            groupName: aSymbol;
+		            builder: self.
+	collectedItems add: newGroup.
+	^ newGroup
 ]
 
 { #category : #accessing }
 ToMenuBuilder >> groups [
-	^ groups
+	|groupsNames|
+	groupsNames := OrderedCollection new. 
+	collectedItems do: [ :item |
+		  item name ifNil: [ groupsNames add: item groupName ] ].
+	^ groupsNames
 ]
 
 { #category : #accessing }
-ToMenuBuilder >> groups: aDictionnary [
-	groups := aDictionnary
+ToMenuBuilder >> groupsNamed: aSymbol [
+
+	collectedItems do: [ :item |
+		(item groupName = aSymbol and: item name isNil) ifTrue: [ ^ item ] ].
+	^ currentRoot
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #adding }
 ToMenuBuilder >> handleAddToParent: aMenuRegistration [
 
 	| parentMenu |
 	(aMenuRegistration parent isNil or:
-		 (self allNamedItems includes: aMenuRegistration parent) not) ifTrue: [
-		currentRoot addChild: aMenuRegistration.
-		^ self ].
-	parentMenu := self findInCollectedItems: aMenuRegistration parent.
+		 (self allNamedItems includes: aMenuRegistration parent) not)
+		ifTrue: [
+			currentRoot addChild: aMenuRegistration.
+			^ self ].
+	parentMenu := self itemsNamed: aMenuRegistration parent.
 	aMenuRegistration parentMenuItem: parentMenu.
 	parentMenu addChild: aMenuRegistration
 ]
@@ -145,10 +158,10 @@ ToMenuBuilder >> handleAddToParent: aMenuRegistration [
 { #category : #'as yet unclassified' }
 ToMenuBuilder >> handleGroupsUsage: anItem [
 
-	anItem groupName ifNil: [ ^ self ].
+	(anItem groupName isNil or: anItem name isNil) ifTrue: [ ^ self ].
 	(self isAnExistingGroup: anItem groupName) ifFalse: [
 		self group: anItem groupName ].
-	(groups at: anItem groupName) add: anItem
+	(self groupsNamed: anItem groupName) addChild: anItem
 ]
 
 { #category : #'as yet unclassified' }
@@ -186,7 +199,8 @@ ToMenuBuilder >> initialize [
 
 { #category : #'as yet unclassified' }
 ToMenuBuilder >> isAnExistingGroup: aSymbol [
-	^ groups keys anySatisfy: [ :key | key = aSymbol ]
+
+	^ self groups anySatisfy: [ :gName | gName = aSymbol ]
 ]
 
 { #category : #'as yet unclassified' }
@@ -200,13 +214,22 @@ ToMenuBuilder >> item: aSymbol [
 
 	| newItem |
 	(self isInCollectedItems: aSymbol) ifTrue: [
-		self addConflict: (DuplicatedItem new itemNamed: aSymbol; yourself ).
-		^ self findInCollectedItems: aSymbol ].
+		self addConflict: (DuplicatedItem new
+				 itemNamed: aSymbol;
+				 yourself).
+		^ self itemsNamed: aSymbol ].
 	newItem := ToMenuRegistration new
 		           name: aSymbol;
 		           builder: self.
 	collectedItems add: newItem.
 	^ newItem
+]
+
+{ #category : #accessing }
+ToMenuBuilder >> itemsNamed: aSymbol [
+
+	collectedItems do: [ :item | item name = aSymbol ifTrue: [ ^ item ] ].
+	^ currentRoot
 ]
 
 { #category : #accessing }
@@ -224,4 +247,18 @@ ToMenuBuilder >> resolve [
 
 	self arrangeItemsParameters.
 	self arrangeItems
+]
+
+{ #category : #sorting }
+ToMenuBuilder >> sortItems [
+
+	collectedItems := collectedItems sorted: [ :c1 :c2 |
+		                 c1 order <= c2 order ]
+]
+
+{ #category : #'as yet unclassified' }
+ToMenuBuilder >> sortedTree: aMenuRegistration [
+	aMenuRegistration childrenItems ifEmpty: [ ^ self ].
+	aMenuRegistration sortChildren.
+	aMenuRegistration childrenItems do: [ :child | self sortedTree: child ].
 ]

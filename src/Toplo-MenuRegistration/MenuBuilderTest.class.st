@@ -86,6 +86,39 @@ MenuBuilderTest >> testDuplicatedIdenticalItemWithDifferentChild [
 		assert: builder hasConflict
 ]
 
+{ #category : #'general-testing' }
+MenuBuilderTest >> testOrderedTree [
+
+	| builder |
+	builder := ToMenuBuilder new.
+
+	(builder item: #MyMenu)
+		order: 3;
+		with: [
+			(builder item: #MyMenuChild1)
+				parent: #MyMenu;
+				order: 9999.
+			(builder item: #MyMenuChild2)
+				parent: #MyMenu;
+				order: 1.].
+	(builder item: #MySecondMenu)
+		order: 1;
+		with: [
+			(builder item: #MySecondMenuChild1)
+				parent: #MySecondMenu;
+				order: 9999.
+			(builder item: #MySecondMenuChild2)
+				parent: #MySecondMenu;
+				order: 1.].
+	
+	builder resolve.
+	
+	self assert: builder collectedItems first name equals: #MySecondMenu.
+	self assert: builder collectedItems last name equals: #MyMenu.
+	self assert: (builder itemsNamed: #MySecondMenu) childrenItems first name equals: #MySecondMenuChild2.
+	
+]
+
 { #category : #'tests - todo' }
 MenuBuilderTest >> testResolveAnUnknownParent [
 
@@ -96,8 +129,11 @@ MenuBuilderTest >> testResolveAnUnknownParent [
 		label: 'My own cool tool'.
 
 	builder resolve.
-	self assert: (builder findInCollectedItems: #MyOwnCoolTool) parent equals: #Tools.
-	self assert: (builder findInCollectedItems: #MyOwnCoolTool) parentMenuItem isNil.
+	self
+		assert: (builder itemsNamed: #MyOwnCoolTool) parent
+		equals: #Tools.
+	self assert:
+		(builder itemsNamed: #MyOwnCoolTool) parentMenuItem isNil.
 
 	self assert: builder hasConflict.
 	self assert: builder conflicts first class equals: ParentNotFound
@@ -163,11 +199,38 @@ MenuBuilderTest >> testResolveWithDeclaresOneItemWithAChild [
 	self assert: builder collectedItems size equals: 1.
 
 	self
-		assert: (builder findInCollectedItems: #MyMenu) childrenItems first label
+		assert:
+		(builder itemsNamed: #MyMenu) childrenItems first label
 		equals: 'My own cool tool also here'.
 
 	self
-		assert: (builder findInCollectedItems: #MyMenu) childrenItems first parent
+		assert:
+		(builder itemsNamed: #MyMenu) childrenItems first parent
+		equals: #MyMenu
+]
+
+{ #category : #'tests - resolve phase' }
+MenuBuilderTest >> testResolveWithDeclaresOneItemWithAParentAndAChild [
+
+	| builder |
+	builder := ToMenuBuilder new.
+
+	(builder item: #MyMenu)
+		parent: #Tools;
+		groupName: #BeautifulMenu;
+		label: 'The coolest tool here';
+		with: [
+			(builder item: #MyMenuChild)
+				parent: #MyMenu;
+				label: 'My own cool tool also here' ].
+
+	builder resolve.
+
+	self assert: builder groups size equals: 1.
+	self assert: (builder groupsNamed: #BeautifulMenu) childrenItems size equals: 2.
+
+	self
+		assert: (builder itemsNamed: #MyMenu) childrenItems first parent
 		equals: #MyMenu
 ]
 
@@ -196,16 +259,16 @@ MenuBuilderTest >> testResolveWithItemWithExplicitParentUnknowDeclared [
 
 	self
 		assert:
-		(builder findInCollectedItems: #MyMenu) childrenItems first name
+		(builder itemsNamed: #MyMenu) childrenItems first name
 		equals: #MyItem.
 
 	self
-		assert: (builder findInCollectedItems: #MyBrokenItem) parent
+		assert: (builder itemsNamed: #MyBrokenItem) parent
 		equals: #MyBrokenMenu.
 
 	"we do not lose information even if it is wrong."
 	self
-		assert: (builder findInCollectedItems: #MyBrokenItem) parent
+		assert: (builder itemsNamed: #MyBrokenItem) parent
 		equals: #MyBrokenMenu
 ]
 
@@ -236,8 +299,8 @@ MenuBuilderTest >> testSimpleItemInAnUndeclaredGroupCreatesGroup [
 
 	builder resolve.
 	self assert: builder groups size equals: 1.
-	self assert: (builder groups includesKey: #OurGroup).
-	self assert: (builder groups at: #OurGroup) first name equals: #Tools
+	self assert: (builder groups includes: #OurGroup).
+	self assert: (builder groupsNamed: #OurGroup) childrenItems first name equals: #Tools
 ]
 
 { #category : #'general-testing' }
@@ -251,11 +314,9 @@ MenuBuilderTest >> testSimpleItemInGroupAlreadyDeclared [
 		label: 'The root tools';
 		groupName: #OurGroup.
 	builder resolve.
-	self 
-		assert: builder collectedItems size 
-		equals: 1.
-	self 
-		assert: (builder groups at: #OurGroup) first name 
+	self assert: builder collectedItems size equals: 2.
+	self
+		assert: (builder groupsNamed: #OurGroup) childrenItems first name
 		equals: #Tools
 ]
 
@@ -275,17 +336,17 @@ MenuBuilderTest >> testSimpleItemWithItemNoParentDeclared [
 
 	self assert: builder collectedItems size equals: 1.
 	self
-		assert: (builder findInCollectedItems: #MyOwnCoolMenu) parent
+		assert: (builder itemsNamed: #MyOwnCoolMenu) parent
 		equals: #Tools.
 	self
 		assert:
-			(builder findInCollectedItems: #MyOwnCoolMenu) childrenItems first
+			(builder itemsNamed: #MyOwnCoolMenu) childrenItems first
 				label
 		equals: 'My own cool tool also here'.
 
 	self
 		assert:
-			(builder findInCollectedItems: #MyOwnCoolMenu) childrenItems first
+			(builder itemsNamed: #MyOwnCoolMenu) childrenItems first
 				parent
 		equals: #MyOwnCoolMenu
 ]
@@ -309,13 +370,13 @@ MenuBuilderTest >> testSimpleItemWithItemWithExplicitParentDeclared [
 
 	self
 		assert:
-			(builder findInCollectedItems: #MyOwnCoolMenu) childrenItems first
+			(builder itemsNamed: #MyOwnCoolMenu) childrenItems first
 				label
 		equals: 'My own cool tool also here'.
 
 	self
 		assert:
-			(builder findInCollectedItems: #MyOwnCoolMenu) childrenItems first
+			(builder itemsNamed: #MyOwnCoolMenu) childrenItems first
 				parent
 		equals: #MyOwnCoolMenu
 ]
@@ -340,24 +401,17 @@ MenuBuilderTest >> testThreeDepth [
 ]
 
 { #category : #'tests - todo' }
-MenuBuilderTest >> testTwoGroupsWithSameName [ 
+MenuBuilderTest >> testTwoGroupsWithSameName [
 
 	| builder |
-	self skip.
 	builder := ToMenuBuilder new.
 
-	(builder group: #Tools)
-		label: 'The root tools'.
-		
-	(builder group: #Tools)
-		label: 'The root tools'.
+	(builder group: #Tools) label: 'The root tools'.
 
-	builder resolve.
+	(builder group: #Tools) label: 'The root tools'.
+
 	self assert: builder groups size equals: 1.
-	self assert: (builder groups includesKey: #OurGroup).
-	self 
-		assert: (builder groups at: #OurGroup) first name 
-		equals: #Tools
+	self assert: (builder groups includes: #Tools).
 ]
 
 { #category : #'general-testing' }
@@ -380,15 +434,16 @@ MenuBuilderTest >> testWithDeclaresOneItemWithAChild [
 
 	self assert: builder collectedItems size equals: 2.
 
-	self assert:
-		(builder findInCollectedItems: #MyMenuChild) parent equals: #MyMenu.
-
 	self
-		assert: (builder findInCollectedItems: #MyMenuChild) parent
+		assert: (builder itemsNamed: #MyMenuChild) parent
 		equals: #MyMenu.
 
 	self
-		assert: (builder findInCollectedItems: #MyMenuChild) label
+		assert: (builder itemsNamed: #MyMenuChild) parent
+		equals: #MyMenu.
+
+	self
+		assert: (builder itemsNamed: #MyMenuChild) label
 		equals: 'My own cool tool also here'
 ]
 

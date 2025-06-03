@@ -11,14 +11,40 @@ Class {
 		'precondition',
 		'groupName',
 		'shortcut',
-		'order'
+		'order',
+		'action',
+		'target',
+		'selector',
+		'arguments'
 	],
 	#category : #'Toplo-MenuRegistration-NewCreate'
 }
 
+{ #category : #accessing }
+ToMenuRegistration >> action [
+	^ action
+]
+
+{ #category : #accessing }
+ToMenuRegistration >> action: aBlock [
+	action := aBlock.
+]
+
 { #category : #adding }
 ToMenuRegistration >> addChild: aMenuRegistration [
 	childrenItems add: aMenuRegistration.
+]
+
+{ #category : #accessing }
+ToMenuRegistration >> arguments [
+	^ arguments
+]
+
+{ #category : #accessing }
+ToMenuRegistration >> arguments: anArray [
+
+	arguments := anArray.
+	self updateAction.
 ]
 
 { #category : #accessing }
@@ -53,8 +79,14 @@ ToMenuRegistration >> groupName: aSymbol [
 
 { #category : #initialization }
 ToMenuRegistration >> initialize [
+
 	super initialize.
 	childrenItems := OrderedCollection new.
+	order := 0.
+	precondition := true.
+	target := self.
+	selector := #cull:.
+	arguments := nil.
 ]
 
 { #category : #accessing }
@@ -118,8 +150,21 @@ ToMenuRegistration >> precondition [
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> precondition: aBlock [
-	precondition := aBlock
+ToMenuRegistration >> precondition: aValuableBlock [
+
+	precondition := aValuableBlock
+]
+
+{ #category : #accessing }
+ToMenuRegistration >> selector [
+	^ selector
+]
+
+{ #category : #accessing }
+ToMenuRegistration >> selector: aSelector [
+
+	selector := aSelector.
+	self updateAction.
 ]
 
 { #category : #accessing }
@@ -133,11 +178,38 @@ ToMenuRegistration >> shortcut: aString [
 	shortcut := aString
 ]
 
+{ #category : #sorting }
+ToMenuRegistration >> sortChildren [
+
+	childrenItems := childrenItems sorted: [ :c1 :c2 | c1 order <= c2 order ].
+]
+
+{ #category : #accessing }
+ToMenuRegistration >> target [
+	^ target
+]
+
+{ #category : #accessing }
+ToMenuRegistration >> target: aSymbol [
+
+	target := aSymbol.
+	self updateAction.
+]
+
+{ #category : #'as yet unclassified' }
+ToMenuRegistration >> updateAction [
+
+	self action: [
+	          MessageSend
+		          receiver: target
+		          selector: selector
+		          arguments: arguments ]
+]
+
 { #category : #'instance creation' }
 ToMenuRegistration >> with: aBlock [
 
 	| menu |
 	menu := aBlock value.
-	menu parent = name ifTrue: [ ^ self ].
 	aBlock value builder changeParent: self for: menu name
 ]

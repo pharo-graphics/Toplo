@@ -36,6 +36,12 @@ ToMenuBuilder class >> pragmaKeywords: aCollection [
 		yourself
 ]
 
+{ #category : #visiting }
+ToMenuBuilder >> accept: aVisitor [
+
+	^ aVisitor visitMenuBuilder: self
+]
+
 { #category : #adding }
 ToMenuBuilder >> addConflict: aDuplicatedItem [ 
 	conflicts add: aDuplicatedItem 
@@ -47,7 +53,7 @@ ToMenuBuilder >> allNamedItems [
 	^ collectedItems collect: [ :item | item name].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #editing }
 ToMenuBuilder >> arrangeItems [
 
 	| newCollectedItem |
@@ -61,17 +67,17 @@ ToMenuBuilder >> arrangeItems [
 	collectedItems do: [ :item | self sortedTree: item ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #editing }
 ToMenuBuilder >> arrangeItemsParameters [
 
 	collectedItems do: [ :item |
+		self handleDuplicatedShortcut: item.
 		self handleGroupsUsage: item.
 		self handleUnknownParent: item.
-		self handleAddToParent: item.
-		]
+		self handleAddToParent: item ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #editing }
 ToMenuBuilder >> changeParent: aMenuRegistration for: aSymbol [
 	"Change the parent for an item, if the item doesn't exist we create one"
 
@@ -155,7 +161,15 @@ ToMenuBuilder >> handleAddToParent: aMenuRegistration [
 	parentMenu addChild: aMenuRegistration
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'error handling' }
+ToMenuBuilder >> handleDuplicatedShortcut: anItem [
+
+	(anItem shortcut isNil) ifTrue: [ ^ self ].
+	collectedItems do: [ :item |
+		(anItem shortcut = item shortcut and: anItem ~= item) ifTrue: [ self addConflict: (DuplicatedShortcut new shortcut: anItem shortcut). ^ self ] ].
+]
+
+{ #category : #'error handling' }
 ToMenuBuilder >> handleGroupsUsage: anItem [
 
 	(anItem groupName isNil or: anItem name isNil) ifTrue: [ ^ self ].
@@ -164,7 +178,7 @@ ToMenuBuilder >> handleGroupsUsage: anItem [
 	(self groupsNamed: anItem groupName) addChild: anItem
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'error handling' }
 ToMenuBuilder >> handleUnknownParent: anItem [
 
 	| pName |
@@ -197,23 +211,23 @@ ToMenuBuilder >> initialize [
 	groups := Dictionary new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToMenuBuilder >> isAnExistingGroup: aSymbol [
 
 	^ self groups anySatisfy: [ :gName | gName = aSymbol ]
 ]
 
-{ #category : #'as yet unclassified' }
-ToMenuBuilder >> isInCollectedItems: aSymbol [
+{ #category : #accessing }
+ToMenuBuilder >> isInItems: aSymbol [
 
 	^ collectedItems anySatisfy: [ :item | item name = aSymbol ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #adding }
 ToMenuBuilder >> item: aSymbol [
 
 	| newItem |
-	(self isInCollectedItems: aSymbol) ifTrue: [
+	(self isInItems: aSymbol) ifTrue: [
 		self addConflict: (DuplicatedItem new
 				 itemNamed: aSymbol;
 				 yourself).
@@ -256,7 +270,7 @@ ToMenuBuilder >> sortItems [
 		                 c1 order <= c2 order ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #sorting }
 ToMenuBuilder >> sortedTree: aMenuRegistration [
 	aMenuRegistration childrenItems ifEmpty: [ ^ self ].
 	aMenuRegistration sortChildren.

@@ -12,6 +12,17 @@ ToMenuRegistrationTest >> setUp [
 	menu := ToMenuRegistration new name: 'TheParent'.
 ]
 
+{ #category : #tests }
+ToMenuRegistrationTest >> testHasChildren [
+	menu addChild: (ToMenuRegistration new).
+	self assert: menu hasChildren
+]
+
+{ #category : #tests }
+ToMenuRegistrationTest >> testHasNoChildren [
+	self assert: menu hasNoChildren
+]
+
 { #category : #'as yet unclassified' }
 ToMenuRegistrationTest >> testOrderSort [
 

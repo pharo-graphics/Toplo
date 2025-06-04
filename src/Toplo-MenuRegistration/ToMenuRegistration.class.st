@@ -15,10 +15,17 @@ Class {
 		'action',
 		'target',
 		'selector',
-		'arguments'
+		'arguments',
+		'separator'
 	],
 	#category : #'Toplo-MenuRegistration-NewCreate'
 }
+
+{ #category : #visiting }
+ToMenuRegistration >> accept: aVisitor [
+
+	^ aVisitor visitMenuRegistration: self
+]
 
 { #category : #accessing }
 ToMenuRegistration >> action [
@@ -77,16 +84,30 @@ ToMenuRegistration >> groupName: aSymbol [
 	groupName := aSymbol
 ]
 
+{ #category : #testing }
+ToMenuRegistration >> hasChildren [
+	^ childrenItems isNotEmpty
+]
+
+{ #category : #testing }
+ToMenuRegistration >> hasNoChildren [
+
+	^ childrenItems isEmpty
+]
+
 { #category : #initialization }
 ToMenuRegistration >> initialize [
 
 	super initialize.
 	childrenItems := OrderedCollection new.
 	order := 0.
+	label := ''.
 	precondition := true.
+	separator := false.
 	target := self.
 	selector := #cull:.
 	arguments := nil.
+	self updateAction.
 ]
 
 { #category : #accessing }
@@ -167,6 +188,17 @@ ToMenuRegistration >> selector: aSelector [
 	self updateAction.
 ]
 
+{ #category : #'spec accessing' }
+ToMenuRegistration >> separator [
+	^ separator
+]
+
+{ #category : #'spec accessing' }
+ToMenuRegistration >> separator: aBoolean [
+
+	separator := aBoolean
+]
+
 { #category : #accessing }
 ToMenuRegistration >> shortcut [
 	^ shortcut
@@ -212,4 +244,9 @@ ToMenuRegistration >> with: aBlock [
 	| menu |
 	menu := aBlock value.
 	aBlock value builder changeParent: self for: menu name
+]
+
+{ #category : #'spec accessing' }
+ToMenuRegistration >> withSeparatorAfter [
+	separator := true.
 ]

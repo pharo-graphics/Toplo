@@ -49,6 +49,19 @@ MenuBuilderTest >> testDuplicatedIdenticalItem [
 ]
 
 { #category : #'tests - duplicated items' }
+MenuBuilderTest >> testDuplicatedIdenticalItemShortcut [
+
+	| builder |
+	builder := ToMenuBuilder new.
+
+	(builder item: #PrettyMenu) shortcut: 'u'.
+	(builder item: #UglyMenu) shortcut: 'u'.
+	builder resolve.
+	self assert: builder collectedItems size equals: 2.
+	self assert: builder hasConflict.
+]
+
+{ #category : #'tests - duplicated items' }
 MenuBuilderTest >> testDuplicatedIdenticalItemWithChild [
 
 	| builder |

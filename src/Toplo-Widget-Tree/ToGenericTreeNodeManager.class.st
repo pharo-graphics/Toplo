@@ -19,7 +19,8 @@ ToGenericTreeNodeManager >> buildNode: aTreeNode [
 
 	| content |
 	content := ToElement new
-		           fitContent;
+		           hMatchParent;
+		           vFitContent;
 		           yourself.
 	aTreeNode content middleElement: content.
 	nodeBuilder

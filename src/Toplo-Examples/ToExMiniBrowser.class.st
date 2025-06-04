@@ -65,7 +65,7 @@ ToExMiniBrowser >> newClassPane [
 		id: #classes;
 		nodeBuilder: [ :node :dataItem :holder |
 				node addChild: (ToExMiniBrowserClassNodeContent new
-							 class: dataItem position: holder position;
+							 class: dataItem;
 							 yourself) ].
 	classes
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent

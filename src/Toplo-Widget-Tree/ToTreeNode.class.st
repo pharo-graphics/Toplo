@@ -43,7 +43,8 @@ ToTreeNode >> initialize [
 	self applySkinInstallerOnFirstRequest: true.
 	content := ToTripletElement new.
 	content hMatchParent.
-	content vMatchParent.
+	content vFitContent.
+	content middleContainer constraintsDo: [:c | c horizontal matchParent ].
 	self addChild: content.
 	self addEventHandlerOn: ToArrowButtonClickedEvent do: [ :event |
 		event consume.

@@ -10,18 +10,19 @@ Class {
 }
 
 { #category : #initialization }
-ToExMiniBrowserClassNodeContent >> class: aClass position: anInteger [
+ToExMiniBrowserClassNodeContent >> class: aClass [ 
 
 	self
 		beStartToEnd;
-		hFitContent;
+		hMatchParent;
 		vFitContent;
 		startInterspace: 10;
+		endInterspace: 5;
+		endFlexible: true;
 		icon: (self iconFor: aClass);
 		label: (ToLabel text: aClass name).
 	aClass hasComment ifTrue: [ ^ self ].
-	self endElement: (ToImage inner: (self iconNamed: #uncommentedClass)).
-	self endInterspace: 5
+	self endElement: (ToImage inner: (self iconNamed: #uncommentedClass))
 ]
 
 { #category : #private }

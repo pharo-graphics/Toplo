@@ -9302,6 +9302,7 @@ ToSandBox class >> tabPaneElementWithUSStates [
 						        pane userData at: #placeholder put: emptyPh ];
 				        paneDestroyer: [ :pane |
 						        | emptyPh |
+						        'pane destroyed' traceCr.
 						        emptyPh := pane userData at: #placeholder.
 						        emptyPh detach ];
 				        yourself.

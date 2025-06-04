@@ -3862,11 +3862,8 @@ ToSandBox class >> example_SieveOnTree [
 	filterField := ToTextField new.
 	treeElement := ToTreeElement new.
 	treeElement childrenGetter: [ :dataItem |
-			dataItem isString
-				ifTrue: [
-						Array streamContents: [ :stream |
-							dataItem do: [ :c | stream nextPut: c asString ] ] ]
-				ifFalse: [ #(  ) ] ].
+			Array streamContents: [ :stream |
+				dataItem do: [ :c | stream nextPut: c asSymbol ] ] ].
 	treeElement placeholderBuilder: [ :placeholder :e |
 		placeholder empty ].
 
@@ -3903,7 +3900,7 @@ ToSandBox class >> example_SieveOnTree [
 	sieve := treeElement newSieve.
 	sieve onInstalledIn: treeElement.
 	treeElement dataAccessor addAll:
-		{ 'AAA'. 'BBB'. 'CCC'. 'ABB'. 'ACC'. 'BAA'. 'BCC' }.
+		{ #AAA. #BBB. #CCC. #ABB. #ACC. #BAA. #BCC }.
 
 	sieve dataFilter: [ :aString :aPattern |
 		aString includesSubstring: aPattern caseSensitive: false ].

@@ -4,8 +4,8 @@ Class {
 	#instVars : [
 		'sieve',
 		'listElement',
-		'dataPositionIndex',
-		'sieveSelectionModel'
+		'sieveSelectionModel',
+		'originalIndexMap'
 	],
 	#category : #'Toplo-Widget-List-Sieve'
 }
@@ -13,11 +13,11 @@ Class {
 { #category : #'data source events handling' }
 ToSievedListDataSourceEventHandler >> buildOriginalIndexMap [
 
-	dataPositionIndex removeAll.
+	originalIndexMap removeAll.
 	sieveSelectionModel deselectAll.
 	listElement postponeAction: [
-		listElement dataAccessor withIndexDo: [ :aData :idx |
-			dataPositionIndex at: aData put: idx ].
+		listElement dataSource withIndexDo: [ :aData :idx |
+			originalIndexMap at: aData put: idx ].
 		sieveSelectionModel copySelectionFrom: listElement selectionModel ]
 ]
 
@@ -77,7 +77,7 @@ ToSievedListDataSourceEventHandler >> onInstalledIn: aListElement [
 { #category : #accessing }
 ToSievedListDataSourceEventHandler >> originalIndexMap: aDictionary [
 
-	dataPositionIndex := aDictionary
+	originalIndexMap := aDictionary
 ]
 
 { #category : #accessing }

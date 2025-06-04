@@ -13,7 +13,6 @@ Class {
 		'eventDispatcher',
 		'originalIndexMap',
 		'sieveEventHandler',
-		'commandEventHandler',
 		'dataSourceHandler'
 	],
 	#category : #'Toplo-Widget-List-Sieve'
@@ -52,7 +51,7 @@ ToListElementSieve >> initialize [
 ToListElementSieve >> installQueryRunnerIn: aListElement [
 
 	" the query is applied on the original data "
-	originalData := aListElement dataAccessor newMirror.
+	originalData := aListElement dataSource newMirror.
 	queryRunner onInstalledIn: originalData
 ]
 
@@ -77,13 +76,24 @@ ToListElementSieve >> newQueryRunnerIn: aListElement [
 	 ask the list to process the appropiate data source command and to update the selection model.
 	A task must be used to avoid that the list update occurs during the BlSpaceFrameEventPhase  
 	 which can cause an issue because the layout must be launched each time a sieve result occurs "
-
 	runner action: [
 			self updateCurrentData.
 			aListElement enqueueTask:
 				(BlTaskAction new action: [ aListElement onSievedWith: self ]) ].
-			
+
 	^ runner
+]
+
+{ #category : #'api - hooks' }
+ToListElementSieve >> newSievedListDataSourceEventHandler [
+
+	^ ToSievedListDataSourceEventHandler new
+]
+
+{ #category : #'api - hooks' }
+ToListElementSieve >> newSievedListElementEventHandler [
+
+	^ ToSievedListElementEventHandler new
 ]
 
 { #category : #'api - hooks' }
@@ -92,6 +102,7 @@ ToListElementSieve >> onInstalledIn: aListElement [
 
 	originalData ifNotNil: [
 		^ (BlImmutableObjectChangeError object: self) signal ].
+
 	originalIndexMap := IdentityDictionary new.
 	selectionModel := aListElement selectionModel copy.
 
@@ -100,10 +111,11 @@ ToListElementSieve >> onInstalledIn: aListElement [
 
 	" initialization of the current result with the current pattern "
 	self updateCurrentData.
-	selectionHandler := ToSievedListElementEventHandler new.
+	selectionHandler := self newSievedListElementEventHandler.
 	selectionHandler sieve: self.
 	aListElement addEventHandler: selectionHandler.
-	dataSourceHandler := ToSievedListDataSourceEventHandler new.
+
+	dataSourceHandler := self newSievedListDataSourceEventHandler.
 	dataSourceHandler sieve: self.
 	dataSourceHandler listElement: aListElement.
 	aListElement dataSource addEventHandler: dataSourceHandler.
@@ -133,9 +145,7 @@ ToListElementSieve >> onUninstalledIn: aListElement [
 	aListElement dataSource removeEventHandler: dataSourceHandler.
 	self uninstallQueryRunnerIn: aListElement.
 	self removeEventHandler: sieveEventHandler.
-	self removeEventHandler: commandEventHandler.
 	sieveEventHandler := nil.
-	commandEventHandler := nil.
 	currentData := nil.
 	queryRunner := nil
 ]
@@ -167,8 +177,10 @@ ToListElementSieve >> pattern [
 { #category : #accessing }
 ToListElementSieve >> pattern: aPattern [
 
-	queryRunner
-		pattern: aPattern
+	queryRunner pattern: aPattern.
+	self dispatchEvent: (ToSievePatternChangedEvent new
+			 sieve: self;
+			 yourself)
 ]
 
 { #category : #accessing }

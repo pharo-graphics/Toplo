@@ -112,6 +112,7 @@ ToInfiniteElement >> defaultScrollFlinger [
 ToInfiniteElement >> dispatchLayoutFinalStep [
 
 	super dispatchLayoutFinalStep.
+	self assert: dataSourceManager hasCommands not.
 	self consumeFinalStepCommands.
 	"If an element bounds change then the selection bounds may be obsolete"
 	self boundsUpdaterHasChanges ifTrue: [ listElement updateAllSelections ].

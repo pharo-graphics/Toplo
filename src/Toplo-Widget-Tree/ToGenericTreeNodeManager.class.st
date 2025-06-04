@@ -31,7 +31,7 @@ ToGenericTreeNodeManager >> buildNode: aTreeNode [
 { #category : #'children accessing' }
 ToGenericTreeNodeManager >> childrenFromDataItem: aDataItem [
 
-	^ childrenGetter value: aDataItem
+	^ (childrenGetter value: aDataItem) asArray
 ]
 
 { #category : #accessing }

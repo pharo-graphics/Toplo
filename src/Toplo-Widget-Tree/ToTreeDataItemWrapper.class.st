@@ -66,9 +66,15 @@ ToTreeDataItemWrapper >> collapse [
 	isExpanded := false.
 	pos := self position.
 	childrenInterval := self childrenIntervalFromPosition: pos.
+	childrenInterval ifEmpty: [ ^ self ].
 	treeElement dataSource
 		removeFrom: childrenInterval first
 		to: childrenInterval last.
+	" the final step commands include selection updating command 
+			that are added when collapsing a tree node.
+			They are to be applied now, before the pattern is changed 
+			(and then, before the list is changed)"
+	treeElement consumeFinalStepCommands.
 	self updateTreeNodeAtPosition: pos
 ]
 
@@ -104,6 +110,7 @@ ToTreeDataItemWrapper >> expand [
 		useParentWrapper: self
 		while: [ treeElement dataAccessor addAll: children afterIndex: pos ].
 
+	treeElement consumeFinalStepCommands.
 	self updateTreeNodeAtPosition: pos
 ]
 
@@ -115,6 +122,7 @@ ToTreeDataItemWrapper >> expandAll [
 	pos := self position.
 	c := self expandDeeplyIn: (OrderedCollection new).
 	treeElement dataSource addAll: c afterIndex: pos.
+	treeElement consumeFinalStepCommands.
 	self updateTreeNodeAtPosition: pos
 ]
 
@@ -214,6 +222,15 @@ ToTreeDataItemWrapper >> parentWrapper: aDataItemWrapper [
 ToTreeDataItemWrapper >> position [ 
 
 	^ treeElement dataSource indexOf: self 
+]
+
+{ #category : #printing }
+ToTreeDataItemWrapper >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream << '('.
+	dataItem printOn: aStream.
+	aStream << ')'
 ]
 
 { #category : #'expanding-collapsing' }

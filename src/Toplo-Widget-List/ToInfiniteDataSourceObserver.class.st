@@ -10,39 +10,51 @@ ToInfiniteDataSourceObserver >> infiniteDataSourceChanged: anEvent [
 	| listElement |
 	super infiniteDataSourceChanged: anEvent.
 	listElement := infiniteElement listElement.
-	listElement whenLayoutedDoOnce: [ listElement updateAllSelections ]
+	listElement postponeAction: [
+			listElement
+				updateAllSelections;
+				dispatchEvent: anEvent copy ]
 ]
 
 { #category : #'event handling' }
-ToInfiniteDataSourceObserver >> infiniteDataSourceItemRangeChanged: anEvent [	
+ToInfiniteDataSourceObserver >> infiniteDataSourceItemRangeChanged: anEvent [
 
 	| listElement |
-	super infiniteDataSourceItemRangeChanged: anEvent	.
+	super infiniteDataSourceItemRangeChanged: anEvent.
 	listElement := infiniteElement listElement.
-	listElement whenLayoutedDoOnce: [ listElement updateAllSelections ]
+	listElement postponeAction: [
+			listElement
+				updateAllSelections;
+				dispatchEvent: anEvent copy ]
 ]
 
 { #category : #'event handling' }
 ToInfiniteDataSourceObserver >> infiniteDataSourceItemRangeInserted: anEvent [
 
+	| listElement |
 	super infiniteDataSourceItemRangeInserted: anEvent.
-	infiniteElement listElement selecter
+	listElement := infiniteElement listElement.
+	listElement selecter
 		shiftSelection: anEvent itemCount
-		from: anEvent position
+		from: anEvent position.
+	listElement postponeAction: [ listElement dispatchEvent: anEvent copy ]
 ]
 
 { #category : #'event handling' }
 ToInfiniteDataSourceObserver >> infiniteDataSourceItemRangeRemoved: anEvent [
 
+	| listElement |
 	super infiniteDataSourceItemRangeRemoved: anEvent.
 
 	" update the secondary selection because it can be on the removed nodes "
-	infiniteElement listElement secondarySelecter
+	listElement := infiniteElement listElement.
+	listElement secondarySelecter
 		deselectIndex: anEvent position
 		to: anEvent position + anEvent itemCount - 1.
-	infiniteElement listElement selecter
+	listElement selecter
 		shiftSelection: anEvent itemCount negated
-		from: anEvent position
+		from: anEvent position.
+	listElement postponeAction: [ listElement dispatchEvent: anEvent copy ]
 ]
 
 { #category : #'event handling' }

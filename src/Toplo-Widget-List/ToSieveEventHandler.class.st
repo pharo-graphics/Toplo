@@ -29,13 +29,12 @@ ToSieveEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 		ifEmpty: [
 		listElement selectionModel copySelectionFrom: sieveSelectionModel ]
 		ifNotEmpty: [
-			listElement dataAccessor withIndexDo: [ :dataItem :localIndex |
-				| originalIndex |
-				originalIndex := originalIndexMap at: dataItem.
-				sieveSelectionModel
-					transferSelectionFromIndex: originalIndex
-					toIndex: localIndex
-					in: listElement selectionModel ] ].
+				listElement dataSource withIndexDo: [ :dataItem :localIndex |
+						originalIndexMap at: dataItem ifPresent: [ :originalIndex |
+								sieveSelectionModel
+									transferSelectionFromIndex: originalIndex
+									toIndex: localIndex
+									in: listElement selectionModel ] ] ].
 
 	" dispatch a specific, different from the primary selection change event that will be sent after.
 	It is useful for sieve list user that relies on the sieve internal selection to adapt themeself 

@@ -46,7 +46,7 @@ ToAbstractListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 			count := aDataSourceCommand itemCount.
 			start to: start + count - 1 do: [ :localIndex |
 				| d originalIndex |
-				d := self dataAccessor at: localIndex.
+				d := self dataSource at: localIndex.
 				originalIndex := sieve originalIndexOf: d.
 				sieve selectionModel
 					transferSelectionFromIndex: originalIndex
@@ -67,6 +67,14 @@ ToAbstractListElement >> applyWidgetConfiguration [
 ToAbstractListElement >> commandApplicationStrategy [
 
 	^ commandApplicationStrategy
+]
+
+{ #category : #layout }
+ToAbstractListElement >> consumeFinalStepCommands [
+
+	self innerElement consumeFinalStepCommands
+
+	
 ]
 
 { #category : #'accessing selecters' }
@@ -429,7 +437,7 @@ ToAbstractListElement >> offsetPositionRecordsForFilter: aStartPosition itemCoun
 
 	aSieve pattern
 		ifNotEmpty: [
-			self dataAccessor withIndexDo: [ :d :localIndex |
+			self dataSource withIndexDo: [ :d :localIndex |
 				| originalIndex |
 				originalIndex := aSieve originalIndexOf: d.
 				aSieve selectionModel
@@ -443,7 +451,7 @@ ToAbstractListElement >> offsetPositionRecordsForFilter: aStartPosition itemCoun
 { #category : #'private - commands' }
 ToAbstractListElement >> onSievedWith: aSieve [
 
-	self dataAccessor onSievedWith: aSieve.
+	self dataSource onSievedWith: aSieve.
 	self requestLayout
 ]
 
@@ -462,8 +470,10 @@ ToAbstractListElement >> placeholderElevation [
 { #category : #layout }
 ToAbstractListElement >> postponeAction: aValuable [
 
-	self innerElement requestLayout.
-	self dataSourceManager postponeAction: aValuable
+	self dataSourceManager postponeAction: aValuable.
+	self innerElement requestLayout
+
+	
 ]
 
 { #category : #accessing }

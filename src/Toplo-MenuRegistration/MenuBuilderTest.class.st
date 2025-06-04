@@ -20,6 +20,23 @@ MenuBuilderTest >> testBeforeResolveSimpleItemNoParentAvailable [
 	self assert: builder collectedItems first parent equals: #Tools
 ]
 
+{ #category : #'tests - Pragma' }
+MenuBuilderTest >> testBuilderBeforePragmasCollectedItems [
+	|builder|
+	builder := (ToMenuBuilder pragmaKeyword: #toploWorldMenu1) collectRegistrations.
+	self assert: builder collectedItems size equals: 3
+]
+
+{ #category : #'tests - Pragma' }
+MenuBuilderTest >> testBuilderPragmas [
+	self assert: self toploExampleMenu pragmas size equals: 1
+]
+
+{ #category : #'tests - Pragma' }
+MenuBuilderTest >> testBuilderResolvePragmasCollectedItems [
+	self assert: self toploExampleMenu collectedItems size equals: 2.
+]
+
 { #category : #'tests - duplicated items' }
 MenuBuilderTest >> testDefinitionOfTwoSimilarParentIsAConflict [
 
@@ -394,6 +411,68 @@ MenuBuilderTest >> testSimpleItemWithItemWithExplicitParentDeclared [
 		equals: #MyOwnCoolMenu
 ]
 
+{ #category : #'tests - resolve phase' }
+MenuBuilderTest >> testSimpleItemWithMultiplesItemsWithExpliciteDeclaredParent [
+
+	| builder |
+	builder := ToMenuBuilder new.
+
+	(builder item: #MyOwnCoolMenu)
+		parent: #Tools;
+		label: 'The coolest tool here';
+		with: [
+			(builder item: #MyOwnCoolTool)
+				parent: #MyOwnCoolMenu;
+				label: 'My own cool tool also here'.
+			(builder item: #MyOwnCoolTool2)
+				parent: #MyOwnCoolMenu;
+				label: 'My own cool tool 2 also here' ].
+	builder resolve.
+
+	self assert: builder collectedItems size equals: 1.
+
+	self
+		assert:
+			(builder itemsNamed: #MyOwnCoolMenu) childrenItems first
+				label
+		equals: 'My own cool tool also here'.
+	self
+		assert:
+			(builder itemsNamed: #MyOwnCoolMenu) childrenItems second
+				label
+		equals: 'My own cool tool 2 also here'.
+]
+
+{ #category : #'tests - resolve phase' }
+MenuBuilderTest >> testSimpleItemWithMultiplesItemsWithNoParentDeclared [
+
+	| builder |
+	builder := ToMenuBuilder new.
+
+	(builder item: #MyOwnCoolMenu)
+		parent: #Tools;
+		label: 'The coolest tool here';
+		with: [
+			(builder item: #MyOwnCoolTool)
+				label: 'My own cool tool also here'.
+			(builder item: #MyOwnCoolTool2)
+				label: 'My own cool tool 2 also here' ].
+	builder resolve.
+
+	self assert: builder collectedItems size equals: 1.
+
+	self
+		assert:
+			(builder itemsNamed: #MyOwnCoolMenu) childrenItems first
+				label
+		equals: 'My own cool tool also here'.
+	self
+		assert:
+			(builder itemsNamed: #MyOwnCoolMenu) childrenItems second
+				label
+		equals: 'My own cool tool 2 also here'.
+]
+
 { #category : #'tests - duplicated items' }
 MenuBuilderTest >> testThreeDepth [
 
@@ -470,8 +549,8 @@ MenuBuilderTest >> toploExampleMenu [
 { #category : #'general-testing' }
 MenuBuilderTest >> toploExampleMenuBuilder: aClass [
 
-	^ (aClass pragmaKeyword: #toploWorldMenuExample model: self)
+	^ (aClass pragmaKeyword: #toploWorldMenu1)
 		  collectRegistrations;
-		  menuSpec;
+		  resolve;
 		  yourself
 ]

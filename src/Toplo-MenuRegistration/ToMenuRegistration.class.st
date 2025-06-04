@@ -16,7 +16,9 @@ Class {
 		'target',
 		'selector',
 		'arguments',
-		'separator'
+		'separator',
+		'help',
+		'icon'
 	],
 	#category : #'Toplo-MenuRegistration-NewCreate'
 }
@@ -95,6 +97,36 @@ ToMenuRegistration >> hasNoChildren [
 	^ childrenItems isEmpty
 ]
 
+{ #category : #accessing }
+ToMenuRegistration >> help [
+	^ help
+]
+
+{ #category : #accessing }
+ToMenuRegistration >> help: aString [
+	help := aString.
+]
+
+{ #category : #testing }
+ToMenuRegistration >> icon [
+
+	^ icon
+]
+
+{ #category : #testing }
+ToMenuRegistration >> icon: aForm [
+	"set the icon that is shown in the menu"
+	icon := aForm
+]
+
+{ #category : #testing }
+ToMenuRegistration >> iconName: aSymbol [
+	"instead of forcing clients to refer to an icon builder such Smalltalk ui icons
+	this message encapsulates it inside the builder itself. When removing uses of Smalltalk ui icons it avoid to force to subclass class with menu to inherit from Model."
+
+	self icon: (Smalltalk ui icons iconNamed: aSymbol)
+]
+
 { #category : #initialization }
 ToMenuRegistration >> initialize [
 
@@ -108,6 +140,11 @@ ToMenuRegistration >> initialize [
 	selector := #cull:.
 	arguments := nil.
 	self updateAction.
+]
+
+{ #category : #accessing }
+ToMenuRegistration >> keyText: aString [
+	shortcut := aString.
 ]
 
 { #category : #accessing }
@@ -242,6 +279,7 @@ ToMenuRegistration >> updateAction [
 ToMenuRegistration >> with: aBlock [
 
 	| menu |
+	
 	menu := aBlock value.
 	aBlock value builder changeParent: self for: menu name
 ]

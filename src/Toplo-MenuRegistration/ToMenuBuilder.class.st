@@ -16,9 +16,10 @@ Class {
 ToMenuBuilder class >> aLittleMenu: aBuilder [
 
 	<toploWorldMenu1>
-	(aBuilder item: #Im) with: [
-		aBuilder item: #aSuperMenu.
-		aBuilder item: #anUglyMenu ]
+	(aBuilder item: #Im)
+		label: 'Im - Label'; with: [
+		(aBuilder item: #aSuperMenu) label: 'a super menu ! - Label'.
+		(aBuilder item: #anUglyMenu) label: 'a ugly menu ! - Label' ]
 ]
 
 { #category : #accessing }
@@ -89,6 +90,18 @@ ToMenuBuilder >> changeParent: aMenuRegistration for: aSymbol [
 	].
 	item parent: aMenuRegistration name.
 		item groupName: aMenuRegistration groupName.
+]
+
+{ #category : #'spec accessing' }
+ToMenuBuilder >> collectRegistrations [
+	"Retrieve all pragma methods and evaluate them by passing the
+	MenuRegistration class as argument. The result is a list of trees
+	stored in my itemList inst var"
+	self pragmas
+		do: [ :prg |
+			 prg methodClass instanceSide
+						perform: prg methodSelector
+						with: self ].
 ]
 
 { #category : #accessing }
@@ -256,6 +269,15 @@ ToMenuBuilder >> pragmaKeywords: aCollectionOfSymbol [
 	pragmaKeywords := aCollectionOfSymbol.
 ]
 
+{ #category : #'spec accessing' }
+ToMenuBuilder >> pragmas [
+
+	"Return all pragmas which keyword is self pragmaKeyword"
+
+	^ (self pragmaKeywords flatCollect: [ :each | Pragma allNamed: each ])
+		  select: [ :prg | prg methodSelector numArgs = 1 ]
+]
+
 { #category : #'as yet unclassified' }
 ToMenuBuilder >> resolve [
 
@@ -275,4 +297,9 @@ ToMenuBuilder >> sortedTree: aMenuRegistration [
 	aMenuRegistration childrenItems ifEmpty: [ ^ self ].
 	aMenuRegistration sortChildren.
 	aMenuRegistration childrenItems do: [ :child | self sortedTree: child ].
+]
+
+{ #category : #'spec accessing' }
+ToMenuBuilder >> withSeparatorAfter [
+	currentRoot withSeparatorAfter.
 ]

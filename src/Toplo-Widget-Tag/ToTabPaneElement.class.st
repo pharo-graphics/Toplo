@@ -104,14 +104,9 @@ ToTabPaneElement >> newTabGroupElement [
 
 { #category : #accessing }
 ToTabPaneElement >> preservePane [
+	self deprecated: 'Use ToTabButton>>#paneDestroyer: to set a destroyer to a particular button'.
 
-	^ preservePane
-]
-
-{ #category : #accessing }
-ToTabPaneElement >> preservePane: aBoolean [
-
-	preservePane := aBoolean
+	^ false
 ]
 
 { #category : #accessing }

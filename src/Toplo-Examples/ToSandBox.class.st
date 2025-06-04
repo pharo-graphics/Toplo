@@ -9281,28 +9281,35 @@ ToSandBox class >> tabPaneElementWithUSStates [
 
 	| tpane |
 	tpane := ToTabPaneElement new.
-	tpane preservePane: true.
 	self statesOfAmerica do: [ :l |
-		| lab item |
-		lab := ToLabel text: l.
-		lab enableShrinkLayer: true.
-		lab shrinkTolerance: 2.0.
-		lab width: 70.
-		"lab rotateBy: 270."
-		item := ToTabButton new
-			        "icon:
+			| lab item |
+			lab := ToLabel text: l.
+			lab enableShrinkLayer: true.
+			lab shrinkTolerance: 2.0.
+			lab width: 70.
+			"lab rotateBy: 270."
+			item := ToTabButton new
+				        label: lab;
+				        tooltipString: l;
+				        removable: true;
+				        paneBuilder: [ :pane |
+						        | emptyPh |
+						        pane withNullSkin.
+						        pane background: (Color random alpha: 0.1).
+
+						        emptyPh := ToEmptyPlaceholderLayer new attachToParent:
+								                   pane.
+						        pane userData at: #placeholder put: emptyPh ];
+				        paneDestroyer: [ :pane |
+						        | emptyPh |
+						        emptyPh := pane userData at: #placeholder.
+						        emptyPh detach ];
+				        yourself.
+			"icon:
 				        (ToImage new innerImage: (self iconNamed: #solidMenu));"
-			        "endElement:
+			"endElement:
 				        (ToImage new innerImage: (self iconNamed: #solidMenu));"
-			        label: lab;
-			        tooltipString: l;
-			        removable: true;
-			        paneBuilder: [ :pane |
-				        pane withNullSkin.
-				        pane background: (Color random alpha: 0.1).
-				        ToEmptyPlaceholderLayer new attachToParent: pane ];
-			        yourself.
-		tpane addItem: item ].
+			tpane addItem: item ].
 	tpane isFlowable: false.
 	tpane isScrollable: true.
 	^ tpane

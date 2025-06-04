@@ -11,12 +11,22 @@ ToTabPaneEventHandler >> checkableGroupChangedEvent: anEvent [
 	tabPane := anEvent currentTarget.
 	body := tabPane body.
 	body removeChildren.
+	anEvent uncheckedList do: [ :uncheckedButton |
+			innerPane := uncheckedButton holder innerPane.
+			(innerPane notNil and: [ uncheckedButton paneDestroyer notNil ])
+				ifTrue: [
+						uncheckedButton paneDestroyer
+							cull: innerPane
+							cull: uncheckedButton
+							cull: uncheckedButton holder node
+							cull: uncheckedButton holder.
+						uncheckedButton holder innerPane: nil ] ].
 	anEvent checkedList size = 1 ifFalse: [ ^ self ].
 	button := anEvent checkedList anyOne.
 	innerPane := button holder innerPane.
-	(tabPane preservePane and: [ innerPane notNil ]) ifTrue: [
-		body addChild: innerPane.
-		^ self ].
+	innerPane ifNotNil: [
+			body addChild: innerPane.
+			^ self ].
 	innerPane := ToPane new
 		             matchParent;
 		             yourself.

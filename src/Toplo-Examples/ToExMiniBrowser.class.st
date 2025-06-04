@@ -60,15 +60,18 @@ ToExMiniBrowser >> initialize [
 ToExMiniBrowser >> newClassPane [
 
 	| classesPane classesButtonPane sideToggle |
-	classes := ToListElement new.
+	classes := ToTreeElement new.
 	classes
-		nodeFactory: [ ToClassNameViewExamplePart new ];
 		id: #classes;
 		nodeBuilder: [ :node :dataItem :holder |
-			node class: dataItem position: holder position ].
+				node addChild: (ToExMiniBrowserClassNodeContent new
+							 class: dataItem position: holder position;
+							 yourself) ].
 	classes
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent
 		do: [ :event | self classSelectionChangedEvent: event ].
+	classes childrenGetter: [ :aClass |
+		aClass subclasses sorted: [ :a :b | a name < b name ] ].
 
 	classesPane := ToPane new
 		               id: #classesPane;
@@ -138,13 +141,12 @@ ToExMiniBrowser >> newPackagePane [
 	pkgFilterField placeholderText:
 		('Packages filter' asRopedText foreground: Color lightGray).
 
-	packages := ToListElement new.
+	packages := ToTreeElement new.
 	packages
 		id: #packages;
 		nodeBuilder: [ :node :dataItem :holder |
 				node addChild: (ToLabel new
 							 text: dataItem name;
-							 hMatchParent;
 							 yourself) ].
 	packages
 		addEventHandlerOn: ToListStrongSelectionEvent
@@ -156,10 +158,17 @@ ToExMiniBrowser >> newPackagePane [
 		(self packageOrganizer packages asSortedCollection: [ :p1 :p2 |
 			 p1 name < p2 name ]).
 
-
+	packages childrenGetter: [ :aPackageOrTag |
+			aPackageOrTag isPackage
+				ifTrue: [ aPackageOrTag tags ]
+				ifFalse: [ #(  ) ] ].
 
 	pkgSieve := packages newSieve.
 	pkgSieve onInstalledIn: packages.
+	" the package selection is lost in case of a new filter "
+	pkgSieve
+		addEventHandlerOn: ToSievePatternChangedEvent
+		do: [ :event | packages selecter deselectAll ].
 
 	pkgSieve dataFilter: [ :aPackage :aPattern |
 			aPackage name
@@ -250,19 +259,21 @@ ToExMiniBrowser >> open [
 { #category : #initialization }
 ToExMiniBrowser >> packageSelectionChangedEvent: aToSelectionChanged [
 
-	| selectedPackages clsList |
+	| selectedPackagesOrTags clsList |
 	classes dataAccessor removeAll.
 	protocols dataAccessor removeAll.
 	selectors dataAccessor removeAll.
 	self clearCodeInEditor.
 
-	selectedPackages :=
-		aToSelectionChanged selectedIndexes
-			collect: [ :idx | packages dataAccessor at: idx ].
+	selectedPackagesOrTags := aToSelectionChanged selectedIndexes
+		                          collect: [ :idx |
+		                          packages dataAccessor at: idx ].
 
 	clsList := Array streamContents: [ :stream |
-		           selectedPackages do: [ :pkg |
-			           stream nextPutAll: pkg definedClasses ] ].
+			           selectedPackagesOrTags do: [ :pkgOrTag |
+					           pkgOrTag isPackage
+						           ifTrue: [ stream nextPutAll: pkgOrTag definedClasses ]
+						           ifFalse: [ stream nextPutAll: pkgOrTag classes ] ] ].
 
 	clsList sort: [ :a :b | a name < b name ].
 

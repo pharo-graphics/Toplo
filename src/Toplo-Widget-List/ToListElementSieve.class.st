@@ -177,7 +177,10 @@ ToListElementSieve >> pattern [
 { #category : #accessing }
 ToListElementSieve >> pattern: aPattern [
 
-	queryRunner pattern: aPattern
+	queryRunner pattern: aPattern.
+	self dispatchEvent: (ToSievePatternChangedEvent new
+			 sieve: self;
+			 yourself)
 ]
 
 { #category : #accessing }

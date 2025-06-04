@@ -12,21 +12,11 @@ ToTreeElementSieve >> dataFilter: aValuable [
 		aValuable value: item unwrapped value: pattern ]
 ]
 
-{ #category : #'api - hooks' }
-ToTreeElementSieve >> newSievedListDataSourceEventHandler [
-
-	^ ToSievedTreeDataSourceEventHandler new
-]
-
-{ #category : #'api - hooks' }
-ToTreeElementSieve >> newSievedListElementEventHandler [
-
-	^ ToSievedTreeElementEventHandler new
-]
-
 { #category : #accessing }
 ToTreeElementSieve >> pattern: aPattern [
 
-	originalData mirrored rootsDo: [ :w | w collapse ].
+	" simple collapse all roots because by default, 
+	this implementation don't manage a filter result with expanded nodes "
+	originalData mirrored roots reverseDo: [ :w | w collapse ].
 	super pattern: aPattern
 ]

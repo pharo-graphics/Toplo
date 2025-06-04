@@ -543,6 +543,7 @@ TToObservableCollection >> removeFrom: start to: stop [
 	| interval removed |
 	interval := start to: stop.
 	removed := Array withAll: (self collection copyFrom: start to: stop).
+	removed ifEmpty: [ ^ self ].
 	self notifyEmptinessChangeAfter: [
 			| newCollection |
 			newCollection := self collection copyFrom: 1 to: start - 1.

@@ -11,7 +11,8 @@ Class {
 
 { #category : #'api - accessing' }
 ToSieveEventHandler >> eventsToHandle [
-	^ { ToListPrimarySelectionChangedEvent}
+
+	^ { ToListPrimarySelectionChangedEvent }
 ]
 
 { #category : #accessing }

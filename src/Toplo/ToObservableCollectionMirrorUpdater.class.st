@@ -24,7 +24,7 @@ ToObservableCollectionMirrorUpdater >> collectionRemoveEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	anEvent interval reverseDo: [ :idx | mirror removeAt: idx ]
+	mirror removeFrom: anEvent interval first to: anEvent interval last
 ]
 
 { #category : #'data events handling' }

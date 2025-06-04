@@ -162,6 +162,8 @@ ToExMiniBrowser >> newPackagePane [
 			aPackageOrTag isPackage
 				ifTrue: [ aPackageOrTag tags ]
 				ifFalse: [ #(  ) ] ].
+	packages placeholderBuilder: [ :placeholder :e |
+		placeholder empty labelText: 'No package ' ].
 
 	pkgSieve := packages newSieve.
 	pkgSieve onInstalledIn: packages.

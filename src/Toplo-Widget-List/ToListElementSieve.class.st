@@ -50,7 +50,13 @@ ToListElementSieve >> initialize [
 { #category : #'api - hooks' }
 ToListElementSieve >> installQueryRunnerIn: aListElement [
 
-	" the query is applied on the original data "
+	" the query is applied on the original data.
+	As a data source mirror, it works as follow:
+		- when data are added/removed in/from the data source, 
+			then the mirror is updated accordingly.
+		- when data is filtered, the data source is initialized 
+			with the filtered data but the mirror stays untouched 
+			(see TToObservableCollection>>onSievedWith:"
 	originalData := aListElement dataSource newMirror.
 	queryRunner onInstalledIn: originalData
 ]
@@ -145,9 +151,15 @@ ToListElementSieve >> onUninstalledIn: aListElement [
 	aListElement dataSource removeEventHandler: dataSourceHandler.
 	self uninstallQueryRunnerIn: aListElement.
 	self removeEventHandler: sieveEventHandler.
+	selecter onUninstalledIn: self.
+	selecter := nil.
+	selectionHandler := nil.
+	dataSourceHandler := nil.
 	sieveEventHandler := nil.
 	currentData := nil.
-	queryRunner := nil
+	queryRunner := nil.
+	selectionModel := nil.
+	originalIndexMap := nil
 ]
 
 { #category : #accessing }

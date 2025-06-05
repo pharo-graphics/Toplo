@@ -52,7 +52,7 @@ ToObservableCollectionFilter >> defaultDataFilter [
 { #category : #accessing }
 ToObservableCollectionFilter >> defaultDelay [
 
-	^ 250 milliSeconds
+	^ 100 milliSeconds
 ]
 
 { #category : #accessing }
@@ -117,8 +117,7 @@ ToObservableCollectionFilter >> pattern [
 ToObservableCollectionFilter >> pattern: aString [
 
 	pattern := aString asString trimBoth.
-	(previousPattern notNil and: [ previousPattern = pattern ]) ifTrue: [
-		^ self ].
+	previousPattern = pattern ifTrue: [ ^ self ].
 	semaphore signal
 ]
 

@@ -20,6 +20,20 @@ ToListElementSieveTest >> setUp [
 	space root addChild: list
 ]
 
+{ #category : #accessing }
+ToListElementSieveTest >> statesOfAmerica [
+
+	^ { #Alabama. #Alaska. #Arizona. #Arkansas. #California. #Colorado.
+		#Connecticut. #Delaware. #Florida. #Georgia. #Hawaii. #Idaho. #Illinois. #Indiana.
+		#Iowa. #Kansas. #Kentucky. #Louisiana. #Maine. #Maryland. #Massachusetts.
+		#Michigan. #Minnesota. #Mississippi. #Missouri. #Montana. #Nebraska.
+		#Nevada. #'New Hampshire'. #'New Jersey'. #'New Mexico'.
+		#'New York'. #'North Carolina'. #'North Dakota'. #Ohio. #Oklahoma.
+		#Oregon. #'Pennsylvania Rhode Island'. #'South Carolina'.
+		#'South Dakota'. #Tennessee. #Texas. #Utah. #Vermont. #Virginia.
+		#Washington. #'West Virginia'. #Wisconsin. #Wyoming }.
+]
+
 { #category : #tests }
 ToListElementSieveTest >> testCurrentData [
 	" when data items are added through the data accessor, 
@@ -152,4 +166,113 @@ ToListElementSieveTest >> testOriginalData [
 	500 milliSeconds wait.
 	self waitTestingSpaces.
 	self assert: passedInHandler
+]
+
+{ #category : #'tests - selection' }
+ToListElementSieveTest >> testOriginalIndexMap [
+	" when data items are added through the data accessor, 
+	original data (list element data source mirror) should be updated accordingly.
+	When the sieve  has a pattern, the original data is untouched even the list data source is updated"
+
+	self assert: sieve originalIndexMap isEmpty.
+	
+	list dataAccessor addAll: (1 to: 10).
+	self waitTestingSpaces.
+	self assert: sieve originalIndexMap size equals: 10.
+	1 to: 10 do: [ :idx |
+			self
+				assert: (sieve originalIndexMap at: idx)
+				equals: (list dataSource at: idx) ].
+			
+	list dataAccessor add: 11.
+	self waitTestingSpaces.
+	self assert: (sieve originalIndexMap at: 11) equals: 11.
+	
+	list dataAccessor removeFirst.
+	self waitTestingSpaces.
+	self assert: (sieve originalIndexMap at: 11) equals: 10.
+
+	list dataAccessor at: 1 put: 100.
+	self waitTestingSpaces.
+	self assert: (sieve originalIndexMap at: 100) equals: 1.
+
+
+]
+
+{ #category : #'tests - selection' }
+ToListElementSieveTest >> testSelectionViaList [
+
+	" the selecter can be used to select item programatically "
+	
+	list dataAccessor addAll: self statesOfAmerica.
+	list selecter selectIndex: 3.
+	self waitTestingSpaces.
+	self assert: sieve selectionModel selectedIndexes equals: #(3).
+	sieve pattern: 'Alabama'.
+	500 milliSeconds wait.
+	self waitTestingSpaces.
+	self assert: list dataAccessor size equals: 1.
+	self assert: sieve selectionModel selectedIndexes equals: #(3).
+	self assert: list selectionModel selectedIndexes equals: #().
+	sieve pattern: ''.
+	500 milliSeconds wait.
+	self waitTestingSpaces.
+	self assert: sieve selectionModel selectedIndexes equals: #(3).
+	self assert: list selectionModel selectedIndexes equals: #(3).
+
+
+]
+
+{ #category : #'tests - selection' }
+ToListElementSieveTest >> testSelectionViaList2 [
+	" the selecter can be used to select item programatically "
+
+	list dataAccessor addAll: self statesOfAmerica.
+	" select California, Colorado and Connecticut "
+	list selecter selectIndex: 5 to: 7.
+	self waitTestingSpaces.
+	self assert: sieve selectionModel selectedIndexes equals: #( 5 6 7 ).
+	sieve pattern: 'Alabama'.
+	500 milliSeconds wait.
+	self waitTestingSpaces.
+	self assert: list dataAccessor size equals: 1.
+	self assert: list selectionModel selectedIndexes equals: #(  ).
+	sieve pattern: 'C'.
+	500 milliSeconds wait.
+	self waitTestingSpaces.
+	self assert: list selectionModel selectedIndexes equals: #( 1 2 3 ).
+	sieve pattern: 'Co'.
+	500 milliSeconds wait.
+	self waitTestingSpaces.
+	self assert: list selectionModel selectedIndexes equals: #( 1 2 ).
+	sieve pattern: 'Col'.
+	500 milliSeconds wait.
+	self waitTestingSpaces.
+	self assert: list selectionModel selectedIndexes equals: #( 1 ).
+	self assert: list dataAccessor size equals: 1.
+	self assert: list dataAccessor first equals: 'Colorado'
+]
+
+{ #category : #'tests - selection' }
+ToListElementSieveTest >> testSelectionViaSelecter [
+
+	" the selecter can be used to select item programatically "
+	
+	list dataAccessor addAll: self statesOfAmerica.
+	self waitTestingSpaces.
+	sieve selecter selectIndex: 3.
+	self assert: sieve selectionModel selectedIndexes equals: #(3).
+	sieve pattern: 'Alabama'.
+	500 milliSeconds wait.
+	self waitTestingSpaces.
+	self assert: list dataAccessor size equals: 1.
+	self assert: sieve selectionModel selectedIndexes equals: #(3).
+	self assert: list selectionModel selectedIndexes equals: #().
+	sieve pattern: ''.
+	500 milliSeconds wait.
+	self waitTestingSpaces.
+	self assert: sieve selectionModel selectedIndexes equals: #(3).
+	self assert: list selectionModel selectedIndexes equals: #(3).
+
+
 ]

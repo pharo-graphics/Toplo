@@ -278,7 +278,7 @@ ToListSelecter >> onBasicCommandApplied: aCommand [
 { #category : #'command application' }
 ToListSelecter >> onCommandApplied: aCommand [
 
-	aCommand onAppliedIn: self
+	aCommand onAppliedOn: self
 ]
 
 { #category : #'command application' }

@@ -7,13 +7,12 @@ Class {
 		'queryRunner',
 		'originalData',
 		'currentData',
-		'selectionModel',
 		'selecter',
-		'selectionHandler',
 		'eventDispatcher',
 		'originalIndexMap',
-		'sieveEventHandler',
-		'dataSourceHandler'
+		'dataSourceHandler',
+		'sieveHandler',
+		'listElementHandler'
 	],
 	#category : #'Toplo-Widget-List-Sieve'
 }
@@ -49,7 +48,6 @@ ToListElementSieve >> initialize [
 
 { #category : #'api - hooks' }
 ToListElementSieve >> installQueryRunnerIn: aListElement [
-
 	" the query is applied on the original data.
 	As a data source mirror, it works as follow:
 		- when data are added/removed in/from the data source, 
@@ -57,8 +55,20 @@ ToListElementSieve >> installQueryRunnerIn: aListElement [
 		- when data is filtered, the data source is initialized 
 			with the filtered data but the mirror stays untouched 
 			(see TToObservableCollection>>onSievedWith:"
+
 	originalData := aListElement dataSource newMirror.
-	queryRunner onInstalledIn: originalData
+	currentData := originalData.
+	queryRunner onInstalledIn: originalData.
+	" When a query has occured (because the query pattern has changed), update the list element accordingly then
+	 ask the list to process the appropiate data source command and to update the selection model.
+	A task must be used to avoid that the list update occurs during the BlSpaceFrameEventPhase  
+	 which can cause an issue because the layout must be launched each time a sieve result occurs "
+	originalData
+		addEventHandlerOn: ToObservableCollectionFilterAppliedEvent
+		do: [ :event |
+				self observableCollectionFilterAppliedEvent: event.
+				aListElement enqueueTask:
+					(BlTaskAction new action: [ aListElement onSievedWith: self ]) ]
 ]
 
 { #category : #accessing }
@@ -73,21 +83,10 @@ ToListElementSieve >> itemCount [
 	^ currentData size
 ]
 
-{ #category : #'api - hooks' }
-ToListElementSieve >> newQueryRunnerIn: aListElement [
+{ #category : #initialization }
+ToListElementSieve >> newQueryRunner [
 
-	| runner |
-	runner := ToObservableCollectionFilter new.
-	" When a query has occured (because the query pattern has changed), update the list element accordingly then
-	 ask the list to process the appropiate data source command and to update the selection model.
-	A task must be used to avoid that the list update occurs during the BlSpaceFrameEventPhase  
-	 which can cause an issue because the layout must be launched each time a sieve result occurs "
-	runner action: [
-			self updateCurrentData.
-			aListElement enqueueTask:
-				(BlTaskAction new action: [ aListElement onSievedWith: self ]) ].
-
-	^ runner
+	^ ToObservableCollectionFilter new
 ]
 
 { #category : #'api - hooks' }
@@ -102,63 +101,72 @@ ToListElementSieve >> newSievedListElementEventHandler [
 	^ ToSievedListElementEventHandler new
 ]
 
+{ #category : #private }
+ToListElementSieve >> observableCollectionFilterAppliedEvent: anEvent [
+
+	currentData := anEvent pattern
+		               ifEmpty: [ originalData ]
+		               ifNotEmpty: [
+		               anEvent selectedIndexes collect: [ :idx |
+			               originalData at: idx ] ]
+]
+
 { #category : #'api - hooks' }
 ToListElementSieve >> onInstalledIn: aListElement [
 	" install the sieve on the listElement "
 
+	| selectionModel |
 	originalData ifNotNil: [
 		^ (BlImmutableObjectChangeError object: self) signal ].
-
+	
 	originalIndexMap := IdentityDictionary new.
 	selectionModel := aListElement selectionModel copy.
+	" selectionChangedEventClass: is needed to update the selection 
+	of the list when the selecter is used programmatically.
+	This is the case when a tag with a remove button in a ToSelect 
+	is removed as a consequence of a click on the remove button of the tag "
+	selecter := ToSieveSelecter new
+		            selectionModel: selectionModel;
+		            selectionChangedEventClass:
+			            ToListPrimarySelectionChangedEvent;
+		            multiple: aListElement isMultipleSelection;
+		            yourself.
+	selecter onInstalledIn: self.
 
-	queryRunner := self newQueryRunnerIn: aListElement.
+	queryRunner := self newQueryRunner.
 	self installQueryRunnerIn: aListElement.
 
-	" initialization of the current result with the current pattern "
-	self updateCurrentData.
-	selectionHandler := self newSievedListElementEventHandler.
-	selectionHandler sieve: self.
-	aListElement addEventHandler: selectionHandler.
+	listElementHandler := self newSievedListElementEventHandler.
+	listElementHandler sieve: self.
+	aListElement addEventHandler: listElementHandler.
 
 	dataSourceHandler := self newSievedListDataSourceEventHandler.
 	dataSourceHandler sieve: self.
 	dataSourceHandler listElement: aListElement.
 	aListElement dataSource addEventHandler: dataSourceHandler.
 
-	sieveEventHandler := ToSieveEventHandler new
+	sieveHandler := ToSieveEventHandler new
 		                     listElement: aListElement;
 		                     yourself.
-	" selectionChangedEventClass: is needed to update the selection 
-	of the list when the selecter is used programmatically.
-	This is the case when a tag with a remove button in a ToSelect 
-	is removed as a consequence of a click on the remove button of the tag "
-	selecter := ToSieveSelecter new
-		            selectionModel: self selectionModel;
-		            selectionChangedEventClass:
-			            ToListPrimarySelectionChangedEvent;
-		            multiple: aListElement isMultipleSelection;
-		            yourself.
-	selecter onInstalledIn: self.
-	self addEventHandler: sieveEventHandler
+
+	self addEventHandler: sieveHandler
 ]
 
 { #category : #'api - hooks' }
 ToListElementSieve >> onUninstalledIn: aListElement [
 	" uninstall list element handlers and the queyrunner properly "
 
-	aListElement removeEventHandler: selectionHandler.
+	aListElement removeEventHandler: listElementHandler.
 	aListElement dataSource removeEventHandler: dataSourceHandler.
 	self uninstallQueryRunnerIn: aListElement.
-	self removeEventHandler: sieveEventHandler.
+	self removeEventHandler: sieveHandler.
 	selecter onUninstalledIn: self.
 	selecter := nil.
-	selectionHandler := nil.
+	listElementHandler := nil.
 	dataSourceHandler := nil.
-	sieveEventHandler := nil.
+	sieveHandler := nil.
 	currentData := nil.
 	queryRunner := nil.
-	selectionModel := nil.
 	originalIndexMap := nil
 ]
 
@@ -212,7 +220,7 @@ ToListElementSieve >> selecter [
 { #category : #accessing }
 ToListElementSieve >> selectionModel [ 
 
-	^ selectionModel
+	^ selecter selectionModel
 ]
 
 { #category : #'api - hooks' }
@@ -226,17 +234,6 @@ ToListElementSieve >> uninstallQueryRunnerIn: aListElement [
 
 { #category : #'selection updating' }
 ToListElementSieve >> updateAllSelections [
-]
-
-{ #category : #private }
-ToListElementSieve >> updateCurrentData [
-
-	" get the filtered data "
-	currentData := queryRunner pattern
-		               ifEmpty: [ originalData ]
-		               ifNotEmpty: [
-			               queryRunner selectedIndexes collect: [ :idx |
-				               originalData at: idx ] ]
 ]
 
 { #category : #enumerating }

@@ -1649,10 +1649,9 @@ ToSandBox class >> example_EditorWithoutSoftLine [
 
 { #category : #list }
 ToSandBox class >> example_FilterOnList2WithStatesOfAmerica [
-
 	" When filtered, update the primary selection with filtered items 
 	 - the contents of the list remains unchanged"
-	
+
 	| listElement pane filterField data selector |
 	pane := ToPane new
 		        beVertical;
@@ -1665,16 +1664,17 @@ ToSandBox class >> example_FilterOnList2WithStatesOfAmerica [
 	filterField margin: (BlInsets all: 2).
 
 	selector := ToObservableCollectionFilter new.
-	selector action: [
-		listElement selecter selectOnlyIndexes: selector selectedIndexes ].
+	listElement dataAccessor
+		addEventHandlerOn: ToObservableCollectionFilterAppliedEvent
+		do: [ :event |
+			listElement selecter selectOnlyIndexes: event selectedIndexes ].
 	listElement dataAccessor addAll: data.
-
 	selector onInstalledIn: listElement dataAccessor.
 
 	filterField whenTextEditedDo: [
-				 | pattern |
-				 pattern := filterField text asString.
-				 selector pattern: pattern ].
+			| pattern |
+			pattern := filterField text asString.
+			selector pattern: pattern ].
 
 	"handler inspect."
 	pane addChild: listElement.

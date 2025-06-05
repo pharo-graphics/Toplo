@@ -37,5 +37,5 @@ ToObservableCollectionEventHandler >> collectionUpdateEvent: anEvent [
 { #category : #'api - accessing' }
 ToObservableCollectionEventHandler >> eventsToHandle [
 
-	^ { ToCollectionEmptinessEvent. ToCollectionChangedEvent }
+	^ { ToCollectionEmptinessEvent. ToAbstractCollectionChangedEvent }
 ]

@@ -74,7 +74,7 @@ ToAbstractTreeElement >> initializeDataSource [
 
 	super initializeDataSource.
 	dataSource
-		addEventHandlerOn: ToCollectionChangedEvent
+		addEventHandlerOn: ToAbstractCollectionChangedEvent
 		do: [ :event | self dataAccessor dispatchEvent: event copy ]
 ]
 

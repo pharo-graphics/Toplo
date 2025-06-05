@@ -104,7 +104,6 @@ ToListElementSieveTest >> testOnUninstalledIn [
 	| handlers |
 	sieve onUninstalledIn: list.
 	self assert: sieve originalData isNil.
-	self assert: sieve selectionModel isNil.
 	self assert: sieve selecter isNil.
 	self assert: sieve originalIndexMap isNil.
 	self assert: sieve currentData isNil.

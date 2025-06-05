@@ -1504,7 +1504,7 @@ ToSandBox class >> example_CodeEditor [
 
 	pane addChild: menuPane.
 	pane addChild: album.
-	pane openInInnerWindow
+	pane openInSpace
 ]
 
 { #category : #list }

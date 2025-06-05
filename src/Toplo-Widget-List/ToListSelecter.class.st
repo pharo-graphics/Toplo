@@ -94,7 +94,7 @@ ToListSelecter >> currentIndex [
 { #category : #initialization }
 ToListSelecter >> defaultCommandApplicationStrategy [
 
-	^ nil
+	^ ToDataSourceCommandApplicationStrategy new
 ]
 
 { #category : #operations }
@@ -292,10 +292,8 @@ ToListSelecter >> onInstalledIn: anElement [
 
 	element := anElement.
 	selectionModel on: anElement.
-	commandApplicationStrategy
-		ifNil: [
-		commandApplicationStrategy := element commandApplicationStrategy ]
-		ifNotNil: [ commandApplicationStrategy element: element ]
+	commandApplicationStrategy := self defaultCommandApplicationStrategy.
+	commandApplicationStrategy element: element
 ]
 
 { #category : #'api - hooks' }

@@ -7,8 +7,7 @@ Class {
 		'next',
 		'dataSource',
 		'nodeManager',
-		'selectionModeMap',
-		'commandApplicationStrategy'
+		'selectionModeMap'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -61,12 +60,6 @@ ToAbstractListElement >> applyWidgetConfiguration [
 
 	super applyWidgetConfiguration.
 	self innerElement applyWidgetConfiguration
-]
-
-{ #category : #accessing }
-ToAbstractListElement >> commandApplicationStrategy [
-
-	^ commandApplicationStrategy
 ]
 
 { #category : #layout }
@@ -300,7 +293,6 @@ ToAbstractListElement >> initialize [
 
 	super initialize.
 
-	commandApplicationStrategy := self newCommandApplicationStrategy element: self.
 	nodeManager := self defaultNodeManager.
 	selectionModeMap := IdentityDictionary new.
 
@@ -366,12 +358,6 @@ ToAbstractListElement >> itemContaining: anElement [
 ToAbstractListElement >> itemCount [
 
 	^ self dataSource itemCount
-]
-
-{ #category : #'instance creation' }
-ToAbstractListElement >> newCommandApplicationStrategy [
-
-	^ ToDataSourceCommandApplicationStrategy new
 ]
 
 { #category : #'instance creation' }

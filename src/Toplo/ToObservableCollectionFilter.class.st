@@ -7,7 +7,6 @@ Class {
 		'semaphore',
 		'process',
 		'dataFilter',
-		'delay',
 		'collectionHandler'
 	],
 	#category : #'Toplo-Core-Collection'
@@ -58,7 +57,7 @@ ToObservableCollectionFilter >> defaultDelay [
 { #category : #accessing }
 ToObservableCollectionFilter >> delay [
 
-	^ delay
+	^ self defaultDelay
 ]
 
 { #category : #'private filtering' }
@@ -90,7 +89,6 @@ ToObservableCollectionFilter >> notifySelectedIndexes: anIntegerArray in: anObse
 ToObservableCollectionFilter >> onInstalledIn: anObservableCollection [
 
 	collectionHandler ifNotNil: [ BlImmutableObjectChangeError signal ].
-	delay := self defaultDelay.
 	process := self newProcessIn: anObservableCollection.
 	collectionHandler := anObservableCollection
 		                     addEventHandlerOn: ToCollectionChangedEvent

@@ -4,7 +4,6 @@ Class {
 	#traits : 'TBlEventTarget + TToAuthorisationRequestTarget',
 	#classTraits : 'TBlEventTarget classTrait + TToAuthorisationRequestTarget classTrait',
 	#instVars : [
-		'queryRunner',
 		'originalData',
 		'currentData',
 		'selecter',
@@ -12,7 +11,8 @@ Class {
 		'originalIndexMap',
 		'dataSourceHandler',
 		'sieveHandler',
-		'listElementHandler'
+		'listElementHandler',
+		'filter'
 	],
 	#category : #'Toplo-Widget-List-Sieve'
 }
@@ -27,7 +27,7 @@ ToListElementSieve >> currentData [
 ToListElementSieve >> dataFilter: aValuable [
 	" filter takes a data and a pattern as argument "
 
-	queryRunner dataFilter: [ :item :pattern |
+	filter dataFilter: [ :item :pattern |
 		aValuable value: item value: pattern ]
 ]
 
@@ -47,7 +47,7 @@ ToListElementSieve >> initialize [
 ]
 
 { #category : #'api - hooks' }
-ToListElementSieve >> installQueryRunnerIn: aListElement [
+ToListElementSieve >> installFilterIn: aListElement [
 	" the query is applied on the original data.
 	As a data source mirror, it works as follow:
 		- when data are added/removed in/from the data source, 
@@ -58,7 +58,7 @@ ToListElementSieve >> installQueryRunnerIn: aListElement [
 
 	originalData := aListElement dataSource newMirror.
 	currentData := originalData.
-	queryRunner onInstalledIn: originalData.
+	filter onInstalledIn: originalData.
 	" When a query has occured (because the query pattern has changed), update the list element accordingly then
 	 ask the list to process the appropiate data source command and to update the selection model.
 	A task must be used to avoid that the list update occurs during the BlSpaceFrameEventPhase  
@@ -84,7 +84,7 @@ ToListElementSieve >> itemCount [
 ]
 
 { #category : #initialization }
-ToListElementSieve >> newQueryRunner [
+ToListElementSieve >> newFilter [
 
 	^ ToObservableCollectionFilter new
 ]
@@ -133,8 +133,8 @@ ToListElementSieve >> onInstalledIn: aListElement [
 		            yourself.
 	selecter onInstalledIn: self.
 
-	queryRunner := self newQueryRunner.
-	self installQueryRunnerIn: aListElement.
+	filter := self newFilter.
+	self installFilterIn: aListElement.
 
 	listElementHandler := self newSievedListElementEventHandler.
 	listElementHandler sieve: self.
@@ -158,7 +158,7 @@ ToListElementSieve >> onUninstalledIn: aListElement [
 
 	aListElement removeEventHandler: listElementHandler.
 	aListElement dataSource removeEventHandler: dataSourceHandler.
-	self uninstallQueryRunnerIn: aListElement.
+	self uninstallFilterIn: aListElement.
 	self removeEventHandler: sieveHandler.
 	selecter onUninstalledIn: self.
 	selecter := nil.
@@ -166,7 +166,7 @@ ToListElementSieve >> onUninstalledIn: aListElement [
 	dataSourceHandler := nil.
 	sieveHandler := nil.
 	currentData := nil.
-	queryRunner := nil.
+	filter := nil.
 	originalIndexMap := nil
 ]
 
@@ -191,13 +191,13 @@ ToListElementSieve >> originalIndexOf: anObject [
 { #category : #accessing }
 ToListElementSieve >> pattern [
 
-	^ queryRunner pattern
+	^ filter pattern
 ]
 
 { #category : #accessing }
 ToListElementSieve >> pattern: aPattern [
 
-	queryRunner pattern: aPattern.
+	filter pattern: aPattern.
 	self dispatchEvent: (ToSievePatternChangedEvent new
 			 sieve: self;
 			 yourself)
@@ -206,7 +206,7 @@ ToListElementSieve >> pattern: aPattern [
 { #category : #accessing }
 ToListElementSieve >> selectedIndexes [
 
-	^ queryRunner selectedIndexes
+	^ filter selectedIndexes
 
 	
 ]
@@ -224,9 +224,9 @@ ToListElementSieve >> selectionModel [
 ]
 
 { #category : #'api - hooks' }
-ToListElementSieve >> uninstallQueryRunnerIn: aListElement [
+ToListElementSieve >> uninstallFilterIn: aListElement [
 
-	queryRunner onUninstalledIn: originalData.
+	filter onUninstalledIn: originalData.
 	originalData unmirrored.
 	originalData := nil.
 

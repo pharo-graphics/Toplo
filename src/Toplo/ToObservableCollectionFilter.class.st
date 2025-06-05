@@ -14,20 +14,13 @@ Class {
 }
 
 { #category : #'private filtering' }
-ToObservableCollectionFilter >> applyPattern: aPattern in: anObservableCollection [
-	" this method run the pattern application. 
-	This method is introduced to allow testing without the semaphore use.
-	(since  the pattern is stored in an inst var, it may seem strange to have it)"
-
-	previousPattern = aPattern ifTrue: [ ^ self ].
-	previousPattern := aPattern.
-	self applyPatternIn: anObservableCollection
-]
-
-{ #category : #'private filtering' }
 ToObservableCollectionFilter >> applyPatternIn: anObservableCollection [
 
 	| selectedIndexes |
+	
+	previousPattern = pattern ifTrue: [ ^ self ].
+	previousPattern := pattern.
+
 	selectedIndexes := self pattern ifEmpty: [ #(  ) ] ifNotEmpty: [
 		                   Array streamContents: [ :stream |
 			                   anObservableCollection withIndexDo: [ :d :idx |
@@ -78,7 +71,7 @@ ToObservableCollectionFilter >> newProcessIn: anObservableCollection [
 		  [
 			  semaphore wait.
 			  pattern ifNotEmpty: [ self delay wait ].
-			  self applyPattern: pattern in: anObservableCollection ] repeat ]
+			  self applyPatternIn: anObservableCollection ] repeat ]
 		  forkAt: Processor lowIOPriority
 		  named: self class name , ' filter process'
 ]

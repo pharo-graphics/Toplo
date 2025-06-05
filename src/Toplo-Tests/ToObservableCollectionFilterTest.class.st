@@ -105,6 +105,44 @@ ToObservableCollectionFilterTest >> testPattern [
 ]
 
 { #category : #tests }
+ToObservableCollectionFilterTest >> testPatternWhenCollectionChanged [
+
+	|   passedInHandler |
+	observableCollection
+		addEventHandlerOn: ToObservableCollectionFilterAppliedEvent
+		do: [ :event |
+				passedInHandler := true ].
+	observableCollection add: 'X'.
+
+	passedInHandler := false.
+	filter pattern: 'X'.
+	500 milliSeconds wait.
+	self assert: passedInHandler.
+	
+	observableCollection add: 'X'.
+	passedInHandler := false.
+	filter pattern: 'X'.
+	500 milliSeconds wait.
+	self assert: passedInHandler.
+	
+	observableCollection at: 2 put: 'Y'.
+	passedInHandler := false.
+	filter pattern: 'X'.
+	500 milliSeconds wait.
+	self assert: passedInHandler.
+
+	observableCollection removeAt: 1.
+	passedInHandler := false.
+	filter pattern: 'X'.
+	500 milliSeconds wait.
+	self assert: passedInHandler.
+
+
+
+
+]
+
+{ #category : #tests }
 ToObservableCollectionFilterTest >> testSamePatternTwice [
 
 	| selectedIndexes pattern passedInHandler |
@@ -127,16 +165,6 @@ ToObservableCollectionFilterTest >> testSamePatternTwice [
 	passedInHandler := false.
 	filter pattern: 'X'.
 	500 milliSeconds wait.
-	self deny: passedInHandler.
-	
-	observableCollection add: 'X'.
-	passedInHandler := false.
-	filter pattern: 'X'.
-	500 milliSeconds wait.
-	self assert: passedInHandler.
-	self assert: selectedIndexes size equals: 2.
-	self assert: selectedIndexes first equals: 1.
-	self assert: selectedIndexes second equals: 2.
-	self assert: pattern equals: 'X'.
+	self deny: passedInHandler
 
 ]

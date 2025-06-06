@@ -6,29 +6,39 @@ Class {
 
 { #category : #visiting }
 MorphicVisitor >> visitMenuBuilder: aMenuBuilder [
-	|menus|
-	menus := OrderedCollection new.
-	aMenuBuilder collectedItems do: [ :item | menus add: (self visitMenuRegistration:item) ].
-	menuPane := MenuMorph new." addList: menus."
-	menuPane popUpInWorld.
+
+	aMenuBuilder collectedItems do: [ :item |
+		item hasChildren
+			ifTrue: [ menuPane addMorph: (self visitMenuRegistration: item) ]
+			ifFalse: [
+			menuPane addMorph: (self visitMenuItemResgitration: item) ] ].
+	menuPane openInWorld.
+]
+
+{ #category : #visiting }
+MorphicVisitor >> visitMenuItemResgitration: aMenuRegistration [
+
+	| menuItem |
+	aMenuRegistration hasChildren
+		ifTrue: [ menuItem := self visitMenuRegistration: aMenuRegistration ]
+		ifFalse: [
+			menuItem := ToggleMenuItemMorph new contents:
+				            aMenuRegistration name.
+			menuItem
+				target: aMenuRegistration target;
+				selector: aMenuRegistration selector;
+				arguments: aMenuRegistration arguments ].
+	aMenuRegistration separator ifTrue: [ menuItem addSeparator ].
+	^ menuItem
 ]
 
 { #category : #visiting }
 MorphicVisitor >> visitMenuRegistration: aMenuRegistration [
 
 	| menu |
-	aMenuRegistration hasChildren
-		ifTrue: [
-			menu := MenuMorph new.
-			aMenuRegistration childrenItems do: [ :subItem |
-				menu add: aMenuRegistration label subMenu: (subItem accept: self).
-		 ] ]
-		ifFalse: [
-			menu := MenuMorph new
-				        add: aMenuRegistration label
-						  target: aMenuRegistration target
-				        selector: aMenuRegistration selector
-						  argument: aMenuRegistration arguments;
-				        yourself ].
-	aMenuRegistration separator ifTrue: [ menu addSeparator ].
+	menu := MenuMorph new.
+	menu addTitle: aMenuRegistration label.
+	aMenuRegistration childrenItems do: [ :each |
+		menu addMorphBack: (self visitMenuItemResgitration: each) ].
+	^ menu
 ]

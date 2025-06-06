@@ -10,10 +10,7 @@ ToInfiniteDataSourceObserver >> infiniteDataSourceChanged: anEvent [
 	| listElement |
 	super infiniteDataSourceChanged: anEvent.
 	listElement := infiniteElement listElement.
-	listElement postponeAction: [
-			listElement
-				updateAllSelections;
-				dispatchEvent: anEvent copy ]
+	listElement postponeAction: [ listElement updateAllSelections ]
 ]
 
 { #category : #'event handling' }
@@ -22,10 +19,7 @@ ToInfiniteDataSourceObserver >> infiniteDataSourceItemRangeChanged: anEvent [
 	| listElement |
 	super infiniteDataSourceItemRangeChanged: anEvent.
 	listElement := infiniteElement listElement.
-	listElement postponeAction: [
-			listElement
-				updateAllSelections;
-				dispatchEvent: anEvent copy ]
+	listElement postponeAction: [ listElement updateAllSelections ]
 ]
 
 { #category : #'event handling' }
@@ -36,8 +30,7 @@ ToInfiniteDataSourceObserver >> infiniteDataSourceItemRangeInserted: anEvent [
 	listElement := infiniteElement listElement.
 	listElement selecter
 		shiftSelection: anEvent itemCount
-		from: anEvent position.
-	listElement postponeAction: [ listElement dispatchEvent: anEvent copy ]
+		from: anEvent position
 ]
 
 { #category : #'event handling' }
@@ -53,8 +46,7 @@ ToInfiniteDataSourceObserver >> infiniteDataSourceItemRangeRemoved: anEvent [
 		to: anEvent position + anEvent itemCount - 1.
 	listElement selecter
 		shiftSelection: anEvent itemCount negated
-		from: anEvent position.
-	listElement postponeAction: [ listElement dispatchEvent: anEvent copy ]
+		from: anEvent position
 ]
 
 { #category : #'event handling' }
@@ -66,8 +58,7 @@ ToInfiniteDataSourceObserver >> infiniteDataSourceItemsFiltered: anEvent [
 		onItemsFiltered: anEvent position
 		itemCount: anEvent itemCount.
 
-	self triggerUpdateProcessor.
-	infiniteElement listElement dispatchEvent: anEvent copy
+	self triggerUpdateProcessor
 ]
 
 { #category : #'event handling' }
@@ -79,6 +70,5 @@ ToInfiniteDataSourceObserver >> infiniteDataSourceItemsSieved: anEvent [
 		itemCount: anEvent itemCount
 		with: anEvent sieve.
 
-	self triggerUpdateProcessor.
-	infiniteElement listElement dispatchEvent: anEvent copy
+	self triggerUpdateProcessor
 ]

@@ -1,8 +1,6 @@
 Class {
 	#name : #ToInfiniteDataSourceManager,
 	#superclass : #BlInfiniteDataSourceManager,
-	#traits : 'TToPostponedCommandHolder',
-	#classTraits : 'TToPostponedCommandHolder classTrait',
 	#instVars : [
 		'finalStepCommands'
 	],
@@ -10,9 +8,17 @@ Class {
 }
 
 { #category : #'t - postponed command holder' }
-ToInfiniteDataSourceManager >> addPostponedCommand: aCommand [
+ToInfiniteDataSourceManager >> addFinalStepCommand: aCommand [
 
 	finalStepCommands add: aCommand
+]
+
+{ #category : #'t - postponed command holder' }
+ToInfiniteDataSourceManager >> consumeFinalStepCommand: aCommand in: anElement [
+
+	self dispatchCommand: aCommand to: anElement.
+	self onCommandProcessed: aCommand in: anElement.
+	self recycleCommand: aCommand
 ]
 
 { #category : #'commands processing' }
@@ -21,19 +27,14 @@ ToInfiniteDataSourceManager >> consumeFinalStepCommandsIn: anElement [
 
 	"we still consume finale step updates (if there is)."
 
-	self consumePostponedCommandsIn: anElement
+	[ self hasFinalStepCommand ] whileTrue: [
+		| cmd |
+		cmd := self nextFinalStepCommand.
+		self consumeFinalStepCommand: cmd in: anElement ] 
 ]
 
 { #category : #'t - postponed command holder' }
-ToInfiniteDataSourceManager >> consumePostponedCommand: aCommand in: anElement [
-
-	self dispatchCommand: aCommand to: anElement.
-	self onCommandProcessed: aCommand in: anElement.
-	self recycleCommand: aCommand
-]
-
-{ #category : #'t - postponed command holder' }
-ToInfiniteDataSourceManager >> hasPostponedCommand [
+ToInfiniteDataSourceManager >> hasFinalStepCommand [
 
 	^ finalStepCommands notEmpty
 ]
@@ -46,7 +47,7 @@ ToInfiniteDataSourceManager >> initialize [
 ]
 
 { #category : #'t - postponed command holder' }
-ToInfiniteDataSourceManager >> nextPostponedCommand [
+ToInfiniteDataSourceManager >> nextFinalStepCommand [
 
 	^ finalStepCommands removeFirst
 ]
@@ -84,4 +85,10 @@ ToInfiniteDataSourceManager >> postponeAction: aValuable [
 	self postponeCommand: (ToInfiniteDataSourceActionCommand new
 			 action: aValuable;
 			 yourself)
+]
+
+{ #category : #'t - postponed command holder' }
+ToInfiniteDataSourceManager >> postponeCommand: aCommand [
+
+	self addFinalStepCommand: aCommand 
 ]

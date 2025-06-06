@@ -8,9 +8,8 @@ Class {
 ToDataSourceCommandApplicationStrategy >> addCommand: aCommand from: aCommandApplier [
 
 	element isAttachedToSceneGraph ifFalse: [
-		aCommandApplier applyCommand: aCommand.
-		^ self ].
-	element postponeAction: [
-		aCommandApplier applyCommand: aCommand ].
+			aCommandApplier applyCommand: aCommand.
+			^ self ].
+	element postponeAction: [ aCommandApplier applyCommand: aCommand ].
 	element addedDataSourceCommand: aCommand
 ]

@@ -259,8 +259,8 @@ ToListElementSieveTest >> testSelectionViaSelecter [
 	" the selecter can be used to select item programatically "
 	
 	list dataAccessor addAll: self statesOfAmerica.
-	self waitTestingSpaces.
 	sieve selecter selectIndex: 3.
+	self waitTestingSpaces.
 	self assert: sieve selectionModel selectedIndexes equals: #(3).
 	sieve pattern: 'Alabama'.
 	500 milliSeconds wait.

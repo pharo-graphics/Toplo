@@ -113,6 +113,7 @@ ToListElementTest >> testDisabledSelectionModel2 [
 
 	| l |
 	l := ToListElement new.
+	space root addChild: l.
 	l dataAccessor addAll: { #A. #B. #C }.
 	l selecter selectIndex: 2.
 	self waitTestingSpaces.

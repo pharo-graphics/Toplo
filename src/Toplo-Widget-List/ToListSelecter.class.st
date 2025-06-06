@@ -64,6 +64,12 @@ ToListSelecter >> beSingleSelection [
 ]
 
 { #category : #accessing }
+ToListSelecter >> commandApplicationStrategy [
+
+	^ commandApplicationStrategy
+]
+
+{ #category : #accessing }
 ToListSelecter >> commandApplicationStrategy: aCommandApplicationStrategy [
 
 	commandApplicationStrategy := aCommandApplicationStrategy
@@ -177,8 +183,15 @@ ToListSelecter >> initialize [
 	super initialize.
 	multiple := true.
 	enabled := true.
-	operator := ToSelectionModelOperator new.
-	commandApplicationStrategy := self defaultCommandApplicationStrategy 
+	operator := ToSelectionModelOperator new
+]
+
+{ #category : #initialization }
+ToListSelecter >> initializeCommandApplicationStrategy [
+
+	commandApplicationStrategy := self defaultCommandApplicationStrategy.
+	commandApplicationStrategy ifNotNil: [
+		commandApplicationStrategy element: element ]
 ]
 
 { #category : #testing }
@@ -292,8 +305,7 @@ ToListSelecter >> onInstalledIn: anElement [
 
 	element := anElement.
 	selectionModel on: anElement.
-	commandApplicationStrategy := self defaultCommandApplicationStrategy.
-	commandApplicationStrategy element: element
+	self initializeCommandApplicationStrategy
 ]
 
 { #category : #'api - hooks' }

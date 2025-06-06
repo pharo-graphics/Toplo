@@ -17,6 +17,10 @@ Class {
 	#category : #'Toplo-Widget-List-Sieve'
 }
 
+{ #category : #'private - commands' }
+ToListElementSieve >> addedDataSourceCommand: aCommand [
+]
+
 { #category : #accessing }
 ToListElementSieve >> currentData [
 
@@ -115,22 +119,11 @@ ToListElementSieve >> observableCollectionFilterAppliedEvent: anEvent [
 ToListElementSieve >> onInstalledIn: aListElement [
 	" install the sieve on the listElement "
 
-	| selectionModel |
 	originalData ifNotNil: [
 		^ (BlImmutableObjectChangeError object: self) signal ].
-	
 	originalIndexMap := IdentityDictionary new.
-	selectionModel := aListElement selectionModel copy.
-	" selectionChangedEventClass: is needed to update the selection 
-	of the list when the selecter is used programmatically.
-	This is the case when a tag with a remove button in a ToSelect 
-	is removed as a consequence of a click on the remove button of the tag "
-	selecter := ToSieveSelecter new
-		            selectionModel: selectionModel;
-		            selectionChangedEventClass:
-			            ToListPrimarySelectionChangedEvent;
-		            multiple: aListElement isMultipleSelection;
-		            yourself.
+
+	selecter := aListElement selecter newSieveSelecter.
 	selecter onInstalledIn: self.
 
 	filter := self newFilter.

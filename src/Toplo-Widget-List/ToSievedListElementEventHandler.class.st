@@ -2,9 +2,7 @@ Class {
 	#name : #ToSievedListElementEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
-		'sieve',
-		'sieveSelectionModel',
-		'originalIndexMap'
+		'sieve'
 	],
 	#category : #'Toplo-Widget-List-Sieve'
 }
@@ -31,42 +29,28 @@ ToSievedListElementEventHandler >> listSelectionCommandAppliedEvent: aSelectionC
 	listElement dataSource ifEmpty: [ ^ self ].
 	" reset the selection in case of single selection mode "
 	aSelectionCommandAppliedEvent currentTarget isMultipleSelection
-		ifFalse: [ sieveSelectionModel deselectAll ].
+		ifFalse: [ sieve selectionModel deselectAll ].
 
 	" the selection set is updated according to the pattern:
 	- if empty, the whole selection set is set from the whole list element selection model 
 	- if not empty, the selection set is computed according to the current list node list "
 	sieve pattern
-		ifEmpty: [ sieveSelectionModel copySelectionFrom: listSelModel ]
+		ifEmpty: [ sieve selectionModel copySelectionFrom: listSelModel ]
 		ifNotEmpty: [
 				listElement dataSource withIndexDo: [ :d :localIndex |
-						originalIndexMap at: d ifPresent: [ :originalIndex |
+						sieve originalIndexMap at: d ifPresent: [ :originalIndex |
 								listSelModel
 									transferSelectionFromIndex: localIndex
 									toIndex: originalIndex
-									in: sieveSelectionModel ] ] ].
+									in: sieve selectionModel ] ] ].
 
 	" dispatch a specific, different from the primary selection change event that will be sent after.
 	It is useful for sieve list user that relies on the sieve internal selection to adapt themeself 
 	according to the sieve selection"
 	listElement dispatchEvent: (ToSieveSelectionChangedEvent new
 			 sieve: sieve;
-			 selectionModel: sieveSelectionModel;
+			 selectionModel: sieve selectionModel;
 			 yourself)
-]
-
-{ #category : #'api - hooks' }
-ToSievedListElementEventHandler >> onInstalledIn: aListElement [
-
-	super onInstalledIn: aListElement.
-	sieveSelectionModel := sieve selectionModel.
-	self originalIndexMap: sieve originalIndexMap
-]
-
-{ #category : #accessing }
-ToSievedListElementEventHandler >> originalIndexMap: aDictionary [
-
-	originalIndexMap := aDictionary
 ]
 
 { #category : #accessing }

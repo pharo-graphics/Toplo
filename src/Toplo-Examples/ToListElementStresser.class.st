@@ -273,7 +273,6 @@ ToListElementStresser >> initialize [
 		tab := ToTabButton new.
 		tab userData at: #list put: list.
 		tab labelText: ident.
-		"tab addChild: ToLabel new withNullSkin at: 2."
 		tab paneBuilder: [ :pane  |
 			pane addChild: paneListAssoc key ].
 		tabsPanel addItem: tab ].
@@ -287,11 +286,8 @@ ToListElementStresser >> initialize [
 		                       round := round + 1.
 		                       idx := (round \\ self maxTab + 1 max: 1)
 			                              min: self maxTab.
-		                       self tabsPanel enqueueTask:
-			                       (BlTaskAction new action: [
-				                        (self tabsPanel items at: idx) check ]).
-		                       1 seconds wait
-		                       "Smalltalk garbageCollect" ].
+		                       (self tabsPanel items at: idx) check.
+		                       1 seconds wait].
 	                       endTime := DateAndTime now.
 	                       (endTime - startTime) asDuration traceCr ]
 		                       newProcess.
@@ -328,7 +324,7 @@ ToListElementStresser >> maxListSize [
 { #category : #accessing }
 ToListElementStresser >> maxRound [
 
-	^ maxRound ifNil: [ maxRound := 20000 ]
+	^ maxRound ifNil: [ maxRound := 2000 ]
 ]
 
 { #category : #accessing }
@@ -403,11 +399,11 @@ ToListElementStresser >> newStressedListNumber: aNumber [
 	ident := ident trimRight: [ :char | char isAlphaNumeric not ].
 
 	suffix := String streamContents: [ :stream |
-		          stream nextPutAll: ' ('.
-		          stream nextPutAll: priority asString.
-		          stream nextPutAll: ') '.
-		          stream nextPutAll: size asString.
-		          stream nextPutAll: ' ' ].
+			          stream nextPutAll: ' ('.
+			          stream nextPutAll: priority asString.
+			          stream nextPutAll: ') '.
+			          stream nextPutAll: size asString.
+			          stream nextPutAll: ' ' ].
 
 	listIdentifiers
 		at: aNumber
@@ -420,29 +416,29 @@ ToListElementStresser >> newStressedListNumber: aNumber [
 	list matchParent.
 
 	process := [
-	           | round |
-	           round := 0.
-	           list userData at: #finishedStress put: false.
-	           self maxRound timesRepeat: [
-		           round := round + 1.
-		           (round \\ 100) isZero ifTrue: [ Smalltalk garbageCollect ].
-		           self processingRound: round inList: list number: aNumber.
-		           self afterRoundInList: list ].
-	           self processEndInList: list number: aNumber ] newProcess.
+		           | round |
+		           round := 0.
+		           list userData at: #finishedStress put: false.
+		           self maxRound timesRepeat: [
+				           round := round + 1.
+				           self
+					           processingRound: round
+					           inList: list
+					           number: aNumber.
+				           self afterRoundInList: list ].
+		           self processEndInList: list number: aNumber ] newProcess.
 
 	process name: self class name.
 	process priority: priority.
 
-	self tabsPanel
-		addEventHandlerOn: ToAddedToSpaceEvent 
-		do: [ :event |
+	self tabsPanel addEventHandlerOn: ToAddedToSpaceEvent do: [ :event |
 			sieve isInstalled ifFalse: [ sieve onInstalledIn: list ].
 			process resume ].
 	self tabsPanel
-		addEventHandlerOn: ToRemovedFromSpaceEvent 
+		addEventHandlerOn: ToRemovedFromSpaceEvent
 		do: [ :event |
-			process terminate.
-			sieve isInstalled ifTrue: [ sieve onUninstalledIn: list ] ].
+				process terminate.
+				sieve isInstalled ifTrue: [ sieve onUninstalledIn: list ] ].
 
 	pane addChild: list.
 	pane addChild: (self newSelectionBoardOn: list).
@@ -463,13 +459,6 @@ ToListElementStresser >> nextCounter [
 { #category : #private }
 ToListElementStresser >> nextProcessPriorityForListNumber: aNumber [
 
-	"| priorities |
-	priorities := {
-		              Processor lowestPriority.
-		              Processor userBackgroundPriority.
-		              Processor systemBackgroundPriority }.
-
-	^ priorities at: aNumber \\ priorities size + 1"
 	^ Processor userBackgroundPriority.
 ]
 
@@ -488,9 +477,9 @@ ToListElementStresser >> processEndInList: aList number: aNumber [
 
 	| tab |
 	aList userData at: #finishedStress put: true.
-	tab := self tabsPanel tabs at: aNumber.
+	tab := self tabsPanel items at: aNumber.
 	self tabsPanel enqueueTask: (BlTaskAction new action: [
-			 tab firstChild text foreground: Color green muchDarker ])
+			 tab label text foreground: Color green muchDarker ])
 ]
 
 { #category : #running }

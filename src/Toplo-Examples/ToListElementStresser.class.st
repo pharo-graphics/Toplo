@@ -229,10 +229,10 @@ ToListElementStresser >> afterRoundInList: aList [
 ToListElementStresser >> applyCommand: aCommand [
 
 	| tab s |
-	tab := self tabsPanel tabs at: aCommand listNumber.
+	tab := self tabsPanel items at: aCommand listNumber.
 	s := ' [' asRopedText , aCommand round asString asRopedText bold
 	     , ('/' , self maxRound asString , ']') asRopedText.
-	(tab childAt: 2) text: s.
+	tab endElement: (ToAttributedLabel text: s).
 	self selectActionsToRun shuffled do: [ :act |
 		self perform: act with: aCommand list ]
 ]
@@ -240,7 +240,7 @@ ToListElementStresser >> applyCommand: aCommand [
 { #category : #running }
 ToListElementStresser >> finishedInAllTabs [
 
-	^ tabsPanel tabs allSatisfy: [ :tab |
+	^ tabsPanel items allSatisfy: [ :tab |
 		  | list |
 		  list := tab userData at: #list.
 		  list userData at: #finishedStress ifAbsent: [false] ]
@@ -257,7 +257,11 @@ ToListElementStresser >> initialize [
 	maxNbTasks := 0.
 	rand := Random new.
 
-	tabsPanel := ToTabPane new.
+	tabsPanel := ToTabPaneElement new.
+	tabsPanel isFlowable: true.
+	tabsPanel isScrollable: false.
+	tabsPanel vertical: true.
+	tabsPanel matchParent.
 	listIdentifiers := Array new: self maxTab.
 
 
@@ -266,14 +270,13 @@ ToListElementStresser >> initialize [
 		paneListAssoc := self newStressedListNumber: i.
 		list := paneListAssoc value.
 		ident := list userData at: #identifier.
-		tab := ToTab new.
+		tab := ToTabButton new.
 		tab userData at: #list put: list.
 		tab labelText: ident.
-		tab firstChild withNullSkin.
-		tab addChild: ToLabel new withNullSkin at: 2.
-		tab paneBuilder: [ :pane :theTabPane |
+		"tab addChild: ToLabel new withNullSkin at: 2."
+		tab paneBuilder: [ :pane  |
 			pane addChild: paneListAssoc key ].
-		tabsPanel addTab: tab ].
+		tabsPanel addItem: tab ].
 
 	tabSelectionProcess := [
 	                       | round |
@@ -286,7 +289,7 @@ ToListElementStresser >> initialize [
 			                              min: self maxTab.
 		                       self tabsPanel enqueueTask:
 			                       (BlTaskAction new action: [
-				                        (self tabsPanel tabs at: idx) check ]).
+				                        (self tabsPanel items at: idx) check ]).
 		                       1 seconds wait
 		                       "Smalltalk garbageCollect" ].
 	                       endTime := DateAndTime now.

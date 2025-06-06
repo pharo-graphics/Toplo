@@ -54,8 +54,7 @@ ToInfiniteElement >> cleanUpRecyclerAt: anIndex [
 { #category : #layout }
 ToInfiniteElement >> consumeFinalStepCommands [
 
-	dataSourceManager consumeFinalStepCommandsIn: self.
-
+	dataSourceManager consumeFinalStepCommandsIn: self
 ]
 
 { #category : #'t - infinite accessing' }

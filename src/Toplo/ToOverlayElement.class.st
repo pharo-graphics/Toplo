@@ -1,8 +1,8 @@
 Class {
 	#name : #ToOverlayElement,
-	#superclass : #BlElement,
-	#traits : 'TToElement + TBlOverlayElement',
-	#classTraits : 'TToElement classTrait + TBlOverlayElement classTrait',
+	#superclass : #BlOverlayElement,
+	#traits : 'TToElement',
+	#classTraits : 'TToElement classTrait',
 	#category : #'Toplo-Core-Overlay'
 }
 
@@ -17,7 +17,6 @@ ToOverlayElement >> attachToParent: anElement [
 ToOverlayElement >> initialize [ 
 
 	super initialize.
-	self initializeAsOverlayElement.
 	self initializeForToplo.
 	self preventMouseEvents 
 ]

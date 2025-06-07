@@ -29,7 +29,7 @@ TToElementWithPlaceholderTest >> testNewPlaceholder [
 
 	| e |
 	e := ToElementWithPlaceholderForTest new.
-	self assert: (e newPlaceholder class inheritsFrom: BlOverlayElement)
+	self assert: (e newPlaceholder class inheritsFrom: ToOverlayElement)
 ]
 
 { #category : #tests }
@@ -49,7 +49,7 @@ TToElementWithPlaceholderTest >> testPlaceholderClass [
 
 	| e |
 	e := ToElementWithPlaceholderForTest new.
-	self assert: (e placeholderClass inheritsFrom: BlOverlayElement)
+	self assert: (e placeholderClass inheritsFrom: ToOverlayElement)
 ]
 
 { #category : #tests }

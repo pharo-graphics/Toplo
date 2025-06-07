@@ -1,8 +1,8 @@
 Class {
 	#name : #ToOverlayElement,
-	#superclass : #BlOverlayElement,
-	#traits : 'TToElement',
-	#classTraits : 'TToElement classTrait',
+	#superclass : #BlElement,
+	#traits : 'TToElement + TBlOverlayElement',
+	#classTraits : 'TToElement classTrait + TBlOverlayElement classTrait',
 	#category : #'Toplo-Core-Overlay'
 }
 
@@ -13,20 +13,29 @@ ToOverlayElement >> attachToParent: anElement [
 	anElement addChild: self
 ]
 
+{ #category : #initialization }
+ToOverlayElement >> initialize [ 
+
+	super initialize.
+	self initializeAsOverlayElement.
+	self initializeForToplo.
+	self preventMouseEvents 
+]
+
 { #category : #testing }
 ToOverlayElement >> isBeneath [ 
 
-	^ self elevation < referenceElement elevation
+	^ self elevation < overlayReferenceElement elevation
 ]
 
 { #category : #testing }
 ToOverlayElement >> isOver [
 
-	^ self elevation > referenceElement elevation
+	^ self elevation > overlayReferenceElement elevation
 ]
 
 { #category : #accessing }
 ToOverlayElement >> referenceElement [
 
-	^ referenceElement 
+	^ overlayReferenceElement 
 ]

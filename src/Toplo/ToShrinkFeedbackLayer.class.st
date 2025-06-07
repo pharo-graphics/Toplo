@@ -15,7 +15,7 @@ ToShrinkFeedbackLayer >> checkVisibility [
 
 	| pbnds ebnds gap |
 	shrinked ifNil: [ ^ self ].
-	pbnds := overlayReferenceElement bounds inSpace asRectangle.
+	pbnds := self referenceElement bounds inSpace asRectangle.
 	ebnds := shrinked bounds inSpace asRectangle.
 	gap := checkedOrientation isHorizontal
 		       ifTrue: [ pbnds width - ebnds width ]

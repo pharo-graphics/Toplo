@@ -59,7 +59,7 @@ ToTabNodeSkin >> installSkinEvent: anEvent [
 						rightPad := rightPad * 2 ]
 					ifFalse: [ c ignored horizontal alignLeft ].
 				c ignored vertical alignCenter ] ].
-
+		e item constraintsDo: [ :c | c linear vertical alignCenter ]. 
 		e padding: (BlInsets
 				 top: topPad
 				 left: leftPad

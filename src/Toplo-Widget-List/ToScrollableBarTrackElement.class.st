@@ -11,10 +11,21 @@ Class {
 { #category : #adding }
 ToScrollableBarTrackElement >> addFakeNode: aNode [
 
+	| sizeHandler |
 	fakeNode ifNotNil: [ self removeFakeNode ].
 	fakeNode := aNode.
-	self addChild: aNode at: 1.
-
+	" The purpose of the sizehandler is to make a fake node invisible. 
+	this is ensured by forcing the height to zero 
+	(if the bar is vertical) or the width to zero 
+	(if ther bar is horizontal).  "
+	sizeHandler := fakeNode
+		               addEventHandlerOn: BlElementExtentChangedEvent
+		               do: [
+				               self isHorizontal
+					               ifTrue: [ fakeNode width: 0 ]
+					               ifFalse: [ fakeNode height: 0 ] ].
+	fakeNode userData at: #sizeHandler put: sizeHandler.
+	self addChild: aNode at: 1
 ]
 
 { #category : #adding }
@@ -251,7 +262,13 @@ ToScrollableBarTrackElement >> removeAllNodes: anArray [
 { #category : #removing }
 ToScrollableBarTrackElement >> removeFakeNode [
 
-	fakeNode ifNotNil: [ fakeNode removeFromParent ].
+	fakeNode ifNotNil: [
+			| sizeHandler |
+			" see #addFakeNode: comment on sizeHandler "
+			sizeHandler := fakeNode userData at: #sizeHandler.
+			fakeNode removeEventHandler: sizeHandler.
+			fakeNode userData removeKey: #sizeHandler.
+			fakeNode removeFromParent ].
 	fakeNode := nil
 ]
 

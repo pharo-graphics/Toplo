@@ -12,10 +12,6 @@ ToTabNode >> applyWidgetConfiguration [
 	super applyWidgetConfiguration.
 	self removeRemoveButton.
 	self isRemovable ifTrue: [ self addRemoveButton ].
-	self isFake ifTrue: [
-			self holder listElement isHorizontal
-				ifTrue: [ self width: 0 ]
-				ifFalse: [ self height: 0 ] ].
 	self requestNewSkin
 ]
 

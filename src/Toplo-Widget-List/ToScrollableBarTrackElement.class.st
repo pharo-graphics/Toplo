@@ -75,16 +75,16 @@ ToScrollableBarTrackElement >> applyWidgetConfiguration [
 
 	self autoDistribute
 		ifTrue: [
-			self isHorizontal
-				ifTrue: [
-				listElement isHFitContent ifFalse: [ self hMatchParent ] ]
-				ifFalse: [
-				listElement isVFitContent ifFalse: [ self vMatchParent ] ] ]
-		ifFalse: [
-			(self isFlowable not and: [ self isScrollable ]) ifTrue: [
 				self isHorizontal
-					ifTrue: [ self hFitContent ]
-					ifFalse: [ self vFitContent ] ] ].
+					ifTrue: [
+					listElement isHFitContent ifFalse: [ self hMatchParent ] ]
+					ifFalse: [
+					listElement isVFitContent ifFalse: [ self vMatchParent ] ] ]
+		ifFalse: [
+				(self isFlowable not and: [ self isScrollable ]) ifTrue: [
+						self isHorizontal
+							ifTrue: [ self hFitContent ]
+							ifFalse: [ self vFitContent ] ] ].
 
 	self applyFakeNodeConfiguration.
 	self nodesDo: [ :n | n applyWidgetConfiguration ]

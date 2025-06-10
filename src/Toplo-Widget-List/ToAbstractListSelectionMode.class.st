@@ -223,6 +223,12 @@ ToAbstractListSelectionMode >> option [
 ]
 
 { #category : #accessing }
+ToAbstractListSelectionMode >> requestNewRepresentation [
+
+	self selectionOptionDo: [ :rep | rep requestNewRepresentation ]
+]
+
+{ #category : #accessing }
 ToAbstractListSelectionMode >> selectedIndexes [
 
 	^ self selectionModel indexes

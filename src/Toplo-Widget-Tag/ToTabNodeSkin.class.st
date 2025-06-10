@@ -19,7 +19,7 @@ ToTabNodeSkin >> configureSelectionTokensIn: anItemElement [
 			anItemElement
 				addTokenNamed: #'selected-unfocused-foreground'
 				withValue:
-				(anItemElement valueOfTokenNamed: #'color-text-disabled') ]
+				(anItemElement valueOfTokenNamed: #'color-primary-checked') ]
 ]
 
 { #category : #'event handling' }

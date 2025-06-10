@@ -154,6 +154,12 @@ ToListSelectionOption >> representation: aRepresentationOption [
 ]
 
 { #category : #accessing }
+ToListSelectionOption >> requestNewRepresentation [
+
+	representationOption requestNewRepresentation
+]
+
+{ #category : #accessing }
 ToListSelectionOption >> selectionElements [
 
 	^ representationOption selectionElements

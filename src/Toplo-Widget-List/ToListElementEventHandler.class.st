@@ -54,13 +54,14 @@ ToListElementEventHandler >> elementExtentChangedEvent: anEvent [
 
 	| listElement |
 	listElement := anEvent currentTarget.
+	listElement selectionModes do: [ :mode |
+		mode requestNewRepresentation ].
 	listElement
 		updateAllSelections;
 		extentChanged.
 	listElement spaceDo: [ :sp |
-		sp enqueueTask:
-			(BlTaskAction new action: [ sp mouseProcessor handleLastMouseMove ]) ].
-
+			sp enqueueTask:
+				(BlTaskAction new action: [ sp mouseProcessor handleLastMouseMove ]) ]
 ]
 
 { #category : #'selection managing' }

@@ -3,7 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'selectionOption',
-		'representation'
+		'representation',
+		'newRepresentationRequested'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
@@ -30,7 +31,8 @@ ToListSelectionRepresentationOption class >> separate [
 ToListSelectionRepresentationOption >> initialize [ 
 
 	super initialize.
-	representation := ToEmptySelectionRepresentation new
+	representation := ToEmptySelectionRepresentation new.
+	newRepresentationRequested := true
 ]
 
 { #category : #testing }
@@ -108,6 +110,12 @@ ToListSelectionRepresentationOption >> removeSelectionContainer [
 ]
 
 { #category : #accessing }
+ToListSelectionRepresentationOption >> requestNewRepresentation [ 
+
+	newRepresentationRequested := true
+]
+
+{ #category : #accessing }
 ToListSelectionRepresentationOption >> selectionElements [
 
 	^ #(  )
@@ -132,10 +140,12 @@ ToListSelectionRepresentationOption >> updateSelectionIn: aListElement withSelec
 	rep := self
 		       nextSelectionRepresentationFrom: aListElement
 		       withSelectionModel: aSelectionModel.
-	rep = representation ifTrue: [ ^ false ].
+	newRepresentationRequested ifFalse: [
+		rep = representation ifTrue: [ ^ false ] ].
 	representation onRemovedFromListElement: aListElement.
 	" send deselected when selection element are removed to send DeselectedSkinEvent to nodes "
 	self notifyNodesDeselectedIn: aListElement.
 	representation := rep.
+	newRepresentationRequested := false.
 	^ true
 ]

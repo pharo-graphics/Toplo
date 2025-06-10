@@ -557,7 +557,7 @@ ToSandBox class >> exampleAccordionListWithClassComments [
 	list := ToAccordionListElement new.
 	list withRowNumbers.
 	list selectionMode multiple: true.
-	sieve := list newSieve
+	sieve := list newSieve.
 	sieve onInstalledIn: list.
 	sieve dataFilter: [ :item :aPattern |
 		item name beginsWith: aPattern caseSensitive: false ].
@@ -4143,7 +4143,7 @@ ToSandBox class >> example_TabGroupElement [
 				 labelText: i asString;
 				 removable: true;
 				 yourself) ].
-	tabs items first check.
+	tabs selecter selectIndex: 5.
 	tabs requestFocus.
 	dashBoard := self tabGroupElementDashBoardFor: tabs.
 	dashBoard openInSpace.
@@ -4163,7 +4163,7 @@ ToSandBox class >> example_TabGroupElementWithDaily [
 				 yourself) ].
 
 	(tabs items at: 2) disable.
-	(tabs items at: 3) checked: true.
+	tabs selecter selectIndex: 3.
 	tabs requestFocus.
 	dashBoard := self tabGroupElementDashBoardFor: tabs.
 	tabs disabled: true.
@@ -4216,8 +4216,26 @@ ToSandBox class >> example_TabPaneElementWithUSStates [
 
 	| tpane dashBoard |
 	tpane := self tabPaneElementWithUSStates.
+	tpane matchParent.
+	"tpane items third checked: true."
+	tpane selecter selectIndex: 3.
+
 	dashBoard := self tabGroupElementDashBoardFor: tpane.
 	dashBoard openInSpace.
+	tpane tabGroup requestFocus.
+	^ tpane
+]
+
+{ #category : #tag }
+ToSandBox class >> example_TabPaneElementWithUSStates0 [
+
+	| tpane dashBoard |
+	tpane := self tabPaneElementWithUSStates.
+	tpane selecter selectIndex: 3.
+	"tpane items third checked: true."
+	tpane matchParent.
+	tpane openInSpace.
+	tpane tabGroup requestFocus.
 	^ tpane
 ]
 
@@ -9306,6 +9324,7 @@ ToSandBox class >> tabPaneElementWithUSStates [
 						        emptyPh := pane userData at: #placeholder.
 						        emptyPh detach ];
 				        yourself.
+				
 			"icon:
 				        (ToImage new innerImage: (self iconNamed: #solidMenu));"
 			"endElement:

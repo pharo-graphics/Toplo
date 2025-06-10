@@ -8,32 +8,55 @@ Class {
 	#category : #'Toplo-Widget-List-InnerBar'
 }
 
-{ #category : #adding }
+{ #category : #'accessing - children' }
 ToScrollableBarTrackElement >> addFakeNode: aNode [
 
 	| sizeHandler |
 	fakeNode ifNotNil: [ self removeFakeNode ].
 	fakeNode := aNode.
-	" The purpose of the sizehandler is to make a fake node invisible. 
+	" The purpose of the size handler is to make a fake node remains invisible. 
 	this is ensured by forcing the height to zero 
 	(if the bar is vertical) or the width to zero 
 	(if ther bar is horizontal).  "
+	fakeNode whenLayoutedDoOnce: [
+			fakeNode userData
+				at: #fakeNodeOriginalSize
+				put: fakeNode size.
+			self applyFakeNodeConfiguration ].
+
 	sizeHandler := fakeNode
 		               addEventHandlerOn: BlElementExtentChangedEvent
-		               do: [
-				               self isHorizontal
-					               ifTrue: [ fakeNode width: 0 ]
-					               ifFalse: [ fakeNode height: 0 ] ].
-	fakeNode userData at: #sizeHandler put: sizeHandler.
+		               do: [ self applyFakeNodeConfiguration ].
+	fakeNode userData at: #fakeNodeSizeHandler put: sizeHandler.
 	self addChild: aNode at: 1
 ]
 
-{ #category : #adding }
+{ #category : #'accessing - children' }
 ToScrollableBarTrackElement >> addHolder: anHolder at: aPosition [
 
 	| node |
 	node := anHolder node.
 	self addChild: node at: aPosition + 1
+]
+
+{ #category : #configuration }
+ToScrollableBarTrackElement >> applyFakeNodeConfiguration [
+
+	fakeNode applyWidgetConfiguration.
+
+	"in case my orientation changes the original size must be stored.
+	The original size has to be stored before setting the height or the width to zero.
+	see also addFakeNode:"
+
+	self isHorizontal
+		ifTrue: [
+				fakeNode userData at: #fakeNodeOriginalSize ifPresent: [ :s |
+						fakeNode height: s y.
+						fakeNode width: 0 ] ]
+		ifFalse: [
+				fakeNode userData at: #fakeNodeOriginalSize ifPresent: [ :s |
+						fakeNode width: s x.
+						fakeNode height: 0 ] ]
 ]
 
 { #category : #configuration }
@@ -63,10 +86,7 @@ ToScrollableBarTrackElement >> applyWidgetConfiguration [
 					ifTrue: [ self hFitContent ]
 					ifFalse: [ self vFitContent ] ] ].
 
-	fakeNode applyWidgetConfiguration.
-	self isHorizontal
-		ifTrue: [ fakeNode constraintsDo: [ :c | c horizontal exact: 0 ] ]
-		ifFalse: [ fakeNode constraintsDo: [ :c | c vertical exact: 0 ] ].
+	self applyFakeNodeConfiguration.
 	self nodesDo: [ :n | n applyWidgetConfiguration ]
 ]
 
@@ -253,26 +273,27 @@ ToScrollableBarTrackElement >> partlyVisibleNodesSelect: aBlock [
 			  (aBlock value: node) ifTrue: [ stream nextPut: node ] ] ]
 ]
 
-{ #category : #removing }
+{ #category : #'accessing - children' }
 ToScrollableBarTrackElement >> removeAllNodes: anArray [
 
 	anArray reverseDo: [ :node | self removeNode: node ]
 ]
 
-{ #category : #removing }
+{ #category : #'accessing - children' }
 ToScrollableBarTrackElement >> removeFakeNode [
 
 	fakeNode ifNotNil: [
 			| sizeHandler |
-			" see #addFakeNode: comment on sizeHandler "
-			sizeHandler := fakeNode userData at: #sizeHandler.
+			" see #addFakeNode: and #applyFakeNodeConfiguration comments on sizeHandler and on fakeNodeOriginalSize "
+			sizeHandler := fakeNode userData at: #fakeNodeSizeHandler.
 			fakeNode removeEventHandler: sizeHandler.
-			fakeNode userData removeKey: #sizeHandler.
+			fakeNode userData removeKey: #fakeNodeSizeHandler.
+			fakeNode userData removeKey: #fakeNodeOriginalSize ifAbsent: [].
 			fakeNode removeFromParent ].
 	fakeNode := nil
 ]
 
-{ #category : #removing }
+{ #category : #'accessing - children' }
 ToScrollableBarTrackElement >> removeNode: aNode [
 
 	aNode removeFromParent

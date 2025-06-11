@@ -14,6 +14,7 @@ ToScrollableBarTrackElement >> addFakeNode: aNode [
 	| sizeHandler |
 	fakeNode ifNotNil: [ self removeFakeNode ].
 	fakeNode := aNode.
+	aNode visibility: BlVisibility hidden.
 	" The purpose of the size handler is to make a fake node remains invisible. 
 	this is ensured by forcing the height to zero 
 	(if the bar is vertical) or the width to zero 
@@ -290,7 +291,8 @@ ToScrollableBarTrackElement >> removeFakeNode [
 			fakeNode removeEventHandler: sizeHandler.
 			fakeNode userData removeKey: #fakeNodeSizeHandler.
 			fakeNode userData removeKey: #fakeNodeOriginalSize ifAbsent: [].
-			fakeNode removeFromParent ].
+			fakeNode removeFromParent.
+			fakeNode visibility: BlVisibility visible. ].
 	fakeNode := nil
 ]
 

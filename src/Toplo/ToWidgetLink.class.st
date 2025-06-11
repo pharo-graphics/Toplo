@@ -67,6 +67,20 @@ ToWidgetLink >> onActionRunnedDo: aValuable [
 ]
 
 { #category : #running }
+ToWidgetLink >> run [
+
+	self dispatchEvent: ToRunLinkActionEvent new
+]
+
+{ #category : #running }
+ToWidgetLink >> runWithEvent: anEvent [
+
+	self dispatchEvent: (ToRunLinkActionEvent new
+	sourceEvent: anEvent;
+	yourself)
+]
+
+{ #category : #running }
 ToWidgetLink >> runWithLinkedObject: anObject from: aTarget onEvent: anEvent withValue: aValue [
 
 	| space time evt |

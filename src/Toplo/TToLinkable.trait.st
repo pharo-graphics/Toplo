@@ -10,13 +10,13 @@ TToLinkable >> checkAction: aValuable [
 	and the boolean value of checkable receiver
 	as arguments."
 
-	self newCheckAction: aValuable
+	^ self newCheckAction: aValuable
 ]
 
 { #category : #'t - linkable' }
 TToLinkable >> checkAction: aValuable with: linkedObject [ 
 
-	self newCheckAction: aValuable with: linkedObject 
+	^ self newCheckAction: aValuable with: linkedObject 
 
 
 ]
@@ -24,13 +24,13 @@ TToLinkable >> checkAction: aValuable with: linkedObject [
 { #category : #'t - linkable' }
 TToLinkable >> clickAction: aValuable [
 
-	self newClickAction: aValuable
+	^ self newClickAction: aValuable
 ]
 
 { #category : #'t - linkable' }
 TToLinkable >> clickAction: aValuable with: anObject [ 
 
-	self newClickAction: aValuable with: anObject 
+	^ self newClickAction: aValuable with: anObject 
 ]
 
 { #category : #'t - linkable' }

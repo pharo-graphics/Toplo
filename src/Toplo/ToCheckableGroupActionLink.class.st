@@ -8,17 +8,19 @@ Class {
 ToCheckableGroupActionLink >> configureToUpdateLinkedObject: anObject from: aCheckableGroup [
 
 	| handler |
+	
 	handler := aCheckableGroup
 		           addEventHandlerOn: ToCheckableGroupChangedEvent
-		           do: [ :evt | anObject dispatchEvent: evt copy ].
+		           do: [ :event | self runWithEvent: event  ].		
 	self addedHandler: handler in: aCheckableGroup.
-	handler := anObject
-		           addEventHandlerOn: ToCheckableGroupChangedEvent
+
+	handler := self
+		           addEventHandlerOn: ToRunLinkActionEvent
 		           do: [ :event |
 			           self
 				           launchWithLinkedObject: anObject
 				           from: aCheckableGroup
-				           onEvent: event
-				           withValue: event checkedList ].
-	self addedHandler: handler in: anObject
+				           onEvent: event sourceEvent
+				           withValue: aCheckableGroup checkedList ].
+	self addedHandler: handler in: self
 ]

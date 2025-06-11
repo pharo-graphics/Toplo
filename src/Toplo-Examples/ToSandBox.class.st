@@ -4905,6 +4905,20 @@ ToSandBox class >> example_buttonWithLabel [
 	^ but
 ]
 
+{ #category : #button }
+ToSandBox class >> example_clickAction [
+
+	| e action |
+	e := ToElement new.
+	e size: 50 asPoint.
+	e background: Color blue.
+	action := e clickAction: [ :evt | evt traceCr ].
+	e addEventHandlerOn: BlClickEvent do: [ :event |
+			action run.
+			action runWithEvent: event ].
+	e openInSpace
+]
+
 { #category : #'tabPane-dep' }
 ToSandBox class >> example_closeableTabs [
 

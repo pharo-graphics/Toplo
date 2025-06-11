@@ -1105,6 +1105,36 @@ ToSandBox class >> example_CheckReader [
 	containerElement openInSpace
 ]
 
+{ #category : #bar }
+ToSandBox class >> example_CheckableBarElement [
+
+| bar space container |
+
+	container := ToPane new.
+	container matchParent.
+	container contextMenu: [ :menu :request | 
+		menu addItem: (ToMenuItem new labelText: 'Inspect'; clickAction: [container inspect];yourself) ].
+	
+	bar := ToCheckableBarElement new.
+	space := BlSpace new.
+	bar matchParent.
+	{ #Alabama. #Alaska. #Arizona. #Arkansas. #California. #Colorado.
+		#Connecticut. #Delaware. #Florida. #Georgia. #Hawaii. #Idaho. #Illinois. #Indiana.
+		#Iowa. #Kansas. #Kentucky. #Louisiana. #Maine. #Maryland. #Massachusetts.
+		#Michigan. #Minnesota. #Mississippi. #Missouri. #Montana. #Nebraska.
+		#Nevada. #'New Hampshire'. #'New Jersey'. #'New Mexico'.
+		#'New York'. #'North Carolina'. #'North Dakota'. #Ohio. #Oklahoma.
+		#Oregon. #'Pennsylvania Rhode Island'. #'South Carolina'.
+		#'South Dakota'. #Tennessee. #Texas. #Utah. #Vermont. #Virginia.
+		#Washington. #'West Virginia'. #Wisconsin. #Wyoming } do: [ :l | bar addItem: (ToCheckbox new labelText: l) ].
+
+	"bar selecter selectIndex: 3."
+	container addChild: bar.
+	bar items third checked: true.
+	space root addChild: container.
+	space show
+]
+
 { #category : #checkbox }
 ToSandBox class >> example_CheckboxChecked [
 

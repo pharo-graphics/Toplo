@@ -43,10 +43,10 @@ ToAccordionListSelectionCommandHandler >> listSelectionCommandAppliedEvent: aCom
 	aCommandAppliedEvent selectionModel == selectionModel ifFalse: [
 		^ self ].
 	" have to do secondary selection update because the bounds of a node 
-	change when it is checked. Then, the secondary selection have to be updated
+	can change when it is checked. Then, the secondary selection have to be updated
 	but after the layout is done "
 	aCommandAppliedEvent currentTarget whenLayoutedDoOnce: [
-		aCommandAppliedEvent currentTarget refreshSecondarySelection ]
+		aCommandAppliedEvent currentTarget updateSecondarySelection ]
 ]
 
 { #category : #'command handling' }

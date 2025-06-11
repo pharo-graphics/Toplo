@@ -9,7 +9,9 @@ Class {
 { #category : #'element events handling' }
 ToListElementEventHandler >> addedToSpaceEvent: anEvent [
 
-	self showHidePlaceholderIn: anEvent currentTarget
+	| listElement |
+	listElement := anEvent currentTarget.
+	self showHidePlaceholderIn: listElement
 ]
 
 { #category : #'event handling' }

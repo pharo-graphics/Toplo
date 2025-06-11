@@ -264,6 +264,16 @@ ToAbstractListElement >> flagAsDisabled: aBoolean [
 	super flagAsDisabled: aBoolean
 ]
 
+{ #category : #'selection updating' }
+ToAbstractListElement >> forceUpdateAllSelections [
+
+	self whenLayoutedDoOnce: [
+			self selectionModes do: [ :mode |
+					mode requestNewRepresentation.
+					self updateModeSelectionFrom: mode ] ].
+	self requestLayout
+]
+
 { #category : #'accessing selecters' }
 ToAbstractListElement >> hiddenAtPosition: anInteger [
 
@@ -477,25 +487,6 @@ ToAbstractListElement >> primarySelectionMode: aSelectionMode [
 	self requestNewSkin
 ]
 
-{ #category : #'selection updating' }
-ToAbstractListElement >> refreshAllSelections [
-
-	self whenLayoutedDoOnce: [ self updateAllSelections ].
-	self requestLayout
-]
-
-{ #category : #'selection updating' }
-ToAbstractListElement >> refreshPrimarySelection [
-
-	self updateModeSelectionFrom: self selectionMode
-]
-
-{ #category : #'selection updating' }
-ToAbstractListElement >> refreshSecondarySelection [
-
-	self updateModeSelectionFrom: self secondarySelectionMode
-]
-
 { #category : #accessing }
 ToAbstractListElement >> removeSelectionMode: aSelectionMode [
 
@@ -643,6 +634,18 @@ ToAbstractListElement >> updateModeSelectionFrom: aMode [
 		option
 			updateSelectionIn: self
 			withSelectionModel: aMode selectionModel ]
+]
+
+{ #category : #'selection updating' }
+ToAbstractListElement >> updatePrimarySelection [
+
+	self updateModeSelectionFrom: self selectionMode
+]
+
+{ #category : #'selection updating' }
+ToAbstractListElement >> updateSecondarySelection [
+
+	self updateModeSelectionFrom: self secondarySelectionMode
 ]
 
 { #category : #'accessing selecters' }

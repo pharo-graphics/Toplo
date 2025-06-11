@@ -78,7 +78,7 @@ BlElement >> applyWidgetConfiguration [
 
 	self widgetConfiguration ifNotNil: [ :tc | tc applyOn: self ].
 	" now consume the request for configuration to avoid 
-	an application during next pass "
+	a useless application during next pass if I'm send programmatically "
 	self spaceDo: [ :sp |
 		self nextConfigurationPass: sp runningConfigurationPass ]
 ]

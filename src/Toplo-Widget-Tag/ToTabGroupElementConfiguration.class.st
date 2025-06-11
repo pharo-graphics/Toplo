@@ -46,7 +46,7 @@ ToTabGroupElementConfiguration >> applyOn: aTabGroupElement [
 		ifTrue: [ aTabGroupElement endElement layout beHorizontal ]
 		ifFalse: [ aTabGroupElement endElement layout beVertical ].
 
-	aTabGroupElement itemBar refreshAllSelections.
+	aTabGroupElement itemBar updateAllSelections.
 
 	aTabGroupElement requestNewSkin.
 	aTabGroupElement invisibleNodesMenu requestNewSkin

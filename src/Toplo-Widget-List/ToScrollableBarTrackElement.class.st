@@ -56,7 +56,8 @@ ToScrollableBarTrackElement >> applyFakeNodeConfiguration [
 		ifFalse: [
 				fakeNode userData at: #fakeNodeOriginalSize ifPresent: [ :s |
 						fakeNode width: s x.
-						fakeNode height: 0 ] ]
+						fakeNode height: 0 ] ].
+	listElement updateAllSelections 
 ]
 
 { #category : #configuration }

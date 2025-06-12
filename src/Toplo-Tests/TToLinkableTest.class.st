@@ -19,6 +19,21 @@ TToLinkableTest >> setUp [
 ]
 
 { #category : #tests }
+TToLinkableTest >> testAddLinkedAction [
+
+	| action |
+	action := element newClickAction: [ :evt |  ].
+	self assert: element linkedActions size equals: 0.
+	element addLinkedAction: action.
+	self assert: element linkedActions size equals: 1.
+	element addLinkedAction: action.
+	self assert: element linkedActions size equals: 1.
+
+
+	
+]
+
+{ #category : #tests }
 TToLinkableTest >> testClickAction [
 
 	| received |
@@ -28,6 +43,40 @@ TToLinkableTest >> testClickAction [
 	self waitTestingSpaces.
 	self assert: received notNil
 	
+]
+
+{ #category : #tests }
+TToLinkableTest >> testClickAction2 [
+
+	| received value theElement |
+	received := nil.
+	element clickAction: [ :evt :obj :val |
+			received := evt.
+			theElement := obj.
+			value := val ].
+	BlSpace simulateClickOn: element.
+	self waitTestingSpaces.
+	self assert: received notNil.
+	self assert: value isNil.
+	self assert: theElement identicalTo: element
+]
+
+{ #category : #tests }
+TToLinkableTest >> testClickActionWith [
+
+	| received value theElement |
+	received := nil.
+	element
+		clickAction: [ :evt :obj :val |
+				received := evt.
+				theElement := obj.
+				value := val ]
+		with: space root.
+	BlSpace simulateClickOn: element.
+	self waitTestingSpaces.
+	self assert: received notNil.
+	self assert: value isNil.
+	self assert: theElement identicalTo: space root
 ]
 
 { #category : #tests }

@@ -15,7 +15,7 @@ ToCheckableGroupActionLink >> configureToUpdateLinkedObject: anObject from: aChe
 	self addedHandler: handler in: aCheckableGroup.
 
 	handler := self
-		           addEventHandlerOn: ToRunLinkActionEvent
+		           addEventHandlerOn: ToRunLinkActionRequest
 		           do: [ :event |
 			           self
 				           launchWithLinkedObject: anObject

@@ -6,9 +6,9 @@ Trait {
 { #category : #'t - linkable' }
 TToLinkable >> checkAction: aValuable [
 	" link the receiver through a valuable action. 
-	Tha valuable take the event, the receiver 
-	and the boolean value of checkable receiver
-	as arguments."
+	The valuable take the event, the receiver (a checkable))
+	and the boolean value of receiver
+	as optional arguments."
 
 	^ self newCheckAction: aValuable
 ]

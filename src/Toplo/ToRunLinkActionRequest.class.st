@@ -1,5 +1,5 @@
 Class {
-	#name : #ToRunLinkActionEvent,
+	#name : #ToRunLinkActionRequest,
 	#superclass : #BlEvent,
 	#instVars : [
 		'sourceEvent'
@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #accessing }
-ToRunLinkActionEvent >> sourceEvent [
+ToRunLinkActionRequest >> sourceEvent [
 
 	^ sourceEvent
 ]
 
 { #category : #accessing }
-ToRunLinkActionEvent >> sourceEvent: anEvent [
+ToRunLinkActionRequest >> sourceEvent: anEvent [
 
 	sourceEvent := anEvent
 ]

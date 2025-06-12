@@ -69,15 +69,15 @@ ToWidgetLink >> onActionRunnedDo: aValuable [
 { #category : #running }
 ToWidgetLink >> run [
 
-	self dispatchEvent: ToRunLinkActionEvent new
+	self dispatchEvent: ToRunLinkActionRequest new
 ]
 
 { #category : #running }
 ToWidgetLink >> runWithEvent: anEvent [
 
-	self dispatchEvent: (ToRunLinkActionEvent new
-	sourceEvent: anEvent;
-	yourself)
+	self dispatchEvent: (ToRunLinkActionRequest new
+			 sourceEvent: anEvent;
+			 yourself)
 ]
 
 { #category : #running }

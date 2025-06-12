@@ -18,7 +18,7 @@ ToClickableActionLink >> configureToUpdateLinkedObject: anObjectOrValuable from:
 	self addedHandler: handler in: aClickable.
 
 	handler := self
-		           addEventHandlerOn: ToRunLinkActionEvent
+		           addEventHandlerOn: ToRunLinkActionRequest
 		           do: [ :event |
 				           self
 					           launchWithLinkedObject: anObjectOrValuable

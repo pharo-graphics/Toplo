@@ -1085,6 +1085,34 @@ ToSandBox class >> example_CheckBoxWithDefaultStyleSheetDarkTheme [
 ]
 
 { #category : #checkbox }
+ToSandBox class >> example_CheckFeature [
+
+	| pane checkable1 checkable2 checkable3 checkable4 |
+	checkable1 := ToCheckbox new
+		              labelText: 'Master: click on me';
+		              yourself.
+	checkable2 := ToCheckbox new
+		              labelText: 'YYYYY';
+		              yourself.
+	checkable3 := ToCheckbox new
+		              labelText: 'ZZZZZ';
+		              yourself.
+	checkable4 := ToCheckbox new
+		              labelText: '00000';
+		              yourself.
+	checkable1 checkFeature: #checked with: checkable2.
+	checkable1 checkFeature: #checked with: checkable3.
+	checkable3 checkFeature: #checked with: checkable4.
+	pane := ToPane vertical.
+	pane addChildren: {
+			checkable1.
+			checkable2.
+			checkable3.
+			checkable4 }.
+	pane openInSpace
+]
+
+{ #category : #checkbox }
 ToSandBox class >> example_CheckReader [
 
 	| containerElement r1 |

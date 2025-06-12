@@ -82,6 +82,66 @@ TToLinkableTest >> testCheckActionWith [
 ]
 
 { #category : #tests }
+TToLinkableTest >> testCheckFeatureWith [
+ 
+	| checkable1 checkable2|
+	checkable1 := ToCheckbox new labelText: 'XXXXX'; yourself.
+	checkable2 := ToCheckbox new labelText: 'YYYYY'; yourself.
+	checkable1 checkFeature: #checked with: checkable2.
+
+	self deny: checkable1  isChecked.
+	self deny: checkable2  isChecked.
+	
+	BlSpace simulateClickOn: checkable1.
+	self assert: checkable1  isChecked.
+	self assert: checkable2  isChecked.
+
+	BlSpace simulateClickOn: checkable2.
+	self assert: checkable1  isChecked.
+	self deny: checkable2  isChecked
+
+
+]
+
+{ #category : #tests }
+TToLinkableTest >> testCheckFeatureWith2 [
+ 
+	| checkable1 checkable2 checkable3 checkable4 |
+	self skip.
+	self flag: 'Should run as the ToSanBox>>example_CheckFeature example'.
+	checkable1 := ToCheckbox new labelText: 'XXXXX'; yourself.
+	checkable2 := ToCheckbox new labelText: 'YYYYY'; yourself.
+	checkable3 := ToCheckbox new labelText: 'ZZZZZ'; yourself.
+	checkable4 := ToCheckbox new labelText: '00000'; yourself.
+	
+	space root addChildren: {
+			checkable1.
+			checkable2.
+			checkable3.
+			checkable4 }.
+			
+	checkable1 checkFeature: #checked with: checkable2.
+	checkable1 checkFeature: #checked with: checkable3.
+	checkable3 checkFeature: #checked with: checkable4.
+
+	self deny: checkable1  isChecked.
+	self deny: checkable2  isChecked.
+	self deny: checkable3  isChecked.
+	self deny: checkable4  isChecked.
+	
+
+	self waitTestingSpaces.
+	BlSpace simulateClickOn: checkable1.
+	self waitTestingSpaces.
+
+	self assert: checkable1  isChecked.
+	self assert: checkable2  isChecked.
+	self assert: checkable3  isChecked.
+	self assert: checkable4  isChecked
+
+]
+
+{ #category : #tests }
 TToLinkableTest >> testClickAction [
 
 	| received |
@@ -125,6 +185,56 @@ TToLinkableTest >> testClickActionWith [
 	self assert: received notNil.
 	self assert: value isNil.
 	self assert: theElement identicalTo: space root
+]
+
+{ #category : #tests }
+TToLinkableTest >> testLinkCheckAction [
+ 
+	| received prevReceived runCount checkable|
+	received := nil.
+	runCount := 0.
+	checkable := ToCheckbox new labelText: 'XXXXX'; yourself.
+	space root addChild: checkable.
+
+	self assert: checkable linkedActions isEmpty.
+	checkable linkCheckAction: [ :evt |
+			received := evt.
+			runCount := runCount + 1 ].
+	self assert: checkable linkedActions size equals: 1.
+	BlSpace simulateClickOn: checkable.
+	self waitTestingSpaces.
+	self assert: received notNil.
+	self assert: runCount equals: 1.
+	prevReceived := received.
+	received := nil.
+	checkable linkedActions do: [ :action | action run ].
+	self assert: received isNil.
+	self assert: runCount equals: 2
+]
+
+{ #category : #tests }
+TToLinkableTest >> testLinkCheckAction2 [
+ 
+	| received runCount checkable|
+	received := nil.
+	runCount := 0.
+	checkable := ToCheckbox new labelText: 'XXXXX'; yourself.
+	checkable linkCheckAction: [ :evt |
+			received := evt.
+			runCount := runCount + 1 ].
+	self assert: checkable linkedActions size equals: 1.
+	BlSpace simulateClickOn: checkable.
+	self assert: runCount equals: 1.
+
+	checkable linkedActions do: [ :action | action run ].
+	space root addChild: checkable.
+	self assert: received notNil.
+	self waitTestingSpaces.
+	self assert: received isNil.
+	self assert: runCount equals: 2.
+
+
+
 ]
 
 { #category : #tests }

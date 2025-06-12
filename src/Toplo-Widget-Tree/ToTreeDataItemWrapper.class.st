@@ -15,6 +15,12 @@ Class {
 	#category : #'Toplo-Widget-Tree-Core'
 }
 
+{ #category : #'expanding-collapsing' }
+ToTreeDataItemWrapper >> checkMaxDepth [
+
+	self nodeDepth > 200 ifTrue: [ Error signal: 'Maximum Node deepth reached' ]
+]
+
 { #category : #'private - accessing' }
 ToTreeDataItemWrapper >> childWrappers [
 
@@ -101,7 +107,8 @@ ToTreeDataItemWrapper >> expand [
 
 	| pos children |
 	self isExpanded ifTrue: [ ^ self ].
-
+	self checkMaxDepth.
+	
 	isExpanded := true.
 	children := self dataItemChildren.
 	pos := self position.
@@ -131,7 +138,7 @@ ToTreeDataItemWrapper >> expandDeeplyIn: aCollection [
 
 	| children |
 	isExpanded := true.
-	self nodeDepth > 200 ifTrue: [ Error signal: 'Maximum Node deepth reached' ].
+	self checkMaxDepth.
 	children := self dataItemChildren.
 	children do: [ :child |
 			| wrapper |

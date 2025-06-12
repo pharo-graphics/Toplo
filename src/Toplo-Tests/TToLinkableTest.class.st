@@ -106,15 +106,14 @@ TToLinkableTest >> testCheckFeatureWith [
 { #category : #tests }
 TToLinkableTest >> testCheckFeatureWith2 [
  
-	| checkable1 checkable2 checkable3 checkable4 |
-	self skip.
-	self flag: 'Should run as the ToSanBox>>example_CheckFeature example'.
+	| pane checkable1 checkable2 checkable3 checkable4 |
 	checkable1 := ToCheckbox new labelText: 'XXXXX'; yourself.
 	checkable2 := ToCheckbox new labelText: 'YYYYY'; yourself.
 	checkable3 := ToCheckbox new labelText: 'ZZZZZ'; yourself.
 	checkable4 := ToCheckbox new labelText: '00000'; yourself.
 	
-	space root addChildren: {
+	pane := ToPane vertical.
+	pane addChildren: {
 			checkable1.
 			checkable2.
 			checkable3.
@@ -130,9 +129,7 @@ TToLinkableTest >> testCheckFeatureWith2 [
 	self deny: checkable4  isChecked.
 	
 
-	self waitTestingSpaces.
 	BlSpace simulateClickOn: checkable1.
-	self waitTestingSpaces.
 
 	self assert: checkable1  isChecked.
 	self assert: checkable2  isChecked.

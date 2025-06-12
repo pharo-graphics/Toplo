@@ -4938,15 +4938,17 @@ ToSandBox class >> example_buttonWithLabel [
 { #category : #button }
 ToSandBox class >> example_clickAction [
 
-	| e action |
+	| pane e action |
+	pane := ToPane vertical.
 	e := ToElement new.
 	e size: 50 asPoint.
 	e background: Color blue.
-	action := e clickAction: [ :evt | evt traceCr ].
+	action := e newClickAction: [ :evt | evt traceCr ].
 	e addEventHandlerOn: BlClickEvent do: [ :event |
 			action run.
 			action runWithEvent: event ].
-	e openInSpace
+	pane addChild: e.
+	pane openInSpace
 ]
 
 { #category : #'tabPane-dep' }
@@ -5808,6 +5810,31 @@ ToSandBox class >> example_labelFieldWithShrinkFeedback [
 	t matchParent.
 	innerWindow := t openInInnerWindow.
 
+]
+
+{ #category : #button }
+ToSandBox class >> example_linkClickAction [
+
+	| pane e |
+	pane := ToPane vertical.
+	e := ToElement new.
+	e size: 50 asPoint.
+	e background: Color blue.
+	e
+		addEventHandlerOn: BlClickEvent
+		do: [ :event | e linkedActions do: [ :action | action run ] ].
+	pane addChild: e.
+	pane addChild: (ToButton new
+			 labelText: 'List actions on Transcript';
+			 clickAction: [ e linkedActions traceCr ]).
+	pane addChild: (ToButton new
+			 labelText: 'Link a new action';
+			 clickAction: [ e linkClickAction: [ :evt | evt traceCr ] ]).
+	pane addChild: (ToButton new
+			 labelText: 'Unlink all actions';
+			 clickAction: [
+				 e unlinkAllActions ]).
+	pane openInSpace
 ]
 
 { #category : #menu }

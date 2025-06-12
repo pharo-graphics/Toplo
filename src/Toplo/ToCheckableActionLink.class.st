@@ -12,7 +12,7 @@ ToCheckableActionLink >> configureToUpdateLinkedObject: anObjectOrValuable from:
 	handler := aCheckable
 		           addEventHandlerOn: ToCheckableChangedEvent
 		           do: [ :event | self runWithEvent: event ].
-	self addedHandler: handler in: aCheckable.
+	self addedHandler: handler in: aCheckable for: aCheckable.
 	
 	handler := self
 		           addEventHandlerOn: ToRunLinkActionRequest
@@ -22,5 +22,5 @@ ToCheckableActionLink >> configureToUpdateLinkedObject: anObjectOrValuable from:
 				           from: aCheckable
 				           onEvent: event sourceEvent
 				           withValue: aCheckable checked ].
-	self addedHandler: handler in: self
+	self addedHandler: handler in: self for: aCheckable
 ]

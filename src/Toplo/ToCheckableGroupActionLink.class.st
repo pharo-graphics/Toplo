@@ -12,7 +12,7 @@ ToCheckableGroupActionLink >> configureToUpdateLinkedObject: anObject from: aChe
 	handler := aCheckableGroup
 		           addEventHandlerOn: ToCheckableGroupChangedEvent
 		           do: [ :event | self runWithEvent: event  ].		
-	self addedHandler: handler in: aCheckableGroup.
+	self addedHandler: handler in: aCheckableGroup for: nil.
 
 	handler := self
 		           addEventHandlerOn: ToRunLinkActionRequest
@@ -22,5 +22,5 @@ ToCheckableGroupActionLink >> configureToUpdateLinkedObject: anObject from: aChe
 				           from: aCheckableGroup
 				           onEvent: event sourceEvent
 				           withValue: aCheckableGroup checkedList ].
-	self addedHandler: handler in: self
+	self addedHandler: handler in: self for: nil
 ]

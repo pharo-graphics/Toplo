@@ -15,7 +15,7 @@ ToClickableActionLink >> configureToUpdateLinkedObject: anObjectOrValuable from:
 							  " evaluate if the action can be launched "
 				           (self launchableFromEvent: event) ifTrue: [
 					           self runWithEvent: event ] ].
-	self addedHandler: handler in: aClickable.
+	self addedHandler: handler in: aClickable for: aClickable.
 
 	handler := self
 		           addEventHandlerOn: ToRunLinkActionRequest
@@ -25,7 +25,7 @@ ToClickableActionLink >> configureToUpdateLinkedObject: anObjectOrValuable from:
 					           from: aClickable
 					           onEvent: event sourceEvent
 					           withValue: nil ].
-	self addedHandler: handler in: self
+	self addedHandler: handler in: self for: aClickable.
 ]
 
 { #category : #initialization }

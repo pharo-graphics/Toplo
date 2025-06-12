@@ -24,6 +24,12 @@ TToLinkable >> checkAction: aValuable [
 ]
 
 { #category : #'t - linkable - declare action' }
+TToLinkable >> checkAction: aValuable onGroup: aCheckableGroup [
+
+	self newCheckAction: aValuable onGroup: aCheckableGroup
+]
+
+{ #category : #'t - linkable - declare action' }
 TToLinkable >> checkAction: aValuable with: linkedObject [ 
 
 	self newCheckAction: aValuable with: linkedObject 
@@ -39,12 +45,6 @@ TToLinkable >> checkFeature: aFeatureName with: aLinkedObject [
 	The write accessor is computed from the read accessor (with #asMutator) "
 
 	self newCheckFeature: aFeatureName with: aLinkedObject
-]
-
-{ #category : #'t - linkable - declare action' }
-TToLinkable >> checkGroupAction: aValuable with: aCheckableGroup [
-
-	self newCheckGroupAction: aValuable with: aCheckableGroup
 ]
 
 { #category : #'t - linkable - declare action' }
@@ -154,6 +154,15 @@ TToLinkable >> newCheckAction: aValuable [
 ]
 
 { #category : #'t - linkable - instance creation' }
+TToLinkable >> newCheckAction: aValuable onGroup: aCheckableGroup [
+
+	^ ToCheckableGroupActionLink new
+		  link: self
+		  with: aCheckableGroup
+		  action: aValuable
+]
+
+{ #category : #'t - linkable - instance creation' }
 TToLinkable >> newCheckAction: aValuable with: linkedObject [ 
 
 	" link the receiver through a valuable action along with a linked object. 
@@ -177,15 +186,6 @@ TToLinkable >> newCheckFeature: aFeatureName with: aLinkedObject [
 		  with: aLinkedObject
 		  reader: aFeatureName asSymbol
 		  writer: aFeatureName asSymbol asMutator
-]
-
-{ #category : #'t - linkable - instance creation' }
-TToLinkable >> newCheckGroupAction: aValuable with: aCheckableGroup [
-
-	^ ToCheckableGroupActionLink new
-		  link: self
-		  with: aCheckableGroup
-		  action: aValuable
 ]
 
 { #category : #'t - linkable - instance creation' }

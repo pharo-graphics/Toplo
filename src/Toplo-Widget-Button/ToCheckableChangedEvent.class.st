@@ -14,9 +14,9 @@ ToCheckableChangedEvent >> checked [
 ]
 
 { #category : #accessing }
-ToCheckableChangedEvent >> checked: anObject [
+ToCheckableChangedEvent >> checked: aBoolean [
 
-	checked := anObject
+	checked := aBoolean
 ]
 
 { #category : #sending }

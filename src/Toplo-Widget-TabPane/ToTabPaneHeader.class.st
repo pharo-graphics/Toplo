@@ -69,9 +69,9 @@ ToTabPaneHeader >> initialize [
 	super initialize.
 
 	self
-		newCheckGroupAction: [ :evt :grp :l |
+		newCheckAction: [ :evt :grp :l |
 		self checkableGroupChangedEvent: evt ]
-		with: self group.
+		onGroup: self group.
 	tabs := OrderedCollection new.
 	startFiller := ToElement new.
 	endFiller := ToElement new.

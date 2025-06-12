@@ -34,6 +34,54 @@ TToLinkableTest >> testAddLinkedAction [
 ]
 
 { #category : #tests }
+TToLinkableTest >> testCheckAction [
+
+	| received checkable |
+	received := nil.
+	checkable := ToCheckbox new labelText: 'XXXXX'; yourself.
+	space root addChild: checkable.
+	checkable checkAction: [ :evt | received := evt ].
+	checkable dispatchEvent: (ToCheckableChangedEvent new
+			 checked: true;
+			 yourself).
+	self assert: (received isKindOf: ToCheckableChangedEvent).
+	received := nil.
+	BlSpace simulateClickOn: checkable.
+	self assert: (received isKindOf: ToCheckableChangedEvent).
+
+]
+
+{ #category : #tests }
+TToLinkableTest >> testCheckActionWith [
+
+	| received checkable theElement value |
+	received := nil.
+	theElement := nil.
+	value := nil.
+	checkable := ToCheckbox new
+		             labelText: 'XXXXX';
+		             yourself.
+	space root addChild: checkable.
+	checkable
+		checkAction: [ :evt :obj :val |
+				received := evt.
+				theElement := obj.
+				value := val ]
+		with: space root.
+	checkable dispatchEvent: ToCheckableChangedEvent new.
+	self assert: (received isKindOf: ToCheckableChangedEvent).
+	self assert: theElement identicalTo: space root.
+	self deny: value.
+	received := nil.
+	theElement := nil.
+	value := nil.
+	checkable checked: true.
+	self assert: (received isKindOf: ToCheckableChangedEvent).
+	self assert: theElement identicalTo: space root.
+	self assert: value
+]
+
+{ #category : #tests }
 TToLinkableTest >> testClickAction [
 
 	| received |
@@ -107,6 +155,68 @@ TToLinkableTest >> testLinkClickAction [
 ]
 
 { #category : #tests }
+TToLinkableTest >> testNewCheckAction [
+
+	| received prevReceived action passedInAction checkable |
+	received := nil.
+	passedInAction := false.
+	checkable := ToCheckbox new labelText: 'XXXXX'; yourself.
+	space root addChild: checkable.
+	action := checkable newCheckAction: [ :evt |
+			          received := evt.
+			          passedInAction := true ].
+	self assert: action notNil.
+	BlSpace simulateClickOn: checkable.
+	self waitTestingSpaces.
+	self assert: received notNil.
+	self assert: passedInAction.
+	prevReceived := received.
+	received := nil.
+	passedInAction := false.
+	action run.
+	self assert: received isNil.
+	self assert: passedInAction.
+	received := nil.
+	passedInAction := false.
+	action runWithEvent: prevReceived.
+	self assert: received equals: prevReceived.
+	self assert: passedInAction
+]
+
+{ #category : #tests }
+TToLinkableTest >> testNewCheckActionOnGroup [
+
+	| group groupContainer received theGroup theList |
+	group := ToCheckableGroup new.
+	group withStrictCheckingStrategy.
+	{ 'Monday'. 'Tuesday'. 'Wednesday'. 'Thursday'. 'Friday' } do: [ :day |
+			group register: (ToToggleButton new
+					 labelText: day;
+					 hMatchParent;
+					 yourself) ].
+
+	groupContainer := ToPane vertical.
+	groupContainer
+		newCheckAction: [ :evt :grp :list |
+				received := evt.
+				theGroup := grp.
+				theList := list ]
+		onGroup: group.
+
+	groupContainer width: 150.
+	groupContainer addChildren: group registeredCheckables.
+	space root addChild: groupContainer.
+	group registeredCheckables second checked: true.
+	self waitTestingSpaces.
+	self assert: received notNil.
+	self assert: theGroup identicalTo: group.
+	self assert: theList size equals: 1.
+	self
+		assert: theList first
+		identicalTo: group registeredCheckables second
+]
+
+{ #category : #tests }
 TToLinkableTest >> testNewClickAction [
 
 	| received prevReceived action passedInAction |
@@ -131,6 +241,21 @@ TToLinkableTest >> testNewClickAction [
 	action runWithEvent: prevReceived.
 	self assert: received equals: prevReceived.
 	self assert: passedInAction
+]
+
+{ #category : #tests }
+TToLinkableTest >> testRemoveLinkedAction [
+
+	| action |
+	action := element newClickAction: [ :evt |  ].
+	self assert: element linkedActions size equals: 0.
+	element addLinkedAction: action.
+	self assert: element linkedActions size equals: 1.
+	element removeLinkedAction: action.
+	self assert: element linkedActions size equals: 0.
+
+
+	
 ]
 
 { #category : #tests }

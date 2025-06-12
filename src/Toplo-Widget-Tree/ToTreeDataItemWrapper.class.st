@@ -16,6 +16,18 @@ Class {
 }
 
 { #category : #'private - accessing' }
+ToTreeDataItemWrapper >> childWrapperAt: index [
+
+	| count |
+	count := 1.
+	self childWrappersDo: [ :w |
+		count = index ifTrue: [ ^ w ].
+		count := count + 1 ].
+
+	self error
+]
+
+{ #category : #'private - accessing' }
 ToTreeDataItemWrapper >> childWrappers [
 
 	^ Array streamContents: [ :stream |

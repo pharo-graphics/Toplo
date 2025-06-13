@@ -81,7 +81,8 @@ BlElement >> applyWidgetConfiguration [
 	" now consume the request for configuration to avoid 
 	a useless application during next pass if I'm send programmatically "
 	self spaceDo: [ :sp |
-		self nextConfigurationPass: sp runningConfigurationPass ]
+		self nextConfigurationPass: sp runningConfigurationPass ].
+	self dispatchEvent: ToWidgetConfigurationAppliedEvent new
 ]
 
 { #category : #'*Toplo' }
@@ -229,7 +230,8 @@ BlElement >> flagAsDisabled: aBoolean [
 			self flagAsDisabled ]
 		ifFalse: [ self flagAsEnabled ].
 	self dispatchEvent: ToEnablementChangedEvent new.
-	self skinManagerDo: [ :sm | sm enablementChangedIn: self ]
+	self skinManagerDo: [ :sm | sm enablementChangedIn: self ].
+	self requestNewConfiguration
 ]
 
 { #category : #'*Toplo' }
@@ -859,6 +861,14 @@ BlElement >> valueOfTokenNamed: aSymbol [
 		found := sm tokenPropertyValue: aSymbol from: self ].
 	found ifNil: [ (ToElementPropertyNotFound name: aSymbol) signal ].
 	^ found
+]
+
+{ #category : #'*Toplo' }
+BlElement >> whenWidgetConfigurationAppliedDo: aValuable [
+
+	self
+		addEventHandlerOn: ToWidgetConfigurationAppliedEvent
+		do: [ :evt | aValuable cull: evt ]
 ]
 
 { #category : #'*Toplo' }

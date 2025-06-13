@@ -130,8 +130,7 @@ ToSandBox class >> alignmentChooserFor: aCheckableBar [
 { #category : #bar }
 ToSandBox class >> barConfigurationBoardFor: aBar [
 
-	| menu confPane verticalSwitch flowableSwitch scrollingSwitch autoDistributionSwitch uniformNodeWidthSwitch selectionAnimationSwitch selectOnPressedSwitch deselectOnPressedSwitch makeDisabledUnselectableSwitch uniformNodeHeightSwitch link |
-	
+	| menu confPane animSwitch |
 	confPane := ToPane vertical.
 
 	confPane padding: (BlInsets all: 5).
@@ -143,9 +142,9 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	menu addItem: (ToRadioMenuItem new
 			 label: (ToLabel text: 'Dark theme');
 			 checkAction: [ :evt :cbox :v |
-				 cbox space toTheme: (v
-							  ifTrue: [ ToRawDarkTheme new ]
-							  ifFalse: [ ToRawTheme new ]) ];
+					 cbox space toTheme: (v
+								  ifTrue: [ ToRawDarkTheme new ]
+								  ifFalse: [ ToRawTheme new ]) ];
 			 yourself).
 	menu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Space statistics');
@@ -157,116 +156,56 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 			 yourself).
 	menu addItem: (ToRadioMenuItem new
 			 label: (ToLabel text: 'Disabled bar');
-			 newCheckReader: [ :e | e isDisabled ]
-			 writer: [ :e :v | e disabled: v ]
+			 checkAction: [ :evt :target :value | target disabled: value ]
 			 with: aBar;
 			 yourself).
 	confPane addChild: menu.
 
-	verticalSwitch := ToSwitchButton new labelText: 'Vertical'.
-	verticalSwitch
-		newCheckReader: #isVertical
-		writer: #vertical:
-		with: aBar.
-	verticalSwitch startFlexible: true.
-	verticalSwitch hMatchParent.
-	confPane addChild: verticalSwitch.
 
-	flowableSwitch := ToSwitchButton new labelText: 'Flowable'.
-	flowableSwitch startFlexible: true.
-	flowableSwitch hMatchParent.
-	confPane addChild: flowableSwitch.
+	{
+		(#isVertical -> #isVertical: -> 'Vertical').
+		(#isFlowable -> #isFlowable: -> 'Flowable').
+		(#uniformNodeWidth -> #uniformNodeWidth: -> 'Uniform width').
+		(#uniformNodeHeight -> #uniformNodeHeight: -> 'Uniform height').
+		(#isScrollable -> #isScrollable: -> 'Scrollable').
+		(#autoDistribute -> #autoDistribute: -> 'Auto-distribute').
+		([ aBar selectionMode selectOnPressed ]
+		 -> [ :v | aBar selectionMode selectOnPressed: v ]
+		 -> 'Select on pressed').
+		([ aBar selectionMode deselectOnPressed ]
+		 -> [ :v | aBar selectionMode deselectOnPressed: v ]
+		 -> 'Deselect on pressed').
+		([ aBar selectionMode makeDisabledUnselectable ]
+		 -> [ :v | aBar selectionMode makeDisabledUnselectable: v ]
+		 -> 'Disabled items are unselectable') } do: [ :assoc |
+			| switch |
+			switch := ToSwitchButton new labelText: assoc value value.
+			switch checkAction: [ :evt :target :value |
+					assoc key value isSymbol
+						ifTrue: [ aBar perform: assoc key value with: value ]
+						ifFalse: [ assoc key value value: value ] ].
 
-	uniformNodeWidthSwitch := ToSwitchButton new labelText:
-		                          'Uniform width'.
-	uniformNodeWidthSwitch newCheckFeature: #uniformNodeWidth with: aBar.
-	uniformNodeWidthSwitch startFlexible: true.
-	uniformNodeWidthSwitch hMatchParent.
-	confPane addChild: uniformNodeWidthSwitch.
+			switch startFlexible: true.
+			switch hMatchParent.
+			confPane addChild: switch.
 
-	uniformNodeHeightSwitch := ToSwitchButton new labelText:
-		                           'Uniform height'.
-	uniformNodeHeightSwitch startFlexible: true.
-	uniformNodeHeightSwitch hMatchParent.
-	uniformNodeHeightSwitch
-		newCheckFeature: #uniformNodeHeight
-		with: aBar.
-	confPane addChild: uniformNodeHeightSwitch.
+			aBar whenWidgetConfigurationAppliedDo: [
+					assoc key key isSymbol ifTrue: [
+						switch checked: (aBar perform: assoc key key) ] ] ].
 
-	scrollingSwitch := ToSwitchButton new labelText: 'Scrolling'.
-	scrollingSwitch id: #scrollingSwitch.
-	scrollingSwitch startFlexible: true.
-	scrollingSwitch newCheckFeature: #isScrollable with: aBar.
+	animSwitch := ToSwitchButton new labelText: 'Animate transition'.
+	animSwitch checkAction: [ :evt :option :v |
+			| d |
+			d := v
+				     ifTrue: [ 200 milliSeconds ]
+				     ifFalse: [ 0 milliSeconds ].
+			aBar selectionOption animationDuration: d.
+			aBar secondarySelectionOption animationDuration: d ].
 
-	scrollingSwitch hMatchParent.
-	confPane addChild: scrollingSwitch.
-
-	link := flowableSwitch newCheckFeature: #isFlowable with: aBar.
-	"link onActionRunnedDo: [ :evt :bar :value |
-		scrollingSwitch disabled: value ]."
-
-	autoDistributionSwitch := ToSwitchButton new labelText:
-		                          'Auto-distribution'.
-	autoDistributionSwitch newCheckFeature: #autoDistribute with: aBar.
-	autoDistributionSwitch startFlexible: true.
-	autoDistributionSwitch hMatchParent.
-	confPane addChild: autoDistributionSwitch.
-
-	selectionAnimationSwitch := ToSwitchButton new labelText:
-		                            'Animate transition'.
-	link := selectionAnimationSwitch
-		        newCheckAction: [ :evt :option :v |
-			        option animationDuration: (v
-					         ifTrue: [ 200 milliSeconds ]
-					         ifFalse: [ 0 milliSeconds ]) ]
-		        with: aBar selectionOption.
-	link onActionRunnedDo: [ :evt :option :v |
-		aBar secondarySelectionOption animationDuration: (v
-				 ifTrue: [ 200 milliSeconds ]
-				 ifFalse: [ 0 milliSeconds ]) ].
-
-	selectionAnimationSwitch startFlexible: true.
-	selectionAnimationSwitch hMatchParent.
-	confPane addChild: selectionAnimationSwitch.
-
-	selectOnPressedSwitch := ToSwitchButton new
-		                         labelText: 'Select on pressed';
-		                         id: #selectOnPressedSwitch.
-	selectOnPressedSwitch
-		newCheckFeature: #selectOnPressed
-		with: aBar selectionMode.
-
-	selectOnPressedSwitch startFlexible: true.
-	selectOnPressedSwitch hMatchParent.
-	confPane addChild: selectOnPressedSwitch.
-
-	deselectOnPressedSwitch := ToSwitchButton new
-		                           labelText: 'Deselect on pressed';
-		                           id: #deselectOnPressedSwitch.
-	deselectOnPressedSwitch
-		newCheckFeature: #deselectOnPressed
-		with: aBar selectionMode.
-
-	deselectOnPressedSwitch startFlexible: true.
-	deselectOnPressedSwitch hMatchParent.
-
-	makeDisabledUnselectableSwitch := ToSwitchButton new
-		                                  labelText:
-			                                  'Make disabled unselectable';
-		                                  id:
-			                                  #makeDisabledUnselectableSwitch.
-	makeDisabledUnselectableSwitch
-		newCheckFeature: #makeDisabledUnselectable
-		with: aBar selectionMode.
-
-	makeDisabledUnselectableSwitch startFlexible: true.
-	makeDisabledUnselectableSwitch hMatchParent.
-
-	confPane addChild: deselectOnPressedSwitch.
-
-	confPane addChild: makeDisabledUnselectableSwitch.
+	animSwitch startFlexible: true.
+	animSwitch hMatchParent.
+	confPane addChild: animSwitch.
 	confPane addChild: (self resizerBoardFor: aBar).
-
 	^ confPane
 ]
 
@@ -318,21 +257,21 @@ ToSandBox class >> barWithData: aCollection [
 		idxes := request selectedIndexes.
 		menu addItem: (ToMenuItem new
 				 labelText: 'Inspect list';
-				 newClickAction: [ target inspect ];
+				 clickAction: [ target inspect ];
 				 yourself).
 		menu addItem: (ToMenuItem new
 				 labelText: 'Remove all';
-				 newClickAction: [ target dataAccessor removeAll ];
+				 clickAction: [ target dataAccessor removeAll ];
 				 yourself).
 		menu addItem: (ToMenuItem new
 				 labelText: 'Add first a new item';
-				 newClickAction: [
+				 clickAction: [
 					 target dataAccessor addFirst:
 							 String loremIpsum substrings first , ' (added first)' ];
 				 yourself).
 		menu addItem: (ToMenuItem new
 				 labelText: 'Add last a new item';
-				 newClickAction: [
+				 clickAction: [
 					 target dataAccessor add:
 							 String loremIpsum substrings first , ' (added last)' ];
 				 yourself).
@@ -342,29 +281,29 @@ ToSandBox class >> barWithData: aCollection [
 					 in: [ :m |
 						 m addItem: (ToMenuItem new
 									  labelText: 'Inspect';
-									  newClickAction: [
+									  clickAction: [
 										  Array withAll:
 												  (idxes collect: [ :idx | target nodeAt: idx ]) inspect ];
 									  yourself).
 						 m addItem: (ToMenuItem new
 								  labelText: 'Remove';
-								  newClickAction: [
+								  clickAction: [
 									  idxes reverseDo: [ :idx | bar dataAccessor removeAt: idx ] ];
 								  yourself).
 						 m addItem: (ToMenuItem new
 								  labelText: 'Unable/disable';
-								  newClickAction: [
+								  clickAction: [
 									  idxes do: [ :idx | (bar nodeAt: idx) disable ] ];
 								  yourself).
 						 m addItem: (ToMenuItem new
 								  labelText: 'Unselectable';
-								  newClickAction: [
+								  clickAction: [
 									  idxes do: [ :idx |
 											  bar unselectableSelecter selectIndex: idx ] ];
 								  yourself).
 						 m addItem: (ToMenuItem new
 								  labelText: 'Insert before';
-								  newClickAction: [
+								  clickAction: [
 									  | idx |
 									  idx := idxes first.
 									  target dataAccessor
@@ -374,7 +313,7 @@ ToSandBox class >> barWithData: aCollection [
 								  yourself).
 						 m addItem: (ToMenuItem new
 								  labelText: 'Insert after';
-								  newClickAction: [
+								  clickAction: [
 									  | idx |
 									  idx := idxes last.
 									  target dataAccessor
@@ -721,7 +660,7 @@ ToSandBox class >> exampleLocalThemeChangesChildrenLookup [
 	changeButton := ToButton new
 		                size: 200 @ 50;
 		                position: 300 @ 50;
-		                newClickAction: [
+		                clickAction: [
 			                (parent localTheme isNil or: (parent localTheme class = ToRawTheme))
 				                ifTrue: [ parent localTheme: ToRawDarkTheme new ]
 				                ifFalse: [ parent localTheme: ToRawTheme new ] ];
@@ -777,7 +716,7 @@ ToSandBox class >> examplePaneWithAccordionsWithLabelWithExtra [
 			      (ToAntDesignIconProvider innerImageNamed: 'outlined_search').
 		im size: 18 asPoint.
 		btn := ToButton new icon: im.
-		btn newClickAction: [  ].
+		btn clickAction: [  ].
 		btn addStamp: #iconic.
 		btn addStamp: #borderless.
 		acc headerExtraBuilder: [ :extra | extra addChild: btn ] ].
@@ -1082,55 +1021,6 @@ ToSandBox class >> example_CheckBoxWithDefaultStyleSheetDarkTheme [
 			chk }.
 	chk disabled: false.
 	space show
-]
-
-{ #category : #checkbox }
-ToSandBox class >> example_CheckFeature [
-
-	| pane checkable1 checkable2 checkable3 checkable4 |
-	checkable1 := ToCheckbox new
-		              labelText: 'Master: click on me';
-		              yourself.
-	checkable2 := ToCheckbox new
-		              labelText: 'YYYYY';
-		              yourself.
-	checkable3 := ToCheckbox new
-		              labelText: 'ZZZZZ';
-		              yourself.
-	checkable4 := ToCheckbox new
-		              labelText: '00000';
-		              yourself.
-	checkable1 checkFeature: #checked with: checkable2.
-	checkable1 checkFeature: #checked with: checkable3.
-	checkable3 checkFeature: #checked with: checkable4.
-	pane := ToPane vertical.
-	pane addChildren: {
-			checkable1.
-			checkable2.
-			checkable3.
-			checkable4 }.
-	pane openInSpace
-]
-
-{ #category : #checkbox }
-ToSandBox class >> example_CheckReader [
-
-	| containerElement r1 |
-	(containerElement := ToPane vertical) padding: (BlInsets all: 10).
-
-	r1 := ToRadioButton new
-		      id: #r1;
-		      labelText: 'Light theme';
-		      newCheckReader: [ :space | space toTheme class = ToRawTheme ]
-		      writer: [ :space :v |
-			      space toTheme: (v
-						       ifTrue: [ ToRawTheme new ]
-						       ifFalse: [ ToRawDarkTheme new ]) ]
-		      with: [ :radio | radio space ];
-		      yourself.
-
-	containerElement addChildren: { r1 }.
-	containerElement openInSpace
 ]
 
 { #category : #bar }
@@ -1488,70 +1378,74 @@ ToSandBox class >> example_CodeEditor [
 		cancelRequested editorElement text: text copy ].
 
 	menuBuilder := [ :menu :request |
-	               menu addItem: (ToMenuItem new
-			                labelText: 'Select all';
-			                newClickAction: [ :evt :a |
-				                a selecter
-					                all;
-					                apply ]
-			                with: album;
-			                yourself).
-	               menu addItem: (ToMenu new
-			                labelText: 'Edit';
-			                builder: [ :m |
-				                | item |
-				                item := ToMenuItem new
-					                        labelText: 'Copy';
-					                        newClickAction: [ :evt :ed | ed copySelected ]
-					                        with: album editor;
-					                        yourself.
-				                album hasSelection ifFalse: [ item disable ].
-				                m addItem: item.
-				                m addItem: (ToMenuItem new
-						                 labelText: 'Cut';
-						                 newClickAction: [ :evt :ed | ed cutSelected ]
-						                 with: album editor;
-						                 yourself).
-				                album hasSelection ifFalse: [
-					                m items last disable ].
+		               menu addItem: (ToMenuItem new
+				                labelText: 'Select all';
+				                clickAction: [ :evt :a |
+						                a selecter
+							                all;
+							                apply ]
+				                with: album;
+				                yourself).
+		               menu addItem: (ToMenu new
+				                labelText: 'Edit';
+				                builder: [ :m |
+						                | item |
+						                item := ToMenuItem new
+							                        labelText: 'Copy';
+							                        clickAction: [ :evt :ed |
+								                        ed copySelected ]
+							                        with: album editor;
+							                        yourself.
+						                album hasSelection ifFalse: [ item disable ].
+						                m addItem: item.
+						                m addItem: (ToMenuItem new
+								                 labelText: 'Cut';
+								                 clickAction: [ :evt :ed | ed cutSelected ]
+								                 with: album editor;
+								                 yourself).
+						                album hasSelection ifFalse: [
+							                m items last disable ].
 
-				                m addItem: (ToMenuItem new
-						                 labelText: 'Paste';
-						                 newClickAction: [ :evt :ed | ed paste ]
-						                 with: album editor;
-						                 yourself).
-				                album editor paster fromClipboard isEmpty ifTrue: [
-					                m items last disable ].
-				                m addSeparator.
+						                m addItem: (ToMenuItem new
+								                 labelText: 'Paste';
+								                 clickAction: [ :evt :ed | ed paste ]
+								                 with: album editor;
+								                 yourself).
+						                album editor paster fromClipboard isEmpty
+							                ifTrue: [ m items last disable ].
+						                m addSeparator.
 
-				                m addItem: (ToMenuItem new
-						                 labelText: 'Accept';
-						                 newClickAction: [ album requestSave ];
-						                 yourself).
-				                album edited ifFalse: [ m items last disable ].
+						                m addItem: (ToMenuItem new
+								                 labelText: 'Accept';
+								                 clickAction: [ album requestSave ];
+								                 yourself).
+						                album edited ifFalse: [ m items last disable ].
 
-				                m addItem: (ToMenuItem new
-						                 labelText: 'Cancel';
-						                 newClickAction: [ album requestCancel ];
-						                 yourself).
-				                album edited ifFalse: [ m items last disable ] ]) ].
+						                m addItem: (ToMenuItem new
+								                 labelText: 'Cancel';
+								                 clickAction: [ album requestCancel ];
+								                 yourself).
+						                album edited ifFalse: [ m items last disable ] ]) ].
 	album contextMenu: menuBuilder.
 
 	fileMenu := ToMenu new labelText: 'Edit'.
 	fileMenu builder: menuBuilder.
 	inspectBtn := ToMenuItem new
 		              labelText: 'Inspect';
-		              newClickAction: [ album space root inspect ];
+		              clickAction: [ album space root inspect ];
 		              yourself.
 	showStatisticsBtn := ToMenuItem new
 		                     labelText: 'Statistics';
-		                     newClickAction: [
+		                     clickAction: [
 			                     album space showStatisticsWindow ];
 		                     yourself.
 	disabox := ToCheckMenuItem new
 		           label: (ToLabel text: 'Disable');
-		           newCheckFeature: #isDisabled with: album;
+		           checkAction: [ :evt :target :value |
+			           album disabled: value ];
 		           yourself.
+	album whenWidgetConfigurationAppliedDo: [
+		disabox disabled: album isDisabled ].
 
 	menuPane := ToMenuPane new.
 	menuPane hMatchParent.
@@ -1632,9 +1526,12 @@ ToSandBox class >> example_EditorWithMinHeight [
 	pane addChild: menuPane.
 	pane addChild: album.
 
-	inspectBtn newClickAction: [ album space root inspect ].
-	disabox newCheckFeature: #isDisabled with: album.
-	showStatisticsBtn newClickAction: [
+	inspectBtn clickAction: [ album space root inspect ].
+	disabox checkAction: [ :evt :target :value |
+			           album disabled: value ].
+	album whenWidgetConfigurationAppliedDo: [
+		disabox disabled: album isDisabled ].
+	showStatisticsBtn clickAction: [
 		album space showStatisticsWindow ].
 
 	pane openInSpace
@@ -1762,7 +1659,7 @@ ToSandBox class >> example_GeneralButtonWithIconAndLabel [
 	but geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
 	but border: Color black.
 	but addChild: pane.
-	but newClickAction: [ self inform: 'clicked' ].
+	but clickAction: [ self inform: 'clicked' ].
 	but openInSpace.
 	^ but
 ]
@@ -1788,7 +1685,7 @@ ToSandBox class >> example_GeneralButtonWithLabel [
 	but addChild: (ToLabel text: 'General button').
 	but border: Color black.
 	but fitContent.
-	but newClickAction: [ self inform: 'clicked' ].
+	but clickAction: [ self inform: 'clicked' ].
 	but openInSpace.
 	^ but
 ]
@@ -2078,13 +1975,13 @@ ToSandBox class >> example_List12Classes [
 	               indexes := request selectedIndexes.
 	               menu addItem: (ToMenuItem new
 			                labelText: 'Remove';
-			                newClickAction: [
+			                clickAction: [
 				                indexes sort reverseDo: [ :idx |
 						                target dataAccessor removeAt: idx ] ];
 			                yourself).
 	               menu addItem: (ToMenuItem new
 			                labelText: 'Inspect list';
-			                newClickAction: [ target inspect ];
+			                clickAction: [ target inspect ];
 			                yourself) ].
 	l contextMenu: menuFactory.
 	l openInSpace
@@ -2540,19 +2437,19 @@ ToSandBox class >> example_MenuPaneScrollableWithCustomItems [
 	menuPane isScrollable: true.
 	menuPane addItem: (ToMenuItem new
 			 labelText: 'Open file';
-			 newClickAction: [ self inform: 'Open file' ];
+			 clickAction: [ self inform: 'Open file' ];
 			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
 
 	item := ToMenuItem new
 		        labelText: 'Export';
-		        newClickAction: [ self inform: 'Export' ];
+		        clickAction: [ self inform: 'Export' ];
 		        yourself.
 	menuPane addItem: item.
 	item disable.
 
 	menuPane addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ menuPane space root inspect ];
+			 clickAction: [ menuPane space root inspect ];
 			 yourself).
 	menuPane addSeparator.
 	menuPane addItem: (ToToggleMenuItem new
@@ -2622,7 +2519,7 @@ ToSandBox class >> example_MenuPaneScrollableWithCustomItems [
 			center.
 			left }.
 	menuPane
-		newCheckAction: [ :evt :group :list | list traceCr ]
+		checkAction: [ :evt :group :list | list traceCr ]
 		onGroup: grp.
 	menuPane addSeparator.
 
@@ -2743,12 +2640,12 @@ ToSandBox class >> example_MenuWithCustomItems [
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Open file';
-			 newClickAction: [ self inform: 'Open file' ];
+			 clickAction: [ self inform: 'Open file' ];
 			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
 
 	item := ToMenuItem new
 		        labelText: 'Export';
-		        newClickAction: [ self inform: 'Export' ];
+		        clickAction: [ self inform: 'Export' ];
 		        yourself.
 	menu addItem: item.
 	item disable.
@@ -2756,7 +2653,7 @@ ToSandBox class >> example_MenuWithCustomItems [
 	menu
 		addItem: (ToMenuItem new
 				 labelText: 'Inspect';
-				 newClickAction: [ menu space root inspect ];
+				 clickAction: [ menu space root inspect ];
 				 yourself).
 	menu addSeparator.
 	menu addItem: (ToToggleMenuItem new
@@ -2826,7 +2723,7 @@ ToSandBox class >> example_MenuWithCustomItems [
 			center.
 			left }.
 	menu
-		newCheckAction: [ :evt :group :list | list traceCr ]
+		checkAction: [ :evt :group :list | list traceCr ]
 		onGroup: grp.
 	menu addSeparator.
 
@@ -4038,12 +3935,12 @@ ToSandBox class >> example_SimpleOpenSaveSaveAsClose [
 			 icon: ((ToImage inner: (self iconNamed: #solidMenu)));
 			 label: (ToLabel text: 'Save as');
 			 background: (Color random alpha: 0.2)).
-	menu items last newClickAction: [ :evt :target | target inspect ].
+	menu items last clickAction: [ :evt :target | target inspect ].
 	menu addSeparator.
 	menu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Close');
 			 background: (Color random alpha: 0.2)).
-	menu items last newClickAction: [ :evt :target | target inspect ].
+	menu items last clickAction: [ :evt :target | target inspect ].
 	container pane addChild: menu.
 	
 	container openInSpace
@@ -4502,7 +4399,7 @@ ToSandBox class >> example_ToggleButtonInListElement [
 		moveElement addChild: blackMoveLabel.
 		inspectButton := ToButton new
 			                 labelText: 'Inspect';
-			                 newClickAction: [ node inspect ];
+			                 clickAction: [ node inspect ];
 			                 yourself.
 
 
@@ -4734,7 +4631,7 @@ ToSandBox class >> example_WithCheckBox [
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ menu space root inspect ];
+			 clickAction: [ menu space root inspect ];
 			 yourself).
 	menu addItem: (ToToggleMenuItem new
 			 labelText: 'Toggle';
@@ -4880,7 +4777,7 @@ ToSandBox class >> example_buttonWithActionControl [
 	but := ToButton new.
 	but label: (ToLabel text: 'Button with label').
 	count := 0.
-	but newClickAction: [ self inform: 'Action runned' ].
+	but clickAction: [ self inform: 'Action runned' ].
 	but openInSpace.
 	^ but
 ]
@@ -4901,7 +4798,7 @@ ToSandBox class >> example_buttonWithDisableEnable [
 		          labelText: 'Button';
 		          yourself.
 	disabox checkAction: [ :evt :target :value | button disabled: value ].
-	button newClickAction: [ :evt :target | disabox checked: true. button disabled: true ].
+	button clickAction: [ :evt :target | disabox checked: true. button disabled: true ].
 	button addEventHandlerOn: ToHoveredSkinEvent do: [ :evt |  ].
 	pane addChild: disabox.
 	pane addChild: button.
@@ -4930,7 +4827,7 @@ ToSandBox class >> example_buttonWithIconAndLabel [
 	| but  |
 	but := self example_buttonWithIcon.
 	but label: (ToLabel text: 'Button with label').
-	but newClickAction: [ self inform: 'Action runned' ].
+	but clickAction: [ self inform: 'Action runned' ].
 	^ but
 ]
 
@@ -4972,7 +4869,7 @@ ToSandBox class >> example_clickAction [
 	e := ToElement new.
 	e size: 50 asPoint.
 	e background: Color blue.
-	action := e newClickAction: [ :evt | evt traceCr ].
+	action := e clickAction: [ :evt | evt traceCr ].
 	e addEventHandlerOn: BlClickEvent do: [ :event |
 			action run.
 			action runWithEvent: event ].
@@ -5047,7 +4944,7 @@ ToSandBox class >> example_contactList [
 					 addressTxtF text: contact address ] ]).
 
 	button := ToButton new label: (ToLabel text: 'Update table').
-	button newClickAction: [
+	button clickAction: [
 		| n p a c idx |
 		n := nameTxtF text asString.
 		p := phoneTxtF text asString.
@@ -5125,7 +5022,7 @@ ToSandBox class >> example_contextMenu [
 	container contextMenu: [ :win :request |
 		win addItem: (ToMenuItem new
 				 labelText: 'Open';
-				 newClickAction: [ self inform: 'Open' ];
+				 clickAction: [ self inform: 'Open' ];
 				 yourself) ].
 
 	container openInSpace
@@ -5503,10 +5400,10 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 			e2.
 			e3 }.
 	btn := ToButton new labelText: 'Change orientation'.
-	btn newClickAction: [ pane orientation: pane orientation inverted ].
+	btn clickAction: [ pane orientation: pane orientation inverted ].
 	pane addChild: btn.
 	btn := ToButton new labelText: 'Change direction'.
-	btn newClickAction: [ pane direction: pane direction inverted ].
+	btn clickAction: [ pane direction: pane direction inverted ].
 	pane addChild: btn.
 
 	pane addDividers.
@@ -5556,7 +5453,7 @@ ToSandBox class >> example_inline2 [
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ menu space root inspect ];
+			 clickAction: [ menu space root inspect ];
 			 yourself).
 	sub := ToMenu new labelText: 'Save All'.
 	sub beInline.
@@ -5598,7 +5495,7 @@ ToSandBox class >> example_inline3 [
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ menu space root inspect ];
+			 clickAction: [ menu space root inspect ];
 			 yourself).
 	sub := ToMenu new labelText: 'Save All'.
 	sub beInline.
@@ -5640,7 +5537,7 @@ ToSandBox class >> example_inline4 [
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ menu space root inspect ];
+			 clickAction: [ menu space root inspect ];
 			 yourself).
 	sub := ToMenu new labelText: 'Save All'.
 	sub beInline.
@@ -5682,7 +5579,7 @@ ToSandBox class >> example_inline5 [
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ menu space root inspect ];
+			 clickAction: [ menu space root inspect ];
 			 yourself).
 	sub := ToMenu new labelText: 'Save All'.
 	sub beInline.
@@ -5724,7 +5621,7 @@ ToSandBox class >> example_inline6 [
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ menu space root inspect ];
+			 clickAction: [ menu space root inspect ];
 			 yourself).
 	sub := ToMenu new labelText: 'Save All'.
 	sub beInline.
@@ -5764,7 +5661,7 @@ ToSandBox class >> example_inline7 [
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ menu space root inspect ];
+			 clickAction: [ menu space root inspect ];
 			 yourself).
 	sub := ToMenu new labelText: 'Save All'.
 	sub beInline.
@@ -5793,7 +5690,7 @@ ToSandBox class >> example_inlineInMenuPane [
 	menu vMatchParent.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ menu space root inspect ];
+			 clickAction: [ menu space root inspect ];
 			 yourself).
 	sub := ToMenu new labelText: 'Save All'.
 	sub beInline.
@@ -5906,12 +5803,12 @@ ToSandBox class >> example_menuPane1 [
 	fileMenu addItem: (ToMenuItem new
 			 labelText: 'Open';
 			 tooltipString: 'open stuffs';
-			 newClickAction: [ :evt :target | target traceCr ]).
+			 clickAction: [ :evt :target | target traceCr ]).
 	fileMenu addSeparator.
 	fileMenu addItem: (ToMenuItem new
 			 labelText: 'Close';
 			 tooltipString: 'close stuffs';
-			 newClickAction: [ :evt :target | target traceCr ]).
+			 clickAction: [ :evt :target | target traceCr ]).
 
 	bar addFiller.
 	bar addItem: (ToMenu new
@@ -5965,7 +5862,7 @@ ToSandBox class >> example_menuPane2 [
 						            nextPutAll: ' Grid ';
 						            print: i ].
 				subMenu addItem: ((ToMenuItem new labelText: stream)
-						 newClickAction: [ self inform: selector asSymbol ];
+						 clickAction: [ self inform: selector asSymbol ];
 						 yourself) ].
 			menu addItem: subMenu ].
 
@@ -5986,7 +5883,7 @@ ToSandBox class >> example_menuPane3 [
 	bar addFiller.
 	bar addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ frame space root inspect ];
+			 clickAction: [ frame space root inspect ];
 			 yourself).
 	bar addFiller.
 	3 timesRepeat: [
@@ -6029,7 +5926,7 @@ ToSandBox class >> example_menuPane3 [
 						sm addItem: ((ToMenuItem new
 								  labelText: stream;
 								  iconImage: iconImage)
-								 newClickAction: [ frame background: color ];
+								 clickAction: [ frame background: color ];
 								 yourself) ] ].
 				m addItem: subMenu ] ].
 
@@ -6049,7 +5946,7 @@ ToSandBox class >> example_menuPaneVertical [
 	frame := ToInnerWindow new.
 	bar addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ frame space root inspect ];
+			 clickAction: [ frame space root inspect ];
 			 yourself).
 	1 to: 3 do: [ :count |
 		menu := ToMenu new.
@@ -6091,7 +5988,7 @@ ToSandBox class >> example_menuPaneVertical [
 						sm addItem: ((ToMenuItem new
 								  labelText: stream;
 								  iconImage: iconImage)
-								 newClickAction: [frame background: color ];
+								 clickAction: [frame background: color ];
 								 yourself) ] ].
 				m addItem: subMenu ] ].
 
@@ -6151,7 +6048,7 @@ ToSandBox class >> example_menuPaneVertical0 [
 						sm addItem: ((ToMenuItem new
 								  labelText: stream;
 								  iconImage: iconImage)
-								 newClickAction: [frame background: color ];
+								 clickAction: [frame background: color ];
 								 yourself) ] ].
 				m addItem: subMenu ] ].
 
@@ -6173,7 +6070,7 @@ ToSandBox class >> example_menuPaneVertical2 [
 	frame := ToInnerWindow new.
 	bar addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ frame space root inspect ];
+			 clickAction: [ frame space root inspect ];
 			 yourself).
 	bar vertical: true.
 	sub := ToMenu new labelText: 'Save All'.
@@ -6217,7 +6114,7 @@ ToSandBox class >> example_menuPaneVerticalScrollable [
 	frame := ToInnerWindow new.
 	bar addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ frame space root inspect ];
+			 clickAction: [ frame space root inspect ];
 			 yourself).
 	1 to: 20 do: [ :count |
 		menu := ToMenu new.
@@ -6258,7 +6155,7 @@ ToSandBox class >> example_menuPaneVerticalScrollable [
 						sm addItem: ((ToMenuItem new
 								  labelText: stream;
 								  iconImage: iconImage)
-								 newClickAction: [frame background: color ];
+								 clickAction: [frame background: color ];
 								 yourself) ] ].
 				m addItem: subMenu ] ].
 
@@ -6439,7 +6336,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 		            tooltipString: 'help stuffs'.
 	helpMenu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ bar inspect ];
+			 clickAction: [ bar inspect ];
 			 yourself).
 	bar addItem: helpMenu.
 
@@ -6884,7 +6781,7 @@ ToSandBox class >> example_subMenuPane [
 	
 	topMenuBar addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ topMenuBar inspect ];
+			 clickAction: [ topMenuBar inspect ];
 			 yourself).
 	topMenuBar hMatchParent.
 
@@ -6917,7 +6814,7 @@ ToSandBox class >> example_subMenuPaneVertical [
 	topMenuBar addFiller.
 	topMenuBar addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ topMenuBar inspect ];
+			 clickAction: [ topMenuBar inspect ];
 			 yourself).
 
 	topMenuBar hMatchParent.
@@ -7787,7 +7684,7 @@ ToSandBox class >> example_toBasicButton0 [
 
 	| but |
 	but := ToGeneralButton new.
-	but newClickAction: [ self inform: 'clicked' ].
+	but clickAction: [ self inform: 'clicked' ].
 	but openInSpace
 ]
 
@@ -7799,7 +7696,7 @@ ToSandBox class >> example_toBasicButton1 [
 	but addChild: (BlElement new
 			 size: 30 @ 30;
 			 yourself).
-	but newClickAction: [ self inform: 'clicked' ].
+	but clickAction: [ self inform: 'clicked' ].
 	but background: (Color blue alpha: 0.3).
 	but openInSpace
 ]
@@ -7815,7 +7712,7 @@ ToSandBox class >> example_toBasicButton2 [
 	but matchParent.
 	but addChild: lab.
 	but layout alignCenter.
-	but newClickAction: [ self inform: 'clicked' ].
+	but clickAction: [ self inform: 'clicked' ].
 	but openInSpace
 ]
 
@@ -7828,7 +7725,7 @@ ToSandBox class >> example_toBasicButton3 [
 				         yourself)).
 	but matchParent.
 	but layout alignCenter.
-	but newClickAction: [ self inform: 'clicked' ].
+	but clickAction: [ self inform: 'clicked' ].
 	but openInSpace
 ]
 
@@ -7848,7 +7745,7 @@ ToSandBox class >> example_toBasicButton4 [
 	but matchParent.
 	but addChild: pane.
 	but layout alignCenter.
-	but newClickAction: [ self inform: 'clicked' ].
+	but clickAction: [ self inform: 'clicked' ].
 	but openInSpace
 ]
 
@@ -7872,7 +7769,7 @@ ToSandBox class >> example_toButtonOrientationChanger [
 		             yourself.
 	but iconImage: iconImage.
 	count := 0.
-	but newClickAction: [ :evt :b | 
+	but clickAction: [ :evt :b | 
 		count := count + 1.
 		count traceCr.
 		b orientation: b orientation inverted ].
@@ -7971,7 +7868,7 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 	but layout cellSpacing: 10.
 	count := 0.
 	but addEventHandlerOn: BlClickEvent do: [ :event | count := count + 1. count traceCr ].
-	but newClickAction: [ but icon background: Color random ].
+	but clickAction: [ but icon background: Color random ].
 	space := BlSpace new.
 	space root addChild: but.
 	space show 
@@ -7988,7 +7885,7 @@ ToSandBox class >> example_toButtonWithTextAndIconVertical [
 			 background: (Color blue alpha: 0.2);
 			 yourself).
 	but layout cellSpacing: 10.
-	but newClickAction: [ but icon background: Color random ].
+	but clickAction: [ but icon background: Color random ].
 	space := BlSpace new.
 	space root addChild: but.
 	space show 
@@ -8001,7 +7898,7 @@ ToSandBox class >> example_toButtonWithTextOnly [
 	but := ToButton new.
 	but label: (ToLabel text: 'Button').
 	but padding: (BlInsets all: 4).
-	but newClickAction: [ self inform: 'clicked' ].
+	but clickAction: [ self inform: 'clicked' ].
 
 	space := BlSpace new.
 	space root addChild: but.
@@ -8015,7 +7912,7 @@ ToSandBox class >> example_toButtonWithTooltipString [
 	but := ToButton new.
 	but labelText: 'Button with tooltip string'.
 	but tooltipString: ('This is a button', String cr, 'so, click on me...'). 
-	but newClickAction: [ self inform: 'Button clicked' ].
+	but clickAction: [ self inform: 'Button clicked' ].
 	but openInInnerWindow 
  
 ]
@@ -8027,7 +7924,7 @@ ToSandBox class >> example_toButtonWithTooltipText [
 	but := ToButton new.
 	but labelText: 'Button with tooltip text'.
 	but tooltipText: ('This is a button', String cr, 'so, click on me...') asRopedText. 
-	but newClickAction: [ self inform: 'Button clicked' ].
+	but clickAction: [ self inform: 'Button clicked' ].
 	but openInSpace
  
 ]
@@ -8194,7 +8091,7 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 
 		resetBtn := ToButton new
 			            labelText: 'Reset';
-			            newClickAction: [
+			            clickAction: [
 				            text := origString asRopedText.
 				            editedLabel text: text ];
 			            yourself.
@@ -8202,7 +8099,7 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 		window root addChild: editedLabel.
 		window root addChild: resetBtn ].
 
-	but newClickAction: [ 'Button clicked' traceCr ].
+	but clickAction: [ 'Button clicked' traceCr ].
 	win := but openInInnerWindow.
 	but tooltipWindowManager anchorRoot: win.
 ]
@@ -8626,10 +8523,10 @@ ToSandBox class >> example_verticalPaneWithDivider [
 			e2.
 			e3 }.
 	btn := ToButton new labelText: 'Change orientation'.
-	btn newClickAction: [ pane orientation: pane orientation inverted ].
+	btn clickAction: [ pane orientation: pane orientation inverted ].
 	pane addChild: btn.
 	btn := ToButton new labelText: 'Change direction'.
-	btn newClickAction: [ pane direction: pane direction inverted ].
+	btn clickAction: [ pane direction: pane direction inverted ].
 	pane addChild: btn.
 	pane addDividers.
 	pane openInInnerWindow 
@@ -8705,54 +8602,54 @@ ToSandBox class >> listMenuFenuFactory [
 	  indexes := request selectedIndexes.
 	  menu addItem: (ToMenuItem new
 			   labelText: 'Add initial Items';
-			   newClickAction: [
+			   clickAction: [
 				   target dataAccessor addAll:
 						   (String loremIpsum: 20000) substrings ];
 			   yourself).
 	  menu addItem: (ToMenuItem new
 			   labelText: 'Inspect list';
-			   newClickAction: [ target inspect ];
+			   clickAction: [ target inspect ];
 			   yourself).
 	  menu addItem: (ToMenuItem new
 			   labelText: 'Statistics window';
-			   newClickAction: [ target space showStatisticsWindow ];
+			   clickAction: [ target space showStatisticsWindow ];
 			   yourself).
 	  target dataAccessor ifNotEmpty: [
 		  menu addItem: (ToMenuItem new
 				   labelText: 'Select all';
-				   newClickAction: [ target selecter selectAll ];
+				   clickAction: [ target selecter selectAll ];
 				   yourself).
 		  menu addItem: (ToMenuItem new
 				   labelText: 'Remove all';
-				   newClickAction: [ target dataAccessor removeAll ];
+				   clickAction: [ target dataAccessor removeAll ];
 				   yourself).
 		  menu addItem: (ToMenuItem new
 				   labelText: 'Show all';
-				   newClickAction: [ target hiddenSelecter deselectAll ];
+				   clickAction: [ target hiddenSelecter deselectAll ];
 				   yourself).
 		  target selectionOption isMasked
 			  ifTrue: [
 				  menu addItem: (ToMenuItem new
 						   labelText: 'stop primary selection masking';
-						   newClickAction: [ target selectionOption masked: false ];
+						   clickAction: [ target selectionOption masked: false ];
 						   yourself) ]
 			  ifFalse: [
 				  menu addItem: (ToMenuItem new
 						   labelText: 'start primary selection masking';
-						   newClickAction: [ target selectionOption masked: true ];
+						   clickAction: [ target selectionOption masked: true ];
 						   yourself) ].
 		  target selectionOption isAnimated
 			  ifTrue: [
 				  menu addItem: (ToMenuItem new
 						   labelText: 'stop selection transition animation';
-						   newClickAction: [
+						   clickAction: [
 							   target selectionMode selectionElementOption
 								   animationDuration: 0 milliSeconds ];
 						   yourself) ]
 			  ifFalse: [
 				  menu addItem: (ToMenuItem new
 						   labelText: 'start selection transition animation';
-						   newClickAction: [
+						   clickAction: [
 							   target primarySelectionMode selectionOption
 								   animationDuration: 200 milliSeconds ];
 						   yourself) ] ].
@@ -8767,28 +8664,28 @@ ToSandBox class >> listMenuFenuFactory [
 			  label := node firstChild label.
 			  selectionMenu addItem: (ToMenuItem new
 					   labelText: 'Inspect node';
-					   newClickAction: [ node inspect ];
+					   clickAction: [ node inspect ];
 					   yourself).
 			  selectionMenu addItem: (ToMenuItem new
 					   labelText: 'Edit';
-					   newClickAction: [ label popupEditorEvent: nil ];
+					   clickAction: [ label popupEditorEvent: nil ];
 					   yourself).
 			  selectionMenu addItem: (ToMenuItem new
 					   labelText: (label isMonoLine
 							    ifTrue: [ 'Be multiline' ]
 							    ifFalse: [ 'Be monoline' ]);
-					   newClickAction: [
+					   clickAction: [
 						   node firstChild label monoLine: label isMonoLine not ];
 					   yourself).
 			  selectionMenu addItem: (ToMenuItem new
 					   labelText: 'Inspect';
-					   newClickAction: [ node inspect ];
+					   clickAction: [ node inspect ];
 					   yourself).
 			  selectionMenu addSeparator ].
 
 		  selectionMenu addItem: (ToMenuItem new
 				   labelText: 'Enable/Disable';
-				   newClickAction: [
+				   clickAction: [
 					   indexes do: [ :idx |
 							   | di |
 							   di := (target nodeAt: idx) isDisabled.
@@ -8796,18 +8693,18 @@ ToSandBox class >> listMenuFenuFactory [
 				   yourself).
 		  selectionMenu addItem: (ToMenuItem new
 				   labelText: 'Set unselectable';
-				   newClickAction: [
+				   clickAction: [
 					   indexes do: [ :idx |
 							   target unselectableSelecter selectIndex: idx ] ];
 				   yourself).
 		  selectionMenu addItem: (ToMenuItem new
 				   labelText: 'Hide';
-				   newClickAction: [
+				   clickAction: [
 					   indexes do: [ :idx | target hiddenSelecter selectIndex: idx ] ];
 				   yourself).
 		  selectionMenu addItem: (ToMenuItem new
 				   labelText: 'Insert before';
-				   newClickAction: [
+				   clickAction: [
 					   | idx |
 					   idx := indexes first.
 					   target dataAccessor
@@ -8817,7 +8714,7 @@ ToSandBox class >> listMenuFenuFactory [
 				   yourself).
 		  selectionMenu addItem: (ToMenuItem new
 				   labelText: 'Insert after';
-				   newClickAction: [
+				   clickAction: [
 					   | idx |
 					   idx := indexes last.
 					   target dataAccessor
@@ -8827,7 +8724,7 @@ ToSandBox class >> listMenuFenuFactory [
 		  selectionMenu addSeparator.
 		  selectionMenu addItem: (ToMenuItem new
 				   labelText: 'Remove';
-				   newClickAction: [
+				   clickAction: [
 					   indexes sort reverseDo: [ :idx |
 							   target dataAccessor removeAt: idx ] ];
 				   yourself).
@@ -9045,74 +8942,69 @@ ToSandBox class >> resizerBoardFor: aBar [
 	| pane group buttons container |
 	pane := ToPane horizontal.
 	{ #Horizontal. #Vertical } do: [ :dir |
-		| sizeInputPane sizeInput |
-		sizeInputPane := ToPane horizontal.
-		sizeInputPane layout cellSpacing: 5.
-		sizeInputPane childrenDo: [ :child |
-			child constraints linear vertical alignCenter ].
-		sizeInputPane addChild: (ToLabel text: 'Size:').
-		sizeInput := ToTextField new
-			             withoutLineWrapping;
-			             withSaveCapability;
-			             yourself.
+			| sizeInputPane sizeInput |
+			sizeInputPane := ToPane horizontal.
+			sizeInputPane layout cellSpacing: 5.
+			sizeInputPane childrenDo: [ :child |
+				child constraints linear vertical alignCenter ].
+			sizeInputPane addChild: (ToLabel text: 'Size:').
+			sizeInput := ToTextField new
+				             withoutLineWrapping;
+				             withSaveCapability;
+				             yourself.
 
-		aBar addEventHandlerOn: BlElementExtentChangedEvent do: [ :event |
-			dir = #Horizontal
-				ifTrue: [ sizeInput text: aBar width asString ]
-				ifFalse: [ sizeInput text: aBar height asString ] ].
+			aBar addEventHandlerOn: BlElementExtentChangedEvent do: [ :event |
+					dir = #Horizontal
+						ifTrue: [ sizeInput text: aBar width asString ]
+						ifFalse: [ sizeInput text: aBar height asString ] ].
 
-		sizeInput whenSaveRequestedDo: [ :saveRequested |
-			| size |
-			size := saveRequested editorElement text asString asInteger.
-			size ifNotNil: [
-				saveRequested accepted: true.
-				dir = #Horizontal
-					ifTrue: [ aBar hExact: size ]
-					ifFalse: [ aBar vExact: size ] ] ].
+			sizeInput whenSaveRequestedDo: [ :saveRequested |
+					| size |
+					size := saveRequested editorElement text asString asInteger.
+					size ifNotNil: [
+							saveRequested accepted: true.
+							dir = #Horizontal
+								ifTrue: [ aBar hExact: size ]
+								ifFalse: [ aBar vExact: size ] ] ].
 
-		sizeInputPane addChild: sizeInput.
-		sizeInputPane childrenDo: [ :child |
-			child constraints linear vertical alignCenter ].
+			sizeInputPane addChild: sizeInput.
+			sizeInputPane childrenDo: [ :child |
+				child constraints linear vertical alignCenter ].
 
-		group := ToCheckableGroup new.
-		buttons := OrderedCollection new.
+			group := ToCheckableGroup new.
+			buttons := OrderedCollection new.
 
-		{ #MatchParent. #FitContent. #Exact } do: [ :mode |
-			| cbox |
-			cbox := ToRadioButton new
-				        labelText: mode asString;
-				        yourself.
-			buttons add: cbox.
-			cbox
-				newCheckAction: [ :evt :bar :value |
-					value ifTrue: [
-						sizeInputPane enabled: false.
-						mode = #MatchParent
-							ifTrue: [
-								dir = #Horizontal
-									ifTrue: [ bar hMatchParent ]
-									ifFalse: [ bar vMatchParent ] ]
-							ifFalse: [
-								mode = #FitContent
-									ifTrue: [
-										dir = #Horizontal
-											ifTrue: [ bar hFitContent ]
-											ifFalse: [ bar vFitContent ] ]
-									ifFalse: [ sizeInputPane enabled: true ] ] ] ]
-				with: aBar ].
+			{ #MatchParent. #FitContent. #Exact } do: [ :mode |
+					| cbox |
+					cbox := ToRadioButton new
+						        labelText: mode asString;
+						        yourself.
+					buttons add: cbox.
+					cbox
+						newCheckAction: [ :evt :bar :value |
+								| policy |
+								value ifTrue: [
+										mode = #Exact
+											ifTrue: [ sizeInputPane enabled: true ]
+											ifFalse: [
+													sizeInputPane enabled: false.
+													policy := dir = #Horizontal
+														          ifTrue: [ ('h' , mode) asSymbol ]
+														          ifFalse: [ ('v' , mode) asSymbol ].
+													bar perform: policy ] ] ]
+						with: aBar ].
 
-		group registerAll: buttons.
-
-		buttons second checked: true.
-		container := ToPane vertical.
-		container border: Color lightGray.
-		container padding: (BlInsets all: 2).
-		container hMatchParent.
-		container vFitContent.
-		container addChild: (ToLabel text: dir asString).
-		container addChildren: group registeredCheckables.
-		container addChild: sizeInputPane.
-		pane addChild: container ].
+			group registerAll: buttons.
+			buttons second checked: true.
+			container := ToPane vertical.
+			container border: Color lightGray.
+			container padding: (BlInsets all: 2).
+			container hMatchParent.
+			container vFitContent.
+			container addChild: (ToLabel text: dir asString).
+			container addChildren: group registeredCheckables.
+			container addChild: sizeInputPane.
+			pane addChild: container ].
 	^ pane
 ]
 
@@ -9359,18 +9251,22 @@ ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 	(confPane childWithId: #deselectOnPressedSwitch) disable.
 
 	startToEndSwitch := ToSwitchButton new labelText: 'At start'.
-	startToEndSwitch newCheckFeature: #atStartSide with: aTabGroupElement.
+	startToEndSwitch checkAction: [ :evt :target :value | aTabGroupElement atStartSide: value ].
 
 	startToEndSwitch startFlexible: true.
 	startToEndSwitch hMatchParent.
 	confPane addChild: startToEndSwitch.
 
 	addTabItemButtonSwicth := ToSwitchButton new labelText: 'Show new tab button'.
-	addTabItemButtonSwicth newCheckFeature: #showAddTabItemButton with: aTabGroupElement.
+	addTabItemButtonSwicth checkAction: [ :evt :target :value | aTabGroupElement showAddTabItemButton: value ].
 
 	addTabItemButtonSwicth startFlexible: true.
 	addTabItemButtonSwicth hMatchParent.
 	confPane addChild: addTabItemButtonSwicth.
+
+	aTabGroupElement whenWidgetConfigurationAppliedDo: [ 
+		startToEndSwitch checked: aTabGroupElement atStartSide.
+		addTabItemButtonSwicth checked: aTabGroupElement showAddTabItemButton ].
 
 	confPane padding: (BlInsets all: 5).
 	confPane width: 250.

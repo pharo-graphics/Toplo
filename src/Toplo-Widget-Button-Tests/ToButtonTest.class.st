@@ -88,7 +88,7 @@ ToButtonTest >> testClickAborted2 [
 				  background: Color blue;
 				  yourself)).
 	but matchParent.
-	but newClickAction: [ count := count + 1 ].
+	but clickAction: [ count := count + 1 ].
 	space root addChild: but.
 	self waitTestingSpaces.
 	BlSpace simulateMouseDownOn: but label.
@@ -138,7 +138,7 @@ ToButtonTest >> testClickWhenDisabled [
 	but := ToButton new.
 	but disable.
 	done := 0.
-	but newClickAction: [ done := done +1 ].
+	but clickAction: [ done := done +1 ].
 	self assert: done equals: 0.
 	
 ]
@@ -150,7 +150,7 @@ ToButtonTest >> testClickWithSimpleHandler [
 	but := ToButton new.
 	space root addChild: but.
 	done := 0.
-	but newClickAction: [ done := done +1 ].
+	but clickAction: [ done := done +1 ].
 	but dispatchEvent: BlMouseUpEvent primary asClickEvent.
 	self waitTestingSpaces.
 	self assert: done equals: 1
@@ -173,7 +173,7 @@ ToButtonTest >> testLinkClickAction [
 	count := 0.
 	but := ToButton new.
 	but matchParent.
-	but newClickAction: [ count := count + 1 ].
+	but clickAction: [ count := count + 1 ].
 	space root addChild: but.
 	BlSpace simulateMouseDownOn: but.
 	BlSpace simulateMouseUpOn: but.

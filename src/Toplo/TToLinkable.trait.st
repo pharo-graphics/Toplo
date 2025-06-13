@@ -38,35 +38,6 @@ TToLinkable >> checkAction: aValuable with: linkedObject [
 ]
 
 { #category : #'t - linkable - declare action' }
-TToLinkable >> checkFeature: aFeatureName with: aLinkedObject [
-	" link the receiver through a message and a message receiver.
-	The link is a read and write association.
-	aFeatureName is a receiver feature used for the reading of the boolean value (read acessor).
-	The write accessor is computed from the read accessor (with #asMutator) "
-
-	self newCheckFeature: aFeatureName with: aLinkedObject
-]
-
-{ #category : #'t - linkable - declare action' }
-TToLinkable >> checkReader: aReader writer: aWriter [ 
-	" link the receiver through a read message and a write message.
-	The link is a read and write association.
-	the reader message is used for the reading of the boolean value (read acessor).
-	The write message is use to update the linked object  "
-	self newCheckReader: aReader writer: aWriter 
-]
-
-{ #category : #'t - linkable - declare action' }
-TToLinkable >> checkReader: aReader writer: aWriter with: aLinkedObject [
-	" link the receiver through a read message and a write message.
-	The link is a read and write association.
-	the reader message is used for the reading of the boolean value (read acessor).
-	The write message is use to update the linked object  "
-
-	self newCheckReader: aReader writer: aWriter with: aLinkedObject
-]
-
-{ #category : #'t - linkable - declare action' }
 TToLinkable >> clickAction: aValuable [
 
 	self newClickAction: aValuable
@@ -94,35 +65,6 @@ TToLinkable >> linkCheckAction: aValuable with: linkedObject [
 	self addLinkedAction: (self newCheckAction: aValuable with: linkedObject)
 
 
-]
-
-{ #category : #'t - linkable - link/unlink action' }
-TToLinkable >> linkCheckFeature: aFeatureName with: aLinkedObject [
-	" link the receiver through a message and a message receiver.
-	The link is a read and write association.
-	aFeatureName is a receiver feature used for the reading of the boolean value (read acessor).
-	The write accessor is computed from the read accessor (with #asMutator) "
-
-	self addLinkedAction: (self newCheckFeature: aFeatureName with: aLinkedObject)
-]
-
-{ #category : #'t - linkable - link/unlink action' }
-TToLinkable >> linkCheckReader: aReader writer: aWriter [ 
-	" link the receiver through a read message and a write message.
-	The link is a read and write association.
-	the reader message is used for the reading of the boolean value (read acessor).
-	The write message is use to update the linked object  "
-	self addLinkedAction: (self newCheckReader: aReader writer: aWriter)
-]
-
-{ #category : #'t - linkable - link/unlink action' }
-TToLinkable >> linkCheckReader: aReader writer: aWriter with: aLinkedObject [
-	" link the receiver through a read message and a write message.
-	The link is a read and write association.
-	the reader message is used for the reading of the boolean value (read acessor).
-	The write message is use to update the linked object  "
-
-	self addLinkedAction: (self newCheckReader: aReader writer: aWriter with: aLinkedObject)
 ]
 
 { #category : #'t - linkable - link/unlink action' }
@@ -172,43 +114,6 @@ TToLinkable >> newCheckAction: aValuable with: linkedObject [
 		  link: self
 		  with: linkedObject
 		  action: aValuable
-]
-
-{ #category : #'t - linkable - instance creation' }
-TToLinkable >> newCheckFeature: aFeatureName with: aLinkedObject [
-	" link the receiver through a message and a message receiver.
-	The link is a read and write association.
-	aFeatureName is a receiver feature used for the reading of the boolean value (read acessor).
-	The write accessor is computed from the read accessor (with #asMutator) "
-
-	^ ToCheckableLink new
-		  link: self
-		  with: aLinkedObject
-		  reader: aFeatureName asSymbol
-		  writer: aFeatureName asSymbol asMutator
-]
-
-{ #category : #'t - linkable - instance creation' }
-TToLinkable >> newCheckReader: aReader writer: aWriter [ 
-	" link the receiver through a read message and a write message.
-	The link is a read and write association.
-	the reader message is used for the reading of the boolean value (read acessor).
-	The write message is use to update the linked object  "
-	^ self newCheckReader: aReader writer: aWriter with: self
-]
-
-{ #category : #'t - linkable - instance creation' }
-TToLinkable >> newCheckReader: aReader writer: aWriter with: aLinkedObject [
-	" link the receiver through a read message and a write message.
-	The link is a read and write association.
-	the reader message is used for the reading of the boolean value (read acessor).
-	The write message is use to update the linked object  "
-
-	^ ToCheckableLink new
-		  link: self
-		  with: aLinkedObject
-		  reader: aReader
-		  writer: aWriter
 ]
 
 { #category : #'t - linkable - instance creation' }

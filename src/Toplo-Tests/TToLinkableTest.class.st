@@ -82,63 +82,6 @@ TToLinkableTest >> testCheckActionWith [
 ]
 
 { #category : #tests }
-TToLinkableTest >> testCheckFeatureWith [
- 
-	| checkable1 checkable2|
-	checkable1 := ToCheckbox new labelText: 'XXXXX'; yourself.
-	checkable2 := ToCheckbox new labelText: 'YYYYY'; yourself.
-	checkable1 checkFeature: #checked with: checkable2.
-
-	self deny: checkable1  isChecked.
-	self deny: checkable2  isChecked.
-	
-	BlSpace simulateClickOn: checkable1.
-	self assert: checkable1  isChecked.
-	self assert: checkable2  isChecked.
-
-	BlSpace simulateClickOn: checkable2.
-	self assert: checkable1  isChecked.
-	self deny: checkable2  isChecked
-
-
-]
-
-{ #category : #tests }
-TToLinkableTest >> testCheckFeatureWith2 [
- 
-	| pane checkable1 checkable2 checkable3 checkable4 |
-	checkable1 := ToCheckbox new labelText: 'XXXXX'; yourself.
-	checkable2 := ToCheckbox new labelText: 'YYYYY'; yourself.
-	checkable3 := ToCheckbox new labelText: 'ZZZZZ'; yourself.
-	checkable4 := ToCheckbox new labelText: '00000'; yourself.
-	
-	pane := ToPane vertical.
-	pane addChildren: {
-			checkable1.
-			checkable2.
-			checkable3.
-			checkable4 }.
-			
-	checkable1 checkFeature: #checked with: checkable2.
-	checkable1 checkFeature: #checked with: checkable3.
-	checkable3 checkFeature: #checked with: checkable4.
-
-	self deny: checkable1  isChecked.
-	self deny: checkable2  isChecked.
-	self deny: checkable3  isChecked.
-	self deny: checkable4  isChecked.
-	
-
-	BlSpace simulateClickOn: checkable1.
-
-	self assert: checkable1  isChecked.
-	self assert: checkable2  isChecked.
-	self assert: checkable3  isChecked.
-	self assert: checkable4  isChecked
-
-]
-
-{ #category : #tests }
 TToLinkableTest >> testClickAction [
 
 	| received |

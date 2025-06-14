@@ -4068,7 +4068,7 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 	container openInSpace
 ]
 
-{ #category : #tag }
+{ #category : #tabPane }
 ToSandBox class >> example_TabBarElement [
 
 	| tabs board |
@@ -4084,7 +4084,7 @@ ToSandBox class >> example_TabBarElement [
 	board openInSpace
 ]
 
-{ #category : #tag }
+{ #category : #tabPane }
 ToSandBox class >> example_TabGroupElement [
 
 	| tabs dashBoard |
@@ -4105,7 +4105,7 @@ ToSandBox class >> example_TabGroupElement [
 	^ tabs
 ]
 
-{ #category : #tag }
+{ #category : #tabPane }
 ToSandBox class >> example_TabGroupElementWithDaily [
 
 	| tabs dashBoard |
@@ -4126,7 +4126,7 @@ ToSandBox class >> example_TabGroupElementWithDaily [
 	^ tabs
 ]
 
-{ #category : #tag }
+{ #category : #tabPane }
 ToSandBox class >> example_TabGroupElementWithStartAndEndExtras [
 
 	| tabs |
@@ -4146,7 +4146,7 @@ ToSandBox class >> example_TabGroupElementWithStartAndEndExtras [
 	^ tabs
 ]
 
-{ #category : #tag }
+{ #category : #tabPane }
 ToSandBox class >> example_TabGroupElementWithUSStates [
 
 	| tabs dashBoard |
@@ -4166,7 +4166,7 @@ ToSandBox class >> example_TabGroupElementWithUSStates [
 	^ tabs
 ]
 
-{ #category : #tag }
+{ #category : #tabPane }
 ToSandBox class >> example_TabPaneElementWithUSStates [
 
 	| tpane dashBoard |
@@ -4181,7 +4181,7 @@ ToSandBox class >> example_TabPaneElementWithUSStates [
 	^ tpane
 ]
 
-{ #category : #tag }
+{ #category : #tabPane }
 ToSandBox class >> example_TabPaneElementWithUSStates0 [
 
 	| tpane dashBoard |
@@ -4204,7 +4204,7 @@ ToSandBox class >> example_TagBar [
 		(ToSandBox statesOfAmerica collect: [ :s | ToSingleTag new data: s ]).
 	tb tagBuilder: [ :tagElement :aStateName :holder |
 		tagElement labelText: aStateName , ' ' , holder position asString.
-		"tagElement removable: true" ].
+		tagElement removable: true ].
 	dashBoard := self barConfigurationBoardFor: tb.
 	rootPane := ToPane horizontal.
 	rootPane padding: (BlInsets all: 5).
@@ -8328,7 +8328,7 @@ ToSandBox class >> statesOfAmericaWithGroups [
 			   #Maine. #Vermont" }) }
 ]
 
-{ #category : #tag }
+{ #category : #tabPane }
 ToSandBox class >> tabBarElementDashBoardFor: aTabBarElement [
 
 	| confPane barPane mainPane |
@@ -8346,7 +8346,7 @@ ToSandBox class >> tabBarElementDashBoardFor: aTabBarElement [
 	^ mainPane
 ]
 
-{ #category : #tag }
+{ #category : #tabPane }
 ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 
 	| mainPane barPane confPane startToEndSwitch addTabItemButtonSwicth rootPane |
@@ -8394,7 +8394,7 @@ ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 	^ rootPane
 ]
 
-{ #category : #tag }
+{ #category : #tabPane }
 ToSandBox class >> tabPaneElementWithUSStates [
 
 	| tpane |

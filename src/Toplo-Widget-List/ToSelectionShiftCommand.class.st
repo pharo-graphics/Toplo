@@ -62,3 +62,9 @@ ToSelectionShiftCommand >> itemCount: anInteger [
 
 	itemCount := anInteger
 ]
+
+{ #category : #application }
+ToSelectionShiftCommand >> onAppliedOn: aCommandApplier [
+
+	aCommandApplier onSelectionShiftCommandApplied: self
+]

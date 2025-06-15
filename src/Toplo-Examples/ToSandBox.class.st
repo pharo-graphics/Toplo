@@ -1314,48 +1314,52 @@ ToSandBox class >> example_CheckboxWithIndeterminate [
 ToSandBox class >> example_ClassHierarchiesWithMethods [
 	"For this example we created a new wrapper dealing with classes and methods at the same time, a new Node was also created (ToTreeSubAndMethNode) to apply a new skin (ToTreeNodeSubAndMethSkin) with new icons and a different background color for methods "
 
-	| l |
-	l := ToTreeElement new.
-	l withRowNumbers.
-	l contextMenu: [ :menu :request |
-		| selectionModel indexes target |
-		target := request currentTarget.
-		selectionModel := request selectionModel.
-		indexes := request selectedIndexes.
-		indexes traceCr.
-		menu addItem: (ToMenuItem new
-				 labelText: 'Expand all';
-				 clickAction: [
-					 indexes
-						 ifEmpty: [ target expandAll ]
-						 ifNotEmpty: [
-							 indexes reverseDo: [ :idx |
-									 (target dataSource at: idx) expandAll ] ] ];
-				 yourself).
-		menu addItem: (ToMenuItem new
-				 labelText: 'Collapse all';
-				 clickAction: [
-					 indexes
-						 ifEmpty: [ target collapseAll ]
-						 ifNotEmpty: [
-							 indexes reverseDo: [ :idx |
-									 (target dataSource at: idx) collapse ] ] ];
-				 yourself) ].
-	l nodeManager childrenGetter: [ :dataItem |
-		dataItem isClass
-			ifTrue: [
-				Array streamContents: [ :stream |
-					stream nextPutAll: dataItem subclasses.
-					stream nextPutAll:
-						(dataItem methods collect: [ :each | each selector ]) sorted ] ]
-			ifFalse: [ #(  ) ] ].
-	l nodeManager nodeFactory: [ :holder | ToExTreeSubAndMethNode new ].
-	l dataAccessor add: ProtoObject.
-	l dataAccessor add: BlElement.
-	l dataAccessor add: Collection.
-	l dataAccessor add: String.
+	| treeElement |
+	treeElement := ToTreeElement new.
+	treeElement withRowNumbers.
+	treeElement contextMenu: [ :menu :request |
+			| selectionModel indexes target |
+			target := request currentTarget.
+			selectionModel := request selectionModel.
+			indexes := request selectedIndexes.
+			indexes traceCr.
+			menu addItem: (ToMenuItem new
+					 labelText: 'Expand all';
+					 clickAction: [
+							 indexes
+								 ifEmpty: [ target expandAll ]
+								 ifNotEmpty: [
+									 indexes reverseDo: [ :idx |
+											 (target dataSource at: idx) expandAll ] ] ];
+					 yourself).
+			menu addItem: (ToMenuItem new
+					 labelText: 'Collapse all';
+					 clickAction: [
+							 indexes
+								 ifEmpty: [ target collapseAll ]
+								 ifNotEmpty: [
+									 indexes reverseDo: [ :idx |
+											 (target dataSource at: idx) collapse ] ] ];
+					 yourself) ].
+	treeElement nodeManager childrenGetter: [ :dataItem |
+			dataItem isClass
+				ifTrue: [
+						Array streamContents: [ :stream |
+								stream nextPutAll: dataItem subclasses.
+								stream nextPutAll:
+									(dataItem methods collect: [ :each | each selector ]) sorted ] ]
+				ifFalse: [ #(  ) ] ].
+	treeElement nodeManager nodeFactory: [ :holder |
+		ToExTreeSubAndMethNode new ].
+	treeElement dataAccessor add: ProtoObject.
+	treeElement dataAccessor add: BlElement.
+	treeElement dataAccessor add: Collection.
+	treeElement dataAccessor add: String.
+	treeElement
+		addEventHandlerOn: ToListPrimarySelectionChangedEvent
+		do: [ :evt | self selectionChangedEvent: evt ].
 
-	l openInSpace
+	treeElement openInSpace
 ]
 
 { #category : #album }
@@ -3821,6 +3825,7 @@ ToSandBox class >> example_SieveOnTree [
 				dataItem do: [ :c | stream nextPut: c asSymbol ] ] ].
 	treeElement placeholderBuilder: [ :placeholder :e |
 		placeholder empty ].
+	treeElement addEventHandlerOn: ToListPrimarySelectionChangedEvent do: [ :evt | evt selectedIndexes traceCr ].
 
 	data := SystemNavigation default allMethods.
 	treeElement contextMenu: [ :menu :request |
@@ -3862,6 +3867,8 @@ ToSandBox class >> example_SieveOnTree [
 
 	treeElement nodeBuilder: [ :node :dataItem :holder |
 		node addChild: (ToLabel new text: dataItem printString) ].
+	
+	treeElement addEventHandlerOn: ToListPrimarySelectionChangedEvent do: [ :evt | self selectionChangedEvent: evt ].
 
 	filterField whenTextEditedDo: [
 			| pattern |
@@ -8233,6 +8240,12 @@ ToSandBox class >> selectableLabeledIconlWithIconAndText [
 			 yourself)).
 			but inspect.
 	^ but
+]
+
+{ #category : #tree }
+ToSandBox class >> selectionChangedEvent: anEvent [
+
+	anEvent traceCr.
 ]
 
 { #category : #bar }

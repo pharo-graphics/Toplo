@@ -63,6 +63,18 @@ ToIntervalCollection >> checkIntervals [
 ]
 
 { #category : #testing }
+ToIntervalCollection >> containsAnyOfInterval: anInterval [
+
+	intervals do: [ :int |
+			int last < anInterval first ifFalse: [
+					| first last |
+					first := anInterval first max: int first.
+					last := anInterval last min: int last.
+					(int includesAnyOf: (first to: last)) ifTrue: [ ^ true ] ] ].
+	^ false
+]
+
+{ #category : #testing }
 ToIntervalCollection >> containsIndex: anIndex [
 
 	^ (self positionOfIntervalWithIndex: anIndex) > 0

@@ -81,7 +81,10 @@ ToTreeDataItemWrapper >> collapse [
 			They are to be applied now, before the pattern is changed 
 			(and then, before the list is changed)"
 	treeElement consumeFinalStepCommands.
-	self updateTreeNodeAtPosition: pos
+	self updateTreeNodeAtPosition: pos.
+	treeElement dispatchEvent: (ToTreeDataItemWrapperCollapsedEvent new
+			 wrapper: self;
+			 yourself)
 ]
 
 { #category : #accessing }
@@ -108,7 +111,7 @@ ToTreeDataItemWrapper >> expand [
 	| pos children |
 	self isExpanded ifTrue: [ ^ self ].
 	self checkMaxDepth.
-	
+
 	isExpanded := true.
 	children := self dataItemChildren.
 	pos := self position.
@@ -118,7 +121,10 @@ ToTreeDataItemWrapper >> expand [
 		while: [ treeElement dataAccessor addAll: children afterIndex: pos ].
 
 	treeElement consumeFinalStepCommands.
-	self updateTreeNodeAtPosition: pos
+	self updateTreeNodeAtPosition: pos.
+	treeElement dispatchEvent: (ToTreeDataItemWrapperExpandedEvent new
+			 wrapper: self;
+			 yourself)
 ]
 
 { #category : #'expanding-collapsing' }
@@ -127,10 +133,14 @@ ToTreeDataItemWrapper >> expandAll [
 	| c pos |
 	self collapse.
 	pos := self position.
-	c := self expandDeeplyIn: (OrderedCollection new).
+	c := self expandDeeplyIn: OrderedCollection new.
 	treeElement dataSource addAll: c afterIndex: pos.
 	treeElement consumeFinalStepCommands.
-	self updateTreeNodeAtPosition: pos
+	self updateTreeNodeAtPosition: pos.
+	treeElement dispatchEvent: (ToTreeDataItemWrapperExpandedEvent new
+			 wrapper: self;
+			 deeply: true;
+			 yourself)
 ]
 
 { #category : #'expanding-collapsing' }

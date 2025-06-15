@@ -297,7 +297,7 @@ ToListSelecter >> onCommandApplied: aCommand [
 { #category : #'command application' }
 ToListSelecter >> onCompositeCommandApplied: aCommand [
 
-	self onBasicCommandApplied: aCommand
+	
 ]
 
 { #category : #'api - hooks' }
@@ -306,6 +306,16 @@ ToListSelecter >> onInstalledIn: anElement [
 	element := anElement.
 	selectionModel on: anElement.
 	self initializeCommandApplicationStrategy
+]
+
+{ #category : #'command application' }
+ToListSelecter >> onSelectionCopyCommandApplied: aCommand [
+
+]
+
+{ #category : #'command application' }
+ToListSelecter >> onSelectionShiftCommandApplied: aCommand [
+
 ]
 
 { #category : #'api - hooks' }
@@ -543,11 +553,14 @@ ToListSelecter >> shiftSelection: anInteger from: anIndex [
 	| cmd |
 	cmd := ToListElementCompositeCommand new.
 	(anInteger < 0 and: [ self itemCount >= anIndex ]) ifTrue: [
-		| count |
-		count := anInteger abs.
-		cmd addCommand: (ToIntervalSelectionCommand new
-				 from: anIndex to: anIndex + count - 1;
-				 operation: ToRemoveSelectionOperation new) ].
+			| count interval |
+			count := anInteger abs.
+			interval := anIndex to: anIndex + count - 1.
+			" run a remove selection command only if any of the removed interval is selected "
+			(self selectionModel containsAnyOfInterval: interval) ifTrue: [
+					cmd addCommand: (ToIntervalSelectionCommand new
+							 from: interval first to: interval last;
+							 operation: ToRemoveSelectionOperation new) ] ].
 	cmd addCommand: (ToSelectionShiftCommand new
 			 itemCount: anInteger;
 			 fromIndex: anIndex;

@@ -30,6 +30,12 @@ ToSelectionModel >> allIndexesDo: aValuable [
 ]
 
 { #category : #'api - testing' }
+ToSelectionModel >> containsAnyOfInterval: anInterval [
+
+	^ underlyingModel containsAnyOfInterval: anInterval
+]
+
+{ #category : #'api - testing' }
 ToSelectionModel >> containsIndex: anIndex [
 
 	^ underlyingModel containsIndex: anIndex

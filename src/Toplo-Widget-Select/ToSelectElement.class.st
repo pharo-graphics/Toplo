@@ -323,7 +323,7 @@ ToSelectElement >> popupMaxHeight: aNumber [
 { #category : #'accessing - list' }
 ToSelectElement >> popupMinHeight: aNumber [
 
-	self windowManager minHeight: aNumber
+	self manager minHeight: aNumber
 ]
 
 { #category : #accessing }

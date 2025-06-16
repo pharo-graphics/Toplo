@@ -3,7 +3,8 @@ Class {
 	#superclass : #ToPopupWindowManager,
 	#instVars : [
 		'listElement',
-		'sieve'
+		'sieve',
+		'maxHeightPolicy'
 	],
 	#category : #'Toplo-Widget-Select-List'
 }
@@ -52,15 +53,17 @@ ToSelectPopupManager >> listElementClass [
 ]
 
 { #category : #accessing }
-ToSelectPopupManager >> maxHeight [
+ToSelectPopupManager >> maxHeight: aNumber [
 
-	^ listElement maxHeight
+	maxHeightPolicy := ToSelectPopupExactMaxHeightPolicy new
+		                   maxHeight: aNumber;
+		                   yourself
 ]
 
 { #category : #accessing }
-ToSelectPopupManager >> maxHeight: aNumber [
+ToSelectPopupManager >> maxHeightPolicy [
 
-	listElement maxHeight: aNumber
+	^ maxHeightPolicy 
 ]
 
 { #category : #accessing }
@@ -106,6 +109,7 @@ ToSelectPopupManager >> onInstalledIn: anElement [
 	listElement selectElement: self anchorElement.
 	listElement focusability: BlFocusability none.
 
+	self maxHeight:  self defaultMaxHeight.
 	self windowBuilder: [ :selectWin :request |
 		selectWin root addChild: self listElement ].
 
@@ -140,4 +144,10 @@ ToSelectPopupManager >> popupWindowClass [
 ToSelectPopupManager >> sieve [ 
 
 	^ sieve
+]
+
+{ #category : #accessing }
+ToSelectPopupManager >> withMatchParentMaxHeight [
+
+	maxHeightPolicy := ToSelectPopupMatchParentMaxHeightPolicy new
 ]

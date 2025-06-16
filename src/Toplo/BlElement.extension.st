@@ -358,7 +358,7 @@ BlElement >> isFullyVisibleInParent: aParentElement [
 
 	| bnds pbnds intersection |
 	bnds := self measuredBounds inSpace bounds asRectangle.
-	pbnds := aParentElement inSpace bounds asRectangle.
+	pbnds := aParentElement bounds inSpace asRectangle.
 	intersection := bnds intersect: pbnds.
 	^ intersection = bnds
 ]

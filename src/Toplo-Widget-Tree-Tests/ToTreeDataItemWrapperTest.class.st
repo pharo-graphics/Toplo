@@ -13,7 +13,7 @@ ToTreeDataItemWrapperTest >> setUp [
 	tree := ToTreeElement new.
 ]
 
-{ #category : #tests }
+{ #category : #'expanding-collapsing tests' }
 ToTreeDataItemWrapperTest >> testCollapseEventDispatched [
 
 	| wrapper dispatchedEvent size dispatchCount |
@@ -40,7 +40,7 @@ ToTreeDataItemWrapperTest >> testCollapseEventDispatched [
 	self assert: dispatchCount equals: 1
 ]
 
-{ #category : #tests }
+{ #category : #'expanding-collapsing tests' }
 ToTreeDataItemWrapperTest >> testExpandAllAndCollapseAll [
 
 	self assert: tree dataAccessor isEmpty.
@@ -63,7 +63,7 @@ ToTreeDataItemWrapperTest >> testExpandAllAndCollapseAll [
 	tree dataSource do: [ :each | self assert: each isExpanded not ]
 ]
 
-{ #category : #tests }
+{ #category : #'expanding-collapsing tests' }
 ToTreeDataItemWrapperTest >> testExpandAllEventDispatched [
 
 	| wrapper dispatchedEvent size dispatchCount |
@@ -90,7 +90,7 @@ ToTreeDataItemWrapperTest >> testExpandAllEventDispatched [
 	self assert: tree dataSource size equals: size + 4
 ]
 
-{ #category : #tests }
+{ #category : #'expanding-collapsing tests' }
 ToTreeDataItemWrapperTest >> testExpandEventDispatched [
 
 	| wrapper dispatchedEvent size |
@@ -112,7 +112,7 @@ ToTreeDataItemWrapperTest >> testExpandEventDispatched [
 	self assert: tree dataSource size equals: size + 1
 ]
 
-{ #category : #tests }
+{ #category : #'expanding-collapsing tests' }
 ToTreeDataItemWrapperTest >> testObjectAddedToDataSourceGetsWrapped [
 
 	self assert: tree dataAccessor isEmpty.
@@ -120,11 +120,14 @@ ToTreeDataItemWrapperTest >> testObjectAddedToDataSourceGetsWrapped [
 	tree dataAccessor add: Collection.
 
 	self
-		assert: (tree dataSource at: 1) className
-		equals: #ToTreeDataItemWrapper
+		assert: (tree dataSource at: 1) class
+		equals: ToTreeDataItemWrapper.
+	self
+		assert: (tree dataAccessor at: 1)
+		equals: Collection.
 ]
 
-{ #category : #tests }
+{ #category : #'expanding-collapsing tests' }
 ToTreeDataItemWrapperTest >> testWrapperExpandAddChildrenAndCollapseRemovesThem [
 
 	| wrapper |
@@ -147,11 +150,11 @@ ToTreeDataItemWrapperTest >> testWrapperExpandAddChildrenAndCollapseRemovesThem 
 	self deny: wrapper isExpanded
 ]
 
-{ #category : #tests }
+{ #category : #'expanding-collapsing tests' }
 ToTreeDataItemWrapperTest >> testWrapperExpandAndCollapse [
 
 	| wrapper |
-	tree nodeManager childrenGetter: [ :dataItem | dataItem subclasses asOrderedCollection ].
+	tree nodeManager childrenGetter: [ :dataItem | dataItem subclasses ].
 	self assert: tree dataAccessor isEmpty.
 	tree dataAccessor add: Collection.
 
@@ -165,7 +168,7 @@ ToTreeDataItemWrapperTest >> testWrapperExpandAndCollapse [
 	self assert: wrapper isExpanded
 ]
 
-{ #category : #tests }
+{ #category : #'expanding-collapsing tests' }
 ToTreeDataItemWrapperTest >> testWrapperExpandsAddsChildren [
 
 	| wrapper |
@@ -186,11 +189,11 @@ ToTreeDataItemWrapperTest >> testWrapperExpandsAddsChildren [
 	self assert: tree dataAccessor size equals: 2
 ]
 
-{ #category : #tests }
+{ #category : #'expanding-collapsing tests' }
 ToTreeDataItemWrapperTest >> testWrapperHasRightDepth [
 
 	| wrapper |
-	tree nodeManager childrenGetter: [ :dataItem | dataItem subclasses asOrderedCollection ].
+	tree nodeManager childrenGetter: [ :dataItem | dataItem subclasses ].
 	self assert: tree dataAccessor isEmpty.
 	tree dataAccessor add: Collection.
 

@@ -345,7 +345,7 @@ ToSandBox class >> buildSelectListElementIn: aSelectElement withIconProvider: an
 
 	| icProvider styles iconDescs |
 	aSelectElement manager minHeight: 85.
-"	aSelectElement popupListElement withRowNumbers."
+	aSelectElement popupListElement withRowNumbers.
 	aSelectElement popupListElement placeholderBuilder: [ :placeholder :e |
 		placeholder empty labelText: 'No Icon' ].
 
@@ -3218,7 +3218,7 @@ ToSandBox class >> example_SelectMonoFiltrable [
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
 	select width: 300.
-	select position: 50 @ 50.
+	"select position: 50 @ 50."
 	innerWindow pane addChild: select.
 	innerWindow height: 500.
 	innerWindow openInSpace
@@ -3299,7 +3299,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	select hMatchParent.
 	select selecter selectIndex: 2.
 	innerWindow pane addChild: select.
-	innerWindow height: 600.
+	"innerWindow height: 600."
 	innerWindow openInSpace.
 	^ select
 ]
@@ -3494,6 +3494,14 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected2 [
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
 	innerWindow openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_SelectMultiFiltrableWithMatchParentMaxHeight [
+
+	| select |
+	select := self example_SelectMultiFiltrable.
+	select manager withMatchParentMaxHeight.
 ]
 
 { #category : #select }
@@ -6327,10 +6335,22 @@ ToSandBox class >> example_selectWith5Nodes [
 	select manager anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 50.
+	select manager minHeight: 10.
+
 	select popupListElement dataAccessor addAll:
 		(self statesOfAmerica copyFrom: 1 to: 5).
 	innerWindow pane addChild: select.
-	innerWindow openInSpace
+	innerWindow openInSpace.
+	^ select
+]
+
+{ #category : #select }
+ToSandBox class >> example_selectWith5NodesWithMatchParentMaxHeight [
+
+	| select |
+	select := self example_selectWith5Nodes.
+	select manager withMatchParentMaxHeight.
+	^ select
 ]
 
 { #category : #select }
@@ -6339,7 +6359,7 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 	| select innerWindow space |
 	self flag: 'To check'.
 	select := self selectWithEditingMultiSelection.
-	select manager minHeight: 100.
+	select popupMinHeight: 100.
 	select filtrable: true.
 	select placeholderText: ('Choose a class' asRopedText
 			 foreground: Color lightGray;

@@ -9,6 +9,7 @@ ToSelectPopupMatchParentMaxHeightPolicy >> allNodesAreVisibleIn: aWindow [
 
 	| listElement firstNode lastNode firstDataItemIsPresent lastDataItemIsPresent |
 	listElement := aWindow manager listElement.
+	listElement nodes ifEmpty: [ ^ true ].
 	firstNode := listElement nodes first.
 	lastNode := listElement nodes last.
 	firstDataItemIsPresent := firstNode holder position = 1.

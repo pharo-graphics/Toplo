@@ -3501,6 +3501,8 @@ ToSandBox class >> example_SelectMultiFiltrableWithMatchParentMaxHeight [
 
 	| select |
 	select := self example_SelectMultiFiltrable.
+	select popupListElement dataAccessor updateAllWith:
+		(self statesOfAmericaWithColor copyFrom: 1 to: 15).
 	select manager withMatchParentMaxHeight.
 ]
 

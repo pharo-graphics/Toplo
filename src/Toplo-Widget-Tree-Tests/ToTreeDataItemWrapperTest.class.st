@@ -14,6 +14,33 @@ ToTreeDataItemWrapperTest >> setUp [
 ]
 
 { #category : #tests }
+ToTreeDataItemWrapperTest >> testCollapseEventDispatched [
+
+	| wrapper dispatchedEvent size dispatchCount |
+	tree nodeManager childrenGetter: [ :dataItem |
+			dataItem = 1
+				ifTrue: [ {  } ]
+				ifFalse: [ { (dataItem - 1) } ] ].
+	tree dataAccessor addAll: (1 to: 5).
+	size := tree dataSource size.
+	dispatchCount := 0.
+	tree
+		addEventHandlerOn: ToTreeDataItemWrapperCollapsedEvent
+		do: [ :evt |
+				dispatchCount := dispatchCount + 1.
+				dispatchedEvent := evt ].
+	wrapper := tree dataSource at: 5.
+	dispatchedEvent := nil.
+	dispatchCount := 0.
+	wrapper expandAll.
+	self assert: tree dataSource size equals: size + 4.
+	wrapper collapse.
+	self assert: dispatchedEvent notNil.
+	self assert: dispatchedEvent wrapper equals: wrapper.
+	self assert: dispatchCount equals: 1
+]
+
+{ #category : #tests }
 ToTreeDataItemWrapperTest >> testExpandAllAndCollapseAll [
 
 	self assert: tree dataAccessor isEmpty.
@@ -37,6 +64,55 @@ ToTreeDataItemWrapperTest >> testExpandAllAndCollapseAll [
 ]
 
 { #category : #tests }
+ToTreeDataItemWrapperTest >> testExpandAllEventDispatched [
+
+	| wrapper dispatchedEvent size dispatchCount |
+	tree nodeManager childrenGetter: [ :dataItem |
+			dataItem = 1
+				ifTrue: [ {  } ]
+				ifFalse: [ { (dataItem - 1) } ] ].
+	tree dataAccessor addAll: (1 to: 5).
+	size := tree dataSource size.
+	dispatchCount := 0.
+	tree
+		addEventHandlerOn: ToTreeDataItemWrapperExpandedEvent
+		do: [ :evt |
+				dispatchCount := dispatchCount + 1.
+				dispatchedEvent := evt ].
+	wrapper := tree dataSource at: 5.
+	dispatchedEvent := nil.
+	dispatchCount := 0.
+	wrapper expandAll.
+	self assert: dispatchedEvent notNil.
+	self assert: dispatchedEvent deeply.
+	self assert: dispatchedEvent wrapper equals: wrapper.
+	self assert: dispatchCount equals: 1.
+	self assert: tree dataSource size equals: size + 4
+]
+
+{ #category : #tests }
+ToTreeDataItemWrapperTest >> testExpandEventDispatched [
+
+	| wrapper dispatchedEvent size |
+	tree nodeManager childrenGetter: [ :dataItem |
+			dataItem = 1
+				ifTrue: [ {  } ]
+				ifFalse: [ { (dataItem - 1) } ] ].
+	tree dataAccessor addAll: (1 to: 5).
+	size := tree dataSource size.
+	tree
+		addEventHandlerOn: ToTreeDataItemWrapperExpandedEvent
+		do: [ :evt | dispatchedEvent := evt ].
+	wrapper := tree dataSource at: 5.
+	dispatchedEvent := nil.
+	wrapper expand.
+	self assert: dispatchedEvent notNil.
+	self deny: dispatchedEvent deeply.
+	self assert: dispatchedEvent wrapper equals: wrapper.
+	self assert: tree dataSource size equals: size + 1
+]
+
+{ #category : #tests }
 ToTreeDataItemWrapperTest >> testObjectAddedToDataSourceGetsWrapped [
 
 	self assert: tree dataAccessor isEmpty.
@@ -49,43 +125,7 @@ ToTreeDataItemWrapperTest >> testObjectAddedToDataSourceGetsWrapped [
 ]
 
 { #category : #tests }
-ToTreeDataItemWrapperTest >> testWrapperHasRightDepth [
-
-	| wrapper |
-	tree nodeManager childrenGetter: [ :dataItem | dataItem subclasses asOrderedCollection ].
-	self assert: tree dataAccessor isEmpty.
-	tree dataAccessor add: Collection.
-
-	wrapper := tree dataSource at: 1.
-	self assert: wrapper nodeDepth equals: 0.
-	wrapper expand.
-	wrapper childWrappersDo: [ :child |
-		self assert: child nodeDepth equals: 1 ]
-]
-
-{ #category : #tests }
-ToTreeDataItemWrapperTest >> testWrappersExpandsAddsChildren [
-
-	| wrapper |
-	tree nodeManager childrenGetter: [ :dataItem |
-		dataItem = 1
-			ifTrue: [ {  } ]
-			ifFalse: [ { (dataItem - 1) } ] ].
-
-	self assert: tree dataAccessor isEmpty.
-	tree dataAccessor add: 2.
-
-	wrapper := tree dataSource at: 1.
-	self assert: tree dataSource size equals: 1.
-	self assert: tree dataAccessor size equals: 1.
-	self deny: wrapper isExpanded.
-	wrapper expand.
-	self assert: wrapper isExpanded.
-	self assert: tree dataAccessor size equals: 2
-]
-
-{ #category : #tests }
-ToTreeDataItemWrapperTest >> testWrappersExpandsAddsChildrenAndCollapsesRemovesThem [
+ToTreeDataItemWrapperTest >> testWrapperExpandAddChildrenAndCollapseRemovesThem [
 
 	| wrapper |
 	tree nodeManager childrenGetter: [ :dataItem |
@@ -108,7 +148,7 @@ ToTreeDataItemWrapperTest >> testWrappersExpandsAddsChildrenAndCollapsesRemovesT
 ]
 
 { #category : #tests }
-ToTreeDataItemWrapperTest >> testWrappersExpandsAndCollapses [
+ToTreeDataItemWrapperTest >> testWrapperExpandAndCollapse [
 
 	| wrapper |
 	tree nodeManager childrenGetter: [ :dataItem | dataItem subclasses asOrderedCollection ].
@@ -123,4 +163,40 @@ ToTreeDataItemWrapperTest >> testWrappersExpandsAndCollapses [
 	self assert: wrapper isExpanded.
 	wrapper expand.
 	self assert: wrapper isExpanded
+]
+
+{ #category : #tests }
+ToTreeDataItemWrapperTest >> testWrapperExpandsAddsChildren [
+
+	| wrapper |
+	tree nodeManager childrenGetter: [ :dataItem |
+		dataItem = 1
+			ifTrue: [ {  } ]
+			ifFalse: [ { (dataItem - 1) } ] ].
+
+	self assert: tree dataAccessor isEmpty.
+	tree dataAccessor add: 2.
+
+	wrapper := tree dataSource at: 1.
+	self assert: tree dataSource size equals: 1.
+	self assert: tree dataAccessor size equals: 1.
+	self deny: wrapper isExpanded.
+	wrapper expand.
+	self assert: wrapper isExpanded.
+	self assert: tree dataAccessor size equals: 2
+]
+
+{ #category : #tests }
+ToTreeDataItemWrapperTest >> testWrapperHasRightDepth [
+
+	| wrapper |
+	tree nodeManager childrenGetter: [ :dataItem | dataItem subclasses asOrderedCollection ].
+	self assert: tree dataAccessor isEmpty.
+	tree dataAccessor add: Collection.
+
+	wrapper := tree dataSource at: 1.
+	self assert: wrapper nodeDepth equals: 0.
+	wrapper expand.
+	wrapper childWrappersDo: [ :child |
+		self assert: child nodeDepth equals: 1 ]
 ]

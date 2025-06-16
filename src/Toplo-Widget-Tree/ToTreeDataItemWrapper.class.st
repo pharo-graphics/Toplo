@@ -189,6 +189,12 @@ ToTreeDataItemWrapper >> hasParentWrapper: aDataItemWrapper [
 ]
 
 { #category : #testing }
+ToTreeDataItemWrapper >> isCollapsed [
+
+	^ self isExpanded not
+]
+
+{ #category : #testing }
 ToTreeDataItemWrapper >> isExpanded [ 
 
 	^ isExpanded ifNil: [ isExpanded := false ]

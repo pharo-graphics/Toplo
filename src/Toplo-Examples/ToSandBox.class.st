@@ -3545,6 +3545,7 @@ ToSandBox class >> example_SelectMultiNotFiltrableWithGroups [
 	select := ToMultiSelectElement new.
 	select withGroups: true.
 	select manager minHeight: 85.
+	select manager withMatchParentMaxHeight.
 
 	select filtrable: false.
 	self statesOfAmericaWithGroups do: [ :assoc |
@@ -3556,11 +3557,10 @@ ToSandBox class >> example_SelectMultiNotFiltrableWithGroups [
 		('Select a state' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
-	select width: 300.
-	select position: 50 @ 50.
+	innerWindow root padding:( BlInsets all: 10).
 	select filterTextField requestFocus.
 	innerWindow pane addChild: select.
-	innerWindow height: 500.
+	innerWindow height: 590.
 	innerWindow openInSpace
 ]
 

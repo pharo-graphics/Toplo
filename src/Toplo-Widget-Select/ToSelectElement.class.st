@@ -38,7 +38,6 @@ ToSelectElement >> applyWidgetConfiguration [
 
 	super applyWidgetConfiguration.
 	self filterTextField selectFiltrable: filtrable.
-	filtrable ifTrue: [ self filterTextField requestFocus ].
 	sample ifNotNil: [ self innerElement sample: sample ]
 ]
 
@@ -266,7 +265,9 @@ ToSelectElement >> onPopupWindowClosed [
 { #category : #window }
 ToSelectElement >> onPopupWindowOpened [
 
-	self filterTextField infinite requestFocus
+	filtrable
+		ifTrue: [ self filterTextField requestFocus ]
+		ifFalse: [ self requestFocus ]
 ]
 
 { #category : #'accessing - selection' }

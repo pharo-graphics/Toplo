@@ -21,5 +21,12 @@ ToSelectFilterTextFieldSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e background: BlBackground transparent ]
+			e geometry: BlRectangleGeometry new.
+			e selectElement isFiltrable
+				ifTrue: [
+						e padding: (BlInsets horizontal: 3 vertical: 3).
+						e background: (e valueOfTokenNamed: #'color-border') ]
+				ifFalse: [
+						e padding: BlInsets empty.
+						e background: Color transparent ] ]
 ]

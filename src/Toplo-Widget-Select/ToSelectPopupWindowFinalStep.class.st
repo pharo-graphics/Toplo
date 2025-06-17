@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSelectPopupWindowFinalStep,
 	#superclass : #ToAnchoredWindowLayoutStep,
-	#category : #'Toplo-Widget-Select-List'
+	#category : #'Toplo-Widget-Select-manager'
 }
 
 { #category : #running }

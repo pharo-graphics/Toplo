@@ -20,13 +20,13 @@ ToMenuPopupManager >> beInline [
 ]
 
 { #category : #'event handling' }
-ToMenuPopupManager >> canCloseOnPickingEvent: anEvent [
+ToMenuPopupManager >> closeOnMouseDownEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
 	(target isInline or: [ target isInInlineWindow ]) ifTrue: [
-		^ currentWindow notNil ].
-	^ super canCloseOnPickingEvent: anEvent
+		^ true ].
+	^ super closeOnMouseDownEvent: anEvent
 ]
 
 { #category : #initialization }

@@ -60,12 +60,6 @@ ToPopupWindowManager >> beInline [
 	self unplugPickOutsideFilter
 ]
 
-{ #category : #'event handling' }
-ToPopupWindowManager >> canCloseOnPickingEvent: anEvent [
-
-	^ currentWindow notNil and: [ closeOnPicking ]
-]
-
 { #category : #'window handling' }
 ToPopupWindowManager >> canCloseWindow [
 
@@ -110,6 +104,12 @@ ToPopupWindowManager >> checkPickOutside: aBoolean [
 	checkPickOutside := aBoolean
 ]
 
+{ #category : #'event handling' }
+ToPopupWindowManager >> closeOnMouseDownEvent: anEvent [
+
+	^ closeOnPicking
+]
+
 { #category : #accessing }
 ToPopupWindowManager >> closeOnPicking [
 
@@ -137,7 +137,7 @@ ToPopupWindowManager >> defaultAutoCloseDelay [
 	" automatically close the window if the delay between the popup 
 	and an event (mouse-up) is greater than this delay"
 
-	^ 300 milliSeconds
+	^ 200 milliSeconds
 ]
 
 { #category : #initialization }
@@ -200,13 +200,13 @@ ToPopupWindowManager >> mouseDownEvent: anEvent [
 
 	self unqueuePopupTaskFromEvent: anEvent.
 	anEvent button = mouseButton ifFalse: [ ^ self ].
-	(self canCloseOnPickingEvent: anEvent) ifTrue: [
-		self closeWindow.
-		^ self ].
-	self popupOnMouseDown ifFalse: [ ^ self ].
-	currentWindow ifNotNil: [ ^ self ].
-	self popupEvent: anEvent.
-	anEvent consume
+	anEvent consume.
+	currentWindow ifNil: [
+			self popupOnMouseDown ifFalse: [ ^ self ].
+			self popupEvent: anEvent.
+			^ self ].
+	(self closeOnMouseDownEvent: anEvent) ifFalse: [ ^ self ].
+	self closeWindow
 ]
 
 { #category : #'event handling' }

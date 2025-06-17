@@ -1,7 +1,7 @@
 Class {
 	#name : #ToMultiSelectPopupManager,
 	#superclass : #ToSelectPopupManager,
-	#category : #'Toplo-Widget-Select-List'
+	#category : #'Toplo-Widget-Select-manager'
 }
 
 { #category : #'window handling' }

@@ -1,8 +1,23 @@
 Class {
 	#name : #ToSelectPopupWindowMaxHeightStep,
 	#superclass : #ToAnchoredWindowLayoutStep,
-	#category : #'Toplo-Widget-Select-List'
+	#instVars : [
+		'maxHeightPolicy'
+	],
+	#category : #'Toplo-Widget-Select-manager'
 }
+
+{ #category : #accessing }
+ToSelectPopupWindowMaxHeightStep >> maxHeightPolicy [
+
+	^ maxHeightPolicy
+]
+
+{ #category : #accessing }
+ToSelectPopupWindowMaxHeightStep >> maxHeightPolicy: aPopupMaxHeightPolicy [
+
+	maxHeightPolicy := aPopupMaxHeightPolicy
+]
 
 { #category : #running }
 ToSelectPopupWindowMaxHeightStep >> nextStepFor: aWindow onEvent: anEvent onLayout: aBounds context: aBlElementBoundsUpdateContext [
@@ -10,7 +25,7 @@ ToSelectPopupWindowMaxHeightStep >> nextStepFor: aWindow onEvent: anEvent onLayo
 
 	" at least 2 policies, one with a fixed maxHeight and the second with 
 	a computed maxHeight according to the available space in the anchorRoot"
-	^ aWindow manager maxHeightPolicy
+	^ maxHeightPolicy
 		  nextLayoutStepFor: aWindow
 		  from: self
 ]

@@ -6,8 +6,27 @@ Class {
 		'sieve',
 		'maxHeightPolicy'
 	],
-	#category : #'Toplo-Widget-Select-List'
+	#category : #'Toplo-Widget-Select-manager'
 }
+
+{ #category : #'window handling' }
+ToSelectPopupManager >> checkCloseWindowOnPickingEvent: anEvent [
+	" don't autoclose if mouse up on a filter textfield "
+
+	| target |
+	target := anEvent target.
+	target = anchorElement filterTextField ifTrue: [ ^ self ].
+	target
+		withAllParentsUpTo: anchorElement filterTextField
+		do: [ :e | ^ self ].
+	super checkCloseWindowOnPickingEvent: anEvent
+]
+
+{ #category : #'event handling' }
+ToSelectPopupManager >> closeOnMouseDownEvent: anEvent [
+
+	^ true
+]
 
 { #category : #initialization }
 ToSelectPopupManager >> defaultMaxHeight [
@@ -55,15 +74,22 @@ ToSelectPopupManager >> listElementClass [
 { #category : #accessing }
 ToSelectPopupManager >> maxHeight: aNumber [
 
-	maxHeightPolicy := ToSelectPopupExactMaxHeightPolicy new
-		                   maxHeight: aNumber;
-		                   yourself
+	self maxHeightPolicy: (ToSelectPopupExactMaxHeightPolicy new
+	maxHeight: aNumber;
+	yourself)
 ]
 
 { #category : #accessing }
 ToSelectPopupManager >> maxHeightPolicy [
 
 	^ maxHeightPolicy 
+]
+
+{ #category : #accessing }
+ToSelectPopupManager >> maxHeightPolicy: aPopupMaxHeightPolicy [
+
+	maxHeightPolicy := aPopupMaxHeightPolicy.
+	self anchorElement requestLayout
 ]
 
 { #category : #accessing }
@@ -149,5 +175,5 @@ ToSelectPopupManager >> sieve [
 { #category : #accessing }
 ToSelectPopupManager >> withMatchParentMaxHeight [
 
-	maxHeightPolicy := ToSelectPopupMatchParentMaxHeightPolicy new
+	self maxHeightPolicy: ToSelectPopupMatchParentMaxHeightPolicy new
 ]

@@ -1,8 +1,23 @@
 Class {
 	#name : #ToSelectPopupWindowOpeningStartStep,
 	#superclass : #ToAnchoredWindowLayoutStep,
-	#category : #'Toplo-Widget-Select-List'
+	#instVars : [
+		'maxHeightPolicy'
+	],
+	#category : #'Toplo-Widget-Select-manager'
 }
+
+{ #category : #accessing }
+ToSelectPopupWindowOpeningStartStep >> maxHeightPolicy [
+
+	^ maxHeightPolicy
+]
+
+{ #category : #accessing }
+ToSelectPopupWindowOpeningStartStep >> maxHeightPolicy: aPopupMaxHeightPolicy [
+
+	maxHeightPolicy := aPopupMaxHeightPolicy
+]
 
 { #category : #running }
 ToSelectPopupWindowOpeningStartStep >> nextStepFor: aWindow onEvent: anEvent onLayout: aBounds context: aBlElementBoundsUpdateContext [
@@ -19,4 +34,6 @@ ToSelectPopupWindowOpeningStartStep >> nextStepFor: aWindow onEvent: anEvent onL
 	aWindow vFitContent.
 
 	^ ToSelectPopupWindowMaxHeightStep new
+		  maxHeightPolicy: maxHeightPolicy;
+		  yourself
 ]

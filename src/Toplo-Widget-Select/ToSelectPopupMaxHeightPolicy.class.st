@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSelectPopupMaxHeightPolicy,
 	#superclass : #Object,
-	#category : #'Toplo-Widget-Select-List'
+	#category : #'Toplo-Widget-Select-manager'
 }
 
 { #category : #layout }

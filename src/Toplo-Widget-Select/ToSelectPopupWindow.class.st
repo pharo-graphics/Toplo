@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSelectPopupWindow,
 	#superclass : #ToAnchoredWindow,
-	#category : #'Toplo-Widget-Select-List'
+	#category : #'Toplo-Widget-Select-manager'
 }
 
 { #category : #'t - inline window element - accessing' }
@@ -27,7 +27,9 @@ ToSelectPopupWindow >> installRawStyle [
 ]
 
 { #category : #'t - anchored window element - private layout' }
-ToSelectPopupWindow >> newStartLayoutStep [ 
+ToSelectPopupWindow >> newStartLayoutStep [
 
 	^ ToSelectPopupWindowOpeningStartStep new
+		  maxHeightPolicy: self manager maxHeightPolicy;
+		  yourself
 ]

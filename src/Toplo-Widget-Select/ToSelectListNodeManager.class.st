@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSelectListNodeManager,
 	#superclass : #ToGenericListNodeManager,
-	#category : #'Toplo-Widget-Select-List'
+	#category : #'Toplo-Widget-Select-manager'
 }
 
 { #category : #'instance creation' }

@@ -7,13 +7,13 @@ Class {
 { #category : #accessing }
 ToSelectFilterTextFieldSkin >> blurBorderIn: anAlbum [
 
-	^ BlBorder empty
+	^ anAlbum valueOfTokenNamed: #'color-border'
 ]
 
 { #category : #accessing }
 ToSelectFilterTextFieldSkin >> focusBorderIn: anAlbum [
 
-	^ BlBorder empty
+	^ anAlbum valueOfTokenNamed: #'color-border'
 ]
 
 { #category : #'event handling' }
@@ -21,12 +21,7 @@ ToSelectFilterTextFieldSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-			e geometry: BlRectangleGeometry new.
 			e selectElement isFiltrable
-				ifTrue: [
-						e padding: (BlInsets horizontal: 3 vertical: 3).
-						e background: (e valueOfTokenNamed: #'color-border') ]
-				ifFalse: [
-						e padding: BlInsets empty.
-						e background: Color transparent ] ]
+				ifTrue: [ e padding: (BlInsets horizontal: 6 vertical: 3) ]
+				ifFalse: [ e padding: BlInsets empty ] ]
 ]

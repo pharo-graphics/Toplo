@@ -19,6 +19,7 @@ ToSievedListElementEventHandler >> listSelectionCommandAppliedEvent: aSelectionC
 	I take care of the sieve internal selectionSet according to the list element selection model"
 
 	| listElement listSelModel |
+
 	listElement := aSelectionCommandAppliedEvent currentTarget.
 	listSelModel := listElement selectionModel.
 	" first check if the request is for the primary selection model "

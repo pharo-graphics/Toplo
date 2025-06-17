@@ -5079,6 +5079,19 @@ ToSandBox class >> example_emptyBoxWithCustomLabel [
 	box openInSpace
 ]
 
+{ #category : #float }
+ToSandBox class >> example_floatButton [
+
+	| float btn pane |
+	float := ToFloatHolder new.
+	btn := ToButton new labelText: 'Button'.
+	float margin: (BlInsets all: 30).
+	pane := ToPane new matchParent.
+	pane addChild: float.
+	float addChild: btn.
+	pane openInSpace
+]
+
 { #category : #checkbox }
 ToSandBox class >> example_group [
 

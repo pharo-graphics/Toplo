@@ -5,15 +5,19 @@ Class {
 }
 
 { #category : #accessing }
-ToSelectFilterTextFieldSkin >> blurBorderIn: anAlbum [
+ToSelectFilterTextFieldSkin >> blurBorderIn: e [ 
 
-	^ anAlbum valueOfTokenNamed: #'color-border'
+	^ e selectElement isFiltrable
+				ifTrue: [ e valueOfTokenNamed: #'color-border' ]
+				ifFalse: [ BlBorder empty ]
 ]
 
 { #category : #accessing }
-ToSelectFilterTextFieldSkin >> focusBorderIn: anAlbum [
+ToSelectFilterTextFieldSkin >> focusBorderIn: e [
 
-	^ anAlbum valueOfTokenNamed: #'color-border'
+	^ e selectElement isFiltrable
+				ifTrue: [ e valueOfTokenNamed: #'color-border' ]
+				ifFalse: [ BlBorder empty ]
 ]
 
 { #category : #'event handling' }

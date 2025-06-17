@@ -74,6 +74,17 @@ BaselineOfToplo >> registerPackages: spec [
 	spec
 		package: #'Toplo-Widget-Empty'
 		with: [ spec requires: #( #Toplo ) ].
+	spec
+		package: #'Toplo-Widget-Empty-Tests'
+		with: [ spec requires: #( #Toplo ) ].
+		
+	spec
+		package: #'Toplo-Widget-Float'
+		with: [ spec requires: #( #Toplo ) ].
+		
+	spec
+		package: #'Toplo-Widget-Float-Tests'
+		with: [ spec requires: #( #Toplo ) ].
 
 	spec
 		package: #'Toplo-Widget-Button-Tests'

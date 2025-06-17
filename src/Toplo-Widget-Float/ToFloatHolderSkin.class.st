@@ -9,7 +9,9 @@ ToFloatHolderSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-			e background: Color white.
+			e background: (e valueOfTokenNamed: #'background-color').
+			e geometry: (BlRoundedRectangleGeometry cornerRadius:
+					 (e valueOfTokenNamed: #'border-radius')).
 			e effect: (BlGaussianShadowEffect
 					 color: (Color gray alpha: 0.8)
 					 width: 30

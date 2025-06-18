@@ -72,7 +72,10 @@ ToTabGroupElement >> checkInvisibleNodes [
 
 	self canShowInvisibleNodesMenu
 		ifTrue: [ self showInvisibleNodesMenu: true ]
-		ifFalse: [ self showInvisibleNodesMenu: false ]
+		ifFalse: [ self showInvisibleNodesMenu: false ].
+
+	self itemBar selectionElementsDo: [ :se |
+		se visibility = se node visibility ifFalse: [ se requestNewSkin ] ]
 ]
 
 { #category : #initialization }
@@ -284,21 +287,21 @@ ToTabGroupElement >> newWidgetConfiguration [
 ToTabGroupElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes [
 
 	| startIdx endIdx |
-	
 	invisibleNodes := theInvisibleNodes asArray.
 	visibleNodes := theVisibleNodes asArray.
-	
+
 	startIdx := visibleNodes
 		            ifEmpty: [ 0 ]
 		            ifNotEmpty: [ visibleNodes first holder position ].
 	endIdx := visibleNodes
 		          ifEmpty: [ 0 ]
 		          ifNotEmpty: [ visibleNodes last holder position ].
-		
+
 	invisibleNodes do: [ :n |
-		n holder position > endIdx ifTrue: [
-			n visibility: BlVisibility hidden ] ].
-	visibleNodes do: [ :n | n visibility: BlVisibility visible ].
+			n holder position > endIdx ifTrue: [
+				n isVisible ifTrue: [ n visibility: BlVisibility hidden ] ] ].
+	visibleNodes do: [ :n |
+		n isVisible ifFalse: [ n visibility: BlVisibility visible ] ].
 
 	self dispatchEvent: ToVisibleTabsChanged new
 ]

@@ -5087,8 +5087,13 @@ ToSandBox class >> example_floatButton [
 	btn := ToButton new labelText: 'Button'.
 	float margin: (BlInsets all: 30).
 	pane := ToPane new matchParent.
-	pane addChild: float.
+
 	float addChild: btn.
+	pane addChild: float.
+	pane addChild: (ToElement new
+			 matchParent;
+			 withNullSkin;
+			 background: Color red).
 	pane openInSpace
 ]
 

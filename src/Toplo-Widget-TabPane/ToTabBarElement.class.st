@@ -42,8 +42,7 @@ ToTabBarElement >> defaultNodeManagerClass [
 ToTabBarElement >> initialize [ 
 
 	super initialize.
-	atStartSide := true.
-	"self addEventHandlerOn: ToInfiniteScrollFinishedEvent do: [ :evt | evt traceCr ]"
+	atStartSide := true
 ]
 
 { #category : #testing }

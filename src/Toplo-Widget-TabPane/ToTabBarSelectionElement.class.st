@@ -23,7 +23,7 @@ ToTabBarSelectionElement >> breadth: aNumber [
 ToTabBarSelectionElement >> initialize [ 
 
 	super initialize.
-	breadth := 3
+	breadth := 6
 ]
 
 { #category : #private }
@@ -39,13 +39,13 @@ ToTabBarSelectionElement >> positionFrom: aPoint in: aListElement [
 		ifTrue: [
 			x := aPoint x.
 			y := aListElement atStartSide
-				     ifTrue: [ nodeBounds bottom - breadth ]
-				     ifFalse: [ aPoint y - self measuredHeight ] ]
+				     ifTrue: [ nodeBounds bottom - (breadth/2)]
+				     ifFalse: [ aPoint y - self measuredHeight - (breadth/2)] ]
 		ifFalse: [
 			y := aPoint y.
 			x := aListElement atStartSide
-				     ifTrue: [ nodeBounds right - breadth ]
-				     ifFalse: [ aPoint x - self measuredWidth ] ].
+				     ifTrue: [ nodeBounds right - (breadth/2) ]
+				     ifFalse: [ aPoint x - self measuredWidth - (breadth/2)] ].
 	^ x @ y
 ]
 

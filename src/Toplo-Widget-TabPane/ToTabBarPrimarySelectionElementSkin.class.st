@@ -8,8 +8,5 @@ Class {
 ToTabBarPrimarySelectionElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e listElement isFlowable ifFalse: [
-			e geometry: BlRectangleGeometry new.
-			e visibility: e node visibility ] ]
+	anEvent elementDo: [ :e | e visibility: e node visibility ]
 ]

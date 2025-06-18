@@ -75,7 +75,7 @@ ToTabGroupElement >> checkInvisibleNodes [
 		ifFalse: [ self showInvisibleNodesMenu: false ].
 
 	self itemBar selectionElementsDo: [ :se |
-		se visibility = se node visibility ifFalse: [ se requestNewSkin ] ]
+		se visibility: se node visibility ]
 ]
 
 { #category : #initialization }

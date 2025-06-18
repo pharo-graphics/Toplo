@@ -32,7 +32,7 @@ ToListSelectionElement >> boundsFromNodesIn: aListElement [
 		ifFalse: [ corner := endBnds corner ].
 
 	^ Rectangle
-		  origin: (self positionFrom: startBnds origin in: aListElement)
+		  origin: ((self positionFrom: startBnds origin in: aListElement) + listElement padding topLeft)
 		  extent:
 		  (self sizeFrom: corner - startBnds origin in: aListElement)
 ]
@@ -96,7 +96,7 @@ ToListSelectionElement >> nodes: aNodeArray [
 { #category : #private }
 ToListSelectionElement >> positionFrom: aPoint in: aListElement [
 
-	^ aPoint
+	^ aPoint 
 ]
 
 { #category : #accessing }

@@ -5082,18 +5082,12 @@ ToSandBox class >> example_emptyBoxWithCustomLabel [
 { #category : #float }
 ToSandBox class >> example_floatButton [
 
-	| float btn pane |
-	float := ToFloatHolder new.
+	|  btn pane floatLayer |
 	btn := ToButton new labelText: 'Button'.
-	float margin: (BlInsets all: 30).
 	pane := ToPane new matchParent.
-
-	float addChild: btn.
-	pane addChild: float.
-	pane addChild: (ToElement new
-			 matchParent;
-			 withNullSkin;
-			 background: Color red).
+	floatLayer := ToFloatOverlay new.
+	floatLayer attachToParent: pane.
+	floatLayer addChild: btn asFloatElement.
 	pane openInSpace
 ]
 

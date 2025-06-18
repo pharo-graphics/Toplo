@@ -29,24 +29,32 @@ ToTabBarSelectionElement >> initialize [
 { #category : #private }
 ToTabBarSelectionElement >> positionFrom: aPoint in: aListElement [
 
-	| x y node nodeBounds |
-	aListElement isFlowable ifTrue: [ ^ aPoint ].
+	| x y node nodeBounds insets |
+	aListElement isFlowable ifTrue: [
+		^ super positionFrom: aPoint in: aListElement ].
 	" compute the selection element to be over the parent track element "
 	node := self node.
+	insets := BlInsets all: 0.
+	node
+		allParentsTo: aListElement
+		do: [ :p | insets := insets + p padding ].
 	node space ifNil: [ ^ aPoint ].
 	nodeBounds := node measuredBounds.
 	aListElement isHorizontal
 		ifTrue: [
-			x := aPoint x.
-			y := aListElement atStartSide
-				     ifTrue: [ nodeBounds bottom - (breadth/2)]
-				     ifFalse: [ aPoint y - self measuredHeight - (breadth/2)] ]
+				x := aPoint x.
+				y := aListElement atStartSide
+					     ifTrue: [ nodeBounds bottom - (breadth / 2) + insets bottom ]
+					     ifFalse: [
+					     aPoint y - self measuredHeight - (breadth / 2) - insets top ] ]
 		ifFalse: [
-			y := aPoint y.
-			x := aListElement atStartSide
-				     ifTrue: [ nodeBounds right - (breadth/2) ]
-				     ifFalse: [ aPoint x - self measuredWidth - (breadth/2)] ].
-	^ x @ y
+				y := aPoint y.
+				x := aListElement atStartSide
+					     ifTrue: [ nodeBounds right - (breadth / 2) + insets right ]
+					     ifFalse: [
+					     aPoint x - self measuredWidth - (breadth / 2) - insets left ] ].
+
+	^ super positionFrom: x @ y in: aListElement
 ]
 
 { #category : #private }

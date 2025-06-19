@@ -1,6 +1,8 @@
 Class {
 	#name : #ToRawTheme,
 	#superclass : #ToTheme,
+	#traits : 'TToStyleSheetTheme',
+	#classTraits : 'TToStyleSheetTheme classTrait',
 	#category : #'Toplo-Core-Theme'
 }
 

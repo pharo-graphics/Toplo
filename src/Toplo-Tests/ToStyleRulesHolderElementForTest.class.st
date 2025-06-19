@@ -16,13 +16,13 @@ ToStyleRulesHolderElementForTest >> initialize [
 	self rawStyleRules: #(  )
 ]
 
-{ #category : #'t - style rule holder - accessing' }
+{ #category : #accessing }
 ToStyleRulesHolderElementForTest >> rawStyleRules [
 
 	^ styleRules
 ]
 
-{ #category : #'t - style rule holder - accessing' }
+{ #category : #accessing }
 ToStyleRulesHolderElementForTest >> rawStyleRules: aStyleRuleCollection [
 
 	styleRules := aStyleRuleCollection

@@ -23,7 +23,7 @@ ToTabBarSelectionElement >> breadth: aNumber [
 ToTabBarSelectionElement >> initialize [ 
 
 	super initialize.
-	breadth := 6
+	breadth := 8
 ]
 
 { #category : #private }

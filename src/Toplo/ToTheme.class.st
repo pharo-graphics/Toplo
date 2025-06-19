@@ -400,6 +400,12 @@ ToTheme >> addTokenProperty: aTokenProperty [
 	tokenProperties add: aTokenProperty
 ]
 
+{ #category : #initialization }
+ToTheme >> defaultElementStampsFor: anElement [ 
+
+	^ { }
+]
+
 { #category : #accessing }
 ToTheme >> defaultSkinFor: anElement [
 
@@ -485,6 +491,8 @@ ToTheme >> printOn: aStream [
 
 { #category : #hook }
 ToTheme >> setUpElement: anElement [
+
+	anElement addAllStamps: (self defaultElementStampsFor: anElement) 
 ]
 
 { #category : #styling }

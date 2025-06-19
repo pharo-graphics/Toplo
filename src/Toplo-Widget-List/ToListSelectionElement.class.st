@@ -21,18 +21,19 @@ ToListSelectionElement >> boundsFromNodesIn: aListElement [
 	endBnds := first = last
 		           ifTrue: [ startBnds ]
 		           ifFalse: [
-			           (last measuredBounds inSpace inChild:
-				            aListElement innerElement) bounds ].
+				           (last measuredBounds inSpace inChild:
+					            aListElement innerElement) bounds ].
 	(aListElement isVertical and: [
 		 first constraints horizontal isMatchParent ])
 		ifTrue: [
-			| w |
-			w := aListElement innerElement bounds width.
-			corner := w @ endBnds corner y ]
+				| w |
+				w := aListElement innerElement bounds width.
+				corner := w @ endBnds corner y ]
 		ifFalse: [ corner := endBnds corner ].
 
 	^ Rectangle
-		  origin: ((self positionFrom: startBnds origin in: aListElement) + listElement padding topLeft)
+		  origin: (self positionFrom: startBnds origin in: aListElement)
+			  + listElement padding topLeft
 		  extent:
 		  (self sizeFrom: corner - startBnds origin in: aListElement)
 ]

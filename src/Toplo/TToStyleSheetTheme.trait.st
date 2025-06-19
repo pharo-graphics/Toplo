@@ -87,12 +87,6 @@ TToStyleSheetTheme >> applicableWritersFor: anElement [
 ]
 
 { #category : #'t - style sheet theme' }
-TToStyleSheetTheme >> defaultElementStampsFor: anElement [ 
-
-	^ { }
-]
-
-{ #category : #'t - style sheet theme' }
 TToStyleSheetTheme >> initializeAsStyleSheetTheme [
 
 	styleSheet := ToStyleSheet new.

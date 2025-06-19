@@ -3,8 +3,8 @@ A ToRawSkinTest is a test class for testing the behavior of ToRawSkin
 "
 Class {
 	#name : #ToRawSkinTest,
-	#superclass : #TestCase,
-	#category : #'Toplo-Tests-Core-Theme'
+	#superclass : #ToParameterizedHostTest,
+	#category : #'Toplo-Tests-Core-Skin'
 }
 
 { #category : #tests }
@@ -15,6 +15,41 @@ ToRawSkinTest >> collectInstanciableSkinEventClasses [
 		  ToSkinEvent allSubclasses do: [ :cls |
 			  cls localMethods do: [ :cm |
 				  cm selector asSymbol = #sendTo: ifTrue: [ str nextPut: cls ] ] ] ]
+]
+
+{ #category : #tests }
+ToRawSkinTest >> testBasicStyleSheet [
+
+	| e styleSheet |
+	e := ToElement new.
+	e size: 50 asPoint.
+	styleSheet := ToStyleSheet new.
+	styleSheet select: ToElement asTypeSelector style: [ :sr |
+			sr
+				when: ToInstallSkinEvent
+				write: #background asWritableProperty
+				with: Color red ].
+	e styleSheet: styleSheet.
+	space root addChild: e.
+	self waitTestingSpaces.
+	self assert: e background paint color equals: Color red
+]
+
+{ #category : #tests }
+ToRawSkinTest >> testButtonWithStyleSheet [
+
+	| e styleSheet |
+	e := ToButton new.
+	styleSheet := ToStyleSheet new.
+	styleSheet select: ToButton asTypeSelector style: [ :sr |
+			sr
+				when: ToEnabledSkinEvent
+				write: #background asWritableProperty
+				with: Color red ].
+	e styleSheet: styleSheet.
+	space root addChild: e.
+	self waitTestingSpaces.
+	self assert: e background paint color equals: Color red
 ]
 
 { #category : #tests }
@@ -42,6 +77,7 @@ ToRawSkinTest >> testIsAbleToHandleAnySkinEvent [
 
 	| e skin instanciableSkinEventClasses |
 	e := ToElement new.
+	space root addChild: e.
 	skin := ToRawSkinForTest new.
 	e addEventHandler: skin.
 	instanciableSkinEventClasses := self collectInstanciableSkinEventClasses.
@@ -55,6 +91,7 @@ ToRawSkinTest >> testOnInstalledIn [
 
 	| skin e  |
 	e := ToElement new.
+	space root addChild: e.
 	skin := ToRawSkin new.
 	skin onInstalledIn: e
 ]
@@ -64,6 +101,7 @@ ToRawSkinTest >> testOnInstalledInSendsInstallRawStyle [
 
 	| skin e  |
 	e := ToElementForRawSkinTest new.
+	space root addChild: e.
 	skin := ToRawSkin new.
 	self deny: e styleInstalled.
 	skin onInstalledIn: e.

@@ -5088,7 +5088,7 @@ ToSandBox class >> example_floatButton [
 	pane := ToPane new matchParent.
 	floatLayer := ToFloatOverlay new.
 	floatLayer attachToParent: pane.
-	"floatLayer southEast endToStart: true."
+	floatLayer southEast endToStart: true.
 	floatLayer southEast addChild: btn1 asFloatElement.
 	floatLayer southEast addChild: btn2 asFloatElement.
 	pane openInSpace

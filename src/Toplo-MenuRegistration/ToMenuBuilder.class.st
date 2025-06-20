@@ -75,7 +75,7 @@ ToMenuBuilder >> arrangeItemsParameters [
 		self handleDuplicatedShortcut: item.
 		self handleGroupsUsage: item.
 		self handleUnknownParent: item.
-		self handleAddToParent: item ]
+		self handleAddToParent: item. ]
 ]
 
 { #category : #editing }
@@ -85,11 +85,10 @@ ToMenuBuilder >> changeParent: aMenuRegistration for: aSymbol [
 	| item |
 	item := self itemsNamed: aSymbol.
 	item isCollection ifTrue: [ self item: aSymbol ].
-	(item parent = aMenuRegistration name or: item parent isNil) ifFalse: [
- 		self addConflict: WrongParentPlacement new. 	
-	].
+	(item parent = aMenuRegistration name or: item parent isNil)
+		ifFalse: [ self addConflict: WrongParentPlacement new ].
 	item parent: aMenuRegistration name.
-		item groupName: aMenuRegistration groupName.
+	item groupName: aMenuRegistration groupName
 ]
 
 { #category : #'spec accessing' }

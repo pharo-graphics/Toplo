@@ -277,11 +277,12 @@ ToMenuRegistration >> updateAction [
 
 { #category : #'instance creation' }
 ToMenuRegistration >> with: aBlock [
-
-	| menu |
-	
-	menu := aBlock value.
-	aBlock value builder changeParent: self for: menu name
+	| currentItem |
+	aBlock value.
+	(builder collectedItems size to:1 by: -1) do: [ :index |
+		currentItem := (builder collectedItems at:index) name.
+		currentItem = name ifTrue: [ ^self ].
+		builder changeParent: self for: currentItem].
 ]
 
 { #category : #'spec accessing' }

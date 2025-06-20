@@ -34,7 +34,7 @@ MenuBuilderTest >> testBuilderPragmas [
 
 { #category : #'tests - Pragma' }
 MenuBuilderTest >> testBuilderResolvePragmasCollectedItems [
-	self assert: self toploExampleMenu collectedItems size equals: 2.
+	self assert: self toploExampleMenu collectedItems size equals: 1.
 ]
 
 { #category : #'tests - duplicated items' }
@@ -281,25 +281,18 @@ MenuBuilderTest >> testResolveWithItemWithExplicitParentUnknowDeclared [
 				label: 'My own cool tool also here' ].
 	builder resolve.
 
-	"The broken menu item is kept as root element even if the resolve phase could resolve the parent since we can do it.
-	But the resolve phase does not fix the problem because else we would end up with broken parentName: declarations
-	and we want to force the developer to fix the usage (no use of parentName: in with: form. ) 
 	"
-	self assert: builder collectedItems size equals: 2.
+		When we use a with, it force to correct the explicit unknown parent/wrong parent placement
+	"
+	self assert: builder collectedItems size equals: 1.
 
 	self
-		assert:
-		(builder itemsNamed: #MyMenu) childrenItems first name
-		equals: #MyItem.
+		assert: (builder itemsNamed: #MyMenu) childrenItems first name
+		equals: #MyBrokenItem.
 
 	self
-		assert: (builder itemsNamed: #MyBrokenItem) parent
-		equals: #MyBrokenMenu.
-
-	"we do not lose information even if it is wrong."
-	self
-		assert: (builder itemsNamed: #MyBrokenItem) parent
-		equals: #MyBrokenMenu
+		assert: (builder itemsNamed: #MyMenu) childrenItems first parent
+		equals: #MyMenu.
 ]
 
 { #category : #toploExample }

@@ -16,16 +16,8 @@ ToSelectPopupManager >> checkCloseWindowOnPickingEvent: anEvent [
 	| target |
 	target := anEvent target.
 	target = anchorElement filterTextField ifTrue: [ ^ self ].
-	target
-		withAllParentsUpTo: anchorElement filterTextField
-		do: [ :e | ^ self ].
+	(target allParentsInclude: anchorElement filterTextField) ifTrue: [ ^ self ].
 	super checkCloseWindowOnPickingEvent: anEvent
-]
-
-{ #category : #'event handling' }
-ToSelectPopupManager >> closeOnMouseDownEvent: anEvent [
-
-	^ true
 ]
 
 { #category : #initialization }

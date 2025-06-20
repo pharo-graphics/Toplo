@@ -36,7 +36,7 @@ ToTabBarSelectionElement >> positionFrom: aPoint in: aListElement [
 	node := self node.
 	insets := BlInsets all: 0.
 	node
-		allParentsTo: aListElement
+		allParentsUpTo: aListElement
 		do: [ :p | insets := insets + p padding ].
 	node space ifNil: [ ^ aPoint ].
 	nodeBounds := node measuredBounds.

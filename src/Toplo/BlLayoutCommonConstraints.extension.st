@@ -1,6 +1,12 @@
 Extension { #name : #BlLayoutCommonConstraints }
 
 { #category : #'*Toplo' }
+BlLayoutCommonConstraints >> anchor [
+
+	^ self at: ToAnchorLayout
+]
+
+{ #category : #'*Toplo' }
 BlLayoutCommonConstraints >> hasHolder [
 
 	^ self hasInfinite and: [ self infinite hasHolder ]

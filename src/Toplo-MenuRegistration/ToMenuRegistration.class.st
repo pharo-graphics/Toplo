@@ -76,6 +76,12 @@ ToMenuRegistration >> childrenItems: anOrderedCollectionOfMenuRegistration [
 	childrenItems := anOrderedCollectionOfMenuRegistration.
 ]
 
+{ #category : #testing }
+ToMenuRegistration >> findChildrenItems: aSymbol [
+	childrenItems do: [ :item | item name = aSymbol ifTrue: [ ^ item ] ].
+	^ nil
+]
+
 { #category : #accessing }
 ToMenuRegistration >> groupName [
 	^ groupName
@@ -140,6 +146,19 @@ ToMenuRegistration >> initialize [
 	selector := #cull:.
 	arguments := nil.
 	self updateAction.
+]
+
+{ #category : #'instance creation' }
+ToMenuRegistration >> isChild: aSymbol [
+
+	aSymbol ifNil: [ ^ false ].
+	aSymbol = name
+		ifTrue: [ ^ true ]
+		ifFalse: [
+			| nextItem |
+			nextItem := builder itemsNamed: aSymbol.
+			nextItem ifNotNil: [ nextItem := nextItem parent ].
+			^ self isChild: nextItem ]
 ]
 
 { #category : #accessing }
@@ -277,12 +296,14 @@ ToMenuRegistration >> updateAction [
 
 { #category : #'instance creation' }
 ToMenuRegistration >> with: aBlock [
+
 	| currentItem |
 	aBlock value.
-	(builder collectedItems size to:1 by: -1) do: [ :index |
-		currentItem := (builder collectedItems at:index) name.
-		currentItem = name ifTrue: [ ^self ].
-		builder changeParent: self for: currentItem].
+	(builder findChild: name) to: builder collectedItems size do: [
+		:index |
+		currentItem := builder collectedItems at: index.
+		(self isChild: currentItem name) ifFalse: [
+			builder changeParent: self for: currentItem name ] ].
 ]
 
 { #category : #'spec accessing' }

@@ -20,8 +20,9 @@ ToploVisitor >> show [
 
 { #category : #visiting }
 ToploVisitor >> visitMenuBuilder: aMenuBuilder [
+
 	aMenuBuilder collectedItems do: [ :item |
-		menuPane addChild: (item accept: self) ].
+		item name ifNotNil: [ menuPane addChild: (item accept: self) ] ].
 	self show
 ]
 

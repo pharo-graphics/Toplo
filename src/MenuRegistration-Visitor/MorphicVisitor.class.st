@@ -4,26 +4,34 @@ Class {
 	#category : #'MenuRegistration-Visitor'
 }
 
+{ #category : #initialization }
+MorphicVisitor >> initialize [
+
+	menuPane := MenubarMorph new adhereToTop.
+]
+
 { #category : #visiting }
 MorphicVisitor >> visitMenuBuilder: aMenuBuilder [
 
 	aMenuBuilder collectedItems do: [ :item |
-		item hasChildren
-			ifTrue: [ menuPane addMorph: (self visitMenuRegistration: item) ]
-			ifFalse: [
-			menuPane addMorph: (self visitMenuItemResgitration: item) ] ].
-	menuPane openInWorld.
+		item name ifNotNil: [
+			item hasChildren
+				ifTrue: [ menuPane addMorph: (self visitMenuRegistration: item) ]
+				ifFalse: [
+				menuPane addMorph: (self visitMenuItemResgitration: item) ] ] ].
+	menuPane openInWorld
 ]
 
 { #category : #visiting }
 MorphicVisitor >> visitMenuItemResgitration: aMenuRegistration [
 
 	| menuItem |
+	menuItem := ToggleMenuItemMorph new contents:
+				            aMenuRegistration name.
+	aMenuRegistration name ifNil: [ ^ menuItem ].
 	aMenuRegistration hasChildren
 		ifTrue: [ menuItem := self visitMenuRegistration: aMenuRegistration ]
 		ifFalse: [
-			menuItem := ToggleMenuItemMorph new contents:
-				            aMenuRegistration name.
 			menuItem
 				target: aMenuRegistration target;
 				selector: aMenuRegistration selector;
@@ -39,6 +47,6 @@ MorphicVisitor >> visitMenuRegistration: aMenuRegistration [
 	menu := MenuMorph new.
 	menu addTitle: aMenuRegistration label.
 	aMenuRegistration childrenItems do: [ :each |
-		menu addMorphBack: (self visitMenuItemResgitration: each) ].
+		each name ifNotNil: [ menu addMorphBack: (self visitMenuItemResgitration: each) ] ].
 	^ menu
 ]

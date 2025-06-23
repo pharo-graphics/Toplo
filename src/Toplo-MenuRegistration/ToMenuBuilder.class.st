@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'currentRoot',
 		'collectedItems',
-		'hasNoConflict',
 		'groups',
 		'pragmaKeywords',
 		'conflicts'
@@ -73,9 +72,9 @@ ToMenuBuilder >> arrangeItemsParameters [
 
 	collectedItems do: [ :item |
 		self handleDuplicatedShortcut: item.
-		self handleGroupsUsage: item.
 		self handleUnknownParent: item.
-		self handleAddToParent: item. ]
+		self handleAddToParent: item.
+		self handleGroupsUsage: item. ]
 ]
 
 { #category : #editing }
@@ -87,8 +86,7 @@ ToMenuBuilder >> changeParent: aMenuRegistration for: aSymbol [
 	item isCollection ifTrue: [ self item: aSymbol ].
 	(item parent = aMenuRegistration name or: item parent isNil)
 		ifFalse: [ self addConflict: WrongParentPlacement new ].
-	item parent: aMenuRegistration name.
-	item groupName: aMenuRegistration groupName
+	item parent: aMenuRegistration name
 ]
 
 { #category : #'spec accessing' }
@@ -126,6 +124,14 @@ ToMenuBuilder >> currentRoot [
 { #category : #accessing }
 ToMenuBuilder >> currentRoot: aMenuRegistration [
 	currentRoot := aMenuRegistration
+]
+
+{ #category : #accessing }
+ToMenuBuilder >> findChild: aSymbol [
+
+	1 to: collectedItems size do: [ :ind |
+		(collectedItems at: ind) name = aSymbol ifTrue: [ ^ ind ] ].
+	^ 1
 ]
 
 { #category : #'menu protocol' }
@@ -184,7 +190,11 @@ ToMenuBuilder >> handleDuplicatedShortcut: anItem [
 { #category : #'error handling' }
 ToMenuBuilder >> handleGroupsUsage: anItem [
 
-	(anItem groupName isNil or: anItem name isNil) ifTrue: [ ^ self ].
+	anItem name ifNil: [ ^ self ].
+	anItem parentMenuItem ifNotNil:[
+	(anItem groupName isNil and: anItem parentMenuItem groupName isNotNil)
+		ifTrue: [ anItem groupName: anItem parentMenuItem groupName ]].
+	anItem groupName ifNil: [ ^ self ].
 	(self isAnExistingGroup: anItem groupName) ifFalse: [
 		self group: anItem groupName ].
 	(self groupsNamed: anItem groupName) addChild: anItem

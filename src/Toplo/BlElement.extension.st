@@ -99,6 +99,14 @@ BlElement >> borderBuilder [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> bottomAnchor [
+
+	^ self constraints anchors bottomAnchor
+		  element: self;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
 BlElement >> checkWidgetConfigurationPass [
 
 	self nextConfigurationPass = self space runningConfigurationPass
@@ -408,6 +416,14 @@ BlElement >> itemContaining: anElement [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> leftAnchor [
+
+	^ self constraints anchors leftAnchor
+		  element: self;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
 BlElement >> localTheme [
 
 	^ self userData at: #localTheme ifAbsent: [ ]
@@ -662,6 +678,14 @@ BlElement >> requestUninstallSkin [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> rightAnchor [
+
+	^ self constraints anchors rightAnchor
+		  element: self;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
 BlElement >> shortcut: aShortcut [
 
 	self ensuredShortcutsStore shortcut: aShortcut in: self
@@ -823,6 +847,14 @@ BlElement >> tokenValueNamed: aSymbol [
 		transformWith: '`@receiver tokenValueNamed: `@arg' -> '`@receiver valueOfTokenNamed: `@arg'.
 
 	^ self valueOfTokenNamed: aSymbol
+]
+
+{ #category : #'*Toplo' }
+BlElement >> topAnchor [
+
+	^ self constraints anchors topAnchor
+		  element: self;
+		  yourself
 ]
 
 { #category : #'*Toplo' }

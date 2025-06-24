@@ -2,23 +2,10 @@ Class {
 	#name : #ToElementEdgeAnchor,
 	#superclass : #ToElementAnchor,
 	#instVars : [
-		'edgeName',
 		'element'
 	],
 	#category : #'Toplo-Support-Anchor'
 }
-
-{ #category : #accessing }
-ToElementEdgeAnchor >> edgeName [
-
-	^ edgeName
-]
-
-{ #category : #accessing }
-ToElementEdgeAnchor >> edgeName: anObject [
-
-	edgeName := anObject
-]
 
 { #category : #accessing }
 ToElementEdgeAnchor >> element [
@@ -27,12 +14,52 @@ ToElementEdgeAnchor >> element [
 ]
 
 { #category : #accessing }
-ToElementEdgeAnchor >> element: anObject [
+ToElementEdgeAnchor >> element: anElement [
 
-	element := anObject
+	element := anElement
 ]
 
-{ #category : #evaluating }
-ToElementEdgeAnchor >> value [
-	^ element perform: edgeName
+{ #category : #'instance creation' }
+ToElementEdgeAnchor >> on: anAnchor [
+
+	^ ToAnchorLayoutOperation new
+		  baseAnchor: self;
+		  targetAnchor: anAnchor;
+		  yourself
+]
+
+{ #category : #'instance creation' }
+ToElementEdgeAnchor >> onBottomAnchor [
+
+	^ self on: ToElementBottomAnchor new
+]
+
+{ #category : #'instance creation' }
+ToElementEdgeAnchor >> onLeftAnchor [
+
+	^ self on: ToElementLeftAnchor new
+]
+
+{ #category : #'instance creation' }
+ToElementEdgeAnchor >> onRightAnchor [
+
+	^ self on: ToElementRightAnchor new
+]
+
+{ #category : #'instance creation' }
+ToElementEdgeAnchor >> onTopAnchor [
+
+	^ self on: ToElementTopAnchor new
+]
+
+{ #category : #applying }
+ToElementEdgeAnchor >> read: aRectangle [
+
+	^ self subclassResponsibility
+]
+
+{ #category : #applying }
+ToElementEdgeAnchor >> translate: aRectangle to: aValue [
+
+	^ self subclassResponsibility
 ]

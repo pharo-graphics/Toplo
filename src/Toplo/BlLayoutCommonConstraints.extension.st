@@ -1,9 +1,9 @@
 Extension { #name : #BlLayoutCommonConstraints }
 
 { #category : #'*Toplo' }
-BlLayoutCommonConstraints >> anchor [
+BlLayoutCommonConstraints >> anchors [ 
 
-	^ self at: ToAnchorLayout
+	^ self at: ToAnchorLayout 
 ]
 
 { #category : #'*Toplo' }

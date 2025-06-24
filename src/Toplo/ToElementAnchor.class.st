@@ -87,27 +87,30 @@ cannot have both. But some combination of them could still be used. "
 
 { #category : #arithmetic }
 ToElementAnchor >> * aNumber [
-	"multiply receiver's value by certain amount"
-	^ ToElementOffsetAnchor new baseAnchor: self; offsetBlock: [:value | value * aNumber ]
+	"answer a new anchor, which is a combination of receiver, offset by some value.
+	a value could in own turn be anchor "
+
+	^ ToElementOffsetAnchor new
+		  baseAnchor: self;
+		  offset: [ :value | value * aNumber ]
 ]
 
 { #category : #arithmetic }
 ToElementAnchor >> + aValuable [
 	"answer a new anchor, which is a combination of receiver, offset by some value.
 	a value could in own turn be anchor "
-	
-	^ ToElementOffsetAnchor new baseAnchor: self; offsetBlock: [:value | value + aValuable value ]
+
+	^ ToElementOffsetAnchor new
+		  baseAnchor: self;
+		  offset: [ :value | value + aValuable value ]
 ]
 
 { #category : #arithmetic }
 ToElementAnchor >> - aValuable [
 	"answer a new anchor, which is a combination of receiver, offset by some value.
 	a value could in own turn be anchor "
-	
-	^ ToElementOffsetAnchor new baseAnchor: self; offsetBlock: [:value | value - aValuable value ]
-]
 
-{ #category : #evaluating }
-ToElementAnchor >> value [
-	self subclassResponsibility
+	^ ToElementOffsetAnchor new
+		  baseAnchor: self;
+		  offset: [ :value | value - aValuable value ]
 ]

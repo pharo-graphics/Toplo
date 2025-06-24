@@ -3,41 +3,32 @@ Class {
 	#superclass : #ToElementAnchor,
 	#instVars : [
 		'baseAnchor',
-		'offsetBlock'
+		'offset'
 	],
 	#category : #'Toplo-Support-Anchor'
 }
 
 { #category : #accessing }
-ToElementOffsetAnchor >> baseAnchor [
+ToElementOffsetAnchor >> baseAnchor: anAnchor [
 
-	^ baseAnchor
-]
-
-{ #category : #accessing }
-ToElementOffsetAnchor >> baseAnchor: anObject [
-
-	baseAnchor := anObject
+	baseAnchor := anAnchor
 ]
 
 { #category : #accessing }
 ToElementOffsetAnchor >> element [
+
 	^ baseAnchor element
 ]
 
 { #category : #accessing }
-ToElementOffsetAnchor >> offsetBlock [
+ToElementOffsetAnchor >> offset: aValuable [
 
-	^ offsetBlock
-]
-
-{ #category : #accessing }
-ToElementOffsetAnchor >> offsetBlock: anObject [
-
-	offsetBlock := anObject
+	offset := aValuable
 ]
 
 { #category : #evaluating }
-ToElementOffsetAnchor >> value [
-	^ offsetBlock value: baseAnchor value
+ToElementOffsetAnchor >> read: aRectangle [
+
+
+	^ offset value: (baseAnchor read: aRectangle)
 ]

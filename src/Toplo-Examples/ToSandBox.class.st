@@ -824,6 +824,51 @@ ToSandBox class >> example_AllClasses [
 	l openInSpace
 ]
 
+{ #category : #anchors }
+ToSandBox class >> example_AnchorLayout [
+
+	| pane blue red green |
+	pane := ToElement new.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+	pane padding: (BlInsets all: 10).
+
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue border: Color blue.
+	blue size: 30 asPoint.
+	blue margin: (BlInsets all: 10).
+	blue constraintsDo: [ :c |
+			c anchors add: blue rightAnchor onRightAnchor.
+			c anchors add: blue bottomAnchor onBottomAnchor ].
+	pane addChild: blue.
+
+	red := ToElement new
+		       id: #red;
+		       yourself.
+	red border: Color red.
+	red size: 20 asPoint.
+	red constraintsDo: [ :c |
+			c anchors add: (red rightAnchor on: blue leftAnchor).
+			c anchors add: (red bottomAnchor on: blue bottomAnchor) ].
+	pane addChild: red.
+
+
+	green := ToElement new
+		         id: #green;
+		         yourself.
+	green border: Color green.
+	green size: 10 @ 60.
+	green constraintsDo: [ :c |
+			c anchors add: (green rightAnchor on: blue leftAnchor - 10).
+			c anchors add: (green bottomAnchor on: red bottomAnchor - 10) ].
+	pane addChild: green.
+
+	pane openInInnerWindow
+]
+
 { #category : #list }
 ToSandBox class >> example_BasicListWithAllClasses3 [
 
@@ -5082,13 +5127,22 @@ ToSandBox class >> example_emptyBoxWithCustomLabel [
 { #category : #float }
 ToSandBox class >> example_floatButton [
 
-	|  btn1 btn2 pane floatLayer |
+	|  btn1 btn2 pane floatLayer textField |
 	btn1 := ToButton new labelText: 'Button 1'.
 	btn2 := ToButton new labelText: 'Button 2'.
+	textField := ToTextField new width: 150;
+		            placeholderBuilder: [ :placeholder :e |
+			            placeholder addChild: (ToAttributedLabel new
+						             text: ('Name' asRopedText
+								              foreground: Color lightGray;
+								              italic);
+						             yourself) ].
 	pane := ToPane new matchParent.
+	
 	floatLayer := ToFloatOverlay new.
 	floatLayer attachToParent: pane.
 	floatLayer southEast endToStart: true.
+	floatLayer southEast addChild: textField asFloatElement.
 	floatLayer southEast addChild: btn1 asFloatElement.
 	floatLayer southEast addChild: btn2 asFloatElement.
 	pane openInSpace

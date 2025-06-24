@@ -43,7 +43,7 @@ Example:
 Class {
 	#name : #ToAnchorLayout,
 	#superclass : #BlLayout,
-	#category : #'Toplo-Support-Layout'
+	#category : #'Toplo-Support-Anchor'
 }
 
 { #category : #constraints }
@@ -52,27 +52,26 @@ ToAnchorLayout class >> constraints [
 	^ ToAnchorLayoutConstraints new
 ]
 
-{ #category : #measure }
-ToAnchorLayout >> boundsForChild: aChild [
+{ #category : #layout }
+ToAnchorLayout >> boundsForChild: aChild in: availableBounds [
 
-	| position result |
-
-	position := aChild constraints position.
-
-	result := BlBounds origin: position extent: aChild measuredExtent.
-	result shrinkByMargin: aChild margin.
-	result expand. "Convert to integer values"
-
-	^ result
+	^ aChild constraints anchors
+		  boundsForChild: aChild
+		  in: availableBounds
 ]
 
 { #category : #layout }
 ToAnchorLayout >> layout: anElement in: aRectangle context: aBlElementBoundsUpdater [
 	"Layout non-ignoredByLayout children"
 
+	| availableBounds |
+	super layout: anElement in: aRectangle context: aBlElementBoundsUpdater.
+	availableBounds := anElement padding
+		inset: (0.0 @ 0.0 extent: anElement extent).
+
 	anElement children accountedByLayout do: [ :eachChild |
 			eachChild
-				applyLayoutIn: (self boundsForChild: eachChild)
+				applyLayoutIn: (self boundsForChild: eachChild in: availableBounds)
 				context: aBlElementBoundsUpdater ].
 
 	"Layout ignoredByLayout children"

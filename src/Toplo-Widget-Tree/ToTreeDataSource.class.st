@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-Tree-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToTreeDataSource >> itemsAtPath: aPath [
 
 	| item items |
@@ -22,7 +22,7 @@ ToTreeDataSource >> itemsAtPath: aPath [
 	^ items
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToTreeDataSource >> pathOfIndex: index [
 
 	| path currentWrapper |
@@ -42,26 +42,21 @@ ToTreeDataSource >> pathOfIndex: index [
 	^ path
 ]
 
-{ #category : #enumerating }
+{ #category : #accessing }
 ToTreeDataSource >> rootAt: index [
 
-	| count |
-	count := 1.
-	self rootsDo: [ :w |
-		count = index ifTrue: [ ^ w ].
-		count := count + 1 ].
+	| rootCount |
+	rootCount := 0.
+	self do: [ :w |
+		w isRoot ifTrue: [
+			rootCount := rootCount + 1.
+			rootCount = index ifTrue: [ ^ w ] ] ].
 
 	^ self error
 ]
 
-{ #category : #enumerating }
+{ #category : #accessing }
 ToTreeDataSource >> roots [
 
 	^ self select: [ :w | w isRoot ]
-]
-
-{ #category : #enumerating }
-ToTreeDataSource >> rootsDo: aBlock [
-
-	self do: [ :w | w isRoot ifTrue: [ aBlock value: w ] ]
 ]

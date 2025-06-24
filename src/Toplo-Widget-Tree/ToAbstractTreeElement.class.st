@@ -51,13 +51,15 @@ ToAbstractTreeElement >> defaultInnerElement [
 { #category : #'expanding-collapsing' }
 ToAbstractTreeElement >> expandAll [
 
-	self dataSource rootsDo: [ :each | each isRoot ]
+	| rootWrappers |
+	rootWrappers := self dataSource select: [ :each | each isRoot ].
+	rootWrappers do: [ :w | w expandAll ]
 ]
 
 { #category : #'expanding-collapsing' }
 ToAbstractTreeElement >> expandRoots [
 
-	self dataSource rootsDo: [ :w | w expand ]
+	self dataSource roots do: [ :each | each expand ]
 ]
 
 { #category : #initialization }

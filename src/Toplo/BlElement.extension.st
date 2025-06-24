@@ -107,6 +107,14 @@ BlElement >> bottomAnchor [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> centerAnchor [
+
+	^ self constraints anchors centerAnchor
+		  element: self;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
 BlElement >> checkWidgetConfigurationPass [
 
 	self nextConfigurationPass = self space runningConfigurationPass
@@ -293,6 +301,14 @@ BlElement >> hasStamp: aSymbol [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> heightAnchor [
+
+	^ self constraints anchors heightAnchor 
+		  element: self;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
 BlElement >> holder [
 
 	^ self constraints infinite holder
@@ -310,6 +326,14 @@ BlElement >> holder: aNodeHolder [
 BlElement >> holderDo: aValuable [
 
 	self constraints holderDo: aValuable
+]
+
+{ #category : #'*Toplo' }
+BlElement >> horizontalCenterAnchor [
+
+	^ self constraints anchors horizontalCenterAnchor 
+		  element: self;
+		  yourself
 ]
 
 { #category : #'*Toplo' }
@@ -896,6 +920,14 @@ BlElement >> valueOfTokenNamed: aSymbol [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> verticalCenterAnchor [
+
+	^ self constraints anchors verticalCenterAnchor 
+		  element: self;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
 BlElement >> whenWidgetConfigurationAppliedDo: aValuable [
 
 	self
@@ -922,6 +954,14 @@ BlElement >> widgetConfiguration: anElementConfiguration [
 	anElementConfiguration ifNil: [ ^ self ].
 	self userData at: #widgetConfiguration put: anElementConfiguration.
 	anElementConfiguration onInstalledIn: self
+]
+
+{ #category : #'*Toplo' }
+BlElement >> widthAnchor [
+
+	^ self constraints anchors widthAnchor 
+		  element: self;
+		  yourself
 ]
 
 { #category : #'*Toplo' }

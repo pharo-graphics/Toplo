@@ -11,13 +11,18 @@ Class {
 { #category : #layout }
 ToAnchorLayoutOperation >> applyOnChildBounds: childBoundsRectangle in: availableRectangle [
 
-	| targetRectangle |
-	targetRectangle := targetAnchor element
-		                   ifNil: [ availableRectangle ]
-		                   ifNotNil: [ :e | e measuredBounds inParent asRectangle ].
+	| targetRectangle margin |
+	targetAnchor element
+		ifNil: [
+				targetRectangle := availableRectangle.
+				margin := BlInsets empty ]
+		ifNotNil: [ :e |
+				targetRectangle := e measuredBounds inParent asRectangle.
+				margin := e margin ].
 	^ baseAnchor
-		  translate: childBoundsRectangle
-		  to: (targetAnchor read: targetRectangle)
+		  applyOnRectangle: childBoundsRectangle
+		  withValue: (targetAnchor read: targetRectangle withMargin: BlInsets empty)
+		  withMargin: margin
 ]
 
 { #category : #accessing }

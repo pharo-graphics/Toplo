@@ -5,13 +5,15 @@ Class {
 }
 
 { #category : #applying }
-ToElementBottomAnchor >> read: aRectangle [
+ToElementBottomAnchor >> applyOnRectangle: aRectangle withValue: aValue withMargin: anInsets [
 
-	^ aRectangle bottom
+	^ aRectangle translateBy:
+		  0 @ (aValue - (self read: aRectangle withMargin: anInsets))
 ]
 
 { #category : #applying }
-ToElementBottomAnchor >> translate: aRectangle to: aValue [
+ToElementBottomAnchor >> read: aRectangle withMargin: margin [
 
-	^ aRectangle translateBy: 0 @ (aValue - (self read: aRectangle))
+	^ aRectangle bottom
+	  + (element ifNil: [ 0 ] ifNotNil: [ margin bottom ])
 ]

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToElementOffsetAnchor,
-	#superclass : #ToElementAnchor,
+	#superclass : #ToAnchor,
 	#instVars : [
 		'baseAnchor',
 		'offset'
@@ -26,9 +26,8 @@ ToElementOffsetAnchor >> offset: aValuable [
 	offset := aValuable
 ]
 
-{ #category : #evaluating }
-ToElementOffsetAnchor >> read: aRectangle [
+{ #category : #applying }
+ToElementOffsetAnchor >> read: aRectangle withMargin: anInsets [
 
-
-	^ offset value: (baseAnchor read: aRectangle)
+	^ offset value: (baseAnchor read: aRectangle withMargin: anInsets)
 ]

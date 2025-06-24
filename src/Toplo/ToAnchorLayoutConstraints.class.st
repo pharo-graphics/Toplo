@@ -16,7 +16,7 @@ ToAnchorLayoutConstraints >> add: anAnchorOperation [
 	operations add: anAnchorOperation
 ]
 
-{ #category : #'instance creation' }
+{ #category : #'anchor creation' }
 ToAnchorLayoutConstraints >> bottomAnchor [
 
 	^ ToElementBottomAnchor new
@@ -26,9 +26,39 @@ ToAnchorLayoutConstraints >> bottomAnchor [
 ToAnchorLayoutConstraints >> boundsForChild: aChild in: availableBounds [
 
 	| bnds |
-	bnds := aChild measuredBounds asRectangle.
+	bnds := aChild margin expand: aChild measuredBounds asRectangle.
 	operations do: [ :op | bnds := op applyOnChildBounds: bnds in: availableBounds ].
-	^ bnds
+	^ aChild margin inset: bnds
+]
+
+{ #category : #'anchor creation' }
+ToAnchorLayoutConstraints >> centerAnchor [
+
+	^ ToElementCenterAnchor new
+]
+
+{ #category : #initialization }
+ToAnchorLayoutConstraints >> defaultHorizontal [
+
+	^ ToAnchorLayoutConstraintsHorizontal new
+]
+
+{ #category : #initialization }
+ToAnchorLayoutConstraints >> defaultVertical [
+
+	^ ToAnchorLayoutConstraintsVertical new
+]
+
+{ #category : #'anchor creation' }
+ToAnchorLayoutConstraints >> heightAnchor [
+
+	^ self vertical breadthAnchor 
+]
+
+{ #category : #'anchor creation' }
+ToAnchorLayoutConstraints >> horizontalCenterAnchor [
+
+	^ self horizontal centerAnchor 
 ]
 
 { #category : #initialization }
@@ -38,20 +68,32 @@ ToAnchorLayoutConstraints >> initialize [
 	operations := OrderedCollection new
 ]
 
-{ #category : #'instance creation' }
+{ #category : #'anchor creation' }
 ToAnchorLayoutConstraints >> leftAnchor [
 
 	^ ToElementLeftAnchor new
 ]
 
-{ #category : #'instance creation' }
+{ #category : #'anchor creation' }
 ToAnchorLayoutConstraints >> rightAnchor [
 
 	^ ToElementRightAnchor new
 ]
 
-{ #category : #'instance creation' }
+{ #category : #'anchor creation' }
 ToAnchorLayoutConstraints >> topAnchor [
 
 	^ ToElementTopAnchor new
+]
+
+{ #category : #'anchor creation' }
+ToAnchorLayoutConstraints >> verticalCenterAnchor [
+
+	^ self vertical centerAnchor 
+]
+
+{ #category : #'anchor creation' }
+ToAnchorLayoutConstraints >> widthAnchor [
+
+	^ self horizontal breadthAnchor 
 ]

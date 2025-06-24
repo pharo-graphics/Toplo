@@ -25,12 +25,18 @@ ToTreeDataItemWrapper >> checkMaxDepth [
 ToTreeDataItemWrapper >> childWrapperAt: index [
 
 	| count |
-	count := 1.
+	count := 0.
 	self childWrappersDo: [ :w |
-		count = index ifTrue: [ ^ w ].
-		count := count + 1 ].
+		self flag: #todo. "We should not filter"
+		w parentWrapper = self ifTrue: [
+			count := count + 1.
+			count = index ifTrue: [ ^ w ] ] ].
 
-	self error
+	SubscriptOutOfBounds
+		signalFor: index
+		lowerBound: 1
+		upperBound: count
+		in: self
 ]
 
 { #category : #'private - accessing' }

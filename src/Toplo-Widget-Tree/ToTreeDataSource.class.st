@@ -11,12 +11,12 @@ ToTreeDataSource >> itemsAtPath: aPath [
 	(aPath isNil or: [ aPath isEmpty ]) ifTrue: [ ^ #() ].
 
 	items := OrderedCollection new.
-	item := self roots at: aPath first.
+	item := self rootAt: aPath first.
 	items add: item.
 	
-	aPath allButFirstDo: [ :index |
+	aPath allButFirstDo: [ :childIndex |
 		item expand.
-		item := item childWrapperAt: index.
+		item := item childWrapperAt: childIndex.
 		items add: item ].
 
 	^ items

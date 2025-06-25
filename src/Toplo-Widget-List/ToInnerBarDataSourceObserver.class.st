@@ -64,9 +64,9 @@ ToInnerBarDataSourceObserver >> infiniteDataSourceItemRangeRemoved: anEvent [
 	innerBarElement listElement selecter
 		shiftSelection: anEvent itemCount negated
 		from: anEvent position.
-	innerBarElement spaceDo: [ :sp |
+	"innerBarElement spaceDo: [ :sp |
 		sp enqueueTask:
-			(BlTaskAction new action: [ sp mouseProcessor handleLastMouseMove ]) ]
+			(BlTaskAction new action: [ sp mouseProcessor handleLastMouseMove ]) ]"
 ]
 
 { #category : #'event handling' }

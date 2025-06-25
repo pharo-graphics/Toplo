@@ -51,3 +51,13 @@ SkinDemo3ButtonSkin >> leavedSkinEvent: anEvent [
 				 ifTrue: [ elt valueOfTokenNamed: #'background-clicked' ]
 				 ifFalse: [ elt valueOfTokenNamed: #'background-not-clicked' ]) ]
 ]
+
+{ #category : #'event handling' }
+SkinDemo3ButtonSkin >> leftSkinEvent: anEvent [
+
+	super leftSkinEvent: anEvent.
+	anEvent elementDo: [ :elt |
+		elt background: (elt clicked
+				 ifTrue: [ elt valueOfTokenNamed: #'background-clicked' ]
+				 ifFalse: [ elt valueOfTokenNamed: #'background-not-clicked' ]) ]
+]

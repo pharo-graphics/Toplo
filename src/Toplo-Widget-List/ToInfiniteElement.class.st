@@ -18,6 +18,12 @@ ToInfiniteElement class >> onListElement: aListElement [
 ]
 
 { #category : #'private - commands' }
+ToInfiniteElement >> addedDataSourceCommand: aCommand [
+
+	self requestLayout
+]
+
+{ #category : #'private - commands' }
 ToInfiniteElement >> applyDataSourceFilterCommand: aDataSourceCommand [
 
 	listElement applyDataSourceFilterCommand: aDataSourceCommand
@@ -48,8 +54,7 @@ ToInfiniteElement >> cleanUpRecyclerAt: anIndex [
 { #category : #layout }
 ToInfiniteElement >> consumeFinalStepCommands [
 
-	dataSourceManager consumeFinalStepCommandsIn: self.
-
+	dataSourceManager consumeFinalStepCommandsIn: self
 ]
 
 { #category : #'t - infinite accessing' }
@@ -106,7 +111,11 @@ ToInfiniteElement >> defaultScrollFlinger [
 ToInfiniteElement >> dispatchLayoutFinalStep [
 
 	super dispatchLayoutFinalStep.
-	self consumeFinalStepCommands
+	self assert: dataSourceManager hasCommands not.
+	self consumeFinalStepCommands.
+	"If an element bounds change then the selection bounds may be obsolete"
+	self boundsUpdaterHasChanges ifTrue: [ listElement updateAllSelections ].
+
 ]
 
 { #category : #'t - list node holder' }
@@ -132,7 +141,9 @@ ToInfiniteElement >> initialize [
 
 	super initialize.
 	self addEventHandler: ToListInnerElementEventHandler new.
-	self constraintsDo: [ :c | c horizontal matchParent. c vertical matchParent ]
+	self constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical matchParent ]
 ]
 
 { #category : #'t - infinite accessing' }
@@ -181,6 +192,13 @@ ToInfiniteElement >> nodes [
 ]
 
 { #category : #'t - list node holder' }
+ToInfiniteElement >> nodesDetect: aBlock [
+
+	self nodesDo: [ :node | (aBlock value: node) ifTrue: [ ^ node ] ].
+	^ nil
+]
+
+{ #category : #'t - list node holder' }
 ToInfiniteElement >> nodesDo: aBlock [
 
 	self childrenDo: [ :node | aBlock value: node ]
@@ -199,12 +217,6 @@ ToInfiniteElement >> nodesWithIndexDo: aBlock [
 
 	self nodesDo: [ :node |
 		aBlock value: node value: node holder position ]
-]
-
-{ #category : #'hooks - scrolling' }
-ToInfiniteElement >> onScrolled: aPoint [
-
-	listElement onScrolled: aPoint
 ]
 
 { #category : #'t - list node holder' }

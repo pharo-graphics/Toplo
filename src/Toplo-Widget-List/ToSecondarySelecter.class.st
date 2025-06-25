@@ -7,6 +7,8 @@ Class {
 { #category : #initialization }
 ToSecondarySelecter >> defaultCommandApplicationStrategy [
 
-	^ ToDataSourceCommandApplicationStrategy new
-	"^ ToImmediateCommandApplicationStrategy new"
+	"Should not return a ToDataSourceCommandApplicationStrategy to avoid infinite 
+	recursion because the last mouse move event is replayed when layout is done 
+	in ToInfiniteElement>>onLayoutDone (and the secondary selection is updated when mouse move ) "
+	^ BlImmediateCommandApplicationStrategy new
 ]

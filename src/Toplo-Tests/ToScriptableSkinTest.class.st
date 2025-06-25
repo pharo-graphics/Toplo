@@ -44,13 +44,13 @@ ToScriptableSkinTest >> testOnInstalledSkinEvent [
 ]
 
 { #category : #tests }
-ToScriptableSkinTest >> testOnLeavedSkinEvent [
+ToScriptableSkinTest >> testOnLeftSkinEvent [
 
 	| te skin |
 	te := ToElement new.
 	te size: 100 asPoint.
 	skin := ToScriptableSkin new.
-	skin onLeavedSkinEvent: [ :e :evt |
+	skin onLeftSkinEvent: [ :e :evt |
 		e size: 30 asPoint.
 		e background: Color yellow ].
 	te defaultRawSkin: skin.

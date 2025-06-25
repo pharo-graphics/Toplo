@@ -8,40 +8,20 @@ Class {
 }
 
 { #category : #tests }
-TToElementWithPlaceholderTest >> testCurrentPlaceholderLayer [
-
-	self testHidePlaceholder 
-]
-
-{ #category : #tests }
 TToElementWithPlaceholderTest >> testHidePlaceholder [
 
 	| e ph |
 	e := ToElementWithPlaceholderForTest new size: 100 asPoint.
-	e rawPlaceholderBuilder: [ :thePlaceholder :theElement |
+	e placeholderBuilder: [ :thePlaceholder :theElement |
 		thePlaceholder addChild: (BlElement new id: #child) ].
 	e showPlaceholder.
-	ph := e currentPlaceholderLayer.
+	ph := e placeholderLayer.
 	self assert: ph notNil.
 	self assert: ph parent identicalTo: e.
 	e hidePlaceholder.
-	self assert: e currentPlaceholderLayer isNil.
-	self assert: ph parent isNil.
-]
-
-{ #category : #tests }
-TToElementWithPlaceholderTest >> testIsPlaceholderVisible [
-
-	| e |
-	e := ToElementWithPlaceholderForTest new size: 100 asPoint.
-	e rawPlaceholderBuilder: [ :thePlaceholder :theElement |
-		thePlaceholder addChild: (BlElement new id: #child) ].
-	self deny: e isPlaceholderVisible.
-	e showPlaceholder.
-	self assert: e isPlaceholderVisible.
-	e hidePlaceholder.
-	self deny: e isPlaceholderVisible.
-
+	self assert: e placeholderLayer notNil.
+	self deny: e placeholderLayer isVisible.
+	self assert: ph parent identicalTo: e.
 ]
 
 { #category : #tests }
@@ -49,26 +29,18 @@ TToElementWithPlaceholderTest >> testNewPlaceholder [
 
 	| e |
 	e := ToElementWithPlaceholderForTest new.
-	self assert: (e newPlaceholder class inheritsFrom: BlOverlayElement)
+	self assert: (e newPlaceholder class inheritsFrom: ToOverlayElement)
 ]
 
 { #category : #tests }
 TToElementWithPlaceholderTest >> testPlaceholderBuilder [
 
-	| e builder |
-	e := self testRawPlaceholderBuilder.
-	builder := e rawPlaceholderBuilder.
+	| e |
+	e := ToElementWithPlaceholderForTest new size: 100 asPoint.
 	e placeholderBuilder: [ :thePlaceholder :theElement |
 		thePlaceholder addChild: (BlElement new id: #child) ].
-	self assert: builder ~~ e rawPlaceholderBuilder.
-	self assert: e rawPlaceholderBuilder notNil.
-	self assert: e  currentPlaceholderLayer isNil.
-	self assert: (e userData includesKey: #placeholderBuilder).
-	e showPlaceholder.
-	e placeholderBuilder: nil.
-	self assert: e rawPlaceholderBuilder isNil.
-	self assert: (e userData includesKey: #placeholderBuilder) not.
-	self assert: e  currentPlaceholderLayer isNil.
+	self assert: e placeholderLayer notNil.
+	self assert: e placeholderLayer firstChild id asSymbol equals: #child
 
 ]
 
@@ -77,7 +49,7 @@ TToElementWithPlaceholderTest >> testPlaceholderClass [
 
 	| e |
 	e := ToElementWithPlaceholderForTest new.
-	self assert: (e placeholderClass inheritsFrom: BlOverlayElement)
+	self assert: (e placeholderClass inheritsFrom: ToOverlayElement)
 ]
 
 { #category : #tests }
@@ -89,6 +61,12 @@ TToElementWithPlaceholderTest >> testPlaceholderElevation [
 ]
 
 { #category : #tests }
+TToElementWithPlaceholderTest >> testPlaceholderLayer [
+
+	self testHidePlaceholder 
+]
+
+{ #category : #tests }
 TToElementWithPlaceholderTest >> testPlaceholderString [
 
 	| e ph |
@@ -96,7 +74,7 @@ TToElementWithPlaceholderTest >> testPlaceholderString [
 	e placeholderString: 'Enter text...'.
 	e showPlaceholder.
 	
-	ph := e currentPlaceholderLayer.
+	ph := e placeholderLayer.
 	self assert: (ph children first text asString) equals: 'Enter text...'.
 ]
 
@@ -108,44 +86,8 @@ TToElementWithPlaceholderTest >> testPlaceholderText [
 	e placeholderText: 'Enter text...'.
 	e showPlaceholder.
 	
-	ph := e currentPlaceholderLayer.
+	ph := e placeholderLayer.
 	self assert: (ph children first text asString) equals: 'Enter text...'.
-]
-
-{ #category : #tests }
-TToElementWithPlaceholderTest >> testPlaceholderText2 [
-
-	| e ph builder |
-	e := self testRawPlaceholderBuilder.
-	e placeholderText: 'Enter text...'.
-	e showPlaceholder.
-
-	ph := e currentPlaceholderLayer.
-	self assert: ph children first text asString equals: 'Enter text...'.
-
-	builder := e rawPlaceholderBuilder.
-	self assert: builder identicalTo: e rawPlaceholderBuilder.
-	self assert: e rawPlaceholderBuilder notNil.
-	self assert: e currentPlaceholderLayer notNil.
-	self assert: (e userData includesKey: #placeholderBuilder).
-	e placeholderText: nil.
-	self assert: e rawPlaceholderBuilder isNil.
-	self assert: e currentPlaceholderLayer isNil.
-	self assert: (e userData includesKey: #placeholderBuilder) not
-]
-
-{ #category : #tests }
-TToElementWithPlaceholderTest >> testRawPlaceholderBuilder [
-
-	| e |
-	e := ToElementWithPlaceholderForTest new.
-	self assert: e rawPlaceholderBuilder isNil.
-	e rawPlaceholderBuilder: [ :thePlaceholder :theElement |
-		thePlaceholder addChild: (BlElement new id: #child) ].
-	self assert: e rawPlaceholderBuilder notNil.
-	self assert: (e rawPlaceholderBuilder isKindOf: BlockClosure ).
-	^ e
-
 ]
 
 { #category : #tests }
@@ -153,17 +95,17 @@ TToElementWithPlaceholderTest >> testShowPlaceholder [
 
 	| e ph |
 	e := ToElementWithPlaceholderForTest new size: 100 asPoint.
-	e rawPlaceholderBuilder: [ :thePlaceholder :theElement |
+	e placeholderBuilder: [ :thePlaceholder :theElement |
 		thePlaceholder addChild: (BlElement new id: #child) ].
 	e showPlaceholder.
-	ph := e currentPlaceholderLayer.
+	ph := e placeholderLayer.
 	self assert: ph notNil.
 	self assert: ph parent identicalTo: e.
 	e forceLayout.
 	self assert: ph bounds inSpace bounds equals: e bounds inSpace bounds.
 	self assert: ph bounds extent equals: 100 asPoint.
 	e showPlaceholder.
-	self assert: e currentPlaceholderLayer identicalTo: ph.
+	self assert: e placeholderLayer identicalTo: ph.
 	space root addChild: e.
 	self assert: ph space identicalTo: e space.
 	e position: 200@100.

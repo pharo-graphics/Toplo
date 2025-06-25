@@ -13,5 +13,7 @@ Class {
 ToGeneralButtonMenuItem >> initialize [
 
 	super initialize.
+	" in a menu an action is launch with a mouse up event "
+	self clickEventClass: BlMouseUpEvent.
 	self initializeAsClickable
 ]

@@ -58,7 +58,7 @@ ToElementTest >> testApplySkinInstallerOnFirstRequestWithPostponedRequest [
 	e := ToElement new.
 	e applySkinInstallerOnFirstRequest: true.
 	e ensuredSkinManager requestInstallSkinIn: e.
-	" request install skin should be posponed here "
+	" request install skin should be postponed here "
 	self assert: e skinManager hasPostponedInstallSkinHandler.
 	self assert: e skinManager skinRequestCount equals: 0.
 	self assert: e skinManager skinInstaller isNil.
@@ -367,7 +367,7 @@ ToElementTest >> testSkinInstallRequestCount [
 	e applySkinInstallerOnFirstRequest: false.
 	self assert: e skinManager skinRequestCount equals: 0.
 	e ensuredSkinManager requestInstallSkinIn: e.
-	" request install skin should be posponed here "
+	" request install skin should be postponed here "
 	self assert: e skinManager hasPostponedInstallSkinHandler.
 	self assert: e skinManager skinRequestCount equals: 0.
 	space root addChild: e.

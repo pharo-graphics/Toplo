@@ -59,6 +59,13 @@ ToSwitchIconSkin >> leavedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToSwitchIconSkin >> leftSkinEvent: anEvent [
+
+	super leftSkinEvent: anEvent.
+	anEvent elementDo: [ :e |  ]
+]
+
+{ #category : #'event handling' }
 ToSwitchIconSkin >> switchWithAnimation: aSwitchButton [
 
 	| anim posAnim colorAnim color toPos |

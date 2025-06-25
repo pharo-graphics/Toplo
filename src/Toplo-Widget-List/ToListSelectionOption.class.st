@@ -32,12 +32,6 @@ ToListSelectionOption >> beneath: aBoolean [
 	representationOption removeSelectionContainer 
 ]
 
-{ #category : #'private - selection updating' }
-ToListSelectionOption >> currentSelectionRepresentationsFrom: aListElement withSelectionModel: aSelectionModel [
-
-	^ representationOption currentSelectionRepresentationsFrom: aListElement withSelectionModel: aSelectionModel
-]
-
 { #category : #accessing }
 ToListSelectionOption >> elementFactory [
 
@@ -50,12 +44,6 @@ ToListSelectionOption >> elementFactory: aSelectionElementFactoryValuable [
 	elementFactory := aSelectionElementFactoryValuable.
 	aSelectionElementFactoryValuable ifNil: [
 		representationOption removeSelectionContainer ]
-]
-
-{ #category : #'private - selection updating' }
-ToListSelectionOption >> forceRefreshSelectionIn: aListElement withSelectionModel: aSelectionModel [
-
-	representationOption forceRefreshSelectionIn: aListElement withSelectionModel: aSelectionModel
 ]
 
 { #category : #accessing }
@@ -163,6 +151,12 @@ ToListSelectionOption >> representation: aRepresentationOption [
 	representationOption := aRepresentationOption.
 	aRepresentationOption selectionOption: self.
 	representationOption removeSelectionContainer 
+]
+
+{ #category : #accessing }
+ToListSelectionOption >> requestNewRepresentation [
+
+	representationOption requestNewRepresentation
 ]
 
 { #category : #accessing }

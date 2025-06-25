@@ -1,7 +1,7 @@
 Class {
 	#name : #ToCheckableBarElementEventHandler,
 	#superclass : #ToListElementEventHandler,
-	#category : #'Toplo-Widget-List-ItemList'
+	#category : #'Toplo-Widget-List-ItemBar'
 }
 
 { #category : #'event handling' }
@@ -18,5 +18,15 @@ ToCheckableBarElementEventHandler >> checkableGroupChangedEvent: anEvent [
 { #category : #'api - accessing' }
 ToCheckableBarElementEventHandler >> eventsToHandle [
 
-	^ super eventsToHandle , { ToCheckableGroupChangedEvent }
+	^ super eventsToHandle , { ToListPrimarySelectionChangedEvent. ToCheckableGroupChangedEvent }
+]
+
+{ #category : #'element handlers' }
+ToCheckableBarElementEventHandler >> listPrimarySelectionChangedEvent: anEvent [
+
+	| listElement |
+	listElement := anEvent currentTarget.
+	" check the checkable item element. does nothing if it is already checked "
+	anEvent selectedIndexes do: [ :idx |
+		(listElement dataAccessor at: idx) checked: true ]
 ]

@@ -9,19 +9,23 @@ ToMenuSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		(e isSubmenu or: [ e hasStamp: #'with-expand-button' ])
+		(e isSubmenu or: [ e showExpandIcon ])
 			ifTrue: [
-				| arrowTk arrowIm |
-				arrowTk := e isInline
+				| arrowIm |
+				arrowIm := e isInline
 					           ifTrue: [
 						           e isOpened
-							           ifTrue: [ #'submenu-arrow-up' ]
-							           ifFalse: [ #'submenu-arrow-down' ] ]
-					           ifFalse: [ #'submenu-arrow-right' ].
-				arrowIm := ToImage inner: (e valueOfTokenNamed: arrowTk).
+							           ifTrue: [ ToIconicArrowButton up ]
+							           ifFalse: [ ToIconicArrowButton down ] ]
+					           ifFalse: [
+						           e isSubmenu
+							           ifTrue: [ ToIconicArrowButton right ]
+							           ifFalse: [
+								           e isOpened
+									           ifTrue: [ ToIconicArrowButton up ]
+									           ifFalse: [ ToIconicArrowButton down ] ] ].
 				arrowIm
-					size: 18 asPoint;
-					innerImageColor: (e valueOfTokenNamed: #'color-text').
+					size: (e valueOfTokenNamed: #'iconic-arrow-breadth') asPoint.
 				e endElement addChild: arrowIm ]
 			ifFalse: [
 				(e hasIcon and: [ e hasLabel ])

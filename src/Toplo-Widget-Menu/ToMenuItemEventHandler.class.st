@@ -27,7 +27,7 @@ ToMenuItemEventHandler >> mouseEnterEvent: anEvent [
 	(anEvent anyButtonPressed and: [ anEvent currentTarget ~= target ])
 		ifTrue: [ ^ self ].
 	target isEnabled ifFalse: [ ^ self ].
-	target isMenu ifFalse: [ ^ self ].
+	"target isMenu ifFalse: [ ^ self ]."
 
 	target closeAllOtherPopupMenuWindows.
 	target menuPane

@@ -144,8 +144,6 @@ ToSingleSelectInnerContainerElement >> refreshFromPopupListSelection [
 		                 ifTrue: [ 0 ]
 		                 ifFalse: [ selectionModel firstIndex ].
 
-	selectedIndex isZero ifFalse: [
-		self filterTextField text: '' asRopedText ].
 	currentSelectedIndex = selectedIndex ifTrue: [ ^ self ].
 	currentSelectedIndex := selectedIndex.
 

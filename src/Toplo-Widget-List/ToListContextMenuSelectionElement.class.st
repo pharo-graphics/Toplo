@@ -15,6 +15,7 @@ ToListContextMenuSelectionElement >> initialize [
 	inner := ToElement new
 		         id: #inner;
 		         yourself.
+	inner outskirts: BlOutskirts inside.
 	inner matchParent.
 	self addChild: inner
 ]

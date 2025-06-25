@@ -950,10 +950,10 @@ ToExperiments class >> example_frame [
 	bar addEventHandler: pullHandler.
 	
 	close := ToButton new iconImage: Smalltalk ui theme windowCloseForm; labelText: 'close'.
-	close newClickAction: [ frame removeFromParent ].
+	close clickAction: [ frame removeFromParent ].
 	close background: Color transparent.
 	expand := ToButton new iconImage: Smalltalk ui theme windowMaximizeForm.
-	expand newClickAction: [ 
+	expand clickAction: [ 
 		frame 
 			position: 0@0; 
 			size: frame parent size ].	
@@ -1506,7 +1506,7 @@ ToExperiments class >> labelWithForegroundWithGradient [
 	<script>
 	| l |
 	l := ToAttributedLabel new.
-	l foreground: ((BlLinearGradientPaint direction: 1 @ 1)
+	l background: ((BlLinearGradientPaint direction: 0 @ 1)
 				from: Color red
 				to: Color blue).
 	l text: 'AZERTYUIOP'.
@@ -1532,8 +1532,8 @@ ToExperiments class >> newTreeElement [
 		hasChildren ifTrue: [
 			| arrowTk |
 			arrowTk := anExWrapper isExpanded
-				           ifTrue: [ #'submenu-arrow-down' ]
-				           ifFalse: [ #'submenu-arrow-right' ].
+				           ifTrue: [ #'iconic-arrow-down' ]
+				           ifFalse: [ #'iconic-arrow-right' ].
 			arrowIcon innerImage: (tree valueOfTokenNamed: arrowTk) ].
 		arrowIcon
 			size: 18 asPoint;
@@ -1551,12 +1551,12 @@ ToExperiments class >> newTreeElement [
 		triplet startInterspace: 10.
 		triplet startElement: iconContainer.
 		hasChildren ifTrue: [
-			arrowButton newClickAction: [ 
+			arrowButton clickAction: [ 
 				| newArrowTk |
 				anExWrapper toggle.
 				newArrowTk := anExWrapper isExpanded
-					              ifTrue: [ #'submenu-arrow-down' ]
-					              ifFalse: [ #'submenu-arrow-right' ].
+					              ifTrue: [ #'iconic-arrow-down' ]
+					              ifFalse: [ #'iconic-arrow-right' ].
 				arrowIcon innerImage: (tree valueOfTokenNamed: newArrowTk) ] ].
 		triplet hMatchParent.
 		node addChild: triplet ].
@@ -1580,9 +1580,9 @@ ToExperiments class >> newTreePane [
 	menuPane addItem: showStatisticsBtn.
 	menuPane addItem: disabox.
 
-	inspectBtn newClickAction: [ tree space root inspect ].
-	disabox newClickAction: [ tree disabled: disabox isChecked ].
-	showStatisticsBtn newClickAction: [ 
+	inspectBtn clickAction: [ tree space root inspect ].
+	disabox clickAction: [ tree disabled: disabox isChecked ].
+	showStatisticsBtn clickAction: [ 
 		tree space showStatisticsWindow ].
 
 	pane := ToPane vertical matchParent.

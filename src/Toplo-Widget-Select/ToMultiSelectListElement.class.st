@@ -14,6 +14,12 @@ ToMultiSelectListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 ]
 
 { #category : #initialization }
+ToMultiSelectListElement >> defaultEventHandler [
+
+	^ ToMultiSelectListElementEventHandler new
+]
+
+{ #category : #initialization }
 ToMultiSelectListElement >> defaultNodeManagerClass [ 
 
 	^ ToMultiSelectListNodeManager 
@@ -30,11 +36,7 @@ ToMultiSelectListElement >> hideSelection [
 ]
 
 { #category : #initialization }
-ToMultiSelectListElement >> initialize [
+ToMultiSelectListElement >> listNodeClass [
 
-	super initialize.
-	self primarySelectionMode makeDisabledUnselectable: true.
-	self primarySelectionMode selectOnPressed: true.
-	self primarySelectionMode requestFocusOnPressed: false.
-	self nodeFactory: [ :holder | ToMultiSelectListNode new ]
+	^ ToMultiSelectListNode
 ]

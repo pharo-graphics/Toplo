@@ -2,25 +2,12 @@ Class {
 	#name : #ToListPrimarySelectionMode,
 	#superclass : #ToAbstractListSelectionMode,
 	#instVars : [
-		'requestFocusOnPressed',
-		'preserveSelectionOnFocused',
 		'selectOnPressed',
 		'deselectOnPressed',
 		'multiple'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
-
-{ #category : #testing }
-ToListPrimarySelectionMode >> allowRequestFocusOnMouseDown [
-
-	| max |
-	self isDisabled ifTrue: [ ^ self requestFocusOnPressed ].
-	max := self maxSelectedIndexesForSelectionPreserving.
-	self selectedIndexesCount > max ifTrue: [
-		self preserveSelectionOnFocused ifTrue: [ ^ false ] ].
-	^ self requestFocusOnPressed
-]
 
 { #category : #accessing }
 ToListPrimarySelectionMode >> beMultipleSelection [
@@ -61,8 +48,6 @@ ToListPrimarySelectionMode >> deselectOnPressed: aBoolean [
 ToListPrimarySelectionMode >> initialize [
 
 	super initialize.
-	requestFocusOnPressed := true.
-	preserveSelectionOnFocused := true.
 	selectOnPressed := false.
 	deselectOnPressed := false.
 	multiple := true
@@ -81,7 +66,7 @@ ToListPrimarySelectionMode >> isPrimary [
 ]
 
 { #category : #testing }
-ToListPrimarySelectionMode >> maxSelectedIndexesForSelectionPreserving [
+ToListPrimarySelectionMode >> minSelectedIndexesCountForSelectionPreserving [
 
 	^ self isMultipleSelection
 		       ifTrue: [ 1 ]
@@ -124,7 +109,7 @@ ToListPrimarySelectionMode >> newSelectionModelIn: aListElement [
 { #category : #accessing }
 ToListPrimarySelectionMode >> onAddedNode: aNode [
 
-	aNode clickEventHandlerClasses do: [ :cls |
+	aNode clickEventHandlerClass ifNotNil: [ :cls |
 		aNode addEventHandler: cls new ]
 ]
 
@@ -173,33 +158,8 @@ ToListPrimarySelectionMode >> onClickEvent: anEvent onNode: aNode [
 ToListPrimarySelectionMode >> onRemovedNode: aNode [
 
 	(aNode eventDispatcher handlers select: [ :handler |
-		 aNode clickEventHandlerClasses anySatisfy: [ :cls |
-			 handler class = cls ] ]) do: [ :handler |
+		 handler class = aNode clickEventHandlerClass ]) do: [ :handler |
 		aNode removeEventHandler: handler ]
-]
-
-{ #category : #accessing }
-ToListPrimarySelectionMode >> preserveSelectionOnFocused [
-
-	^ preserveSelectionOnFocused
-]
-
-{ #category : #accessing }
-ToListPrimarySelectionMode >> preserveSelectionOnFocused: aBoolean [
-
-	preserveSelectionOnFocused := aBoolean
-]
-
-{ #category : #accessing }
-ToListPrimarySelectionMode >> requestFocusOnPressed [
-
-	^ requestFocusOnPressed
-]
-
-{ #category : #accessing }
-ToListPrimarySelectionMode >> requestFocusOnPressed: aBoolean [
-
-	requestFocusOnPressed := aBoolean 
 ]
 
 { #category : #accessing }

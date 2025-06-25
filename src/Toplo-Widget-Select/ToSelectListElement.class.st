@@ -7,6 +7,18 @@ Class {
 	#category : #'Toplo-Widget-Select-List'
 }
 
+{ #category : #initialization }
+ToSelectListElement >> defaultEventHandler [
+
+	^ ToSelectListElementEventHandler new
+]
+
+{ #category : #initialization }
+ToSelectListElement >> defaultNodeManagerClass [
+
+	^ ToSelectListNodeManager  
+]
+
 { #category : #accessing }
 ToSelectListElement >> groupSelecter [
 
@@ -29,11 +41,19 @@ ToSelectListElement >> groupSelectionModel [
 ToSelectListElement >> initialize [
 
 	super initialize.
+	
+	self nodeFactory: [ :holder | self listNodeClass new ].
 	self newGroupSelectionMode onInstalledIn: self.
-	self primarySelectionMode selectOnPressed: true.
+	self flag: #ToBeChecked.
+	"self primarySelectionMode selectOnPressed: true."
 	self primarySelectionMode deselectOnPressed: true.
-	self primarySelectionMode requestFocusOnPressed: false.
 	self primarySelectionMode makeDisabledUnselectable: true
+]
+
+{ #category : #initialization }
+ToSelectListElement >> listNodeClass [
+
+	^ ToSelectListNode
 ]
 
 { #category : #accessing }

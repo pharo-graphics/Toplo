@@ -4,7 +4,7 @@ Trait {
 		'exactItemWidth',
 		'exactItemHeight'
 	],
-	#category : #'Toplo-Widget-List-ItemList'
+	#category : #'Toplo-Widget-List-Core'
 }
 
 { #category : #'t - item list - adding/removing' }
@@ -48,10 +48,10 @@ TToItemList >> addItem: anItem beforeIndex: anInteger [
 	self onAddedItem: anItem
 ]
 
-{ #category : #'t - item list - accessing' }
-TToItemList >> defaultNodeManagerClass [
+{ #category : #'t - item list - configuration' }
+TToItemList >> applyItemListConfiguration [
 
-	^ ToItemBarNodeManager
+	self nodesDo: [ :node | node applyWidgetConfiguration ]
 ]
 
 { #category : #'t - item list - hidden/visible' }

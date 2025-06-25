@@ -30,6 +30,12 @@ ToSelectionModel >> allIndexesDo: aValuable [
 ]
 
 { #category : #'api - testing' }
+ToSelectionModel >> containsAnyOfInterval: anInterval [
+
+	^ underlyingModel containsAnyOfInterval: anInterval
+]
+
+{ #category : #'api - testing' }
 ToSelectionModel >> containsIndex: anIndex [
 
 	^ underlyingModel containsIndex: anIndex
@@ -312,6 +318,7 @@ ToSelectionModel >> shift: aGap from: aStartIndex [
 	| from to prevIntervals lastIndex |
 	aGap isZero ifTrue: [ ^ self ].
 	self isEmpty ifTrue: [ ^ self ].
+	"'ToSelectionModel>>shift: ' trace. aGap trace. ' from: ' trace. aStartIndex traceCr."
 
 	" 1 - keep selected intervals to reselect them accordingly at 2"
 	prevIntervals := self selectedIndexesIntervals.
@@ -322,8 +329,9 @@ ToSelectionModel >> shift: aGap from: aStartIndex [
 		ifTrue: [
 			from := aStartIndex + aGap.
 			to := aStartIndex.
-			(lastIndex >= 0 and: [ from <= lastIndex ]) ifTrue: [
-				underlyingModel removeIntervalFromIndex: from + 1 toIndex: lastIndex ] ]
+			(lastIndex >= 0 and: [ from <= lastIndex ]) ifTrue: [ 
+				"'ToSelectionModel>>shift:from: from = ' trace. from trace. ' to = ' trace. to trace. ' lastIndex = ' trace. lastIndex traceCr."
+				underlyingModel removeIntervalFromIndex: to toIndex: lastIndex ] ]
 		ifFalse: [
 			from := aStartIndex.
 			to := aStartIndex + aGap min: lastIndex.
@@ -338,12 +346,12 @@ ToSelectionModel >> shift: aGap from: aStartIndex [
 			ifTrue: [
 				first := interval first max: aStartIndex.
 				last := interval last.
-				underlyingModel selectIndex: first + aGap to: last + aGap ] ].
-	
+				underlyingModel selectIndex: ((first + aGap) max: 1) to: last + aGap ] ].
+
 	" remove selection outside the valid selection interval (1 to: self itemCount) "
 	lastIndex := underlyingModel lastIndex.
 	lastIndex > self itemCount ifFalse: [ ^ self ].
-	underlyingModel deselectIndex: self itemCount + 1 to: lastIndex.
+	underlyingModel deselectIndex: self itemCount + 1 to: lastIndex
 ]
 
 { #category : #accessing }

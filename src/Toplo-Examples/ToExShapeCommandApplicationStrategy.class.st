@@ -1,6 +1,6 @@
 Class {
 	#name : #ToExShapeCommandApplicationStrategy,
-	#superclass : #ToQueueBasedCommandApplicationStrategy,
+	#superclass : #BlQueueBasedCommandApplicationStrategy,
 	#category : #'Toplo-Examples-Experiments'
 }
 

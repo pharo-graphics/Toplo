@@ -26,3 +26,10 @@ ToIconicRemoveButtonSkin >> leavedSkinEvent: anEvent [
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e | e border: Color transparent ]
 ]
+
+{ #category : #'event handling' }
+ToIconicRemoveButtonSkin >> leftSkinEvent: anEvent [
+
+	super leftSkinEvent: anEvent.
+	anEvent elementDo: [ :e | e border: Color transparent ]
+]

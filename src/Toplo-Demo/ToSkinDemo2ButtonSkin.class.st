@@ -47,3 +47,13 @@ ToSkinDemo2ButtonSkin >> leavedSkinEvent: anEvent [
 				 ifTrue: [ Color lightGreen ]
 				 ifFalse: [ Color lightRed ]) ]
 ]
+
+{ #category : #'event handling' }
+ToSkinDemo2ButtonSkin >> leftSkinEvent: anEvent [
+
+	super leftSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e background: (e clicked
+				 ifTrue: [ Color lightGreen ]
+				 ifFalse: [ Color lightRed ]) ]
+]

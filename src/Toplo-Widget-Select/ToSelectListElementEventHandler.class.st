@@ -1,33 +1,42 @@
 Class {
 	#name : #ToSelectListElementEventHandler,
-	#superclass : #BlCustomEventHandler,
-	#instVars : [
-		'select'
-	],
+	#superclass : #ToListElementEventHandler,
 	#category : #'Toplo-Widget-Select-List'
 }
 
 { #category : #'api - accessing' }
 ToSelectListElementEventHandler >> eventsToHandle [
 
-	^ { ToSieveSelectionChangedEvent. ToInfiniteDataSourceEmptinessChangedEvent }
+	^ super eventsToHandle , {
+		  ToSieveSelectionChangedEvent.
+		  ToInfiniteDataSourceEmptinessChangedEvent }
 ]
 
-{ #category : #'element handlers' }
+{ #category : #'infinite event handling' }
 ToSelectListElementEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEvent [
 	" have to refresh the select bar here (see issue #252, https://github.com/pharo-graphics/Toplo/issues/252) "
 
-	select innerElement refreshFromPopupListSelection
+	| listElement |
+	super infiniteDataSourceEmptinessChangedEvent: anEvent.
+	listElement := anEvent currentTarget.
+	listElement selectElement innerElement refreshFromPopupListSelection
 ]
 
-{ #category : #accessing }
-ToSelectListElementEventHandler >> select: aSelect [
+{ #category : #'mouse handlers' }
+ToSelectListElementEventHandler >> mouseUpEvent: anEvent [
 
-	select := aSelect
+	| listElement selectElement |
+	super mouseUpEvent: anEvent.
+	listElement := anEvent currentTarget.
+	selectElement := listElement selectElement.
+	selectElement closeOnPicking ifTrue: [
+		listElement postponeAction: [ selectElement currentPopupWindow close ] ]
 ]
 
 { #category : #'element handlers' }
 ToSelectListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
 
-	select onSelectionChangedInPopupListElement: anEvent
+	| listElement |
+	listElement := anEvent currentTarget.
+	listElement selectElement onSelectionChangedInPopupListElement: anEvent
 ]

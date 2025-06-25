@@ -11,7 +11,7 @@ ToSkinEventActionTest >> testCanReceiveEvent [
 	action := ToSkinEventAction new.
 	action eventClass: ToHoveredSkinEvent.
 	self assert: (action canReceiveEvent: ToHoveredSkinEvent new).
-	self deny: (action canReceiveEvent: ToLeavedSkinEvent new)
+	self deny: (action canReceiveEvent: ToLeftSkinEvent new)
 ]
 
 { #category : #tests }
@@ -44,7 +44,7 @@ ToSkinEventActionTest >> testReceiveEvent [
 	self assert: w background paint color equals: Color red.
 	action receiveEvent: evt.
 	self assert: w background paint color equals: Color blue.
-	evt := ToLeavedSkinEvent new currentTarget: w.
+	evt := ToLeftSkinEvent new currentTarget: w.
 	action receiveEvent: evt.
 	self assert: w background paint color equals: Color blue
 

@@ -3,15 +3,21 @@ Class {
 	#superclass : #ToPopupWindowManager,
 	#instVars : [
 		'listElement',
-		'sieve'
+		'sieve',
+		'maxHeightPolicy'
 	],
-	#category : #'Toplo-Widget-Select-List'
+	#category : #'Toplo-Widget-Select-manager'
 }
 
-{ #category : #'api - hooks' }
-ToSelectPopupManager >> defaultListElementEventHandler [ 
+{ #category : #'window handling' }
+ToSelectPopupManager >> checkCloseWindowOnPickingEvent: anEvent [
+	" don't autoclose if mouse up on a filter textfield "
 
-	^ ToSelectListElementEventHandler new
+	| target |
+	target := anEvent target.
+	target = anchorElement filterTextField ifTrue: [ ^ self ].
+	(target allParentsInclude: anchorElement filterTextField) ifTrue: [ ^ self ].
+	super checkCloseWindowOnPickingEvent: anEvent
 ]
 
 { #category : #initialization }
@@ -58,15 +64,24 @@ ToSelectPopupManager >> listElementClass [
 ]
 
 { #category : #accessing }
-ToSelectPopupManager >> maxHeight [
+ToSelectPopupManager >> maxHeight: aNumber [
 
-	^ listElement maxHeight
+	self maxHeightPolicy: (ToSelectPopupExactMaxHeightPolicy new
+	maxHeight: aNumber;
+	yourself)
 ]
 
 { #category : #accessing }
-ToSelectPopupManager >> maxHeight: aNumber [
+ToSelectPopupManager >> maxHeightPolicy [
 
-	listElement maxHeight: aNumber
+	^ maxHeightPolicy 
+]
+
+{ #category : #accessing }
+ToSelectPopupManager >> maxHeightPolicy: aPopupMaxHeightPolicy [
+
+	maxHeightPolicy := aPopupMaxHeightPolicy.
+	self anchorElement requestLayout
 ]
 
 { #category : #accessing }
@@ -112,14 +127,11 @@ ToSelectPopupManager >> onInstalledIn: anElement [
 	listElement selectElement: self anchorElement.
 	listElement focusability: BlFocusability none.
 
-	listElement addEventHandler: (self defaultListElementEventHandler
-			 select: self anchorElement;
-			 yourself).
-
+	self maxHeight:  self defaultMaxHeight.
 	self windowBuilder: [ :selectWin :request |
 		selectWin root addChild: self listElement ].
 
-	sieve := ToListElementSieve new.
+	sieve := listElement newSieve.
 	sieve onInstalledIn: listElement
 ]
 
@@ -150,4 +162,10 @@ ToSelectPopupManager >> popupWindowClass [
 ToSelectPopupManager >> sieve [ 
 
 	^ sieve
+]
+
+{ #category : #accessing }
+ToSelectPopupManager >> withMatchParentMaxHeight [
+
+	self maxHeightPolicy: ToSelectPopupMatchParentMaxHeightPolicy new
 ]

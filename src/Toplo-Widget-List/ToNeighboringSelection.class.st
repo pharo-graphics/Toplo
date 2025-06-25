@@ -10,12 +10,9 @@ Class {
 { #category : #comparing }
 ToNeighboringSelection >> = other [
 
-	self class = other class ifFalse: [ ^ false ].
-	nodes size = other nodes size ifFalse: [ ^ false ].
-	1 to: nodes size do: [ :index |
-		(nodes at: index) = (other nodes at: index) ifFalse: [ ^ false ] ].
-
-	^ true
+	super = other ifFalse: [ ^ false ].
+	^ nodes = other nodes and: [
+				  preComputedBounds = other preComputedBounds ]
 ]
 
 { #category : #comparing }

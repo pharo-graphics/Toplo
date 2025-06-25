@@ -1,7 +1,7 @@
 Class {
 	#name : #ToCheckableBarNodeManager,
 	#superclass : #ToItemBarNodeManager,
-	#category : #'Toplo-Widget-List-ItemList'
+	#category : #'Toplo-Widget-List-ItemBar'
 }
 
 { #category : #initialization }
@@ -26,7 +26,7 @@ ToCheckableBarNodeManager >> defaultFakeDataItem [
 { #category : #'instance creation' }
 ToCheckableBarNodeManager >> newNodeForHolder: aNodeHolder [
 
-	^ ToCheckableNode new
+	^ ToBarCheckableNode new
 ]
 
 { #category : #initialization }

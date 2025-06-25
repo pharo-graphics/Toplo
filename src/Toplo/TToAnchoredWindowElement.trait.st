@@ -29,12 +29,11 @@ TToAnchoredWindowElement >> anchorRoot [
 TToAnchoredWindowElement >> checkLayoutStepOnLayout: aBounds context: aBlElementBoundsUpdateContext [
 
 	self layoutStep ifNotNil: [ :ls |
-		self layoutStep: (ls
-				 nextStepFor: self
-				 onEvent: self lastPopupEvent
-				 onLayout: aBounds
-				 context: aBlElementBoundsUpdateContext).
-		self layoutStep ifNotNil: [ self requestLayout ] ]
+			self layoutStep: (ls
+					 nextStepFor: self
+					 onEvent: self lastPopupEvent
+					 onLayout: aBounds
+					 context: aBlElementBoundsUpdateContext) ]
 ]
 
 { #category : #'t - anchored window element - displaying' }
@@ -107,7 +106,8 @@ TToAnchoredWindowElement >> layoutStep: aLayoutStep [
 
 	aLayoutStep ifNil: [
 		^ self userData removeKey: #layoutStep ifAbsent: [  ] ].
-	self userData at: #layoutStep put: aLayoutStep
+	self userData at: #layoutStep put: aLayoutStep.
+	aLayoutStep onSetInAnchoredWindow: self
 ]
 
 { #category : #'t - anchored window element - accessing' }
@@ -196,8 +196,7 @@ TToAnchoredWindowElement >> preventPickOutsideClosing [
 { #category : #'t - anchored window element - private layout' }
 TToAnchoredWindowElement >> refreshLayout [
 
-	self layoutStep: self newStartLayoutStep.
-	self requestLayout
+	self layoutStep: self newStartLayoutStep
 ]
 
 { #category : #'t - anchored window element - displaying' }

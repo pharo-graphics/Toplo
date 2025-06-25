@@ -47,7 +47,7 @@ ToStillPressedPickOutsideEventFilter >> mouseUpEvent: anEvent [
 	holder removeEventFilter: self.
 	element dispatchEvent: (ToPickOutsideEvent new
 			 sourceEvent: anEvent;
-			 timestamp: element space time now;
+			 fillFromTime: element space time;
 			 yourself)
 ]
 

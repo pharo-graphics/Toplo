@@ -21,18 +21,19 @@ ToListSelectionElement >> boundsFromNodesIn: aListElement [
 	endBnds := first = last
 		           ifTrue: [ startBnds ]
 		           ifFalse: [
-			           (last measuredBounds inSpace inChild:
-				            aListElement innerElement) bounds ].
+				           (last measuredBounds inSpace inChild:
+					            aListElement innerElement) bounds ].
 	(aListElement isVertical and: [
 		 first constraints horizontal isMatchParent ])
 		ifTrue: [
-			| w |
-			w := aListElement innerElement bounds width.
-			corner := w @ endBnds corner y ]
+				| w |
+				w := aListElement innerElement bounds width.
+				corner := w @ endBnds corner y ]
 		ifFalse: [ corner := endBnds corner ].
 
 	^ Rectangle
 		  origin: (self positionFrom: startBnds origin in: aListElement)
+			  + listElement padding topLeft
 		  extent:
 		  (self sizeFrom: corner - startBnds origin in: aListElement)
 ]
@@ -42,6 +43,7 @@ ToListSelectionElement >> initialize [
 
 	super initialize.
 	self constraintsDo: [ :c | c ignoreByLayout ].
+	self focusability: BlFocusability ignore.
 	" let install the skin immediately to speed-up selection updating "
 	self applySkinInstallerOnFirstRequest: true.
 	" must prevent mouse events for the scrolling events "
@@ -95,7 +97,7 @@ ToListSelectionElement >> nodes: aNodeArray [
 { #category : #private }
 ToListSelectionElement >> positionFrom: aPoint in: aListElement [
 
-	^ aPoint
+	^ aPoint 
 ]
 
 { #category : #accessing }

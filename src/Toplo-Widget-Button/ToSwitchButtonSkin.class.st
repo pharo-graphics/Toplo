@@ -74,6 +74,17 @@ ToSwitchButtonSkin >> leavedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToSwitchButtonSkin >> leftSkinEvent: anEvent [
+
+	super leftSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e mouseCursor: Cursor normal.
+		e isEnabled ifTrue: [ 
+			e labelDo: [ :lab |
+				lab foreground: (e valueOfTokenNamed: #'color-text') ] ] ]
+]
+
+{ #category : #'event handling' }
 ToSwitchButtonSkin >> pressedSkinEvent: anEvent [
 
 	super pressedSkinEvent: anEvent.

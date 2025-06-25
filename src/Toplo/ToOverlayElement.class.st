@@ -6,20 +6,35 @@ Class {
 	#category : #'Toplo-Core-Overlay'
 }
 
+{ #category : #'api - attaching / detaching' }
+ToOverlayElement >> attachToParent: anElement [
+
+	self attachTo: anElement.
+	anElement addChild: self
+]
+
+{ #category : #initialization }
+ToOverlayElement >> initialize [ 
+
+	super initialize.
+	self initializeForToplo.
+	self preventMouseEvents 
+]
+
 { #category : #testing }
 ToOverlayElement >> isBeneath [ 
 
-	^ self elevation < referenceElement elevation
+	^ self elevation < overlayReferenceElement elevation
 ]
 
 { #category : #testing }
 ToOverlayElement >> isOver [
 
-	^ self elevation > referenceElement elevation
+	^ self elevation > overlayReferenceElement elevation
 ]
 
 { #category : #accessing }
 ToOverlayElement >> referenceElement [
 
-	^ referenceElement 
+	^ overlayReferenceElement 
 ]

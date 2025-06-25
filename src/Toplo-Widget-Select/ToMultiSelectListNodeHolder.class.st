@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMultiSelectListNodeHolder,
-	#superclass : #ToNodeHolder,
+	#superclass : #ToSelectListNodeHolder,
 	#category : #'Toplo-Widget-Select-List'
 }
 
@@ -8,10 +8,4 @@ Class {
 ToMultiSelectListNodeHolder >> isGroup [
 
 	^ self listElement groupSelectionModel containsIndex: self position
-]
-
-{ #category : #testing }
-ToMultiSelectListNodeHolder >> selectElement [
-
-	^ self listElement selectElement
 ]

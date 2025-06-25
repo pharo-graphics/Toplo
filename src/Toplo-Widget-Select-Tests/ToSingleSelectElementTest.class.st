@@ -67,6 +67,7 @@ ToSingleSelectElementTest >> testRemove [
 
 	| cb d1 d2 d3 |
 	cb := ToSingleSelectElement new.
+	space root addChild: cb.
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
@@ -75,9 +76,11 @@ ToSingleSelectElementTest >> testRemove [
 			d2.
 			d3 }.
 	cb selecter selectIndex: 1.
+	self waitTestingSpaces.
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement dataView children size equals: 1.
 	cb popupDataAccessor removeFirst.
+	self waitTestingSpaces.
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement dataView children isEmpty
 ]
@@ -87,6 +90,7 @@ ToSingleSelectElementTest >> testRemove1 [
 
 	| cb d1 d2 d3 |
 	cb := ToSingleSelectElement new.
+	space root addChild: cb.
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
@@ -98,6 +102,7 @@ ToSingleSelectElementTest >> testRemove1 [
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement dataView children size equals: 1.
 	cb popupDataAccessor removeAt: 1.
+	self waitTestingSpaces.
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement dataView children isEmpty
 ]
@@ -107,6 +112,7 @@ ToSingleSelectElementTest >> testRemove2 [
 
 	| cb d1 d2 d3 |
 	cb := ToSingleSelectElement new.
+	space root addChild: cb.
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
@@ -118,6 +124,7 @@ ToSingleSelectElementTest >> testRemove2 [
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement dataView children size equals: 1.
 	cb popupDataAccessor removeFrom:1 to: 1.
+	self waitTestingSpaces.
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement dataView children isEmpty
 ]
@@ -127,6 +134,7 @@ ToSingleSelectElementTest >> testRemove3 [
 
 	| cb d1 d2 d3 |
 	cb := ToSingleSelectElement new.
+	space root addChild: cb.
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
@@ -138,6 +146,7 @@ ToSingleSelectElementTest >> testRemove3 [
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement dataView children size equals: 1.
 	cb popupDataAccessor removeFrom:1 to: 2.
+	self waitTestingSpaces.
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement dataView children isEmpty
 ]
@@ -168,6 +177,7 @@ ToSingleSelectElementTest >> testRemove5 [
 
 	| cb d1 d2 d3 d4|
 	cb := ToSingleSelectElement new.
+	space root addChild: cb.
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
@@ -177,11 +187,14 @@ ToSingleSelectElementTest >> testRemove5 [
 			d2.
 			d3.
 			d4 }.
+	self waitTestingSpaces.
 	cb selecter selectIndex: 1.
+	self waitTestingSpaces.
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement dataView children size equals: 1.
 
 	cb popupDataAccessor removeFrom: 1 to: 3.
+	self waitTestingSpaces.
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement dataView children isEmpty
 ]

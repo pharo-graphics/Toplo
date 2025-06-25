@@ -3,8 +3,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'selectionOption',
-		'currentSelectionRepresentations',
-		'consecutiveRefreshCount'
+		'representation',
+		'newRepresentationRequested'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
@@ -27,25 +27,12 @@ ToListSelectionRepresentationOption class >> separate [
 	^ ToListSelectionWithSeparateElementOption new
 ]
 
-{ #category : #'nodes collecting' }
-ToListSelectionRepresentationOption >> currentSelectionRepresentationsFrom: aListElement withSelectionModel: aSelectionModel [
-
-	^ self subclassResponsibility 
-]
-
-{ #category : #'nodes collecting' }
-ToListSelectionRepresentationOption >> forceRefreshSelectionIn: aListElement withSelectionModel: aSelectionModel [
-
-	consecutiveRefreshCount := 0.
-	self refreshSelectionIn: aListElement withSelectionModel: aSelectionModel
-]
-
 { #category : #initialization }
 ToListSelectionRepresentationOption >> initialize [ 
 
 	super initialize.
-	consecutiveRefreshCount := 0.
-	currentSelectionRepresentations := #(  )
+	representation := ToEmptySelectionRepresentation new.
+	newRepresentationRequested := true
 ]
 
 { #category : #testing }
@@ -73,16 +60,25 @@ ToListSelectionRepresentationOption >> isSeparate [
 ]
 
 { #category : #'nodes collecting' }
-ToListSelectionRepresentationOption >> launchUpdateSelectionIn: aListElement withSelectionModel: aSelectionModel [
+ToListSelectionRepresentationOption >> newSelectionRepresentationArrayFrom: aListElement withSelectionModel: aSelectionModel [
 
-	| newRepresentations |
-	newRepresentations := self
-		                      currentSelectionRepresentationsFrom:
-		                      aListElement
-		                      withSelectionModel: aSelectionModel.
-	self removeSelectionRepresentationsIn: aListElement withSelectionModel: aSelectionModel.
-	currentSelectionRepresentations := newRepresentations.
-	^ true
+	^ self subclassResponsibility 
+]
+
+{ #category : #'nodes collecting' }
+ToListSelectionRepresentationOption >> nextSelectionRepresentationFrom: aListElement withSelectionModel: aSelectionModel [
+
+	| arr |
+	arr := self
+		       newSelectionRepresentationArrayFrom: aListElement
+		       withSelectionModel: aSelectionModel.
+	^ arr ifEmpty: [ ToEmptySelectionRepresentation new ] ifNotEmpty: [
+		  arr size > 1
+			  ifTrue: [
+				  ToCompositeSelectionRepresentation new
+					  representations: arr;
+					  yourself ]
+			  ifFalse: [ arr first ] ]
 ]
 
 { #category : #'private - selection updating' }
@@ -104,12 +100,8 @@ ToListSelectionRepresentationOption >> notifyNodesSelectedIn: aListElement [
 { #category : #'nodes collecting' }
 ToListSelectionRepresentationOption >> refreshSelectionIn: aListElement withSelectionModel: aSelectionModel [
 
-	consecutiveRefreshCount := consecutiveRefreshCount + 1.
-	consecutiveRefreshCount > 1 ifTrue: [
-		^ self ].
-	"self removeSelectionRepresentationsIn: aListElement."
 	self
-		launchUpdateSelectionIn: aListElement
+		updateSelectionIn: aListElement
 		withSelectionModel: aSelectionModel
 ]
 
@@ -117,14 +109,10 @@ ToListSelectionRepresentationOption >> refreshSelectionIn: aListElement withSele
 ToListSelectionRepresentationOption >> removeSelectionContainer [
 ]
 
-{ #category : #removing }
-ToListSelectionRepresentationOption >> removeSelectionRepresentationsIn: aListElement withSelectionModel: aSelectionModel [
+{ #category : #accessing }
+ToListSelectionRepresentationOption >> requestNewRepresentation [ 
 
-	currentSelectionRepresentations do: [ :g |
-		g onRemovedFromListElement: aListElement ].
-	currentSelectionRepresentations := #(  ).
-	" send deselected when selection element are removed to send DeselectedSkinEvent to nodes "
-	self notifyNodesDeselectedIn: aListElement
+	newRepresentationRequested := true
 ]
 
 { #category : #accessing }
@@ -139,16 +127,6 @@ ToListSelectionRepresentationOption >> selectionOption: aSelectionOption [
 	selectionOption := aSelectionOption 
 ]
 
-{ #category : #'nodes collecting' }
-ToListSelectionRepresentationOption >> selectionRepresentationsChangeWith: otherSelectionRepresentationArray [
-
-	currentSelectionRepresentations == otherSelectionRepresentationArray ifTrue: [ ^ false ].
-	currentSelectionRepresentations size ~= otherSelectionRepresentationArray size ifTrue: [ ^ true ].
-	currentSelectionRepresentations withIndexDo: [ :g :idx |
-		g = (otherSelectionRepresentationArray at: idx) ifFalse: [ ^ true ] ].
-	^ false
-]
-
 { #category : #accessing }
 ToListSelectionRepresentationOption >> triggerSelectionState [
 
@@ -158,8 +136,16 @@ ToListSelectionRepresentationOption >> triggerSelectionState [
 { #category : #'nodes collecting' }
 ToListSelectionRepresentationOption >> updateSelectionIn: aListElement withSelectionModel: aSelectionModel [
 
-	consecutiveRefreshCount := 0.
-	^ self
-		  launchUpdateSelectionIn: aListElement
-		  withSelectionModel: aSelectionModel
+	| rep |
+	rep := self
+		       nextSelectionRepresentationFrom: aListElement
+		       withSelectionModel: aSelectionModel.
+	newRepresentationRequested ifFalse: [
+		rep = representation ifTrue: [ ^ false ] ].
+	representation onRemovedFromListElement: aListElement.
+	" send deselected when selection element are removed to send DeselectedSkinEvent to nodes "
+	self notifyNodesDeselectedIn: aListElement.
+	representation := rep.
+	newRepresentationRequested := false.
+	^ true
 ]

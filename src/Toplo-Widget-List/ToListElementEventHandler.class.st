@@ -3,16 +3,15 @@ Class {
 	#superclass : #BlCustomEventHandler,
 	#traits : 'TToListElementEventHandler',
 	#classTraits : 'TToListElementEventHandler classTrait',
-	#instVars : [
-		'selectionRefreshTask'
-	],
 	#category : #'Toplo-Widget-List-Core'
 }
 
 { #category : #'element events handling' }
 ToListElementEventHandler >> addedToSpaceEvent: anEvent [
 
-	self showHidePlaceholderIn: anEvent currentTarget
+	| listElement |
+	listElement := anEvent currentTarget.
+	self showHidePlaceholderIn: listElement
 ]
 
 { #category : #'event handling' }
@@ -25,7 +24,8 @@ ToListElementEventHandler >> blurEvent: anEvent [
 { #category : #'selection managing' }
 ToListElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
 
-	self refreshSelectionFromEvent: anEvent
+	self flag: #ToBeChecked.
+	anEvent currentTarget updateAllSelections
 ]
 
 { #category : #'event handling' }
@@ -35,12 +35,6 @@ ToListElementEventHandler >> clickEvent: anEvent [
 		  secondary: [ self secondaryClickEvent: anEvent ]
 		  middle: [ self middleClickEvent: anEvent ]
 		  other: [ self otherClickEvent: anEvent ]
-]
-
-{ #category : #'infinite event handling' }
-ToListElementEventHandler >> collectionUpdateAllRequest: anEvent [
-
-	anEvent currentTarget selectionModel resetAll
 ]
 
 { #category : #'mouse handlers' }
@@ -60,17 +54,28 @@ ToListElementEventHandler >> doubleClickEvent: anEvent [
 { #category : #'selection managing' }
 ToListElementEventHandler >> elementExtentChangedEvent: anEvent [
 
-	self refreshSelectionFromEvent: anEvent.
-	anEvent currentTarget extentChanged.
-
+	| listElement |
+	listElement := anEvent currentTarget.
+	listElement selectionModes do: [ :mode |
+		mode requestNewRepresentation ].
+	listElement
+		updateAllSelections;
+		extentChanged.
+	listElement spaceDo: [ :sp |
+			sp enqueueTask:
+				(BlTaskAction new action: [ sp mouseProcessor handleLastMouseMove ]) ]
 ]
 
 { #category : #'selection managing' }
 ToListElementEventHandler >> elementScrolledEvent: anEvent [
 
-	anEvent currentTarget spaceDo: [ :sp | 
-		sp mouseProcessor handleLastMouseMove ].
-	self refreshSelectionIn: anEvent currentTarget
+	| listElement |
+	listElement := anEvent currentTarget.
+	listElement updateAllSelections.
+	listElement spaceDo: [ :sp |
+		sp enqueueTask:
+			(BlTaskAction new action: [ sp mouseProcessor handleLastMouseMove ]) ].
+
 ]
 
 { #category : #'api - accessing' }
@@ -82,6 +87,7 @@ ToListElementEventHandler >> eventsToHandle [
 		  ToAddedToSpaceEvent.
 
 		  BlMouseDownEvent.
+		  BlMouseUpEvent.
 		  BlClickEvent.
 		  BlDoubleClickEvent.
 
@@ -93,7 +99,6 @@ ToListElementEventHandler >> eventsToHandle [
 		  BlElementScrolledEvent.
 
 		  " data source "
-		  ToCollectionUpdateAllRequest.
 		  ToInfiniteDataSourceEmptinessChangedEvent.
 
 		  BlLayoutResizerChangedEvent.
@@ -129,7 +134,8 @@ ToListElementEventHandler >> layoutResizerChangedEvent: anEvent [
 { #category : #'infinite event handling' }
 ToListElementEventHandler >> listHiddenSelectionChangedEvent: anEvent [
 
-	anEvent currentTarget notifyDataSourceChanged 
+	anEvent touchedIntervals do: [ :int |
+		anEvent currentTarget dataSource notifyItemsChanged: int ]
 ]
 
 { #category : #'infinite event handling' }
@@ -170,15 +176,17 @@ ToListElementEventHandler >> middleClickEvent: anEvent [
 { #category : #'mouse handlers' }
 ToListElementEventHandler >> mouseDownEvent: anEvent [
 
-	| currTarget |
-	currTarget := anEvent currentTarget.
-	currTarget stopScroll.
-	self withTargetNodeFromEvent: anEvent do: [ :node |
-		"node dispatchEvent: anEvent copy."
-		anEvent consume ].
-	(currTarget isFocusable not or: [ currTarget isFocused ]) ifTrue: [ ^ self ].
-	currTarget requestFocus.
-	anEvent consume
+	| listElement |
+	listElement := anEvent currentTarget.
+	listElement stopScroll
+]
+
+{ #category : #'mouse handlers' }
+ToListElementEventHandler >> mouseUpEvent: anEvent [
+
+	| listElement |
+	listElement := anEvent currentTarget.
+	listElement stopScroll
 ]
 
 { #category : #'event handling' }
@@ -187,38 +195,9 @@ ToListElementEventHandler >> otherClickEvent: anEvent [
 
 { #category : #'event handling' }
 ToListElementEventHandler >> primaryClickEvent: anEvent [
-	"Request the focus only if a node is not focused after it received the click event
-	This can be the case if nodes include a textr field as an example "
 
-	self
-		withTargetNodeFromEvent: anEvent
-		do: [ :node | node hasFocus ifTrue: [ ^ self ] ].
-	"no focused node, then I take the focus"
+	anEvent currentTarget hasFocus ifTrue: [ ^ self ].
 	anEvent currentTarget requestFocus
-]
-
-{ #category : #'selection managing' }
-ToListElementEventHandler >> refreshSelectionFromEvent: anEvent [
-
-	| currTarget |
-	currTarget := anEvent currentTarget.
-	self refreshSelectionIn: currTarget.
-	"selectionRefreshTask ifNotNil: [ ^ self ].
-	selectionRefreshTask := BlTaskAction new.
-	selectionRefreshTask action: [
-		self refreshSelectionIn: currTarget.
-		selectionRefreshTask := nil ].
-	currTarget enqueueTask: selectionRefreshTask"
-]
-
-{ #category : #'selection managing' }
-ToListElementEventHandler >> refreshSelectionIn: aTarget [
-
-	aTarget selectionModes do: [ :mode |
-		mode selectionOptionDo: [ :option |
-			option
-				forceRefreshSelectionIn: aTarget
-				withSelectionModel: mode selectionModel ] ]
 ]
 
 { #category : #'event handling' }
@@ -230,7 +209,7 @@ ToListElementEventHandler >> showHidePlaceholderIn: aListElement [
 
 	aListElement dataAccessor ifEmpty: [ 
 		aListElement selectionModel deselectAll.
-		self refreshSelectionIn: aListElement.
+		aListElement updateAllSelections.
 		^ aListElement showPlaceholder ].
 	aListElement hidePlaceholder
 ]

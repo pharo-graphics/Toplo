@@ -2,40 +2,36 @@ Class {
 	#name : #ToObservableCollectionFilter,
 	#superclass : #Object,
 	#instVars : [
+		'previousPattern',
 		'pattern',
 		'semaphore',
 		'process',
-		'previousPattern',
 		'dataFilter',
-		'selectedIndexes',
-		'delay',
-		'resultAction'
+		'collectionHandler'
 	],
 	#category : #'Toplo-Core-Collection'
 }
 
-{ #category : #accessing }
-ToObservableCollectionFilter >> action: aValuable [
-
-	" A valuable takes myself and the collection as arguments "
-	resultAction := aValuable
-]
-
 { #category : #'private filtering' }
-ToObservableCollectionFilter >> applyDataFilterIn: anObservableCollection [
+ToObservableCollectionFilter >> applyPatternIn: anObservableCollection [
+
+	| selectedIndexes |
+	
+	previousPattern = pattern ifTrue: [ ^ self ].
+	previousPattern := pattern.
 
 	selectedIndexes := self pattern ifEmpty: [ #(  ) ] ifNotEmpty: [
 		                   Array streamContents: [ :stream |
 			                   anObservableCollection withIndexDo: [ :d :idx |
 				                   (self dataFilter value: d value: self pattern)
 					                   ifTrue: [ stream nextPut: idx ] ] ] ].
-	self onAppliedOn: anObservableCollection 
+	self notifySelectedIndexes: selectedIndexes in: anObservableCollection 
 ]
 
 { #category : #accessing }
 ToObservableCollectionFilter >> dataFilter [
 
-	^ dataFilter ifNil: [ dataFilter := self defaultFilter ]
+	^ dataFilter ifNil: [ dataFilter := self defaultDataFilter ]
 ]
 
 { #category : #accessing }
@@ -46,22 +42,22 @@ ToObservableCollectionFilter >> dataFilter: aValuable [
 ]
 
 { #category : #accessing }
-ToObservableCollectionFilter >> defaultDelay [
-
-	^ 250 milliSeconds
-]
-
-{ #category : #accessing }
-ToObservableCollectionFilter >> defaultFilter [
+ToObservableCollectionFilter >> defaultDataFilter [
 
 	"^ [ :data :p | data includesSubstring: p caseSensitive: false ]"
 	^ [ :aData :aPattern | aData asString beginsWith: aPattern caseSensitive: true ]
 ]
 
 { #category : #accessing }
+ToObservableCollectionFilter >> defaultDelay [
+
+	^ 100 milliSeconds
+]
+
+{ #category : #accessing }
 ToObservableCollectionFilter >> delay [
 
-	^ delay
+	^ self defaultDelay
 ]
 
 { #category : #'private filtering' }
@@ -71,38 +67,42 @@ ToObservableCollectionFilter >> newProcessIn: anObservableCollection [
 
 	semaphore := Semaphore new.
 	^ [
-	  [
-	  semaphore wait.
-	  pattern ifNotEmpty: [ self delay wait ].
-	  previousPattern = pattern ifFalse: [
-		  previousPattern := pattern.
-		  self applyDataFilterIn: anObservableCollection ] ] repeat ]
+		  [
+			  semaphore wait.
+			  pattern ifNotEmpty: [ self delay wait ].
+			  self applyPatternIn: anObservableCollection ] repeat ]
 		  forkAt: Processor lowIOPriority
 		  named: self class name , ' filter process'
 ]
 
 { #category : #'private filtering' }
-ToObservableCollectionFilter >> onAppliedOn: anObservableCollection [
+ToObservableCollectionFilter >> notifySelectedIndexes: anIntegerArray in: anObservableCollection [
 
-	resultAction ifNil: [ ^ self ].
-	resultAction cull: self cull: anObservableCollection 
+	anObservableCollection dispatchEvent:
+		(ToObservableCollectionFilterAppliedEvent new
+			 pattern: self pattern;
+			 selectedIndexes: anIntegerArray;
+			 yourself)
 ]
 
 { #category : #'api - hooks' }
 ToObservableCollectionFilter >> onInstalledIn: anObservableCollection [
 
-	delay := self defaultDelay.
+	collectionHandler ifNotNil: [ BlImmutableObjectChangeError signal ].
 	process := self newProcessIn: anObservableCollection.
-	selectedIndexes := #()
+	collectionHandler := anObservableCollection
+		                     addEventHandlerOn: ToCollectionChangedEvent
+		                     do: [ :event | previousPattern := nil ]
 ]
 
 { #category : #'api - hooks' }
 ToObservableCollectionFilter >> onUninstalledIn: anObservableCollection [
 
+	anObservableCollection removeEventHandler: collectionHandler.
+	collectionHandler := nil.
 	process terminate.
 	pattern := ''.
-	semaphore := nil.
-	selectedIndexes := #()
+	semaphore := nil
 ]
 
 { #category : #accessing }
@@ -114,18 +114,15 @@ ToObservableCollectionFilter >> pattern [
 { #category : #'private filtering' }
 ToObservableCollectionFilter >> pattern: aString [
 
-	pattern = aString ifTrue: [ ^ self ].
 	pattern := aString asString trimBoth.
 	previousPattern = pattern ifTrue: [ ^ self ].
 	semaphore signal
 ]
 
 { #category : #accessing }
-ToObservableCollectionFilter >> selectedIndexes [
+ToObservableCollectionFilter >> process [ 
 
-	^ selectedIndexes
-
-	
+	^ process
 ]
 
 { #category : #accessing }

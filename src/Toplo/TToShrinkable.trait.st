@@ -1,6 +1,10 @@
 Trait {
 	#name : #TToShrinkable,
-	#category : #'Toplo-Core'
+	#instVars : [
+		'shrinkTolerance',
+		'checkedShrinkabilityOrientation'
+	],
+	#category : #'Toplo-Core-Overlay'
 }
 
 { #category : #'t - shrinkable' }
@@ -8,10 +12,69 @@ TToShrinkable >> addShrinkFeedbackLayer [
 
 	| layer |
 	self shrinkFeedbackLayer ifNotNil: [ ^ self ].
-	layer := ToShrinkFeedbackLayer new.
+	layer := ToGradientShrinkFeedbackLayer new.
 	layer id: #shrinkFeedbackLayer.
 	layer attachTo: self.
-	self addChild: layer
+	layer visibility: BlVisibility hidden.
+	self addChild: layer.
+
+]
+
+{ #category : #'t - shrinkable' }
+TToShrinkable >> applyShrinkableConfiguration [
+
+	self shrinkFeedbackLayer ifNotNil: [ :layer |
+		layer tolerance: self shrinkTolerance.
+		layer checkedShrinkabilityOrientation: self checkedShrinkabilityOrientation.
+		(self children detect: [ :child | child ~= layer ] ifNone: [  ])
+			ifNotNil: [ :shrinked | layer shrinked: shrinked ] ]
+]
+
+{ #category : #'t - shrinkable' }
+TToShrinkable >> checkHorizontalShrinkability [
+
+	self enableShrinkLayer: true.
+	self checkedShrinkabilityOrientation: BlLayoutOrientation horizontal
+]
+
+{ #category : #'t - shrinkable' }
+TToShrinkable >> checkVerticalShrinkability [
+
+	self enableShrinkLayer: true.
+	self checkedShrinkabilityOrientation: BlLayoutOrientation vertical
+]
+
+{ #category : #'t - shrinkable' }
+TToShrinkable >> checkedShrinkabilityOrientation [
+
+	^ checkedShrinkabilityOrientation ifNil: [
+		  checkedShrinkabilityOrientation := BlLayoutOrientation horizontal ]
+]
+
+{ #category : #'t - shrinkable' }
+TToShrinkable >> checkedShrinkabilityOrientation: anOrientation [
+
+	checkedShrinkabilityOrientation := anOrientation.
+	self requestNewConfiguration
+]
+
+{ #category : #'t - shrinkable' }
+TToShrinkable >> enableShrinkLayer: aBoolean [
+
+	aBoolean
+		ifTrue: [
+		self shrinkFeedbackLayer ifNil: [ self addShrinkFeedbackLayer ] ]
+		ifFalse: [
+			self shrinkFeedbackLayer ifNotNil: [
+				self removeShrinkFeedbackLayer ] ]
+]
+
+{ #category : #'t - shrinkable' }
+TToShrinkable >> isShrinked [
+
+	^ self shrinkFeedbackLayer
+		  ifNil: [ false ]
+		  ifNotNil: [ :layer | layer isVisible ]
 ]
 
 { #category : #'t - shrinkable' }
@@ -20,7 +83,8 @@ TToShrinkable >> removeShrinkFeedbackLayer [
 	| layer |
 	layer := self shrinkFeedbackLayer ifNil: [ ^ self ].
 	layer detach.
-	self removeChild: layer
+	self removeChild: layer.
+	layer shrinked: nil
 ]
 
 { #category : #'t - shrinkable' }
@@ -30,9 +94,14 @@ TToShrinkable >> shrinkFeedbackLayer [
 ]
 
 { #category : #'t - shrinkable' }
-TToShrinkable >> withShrinkFeedback: aBoolean [
+TToShrinkable >> shrinkTolerance [
 
-	aBoolean
-		ifTrue: [ self addShrinkFeedbackLayer ]
-		ifFalse: [ self removeShrinkFeedbackLayer ]
+	^ shrinkTolerance ifNil: [ shrinkTolerance := 0.0 ]
+]
+
+{ #category : #'t - shrinkable' }
+TToShrinkable >> shrinkTolerance: aNumber [
+
+	shrinkTolerance := aNumber.
+	self requestNewConfiguration 
 ]

@@ -99,7 +99,9 @@ TToMenuItem >> menuPane [
 { #category : #'t - menu item' }
 TToMenuItem >> parentMenu [
 
-	^ self menuBarOwner ifNotNil: [ :bo |
+	self flag: #ToBeChecked.
+	^ self menuBarOwner 
+	ifNotNil: [ :bo |
 		  bo isMenuPane
 			  ifTrue: [  ]
 			  ifFalse: [ bo ] ]
@@ -118,4 +120,10 @@ TToMenuItem >> rootMenuItemContainer [
 		((e isKindOf: ToMenuWindow) or: [ e isKindOf: ToMenuPane ]) ifTrue: [
 			^ e ] ].
 	^ nil
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> showExpandIcon [
+
+	^ false
 ]

@@ -20,6 +20,15 @@ ToToggleButtonSkin >> checkedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToToggleButtonSkin >> deselectedSkinEvent: anEvent [
+
+	super deselectedSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e labelDo: [ :lab |
+			lab foreground: (e valueOfTokenNamed: #'color-text') ] ]
+]
+
+{ #category : #'event handling' }
 ToToggleButtonSkin >> disabledSkinEvent: anEvent [
 
 	super disabledSkinEvent: anEvent.
@@ -83,6 +92,16 @@ ToToggleButtonSkin >> installSkinEvent: anEvent [
 			ifTrue: [
 			e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
 			ifFalse: [ e endInterspace: 0 ] ]
+]
+
+{ #category : #'event handling' }
+ToToggleButtonSkin >> selectedSkinEvent: anEvent [
+
+	super selectedSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e labelDo: [ :lab | 
+			lab foreground:  
+					 (e valueOfTokenNamed: #'text-color-primary-checked') ] ]
 ]
 
 { #category : #'event handling' }

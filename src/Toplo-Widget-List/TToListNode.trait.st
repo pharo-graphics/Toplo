@@ -4,9 +4,9 @@ Trait {
 }
 
 { #category : #'t - list node' }
-TToListNode >> clickEventHandlerClasses [
+TToListNode >> clickEventHandlerClass [
 
-	self explicitRequirement 
+	^ nil
 ]
 
 { #category : #'t - list node' }

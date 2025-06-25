@@ -48,18 +48,33 @@ ToTheme class >> defaultTokenProperties [
 			   name: #'check'
 			   value: (ToMaterialDesignIconProvider innerImageNamed:
 					    'outlined_check')).
+
 		  (ToTokenProperty
-			   name: #'submenu-arrow-right'
+			   name: #'iconic-arrow-right'
 			   value: (ToMaterialDesignIconProvider innerImageNamed:
 					    'outlined_keyboardarrowright')).
 		  (ToTokenProperty
-			   name: #'submenu-arrow-down'
+			   name: #'iconic-arrow-left'
+			   value: (ToMaterialDesignIconProvider innerImageNamed:
+					    'outlined_keyboardarrowleft')).
+		  (ToTokenProperty
+			   name: #'iconic-arrow-down'
 			   value: (ToMaterialDesignIconProvider innerImageNamed:
 					    'outlined_keyboardarrowdown')).
 		  (ToTokenProperty
-			   name: #'submenu-arrow-up'
+			   name: #'iconic-arrow-up'
 			   value: (ToMaterialDesignIconProvider innerImageNamed:
 					    'outlined_keyboardarrowup')).
+
+		(ToTokenProperty
+			   name: #'iconic-arrow-breadth'
+			   value: 18).
+		(ToTokenProperty
+			   name: #'node-indent'
+			   value: 18).
+		(ToTokenProperty
+			   name: #'node-interspace'
+			   value: 8).
 		  (ToTokenProperty name: #'border-radius' value: 4).
 		  (ToTokenProperty name: #'border-radius-LG' value: 8).
 		  (ToTokenProperty name: #'border-radius-SM' value: 4).
@@ -245,16 +260,16 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'button-interspace' value: 4).
 		  (ToTokenProperty name: #'list-padding-H' value: 6).
 		  (ToTokenProperty name: #'list-padding-V' value: 6).
-		  (ToTokenProperty name: #'list-node-padding-H' value: 3).
-		  (ToTokenProperty name: #'list-node-padding-V' value: 1).
+		  (ToTokenProperty name: #'list-node-padding-H' value: 2).
+		  (ToTokenProperty name: #'list-node-padding-V' value: 2).
 		  (ToTokenProperty name: #'bar-node-padding-H' value: 3).
 		  (ToTokenProperty name: #'bar-node-padding-V' value: 2).
-		  (ToTokenProperty name: #'menu-node-padding-H' value: 1).
-		  (ToTokenProperty name: #'menu-node-padding-V' value: 1).
-		  (ToTokenProperty name: #'menu-button-padding-H' value: 3).
-		  (ToTokenProperty name: #'menu-button-padding-V' value: 2).
-		  (ToTokenProperty name: #'menu-window-padding-H' value: 6).
-		  (ToTokenProperty name: #'menu-window-padding-V' value: 6).
+		  (ToTokenProperty name: #'menu-node-padding-H' value: 6).
+		  (ToTokenProperty name: #'menu-node-padding-V' value: 2).
+		  (ToTokenProperty name: #'menu-item-padding-H' value: 6).
+		  (ToTokenProperty name: #'menu-item-padding-V' value: 1).
+		  (ToTokenProperty name: #'menu-window-padding-H' value: 8).
+		  (ToTokenProperty name: #'menu-window-padding-V' value: 8).
 		  (ToTokenProperty name: #'segmented-node-padding-H' value: 0).
 		  (ToTokenProperty name: #'segmented-node-padding-V' value: 0).
 		  (ToTokenProperty name: #'segmented-border-radius' value: 12).
@@ -269,6 +284,7 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'text-editor-padding-H' value: 3).
 		  (ToTokenProperty name: #'text-editor-padding-V' value: 2).
 		  (ToTokenProperty name: #'menu-item-start-alignment' value: 28).
+		  (ToTokenProperty name: #'menu-item-end-interspace' value: 15).
 		  (ToTokenProperty name: #'inline-item-gap' value: 7).
 		  (ToTokenProperty
 			   name: #'checkbox-checked-image'
@@ -384,6 +400,12 @@ ToTheme >> addTokenProperty: aTokenProperty [
 	tokenProperties add: aTokenProperty
 ]
 
+{ #category : #initialization }
+ToTheme >> defaultElementStampsFor: anElement [ 
+
+	^ { }
+]
+
 { #category : #accessing }
 ToTheme >> defaultSkinFor: anElement [
 
@@ -469,6 +491,8 @@ ToTheme >> printOn: aStream [
 
 { #category : #hook }
 ToTheme >> setUpElement: anElement [
+
+	anElement addAllStamps: (self defaultElementStampsFor: anElement) 
 ]
 
 { #category : #styling }

@@ -21,5 +21,5 @@ ToItemListNodeManager >> newHolder [
 { #category : #'instance creation' }
 ToItemListNodeManager >> newNodeForHolder: aNodeHolder [
 
-	^ ToItemNode new
+	^ ToListItemNode new
 ]

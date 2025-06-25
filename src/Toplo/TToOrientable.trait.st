@@ -113,6 +113,12 @@ TToOrientable >> isVertical [
 ]
 
 { #category : #'t - orientable' }
+TToOrientable >> isVertical: aBoolean [
+
+	self vertical: aBoolean
+]
+
+{ #category : #'t - orientable' }
 TToOrientable >> leftToRight: aBoolean [
 
 	aBoolean

@@ -23,40 +23,40 @@ ToThemeExamples class >> createThemeMenuPane: aSpace [
 
 	beeMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Switch to Light');
-			 newClickAction: [ self switchTheme: ToBeeTheme new for: aSpace ]).
+			 clickAction: [ self switchTheme: ToBeeTheme new for: aSpace ]).
 	beeMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Switch to Dark');
-			 newClickAction: [ self switchTheme: ToBeeDarkTheme new for: aSpace ]).
+			 clickAction: [ self switchTheme: ToBeeDarkTheme new for: aSpace ]).
 
 	themeMenu addItem: (rawMenu := ToMenu new labelText: 'Raw theme').
 	rawMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Switch to Light');
-			 newClickAction: [ self switchTheme: ToRawTheme new for: aSpace ]).
+			 clickAction: [ self switchTheme: ToRawTheme new for: aSpace ]).
 	rawMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Switch to Dark');
-			 newClickAction: [ self switchTheme: ToRawDarkTheme new for: aSpace ]).
+			 clickAction: [ self switchTheme: ToRawDarkTheme new for: aSpace ]).
 
 	themeMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Randomize color');
-			 newClickAction: [ self randomizePrimaryColorFor: aSpace ]).
+			 clickAction: [ self randomizePrimaryColorFor: aSpace ]).
 
 	"Inspect menu"
 	inspectMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Inspect Space');
 			 tooltipText: 'Inspect the BlSpace';
-			 newClickAction: [ self inspectSpace: aSpace ]).
+			 clickAction: [ self inspectSpace: aSpace ]).
 	inspectMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Inspect Theme');
 			 tooltipText: 'Inspect the current theme';
-			 newClickAction: [ self inspectSpaceToTheme: aSpace ]).
+			 clickAction: [ self inspectSpaceToTheme: aSpace ]).
 	inspectMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'CSS like Style Sheet');
 			 tooltipText: 'Show the current style sheet source code';
-			 newClickAction: [ self displaySpaceCSSLikeStyleSheet: aSpace ]).
+			 clickAction: [ self displaySpaceCSSLikeStyleSheet: aSpace ]).
 	inspectMenu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Style Sheet');
 			 tooltipText: 'Show the current style sheet source code';
-			 newClickAction: [ self displaySpaceStyleSheet: aSpace ]).
+			 clickAction: [ self displaySpaceStyleSheet: aSpace ]).
 
 	^ bar
 ]

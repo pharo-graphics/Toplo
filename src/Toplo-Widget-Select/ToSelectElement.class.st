@@ -38,8 +38,19 @@ ToSelectElement >> applyWidgetConfiguration [
 
 	super applyWidgetConfiguration.
 	self filterTextField selectFiltrable: filtrable.
-	filtrable ifTrue: [ self filterTextField requestFocus ].
 	sample ifNotNil: [ self innerElement sample: sample ]
+]
+
+{ #category : #'accessing - window' }
+ToSelectElement >> closeOnPicking [
+
+	^ self manager closeOnPicking
+]
+
+{ #category : #'accessing - window' }
+ToSelectElement >> closeOnPicking: aBoolean [
+
+	self manager closeOnPicking: aBoolean
 ]
 
 { #category : #'accessing - window' }
@@ -254,7 +265,9 @@ ToSelectElement >> onPopupWindowClosed [
 { #category : #window }
 ToSelectElement >> onPopupWindowOpened [
 
-	self filterTextField infinite requestFocus
+	filtrable
+		ifTrue: [ self filterTextField requestFocus ]
+		ifFalse: [ self requestFocus ]
 ]
 
 { #category : #'accessing - selection' }
@@ -311,7 +324,7 @@ ToSelectElement >> popupMaxHeight: aNumber [
 { #category : #'accessing - list' }
 ToSelectElement >> popupMinHeight: aNumber [
 
-	self windowManager minHeight: aNumber
+	self manager minHeight: aNumber
 ]
 
 { #category : #accessing }

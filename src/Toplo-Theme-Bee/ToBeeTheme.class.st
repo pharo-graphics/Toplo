@@ -85,7 +85,7 @@ ToBeeTheme >> declareBackgroundStyleWithTokenDefault: aDefaultColorToken tokenHo
 		write: (self property: #'background')
 		with: [ :e | e valueOfTokenNamed: aDefaultColorToken ].
 	self
-		when: ToLeavedSkinEvent
+		when: ToLeftSkinEvent
 		write: (self property: #'background')
 		with: [ :e | e valueOfTokenNamed: aDefaultColorToken ]
 		animation: backgroundColorAnim.
@@ -118,7 +118,7 @@ ToBeeTheme >> declareBorderStyleWithTokenDefault: aDefaultColorToken tokenHover:
 				width: (e valueOfTokenNamed: #'line-width');
 				build ].
 	self
-		when: ToLeavedSkinEvent
+		when: ToLeftSkinEvent
 		write: (self property: #border)
 		with: [ :e |
 			BlBorderBuilder new
@@ -179,7 +179,7 @@ ToBeeTheme >> declareCommonButtonRules [
 					ifTrue: [ Cursor webLink ]
 					ifFalse: [  ] ].
 		self
-			when: ToLeavedSkinEvent
+			when: ToLeftSkinEvent
 			write: (self property: #mouseCursor)
 			with: nil.
 
@@ -237,7 +237,7 @@ ToBeeTheme >> declareDashedBorderStyleWithTokenDefault: aDefaultColorToken token
 				dashArray: (e valueOfTokenNamed: #'dash-array');
 				build ].
 	self
-		when: ToLeavedSkinEvent
+		when: ToLeftSkinEvent
 		write: (self property: #border)
 		with: [ :e |
 			BlBorderBuilder new
@@ -507,7 +507,7 @@ ToBeeTheme >> declareLabelStyleWithTokenDefault: aDefaultColorToken tokenHover: 
 		write: (self property: #'button-label-text-foreground')
 		with: [ :e | e valueOfTokenNamed: aDefaultColorToken ].
 	self
-		when: ToLeavedSkinEvent
+		when: ToLeftSkinEvent
 		write: (self property: #'button-label-text-foreground')
 		with: [ :e | e valueOfTokenNamed: aDefaultColorToken ].
 	self
@@ -611,7 +611,7 @@ ToBeeTheme >> declareNoBorder [
 				paint: Color transparent
 				width: (e valueOfTokenNamed: #'line-width') ].
 	self
-		when: ToLeavedSkinEvent
+		when: ToLeftSkinEvent
 		write: (self property: #'border')
 		with: [ :e |
 			BlBorder

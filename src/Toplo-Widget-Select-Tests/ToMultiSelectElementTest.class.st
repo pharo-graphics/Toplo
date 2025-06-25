@@ -67,6 +67,7 @@ ToMultiSelectElementTest >> testRemove [
 
 	| cb d1 d2 d3 |
 	cb := ToMultiSelectElement new.
+	space root addChild: cb.
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
@@ -78,6 +79,7 @@ ToMultiSelectElementTest >> testRemove [
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement nodes size equals: 1.
 	cb popupDataAccessor removeFirst.
+	self waitTestingSpaces.
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement nodes isEmpty
 ]
@@ -87,6 +89,7 @@ ToMultiSelectElementTest >> testRemove1 [
 
 	| cb d1 d2 d3 |
 	cb := ToMultiSelectElement new.
+	space root addChild: cb.
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
@@ -98,6 +101,7 @@ ToMultiSelectElementTest >> testRemove1 [
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement nodes size equals: 1.
 	cb popupDataAccessor removeAt: 1.
+	self waitTestingSpaces.
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement nodes isEmpty
 ]
@@ -107,6 +111,7 @@ ToMultiSelectElementTest >> testRemove2 [
 
 	| cb d1 d2 d3 |
 	cb := ToMultiSelectElement new.
+	space root addChild: cb.
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
@@ -118,6 +123,7 @@ ToMultiSelectElementTest >> testRemove2 [
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement nodes size equals: 1.
 	cb popupDataAccessor removeFrom:1 to: 1.
+	self waitTestingSpaces.
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement nodes isEmpty
 ]
@@ -127,6 +133,7 @@ ToMultiSelectElementTest >> testRemove3 [
 
 	| cb d1 d2 d3 |
 	cb := ToMultiSelectElement new.
+	space root addChild: cb.
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
@@ -138,6 +145,7 @@ ToMultiSelectElementTest >> testRemove3 [
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement nodes size equals: 1.
 	cb popupDataAccessor removeFrom:1 to: 2.
+	self waitTestingSpaces.
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement nodes isEmpty
 ]
@@ -168,6 +176,7 @@ ToMultiSelectElementTest >> testRemove5 [
 
 	| cb d1 d2 d3 d4|
 	cb := ToMultiSelectElement new.
+	space root addChild: cb.
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
@@ -182,6 +191,7 @@ ToMultiSelectElementTest >> testRemove5 [
 	self assert: cb innerElement nodes size equals: 1.
 
 	cb popupDataAccessor removeFrom: 1 to: 3.
+	self waitTestingSpaces.
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement nodes isEmpty
 ]
@@ -205,6 +215,23 @@ ToMultiSelectElementTest >> testRemoveAll [
 	cb popupDataAccessor removeAll.
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement nodes isEmpty
+]
+
+{ #category : #tests }
+ToMultiSelectElementTest >> testSelectAll [
+
+	| cb d1 d2 d3 |
+	cb := ToMultiSelectElement new.
+	d1 := '#1'.
+	d2 := '#2'.
+	d3 := '#3'.
+	cb popupDataAccessor addAll: {
+			d1.
+			d2.
+			d3 }.
+	cb selecter selectAll.
+	self assert: cb selecter selectedIndexes equals: #(1 2 3).
+	self assert: cb innerElement nodes size equals: 3
 ]
 
 { #category : #tests }

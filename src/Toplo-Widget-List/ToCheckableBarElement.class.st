@@ -6,7 +6,7 @@ Class {
 	#superclass : #ToItemBarElement,
 	#traits : 'TToCheckableGroupOwner',
 	#classTraits : 'TToCheckableGroupOwner classTrait',
-	#category : #'Toplo-Widget-List-ItemList'
+	#category : #'Toplo-Widget-List-ItemBar'
 }
 
 { #category : #initialization }

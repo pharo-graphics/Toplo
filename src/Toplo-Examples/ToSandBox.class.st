@@ -130,8 +130,7 @@ ToSandBox class >> alignmentChooserFor: aCheckableBar [
 { #category : #bar }
 ToSandBox class >> barConfigurationBoardFor: aBar [
 
-	| menu confPane verticalSwitch flowableSwitch scrollingSwitch autoDistributionSwitch uniformNodeWidthSwitch selectionAnimationSwitch selectOnPressedSwitch deselectOnPressedSwitch makeDisabledUnselectableSwitch uniformNodeHeightSwitch link |
-	
+	| menu confPane animSwitch |
 	confPane := ToPane vertical.
 
 	confPane padding: (BlInsets all: 5).
@@ -143,9 +142,9 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	menu addItem: (ToRadioMenuItem new
 			 label: (ToLabel text: 'Dark theme');
 			 checkAction: [ :evt :cbox :v |
-				 cbox space toTheme: (v
-							  ifTrue: [ ToRawDarkTheme new ]
-							  ifFalse: [ ToRawTheme new ]) ];
+					 cbox space toTheme: (v
+								  ifTrue: [ ToRawDarkTheme new ]
+								  ifFalse: [ ToRawTheme new ]) ];
 			 yourself).
 	menu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Space statistics');
@@ -157,116 +156,56 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 			 yourself).
 	menu addItem: (ToRadioMenuItem new
 			 label: (ToLabel text: 'Disabled bar');
-			 newCheckReader: [ :e | e isDisabled ]
-			 writer: [ :e :v | e disabled: v ]
+			 checkAction: [ :evt :target :value | target disabled: value ]
 			 with: aBar;
 			 yourself).
 	confPane addChild: menu.
 
-	verticalSwitch := ToSwitchButton new labelText: 'Vertical'.
-	verticalSwitch
-		newCheckReader: #isVertical
-		writer: #vertical:
-		with: aBar.
-	verticalSwitch startFlexible: true.
-	verticalSwitch hMatchParent.
-	confPane addChild: verticalSwitch.
 
-	flowableSwitch := ToSwitchButton new labelText: 'Flowable'.
-	flowableSwitch startFlexible: true.
-	flowableSwitch hMatchParent.
-	confPane addChild: flowableSwitch.
+	{
+		(#isVertical -> #isVertical: -> 'Vertical').
+		(#isFlowable -> #isFlowable: -> 'Flowable').
+		(#uniformNodeWidth -> #uniformNodeWidth: -> 'Uniform width').
+		(#uniformNodeHeight -> #uniformNodeHeight: -> 'Uniform height').
+		(#isScrollable -> #isScrollable: -> 'Scrollable').
+		(#autoDistribute -> #autoDistribute: -> 'Auto-distribute').
+		([ aBar selectionMode selectOnPressed ]
+		 -> [ :v | aBar selectionMode selectOnPressed: v ]
+		 -> 'Select on pressed').
+		([ aBar selectionMode deselectOnPressed ]
+		 -> [ :v | aBar selectionMode deselectOnPressed: v ]
+		 -> 'Deselect on pressed').
+		([ aBar selectionMode makeDisabledUnselectable ]
+		 -> [ :v | aBar selectionMode makeDisabledUnselectable: v ]
+		 -> 'Disabled items are unselectable') } do: [ :assoc |
+			| switch |
+			switch := ToSwitchButton new labelText: assoc value value.
+			switch checkAction: [ :evt :target :value |
+					assoc key value isSymbol
+						ifTrue: [ aBar perform: assoc key value with: value ]
+						ifFalse: [ assoc key value value: value ] ].
 
-	uniformNodeWidthSwitch := ToSwitchButton new labelText:
-		                          'Uniform width'.
-	uniformNodeWidthSwitch newCheckFeature: #uniformNodeWidth with: aBar.
-	uniformNodeWidthSwitch startFlexible: true.
-	uniformNodeWidthSwitch hMatchParent.
-	confPane addChild: uniformNodeWidthSwitch.
+			switch startFlexible: true.
+			switch hMatchParent.
+			confPane addChild: switch.
 
-	uniformNodeHeightSwitch := ToSwitchButton new labelText:
-		                           'Uniform height'.
-	uniformNodeHeightSwitch startFlexible: true.
-	uniformNodeHeightSwitch hMatchParent.
-	uniformNodeHeightSwitch
-		newCheckFeature: #uniformNodeHeight
-		with: aBar.
-	confPane addChild: uniformNodeHeightSwitch.
+			aBar whenWidgetConfigurationAppliedDo: [
+					assoc key key isSymbol ifTrue: [
+						switch checked: (aBar perform: assoc key key) ] ] ].
 
-	scrollingSwitch := ToSwitchButton new labelText: 'Scrolling'.
-	scrollingSwitch id: #scrollingSwitch.
-	scrollingSwitch startFlexible: true.
-	scrollingSwitch newCheckFeature: #isScrollable with: aBar.
+	animSwitch := ToSwitchButton new labelText: 'Animate transition'.
+	animSwitch checkAction: [ :evt :option :v |
+			| d |
+			d := v
+				     ifTrue: [ 200 milliSeconds ]
+				     ifFalse: [ 0 milliSeconds ].
+			aBar selectionOption animationDuration: d.
+			aBar secondarySelectionOption animationDuration: d ].
 
-	scrollingSwitch hMatchParent.
-	confPane addChild: scrollingSwitch.
-
-	link := flowableSwitch newCheckFeature: #isFlowable with: aBar.
-	"link onActionRunnedDo: [ :evt :bar :value |
-		scrollingSwitch disabled: value ]."
-
-	autoDistributionSwitch := ToSwitchButton new labelText:
-		                          'Auto-distribution'.
-	autoDistributionSwitch newCheckFeature: #autoDistribute with: aBar.
-	autoDistributionSwitch startFlexible: true.
-	autoDistributionSwitch hMatchParent.
-	confPane addChild: autoDistributionSwitch.
-
-	selectionAnimationSwitch := ToSwitchButton new labelText:
-		                            'Animate transition'.
-	link := selectionAnimationSwitch
-		        newCheckAction: [ :evt :option :v |
-			        option animationDuration: (v
-					         ifTrue: [ 200 milliSeconds ]
-					         ifFalse: [ 0 milliSeconds ]) ]
-		        with: aBar selectionOption.
-	link onActionRunnedDo: [ :evt :option :v |
-		aBar secondarySelectionOption animationDuration: (v
-				 ifTrue: [ 200 milliSeconds ]
-				 ifFalse: [ 0 milliSeconds ]) ].
-
-	selectionAnimationSwitch startFlexible: true.
-	selectionAnimationSwitch hMatchParent.
-	confPane addChild: selectionAnimationSwitch.
-
-	selectOnPressedSwitch := ToSwitchButton new
-		                         labelText: 'Select on pressed';
-		                         id: #selectOnPressedSwitch.
-	selectOnPressedSwitch
-		newCheckFeature: #selectOnPressed
-		with: aBar selectionMode.
-
-	selectOnPressedSwitch startFlexible: true.
-	selectOnPressedSwitch hMatchParent.
-	confPane addChild: selectOnPressedSwitch.
-
-	deselectOnPressedSwitch := ToSwitchButton new
-		                           labelText: 'Deselect on pressed';
-		                           id: #deselectOnPressedSwitch.
-	deselectOnPressedSwitch
-		newCheckFeature: #deselectOnPressed
-		with: aBar selectionMode.
-
-	deselectOnPressedSwitch startFlexible: true.
-	deselectOnPressedSwitch hMatchParent.
-
-	makeDisabledUnselectableSwitch := ToSwitchButton new
-		                                  labelText:
-			                                  'Make disabled unselectable';
-		                                  id:
-			                                  #makeDisabledUnselectableSwitch.
-	makeDisabledUnselectableSwitch
-		newCheckFeature: #makeDisabledUnselectable
-		with: aBar selectionMode.
-
-	makeDisabledUnselectableSwitch startFlexible: true.
-	makeDisabledUnselectableSwitch hMatchParent.
-
-	confPane addChild: deselectOnPressedSwitch.
-
-	confPane addChild: makeDisabledUnselectableSwitch.
+	animSwitch startFlexible: true.
+	animSwitch hMatchParent.
+	confPane addChild: animSwitch.
 	confPane addChild: (self resizerBoardFor: aBar).
-
 	^ confPane
 ]
 
@@ -306,6 +245,7 @@ ToSandBox class >> barWithData: aCollection [
 			         fontSize: fontSize;
 			         yourself.
 		triplet startElement: ToIconicRemoveButton new.
+		triplet startElement clickAction: [ triplet startElement fireEvent: ToRemoveButtonClickedEvent new ].
 		triplet middleElement: label.
 		triplet startInterspace: 10.
 		triplet constraintsDo: [ :c | c linear vertical alignCenter ].
@@ -317,21 +257,21 @@ ToSandBox class >> barWithData: aCollection [
 		idxes := request selectedIndexes.
 		menu addItem: (ToMenuItem new
 				 labelText: 'Inspect list';
-				 newClickAction: [ target inspect ];
+				 clickAction: [ target inspect ];
 				 yourself).
 		menu addItem: (ToMenuItem new
 				 labelText: 'Remove all';
-				 newClickAction: [ target dataAccessor removeAll ];
+				 clickAction: [ target dataAccessor removeAll ];
 				 yourself).
 		menu addItem: (ToMenuItem new
 				 labelText: 'Add first a new item';
-				 newClickAction: [
+				 clickAction: [
 					 target dataAccessor addFirst:
 							 String loremIpsum substrings first , ' (added first)' ];
 				 yourself).
 		menu addItem: (ToMenuItem new
 				 labelText: 'Add last a new item';
-				 newClickAction: [
+				 clickAction: [
 					 target dataAccessor add:
 							 String loremIpsum substrings first , ' (added last)' ];
 				 yourself).
@@ -341,29 +281,29 @@ ToSandBox class >> barWithData: aCollection [
 					 in: [ :m |
 						 m addItem: (ToMenuItem new
 									  labelText: 'Inspect';
-									  newClickAction: [
+									  clickAction: [
 										  Array withAll:
 												  (idxes collect: [ :idx | target nodeAt: idx ]) inspect ];
 									  yourself).
 						 m addItem: (ToMenuItem new
 								  labelText: 'Remove';
-								  newClickAction: [
+								  clickAction: [
 									  idxes reverseDo: [ :idx | bar dataAccessor removeAt: idx ] ];
 								  yourself).
 						 m addItem: (ToMenuItem new
 								  labelText: 'Unable/disable';
-								  newClickAction: [
+								  clickAction: [
 									  idxes do: [ :idx | (bar nodeAt: idx) disable ] ];
 								  yourself).
 						 m addItem: (ToMenuItem new
 								  labelText: 'Unselectable';
-								  newClickAction: [
+								  clickAction: [
 									  idxes do: [ :idx |
 											  bar unselectableSelecter selectIndex: idx ] ];
 								  yourself).
 						 m addItem: (ToMenuItem new
 								  labelText: 'Insert before';
-								  newClickAction: [
+								  clickAction: [
 									  | idx |
 									  idx := idxes first.
 									  target dataAccessor
@@ -373,7 +313,7 @@ ToSandBox class >> barWithData: aCollection [
 								  yourself).
 						 m addItem: (ToMenuItem new
 								  labelText: 'Insert after';
-								  newClickAction: [
+								  clickAction: [
 									  | idx |
 									  idx := idxes last.
 									  target dataAccessor
@@ -419,7 +359,7 @@ ToSandBox class >> buildSelectListElementIn: aSelectElement withIconProvider: an
 			             s := ('_' , style prefix , '_loaded') asSymbol.
 			             (icProvider respondsTo: s) ifTrue: [
 				             | iconNames |
-				             iconNames := (icProvider perform: s) sort.
+				             iconNames := (icProvider perform: s) sorted.
 				             iconNames do: [ :n |
 					             stream nextPut: (ToIconDescExampleObject new
 							              name: n;
@@ -556,7 +496,7 @@ ToSandBox class >> exampleAccordionListWithClassComments [
 	list := ToAccordionListElement new.
 	list withRowNumbers.
 	list selectionMode multiple: true.
-	sieve := ToListElementSieve new.
+	sieve := list newSieve.
 	sieve onInstalledIn: list.
 	sieve dataFilter: [ :item :aPattern |
 		item name beginsWith: aPattern caseSensitive: false ].
@@ -720,7 +660,7 @@ ToSandBox class >> exampleLocalThemeChangesChildrenLookup [
 	changeButton := ToButton new
 		                size: 200 @ 50;
 		                position: 300 @ 50;
-		                newClickAction: [
+		                clickAction: [
 			                (parent localTheme isNil or: (parent localTheme class = ToRawTheme))
 				                ifTrue: [ parent localTheme: ToRawDarkTheme new ]
 				                ifFalse: [ parent localTheme: ToRawTheme new ] ];
@@ -776,7 +716,7 @@ ToSandBox class >> examplePaneWithAccordionsWithLabelWithExtra [
 			      (ToAntDesignIconProvider innerImageNamed: 'outlined_search').
 		im size: 18 asPoint.
 		btn := ToButton new icon: im.
-		btn newClickAction: [  ].
+		btn clickAction: [  ].
 		btn addStamp: #iconic.
 		btn addStamp: #borderless.
 		acc headerExtraBuilder: [ :extra | extra addChild: btn ] ].
@@ -836,6 +776,281 @@ ToSandBox class >> example_2ListsWithEditableAndContextMenu [
 
 ]
 
+{ #category : #tree }
+ToSandBox class >> example_AllClasses [
+	"For this example we created a new wrapper dealing with classes and methods at the same time, a new Node was also created (ToTreeSubAndMethNode) to apply a new skin (ToTreeNodeSubAndMethSkin) with new icons and a different background color for methods "
+
+	| l |
+	l := ToTreeElement new.
+	l nodeManager childrenGetter: [ :dataItem |
+		dataItem isClass
+			ifTrue: [
+				Array streamContents: [ :stream |
+					stream nextPutAll: dataItem subclasses.
+					stream nextPutAll:
+						(dataItem methods collect: [ :each | each selector ]) sorted ] ]
+			ifFalse: [ #(  ) ] ].
+	l nodeManager nodeFactory: [ :holder | ToExTreeSubAndMethNode new ].
+	l withRowNumbers.
+	l contextMenu: [ :menu :request |
+		| selectionModel indexes target |
+		target := request currentTarget.
+		selectionModel := request selectionModel.
+		indexes := request selectedIndexes.
+		indexes traceCr.
+		menu addItem: (ToMenuItem new
+				 labelText: 'Expand all';
+				 clickAction: [
+					 indexes
+						 ifEmpty: [ target expandAll ]
+						 ifNotEmpty: [
+							 indexes reverseDo: [ :idx |
+									 (target dataSource at: idx) expandAll ] ] ];
+				 yourself).
+		menu addItem: (ToMenuItem new
+				 labelText: 'Collapse all';
+				 clickAction: [
+					 indexes
+						 ifEmpty: [ target collapseAll ]
+						 ifNotEmpty: [
+							 indexes reverseDo: [ :idx |
+									 (target dataSource at: idx) collapse ] ] ];
+				 yourself) ].
+
+	l dataAccessor addAll:
+		((Smalltalk globals allClasses select: [ :cls |
+			  cls subclasses notEmpty ]) sorted: [ :a :b | a name < b name ]).
+
+	l openInSpace
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_AnchorLayout [
+
+	| pane blue red green |
+	pane := ToElement new.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+	"pane padding: (BlInsets all: 10)."
+
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue background: Color blue.
+	blue size: 30 asPoint.
+	blue margin: (BlInsets all: 10).
+	blue constraintsDo: [ :c |
+			c anchors add: (blue rightAnchor on: (c anchors rightAnchor)).
+			c anchors add: (blue bottomAnchor on: (c anchors bottomAnchor)) ].
+	pane addChild: blue.
+
+	red := ToElement new
+		       id: #red;
+		       yourself.
+	red background: Color red.
+	red size: 20 asPoint.
+	red margin: (BlInsets all: 10).
+	red constraintsDo: [ :c |
+			c anchors add: (red rightAnchor on: blue leftAnchor).
+			c anchors add: (red bottomAnchor on: blue bottomAnchor) ].
+	pane addChild: red.
+
+	green := ToElement new
+		         id: #green;
+		         yourself.
+	green background: Color green.
+	green size: 10 @ 60.
+	"green margin: (BlInsets all: 10)."
+	green constraintsDo: [ :c |
+			c anchors add: (green rightAnchor on: blue leftAnchor).
+			c anchors add: (green bottomAnchor on: red topAnchor) ].
+	pane addChild: green.
+
+	pane openInInnerWindow
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_AnchorLayout2 [
+
+	| pane blue topLeft topRight bottomLeft bottomRight topCenter rightCenter bottomCenter leftCenter center |
+	pane := ToElement new.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+	"pane padding: (BlInsets all: 10)."
+
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue background: Color blue muchDarker darker.
+	blue size: 100 asPoint.
+	blue margin: (BlInsets all: 10).
+	blue constraintsDo: [ :c |
+			c anchors add:
+				(blue verticalCenterAnchor on: pane verticalCenterAnchor).
+			c anchors add:
+				(blue horizontalCenterAnchor on: pane horizontalCenterAnchor) ].
+
+	pane addChild: blue.
+
+	topLeft := ToElement new
+		           id: #topLeft;
+		           yourself.
+	topLeft background: Color blue.
+	topLeft size: 20 asPoint.
+	"topLeft margin: (BlInsets all: 10)."
+	topLeft constraintsDo: [ :c |
+			c anchors add: (topLeft rightAnchor on: blue leftAnchor).
+			c anchors add: (topLeft bottomAnchor on: blue topAnchor) ].
+	pane addChild: topLeft.
+
+	topCenter := ToElement new
+		             id: #topCenter;
+		             yourself.
+	topCenter background: Color blue.
+	topCenter size: 20 asPoint.
+	"topLeft margin: (BlInsets all: 10)."
+	topCenter constraintsDo: [ :c |
+			c anchors add:
+				(topCenter horizontalCenterAnchor on: blue horizontalCenterAnchor).
+			c anchors add: (topCenter bottomAnchor on: blue topAnchor) ].
+	pane addChild: topCenter.
+
+	topRight := ToElement new
+		            id: #topRight;
+		            yourself.
+	topRight background: Color blue.
+	topRight size: 20 asPoint.
+	"topLeft margin: (BlInsets all: 10)."
+	topRight constraintsDo: [ :c |
+			c anchors add: (topRight leftAnchor on: blue rightAnchor).
+			c anchors add: (topRight bottomAnchor on: blue topAnchor) ].
+	pane addChild: topRight.
+
+	rightCenter := ToElement new
+		             id: #rightCenter;
+		             yourself.
+	rightCenter background: Color blue.
+	rightCenter size: 20 asPoint.
+	"topLeft margin: (BlInsets all: 10)."
+	rightCenter constraintsDo: [ :c |
+			c anchors add:
+				(rightCenter verticalCenterAnchor on: blue verticalCenterAnchor).
+			c anchors add: (rightCenter leftAnchor on: blue rightAnchor) ].
+	pane addChild: rightCenter.
+
+	bottomLeft := ToElement new
+		              id: #bottomLeft;
+		              yourself.
+	bottomLeft background: Color blue.
+	bottomLeft size: 20 asPoint.
+	"topLeft margin: (BlInsets all: 10)."
+	bottomLeft constraintsDo: [ :c |
+			c anchors add: (bottomLeft rightAnchor on: blue leftAnchor).
+			c anchors add: (bottomLeft topAnchor on: blue bottomAnchor) ].
+	pane addChild: bottomLeft.
+
+
+	bottomCenter := ToElement new
+		             id: #bottomCenter;
+		             yourself.
+	bottomCenter background: Color blue.
+	bottomCenter size: 20 asPoint.
+	"topLeft margin: (BlInsets all: 10)."
+	bottomCenter constraintsDo: [ :c |
+			c anchors add:
+				(bottomCenter horizontalCenterAnchor on: blue horizontalCenterAnchor).
+			c anchors add: (bottomCenter topAnchor on: blue bottomAnchor) ].
+	pane addChild: bottomCenter.
+
+	bottomRight := ToElement new
+		               id: #bottomRight;
+		               yourself.
+	bottomRight background: Color blue.
+	bottomRight size: 20 asPoint.
+	"topLeft margin: (BlInsets all: 10)."
+	bottomRight constraintsDo: [ :c |
+			c anchors add: (bottomRight leftAnchor on: blue rightAnchor).
+			c anchors add: (bottomRight topAnchor on: blue bottomAnchor) ].
+	pane addChild: bottomRight.
+	
+	leftCenter := ToElement new
+		             id: #leftCenter;
+		             yourself.
+	leftCenter background: Color blue.
+	leftCenter size: 20 asPoint.
+	"topLeft margin: (BlInsets all: 10)."
+	leftCenter constraintsDo: [ :c |
+			c anchors add:
+				(leftCenter verticalCenterAnchor on: blue verticalCenterAnchor).
+			c anchors add: (leftCenter rightAnchor on: blue leftAnchor) ].
+	pane addChild: leftCenter.
+
+	center := ToElement new
+		             id: #center;
+		             yourself.
+	center background: Color blue.
+	center size: 20 asPoint.
+	"topLeft margin: (BlInsets all: 10)."
+	center constraintsDo: [ :c |
+			c anchors add:
+				(center centerAnchor on: blue centerAnchor). ].
+	pane addChild: center.
+
+
+	pane openInInnerWindow
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_AnchorLayout3 [
+
+	| pane blue |
+	pane := ToElement new.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+	"pane padding: (BlInsets all: 10)."
+
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue background: Color blue muchDarker darker.
+	blue size: 100 asPoint.
+	blue margin: (BlInsets all: 10).
+	blue constraintsDo: [ :c |
+		c anchors add: (blue centerAnchor on: (pane centerAnchor + 40 asPoint)) ].
+
+	pane addChild: blue.
+
+	pane openInInnerWindow
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_AnchorLayout4 [
+
+	| pane blue |
+	pane := ToElement new.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+	pane padding: (BlInsets all: 10).
+
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue background: Color blue muchDarker darker.
+	blue size: 100 asPoint.
+	blue margin: (BlInsets all: 10).
+	blue constraintsDo: [ :c |
+			c anchors add: (blue heightAnchor on: pane heightAnchor).
+			c anchors add: (blue rightAnchor on: pane rightAnchor) ].
+
+	pane addChild: blue.
+
+	pane openInInnerWindow
+]
+
 { #category : #list }
 ToSandBox class >> example_BasicListWithAllClasses3 [
 
@@ -856,7 +1071,8 @@ ToSandBox class >> example_BasicListWithAllClasses3 [
 				      hMatchParent) ].
 
 	l withRowNumbers.
-	l dataAccessor addAll: Smalltalk globals allClasses.
+	l dataAccessor addAll:
+		(Smalltalk globals allClasses sorted: [ :a :b | a name < b name ]).
 	l selecter selectIndexes: #(10 12 3).
 
 	l requestFocus.
@@ -1034,25 +1250,34 @@ ToSandBox class >> example_CheckBoxWithDefaultStyleSheetDarkTheme [
 	space show
 ]
 
-{ #category : #checkbox }
-ToSandBox class >> example_CheckReader [
+{ #category : #bar }
+ToSandBox class >> example_CheckableBarElement [
 
-	| containerElement r1 |
-	(containerElement := ToPane vertical) padding: (BlInsets all: 10).
+| bar space container |
 
-	r1 := ToRadioButton new
-		      id: #r1;
-		      labelText: 'Light theme';
-		      newCheckReader: [ :space | space toTheme class = ToRawTheme ]
-		      writer: [ :space :v |
-			      space toTheme: (v
-						       ifTrue: [ ToRawTheme new ]
-						       ifFalse: [ ToRawDarkTheme new ]) ]
-		      with: [ :radio | radio space ];
-		      yourself.
+	container := ToPane new.
+	container matchParent.
+	container contextMenu: [ :menu :request | 
+		menu addItem: (ToMenuItem new labelText: 'Inspect'; clickAction: [container inspect];yourself) ].
+	
+	bar := ToCheckableBarElement new.
+	space := BlSpace new.
+	bar matchParent.
+	{ #Alabama. #Alaska. #Arizona. #Arkansas. #California. #Colorado.
+		#Connecticut. #Delaware. #Florida. #Georgia. #Hawaii. #Idaho. #Illinois. #Indiana.
+		#Iowa. #Kansas. #Kentucky. #Louisiana. #Maine. #Maryland. #Massachusetts.
+		#Michigan. #Minnesota. #Mississippi. #Missouri. #Montana. #Nebraska.
+		#Nevada. #'New Hampshire'. #'New Jersey'. #'New Mexico'.
+		#'New York'. #'North Carolina'. #'North Dakota'. #Ohio. #Oklahoma.
+		#Oregon. #'Pennsylvania Rhode Island'. #'South Carolina'.
+		#'South Dakota'. #Tennessee. #Texas. #Utah. #Vermont. #Virginia.
+		#Washington. #'West Virginia'. #Wisconsin. #Wyoming } do: [ :l | bar addItem: (ToCheckbox new labelText: l) ].
 
-	containerElement addChildren: { r1 }.
-	containerElement openInSpace
+	"bar selecter selectIndex: 3."
+	container addChild: bar.
+	bar items third checked: true.
+	space root addChild: container.
+	space show
 ]
 
 { #category : #checkbox }
@@ -1099,23 +1324,23 @@ ToSandBox class >> example_CheckboxGroupAndNoneStrategy [
 	group withoutCheckingStrategy.
 	buttons := OrderedCollection new.
 	1 to: 4 do: [ :idx |
-		| chb |
-		chb := ToCheckbox new
-			       beEndToStart;
-			       labelText: idx asString;
-			       id: idx asString.
-		buttons add: chb ].
+			| chb |
+			chb := ToCheckbox new
+				       beEndToStart;
+				       labelText: idx asString;
+				       id: idx asString.
+			buttons add: chb ].
 	buttons second checked: true.
 	group registerAll: buttons.
 
 	container := ToElement new.
 	container
-		newCheckGroupAction: [ :event :m :checkedList | checkedList traceCr ]
-		with: group.
+		newCheckAction: [ :event :m :checkedList | checkedList traceCr ]
+		onGroup: group.
 
 	container constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical matchParent ].
+			c horizontal matchParent.
+			c vertical matchParent ].
 
 	container layout: BlLinearLayout vertical.
 	container layout cellSpacing: 5.
@@ -1141,8 +1366,8 @@ ToSandBox class >> example_CheckboxGroupAndStrictStrategy [
 	group registerAll: buttons.
 	container := ToElement new.
 	container
-		newCheckGroupAction: [ :evt :grp :list | list traceCr ]
-		with: group.
+		newCheckAction: [ :evt :grp :list | list traceCr ]
+		onGroup: group.
 	container constraintsDo: [ :c |
 		c horizontal matchParent.
 		c vertical matchParent ].
@@ -1173,8 +1398,8 @@ ToSandBox class >> example_CheckboxGroupAndWeakStrategy [
 
 	container := ToElement new.
 	container
-		newCheckGroupAction: [ :evt :grp :list | list traceCr ]
-		with: group.
+		newCheckAction: [ :evt :grp :list | list traceCr ]
+		onGroup: group.
 	container constraintsDo: [ :c |
 		c horizontal matchParent.
 		c vertical matchParent ].
@@ -1229,8 +1454,8 @@ ToSandBox class >> example_CheckboxStartFlexibleWithGroup [
 
 	container := ToElement new.
 	container
-		newCheckGroupAction: [ :evt :grp :list | list traceCr ]
-		with: group.
+		newCheckAction: [ :evt :grp :list | list traceCr ]
+		onGroup: group.
 	container background: Color veryLightGray.
 	container matchParent.
 
@@ -1287,8 +1512,8 @@ ToSandBox class >> example_CheckboxVerticalGroupHorizontal [
 	container layout: BlLinearLayout horizontal.
 	container addChildren: group registeredCheckables.
 	container
-		newCheckGroupAction: [ :evt :grp :list | list traceCr ]
-		with: group.
+		newCheckAction: [ :evt :grp :list | list traceCr ]
+		onGroup: group.
 	container openInInnerWindow
 ]
 
@@ -1312,6 +1537,58 @@ ToSandBox class >> example_CheckboxWithIndeterminate [
 	but openInSpace
 ]
 
+{ #category : #tree }
+ToSandBox class >> example_ClassHierarchiesWithMethods [
+	"For this example we created a new wrapper dealing with classes and methods at the same time, a new Node was also created (ToTreeSubAndMethNode) to apply a new skin (ToTreeNodeSubAndMethSkin) with new icons and a different background color for methods "
+
+	| treeElement |
+	treeElement := ToTreeElement new.
+	treeElement withRowNumbers.
+	treeElement contextMenu: [ :menu :request |
+			| selectionModel indexes target |
+			target := request currentTarget.
+			selectionModel := request selectionModel.
+			indexes := request selectedIndexes.
+			indexes traceCr.
+			menu addItem: (ToMenuItem new
+					 labelText: 'Expand all';
+					 clickAction: [
+							 indexes
+								 ifEmpty: [ target expandAll ]
+								 ifNotEmpty: [
+									 indexes reverseDo: [ :idx |
+											 (target dataSource at: idx) expandAll ] ] ];
+					 yourself).
+			menu addItem: (ToMenuItem new
+					 labelText: 'Collapse all';
+					 clickAction: [
+							 indexes
+								 ifEmpty: [ target collapseAll ]
+								 ifNotEmpty: [
+									 indexes reverseDo: [ :idx |
+											 (target dataSource at: idx) collapse ] ] ];
+					 yourself) ].
+	treeElement nodeManager childrenGetter: [ :dataItem |
+			dataItem isClass
+				ifTrue: [
+						Array streamContents: [ :stream |
+								stream nextPutAll: dataItem subclasses.
+								stream nextPutAll:
+									(dataItem methods collect: [ :each | each selector ]) sorted ] ]
+				ifFalse: [ #(  ) ] ].
+	treeElement nodeManager nodeFactory: [ :holder |
+		ToExTreeSubAndMethNode new ].
+	treeElement dataAccessor add: ProtoObject.
+	treeElement dataAccessor add: BlElement.
+	treeElement dataAccessor add: Collection.
+	treeElement dataAccessor add: String.
+	treeElement
+		addEventHandlerOn: ToListPrimarySelectionChangedEvent
+		do: [ :evt | self selectionChangedEvent: evt ].
+
+	treeElement openInSpace
+]
+
 { #category : #album }
 ToSandBox class >> example_CodeEditor [
 
@@ -1332,70 +1609,74 @@ ToSandBox class >> example_CodeEditor [
 		cancelRequested editorElement text: text copy ].
 
 	menuBuilder := [ :menu :request |
-	               menu addItem: (ToMenuItem new
-			                labelText: 'Select all';
-			                newClickAction: [ :evt :a |
-				                a selecter
-					                all;
-					                apply ]
-			                with: album;
-			                yourself).
-	               menu addItem: (ToMenu new
-			                labelText: 'Edit';
-			                builder: [ :m |
-				                | item |
-				                item := ToMenuItem new
-					                        labelText: 'Copy';
-					                        newClickAction: [ :evt :ed | ed copySelected ]
-					                        with: album editor;
-					                        yourself.
-				                album hasSelection ifFalse: [ item disable ].
-				                m addItem: item.
-				                m addItem: (ToMenuItem new
-						                 labelText: 'Cut';
-						                 newClickAction: [ :evt :ed | ed cutSelected ]
-						                 with: album editor;
-						                 yourself).
-				                album hasSelection ifFalse: [
-					                m items last disable ].
+		               menu addItem: (ToMenuItem new
+				                labelText: 'Select all';
+				                clickAction: [ :evt :a |
+						                a selecter
+							                all;
+							                apply ]
+				                with: album;
+				                yourself).
+		               menu addItem: (ToMenu new
+				                labelText: 'Edit';
+				                builder: [ :m |
+						                | item |
+						                item := ToMenuItem new
+							                        labelText: 'Copy';
+							                        clickAction: [ :evt :ed |
+								                        ed copySelected ]
+							                        with: album editor;
+							                        yourself.
+						                album hasSelection ifFalse: [ item disable ].
+						                m addItem: item.
+						                m addItem: (ToMenuItem new
+								                 labelText: 'Cut';
+								                 clickAction: [ :evt :ed | ed cutSelected ]
+								                 with: album editor;
+								                 yourself).
+						                album hasSelection ifFalse: [
+							                m items last disable ].
 
-				                m addItem: (ToMenuItem new
-						                 labelText: 'Paste';
-						                 newClickAction: [ :evt :ed | ed paste ]
-						                 with: album editor;
-						                 yourself).
-				                album editor paster fromClipboard isEmpty ifTrue: [
-					                m items last disable ].
-				                m addSeparator.
+						                m addItem: (ToMenuItem new
+								                 labelText: 'Paste';
+								                 clickAction: [ :evt :ed | ed paste ]
+								                 with: album editor;
+								                 yourself).
+						                album editor paster fromClipboard isEmpty
+							                ifTrue: [ m items last disable ].
+						                m addSeparator.
 
-				                m addItem: (ToMenuItem new
-						                 labelText: 'Accept';
-						                 newClickAction: [ album requestSave ];
-						                 yourself).
-				                album edited ifFalse: [ m items last disable ].
+						                m addItem: (ToMenuItem new
+								                 labelText: 'Accept';
+								                 clickAction: [ album requestSave ];
+								                 yourself).
+						                album edited ifFalse: [ m items last disable ].
 
-				                m addItem: (ToMenuItem new
-						                 labelText: 'Cancel';
-						                 newClickAction: [ album requestCancel ];
-						                 yourself).
-				                album edited ifFalse: [ m items last disable ] ]) ].
+						                m addItem: (ToMenuItem new
+								                 labelText: 'Cancel';
+								                 clickAction: [ album requestCancel ];
+								                 yourself).
+						                album edited ifFalse: [ m items last disable ] ]) ].
 	album contextMenu: menuBuilder.
 
 	fileMenu := ToMenu new labelText: 'Edit'.
 	fileMenu builder: menuBuilder.
 	inspectBtn := ToMenuItem new
 		              labelText: 'Inspect';
-		              newClickAction: [ album space root inspect ];
+		              clickAction: [ album space root inspect ];
 		              yourself.
 	showStatisticsBtn := ToMenuItem new
 		                     labelText: 'Statistics';
-		                     newClickAction: [
+		                     clickAction: [
 			                     album space showStatisticsWindow ];
 		                     yourself.
 	disabox := ToCheckMenuItem new
 		           label: (ToLabel text: 'Disable');
-		           newCheckFeature: #isDisabled with: album;
+		           checkAction: [ :evt :target :value |
+			           album disabled: value ];
 		           yourself.
+	album whenWidgetConfigurationAppliedDo: [
+		disabox disabled: album isDisabled ].
 
 	menuPane := ToMenuPane new.
 	menuPane hMatchParent.
@@ -1406,7 +1687,7 @@ ToSandBox class >> example_CodeEditor [
 
 	pane addChild: menuPane.
 	pane addChild: album.
-	pane openInInnerWindow
+	pane openInSpace
 ]
 
 { #category : #list }
@@ -1476,9 +1757,12 @@ ToSandBox class >> example_EditorWithMinHeight [
 	pane addChild: menuPane.
 	pane addChild: album.
 
-	inspectBtn newClickAction: [ album space root inspect ].
-	disabox newCheckFeature: #isDisabled with: album.
-	showStatisticsBtn newClickAction: [
+	inspectBtn clickAction: [ album space root inspect ].
+	disabox checkAction: [ :evt :target :value |
+			           album disabled: value ].
+	album whenWidgetConfigurationAppliedDo: [
+		disabox disabled: album isDisabled ].
+	showStatisticsBtn clickAction: [
 		album space showStatisticsWindow ].
 
 	pane openInSpace
@@ -1551,10 +1835,9 @@ ToSandBox class >> example_EditorWithoutSoftLine [
 
 { #category : #list }
 ToSandBox class >> example_FilterOnList2WithStatesOfAmerica [
-
 	" When filtered, update the primary selection with filtered items 
 	 - the contents of the list remains unchanged"
-	
+
 	| listElement pane filterField data selector |
 	pane := ToPane new
 		        beVertical;
@@ -1567,16 +1850,17 @@ ToSandBox class >> example_FilterOnList2WithStatesOfAmerica [
 	filterField margin: (BlInsets all: 2).
 
 	selector := ToObservableCollectionFilter new.
-	selector action: [
-		listElement selecter selectOnlyIndexes: selector selectedIndexes ].
+	listElement dataAccessor
+		addEventHandlerOn: ToObservableCollectionFilterAppliedEvent
+		do: [ :event |
+			listElement selecter selectOnlyIndexes: event selectedIndexes ].
 	listElement dataAccessor addAll: data.
-
 	selector onInstalledIn: listElement dataAccessor.
 
 	filterField whenTextEditedDo: [
-				 | pattern |
-				 pattern := filterField text asString.
-				 selector pattern: pattern ].
+			| pattern |
+			pattern := filterField text asString.
+			selector pattern: pattern ].
 
 	"handler inspect."
 	pane addChild: listElement.
@@ -1606,7 +1890,7 @@ ToSandBox class >> example_GeneralButtonWithIconAndLabel [
 	but geometry: (BlRoundedRectangleGeometry cornerRadius: 4).
 	but border: Color black.
 	but addChild: pane.
-	but newClickAction: [ self inform: 'clicked' ].
+	but clickAction: [ self inform: 'clicked' ].
 	but openInSpace.
 	^ but
 ]
@@ -1632,7 +1916,7 @@ ToSandBox class >> example_GeneralButtonWithLabel [
 	but addChild: (ToLabel text: 'General button').
 	but border: Color black.
 	but fitContent.
-	but newClickAction: [ self inform: 'clicked' ].
+	but clickAction: [ self inform: 'clicked' ].
 	but openInSpace.
 	^ but
 ]
@@ -1922,13 +2206,13 @@ ToSandBox class >> example_List12Classes [
 	               indexes := request selectedIndexes.
 	               menu addItem: (ToMenuItem new
 			                labelText: 'Remove';
-			                newClickAction: [
+			                clickAction: [
 				                indexes sort reverseDo: [ :idx |
 						                target dataAccessor removeAt: idx ] ];
 			                yourself).
 	               menu addItem: (ToMenuItem new
 			                labelText: 'Inspect list';
-			                newClickAction: [ target inspect ];
+			                clickAction: [ target inspect ];
 			                yourself) ].
 	l contextMenu: menuFactory.
 	l openInSpace
@@ -2356,6 +2640,157 @@ ToSandBox class >> example_Menu0 [
 ]
 
 { #category : #menu }
+ToSandBox class >> example_Menu2 [
+
+	| menu container |
+	container := ToInnerWindow new
+		             position: 10 @ 10;
+		             size: 400 @ 200;
+		             yourself.
+	menu := ToMenu new.
+	menu addItem: (ToMenuItem new
+			 labelText: 'Menu item';
+			 clickAction: [ :event | event traceCr ];
+			 yourself).
+	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	container pane addChild: menu.
+	container openInSpace
+]
+
+{ #category : #menu }
+ToSandBox class >> example_MenuPaneScrollableWithCustomItems [
+
+	| menuPane grp right center left textField sub lbl item |
+	menuPane := ToMenuPane new.
+	menuPane vertical: true.
+	menuPane vMatchParent.
+	menuPane width: 300.
+	menuPane isScrollable: true.
+	menuPane addItem: (ToMenuItem new
+			 labelText: 'Open file';
+			 clickAction: [ self inform: 'Open file' ];
+			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
+
+	item := ToMenuItem new
+		        labelText: 'Export';
+		        clickAction: [ self inform: 'Export' ];
+		        yourself.
+	menuPane addItem: item.
+	item disable.
+
+	menuPane addItem: (ToMenuItem new
+			 labelText: 'Inspect';
+			 clickAction: [ menuPane space root inspect ];
+			 yourself).
+	menuPane addSeparator.
+	menuPane addItem: (ToToggleMenuItem new
+			 labelText: 'Toggle';
+			 yourself).
+	menuPane addItem: (ToCustomMenuItem new
+			 in: [ :e |
+				 e addChild: (ToSwitchButton new
+							  checked: true;
+							  startFlexible: true;
+							  hMatchParent;
+							  labelText: 'Switch';
+							  yourself) ];
+			 yourself).
+
+	grp := ToCheckableGroup new.
+	right := ToRadioMenuItem new
+		         labelText: 'Right';
+		         id: #right.
+	center := ToRadioMenuItem new
+		          labelText: 'Center';
+		          id: #center.
+	left := ToRadioMenuItem new
+		        labelText: 'Left';
+		        id: #left.
+	center checked: true.
+	grp registerAll: {
+			right.
+			center.
+			left }.
+
+	menuPane
+		newCheckAction: [ :evt :group :list | list traceCr ]
+		onGroup: grp.
+	menuPane addSeparator.
+
+	lbl := ToAttributedLabel text: 'Radio button icon first'.
+	lbl
+		italic;
+		fontSize: 12;
+		foreground: Color blue.
+
+	menuPane addItem: (ToCustomMenuItem new in: [ :e |
+			 e
+				 addChild: lbl;
+				 margin: (BlInsets
+						  top: 2;
+						  bottom: 4) ]).
+	menuPane addAllItems: grp registeredCheckables.
+
+	grp := ToCheckableGroup new.
+	right := ToRadioMenuItem new
+		         beEndToStart;
+		         labelText: 'Right';
+		         id: #right.
+	center := ToRadioMenuItem new
+		          beEndToStart;
+		          labelText: 'Center';
+		          id: #center.
+	left := ToRadioMenuItem new
+		        beEndToStart;
+		        labelText: 'Left';
+		        id: #left.
+	center checked: true.
+	grp registerAll: {
+			right.
+			center.
+			left }.
+	menuPane
+		checkAction: [ :evt :group :list | list traceCr ]
+		onGroup: grp.
+	menuPane addSeparator.
+
+	lbl := ToAttributedLabel new text:
+		       ('Radio button label first' asRopedText
+			        italic;
+			        fontSize: 12;
+			        foreground: (Color blue alpha: 0.7)).
+	menuPane addItem: (ToCustomMenuItem new in: [ :e |
+			 e
+				 addChild: lbl;
+				 margin: (BlInsets
+						  top: 2;
+						  bottom: 4) ]).
+	menuPane addAllItems: grp registeredCheckables.
+	menuPane addSeparator.
+	textField := ToTextField new
+		             placeholderBuilder: [ :thePlaceholder :theElement |
+			             thePlaceholder addChild:
+					             (ToAttributedLabel new text:
+							              ('Your name' asRopedText
+								               foreground: Color lightGray;
+								               yourself)) ];
+		             "withLineWrapping;"vFitContent;
+		             hMatchParent.
+	menuPane addItem:
+		(ToCustomMenuItem new in: [ :e | e addChild: textField ]).
+	menuPane addSeparator.
+	sub := ToMenu new
+		       labelText: 'Save All';
+		       showExpandIcon: true;
+		       yourself.
+	sub beInline.
+
+	sub addItem: (ToMenuItem new labelText: 'Locally').
+	menuPane addItem: sub.
+	menuPane openInSpace
+]
+
+{ #category : #menu }
 ToSandBox class >> example_MenuWithAccordeon [
 
 	| menu pane item |
@@ -2426,6 +2861,135 @@ ToSandBox class >> example_MenuWithAccordeon3 [
 	menu addItem: sub.
 
 	menu openInSpace
+]
+
+{ #category : #menu }
+ToSandBox class >> example_MenuWithCustomItems [
+
+	| menu grp right center left textField sub lbl item |
+	menu := ToMenu new.
+	menu labelText: 'File'.
+	menu addItem: (ToMenuItem new
+			 labelText: 'Open file';
+			 clickAction: [ self inform: 'Open file' ];
+			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
+
+	item := ToMenuItem new
+		        labelText: 'Export';
+		        clickAction: [ self inform: 'Export' ];
+		        yourself.
+	menu addItem: item.
+	item disable.
+
+	menu
+		addItem: (ToMenuItem new
+				 labelText: 'Inspect';
+				 clickAction: [ menu space root inspect ];
+				 yourself).
+	menu addSeparator.
+	menu addItem: (ToToggleMenuItem new
+			 labelText: 'Toggle';
+			 yourself).
+	menu addItem: (ToCustomMenuItem new
+			 in: [ :e |
+				 e addChild: (ToSwitchButton new
+							  checked: true;
+							  startFlexible: true;
+							  hMatchParent;
+							  labelText: 'Switch';
+							  yourself) ];
+			 yourself).
+
+	grp := ToCheckableGroup new.
+	right := ToRadioMenuItem new
+		         labelText: 'Right';
+		         id: #right.
+	center := ToRadioMenuItem new
+		          labelText: 'Center';
+		          id: #center.
+	left := ToRadioMenuItem new
+		        labelText: 'Left';
+		        id: #left.
+	center checked: true.
+	grp registerAll: {
+			right.
+			center.
+			left }.
+
+	menu
+		newCheckAction: [ :evt :group :list | list traceCr ]
+		onGroup: grp.
+	menu addSeparator.
+
+	lbl := ToAttributedLabel text: 'Radio button icon first'.
+	lbl
+		italic;
+		fontSize: 12;
+		foreground: Color blue.
+
+	menu addItem: (ToCustomMenuItem new in: [ :e |
+			 e
+				 addChild: lbl;
+				 margin: (BlInsets
+						  top: 2;
+						  bottom: 4) ]).
+	menu addAllItems: grp registeredCheckables.
+
+	grp := ToCheckableGroup new.
+	right := ToRadioMenuItem new
+		         beEndToStart;
+		         labelText: 'Right';
+		         id: #right.
+	center := ToRadioMenuItem new
+		          beEndToStart;
+		          labelText: 'Center';
+		          id: #center.
+	left := ToRadioMenuItem new
+		        beEndToStart;
+		        labelText: 'Left';
+		        id: #left.
+	center checked: true.
+	grp registerAll: {
+			right.
+			center.
+			left }.
+	menu
+		checkAction: [ :evt :group :list | list traceCr ]
+		onGroup: grp.
+	menu addSeparator.
+
+	lbl := ToAttributedLabel new text:
+		       ('Radio button label first' asRopedText
+			        italic;
+			        fontSize: 12;
+			        foreground: (Color blue alpha: 0.7)).
+	menu addItem: (ToCustomMenuItem new in: [ :e |
+			 e
+				 addChild: lbl;
+				 margin: (BlInsets
+						  top: 2;
+						  bottom: 4) ]).
+	menu addAllItems: grp registeredCheckables.
+	menu addSeparator.
+	textField := ToTextField new
+		             placeholderBuilder: [ :thePlaceholder :theElement |
+			             thePlaceholder addChild:
+					             (ToAttributedLabel new text:
+							              ('Your name' asRopedText
+								               foreground: Color lightGray;
+								               yourself)) ];
+		             withLineWrapping;
+		             width: 200.
+	menu addItem:
+		(ToCustomMenuItem new in: [ :e | e addChild: textField ]).
+	menu addSeparator.
+	sub := ToMenu new labelText: 'Save All'.
+
+	sub addItem: (ToMenuItem new labelText: 'Locally').
+	menu addItem: sub.
+
+	menu position: 10 @ 10.
+	menu openInInnerWindow
 ]
 
 { #category : #menu }
@@ -2514,7 +3078,7 @@ ToSandBox class >> example_PicsumPhotosGallery [
 	" Images loaded from https://picsum.photos "
 
 	| space list vscrollBar |
-	list := ToPicsumListElement new
+	list := ToExPicsumListElement new
 		        matchParent;
 		        yourself.
 
@@ -2523,14 +3087,14 @@ ToSandBox class >> example_PicsumPhotosGallery [
 		beneath: false;
 		elementFactory: [
 			ToListSelectionElement new defaultSkin:
-					ToPicsumSelectionSkin new ].
+					ToExPicsumSelectionSkin new ].
 
 	[
 	| allImagesData |
 	allImagesData := (STONJSON fromString:
 		                  'https://picsum.photos/list' asUrl
 			                  retrieveContents) collect: [ :aDictionary |
-		                 ToPicsumImageData fromDictionary:
+		                 ToExPicsumImageData fromDictionary:
 			                 aDictionary ].
 	allImagesData sort: [ :a :b | a id > b id ].
 	list dataAccessor addAll: allImagesData ] fork.
@@ -2601,6 +3165,77 @@ ToSandBox class >> example_Popup1 [
 	menu addEventHandler: popupWindowHandler.
 	container pane addChild: menu.
 	container openInSpace 
+]
+
+{ #category : #tree }
+ToSandBox class >> example_PreviousIntegers [
+	"This example shows classes as a list but using TreeNodes, tree logic is not implemented at this time of writing the example"
+
+	| l |
+	l := ToTreeElement new.
+	l nodeManager childrenGetter: [ :dataItem |
+		dataItem = 1
+			ifTrue: [ {  } ]
+			ifFalse: [ { (dataItem - 1) } ] ].
+	l contextMenu: [ :menu :request |
+		| selectionModel indexes target |
+		target := request currentTarget.
+		selectionModel := request selectionModel.
+		indexes := request selectedIndexes.
+		indexes traceCr.
+		menu addItem: (ToMenuItem new
+				 labelText: 'Expand all';
+				 clickAction: [
+					 indexes
+						 ifEmpty: [ target expandAll ]
+						 ifNotEmpty: [
+							 indexes reverseDo: [ :idx |
+									 (target dataSource at: idx) expandAll ] ] ];
+				 yourself).
+		menu addItem: (ToMenuItem new
+				 labelText: 'Collapse all';
+				 clickAction: [
+					 indexes
+						 ifEmpty: [ target collapseAll ]
+						 ifNotEmpty: [
+							 indexes reverseDo: [ :idx |
+									 (target dataSource at: idx) collapse ] ] ];
+				 yourself) ].
+	l dataAccessor addAll: (1 to: 10).
+	l openInSpace
+]
+
+{ #category : #tree }
+ToSandBox class >> example_ProtoObjectSubclasses [
+	"This example shows classes as a list but using TreeNodes, tree logic is not implemented at this time of writing the example"
+
+	| l |
+	l := ToTreeElement new.
+	l nodeManager childrenGetter: [ :dataItem | dataItem subclasses sorted: [ :a :b | a name < b name ]].
+	l withRowNumbers.
+	l contextMenu: [ :menu :request |
+			| selectionModel indexes target |
+			target := request currentTarget.
+			selectionModel := request selectionModel.
+			indexes := request selectedIndexes.
+			menu addItem: (ToMenuItem new
+					 labelText: 'Expand all';
+					 clickAction: [ "[ target expandAll] millisecondsToRun traceCr"
+							 indexes
+								 ifEmpty: [ [ target expandAll ] timeToRun traceCr ]
+								 ifNotEmpty: [
+									 indexes do: [ :idx | (target dataSource at: idx) expandAll ] ] ];
+					 yourself).
+			menu addItem: (ToMenuItem new
+					 labelText: 'Collapse all';
+					 clickAction: [
+							 indexes
+								 ifEmpty: [ target collapseAll ]
+								 ifNotEmpty: [
+									 indexes do: [ :idx | (target dataSource at: idx) collapse ] ] ];
+					 yourself) ].
+	l dataAccessor add: ProtoObject.
+	l openInSpace
 ]
 
 { #category : #checkbox }
@@ -2810,7 +3445,7 @@ ToSandBox class >> example_SelectMonoFiltrable [
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
 	select width: 300.
-	select position: 50 @ 50.
+	"select position: 50 @ 50."
 	innerWindow pane addChild: select.
 	innerWindow height: 500.
 	innerWindow openInSpace
@@ -2826,7 +3461,6 @@ ToSandBox class >> example_SelectMonoNotFiltrable [
 		('Select a state' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
-	select popupListElement withRowNumbers.
 	select width: 300.
 	select position: 50 @ 50.
 	innerWindow pane addChild: select.
@@ -2861,7 +3495,6 @@ ToSandBox class >> example_SelectMultiFiltrable [
 		                        labelText: stateColorAssoc key asString;
 		                        yourself.
 	                 tag borderless: true.
-	                 tag hMatchParent.
 	                 tag foregroundColor: stateColorAssoc value.
 	                 tag backgroundColor:
 		                 (stateColorAssoc value veryMuchLighter alpha: 0.5).
@@ -2876,7 +3509,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 		node addChild: tag ].
 
 	select popupListElement nodeBuilder: [ :node :stateColorAssoc :holder |
-		node addChild: (newTagFactory value: stateColorAssoc) ].
+		node addChild: (newTagFactory value: stateColorAssoc) hMatchParent; yourself].
 
 	select sieve dataFilter: [ :stateAssoc :pattern |
 		stateAssoc key beginsWith: pattern caseSensitive: false ].
@@ -2893,7 +3526,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	select hMatchParent.
 	select selecter selectIndex: 2.
 	innerWindow pane addChild: select.
-	innerWindow height: 600.
+	"innerWindow height: 600."
 	innerWindow openInSpace.
 	^ select
 ]
@@ -2903,10 +3536,11 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistribution [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
+	"select maxSelectedCount: 6."
 	select isFlowable: false.
-	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select autoDistribute: true.
-
+	select hideSelected: false.
+	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select filtrable: true.
 	select popupMaxHeight: 200.
 	select placeholderText:
@@ -2970,27 +3604,6 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrappingKeepPickOrder [
 	select := ToMultiSelectElement new.
 	select keepPickOrder: true.
 	select isFlowable: false.
-	select hideSelected: false.
-	select popupListElement dataAccessor addAll: self statesOfAmerica.
-	select filtrable: true.
-	select popupMaxHeight: 200.
-	select placeholderText:
-		('Select states' asRopedText foreground: Color red).
-	innerWindow := ToInnerWindow new.
-	select manager anchorRoot: innerWindow root.
-	select hMatchParent.
-	innerWindow pane addChild: select.
-	innerWindow height: 600.
-	innerWindow openInSpace
-]
-
-{ #category : #select }
-ToSandBox class >> example_SelectMultiFiltrableNotWrappingAutoDistribution [
-
-	| select innerWindow |
-	select := ToMultiSelectElement new.
-	select isFlowable: false.
-	select autoDistribute: true.
 	select hideSelected: false.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select filtrable: true.
@@ -3111,34 +3724,22 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected2 [
 ]
 
 { #category : #select }
+ToSandBox class >> example_SelectMultiFiltrableWithMatchParentMaxHeight [
+
+	| select |
+	select := self example_SelectMultiFiltrable.
+	select popupListElement dataAccessor updateAllWith:
+		(self statesOfAmericaWithColor copyFrom: 1 to: 15).
+	select manager withMatchParentMaxHeight.
+]
+
+{ #category : #select }
 ToSandBox class >> example_SelectMultiFiltrableWithMax [
 
 	| select  |
 	select := self example_SelectMultiFiltrable.
 	select width: 300.
 	select maxSelectedCount: 4
-]
-
-{ #category : #select }
-ToSandBox class >> example_SelectMultiFiltrableWrappingAutoDistribution [
-
-	| select innerWindow |
-	select := ToMultiSelectElement new.
-	"select maxSelectedCount: 6."
-	select isFlowable: true.
-	select autoDistribute: true.
-	select hideSelected: false.
-	select popupListElement dataAccessor addAll: self statesOfAmerica.
-	select filtrable: true.
-	select popupMaxHeight: 200.
-	select placeholderText:
-		('Select states' asRopedText foreground: Color red).
-	innerWindow := ToInnerWindow new.
-	select manager anchorRoot: innerWindow root.
-	select hMatchParent.
-	innerWindow pane addChild: select.
-	innerWindow height: 600.
-	innerWindow openInSpace
 ]
 
 { #category : #select }
@@ -3171,6 +3772,7 @@ ToSandBox class >> example_SelectMultiNotFiltrableWithGroups [
 	select := ToMultiSelectElement new.
 	select withGroups: true.
 	select manager minHeight: 85.
+	select manager withMatchParentMaxHeight.
 
 	select filtrable: false.
 	self statesOfAmericaWithGroups do: [ :assoc |
@@ -3182,11 +3784,10 @@ ToSandBox class >> example_SelectMultiNotFiltrableWithGroups [
 		('Select a state' asRopedText foreground: Color red).
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
-	select width: 300.
-	select position: 50 @ 50.
+	innerWindow root padding:( BlInsets all: 10).
 	select filterTextField requestFocus.
 	innerWindow pane addChild: select.
-	innerWindow height: 500.
+	innerWindow height: 590.
 	innerWindow openInSpace
 ]
 
@@ -3245,7 +3846,7 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 	listElement withRowNumbers.
 	filterField margin: (BlInsets all: 2).
 
-	sieve := ToListElementSieve new.
+	sieve := listElement newSieve.
 	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll: data.
 
@@ -3260,8 +3861,7 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 				        foreground: Color lightGray;
 				        fontSize: 24;
 				        yourself).
-		lab matchParent.
-		ph addChild: lab ].
+		ph empty label: lab ].
 
 	"handler inspect."
 	pane addChild: listElement.
@@ -3297,7 +3897,7 @@ ToSandBox class >> example_SieveOnList2With_350000_Items [
 	filterField margin: (BlInsets all: 2).
 	listElement dataAccessor addAll: data.
 
-	sieve := ToListElementSieve new.
+	sieve := listElement newSieve.
 	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll: data.
 	listElement dataAccessor size traceCr.
@@ -3312,8 +3912,7 @@ ToSandBox class >> example_SieveOnList2With_350000_Items [
 				        foreground: Color lightGray;
 				        fontSize: 24;
 				        yourself).
-		lab matchParent.
-		ph addChild: lab ].
+		ph empty label: lab  ].
 
 	"handler inspect."
 	pane addChild: listElement.
@@ -3340,20 +3939,17 @@ ToSandBox class >> example_SieveOnList2With_AllClassNames [
 				 foreground: Color lightGray;
 				 yourself) ].
 
-	sieve := ToListElementSieve new.
+	sieve := listElement newSieve.
 	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll:
 		(Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
-
-	sieve dataFilter: [ :aCompiledMethod :aPattern |
-		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
-
 
 	listElement nodeBuilder: [ :node :dataItem :holder |
 		node addChild: (ToLabel new text: dataItem printString) ].
 
 	sieve dataFilter: [ :aClass :aPattern |
-		aClass name beginsWith: aPattern caseSensitive: true ].
+		aClass name includesSubstring: aPattern caseSensitive: false ].
+	
 	filterField whenTextEditedDo: [
 				 | pattern |
 				 pattern := filterField text asString.
@@ -3380,7 +3976,7 @@ ToSandBox class >> example_SieveOnList2With_AllMethods [
 	filterField placeholderText:
 		(' Method name filter' asRopedText foreground: Color lightGray).
 
-	sieve := ToListElementSieve new.
+	sieve := listElement newSieve.
 	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll: data.
 	listElement
@@ -3425,7 +4021,7 @@ ToSandBox class >> example_SieveOnList2With_AllMethods_OnCR [
 	listElement withRowNumbers.
 	filterField margin: (BlInsets all: 2).
 
-	sieve := ToListElementSieve new.
+	sieve := listElement newSieve.
 	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll: data.
 
@@ -3451,6 +4047,117 @@ ToSandBox class >> example_SieveOnList2With_AllMethods_OnCR [
 	pane openInSpace
 ]
 
+{ #category : #tree }
+ToSandBox class >> example_SieveOnTree [
+
+	| treeElement pane filterField data sieve |
+	pane := ToPane new
+		        beVertical;
+		        matchParent.
+
+	filterField := ToTextField new.
+	treeElement := ToTreeElement new.
+	treeElement childrenGetter: [ :dataItem |
+			Array streamContents: [ :stream |
+				dataItem do: [ :c | stream nextPut: c asSymbol ] ] ].
+	treeElement placeholderBuilder: [ :placeholder :e |
+		placeholder empty ].
+	treeElement addEventHandlerOn: ToListPrimarySelectionChangedEvent do: [ :evt | evt selectedIndexes traceCr ].
+
+	data := SystemNavigation default allMethods.
+	treeElement contextMenu: [ :menu :request |
+			| selectionModel indexes target |
+			target := request currentTarget.
+			selectionModel := request selectionModel.
+			indexes := request selectedIndexes.
+			menu addItem: (ToMenuItem new
+					 labelText: 'Expand all';
+					 clickAction: [ "[ target expandAll] millisecondsToRun traceCr"
+							 indexes
+								 ifEmpty: [ [ target expandAll ] timeToRun traceCr ]
+								 ifNotEmpty: [
+									 indexes do: [ :idx | (target dataSource at: idx) expandAll ] ] ];
+					 yourself).
+			menu addItem: (ToMenuItem new
+					 labelText: 'Collapse all';
+					 clickAction: [
+							 indexes
+								 ifEmpty: [ target collapseAll ]
+								 ifNotEmpty: [
+									 indexes do: [ :idx | (target dataSource at: idx) collapse ] ] ];
+					 yourself) ].
+	treeElement withRowNumbers.
+	filterField margin: (BlInsets all: 2).
+	filterField placeholderBuilder: [ :placeholder :e |
+			placeholder addChild:
+				((ToAttributedLabel text: ' Method name filter')
+					 foreground: Color lightGray;
+					 yourself) ].
+
+	sieve := treeElement newSieve.
+	sieve onInstalledIn: treeElement.
+	treeElement dataAccessor addAll:
+		{ #AAA. #BBB. #CCC. #ABB. #ACC. #BAA. #BCC }.
+
+	sieve dataFilter: [ :aString :aPattern |
+		aString includesSubstring: aPattern caseSensitive: false ].
+
+	treeElement nodeBuilder: [ :node :dataItem :holder |
+		node addChild: (ToLabel new text: dataItem printString) ].
+	
+	treeElement addEventHandlerOn: ToListPrimarySelectionChangedEvent do: [ :evt | self selectionChangedEvent: evt ].
+
+	filterField whenTextEditedDo: [
+			| pattern |
+			pattern := filterField text asString.
+			sieve pattern: pattern ].
+
+	pane addChild: treeElement.
+	pane addChild: filterField.
+	pane openInSpace
+]
+
+{ #category : #tree }
+ToSandBox class >> example_SieveOnTreeWithClasses [
+
+	| treeElement pane filterField data sieve |
+	pane := ToPane new
+		        beVertical;
+		        matchParent.
+
+	filterField := ToTextField new.
+	treeElement := ToTreeElement new.
+	treeElement childrenGetter: [ :dataItem | dataItem subclasses ].
+	data := SystemNavigation default allMethods.
+	treeElement withRowNumbers.
+	filterField margin: (BlInsets all: 2).
+	filterField placeholderBuilder: [ :placeholder :e |
+			placeholder addChild:
+				((ToAttributedLabel text: ' Method name filter')
+					 foreground: Color lightGray;
+					 yourself) ].
+
+	sieve := treeElement newSieve.
+	sieve onInstalledIn: treeElement.
+	treeElement dataAccessor addAll:
+		(Smalltalk globals allClasses sorted: [ :a :b | a name < b name ]).
+
+	sieve dataFilter: [ :aClass :aPattern |
+		aClass name includesSubstring: aPattern caseSensitive: false ].
+
+	treeElement nodeBuilder: [ :node :dataItem :holder |
+		node addChild: (ToLabel new text: dataItem printString) ].
+
+	filterField whenTextEditedDo: [
+			| pattern |
+			pattern := filterField text asString.
+			sieve pattern: pattern ].
+
+	pane addChild: treeElement.
+	pane addChild: filterField.
+	pane openInSpace
+]
+
 { #category : #menu }
 ToSandBox class >> example_SimpleOpenSaveSaveAsClose [
 
@@ -3472,12 +4179,12 @@ ToSandBox class >> example_SimpleOpenSaveSaveAsClose [
 			 icon: ((ToImage inner: (self iconNamed: #solidMenu)));
 			 label: (ToLabel text: 'Save as');
 			 background: (Color random alpha: 0.2)).
-	menu items last newClickAction: [ :evt :target | target inspect ].
+	menu items last clickAction: [ :evt :target | target inspect ].
 	menu addSeparator.
 	menu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Close');
 			 background: (Color random alpha: 0.2)).
-	menu items last newClickAction: [ :evt :target | target inspect ].
+	menu items last clickAction: [ :evt :target | target inspect ].
 	container pane addChild: menu.
 	
 	container openInSpace
@@ -3605,7 +4312,7 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 	container openInSpace
 ]
 
-{ #category : #tag }
+{ #category : #tabPane }
 ToSandBox class >> example_TabBarElement [
 
 	| tabs board |
@@ -3621,7 +4328,7 @@ ToSandBox class >> example_TabBarElement [
 	board openInSpace
 ]
 
-{ #category : #tag }
+{ #category : #tabPane }
 ToSandBox class >> example_TabGroupElement [
 
 	| tabs dashBoard |
@@ -3635,14 +4342,14 @@ ToSandBox class >> example_TabGroupElement [
 				 labelText: i asString;
 				 removable: true;
 				 yourself) ].
-	tabs items first check.
+	tabs selecter selectIndex: 5.
 	tabs requestFocus.
 	dashBoard := self tabGroupElementDashBoardFor: tabs.
 	dashBoard openInSpace.
 	^ tabs
 ]
 
-{ #category : #tag }
+{ #category : #tabPane }
 ToSandBox class >> example_TabGroupElementWithDaily [
 
 	| tabs dashBoard |
@@ -3655,7 +4362,7 @@ ToSandBox class >> example_TabGroupElementWithDaily [
 				 yourself) ].
 
 	(tabs items at: 2) disable.
-	(tabs items at: 3) checked: true.
+	tabs selecter selectIndex: 3.
 	tabs requestFocus.
 	dashBoard := self tabGroupElementDashBoardFor: tabs.
 	tabs disabled: true.
@@ -3663,7 +4370,7 @@ ToSandBox class >> example_TabGroupElementWithDaily [
 	^ tabs
 ]
 
-{ #category : #tag }
+{ #category : #tabPane }
 ToSandBox class >> example_TabGroupElementWithStartAndEndExtras [
 
 	| tabs |
@@ -3683,12 +4390,12 @@ ToSandBox class >> example_TabGroupElementWithStartAndEndExtras [
 	^ tabs
 ]
 
-{ #category : #tag }
+{ #category : #tabPane }
 ToSandBox class >> example_TabGroupElementWithUSStates [
 
 	| tabs dashBoard |
 	tabs := ToTabGroupElement new.
-
+	tabs exactItemWidth: 30.
 	(self statesOfAmerica "copyFrom: 1 to: 20") do: [ :l |
 		tabs addItem: (tabs newTabItem
 				 labelText: l;
@@ -3703,33 +4410,32 @@ ToSandBox class >> example_TabGroupElementWithUSStates [
 	^ tabs
 ]
 
-{ #category : #tag }
+{ #category : #tabPane }
 ToSandBox class >> example_TabPaneElementWithUSStates [
 
 	| tpane dashBoard |
-	tpane := ToTabPaneElement new.
+	tpane := self tabPaneElementWithUSStates.
+	tpane matchParent.
+	"tpane items third checked: true."
+	tpane selecter selectIndex: 3.
 
-	tpane preservePane: true.
-	tpane exactItemWidth: 70.
-
-	self statesOfAmerica do: [ :l |
-		| lab |
-		lab := ToLabel text: l.
-		"lab rotateBy: 270."
-		tpane addItem: (ToTabButton new
-				 label: lab;
-				 tooltipString: l;
-				 removable: true;
-				 paneBuilder: [ :pane |
-					 pane withNullSkin.
-					 pane border: Color veryLightGray.
-					 pane background: Color random ];
-				 yourself) ].
-
-	tpane isFlowable: false.
-	tpane isScrollable: true.
 	dashBoard := self tabGroupElementDashBoardFor: tpane.
-	dashBoard openInSpace
+	dashBoard openInSpace.
+	tpane tabGroup requestFocus.
+	^ tpane
+]
+
+{ #category : #tabPane }
+ToSandBox class >> example_TabPaneElementWithUSStates0 [
+
+	| tpane dashBoard |
+	tpane := self tabPaneElementWithUSStates.
+	tpane selecter selectIndex: 3.
+	"tpane items third checked: true."
+	tpane matchParent.
+	tpane openInSpace.
+	tpane tabGroup requestFocus.
+	^ tpane
 ]
 
 { #category : #tag }
@@ -3742,7 +4448,7 @@ ToSandBox class >> example_TagBar [
 		(ToSandBox statesOfAmerica collect: [ :s | ToSingleTag new data: s ]).
 	tb tagBuilder: [ :tagElement :aStateName :holder |
 		tagElement labelText: aStateName , ' ' , holder position asString.
-		"tagElement removable: true" ].
+		tagElement removable: true ].
 	dashBoard := self barConfigurationBoardFor: tb.
 	rootPane := ToPane horizontal.
 	rootPane padding: (BlInsets all: 5).
@@ -3759,6 +4465,7 @@ ToSandBox class >> example_ThemeSelectNoDeselection [
 
 	| select |
 	select := self themeSelect.
+	select closeOnPicking: true.
 	select placeholderText:
 		('Select a Toplo theme' asRopedText foreground: Color lightGray).
 	select
@@ -3864,16 +4571,17 @@ ToSandBox class >> example_ToggleButtonGroupAndStrictStrategy [
 				 labelText: day;
 				 hMatchParent;
 				 yourself) ].
-	group registeredCheckables second checked: true.
+
 
 	groupContainer := ToPane vertical.
 	groupContainer
-		newCheckGroupAction: [ :evt :grp :list | list traceCr ]
-		with: group.
+		newCheckAction: [ :evt :grp :list | list traceCr ]
+		onGroup: group.
 
 	groupContainer width: 150.
 	groupContainer addChildren: group registeredCheckables.
-	groupContainer openInSpace
+	groupContainer openInSpace.
+	group registeredCheckables second checked: true.
 ]
 
 { #category : #'toggle button' }
@@ -3890,8 +4598,8 @@ ToSandBox class >> example_ToggleButtonGroupAndWeakStrategy [
 	group registeredCheckables second checked: true.
 	groupContainer := ToPane vertical.
 	groupContainer
-		newCheckGroupAction: [ :evt :grp :list | list traceCr ]
-		with: group.
+		newCheckAction: [ :evt :grp :list | list traceCr ]
+		onGroup: group.
 
 	groupContainer width: 150.
 	groupContainer addChildren: group registeredCheckables.
@@ -3935,7 +4643,7 @@ ToSandBox class >> example_ToggleButtonInListElement [
 		moveElement addChild: blackMoveLabel.
 		inspectButton := ToButton new
 			                 labelText: 'Inspect';
-			                 newClickAction: [ node inspect ];
+			                 clickAction: [ node inspect ];
 			                 yourself.
 
 
@@ -4006,10 +4714,21 @@ ToSandBox class >> example_ToggleButtonWithIndeterminate [
 ]
 
 { #category : #triplet }
+ToSandBox class >> example_TripletElementWith2IconsAnd1LabelInInnerWindow [
+
+	| but  |
+	but := self tripletWith2IconsAnd1Label.
+	but hMatchParent.
+	but flexible: true.
+	but openInInnerWindow.
+	^ but
+]
+
+{ #category : #triplet }
 ToSandBox class >> example_TripletElementWithIconAndText [
 
 	| but  |
-	but := self tripletWithText.
+	but := self tripletWith2Labels.
 	but hMatchParent.
 	but openInSpace.
 	^ but
@@ -4096,9 +4815,23 @@ ToSandBox class >> example_TripletElementWithIconAndText_startFlexible_startInte
 ToSandBox class >> example_TripletElementWithIconAndText_vertical [
 
 	| but  |
-	but := self tripletWithText.
+	but := self tripletWith2Labels.
 	but beVertical.
 	but openInSpace.
+	^ but
+]
+
+{ #category : #triplet }
+ToSandBox class >> example_TripletElementWithMiddleShrinkLayer [
+
+	| but  |
+	but := self example_TripletElementWith2IconsAnd1LabelInInnerWindow.
+	but middleElement enableShrinkLayer: true.
+	but startInterspace: 5.
+	but endInterspace: 5.
+	but middleElement hMatchParent.
+	but flexible: false.
+	but middleContainer constraintsDo: [ :c | c horizontal matchParent ].
 	^ but
 ]
 
@@ -4142,7 +4875,7 @@ ToSandBox class >> example_WithCheckBox [
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ menu space root inspect ];
+			 clickAction: [ menu space root inspect ];
 			 yourself).
 	menu addItem: (ToToggleMenuItem new
 			 labelText: 'Toggle';
@@ -4288,7 +5021,7 @@ ToSandBox class >> example_buttonWithActionControl [
 	but := ToButton new.
 	but label: (ToLabel text: 'Button with label').
 	count := 0.
-	but newClickAction: [ self inform: 'Action runned' ].
+	but clickAction: [ self inform: 'Action runned' ].
 	but openInSpace.
 	^ but
 ]
@@ -4309,7 +5042,7 @@ ToSandBox class >> example_buttonWithDisableEnable [
 		          labelText: 'Button';
 		          yourself.
 	disabox checkAction: [ :evt :target :value | button disabled: value ].
-	button newClickAction: [ :evt :target | disabox checked: true. button disabled: true ].
+	button clickAction: [ :evt :target | disabox checked: true. button disabled: true ].
 	button addEventHandlerOn: ToHoveredSkinEvent do: [ :evt |  ].
 	pane addChild: disabox.
 	pane addChild: button.
@@ -4338,7 +5071,7 @@ ToSandBox class >> example_buttonWithIconAndLabel [
 	| but  |
 	but := self example_buttonWithIcon.
 	but label: (ToLabel text: 'Button with label').
-	but newClickAction: [ self inform: 'Action runned' ].
+	but clickAction: [ self inform: 'Action runned' ].
 	^ but
 ]
 
@@ -4372,24 +5105,20 @@ ToSandBox class >> example_buttonWithLabel [
 	^ but
 ]
 
-{ #category : #'tabPane-dep' }
-ToSandBox class >> example_closeableTabs [
+{ #category : #button }
+ToSandBox class >> example_clickAction [
 
-	| nb but |
-	nb := ToTabPane new.
-	nb 
-		newCheckGroupAction: [ :evt :grp :l | l traceCr ]
-		with: nb group.
-	nb preservePaneOnSelect: false.
-	(Color wheel: 5) withIndexDo: [ :eachColor :index |
-		but := ToTab new.
-		but closable: true.
-		but checkAction: [ :evt :target :value | value traceCr ].
-		but labelText: 'Button ' , index asString.
-		but paneBuilder: [ :pane :theNoteBook | pane background: eachColor ].
-		nb addTab: but ].
-	nb openInSpace.
-	nb inspect
+	| pane e action |
+	pane := ToPane vertical.
+	e := ToElement new.
+	e size: 50 asPoint.
+	e background: Color blue.
+	action := e clickAction: [ :evt | evt traceCr ].
+	e addEventHandlerOn: BlClickEvent do: [ :event |
+			action run.
+			action runWithEvent: event ].
+	pane addChild: e.
+	pane openInSpace
 ]
 
 { #category : #list }
@@ -4439,7 +5168,7 @@ ToSandBox class >> example_contactList [
 					 addressTxtF text: contact address ] ]).
 
 	button := ToButton new label: (ToLabel text: 'Update table').
-	button newClickAction: [
+	button clickAction: [
 		| n p a c idx |
 		n := nameTxtF text asString.
 		p := phoneTxtF text asString.
@@ -4517,7 +5246,7 @@ ToSandBox class >> example_contextMenu [
 	container contextMenu: [ :win :request |
 		win addItem: (ToMenuItem new
 				 labelText: 'Open';
-				 newClickAction: [ self inform: 'Open' ];
+				 clickAction: [ self inform: 'Open' ];
 				 yourself) ].
 
 	container openInSpace
@@ -4577,6 +5306,30 @@ ToSandBox class >> example_emptyBoxWithCustomLabel [
 	box openInSpace
 ]
 
+{ #category : #float }
+ToSandBox class >> example_floatButton [
+
+	|  btn1 btn2 pane floatLayer textField |
+	btn1 := ToButton new labelText: 'Button 1'.
+	btn2 := ToButton new labelText: 'Button 2'.
+	textField := ToTextField new width: 150;
+		            placeholderBuilder: [ :placeholder :e |
+			            placeholder addChild: (ToAttributedLabel new
+						             text: ('Name' asRopedText
+								              foreground: Color lightGray;
+								              italic);
+						             yourself) ].
+	pane := ToPane new matchParent.
+	
+	floatLayer := ToFloatOverlay new.
+	floatLayer attachToParent: pane.
+	floatLayer southEast endToStart: true.
+	floatLayer southEast addChild: textField asFloatElement.
+	floatLayer southEast addChild: btn1 asFloatElement.
+	floatLayer southEast addChild: btn2 asFloatElement.
+	pane openInSpace
+]
+
 { #category : #checkbox }
 ToSandBox class >> example_group [
 
@@ -4593,8 +5346,8 @@ ToSandBox class >> example_group [
 	group registeredCheckables last checked: true.
 	container addChildren: group registeredCheckables.
 	container
-		newCheckGroupAction: [ :evt :grp :l | l traceCr ]
-		with: group.
+		newCheckAction: [ :evt :grp :l | l traceCr ]
+		onGroup: group.
 	container openInInnerWindow
 ]
 
@@ -4618,9 +5371,9 @@ ToSandBox class >> example_group2 [
 	containerElement addChildren: group registeredCheckables.
 
 	containerElement
-		newCheckGroupAction: [ :evt :grp :l |
+		newCheckAction: [ :evt :grp :l |
 		Toplo defaultThemeClass: (l first userData at: #theme) ]
-		with: group.
+		onGroup: group.
 	group registeredCheckables second checked: true.
 
 	containerElement openInSpace
@@ -4680,192 +5433,6 @@ ToSandBox class >> example_group4 [
 	containerElement openInSpace
 ]
 
-{ #category : #'header positionning' }
-ToSandBox class >> example_headerOnBottomCenter [
-
-	| nb |
-	nb := self example_tabPane.
-	nb withHeaderOnBottomCenter.
-	^ nb
-]
-
-{ #category : #'header positionning' }
-ToSandBox class >> example_headerOnBottomLeft [
-
-	| nb |
-	nb := self example_tabPane.
-	nb withHeaderOnBottomLeft.
-	^ nb
-]
-
-{ #category : #'tabPane-dep' }
-ToSandBox class >> example_headerOnBottomResizablePanes [
-
-	| nb |
-	nb := self example_headerOnBottomLeft.
-	nb withoutCheckingStrategy.
-	nb withResizablePanes 
-]
-
-{ #category : #'header positionning' }
-ToSandBox class >> example_headerOnBottomRight [
-
-	| nb |
-	nb := self example_tabPane.
-	nb withHeaderOnBottomRight.
-	^ nb
-]
-
-{ #category : #'header positionning' }
-ToSandBox class >> example_headerOnLeftBottom [
-
-	| nb |
-	nb := self example_tabPane.
-	nb withHeaderOnLeftBottom.
-	^ nb
-]
-
-{ #category : #'header positionning' }
-ToSandBox class >> example_headerOnLeftCenter [
-
-	| nb |
-	nb := self example_tabPane.
-	nb withHeaderOnLeftCenter.
-	^ nb
-]
-
-{ #category : #'tabPane-dep' }
-ToSandBox class >> example_headerOnLeftResizablePanes [
-
-	| nb |
-	nb := self example_headerOnLeftTop.
-	nb withoutCheckingStrategy.
-	nb withResizablePanes 
-]
-
-{ #category : #'header positionning' }
-ToSandBox class >> example_headerOnLeftTop [
-
-	| nb |
-	nb := self example_tabPane.
-	nb withHeaderOnLeftTop.
-	^ nb
-]
-
-{ #category : #'vertical labels' }
-ToSandBox class >> example_headerOnLeftTopVerticalLabels [
-
-	| nb but |
-	nb := ToTabPane new.
-	nb constraintsDo: [ :c | c accountTransformation ].
-	nb resizablePanes: true.
-	1 to: 5 do: [ :index |
-		but := ToTab new.
-		but labelText: 'Button ' , index asString.
-		but firstChild rotateBy: 270.
-		but paneBuilder: [ :pane :theNoteBook | pane background: Color random ].
-		nb addTab: but ].
-	nb openInSpace.
-	nb header constraintsDo: [ :c | c accountTransformation ].
-	nb withHeaderOnLeftTop.
-	^ nb
-]
-
-{ #category : #'header positionning' }
-ToSandBox class >> example_headerOnRightBottom [
-
-	| nb |
-	nb := self example_tabPane.
-	nb withHeaderOnRightBottom.
-	^ nb
-]
-
-{ #category : #'header positionning' }
-ToSandBox class >> example_headerOnRightCenter [
-
-	| nb |
-	nb := self example_tabPane.
-	nb withHeaderOnRightCenter.
-	^ nb
-]
-
-{ #category : #'header positionning' }
-ToSandBox class >> example_headerOnRightTop [
-
-	| nb |
-	nb := self example_tabPane.
-	nb withHeaderOnRightTop.
-	^ nb
-]
-
-{ #category : #'vertical labels' }
-ToSandBox class >> example_headerOnRightTopLabelsDiagonally [
-
-	| nb but |
-	nb := ToTabPane new.
-	nb constraintsDo: [ :c | c accountTransformation ].
-	nb resizablePanes: true.
-	1 to: 5 do: [ :index |
-		but := ToTab new.
-		but layout beVertical.
-		but layout alignCenter.
-		but closable: true.
-		but labelText: 'Button ' , index asString.
-		but firstChild rotateBy: 50.
-		but paneBuilder: [ :pane :theNoteBook | pane background: Color random ].
-		nb addTab: but ].
-	nb openInSpace.
-	nb header constraintsDo: [ :c | c accountTransformation ].
-	nb withHeaderOnRightTop.
-	^ nb
-]
-
-{ #category : #'header positionning' }
-ToSandBox class >> example_headerOnTopCenter [
-
-	| nb |
-	nb := self example_tabPane.
-	nb withHeaderOnTopCenter.
-	^ nb
-]
-
-{ #category : #'header positionning' }
-ToSandBox class >> example_headerOnTopLeft [
-
-	| nb |
-	nb := self example_tabPane.
-	nb withHeaderOnTopLeft.
-	^ nb
-]
-
-{ #category : #'tabPane-dep' }
-ToSandBox class >> example_headerOnTopResizablePanes [
-
-	| nb |
-	nb := self example_tabPane.
-	nb withoutCheckingStrategy.
-	nb withResizablePanes 
-]
-
-{ #category : #'tabPane-dep' }
-ToSandBox class >> example_headerOnTopResizablePanesHorizontalBody [
-
-	| nb |
-	nb := self example_tabPane.
-	nb withoutCheckingStrategy.
-	nb withResizablePanes.
-	nb withHorizontalBody
-]
-
-{ #category : #'header positionning' }
-ToSandBox class >> example_headerOnTopRight [
-
-	| nb |
-	nb := self example_tabPane.
-	nb withHeaderOnTopRight.
-	^ nb
-]
-
 { #category : #pane }
 ToSandBox class >> example_horizontalPaneWithDivider [
 
@@ -4895,10 +5462,10 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 			e2.
 			e3 }.
 	btn := ToButton new labelText: 'Change orientation'.
-	btn newClickAction: [ pane orientation: pane orientation inverted ].
+	btn clickAction: [ pane orientation: pane orientation inverted ].
 	pane addChild: btn.
 	btn := ToButton new labelText: 'Change direction'.
-	btn newClickAction: [ pane direction: pane direction inverted ].
+	btn clickAction: [ pane direction: pane direction inverted ].
 	pane addChild: btn.
 
 	pane addDividers.
@@ -4948,7 +5515,7 @@ ToSandBox class >> example_inline2 [
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ menu space root inspect ];
+			 clickAction: [ menu space root inspect ];
 			 yourself).
 	sub := ToMenu new labelText: 'Save All'.
 	sub beInline.
@@ -4990,7 +5557,7 @@ ToSandBox class >> example_inline3 [
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ menu space root inspect ];
+			 clickAction: [ menu space root inspect ];
 			 yourself).
 	sub := ToMenu new labelText: 'Save All'.
 	sub beInline.
@@ -5032,7 +5599,7 @@ ToSandBox class >> example_inline4 [
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ menu space root inspect ];
+			 clickAction: [ menu space root inspect ];
 			 yourself).
 	sub := ToMenu new labelText: 'Save All'.
 	sub beInline.
@@ -5074,7 +5641,7 @@ ToSandBox class >> example_inline5 [
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ menu space root inspect ];
+			 clickAction: [ menu space root inspect ];
 			 yourself).
 	sub := ToMenu new labelText: 'Save All'.
 	sub beInline.
@@ -5116,7 +5683,7 @@ ToSandBox class >> example_inline6 [
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ menu space root inspect ];
+			 clickAction: [ menu space root inspect ];
 			 yourself).
 	sub := ToMenu new labelText: 'Save All'.
 	sub beInline.
@@ -5156,7 +5723,7 @@ ToSandBox class >> example_inline7 [
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ menu space root inspect ];
+			 clickAction: [ menu space root inspect ];
 			 yourself).
 	sub := ToMenu new labelText: 'Save All'.
 	sub beInline.
@@ -5185,7 +5752,7 @@ ToSandBox class >> example_inlineInMenuPane [
 	menu vMatchParent.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ menu space root inspect ];
+			 clickAction: [ menu space root inspect ];
 			 yourself).
 	sub := ToMenu new labelText: 'Save All'.
 	sub beInline.
@@ -5219,16 +5786,43 @@ ToSandBox class >> example_inlineInMenuPane [
 ToSandBox class >> example_labelFieldWithShrinkFeedback [
 
 	| t innerWindow |
-	t := ToLabel new text: 'AZERTYUIOPAZERTYUIOP'.
+	t := ToLabel new text: 'Make the inner window smaller or edit myself'.
 	t beEditable.
+	t enableShrinkLayer: true.
+	t shrinkTolerance: 2.0.
 	t whenEditorOpenedDo: [ :editorEvent |
 		editorEvent editorElement whenSaveRequestedDo: [ :request |
 			request accepted: true ].
 		editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
 			editorEvent target text: acceptedEvent target text ] ].
+	t matchParent.
 	innerWindow := t openInInnerWindow.
-	t fitContent.
-	t addShrinkFeedbackLayer
+
+]
+
+{ #category : #button }
+ToSandBox class >> example_linkClickAction [
+
+	| pane e |
+	pane := ToPane vertical.
+	e := ToElement new.
+	e size: 50 asPoint.
+	e background: Color blue.
+	e
+		addEventHandlerOn: BlClickEvent
+		do: [ :event | e linkedActions do: [ :action | action run ] ].
+	pane addChild: e.
+	pane addChild: (ToButton new
+			 labelText: 'List actions on Transcript';
+			 clickAction: [ e linkedActions traceCr ]).
+	pane addChild: (ToButton new
+			 labelText: 'Link a new action';
+			 clickAction: [ e linkClickAction: [ :evt | evt traceCr ] ]).
+	pane addChild: (ToButton new
+			 labelText: 'Unlink all actions';
+			 clickAction: [
+				 e unlinkAllActions ]).
+	pane openInSpace
 ]
 
 { #category : #menu }
@@ -5271,12 +5865,12 @@ ToSandBox class >> example_menuPane1 [
 	fileMenu addItem: (ToMenuItem new
 			 labelText: 'Open';
 			 tooltipString: 'open stuffs';
-			 newClickAction: [ :evt :target | target traceCr ]).
+			 clickAction: [ :evt :target | target traceCr ]).
 	fileMenu addSeparator.
 	fileMenu addItem: (ToMenuItem new
 			 labelText: 'Close';
 			 tooltipString: 'close stuffs';
-			 newClickAction: [ :evt :target | target traceCr ]).
+			 clickAction: [ :evt :target | target traceCr ]).
 
 	bar addFiller.
 	bar addItem: (ToMenu new
@@ -5330,7 +5924,7 @@ ToSandBox class >> example_menuPane2 [
 						            nextPutAll: ' Grid ';
 						            print: i ].
 				subMenu addItem: ((ToMenuItem new labelText: stream)
-						 newClickAction: [ self inform: selector asSymbol ];
+						 clickAction: [ self inform: selector asSymbol ];
 						 yourself) ].
 			menu addItem: subMenu ].
 
@@ -5351,7 +5945,7 @@ ToSandBox class >> example_menuPane3 [
 	bar addFiller.
 	bar addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ frame space root inspect ];
+			 clickAction: [ frame space root inspect ];
 			 yourself).
 	bar addFiller.
 	3 timesRepeat: [
@@ -5394,7 +5988,7 @@ ToSandBox class >> example_menuPane3 [
 						sm addItem: ((ToMenuItem new
 								  labelText: stream;
 								  iconImage: iconImage)
-								 newClickAction: [ frame background: color ];
+								 clickAction: [ frame background: color ];
 								 yourself) ] ].
 				m addItem: subMenu ] ].
 
@@ -5414,10 +6008,11 @@ ToSandBox class >> example_menuPaneVertical [
 	frame := ToInnerWindow new.
 	bar addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ frame space root inspect ];
+			 clickAction: [ frame space root inspect ];
 			 yourself).
 	1 to: 3 do: [ :count |
 		menu := ToMenu new.
+		menu showExpandIcon: true.
 		count = 2 ifTrue: [ menu beInline ].
 		menu label: (ToLabel text: 'Levels').
 		menu icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
@@ -5455,7 +6050,67 @@ ToSandBox class >> example_menuPaneVertical [
 						sm addItem: ((ToMenuItem new
 								  labelText: stream;
 								  iconImage: iconImage)
-								 newClickAction: [frame background: color ];
+								 clickAction: [frame background: color ];
+								 yourself) ] ].
+				m addItem: subMenu ] ].
+
+		bar addItem: menu ].
+	"bar addFiller."
+	bar vertical: true.
+	bar vFitContent.
+	frame pane addChild: bar.
+	frame openInSpace
+	"frame inspect"
+]
+
+{ #category : #menu }
+ToSandBox class >> example_menuPaneVertical0 [
+
+	| menu frame bar |
+	bar := ToMenuPane new.
+
+	frame := ToInnerWindow new.
+	1 to: 1 do: [ :count |
+		menu := ToMenu new.
+		menu showExpandIcon: true.
+		count = 2 ifTrue: [ menu beInline ].
+		menu label: (ToLabel text: 'Levels').
+		menu icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+
+		menu builder: [ :m |
+			1 to: 6 do: [ :index |
+				| subMenu |
+				subMenu := ToMenu new label: (ToLabel new text: (String streamContents: [ :out |
+							             out
+								             nextPutAll: 'Level ';
+								             print: index;
+								             nextPutAll: 'x';
+								             print: index ])).
+				subMenu builder: [ :sm |
+					1 to: 10 do: [ :i |
+						| stream selector iconImage color |
+						stream := String streamContents: [ :out |
+							          out
+								          nextPutAll: 'Level ';
+								          space;
+								          print: i ].
+						selector := String streamContents: [ :out |
+							            out
+								            nextPutAll: 'level ';
+								            print: index;
+								            nextPutAll: ' Grid ';
+								            print: i ].
+						color := Color random.
+						iconImage := BlElement new
+							             padding: (BlInsets all: 2);
+							             geometry: (BlRoundedRectangleGeometry cornerRadius: 3);
+							             background: color;
+							             size: 16 asPoint;
+							             yourself.
+						sm addItem: ((ToMenuItem new
+								  labelText: stream;
+								  iconImage: iconImage)
+								 clickAction: [frame background: color ];
 								 yourself) ] ].
 				m addItem: subMenu ] ].
 
@@ -5477,7 +6132,7 @@ ToSandBox class >> example_menuPaneVertical2 [
 	frame := ToInnerWindow new.
 	bar addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ frame space root inspect ];
+			 clickAction: [ frame space root inspect ];
 			 yourself).
 	bar vertical: true.
 	sub := ToMenu new labelText: 'Save All'.
@@ -5521,7 +6176,7 @@ ToSandBox class >> example_menuPaneVerticalScrollable [
 	frame := ToInnerWindow new.
 	bar addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ frame space root inspect ];
+			 clickAction: [ frame space root inspect ];
 			 yourself).
 	1 to: 20 do: [ :count |
 		menu := ToMenu new.
@@ -5562,7 +6217,7 @@ ToSandBox class >> example_menuPaneVerticalScrollable [
 						sm addItem: ((ToMenuItem new
 								  labelText: stream;
 								  iconImage: iconImage)
-								 newClickAction: [frame background: color ];
+								 clickAction: [frame background: color ];
 								 yourself) ] ].
 				m addItem: subMenu ] ].
 
@@ -5576,23 +6231,6 @@ ToSandBox class >> example_menuPaneVerticalScrollable [
 	frame pane addChild: bar.
 	frame openInSpace
 	"frame inspect"
-]
-
-{ #category : #'tabPane-dep' }
-ToSandBox class >> example_notPreservingPane [
-
-	| nb but |
-	nb := ToTabPane new.
-	nb withoutCheckingStrategy.
-	nb withHorizontalBody.
-	nb preservePaneOnSelect: false.
-	1 to: 5 do: [ :index |
-		but := ToTab new.
-		but closable: true.
-		but labelText: 'Button ' , index asString.
-		but paneBuilder: [ :pane :theNoteBook | pane background: Color random ].
-		nb addTab: but ].
-	nb openInSpace
 ]
 
 { #category : #window }
@@ -5647,23 +6285,6 @@ ToSandBox class >> example_overlayWindow2 [
 		anchWin border: (BlBorder paint: Color black width: 2) ].
 	e openInInnerWindow.
 	(windowManager newWindowEvent: nil) popup
-]
-
-{ #category : #'tabPane-dep' }
-ToSandBox class >> example_preservingPane [
-
-	| nb but |
-	nb := ToTabPane new.
-	nb preservePaneOnSelect: true.
-	nb withoutCheckingStrategy.
-	nb resizablePanes: true.
-	1 to: 5 do: [ :index |
-		but := ToTab new.
-		but closable: true.
-		but labelText: 'Button ' , index asString.
-		but paneBuilder: [ :pane :theNoteBook | pane withNullSkin; background: Color random ].
-		nb addTab: but ].
-	nb openInSpace
 ]
 
 { #category : #window }
@@ -5743,7 +6364,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 		            tooltipString: 'help stuffs'.
 	helpMenu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ bar inspect ];
+			 clickAction: [ bar inspect ];
 			 yourself).
 	bar addItem: helpMenu.
 
@@ -5756,30 +6377,26 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 { #category : #menu }
 ToSandBox class >> example_rootFrameWithContextMenu_menuPaneVertical [
 
-	| win menu sub subsub bar |
+	| win sub subsub bar |
 	win := ToInnerWindow new title: 'Context menu Example'.
-	menu := ToContextMenu new.
-	menu addItem: (ToMenuItem new
-			 labelText: 'Open file';
-			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
-	menu addItem: (ToMenuItem new labelText: 'Export').
-	menu addSeparator.
 
-	sub := ToMenu new labelText: 'Save All'.
-	sub addItem: (ToMenuItem new labelText: 'Locally').
 
-	subsub := ToMenu new
-		          labelText: 'Externally';
-		          icon:
-			          (ToImage inner:
-					           (Smalltalk ui icons iconNamed: #solidMenu)).
-	subsub addItem: (ToMenuItem new labelText: 'Here').
-
-	sub addItem: subsub.
-
-	menu addItem: sub.
-
-	win pane contextMenu: [ :contextMenu :request |  ].
+	win pane contextMenu: [ :contextMenu :request |
+		contextMenu addItem: (ToMenuItem new
+				 labelText: 'Open file';
+				 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
+		contextMenu addItem: (ToMenuItem new labelText: 'Export').
+		contextMenu addSeparator.
+		sub := ToMenu new labelText: 'Save All'.
+		sub addItem: (ToMenuItem new labelText: 'Locally').
+		subsub := ToMenu new
+			          labelText: 'Externally';
+			          icon:
+				          (ToImage inner:
+						           (Smalltalk ui icons iconNamed: #solidMenu)).
+		subsub addItem: (ToMenuItem new labelText: 'Here').
+		sub addItem: subsub.
+		contextMenu addItem: sub ].
 
 	bar := ToMenuPane new
 		       hMatchParent;
@@ -5971,10 +6588,22 @@ ToSandBox class >> example_selectWith5Nodes [
 	select manager anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 50.
+	select manager minHeight: 10.
+
 	select popupListElement dataAccessor addAll:
 		(self statesOfAmerica copyFrom: 1 to: 5).
 	innerWindow pane addChild: select.
-	innerWindow openInSpace
+	innerWindow openInSpace.
+	^ select
+]
+
+{ #category : #select }
+ToSandBox class >> example_selectWith5NodesWithMatchParentMaxHeight [
+
+	| select |
+	select := self example_selectWith5Nodes.
+	select manager withMatchParentMaxHeight.
+	^ select
 ]
 
 { #category : #select }
@@ -5983,13 +6612,14 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 	| select innerWindow space |
 	self flag: 'To check'.
 	select := self selectWithEditingMultiSelection.
+	select popupMinHeight: 100.
 	select filtrable: true.
 	select placeholderText: ('Choose a class' asRopedText
 			 foreground: Color lightGray;
 			 yourself).
 	select popupListElement placeholderBuilder: [ :placeholder :e |
 		placeholder layout alignCenter.
-		placeholder addChild:
+		placeholder empty label:
 			(ToAttributedLabel text: ('No Data' asRopedText
 					  fontSize: 24;
 					  foreground: Color lightGray;
@@ -6191,7 +6821,7 @@ ToSandBox class >> example_subMenuPane [
 	
 	topMenuBar addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ topMenuBar inspect ];
+			 clickAction: [ topMenuBar inspect ];
 			 yourself).
 	topMenuBar hMatchParent.
 
@@ -6214,7 +6844,7 @@ ToSandBox class >> example_subMenuPaneVertical [
 		1 to: 3 do: [ :i |
 			| m |
 			m := ToMenu new labelText: 'Menu' , i asString.
-			m addStamp: #'with-expand-button'.
+			m showExpandIcon: true.
 			1 to: 3 do: [ :j |
 			m addItem: (ToMenuItem new labelText: 'item ' , j asString) ].
 			mb addItem: m ].
@@ -6224,7 +6854,7 @@ ToSandBox class >> example_subMenuPaneVertical [
 	topMenuBar addFiller.
 	topMenuBar addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 newClickAction: [ topMenuBar inspect ];
+			 clickAction: [ topMenuBar inspect ];
 			 yourself).
 
 	topMenuBar hMatchParent.
@@ -6305,573 +6935,6 @@ ToSandBox class >> example_switchButtonWithSize [
 	th wishedTrackSize: 100@30.
 	th checked: true.
 	th openInSpace
-]
-
-{ #category : #'tabPane-dep' }
-ToSandBox class >> example_tabPane [
-
-	| nb but |
-	nb := ToTabPane new.
-	nb resizablePanes: true.
-	1 to: 5 do: [ :index |
-		but := ToTab new.
-		but closable: true.
-		but labelText: 'Button ' , index asString.
-		but paneBuilder: [ :pane :theNoteBook |
-			pane addChild: (ToSwitchButton new
-					 checked: false;
-					 yourself) ].
-		nb addTab: but ].
-	nb openInSpace.
-	^ nb
-]
-
-{ #category : #'tabPane-dep' }
-ToSandBox class >> example_tabPaneInTabPane [
-
-	| tabPane tab |
-	tabPane := ToTabPane new.
-	tabPane
-		newCheckGroupAction: [ :evt :grp :list | list traceCr ]
-		with: tabPane group.
-
-	1 to: 3 do: [ :index |
-		tab := ToTab new.
-		tab labelText: 'Tab ' , index asString.
-		tab paneBuilder: [ :pane :theTabPane |
-			pane addChild: self subTabPane withHeaderOnLeftTop ].
-		tabPane addTab: tab ].
-	tabPane openInSpace
-]
-
-{ #category : #'tabPane-dep' }
-ToSandBox class >> example_tabPaneWithCustomSelectionBar [
-
-	| nb |
-	nb := self example_tabPane.
-	nb tabs do: [ :but |
-		but defaultSkin: ToTabWithCustomSelectionBarSkin new ].
-	^ nb
-]
-
-{ #category : #'tabPane-dep' }
-ToSandBox class >> example_tabPaneWithPyramidGeneratedPane [
-
-	| nb but |
-	nb := ToTabPane new.
-	nb resizablePanes: true.
-	1 to: 5 do: [ :index |
-		but := ToTab new.
-		but closable: true.
-		but labelText: 'Button ' , index asString.
-		but paneBuilder: [ :pane :theNoteBook |
-			pane addChildren: {(BlElement new
-   addChildren: {(ToLabel new
-         text: (BlRopedText new
-               rope: (BlAttributeRope attributes: {(BlFontWeightAttribute new
-                           weight: 600;
-                           yourself) . 
-                        (BlFontFamilyDefaultAttribute new
-                           name: 'Courier';
-                           yourself) . 
-                        (BlFontSizeDefaultAttribute new
-                           size: 14;
-                           yourself) . 
-                        AlbTextParagraphLineSpacingAttribute new . 
-                        (BlTextForegroundAttribute new
-                           paint: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 1.0);
-                           yourself)} rope: (BlCollectionRope new
-                           collection: 'Mode';
-                           yourself));
-               yourself);
-         constraintsDo: [:constraints |  constraints horizontal matchParent.
-            constraints vertical fitContent.
-            constraints margin: (BlInsets top: 4.0 right: 0.0 bottom: 8.0 left: 8.0) ];
-         addStamp: #caption1 withValue: true;
-         id: #modeLabelId;
-         yourself) . 
-      (ToSingleSelectElement new
-         filtrable: false;
-         constraintsDo: [:constraints |  constraints horizontal matchParent.
-            constraints vertical fitContent.
-            constraints padding: (BlInsets top: 4.0 right: 8.0 bottom: 4.0 left: 8.0).
-            constraints margin: (BlInsets top: 0.0 right: 8.0 bottom: 8.0 left: 8.0) ];
-         id: #modeChoiceBoxId;
-         yourself) . 
-      (ToPane new
-         addChildren: {(ToSwitchButton new
-               constraintsDo: [:constraints |  constraints horizontal fitContent.
-                  constraints vertical fitContent.
-                  constraints padding: (BlInsets top: 4.0 right: 8.0 bottom: 4.0 left: 8.0).
-                  constraints margin: (BlInsets top: 0.0 right: 8.0 bottom: 0.0 left: 4.0) ];
-               id: #audioSwitchId;
-               yourself) . 
-            (ToLabel new
-               text: (BlRopedText new
-                     rope: (BlAttributeRope attributes: {(BlFontWeightAttribute new
-                                 weight: 600;
-                                 yourself) . 
-                              (BlFontFamilyDefaultAttribute new
-                                 name: 'Courier';
-                                 yourself) . 
-                              (BlFontSizeDefaultAttribute new
-                                 size: 14;
-                                 yourself) . 
-                              AlbTextParagraphLineSpacingAttribute new . 
-                              (BlTextForegroundAttribute new
-                                 paint: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 1.0);
-                                 yourself)} rope: (BlCollectionRope new
-                                 collection: 'Audio';
-                                 yourself));
-                     yourself);
-               constraintsDo: [:constraints |  constraints horizontal fitContent.
-                  constraints vertical fitContent.
-                  constraints margin: (BlInsets top: 4.0 right: 0.0 bottom: 0.0 left: 0.0) ];
-               addStamp: #body1 withValue: true;
-               id: #audioLabelId;
-               yourself)};
-         constraintsDo: [:constraints |  constraints horizontal matchParent.
-            constraints vertical fitContent.
-            constraints margin: (BlInsets top: 0.0 right: 0.0 bottom: 42.0 left: 0.0) ];
-         id: #paneId;
-         yourself) . 
-      (ToButton new
-         middleElement: (ToLabel new
-               text: (BlRopedText new
-                     rope: (BlAttributeRope attributes: {(BlFontWeightAttribute new
-                                 weight: 600;
-                                 yourself) . 
-                              (BlFontFamilyDefaultAttribute new
-                                 name: 'Courier';
-                                 yourself) . 
-                              (BlFontSizeDefaultAttribute new
-                                 size: 14;
-                                 yourself) . 
-                              AlbTextParagraphLineSpacingAttribute new . 
-                              (BlTextForegroundAttribute new
-                                 paint: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 1.0);
-                                 yourself)} rope: (BlCollectionRope new
-                                 collection: 'Delete all librairies';
-                                 yourself));
-                     yourself);
-               constraintsDo: [:constraints |  constraints horizontal fitContent.
-                  constraints vertical fitContent ];
-               yourself);
-         constraintsDo: [:constraints |  constraints horizontal matchParent.
-            constraints vertical fitContent.
-            constraints padding: (BlInsets top: 4.0 right: 8.0 bottom: 4.0 left: 8.0).
-            constraints margin: (BlInsets top: 0.0 right: 8.0 bottom: 0.0 left: 8.0) ];
-         addStamp: #filled withValue: true;
-         addStamp: #danger withValue: true;
-         id: #deleteButtonId;
-         yourself) . 
-      (ToLabel new
-         text: (BlRopedText new
-               rope: (BlAttributeRope attributes: {(BlFontWeightAttribute new
-                           weight: 600;
-                           yourself) . 
-                        (BlFontFamilyDefaultAttribute new
-                           name: 'Courier';
-                           yourself) . 
-                        (BlFontSizeDefaultAttribute new
-                           size: 14;
-                           yourself) . 
-                        AlbTextParagraphLineSpacingAttribute new . 
-                        (BlTextForegroundAttribute new
-                           paint: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 1.0);
-                           yourself)} rope: (BlCollectionRope new
-                           collection: 'Demonstration mode';
-                           yourself));
-               yourself);
-         constraintsDo: [:constraints |
-				constraints margin: (BlInsets all: 8.0).
-				constraints horizontal fitContent.
-            constraints vertical fitContent ];
-         addStamp: #caption1 withValue: true;
-         id: #demoModeLabelId;
-         yourself) . 
-      (ToSingleSelectElement new
-         filtrable: false;
-         constraintsDo: [:constraints |  constraints horizontal matchParent.
-            constraints vertical fitContent.
-				constraints margin: (BlInsets top: 0.0 right: 8.0 bottom: 8.0 left: 8.0).
-            constraints padding: (BlInsets all: 1.0) ];
-         id: #demoSelectId;
-         yourself) . 
-      (ToLabel new
-         text: (BlRopedText new
-               rope: (BlAttributeRope attributes: {(BlFontWeightAttribute new
-                           weight: 600;
-                           yourself) . 
-                        (BlFontFamilyDefaultAttribute new
-                           name: 'Courier';
-                           yourself) . 
-                        (BlFontSizeDefaultAttribute new
-                           size: 14;
-                           yourself) . 
-                        AlbTextParagraphLineSpacingAttribute new . 
-                        (BlTextForegroundAttribute new
-                           paint: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 1.0);
-                           yourself)} rope: (BlCollectionRope new
-                           collection: 'Demonstration scenario';
-                           yourself));
-               yourself);
-         constraintsDo: [:constraints |  constraints horizontal fitContent.
-            constraints vertical fitContent.
-            constraints margin: (BlInsets all: 8.0) ];
-         addStamp: #caption1 withValue: true;
-         id: #demoScenarioLabelId;
-         yourself) . 
-      (ToPane new
-         addChildren: {(ToButton new
-               middleElement: (ToLabel new
-                     text: (BlRopedText new
-                           rope: (BlAttributeRope attributes: {(BlFontWeightAttribute new
-                                       weight: 600;
-                                       yourself) . 
-                                    (BlFontFamilyDefaultAttribute new
-                                       name: 'Courier';
-                                       yourself) . 
-                                    (BlFontSizeDefaultAttribute new
-                                       size: 14;
-                                       yourself) . 
-                                    AlbTextParagraphLineSpacingAttribute new . 
-                                    (BlTextForegroundAttribute new
-                                       paint: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 1.0);
-                                       yourself)} rope: (BlCollectionRope new
-                                       collection: 'EW EEZ';
-                                       yourself));
-                           yourself);
-                     constraintsDo: [:constraints |  constraints horizontal fitContent.
-                        constraints vertical fitContent ];
-                     yourself);
-               constraintsDo: [:constraints |  constraints horizontal matchParent.
-                  constraints vertical fitContent.
-                  constraints padding: (BlInsets top: 4.0 right: 8.0 bottom: 4.0 left: 8.0).
-                  constraints margin: (BlInsets top: 0.0 right: 8.0 bottom: 0.0 left: 8.0) ];
-               addStamp: #filled withValue: true;
-               id: #ewButtonId;
-               yourself) . 
-            (ToButton new
-               middleElement: (ToLabel new
-                     text: (BlRopedText new
-                           rope: (BlAttributeRope attributes: {(BlFontWeightAttribute new
-                                       weight: 600;
-                                       yourself) . 
-                                    (BlFontFamilyDefaultAttribute new
-                                       name: 'Courier';
-                                       yourself) . 
-                                    (BlFontSizeDefaultAttribute new
-                                       size: 14;
-                                       yourself) . 
-                                    AlbTextParagraphLineSpacingAttribute new . 
-                                    (BlTextForegroundAttribute new
-                                       paint: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 1.0);
-                                       yourself)} rope: (BlCollectionRope new
-                                       collection: 'Safety at sea';
-                                       yourself));
-                           yourself);
-                     constraintsDo: [:constraints |  constraints horizontal fitContent.
-                        constraints vertical fitContent ];
-                     yourself);
-               constraintsDo: [:constraints |  constraints horizontal matchParent.
-                  constraints vertical fitContent.
-                  constraints padding: (BlInsets top: 4.0 right: 8.0 bottom: 4.0 left: 8.0).
-                  constraints margin: (BlInsets top: 0.0 right: 8.0 bottom: 0.0 left: 0.0) ];
-               addStamp: #outline withValue: true;
-               id: #safetyButtonId;
-               yourself)};
-         constraintsDo: [:constraints |  constraints horizontal matchParent.
-            constraints vertical fitContent ];
-         id: #demoPane;
-         yourself) . 
-      (ToLabel new
-         text: (BlRopedText new
-               rope: (BlAttributeRope attributes: {(BlFontWeightAttribute new
-                           weight: 600;
-                           yourself) . 
-                        (BlFontFamilyDefaultAttribute new
-                           name: 'Courier';
-                           yourself) . 
-                        (BlFontSizeDefaultAttribute new
-                           size: 14;
-                           yourself) . 
-                        AlbTextParagraphLineSpacingAttribute new . 
-                        (BlTextForegroundAttribute new
-                           paint: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 1.0);
-                           yourself)} rope: (BlCollectionRope new
-                           collection: 'Scenario control';
-                           yourself));
-               yourself);
-         constraintsDo: [:constraints |  constraints horizontal fitContent.
-            constraints vertical fitContent.
-            constraints margin: (BlInsets all: 8.0) ];
-         addStamp: #caption1 withValue: true;
-         id: #scenarioControlLabelId;
-         yourself) . 
-      (ToPane new
-         addChildren: {(ToButton new
-               constraintsDo: [:constraints |  constraints horizontal exact: 44.0.
-                  constraints vertical exact: 40.0.
-                  constraints padding: (BlInsets top: 4.0 right: 8.0 bottom: 4.0 left: 8.0).
-                  constraints margin: (BlInsets top: 0.0 right: 8.0 bottom: 0.0 left: 8.0) ];
-               addStamp: #filled withValue: true;
-               id: #playButtonId;
-               yourself) . 
-            (ToButton new
-               constraintsDo: [:constraints |  constraints horizontal exact: 44.0.
-                  constraints vertical exact: 40.0.
-                  constraints padding: (BlInsets top: 4.0 right: 8.0 bottom: 4.0 left: 8.0) ];
-               addStamp: #filled withValue: true;
-               id: #rewindButtonId;
-               yourself) . 
-            (ToSwitchButton new
-               constraintsDo: [:constraints |  constraints horizontal fitContent.
-                  constraints vertical fitContent.
-                  constraints padding: (BlInsets top: 4.0 right: 8.0 bottom: 4.0 left: 8.0).
-                  constraints margin: (BlInsets top: 6.0 right: 8.0 bottom: 0.0 left: 4.0) ];
-               id: #loopSwitchId;
-               yourself) . 
-            (ToLabel new
-               text: (BlRopedText new
-                     rope: (BlAttributeRope attributes: {(BlFontWeightAttribute new
-                                 weight: 600;
-                                 yourself) . 
-                              (BlFontFamilyDefaultAttribute new
-                                 name: 'Courier';
-                                 yourself) . 
-                              (BlFontSizeDefaultAttribute new
-                                 size: 14;
-                                 yourself) . 
-                              AlbTextParagraphLineSpacingAttribute new . 
-                              (BlTextForegroundAttribute new
-                                 paint: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 1.0);
-                                 yourself)} rope: (BlCollectionRope new
-                                 collection: 'Loop scenario';
-                                 yourself));
-                     yourself);
-               constraintsDo: [:constraints |  constraints horizontal fitContent.
-                  constraints vertical fitContent.
-                  constraints margin: (BlInsets top: 9.0 right: 0.0 bottom: 0.0 left: 0.0) ];
-               addStamp: #body1 withValue: true;
-               id: #loopSwitchLabelId;
-               yourself)};
-         constraintsDo: [:constraints |  constraints horizontal matchParent.
-            constraints vertical fitContent ];
-         id: #scenarioControlPaneId;
-         yourself) . 
-      (ToLabel new
-         text: (BlRopedText new
-               rope: (BlAttributeRope attributes: {(BlFontWeightAttribute new
-                           weight: 600;
-                           yourself) . 
-                        (BlFontFamilyDefaultAttribute new
-                           name: 'Courier';
-                           yourself) . 
-                        (BlFontSizeDefaultAttribute new
-                           size: 14;
-                           yourself) . 
-                        AlbTextParagraphLineSpacingAttribute new . 
-                        (BlTextForegroundAttribute new
-                           paint: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 1.0);
-                           yourself)} rope: (BlCollectionRope new
-                           collection: 'Demonstration display settings';
-                           yourself));
-               yourself);
-         constraintsDo: [:constraints |  constraints horizontal fitContent.
-            constraints vertical fitContent.
-            constraints margin: (BlInsets all: 8.0) ];
-         addStamp: #caption1 withValue: true;
-         id: #displayLabelId;
-         yourself) . 
-      (ToPane new
-         addChildren: {(ToSwitchButton new
-               constraintsDo: [:constraints |  constraints horizontal fitContent.
-                  constraints vertical fitContent.
-                  constraints padding: (BlInsets top: 4.0 right: 8.0 bottom: 4.0 left: 8.0).
-                  constraints margin: (BlInsets top: 0.0 right: 0.0 bottom: 0.0 left: 4.0) ];
-               id: #groundSwitchId;
-               yourself) . 
-            (ToLabel new
-               text: (BlRopedText new
-                     rope: (BlAttributeRope attributes: {(BlFontWeightAttribute new
-                                 weight: 600;
-                                 yourself) . 
-                              (BlFontFamilyDefaultAttribute new
-                                 name: 'Courier';
-                                 yourself) . 
-                              (BlFontSizeDefaultAttribute new
-                                 size: 14;
-                                 yourself) . 
-                              AlbTextParagraphLineSpacingAttribute new . 
-                              (BlTextForegroundAttribute new
-                                 paint: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 1.0);
-                                 yourself)} rope: (BlCollectionRope new
-                                 collection: 'Ground Truth';
-                                 yourself));
-                     yourself);
-               constraintsDo: [:constraints |  constraints horizontal fitContent.
-                  constraints vertical fitContent.
-                  constraints margin: (BlInsets top: 5.0 right: 0.0 bottom: 0.0 left: 4.0) ];
-               addStamp: #body1 withValue: true;
-               id: #groundLabelId;
-               yourself)};
-         constraintsDo: [:constraints |  constraints horizontal matchParent.
-            constraints vertical fitContent ];
-         id: #groundPaneId;
-         yourself) .
-      (ToPane new
-         constraintsDo: [:constraints |  constraints horizontal matchParent.
-            constraints vertical matchParent ];
-         id: #spacePaneId;
-         yourself) . 
-      (ToButton new
-         middleElement: (ToLabel new
-               text: (BlRopedText new
-                     rope: (BlAttributeRope attributes: {(BlFontWeightAttribute new
-                                 weight: 600;
-                                 yourself) . 
-                              (BlFontFamilyDefaultAttribute new
-                                 name: 'Courier';
-                                 yourself) . 
-                              (BlFontSizeDefaultAttribute new
-                                 size: 14;
-                                 yourself) . 
-                              AlbTextParagraphLineSpacingAttribute new . 
-                              (BlTextForegroundAttribute new
-                                 paint: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 1.0);
-                                 yourself)} rope: (BlCollectionRope new
-                                 collection: 'Configuration';
-                                 yourself));
-                     yourself);
-               constraintsDo: [:constraints |  constraints horizontal fitContent.
-                  constraints vertical fitContent ];
-               yourself);
-         constraintsDo: [:constraints |  constraints horizontal fitContent.
-            constraints vertical fitContent.
-            constraints padding: (BlInsets top: 4.0 right: 8.0 bottom: 4.0 left: 8.0).
-            constraints margin: (BlInsets all: 8.0) ];
-         addStamp: #ghost withValue: true;
-         id: #configButtonId;
-         yourself) .
-(ToLabel new
-         text: (BlRopedText new
-               rope: (BlAttributeRope attributes: {(BlFontWeightAttribute new
-                           weight: 600;
-                           yourself) . 
-                        (BlFontFamilyDefaultAttribute new
-                           name: 'Courier';
-                           yourself) . 
-                        (BlFontSizeDefaultAttribute new
-                           size: 14;
-                           yourself) . 
-                        AlbTextParagraphLineSpacingAttribute new . 
-                        (BlTextForegroundAttribute new
-                           paint: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 1.0);
-                           yourself)} rope: (BlCollectionRope new
-                           collection: 'Version Alpha';
-                           yourself));
-               yourself);
-         constraintsDo: [:constraints |  constraints horizontal fitContent.
-            constraints vertical fitContent.
-            constraints margin: (BlInsets top: 0.0 right: 0.0 bottom: 8.0 left: 8.0) ];
-         addStamp: #caption1 withValue: true;
-         id: #versionLabelId;
-         yourself). 
-      (ToButton new
-         middleElement: (ToLabel new
-               text: (BlRopedText new
-                     rope: (BlAttributeRope attributes: {(BlFontWeightAttribute new
-                                 weight: 600;
-                                 yourself) . 
-                              (BlFontFamilyDefaultAttribute new
-                                 name: 'Courier';
-                                 yourself) . 
-                              (BlFontSizeDefaultAttribute new
-                                 size: 14;
-                                 yourself) . 
-                              AlbTextParagraphLineSpacingAttribute new . 
-                              (BlTextForegroundAttribute new
-                                 paint: (Color r: 0.0 g: 0.0 b: 0.0 alpha: 1.0);
-                                 yourself)} rope: (BlCollectionRope new
-                                 collection: 'Quit';
-                                 yourself));
-                     yourself);
-               constraintsDo: [:constraints |  constraints horizontal fitContent.
-                  constraints vertical fitContent ];
-               yourself);
-         constraintsDo: [:constraints |  constraints horizontal matchParent.
-            constraints vertical fitContent.
-            constraints padding: (BlInsets top: 4.0 right: 8.0 bottom: 4.0 left: 8.0).
-            constraints margin: (BlInsets top: 0.0 right: 8.0 bottom: 8.0 left: 8.0) ];
-         addStamp: #filled withValue: true;
-         id: #quitButtonId;
-         yourself)};
-   constraintsDo: [:constraints |  constraints horizontal matchParent.
-      constraints vertical matchParent ];
-   clipChildren: false;
-   id: #group;
-   layout: BlLinearLayout vertical;
-   yourself)} ].
-		nb addTab: but ].
-	nb openInSpace.
-	^ nb
-]
-
-{ #category : #'tabPane-dep' }
-ToSandBox class >> example_tabPaneWithStartContainer [
-	| nb but header |
-	nb := ToTabPane new.
-	header := nb header.
-	header startContainer addChild: ((ToElement new size: 150 asPoint) background: Color red; layout: BlFrameLayout new).
-	header startContainer fitContent.
-	header startContainer constraintsDo: [ :c |
-		c linear vertical alignCenter ].
-
-	header endContainer addChild: ((ToElement new size: 50 asPoint) background: Color red; layout: BlFrameLayout new).
-	header endContainer fitContent.
-	header endContainer constraintsDo: [ :c |
-		c linear vertical alignCenter ].
-
-	nb resizablePanes: true.
-	1 to: 5 do: [ :index |
-		but := ToTab new.
-		but closable: true.
-		but labelText: 'Button ' , index asString.
-		but paneBuilder: [ :pane :theNoteBook | pane background: Color random ].
-		nb addTab: but ].
-	nb openInSpace.
-	nb withHeaderOnRightCenter.
-	^ nb
-]
-
-{ #category : #'tabPane-dep' }
-ToSandBox class >> example_tabsWith2Pages [
-
-	| aNotebook redPage greenPage redCount greenCount |
-	aNotebook := ToTabPane new.
-	aNotebook rebuildPaneOnSelect: true.
-
-	redCount := 0.
-	redPage := aNotebook
-		           addTabWithText: 'RED'
-		           builder: [ :pane :theNotebook |
-			           redCount := redCount + 1.
-			           pane addChild: (ToLabel
-					            text:
-						            (redCount asRopedText foreground: Color red darker)) ].
-
-	greenCount := 0.
-	greenPage := aNotebook
-		             addTabWithText: 'GREEN'
-		             builder: [ :pane :theNotebook |
-			             greenCount := greenCount + 1.
-			             pane addChild: (ToLabel
-					              text:
-						              (greenCount asRopedText foreground:
-								               Color green darker) ) ].
-
-	aNotebook openInSpace
 ]
 
 { #category : #'text field' }
@@ -6981,9 +7044,9 @@ ToSandBox class >> example_textFieldWithPlaceholder [
 		thePlaceholder addChild: (ToAttributedLabel text:
 				 ('Enter to accept' asRopedText foreground: Color lightGray)) ].
 	t whenSaveRequestedDo: [ :saveRequested |
-		saveRequested client text ifNotEmpty: [
-			saveRequested client saveResult: true.
-			text := saveRequested client text copy ] ].
+		saveRequested editorElement text ifNotEmpty: [
+			saveRequested editorElement saveResult: true.
+			text := saveRequested editorElement text copy ] ].
 	t whenCancelRequestedDo: [ :cancelRequested |
 		cancelRequested client text: text copy ].
 	t showPlaceholder.
@@ -7003,9 +7066,9 @@ ToSandBox class >> example_textFieldWithPlaceholder2 [
 				 yourself) ].
 	t whenSaveRequestedDo: [ :saveRequested |
 		saveRequested accepted: true.
-		text := saveRequested client text copy ].
+		text := saveRequested editorElement text copy ].
 	t whenSaveAcceptedDo: [ :saveAccepted |
-		text := saveAccepted client text copy ].
+		text := saveAccepted editorElement text copy ].
 	t whenCancelRequestedDo: [ :cancelRequested |
 		cancelRequested client text: text copy ].
 	t showPlaceholder.
@@ -7051,7 +7114,7 @@ ToSandBox class >> example_textFields [
 ToSandBox class >> example_textFieldsInListElement [
 
 	| pane l |
-	self flag: 'Not working'.
+	self flag: #ToBeChecked.
 	pane := ToPane vertical.
 	pane matchParent.
 	l := ToListElement new.
@@ -7094,7 +7157,7 @@ ToSandBox class >> example_toBasicButton0 [
 
 	| but |
 	but := ToGeneralButton new.
-	but newClickAction: [ self inform: 'clicked' ].
+	but clickAction: [ self inform: 'clicked' ].
 	but openInSpace
 ]
 
@@ -7106,7 +7169,7 @@ ToSandBox class >> example_toBasicButton1 [
 	but addChild: (BlElement new
 			 size: 30 @ 30;
 			 yourself).
-	but newClickAction: [ self inform: 'clicked' ].
+	but clickAction: [ self inform: 'clicked' ].
 	but background: (Color blue alpha: 0.3).
 	but openInSpace
 ]
@@ -7122,7 +7185,7 @@ ToSandBox class >> example_toBasicButton2 [
 	but matchParent.
 	but addChild: lab.
 	but layout alignCenter.
-	but newClickAction: [ self inform: 'clicked' ].
+	but clickAction: [ self inform: 'clicked' ].
 	but openInSpace
 ]
 
@@ -7135,7 +7198,7 @@ ToSandBox class >> example_toBasicButton3 [
 				         yourself)).
 	but matchParent.
 	but layout alignCenter.
-	but newClickAction: [ self inform: 'clicked' ].
+	but clickAction: [ self inform: 'clicked' ].
 	but openInSpace
 ]
 
@@ -7155,7 +7218,7 @@ ToSandBox class >> example_toBasicButton4 [
 	but matchParent.
 	but addChild: pane.
 	but layout alignCenter.
-	but newClickAction: [ self inform: 'clicked' ].
+	but clickAction: [ self inform: 'clicked' ].
 	but openInSpace
 ]
 
@@ -7179,7 +7242,7 @@ ToSandBox class >> example_toButtonOrientationChanger [
 		             yourself.
 	but iconImage: iconImage.
 	count := 0.
-	but newClickAction: [ :evt :b | 
+	but clickAction: [ :evt :b | 
 		count := count + 1.
 		count traceCr.
 		b orientation: b orientation inverted ].
@@ -7278,7 +7341,7 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 	but layout cellSpacing: 10.
 	count := 0.
 	but addEventHandlerOn: BlClickEvent do: [ :event | count := count + 1. count traceCr ].
-	but newClickAction: [ but icon background: Color random ].
+	but clickAction: [ but icon background: Color random ].
 	space := BlSpace new.
 	space root addChild: but.
 	space show 
@@ -7295,7 +7358,7 @@ ToSandBox class >> example_toButtonWithTextAndIconVertical [
 			 background: (Color blue alpha: 0.2);
 			 yourself).
 	but layout cellSpacing: 10.
-	but newClickAction: [ but icon background: Color random ].
+	but clickAction: [ but icon background: Color random ].
 	space := BlSpace new.
 	space root addChild: but.
 	space show 
@@ -7308,7 +7371,7 @@ ToSandBox class >> example_toButtonWithTextOnly [
 	but := ToButton new.
 	but label: (ToLabel text: 'Button').
 	but padding: (BlInsets all: 4).
-	but newClickAction: [ self inform: 'clicked' ].
+	but clickAction: [ self inform: 'clicked' ].
 
 	space := BlSpace new.
 	space root addChild: but.
@@ -7322,7 +7385,7 @@ ToSandBox class >> example_toButtonWithTooltipString [
 	but := ToButton new.
 	but labelText: 'Button with tooltip string'.
 	but tooltipString: ('This is a button', String cr, 'so, click on me...'). 
-	but newClickAction: [ self inform: 'Button clicked' ].
+	but clickAction: [ self inform: 'Button clicked' ].
 	but openInInnerWindow 
  
 ]
@@ -7334,7 +7397,7 @@ ToSandBox class >> example_toButtonWithTooltipText [
 	but := ToButton new.
 	but labelText: 'Button with tooltip text'.
 	but tooltipText: ('This is a button', String cr, 'so, click on me...') asRopedText. 
-	but newClickAction: [ self inform: 'Button clicked' ].
+	but clickAction: [ self inform: 'Button clicked' ].
 	but openInSpace
  
 ]
@@ -7501,7 +7564,7 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 
 		resetBtn := ToButton new
 			            labelText: 'Reset';
-			            newClickAction: [
+			            clickAction: [
 				            text := origString asRopedText.
 				            editedLabel text: text ];
 			            yourself.
@@ -7509,7 +7572,7 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 		window root addChild: editedLabel.
 		window root addChild: resetBtn ].
 
-	but newClickAction: [ 'Button clicked' traceCr ].
+	but clickAction: [ 'Button clicked' traceCr ].
 	win := but openInInnerWindow.
 	but tooltipWindowManager anchorRoot: win.
 ]
@@ -7779,50 +7842,6 @@ ToSandBox class >> example_twoSubPanesWithDivider [
 	pane openInSpace
 ]
 
-{ #category : #'tabPane-dep' }
-ToSandBox class >> example_twoTabsWithLabel [
-
-	| tabsPanel lab1 lab2 tab1 tab2 |
-	lab1 := ToLabel text: 'Hello'.
-	lab1 text foreground: Color red.
-	lab2 := ToLabel text: 'Goodbye'.
-	
-	tabsPanel := ToTabPane new.
-	tab1 := ToTab new.
-	tab1 labelText: 'Hello'.
-	tab1 paneBuilder: [ :pane :theTabPane | pane addChild: lab1 ].
-	tab2 := ToTab new.
-	tab2 labelText: 'Goodbye'.
-	tab2 paneBuilder: [ :pane :theTabPane | pane addChild: lab2 ].
-	tabsPanel addTab: tab1.
-	tabsPanel addTab: tab2.
-	tabsPanel openInSpace
-]
-
-{ #category : #'tabPane-dep' }
-ToSandBox class >> example_twoTabsWithListElement [
-
-	| tabsPanel list1 list2 tab1 tab2 |
-	list1 := self listWithEditableAndContextMenu.
-	list1 constraints vertical matchParent.
-	list1 constraints horizontal matchParent.
-
-	list2 := ToListElement new.
-	list2 constraints vertical matchParent.
-	list2 constraints horizontal matchParent.
-	11 to: 20 do: [ :i | list2 dataAccessor add: 'Goodbye ' , i asString ].
-	tabsPanel := ToTabPane new.
-	tab1 := ToTab new.
-	tab1 labelText: 'Lorem'.
-	tab1 paneBuilder: [ :pane :theTabPane | pane addChild: list1 ].
-	tab2 := ToTab new.
-	tab2 labelText: 'Goodbye'.
-	tab2 paneBuilder: [ :pane :theTabPane | pane addChild: list2 ].
-	tabsPanel addTab: tab1.
-	tabsPanel addTab: tab2.
-	tabsPanel openInSpace
-]
-
 { #category : #pane }
 ToSandBox class >> example_verticalPaneWith1Dividers [
 
@@ -7933,10 +7952,10 @@ ToSandBox class >> example_verticalPaneWithDivider [
 			e2.
 			e3 }.
 	btn := ToButton new labelText: 'Change orientation'.
-	btn newClickAction: [ pane orientation: pane orientation inverted ].
+	btn clickAction: [ pane orientation: pane orientation inverted ].
 	pane addChild: btn.
 	btn := ToButton new labelText: 'Change direction'.
-	btn newClickAction: [ pane direction: pane direction inverted ].
+	btn clickAction: [ pane direction: pane direction inverted ].
 	pane addChild: btn.
 	pane addDividers.
 	pane openInInnerWindow 
@@ -7960,135 +7979,6 @@ ToSandBox class >> example_verticalPaneWithDividerAndSubpanesWithWeight [
 	rootPane addDividers.
 	rootPane dividers first weight: 0.3.
 	rootPane openInSpace
-]
-
-{ #category : #menu }
-ToSandBox class >> example_withCustomMenuItems [
-
-	| menu grp right center left textField sub lbl item |
-	menu := ToMenu new.
-	menu labelText: 'File'.
-	menu addItem: (ToMenuItem new
-			 labelText: 'Open file';
-			 newClickAction: [ self inform: 'Open file' ];
-			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
-
-	item := ToMenuItem new
-		        labelText: 'Export';
-		        newClickAction: [ self inform: 'Export' ];
-		        yourself.
-	menu addItem: item.
-	item disable.
-
-	menu
-		addItem: (ToMenuItem new
-				 labelText: 'Inspect';
-				 newClickAction: [ menu space root inspect ];
-				 yourself).
-	menu addSeparator.
-	menu addItem: (ToToggleMenuItem new
-			 labelText: 'Toggle';
-			 yourself).
-	menu addItem: (ToCustomMenuItem new
-			 in: [ :e |
-				 e addChild: (ToSwitchButton new
-							  checked: true;
-							  startFlexible: true;
-							  hMatchParent;
-							  labelText: 'Switch';
-							  yourself) ];
-			 yourself).
-
-	grp := ToCheckableGroup new.
-	right := ToRadioMenuItem new
-		         labelText: 'Right';
-		         id: #right.
-	center := ToRadioMenuItem new
-		          labelText: 'Center';
-		          id: #center.
-	left := ToRadioMenuItem new
-		        labelText: 'Left';
-		        id: #left.
-	center checked: true.
-	grp registerAll: {
-			right.
-			center.
-			left }.
-
-	menu
-		newCheckGroupAction: [ :evt :group :list | list traceCr ]
-		with: grp.
-	menu addSeparator.
-
-	lbl := ToAttributedLabel text: 'Radio button icon first'.
-	lbl
-		italic;
-		fontSize: 12;
-		foreground: Color blue.
-
-	menu addItem: (ToCustomMenuItem new in: [ :e |
-			 e
-				 addChild: lbl;
-				 margin: (BlInsets
-						  top: 2;
-						  bottom: 4) ]).
-	menu addAllItems: grp registeredCheckables.
-
-	grp := ToCheckableGroup new.
-	right := ToRadioMenuItem new
-		         beEndToStart;
-		         labelText: 'Right';
-		         id: #right.
-	center := ToRadioMenuItem new
-		          beEndToStart;
-		          labelText: 'Center';
-		          id: #center.
-	left := ToRadioMenuItem new
-		        beEndToStart;
-		        labelText: 'Left';
-		        id: #left.
-	center checked: true.
-	grp registerAll: {
-			right.
-			center.
-			left }.
-	menu
-		newCheckGroupAction: [ :evt :group :list | list traceCr ]
-		with: grp.
-	menu addSeparator.
-
-	lbl := ToAttributedLabel new text:
-		       ('Radio button label first' asRopedText
-			        italic;
-			        fontSize: 12;
-			        foreground: (Color blue alpha: 0.7)).
-	menu addItem: (ToCustomMenuItem new in: [ :e |
-			 e
-				 addChild: lbl;
-				 margin: (BlInsets
-						  top: 2;
-						  bottom: 4) ]).
-	menu addAllItems: grp registeredCheckables.
-	menu addSeparator.
-	textField := ToTextField new
-		             placeholderBuilder: [ :thePlaceholder :theElement |
-			             thePlaceholder addChild:
-					             (ToAttributedLabel new text:
-							              ('Your name' asRopedText
-								               foreground: Color lightGray;
-								               yourself)) ];
-		             withLineWrapping;
-		             width: 200.
-	menu addItem:
-		(ToCustomMenuItem new in: [ :e | e addChild: textField ]).
-	menu addSeparator.
-	sub := ToMenu new labelText: 'Save All'.
-
-	sub addItem: (ToMenuItem new labelText: 'Locally').
-	menu addItem: sub.
-
-	menu position: 10 @ 10.
-	menu openInInnerWindow
 ]
 
 { #category : #list }
@@ -8141,54 +8031,54 @@ ToSandBox class >> listMenuFenuFactory [
 	  indexes := request selectedIndexes.
 	  menu addItem: (ToMenuItem new
 			   labelText: 'Add initial Items';
-			   newClickAction: [
+			   clickAction: [
 				   target dataAccessor addAll:
 						   (String loremIpsum: 20000) substrings ];
 			   yourself).
 	  menu addItem: (ToMenuItem new
 			   labelText: 'Inspect list';
-			   newClickAction: [ target inspect ];
+			   clickAction: [ target inspect ];
 			   yourself).
 	  menu addItem: (ToMenuItem new
 			   labelText: 'Statistics window';
-			   newClickAction: [ target space showStatisticsWindow ];
+			   clickAction: [ target space showStatisticsWindow ];
 			   yourself).
 	  target dataAccessor ifNotEmpty: [
 		  menu addItem: (ToMenuItem new
 				   labelText: 'Select all';
-				   newClickAction: [ target selecter selectAll ];
+				   clickAction: [ target selecter selectAll ];
 				   yourself).
 		  menu addItem: (ToMenuItem new
 				   labelText: 'Remove all';
-				   newClickAction: [ target dataAccessor removeAll ];
+				   clickAction: [ target dataAccessor removeAll ];
 				   yourself).
 		  menu addItem: (ToMenuItem new
 				   labelText: 'Show all';
-				   newClickAction: [ target hiddenSelecter deselectAll ];
+				   clickAction: [ target hiddenSelecter deselectAll ];
 				   yourself).
 		  target selectionOption isMasked
 			  ifTrue: [
 				  menu addItem: (ToMenuItem new
 						   labelText: 'stop primary selection masking';
-						   newClickAction: [ target selectionOption masked: false ];
+						   clickAction: [ target selectionOption masked: false ];
 						   yourself) ]
 			  ifFalse: [
 				  menu addItem: (ToMenuItem new
 						   labelText: 'start primary selection masking';
-						   newClickAction: [ target selectionOption masked: true ];
+						   clickAction: [ target selectionOption masked: true ];
 						   yourself) ].
 		  target selectionOption isAnimated
 			  ifTrue: [
 				  menu addItem: (ToMenuItem new
 						   labelText: 'stop selection transition animation';
-						   newClickAction: [
+						   clickAction: [
 							   target selectionMode selectionElementOption
 								   animationDuration: 0 milliSeconds ];
 						   yourself) ]
 			  ifFalse: [
 				  menu addItem: (ToMenuItem new
 						   labelText: 'start selection transition animation';
-						   newClickAction: [
+						   clickAction: [
 							   target primarySelectionMode selectionOption
 								   animationDuration: 200 milliSeconds ];
 						   yourself) ] ].
@@ -8203,28 +8093,28 @@ ToSandBox class >> listMenuFenuFactory [
 			  label := node firstChild label.
 			  selectionMenu addItem: (ToMenuItem new
 					   labelText: 'Inspect node';
-					   newClickAction: [ node inspect ];
+					   clickAction: [ node inspect ];
 					   yourself).
 			  selectionMenu addItem: (ToMenuItem new
 					   labelText: 'Edit';
-					   newClickAction: [ label popupEditorEvent: nil ];
+					   clickAction: [ label popupEditorEvent: nil ];
 					   yourself).
 			  selectionMenu addItem: (ToMenuItem new
 					   labelText: (label isMonoLine
 							    ifTrue: [ 'Be multiline' ]
 							    ifFalse: [ 'Be monoline' ]);
-					   newClickAction: [
+					   clickAction: [
 						   node firstChild label monoLine: label isMonoLine not ];
 					   yourself).
 			  selectionMenu addItem: (ToMenuItem new
 					   labelText: 'Inspect';
-					   newClickAction: [ node inspect ];
+					   clickAction: [ node inspect ];
 					   yourself).
 			  selectionMenu addSeparator ].
 
 		  selectionMenu addItem: (ToMenuItem new
 				   labelText: 'Enable/Disable';
-				   newClickAction: [
+				   clickAction: [
 					   indexes do: [ :idx |
 							   | di |
 							   di := (target nodeAt: idx) isDisabled.
@@ -8232,18 +8122,18 @@ ToSandBox class >> listMenuFenuFactory [
 				   yourself).
 		  selectionMenu addItem: (ToMenuItem new
 				   labelText: 'Set unselectable';
-				   newClickAction: [
+				   clickAction: [
 					   indexes do: [ :idx |
 							   target unselectableSelecter selectIndex: idx ] ];
 				   yourself).
 		  selectionMenu addItem: (ToMenuItem new
 				   labelText: 'Hide';
-				   newClickAction: [
+				   clickAction: [
 					   indexes do: [ :idx | target hiddenSelecter selectIndex: idx ] ];
 				   yourself).
 		  selectionMenu addItem: (ToMenuItem new
 				   labelText: 'Insert before';
-				   newClickAction: [
+				   clickAction: [
 					   | idx |
 					   idx := indexes first.
 					   target dataAccessor
@@ -8253,7 +8143,7 @@ ToSandBox class >> listMenuFenuFactory [
 				   yourself).
 		  selectionMenu addItem: (ToMenuItem new
 				   labelText: 'Insert after';
-				   newClickAction: [
+				   clickAction: [
 					   | idx |
 					   idx := indexes last.
 					   target dataAccessor
@@ -8263,7 +8153,7 @@ ToSandBox class >> listMenuFenuFactory [
 		  selectionMenu addSeparator.
 		  selectionMenu addItem: (ToMenuItem new
 				   labelText: 'Remove';
-				   newClickAction: [
+				   clickAction: [
 					   indexes sort reverseDo: [ :idx |
 							   target dataAccessor removeAt: idx ] ];
 				   yourself).
@@ -8295,7 +8185,6 @@ ToSandBox class >> listWithEditableAndContextMenu [
 			ToListUnselectableSelectionElementExampleSkin new ].
 	unselectableMode changeSelectionOptionWith: option.
 
-	l withPlaceholder.
 	l placeholderBuilder: [ :placeholder :e |
 		placeholder empty labelText:
 			'Invoke the context menu ' , String cr , 'to initialize the list' ].
@@ -8482,74 +8371,69 @@ ToSandBox class >> resizerBoardFor: aBar [
 	| pane group buttons container |
 	pane := ToPane horizontal.
 	{ #Horizontal. #Vertical } do: [ :dir |
-		| sizeInputPane sizeInput |
-		sizeInputPane := ToPane horizontal.
-		sizeInputPane layout cellSpacing: 5.
-		sizeInputPane childrenDo: [ :child |
-			child constraints linear vertical alignCenter ].
-		sizeInputPane addChild: (ToLabel text: 'Size:').
-		sizeInput := ToTextField new
-			             withoutLineWrapping;
-			             withSaveCapability;
-			             yourself.
+			| sizeInputPane sizeInput |
+			sizeInputPane := ToPane horizontal.
+			sizeInputPane layout cellSpacing: 5.
+			sizeInputPane childrenDo: [ :child |
+				child constraints linear vertical alignCenter ].
+			sizeInputPane addChild: (ToLabel text: 'Size:').
+			sizeInput := ToTextField new
+				             withoutLineWrapping;
+				             withSaveCapability;
+				             yourself.
 
-		aBar addEventHandlerOn: BlElementExtentChangedEvent do: [ :event |
-			dir = #Horizontal
-				ifTrue: [ sizeInput text: aBar width asString ]
-				ifFalse: [ sizeInput text: aBar height asString ] ].
+			aBar addEventHandlerOn: BlElementExtentChangedEvent do: [ :event |
+					dir = #Horizontal
+						ifTrue: [ sizeInput text: aBar width asString ]
+						ifFalse: [ sizeInput text: aBar height asString ] ].
 
-		sizeInput whenSaveRequestedDo: [ :saveRequested |
-			| size |
-			size := saveRequested editorElement text asString asInteger.
-			size ifNotNil: [
-				saveRequested accepted: true.
-				dir = #Horizontal
-					ifTrue: [ aBar hExact: size ]
-					ifFalse: [ aBar vExact: size ] ] ].
+			sizeInput whenSaveRequestedDo: [ :saveRequested |
+					| size |
+					size := saveRequested editorElement text asString asInteger.
+					size ifNotNil: [
+							saveRequested accepted: true.
+							dir = #Horizontal
+								ifTrue: [ aBar hExact: size ]
+								ifFalse: [ aBar vExact: size ] ] ].
 
-		sizeInputPane addChild: sizeInput.
-		sizeInputPane childrenDo: [ :child |
-			child constraints linear vertical alignCenter ].
+			sizeInputPane addChild: sizeInput.
+			sizeInputPane childrenDo: [ :child |
+				child constraints linear vertical alignCenter ].
 
-		group := ToCheckableGroup new.
-		buttons := OrderedCollection new.
+			group := ToCheckableGroup new.
+			buttons := OrderedCollection new.
 
-		{ #MatchParent. #FitContent. #Exact } do: [ :mode |
-			| cbox |
-			cbox := ToRadioButton new
-				        labelText: mode asString;
-				        yourself.
-			buttons add: cbox.
-			cbox
-				newCheckAction: [ :evt :bar :value |
-					value ifTrue: [
-						sizeInputPane enabled: false.
-						mode = #MatchParent
-							ifTrue: [
-								dir = #Horizontal
-									ifTrue: [ bar hMatchParent ]
-									ifFalse: [ bar vMatchParent ] ]
-							ifFalse: [
-								mode = #FitContent
-									ifTrue: [
-										dir = #Horizontal
-											ifTrue: [ bar hFitContent ]
-											ifFalse: [ bar vFitContent ] ]
-									ifFalse: [ sizeInputPane enabled: true ] ] ] ]
-				with: aBar ].
+			{ #MatchParent. #FitContent. #Exact } do: [ :mode |
+					| cbox |
+					cbox := ToRadioButton new
+						        labelText: mode asString;
+						        yourself.
+					buttons add: cbox.
+					cbox
+						newCheckAction: [ :evt :bar :value |
+								| policy |
+								value ifTrue: [
+										mode = #Exact
+											ifTrue: [ sizeInputPane enabled: true ]
+											ifFalse: [
+													sizeInputPane enabled: false.
+													policy := dir = #Horizontal
+														          ifTrue: [ ('h' , mode) asSymbol ]
+														          ifFalse: [ ('v' , mode) asSymbol ].
+													bar perform: policy ] ] ]
+						with: aBar ].
 
-		group registerAll: buttons.
-
-		buttons second checked: true.
-		container := ToPane vertical.
-		container border: Color lightGray.
-		container padding: (BlInsets all: 2).
-		container hMatchParent.
-		container vFitContent.
-		container addChild: (ToLabel text: dir asString).
-		container addChildren: group registeredCheckables.
-		container addChild: sizeInputPane.
-		pane addChild: container ].
+			group registerAll: buttons.
+			buttons second checked: true.
+			container := ToPane vertical.
+			container border: Color lightGray.
+			container padding: (BlInsets all: 2).
+			container hMatchParent.
+			container vFitContent.
+			container addChild: (ToLabel text: dir asString).
+			container addChildren: group registeredCheckables.
+			container addChild: sizeInputPane.
+			pane addChild: container ].
 	^ pane
 ]
 
@@ -8629,6 +8513,12 @@ ToSandBox class >> selectableLabeledIconlWithIconAndText [
 			 yourself)).
 			but inspect.
 	^ but
+]
+
+{ #category : #tree }
+ToSandBox class >> selectionChangedEvent: anEvent [
+
+	anEvent traceCr.
 ]
 
 { #category : #bar }
@@ -8724,49 +8614,7 @@ ToSandBox class >> statesOfAmericaWithGroups [
 			   #Maine. #Vermont" }) }
 ]
 
-{ #category : #'tabPane-dep' }
-ToSandBox class >> subTabPane [
-
-	| nb but |
-	nb := ToTabPane new.
-	nb resizablePanes: true.
-	1 to: 3 do: [ :index |
-		but := ToTab new.
-		but labelText: 'sub tab ' , index asString.
-		but paneBuilder: [ :pane :theNoteBook | pane addChild: self subsubTabPane withHeaderOnRightBottom ].
-		nb addTab: but ].
-	^ nb
-]
-
-{ #category : #'tabPane-dep' }
-ToSandBox class >> subsubTabPane [
-
-	| nb but |
-	nb := ToTabPane new.
-	nb resizablePanes: true.
-	1 to: 4 do: [ :index |
-		but := ToTab new.
-		but labelText: 'sub sub tab ' , index asString.
-		but paneBuilder: [ :pane :theNoteBook | pane addChild: self subsubsubTabPane withHeaderOnBottomLeft ].
-		nb addTab: but ].
-	^ nb
-]
-
-{ #category : #'tabPane-dep' }
-ToSandBox class >> subsubsubTabPane [
-
-	| nb but |
-	nb := ToTabPane new.
-	nb resizablePanes: true.
-	1 to: 2 do: [ :index |
-		but := ToTab new.
-		but labelText: 'sub sub sub tab ' , index asString.
-		but paneBuilder: [ :pane :theNoteBook | pane background: Color random ].
-		nb addTab: but ].
-	^ nb
-]
-
-{ #category : #tag }
+{ #category : #tabPane }
 ToSandBox class >> tabBarElementDashBoardFor: aTabBarElement [
 
 	| confPane barPane mainPane |
@@ -8784,7 +8632,7 @@ ToSandBox class >> tabBarElementDashBoardFor: aTabBarElement [
 	^ mainPane
 ]
 
-{ #category : #tag }
+{ #category : #tabPane }
 ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 
 	| mainPane barPane confPane startToEndSwitch addTabItemButtonSwicth rootPane |
@@ -8792,22 +8640,23 @@ ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 	mainPane matchParent.
 
 	confPane := self barConfigurationBoardFor: aTabGroupElement.
-	(confPane childWithId: #selectOnPressedSwitch) disable.
-	(confPane childWithId: #deselectOnPressedSwitch) disable.
-
 	startToEndSwitch := ToSwitchButton new labelText: 'At start'.
-	startToEndSwitch newCheckFeature: #atStartSide with: aTabGroupElement.
+	startToEndSwitch checkAction: [ :evt :target :value | aTabGroupElement atStartSide: value ].
 
 	startToEndSwitch startFlexible: true.
 	startToEndSwitch hMatchParent.
 	confPane addChild: startToEndSwitch.
 
 	addTabItemButtonSwicth := ToSwitchButton new labelText: 'Show new tab button'.
-	addTabItemButtonSwicth newCheckFeature: #showAddTabItemButton with: aTabGroupElement.
+	addTabItemButtonSwicth checkAction: [ :evt :target :value | aTabGroupElement showAddTabItemButton: value ].
 
 	addTabItemButtonSwicth startFlexible: true.
 	addTabItemButtonSwicth hMatchParent.
 	confPane addChild: addTabItemButtonSwicth.
+
+	aTabGroupElement whenWidgetConfigurationAppliedDo: [ 
+		startToEndSwitch checked: aTabGroupElement atStartSide.
+		addTabItemButtonSwicth checked: aTabGroupElement showAddTabItemButton ].
 
 	confPane padding: (BlInsets all: 5).
 	confPane width: 250.
@@ -8829,6 +8678,47 @@ ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 
 
 	^ rootPane
+]
+
+{ #category : #tabPane }
+ToSandBox class >> tabPaneElementWithUSStates [
+
+	| tpane |
+	tpane := ToTabPaneElement new.
+	self statesOfAmerica do: [ :l |
+			| lab item |
+			lab := ToLabel text: l.
+			lab enableShrinkLayer: true.
+			lab shrinkTolerance: 2.0.
+			lab width: 70.
+			"lab rotateBy: 270."
+			item := ToTabButton new
+				        label: lab;
+				        tooltipString: l;
+				        removable: true;
+				        paneBuilder: [ :pane |
+						        | emptyPh |
+						        pane withNullSkin.
+						        pane background: (Color random alpha: 0.1).
+
+						        emptyPh := ToEmptyPlaceholderLayer new attachToParent:
+								                   pane.
+						        pane userData at: #placeholder put: emptyPh ];
+				        paneDestroyer: [ :pane |
+						        | emptyPh |
+						        'pane destroyed' traceCr.
+						        emptyPh := pane userData at: #placeholder.
+						        emptyPh detach ];
+				        yourself.
+				
+			"icon:
+				        (ToImage new innerImage: (self iconNamed: #solidMenu));"
+			"endElement:
+				        (ToImage new innerImage: (self iconNamed: #solidMenu));"
+			tpane addItem: item ].
+	tpane isFlowable: false.
+	tpane isScrollable: true.
+	^ tpane
 ]
 
 { #category : #select }
@@ -8856,7 +8746,24 @@ ToSandBox class >> themeSelect [
 ]
 
 { #category : #triplet }
-ToSandBox class >> tripletWithText [
+ToSandBox class >> tripletWith2IconsAnd1Label [
+
+	| but |
+	but := ToTripletElement new.
+	but startElement: (BlElement new
+			 size: 25 asPoint;
+			 background: Color red;
+			 yourself).
+	but middleElement: (ToLabel text: 'Middle').
+	but endElement: (BlElement new
+			 size: 25 asPoint;
+			 background: Color red;
+			 yourself).
+	^ but
+]
+
+{ #category : #triplet }
+ToSandBox class >> tripletWith2Labels [
 
 	| but |
 	but := ToTripletElement new.

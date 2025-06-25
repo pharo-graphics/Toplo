@@ -38,12 +38,12 @@ ToCheckableData >> checked: aBooleanOrIndeterminate [
 		ifTrue: [
 			Error signal:
 				'a symbol not allowed except when indeterminate is explicitly allowed ' ].
-	owner isDisabled ifTrue: [ ^ self ].
 	current := checked.
+	aBooleanOrIndeterminate = current ifTrue: [ ^ self ].
+	owner isDisabled ifTrue: [ ^ self ].
 	owner group ifNotNil: [ :grp |
 		(grp allowChangeWith: aBooleanOrIndeterminate forCheckable: owner)
 			ifFalse: [ ^ self ] ].
-	aBooleanOrIndeterminate = current ifTrue: [ ^ self ].
 	self privateChecked: aBooleanOrIndeterminate.
 	self notifyChanged
 ]

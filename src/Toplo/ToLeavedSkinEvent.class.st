@@ -1,11 +1,11 @@
 Class {
 	#name : #ToLeavedSkinEvent,
-	#superclass : #ToTransientSkinEvent,
+	#superclass : #ToLeftSkinEvent,
 	#category : #'Toplo-Core-SkinEvents'
 }
 
-{ #category : #sending }
-ToLeavedSkinEvent >> sendTo: anObject [
-
-	anObject leavedSkinEvent: self
+{ #category : #testing }
+ToLeavedSkinEvent class >> isDeprecated [
+		" Uses ToLeftSkinEvent instead of ToLeavedSkinEvent"
+		^ true
 ]

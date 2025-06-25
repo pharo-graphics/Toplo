@@ -29,14 +29,15 @@ ToCheckableEventHandler >> clickEvent: anEvent [
 { #category : #'api - accessing' }
 ToCheckableEventHandler >> eventsToHandle [
 
-	^ { ToCheckableChangedEvent. BlClickEvent  }
+	^ {
+		  ToCheckableChangedEvent.
+		  BlClickEvent }
 ]
 
 { #category : #'event handling' }
 ToCheckableEventHandler >> primaryClickEvent: anEvent [
 
-	| target |
-	target := anEvent currentTarget.
-	target switchToNextCheckState.
-	anEvent consume
+	| currentTarget |
+	currentTarget := anEvent currentTarget.
+	currentTarget switchToNextCheckState
 ]

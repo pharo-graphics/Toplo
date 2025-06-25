@@ -25,13 +25,13 @@ ToTopLevelMockTest >> testMocks [
 
 	| errors |
 	self skip.
+
 	errors := OrderedCollection new.
 
 	{
-		ToLoginPage.
-		ToMiniBrowser.
-		ToTextFieldPopupExperiment.
-		ToWorkspaceExample } do: [ :each |
+		ToExLoginPage.
+		ToExMiniBrowser.
+		ToExWorkspace } do: [ :each |
 		[
 		each open.
 		Delay forMilliseconds: 5000.

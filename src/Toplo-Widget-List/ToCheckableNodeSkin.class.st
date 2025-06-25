@@ -1,7 +1,7 @@
 Class {
 	#name : #ToCheckableNodeSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Widget-List-ItemList'
+	#category : #'Toplo-Widget-List-Core-Item'
 }
 
 { #category : #'event handling' }
@@ -25,6 +25,14 @@ ToCheckableNodeSkin >> installSkinEvent: anEvent [
 ToCheckableNodeSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e mouseCursor: Cursor normal ]
+]
+
+{ #category : #'event handling' }
+ToCheckableNodeSkin >> leftSkinEvent: anEvent [
+
+	super leftSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal ]
 ]

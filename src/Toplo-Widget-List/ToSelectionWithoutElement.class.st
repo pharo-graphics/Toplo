@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSelectionWithoutElement,
-	#superclass : #ToSelectionRepresentation,
+	#superclass : #ToEmptySelectionRepresentation,
 	#instVars : [
 		'node'
 	],

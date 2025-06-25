@@ -15,14 +15,12 @@ ToMenuItemElement >> applyWidgetConfiguration [
 
 	super applyWidgetConfiguration.
 	self holderDo: [ :h |
+		h node fitContent.
 		h listElement isHorizontal
 			ifTrue: [
-				h node itemContainer hFitContent.
 				self hFitContent ]
 			ifFalse: [
-				h node itemContainer hMatchParent.
-				self hMatchParent ].
-		h node itemContainer vFitContent ].
+				self hMatchParent ] ].
 	self vFitContent
 ]
 
@@ -141,6 +139,12 @@ ToMenuItemElement >> onAddedInItemBarOwner: aMenu [
 ToMenuItemElement >> onRemovedFromItemBarOwner: aMenu [
 
 	aMenu onRemovedMenuItem: self
+]
+
+{ #category : #accessing }
+ToMenuItemElement >> openOnHovered [
+
+	^ false
 ]
 
 { #category : #'t - menu window model' }

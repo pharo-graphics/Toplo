@@ -11,7 +11,8 @@ Class {
 		'builder',
 		'windowManager',
 		'openOnHovered',
-		'isMenuPaneMenu'
+		'isMenuPaneMenu',
+		'showExpandIcon'
 	],
 	#category : #'Toplo-Widget-Menu-Items'
 }
@@ -171,7 +172,7 @@ ToMenu >> mouseOverEvent: anEvent [
 		ifFalse: [ self closeWindow ]
 ]
 
-{ #category : #'t - item bar owner - accessing' }
+{ #category : #'t - item bar container - accessing' }
 ToMenu >> newItemBar [
 
 	^ ToMenuItemBarElement new
@@ -225,6 +226,20 @@ ToMenu >> openOnHovered: aBoolean [
 ToMenu >> popupEvent: anEvent [
 
 	self manager popupEvent: anEvent
+]
+
+{ #category : #'t - menu item' }
+ToMenu >> showExpandIcon [
+
+	^ showExpandIcon ifNil: [ showExpandIcon := false ]
+]
+
+{ #category : #accessing }
+ToMenu >> showExpandIcon: aBoolean [
+
+	showExpandIcon = aBoolean ifTrue: [ ^ self ].
+	showExpandIcon := aBoolean.
+	self requestNewSkin
 ]
 
 { #category : #accessing }

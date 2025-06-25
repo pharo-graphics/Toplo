@@ -64,6 +64,13 @@ ToIconicButtonSkin >> leavedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToIconicButtonSkin >> leftSkinEvent: anEvent [
+
+	super leftSkinEvent: anEvent.
+	anEvent elementDo: [ :e | e mouseCursor: Cursor normal ]
+]
+
+{ #category : #'event handling' }
 ToIconicButtonSkin >> selectedSkinEvent: anEvent [
 
 	super selectedSkinEvent: anEvent.

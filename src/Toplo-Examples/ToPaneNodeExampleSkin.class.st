@@ -17,7 +17,7 @@ ToPaneNodeExampleSkin >> createNodeButton [
 	nodeButton := ToButton new
 		              label: label;
 		              yourself.
-	nodeButton newClickAction: [
+	nodeButton clickAction: [
 		self inform: 'CLICK' ].
 	nodeButton constraintsDo: [ :c |
 		c ignoreByLayout.
@@ -75,6 +75,16 @@ ToPaneNodeExampleSkin >> installSkinEvent: anEvent [
 ToPaneNodeExampleSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
+	anEvent target isEnabled ifFalse: [ ^ self ].
+	nodeButton ifNotNil: [
+		nodeButton removeFromParent.
+		nodeButton := nil ]
+]
+
+{ #category : #'event handling' }
+ToPaneNodeExampleSkin >> leftSkinEvent: anEvent [
+
+	super leftSkinEvent: anEvent.
 	anEvent target isEnabled ifFalse: [ ^ self ].
 	nodeButton ifNotNil: [
 		nodeButton removeFromParent.

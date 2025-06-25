@@ -22,6 +22,51 @@ ToIntervalCollectionTest >> setUp [
 ]
 
 { #category : #tests }
+ToIntervalCollectionTest >> testContainsAnyOfInterval [
+
+	s removeAll.
+	s selectIndexes: { 1. 5. 6 }.
+	self assert: (s containsAnyOfInterval: (1 to: 6)).
+	self assert: (s containsAnyOfInterval: (2 to: 5)).
+	s removeAll.
+	s selectIndexes: { 1. 2. 3. 4. 5. 6 }.
+	self assert: (s containsAnyOfInterval: (1 to: 6)).
+	self assert: (s containsAnyOfInterval: (2 to: 5)).
+
+
+]
+
+{ #category : #tests }
+ToIntervalCollectionTest >> testContainsAnyOfInterval2 [
+
+	s removeAll.
+	s selectIndexes: { 3. 5. 8 }.
+	self deny: (s containsAnyOfInterval: (1 to: 2)).
+	self deny: (s containsAnyOfInterval: (9 to: 10)).
+	s removeAll.
+	s selectIndexes: { 3. 4. 5. 6. 7. 8}.
+	self deny: (s containsAnyOfInterval: (1 to: 2)).
+	self deny: (s containsAnyOfInterval: (9 to: 10)).
+
+
+]
+
+{ #category : #tests }
+ToIntervalCollectionTest >> testContainsAnyOfInterval3 [
+
+	s removeAll.
+	s selectIndexes: { 3. 5. 8 }.
+	self assert: (s containsAnyOfInterval: (1 to: 4)).
+	self assert: (s containsAnyOfInterval: (5 to: 10)).
+	s removeAll.
+	s selectIndexes: { 3. 4. 5. 6. 7. 8}.
+	self assert: (s containsAnyOfInterval: (1 to: 4)).
+	self assert: (s containsAnyOfInterval: (5 to: 10)).
+
+
+]
+
+{ #category : #tests }
 ToIntervalCollectionTest >> testContainsIndex [
 
 	self deny: (s containsIndex: 1)

@@ -4,17 +4,6 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
-{ #category : #'nodes collecting' }
-ToListSelectionWithoutElementOption >> currentSelectionRepresentationsFrom: aListElement withSelectionModel: aSelectionModel [
-
-	^ (aListElement innerElement nodesSelect: [ :node |
-		   | idx |
-		   idx := node holder position.
-		   (aSelectionModel containsIndex: idx) and: [
-			   aSelectionModel isVisibleIndex: idx ] ]) collect: [ :node |
-		  ToSelectionWithoutElement new node: node ]
-]
-
 { #category : #testing }
 ToListSelectionWithoutElementOption >> isEmbedded [ 
 
@@ -22,10 +11,21 @@ ToListSelectionWithoutElementOption >> isEmbedded [
 ]
 
 { #category : #'nodes collecting' }
-ToListSelectionWithoutElementOption >> launchUpdateSelectionIn: aListElement withSelectionModel: aSelectionModel [
+ToListSelectionWithoutElementOption >> newSelectionRepresentationArrayFrom: aListElement withSelectionModel: aSelectionModel [
+
+	^ (aListElement nodesSelect: [ :node |
+		   | idx |
+		   idx := node holder position.
+		   (aSelectionModel containsIndex: idx) and: [
+			   aSelectionModel isVisibleIndex: idx ] ]) collect: [ :node |
+		  ToSelectionWithoutElement new node: node ]
+]
+
+{ #category : #'nodes collecting' }
+ToListSelectionWithoutElementOption >> updateSelectionIn: aListElement withSelectionModel: aSelectionModel [
 
 	(super
-		 launchUpdateSelectionIn: aListElement
+		 updateSelectionIn: aListElement
 		 withSelectionModel: aSelectionModel) ifFalse: [ ^ false ].
 	
 	self notifyNodesSelectedIn: aListElement.

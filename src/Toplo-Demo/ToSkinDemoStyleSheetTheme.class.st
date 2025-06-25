@@ -271,7 +271,7 @@ ToSkinDemoStyleSheetTheme >> installRules [
 { #category : #'as yet unclassified' }
 ToSkinDemoStyleSheetTheme >> leftRules [ 
 self
-				when: ToLeavedSkinEvent
+				when: ToLeftSkinEvent
 				write: (self property: #background)
 				with: [ :e |
 					e clicked

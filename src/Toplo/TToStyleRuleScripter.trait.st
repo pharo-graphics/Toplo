@@ -50,7 +50,7 @@ TToStyleRuleScripter >> select: aStyleSelector style: aBlock [
 { #category : #'t - stylesheet scripter' }
 TToStyleRuleScripter >> skinEventListenerHolder [ 
 
-	^ self explicitRequirement 
+	^ self shouldBeImplemented 
 ]
 
 { #category : #'t - stylesheet scripter' }

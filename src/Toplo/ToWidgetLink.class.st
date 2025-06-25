@@ -12,15 +12,17 @@ Class {
 { #category : #adding }
 ToWidgetLink >> addedHandler: anEventHandler [
 
-	self addedHandler: anEventHandler in: self
+	self addedHandler: anEventHandler in: self for: nil
 ]
 
 { #category : #adding }
-ToWidgetLink >> addedHandler: anEventHandler in: aTarget [
+ToWidgetLink >> addedHandler: anEventHandler in: aTarget for: aReceiver [
 
 	self
 		addEventHandlerOn: ToWidgetLinkDissociateEvent
-		doOnce: [ :event | aTarget removeEventHandler: anEventHandler ]
+		doOnce: [ :event |
+				aTarget removeEventHandler: anEventHandler.
+				aReceiver ifNotNil: [ aReceiver removeLinkedAction: self ] ]
 ]
 
 { #category : #initialization }
@@ -64,6 +66,20 @@ ToWidgetLink >> onActionRunnedDo: aValuable [
 				 cull: evt sourceEvent
 				 cull: evt linkedObject
 				 cull: evt changedValue ])
+]
+
+{ #category : #running }
+ToWidgetLink >> run [
+
+	self dispatchEvent: ToRunLinkActionRequest new
+]
+
+{ #category : #running }
+ToWidgetLink >> runWithEvent: anEvent [
+
+	self dispatchEvent: (ToRunLinkActionRequest new
+			 sourceEvent: anEvent;
+			 yourself)
 ]
 
 { #category : #running }

@@ -21,7 +21,7 @@ ToPrimarySelecterTest >> setUp [
 		            selectionChangedEventClass:
 			            ToListPrimarySelectionChangedEvent;
 		            yourself.
-	selecter commandApplicationStrategy: ToQueueBasedCommandApplicationStrategy new.
+	selecter commandApplicationStrategy: BlQueueBasedCommandApplicationStrategy new.
 	selecter onInstalledIn: element
 ]
 

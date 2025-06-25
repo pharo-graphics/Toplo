@@ -40,6 +40,10 @@ ToInnerBarElement >> addHolder: anHolder at: aPosition [
 	trackElement addChild: anHolder node at: aPosition + 1
 ]
 
+{ #category : #'private - commands' }
+ToInnerBarElement >> addedDataSourceCommand: aCommand [
+]
+
 { #category : #'t - list node holder' }
 ToInnerBarElement >> applyWidgetConfiguration [
 
@@ -222,6 +226,12 @@ ToInnerBarElement >> nodes [
 ]
 
 { #category : #'t - list node holder' }
+ToInnerBarElement >> nodesDetect: aBlock [
+
+	^ trackElement nodesDetect: aBlock 
+]
+
+{ #category : #'t - list node holder' }
 ToInnerBarElement >> nodesDo: aBlock [
 
 	trackElement nodesDo: aBlock
@@ -321,12 +331,7 @@ ToInnerBarElement >> onScrolled: aPoint [
 	I will always be invoked before event handlers. If a subclass needs to perform any additional upkeep
 	or bookkeeping after scrolling but before events fired, this is a good place to do so"
 
-	listElement onScrolled: aPoint.
-	self checkFullyVisibleNodes.
-	"Since moving the mouse over the bar leads to layout/scrolling, a task is used to avoid layout recusrsion"
-	self spaceDo: [ :sp |
-		sp enqueueTask:
-			(BlTaskAction new action: [ sp mouseProcessor handleLastMouseMove ]) ]
+	self checkFullyVisibleNodes
 ]
 
 { #category : #'t - list node holder' }

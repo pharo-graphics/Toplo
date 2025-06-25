@@ -16,18 +16,6 @@ TToStyleRulesHolder >> addStyleRule: aStyleRule [
 ]
 
 { #category : #'t - style rules holder' }
-TToStyleRulesHolder >> rawStyleRules [
-
-	^ self explicitRequirement 
-]
-
-{ #category : #'t - style rules holder' }
-TToStyleRulesHolder >> rawStyleRules: aStyleRuleCollection [
-
-	self explicitRequirement
-]
-
-{ #category : #'t - style rules holder' }
 TToStyleRulesHolder >> removeStyleRule: aStyleRule [
 
 	self rawStyleRules: (self rawStyleRules copyWithout: aStyleRule)

@@ -15,7 +15,6 @@ ToMenuItem >> initialize [
 
 	super initialize.
 	self initializeAsTripletElement.
-	self addStamp: #'menu-item'.
 	self endElement: self newRightHandSide
 ]
 

@@ -3,28 +3,13 @@ Class {
 	#superclass : #ToSkin,
 	#traits : 'TToLookEventListenerRegistry',
 	#classTraits : 'TToLookEventListenerRegistry classTrait',
-	#instVars : [
-		'skinEventListeners'
-	],
-	#category : #'Toplo-Core-StyleSheet'
+	#category : #'Toplo-Core-Skin'
 }
 
 { #category : #'api - event managing' }
 ToStyleSheetSkin >> handleEvent: anEvent [
 
 	anEvent sendToStyleSheetSkin: self
-]
-
-{ #category : #'t - skin event listener registry' }
-ToStyleSheetSkin >> rawSkinEventListeners [
-
-	^ skinEventListeners
-]
-
-{ #category : #'t - skin event listener registry' }
-ToStyleSheetSkin >> rawSkinEventListeners: aSkinEventListenerCollection [
-
-	skinEventListeners := aSkinEventListenerCollection
 ]
 
 { #category : #'hook - event managing' }

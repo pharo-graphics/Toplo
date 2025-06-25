@@ -1,5 +1,5 @@
 Class {
 	#name : #ToItemNodeForTest,
-	#superclass : #ToItemNode,
+	#superclass : #ToBarItemNode,
 	#category : #'Toplo-Widget-List-Tests-ItemBar'
 }

@@ -10,16 +10,20 @@ Class {
 	#category : #'Toplo-Widget-List-Tests-Selection-Selecter'
 }
 
-{ #category : #accessing }
-ToSelecterEventTargetStub >> commandApplicationStrategy [
-
-	^ nil
+{ #category : #'private - commands' }
+ToSelecterEventTargetStub >> addedDataSourceCommand: aCoomand [
 ]
 
 { #category : #accessing }
 ToSelecterEventTargetStub >> itemCount [
 
 	^ 100
+]
+
+{ #category : #'data source updates' }
+ToSelecterEventTargetStub >> postponeAction: aValuable [
+
+	aValuable value
 ]
 
 { #category : #accessing }

@@ -26,6 +26,9 @@ ToMenuItemElementSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal.
+		e padding: (BlInsets
+						 horizontal: (e valueOfTokenNamed: #'menu-item-padding-H')
+						 vertical: (e valueOfTokenNamed: #'menu-item-padding-V')).
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e valueOfTokenNamed: 'border-radius')) ]
 ]
@@ -34,6 +37,14 @@ ToMenuItemElementSkin >> installSkinEvent: anEvent [
 ToMenuItemElementSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e mouseCursor: Cursor normal ]
+]
+
+{ #category : #'event handling' }
+ToMenuItemElementSkin >> leftSkinEvent: anEvent [
+
+	super leftSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal ]
 ]

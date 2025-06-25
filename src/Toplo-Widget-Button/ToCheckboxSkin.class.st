@@ -101,6 +101,18 @@ ToCheckboxSkin >> leavedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToCheckboxSkin >> leftSkinEvent: anEvent [
+
+	super leftSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e iconDo: [ :ic |
+					ic innerImageColor: (e valueOfTokenNamed: #'color-primary') ].
+		e labelDo: [ :lab |
+			lab foreground: (e valueOfTokenNamed: #'color-text') ].
+		e border: BlBorder empty ]
+]
+
+{ #category : #'event handling' }
 ToCheckboxSkin >> pressedSkinEvent: anEvent [
 
 	super pressedSkinEvent: anEvent.

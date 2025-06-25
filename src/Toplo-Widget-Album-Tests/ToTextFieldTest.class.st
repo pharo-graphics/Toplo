@@ -15,6 +15,6 @@ ToTextFieldTest >> testPlaceholderText [
 	e placeholderText: 'Enter text...'.
 	e showPlaceholder.
 	
-	ph := e currentPlaceholderLayer.
+	ph := e placeholderLayer.
 	self assert: (ph children first text asString) equals: 'Enter text...'.
 ]

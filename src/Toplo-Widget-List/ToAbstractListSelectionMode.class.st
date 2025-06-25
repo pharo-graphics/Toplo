@@ -147,6 +147,20 @@ ToAbstractListSelectionMode >> newSelectionChangedEventHandler [
 ]
 
 { #category : #'instance creation' }
+ToAbstractListSelectionMode >> newSelectionContainerIn: aListElement [
+
+	| container elevation |
+	container := ToOverlayElement new.
+	container clipChildren: true.
+	container attachTo: aListElement.
+	elevation := self selectionOption isBeneath 
+		             ifTrue: [ BlRelativeElevation elevation: 5 ]
+		             ifFalse: [ BlRelativeElevation elevation: 15 ].
+	container elevation: elevation.
+	^ container
+]
+
+{ #category : #'instance creation' }
 ToAbstractListSelectionMode >> newSelectionModelIn: aListElement [
 
 	^ self subclassResponsibility 
@@ -206,6 +220,12 @@ ToAbstractListSelectionMode >> option [
 		'`@rcvr option' -> '`@rcvr selectionOption'.
 
 	^ self selectionOption
+]
+
+{ #category : #accessing }
+ToAbstractListSelectionMode >> requestNewRepresentation [
+
+	self selectionOptionDo: [ :rep | rep requestNewRepresentation ]
 ]
 
 { #category : #accessing }

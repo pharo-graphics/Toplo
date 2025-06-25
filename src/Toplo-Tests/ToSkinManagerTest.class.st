@@ -289,6 +289,8 @@ ToSkinManagerTest >> testInstallSkinIn [
 
 	| e skin |
 	e := ToElement new.
+	space root addChild: e.
+
 	skin := ToRawSkin new.
 	e skinManager installSkin: skin in: e.
 	self assert: e skinManager installedSkin notNil
@@ -310,6 +312,20 @@ ToSkinManagerTest >> testInstallSkinIn2 [
 	self
 		assert: (e skinManager installedSkin) class
 		equals: (e lookupTheme newSkinFor: e) class
+]
+
+{ #category : #tests }
+ToSkinManagerTest >> testInstallSkinInError [
+
+	| e skin |
+	e := ToElement new.
+	skin := ToRawSkin new.
+	" an error is raised because the element is not attached "
+	self should: [ e skinManager installSkin: skin in: e ] raise: Error.
+
+	space root addChild: e.
+	e skinManager installSkin: skin in: e.
+	self assert: e skinManager installedSkin notNil
 ]
 
 { #category : #tests }
@@ -350,7 +366,8 @@ ToSkinManagerTest >> testInstalledSkinDo [
 
 	| e sk cpt |
 	cpt := 0.
-	e := ToElement new. 
+	e := ToElement new.
+	space root addChild: e.
 	e defaultSkin: (sk := ToRawSkin new).
 	e skinManager installedSkinDo: [ :s | cpt := cpt + 1 ].
 	self assert: cpt isZero.
@@ -878,6 +895,7 @@ ToSkinManagerTest >> testUninstallSkinIn [
 
 	| e skin |
 	e := ToElement new.
+	space root addChild: e.
 	skin := ToRawSkin new.
 	e skinManager installSkin: skin in: e.
 	self assert: e skinManager installedSkin notNil.

@@ -8,11 +8,10 @@ Class {
 ToIconicAddButton >> initialize [ 
 
 	super initialize.
-	self newClickAction: [ self fireEvent: ToAddButtonClickedEvent new ].
 	self id: #'add-iconic-button'
 ]
 
-{ #category : #'instance creation' }
+{ #category : #skin }
 ToIconicAddButton >> newRawSkin [ 
 
 	^ ToIconicAddButtonSkin new

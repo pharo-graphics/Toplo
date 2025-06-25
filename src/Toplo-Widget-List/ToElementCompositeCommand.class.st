@@ -42,7 +42,7 @@ ToElementCompositeCommand >> initialize [
 ]
 
 { #category : #application }
-ToElementCompositeCommand >> onAppliedIn: aCommandApplier [
+ToElementCompositeCommand >> onAppliedOn: aCommandApplier [
 
 	aCommandApplier onCompositeCommandApplied: self.
 	commands do: [ :cmd | aCommandApplier onCommandApplied: cmd ]

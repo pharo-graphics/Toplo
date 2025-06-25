@@ -10,15 +10,22 @@ ToClickableActionLink >> configureToUpdateLinkedObject: anObjectOrValuable from:
 	| handler |
 	handler := aClickable
 		           addEventHandlerOn: aClickable clickEventClass
-		           do: [ :event | " evaluate if the action can be launched "
-			           (self launchableFromEvent: event) ifTrue: [
+		           do: [ :event |
+				           event consume. 
+							  " evaluate if the action can be launched "
+				           (self launchableFromEvent: event) ifTrue: [
+					           self runWithEvent: event ] ].
+	self addedHandler: handler in: aClickable for: aClickable.
+
+	handler := self
+		           addEventHandlerOn: ToRunLinkActionRequest
+		           do: [ :event |
 				           self
 					           launchWithLinkedObject: anObjectOrValuable
 					           from: aClickable
-					           onEvent: event
-					           withValue: nil.
-				           event consume ] ].
-	self addedHandler: handler in: aClickable
+					           onEvent: event sourceEvent
+					           withValue: nil ].
+	self addedHandler: handler in: self for: aClickable.
 ]
 
 { #category : #initialization }
@@ -37,6 +44,6 @@ ToClickableActionLink >> launchableFromEvent: anEvent [
 			     ifNone: [  ].
 		w ifNotNil: [
 			popupTime := w popupTimestamp.
-			launchable := anEvent timestamp - popupTime > 500 milliSeconds ] ].
+			launchable := popupTime isNil or: [anEvent timestamp - popupTime > 300 milliSeconds ] ] ].
 	^ launchable
 ]

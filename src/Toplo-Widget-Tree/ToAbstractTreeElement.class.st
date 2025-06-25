@@ -56,6 +56,12 @@ ToAbstractTreeElement >> expandAll [
 	rootWrappers do: [ :w | w expandAll ]
 ]
 
+{ #category : #'expanding-collapsing' }
+ToAbstractTreeElement >> expandRoots [
+
+	self dataSource roots do: [ :each | each expand ]
+]
+
 { #category : #initialization }
 ToAbstractTreeElement >> initialize [ 
 

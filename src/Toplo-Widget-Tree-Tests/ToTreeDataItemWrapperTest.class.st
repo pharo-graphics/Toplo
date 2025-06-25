@@ -112,6 +112,24 @@ ToTreeDataItemWrapperTest >> testExpandEventDispatched [
 	self assert: tree dataSource size equals: size + 1
 ]
 
+{ #category : #tests }
+ToTreeDataItemWrapperTest >> testExpandRoots [
+
+	self assert: tree dataAccessor isEmpty.
+	tree nodeManager childrenGetter: [ :dataItem |
+		dataItem = 1
+			ifTrue: [ {  } ]
+			ifFalse: [ { (dataItem - 1) } ] ].
+	tree dataAccessor addAll: (1 to: 5).
+
+	self assert: tree dataAccessor size equals: 5.
+	tree dataSource do: [ :each | self assert: each isExpanded not ].
+
+	tree expandRoots.
+	self assert: tree dataAccessor size equals: 9.
+	tree dataSource do: [ :each | self assert: (each isExpanded or: [ each isRoot not ]) ]
+]
+
 { #category : #'expanding-collapsing tests' }
 ToTreeDataItemWrapperTest >> testObjectAddedToDataSourceGetsWrapped [
 

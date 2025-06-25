@@ -22,6 +22,24 @@ ToTreeDataItemWrapper >> checkMaxDepth [
 ]
 
 { #category : #'private - accessing' }
+ToTreeDataItemWrapper >> childWrapperAt: index [
+
+	| count |
+	count := 0.
+	self childWrappersDo: [ :w |
+		self flag: #todo. "We should not filter"
+		w parentWrapper = self ifTrue: [
+			count := count + 1.
+			count = index ifTrue: [ ^ w ] ] ].
+
+	SubscriptOutOfBounds
+		signalFor: index
+		lowerBound: 1
+		upperBound: count
+		in: self
+]
+
+{ #category : #'private - accessing' }
 ToTreeDataItemWrapper >> childWrappers [
 
 	^ Array streamContents: [ :stream |

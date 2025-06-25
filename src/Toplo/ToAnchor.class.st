@@ -139,5 +139,6 @@ ToAnchor >> read: aRectangle [
 
 { #category : #applying }
 ToAnchor >> read: aRectangle withMargin: margin [ 
+
 	^ self subclassResponsibility
 ]

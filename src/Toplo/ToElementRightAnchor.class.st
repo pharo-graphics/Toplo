@@ -7,8 +7,7 @@ Class {
 { #category : #applying }
 ToElementRightAnchor >> applyOnRectangle: aRectangle withValue: aValue withMargin: anInsets [
 
-	^ aRectangle translateBy:
-		  aValue - (self read: aRectangle withMargin: anInsets) @ 0
+	^ aRectangle translateBy: aValue - (self read: aRectangle) @ 0
 ]
 
 { #category : #applying }

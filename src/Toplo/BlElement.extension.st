@@ -101,7 +101,7 @@ BlElement >> borderBuilder [
 { #category : #'*Toplo' }
 BlElement >> bottomAnchor [
 
-	^ self constraints anchors bottomAnchor
+	^ ToElementBottomAnchor new
 		  element: self;
 		  yourself
 ]
@@ -109,7 +109,7 @@ BlElement >> bottomAnchor [
 { #category : #'*Toplo' }
 BlElement >> centerAnchor [
 
-	^ self constraints anchors centerAnchor
+	^ ToElementCenterAnchor new
 		  element: self;
 		  yourself
 ]
@@ -303,7 +303,7 @@ BlElement >> hasStamp: aSymbol [
 { #category : #'*Toplo' }
 BlElement >> heightAnchor [
 
-	^ self constraints anchors heightAnchor 
+	^ ToElementHeightAnchor new
 		  element: self;
 		  yourself
 ]
@@ -331,7 +331,7 @@ BlElement >> holderDo: aValuable [
 { #category : #'*Toplo' }
 BlElement >> horizontalCenterAnchor [
 
-	^ self constraints anchors horizontalCenterAnchor 
+	^ ToElementHorizontalCenterAnchor new
 		  element: self;
 		  yourself
 ]
@@ -442,7 +442,7 @@ BlElement >> itemContaining: anElement [
 { #category : #'*Toplo' }
 BlElement >> leftAnchor [
 
-	^ self constraints anchors leftAnchor
+	^ ToElementLeftAnchor new
 		  element: self;
 		  yourself
 ]
@@ -704,7 +704,7 @@ BlElement >> requestUninstallSkin [
 { #category : #'*Toplo' }
 BlElement >> rightAnchor [
 
-	^ self constraints anchors rightAnchor
+	^ ToElementRightAnchor new
 		  element: self;
 		  yourself
 ]
@@ -876,7 +876,7 @@ BlElement >> tokenValueNamed: aSymbol [
 { #category : #'*Toplo' }
 BlElement >> topAnchor [
 
-	^ self constraints anchors topAnchor
+	^ ToElementTopAnchor new
 		  element: self;
 		  yourself
 ]
@@ -922,7 +922,7 @@ BlElement >> valueOfTokenNamed: aSymbol [
 { #category : #'*Toplo' }
 BlElement >> verticalCenterAnchor [
 
-	^ self constraints anchors verticalCenterAnchor 
+	^ ToElementVerticalCenterAnchor new
 		  element: self;
 		  yourself
 ]
@@ -959,7 +959,7 @@ BlElement >> widgetConfiguration: anElementConfiguration [
 { #category : #'*Toplo' }
 BlElement >> widthAnchor [
 
-	^ self constraints anchors widthAnchor 
+	^ ToElementWidthAnchor new
 		  element: self;
 		  yourself
 ]

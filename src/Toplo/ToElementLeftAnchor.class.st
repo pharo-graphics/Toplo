@@ -8,7 +8,7 @@ Class {
 ToElementLeftAnchor >> applyOnRectangle: aRectangle withValue: aValue withMargin: anInsets [
 
 	^ aRectangle translateBy:
-		  aValue - (self read: aRectangle withMargin: anInsets) @ 0
+		  aValue - (self read: aRectangle) @ 0
 ]
 
 { #category : #applying }

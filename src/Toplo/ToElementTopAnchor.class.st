@@ -8,7 +8,7 @@ Class {
 ToElementTopAnchor >> applyOnRectangle: aRectangle withValue: aValue withMargin: anInsets [
 
 	^ aRectangle translateBy:
-		  0 @ (aValue - (self read: aRectangle withMargin: anInsets))
+		  0 @ (aValue - (self read: aRectangle))
 ]
 
 { #category : #applying }

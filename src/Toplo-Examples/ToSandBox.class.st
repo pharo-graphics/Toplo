@@ -1029,13 +1029,11 @@ ToSandBox class >> example_AnchorLayout3 [
 { #category : #anchors }
 ToSandBox class >> example_AnchorLayout4 [
 
-	| pane blue |
-	pane := ToElement new.
+	| pane blue leftCenter |
+	pane := ToElement new id: #pane.
 	pane matchParent.
 	pane layout: ToAnchorLayout new.
 	pane border: Color red.
-	pane padding: (BlInsets all: 10).
-
 	blue := ToElement new
 		        id: #blue;
 		        yourself.
@@ -1045,8 +1043,20 @@ ToSandBox class >> example_AnchorLayout4 [
 	blue constraintsDo: [ :c |
 			c anchors add: (blue heightAnchor on: pane heightAnchor).
 			c anchors add: (blue rightAnchor on: pane rightAnchor) ].
-
 	pane addChild: blue.
+	
+	leftCenter := ToElement new
+		             id: #leftCenter;
+		             yourself.
+	leftCenter background: Color blue.
+	leftCenter size: 20 asPoint.
+	"topLeft margin: (BlInsets all: 10)."
+	leftCenter constraintsDo: [ :c |
+			c anchors add:
+				(leftCenter verticalCenterAnchor on: blue verticalCenterAnchor).
+			c anchors add: (leftCenter rightAnchor on: blue leftAnchor) ].
+	pane addChild: leftCenter.
+
 
 	pane openInInnerWindow
 ]

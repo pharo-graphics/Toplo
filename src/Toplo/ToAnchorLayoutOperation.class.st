@@ -21,8 +21,8 @@ ToAnchorLayoutOperation >> applyOnChildBounds: childBoundsRectangle in: availabl
 				margin := e margin ].
 	^ baseAnchor
 		  applyOnRectangle: childBoundsRectangle
-		  withValue: (targetAnchor read: targetRectangle withMargin: BlInsets empty)
-		  withMargin: margin
+		  withValue: (targetAnchor read: targetRectangle withMargin: margin)
+		  withMargin: (baseAnchor element margin)
 ]
 
 { #category : #accessing }

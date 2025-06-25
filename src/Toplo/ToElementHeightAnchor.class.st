@@ -15,5 +15,5 @@ ToElementHeightAnchor >> applyOnRectangle: aRectangle withValue: aValue withMarg
 { #category : #applying }
 ToElementHeightAnchor >> read: aRectangle withMargin: margin [
 
-	^ aRectangle height
+	^ aRectangle height - margin height
 ]

@@ -9,15 +9,15 @@ Class {
 }
 
 { #category : #accessing }
-ToElementOffsetAnchor >> baseAnchor: anAnchor [
-
-	baseAnchor := anAnchor
-]
-
-{ #category : #accessing }
 ToElementOffsetAnchor >> element [
 
 	^ baseAnchor element
+]
+
+{ #category : #accessing }
+ToElementOffsetAnchor >> leftHandSideAnchor: anAnchor [
+
+	baseAnchor := anAnchor
 ]
 
 { #category : #accessing }
@@ -27,7 +27,7 @@ ToElementOffsetAnchor >> offset: aValuable [
 ]
 
 { #category : #applying }
-ToElementOffsetAnchor >> read: aRectangle withMargin: anInsets [
+ToElementOffsetAnchor >> readRectangle: aRectangle [ 
 
-	^ offset value: (baseAnchor read: aRectangle withMargin: anInsets)
+	^ offset value: (baseAnchor readRectangle: aRectangle )
 ]

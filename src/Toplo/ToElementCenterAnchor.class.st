@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #applying }
-ToElementCenterAnchor >> applyOnRectangle: aRectangle withValue: aValue withMargin: anInsets [
+ToElementCenterAnchor >> appliedOnRectangle: aRectangle withValue: aValue [ 
 
 	| w h x1 y1 |
 	w := aRectangle width // 2.
@@ -18,7 +18,6 @@ ToElementCenterAnchor >> applyOnRectangle: aRectangle withValue: aValue withMarg
 ]
 
 { #category : #applying }
-ToElementCenterAnchor >> read: aRectangle withMargin: margin [
-
+ToElementCenterAnchor >> readRectangle: aRectangle [ 
 	^ aRectangle center
 ]

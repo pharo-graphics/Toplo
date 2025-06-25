@@ -1,5 +1,5 @@
 Class {
-	#name : #ToFloatOverlayQuarter,
+	#name : #ToFloatContainer,
 	#superclass : #ToElement,
 	#traits : 'TToOrientable',
 	#classTraits : 'TToOrientable classTrait',
@@ -7,20 +7,20 @@ Class {
 }
 
 { #category : #initialization }
-ToFloatOverlayQuarter >> defaultLayout [
+ToFloatContainer >> defaultLayout [
 
-	^ BlLinearLayout vertical
+	^ BlLinearLayout horizontal
 ]
 
 { #category : #initialization }
-ToFloatOverlayQuarter >> initialize [
+ToFloatContainer >> initialize [
 
 	super initialize.
 	self layout: self defaultLayout
 ]
 
 { #category : #skin }
-ToFloatOverlayQuarter >> installRawStyle [ 
+ToFloatContainer >> installRawStyle [ 
 
 	super installRawStyle.
 	self background: Color transparent

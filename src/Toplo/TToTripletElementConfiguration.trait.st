@@ -14,10 +14,23 @@ Trait {
 		'hideStart',
 		'hideMiddle',
 		'hideEnd',
-		'canHidePart'
+		'canHidePart',
+		'alignCenter'
 	],
 	#category : #'Toplo-Core'
 }
+
+{ #category : #accessing }
+TToTripletElementConfiguration >> alignCenter [
+
+	^ alignCenter
+]
+
+{ #category : #accessing }
+TToTripletElementConfiguration >> alignCenter: aBoolean [
+
+	alignCenter := aBoolean
+]
 
 { #category : #'t - triplet element configuration' }
 TToTripletElementConfiguration >> applyTripletElementConfigurationOn: anElement [
@@ -30,7 +43,6 @@ TToTripletElementConfiguration >> applyTripletElementConfigurationOn: anElement 
 	self configureStartFillerIn: anElement.
 	self configureStartGapIn: anElement.
 	self configureHiddenPartIn: anElement
-
 ]
 
 { #category : #'t - triplet element accessing' }
@@ -52,17 +64,20 @@ TToTripletElementConfiguration >> configureChildrenIn: anElement [
 	self configureStartElementIn: anElement.
 	self configureEndElementIn: anElement.
 	allChildren := Array streamContents: [ :stream |
-		               stream nextPutAll: anElement startChildren.
-		               stream nextPutAll: anElement endChildren ].
+			               stream nextPutAll: anElement startChildren.
+			               stream nextPutAll: anElement endChildren ].
 	anElement isHorizontal
 		ifTrue: [
-			allChildren do: [ :child |
-				child constraints linear vertical alignCenter.
-				child constraints frame vertical alignCenter ] ]
+				allChildren do: [ :child |
+						child constraints linear vertical alignCenter.
+						child constraints frame vertical alignCenter ] ]
 		ifFalse: [
-			allChildren do: [ :child |
-				child constraints linear horizontal alignCenter.
-				child constraints frame horizontal alignCenter ] ].
+				allChildren do: [ :child |
+						child constraints linear horizontal alignCenter.
+						child constraints frame horizontal alignCenter ] ].
+	alignCenter
+		ifTrue: [ anElement layout alignCenter ]
+		ifFalse: [ anElement layout alignCenterLeft ].
 	anElement requestLayout
 ]
 
@@ -334,6 +349,7 @@ TToTripletElementConfiguration >> hideStart: aBoolean [
 { #category : #'t - triplet element configuration' }
 TToTripletElementConfiguration >> initializeAsTripletElementConfiguration [
 
+	alignCenter := false.
 	canHidePart := false.
 	hideStart := false.
 	hideMiddle := false.

@@ -11,6 +11,20 @@ Trait {
 	#category : #'Toplo-Core'
 }
 
+{ #category : #'t - triplet element - accessing' }
+TToTripletElement >> alignCenter [
+
+	^ self widgetConfiguration alignCenter
+]
+
+{ #category : #'t - triplet element - accessing' }
+TToTripletElement >> alignCenter: aBoolean [
+
+	self alignCenter = aBoolean ifTrue: [ ^ self ].
+	self widgetConfiguration alignCenter: aBoolean.
+	self requestNewConfiguration
+]
+
 { #category : #'t - triplet element - testing' }
 TToTripletElement >> canHidePart [
 

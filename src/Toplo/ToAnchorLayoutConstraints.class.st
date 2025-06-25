@@ -16,25 +16,17 @@ ToAnchorLayoutConstraints >> add: anAnchorOperation [
 	operations add: anAnchorOperation
 ]
 
-{ #category : #'anchor creation' }
-ToAnchorLayoutConstraints >> bottomAnchor [
-
-	^ ToElementBottomAnchor new
-]
-
 { #category : #layout }
-ToAnchorLayoutConstraints >> boundsForChild: aChild in: availableBounds [
+ToAnchorLayoutConstraints >> applyOperations: anOperationArray inParent: anElement forChild: aChild in: availableBounds [
 
 	| bnds |
 	bnds := aChild margin expand: aChild measuredBounds asRectangle.
-	operations do: [ :op | bnds := op applyOnChildBounds: bnds in: availableBounds ].
+	anOperationArray do: [ :op |
+			bnds := op
+				        appliedOnChildBounds: bnds
+				        withParent: anElement
+				        inAvailableRectangle: availableBounds ].
 	^ aChild margin inset: bnds
-]
-
-{ #category : #'anchor creation' }
-ToAnchorLayoutConstraints >> centerAnchor [
-
-	^ ToElementCenterAnchor new
 ]
 
 { #category : #initialization }
@@ -49,18 +41,6 @@ ToAnchorLayoutConstraints >> defaultVertical [
 	^ ToAnchorLayoutConstraintsVertical new
 ]
 
-{ #category : #'anchor creation' }
-ToAnchorLayoutConstraints >> heightAnchor [
-
-	^ self vertical breadthAnchor 
-]
-
-{ #category : #'anchor creation' }
-ToAnchorLayoutConstraints >> horizontalCenterAnchor [
-
-	^ self horizontal centerAnchor 
-]
-
 { #category : #initialization }
 ToAnchorLayoutConstraints >> initialize [ 
 
@@ -68,32 +48,34 @@ ToAnchorLayoutConstraints >> initialize [
 	operations := OrderedCollection new
 ]
 
-{ #category : #'anchor creation' }
-ToAnchorLayoutConstraints >> leftAnchor [
+{ #category : #layout }
+ToAnchorLayoutConstraints >> measureInParent: anElement forChild: aChild in: availableBounds [
 
-	^ ToElementLeftAnchor new
+	^ self
+		  applyOperations: self measurementOperations
+		  inParent: anElement
+		  forChild: aChild
+		  in: availableBounds
 ]
 
-{ #category : #'anchor creation' }
-ToAnchorLayoutConstraints >> rightAnchor [
+{ #category : #layout }
+ToAnchorLayoutConstraints >> measurementOperations [
 
-	^ ToElementRightAnchor new
+	^ operations select: [ :op | op isMeasurement ]
 ]
 
-{ #category : #'anchor creation' }
-ToAnchorLayoutConstraints >> topAnchor [
+{ #category : #layout }
+ToAnchorLayoutConstraints >> positionInParent: anElement forChild: aChild in: availableBounds [
 
-	^ ToElementTopAnchor new
+	^ self
+		  applyOperations: self positionOperations
+		  inParent: anElement
+		  forChild: aChild
+		  in: availableBounds
 ]
 
-{ #category : #'anchor creation' }
-ToAnchorLayoutConstraints >> verticalCenterAnchor [
+{ #category : #layout }
+ToAnchorLayoutConstraints >> positionOperations [
 
-	^ self vertical centerAnchor 
-]
-
-{ #category : #'anchor creation' }
-ToAnchorLayoutConstraints >> widthAnchor [
-
-	^ self horizontal breadthAnchor 
+	^ operations reject: [ :op | op isMeasurement ]
 ]

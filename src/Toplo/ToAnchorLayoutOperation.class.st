@@ -2,37 +2,40 @@ Class {
 	#name : #ToAnchorLayoutOperation,
 	#superclass : #Object,
 	#instVars : [
-		'targetAnchor',
-		'baseAnchor'
+		'leftHandSideAnchor',
+		'rightHandSideAnchor'
 	],
 	#category : #'Toplo-Support-Anchor'
 }
 
 { #category : #layout }
-ToAnchorLayoutOperation >> applyOnChildBounds: childBoundsRectangle in: availableRectangle [
+ToAnchorLayoutOperation >> appliedOnChildBounds: childBoundsRectangle withParent: anElement inAvailableRectangle: availableRectangle [
 
-	| targetRectangle margin |
-	targetAnchor element
-		ifNil: [
-				targetRectangle := availableRectangle.
-				margin := BlInsets empty ]
-		ifNotNil: [ :e |
-				targetRectangle := e measuredBounds inParent asRectangle.
-				margin := e margin ].
-	^ baseAnchor
-		  applyOnRectangle: childBoundsRectangle
-		  withValue: (targetAnchor read: targetRectangle withMargin: margin)
-		  withMargin: (baseAnchor element margin)
+	| targetRectangle |
+	targetRectangle := rightHandSideAnchor element = anElement
+		                   ifTrue: [ availableRectangle ]
+		                   ifFalse: [
+				                   (rightHandSideAnchor element measuredBounds
+					                    inParent: anElement) asRectangle ].
+	^ leftHandSideAnchor
+		  appliedOnRectangle: childBoundsRectangle
+		  withValue: (rightHandSideAnchor readRectangle: targetRectangle)
+]
+
+{ #category : #testing }
+ToAnchorLayoutOperation >> isMeasurement [ 
+
+	^ leftHandSideAnchor isMeasurement 
 ]
 
 { #category : #accessing }
-ToAnchorLayoutOperation >> baseAnchor: anAnchor [
+ToAnchorLayoutOperation >> leftHandSideAnchor: anAnchor [
 
-	baseAnchor := anAnchor
+	leftHandSideAnchor := anAnchor
 ]
 
 { #category : #accessing }
-ToAnchorLayoutOperation >> targetAnchor: anObject [
+ToAnchorLayoutOperation >> rightHandSideAnchor: anAnchor [
 
-	targetAnchor := anObject
+	rightHandSideAnchor := anAnchor
 ]

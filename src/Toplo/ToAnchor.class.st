@@ -91,7 +91,7 @@ ToAnchor >> * aNumber [
 	a value could in own turn be anchor "
 
 	^ ToElementOffsetAnchor new
-		  baseAnchor: self;
+		  leftHandSideAnchor: self;
 		  offset: [ :value | value * aNumber ]
 ]
 
@@ -101,7 +101,7 @@ ToAnchor >> + aValuable [
 	a value could in own turn be anchor "
 
 	^ ToElementOffsetAnchor new
-		  baseAnchor: self;
+		  leftHandSideAnchor: self;
 		  offset: [ :value | value + aValuable value ]
 ]
 
@@ -111,7 +111,7 @@ ToAnchor >> - aValuable [
 	a value could in own turn be anchor "
 
 	^ ToElementOffsetAnchor new
-		  baseAnchor: self;
+		  leftHandSideAnchor: self;
 		  offset: [ :value | value - aValuable value ]
 ]
 
@@ -121,7 +121,7 @@ ToAnchor >> / aValuable [
 	a value could in own turn be anchor "
 
 	^ ToElementOffsetAnchor new
-		  baseAnchor: self;
+		  leftHandSideAnchor: self;
 		  offset: [ :value | value / aValuable value ]
 ]
 
@@ -131,14 +131,14 @@ ToAnchor >> element [
 	^ self subclassResponsibility
 ]
 
-{ #category : #applying }
-ToAnchor >> read: aRectangle [
+{ #category : #testing }
+ToAnchor >> isMeasurement [
 
-	^ self read: aRectangle withMargin: BlInsets empty 
+	^ false
 ]
 
 { #category : #applying }
-ToAnchor >> read: aRectangle withMargin: margin [ 
+ToAnchor >> readRectangle: aRectangle [
 
-	^ self subclassResponsibility
+	^ self subclassResponsibility 
 ]

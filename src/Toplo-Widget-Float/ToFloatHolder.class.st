@@ -23,7 +23,7 @@ ToFloatHolder >> initialize [
 	self fitContent.
 	self layout: self defaultLayout.
 	self elevation: self defaultElevation.
-	self margin: (BlInsets all: 20)
+	self margin: (BlInsets all: 5)
 ]
 
 { #category : #'instance creation' }

@@ -827,12 +827,13 @@ ToSandBox class >> example_AllClasses [
 { #category : #anchors }
 ToSandBox class >> example_AnchorLayout [
 
-	| pane blue red green |
+	| pane pink blue red green |
 	pane := ToElement new.
 	pane matchParent.
 	pane layout: ToAnchorLayout new.
 	pane border: Color red.
-	"pane padding: (BlInsets all: 10)."
+	pane padding: (BlInsets all: 10).
+
 
 	blue := ToElement new
 		        id: #blue;
@@ -841,9 +842,19 @@ ToSandBox class >> example_AnchorLayout [
 	blue size: 30 asPoint.
 	blue margin: (BlInsets all: 10).
 	blue constraintsDo: [ :c |
-			c anchors add: (blue rightAnchor on: (c anchors rightAnchor)).
-			c anchors add: (blue bottomAnchor on: (c anchors bottomAnchor)) ].
+			c anchors add: (blue rightAnchor on: (pane rightAnchor)).
+			c anchors add: (blue bottomAnchor on: (pane bottomAnchor)) ].
 	pane addChild: blue.
+
+	pink := ToElement new
+		        id: #pink;
+		        yourself.
+	pink background: Color pink.
+	pink size: 10 asPoint.
+	pink constraintsDo: [ :c |
+			c anchors add: (pink rightAnchor on: (pane rightAnchor)).
+			c anchors add: (pink bottomAnchor on: (pane bottomAnchor)) ].
+	pane addChild: pink.
 
 	red := ToElement new
 		       id: #red;
@@ -866,6 +877,33 @@ ToSandBox class >> example_AnchorLayout [
 			c anchors add: (green rightAnchor on: blue leftAnchor).
 			c anchors add: (green bottomAnchor on: red topAnchor) ].
 	pane addChild: green.
+
+	pane openInInnerWindow
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_AnchorLayout1 [
+
+	| pane blue |
+	pane := ToElement new id: #pane; yourself.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+	pane padding: (BlInsets all: 2).
+
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue background: Color blue.
+	"blue margin: (BlInsets all: 10)."
+	blue size: 30 asPoint.
+	blue constraintsDo: [ :c |
+			c anchors add: (blue rightAnchor on: pane rightAnchor).
+			c anchors add: (blue bottomAnchor on: pane bottomAnchor).
+			c anchors add: (blue heightAnchor on: pane heightAnchor).
+			c anchors add: (blue widthAnchor on: pane widthAnchor).
+			].
+	pane addChild: blue.
 
 	pane openInInnerWindow
 ]
@@ -1034,6 +1072,7 @@ ToSandBox class >> example_AnchorLayout4 [
 	pane matchParent.
 	pane layout: ToAnchorLayout new.
 	pane border: Color red.
+	pane padding: (BlInsets all: 10).
 	blue := ToElement new
 		        id: #blue;
 		        yourself.
@@ -1041,22 +1080,105 @@ ToSandBox class >> example_AnchorLayout4 [
 	blue size: 100 asPoint.
 	blue margin: (BlInsets all: 10).
 	blue constraintsDo: [ :c |
-			c anchors add: (blue heightAnchor on: pane heightAnchor).
-			c anchors add: (blue rightAnchor on: pane rightAnchor) ].
+			c anchors add: (blue rightAnchor on: pane rightAnchor).
+			c anchors add: (blue topAnchor on: pane topAnchor).
+			c anchors add: (blue heightAnchor on: pane heightAnchor) ].
 	pane addChild: blue.
-	
+
 	leftCenter := ToElement new
-		             id: #leftCenter;
-		             yourself.
+		              id: #leftCenter;
+		              yourself.
 	leftCenter background: Color blue.
 	leftCenter size: 20 asPoint.
-	"topLeft margin: (BlInsets all: 10)."
+	leftCenter margin: (BlInsets all: 10).
 	leftCenter constraintsDo: [ :c |
+			c anchors add: (leftCenter rightAnchor on: blue leftAnchor).
 			c anchors add:
-				(leftCenter verticalCenterAnchor on: blue verticalCenterAnchor).
-			c anchors add: (leftCenter rightAnchor on: blue leftAnchor) ].
+				(leftCenter verticalCenterAnchor on: blue verticalCenterAnchor) ].
 	pane addChild: leftCenter.
 
+	pane openInInnerWindow
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_AnchorLayout5 [
+
+	| pane blue |
+	pane := ToElement new
+		        id: #pane;
+		        yourself.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+	pane padding: (BlInsets all: 20).
+
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue background: Color blue.
+	blue size: 30 asPoint.
+	blue constraintsDo: [ :c |
+			c anchors add: (blue leftAnchor on: pane leftAnchor).
+			c anchors add: (blue topAnchor on: pane topAnchor).
+			c anchors add: (blue heightAnchor on: pane widthAnchor).
+			c anchors add: (blue widthAnchor on: pane heightAnchor) ].
+	pane addChild: blue.
+
+	pane openInInnerWindow
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_AnchorLayout6 [
+
+	| pane blue yellowInBlue red blackInYellow |
+	pane := ToElement new
+		        id: #pane;
+		        yourself.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue layout: BlBasicLayout new.
+	blue background: Color blue.
+	blue size: 30 asPoint.
+	blue constraintsDo: [ :c |
+			c anchors add: (blue heightAnchor on: pane heightAnchor - 40).
+			c anchors add: (blue widthAnchor on: pane widthAnchor - 40).
+			c anchors add: (blue leftAnchor on: pane leftAnchor + 20).
+			c anchors add: (blue topAnchor on: pane topAnchor + 20) ].
+	pane addChild: blue.
+
+	yellowInBlue := ToElement new
+		        id: #yellow;
+		        yourself.
+	yellowInBlue layout: BlBasicLayout new.
+	yellowInBlue background: Color yellow.
+	yellowInBlue size: 80 asPoint.
+	yellowInBlue position: 50 asPoint.
+	blue addChild: yellowInBlue.	
+		
+	blackInYellow := ToElement new
+		        id: #blackInYellow;
+		        yourself.
+	blackInYellow background: Color black.
+	blackInYellow size: 30 asPoint.
+	blackInYellow position: 20 asPoint.
+	yellowInBlue addChild: blackInYellow.
+	
+	red := ToElement new
+		        id: #red;
+		        yourself.
+	red background: Color red.
+	red size: 30 asPoint.
+	red constraintsDo: [ :c |
+			c anchors add: (red topAnchor on: blackInYellow bottomAnchor + 10).
+			c anchors add: (red leftAnchor on: blackInYellow leftAnchor) ].
+	pane addChild: red.
+
+	
 
 	pane openInInnerWindow
 ]
@@ -5086,6 +5208,16 @@ ToSandBox class >> example_buttonWithIconAndLabel [
 ]
 
 { #category : #button }
+ToSandBox class >> example_buttonWithIconAndLabelCentered [
+
+	| but  |
+	but := self example_buttonWithIconAndLabel.
+	but hMatchParent.
+	but alignCenter: true.
+	^ but
+]
+
+{ #category : #button }
 ToSandBox class >> example_buttonWithIconAndLabelDisabled [
 
 	| but  |
@@ -5319,25 +5451,39 @@ ToSandBox class >> example_emptyBoxWithCustomLabel [
 { #category : #float }
 ToSandBox class >> example_floatButton [
 
-	|  btn1 btn2 pane floatLayer textField |
-	btn1 := ToButton new labelText: 'Button 1'.
-	btn2 := ToButton new labelText: 'Button 2'.
-	textField := ToTextField new width: 150;
-		            placeholderBuilder: [ :placeholder :e |
-			            placeholder addChild: (ToAttributedLabel new
-						             text: ('Name' asRopedText
-								              foreground: Color lightGray;
-								              italic);
-						             yourself) ].
+	| rightBtn leftBtn pane floatLayer textField floatContainer |
+	rightBtn := ToButton new iconImage:
+		        (ToMaterialDesignIconProvider innerImageNamed:
+			         'outlined_keyboardarrowright').
+	rightBtn icon size: 25 asPoint.
+	leftBtn := ToButton new iconImage:
+		        (ToMaterialDesignIconProvider innerImageNamed:
+			         'outlined_keyboardarrowleft').
+	leftBtn icon size: 25 asPoint.
+	textField := ToTextField new
+		             width: 150;
+		             placeholderBuilder: [ :placeholder :e |
+				             placeholder addChild: (ToAttributedLabel new
+							              text: ('Name' asRopedText
+									               foreground: Color lightGray;
+									               italic);
+							              yourself) ].
 	pane := ToPane new matchParent.
-	
+
 	floatLayer := ToFloatOverlay new.
 	floatLayer attachToParent: pane.
-	floatLayer southEast endToStart: true.
-	floatLayer southEast addChild: textField asFloatElement.
-	floatLayer southEast addChild: btn1 asFloatElement.
-	floatLayer southEast addChild: btn2 asFloatElement.
-	pane openInSpace
+	floatContainer := ToFloatContainer new.
+	floatContainer addChild: textField asFloatElement.
+	floatContainer addChild: leftBtn asFloatElement.
+	floatContainer addChild: rightBtn asFloatElement.
+	floatContainer constraintsDo: [ :c |
+			c anchors add:
+				(floatContainer rightAnchor on: floatLayer rightAnchor - 50).
+			c anchors add:
+				(floatContainer bottomAnchor on: floatLayer bottomAnchor - 50) ].
+	floatLayer addChild: floatContainer.
+
+	pane openInInnerWindow 
 ]
 
 { #category : #checkbox }

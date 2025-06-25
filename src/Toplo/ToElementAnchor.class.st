@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #applying }
-ToElementAnchor >> applyOnRectangle: aRectangle withValue: aValue withMargin: anInsets [
+ToElementAnchor >> appliedOnRectangle: aRectangle withValue: aValue [
 
 	^ self subclassResponsibility
 ]
@@ -29,7 +29,7 @@ ToElementAnchor >> element: anElement [
 ToElementAnchor >> on: anAnchor [
 
 	^ ToAnchorLayoutOperation new
-		  baseAnchor: self;
-		  targetAnchor: anAnchor;
+		  leftHandSideAnchor: self;
+		  rightHandSideAnchor: anAnchor;
 		  yourself
 ]

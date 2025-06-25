@@ -5,15 +5,21 @@ Class {
 }
 
 { #category : #applying }
-ToElementHeightAnchor >> applyOnRectangle: aRectangle withValue: aValue withMargin: anInsets [
+ToElementHeightAnchor >> appliedOnRectangle: aRectangle withValue: aValue [
 
 	^ Rectangle
-		  origin: aRectangle origin x @ (aRectangle origin y + anInsets top)
+		  origin: aRectangle origin x @ (aRectangle origin y + element margin top)
 		  extent: aRectangle width @ aValue
 ]
 
-{ #category : #applying }
-ToElementHeightAnchor >> read: aRectangle withMargin: margin [
+{ #category : #testing }
+ToElementHeightAnchor >> isMeasurement [
 
-	^ aRectangle height - margin height
+	^ true
+]
+
+{ #category : #applying }
+ToElementHeightAnchor >> readRectangle: aRectangle [ 
+
+	^ aRectangle height - element margin height
 ]

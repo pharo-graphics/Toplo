@@ -5,14 +5,13 @@ Class {
 }
 
 { #category : #applying }
-ToElementLeftAnchor >> applyOnRectangle: aRectangle withValue: aValue withMargin: anInsets [
+ToElementLeftAnchor >> appliedOnRectangle: aRectangle withValue: aValue [ 
 
-	^ aRectangle translateBy:
-		  aValue - (self read: aRectangle) @ 0
+	^ aRectangle translateBy: aValue - aRectangle left @ 0
 ]
 
 { #category : #applying }
-ToElementLeftAnchor >> read: aRectangle withMargin: margin [
+ToElementLeftAnchor >> readRectangle: aRectangle [
 
-	^ aRectangle left - (element ifNil: [ 0 ] ifNotNil: [ margin left ])
+	^ aRectangle left - element margin left
 ]

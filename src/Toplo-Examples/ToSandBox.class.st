@@ -1808,7 +1808,7 @@ ToSandBox class >> example_CodeEditor [
 			           album disabled: value ];
 		           yourself.
 	album whenWidgetConfigurationAppliedDo: [
-		disabox disabled: album isDisabled ].
+		disabox checked: album isDisabled ].
 
 	menuPane := ToMenuPane new.
 	menuPane hMatchParent.

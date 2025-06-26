@@ -8605,8 +8605,6 @@ ToSandBox class >> segmentedDashBoardFor: aSegmentedElement [
 	mainPane matchParent.
 
 	confPane := self barConfigurationBoardFor: aSegmentedElement.
-	(confPane childWithId: #selectOnPressedSwitch) disable.
-	(confPane childWithId: #deselectOnPressedSwitch) disable.
 	confPane padding: (BlInsets all: 5).
 	confPane width: 250.
 	confPane border: Color lightGray.

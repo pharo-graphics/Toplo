@@ -81,7 +81,7 @@ ToCheckboxSkin >> installSkinEvent: anEvent [
 						ifTrue: [
 						e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
 						ifFalse: [ e endInterspace: 0 ] ].
-			e icon: (ToImage innerImage:
+			e icon: (ToIcon innerImage:
 					 (e valueOfTokenNamed: #'checkbox-unchecked-image')).
 			e icon size: (e valueOfTokenNamed: #'checkable-icon-size').
 			e icon innerImageColor: (e valueOfTokenNamed: #'color-primary').

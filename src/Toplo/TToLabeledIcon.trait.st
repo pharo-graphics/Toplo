@@ -102,7 +102,7 @@ TToLabeledIcon >> iconImage [
 { #category : #'t - labeled icon' }
 TToLabeledIcon >> iconImage: anElement [
 
-	self icon: (ToImage innerImage: anElement)
+	self icon: (ToIcon innerImage: anElement)
 ]
 
 { #category : #'t - labeled icon' }

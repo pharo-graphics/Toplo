@@ -361,7 +361,7 @@ ToSandBox class >> buildSelectListElementIn: aSelectElement withIconProvider: an
 				             | iconNames |
 				             iconNames := (icProvider perform: s) sorted.
 				             iconNames do: [ :n |
-					             stream nextPut: (ToIconDescExampleObject new
+					             stream nextPut: (ToExIconDesc new
 							              name: n;
 							              style: style;
 							              provider: icProvider;
@@ -2007,7 +2007,7 @@ ToSandBox class >> example_GeneralButtonWithIconAndLabel [
 	pane := ToPane new.
 	pane fitContent.
 	lab := ToLabel new text: 'General button'.
-	ico := ToImage inner: (self iconNamed: #remove).
+	ico := ToIcon innerImage: (self iconNamed: #remove).
 	pane addChildren: {
 			ico.
 			lab }.
@@ -2959,7 +2959,7 @@ ToSandBox class >> example_MenuWithAccordeon3 [
 			 labelText: 'Inspect';
 			 clickAction: [ :evt | evt target space root inspect ];
 			 yourself).
-	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	menu icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	(1 to: 5) collect: [ :i |
 		item := ToCustomMenuItem new in: [ :e |
 			        e addChild:
@@ -2975,11 +2975,11 @@ ToSandBox class >> example_MenuWithAccordeon3 [
 
 	subsub := ToMenu new
 		          labelText: 'Externally';
-		          icon: (ToImage inner: (self iconNamed: #solidMenu)).
+		          icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	subsub beInline.
 	subsubsub := ToMenu new
 		             labelText: 'When';
-		             icon: (ToImage inner: (self iconNamed: #solidMenu)).
+		             icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	subsubsub beInline.
 	subsubsub addItem: (ToMenuItem new
 			 labelText: 'now';
@@ -3004,7 +3004,7 @@ ToSandBox class >> example_MenuWithCustomItems [
 	menu addItem: (ToMenuItem new
 			 labelText: 'Open file';
 			 clickAction: [ self inform: 'Open file' ];
-			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
+			 icon: (ToIcon innerImage: (Smalltalk ui icons iconNamed: #config))).
 
 	item := ToMenuItem new
 		        labelText: 'Export';
@@ -3129,7 +3129,7 @@ ToSandBox class >> example_MenuWithSelect [
 
 	| menu selector item |
 	menu := ToMenu new.
-	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	menu icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	selector := ToSingleSelectElement new.
 	selector placeholderText: ('Choose a level number' asRopedText
 			 foreground: Color veryLightGray;
@@ -3164,9 +3164,9 @@ ToSandBox class >> example_OpenSaveSaveAsCloseWithSubmenu [
 		             yourself.
 	menu := ToMenu new.
 	"menu label: (ToLabel text: 'Menu')."
-	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	menu icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	menu addItem: (ToMenuItem new
-			 icon: (ToImage inner: (self iconNamed: #solidMenu));
+			 icon: (ToIcon innerImage: (self iconNamed: #solidMenu));
 			 label: (ToLabel text: 'Open')).
 	lbl := ToAttributedLabel new text: ('Save stuffs' asRopedText
 			        fontSize: 12;
@@ -3176,7 +3176,7 @@ ToSandBox class >> example_OpenSaveSaveAsCloseWithSubmenu [
 	menu addItem: (ToCustomMenuItem new in: [ :e | e addChild: lbl]).
 
 	menu addItem: (ToMenuItem new
-			 icon: (ToImage inner: (self iconNamed: #solidMenu));
+			 icon: (ToIcon innerImage: (self iconNamed: #solidMenu));
 			 label: (ToLabel text: 'Save')).
 	saveAs := ToMenu new label: (ToLabel text: 'Save as').
 	saveAs addItem: (ToMenuItem new label: (ToLabel text: '.pdf')).
@@ -3783,7 +3783,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithCheckboxes [
 	skinBuilder := [
 	               ToScriptableSkin new
 		               onInstallSkinEvent: [ :e :evt |
-			               e icon: (ToImage inner: (e valueOfTokenNamed: #'checkbox-unchecked-image')).
+			               e icon: (ToIcon innerImage: (e valueOfTokenNamed: #'checkbox-unchecked-image')).
 			               e icon size: (e valueOfTokenNamed: #'checkable-icon-size').
 			               e icon innerImageColor: (e valueOfTokenNamed: #'color-primary') ];
 		               onSelectedSkinEvent: [ :e :evt |
@@ -4301,14 +4301,14 @@ ToSandBox class >> example_SimpleOpenSaveSaveAsClose [
 	menu := ToMenu new background: Color random.
 	menu label: (ToLabel text: 'Menu').
 	menu addItem: (ToMenuItem new
-			 icon: ((ToImage inner: (self iconNamed: #solidMenu)));
+			 icon: ((ToIcon innerImage: (self iconNamed: #solidMenu)));
 			 label: (ToLabel text: 'Open')).
 	menu addItem: (ToMenuItem new
-			 icon: ((ToImage inner: (self iconNamed: #solidMenu)));
+			 icon: ((ToIcon innerImage: (self iconNamed: #solidMenu)));
 			 label: (ToLabel text: 'Save');
 			 background: (Color random alpha: 0.2)).
 	menu addItem: (ToMenuItem new
-			 icon: ((ToImage inner: (self iconNamed: #solidMenu)));
+			 icon: ((ToIcon innerImage: (self iconNamed: #solidMenu)));
 			 label: (ToLabel text: 'Save as');
 			 background: (Color random alpha: 0.2)).
 	menu items last clickAction: [ :evt :target | target inspect ].
@@ -4398,7 +4398,7 @@ ToSandBox class >> example_SkinEventTrace [
 
 	| but |
 	but := ToButton new.
-	but icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
+	but icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	but label: (ToLabel text: 'Button with label').
 	but addEventHandler: (BlEventHandler
 			 on: ToSkinEvent
@@ -4418,7 +4418,7 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 		          yourself.
 	Smalltalk ui icons allIconNames do: [ :k |
 		| lab im node |
-		im := ToImage new innerImage: (self iconNamed: k).
+		im := ToIcon innerImage: (self iconNamed: k).
 		lab := ToLabel new text: k asString.
 		node := ToButton new icon: im; label: lab; yourself.
 		node width: 600.
@@ -4657,7 +4657,7 @@ ToSandBox class >> example_ToButtonWithDefaultSkin0 [
 
 	button1 := ToButton new.
 	button1 label: (ToLabel text: 'Default raw button').
-	button1 icon: (ToImage new innerImage: (ToThemeIcons searchOutlined16x16)).
+	button1 icon: (ToIcon innerImage: (ToThemeIcons searchOutlined16x16)).
 
 	space root addChild: pane.
 	space root addChild: button1.
@@ -4671,7 +4671,7 @@ ToSandBox class >> example_ToggleButton [
 	| toggle |
 	ToTheme cleanUp.
 	toggle := ToToggleButton new label: (ToLabel text: 'Toggle button').
-	toggle icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
+	toggle icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	toggle checked: false.
 	toggle openInInnerWindow
 ]
@@ -4682,7 +4682,7 @@ ToSandBox class >> example_ToggleButtonChecked [
 	| toggle |
 	ToTheme cleanUp.
 	toggle := ToToggleButton new label: (ToLabel text: 'Toggle button').
-	toggle icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
+	toggle icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	toggle addEventHandler: (BlEventHandler
 			 on: ToSkinEvent
 			 do: [ :evt | evt target = toggle ifTrue: [ evt traceCr ] ]).
@@ -4840,7 +4840,7 @@ ToSandBox class >> example_ToggleButtonWithIndeterminate [
 	| toggle |
 	ToTheme cleanUp.
 	toggle := ToToggleButton new label: (ToLabel text: 'Toggle button').
-	toggle icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
+	toggle icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	toggle allowIndeterminate: true.
 	toggle openInInnerWindow
 ]
@@ -5013,9 +5013,9 @@ ToSandBox class >> example_WithCheckBox [
 			 labelText: 'Toggle';
 			 yourself).
 	menu addItem: (ToMenuItem new labelText: 'Open file').
-	menu items last icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	menu items last icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	menu addItem: (ToMenuItem new labelText: 'Disabled').
-	menu items last icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	menu items last icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	"menu disableAtPosition: menu items last positionInItemList."
 	menu items last disable.
 
@@ -5029,11 +5029,11 @@ ToSandBox class >> example_WithCheckBox [
 
 	subsub := ToMenu new
 		          labelText: 'Externally';
-		          icon: (ToImage inner: (self iconNamed: #solidMenu)).
+		          icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	subsub beInline.
 	subsubsub := ToMenu new
 		             labelText: 'When';
-		             icon: (ToImage inner: (self iconNamed: #solidMenu)).
+		             icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	subsubsub beInline.
 	subsubsub addItem: (ToMenuItem new
 			 labelText: 'now';
@@ -5091,7 +5091,7 @@ ToSandBox class >> example_WithSeparator [
 		             yourself.
 	menu := ToMenu new.
 	"menu tooltipString: 'tooltip content'."
-	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	menu icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	menu addItem: (ToMenuItem new label: (ToLabel text: 'Open')) disable.
 
 	menu addSeparator.
@@ -5122,7 +5122,7 @@ ToSandBox class >> example_buttonWith2Icons [
 	but clickAction: [ :evt :target | target traceCr ].
 	but addEventHandlerOn: BlDoubleClickEvent do: [ :event | event traceCr ].
 	but label: (ToLabel text: 'Button with 2 icons').
-	but endElement: (ToImage inner: ToThemeIcons searchOutlined16x16).
+	but endElement: (ToIcon innerImage: ToThemeIcons searchOutlined16x16).
 	^ but
 ]
 
@@ -5141,7 +5141,7 @@ ToSandBox class >> example_buttonWith2IconsVertical [
 	| but  |
 	but := self example_buttonWithIcon.
 	but label: (ToLabel text: 'Button with 2 icons').
-	but endElement: (ToImage inner: ToThemeIcons searchOutlined16x16).
+	but endElement: (ToIcon innerImage: ToThemeIcons searchOutlined16x16).
 	but beVertical.
 	^ but
 ]
@@ -5193,7 +5193,7 @@ ToSandBox class >> example_buttonWithIcon [
 	but := ToButton new.
 	space root addChild: but.
 	space show.
-	but icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
+	but icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	^ but
 ]
 
@@ -5231,7 +5231,7 @@ ToSandBox class >> example_buttonWithIconDisabled [
 
 	| but  |
 	but := ToButton new.
-	but icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
+	but icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	but disable.
 	but openInSpace.
 	^ but
@@ -5641,7 +5641,7 @@ ToSandBox class >> example_inline1 [
 
 	sub := ToMenu new
 		       labelText: 'Save All';
-		       icon: (ToImage inner: (self iconNamed: #solidMenu));
+		       icon: (ToIcon innerImage: (self iconNamed: #solidMenu));
 		       yourself.
 	sub beInline.
 	subsub := ToMenuItem new
@@ -5681,11 +5681,11 @@ ToSandBox class >> example_inline2 [
 
 	subsub := ToMenu new
 		          labelText: 'Externally';
-		          icon: (ToImage inner: (self iconNamed: #solidMenu)).
+		          icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	subsub beInline.
 	subsubsub := ToMenu new
 		             labelText: 'When';
-		             icon: (ToImage inner: (self iconNamed: #solidMenu)).
+		             icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	subsubsub beInline.
 	subsubsub addItem: (ToMenuItem new
 			 labelText: 'now';
@@ -5723,11 +5723,11 @@ ToSandBox class >> example_inline3 [
 
 	subsub := ToMenu new
 		          labelText: 'E';
-		          icon: (ToImage inner: (self iconNamed: #solidMenu)).
+		          icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	"subsub beInline."
 	subsubsub := ToMenu new
 		             labelText: 'When';
-		             icon: (ToImage inner: (self iconNamed: #solidMenu)).
+		             icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	subsubsub beInline.
 	subsubsub addItem: (ToMenuItem new
 			 labelText: 'now';
@@ -5765,11 +5765,11 @@ ToSandBox class >> example_inline4 [
 
 	subsub := ToMenu new
 		          labelText: 'E';
-		          icon: (ToImage inner: (self iconNamed: #solidMenu)).
+		          icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	subsub beInline.
 	subsubsub := ToMenu new
 		             labelText: 'When';
-		             icon: (ToImage inner: (self iconNamed: #solidMenu)).
+		             icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	subsubsub beInline.
 	subsubsub addItem: (ToMenuItem new
 			 labelText: 'now';
@@ -5807,11 +5807,11 @@ ToSandBox class >> example_inline5 [
 
 	subsub := ToMenu new
 		          labelText: 'Ext.';
-		          icon: (ToImage inner: (self iconNamed: #solidMenu)).
+		          icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	subsub beInline.
 	subsubsub := ToMenu new
 		             labelText: 'Whenn';
-		             icon: (ToImage inner: (self iconNamed: #solidMenu)).
+		             icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	subsubsub beInline.
 	subsubsub addItem: (ToMenuItem new
 			 labelText: 'now';
@@ -6056,7 +6056,7 @@ ToSandBox class >> example_menuPane2 [
 		menu := ToMenu new.
 		menu label: (ToLabel text: 'Levels').
 		menu icon:
-			(ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+			(ToIcon innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
 
 		4 to: 12 by: 2 do: [ :index |
 			| subMenu |
@@ -6111,7 +6111,7 @@ ToSandBox class >> example_menuPane3 [
 			menu alignCenter: true.
 			menu label: (ToLabel text: 'Levels').
 			menu icon:
-				(ToImage innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
+				(ToIcon innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
 
 			menu builder: [ :m |
 					1 to: (rand nextIntegerBetween: 2 and: 16) do: [ :index |
@@ -6175,7 +6175,7 @@ ToSandBox class >> example_menuPaneVertical [
 		menu showExpandIcon: true.
 		count = 2 ifTrue: [ menu beInline ].
 		menu label: (ToLabel text: 'Levels').
-		menu icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+		menu icon: (ToIcon innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
 
 		menu builder: [ :m |
 			1 to: 6 do: [ :index |
@@ -6235,7 +6235,7 @@ ToSandBox class >> example_menuPaneVertical0 [
 		menu showExpandIcon: true.
 		count = 2 ifTrue: [ menu beInline ].
 		menu label: (ToLabel text: 'Levels').
-		menu icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+		menu icon: (ToIcon innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
 
 		menu builder: [ :m |
 			1 to: 6 do: [ :index |
@@ -6303,11 +6303,11 @@ ToSandBox class >> example_menuPaneVertical2 [
 
 	subsub := ToMenu new
 		          labelText: 'Externally';
-		          icon: (ToImage inner: (self iconNamed: #solidMenu)).
+		          icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	subsub beInline.
 	subsubsub := ToMenu new
 		             labelText: 'When';
-		             icon: (ToImage inner: (self iconNamed: #solidMenu)).
+		             icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	subsubsub beInline.
 	subsubsub addItem: (ToMenuItem new
 			 labelText: 'now';
@@ -6342,7 +6342,7 @@ ToSandBox class >> example_menuPaneVerticalScrollable [
 		menu := ToMenu new.
 		menu beInline.
 		menu label: (ToLabel text: 'Levels').
-		menu icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+		menu icon: (ToIcon innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
 
 		menu builder: [ :m |
 			1 to: 6 do: [ :index |
@@ -6467,7 +6467,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 		menu addItem: (ToMenuItem new
 				 id: #openFile;
 				 labelText: 'Open file';
-				 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
+				 icon: (ToIcon innerImage: (Smalltalk ui icons iconNamed: #config))).
 		menu addItem: (ToMenuItem new labelText: 'Export').
 		menu addSeparator.
 
@@ -6478,7 +6478,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 			subsub := ToMenu new
 				          labelText: 'Externally';
 				          icon:
-					          (ToImage inner:
+					          (ToIcon innerImage:
 							           (Smalltalk ui icons iconNamed: #solidMenu)).
 
 			subsub addItem: (ToMenuItem new
@@ -6544,7 +6544,7 @@ ToSandBox class >> example_rootFrameWithContextMenu_menuPaneVertical [
 	win pane contextMenu: [ :contextMenu :request |
 		contextMenu addItem: (ToMenuItem new
 				 labelText: 'Open file';
-				 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
+				 icon: (ToIcon innerImage: (Smalltalk ui icons iconNamed: #config))).
 		contextMenu addItem: (ToMenuItem new labelText: 'Export').
 		contextMenu addSeparator.
 		sub := ToMenu new labelText: 'Save All'.
@@ -6552,7 +6552,7 @@ ToSandBox class >> example_rootFrameWithContextMenu_menuPaneVertical [
 		subsub := ToMenu new
 			          labelText: 'Externally';
 			          icon:
-				          (ToImage inner:
+				          (ToIcon innerImage:
 						           (Smalltalk ui icons iconNamed: #solidMenu)).
 		subsub addItem: (ToMenuItem new labelText: 'Here').
 		sub addItem: subsub.
@@ -6585,7 +6585,7 @@ ToSandBox class >> example_rootFrameWithContextMenu_menuPaneVertical [
 ToSandBox class >> example_rotateImage [
 
 	| im  |
-	im := ToImage new innerImage: (Smalltalk ui icons iconNamed: #pharoBig).
+	im := ToIcon innerImage: (Smalltalk ui icons iconNamed: #pharoBig).
 	im rotateBy: 270.
 	im border: (BlBorder paint: Color black width: 2).
 	im openInSpace
@@ -6596,7 +6596,7 @@ ToSandBox class >> example_scaledImage [
 
 	| im scale |
 	scale := 0.5.
-	im := ToImage new innerImage: (Smalltalk ui icons iconNamed: #pharoBig).
+	im := ToIcon innerImage: (Smalltalk ui icons iconNamed: #pharoBig).
 	im addEventHandlerOn: BlClickEvent do: [ :event |
 		im transformDo: [ :t |
 			t topLeftOrigin scaleBy: scale.
@@ -7433,7 +7433,7 @@ ToSandBox class >> example_toButtonWithIconAndText [
 	but := ToButton new.
 
 	but label: (ToLabel text: 'Button').
-	icon := ToImage new innerImage: ToThemeIcons searchOutlined16x16.
+	icon := ToIcon innerImage: ToThemeIcons searchOutlined16x16.
 	but icon: icon.
 	but effect: (BlGaussianShadowEffect
 					color: Color green
@@ -7478,7 +7478,7 @@ ToSandBox class >> example_toButtonWithIconOnly [
 	"but addLook: ToButtonDangerLook new."
 	"but addLook: ToButtonLinkLook new."
 
-	but icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
+	but icon: (ToIcon innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
 	"but icon addLook: ToImagePrimaryLook new."
 	"but icon addLook: ToImageDangerLook new."
 	container addChild: but.
@@ -8174,7 +8174,7 @@ ToSandBox class >> labeledIconlWithIconAndText [
 	| but  |
 	but := ToLabeledIcon new.
 	but label: (ToLabel text: 'Labeled icon').
-	but icon: (ToImage inner: (BlElement new
+	but icon: (ToIcon innerImage: (BlElement new
 			 size: 60 @ 60;
 			 background: (Color blue alpha: 0.2);
 			 yourself)).
@@ -8667,7 +8667,7 @@ ToSandBox class >> selectableLabeledIconlWithIconAndText [
 	| but  |
 	but := ToLabeledIcon new.
 	but label: (ToSelectableLabel new text: 'Selectable Labeled icon').
-	but icon: (ToImage inner: (BlElement new
+	but icon: (ToIcon innerImage: (BlElement new
 			 size: 60 @ 60;
 			 background: (Color blue alpha: 0.2);
 			 yourself)).

@@ -61,7 +61,7 @@ ToLabeledIconTest >> testHasIcon [
 	| li |
 	li := self testInitialize.
 	self deny: li hasIcon.
-	li icon: (ToImage inner: (BlElement new
+	li icon: (ToIcon innerImage: (BlElement new
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
@@ -84,7 +84,7 @@ ToLabeledIconTest >> testIcon [
 
 	| li |
 	li := self testInitialize.
-	li icon: (ToImage inner: (BlElement new
+	li icon: (ToIcon innerImage: (BlElement new
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
@@ -106,7 +106,7 @@ ToLabeledIconTest >> testIconContainer [
 	| li |
 	li := self testInitialize.
 	self assert: li iconContainer isNil.
-	li icon: (ToImage inner: (BlElement new
+	li icon: (ToIcon innerImage: (BlElement new
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
@@ -233,7 +233,7 @@ ToLabeledIconTest >> testInterspaceWithLabel [
 	li := ToLabeledIcon new.
 	li startInterspace: 10.
 	li label: (ToLabel text: 'A').
-	li icon: (ToImage inner: (BlElement new
+	li icon: (ToIcon innerImage: (BlElement new
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
@@ -253,7 +253,7 @@ ToLabeledIconTest >> testInterspaceWithLabelAndVertical [
 	li startInterspace: 10.
 
 	li label: (ToLabel text: 'A').
-	li icon: (ToImage inner: (BlElement new
+	li icon: (ToIcon innerImage: (BlElement new
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
@@ -384,7 +384,7 @@ ToLabeledIconTest >> testStartAlignment [
 
 	| li |
 	li := self testInitialize.
-	li icon: (ToImage inner: (BlElement new
+	li icon: (ToIcon innerImage: (BlElement new
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
@@ -453,7 +453,7 @@ ToLabeledIconTest >> testStartFlexibleWithLabel [
 	li startFlexible: true.
 	li vertical: false.
 	li label: (ToLabel text: 'A').
-	li icon: (ToImage inner: (BlElement new
+	li icon: (ToIcon innerImage: (BlElement new
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
@@ -474,7 +474,7 @@ ToLabeledIconTest >> testStartFlexibleWithLabelAndVertical [
 	container addChild: li.
 	li startFlexible: true.
 	li label: (ToLabel text: 'A').
-	li icon: (ToImage inner: (BlElement new
+	li icon: (ToIcon innerImage: (BlElement new
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
@@ -506,7 +506,7 @@ ToLabeledIconTest >> testWithLabelAndIcon [
 
 	| li |
 	li := self testLabel.
-	li icon: (ToImage inner: (BlElement new
+	li icon: (ToIcon innerImage: (BlElement new
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
@@ -529,7 +529,7 @@ ToLabeledIconTest >> testWithLabelAndIconIconFirst [
 	li endToStart: true.
 	li endToStart: false.
 	li label: (ToLabel text: 'A').
-	li icon: (ToImage inner: (BlElement new
+	li icon: (ToIcon innerImage: (BlElement new
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
@@ -551,7 +551,7 @@ ToLabeledIconTest >> testWithLabelAndIconIconFirstVertical [
 	li endToStart: false.
 	li vertical: true.
 	li label: (ToLabel text: 'A').
-	li icon: (ToImage inner: (BlElement new
+	li icon: (ToIcon innerImage: (BlElement new
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
@@ -570,7 +570,7 @@ ToLabeledIconTest >> testWithLabelAndIconLabelFirst [
 	li := ToLabeledIcon new.
 	li endToStart: true.
 	li label: (ToLabel text: 'A').
-	li icon: (ToImage inner: (BlElement new
+	li icon: (ToIcon innerImage: (BlElement new
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
@@ -590,7 +590,7 @@ ToLabeledIconTest >> testWithLabelAndIconLabelFirstVertical [
 	li endToStart: true.
 	li vertical: true.
 	li label: (ToLabel text: 'A').
-	li icon: (ToImage inner: (BlElement new
+	li icon: (ToIcon innerImage: (BlElement new
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
@@ -609,7 +609,7 @@ ToLabeledIconTest >> testWithLabelAndIconVertical [
 	li := ToLabeledIcon new.
 	li vertical: true.
 	li label: (ToLabel text: 'A').
-	li icon: (ToImage inner: (BlElement new
+	li icon: (ToIcon innerImage: (BlElement new
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).

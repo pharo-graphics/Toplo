@@ -68,7 +68,7 @@ ToSegmentedCheckboxSkin >> installSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e preventSelectionSkinEvents.
 		e icon:
-			(ToImage inner: (e valueOfTokenNamed: #'checkbox-unchecked-image')).
+			(ToIcon innerImage: (e valueOfTokenNamed: #'checkbox-unchecked-image')).
 		e hasLabel
 			ifTrue: [
 			e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]

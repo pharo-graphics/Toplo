@@ -362,7 +362,7 @@ ToBeeTheme >> declareDefaultButtonRules [
 ToBeeTheme >> declareIconInLabeledIconRules [
 
 	self
-		select: (ToImage asTypeSelector
+		select: (ToIcon asTypeSelector
 				 withParent: ToLabeledIcon asTypeSelector
 				 atDepth: 2)
 		style: [

@@ -16,7 +16,9 @@ ToFloatContainer >> defaultLayout [
 ToFloatContainer >> initialize [
 
 	super initialize.
-	self layout: self defaultLayout
+	self layout: self defaultLayout.
+	self padding: (BlInsets all: 20).
+	self preventMouseEvents.
 ]
 
 { #category : #skin }

@@ -21,9 +21,9 @@ ToMenuSkin >> installSkinEvent: anEvent [
 						           e isSubmenu
 							           ifTrue: [ ToIconicArrowButton right ]
 							           ifFalse: [
-								           e isOpened
-									           ifTrue: [ ToIconicArrowButton up ]
-									           ifFalse: [ ToIconicArrowButton down ] ] ].
+								           (e isMenuPaneMenu and: [ e menuPane isHorizontal])
+									           ifTrue: [ ToIconicArrowButton down ]
+									           ifFalse: [ ToIconicArrowButton right ] ] ].
 				arrowIm
 					size: (e valueOfTokenNamed: #'iconic-arrow-breadth') asPoint.
 				e endElement addChild: arrowIm ]

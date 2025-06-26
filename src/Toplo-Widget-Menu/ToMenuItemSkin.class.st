@@ -51,38 +51,32 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		
-		e endElementDo: [ :ic |
-			(ic respondsTo: #innerImageColor:) ifTrue: [
-				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
-		e labelDo: [ :lab |
-			lab foreground: (e valueOfTokenNamed: #'color-text') ].
-		
-		(e isTopMenu not or: [ e showExpandIcon ]) ifTrue: [
-			| anyHaveIcon anyIsMenu |
-			anyHaveIcon := false.
-			anyIsMenu := false.
+			e endElementDo: [ :ic |
+					(ic respondsTo: #innerImageColor:) ifTrue: [
+						ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
+			e labelDo: [ :lab |
+				lab foreground: (e valueOfTokenNamed: #'color-text') ].
 
-			e parentMenuDo: [ :pm |
-				pm items do: [ :item |
-					item hasIcon ifTrue: [ anyHaveIcon := true ].
-					item isMenu ifTrue: [ anyIsMenu := true ] ] ].
+			(e isTopMenu not or: [ e showExpandIcon ]) ifTrue: [
+					| anyHaveIcon anyIsMenu |
+					anyHaveIcon := false.
+					anyIsMenu := false.
 
-			anyHaveIcon ifTrue: [
-				| align |
-				align := e valueOfTokenNamed: #'menu-item-start-alignment'.
-				e startAlignment: align ].
+					e parentMenuDo: [ :pm |
+							pm items do: [ :item |
+									item hasIcon ifTrue: [ anyHaveIcon := true ].
+									item isMenu ifTrue: [ anyIsMenu := true ] ] ].
 
-			(anyIsMenu or: [ e showExpandIcon ]) ifTrue: [
-				e isStartToEnd
-					ifTrue: [
-						e endInterspace:
-							(e valueOfTokenNamed: #'menu-item-end-interspace').
-						e endFlexible: true ]
-					ifFalse: [
-						e startInterspace:
-							(e valueOfTokenNamed: #'menu-item-end-interspace').
-						e startFlexible: true ] ] ] ]
+					anyHaveIcon ifTrue: [
+							| align |
+							align := e valueOfTokenNamed: #'menu-item-start-alignment'.
+							e startAlignment: align ].
+
+					(anyIsMenu or: [ e showExpandIcon ]) ifTrue: [
+							e isHorizontal ifTrue: [
+									e startInterspace:
+										(e valueOfTokenNamed: #'button-interspace').
+									e endFlexible: true ] ] ] ]
 ]
 
 { #category : #'event handling' }

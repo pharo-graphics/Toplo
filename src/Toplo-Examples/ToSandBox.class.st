@@ -6095,17 +6095,21 @@ ToSandBox class >> example_menuPane3 [
 
 	| menu frame bar rand |
 	bar := ToMenuPane new.
-	bar beHorizontal.
+	"bar beVertical."
 	rand := Random new.
 	frame := ToInnerWindow new.
 	bar addFiller.
 	bar addItem: (ToMenuItem new
+	
 			 labelText: 'Inspect';
 			 clickAction: [ frame space root inspect ];
 			 yourself).
 	bar addFiller.
 	3 timesRepeat: [
 		menu := ToMenu new.
+		menu vertical: false.
+		menu showExpandIcon: true.
+		menu alignCenter: true.
 		menu label: (ToLabel text: 'Levels').
 		menu icon:
 			(ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
@@ -6996,7 +7000,7 @@ ToSandBox class >> example_subMenuPaneVertical [
 		| mb |
 		mb := ToMenuPane new.
 		mb beVertical.
-		mb vMatchParent.
+
 		1 to: 3 do: [ :i |
 			| m |
 			m := ToMenu new labelText: 'Menu' , i asString.
@@ -7013,7 +7017,7 @@ ToSandBox class >> example_subMenuPaneVertical [
 			 clickAction: [ topMenuBar inspect ];
 			 yourself).
 
-	topMenuBar hMatchParent.
+	topMenuBar vMatchParent.
 
 	topMenuBar openInInnerWindow 
 ]

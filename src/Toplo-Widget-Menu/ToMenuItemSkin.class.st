@@ -51,12 +51,6 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-			e endElementDo: [ :ic |
-					(ic respondsTo: #innerImageColor:) ifTrue: [
-						ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
-			e labelDo: [ :lab |
-				lab foreground: (e valueOfTokenNamed: #'color-text') ].
-
 			(e isTopMenu not or: [ e showExpandIcon ]) ifTrue: [
 					| anyHaveIcon anyIsMenu |
 					anyHaveIcon := false.

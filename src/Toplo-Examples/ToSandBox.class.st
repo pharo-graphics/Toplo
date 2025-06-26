@@ -138,7 +138,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	confPane border: Color lightGray.
 
 	menu := ToMenu new.
-	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	menu icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	menu addItem: (ToRadioMenuItem new
 			 label: (ToLabel text: 'Dark theme');
 			 checkAction: [ :evt :cbox :v |
@@ -712,7 +712,7 @@ ToSandBox class >> examplePaneWithAccordionsWithLabelWithExtra [
 	pane := self paneWithAccordionsWithLabel.
 	pane childrenDo: [ :acc |
 		| im btn |
-		im := ToImage inner:
+		im := ToIcon innerImage:
 			      (ToAntDesignIconProvider innerImageNamed: 'outlined_search').
 		im size: 18 asPoint.
 		btn := ToButton new icon: im.
@@ -1198,7 +1198,7 @@ ToSandBox class >> example_BasicListWithAllClasses3 [
 			            yourself.
 		     node addChild: (ToLabeledIcon new
 				      label: lab;
-				      icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
+				      icon: (ToIcon innerImage: (Smalltalk ui icons iconNamed: icn));
 				      startInterspace: 10;
 				      hMatchParent) ].
 
@@ -1296,7 +1296,7 @@ ToSandBox class >> example_ButtonTurnedAsToggleButton [
 	ToTheme cleanUp.
 	toggle := ToButton new label: (ToLabel text: 'Regular button turned as Toggle button').
 	toggle checkable: true.
-	toggle icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
+	toggle icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	toggle checked: false.
 	toggle openInInnerWindow
 ]
@@ -2447,7 +2447,7 @@ ToSandBox class >> example_ListWithAllClasses3 [
 			            yourself.
 		     node addChild: (ToLabeledIcon new
 				      label: lab;
-				      icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
+				      icon: (ToIcon innerImage: (Smalltalk ui icons iconNamed: icn));
 				      startAlignment: 30;
 				      hMatchParent) ].
 	l primarySelectionMode selectionOption animationDuration:
@@ -2490,7 +2490,7 @@ ToSandBox class >> example_ListWithAllClassesAndTraitsSorted [
 	| l vscrollBar space |
 	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
 			node ensureCanManageSkin.
-		     node addChild: (ToClassNameViewExamplePart new
+		     node addChild: (ToExClassNameView new
 				      class: dataItem position: holder position;
 				      yourself) ].
 	l withRowNumbers.
@@ -2766,7 +2766,7 @@ ToSandBox class >> example_Menu0 [
 		             yourself.
 	menu := ToMenu new.
 	menu tooltipString: 'tooltip content'.
-	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	menu icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	container pane addChild: menu.
 	container openInSpace
 ]
@@ -2784,7 +2784,7 @@ ToSandBox class >> example_Menu2 [
 			 labelText: 'Menu item';
 			 clickAction: [ :event | event traceCr ];
 			 yourself).
-	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	menu icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	container pane addChild: menu.
 	container openInSpace
 ]
@@ -2801,7 +2801,7 @@ ToSandBox class >> example_MenuPaneScrollableWithCustomItems [
 	menuPane addItem: (ToMenuItem new
 			 labelText: 'Open file';
 			 clickAction: [ self inform: 'Open file' ];
-			 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
+			 icon: (ToIcon innerImage: (Smalltalk ui icons iconNamed: #config))).
 
 	item := ToMenuItem new
 		        labelText: 'Export';
@@ -2927,7 +2927,7 @@ ToSandBox class >> example_MenuWithAccordeon [
 
 	| menu pane item |
 	menu := ToMenu new.
-	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	menu icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	pane := self paneWithAccordionsWithLabel.
 	item := ToCustomMenuItem new in: [ :e | e addChild: pane ].
 	menu addItem: item.
@@ -2939,7 +2939,7 @@ ToSandBox class >> example_MenuWithAccordeon2 [
 
 	| menu pane item |
 	menu := ToMenu new.
-	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	menu icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
 	pane := self paneWithAccordionsWithLabel.
 	pane childrenDo: [ :child |
 		child expandIconAtStart: false.
@@ -6100,59 +6100,59 @@ ToSandBox class >> example_menuPane3 [
 	frame := ToInnerWindow new.
 	bar addFiller.
 	bar addItem: (ToMenuItem new
-	
 			 labelText: 'Inspect';
 			 clickAction: [ frame space root inspect ];
 			 yourself).
 	bar addFiller.
 	3 timesRepeat: [
-		menu := ToMenu new.
-		menu vertical: false.
-		menu showExpandIcon: true.
-		menu alignCenter: true.
-		menu label: (ToLabel text: 'Levels').
-		menu icon:
-			(ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+			menu := ToMenu new.
+			menu vertical: false.
+			menu showExpandIcon: true.
+			menu alignCenter: true.
+			menu label: (ToLabel text: 'Levels').
+			menu icon:
+				(ToImage innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
 
-		menu builder: [ :m |
-			1 to: (rand nextIntegerBetween: 2 and: 16) do: [ :index |
-				| subMenu |
-				subMenu := ToMenu new label:
-					           (ToLabel new text: (String streamContents: [ :out |
-							             out
-								             print: index;
-								             nextPut: $x;
-								             print: index ])).
-				subMenu builder: [ :sm |
-					1 to: (rand nextIntegerBetween: 1 and: 20) do: [ :i |
-						| stream selector iconImage color |
-						stream := String streamContents: [ :out |
-							          out
-								          nextPutAll: 'Level ';
-								          space;
-								          print: i ].
-						selector := String streamContents: [ :out |
-							            out
-								            nextPutAll: 'level ';
-								            print: index;
-								            nextPutAll: ' Grid ';
-								            print: i ].
-						color := Color random.
-						iconImage := BlElement new
-							             padding: (BlInsets all: 2);
-							             geometry:
-								             (BlRoundedRectangleGeometry cornerRadius: 3);
-							             background: color;
-							             size: 16 asPoint;
-							             yourself.
-						sm addItem: ((ToMenuItem new
-								  labelText: stream;
-								  iconImage: iconImage)
-								 clickAction: [ frame background: color ];
-								 yourself) ] ].
-				m addItem: subMenu ] ].
+			menu builder: [ :m |
+					1 to: (rand nextIntegerBetween: 2 and: 16) do: [ :index |
+							| subMenu |
+							subMenu := ToMenu new label:
+								           (ToLabel new text:
+									            (String streamContents: [ :out |
+											             out
+												             print: index;
+												             nextPut: $x;
+												             print: index ])).
+							subMenu builder: [ :sm |
+									1 to: (rand nextIntegerBetween: 1 and: 20) do: [ :i |
+											| stream selector iconImage color |
+											stream := String streamContents: [ :out |
+													          out
+														          nextPutAll: 'Level ';
+														          space;
+														          print: i ].
+											selector := String streamContents: [ :out |
+													            out
+														            nextPutAll: 'level ';
+														            print: index;
+														            nextPutAll: ' Grid ';
+														            print: i ].
+											color := Color random.
+											iconImage := BlElement new
+												             padding: (BlInsets all: 2);
+												             geometry:
+													             (BlRoundedRectangleGeometry cornerRadius: 3);
+												             background: color;
+												             size: 16 asPoint;
+												             yourself.
+											sm addItem: ((ToMenuItem new
+													  labelText: stream;
+													  iconImage: iconImage)
+													 clickAction: [ frame background: color ];
+													 yourself) ] ].
+							m addItem: subMenu ] ].
 
-		bar addItem: menu ].
+			bar addItem: menu ].
 	bar addFiller.
 	bar hMatchParent.
 	frame pane addChild: bar.

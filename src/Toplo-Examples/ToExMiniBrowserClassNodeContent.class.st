@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : #initialization }
-ToExMiniBrowserClassNodeContent >> class: aClass [ 
+ToExMiniBrowserClassNodeContent >> class: aClass [
 
 	self
 		beStartToEnd;
@@ -22,13 +22,14 @@ ToExMiniBrowserClassNodeContent >> class: aClass [
 		icon: (self iconFor: aClass);
 		label: (ToLabel text: aClass name).
 	aClass hasComment ifTrue: [ ^ self ].
-	self endElement: (ToImage inner: (self iconNamed: #uncommentedClass))
+	self endElement:
+		(ToImage innerImage: (self iconNamed: #uncommentedClass))
 ]
 
 { #category : #private }
 ToExMiniBrowserClassNodeContent >> iconFor: aClass [
 
-	^ ToImage inner: (self iconImageFor: aClass)
+	^ ToIcon innerImage: (self iconImageFor: aClass)
 ]
 
 { #category : #private }

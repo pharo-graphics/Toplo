@@ -1527,7 +1527,7 @@ ToExperiments class >> newTreeElement [
 		triplet horizontal: true.
 		triplet middleElement:
 			(ToLabel new text: anExWrapper wrapped asString).
-		arrowIcon := ToImage new.
+		arrowIcon := ToIcon new.
 		hasChildren := anExWrapper hasChildren.
 		hasChildren ifTrue: [
 			| arrowTk |
@@ -1535,7 +1535,7 @@ ToExperiments class >> newTreeElement [
 				           ifTrue: [ #'iconic-arrow-down' ]
 				           ifFalse: [ #'iconic-arrow-right' ].
 			arrowIcon innerImage: (tree valueOfTokenNamed: arrowTk) ].
-		arrowIcon
+		arrowIcon 
 			size: 18 asPoint;
 			id: #arrow.
 		iconContainer := ToElement new

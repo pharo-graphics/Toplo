@@ -25,9 +25,10 @@ ToRadioButtonSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e icon:
-			(ToImage inner: (e valueOfTokenNamed: #'radio-unchecked-image')).
-		e icon size: 20 asPoint ]
+			e icon:
+				(ToImage innerImage:
+					 (e valueOfTokenNamed: #'radio-unchecked-image')).
+			e icon size: 20 asPoint ]
 ]
 
 { #category : #'event handling' }

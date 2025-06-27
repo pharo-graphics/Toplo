@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #layout }
-ToAnchorLayoutOperation >> appliedOnChildBounds: childBoundsRectangle withParent: anElement inAvailableRectangle: availableRectangle [
+ToAnchorLayoutOperation >> appliedForChild: aChildElement withBounds: childBoundsRectangle withParent: anElement inAvailableRectangle: availableRectangle [
 
 	| targetRectangle |
 	targetRectangle := rightHandSideAnchor element = anElement

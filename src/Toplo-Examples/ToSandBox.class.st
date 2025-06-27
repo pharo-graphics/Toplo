@@ -2661,7 +2661,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 ]
 
 { #category : #float }
-ToSandBox class >> example_ListWithFloatButton [
+ToSandBox class >> example_ListWithFloatButtons [
 
 	| floatLayer floatContainer list addBtn removeBtn floatAdd floatRemove |
 	list := self example_ListWithEditableAndContextMenu.

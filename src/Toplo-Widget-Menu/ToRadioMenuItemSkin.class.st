@@ -27,7 +27,7 @@ ToRadioMenuItemSkin >> installSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e icon:
 			(ToImage inner: (e valueOfTokenNamed: #'radio-unchecked-image')).
-		e icon size: 20 asPoint ]
+		e icon size: (e valueOfTokenNamed: #'menu-icon-size') ]
 ]
 
 { #category : #'event handling' }

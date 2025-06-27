@@ -3839,7 +3839,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithCheckboxes [
 	               ToScriptableSkin new
 		               onInstallSkinEvent: [ :e :evt |
 			               e icon: (ToImage inner: (e valueOfTokenNamed: #'checkbox-unchecked-image')).
-			               e icon size: (e valueOfTokenNamed: #'checkable-icon-size').
+			               e icon size: (e valueOfTokenNamed: #'menu-icon-size').
 			               e icon innerImageColor: (e valueOfTokenNamed: #'color-primary') ];
 		               onSelectedSkinEvent: [ :e :evt |
 			               e icon
@@ -5062,10 +5062,11 @@ ToSandBox class >> example_WithCheckBox [
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 clickAction: [ menu space root inspect ];
+			 clickAction: [ :evt :menuItem :v | menuItem traceCr. menu space root inspect ];
 			 yourself).
 	menu addItem: (ToToggleMenuItem new
 			 labelText: 'Toggle';
+			 checkAction: [ :evt :menuItem :checked | checked traceCr ];
 			 yourself).
 	menu addItem: (ToMenuItem new labelText: 'Open file').
 	menu items last icon: (ToImage inner: (self iconNamed: #solidMenu)).

@@ -17,14 +17,13 @@ ToAnchorLayoutConstraints >> add: anAnchorOperation [
 ]
 
 { #category : #layout }
-ToAnchorLayoutConstraints >> applyOperations: anOperationArray forChild: aChild withParent: anElement inAvailableRectangle: availableBounds [
+ToAnchorLayoutConstraints >> applyOperations: anOperationArray inParent: anElement forChild: aChild in: availableBounds [
 
 	| bnds |
 	bnds := aChild margin expand: aChild measuredBounds asRectangle.
 	anOperationArray do: [ :op |
 			bnds := op
-				        appliedForChild: aChild
-				        withBounds: bnds
+				        appliedOnChildBounds: bnds
 				        withParent: anElement
 				        inAvailableRectangle: availableBounds ].
 	^ aChild margin inset: bnds
@@ -54,9 +53,9 @@ ToAnchorLayoutConstraints >> measureInParent: anElement forChild: aChild in: ava
 
 	^ self
 		  applyOperations: self measurementOperations
+		  inParent: anElement
 		  forChild: aChild
-		  withParent: anElement
-		  inAvailableRectangle: availableBounds
+		  in: availableBounds
 ]
 
 { #category : #layout }
@@ -70,9 +69,9 @@ ToAnchorLayoutConstraints >> positionInParent: anElement forChild: aChild in: av
 
 	^ self
 		  applyOperations: self positionOperations
+		  inParent: anElement
 		  forChild: aChild
-		  withParent: anElement
-		  inAvailableRectangle: availableBounds
+		  in: availableBounds
 ]
 
 { #category : #layout }

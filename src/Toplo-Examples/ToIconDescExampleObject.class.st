@@ -2,7 +2,7 @@
 I'm a dull domain object for examples.
 "
 Class {
-	#name : #ToExIconDesc,
+	#name : #ToIconDescExampleObject,
 	#superclass : #Object,
 	#instVars : [
 		'provider',
@@ -13,49 +13,49 @@ Class {
 }
 
 { #category : #converting }
-ToExIconDesc >> asString [
+ToIconDescExampleObject >> asString [
 
 	^ style prefix, ' ', name
 ]
 
 { #category : #accessing }
-ToExIconDesc >> icon [
+ToIconDescExampleObject >> icon [
 
 	^ style iconNamed: name inProvider: provider
 ]
 
 { #category : #accessing }
-ToExIconDesc >> name [
+ToIconDescExampleObject >> name [
 
 	^ name
 ]
 
 { #category : #accessing }
-ToExIconDesc >> name: anObject [
+ToIconDescExampleObject >> name: anObject [
 
 	name := anObject
 ]
 
 { #category : #accessing }
-ToExIconDesc >> provider [
+ToIconDescExampleObject >> provider [
 
 	^ provider
 ]
 
 { #category : #accessing }
-ToExIconDesc >> provider: anObject [
+ToIconDescExampleObject >> provider: anObject [
 
 	provider := anObject
 ]
 
 { #category : #accessing }
-ToExIconDesc >> style [
+ToIconDescExampleObject >> style [
 
 	^ style
 ]
 
 { #category : #accessing }
-ToExIconDesc >> style: anObject [
+ToIconDescExampleObject >> style: anObject [
 
 	style := anObject
 ]

@@ -14,7 +14,7 @@ ToImportedIconProvider class >> iconNamed: aName [
 ToImportedIconProvider class >> iconNamed: aName ifAbsent: aBlock [
 
 	^ [
-	  ToIcon innerImage:
+	  ToImage inner:
 		  (self perform: aName asSymbol) ]
 		  on: Error
 		  do: [ :err | aBlock value ]

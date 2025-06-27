@@ -4,13 +4,13 @@ I'm part of a larger example. I'm not expected to be opened as a standalone.
 Check `ToSandBox >> example_ListWithAllClassesAndTraitsSorted` and `ToMiniBrowser`
 "
 Class {
-	#name : #ToExClassNameView,
+	#name : #ToClassNameViewExamplePart,
 	#superclass : #ToElement,
 	#category : #'Toplo-Examples-Parts'
 }
 
 { #category : #initialization }
-ToExClassNameView >> class: aClass position: anInteger [
+ToClassNameViewExamplePart >> class: aClass position: anInteger [
 
 	self addChild: (ToLabeledIcon new
 			 beStartToEnd;
@@ -24,20 +24,20 @@ ToExClassNameView >> class: aClass position: anInteger [
 ]
 
 { #category : #private }
-ToExClassNameView >> colorFor: index [
+ToClassNameViewExamplePart >> colorFor: index [
 
 	index odd ifTrue: [ ^ Color transparent].
 	^ Color gray alpha: 0.1
 ]
 
 { #category : #private }
-ToExClassNameView >> iconFor: aClass [
+ToClassNameViewExamplePart >> iconFor: aClass [
 
-	^ ToIcon new innerImage: (self iconImageFor: aClass)
+	^ ToImage new innerImage: (self iconImageFor: aClass)
 ]
 
 { #category : #private }
-ToExClassNameView >> iconImageFor: aClass [
+ToClassNameViewExamplePart >> iconImageFor: aClass [
 
 	((aClass includesBehavior:
 		  (Smalltalk globals at: #TestCase ifAbsent: [ false ])) and: [
@@ -51,7 +51,7 @@ ToExClassNameView >> iconImageFor: aClass [
 ]
 
 { #category : #initialization }
-ToExClassNameView >> initialize [
+ToClassNameViewExamplePart >> initialize [
 
 	super initialize.
 	self constraintsDo: [ :c |

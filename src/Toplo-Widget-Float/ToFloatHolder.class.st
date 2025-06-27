@@ -21,9 +21,9 @@ ToFloatHolder >> initialize [
 
 	super initialize.
 	self fitContent.
-	self preventMouseEvents.
 	self layout: self defaultLayout.
 	self elevation: self defaultElevation.
+	self margin: (BlInsets all: 5)
 ]
 
 { #category : #'instance creation' }

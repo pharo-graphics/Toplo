@@ -23,14 +23,13 @@ ToMenuItemSkin >> enabledSkinEvent: anEvent [
 
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-			(self isTogglable and: [ e isChecked ]) ifFalse: [
-					e iconDo: [ :ic |
-						ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
-					e endElementDo: [ :ic |
-							(ic respondsTo: #innerImageColor:) ifTrue: [
-								ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
-					e labelDo: [ :lab |
-						lab foreground: (e valueOfTokenNamed: #'color-text') ] ] ]
+		e iconDo: [ :ic |
+			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
+		e endElementDo: [ :ic |
+			(ic respondsTo: #innerImageColor:) ifTrue: [
+				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
+		e labelDo: [ :lab |
+			lab foreground: (e valueOfTokenNamed: #'color-text') ] ]
 ]
 
 { #category : #'event handling' }
@@ -38,14 +37,13 @@ ToMenuItemSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-			(self isTogglable and: [e isChecked ]) ifFalse: [
-					e iconDo: [ :ic |
-						ic innerImageColor: (e valueOfTokenNamed: #'color-primary') ].
-					e endElementDo: [ :ic |
-							(ic respondsTo: #innerImageColor:) ifTrue: [
-								ic innerImageColor: (e valueOfTokenNamed: #'color-primary') ] ].
-					e labelDo: [ :lab |
-						lab foreground: (e valueOfTokenNamed: #'color-primary') ] ] ]
+		e iconDo: [ :ic |
+			ic innerImageColor: (e valueOfTokenNamed: #'color-primary') ].
+		e endElementDo: [ :ic |
+			(ic respondsTo: #innerImageColor:) ifTrue: [
+				ic innerImageColor: (e valueOfTokenNamed: #'color-primary') ] ].
+		e labelDo: [ :lab |
+			lab foreground: (e valueOfTokenNamed: #'color-primary') ] ]
 ]
 
 { #category : #'event handling' }
@@ -53,7 +51,6 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e iconDo: [ :ic | ic size: (e valueOfTokenNamed: #'menu-icon-size'). ].
 			(e isTopMenu not or: [ e showExpandIcon ]) ifTrue: [
 					| anyHaveIcon anyIsMenu |
 					anyHaveIcon := false.
@@ -71,7 +68,7 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 
 					(anyIsMenu or: [ e showExpandIcon ]) ifTrue: [
 							e isHorizontal ifTrue: [
-									e endInterspace:
+									e startInterspace:
 										(e valueOfTokenNamed: #'button-interspace').
 									e endFlexible: true ] ] ] ]
 ]
@@ -95,14 +92,13 @@ ToMenuItemSkin >> leftSkinEvent: anEvent [
 
 	super leftSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-			(self isTogglable and: [e isChecked ]) ifFalse: [
-					e iconDo: [ :ic |
-						ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
-					e endElementDo: [ :ic |
-							(ic respondsTo: #innerImageColor:) ifTrue: [
-								ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
-					e labelDo: [ :lab |
-						lab foreground: (e valueOfTokenNamed: #'color-text') ] ] ]
+		e iconDo: [ :ic |
+			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
+		e endElementDo: [ :ic |
+			(ic respondsTo: #innerImageColor:) ifTrue: [
+				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
+		e labelDo: [ :lab |
+			lab foreground: (e valueOfTokenNamed: #'color-text') ] ]
 ]
 
 { #category : #'event handling' }
@@ -110,12 +106,12 @@ ToMenuItemSkin >> pressedSkinEvent: anEvent [
 
 	super pressedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-			self isTogglable ifFalse: [
-					e iconDo: [ :ic |
-						ic innerImageColor:
-							(e valueOfTokenNamed: #'color-primary-pressed') ].
-					e endElementDo: [ :ic |
-							(ic respondsTo: #innerImageColor:) ifTrue: [
-								ic innerImageColor:
-									(e valueOfTokenNamed: #'color-primary-pressed') ] ] ] ]
+		e iconDo: [ :ic |
+			ic innerImageColor: (e valueOfTokenNamed: #'color-primary-pressed') ].
+		e endElementDo: [ :ic |
+			(ic respondsTo: #innerImageColor:) ifTrue: [
+				ic innerImageColor:
+					(e valueOfTokenNamed: #'color-primary-pressed') ] ].
+		e labelDo: [ :lab |
+			lab foreground: (e valueOfTokenNamed: #'color-primary-pressed') ] ]
 ]

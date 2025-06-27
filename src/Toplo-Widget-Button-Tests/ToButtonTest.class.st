@@ -47,7 +47,7 @@ ToButtonTest >> testClickAborted [
 	count := 0.
 	but := ToButton new.
 	but labelText: 'XXXXX'.
-	but icon: (ToIcon innerImage: (BlElement new
+	but icon: (ToImage inner: (BlElement new
 				  size: 30 @ 30;
 				  background: Color blue;
 				  yourself)).
@@ -83,7 +83,7 @@ ToButtonTest >> testClickAborted2 [
 	count := 0.
 	but := ToButton new.
 	but labelText: 'XXXXX'.
-	but icon: (ToIcon innerImage: (BlElement new
+	but icon: (ToImage inner: (BlElement new
 				  size: 30 @ 30;
 				  background: Color blue;
 				  yourself)).

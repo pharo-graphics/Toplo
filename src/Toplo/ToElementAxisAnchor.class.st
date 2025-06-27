@@ -1,5 +1,5 @@
 Class {
-	#name : #ToAxisAnchor,
+	#name : #ToElementAxisAnchor,
 	#superclass : #ToElementAnchor,
 	#category : #'Toplo-Support-Anchor'
 }

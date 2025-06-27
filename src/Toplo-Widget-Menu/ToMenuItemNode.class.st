@@ -10,3 +10,9 @@ ToMenuItemNode >> applyWidgetConfiguration [
 	super applyWidgetConfiguration.
 	self item applyWidgetConfiguration
 ]
+
+{ #category : #'t - item node' }
+ToMenuItemNode >> newRawSkin [ 
+
+	^ ToMenuItemNodeSkin new
+]

@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #layout }
-ToAnchorLayoutOperation >> appliedForChild: aChildElement withBounds: childBoundsRectangle withParent: anElement inAvailableRectangle: availableRectangle [
+ToAnchorLayoutOperation >> appliedOnChildBounds: childBoundsRectangle withParent: anElement inAvailableRectangle: availableRectangle [
 
 	| targetRectangle |
 	targetRectangle := rightHandSideAnchor element = anElement
@@ -19,9 +19,7 @@ ToAnchorLayoutOperation >> appliedForChild: aChildElement withBounds: childBound
 					                    inParent: anElement) asRectangle ].
 	^ leftHandSideAnchor
 		  appliedOnRectangle: childBoundsRectangle
-		  withValue: (rightHandSideAnchor
-				   valueForChild: aChildElement
-				   withBoundsRectangle: targetRectangle)
+		  withValue: (rightHandSideAnchor readRectangle: targetRectangle)
 ]
 
 { #category : #testing }

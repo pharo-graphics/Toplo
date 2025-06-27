@@ -27,7 +27,7 @@ ToTreeNodeSkin >> newStartElementForNode: aNode [
 
 	| arrowIcon aWrapper |
 	aWrapper := aNode holder dataItem.
-	arrowIcon := ToIcon new.
+	arrowIcon := ToImage new.
 	aWrapper hasLeafDataItem ifFalse: [
 		arrowIcon := aWrapper isExpanded
 			             ifFalse: [ ToIconicArrowButton right ]

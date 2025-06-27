@@ -15,15 +15,15 @@ ToTheme class >> canBeDefault [
 ]
 
 { #category : #accessing }
-ToTheme class >> defaultCheckboxHeight [
-
-	^ 20
-]
-
-{ #category : #accessing }
 ToTheme class >> defaultColorPrimary [
 
 	^ Color fromHexString: '#1677ff'
+]
+
+{ #category : #accessing }
+ToTheme class >> defaultMenuIconHeight [
+
+	^ 18
 ]
 
 { #category : #accessing }
@@ -326,7 +326,10 @@ ToTheme class >> defaultTokenProperties [
 			   value: 24 @ self defaultSwitchIconHeight).
 		  (ToTokenProperty
 			   name: #'checkable-icon-size'
-			   value: self defaultCheckboxHeight asPoint).
+			   value: self defaultMenuIconHeight asPoint).
+		  (ToTokenProperty
+			   name: #'menu-icon-size'
+			   value: self defaultMenuIconHeight asPoint).
 
 		  (ToTokenProperty
 			   name: #'color-list-primary-selection-focused'

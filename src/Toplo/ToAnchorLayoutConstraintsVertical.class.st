@@ -7,11 +7,11 @@ Class {
 { #category : #'anchor creation' }
 ToAnchorLayoutConstraintsVertical >> breadthAnchor [
 
-	^ ToElementHeightAnchor new
+	^ ToHeightAnchor new
 ]
 
 { #category : #'anchor creation' }
 ToAnchorLayoutConstraintsVertical >> centerAnchor [
 
-	^ ToElementVerticalCenterAnchor new
+	^ ToVerticalCenterAnchor new
 ]

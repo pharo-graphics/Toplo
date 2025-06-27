@@ -912,6 +912,7 @@ ToSandBox class >> example_AnchorLayout1 [
 ToSandBox class >> example_AnchorLayout2 [
 
 	| pane blue topLeft topRight bottomLeft bottomRight topCenter rightCenter bottomCenter leftCenter center |
+	" a rectangle with small rectangles around "
 	pane := ToElement new.
 	pane matchParent.
 	pane layout: ToAnchorLayout new.
@@ -2656,7 +2657,61 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 
 	| l |
 	l := self listWithEditableAndContextMenu.
-	l openInInnerWindow
+	l openInSpace.
+	^ l
+]
+
+{ #category : #float }
+ToSandBox class >> example_ListWithFloatButtons [
+
+	| floatLayer floatContainer list addBtn removeBtn floatAdd floatRemove |
+	list := self example_ListWithEditableAndContextMenu.
+	addBtn := ToButton  new iconImage:
+		          (ToMaterialDesignIconProvider innerImageNamed:
+			           'outlined_addcircleoutline').
+	addBtn addAllStamps: { #circle. #iconic. #borderless }.
+	addBtn icon size: 25 asPoint.
+	removeBtn := ToButton new iconImage:
+		             (ToMaterialDesignIconProvider innerImageNamed:
+			              'outlined_removecircleoutline').
+	removeBtn addAllStamps: { #circle. #iconic. #borderless }.
+	removeBtn icon size: 25 asPoint.
+	
+	removeBtn clickAction: [
+			list selecter selectedIndexes reverseDo: [ :idx |
+				list dataAccessor removeAt: idx ] ].
+		
+	addBtn clickAction: [
+			list dataAccessor addFirst:
+				String loremIpsum substrings first , ' (inserted as first item)' ].
+
+	floatAdd := addBtn asFloatElement.
+	floatRemove := removeBtn asFloatElement.
+	
+	floatAdd geometry: BlCircleGeometry new.
+	floatRemove geometry: BlCircleGeometry new.
+	
+	floatRemove visibility: BlVisibility hidden.
+
+	list
+		addEventHandlerOn: ToListPrimarySelectionChangedEvent
+		do: [ :evt |
+				floatRemove visibility: (evt selectedIndexes
+						 ifEmpty: [ BlVisibility hidden ]
+						 ifNotEmpty: [ BlVisibility visible ]) ].
+
+	floatLayer := ToFloatOverlay new.
+	floatLayer attachToParent: list.
+
+	floatContainer := ToFloatContainer new.
+	floatContainer addChild: floatRemove.
+	floatContainer addChild: floatAdd.
+	floatContainer constraintsDo: [ :c |
+			c anchors add:
+				(floatContainer rightAnchor on: floatLayer rightAnchor).
+			c anchors add:
+				(floatContainer bottomAnchor on: floatLayer bottomAnchor) ].
+	floatLayer addChild: floatContainer
 ]
 
 { #category : #list }
@@ -3783,8 +3838,9 @@ ToSandBox class >> example_SelectMultiFiltrableWithCheckboxes [
 	skinBuilder := [
 	               ToScriptableSkin new
 		               onInstallSkinEvent: [ :e :evt |
+
 			               e icon: (ToIcon innerImage: (e valueOfTokenNamed: #'checkbox-unchecked-image')).
-			               e icon size: (e valueOfTokenNamed: #'checkable-icon-size').
+			               e icon size: (e valueOfTokenNamed: #'menu-icon-size').
 			               e icon innerImageColor: (e valueOfTokenNamed: #'color-primary') ];
 		               onSelectedSkinEvent: [ :e :evt |
 			               e icon
@@ -5007,10 +5063,11 @@ ToSandBox class >> example_WithCheckBox [
 	menu labelText: 'File'.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 clickAction: [ menu space root inspect ];
+			 clickAction: [ :evt :menuItem :v | menuItem traceCr. menu space root inspect ];
 			 yourself).
 	menu addItem: (ToToggleMenuItem new
 			 labelText: 'Toggle';
+			 checkAction: [ :evt :menuItem :checked | checked traceCr ];
 			 yourself).
 	menu addItem: (ToMenuItem new labelText: 'Open file').
 	menu items last icon: (ToIcon innerImage: (self iconNamed: #solidMenu)).
@@ -8605,8 +8662,6 @@ ToSandBox class >> segmentedDashBoardFor: aSegmentedElement [
 	mainPane matchParent.
 
 	confPane := self barConfigurationBoardFor: aSegmentedElement.
-	(confPane childWithId: #selectOnPressedSwitch) disable.
-	(confPane childWithId: #deselectOnPressedSwitch) disable.
 	confPane padding: (BlInsets all: 5).
 	confPane width: 250.
 	confPane border: Color lightGray.

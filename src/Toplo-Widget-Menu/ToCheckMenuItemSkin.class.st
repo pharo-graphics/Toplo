@@ -9,6 +9,7 @@ ToCheckMenuItemSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
+		e icon size: (e valueOfTokenNamed: #'menu-icon-size').
 		e startAlignment:
 			(e valueOfTokenNamed: #'menu-item-start-alignment').
 		e parentMenu ifNotNil: [

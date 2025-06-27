@@ -1,5 +1,5 @@
 Class {
-	#name : #ToElementEdgeAnchor,
+	#name : #ToEdgeAnchor,
 	#superclass : #ToElementAnchor,
 	#category : #'Toplo-Support-Anchor'
 }

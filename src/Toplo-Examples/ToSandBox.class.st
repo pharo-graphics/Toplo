@@ -912,6 +912,7 @@ ToSandBox class >> example_AnchorLayout1 [
 ToSandBox class >> example_AnchorLayout2 [
 
 	| pane blue topLeft topRight bottomLeft bottomRight topCenter rightCenter bottomCenter leftCenter center |
+	" a rectangle with small rectangles around "
 	pane := ToElement new.
 	pane matchParent.
 	pane layout: ToAnchorLayout new.

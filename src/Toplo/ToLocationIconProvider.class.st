@@ -53,7 +53,7 @@ ToLocationIconProvider >> iconNamed: aName ifAbsent: aBlock [
 		icon := self loadIconNamed: aName.
 		icon ifNil: [ ^ aBlock value ].
 		icons at: aName put: icon ].
-	^ ToImage inner: icon
+	^ ToIcon innerImage: icon
 ]
 
 { #category : #accessing }

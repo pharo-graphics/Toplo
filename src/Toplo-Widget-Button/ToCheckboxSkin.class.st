@@ -72,20 +72,20 @@ ToCheckboxSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 
 	anEvent elementDo: [ :e |
-		e isMenuButton ifFalse: [
-			e hasLabel
-				ifTrue: [
-				e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
-				ifFalse: [ e startInterspace: 0 ].
-			(e hasEndElement and: [ e hasLabel ])
-				ifTrue: [
-				e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
-				ifFalse: [ e endInterspace: 0 ] ].
-		e icon:
-			(ToImage inner: (e valueOfTokenNamed: #'checkbox-unchecked-image')).
-		e icon size: (e valueOfTokenNamed: #'checkable-icon-size').
-		e icon innerImageColor: (e valueOfTokenNamed: #'color-primary').
-		e border: BlBorder empty ]
+			e isMenuButton ifFalse: [
+					e hasLabel
+						ifTrue: [
+						e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
+						ifFalse: [ e startInterspace: 0 ].
+					(e hasEndElement and: [ e hasLabel ])
+						ifTrue: [
+						e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
+						ifFalse: [ e endInterspace: 0 ] ].
+			e icon: (ToIcon innerImage:
+					 (e valueOfTokenNamed: #'checkbox-unchecked-image')).
+			e icon size: (e valueOfTokenNamed: #'checkable-icon-size').
+			e icon innerImageColor: (e valueOfTokenNamed: #'color-primary').
+			e border: BlBorder empty ]
 ]
 
 { #category : #'event handling' }

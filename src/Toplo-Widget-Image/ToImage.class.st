@@ -24,7 +24,16 @@ ToImage class >> fromUrl: anUrl [
 { #category : #'instance creation' }
 ToImage class >> inner: anImage [
 
-	^ self new innerImage: anImage
+	self
+		deprecated: 'Use #innerImage: instead'
+		transformWith: '`@rcvr inner: `@arg' -> '`@rcvr innerImage: `@arg'.
+	^ self innerImage: anImage
+]
+
+{ #category : #'instance creation' }
+ToImage class >> innerImage: anImage [
+
+	^ self new innerImage: anImage; yourself
 ]
 
 { #category : #accessing }
@@ -121,12 +130,6 @@ ToImage >> fromUrl: anUrl [
 	loader resume
 ]
 
-{ #category : #testing }
-ToImage >> hasInnerImage [
-
-	^ self innerImage id asSymbol ~= #emptyImage
-]
-
 { #category : #initialization }
 ToImage >> initialize [
 
@@ -165,17 +168,17 @@ ToImage >> innerFormImageColor: aColor [
 
 { #category : #accessing }
 ToImage >> innerImage [
-
+	" an Element Or SvgPath String Or Form "
 	^ innerImage
 ]
 
 { #category : #accessing }
-ToImage >> innerImage: anImage [
+ToImage >> innerImage: anElementOSvgPathStringOrForm [
 
 	| element |
-	anImage = innerImage ifTrue: [ ^ self ].
+	anElementOSvgPathStringOrForm = innerImage ifTrue: [ ^ self ].
 	innerImageColor := nil.
-	element := anImage ifNil: [ self defaultInnerImage ].
+	element := anElementOSvgPathStringOrForm ifNil: [ self defaultInnerImage ].
 	element := self convertedAsInnerImage: element.
 	self removeChildren.
 	innerImage := element.

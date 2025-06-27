@@ -21,6 +21,46 @@ ToMenuBuilder class >> aLittleMenu: aBuilder [
 		(aBuilder item: #anUglyMenu) label: 'a ugly menu ! - Label' ]
 ]
 
+{ #category : #'as yet unclassified' }
+ToMenuBuilder class >> exampleMenu [
+	<script>
+	| builder |
+	builder := ToMenuBuilder new.
+
+	(builder item: #MyFirstMenu)
+		label: 'GrandParent';
+		order: 3;
+		groupName: 'aGroup';
+		with: [
+			(builder item: #MyFirstChild)
+				parent: #MyFirstMenu;
+				label: 'Uncle';
+				order: 9999.
+			(builder item: #MyFirstChild2)
+				parent: #MyFirstMenu;
+				label: 'Parent';
+				order: 1;
+				with: [ (builder item: #firstChildOfChild) label: 'Child' ] ].
+	(builder item: #MySecondMenu)
+		label: 'AnotherParent';
+		order: 1;
+		with: [
+			(builder item: #MySecondMenuChild1)
+				parent: #MySecondMenu;
+				label: 'AnotherChild1';
+				order: 1.
+			(builder item: #MySecondMenuChild2)
+				label: 'AnotherChild2';
+				order: 3.
+			(builder item: #MySecondMenuChild3)
+				parent: 'UnknownParent';
+				label: 'AnotherChild3';
+				order:  2].
+	builder resolve.
+	builder accept: ToploVisitor new.
+	builder inspect.
+]
+
 { #category : #accessing }
 ToMenuBuilder class >> pragmaKeyword: aPragmaKeyword [
 	"Build a builder using aPragmaKeyword as the pragma keyword "

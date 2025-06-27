@@ -1,11 +1,11 @@
 Class {
-	#name : #ToElementWidthAnchor,
-	#superclass : #ToElementAxisAnchor,
+	#name : #ToWidthAnchor,
+	#superclass : #ToAxisAnchor,
 	#category : #'Toplo-Support-Anchor'
 }
 
 { #category : #applying }
-ToElementWidthAnchor >> appliedOnRectangle: aRectangle withValue: aValue [ 
+ToWidthAnchor >> appliedOnRectangle: aRectangle withValue: aValue [ 
 
 	^ Rectangle
 		  origin: aRectangle origin x + element margin left @ aRectangle origin y
@@ -13,13 +13,13 @@ ToElementWidthAnchor >> appliedOnRectangle: aRectangle withValue: aValue [
 ]
 
 { #category : #testing }
-ToElementWidthAnchor >> isMeasurement [
+ToWidthAnchor >> isMeasurement [
 
 	^ true
 ]
 
 { #category : #applying }
-ToElementWidthAnchor >> readRectangle: aRectangle [
+ToWidthAnchor >> valueForChild: aChildElement withBoundsRectangle: aRectangle [
 
 	^ aRectangle width - element margin width
 ]

@@ -1,17 +1,17 @@
 Class {
-	#name : #ToElementBottomAnchor,
-	#superclass : #ToElementEdgeAnchor,
+	#name : #ToBottomAnchor,
+	#superclass : #ToEdgeAnchor,
 	#category : #'Toplo-Support-Anchor'
 }
 
 { #category : #applying }
-ToElementBottomAnchor >> appliedOnRectangle: aRectangle withValue: aValue [
+ToBottomAnchor >> appliedOnRectangle: aRectangle withValue: aValue [
 
 	^ aRectangle translateBy: 0 @ (aValue - aRectangle bottom)
 ]
 
 { #category : #applying }
-ToElementBottomAnchor >> readRectangle: aRectangle [ 
+ToBottomAnchor >> valueForChild: aChildElement withBoundsRectangle: aRectangle [
 
 	^ aRectangle bottom + element margin bottom
 ]

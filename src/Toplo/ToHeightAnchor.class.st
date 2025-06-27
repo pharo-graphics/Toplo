@@ -1,11 +1,11 @@
 Class {
-	#name : #ToElementHeightAnchor,
-	#superclass : #ToElementAxisAnchor,
+	#name : #ToHeightAnchor,
+	#superclass : #ToAxisAnchor,
 	#category : #'Toplo-Support-Anchor'
 }
 
 { #category : #applying }
-ToElementHeightAnchor >> appliedOnRectangle: aRectangle withValue: aValue [
+ToHeightAnchor >> appliedOnRectangle: aRectangle withValue: aValue [
 
 	^ Rectangle
 		  origin: aRectangle origin x @ (aRectangle origin y + element margin top)
@@ -13,13 +13,13 @@ ToElementHeightAnchor >> appliedOnRectangle: aRectangle withValue: aValue [
 ]
 
 { #category : #testing }
-ToElementHeightAnchor >> isMeasurement [
+ToHeightAnchor >> isMeasurement [
 
 	^ true
 ]
 
 { #category : #applying }
-ToElementHeightAnchor >> readRectangle: aRectangle [ 
+ToHeightAnchor >> valueForChild: aChildElement withBoundsRectangle: aRectangle [
 
 	^ aRectangle height - element margin height
 ]

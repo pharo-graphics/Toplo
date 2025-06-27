@@ -1,17 +1,17 @@
 Class {
-	#name : #ToElementTopAnchor,
-	#superclass : #ToElementEdgeAnchor,
+	#name : #ToTopAnchor,
+	#superclass : #ToEdgeAnchor,
 	#category : #'Toplo-Support-Anchor'
 }
 
 { #category : #applying }
-ToElementTopAnchor >> appliedOnRectangle: aRectangle withValue: aValue [ 
+ToTopAnchor >> appliedOnRectangle: aRectangle withValue: aValue [ 
 
 	^ aRectangle translateBy: 0 @ (aValue - aRectangle top)
 ]
 
 { #category : #applying }
-ToElementTopAnchor >> readRectangle: aRectangle [ 
+ToTopAnchor >> valueForChild: aChildElement withBoundsRectangle: aRectangle [
 
 	^ aRectangle top - element margin top
 ]

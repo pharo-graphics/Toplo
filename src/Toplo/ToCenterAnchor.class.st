@@ -1,11 +1,11 @@
 Class {
-	#name : #ToElementCenterAnchor,
+	#name : #ToCenterAnchor,
 	#superclass : #ToElementAnchor,
 	#category : #'Toplo-Support-Anchor'
 }
 
 { #category : #applying }
-ToElementCenterAnchor >> appliedOnRectangle: aRectangle withValue: aValue [ 
+ToCenterAnchor >> appliedOnRectangle: aRectangle withValue: aValue [ 
 
 	| w h x1 y1 |
 	w := aRectangle width // 2.
@@ -18,6 +18,6 @@ ToElementCenterAnchor >> appliedOnRectangle: aRectangle withValue: aValue [
 ]
 
 { #category : #applying }
-ToElementCenterAnchor >> readRectangle: aRectangle [ 
+ToCenterAnchor >> valueForChild: aChildElement withBoundsRectangle: aRectangle [
 	^ aRectangle center
 ]

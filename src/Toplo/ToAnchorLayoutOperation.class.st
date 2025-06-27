@@ -19,7 +19,9 @@ ToAnchorLayoutOperation >> appliedForChild: aChildElement withBounds: childBound
 					                    inParent: anElement) asRectangle ].
 	^ leftHandSideAnchor
 		  appliedOnRectangle: childBoundsRectangle
-		  withValue: (rightHandSideAnchor readRectangle: targetRectangle)
+		  withValue: (rightHandSideAnchor
+				   valueForChild: aChildElement
+				   withBoundsRectangle: targetRectangle)
 ]
 
 { #category : #testing }

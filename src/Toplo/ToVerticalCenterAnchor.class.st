@@ -1,11 +1,11 @@
 Class {
-	#name : #ToElementVerticalCenterAnchor,
-	#superclass : #ToElementAxisAnchor,
+	#name : #ToVerticalCenterAnchor,
+	#superclass : #ToAxisAnchor,
 	#category : #'Toplo-Support-Anchor'
 }
 
 { #category : #applying }
-ToElementVerticalCenterAnchor >> appliedOnRectangle: aRectangle withValue: aValue [
+ToVerticalCenterAnchor >> appliedOnRectangle: aRectangle withValue: aValue [
 
 	| h y1 |
 	h := aRectangle height // 2.
@@ -16,7 +16,7 @@ ToElementVerticalCenterAnchor >> appliedOnRectangle: aRectangle withValue: aValu
 ]
 
 { #category : #applying }
-ToElementVerticalCenterAnchor >> readRectangle: aRectangle [ 
+ToVerticalCenterAnchor >> valueForChild: aChildElement withBoundsRectangle: aRectangle [
 
 	^ aRectangle center y
 ]

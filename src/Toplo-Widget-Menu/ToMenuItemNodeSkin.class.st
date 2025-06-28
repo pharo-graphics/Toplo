@@ -8,8 +8,5 @@ Class {
 ToMenuItemNodeSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e padding: (BlInsets
-				 horizontal: (e valueOfTokenNamed: #'menu-node-padding-H')
-				 vertical: (e valueOfTokenNamed: #'menu-node-padding-V')) ]
+	anEvent elementDo: [ :e | ]
 ]

@@ -195,6 +195,13 @@ ToImage >> innerImageColor: aColor [
 	innerImageColor := aColor
 ]
 
+{ #category : #accessing }
+ToImage >> innerImageDo: aBlock [
+
+	innerImage ifNil: [ ^ self ].
+	aBlock value: innerImage
+]
+
 { #category : #'inner accessing' }
 ToImage >> innerSvgImage [
 	"Convenience method that returns nil if the request makes no sense or if there is no svg image."

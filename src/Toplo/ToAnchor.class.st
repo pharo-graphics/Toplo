@@ -90,7 +90,7 @@ ToAnchor >> * aNumber [
 	"answer a new anchor, which is a combination of receiver, offset by some value.
 	a value could in own turn be anchor "
 
-	^ ToOffsetAnchor new
+	^ ToElementOffsetAnchor new
 		  leftHandSideAnchor: self;
 		  offset: [ :value | value * aNumber ]
 ]
@@ -100,7 +100,7 @@ ToAnchor >> + aValuable [
 	"answer a new anchor, which is a combination of receiver, offset by some value.
 	a value could in own turn be anchor "
 
-	^ ToOffsetAnchor new
+	^ ToElementOffsetAnchor new
 		  leftHandSideAnchor: self;
 		  offset: [ :value | value + aValuable value ]
 ]
@@ -110,7 +110,7 @@ ToAnchor >> - aValuable [
 	"answer a new anchor, which is a combination of receiver, offset by some value.
 	a value could in own turn be anchor "
 
-	^ ToOffsetAnchor new
+	^ ToElementOffsetAnchor new
 		  leftHandSideAnchor: self;
 		  offset: [ :value | value - aValuable value ]
 ]
@@ -120,7 +120,7 @@ ToAnchor >> / aValuable [
 	"answer a new anchor, which is a combination of receiver, offset by some value.
 	a value could in own turn be anchor "
 
-	^ ToOffsetAnchor new
+	^ ToElementOffsetAnchor new
 		  leftHandSideAnchor: self;
 		  offset: [ :value | value / aValuable value ]
 ]
@@ -138,7 +138,7 @@ ToAnchor >> isMeasurement [
 ]
 
 { #category : #applying }
-ToAnchor >> valueForChild: aChildElement withBoundsRectangle: aRectangle [
+ToAnchor >> readRectangle: aRectangle [
 
 	^ self subclassResponsibility 
 ]

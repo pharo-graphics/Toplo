@@ -101,7 +101,7 @@ BlElement >> borderBuilder [
 { #category : #'*Toplo' }
 BlElement >> bottomAnchor [
 
-	^ ToBottomAnchor new
+	^ ToElementBottomAnchor new
 		  element: self;
 		  yourself
 ]
@@ -109,7 +109,7 @@ BlElement >> bottomAnchor [
 { #category : #'*Toplo' }
 BlElement >> centerAnchor [
 
-	^ ToCenterAnchor new
+	^ ToElementCenterAnchor new
 		  element: self;
 		  yourself
 ]
@@ -303,7 +303,7 @@ BlElement >> hasStamp: aSymbol [
 { #category : #'*Toplo' }
 BlElement >> heightAnchor [
 
-	^ ToHeightAnchor new
+	^ ToElementHeightAnchor new
 		  element: self;
 		  yourself
 ]
@@ -331,7 +331,7 @@ BlElement >> holderDo: aValuable [
 { #category : #'*Toplo' }
 BlElement >> horizontalCenterAnchor [
 
-	^ ToHorizontalCenterAnchor new
+	^ ToElementHorizontalCenterAnchor new
 		  element: self;
 		  yourself
 ]
@@ -442,7 +442,7 @@ BlElement >> itemContaining: anElement [
 { #category : #'*Toplo' }
 BlElement >> leftAnchor [
 
-	^ ToLeftAnchor new
+	^ ToElementLeftAnchor new
 		  element: self;
 		  yourself
 ]
@@ -704,7 +704,7 @@ BlElement >> requestUninstallSkin [
 { #category : #'*Toplo' }
 BlElement >> rightAnchor [
 
-	^ ToRightAnchor new
+	^ ToElementRightAnchor new
 		  element: self;
 		  yourself
 ]
@@ -876,7 +876,7 @@ BlElement >> tokenValueNamed: aSymbol [
 { #category : #'*Toplo' }
 BlElement >> topAnchor [
 
-	^ ToTopAnchor new
+	^ ToElementTopAnchor new
 		  element: self;
 		  yourself
 ]
@@ -922,7 +922,7 @@ BlElement >> valueOfTokenNamed: aSymbol [
 { #category : #'*Toplo' }
 BlElement >> verticalCenterAnchor [
 
-	^ ToVerticalCenterAnchor new
+	^ ToElementVerticalCenterAnchor new
 		  element: self;
 		  yourself
 ]
@@ -959,7 +959,7 @@ BlElement >> widgetConfiguration: anElementConfiguration [
 { #category : #'*Toplo' }
 BlElement >> widthAnchor [
 
-	^ ToWidthAnchor new
+	^ ToElementWidthAnchor new
 		  element: self;
 		  yourself
 ]

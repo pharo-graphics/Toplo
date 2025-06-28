@@ -27,7 +27,7 @@ ToSegmentedRadioButtonSkin >> installSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e icon:
 			(ToImage inner: (e valueOfTokenNamed: #'radio-unchecked-image')).
-		e icon size: (e valueOfTokenNamed: #'checkable-icon-size'). ]
+		e icon size: 20 asPoint ]
 ]
 
 { #category : #'event handling' }

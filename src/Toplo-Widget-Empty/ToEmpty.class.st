@@ -47,12 +47,12 @@ ToEmpty >> installInnerImage: anInnerImage [
 
 	image ifNotNil: [ image removeFromParent ].
 	anInnerImage ifNil: [
-			image := nil.
-			^ self ].
-	image := ToImage innerImage: anInnerImage.
+		image := nil.
+		^ self ].
+	image := ToImage inner: anInnerImage.
 	image constraintsDo: [ :c |
-			c linear vertical alignCenter.
-			c linear vertical alignCenter ].
+		c linear vertical alignCenter.
+		c linear vertical alignCenter ].
 	self addChild: image at: 1
 ]
 

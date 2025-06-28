@@ -327,7 +327,9 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty
 			   name: #'checkable-icon-size'
 			   value: self defaultCheckboxHeight asPoint).
-
+		  (ToTokenProperty
+			   name: #'menu-icon-size'
+			   value: self defaultCheckboxHeight asPoint).
 		  (ToTokenProperty
 			   name: #'color-list-primary-selection-focused'
 			   value: (self defaultColorPrimary)).

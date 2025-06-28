@@ -3783,13 +3783,8 @@ ToSandBox class >> example_SelectMultiFiltrableWithCheckboxes [
 	skinBuilder := [
 	               ToScriptableSkin new
 		               onInstallSkinEvent: [ :e :evt |
-<<<<<<< HEAD
-			               e icon: (ToIcon innerImage: (e valueOfTokenNamed: #'checkbox-unchecked-image')).
-			               e icon size: (e valueOfTokenNamed: #'checkable-icon-size').
-=======
 			               e icon: (ToImage inner: (e valueOfTokenNamed: #'checkbox-unchecked-image')).
 			               e icon size: (e valueOfTokenNamed: #'menu-icon-size').
->>>>>>> parent of e3811d59 (Merge branch 'ToIconAdding' into dev)
 			               e icon innerImageColor: (e valueOfTokenNamed: #'color-primary') ];
 		               onSelectedSkinEvent: [ :e :evt |
 			               e icon

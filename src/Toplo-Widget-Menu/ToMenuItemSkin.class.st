@@ -23,6 +23,8 @@ ToMenuItemSkin >> enabledSkinEvent: anEvent [
 
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
+			e iconDo: [ :ic |
+				ic size: (e valueOfTokenNamed: #'menu-icon-size') ].
 			(self isTogglable and: [ e isChecked ]) ifFalse: [
 					e iconDo: [ :ic |
 						ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].

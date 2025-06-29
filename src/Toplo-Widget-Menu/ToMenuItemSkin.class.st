@@ -54,17 +54,7 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 			e iconDo: [ :ic |
-					ic innerImageDo: [ :in | "
-							e isHorizontal
-								ifTrue: [
-										in constraintsDo: [ :c |
-												c frame horizontal alignLeft.
-												c frame vertical alignCenter ] ]
-								ifFalse: [
-										in constraintsDo: [ :c |
-												c frame vertical alignTop.
-												c frame horizontal alignCenter ] ] " ].
-					ic size: (e valueOfTokenNamed: #'menu-icon-size') ].
+				ic size: (e valueOfTokenNamed: #'menu-icon-size') ].
 			(e isTopMenu not or: [ e showExpandIcon ]) ifTrue: [
 					| anyHaveIcon anyIsMenu |
 					anyHaveIcon := false.

@@ -10,10 +10,10 @@ ToMenuItemSkin >> disabledSkinEvent: anEvent [
 	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
-			ic innerImageColor: (e valueOfTokenNamed: #'color-text-disabled') ].
+			ic adaptToColor: (e valueOfTokenNamed: #'color-text-disabled') ].
 		e endElementDo: [ :ic |
-			(ic respondsTo: #innerImageColor:) ifTrue: [
-				ic innerImageColor: (e valueOfTokenNamed: #'color-text-disabled') ] ].
+			(ic respondsTo: #adaptToColor:) ifTrue: [
+				ic adaptToColor: (e valueOfTokenNamed: #'color-text-disabled') ] ].
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text-disabled') ] ]
 ]
@@ -25,10 +25,10 @@ ToMenuItemSkin >> enabledSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 			(self isTogglable and: [ e isChecked ]) ifFalse: [
 					e iconDo: [ :ic |
-						ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
+						ic adaptToColor: (e valueOfTokenNamed: #'color-text') ].
 					e endElementDo: [ :ic |
-							(ic respondsTo: #innerImageColor:) ifTrue: [
-								ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
+							(ic respondsTo: #adaptToColor:) ifTrue: [
+								ic adaptToColor: (e valueOfTokenNamed: #'color-text') ] ].
 					e labelDo: [ :lab |
 						lab foreground: (e valueOfTokenNamed: #'color-text') ] ] ]
 ]
@@ -40,10 +40,10 @@ ToMenuItemSkin >> hoveredSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 			(self isTogglable and: [e isChecked ]) ifFalse: [
 					e iconDo: [ :ic |
-						ic innerImageColor: (e valueOfTokenNamed: #'color-primary') ].
+						ic adaptToColor: (e valueOfTokenNamed: #'color-primary') ].
 					e endElementDo: [ :ic |
-							(ic respondsTo: #innerImageColor:) ifTrue: [
-								ic innerImageColor: (e valueOfTokenNamed: #'color-primary') ] ].
+							(ic respondsTo: #adaptToColor:) ifTrue: [
+								ic adaptToColor: (e valueOfTokenNamed: #'color-primary') ] ].
 					e labelDo: [ :lab |
 						lab foreground: (e valueOfTokenNamed: #'color-primary') ] ] ]
 ]
@@ -82,10 +82,10 @@ ToMenuItemSkin >> leavedSkinEvent: anEvent [
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
-			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
+			ic adaptToColor: (e valueOfTokenNamed: #'color-text') ].
 		e endElementDo: [ :ic |
-			(ic respondsTo: #innerImageColor:) ifTrue: [
-				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
+			(ic respondsTo: #adaptToColor:) ifTrue: [
+				ic adaptToColor: (e valueOfTokenNamed: #'color-text') ] ].
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text') ] ]
 ]
@@ -97,10 +97,10 @@ ToMenuItemSkin >> leftSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 			(self isTogglable and: [e isChecked ]) ifFalse: [
 					e iconDo: [ :ic |
-						ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
+						ic adaptToColor: (e valueOfTokenNamed: #'color-text') ].
 					e endElementDo: [ :ic |
-							(ic respondsTo: #innerImageColor:) ifTrue: [
-								ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
+							(ic respondsTo: #adaptToColor:) ifTrue: [
+								ic adaptToColor: (e valueOfTokenNamed: #'color-text') ] ].
 					e labelDo: [ :lab |
 						lab foreground: (e valueOfTokenNamed: #'color-text') ] ] ]
 ]
@@ -112,10 +112,10 @@ ToMenuItemSkin >> pressedSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 			self isTogglable ifFalse: [
 					e iconDo: [ :ic |
-						ic innerImageColor:
+						ic adaptToColor:
 							(e valueOfTokenNamed: #'color-primary-pressed') ].
 					e endElementDo: [ :ic |
-							(ic respondsTo: #innerImageColor:) ifTrue: [
-								ic innerImageColor:
+							(ic respondsTo: #adaptToColor:) ifTrue: [
+								ic adaptToColor:
 									(e valueOfTokenNamed: #'color-primary-pressed') ] ] ] ]
 ]

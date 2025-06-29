@@ -14,7 +14,7 @@ ToToggleMenuItemSkin >> checkedSkinEvent: anEvent [
 				withValue: (e valueOfTokenNamed: #'text-color-primary-checked').
 			e background: (e valueOfTokenNamed: #'color-primary-checked').
 			e iconDo: [ :ic |
-					ic innerImageColor:
+					ic adaptToColor:
 						(e valueOfTokenNamed: #'text-color-primary-checked') ] ]
 ]
 
@@ -41,7 +41,7 @@ ToToggleMenuItemSkin >> indeterminateSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 			e background: (e valueOfTokenNamed: #'color-primary-indeterminate').
 			e iconDo: [ :ic |
-				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ]
+				ic adaptToColor: (e valueOfTokenNamed: #'color-text') ] ]
 ]
 
 { #category : #testing }
@@ -58,5 +58,5 @@ ToToggleMenuItemSkin >> uncheckedSkinEvent: anEvent [
 		e removeTokenNamed: #'color-text'.
 		e background: BlBackground transparent.
 		e iconDo: [ :ic |
-			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].]
+			ic adaptToColor: (e valueOfTokenNamed: #'color-text') ].]
 ]

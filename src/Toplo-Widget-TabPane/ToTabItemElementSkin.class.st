@@ -14,10 +14,10 @@ ToTabItemElementSkin >> deselectedSkinEvent: anEvent [
 		ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
-			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
+			ic adaptToColor: (e valueOfTokenNamed: #'color-text') ].
 		e endElementDo: [ :ic |
-			(ic respondsTo: #innerImageColor:) ifTrue: [
-				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ] ]
+			(ic respondsTo: #adaptToColor:) ifTrue: [
+				ic adaptToColor: (e valueOfTokenNamed: #'color-text') ] ] ]
 ]
 
 { #category : #'event handling' }
@@ -26,10 +26,10 @@ ToTabItemElementSkin >> disabledSkinEvent: anEvent [
 	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
-			ic innerImageColor: (e valueOfTokenNamed: #'color-text-disabled') ].
+			ic adaptToColor: (e valueOfTokenNamed: #'color-text-disabled') ].
 		e endElementDo: [ :ic |
-			(ic respondsTo: #innerImageColor:) ifTrue: [
-				ic innerImageColor: (e valueOfTokenNamed: #'color-text-disabled') ] ] ]
+			(ic respondsTo: #adaptToColor:) ifTrue: [
+				ic adaptToColor: (e valueOfTokenNamed: #'color-text-disabled') ] ] ]
 ]
 
 { #category : #'event handling' }
@@ -38,10 +38,10 @@ ToTabItemElementSkin >> enabledSkinEvent: anEvent [
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
-			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
+			ic adaptToColor: (e valueOfTokenNamed: #'color-text') ].
 		e endElementDo: [ :ic |
-			(ic respondsTo: #innerImageColor:) ifTrue: [
-				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ] ]
+			(ic respondsTo: #adaptToColor:) ifTrue: [
+				ic adaptToColor: (e valueOfTokenNamed: #'color-text') ] ] ]
 ]
 
 { #category : #'event handling' }
@@ -109,10 +109,10 @@ ToTabItemElementSkin >> selectedSkinEvent: anEvent [
 			              ifFalse: [
 			              e valueOfTokenNamed: #'selected-unfocused-foreground' ].
 		e iconDo: [ :ic |
-			ic innerImageColor: foreground ].
+			ic adaptToColor: foreground ].
 		e endElementDo: [ :ic |
-			(ic respondsTo: #innerImageColor:) ifTrue: [
-				ic innerImageColor: foreground ] ] ]
+			(ic respondsTo: #adaptToColor:) ifTrue: [
+				ic adaptToColor: foreground ] ] ]
 ]
 
 { #category : #'event handling' }

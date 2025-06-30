@@ -6107,6 +6107,7 @@ ToSandBox class >> example_menuPane3 [
 	bar addFiller.
 	3 timesRepeat: [
 		menu := ToMenu new.
+		menu anchorRoot: frame pane.
 		menu vertical: false.
 		menu showExpandIcon: true.
 		menu alignCenter: true.

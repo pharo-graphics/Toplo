@@ -67,6 +67,16 @@ ToMenuPopupManager >> mouseLeaveEvent: anEvent [
 ]
 
 { #category : #'window handling' }
+ToMenuPopupManager >> newWindow [
+
+	| w |
+	w := super newWindow.
+	self anchorElement isSubmenu ifTrue: [
+		self anchorRoot: self anchorElement parentMenu manager anchorRoot ].
+	^ w
+]
+
+{ #category : #'window handling' }
 ToMenuPopupManager >> onClosed [
 
 	super onClosed.

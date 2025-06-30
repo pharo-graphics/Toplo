@@ -28,11 +28,11 @@ BaselineOfToplo >> dependencies: spec [
 
 	spec
 		baseline: 'Bloc'
-		with: [ spec repository: 'github://pharo-graphics/Bloc:master/src' ].
+		with: [ spec repository: 'github://pharo-graphics/Bloc:v2.5.0/src' ].
 
 	spec
 		baseline: 'Album'
-		with: [ spec repository: 'github://pharo-graphics/Album:master/src' ]
+		with: [ spec repository: 'github://pharo-graphics/Album:v0.6.0/src' ]
 ]
 
 { #category : #baselines }

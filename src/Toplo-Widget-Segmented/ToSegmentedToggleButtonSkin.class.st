@@ -10,10 +10,10 @@ ToSegmentedToggleButtonSkin >> deselectedSkinEvent: anEvent [
 	super deselectedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
-			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
+			ic adaptToColor: (e valueOfTokenNamed: #'color-text') ].
 		e endElementDo: [ :ic |
-			(ic respondsTo: #innerImageColor:) ifTrue: [
-				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ] ]
+			(ic respondsTo: #adaptToColor:) ifTrue: [
+				ic adaptToColor: (e valueOfTokenNamed: #'color-text') ] ] ]
 ]
 
 { #category : #'event handling' }
@@ -22,10 +22,10 @@ ToSegmentedToggleButtonSkin >> disabledSkinEvent: anEvent [
 	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
-			ic innerImageColor: (e valueOfTokenNamed: #'color-text-disabled') ].
+			ic adaptToColor: (e valueOfTokenNamed: #'color-text-disabled') ].
 		e endElementDo: [ :ic |
-			(ic respondsTo: #innerImageColor:) ifTrue: [
-				ic innerImageColor: (e valueOfTokenNamed: #'color-text-disabled') ] ].
+			(ic respondsTo: #adaptToColor:) ifTrue: [
+				ic adaptToColor: (e valueOfTokenNamed: #'color-text-disabled') ] ].
 		e background: (e valueOfTokenNamed: #'color-bg-container-disabled').
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text-disabled').
@@ -38,10 +38,10 @@ ToSegmentedToggleButtonSkin >> enabledSkinEvent: anEvent [
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
-			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
+			ic adaptToColor: (e valueOfTokenNamed: #'color-text') ].
 		e endElementDo: [ :ic |
-			(ic respondsTo: #innerImageColor:) ifTrue: [
-				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
+			(ic respondsTo: #adaptToColor:) ifTrue: [
+				ic adaptToColor: (e valueOfTokenNamed: #'color-text') ] ].
 		e background: BlBackground transparent.
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text')] ]
@@ -103,8 +103,8 @@ ToSegmentedToggleButtonSkin >> selectedSkinEvent: anEvent [
 			     ifFalse: [
 			     e valueOfTokenNamed: #'selected-unfocused-foreground' ].
 		e iconDo: [ :ic |
-			ic innerImageColor: f ].
+			ic adaptToColor: f ].
 		e endElementDo: [ :ic |
-			(ic respondsTo: #innerImageColor:) ifTrue: [
-				ic innerImageColor: f ] ] ]
+			(ic respondsTo: #adaptToColor:) ifTrue: [
+				ic adaptToColor: f ] ] ]
 ]

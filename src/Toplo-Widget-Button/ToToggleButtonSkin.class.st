@@ -11,7 +11,7 @@ ToToggleButtonSkin >> checkedSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e background: (e valueOfTokenNamed: #'color-primary-checked').
 		e iconDo: [ :ic |
-			ic innerImageColor:
+			ic adaptToColor:
 				(e valueOfTokenNamed: #'text-color-primary-checked') ].
 		e labelDo: [ :lab | 
 			lab foreground:  
@@ -34,10 +34,10 @@ ToToggleButtonSkin >> disabledSkinEvent: anEvent [
 	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
-			ic innerImageColor: (e valueOfTokenNamed: #'color-text-disabled') ].
+			ic adaptToColor: (e valueOfTokenNamed: #'color-text-disabled') ].
 		e endElementDo: [ :ic |
-			(ic respondsTo: #innerImageColor:) ifTrue: [
-				ic innerImageColor: (e valueOfTokenNamed: #'color-text-disabled') ] ].
+			(ic respondsTo: #adaptToColor:) ifTrue: [
+				ic adaptToColor: (e valueOfTokenNamed: #'color-text-disabled') ] ].
 		e background: (e valueOfTokenNamed: #'color-bg-container-disabled').
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text-disabled').
@@ -50,10 +50,10 @@ ToToggleButtonSkin >> enabledSkinEvent: anEvent [
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
-			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
+			ic adaptToColor: (e valueOfTokenNamed: #'color-text') ].
 		e endElementDo: [ :ic |
-			(ic respondsTo: #innerImageColor:) ifTrue: [
-				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
+			(ic respondsTo: #adaptToColor:) ifTrue: [
+				ic adaptToColor: (e valueOfTokenNamed: #'color-text') ] ].
 		e isMenuButton
 			ifTrue: [ e background: BlBackground transparent ]
 			ifFalse: [
@@ -73,7 +73,7 @@ ToToggleButtonSkin >> indeterminateSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e background: (e valueOfTokenNamed: #'color-primary-indeterminate').
 		e iconDo: [ :ic |
-			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
+			ic adaptToColor: (e valueOfTokenNamed: #'color-text') ].
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text').
 			lab applyStyle ] ]
@@ -114,7 +114,7 @@ ToToggleButtonSkin >> uncheckedSkinEvent: anEvent [
 			ifFalse: [
 			e background: (e valueOfTokenNamed: #'color-primary-unchecked') ].
 		e iconDo: [ :ic |
-			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
+			ic adaptToColor: (e valueOfTokenNamed: #'color-text') ].
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text').
 			lab applyStyle ] ]

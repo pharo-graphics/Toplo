@@ -10,10 +10,10 @@ ToButtonSkin >> disabledSkinEvent: anEvent [
 	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
-			ic innerImageColor: (e valueOfTokenNamed: #'color-text-disabled') ].
+			ic adaptToColor: (e valueOfTokenNamed: #'color-text-disabled') ].
 		e endElementDo: [ :ic |
-			(ic respondsTo: #innerImageColor:) ifTrue: [
-				ic innerImageColor: (e valueOfTokenNamed: #'color-text-disabled') ] ].
+			(ic respondsTo: #adaptToColor:) ifTrue: [
+				ic adaptToColor: (e valueOfTokenNamed: #'color-text-disabled') ] ].
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text-disabled') ] ]
 ]
@@ -29,10 +29,10 @@ ToButtonSkin >> enabledSkinEvent: anEvent [
 						 paint: (e valueOfTokenNamed: #'color-border')
 						 width: (e valueOfTokenNamed: #'line-width')) ].
 			e iconDo: [ :ic |
-				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
+				ic adaptToColor: (e valueOfTokenNamed: #'color-text') ] ].
 		e endElementDo: [ :ic |
-			(ic respondsTo: #innerImageColor:) ifTrue: [
-				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
+			(ic respondsTo: #adaptToColor:) ifTrue: [
+				ic adaptToColor: (e valueOfTokenNamed: #'color-text') ] ].
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text') ] ]
 ]
@@ -43,10 +43,10 @@ ToButtonSkin >> hoveredSkinEvent: anEvent [
 	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 			e iconDo: [ :ic |
-				ic innerImageColor: (e valueOfTokenNamed: #'color-primary') ].
+				ic adaptToColor: (e valueOfTokenNamed: #'color-primary') ].
 			e endElementDo: [ :ic |
-				(ic respondsTo: #innerImageColor:) ifTrue: [
-					ic innerImageColor: (e valueOfTokenNamed: #'color-primary') ] ].
+				(ic respondsTo: #adaptToColor:) ifTrue: [
+					ic adaptToColor: (e valueOfTokenNamed: #'color-primary') ] ].
 			e labelDo: [ :lab |
 				lab foreground: (e valueOfTokenNamed: #'color-primary') ] ]
 ]
@@ -67,8 +67,8 @@ ToButtonSkin >> installSkinEvent: anEvent [
 				e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
 				ifFalse: [ e endInterspace: 0 ] ].
 		e endElementDo: [ :ic |
-			(ic respondsTo: #innerImageColor:) ifTrue: [
-				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
+			(ic respondsTo: #adaptToColor:) ifTrue: [
+				ic adaptToColor: (e valueOfTokenNamed: #'color-text') ] ].
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text') ] ]
 ]
@@ -79,10 +79,10 @@ ToButtonSkin >> leavedSkinEvent: anEvent [
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
-			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
+			ic adaptToColor: (e valueOfTokenNamed: #'color-text') ].
 		e endElementDo: [ :ic |
-			(ic respondsTo: #innerImageColor:) ifTrue: [
-				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
+			(ic respondsTo: #adaptToColor:) ifTrue: [
+				ic adaptToColor: (e valueOfTokenNamed: #'color-text') ] ].
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text') ] ]
 ]
@@ -93,10 +93,10 @@ ToButtonSkin >> leftSkinEvent: anEvent [
 	super leftSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
-			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
+			ic adaptToColor: (e valueOfTokenNamed: #'color-text') ].
 		e endElementDo: [ :ic |
-			(ic respondsTo: #innerImageColor:) ifTrue: [
-				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
+			(ic respondsTo: #adaptToColor:) ifTrue: [
+				ic adaptToColor: (e valueOfTokenNamed: #'color-text') ] ].
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text') ] ]
 ]
@@ -107,10 +107,10 @@ ToButtonSkin >> pressedSkinEvent: anEvent [
 	super pressedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
-			ic innerImageColor: (e valueOfTokenNamed: #'color-primary-pressed') ].
+			ic adaptToColor: (e valueOfTokenNamed: #'color-primary-pressed') ].
 		e endElementDo: [ :ic |
-			(ic respondsTo: #innerImageColor:) ifTrue: [
-				ic innerImageColor:
+			(ic respondsTo: #adaptToColor:) ifTrue: [
+				ic adaptToColor:
 					(e valueOfTokenNamed: #'color-primary-pressed') ] ].
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-primary-pressed') ] ]

@@ -6,8 +6,23 @@ Class {
 		'loader',
 		'innerImageColor'
 	],
+	#classVars : [
+		'AllowFormColorChange'
+	],
 	#category : #'Toplo-Widget-Image-Core'
 }
+
+{ #category : #testing }
+ToImage class >> allowFormColorChange [
+
+	^ AllowFormColorChange ifNil: [ AllowFormColorChange := false ]
+]
+
+{ #category : #testing }
+ToImage class >> allowFormColorChange: aBoolean [
+
+	AllowFormColorChange := aBoolean
+]
 
 { #category : #accessing }
 ToImage class >> formInnerImageId [
@@ -37,6 +52,20 @@ ToImage class >> svgInnerImageId [
 ToImage class >> unknownInnerImageId [
 
 	^ #unknown
+]
+
+{ #category : #'inner accessing' }
+ToImage >> adaptToColor: aColor [
+
+	self innerFormImage ifNotNil: [
+		self allowFormColorChange ifFalse: [ ^ self ] ].
+	self innerImageColor: aColor
+]
+
+{ #category : #testing }
+ToImage >> allowFormColorChange [
+
+	^ self class allowFormColorChange
 ]
 
 { #category : #'private - conversion' }
@@ -180,6 +209,11 @@ ToImage >> innerImage: anImage [
 	self removeChildren.
 	innerImage := element.
 	self addChild: element.
+	
+	innerImage constraintsDo: [ :c |
+			c frame horizontal alignCenter.
+			c frame vertical alignCenter ].
+
 	element id ifNotNil: [ :id |
 		id asSymbol = self svgInnerImageId ifTrue: [
 			element constraintsDo: [ :c |

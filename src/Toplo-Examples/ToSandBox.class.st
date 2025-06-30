@@ -2656,7 +2656,62 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 
 	| l |
 	l := self listWithEditableAndContextMenu.
-	l openInInnerWindow
+	l openInInnerWindow.
+	^ l
+]
+
+{ #category : #float }
+ToSandBox class >> example_ListWithFloatButtons [
+
+	| floatLayer floatContainer list addBtn removeBtn floatAdd floatRemove |
+	list := self example_ListWithEditableAndContextMenu.
+	addBtn := ToButton  new iconImage:
+		          (ToMaterialDesignIconProvider innerImageNamed:
+			           'outlined_addcircleoutline').
+	addBtn addAllStamps: { #circle. #iconic. #borderless }.
+	addBtn icon size: 25 asPoint.
+	removeBtn := ToButton new iconImage:
+		             (ToMaterialDesignIconProvider innerImageNamed:
+			              'outlined_removecircleoutline').
+	removeBtn addAllStamps: { #circle. #iconic. #borderless }.
+	removeBtn icon size: 25 asPoint.
+	
+	removeBtn clickAction: [
+			list selecter selectedIndexes reverseDo: [ :idx |
+				list dataAccessor removeAt: idx ] ].
+		
+	addBtn clickAction: [
+			list dataAccessor addFirst:
+				String loremIpsum substrings first , ' (inserted as first item)' ].
+
+	floatAdd := addBtn asFloatElement.
+	floatRemove := removeBtn asFloatElement.
+	
+	
+	floatAdd geometry: BlCircleGeometry new.
+	floatRemove geometry: BlCircleGeometry new.
+	
+	floatRemove visibility: BlVisibility hidden.
+
+	list
+		addEventHandlerOn: ToListPrimarySelectionChangedEvent
+		do: [ :evt |
+				floatRemove visibility: (evt selectedIndexes
+						 ifEmpty: [ BlVisibility hidden ]
+						 ifNotEmpty: [ BlVisibility visible ]) ].
+
+	floatLayer := ToFloatOverlay new.
+	floatLayer attachToParent: list.
+
+	floatContainer := ToFloatContainer new.
+	floatContainer addChild: floatRemove.
+	floatContainer addChild: floatAdd.
+	floatContainer constraintsDo: [ :c |
+			c anchors add:
+				(floatContainer rightAnchor on: floatLayer rightAnchor).
+			c anchors add:
+				(floatContainer bottomAnchor on: floatLayer bottomAnchor) ].
+	floatLayer addChild: floatContainer
 ]
 
 { #category : #list }

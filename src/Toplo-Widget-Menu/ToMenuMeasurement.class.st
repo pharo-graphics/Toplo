@@ -7,6 +7,8 @@ Class {
 { #category : #api }
 ToMenuMeasurement >> onMeasure: anExtentMeasurementSpec element: aWindow onEvent: anEvent [
 
+" if there is not enough place then turn as a scrollable menu container "
+
 	| height pos |
 	pos := aWindow measuredPosition.
 	height := aWindow padding height + aWindow margin height.

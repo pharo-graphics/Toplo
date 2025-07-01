@@ -37,7 +37,8 @@ ToploVisitor >> visitMenuRegistration: aMenuRegistration [
 					         ifTrue: [ aMenuRegistration name asString ]
 					         ifFalse: [ aMenuRegistration label ]).
 			aMenuRegistration childrenItems do: [ :subItem |
-				subItem isGroup ifFalse: [ menu addItem: (subItem accept: self) ] ] ]
+				subItem isGroup ifFalse: [ menu addItem: (subItem accept: self) ] ].
+			aMenuRegistration separator ifTrue: [ menu addSeparator ]. ]
 		ifFalse: [
 			menu := ToMenuItem new
 				        labelText: (aMenuRegistration label = ''
@@ -45,9 +46,5 @@ ToploVisitor >> visitMenuRegistration: aMenuRegistration [
 						         ifFalse: [ aMenuRegistration label ]);
 				        clickAction: aMenuRegistration action;
 				        yourself ].
-	"menu
-		addEventHandlerOn: BlClickEvent
-		do: [ aMenuRegistration action value ]."
-	aMenuRegistration separator ifTrue: [ "menu addSeparator" ].
 	^ menu
 ]

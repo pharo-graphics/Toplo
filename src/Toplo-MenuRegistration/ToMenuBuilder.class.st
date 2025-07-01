@@ -60,6 +60,40 @@ ToMenuBuilder class >> exampleMenu [
 	builder inspect.
 ]
 
+{ #category : #examples }
+ToMenuBuilder class >> exampleMenuWithAction [
+
+	<script>
+	| builder |
+	builder := ToMenuBuilder new.
+
+	(builder item: #MyFirstMenu)
+		label: 'Parent';
+		order: 3;
+		groupName: 'aGroup';
+		with: [
+			(builder item: #Playground)
+				parent: #MyFirstMenu;
+				action: [ Smalltalk tools openWorkspace ];
+				label: 'Open a playground';
+				order: 9999.
+			].
+	builder resolve.
+	builder accept: ToploVisitor new.
+	builder inspect
+]
+
+{ #category : #examples }
+ToMenuBuilder class >> exampleWorldMenu [
+
+	<script>
+	| builder |
+	builder := (self pragmaKeyword: #worldMenu) collectRegistrations.
+	builder resolve.
+	builder accept: ToploVisitor new.
+	builder inspect
+]
+
 { #category : #accessing }
 ToMenuBuilder class >> pragmaKeyword: aPragmaKeyword [
 	"Build a builder using aPragmaKeyword as the pragma keyword "
@@ -209,6 +243,7 @@ ToMenuBuilder >> handleAddToParent: aMenuRegistration [
 		ifTrue: [
 			currentRoot addChild: aMenuRegistration.
 			^ self ].
+	((self itemsNamed: (aMenuRegistration parent)) isGroup)ifTrue: [ aMenuRegistration groupName: aMenuRegistration parent ].
 	parentMenu := self lookUpForParent: aMenuRegistration parent.
 	aMenuRegistration parentMenuItem: parentMenu.
 	parentMenu addChild: aMenuRegistration.
@@ -316,7 +351,8 @@ ToMenuBuilder >> lookUpForParent: aMenuRegistration [
 
 { #category : #'as yet unclassified' }
 ToMenuBuilder >> onlyItems [
-	^ collectedItems select: [ :item | item name isNotNil ].
+
+	^ collectedItems select: [ :item | item isGroup = false ]
 ]
 
 { #category : #accessing }

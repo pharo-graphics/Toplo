@@ -824,6 +824,36 @@ ToSandBox class >> example_AllClasses [
 	l openInSpace
 ]
 
+{ #category : #window }
+ToSandBox class >> example_AllSimplePopups [
+
+	| p pane |
+	pane := ToPane new.
+	pane vertical: true.
+	pane layout cellSpacing: 20.
+	{
+		ToAnchoredBottomCenterPlacement new.
+		ToAnchoredBottomLeftPlacement new.
+		ToAnchoredBottomRightPlacement new.
+		ToAnchoredTopCenterPlacement new.
+		ToAnchoredTopLeftPlacement new.
+		(ToActionPlacement new action: [ :theWin :evt :aBoundsUpdater |
+				 | theElem theRoot |
+				 theElem := theWin anchorElement.
+				 theRoot := theWin anchorRoot.
+				 theWin position:
+					 theElem bounds inSpace bounds topLeft - (0 @ theWin height) ]).
+		ToAnchoredTopRightPlacement new } do: [ :placement |
+			p := self newPopup.
+			p placement: placement.
+			p measurement: (ToActionMeasurement new action: [ :spec :w :e |
+					 spec widthSpec beExact: 130 ]).
+			pane addChild: p anchorElement ].
+	pane addChild: self themeSelectNoDeselectionPopupOnTop.
+	pane position: 150 @30.
+	pane openInSpace
+]
+
 { #category : #anchors }
 ToSandBox class >> example_AnchorLayout [
 
@@ -2656,7 +2686,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 
 	| l |
 	l := self listWithEditableAndContextMenu.
-	l openInInnerWindow.
+	l openInSpace.
 	^ l
 ]
 
@@ -2773,7 +2803,6 @@ ToSandBox class >> example_ListWithSelectionHistory [
 	statesList := ToListElement new matchParent.
 
 	historyList := ToListElement new matchParent.
-	historyList inspect.
 	statesList dataAccessor addAll: self statesOfAmerica.
 	pane addChildren: {
 			statesList.
@@ -4058,7 +4087,7 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 ]
 
 { #category : #list }
-ToSandBox class >> example_SieveOnList2With_350000_Items [
+ToSandBox class >> example_SieveOnList2With_175000_Items [
 
 	| listElement pane filterField data sieve |
 	pane := ToPane new
@@ -4082,11 +4111,10 @@ ToSandBox class >> example_SieveOnList2With_350000_Items [
 	listElement margin: (BlInsets all: 2).
 	listElement withRowNumbers.
 	filterField margin: (BlInsets all: 2).
-	listElement dataAccessor addAll: data.
-
 	sieve := listElement newSieve.
 	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll: data.
+
 	listElement dataAccessor size traceCr.
 	filterField whenTextEditedDo: [
 				 | pattern |
@@ -4667,20 +4695,7 @@ ToSandBox class >> example_ThemeSelectNoDeselection [
 ToSandBox class >> example_ThemeSelectNoDeselectionPopupOnTop [
 
 	| select |
-	select := self themeSelect.
-	select placeholderText:
-		('Select a Toplo theme' asRopedText foreground: Color lightGray).
-	select
-		addEventHandlerOn: ToSelectChangedEvent
-		do: [ :event | event selectedData asString traceCr ].
-	select selecter selectIndex: 4.
-	select allowDeselection: false.
-	select position: 210 @ 150.
-	select width: 200.
-	"select manager measurement:
-		(ToActionMeasurement new action: [ :w :evt |
-			 w root hFitContent ])."
-	select popupWindowPlacement: ToAnchoredTopCenterPlacement new.
+	select := self themeSelectNoDeselectionPopupOnTop.
 	select openInSpace
 ]
 
@@ -5321,9 +5336,9 @@ ToSandBox class >> example_clickAction [
 { #category : #list }
 ToSandBox class >> example_contactList [
 
-	| panel button list contacts contact nameTxtF phoneTxtF addressTxtF inputPane |
+	| panel updateButton addPredefinedButton addPredefinedAction dataBlock list contact nameTxtF phoneTxtF addressTxtF inputPane data |
 	self flag:
-		'issue when clicking on the row remove button in case the row is selected: the selection element is not correctly removed '.
+		'issue when clicking on the last row remove button in case the last row is selected: the selection element is not correctly updated '.
 
 	panel := ToPane vertical.
 	panel constraints horizontal matchParent.
@@ -5333,103 +5348,115 @@ ToSandBox class >> example_contactList [
 	nameTxtF := ToTextField new
 		            width: 100;
 		            placeholderBuilder: [ :placeholder :e |
-			            placeholder addChild: (ToAttributedLabel new
-						             text: ('Name' asRopedText
-								              foreground: Color lightGray;
-								              italic);
-						             yourself) ].
+				            placeholder addChild: (ToAttributedLabel new
+							             text: ('Name' asRopedText
+									              foreground: Color lightGray;
+									              italic);
+							             yourself) ].
 	phoneTxtF := ToTextField new
 		             width: 100;
 		             placeholderBuilder: [ :placeholder :e |
-			             placeholder addChild: (ToAttributedLabel new
-						              text: ('Phone' asRopedText
-								               foreground: Color lightGray;
-								               italic);
-						              yourself) ].
+				             placeholder addChild: (ToAttributedLabel new
+							              text: ('Phone' asRopedText
+									               foreground: Color lightGray;
+									               italic);
+							              yourself) ].
 	addressTxtF := ToTextField new
 		               width: 200;
 		               placeholderBuilder: [ :placeholder :e |
-			               placeholder addChild: (ToAttributedLabel new
-						                text: ('Adress' asRopedText
-								                 foreground: Color lightGray;
-								                 italic);
-						                yourself) ].
+				               placeholder addChild: (ToAttributedLabel new
+							                text: ('Adress' asRopedText
+									                 foreground: Color lightGray;
+									                 italic);
+							                yourself) ].
 
 	list addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :evt |
-				 evt selectedIndexes size = 1 ifTrue: [
-					 contact := list dataAccessor at: evt selectedIndexes anyOne.
-					 nameTxtF text: contact name.
-					 phoneTxtF text: contact phoneNumber.
-					 addressTxtF text: contact address ] ]).
+					 evt selectedIndexes size = 1 ifTrue: [
+							 contact := list dataAccessor at: evt selectedIndexes anyOne.
+							 nameTxtF text: contact name.
+							 phoneTxtF text: contact phoneNumber.
+							 addressTxtF text: contact address ] ]).
 
-	button := ToButton new label: (ToLabel text: 'Update table').
-	button clickAction: [
-		| n p a c idx |
-		n := nameTxtF text asString.
-		p := phoneTxtF text asString.
-		a := addressTxtF text asString.
-		idx := list dataAccessor
-			       detectIndex: [ :e | e name = n ]
-			       ifNone: [  ].
-		c := ToContactExampleObject new
-			     name: n;
-			     phoneNumber: p;
-			     address: a;
-			     yourself.
-		idx
-			ifNotNil: [ list dataAccessor at: idx put: c ]
-			ifNil: [ list dataAccessor add: c ] ].
+	updateButton := ToButton new
+		                labelText: 'Update table';
+		                yourself.
+	updateButton clickAction: [
+			| n p a c idx |
+			n := nameTxtF text asString.
+			p := phoneTxtF text asString.
+			a := addressTxtF text asString.
+			idx := list dataAccessor
+				       detectIndex: [ :e | e name = n ]
+				       ifNone: [ ].
+			c := ToContactExampleObject new
+				     name: n;
+				     phoneNumber: p;
+				     address: a;
+				     yourself.
+			idx
+				ifNotNil: [ list dataAccessor at: idx put: c ]
+				ifNil: [ list dataAccessor add: c ] ].
+
+	data := {
+		        { 'Patty'. '0299041101'. 'Brest' }.
+		        { 'Paulie'. '0298010101'. 'Brest' }.
+		        { 'Charly'. '0294561101'. 'Brest' }.
+		        { 'Fraise'. '0298010528'. 'Brest' } }.
+	addPredefinedButton := ToButton new
+		                       labelText: 'add predefined items';
+		                       yourself.
+	dataBlock := [
+		             | items |
+		             items := data collect: [ :triplet |
+				                      contact := ToContactExampleObject new.
+				                      contact name: triplet first.
+				                      contact phoneNumber: triplet second.
+				                      contact address: triplet third.
+				                      contact ].
+		             list dataAccessor addAll: items ].
+
+	addPredefinedAction := addPredefinedButton newClickAction: [
+		                       dataBlock value ].
+	addPredefinedAction run.
 	inputPane := ToPane horizontal.
 	inputPane layout cellSpacing: 10.
 	inputPane addChildren: {
 			nameTxtF.
 			phoneTxtF.
 			addressTxtF.
-			button }.
+			updateButton.
+			addPredefinedButton }.
 	inputPane childrenDo: [ :child |
 		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
-	contacts := OrderedCollection new.
-	contact := ToContactExampleObject new.
-	contact name: 'Patty'.
-	contact phoneNumber: '0299041101'.
-	contact address: 'Brest'.
-	contacts add: contact.
-	contact := ToContactExampleObject new.
-	contact name: 'Paulie'.
-	contact phoneNumber: '0298010101'.
-	contact address: 'Brest'.
-	contacts add: contact.
+
 	list nodeBuilder: [ :node :dataItem :holder |
-		| line remBut |
-		node ensureCanManageSkin.
-		line := ToElement new
-			        layout: BlLinearLayout horizontal;
-			        matchParent.
-		line addChild: (ToLabel new
-				 text: dataItem name;
-				 width: 100;
-				 margin: (BlInsets right: 10)).
-		line addChild: (ToLabel new
-				 text: dataItem phoneNumber;
-				 width: 100;
-				 margin: (BlInsets right: 10)).
-		line addChild: (ToLabel new
-				 text: dataItem address;
-				 width: 200;
-				 margin: (BlInsets right: 10)).
-		line addChild: ToElement new matchParent.
-		remBut := ToIconicRemoveButton new.
-		remBut constraintsDo: [ :c | c linear vertical alignCenter ].
-		remBut addEventHandler: (BlEventHandler
-				 on: BlClickEvent
-				 do: [ :event |
-					 event consume.
-					 holder listElement dataAccessor removeAt: holder position ]).
-		line addChild: remBut.
-		node addChild: line ].
-	list dataAccessor addAll: contacts.
+			| line remBut |
+			node ensureCanManageSkin.
+			line := ToElement new
+				        layout: BlLinearLayout horizontal;
+				        matchParent.
+			line addChild: (ToLabel new
+					 text: dataItem name;
+					 width: 100;
+					 margin: (BlInsets right: 10)).
+			line addChild: (ToLabel new
+					 text: dataItem phoneNumber;
+					 width: 100;
+					 margin: (BlInsets right: 10)).
+			line addChild: (ToLabel new
+					 text: dataItem address;
+					 width: 200;
+					 margin: (BlInsets right: 10)).
+			line addChild: ToElement new matchParent.
+			remBut := ToIconicRemoveButton new.
+			remBut constraintsDo: [ :c | c linear vertical alignCenter ].
+			remBut clickAction: [ :event | "event consume."
+				holder listElement dataAccessor removeAt: holder position ].
+			line addChild: remBut.
+			node addChild: line ].
+
 	panel addChild: inputPane.
 	panel addChild: list.
 	panel openInSpace
@@ -8959,6 +8986,27 @@ ToSandBox class >> themeSelect [
 
 	select popupListElement dataAccessor addAll: themes.
 	^ select
+]
+
+{ #category : #select }
+ToSandBox class >> themeSelectNoDeselectionPopupOnTop [
+
+	| select |
+	select := self themeSelect.
+	select placeholderText:
+		('Select a Toplo theme' asRopedText foreground: Color lightGray).
+	select
+		addEventHandlerOn: ToSelectChangedEvent
+		do: [ :event | event selectedData asString traceCr ].
+	select selecter selectIndex: 4.
+	select allowDeselection: false.
+	select position: 210 @ 150.
+	select width: 200.
+	"select manager measurement:
+		(ToActionMeasurement new action: [ :w :evt |
+			 w root hFitContent ])."
+	select popupWindowPlacement: ToAnchoredTopCenterPlacement new.
+	^ select 
 ]
 
 { #category : #triplet }

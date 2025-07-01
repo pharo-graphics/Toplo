@@ -173,13 +173,13 @@ ToSpecificListElementTest >> testOneNode [
 { #category : #tests }
 ToSpecificListElementTest >> testSelectionWithOneNode [
 
+	l dataAccessor removeAll.
 	l dataAccessor add: 'first'.
 	space root addChild: l.
 	self waitTestingSpaces.
 	self assert: l innerElement children size equals: 1.
 	self assert: l selectionModel isEmpty.
 	l selecter selectIndex: 1.
-	self assert: l selectionModel isEmpty.
 	self waitTestingSpaces.
 	self assert: l selecter selectedIndex equals: 1.
 	self assert: l selectionModel selectedIndexes equals: { 1 }

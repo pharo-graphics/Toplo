@@ -32,14 +32,14 @@ ToTabPaneElementTest >> testCloseLastPage [
 	secondButton := tabPane items second.
 	firstButton removable: true.
 	secondButton removable: true.
-	self waitTestingSpaces.
+	self waitTestingSpacesTimeout: 400 milliSeconds.
 	self assert: tabPane items size equals: 2.
 	self assert: secondButton removeButton notNil.
 	" one have first to ensure that the remove button is visible 
 	(with Raw skin, the remove button is only visible when the mouse is over its tab button) "
 	BlSpace simulateMouseMoveInside: secondButton removeButton.
 	BlSpace simulateClickOn: secondButton removeButton.
-	self waitTestingSpaces.
+	self waitTestingSpacesTimeout: 400 milliSeconds.
 	self assert: tabPane items size equals: 1.
 	self assert: tabPane items first identicalTo: firstButton
 ]

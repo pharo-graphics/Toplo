@@ -39,9 +39,12 @@ ToParameterizedHostTest >> testingSpace: aSpace showThenDo: aBlock [
 { #category : #tests }
 ToParameterizedHostTest >> waitTestingSpaces [
 
-	testingSpaces ifNil: [ ^ self ].
+	self waitTestingSpacesTimeout: 200 milliSeconds
+]
+
+{ #category : #tests }
+ToParameterizedHostTest >> waitTestingSpacesTimeout: aDuration [
+
 	testingSpaces do: [ :each |
-		(BlSpace
-			pulseUntilEmptyTaskQueue: each
-			timeout: 200 milliSeconds) ]
+		BlSpace pulseUntilEmptyTaskQueue: each timeout: aDuration ]
 ]

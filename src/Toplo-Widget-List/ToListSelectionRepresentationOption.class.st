@@ -116,6 +116,12 @@ ToListSelectionRepresentationOption >> requestNewRepresentation [
 ]
 
 { #category : #accessing }
+ToListSelectionRepresentationOption >> selectionContainer [
+
+	^ nil
+]
+
+{ #category : #accessing }
 ToListSelectionRepresentationOption >> selectionElements [
 
 	^ #(  )

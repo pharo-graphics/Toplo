@@ -10,7 +10,21 @@ Class {
 { #category : #'api - accessing' }
 ToSievedListElementEventHandler >> eventsToHandle [
 
-	^ { ToListSelectionCommandAppliedEvent }
+	^ {
+		  ToListSelectionCommandAppliedEvent.
+		  ToInfiniteDataSourceEmptinessChangedEvent }
+]
+
+{ #category : #'element handlers' }
+ToSievedListElementEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEvent [
+
+	| listElement |
+
+	listElement := anEvent currentTarget.
+	" have to do nothing if the list dataSource is not empty "
+	listElement dataSource ifNotEmpty: [ ^ self ].
+	" empty the selection because nothing is in the listElement "
+	listElement selecter deselectAll
 ]
 
 { #category : #'element handlers' }
@@ -29,7 +43,7 @@ ToSievedListElementEventHandler >> listSelectionCommandAppliedEvent: aSelectionC
 	" have to do nothing if the list is empty. Else, the selection can be lost in case of single select"
 	listElement dataSource ifEmpty: [ ^ self ].
 	" reset the selection in case of single selection mode "
-	aSelectionCommandAppliedEvent currentTarget isMultipleSelection
+	listElement isMultipleSelection
 		ifFalse: [ sieve selectionModel deselectAll ].
 
 	" the selection set is updated according to the pattern:

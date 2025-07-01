@@ -494,6 +494,7 @@ ToListElementTest >> testSelectAndScrollToPrevious [
 	self assert: l dataAccessor size equals: 5.
 	l selecter selectIndex: 4.
 	self waitTestingSpaces.
+	l forceLayout.
 	self assert: l selecter currentIndex equals: 4.
 	self assert: l selectionModel selectedIndexes asArray equals: #( 4 ).
 	l selecter selectIndex: l selecter previousSelectableIndex.
@@ -510,6 +511,25 @@ ToListElementTest >> testSelectAndScrollToPrevious [
 	self
 		assert: l selectionModel selectedIndexes asArray
 		equals: #( 2 3 4 )
+]
+
+{ #category : #'test selection - adding/removing' }
+ToListElementTest >> testSelectionAfterLastRemoval [
+
+	| l |
+	l := ToListElement new.
+	l secondarySelectionMode enabled: false.
+	space root addChild: l.
+	l fitContent.
+	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self assert: l selectionModel selectedIndexes isEmpty.
+	l selecter selectIndexes: #( 5 ).
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: #( 5 ).
+	self waitTestingSpaces.
+	l dataAccessor removeAt: 5.
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: #(  )
 ]
 
 { #category : #'test selection - adding/removing' }
@@ -574,15 +594,15 @@ ToListElementTest >> testSelectionUpdatedAfterInsert3 [
 { #category : #'test selection - adding/removing' }
 ToListElementTest >> testSelectionUpdatedAfterRemove [
 
-	| l sp |
+	| l |
 	l := ToListElement new.
+	space root addChild: l.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
-	l forceLayout.
 	l selecter selectOnlyIndex: 3.
-	l dataAccessor removeAt: 2.
-	space root addChild: l.
 	self waitTestingSpaces.
+	l dataAccessor removeAt: 2.
+
 	self waitTestingSpaces.
 	self assert: l selectionModel selectedIndexes equals: { 2 }
 ]

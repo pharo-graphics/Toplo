@@ -14,11 +14,11 @@ MorphicVisitor >> initialize [
 MorphicVisitor >> visitMenuBuilder: aMenuBuilder [
 
 	aMenuBuilder collectedItems do: [ :item |
-		item name ifNotNil: [
+		item isGroup ifFalse: [
 			item hasChildren
-				ifTrue: [ menuPane addMorph: (self visitMenuRegistration: item) ]
+				ifTrue: [ menuPane addMorphBack: (self visitMenuRegistration: item) ]
 				ifFalse: [
-				menuPane addMorph: (self visitMenuItemResgitration: item) ] ] ].
+				menuPane addMorphBack: (self visitMenuItemResgitration: item) ] ] ].
 	menuPane openInWorld
 ]
 
@@ -26,9 +26,9 @@ MorphicVisitor >> visitMenuBuilder: aMenuBuilder [
 MorphicVisitor >> visitMenuItemResgitration: aMenuRegistration [
 
 	| menuItem |
-	menuItem := ToggleMenuItemMorph new contents:
-				            aMenuRegistration name.
-	aMenuRegistration name ifNil: [ ^ menuItem ].
+	menuItem := ToggleMenuItemMorph new contents: (aMenuRegistration label = ''
+					         ifTrue: [ aMenuRegistration name asString ]
+					         ifFalse: [ aMenuRegistration label ]).
 	aMenuRegistration hasChildren
 		ifTrue: [ menuItem := self visitMenuRegistration: aMenuRegistration ]
 		ifFalse: [
@@ -36,7 +36,7 @@ MorphicVisitor >> visitMenuItemResgitration: aMenuRegistration [
 				target: aMenuRegistration target;
 				selector: aMenuRegistration selector;
 				arguments: aMenuRegistration arguments ].
-	aMenuRegistration separator ifTrue: [ menuItem addSeparator ].
+	aMenuRegistration separator ifTrue: [ "menuItem addSeparator" ].
 	^ menuItem
 ]
 
@@ -45,8 +45,11 @@ MorphicVisitor >> visitMenuRegistration: aMenuRegistration [
 
 	| menu |
 	menu := MenuMorph new.
-	menu addTitle: aMenuRegistration label.
+	menu addTitle: (aMenuRegistration label = ''
+					         ifTrue: [ aMenuRegistration name asString ]
+					         ifFalse: [ aMenuRegistration label ]).
 	aMenuRegistration childrenItems do: [ :each |
-		each name ifNotNil: [ menu addMorphBack: (self visitMenuItemResgitration: each) ] ].
+		each isGroup ifFalse: [
+			menu addMorphBack: (self visitMenuItemResgitration: each) ] ].
 	^ menu
 ]

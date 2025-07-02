@@ -60,6 +60,99 @@ MenuBuilderTest >> testDefinitionOfTwoSimilarParentIsAConflict [
 ]
 
 { #category : #'tests - diff' }
+MenuBuilderTest >> testDiffBrowseMenu [
+
+	| aBuilder oldBuilder concernItem listWorldItemName |
+	aBuilder := self worldMenuExampleExampleMenu.
+	oldBuilder := PragmaMenuBuilder pragmaKeyword: 'worldMenu' model: nil.
+	oldBuilder buildTree.
+	concernItem := oldBuilder itemNamed: #Browsing.
+
+	listWorldItemName := (concernItem itemNamed: #Browsing) itemList
+		                     collect: [ :child | child name ].
+	self assert: (concernItem itemNamed: #Browsing) itemList size equals: 3.
+	self
+		assert: (concernItem itemNamed: #Browsing) itemList size
+		equals:
+		((aBuilder itemsNamed: #Browse) childrenFromGroup: #Browsing) size.
+	self
+		assert:
+			(((aBuilder itemsNamed: #Browse) childrenFromGroup: #Browsing)
+				 collect: [ :item | item name ])
+		equals: listWorldItemName
+]
+
+{ #category : #'tests - diff' }
+MenuBuilderTest >> testDiffDebugMenu [
+
+	| aBuilder oldBuilder concernItem listWorldItemName |
+	aBuilder := self worldMenuExampleExampleMenu.
+	oldBuilder := PragmaMenuBuilder pragmaKeyword: 'worldMenu' model: nil.
+	oldBuilder buildTree.
+	concernItem := oldBuilder itemNamed: #Debug.
+	listWorldItemName := (concernItem itemNamed: #Profiling) itemList
+		                     collect: [ :child | child name ].
+	self
+		assert: (concernItem itemNamed: #Profiling) itemList size
+		equals: 3.
+	self
+		assert: (concernItem itemNamed: #Profiling) itemList size
+		equals:
+		((aBuilder itemsNamed: #Debug) childrenFromGroup: #Profiling) size.
+	self
+		assert:
+			(((aBuilder itemsNamed: #Debug) childrenFromGroup: #Profiling)
+				 collect: [ :item | item name ])
+		equals: listWorldItemName
+]
+
+{ #category : #'tests - diff' }
+MenuBuilderTest >> testDiffPharoMenu [
+
+	| aBuilder oldBuilder concernItem listWorldItemName |
+	aBuilder := self worldMenuExampleExampleMenu.
+	oldBuilder := PragmaMenuBuilder pragmaKeyword: 'worldMenu' model: nil.
+	oldBuilder buildTree.
+	concernItem := oldBuilder itemNamed: #Pharo.
+	listWorldItemName := (concernItem itemNamed: #Saving) itemList
+		                     collect: [ :child | child name ].
+	self assert: (concernItem itemNamed: #Saving) itemList size equals: 3.
+	self
+		assert: (concernItem itemNamed: #Saving) itemList size
+		equals:
+		((aBuilder itemsNamed: #Pharo) childrenFromGroup: #Saving) size.
+	self
+		assert:
+			(((aBuilder itemsNamed: #Pharo) childrenFromGroup: #Saving)
+				 collect: [ :item | item name ])
+		equals: listWorldItemName
+]
+
+{ #category : #'tests - diff' }
+MenuBuilderTest >> testDiffSourcesMenu [
+
+	| aBuilder oldBuilder concernItem listWorldItemName |
+	aBuilder := self worldMenuExampleExampleMenu.
+	oldBuilder := PragmaMenuBuilder pragmaKeyword: 'worldMenu' model: nil.
+	oldBuilder buildTree.
+	concernItem := oldBuilder itemNamed: #Sources.
+	listWorldItemName := (concernItem itemNamed: #Refactoring) itemList
+		                     collect: [ :child | child name ].
+	self
+		assert: (concernItem itemNamed: #Refactoring) itemList size
+		equals: 2.
+	self
+		assert: (concernItem itemNamed: #Refactoring) itemList size
+		equals:
+		((aBuilder itemsNamed: #Sources) childrenFromGroup: #Refactoring) size.
+	self
+		assert:
+			(((aBuilder itemsNamed: #Sources) childrenFromGroup: #Refactoring)
+				 collect: [ :item | item name ])
+		equals: listWorldItemName
+]
+
+{ #category : #'tests - diff' }
 MenuBuilderTest >> testDiffSystemMenu [
 
 	| aBuilder oldBuilder concernItem listWorldItemName |
@@ -330,7 +423,7 @@ MenuBuilderTest >> testResolveWithItemWithExplicitParentUnknowDeclared [
 		equals: #MyMenu.
 ]
 
-{ #category : #toploExample }
+{ #category : #examples }
 MenuBuilderTest >> testSimpleItemBeforeParentDefinition [
 
 	| builder |
@@ -600,14 +693,14 @@ MenuBuilderTest >> testWithDeclaresOneItemWithAChild [
 		equals: 'My own cool tool also here'
 ]
 
-{ #category : #'general-testing' }
+{ #category : #examples }
 MenuBuilderTest >> toploExampleMenu [
 
 	^ toploExampleMenu ifNil: [ 
 			toploExampleMenu := self toploExampleMenuBuilder: ToMenuBuilder ]
 ]
 
-{ #category : #'general-testing' }
+{ #category : #examples }
 MenuBuilderTest >> toploExampleMenuBuilder: aClass [
 
 	^ (aClass pragmaKeyword: #toploWorldMenu1)
@@ -616,14 +709,14 @@ MenuBuilderTest >> toploExampleMenuBuilder: aClass [
 		  yourself
 ]
 
-{ #category : #'general-testing' }
+{ #category : #examples }
 MenuBuilderTest >> worldMenuExampleExampleMenu [
 
 	^ worldMenuExample ifNil: [
 		  worldMenuExample := self worldMenuExampleMenuBuilder: ToMenuBuilder ]
 ]
 
-{ #category : #'general-testing' }
+{ #category : #examples }
 MenuBuilderTest >> worldMenuExampleMenuBuilder: aClass [
 
 	^ (aClass pragmaKeyword: #worldMenu)

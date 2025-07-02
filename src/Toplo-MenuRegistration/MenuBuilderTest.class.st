@@ -2,7 +2,8 @@ Class {
 	#name : #MenuBuilderTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'toploExampleMenu'
+		'toploExampleMenu',
+		'worldMenuExample'
 	],
 	#category : #'Toplo-MenuRegistration-NewCreate'
 }
@@ -33,6 +34,12 @@ MenuBuilderTest >> testBuilderPragmas [
 ]
 
 { #category : #'tests - Pragma' }
+MenuBuilderTest >> testBuilderPragmasWorldMenu [
+
+	self assert: self worldMenuExampleExampleMenu pragmas size equals: 67.
+]
+
+{ #category : #'tests - Pragma' }
 MenuBuilderTest >> testBuilderResolvePragmasCollectedItems [
 	self assert: self toploExampleMenu collectedItems size equals: 1.
 ]
@@ -50,6 +57,29 @@ MenuBuilderTest >> testDefinitionOfTwoSimilarParentIsAConflict [
 
 	(builder item: #Tools) label: 'The root tools'.
 	self assert: builder hasConflict
+]
+
+{ #category : #'tests - diff' }
+MenuBuilderTest >> testDiffSystemMenu [
+
+	| aBuilder oldBuilder concernItem listWorldItemName |
+	aBuilder := self worldMenuExampleExampleMenu.
+	oldBuilder := PragmaMenuBuilder pragmaKeyword: 'worldMenu' model: nil.
+	oldBuilder buildTree.
+	concernItem := oldBuilder itemNamed: #System.
+
+	listWorldItemName := (concernItem itemNamed: #World) itemList
+		                     collect: [ :child | child name ].
+	self assert: (concernItem itemNamed: #World) itemList size equals: 3.
+	self
+		assert: (concernItem itemNamed: #World) itemList size
+		equals:
+		((aBuilder itemsNamed: #System) childrenFromGroup: #World) size.
+	self
+		assert:
+			(((aBuilder itemsNamed: #System) childrenFromGroup: #World)
+				 collect: [ :item | item name ])
+		equals: listWorldItemName
 ]
 
 { #category : #'tests - duplicated items' }
@@ -255,10 +285,15 @@ MenuBuilderTest >> testResolveWithDeclaresOneItemWithAParentAndAChild [
 				label: 'My own cool tool also here' ].
 
 	builder resolve.
-
 	self assert: builder groups size equals: 1.
-	self assert: (builder groupsNamed: #BeautifulMenu) childrenItems size equals: 2.
-
+	self
+		assert: (builder groupsNamed: #BeautifulMenu) childrenItems size
+		equals: 2.
+	self
+		assert:
+			((builder groupsNamed: #BeautifulMenu) childrenItems collect: [
+				 :item | item name ])
+		equals: { #MyMenu. #MyMenuChild } asOrderedCollection.
 	self
 		assert: (builder itemsNamed: #MyMenu) childrenItems first parent
 		equals: #MyMenu
@@ -576,6 +611,22 @@ MenuBuilderTest >> toploExampleMenu [
 MenuBuilderTest >> toploExampleMenuBuilder: aClass [
 
 	^ (aClass pragmaKeyword: #toploWorldMenu1)
+		  collectRegistrations;
+		  resolve;
+		  yourself
+]
+
+{ #category : #'general-testing' }
+MenuBuilderTest >> worldMenuExampleExampleMenu [
+
+	^ worldMenuExample ifNil: [
+		  worldMenuExample := self worldMenuExampleMenuBuilder: ToMenuBuilder ]
+]
+
+{ #category : #'general-testing' }
+MenuBuilderTest >> worldMenuExampleMenuBuilder: aClass [
+
+	^ (aClass pragmaKeyword: #worldMenu)
 		  collectRegistrations;
 		  resolve;
 		  yourself

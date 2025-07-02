@@ -4,14 +4,13 @@ Class {
 	#instVars : [
 		'currentRoot',
 		'collectedItems',
-		'groups',
 		'pragmaKeywords',
 		'conflicts'
 	],
 	#category : #'Toplo-MenuRegistration-NewCreate'
 }
 
-{ #category : #'menu declaring' }
+{ #category : #examples }
 ToMenuBuilder class >> aLittleMenu: aBuilder [
 
 	<toploWorldMenu1>
@@ -19,6 +18,46 @@ ToMenuBuilder class >> aLittleMenu: aBuilder [
 		label: 'Im - Label'; with: [
 		(aBuilder item: #aSuperMenu) label: 'a super menu ! - Label'.
 		(aBuilder item: #anUglyMenu) label: 'a ugly menu ! - Label' ]
+]
+
+{ #category : #examples }
+ToMenuBuilder class >> exampleMenu [
+	<script>
+	| builder |
+	builder := ToMenuBuilder new.
+
+	(builder item: #MyFirstMenu)
+		label: 'GrandParent';
+		order: 3;
+		groupName: 'aGroup';
+		with: [
+			(builder item: #MyFirstChild)
+				parent: #MyFirstMenu;
+				label: 'Uncle';
+				order: 9999.
+			(builder item: #MyFirstChild2)
+				parent: #MyFirstMenu;
+				label: 'Parent';
+				order: 1;
+				with: [ (builder item: #firstChildOfChild) label: 'Child' ] ].
+	(builder item: #MySecondMenu)
+		label: 'AnotherParent';
+		order: 1;
+		with: [
+			(builder item: #MySecondMenuChild1)
+				parent: #MySecondMenu;
+				label: 'AnotherChild1';
+				order: 1.
+			(builder item: #MySecondMenuChild2)
+				label: 'AnotherChild2';
+				order: 3.
+			(builder item: #MySecondMenuChild3)
+				parent: 'UnknownParent';
+				label: 'AnotherChild3';
+				order:  2].
+	builder resolve.
+	builder accept: ToploVisitor new.
+	builder inspect.
 ]
 
 { #category : #accessing }
@@ -86,6 +125,7 @@ ToMenuBuilder >> changeParent: aMenuRegistration for: aSymbol [
 	item isCollection ifTrue: [ self item: aSymbol ].
 	(item parent = aMenuRegistration name or: item parent isNil)
 		ifFalse: [ self addConflict: WrongParentPlacement new ].
+	item groupName ifNil: [ item groupName: aMenuRegistration groupName ].
 	item parent: aMenuRegistration name
 ]
 
@@ -94,11 +134,9 @@ ToMenuBuilder >> collectRegistrations [
 	"Retrieve all pragma methods and evaluate them by passing the
 	MenuRegistration class as argument. The result is a list of trees
 	stored in my itemList inst var"
-	self pragmas
-		do: [ :prg |
-			 prg methodClass instanceSide
-						perform: prg methodSelector
-						with: self ].
+
+	self pragmas do: [ :prg |
+		prg methodClass instanceSide perform: prg methodSelector with: self ].
 ]
 
 { #category : #accessing }
@@ -141,28 +179,25 @@ ToMenuBuilder >> group: aSymbol [
 	| newGroup |
 	(self groups includes: aSymbol) ifTrue: [
 		^ self groupsNamed: aSymbol ].
-	newGroup := ToMenuRegistration new
-		            groupName: aSymbol;
-		            builder: self.
-	collectedItems add: newGroup.
+	newGroup := (self item: aSymbol) groupName: aSymbol; isGroup: true.
 	^ newGroup
 ]
 
 { #category : #accessing }
 ToMenuBuilder >> groups [
-	|groupsNames|
-	groupsNames := OrderedCollection new. 
+
+	| groupsNames |
+	groupsNames := OrderedCollection new.
 	collectedItems do: [ :item |
-		  item name ifNil: [ groupsNames add: item groupName ] ].
-	^ groupsNames
+		item isGroup ifTrue: [
+			groupsNames add: item groupName ] ].
+	^ groupsNames 
 ]
 
 { #category : #accessing }
 ToMenuBuilder >> groupsNamed: aSymbol [
 
-	collectedItems do: [ :item |
-		(item groupName = aSymbol and: item name isNil) ifTrue: [ ^ item ] ].
-	^ currentRoot
+	^ self itemsNamed: aSymbol
 ]
 
 { #category : #adding }
@@ -174,9 +209,10 @@ ToMenuBuilder >> handleAddToParent: aMenuRegistration [
 		ifTrue: [
 			currentRoot addChild: aMenuRegistration.
 			^ self ].
-	parentMenu := self itemsNamed: aMenuRegistration parent.
+	parentMenu := self lookUpForParent: aMenuRegistration parent.
 	aMenuRegistration parentMenuItem: parentMenu.
-	parentMenu addChild: aMenuRegistration
+	parentMenu addChild: aMenuRegistration.
+	aMenuRegistration
 ]
 
 { #category : #'error handling' }
@@ -191,9 +227,11 @@ ToMenuBuilder >> handleDuplicatedShortcut: anItem [
 ToMenuBuilder >> handleGroupsUsage: anItem [
 
 	anItem name ifNil: [ ^ self ].
-	anItem parentMenuItem ifNotNil:[
-	(anItem groupName isNil and: anItem parentMenuItem groupName isNotNil)
-		ifTrue: [ anItem groupName: anItem parentMenuItem groupName ]].
+	(self groups includes: anItem name) ifTrue: [ ^ self ].
+	anItem parentMenuItem ifNotNil: [
+		(anItem groupName isNil and:
+			 anItem parentMenuItem groupName isNotNil) ifTrue: [
+			anItem groupName: anItem parentMenuItem groupName ] ].
 	anItem groupName ifNil: [ ^ self ].
 	(self isAnExistingGroup: anItem groupName) ifFalse: [
 		self group: anItem groupName ].
@@ -230,12 +268,10 @@ ToMenuBuilder >> initialize [
 	conflicts := OrderedCollection new. 
 	currentRoot := ToMenuRegistration new.
 	collectedItems := OrderedCollection new.
-	groups := Dictionary new
 ]
 
 { #category : #accessing }
 ToMenuBuilder >> isAnExistingGroup: aSymbol [
-
 	^ self groups anySatisfy: [ :gName | gName = aSymbol ]
 ]
 
@@ -266,6 +302,21 @@ ToMenuBuilder >> itemsNamed: aSymbol [
 
 	collectedItems do: [ :item | item name = aSymbol ifTrue: [ ^ item ] ].
 	^ currentRoot
+]
+
+{ #category : #'as yet unclassified' }
+ToMenuBuilder >> lookUpForParent: aMenuRegistration [
+	|item|
+	aMenuRegistration ifNil: [ ^ currentRoot ].
+	item := (self itemsNamed: aMenuRegistration).
+	item isGroup ifFalse: [
+		^ item ].
+	^ self lookUpForParent: item parent
+]
+
+{ #category : #'as yet unclassified' }
+ToMenuBuilder >> onlyItems [
+	^ collectedItems select: [ :item | item name isNotNil ].
 ]
 
 { #category : #accessing }
@@ -303,9 +354,11 @@ ToMenuBuilder >> sortItems [
 
 { #category : #sorting }
 ToMenuBuilder >> sortedTree: aMenuRegistration [
+
 	aMenuRegistration childrenItems ifEmpty: [ ^ self ].
 	aMenuRegistration sortChildren.
-	aMenuRegistration childrenItems do: [ :child | self sortedTree: child ].
+	aMenuRegistration childrenItems do: [ :child |
+		self sortedTree: child ]
 ]
 
 { #category : #'spec accessing' }

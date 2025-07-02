@@ -6,6 +6,7 @@ Class {
 		'childrenItems',
 		'name',
 		'label',
+		'isGroup',
 		'parentMenuItem',
 		'parent',
 		'precondition',
@@ -41,7 +42,8 @@ ToMenuRegistration >> action: aBlock [
 
 { #category : #adding }
 ToMenuRegistration >> addChild: aMenuRegistration [
-	childrenItems add: aMenuRegistration.
+
+	childrenItems add: aMenuRegistration
 ]
 
 { #category : #accessing }
@@ -64,6 +66,12 @@ ToMenuRegistration >> builder [
 { #category : #accessing }
 ToMenuRegistration >> builder: aBuilder [
 	builder := aBuilder.
+]
+
+{ #category : #'as yet unclassified' }
+ToMenuRegistration >> childrenFromGroup: aGroupName [
+
+	^ childrenItems select: [ :item | item groupName = aGroupName and: (item isGroup = false) ]
 ]
 
 { #category : #accessing }
@@ -140,12 +148,12 @@ ToMenuRegistration >> initialize [
 	childrenItems := OrderedCollection new.
 	order := 0.
 	label := ''.
+	isGroup := false.
 	precondition := true.
 	separator := false.
 	target := self.
 	selector := #cull:.
-	arguments := nil.
-	self updateAction.
+	self updateAction
 ]
 
 { #category : #'instance creation' }
@@ -159,6 +167,17 @@ ToMenuRegistration >> isChild: aSymbol [
 			nextItem := builder itemsNamed: aSymbol.
 			nextItem ifNotNil: [ nextItem := nextItem parent ].
 			^ self isChild: nextItem ]
+]
+
+{ #category : #accessing }
+ToMenuRegistration >> isGroup [
+	^ isGroup
+]
+
+{ #category : #accessing }
+ToMenuRegistration >> isGroup: aBoolean [
+
+	isGroup := aBoolean
 ]
 
 { #category : #accessing }

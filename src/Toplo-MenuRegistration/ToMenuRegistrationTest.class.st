@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'menu'
 	],
-	#category : #'Toplo-MenuRegistration-NewCreate'
+	#category : #'Toplo-MenuRegistration-Tests'
 }
 
 { #category : #running }

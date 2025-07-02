@@ -50,7 +50,7 @@ ToMenuBuilder >> addConflict: aDuplicatedItem [
 { #category : #accessing }
 ToMenuBuilder >> allNamedItems [
 
-	^ collectedItems collect: [ :item | item name].
+	^ collectedItems collect: [ :item | item name]
 ]
 
 { #category : #editing }
@@ -103,11 +103,13 @@ ToMenuBuilder >> collectRegistrations [
 
 { #category : #accessing }
 ToMenuBuilder >> collectedItems [
+
 	^ collectedItems 
 ]
 
 { #category : #accessing }
 ToMenuBuilder >> collectedItems: anOrderedCollectionOfMenuRegistration [
+
 	collectedItems := anOrderedCollectionOfMenuRegistration 
 ]
 
@@ -233,13 +235,13 @@ ToMenuBuilder >> initialize [
 	groups := Dictionary new
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 ToMenuBuilder >> isAnExistingGroup: aSymbol [
 
 	^ self groups anySatisfy: [ :gName | gName = aSymbol ]
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 ToMenuBuilder >> isInItems: aSymbol [
 
 	^ collectedItems anySatisfy: [ :item | item name = aSymbol ]
@@ -287,7 +289,7 @@ ToMenuBuilder >> pragmas [
 		  select: [ :prg | prg methodSelector numArgs = 1 ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #resolution }
 ToMenuBuilder >> resolve [
 
 	self arrangeItemsParameters.

@@ -314,7 +314,7 @@ ToSelectionModel >> selectedIndexesIntervalsDo: aBlock [
 
 { #category : #updating }
 ToSelectionModel >> shift: aGap from: aStartIndex [
-	"I do the difficult work of updating the selection interval after adding or removing items from/in a listElement.
+	"I update the selection after adding or removing items from/in a listElement.
 	The gap is < 0 for items removal.
 	In that case, the selection interval are shift from startIndex toward the start of the list.
 	After the shift, the startIndex IS NOT present in the selection.
@@ -322,14 +322,11 @@ ToSelectionModel >> shift: aGap from: aStartIndex [
 	In that case, the selection intervals are shift from startIndex toward the end of list.
 	After the shift, the startIndex IS present in the selection."
 
-	| prevIntervals lastIndex startIndex |
-	
+	| prevIntervals lastIndex minLastIndex |
 	"'ToSelectionModel>> shift: ' trace. aGap trace. ' from: ' trace. aStartIndex traceCr."
-	
 	aGap isZero ifTrue: [ ^ self ].
 	self isEmpty ifTrue: [ ^ self ].
 	"'ToSelectionModel>>shift: itemsCount ' trace. self itemCount traceCr."
-	startIndex := aStartIndex.
 	lastIndex := underlyingModel lastIndex.
 
 	" 1 - keep selected intervals to reselect them accordingly at 3 "
@@ -337,22 +334,22 @@ ToSelectionModel >> shift: aGap from: aStartIndex [
 
 	" 2 - deselect according to start index and gap "
 	underlyingModel
-		removeIntervalFromIndex: startIndex
+		removeIntervalFromIndex: aStartIndex
 		toIndex: lastIndex + 1.
 
 	"prevIntervals traceCr."
 	" 3 - reselect "
-	prevIntervals do: [ :interval |
-			| first last addIt |
-			"interval trace. ' startIndex = ' trace. startIndex trace. ' interval last + aGap : ' trace. (interval last + aGap) traceCr."
-			addIt := aGap < 0
-				         ifTrue: [ interval last > startIndex ]
-				         ifFalse: [ interval last >= startIndex ].
-			(addIt and: [ interval last + aGap > 0 ]) ifTrue: [
-					first := (interval first max: startIndex) + aGap max: 1.
-					last := interval last + aGap.
-					"'ToSelectionModel>>shift:from: first ' trace. first trace. ' last ' trace. last traceCr."
-					underlyingModel selectIndex: first to: last ] ].
+	" in case of items adding, include the startIndex "
+	minLastIndex := aGap < 0
+		                ifTrue: [ aStartIndex ]
+		                ifFalse: [ aStartIndex - 1 ].
+	prevIntervals
+		select: [ :int | int last > minLastIndex ]
+		thenDo: [ :int |
+				| first last |
+				first := (int first max: aStartIndex) + aGap max: 1.
+				last := int last + aGap max: 0.
+				underlyingModel selectIndex: first to: last ].
 
 	" 4 - remove selection outside the valid selection interval (1 to: self itemCount) "
 	lastIndex := underlyingModel lastIndex.

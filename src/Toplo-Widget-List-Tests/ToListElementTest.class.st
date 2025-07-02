@@ -514,6 +514,36 @@ ToListElementTest >> testSelectAndScrollToPrevious [
 ]
 
 { #category : #'test selection - adding/removing' }
+ToListElementTest >> testSelectedSkinEventAfterRemove [
+	" check that the skin select event is sent to the right node "
+
+	| l receivedSelectedEvents size |
+	l := ToListElement new.
+	receivedSelectedEvents := OrderedCollection new.
+	l nodeBuilder: [ :node :dataItem :holder |
+			node addChild: (ToLabel text: dataItem).
+			node
+				addEventHandlerOn: ToSelectedSkinEvent
+				do: [ :event | receivedSelectedEvents add: event ] ].
+	space root addChild: l.
+	l fitContent.
+	l dataAccessor addAll: self statesOfAmerica.
+	self assert: l selectionModel selectedIndexes isEmpty.
+	size := l dataAccessor size.
+	l selecter selectIndex: size.
+	self waitTestingSpaces.
+	receivedSelectedEvents := OrderedCollection new.
+	l dataAccessor removeAt: 1.
+	self waitTestingSpaces.
+	self assert: l dataAccessor size equals: size - 1.
+	self assert: receivedSelectedEvents notEmpty.
+	receivedSelectedEvents do: [ :evt |
+			self
+				assert: evt currentTarget holder position
+				equals: l dataAccessor size ]
+]
+
+{ #category : #'test selection - adding/removing' }
 ToListElementTest >> testSelectionAfterLastRemoval [
 
 	| l |

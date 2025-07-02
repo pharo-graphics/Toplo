@@ -3,7 +3,8 @@ Class {
 	#superclass : #BlInfiniteHolder,
 	#instVars : [
 		'dataItem',
-		'recyclingRequested'
+		'recyclingRequested',
+		'notifiedSelected'
 	],
 	#category : #'Toplo-Widget-List-Node'
 }
@@ -63,7 +64,8 @@ ToNodeHolder >> disabled: aBoolean [
 ToNodeHolder >> initialize [ 
 
 	super initialize.
-	recyclingRequested := false
+	recyclingRequested := false.
+	notifiedSelected := false
 ]
 
 { #category : #accessing }
@@ -135,21 +137,36 @@ ToNodeHolder >> nodeManager [
 	^ self listElement nodeManager
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
+ToNodeHolder >> notifiedSelected [
+
+	^ notifiedSelected 
+]
+
+{ #category : #selection }
 ToNodeHolder >> notifyDeselectedWithOption: aSelectionElementOption [
 
+	notifiedSelected ifFalse: [ ^ self ].
 	self isSelected ifTrue: [ ^ self ].
-	self node dispatchEvent: (ToListNodeSelectedEvent new
+	self notifyNodeSelectedEvent: (ToListNodeSelectedEvent new
 			 listElement: self listElement;
 			 selectionOption: aSelectionElementOption;
 			 selected: false)
 ]
 
-{ #category : #accessing }
+{ #category : #selection }
+ToNodeHolder >> notifyNodeSelectedEvent: anEvent [ 
+
+	notifiedSelected := anEvent selected.
+	self node dispatchEvent: anEvent
+]
+
+{ #category : #selection }
 ToNodeHolder >> notifySelectedWithOption: aSelectionElementOption [
 
+	notifiedSelected ifTrue: [ ^ self ].
 	self isSelected ifFalse: [ ^ self ].
-	self node dispatchEvent: (ToListNodeSelectedEvent new
+	self notifyNodeSelectedEvent: (ToListNodeSelectedEvent new
 			 listElement: self listElement;
 			 selectionOption: aSelectionElementOption;
 			 selected: true)

@@ -81,7 +81,7 @@ ToListSelectionRepresentationOption >> nextSelectionRepresentationFrom: aListEle
 			  ifFalse: [ arr first ] ]
 ]
 
-{ #category : #'private - selection updating' }
+{ #category : #'private - selection notification' }
 ToListSelectionRepresentationOption >> notifyNodesDeselectedIn: aListElement [
 
 	self triggerSelectionState ifFalse: [ ^ self ].
@@ -89,7 +89,7 @@ ToListSelectionRepresentationOption >> notifyNodesDeselectedIn: aListElement [
 		n holder notifyDeselectedWithOption: selectionOption ]
 ]
 
-{ #category : #'private - selection updating' }
+{ #category : #'private - selection notification' }
 ToListSelectionRepresentationOption >> notifyNodesSelectedIn: aListElement [
 
 	self triggerSelectionState ifFalse: [ ^ self ].

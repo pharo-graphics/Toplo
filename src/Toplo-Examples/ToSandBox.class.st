@@ -1213,6 +1213,63 @@ ToSandBox class >> example_AnchorLayout6 [
 	pane openInInnerWindow
 ]
 
+{ #category : #anchors }
+ToSandBox class >> example_AnchorsAroundCircle [
+
+	| blue |
+	blue := self example_AnchorsAroundRectangle.
+	blue geometry: BlCircleGeometry new
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_AnchorsAroundRectangle [
+
+	| pane blue |
+	pane := ToElement new.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+	"pane padding: (BlInsets all: 10)."
+
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue background: Color blue muchDarker darker.
+	blue size: 100 asPoint.
+	blue margin: (BlInsets all: 10).
+	blue constraintsDo: [ :c |
+			c anchors add:
+				(blue verticalCenterAnchor on: pane verticalCenterAnchor).
+			c anchors add:
+				(blue horizontalCenterAnchor on: pane horizontalCenterAnchor) ].
+
+	pane addChild: blue.
+
+	{ 0. 45. 90. 135. 180. 225. 270. 315 } do: [ :degrees |
+			| deg lab |
+			deg := ToElement new
+				       id: degrees asString asSymbol;
+				       layout: BlFrameLayout new;
+				       yourself.
+			lab := (ToLabel text: degrees asString, '°')
+				       foreground: Color white;
+				       withNullSkin;
+				       yourself.
+			lab constraintsDo: [ :c |
+					c frame horizontal alignCenter.
+					c frame vertical alignCenter ].
+			deg addChild: lab.
+			deg background: Color blue.
+			deg size: 24@22.
+			deg constraintsDo: [ :c |
+					c anchors add:
+						(deg centerAnchor on: (blue borderAnchor degrees: degrees)) ].
+			pane addChild: deg ].
+
+	pane openInInnerWindow.
+	^ blue
+]
+
 { #category : #list }
 ToSandBox class >> example_BasicListWithAllClasses3 [
 

@@ -93,6 +93,14 @@ BlElement >> areSelectionSkinEventsPrevented [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> borderAnchor [
+
+	^ ToElementBorderAnchor new
+		  element: self;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
 BlElement >> borderBuilder [
 
 	^ self skinManager borderBuilder

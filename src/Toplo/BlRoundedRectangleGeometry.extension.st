@@ -17,7 +17,7 @@ BlRoundedRectangleGeometry >> positionOnBorderAtRadians: anAngle of: anElement [
 	dx := anAngle cos.
 	dy := anAngle sin.
 
-	bnds := anElement bounds.
+	bnds := anElement measuredBounds.
 	center := bnds position + (bnds extent / 2).
 
 	"Détermination du facteur d’échelle pour rester sur le bord"
@@ -27,4 +27,11 @@ BlRoundedRectangleGeometry >> positionOnBorderAtRadians: anAngle of: anElement [
 	y := center y + (dy * scale).
 
 	^ x @ y
+]
+
+{ #category : #'*Toplo' }
+BlRoundedRectangleGeometry >> positionOnBorderForAnchor: anAnchor inRectangle: aRectangle [
+	" returns  the position (Point) on myself border at angle anAngle (en radians)"
+
+	^ (self positionOnBorderAtDegrees: anAnchor degrees - 90 of: anAnchor element) + aRectangle topLeft
 ]

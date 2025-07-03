@@ -13,5 +13,14 @@ BlCircleGeometry >> positionOnBorderAtDegrees: aDegrees of: anElement [
 BlCircleGeometry >> positionOnBorderAtRadians: anAngle of: anElement [
 	" returns  the position (Point) on myself border at angle anAngle (en radians)"
 
-	^ radius * anAngle cos @ (radius * anAngle sin)
+	| usedRadius |
+	usedRadius := anElement measuredExtent min / 2.0.
+	^ usedRadius * anAngle cos @ (usedRadius * anAngle sin)
+]
+
+{ #category : #'*Toplo' }
+BlCircleGeometry >> positionOnBorderForAnchor: anAnchor inRectangle: aRectangle [
+	" returns  the position (Point) on myself border at angle anAngle (en radians)"
+
+	^ (self positionOnBorderAtDegrees: anAnchor degrees - 90 of: anAnchor element) + aRectangle center
 ]

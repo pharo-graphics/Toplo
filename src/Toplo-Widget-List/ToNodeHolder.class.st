@@ -10,6 +10,12 @@ Class {
 }
 
 { #category : #accessing }
+ToNodeHolder >> allowSelectionNotification: aBoolean [
+
+	notifiedSelected := aBoolean not
+]
+
+{ #category : #accessing }
 ToNodeHolder >> bindDataItem: aDataItem [
 	" associate the data item and then build the node "
 
@@ -19,6 +25,18 @@ ToNodeHolder >> bindDataItem: aDataItem [
 	self setupNodeWith: (self nodeManager newNodeForHolder: self).
 	self dataItem: aDataItem.
 	self nodeManager buildNode: self node
+]
+
+{ #category : #selection }
+ToNodeHolder >> canNotifyDeselection [ 
+	
+	^ notifiedSelected 
+]
+
+{ #category : #selection }
+ToNodeHolder >> canNotifySelection [ 
+	
+	^ notifiedSelected not
 ]
 
 { #category : #accessing }
@@ -146,8 +164,10 @@ ToNodeHolder >> notifiedSelected [
 { #category : #selection }
 ToNodeHolder >> notifyDeselectedWithOption: aSelectionElementOption [
 
-	notifiedSelected ifFalse: [ ^ self ].
+	" am i in the selection ?"
 	self isSelected ifTrue: [ ^ self ].
+	" have I already notified a deselection ? "
+	self canNotifyDeselection ifFalse: [ ^ self ].
 	self notifyNodeSelectedEvent: (ToListNodeSelectedEvent new
 			 listElement: self listElement;
 			 selectionOption: aSelectionElementOption;
@@ -164,8 +184,10 @@ ToNodeHolder >> notifyNodeSelectedEvent: anEvent [
 { #category : #selection }
 ToNodeHolder >> notifySelectedWithOption: aSelectionElementOption [
 
-	notifiedSelected ifTrue: [ ^ self ].
+	" am i in the selection ?"
 	self isSelected ifFalse: [ ^ self ].
+	" have I already notified a selection ? "
+	self canNotifySelection ifFalse: [ ^ self ].
 	self notifyNodeSelectedEvent: (ToListNodeSelectedEvent new
 			 listElement: self listElement;
 			 selectionOption: aSelectionElementOption;

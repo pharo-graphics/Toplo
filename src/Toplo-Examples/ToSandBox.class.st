@@ -8761,7 +8761,7 @@ ToSandBox class >> selectableLabeledIconlWithIconAndText [
 { #category : #tree }
 ToSandBox class >> selectionChangedEvent: anEvent [
 
-	anEvent traceCr.
+	"anEvent traceCr."
 ]
 
 { #category : #bar }

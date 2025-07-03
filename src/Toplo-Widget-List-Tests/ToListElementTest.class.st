@@ -602,6 +602,89 @@ ToListElementTest >> testOneSpecifcNode [
 	self assert: l nodes first holder dataItem equals: 'first'
 ]
 
+{ #category : #'test - selection changed event' }
+ToListElementTest >> testPrimarySelectionChangedEventDispatch [
+	" event dispateched when a selected node is removed "
+
+	| l dispatchedEvent |
+	l := ToListElement new.
+	space root addChild: l.
+	l fitContent.
+	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	l forceLayout.
+	l selecter selectOnlyIndex: 3.
+	" have to pulse space to get selection actually updated "
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: { 3 }.
+	self
+		assert: l selectionMode selectionContainer children size
+		equals: 1.
+	l
+		addEventHandlerOn: ToListPrimarySelectionChangedEvent
+		do: [ :event | dispatchedEvent := event ].
+	dispatchedEvent := nil.
+	l dataAccessor removeAt: 3.
+	" have to pulse to get an updated datasource plus oupdated selection model "
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: {  }.
+	self assert: l selectionMode selectionContainer children isEmpty.
+	self assert: dispatchedEvent notNil
+]
+
+{ #category : #'test - selection changed event' }
+ToListElementTest >> testPrimarySelectionChangedEventDispatch1 [
+	" event dispateched when a selected node is removed "
+
+	| l dispatchedEvent |
+	l := ToListElement new.
+	space root addChild: l.
+	l fitContent.
+	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self waitTestingSpaces.
+	l selecter selectOnlyIndex: 3.
+	self waitTestingSpaces.
+	l
+		addEventHandlerOn: ToListPrimarySelectionChangedEvent
+		do: [ :event | dispatchedEvent := event ].
+	dispatchedEvent := nil.
+	l dataAccessor removeAt: 3.
+	" have to pulse to get an updated datasource plus oupdated selection model "
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: {  }.
+	self assert: l selectionMode selectionContainer children isEmpty.
+	self assert: dispatchedEvent notNil
+]
+
+{ #category : #'test - selection changed event' }
+ToListElementTest >> testPrimarySelectionChangedEventDispatchAfterRemoveAll [
+	" event dispateched when a selected node is removed "
+
+	| l dispatchedEvent |
+	l := ToListElement new.
+	space root addChild: l.
+	l fitContent.
+	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	l forceLayout.
+	l selecter selectOnlyIndex: 3.
+	" have to pulse space to get selection actually updated "
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: { 3 }.
+	self
+		assert: l selectionMode selectionContainer children size
+		equals: 1.
+	l
+		addEventHandlerOn: ToListPrimarySelectionChangedEvent
+		do: [ :event | dispatchedEvent := event ].
+	dispatchedEvent := nil.
+	self assert: l selectionModel selectedIndexes equals: { 3 }.
+	l dataAccessor removeAll.
+	" have to pulse to get an updated datasource plus oupdated selection model "
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: {  }.
+	self assert: l selectionMode selectionContainer children isEmpty.
+	self assert: dispatchedEvent notNil
+]
+
 { #category : #'test selection - adding/removing' }
 ToListElementTest >> testRemoveAll [
 
@@ -683,84 +766,6 @@ ToListElementTest >> testSelectAndScrollToPrevious [
 	self
 		assert: l selectionModel selectedIndexes asArray
 		equals: #( 2 3 4 )
-]
-
-{ #category : #'test selection - skin' }
-ToListElementTest >> testSelectedSkinEventAfterRemove [
-	" check that the skin select event is sent to the right node "
-
-	| l receivedSelectedEvents size |
-	l := ToListElement new.
-	receivedSelectedEvents := OrderedCollection new.
-	l nodeBuilder: [ :node :dataItem :holder |
-			node addChild: (ToLabel text: dataItem).
-			node
-				addEventHandlerOn: ToSelectedSkinEvent
-				do: [ :event | receivedSelectedEvents add: event ] ].
-	space root addChild: l.
-	l fitContent.
-	l dataAccessor addAll: self statesOfAmerica.
-	self assert: l selectionModel selectedIndexes isEmpty.
-	size := l dataAccessor size.
-	l selecter selectIndex: size.
-	self waitTestingSpaces.
-	receivedSelectedEvents := OrderedCollection new.
-	l dataAccessor removeAt: 1.
-	self waitTestingSpaces.
-	self assert: l dataAccessor size equals: size - 1.
-	self assert: receivedSelectedEvents notEmpty.
-	receivedSelectedEvents do: [ :evt |
-			self
-				assert: evt currentTarget holder position
-				equals: l dataAccessor size ]
-]
-
-{ #category : #'test selection - skin' }
-ToListElementTest >> testSelectedSkinEventCountAfterRemove [
-	" check that the skin select event is sent to the right node "
-
-	| l receivedSelectedEvents action selectionCounts |
-	l := ToListElement new.
-	action := [ :holder |  ].
-	receivedSelectedEvents := OrderedCollection new.
-	l nodeManager nodeHolderFactory: [ ToNodeHolderForSkinEventTest new ].
-	l nodeBuilder: [ :node :dataItem :holder |
-			node addChild: (ToLabel text: dataItem).
-			node userData
-				at: #testAction
-				put: [ :h | action value: h ].
-			node
-				addEventHandlerOn: ToSelectedSkinEvent
-				do: [ :event | receivedSelectedEvents add: event ] ].
-	space root addChild: l.
-	l fitContent.
-
-	l dataAccessor add: self statesOfAmerica first.
-	l dataAccessor add: self statesOfAmerica second.
-	l selecter selectIndex: 2.
-	self waitTestingSpaces.
-
-	selectionCounts := IdentityDictionary new.
-	action := [ :holder |
-		          | count |
-		          holder notifiedSelected ifFalse: [
-				          count := selectionCounts
-					                   at: holder position
-					                   ifPresent: [ :c | c + 1 ]
-					                   ifAbsent: [ 1 ].
-				          selectionCounts at: holder position put: count ] ].
-
-	receivedSelectedEvents := OrderedCollection new.
-	l dataAccessor removeAt: 1.
-	self waitTestingSpaces.
-	self assert: (selectionCounts includesKey: 2) not.
-	self assert: (selectionCounts at: 1) equals: 1.
-	self assert: receivedSelectedEvents notEmpty.
-	
-	receivedSelectedEvents do: [ :evt |
-			self
-				assert: evt currentTarget holder position
-				equals: l dataAccessor size ]
 ]
 
 { #category : #'test selection - adding/removing' }

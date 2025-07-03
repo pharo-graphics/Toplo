@@ -1,6 +1,6 @@
 Class {
-	#name : #ToElementBorderAnchor,
-	#superclass : #ToElementGeometryAnchor,
+	#name : #ToElementPerimeterAnchor,
+	#superclass : #ToElementLocationAnchor,
 	#instVars : [
 		'radians'
 	],
@@ -8,33 +8,33 @@ Class {
 }
 
 { #category : #accessing }
-ToElementBorderAnchor >> degrees [
+ToElementPerimeterAnchor >> degrees [
 
 	^ radians / Float pi * 180
 ]
 
 { #category : #accessing }
-ToElementBorderAnchor >> degrees: anAngleInDegrees [
+ToElementPerimeterAnchor >> degrees: anAngleInDegrees [
 
 	radians := anAngleInDegrees * Float pi / 180
 ]
 
 { #category : #accessing }
-ToElementBorderAnchor >> radians [
+ToElementPerimeterAnchor >> radians [
 
 	^ radians 
 ]
 
 { #category : #accessing }
-ToElementBorderAnchor >> radians: anAngleInRadians [
+ToElementPerimeterAnchor >> radians: anAngleInRadians [
 
 	radians := anAngleInRadians
 ]
 
 { #category : #applying }
-ToElementBorderAnchor >> readRectangle: aRectangle [
+ToElementPerimeterAnchor >> readRectangle: aRectangle [
 
 	^ self element geometry
-		  positionOnBorderForAnchor: self
+		  pointOnPerimeterForAnchor: self
 		  inRectangle: aRectangle
 ]

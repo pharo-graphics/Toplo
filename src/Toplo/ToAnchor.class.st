@@ -90,9 +90,9 @@ ToAnchor >> * aNumber [
 	"answer a new anchor, which is a combination of receiver, offset by some value.
 	a value could in own turn be anchor "
 
-	^ ToElementOffsetAnchor new
-		  leftHandSideAnchor: self;
-		  offset: [ :value | value * aNumber ]
+	^ ToActionAnchor new
+		  baseAnchor: self;
+		  action: [ :value | value * aNumber ]
 ]
 
 { #category : #arithmetic }
@@ -100,9 +100,9 @@ ToAnchor >> + aValuable [
 	"answer a new anchor, which is a combination of receiver, offset by some value.
 	a value could in own turn be anchor "
 
-	^ ToElementOffsetAnchor new
-		  leftHandSideAnchor: self;
-		  offset: [ :value | value + aValuable value ]
+	^ ToActionAnchor new
+		  baseAnchor: self;
+		  action: [ :value | value + aValuable value ]
 ]
 
 { #category : #arithmetic }
@@ -110,9 +110,9 @@ ToAnchor >> - aValuable [
 	"answer a new anchor, which is a combination of receiver, offset by some value.
 	a value could in own turn be anchor "
 
-	^ ToElementOffsetAnchor new
-		  leftHandSideAnchor: self;
-		  offset: [ :value | value - aValuable value ]
+	^ ToActionAnchor new
+		  baseAnchor: self;
+		  action: [ :value | value - aValuable value ]
 ]
 
 { #category : #arithmetic }
@@ -120,9 +120,15 @@ ToAnchor >> / aValuable [
 	"answer a new anchor, which is a combination of receiver, offset by some value.
 	a value could in own turn be anchor "
 
-	^ ToElementOffsetAnchor new
-		  leftHandSideAnchor: self;
-		  offset: [ :value | value / aValuable value ]
+	^ ToActionAnchor new
+		  baseAnchor: self;
+		  action: [ :value | value / aValuable value ]
+]
+
+{ #category : #applying }
+ToAnchor >> appliedOnRectangle: aRectangle withValue: aValue [
+
+	^ self subclassResponsibility
 ]
 
 { #category : #accessing }
@@ -135,6 +141,15 @@ ToAnchor >> element [
 ToAnchor >> isMeasurement [
 
 	^ false
+]
+
+{ #category : #'instance creation' }
+ToAnchor >> on: anAnchor [
+
+	^ ToAnchorLayoutOperation new
+		  baseAnchor: self;
+		  rightHandSideAnchor: anAnchor;
+		  yourself
 ]
 
 { #category : #applying }

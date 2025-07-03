@@ -22,16 +22,16 @@ ToAnchorLayoutOperation >> appliedOnChildBounds: childBoundsRectangle withParent
 		  withValue: (rightHandSideAnchor readRectangle: targetRectangle)
 ]
 
+{ #category : #accessing }
+ToAnchorLayoutOperation >> baseAnchor: anAnchor [
+
+	leftHandSideAnchor := anAnchor
+]
+
 { #category : #testing }
 ToAnchorLayoutOperation >> isMeasurement [ 
 
 	^ leftHandSideAnchor isMeasurement 
-]
-
-{ #category : #accessing }
-ToAnchorLayoutOperation >> leftHandSideAnchor: anAnchor [
-
-	leftHandSideAnchor := anAnchor
 ]
 
 { #category : #accessing }

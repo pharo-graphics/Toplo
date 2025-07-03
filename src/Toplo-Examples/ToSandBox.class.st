@@ -1214,18 +1214,9 @@ ToSandBox class >> example_AnchorLayout6 [
 ]
 
 { #category : #anchors }
-ToSandBox class >> example_AnchorsAroundCircle [
+ToSandBox class >> example_AnchorLayout7 [
 
-	| blue |
-	blue := self example_AnchorsAroundRectangle.
-	blue size: 100 asPoint.
-	blue geometry: BlCircleGeometry new
-]
-
-{ #category : #anchors }
-ToSandBox class >> example_AnchorsAroundRectangle [
-
-	| pane blue |
+	| pane blue red |
 	pane := ToElement new.
 	pane matchParent.
 	pane layout: ToAnchorLayout new.
@@ -1236,8 +1227,138 @@ ToSandBox class >> example_AnchorsAroundRectangle [
 		        id: #blue;
 		        yourself.
 	blue background: Color blue muchDarker darker.
-	blue size: 100 @80.
+	blue size: 100 asPoint.
 	blue margin: (BlInsets all: 10).
+	blue constraintsDo: [ :c |
+		c anchors add:
+			(blue centerAnchor on: pane centerAnchor + 40 asPoint) ].
+
+	red := ToElement new
+		       id: #red;
+		       layout: BlFrameLayout new;
+		       yourself.
+	red background: Color red.
+	red size: 20 @ 20.
+	red constraintsDo: [ :c |
+			c anchors add: ((red pointAnchor point: 20 asPoint) on:
+					 (blue pointAnchor point: 0 asPoint)) ].
+				
+
+	pane addChild: blue.
+	pane addChild: red.
+
+	pane openInInnerWindow
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_AnchorLayout8 [
+
+	| pane blue red |
+	pane := ToElement new.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+	"pane padding: (BlInsets all: 10)."
+
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue background: Color blue muchDarker darker.
+	blue size: 100 asPoint.
+	blue margin: (BlInsets all: 10).
+	blue constraintsDo: [ :c |
+		c anchors add:
+			(blue centerAnchor on: pane centerAnchor) ].
+
+	red := ToElement new
+		       id: #red;
+		       layout: BlFrameLayout new;
+		       yourself.
+	red background: Color red.
+	red size: 20 @ 20.
+	red constraintsDo: [ :c |
+			c anchors add: ((red topRightAnchor) on:
+					 (blue pointAnchor point: -10 asPoint)) ].
+				
+
+	pane addChild: blue.
+	pane addChild: red.
+
+	pane openInInnerWindow
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_AnchorLayout9 [
+
+	| pane blue red |
+	pane := ToElement new.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+	"pane padding: (BlInsets all: 10)."
+
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue background: Color blue muchDarker darker.
+	blue size: 100 asPoint.
+	blue margin: (BlInsets all: 10).
+	blue constraintsDo: [ :c |
+		c anchors add:
+			(blue centerAnchor on: pane centerAnchor) ].
+
+	red := ToElement new
+		       id: #red;
+		       layout: BlFrameLayout new;
+		       yourself.
+	red background: Color red.
+	red size: 20 @ 20.
+	red constraintsDo: [ :c |
+			c anchors add: ((red topRightAnchor + (0@10) ) on:
+					 (blue pointAnchor point: 0 asPoint)) ].
+				
+
+	pane addChild: blue.
+	pane addChild: red.
+
+	pane openInInnerWindow
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_AnchorsAroundCircle [
+
+	| blue |
+	blue := self example_AnchorsAroundRectangle.
+	blue size: 100 asPoint.
+	blue geometry: BlCircleGeometry new
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_AnchorsAroundEllipse [
+
+	| blue |
+	blue := self example_AnchorsAroundRectangle.
+	blue size: 100 @ 70.
+	blue geometry: BlEllipseGeometry new
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_AnchorsAroundRectangle [
+
+	| pane blue |
+	pane := ToElement new.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+	
+	pane padding: (BlInsets all: 10).
+
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue background: Color blue muchDarker darker.
+	blue size: 100 @ 50.
+	blue margin: (BlInsets horizontal: 40 vertical: 40).
 	blue constraintsDo: [ :c |
 			c anchors add:
 				(blue verticalCenterAnchor on: pane verticalCenterAnchor).
@@ -1264,11 +1385,21 @@ ToSandBox class >> example_AnchorsAroundRectangle [
 			deg size: 24@22.
 			deg constraintsDo: [ :c |
 					c anchors add:
-						(deg centerAnchor on: (blue borderAnchor degrees: degrees)) ].
+						(deg centerAnchor on: (blue perimeterAnchor degrees: degrees)) ].
 			pane addChild: deg ].
 
 	pane openInInnerWindow.
 	^ blue
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_AnchorsAroundRoundRectangle [
+
+	| blue |
+	blue := self example_AnchorsAroundRectangle.
+	blue size: 100 @ 100.
+	blue geometry: (BlRoundedRectangleGeometry cornerRadius: 30).
+
 ]
 
 { #category : #list }
@@ -3343,6 +3474,46 @@ ToSandBox class >> example_OpenSaveSaveAsCloseWithSubmenu [
 	container pane addChild: menu.
 	"menu window inspect."
 	container openInSpace
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_PerimeterAnchorOnLeftHandSide [
+
+	| pane blue red |
+	pane := ToElement new.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+
+	pane padding: (BlInsets all: 10).
+
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue background: Color blue muchDarker darker.
+	blue size: 100 @ 50.
+	blue margin: (BlInsets horizontal: 40 vertical: 40).
+	blue constraintsDo: [ :c |
+			c anchors add:
+				(blue verticalCenterAnchor on: pane verticalCenterAnchor).
+			c anchors add:
+				(blue horizontalCenterAnchor on: pane horizontalCenterAnchor) ].
+
+	pane addChild: blue.
+
+	red := ToElement new
+		       id: #red;
+		       layout: BlFrameLayout new;
+		       yourself.
+	red background: Color red.
+	red size: 24 @ 22.
+	red constraintsDo: [ :c |
+			c anchors add:
+				((red perimeterAnchor degrees: 90) on: blue bottomLeftAnchor) ].
+	pane addChild: red.
+
+	pane openInInnerWindow.
+	^ blue
 ]
 
 { #category : #list }

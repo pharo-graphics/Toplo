@@ -93,14 +93,6 @@ BlElement >> areSelectionSkinEventsPrevented [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> borderAnchor [
-
-	^ ToElementBorderAnchor new
-		  element: self;
-		  yourself
-]
-
-{ #category : #'*Toplo' }
 BlElement >> borderBuilder [
 
 	^ self skinManager borderBuilder
@@ -110,6 +102,22 @@ BlElement >> borderBuilder [
 BlElement >> bottomAnchor [
 
 	^ ToElementBottomAnchor new
+		  element: self;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
+BlElement >> bottomLeftAnchor [
+
+	^ ToElementBottomLeftAnchor new
+		  element: self;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
+BlElement >> bottomRightAnchor [
+
+	^ ToElementBottomRightAnchor new
 		  element: self;
 		  yourself
 ]
@@ -619,6 +627,22 @@ BlElement >> parentChainReverseDo: aBlock [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> perimeterAnchor [
+
+	^ ToElementPerimeterAnchor new
+		  element: self;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
+BlElement >> pointAnchor [ 
+
+	^ ToElementPointAnchor new
+		  element: self;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
 BlElement >> preventSelectionSkinEvents [
 
 	self preventSkinEventClass: ToSelectedSkinEvent.
@@ -885,6 +909,22 @@ BlElement >> tokenValueNamed: aSymbol [
 BlElement >> topAnchor [
 
 	^ ToElementTopAnchor new
+		  element: self;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
+BlElement >> topLeftAnchor [
+
+	^ ToElementTopLeftAnchor new
+		  element: self;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
+BlElement >> topRightAnchor [
+
+	^ ToElementTopRightAnchor new
 		  element: self;
 		  yourself
 ]

@@ -1218,6 +1218,7 @@ ToSandBox class >> example_AnchorsAroundCircle [
 
 	| blue |
 	blue := self example_AnchorsAroundRectangle.
+	blue size: 100 asPoint.
 	blue geometry: BlCircleGeometry new
 ]
 
@@ -1235,7 +1236,7 @@ ToSandBox class >> example_AnchorsAroundRectangle [
 		        id: #blue;
 		        yourself.
 	blue background: Color blue muchDarker darker.
-	blue size: 100 asPoint.
+	blue size: 100 @80.
 	blue margin: (BlInsets all: 10).
 	blue constraintsDo: [ :c |
 			c anchors add:

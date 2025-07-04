@@ -225,10 +225,10 @@ ToAnchorTest >> testExtentAnchorOnChild [
 		assert:
 		(anchor readRectangle:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
-		equals: -5 @ -10.
+		equals: 0 @ 0.
 	self
 		assert: (anchor readRectangle: child bounds asRectangle)
-		equals: 95@110.
+		equals: 100@120.
 	self
 		assert:
 		(anchor appliedOnRectangle: child bounds asRectangle withValue: 10@20)

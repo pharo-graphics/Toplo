@@ -1,7 +1,6 @@
 Class {
 	#name : #ToSwitchIcon,
-	#superclass : #ToGeneralButton,
-	#classTraits : 'TToCheckable classTrait',
+	#superclass : #ToElement,
 	#instVars : [
 		'track',
 		'handle',
@@ -40,8 +39,7 @@ ToSwitchIcon >> checked: aBoolean [
 
 	checked = aBoolean ifTrue: [ ^ self ].
 	checked := aBoolean.
-	self dispatchEvent:
-		(ToCheckableCheckEvent current: checked previous: checked not)
+	self dispatchEvent: (ToCheckableCheckEvent checked: checked)
 ]
 
 { #category : #accessing }
@@ -59,7 +57,7 @@ ToSwitchIcon >> defaultHandleMarginWidth [
 { #category : #initialization }
 ToSwitchIcon >> defaultSize [
 
-	^ 24@14.0
+	^ 24@22.0
 ]
 
 { #category : #'private - layout' }
@@ -187,7 +185,7 @@ ToSwitchIcon >> newHandle [
 		  margin: (BlInsets all: self defaultHandleMarginWidth);
 		  layout: BlFrameLayout new;
 		  background: Color white;
-		vMatchParent;
+		  vMatchParent;
 		  yourself
 ]
 

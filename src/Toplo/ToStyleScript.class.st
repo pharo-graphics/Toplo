@@ -44,13 +44,13 @@ ToStyleScript >> pushStyleRuleFor: aStyleSelector styleWith: aBlock [
 		ifNotEmpty: [ :stk | stk top addStyleRule: rule ]
 ]
 
-{ #category : #'t - style rules holder' }
+{ #category : #accessing }
 ToStyleScript >> rawStyleRules [
 
 	^ styleRules
 ]
 
-{ #category : #'t - style rules holder' }
+{ #category : #accessing }
 ToStyleScript >> rawStyleRules: aStyleRuleCollection [
 
 	styleRules := aStyleRuleCollection

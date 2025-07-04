@@ -14,13 +14,7 @@ ToAccordionHeaderElementSkin >> checkedSkinEvent: anEvent [
 { #category : #'event handling' }
 ToAccordionHeaderElementSkin >> collapseHeader: anHeader [
 
-	| arrowTk arrowIm |
-	arrowTk := #'submenu-arrow-right'.
-	arrowIm := ToImage inner: (anHeader valueOfTokenNamed: arrowTk).
-	arrowIm
-		size: 18 asPoint;
-		innerImageColor: (anHeader valueOfTokenNamed: #'color-text').
-	anHeader icon: arrowIm
+	anHeader icon beRight
 ]
 
 { #category : #'event handling' }
@@ -34,13 +28,7 @@ ToAccordionHeaderElementSkin >> deselectedSkinEvent: anEvent [
 { #category : #'event handling' }
 ToAccordionHeaderElementSkin >> expandHeader: anHeader [
 
-	| arrowTk arrowIm |
-	arrowTk := #'submenu-arrow-down'.
-	arrowIm := ToImage inner: (anHeader valueOfTokenNamed: arrowTk).
-	arrowIm
-		size: 18 asPoint;
-		innerImageColor: (anHeader valueOfTokenNamed: #'color-text').
-	anHeader icon: arrowIm
+	anHeader icon beDown
 ]
 
 { #category : #'event handling' }
@@ -48,19 +36,17 @@ ToAccordionHeaderElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		| arrowTk arrowIm |
+		|  arrowIm |
 		e padding: (BlInsets
 				 horizontal: (e valueOfTokenNamed: #'padding-content-HS')
 				 vertical: (e valueOfTokenNamed: #'padding-content-V')).
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e valueOfTokenNamed: 'border-radius')).
-		arrowTk := e isExpanded
-			           ifTrue: [ #'submenu-arrow-down' ]
-			           ifFalse: [ #'submenu-arrow-right' ].
-		arrowIm := ToImage inner: (e valueOfTokenNamed: arrowTk).
+		arrowIm := e isExpanded
+			           ifTrue: [ ToIconicArrowButton down ]
+			           ifFalse: [ ToIconicArrowButton right ].
 		arrowIm
-			size: 18 asPoint;
-			innerImageColor: (e valueOfTokenNamed: #'color-text').
+					size: (e valueOfTokenNamed: #'iconic-arrow-breadth') asPoint.
 		e icon: arrowIm.
 		(e parent hasStamp: #ghost) ifFalse: [
 			e background: (e valueOfTokenNamed: #'color-secondary-selection') ] ]

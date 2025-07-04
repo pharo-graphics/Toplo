@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'pickOrder'
 	],
-	#category : #'Toplo-Widget-Tag-Bar'
+	#category : #'Toplo-Widget-Tag-Tag'
 }
 
 { #category : #accessing }

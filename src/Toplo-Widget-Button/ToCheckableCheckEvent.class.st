@@ -2,49 +2,43 @@ Class {
 	#name : #ToCheckableCheckEvent,
 	#superclass : #BlEvent,
 	#instVars : [
-		'previous',
-		'current'
+		'checked'
 	],
 	#category : #'Toplo-Widget-Button-Checkable'
 }
 
 { #category : #'instance creation' }
-ToCheckableCheckEvent class >> current: aBoolean previous: aPreviousBoolean [
+ToCheckableCheckEvent class >> checked: aBoolean [
 
 	^ self new
-		  current: aBoolean;
-		  previous: aPreviousBoolean;
+		  checked: aBoolean;
 		  yourself
 ]
 
 { #category : #accessing }
 ToCheckableCheckEvent >> checked [
 
-	^ self current
+	^ checked
+]
+
+{ #category : #accessing }
+ToCheckableCheckEvent >> checked: aBoolean [
+
+	checked := aBoolean 
 ]
 
 { #category : #accessing }
 ToCheckableCheckEvent >> current [
 
-	^ current
+	self deprecated: '#checked instead' transformWith: '`@rcvr current' -> '`@rcvr checked'.
+	^ self checked
 ]
 
 { #category : #accessing }
 ToCheckableCheckEvent >> current: aBoolean [
 
-	current := aBoolean
-]
-
-{ #category : #accessing }
-ToCheckableCheckEvent >> previous [
-
-	^ previous
-]
-
-{ #category : #accessing }
-ToCheckableCheckEvent >> previous: aBoolean [
-
-	previous := aBoolean
+	self deprecated: '#checked: instead' transformWith: '`@rcvr current: `@arg' -> '`@rcvr checked: `@arg'.
+	self checked: aBoolean
 ]
 
 { #category : #sending }

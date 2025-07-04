@@ -38,16 +38,14 @@ ToCheckableData >> checked: aBooleanOrIndeterminate [
 		ifTrue: [
 			Error signal:
 				'a symbol not allowed except when indeterminate is explicitly allowed ' ].
-	owner isDisabled ifTrue: [ ^ self ].
 	current := checked.
+	aBooleanOrIndeterminate = current ifTrue: [ ^ self ].
+	owner isDisabled ifTrue: [ ^ self ].
 	owner group ifNotNil: [ :grp |
 		(grp allowChangeWith: aBooleanOrIndeterminate forCheckable: owner)
 			ifFalse: [ ^ self ] ].
-	aBooleanOrIndeterminate = current ifTrue: [ ^ self ].
 	self privateChecked: aBooleanOrIndeterminate.
-	owner dispatchEvent: (ToCheckableChangedEvent new
-			 checked: checked;
-			 yourself)
+	self notifyChanged
 ]
 
 { #category : #accessing }
@@ -104,6 +102,14 @@ ToCheckableData >> nextCheckValue [
 	^ self checked not
 ]
 
+{ #category : #'t - checkable  - protocol' }
+ToCheckableData >> notifyChanged [ 
+
+	owner dispatchEvent: (ToCheckableChangedEvent new
+			 checked: self isChecked;
+			 yourself)
+]
+
 { #category : #accessing }
 ToCheckableData >> owner [
 
@@ -122,24 +128,17 @@ ToCheckableData >> privateChecked: aBooleanOrIndeterminate [
 	Sent locally from the checkable>>checked: method and can be sent from
 	the checkableGroup of the checkable."
 
-	| prev request |
-	request := aBooleanOrIndeterminate.
-	checked = request ifTrue: [ ^ self ].
-	prev := checked.
-	checked := request.
+	checked = aBooleanOrIndeterminate ifTrue: [ ^ self ].
+	checked := aBooleanOrIndeterminate.
 	" finally dispatch the event used to generate the state for the skin.
 	implementation note: we need this additional event for the skin.
-	This event can be used if one need to handle the look change "
-	owner dispatchEvent:
-		(ToCheckableCheckEvent current: request previous: prev)
-]
-
-{ #category : #'checking protocol' }
-ToCheckableData >> registerHolder: anElement [
-
-	owner addEventHandler: (BlEventHandler
-			 on: ToCheckableCheckEvent
-			 do: [ :event | anElement dispatchEvent: event ])
+	This event can be used if one need to handle the look change or a 
+	change in a checkable group (when an item in a group is checked, 
+	the others may be unchecked according to the group strategy). If one
+	need to handle the case where a checkable is unchecked because another
+	group item is checked, then one can use this event 
+	(example: ToAccordionElement)"
+	owner dispatchEvent: (ToCheckableCheckEvent checked: checked)
 ]
 
 { #category : #'checking protocol' }

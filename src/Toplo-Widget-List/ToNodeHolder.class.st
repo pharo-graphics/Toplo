@@ -14,9 +14,10 @@ ToNodeHolder >> bindDataItem: aDataItem [
 
 	self flag: 'The recycling case have to be re-worked'.
 	" I can already have a node in case of recycling "
-	self node ifNil: [
-		self setupNodeWith: (self nodeManager newNodeForHolder: self).
-		self setDataItemAndBuildNode: aDataItem ]
+	self node ifNotNil: [ ^ self ].
+	self setupNodeWith: (self nodeManager newNodeForHolder: self).
+	self dataItem: aDataItem.
+	self nodeManager buildNode: self node
 ]
 
 { #category : #accessing }
@@ -136,6 +137,7 @@ ToNodeHolder >> nodeManager [
 
 { #category : #accessing }
 ToNodeHolder >> notifyDeselectedWithOption: aSelectionElementOption [
+
 	self isSelected ifTrue: [ ^ self ].
 	self node dispatchEvent: (ToListNodeSelectedEvent new
 			 listElement: self listElement;
@@ -165,12 +167,21 @@ ToNodeHolder >> recyclingRequested: aBoolean [
 	recyclingRequested := aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : #dependencies }
 ToNodeHolder >> release [
 
 	super release.
 	dataItem := nil
 
+]
+
+{ #category : #removing }
+ToNodeHolder >> removeNodeFromBar [
+	" 
+	since a select node is created by selecting and item in the list element, 
+	removing the node is done by deselecting the corresponding list item in the select popu list "
+
+	self dataSource removeAt: self position
 ]
 
 { #category : #accessing }
@@ -186,23 +197,10 @@ ToNodeHolder >> selectionModel [
 ]
 
 { #category : #accessing }
-ToNodeHolder >> setDataItemAndBuildNode: aDataItem [ 
-
-	| nodeManager |
-	self dataItem: aDataItem.
-	nodeManager := self nodeManager.
-	nodeManager buildNode: self node.
-	nodeManager constraintNode: self node.
-	self initializeNode
-]
-
-{ #category : #accessing }
 ToNodeHolder >> setupNodeWith: aNode [
 
-	| infiniteConstraints |
 	self node: aNode.
-	infiniteConstraints := aNode constraints infinite.
-	infiniteConstraints holder: self
+	aNode holder: self
 ]
 
 { #category : #accessing }

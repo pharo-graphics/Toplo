@@ -1,18 +1,20 @@
 Trait {
 	#name : #TToMenuItemBar,
+	#instVars : [
+		'menuBarOwner'
+	],
 	#category : #'Toplo-Widget-Menu-ItemBar'
 }
 
 { #category : #'t - menu item bar  - accessing' }
 TToMenuItemBar >> menuBarOwner [
 
-	^ self userData at: #menuBarOwner ifAbsent: [  ]
+	^ menuBarOwner
 ]
 
 { #category : #'t - menu item bar  - accessing' }
 TToMenuItemBar >> menuBarOwner: aBarOwner [
 
-	self userData at: #menuBarOwner put: aBarOwner.
-	" have to configure layout because the trackelement layout may use the menuBarOwner "
-	self configureLayout
+	menuBarOwner ifNotNil: [ BlImmutableObjectChangeError signal ].
+	menuBarOwner := aBarOwner
 ]

@@ -140,12 +140,44 @@ ToCheckableGroupTest >> testUnregister [
 	self assert: group checkedList size equals: 1.
 	self assert: group registeredCheckables last checked.
 	group unregister: buttons second.
+	self assert: group registeredCheckables size equals: 3
+
+]
+
+{ #category : #tests }
+ToCheckableGroupTest >> testUnregisterWithStrictStrategy [
+
+	| group buttons |
+	group := ToCheckableGroup new.
+	buttons := (1 to: 4) collect: [ :idx | ToCheckbox new labelText: idx asString; check ].
+	group registerAll: buttons.
+	self assert: group checkedList size equals: 1.
+	self assert: group registeredCheckables last checked.
+	group unregister: buttons second.
 	self assert: group registeredCheckables size equals: 3.
 	group unregister: buttons first.
 	self assert: group registeredCheckables size equals: 2.
 	self assert: group checkedList size equals: 1.
+	self assert: buttons last isChecked.
 	group unregister: buttons last.
 	self assert: group checkedList size equals: 0.
+	group unregister: buttons third.
+	self assert: group registeredCheckables size equals: 0.
+
+
+
+]
+
+{ #category : #tests }
+ToCheckableGroupTest >> testUnregisterWithWeakOrNoneStrategy [
+
+	| group buttons |
+	group := ToCheckableGroup new.
+	buttons := (1 to: 4) collect: [ :idx | ToCheckbox new labelText: idx asString; check ].
+	group registerAll: buttons.
+	buttons do: [ :b | group unregister: b ].
+	self assert: group checkedList size equals: 0.
+	self assert: group registeredCheckables size equals: 0.
 
 
 ]

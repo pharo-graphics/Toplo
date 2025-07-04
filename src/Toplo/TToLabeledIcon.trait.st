@@ -34,6 +34,42 @@ TToLabeledIcon >> hasLabel [
 ]
 
 { #category : #'t - labeled icon' }
+TToLabeledIcon >> hideEndIcon [
+
+	^ self hideEnd
+]
+
+{ #category : #'t - labeled icon' }
+TToLabeledIcon >> hideEndIcon: aBoolean [
+
+	self hideEnd: aBoolean
+]
+
+{ #category : #'t - labeled icon' }
+TToLabeledIcon >> hideIcon [
+
+	^ self hideStart
+]
+
+{ #category : #'t - labeled icon' }
+TToLabeledIcon >> hideIcon: aBoolean [
+
+	self hideStart: aBoolean
+]
+
+{ #category : #'t - labeled icon' }
+TToLabeledIcon >> hideLabel [
+
+	^ self hideMiddle
+]
+
+{ #category : #'t - labeled icon' }
+TToLabeledIcon >> hideLabel: aBoolean [
+
+	self hideMiddle: aBoolean
+]
+
+{ #category : #'t - labeled icon' }
 TToLabeledIcon >> icon [
 
 	^ self startElement
@@ -42,7 +78,6 @@ TToLabeledIcon >> icon [
 { #category : #'t - labeled icon' }
 TToLabeledIcon >> icon: anElement [
 
-	self icon = anElement ifTrue: [ ^ self ].
 	self startElement: anElement
 ]
 
@@ -79,7 +114,6 @@ TToLabeledIcon >> label [
 { #category : #'t - labeled icon' }
 TToLabeledIcon >> label: anElement [
 
-	self label = anElement ifTrue: [ ^ self ].
 	self middleElement: anElement
 ]
 

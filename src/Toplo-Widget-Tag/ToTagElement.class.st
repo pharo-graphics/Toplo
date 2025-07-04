@@ -1,30 +1,28 @@
 Class {
 	#name : #ToTagElement,
 	#superclass : #ToButton,
-	#traits : 'TToTagElement',
-	#classTraits : 'TToTagElement classTrait',
-	#instVars : [
-		'removable',
-		'withBorder'
-	],
-	#category : #'Toplo-Widget-Tag-Core'
+	#traits : 'TToColorableItemElement + TToRemovableItem + (TToRemovableNode - {#isRemovable})',
+	#classTraits : 'TToColorableItemElement classTrait + TToRemovableItem classTrait + TToRemovableNode classTrait',
+	#category : #'Toplo-Widget-Tag-Tag'
 }
 
-{ #category : #'t - labeled icon' }
-ToTagElement >> icon: anElement [
+{ #category : #configuration }
+ToTagElement >> applyWidgetConfiguration [ 
 
-	self iconDo: [ :ic | ic removeStamp: #'parent-tag' ].
-	super icon: anElement.
-	self iconDo: [ :ic | ic addStamp: #'parent-tag' withValue: self ]
+	super applyWidgetConfiguration.
+	self removeRemoveButton.
+	self isRemovable
+		ifTrue: [ self addRemoveButton ].
+	self requestNewSkin 
 ]
 
 { #category : #initialization }
 ToTagElement >> initialize [ 
 
 	super initialize.
+	self applySkinInstallerOnFirstRequest: true.
 	self takeFocusOnClick: false.
-	withBorder := true.
-	self removable: false
+	removable := false
 ]
 
 { #category : #'t - checkable  - protocol' }
@@ -34,30 +32,10 @@ ToTagElement >> initializeAsCheckable [
 	self takeFocusOnClick: true
 ]
 
-{ #category : #'t - labeled icon' }
-ToTagElement >> label: anElement [
-
-	self labelDo: [ :lab | lab removeStamp: #'parent-tag' ].
-	super label: anElement.
-	self labelDo: [ :lab | lab addStamp: #'parent-tag' withValue: self ]
-]
-
 { #category : #skin }
 ToTagElement >> newRawSkin [
 
 	^ self isCheckable
 		  ifTrue: [ ToCheckableTagSkin new ]
-		  ifFalse: [ ToTagSkin new ]
-]
-
-{ #category : #accessing }
-ToTagElement >> rawRemovable [
-
-	^ removable ifNil: [ removable := false ]
-]
-
-{ #category : #accessing }
-ToTagElement >> rawRemovable: aBoolean [
-
-	removable := aBoolean
+		  ifFalse: [ ToTagElementSkin new ]
 ]

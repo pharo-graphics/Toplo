@@ -85,7 +85,7 @@ ToBeeTheme >> declareBackgroundStyleWithTokenDefault: aDefaultColorToken tokenHo
 		write: (self property: #'background')
 		with: [ :e | e valueOfTokenNamed: aDefaultColorToken ].
 	self
-		when: ToLeavedSkinEvent
+		when: ToLeftSkinEvent
 		write: (self property: #'background')
 		with: [ :e | e valueOfTokenNamed: aDefaultColorToken ]
 		animation: backgroundColorAnim.
@@ -118,7 +118,7 @@ ToBeeTheme >> declareBorderStyleWithTokenDefault: aDefaultColorToken tokenHover:
 				width: (e valueOfTokenNamed: #'line-width');
 				build ].
 	self
-		when: ToLeavedSkinEvent
+		when: ToLeftSkinEvent
 		write: (self property: #border)
 		with: [ :e |
 			BlBorderBuilder new
@@ -179,7 +179,7 @@ ToBeeTheme >> declareCommonButtonRules [
 					ifTrue: [ Cursor webLink ]
 					ifFalse: [  ] ].
 		self
-			when: ToLeavedSkinEvent
+			when: ToLeftSkinEvent
 			write: (self property: #mouseCursor)
 			with: nil.
 
@@ -237,7 +237,7 @@ ToBeeTheme >> declareDashedBorderStyleWithTokenDefault: aDefaultColorToken token
 				dashArray: (e valueOfTokenNamed: #'dash-array');
 				build ].
 	self
-		when: ToLeavedSkinEvent
+		when: ToLeftSkinEvent
 		write: (self property: #border)
 		with: [ :e |
 			BlBorderBuilder new
@@ -363,7 +363,7 @@ ToBeeTheme >> declareIconInLabeledIconRules [
 
 	self
 		select: (ToImage asTypeSelector
-				 withParent: #'labeled-icon' asStampSelector
+				 withParent: ToLabeledIcon asTypeSelector
 				 atDepth: 2)
 		style: [
 			self write: (self property: #'layout-constraints') with: [ :e |
@@ -507,7 +507,7 @@ ToBeeTheme >> declareLabelStyleWithTokenDefault: aDefaultColorToken tokenHover: 
 		write: (self property: #'button-label-text-foreground')
 		with: [ :e | e valueOfTokenNamed: aDefaultColorToken ].
 	self
-		when: ToLeavedSkinEvent
+		when: ToLeftSkinEvent
 		write: (self property: #'button-label-text-foreground')
 		with: [ :e | e valueOfTokenNamed: aDefaultColorToken ].
 	self
@@ -524,7 +524,7 @@ ToBeeTheme >> declareLabelStyleWithTokenDefault: aDefaultColorToken tokenHover: 
 ToBeeTheme >> declareLabeledIconInButtonRules [
 
 	self
-		select: (#'labeled-icon' asStampSelector
+		select: (ToLabeledIcon asTypeSelector
 				 withParent: #button asStampSelector
 				 atDepth: 1)
 		style: [
@@ -611,7 +611,7 @@ ToBeeTheme >> declareNoBorder [
 				paint: Color transparent
 				width: (e valueOfTokenNamed: #'line-width') ].
 	self
-		when: ToLeavedSkinEvent
+		when: ToLeftSkinEvent
 		write: (self property: #'border')
 		with: [ :e |
 			BlBorder

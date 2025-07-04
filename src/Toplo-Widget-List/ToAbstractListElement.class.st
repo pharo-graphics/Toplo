@@ -1,14 +1,13 @@
 Class {
 	#name : #ToAbstractListElement,
 	#superclass : #ToElement,
-	#traits : 'TToListElementDecorator + TToElementWithPlaceholder + TToWithOrientableLayout',
-	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait + TToWithOrientableLayout classTrait',
+	#traits : 'TToListElementDecorator + TToElementWithPlaceholder + TToOrientable',
+	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait + TToOrientable classTrait',
 	#instVars : [
 		'next',
 		'dataSource',
 		'nodeManager',
-		'selectionModeMap',
-		'commandApplicationStrategy'
+		'selectionModeMap'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -20,6 +19,12 @@ ToAbstractListElement >> addSelectionMode: aSelectionMode [
 		at: aSelectionMode selectionChangedEventClass
 		ifPresent: [ Error signal: 'Duplicate selection mode' ].
 	selectionModeMap at: aSelectionMode selectionChangedEventClass put: aSelectionMode
+]
+
+{ #category : #'private - commands' }
+ToAbstractListElement >> addedDataSourceCommand: aCommand [
+
+	self innerElementDo: [ :inner | inner addedDataSourceCommand: aCommand ]
 ]
 
 { #category : #'private - commands' }
@@ -40,7 +45,7 @@ ToAbstractListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 			count := aDataSourceCommand itemCount.
 			start to: start + count - 1 do: [ :localIndex |
 				| d originalIndex |
-				d := self dataAccessor at: localIndex.
+				d := self dataSource at: localIndex.
 				originalIndex := sieve originalIndexOf: d.
 				sieve selectionModel
 					transferSelectionFromIndex: originalIndex
@@ -50,16 +55,19 @@ ToAbstractListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 		self selectionModel copySelectionFrom: sieve selectionModel ]
 ]
 
-{ #category : #accessing }
-ToAbstractListElement >> commandApplicationStrategy [
+{ #category : #configuration }
+ToAbstractListElement >> applyWidgetConfiguration [
 
-	^ commandApplicationStrategy
+	super applyWidgetConfiguration.
+	self innerElement applyWidgetConfiguration
 ]
 
-{ #category : #'t - bar element' }
-ToAbstractListElement >> configureLayout [
+{ #category : #layout }
+ToAbstractListElement >> consumeFinalStepCommands [
 
-	self innerElement configureLayoutIn: self
+	self innerElement consumeFinalStepCommands
+
+	
 ]
 
 { #category : #'accessing selecters' }
@@ -118,6 +126,12 @@ ToAbstractListElement >> dataSource: aDataSource [
 ]
 
 { #category : #accessing }
+ToAbstractListElement >> dataSourceManager [
+
+	^ self innerElement dataSourceManager 
+]
+
+{ #category : #accessing }
 ToAbstractListElement >> dataUpdater [
 
 	self
@@ -129,15 +143,15 @@ ToAbstractListElement >> dataUpdater [
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultContextMenuSelectionMode [
+ToAbstractListElement >> defaultContextMenuManagerClass [
 
-	^ ToListContextMenuSelectionMode new
+	^ ToListElementContextMenuManager
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultContextMenuWindowManagerClass [
+ToAbstractListElement >> defaultContextMenuSelectionMode [
 
-	^ ToListElementContextMenuManager
+	^ ToListContextMenuSelectionMode new
 ]
 
 { #category : #initialization }
@@ -250,6 +264,16 @@ ToAbstractListElement >> flagAsDisabled: aBoolean [
 	super flagAsDisabled: aBoolean
 ]
 
+{ #category : #'selection updating' }
+ToAbstractListElement >> forceUpdateAllSelections [
+
+	self whenLayoutedDoOnce: [
+			self selectionModes do: [ :mode |
+					mode requestNewRepresentation.
+					self updateModeSelectionFrom: mode ] ].
+	self requestLayout
+]
+
 { #category : #'accessing selecters' }
 ToAbstractListElement >> hiddenAtPosition: anInteger [
 
@@ -279,7 +303,6 @@ ToAbstractListElement >> initialize [
 
 	super initialize.
 
-	commandApplicationStrategy := self newCommandApplicationStrategy element: self.
 	nodeManager := self defaultNodeManager.
 	selectionModeMap := IdentityDictionary new.
 
@@ -288,17 +311,16 @@ ToAbstractListElement >> initialize [
 
 	self layout: self defaultLayout.
 
-	self addEventHandler: (self defaultEventHandler target: self; yourself).
+	self addEventHandler: self defaultEventHandler.
 	self primarySelectionMode: self defaultPrimarySelectionMode.
 	self secondarySelectionMode: self defaultSecondarySelectionMode.
 	self contextMenuSelectionMode: self defaultContextMenuSelectionMode.
-	self contextMenuWindowManagerClass:
-		self defaultContextMenuWindowManagerClass.
+	self contextMenuManagerClass: self defaultContextMenuManagerClass.
 	self newUnselectableSelectionMode onInstalledIn: self.
 	self newHiddenSelectionMode onInstalledIn: self.
 	self newDisabledSelectionMode onInstalledIn: self.
 
-	self matchParent
+	self matchParent 
 ]
 
 { #category : #initialization }
@@ -313,6 +335,12 @@ ToAbstractListElement >> initializeInnerElement [
 	next := self defaultInnerElement.
 	self next elevation: (BlRelativeElevation elevation: 10).
 	self addChild: self next
+]
+
+{ #category : #'t - list element decorator - infinite accessing' }
+ToAbstractListElement >> innerElementDo: aValuable [
+
+	aValuable value: self innerElement
 ]
 
 { #category : #testing }
@@ -343,12 +371,6 @@ ToAbstractListElement >> itemCount [
 ]
 
 { #category : #'instance creation' }
-ToAbstractListElement >> newCommandApplicationStrategy [
-
-	^ ToQueueBasedCommandApplicationStrategy new
-]
-
-{ #category : #'instance creation' }
 ToAbstractListElement >> newDisabledSelectionMode [
 	" note that a disabled mode need an event handler to force the building of disabled nodes "
 
@@ -365,6 +387,12 @@ ToAbstractListElement >> newHiddenSelectionMode [
 ToAbstractListElement >> newRawSkin [ 
 
 	^ ToBasicListElementSkin new
+]
+
+{ #category : #'instance creation' }
+ToAbstractListElement >> newSieve [
+
+	^ ToListElementSieve new
 ]
 
 { #category : #'instance creation' }
@@ -394,26 +422,10 @@ ToAbstractListElement >> notifyDataSourceChanged [
 ]
 
 { #category : #notifications }
-ToAbstractListElement >> notifyDataSourceItemChanged: aDataSourceEvent [
-
-	self dispatchEvent: aDataSourceEvent
-]
-
-{ #category : #notifications }
 ToAbstractListElement >> notifyDataSourceItemsFiltered: aDataSourceEvent [
 
 	
 	self dispatchEvent: aDataSourceEvent
-]
-
-{ #category : #notifications }
-ToAbstractListElement >> notifyPrimarySelectionDirty [
-
-	self
-		deprecated: 'use #updateAllSelections instead'
-		transformWith:
-		'`@rcvr notifyPrimarySelectionDirty' -> '`@rcvr updateAllSelections'.
-	self updateAllSelections
 ]
 
 { #category : #'private - commands' }
@@ -421,7 +433,7 @@ ToAbstractListElement >> offsetPositionRecordsForFilter: aStartPosition itemCoun
 
 	aSieve pattern
 		ifNotEmpty: [
-			self dataAccessor withIndexDo: [ :d :localIndex |
+			self dataSource withIndexDo: [ :d :localIndex |
 				| originalIndex |
 				originalIndex := aSieve originalIndexOf: d.
 				aSieve selectionModel
@@ -432,14 +444,10 @@ ToAbstractListElement >> offsetPositionRecordsForFilter: aStartPosition itemCoun
 		self selectionModel copySelectionFrom: aSieve selectionModel ]
 ]
 
-{ #category : #'hooks - scrolling' }
-ToAbstractListElement >> onScrolled: aPoint [
-]
-
 { #category : #'private - commands' }
 ToAbstractListElement >> onSievedWith: aSieve [
 
-	self dataAccessor onSievedWith: aSieve.
+	self dataSource onSievedWith: aSieve.
 	self requestLayout
 ]
 
@@ -453,6 +461,15 @@ ToAbstractListElement >> placeholderClass [
 ToAbstractListElement >> placeholderElevation [
 
 	^ self innerElement elevation
+]
+
+{ #category : #layout }
+ToAbstractListElement >> postponeAction: aValuable [
+
+	self dataSourceManager postponeAction: aValuable.
+	self innerElement requestLayout
+
+	
 ]
 
 { #category : #accessing }
@@ -505,6 +522,12 @@ ToAbstractListElement >> secondarySelectionMode: aSelectionMode [
 ToAbstractListElement >> secondarySelectionModel [
 
 	^ self secondarySelectionMode selectionModel
+]
+
+{ #category : #accessing }
+ToAbstractListElement >> secondarySelectionOption [
+
+	^ self secondarySelectionMode selectionOption
 ]
 
 { #category : #'accessing selecters' }
@@ -601,11 +624,28 @@ ToAbstractListElement >> unselectableSelectionModel [
 { #category : #'selection updating' }
 ToAbstractListElement >> updateAllSelections [
 
-	self selectionModes do: [ :mode |
-		mode selectionOption ifNotNil: [ :option |
-			option
-				updateSelectionIn: self
-				withSelectionModel: mode selectionModel ] ]
+	self selectionModes do: [ :mode | self updateModeSelectionFrom: mode ]
+]
+
+{ #category : #'selection updating' }
+ToAbstractListElement >> updateModeSelectionFrom: aMode [
+
+	aMode selectionOption ifNotNil: [ :option |
+		option
+			updateSelectionIn: self
+			withSelectionModel: aMode selectionModel ]
+]
+
+{ #category : #'selection updating' }
+ToAbstractListElement >> updatePrimarySelection [
+
+	self updateModeSelectionFrom: self selectionMode
+]
+
+{ #category : #'selection updating' }
+ToAbstractListElement >> updateSecondarySelection [
+
+	self updateModeSelectionFrom: self secondarySelectionMode
 ]
 
 { #category : #'accessing selecters' }

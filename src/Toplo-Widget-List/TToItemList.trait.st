@@ -1,6 +1,10 @@
 Trait {
 	#name : #TToItemList,
-	#category : #'Toplo-Widget-List-ItemList'
+	#instVars : [
+		'exactItemWidth',
+		'exactItemHeight'
+	],
+	#category : #'Toplo-Widget-List-Core'
 }
 
 { #category : #'t - item list - adding/removing' }
@@ -44,10 +48,10 @@ TToItemList >> addItem: anItem beforeIndex: anInteger [
 	self onAddedItem: anItem
 ]
 
-{ #category : #'t - item list - accessing' }
-TToItemList >> defaultNodeManagerClass [
+{ #category : #'t - item list - configuration' }
+TToItemList >> applyItemListConfiguration [
 
-	^ ToItemBarNodeManager
+	self nodesDo: [ :node | node applyWidgetConfiguration ]
 ]
 
 { #category : #'t - item list - hidden/visible' }
@@ -68,6 +72,38 @@ TToItemList >> enabledItem: anItem [
 	self enabledAtPosition: anItem positionInList
 ]
 
+{ #category : #'t - item list - accessing' }
+TToItemList >> exactItemHeight [
+
+	^ exactItemHeight
+]
+
+{ #category : #'t - item list - accessing' }
+TToItemList >> exactItemHeight: aNumberOrNil [
+
+	exactItemHeight = aNumberOrNil ifTrue:[ ^ self ].
+	exactItemHeight := aNumberOrNil.
+	self requestNewConfiguration.
+	self notifyDataSourceChanged.
+	self requestLayout
+]
+
+{ #category : #'t - item list - accessing' }
+TToItemList >> exactItemWidth [
+
+	^ exactItemWidth
+]
+
+{ #category : #'t - item list - accessing' }
+TToItemList >> exactItemWidth: aNumberOrNil [
+
+	exactItemWidth = aNumberOrNil ifTrue:[ ^ self ].
+	exactItemWidth := aNumberOrNil.
+	self requestNewConfiguration.
+	self notifyDataSourceChanged.
+	self requestLayout
+]
+
 { #category : #'t - item list - hidden/visible' }
 TToItemList >> hiddenItem: anItem [
 
@@ -83,7 +119,7 @@ TToItemList >> initializeAsItemListElement [
 { #category : #'t - item list - hidden/visible' }
 TToItemList >> isSelectedItem: anItem [
 
-	^ self isSelectedAtPosition: anItem positionInBar
+	^ self isSelectedAtPosition: anItem positionInList
 ]
 
 { #category : #'t - item list - accessing' }

@@ -1,12 +1,9 @@
 Class {
 	#name : #ToButton,
 	#superclass : #ToGeneralButton,
-	#traits : 'TToWithOrientableLayout + TToTripletElement + TToLabeledIcon + TToCheckable',
-	#classTraits : 'TToWithOrientableLayout classTrait + TToTripletElement classTrait + TToLabeledIcon classTrait + TToCheckable classTrait',
-	#instVars : [
-		'tripletProperties'
-	],
-	#category : #'Toplo-Widget-Button-Core'
+	#traits : 'TToTripletElement + TToLabeledIcon + TToCheckable + TToOrientable',
+	#classTraits : 'TToTripletElement classTrait + TToLabeledIcon classTrait + TToCheckable classTrait + TToOrientable classTrait',
+	#category : #'Toplo-Widget-Button-Clickable'
 }
 
 { #category : #'t - labeled icon' }
@@ -61,7 +58,7 @@ ToButton >> icon: anElement [
 ]
 
 { #category : #initialization }
-ToButton >> initialize [
+ToButton >> initialize [ 
 
 	super initialize.
 	self initializeAsTripletElement
@@ -85,21 +82,8 @@ ToButton >> newRawSkin [
 		  ifFalse: [ ToButtonSkin new ]
 ]
 
-{ #category : #layout }
-ToButton >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
+{ #category : #configuration }
+ToButton >> newWidgetConfiguration [ 
 
-	self configureLayout.
-	super onLayout: aBounds context: aBlElementBoundsUpdateContext
-]
-
-{ #category : #'t - triplet element - private - accessing' }
-ToButton >> tripletProperties [
-
-	^ tripletProperties
-]
-
-{ #category : #'t - triplet element - private - accessing' }
-ToButton >> tripletProperties: aTripletElementProperties [
-
-	tripletProperties := aTripletElementProperties
+	^ ToTripletElementConfiguration new
 ]

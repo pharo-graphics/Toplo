@@ -9,19 +9,6 @@ Class {
 	#category : #'Toplo-Widget-Menu-ItemBar'
 }
 
-{ #category : #'t - list node holder' }
-ToMenuItemBarElement >> configureLayoutIn: anItemBarOwner [
-
-	self horizontal: anItemBarOwner isHorizontal.
-	anItemBarOwner isHMatchParent
-		ifTrue: [ self hMatchParent ]
-		ifFalse: [ self hFitContent ].
-	anItemBarOwner isVMatchParent
-		ifTrue: [ self vMatchParent ]
-		ifFalse: [ self vFitContent ].
-	self configureLayout
-]
-
 { #category : #'t - bar element' }
 ToMenuItemBarElement >> defaultInnerElement [
 
@@ -41,13 +28,12 @@ ToMenuItemBarElement >> initialize [
 	
 	self flag: 'no focusability until focus management is understood and working '.
 	self focusability: BlFocusability none.
-	
-	self isWrapping: true.
+	self vertical: true.	
+	self isFlowable: false.
 	self fitContent.
-	self vertical: true.
-	self hasUniformNodeWidth: true.
-	self selectionOption masked: true.
-	self configureLayout
+	self uniformNodeWidth: true.
+	"No visible primary selection"
+	self selectionOption masked: true
 ]
 
 { #category : #skin }

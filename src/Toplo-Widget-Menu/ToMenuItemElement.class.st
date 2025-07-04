@@ -9,19 +9,24 @@ Class {
 	#category : #'Toplo-Widget-Menu-Items'
 }
 
+{ #category : #configuration }
+ToMenuItemElement >> applyWidgetConfiguration [
+	" Sent to let any menu item to adapt its resizer/layout  constraints before the node is added in the menu list. Notice that I am sent before the node adding + the selections shift is actually finished. Thus, this place is not adequate for changing one of the list selections (use #addedInMenu for that) "
+
+	super applyWidgetConfiguration.
+	self holderDo: [ :h |
+		h node fitContent.
+		h listElement isHorizontal
+			ifTrue: [
+				self hFitContent ]
+			ifFalse: [
+				self hMatchParent ] ].
+	self vFitContent
+]
+
 { #category : #'t - menu window model' }
 ToMenuItemElement >> closeWindow [
 
-]
-
-{ #category : #initialization }
-ToMenuItemElement >> constraintMenuNode: aNode [
-	" Sent to let any menu item to adapt its resizer/layout  constraints before the node is added in the menu list. Notice that I am sent before the node adding + the selections shift is actually finished. Thus, this place is not adequate for changing one of the list selections (use #addedInMenu for that) "
-
-	aNode holder listElement isHorizontal
-		ifTrue: [ self hFitContent ]
-		ifFalse: [ self hMatchParent ].
-	self vFitContent
 ]
 
 { #category : #initialization }
@@ -81,6 +86,12 @@ ToMenuItemElement >> isInline [
 ]
 
 { #category : #testing }
+ToMenuItemElement >> isMenuButton [
+
+	^ true
+]
+
+{ #category : #testing }
 ToMenuItemElement >> isMenuPaneMenu [
 
 	^ false
@@ -128,6 +139,12 @@ ToMenuItemElement >> onAddedInItemBarOwner: aMenu [
 ToMenuItemElement >> onRemovedFromItemBarOwner: aMenu [
 
 	aMenu onRemovedMenuItem: self
+]
+
+{ #category : #accessing }
+ToMenuItemElement >> openOnHovered [
+
+	^ false
 ]
 
 { #category : #'t - menu window model' }

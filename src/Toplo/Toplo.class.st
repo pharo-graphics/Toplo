@@ -65,12 +65,17 @@ Toplo class >> settingsOn: aBuilder [
 		description: 'Toplo settings';
 		parent: #appearance;
 		with: [
-			(aBuilder pickOne: #defaultThemeClass)
-				target: self;
-				order: 1;
-				label: 'Default theme';
-				domainValues: self supportedThemeClasses;
-				description: 'Choose the default theme for Toplo' ]
+				(aBuilder pickOne: #defaultThemeClass)
+					target: self;
+					order: 1;
+					label: 'Default theme';
+					domainValues: self supportedThemeClasses;
+					description: 'Choose the default theme for Toplo'.
+				(aBuilder setting: #allowFormColorChange)
+					label: 'Enable Form color change in a ToImage';
+					default: false;
+					target: ToImage;
+					description: 'Allow/disallow form color change in a ToImage ' ]
 ]
 
 { #category : #settings }

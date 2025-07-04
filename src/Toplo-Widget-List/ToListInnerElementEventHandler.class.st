@@ -4,19 +4,13 @@ Class {
 	#instVars : [
 		'previousDecorationSize'
 	],
-	#category : #'Toplo-Widget-List-Core'
+	#category : #'Toplo-Widget-List-InnerInfinite'
 }
 
 { #category : #'infinite event handling' }
 ToListInnerElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
 
-	anEvent currentTarget listElement dispatchEvent: anEvent
-]
-
-{ #category : #'infinite event handling' }
-ToListInnerElementEventHandler >> elementAddedToSceneGraphEvent: anEvent [
-
-	"anEvent currentTarget listElement updateAllSelections"
+	anEvent currentTarget listElement dispatchEvent: anEvent copy
 ]
 
 { #category : #'infinite event handling' }
@@ -29,14 +23,13 @@ ToListInnerElementEventHandler >> elementPositionChangedEvent: anEvent [
 ToListInnerElementEventHandler >> elementScrolledEvent: anEvent [
 
 	anEvent delta = (0 @ 0) ifTrue: [ ^ self ].
-	anEvent currentTarget listElement dispatchEvent: anEvent 
+	anEvent currentTarget listElement dispatchEvent: anEvent copy
 ]
 
 { #category : #'api - accessing' }
 ToListInnerElementEventHandler >> eventsToHandle [
 
 	^ {
-		  BlElementAddedToSceneGraphEvent.
 		  ToInfiniteScrollFinishedEvent.
 		  ToInfiniteDataSourceEmptinessChangedEvent.
 		  BlInfiniteElementAttachedEvent.
@@ -49,7 +42,7 @@ ToListInnerElementEventHandler >> eventsToHandle [
 { #category : #'infinite event handling' }
 ToListInnerElementEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEvent [
 
-	anEvent currentTarget listElement dispatchEvent: anEvent 
+	anEvent currentTarget listElement dispatchEvent: anEvent copy
 ]
 
 { #category : #'infinite event handling' }
@@ -95,5 +88,5 @@ ToListInnerElementEventHandler >> infiniteElementDetachedEvent: anEvent [
 { #category : #'infinite event handling' }
 ToListInnerElementEventHandler >> infiniteScrollFinishedEvent: anEvent [
 
-	anEvent currentTarget listElement dispatchEvent: anEvent
+	anEvent currentTarget listElement dispatchEvent: anEvent copy
 ]

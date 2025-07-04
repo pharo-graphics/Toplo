@@ -1,10 +1,7 @@
 Class {
 	#name : #ToTagBarElement,
 	#superclass : #ToGenericBarElement,
-	#instVars : [
-		'withCloseButton'
-	],
-	#category : #'Toplo-Widget-Tag-Bar'
+	#category : #'Toplo-Widget-Tag-Tag'
 }
 
 { #category : #'instance creation' }
@@ -25,11 +22,7 @@ ToTagBarElement >> defaultNodeManagerClass [
 ToTagBarElement >> initialize [
 
 	super initialize.
-	self sample: 'X'.
-	" mandatory resizer setting. 
-	Normally, should not be changed"
-	self vFitContent.
-	self hMatchParent 
+	self sample: 'X'
 ]
 
 { #category : #'t - list element decorator - children - accessing' }
@@ -54,12 +47,6 @@ ToTagBarElement >> nodesDo: aBlock [
 	self innerElement nodesDo: aBlock
 ]
 
-{ #category : #'t - list element decorator - children - accessing' }
-ToTagBarElement >> nodesSelect: aBlock [
-
-	^ self innerElement nodesSelect: aBlock
-]
-
 { #category : #'t - bar element' }
 ToTagBarElement >> sample: aData [
 
@@ -69,13 +56,8 @@ ToTagBarElement >> sample: aData [
 ]
 
 { #category : #accessing }
-ToTagBarElement >> withCloseButton [
+ToTagBarElement >> tagBuilder: aValuable [
 
-	^ withCloseButton ifNil: [ withCloseButton := false ]
-]
-
-{ #category : #accessing }
-ToTagBarElement >> withCloseButton: aBoolean [
-
-	withCloseButton := aBoolean
+	self nodeManager tagBuilder: aValuable.
+	self notifyDataSourceChanged 
 ]

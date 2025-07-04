@@ -4,8 +4,8 @@ Class {
 	#category : #'Toplo-Widget-Menu-Items'
 }
 
-{ #category : #initialization }
-ToRadioMenuItem >> buttonClass [
+{ #category : #skin }
+ToRadioMenuItem >> newRawSkin [ 
 
-	^ ToRadioButton 
+	^ ToRadioMenuItemSkin new
 ]

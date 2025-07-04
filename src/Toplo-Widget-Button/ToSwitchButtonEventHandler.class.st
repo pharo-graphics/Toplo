@@ -5,6 +5,14 @@ Class {
 }
 
 { #category : #'checkable event handling' }
+ToSwitchButtonEventHandler >> checkableChangedEvent: anEvent [
+
+	| target |
+	target := anEvent currentTarget.
+	target icon checked: anEvent checked
+]
+
+{ #category : #'checkable event handling' }
 ToSwitchButtonEventHandler >> checkableCheckEvent: anEvent [
 
 	| target |
@@ -15,5 +23,5 @@ ToSwitchButtonEventHandler >> checkableCheckEvent: anEvent [
 { #category : #'api - accessing' }
 ToSwitchButtonEventHandler >> eventsToHandle [ 
 
-	^ super eventsToHandle , { ToCheckableCheckEvent }
+	^ super eventsToHandle , { ToCheckableChangedEvent }
 ]

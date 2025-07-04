@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMenuItemElementSkin,
-	#superclass : #ToRawSkin,
+	#superclass : #ToGeneralButtonSkin,
 	#category : #'Toplo-Widget-Menu-Items'
 }
 
@@ -30,10 +30,24 @@ ToMenuItemElementSkin >> installSkinEvent: anEvent [
 				 (e valueOfTokenNamed: 'border-radius')) ]
 ]
 
+{ #category : #testing }
+ToMenuItemElementSkin >> isTogglable [
+
+	^ false
+]
+
 { #category : #'event handling' }
 ToMenuItemElementSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e mouseCursor: Cursor normal ]
+]
+
+{ #category : #'event handling' }
+ToMenuItemElementSkin >> leftSkinEvent: anEvent [
+
+	super leftSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal ]
 ]

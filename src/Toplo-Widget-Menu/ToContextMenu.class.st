@@ -1,8 +1,8 @@
 Class {
 	#name : #ToContextMenu,
 	#superclass : #ToMenuWindow,
-	#traits : 'TToWithOrientableLayout + TToItemListOwner + TToMenuItemListOwner + TToMenuWindowModel',
-	#classTraits : 'TToWithOrientableLayout classTrait + TToItemListOwner classTrait + TToMenuItemListOwner classTrait + TToMenuWindowModel classTrait',
+	#traits : 'TToOrientable + TToMenuItemListOwner + TToMenuWindowModel + TToItemBarOwner + TToItemBarContainer',
+	#classTraits : 'TToOrientable classTrait + TToMenuItemListOwner classTrait + TToMenuWindowModel classTrait + TToItemBarOwner classTrait + TToItemBarContainer classTrait',
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
@@ -32,7 +32,7 @@ ToContextMenu >> closeWindow [
 ToContextMenu >> correctedPositionWithinAnchorRoot [
 
 	| t rect rootRect |
-	rect := self measuredBounds inSpace bounds asRectangle.
+	rect := (self measuredBounds inSpace inChild: self anchorRoot) bounds asRectangle.
 	rootRect := 0 @ 0 extent: self anchorRoot extent.
 	" just translate the position to remain (if possible) within the root bounds "
 	t := rect amountToTranslateWithin: rootRect.
@@ -94,10 +94,10 @@ ToContextMenu >> menuPane [
 { #category : #'t - menu window model' }
 ToContextMenu >> menuWindow [
 
-	^ super menuWindow
+	^ self 
 ]
 
-{ #category : #'t - item list owner - accessing' }
+{ #category : #'t - item bar container - accessing' }
 ToContextMenu >> newItemBar [
 
 	^ ToMenuItemBarElement new
@@ -115,12 +115,6 @@ ToContextMenu >> onRemovedMenu: aMenu [
 
 	aMenu isSubmenu: false.
 	aMenu closeOnPicking: false
-]
-
-{ #category : #'t - menu window model' }
-ToContextMenu >> popupEvent: anEvent [
-
-	^ super popupEvent: anEvent
 ]
 
 { #category : #'t - menu window model' }

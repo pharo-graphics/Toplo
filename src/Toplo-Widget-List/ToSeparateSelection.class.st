@@ -12,7 +12,9 @@ ToSeparateSelection >> = other [
 
 	^ super = other
 		  ifFalse: [ false ]
-		  ifTrue: [ node = other node ]
+		  ifTrue: [
+			  node = other node and: [
+				  preComputedBounds = other preComputedBounds ] ]
 ]
 
 { #category : #comparing }

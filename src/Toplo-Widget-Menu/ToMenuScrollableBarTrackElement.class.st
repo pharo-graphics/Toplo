@@ -11,9 +11,9 @@ ToMenuScrollableBarTrackElement >> flowLayoutClass [
 ]
 
 { #category : #layout }
-ToMenuScrollableBarTrackElement >> newFlowLayoutIn: aBarElement [
+ToMenuScrollableBarTrackElement >> newFlowLayout [
 
-	^ (super newFlowLayoutIn: aBarElement)
-		  menuBarOwner: aBarElement menuBarOwner;
+	^ (super newFlowLayout)
+		  menuBarOwner: listElement menuBarOwner;
 		  yourself
 ]

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToInnerBarElement,
 	#superclass : #ToScrollableElement,
-	#traits : 'TToListNodeHolder',
-	#classTraits : 'TToListNodeHolder classTrait',
+	#traits : 'TToListInnerElement',
+	#classTraits : 'TToListInnerElement classTrait',
 	#instVars : [
 		'dataSource',
 		'dataSourceManager',
@@ -19,14 +19,6 @@ ToInnerBarElement class >> onBarElement: aBarElement [
 	^ self basicNew
 		  onBarElement: aBarElement;
 		  initialize
-]
-
-{ #category : #'instance creation' }
-ToInnerBarElement class >> onInnerBarElement: anInnerBarElement [
-
-	^ self new
-		  onInnerBarElement: anInnerBarElement;
-		  yourself
 ]
 
 { #category : #'accessing - nodes' }
@@ -48,36 +40,29 @@ ToInnerBarElement >> addHolder: anHolder at: aPosition [
 	trackElement addChild: anHolder node at: aPosition + 1
 ]
 
-{ #category : #layout }
-ToInnerBarElement >> checkFullyVisibleNodes [
-
-	trackElement checkFullyVisibleNodesIn: listElement 
+{ #category : #'private - commands' }
+ToInnerBarElement >> addedDataSourceCommand: aCommand [
 ]
 
 { #category : #'t - list node holder' }
-ToInnerBarElement >> configureLayoutIn: aBarElement [
+ToInnerBarElement >> applyWidgetConfiguration [
 
-	self matchParent.
-	aBarElement isWrapping
-		ifTrue: [
-			aBarElement isVertical
-				ifTrue: [
-					aBarElement isHMatchParent
-						ifTrue: [ self hMatchParent ]
-						ifFalse: [ self hFitContent ] ]
-				ifFalse: [
-					aBarElement isVMatchParent
-						ifTrue: [ self vMatchParent ]
-						ifFalse: [ self vFitContent ] ] ]
-		ifFalse: [
-			aBarElement isHMatchParent
-				ifTrue: [ self hMatchParent ]
-				ifFalse: [ self hFitContent ].
-			aBarElement isVMatchParent
-				ifTrue: [ self vMatchParent ]
-				ifFalse: [ self vFitContent ] ].
-			
-	trackElement configureLayoutIn: aBarElement
+	super applyWidgetConfiguration.
+	listElement isHFitContent
+		ifTrue: [ self hFitContent ]
+		ifFalse: [ self hMatchParent ].
+
+	listElement isVFitContent
+		ifTrue: [ self vFitContent ]
+		ifFalse: [ self vMatchParent ].
+
+	trackElement applyWidgetConfiguration
+]
+
+{ #category : #layout }
+ToInnerBarElement >> checkFullyVisibleNodes [
+
+	trackElement checkFullyVisibleNodes
 ]
 
 { #category : #'private - commands' }
@@ -160,17 +145,16 @@ ToInnerBarElement >> fullyVisibleNodesSelect: aBlock [
 ]
 
 { #category : #initialization }
-ToInnerBarElement >> initialize [ 
+ToInnerBarElement >> initialize [
 
 	super initialize.
-
 	self initializeDataSource.
 	self addEventHandler: ToListInnerElementEventHandler new.
 	self trackElement: self scrollableBarTrackElementClass new.
+	self installFakeNode.
 
 	self matchParent.
 	self focusability: BlFocusability ignore
-
 ]
 
 { #category : #initialization }
@@ -197,15 +181,12 @@ ToInnerBarElement >> installFakeNode [
 
 	| fakeNode |
 	fakeNode := self nodeManager newFakeNodeIn: self.
-	
+
 	" add the fake node (to keep a constant minimum size ).
 	Pay attention to add the fake node ** before ** the fake node building "
 	self addFakeNode: fakeNode.
 	self nodeManager buildNode: fakeNode.
-	self nodeManager constraintFakeNode: fakeNode
-
-
-
+	self requestNewConfiguration
 ]
 
 { #category : #accessing }
@@ -218,6 +199,12 @@ ToInnerBarElement >> listElement [
 ToInnerBarElement >> listElement: aListElement [
 
 	listElement := aListElement
+]
+
+{ #category : #accessing }
+ToInnerBarElement >> maxMeasuredNodeSize [
+
+	^ trackElement maxMeasuredNodeSize
 ]
 
 { #category : #'instance creation' }
@@ -236,6 +223,12 @@ ToInnerBarElement >> nodeManager [
 ToInnerBarElement >> nodes [
 
 	^ trackElement nodes
+]
+
+{ #category : #'t - list node holder' }
+ToInnerBarElement >> nodesDetect: aBlock [
+
+	^ trackElement nodesDetect: aBlock 
 ]
 
 { #category : #'t - list node holder' }
@@ -269,6 +262,8 @@ ToInnerBarElement >> onEnterLayoutOrScroll [
 
 { #category : #'hooks - layout' }
 ToInnerBarElement >> onExitLayoutOrScroll [
+
+
 ]
 
 { #category : #'data source updates' }
@@ -279,7 +274,7 @@ ToInnerBarElement >> onItemRangeChanged: aPositionStart itemCount: anItemCount [
 		pos := node holder position.
 		(pos >= aPositionStart and: [ pos < (aPositionStart + anItemCount) ])
 			ifTrue: [
-				node holder initializeNode ] ]
+				node requestNewConfiguration ] ]
 ]
 
 { #category : #'data source updates' }
@@ -329,10 +324,13 @@ ToInnerBarElement >> onItemsChanged [
 
 ]
 
-{ #category : #layout }
-ToInnerBarElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
+{ #category : #'hooks - scrolling' }
+ToInnerBarElement >> onScrolled: aPoint [
+	"Sent when the scroll position of this InfiniteElement changes. Subclasses should use
+	this method to respond to scrolling within the datasource's data set instead of an explicit event handler.
+	I will always be invoked before event handlers. If a subclass needs to perform any additional upkeep
+	or bookkeeping after scrolling but before events fired, this is a good place to do so"
 
-	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
 	self checkFullyVisibleNodes
 ]
 
@@ -379,7 +377,7 @@ ToInnerBarElement >> scrollDeltaFromDataSourcePosition: anIndex [
 	| node bnds pad |
 	node := self nodeAt: anIndex.
 	node ifNil: [ ^ nil ].
-	node isFullyVisible ifTrue: [ ^ nil ].
+	node isFullyVisibleInInnerElement ifTrue: [ ^ nil ].
 	bnds := node measuredBounds inParent: listElement.
 	pad := listElement isHorizontal
 		       ifTrue: [ listElement padding left ]
@@ -393,7 +391,7 @@ ToInnerBarElement >> scrollDeltaTowardEndFromDataSourcePosition: anIndex [
 	| node bnds offset padding |
 	node := self nodeAt: anIndex.
 	node ifNil: [ ^ nil ].
-	node isFullyVisible ifTrue: [ ^ nil ].
+	node isFullyVisibleInInnerElement ifTrue: [ ^ nil ].
 	bnds := node measuredBounds inParent: listElement.
 	padding := listElement padding.
 	offset := listElement isHorizontal
@@ -409,7 +407,7 @@ ToInnerBarElement >> scrollDeltaTowardStartFromDataSourcePosition: anIndex [
 	| node bnds pad |
 	node := self nodeAt: anIndex.
 	node ifNil: [ ^ nil ].
-	node isFullyVisible ifTrue: [ ^ nil ].
+	node isFullyVisibleInInnerElement ifTrue: [ ^ nil ].
 	bnds := node measuredBounds inParent: listElement.
 	pad := listElement isHorizontal
 		       ifTrue: [ listElement padding left ]
@@ -512,11 +510,10 @@ ToInnerBarElement >> stopScrollersInternal [
 { #category : #accessing }
 ToInnerBarElement >> trackElement: anElement [
 
-	trackElement = anElement ifTrue: [ ^ self ].
-	trackElement ifNotNil: [ trackElement removeFromParent ].
+	trackElement ifNotNil: [ (BlImmutableObjectChangeError object: self) signal ].
 	trackElement := anElement.
-	trackElement ifNil: [ ^ self ].
 	trackElement id: #track.
+	trackElement onListElement: listElement .
 	self addChild: trackElement 
 ]
 

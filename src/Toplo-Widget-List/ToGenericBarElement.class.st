@@ -12,6 +12,12 @@ ToGenericBarElement >> defaultNodeManagerClass [
 	^ ToGenericBarNodeManager 
 ]
 
+{ #category : #accessing }
+ToGenericBarElement >> fakeNode [
+
+	^ self innerElement fakeNode
+]
+
 { #category : #initialization }
 ToGenericBarElement >> initialize [
 
@@ -23,8 +29,7 @@ ToGenericBarElement >> initialize [
 	self contextMenuSelectionMode selectionOption
 		grouped: false;
 		beneath: false.
-	self matchParent.
-	self configureLayout
+	self matchParent
 ]
 
 { #category : #skin }

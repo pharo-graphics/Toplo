@@ -229,10 +229,10 @@ ToListElementStresser >> afterRoundInList: aList [
 ToListElementStresser >> applyCommand: aCommand [
 
 	| tab s |
-	tab := self tabsPanel tabs at: aCommand listNumber.
+	tab := self tabsPanel items at: aCommand listNumber.
 	s := ' [' asRopedText , aCommand round asString asRopedText bold
 	     , ('/' , self maxRound asString , ']') asRopedText.
-	(tab childAt: 2) text: s.
+	tab endElement: (ToAttributedLabel text: s).
 	self selectActionsToRun shuffled do: [ :act |
 		self perform: act with: aCommand list ]
 ]
@@ -240,7 +240,7 @@ ToListElementStresser >> applyCommand: aCommand [
 { #category : #running }
 ToListElementStresser >> finishedInAllTabs [
 
-	^ tabsPanel tabs allSatisfy: [ :tab |
+	^ tabsPanel items allSatisfy: [ :tab |
 		  | list |
 		  list := tab userData at: #list.
 		  list userData at: #finishedStress ifAbsent: [false] ]
@@ -257,7 +257,11 @@ ToListElementStresser >> initialize [
 	maxNbTasks := 0.
 	rand := Random new.
 
-	tabsPanel := ToTabPane new.
+	tabsPanel := ToTabPaneElement new.
+	tabsPanel isFlowable: true.
+	tabsPanel isScrollable: false.
+	tabsPanel vertical: true.
+	tabsPanel matchParent.
 	listIdentifiers := Array new: self maxTab.
 
 
@@ -266,14 +270,12 @@ ToListElementStresser >> initialize [
 		paneListAssoc := self newStressedListNumber: i.
 		list := paneListAssoc value.
 		ident := list userData at: #identifier.
-		tab := ToTab new.
+		tab := ToTabButton new.
 		tab userData at: #list put: list.
 		tab labelText: ident.
-		tab firstChild withNullSkin.
-		tab addChild: ToLabel new withNullSkin at: 2.
-		tab paneBuilder: [ :pane :theTabPane |
+		tab paneBuilder: [ :pane  |
 			pane addChild: paneListAssoc key ].
-		tabsPanel addTab: tab ].
+		tabsPanel addItem: tab ].
 
 	tabSelectionProcess := [
 	                       | round |
@@ -284,11 +286,8 @@ ToListElementStresser >> initialize [
 		                       round := round + 1.
 		                       idx := (round \\ self maxTab + 1 max: 1)
 			                              min: self maxTab.
-		                       self tabsPanel enqueueTask:
-			                       (BlTaskAction new action: [
-				                        (self tabsPanel tabs at: idx) check ]).
-		                       1 seconds wait
-		                       "Smalltalk garbageCollect" ].
+		                       (self tabsPanel items at: idx) check.
+		                       1 seconds wait].
 	                       endTime := DateAndTime now.
 	                       (endTime - startTime) asDuration traceCr ]
 		                       newProcess.
@@ -296,16 +295,16 @@ ToListElementStresser >> initialize [
 	tabSelectionProcess name: self class name.
 	tabSelectionProcess priority: Processor userBackgroundPriority.
 
-	commandApplicationStrategy := ToQueueBasedCommandApplicationStrategy
+	commandApplicationStrategy := BlQueueBasedCommandApplicationStrategy
 		                              new
 		                              element: self tabsPanel;
 		                              yourself.
 
 	self tabsPanel
-		addEventHandlerOn: BlElementAddedToSceneGraphEvent
+		addEventHandlerOn: ToAddedToSpaceEvent 
 		do: [ :event | tabSelectionProcess resume ].
 	self tabsPanel
-		addEventHandlerOn: BlElementRemovedFromSceneGraphEvent
+		addEventHandlerOn: ToRemovedFromSpaceEvent 
 		do: [ :event | tabSelectionProcess terminate ]
 ]
 
@@ -325,7 +324,7 @@ ToListElementStresser >> maxListSize [
 { #category : #accessing }
 ToListElementStresser >> maxRound [
 
-	^ maxRound ifNil: [ maxRound := 20000 ]
+	^ maxRound ifNil: [ maxRound := 2000 ]
 ]
 
 { #category : #accessing }
@@ -367,7 +366,7 @@ ToListElementStresser >> newSelectionBoardOn: aListElement [
 	pane padding: (BlInsets all: 3).
 	pane addChild: (ToButton new
 			 labelText: 'Statistics';
-			 whenClickedDo: [ :evt | evt target space showStatisticsWindow ];
+			 clickAction: [ :evt :target | target space showStatisticsWindow ];
 			 yourself).
 	pane addChild: (lab := ToLabel new).
 	aListElement
@@ -400,11 +399,11 @@ ToListElementStresser >> newStressedListNumber: aNumber [
 	ident := ident trimRight: [ :char | char isAlphaNumeric not ].
 
 	suffix := String streamContents: [ :stream |
-		          stream nextPutAll: ' ('.
-		          stream nextPutAll: priority asString.
-		          stream nextPutAll: ') '.
-		          stream nextPutAll: size asString.
-		          stream nextPutAll: ' ' ].
+			          stream nextPutAll: ' ('.
+			          stream nextPutAll: priority asString.
+			          stream nextPutAll: ') '.
+			          stream nextPutAll: size asString.
+			          stream nextPutAll: ' ' ].
 
 	listIdentifiers
 		at: aNumber
@@ -417,29 +416,29 @@ ToListElementStresser >> newStressedListNumber: aNumber [
 	list matchParent.
 
 	process := [
-	           | round |
-	           round := 0.
-	           list userData at: #finishedStress put: false.
-	           self maxRound timesRepeat: [
-		           round := round + 1.
-		           (round \\ 100) isZero ifTrue: [ Smalltalk garbageCollect ].
-		           self processingRound: round inList: list number: aNumber.
-		           self afterRoundInList: list ].
-	           self processEndInList: list number: aNumber ] newProcess.
+		           | round |
+		           round := 0.
+		           list userData at: #finishedStress put: false.
+		           self maxRound timesRepeat: [
+				           round := round + 1.
+				           self
+					           processingRound: round
+					           inList: list
+					           number: aNumber.
+				           self afterRoundInList: list ].
+		           self processEndInList: list number: aNumber ] newProcess.
 
 	process name: self class name.
 	process priority: priority.
 
-	self tabsPanel
-		addEventHandlerOn: BlElementAddedToSceneGraphEvent
-		do: [ :event |
+	self tabsPanel addEventHandlerOn: ToAddedToSpaceEvent do: [ :event |
 			sieve isInstalled ifFalse: [ sieve onInstalledIn: list ].
 			process resume ].
 	self tabsPanel
-		addEventHandlerOn: BlElementRemovedFromSceneGraphEvent
+		addEventHandlerOn: ToRemovedFromSpaceEvent
 		do: [ :event |
-			process terminate.
-			sieve isInstalled ifTrue: [ sieve onUninstalledIn: list ] ].
+				process terminate.
+				sieve isInstalled ifTrue: [ sieve onUninstalledIn: list ] ].
 
 	pane addChild: list.
 	pane addChild: (self newSelectionBoardOn: list).
@@ -460,13 +459,6 @@ ToListElementStresser >> nextCounter [
 { #category : #private }
 ToListElementStresser >> nextProcessPriorityForListNumber: aNumber [
 
-	"| priorities |
-	priorities := {
-		              Processor lowestPriority.
-		              Processor userBackgroundPriority.
-		              Processor systemBackgroundPriority }.
-
-	^ priorities at: aNumber \\ priorities size + 1"
 	^ Processor userBackgroundPriority.
 ]
 
@@ -485,9 +477,9 @@ ToListElementStresser >> processEndInList: aList number: aNumber [
 
 	| tab |
 	aList userData at: #finishedStress put: true.
-	tab := self tabsPanel tabs at: aNumber.
+	tab := self tabsPanel items at: aNumber.
 	self tabsPanel enqueueTask: (BlTaskAction new action: [
-			 tab firstChild text foreground: Color green muchDarker ])
+			 tab label text foreground: Color green muchDarker ])
 ]
 
 { #category : #running }

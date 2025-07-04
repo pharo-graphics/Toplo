@@ -1,5 +1,8 @@
 Trait {
 	#name : #TToLookEventListenerRegistry,
+	#instVars : [
+		'skinEventListeners'
+	],
 	#category : #'Toplo-Core-StyleSheet'
 }
 
@@ -13,18 +16,6 @@ TToLookEventListenerRegistry >> addAllSkinEventListeners: aListenerCollection [
 TToLookEventListenerRegistry >> addSkinEventListener: aListener [
 
 	self skinEventListeners add: aListener
-]
-
-{ #category : #'t - skin event listener registry' }
-TToLookEventListenerRegistry >> rawSkinEventListeners [
-
-	^ self explicitRequirement 
-]
-
-{ #category : #'t - skin event listener registry' }
-TToLookEventListenerRegistry >> rawSkinEventListeners: aSkinEventListenerCollection [
-
-	self explicitRequirement
 ]
 
 { #category : #'t - skin event listener registry' }
@@ -48,9 +39,8 @@ TToLookEventListenerRegistry >> removeSkinEventListener: aListener [
 { #category : #'t - skin event listener registry' }
 TToLookEventListenerRegistry >> skinEventListeners [
 
-	^ self rawSkinEventListeners ifNil: [
-		  self rawSkinEventListeners: OrderedCollection new.
-		  self rawSkinEventListeners ]
+	^ skinEventListeners ifNil: [
+		  skinEventListeners := OrderedCollection new ]
 ]
 
 { #category : #'t - skin event listener registry' }

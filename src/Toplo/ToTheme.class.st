@@ -15,35 +15,21 @@ ToTheme class >> canBeDefault [
 ]
 
 { #category : #accessing }
-ToTheme class >> defaultCheckboxBlankImage [
-
-	| bar im |
-	bar := BlElement new id: #'indeterminate-bar'.
-	bar constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical exact: 3.
-		c frame horizontal alignCenter.
-		c frame vertical alignCenter ].
-	bar margin: (BlInsets left: 2 right: 2).
-	bar geometry: (BlRoundedRectangleGeometry cornerRadius: 2).
-	im := BlElement new id: #'icon-image'.
-	im layout: BlFrameLayout new.
-	im size: self defaultCheckboxHeight asPoint.
-	im addChild: bar.
-	im addAllStamps: #( #'inner-image' #unchecked ).
-	^ im
-]
-
-{ #category : #accessing }
 ToTheme class >> defaultCheckboxHeight [
 
-	^ 14
+	^ 20
 ]
 
 { #category : #accessing }
 ToTheme class >> defaultColorPrimary [
 
 	^ Color fromHexString: '#1677ff'
+]
+
+{ #category : #accessing }
+ToTheme class >> defaultSwitchIconHeight [
+
+	^ 16
 ]
 
 { #category : #accessing }
@@ -59,17 +45,36 @@ ToTheme class >> defaultTokenProperties [
 			   name: #empty_box
 			   value: (ToMiscellaneousIcons innerImageNamed: 'filled_emptyBox')).
 		  (ToTokenProperty
-			   name: #'submenu-arrow-right'
+			   name: #'check'
+			   value: (ToMaterialDesignIconProvider innerImageNamed:
+					    'outlined_check')).
+
+		  (ToTokenProperty
+			   name: #'iconic-arrow-right'
 			   value: (ToMaterialDesignIconProvider innerImageNamed:
 					    'outlined_keyboardarrowright')).
 		  (ToTokenProperty
-			   name: #'submenu-arrow-down'
+			   name: #'iconic-arrow-left'
+			   value: (ToMaterialDesignIconProvider innerImageNamed:
+					    'outlined_keyboardarrowleft')).
+		  (ToTokenProperty
+			   name: #'iconic-arrow-down'
 			   value: (ToMaterialDesignIconProvider innerImageNamed:
 					    'outlined_keyboardarrowdown')).
 		  (ToTokenProperty
-			   name: #'submenu-arrow-up'
+			   name: #'iconic-arrow-up'
 			   value: (ToMaterialDesignIconProvider innerImageNamed:
 					    'outlined_keyboardarrowup')).
+
+		(ToTokenProperty
+			   name: #'iconic-arrow-breadth'
+			   value: 18).
+		(ToTokenProperty
+			   name: #'node-indent'
+			   value: 18).
+		(ToTokenProperty
+			   name: #'node-interspace'
+			   value: 8).
 		  (ToTokenProperty name: #'border-radius' value: 4).
 		  (ToTokenProperty name: #'border-radius-LG' value: 8).
 		  (ToTokenProperty name: #'border-radius-SM' value: 4).
@@ -117,7 +122,7 @@ ToTheme class >> defaultTokenProperties [
 			   value: Color transparent).
 		  (ToTokenProperty
 			   name: #'color-border-disabled'
-			   value: (Color black alpha: 0.2)).
+			   value: (Color veryLightGray alpha: 0.2)).
 		  (ToTokenProperty
 			   name: #'color-border-indeterminate'
 			   value: self defaultColorPrimary lighter).
@@ -170,7 +175,7 @@ ToTheme class >> defaultTokenProperties [
 			   value: (self defaultColorPrimary alpha: 0.5)).
 		  (ToTokenProperty
 			   name: #'color-primary-hover'
-			   value: self defaultColorPrimary lighter lighter).
+			   value: (self defaultColorPrimary alpha: 0.1)).
 
 		  (ToTokenProperty
 			   name: #'color-success'
@@ -185,7 +190,7 @@ ToTheme class >> defaultTokenProperties [
 			   value: (Color black alpha: 0.45)).
 		  (ToTokenProperty
 			   name: #'color-text-disabled'
-			   value: Color lightGray).
+			   value: (Color lightGray alpha: 0.6)).
 		  (ToTokenProperty
 			   name: #'color-text-heading'
 			   value: (Color black alpha: 0.88)).
@@ -196,10 +201,10 @@ ToTheme class >> defaultTokenProperties [
 			   name: #'color-text-secondary'
 			   value: (Color black alpha: 0.45)).
 		  (ToTokenProperty
-			   name: #'label-selected-focused'
+			   name: #'selected-focused-foreground'
 			   value: Color white).
 		  (ToTokenProperty
-			   name: #'label-selected-unfocused'
+			   name: #'selected-unfocused-foreground'
 			   value: self defaultColorPrimary).
 		  (ToTokenProperty
 			   name: #'text-foreground-in-tooltip'
@@ -233,7 +238,6 @@ ToTheme class >> defaultTokenProperties [
 			   value: self defaultColorPrimary).
 		  (ToTokenProperty name: #'border-width' value: 1).
 		  (ToTokenProperty name: #'border-paint' value: (Color veryLightGray alpha: 0.2)).
-		  (ToTokenProperty name: #'menu-pane-border-paint' value: (Color transparent)).
 
 		  "Size, margin and padding"
 		  (ToTokenProperty name: #'control-height' value: 32).
@@ -242,28 +246,30 @@ ToTheme class >> defaultTokenProperties [
 
 		  (ToTokenProperty name: #'margin-XS' value: 8).
 
+		  (ToTokenProperty name: #'padding-iconic-button' value: 1).
 		  (ToTokenProperty name: #'padding-content-H' value: 12).
 		  (ToTokenProperty name: #'padding-content-HS' value: 4).
 		  (ToTokenProperty name: #'padding-content-HXS' value: 2).
 		  (ToTokenProperty name: #'padding-content-V' value: 6).
 		  (ToTokenProperty name: #'padding-content-VS' value: 4).
 		  (ToTokenProperty name: #'padding-content-VXS' value: 2).
+		  (ToTokenProperty name: #'padding-S' value: 14).
 		  (ToTokenProperty name: #'padding-XS' value: 8).
 		  (ToTokenProperty name: #'padding-XXS' value: 3).
 
-		  (ToTokenProperty name: #'button-interspace' value: 4).
+		  (ToTokenProperty name: #'button-interspace' value: 8).
 		  (ToTokenProperty name: #'list-padding-H' value: 6).
 		  (ToTokenProperty name: #'list-padding-V' value: 6).
-		  (ToTokenProperty name: #'list-node-padding-H' value: 3).
-		  (ToTokenProperty name: #'list-node-padding-V' value: 1).
+		  (ToTokenProperty name: #'list-node-padding-H' value: 2).
+		  (ToTokenProperty name: #'list-node-padding-V' value: 2).
 		  (ToTokenProperty name: #'bar-node-padding-H' value: 3).
 		  (ToTokenProperty name: #'bar-node-padding-V' value: 2).
-		  (ToTokenProperty name: #'menu-node-padding-H' value: 1).
-		  (ToTokenProperty name: #'menu-node-padding-V' value: 1).
-		  (ToTokenProperty name: #'menu-button-padding-H' value: 3).
-		  (ToTokenProperty name: #'menu-button-padding-V' value: 2).
-		  (ToTokenProperty name: #'menu-window-padding-H' value: 6).
-		  (ToTokenProperty name: #'menu-window-padding-V' value: 6).
+		  (ToTokenProperty name: #'menu-node-padding-H' value: 6).
+		  (ToTokenProperty name: #'menu-node-padding-V' value: 2).
+		  (ToTokenProperty name: #'menu-item-padding-H' value: 6).
+		  (ToTokenProperty name: #'menu-item-padding-V' value: 1).
+		  (ToTokenProperty name: #'menu-window-padding-H' value: 8).
+		  (ToTokenProperty name: #'menu-window-padding-V' value: 8).
 		  (ToTokenProperty name: #'segmented-node-padding-H' value: 0).
 		  (ToTokenProperty name: #'segmented-node-padding-V' value: 0).
 		  (ToTokenProperty name: #'segmented-border-radius' value: 12).
@@ -277,11 +283,29 @@ ToTheme class >> defaultTokenProperties [
 			   value: (Color black alpha: 0.1)).
 		  (ToTokenProperty name: #'text-editor-padding-H' value: 3).
 		  (ToTokenProperty name: #'text-editor-padding-V' value: 2).
-		  (ToTokenProperty name: #'menu-item-start-alignment' value: 22).
+		  (ToTokenProperty name: #'menu-item-start-alignment' value: 28).
+		  (ToTokenProperty name: #'menu-item-end-interspace' value: 15).
 		  (ToTokenProperty name: #'inline-item-gap' value: 7).
 		  (ToTokenProperty
-			   name: #'checkbox-image-builder'
-			   value: [ self defaultCheckboxBlankImage ]).
+			   name: #'checkbox-checked-image'
+			   value: (ToMaterialDesignIconProvider innerImageNamed:
+					    'outlined_checkbox')).
+		  (ToTokenProperty
+			   name: #'checkbox-unchecked-image'
+			   value: (ToMaterialDesignIconProvider innerImageNamed:
+					    'outlined_checkboxoutlineblank')).
+		  (ToTokenProperty
+			   name: #'checkbox-indeterminate-image'
+			   value: (ToMaterialDesignIconProvider innerImageNamed:
+					    'outlined_indeterminatecheckbox')).
+		  (ToTokenProperty
+			   name: #'radio-checked-image'
+			   value: (ToMaterialDesignIconProvider innerImageNamed:
+					    'outlined_radiobuttonchecked')).
+		  (ToTokenProperty
+			   name: #'radio-unchecked-image'
+			   value: (ToMaterialDesignIconProvider innerImageNamed:
+					    'outlined_radiobuttonunchecked')).
 		  (ToTokenProperty
 			   name: #'switch-checked-background'
 			   value: self defaultColorPrimary).
@@ -299,17 +323,35 @@ ToTheme class >> defaultTokenProperties [
 			   value: Color white).
 		  (ToTokenProperty
 			   name: #'switch-icon-size'
-			   value: 24 @ self defaultCheckboxHeight).
+			   value: 24 @ self defaultSwitchIconHeight).
+		  (ToTokenProperty
+			   name: #'checkable-icon-size'
+			   value: self defaultCheckboxHeight asPoint).
+		  (ToTokenProperty
+			   name: #'menu-icon-size'
+			   value: self defaultCheckboxHeight asPoint).
+		  (ToTokenProperty
+			   name: #'color-list-primary-selection-focused'
+			   value: (self defaultColorPrimary)).
+		  (ToTokenProperty
+			   name: #'color-list-primary-selection-over-focused'
+			   value: (self defaultColorPrimary alpha: 0.3)).
+		  (ToTokenProperty
+			   name: #'color-list-primary-selection-unfocused'
+			   value: (self defaultColorPrimary alpha: 0.2)).
+		  (ToTokenProperty
+			   name: #'color-list-primary-selection-over-unfocused'
+			   value: (self defaultColorPrimary alpha: 0.1)).
 
 		  (ToTokenProperty
 			   name: #'color-primary-selection-focused'
-			   value: (self defaultColorPrimary alpha: 0.6)).
+			   value: (self defaultColorPrimary alpha: 0.3)).
 		  (ToTokenProperty
 			   name: #'color-primary-selection-over-focused'
 			   value: (self defaultColorPrimary alpha: 0.1)).
 		  (ToTokenProperty
 			   name: #'color-primary-selection-unfocused'
-			   value: (self defaultColorPrimary alpha: 0.1)).
+			   value: (self defaultColorPrimary lighter alpha: 0.1)).
 		  (ToTokenProperty
 			   name: #'color-primary-selection-over-unfocused'
 			   value: (self defaultColorPrimary alpha: 0.05)).
@@ -318,7 +360,10 @@ ToTheme class >> defaultTokenProperties [
 			   value: (Color gray alpha: 0.3)).
 		  (ToTokenProperty
 			   name: #'color-secondary-selection'
-			   value: (Color veryLightGray alpha: 0.1)).
+			   value: (Color gray alpha: 0.1)).
+		  (ToTokenProperty
+			   name: #'tab-color-secondary-selection'
+			   value: (Color gray alpha: 0.5)).
 
 		  (ToTokenProperty name: #'border-width-primary-selection' value: 1).
 		  (ToTokenProperty
@@ -326,7 +371,7 @@ ToTheme class >> defaultTokenProperties [
 			   value: Color red).
 		  (ToTokenProperty
 			   name: #'border-color-primary-selection'
-			   value: self defaultColorPrimary).
+			   value: self defaultColorPrimary darker).
 		  (ToTokenProperty
 			   name: #'list-context-menu-selection-border-gap'
 			   value: 1.0) }
@@ -355,6 +400,12 @@ ToTheme >> addTokenProperties: aCollection [
 ToTheme >> addTokenProperty: aTokenProperty [
 
 	tokenProperties add: aTokenProperty
+]
+
+{ #category : #initialization }
+ToTheme >> defaultElementStampsFor: anElement [ 
+
+	^ { }
 ]
 
 { #category : #accessing }
@@ -442,6 +493,8 @@ ToTheme >> printOn: aStream [
 
 { #category : #hook }
 ToTheme >> setUpElement: anElement [
+
+	anElement addAllStamps: (self defaultElementStampsFor: anElement) 
 ]
 
 { #category : #styling }

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToCheckableBarNodeManager,
 	#superclass : #ToItemBarNodeManager,
-	#category : #'Toplo-Widget-List-ItemList'
+	#category : #'Toplo-Widget-List-ItemBar'
 }
 
 { #category : #initialization }
@@ -10,9 +10,8 @@ ToCheckableBarNodeManager >> buildNode: aNode [
 	| checkableElement holder |
 	super buildNode: aNode.
 	holder := aNode holder.
-	checkableElement := holder dataItem.
-	checkableElement hMatchParent.
-	"the TToCheckable must be registered in the checkable group managed by the segmented bar"
+	checkableElement := aNode item.
+	"the TToCheckable must be registered in the checkable group managed by the checkable bar"
 	checkableElement registerInGroup: holder listElement group
 ]
 
@@ -27,7 +26,7 @@ ToCheckableBarNodeManager >> defaultFakeDataItem [
 { #category : #'instance creation' }
 ToCheckableBarNodeManager >> newNodeForHolder: aNodeHolder [
 
-	^ ToCheckableNode new
+	^ ToBarCheckableNode new
 ]
 
 { #category : #initialization }

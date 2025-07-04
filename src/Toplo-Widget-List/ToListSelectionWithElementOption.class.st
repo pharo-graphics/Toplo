@@ -9,30 +9,27 @@ Class {
 }
 
 { #category : #'private - selection updating' }
+ToListSelectionWithElementOption >> addAllSelectionElements: aSelectionElementArray [
+
+	selectionOption isMasked ifTrue: [ ^ self ].
+	selectionContainer addChildren: aSelectionElementArray
+]
+
+{ #category : #'private - selection updating' }
 ToListSelectionWithElementOption >> addSelectionElement: aSelectionElement [
 
 	selectionOption isMasked ifTrue: [ ^ self ].
 	selectionContainer addChild: aSelectionElement
 ]
 
-{ #category : #'private - selection updating' }
-ToListSelectionWithElementOption >> addSelectionElements: aSelectionElementArray [
-
-	selectionOption isMasked ifTrue: [ ^ self ].
-	selectionContainer addChildren: aSelectionElementArray
-]
-
 { #category : #accessing }
 ToListSelectionWithElementOption >> addSelectionElementsIn: aListElement startingAt: aPosition [
 
 	| elements |
-	elements := Array streamContents: [ :stream |
-		            aPosition to: currentSelectionRepresentations size do: [ :p |
-			            stream nextPut:
-				            ((currentSelectionRepresentations at: p)
-					             updatedSelectionElementIn: aListElement) ] ].
-
-	self addSelectionElements: elements
+	elements := representation selectionElements.
+	aPosition > 1 ifTrue: [
+		elements := elements copyFrom: aPosition to: elements size ].
+	self addAllSelectionElements: elements
 ]
 
 { #category : #adding }
@@ -42,74 +39,62 @@ ToListSelectionWithElementOption >> addSelectionIn: aListElement [
 	when the animation ends to have a nice visual effect. If no animation is used, then SelectedSkinEvent is
 	sent just after the selection is added "
 
-	| first finalBounds startBounds animation |
-	currentSelectionRepresentations ifEmpty: [ ^ self ].
+	| finalBounds startBounds |
 	self checkSelectionContainerIn: aListElement.
 
-	currentSelectionRepresentations do: [ :grp |
-		grp refreshSelectionElementIn: aListElement option: self ].
+	representation isEmpty ifTrue: [ ^ self ].
+	representation
+		refreshSelectionElementIn: aListElement
+		option: self.
 
-	startBounds := previousSelectionBounds.
-	finalBounds := currentSelectionRepresentations first
-		               preComputedBounds.
 	" animation is used if the start and the final bounds differs and in case of one selection group only "
-	(startBounds = finalBounds or: [
-		 (self canAnimateSelectionUpdate and: [
-			  currentSelectionRepresentations size = 1 ]) not ]) ifTrue: [
+	self canAnimateSelectionUpdate ifFalse: [
 		self addSelectionElementsIn: aListElement startingAt: 1.
 		self notifyNodesSelectedIn: aListElement.
 		^ self ].
 
-	"get the selection and make it hidden to compute the final bounds "
-	first := currentSelectionRepresentations first selectionElement.
-	first visibility: BlVisibility hidden.
-	" set the final bounds - notice that the selection element may have custom position and measurement"
-	first size: finalBounds extent.
-	first position: finalBounds origin.
-	" directly add the selection and wait the layouting to get the correct final bounds "
-	self addSelectionElement: first.
-	first whenLayoutedDoOnce: [ 
-		" layout is done, the (eventually customized) final bounds is known "
-		finalBounds := first measuredBounds asRectangle.
-		first position: startBounds origin.
-		first size: startBounds extent.
-		first whenLayoutedDoOnce: [ 
-			" now the make the selection visible afain and launch the animation "
-			first visibility: BlVisibility visible.
-			animation := self
-				             boundsAnimationFrom: startBounds
-				             to: finalBounds
-				             onGroup: currentSelectionRepresentations first
-				             in: aListElement.
+	startBounds := previousSelectionBounds.
+	finalBounds := representation selectionBounds.
 
-			first addAnimation: animation.
-			" add others "
-			self addSelectionElementsIn: aListElement startingAt: 2 ] ]
+	self
+		boundsAnimationFrom: startBounds
+		to: finalBounds
+		onRepresentation: representation
+		in: aListElement.
+
+	" add others "
+	self addSelectionElementsIn: aListElement startingAt: 2
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionWithElementOption >> boundsAnimationFrom: startBounds to: finalBounds onGroup: aGroup in: aListElement [
+ToListSelectionWithElementOption >> boundsAnimationFrom: startBounds to: finalBounds onRepresentation: aRepresentation in: aListElement [
 
-	| theSelectionElement |
-	theSelectionElement := aGroup selectionElement.
-	^ ToBoundsTransition new
+	| theSelectionElement anim |
+	theSelectionElement := aRepresentation selectionElement.
+	theSelectionElement size: startBounds extent.
+	theSelectionElement position: startBounds origin.
+	self addSelectionElement: theSelectionElement.
+	anim := ToBoundsTransition new
 		  from: startBounds;
 		  to: finalBounds;
 		  duration: selectionOption animationDuration;
-		  onStepDo: [ :anArray :target |
-			  theSelectionElement position: anArray origin.
-			  theSelectionElement size: anArray extent ];
+		  onStepDo: [ :aRectangle :target |
+			  theSelectionElement size: aRectangle extent.
+			  theSelectionElement position: aRectangle origin ];
 		  onFinishedDo: [
 			  theSelectionElement position: finalBounds origin.
 			  theSelectionElement size: finalBounds extent.
 			  theSelectionElement whenLayoutedDoOnce: [
-					  self notifyNodesSelectedIn: aListElement. ] ]
+					  self notifyNodesSelectedIn: aListElement ] ].
+	theSelectionElement addAnimation: anim
 ]
 
 { #category : #'private - selection updating' }
 ToListSelectionWithElementOption >> canAnimateSelectionUpdate [
 
-	^ self isAnimated and: [ previousSelectionBounds notNil ]
+	^ self isAnimated and: [
+		  representation isComposite not and: [
+			  previousSelectionBounds notNil ] ]
 ]
 
 { #category : #accessing }
@@ -138,30 +123,10 @@ ToListSelectionWithElementOption >> isBeneath [
 	^ selectionOption isBeneath 
 ]
 
-{ #category : #'nodes collecting' }
-ToListSelectionWithElementOption >> launchUpdateSelectionIn: aListElement withSelectionModel: aSelectionModel [
-
-	(super
-		 launchUpdateSelectionIn: aListElement
-		 withSelectionModel: aSelectionModel) ifFalse: [ ^ false ].
-
-	self addSelectionIn: aListElement.
-	self rememberSelectionBoundsIn: aListElement.
-	^ true
-]
-
 { #category : #'instance creation' }
 ToListSelectionWithElementOption >> newSelectionContainerIn: aListElement [
 
-	| container elevation |
-	container := ToOverlayElement new.
-	container clipChildren: false.
-	container attachTo: aListElement innerElement.
-	elevation := self isBeneath
-		             ifTrue: [ BlRelativeElevation elevation: 5 ]
-		             ifFalse: [ BlRelativeElevation elevation: 15 ].
-	container elevation: elevation.
-	^ container
+	^ selectionOption selectionMode newSelectionContainerIn: aListElement
 ]
 
 { #category : #'private - selection updating' }
@@ -170,7 +135,6 @@ ToListSelectionWithElementOption >> newSelectionElementIn: aListElement [
 	^ selectionOption elementFactory value
 		  listElement: aListElement;
 		  selectionOption: self;
-		  focused: aListElement isFocused;
 		  yourself
 ]
 
@@ -186,10 +150,8 @@ ToListSelectionWithElementOption >> refreshSelectionIn: aListElement withSelecti
 { #category : #'nodes collecting' }
 ToListSelectionWithElementOption >> rememberSelectionBoundsIn: aListElement [
 
-	currentSelectionRepresentations ifEmpty: [ ^ self ].
-	previousSelectionBounds := Rectangle merging:
-		                           (currentSelectionRepresentations collect: [ :g |
-			                            g preComputedBounds ])
+	previousSelectionBounds := representation
+		                           selectionBounds
 ]
 
 { #category : #removing }
@@ -203,7 +165,17 @@ ToListSelectionWithElementOption >> removeSelectionContainer [
 { #category : #accessing }
 ToListSelectionWithElementOption >> selectionElements [
 
-	^ Array streamContents: [ :stream |
-		  currentSelectionRepresentations do: [ :grp |
-			  grp selectionElement ifNotNil: [ :se | stream nextPut: se ] ] ]
+	^ representation selectionElements
+]
+
+{ #category : #'nodes collecting' }
+ToListSelectionWithElementOption >> updateSelectionIn: aListElement withSelectionModel: aSelectionModel [
+
+	(super
+		 updateSelectionIn: aListElement
+		 withSelectionModel: aSelectionModel) ifFalse: [ ^ false ].
+
+	self addSelectionIn: aListElement.
+	self rememberSelectionBoundsIn: aListElement.
+	^ true
 ]

@@ -23,6 +23,13 @@ ToRawDarkTheme class >> defaultTokenProperties [
 			   value: (Color fromHexString: '#313339')).
 
 		  (ToTokenProperty
+			   name: #'color-primary-selection-focused'
+			   value: (self defaultColorPrimary alpha: 0.8)).
+		  (ToTokenProperty
+			   name: #'color-primary-selection-unfocused'
+			   value: (self defaultColorPrimary alpha: 0.2)).
+
+		  (ToTokenProperty
 			   name: #'color-bg-container-disabled'
 			   value: (Color white alpha: 0.15)).
 		  (ToTokenProperty

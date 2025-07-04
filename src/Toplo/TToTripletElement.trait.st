@@ -1,51 +1,97 @@
 Trait {
 	#name : #TToTripletElement,
+	#instVars : [
+		'startContainer',
+		'middleContainer',
+		'endContainer',
+		'startElement',
+		'middleElement',
+		'endElement'
+	],
 	#category : #'Toplo-Core'
 }
 
-{ #category : #'t - triplet element - layout' }
-TToTripletElement >> configureLayout [
+{ #category : #'t - triplet element - accessing' }
+TToTripletElement >> alignCenter [
 
-	self isStartFlexible
-		ifTrue: [
-			self startFiller resizerDo: [ :c |
-				c vertical matchParent.
-				c horizontal matchParent ] ]
-		ifFalse: [
-			self startFiller resizerDo: [ :c |
-				c vertical fitContent.
-				c horizontal fitContent ] ].
-	self isEndFlexible
-		ifTrue: [
-			self endFiller resizerDo: [ :c |
-				c vertical matchParent.
-				c horizontal matchParent ] ]
-		ifFalse: [
-			self endFiller resizerDo: [ :c |
-				c vertical fitContent.
-				c horizontal fitContent ] ].
-	self isHorizontal
-		ifTrue: [
-			self childrenDo: [ :child |
-				child constraints linear vertical alignCenter ].
-			self startGap size = (self startInterspace @ 0) ifFalse: [
-				self startGap size: self startInterspace @ 0 ].
-			self endGap size = (self endInterspace @ 0) ifFalse: [
-				self endGap size: self endInterspace @ 0 ].
-			self endElement ifNotNil: [ :ee |
-				ee constraints frame horizontal alignRight ] ]
-		ifFalse: [
-			self childrenDo: [ :child |
-				child constraints linear horizontal alignCenter ].
-			self startGap size = (0 @ self startInterspace) ifFalse: [
-				self startGap size: 0 @ self startInterspace ].
-			self endGap size = (0 @ self endInterspace) ifFalse: [
-				self endGap size: 0 @ self endInterspace ].
-			self endElement ifNotNil: [ :ee |
-				ee constraints frame vertical alignBottom ] ]
+	^ self widgetConfiguration alignCenter
 ]
 
 { #category : #'t - triplet element - accessing' }
+TToTripletElement >> alignCenter: aBoolean [
+
+	self alignCenter = aBoolean ifTrue: [ ^ self ].
+	self widgetConfiguration alignCenter: aBoolean.
+	self requestNewConfiguration
+]
+
+{ #category : #'t - triplet element - testing' }
+TToTripletElement >> canHidePart [
+
+	^ self widgetConfiguration canHidePart
+]
+
+{ #category : #'t - triplet element - accessing' }
+TToTripletElement >> canHidePart: aBoolean [
+
+	self widgetConfiguration canHidePart: aBoolean
+]
+
+{ #category : #'t - triplet element - instance creation' }
+TToTripletElement >> checkEndContainer [
+
+	endContainer ifNotNil: [ ^ self ].
+	self createEndContainer
+
+
+]
+
+{ #category : #'t - triplet element - instance creation' }
+TToTripletElement >> checkMiddleContainer [ 
+
+	middleContainer ifNotNil: [ ^ self ].
+	self createMiddleContainer
+
+
+]
+
+{ #category : #'t - triplet element - instance creation' }
+TToTripletElement >> checkStartContainer [ 
+
+	startContainer ifNotNil: [ ^ self ].
+	self createStartContainer
+
+
+]
+
+{ #category : #'t - triplet element - instance creation' }
+TToTripletElement >> createEndContainer [
+
+	endContainer := self newFrameContainer
+		                  id: #'end-container';
+		                  yourself.
+	self addChild: endContainer
+]
+
+{ #category : #'t - triplet element - instance creation' }
+TToTripletElement >> createMiddleContainer [
+
+	middleContainer ifNotNil: [ ^ self ].
+	middleContainer := self newMiddleContainer.
+	middleContainer id: #'middle-container'.
+	self addChild: middleContainer
+]
+
+{ #category : #'t - triplet element - instance creation' }
+TToTripletElement >> createStartContainer [
+
+	startContainer := self newFrameContainer
+		                  id: #'start-container';
+		                  yourself.
+	self addChild: startContainer at: 1
+]
+
+{ #category : #'t - triplet element - initialization' }
 TToTripletElement >> defaultTripletEventHandler [
 
 	^ ToTripletElementEventHandler new
@@ -54,90 +100,95 @@ TToTripletElement >> defaultTripletEventHandler [
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endAlignment [
 
-	^ self tripletProperties endAlignment
+	^ self widgetConfiguration endAlignment
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endAlignment: aNumber [
 
 	self endAlignment = aNumber ifTrue: [ ^ self ].
-	self tripletProperties endAlignment: aNumber.
-	self endAlignment ifNotNil: [
-		self isHorizontal
-			ifTrue: [
-				self endContainer constraintsDo: [ :c |
-					c horizontal exact: self endAlignment.
-					c vertical fitContent ] ]
-			ifFalse: [
-				self endContainer constraintsDo: [ :c |
-					c vertical exact: self endAlignment.
-					c horizontal fitContent ] ] ]
+	self checkEndContainer.
+	self widgetConfiguration endAlignment: aNumber.
+	self requestNewConfiguration
+]
+
+{ #category : #'t - triplet element - accessing' }
+TToTripletElement >> endChildren [
+
+	^ Array streamContents: [ :stream |
+		  endContainer ifNotNil: [ :s | stream nextPut: s ].
+		  self endGap ifNotNil: [ :s | stream nextPut: s ].
+		  self endFiller ifNotNil: [ :s | stream nextPut: s ] ]
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endContainer [
 
-	^ self tripletProperties endContainer
+	^ endContainer
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endElement [
 
-	^ self tripletProperties endElement
+	^  endElement
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endElement: anElement [
 
-	anElement = self endElement ifTrue: [ ^ self ].
-	self endElement ifNotNil: [ :s | s removeFromParent ].
-	self tripletProperties endElement: anElement.
-	anElement ifNil: [ ^ self ].
-	self endContainer addChild: anElement
+	endElement = anElement ifTrue: [ ^ self ].
+	endElement ifNotNil: [ :s | s removeFromParent ].
+	endElement := anElement.
+	endElement ifNotNil: [
+		self checkEndContainer.
+		endContainer addChild: endElement ].
+	self requestNewConfiguration
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endElementDo: aBlock [
 
-	self endElement ifNotNil: [ :ic | aBlock value: ic ]
+	endElement ifNotNil: [ :ic | aBlock value: ic ]
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endFiller [
 
-	^ self tripletProperties endFiller
+	^ self widgetConfiguration endFiller
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endFlexible [
 
-	^ self tripletProperties endFlexible
+	^ self widgetConfiguration endFlexible
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endFlexible: aBoolean [
 
 	self endFlexible = aBoolean ifTrue: [ ^ self ].
-	self tripletProperties endFlexible: aBoolean
+	self widgetConfiguration endFlexible: aBoolean.
+	self requestNewConfiguration
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endGap [
 
-	^ self tripletProperties endGap
+	^ self widgetConfiguration endGap
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endInterspace [
 
-	^ self tripletProperties endInterspace
+	^ self widgetConfiguration endInterspace
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endInterspace: aNumber [
 
-	self tripletProperties endInterspace: aNumber.
-	self requestLayout
+	self endInterspace = aNumber ifTrue: [ ^ self ].
+	self widgetConfiguration endInterspace: aNumber.
+	self requestNewConfiguration
 ]
 
 { #category : #'t - triplet element - accessing' }
@@ -156,44 +207,78 @@ TToTripletElement >> flexible: aBoolean [
 { #category : #'t - triplet element - testing' }
 TToTripletElement >> hasEndElement [
 
-	^ self tripletProperties endElement notNil
+	^ endElement notNil
 ]
 
 { #category : #'t - triplet element - testing' }
 TToTripletElement >> hasMiddleElement [
 
-	^ self tripletProperties middleElement notNil
+	^ middleElement notNil
 ]
 
 { #category : #'t - triplet element - testing' }
 TToTripletElement >> hasStartElement [
 
-	^ self tripletProperties startElement notNil
+	^ startElement notNil
+]
+
+{ #category : #'t - triplet element - accessing' }
+TToTripletElement >> hideEnd [
+
+	^ self widgetConfiguration hideEnd
+]
+
+{ #category : #'t - triplet element - accessing' }
+TToTripletElement >> hideEnd: aBoolean [
+
+	self hideEnd = aBoolean ifTrue: [ ^ self ].
+	self widgetConfiguration hideEnd: aBoolean.
+	self requestNewConfiguration
+
+]
+
+{ #category : #'t - triplet element - accessing' }
+TToTripletElement >> hideMiddle [
+
+	^ self widgetConfiguration hideMiddle
+]
+
+{ #category : #'t - triplet element - accessing' }
+TToTripletElement >> hideMiddle: aBoolean [
+
+	self hideMiddle = aBoolean ifTrue: [ ^ self ].
+	self widgetConfiguration hideMiddle: aBoolean.
+	self requestNewConfiguration
+
+]
+
+{ #category : #'t - triplet element - accessing' }
+TToTripletElement >> hideStart [
+
+	^ self widgetConfiguration hideStart
+]
+
+{ #category : #'t - triplet element - accessing' }
+TToTripletElement >> hideStart: aBoolean [
+
+	self hideStart = aBoolean ifTrue: [ ^ self ].
+	self widgetConfiguration hideStart: aBoolean.
+	self requestNewConfiguration
+
 ]
 
 { #category : #'t - triplet element - initialization' }
 TToTripletElement >> initializeAsTripletElement [
 
-	self tripletProperties: ToTripletElementProperties new.
-	self tripletProperties on: self.
-
-	self addChildren: {
-			self startContainer.
-			self startGap.
-			self startFiller.
-			self middleContainer.
-			self endFiller.
-			self endGap.
-			self endContainer }.
-
-	self addEventHandler: self defaultTripletEventHandler.
-	self fitContent
+	"the midddle container must be created because other parts are added according to its position"
+	self createMiddleContainer.
+	self addEventHandler: self defaultTripletEventHandler
 ]
 
 { #category : #'t - triplet element - testing' }
 TToTripletElement >> isEndFlexible [
 
-	^ self tripletProperties endFlexible
+	^ self widgetConfiguration endFlexible
 ]
 
 { #category : #'t - triplet element - testing' }
@@ -206,156 +291,167 @@ TToTripletElement >> isExact [
 { #category : #'t - triplet element - testing' }
 TToTripletElement >> isStartFlexible [
 
-	^ self tripletProperties startFlexible
+	^ self widgetConfiguration startFlexible
+]
+
+{ #category : #'t - triplet element - accessing' }
+TToTripletElement >> middleChildren [
+
+	^ Array streamContents: [ :stream |
+		  middleContainer ifNotNil: [ :s | stream nextPut: s ] ]
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> middleContainer [
 
-	^ self tripletProperties middleContainer
+	^ middleContainer 
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> middleElement [
 
-	^ self tripletProperties middleElement
+	^ middleElement
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> middleElement: anElement [
 
-	anElement = self middleElement ifTrue: [ ^ self ].
-	self middleElement ifNotNil: [ :s | s removeFromParent ].
-	self tripletProperties middleElement: anElement.
-	anElement ifNil: [ ^ self ].
-	self middleContainer addChild: anElement
-]
-
-{ #category : #'t - triplet element - instance creation' }
-TToTripletElement >> newBaseContainer [
-
-	^ BlElement new
-		  constraintsDo: [ :c |
-			  c horizontal fitContent.
-			  c vertical fitContent ];
-		  layout: BlLinearLayout new;
-		  yourself
+	middleElement = anElement ifTrue: [ ^ self ].
+	middleElement ifNotNil: [ :s | s removeFromParent ].
+	middleElement := anElement.
+	middleElement ifNotNil: [ middleContainer addChild: middleElement ].
+	self requestNewConfiguration
 ]
 
 { #category : #'t - triplet element - instance creation' }
 TToTripletElement >> newFiller [
 
-	^ ToElement new
-		  withNullSkin;
+	^ BlElement new
 		  size: 0 @ 0;
 		  layout: BlLinearLayout new;
+		  yourself
+]
+
+{ #category : #'t - triplet element - instance creation' }
+TToTripletElement >> newFrameContainer [
+
+	^ BlElement new
 		  constraintsDo: [ :c |
 			  c horizontal fitContent.
-			  c vertical fitContent ];
+			  c vertical fitContent.
+			  c linear vertical alignCenter.
+			  c linear horizontal alignCenter.
+			  c frame vertical alignCenter.
+			  c frame horizontal alignCenter ];
+		  layout: BlFrameLayout new;
+		  yourself
+]
+
+{ #category : #'t - triplet element - instance creation' }
+TToTripletElement >> newLinearContainer [
+
+	^ BlElement new
+		  constraintsDo: [ :c |
+			  c horizontal fitContent.
+			  c vertical fitContent.
+			  c linear vertical alignCenter.
+			  c linear horizontal alignCenter.
+			  c frame vertical alignCenter.
+			  c frame horizontal alignCenter ];
+		  layout: BlLinearLayout new;
 		  yourself
 ]
 
 { #category : #'t - triplet element - instance creation' }
 TToTripletElement >> newMiddleContainer [
 
-	^ ToElement  new
-		  constraintsDo: [ :c |
-			  c horizontal fitContent.
-			  c vertical fitContent ];
-		  yourself
+	^ self newFrameContainer
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startAlignment [
 
-	^ self tripletProperties startAlignment
+	^ self widgetConfiguration startAlignment
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startAlignment: aNumber [
 
 	self startAlignment = aNumber ifTrue: [ ^ self ].
-	self tripletProperties startAlignment: aNumber.
-	self startAlignment ifNotNil: [
-		self isHorizontal
-			ifTrue: [
-				self startContainer constraintsDo: [ :c |
-					c horizontal exact: self startAlignment.
-					c vertical fitContent ] ]
-			ifFalse: [
-				self startContainer constraintsDo: [ :c |
-					c vertical exact: self startAlignment.
-					c horizontal fitContent ] ] ]
+	self checkStartContainer.
+	self widgetConfiguration startAlignment: aNumber.
+	self requestNewConfiguration
+]
+
+{ #category : #'t - triplet element - accessing' }
+TToTripletElement >> startChildren [
+
+	^ Array streamContents: [ :stream |
+		  startContainer ifNotNil: [ :s | stream nextPut: s ].
+		  self startGap ifNotNil: [ :s | stream nextPut: s ].
+		  self startFiller ifNotNil: [ :s | stream nextPut: s ] ]
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startContainer [
 
-	^ self tripletProperties startContainer
+	^ startContainer
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startElement [
 
-	^ self tripletProperties startElement
+	^ startElement
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startElement: anElement [
 
-	anElement = self startElement ifTrue: [ ^ self ].
-	self startElement ifNotNil: [ :s | s removeFromParent ].
-	self tripletProperties startElement: anElement.
-	anElement ifNil: [ ^ self ].
-	self startContainer addChild: anElement
+	startElement = anElement ifTrue: [ ^ self ].
+	startElement ifNotNil: [ :s | s removeFromParent ].
+	startElement := anElement.
+	startElement ifNotNil: [
+		self checkStartContainer.
+		startContainer addChild: startElement ].
+	self requestNewConfiguration
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startFiller [
 
-	^ self tripletProperties startFiller
+	^ self widgetConfiguration startFiller
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startFlexible [
 
-	^ self tripletProperties startFlexible
+	^ self widgetConfiguration startFlexible
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startFlexible: aBoolean [
 
 	self startFlexible = aBoolean ifTrue: [ ^ self ].
-	self tripletProperties startFlexible: aBoolean
+	self widgetConfiguration startFlexible: aBoolean.
+	self requestNewConfiguration
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startGap [
 
-	^ self tripletProperties startGap
+	^ self widgetConfiguration startGap
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startInterspace [
 
-	^ self tripletProperties startInterspace
+	^ self widgetConfiguration startInterspace
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startInterspace: aNumber [
 
-	self tripletProperties startInterspace: aNumber.
-	self requestLayout
-]
-
-{ #category : #'t - triplet element - private - accessing' }
-TToTripletElement >> tripletProperties [
-
-	^ self explicitRequirement 
-]
-
-{ #category : #'t - triplet element - private - accessing' }
-TToTripletElement >> tripletProperties: aTripletProperties [
-
-	^ self explicitRequirement 
+	self startInterspace = aNumber ifTrue: [ ^ self ].
+	self widgetConfiguration startInterspace: aNumber.
+	self requestNewConfiguration
 ]

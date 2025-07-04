@@ -26,12 +26,12 @@ ToploDemoPresenter class >> demo2 [
 						  text: dataItem key;
 						  yourself);
 				 icon: (ToElement new
-						  size: 50 @ 20;
+						  size: 50 @ 25;
 						  background: dataItem value;
 						  yourself);
 				 startInterspace: 3;
 				 yourself) ].
-	list primarySelectionMode disable.
+
 	colorAssociations := Array streamContents: [ :stream |
 		                     Color registeredColorNames sorted do: [
 			                     :colorName |
@@ -54,29 +54,28 @@ ToploDemoPresenter class >> demo2 [
 ToploDemoPresenter class >> demo3 [
 
 	<demo>
-	| containerElement radioButtonLightTheme radioButtonDarkTheme checkableGroup |
-	(containerElement := ToElement new)
-		constraintsDo: [ :constraints |
-			constraints horizontal matchParent.
-			constraints vertical matchParent ];
-		layout: BlLinearLayout vertical;
-		padding: (BlInsets all: 10).
-	(radioButtonLightTheme := ToRadioButton new)
-		labelText: 'Light theme';
-		checked: true.
-	(radioButtonDarkTheme := ToRadioButton new) labelText: 'Dark theme'.
+	| containerElement checkableGroup lightThemeBtn darkThemeBtn |
+	(containerElement := ToPane vertical) padding: (BlInsets all: 10).
 	(checkableGroup := ToCheckableGroup new)
 		withStrictCheckingStrategy;
 		registerAll: {
-				radioButtonLightTheme.
-				radioButtonDarkTheme };
-		addEventHandler: (BlEventHandler
-				 on: ToCheckableGroupChangedEvent
-				 do: [ :event |
-					 containerElement space toTheme:
-							 (event checkedList anyOne = radioButtonLightTheme
-								  ifTrue: [ ToRawTheme new ]
-								  ifFalse: [ ToRawDarkTheme new ]) ]).
+				(lightThemeBtn := ToRadioButton new
+					                  id: #r1;
+					                  labelText: 'Light theme';
+					                  yourself).
+				(darkThemeBtn := ToRadioButton new
+					                 id: #r2;
+					                 labelText: 'Dark theme';
+					                 yourself) }.
+
+	containerElement
+		newCheckAction: [ :evt :grp :list |
+			list first = lightThemeBtn
+				ifTrue: [ containerElement space toTheme: ToRawTheme new ]
+				ifFalse: [ containerElement space toTheme: ToRawDarkTheme new ] ]
+		onGroup: checkableGroup.
+		
+	checkableGroup registeredCheckables second checked: true.
 	containerElement addChildren: checkableGroup registeredCheckables.
 	^ containerElement
 ]

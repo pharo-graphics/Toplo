@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-Select-Multi'
 }
 
-{ #category : #initialization }
+{ #category : #'t - generic node manager' }
 ToMultiSelectNodeManager >> newHolder [ 
 
 	^ ToMultiSelectHolder new

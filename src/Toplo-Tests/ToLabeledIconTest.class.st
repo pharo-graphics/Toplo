@@ -24,6 +24,7 @@ ToLabeledIconTest >> testBeIconFirst [
 				  background: (Color blue alpha: 0.2);
 				  yourself).
 	li beStartToEnd.
+	li applyWidgetConfiguration.
 	self assert: li isStartToEnd
 ]
 
@@ -45,8 +46,13 @@ ToLabeledIconTest >> testFiller [
 
 	| li |
 	li := self testInitialize.
-	self assert: li startFiller notNil.
-	self assert: li startFiller size equals: 0 asPoint
+	self assert: li startFiller isNil.
+	li startFlexible: false.
+	li applyWidgetConfiguration.
+	self assert: li startFiller isNil.
+	li startFlexible: true.
+	li applyWidgetConfiguration.
+	self assert: li startFiller notNil
 ]
 
 { #category : #tests }
@@ -83,6 +89,7 @@ ToLabeledIconTest >> testIcon [
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
 	li forceLayout.
+	li applyWidgetConfiguration.
 	self assert: li width equals: li iconContainer width.
 	self assert: li height equals: li iconContainer height.
 	self assert: li hasIcon.
@@ -98,13 +105,14 @@ ToLabeledIconTest >> testIconContainer [
 
 	| li |
 	li := self testInitialize.
-	self assert: li iconContainer hasChildren not.
-	self assert: li iconContainer size equals: 0 asPoint.
+	self assert: li iconContainer isNil.
 	li icon: (ToImage inner: (BlElement new
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
 	li forceLayout.
+	li applyWidgetConfiguration.
+	self assert: li startContainer notNil.
 	self assert: li width equals: li iconContainer width.
 	self assert: li height equals: li iconContainer height.
 	^ li
@@ -178,6 +186,7 @@ ToLabeledIconTest >> testIconImage [
 			 size: 60 @ 20;
 			 background: (Color blue alpha: 0.2);
 			 yourself).
+	li applyWidgetConfiguration.
 	li forceLayout.
 	self assert: li width equals: li iconContainer width.
 	self assert: li height equals: li iconContainer height.
@@ -191,7 +200,9 @@ ToLabeledIconTest >> testInitialize [
 	li := ToLabeledIcon new.
 	self assert: li isStartToEnd.
 	self assert: li isHorizontal.
+	li applyWidgetConfiguration.
 	li forceLayout.
+
 	self assert: li size equals: 0	asPoint.
 	^ li
 ]
@@ -202,6 +213,7 @@ ToLabeledIconTest >> testInterspace [
 	| li |
 	li := ToLabeledIcon new.
 	li startInterspace: 10.
+	li applyWidgetConfiguration.
 	li forceLayout.
 	self assert: li size equals: 10@0.
 	li vFitContent.
@@ -225,6 +237,7 @@ ToLabeledIconTest >> testInterspaceWithLabel [
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
+	li applyWidgetConfiguration.
 	li forceLayout.
 	self
 		assert: li labelContainer bounds left
@@ -236,13 +249,15 @@ ToLabeledIconTest >> testInterspaceWithLabelAndVertical [
 
 	| li |
 	li := ToLabeledIcon new.
-	li startInterspace: 10.
 	li vertical: true.
+	li startInterspace: 10.
+
 	li label: (ToLabel text: 'A').
 	li icon: (ToImage inner: (BlElement new
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
+	li applyWidgetConfiguration.
 	li forceLayout.
 	self
 		assert: li labelContainer bounds top
@@ -336,6 +351,8 @@ ToLabeledIconTest >> testLabelFirst [
 	li labelText: 'X'.
 	li endToStart: true.
 	li forceLayout.
+	li applyWidgetConfiguration.
+
 	self assert: (li label bounds inParent: li) right equals: (li icon bounds inParent: li) left.
 	^ li
 ]
@@ -373,14 +390,17 @@ ToLabeledIconTest >> testStartAlignment [
 				  yourself)).
 	li label: (ToLabel text: 'ba').
 	li forceLayout.
+	li applyWidgetConfiguration.
 	self
 		assert: li labelContainer bounds left
 		equals: li iconContainer bounds right.
 	li startAlignment: 100.
+	li applyWidgetConfiguration.
 	li forceLayout.
 	self assert: li iconContainer bounds width equals: 100.
 	self assert: li labelContainer bounds left equals: 100.
 	li startAlignment: 50.
+	li applyWidgetConfiguration.
 	li forceLayout.
 	self assert: li labelContainer bounds left equals: 50.
 	self assert: li iconContainer bounds width equals: 50.
@@ -393,10 +413,11 @@ ToLabeledIconTest >> testStartFlexible [
 
 	| li |
 	li := self testInitialize.
-	self assert: li startFiller notNil.
-	self assert: li startFiller size equals: 0 asPoint.
+	self assert: li startFiller isNil.
 	li startFlexible: true.
 	li forceLayout.
+	li applyWidgetConfiguration.
+	self assert: li startFiller notNil.
 	self assert: li isStartFlexible
 ]
 
@@ -436,6 +457,7 @@ ToLabeledIconTest >> testStartFlexibleWithLabel [
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
+	li applyWidgetConfiguration.
 	container forceLayout.
 	self assert: li labelContainer bounds right closeTo: container width.
 	self assert: li iconContainer bounds left closeTo: 0
@@ -456,6 +478,7 @@ ToLabeledIconTest >> testStartFlexibleWithLabelAndVertical [
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
+	li applyWidgetConfiguration.
 	container forceLayout.
 	self assert: li labelContainer bounds bottom equals: container height.
 	self assert: li iconContainer bounds top equals: 0
@@ -472,6 +495,7 @@ ToLabeledIconTest >> testStartToEnd [
 				  yourself).
 	li labelText: 'X'.
 	li startToEnd: true.
+	li applyWidgetConfiguration.
 	li forceLayout.
 	self assert: (li icon bounds inParent: li) right equals: (li label bounds inParent: li) left.
 	^ li
@@ -487,6 +511,7 @@ ToLabeledIconTest >> testWithLabelAndIcon [
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
 	li forceLayout.
+	li applyWidgetConfiguration.
 	self
 		assert: li width
 		equals: li labelContainer width + li iconContainer width.
@@ -508,7 +533,9 @@ ToLabeledIconTest >> testWithLabelAndIconIconFirst [
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
+	li applyWidgetConfiguration.
 	li forceLayout.
+	
 	self assert: li iconContainer bounds left equals: 0.
 	self
 		assert: li labelContainer bounds left
@@ -528,6 +555,7 @@ ToLabeledIconTest >> testWithLabelAndIconIconFirstVertical [
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
+	li applyWidgetConfiguration.
 	li forceLayout.
 	self assert: li iconContainer bounds top equals: 0.
 	self
@@ -546,6 +574,7 @@ ToLabeledIconTest >> testWithLabelAndIconLabelFirst [
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
+	li applyWidgetConfiguration.
 	li forceLayout.
 	self assert: li labelContainer bounds left equals: 0.
 	self
@@ -565,6 +594,7 @@ ToLabeledIconTest >> testWithLabelAndIconLabelFirstVertical [
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
+	li applyWidgetConfiguration.
 	li forceLayout.
 	self assert: li labelContainer bounds top equals: 0.
 	self
@@ -583,6 +613,7 @@ ToLabeledIconTest >> testWithLabelAndIconVertical [
 				  size: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
+	li applyWidgetConfiguration.
 	li forceLayout.
 	self
 		assert: li height

@@ -17,6 +17,7 @@ ToMultiSelectHolder >> removeNodeFromBar [
 	removing the node is done by deselecting the corresponding list item in the select popu list "
 
 	| index |
+	self tagModel isComposite ifTrue: [ ^ self ].
 	index := self selectElement sieve originalData indexOf:
 		         self tagModel data.
 	self selecter deselectIndex: index
@@ -32,10 +33,4 @@ ToMultiSelectHolder >> selectElement [
 ToMultiSelectHolder >> selecter [
 
 	^ self selectElement selecter
-]
-
-{ #category : #accessing }
-ToMultiSelectHolder >> withCloseButton [
-
-	^ self selectElement withCloseButton
 ]

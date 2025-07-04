@@ -1,8 +1,8 @@
 Class {
 	#name : #ToObservableCollection,
 	#superclass : #Object,
-	#traits : 'TBlEventTarget + TToObservableCollection + TToAuthorisationRequestTarget',
-	#classTraits : 'TBlEventTarget classTrait + TToObservableCollection classTrait + TToAuthorisationRequestTarget classTrait',
+	#traits : 'TBlEventTarget + TToObservableCollection + TToCollectionChangedNotifier',
+	#classTraits : 'TBlEventTarget classTrait + TToObservableCollection classTrait + TToCollectionChangedNotifier classTrait',
 	#instVars : [
 		'collection',
 		'eventDispatcher'

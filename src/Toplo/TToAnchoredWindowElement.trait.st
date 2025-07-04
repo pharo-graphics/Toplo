@@ -29,12 +29,11 @@ TToAnchoredWindowElement >> anchorRoot [
 TToAnchoredWindowElement >> checkLayoutStepOnLayout: aBounds context: aBlElementBoundsUpdateContext [
 
 	self layoutStep ifNotNil: [ :ls |
-		self layoutStep: (ls
-				 nextStepFor: self
-				 onEvent: self lastPopupEvent
-				 onLayout: aBounds
-				 context: aBlElementBoundsUpdateContext).
-		self layoutStep ifNotNil: [ self requestLayout ] ]
+			self layoutStep: (ls
+					 nextStepFor: self
+					 onEvent: self lastPopupEvent
+					 onLayout: aBounds
+					 context: aBlElementBoundsUpdateContext) ]
 ]
 
 { #category : #'t - anchored window element - displaying' }
@@ -92,7 +91,7 @@ TToAnchoredWindowElement >> lastPopupEvent: anEvent [
 { #category : #'t - anchored window element - private layout' }
 TToAnchoredWindowElement >> launchOpening [
 
-	self layoutStep: ToAnchoredWindowOpeningStartStep new.
+	self layoutStep: self newStartLayoutStep.
 	self open
 ]
 
@@ -107,7 +106,8 @@ TToAnchoredWindowElement >> layoutStep: aLayoutStep [
 
 	aLayoutStep ifNil: [
 		^ self userData removeKey: #layoutStep ifAbsent: [  ] ].
-	self userData at: #layoutStep put: aLayoutStep
+	self userData at: #layoutStep put: aLayoutStep.
+	aLayoutStep onSetInAnchoredWindow: self
 ]
 
 { #category : #'t - anchored window element - accessing' }
@@ -122,9 +122,16 @@ TToAnchoredWindowElement >> manager: aWindowHandler [
 	windowManager := aWindowHandler 
 ]
 
+{ #category : #'t - anchored window element - private layout' }
+TToAnchoredWindowElement >> newStartLayoutStep [ 
+
+	^ ToAnchoredWindowOpeningStartStep new
+]
+
 { #category : #'t - anchored window element - displaying' }
 TToAnchoredWindowElement >> onMeasure: anExtentMeasurementSpec onEvent: anEvent [
 
+	self manager ifNil: [ ^ self ].
 	self manager onMeasure: anExtentMeasurementSpec onEvent: anEvent
 ]
 
@@ -176,6 +183,7 @@ TToAnchoredWindowElement >> popupTimestamp [
 { #category : #'t - anchored window element - displaying' }
 TToAnchoredWindowElement >> positionOnEvent: anEvent context: aBlElementBoundsUpdateContext [
 
+	self manager ifNil: [ ^ self ].
 	self manager positionWindowOnEvent: anEvent context: aBlElementBoundsUpdateContext
 ]
 
@@ -188,8 +196,7 @@ TToAnchoredWindowElement >> preventPickOutsideClosing [
 { #category : #'t - anchored window element - private layout' }
 TToAnchoredWindowElement >> refreshLayout [
 
-	self layoutStep: ToAnchoredWindowArrangingStep new.
-	self requestLayout
+	self layoutStep: self newStartLayoutStep
 ]
 
 { #category : #'t - anchored window element - displaying' }

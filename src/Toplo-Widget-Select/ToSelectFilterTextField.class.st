@@ -25,7 +25,7 @@ ToSelectFilterTextField >> initialize [
 		c linear vertical alignCenter ].
 	self fitContent.
 	self withSaveCapability.
-	self withoutEditsFeedback.
+	self removeEditsFeedbackLayer.
 
 ]
 

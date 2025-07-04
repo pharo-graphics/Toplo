@@ -58,6 +58,15 @@ ToTabWithCustomSelectionBarSkin >> leavedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToTabWithCustomSelectionBarSkin >> leftSkinEvent: anEvent [
+
+	super leftSkinEvent: anEvent.
+	anEvent elementDo: [ :e | 
+		e background: BlBackground transparent ].
+
+]
+
+{ #category : #'event handling' }
 ToTabWithCustomSelectionBarSkin >> uncheckedSkinEvent: anEvent [
 
 	super uncheckedSkinEvent: anEvent.

@@ -32,12 +32,6 @@ ToListSelectionOption >> beneath: aBoolean [
 	representationOption removeSelectionContainer 
 ]
 
-{ #category : #'private - selection updating' }
-ToListSelectionOption >> currentSelectionRepresentationsFrom: aListElement withSelectionModel: aSelectionModel [
-
-	^ representationOption currentSelectionRepresentationsFrom: aListElement withSelectionModel: aSelectionModel
-]
-
 { #category : #accessing }
 ToListSelectionOption >> elementFactory [
 
@@ -48,13 +42,8 @@ ToListSelectionOption >> elementFactory [
 ToListSelectionOption >> elementFactory: aSelectionElementFactoryValuable [
 
 	elementFactory := aSelectionElementFactoryValuable.
-	representationOption removeSelectionContainer 
-]
-
-{ #category : #'private - selection updating' }
-ToListSelectionOption >> forceRefreshSelectionIn: aListElement withSelectionModel: aSelectionModel [
-
-	representationOption forceRefreshSelectionIn: aListElement withSelectionModel: aSelectionModel
+	aSelectionElementFactoryValuable ifNil: [
+		representationOption removeSelectionContainer ]
 ]
 
 { #category : #accessing }
@@ -65,6 +54,12 @@ ToListSelectionOption >> grouped: aBoolean [
 		       ifTrue: [ ToListSelectionRepresentationOption neighbouring ]
 		       ifFalse: [ ToListSelectionRepresentationOption separate ].
 	self representation: opt
+]
+
+{ #category : #testing }
+ToListSelectionOption >> hasEmbeddedRepresentation [
+
+	^ representationOption isEmbedded 
 ]
 
 { #category : #initialization }
@@ -156,6 +151,12 @@ ToListSelectionOption >> representation: aRepresentationOption [
 	representationOption := aRepresentationOption.
 	aRepresentationOption selectionOption: self.
 	representationOption removeSelectionContainer 
+]
+
+{ #category : #accessing }
+ToListSelectionOption >> requestNewRepresentation [
+
+	representationOption requestNewRepresentation
 ]
 
 { #category : #accessing }

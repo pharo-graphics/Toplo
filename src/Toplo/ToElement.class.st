@@ -1,10 +1,16 @@
 Class {
 	#name : #ToElement,
 	#superclass : #BlElement,
-	#traits : 'TBlLayoutResizable + TToElement + TToElementWithTooltip + TToElementWithContextMenu + TToAuthorisationRequestTarget',
-	#classTraits : 'TBlLayoutResizable classTrait + TToElement classTrait + TToElementWithTooltip classTrait + TToElementWithContextMenu classTrait + TToAuthorisationRequestTarget classTrait',
+	#traits : 'TToElement + TToLinkable + TBlLayoutResizable + TToElementWithTooltip + TToElementWithContextMenu + TToAuthorisationRequestTarget',
+	#classTraits : 'TToElement classTrait + TToLinkable classTrait + TBlLayoutResizable classTrait + TToElementWithTooltip classTrait + TToElementWithContextMenu classTrait + TToAuthorisationRequestTarget classTrait',
 	#category : #'Toplo-Core'
 }
+
+{ #category : #'event creation' }
+ToElement >> clickEventClass [ 
+
+	^ BlPrimaryClickEvent 
+]
 
 { #category : #initialization }
 ToElement >> defaultLayout [ 
@@ -37,6 +43,9 @@ ToElement >> initialize [
 	self layout: self defaultLayout.
 	self initializeForToplo.
 	self applySkinInstallerOnFirstRequest: false.
+	self constraints horizontal fitContent.	
+	self constraints vertical fitContent.
+
 ]
 
 { #category : #converting }

@@ -9,10 +9,6 @@ ToAbstractNodeManager >> buildNode: aNode [
 
 ]
 
-{ #category : #initialization }
-ToAbstractNodeManager >> constraintNode: aNode [
-]
-
 { #category : #'instance creation' }
 ToAbstractNodeManager >> newHolder [
 

@@ -36,17 +36,14 @@ ToInnerWindow >> defaultBarElement [
 	b addEventHandler: (BlEventHandler
 			 on: BlMouseDownEvent
 			 do: [ self toFront ]).
-	closeButton := ToButton new
+	closeButton := ToIconicRemoveButton new
 		               id: #'close-button';
 		               yourself.
-	closeButton whenClickedDo: [ self close ].
-	closeButton withNullSkin.
-	closeButton border: (Color red alpha: 0.3).
-	expandButton := ToButton new
+	closeButton clickAction: [ self close ].
+	expandButton := ToIconicExpandToFullScreenButton new
 		                id: #'expand-button';
 		                yourself.
-	expandButton whenClickedDo: [ self maximize ].
-	expandButton withNullSkin.
+	expandButton clickAction: [ self maximize ].
 
 	fill1 := BlElement new constraintsDo: [ :c |
 		         c vertical exact: 1.
@@ -148,10 +145,7 @@ ToInnerWindow >> installRawStyle [
 	self bar
 		padding: (BlInsets top: 2 bottom: 1);
 		outskirts: BlOutskirts inside;
-		border: (	self valueOfTokenNamed: #'color-border').
-	self closeButton icon: (ToImage inner: (self iconNamed: #windowClose)).
-	self expandButton icon: (ToImage inner: (self iconNamed: #windowMaximize)).
-
+		border: (	self valueOfTokenNamed: #'color-border')
 ]
 
 { #category : #'api - displaying' }

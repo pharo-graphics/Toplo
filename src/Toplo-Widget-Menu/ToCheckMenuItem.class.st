@@ -4,16 +4,10 @@ Class {
 	#category : #'Toplo-Widget-Menu-Items'
 }
 
-{ #category : #initialization }
-ToCheckMenuItem >> buttonClass [
+{ #category : #'t - labeled icon' }
+ToCheckMenuItem >> hasIcon [
 
-	^ ToCheckbox
-]
-
-{ #category : #'as yet unclassified' }
-ToCheckMenuItem >> indeterminateBar [
-
-	^ self button indeterminateBar
+	^ true
 ]
 
 { #category : #skin }

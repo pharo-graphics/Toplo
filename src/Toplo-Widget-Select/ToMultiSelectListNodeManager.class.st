@@ -1,7 +1,7 @@
 Class {
 	#name : #ToMultiSelectListNodeManager,
-	#superclass : #ToGenericListNodeManager,
-	#category : #'Toplo-Widget-Select-List'
+	#superclass : #ToSelectListNodeManager,
+	#category : #'Toplo-Widget-Select-manager'
 }
 
 { #category : #'t - generic node manager' }

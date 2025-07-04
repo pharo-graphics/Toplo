@@ -3,8 +3,10 @@ Class {
 	#superclass : #ToSelectElement,
 	#instVars : [
 		'hideSelected',
-		'withCloseButton',
-		'withGroups'
+		'withGroups',
+		'keepPickOrder',
+		'maxSelectedCount',
+		'isFlowable'
 	],
 	#category : #'Toplo-Widget-Select-Multi'
 }
@@ -17,6 +19,21 @@ ToMultiSelectElement >> addGroup: anObject withData: aCollection [
 	grpIdx := self dataAccessor itemCount.
 	self setGroupIndex: grpIdx.
 	self dataAccessor addAll: aCollection
+]
+
+{ #category : #configuration }
+ToMultiSelectElement >> applyWidgetConfiguration [ 
+
+	super applyWidgetConfiguration.
+	self innerElement isFlowable: isFlowable.
+	self innerElement keepPickOrder: keepPickOrder.
+	" in case of hide selected, the picking outside handler should not be activated.
+	If not, an unexpected list closing occurs when clicking on the last popup list item "
+	self manager checkPickOutside: hideSelected not.
+	 
+	self iconContainer maxSelectedCount: maxSelectedCount .
+	self innerElement maxSelectedCount: maxSelectedCount.
+
 ]
 
 { #category : #accessing }
@@ -53,7 +70,7 @@ ToMultiSelectElement >> hideSelected [
 ToMultiSelectElement >> hideSelected: aBoolean [
 
 	hideSelected := aBoolean.
-	self manager checkPickOutside: aBoolean not
+	self requestNewConfiguration
 ]
 
 { #category : #accessing }
@@ -71,7 +88,10 @@ ToMultiSelectElement >> initialize [
 
 	super initialize.
 	hideSelected := false.
-	withGroups := false
+	withGroups := false.
+	isFlowable := false.
+	keepPickOrder := false.
+	maxSelectedCount := 0
 ]
 
 { #category : #'instance creation' }
@@ -81,29 +101,30 @@ ToMultiSelectElement >> innerElementClass [
 ]
 
 { #category : #accessing }
-ToMultiSelectElement >> isScrolling: aBoolean [
+ToMultiSelectElement >> isFlowable: aBoolean [
 
-	self innerElement isScrolling: aBoolean
+	isFlowable := aBoolean.
+	self requestNewConfiguration
 ]
 
 { #category : #accessing }
-ToMultiSelectElement >> isWrapping: aBoolean [
+ToMultiSelectElement >> isScrollable: aBoolean [
 
-	self innerElement isWrapping: aBoolean
+	self innerElement isScrollable: aBoolean
 ]
 
 { #category : #accessing }
 ToMultiSelectElement >> keepPickOrder: aBoolean [
 
-	self innerElement keepPickOrder: aBoolean
+	keepPickOrder := aBoolean.
+	self requestNewConfiguration
 ]
 
 { #category : #accessing }
 ToMultiSelectElement >> maxSelectedCount: aNumber [
 
-	self iconContainer maxSelectedCount: aNumber.
-	self innerElement maxSelectedCount: aNumber.
-
+	maxSelectedCount := aNumber.
+	self requestNewConfiguration
 ]
 
 { #category : #'instance creation' }
@@ -150,22 +171,17 @@ ToMultiSelectElement >> setGroupIndex: anIndex [
 	self popupListElement groupSelecter selectIndex: anIndex
 ]
 
+{ #category : #accessing }
+ToMultiSelectElement >> tagBuilder: aValuable [
+	"aValuable takes 3 optional args: first, the node to build, second, the dataItem and third, the holder in the list element "
+
+	self innerElement tagBuilder: aValuable
+]
+
 { #category : #private }
 ToMultiSelectElement >> updateSelectedCountLabel [
 
 	self iconContainer updateSelectedCountLabel
-]
-
-{ #category : #accessing }
-ToMultiSelectElement >> withCloseButton [
-
-	^ withCloseButton ifNil: [ withCloseButton := true ]
-]
-
-{ #category : #accessing }
-ToMultiSelectElement >> withCloseButton: aBoolean [
-
-	withCloseButton := aBoolean
 ]
 
 { #category : #accessing }

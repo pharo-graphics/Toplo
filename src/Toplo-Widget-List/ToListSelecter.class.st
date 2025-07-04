@@ -29,8 +29,6 @@ ToListSelecter >> addCommand: aCommand [
 ToListSelecter >> applyBasicCommand: aCommand [
 
 	| previousModel |
-	"((aCommand isKindOf: ToIntervalSelectionCommand ) and: [ aCommand operation isKindOf: ToRemoveSelectionOperation ]) ifTrue: [ self halt ]."
-
 	previousModel := selectionModel copy.
 	aCommand applyWithOperator: operator.
 	previousModel = aCommand selectionModel ifTrue: [ ^ self ].
@@ -66,6 +64,12 @@ ToListSelecter >> beSingleSelection [
 ]
 
 { #category : #accessing }
+ToListSelecter >> commandApplicationStrategy [
+
+	^ commandApplicationStrategy
+]
+
+{ #category : #accessing }
 ToListSelecter >> commandApplicationStrategy: aCommandApplicationStrategy [
 
 	commandApplicationStrategy := aCommandApplicationStrategy
@@ -96,7 +100,7 @@ ToListSelecter >> currentIndex [
 { #category : #initialization }
 ToListSelecter >> defaultCommandApplicationStrategy [
 
-	^ nil
+	^ ToDataSourceCommandApplicationStrategy new
 ]
 
 { #category : #operations }
@@ -179,8 +183,15 @@ ToListSelecter >> initialize [
 	super initialize.
 	multiple := true.
 	enabled := true.
-	operator := ToSelectionModelOperator new.
-	commandApplicationStrategy := self defaultCommandApplicationStrategy 
+	operator := ToSelectionModelOperator new
+]
+
+{ #category : #initialization }
+ToListSelecter >> initializeCommandApplicationStrategy [
+
+	commandApplicationStrategy := self defaultCommandApplicationStrategy.
+	commandApplicationStrategy ifNotNil: [
+		commandApplicationStrategy element: element ]
 ]
 
 { #category : #testing }
@@ -264,7 +275,6 @@ ToListSelecter >> onBasicCommandApplied: aCommand [
 
 	| req |
 	selectionChangedEventClass ifNil: [ ^ self ].
-
 	req := ToListSelectionCommandAppliedEvent new
 		       command: aCommand;
 		       requestedAction: [
@@ -281,13 +291,13 @@ ToListSelecter >> onBasicCommandApplied: aCommand [
 { #category : #'command application' }
 ToListSelecter >> onCommandApplied: aCommand [
 
-	aCommand onAppliedIn: self
+	aCommand onAppliedOn: self
 ]
 
 { #category : #'command application' }
 ToListSelecter >> onCompositeCommandApplied: aCommand [
 
-	self onBasicCommandApplied: aCommand
+	
 ]
 
 { #category : #'api - hooks' }
@@ -295,10 +305,17 @@ ToListSelecter >> onInstalledIn: anElement [
 
 	element := anElement.
 	selectionModel on: anElement.
-	commandApplicationStrategy
-		ifNil: [
-		commandApplicationStrategy := element commandApplicationStrategy ]
-		ifNotNil: [ commandApplicationStrategy element: element ]
+	self initializeCommandApplicationStrategy
+]
+
+{ #category : #'command application' }
+ToListSelecter >> onSelectionCopyCommandApplied: aCommand [
+
+]
+
+{ #category : #'command application' }
+ToListSelecter >> onSelectionShiftCommandApplied: aCommand [
+
 ]
 
 { #category : #'api - hooks' }
@@ -533,10 +550,22 @@ ToListSelecter >> selectionOption [
 { #category : #operations }
 ToListSelecter >> shiftSelection: anInteger from: anIndex [
 
-	self addCommand: (ToSelectionShiftCommand new
+	| cmd |
+	cmd := ToListElementCompositeCommand new.
+	(anInteger < 0 and: [ self itemCount >= anIndex ]) ifTrue: [
+			| count interval |
+			count := anInteger abs.
+			interval := anIndex to: anIndex + count - 1.
+			" run a remove selection command only if any of the removed interval is selected "
+			(self selectionModel containsAnyOfInterval: interval) ifTrue: [
+					cmd addCommand: (ToIntervalSelectionCommand new
+							 from: interval first to: interval last;
+							 operation: ToRemoveSelectionOperation new) ] ].
+	cmd addCommand: (ToSelectionShiftCommand new
 			 itemCount: anInteger;
 			 fromIndex: anIndex;
-			 yourself)
+			 yourself).
+	self addCommand: cmd
 ]
 
 { #category : #private }

@@ -54,8 +54,9 @@ BlElement >> allowSkinEventClass: aSkinEventClass [
 { #category : #'*Toplo' }
 BlElement >> applyEnqueuedStatesDeeply [
 
-	self withAllChildrenDepthFirstDo: [ :child |
-		child skinManagerDo: [ :sm | sm applyEnqueuedStatesIn: child ] ]
+	self skinManagerDo: [ :sm | sm applyEnqueuedStatesIn: self ].
+	self childrenDo: [ :child | child applyEnqueuedStatesDeeply ].
+
 ]
 
 { #category : #'*Toplo' }
@@ -67,10 +68,21 @@ BlElement >> applySkinInstallerOnFirstRequest: aBoolean [
 { #category : #'*Toplo' }
 BlElement >> applySkinInstallersDeeply [
 
-	self withAllChildrenDepthFirstDo: [ :child |
-		child skinManagerDo: [ :sm |
-			sm applySkinUninstallerIn: child.
-			sm applySkinInstallerIn: child ] ]
+	self skinManagerDo: [ :sm |
+			sm applySkinUninstallerIn: self.
+			sm applySkinInstallerIn: self ].
+	self childrenDo: [ :child | child applySkinInstallersDeeply ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> applyWidgetConfiguration [
+
+	self widgetConfiguration ifNotNil: [ :tc | tc applyOn: self ].
+	" now consume the request for configuration to avoid 
+	a useless application during next pass if I'm send programmatically "
+	self spaceDo: [ :sp |
+		self nextConfigurationPass: sp runningConfigurationPass ].
+	self dispatchEvent: ToWidgetConfigurationAppliedEvent new
 ]
 
 { #category : #'*Toplo' }
@@ -87,16 +99,40 @@ BlElement >> borderBuilder [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> closedEventClass [
+BlElement >> bottomAnchor [
 
-	^ ToClosedEvent 
+	^ ToElementBottomAnchor new
+		  element: self;
+		  yourself
 ]
 
 { #category : #'*Toplo' }
-BlElement >> constraintMenuNode: aNode [
+BlElement >> centerAnchor [
 
-	" Sent to let any menu item to adapt its resizer/layout  constraints before the node is added in the menu list. Notice that I am sent before the node adding + the selections shift is actually finished. Thus, this place is not adequate for changing one of the list selections (use #addedInMenu for that) "
+	^ ToElementCenterAnchor new
+		  element: self;
+		  yourself
+]
 
+{ #category : #'*Toplo' }
+BlElement >> checkWidgetConfigurationPass [
+
+	self nextConfigurationPass = self space runningConfigurationPass
+		ifFalse: [ ^ self ].
+	self applyWidgetConfiguration
+]
+
+{ #category : #'*Toplo' }
+BlElement >> checkWidgetConfigurationPassDeeply [
+
+	self withAllChildrenDepthFirstDo: [ :child |
+		child checkWidgetConfigurationPass ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> closedEventClass [
+
+	^ ToClosedEvent 
 ]
 
 { #category : #'*Toplo' }
@@ -210,7 +246,8 @@ BlElement >> flagAsDisabled: aBoolean [
 			self flagAsDisabled ]
 		ifFalse: [ self flagAsEnabled ].
 	self dispatchEvent: ToEnablementChangedEvent new.
-	self skinManagerDo: [ :sm | sm enablementChangedIn: self ]
+	self skinManagerDo: [ :sm | sm enablementChangedIn: self ].
+	self requestNewConfiguration
 ]
 
 { #category : #'*Toplo' }
@@ -232,6 +269,12 @@ BlElement >> hasAnyInParentChainSatisfying: aValuable [
 BlElement >> hasEnablementFlag [
 
 	^ self userData includesKey: #enabled
+]
+
+{ #category : #'*Toplo' }
+BlElement >> hasHolder [
+
+	^ self constraints hasHolder
 ]
 
 { #category : #'*Toplo' }
@@ -258,9 +301,39 @@ BlElement >> hasStamp: aSymbol [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> heightAnchor [
+
+	^ ToElementHeightAnchor new
+		  element: self;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
 BlElement >> holder [
 
 	^ self constraints infinite holder
+]
+
+{ #category : #'*Toplo' }
+BlElement >> holder: aNodeHolder [
+
+	| infiniteConstraints |
+	infiniteConstraints := self constraints infinite.
+	infiniteConstraints holder: aNodeHolder
+]
+
+{ #category : #'*Toplo' }
+BlElement >> holderDo: aValuable [
+
+	self constraints holderDo: aValuable
+]
+
+{ #category : #'*Toplo' }
+BlElement >> horizontalCenterAnchor [
+
+	^ ToElementHorizontalCenterAnchor new
+		  element: self;
+		  yourself
 ]
 
 { #category : #'*Toplo' }
@@ -289,15 +362,37 @@ BlElement >> isDisabled [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> isDisabled: aBoolean [
+
+	self disabled: aBoolean
+]
+
+{ #category : #'*Toplo' }
 BlElement >> isEnabled [
 
 	^ self userData at: #enabled ifAbsentPut: [ true ]
 ]
 
 { #category : #'*Toplo' }
+BlElement >> isEnabled: aBoolean [
+
+	self enabled: aBoolean
+]
+
+{ #category : #'*Toplo' }
 BlElement >> isFake [ 
 
 	^ false
+]
+
+{ #category : #'*Toplo' }
+BlElement >> isFullyVisibleInParent: aParentElement [
+
+	| bnds pbnds intersection |
+	bnds := self measuredBounds inSpace bounds asRectangle.
+	pbnds := aParentElement bounds inSpace asRectangle.
+	intersection := bnds intersect: pbnds.
+	^ intersection = bnds
 ]
 
 { #category : #'*Toplo' }
@@ -339,9 +434,17 @@ BlElement >> isPreventedSkinEventClass: aSkinEventClass [
 { #category : #'*Toplo' }
 BlElement >> itemContaining: anElement [
 
-	^ (anElement hasInParentChain: self)
+	^ (anElement withAllParentsInclude: self)
 		  ifTrue: [ self ]
 		  ifFalse: [ nil ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> leftAnchor [
+
+	^ ToElementLeftAnchor new
+		  element: self;
+		  yourself
 ]
 
 { #category : #'*Toplo' }
@@ -420,6 +523,32 @@ BlElement >> newTextAttributesBuilder [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> newWidgetConfiguration [
+
+	^ nil
+]
+
+{ #category : #'*Toplo' }
+BlElement >> nextConfigurationPass [
+
+	^ self userData at: #nextConfigurationPass ifAbsent: [ 0 ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> nextConfigurationPass: aNumber [
+
+	self userData at: #nextConfigurationPass put: aNumber
+]
+
+{ #category : #'*Toplo' }
+BlElement >> notifyTripletPartVisibilityRequest: aRequest [
+
+	self childrenDo: [ :child |
+		child dispatchEvent: aRequest.
+		child notifyTripletPartVisibilityRequest: aRequest ]
+]
+
+{ #category : #'*Toplo' }
 BlElement >> onAddedInItemBarOwner: anItemBar [
 
 	anItemBar onAddedUnknownItemKind: self
@@ -429,6 +558,14 @@ BlElement >> onAddedInItemBarOwner: anItemBar [
 BlElement >> onRemovedFromItemBarOwner: anItemBar [
 
 	anItemBar onRemovedUnknownItemKind: self
+]
+
+{ #category : #'*Toplo' }
+BlElement >> onSkinInstalled: aSkin [
+]
+
+{ #category : #'*Toplo' }
+BlElement >> onSkinUninstalled: aSkin [
 ]
 
 { #category : #'*Toplo' }
@@ -525,6 +662,24 @@ BlElement >> removedFromMenu: aMenu [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> requestNewConfiguration [
+
+	self spaceDo: [ :sp |
+		self nextConfigurationPass: sp nextConfigurationPass.
+		sp  requestNewConfigurationPass ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> requestNewConfigurationPass [
+
+	self
+		deprecated: 'Use #requestNewConfiguration'
+		transformWith: '`@rcvr requestNewConfigurationPass'
+			-> '`@rcvr requestNewConfiguration'.
+	self requestNewConfiguration
+]
+
+{ #category : #'*Toplo' }
 BlElement >> requestNewSkin [
 
 	self skinManagerDo: [ :sm | sm requestNewSkinIn: self ]
@@ -544,6 +699,14 @@ BlElement >> requestUninstallSkin [
 		transformWith: '`@receiver requestUninstallSkin' -> '`@receiver skinManagerDo: [ :sm | sm requestUninstallSkinIn: `@receiver ]'.
 
 	self skinManagerDo: [ :sm | sm requestUninstallSkinIn: self ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> rightAnchor [
+
+	^ ToElementRightAnchor new
+		  element: self;
+		  yourself
 ]
 
 { #category : #'*Toplo' }
@@ -711,6 +874,14 @@ BlElement >> tokenValueNamed: aSymbol [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> topAnchor [
+
+	^ ToElementTopAnchor new
+		  element: self;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
 BlElement >> uninstallRawStyle [
 
 ]
@@ -749,6 +920,51 @@ BlElement >> valueOfTokenNamed: aSymbol [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> verticalCenterAnchor [
+
+	^ ToElementVerticalCenterAnchor new
+		  element: self;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
+BlElement >> whenWidgetConfigurationAppliedDo: aValuable [
+
+	self
+		addEventHandlerOn: ToWidgetConfigurationAppliedEvent
+		do: [ :evt | aValuable cull: evt ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> widgetConfiguration [
+
+	^ self userData at: #widgetConfiguration ifAbsentPut: [
+		  | conf |
+		  conf := self newWidgetConfiguration.
+		  conf ifNotNil: [ conf onInstalledIn: self ].
+		  conf ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> widgetConfiguration: anElementConfiguration [
+
+	self userData at: #widgetConfiguration ifPresent: [ :conf |
+		conf onUninstalledIn: self.
+		self userData removeKey: #widgetConfiguration ].
+	anElementConfiguration ifNil: [ ^ self ].
+	self userData at: #widgetConfiguration put: anElementConfiguration.
+	anElementConfiguration onInstalledIn: self
+]
+
+{ #category : #'*Toplo' }
+BlElement >> widthAnchor [
+
+	^ ToElementWidthAnchor new
+		  element: self;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
 BlElement >> withNullSkin [
 
 	self ensuredSkinManager setDefaultSkin: ToNullSkin new in: self
@@ -767,4 +983,10 @@ BlElement >> withStamp: aSymbol do: aValuable ifNone: noneValuable [
 		noneValuable value.
 		^ self ].
 	aValuable value: (self valueOfStamp: aSymbol)
+]
+
+{ #category : #'*Toplo' }
+BlElement >> withStamp: aSymbol ifNone: aValuable [
+
+	self withStamp: aSymbol do: [:v | ] ifNone: aValuable
 ]

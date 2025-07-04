@@ -5,11 +5,8 @@ I'm one of the leave of menu composite.
 Class {
 	#name : #ToItemToggleButton,
 	#superclass : #ToElement,
-	#traits : 'TToWithOrientableLayout + TToTripletElement + TToLabeledIcon + TToItem + TToClickable + TToCheckable',
-	#classTraits : 'TToWithOrientableLayout classTrait + TToTripletElement classTrait + TToLabeledIcon classTrait + TToItem classTrait + TToClickable classTrait + TToCheckable classTrait',
-	#instVars : [
-		'tripletProperties'
-	],
+	#traits : 'TToOrientable + TToTripletElement + TToLabeledIcon + TToItem + TToClickable + TToCheckable',
+	#classTraits : 'TToOrientable classTrait + TToTripletElement classTrait + TToLabeledIcon classTrait + TToItem classTrait + TToClickable classTrait + TToCheckable classTrait',
 	#category : #'Toplo-Widget-List-ItemList'
 }
 
@@ -26,24 +23,11 @@ ToItemToggleButton >> initialize [
 	self addEventHandler: ToClickableFocusEventHandler new.
 	self initializeAsTripletElement.
 	self initializeAsCheckable.
-	self clickEventClass: ToCheckableCheckEvent
+	self clickEventClass: ToCheckableChangedEvent
 ]
 
-{ #category : #layout }
-ToItemToggleButton >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
+{ #category : #configuration }
+ToItemToggleButton >> newWidgetConfiguration [ 
 
-	self configureLayout.
-	super onLayout: aBounds context: aBlElementBoundsUpdateContext
-]
-
-{ #category : #'t - triplet element - private accessing' }
-ToItemToggleButton >> tripletProperties [
-
-	^ tripletProperties
-]
-
-{ #category : #'t - triplet element - private accessing' }
-ToItemToggleButton >> tripletProperties: aTripletElementProperties [
-
-	tripletProperties := aTripletElementProperties
+	^ ToTripletElementConfiguration new
 ]

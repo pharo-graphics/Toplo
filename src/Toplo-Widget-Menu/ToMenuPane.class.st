@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuPane,
 	#superclass : #ToElement,
-	#traits : 'TToItem + TToMenuItem + TToItemListOwner + TToMenuItemListOwner + TToMenuItemContainer + TToWithOrientableLayout',
-	#classTraits : 'TToItem classTrait + TToMenuItem classTrait + TToItemListOwner classTrait + TToMenuItemListOwner classTrait + TToMenuItemContainer classTrait + TToWithOrientableLayout classTrait',
+	#traits : 'TToItem + TToMenuItem + TToItemBarContainer + TToItemBarOwner + TToMenuItemListOwner + TToOrientable',
+	#classTraits : 'TToItem classTrait + TToMenuItem classTrait + TToItemBarContainer classTrait + TToItemBarOwner classTrait + TToMenuItemListOwner classTrait + TToOrientable classTrait',
 	#instVars : [
 		'autoOpen',
 		'isSubPane'
@@ -23,6 +23,24 @@ ToMenuPane >> addMenu: aMenu [
 		deprecated: '#use addItem: instead'
 		transformWith: '`@rcvr addMenu: `@arg' -> '`@rcvr addItem: `@arg'.
 	self addItem: aMenu
+]
+
+{ #category : #configuration }
+ToMenuPane >> applyWidgetConfiguration [
+	" just force the resizer of the secondary direction 
+	( vertical direction in case of an horizontal bar )"
+
+	super applyWidgetConfiguration.
+	self uniformNodeWidth: self isVertical.
+	self itemBar horizontal: self isHorizontal.
+	self itemBar isScrollable: self isScrollable.
+	self itemBar isFlowable: self isFlowable.
+	self isHFitContent
+		ifTrue: [ self itemBar hFitContent ]
+		ifFalse: [ self itemBar hMatchParent ].
+	self isVFitContent
+		ifTrue: [ self itemBar vFitContent ]
+		ifFalse: [ self itemBar vMatchParent ]
 ]
 
 { #category : #'auto opening' }
@@ -49,21 +67,6 @@ ToMenuPane >> closeWindow [
 	self itemList do: [ :it | it isMenuItem ifTrue: [ it closeWindow ] ]
 ]
 
-{ #category : #'t - item bar owner - initializing' }
-ToMenuPane >> configureLayout [
-	" just force the resizer of the secondary direction 
-	( vertical direction in case of an horizontal bar )"
-
-	self isHorizontal
-		ifTrue: [
-			self vFitContent.
-			self isSubPane ifTrue: [ self hFitContent ] ]
-		ifFalse: [
-			self hFitContent.
-			self isSubPane ifTrue: [ self vFitContent ] ].
-	self itemBar configureLayoutIn: self
-]
-
 { #category : #initialization }
 ToMenuPane >> initialize [
 
@@ -74,11 +77,13 @@ ToMenuPane >> initialize [
 	autoOpen := false.
 	isSubPane := false.
 	self layout: BlLinearLayout horizontal.
+	self layout alignCenter.
 	self addEventHandler: ToMenuPaneEventHandler new.
 	self addChild: self itemBar.
-	self isWrapping: false.
-	self hasUniformNodeWidth: false.
-	self beHorizontal
+	self isFlowable: false.
+	self isScrollable: false.
+	self beHorizontal.
+	self fitContent
 ]
 
 { #category : #testing }
@@ -167,22 +172,6 @@ ToMenuPane >> onAddedInItemBarOwner: aMenuItemBar [
 ToMenuPane >> onAddedMenu: aMenu [
 
 	aMenu isMenuPaneMenu: true.
-]
-
-{ #category : #layout }
-ToMenuPane >> onMeasure: anExtentMeasurementSpec [
-	"By default let layout strategy do the measuring job.
-	If needed override this method to do some additional
-	actions or just implement custom layout strategy"
-
-	| w |
-	super onMeasure: anExtentMeasurementSpec.
-	self isHorizontal ifTrue: [ ^ self ].
-	w := 0.
-	self collectedNodesDo: [ :child | w := w max: child measuredWidth ].
-	self collectedNodesDo: [ :child |
-		child measuredWidth < w ifTrue: [
-			child measuredExtent: w @ child measuredHeight ] ]
 ]
 
 { #category : #'adding-removing' }

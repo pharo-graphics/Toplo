@@ -1,6 +1,6 @@
 Class {
 	#name : #ToLabel,
-	#superclass : #ToElement,
+	#superclass : #ToShrinkableContainer,
 	#traits : 'TToElementWithContentEditor',
 	#classTraits : 'TToElementWithContentEditor classTrait',
 	#instVars : [
@@ -31,6 +31,12 @@ ToLabel >> applyStyle [
 
 	self text ifNil: [ ^ self ].
 	self attributesBuilder applyOn: self text
+]
+
+{ #category : #converting }
+ToLabel >> asToLabelText [ 
+
+	^ self text copy
 ]
 
 { #category : #accessing }
@@ -193,7 +199,10 @@ ToLabel >> innerElement: anInnerElement [
 	innerElement = anInnerElement ifTrue: [ ^ self ].
 	innerElement ifNotNil: [ innerElement removeFromParent ].
 	innerElement := anInnerElement.
-	self addChild: innerElement
+	" the first position ensure that the inner element will be used to shrink myself because
+	only the first element is taken into account.
+	see ToShrinkableContainer>>onChildAdded: "
+	self addChild: innerElement at: 1
 ]
 
 { #category : #testing }
@@ -346,6 +355,12 @@ ToLabel >> popupEditorEvent: anEvent [
 		win popupEvent: anEvent ]
 ]
 
+{ #category : #printing }
+ToLabel >> printOn: aStream [
+
+	aStream << self class name << '(' << self text asString << ')'
+]
+
 { #category : #'private-change' }
 ToLabel >> privateText: aText [
 
@@ -420,12 +435,9 @@ ToLabel >> text: aBlTextOrString [
 	| newText |
 	self isFrozen ifTrue: [ ^ self ].
 	self text = aBlTextOrString ifTrue: [ ^ self ].
-	" unsubscribe previous text "
-	self text ifNotNil: [self text unsubscribe: self].
 	" subscribe to internal text state change (insertion/deletion/attribute change) "
 	newText := (aBlTextOrString ifNil: [ self defaultText ]) asRopedText.
 	self privateText: newText.
-	self dispatchEvent: (ToLabelTextReplacedEvent new text: self text).
 	self requestNewSkin
 ]
 
@@ -433,6 +445,12 @@ ToLabel >> text: aBlTextOrString [
 ToLabel >> textChanged [
 
 	self innerElement textChanged
+]
+
+{ #category : #'api - text weight' }
+ToLabel >> thin [
+
+	self attributesBuilder attribute: BlFontWeightAttribute thin
 ]
 
 { #category : #'api - text weight' }

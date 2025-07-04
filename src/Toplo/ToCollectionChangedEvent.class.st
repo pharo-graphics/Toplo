@@ -1,20 +1,5 @@
 Class {
 	#name : #ToCollectionChangedEvent,
-	#superclass : #BlEvent,
-	#instVars : [
-		'interval'
-	],
+	#superclass : #ToAbstractCollectionChangedEvent,
 	#category : #'Toplo-Core-Collection'
 }
-
-{ #category : #accessing }
-ToCollectionChangedEvent >> interval [
-
-	^ interval
-]
-
-{ #category : #accessing }
-ToCollectionChangedEvent >> interval: anInterval [
-
-	interval := anInterval
-]

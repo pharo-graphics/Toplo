@@ -1,8 +1,6 @@
 Class {
 	#name : #ToPlaceholderLayer,
 	#superclass : #ToOverlayElement,
-	#traits : 'TToElement',
-	#classTraits : 'TToElement classTrait',
 	#category : #'Toplo-Widget-Pane-Utils'
 }
 
@@ -16,8 +14,6 @@ ToPlaceholderLayer >> defaultLayout [
 ToPlaceholderLayer >> initialize [ 
 
 	super initialize.
-	self layout: self defaultLayout.
-	self initializeForToplo 
-
+	self layout: self defaultLayout
 	
 ]

@@ -1,11 +1,13 @@
 Trait {
 	#name : #TToBarElement,
 	#instVars : [
-		'nodeWrapping',
-		'nodeScrolling',
-		'nodeAutoDistribution',
+		'exactNodeWidth',
+		'exactNodeHeight',
 		'uniformNodeWidth',
-		'uniformNodeHeight'
+		'uniformNodeHeight',
+		'autoDistribute',
+		'isFlowable',
+		'isScrollable'
 	],
 	#category : #'Toplo-Widget-List-Core-BarElement'
 }
@@ -13,17 +15,17 @@ Trait {
 { #category : #'t - bar element' }
 TToBarElement >> autoDistribute [
 
-	^ nodeAutoDistribution ifNil: [ nodeAutoDistribution := false ] 
+	^ autoDistribute ifNil: [ autoDistribute := false ] 
 ]
 
 { #category : #'t - bar element' }
 TToBarElement >> autoDistribute: aBoolean [
 
-	nodeAutoDistribution = aBoolean ifTrue: [ ^ self ].
-	nodeAutoDistribution := aBoolean.
+	autoDistribute = aBoolean ifTrue: [ ^ self ].
+	autoDistribute := aBoolean.
 	" notify dataSource changed to renew all nodes "
 	self notifyDataSourceChanged.
-	self configureLayout
+	self requestNewConfiguration
 ]
 
 { #category : #'t - bar element' }
@@ -38,40 +40,42 @@ TToBarElement >> defaultInnerElement [
 	^ ToInnerBarElement onBarElement: self
 ]
 
+{ #category : #accessing }
+TToBarElement >> exactNodeHeight [
+
+	^ exactNodeHeight
+]
+
+{ #category : #accessing }
+TToBarElement >> exactNodeHeight: aNumberOrNil [
+
+	exactNodeHeight = aNumberOrNil ifTrue:[ ^ self ].
+	exactNodeHeight := aNumberOrNil.
+	self requestNewConfiguration.
+	self notifyDataSourceChanged.
+	self requestLayout
+]
+
+{ #category : #accessing }
+TToBarElement >> exactNodeWidth [
+
+	^ exactNodeWidth
+]
+
+{ #category : #accessing }
+TToBarElement >> exactNodeWidth: aNumberOrNil [
+
+	exactNodeWidth = aNumberOrNil ifTrue:[ ^ self ].
+	exactNodeWidth := aNumberOrNil.
+	self requestNewConfiguration.
+	self notifyDataSourceChanged.
+	self requestLayout
+]
+
 { #category : #'t - bar element' }
 TToBarElement >> fakeNode [
 
 	^ self innerElement fakeNode
-]
-
-{ #category : #'t - bar element' }
-TToBarElement >> hasUniformNodeHeight [
-
-	^ uniformNodeHeight ifNil: [ uniformNodeHeight := false ]
-]
-
-{ #category : #'t - bar element' }
-TToBarElement >> hasUniformNodeHeight: aBoolean [
-
-	uniformNodeHeight := aBoolean.
-	self configureLayout.
-	self notifyDataSourceChanged
-
-]
-
-{ #category : #'t - bar element' }
-TToBarElement >> hasUniformNodeWidth [
-
-	^ uniformNodeWidth ifNil: [ uniformNodeWidth := false ]
-]
-
-{ #category : #'t - bar element' }
-TToBarElement >> hasUniformNodeWidth: aBoolean [
-
-	uniformNodeWidth := aBoolean.
-	self configureLayout.
-	self notifyDataSourceChanged
-
 ]
 
 { #category : #'t - bar element' }
@@ -81,35 +85,78 @@ TToBarElement >> installFakeNode [
 ]
 
 { #category : #'t - bar element' }
+TToBarElement >> isFlowable [
+
+	^ isFlowable ifNil: [ isFlowable := true ]
+]
+
+{ #category : #'t - bar element' }
+TToBarElement >> isFlowable: aBoolean [
+
+	isFlowable = aBoolean ifTrue: [ ^ self ].
+	isFlowable := aBoolean.
+	self requestNewConfiguration
+]
+
+{ #category : #'t - bar element' }
+TToBarElement >> isScrollable [
+
+	^ isScrollable ifNil: [ isScrollable := false ]
+]
+
+{ #category : #'t - bar element' }
+TToBarElement >> isScrollable: aBoolean [
+
+	isScrollable = aBoolean ifTrue: [ ^ self ].
+	isScrollable := aBoolean.
+	self requestLayout.
+	self requestNewConfiguration
+]
+
+{ #category : #'t - bar element' }
 TToBarElement >> isScrolling [
 
-	^ nodeScrolling ifNil: [ nodeScrolling := false ]
+	self
+		deprecated: 'Use #isScrollable'
+		transformWith: '`@r isScrolling' -> '`@r isScrollable'.
+	^ self isScrollable
 ]
 
 { #category : #'t - bar element' }
 TToBarElement >> isScrolling: aBoolean [
 
-	nodeScrolling := aBoolean.
-	self configureLayout.
-	self requestNewSkin
+	self
+		deprecated: 'Use #isScrollable:'
+		transformWith: '`@r isScrolling: `@a' -> '`@r isScrollable: `@a'.
+	self isScrollable: aBoolean
 ]
 
 { #category : #'t - bar element' }
 TToBarElement >> isWrapping [
 
-	^ nodeWrapping ifNil: [ nodeWrapping := true ]
+	self
+		deprecated: 'Use #isFlowable'
+		transformWith: '`@r isWrapping' -> '`@r isFlowable'.
+	^ self isFlowable
 ]
 
 { #category : #'t - bar element' }
 TToBarElement >> isWrapping: aBoolean [
 
-	nodeWrapping := aBoolean.
-	self configureLayout.
-	self requestNewSkin
+	self
+		deprecated: 'Use #isFlowable:'
+		transformWith: '`@r isWrapping: `@a' -> '`@r isFlowable: `@a'.
+	self isFlowable: aBoolean
 ]
 
 { #category : #'t - bar element' }
-TToBarElement >> onInvisibleNodes: aCollection [
+TToBarElement >> maxMeasuredNodeSize [
+
+	^ self innerElement maxMeasuredNodeSize
+]
+
+{ #category : #'t - bar element' }
+TToBarElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes [
 
 	
 ]
@@ -122,12 +169,50 @@ TToBarElement >> reinstallFakeNode [
 ]
 
 { #category : #'t - bar element' }
+TToBarElement >> sample [
+
+	^ self nodeManager fakeDataItem
+]
+
+{ #category : #'t - bar element' }
 TToBarElement >> sample: aDataItem [
 
 	self nodeManager fakeDataItem: aDataItem.
 	self reinstallFakeNode.
 	self requestLayout
 	
+]
+
+{ #category : #'t - bar element' }
+TToBarElement >> uniformNodeHeight [
+
+	^ uniformNodeHeight ifNil: [ uniformNodeHeight := false ]
+]
+
+{ #category : #'t - bar element' }
+TToBarElement >> uniformNodeHeight: aBoolean [
+
+	uniformNodeHeight = aBoolean ifTrue: [ ^ self ].
+	uniformNodeHeight := aBoolean.
+	self requestNewConfiguration.
+	self notifyDataSourceChanged.
+	self requestLayout
+]
+
+{ #category : #'t - bar element' }
+TToBarElement >> uniformNodeWidth [
+
+	^ uniformNodeWidth ifNil: [ uniformNodeWidth := false ]
+]
+
+{ #category : #'t - bar element' }
+TToBarElement >> uniformNodeWidth: aBoolean [
+
+	uniformNodeWidth = aBoolean ifTrue: [ ^ self ].
+	uniformNodeWidth := aBoolean.
+	self requestNewConfiguration.
+	self notifyDataSourceChanged.
+	self requestLayout
 ]
 
 { #category : #'t - bar element' }

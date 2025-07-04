@@ -7,18 +7,36 @@ Class {
 	#category : #'Toplo-Widget-List-InnerInfinite'
 }
 
+{ #category : #'t - postponed command holder' }
+ToInfiniteDataSourceManager >> addFinalStepCommand: aCommand [
+
+	finalStepCommands add: aCommand
+]
+
+{ #category : #'t - postponed command holder' }
+ToInfiniteDataSourceManager >> consumeFinalStepCommand: aCommand in: anElement [
+
+	self dispatchCommand: aCommand to: anElement.
+	self onCommandProcessed: aCommand in: anElement.
+	self recycleCommand: aCommand
+]
+
 { #category : #'commands processing' }
-ToInfiniteDataSourceManager >> consumeFinalStepCommandsIn: anInfiniteElement [
+ToInfiniteDataSourceManager >> consumeFinalStepCommandsIn: anElement [
 	"Skip pre-processing and perform all pending commands in one pass."
 
 	"we still consume finale step updates (if there is)."
 
-	[ finalStepCommands isEmpty ] whileFalse: [
+	[ self hasFinalStepCommand ] whileTrue: [
 		| cmd |
-		cmd := finalStepCommands removeFirst.
-		self dispatchCommand: cmd to: anInfiniteElement.
-		self onCommandProcessed: cmd in: anInfiniteElement.
-		self recycleCommand: cmd ].
+		cmd := self nextFinalStepCommand.
+		self consumeFinalStepCommand: cmd in: anElement ] 
+]
+
+{ #category : #'t - postponed command holder' }
+ToInfiniteDataSourceManager >> hasFinalStepCommand [
+
+	^ finalStepCommands notEmpty
 ]
 
 { #category : #initialization }
@@ -28,18 +46,23 @@ ToInfiniteDataSourceManager >> initialize [
 	finalStepCommands := OrderedCollection new.
 ]
 
+{ #category : #'t - postponed command holder' }
+ToInfiniteDataSourceManager >> nextFinalStepCommand [
+
+	^ finalStepCommands removeFirst
+]
+
 { #category : #'data source updates' }
 ToInfiniteDataSourceManager >> onItemsFiltered: aPositionStart itemCount: anItemCount [
 	"Return true if pending commands should be processed,
 	otherwise false"
 
 	"Register add command"
-	finalStepCommands add: (ToInfiniteDataSourceFilterCommand new
+	self postponeCommand: (ToInfiniteDataSourceFilterCommand new
 			 positionStart: aPositionStart;
 			 itemCount: anItemCount;
 			 yourself).
-
-	^ finalStepCommands notEmpty
+	^ true
 ]
 
 { #category : #'data source updates' }
@@ -48,26 +71,24 @@ ToInfiniteDataSourceManager >> onItemsSieved: aPositionStart itemCount: anItemCo
 	otherwise false"
 
 	"Register the sieve command"
-	finalStepCommands add: (ToInfiniteDataSourceSieveCommand new
+	self postponeCommand: (ToInfiniteDataSourceSieveCommand new
 			 positionStart: aPositionStart;
 			 itemCount: anItemCount;
 			 sieve: aSieve;
 			 yourself).
-
-	^ finalStepCommands notEmpty
+	^ true
 ]
 
-{ #category : #'data source updates' }
-ToInfiniteDataSourceManager >> onSelecterCommand: aCommand appliedBy: aSelecter [
-	"Return true if pending commands should be processed,
-	otherwise false"
+{ #category : #'t - postponed command holder' }
+ToInfiniteDataSourceManager >> postponeAction: aValuable [
 
-	"Register add command"
+	self postponeCommand: (ToInfiniteDataSourceActionCommand new
+			 action: aValuable;
+			 yourself)
+]
 
-	finalStepCommands add: (ToSelecterCommandApplication new
-			 selecter: aSelecter;
-			 command: aCommand;
-			 yourself).
+{ #category : #'t - postponed command holder' }
+ToInfiniteDataSourceManager >> postponeCommand: aCommand [
 
-	^ true
+	self addFinalStepCommand: aCommand 
 ]

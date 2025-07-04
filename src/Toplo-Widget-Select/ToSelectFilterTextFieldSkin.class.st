@@ -5,15 +5,19 @@ Class {
 }
 
 { #category : #accessing }
-ToSelectFilterTextFieldSkin >> blurBorderIn: anAlbum [
+ToSelectFilterTextFieldSkin >> blurBorderIn: e [ 
 
-	^ BlBorder empty
+	^ e selectElement isFiltrable
+				ifTrue: [ e valueOfTokenNamed: #'color-border' ]
+				ifFalse: [ BlBorder empty ]
 ]
 
 { #category : #accessing }
-ToSelectFilterTextFieldSkin >> focusBorderIn: anAlbum [
+ToSelectFilterTextFieldSkin >> focusBorderIn: e [
 
-	^ BlBorder empty
+	^ e selectElement isFiltrable
+				ifTrue: [ e valueOfTokenNamed: #'color-border' ]
+				ifFalse: [ BlBorder empty ]
 ]
 
 { #category : #'event handling' }
@@ -21,5 +25,7 @@ ToSelectFilterTextFieldSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e background: BlBackground transparent ]
+			e selectElement isFiltrable
+				ifTrue: [ e padding: (BlInsets horizontal: 6 vertical: 3) ]
+				ifFalse: [ e padding: BlInsets empty ] ]
 ]

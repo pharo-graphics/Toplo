@@ -60,7 +60,7 @@ ToPropertyWriterTest >> testCanReceiveEvent [
 	propWriter := ToPropertyWriter new.
 	propWriter eventClass: ToHoveredSkinEvent.
 	self assert: (propWriter canReceiveEvent: ToHoveredSkinEvent new).
-	self deny: (propWriter canReceiveEvent: ToLeavedSkinEvent new)
+	self deny: (propWriter canReceiveEvent: ToLeftSkinEvent new)
 ]
 
 { #category : #tests }
@@ -120,7 +120,7 @@ ToPropertyWriterTest >> testReceiveEvent [
 	self assert: w background paint color equals: Color red.
 	propWriter receiveEvent: evt.
 	self assert: w background paint color equals: Color blue.
-	evt := ToLeavedSkinEvent new currentTarget: w.
+	evt := ToLeftSkinEvent new currentTarget: w.
 	propWriter receiveEvent: evt.
 	self assert: w background paint color equals: Color blue
 

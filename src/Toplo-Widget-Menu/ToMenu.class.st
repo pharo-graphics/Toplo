@@ -4,14 +4,15 @@ I'm a composite of Menu items. I can behave as a menu item (this is why I inheri
 Class {
 	#name : #ToMenu,
 	#superclass : #ToMenuItem,
-	#traits : 'TToItemListOwner + TToMenuItemListOwner + TToMenuWindowModel',
-	#classTraits : 'TToItemListOwner classTrait + TToMenuItemListOwner classTrait + TToMenuWindowModel classTrait',
+	#traits : 'TToItemBarContainer + TToItemBarOwner + TToMenuItemListOwner + TToMenuWindowModel',
+	#classTraits : 'TToItemBarContainer classTrait + TToItemBarOwner classTrait + TToMenuItemListOwner classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
 		'isSubmenu',
 		'builder',
 		'windowManager',
 		'openOnHovered',
-		'isMenuPaneMenu'
+		'isMenuPaneMenu',
+		'showExpandIcon'
 	],
 	#category : #'Toplo-Widget-Menu-Items'
 }
@@ -44,12 +45,6 @@ ToMenu >> builder: aValuable [
 	" aValuable takes myself and the request event as arguments "
 
 	builder := aValuable
-]
-
-{ #category : #accessing }
-ToMenu >> buttonClickEventClass [
-
-	^ BlMouseDownEvent
 ]
 
 { #category : #testing }
@@ -172,18 +167,18 @@ ToMenu >> mouseLeaveEvent: anEvent [
 { #category : #'event handling' }
 ToMenu >> mouseOverEvent: anEvent [
 
-	(anEvent target hasInParentChain: self)
+	(anEvent target withAllParentsInclude: self)
 		ifTrue: [ self menuWindow ifNil: [ self popupEvent: anEvent ] ]
 		ifFalse: [ self closeWindow ]
 ]
 
-{ #category : #'t - item list owner - accessing' }
+{ #category : #'t - item bar container - accessing' }
 ToMenu >> newItemBar [
 
 	^ ToMenuItemBarElement new
 ]
 
-{ #category : #accessing }
+{ #category : #skin }
 ToMenu >> newRawSkin [ 
 
 	^ ToMenuSkin new
@@ -231,6 +226,20 @@ ToMenu >> openOnHovered: aBoolean [
 ToMenu >> popupEvent: anEvent [
 
 	self manager popupEvent: anEvent
+]
+
+{ #category : #'t - menu item' }
+ToMenu >> showExpandIcon [
+
+	^ showExpandIcon ifNil: [ showExpandIcon := false ]
+]
+
+{ #category : #accessing }
+ToMenu >> showExpandIcon: aBoolean [
+
+	showExpandIcon = aBoolean ifTrue: [ ^ self ].
+	showExpandIcon := aBoolean.
+	self requestNewSkin
 ]
 
 { #category : #accessing }

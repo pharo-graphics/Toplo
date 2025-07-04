@@ -6,20 +6,27 @@ Class {
 	#superclass : #ToAbstractListElement,
 	#traits : 'TToBarElement + TToItemList',
 	#classTraits : 'TToBarElement classTrait + TToItemList classTrait',
-	#category : #'Toplo-Widget-List-ItemList'
+	#category : #'Toplo-Widget-List-ItemBar'
 }
 
-{ #category : #'t - bar element' }
-ToItemBarElement >> defaultInnerElement [
+{ #category : #configuration }
+ToItemBarElement >> applyWidgetConfiguration [ 
 
-	^ ToInnerBarElement onBarElement: self
+	super applyWidgetConfiguration.
+	self applyItemListConfiguration
+]
+
+{ #category : #initialization }
+ToItemBarElement >> defaultNodeManagerClass [
+
+	^ ToItemBarNodeManager
 ]
 
 { #category : #initialization }
 ToItemBarElement >> initialize [
 
 	super initialize.
-	self initializeAsItemListElement 
+	self initializeAsItemListElement
 ]
 
 { #category : #skin }

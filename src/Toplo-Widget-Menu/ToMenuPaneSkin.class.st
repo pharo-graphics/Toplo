@@ -26,13 +26,22 @@ ToMenuPaneSkin >> installSkinEvent: anEvent [
 		e background: (e valueOfTokenNamed: #'background-color').
 		e itemBar background: BlBackground transparent.
 		e isSubPane ifFalse: [ e padding: (BlInsets all: 4) ].
-		e border: (e valueOfTokenNamed: #'menu-pane-border-paint') ]
+		e border: (e valueOfTokenNamed: #'border-paint') ]
 ]
 
 { #category : #'event handling' }
 ToMenuPaneSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e itemBar background: BlBackground transparent.
+		e listElementDo: [ :l | e background: BlBackground transparent ] ]
+]
+
+{ #category : #'event handling' }
+ToMenuPaneSkin >> leftSkinEvent: anEvent [
+
+	super leftSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e itemBar background: BlBackground transparent.
 		e listElementDo: [ :l | e background: BlBackground transparent ] ]

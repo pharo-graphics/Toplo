@@ -1,6 +1,6 @@
 Class {
 	#name : #ToCheckMenuItemSkin,
-	#superclass : #ToMenuItemSkin,
+	#superclass : #ToCheckboxSkin,
 	#category : #'Toplo-Widget-Menu-Items'
 }
 
@@ -8,8 +8,18 @@ Class {
 ToCheckMenuItemSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
-	anEvent elementDo: [ :e | 
-		e button startAlignment: (e valueOfTokenNamed: #'menu-item-start-alignment') ].
-
-	
+	anEvent elementDo: [ :e |
+		e icon size: (e valueOfTokenNamed: #'menu-icon-size').
+		e startAlignment:
+			(e valueOfTokenNamed: #'menu-item-start-alignment').
+		e parentMenu ifNotNil: [
+			e isStartToEnd
+				ifTrue: [
+					e endInterspace:
+						(e valueOfTokenNamed: #'menu-item-start-alignment').
+					e endFlexible: true ]
+				ifFalse: [
+					e startInterspace:
+						(e valueOfTokenNamed: #'menu-item-start-alignment').
+					e startFlexible: true ] ] ]
 ]

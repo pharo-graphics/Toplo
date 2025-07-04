@@ -1,8 +1,8 @@
 Class {
 	#name : #ToInfiniteElement,
 	#superclass : #BlInfiniteElement,
-	#traits : 'TToListNodeHolder + TBlLayoutResizable + TToWithOrientableLayout',
-	#classTraits : 'TToListNodeHolder classTrait + TBlLayoutResizable classTrait + TToWithOrientableLayout classTrait',
+	#traits : 'TToListInnerElement',
+	#classTraits : 'TToListInnerElement classTrait',
 	#instVars : [
 		'listElement'
 	],
@@ -18,6 +18,12 @@ ToInfiniteElement class >> onListElement: aListElement [
 ]
 
 { #category : #'private - commands' }
+ToInfiniteElement >> addedDataSourceCommand: aCommand [
+
+	self requestLayout
+]
+
+{ #category : #'private - commands' }
 ToInfiniteElement >> applyDataSourceFilterCommand: aDataSourceCommand [
 
 	listElement applyDataSourceFilterCommand: aDataSourceCommand
@@ -29,19 +35,26 @@ ToInfiniteElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 	listElement applyDataSourceSieveCommand: aDataSourceCommand
 ]
 
+{ #category : #configuration }
+ToInfiniteElement >> applyWidgetConfiguration [
+
+	super applyWidgetConfiguration.
+	self layout beHorizontal: self listElement isHorizontal.
+	self constraintsDo: [ :c |
+		self listElement isHMatchParent ifFalse: [ c horizontal fitContent ].
+		self listElement isVMatchParent ifFalse: [ c vertical fitContent ] ]
+]
+
 { #category : #'t - infinite accessing' }
 ToInfiniteElement >> cleanUpRecyclerAt: anIndex [
 
 	self customRecycler removeNodeAt: anIndex in: self
 ]
 
-{ #category : #'t - list node holder' }
-ToInfiniteElement >> configureLayoutIn: aListElement [
+{ #category : #layout }
+ToInfiniteElement >> consumeFinalStepCommands [
 
-	self matchParent.
-	self horizontal: aListElement isHorizontal.
-	aListElement isHMatchParent ifFalse: [ self hFitContent ].
-	aListElement isVMatchParent ifFalse: [ self vFitContent ].
+	dataSourceManager consumeFinalStepCommandsIn: self
 ]
 
 { #category : #'t - infinite accessing' }
@@ -98,7 +111,10 @@ ToInfiniteElement >> defaultScrollFlinger [
 ToInfiniteElement >> dispatchLayoutFinalStep [
 
 	super dispatchLayoutFinalStep.
-	dataSourceManager consumeFinalStepCommandsIn: self.
+	self assert: dataSourceManager hasCommands not.
+	self consumeFinalStepCommands.
+	"If an element bounds change then the selection bounds may be obsolete"
+	self boundsUpdaterHasChanges ifTrue: [ listElement updateAllSelections ].
 
 ]
 
@@ -125,7 +141,9 @@ ToInfiniteElement >> initialize [
 
 	super initialize.
 	self addEventHandler: ToListInnerElementEventHandler new.
-	self matchParent
+	self constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical matchParent ]
 ]
 
 { #category : #'t - infinite accessing' }
@@ -174,6 +192,13 @@ ToInfiniteElement >> nodes [
 ]
 
 { #category : #'t - list node holder' }
+ToInfiniteElement >> nodesDetect: aBlock [
+
+	self nodesDo: [ :node | (aBlock value: node) ifTrue: [ ^ node ] ].
+	^ nil
+]
+
+{ #category : #'t - list node holder' }
 ToInfiniteElement >> nodesDo: aBlock [
 
 	self childrenDo: [ :node | aBlock value: node ]
@@ -192,12 +217,6 @@ ToInfiniteElement >> nodesWithIndexDo: aBlock [
 
 	self nodesDo: [ :node |
 		aBlock value: node value: node holder position ]
-]
-
-{ #category : #'hooks - scrolling' }
-ToInfiniteElement >> onScrolled: aPoint [
-
-	listElement onScrolled: aPoint
 ]
 
 { #category : #'t - list node holder' }

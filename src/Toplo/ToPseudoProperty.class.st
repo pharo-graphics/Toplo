@@ -37,9 +37,9 @@ ToPseudoProperty >> reader: aValuable [
 ]
 
 { #category : #operating }
-ToPseudoProperty >> write: anPropertyValue to: anObject [
+ToPseudoProperty >> write: aValue to: anObject [
 
-	self writer value: anObject value: anPropertyValue.
+	self writer value: anObject value: aValue.
 	^ anObject
 ]
 

@@ -21,7 +21,8 @@ Class {
 		'filtrable',
 		'iconContainer',
 		'innerElement',
-		'windowManager'
+		'windowManager',
+		'sample'
 	],
 	#category : #'Toplo-Widget-Select-Core'
 }
@@ -30,6 +31,26 @@ Class {
 ToSelectElement >> allowDeselection [
 
 	^ true
+]
+
+{ #category : #configuration }
+ToSelectElement >> applyWidgetConfiguration [ 
+
+	super applyWidgetConfiguration.
+	self filterTextField selectFiltrable: filtrable.
+	sample ifNotNil: [ self innerElement sample: sample ]
+]
+
+{ #category : #'accessing - window' }
+ToSelectElement >> closeOnPicking [
+
+	^ self manager closeOnPicking
+]
+
+{ #category : #'accessing - window' }
+ToSelectElement >> closeOnPicking: aBoolean [
+
+	self manager closeOnPicking: aBoolean
 ]
 
 { #category : #'accessing - window' }
@@ -89,7 +110,7 @@ ToSelectElement >> filtrable [
 ToSelectElement >> filtrable: aBoolean [
 
 	filtrable := aBoolean.
-	self filterTextField selectFiltrable: aBoolean
+	self requestNewConfiguration
 ]
 
 { #category : #accessing }
@@ -244,7 +265,9 @@ ToSelectElement >> onPopupWindowClosed [
 { #category : #window }
 ToSelectElement >> onPopupWindowOpened [
 
-	self filterTextField infinite requestFocus
+	filtrable
+		ifTrue: [ self filterTextField requestFocus ]
+		ifFalse: [ self requestFocus ]
 ]
 
 { #category : #'accessing - selection' }
@@ -301,7 +324,7 @@ ToSelectElement >> popupMaxHeight: aNumber [
 { #category : #'accessing - list' }
 ToSelectElement >> popupMinHeight: aNumber [
 
-	self windowManager minHeight: aNumber
+	self manager minHeight: aNumber
 ]
 
 { #category : #accessing }
@@ -326,16 +349,11 @@ ToSelectElement >> refresh [
 	self innerElement refreshFromPopupListSelection
 ]
 
-{ #category : #layout }
-ToSelectElement >> requestLayout: x [
-
-	super requestLayout: x.
-]
-
 { #category : #accessing }
 ToSelectElement >> sample: aDataItem [
 
-	self innerElement sample: aDataItem
+	sample := aDataItem.
+	self requestNewConfiguration
 ]
 
 { #category : #accessing }

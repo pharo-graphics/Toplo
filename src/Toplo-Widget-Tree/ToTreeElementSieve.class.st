@@ -1,0 +1,22 @@
+Class {
+	#name : #ToTreeElementSieve,
+	#superclass : #ToListElementSieve,
+	#category : #'Toplo-Widget-Tree-Sieve'
+}
+
+{ #category : #accessing }
+ToTreeElementSieve >> dataFilter: aValuable [
+	" filter takes a wrapped data and a pattern as argument "
+
+	super dataFilter: [ :item :pattern |
+		aValuable value: item unwrapped value: pattern ]
+]
+
+{ #category : #accessing }
+ToTreeElementSieve >> pattern: aPattern [
+
+	" simple collapse all roots because by default, 
+	this implementation don't manage a filter result with expanded nodes "
+	originalData mirrored roots reverseDo: [ :w | w collapse ].
+	super pattern: aPattern
+]

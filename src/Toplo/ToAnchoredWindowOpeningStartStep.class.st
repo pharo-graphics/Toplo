@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAnchoredWindowOpeningStartStep,
-	#superclass : #ToAnchoredWindowOpeningStep,
+	#superclass : #ToAnchoredWindowLayoutStep,
 	#category : #'Toplo-Core-Window'
 }
 

@@ -5,22 +5,18 @@ Class {
 }
 
 { #category : #'event handling' }
-ToSelectEventHandler >> elementAddedToSceneGraphEvent: anEvent [
+ToSelectEventHandler >> addedToSpaceEvent: anEvent [
 
 	anEvent currentTarget refresh 
 ]
 
 { #category : #'api - accessing' }
 ToSelectEventHandler >> eventsToHandle [
-	^ { BlElementAddedToSceneGraphEvent. ToPlaceholderShownEvent }
+	^ { ToAddedToSpaceEvent. ToPlaceholderShownEvent }
 ]
 
 { #category : #'event handling' }
 ToSelectEventHandler >> placeHolderShownEvent: anEvent [
 
-	self flag:
-		'The width of 16???. Why ? Anyway, it should be handled via a skin'.
-	anEvent placeholder padding: (BlInsets left:
-			 (anEvent currentTarget valueOfTokenNamed: #'padding-XS')).
 	anEvent placeholder layout alignCenterLeft
 ]

@@ -24,6 +24,7 @@ ToInstalledSkinContextTest >> testElementRemovedFromSceneGraph [
 
 	| skin e space |
 	e := ToElement new.
+	e applySkinInstallerOnFirstRequest: false.
 	space := BlSpace new.
 	space root addChild: e.
 	skin := ToSkin new.
@@ -47,7 +48,7 @@ ToInstalledSkinContextTest >> testInstallSkinIn [
 	self assert: (e eventDispatcher handlers
 			 detect: [ :h |
 				 (h isKindOf: BlEventHandler) and: [
-					 h eventClass = BlElementRemovedFromSceneGraphEvent ] ]
+					 h eventClass = ToRemovedFromSpaceEvent ] ]
 			 ifNone: [  ]) notNil.
 	self assert: (e eventDispatcher handlers
 			 detect: [ :h | h == skin ]

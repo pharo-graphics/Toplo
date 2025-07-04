@@ -22,13 +22,17 @@ ToElementInitializeEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 	addedToSceneGraph ifTrue: [ ^ self ].
 	addedToSceneGraph := true.
 	target := anEvent currentTarget.
-	target ensuredSkinManager requestInstallSkinIn: target
+	target space checkToploPhases.
+	target applyWidgetConfiguration.
+	target ensuredSkinManager requestInstallSkinIn: target.
+	target dispatchEvent: ToAddedToSpaceEvent new
 ]
 
 { #category : #'event handling' }
 ToElementInitializeEventHandler >> elementRemovedFromSceneGraphEvent: anEvent [
 
-	addedToSceneGraph := false
+	addedToSceneGraph := false.
+	anEvent currentTarget dispatchEvent: ToRemovedFromSpaceEvent new
 ]
 
 { #category : #'api - accessing' }

@@ -5,15 +5,27 @@ Class {
 }
 
 { #category : #'event handling' }
+ToSegmentedToggleButtonSkin >> deselectedSkinEvent: anEvent [
+
+	super deselectedSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e iconDo: [ :ic |
+			ic adaptToColor: (e valueOfTokenNamed: #'color-text') ].
+		e endElementDo: [ :ic |
+			(ic respondsTo: #adaptToColor:) ifTrue: [
+				ic adaptToColor: (e valueOfTokenNamed: #'color-text') ] ] ]
+]
+
+{ #category : #'event handling' }
 ToSegmentedToggleButtonSkin >> disabledSkinEvent: anEvent [
 
 	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
-			ic innerImageColor: (e valueOfTokenNamed: #'color-text-disabled') ].
+			ic adaptToColor: (e valueOfTokenNamed: #'color-text-disabled') ].
 		e endElementDo: [ :ic |
-			(ic respondsTo: #innerImageColor:) ifTrue: [
-				ic innerImageColor: (e valueOfTokenNamed: #'color-text-disabled') ] ].
+			(ic respondsTo: #adaptToColor:) ifTrue: [
+				ic adaptToColor: (e valueOfTokenNamed: #'color-text-disabled') ] ].
 		e background: (e valueOfTokenNamed: #'color-bg-container-disabled').
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text-disabled').
@@ -26,14 +38,13 @@ ToSegmentedToggleButtonSkin >> enabledSkinEvent: anEvent [
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
-			ic innerImageColor: (e valueOfTokenNamed: #'color-text') ].
+			ic adaptToColor: (e valueOfTokenNamed: #'color-text') ].
 		e endElementDo: [ :ic |
-			(ic respondsTo: #innerImageColor:) ifTrue: [
-				ic innerImageColor: (e valueOfTokenNamed: #'color-text') ] ].
+			(ic respondsTo: #adaptToColor:) ifTrue: [
+				ic adaptToColor: (e valueOfTokenNamed: #'color-text') ] ].
 		e background: BlBackground transparent.
 		e labelDo: [ :lab |
-			lab foreground: (e valueOfTokenNamed: #'color-text').
-			lab applyStyle ] ]
+			lab foreground: (e valueOfTokenNamed: #'color-text')] ]
 ]
 
 { #category : #'event handling' }
@@ -50,7 +61,6 @@ ToSegmentedToggleButtonSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e focusability: BlFocusability ignore.
-		e layout alignCenter.
 		e border: BlBorder empty.
 		e background: BlBackground transparent.
 		e padding: (BlInsets
@@ -72,4 +82,29 @@ ToSegmentedToggleButtonSkin >> leavedSkinEvent: anEvent [
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e mouseCursor: Cursor normal ]
+]
+
+{ #category : #'event handling' }
+ToSegmentedToggleButtonSkin >> leftSkinEvent: anEvent [
+
+	super leftSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e mouseCursor: Cursor normal ]
+]
+
+{ #category : #'event handling' }
+ToSegmentedToggleButtonSkin >> selectedSkinEvent: anEvent [
+
+	super selectedSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		| f |
+		f := anEvent focused
+			     ifTrue: [ e valueOfTokenNamed: #'selected-focused-foreground' ]
+			     ifFalse: [
+			     e valueOfTokenNamed: #'selected-unfocused-foreground' ].
+		e iconDo: [ :ic |
+			ic adaptToColor: f ].
+		e endElementDo: [ :ic |
+			(ic respondsTo: #adaptToColor:) ifTrue: [
+				ic adaptToColor: f ] ] ]
 ]

@@ -19,7 +19,7 @@ ToListContextMenuSelectionElementEventHandler >> eventsToHandle [
 ToListContextMenuSelectionElementEventHandler >> listContextMenuSelectionChangedEvent: anEvent [
 	" sent by the context menu selecter"
 
-	self refreshSelectionFromEvent: anEvent
+	self updateSelectionFromEvent: anEvent
 ]
 
 { #category : #'element handlers' }

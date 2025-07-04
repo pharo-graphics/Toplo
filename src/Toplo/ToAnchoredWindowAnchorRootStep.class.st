@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAnchoredWindowAnchorRootStep,
-	#superclass : #ToAnchoredWindowOpeningStep,
+	#superclass : #ToAnchoredWindowLayoutStep,
 	#category : #'Toplo-Core-Window'
 }
 
@@ -8,6 +8,7 @@ Class {
 ToAnchoredWindowAnchorRootStep >> nextStepFor: aWindow onEvent: anEvent onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
 	| p |
+	aWindow manager ifNil: [ ^ self ].
 	p := aWindow correctedPositionWithinAnchorRoot.
 	p ~= aWindow measuredPosition ifTrue: [
 		aWindow position: p].

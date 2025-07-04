@@ -5,7 +5,7 @@ Check `ToSandBox >> example_ListWithAllClassesAndTraitsSorted` and `ToMiniBrowse
 "
 Class {
 	#name : #ToClassNameViewExamplePart,
-	#superclass : #ToListNode,
+	#superclass : #ToElement,
 	#category : #'Toplo-Examples-Parts'
 }
 

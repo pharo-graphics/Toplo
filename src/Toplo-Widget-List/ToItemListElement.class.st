@@ -6,6 +6,13 @@ Class {
 	#category : #'Toplo-Widget-List-ItemList'
 }
 
+{ #category : #configuration }
+ToItemListElement >> applyWidgetConfiguration [ 
+
+	super applyWidgetConfiguration.
+	self applyItemListConfiguration
+]
+
 { #category : #initialization }
 ToItemListElement >> defaultInnerElement [
 

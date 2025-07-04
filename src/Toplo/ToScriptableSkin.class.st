@@ -44,7 +44,7 @@ ToScriptableSkin >> handleEvent: anEvent [
 
 	| handler |
 	handler := handlerMap at: anEvent class ifAbsent: [ ^ self ].
-	anEvent elementDo: [ :e | handler cull: e cull: anEvent ]
+	anEvent elementDo: [ :e | handler value: e value: anEvent ]
 ]
 
 { #category : #initialization }
@@ -134,9 +134,9 @@ ToScriptableSkin >> onInstallSkinEvent: aValuable [
 ]
 
 { #category : #'event handling' }
-ToScriptableSkin >> onLeavedSkinEvent: aValuable [
+ToScriptableSkin >> onLeftSkinEvent: aValuable [
 
-	handlerMap at: ToLeavedSkinEvent put: aValuable
+	handlerMap at: ToLeftSkinEvent put: aValuable
 ]
 
 { #category : #'event handling' }

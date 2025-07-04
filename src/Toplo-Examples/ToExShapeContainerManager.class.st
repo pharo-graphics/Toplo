@@ -41,7 +41,7 @@ ToExShapeContainerManager >> open [
 	self shapeContainer: ToExShapeContainerElement new.
 	shapeContainer openInSpace.
 	shapeContainer
-		addEventHandlerOn: BlElementRemovedFromSceneGraphEvent
+		addEventHandlerOn: ToRemovedFromSpaceEvent
 		do: [ self terminateAllProcesses ].
 	self addCommand: (ToExShapeNewGenerationCommand new
 			 size: 2000;

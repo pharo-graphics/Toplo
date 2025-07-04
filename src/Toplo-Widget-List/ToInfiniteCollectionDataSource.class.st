@@ -1,8 +1,8 @@
 Class {
 	#name : #ToInfiniteCollectionDataSource,
 	#superclass : #ToInfiniteDataSource,
-	#traits : 'TToObservableCollection + TToAuthorisationRequestTarget',
-	#classTraits : 'TToObservableCollection classTrait + TToAuthorisationRequestTarget classTrait',
+	#traits : 'TToObservableCollection + TToCollectionChangedNotifier',
+	#classTraits : 'TToObservableCollection classTrait + TToCollectionChangedNotifier classTrait',
 	#instVars : [
 		'dataEventHandler',
 		'data'
@@ -36,6 +36,27 @@ ToInfiniteCollectionDataSource >> itemCount [
 	<return: #Number>
 
 	^ self size
+]
+
+{ #category : #notifications }
+ToInfiniteCollectionDataSource >> notifyChangedAllDataItems: aDataItemArray [
+
+	| idxes |
+	idxes := aDataItemArray collect: [ :d |
+		         | idx |
+		         idx := self indexOf: d.
+		         idx isZero ifTrue: [ Error signal: 'Data item not found' ].
+		         idx ].
+	self notifyDataItemChangeIndexes: idxes
+]
+
+{ #category : #notifications }
+ToInfiniteCollectionDataSource >> notifyChangedDataItem: aDataItem [
+
+	| idx |
+	idx := self indexOf: aDataItem.
+	idx isZero ifTrue: [ Error signal: 'Data item not found' ].
+	self notifyDataItemChangeIndex: idx
 ]
 
 { #category : #hooks }

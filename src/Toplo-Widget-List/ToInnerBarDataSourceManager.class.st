@@ -36,3 +36,15 @@ ToInnerBarDataSourceManager >> onItemsChanged [
 
 	innerBarElement onItemsChanged
 ]
+
+{ #category : #'data source updates' }
+ToInnerBarDataSourceManager >> postponeAction: aValuable [
+
+	aValuable value
+]
+
+{ #category : #'data source updates' }
+ToInnerBarDataSourceManager >> postponeCommand: aCommand [
+
+	aCommand action value
+]

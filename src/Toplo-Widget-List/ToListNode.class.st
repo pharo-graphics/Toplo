@@ -5,12 +5,24 @@ Class {
 	#category : #'Toplo-Widget-List-Node'
 }
 
-{ #category : #'t - list node' }
-ToListNode >> clickEventHandlerClasses [
+{ #category : #configuration }
+ToListNode >> applyWidgetConfiguration [
 
-	^ self holder listElement isMultipleSelection
-		  ifTrue: [ { ToListNodeMultiSelectionClickEventHandler } ]
-		  ifFalse: [ { ToListNodeSingleSelectionClickEventHandler } ]
+	super applyWidgetConfiguration.
+	self constraintsDo: [ :c |
+		| l |
+		l := self holder listElement.
+		l isHorizontal
+			ifTrue: [ c horizontal fitContent ]
+			ifFalse: [ c horizontal matchParent ].
+		c vertical fitContent ].
+	self holder initializeNode
+]
+
+{ #category : #'t - list node' }
+ToListNode >> clickEventHandlerClass [
+
+	^  ToListNodeSelectionEventHandler
 ]
 
 { #category : #skin }

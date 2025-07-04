@@ -3,10 +3,26 @@ Class {
 	#superclass : #ToElement,
 	#instVars : [
 		'innerImage',
-		'loader'
+		'loader',
+		'innerImageColor'
+	],
+	#classVars : [
+		'AllowFormColorChange'
 	],
 	#category : #'Toplo-Widget-Image-Core'
 }
+
+{ #category : #testing }
+ToImage class >> allowFormColorChange [
+
+	^ AllowFormColorChange ifNil: [ AllowFormColorChange := false ]
+]
+
+{ #category : #testing }
+ToImage class >> allowFormColorChange: aBoolean [
+
+	AllowFormColorChange := aBoolean
+]
 
 { #category : #accessing }
 ToImage class >> formInnerImageId [
@@ -36,6 +52,20 @@ ToImage class >> svgInnerImageId [
 ToImage class >> unknownInnerImageId [
 
 	^ #unknown
+]
+
+{ #category : #'inner accessing' }
+ToImage >> adaptToColor: aColor [
+
+	self innerFormImage ifNotNil: [
+		self allowFormColorChange ifFalse: [ ^ self ] ].
+	self innerImageColor: aColor
+]
+
+{ #category : #testing }
+ToImage >> allowFormColorChange [
+
+	^ self class allowFormColorChange
 ]
 
 { #category : #'private - conversion' }
@@ -173,11 +203,17 @@ ToImage >> innerImage: anImage [
 
 	| element |
 	anImage = innerImage ifTrue: [ ^ self ].
+	innerImageColor := nil.
 	element := anImage ifNil: [ self defaultInnerImage ].
 	element := self convertedAsInnerImage: element.
 	self removeChildren.
 	innerImage := element.
 	self addChild: element.
+	
+	innerImage constraintsDo: [ :c |
+			c frame horizontal alignCenter.
+			c frame vertical alignCenter ].
+
 	element id ifNotNil: [ :id |
 		id asSymbol = self svgInnerImageId ifTrue: [
 			element constraintsDo: [ :c |
@@ -187,9 +223,17 @@ ToImage >> innerImage: anImage [
 
 { #category : #'inner accessing' }
 ToImage >> innerImageColor: aColor [
+	innerImageColor = aColor ifTrue: [ ^ self ].
+	self innerSvgImage ifNotNil: [ self innerSvgImageColor: aColor ].
+	self innerFormImage ifNotNil: [ self innerFormImageColor: aColor ].
+	innerImageColor := aColor
+]
 
-	self innerSvgImage ifNotNil: [ ^ self innerSvgImageColor: aColor ].
-	self innerFormImage ifNotNil: [ ^ self innerFormImageColor: aColor ]
+{ #category : #accessing }
+ToImage >> innerImageDo: aBlock [
+
+	innerImage ifNil: [ ^ self ].
+	aBlock value: innerImage
 ]
 
 { #category : #'inner accessing' }

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMultiSelectListNode,
-	#superclass : #ToListNode,
+	#superclass : #ToSelectListNode,
 	#category : #'Toplo-Widget-Select-List'
 }
 

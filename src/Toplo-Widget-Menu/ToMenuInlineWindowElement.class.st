@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuInlineWindowElement,
 	#superclass : #ToCustomMenuItem,
-	#traits : 'TToAnchoredWindowElement + TToMenuWindowModel + TToMenuItemContainer',
-	#classTraits : 'TToAnchoredWindowElement classTrait + TToMenuWindowModel classTrait + TToMenuItemContainer classTrait',
+	#traits : 'TToAnchoredWindowElement + TToMenuWindowModel',
+	#classTraits : 'TToAnchoredWindowElement classTrait + TToMenuWindowModel classTrait',
 	#category : #'Toplo-Widget-Menu-Window'
 }
 
@@ -10,6 +10,14 @@ Class {
 ToMenuInlineWindowElement >> closeWindow [
 
 	self close
+]
+
+{ #category : #enumerating }
+ToMenuInlineWindowElement >> collectedNodesDo: aValuable [ 
+ 
+ 	self allChildrenBreadthFirstDo: [ :child |
+ 		(child isKindOf: ToMenuItemNode) ifTrue: [
+ 			child isFake ifFalse: [ aValuable value: child ] ] ]
 ]
 
 { #category : #'api - displaying' }
@@ -35,7 +43,7 @@ ToMenuInlineWindowElement >> includes: anElement [
 ToMenuInlineWindowElement >> initialize [ 
 
 	super initialize.
-	self addEventHandler: ToMenuWindowEventHandler new
+	self addEventHandler: ToMenuContainerEventHandler new
 ]
 
 { #category : #'t - menu window model' }
@@ -108,6 +116,13 @@ ToMenuInlineWindowElement >> onMeasure: anExtentMeasurementSpec [
 
 	super onMeasure: anExtentMeasurementSpec.
 	self onMeasure: anExtentMeasurementSpec onEvent: self lastPopupEvent 
+]
+
+{ #category : #'t - anchored window element - private layout' }
+ToMenuInlineWindowElement >> refreshLayout [
+
+	"self layoutStep: self newStartLayoutStep.
+	self requestLayout"
 ]
 
 { #category : #'t - inline window element - accessing' }

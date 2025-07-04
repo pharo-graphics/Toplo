@@ -12,24 +12,6 @@ ToItemListNodeManager >> buildNode: aNode [
 	aNode item: holder dataItem
 ]
 
-{ #category : #initialization }
-ToItemListNodeManager >> constraintNode: aNode [
-
-	| list |
-	list := aNode holder listElement.
-	list isVertical
-		ifTrue: [
-			list isHMatchParent
-				ifTrue: [ aNode hMatchParent ]
-				ifFalse: [ aNode hFitContent ].
-			aNode vFitContent ]
-		ifFalse: [
-			list isVMatchParent
-				ifTrue: [ aNode vMatchParent ]
-				ifFalse: [ aNode vFitContent ].
-			aNode hFitContent ]
-]
-
 { #category : #'instance creation' }
 ToItemListNodeManager >> newHolder [
 
@@ -39,5 +21,5 @@ ToItemListNodeManager >> newHolder [
 { #category : #'instance creation' }
 ToItemListNodeManager >> newNodeForHolder: aNodeHolder [
 
-	^ ToItemNode new
+	^ ToListItemNode new
 ]

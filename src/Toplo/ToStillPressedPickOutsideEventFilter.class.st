@@ -39,13 +39,14 @@ ToStillPressedPickOutsideEventFilter >> mouseUpEvent: anEvent [
 		^ self ].
 
 	" It it ouside my target, do nothing "
-	(anEvent target hasInParentChain: element) ifTrue: [ ^ self ].
+	(anEvent target withAllParentsInclude: element) ifTrue: [ ^ self ].
 
 	anEvent consume.
 	holder ifNil: [ ^ self ].
 	" ok, mouseUp outside the element and outside of the popup window "
 	holder removeEventFilter: self.
 	element dispatchEvent: (ToPickOutsideEvent new
+			 sourceEvent: anEvent;
 			 fillFromTime: element space time;
 			 yourself)
 ]

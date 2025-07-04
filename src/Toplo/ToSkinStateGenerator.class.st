@@ -58,7 +58,7 @@ ToSkinStateGenerator >> dragEndEvent: anEvent [
 			 (ToReleasedSkinEvent sourceEvent: anEvent)).
 	self enqueueSkinState:
 		(ToTransientState skinEvent:
-			 (ToLeavedSkinEvent sourceEvent: anEvent))
+			 (ToLeftSkinEvent sourceEvent: anEvent))
 ]
 
 { #category : #'dnd handlers' }
@@ -158,8 +158,27 @@ ToSkinStateGenerator >> handleEvent: anEvent [
 { #category : #'list selection' }
 ToSkinStateGenerator >> listNodeSelectedEvent: anEvent [
 
+	target isEnabled ifFalse: [ ^ self ].
+	self flag: 'kept in comment for the record for now'.
+	" first check if I need the skin event.
+	I don't need it if I'm already selected for the same focus state "
+"	record := selectionIndex at: anEvent selectionOption ifAbsent: [  ].
+	record
+		ifNil: [
+			"" not present, just record the selection state ""
+			selectionIndex at: anEvent selectionOption put: (ToSelectionRecord
+					 selected: anEvent selected
+					 focused: anEvent listElement isFocused) ]
+		ifNotNil: [
+			"" check if it is for the same selection state ""
+			(record
+				 isSelected: anEvent selected
+				 focused: anEvent listElement isFocused) ifTrue: [ ^ self ].
+			record selected: anEvent selected.
+			record focused: anEvent listElement isFocused ]."
+
 	target withAllChildrenBreadthFirstDo: [ :child |
-		child areSelectionSkinEventsPrevented ifTrue: [ ^ self ]. 
+		child areSelectionSkinEventsPrevented ifTrue: [ ^ self ].
 		self
 			enqueueSkinState: (ToSelectionState new
 					 selected: anEvent selected;
@@ -198,7 +217,7 @@ ToSkinStateGenerator >> mouseLeaveEvent: anEvent [
 	target isEnabled ifFalse: [ ^ self ].
 	self enqueueSkinState:
 		(ToTransientState skinEvent:
-			 (ToLeavedSkinEvent sourceEvent: anEvent))
+			 (ToLeftSkinEvent sourceEvent: anEvent))
 ]
 
 { #category : #'mouse handlers' }
@@ -259,7 +278,7 @@ ToSkinStateGenerator >> pickOutsideEvent: anEvent [
 	target isEnabled ifFalse: [ ^ self ].
 	self enqueueSkinState:
 		(ToTransientState skinEvent:
-			 (ToLeavedSkinEvent sourceEvent: anEvent))
+			 (ToLeftSkinEvent sourceEvent: anEvent))
 ]
 
 { #category : #'mouse handlers' }

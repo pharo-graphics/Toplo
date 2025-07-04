@@ -25,7 +25,7 @@ ToElementBasicCommand >> applyWithOperator: anOperator [
 ]
 
 { #category : #application }
-ToElementBasicCommand >> onAppliedIn: aCommandApplier [
+ToElementBasicCommand >> onAppliedOn: aCommandApplier [
 
 	aCommandApplier onBasicCommandApplied: self
 ]

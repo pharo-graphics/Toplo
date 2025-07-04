@@ -14,14 +14,6 @@ ToSpecificBarNodeManagerForTest >> buildNode: aNode [
 ]
 
 { #category : #initialization }
-ToSpecificBarNodeManagerForTest >> constraintNode: aNode [
-
-	aNode constraintsDo: [ :c |
-		c horizontal fitContent.
-		c vertical fitContent ]
-]
-
-{ #category : #initialization }
 ToSpecificBarNodeManagerForTest >> defaultFakeDataItem [
 
 	^ 'Fake'

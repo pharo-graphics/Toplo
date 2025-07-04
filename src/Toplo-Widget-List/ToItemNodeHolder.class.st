@@ -1,16 +1,14 @@
 Class {
 	#name : #ToItemNodeHolder,
 	#superclass : #ToNodeHolder,
-	#category : #'Toplo-Widget-List-ItemList'
+	#category : #'Toplo-Widget-List-Core-Item'
 }
 
 { #category : #accessing }
 ToItemNodeHolder >> dataItem: aDataItem [
 
-	| infiniteConstraints |
 	super dataItem: aDataItem.
-	infiniteConstraints := aDataItem constraints infinite.
-	infiniteConstraints holder: self
+	aDataItem holder: self
 ]
 
 { #category : #accessing }

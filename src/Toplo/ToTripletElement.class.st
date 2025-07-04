@@ -1,11 +1,8 @@
 Class {
 	#name : #ToTripletElement,
 	#superclass : #ToElement,
-	#traits : 'TToWithOrientableLayout + TToTripletElement',
-	#classTraits : 'TToWithOrientableLayout classTrait + TToTripletElement classTrait',
-	#instVars : [
-		'properties'
-	],
+	#traits : 'TToOrientable + TToTripletElement',
+	#classTraits : 'TToOrientable classTrait + TToTripletElement classTrait',
 	#category : #'Toplo-Core'
 }
 
@@ -17,10 +14,10 @@ ToTripletElement >> defaultLayout [
 ]
 
 { #category : #initialization }
-ToTripletElement >> initialize [
+ToTripletElement >> initialize [ 
 
 	super initialize.
-	self initializeAsTripletElement 
+	self initializeAsTripletElement
 ]
 
 { #category : #skin }
@@ -35,30 +32,8 @@ ToTripletElement >> installRawStyle [
 	
 ]
 
-{ #category : #layout }
-ToTripletElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
+{ #category : #configuration }
+ToTripletElement >> newWidgetConfiguration [ 
 
-	self configureLayout.
-	super onLayout: aBounds context: aBlElementBoundsUpdateContext
-]
-
-{ #category : #dependencies }
-ToTripletElement >> release [ 
-
-	super release.
-	properties release.
-	properties := nil
-]
-
-{ #category : #'t - triplet element - private - accessing' }
-ToTripletElement >> tripletProperties [
-
-	^ properties
-]
-
-{ #category : #'t - triplet element - private - accessing' }
-ToTripletElement >> tripletProperties: aTripletElementProperties [
-
-	properties ifNotNil: [ (BlImmutableObjectChangeError object: self) signal ].
-	properties := aTripletElementProperties
+	^ ToTripletElementConfiguration new
 ]

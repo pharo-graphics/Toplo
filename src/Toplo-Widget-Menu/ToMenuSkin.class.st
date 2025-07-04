@@ -5,29 +5,38 @@ Class {
 }
 
 { #category : #'event handling' }
+ToMenuSkin >> arrowImageFor: aMenuItem [
+
+	^ aMenuItem isInline
+		  ifTrue: [
+				  aMenuItem isOpened
+					  ifTrue: [ ToIconicArrowButton up ]
+					  ifFalse: [ ToIconicArrowButton down ] ]
+		  ifFalse: [
+				  aMenuItem isSubmenu
+					  ifTrue: [ ToIconicArrowButton right ]
+					  ifFalse: [
+							  (aMenuItem isMenuPaneMenu and: [
+								   aMenuItem menuPane isHorizontal ])
+								  ifTrue: [ ToIconicArrowButton down ]
+								  ifFalse: [ ToIconicArrowButton right ] ] ]
+]
+
+{ #category : #'event handling' }
 ToMenuSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		(e isSubmenu or: [ e hasStamp: #'with-expand-button' ])
-			ifTrue: [
-				| arrowTk arrowIm |
-				arrowTk := e isInline
-					           ifTrue: [
-						           e isOpened
-							           ifTrue: [ #'submenu-arrow-up' ]
-							           ifFalse: [ #'submenu-arrow-down' ] ]
-					           ifFalse: [ #'submenu-arrow-right' ].
-				arrowIm := ToImage inner: (e valueOfTokenNamed: arrowTk).
-				arrowIm
-					size: 18 asPoint;
-					innerImageColor: (e valueOfTokenNamed: #'color-text').
-				e endElement addChild: arrowIm ]
-			ifFalse: [
-				(e hasIcon and: [ e hasLabel ])
-					ifTrue: [
-					e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
-					ifFalse: [ e startInterspace: 0 ] ] ]
+			(e isSubmenu or: [ e showExpandIcon ]) ifTrue: [
+					| arrowIm |
+					arrowIm := self arrowImageFor: e.
+					arrowIm size:
+						(e valueOfTokenNamed: #'iconic-arrow-breadth') asPoint.
+					e endElement addChild: arrowIm ].
+			(e hasIcon and: [ e hasLabel ])
+				ifTrue: [
+				e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
+				ifFalse: [ e startInterspace: 0 ] ]
 ]
 
 { #category : #'event handling' }

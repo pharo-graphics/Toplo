@@ -32,6 +32,7 @@ ToCheckboxTest >> testCheckedDisabledInSpace [
 
 	| chb |
 	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
+	chb applySkinInstallerOnFirstRequest: false.
 	chb checked: true.
 	self assert: chb icon isNil.
 	space root addChild: chb.
@@ -71,18 +72,6 @@ ToCheckboxTest >> testCheckedWhenDisabled [
 ]
 
 { #category : #tests }
-ToCheckboxTest >> testIndeterminateBar [
-
-	| cb  |
-	cb := ToCheckbox new.
-	self assert: cb indeterminateBar isNil.
-	space root addChild: cb.
-	space applyAllSkinPhases.
-	self assert: cb indeterminateBar notNil
-	
-]
-
-{ #category : #tests }
 ToCheckboxTest >> testIndeterminateState [
 
 	| cb |
@@ -101,7 +90,7 @@ ToCheckboxTest >> testStartChecked [
 	space root addChild: cb.
 	self assert: cb checked.
 	cb addEventHandler: (BlEventHandler
-			 on: BlElementAddedToSceneGraphEvent
+			 on: ToAddedToSpaceEvent 
 			 do: [ space close ])
 ]
 
@@ -116,7 +105,7 @@ ToCheckboxTest >> testStartCheckedThenDisabled [
 	cb disable.
 	self assert: cb checked.
 	cb addEventHandler: (BlEventHandler
-			 on: BlElementAddedToSceneGraphEvent
+			 on: ToAddedToSpaceEvent 
 			 do: [ space close ])
 ]
 
@@ -129,6 +118,6 @@ ToCheckboxTest >> testStartUnchecked [
 	space root addChild: cb.
 	self assert: cb checked not.
 	cb addEventHandler: (BlEventHandler
-			 on: BlElementAddedToSceneGraphEvent
+			 on: ToAddedToSpaceEvent 
 			 do: [ space close ])
 ]

@@ -1,23 +1,13 @@
 "
-I'm list whose contents is a segmented element (i.e. a list of toggle elements)
+I'm list whose contents is a checkable element (i.e. a list of toggle elements)
 "
 Class {
 	#name : #ToCheckableBarElement,
 	#superclass : #ToItemBarElement,
 	#traits : 'TToCheckableGroupOwner',
 	#classTraits : 'TToCheckableGroupOwner classTrait',
-	#category : #'Toplo-Widget-List-ItemList'
+	#category : #'Toplo-Widget-List-ItemBar'
 }
-
-{ #category : #'t - list node holder' }
-ToCheckableBarElement >> configureLayoutIn: aBarOwner [
-
-	self matchParent.
-	self horizontal: aBarOwner isHorizontal.
-	aBarOwner isHMatchParent ifFalse: [ self hFitContent ].
-	aBarOwner isVMatchParent ifFalse: [ self vFitContent ].
-	self configureLayout
-]
 
 { #category : #initialization }
 ToCheckableBarElement >> defaultEventHandler [
@@ -38,7 +28,7 @@ ToCheckableBarElement >> initialize [
 
 	self group
 		addEventHandlerOn: ToCheckableGroupChangedEvent
-		do: [ :event | self dispatchEvent: event copy ].
+		do: [ :event | self fireEvent: event copy ].
 
 	self primarySelectionMode selectionOption
 		grouped: false;

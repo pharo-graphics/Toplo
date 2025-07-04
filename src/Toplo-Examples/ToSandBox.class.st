@@ -1381,7 +1381,7 @@ ToSandBox class >> example_AnchorsAroundRectangle [
 					c frame horizontal alignCenter.
 					c frame vertical alignCenter ].
 			deg addChild: lab.
-			deg background: Color blue.
+			deg background: Color gray.
 			deg size: 24@22.
 			deg constraintsDo: [ :c |
 					c anchors add:
@@ -1397,8 +1397,9 @@ ToSandBox class >> example_AnchorsAroundRoundRectangle [
 
 	| blue |
 	blue := self example_AnchorsAroundRectangle.
-	blue size: 300 @ 100.
-	blue geometry: (BlRoundedRectangleGeometry cornerRadius: 30).
+	blue margin: (BlInsets all: 10).
+	blue size: 200 @ 200.
+	blue geometry: (BlRoundedRectangleGeometry cornerRadius: 50).
 
 ]
 
@@ -6800,6 +6801,7 @@ ToSandBox class >> example_pointOnPerimeterAtRadians [
 
 	"Créer un élément arrondi simple, sans marges"
 	element := ToElement new.
+	element margin: (BlInsets all: 10).
 	element geometry: (BlRoundedRectangleGeometry cornerRadius: 50).
 	element extent: 300 @ 100.
 	element position: 30 @ 30.
@@ -6808,12 +6810,12 @@ ToSandBox class >> example_pointOnPerimeterAtRadians [
 	view forceLayout.
 
 	"Calculer les points sur le périmètre"
-	count := 200.
+	count := 1000.
 	points := (0 to: count - 1) collect: [ :i |
 			          angle := 2 * Float pi * i / count.
 			          element geometry
 				          pointOnPerimeterAtRadians: angle
-				          for: element ].
+				          of: element ].
 
 	"Tracer une polyligne pour relier les points"
 	polygon := (BlPolygonGeometry vertices: points) asElement.

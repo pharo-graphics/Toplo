@@ -99,7 +99,7 @@ ToTabPaneElementTest >> testCloseUnselectedPage [
 	secondButton removable: true.
 	tabPane forceLayout.
 	self waitTestingSpacesTimeout: 400 milliSeconds.
-	firstButton removeButton clickAction: [ :evt | clicked := true ].
+	firstButton removeButton addEventHandlerOn: BlClickEvent do: [ :evt | clicked := true ].
 	BlSpace simulateMouseMoveInside: firstButton.
 	self waitTestingSpacesTimeout: 400 milliSeconds.
 	self deny: firstButton isSelected.

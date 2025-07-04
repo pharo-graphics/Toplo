@@ -90,20 +90,25 @@ ToTabPaneElementTest >> testCloseSelectedPage2 [
 ToTabPaneElementTest >> testCloseUnselectedPage [
 	" no button selected before, no button selected after "
 
-	| firstButton secondButton |
+	| firstButton secondButton clicked |
 	self withTwoTabButtons.
 	firstButton := tabPane items first.
+	clicked := false.
 	secondButton := tabPane items second.
 	firstButton removable: true.
 	secondButton removable: true.
+	tabPane forceLayout.
 	self waitTestingSpacesTimeout: 400 milliSeconds.
+	firstButton removeButton clickAction: [ :evt | clicked := true ].
 	BlSpace simulateMouseMoveInside: firstButton.
-	self waitTestingSpaces.
+	self waitTestingSpacesTimeout: 400 milliSeconds.
 	self deny: firstButton isSelected.
 	self deny: secondButton isSelected.
 	" after the click, the remove button should be visible "
+	BlSpace simulateMouseMoveInside: firstButton removeButton.
 	BlSpace simulateClickOn: firstButton removeButton.
 	self waitTestingSpacesTimeout: 400 milliSeconds.
+	self assert: clicked.
 	self assert: tabPane items size equals: 1.
 	self assert: tabPane items first identicalTo: secondButton.
 	self deny: secondButton isSelected.
@@ -272,7 +277,7 @@ ToTabPaneElementTest >> withTwoTabButtons [
 			 labelText: 'First';
 			 paneBuilder: [ :body :btn :node :holder |
 					 firstTabBuildCount := firstTabBuildCount + 1.
-					 tabPane addChild: (ToElement new
+					 body addChild: (ToElement new
 								  background: Color red;
 								  size: 20 asPoint;
 								  matchParent;
@@ -284,7 +289,7 @@ ToTabPaneElementTest >> withTwoTabButtons [
 			 labelText: 'Second';
 			 paneBuilder: [ :body :btn :node :holder |
 					 secondTabBuildCount := secondTabBuildCount + 1.
-					 tabPane addChild: (ToElement new
+					 body addChild: (ToElement new
 								  background: Color green;
 								  size: 30 asPoint;
 								  matchParent;

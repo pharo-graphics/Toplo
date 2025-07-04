@@ -1146,7 +1146,6 @@ ToSandBox class >> example_AnchorLayout5 [
 		        id: #blue;
 		        yourself.
 	blue background: Color blue.
-	blue size: 30 asPoint.
 	blue constraintsDo: [ :c |
 			c anchors add: (blue leftAnchor on: pane leftAnchor).
 			c anchors add: (blue topAnchor on: pane topAnchor).
@@ -1173,7 +1172,6 @@ ToSandBox class >> example_AnchorLayout6 [
 		        yourself.
 	blue layout: BlBasicLayout new.
 	blue background: Color blue.
-	blue size: 30 asPoint.
 	blue constraintsDo: [ :c |
 			c anchors add: (blue heightAnchor on: pane heightAnchor - 40).
 			c anchors add: (blue widthAnchor on: pane widthAnchor - 40).
@@ -1350,20 +1348,19 @@ ToSandBox class >> example_AnchorsAroundRectangle [
 	pane matchParent.
 	pane layout: ToAnchorLayout new.
 	pane border: Color red.
-	
-	pane padding: (BlInsets all: 10).
+
+	"pane padding: (BlInsets all: 10)."
 
 	blue := ToElement new
 		        id: #blue;
 		        yourself.
 	blue background: Color blue muchDarker darker.
-	blue size: 100 @ 50.
-	blue margin: (BlInsets horizontal: 40 vertical: 40).
+	"blue size: 100 @ 50."
+	"blue margin: (BlInsets horizontal: 40 vertical: 40)."
 	blue constraintsDo: [ :c |
 			c anchors add:
-				(blue verticalCenterAnchor on: pane verticalCenterAnchor).
-			c anchors add:
-				(blue horizontalCenterAnchor on: pane horizontalCenterAnchor) ].
+				(blue extentAnchor on: pane extentAnchor - 100 asPoint).
+			c anchors add: (blue centerAnchor on: pane centerAnchor) ].
 
 	pane addChild: blue.
 
@@ -1373,7 +1370,7 @@ ToSandBox class >> example_AnchorsAroundRectangle [
 				       id: degrees asString asSymbol;
 				       layout: BlFrameLayout new;
 				       yourself.
-			lab := (ToLabel text: degrees asString, '°')
+			lab := (ToLabel text: degrees asString , '°')
 				       foreground: Color white;
 				       withNullSkin;
 				       yourself.
@@ -1382,7 +1379,7 @@ ToSandBox class >> example_AnchorsAroundRectangle [
 					c frame vertical alignCenter ].
 			deg addChild: lab.
 			deg background: Color gray.
-			deg size: 24@22.
+			deg size: 24 @ 22.
 			deg constraintsDo: [ :c |
 					c anchors add:
 						(deg centerAnchor on: (blue perimeterAnchor degrees: degrees)) ].
@@ -2183,6 +2180,31 @@ ToSandBox class >> example_EditorWithoutSoftLine [
 	view withoutSoftLine.
 	view text: ((String loremIpsum: 10000) asRopedText fontName: 'Source Code Pro').
 	view openInSpace
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_ExtentAnchor [
+
+	| pane blue |
+	pane := ToElement new
+		        id: #pane;
+		        yourself.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+	pane padding: (BlInsets all: 20).
+
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue background: Color blue.
+	blue constraintsDo: [ :c |
+			c anchors add: (blue leftAnchor on: pane leftAnchor).
+			c anchors add: (blue topAnchor on: pane topAnchor).
+			c anchors add: (blue extentAnchor on: pane extentAnchor) ].
+	pane addChild: blue.
+
+	pane openInInnerWindow
 ]
 
 { #category : #list }

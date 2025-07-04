@@ -57,10 +57,7 @@ ToAnchorLayout >> layout: anElement in: aRectangle context: aBlElementBoundsUpda
 	"Layout non-ignoredByLayout children"
 
 	| availableBounds |
-	"super
-		layout: anElement
-		in: aRectangle
-		context: aBlElementBoundsUpdater."
+
 	availableBounds := anElement padding inset:
 		                   (0.0 @ 0.0 extent: anElement extent).
 	anElement children accountedByLayout do: [ :eachChild |
@@ -72,7 +69,8 @@ ToAnchorLayout >> layout: anElement in: aRectangle context: aBlElementBoundsUpda
 				context: aBlElementBoundsUpdater ].
 
 	"Layout ignoredByLayout children"
-	self layoutIgnored: anElement context: aBlElementBoundsUpdater
+	self layoutIgnored: anElement context: aBlElementBoundsUpdater.
+	super layout: anElement in: aRectangle context: aBlElementBoundsUpdater.
 ]
 
 { #category : #measure }
@@ -84,7 +82,9 @@ ToAnchorLayout >> measure: anElement with: anExtentSpec [
 	super measure: anElement with: anExtentSpec.
 	anElement children accountedByLayout do: [ :eachChild |
 			| boundsForChild availableBounds |
+
 			availableBounds := anElement padding inset: (0 @ 0 extent: extent).
+			
 			boundsForChild := self
 				                  measureInParent: anElement
 				                  forChild: eachChild

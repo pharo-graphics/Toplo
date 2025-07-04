@@ -193,6 +193,49 @@ ToAnchorTest >> testBottomRightAnchorOnChild [
 ]
 
 { #category : #tests }
+ToAnchorTest >> testExtentAnchorOnChild [
+	" return the height of a rectangle or create a rectangle with a height according to element margin "
+
+	| anchor |
+	child position: 110 @ 20.
+	child size: 100 @ 120.
+
+	anchor := ToElementExtentAnchor new
+		          element: child;
+		          yourself.
+
+	self waitTestingSpaces.
+
+	self
+		assert:
+		(anchor readRectangle:
+			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
+		equals: 0@0.
+	self
+		assert: (anchor readRectangle: child bounds asRectangle)
+		equals: 100@120.
+	" the result is the element bounds with an height of 10"
+	self
+		assert:
+		(anchor appliedOnRectangle: child bounds asRectangle withValue: 10@20)
+		equals: (110 @ 20 corner: 120 @ 40).
+
+	child margin: (BlInsets horizontal: 5 vertical: 10).
+	self
+		assert:
+		(anchor readRectangle:
+			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
+		equals: -5 @ -10.
+	self
+		assert: (anchor readRectangle: child bounds asRectangle)
+		equals: 95@110.
+	self
+		assert:
+		(anchor appliedOnRectangle: child bounds asRectangle withValue: 10@20)
+		equals: (110 @ 20 corner: 120 @ 40)
+]
+
+{ #category : #tests }
 ToAnchorTest >> testHeightAnchorOnChild [
 	" return the height of a rectangle or create a rectangle with a height according to element margin "
 

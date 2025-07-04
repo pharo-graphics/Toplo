@@ -247,6 +247,14 @@ BlElement >> ensuredToStyleStore [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> extentAnchor [
+
+	^ ToElementExtentAnchor new
+		  element: self;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
 BlElement >> firstInParentChainSatisfying: aValuable [
 	"Return the first parent for which the valuable answers true with one of my parent starting from myself "
 

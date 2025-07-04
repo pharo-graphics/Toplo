@@ -8,7 +8,7 @@ Class {
 ToElementWidthAnchor >> appliedOnRectangle: aRectangle withValue: aValue [ 
 
 	^ Rectangle
-		  origin: aRectangle origin x + element margin left @ aRectangle origin y
+		  origin: (aRectangle origin x + element margin left) @ (aRectangle origin y + element margin top)
 		  extent: aValue @ aRectangle height
 ]
 

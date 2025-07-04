@@ -1397,7 +1397,7 @@ ToSandBox class >> example_AnchorsAroundRoundRectangle [
 
 	| blue |
 	blue := self example_AnchorsAroundRectangle.
-	blue size: 100 @ 100.
+	blue size: 300 @ 100.
 	blue geometry: (BlRoundedRectangleGeometry cornerRadius: 30).
 
 ]
@@ -3714,6 +3714,35 @@ ToSandBox class >> example_RadioButtonWithIndeterminate [
 	but checked: #something. " any value except a boolean (and except nil) for indeterminate state "
 	but labelText: 'Radio'.
 	but openInSpace
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_RandomPositionOnLayoutWithActionAnchor [
+
+	| pane red |
+	pane := ToElement new.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+	"pane padding: (BlInsets all: 10)."
+
+	red := ToElement new
+		       id: #red;
+		       layout: BlFrameLayout new;
+		       yourself.
+	red background: Color red.
+	red size: 20 @ 20.
+	red constraintsDo: [ :c |
+			| rand |
+			rand := Random new.
+			c anchors add:
+				(red topLeftAnchor on: (red actionAnchor: [ :v :e |
+							  (rand nextIntegerBetween: 1 and: pane measuredWidth)
+							  @ (rand nextIntegerBetween: 1 and: pane measuredHeight) ])) ].
+
+	pane addChild: red.
+
+	pane openInInnerWindow
 ]
 
 { #category : #transitions }
@@ -6757,6 +6786,51 @@ ToSandBox class >> example_overlayWindow2 [
 		anchWin border: (BlBorder paint: Color black width: 2) ].
 	e openInInnerWindow.
 	(windowManager newWindowEvent: nil) popup
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_pointOnPerimeterAtRadians [
+
+	| view element count points angle polygon |
+	view := BlElement new.
+	view constraintsDo: [ :c |
+			c vertical matchParent.
+			c horizontal matchParent ].
+	view background: Color white.
+
+	"Créer un élément arrondi simple, sans marges"
+	element := ToElement new.
+	element geometry: (BlRoundedRectangleGeometry cornerRadius: 50).
+	element extent: 300 @ 100.
+	element position: 30 @ 30.
+	element background: Color lightGray.
+	view addChild: element.
+	view forceLayout.
+
+	"Calculer les points sur le périmètre"
+	count := 200.
+	points := (0 to: count - 1) collect: [ :i |
+			          angle := 2 * Float pi * i / count.
+			          element geometry
+				          pointOnPerimeterAtRadians: angle
+				          for: element ].
+
+	"Tracer une polyligne pour relier les points"
+	polygon := (BlPolygonGeometry vertices: points) asElement.
+	polygon border: Color red.
+	view addChild: polygon.
+
+	"Afficher les points en petits cercles"
+	points do: [ :pt |
+			| dot |
+			dot := BlElement new.
+			dot geometry: BlEllipseGeometry new.
+			dot extent: 2 @ 2.
+			dot position: pt - (1 @ 1).
+			dot background: Color blue.
+			view addChild: dot ].
+
+	view openInSpace
 ]
 
 { #category : #window }

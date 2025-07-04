@@ -1,6 +1,15 @@
 Extension { #name : #BlElement }
 
 { #category : #'*Toplo' }
+BlElement >> actionAnchor: aBlock [
+
+	^ ToActionAnchor new
+		  action: aBlock;
+		  baseAnchor: self nilAnchor;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
 BlElement >> addAllStamps: aCollectionOfSymbol [
 
 	self ensuredToStyleStore addAllStamps: aCollectionOfSymbol
@@ -499,6 +508,15 @@ BlElement >> lookupWritablePropertyNamed: aSymbol [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> neutralAnchor: aNeutralValue [
+
+	^ ToNeutralAnchor new
+		  element: self;
+		neutralValue: aNeutralValue;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
 BlElement >> newClosedEvent [
 
 	^ self closedEventClass new
@@ -554,6 +572,14 @@ BlElement >> nextConfigurationPass [
 BlElement >> nextConfigurationPass: aNumber [
 
 	self userData at: #nextConfigurationPass put: aNumber
+]
+
+{ #category : #'*Toplo' }
+BlElement >> nilAnchor [
+
+	^ ToNeutralAnchor new
+		  element: self;
+		  yourself
 ]
 
 { #category : #'*Toplo' }

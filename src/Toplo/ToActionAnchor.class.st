@@ -19,7 +19,7 @@ ToActionAnchor >> appliedOnRectangle: aRectangle withValue: aValue [
 
 	^ baseAnchor
 		  appliedOnRectangle: aRectangle
-		  withValue: (action value: aValue)
+		  withValue: (action cull: aValue cull: self element)
 ]
 
 { #category : #accessing }
@@ -35,7 +35,9 @@ ToActionAnchor >> element [
 ]
 
 { #category : #applying }
-ToActionAnchor >> readRectangle: aRectangle [ 
+ToActionAnchor >> readRectangle: aRectangle [
 
-	^ action value: (baseAnchor readRectangle: aRectangle )
+	^ action
+		  cull: (baseAnchor readRectangle: aRectangle)
+		  cull: self element
 ]

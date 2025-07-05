@@ -13,15 +13,15 @@ BlCircleGeometry >> pointOnPerimeterAtDegrees: aDegrees of: anElement [
 BlCircleGeometry >> pointOnPerimeterAtRadians: anAngle of: anElement [
 	" returns  the position (Point) on myself border at angle anAngle (en radians)"
 
-	| usedRadius usedRectangle |
-	usedRectangle := anElement margin expand: anElement measuredBounds asRectangle.
-	usedRadius := usedRectangle extent min / 2.0.
-	^ usedRadius * anAngle cos @ (usedRadius * anAngle sin)
+	^ radius * anAngle cos @ (radius * anAngle sin)
 ]
 
 { #category : #'*Toplo' }
 BlCircleGeometry >> pointOnPerimeterForAnchor: anAnchor inRectangle: aRectangle [
 	" returns  the position (Point) on myself border at angle anAngle (en radians)"
 
+	| adjustedRectangle |
+	adjustedRectangle := (anAnchor element margin expand: anAnchor element measuredBounds).
+	self matchExtent: adjustedRectangle extent.
 	^ (self pointOnPerimeterAtDegrees: anAnchor degrees - 90 of: anAnchor element) + aRectangle center
 ]

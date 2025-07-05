@@ -163,6 +163,12 @@ ToListSelectionWithElementOption >> removeSelectionContainer [
 ]
 
 { #category : #accessing }
+ToListSelectionWithElementOption >> selectionContainer [
+
+	^ selectionContainer
+]
+
+{ #category : #accessing }
 ToListSelectionWithElementOption >> selectionElements [
 
 	^ representation selectionElements

@@ -20,8 +20,9 @@ ToPropertyWriterTest >> testAnimation [
 { #category : #'test writing' }
 ToPropertyWriterTest >> testAnimationNeedPropertyWithReader [
 
-	| w prop propWriter anim wasHere |
+	| w prop propWriter anim onFinishedDone |
 	w := BlElement new.
+	w size: 100 asPoint.
 	w background: Color red.
 	space root addChild: w.
 	prop := ToPseudoProperty new.
@@ -31,26 +32,30 @@ ToPropertyWriterTest >> testAnimationNeedPropertyWithReader [
 	propWriter := ToPropertyWriter new.
 	propWriter property: prop.
 	propWriter value: Color blue.
-	propWriter animation:
-		(anim := ToPropertyColorTransitionAnimation new
-			         property: prop;
-			         duration: 50 milliSeconds).
+	anim := ToPropertyColorTransitionAnimation new
+		        property: prop;
+		        duration: 200 milliSeconds;
+		        yourself.
+	propWriter animation: anim.
 	self should: [ propWriter writeTo: w ] raise: MessageNotUnderstood.
 
 	"now setup a reader and it should be ok "
 	prop reader: [ :e | e background paint color ].
-	propWriter animation:
-		(anim := ToPropertyColorTransitionAnimation new property: prop).
-	wasHere := false.
+	anim := ToPropertyColorTransitionAnimation new
+		        property: prop;
+		        duration: 200 milliSeconds;
+		        yourself.
+	onFinishedDone := false.
 	anim onFinishedDo: [ :e |
-		wasHere := true.
-		self assert: (e background isKindOf: BlPaintBackground).
-		self assert: e background paint color equals: Color blue.
-		self assert: (prop read: e) equals: e background paint color ].
-
+			onFinishedDone := true.
+			self assert: (e background isKindOf: BlPaintBackground).
+			self assert: e background paint color equals: Color blue.
+			self assert: (prop read: e) equals: e background paint color ].
+	propWriter animation: anim.
 	propWriter writeTo: w.
-	self waitTestingSpaces.
-	self assert: wasHere
+
+	self waitTestingSpacesTimeout: 300 milliSeconds.
+	self assert: onFinishedDone
 ]
 
 { #category : #tests }

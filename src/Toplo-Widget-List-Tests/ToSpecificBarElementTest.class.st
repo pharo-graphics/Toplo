@@ -20,6 +20,8 @@ ToSpecificBarElementTest >> setUp [
 { #category : #tests }
 ToSpecificBarElementTest >> testDisabledWithFiveNodes [
 
+	l dataAccessor removeAll.
+	l removeFromParent.
 	l dataAccessor add: 'first'.
 	space root addChild: l.
 	l disabledSelecter selectIndex: 1.

@@ -1,11 +1,11 @@
 Class {
-	#name : #ToElementCenterAnchor,
+	#name : #ToElementTopRightAnchor,
 	#superclass : #ToElementLocationAnchor,
 	#category : #'Toplo-Support-Anchor'
 }
 
 { #category : #applying }
-ToElementCenterAnchor >> readRectangle: aRectangle [
+ToElementTopRightAnchor >> readRectangle: aRectangle [
 
-	^ aRectangle center
+	^ aRectangle topRight
 ]

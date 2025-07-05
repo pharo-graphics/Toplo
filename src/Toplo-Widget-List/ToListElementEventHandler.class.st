@@ -208,8 +208,6 @@ ToListElementEventHandler >> secondaryClickEvent: anEvent [
 ToListElementEventHandler >> showHidePlaceholderIn: aListElement [
 
 	aListElement dataAccessor ifEmpty: [ 
-		aListElement selectionModel deselectAll.
-		aListElement updateAllSelections.
 		^ aListElement showPlaceholder ].
 	aListElement hidePlaceholder
 ]

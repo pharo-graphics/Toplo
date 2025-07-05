@@ -7,12 +7,6 @@ Class {
 	#category : #'Toplo-Support-Anchor'
 }
 
-{ #category : #applying }
-ToElementAnchor >> appliedOnRectangle: aRectangle withValue: aValue [
-
-	^ self subclassResponsibility
-]
-
 { #category : #accessing }
 ToElementAnchor >> element [
 
@@ -23,13 +17,4 @@ ToElementAnchor >> element [
 ToElementAnchor >> element: anElement [
 
 	element := anElement
-]
-
-{ #category : #'instance creation' }
-ToElementAnchor >> on: anAnchor [
-
-	^ ToAnchorLayoutOperation new
-		  leftHandSideAnchor: self;
-		  rightHandSideAnchor: anAnchor;
-		  yourself
 ]

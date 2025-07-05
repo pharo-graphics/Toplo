@@ -12,6 +12,7 @@ ToMenuPlacement >> positionElement: aWindow onEvent: anEvent context: aBlElement
 	root := aWindow anchorRoot.
 	element := aWindow anchorElement.
 	rootMenuOrMenuPane := element rootMenuItemContainer.
+
 	pos := (element isSubmenu or: [
 		        rootMenuOrMenuPane notNil and: [
 			        rootMenuOrMenuPane isVertical ] ])

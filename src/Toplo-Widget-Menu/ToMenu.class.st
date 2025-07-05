@@ -18,6 +18,12 @@ Class {
 }
 
 { #category : #accessing }
+ToMenu >> anchorRoot: anElement [
+
+	self manager anchorRoot: anElement
+]
+
+{ #category : #accessing }
 ToMenu >> bar [
 
 	self

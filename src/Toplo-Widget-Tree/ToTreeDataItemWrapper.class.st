@@ -86,7 +86,7 @@ ToTreeDataItemWrapper >> childrenIntervalFromPosition: aPosition [
 ToTreeDataItemWrapper >> collapse [
 
 	| childrenInterval pos |
-	self isExpanded ifFalse: [ ^ self ].
+	isExpanded ifFalse: [ ^ self ].
 	isExpanded := false.
 	pos := self position.
 	childrenInterval := self childrenIntervalFromPosition: pos.
@@ -94,15 +94,8 @@ ToTreeDataItemWrapper >> collapse [
 	treeElement dataSource
 		removeFrom: childrenInterval first
 		to: childrenInterval last.
-	" the final step commands include selection updating command 
-			that are added when collapsing a tree node.
-			They are to be applied now, before the pattern is changed 
-			(and then, before the list is changed)"
-	treeElement consumeFinalStepCommands.
-	self updateTreeNodeAtPosition: pos.
-	treeElement dispatchEvent: (ToTreeDataItemWrapperCollapsedEvent new
-			 wrapper: self;
-			 yourself)
+
+	self notifyCollapsedAtPosition: pos
 ]
 
 { #category : #accessing }
@@ -127,7 +120,8 @@ ToTreeDataItemWrapper >> dataItemChildren [
 ToTreeDataItemWrapper >> expand [
 
 	| pos children |
-	self isExpanded ifTrue: [ ^ self ].
+	
+	isExpanded ifTrue: [ ^ self ].
 	self checkMaxDepth.
 
 	isExpanded := true.
@@ -138,11 +132,7 @@ ToTreeDataItemWrapper >> expand [
 		useParentWrapper: self
 		while: [ treeElement dataAccessor addAll: children afterIndex: pos ].
 
-	treeElement consumeFinalStepCommands.
-	self updateTreeNodeAtPosition: pos.
-	treeElement dispatchEvent: (ToTreeDataItemWrapperExpandedEvent new
-			 wrapper: self;
-			 yourself)
+	self notifyExpandedAtPosition: pos
 ]
 
 { #category : #'expanding-collapsing' }
@@ -153,12 +143,7 @@ ToTreeDataItemWrapper >> expandAll [
 	pos := self position.
 	c := self expandDeeplyIn: OrderedCollection new.
 	treeElement dataSource addAll: c afterIndex: pos.
-	treeElement consumeFinalStepCommands.
-	self updateTreeNodeAtPosition: pos.
-	treeElement dispatchEvent: (ToTreeDataItemWrapperExpandedEvent new
-			 wrapper: self;
-			 deeply: true;
-			 yourself)
+	self notifyExpandedAllAtPosition: pos
 ]
 
 { #category : #'expanding-collapsing' }
@@ -206,6 +191,13 @@ ToTreeDataItemWrapper >> hasParentWrapper: aDataItemWrapper [
 		  ifNotNil: [ parentWrapper hasParentWrapper: aDataItemWrapper ]
 ]
 
+{ #category : #initialization }
+ToTreeDataItemWrapper >> initialize [ 
+
+	super initialize.
+	isExpanded := false
+]
+
 { #category : #testing }
 ToTreeDataItemWrapper >> isCollapsed [
 
@@ -245,6 +237,52 @@ ToTreeDataItemWrapper >> nodeDepth [
 	^ parentWrapper
 		  ifNil: [ 0 ]
 		  ifNotNil: [ parentWrapper nodeDepth + 1 ]
+]
+
+{ #category : #'expanding-collapsing' }
+ToTreeDataItemWrapper >> notifyCollapsedAtPosition: aPosition [
+
+	" the final step commands include selection updating command 
+			that are added when collapsing a tree node.
+			They are to be applied now, before the pattern is changed 
+			(and then, before the list is changed)"
+
+	treeElement consumeFinalStepCommands.
+	self updateTreeNodeAtPosition: aPosition.	
+	treeElement dispatchEvent: (ToTreeDataItemWrapperCollapsedEvent new
+			 wrapper: self;
+			 yourself)
+]
+
+{ #category : #'expanding-collapsing' }
+ToTreeDataItemWrapper >> notifyExpandedAllAtPosition: aPosition [
+
+	" the final step commands include selection updating command 
+			that are added when collapsing a tree node.
+			They are to be applied now, before the pattern is changed 
+			(and then, before the list is changed)"
+
+	treeElement consumeFinalStepCommands.
+	self updateTreeNodeAtPosition: aPosition.
+	treeElement dispatchEvent: (ToTreeDataItemWrapperExpandedEvent new
+			 wrapper: self;
+			 deeply: true;
+			 yourself)
+]
+
+{ #category : #'expanding-collapsing' }
+ToTreeDataItemWrapper >> notifyExpandedAtPosition: aPosition [
+
+	" the final step commands include selection updating command 
+			that are added when collapsing a tree node.
+			They are to be applied now, before the pattern is changed 
+			(and then, before the list is changed)"
+
+	treeElement consumeFinalStepCommands.
+	self updateTreeNodeAtPosition: aPosition.	
+	treeElement dispatchEvent: (ToTreeDataItemWrapperExpandedEvent new
+			 wrapper: self;
+			 yourself)
 ]
 
 { #category : #accessing }
@@ -288,6 +326,19 @@ ToTreeDataItemWrapper >> treeElement: aTreeElement [
 	treeElement := aTreeElement 
 ]
 
+{ #category : #'private - accessing' }
+ToTreeDataItemWrapper >> treeNodeAtPosition: aPositionInDataSource [
+
+	^ treeElement nodesDetect: [ :node | node holder dataItem = self ]
+]
+
+{ #category : #'private - accessing' }
+ToTreeDataItemWrapper >> treeNodeAtPosition: aPositionInDataSource do: aValuable [
+
+	(self treeNodeAtPosition: aPositionInDataSource) ifNotNil: [ :tn |
+		aValuable value: tn ]
+]
+
 { #category : #accessing }
 ToTreeDataItemWrapper >> unwrapped [ 
 
@@ -297,10 +348,10 @@ ToTreeDataItemWrapper >> unwrapped [
 { #category : #'private - accessing' }
 ToTreeDataItemWrapper >> updateTreeNodeAtPosition: aPositionInDataSource [
 
-	(treeElement nodesDetect: [ :node | node holder dataItem = self ])
-		ifNotNil: [ :node |
+	self treeNodeAtPosition: aPositionInDataSource do: [ :node |
 			node requestNewSkin.
 			treeElement postponeAction: [
+				node holder allowSelectionNotification: true.
 				node holder notifySelectedWithOption: treeElement selectionOption ] ]
 ]
 

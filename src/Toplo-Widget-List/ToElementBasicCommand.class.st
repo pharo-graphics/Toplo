@@ -24,6 +24,12 @@ ToElementBasicCommand >> applyWithOperator: anOperator [
 	" ask the operator passed as argument to actually apply the command. "
 ]
 
+{ #category : #testing }
+ToElementBasicCommand >> isComposite [ 
+
+	^ false
+]
+
 { #category : #application }
 ToElementBasicCommand >> onAppliedOn: aCommandApplier [
 

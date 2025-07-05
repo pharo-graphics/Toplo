@@ -7,10 +7,18 @@ Class {
 { #category : #api }
 ToMenuMeasurement >> onMeasure: anExtentMeasurementSpec element: aWindow onEvent: anEvent [
 
-"	| w |
-	w := 0.
-	aWindow collectedNodesDo: [ :node | w := w max: node measuredWidth ].
-	aWindow measuredWidth - aWindow padding width < w ifFalse: [ ^ self ].
-	aWindow measuredExtent:
-		w + aWindow padding width @ aWindow measuredHeight"
+" if there is not enough place then turn as a scrollable menu container "
+
+	| height pos |
+	pos := aWindow measuredPosition.
+	height := aWindow padding height + aWindow margin height.
+	aWindow itemBar nodesDo: [ :node |
+		height := height + node measuredHeight ].
+	(aWindow anchorRoot height "- pos y") <= height
+		ifTrue: [
+			aWindow vMatchParent. "height: (aWindow anchorRoot height - pos y)."
+			aWindow isScrollable: true ]
+		ifFalse: [
+			aWindow vFitContent.
+			aWindow isScrollable: false ]
 ]

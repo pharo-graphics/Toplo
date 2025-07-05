@@ -316,6 +316,7 @@ ToListSelecter >> onSelectionCopyCommandApplied: aCommand [
 { #category : #'command application' }
 ToListSelecter >> onSelectionShiftCommandApplied: aCommand [
 
+	self onBasicCommandApplied: aCommand
 ]
 
 { #category : #'api - hooks' }
@@ -550,10 +551,10 @@ ToListSelecter >> selectionOption [
 { #category : #operations }
 ToListSelecter >> shiftSelection: anInteger from: anIndex [
 
-	| cmd |
+	| cmd  count interval |
 	cmd := ToListElementCompositeCommand new.
 	(anInteger < 0 and: [ self itemCount >= anIndex ]) ifTrue: [
-			| count interval |
+			
 			count := anInteger abs.
 			interval := anIndex to: anIndex + count - 1.
 			" run a remove selection command only if any of the removed interval is selected "

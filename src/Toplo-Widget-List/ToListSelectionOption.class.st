@@ -160,6 +160,13 @@ ToListSelectionOption >> requestNewRepresentation [
 ]
 
 { #category : #accessing }
+ToListSelectionOption >> selectionContainer [
+
+
+	^ representationOption selectionContainer
+]
+
+{ #category : #accessing }
 ToListSelectionOption >> selectionElements [
 
 	^ representationOption selectionElements

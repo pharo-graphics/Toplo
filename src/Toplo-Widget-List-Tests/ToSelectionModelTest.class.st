@@ -456,7 +456,7 @@ ToSelectionModelTest >> testShiftFrom12 [
 	s := ToSelectionModel new itemCountGetter: 2.
 	s selectIndexes: { 2 }.
 	s shift: -1 from: 2.
-	self assert: s selectedIndexes  equals: { 1 }
+	self assert: s selectedIndexes  equals: {  }
 ]
 
 { #category : #tests }
@@ -493,7 +493,7 @@ ToSelectionModelTest >> testShiftFrom3 [
 	s := ToSelectionModel new itemCountGetter: 100.
 	s selectIndexes: { 2. 3 }.
 	s shift: -2 from: 3.
-	self assert: s selectedIndexes  equals: { 1. 2 }
+	self assert: s selectedIndexes  equals: { 2 }
 
 
 

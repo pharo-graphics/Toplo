@@ -5,11 +5,9 @@ Class {
 }
 
 { #category : #applying }
-ToElementWidthAnchor >> appliedOnRectangle: aRectangle withValue: aValue [ 
+ToElementWidthAnchor >> appliedOnRectangle: aRectangle withValue: aValue [
 
-	^ Rectangle
-		  origin: aRectangle origin + element margin topLeft
-		  extent: aValue @ aRectangle height
+	^ Rectangle origin: aRectangle origin extent: aValue @ aRectangle height
 ]
 
 { #category : #testing }
@@ -21,5 +19,5 @@ ToElementWidthAnchor >> isMeasurement [
 { #category : #applying }
 ToElementWidthAnchor >> readRectangle: aRectangle [
 
-	^ aRectangle width + element margin width
+	^ aRectangle width
 ]

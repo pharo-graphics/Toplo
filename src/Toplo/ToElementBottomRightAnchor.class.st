@@ -7,5 +7,5 @@ Class {
 { #category : #applying }
 ToElementBottomRightAnchor >> readRectangle: aRectangle [
 
-	^ aRectangle bottomRight + (element margin right @ element margin bottom)
+	^ aRectangle bottomRight
 ]

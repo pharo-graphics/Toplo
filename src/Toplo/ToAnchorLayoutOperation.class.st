@@ -9,12 +9,11 @@ Class {
 }
 
 { #category : #layout }
-ToAnchorLayoutOperation >> appliedOnChildBounds: childBoundsRectangle withParent: anElement inAvailableRectangle: availableRectangle [
+ToAnchorLayoutOperation >> appliedOnChildBounds: childBoundsRectangle withParent: anElement [
 
 	| targetRectangle |
-	targetRectangle := anElement padding inset: (rightHandSideAnchor element measuredBounds
-		                    inParent: anElement).
-	
+	targetRectangle := (rightHandSideAnchor element measuredBounds
+		                    inParent: anElement) asRectangle.
 	^ leftHandSideAnchor
 		  appliedOnRectangle: childBoundsRectangle
 		  withValue: (rightHandSideAnchor readRectangle: targetRectangle)

@@ -17,16 +17,15 @@ ToAnchorLayoutConstraints >> add: anAnchorOperation [
 ]
 
 { #category : #layout }
-ToAnchorLayoutConstraints >> applyOperations: anOperationArray inParent: anElement forChild: aChild in: availableBounds [
+ToAnchorLayoutConstraints >> applyOperations: anOperationArray inParent: anElement forChild: aChild [
 
 	| bnds |
-	bnds := "aChild margin expand: "aChild measuredBounds asRectangle.
+	bnds := aChild measuredBounds asRectangle.
 	anOperationArray do: [ :op |
 			bnds := op
 				        appliedOnChildBounds: bnds
-				        withParent: anElement
-				        inAvailableRectangle: availableBounds ].
-	^ "aChild margin inset: "bnds
+				        withParent: anElement ].
+	^ bnds
 ]
 
 { #category : #initialization }
@@ -49,13 +48,12 @@ ToAnchorLayoutConstraints >> initialize [
 ]
 
 { #category : #layout }
-ToAnchorLayoutConstraints >> measureInParent: anElement forChild: aChild in: availableBounds [
+ToAnchorLayoutConstraints >> measureInParent: anElement forChild: aChild [
 
 	^ self
 		  applyOperations: self measurementOperations
 		  inParent: anElement
 		  forChild: aChild
-		  in: availableBounds
 ]
 
 { #category : #layout }
@@ -65,13 +63,12 @@ ToAnchorLayoutConstraints >> measurementOperations [
 ]
 
 { #category : #layout }
-ToAnchorLayoutConstraints >> positionInParent: anElement forChild: aChild in: availableBounds [
+ToAnchorLayoutConstraints >> positionInParent: anElement forChild: aChild [
 
 	^ self
 		  applyOperations: self positionOperations
 		  inParent: anElement
 		  forChild: aChild
-		  in: availableBounds
 ]
 
 { #category : #layout }

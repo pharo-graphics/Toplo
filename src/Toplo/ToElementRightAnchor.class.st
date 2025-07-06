@@ -18,5 +18,5 @@ ToElementRightAnchor >> appliedOnRectangle: aRectangle withValue: aValue [
 { #category : #applying }
 ToElementRightAnchor >> readRectangle: aRectangle [ 
 
-	^ aRectangle right + element margin right
+	^ aRectangle right
 ]

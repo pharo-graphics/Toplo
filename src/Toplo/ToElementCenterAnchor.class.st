@@ -7,5 +7,5 @@ Class {
 { #category : #applying }
 ToElementCenterAnchor >> readRectangle: aRectangle [
 
-	^ aRectangle center + element margin topLeft - element margin bottomRight
+	^ aRectangle center
 ]

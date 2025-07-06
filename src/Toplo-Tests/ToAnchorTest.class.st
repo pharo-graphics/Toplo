@@ -89,20 +89,6 @@ ToAnchorTest >> testBottomAnchorOnChild [
 	self
 		assert:
 		(anchor appliedOnRectangle: child bounds asRectangle withValue: 10)
-		equals: (10 @ -110 corner: 110 @ 10).
-
-	child margin: (BlInsets horizontal: 5 vertical: 10).
-	self
-		assert:
-		(anchor readRectangle:
-			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
-		equals: 10.
-	self
-		assert: (anchor readRectangle: child bounds asRectangle)
-		equals: 150.
-	self
-		assert:
-		(anchor appliedOnRectangle: child bounds asRectangle withValue: 10)
 		equals: (10 @ -110 corner: 110 @ 10)
 ]
 

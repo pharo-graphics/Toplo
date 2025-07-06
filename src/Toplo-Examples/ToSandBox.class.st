@@ -870,7 +870,7 @@ ToSandBox class >> example_AnchorBottomOnParentBottom [
 		        id: #blue;
 		        yourself.
 	blue background: Color blue.
-	"blue margin: (BlInsets all: 10)."
+	blue margin: (BlInsets all: 10).
 	blue size: 40 asPoint.
 	blue constraintsDo: [ :c |
 		c anchors add: (blue bottomAnchor on: pane bottomAnchor) ].
@@ -949,11 +949,11 @@ ToSandBox class >> example_AnchorLayout1 [
 		        id: #blue;
 		        yourself.
 	blue background: Color blue.
+	blue border: Color black.
 	blue margin: (BlInsets all: 10).
-	blue size: 40 asPoint.
 	blue constraintsDo: [ :c |
-			"c anchors add: (blue rightAnchor on: pane rightAnchor).
-			c anchors add: (blue bottomAnchor on: pane bottomAnchor)."
+			c anchors add: (blue rightAnchor on: pane rightAnchor).
+			c anchors add: (blue bottomAnchor on: pane bottomAnchor).
 			c anchors add: (blue heightAnchor on: pane heightAnchor).
 			c anchors add: (blue widthAnchor on: pane widthAnchor).
 			].
@@ -1186,9 +1186,9 @@ ToSandBox class >> example_AnchorLayout3 [
 		        yourself.
 	blue background: Color blue muchDarker darker.
 	blue size: 100 asPoint.
-	"blue margin: (BlInsets all: 10)."
+	blue margin: (BlInsets all: 10).
 	blue constraintsDo: [ :c |
-		c anchors add: (blue centerAnchor on: (pane centerAnchor "+ 40 asPoint")) ].
+		c anchors add: (blue centerAnchor on: (pane centerAnchor )) ].
 
 	pane addChild: blue.
 
@@ -1203,7 +1203,7 @@ ToSandBox class >> example_AnchorLayout4 [
 	pane matchParent.
 	pane layout: ToAnchorLayout new.
 	pane border: Color red.
-	pane padding: (BlInsets all: 10).
+	"pane padding: (BlInsets all: 10)."
 	blue := ToElement new
 		        id: #blue;
 		        yourself.
@@ -1213,6 +1213,7 @@ ToSandBox class >> example_AnchorLayout4 [
 	blue constraintsDo: [ :c |
 			c anchors add: (blue rightAnchor on: pane rightAnchor).
 			c anchors add: (blue topAnchor on: pane topAnchor).
+			c anchors add: (blue heightAnchor on: pane heightAnchor).
 			c anchors add: (blue heightAnchor on: pane heightAnchor) ].
 	pane addChild: blue.
 

@@ -54,17 +54,12 @@ ToAnchorLayout class >> constraints [
 
 { #category : #layout }
 ToAnchorLayout >> layout: anElement in: aRectangle context: aBlElementBoundsUpdater [
-	"Layout non-ignoredByLayout children"
 
-	| availableBounds |
-	availableBounds := anElement padding
-		inset: (0.0 @ 0.0 extent: anElement extent).
 	anElement children accountedByLayout do: [ :eachChild |
 			eachChild
 				applyLayoutIn: (self
 						 positionInParent: anElement
-						 forChild: eachChild
-						 in: availableBounds)
+						 forChild: eachChild)
 				context: aBlElementBoundsUpdater ].
 			
 	self layoutIgnored: anElement context: aBlElementBoundsUpdater
@@ -73,18 +68,14 @@ ToAnchorLayout >> layout: anElement in: aRectangle context: aBlElementBoundsUpda
 { #category : #measure }
 ToAnchorLayout >> measure: anElement with: anExtentSpec [
 
-	| extent availableBounds |
-
+	| extent |
 	super measure: anElement with: anExtentSpec.
 	extent := anElement measuredExtent.
-	availableBounds := anElement padding inset: (0 @ 0 extent: extent).
 	anElement children accountedByLayout do: [ :eachChild |
-			| boundsForChild  |
-
+			| boundsForChild |
 			boundsForChild := self
 				                  measureInParent: anElement
-				                  forChild: eachChild
-				                  in: availableBounds.
+				                  forChild: eachChild.
 
 			eachChild measure: (BlExtentMeasurementSpec
 					 widthSpec: (self
@@ -95,24 +86,22 @@ ToAnchorLayout >> measure: anElement with: anExtentSpec [
 							  measurementSpecFor: anExtentSpec heightSpec
 							  usedSize: extent y - boundsForChild height
 							  resizer: (BlLayoutResizer exact: boundsForChild height))) ].
-		
+
 	self measureIgnored: anElement with: anExtentSpec
 ]
 
 { #category : #layout }
-ToAnchorLayout >> measureInParent: anElement forChild: aChild in: availableBounds [
+ToAnchorLayout >> measureInParent: anElement forChild: aChild [ 
 
 	^ aChild constraints anchors
 		  measureInParent: anElement
 		  forChild: aChild
-		  in: availableBounds
 ]
 
 { #category : #layout }
-ToAnchorLayout >> positionInParent: anElement forChild: aChild in: availableBounds [
+ToAnchorLayout >> positionInParent: anElement forChild: aChild [
 
 	^ aChild constraints anchors
 		  positionInParent: anElement
 		  forChild: aChild
-		  in: availableBounds
 ]

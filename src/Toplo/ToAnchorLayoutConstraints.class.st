@@ -20,13 +20,13 @@ ToAnchorLayoutConstraints >> add: anAnchorOperation [
 ToAnchorLayoutConstraints >> applyOperations: anOperationArray inParent: anElement forChild: aChild in: availableBounds [
 
 	| bnds |
-	bnds := aChild margin expand: aChild measuredBounds asRectangle.
+	bnds := "aChild margin expand: "aChild measuredBounds asRectangle.
 	anOperationArray do: [ :op |
 			bnds := op
 				        appliedOnChildBounds: bnds
 				        withParent: anElement
 				        inAvailableRectangle: availableBounds ].
-	^ aChild margin inset: bnds
+	^ "aChild margin inset: "bnds
 ]
 
 { #category : #initialization }

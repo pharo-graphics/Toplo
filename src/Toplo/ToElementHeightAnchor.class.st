@@ -8,7 +8,7 @@ Class {
 ToElementHeightAnchor >> appliedOnRectangle: aRectangle withValue: aValue [
 
 	^ Rectangle
-		  origin: (aRectangle origin x + element margin left) @ (aRectangle origin y + element margin top)
+		  origin: aRectangle origin + element margin topLeft + element margin bottomRight
 		  extent: aRectangle width @ aValue
 ]
 
@@ -21,5 +21,5 @@ ToElementHeightAnchor >> isMeasurement [
 { #category : #applying }
 ToElementHeightAnchor >> readRectangle: aRectangle [ 
 
-	^ aRectangle height - element margin height
+	^ aRectangle height + element margin height
 ]

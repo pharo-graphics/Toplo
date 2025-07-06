@@ -5,9 +5,14 @@ Class {
 }
 
 { #category : #applying }
-ToElementBottomAnchor >> appliedOnRectangle: aRectangle withValue: aValue [
+ToElementBottomAnchor >> appliedOnRectangle: aRectangle withValue: aValue [ 
 
-	^ aRectangle translateBy: 0 @ (aValue - aRectangle bottom)
+	| x y |
+	y := aValue - (self readRectangle: aRectangle).
+	x := aRectangle left.
+	^ Rectangle
+		  origin: x @ y
+		  corner: (x + aRectangle width) @ (y + aRectangle height)
 ]
 
 { #category : #applying }

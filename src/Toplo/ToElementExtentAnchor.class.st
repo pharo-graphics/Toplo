@@ -21,5 +21,5 @@ ToElementExtentAnchor >> isMeasurement [
 { #category : #applying }
 ToElementExtentAnchor >> readRectangle: aRectangle [
 
-	^ aRectangle extent
+	^ aRectangle extent - element margin bottomRight + element margin topLeft
 ]

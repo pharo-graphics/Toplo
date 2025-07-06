@@ -7,5 +7,5 @@ Class {
 { #category : #applying }
 ToElementTopRightAnchor >> readRectangle: aRectangle [
 
-	^ aRectangle topRight
+	^ aRectangle topRight + (element margin right @ element margin top negated)
 ]

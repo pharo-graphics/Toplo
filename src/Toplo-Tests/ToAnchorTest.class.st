@@ -88,7 +88,7 @@ ToAnchorTest >> testBottomAnchorOnChild [
 	" the result is the element bounds with an height of 10"
 	self
 		assert:
-		(anchor appliedOnRectangle: child bounds asRectangle withValue: 10)
+		(anchor appliedOnRectangle: (Rectangle origin: 0 asPoint corner: 0 asPoint) withValue: 10)
 		equals: (10 @ -110 corner: 110 @ 10)
 ]
 

@@ -12,7 +12,7 @@ ToElementBottomAnchor >> appliedOnRectangle: aRectangle withValue: aValue [
 	x := aRectangle left.
 	^ Rectangle
 		  origin: x @ y
-		  extent: aRectangle extent
+		  corner: (x + aRectangle width) @ (y + aRectangle height)
 ]
 
 { #category : #applying }

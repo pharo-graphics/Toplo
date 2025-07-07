@@ -42,7 +42,7 @@ Example:
 "
 Class {
 	#name : #ToAnchorLayout,
-	#superclass : #BlLayout,
+	#superclass : #BlBasicLayout,
 	#category : #'Toplo-Support-Anchor'
 }
 
@@ -55,6 +55,7 @@ ToAnchorLayout class >> constraints [
 { #category : #layout }
 ToAnchorLayout >> layout: anElement in: aRectangle context: aBlElementBoundsUpdater [
 
+	super layout: anElement in: aRectangle context: aBlElementBoundsUpdater.
 	anElement children accountedByLayout do: [ :eachChild |
 			eachChild
 				applyLayoutIn: (self

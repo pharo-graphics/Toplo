@@ -20,7 +20,7 @@ ToElementPointAnchor >> point: aPoint [
 ]
 
 { #category : #applying }
-ToElementPointAnchor >> readRectangle: aRectangle [
+ToElementPointAnchor >> valueInBounds: aBounds [
 
-	^ aRectangle topLeft + point
+	^ aBounds topLeft + point
 ]

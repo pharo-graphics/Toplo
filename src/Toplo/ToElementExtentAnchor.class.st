@@ -17,7 +17,7 @@ ToElementExtentAnchor >> isMeasurement [
 ]
 
 { #category : #applying }
-ToElementExtentAnchor >> readRectangle: aRectangle [
+ToElementExtentAnchor >> valueInBounds: aBounds [
 
-	^ aRectangle extent 
+	^ aBounds extent
 ]

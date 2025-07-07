@@ -26,7 +26,7 @@ ToNeutralAnchor >> neutralValue: anObject [
 ]
 
 { #category : #applying }
-ToNeutralAnchor >> readRectangle: aRectangle [
+ToNeutralAnchor >> valueInBounds: aBounds [
 
 	^ neutralValue
 ]

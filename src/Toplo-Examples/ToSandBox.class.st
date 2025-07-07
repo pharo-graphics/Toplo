@@ -1719,7 +1719,7 @@ ToSandBox class >> example_CenterLayout [
 	pink background: Color pink.
 	pink size: 100 asPoint.
 	pink constraintsDo: [ :c |
-			c anchors add: (pink topLeftAnchor on: (blue centerAnchor - 50 asPoint)) ].
+			c anchors add: (pink centerAnchor on: (blue centerAnchor)) ].
 	blue addChild: pink.
 
 	
@@ -1740,8 +1740,8 @@ ToSandBox class >> example_CenterLayout [
 	green size: 10 @ 10.
 
 	green constraintsDo: [ :c |
-			c anchors add: (green topAnchor on: blue topAnchor).
-			c anchors add: (green heightAnchor on: blue heightAnchor).
+			c anchors add: (green topAnchor on: red topAnchor).
+			c anchors add: (green heightAnchor on: pink heightAnchor).
 			c anchors add: (green rightAnchor on: blue leftAnchor) ].
 	pane addChild: green.
 

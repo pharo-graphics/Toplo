@@ -35,9 +35,7 @@ ToActionAnchor >> element [
 ]
 
 { #category : #applying }
-ToActionAnchor >> readRectangle: aRectangle [
+ToActionAnchor >> valueInBounds: aBounds [
 
-	^ action
-		  cull: (baseAnchor readRectangle: aRectangle)
-		  cull: self element
+	^ action cull: (baseAnchor valueInBounds: aBounds) cull: self element
 ]

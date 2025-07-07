@@ -11,12 +11,9 @@ Class {
 { #category : #layout }
 ToAnchorLayoutOperation >> appliedOnChildBounds: childBoundsRectangle withParent: anElement [
 
-	| targetRectangle |
-	targetRectangle := (rightHandSideAnchor element measuredBounds
-		                    inParent: anElement) asRectangle.
-	^ leftHandSideAnchor
+	^ anElement globalBoundsToLocal: (leftHandSideAnchor
 		  appliedOnRectangle: childBoundsRectangle
-		  withValue: (rightHandSideAnchor readRectangle: targetRectangle)
+		  withValue: (rightHandSideAnchor valueInParent: anElement))
 ]
 
 { #category : #accessing }

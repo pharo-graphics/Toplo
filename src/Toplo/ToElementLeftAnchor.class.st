@@ -8,7 +8,7 @@ Class {
 ToElementLeftAnchor >> appliedOnRectangle: aRectangle withValue: aValue [ 
 
 	| x y |
-	x := aValue - (self readRectangle: aRectangle).
+	x := aValue - (self valueInBounds: aRectangle).
 	y := aRectangle top.
 	^ Rectangle
 		  origin: x @ y
@@ -16,7 +16,7 @@ ToElementLeftAnchor >> appliedOnRectangle: aRectangle withValue: aValue [
 ]
 
 { #category : #applying }
-ToElementLeftAnchor >> readRectangle: aRectangle [
+ToElementLeftAnchor >> valueInBounds: aBounds [
 
-	^ aRectangle left 
+	^ aBounds left
 ]

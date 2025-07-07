@@ -8,7 +8,7 @@ Class {
 ToElementLocationAnchor >> appliedOnRectangle: aRectangle withValue: aValue [ 
 
 	| w h x1 y1 pt |
-	pt := self readRectangle: aRectangle.
+	pt := self valueInBounds: aRectangle.
 	w := pt x.
 	h := pt y.
 	x1 := aValue x - w.

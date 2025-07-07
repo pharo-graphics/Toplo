@@ -17,7 +17,7 @@ ToElementHeightAnchor >> isMeasurement [
 ]
 
 { #category : #applying }
-ToElementHeightAnchor >> readRectangle: aRectangle [ 
+ToElementHeightAnchor >> valueInBounds: aBounds [
 
-	^ aRectangle height
+	^ aBounds height
 ]

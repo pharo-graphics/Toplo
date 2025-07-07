@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #applying }
-ToElementBottomLeftAnchor >> readRectangle: aRectangle [
+ToElementBottomLeftAnchor >> valueInBounds: aBounds [
 
-	^ aRectangle bottomLeft
+	^ aBounds bottomLeft
 ]

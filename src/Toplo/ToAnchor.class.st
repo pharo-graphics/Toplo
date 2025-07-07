@@ -86,13 +86,13 @@ cannot have both. But some combination of them could still be used. "
 ]
 
 { #category : #arithmetic }
-ToAnchor >> * aNumber [
+ToAnchor >> * aValuable [
 	"answer a new anchor, which is a combination of receiver, offset by some value.
 	a value could in own turn be anchor "
 
 	^ ToActionAnchor new
 		  baseAnchor: self;
-		  action: [ :value | value * aNumber ]
+		  action: [ :value | value * aValuable value ]
 ]
 
 { #category : #arithmetic }

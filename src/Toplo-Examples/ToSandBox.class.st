@@ -1499,6 +1499,54 @@ ToSandBox class >> example_AnchorTopOnParentTop [
 ]
 
 { #category : #anchors }
+ToSandBox class >> example_AnchorWithPointTransition [
+
+	| pane blue red count |
+	pane := ToElement new
+		        id: #pane;
+		        yourself.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue background: Color blue.
+	blue border: Color black.
+	blue size: 20 asPoint.
+	blue position: 50 asPoint.
+	pane addChild: blue.
+
+	red := ToElement new
+		           id: #red;
+		           yourself.
+	red background: Color red.
+	red size: 20 asPoint.
+	count := 0.
+	red constraintsDo: [ :c |
+			c anchors add:
+				(red bottomRightAnchor on: blue topLeftAnchor - [
+						 count := count + 1.
+						 count \\ 40 = 0
+							 ifTrue: [ 3 ]
+							 ifFalse: [ count \\ 40 ] ]) ].
+	pane addChild: red.
+
+	red enqueueTask: (BlTaskAction new action: [
+				 | anim |
+				 anim := ToPointTransition new.
+				 anim from: 50 asPoint.
+				 anim to: 500 @ 500.
+				 anim duration: 10 seconds.
+				 anim onStepDo: [ :aPosition :target | target position: aPosition ].
+				 anim delay: 400 milliSeconds.
+				 blue addAnimation: anim ]).
+
+	pane openInSpace
+]
+
+{ #category : #anchors }
 ToSandBox class >> example_AnchorsAroundCircle [
 
 	| blue |

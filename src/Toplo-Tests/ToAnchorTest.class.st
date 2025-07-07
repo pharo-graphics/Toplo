@@ -34,11 +34,11 @@ ToAnchorTest >> testActionAnchorOnChild [
 
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: 10 @ 20.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: 10 @ 20.
 	" the result is the element bounds with an height of 10"
 	self
@@ -51,11 +51,11 @@ ToAnchorTest >> testActionAnchorOnChild [
 	self waitTestingSpaces.
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: 0@0.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: 0 @ 0.
 	self
 		assert:
@@ -79,30 +79,16 @@ ToAnchorTest >> testBottomAnchorOnChild [
 
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: 0.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: 140.
 	" the result is the element bounds with an height of 10"
 	self
 		assert:
-		(anchor appliedOnRectangle: child bounds asRectangle withValue: 10)
-		equals: (10 @ -110 corner: 110 @ 10).
-
-	child margin: (BlInsets horizontal: 5 vertical: 10).
-	self
-		assert:
-		(anchor readRectangle:
-			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
-		equals: 10.
-	self
-		assert: (anchor readRectangle: child bounds asRectangle)
-		equals: 150.
-	self
-		assert:
-		(anchor appliedOnRectangle: child bounds asRectangle withValue: 10)
+		(anchor appliedOnRectangle: (Rectangle origin: 0 asPoint corner: 0 asPoint) withValue: 10)
 		equals: (10 @ -110 corner: 110 @ 10)
 ]
 
@@ -122,11 +108,11 @@ ToAnchorTest >> testBottomLeftAnchorOnChild [
 
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: 0@0.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: 110@140.
 	" the result is the element bounds with an height of 10"
 	self
@@ -137,11 +123,11 @@ ToAnchorTest >> testBottomLeftAnchorOnChild [
 	child margin: (BlInsets horizontal: 5 vertical: 10).
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: 0@0.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: 110@140.
 	self
 		assert:
@@ -165,11 +151,11 @@ ToAnchorTest >> testBottomRightAnchorOnChild [
 
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: 0@0.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: 210@140.
 	" the result is the element bounds with an height of 10"
 	self
@@ -180,11 +166,11 @@ ToAnchorTest >> testBottomRightAnchorOnChild [
 	child margin: (BlInsets horizontal: 5 vertical: 10).
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: 0@0.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: 210@140.
 	self
 		assert:
@@ -208,11 +194,11 @@ ToAnchorTest >> testExtentAnchorOnChild [
 
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: 0@0.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: 100@120.
 	" the result is the element bounds with an height of 10"
 	self
@@ -223,11 +209,11 @@ ToAnchorTest >> testExtentAnchorOnChild [
 	child margin: (BlInsets horizontal: 5 vertical: 10).
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: 0 @ 0.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: 100@120.
 	self
 		assert:
@@ -251,11 +237,11 @@ ToAnchorTest >> testHeightAnchorOnChild [
 
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: 0.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: 120.
 	" the result is the element bounds with an height of 10"
 	self
@@ -266,11 +252,11 @@ ToAnchorTest >> testHeightAnchorOnChild [
 	child margin: (BlInsets horizontal: 5 vertical: 10).
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: -20.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: 100.
 	self
 		assert:
@@ -294,11 +280,11 @@ ToAnchorTest >> testHorizontalCenterAnchorOnChild [
 
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: 0.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: 60.
 	" the result is the element bounds with an height of 10"
 	self
@@ -309,11 +295,11 @@ ToAnchorTest >> testHorizontalCenterAnchorOnChild [
 	child margin: (BlInsets horizontal: 5 vertical: 10).
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: 0.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: 60.
 	self
 		assert:
@@ -337,11 +323,11 @@ ToAnchorTest >> testLeftAnchorOnChild [
 
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: 0.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: 10.
 	" the result is the element bounds with an height of 10"
 	self
@@ -352,11 +338,11 @@ ToAnchorTest >> testLeftAnchorOnChild [
 	child margin: (BlInsets horizontal: 5 vertical: 10).
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: -5.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: 5.
 	self
 		assert:
@@ -377,11 +363,11 @@ ToAnchorTest >> testNeutralAnchorOnChild [
 
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: 0.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: 0.
 	" the result is the element bounds with an height of 10"
 	self
@@ -394,11 +380,11 @@ ToAnchorTest >> testNeutralAnchorOnChild [
 	self waitTestingSpaces.
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: 0.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: 0.
 	self
 		assert:
@@ -419,11 +405,11 @@ ToAnchorTest >> testNilAnchorOnChild [
 
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: nil.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: nil.
 	" the result is the element bounds with an height of 10"
 	self
@@ -436,11 +422,11 @@ ToAnchorTest >> testNilAnchorOnChild [
 	self waitTestingSpaces.
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: nil.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: nil.
 	self
 		assert:
@@ -464,11 +450,11 @@ ToAnchorTest >> testRightAnchorOnChild [
 
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: 0.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: 210.
 	" the result is the element bounds with an height of 10"
 	self
@@ -479,11 +465,11 @@ ToAnchorTest >> testRightAnchorOnChild [
 	child margin: (BlInsets horizontal: 5 vertical: 10).
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: 5.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: 215.
 	self
 		assert:
@@ -507,11 +493,11 @@ ToAnchorTest >> testTopAnchorOnChild [
 
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: 0.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: 20.
 	" the result is the element bounds with an height of 10"
 	self
@@ -522,11 +508,11 @@ ToAnchorTest >> testTopAnchorOnChild [
 	child margin: (BlInsets horizontal: 5 vertical: 10).
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: -10.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: 10.
 	self
 		assert:
@@ -550,11 +536,11 @@ ToAnchorTest >> testTopLeftAnchorOnChild [
 
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: 0@0.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: 110@20.
 	" the result is the element bounds with an height of 10"
 	self
@@ -565,11 +551,11 @@ ToAnchorTest >> testTopLeftAnchorOnChild [
 	child margin: (BlInsets horizontal: 5 vertical: 10).
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: 0@0.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: 110@20.
 	self
 		assert:
@@ -593,11 +579,11 @@ ToAnchorTest >> testTopRightAnchorOnChild [
 
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: 0@0.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: 210@20.
 	" the result is the element bounds with an height of 10"
 	self
@@ -608,11 +594,11 @@ ToAnchorTest >> testTopRightAnchorOnChild [
 	child margin: (BlInsets horizontal: 5 vertical: 10).
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: 0@0.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: 210@20.
 	self
 		assert:
@@ -636,11 +622,11 @@ ToAnchorTest >> testVerticalCenterAnchorOnChild [
 
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: 0.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: 80.
 	" the result is the element bounds with an height of 10"
 	self
@@ -651,11 +637,11 @@ ToAnchorTest >> testVerticalCenterAnchorOnChild [
 	child margin: (BlInsets horizontal: 5 vertical: 10).
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: 0.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: 80.
 	self
 		assert:
@@ -679,11 +665,11 @@ ToAnchorTest >> testWidthAnchorOnChild [
 
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: 0.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: 100.
 	" the result is the element bounds with an height of 10"
 	self
@@ -695,11 +681,11 @@ ToAnchorTest >> testWidthAnchorOnChild [
 
 	self
 		assert:
-		(anchor readRectangle:
+		(anchor valueInBounds:
 			 (Rectangle origin: 0 asPoint corner: 0 asPoint))
 		equals: -10.
 	self
-		assert: (anchor readRectangle: child bounds asRectangle)
+		assert: (anchor valueInBounds: child bounds asRectangle)
 		equals: 90.
 	self
 		assert:

@@ -16,7 +16,7 @@ ToElementVerticalCenterAnchor >> appliedOnRectangle: aRectangle withValue: aValu
 ]
 
 { #category : #applying }
-ToElementVerticalCenterAnchor >> readRectangle: aRectangle [ 
+ToElementVerticalCenterAnchor >> valueInBounds: aBounds [
 
-	^ aRectangle center y
+	^ aBounds center y
 ]

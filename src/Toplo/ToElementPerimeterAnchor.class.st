@@ -16,7 +16,7 @@ ToElementPerimeterAnchor >> degrees [
 { #category : #accessing }
 ToElementPerimeterAnchor >> degrees: anAngleInDegrees [
 
-	radians := anAngleInDegrees * Float pi / 180
+	radians := anAngleInDegrees degreesToRadians 
 ]
 
 { #category : #accessing }
@@ -32,9 +32,9 @@ ToElementPerimeterAnchor >> radians: anAngleInRadians [
 ]
 
 { #category : #applying }
-ToElementPerimeterAnchor >> readRectangle: aRectangle [
+ToElementPerimeterAnchor >> valueInBounds: aBounds [
 
 	^ self element geometry
 		  pointOnPerimeterForAnchor: self
-		  inRectangle: aRectangle
+		  inRectangle: aBounds
 ]

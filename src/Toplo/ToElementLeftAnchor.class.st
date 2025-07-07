@@ -7,11 +7,16 @@ Class {
 { #category : #applying }
 ToElementLeftAnchor >> appliedOnRectangle: aRectangle withValue: aValue [ 
 
-	^ aRectangle translateBy: aValue - aRectangle left @ 0
+	| x y |
+	x := aValue - (self valueInBounds: aRectangle).
+	y := aRectangle top.
+	^ Rectangle
+		  origin: x @ y
+		  corner: (x + aRectangle width) @ (y + aRectangle height)
 ]
 
 { #category : #applying }
-ToElementLeftAnchor >> readRectangle: aRectangle [
+ToElementLeftAnchor >> valueInBounds: aBounds [
 
-	^ aRectangle left - element margin left
+	^ aBounds left
 ]

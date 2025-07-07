@@ -153,7 +153,13 @@ ToAnchor >> on: anAnchor [
 ]
 
 { #category : #applying }
-ToAnchor >> readRectangle: aRectangle [
+ToAnchor >> valueInBounds: aBounds [
 
-	^ self subclassResponsibility 
+	^ self subclassResponsibility
+]
+
+{ #category : #applying }
+ToAnchor >> valueInParent: aParent [
+
+	^ self valueInBounds: (self element measuredBounds inParent: aParent)
 ]

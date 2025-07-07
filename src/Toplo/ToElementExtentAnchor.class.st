@@ -1,15 +1,13 @@
 Class {
 	#name : #ToElementExtentAnchor,
-	#superclass : #ToElementLocationAnchor,
+	#superclass : #ToElementAnchor,
 	#category : #'Toplo-Support-Anchor'
 }
 
 { #category : #applying }
-ToElementExtentAnchor >> appliedOnRectangle: aRectangle withValue: aValue [ 
+ToElementExtentAnchor >> appliedOnRectangle: aRectangle withValue: aValue [
 
-	^ Rectangle
-		  origin: aRectangle origin
-		  extent: aValue 
+	^ Rectangle origin: aRectangle origin extent: aValue
 ]
 
 { #category : #testing }
@@ -19,7 +17,7 @@ ToElementExtentAnchor >> isMeasurement [
 ]
 
 { #category : #applying }
-ToElementExtentAnchor >> readRectangle: aRectangle [
+ToElementExtentAnchor >> valueInBounds: aBounds [
 
-	^ aRectangle extent
+	^ aBounds extent
 ]

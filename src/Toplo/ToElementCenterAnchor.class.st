@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #applying }
-ToElementCenterAnchor >> readRectangle: aRectangle [
+ToElementCenterAnchor >> valueInBounds: aBounds [
 
-	^ aRectangle center
+	^ aBounds center
 ]

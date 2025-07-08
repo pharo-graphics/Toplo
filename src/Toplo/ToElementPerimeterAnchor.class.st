@@ -34,7 +34,6 @@ ToElementPerimeterAnchor >> radians: anAngleInRadians [
 { #category : #applying }
 ToElementPerimeterAnchor >> valueInBounds: aBounds [
 
-	^ self element geometry
-		  pointOnPerimeterForAnchor: self
-		  inRectangle: aBounds
+	^ (self element geometry pointOnPerimeterForAnchor: self)
+	  + aBounds topLeft
 ]

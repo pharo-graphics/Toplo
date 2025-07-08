@@ -1,15 +1,6 @@
 Extension { #name : #BlRectangleGeometry }
 
 { #category : #'*Toplo' }
-BlRectangleGeometry >> pointOnPerimeterAtDegrees: aDegrees of: anElement [
-	" returns  the position (Point) on myself border at angle aDegrees "
-
-	^ self
-		  pointOnPerimeterAtRadians: aDegrees degreesToRadians 
-		  of: anElement
-]
-
-{ #category : #'*Toplo' }
 BlRectangleGeometry >> pointOnPerimeterAtRadians: anAngleInRadians of: anElement [
 	" returns  the position (Point) on myself border at angle anAngle (en radians)"
 
@@ -34,14 +25,4 @@ BlRectangleGeometry >> pointOnPerimeterAtRadians: anAngleInRadians of: anElement
 	y := usedCenter y + (dy * scale).
 
 	^ x @ y
-]
-
-{ #category : #'*Toplo' }
-BlRectangleGeometry >> pointOnPerimeterForAnchor: anAnchor inRectangle: aRectangle [
-	" returns  the position (Point) on myself border at angle anAngle (en radians)"
-
-	^ (self
-		   pointOnPerimeterAtDegrees: anAnchor degrees - 90
-		   of: anAnchor element) + aRectangle topLeft
-	 
 ]

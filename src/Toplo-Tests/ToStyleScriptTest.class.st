@@ -261,7 +261,7 @@ ToStyleScriptTest >> testWhenDo [
 		wasHere := true.
 		theStyleScript
 			when: ToEnabledSkinEvent
-			do: [ :e | e size: 40 asPoint ]].
+			do: [ :e | e extent: 40 asPoint ]].
 	self assert: styleScript styleRules size equals: 1.
 	styleRule := styleScript styleRules first.
 	self assert: wasHere.

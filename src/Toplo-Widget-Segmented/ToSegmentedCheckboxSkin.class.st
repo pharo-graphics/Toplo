@@ -77,7 +77,7 @@ ToSegmentedCheckboxSkin >> installSkinEvent: anEvent [
 			ifTrue: [
 			e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
 			ifFalse: [ e endInterspace: 0 ].
-		e icon size: (e valueOfTokenNamed: #'checkable-icon-size').
+		e icon extent: (e valueOfTokenNamed: #'checkable-icon-size').
 		e icon innerImageColor: (e valueOfTokenNamed: #'color-primary').
 		e icon geometry: (self iconGeometryIn: e).
 		e border: BlBorder empty ]

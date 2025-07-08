@@ -58,7 +58,7 @@ ToSkinDemoStyleSheetTheme class >> exampleRuleBackgroundDependsOnParentOrChildre
 	elem := ToElement new position: 50 asPoint.
 	parentElem := ToElement new
 						layout: BlBasicLayout new;
-		              size: 100 asPoint;
+		              extent: 100 asPoint;
 		              position: 150 @ 50.
 	childElem := ToElement new position: 25 asPoint.
 	parentElem addChild: childElem.
@@ -100,7 +100,7 @@ ToSkinDemoStyleSheetTheme class >> exampleRuleBackgroundDependsOnSibling [
 
 	container := ToElement new
 		             layout: BlBasicLayout new;
-		             size: 250 @ 150;
+		             extent: 250 @ 150;
 		             position: 50 asPoint.
 	sibling1 := ToElement new
 		            position: 50 asPoint;
@@ -154,15 +154,15 @@ ToSkinDemoStyleSheetTheme class >> exampleRuleBackgroundDependsOnSizeWithActionB
 							write: (theme property: #background)
 							with: [ :e | Color yellow ] ] ] ].
 
-	elem := ToElement new size: 50 asPoint; position: 50 asPoint.
+	elem := ToElement new extent: 50 asPoint; position: 50 asPoint.
 	verticalElem := ToElement new
-		                size: 50 @ 100;
+		                extent: 50 @ 100;
 		                position: 50 @ 150.
 	horizontalElem := ToElement new
-		                  size: 100 @ 50;
+		                  extent: 100 @ 50;
 		                  position: 150 @ 50.
 	biggerElem := ToElement new
-		              size: 100 asPoint;
+		              extent: 100 asPoint;
 		              position: 150 asPoint.
 
 	space := BlSpace new.

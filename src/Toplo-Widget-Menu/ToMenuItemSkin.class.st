@@ -54,7 +54,7 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 			e iconDo: [ :ic |
-				ic size: (e valueOfTokenNamed: #'menu-icon-size') ].
+				ic extent: (e valueOfTokenNamed: #'menu-icon-size') ].
 			(e isTopMenu not or: [ e showExpandIcon ]) ifTrue: [
 					| anyHaveIcon anyIsMenu |
 					anyHaveIcon := false.

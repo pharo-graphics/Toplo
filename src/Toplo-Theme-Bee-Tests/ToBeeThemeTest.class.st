@@ -35,7 +35,7 @@ ToBeeThemeTest >> testSpaceRoot [
 	theme := ToStyleSheetTheme new.
 	space toTheme: theme.
 	e := (ToElement new
-			 size: 100 @ 100;
+			 extent: 100 @ 100;
 			 position: 10 @ 10;
 			 addStamp: #machin;
 			 background: Color white).

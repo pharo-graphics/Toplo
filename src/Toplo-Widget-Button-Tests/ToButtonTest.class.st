@@ -48,7 +48,7 @@ ToButtonTest >> testClickAborted [
 	but := ToButton new.
 	but labelText: 'XXXXX'.
 	but icon: (ToImage inner: (BlElement new
-				  size: 30 @ 30;
+				  extent: 30 @ 30;
 				  background: Color blue;
 				  yourself)).
 	but matchParent.
@@ -84,7 +84,7 @@ ToButtonTest >> testClickAborted2 [
 	but := ToButton new.
 	but labelText: 'XXXXX'.
 	but icon: (ToImage inner: (BlElement new
-				  size: 30 @ 30;
+				  extent: 30 @ 30;
 				  background: Color blue;
 				  yourself)).
 	but matchParent.

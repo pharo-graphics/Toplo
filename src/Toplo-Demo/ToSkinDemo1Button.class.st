@@ -33,7 +33,7 @@ ToSkinDemo1Button >> click [
 ToSkinDemo1Button >> initialize [
 
 	super initialize.
-	self size: 100 @ 50.
+	self extent: 100 @ 50.
 	self geometry: (BlRoundedRectangleGeometry cornerRadius: 5).
 	self background: Color lightRed.
 	self margin: (BlInsets all: 2).

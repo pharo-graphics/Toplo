@@ -46,7 +46,7 @@ ToAccordionHeaderElementSkin >> installSkinEvent: anEvent [
 			           ifTrue: [ ToIconicArrowButton down ]
 			           ifFalse: [ ToIconicArrowButton right ].
 		arrowIm
-					size: (e valueOfTokenNamed: #'iconic-arrow-breadth') asPoint.
+					extent: (e valueOfTokenNamed: #'iconic-arrow-breadth') asPoint.
 		e icon: arrowIm.
 		(e parent hasStamp: #ghost) ifFalse: [
 			e background: (e valueOfTokenNamed: #'color-secondary-selection') ] ]

@@ -20,5 +20,5 @@ ToIconicArrowButtonSkin >> installSkinEvent: anEvent [
 							      ifTrue: [ #'iconic-arrow-right' ]
 							      ifFalse: [ #'iconic-arrow-left' ] ] ].
 		e innerImage: (e valueOfTokenNamed: tk).
-		e size: (e valueOfTokenNamed: #'iconic-arrow-breadth') asPoint ]
+		e extent: (e valueOfTokenNamed: #'iconic-arrow-breadth') asPoint ]
 ]

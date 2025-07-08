@@ -16,5 +16,5 @@ ToDemoSkin1 >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e | 
 		e background: Color blue.
-		e size: 50 @ 50 ]
+		e extent: 50 @ 50 ]
 ]

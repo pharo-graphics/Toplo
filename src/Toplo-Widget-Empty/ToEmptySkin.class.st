@@ -13,6 +13,6 @@ ToEmptySkin >> installSkinEvent: anEvent [
 		(e hasStamp: #box) ifTrue: [
 			e installInnerImage: (e valueOfTokenNamed: #empty_box).
 			e image
-				size: 50 asPoint;
+				extent: 50 asPoint;
 				innerImageColor: Color lightGray ] ]
 ]

@@ -48,7 +48,7 @@ ToSwitchIconSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e size: (e valueOfTokenNamed: #'switch-icon-size') ]
+		e extent: (e valueOfTokenNamed: #'switch-icon-size') ]
 ]
 
 { #category : #'event handling' }

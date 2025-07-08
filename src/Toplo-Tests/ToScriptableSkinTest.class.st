@@ -12,10 +12,10 @@ ToScriptableSkinTest >> testOnHoveredSkinEvent [
 
 	| te skin |
 	te := ToElement new.
-	te size: 100 asPoint.
+	te extent: 100 asPoint.
 	skin := ToScriptableSkin new.
 	skin onHoveredSkinEvent: [ :e :evt |
-		e size: 30 asPoint.
+		e extent: 30 asPoint.
 		e background: Color yellow ].
 	te defaultRawSkin: skin.
 	space root addChild: te.
@@ -33,7 +33,7 @@ ToScriptableSkinTest >> testOnInstalledSkinEvent [
 	te := ToElement new.
 	skin := ToScriptableSkin new.
 	skin onInstallSkinEvent: [ :e :evt |
-		e size: 30 asPoint.
+		e extent: 30 asPoint.
 		e background: Color yellow ].
 	te defaultRawSkin: skin.
 	space root addChild: te.
@@ -48,10 +48,10 @@ ToScriptableSkinTest >> testOnLeftSkinEvent [
 
 	| te skin |
 	te := ToElement new.
-	te size: 100 asPoint.
+	te extent: 100 asPoint.
 	skin := ToScriptableSkin new.
 	skin onLeftSkinEvent: [ :e :evt |
-		e size: 30 asPoint.
+		e extent: 30 asPoint.
 		e background: Color yellow ].
 	te defaultRawSkin: skin.
 	space root addChild: te.

@@ -11,7 +11,7 @@ Class {
 TToElementWithPlaceholderTest >> testHidePlaceholder [
 
 	| e ph |
-	e := ToElementWithPlaceholderForTest new size: 100 asPoint.
+	e := ToElementWithPlaceholderForTest new extent: 100 asPoint.
 	e placeholderBuilder: [ :thePlaceholder :theElement |
 		thePlaceholder addChild: (BlElement new id: #child) ].
 	e showPlaceholder.
@@ -36,7 +36,7 @@ TToElementWithPlaceholderTest >> testNewPlaceholder [
 TToElementWithPlaceholderTest >> testPlaceholderBuilder [
 
 	| e |
-	e := ToElementWithPlaceholderForTest new size: 100 asPoint.
+	e := ToElementWithPlaceholderForTest new extent: 100 asPoint.
 	e placeholderBuilder: [ :thePlaceholder :theElement |
 		thePlaceholder addChild: (BlElement new id: #child) ].
 	self assert: e placeholderLayer notNil.
@@ -70,7 +70,7 @@ TToElementWithPlaceholderTest >> testPlaceholderLayer [
 TToElementWithPlaceholderTest >> testPlaceholderString [
 
 	| e ph |
-	e := ToTextField new size: 100 asPoint.
+	e := ToTextField new extent: 100 asPoint.
 	e placeholderString: 'Enter text...'.
 	e showPlaceholder.
 	
@@ -82,7 +82,7 @@ TToElementWithPlaceholderTest >> testPlaceholderString [
 TToElementWithPlaceholderTest >> testPlaceholderText [
 
 	| e ph |
-	e := ToTextField new size: 100 asPoint.
+	e := ToTextField new extent: 100 asPoint.
 	e placeholderText: 'Enter text...'.
 	e showPlaceholder.
 	
@@ -94,7 +94,7 @@ TToElementWithPlaceholderTest >> testPlaceholderText [
 TToElementWithPlaceholderTest >> testShowPlaceholder [
 
 	| e ph |
-	e := ToElementWithPlaceholderForTest new size: 100 asPoint.
+	e := ToElementWithPlaceholderForTest new extent: 100 asPoint.
 	e placeholderBuilder: [ :thePlaceholder :theElement |
 		thePlaceholder addChild: (BlElement new id: #child) ].
 	e showPlaceholder.

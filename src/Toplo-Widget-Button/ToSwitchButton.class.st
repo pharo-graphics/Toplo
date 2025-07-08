@@ -52,7 +52,7 @@ ToSwitchButton >> newRawSkin [
 ToSwitchButton >> onMeasure: anExtentMeasurementSpec [
 
 	wishedTrackSize ifNotNil: [
-		self icon size:
+		self icon extent:
 			wishedTrackSize - (self padding left + self padding right
 			 @ (self padding top + self padding bottom)) ].
 

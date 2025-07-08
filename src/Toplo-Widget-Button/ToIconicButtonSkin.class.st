@@ -53,7 +53,7 @@ ToIconicButtonSkin >> installSkinEvent: anEvent [
 			withStamp: #color
 			do: [ :v | color := v ]
 			ifNone: [ color := e valueOfTokenNamed: #'color-text' ].
-		e size: ((e valueOfTokenNamed: #'font-size') + pad) asPoint ]
+		e extent: ((e valueOfTokenNamed: #'font-size') + pad) asPoint ]
 ]
 
 { #category : #'event handling' }

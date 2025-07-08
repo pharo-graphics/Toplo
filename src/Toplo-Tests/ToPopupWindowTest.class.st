@@ -13,7 +13,7 @@ ToPopupWindowTest >> testElement [
 	| win e windowManager |
 	e := ToElement new
 		     background: Color red;
-		     size: 100 @ 40;
+		     extent: 100 @ 40;
 		     position: 50 @ 50.
 	space root addChild: e.
 
@@ -51,7 +51,7 @@ ToPopupWindowTest >> testElementWithLabelEditorAndPopupWindowManager [
 	e := ToLabel new
 		     text: 'a text that can be edited';
 		     background: Color red;
-		     size: 100 @ 40;
+		     extent: 100 @ 40;
 		     position: 50 @ 50.
 	e isEditable: true.
 	space root addChild: e.
@@ -82,7 +82,7 @@ ToPopupWindowTest >> testElementWithTooltipAndPopupWindowManager [
 	| e windowManager tooltipWindowManager |
 	e := ToElement new
 		     background: Color red;
-		     size: 100 @ 40;
+		     extent: 100 @ 40;
 		     position: 50 @ 50.
 	space root addChild: e.
 	self waitTestingSpaces.
@@ -118,7 +118,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp [
 	| e windowManager |
 	e := ToElement new
 		     background: Color red;
-		     size: 100 @ 40;
+		     extent: 100 @ 40;
 		     position: 50 @ 50.
 	space root addChild: e.
 	self waitTestingSpaces.
@@ -150,7 +150,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp2 [
 	| e windowManager |
 	e := ToElement new
 		     background: Color red;
-		     size: 100 @ 40;
+		     extent: 100 @ 40;
 		     position: 50 @ 50.
 	space root addChild: e.
 	self waitTestingSpaces.
@@ -178,14 +178,14 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownOutside [
 	| e windowManager closed |
 	e := ToElement new
 		     background: Color red;
-		     size: 100 @ 40;
+		     extent: 100 @ 40;
 		     position: 50 @ 50.
 	space root addChild: e.
 
 	windowManager := ToPopupWindowManager new windowBuilder: [
 		                 :anchWin
 		                 :element |
-		                 anchWin addChild: (ToElement new size: 20 @ 20) ].
+		                 anchWin addChild: (ToElement new extent: 20 @ 20) ].
 	e addEventHandler: windowManager.
 	windowManager autoCloseDelay: 0 milliSeconds.
 
@@ -219,11 +219,11 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseUpOutsideAssociateElement [
 	| e windowManager closed other |
 	e := ToElement new
 		     background: Color red;
-		     size: 100 @ 40;
+		     extent: 100 @ 40;
 		     position: 50 @ 50.
 	other := ToElement new
 		         background: Color blue;
-		         size: 50 @ 50;
+		         extent: 50 @ 50;
 		         position: 500 @ 500.
 	space root addChild: e.
 	space root addChild: other.
@@ -231,7 +231,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseUpOutsideAssociateElement [
 	windowManager := ToPopupWindowManager new windowBuilder: [
 		                 :anchWin
 		                 :element |
-		                 anchWin addChild: (ToElement new size: 100 @ 100) ].
+		                 anchWin addChild: (ToElement new extent: 100 @ 100) ].
 	e addEventHandler: windowManager.
 	windowManager autoCloseDelay: 100 milliSeconds.
 

@@ -29,7 +29,7 @@ SkinDemo3ButtonSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :elt |
-		elt size: 100 @ 50.
+		elt extent: 100 @ 50.
 		elt margin: (BlInsets all: 2).
 		elt background: (elt clicked
 				 ifTrue: [ elt valueOfTokenNamed: #'background-clicked' ]

@@ -22,7 +22,7 @@ ToPropertyWriterTest >> testAnimationNeedPropertyWithReader [
 
 	| w prop propWriter anim onFinishedDone |
 	w := BlElement new.
-	w size: 100 asPoint.
+	w extent: 100 asPoint.
 	w background: Color red.
 	space root addChild: w.
 	prop := ToPseudoProperty new.

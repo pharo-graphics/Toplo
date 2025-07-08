@@ -37,7 +37,7 @@ ToTreeNodeSkin >> newStartElementForNode: aNode [
 	arrowIcon constraintsDo: [ :c |
 		c linear horizontal alignLeft.
 		c linear vertical alignCenter ].
-	arrowIcon size:
+	arrowIcon extent:
 		(aNode holder listElement valueOfTokenNamed: #'iconic-arrow-breadth')
 			asPoint.
 	^ arrowIcon

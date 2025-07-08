@@ -27,7 +27,7 @@ ToAnchorTest >> testActionAnchorOnChild [
 
 	| anchor |
 	child position: 10 @ 20.
-	child size: 100 @ 120.
+	child extent: 100 @ 120.
 
 	anchor := child actionAnchor: [ :v :e | e position ].
 	self waitTestingSpaces.
@@ -53,7 +53,7 @@ ToAnchorTest >> testBottomAnchorOnChild [
 
 	| anchor |
 	child position: 0 @ 0.
-	child size: 100 @ 120.
+	child extent: 100 @ 120.
 
 	anchor := ToElementBottomAnchor new
 		          element: child;
@@ -82,7 +82,7 @@ ToAnchorTest >> testBottomLeftAnchorOnChild [
 
 	| anchor |
 	child position: 110 @ 20.
-	child size: 100 @ 120.
+	child extent: 100 @ 120.
 
 	anchor := ToElementBottomLeftAnchor new
 		          element: child;
@@ -113,7 +113,7 @@ ToAnchorTest >> testBottomRightAnchorOnChild [
 
 	| anchor |
 	child position: 110 @ 20.
-	child size: 100 @ 120.
+	child extent: 100 @ 120.
 
 	anchor := ToElementBottomRightAnchor new
 		          element: child;
@@ -142,7 +142,7 @@ ToAnchorTest >> testExtentAnchorOnChild [
 
 	| anchor |
 	child position: 110 @ 20.
-	child size: 100 @ 120.
+	child extent: 100 @ 120.
 
 	anchor := ToElementExtentAnchor new
 		          element: child;
@@ -171,7 +171,7 @@ ToAnchorTest >> testHeightAnchorOnChild [
 
 	| anchor |
 	child position: 10 @ 20.
-	child size: 100 @ 120.
+	child extent: 100 @ 120.
 
 	anchor := ToElementHeightAnchor new
 		          element: child;
@@ -200,7 +200,7 @@ ToAnchorTest >> testHorizontalCenterAnchorOnChild [
 
 	| anchor |
 	child position: 10 @ 20.
-	child size: 100 @ 120.
+	child extent: 100 @ 120.
 
 	anchor := ToElementHorizontalCenterAnchor new
 		          element: child;
@@ -229,7 +229,7 @@ ToAnchorTest >> testLeftAnchorOnChild [
 
 	| anchor |
 	child position: 10 @ 20.
-	child size: 100 @ 120.
+	child extent: 100 @ 120.
 
 	anchor := ToElementLeftAnchor new
 		          element: child;
@@ -258,7 +258,7 @@ ToAnchorTest >> testNeutralAnchorOnChild [
 
 	| anchor |
 	child position: 10 @ 20.
-	child size: 100 @ 120.
+	child extent: 100 @ 120.
 
 	anchor := child neutralAnchor: 0.
 	self waitTestingSpaces.
@@ -284,7 +284,7 @@ ToAnchorTest >> testNilAnchorOnChild [
 
 	| anchor |
 	child position: 10 @ 20.
-	child size: 100 @ 120.
+	child extent: 100 @ 120.
 
 	anchor := child nilAnchor.
 	self waitTestingSpaces.
@@ -310,7 +310,7 @@ ToAnchorTest >> testRightAnchorOnChild [
 
 	| anchor |
 	child position: 110 @ 20.
-	child size: 100 @ 120.
+	child extent: 100 @ 120.
 
 	anchor := ToElementRightAnchor new
 		          element: child;
@@ -339,7 +339,7 @@ ToAnchorTest >> testTopAnchorOnChild [
 
 	| anchor |
 	child position: 10 @ 20.
-	child size: 100 @ 120.
+	child extent: 100 @ 120.
 
 	anchor := ToElementTopAnchor new
 		          element: child;
@@ -368,7 +368,7 @@ ToAnchorTest >> testTopLeftAnchorOnChild [
 
 	| anchor |
 	child position: 110 @ 20.
-	child size: 100 @ 120.
+	child extent: 100 @ 120.
 
 	anchor := ToElementTopLeftAnchor new
 		          element: child;
@@ -397,7 +397,7 @@ ToAnchorTest >> testTopRightAnchorOnChild [
 
 	| anchor |
 	child position: 110 @ 20.
-	child size: 100 @ 120.
+	child extent: 100 @ 120.
 
 	anchor := ToElementTopRightAnchor new
 		          element: child;
@@ -426,7 +426,7 @@ ToAnchorTest >> testVerticalCenterAnchorOnChild [
 
 	| anchor |
 	child position: 10 @ 20.
-	child size: 100 @ 120.
+	child extent: 100 @ 120.
 
 	anchor := ToElementVerticalCenterAnchor new
 		          element: child;
@@ -455,7 +455,7 @@ ToAnchorTest >> testWidthAnchorOnChild [
 
 	| anchor |
 	child position: 10 @ 20.
-	child size: 100 @ 120.
+	child extent: 100 @ 120.
 
 	anchor := ToElementWidthAnchor new
 		          element: child;

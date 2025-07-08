@@ -53,7 +53,7 @@ ToAnchoredWindowManagerTest >> testDefaultPositionHook [
 	e := ToElement new.
 	space root addChild: e.
 	e position: 10 asPoint.
-	e size: 10 asPoint.
+	e extent: 10 asPoint.
 	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
@@ -79,7 +79,7 @@ ToAnchoredWindowManagerTest >> testElement [
 	e := ToElement new.
 	space root addChild: e.
 	e position: 10 asPoint.
-	e size: 10 asPoint.
+	e extent: 10 asPoint.
 	self waitTestingSpaces.
 
 	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
@@ -166,7 +166,7 @@ ToAnchoredWindowManagerTest >> testElementPositionInSpaceChangedEvent [
 	e := ToElement new.
 	space root addChild: e.
 	e position: 10 asPoint.
-	e size: 10 asPoint.
+	e extent: 10 asPoint.
 	self waitTestingSpaces.
 	self assert: e position equals: 10 asPoint.
 	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
@@ -195,7 +195,7 @@ ToAnchoredWindowManagerTest >> testElementRemovedFromParentEvent [
 	e := ToElement new.
 	space root addChild: e.
 	e position: 10 asPoint.
-	e size: 10 asPoint.
+	e extent: 10 asPoint.
 	self waitTestingSpaces.
 
 	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
@@ -293,7 +293,7 @@ ToAnchoredWindowManagerTest >> testPositionHook [
 	e := ToElement new.
 	space root addChild: e.
 	e position: 10 asPoint.
-	e size: 10 asPoint.
+	e extent: 10 asPoint.
 	self waitTestingSpaces.
 
 	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
@@ -322,7 +322,7 @@ ToAnchoredWindowManagerTest >> testPositionHook2 [
 	e := ToElement new.
 	space root addChild: e.
 	e position: 10 asPoint.
-	e size: 10 asPoint.
+	e extent: 10 asPoint.
 	self waitTestingSpaces.
 
 	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
@@ -358,7 +358,7 @@ ToAnchoredWindowManagerTest >> testPositionHook3 [
 	e := ToElement new.
 	space root addChild: e.
 	e position: 10 asPoint.
-	e size: 10 asPoint.
+	e extent: 10 asPoint.
 	self waitTestingSpaces.
 
 	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
@@ -391,7 +391,7 @@ ToAnchoredWindowManagerTest >> testWindowBuilder [
 	builder := [ :theWindow :theElement |
 	           | child |
 	           child := ToElement new
-		                    size: 100 asPoint;
+		                    extent: 100 asPoint;
 		                    id: #child.
 	           child background: Color red.
 	           theWindow root addChild: child ].

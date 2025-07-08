@@ -12,11 +12,11 @@ TToElementWithTooltipTest >> testCloseTooltipOnMouseLeave [
 
 	| e |
 	e := ToElement new.
-	e size: 50@50.
+	e extent: 50@50.
 	e tooltipPopupDelay: 10 milliSeconds.
 	space root addChild: e.
 	self assert: e currentTooltipWindow isNil.
-	e tooltipContent: (ToElement new size: 20@20; yourself).
+	e tooltipContent: (ToElement new extent: 20@20; yourself).
 	BlSpace simulateMouseMoveInside: e.
 	BlSpace pulseUntilEmptyTaskQueue: space timeout: 11 milliSeconds.
 	self assert: e currentTooltipWindow notNil.
@@ -31,12 +31,12 @@ TToElementWithTooltipTest >> testCloseTooltipOnMouseLeave2 [
 
 	| e |
 	e := ToElement new.
-	e size: 50@50.
+	e extent: 50@50.
 	e closeTooltipOnMouseLeave: false.
 	e tooltipPopupDelay: 10 milliSeconds.
 	space root addChild: e.
 	self assert: e currentTooltipWindow isNil.
-	e tooltipContent: (ToElement new size: 20@20; yourself).
+	e tooltipContent: (ToElement new extent: 20@20; yourself).
 	BlSpace simulateMouseMoveInside: e.
 	BlSpace pulseUntilEmptyTaskQueue: space timeout: 11 milliSeconds.
 	self assert: e currentTooltipWindow notNil.
@@ -193,11 +193,11 @@ TToElementWithTooltipTest >> testTooltipPopupDelay [
 
 	| e |
 	e := ToElement new.
-	e size: 50@50.
+	e extent: 50@50.
 	e tooltipPopupDelay: 100 milliSeconds.
 	self assert: e tooltipPopupDelay equals: 100 milliSeconds.
 	space root addChild: e.
-	e tooltipContent: (ToElement new size: 20@20; yourself).
+	e tooltipContent: (ToElement new extent: 20@20; yourself).
 	BlSpace simulateMouseMoveInside: e.
 	BlSpace pulseUntilEmptyTaskQueue: space timeout: 50 milliSeconds.
 	BlSpace simulateMouseMoveOutside: e.

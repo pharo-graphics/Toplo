@@ -14,7 +14,7 @@ ToOverlayWindowTest >> testWindowSize [
 	e := ToElement new.
 	space root addChild: e.
 	e position: 10 asPoint.
-	e size: 10 asPoint.
+	e extent: 10 asPoint.
 	windowManager := ToAnchoredWindowManager overlay windowBuilder: [
 		                 :anchWin
 		                 :requestEvent |  ].
@@ -24,7 +24,7 @@ ToOverlayWindowTest >> testWindowSize [
 	self waitTestingSpaces.
 	self assert: win bounds inSpace extent equals: 10 asPoint.
 
-	e size: 20 asPoint.
+	e extent: 20 asPoint.
 	self waitTestingSpaces.
 	self assert: win bounds inSpace extent equals: 20 asPoint.
 ]
@@ -36,18 +36,18 @@ ToOverlayWindowTest >> testWindowSize2 [
 	e := ToElement new.
 	space root addChild: e.
 	e position: 10 asPoint.
-	e size: 10 asPoint.
+	e extent: 10 asPoint.
 	windowManager := ToAnchoredWindowManager overlay windowBuilder: [
 		                 :anchWin
 		                 :requestEvent |
 		                 anchWin root addChild:
-			                 (ToElement new size: 100 asPoint) ].
+			                 (ToElement new extent: 100 asPoint) ].
 	e addEventHandler: windowManager.
 	win := windowManager newWindowEvent: nil.
 	win popup.
 	self waitTestingSpaces.
 	self assert: win bounds inSpace extent equals: 10 asPoint.
-	e size: 20 asPoint.
+	e extent: 20 asPoint.
 	self waitTestingSpaces.
 	self assert: win bounds inSpace extent equals: 20 asPoint
 ]

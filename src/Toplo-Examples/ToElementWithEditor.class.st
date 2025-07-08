@@ -57,7 +57,7 @@ ToElementWithEditor >> beforeEditorOpened: anEditor fromManager: aManager [
 ToElementWithEditor >> newEditorForManager: aManager [
 
 	^ ToAlbum new
-		  size: 100 @ 100;
+		  extent: 100 @ 100;
 		  withSaveCapability;
 		  yourself
 ]

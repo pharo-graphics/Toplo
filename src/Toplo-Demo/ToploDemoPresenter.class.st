@@ -26,7 +26,7 @@ ToploDemoPresenter class >> demo2 [
 						  text: dataItem key;
 						  yourself);
 				 icon: (ToElement new
-						  size: 50 @ 25;
+						  extent: 50 @ 25;
 						  background: dataItem value;
 						  yourself);
 				 startInterspace: 3;

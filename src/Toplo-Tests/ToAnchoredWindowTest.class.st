@@ -68,7 +68,7 @@ ToAnchoredWindowTest >> testDefaultElevation [
 	e addEventHandler: windowManager.
 	win := windowManager newWindowEvent: nil.
 	e position: 10 asPoint.
-	e size: 10 asPoint.
+	e extent: 10 asPoint.
 	win popup.
 	self
 		assert: win elevation elevation
@@ -444,7 +444,7 @@ ToAnchoredWindowTest >> testWindowSize [
 	e := ToElement new.
 	space root addChild: e.
 	e position: 10 asPoint.
-	e size: 10 asPoint.
+	e extent: 10 asPoint.
 	self waitTestingSpaces.
 
 	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [

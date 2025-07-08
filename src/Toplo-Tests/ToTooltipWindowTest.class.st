@@ -12,7 +12,7 @@ ToTooltipWindowTest >> testContent [
 
 	| e windowManager |
 
-	e := ToElement new  size: 100@100.
+	e := ToElement new  extent: 100@100.
 	e tooltipContent: (ToLabel text: 'Tooltip content').
 	windowManager := e tooltipWindowManager.
 	self assert: (windowManager isKindOf: ToTooltipPopupManager).

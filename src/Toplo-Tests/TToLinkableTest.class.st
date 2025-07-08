@@ -14,7 +14,7 @@ Class {
 TToLinkableTest >> setUp [
 
 	super setUp.
-	element := ToElement new size: 50 asPoint.
+	element := ToElement new extent: 50 asPoint.
 	space root addChild: element.
 ]
 

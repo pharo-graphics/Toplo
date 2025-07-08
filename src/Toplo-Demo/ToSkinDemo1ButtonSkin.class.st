@@ -23,7 +23,7 @@ ToSkinDemo1ButtonSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e size: 100 @ 50.
+		e extent: 100 @ 50.
 		e geometry: (BlRoundedRectangleGeometry cornerRadius: 5).
 		e background: Color lightRed.
 		e margin: (BlInsets all: 2).

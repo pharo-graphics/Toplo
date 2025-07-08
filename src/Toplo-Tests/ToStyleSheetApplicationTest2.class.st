@@ -48,7 +48,7 @@ ToStyleSheetApplicationTest2 >> testApplicationOnElementHovered [
 	elem := ToElement new.
 	elem applySkinInstallerOnFirstRequest: false.
 
-	elem size: 20 asPoint.
+	elem extent: 20 asPoint.
 	elem position: 100 asPoint.
 	elem background: Color blue.
 	space toTheme: theme.

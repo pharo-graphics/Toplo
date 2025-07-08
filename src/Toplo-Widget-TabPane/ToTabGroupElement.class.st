@@ -93,7 +93,7 @@ ToTabGroupElement >> defaultInvisibleNodeMenuItemBuilder [
 		  clickAction: [ self showInvisibleTabItem: aNode item ].
 	  aNode item isChecked ifTrue: [
 		  aMenuItem icon: (ToImage inner: (self valueOfTokenNamed: #check)).
-		  aMenuItem icon size:
+		  aMenuItem icon extent:
 			  (self valueOfTokenNamed: #'checkable-icon-size') ] ]
 ]
 

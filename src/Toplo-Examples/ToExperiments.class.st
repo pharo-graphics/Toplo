@@ -98,10 +98,10 @@ ToExperiments class >> example_DragAndDropWithLinearLayout [
 	container initializeAsPasteUp.
 
 	red := ToElement new id: #red.
-	red size: 100 asPoint.
+	red extent: 100 asPoint.
 	red background: Color red.
 	blue := ToElement new id: #blue.
-	blue size: 50 asPoint.
+	blue extent: 50 asPoint.
 	blue background: Color blue.
 
 	container addChildren: {
@@ -277,7 +277,7 @@ ToExperiments class >> example_FlowLayoutHorizontal [
 	| frame left right fill |
 	frame := BlElement new
 		         background: Color gray;
-		         size: 300 @ 100;
+		         extent: 300 @ 100;
 		         layout: BlLinearLayout horizontal;
 		         constraintsDo: [ :c | 
 			         c horizontal matchParent.
@@ -310,7 +310,7 @@ ToExperiments class >> example_FrameLayout [
 	| frame left right fill |
 	frame := BlElement new
 		         background: Color gray;
-		         size: 300 @ 100;
+		         extent: 300 @ 100;
 		         layout: BlFrameLayout new;
 		         constraintsDo: [ :c | 
 			         c horizontal matchParent.
@@ -366,7 +366,7 @@ ToExperiments class >> example_LinearLayout [
 	| frame left right fill |
 	frame := BlElement new
 		         background: Color gray;
-		         size: 300 @ 100;
+		         extent: 300 @ 100;
 		         layout: BlLinearLayout new;
 		         constraintsDo: [ :c |
 			         c horizontal matchParent.
@@ -453,7 +453,7 @@ ToExperiments class >> example_LinearLayoutFillWithMatchParent [
 	| frame left right fill |
 	frame := BlElement new
 		         background: Color gray;
-		         size: 300 @ 100;
+		         extent: 300 @ 100;
 		         layout: BlLinearLayout new;
 		         constraintsDo: [ :c |
 			         c horizontal matchParent.
@@ -489,7 +489,7 @@ ToExperiments class >> example_LinearLayoutWithLabels [
 
 	| frame |
 	frame := ToElement new
-		         size: 300 @ 100;
+		         extent: 300 @ 100;
 		         layout: BlLinearLayout new;
 		         constraintsDo: [ :c |
 			         c horizontal matchParent.
@@ -516,10 +516,10 @@ ToExperiments class >> example_PasteUpPane [
 	container initializeAsPasteUp.
 
 	red := ToElement new id: #red.
-	red size: 100 asPoint.
+	red extent: 100 asPoint.
 	red background: Color red.
 	blue := ToElement new id: #blue.
-	blue size: 50 asPoint.
+	blue extent: 50 asPoint.
 	blue background: Color blue.
 
 	container addChildren: {
@@ -552,10 +552,10 @@ ToExperiments class >> example_PasteUpWithPlaceHolder [
 	container showPlaceholder.
 
 	red := ToElement new id: #red.
-	red size: 100 asPoint.
+	red extent: 100 asPoint.
 	red background: Color red.
 	blue := ToElement new id: #blue.
-	blue size: 50 asPoint.
+	blue extent: 50 asPoint.
 	blue background: Color blue.
 
 	container addChildren: {
@@ -680,7 +680,7 @@ ToExperiments class >> example_TextFlowWithBlElements [
 							            (BlTransformAnimation scale: 0.5) absolute.
 					            anAnimation beInfinite.
 					            BlElement new
-						            size: 50 @ 20;
+						            extent: 50 @ 20;
 						            margin: (BlInsets all: 4);
 						            background: (Color random alpha: 0.5);
 						            addAnimation: anAnimation ]).
@@ -714,7 +714,7 @@ ToExperiments class >> example_TextFlowWithBlElements2 [
 							                      c vertical fitContent ];
 						                      background: (Color gray alpha: 0.2).
 					            e := BlElement new
-						                 size: 50 @ 20;
+						                 extent: 50 @ 20;
 						                 margin: (BlInsets all: 4);
 						                 background: (Color random alpha: 0.5);
 						                 addAnimation: anAnimation.
@@ -763,7 +763,7 @@ ToExperiments class >> example_collapse1 [
 
 	bar := BlElement new
 		       background: Color lightBlue;
-		       size: 250 @ 50;
+		       extent: 250 @ 50;
 		       addEventHandlerOn: BlClickEvent do: [ :e |
 			       e consume.
 			       opened := opened not.
@@ -772,7 +772,7 @@ ToExperiments class >> example_collapse1 [
 
 	collapsed := BlElement new
 		             background: bgPaint;
-		             size: 250 @ 150;
+		             extent: 250 @ 150;
 		             border: (BlBorderBuilder new
 				              paint: Color red;
 				              width: 3;
@@ -782,7 +782,7 @@ ToExperiments class >> example_collapse1 [
 
 	collapsedChild := BlElement new
 		                  background: Color purple;
-		                  size: 50 @ 100;
+		                  extent: 50 @ 100;
 		                  position: 50 asPoint;
 		                  yourself.
 	collapsed addChild: collapsedChild.
@@ -801,11 +801,11 @@ ToExperiments class >> example_drag [
 	| e child p |
 	e := BlElement new
 		     background: Color red;
-		     size: 500 @ 500.
+		     extent: 500 @ 500.
 
 	child := BlElement new
 		         background: Color yellow;
-		         size: 50 @ 50;
+		         extent: 50 @ 50;
 		         position: 20 @ 20.
 
 	e addChild: child.
@@ -827,11 +827,11 @@ ToExperiments class >> example_drag2 [
 	| e child |
 	e := BlElement new
 		     background: Color red;
-		     size: 500 @ 500.
+		     extent: 500 @ 500.
 
 	child := BlElement new
 		         background: Color yellow;
-		         size: 50 @ 50;
+		         extent: 50 @ 50;
 		         position: 20 @ 20.
 
 	e addChild: child.
@@ -846,13 +846,13 @@ ToExperiments class >> example_drag3 [
 	| e child |
 	e := BlElement new
 		     background: Color red;
-		     size: 50 @ 50;
+		     extent: 50 @ 50;
 		     clipChildren: false;
 		     yourself.
 
 	child := BlElement new
 		         background: Color yellow;
-		         size: 50 @ 50;
+		         extent: 50 @ 50;
 		         position: 200 @ 200;
 		         yourself.
 
@@ -874,7 +874,7 @@ ToExperiments class >> example_drag4 [
 	child := ToImage new
 		         innerImage: (BlElement new
 				          background: Color yellow;
-				          size: 50 @ 50);
+				          extent: 50 @ 50);
 		         position: 200 @ 200;
 		         yourself.
 
@@ -908,7 +908,7 @@ ToExperiments class >> example_elements_sandbox [
 ToExperiments class >> example_enterLeave [
 
 	| e1 e2 space |
-	e1 := BlElement new background: Color yellow; size: 100@60.
+	e1 := BlElement new background: Color yellow; extent: 100@60.
 	e2 := BlElement new background: Color blue; preventMouseEvents.
 	e1 addEventHandlerOn: BlMouseEnterEvent do: [ :event | e2 position: e1 bounds bottomRight. e1 space root addChild: e2 ].
 	e1 addEventHandlerOn: BlMouseLeaveEvent do: [ :event | e1 space root removeChild: e2 ].
@@ -924,7 +924,7 @@ ToExperiments class >> example_frame [
 	bkg := Color veryLightGray alpha: 0.2.
 	frame := BlElement new
 		         background: Color white;
-		         size: 300 @ 100.
+		         extent: 300 @ 100.
 	frame geometry: (BlRoundedRectangleGeometry cornerRadius: 5).
 	frame border: (BlBorder paint: bkg width: 3).
 
@@ -956,7 +956,7 @@ ToExperiments class >> example_frame [
 	expand clickAction: [ 
 		frame 
 			position: 0@0; 
-			size: frame parent size ].	
+			extent: frame parent size ].	
 
 	title := ToLabel new
 		         text: 'Frame';
@@ -985,7 +985,7 @@ ToExperiments class >> example_linearLayoutWithChildAlign [
 	child := ToElement new.
 	parent layout: BlLinearLayout new.
 	parent layout alignCenterRight.
-	child size: 50 @ 30.
+	child extent: 50 @ 30.
 	child layout: BlLinearLayout new.
 	parent addChild: child.
 	child background: Color yellow.
@@ -1000,17 +1000,17 @@ ToExperiments class >> example_mouseEvent_descending_bubbling [
 
 	| gray blue yellow world |
 	yellow := ToInnerWindow new
-		          size: 450 @ 500;
+		          extent: 450 @ 500;
 		          in: [ :w | w root background: Color yellow ];
 		          position: 50 @ 50.
 	blue := ToInnerWindow new
 		        in: [ :w | w root background: Color blue ];
-		        size: 200 @ 200;
+		        extent: 200 @ 200;
 		        position: 150 @ 50;
 		        yourself.
 	gray := ToInnerWindow new
 		        in: [ :w | w root background: Color gray ];
-		        size: 100 @ 100;
+		        extent: 100 @ 100;
 		        position: 50 @ 50.
 	world := BlSpace new.
 
@@ -1075,7 +1075,7 @@ ToExperiments class >> example_rotation [
 	space := BlSpace new.
 
 	container := BlElement new
-		             size: 200 @ 200;
+		             extent: 200 @ 200;
 		             border: (BlBorder paint: Color lightRed width: 3);
 		             position: 200 @ 200;
 		             clipChildren: false.
@@ -1084,13 +1084,13 @@ ToExperiments class >> example_rotation [
 
 	expected := BlElement new
 		            background: Color lightGreen;
-		            size: 50 @ 100;
+		            extent: 50 @ 100;
 		            border: (BlBorder paint: Color orange width: 3).
 	container addChild: expected.
 
 	handle := BlElement new
 		          background: (Color lightBlue asBlBackground opacity: 0.5);
-		          size: 100 @ 50;
+		          extent: 100 @ 50;
 		          border: (BlBorder paint: Color red width: 3).
 
 	container addChild: handle.
@@ -1121,7 +1121,7 @@ ToExperiments class >> example_rotationAnimation [
 	space := BlSpace new.
 
 	container := BlElement new
-		             size: 200 @ 200;
+		             extent: 200 @ 200;
 		             border: (BlBorder paint: Color lightRed width: 3);
 		             position: 50 @ 50;
 		             clipChildren: false.
@@ -1130,13 +1130,13 @@ ToExperiments class >> example_rotationAnimation [
 
 	expected := BlElement new
 		            background: Color lightGreen;
-		            size: 50 @ 100;
+		            extent: 50 @ 100;
 		            border: (BlBorder paint: Color orange width: 3).
 	container addChild: expected.
 
 	handle := BlElement new
 		          background: (Color lightBlue asBlBackground opacity: 0.5);
-		          size: 100 @ 50;
+		          extent: 100 @ 50;
 		          border: (BlBorder paint: Color red width: 3).
 
 	container addChild: handle.
@@ -1227,7 +1227,7 @@ ToExperiments class >> example_toScaling [
 			 constraintsDo: [ :c | c accountTransformation ];
 			 clipChildren: false;
 			 iconImage: (BlElement new
-					  size: 100 @ 100;
+					  extent: 100 @ 100;
 					  background: Color blue);
 			 labelText: ('Blue' asRopedText fontSize: 24);
 			 transformDo: [ :d |
@@ -1239,7 +1239,7 @@ ToExperiments class >> example_toScaling [
 			 clipChildren: false;
 			 iconImage: (BlElement new
 					  constraintsDo: [ :c | c accountTransformation ];
-					  size: 100 @ 100;
+					  extent: 100 @ 100;
 					  background: Color red);
 			 labelText: ('red' asRopedText fontSize: 24);
 			 transformDo: [ :d |
@@ -1267,12 +1267,12 @@ ToExperiments class >> example_toggle_sliding [
 	track := ToElement new
 		         fitContent;
 		         layout: BlLinearLayout horizontal.
-	left := BlElement new size: 17 @ 14; background: Color gray; margin: (BlInsets left: 5 right: 5).
+	left := BlElement new extent: 17 @ 14; background: Color gray; margin: (BlInsets left: 5 right: 5).
 	but := BlElement new
-		       size: 14 @ 14;
+		       extent: 14 @ 14;
 				geometry: (BlCircleGeometry new);
 		       background: Color green.
-	right := BlElement new size: 17 @ 14; background: Color gray; margin: (BlInsets left: 5 right: 5).
+	right := BlElement new extent: 17 @ 14; background: Color gray; margin: (BlInsets left: 5 right: 5).
 	track addChildren: { left. but. right }.
 
 	toggle width: toggle padding left + toggle padding right + but requestedWidth + ((left requestedWidth + left margin left + left margin right) max: (right requestedWidth + right margin left + right margin right)).
@@ -1308,16 +1308,16 @@ ToExperiments class >> example_toggle_sliding_with_animation1 [
 		         border: (BlBorder paint: Color black);
 		         layout: BlLinearLayout horizontal.
 	left := BlElement new
-		        size: 30 @ 14;
+		        extent: 30 @ 14;
 		        background: Color veryLightGray;
 		        margin: (BlInsets left: 5 right: 5).
 	but := BlElement new
-		       size: 14 @ 14;
+		       extent: 14 @ 14;
 		       position: left requestedWidth @ 0;
 		       background: Color green;
 		       border: (BlBorder paint: Color black).
 	right := BlElement new
-		         size: 20 @ 14;
+		         extent: 20 @ 14;
 		         background: Color pink.
 	track addChildren: {
 			left.
@@ -1370,7 +1370,7 @@ ToExperiments class >> example_toggle_with_animation [
 	btn := ToElement new
 		       geometry: BlEllipseGeometry new;
 		       background: Color veryLightGray;
-		       size: 16 @ 16;
+		       extent: 16 @ 16;
 		       position: 3 @ 3.
 	track addChild: btn.
 	track addChild: lab.
@@ -1409,7 +1409,7 @@ ToExperiments class >> example_twoChildrenInPolygon [
 	parent padding: (BlInsets all: 15).
 	parent margin: (BlInsets all: 10).
 
-	child := BlElement new size: 50 @ 30.
+	child := BlElement new extent: 50 @ 30.
 	child layout: BlFrameLayout new.
 	child background: (Color red alpha: 0.3).
 	child margin: (BlInsets all: 3).
@@ -1418,9 +1418,9 @@ ToExperiments class >> example_twoChildrenInPolygon [
 	child outskirts: BlOutskirts inside.
 	child addChild: (BlElement new
 			 background: Color yellow;
-			 size: 40 @ 40).
+			 extent: 40 @ 40).
 
-	child2 := BlElement new size: 250 @ 100.
+	child2 := BlElement new extent: 250 @ 100.
 	child2 layout: BlFrameLayout new.
 	child2 background: (Color blue alpha: 0.3).
 	child2 margin: (BlInsets all: 3).
@@ -1429,7 +1429,7 @@ ToExperiments class >> example_twoChildrenInPolygon [
 	child2 outskirts: BlOutskirts inside.
 	child2 addChild: (BlElement new
 			 background: Color yellow;
-			 size: 40 @ 40).
+			 extent: 40 @ 40).
 
 	parent addChild: child.
 	parent addChild: child2.
@@ -1536,13 +1536,13 @@ ToExperiments class >> newTreeElement [
 				           ifFalse: [ #'iconic-arrow-right' ].
 			arrowIcon innerImage: (tree valueOfTokenNamed: arrowTk) ].
 		arrowIcon
-			size: 18 asPoint;
+			extent: 18 asPoint;
 			id: #arrow.
 		iconContainer := ToElement new
 			                 fitContent;
 			                 yourself.
 		iconContainer layout: BlLinearLayout horizontal.
-		iconContainer addChild: (ToElement new size: align @ 0).
+		iconContainer addChild: (ToElement new extent: align @ 0).
 		arrowButton := ToButton new
 			       icon: arrowIcon;
 			       yourself.

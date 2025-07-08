@@ -22,7 +22,7 @@ ToRawSkinTest >> testBasicStyleSheet [
 
 	| e styleSheet |
 	e := ToElement new.
-	e size: 50 asPoint.
+	e extent: 50 asPoint.
 	styleSheet := ToStyleSheet new.
 	styleSheet select: ToElement asTypeSelector style: [ :sr |
 			sr

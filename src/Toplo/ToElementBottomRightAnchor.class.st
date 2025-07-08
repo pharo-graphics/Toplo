@@ -1,11 +1,11 @@
 Class {
-	#name : #ToElementCenterAnchor,
+	#name : #ToElementBottomRightAnchor,
 	#superclass : #ToElementLocationAnchor,
 	#category : #'Toplo-Support-Anchor'
 }
 
 { #category : #applying }
-ToElementCenterAnchor >> valueInBounds: aBounds [
+ToElementBottomRightAnchor >> valueInBounds: aBounds [
 
-	^ aBounds center
+	^ aBounds bottomRight
 ]

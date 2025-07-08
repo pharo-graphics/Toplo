@@ -259,6 +259,12 @@ ToAbstractListSelectionMode >> selectionChangedEventClass [
 ]
 
 { #category : #accessing }
+ToAbstractListSelectionMode >> selectionContainer [
+
+	^ selectionOption selectionContainer
+]
+
+{ #category : #accessing }
 ToAbstractListSelectionMode >> selectionElementOption [
 
 	self

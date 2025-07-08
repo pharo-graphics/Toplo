@@ -9,29 +9,23 @@ Class {
 }
 
 { #category : #layout }
-ToAnchorLayoutOperation >> appliedOnChildBounds: childBoundsRectangle withParent: anElement inAvailableRectangle: availableRectangle [
+ToAnchorLayoutOperation >> appliedOnChildBounds: childBoundsRectangle withParent: anElement [
 
-	| targetRectangle |
-	targetRectangle := rightHandSideAnchor element = anElement
-		                   ifTrue: [ availableRectangle ]
-		                   ifFalse: [
-				                   (rightHandSideAnchor element measuredBounds
-					                    inParent: anElement) asRectangle ].
-	^ leftHandSideAnchor
+	^ anElement globalBoundsToLocal: (leftHandSideAnchor
 		  appliedOnRectangle: childBoundsRectangle
-		  withValue: (rightHandSideAnchor readRectangle: targetRectangle)
+		  withValue: (rightHandSideAnchor valueInParent: anElement))
+]
+
+{ #category : #accessing }
+ToAnchorLayoutOperation >> baseAnchor: anAnchor [
+
+	leftHandSideAnchor := anAnchor
 ]
 
 { #category : #testing }
 ToAnchorLayoutOperation >> isMeasurement [ 
 
 	^ leftHandSideAnchor isMeasurement 
-]
-
-{ #category : #accessing }
-ToAnchorLayoutOperation >> leftHandSideAnchor: anAnchor [
-
-	leftHandSideAnchor := anAnchor
 ]
 
 { #category : #accessing }

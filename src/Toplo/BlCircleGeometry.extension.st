@@ -1,17 +1,17 @@
 Extension { #name : #BlCircleGeometry }
 
 { #category : #'*Toplo' }
-BlCircleGeometry >> positionOnBorderAtDegrees: aDegrees of: anElement [
-	" returns  the position (Point) on myself border at angle aDegrees "
-
-	^ self
-		  positionOnBorderAtRadians: aDegrees * Float pi / 180
-		  of: anElement
-]
-
-{ #category : #'*Toplo' }
-BlCircleGeometry >> positionOnBorderAtRadians: anAngle of: anElement [
+BlCircleGeometry >> pointOnPerimeterAtRadians: anAngle of: anElement [
 	" returns  the position (Point) on myself border at angle anAngle (en radians)"
 
-	^ radius * anAngle cos @ (radius * anAngle sin)
+	| adjustedRectangle prevRadius prevOrigin pt |
+	prevRadius := radius.
+	prevOrigin := origin.
+	adjustedRectangle := anElement margin expand:
+		                     anElement measuredBounds.
+	self matchExtent: adjustedRectangle extent.
+	pt := radius * anAngle cos @ (radius * anAngle sin).
+	radius := prevRadius.
+	origin := prevOrigin.
+	^ pt + adjustedRectangle center
 ]

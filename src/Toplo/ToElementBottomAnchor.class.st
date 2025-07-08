@@ -5,13 +5,18 @@ Class {
 }
 
 { #category : #applying }
-ToElementBottomAnchor >> appliedOnRectangle: aRectangle withValue: aValue [
+ToElementBottomAnchor >> appliedOnRectangle: aRectangle withValue: aValue [ 
 
-	^ aRectangle translateBy: 0 @ (aValue - aRectangle bottom)
+	| x y |
+	y := aValue - (self valueInBounds: aRectangle).
+	x := aRectangle left.
+	^ Rectangle
+		  origin: x @ y
+		  corner: (x + aRectangle width) @ (y + aRectangle height)
 ]
 
 { #category : #applying }
-ToElementBottomAnchor >> readRectangle: aRectangle [ 
+ToElementBottomAnchor >> valueInBounds: aBounds [
 
-	^ aRectangle bottom + element margin bottom
+	^ aBounds bottom
 ]

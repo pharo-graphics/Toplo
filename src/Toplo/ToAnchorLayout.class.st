@@ -42,7 +42,7 @@ Example:
 "
 Class {
 	#name : #ToAnchorLayout,
-	#superclass : #BlLayout,
+	#superclass : #BlBasicLayout,
 	#category : #'Toplo-Support-Anchor'
 }
 
@@ -54,24 +54,15 @@ ToAnchorLayout class >> constraints [
 
 { #category : #layout }
 ToAnchorLayout >> layout: anElement in: aRectangle context: aBlElementBoundsUpdater [
-	"Layout non-ignoredByLayout children"
 
-	| availableBounds |
-	"super
-		layout: anElement
-		in: aRectangle
-		context: aBlElementBoundsUpdater."
-	availableBounds := anElement padding inset:
-		                   (0.0 @ 0.0 extent: anElement extent).
+	super layout: anElement in: aRectangle context: aBlElementBoundsUpdater.
 	anElement children accountedByLayout do: [ :eachChild |
 			eachChild
 				applyLayoutIn: (self
 						 positionInParent: anElement
-						 forChild: eachChild
-						 in: availableBounds)
+						 forChild: eachChild)
 				context: aBlElementBoundsUpdater ].
-
-	"Layout ignoredByLayout children"
+			
 	self layoutIgnored: anElement context: aBlElementBoundsUpdater
 ]
 
@@ -79,16 +70,13 @@ ToAnchorLayout >> layout: anElement in: aRectangle context: aBlElementBoundsUpda
 ToAnchorLayout >> measure: anElement with: anExtentSpec [
 
 	| extent |
-	extent := anExtentSpec sizeForWidth: 0.0 height: 0.0.
-	anElement measuredExtent: extent.
 	super measure: anElement with: anExtentSpec.
+	extent := anElement measuredExtent.
 	anElement children accountedByLayout do: [ :eachChild |
-			| boundsForChild availableBounds |
-			availableBounds := anElement padding inset: (0 @ 0 extent: extent).
+			| boundsForChild |
 			boundsForChild := self
 				                  measureInParent: anElement
-				                  forChild: eachChild
-				                  in: availableBounds.
+				                  forChild: eachChild.
 
 			eachChild measure: (BlExtentMeasurementSpec
 					 widthSpec: (self
@@ -104,19 +92,17 @@ ToAnchorLayout >> measure: anElement with: anExtentSpec [
 ]
 
 { #category : #layout }
-ToAnchorLayout >> measureInParent: anElement forChild: aChild in: availableBounds [
+ToAnchorLayout >> measureInParent: anElement forChild: aChild [ 
 
 	^ aChild constraints anchors
 		  measureInParent: anElement
 		  forChild: aChild
-		  in: availableBounds
 ]
 
 { #category : #layout }
-ToAnchorLayout >> positionInParent: anElement forChild: aChild in: availableBounds [
+ToAnchorLayout >> positionInParent: anElement forChild: aChild [
 
 	^ aChild constraints anchors
 		  positionInParent: anElement
 		  forChild: aChild
-		  in: availableBounds
 ]

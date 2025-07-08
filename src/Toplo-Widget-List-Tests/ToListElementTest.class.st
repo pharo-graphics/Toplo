@@ -7,7 +7,7 @@ Class {
 	#category : #'Toplo-Widget-List-Tests-Core-ListElement'
 }
 
-{ #category : #tests }
+{ #category : #'test node - enablement' }
 ToListElementTest >> listWithRemoveRowButtons [
 
 	| list |
@@ -46,7 +46,7 @@ ToListElementTest >> statesOfAmerica [
 		#Washington. #'West Virginia'. #Wisconsin. #Wyoming }.
 ]
 
-{ #category : #tests }
+{ #category : #'test selection - adding/removing' }
 ToListElementTest >> testDataRemovedWhenNodeRemoved [
 
 	| list but remButtons fillers |
@@ -126,7 +126,136 @@ ToListElementTest >> testDisabledSelectionModel2 [
 		identicalTo: l disabledSelecter selectionModel
 ]
 
-{ #category : #tests }
+{ #category : #'test node - enablement' }
+ToListElementTest >> testDisabledWithFiveNodes [
+
+	| l |
+	l := ToListElement new.
+	l dataAccessor add: 'first'.
+	space root addChild: l.
+	self waitTestingSpaces.
+	l innerElement firstChild holder disabled: true.
+	l dataAccessor addFirst: 'second'.
+	l dataAccessor add: 'third'.
+	l dataAccessor add: 'fourth' afterIndex: 2.
+	l dataAccessor addFirst: 'fifth'.
+	self waitTestingSpaces.
+	self assert: l disabledSelecter selectedIndexes equals: { 3 }
+]
+
+{ #category : #'test node - enablement' }
+ToListElementTest >> testDisabledWithFourNodes [
+
+	| l |
+	l := ToListElement new.
+	l dataAccessor add: 'first'.
+	space root addChild: l.
+	self waitTestingSpaces.
+	l innerElement firstChild holder disabled: true.
+	l dataAccessor addFirst: 'second'.
+	l dataAccessor add: 'third'.
+	l dataAccessor add: 'fourth' afterIndex: 2.
+	self waitTestingSpaces.
+	self assert: l disabledSelecter selectedIndexes equals: { 2 }
+]
+
+{ #category : #'test node - enablement' }
+ToListElementTest >> testDisabledWithFourNodes2 [
+
+	| l |
+	l := ToListElement new.
+	space root addChild: l.
+	l dataAccessor add: 'first'.
+	l dataAccessor add: 'second'.
+	self waitTestingSpaces.
+	l nodes second holder disabled: true.
+	l dataAccessor add: 'third'.
+	l dataAccessor add: 'fourth'.
+	self waitTestingSpaces.
+	self assert: l disabledSelecter selectedIndexes equals: { 2 }
+]
+
+{ #category : #'test node - enablement' }
+ToListElementTest >> testDisabledWithThreeNodes [
+
+	| l |
+	l := ToListElement new.
+	l dataAccessor add: 'first'.
+	space root addChild: l.
+	self waitTestingSpaces.
+	self assert: l innerElement children size equals: 1.
+	self assert: l disabledSelectionModel isEmpty.
+	l innerElement firstChild holder disabled: true.
+	self waitTestingSpaces.
+	self assert: l disabledSelecter selectedIndex equals: 1.
+	l dataAccessor addFirst: 'second'.
+	self waitTestingSpaces.
+	self assert: l disabledSelecter selectedIndex equals: 2.
+	self assert: l disabledSelecter selectedIndexes equals: { 2 }.
+	l dataAccessor add: 'third'.
+	self waitTestingSpaces.
+	self assert: l disabledSelecter selectedIndexes equals: { 2 }
+]
+
+{ #category : #'test node - enablement' }
+ToListElementTest >> testDisabledWithTwoNodes [
+
+	| l |
+	l := ToListElement new.
+	l dataAccessor add: 'first'.
+	space root addChild: l.
+	self waitTestingSpaces.
+	self assert: l innerElement children size equals: 1.
+	self assert: l disabledSelectionModel isEmpty.
+	l disabledSelecter selectIndex: 1.
+	self waitTestingSpaces.
+	self assert: l disabledSelecter selectedIndex equals: 1.
+	l dataAccessor addFirst: 'second'.
+	self waitTestingSpaces.
+	self assert: l disabledSelecter selectedIndex equals: 2.
+	self assert: l disabledSelecter selectedIndexes equals: { 2 }
+]
+
+{ #category : #'test node - enablement' }
+ToListElementTest >> testDisabledWithTwoNodes2 [
+
+	| l |
+	l := ToListElement new.
+	l dataAccessor add: 'first'.
+	space root addChild: l.
+	self waitTestingSpaces.
+	self assert: l nodes size equals: 1.
+	self assert: l disabledSelectionModel isEmpty.
+	l nodes first holder disabled: true.
+	self waitTestingSpaces.
+	self assert: l disabledSelecter selectedIndex equals: 1.
+	l dataAccessor addFirst: 'second'.
+	self waitTestingSpaces.
+	self assert: l disabledSelecter selectedIndex equals: 2.
+	self assert: l disabledSelecter selectedIndexes equals: { 2 }
+]
+
+{ #category : #'test node - enablement' }
+ToListElementTest >> testDisabledWithTwoNodes3 [
+
+	| l |
+	l := ToListElement new.
+	l dataAccessor add: 'first'.
+	space root addChild: l.
+	self waitTestingSpaces.
+	self assert: l nodes size equals: 1.
+	self assert: l disabledSelectionModel isEmpty.
+	l nodes first disabled: true.
+	self waitTestingSpaces.
+	self assert: l disabledSelecter selectedIndex equals: 1.
+	self assert: l nodes first isDisabled.
+	l dataAccessor addFirst: 'second'.
+	self waitTestingSpaces.
+	self assert: l disabledSelecter selectedIndex equals: 2.
+	self assert: l disabledSelecter selectedIndexes equals: { 2 }
+]
+
+{ #category : #'test selection - event' }
 ToListElementTest >> testDoubleListsSelectionEvents [
 
 	| panel list1 list2 tabSize |
@@ -157,6 +286,23 @@ ToListElementTest >> testDoubleListsSelectionEvents [
 	list2 selecter selectIndex: 2.
 	self waitTestingSpaces.
 	self assert: (list2 selectionModel containsIndex: 2)
+]
+
+{ #category : #tests }
+ToListElementTest >> testEmptyList [
+
+	| l |
+	l := ToListElement new.
+	l fitContent.
+	self assert: l nodes identicalTo: l innerElement children.
+	self assert: l selecter selectedIndexes isEmpty.
+	self assert: l selectionModel underlyingModel isEmpty.
+	self assert: l secondarySelectionModel underlyingModel isEmpty.	
+	self assert: l unselectableSelectionModel underlyingModel isEmpty.
+	self assert: l disabledSelectionModel underlyingModel isEmpty.
+	self assert: l disabledSelectionModel underlyingModel isEmpty.
+	self assert: l hiddenSelectionModel underlyingModel isEmpty.
+	self assert: l contextMenuSelectionModel underlyingModel isEmpty
 ]
 
 { #category : #'test selection - select next/previous' }
@@ -272,7 +418,7 @@ ToListElementTest >> testListElementWithFiveDefaultSelectionMode [
 	self assert: l dataAccessor size equals: 5
 ]
 
-{ #category : #'test selection - adding/removing' }
+{ #category : #'test node - enablement' }
 ToListElementTest >> testMakeDisabledUnselectable [
 
 	| l |
@@ -296,7 +442,7 @@ ToListElementTest >> testMakeDisabledUnselectable [
 
 ]
 
-{ #category : #tests }
+{ #category : #'test selection - adding/removing' }
 ToListElementTest >> testNodeDeselectedWhenNodeRemoved [
 
 	| list fillers remButtons but |
@@ -328,7 +474,7 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved [
 		equals: 1
 ]
 
-{ #category : #tests }
+{ #category : #'test selection - adding/removing' }
 ToListElementTest >> testNodeDeselectedWhenNodeRemoved2 [
 
 	| list fillers but |
@@ -358,7 +504,7 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved2 [
 		list primarySelectionMode selectionOption selectionElements isEmpty
 ]
 
-{ #category : #tests }
+{ #category : #'test selection - adding/removing' }
 ToListElementTest >> testNodeDeselectedWhenNodeRemoved3 [
 
 	| list fillers but |
@@ -394,7 +540,7 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved3 [
 		list primarySelectionMode selectionOption selectionElements isEmpty
 ]
 
-{ #category : #tests }
+{ #category : #'test selection - adding/removing' }
 ToListElementTest >> testNodeDeselectedWhenNodeRemoved4 [
 
 	| list fillers but |
@@ -428,6 +574,115 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved4 [
 	self assert: list selectionModel selectedIndexes isEmpty.
 	self assert:
 		list primarySelectionMode selectionOption selectionElements isEmpty
+]
+
+{ #category : #tests }
+ToListElementTest >> testOneSpecifcNode [
+
+	| l |
+	l := ToSpecificListElementForTest new.
+	l dataAccessor add: 'first'.
+	self waitTestingSpaces.
+	self assert: l dataSource first equals: 'first'.
+	" no node since the list is not added in a space "
+	self assert: l innerElement children size equals: 0.
+	self assert: l nodes identicalTo: l innerElement children.
+	self assert: l nodes size equals: 0.
+	" adding the list in the space consequence is a layout computing which update the list nodes"
+	space root addChild: l.
+	self waitTestingSpaces.
+	self assert: l innerElement children size equals: 1.
+	self assert: l innerElement firstChild class identicalTo: ToSpecificListNodeForTest.	
+	self assert: l nodes first class identicalTo: ToSpecificListNodeForTest.	
+	self assert: l nodes first holder class identicalTo: ToSpecificListNodeHolderForTest.	
+	self assert: l nodes first children size equals: 1.	
+	self assert: l nodes first firstChild class identicalTo: ToLabel.	
+	self assert: l nodes first firstChild text asString equals: '1:first'.	
+	self assert: l nodes first holder num equals: 1.	
+	self assert: l nodes first holder dataItem equals: 'first'
+]
+
+{ #category : #'test - selection changed event' }
+ToListElementTest >> testPrimarySelectionChangedEventDispatch [
+	" event dispateched when a selected node is removed "
+
+	| l dispatchedEvent |
+	l := ToListElement new.
+	space root addChild: l.
+	l fitContent.
+	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	l forceLayout.
+	l selecter selectOnlyIndex: 3.
+	" have to pulse space to get selection actually updated "
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: { 3 }.
+	self
+		assert: l selectionMode selectionContainer children size
+		equals: 1.
+	l
+		addEventHandlerOn: ToListPrimarySelectionChangedEvent
+		do: [ :event | dispatchedEvent := event ].
+	dispatchedEvent := nil.
+	l dataAccessor removeAt: 3.
+	" have to pulse to get an updated datasource plus oupdated selection model "
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: {  }.
+	self assert: l selectionMode selectionContainer children isEmpty.
+	self assert: dispatchedEvent notNil
+]
+
+{ #category : #'test - selection changed event' }
+ToListElementTest >> testPrimarySelectionChangedEventDispatch1 [
+	" event dispateched when a selected node is removed "
+
+	| l dispatchedEvent |
+	l := ToListElement new.
+	space root addChild: l.
+	l fitContent.
+	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self waitTestingSpaces.
+	l selecter selectOnlyIndex: 3.
+	self waitTestingSpaces.
+	l
+		addEventHandlerOn: ToListPrimarySelectionChangedEvent
+		do: [ :event | dispatchedEvent := event ].
+	dispatchedEvent := nil.
+	l dataAccessor removeAt: 3.
+	" have to pulse to get an updated datasource plus oupdated selection model "
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: {  }.
+	self assert: l selectionMode selectionContainer children isEmpty.
+	self assert: dispatchedEvent notNil
+]
+
+{ #category : #'test - selection changed event' }
+ToListElementTest >> testPrimarySelectionChangedEventDispatchAfterRemoveAll [
+	" event dispateched when a selected node is removed "
+
+	| l dispatchedEvent |
+	l := ToListElement new.
+	space root addChild: l.
+	l fitContent.
+	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	l forceLayout.
+	l selecter selectOnlyIndex: 3.
+	" have to pulse space to get selection actually updated "
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: { 3 }.
+	self
+		assert: l selectionMode selectionContainer children size
+		equals: 1.
+	l
+		addEventHandlerOn: ToListPrimarySelectionChangedEvent
+		do: [ :event | dispatchedEvent := event ].
+	dispatchedEvent := nil.
+	self assert: l selectionModel selectedIndexes equals: { 3 }.
+	l dataAccessor removeAll.
+	" have to pulse to get an updated datasource plus oupdated selection model "
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: {  }.
+	self assert: l selectionMode selectionContainer children isEmpty.
+	self assert: dispatchedEvent notNil
 ]
 
 { #category : #'test selection - adding/removing' }
@@ -494,6 +749,7 @@ ToListElementTest >> testSelectAndScrollToPrevious [
 	self assert: l dataAccessor size equals: 5.
 	l selecter selectIndex: 4.
 	self waitTestingSpaces.
+	l forceLayout.
 	self assert: l selecter currentIndex equals: 4.
 	self assert: l selectionModel selectedIndexes asArray equals: #( 4 ).
 	l selecter selectIndex: l selecter previousSelectableIndex.
@@ -510,6 +766,25 @@ ToListElementTest >> testSelectAndScrollToPrevious [
 	self
 		assert: l selectionModel selectedIndexes asArray
 		equals: #( 2 3 4 )
+]
+
+{ #category : #'test selection - adding/removing' }
+ToListElementTest >> testSelectionAfterLastRemoval [
+
+	| l |
+	l := ToListElement new.
+	l secondarySelectionMode enabled: false.
+	space root addChild: l.
+	l fitContent.
+	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self assert: l selectionModel selectedIndexes isEmpty.
+	l selecter selectIndexes: #( 5 ).
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: #( 5 ).
+	self waitTestingSpaces.
+	l dataAccessor removeAt: 5.
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: #(  )
 ]
 
 { #category : #'test selection - adding/removing' }
@@ -574,15 +849,15 @@ ToListElementTest >> testSelectionUpdatedAfterInsert3 [
 { #category : #'test selection - adding/removing' }
 ToListElementTest >> testSelectionUpdatedAfterRemove [
 
-	| l sp |
+	| l |
 	l := ToListElement new.
+	space root addChild: l.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
-	l forceLayout.
 	l selecter selectOnlyIndex: 3.
-	l dataAccessor removeAt: 2.
-	space root addChild: l.
 	self waitTestingSpaces.
+	l dataAccessor removeAt: 2.
+
 	self waitTestingSpaces.
 	self assert: l selectionModel selectedIndexes equals: { 2 }
 ]
@@ -696,6 +971,42 @@ ToListElementTest >> testSelectionUpdatedAfterRemove6 [
 	self waitTestingSpaces.
 	self waitTestingSpaces.
 	self assert: l selectionModel selectedIndexes equals: #(  )
+]
+
+{ #category : #'test selection - adding/removing' }
+ToListElementTest >> testSelectionWithOneNode [
+
+	| l |
+	l := ToListElement new.
+	l dataAccessor removeAll.
+	l dataAccessor add: 'first'.
+	space root addChild: l.
+	self waitTestingSpaces.
+	self assert: l innerElement children size equals: 1.
+	self assert: l selectionModel isEmpty.
+	l selecter selectIndex: 1.
+	self waitTestingSpaces.
+	self assert: l selecter selectedIndex equals: 1.
+	self assert: l selectionModel selectedIndexes equals: { 1 }
+]
+
+{ #category : #'test selection - adding/removing' }
+ToListElementTest >> testSelectionWithTwoNodes [
+
+	| l |
+	l := ToListElement new.
+	l dataAccessor add: 'first'.
+	space root addChild: l.
+	self waitTestingSpaces.
+	self assert: l innerElement children size equals: 1.
+	self assert: l selectionModel isEmpty.
+	l selecter selectIndex: 1.
+	self waitTestingSpaces.
+	self assert: l selecter selectedIndex equals: 1.
+	l dataAccessor addFirst: 'second'.
+	self waitTestingSpaces.
+	self assert: l selecter selectedIndex equals: 2.
+	self assert: l selecter selectedIndexes equals: { 2 }
 ]
 
 { #category : #'test selection - mode' }

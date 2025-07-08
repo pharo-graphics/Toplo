@@ -824,16 +824,70 @@ ToSandBox class >> example_AllClasses [
 	l openInSpace
 ]
 
+{ #category : #window }
+ToSandBox class >> example_AllSimplePopups [
+
+	| p pane |
+	pane := ToPane new.
+	pane vertical: true.
+	pane layout cellSpacing: 20.
+	{
+		ToAnchoredBottomCenterPlacement new.
+		ToAnchoredBottomLeftPlacement new.
+		ToAnchoredBottomRightPlacement new.
+		ToAnchoredTopCenterPlacement new.
+		ToAnchoredTopLeftPlacement new.
+		(ToActionPlacement new action: [ :theWin :evt :aBoundsUpdater |
+				 | theElem theRoot |
+				 theElem := theWin anchorElement.
+				 theRoot := theWin anchorRoot.
+				 theWin position:
+					 theElem bounds inSpace bounds topLeft - (0 @ theWin height) ]).
+		ToAnchoredTopRightPlacement new } do: [ :placement |
+			p := self newPopup.
+			p placement: placement.
+			p measurement: (ToActionMeasurement new action: [ :spec :w :e |
+					 spec widthSpec beExact: 130 ]).
+			pane addChild: p anchorElement ].
+	pane addChild: self themeSelectNoDeselectionPopupOnTop.
+	pane position: 150 @30.
+	pane openInSpace
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_AnchorBottomOnParentBottom [
+
+	| pane blue |
+	pane := ToElement new
+		        id: #pane;
+		        yourself.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+	pane padding: (BlInsets all: 2).
+
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue background: Color blue.
+	blue margin: (BlInsets all: 10).
+	blue size: 40 asPoint.
+	blue constraintsDo: [ :c |
+		c anchors add: (blue bottomAnchor on: pane bottomAnchor) ].
+	pane addChild: blue.
+
+	pane openInInnerWindow
+]
+
 { #category : #anchors }
 ToSandBox class >> example_AnchorLayout [
 
 	| pane pink blue red green |
-	pane := ToElement new.
+	pane := ToElement new id: #pane.
 	pane matchParent.
 	pane layout: ToAnchorLayout new.
 	pane border: Color red.
-	pane padding: (BlInsets all: 10).
-
+	pane padding: (BlInsets horizontal: 5 vertical: 12).
 
 	blue := ToElement new
 		        id: #blue;
@@ -842,8 +896,8 @@ ToSandBox class >> example_AnchorLayout [
 	blue size: 30 asPoint.
 	blue margin: (BlInsets all: 10).
 	blue constraintsDo: [ :c |
-			c anchors add: (blue rightAnchor on: (pane rightAnchor)).
-			c anchors add: (blue bottomAnchor on: (pane bottomAnchor)) ].
+			c anchors add: (blue rightAnchor on: pane rightAnchor).
+			c anchors add: (blue bottomAnchor on: pane bottomAnchor) ].
 	pane addChild: blue.
 
 	pink := ToElement new
@@ -852,8 +906,8 @@ ToSandBox class >> example_AnchorLayout [
 	pink background: Color pink.
 	pink size: 10 asPoint.
 	pink constraintsDo: [ :c |
-			c anchors add: (pink rightAnchor on: (pane rightAnchor)).
-			c anchors add: (pink bottomAnchor on: (pane bottomAnchor)) ].
+			c anchors add: (pink rightAnchor on: pane rightAnchor).
+			c anchors add: (pink bottomAnchor on: pane bottomAnchor) ].
 	pane addChild: pink.
 
 	red := ToElement new
@@ -874,8 +928,8 @@ ToSandBox class >> example_AnchorLayout [
 	green size: 10 @ 60.
 	"green margin: (BlInsets all: 10)."
 	green constraintsDo: [ :c |
-			c anchors add: (green rightAnchor on: blue leftAnchor).
-			c anchors add: (green bottomAnchor on: red topAnchor) ].
+			c anchors add: (green bottomAnchor on: red topAnchor).
+			c anchors add: (green rightAnchor on: blue leftAnchor) ].
 	pane addChild: green.
 
 	pane openInInnerWindow
@@ -895,14 +949,91 @@ ToSandBox class >> example_AnchorLayout1 [
 		        id: #blue;
 		        yourself.
 	blue background: Color blue.
-	"blue margin: (BlInsets all: 10)."
-	blue size: 30 asPoint.
+	blue border: Color black.
+	blue margin: (BlInsets all: 10).
 	blue constraintsDo: [ :c |
 			c anchors add: (blue rightAnchor on: pane rightAnchor).
 			c anchors add: (blue bottomAnchor on: pane bottomAnchor).
 			c anchors add: (blue heightAnchor on: pane heightAnchor).
 			c anchors add: (blue widthAnchor on: pane widthAnchor).
 			].
+	pane addChild: blue.
+
+	pane openInInnerWindow
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_AnchorLayout1v2 [
+
+	| pane blue |
+	pane := ToElement new
+		        id: #pane;
+		        yourself.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+	pane padding: (BlInsets all: 2).
+
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue background: Color blue.
+	blue margin: (BlInsets all: 10).
+	blue constraintsDo: [ :c |
+			c anchors add: (blue rightAnchor on: pane rightAnchor).
+			c anchors add: (blue bottomAnchor on: pane bottomAnchor).
+			c anchors add: (blue extentAnchor on: pane extentAnchor) ].
+	pane addChild: blue.
+
+	pane openInInnerWindow
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_AnchorLayout1v3 [
+
+	| pane blue |
+	pane := ToElement new
+		        id: #pane;
+		        yourself.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+	pane padding: (BlInsets all: 2).
+
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue background: Color blue.
+	blue margin: (BlInsets all: 10).
+	blue constraintsDo: [ :c |
+			c anchors add: (blue topLeftAnchor on: pane topLeftAnchor).
+			c anchors add: (blue extentAnchor on: pane extentAnchor) ].
+	pane addChild: blue.
+
+	pane openInInnerWindow
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_AnchorLayout1v4 [
+
+	| pane blue |
+	pane := ToElement new
+		        id: #pane;
+		        yourself.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+	pane padding: (BlInsets all: 2).
+
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue background: Color blue.
+	blue margin: (BlInsets all: 10).
+	blue constraintsDo: [ :c |
+			c anchors add: (blue leftAnchor on: pane leftAnchor).
+			c anchors add: (blue topAnchor on: pane topAnchor).
+			c anchors add: (blue extentAnchor on: pane extentAnchor) ].
 	pane addChild: blue.
 
 	pane openInInnerWindow
@@ -1057,7 +1188,7 @@ ToSandBox class >> example_AnchorLayout3 [
 	blue size: 100 asPoint.
 	blue margin: (BlInsets all: 10).
 	blue constraintsDo: [ :c |
-		c anchors add: (blue centerAnchor on: (pane centerAnchor + 40 asPoint)) ].
+		c anchors add: (blue centerAnchor on: (pane centerAnchor )) ].
 
 	pane addChild: blue.
 
@@ -1072,7 +1203,7 @@ ToSandBox class >> example_AnchorLayout4 [
 	pane matchParent.
 	pane layout: ToAnchorLayout new.
 	pane border: Color red.
-	pane padding: (BlInsets all: 10).
+	"pane padding: (BlInsets all: 10)."
 	blue := ToElement new
 		        id: #blue;
 		        yourself.
@@ -1082,6 +1213,7 @@ ToSandBox class >> example_AnchorLayout4 [
 	blue constraintsDo: [ :c |
 			c anchors add: (blue rightAnchor on: pane rightAnchor).
 			c anchors add: (blue topAnchor on: pane topAnchor).
+			c anchors add: (blue heightAnchor on: pane heightAnchor).
 			c anchors add: (blue heightAnchor on: pane heightAnchor) ].
 	pane addChild: blue.
 
@@ -1116,7 +1248,6 @@ ToSandBox class >> example_AnchorLayout5 [
 		        id: #blue;
 		        yourself.
 	blue background: Color blue.
-	blue size: 30 asPoint.
 	blue constraintsDo: [ :c |
 			c anchors add: (blue leftAnchor on: pane leftAnchor).
 			c anchors add: (blue topAnchor on: pane topAnchor).
@@ -1143,7 +1274,6 @@ ToSandBox class >> example_AnchorLayout6 [
 		        yourself.
 	blue layout: BlBasicLayout new.
 	blue background: Color blue.
-	blue size: 30 asPoint.
 	blue constraintsDo: [ :c |
 			c anchors add: (blue heightAnchor on: pane heightAnchor - 40).
 			c anchors add: (blue widthAnchor on: pane widthAnchor - 40).
@@ -1181,6 +1311,312 @@ ToSandBox class >> example_AnchorLayout6 [
 	
 
 	pane openInInnerWindow
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_AnchorLayout7 [
+
+	| pane blue red |
+	pane := ToElement new.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+	"pane padding: (BlInsets all: 10)."
+
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue background: Color blue muchDarker darker.
+	blue size: 100 asPoint.
+	blue margin: (BlInsets all: 10).
+	blue constraintsDo: [ :c |
+		c anchors add:
+			(blue centerAnchor on: pane centerAnchor + 40 asPoint) ].
+
+	red := ToElement new
+		       id: #red;
+		       layout: BlFrameLayout new;
+		       yourself.
+	red background: Color red.
+	red size: 20 @ 20.
+	red constraintsDo: [ :c |
+			c anchors add: ((red pointAnchor point: 20 asPoint) on:
+					 (blue pointAnchor point: 0 asPoint)) ].
+				
+
+	pane addChild: blue.
+	pane addChild: red.
+
+	pane openInInnerWindow
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_AnchorLayout8 [
+
+	| pane blue red |
+	pane := ToElement new.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+	"pane padding: (BlInsets all: 10)."
+
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue background: Color blue muchDarker darker.
+	blue size: 100 asPoint.
+	blue margin: (BlInsets all: 10).
+	blue constraintsDo: [ :c |
+		c anchors add:
+			(blue centerAnchor on: pane centerAnchor) ].
+
+	red := ToElement new
+		       id: #red;
+		       layout: BlFrameLayout new;
+		       yourself.
+	red background: Color red.
+	red size: 20 @ 20.
+	red constraintsDo: [ :c |
+			c anchors add: ((red topRightAnchor) on:
+					 (blue pointAnchor point: -10 asPoint)) ].
+				
+
+	pane addChild: blue.
+	pane addChild: red.
+
+	pane openInInnerWindow
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_AnchorLayout9 [
+
+	| pane blue red |
+	pane := ToElement new.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+	"pane padding: (BlInsets all: 10)."
+
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue background: Color blue muchDarker darker.
+	blue size: 100 asPoint.
+	blue margin: (BlInsets all: 10).
+	blue constraintsDo: [ :c |
+		c anchors add:
+			(blue centerAnchor on: pane centerAnchor) ].
+
+	red := ToElement new
+		       id: #red;
+		       layout: BlFrameLayout new;
+		       yourself.
+	red background: Color red.
+	red size: 20 @ 20.
+	red constraintsDo: [ :c |
+			c anchors add: ((red topRightAnchor + (0@10) ) on:
+					 (blue pointAnchor point: 0 asPoint)) ].
+				
+
+	pane addChild: blue.
+	pane addChild: red.
+
+	pane openInInnerWindow
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_AnchorLeftOnParentLeft [
+
+	| pane blue |
+	pane := ToElement new
+		        id: #pane;
+		        yourself.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+	pane padding: (BlInsets all: 2).
+
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue background: Color blue.
+	blue margin: (BlInsets all: 10).
+	blue size: 40 asPoint.
+	blue constraintsDo: [ :c |
+		c anchors add: (blue leftAnchor on: pane leftAnchor) ].
+	pane addChild: blue.
+
+	pane openInInnerWindow
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_AnchorRightOnParentRight [
+
+	| pane blue |
+	pane := ToElement new id: #pane; yourself.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+	pane padding: (BlInsets all: 2).
+
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue background: Color blue.
+	blue margin: (BlInsets all: 10).
+	blue size: 40 asPoint.
+	blue constraintsDo: [ :c |
+			c anchors add: (blue rightAnchor on: pane rightAnchor).
+			].
+	pane addChild: blue.
+
+	pane openInInnerWindow
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_AnchorTopOnParentTop [
+
+	| pane blue |
+	pane := ToElement new
+		        id: #pane;
+		        yourself.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+	pane padding: (BlInsets all: 2).
+
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue background: Color blue.
+	blue margin: (BlInsets all: 10).
+	blue size: 40 asPoint.
+	blue constraintsDo: [ :c |
+		c anchors add: (blue topAnchor on: pane topAnchor) ].
+	pane addChild: blue.
+
+	pane openInInnerWindow
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_AnchorWithPointTransition [
+
+	| pane blue red count |
+	pane := ToElement new
+		        id: #pane;
+		        yourself.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue background: Color blue.
+	blue border: Color black.
+	blue size: 20 asPoint.
+	blue position: 50 asPoint.
+	pane addChild: blue.
+
+	red := ToElement new
+		       id: #red;
+		       yourself.
+	red background: Color red.
+	red size: 20 asPoint.
+	count := 0.
+	red constraintsDo: [ :c |
+			c anchors add:
+				(red bottomRightAnchor on: blue topLeftAnchor - (2 @ 2)) ].
+	pane addChild: red.
+
+	red enqueueTask: (BlTaskAction new action: [
+				 | anim |
+				 anim := ToPointTransition new.
+				 anim from: 50 asPoint.
+				 anim to: 500 @ 500.
+				 anim duration: 10 seconds.
+				 anim onStepDo: [ :aPosition :target | target position: aPosition ].
+				 anim delay: 400 milliSeconds.
+				 blue addAnimation: anim ]).
+
+	pane openInSpace
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_AnchorsAroundCircle [
+
+	| blue |
+	blue := self example_AnchorsAroundRectangle.
+	blue size: 100 asPoint.
+	blue geometry: BlCircleGeometry new
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_AnchorsAroundEllipse [
+
+	| blue |
+	blue := self example_AnchorsAroundRectangle.
+	blue size: 100 @ 70.
+	blue geometry: BlEllipseGeometry new
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_AnchorsAroundRectangle [
+
+	| pane blue |
+	pane := ToElement new.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+
+	"pane padding: (BlInsets all: 10)."
+
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue background: Color blue muchDarker darker.
+	blue margin: (BlInsets horizontal: 40 vertical: 40).
+	blue constraintsDo: [ :c |
+			c anchors add:
+				(blue extentAnchor on: pane extentAnchor - 120 asPoint ).
+			c anchors add: (blue centerAnchor on: pane centerAnchor) ].
+
+	pane addChild: blue.
+
+	{ 0. 45. 90. 135. 180. 225. 270. 315 } do: [ :degrees |
+			| deg lab |
+			deg := ToElement new
+				       id: degrees asString asSymbol;
+				       layout: BlFrameLayout new;
+				       yourself.
+			lab := (ToLabel text: degrees asString , '°')
+				       foreground: Color white;
+				       withNullSkin;
+				       yourself.
+			lab constraintsDo: [ :c |
+					c frame horizontal alignCenter.
+					c frame vertical alignCenter ].
+			deg addChild: lab.
+			deg background: Color gray.
+			deg size: 24 @ 22.
+			deg constraintsDo: [ :c |
+					c anchors add:
+						(deg centerAnchor on: (blue perimeterAnchor degrees: degrees)) ].
+			pane addChild: deg ].
+
+	pane openInInnerWindow.
+	^ blue
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_AnchorsAroundRoundRectangle [
+
+	| blue |
+	blue := self example_AnchorsAroundRectangle.
+	blue margin: (BlInsets all: 10).
+	blue size: 200 @ 200.
+	blue geometry: (BlRoundedRectangleGeometry cornerRadius: 50).
+
 ]
 
 { #category : #list }
@@ -1299,6 +1735,61 @@ ToSandBox class >> example_ButtonTurnedAsToggleButton [
 	toggle icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
 	toggle checked: false.
 	toggle openInInnerWindow
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_CenterLayout [
+
+	| pane pink blue red green |
+	pane := ToElement new.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue layout: ToAnchorLayout new.
+	blue background: Color blue.
+	blue size: 150 asPoint.
+	blue constraintsDo: [ :c |
+			c anchors add: (blue centerAnchor on: (pane centerAnchor)) ].
+	pane addChild: blue.
+
+	
+	pink := ToElement new
+		        id: #pink;
+		        yourself.
+	pink background: Color pink.
+	pink size: 100 asPoint.
+	pink constraintsDo: [ :c |
+			c anchors add: (pink centerAnchor on: (blue centerAnchor)) ].
+	blue addChild: pink.
+
+	
+	red := ToElement new
+		       id: #red;
+		       yourself.
+	red background: Color red.
+	red size: 20 asPoint.
+	red constraintsDo: [ :c |
+			c anchors add: (red centerAnchor on: pink centerAnchor) ].
+	pane addChild: red.
+
+	
+	green := ToElement new
+		         id: #green;
+		         yourself.
+	green background: Color green.
+	green size: 10 @ 10.
+
+	green constraintsDo: [ :c |
+			c anchors add: (green topAnchor on: red topAnchor).
+			c anchors add: (green heightAnchor on: pink heightAnchor).
+			c anchors add: (green rightAnchor on: blue leftAnchor) ].
+	pane addChild: green.
+
+	pane openInInnerWindow
 ]
 
 { #category : #checkbox }
@@ -1963,6 +2454,32 @@ ToSandBox class >> example_EditorWithoutSoftLine [
 	view withoutSoftLine.
 	view text: ((String loremIpsum: 10000) asRopedText fontName: 'Source Code Pro').
 	view openInSpace
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_ExtentAnchor [
+
+	| pane blue |
+	pane := ToElement new
+		        id: #pane;
+		        yourself.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+	"pane padding: (BlInsets all: 20)."
+
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue margin: (BlInsets horizontal: 40 vertical: 40).
+	blue background: Color blue.
+	blue constraintsDo: [ :c |
+			c anchors add: (blue leftAnchor on: pane leftAnchor).
+			c anchors add: (blue topAnchor on: pane topAnchor).
+			c anchors add: (blue extentAnchor on: pane extentAnchor) ].
+	pane addChild: blue.
+
+	pane openInInnerWindow
 ]
 
 { #category : #list }
@@ -2656,7 +3173,62 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 
 	| l |
 	l := self listWithEditableAndContextMenu.
-	l openInInnerWindow
+	l openInSpace.
+	^ l
+]
+
+{ #category : #float }
+ToSandBox class >> example_ListWithFloatButtons [
+
+	| floatLayer floatContainer list addBtn removeBtn floatAdd floatRemove |
+	list := self example_ListWithEditableAndContextMenu.
+	addBtn := ToButton  new iconImage:
+		          (ToMaterialDesignIconProvider innerImageNamed:
+			           'outlined_addcircleoutline').
+	addBtn addAllStamps: { #circle. #iconic. #borderless }.
+	addBtn icon size: 25 asPoint.
+	removeBtn := ToButton new iconImage:
+		             (ToMaterialDesignIconProvider innerImageNamed:
+			              'outlined_removecircleoutline').
+	removeBtn addAllStamps: { #circle. #iconic. #borderless }.
+	removeBtn icon size: 25 asPoint.
+	
+	removeBtn clickAction: [
+			list selecter selectedIndexes reverseDo: [ :idx |
+				list dataAccessor removeAt: idx ] ].
+		
+	addBtn clickAction: [
+			list dataAccessor addFirst:
+				String loremIpsum substrings first , ' (inserted as first item)' ].
+
+	floatAdd := addBtn asFloatElement.
+	floatRemove := removeBtn asFloatElement.
+	
+	
+	floatAdd geometry: BlCircleGeometry new.
+	floatRemove geometry: BlCircleGeometry new.
+	
+	floatRemove visibility: BlVisibility hidden.
+
+	list
+		addEventHandlerOn: ToListPrimarySelectionChangedEvent
+		do: [ :evt |
+				floatRemove visibility: (evt selectedIndexes
+						 ifEmpty: [ BlVisibility hidden ]
+						 ifNotEmpty: [ BlVisibility visible ]) ].
+
+	floatLayer := ToFloatOverlay new.
+	floatLayer attachToParent: list.
+
+	floatContainer := ToFloatContainer new.
+	floatContainer addChild: floatRemove.
+	floatContainer addChild: floatAdd.
+	floatContainer constraintsDo: [ :c |
+			c anchors add:
+				(floatContainer rightAnchor on: floatLayer rightAnchor).
+			c anchors add:
+				(floatContainer bottomAnchor on: floatLayer bottomAnchor) ].
+	floatLayer addChild: floatContainer
 ]
 
 { #category : #list }
@@ -2718,7 +3290,6 @@ ToSandBox class >> example_ListWithSelectionHistory [
 	statesList := ToListElement new matchParent.
 
 	historyList := ToListElement new matchParent.
-	historyList inspect.
 	statesList dataAccessor addAll: self statesOfAmerica.
 	pane addChildren: {
 			statesList.
@@ -3203,6 +3774,46 @@ ToSandBox class >> example_OpenSaveSaveAsCloseWithSubmenu [
 	container openInSpace
 ]
 
+{ #category : #anchors }
+ToSandBox class >> example_PerimeterAnchorOnLeftHandSide [
+
+	| pane blue red |
+	pane := ToElement new.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+
+	pane padding: (BlInsets all: 10).
+
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue background: Color blue muchDarker darker.
+	blue size: 100 @ 50.
+	blue margin: (BlInsets horizontal: 40 vertical: 40).
+	blue constraintsDo: [ :c |
+			c anchors add:
+				(blue verticalCenterAnchor on: pane verticalCenterAnchor).
+			c anchors add:
+				(blue horizontalCenterAnchor on: pane horizontalCenterAnchor) ].
+
+	pane addChild: blue.
+
+	red := ToElement new
+		       id: #red;
+		       layout: BlFrameLayout new;
+		       yourself.
+	red background: Color red.
+	red size: 24 @ 22.
+	red constraintsDo: [ :c |
+			c anchors add:
+				((red perimeterAnchor degrees: 90) on: blue bottomLeftAnchor) ].
+	pane addChild: red.
+
+	pane openInInnerWindow.
+	^ blue
+]
+
 { #category : #list }
 ToSandBox class >> example_PicsumPhotosGallery [
 	" cool example adapted from the feenk Glamorous Toolkit version BlInfiniteExample>>exampleGallery"
@@ -3401,6 +4012,35 @@ ToSandBox class >> example_RadioButtonWithIndeterminate [
 	but checked: #something. " any value except a boolean (and except nil) for indeterminate state "
 	but labelText: 'Radio'.
 	but openInSpace
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_RandomPositionOnLayoutWithActionAnchor [
+
+	| pane red |
+	pane := ToElement new.
+	pane matchParent.
+	pane layout: ToAnchorLayout new.
+	pane border: Color red.
+	"pane padding: (BlInsets all: 10)."
+
+	red := ToElement new
+		       id: #red;
+		       layout: BlFrameLayout new;
+		       yourself.
+	red background: Color red.
+	red size: 20 @ 20.
+	red constraintsDo: [ :c |
+			| rand |
+			rand := Random new.
+			c anchors add:
+				(red topLeftAnchor on: (red actionAnchor: [ :v :e |
+							  (rand nextIntegerBetween: 1 and: pane measuredWidth)
+							  @ (rand nextIntegerBetween: 1 and: pane measuredHeight) ])) ].
+
+	pane addChild: red.
+
+	pane openInInnerWindow
 ]
 
 { #category : #transitions }
@@ -4003,7 +4643,7 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 ]
 
 { #category : #list }
-ToSandBox class >> example_SieveOnList2With_350000_Items [
+ToSandBox class >> example_SieveOnList2With_175000_Items [
 
 	| listElement pane filterField data sieve |
 	pane := ToPane new
@@ -4027,11 +4667,10 @@ ToSandBox class >> example_SieveOnList2With_350000_Items [
 	listElement margin: (BlInsets all: 2).
 	listElement withRowNumbers.
 	filterField margin: (BlInsets all: 2).
-	listElement dataAccessor addAll: data.
-
 	sieve := listElement newSieve.
 	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll: data.
+
 	listElement dataAccessor size traceCr.
 	filterField whenTextEditedDo: [
 				 | pattern |
@@ -4612,20 +5251,7 @@ ToSandBox class >> example_ThemeSelectNoDeselection [
 ToSandBox class >> example_ThemeSelectNoDeselectionPopupOnTop [
 
 	| select |
-	select := self themeSelect.
-	select placeholderText:
-		('Select a Toplo theme' asRopedText foreground: Color lightGray).
-	select
-		addEventHandlerOn: ToSelectChangedEvent
-		do: [ :event | event selectedData asString traceCr ].
-	select selecter selectIndex: 4.
-	select allowDeselection: false.
-	select position: 210 @ 150.
-	select width: 200.
-	"select manager measurement:
-		(ToActionMeasurement new action: [ :w :evt |
-			 w root hFitContent ])."
-	select popupWindowPlacement: ToAnchoredTopCenterPlacement new.
+	select := self themeSelectNoDeselectionPopupOnTop.
 	select openInSpace
 ]
 
@@ -5266,9 +5892,9 @@ ToSandBox class >> example_clickAction [
 { #category : #list }
 ToSandBox class >> example_contactList [
 
-	| panel button list contacts contact nameTxtF phoneTxtF addressTxtF inputPane |
+	| panel updateButton addPredefinedButton addPredefinedAction dataBlock list contact nameTxtF phoneTxtF addressTxtF inputPane data |
 	self flag:
-		'issue when clicking on the row remove button in case the row is selected: the selection element is not correctly removed '.
+		'issue when clicking on the last row remove button in case the last row is selected: the selection element is not correctly updated '.
 
 	panel := ToPane vertical.
 	panel constraints horizontal matchParent.
@@ -5278,103 +5904,115 @@ ToSandBox class >> example_contactList [
 	nameTxtF := ToTextField new
 		            width: 100;
 		            placeholderBuilder: [ :placeholder :e |
-			            placeholder addChild: (ToAttributedLabel new
-						             text: ('Name' asRopedText
-								              foreground: Color lightGray;
-								              italic);
-						             yourself) ].
+				            placeholder addChild: (ToAttributedLabel new
+							             text: ('Name' asRopedText
+									              foreground: Color lightGray;
+									              italic);
+							             yourself) ].
 	phoneTxtF := ToTextField new
 		             width: 100;
 		             placeholderBuilder: [ :placeholder :e |
-			             placeholder addChild: (ToAttributedLabel new
-						              text: ('Phone' asRopedText
-								               foreground: Color lightGray;
-								               italic);
-						              yourself) ].
+				             placeholder addChild: (ToAttributedLabel new
+							              text: ('Phone' asRopedText
+									               foreground: Color lightGray;
+									               italic);
+							              yourself) ].
 	addressTxtF := ToTextField new
 		               width: 200;
 		               placeholderBuilder: [ :placeholder :e |
-			               placeholder addChild: (ToAttributedLabel new
-						                text: ('Adress' asRopedText
-								                 foreground: Color lightGray;
-								                 italic);
-						                yourself) ].
+				               placeholder addChild: (ToAttributedLabel new
+							                text: ('Adress' asRopedText
+									                 foreground: Color lightGray;
+									                 italic);
+							                yourself) ].
 
 	list addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :evt |
-				 evt selectedIndexes size = 1 ifTrue: [
-					 contact := list dataAccessor at: evt selectedIndexes anyOne.
-					 nameTxtF text: contact name.
-					 phoneTxtF text: contact phoneNumber.
-					 addressTxtF text: contact address ] ]).
+					 evt selectedIndexes size = 1 ifTrue: [
+							 contact := list dataAccessor at: evt selectedIndexes anyOne.
+							 nameTxtF text: contact name.
+							 phoneTxtF text: contact phoneNumber.
+							 addressTxtF text: contact address ] ]).
 
-	button := ToButton new label: (ToLabel text: 'Update table').
-	button clickAction: [
-		| n p a c idx |
-		n := nameTxtF text asString.
-		p := phoneTxtF text asString.
-		a := addressTxtF text asString.
-		idx := list dataAccessor
-			       detectIndex: [ :e | e name = n ]
-			       ifNone: [  ].
-		c := ToContactExampleObject new
-			     name: n;
-			     phoneNumber: p;
-			     address: a;
-			     yourself.
-		idx
-			ifNotNil: [ list dataAccessor at: idx put: c ]
-			ifNil: [ list dataAccessor add: c ] ].
+	updateButton := ToButton new
+		                labelText: 'Update table';
+		                yourself.
+	updateButton clickAction: [
+			| n p a c idx |
+			n := nameTxtF text asString.
+			p := phoneTxtF text asString.
+			a := addressTxtF text asString.
+			idx := list dataAccessor
+				       detectIndex: [ :e | e name = n ]
+				       ifNone: [ ].
+			c := ToContactExampleObject new
+				     name: n;
+				     phoneNumber: p;
+				     address: a;
+				     yourself.
+			idx
+				ifNotNil: [ list dataAccessor at: idx put: c ]
+				ifNil: [ list dataAccessor add: c ] ].
+
+	data := {
+		        { 'Patty'. '0299041101'. 'Brest' }.
+		        { 'Paulie'. '0298010101'. 'Brest' }.
+		        { 'Charly'. '0294561101'. 'Brest' }.
+		        { 'Fraise'. '0298010528'. 'Brest' } }.
+	addPredefinedButton := ToButton new
+		                       labelText: 'add predefined items';
+		                       yourself.
+	dataBlock := [
+		             | items |
+		             items := data collect: [ :triplet |
+				                      contact := ToContactExampleObject new.
+				                      contact name: triplet first.
+				                      contact phoneNumber: triplet second.
+				                      contact address: triplet third.
+				                      contact ].
+		             list dataAccessor addAll: items ].
+
+	addPredefinedAction := addPredefinedButton newClickAction: [
+		                       dataBlock value ].
+	addPredefinedAction run.
 	inputPane := ToPane horizontal.
 	inputPane layout cellSpacing: 10.
 	inputPane addChildren: {
 			nameTxtF.
 			phoneTxtF.
 			addressTxtF.
-			button }.
+			updateButton.
+			addPredefinedButton }.
 	inputPane childrenDo: [ :child |
 		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
-	contacts := OrderedCollection new.
-	contact := ToContactExampleObject new.
-	contact name: 'Patty'.
-	contact phoneNumber: '0299041101'.
-	contact address: 'Brest'.
-	contacts add: contact.
-	contact := ToContactExampleObject new.
-	contact name: 'Paulie'.
-	contact phoneNumber: '0298010101'.
-	contact address: 'Brest'.
-	contacts add: contact.
+
 	list nodeBuilder: [ :node :dataItem :holder |
-		| line remBut |
-		node ensureCanManageSkin.
-		line := ToElement new
-			        layout: BlLinearLayout horizontal;
-			        matchParent.
-		line addChild: (ToLabel new
-				 text: dataItem name;
-				 width: 100;
-				 margin: (BlInsets right: 10)).
-		line addChild: (ToLabel new
-				 text: dataItem phoneNumber;
-				 width: 100;
-				 margin: (BlInsets right: 10)).
-		line addChild: (ToLabel new
-				 text: dataItem address;
-				 width: 200;
-				 margin: (BlInsets right: 10)).
-		line addChild: ToElement new matchParent.
-		remBut := ToIconicRemoveButton new.
-		remBut constraintsDo: [ :c | c linear vertical alignCenter ].
-		remBut addEventHandler: (BlEventHandler
-				 on: BlClickEvent
-				 do: [ :event |
-					 event consume.
-					 holder listElement dataAccessor removeAt: holder position ]).
-		line addChild: remBut.
-		node addChild: line ].
-	list dataAccessor addAll: contacts.
+			| line remBut |
+			node ensureCanManageSkin.
+			line := ToElement new
+				        layout: BlLinearLayout horizontal;
+				        matchParent.
+			line addChild: (ToLabel new
+					 text: dataItem name;
+					 width: 100;
+					 margin: (BlInsets right: 10)).
+			line addChild: (ToLabel new
+					 text: dataItem phoneNumber;
+					 width: 100;
+					 margin: (BlInsets right: 10)).
+			line addChild: (ToLabel new
+					 text: dataItem address;
+					 width: 200;
+					 margin: (BlInsets right: 10)).
+			line addChild: ToElement new matchParent.
+			remBut := ToIconicRemoveButton new.
+			remBut constraintsDo: [ :c | c linear vertical alignCenter ].
+			remBut clickAction: [ :event | "event consume."
+				holder listElement dataAccessor removeAt: holder position ].
+			line addChild: remBut.
+			node addChild: line ].
+
 	panel addChild: inputPane.
 	panel addChild: list.
 	panel openInSpace
@@ -6107,6 +6745,7 @@ ToSandBox class >> example_menuPane3 [
 	bar addFiller.
 	3 timesRepeat: [
 		menu := ToMenu new.
+		menu anchorRoot: frame pane.
 		menu vertical: false.
 		menu showExpandIcon: true.
 		menu alignCenter: true.
@@ -6445,6 +7084,52 @@ ToSandBox class >> example_overlayWindow2 [
 		anchWin border: (BlBorder paint: Color black width: 2) ].
 	e openInInnerWindow.
 	(windowManager newWindowEvent: nil) popup
+]
+
+{ #category : #anchors }
+ToSandBox class >> example_pointOnPerimeterAtRadians [
+
+	| view element count points angle polygon |
+	view := BlElement new.
+	view constraintsDo: [ :c |
+			c vertical matchParent.
+			c horizontal matchParent ].
+	view background: Color white.
+
+	"Créer un élément arrondi simple, sans marges"
+	element := ToElement new.
+	element margin: (BlInsets all: 10).
+	element geometry: (BlRoundedRectangleGeometry cornerRadius: 50).
+	element extent: 300 @ 100.
+	element position: 30 @ 30.
+	element background: Color lightGray.
+	view addChild: element.
+	view forceLayout.
+
+	"Calculer les points sur le périmètre"
+	count := 1000.
+	points := (0 to: count - 1) collect: [ :i |
+			          angle := 2 * Float pi * i / count.
+			          element geometry
+				          pointOnPerimeterAtRadians: angle
+				          of: element ].
+
+	"Tracer une polyligne pour relier les points"
+	polygon := (BlPolygonGeometry vertices: points) asElement.
+	polygon border: Color red.
+	view addChild: polygon.
+
+	"Afficher les points en petits cercles"
+	points do: [ :pt |
+			| dot |
+			dot := BlElement new.
+			dot geometry: BlEllipseGeometry new.
+			dot extent: 2 @ 2.
+			dot position: pt - (1 @ 1).
+			dot background: Color blue.
+			view addChild: dot ].
+
+	view openInSpace
 ]
 
 { #category : #window }
@@ -8678,7 +9363,7 @@ ToSandBox class >> selectableLabeledIconlWithIconAndText [
 { #category : #tree }
 ToSandBox class >> selectionChangedEvent: anEvent [
 
-	anEvent traceCr.
+	"anEvent traceCr."
 ]
 
 { #category : #bar }
@@ -8903,6 +9588,27 @@ ToSandBox class >> themeSelect [
 
 	select popupListElement dataAccessor addAll: themes.
 	^ select
+]
+
+{ #category : #select }
+ToSandBox class >> themeSelectNoDeselectionPopupOnTop [
+
+	| select |
+	select := self themeSelect.
+	select placeholderText:
+		('Select a Toplo theme' asRopedText foreground: Color lightGray).
+	select
+		addEventHandlerOn: ToSelectChangedEvent
+		do: [ :event | event selectedData asString traceCr ].
+	select selecter selectIndex: 4.
+	select allowDeselection: false.
+	select position: 210 @ 150.
+	select width: 200.
+	"select manager measurement:
+		(ToActionMeasurement new action: [ :w :evt |
+			 w root hFitContent ])."
+	select popupWindowPlacement: ToAnchoredTopCenterPlacement new.
+	^ select 
 ]
 
 { #category : #triplet }

@@ -12,6 +12,12 @@ Class {
 }
 
 { #category : #initialization }
+ToFloatOverlay >> defaultElevation [
+
+	^ BlRelativeElevation elevation: 20
+]
+
+{ #category : #initialization }
 ToFloatOverlay >> defaultLayout [
 
 	^ ToAnchorLayout new
@@ -21,7 +27,8 @@ ToFloatOverlay >> defaultLayout [
 ToFloatOverlay >> initialize [ 
 
 	super initialize.
-	self layout: self defaultLayout
+	self layout: self defaultLayout.
+	self elevation: self defaultElevation 
 ]
 
 { #category : #accessing }

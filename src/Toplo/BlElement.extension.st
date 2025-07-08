@@ -1,6 +1,15 @@
 Extension { #name : #BlElement }
 
 { #category : #'*Toplo' }
+BlElement >> actionAnchor: aBlock [
+
+	^ ToActionAnchor new
+		  action: aBlock;
+		  baseAnchor: self nilAnchor;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
 BlElement >> addAllStamps: aCollectionOfSymbol [
 
 	self ensuredToStyleStore addAllStamps: aCollectionOfSymbol
@@ -102,6 +111,22 @@ BlElement >> borderBuilder [
 BlElement >> bottomAnchor [
 
 	^ ToElementBottomAnchor new
+		  element: self;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
+BlElement >> bottomLeftAnchor [
+
+	^ ToElementBottomLeftAnchor new
+		  element: self;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
+BlElement >> bottomRightAnchor [
+
+	^ ToElementBottomRightAnchor new
 		  element: self;
 		  yourself
 ]
@@ -219,6 +244,14 @@ BlElement >> ensuredSkinManager [
 BlElement >> ensuredToStyleStore [
 
 	^ self userData at: #toStyleStore ifAbsentPut: [ ToStyleStore new onInstalledIn: self; yourself]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> extentAnchor [
+
+	^ ToElementExtentAnchor new
+		  element: self;
+		  yourself
 ]
 
 { #category : #'*Toplo' }
@@ -483,6 +516,15 @@ BlElement >> lookupWritablePropertyNamed: aSymbol [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> neutralAnchor: aNeutralValue [
+
+	^ ToNeutralAnchor new
+		  element: self;
+		neutralValue: aNeutralValue;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
 BlElement >> newClosedEvent [
 
 	^ self closedEventClass new
@@ -538,6 +580,14 @@ BlElement >> nextConfigurationPass [
 BlElement >> nextConfigurationPass: aNumber [
 
 	self userData at: #nextConfigurationPass put: aNumber
+]
+
+{ #category : #'*Toplo' }
+BlElement >> nilAnchor [
+
+	^ ToNeutralAnchor new
+		  element: self;
+		  yourself
 ]
 
 { #category : #'*Toplo' }
@@ -608,6 +658,22 @@ BlElement >> parentChainReverseDo: aBlock [
 	"evaluate a block with each of my parents (including myself) ordered from my space root to myself  "
 
 	self parentChain reverseDo: aBlock
+]
+
+{ #category : #'*Toplo' }
+BlElement >> perimeterAnchor [
+
+	^ ToElementPerimeterAnchor new
+		  element: self;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
+BlElement >> pointAnchor [ 
+
+	^ ToElementPointAnchor new
+		  element: self;
+		  yourself
 ]
 
 { #category : #'*Toplo' }
@@ -877,6 +943,22 @@ BlElement >> tokenValueNamed: aSymbol [
 BlElement >> topAnchor [
 
 	^ ToElementTopAnchor new
+		  element: self;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
+BlElement >> topLeftAnchor [
+
+	^ ToElementTopLeftAnchor new
+		  element: self;
+		  yourself
+]
+
+{ #category : #'*Toplo' }
+BlElement >> topRightAnchor [
+
+	^ ToElementTopRightAnchor new
 		  element: self;
 		  yourself
 ]

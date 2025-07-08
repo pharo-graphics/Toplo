@@ -34,11 +34,23 @@ ToElementCompositeCommand >> applyWithOperator: anOperator [
 	commands do: [ :c | c applyWithOperator: anOperator ]
 ]
 
+{ #category : #accessing }
+ToElementCompositeCommand >> commands [ 
+
+	^ commands
+]
+
 { #category : #initialization }
 ToElementCompositeCommand >> initialize [
 
 	super initialize.
 	commands := OrderedCollection new
+]
+
+{ #category : #testing }
+ToElementCompositeCommand >> isComposite [ 
+
+	^ true
 ]
 
 { #category : #application }

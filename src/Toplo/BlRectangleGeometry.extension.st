@@ -1,30 +1,28 @@
 Extension { #name : #BlRectangleGeometry }
 
 { #category : #'*Toplo' }
-BlRectangleGeometry >> positionOnBorderAtDegrees: aDegrees of: anElement [
-	" returns  the position (Point) on myself border at angle aDegrees "
-
-	^ self
-		  positionOnBorderAtRadians: aDegrees * Float pi / 180
-		  of: anElement
-]
-
-{ #category : #'*Toplo' }
-BlRectangleGeometry >> positionOnBorderAtRadians: anAngle of: anElement [
+BlRectangleGeometry >> pointOnPerimeterAtRadians: anAngleInRadians of: anElement [
 	" returns  the position (Point) on myself border at angle anAngle (en radians)"
 
-	| bnds dx dy scale x y center |
-	dx := anAngle cos.
-	dy := anAngle sin.
+	| adjustedRect dx dy scale x y halfWidth halfHeight usedCenter insets bnds |
+	insets := anElement margin.
+	bnds := anElement measuredBounds asRectangle.
 
-	bnds := anElement bounds.
-	center := bnds position + (bnds extent / 2).
+	adjustedRect := Rectangle
+		                origin: bnds topLeft + insets topLeft negated
+		                corner: bnds bottomRight + insets bottomRight.
 
-	"Détermination du facteur d’échelle pour rester sur le bord"
-	scale := 1 / (dx abs / center x max: dy abs / center y).
+	usedCenter := adjustedRect center.
+	dx := anAngleInRadians cos.
+	dy := anAngleInRadians sin.
 
-	x := center x + (dx * scale).
-	y := center y + (dy * scale).
+	halfWidth := adjustedRect width / 2.
+	halfHeight := adjustedRect height / 2.
+
+	scale := 1 / (dx abs / halfWidth max: dy abs / halfHeight).
+
+	x := usedCenter x + (dx * scale).
+	y := usedCenter y + (dy * scale).
 
 	^ x @ y
 ]

@@ -111,15 +111,14 @@ ToInnerWindow >> expandButton [
 ]
 
 { #category : #initialization }
-ToInnerWindow >> initialize [ 
+ToInnerWindow >> initialize [
 
 	super initialize.
 	self layout: BlLinearLayout vertical.
-	self size: self defaultSize.
+	self extent: self defaultSize.
 	self initializeBarElement.
 	self initializePaneElement.
-	self initializeGrips.
-
+	self initializeGrips
 ]
 
 { #category : #accessing }
@@ -153,7 +152,7 @@ ToInnerWindow >> maximize [
 
 	self
 		position: 0 @ 0;
-		size: self parent size
+		size: self parent extent
 ]
 
 { #category : #initialization }

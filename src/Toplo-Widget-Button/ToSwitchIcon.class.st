@@ -23,9 +23,10 @@ Class {
 ToSwitchIcon >> applySize: aPoint [
 	" given my expected size, adapt the size of my handle and of onSide and offSide "
 
-	self geometry: (BlRoundedRectangleGeometry cornerRadius: aPoint y / 2).
+	self geometry:
+		(BlRoundedRectangleGeometry cornerRadius: aPoint y / 2).
 	handleWidth := aPoint y - (self defaultHandleMarginWidth * 2).
-	self handle size: handleWidth asPoint
+	self handle extent: handleWidth asPoint
 ]
 
 { #category : #accessing }
@@ -226,10 +227,10 @@ ToSwitchIcon >> onMeasure: anExtentMeasurementSpec [
 		(finalSize x max: anExtentMeasurementSpec widthSpec size).
 	anExtentMeasurementSpec heightSpec size:
 		(finalSize y max: anExtentMeasurementSpec heightSpec size).
-	self size = finalSize ifFalse: [
-		self applySize: finalSize.
-		firstMeasureDone := false.
-		self requestNewSkin  ].
+	self extent = finalSize ifFalse: [
+			self applySize: finalSize.
+			firstMeasureDone := false.
+			self requestNewSkin ].
 	super onMeasure: anExtentMeasurementSpec.
 	firstMeasureDone ifTrue: [ ^ self ].
 	self switch: self isChecked.
@@ -252,7 +253,7 @@ ToSwitchIcon >> showSide [
 ToSwitchIcon >> size: aPoint [
 
 	self wishedSize: aPoint.
-	super size: aPoint
+	super extent: aPoint
 ]
 
 { #category : #layout }

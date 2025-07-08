@@ -87,7 +87,7 @@ ToImage >> defaultInnerImage [
 
 	^ BlElement new
 		  id: #emptyImage;
-		  size: 0 @ 0;
+		  extent: 0 @ 0;
 		  yourself
 ]
 

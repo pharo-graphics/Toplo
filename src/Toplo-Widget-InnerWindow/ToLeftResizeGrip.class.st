@@ -24,6 +24,6 @@ ToLeftResizeGrip >> drag: anElement by: deltaFromInitialPosition [
 { #category : #initialization }
 ToLeftResizeGrip >> layoutIn: anElement [
 
-	self size: thickness @ (anElement height - (thickness * 2)).
+	self extent: thickness @ (anElement height - (thickness * 2)).
 	self position: (thickness / 2) negated @ thickness
 ]

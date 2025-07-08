@@ -30,7 +30,7 @@ ToMenuSkin >> installSkinEvent: anEvent [
 			(e isSubmenu or: [ e showExpandIcon ]) ifTrue: [
 					| arrowIm |
 					arrowIm := self arrowImageFor: e.
-					arrowIm size:
+					arrowIm extent:
 						(e valueOfTokenNamed: #'iconic-arrow-breadth') asPoint.
 					e endElement addChild: arrowIm ].
 			(e hasIcon and: [ e hasLabel ])

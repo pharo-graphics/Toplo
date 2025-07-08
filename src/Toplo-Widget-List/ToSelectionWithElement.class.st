@@ -36,7 +36,7 @@ ToSelectionWithElement >> preComputedBounds [
 ToSelectionWithElement >> refreshSelectionElementIn: aListElement option: aSelectionRepresentationOption [
 
 	cachedSelectionElement position: preComputedBounds origin.
-	cachedSelectionElement size: preComputedBounds extent
+	cachedSelectionElement extent: preComputedBounds extent
 ]
 
 { #category : #accessing }

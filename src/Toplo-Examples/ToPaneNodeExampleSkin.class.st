@@ -72,14 +72,17 @@ ToPaneNodeExampleSkin >> installSkinEvent: anEvent [
 			blab := ToLabel text: 'x'.
 			blab withNullSkin.
 			blab foreground: Color white.
-			blab constraintsDo: [ :c | c frame horizontal alignCenter. c frame vertical alignCenter ].
+			blab constraintsDo: [ :c |
+					c frame horizontal alignCenter.
+					c frame vertical alignCenter ].
 			badge addChild: blab.
 			badge background: Color red.
 			badge geometry: BlCircleGeometry new.
-			badge size: 20 asPoint.
+			badge extent: 20 asPoint.
 			badge constraintsDo: [ :c |
 					c ignoreByLayout.
-					c anchors add: (badge centerAnchor on: (e topRightAnchor + (-5  @ 5))) ].
+					c anchors add:
+						(badge centerAnchor on: e topRightAnchor + (-5 @ 5)) ].
 			e addChild: badge.
 			e height: 60.
 			e hMatchParent ]

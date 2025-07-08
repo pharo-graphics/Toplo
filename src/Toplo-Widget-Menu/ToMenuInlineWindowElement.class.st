@@ -52,6 +52,12 @@ ToMenuInlineWindowElement >> isInline [
 	^ true
 ]
 
+{ #category : #testing }
+ToMenuInlineWindowElement >> isScrollable: aBoolean [
+
+	self itemBar isScrollable: aBoolean
+]
+
 { #category : #'t - menu window model' }
 ToMenuInlineWindowElement >> isSubmenu [
 

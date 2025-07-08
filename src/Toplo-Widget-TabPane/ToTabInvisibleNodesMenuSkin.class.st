@@ -9,9 +9,9 @@ ToTabInvisibleNodesMenuSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e iconImage: (self menuImageIn: e tabGroupElement).
-		e icon size: 20 asPoint.
-		e tabGroupElement checkInvisibleNodes ]
+			e iconImage: (self menuImageIn: e tabGroupElement).
+			e icon extent: 20 asPoint.
+			e tabGroupElement checkInvisibleNodes ]
 ]
 
 { #category : #private }

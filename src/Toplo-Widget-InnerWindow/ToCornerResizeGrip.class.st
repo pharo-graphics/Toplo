@@ -7,5 +7,5 @@ Class {
 { #category : #'mouse processing' }
 ToCornerResizeGrip >> layoutIn: anElement [
 
-	self size: (thickness * 2) asPoint
+	self extent: (thickness * 2) asPoint
 ]

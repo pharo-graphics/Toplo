@@ -1,7 +1,7 @@
 Extension { #name : #BlEllipseGeometry }
 
 { #category : #'*Toplo' }
-BlEllipseGeometry >> pointOnPerimeterAtRadians: radians of: anElement [
+BlEllipseGeometry >> pointOnPerimeterOfElement: anElement atRadians: radians [
 	" returns  the position (Point) on myself border at angle anAngle (en radians)"
 
 	| usedRectangle radiusX radiusY |

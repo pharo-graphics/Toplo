@@ -1,7 +1,7 @@
 Extension { #name : #BlCircleGeometry }
 
 { #category : #'*Toplo' }
-BlCircleGeometry >> pointOnPerimeterAtRadians: anAngle of: anElement [
+BlCircleGeometry >> pointOnPerimeterOfElement: anElement atRadians: anAngle [
 	" returns  the position (Point) on myself border at angle anAngle (en radians)"
 
 	| adjustedRectangle prevRadius prevOrigin pt |

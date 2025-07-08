@@ -1,7 +1,7 @@
 Extension { #name : #BlRoundedRectangleGeometry }
 
 { #category : #'*Toplo' }
-BlRoundedRectangleGeometry >> pointOnPerimeterAtRadians: aRadians of: anElement [
+BlRoundedRectangleGeometry >> pointOnPerimeterOfElement: anElement atRadians: aRadians [
 
 	| bounds margin rect rx ry dx dy px py cornerRadius innerWidth innerHeight inCorner adjustedCenter signX signY arcCenter x y scale |
 	"1. Compute the bounds rectangle that includes the margin "

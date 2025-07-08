@@ -1,7 +1,7 @@
 Extension { #name : #BlRectangleGeometry }
 
 { #category : #'*Toplo' }
-BlRectangleGeometry >> pointOnPerimeterAtRadians: anAngleInRadians of: anElement [
+BlRectangleGeometry >> pointOnPerimeterOfElement: anElement atRadians: anAngleInRadians [
 	" returns  the position (Point) on myself border at angle anAngle (en radians)"
 
 	| adjustedRect dx dy scale x y halfWidth halfHeight usedCenter insets bnds |

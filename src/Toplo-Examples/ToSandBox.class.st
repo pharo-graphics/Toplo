@@ -7111,8 +7111,8 @@ ToSandBox class >> example_pointOnPerimeterAtRadians [
 	points := (0 to: count - 1) collect: [ :i |
 			          angle := 2 * Float pi * i / count.
 			          element geometry
-				          pointOnPerimeterAtRadians: angle
-				          of: element ].
+				          pointOnPerimeterOfElement: element
+				          atRadians: angle ].
 
 	"Tracer une polyligne pour relier les points"
 	polygon := (BlPolygonGeometry vertices: points) asElement.

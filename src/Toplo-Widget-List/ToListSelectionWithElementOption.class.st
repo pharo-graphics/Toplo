@@ -71,21 +71,21 @@ ToListSelectionWithElementOption >> boundsAnimationFrom: startBounds to: finalBo
 
 	| theSelectionElement anim |
 	theSelectionElement := aRepresentation selectionElement.
-	theSelectionElement size: startBounds extent.
+	theSelectionElement extent: startBounds extent.
 	theSelectionElement position: startBounds origin.
 	self addSelectionElement: theSelectionElement.
 	anim := ToBoundsTransition new
-		  from: startBounds;
-		  to: finalBounds;
-		  duration: selectionOption animationDuration;
-		  onStepDo: [ :aRectangle :target |
-			  theSelectionElement size: aRectangle extent.
-			  theSelectionElement position: aRectangle origin ];
-		  onFinishedDo: [
-			  theSelectionElement position: finalBounds origin.
-			  theSelectionElement size: finalBounds extent.
-			  theSelectionElement whenLayoutedDoOnce: [
-					  self notifyNodesSelectedIn: aListElement ] ].
+		        from: startBounds;
+		        to: finalBounds;
+		        duration: selectionOption animationDuration;
+		        onStepDo: [ :aRectangle :target |
+				        theSelectionElement extent: aRectangle extent.
+				        theSelectionElement position: aRectangle origin ];
+		        onFinishedDo: [
+				        theSelectionElement position: finalBounds origin.
+				        theSelectionElement extent: finalBounds extent.
+				        theSelectionElement whenLayoutedDoOnce: [
+						        self notifyNodesSelectedIn: aListElement ] ].
 	theSelectionElement addAnimation: anim
 ]
 

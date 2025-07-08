@@ -11,8 +11,7 @@ Class {
 ToTooltipWindowTest >> testContent [
 
 	| e windowManager |
-
-	e := ToElement new  size: 100@100.
+	e := ToElement new extent: 100 @ 100.
 	e tooltipContent: (ToLabel text: 'Tooltip content').
 	windowManager := e tooltipWindowManager.
 	self assert: (windowManager isKindOf: ToTooltipPopupManager).
@@ -23,9 +22,12 @@ ToTooltipWindowTest >> testContent [
 	900 milliSecond wait.
 	self waitTestingSpaces.
 
-	self assert: (windowManager currentWindow root firstChild isKindOf: ToLabel) .
-	self assert: windowManager currentWindow root firstChild text asString equals: 'Tooltip content' .
-	^  windowManager currentWindow
+	self assert:
+		(windowManager currentWindow root firstChild isKindOf: ToLabel).
+	self
+		assert: windowManager currentWindow root firstChild text asString
+		equals: 'Tooltip content'.
+	^ windowManager currentWindow
 ]
 
 { #category : #tests }

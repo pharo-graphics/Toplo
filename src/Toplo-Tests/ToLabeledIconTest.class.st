@@ -20,9 +20,9 @@ ToLabeledIconTest >> testBeIconFirst [
 	| li |
 	li := self testInitialize.
 	li iconImage: (BlElement new
-				  size: 60 @ 20;
-				  background: (Color blue alpha: 0.2);
-				  yourself).
+			 extent: 60 @ 20;
+			 background: (Color blue alpha: 0.2);
+			 yourself).
 	li beStartToEnd.
 	li applyWidgetConfiguration.
 	self assert: li isStartToEnd
@@ -34,9 +34,9 @@ ToLabeledIconTest >> testBeLabelFirst [
 	| li |
 	li := self testInitialize.
 	li iconImage: (BlElement new
-				  size: 60 @ 20;
-				  background: (Color blue alpha: 0.2);
-				  yourself).
+			 extent: 60 @ 20;
+			 background: (Color blue alpha: 0.2);
+			 yourself).
 	li beEndToStart.
 	self assert: li isEndToStart
 ]
@@ -62,7 +62,7 @@ ToLabeledIconTest >> testHasIcon [
 	li := self testInitialize.
 	self deny: li hasIcon.
 	li icon: (ToImage inner: (BlElement new
-				  size: 60 @ 20;
+				  extent: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
 	self assert: li hasIcon
@@ -85,7 +85,7 @@ ToLabeledIconTest >> testIcon [
 	| li |
 	li := self testInitialize.
 	li icon: (ToImage inner: (BlElement new
-				  size: 60 @ 20;
+				  extent: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
 	li forceLayout.
@@ -107,7 +107,7 @@ ToLabeledIconTest >> testIconContainer [
 	li := self testInitialize.
 	self assert: li iconContainer isNil.
 	li icon: (ToImage inner: (BlElement new
-				  size: 60 @ 20;
+				  extent: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
 	li forceLayout.
@@ -183,7 +183,7 @@ ToLabeledIconTest >> testIconImage [
 	| li |
 	li := self testInitialize.
 	li iconImage: (BlElement new
-			 size: 60 @ 20;
+			 extent: 60 @ 20;
 			 background: (Color blue alpha: 0.2);
 			 yourself).
 	li applyWidgetConfiguration.
@@ -203,7 +203,7 @@ ToLabeledIconTest >> testInitialize [
 	li applyWidgetConfiguration.
 	li forceLayout.
 
-	self assert: li size equals: 0	asPoint.
+	self assert: li extent equals: 0 asPoint.
 	^ li
 ]
 
@@ -215,15 +215,15 @@ ToLabeledIconTest >> testInterspace [
 	li startInterspace: 10.
 	li applyWidgetConfiguration.
 	li forceLayout.
-	self assert: li size equals: 10@0.
+	self assert: li extent equals: 10 @ 0.
 	li vFitContent.
 	li forceLayout.
 	self assert: li width equals: 10.
 	self assert: li height equals: 0.
 	li label: (ToLabel text: 'X').
 	li forceLayout.
-	self assert: li height equals: li label height.	
-	self assert: li width equals: li label width + 10.
+	self assert: li height equals: li label height.
+	self assert: li width equals: li label width + 10
 ]
 
 { #category : #tests }
@@ -234,7 +234,7 @@ ToLabeledIconTest >> testInterspaceWithLabel [
 	li startInterspace: 10.
 	li label: (ToLabel text: 'A').
 	li icon: (ToImage inner: (BlElement new
-				  size: 60 @ 20;
+				  extent: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
 	li applyWidgetConfiguration.
@@ -254,7 +254,7 @@ ToLabeledIconTest >> testInterspaceWithLabelAndVertical [
 
 	li label: (ToLabel text: 'A').
 	li icon: (ToImage inner: (BlElement new
-				  size: 60 @ 20;
+				  extent: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
 	li applyWidgetConfiguration.
@@ -269,12 +269,10 @@ ToLabeledIconTest >> testIsExact [
 
 	| li |
 	li := self testInitialize.
-	li size: 10@10.
+	li extent: 10 @ 10.
 	self assert: li isExact.
 	li hMatchParent.
-	self deny: li isExact.
-
-
+	self deny: li isExact
 ]
 
 { #category : #tests }
@@ -317,12 +315,12 @@ ToLabeledIconTest >> testLabel [
 	li := self testInitialize.
 	li label: (ToLabel text: 'A').
 	li forceLayout.
-	self assert: li size equals: li labelContainer size.
+	self assert: li extent equals: li labelContainer extent.
 	self assert: li hasLabel.
 	li label: nil.
 	self assert: li label isNil.
 	self deny: li hasLabel.
-	
+
 	^ li
 ]
 
@@ -332,10 +330,10 @@ ToLabeledIconTest >> testLabelContainer [
 	| li |
 	li := self testInitialize.
 	self assert: li labelContainer hasChildren not.
-	self assert: li labelContainer size equals: 0 asPoint.
+	self assert: li labelContainer extent equals: 0 asPoint.
 	li label: (ToLabel text: 'A').
 	li forceLayout.
-	self assert: li size equals: li labelContainer size.
+	self assert: li extent equals: li labelContainer extent.
 	^ li
 ]
 
@@ -345,15 +343,17 @@ ToLabeledIconTest >> testLabelFirst [
 	| li |
 	li := self testInitialize.
 	li iconImage: (BlElement new
-				  size: 60 @ 20;
-				  background: (Color blue alpha: 0.2);
-				  yourself).
+			 extent: 60 @ 20;
+			 background: (Color blue alpha: 0.2);
+			 yourself).
 	li labelText: 'X'.
 	li endToStart: true.
 	li forceLayout.
 	li applyWidgetConfiguration.
 
-	self assert: (li label bounds inParent: li) right equals: (li icon bounds inParent: li) left.
+	self
+		assert: (li label bounds inParent: li) right
+		equals: (li icon bounds inParent: li) left.
 	^ li
 ]
 
@@ -365,17 +365,17 @@ ToLabeledIconTest >> testLabelText [
 	li labelText: 'A' asRopedText.
 	li forceLayout.
 	self assert: li label text asString equals: 'A'.
-	self assert: li size equals: li labelContainer size.
+	self assert: li extent equals: li labelContainer extent.
 	self assert: li labelText equals: 'A'.
 	li labelText: 'X'.
 	li forceLayout.
 	self assert: li label text asString equals: 'X'.
-	self assert: li size equals: li labelContainer size.
+	self assert: li extent equals: li labelContainer extent.
 	self assert: li labelText equals: 'X'.
 	li label: nil.
 	li forceLayout.
 	self deny: li hasLabel.
-	self assert: li size equals: 0 asPoint.
+	self assert: li extent equals: 0 asPoint.
 	^ li
 ]
 
@@ -385,7 +385,7 @@ ToLabeledIconTest >> testStartAlignment [
 	| li |
 	li := self testInitialize.
 	li icon: (ToImage inner: (BlElement new
-				  size: 60 @ 20;
+				  extent: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
 	li label: (ToLabel text: 'ba').
@@ -425,28 +425,28 @@ ToLabeledIconTest >> testStartFlexible [
 ToLabeledIconTest >> testStartFlexibleInEmpty [
 
 	| li container |
-	container := ToElement new size: 200 asPoint.
+	container := ToElement new extent: 200 asPoint.
 	li := ToLabeledIcon new.
 	li startFlexible: true.
 	self assert: li isStartFlexible.
 	li matchParent.
 	container addChild: li.
 	li forceLayout.
-	self assert: li size equals: 200 asPoint.
+	self assert: li extent equals: 200 asPoint.
 	li vFitContent.
 	li forceLayout.
 	self assert: li width equals: 200.
 	self assert: li height equals: 0.
 	li label: (ToLabel text: 'X').
 	li forceLayout.
-	self assert: li height equals: li label height.
+	self assert: li height equals: li label height
 ]
 
 { #category : #tests }
 ToLabeledIconTest >> testStartFlexibleWithLabel [
 
 	| li container |
-	container := ToElement new size: 200 asPoint.
+	container := ToElement new extent: 200 asPoint.
 	li := ToLabeledIcon new.
 	li matchParent.
 	container addChild: li.
@@ -454,7 +454,7 @@ ToLabeledIconTest >> testStartFlexibleWithLabel [
 	li vertical: false.
 	li label: (ToLabel text: 'A').
 	li icon: (ToImage inner: (BlElement new
-				  size: 60 @ 20;
+				  extent: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
 	li applyWidgetConfiguration.
@@ -467,7 +467,7 @@ ToLabeledIconTest >> testStartFlexibleWithLabel [
 ToLabeledIconTest >> testStartFlexibleWithLabelAndVertical [
 
 	| li container |
-	container := ToElement new size: 200 asPoint.
+	container := ToElement new extent: 200 asPoint.
 	li := ToLabeledIcon new.
 	li vertical: true.
 	li matchParent.
@@ -475,7 +475,7 @@ ToLabeledIconTest >> testStartFlexibleWithLabelAndVertical [
 	li startFlexible: true.
 	li label: (ToLabel text: 'A').
 	li icon: (ToImage inner: (BlElement new
-				  size: 60 @ 20;
+				  extent: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
 	li applyWidgetConfiguration.
@@ -490,14 +490,16 @@ ToLabeledIconTest >> testStartToEnd [
 	| li |
 	li := self testInitialize.
 	li iconImage: (BlElement new
-				  size: 60 @ 20;
-				  background: (Color blue alpha: 0.2);
-				  yourself).
+			 extent: 60 @ 20;
+			 background: (Color blue alpha: 0.2);
+			 yourself).
 	li labelText: 'X'.
 	li startToEnd: true.
 	li applyWidgetConfiguration.
 	li forceLayout.
-	self assert: (li icon bounds inParent: li) right equals: (li label bounds inParent: li) left.
+	self
+		assert: (li icon bounds inParent: li) right
+		equals: (li label bounds inParent: li) left.
 	^ li
 ]
 
@@ -507,7 +509,7 @@ ToLabeledIconTest >> testWithLabelAndIcon [
 	| li |
 	li := self testLabel.
 	li icon: (ToImage inner: (BlElement new
-				  size: 60 @ 20;
+				  extent: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
 	li forceLayout.
@@ -530,12 +532,12 @@ ToLabeledIconTest >> testWithLabelAndIconIconFirst [
 	li endToStart: false.
 	li label: (ToLabel text: 'A').
 	li icon: (ToImage inner: (BlElement new
-				  size: 60 @ 20;
+				  extent: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
 	li applyWidgetConfiguration.
 	li forceLayout.
-	
+
 	self assert: li iconContainer bounds left equals: 0.
 	self
 		assert: li labelContainer bounds left
@@ -552,7 +554,7 @@ ToLabeledIconTest >> testWithLabelAndIconIconFirstVertical [
 	li vertical: true.
 	li label: (ToLabel text: 'A').
 	li icon: (ToImage inner: (BlElement new
-				  size: 60 @ 20;
+				  extent: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
 	li applyWidgetConfiguration.
@@ -571,7 +573,7 @@ ToLabeledIconTest >> testWithLabelAndIconLabelFirst [
 	li endToStart: true.
 	li label: (ToLabel text: 'A').
 	li icon: (ToImage inner: (BlElement new
-				  size: 60 @ 20;
+				  extent: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
 	li applyWidgetConfiguration.
@@ -591,7 +593,7 @@ ToLabeledIconTest >> testWithLabelAndIconLabelFirstVertical [
 	li vertical: true.
 	li label: (ToLabel text: 'A').
 	li icon: (ToImage inner: (BlElement new
-				  size: 60 @ 20;
+				  extent: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
 	li applyWidgetConfiguration.
@@ -610,7 +612,7 @@ ToLabeledIconTest >> testWithLabelAndIconVertical [
 	li vertical: true.
 	li label: (ToLabel text: 'A').
 	li icon: (ToImage inner: (BlElement new
-				  size: 60 @ 20;
+				  extent: 60 @ 20;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
 	li applyWidgetConfiguration.

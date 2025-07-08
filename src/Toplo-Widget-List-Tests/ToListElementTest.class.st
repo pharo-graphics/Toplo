@@ -691,7 +691,7 @@ ToListElementTest >> testRemoveAll [
 	| l |
 	l := ToListElement new.
 	space root addChild: l.
-	l innerElement size: 800 @ 600.
+	l innerElement extent: 800 @ 600.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self waitTestingSpaces.

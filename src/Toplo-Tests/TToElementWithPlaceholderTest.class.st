@@ -11,7 +11,7 @@ Class {
 TToElementWithPlaceholderTest >> testHidePlaceholder [
 
 	| e ph |
-	e := ToElementWithPlaceholderForTest new size: 100 asPoint.
+	e := ToElementWithPlaceholderForTest new extent: 100 asPoint.
 	e placeholderBuilder: [ :thePlaceholder :theElement |
 		thePlaceholder addChild: (BlElement new id: #child) ].
 	e showPlaceholder.
@@ -21,7 +21,7 @@ TToElementWithPlaceholderTest >> testHidePlaceholder [
 	e hidePlaceholder.
 	self assert: e placeholderLayer notNil.
 	self deny: e placeholderLayer isVisible.
-	self assert: ph parent identicalTo: e.
+	self assert: ph parent identicalTo: e
 ]
 
 { #category : #tests }
@@ -36,12 +36,11 @@ TToElementWithPlaceholderTest >> testNewPlaceholder [
 TToElementWithPlaceholderTest >> testPlaceholderBuilder [
 
 	| e |
-	e := ToElementWithPlaceholderForTest new size: 100 asPoint.
+	e := ToElementWithPlaceholderForTest new extent: 100 asPoint.
 	e placeholderBuilder: [ :thePlaceholder :theElement |
 		thePlaceholder addChild: (BlElement new id: #child) ].
 	self assert: e placeholderLayer notNil.
 	self assert: e placeholderLayer firstChild id asSymbol equals: #child
-
 ]
 
 { #category : #tests }
@@ -70,31 +69,31 @@ TToElementWithPlaceholderTest >> testPlaceholderLayer [
 TToElementWithPlaceholderTest >> testPlaceholderString [
 
 	| e ph |
-	e := ToTextField new size: 100 asPoint.
+	e := ToTextField new extent: 100 asPoint.
 	e placeholderString: 'Enter text...'.
 	e showPlaceholder.
-	
+
 	ph := e placeholderLayer.
-	self assert: (ph children first text asString) equals: 'Enter text...'.
+	self assert: ph children first text asString equals: 'Enter text...'
 ]
 
 { #category : #tests }
 TToElementWithPlaceholderTest >> testPlaceholderText [
 
 	| e ph |
-	e := ToTextField new size: 100 asPoint.
+	e := ToTextField new extent: 100 asPoint.
 	e placeholderText: 'Enter text...'.
 	e showPlaceholder.
-	
+
 	ph := e placeholderLayer.
-	self assert: (ph children first text asString) equals: 'Enter text...'.
+	self assert: ph children first text asString equals: 'Enter text...'
 ]
 
 { #category : #tests }
 TToElementWithPlaceholderTest >> testShowPlaceholder [
 
 	| e ph |
-	e := ToElementWithPlaceholderForTest new size: 100 asPoint.
+	e := ToElementWithPlaceholderForTest new extent: 100 asPoint.
 	e placeholderBuilder: [ :thePlaceholder :theElement |
 		thePlaceholder addChild: (BlElement new id: #child) ].
 	e showPlaceholder.
@@ -108,8 +107,8 @@ TToElementWithPlaceholderTest >> testShowPlaceholder [
 	self assert: e placeholderLayer identicalTo: ph.
 	space root addChild: e.
 	self assert: ph space identicalTo: e space.
-	e position: 200@100.
+	e position: 200 @ 100.
 	e forceLayout.
 	self assert: ph bounds inSpace bounds equals: e bounds inSpace bounds.
-	self assert: ph bounds inSpace bounds origin equals: 200@100.
+	self assert: ph bounds inSpace bounds origin equals: 200 @ 100
 ]

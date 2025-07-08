@@ -20,7 +20,7 @@ ToFloatOverlay >> defaultElevation [
 { #category : #initialization }
 ToFloatOverlay >> defaultLayout [
 
-	^ ToAnchorLayout new
+	^ BlAnchorLayout new
 ]
 
 { #category : #initialization }

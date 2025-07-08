@@ -1,15 +1,6 @@
 Extension { #name : #BlElement }
 
 { #category : #'*Toplo' }
-BlElement >> actionAnchor: aBlock [
-
-	^ ToActionAnchor new
-		  action: aBlock;
-		  baseAnchor: self nilAnchor;
-		  yourself
-]
-
-{ #category : #'*Toplo' }
 BlElement >> addAllStamps: aCollectionOfSymbol [
 
 	self ensuredToStyleStore addAllStamps: aCollectionOfSymbol
@@ -105,38 +96,6 @@ BlElement >> areSelectionSkinEventsPrevented [
 BlElement >> borderBuilder [
 
 	^ self skinManager borderBuilder
-]
-
-{ #category : #'*Toplo' }
-BlElement >> bottomAnchor [
-
-	^ ToElementBottomAnchor new
-		  element: self;
-		  yourself
-]
-
-{ #category : #'*Toplo' }
-BlElement >> bottomLeftAnchor [
-
-	^ ToElementBottomLeftAnchor new
-		  element: self;
-		  yourself
-]
-
-{ #category : #'*Toplo' }
-BlElement >> bottomRightAnchor [
-
-	^ ToElementBottomRightAnchor new
-		  element: self;
-		  yourself
-]
-
-{ #category : #'*Toplo' }
-BlElement >> centerAnchor [
-
-	^ ToElementCenterAnchor new
-		  element: self;
-		  yourself
 ]
 
 { #category : #'*Toplo' }
@@ -247,14 +206,6 @@ BlElement >> ensuredToStyleStore [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> extentAnchor [
-
-	^ ToElementExtentAnchor new
-		  element: self;
-		  yourself
-]
-
-{ #category : #'*Toplo' }
 BlElement >> firstInParentChainSatisfying: aValuable [
 	"Return the first parent for which the valuable answers true with one of my parent starting from myself "
 
@@ -334,14 +285,6 @@ BlElement >> hasStamp: aSymbol [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> heightAnchor [
-
-	^ ToElementHeightAnchor new
-		  element: self;
-		  yourself
-]
-
-{ #category : #'*Toplo' }
 BlElement >> holder [
 
 	^ self constraints infinite holder
@@ -359,14 +302,6 @@ BlElement >> holder: aNodeHolder [
 BlElement >> holderDo: aValuable [
 
 	self constraints holderDo: aValuable
-]
-
-{ #category : #'*Toplo' }
-BlElement >> horizontalCenterAnchor [
-
-	^ ToElementHorizontalCenterAnchor new
-		  element: self;
-		  yourself
 ]
 
 { #category : #'*Toplo' }
@@ -473,14 +408,6 @@ BlElement >> itemContaining: anElement [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> leftAnchor [
-
-	^ ToElementLeftAnchor new
-		  element: self;
-		  yourself
-]
-
-{ #category : #'*Toplo' }
 BlElement >> localTheme [
 
 	^ self userData at: #localTheme ifAbsent: [ ]
@@ -513,15 +440,6 @@ BlElement >> lookupWritablePropertyNamed: aSymbol [
 	self styleSheetChain do: [ :ss |
 		(ss property: aSymbol) ifNotNil: [ :wp | ^ wp ] ].
 	^ nil
-]
-
-{ #category : #'*Toplo' }
-BlElement >> neutralAnchor: aNeutralValue [
-
-	^ ToNeutralAnchor new
-		  element: self;
-		neutralValue: aNeutralValue;
-		  yourself
 ]
 
 { #category : #'*Toplo' }
@@ -580,14 +498,6 @@ BlElement >> nextConfigurationPass [
 BlElement >> nextConfigurationPass: aNumber [
 
 	self userData at: #nextConfigurationPass put: aNumber
-]
-
-{ #category : #'*Toplo' }
-BlElement >> nilAnchor [
-
-	^ ToNeutralAnchor new
-		  element: self;
-		  yourself
 ]
 
 { #category : #'*Toplo' }
@@ -658,22 +568,6 @@ BlElement >> parentChainReverseDo: aBlock [
 	"evaluate a block with each of my parents (including myself) ordered from my space root to myself  "
 
 	self parentChain reverseDo: aBlock
-]
-
-{ #category : #'*Toplo' }
-BlElement >> perimeterAnchor [
-
-	^ ToElementPerimeterAnchor new
-		  element: self;
-		  yourself
-]
-
-{ #category : #'*Toplo' }
-BlElement >> pointAnchor [ 
-
-	^ ToElementPointAnchor new
-		  element: self;
-		  yourself
 ]
 
 { #category : #'*Toplo' }
@@ -765,14 +659,6 @@ BlElement >> requestUninstallSkin [
 		transformWith: '`@receiver requestUninstallSkin' -> '`@receiver skinManagerDo: [ :sm | sm requestUninstallSkinIn: `@receiver ]'.
 
 	self skinManagerDo: [ :sm | sm requestUninstallSkinIn: self ]
-]
-
-{ #category : #'*Toplo' }
-BlElement >> rightAnchor [
-
-	^ ToElementRightAnchor new
-		  element: self;
-		  yourself
 ]
 
 { #category : #'*Toplo' }
@@ -940,30 +826,6 @@ BlElement >> tokenValueNamed: aSymbol [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> topAnchor [
-
-	^ ToElementTopAnchor new
-		  element: self;
-		  yourself
-]
-
-{ #category : #'*Toplo' }
-BlElement >> topLeftAnchor [
-
-	^ ToElementTopLeftAnchor new
-		  element: self;
-		  yourself
-]
-
-{ #category : #'*Toplo' }
-BlElement >> topRightAnchor [
-
-	^ ToElementTopRightAnchor new
-		  element: self;
-		  yourself
-]
-
-{ #category : #'*Toplo' }
 BlElement >> uninstallRawStyle [
 
 ]
@@ -1002,14 +864,6 @@ BlElement >> valueOfTokenNamed: aSymbol [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> verticalCenterAnchor [
-
-	^ ToElementVerticalCenterAnchor new
-		  element: self;
-		  yourself
-]
-
-{ #category : #'*Toplo' }
 BlElement >> whenWidgetConfigurationAppliedDo: aValuable [
 
 	self
@@ -1036,14 +890,6 @@ BlElement >> widgetConfiguration: anElementConfiguration [
 	anElementConfiguration ifNil: [ ^ self ].
 	self userData at: #widgetConfiguration put: anElementConfiguration.
 	anElementConfiguration onInstalledIn: self
-]
-
-{ #category : #'*Toplo' }
-BlElement >> widthAnchor [
-
-	^ ToElementWidthAnchor new
-		  element: self;
-		  yourself
 ]
 
 { #category : #'*Toplo' }

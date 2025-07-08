@@ -4,13 +4,13 @@ I'm part of a larger example. I'm not expected to be opened as a standalone.
 Check `ToSandBox >> example_ListWithPanes`
 "
 Class {
-	#name : #ToPaneNodeExamplePart,
+	#name : #ToExPaneNode,
 	#superclass : #ToPane,
 	#category : #'Toplo-Examples-Parts'
 }
 
 { #category : #skin }
-ToPaneNodeExamplePart >> newRawSkin [ 
+ToExPaneNode >> newRawSkin [ 
 
 	^ ToPaneNodeExampleSkin new
 ]

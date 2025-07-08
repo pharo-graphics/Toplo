@@ -3,7 +3,7 @@ Extension { #name : #BlLayoutCommonConstraints }
 { #category : #'*Toplo' }
 BlLayoutCommonConstraints >> anchors [ 
 
-	^ self at: ToAnchorLayout 
+	^ self at: BlAnchorLayout 
 ]
 
 { #category : #'*Toplo' }

@@ -1519,18 +1519,14 @@ ToSandBox class >> example_AnchorWithPointTransition [
 	pane addChild: blue.
 
 	red := ToElement new
-		           id: #red;
-		           yourself.
+		       id: #red;
+		       yourself.
 	red background: Color red.
 	red size: 20 asPoint.
 	count := 0.
 	red constraintsDo: [ :c |
 			c anchors add:
-				(red bottomRightAnchor on: blue topLeftAnchor - [
-						 count := count + 1.
-						 count \\ 40 = 0
-							 ifTrue: [ 3 ]
-							 ifFalse: [ count \\ 40 ] ]) ].
+				(red bottomRightAnchor on: blue topLeftAnchor - (2 @ 2)) ].
 	pane addChild: red.
 
 	red enqueueTask: (BlTaskAction new action: [

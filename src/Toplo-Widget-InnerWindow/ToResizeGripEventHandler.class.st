@@ -27,7 +27,7 @@ ToResizeGripEventHandler >> dragStartEvent: anEvent [
 	anEvent consume.
 	anEvent currentTarget initialDragPosition: anEvent position.
 	anEvent currentTarget initialPosition: gripTarget position.
-	anEvent currentTarget initialSize: gripTarget size
+	anEvent currentTarget initialExtent: gripTarget size
 ]
 
 { #category : #'api - accessing' }

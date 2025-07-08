@@ -15,7 +15,7 @@ ToImageTest >> testEmptyImage [
 	self assert: (im innerImage isKindOf: BlElement).
 	self assert: im innerFormImage isNil.
 	im forceLayout.
-	self assert: im size equals: im defaultInnerImage size.
+	self assert: im extent equals: im defaultInnerImage size.
 	passedHere := false.
 	self
 		should: [ im withInnerFormDo: [ :f | passedHere := true ] ]
@@ -41,7 +41,7 @@ ToImageTest >> testImageWithForm [
 	self assert: im innerImage background image equals: form.
 	self assert: im innerFormImage equals: form.
 	im forceLayout.
-	self assert: im size equals: form extent.
+	self assert: im extent equals: form extent.
 	passedHere := false.
 	im withInnerFormDo: [ :f | passedHere := true ].
 	self assert: passedHere.

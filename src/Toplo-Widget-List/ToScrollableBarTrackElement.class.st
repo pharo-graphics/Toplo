@@ -20,9 +20,7 @@ ToScrollableBarTrackElement >> addFakeNode: aNode [
 	(if the bar is vertical) or the width to zero 
 	(if ther bar is horizontal).  "
 	fakeNode whenLayoutedDoOnce: [
-			fakeNode userData
-				at: #fakeNodeOriginalSize
-				put: fakeNode size.
+			fakeNode userData at: #fakeNodeOriginalSize put: fakeNode extent.
 			self applyFakeNodeConfiguration ].
 
 	sizeHandler := fakeNode

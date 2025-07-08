@@ -203,7 +203,7 @@ ToLabeledIconTest >> testInitialize [
 	li applyWidgetConfiguration.
 	li forceLayout.
 
-	self assert: li size equals: 0	asPoint.
+	self assert: li extent equals: 0 asPoint.
 	^ li
 ]
 
@@ -215,15 +215,15 @@ ToLabeledIconTest >> testInterspace [
 	li startInterspace: 10.
 	li applyWidgetConfiguration.
 	li forceLayout.
-	self assert: li size equals: 10@0.
+	self assert: li extent equals: 10 @ 0.
 	li vFitContent.
 	li forceLayout.
 	self assert: li width equals: 10.
 	self assert: li height equals: 0.
 	li label: (ToLabel text: 'X').
 	li forceLayout.
-	self assert: li height equals: li label height.	
-	self assert: li width equals: li label width + 10.
+	self assert: li height equals: li label height.
+	self assert: li width equals: li label width + 10
 ]
 
 { #category : #tests }
@@ -317,12 +317,12 @@ ToLabeledIconTest >> testLabel [
 	li := self testInitialize.
 	li label: (ToLabel text: 'A').
 	li forceLayout.
-	self assert: li size equals: li labelContainer size.
+	self assert: li extent equals: li labelContainer extent.
 	self assert: li hasLabel.
 	li label: nil.
 	self assert: li label isNil.
 	self deny: li hasLabel.
-	
+
 	^ li
 ]
 
@@ -332,7 +332,7 @@ ToLabeledIconTest >> testLabelContainer [
 	| li |
 	li := self testInitialize.
 	self assert: li labelContainer hasChildren not.
-	self assert: li labelContainer size equals: 0 asPoint.
+	self assert: li labelContainer extent equals: 0 asPoint.
 	li label: (ToLabel text: 'A').
 	li forceLayout.
 	self assert: li size equals: li labelContainer size.
@@ -365,7 +365,7 @@ ToLabeledIconTest >> testLabelText [
 	li labelText: 'A' asRopedText.
 	li forceLayout.
 	self assert: li label text asString equals: 'A'.
-	self assert: li size equals: li labelContainer size.
+	self assert: li extent equals: li labelContainer size.
 	self assert: li labelText equals: 'A'.
 	li labelText: 'X'.
 	li forceLayout.
@@ -432,14 +432,14 @@ ToLabeledIconTest >> testStartFlexibleInEmpty [
 	li matchParent.
 	container addChild: li.
 	li forceLayout.
-	self assert: li size equals: 200 asPoint.
+	self assert: li extent equals: 200 asPoint.
 	li vFitContent.
 	li forceLayout.
 	self assert: li width equals: 200.
 	self assert: li height equals: 0.
 	li label: (ToLabel text: 'X').
 	li forceLayout.
-	self assert: li height equals: li label height.
+	self assert: li height equals: li label height
 ]
 
 { #category : #tests }

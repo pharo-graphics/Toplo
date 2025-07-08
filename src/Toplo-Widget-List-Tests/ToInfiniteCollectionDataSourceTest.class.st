@@ -35,13 +35,13 @@ ToInfiniteCollectionDataSourceTest >> statesOfAmerica [
 ToInfiniteCollectionDataSourceTest >> testEmptyInfinite [
 
 	l constraintsDo: [ :c |
-		c vertical fitContent.
-		c horizontal fitContent ].
+			c vertical fitContent.
+			c horizontal fitContent ].
 
 	l forceLayout.
 	self assert: l children size equals: 0.
 	self
-		assert: l size
+		assert: l extent
 		equals:
 		l padding left + l padding right
 		@ (l padding top + l padding bottom)

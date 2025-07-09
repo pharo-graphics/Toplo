@@ -13,7 +13,8 @@ ToBottomRightResizeGrip >> cursorSelector [
 { #category : #initialization }
 ToBottomRightResizeGrip >> drag: anElement by: deltaFromInitialPosition [
 
-	anElement extent: initialSize + deltaFromInitialPosition
+	anElement extent:
+		initialExtent + deltaFromInitialPosition
 ]
 
 { #category : #initialization }

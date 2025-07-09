@@ -2905,7 +2905,7 @@ ToSandBox class >> example_ListWithFloatButtons [
 		             (ToMaterialDesignIconProvider innerImageNamed:
 			              'outlined_removecircleoutline').
 	removeBtn addAllStamps: { #circle. #iconic. #borderless }.
-	removeBtn icon size: 25 asPoint.
+	removeBtn icon extent: 25 asPoint.
 
 	removeBtn clickAction: [
 			list selecter selectedIndexes reverseDo: [ :idx |
@@ -2939,9 +2939,8 @@ ToSandBox class >> example_ListWithFloatButtons [
 	floatContainer addChild: floatAdd.
 	floatContainer constraintsDo: [ :c |
 			c anchors add:
-				(floatContainer rightAnchor on: floatLayer rightAnchor).
-			c anchors add:
-				(floatContainer bottomAnchor on: floatLayer bottomAnchor) ].
+				(c anchors bottomRightAnchor on:
+					 c anchors parent bottomRightAnchor) ].
 	floatLayer addChild: floatContainer
 ]
 
@@ -5769,7 +5768,7 @@ ToSandBox class >> example_floatButton [
 	leftBtn := ToButton new iconImage:
 		           (ToMaterialDesignIconProvider innerImageNamed:
 			            'outlined_keyboardarrowleft').
-	leftBtn icon size: 25 asPoint.
+	leftBtn icon extent: 25 asPoint.
 	textField := ToTextField new
 		             width: 150;
 		             placeholderBuilder: [ :placeholder :e |
@@ -5788,9 +5787,9 @@ ToSandBox class >> example_floatButton [
 	floatContainer addChild: rightBtn asFloatElement.
 	floatContainer constraintsDo: [ :c |
 			c anchors add:
-				(floatContainer rightAnchor on: floatLayer rightAnchor - 50).
+				(floatContainer rightAnchor on: floatLayer rightAnchor - 20).
 			c anchors add:
-				(floatContainer bottomAnchor on: floatLayer bottomAnchor - 50) ].
+				(floatContainer bottomAnchor on: floatLayer bottomAnchor - 10) ].
 	floatLayer addChild: floatContainer.
 
 	pane openInInnerWindow

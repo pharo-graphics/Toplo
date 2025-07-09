@@ -101,7 +101,7 @@ ToListElementSelectionSkinEventTest >> testSelectedSkinEventCountAfterSelect [
 
 	self waitTestingSpaces.
 	space applyAllSkinPhases.
-
+	self deny: listElement isFocused.
 	self assert: (selectionCounts includesKey: 2).
 	self assert: (selectionCounts includesKey: 1) not.
 	self assert: (selectionCounts at: 2) equals: 1.

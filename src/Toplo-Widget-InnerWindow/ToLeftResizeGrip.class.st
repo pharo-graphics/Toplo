@@ -16,9 +16,9 @@ ToLeftResizeGrip >> drag: anElement by: deltaFromInitialPosition [
 	anElement position:
 		initialPosition x + deltaFromInitialPosition x
 		@ initialPosition y.
-	anElement size:
-		initialSize x - deltaFromInitialPosition x
-		@ initialSize y
+	anElement extent:
+		initialExtent x - deltaFromInitialPosition x
+		@ initialExtent y
 ]
 
 { #category : #initialization }

@@ -1377,10 +1377,16 @@ ToSandBox class >> example_AnchorLayout9 [
 ToSandBox class >> example_AnchorWithPointTransition [
 
 	| pane blue red |
-	pane := self mainPane.
+	pane := ToElement new.
+	pane matchParent.
+	pane layout: BlAnchorLayout new.
+	pane border: Color red.
 
-	blue := self blueRectangle.
-	blue size: 20 asPoint.
+	blue := ToElement new
+		        id: #blue;
+		        yourself.
+	blue background: Color blue muchDarker darker.
+	blue extent: 20 asPoint.
 	blue position: 50 asPoint.
 	pane addChild: blue.
 
@@ -1388,9 +1394,9 @@ ToSandBox class >> example_AnchorWithPointTransition [
 		       id: #red;
 		       yourself.
 	red background: Color red.
-	red size: 40 asPoint.
+	red extent: 40 asPoint.
 	red constraintsDo: [ :c |
-		c ignoreByLayout.
+			c ignoreByLayout.
 			c anchors add:
 				(red bottomRightAnchor on: blue topLeftAnchor - (2 @ 2)) ].
 	pane addChild: red.
@@ -3690,8 +3696,6 @@ ToSandBox class >> example_RandomPositionOnLayoutWithActionAnchor [
 	pane matchParent.
 	pane layout: BlAnchorLayout new.
 	pane border: Color red.
-	"pane padding: (BlInsets all: 10)."
-
 	red := ToElement new
 		       id: #red;
 		       layout: BlFrameLayout new;
@@ -3704,7 +3708,6 @@ ToSandBox class >> example_RandomPositionOnLayoutWithActionAnchor [
 			c anchors add: (red topLeftAnchor on: (red actionAnchor: [ :v :e |
 							  (rand nextIntegerBetween: 1 and: pane measuredWidth)
 							  @ (rand nextIntegerBetween: 1 and: pane measuredHeight) ])) ].
-
 	pane addChild: red.
 
 	pane openInInnerWindow

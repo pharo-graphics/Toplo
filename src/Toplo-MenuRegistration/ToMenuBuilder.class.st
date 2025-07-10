@@ -127,7 +127,7 @@ ToMenuBuilder >> addConflict: aDuplicatedItem [
 { #category : #accessing }
 ToMenuBuilder >> allNamedItems [
 
-	^ collectedItems collect: [ :item | item name]
+	^ collectedItems collect: [ :item | item name ]
 ]
 
 { #category : #editing }

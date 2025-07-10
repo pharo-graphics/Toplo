@@ -75,8 +75,9 @@ ToMenuRegistration >> builder: aBuilder [
 { #category : #testing }
 ToMenuRegistration >> childrenFromGroup: aGroupName [
 
-	^ childrenItems select: [ :item | item groupName = aGroupName 
-		and: [ item isGroup = false ]]
+	^ childrenItems select: [ :item | 
+			item groupName = aGroupName 
+				and: [ item isGroup = false ]]
 ]
 
 { #category : #accessing }
@@ -107,6 +108,7 @@ ToMenuRegistration >> groupName: aSymbol [
 
 { #category : #testing }
 ToMenuRegistration >> hasChildren [
+
 	^ childrenItems isNotEmpty
 ]
 

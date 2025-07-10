@@ -7364,7 +7364,7 @@ ToSandBox class >> example_switchButton2 [
 
 	| th sp |
 	th := ToSwitchButton new.
-	th wishedTrackSize: 100 @ 30.
+	th wishedTrackExtent: 100 @ 30.
 	th checkedContainer addChild:
 		((ToImage inner: (self iconNamed: #glamorousAccept))
 			 innerImageColor: Color white).
@@ -7381,7 +7381,7 @@ ToSandBox class >> example_switchButton3 [
 
 	| but onLab offLab onHandleIm handler |
 	but := ToSwitchButton new.
-	but wishedTrackSize: 350@50.
+	but wishedTrackExtent: 350@50.
 	but endToStart: true.
 	but startFlexible: true.
 	but hMatchParent.
@@ -7417,7 +7417,7 @@ ToSandBox class >> example_switchButtonWithSize [
 	th := ToSwitchButton new.
 	th labelText: 'Wished size is for the button track, it doesn''t include the label size'.
 	th startInterspace: 10.
-	th wishedTrackSize: 100@30.
+	th wishedTrackExtent: 100@30.
 	th checked: true.
 	th openInSpace
 ]

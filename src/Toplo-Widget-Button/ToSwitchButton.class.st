@@ -2,7 +2,7 @@ Class {
 	#name : #ToSwitchButton,
 	#superclass : #ToButton,
 	#instVars : [
-		'wishedTrackSize'
+		'wishedTrackExtent'
 	],
 	#category : #'Toplo-Widget-Button-Switch'
 }
@@ -51,9 +51,9 @@ ToSwitchButton >> newRawSkin [
 { #category : #layout }
 ToSwitchButton >> onMeasure: anExtentMeasurementSpec [
 
-	wishedTrackSize ifNotNil: [
+	wishedTrackExtent ifNotNil: [
 		self icon size:
-			wishedTrackSize - (self padding left + self padding right
+			wishedTrackExtent - (self padding left + self padding right
 			 @ (self padding top + self padding bottom)) ].
 
 	super onMeasure: anExtentMeasurementSpec
@@ -72,8 +72,20 @@ ToSwitchButton >> uncheckedContainer [
 ]
 
 { #category : #accessing }
+ToSwitchButton >> wishedTrackExtent: aPoint [
+
+	wishedTrackExtent := aPoint.
+	self requestLayout
+]
+
+{ #category : #accessing }
 ToSwitchButton >> wishedTrackSize: aPoint [
 
-	wishedTrackSize := aPoint.
-	self requestLayout
+		self
+		deprecated: 'Use #wishedTrackExtent: instead. See: https://github.com/pharo-graphics/Bloc/issues/802'
+		transformWith:
+			'`@receiver wishedTrackSize: `@arg' ->
+			'`@receiver wishedTrackExtent: `@arg'.
+
+	self wishedTrackExtent: aPoint
 ]

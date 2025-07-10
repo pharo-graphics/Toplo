@@ -15,8 +15,7 @@ ToToggleButtonSkin >> checkedSkinEvent: anEvent [
 				(e valueOfTokenNamed: #'text-color-primary-checked') ].
 		e labelDo: [ :lab | 
 			lab foreground:  
-					 (e valueOfTokenNamed: #'text-color-primary-checked').
-			lab applyStyle ] ]
+					 (e valueOfTokenNamed: #'text-color-primary-checked') ] ]
 ]
 
 { #category : #'event handling' }
@@ -116,6 +115,5 @@ ToToggleButtonSkin >> uncheckedSkinEvent: anEvent [
 		e iconDo: [ :ic |
 			ic adaptToColor: (e valueOfTokenNamed: #'color-text') ].
 		e labelDo: [ :lab |
-			lab foreground: (e valueOfTokenNamed: #'color-text').
-			lab applyStyle ] ]
+			lab foreground: (e valueOfTokenNamed: #'color-text') ] ]
 ]

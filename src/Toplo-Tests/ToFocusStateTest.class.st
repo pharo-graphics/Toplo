@@ -16,7 +16,7 @@ ToFocusStateTest >> testApplyOn [
 			 on: ToUnfocusedSkinEvent
 			 do: [ :event | unfocusedEvt := event ]).
 	state := ToFocusState new focused: true.
-	state applyOn: e.
+	state applyOn: e fromQueue: nil.
 	self assert: (focusedEvt isKindOf: ToFocusedSkinEvent).
 	self assert: unfocusedEvt isNil
 ]
@@ -33,7 +33,7 @@ ToFocusStateTest >> testApplyOnUnfocused [
 			 on: ToUnfocusedSkinEvent
 			 do: [ :event | unfocusedEvt := event ]).
 	state := ToFocusState new focused: false.
-	state applyOn: e.
+	state applyOn: e fromQueue: nil.
 	self assert: (unfocusedEvt isKindOf: ToUnfocusedSkinEvent).
 	self assert: focusedEvt isNil
 ]
@@ -54,10 +54,10 @@ ToFocusStateTest >> testApplyOnWhenDisabled [
 			 on: ToUnfocusedSkinEvent
 			 do: [ :event | unfocusedEvt := event ]).
 	state := ToFocusState new focused: true.
-	state applyOn: e.
+	state applyOn: e fromQueue: nil.
 	self assert: (focusedEvt isKindOf: ToFocusedSkinEvent).
 	state := ToFocusState new focused: false.
-	state applyOn: e.
+	state applyOn: e fromQueue: nil.
 	self assert: (unfocusedEvt isKindOf: ToUnfocusedSkinEvent)
 ]
 

@@ -9,6 +9,19 @@ Class {
 	#category : #'Toplo-Core-States'
 }
 
+{ #category : #'look event sending' }
+ToSelectionState >> applyOn: anElement fromQueue: aQueue [
+
+	anElement
+		withAllChildrenBreadthFirstDo: [ :child |
+				| se |
+				se := self skinEvent.
+				child spaceDo: [ :sp | se fillFromTime: child space time ].
+				child dispatchEvent: se.
+				self onAppliedOn: child fromQueue: aQueue ]
+		while: [ :child | child areSelectionSkinEventsPrevented not ]
+]
+
 { #category : #accessing }
 ToSelectionState >> focused [
 

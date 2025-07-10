@@ -12,7 +12,7 @@ ToUninstallStateTest >> testApplyOn [
 	e addEventHandler: (BlEventHandler
 			 on: ToUninstallSkinEvent
 			 do: [ :event | receivedEvt := event ]).
-	(stateEvt := ToUninstallState new) applyOn: e.
+	(stateEvt := ToUninstallState new) applyOn: e fromQueue: nil.
 	self assert: (receivedEvt isKindOf: ToUninstallSkinEvent)
 ]
 

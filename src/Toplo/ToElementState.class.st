@@ -5,12 +5,6 @@ Class {
 }
 
 { #category : #'look event sending' }
-ToElementState >> applyOn: anElement [
-
-	self applyOn: anElement fromQueue: nil
-]
-
-{ #category : #'look event sending' }
 ToElementState >> applyOn: anElement fromQueue: aQueue [
 
 	| se |
@@ -25,13 +19,6 @@ ToElementState >> applyOn: anElement fromQueue: aQueue [
 ToElementState >> canBeEnqueuedFromElement: anElement inQueue: aStateQueue [
 
 	^ aStateQueue hasInstallStateEnqueued
-]
-
-{ #category : #'look event sending' }
-ToElementState >> onAppliedOn: anElement [
-
-	self onAppliedOn: anElement fromQueue: nil
-
 ]
 
 { #category : #'look event sending' }

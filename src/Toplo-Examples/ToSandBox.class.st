@@ -1644,11 +1644,24 @@ ToSandBox class >> example_CheckableBarElement [
 ]
 
 { #category : #checkbox }
+ToSandBox class >> example_Checkbox [
+
+	| chb |
+	ToTheme cleanUp.
+	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
+	chb addEventHandlerOn: ToSkinEvent do: [ :evt | evt traceCr ].
+	chb checkAction: [ :evt :target :value  |
+		value traceCr ].
+	chb openInInnerWindow
+]
+
+{ #category : #checkbox }
 ToSandBox class >> example_CheckboxChecked [
 
 	| chb |
 	ToTheme cleanUp.
 	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
+	chb addEventHandlerOn: ToSkinEvent do: [ :evt | evt traceCr ].
 	chb checkAction: [ :evt :target :value  |
 		value traceCr ].
 	chb checked: true.
@@ -4970,7 +4983,7 @@ ToSandBox class >> example_ToggleButton [
 	toggle := ToToggleButton new label: (ToLabel text: 'Toggle button').
 	toggle icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
 	toggle checked: false.
-	toggle openInInnerWindow
+	toggle openInSpace
 ]
 
 { #category : #'toggle button' }
@@ -5074,7 +5087,7 @@ ToSandBox class >> example_ToggleButtonInListElement [
 			                 labelText: 'Inspect';
 			                 clickAction: [ node inspect ];
 			                 yourself.
-
+		inspectButton preventSelectionSkinEvents.
 
 		moveNumberLabel constraintsDo: [ :c | c linear vertical alignCenter ].
 

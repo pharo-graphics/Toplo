@@ -12,7 +12,7 @@ ToInstallStateTest >> testApplyOn [
 	e addEventHandler: (BlEventHandler
 			 on: ToInstallSkinEvent
 			 do: [ :event | receivedEvt := event ]).
-	(stateEvt := ToInstallState new) applyOn: e.
+	(stateEvt := ToInstallState new) applyOn: e fromQueue: nil.
 	self assert: (receivedEvt isKindOf: ToInstallSkinEvent)
 ]
 

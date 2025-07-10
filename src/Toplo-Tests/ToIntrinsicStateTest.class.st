@@ -10,7 +10,7 @@ ToIntrinsicStateTest >> testApplyOn [
 	| e state  |
 	e := ToElement new.
 	state := ToIntrinsicStateStub new.
-	state applyOn: e
+	state applyOn: e fromQueue: nil
 ]
 
 { #category : #tests }
@@ -50,7 +50,7 @@ ToIntrinsicStateTest >> testApplyOnUnchecked [
 			 on: ToUncheckedSkinEvent
 			 do: [ :event | uncheckedEvt := event ]).
 	state := ToCheckState new checked: false.
-	state applyOn: e.
+	state applyOn: e fromQueue: nil.
 	self assert: (uncheckedEvt isKindOf: ToUncheckedSkinEvent)
 ]
 
@@ -70,10 +70,10 @@ ToIntrinsicStateTest >> testApplyOnWhenDisabled [
 			 on: ToUncheckedSkinEvent
 			 do: [ :event | uncheckedEvt := event ]).
 	state := ToCheckState new checked: true.
-	state applyOn: e.
+	state applyOn: e fromQueue: nil.
 	self assert: (checkedEvt isKindOf: ToCheckedSkinEvent).
 	state := ToCheckState new checked: false.
-	state applyOn: e.
+	state applyOn: e fromQueue: nil.
 	self assert: (uncheckedEvt isKindOf: ToUncheckedSkinEvent)
 ]
 

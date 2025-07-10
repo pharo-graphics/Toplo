@@ -16,7 +16,7 @@ ToCheckStateTest >> testApplyOn [
 			 on: ToUncheckedSkinEvent
 			 do: [ :event | uncheckedEvt := event ]).
 	state := ToCheckState new checked: true.
-	state applyOn: e.
+	state applyOn: e fromQueue: nil.
 	self assert: (checkedEvt isKindOf: ToCheckedSkinEvent)
 ]
 
@@ -32,7 +32,7 @@ ToCheckStateTest >> testApplyOnUnchecked [
 			 on: ToUncheckedSkinEvent
 			 do: [ :event | uncheckedEvt := event ]).
 	state := ToCheckState new checked: false.
-	state applyOn: e.
+	state applyOn: e fromQueue: nil.
 	self assert: (uncheckedEvt isKindOf: ToUncheckedSkinEvent)
 ]
 
@@ -52,10 +52,10 @@ ToCheckStateTest >> testApplyOnWhenDisabled [
 			 on: ToUncheckedSkinEvent
 			 do: [ :event | uncheckedEvt := event ]).
 	state := ToCheckState new checked: true.
-	state applyOn: e.
+	state applyOn: e fromQueue: nil.
 	self assert: (checkedEvt isKindOf: ToCheckedSkinEvent).
 	state := ToCheckState new checked: false.
-	state applyOn: e.
+	state applyOn: e fromQueue: nil.
 	self assert: (uncheckedEvt isKindOf: ToUncheckedSkinEvent)
 ]
 

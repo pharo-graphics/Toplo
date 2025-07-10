@@ -132,17 +132,17 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp [
 
 	" mouse down immediately followed by a mouse up -> the popup should stay opened"
 	BlSpace simulateMouseDownOn: e.
-	self waitTestingSpaces.
+	self waitTestingSpacesTimeout: 300 milliSeconds.
 	self assert: windowManager currentWindow isOpened.
 	BlSpace simulateMouseUpOn: e.
-	self waitTestingSpaces.
+	self waitTestingSpacesTimeout: 300 milliSeconds.
 	self assert: windowManager currentWindow isOpened.
 
 	BlSpace simulateMouseDownOn: e.
-	self waitTestingSpaces.
+	self waitTestingSpacesTimeout: 300 milliSeconds.
 	self assert: windowManager currentWindow isNil.
 	BlSpace simulateMouseUpOn: e.
-	self waitTestingSpaces.
+	self waitTestingSpacesTimeout: 300 milliSeconds.
 	self assert: windowManager currentWindow isNil
 ]
 

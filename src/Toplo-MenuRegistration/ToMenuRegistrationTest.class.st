@@ -23,7 +23,7 @@ ToMenuRegistrationTest >> testHasNoChildren [
 	self assert: menu hasNoChildren
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #tests }
 ToMenuRegistrationTest >> testOrderSort [
 
 	menu addChild: (ToMenuRegistration new

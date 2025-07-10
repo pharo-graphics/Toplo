@@ -72,10 +72,11 @@ ToMenuRegistration >> builder: aBuilder [
 	builder := aBuilder.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 ToMenuRegistration >> childrenFromGroup: aGroupName [
 
-	^ childrenItems select: [ :item | item groupName = aGroupName and: (item isGroup = false) ]
+	^ childrenItems select: [ :item | item groupName = aGroupName 
+		and: [ item isGroup = false ]]
 ]
 
 { #category : #accessing }
@@ -160,7 +161,7 @@ ToMenuRegistration >> initialize [
 	self updateAction
 ]
 
-{ #category : #'instance creation' }
+{ #category : #testing }
 ToMenuRegistration >> isChild: aSymbol [
 
 	aSymbol ifNil: [ ^ false ].
@@ -267,12 +268,13 @@ ToMenuRegistration >> selector: aSelector [
 	self updateAction.
 ]
 
-{ #category : #'spec accessing' }
+{ #category : #separator }
 ToMenuRegistration >> separator [
+
 	^ separator
 ]
 
-{ #category : #'spec accessing' }
+{ #category : #separator }
 ToMenuRegistration >> separator: aBoolean [
 
 	separator := aBoolean
@@ -307,7 +309,7 @@ ToMenuRegistration >> target: aSymbol [
 	self updateAction.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #sorting }
 ToMenuRegistration >> updateAction [
 
 	self action: [
@@ -322,14 +324,16 @@ ToMenuRegistration >> with: aBlock [
 
 	| currentItem |
 	aBlock value.
-	(builder findChild: name) to: builder collectedItems size do: [
-		:index |
-		currentItem := builder collectedItems at: index.
-		(self isChild: currentItem name) ifFalse: [
-			builder changeParent: self for: currentItem name ] ].
+	(builder findChild: name) 
+		to: builder collectedItems size 
+		do: [ :index |
+			currentItem := builder collectedItems at: index.
+			(self isChild: currentItem name) ifFalse: [
+				builder changeParent: self for: currentItem name ] ]
 ]
 
-{ #category : #'spec accessing' }
+{ #category : #separator }
 ToMenuRegistration >> withSeparatorAfter [
-	separator := true.
+
+	separator := true
 ]

@@ -285,7 +285,7 @@ ToTabPaneElementTest >> withTwoTabButtons [
 					 firstTabBuildCount := firstTabBuildCount + 1.
 					 body addChild: (ToElement new
 								  background: Color red;
-								  size: 20 asPoint;
+								  extent: 20 asPoint;
 								  matchParent;
 								  yourself) ];
 			 yourself).
@@ -297,7 +297,7 @@ ToTabPaneElementTest >> withTwoTabButtons [
 					 secondTabBuildCount := secondTabBuildCount + 1.
 					 body addChild: (ToElement new
 								  background: Color green;
-								  size: 30 asPoint;
+								  extent: 30 asPoint;
 								  matchParent;
 								  yourself) ];
 			 yourself)

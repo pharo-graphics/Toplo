@@ -77,6 +77,12 @@ ToInnerWindow >> defaultBarElement [
 ]
 
 { #category : #initialization }
+ToInnerWindow >> defaultExtent [
+
+	^ 400 @ 300
+]
+
+{ #category : #initialization }
 ToInnerWindow >> defaultPaneElement [
 
 	^ ToInnerWindowPane new
@@ -95,7 +101,9 @@ ToInnerWindow >> defaultPaneLayout [
 { #category : #initialization }
 ToInnerWindow >> defaultSize [
 
-	^ 400@300
+	self deprecated: 'Use #defaultExtent instead'.
+
+	^ self defaultExtent
 ]
 
 { #category : #initialization }
@@ -111,15 +119,14 @@ ToInnerWindow >> expandButton [
 ]
 
 { #category : #initialization }
-ToInnerWindow >> initialize [ 
+ToInnerWindow >> initialize [
 
 	super initialize.
 	self layout: BlLinearLayout vertical.
-	self size: self defaultSize.
+	self extent: self defaultExtent.
 	self initializeBarElement.
 	self initializePaneElement.
-	self initializeGrips.
-
+	self initializeGrips
 ]
 
 { #category : #accessing }
@@ -153,7 +160,7 @@ ToInnerWindow >> maximize [
 
 	self
 		position: 0 @ 0;
-		size: self parent size
+		extent: self parent size
 ]
 
 { #category : #initialization }

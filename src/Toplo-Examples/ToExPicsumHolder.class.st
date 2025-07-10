@@ -70,7 +70,7 @@ ToExPicsumHolder >> unbindDataItem [
 ToExPicsumHolder >> urlStringFromNodeSize [
 
 	| s |
-	s := self node size asIntegerPoint.
+	s := self node extent asIntegerPoint.
 	^ 'https://unsplash.it/' , (s x min: 4096) asString , '/'
 	  , (s y min: 4096) asString , '?image=' , self dataItem id asString
 ]

@@ -327,7 +327,7 @@ TToTripletElement >> middleElement: anElement [
 TToTripletElement >> newFiller [
 
 	^ BlElement new
-		  size: 0 @ 0;
+		  extent: 0 @ 0;
 		  layout: BlLinearLayout new;
 		  yourself
 ]

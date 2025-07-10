@@ -29,15 +29,15 @@ ToTreeNodeSkin >> newStartElementForNode: aNode [
 	aWrapper := aNode holder dataItem.
 	arrowIcon := ToImage new.
 	aWrapper hasLeafDataItem ifFalse: [
-		arrowIcon := aWrapper isExpanded
-			             ifFalse: [ ToIconicArrowButton right ]
-			             ifTrue: [ ToIconicArrowButton down ].
-		arrowIcon clickAction: [
-			aNode dispatchEvent: ToArrowButtonClickedEvent new ] ].
+			arrowIcon := aWrapper isExpanded
+				             ifFalse: [ ToIconicArrowButton right ]
+				             ifTrue: [ ToIconicArrowButton down ].
+			arrowIcon clickAction: [
+				aNode dispatchEvent: ToArrowButtonClickedEvent new ] ].
 	arrowIcon constraintsDo: [ :c |
-		c linear horizontal alignLeft.
-		c linear vertical alignCenter ].
-	arrowIcon size:
+			c linear horizontal alignLeft.
+			c linear vertical alignCenter ].
+	arrowIcon extent:
 		(aNode holder listElement valueOfTokenNamed: #'iconic-arrow-breadth')
 			asPoint.
 	^ arrowIcon

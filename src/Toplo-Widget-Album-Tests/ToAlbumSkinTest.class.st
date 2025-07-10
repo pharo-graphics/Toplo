@@ -11,8 +11,7 @@ Class {
 ToAlbumSkinTest >> testFocusedSkinEvent [
 
 	| a focusCount |
-
-	a := ToAlbum new size: 100 asPoint.
+	a := ToAlbum new extent: 100 asPoint.
 	space root addChild: a.
 	self deny: a hasFocus.
 	focusCount := 0.
@@ -29,9 +28,8 @@ ToAlbumSkinTest >> testFocusedSkinEvent [
 ToAlbumSkinTest >> testUnfocusedSkinEvent [
 
 	| a1 a2 unfocusCount |
-
-	a1 := ToAlbum new size: 100 asPoint.
-	a2 := ToAlbum new size: 100 asPoint.
+	a1 := ToAlbum new extent: 100 asPoint.
+	a2 := ToAlbum new extent: 100 asPoint.
 	space root addChild: a1.
 	space root addChild: a2.
 	self deny: a1 hasFocus.
@@ -47,5 +45,4 @@ ToAlbumSkinTest >> testUnfocusedSkinEvent [
 	self waitTestingSpaces.
 	space applyAllSkinPhases.
 	self assert: unfocusCount equals: 1
-	
 ]

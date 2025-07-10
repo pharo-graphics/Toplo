@@ -35,30 +35,30 @@ ToSkinDemoStyleSheetTest >> testRuleBackgroundDependsOnParentOrChildren [
 	theme styleSheet addWritableProperty:
 		(ToFeatureProperty name: #background).
 	theme styleSheet select: ToElement asTypeSelector style: [ :sr |
-		sr
-			when: ToInstallSkinEvent
-			write: (theme property: #background)
-			with: [ :e | Color red ].
-		sr
-			select:
-			(ToUniversalSelector new withParent: ToElement asTypeSelector)
-			style: [ :stampSr |
-				stampSr
-					when: ToInstallSkinEvent
-					write: (theme property: #background)
-					with: [ :e | Color green ] ].
-		sr
-			select:
-			(ToUniversalSelector new withChild: ToElement asTypeSelector)
-			style: [ :stampSr |
-				stampSr
-					when: ToInstallSkinEvent
-					write: (theme property: #background)
-					with: [ :e | Color blue ] ] ].
+			sr
+				when: ToInstallSkinEvent
+				write: (theme property: #background)
+				with: [ :e | Color red ].
+			sr
+				select:
+				(ToUniversalSelector new withParent: ToElement asTypeSelector)
+				style: [ :stampSr |
+						stampSr
+							when: ToInstallSkinEvent
+							write: (theme property: #background)
+							with: [ :e | Color green ] ].
+			sr
+				select:
+				(ToUniversalSelector new withChild: ToElement asTypeSelector)
+				style: [ :stampSr |
+						stampSr
+							when: ToInstallSkinEvent
+							write: (theme property: #background)
+							with: [ :e | Color blue ] ] ].
 
 	elem := ToElement new position: 50 asPoint.
 	parentElem := ToElement new
-		              size: 100 asPoint;
+		              extent: 100 asPoint;
 		              position: 150 @ 50.
 	childElem := ToElement new.
 	parentElem addChild: childElem.
@@ -68,7 +68,7 @@ ToSkinDemoStyleSheetTest >> testRuleBackgroundDependsOnParentOrChildren [
 	self waitTestingSpaces.
 	self assert: elem background paint color equals: Color red.
 	self assert: parentElem background paint color equals: Color blue.
-	self assert: childElem background paint color equals: Color green.
+	self assert: childElem background paint color equals: Color green
 ]
 
 { #category : #nil }
@@ -79,30 +79,30 @@ ToSkinDemoStyleSheetTest >> testRuleBackgroundDependsOnSibling [
 	theme styleSheet addWritableProperty:
 		(ToFeatureProperty name: #background).
 	theme styleSheet select: ToElement asTypeSelector style: [ :sr |
-		sr
-			when: ToInstallSkinEvent
-			write: (theme property: #background)
-			with: [ :e | Color red ].
-		sr
-			select: (ToUniversalSelector new withSibling:
-					 (ToStampSelector new addStamp: #sibling1))
-			style: [ :stampSr |
-				stampSr
-					when: ToInstallSkinEvent
-					write: (theme property: #background)
-					with: [ :e | Color green ] ].
-		sr
-			select: (ToUniversalSelector new withSibling:
-					 (ToStampSelector new addStamp: #sibling2))
-			style: [ :stampSr |
-				stampSr
-					when: ToInstallSkinEvent
-					write: (theme property: #background)
-					with: [ :e | Color blue ] ] ].
+			sr
+				when: ToInstallSkinEvent
+				write: (theme property: #background)
+				with: [ :e | Color red ].
+			sr
+				select: (ToUniversalSelector new withSibling:
+						 (ToStampSelector new addStamp: #sibling1))
+				style: [ :stampSr |
+						stampSr
+							when: ToInstallSkinEvent
+							write: (theme property: #background)
+							with: [ :e | Color green ] ].
+			sr
+				select: (ToUniversalSelector new withSibling:
+						 (ToStampSelector new addStamp: #sibling2))
+				style: [ :stampSr |
+						stampSr
+							when: ToInstallSkinEvent
+							write: (theme property: #background)
+							with: [ :e | Color blue ] ] ].
 
 	container := ToElement new
 		             layout: BlBasicLayout new;
-		             size: 250 @ 150;
+		             extent: 250 @ 150;
 		             position: 50 asPoint.
 	sibling1 := ToElement new
 		            position: 50 asPoint;
@@ -119,60 +119,57 @@ ToSkinDemoStyleSheetTest >> testRuleBackgroundDependsOnSibling [
 	self waitTestingSpaces.
 	self assert: sibling1 background paint color equals: Color blue.
 	self assert: sibling2 background paint color equals: Color green.
-	self assert: container background paint color equals: Color red.
+	self assert: container background paint color equals: Color red
 ]
 
 { #category : #tests }
 ToSkinDemoStyleSheetTest >> testRuleBackgroundDependsOnSizeWithActionBlock [
 
 	| theme elem verticalElem horizontalElem biggerElem assertsTested |
-	
 	theme := ToStyleSheetTheme new.
-	theme addWritableProperty:
-		(ToFeatureProperty name: #background).
+	theme addWritableProperty: (ToFeatureProperty name: #background).
 	theme select: ToElement asTypeSelector style: [ :sr |
-		sr
-			when: ToInstallSkinEvent
-			write: (theme property: #background)
-			with: [ :e | Color red ].
-		sr
-			select: (ToActionSelector new action: [ :e | e width = 50 ])
-				|| (ToActionSelector new action: [ :e | e height = 50 ])
-			style: [ :squared |
-				
-				squared
-					when: ToInstallSkinEvent
-					write: (theme property: #background)
-					with: [ :e | Color green ].
+			sr
+				when: ToInstallSkinEvent
+				write: (theme property: #background)
+				with: [ :e | Color red ].
+			sr
+				select: (ToActionSelector new action: [ :e | e width = 50 ])
+					|| (ToActionSelector new action: [ :e | e height = 50 ])
+				style: [ :squared |
+						squared
+							when: ToInstallSkinEvent
+							write: (theme property: #background)
+							with: [ :e | Color green ].
 
-				squared
-					select: [ :e | e width = 50 ] asActionSelector not
-					style: [ :vertical |
-						vertical
-							when: ToInstallSkinEvent
-							write: (theme property: #background)
-							with: [ :e | Color blue ] ].
-				squared
-					select: [ :e | e height = 50 ] asActionSelector not
-					style: [ :horizontal |
-						horizontal
-							when: ToInstallSkinEvent
-							write: (theme property: #background)
-							with: [ :e | Color yellow ] ] ] ].
+						squared
+							select: [ :e | e width = 50 ] asActionSelector not
+							style: [ :vertical |
+									vertical
+										when: ToInstallSkinEvent
+										write: (theme property: #background)
+										with: [ :e | Color blue ] ].
+						squared
+							select: [ :e | e height = 50 ] asActionSelector not
+							style: [ :horizontal |
+									horizontal
+										when: ToInstallSkinEvent
+										write: (theme property: #background)
+										with: [ :e | Color yellow ] ] ] ].
 
 	elem := ToElement new
-		        size: 50 asPoint;
+		        extent: 50 asPoint;
 		        position: 50 asPoint.
 	verticalElem := ToElement new
-		                size: 50 @ 100;
+		                extent: 50 @ 100;
 		                position: 50 @ 150.
 	horizontalElem := ToElement new
-		                  size: 100 @ 50;
+		                  extent: 100 @ 50;
 		                  position: 150 @ 50.
 	biggerElem := ToElement new
-		              size: 100 asPoint;
+		              extent: 100 asPoint;
 		              position: 150 asPoint.
-		
+
 	space root addChild: elem.
 	space root addChild: verticalElem.
 	space root addChild: horizontalElem.
@@ -180,20 +177,20 @@ ToSkinDemoStyleSheetTest >> testRuleBackgroundDependsOnSizeWithActionBlock [
 
 	assertsTested := false.
 	space root whenLayoutedDoOnce: [
-		assertsTested := true.
-		space toTheme: theme.
-		self waitTestingSpaces.
-		self assert: elem background paint color equals: Color green.
-		self
-			assert: verticalElem background paint color
-			equals: Color yellow.
-		self
-			assert: horizontalElem background paint color
-			equals: Color blue.
-		self assert: biggerElem background paint color equals: Color red ].
-	
+			assertsTested := true.
+			space toTheme: theme.
+			self waitTestingSpaces.
+			self assert: elem background paint color equals: Color green.
+			self
+				assert: verticalElem background paint color
+				equals: Color yellow.
+			self
+				assert: horizontalElem background paint color
+				equals: Color blue.
+			self assert: biggerElem background paint color equals: Color red ].
+
 	space root forceLayout.
-	self assert: assertsTested.
+	self assert: assertsTested
 ]
 
 { #category : #tests }

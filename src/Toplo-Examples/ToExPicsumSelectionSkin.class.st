@@ -12,34 +12,34 @@ ToExPicsumSelectionSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		| im cont bar w  |
-		w := 3.
-		e background: (Color yellow alpha: 0.1).
-		bar := BlElement new
-			       width: w;
-			       yourself.
-		bar background: Color yellow.
-		bar constraintsDo: [ :c |
-			c vertical matchParent.
-			c frame horizontal alignLeft ].
-		e addChild: bar.
-		cont := BlElement new
-			        geometry: BlCircleGeometry new;
-			        layout: BlFrameLayout new;
-			        yourself.
-		cont constraintsDo: [ :c |
-			c frame vertical alignBottom.
-			c frame horizontal alignRight.
-			c vertical fitContent.
-			c horizontal fitContent ].
-		im := ToImage inner: self pathCheckSVG.
-		im size: 28 asPoint.
-		im background: Color yellow.
-		im geometry: BlCircleGeometry new.
-		cont padding: (BlInsets all: 8).
-		cont addChild: im.
-		e layout: BlFrameLayout new.
-		e addChild: cont ]
+			| im cont bar w |
+			w := 3.
+			e background: (Color yellow alpha: 0.1).
+			bar := BlElement new
+				       width: w;
+				       yourself.
+			bar background: Color yellow.
+			bar constraintsDo: [ :c |
+					c vertical matchParent.
+					c frame horizontal alignLeft ].
+			e addChild: bar.
+			cont := BlElement new
+				        geometry: BlCircleGeometry new;
+				        layout: BlFrameLayout new;
+				        yourself.
+			cont constraintsDo: [ :c |
+					c frame vertical alignBottom.
+					c frame horizontal alignRight.
+					c vertical fitContent.
+					c horizontal fitContent ].
+			im := ToImage inner: self pathCheckSVG.
+			im extent: 28 asPoint.
+			im background: Color yellow.
+			im geometry: BlCircleGeometry new.
+			cont padding: (BlInsets all: 8).
+			cont addChild: im.
+			e layout: BlFrameLayout new.
+			e addChild: cont ]
 ]
 
 { #category : #'event handling' }

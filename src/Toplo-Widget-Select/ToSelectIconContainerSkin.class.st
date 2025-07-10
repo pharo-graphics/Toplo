@@ -41,11 +41,13 @@ ToSelectIconContainerSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e middleContainer padding: (BlInsets horizontal: 5).
-		e icon ifNil: [ | image |
-			image := ToIconicArrowButton up.
-			image size: (e valueOfTokenNamed: #'iconic-arrow-breadth') asPoint.
-			e icon: image ] ]
+			e middleContainer padding: (BlInsets horizontal: 5).
+			e icon ifNil: [
+					| image |
+					image := ToIconicArrowButton up.
+					image extent:
+						(e valueOfTokenNamed: #'iconic-arrow-breadth') asPoint.
+					e icon: image ] ]
 ]
 
 { #category : #'event handling' }

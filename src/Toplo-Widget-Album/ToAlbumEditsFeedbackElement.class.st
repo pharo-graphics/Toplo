@@ -8,11 +8,11 @@ Class {
 ToAlbumEditsFeedbackElement >> initialize [
 
 	super initialize.
-	self size: 25 @ 25.
+	self extent: 25 @ 25.
 	self preventMouseEvents.
 	self constraintsDo: [ :c |
-		c frame horizontal alignRight.
-		c frame vertical alignTop ]
+			c frame horizontal alignRight.
+			c frame vertical alignTop ]
 ]
 
 { #category : #'instance creation' }

@@ -36,20 +36,20 @@ ToAccordionHeaderElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		|  arrowIm |
-		e padding: (BlInsets
-				 horizontal: (e valueOfTokenNamed: #'padding-content-HS')
-				 vertical: (e valueOfTokenNamed: #'padding-content-V')).
-		e geometry: (BlRoundedRectangleGeometry cornerRadius:
-				 (e valueOfTokenNamed: 'border-radius')).
-		arrowIm := e isExpanded
-			           ifTrue: [ ToIconicArrowButton down ]
-			           ifFalse: [ ToIconicArrowButton right ].
-		arrowIm
-					size: (e valueOfTokenNamed: #'iconic-arrow-breadth') asPoint.
-		e icon: arrowIm.
-		(e parent hasStamp: #ghost) ifFalse: [
-			e background: (e valueOfTokenNamed: #'color-secondary-selection') ] ]
+			| arrowIm |
+			e padding: (BlInsets
+					 horizontal: (e valueOfTokenNamed: #'padding-content-HS')
+					 vertical: (e valueOfTokenNamed: #'padding-content-V')).
+			e geometry: (BlRoundedRectangleGeometry cornerRadius:
+					 (e valueOfTokenNamed: 'border-radius')).
+			arrowIm := e isExpanded
+				           ifTrue: [ ToIconicArrowButton down ]
+				           ifFalse: [ ToIconicArrowButton right ].
+			arrowIm extent:
+				(e valueOfTokenNamed: #'iconic-arrow-breadth') asPoint.
+			e icon: arrowIm.
+			(e parent hasStamp: #ghost) ifFalse: [
+				e background: (e valueOfTokenNamed: #'color-secondary-selection') ] ]
 ]
 
 { #category : #'event handling' }

@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'dataItem',
 		'recyclingRequested',
-		'notifiedSelected'
+		'notifiedSelected',
+		'wasFocused'
 	],
 	#category : #'Toplo-Widget-List-Node'
 }
@@ -30,13 +31,13 @@ ToNodeHolder >> bindDataItem: aDataItem [
 { #category : #selection }
 ToNodeHolder >> canNotifyDeselection [ 
 	
-	^ notifiedSelected 
+	^ notifiedSelected or: [ wasFocused ~= self listElement focused ]
 ]
 
 { #category : #selection }
 ToNodeHolder >> canNotifySelection [ 
 	
-	^ notifiedSelected not
+	^ notifiedSelected not or: [ wasFocused ~= self listElement focused ]
 ]
 
 { #category : #accessing }
@@ -83,7 +84,8 @@ ToNodeHolder >> initialize [
 
 	super initialize.
 	recyclingRequested := false.
-	notifiedSelected := false
+	notifiedSelected := false.
+	wasFocused := false
 ]
 
 { #category : #accessing }
@@ -178,6 +180,7 @@ ToNodeHolder >> notifyDeselectedWithOption: aSelectionElementOption [
 ToNodeHolder >> notifyNodeSelectedEvent: anEvent [ 
 
 	notifiedSelected := anEvent selected.
+	wasFocused := self listElement focused.
 	self node dispatchEvent: anEvent
 ]
 

@@ -26,7 +26,7 @@ ToPopupWindowManagerTest >> testAutoClosePickOutsideEventClass [
 
 	| e windowManager closed |
 	e := ToElement new.
-	e size: 100 asPoint.
+	e extent: 100 asPoint.
 	space root addChild: e.
 	self waitTestingSpaces.
 
@@ -79,7 +79,7 @@ ToPopupWindowManagerTest >> testElementPositionInSpaceChangedEvent [
 	e := ToElement new.
 	space root addChild: e.
 	e position: 10 asPoint.
-	e size: 10 asPoint.
+	e extent: 10 asPoint.
 	self waitTestingSpaces.
 
 	windowManager := ToPopupWindowManager new.
@@ -98,7 +98,7 @@ ToPopupWindowManagerTest >> testMouseDownEvent [
 
 	| e windowManager position event |
 	e := ToElement new.
-	e size: 100 asPoint.
+	e extent: 100 asPoint.
 	space root addChild: e.
 	self waitTestingSpaces.
 
@@ -119,7 +119,7 @@ ToPopupWindowManagerTest >> testMouseDownInElementEvent [
 
 	| e windowManager |
 	e := ToElement new.
-	e size: 100 asPoint.
+	e extent: 100 asPoint.
 	space root addChild: e.
 	self waitTestingSpaces.
 
@@ -137,7 +137,7 @@ ToPopupWindowManagerTest >> testMouseUpEvent [
 
 	| e windowManager closed position event |
 	e := ToElement new.
-	e size: 100 asPoint.
+	e extent: 100 asPoint.
 	space root addChild: e.
 	self waitTestingSpaces.
 
@@ -169,7 +169,7 @@ ToPopupWindowManagerTest >> testMouseUpInElementEvent [
 
 	| e windowManager closed |
 	e := ToElement new.
-	e size: 100 asPoint.
+	e extent: 100 asPoint.
 	space root addChild: e.
 	self waitTestingSpaces.
 
@@ -196,7 +196,7 @@ ToPopupWindowManagerTest >> testMouseUpInElementEventAfterLongDelayShouldCloseWi
 
 	| e windowManager closed |
 	e := ToElement new.
-	e size: 100 asPoint.
+	e extent: 100 asPoint.
 	space root addChild: e.
 	self waitTestingSpaces.
 
@@ -223,7 +223,7 @@ ToPopupWindowManagerTest >> testMouseUpOutsideEvent [
 
 	| e windowManager closed event |
 	e := ToElement new.
-	e size: 100 asPoint.
+	e extent: 100 asPoint.
 	e position: 100 asPoint.
 	space root addChild: e.
 	self waitTestingSpaces.
@@ -240,7 +240,9 @@ ToPopupWindowManagerTest >> testMouseUpOutsideEvent [
 			 on: ToClosedEvent
 			 do: [ closed := true ]).
 	(windowManager autoCloseDelay + 1 milliSecond) wait.
-	event := BlMouseUpEvent primary position: 0 @ 0; fillFromTime: space time.
+	event := BlMouseUpEvent primary
+		         position: 0 @ 0;
+		         fillFromTime: space time.
 	e dispatchEvent: event.
 	self waitTestingSpaces.
 
@@ -254,7 +256,7 @@ ToPopupWindowManagerTest >> testNoAutoCloseEvenAfterLongDelay [
 
 	| e windowManager closed |
 	e := ToElement new.
-	e size: 100 asPoint.
+	e extent: 100 asPoint.
 	space root addChild: e.
 	self waitTestingSpaces.
 
@@ -262,7 +264,7 @@ ToPopupWindowManagerTest >> testNoAutoCloseEvenAfterLongDelay [
 	closed := false.
 	" should avoid auto-close"
 	windowManager autoCloseDelay: 0 milliSeconds.
-	self assert: windowManager autoCloseDelay equals: 0 milliSeconds .
+	self assert: windowManager autoCloseDelay equals: 0 milliSeconds.
 	e addEventHandler: (BlEventHandler
 			 on: ToClosedEvent
 			 do: [ :event | closed := true ]).
@@ -285,16 +287,14 @@ ToPopupWindowManagerTest >> testNoAutoCloseEvenAfterLongDelay [
 	self waitTestingSpaces.
 	self assert: windowManager currentWindow notNil.
 	self deny: closed.
-	
+
 	closed := false.
 	BlSpace simulateMouseDownOn: e.
 	800 milliSeconds asDelay wait.
 	BlSpace simulateMouseUpOn: e.
 	self waitTestingSpaces.
 	self assert: windowManager currentWindow isNil.
-	self assert: closed.
-
-
+	self assert: closed
 ]
 
 { #category : #tests }
@@ -321,7 +321,7 @@ ToPopupWindowManagerTest >> testUseNoMouseButton [
 
 	| e windowManager event |
 	e := ToElement new.
-	e size: 100 asPoint.
+	e extent: 100 asPoint.
 	space root addChild: e.
 	self waitTestingSpaces.
 
@@ -332,7 +332,7 @@ ToPopupWindowManagerTest >> testUseNoMouseButton [
 	event position: e bounds inSpace center.
 	BlSpace simulateEvent: event on: e.
 	self waitTestingSpaces.
-	self assert: windowManager currentWindow isNil.
+	self assert: windowManager currentWindow isNil
 ]
 
 { #category : #tests }
@@ -340,7 +340,7 @@ ToPopupWindowManagerTest >> testUsePrimaryMouseButton [
 
 	| e windowManager event |
 	e := ToElement new.
-	e size: 100 asPoint.
+	e extent: 100 asPoint.
 	space root addChild: e.
 	self waitTestingSpaces.
 
@@ -360,7 +360,7 @@ ToPopupWindowManagerTest >> testUsePrimaryMouseButton2 [
 
 	| e windowManager event |
 	e := ToElement new.
-	e size: 100 asPoint.
+	e extent: 100 asPoint.
 	space root addChild: e.
 	self waitTestingSpaces.
 
@@ -378,7 +378,7 @@ ToPopupWindowManagerTest >> testUseSecondaryMouseButton [
 
 	| e windowManager event |
 	e := ToElement new.
-	e size: 100 asPoint.
+	e extent: 100 asPoint.
 	space root addChild: e.
 	self waitTestingSpaces.
 
@@ -398,7 +398,7 @@ ToPopupWindowManagerTest >> testUseSecondaryMouseButton2 [
 
 	| e windowManager event |
 	e := ToElement new.
-	e size: 100 asPoint.
+	e extent: 100 asPoint.
 	space root addChild: e.
 	self waitTestingSpaces.
 

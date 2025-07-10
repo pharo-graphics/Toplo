@@ -42,33 +42,50 @@ ToPaneNodeExampleSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		| p1 p2 p3 |
-		e beHorizontal.
-		e
-			clipChildren: false;
-			outskirts: BlOutskirts outside;
-			geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
-			margin: (BlInsets all: 6);
-			padding: (BlInsets all: 6).
+			| p1 p2 p3 badge blab |
+			e beHorizontal.
+			e hMatchParent.
+			e
+				clipChildren: false;
+				outskirts: BlOutskirts outside;
+				geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
+				margin: (BlInsets all: 6);
+				padding: (BlInsets all: 6).
 
-		p1 := ToPane vertical
-			      background: Color blue;
-			      width: 50;
-			      yourself.
-		p2 := ToPane vertical
-			      background: (Color blue alpha: 0.6);
-			      width: 100;
-			      yourself.
-		p3 := ToPane vertical
-			      background: (Color blue alpha: 0.3);
-			      hMatchParent;
-			      yourself.
-		e addChildren: {
-				p1.
-				p2.
-				p3 }.
-		e height: 60.
-		e hMatchParent ]
+			p1 := ToPane vertical
+				      background: Color blue;
+				      width: 50;
+				      yourself.
+			p2 := ToPane vertical
+				      background: (Color blue alpha: 0.6);
+				      width: 100;
+				      yourself.
+			p3 := ToPane vertical
+				      background: (Color blue alpha: 0.3);
+				      hMatchParent;
+				      yourself.
+			e addChildren: {
+					p1.
+					p2.
+					p3 }.
+			badge := BlElement new layout: BlFrameLayout new.
+			blab := ToLabel text: 'x'.
+			blab withNullSkin.
+			blab foreground: Color white.
+			blab constraintsDo: [ :c |
+					c frame horizontal alignCenter.
+					c frame vertical alignCenter ].
+			badge addChild: blab.
+			badge background: Color red.
+			badge geometry: BlCircleGeometry new.
+			badge extent: 20 asPoint.
+			badge constraintsDo: [ :c |
+					c ignoreByLayout.
+					c anchors add:
+						(badge centerAnchor on: e topRightAnchor + (-5 @ 5)) ].
+			e addChild: badge.
+			e height: 60.
+			e hMatchParent ]
 ]
 
 { #category : #'event handling' }

@@ -7,7 +7,7 @@ Class {
 		'initialBorder',
 		'initialBackground',
 		'initialPosition',
-		'initialSize'
+		'initialExtent'
 	],
 	#category : #'Toplo-Widget-InnerWindow-Support'
 }
@@ -85,6 +85,12 @@ ToResizeGrip >> initialDragPosition: aPoint [
 ]
 
 { #category : #accessing }
+ToResizeGrip >> initialExtent: aPoint [
+
+	initialExtent := aPoint
+]
+
+{ #category : #accessing }
 ToResizeGrip >> initialPosition: aPoint [
 
 	initialPosition := aPoint
@@ -93,7 +99,13 @@ ToResizeGrip >> initialPosition: aPoint [
 { #category : #accessing }
 ToResizeGrip >> initialSize: aPoint [
 
-	initialSize := aPoint
+	self
+		deprecated: 'Use initialExtent: instead'
+		transformWith:
+			'`@receiver initialSize: `@argument'
+			-> '`@receiver initialExtent: `@argument'.
+
+	self initialExtent: aPoint
 ]
 
 { #category : #initialization }

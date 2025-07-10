@@ -5400,7 +5400,7 @@ ToSandBox class >> example_WithSeparator [
 	| menu container |
 	container := ToInnerWindow new
 		             position: 10 @ 10;
-		             size: 400 @ 200;
+		             extent: 400 @ 200;
 		             yourself.
 	menu := ToMenu new.
 	"menu tooltipString: 'tooltip content'."
@@ -6497,50 +6497,54 @@ ToSandBox class >> example_menuPaneVertical [
 			 clickAction: [ frame space root inspect ];
 			 yourself).
 	1 to: 3 do: [ :count |
-		menu := ToMenu new.
-		menu showExpandIcon: true.
-		count = 2 ifTrue: [ menu beInline ].
-		menu label: (ToLabel text: 'Levels').
-		menu icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+			menu := ToMenu new.
+			menu showExpandIcon: true.
+			count = 2 ifTrue: [ menu beInline ].
+			menu label: (ToLabel text: 'Levels').
+			menu icon:
+				(ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
 
-		menu builder: [ :m |
-			1 to: 6 do: [ :index |
-				| subMenu |
-				subMenu := ToMenu new label: (ToLabel new text: (String streamContents: [ :out |
-							             out
-								             nextPutAll: 'Level ';
-								             print: index;
-								             nextPutAll: 'x';
-								             print: index ])).
-				subMenu builder: [ :sm |
-					1 to: 10 do: [ :i |
-						| stream selector iconImage color |
-						stream := String streamContents: [ :out |
-							          out
-								          nextPutAll: 'Level ';
-								          space;
-								          print: i ].
-						selector := String streamContents: [ :out |
-							            out
-								            nextPutAll: 'level ';
-								            print: index;
-								            nextPutAll: ' Grid ';
-								            print: i ].
-						color := Color random.
-						iconImage := BlElement new
-							             padding: (BlInsets all: 2);
-							             geometry: (BlRoundedRectangleGeometry cornerRadius: 3);
-							             background: color;
-							             size: 16 asPoint;
-							             yourself.
-						sm addItem: ((ToMenuItem new
-								  labelText: stream;
-								  iconImage: iconImage)
-								 clickAction: [frame background: color ];
-								 yourself) ] ].
-				m addItem: subMenu ] ].
+			menu builder: [ :m |
+					1 to: 6 do: [ :index |
+							| subMenu |
+							subMenu := ToMenu new label:
+								           (ToLabel new text:
+									            (String streamContents: [ :out |
+											             out
+												             nextPutAll: 'Level ';
+												             print: index;
+												             nextPutAll: 'x';
+												             print: index ])).
+							subMenu builder: [ :sm |
+									1 to: 10 do: [ :i |
+											| stream selector iconImage color |
+											stream := String streamContents: [ :out |
+													          out
+														          nextPutAll: 'Level ';
+														          space;
+														          print: i ].
+											selector := String streamContents: [ :out |
+													            out
+														            nextPutAll: 'level ';
+														            print: index;
+														            nextPutAll: ' Grid ';
+														            print: i ].
+											color := Color random.
+											iconImage := BlElement new
+												             padding: (BlInsets all: 2);
+												             geometry:
+													             (BlRoundedRectangleGeometry cornerRadius: 3);
+												             background: color;
+												             extent: 16 asPoint;
+												             yourself.
+											sm addItem: ((ToMenuItem new
+													  labelText: stream;
+													  iconImage: iconImage)
+													 clickAction: [ frame background: color ];
+													 yourself) ] ].
+							m addItem: subMenu ] ].
 
-		bar addItem: menu ].
+			bar addItem: menu ].
 	"bar addFiller."
 	bar vertical: true.
 	bar vFitContent.

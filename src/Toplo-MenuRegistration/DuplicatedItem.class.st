@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'itemName'
 	],
-	#category : #'Toplo-MenuRegistration-NewCreate'
+	#category : #'Toplo-MenuRegistration-Report'
 }
 
 { #category : #'item management' }

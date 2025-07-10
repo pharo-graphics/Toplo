@@ -7,7 +7,8 @@ Class {
 { #category : #initialization }
 MorphicVisitor >> initialize [
 
-	menuPane := MenubarMorph new adhereToTop.
+	super initialize.
+	menuPane := MenubarMorph new adhereToTop
 ]
 
 { #category : #visiting }
@@ -18,7 +19,7 @@ MorphicVisitor >> visitMenuBuilder: aMenuBuilder [
 			item hasChildren
 				ifTrue: [ menuPane addMorphBack: (self visitMenuRegistration: item) ]
 				ifFalse: [
-				menuPane addMorphBack: (self visitMenuItemResgitration: item) ] ] ].
+					menuPane addMorphBack: (self visitMenuItemResgitration: item) ] ] ].
 	menuPane openInWorld
 ]
 

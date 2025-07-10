@@ -1,3 +1,6 @@
+"
+I'm responsible for the interpretation of menu registrations. 
+"
 Class {
 	#name : #ToMenuBuilder,
 	#superclass : #Object,
@@ -7,7 +10,7 @@ Class {
 		'pragmaKeywords',
 		'conflicts'
 	],
-	#category : #'Toplo-MenuRegistration-NewCreate'
+	#category : #'Toplo-MenuRegistration-Core'
 }
 
 { #category : #examples }
@@ -339,7 +342,7 @@ ToMenuBuilder >> itemsNamed: aSymbol [
 	^ currentRoot
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #querying }
 ToMenuBuilder >> lookUpForParent: aMenuRegistration [
 	|item|
 	aMenuRegistration ifNil: [ ^ currentRoot ].
@@ -349,7 +352,7 @@ ToMenuBuilder >> lookUpForParent: aMenuRegistration [
 	^ self lookUpForParent: item parent
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #querying }
 ToMenuBuilder >> onlyItems [
 
 	^ collectedItems select: [ :item | item isGroup = false ]
@@ -374,7 +377,7 @@ ToMenuBuilder >> pragmas [
 		  select: [ :prg | prg methodSelector numArgs = 1 ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #private }
 ToMenuBuilder >> resolve [
 
 	self arrangeItemsParameters.

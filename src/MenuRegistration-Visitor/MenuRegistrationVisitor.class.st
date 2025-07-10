@@ -16,7 +16,7 @@ MenuRegistrationVisitor >> menuPane [
 { #category : #visiting }
 MenuRegistrationVisitor >> visitMenuBuilder: aMenuBuilder [
 
-	self subclassResponsibility.
+	self subclassResponsibility
 ]
 
 { #category : #visiting }

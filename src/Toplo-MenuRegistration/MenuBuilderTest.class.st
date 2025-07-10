@@ -5,7 +5,7 @@ Class {
 		'toploExampleMenu',
 		'worldMenuExample'
 	],
-	#category : #'Toplo-MenuRegistration-NewCreate'
+	#category : #'Toplo-MenuRegistration-Tests'
 }
 
 { #category : #'general-testing' }

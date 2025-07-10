@@ -1,3 +1,7 @@
+"
+I represent the action of registering a menu item.
+The interpretation of my instances will generate a menu.
+"
 Class {
 	#name : #ToMenuRegistration,
 	#superclass : #Object,
@@ -21,7 +25,7 @@ Class {
 		'help',
 		'icon'
 	],
-	#category : #'Toplo-MenuRegistration-NewCreate'
+	#category : #'Toplo-MenuRegistration-Core'
 }
 
 { #category : #visiting }

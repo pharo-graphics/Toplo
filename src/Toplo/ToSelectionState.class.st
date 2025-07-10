@@ -19,7 +19,7 @@ ToSelectionState >> applyOn: anElement fromQueue: aQueue [
 				child spaceDo: [ :sp | se fillFromTime: child space time ].
 				child dispatchEvent: se.
 				self onAppliedOn: child fromQueue: aQueue ]
-		while: [ :child | child areSelectionSkinEventsPrevented not ]
+		while: [ :child | child selectionSkinEventsPrevented not ]
 ]
 
 { #category : #accessing }

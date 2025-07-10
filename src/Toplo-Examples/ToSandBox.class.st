@@ -132,10 +132,8 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 
 	| menu confPane animSwitch |
 	confPane := ToPane vertical.
-
+	confPane matchParent.
 	confPane padding: (BlInsets all: 5).
-	confPane width: 300.
-	confPane border: Color lightGray.
 
 	menu := ToMenu new.
 	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
@@ -212,24 +210,25 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 { #category : #bar }
 ToSandBox class >> barDashBoardFor: aBar [
 
-	| mainPane "barPane" confPane |
+	| mainPane barPane confPane |
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
+	barPane := ToPane horizontal.
+	barPane matchParent.
+	barPane addChild: aBar.
 
 	confPane := self barConfigurationBoardFor: aBar.
 	confPane padding: (BlInsets all: 5).
-	confPane width: 250.
-	confPane border: Color lightGray.
 	mainPane addChildren: {
 			confPane.
-			aBar }.
+			barPane }.
 	^ mainPane
 ]
 
 { #category : #bar }
 ToSandBox class >> barWithData: aCollection [
 
-	| bar confBoard rootPane selectionModeBoard rand |
+	| bar confBoard barPane rootPane selectionModeBoard rand |
 	rand := Random new.
 	bar := ToGenericBarElement new.
 	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
@@ -333,10 +332,14 @@ ToSandBox class >> barWithData: aCollection [
 	rootPane := ToPane horizontal.
 	rootPane padding: (BlInsets all: 5).
 	rootPane matchParent.
+	barPane := ToPane horizontal.
+	barPane padding: (BlInsets all: 5).
+	barPane matchParent.
+	barPane addChild: bar.
 
 	rootPane addChild: confBoard.
-	rootPane addChild: bar.
-	rootPane addDividers.
+	rootPane addChild: barPane.
+	rootPane addDividers first weight: 0.5.
 	rootPane openInSpace
 ]
 
@@ -8924,7 +8927,6 @@ ToSandBox class >> resizerBoardFor: aBar [
 			group registerAll: buttons.
 			buttons second checked: true.
 			container := ToPane vertical.
-			container border: Color lightGray.
 			container padding: (BlInsets all: 2).
 			container hMatchParent.
 			container vFitContent.
@@ -9045,7 +9047,6 @@ ToSandBox class >> selectionModeChooserFor: aBar [
 
 	selectionModeGroup registeredCheckables first checked: true.
 	selectionModeContainer := ToPane vertical.
-	selectionModeContainer border: Color lightGray.
 	selectionModeContainer padding: (BlInsets all: 2).
 	selectionModeContainer hMatchParent.
 	selectionModeContainer addChild: (ToLabel text: 'Selection mode').
@@ -9126,14 +9127,13 @@ ToSandBox class >> tabBarElementDashBoardFor: aTabBarElement [
 	mainPane addChildren: {
 			confPane.
 			barPane }.
-
 	^ mainPane
 ]
 
 { #category : #tabPane }
 ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 
-	| mainPane barPane confPane startToEndSwitch addTabItemButtonSwicth rootPane |
+	| mainPane barPane confPane startToEndSwitch addTabItemButtonSwicth |
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
 
@@ -9157,25 +9157,20 @@ ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 		addTabItemButtonSwicth checked: aTabGroupElement showAddTabItemButton ].
 
 	confPane padding: (BlInsets all: 5).
-	confPane width: 250.
-	confPane border: Color lightGray.
 	
 	barPane := ToPane vertical.
 	barPane matchParent.
+	barPane addChild: aTabGroupElement.
 
 	confPane addChild: (self checkingStrategyChooserFor: aTabGroupElement).
 
 	mainPane addChildren: {
 			confPane.
 			barPane }.
-	barPane addChild: aTabGroupElement.
+	mainPane addDividers.
+	mainPane matchParent.
 
-	rootPane := ToPane vertical.
-	rootPane matchParent.
-	rootPane addChildren: { mainPane }.
-
-
-	^ rootPane
+	^ mainPane
 ]
 
 { #category : #tabPane }

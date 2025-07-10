@@ -68,7 +68,7 @@ ToDivider >> container: aPane [
 { #category : #initialization }
 ToDivider >> defaultBackground [
 
-	^ Color transparent
+	^ Color veryLightGray alpha: 0.2
 ]
 
 { #category : #initialization }

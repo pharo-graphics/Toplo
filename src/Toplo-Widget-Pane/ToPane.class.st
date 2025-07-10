@@ -35,17 +35,21 @@ ToPane >> addDividerBetween: aFirstElement and: aSecondElement [
 
 	| divider |
 	divider := ToDivider between: aFirstElement and: aSecondElement in: self.
-	self addChild: divider
+	self addChild: divider.
+	^ divider 
 ]
 
 { #category : #dividers }
 ToPane >> addDividers [
 
-	| lastIdx |
+	| lastIdx dividers |
+	dividers := OrderedCollection new.
 	lastIdx := self children size.
 	self children withIndexDo: [ :child :idx |
-		idx < lastIdx ifTrue: [
-			self addDividerBetween: child and: (self children at: idx + 1) ] ]
+			idx < lastIdx ifTrue: [
+					dividers add:
+						(self addDividerBetween: child and: (self children at: idx + 1)) ] ].
+	^ dividers
 ]
 
 { #category : #initialization }
@@ -64,6 +68,8 @@ ToPane >> dividers [
 ToPane >> installRawStyle [
 
 	super installRawStyle.
+	self outskirts: BlOutskirts outside.
+	self padding: (BlInsets all: 1).
 	self background: (self valueOfTokenNamed: #'background-color').
 	self geometry: (BlRoundedRectangleGeometry cornerRadius:
 			 (self valueOfTokenNamed: #'border-radius'))

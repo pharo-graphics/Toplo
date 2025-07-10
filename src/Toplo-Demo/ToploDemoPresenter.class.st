@@ -6,7 +6,6 @@ Class {
 
 { #category : #demos }
 ToploDemoPresenter class >> demo1 [
-
 	<demo>
 
 	^ ToAlbum new
@@ -17,43 +16,44 @@ ToploDemoPresenter class >> demo1 [
 
 { #category : #demos }
 ToploDemoPresenter class >> demo2 [
-
 	<demo>
+
 	| list colorAssociations |
 	(list := ToListElement new) nodeBuilder: [ :node :dataItem :holder |
-		node addChild: (ToLabeledIcon new
-				 label: (ToLabel new
-						  text: dataItem key;
-						  yourself);
-				 icon: (ToElement new
-						  size: 50 @ 25;
-						  background: dataItem value;
-						  yourself);
-				 startInterspace: 3;
-				 yourself) ].
+			node addChild: (ToLabeledIcon new
+					 label: (ToLabel new
+							  text: dataItem key;
+							  yourself);
+					 icon: (ToElement new
+							  extent: 50 @ 25;
+							  background: dataItem value;
+							  yourself);
+					 startInterspace: 3;
+					 yourself) ].
 
 	colorAssociations := Array streamContents: [ :stream |
-		                     Color registeredColorNames sorted do: [
-			                     :colorName |
-			                     | color expression |
-			                     color := Color named: colorName.
-			                     expression := color printString.
-			                     stream nextPut: expression -> color.
-			                     #( lighter twiceLighter whiter paler darker
-			                        twiceDarker blacker duller ) do: [
-				                     :transformationSelector |
-				                     stream nextPut: ('{1} {2}' format: {
-							                      expression.
-							                      transformationSelector })
-					                     -> (color perform: transformationSelector) ] ] ].
+			                     Color registeredColorNames sorted do: [
+					                     :colorName |
+					                     | color expression |
+					                     color := Color named: colorName.
+					                     expression := color printString.
+					                     stream nextPut: expression -> color.
+					                     #( lighter twiceLighter whiter paler darker
+					                        twiceDarker blacker duller ) do: [
+							                     :transformationSelector |
+							                     stream nextPut: ('{1} {2}' format: {
+										                      expression.
+										                      transformationSelector })
+								                     ->
+								                     (color perform: transformationSelector) ] ] ].
 	list dataAccessor addAll: colorAssociations.
 	^ list
 ]
 
 { #category : #demos }
 ToploDemoPresenter class >> demo3 [
-
 	<demo>
+
 	| containerElement checkableGroup lightThemeBtn darkThemeBtn |
 	(containerElement := ToPane vertical) padding: (BlInsets all: 10).
 	(checkableGroup := ToCheckableGroup new)
@@ -82,19 +82,17 @@ ToploDemoPresenter class >> demo3 [
 
 { #category : #running }
 ToploDemoPresenter class >> menuCommandOn: aBuilder [
-
 	<worldMenu>
 
-	(aBuilder item: #'Open Toplo Demo')
+	(aBuilder item: #'Toplo demo browser')
+		parent: #ToploExamples;
+		order: 0.1;
 		action: [ self open ];
-		parent: #Help;
-		iconName: #group;
-		withSeparatorAfter
+		iconName: #go
 ]
 
 { #category : #running }
 ToploDemoPresenter class >> open [
-
 	<script>
 
 	super open

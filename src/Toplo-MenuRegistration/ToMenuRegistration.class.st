@@ -36,12 +36,14 @@ ToMenuRegistration >> accept: aVisitor [
 
 { #category : #accessing }
 ToMenuRegistration >> action [
+
 	^ action
 ]
 
 { #category : #accessing }
 ToMenuRegistration >> action: aBlock [
-	action := aBlock.
+
+	action := aBlock
 ]
 
 { #category : #adding }
@@ -59,7 +61,7 @@ ToMenuRegistration >> arguments [
 ToMenuRegistration >> arguments: anArray [
 
 	arguments := anArray.
-	self updateAction.
+	self updateAction
 ]
 
 { #category : #accessing }
@@ -69,7 +71,8 @@ ToMenuRegistration >> builder [
 
 { #category : #accessing }
 ToMenuRegistration >> builder: aBuilder [
-	builder := aBuilder.
+
+	builder := aBuilder
 ]
 
 { #category : #testing }
@@ -82,12 +85,14 @@ ToMenuRegistration >> childrenFromGroup: aGroupName [
 
 { #category : #accessing }
 ToMenuRegistration >> childrenItems [
+
 	^ childrenItems
 ]
 
 { #category : #accessing }
 ToMenuRegistration >> childrenItems: anOrderedCollectionOfMenuRegistration [
-	childrenItems := anOrderedCollectionOfMenuRegistration.
+
+	childrenItems := anOrderedCollectionOfMenuRegistration
 ]
 
 { #category : #testing }
@@ -98,11 +103,13 @@ ToMenuRegistration >> findChildrenItems: aSymbol [
 
 { #category : #accessing }
 ToMenuRegistration >> groupName [
+
 	^ groupName
 ]
 
 { #category : #accessing }
 ToMenuRegistration >> groupName: aSymbol [
+
 	groupName := aSymbol
 ]
 
@@ -120,12 +127,14 @@ ToMenuRegistration >> hasNoChildren [
 
 { #category : #accessing }
 ToMenuRegistration >> help [
+
 	^ help
 ]
 
 { #category : #accessing }
 ToMenuRegistration >> help: aString [
-	help := aString.
+
+	help := aString
 ]
 
 { #category : #testing }
@@ -178,6 +187,7 @@ ToMenuRegistration >> isChild: aSymbol [
 
 { #category : #accessing }
 ToMenuRegistration >> isGroup [
+
 	^ isGroup
 ]
 
@@ -189,26 +199,31 @@ ToMenuRegistration >> isGroup: aBoolean [
 
 { #category : #accessing }
 ToMenuRegistration >> keyText: aString [
-	shortcut := aString.
+
+	shortcut := aString
 ]
 
 { #category : #accessing }
 ToMenuRegistration >> label [
+
 	^ label
 ]
 
 { #category : #accessing }
 ToMenuRegistration >> label: aString [
+
 	label := aString 
 ]
 
 { #category : #accessing }
 ToMenuRegistration >> name [
+
 	^ name
 ]
 
 { #category : #accessing }
 ToMenuRegistration >> name: aSymbol [
+
 	name := aSymbol
 ]
 

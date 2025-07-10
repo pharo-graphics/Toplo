@@ -1,11 +1,11 @@
 Class {
-	#name : #ToploDemoPresenter,
+	#name : #ToDemoPresenter,
 	#superclass : #BlDemoPresenter,
 	#category : #'Toplo-Demo'
 }
 
 { #category : #demos }
-ToploDemoPresenter class >> demo1 [
+ToDemoPresenter class >> demo1 [
 	<demo>
 
 	^ ToAlbum new
@@ -15,7 +15,7 @@ ToploDemoPresenter class >> demo1 [
 ]
 
 { #category : #demos }
-ToploDemoPresenter class >> demo2 [
+ToDemoPresenter class >> demo2 [
 	<demo>
 
 	| list colorAssociations |
@@ -51,7 +51,7 @@ ToploDemoPresenter class >> demo2 [
 ]
 
 { #category : #demos }
-ToploDemoPresenter class >> demo3 [
+ToDemoPresenter class >> demo3 [
 	<demo>
 
 	| containerElement checkableGroup lightThemeBtn darkThemeBtn |
@@ -81,7 +81,7 @@ ToploDemoPresenter class >> demo3 [
 ]
 
 { #category : #running }
-ToploDemoPresenter class >> menuCommandOn: aBuilder [
+ToDemoPresenter class >> menuCommandOn: aBuilder [
 	<worldMenu>
 
 	(aBuilder item: #'Toplo demo browser')
@@ -92,28 +92,28 @@ ToploDemoPresenter class >> menuCommandOn: aBuilder [
 ]
 
 { #category : #running }
-ToploDemoPresenter class >> open [
+ToDemoPresenter class >> open [
 	<script>
 
 	super open
 ]
 
 { #category : #private }
-ToploDemoPresenter >> drawOnCanvas: anElement [
+ToDemoPresenter >> drawOnCanvas: anElement [
 
 	self canva space toTheme: ToRawTheme new.
 	super drawOnCanvas: anElement.
 ]
 
 { #category : #accessing }
-ToploDemoPresenter >> packagesToCollect [
+ToDemoPresenter >> packagesToCollect [
 
 	^ self packageOrganizer packages select: [ :package |
 		package name includesSubstring: 'Toplo' ]
 ]
 
 { #category : #accessing }
-ToploDemoPresenter >> title [
+ToDemoPresenter >> title [
 
 	^ 'Toplo Demo'
 ]

@@ -160,7 +160,7 @@ ToInnerWindow >> maximize [
 
 	self
 		position: 0 @ 0;
-		extent: self parent size
+		extent: self parent extent
 ]
 
 { #category : #initialization }

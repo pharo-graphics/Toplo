@@ -1,29 +1,33 @@
-name: 'Tests'
+name: Tests
 
 on:
   push:
-    branches:
-      - 'dev'
-      - 'master'
   pull_request:
-    types: [assigned, opened, synchronize, reopened]
+  workflow_dispatch:
+  schedule:
+    - cron: "0 8 * * 1"   # Run every Monday at 08:00
 
 jobs:
-  build:
+  test:
     strategy:
+      # Default value means that a failure in one OS cancels all 
+      fail-fast: false
       matrix:
-        os: [ ubuntu-latest, macos-latest, windows-latest ]
-        smalltalk: [ Pharo64-12, Pharo64-13 ]
+        smalltalk: [ Pharo64-12, Pharo64-13, Pharo64-14 ]
+        os: [ windows-latest ]
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.smalltalk }} on ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: hpi-swa/setup-smalltalkCI@v1
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup smalltalkCI
+        uses: hpi-swa/setup-smalltalkCI@v1
         with:
           smalltalk-image: ${{ matrix.smalltalk }}
       - name: Load in New Image and Run Tests
-        run: smalltalkci -s ${{ matrix.smalltalk }} ${{ matrix.ston }}
+        run: smalltalkci -s ${{ matrix.smalltalk }} .ci.ston
         shell: bash
-        timeout-minutes: 30
-        env: 
+        timeout-minutes: 10
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

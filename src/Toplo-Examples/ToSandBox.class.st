@@ -4525,7 +4525,7 @@ ToSandBox class >> example_SieveOnTree [
 							 indexes
 								 ifEmpty: [ target collapseAll ]
 								 ifNotEmpty: [
-									 indexes do: [ :idx | (target dataSource at: idx) collapse ] ] ];
+									 indexes reverseDo: [ :idx | (target dataSource at: idx) collapse ] ] ];
 					 yourself) ].
 	treeElement withRowNumbers.
 	filterField margin: (BlInsets all: 2).

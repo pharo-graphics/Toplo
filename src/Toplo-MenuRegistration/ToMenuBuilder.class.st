@@ -119,14 +119,15 @@ ToMenuBuilder >> accept: aVisitor [
 ]
 
 { #category : #adding }
-ToMenuBuilder >> addConflict: aDuplicatedItem [ 
+ToMenuBuilder >> addConflict: aDuplicatedItem [
+
 	conflicts add: aDuplicatedItem 
 ]
 
 { #category : #accessing }
 ToMenuBuilder >> allNamedItems [
 
-	^ collectedItems collect: [ :item | item name].
+	^ collectedItems collect: [ :item | item name]
 ]
 
 { #category : #editing }
@@ -178,30 +179,35 @@ ToMenuBuilder >> collectRegistrations [
 
 { #category : #accessing }
 ToMenuBuilder >> collectedItems [
+
 	^ collectedItems 
 ]
 
 { #category : #accessing }
 ToMenuBuilder >> collectedItems: anOrderedCollectionOfMenuRegistration [
+
 	collectedItems := anOrderedCollectionOfMenuRegistration 
 ]
 
 { #category : #accessing }
 ToMenuBuilder >> conflicts [
+
 	^ conflicts
 ]
 
 { #category : #accessing }
 ToMenuBuilder >> currentRoot [
+
 	^ currentRoot
 ]
 
 { #category : #accessing }
 ToMenuBuilder >> currentRoot: aMenuRegistration [
+
 	currentRoot := aMenuRegistration
 ]
 
-{ #category : #accessing }
+{ #category : #querying }
 ToMenuBuilder >> findChild: aSymbol [
 
 	1 to: collectedItems size do: [ :ind |
@@ -310,6 +316,7 @@ ToMenuBuilder >> initialize [
 
 { #category : #accessing }
 ToMenuBuilder >> isAnExistingGroup: aSymbol [
+
 	^ self groups anySatisfy: [ :gName | gName = aSymbol ]
 ]
 
@@ -335,7 +342,7 @@ ToMenuBuilder >> item: aSymbol [
 	^ newItem
 ]
 
-{ #category : #accessing }
+{ #category : #querying }
 ToMenuBuilder >> itemsNamed: aSymbol [
 
 	collectedItems do: [ :item | item name = aSymbol ifTrue: [ ^ item ] ].
@@ -360,12 +367,14 @@ ToMenuBuilder >> onlyItems [
 
 { #category : #accessing }
 ToMenuBuilder >> pragmaKeywords [
+
 	^ pragmaKeywords
 ]
 
 { #category : #accessing }
 ToMenuBuilder >> pragmaKeywords: aCollectionOfSymbol [
-	pragmaKeywords := aCollectionOfSymbol.
+
+	pragmaKeywords := aCollectionOfSymbol
 ]
 
 { #category : #'spec accessing' }

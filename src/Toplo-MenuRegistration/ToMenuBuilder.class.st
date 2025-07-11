@@ -138,7 +138,7 @@ ToMenuBuilder >> arrangeItems [
 	newCollectedItem := OrderedCollection new.
 	collectedItems do: [ :item |
 		(item parent isNil or:
-			 (self allNamedItems includes: item parent) not) ifTrue: [
+			 [ (self allNamedItems includes: item parent) not] ) ifTrue: [
 			newCollectedItem add: item ] ].
 	collectedItems := newCollectedItem.
 	self sortItems.

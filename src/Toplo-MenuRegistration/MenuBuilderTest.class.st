@@ -57,7 +57,10 @@ MenuBuilderTest >> testBuilderPragmas [
 
 { #category : #'tests - Pragma' }
 MenuBuilderTest >> testBuilderResolvePragmasCollectedItems [
-	self assert: self toploExampleMenu collectedItems size equals: 1.
+
+	self 
+		assert: self toploExampleMenu collectedItems size 
+		equals: 1.
 ]
 
 { #category : #'tests - conflicts' }
@@ -287,8 +290,12 @@ MenuBuilderTest >> testOrderedTree [
 				order: 1 ].
 	builder resolve.
 
-	self assert: builder collectedItems first name equals: #MySecondMenu.
-	self assert: builder collectedItems last name equals: #MyMenu.
+	self 
+		assert: builder collectedItems first name 
+		equals: #MySecondMenu.
+	self 
+		assert: builder collectedItems last name 
+		equals: #MyMenu.
 	self
 		assert: (builder itemsNamed: #MySecondMenu) childrenItems first name
 		equals: #MySecondMenuChild2
@@ -688,12 +695,13 @@ MenuBuilderTest >> testTwoGroupsWithSameName [
 
 	| builder |
 	builder := ToMenuBuilder new.
-
+	
+	(builder group: #Tools) label: 'The root tools'.
 	(builder group: #Tools) label: 'The root tools'.
 
-	(builder group: #Tools) label: 'The root tools'.
-
-	self assert: builder groups size equals: 1.
+	self 
+		assert: builder groups size 
+		equals: 1.
 	self assert: (builder groups includes: #Tools).
 ]
 

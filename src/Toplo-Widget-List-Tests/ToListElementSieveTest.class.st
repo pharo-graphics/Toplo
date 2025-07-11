@@ -16,7 +16,6 @@ ToListElementSieveTest >> setUp [
 	super setUp.
 	list := ToListElement new.
 	sieve := list newSieve.
-	sieve onInstalledIn: list.
 	space root addChild: list
 ]
 
@@ -41,7 +40,7 @@ ToListElementSieveTest >> testCurrentData [
 	When the sieve  has a pattern, the original data is untouched even the list data source is updated"
 
 	| passedInHandler |
-	sieve dataFilter: [ :anInteger :aPattern |
+	sieve filter: [ :anInteger :aPattern |
 		anInteger < aPattern asInteger ].
 	self assert: sieve currentData isEmpty.
 	list dataAccessor addAll: (1 to: 10).
@@ -146,7 +145,7 @@ ToListElementSieveTest >> testOriginalData [
 	When the sieve  has a pattern, the original data is untouched even the list data source is updated"
 
 	| passedInHandler |
-	sieve dataFilter: [ :anInteger :aPattern |
+	sieve filter: [ :anInteger :aPattern |
 		anInteger < aPattern asInteger ].
 	self assert: sieve currentData isEmpty.
 	list dataAccessor addAll: (1 to: 10).
@@ -196,6 +195,55 @@ ToListElementSieveTest >> testOriginalIndexMap [
 	self waitTestingSpaces.
 	self assert: (sieve originalIndexMap at: 100) equals: 1.
 
+
+]
+
+{ #category : #'tests - selection' }
+ToListElementSieveTest >> testOriginalIndexMapWhenDataAreAddedBeforeTheSieve [
+	" when data items are added through the data accessor, 
+	original data (list element data source mirror) should be updated accordingly.
+	When the sieve  has a pattern, the original data is untouched even the list data source is updated.
+	If the list element has data when the sieve is installed, then, the index map must be initialized correctly.
+	"
+
+	list := ToListElement new.
+	space root addChild: list.
+	list dataAccessor addAll: (1 to: 10).
+	sieve := list newSieve.
+	self waitTestingSpaces.
+	self deny: sieve originalIndexMap isNil.
+	self deny: sieve originalIndexMap isEmpty.
+	
+	self assert: sieve originalIndexMap size equals: 10.
+	1 to: 10 do: [ :idx |
+			self
+				assert: (sieve originalIndexMap at: idx)
+				equals: (list dataSource at: idx) ]
+]
+
+{ #category : #'tests - selection' }
+ToListElementSieveTest >> testOriginalIndexMapWhenDataAreAddedBeforeTheSieve2 [
+	" when data items are added through the data accessor, 
+	original data (list element data source mirror) should be updated accordingly.
+	When the sieve  has a pattern, the original data is untouched even the list data source is updated.
+	If the list element has data when the sieve is installed, then, the index map must be initialized correctly.
+	Here te list is added late in the space. The index map update occurs after the list is added in the space   "
+
+	list := ToListElement new.
+	list dataAccessor addAll: (1 to: 10).
+	sieve := list newSieve.
+	self deny: sieve originalIndexMap isNil.
+	self assert: sieve originalIndexMap isEmpty.
+	
+	space root addChild: list.
+	
+	self waitTestingSpaces.
+	self deny: sieve originalIndexMap isEmpty.
+	self assert: sieve originalIndexMap size equals: 10.
+	1 to: 10 do: [ :idx |
+			self
+				assert: (sieve originalIndexMap at: idx)
+				equals: (list dataSource at: idx) ].
 
 ]
 

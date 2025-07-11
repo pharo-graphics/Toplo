@@ -12,7 +12,7 @@ Class {
 		'dataSourceHandler',
 		'sieveHandler',
 		'listElementHandler',
-		'filter'
+		'filterApplier'
 	],
 	#category : #'Toplo-Widget-List-Sieve'
 }
@@ -27,20 +27,20 @@ ToListElementSieve >> currentData [
 	^ currentData 
 ]
 
-{ #category : #accessing }
-ToListElementSieve >> dataFilter: aValuable [
-	" filter takes a data and a pattern as argument "
-
-	filter dataFilter: [ :item :pattern |
-		aValuable value: item value: pattern ]
-]
-
 { #category : #'event management accessing' }
 ToListElementSieve >> eventDispatcher [
 	"Return an object responsible for event dispatching"
 	<return: #BlDirectEventDispatcher>
 
 	^ eventDispatcher
+]
+
+{ #category : #accessing }
+ToListElementSieve >> filter: aValuable [
+	" filter takes a data and a pattern as argument "
+
+	filterApplier filter: [ :item :pattern |
+		aValuable value: item value: pattern ]
 ]
 
 { #category : #initialization }
@@ -51,7 +51,7 @@ ToListElementSieve >> initialize [
 ]
 
 { #category : #'api - hooks' }
-ToListElementSieve >> installFilterIn: aListElement [
+ToListElementSieve >> installFilterApplierIn: aListElement [
 	" the query is applied on the original data.
 	As a data source mirror, it works as follow:
 		- when data are added/removed in/from the data source, 
@@ -62,13 +62,13 @@ ToListElementSieve >> installFilterIn: aListElement [
 
 	originalData := aListElement dataSource newMirror.
 	currentData := originalData.
-	filter onInstalledIn: originalData.
+	filterApplier onInstalledIn: originalData.
 	" When a query has occured (because the query pattern has changed), update the list element accordingly then
 	 ask the list to process the appropiate data source command and to update the selection model.
 	A task must be used to avoid that the list update occurs during the BlSpaceFrameEventPhase  
 	 which can cause an issue because the layout must be launched each time a sieve result occurs "
 	originalData
-		addEventHandlerOn: ToObservableCollectionFilterAppliedEvent
+		addEventHandlerOn: ToObservableCollectionFilterApplierEvent
 		do: [ :event |
 				self observableCollectionFilterAppliedEvent: event.
 				aListElement enqueueTask:
@@ -88,9 +88,9 @@ ToListElementSieve >> itemCount [
 ]
 
 { #category : #initialization }
-ToListElementSieve >> newFilter [
+ToListElementSieve >> newFilterApplier [
 
-	^ ToObservableCollectionFilter new
+	^ ToObservableCollectionFilterApplier new
 ]
 
 { #category : #'api - hooks' }
@@ -103,6 +103,12 @@ ToListElementSieve >> newSievedListDataSourceEventHandler [
 ToListElementSieve >> newSievedListElementEventHandler [
 
 	^ ToSievedListElementEventHandler new
+]
+
+{ #category : #'instance creation' }
+ToListElementSieve >> newTextField [ 
+
+	^ ToTextField newForSieve: self
 ]
 
 { #category : #private }
@@ -126,8 +132,8 @@ ToListElementSieve >> onInstalledIn: aListElement [
 	selecter := aListElement selecter newSieveSelecter.
 	selecter onInstalledIn: self.
 
-	filter := self newFilter.
-	self installFilterIn: aListElement.
+	filterApplier := self newFilterApplier.
+	self installFilterApplierIn: aListElement.
 
 	listElementHandler := self newSievedListElementEventHandler.
 	listElementHandler sieve: self.
@@ -149,9 +155,11 @@ ToListElementSieve >> onInstalledIn: aListElement [
 ToListElementSieve >> onUninstalledIn: aListElement [
 	" uninstall list element handlers and the queyrunner properly "
 
+	" one have to consume commands that could have been postponed "
+	aListElement consumeFinalStepCommands.
 	aListElement removeEventHandler: listElementHandler.
 	aListElement dataSource removeEventHandler: dataSourceHandler.
-	self uninstallFilterIn: aListElement.
+	self uninstallFilterApplierIn: aListElement.
 	self removeEventHandler: sieveHandler.
 	selecter onUninstalledIn: self.
 	selecter := nil.
@@ -159,7 +167,7 @@ ToListElementSieve >> onUninstalledIn: aListElement [
 	dataSourceHandler := nil.
 	sieveHandler := nil.
 	currentData := nil.
-	filter := nil.
+	filterApplier := nil.
 	originalIndexMap := nil
 ]
 
@@ -184,13 +192,13 @@ ToListElementSieve >> originalIndexOf: anObject [
 { #category : #accessing }
 ToListElementSieve >> pattern [
 
-	^ filter pattern
+	^ filterApplier pattern
 ]
 
 { #category : #accessing }
 ToListElementSieve >> pattern: aPattern [
 
-	filter pattern: aPattern.
+	filterApplier pattern: aPattern.
 	self dispatchEvent: (ToSievePatternChangedEvent new
 			 sieve: self;
 			 yourself)
@@ -199,7 +207,7 @@ ToListElementSieve >> pattern: aPattern [
 { #category : #accessing }
 ToListElementSieve >> selectedIndexes [
 
-	^ filter selectedIndexes
+	^ filterApplier selectedIndexes
 
 	
 ]
@@ -217,9 +225,9 @@ ToListElementSieve >> selectionModel [
 ]
 
 { #category : #'api - hooks' }
-ToListElementSieve >> uninstallFilterIn: aListElement [
+ToListElementSieve >> uninstallFilterApplierIn: aListElement [
 
-	filter onUninstalledIn: originalData.
+	filterApplier onUninstalledIn: originalData.
 	originalData unmirrored.
 	originalData := nil.
 

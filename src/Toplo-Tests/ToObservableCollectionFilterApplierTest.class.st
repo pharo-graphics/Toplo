@@ -2,7 +2,7 @@
 A ToObservableCollectionFilterTest is a test class for testing the behavior of ToObservableCollectionFilter
 "
 Class {
-	#name : #ToObservableCollectionFilterTest,
+	#name : #ToObservableCollectionFilterApplierTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'filter',
@@ -12,22 +12,22 @@ Class {
 }
 
 { #category : #running }
-ToObservableCollectionFilterTest >> setUp [ 
+ToObservableCollectionFilterApplierTest >> setUp [ 
 
 	super setUp.
 	observableCollection := ToObservableCollection new.
-	filter := ToObservableCollectionFilter new.
+	filter := ToObservableCollectionFilterApplier new.
 	filter onInstalledIn: observableCollection.
 
 
 ]
 
 { #category : #tests }
-ToObservableCollectionFilterTest >> testNotifySelectedIndexesIn [
+ToObservableCollectionFilterApplierTest >> testNotifySelectedIndexesIn [
 
 	| selectedIndexes pattern passedInHandler |
 	observableCollection
-		addEventHandlerOn: ToObservableCollectionFilterAppliedEvent
+		addEventHandlerOn: ToObservableCollectionFilterApplierEvent
 		do: [ :event |
 				passedInHandler := true.
 				selectedIndexes := event selectedIndexes.
@@ -60,11 +60,11 @@ ToObservableCollectionFilterTest >> testNotifySelectedIndexesIn [
 ]
 
 { #category : #tests }
-ToObservableCollectionFilterTest >> testNotifySelectedIndexesInEmptyCollection [
+ToObservableCollectionFilterApplierTest >> testNotifySelectedIndexesInEmptyCollection [
 
 	| selectedIndexes pattern passedInHandler |
 	passedInHandler := false.
-	observableCollection addEventHandlerOn: ToObservableCollectionFilterAppliedEvent
+	observableCollection addEventHandlerOn: ToObservableCollectionFilterApplierEvent
 		doOnce: [ :event |
 			passedInHandler := true.
 			selectedIndexes :=  event selectedIndexes.
@@ -78,17 +78,17 @@ ToObservableCollectionFilterTest >> testNotifySelectedIndexesInEmptyCollection [
 ]
 
 { #category : #tests }
-ToObservableCollectionFilterTest >> testOnInstalledIn [ 
+ToObservableCollectionFilterApplierTest >> testOnInstalledIn [ 
 
 	self assert: filter semaphore notNil.
 	self assert: filter process notNil.
 	self assert: filter process isWaiting.
 	self assert: filter delay equals: filter defaultDelay.
-	self assert: filter dataFilter notNil
+	self assert: filter filter notNil
 ]
 
 { #category : #tests }
-ToObservableCollectionFilterTest >> testOnUninstalledIn [ 
+ToObservableCollectionFilterApplierTest >> testOnUninstalledIn [ 
 
 	filter onUninstalledIn: observableCollection.
 	self assert: filter semaphore isNil.
@@ -96,7 +96,7 @@ ToObservableCollectionFilterTest >> testOnUninstalledIn [
 ]
 
 { #category : #tests }
-ToObservableCollectionFilterTest >> testPattern [
+ToObservableCollectionFilterApplierTest >> testPattern [
 
 	filter pattern: 'X'.
 	self assert: filter pattern equals: 'X'.
@@ -105,11 +105,11 @@ ToObservableCollectionFilterTest >> testPattern [
 ]
 
 { #category : #tests }
-ToObservableCollectionFilterTest >> testPatternWhenCollectionChanged [
+ToObservableCollectionFilterApplierTest >> testPatternWhenCollectionChanged [
 
 	|   passedInHandler |
 	observableCollection
-		addEventHandlerOn: ToObservableCollectionFilterAppliedEvent
+		addEventHandlerOn: ToObservableCollectionFilterApplierEvent
 		do: [ :event |
 				passedInHandler := true ].
 	observableCollection add: 'X'.
@@ -143,11 +143,11 @@ ToObservableCollectionFilterTest >> testPatternWhenCollectionChanged [
 ]
 
 { #category : #tests }
-ToObservableCollectionFilterTest >> testSamePatternTwice [
+ToObservableCollectionFilterApplierTest >> testSamePatternTwice [
 
 	| selectedIndexes pattern passedInHandler |
 	observableCollection
-		addEventHandlerOn: ToObservableCollectionFilterAppliedEvent
+		addEventHandlerOn: ToObservableCollectionFilterApplierEvent
 		do: [ :event |
 				passedInHandler := true.
 				selectedIndexes := event selectedIndexes.

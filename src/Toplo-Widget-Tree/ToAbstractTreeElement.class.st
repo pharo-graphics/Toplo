@@ -85,7 +85,7 @@ ToAbstractTreeElement >> initializeDataSource [
 ]
 
 { #category : #'instance creation' }
-ToAbstractTreeElement >> newSieve [
+ToAbstractTreeElement >> sieveClass [
 
-	^ ToTreeElementSieve new
+	^ ToTreeElementSieve
 ]

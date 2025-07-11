@@ -383,14 +383,12 @@ ToListElementStresser >> newSelectionBoardOn: aListElement [
 { #category : #initialization }
 ToListElementStresser >> newStressedListNumber: aNumber [
 
-	| list process size ident priority suffix sieve pane |
+	| list process size ident priority suffix pane |
 	pane := ToPane vertical.
 	pane matchParent.
 
 	list := self newListElement.
 	list id: #list.
-	sieve := ToListElementSieve new.
-	list userData at: #sieve put: sieve.
 
 	priority := self nextProcessPriorityForListNumber: aNumber.
 	size := self nextSizeForListNumber: aNumber.
@@ -431,14 +429,12 @@ ToListElementStresser >> newStressedListNumber: aNumber [
 	process name: self class name.
 	process priority: priority.
 
-	self tabsPanel addEventHandlerOn: ToAddedToSpaceEvent do: [ :event |
-			sieve isInstalled ifFalse: [ sieve onInstalledIn: list ].
-			process resume ].
+	self tabsPanel
+		addEventHandlerOn: ToAddedToSpaceEvent
+		do: [ :event | process resume ].
 	self tabsPanel
 		addEventHandlerOn: ToRemovedFromSpaceEvent
-		do: [ :event |
-				process terminate.
-				sieve isInstalled ifTrue: [ sieve onUninstalledIn: list ] ].
+		do: [ :event | process terminate ].
 
 	pane addChild: list.
 	pane addChild: (self newSelectionBoardOn: list).

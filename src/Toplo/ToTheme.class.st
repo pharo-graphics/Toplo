@@ -185,6 +185,7 @@ ToTheme class >> defaultTokenProperties [
 			   value: (Color fromHexString: '#faad14')).
 
 		  (ToTokenProperty name: #'color-text' value: Color black).
+		(ToTokenProperty name: #'color-text-placeholder' value: Color lightGray).
 		  (ToTokenProperty
 			   name: #'color-text-description'
 			   value: (Color black alpha: 0.45)).

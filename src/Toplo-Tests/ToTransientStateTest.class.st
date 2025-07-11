@@ -18,7 +18,7 @@ ToTransientStateTest >> testApplyOn [
 			 on: ToHoveredSkinEvent
 			 do: [ :event | receivedEvt := event ]).
 	(ToTransientState skinEvent: (stateEvt := ToHoveredSkinEvent new))
-		applyOn: e.
+		applyOn: e fromQueue: nil.
 	self assert: receivedEvt identicalTo: stateEvt
 ]
 
@@ -48,7 +48,7 @@ ToTransientStateTest >> testOnAppliedOn [
 	e := ToElement new.
 	space root addChild: e.
 	state := ToTransientStateStub skinEvent: (stateEvt := ToHoveredSkinEvent new).
-	state applyOn: e.
+	state applyOn: e fromQueue: nil.
 	self assert: state applyCount equals: 1
 	
 ]

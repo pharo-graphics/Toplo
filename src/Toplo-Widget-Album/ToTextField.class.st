@@ -4,6 +4,24 @@ Class {
 	#category : #'Toplo-Widget-Album-TextField'
 }
 
+{ #category : #'instance creation' }
+ToTextField class >> newForSieve: aSieve [ 
+
+	| textField |
+	textField := self new.
+	textField whenTextEditedDo: [
+			| pattern |
+			pattern := textField text asString.
+			aSieve pattern: pattern ].
+	^ textField
+]
+
+{ #category : #'instance creation' }
+ToTextField class >> text: aText [
+
+	^ self new text: aText
+]
+
 { #category : #initialization }
 ToTextField >> defaultEditorElement [
 

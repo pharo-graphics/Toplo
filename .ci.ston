@@ -3,8 +3,8 @@ SmalltalkCISpec {
     SCIMetacelloLoadSpec {
       #baseline : 'Toplo',
       #directory : 'src',
-      #onConflict : #useIncoming,   
-      #platforms : [ #pharo ]
+      #platforms : [ #pharo ],
+      #registerInIceberg : true
     }
   ]
 }

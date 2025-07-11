@@ -10,5 +10,5 @@ ToIconicExpandToFullScreenButtonSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e innerImage:
-			(ToMaterialDesignIconProvider innerImageNamed: 'outlined_square') ]
+			(ToMaterialDesignIconProvider innerImageNamed: 'outlined_fullscreen') ]
 ]

@@ -86,13 +86,6 @@ BlElement >> applyWidgetConfiguration [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> areSelectionSkinEventsPrevented [
-
-	^ (self isPreventedSkinEventClass: ToSelectedSkinEvent) or: [
-		  self isPreventedSkinEventClass: ToDeselectedSkinEvent ]
-]
-
-{ #category : #'*Toplo' }
 BlElement >> borderBuilder [
 
 	^ self skinManager borderBuilder
@@ -659,6 +652,13 @@ BlElement >> requestUninstallSkin [
 		transformWith: '`@receiver requestUninstallSkin' -> '`@receiver skinManagerDo: [ :sm | sm requestUninstallSkinIn: `@receiver ]'.
 
 	self skinManagerDo: [ :sm | sm requestUninstallSkinIn: self ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> selectionSkinEventsPrevented [
+
+	^ (self isPreventedSkinEventClass: ToSelectedSkinEvent) or: [
+		  self isPreventedSkinEventClass: ToDeselectedSkinEvent ]
 ]
 
 { #category : #'*Toplo' }

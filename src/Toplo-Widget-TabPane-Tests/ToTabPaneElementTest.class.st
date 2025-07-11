@@ -64,6 +64,8 @@ ToTabPaneElementTest >> testCloseSelectedPage [
 	self waitTestingSpaces.
 	self assert: secondButton isSelected.
 	" after the click, the remove button should be visible "
+	BlSpace simulateMouseMoveInside: secondButton removeButton.
+	self waitTestingSpaces.
 	BlSpace simulateClickOn: secondButton removeButton.
 	self waitTestingSpaces.
 	self assert: tabPane items size equals: 1.
@@ -85,6 +87,8 @@ ToTabPaneElementTest >> testCloseSelectedPage2 [
 	self waitTestingSpaces.
 	self assert: firstButton isSelected.
 	" after the click, the remove button should be visible "
+	BlSpace simulateMouseMoveInside: firstButton removeButton.
+	self waitTestingSpaces.
 	BlSpace simulateClickOn: firstButton removeButton.
 	self waitTestingSpaces.
 	self assert: tabPane items size equals: 1.
@@ -285,7 +289,6 @@ ToTabPaneElementTest >> withTwoTabButtons [
 					 firstTabBuildCount := firstTabBuildCount + 1.
 					 body addChild: (ToElement new
 								  background: Color red;
-								  extent: 20 asPoint;
 								  matchParent;
 								  yourself) ];
 			 yourself).
@@ -297,7 +300,6 @@ ToTabPaneElementTest >> withTwoTabButtons [
 					 secondTabBuildCount := secondTabBuildCount + 1.
 					 body addChild: (ToElement new
 								  background: Color green;
-								  extent: 30 asPoint;
 								  matchParent;
 								  yourself) ];
 			 yourself)

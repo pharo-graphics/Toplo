@@ -137,10 +137,6 @@ ToExMiniBrowser >> newPackagePane [
 		beVertical;
 		matchParent.
 
-	pkgFilterField := ToTextField new.
-	pkgFilterField placeholderText:
-		('Packages filter' asRopedText foreground: Color lightGray).
-
 	packages := ToTreeElement new.
 	packages
 		id: #packages;
@@ -166,21 +162,18 @@ ToExMiniBrowser >> newPackagePane [
 		placeholder empty labelText: 'No package ' ].
 
 	pkgSieve := packages newSieve.
-	pkgSieve onInstalledIn: packages.
 	" the package selection is lost in case of a new filter "
 	pkgSieve
 		addEventHandlerOn: ToSievePatternChangedEvent
 		do: [ :event | packages selecter deselectAll ].
 
-	pkgSieve dataFilter: [ :aPackage :aPattern |
+	pkgSieve filter: [ :aPackage :aPattern |
 			aPackage name
 				includesSubstring: aPattern asString
 				caseSensitive: false ].
 
-	pkgFilterField whenTextEditedDo: [
-			| pattern |
-			pattern := pkgFilterField text asString.
-			pkgSieve pattern: pattern ].
+	pkgFilterField := pkgSieve newTextField.
+	pkgFilterField placeholderString: 'Packages filter'.
 
 	packageBottomPane := ToPane new.
 	packageBottomPane

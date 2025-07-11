@@ -132,10 +132,8 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 
 	| menu confPane animSwitch |
 	confPane := ToPane vertical.
-
+	confPane matchParent.
 	confPane padding: (BlInsets all: 5).
-	confPane width: 300.
-	confPane border: Color lightGray.
 
 	menu := ToMenu new.
 	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
@@ -212,24 +210,25 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 { #category : #bar }
 ToSandBox class >> barDashBoardFor: aBar [
 
-	| mainPane "barPane" confPane |
+	| mainPane barPane confPane |
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
+	barPane := ToPane horizontal.
+	barPane matchParent.
+	barPane addChild: aBar.
 
 	confPane := self barConfigurationBoardFor: aBar.
 	confPane padding: (BlInsets all: 5).
-	confPane width: 250.
-	confPane border: Color lightGray.
 	mainPane addChildren: {
 			confPane.
-			aBar }.
+			barPane }.
 	^ mainPane
 ]
 
 { #category : #bar }
 ToSandBox class >> barWithData: aCollection [
 
-	| bar confBoard rootPane selectionModeBoard rand |
+	| bar confBoard barPane rootPane selectionModeBoard rand |
 	rand := Random new.
 	bar := ToGenericBarElement new.
 	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
@@ -333,10 +332,14 @@ ToSandBox class >> barWithData: aCollection [
 	rootPane := ToPane horizontal.
 	rootPane padding: (BlInsets all: 5).
 	rootPane matchParent.
+	barPane := ToPane horizontal.
+	barPane padding: (BlInsets all: 5).
+	barPane matchParent.
+	barPane addChild: bar.
 
 	rootPane addChild: confBoard.
-	rootPane addChild: bar.
-	rootPane addDividers.
+	rootPane addChild: barPane.
+	rootPane addDividers first weight: 0.5.
 	rootPane openInSpace
 ]
 
@@ -399,7 +402,7 @@ ToSandBox class >> buildSelectListElementIn: aSelectElement withIconProvider: an
 			node childrenDo: [ :child |
 				child constraintsDo: [ :c | c linear vertical alignCenter ] ] ].
 
-	aSelectElement sieve dataFilter: [ :iconDesc :pattern |
+	aSelectElement sieve filter: [ :iconDesc :pattern |
 			(iconDesc style prefix
 				 includesSubstring: pattern
 				 caseSensitive: true) or: [
@@ -488,25 +491,14 @@ ToSandBox class >> exampleAccordionListWithClassComments [
 	pane := ToPane new
 		        beVertical;
 		        matchParent.
-	filterField := ToTextField new.
-	filterField margin: (BlInsets all: 2).
-	filterField placeholderBuilder: [ :placeholder :e |
-		placeholder addChild:
-			((ToAttributedLabel text: 'Class name filter')
-				 foreground: Color lightGray;
-				 yourself) ].
 	list := ToAccordionListElement new.
 	list withRowNumbers.
 	list selectionMode multiple: true.
 	sieve := list newSieve.
-	sieve onInstalledIn: list.
-	sieve dataFilter: [ :item :aPattern |
+	sieve filter: [ :item :aPattern |
 		item name beginsWith: aPattern caseSensitive: false ].
-
-	filterField whenTextEditedDo: [
-		| pattern |
-		pattern := filterField text asString.
-		sieve pattern: pattern ].
+	filterField := sieve newTextField.
+	filterField placeholderString:  'Class name filter'.
 
 	list placeholderBuilder: [ :ph :e |
 		ph empty labelText: 'No class'].
@@ -1644,11 +1636,24 @@ ToSandBox class >> example_CheckableBarElement [
 ]
 
 { #category : #checkbox }
+ToSandBox class >> example_Checkbox [
+
+	| chb |
+	ToTheme cleanUp.
+	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
+	chb addEventHandlerOn: ToSkinEvent do: [ :evt | evt traceCr ].
+	chb checkAction: [ :evt :target :value  |
+		value traceCr ].
+	chb openInInnerWindow
+]
+
+{ #category : #checkbox }
 ToSandBox class >> example_CheckboxChecked [
 
 	| chb |
 	ToTheme cleanUp.
 	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
+	chb addEventHandlerOn: ToSkinEvent do: [ :evt | evt traceCr ].
 	chb checkAction: [ :evt :target :value  |
 		value traceCr ].
 	chb checked: true.
@@ -2212,9 +2217,9 @@ ToSandBox class >> example_FilterOnList2WithStatesOfAmerica [
 	listElement margin: (BlInsets all: 2).
 	filterField margin: (BlInsets all: 2).
 
-	selector := ToObservableCollectionFilter new.
+	selector := ToObservableCollectionFilterApplier new.
 	listElement dataAccessor
-		addEventHandlerOn: ToObservableCollectionFilterAppliedEvent
+		addEventHandlerOn: ToObservableCollectionFilterApplierEvent
 		do: [ :event |
 			listElement selecter selectOnlyIndexes: event selectedIndexes ].
 	listElement dataAccessor addAll: data.
@@ -2887,7 +2892,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 
 	| l |
 	l := self listWithEditableAndContextMenu.
-	l openInSpace.
+	l openInInnerWindow.
 	^ l
 ]
 
@@ -3415,9 +3420,7 @@ ToSandBox class >> example_MenuWithSelect [
 	menu := ToMenu new.
 	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	selector := ToSingleSelectElement new.
-	selector placeholderText: ('Choose a level number' asRopedText
-			 foreground: Color veryLightGray;
-			 yourself).
+	selector placeholderString: 'Choose a level number'.
 	selector filtrable: false.
 	selector width: 170.
 	selector popupListElement dataAccessor addAll:
@@ -3771,8 +3774,7 @@ ToSandBox class >> example_SelectAntDesignIconMonoFiltrable [
 				child constraintsDo: [ :c | c linear vertical alignCenter ] ] ].
 
 	select hMatchParent.
-	select placeholderText:
-		('Select an icon' asRopedText foreground: Color red).
+	select placeholderString: 'Select an icon'.
 
 	select openInSpace
 ]
@@ -3794,8 +3796,7 @@ ToSandBox class >> example_SelectAntDesignIconMultiFiltrable [
 	select sample: select popupListElement dataAccessor first.
 
 	select hMatchParent.
-	select placeholderText:
-		('Select icons' asRopedText foreground: Color red).
+	select placeholderString: 'Select icons'.
 	select openInInnerWindow
 ]
 
@@ -3823,8 +3824,7 @@ ToSandBox class >> example_SelectMaterialDesignIconMonoFiltrable [
 
 
 	select hMatchParent.
-	select placeholderText:
-		('Select an icon' asRopedText foreground: Color red).
+	select placeholderString: 'Select an icon'.
 		
 	select openInSpace
 ]
@@ -3850,8 +3850,7 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 	select sample: select popupListElement dataAccessor first.
 
 	select hMatchParent.
-	select placeholderText:
-		('Select icons' asRopedText foreground: Color red).
+	select placeholderString: 'Select icons'.
 
 	select openInSpace
 ]
@@ -3882,8 +3881,7 @@ ToSandBox class >> example_SelectMonoFiltrable [
 
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select selecter selectIndex: 2.
-	select placeholderText:
-		('Select a state' asRopedText foreground: Color red).
+	select placeholderString: 'Select a state'.
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
 	select width: 300.
@@ -3899,8 +3897,7 @@ ToSandBox class >> example_SelectMonoNotFiltrable [
 	| select innerWindow |
 	select := ToSingleSelectElement new.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
-	select placeholderText:
-		('Select a state' asRopedText foreground: Color red).
+	select placeholderString: 'Select a state'.
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
 	select width: 300.
@@ -3953,7 +3950,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	select popupListElement nodeBuilder: [ :node :stateColorAssoc :holder |
 		node addChild: (newTagFactory value: stateColorAssoc) hMatchParent; yourself].
 
-	select sieve dataFilter: [ :stateAssoc :pattern |
+	select sieve filter: [ :stateAssoc :pattern |
 		stateAssoc key beginsWith: pattern caseSensitive: false ].
 
 	select hideSelected: false.
@@ -3961,8 +3958,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 		self statesOfAmericaWithColor.
 
 	select popupMaxHeight: 200.
-	select placeholderText:
-		('Select states' asRopedText foreground: Color red).
+	select placeholderString: 'Select a state'.
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
 	select hMatchParent.
@@ -3985,8 +3981,7 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistribution [
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select filtrable: true.
 	select popupMaxHeight: 200.
-	select placeholderText:
-		('Select states' asRopedText foreground: Color red).
+	select placeholderString: 'Select a state'.
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
 	select hMatchParent.
@@ -4007,8 +4002,7 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistributionWithMax [
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select filtrable: true.
 	select popupMaxHeight: 200.
-	select placeholderText:
-		('Select states' asRopedText foreground: Color red).
+	select placeholderString: 'Select a state'.
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
 	select hMatchParent.
@@ -4029,8 +4023,7 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrapping [
 	select sample: 'X'.
 	select filtrable: true.
 	select popupMaxHeight: 200.
-	select placeholderText:
-		('Select states' asRopedText foreground: Color red).
+	select placeholderString: 'Select a state'.
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
 	select hMatchParent.
@@ -4050,8 +4043,7 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrappingKeepPickOrder [
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select filtrable: true.
 	select popupMaxHeight: 200.
-	select placeholderText:
-		('Select states' asRopedText foreground: Color red).
+	select placeholderString: 'Select a state'.
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
 	select hMatchParent.
@@ -4071,8 +4063,7 @@ ToSandBox class >> example_SelectMultiFiltrableScrolling [
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select filtrable: true.
 	select popupMaxHeight: 200.
-	select placeholderText:
-		('Select states' asRopedText foreground: Color red).
+	select placeholderString: 'Select a state'.
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
 	select hMatchParent.
@@ -4133,8 +4124,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 		self statesOfAmerica.
 	select filtrable: true.
 	select popupMaxHeight: 200.
-	select placeholderText:
-		('Selected are removed' asRopedText foreground: Color veryLightGray).
+	select placeholderString: 'Selected are removed'.
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
 	select hMatchParent.
@@ -4154,8 +4144,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected2 [
 		{ 'Apples'. 'Nails'. 'Bananas'. 'Helicopter' }.
 	select filtrable: true.
 	select popupMaxHeight: 200.
-	select placeholderText:
-		('Selected are removed' asRopedText foreground: Color veryLightGray).
+	select placeholderString: 'Selected are removed'.
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
 	select width: 300.
@@ -4193,8 +4182,7 @@ ToSandBox class >> example_SelectMultiNotFiltrable [
 	select filtrable: false.
 	select isFlowable: true.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
-	select placeholderText:
-		('Select states' asRopedText foreground: Color red).
+	select placeholderString: 'Select states'.
 	select popupListElement nodeBuilder: [ :node :dataItem :holder |
 		node addChild: (ToLabel text: dataItem asString) hMatchParent ].
 	innerWindow := ToInnerWindow new.
@@ -4222,8 +4210,7 @@ ToSandBox class >> example_SelectMultiNotFiltrableWithGroups [
 		select setGroupIndex: select popupListElement dataAccessor itemCount.
 		select popupListElement dataAccessor addAll: assoc value ].
 
-	select placeholderText:
-		('Select a state' asRopedText foreground: Color red).
+	select placeholderString: 'Select states'.
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
 	innerWindow root padding:( BlInsets all: 10).
@@ -4280,22 +4267,15 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 	pane := ToPane new
 		        beVertical;
 		        matchParent.
-	filterField := ToTextField new.
 	listElement := ToListElement new.
 	data := self statesOfAmerica. "copyFrom: 1 to: 8"
 
 	listElement margin: (BlInsets all: 2).
 	listElement withRowNumbers.
-	filterField margin: (BlInsets all: 2).
 
 	sieve := listElement newSieve.
-	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll: data.
-
-	filterField whenTextEditedDo: [
-				 | pattern |
-				 pattern := filterField text asString.
-				 sieve pattern: pattern ].
+	filterField := sieve newTextField.
 
 	listElement placeholderBuilder: [ :ph :e |
 		| lab |
@@ -4305,7 +4285,6 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 				        yourself).
 		ph empty label: lab ].
 
-	"handler inspect."
 	pane addChild: listElement.
 	pane addChild: filterField.
 	pane openInSpace.
@@ -4319,7 +4298,6 @@ ToSandBox class >> example_SieveOnList2With_175000_Items [
 	pane := ToPane new
 		        beVertical;
 		        matchParent.
-	filterField := ToTextField new.
 	listElement := ToListElement new.
 	data := OrderedCollection new.
 	" pay attention that the data computation is very slow "
@@ -4336,16 +4314,9 @@ ToSandBox class >> example_SieveOnList2With_175000_Items [
 
 	listElement margin: (BlInsets all: 2).
 	listElement withRowNumbers.
-	filterField margin: (BlInsets all: 2).
 	sieve := listElement newSieve.
-	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll: data.
-
-	listElement dataAccessor size traceCr.
-	filterField whenTextEditedDo: [
-				 | pattern |
-				 pattern := filterField text asString.
-				 sieve pattern: pattern ].
+	filterField := sieve newTextField.
 
 	listElement placeholderBuilder: [ :ph :e |
 		| lab |
@@ -4369,32 +4340,23 @@ ToSandBox class >> example_SieveOnList2With_AllClassNames [
 		        beVertical;
 		        matchParent.
 
-	filterField := ToTextField new.
 	listElement := ToListElement new.
 	data := SystemNavigation default allMethods.
 	listElement withRowNumbers.
-	filterField margin: (BlInsets all: 2).
-	filterField placeholderBuilder: [ :placeholder :e |
-		placeholder addChild:
-			((ToAttributedLabel text: ' Method name filter')
-				 foreground: Color lightGray;
-				 yourself) ].
-
-	sieve := listElement newSieve.
-	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll:
 		(Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
+
+	sieve := listElement newSieve.
+
+	filterField := sieve newTextField.
+	filterField placeholderString: 'Method name filter'.
 
 	listElement nodeBuilder: [ :node :dataItem :holder |
 		node addChild: (ToLabel new text: dataItem printString) ].
 
-	sieve dataFilter: [ :aClass :aPattern |
+	sieve filter: [ :aClass :aPattern |
 		aClass name includesSubstring: aPattern caseSensitive: false ].
-	
-	filterField whenTextEditedDo: [
-				 | pattern |
-				 pattern := filterField text asString.
-				 sieve pattern: pattern ].
+
 
 	pane addChild: listElement.
 	pane addChild: filterField.
@@ -4409,16 +4371,12 @@ ToSandBox class >> example_SieveOnList2With_AllMethods [
 		        beVertical;
 		        matchParent.
 
-	filterField := ToTextField new.
 	listElement := ToListElement new.
 	data := SystemNavigation default allMethods.
 	listElement withRowNumbers.
-	filterField margin: (BlInsets all: 2).
-	filterField placeholderText:
-		(' Method name filter' asRopedText foreground: Color lightGray).
-
 	sieve := listElement newSieve.
-	sieve onInstalledIn: listElement.
+	filterField := sieve newTextField.
+	filterField placeholderString: 'Method name filter'.
 	listElement dataAccessor addAll: data.
 	listElement
 		addEventHandlerOn: ToSieveSelectionChangedEvent
@@ -4427,12 +4385,8 @@ ToSandBox class >> example_SieveOnList2With_AllMethods [
 			event selectionModel selectedIndexes traceCr ].
 	listElement nodeBuilder: [ :node :dataItem :holder |
 		node addChild: (ToLabel new text: dataItem printString) ].
-	sieve dataFilter: [ :aCompiledMethod :aPattern |
+	sieve filter: [ :aCompiledMethod :aPattern |
 		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
-	filterField whenTextEditedDo: [
-				 | pattern |
-				 pattern := filterField text asString.
-				 sieve pattern: pattern ].
 	pane addChild: listElement.
 	pane addChild: filterField.
 	pane openInSpace.
@@ -4456,25 +4410,20 @@ ToSandBox class >> example_SieveOnList2With_AllMethods_OnCR [
 		        beVertical;
 		        matchParent.
 
-	filterField := ToTextField new.
 	listElement := ToListElement new.
 	data := SystemNavigation default allMethods.
 	listElement withRowNumbers.
-	filterField margin: (BlInsets all: 2).
 
 	sieve := listElement newSieve.
-	sieve onInstalledIn: listElement.
+	filterField := sieve newTextField.
 	listElement dataAccessor addAll: data.
 
-	sieve dataFilter: [ :aCompiledMethod :aPattern |
+	sieve filter: [ :aCompiledMethod :aPattern |
 		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
-
 
 	listElement nodeBuilder: [ :node :dataItem :holder |
 		node addChild: (ToLabel new text: dataItem printString) ].
 
-	sieve dataFilter: [ :aCompiledMethod :aPattern |
-		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
 	filterField addEditorShortcut: (BlShortcutWithAction new
 			 combination: BlKeyCombination return;
 			 action: [ :event |
@@ -4496,7 +4445,6 @@ ToSandBox class >> example_SieveOnTree [
 		        beVertical;
 		        matchParent.
 
-	filterField := ToTextField new.
 	treeElement := ToTreeElement new.
 	treeElement childrenGetter: [ :dataItem |
 			Array streamContents: [ :stream |
@@ -4528,30 +4476,19 @@ ToSandBox class >> example_SieveOnTree [
 									 indexes reverseDo: [ :idx | (target dataSource at: idx) collapse ] ] ];
 					 yourself) ].
 	treeElement withRowNumbers.
-	filterField margin: (BlInsets all: 2).
-	filterField placeholderBuilder: [ :placeholder :e |
-			placeholder addChild:
-				((ToAttributedLabel text: ' Method name filter')
-					 foreground: Color lightGray;
-					 yourself) ].
-
 	sieve := treeElement newSieve.
-	sieve onInstalledIn: treeElement.
+	filterField := sieve newTextField.
+	filterField placeholderString: 'Method name filter'.
 	treeElement dataAccessor addAll:
 		{ #AAA. #BBB. #CCC. #ABB. #ACC. #BAA. #BCC }.
 
-	sieve dataFilter: [ :aString :aPattern |
+	sieve filter: [ :aString :aPattern |
 		aString includesSubstring: aPattern caseSensitive: false ].
 
 	treeElement nodeBuilder: [ :node :dataItem :holder |
 		node addChild: (ToLabel new text: dataItem printString) ].
 	
 	treeElement addEventHandlerOn: ToListPrimarySelectionChangedEvent do: [ :evt | self selectionChangedEvent: evt ].
-
-	filterField whenTextEditedDo: [
-			| pattern |
-			pattern := filterField text asString.
-			sieve pattern: pattern ].
 
 	pane addChild: treeElement.
 	pane addChild: filterField.
@@ -4566,33 +4503,21 @@ ToSandBox class >> example_SieveOnTreeWithClasses [
 		        beVertical;
 		        matchParent.
 
-	filterField := ToTextField new.
 	treeElement := ToTreeElement new.
 	treeElement childrenGetter: [ :dataItem | dataItem subclasses ].
 	data := SystemNavigation default allMethods.
 	treeElement withRowNumbers.
-	filterField margin: (BlInsets all: 2).
-	filterField placeholderBuilder: [ :placeholder :e |
-			placeholder addChild:
-				((ToAttributedLabel text: ' Method name filter')
-					 foreground: Color lightGray;
-					 yourself) ].
-
 	sieve := treeElement newSieve.
-	sieve onInstalledIn: treeElement.
+	filterField := sieve newTextField.
+	filterField placeholderString: 'Class name filter'.
 	treeElement dataAccessor addAll:
 		(Smalltalk globals allClasses sorted: [ :a :b | a name < b name ]).
 
-	sieve dataFilter: [ :aClass :aPattern |
+	sieve filter: [ :aClass :aPattern |
 		aClass name includesSubstring: aPattern caseSensitive: false ].
 
 	treeElement nodeBuilder: [ :node :dataItem :holder |
 		node addChild: (ToLabel new text: dataItem printString) ].
-
-	filterField whenTextEditedDo: [
-			| pattern |
-			pattern := filterField text asString.
-			sieve pattern: pattern ].
 
 	pane addChild: treeElement.
 	pane addChild: filterField.
@@ -4700,6 +4625,51 @@ ToSandBox class >> example_SimplePopupTopRight [
 	p := self newPopup.
 	p placement: ToAnchoredTopRightPlacement new.
 	p anchorElement openInSpace
+]
+
+{ #category : #tabPane }
+ToSandBox class >> example_SimpleTabPane [
+
+	| tabPane space |
+	space := BlSpace new.
+	tabPane := ToTabPaneElement new.
+	tabPane matchParent.
+	space root addChild: tabPane.
+	tabPane addItem: (ToTabButton new
+			 id: #first;
+			 labelText: 'First';
+			 paneBuilder: [ :body :btn :node :holder |
+					 body addChild: (ToElement new
+								  background: Color red;
+								  matchParent;
+								  yourself) ];
+			 yourself).
+
+	tabPane addItem: (ToTabButton new
+			 id: #second;
+			 labelText: 'Second';
+			 paneBuilder: [ :body :btn :node :holder |
+					 body addChild: (ToElement new
+								  background: Color green;
+								  matchParent;
+								  yourself) ];
+			 yourself).
+	space show.
+	^ tabPane
+]
+
+{ #category : #tabPane }
+ToSandBox class >> example_SimpleTabPaneWithRemoveButtons [
+
+	| tabPane space firstTab secondTab |
+	space := BlSpace new.
+	tabPane :=self example_SimpleTabPane.
+	firstTab := tabPane items first.
+	secondTab := tabPane items second.
+	firstTab removable: true.
+	secondTab removable: true.
+
+	^ tabPane
 ]
 
 { #category : #'skin event' }
@@ -4908,8 +4878,7 @@ ToSandBox class >> example_ThemeSelectNoDeselection [
 	| select |
 	select := self themeSelect.
 	select closeOnPicking: true.
-	select placeholderText:
-		('Select a Toplo theme' asRopedText foreground: Color lightGray).
+	select placeholderString: 'Select a Toplo theme'.
 	select
 		addEventHandlerOn: ToSelectChangedEvent
 		do: [ :event | event selectedData asString traceCr ].
@@ -4933,10 +4902,8 @@ ToSandBox class >> example_ThemeSelectWithPlaceholder [
 	win := ToInnerWindow new title: 'Operating system'.
 
 	choice := ToSingleSelectElement new.
-	choice placeholderText:
-		('Select an OS' asRopedText foreground: Color lightGray).
-	choice popupDataAccessor addAll:
-		{ 'OS-X'. 'Windows'. 'Linux' }.
+	choice placeholderString: 'Select an OS'.
+	choice popupDataAccessor addAll: { 'OS-X'. 'Windows'. 'Linux' }.
 	win pane addChild: choice.
 	win openInSpace
 ]
@@ -4970,7 +4937,7 @@ ToSandBox class >> example_ToggleButton [
 	toggle := ToToggleButton new label: (ToLabel text: 'Toggle button').
 	toggle icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
 	toggle checked: false.
-	toggle openInInnerWindow
+	toggle openInSpace
 ]
 
 { #category : #'toggle button' }
@@ -5074,7 +5041,7 @@ ToSandBox class >> example_ToggleButtonInListElement [
 			                 labelText: 'Inspect';
 			                 clickAction: [ node inspect ];
 			                 yourself.
-
+		inspectButton preventSelectionSkinEvents.
 
 		moveNumberLabel constraintsDo: [ :c | c linear vertical alignCenter ].
 
@@ -5384,7 +5351,7 @@ ToSandBox class >> example_WithSeparator [
 	| menu container |
 	container := ToInnerWindow new
 		             position: 10 @ 10;
-		             size: 400 @ 200;
+		             extent: 400 @ 200;
 		             yourself.
 	menu := ToMenu new.
 	"menu tooltipString: 'tooltip content'."
@@ -6481,50 +6448,54 @@ ToSandBox class >> example_menuPaneVertical [
 			 clickAction: [ frame space root inspect ];
 			 yourself).
 	1 to: 3 do: [ :count |
-		menu := ToMenu new.
-		menu showExpandIcon: true.
-		count = 2 ifTrue: [ menu beInline ].
-		menu label: (ToLabel text: 'Levels').
-		menu icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+			menu := ToMenu new.
+			menu showExpandIcon: true.
+			count = 2 ifTrue: [ menu beInline ].
+			menu label: (ToLabel text: 'Levels').
+			menu icon:
+				(ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
 
-		menu builder: [ :m |
-			1 to: 6 do: [ :index |
-				| subMenu |
-				subMenu := ToMenu new label: (ToLabel new text: (String streamContents: [ :out |
-							             out
-								             nextPutAll: 'Level ';
-								             print: index;
-								             nextPutAll: 'x';
-								             print: index ])).
-				subMenu builder: [ :sm |
-					1 to: 10 do: [ :i |
-						| stream selector iconImage color |
-						stream := String streamContents: [ :out |
-							          out
-								          nextPutAll: 'Level ';
-								          space;
-								          print: i ].
-						selector := String streamContents: [ :out |
-							            out
-								            nextPutAll: 'level ';
-								            print: index;
-								            nextPutAll: ' Grid ';
-								            print: i ].
-						color := Color random.
-						iconImage := BlElement new
-							             padding: (BlInsets all: 2);
-							             geometry: (BlRoundedRectangleGeometry cornerRadius: 3);
-							             background: color;
-							             size: 16 asPoint;
-							             yourself.
-						sm addItem: ((ToMenuItem new
-								  labelText: stream;
-								  iconImage: iconImage)
-								 clickAction: [frame background: color ];
-								 yourself) ] ].
-				m addItem: subMenu ] ].
+			menu builder: [ :m |
+					1 to: 6 do: [ :index |
+							| subMenu |
+							subMenu := ToMenu new label:
+								           (ToLabel new text:
+									            (String streamContents: [ :out |
+											             out
+												             nextPutAll: 'Level ';
+												             print: index;
+												             nextPutAll: 'x';
+												             print: index ])).
+							subMenu builder: [ :sm |
+									1 to: 10 do: [ :i |
+											| stream selector iconImage color |
+											stream := String streamContents: [ :out |
+													          out
+														          nextPutAll: 'Level ';
+														          space;
+														          print: i ].
+											selector := String streamContents: [ :out |
+													            out
+														            nextPutAll: 'level ';
+														            print: index;
+														            nextPutAll: ' Grid ';
+														            print: i ].
+											color := Color random.
+											iconImage := BlElement new
+												             padding: (BlInsets all: 2);
+												             geometry:
+													             (BlRoundedRectangleGeometry cornerRadius: 3);
+												             background: color;
+												             extent: 16 asPoint;
+												             yourself.
+											sm addItem: ((ToMenuItem new
+													  labelText: stream;
+													  iconImage: iconImage)
+													 clickAction: [ frame background: color ];
+													 yourself) ] ].
+							m addItem: subMenu ] ].
 
-		bar addItem: menu ].
+			bar addItem: menu ].
 	"bar addFiller."
 	bar vertical: true.
 	bar vFitContent.
@@ -7094,17 +7065,15 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 	select := self selectWithEditingMultiSelection.
 	select popupMinHeight: 100.
 	select filtrable: true.
-	select placeholderText: ('Choose a class' asRopedText
-			 foreground: Color lightGray;
-			 yourself).
+	select placeholderString: 'Choose a class'.
 	select popupListElement placeholderBuilder: [ :placeholder :e |
-		placeholder layout alignCenter.
-		placeholder empty label:
-			(ToAttributedLabel text: ('No Data' asRopedText
-					  fontSize: 24;
-					  foreground: Color lightGray;
-					  yourself)) ].
-	select sieve dataFilter: [ :aClass :aPattern |
+			placeholder layout alignCenter.
+			placeholder empty label:
+				(ToAttributedLabel text: ('No Data' asRopedText
+						  fontSize: 24;
+						  foreground: Color lightGray;
+						  yourself)) ].
+	select sieve filter: [ :aClass :aPattern |
 		aClass name
 			includesSubstring: aPattern asString
 			caseSensitive: false ].
@@ -7364,7 +7333,7 @@ ToSandBox class >> example_switchButton2 [
 
 	| th sp |
 	th := ToSwitchButton new.
-	th wishedTrackSize: 100 @ 30.
+	th wishedTrackExtent: 100 @ 30.
 	th checkedContainer addChild:
 		((ToImage inner: (self iconNamed: #glamorousAccept))
 			 innerImageColor: Color white).
@@ -7381,7 +7350,7 @@ ToSandBox class >> example_switchButton3 [
 
 	| but onLab offLab onHandleIm handler |
 	but := ToSwitchButton new.
-	but wishedTrackSize: 350@50.
+	but wishedTrackExtent: 350@50.
 	but endToStart: true.
 	but startFlexible: true.
 	but hMatchParent.
@@ -7417,7 +7386,7 @@ ToSandBox class >> example_switchButtonWithSize [
 	th := ToSwitchButton new.
 	th labelText: 'Wished size is for the button track, it doesn''t include the label size'.
 	th startInterspace: 10.
-	th wishedTrackSize: 100@30.
+	th wishedTrackExtent: 100@30.
 	th checked: true.
 	th openInSpace
 ]
@@ -7935,6 +7904,17 @@ ToSandBox class >> example_toImageWithSVG [
 ]
 
 { #category : #image }
+ToSandBox class >> example_toImageWithSVG10 [
+
+	| im |
+	im := ToImage inner: self path_draghorizontal.
+	"im innerImageColor: Color red."
+	im matchParent.
+	im withNullSkin.
+	im openInSpace
+]
+
+{ #category : #image }
 ToSandBox class >> example_toImageWithSVG2 [
 
 	| im |
@@ -7991,6 +7971,17 @@ ToSandBox class >> example_toImageWithSVG8 [
 
 	| im |
 	im := ToImage inner: self pathPendingWorkSVG.
+	"im innerImageColor: Color red."
+	im matchParent.
+	im withNullSkin.
+	im openInSpace
+]
+
+{ #category : #image }
+ToSandBox class >> example_toImageWithSVG9 [
+
+	| im |
+	im := ToImage inner: self path_dragvertical.
 	"im innerImageColor: Color red."
 	im matchParent.
 	im withNullSkin.
@@ -8844,6 +8835,20 @@ ToSandBox class >> pathPendingWorkSVG [
 ]
 
 { #category : #accessing }
+ToSandBox class >> path_draghorizontal [
+
+	<sampleInstance>
+	^ '<svg xmlns="http://www.w3.org/2000/svg" id="mdi-drag-horizontal" viewBox="0 0 24 24"><path d="M3,15V13H5V15H3M3,11V9H5V11H3M7,15V13H9V15H7M7,11V9H9V11H7M11,15V13H13V15H11M11,11V9H13V11H11M15,15V13H17V15H15M15,11V9H17V11H15M19,15V13H21V15H19M19,11V9H21V11H19Z" /></svg>'
+]
+
+{ #category : #accessing }
+ToSandBox class >> path_dragvertical [
+
+	<sampleInstance>
+	^ '<svg xmlns="http://www.w3.org/2000/svg" id="mdi-drag-vertical" viewBox="0 0 24 24"><path d="M9,3H11V5H9V3M13,3H15V5H13V3M9,7H11V9H9V7M13,7H15V9H13V7M9,11H11V13H9V11M13,11H15V13H13V11M9,15H11V17H9V15M13,15H15V17H13V15M9,19H11V21H9V19M13,19H15V21H13V19Z" /></svg>'
+]
+
+{ #category : #accessing }
 ToSandBox class >> path_sharp_electric_bike_SVG [
 
 	<sampleInstance>
@@ -8911,7 +8916,6 @@ ToSandBox class >> resizerBoardFor: aBar [
 			group registerAll: buttons.
 			buttons second checked: true.
 			container := ToPane vertical.
-			container border: Color lightGray.
 			container padding: (BlInsets all: 2).
 			container hMatchParent.
 			container vFitContent.
@@ -9032,7 +9036,6 @@ ToSandBox class >> selectionModeChooserFor: aBar [
 
 	selectionModeGroup registeredCheckables first checked: true.
 	selectionModeContainer := ToPane vertical.
-	selectionModeContainer border: Color lightGray.
 	selectionModeContainer padding: (BlInsets all: 2).
 	selectionModeContainer hMatchParent.
 	selectionModeContainer addChild: (ToLabel text: 'Selection mode').
@@ -9113,14 +9116,13 @@ ToSandBox class >> tabBarElementDashBoardFor: aTabBarElement [
 	mainPane addChildren: {
 			confPane.
 			barPane }.
-
 	^ mainPane
 ]
 
 { #category : #tabPane }
 ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 
-	| mainPane barPane confPane startToEndSwitch addTabItemButtonSwicth rootPane |
+	| mainPane barPane confPane startToEndSwitch addTabItemButtonSwicth |
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
 
@@ -9144,25 +9146,20 @@ ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 		addTabItemButtonSwicth checked: aTabGroupElement showAddTabItemButton ].
 
 	confPane padding: (BlInsets all: 5).
-	confPane width: 250.
-	confPane border: Color lightGray.
 	
 	barPane := ToPane vertical.
 	barPane matchParent.
+	barPane addChild: aTabGroupElement.
 
 	confPane addChild: (self checkingStrategyChooserFor: aTabGroupElement).
 
 	mainPane addChildren: {
 			confPane.
 			barPane }.
-	barPane addChild: aTabGroupElement.
+	mainPane addDividers.
+	mainPane matchParent.
 
-	rootPane := ToPane vertical.
-	rootPane matchParent.
-	rootPane addChildren: { mainPane }.
-
-
-	^ rootPane
+	^ mainPane
 ]
 
 { #category : #tabPane }
@@ -9223,7 +9220,7 @@ ToSandBox class >> themeSelect [
 	select popupListElement nodeBuilder: [ :node :themeAssoc :holder |
 		node addChild: (ToLabel text: themeAssoc key) ].
 
-	select sieve dataFilter: [ :themeAssoc :pattern |
+	select sieve filter: [ :themeAssoc :pattern |
 		themeAssoc key beginsWith: pattern caseSensitive: true ].
 
 	select popupListElement dataAccessor addAll: themes.
@@ -9235,8 +9232,7 @@ ToSandBox class >> themeSelectNoDeselectionPopupOnTop [
 
 	| select |
 	select := self themeSelect.
-	select placeholderText:
-		('Select a Toplo theme' asRopedText foreground: Color lightGray).
+	select placeholderString: 'Select a Toplo theme'.
 	select
 		addEventHandlerOn: ToSelectChangedEvent
 		do: [ :event | event selectedData asString traceCr ].
@@ -9248,7 +9244,7 @@ ToSandBox class >> themeSelectNoDeselectionPopupOnTop [
 		(ToActionMeasurement new action: [ :w :evt |
 			 w root hFitContent ])."
 	select popupWindowPlacement: ToAnchoredTopCenterPlacement new.
-	^ select 
+	^ select
 ]
 
 { #category : #triplet }

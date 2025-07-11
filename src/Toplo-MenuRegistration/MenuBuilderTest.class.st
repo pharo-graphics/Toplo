@@ -29,7 +29,8 @@ MenuBuilderTest >> testBeforeResolveSimpleItemNoParentAvailable [
 MenuBuilderTest >> testBuilderBeforePragmasCollectedItems [
 
 	| builder |
-	builder := (ToMenuBuilder pragmaKeyword: #toploWorldMenu1) collectRegistrations.
+	builder := ToMenuBuilder pragmaKeyword: #toploWorldMenu1.
+	builder collectRegistrations.
 	self 
 		assert: builder collectedItems size 
 		equals: 3.
@@ -42,14 +43,16 @@ MenuBuilderTest >> testBuilderBeforePragmasCollectedItems [
 
 { #category : #'tests - Pragma' }
 MenuBuilderTest >> testBuilderPragmas [
-	self assert: self toploExampleMenu pragmas size equals: 1
-]
 
-{ #category : #'tests - Pragma' }
-MenuBuilderTest >> testBuilderPragmasWorldMenu [
-	self skip.
-	
-	self assert: self worldMenuExampleExampleMenu pragmas size equals: 67.
+	| prgas |
+	prgas := self toploExampleMenu pragmas.
+	self 
+		assert: prgas size 
+		equals: 1.
+	self 
+		assert: prgas first selector
+		equals: #toploWorldMenu1.
+		
 ]
 
 { #category : #'tests - Pragma' }
@@ -57,7 +60,7 @@ MenuBuilderTest >> testBuilderResolvePragmasCollectedItems [
 	self assert: self toploExampleMenu collectedItems size equals: 1.
 ]
 
-{ #category : #'tests - duplicated items' }
+{ #category : #'tests - conflicts' }
 MenuBuilderTest >> testDefinitionOfTwoSimilarParentIsAConflict [
 
 	| builder |
@@ -69,6 +72,7 @@ MenuBuilderTest >> testDefinitionOfTwoSimilarParentIsAConflict [
 		label: 'My own cool tool'.
 
 	(builder item: #Tools) label: 'The root tools'.
+	
 	self assert: builder hasConflict
 ]
 
@@ -193,7 +197,7 @@ MenuBuilderTest >> testDiffSystemMenu [
 		equals: listWorldItemName
 ]
 
-{ #category : #'tests - duplicated items' }
+{ #category : #'tests - conflicts' }
 MenuBuilderTest >> testDuplicatedIdenticalItem [
 
 	| builder |
@@ -206,7 +210,7 @@ MenuBuilderTest >> testDuplicatedIdenticalItem [
 	self assert: builder hasConflict
 ]
 
-{ #category : #'tests - duplicated items' }
+{ #category : #'tests - conflicts' }
 MenuBuilderTest >> testDuplicatedIdenticalItemShortcut [
 
 	| builder |
@@ -219,7 +223,7 @@ MenuBuilderTest >> testDuplicatedIdenticalItemShortcut [
 	self assert: builder hasConflict.
 ]
 
-{ #category : #'tests - duplicated items' }
+{ #category : #'tests - conflicts' }
 MenuBuilderTest >> testDuplicatedIdenticalItemWithChild [
 
 	| builder |
@@ -238,7 +242,7 @@ MenuBuilderTest >> testDuplicatedIdenticalItemWithChild [
 		assert: builder hasConflict
 ]
 
-{ #category : #'tests - duplicated items' }
+{ #category : #'tests - conflicts' }
 MenuBuilderTest >> testDuplicatedIdenticalItemWithDifferentChild [
 
 	| builder |
@@ -257,7 +261,7 @@ MenuBuilderTest >> testDuplicatedIdenticalItemWithDifferentChild [
 		assert: builder hasConflict
 ]
 
-{ #category : #'general-testing' }
+{ #category : #tests }
 MenuBuilderTest >> testOrderedTree [
 
 	| builder |
@@ -464,7 +468,7 @@ MenuBuilderTest >> testSimpleItemBeforeParentDefinition [
 		equals: #Tools
 ]
 
-{ #category : #'general-testing' }
+{ #category : #tests }
 MenuBuilderTest >> testSimpleItemInAnUndeclaredGroupCreatesGroup [
 
 	| builder |
@@ -475,12 +479,16 @@ MenuBuilderTest >> testSimpleItemInAnUndeclaredGroupCreatesGroup [
 		groupName: #OurGroup.
 
 	builder resolve.
-	self assert: builder groups size equals: 1.
+	self 
+		assert: builder groups size 
+		equals: 1.
 	self assert: (builder groups includes: #OurGroup).
-	self assert: (builder groupsNamed: #OurGroup) childrenItems first name equals: #Tools
+	self 
+		assert: (builder groupsNamed: #OurGroup) childrenItems first name 
+		equals: #Tools
 ]
 
-{ #category : #'general-testing' }
+{ #category : #tests }
 MenuBuilderTest >> testSimpleItemInGroupAlreadyDeclared [
 
 	| builder |
@@ -491,7 +499,10 @@ MenuBuilderTest >> testSimpleItemInGroupAlreadyDeclared [
 		label: 'The root tools';
 		groupName: #OurGroup.
 	builder resolve.
-	self assert: builder collectedItems size equals: 2.
+	
+	self 
+		assert: builder collectedItems size 
+		equals: 2.
 	self
 		assert: (builder groupsNamed: #OurGroup) childrenItems first name
 		equals: #Tools
@@ -686,7 +697,7 @@ MenuBuilderTest >> testTwoGroupsWithSameName [
 	self assert: (builder groups includes: #Tools).
 ]
 
-{ #category : #'general-testing' }
+{ #category : #tests }
 MenuBuilderTest >> testWithDeclaresOneItemWithAChild [
 
 	| builder |

@@ -13,7 +13,6 @@ ToFloatHolderSkin >> installSkinEvent: anEvent [
 					c linear vertical alignCenter.
 					c linear horizontal alignCenter ].
 			e background: (e valueOfTokenNamed: #'background-color').
-			e padding: (BlInsets all: 4).
 			e margin: (BlInsets all: 4).
 			e effect:
 				(BlGaussianShadowEffect color: Color gray width: 8 offset: 1 @ 1) "alpha: 0.6" ]

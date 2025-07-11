@@ -1,6 +1,6 @@
 Class {
 	#name : #ToIconicArrowButton,
-	#superclass : #ToIconicButton,
+	#superclass : #ToStandardIconicButton,
 	#instVars : [
 		'orientation'
 	],

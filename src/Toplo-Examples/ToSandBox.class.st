@@ -2236,6 +2236,45 @@ ToSandBox class >> example_FilterOnList2WithStatesOfAmerica [
 	pane openInSpace
 ]
 
+{ #category : #float }
+ToSandBox class >> example_Floats [
+
+	| rightBtn leftBtn pane floatLayer textField floatContainer |
+	rightBtn := ToIconicButton new iconImage:
+		            (ToMaterialDesignIconProvider innerImageNamed:
+			             'outlined_keyboardarrowright').
+	rightBtn extent: 25 asPoint.
+	leftBtn := ToIconicButton new iconImage:
+		           (ToMaterialDesignIconProvider innerImageNamed:
+			            'outlined_keyboardarrowleft').
+	leftBtn extent: 25 asPoint.
+	textField := ToTextField new
+		             width: 150;
+		             placeholderBuilder: [ :placeholder :e |
+				             placeholder addChild: (ToAttributedLabel new
+							              text: ('Name' asRopedText
+									               foreground: Color lightGray;
+									               italic);
+							              yourself) ].
+
+	pane := ToPane new matchParent.
+
+	floatLayer := ToFloatOverlay new.
+	floatLayer attachToParent: pane.
+	floatContainer := ToFloatContainer new.
+	floatContainer addChild: textField asFloatElement.
+	floatContainer addChild: leftBtn asFloatElement.
+	floatContainer addChild: rightBtn asFloatElement.
+	floatContainer constraintsDo: [ :c |
+			c anchors add:
+				(floatContainer rightAnchor on: floatLayer rightAnchor - 10).
+			c anchors add:
+				(floatContainer bottomAnchor on: floatLayer bottomAnchor - 10) ].
+	floatLayer addChild: floatContainer.
+
+	pane openInInnerWindow
+]
+
 { #category : #'general button' }
 ToSandBox class >> example_GeneralButtonWithIconAndLabel [
 
@@ -2901,16 +2940,14 @@ ToSandBox class >> example_ListWithFloatButtons [
 
 	| floatLayer floatContainer list addBtn removeBtn floatAdd floatRemove |
 	list := self example_ListWithEditableAndContextMenu.
-	addBtn := ToButton new iconImage:
+	addBtn := ToIconicButton new iconImage:
 		          (ToMaterialDesignIconProvider innerImageNamed:
 			           'outlined_addcircleoutline').
-	addBtn addAllStamps: { #circle. #iconic. #borderless }.
-	addBtn icon extent: 25 asPoint.
-	removeBtn := ToButton new iconImage:
+	addBtn extent: 25 asPoint.
+	removeBtn := ToIconicButton new iconImage:
 		             (ToMaterialDesignIconProvider innerImageNamed:
 			              'outlined_removecircleoutline').
-	removeBtn addAllStamps: { #circle. #iconic. #borderless }.
-	removeBtn icon extent: 25 asPoint.
+	removeBtn extent: 25 asPoint.
 
 	removeBtn clickAction: [
 			list selecter selectedIndexes reverseDo: [ :idx |
@@ -2922,7 +2959,6 @@ ToSandBox class >> example_ListWithFloatButtons [
 
 	floatAdd := addBtn asFloatElement.
 	floatRemove := removeBtn asFloatElement.
-
 
 	floatAdd geometry: BlCircleGeometry new.
 	floatRemove geometry: BlCircleGeometry new.
@@ -2946,7 +2982,7 @@ ToSandBox class >> example_ListWithFloatButtons [
 			c anchors add:
 				(c anchors bottomRightAnchor on:
 					 c anchors parent bottomRightAnchor) ].
-	floatLayer addChild: floatContainer
+	floatLayer addChild: floatContainer.
 ]
 
 { #category : #list }
@@ -5723,44 +5759,6 @@ ToSandBox class >> example_emptyBoxWithCustomLabel [
 		             yourself.
 	box labelText: labelText.
 	box openInSpace
-]
-
-{ #category : #float }
-ToSandBox class >> example_floatButton [
-
-	| rightBtn leftBtn pane floatLayer textField floatContainer |
-	rightBtn := ToButton new iconImage:
-		            (ToMaterialDesignIconProvider innerImageNamed:
-			             'outlined_keyboardarrowright').
-	rightBtn icon extent: 25 asPoint.
-	leftBtn := ToButton new iconImage:
-		           (ToMaterialDesignIconProvider innerImageNamed:
-			            'outlined_keyboardarrowleft').
-	leftBtn icon extent: 25 asPoint.
-	textField := ToTextField new
-		             width: 150;
-		             placeholderBuilder: [ :placeholder :e |
-				             placeholder addChild: (ToAttributedLabel new
-							              text: ('Name' asRopedText
-									               foreground: Color lightGray;
-									               italic);
-							              yourself) ].
-	pane := ToPane new matchParent.
-
-	floatLayer := ToFloatOverlay new.
-	floatLayer attachToParent: pane.
-	floatContainer := ToFloatContainer new.
-	floatContainer addChild: textField asFloatElement.
-	floatContainer addChild: leftBtn asFloatElement.
-	floatContainer addChild: rightBtn asFloatElement.
-	floatContainer constraintsDo: [ :c |
-			c anchors add:
-				(floatContainer rightAnchor on: floatLayer rightAnchor - 20).
-			c anchors add:
-				(floatContainer bottomAnchor on: floatLayer bottomAnchor - 10) ].
-	floatLayer addChild: floatContainer.
-
-	pane openInInnerWindow
 ]
 
 { #category : #checkbox }

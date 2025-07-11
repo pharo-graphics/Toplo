@@ -42,7 +42,7 @@ ToImportedIconProvider class >> listElementWithAllIcons [
 	ToMiscellaneousIcons listElementWithAllIcons openInSpace.
 	"
 
-	| l icProvider styles assocs |
+	| l icProvider styles assocs styleSieve iconNameSieve styleFilterField iconNameFilterField pane filterPane |
 	icProvider := self new.
 	l := ToListElement new.
 	l vertical: true.
@@ -59,69 +59,95 @@ ToImportedIconProvider class >> listElementWithAllIcons [
 		          a name < b name ].
 
 	assocs := Array streamContents: [ :stream |
-		          styles do: [ :style |
-			          | s |
-			          s := ('_' , style prefix , '_loaded') asSymbol.
-			          (icProvider class respondsTo: s) ifTrue: [
-				          | iconNames |
-				          iconNames := (icProvider class perform: s) sort.
-				          stream nextPutAll:
-					          (iconNames collect: [ :n | n -> style ]) ] ] ].
+			          styles do: [ :style |
+					          | s |
+					          s := ('_' , style prefix , '_loaded') asSymbol.
+					          (icProvider class respondsTo: s) ifTrue: [
+							          | iconNames |
+							          iconNames := (icProvider class perform: s) sorted.
+							          stream nextPutAll:
+								          (iconNames collect: [ :n | n -> style ]) ] ] ].
+
+	styleSieve := l newSieve.
+	styleSieve onInstalledIn: l.
+	styleSieve dataFilter: [ :iconAssoc :aPattern |
+			iconAssoc value prefix
+				includesSubstring: aPattern
+				caseSensitive: false ].
+	styleFilterField := ToTextField newForSieve: styleSieve.
+	styleFilterField placeholderText: 'style filter'.
+
+	iconNameSieve := l newSieve.
+	iconNameSieve onInstalledIn: l.
+	iconNameSieve dataFilter: [ :iconAssoc :aPattern |
+		iconAssoc key includesSubstring: aPattern caseSensitive: false ].
+	iconNameFilterField := ToTextField newForSieve: styleSieve.
+	iconNameFilterField placeholderText: 'icon name filter'.
+
+	filterPane := ToPane horizontal.
+	filterPane addChildren: {
+			styleFilterField.
+			iconNameFilterField }.
+	filterPane addDividers first weight: 0.25.
 
 	l dataAccessor addAll: assocs.
 
 	l contextMenuBuilder: [ :menu :request |
-		| indexes target |
-		target := request currentTarget.
-		indexes := request selectedIndexes.
-		indexes size = 1 ifTrue: [
-			menu addItem: (ToMenuItem new
-					 labelText: 'Inspect image';
-					 clickAction: [ 
-						 | dataItem element |
-						 dataItem := target dataAccessor at: indexes first.
-						 element := (dataItem value
-							             iconNamed: dataItem key
-							             inProvider: icProvider)
-							            size: 100 asPoint;
-							            yourself.
-						 element inspect ]) ] ].
+			| indexes target |
+			target := request currentTarget.
+			indexes := request selectedIndexes.
+			indexes size = 1 ifTrue: [
+					menu addItem: (ToMenuItem new
+							 labelText: 'Inspect image';
+							 clickAction: [
+									 | dataItem element |
+									 dataItem := target dataAccessor at: indexes first.
+									 element := (dataItem value
+										             iconNamed: dataItem key
+										             inProvider: icProvider)
+										            size: 100 asPoint;
+										            yourself.
+									 element inspect ]) ] ].
 
 	l nodeBuilder: [ :node :dataItem :holder |
-		| styleLab stylePane iclab iclabPane imPane iconStyle iconName |
-		iconStyle := dataItem value.
-		iconName := dataItem key.
-		node layout: BlLinearLayout horizontal.
-		iclabPane := ToElement new layout: BlFrameLayout new.
-		iclabPane vFitContent.
-		iclabPane width: 150.
-		stylePane := ToElement new layout: BlFrameLayout new.
-		stylePane vFitContent.
-		stylePane width: 60.
-		iclab := ToLabel text: iconName.
-		iclab constraintsDo: [ :c | c frame vertical alignCenter ].
-		iclabPane addChild: iclab.
-		styleLab := ToLabel text: iconStyle prefix.
-		styleLab constraintsDo: [ :c | c frame vertical alignCenter ].
-		stylePane addChild: styleLab.
-		imPane := ToElement new layout: BlFrameLayout new.
-		imPane fitContent.
-		imPane withNullSkin.
-		imPane background: Color veryVeryLightGray.
-		imPane addChild:
-			((iconStyle iconNamed: iconName inProvider: icProvider)
-				 size: 24 asPoint;
-				 yourself).
-		imPane firstChild withAllChildrenDepthFirstDo: [ :child |
-			child hasChildren ifFalse: [ child background: Color red ] ].
-		node addChildren: {
-				stylePane.
-				iclabPane.
-				imPane }.
-		node childrenDo: [ :child |
-			child constraintsDo: [ :c | c linear vertical alignCenter ] ] ].
+			| styleLab stylePane iclab iclabPane imPane iconStyle iconName |
+			iconStyle := dataItem value.
+			iconName := dataItem key.
+			node layout: BlLinearLayout horizontal.
+			iclabPane := ToElement new layout: BlFrameLayout new.
+			iclabPane vFitContent.
+			iclabPane width: 150.
+			stylePane := ToElement new layout: BlFrameLayout new.
+			stylePane vFitContent.
+			stylePane width: 60.
+			iclab := ToLabel text: iconName.
+			iclab constraintsDo: [ :c | c frame vertical alignCenter ].
+			iclabPane addChild: iclab.
+			styleLab := ToLabel text: iconStyle prefix.
+			styleLab constraintsDo: [ :c | c frame vertical alignCenter ].
+			stylePane addChild: styleLab.
+			imPane := ToElement new layout: BlFrameLayout new.
+			imPane fitContent.
+			imPane withNullSkin.
+			imPane background: Color veryVeryLightGray.
+			imPane addChild:
+				((iconStyle iconNamed: iconName inProvider: icProvider)
+					 extent: 24 asPoint;
+					 yourself).
+			imPane firstChild withAllChildrenDepthFirstDo: [ :child |
+				child hasChildren ifFalse: [ child background: Color red ] ].
+			node addChildren: {
+					stylePane.
+					iclabPane.
+					imPane }.
+			node childrenDo: [ :child |
+				child constraintsDo: [ :c | c linear vertical alignCenter ] ] ].
 
-	^ l
+	pane := ToPane vertical.
+	pane matchParent.
+	pane addChild: l.
+	pane addChild: filterPane.
+	^ pane
 ]
 
 { #category : #accessing }

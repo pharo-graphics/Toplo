@@ -4385,32 +4385,24 @@ ToSandBox class >> example_SieveOnList2With_AllClassNames [
 		        beVertical;
 		        matchParent.
 
-	filterField := ToTextField new.
 	listElement := ToListElement new.
 	data := SystemNavigation default allMethods.
 	listElement withRowNumbers.
-	filterField margin: (BlInsets all: 2).
-	filterField placeholderBuilder: [ :placeholder :e |
-		placeholder addChild:
-			((ToAttributedLabel text: ' Method name filter')
-				 foreground: Color lightGray;
-				 yourself) ].
+	listElement dataAccessor addAll:
+		(Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
 
 	sieve := listElement newSieve.
 	sieve onInstalledIn: listElement.
-	listElement dataAccessor addAll:
-		(Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
+
+	filterField := ToTextField newForSieve: sieve.
+	filterField placeholderText: 'Method name filter'.
 
 	listElement nodeBuilder: [ :node :dataItem :holder |
 		node addChild: (ToLabel new text: dataItem printString) ].
 
 	sieve dataFilter: [ :aClass :aPattern |
 		aClass name includesSubstring: aPattern caseSensitive: false ].
-	
-	filterField whenTextEditedDo: [
-				 | pattern |
-				 pattern := filterField text asString.
-				 sieve pattern: pattern ].
+
 
 	pane addChild: listElement.
 	pane addChild: filterField.
@@ -4716,6 +4708,51 @@ ToSandBox class >> example_SimplePopupTopRight [
 	p := self newPopup.
 	p placement: ToAnchoredTopRightPlacement new.
 	p anchorElement openInSpace
+]
+
+{ #category : #tabPane }
+ToSandBox class >> example_SimpleTabPane [
+
+	| tabPane space |
+	space := BlSpace new.
+	tabPane := ToTabPaneElement new.
+	tabPane matchParent.
+	space root addChild: tabPane.
+	tabPane addItem: (ToTabButton new
+			 id: #first;
+			 labelText: 'First';
+			 paneBuilder: [ :body :btn :node :holder |
+					 body addChild: (ToElement new
+								  background: Color red;
+								  matchParent;
+								  yourself) ];
+			 yourself).
+
+	tabPane addItem: (ToTabButton new
+			 id: #second;
+			 labelText: 'Second';
+			 paneBuilder: [ :body :btn :node :holder |
+					 body addChild: (ToElement new
+								  background: Color green;
+								  matchParent;
+								  yourself) ];
+			 yourself).
+	space show.
+	^ tabPane
+]
+
+{ #category : #tabPane }
+ToSandBox class >> example_SimpleTabPaneWithRemoveButtons [
+
+	| tabPane space firstTab secondTab |
+	space := BlSpace new.
+	tabPane :=self example_SimpleTabPane.
+	firstTab := tabPane items first.
+	secondTab := tabPane items second.
+	firstTab removable: true.
+	secondTab removable: true.
+
+	^ tabPane
 ]
 
 { #category : #'skin event' }

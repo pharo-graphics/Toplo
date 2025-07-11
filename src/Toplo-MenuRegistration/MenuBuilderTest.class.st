@@ -8,7 +8,7 @@ Class {
 	#category : #'Toplo-MenuRegistration-Tests'
 }
 
-{ #category : #'general-testing' }
+{ #category : #'tests - before resolution' }
 MenuBuilderTest >> testBeforeResolveSimpleItemNoParentAvailable [
 
 	| builder |
@@ -17,15 +17,27 @@ MenuBuilderTest >> testBeforeResolveSimpleItemNoParentAvailable [
 		parent: #Tools;
 		label: 'My own cool tool'.
 
-	self assert: builder collectedItems size equals: 1.
-	self assert: builder collectedItems first parent equals: #Tools
+	self 
+		assert: builder collectedItems size 
+		equals: 1.
+	self 
+		assert: builder collectedItems first parent 
+		equals: #Tools
 ]
 
 { #category : #'tests - Pragma' }
 MenuBuilderTest >> testBuilderBeforePragmasCollectedItems [
-	|builder|
+
+	| builder |
 	builder := (ToMenuBuilder pragmaKeyword: #toploWorldMenu1) collectRegistrations.
-	self assert: builder collectedItems size equals: 3
+	self 
+		assert: builder collectedItems size 
+		equals: 3.
+		
+	self assert: (builder indexOfChildNamed: #Im) equals: 1.
+	self assert: (builder indexOfChildNamed: #aSuperMenu) equals: 2.
+	self assert: (builder indexOfChildNamed: #anUglyMenu) equals: 3.
+	
 ]
 
 { #category : #'tests - Pragma' }
@@ -429,19 +441,27 @@ MenuBuilderTest >> testResolveWithItemWithExplicitParentUnknowDeclared [
 		equals: #MyMenu.
 ]
 
-{ #category : #examples }
+{ #category : #'tests - before resolution' }
 MenuBuilderTest >> testSimpleItemBeforeParentDefinition [
 
 	| builder |
 	builder := ToMenuBuilder new.
+	
+	"we create a first item whose parent will be created after"
 	(builder item: #MyOwnCoolTool)
 		parent: #Tools;
 		label: 'My own cool tool'.
 
-	(builder item: #Tools) label: 'The root tools'.
+	"we create its parent after"
+	(builder item: #Tools) 
+		label: 'The root tools'.
 
-	self assert: builder collectedItems size equals: 2.
-	self assert: builder collectedItems first parent equals: #Tools
+	self 
+		assert: builder collectedItems size 
+		equals: 2.
+	self 
+		assert: builder collectedItems first parent 
+		equals: #Tools
 ]
 
 { #category : #'general-testing' }
@@ -715,14 +735,14 @@ MenuBuilderTest >> toploExampleMenuBuilder: aClass [
 		  yourself
 ]
 
-{ #category : #examples }
+{ #category : #'world menu' }
 MenuBuilderTest >> worldMenuExampleExampleMenu [
 
 	^ worldMenuExample ifNil: [
 		  worldMenuExample := self worldMenuExampleMenuBuilder: ToMenuBuilder ]
 ]
 
-{ #category : #examples }
+{ #category : #'world menu' }
 MenuBuilderTest >> worldMenuExampleMenuBuilder: aClass [
 
 	^ (aClass pragmaKeyword: #worldMenu)

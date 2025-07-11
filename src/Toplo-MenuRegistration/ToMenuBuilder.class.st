@@ -18,9 +18,10 @@ ToMenuBuilder class >> aLittleMenu: aBuilder [
 
 	<toploWorldMenu1>
 	(aBuilder item: #Im)
-		label: 'Im - Label'; with: [
-		(aBuilder item: #aSuperMenu) label: 'a super menu ! - Label'.
-		(aBuilder item: #anUglyMenu) label: 'a ugly menu ! - Label' ]
+		label: 'Im - Label'; 
+		with: [
+			(aBuilder item: #aSuperMenu) label: 'a super menu ! - Label'.
+			(aBuilder item: #anUglyMenu) label: 'a ugly menu ! - Label' ]
 ]
 
 { #category : #examples }
@@ -207,14 +208,6 @@ ToMenuBuilder >> currentRoot: aMenuRegistration [
 	currentRoot := aMenuRegistration
 ]
 
-{ #category : #querying }
-ToMenuBuilder >> findChild: aSymbol [
-
-	1 to: collectedItems size do: [ :ind |
-		(collectedItems at: ind) name = aSymbol ifTrue: [ ^ ind ] ].
-	^ 1
-]
-
 { #category : #'menu protocol' }
 ToMenuBuilder >> group: aSymbol [
 	"Create a new group"
@@ -306,6 +299,14 @@ ToMenuBuilder >> hasConflict [
 ToMenuBuilder >> hasNoConflict [
 
 	^ conflicts isEmpty
+]
+
+{ #category : #querying }
+ToMenuBuilder >> indexOfChildNamed: aSymbol [
+
+	1 to: collectedItems size do: [ :ind |
+		(collectedItems at: ind) name = aSymbol ifTrue: [ ^ ind ] ].
+	^ 1
 ]
 
 { #category : #initialization }

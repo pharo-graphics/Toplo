@@ -9,22 +9,25 @@ Class {
 
 { #category : #running }
 ToMenuRegistrationTest >> setUp [
+
+	super setUp.
 	menu := ToMenuRegistration new name: 'TheParent'.
 ]
 
 { #category : #tests }
 ToMenuRegistrationTest >> testHasChildren [
-	menu addChild: (ToMenuRegistration new).
+	menu addChild: ToMenuRegistration new.
 	self assert: menu hasChildren
 ]
 
 { #category : #tests }
 ToMenuRegistrationTest >> testHasNoChildren [
+
 	self assert: menu hasNoChildren
 ]
 
 { #category : #tests }
-ToMenuRegistrationTest >> testOrderSort [
+ToMenuRegistrationTest >> testSortChildren [
 
 	menu addChild: (ToMenuRegistration new
 			 name: #Child1;

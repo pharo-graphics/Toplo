@@ -341,7 +341,7 @@ ToMenuRegistration >> with: aBlock [
 
 	| currentItem |
 	aBlock value.
-	(builder findChild: name) 
+	(builder indexOfChildNamed: name) 
 		to: builder collectedItems size 
 		do: [ :index |
 			currentItem := builder collectedItems at: index.

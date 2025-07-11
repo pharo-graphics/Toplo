@@ -137,10 +137,6 @@ ToExMiniBrowser >> newPackagePane [
 		beVertical;
 		matchParent.
 
-	pkgFilterField := ToTextField new.
-	pkgFilterField placeholderText:
-		('Packages filter' asRopedText foreground: Color lightGray).
-
 	packages := ToTreeElement new.
 	packages
 		id: #packages;
@@ -176,10 +172,8 @@ ToExMiniBrowser >> newPackagePane [
 				includesSubstring: aPattern asString
 				caseSensitive: false ].
 
-	pkgFilterField whenTextEditedDo: [
-			| pattern |
-			pattern := pkgFilterField text asString.
-			pkgSieve pattern: pattern ].
+	pkgFilterField := pkgSieve newTextField.
+	pkgFilterField placeholderString: 'Packages filter'.
 
 	packageBottomPane := ToPane new.
 	packageBottomPane

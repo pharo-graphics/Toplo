@@ -105,6 +105,12 @@ ToListElementSieve >> newSievedListElementEventHandler [
 	^ ToSievedListElementEventHandler new
 ]
 
+{ #category : #'instance creation' }
+ToListElementSieve >> newTextField [ 
+
+	^ ToTextField newForSieve: self
+]
+
 { #category : #private }
 ToListElementSieve >> observableCollectionFilterAppliedEvent: anEvent [
 

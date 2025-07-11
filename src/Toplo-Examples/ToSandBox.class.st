@@ -491,24 +491,14 @@ ToSandBox class >> exampleAccordionListWithClassComments [
 	pane := ToPane new
 		        beVertical;
 		        matchParent.
-	filterField := ToTextField new.
-	filterField margin: (BlInsets all: 2).
-	filterField placeholderBuilder: [ :placeholder :e |
-		placeholder addChild:
-			((ToAttributedLabel text: 'Class name filter')
-				 foreground: Color lightGray;
-				 yourself) ].
 	list := ToAccordionListElement new.
 	list withRowNumbers.
 	list selectionMode multiple: true.
 	sieve := list newSieve.
 	sieve dataFilter: [ :item :aPattern |
 		item name beginsWith: aPattern caseSensitive: false ].
-
-	filterField whenTextEditedDo: [
-		| pattern |
-		pattern := filterField text asString.
-		sieve pattern: pattern ].
+	filterField := sieve newTextField.
+	filterField placeholderString:  'Class name filter'.
 
 	list placeholderBuilder: [ :ph :e |
 		ph empty labelText: 'No class'].
@@ -3430,9 +3420,7 @@ ToSandBox class >> example_MenuWithSelect [
 	menu := ToMenu new.
 	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	selector := ToSingleSelectElement new.
-	selector placeholderText: ('Choose a level number' asRopedText
-			 foreground: Color veryLightGray;
-			 yourself).
+	selector placeholderString: 'Choose a level number'.
 	selector filtrable: false.
 	selector width: 170.
 	selector popupListElement dataAccessor addAll:
@@ -3786,8 +3774,7 @@ ToSandBox class >> example_SelectAntDesignIconMonoFiltrable [
 				child constraintsDo: [ :c | c linear vertical alignCenter ] ] ].
 
 	select hMatchParent.
-	select placeholderText:
-		('Select an icon' asRopedText foreground: Color red).
+	select placeholderString: 'Select an icon'.
 
 	select openInSpace
 ]
@@ -3809,8 +3796,7 @@ ToSandBox class >> example_SelectAntDesignIconMultiFiltrable [
 	select sample: select popupListElement dataAccessor first.
 
 	select hMatchParent.
-	select placeholderText:
-		('Select icons' asRopedText foreground: Color red).
+	select placeholderString: 'Select icons'.
 	select openInInnerWindow
 ]
 
@@ -3838,8 +3824,7 @@ ToSandBox class >> example_SelectMaterialDesignIconMonoFiltrable [
 
 
 	select hMatchParent.
-	select placeholderText:
-		('Select an icon' asRopedText foreground: Color red).
+	select placeholderString: 'Select an icon'.
 		
 	select openInSpace
 ]
@@ -3865,8 +3850,7 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 	select sample: select popupListElement dataAccessor first.
 
 	select hMatchParent.
-	select placeholderText:
-		('Select icons' asRopedText foreground: Color red).
+	select placeholderString: 'Select icons'.
 
 	select openInSpace
 ]
@@ -3897,8 +3881,7 @@ ToSandBox class >> example_SelectMonoFiltrable [
 
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select selecter selectIndex: 2.
-	select placeholderText:
-		('Select a state' asRopedText foreground: Color red).
+	select placeholderString: 'Select a state'.
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
 	select width: 300.
@@ -3914,8 +3897,7 @@ ToSandBox class >> example_SelectMonoNotFiltrable [
 	| select innerWindow |
 	select := ToSingleSelectElement new.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
-	select placeholderText:
-		('Select a state' asRopedText foreground: Color red).
+	select placeholderString: 'Select a state'.
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
 	select width: 300.
@@ -3976,8 +3958,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 		self statesOfAmericaWithColor.
 
 	select popupMaxHeight: 200.
-	select placeholderText:
-		('Select states' asRopedText foreground: Color red).
+	select placeholderString: 'Select a state'.
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
 	select hMatchParent.
@@ -4000,8 +3981,7 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistribution [
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select filtrable: true.
 	select popupMaxHeight: 200.
-	select placeholderText:
-		('Select states' asRopedText foreground: Color red).
+	select placeholderString: 'Select a state'.
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
 	select hMatchParent.
@@ -4022,8 +4002,7 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistributionWithMax [
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select filtrable: true.
 	select popupMaxHeight: 200.
-	select placeholderText:
-		('Select states' asRopedText foreground: Color red).
+	select placeholderString: 'Select a state'.
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
 	select hMatchParent.
@@ -4044,8 +4023,7 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrapping [
 	select sample: 'X'.
 	select filtrable: true.
 	select popupMaxHeight: 200.
-	select placeholderText:
-		('Select states' asRopedText foreground: Color red).
+	select placeholderString: 'Select a state'.
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
 	select hMatchParent.
@@ -4065,8 +4043,7 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrappingKeepPickOrder [
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select filtrable: true.
 	select popupMaxHeight: 200.
-	select placeholderText:
-		('Select states' asRopedText foreground: Color red).
+	select placeholderString: 'Select a state'.
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
 	select hMatchParent.
@@ -4086,8 +4063,7 @@ ToSandBox class >> example_SelectMultiFiltrableScrolling [
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select filtrable: true.
 	select popupMaxHeight: 200.
-	select placeholderText:
-		('Select states' asRopedText foreground: Color red).
+	select placeholderString: 'Select a state'.
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
 	select hMatchParent.
@@ -4148,8 +4124,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 		self statesOfAmerica.
 	select filtrable: true.
 	select popupMaxHeight: 200.
-	select placeholderText:
-		('Selected are removed' asRopedText foreground: Color veryLightGray).
+	select placeholderString: 'Selected are removed'.
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
 	select hMatchParent.
@@ -4169,8 +4144,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected2 [
 		{ 'Apples'. 'Nails'. 'Bananas'. 'Helicopter' }.
 	select filtrable: true.
 	select popupMaxHeight: 200.
-	select placeholderText:
-		('Selected are removed' asRopedText foreground: Color veryLightGray).
+	select placeholderString: 'Selected are removed'.
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
 	select width: 300.
@@ -4208,8 +4182,7 @@ ToSandBox class >> example_SelectMultiNotFiltrable [
 	select filtrable: false.
 	select isFlowable: true.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
-	select placeholderText:
-		('Select states' asRopedText foreground: Color red).
+	select placeholderString: 'Select states'.
 	select popupListElement nodeBuilder: [ :node :dataItem :holder |
 		node addChild: (ToLabel text: dataItem asString) hMatchParent ].
 	innerWindow := ToInnerWindow new.
@@ -4237,8 +4210,7 @@ ToSandBox class >> example_SelectMultiNotFiltrableWithGroups [
 		select setGroupIndex: select popupListElement dataAccessor itemCount.
 		select popupListElement dataAccessor addAll: assoc value ].
 
-	select placeholderText:
-		('Select a state' asRopedText foreground: Color red).
+	select placeholderString: 'Select states'.
 	innerWindow := ToInnerWindow new.
 	select manager anchorRoot: innerWindow root.
 	innerWindow root padding:( BlInsets all: 10).
@@ -4295,21 +4267,15 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 	pane := ToPane new
 		        beVertical;
 		        matchParent.
-	filterField := ToTextField new.
 	listElement := ToListElement new.
 	data := self statesOfAmerica. "copyFrom: 1 to: 8"
 
 	listElement margin: (BlInsets all: 2).
 	listElement withRowNumbers.
-	filterField margin: (BlInsets all: 2).
 
 	sieve := listElement newSieve.
 	listElement dataAccessor addAll: data.
-
-	filterField whenTextEditedDo: [
-				 | pattern |
-				 pattern := filterField text asString.
-				 sieve pattern: pattern ].
+	filterField := sieve newTextField.
 
 	listElement placeholderBuilder: [ :ph :e |
 		| lab |
@@ -4319,7 +4285,6 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 				        yourself).
 		ph empty label: lab ].
 
-	"handler inspect."
 	pane addChild: listElement.
 	pane addChild: filterField.
 	pane openInSpace.
@@ -4333,7 +4298,6 @@ ToSandBox class >> example_SieveOnList2With_175000_Items [
 	pane := ToPane new
 		        beVertical;
 		        matchParent.
-	filterField := ToTextField new.
 	listElement := ToListElement new.
 	data := OrderedCollection new.
 	" pay attention that the data computation is very slow "
@@ -4350,15 +4314,9 @@ ToSandBox class >> example_SieveOnList2With_175000_Items [
 
 	listElement margin: (BlInsets all: 2).
 	listElement withRowNumbers.
-	filterField margin: (BlInsets all: 2).
 	sieve := listElement newSieve.
 	listElement dataAccessor addAll: data.
-
-	listElement dataAccessor size traceCr.
-	filterField whenTextEditedDo: [
-				 | pattern |
-				 pattern := filterField text asString.
-				 sieve pattern: pattern ].
+	filterField := sieve newTextField.
 
 	listElement placeholderBuilder: [ :ph :e |
 		| lab |
@@ -4390,8 +4348,8 @@ ToSandBox class >> example_SieveOnList2With_AllClassNames [
 
 	sieve := listElement newSieve.
 
-	filterField := ToTextField newForSieve: sieve.
-	filterField placeholderText: 'Method name filter'.
+	filterField := sieve newTextField.
+	filterField placeholderString: 'Method name filter'.
 
 	listElement nodeBuilder: [ :node :dataItem :holder |
 		node addChild: (ToLabel new text: dataItem printString) ].
@@ -4413,15 +4371,12 @@ ToSandBox class >> example_SieveOnList2With_AllMethods [
 		        beVertical;
 		        matchParent.
 
-	filterField := ToTextField new.
 	listElement := ToListElement new.
 	data := SystemNavigation default allMethods.
 	listElement withRowNumbers.
-	filterField margin: (BlInsets all: 2).
-	filterField placeholderText:
-		(' Method name filter' asRopedText foreground: Color lightGray).
-
 	sieve := listElement newSieve.
+	filterField := sieve newTextField.
+	filterField placeholderString: 'Method name filter'.
 	listElement dataAccessor addAll: data.
 	listElement
 		addEventHandlerOn: ToSieveSelectionChangedEvent
@@ -4432,10 +4387,6 @@ ToSandBox class >> example_SieveOnList2With_AllMethods [
 		node addChild: (ToLabel new text: dataItem printString) ].
 	sieve dataFilter: [ :aCompiledMethod :aPattern |
 		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
-	filterField whenTextEditedDo: [
-				 | pattern |
-				 pattern := filterField text asString.
-				 sieve pattern: pattern ].
 	pane addChild: listElement.
 	pane addChild: filterField.
 	pane openInSpace.
@@ -4459,24 +4410,20 @@ ToSandBox class >> example_SieveOnList2With_AllMethods_OnCR [
 		        beVertical;
 		        matchParent.
 
-	filterField := ToTextField new.
 	listElement := ToListElement new.
 	data := SystemNavigation default allMethods.
 	listElement withRowNumbers.
-	filterField margin: (BlInsets all: 2).
 
 	sieve := listElement newSieve.
+	filterField := sieve newTextField.
 	listElement dataAccessor addAll: data.
 
 	sieve dataFilter: [ :aCompiledMethod :aPattern |
 		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
 
-
 	listElement nodeBuilder: [ :node :dataItem :holder |
 		node addChild: (ToLabel new text: dataItem printString) ].
 
-	sieve dataFilter: [ :aCompiledMethod :aPattern |
-		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
 	filterField addEditorShortcut: (BlShortcutWithAction new
 			 combination: BlKeyCombination return;
 			 action: [ :event |
@@ -4498,7 +4445,6 @@ ToSandBox class >> example_SieveOnTree [
 		        beVertical;
 		        matchParent.
 
-	filterField := ToTextField new.
 	treeElement := ToTreeElement new.
 	treeElement childrenGetter: [ :dataItem |
 			Array streamContents: [ :stream |
@@ -4530,14 +4476,9 @@ ToSandBox class >> example_SieveOnTree [
 									 indexes reverseDo: [ :idx | (target dataSource at: idx) collapse ] ] ];
 					 yourself) ].
 	treeElement withRowNumbers.
-	filterField margin: (BlInsets all: 2).
-	filterField placeholderBuilder: [ :placeholder :e |
-			placeholder addChild:
-				((ToAttributedLabel text: ' Method name filter')
-					 foreground: Color lightGray;
-					 yourself) ].
-
 	sieve := treeElement newSieve.
+	filterField := sieve newTextField.
+	filterField placeholderString: 'Method name filter'.
 	treeElement dataAccessor addAll:
 		{ #AAA. #BBB. #CCC. #ABB. #ACC. #BAA. #BCC }.
 
@@ -4548,11 +4489,6 @@ ToSandBox class >> example_SieveOnTree [
 		node addChild: (ToLabel new text: dataItem printString) ].
 	
 	treeElement addEventHandlerOn: ToListPrimarySelectionChangedEvent do: [ :evt | self selectionChangedEvent: evt ].
-
-	filterField whenTextEditedDo: [
-			| pattern |
-			pattern := filterField text asString.
-			sieve pattern: pattern ].
 
 	pane addChild: treeElement.
 	pane addChild: filterField.
@@ -4567,19 +4503,13 @@ ToSandBox class >> example_SieveOnTreeWithClasses [
 		        beVertical;
 		        matchParent.
 
-	filterField := ToTextField new.
 	treeElement := ToTreeElement new.
 	treeElement childrenGetter: [ :dataItem | dataItem subclasses ].
 	data := SystemNavigation default allMethods.
 	treeElement withRowNumbers.
-	filterField margin: (BlInsets all: 2).
-	filterField placeholderBuilder: [ :placeholder :e |
-			placeholder addChild:
-				((ToAttributedLabel text: ' Method name filter')
-					 foreground: Color lightGray;
-					 yourself) ].
-
 	sieve := treeElement newSieve.
+	filterField := sieve newTextField.
+	filterField placeholderString: 'Class name filter'.
 	treeElement dataAccessor addAll:
 		(Smalltalk globals allClasses sorted: [ :a :b | a name < b name ]).
 
@@ -4588,11 +4518,6 @@ ToSandBox class >> example_SieveOnTreeWithClasses [
 
 	treeElement nodeBuilder: [ :node :dataItem :holder |
 		node addChild: (ToLabel new text: dataItem printString) ].
-
-	filterField whenTextEditedDo: [
-			| pattern |
-			pattern := filterField text asString.
-			sieve pattern: pattern ].
 
 	pane addChild: treeElement.
 	pane addChild: filterField.
@@ -4953,8 +4878,7 @@ ToSandBox class >> example_ThemeSelectNoDeselection [
 	| select |
 	select := self themeSelect.
 	select closeOnPicking: true.
-	select placeholderText:
-		('Select a Toplo theme' asRopedText foreground: Color lightGray).
+	select placeholderString: 'Select a Toplo theme'.
 	select
 		addEventHandlerOn: ToSelectChangedEvent
 		do: [ :event | event selectedData asString traceCr ].
@@ -4978,10 +4902,8 @@ ToSandBox class >> example_ThemeSelectWithPlaceholder [
 	win := ToInnerWindow new title: 'Operating system'.
 
 	choice := ToSingleSelectElement new.
-	choice placeholderText:
-		('Select an OS' asRopedText foreground: Color lightGray).
-	choice popupDataAccessor addAll:
-		{ 'OS-X'. 'Windows'. 'Linux' }.
+	choice placeholderString: 'Select an OS'.
+	choice popupDataAccessor addAll: { 'OS-X'. 'Windows'. 'Linux' }.
 	win pane addChild: choice.
 	win openInSpace
 ]
@@ -7143,16 +7065,14 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 	select := self selectWithEditingMultiSelection.
 	select popupMinHeight: 100.
 	select filtrable: true.
-	select placeholderText: ('Choose a class' asRopedText
-			 foreground: Color lightGray;
-			 yourself).
+	select placeholderString: 'Choose a class'.
 	select popupListElement placeholderBuilder: [ :placeholder :e |
-		placeholder layout alignCenter.
-		placeholder empty label:
-			(ToAttributedLabel text: ('No Data' asRopedText
-					  fontSize: 24;
-					  foreground: Color lightGray;
-					  yourself)) ].
+			placeholder layout alignCenter.
+			placeholder empty label:
+				(ToAttributedLabel text: ('No Data' asRopedText
+						  fontSize: 24;
+						  foreground: Color lightGray;
+						  yourself)) ].
 	select sieve dataFilter: [ :aClass :aPattern |
 		aClass name
 			includesSubstring: aPattern asString
@@ -9276,8 +9196,7 @@ ToSandBox class >> themeSelectNoDeselectionPopupOnTop [
 
 	| select |
 	select := self themeSelect.
-	select placeholderText:
-		('Select a Toplo theme' asRopedText foreground: Color lightGray).
+	select placeholderString: 'Select a Toplo theme'.
 	select
 		addEventHandlerOn: ToSelectChangedEvent
 		do: [ :event | event selectedData asString traceCr ].
@@ -9289,7 +9208,7 @@ ToSandBox class >> themeSelectNoDeselectionPopupOnTop [
 		(ToActionMeasurement new action: [ :w :evt |
 			 w root hFitContent ])."
 	select popupWindowPlacement: ToAnchoredTopCenterPlacement new.
-	^ select 
+	^ select
 ]
 
 { #category : #triplet }

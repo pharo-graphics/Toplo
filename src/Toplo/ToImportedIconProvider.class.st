@@ -73,15 +73,14 @@ ToImportedIconProvider class >> listElementWithAllIcons [
 			iconAssoc value prefix
 				includesSubstring: aPattern
 				caseSensitive: false ].
-	styleFilterField := ToTextField newForSieve: styleSieve.
-	styleFilterField placeholderText: 'style filter'.
+	styleFilterField := styleSieve newTextField.
+	styleFilterField placeholderString: 'style filter'.
 
 	iconNameSieve := l newSieve.
-	iconNameSieve onInstalledIn: l.
 	iconNameSieve dataFilter: [ :iconAssoc :aPattern |
 		iconAssoc key includesSubstring: aPattern caseSensitive: false ].
-	iconNameFilterField := ToTextField newForSieve: styleSieve.
-	iconNameFilterField placeholderText: 'icon name filter'.
+	iconNameFilterField := iconNameSieve newTextField.
+	iconNameFilterField placeholderString: 'icon name filter'.
 
 	filterPane := ToPane horizontal.
 	filterPane addChildren: {
@@ -104,7 +103,7 @@ ToImportedIconProvider class >> listElementWithAllIcons [
 									 element := (dataItem value
 										             iconNamed: dataItem key
 										             inProvider: icProvider)
-										            size: 100 asPoint;
+										            extent: 100 asPoint;
 										            yourself.
 									 element inspect ]) ] ].
 

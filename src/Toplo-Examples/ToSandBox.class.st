@@ -3813,19 +3813,20 @@ ToSandBox class >> example_SelectMaterialDesignIconMonoFiltrable [
 	select sample: select popupListElement dataAccessor first.
 
 	select dataViewBuilder: [ :dataItemView :iconDesc |
-		dataItemView addChild:
-			((iconDesc icon size: 48 asPoint) background: Color veryLightGray).
-		dataItemView addChild:
-			((ToLabel text: iconDesc style prefix , ' ' , iconDesc name)
-				 margin: (BlInsets all: 3);
-				 yourself).
-		dataItemView childrenDo: [ :child |
-			child constraintsDo: [ :c | c linear vertical alignCenter ] ] ].
+			dataItemView addChild:
+				((iconDesc icon extent: 48 asPoint) background:
+					 Color veryLightGray).
+			dataItemView addChild:
+				((ToLabel text: iconDesc style prefix , ' ' , iconDesc name)
+					 margin: (BlInsets all: 3);
+					 yourself).
+			dataItemView childrenDo: [ :child |
+				child constraintsDo: [ :c | c linear vertical alignCenter ] ] ].
 
 
 	select hMatchParent.
 	select placeholderString: 'Select an icon'.
-		
+
 	select openInSpace
 ]
 

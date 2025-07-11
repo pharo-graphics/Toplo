@@ -180,8 +180,9 @@ ToSkinStateGenerator >> mouseDownEvent: anEvent [
 { #category : #'mouse handlers' }
 ToSkinStateGenerator >> mouseEnterEvent: anEvent [
 
-	leaved := false.
+	anEvent primaryButtonPressed ifTrue: [ ^  self ].
 	target isEnabled ifFalse: [ ^ self ].
+	leaved := false.
 	self enqueueSkinState:
 		(ToTransientState skinEvent:
 			 (ToHoveredSkinEvent sourceEvent: anEvent))
@@ -191,8 +192,10 @@ ToSkinStateGenerator >> mouseEnterEvent: anEvent [
 ToSkinStateGenerator >> mouseLeaveEvent: anEvent [
 
 	leaved ifTrue: [ ^ self ].
-	leaved := true.
+	anEvent primaryButtonPressed ifTrue: [ ^  self ].
 	target isEnabled ifFalse: [ ^ self ].
+	leaved := true.
+
 	self enqueueSkinState:
 		(ToTransientState skinEvent:
 			 (ToLeftSkinEvent sourceEvent: anEvent))

@@ -33,12 +33,40 @@ ToDividerSkin >> hoveredSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToDividerSkin >> innerImageIn: aDivider [
+
+	^ aDivider isHorizontal
+		  ifTrue: [
+		  ToMaterialDesignIconProvider innerImageNamed: 'outlined_morehoriz' ]
+		  ifFalse: [
+		  ToMaterialDesignIconProvider innerImageNamed: 'outlined_morevert' ]
+]
+
+{ #category : #'event handling' }
 ToDividerSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e border: e defaultBorder.
-		e background: e defaultBackground ]
+			| im |
+			e border: e defaultBorder.
+			e background: e defaultBackground.
+			im := ToImage inner: (self innerImageIn: e).
+			im extent: 30 asPoint.
+			im innerImageColor: e pressedBackground.
+			e addChild: im.
+			im constraintsDo: [ :c |
+					c ignoreByLayout.
+					e isHorizontal
+						ifTrue: [
+								c anchors add: (c anchors verticalCenterAnchor on:
+										 c anchors parent verticalCenterAnchor).
+								c anchors add:
+									(c anchors horizontalCenterAnchor on: c anchors parent horizontalCenterAnchor) ]
+						ifFalse: [
+								c anchors add: (c anchors horizontalCenterAnchor on:
+										 c anchors parent horizontalCenterAnchor).
+								c anchors add:
+									(c anchors verticalCenterAnchor on: c anchors parent verticalCenterAnchor) ] ] ]
 ]
 
 { #category : #'event handling' }

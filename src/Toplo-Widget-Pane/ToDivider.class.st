@@ -6,7 +6,8 @@ Class {
 		'container',
 		'firstResizedElement',
 		'secondResizedElement',
-		'firstLayoutDone'
+		'firstLayoutDone',
+		'wasHorizontal'
 	],
 	#category : #'Toplo-Widget-Pane-Core'
 }
@@ -68,7 +69,7 @@ ToDivider >> container: aPane [
 { #category : #initialization }
 ToDivider >> defaultBackground [
 
-	^ Color veryLightGray alpha: 0.2
+	^ Color veryLightGray alpha: 0.1
 ]
 
 { #category : #initialization }
@@ -265,12 +266,17 @@ ToDivider >> newRawSkin [
 ToDivider >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
 	self canApplyLayoutOnPanes ifFalse: [ ^ self ].
+	wasHorizontal = self isHorizontal ifFalse: [
+		firstLayoutDone ifTrue: [ self requestNewSkin ] ].
+	wasHorizontal := self isHorizontal.
 	self checkFirstLayout.
-	self isHorizontal
-		ifTrue: [ self layoutInVerticalPaneWithContext: aBlElementBoundsUpdateContext ]
-		ifFalse: [ self layoutInHorizontalPaneWithContext: aBlElementBoundsUpdateContext ].
-	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
-
+	wasHorizontal
+		ifTrue: [
+		self layoutInVerticalPaneWithContext: aBlElementBoundsUpdateContext ]
+		ifFalse: [
+			self layoutInHorizontalPaneWithContext:
+				aBlElementBoundsUpdateContext ].
+	super onLayout: aBounds context: aBlElementBoundsUpdateContext
 ]
 
 { #category : #layout }

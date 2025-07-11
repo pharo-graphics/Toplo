@@ -16,6 +16,12 @@ ToTextField class >> newForSieve: aSieve [
 	^ textField
 ]
 
+{ #category : #'instance creation' }
+ToTextField class >> text: aText [
+
+	^ self new text: aText
+]
+
 { #category : #initialization }
 ToTextField >> defaultEditorElement [
 

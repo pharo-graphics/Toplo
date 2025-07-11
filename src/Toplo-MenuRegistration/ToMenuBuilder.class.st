@@ -18,9 +18,10 @@ ToMenuBuilder class >> aLittleMenu: aBuilder [
 
 	<toploWorldMenu1>
 	(aBuilder item: #Im)
-		label: 'Im - Label'; with: [
-		(aBuilder item: #aSuperMenu) label: 'a super menu ! - Label'.
-		(aBuilder item: #anUglyMenu) label: 'a ugly menu ! - Label' ]
+		label: 'Im - Label'; 
+		with: [
+			(aBuilder item: #aSuperMenu) label: 'a super menu ! - Label'.
+			(aBuilder item: #anUglyMenu) label: 'a ugly menu ! - Label' ]
 ]
 
 { #category : #examples }
@@ -137,7 +138,7 @@ ToMenuBuilder >> arrangeItems [
 	newCollectedItem := OrderedCollection new.
 	collectedItems do: [ :item |
 		(item parent isNil or:
-			 (self allNamedItems includes: item parent) not) ifTrue: [
+			 [ (self allNamedItems includes: item parent) not] ) ifTrue: [
 			newCollectedItem add: item ] ].
 	collectedItems := newCollectedItem.
 	self sortItems.
@@ -161,7 +162,7 @@ ToMenuBuilder >> changeParent: aMenuRegistration for: aSymbol [
 	| item |
 	item := self itemsNamed: aSymbol.
 	item isCollection ifTrue: [ self item: aSymbol ].
-	(item parent = aMenuRegistration name or: item parent isNil)
+	(item parent = aMenuRegistration name or: [ item parent isNil] )
 		ifFalse: [ self addConflict: WrongParentPlacement new ].
 	item groupName ifNil: [ item groupName: aMenuRegistration groupName ].
 	item parent: aMenuRegistration name
@@ -207,14 +208,6 @@ ToMenuBuilder >> currentRoot: aMenuRegistration [
 	currentRoot := aMenuRegistration
 ]
 
-{ #category : #querying }
-ToMenuBuilder >> findChild: aSymbol [
-
-	1 to: collectedItems size do: [ :ind |
-		(collectedItems at: ind) name = aSymbol ifTrue: [ ^ ind ] ].
-	^ 1
-]
-
 { #category : #'menu protocol' }
 ToMenuBuilder >> group: aSymbol [
 	"Create a new group"
@@ -247,12 +240,13 @@ ToMenuBuilder >> groupsNamed: aSymbol [
 ToMenuBuilder >> handleAddToParent: aMenuRegistration [
 
 	| parentMenu |
-	(aMenuRegistration parent isNil or:
-		 (self allNamedItems includes: aMenuRegistration parent) not)
+	(aMenuRegistration parent isNil or: [  
+		 (self allNamedItems includes: aMenuRegistration parent) not ] )
 		ifTrue: [
 			currentRoot addChild: aMenuRegistration.
 			^ self ].
-	((self itemsNamed: (aMenuRegistration parent)) isGroup)ifTrue: [ aMenuRegistration groupName: aMenuRegistration parent ].
+	((self itemsNamed: aMenuRegistration parent) isGroup)
+		ifTrue: [ aMenuRegistration groupName: aMenuRegistration parent ].
 	parentMenu := self lookUpForParent: aMenuRegistration parent.
 	aMenuRegistration parentMenuItem: parentMenu.
 	parentMenu addChild: aMenuRegistration.
@@ -262,9 +256,11 @@ ToMenuBuilder >> handleAddToParent: aMenuRegistration [
 { #category : #'error handling' }
 ToMenuBuilder >> handleDuplicatedShortcut: anItem [
 
-	(anItem shortcut isNil) ifTrue: [ ^ self ].
+	anItem shortcut ifNil: [ ^ self ].
 	collectedItems do: [ :item |
-		(anItem shortcut = item shortcut and: anItem ~= item) ifTrue: [ self addConflict: (DuplicatedShortcut new shortcut: anItem shortcut). ^ self ] ].
+		(anItem shortcut = item shortcut and: [ anItem ~= item] ) 
+			ifTrue: [ self addConflict: (DuplicatedShortcut new shortcut: anItem shortcut). 
+						^ self ] ].
 ]
 
 { #category : #'error handling' }
@@ -274,7 +270,7 @@ ToMenuBuilder >> handleGroupsUsage: anItem [
 	(self groups includes: anItem name) ifTrue: [ ^ self ].
 	anItem parentMenuItem ifNotNil: [
 		(anItem groupName isNil and:
-			 anItem parentMenuItem groupName isNotNil) ifTrue: [
+			 [ anItem parentMenuItem groupName isNotNil]) ifTrue: [
 			anItem groupName: anItem parentMenuItem groupName ] ].
 	anItem groupName ifNil: [ ^ self ].
 	(self isAnExistingGroup: anItem groupName) ifFalse: [
@@ -287,8 +283,8 @@ ToMenuBuilder >> handleUnknownParent: anItem [
 
 	| pName |
 	pName := anItem parent.
-	((self allNamedItems includes: pName) or: pName isNil) ifTrue: [
-		^ self ].
+	((self allNamedItems includes: pName) or: [ pName isNil]) 
+		ifTrue: [ ^ self ].
 	self addConflict: ParentNotFound new.
 	anItem parentMenuItem: nil
 ]
@@ -303,6 +299,14 @@ ToMenuBuilder >> hasConflict [
 ToMenuBuilder >> hasNoConflict [
 
 	^ conflicts isEmpty
+]
+
+{ #category : #querying }
+ToMenuBuilder >> indexOfChildNamed: aSymbol [
+
+	1 to: collectedItems size do: [ :ind |
+		(collectedItems at: ind) name = aSymbol ifTrue: [ ^ ind ] ].
+	^ 1
 ]
 
 { #category : #initialization }
@@ -353,7 +357,7 @@ ToMenuBuilder >> itemsNamed: aSymbol [
 ToMenuBuilder >> lookUpForParent: aMenuRegistration [
 	|item|
 	aMenuRegistration ifNil: [ ^ currentRoot ].
-	item := (self itemsNamed: aMenuRegistration).
+	item := self itemsNamed: aMenuRegistration.
 	item isGroup ifFalse: [
 		^ item ].
 	^ self lookUpForParent: item parent
@@ -362,7 +366,7 @@ ToMenuBuilder >> lookUpForParent: aMenuRegistration [
 { #category : #querying }
 ToMenuBuilder >> onlyItems [
 
-	^ collectedItems select: [ :item | item isGroup = false ]
+	^ collectedItems select: [ :item | item isGroup not ]
 ]
 
 { #category : #accessing }
@@ -379,7 +383,6 @@ ToMenuBuilder >> pragmaKeywords: aCollectionOfSymbol [
 
 { #category : #'spec accessing' }
 ToMenuBuilder >> pragmas [
-
 	"Return all pragmas which keyword is self pragmaKeyword"
 
 	^ (self pragmaKeywords flatCollect: [ :each | Pragma allNamed: each ])
@@ -411,5 +414,5 @@ ToMenuBuilder >> sortedTree: aMenuRegistration [
 
 { #category : #'spec accessing' }
 ToMenuBuilder >> withSeparatorAfter [
-	currentRoot withSeparatorAfter.
+	currentRoot withSeparatorAfter
 ]

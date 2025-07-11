@@ -392,7 +392,9 @@ ToAbstractListElement >> newRawSkin [
 { #category : #'instance creation' }
 ToAbstractListElement >> newSieve [
 
-	^ ToListElementSieve new
+	^ self sieveClass new
+		  onInstalledIn: self;
+		  yourself
 ]
 
 { #category : #'instance creation' }
@@ -595,6 +597,12 @@ ToAbstractListElement >> selectionModes [
 ToAbstractListElement >> selectionOption [
 
 	^ self primarySelectionMode selectionOption
+]
+
+{ #category : #'instance creation' }
+ToAbstractListElement >> sieveClass [
+
+	^ ToListElementSieve
 ]
 
 { #category : #'accessing selecters' }

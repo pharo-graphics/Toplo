@@ -63,6 +63,13 @@ ToSievedListDataSourceEventHandler >> listElement: aListElement [
 	listElement := aListElement
 ]
 
+{ #category : #'api - hooks' }
+ToSievedListDataSourceEventHandler >> onInstalledIn: aDataSource [
+
+	super onInstalledIn: aDataSource.
+	self buildOriginalIndexMap 
+]
+
 { #category : #accessing }
 ToSievedListDataSourceEventHandler >> sieve: aListElementSieve [
 

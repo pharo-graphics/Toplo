@@ -502,7 +502,6 @@ ToSandBox class >> exampleAccordionListWithClassComments [
 	list withRowNumbers.
 	list selectionMode multiple: true.
 	sieve := list newSieve.
-	sieve onInstalledIn: list.
 	sieve dataFilter: [ :item :aPattern |
 		item name beginsWith: aPattern caseSensitive: false ].
 
@@ -4305,7 +4304,6 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 	filterField margin: (BlInsets all: 2).
 
 	sieve := listElement newSieve.
-	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll: data.
 
 	filterField whenTextEditedDo: [
@@ -4354,7 +4352,6 @@ ToSandBox class >> example_SieveOnList2With_175000_Items [
 	listElement withRowNumbers.
 	filterField margin: (BlInsets all: 2).
 	sieve := listElement newSieve.
-	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll: data.
 
 	listElement dataAccessor size traceCr.
@@ -4392,7 +4389,6 @@ ToSandBox class >> example_SieveOnList2With_AllClassNames [
 		(Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
 
 	sieve := listElement newSieve.
-	sieve onInstalledIn: listElement.
 
 	filterField := ToTextField newForSieve: sieve.
 	filterField placeholderText: 'Method name filter'.
@@ -4426,7 +4422,6 @@ ToSandBox class >> example_SieveOnList2With_AllMethods [
 		(' Method name filter' asRopedText foreground: Color lightGray).
 
 	sieve := listElement newSieve.
-	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll: data.
 	listElement
 		addEventHandlerOn: ToSieveSelectionChangedEvent
@@ -4471,7 +4466,6 @@ ToSandBox class >> example_SieveOnList2With_AllMethods_OnCR [
 	filterField margin: (BlInsets all: 2).
 
 	sieve := listElement newSieve.
-	sieve onInstalledIn: listElement.
 	listElement dataAccessor addAll: data.
 
 	sieve dataFilter: [ :aCompiledMethod :aPattern |
@@ -4544,7 +4538,6 @@ ToSandBox class >> example_SieveOnTree [
 					 yourself) ].
 
 	sieve := treeElement newSieve.
-	sieve onInstalledIn: treeElement.
 	treeElement dataAccessor addAll:
 		{ #AAA. #BBB. #CCC. #ABB. #ACC. #BAA. #BCC }.
 
@@ -4587,7 +4580,6 @@ ToSandBox class >> example_SieveOnTreeWithClasses [
 					 yourself) ].
 
 	sieve := treeElement newSieve.
-	sieve onInstalledIn: treeElement.
 	treeElement dataAccessor addAll:
 		(Smalltalk globals allClasses sorted: [ :a :b | a name < b name ]).
 

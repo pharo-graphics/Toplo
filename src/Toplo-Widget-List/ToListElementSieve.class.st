@@ -149,6 +149,8 @@ ToListElementSieve >> onInstalledIn: aListElement [
 ToListElementSieve >> onUninstalledIn: aListElement [
 	" uninstall list element handlers and the queyrunner properly "
 
+	" one have to consume commands that could have been postponed "
+	aListElement consumeFinalStepCommands.
 	aListElement removeEventHandler: listElementHandler.
 	aListElement dataSource removeEventHandler: dataSourceHandler.
 	self uninstallFilterIn: aListElement.

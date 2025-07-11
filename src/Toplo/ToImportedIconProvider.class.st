@@ -69,7 +69,6 @@ ToImportedIconProvider class >> listElementWithAllIcons [
 								          (iconNames collect: [ :n | n -> style ]) ] ] ].
 
 	styleSieve := l newSieve.
-	styleSieve onInstalledIn: l.
 	styleSieve dataFilter: [ :iconAssoc :aPattern |
 			iconAssoc value prefix
 				includesSubstring: aPattern

@@ -166,7 +166,6 @@ ToExMiniBrowser >> newPackagePane [
 		placeholder empty labelText: 'No package ' ].
 
 	pkgSieve := packages newSieve.
-	pkgSieve onInstalledIn: packages.
 	" the package selection is lost in case of a new filter "
 	pkgSieve
 		addEventHandlerOn: ToSievePatternChangedEvent

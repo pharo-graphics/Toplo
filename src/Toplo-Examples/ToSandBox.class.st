@@ -402,7 +402,7 @@ ToSandBox class >> buildSelectListElementIn: aSelectElement withIconProvider: an
 			node childrenDo: [ :child |
 				child constraintsDo: [ :c | c linear vertical alignCenter ] ] ].
 
-	aSelectElement sieve dataFilter: [ :iconDesc :pattern |
+	aSelectElement sieve filter: [ :iconDesc :pattern |
 			(iconDesc style prefix
 				 includesSubstring: pattern
 				 caseSensitive: true) or: [
@@ -495,7 +495,7 @@ ToSandBox class >> exampleAccordionListWithClassComments [
 	list withRowNumbers.
 	list selectionMode multiple: true.
 	sieve := list newSieve.
-	sieve dataFilter: [ :item :aPattern |
+	sieve filter: [ :item :aPattern |
 		item name beginsWith: aPattern caseSensitive: false ].
 	filterField := sieve newTextField.
 	filterField placeholderString:  'Class name filter'.
@@ -2217,9 +2217,9 @@ ToSandBox class >> example_FilterOnList2WithStatesOfAmerica [
 	listElement margin: (BlInsets all: 2).
 	filterField margin: (BlInsets all: 2).
 
-	selector := ToObservableCollectionFilter new.
+	selector := ToObservableCollectionFilterApplier new.
 	listElement dataAccessor
-		addEventHandlerOn: ToObservableCollectionFilterAppliedEvent
+		addEventHandlerOn: ToObservableCollectionFilterApplierEvent
 		do: [ :event |
 			listElement selecter selectOnlyIndexes: event selectedIndexes ].
 	listElement dataAccessor addAll: data.
@@ -3950,7 +3950,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	select popupListElement nodeBuilder: [ :node :stateColorAssoc :holder |
 		node addChild: (newTagFactory value: stateColorAssoc) hMatchParent; yourself].
 
-	select sieve dataFilter: [ :stateAssoc :pattern |
+	select sieve filter: [ :stateAssoc :pattern |
 		stateAssoc key beginsWith: pattern caseSensitive: false ].
 
 	select hideSelected: false.
@@ -4354,7 +4354,7 @@ ToSandBox class >> example_SieveOnList2With_AllClassNames [
 	listElement nodeBuilder: [ :node :dataItem :holder |
 		node addChild: (ToLabel new text: dataItem printString) ].
 
-	sieve dataFilter: [ :aClass :aPattern |
+	sieve filter: [ :aClass :aPattern |
 		aClass name includesSubstring: aPattern caseSensitive: false ].
 
 
@@ -4385,7 +4385,7 @@ ToSandBox class >> example_SieveOnList2With_AllMethods [
 			event selectionModel selectedIndexes traceCr ].
 	listElement nodeBuilder: [ :node :dataItem :holder |
 		node addChild: (ToLabel new text: dataItem printString) ].
-	sieve dataFilter: [ :aCompiledMethod :aPattern |
+	sieve filter: [ :aCompiledMethod :aPattern |
 		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
 	pane addChild: listElement.
 	pane addChild: filterField.
@@ -4418,7 +4418,7 @@ ToSandBox class >> example_SieveOnList2With_AllMethods_OnCR [
 	filterField := sieve newTextField.
 	listElement dataAccessor addAll: data.
 
-	sieve dataFilter: [ :aCompiledMethod :aPattern |
+	sieve filter: [ :aCompiledMethod :aPattern |
 		aCompiledMethod selector beginsWith: aPattern caseSensitive: true ].
 
 	listElement nodeBuilder: [ :node :dataItem :holder |
@@ -4482,7 +4482,7 @@ ToSandBox class >> example_SieveOnTree [
 	treeElement dataAccessor addAll:
 		{ #AAA. #BBB. #CCC. #ABB. #ACC. #BAA. #BCC }.
 
-	sieve dataFilter: [ :aString :aPattern |
+	sieve filter: [ :aString :aPattern |
 		aString includesSubstring: aPattern caseSensitive: false ].
 
 	treeElement nodeBuilder: [ :node :dataItem :holder |
@@ -4513,7 +4513,7 @@ ToSandBox class >> example_SieveOnTreeWithClasses [
 	treeElement dataAccessor addAll:
 		(Smalltalk globals allClasses sorted: [ :a :b | a name < b name ]).
 
-	sieve dataFilter: [ :aClass :aPattern |
+	sieve filter: [ :aClass :aPattern |
 		aClass name includesSubstring: aPattern caseSensitive: false ].
 
 	treeElement nodeBuilder: [ :node :dataItem :holder |
@@ -7073,7 +7073,7 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 						  fontSize: 24;
 						  foreground: Color lightGray;
 						  yourself)) ].
-	select sieve dataFilter: [ :aClass :aPattern |
+	select sieve filter: [ :aClass :aPattern |
 		aClass name
 			includesSubstring: aPattern asString
 			caseSensitive: false ].
@@ -9184,7 +9184,7 @@ ToSandBox class >> themeSelect [
 	select popupListElement nodeBuilder: [ :node :themeAssoc :holder |
 		node addChild: (ToLabel text: themeAssoc key) ].
 
-	select sieve dataFilter: [ :themeAssoc :pattern |
+	select sieve filter: [ :themeAssoc :pattern |
 		themeAssoc key beginsWith: pattern caseSensitive: true ].
 
 	select popupListElement dataAccessor addAll: themes.

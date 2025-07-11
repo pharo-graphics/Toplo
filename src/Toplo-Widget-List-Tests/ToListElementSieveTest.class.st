@@ -40,7 +40,7 @@ ToListElementSieveTest >> testCurrentData [
 	When the sieve  has a pattern, the original data is untouched even the list data source is updated"
 
 	| passedInHandler |
-	sieve dataFilter: [ :anInteger :aPattern |
+	sieve filter: [ :anInteger :aPattern |
 		anInteger < aPattern asInteger ].
 	self assert: sieve currentData isEmpty.
 	list dataAccessor addAll: (1 to: 10).
@@ -145,7 +145,7 @@ ToListElementSieveTest >> testOriginalData [
 	When the sieve  has a pattern, the original data is untouched even the list data source is updated"
 
 	| passedInHandler |
-	sieve dataFilter: [ :anInteger :aPattern |
+	sieve filter: [ :anInteger :aPattern |
 		anInteger < aPattern asInteger ].
 	self assert: sieve currentData isEmpty.
 	list dataAccessor addAll: (1 to: 10).

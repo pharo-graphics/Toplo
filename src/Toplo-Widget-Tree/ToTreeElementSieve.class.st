@@ -5,10 +5,10 @@ Class {
 }
 
 { #category : #accessing }
-ToTreeElementSieve >> dataFilter: aValuable [
+ToTreeElementSieve >> filter: aValuable [
 	" filter takes a wrapped data and a pattern as argument "
 
-	super dataFilter: [ :item :pattern |
+	super filter: [ :item :pattern |
 		aValuable value: item unwrapped value: pattern ]
 ]
 

@@ -167,7 +167,7 @@ ToExMiniBrowser >> newPackagePane [
 		addEventHandlerOn: ToSievePatternChangedEvent
 		do: [ :event | packages selecter deselectAll ].
 
-	pkgSieve dataFilter: [ :aPackage :aPattern |
+	pkgSieve filter: [ :aPackage :aPattern |
 			aPackage name
 				includesSubstring: aPattern asString
 				caseSensitive: false ].

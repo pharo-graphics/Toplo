@@ -1,5 +1,5 @@
 Class {
-	#name : #ToObservableCollectionFilterAppliedEvent,
+	#name : #ToObservableCollectionFilterApplierEvent,
 	#superclass : #BlEvent,
 	#instVars : [
 		'pattern',
@@ -9,31 +9,31 @@ Class {
 }
 
 { #category : #accessing }
-ToObservableCollectionFilterAppliedEvent >> pattern [
+ToObservableCollectionFilterApplierEvent >> pattern [
 
 	^  pattern ifNil: [ pattern := '' ]
 ]
 
 { #category : #accessing }
-ToObservableCollectionFilterAppliedEvent >> pattern: aString [
+ToObservableCollectionFilterApplierEvent >> pattern: aString [
 
 	pattern := aString
 ]
 
 { #category : #accessing }
-ToObservableCollectionFilterAppliedEvent >> selectedIndexes [
+ToObservableCollectionFilterApplierEvent >> selectedIndexes [
 
 	^ selectedIndexes ifNil: [ selectedIndexes := #(  ) ]
 ]
 
 { #category : #accessing }
-ToObservableCollectionFilterAppliedEvent >> selectedIndexes: anIntegerCollection [
+ToObservableCollectionFilterApplierEvent >> selectedIndexes: anIntegerCollection [
 
 	selectedIndexes := anIntegerCollection
 ]
 
 { #category : #sending }
-ToObservableCollectionFilterAppliedEvent >> sendTo: anObject [
+ToObservableCollectionFilterApplierEvent >> sendTo: anObject [
 
 	anObject observableCollectionFilterAppliedEvent: self
 ]

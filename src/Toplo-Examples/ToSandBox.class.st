@@ -2237,6 +2237,45 @@ ToSandBox class >> example_FilterOnList2WithStatesOfAmerica [
 ]
 
 { #category : #float }
+ToSandBox class >> example_FloatArrowsAraoundACircle [
+
+	| pane floatLayer circle |
+	pane := ToPane new matchParent.
+
+	floatLayer := ToFloatOverlay new.
+	floatLayer attachToParent: pane.
+	
+	circle := ToElement new
+		          extent: 40 asPoint;
+		          yourself.
+	circle geometry: BlCircleGeometry new.
+	circle margin: (BlInsets all: 15).
+	circle constraintsDo: [ :c |
+			c anchors add:
+				(c anchors bottomRightAnchor on: c anchors parent bottomRightAnchor - 50) ].
+	circle border: Color lightGray.
+	floatLayer addChild: circle.
+	{
+		('up' -> 0).
+		('right' -> 90).
+		('down' -> 180).
+		('left' -> 270) } do: [ :assoc |
+			| but |
+			but := (ToIconicButton new iconImage:
+				       (ToMaterialDesignIconProvider innerImageNamed:
+					        'outlined_keyboardarrow' , assoc key)) .
+			but extent: 20 asPoint.
+			but := but asFloatElement.
+			but geometry: BlCircleGeometry new.
+			but constraintsDo: [ :c |
+					c anchors add: (c anchors centerAnchor on:
+							 (circle perimeterAnchor degrees: assoc value)) ].
+			floatLayer addChild: but ].
+
+	pane openInInnerWindow
+]
+
+{ #category : #float }
 ToSandBox class >> example_Floats [
 
 	| rightBtn leftBtn pane floatLayer textField floatContainer |
@@ -2250,26 +2289,22 @@ ToSandBox class >> example_Floats [
 	leftBtn extent: 25 asPoint.
 	textField := ToTextField new
 		             width: 150;
-		             placeholderBuilder: [ :placeholder :e |
-				             placeholder addChild: (ToAttributedLabel new
-							              text: ('Name' asRopedText
-									               foreground: Color lightGray;
-									               italic);
-							              yourself) ].
+		             placeholderString: 'Name';
+		             yourself.
 
 	pane := ToPane new matchParent.
 
 	floatLayer := ToFloatOverlay new.
 	floatLayer attachToParent: pane.
 	floatContainer := ToFloatContainer new.
-	floatContainer addChild: textField asFloatElement.
-	floatContainer addChild: leftBtn asFloatElement.
-	floatContainer addChild: rightBtn asFloatElement.
+	floatContainer addChild: textField.
+	floatContainer addChild: leftBtn.
+	floatContainer addChild: rightBtn.
 	floatContainer constraintsDo: [ :c |
 			c anchors add:
-				(floatContainer rightAnchor on: floatLayer rightAnchor - 10).
+				(c anchors rightAnchor on: c anchors parent rightAnchor - 10).
 			c anchors add:
-				(floatContainer bottomAnchor on: floatLayer bottomAnchor - 10) ].
+				(c anchors bottomAnchor on: c anchors parent bottomAnchor - 10) ].
 	floatLayer addChild: floatContainer.
 
 	pane openInInnerWindow
@@ -4720,6 +4755,41 @@ ToSandBox class >> example_SkinEventTrace [
 			 on: ToSkinEvent
 			 do: [ :evt | evt target = but ifTrue: [ evt traceCr ] ]).
 	but openInSpace
+]
+
+{ #category : #label }
+ToSandBox class >> example_SkinIsRenewWhenLableTextChange [
+
+	| labelToChange buttonToChange button space |
+	labelToChange := ToLabel new
+		                 text: 'hello world';
+		                 addStamp: #danger;
+		                 position: 0 @ 50;
+		                 yourself.
+	buttonToChange := ToButton new
+		                  labelText: 'hello world';
+		                  addStamp: #primary;
+		                  position: 100 @ 50;
+		                  yourself.
+	button := ToButton new
+		          labelText: 'Change the label';
+		          addEventHandlerOn: BlClickEvent do: [
+				          labelToChange
+					          text: 'goodbye sky';
+					          requestNewSkin.
+				          buttonToChange
+					          labelText: 'goodbye sky';
+					          requestNewSkin ];
+		          yourself.
+
+
+	space := BlSpace new.
+	space root addChild: button.
+	space root addChild: labelToChange.
+	space root addChild: buttonToChange.
+	space show.
+
+	space toTheme: ToBeeTheme new
 ]
 
 { #category : #image }

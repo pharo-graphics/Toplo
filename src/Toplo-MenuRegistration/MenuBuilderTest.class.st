@@ -25,7 +25,7 @@ MenuBuilderTest >> testBeforeResolveSimpleItemNoParentAvailable [
 		equals: #Tools
 ]
 
-{ #category : #'tests - Pragma' }
+{ #category : #'tests - pragma' }
 MenuBuilderTest >> testBuilderBeforePragmasCollectedItems [
 
 	| builder |
@@ -35,13 +35,39 @@ MenuBuilderTest >> testBuilderBeforePragmasCollectedItems [
 		assert: builder collectedItems size 
 		equals: 3.
 		
-	self assert: (builder indexOfChildNamed: #Im) equals: 1.
-	self assert: (builder indexOfChildNamed: #aSuperMenu) equals: 2.
-	self assert: (builder indexOfChildNamed: #anUglyMenu) equals: 3.
+	self assert: (builder indexOfChildNamed: 'RootWithTwoChildren') equals: 1.
+	self assert: (builder indexOfChildNamed: 'Child1') equals: 2.
+	self assert: (builder indexOfChildNamed: 'Child2') equals: 3.
 	
 ]
 
-{ #category : #'tests - Pragma' }
+{ #category : #'tests - pragma' }
+MenuBuilderTest >> testBuilderCollectsAndResolvesPragmasCollectedItems [
+	
+	| builder |
+	builder := ToMenuBuilder pragmaKeywords: { #toploWorldMenu1 }.
+	builder 
+		collectRegistrations; 	
+		resolve.
+	self assert: builder collectedItems size equals: 1.
+	self assert: builder collectedItems first name equals:  'RootWithTwoChildren'.
+	self assert: builder collectedItems first childrenItems size equals: 2.
+]
+
+{ #category : #'tests - pragma' }
+MenuBuilderTest >> testBuilderCollectsItems [
+	
+	| builder namesOfItems |
+	builder := ToMenuBuilder pragmaKeywords: { #toploWorldMenu1 }.
+	builder collectRegistrations. 	
+	self assert: builder collectedItems size equals: 3. 
+	
+	namesOfItems := { 'RootWithTwoChildren' . 'Child1' . 'Child2' }. 
+	builder collectedItems do: [ :each | self assert: (namesOfItems includes: each name) ].
+	
+]
+
+{ #category : #'tests - pragma' }
 MenuBuilderTest >> testBuilderPragmas [
 
 	| prgas |
@@ -53,14 +79,6 @@ MenuBuilderTest >> testBuilderPragmas [
 		assert: prgas first selector
 		equals: #toploWorldMenu1.
 		
-]
-
-{ #category : #'tests - Pragma' }
-MenuBuilderTest >> testBuilderResolvePragmasCollectedItems [
-
-	self 
-		assert: self toploExampleMenu collectedItems size 
-		equals: 1.
 ]
 
 { #category : #'tests - conflicts' }
@@ -264,6 +282,47 @@ MenuBuilderTest >> testDuplicatedIdenticalItemWithDifferentChild [
 		assert: builder hasConflict
 ]
 
+{ #category : #'tests - groups' }
+MenuBuilderTest >> testItemInAnUndeclaredGroupCreatesGroup [
+
+	| builder |
+	builder := ToMenuBuilder new.
+
+	(builder item: #Tools)
+		label: 'The root tools';
+		groupName: #OurGroup.
+
+	builder resolve.
+	self 
+		assert: builder groups size 
+		equals: 1.
+	self assert: (builder groups includes: #OurGroup).
+	self 
+		assert: (builder groupsNamed: #OurGroup) childrenItems first name 
+		equals: #Tools
+]
+
+{ #category : #'tests - groups' }
+MenuBuilderTest >> testItemInGroupAlreadyDeclared [
+
+	| builder |
+	builder := ToMenuBuilder new.
+	builder group: #OurGroup.
+
+	(builder item: #Tools)
+		label: 'The root tools';
+		groupName: #OurGroup.
+	builder resolve.
+	self flag: #tofix. 
+	"We should only get one item: the group and it should have tools as children"
+	self 
+		assert: builder collectedItems size 
+		equals: 2.
+	self
+		assert: (builder groupsNamed: #OurGroup) childrenItems first name
+		equals: #Tools
+]
+
 { #category : #tests }
 MenuBuilderTest >> testOrderedTree [
 
@@ -369,7 +428,6 @@ MenuBuilderTest >> testResolveWithDeclaresOneItemWithAChild [
 
 	(builder item: #MyMenu)
 		parent: #Tools;
-		"place me as a child of the #Tools node (declared by #toolsOn:)"
 		label: 'The coolest tool here';
 		with: [
 			(builder item: #MyMenuChild)
@@ -378,8 +436,12 @@ MenuBuilderTest >> testResolveWithDeclaresOneItemWithAChild [
 
 	builder resolve.
 
+	"The parent item is not defined and the resolve phase does not define it."
 	self assert: builder collectedItems size equals: 1.
+	self assert: builder collectedItems first name equals: #MyMenu.
 
+	self assert: builder conflicts first class equals: ParentNotFound.
+	
 	self
 		assert:
 		(builder itemsNamed: #MyMenu) childrenItems first label
@@ -475,61 +537,29 @@ MenuBuilderTest >> testSimpleItemBeforeParentDefinition [
 		equals: #Tools
 ]
 
-{ #category : #tests }
-MenuBuilderTest >> testSimpleItemInAnUndeclaredGroupCreatesGroup [
-
-	| builder |
-	builder := ToMenuBuilder new.
-
-	(builder item: #Tools)
-		label: 'The root tools';
-		groupName: #OurGroup.
-
-	builder resolve.
-	self 
-		assert: builder groups size 
-		equals: 1.
-	self assert: (builder groups includes: #OurGroup).
-	self 
-		assert: (builder groupsNamed: #OurGroup) childrenItems first name 
-		equals: #Tools
-]
-
-{ #category : #tests }
-MenuBuilderTest >> testSimpleItemInGroupAlreadyDeclared [
-
-	| builder |
-	builder := ToMenuBuilder new.
-	builder group: #OurGroup.
-
-	(builder item: #Tools)
-		label: 'The root tools';
-		groupName: #OurGroup.
-	builder resolve.
-	
-	self 
-		assert: builder collectedItems size 
-		equals: 2.
-	self
-		assert: (builder groupsNamed: #OurGroup) childrenItems first name
-		equals: #Tools
-]
-
 { #category : #'tests - resolve phase' }
 MenuBuilderTest >> testSimpleItemWithItemNoParentDeclared [
 
-	| builder |
+	| builder conflict |
 	builder := ToMenuBuilder new.
 
 	(builder item: #MyOwnCoolMenu)
 		parent: #Tools;
-		"place me as a child of the #Tools node (declared by #toolsOn:)"
 		label: 'The coolest tool here';
 		with: [
 			(builder item: #MyOwnCoolTool) label: 'My own cool tool also here' ].
 	builder resolve.
 
 	self assert: builder collectedItems size equals: 1.
+	self assert: builder collectedItems first name equals: #MyOwnCoolMenu.
+	conflict := builder conflicts first.
+	self assert: conflict class equals: ParentNotFound.
+	self assert: conflict name equals: #Tools.
+	self assert: conflict itemName equals: #MyOwnCoolMenu.
+
+
+
+
 	self
 		assert: (builder itemsNamed: #MyOwnCoolMenu) parent
 		equals: #Tools.
@@ -541,8 +571,7 @@ MenuBuilderTest >> testSimpleItemWithItemNoParentDeclared [
 
 	self
 		assert:
-			(builder itemsNamed: #MyOwnCoolMenu) childrenItems first
-				parent
+			(builder itemsNamed: #MyOwnCoolMenu) childrenItems first parent
 		equals: #MyOwnCoolMenu
 ]
 
@@ -690,6 +719,22 @@ MenuBuilderTest >> testThreeDepth [
 	self assert: builder collectedItems size equals: 3
 ]
 
+{ #category : #'tests - groups' }
+MenuBuilderTest >> testTwoGroupDeclarationWithSameNameCreatesOnlyOneGroup [
+	| builder |
+	builder := ToMenuBuilder new.
+	builder group: #OurGroup.
+	builder group: #OurGroup.
+	builder resolve.
+	
+	self 
+		assert: builder collectedItems size 
+		equals: 2.
+	self
+		assert: (builder groupsNamed: #OurGroup) childrenItems first name
+		equals: #Tools
+]
+
 { #category : #'tests - todo' }
 MenuBuilderTest >> testTwoGroupsWithSameName [
 
@@ -746,9 +791,9 @@ MenuBuilderTest >> toploExampleMenu [
 ]
 
 { #category : #examples }
-MenuBuilderTest >> toploExampleMenuBuilder: aClass [
+MenuBuilderTest >> toploExampleMenuBuilder: aBuilderClass [
 
-	^ (aClass pragmaKeyword: #toploWorldMenu1)
+	^ (aBuilderClass pragmaKeyword: #toploWorldMenu1)
 		  collectRegistrations;
 		  resolve;
 		  yourself

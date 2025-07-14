@@ -3,7 +3,7 @@ I'm a simple report element for menu registration.
 "
 Class {
 	#name : #DuplicatedItem,
-	#superclass : #Object,
+	#superclass : #ProblemReport,
 	#instVars : [
 		'itemName'
 	],

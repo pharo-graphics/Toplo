@@ -17,11 +17,11 @@ Class {
 ToMenuBuilder class >> aLittleMenu: aBuilder [
 
 	<toploWorldMenu1>
-	(aBuilder item: #Im)
-		label: 'Im - Label'; 
+	(aBuilder item: #RootWithTwoChildren)
+		label: 'Root - Label'; 
 		with: [
-			(aBuilder item: #aSuperMenu) label: 'a super menu ! - Label'.
-			(aBuilder item: #anUglyMenu) label: 'a ugly menu ! - Label' ]
+			(aBuilder item: #Child1) label: 'Child 1 - Label'.
+			(aBuilder item: #Child2) label: 'Child 2 - Label' ]
 ]
 
 { #category : #examples }
@@ -100,9 +100,9 @@ ToMenuBuilder class >> exampleWorldMenu [
 
 { #category : #accessing }
 ToMenuBuilder class >> pragmaKeyword: aPragmaKeyword [
-	"Build a builder using aPragmaKeyword as the pragma keyword "
+	"Build a builder using aPragmaKeyword as the pragma keyword"
 	
-	^ self new pragmaKeywords: {aPragmaKeyword}
+	^ self new pragmaKeywords: { aPragmaKeyword }
 ]
 
 { #category : #accessing }
@@ -285,7 +285,7 @@ ToMenuBuilder >> handleUnknownParent: anItem [
 	pName := anItem parent.
 	((self allNamedItems includes: pName) or: [ pName isNil]) 
 		ifTrue: [ ^ self ].
-	self addConflict: ParentNotFound new.
+	self addConflict: (ParentNotFound new name: pName; itemName: anItem name).
 	anItem parentMenuItem: nil
 ]
 

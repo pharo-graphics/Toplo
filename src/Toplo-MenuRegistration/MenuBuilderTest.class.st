@@ -540,7 +540,7 @@ MenuBuilderTest >> testSimpleItemBeforeParentDefinition [
 { #category : #'tests - resolve phase' }
 MenuBuilderTest >> testSimpleItemWithItemNoParentDeclared [
 
-	| builder |
+	| builder conflict |
 	builder := ToMenuBuilder new.
 
 	(builder item: #MyOwnCoolMenu)
@@ -552,7 +552,10 @@ MenuBuilderTest >> testSimpleItemWithItemNoParentDeclared [
 
 	self assert: builder collectedItems size equals: 1.
 	self assert: builder collectedItems first name equals: #MyOwnCoolMenu.
-	self assert: builder conflicts first class equals: ParentNotFound.
+	conflict := builder conflicts first.
+	self assert: conflict class equals: ParentNotFound.
+	self assert: conflict name equals: #Tools.
+	self assert: conflict itemName equals: #MyOwnCoolMenu.
 
 
 

@@ -285,7 +285,7 @@ ToMenuBuilder >> handleUnknownParent: anItem [
 	pName := anItem parent.
 	((self allNamedItems includes: pName) or: [ pName isNil]) 
 		ifTrue: [ ^ self ].
-	self addConflict: ParentNotFound new.
+	self addConflict: (ParentNotFound new name: pName; itemName: anItem name).
 	anItem parentMenuItem: nil
 ]
 

@@ -25,7 +25,7 @@ MenuBuilderTest >> testBeforeResolveSimpleItemNoParentAvailable [
 		equals: #Tools
 ]
 
-{ #category : #'tests - Pragma' }
+{ #category : #'tests - pragma' }
 MenuBuilderTest >> testBuilderBeforePragmasCollectedItems [
 
 	| builder |
@@ -41,7 +41,7 @@ MenuBuilderTest >> testBuilderBeforePragmasCollectedItems [
 	
 ]
 
-{ #category : #'tests - Pragma' }
+{ #category : #'tests - pragma' }
 MenuBuilderTest >> testBuilderCollectsAndResolvesPragmasCollectedItems [
 	
 	| builder |
@@ -54,7 +54,7 @@ MenuBuilderTest >> testBuilderCollectsAndResolvesPragmasCollectedItems [
 	self assert: builder collectedItems first childrenItems size equals: 2.
 ]
 
-{ #category : #'tests - Pragma' }
+{ #category : #'tests - pragma' }
 MenuBuilderTest >> testBuilderCollectsItems [
 	
 	| builder namesOfItems |
@@ -67,7 +67,7 @@ MenuBuilderTest >> testBuilderCollectsItems [
 	
 ]
 
-{ #category : #'tests - Pragma' }
+{ #category : #'tests - pragma' }
 MenuBuilderTest >> testBuilderPragmas [
 
 	| prgas |
@@ -282,6 +282,46 @@ MenuBuilderTest >> testDuplicatedIdenticalItemWithDifferentChild [
 		assert: builder hasConflict
 ]
 
+{ #category : #'tests - groups' }
+MenuBuilderTest >> testItemInAnUndeclaredGroupCreatesGroup [
+
+	| builder |
+	builder := ToMenuBuilder new.
+
+	(builder item: #Tools)
+		label: 'The root tools';
+		groupName: #OurGroup.
+
+	builder resolve.
+	self 
+		assert: builder groups size 
+		equals: 1.
+	self assert: (builder groups includes: #OurGroup).
+	self 
+		assert: (builder groupsNamed: #OurGroup) childrenItems first name 
+		equals: #Tools
+]
+
+{ #category : #'tests - groups' }
+MenuBuilderTest >> testItemInGroupAlreadyDeclared [
+
+	| builder |
+	builder := ToMenuBuilder new.
+	builder group: #OurGroup.
+
+	(builder item: #Tools)
+		label: 'The root tools';
+		groupName: #OurGroup.
+	builder resolve.
+	
+	self 
+		assert: builder collectedItems size 
+		equals: 2.
+	self
+		assert: (builder groupsNamed: #OurGroup) childrenItems first name
+		equals: #Tools
+]
+
 { #category : #tests }
 MenuBuilderTest >> testOrderedTree [
 
@@ -493,46 +533,6 @@ MenuBuilderTest >> testSimpleItemBeforeParentDefinition [
 		equals: #Tools
 ]
 
-{ #category : #tests }
-MenuBuilderTest >> testSimpleItemInAnUndeclaredGroupCreatesGroup [
-
-	| builder |
-	builder := ToMenuBuilder new.
-
-	(builder item: #Tools)
-		label: 'The root tools';
-		groupName: #OurGroup.
-
-	builder resolve.
-	self 
-		assert: builder groups size 
-		equals: 1.
-	self assert: (builder groups includes: #OurGroup).
-	self 
-		assert: (builder groupsNamed: #OurGroup) childrenItems first name 
-		equals: #Tools
-]
-
-{ #category : #tests }
-MenuBuilderTest >> testSimpleItemInGroupAlreadyDeclared [
-
-	| builder |
-	builder := ToMenuBuilder new.
-	builder group: #OurGroup.
-
-	(builder item: #Tools)
-		label: 'The root tools';
-		groupName: #OurGroup.
-	builder resolve.
-	
-	self 
-		assert: builder collectedItems size 
-		equals: 2.
-	self
-		assert: (builder groupsNamed: #OurGroup) childrenItems first name
-		equals: #Tools
-]
-
 { #category : #'tests - resolve phase' }
 MenuBuilderTest >> testSimpleItemWithItemNoParentDeclared [
 
@@ -706,6 +706,22 @@ MenuBuilderTest >> testThreeDepth [
 
 
 	self assert: builder collectedItems size equals: 3
+]
+
+{ #category : #'tests - groups' }
+MenuBuilderTest >> testTwoGroupDeclarationWithSameNameCreatesOnlyOneGroup [
+	| builder |
+	builder := ToMenuBuilder new.
+	builder group: #OurGroup.
+	builder group: #OurGroup.
+	builder resolve.
+	
+	self 
+		assert: builder collectedItems size 
+		equals: 2.
+	self
+		assert: (builder groupsNamed: #OurGroup) childrenItems first name
+		equals: #Tools
 ]
 
 { #category : #'tests - todo' }

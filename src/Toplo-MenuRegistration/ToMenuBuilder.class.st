@@ -17,11 +17,11 @@ Class {
 ToMenuBuilder class >> aLittleMenu: aBuilder [
 
 	<toploWorldMenu1>
-	(aBuilder item: #Im)
-		label: 'Im - Label'; 
+	(aBuilder item: #RootWithTwoChildren)
+		label: 'Root - Label'; 
 		with: [
-			(aBuilder item: #aSuperMenu) label: 'a super menu ! - Label'.
-			(aBuilder item: #anUglyMenu) label: 'a ugly menu ! - Label' ]
+			(aBuilder item: #Child1) label: 'Child 1 - Label'.
+			(aBuilder item: #Child2) label: 'Child 2 - Label' ]
 ]
 
 { #category : #examples }

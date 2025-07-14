@@ -35,9 +35,9 @@ MenuBuilderTest >> testBuilderBeforePragmasCollectedItems [
 		assert: builder collectedItems size 
 		equals: 3.
 		
-	self assert: (builder indexOfChildNamed: #Im) equals: 1.
-	self assert: (builder indexOfChildNamed: #aSuperMenu) equals: 2.
-	self assert: (builder indexOfChildNamed: #anUglyMenu) equals: 3.
+	self assert: (builder indexOfChildNamed: 'RootWithTwoChildren') equals: 1.
+	self assert: (builder indexOfChildNamed: 'Child1') equals: 2.
+	self assert: (builder indexOfChildNamed: 'Child2') equals: 3.
 	
 ]
 

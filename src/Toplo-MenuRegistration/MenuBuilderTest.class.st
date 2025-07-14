@@ -42,6 +42,32 @@ MenuBuilderTest >> testBuilderBeforePragmasCollectedItems [
 ]
 
 { #category : #'tests - Pragma' }
+MenuBuilderTest >> testBuilderCollectsAndResolvesPragmasCollectedItems [
+	
+	| builder |
+	builder := ToMenuBuilder pragmaKeywords: { #toploWorldMenu1 }.
+	builder 
+		collectRegistrations; 	
+		resolve.
+	self assert: builder collectedItems size equals: 1.
+	self assert: builder collectedItems first name equals:  'RootWithTwoChildren'.
+	self assert: builder collectedItems first childrenItems size equals: 2.
+]
+
+{ #category : #'tests - Pragma' }
+MenuBuilderTest >> testBuilderCollectsItems [
+	
+	| builder namesOfItems |
+	builder := ToMenuBuilder pragmaKeywords: { #toploWorldMenu1 }.
+	builder collectRegistrations. 	
+	self assert: builder collectedItems size equals: 3. 
+	
+	namesOfItems := { 'RootWithTwoChildren' . 'Child1' . 'Child2' }. 
+	builder collectedItems do: [ :each | self assert: (namesOfItems includes: each name) ].
+	
+]
+
+{ #category : #'tests - Pragma' }
 MenuBuilderTest >> testBuilderPragmas [
 
 	| prgas |
@@ -53,14 +79,6 @@ MenuBuilderTest >> testBuilderPragmas [
 		assert: prgas first selector
 		equals: #toploWorldMenu1.
 		
-]
-
-{ #category : #'tests - Pragma' }
-MenuBuilderTest >> testBuilderResolvePragmasCollectedItems [
-
-	self 
-		assert: self toploExampleMenu collectedItems size 
-		equals: 1.
 ]
 
 { #category : #'tests - conflicts' }
@@ -746,9 +764,9 @@ MenuBuilderTest >> toploExampleMenu [
 ]
 
 { #category : #examples }
-MenuBuilderTest >> toploExampleMenuBuilder: aClass [
+MenuBuilderTest >> toploExampleMenuBuilder: aBuilderClass [
 
-	^ (aClass pragmaKeyword: #toploWorldMenu1)
+	^ (aBuilderClass pragmaKeyword: #toploWorldMenu1)
 		  collectRegistrations;
 		  resolve;
 		  yourself

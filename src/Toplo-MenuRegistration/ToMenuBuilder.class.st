@@ -100,9 +100,9 @@ ToMenuBuilder class >> exampleWorldMenu [
 
 { #category : #accessing }
 ToMenuBuilder class >> pragmaKeyword: aPragmaKeyword [
-	"Build a builder using aPragmaKeyword as the pragma keyword "
+	"Build a builder using aPragmaKeyword as the pragma keyword"
 	
-	^ self new pragmaKeywords: {aPragmaKeyword}
+	^ self new pragmaKeywords: { aPragmaKeyword }
 ]
 
 { #category : #accessing }

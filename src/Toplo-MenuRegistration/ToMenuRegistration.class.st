@@ -273,6 +273,18 @@ ToMenuRegistration >> precondition: aValuableBlock [
 	precondition := aValuableBlock
 ]
 
+{ #category : #printing }
+ToMenuRegistration >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream << '('.
+	aStream << name asString.
+	aStream << ' - '.
+	aStream << label asString.
+	aStream << ')'.
+	
+]
+
 { #category : #accessing }
 ToMenuRegistration >> selector [
 	^ selector

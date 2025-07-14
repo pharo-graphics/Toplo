@@ -1957,6 +1957,69 @@ ToSandBox class >> example_ClassHierarchiesWithMethods [
 	treeElement openInSpace
 ]
 
+{ #category : #anchors }
+ToSandBox class >> example_ClockWithAnchors [
+
+	| pane clock e p f animation |
+	pane := BlElement new.
+	pane constraintsDo: [ :c |
+			c horizontal matchParent.
+			c vertical matchParent ].
+	clock := BlElement new
+		         geometry: BlCircleGeometry new;
+		         extent: 130 asPoint;
+		         border: Color red;
+		         yourself.
+	e := BlElement new
+		     position: 100 asPoint;
+		     extent: 100 @ 0;
+		     border: Color red;
+		     geometry: (BlLineGeometry from: 0 @ 0 to: 100 @ 0);
+		     yourself.
+	p := BlElement new
+		     geometry: BlCircleGeometry new;
+		     extent: 10 asPoint;
+		     border: Color red;
+		     yourself.
+	e clipChildren: false.
+	f := BlElement new
+		     extent: 10 asPoint;
+		     background: Color blue;
+		     yourself.
+	f constraintsDo: [ :c |
+			c ignoreByLayout.
+			c anchors add: (c anchors leftAnchor on: e leftAnchor).
+			c anchors add:
+				(c anchors verticalCenterAnchor on: e verticalCenterAnchor) ].
+	p constraintsDo: [ :c |
+			c ignoreByLayout.
+			c anchors add:
+				(c anchors horizontalCenterAnchor on: e horizontalCenterAnchor).
+			c anchors add:
+				(c anchors verticalCenterAnchor on: e verticalCenterAnchor) ].
+	clock constraintsDo: [ :c |
+			c ignoreByLayout.
+			c anchors add:
+				(c anchors horizontalCenterAnchor on: e horizontalCenterAnchor).
+			c anchors add:
+				(c anchors verticalCenterAnchor on: e verticalCenterAnchor) ].
+	animation := BlNumberTransition new
+		             onStepDo: [ :aSecond |
+				             e transformDo: [ :aTransform |
+						             aTransform rotateBy: aSecond * (360 / 60) - 90 ] ];
+		             from: 0;
+		             to: 60;
+		             by: 1;
+		             loops: 1;
+		             duration: 60 seconds.
+	e addAnimation: animation.
+	e addChild: f.
+	e addChild: p.
+	e addChild: clock.
+	pane addChild: e.
+	pane openInSpace
+]
+
 { #category : #album }
 ToSandBox class >> example_CodeEditor [
 

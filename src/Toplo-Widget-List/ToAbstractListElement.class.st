@@ -355,15 +355,6 @@ ToAbstractListElement >> isSelectedAtPosition: anInteger [
 	^ self selectionModel containsIndex: anInteger
 ]
 
-{ #category : #'t - menu item' }
-ToAbstractListElement >> itemContaining: anElement [
-
-	self = anElement ifTrue: [ ^ self ].
-	self nodes do: [ :n |
-		  (n itemContaining: anElement) ifNotNil: [ :found | ^ found ] ].
-	^ nil
-]
-
 { #category : #accessing }
 ToAbstractListElement >> itemCount [
 

@@ -6,10 +6,22 @@ Class {
 	#category : #'Toplo-Widget-Image-Core'
 }
 
+{ #category : #'t - labeled icon' }
+ToIcon class >> iconImage: anInnerImage [
+
+	^ self innerImage: anInnerImage
+]
+
 { #category : #'t - image holder - initialization' }
 ToIcon >> defaultLayout [
 
 	^ BlLinearLayout new 
+]
+
+{ #category : #'t - labeled icon' }
+ToIcon >> iconImage: anInnerImage [
+
+	self innerImage: anInnerImage
 ]
 
 { #category : #initialization }

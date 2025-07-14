@@ -65,11 +65,11 @@ ToPopupPickOutsideEventFilter >> isPickedOutsideEvent: anEvent [
 	target := anEvent target.
 	" Is it ouside the element ? "
 	checkElement ifTrue: [
-		(self element itemContaining: target) ifNotNil: [ :found | ^ false ] ].
+		(target withAllParentsInclude: self element) ifTrue: [ ^ false ] ].
 
 	"and outside of the popup windows ? "
 	self popupWindow withAllSubwindowsDo: [ :w |
-		(w itemContaining: target) ifNotNil: [ ^ false ] ].
+		(target withAllParentsInclude: w) ifTrue: [ ^ false ] ].
 
 	^ true
 ]

@@ -116,19 +116,6 @@ ToMenuPane >> isSubPane: aBoolean [
 	isSubPane := aBoolean
 ]
 
-{ #category : #'t - menu item' }
-ToMenuPane >> itemContaining: anElement [
-
-	self = anElement ifTrue: [ ^ self ].
-	^ (self itemList itemContaining: anElement) ifNotNil: [ :found |
-		  | item |
-		  found = anElement ifTrue: [ ^ self ].
-		  item := found item.
-		  item isMenuPane
-			  ifTrue: [ item itemContaining: anElement ]
-			  ifFalse: [ item ] ]
-]
-
 { #category : #'t - menu window model' }
 ToMenuPane >> menuPane [
 

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToIconicRemoveButton,
-	#superclass : #ToIconicButton,
+	#superclass : #ToStandardIconicButton,
 	#category : #'Toplo-Widget-Button-Iconic'
 }
 

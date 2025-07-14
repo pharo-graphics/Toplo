@@ -1,6 +1,6 @@
 Class {
 	#name : #ToIconicAddButtonSkin,
-	#superclass : #ToIconicButtonSkin,
+	#superclass : #ToStandardIconicButtonSkin,
 	#category : #'Toplo-Widget-Button-Iconic'
 }
 

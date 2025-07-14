@@ -1075,7 +1075,7 @@ ToExperiments class >> example_rotation [
 	space := BlSpace new.
 
 	container := BlElement new
-		             size: 200 @ 200;
+		             extent: 200 @ 200;
 		             border: (BlBorder paint: Color lightRed width: 3);
 		             position: 200 @ 200;
 		             clipChildren: false.
@@ -1096,18 +1096,19 @@ ToExperiments class >> example_rotation [
 	container addChild: handle.
 	button := BlElement new.
 	button layout: BlFrameLayout new.
-	button addChild: (BlTextElement text: 'Click to rotate by 90' asRopedText).
+	button addChild:
+		(BlTextElement text: 'Click to rotate by 90' asRopedText).
 	button padding: (BlInsets all: 5).
 	button border: (BlBorder paint: Color gray).
 	button constraintsDo: [ :c |
-		c horizontal fitContent.
-		c vertical fitContent ].
+			c horizontal fitContent.
+			c vertical fitContent ].
 	count := 0.
 	button addEventHandlerOn: BlClickEvent do: [
-		count := count + 1.
-		handle transformDo: [ :t |
-			t normalizedOrigin: 0.25 @ 0.5.
-			t rotateBy: count * 90 ] ].
+			count := count + 1.
+			handle transformDo: [ :t |
+					t normalizedOrigin: 0.25 @ 0.5.
+					t rotateBy: count * 90 ] ].
 	space root addChild: button.
 	space root addChild: container.
 
@@ -1121,7 +1122,7 @@ ToExperiments class >> example_rotationAnimation [
 	space := BlSpace new.
 
 	container := BlElement new
-		             size: 200 @ 200;
+		             extent: 200 @ 200;
 		             border: (BlBorder paint: Color lightRed width: 3);
 		             position: 50 @ 50;
 		             clipChildren: false.
@@ -1147,10 +1148,10 @@ ToExperiments class >> example_rotationAnimation [
 	anim := BlRepeatedTaskAction new
 		        delay: 300 milliSeconds;
 		        action: [
-			        handle transformDo: [ :t |
-					        count := count + 1.
-					        t normalizedOrigin: 0.25 @ 0.5.
-					        t rotateBy: 10 * count ] ].
+				        handle transformDo: [ :t |
+							        count := count + 1.
+							        t normalizedOrigin: 0.25 @ 0.5.
+							        t rotateBy: 10 * count ] ].
 	handle enqueueTask: anim
 ]
 
@@ -1308,7 +1309,7 @@ ToExperiments class >> example_toggle_sliding_with_animation1 [
 		         border: (BlBorder paint: Color black);
 		         layout: BlLinearLayout horizontal.
 	left := BlElement new
-		        size: 30 @ 14;
+		        extent: 30 @ 14;
 		        background: Color veryLightGray;
 		        margin: (BlInsets left: 5 right: 5).
 	but := BlElement new
@@ -1338,18 +1339,18 @@ ToExperiments class >> example_toggle_sliding_with_animation1 [
 		aTransform translateBy: slide negated @ 0 ].
 	slide := slide isZero
 		         ifTrue: [
-			         (left requestedWidth max: right requestedWidth)
-			         - toggle padding left - toggle padding right ]
+				         (left requestedWidth max: right requestedWidth)
+				         - toggle padding left - toggle padding right ]
 		         ifFalse: [ 0 ].
 	slide := left requestedWidth - toggle padding left
 	         - toggle padding right. "+ left margin left + left margin right"
 
 	toggle addEventHandlerOn: BlClickEvent do: [
-		slide traceCr.
-		track addAnimation: (BlTransformAnimation new
-				 duration: 200 milliSeconds;
-				 transformDo: [ :b | b translateBy: slide @ 0 ]).
-		slide := slide * -1 ].
+			slide traceCr.
+			track addAnimation: (BlTransformAnimation new
+					 duration: 200 milliSeconds;
+					 transformDo: [ :b | b translateBy: slide @ 0 ]).
+			slide := slide * -1 ].
 	root addChild: toggle.
 	root openInSpace
 ]

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToIconicExpandToFullScreenButton,
-	#superclass : #ToIconicButton,
+	#superclass : #ToStandardIconicButton,
 	#category : #'Toplo-Widget-InnerWindow-Support'
 }
 

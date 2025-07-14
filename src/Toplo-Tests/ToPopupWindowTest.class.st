@@ -246,8 +246,8 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseUpOutsideAssociateElement [
 	self assert: windowManager currentWindow isOpened.
 	BlSpace simulateMouseDownOn: windowManager currentWindow.
 	BlSpace simulateMouseUpOn: windowManager currentWindow.
+	self waitTestingSpacesTimeout: 300 milliSeconds.
 	100 milliSeconds asDelay wait.
-	self waitTestingSpaces.
 	self assert: windowManager currentWindow isOpened.
 	self waitTestingSpaces.
 	closed := false.

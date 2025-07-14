@@ -1,11 +1,11 @@
 Class {
 	#name : #ToIconicButton,
-	#superclass : #ToImage,
+	#superclass : #ToIcon,
 	#category : #'Toplo-Widget-Button-Iconic'
 }
 
 { #category : #skin }
-ToIconicButton >> skin [
+ToIconicButton >> newRawSkin [
 
 	^ ToIconicButtonSkin new
 ]

@@ -428,7 +428,6 @@ MenuBuilderTest >> testResolveWithDeclaresOneItemWithAChild [
 
 	(builder item: #MyMenu)
 		parent: #Tools;
-		"place me as a child of the #Tools node (declared by #toolsOn:)"
 		label: 'The coolest tool here';
 		with: [
 			(builder item: #MyMenuChild)
@@ -437,8 +436,12 @@ MenuBuilderTest >> testResolveWithDeclaresOneItemWithAChild [
 
 	builder resolve.
 
+	"The parent item is not defined and the resolve phase does not define it."
 	self assert: builder collectedItems size equals: 1.
+	self assert: builder collectedItems first name equals: #MyMenu.
 
+	self assert: builder conflicts first class equals: ParentNotFound.
+	
 	self
 		assert:
 		(builder itemsNamed: #MyMenu) childrenItems first label
@@ -542,13 +545,18 @@ MenuBuilderTest >> testSimpleItemWithItemNoParentDeclared [
 
 	(builder item: #MyOwnCoolMenu)
 		parent: #Tools;
-		"place me as a child of the #Tools node (declared by #toolsOn:)"
 		label: 'The coolest tool here';
 		with: [
 			(builder item: #MyOwnCoolTool) label: 'My own cool tool also here' ].
 	builder resolve.
 
 	self assert: builder collectedItems size equals: 1.
+	self assert: builder collectedItems first name equals: #MyOwnCoolMenu.
+	self assert: builder conflicts first class equals: ParentNotFound.
+
+
+
+
 	self
 		assert: (builder itemsNamed: #MyOwnCoolMenu) parent
 		equals: #Tools.
@@ -560,8 +568,7 @@ MenuBuilderTest >> testSimpleItemWithItemNoParentDeclared [
 
 	self
 		assert:
-			(builder itemsNamed: #MyOwnCoolMenu) childrenItems first
-				parent
+			(builder itemsNamed: #MyOwnCoolMenu) childrenItems first parent
 		equals: #MyOwnCoolMenu
 ]
 

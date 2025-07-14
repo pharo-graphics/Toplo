@@ -1960,7 +1960,8 @@ ToSandBox class >> example_ClassHierarchiesWithMethods [
 { #category : #anchors }
 ToSandBox class >> example_ClockWithAnchors [
 
-	| pane clock e p f animation |
+	| pane clock secondHand axis f animation |
+	self flag: 'To be reworked in a class ...'.
 	pane := BlElement new.
 	pane constraintsDo: [ :c |
 			c horizontal matchParent.
@@ -1970,53 +1971,49 @@ ToSandBox class >> example_ClockWithAnchors [
 		         extent: 130 asPoint;
 		         border: Color red;
 		         yourself.
-	e := BlElement new
+	secondHand := BlElement new
 		     position: 100 asPoint;
 		     extent: 100 @ 0;
 		     border: Color red;
 		     geometry: (BlLineGeometry from: 0 @ 0 to: 100 @ 0);
 		     yourself.
-	p := BlElement new
+	axis := BlElement new
 		     geometry: BlCircleGeometry new;
 		     extent: 10 asPoint;
 		     border: Color red;
 		     yourself.
-	e clipChildren: false.
+	secondHand clipChildren: false.
 	f := BlElement new
 		     extent: 10 asPoint;
 		     background: Color blue;
 		     yourself.
 	f constraintsDo: [ :c |
 			c ignoreByLayout.
-			c anchors add: (c anchors leftAnchor on: e leftAnchor).
+			c anchors add: (c anchors leftAnchor on: secondHand leftAnchor).
 			c anchors add:
-				(c anchors verticalCenterAnchor on: e verticalCenterAnchor) ].
-	p constraintsDo: [ :c |
+				(c anchors verticalCenterAnchor on: secondHand verticalCenterAnchor) ].
+	axis constraintsDo: [ :c |
 			c ignoreByLayout.
 			c anchors add:
-				(c anchors horizontalCenterAnchor on: e horizontalCenterAnchor).
-			c anchors add:
-				(c anchors verticalCenterAnchor on: e verticalCenterAnchor) ].
-	clock constraintsDo: [ :c |
+				(c anchors centerAnchor on: clock centerAnchor) ].
+	secondHand constraintsDo: [ :c |
 			c ignoreByLayout.
 			c anchors add:
-				(c anchors horizontalCenterAnchor on: e horizontalCenterAnchor).
-			c anchors add:
-				(c anchors verticalCenterAnchor on: e verticalCenterAnchor) ].
+				(c anchors centerAnchor on: clock centerAnchor) ].
 	animation := BlNumberTransition new
 		             onStepDo: [ :aSecond |
-				             e transformDo: [ :aTransform |
+				             secondHand transformDo: [ :aTransform |
 						             aTransform rotateBy: aSecond * (360 / 60) - 90 ] ];
 		             from: 0;
 		             to: 60;
 		             by: 1;
-		             loops: 1;
+		             beInfinite;
 		             duration: 60 seconds.
-	e addAnimation: animation.
-	e addChild: f.
-	e addChild: p.
-	e addChild: clock.
-	pane addChild: e.
+	secondHand addAnimation: animation.
+	secondHand addChild: f.
+	clock addChild: axis.
+	clock addChild: secondHand.
+	pane addChild: clock.
 	pane openInSpace
 ]
 

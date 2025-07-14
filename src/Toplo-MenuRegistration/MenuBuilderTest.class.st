@@ -313,7 +313,8 @@ MenuBuilderTest >> testItemInGroupAlreadyDeclared [
 		label: 'The root tools';
 		groupName: #OurGroup.
 	builder resolve.
-	
+	self flag: #tofix. 
+	"We should only get one item: the group and it should have tools as children"
 	self 
 		assert: builder collectedItems size 
 		equals: 2.

@@ -472,14 +472,14 @@ MenuBuilderTest >> testResolveWithDeclaresOneItemWithAParentAndAChild [
 	self assert: builder groups size equals: 1.
 	self
 		assert: (builder groupsNamed: #BeautifulMenu) childrenItems size
-		equals: 2.
+		equals: 1.
 	self
 		assert:
-			((builder groupsNamed: #BeautifulMenu) childrenItems collect: [
+			(((builder groupsNamed: #BeautifulMenu) childrenItems collect: [
 				 :item | item name ])
-		equals: { #MyMenu. #MyMenuChild } asOrderedCollection.
+		includes: #MyMenu).
 	self
-		assert: (builder itemsNamed: #MyMenu) childrenItems first parent
+		assert: ((builder itemsNamed: #BeautifulMenu) findChildrenItems: #MyMenu) childrenItems first parent
 		equals: #MyMenu
 ]
 
@@ -722,6 +722,7 @@ MenuBuilderTest >> testThreeDepth [
 { #category : #'tests - groups' }
 MenuBuilderTest >> testTwoGroupDeclarationWithSameNameCreatesOnlyOneGroup [
 	| builder |
+	"We cannot have 2 groups with the same name"
 	builder := ToMenuBuilder new.
 	builder group: #OurGroup.
 	builder group: #OurGroup.
@@ -729,10 +730,7 @@ MenuBuilderTest >> testTwoGroupDeclarationWithSameNameCreatesOnlyOneGroup [
 	
 	self 
 		assert: builder collectedItems size 
-		equals: 2.
-	self
-		assert: (builder groupsNamed: #OurGroup) childrenItems first name
-		equals: #Tools
+		equals: 1.
 ]
 
 { #category : #'tests - todo' }

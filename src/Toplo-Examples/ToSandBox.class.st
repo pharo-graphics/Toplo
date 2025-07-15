@@ -9386,11 +9386,6 @@ ToSandBox class >> tabPaneElementWithUSStates [
 						        emptyPh := pane userData at: #placeholder.
 						        emptyPh detach ];
 				        yourself.
-				
-			"icon:
-				        (ToImage new innerImage: (self iconNamed: #solidMenu));"
-			"endElement:
-				        (ToImage new innerImage: (self iconNamed: #solidMenu));"
 			tpane addItem: item ].
 	tpane isFlowable: false.
 	tpane isScrollable: true.

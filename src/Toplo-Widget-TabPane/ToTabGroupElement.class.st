@@ -26,9 +26,11 @@ ToTabGroupElement >> addNewTabItem [
 	self itemBar
 		addEventHandlerOn: ToListNodeAddedEvent
 		doOnce: [ :event |
-			self selecter scrollTowardEndToDataSourcePosition:
-				event node holder position.
-			event node item checked: true ].
+			self itemBar whenLayoutedDoOnce: [  
+				self requestFocus.
+				self selecter scrollTowardStartToDataSourcePosition:
+					event node holder position.
+				event node item checked: true ] ].
 	self addItem: newItem
 ]
 
@@ -116,19 +118,21 @@ ToTabGroupElement >> defaultInvisibleNodesMenuBuilder [
 ToTabGroupElement >> defaultNewTabItemBuilder [
 
 	^ [ :aTabItem :tabGroupElement |
-	  | wasFocused |
-	  wasFocused := tabGroupElement isFocused.
-	  aTabItem labelText: 'New Tab'.
-	  aTabItem label beEditable.
-	  aTabItem removable: true.
-	  aTabItem label whenEditorOpenedDo: [ :editorEvent |
-		  editorEvent editorElement whenSaveRequestedDo: [ :request |
-			  request accepted: true ].
-		  editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
-			  editorEvent target text: acceptedEvent target text.
-			  tabGroupElement selecter scrollTowardEndToDataSourcePosition:
-				  aTabItem holder position.
-			  wasFocused ifTrue: [ tabGroupElement requestFocus ] ] ] ]
+		  | wasFocused |
+		  wasFocused := tabGroupElement isFocused.
+		  aTabItem labelText: 'New Tab'.
+		  aTabItem label beEditable.
+		  aTabItem removable: true.
+		  aTabItem label whenEditorOpenedDo: [ :editorEvent |
+				  editorEvent editorElement whenSaveRequestedDo: [ :request |
+					  request accepted: true ].
+				  editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
+						  editorEvent target text: acceptedEvent target text.
+						  self itemBar whenLayoutedDoOnce: [
+								  tabGroupElement selecter
+									  scrollTowardEndToDataSourcePosition:
+									  aTabItem holder position.
+								  wasFocused ifTrue: [ tabGroupElement requestFocus ] ] ] ] ]
 ]
 
 { #category : #accessing }

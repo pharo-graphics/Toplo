@@ -1,7 +1,7 @@
 Class {
 	#name : #ToVisibleTabsChanged,
 	#superclass : #BlEvent,
-	#category : #'Toplo-Widget-TabPane'
+	#category : #'Toplo-Widget-TabPane-TabGroup'
 }
 
 { #category : #sending }

@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'removable'
 	],
-	#category : #'Toplo-Widget-TabPane'
+	#category : #'Toplo-Widget-TabPane-TabBar'
 }
 
 { #category : #converting }

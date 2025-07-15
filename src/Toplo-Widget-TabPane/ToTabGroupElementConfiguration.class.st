@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'atStartSide'
 	],
-	#category : #'Toplo-Widget-TabPane'
+	#category : #'Toplo-Widget-TabPane-TabGroup'
 }
 
 { #category : #hook }

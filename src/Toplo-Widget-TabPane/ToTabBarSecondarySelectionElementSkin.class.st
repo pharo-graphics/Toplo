@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTabBarSecondarySelectionElementSkin,
 	#superclass : #ToListSecondarySelectionElementSkin,
-	#category : #'Toplo-Widget-TabPane'
+	#category : #'Toplo-Widget-TabPane-TabBar'
 }
 
 { #category : #'event handling' }

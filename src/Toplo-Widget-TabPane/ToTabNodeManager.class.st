@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTabNodeManager,
 	#superclass : #ToCheckableBarNodeManager,
-	#category : #'Toplo-Widget-TabPane'
+	#category : #'Toplo-Widget-TabPane-TabBar'
 }
 
 { #category : #initialization }

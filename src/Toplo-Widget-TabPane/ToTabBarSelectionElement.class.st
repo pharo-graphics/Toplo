@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'breadth'
 	],
-	#category : #'Toplo-Widget-TabPane'
+	#category : #'Toplo-Widget-TabPane-TabBar'
 }
 
 { #category : #accessing }

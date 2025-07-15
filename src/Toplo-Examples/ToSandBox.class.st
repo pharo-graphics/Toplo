@@ -2014,6 +2014,7 @@ ToSandBox class >> example_ClockWithAnchors [
 	f := BlElement new
 		     extent: 10 asPoint;
 		     background: Color blue;
+		geometry: BlCircleGeometry new;
 		     yourself.
 	f constraintsDo: [ :c |
 			c ignoreByLayout.

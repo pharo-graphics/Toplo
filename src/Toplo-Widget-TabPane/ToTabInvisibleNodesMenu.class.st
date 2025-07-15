@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'tabGroupElement'
 	],
-	#category : #'Toplo-Widget-TabPane'
+	#category : #'Toplo-Widget-TabPane-TabGroup'
 }
 
 { #category : #skin }

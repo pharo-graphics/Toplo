@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTabPaneGroupElement,
 	#superclass : #ToTabGroupElement,
-	#category : #'Toplo-Widget-TabPane'
+	#category : #'Toplo-Widget-TabPane-TabGroup'
 }
 
 { #category : #initialization }

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToAddTabButton,
 	#superclass : #ToIconicAddButton,
-	#category : #'Toplo-Widget-TabPane'
+	#category : #'Toplo-Widget-TabPane-TabGroup'
 }
 
 { #category : #'instance creation' }

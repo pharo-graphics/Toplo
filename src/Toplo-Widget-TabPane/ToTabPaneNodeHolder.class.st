@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'innerPane'
 	],
-	#category : #'Toplo-Widget-TabPane'
+	#category : #'Toplo-Widget-TabPane-TabPane'
 }
 
 { #category : #accessing }

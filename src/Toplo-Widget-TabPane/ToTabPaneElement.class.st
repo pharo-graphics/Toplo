@@ -8,7 +8,7 @@ Class {
 		'bodyContainer',
 		'headerContainer'
 	],
-	#category : #'Toplo-Widget-TabPane'
+	#category : #'Toplo-Widget-TabPane-TabPane'
 }
 
 { #category : #configuration }

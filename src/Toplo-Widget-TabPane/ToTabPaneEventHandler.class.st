@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTabPaneEventHandler,
 	#superclass : #BlCustomEventHandler,
-	#category : #'Toplo-Widget-TabPane'
+	#category : #'Toplo-Widget-TabPane-TabPane'
 }
 
 { #category : #'event handling' }

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTabNodeSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Widget-TabPane'
+	#category : #'Toplo-Widget-TabPane-TabPane'
 }
 
 { #category : #'event handling' }

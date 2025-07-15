@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTabBarPrimarySelectionElementSkin,
 	#superclass : #ToListPrimarySelectionElementSkin,
-	#category : #'Toplo-Widget-TabPane'
+	#category : #'Toplo-Widget-TabPane-TabBar'
 }
 
 { #category : #'event handling' }

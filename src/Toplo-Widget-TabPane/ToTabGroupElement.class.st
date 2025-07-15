@@ -14,7 +14,7 @@ Class {
 		'newTabItemBuilder',
 		'showAddTabItemButton'
 	],
-	#category : #'Toplo-Widget-TabPane'
+	#category : #'Toplo-Widget-TabPane-TabGroup'
 }
 
 { #category : #adding }
@@ -87,32 +87,29 @@ ToTabGroupElement >> defaultEventHandler [
 { #category : #initialization }
 ToTabGroupElement >> defaultInvisibleNodeMenuItemBuilder [
 
-	^ [ :aMenuItem :aNode :aRequest |
+	^ [ :aMenuItem :aRequest |
 		  aMenuItem
-			  labelText: aNode item asToLabelText;
-			  clickAction: [ self showInvisibleTabItem: aNode item ].
-		  aNode item isChecked ifTrue: [
-				  aMenuItem icon:
-					  (ToImage inner: (self valueOfTokenNamed: #check)).
-				  aMenuItem icon extent:
-					  (self valueOfTokenNamed: #'checkable-icon-size') ] ]
+			  labelText: aMenuItem tabNode item asToLabelText;
+			  clickAction: [ self showInvisibleTabItem: aMenuItem tabNode item ] ]
 ]
 
 { #category : #initialization }
 ToTabGroupElement >> defaultInvisibleNodesMenuBuilder [
 
 	^ [ :menu :request |
-	  | middlePos |
-	  middlePos := self visibleNodes
-		               ifEmpty: [ 0 ]
-		               ifNotEmpty: [ :vn | vn first holder position - 1 ].
-	  self invisibleNodes do: [ :node |
-		  node isEnabled ifTrue: [
-			  | mitem |
-			  mitem := ToMenuItem new.
-			  invisibleNodeMenuItemBuilder cull: mitem cull: node cull: request.
-			  menu addItem: mitem ] ].
-	  menu addSeparatorBeforeIndex: (middlePos max: 1) ]
+		  | middlePos |
+		  middlePos := self visibleNodes
+			               ifEmpty: [ 0 ]
+			               ifNotEmpty: [ :vn | vn first holder position - 1 ].
+		  self invisibleNodes do: [ :node |
+				  node isEnabled ifTrue: [
+						  | mitem |
+						  mitem := ToTabInvisibleNodeMenuItem new
+							           tabNode: node;
+							           yourself.
+						  invisibleNodeMenuItemBuilder cull: mitem cull: request.
+						  menu addItem: mitem ] ].
+		  menu addSeparatorBeforeIndex: (middlePos max: 1) ]
 ]
 
 { #category : #initialization }

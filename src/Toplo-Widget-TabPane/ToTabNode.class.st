@@ -3,7 +3,7 @@ Class {
 	#superclass : #ToBarCheckableNode,
 	#traits : 'TToRemovableNode',
 	#classTraits : 'TToRemovableNode classTrait',
-	#category : #'Toplo-Widget-TabPane'
+	#category : #'Toplo-Widget-TabPane-TabBar'
 }
 
 { #category : #configuration }

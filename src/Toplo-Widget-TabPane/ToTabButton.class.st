@@ -5,7 +5,7 @@ Class {
 		'paneBuilder',
 		'paneDestroyer'
 	],
-	#category : #'Toplo-Widget-TabPane'
+	#category : #'Toplo-Widget-TabPane-TabPane'
 }
 
 { #category : #accessing }

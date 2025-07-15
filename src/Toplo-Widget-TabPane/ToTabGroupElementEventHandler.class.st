@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTabGroupElementEventHandler,
 	#superclass : #BlCustomEventHandler,
-	#category : #'Toplo-Widget-TabPane'
+	#category : #'Toplo-Widget-TabPane-TabGroup'
 }
 
 { #category : #adding }

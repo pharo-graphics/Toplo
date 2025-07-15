@@ -11,7 +11,8 @@ Class {
 		'menusContainer',
 		'invisibleNodeMenuItemBuilder',
 		'addTabItemButton',
-		'newTabItemBuilder',
+		'tabItemFactory',
+		'tabItemBuilder',
 		'showAddTabItemButton'
 	],
 	#category : #'Toplo-Widget-TabPane-TabGroup'
@@ -20,18 +21,25 @@ Class {
 { #category : #adding }
 ToTabGroupElement >> addNewTabItem [
 
-	| newItem |
-	newItem := self newTabItem.
-	newTabItemBuilder cull: newItem cull: self.
 	self itemBar
 		addEventHandlerOn: ToListNodeAddedEvent
 		doOnce: [ :event |
 			self itemBar whenLayoutedDoOnce: [  
-				self requestFocus.
 				self selecter scrollTowardStartToDataSourcePosition:
 					event node holder position.
 				event node item checked: true ] ].
-	self addItem: newItem
+	self addTabItemData: 'New Tab'
+]
+
+{ #category : #adding }
+ToTabGroupElement >> addTabItemData: aData [
+
+	| newItem |
+	newItem := tabItemFactory value.
+	" add the new item before building it to allow the builder to use the item holder "
+	self addItem: newItem.
+	tabItemBuilder cull: newItem cull: aData cull: self.
+
 ]
 
 { #category : #accessing }
@@ -115,24 +123,16 @@ ToTabGroupElement >> defaultInvisibleNodesMenuBuilder [
 ]
 
 { #category : #initialization }
-ToTabGroupElement >> defaultNewTabItemBuilder [
+ToTabGroupElement >> defaultTabItemBuilder [
 
-	^ [ :aTabItem :tabGroupElement |
-		  | wasFocused |
-		  wasFocused := tabGroupElement isFocused.
-		  aTabItem labelText: 'New Tab'.
-		  aTabItem label beEditable.
-		  aTabItem removable: true.
-		  aTabItem label whenEditorOpenedDo: [ :editorEvent |
-				  editorEvent editorElement whenSaveRequestedDo: [ :request |
-					  request accepted: true ].
-				  editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
-						  editorEvent target text: acceptedEvent target text.
-						  self itemBar whenLayoutedDoOnce: [
-								  tabGroupElement selecter
-									  scrollTowardEndToDataSourcePosition:
-									  aTabItem holder position.
-								  wasFocused ifTrue: [ tabGroupElement requestFocus ] ] ] ] ]
+	^ [ :aTabItem :aData :tabGroupElement |
+		  aTabItem labelText: aData asString ]
+]
+
+{ #category : #initialization }
+ToTabGroupElement >> defaultTabItemFactory [
+
+	^ [ ToTabItemElement new  ]
 ]
 
 { #category : #accessing }
@@ -166,7 +166,8 @@ ToTabGroupElement >> initialize [
 		do: [ :event | self fireEvent: event copy ].
 
 	self addEventHandler: self defaultEventHandler.
-	newTabItemBuilder := self defaultNewTabItemBuilder.
+	tabItemFactory := self defaultTabItemFactory.
+	tabItemBuilder := self defaultTabItemBuilder.
 	showAddTabItemButton := false
 ]
 
@@ -266,19 +267,6 @@ ToTabGroupElement >> newRawSkin [
 	^ ToTabGroupElementSkin new
 ]
 
-{ #category : #adding }
-ToTabGroupElement >> newTabItem [
-
-	^ ToTabItemElement new
-]
-
-{ #category : #accessing }
-ToTabGroupElement >> newTabItemBuilder: aValuable [
-	" aValuable takes the new TabItemElement and the TabGroupElement as arguments "
-
-	newTabItemBuilder := aValuable
-]
-
 { #category : #configuration }
 ToTabGroupElement >> newWidgetConfiguration [ 
 
@@ -353,6 +341,13 @@ ToTabGroupElement >> showInvisibleTabItem: aTabItemElement [
 ToTabGroupElement >> startExtraBuilder: aValuable [
 
 	aValuable value: self startElement
+]
+
+{ #category : #accessing }
+ToTabGroupElement >> tabItemBuilder: aValuable [
+	" aValuable takes the new TabItemElement, the data and the TabGroupElement as arguments "
+
+	tabItemBuilder := aValuable
 ]
 
 { #category : #accessing }

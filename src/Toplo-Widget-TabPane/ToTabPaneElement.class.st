@@ -11,6 +11,12 @@ Class {
 	#category : #'Toplo-Widget-TabPane-TabPane'
 }
 
+{ #category : #adding }
+ToTabPaneElement >> addTabItemData: aData [
+
+	tabGroup addTabItemData: aData
+]
+
 { #category : #configuration }
 ToTabPaneElement >> applyWidgetConfiguration [
 
@@ -123,6 +129,13 @@ ToTabPaneElement >> showAddTabItemButton: aBoolean [
 ToTabPaneElement >> tabGroup [ 
 
 	^ tabGroup 
+]
+
+{ #category : #accessing }
+ToTabPaneElement >> tabItemBuilder: aValuable [
+	" aValuable takes the new TabItemElement, the data and the TabGroupElement as arguments "
+	
+	tabGroup tabItemBuilder: aValuable
 ]
 
 { #category : #'t - checkable group owner' }

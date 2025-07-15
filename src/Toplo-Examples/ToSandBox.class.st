@@ -4980,11 +4980,11 @@ ToSandBox class >> example_TabGroupElement [
 	tabs isScrollable: true.
 	tabs hMatchParent.
 	tabs showAddTabItemButton: true.
+	tabs tabItemBuilder: [ :tabItem :data :tabGroup |
+		tabItem labelText: data asString.
+		tabItem removable: true ].
 	50 to: 70 do: [ :i |
-		tabs addItem: (tabs newTabItem
-				 labelText: i asString;
-				 removable: true;
-				 yourself) ].
+		tabs addTabItemData: i ].
 	tabs selecter selectIndex: 5.
 	tabs requestFocus.
 	dashBoard := self tabGroupElementDashBoardFor: tabs.
@@ -4997,12 +4997,12 @@ ToSandBox class >> example_TabGroupElementWithDaily [
 
 	| tabs dashBoard |
 	tabs := ToTabGroupElement new.
+	tabs tabItemBuilder: [ :tabItem :data :tabGroup |
+			tabItem labelText: data asString.
+			tabItem removable: true ].
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		tabs addItem: (tabs newTabItem
-				 removable: true;
-				 middleElement: (ToLabel text: l);
-				 yourself) ].
+		tabs addTabItemData: l ].
 
 	(tabs items at: 2) disable.
 	tabs selecter selectIndex: 3.
@@ -5040,12 +5040,11 @@ ToSandBox class >> example_TabGroupElementWithUSStates [
 	| tabs dashBoard |
 	tabs := ToTabGroupElement new.
 	tabs exactItemWidth: 30.
-	(self statesOfAmerica "copyFrom: 1 to: 20") do: [ :l |
-		tabs addItem: (tabs newTabItem
-				 labelText: l;
-				 removable: true;
-				 yourself) ].
+	tabs tabItemBuilder: [ :tabItem :data :tabGroup |
+			tabItem labelText: data asString.
+			tabItem removable: true ].
 
+	self statesOfAmerica do: [ :l | tabs addTabItemData: l ]. 
 	(tabs items at: 2) disable.
 	dashBoard := self tabGroupElementDashBoardFor: tabs.
 	tabs items third checked: true.
@@ -9361,32 +9360,38 @@ ToSandBox class >> tabPaneElementWithUSStates [
 
 	| tpane |
 	tpane := ToTabPaneElement new.
-	self statesOfAmerica do: [ :l |
-			| lab item |
-			lab := ToLabel text: l.
+	tpane tabItemBuilder: [ :tabButton :aData :tabGroup |
+			| lab |
+			lab := ToLabel text: aData asString.
 			lab enableShrinkLayer: true.
 			lab shrinkTolerance: 2.0.
 			lab width: 70.
-			"lab rotateBy: 270."
-			item := ToTabButton new
-				        label: lab;
-				        tooltipString: l;
-				        removable: true;
-				        paneBuilder: [ :pane |
-						        | emptyPh |
-						        pane withNullSkin.
-						        pane background: (Color random alpha: 0.1).
+			lab beEditable.
 
-						        emptyPh := ToEmptyPlaceholderLayer new attachToParent:
-								                   pane.
-						        pane userData at: #placeholder put: emptyPh ];
-				        paneDestroyer: [ :pane |
-						        | emptyPh |
-						        'pane destroyed' traceCr.
-						        emptyPh := pane userData at: #placeholder.
-						        emptyPh detach ];
-				        yourself.
-			tpane addItem: item ].
+			lab whenEditorOpenedDo: [ :editorEvent |
+					editorEvent editorElement whenSaveRequestedDo: [ :request |
+						request accepted: true ].
+					editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
+							editorEvent target text: acceptedEvent target text.
+							tabGroup selecter scrollTowardEndToDataSourcePosition:
+								tabButton holder position ] ].
+			tabButton
+				label: lab;
+				tooltipString: aData asString;
+				removable: true;
+				paneBuilder: [ :pane |
+						| emptyPh |
+						pane withNullSkin.
+						pane background: (Color random alpha: 0.1).
+
+						emptyPh := ToEmptyPlaceholderLayer new attachToParent: pane.
+						pane userData at: #placeholder put: emptyPh ];
+				paneDestroyer: [ :pane |
+						| emptyPh |
+						'pane destroyed' traceCr.
+						emptyPh := pane userData at: #placeholder.
+						emptyPh detach ] ].
+	self statesOfAmerica do: [ :l | tpane addTabItemData: l ].
 	tpane isFlowable: false.
 	tpane isScrollable: true.
 	^ tpane

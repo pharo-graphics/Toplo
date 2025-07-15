@@ -9,9 +9,3 @@ ToTabPaneGroupElement >> barElementClass [
 
 	^ ToTabPaneBarElement 
 ]
-
-{ #category : #adding }
-ToTabPaneGroupElement >> newTabItem [
-
-	^ ToTabButton new
-]

@@ -9,3 +9,9 @@ ToTabPaneGroupElement >> barElementClass [
 
 	^ ToTabPaneBarElement 
 ]
+
+{ #category : #initialization }
+ToTabPaneGroupElement >> defaultTabItemFactory [
+
+	^ [ ToTabButton new ]
+]

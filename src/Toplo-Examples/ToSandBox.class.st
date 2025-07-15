@@ -1960,59 +1960,123 @@ ToSandBox class >> example_ClassHierarchiesWithMethods [
 { #category : #anchors }
 ToSandBox class >> example_ClockWithAnchors [
 
-	| pane clock secondHand axis f animation |
-	self flag: 'To be reworked in a class ...'.
+	| pane clock hoursHand minutesHand secondsHand axis f secondsAnimation minutesAnimation hoursAnimation |
+	self flag: 'To be implemented in ToExClock ...'.
 	pane := BlElement new.
 	pane constraintsDo: [ :c |
 			c horizontal matchParent.
 			c vertical matchParent ].
 	clock := BlElement new
 		         geometry: BlCircleGeometry new;
-		         extent: 130 asPoint;
+		         extent: 140 asPoint;
 		         border: Color red;
 		         yourself.
-	secondHand := BlElement new
-		     position: 100 asPoint;
-		     extent: 100 @ 0;
-		     border: Color red;
-		     geometry: (BlLineGeometry from: 0 @ 0 to: 100 @ 0);
-		     yourself.
+	hoursHand := BlElement new
+		             position: 40 asPoint;
+		             extent: 40 @ 0;
+		             border: (BlBorder paint: Color black width: 4);
+		             geometry: (BlLineGeometry from: 0 @ 0 to: 40 @ 0);
+		             yourself.
+	secondsHand := BlElement new
+		               position: 100 asPoint;
+		               extent: 100 @ 0;
+		               border: Color red;
+		               geometry: (BlLineGeometry from: 0 @ 0 to: 100 @ 0);
+		               yourself.
+	minutesHand := BlElement new
+		               position: 50 asPoint;
+		               extent: 50 @ 0;
+		               border: (BlBorder paint: Color blue width: 2);
+		               geometry: (BlLineGeometry from: 0 @ 0 to: 50 @ 0);
+		               yourself.
 	axis := BlElement new
-		     geometry: BlCircleGeometry new;
-		     extent: 10 asPoint;
-		     border: Color red;
-		     yourself.
-	secondHand clipChildren: false.
+		        geometry: BlCircleGeometry new;
+		        extent: 10 asPoint;
+		        border: Color red;
+		        yourself.
+	secondsHand clipChildren: false.
+
+	clock margin: (BlInsets all: -10).
+	1 to: 12 do: [ :m |
+			| dbar lab |
+			dbar := ToElement new
+				        id: m asString asSymbol;
+				        fitContent;
+				        yourself.
+			lab := ToLabel text: m asString.
+			dbar addChild: lab.
+			dbar constraintsDo: [ :c |
+					c ignoreByLayout.
+					c anchors add: (c anchors centerAnchor on:
+							 (clock perimeterAnchor degrees: 360 / 12 * m)) ].
+			clock addChild: dbar ].
+
 	f := BlElement new
 		     extent: 10 asPoint;
 		     background: Color blue;
 		     yourself.
 	f constraintsDo: [ :c |
 			c ignoreByLayout.
-			c anchors add: (c anchors leftAnchor on: secondHand leftAnchor).
+			c anchors add: (c anchors leftAnchor on: secondsHand leftAnchor).
 			c anchors add:
-				(c anchors verticalCenterAnchor on: secondHand verticalCenterAnchor) ].
+				(c anchors verticalCenterAnchor on:
+					 secondsHand verticalCenterAnchor) ].
 	axis constraintsDo: [ :c |
 			c ignoreByLayout.
-			c anchors add:
-				(c anchors centerAnchor on: clock centerAnchor) ].
-	secondHand constraintsDo: [ :c |
+			c anchors add: (c anchors centerAnchor on: clock centerAnchor) ].
+	secondsHand constraintsDo: [ :c |
 			c ignoreByLayout.
-			c anchors add:
-				(c anchors centerAnchor on: clock centerAnchor) ].
-	animation := BlNumberTransition new
-		             onStepDo: [ :aSecond |
-				             secondHand transformDo: [ :aTransform |
-						             aTransform rotateBy: aSecond * (360 / 60) - 90 ] ];
-		             from: 0;
-		             to: 60;
-		             by: 1;
-		             beInfinite;
-		             duration: 60 seconds.
-	secondHand addAnimation: animation.
-	secondHand addChild: f.
+			c anchors add: (c anchors centerAnchor on: clock centerAnchor) ].
+	minutesHand constraintsDo: [ :c |
+			c ignoreByLayout.
+			c anchors add: (c anchors topLeftAnchor on: clock centerAnchor) ].
+	hoursHand constraintsDo: [ :c |
+			c ignoreByLayout.
+			c anchors add: (c anchors topLeftAnchor on: clock centerAnchor) ].
+	secondsAnimation := BlNumberTransition new
+		                    onStepDo: [ :aSecond |
+				                    secondsHand transformDo: [ :aTransform |
+						                    aTransform rotateBy:
+								                    aSecond * (360 / 60) - 90 ] ];
+		                    from: 0;
+		                    to: 60;
+		                    by: 1;
+		                    beInfinite;
+		                    duration: 600 milliSeconds.
+	minutesAnimation := BlNumberTransition new
+		                    onStepDo: [ :aMinute |
+				                    minutesHand transformDo: [ :aTransform |
+							                    aTransform origin:
+									                    (BlAffineTransformationPositionOrigin
+										                     position: 0 @ 0).
+							                    aTransform rotateBy:
+									                    aMinute * (360 / 60) - 90 ] ];
+		                    from: 0;
+		                    to: 60;
+		                    by: 1;
+		                    beInfinite;
+		                    duration: 60 seconds.
+	hoursAnimation := BlNumberTransition new
+		                  onStepDo: [ :aMinute |
+				                  hoursHand transformDo: [ :aTransform |
+							                  aTransform origin:
+									                  (BlAffineTransformationPositionOrigin
+										                   position: 0 @ 0).
+							                  aTransform rotateBy:
+									                  aMinute * (360 / 60) - 90 ] ];
+		                  from: 0;
+		                  to: 60;
+		                  by: 1;
+		                  beInfinite;
+		                  duration: 60 minutes.
+	secondsHand addAnimation: secondsAnimation.
+	minutesHand addAnimation: minutesAnimation.
+	hoursHand addAnimation: hoursAnimation.
+	secondsHand addChild: f.
 	clock addChild: axis.
-	clock addChild: secondHand.
+	clock addChild: secondsHand.
+	clock addChild: minutesHand.
+	clock addChild: hoursHand.
 	pane addChild: clock.
 	pane openInSpace
 ]

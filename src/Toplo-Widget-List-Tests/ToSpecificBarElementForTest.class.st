@@ -1,8 +1,8 @@
 Class {
 	#name : #ToSpecificBarElementForTest,
 	#superclass : #ToAbstractListElement,
-	#traits : 'TToBarElement',
-	#classTraits : 'TToBarElement classTrait',
+	#traits : 'TToConfigurableBarElement + TToBarElement',
+	#classTraits : 'TToConfigurableBarElement classTrait + TToBarElement classTrait',
 	#category : #'Toplo-Widget-List-Tests-Core-BarElement'
 }
 

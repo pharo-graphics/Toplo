@@ -113,7 +113,7 @@ ToTreeDataItemWrapper >> dataItem: aDataItem [
 { #category : #accessing }
 ToTreeDataItemWrapper >> dataItemChildren [
 
-	^ treeElement nodeManager childrenFromDataItem: self unwrapped
+	^ treeElement nodeManager childrenFromDataItem: self unwrappedDataItem
 ]
 
 { #category : #'expanding-collapsing' }
@@ -158,7 +158,7 @@ ToTreeDataItemWrapper >> expandDeeplyIn: aCollection [
 			treeElement dataAccessor
 				useParentWrapper: self
 				while: [
-						wrapper := treeElement dataAccessor newWrapperFor: child.
+						wrapper := treeElement dataAccessor newWrapperForDataItem: child.
 						aCollection add: wrapper.
 						wrapper expandDeeplyIn: aCollection ] ].
 	^ aCollection
@@ -340,7 +340,7 @@ ToTreeDataItemWrapper >> treeNodeAtPosition: aPositionInDataSource do: aValuable
 ]
 
 { #category : #accessing }
-ToTreeDataItemWrapper >> unwrapped [ 
+ToTreeDataItemWrapper >> unwrappedDataItem [ 
 
 	^ self dataItem
 ]

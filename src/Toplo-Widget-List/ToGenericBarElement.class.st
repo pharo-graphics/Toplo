@@ -1,8 +1,8 @@
 Class {
 	#name : #ToGenericBarElement,
 	#superclass : #ToGenericListElement,
-	#traits : 'TToBarElement',
-	#classTraits : 'TToBarElement classTrait',
+	#traits : 'TToConfigurableBarElement + TToBarElement',
+	#classTraits : 'TToConfigurableBarElement classTrait + TToBarElement classTrait',
 	#category : #'Toplo-Widget-List-Core-BarElement'
 }
 

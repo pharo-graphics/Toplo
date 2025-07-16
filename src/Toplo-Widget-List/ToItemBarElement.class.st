@@ -4,8 +4,8 @@ I'm a list whose node contents is a BlElement
 Class {
 	#name : #ToItemBarElement,
 	#superclass : #ToAbstractListElement,
-	#traits : 'TToBarElement + TToItemList',
-	#classTraits : 'TToBarElement classTrait + TToItemList classTrait',
+	#traits : 'TToConfigurableBarElement + TToBarElement + TToItemList',
+	#classTraits : 'TToConfigurableBarElement classTrait + TToBarElement classTrait + TToItemList classTrait',
 	#category : #'Toplo-Widget-List-ItemBar'
 }
 

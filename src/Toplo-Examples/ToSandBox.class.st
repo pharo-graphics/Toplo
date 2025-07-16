@@ -4832,25 +4832,19 @@ ToSandBox class >> example_SimpleTabPane [
 	tabPane := ToTabPaneElement new.
 	tabPane matchParent.
 	space root addChild: tabPane.
-	tabPane addItem: (ToTabButton new
-			 id: #first;
-			 labelText: 'First';
-			 paneBuilder: [ :body :btn :node :holder |
-					 body addChild: (ToElement new
-								  background: Color red;
-								  matchParent;
-								  yourself) ];
-			 yourself).
+	tabPane tabItemBuilder: [ :tabItem :data |
+			tabItem
+				id: data asSymbol;
+				labelText: data asString;
+				paneBuilder: [ :body :btn :node :holder |
+						body addChild: (ToElement new
+									 background: Color random;
+									 matchParent;
+									 yourself) ] ].
 
-	tabPane addItem: (ToTabButton new
-			 id: #second;
-			 labelText: 'Second';
-			 paneBuilder: [ :body :btn :node :holder |
-					 body addChild: (ToElement new
-								  background: Color green;
-								  matchParent;
-								  yourself) ];
-			 yourself).
+	tabPane addTabItemData: 'First'.
+	tabPane addTabItemData: 'Second'.
+
 	space show.
 	^ tabPane
 ]
@@ -4858,13 +4852,10 @@ ToSandBox class >> example_SimpleTabPane [
 { #category : #tabPane }
 ToSandBox class >> example_SimpleTabPaneWithRemoveButtons [
 
-	| tabPane space firstTab secondTab |
+	| tabPane space |
 	space := BlSpace new.
-	tabPane :=self example_SimpleTabPane.
-	firstTab := tabPane items first.
-	secondTab := tabPane items second.
-	firstTab removable: true.
-	secondTab removable: true.
+	tabPane := self example_SimpleTabPane.
+	tabPane items do: [ :tabItem | tabItem removable: true ].
 
 	^ tabPane
 ]
@@ -4980,7 +4971,7 @@ ToSandBox class >> example_TabGroupElement [
 	tabs isScrollable: true.
 	tabs hMatchParent.
 	tabs showAddTabItemButton: true.
-	tabs tabItemBuilder: [ :tabItem :data :tabGroup |
+	tabs tabItemBuilder: [ :tabItem :data  |
 		tabItem labelText: data asString.
 		tabItem removable: true ].
 	50 to: 70 do: [ :i |

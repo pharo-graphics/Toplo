@@ -9,7 +9,7 @@ ToTreeElementSieve >> filter: aValuable [
 	" filter takes a wrapped data and a pattern as argument "
 
 	super filter: [ :item :pattern |
-		aValuable value: item unwrapped value: pattern ]
+		aValuable value: item unwrappedDataItem value: pattern ]
 ]
 
 { #category : #accessing }

@@ -27,7 +27,7 @@ ToTreeDataAccessorTest >> testAdd [
 	self assert: tree dataAccessor asOrderedCollection equals: #(1 2 3 4 88) asOrderedCollection.
 	tree dataAccessor add: 99.
 	self assert: tree dataAccessor asOrderedCollection equals: #(1 2 3 4 88 99) asOrderedCollection.
-	self assert: (tree dataSource collect: #unwrapped) asArray equals: #(1 2 3 4 88 99)
+	self assert: (tree dataSource collect: #unwrappedDataItem) asArray equals: #(1 2 3 4 88 99)
 ]
 
 { #category : #'tests - adding' }
@@ -38,7 +38,7 @@ ToTreeDataAccessorTest >> testAddAfter [
 	self assert: tree dataAccessor asArray equals: #(1 88 2 3 4).
 	tree dataAccessor add: 99 after: 2.
 	self assert: tree dataAccessor asArray equals: #(1 88 2 99 3 4).
-	self assert: (tree dataSource collect: #unwrapped) asArray equals: #(1 88 2 99 3 4)
+	self assert: (tree dataSource collect: #unwrappedDataItem) asArray equals: #(1 88 2 99 3 4)
 ]
 
 { #category : #'tests - adding' }
@@ -51,7 +51,7 @@ ToTreeDataAccessorTest >> testAddAfterIndex [
 	self assert: tree dataAccessor asArray equals: #(88 1 2 3 4 99).
 	tree dataAccessor add: 89 afterIndex: 4.
 	self assert: tree dataAccessor asArray equals: #(88 1 2 3 89 4 99).
-	self assert: (tree dataSource collect: #unwrapped) asArray equals: #(88 1 2 3 89 4 99)
+	self assert: (tree dataSource collect: #unwrappedDataItem) asArray equals: #(88 1 2 3 89 4 99)
 ]
 
 { #category : #'tests - adding' }
@@ -63,7 +63,7 @@ ToTreeDataAccessorTest >> testAddAll [
 	tree dataAccessor addAll: #(1 2 3 4).
 	tree dataAccessor addAll: #(5 6 7 8 9).
 	self assert: tree dataAccessor asArray equals: #(1 2 3 4 5 6 7 8 9).
-	self assert: (tree dataSource collect: #unwrapped) asArray equals: #(1 2 3 4 5 6 7 8 9)
+	self assert: (tree dataSource collect: #unwrappedDataItem) asArray equals: #(1 2 3 4 5 6 7 8 9)
 ]
 
 { #category : #'tests - adding' }
@@ -75,13 +75,13 @@ ToTreeDataAccessorTest >> testAddAllAfterIndex [
 	tree dataAccessor addAll: #( 5 6 7 8 9 ) afterIndex: 2.
 	self assert: tree dataAccessor asArray equals: #( 1 2 5 6 7 8 9 3 4 ).
 	self
-		assert: (tree dataSource collect: #unwrapped) asArray
+		assert: (tree dataSource collect: #unwrappedDataItem) asArray
 		equals: #( 1 2 5 6 7 8 9 3 4 ).
 		
 	tree dataAccessor addAll: #( -1 -2 -3 ) afterIndex: 4.
 	self assert: tree dataAccessor asArray equals: #( 1 2 5 6 -1 -2 -3 7 8 9 3 4 ).
 	self
-		assert: (tree dataSource collect: #unwrapped) asArray
+		assert: (tree dataSource collect: #unwrappedDataItem) asArray
 		equals: #( 1 2 5 6 -1 -2 -3 7 8 9 3 4 )
 ]
 
@@ -92,7 +92,7 @@ ToTreeDataAccessorTest >> testAddAllFirst [
 	tree dataAccessor addAll: #(5 6 7 8 9).
 	tree dataAccessor addAllFirst: #(1 2 3 4).
 	self assert: tree dataAccessor asArray equals: #(1 2 3 4 5 6 7 8 9).
-	self assert: (tree dataSource collect: #unwrapped) asArray equals: #(1 2 3 4 5 6 7 8 9)
+	self assert: (tree dataSource collect: #unwrappedDataItem) asArray equals: #(1 2 3 4 5 6 7 8 9)
 ]
 
 { #category : #'tests - adding' }
@@ -102,7 +102,7 @@ ToTreeDataAccessorTest >> testAddAllLast [
 	tree dataAccessor addAll: #(1 2 3 4).
 	tree dataAccessor addAllLast: #(5 6 7 8 9).
 	self assert: tree dataAccessor asArray equals: #(1 2 3 4 5 6 7 8 9).
-	self assert: (tree dataSource collect: #unwrapped) asArray equals: #(1 2 3 4 5 6 7 8 9)
+	self assert: (tree dataSource collect: #unwrappedDataItem) asArray equals: #(1 2 3 4 5 6 7 8 9)
 ]
 
 { #category : #'tests - adding' }
@@ -113,7 +113,7 @@ ToTreeDataAccessorTest >> testAddBefore [
 	self assert: tree dataAccessor asArray equals: #(88 1 2 3 4).
 	tree dataAccessor add: 99 before: 2.
 	self assert: tree dataAccessor asArray equals: #(88 1 99 2 3 4).
-	self assert: (tree dataSource collect: #unwrapped) asArray equals: #(88 1 99 2 3 4)
+	self assert: (tree dataSource collect: #unwrappedDataItem) asArray equals: #(88 1 99 2 3 4)
 ]
 
 { #category : #'tests - adding' }
@@ -124,7 +124,7 @@ ToTreeDataAccessorTest >> testAddBeforeAndRemove [
 	tree dataAccessor remove: 99.
 	tree dataAccessor remove: 88.
 	self assert: tree dataAccessor asArray equals:  #(1 2 3 4).
-	self assert: (tree dataSource collect: #unwrapped) asArray equals: #(1 2 3 4)
+	self assert: (tree dataSource collect: #unwrappedDataItem) asArray equals: #(1 2 3 4)
 ]
 
 { #category : #'tests - adding' }
@@ -137,7 +137,7 @@ ToTreeDataAccessorTest >> testAddBeforeIndex [
 	self assert: tree dataAccessor asArray equals: #(88 1 2 3 99 4).
 	tree dataAccessor add: 89 beforeIndex: 4.
 	self assert: tree dataAccessor asArray equals: #(88 1 2 89 3 99 4).
-	self assert: (tree dataSource collect: #unwrapped) asArray equals: #(88 1 2 89 3 99 4) 
+	self assert: (tree dataSource collect: #unwrappedDataItem) asArray equals: #(88 1 2 89 3 99 4) 
 ]
 
 { #category : #'tests - adding' }
@@ -151,7 +151,7 @@ ToTreeDataAccessorTest >> testAddDuplicateItem1 [
 			 (collection at: (collection indexOf: 'John') + 1)
 			 = (collection at: (collection indexOf: 'John')) ]).
 	self
-		assert: (tree dataSource collect: #unwrapped) asArray
+		assert: (tree dataSource collect: #unwrappedDataItem) asArray
 		equals: #( 'Jim' 'Mary' 'John' 'John' 'Andrew' )
 ]
 
@@ -163,7 +163,7 @@ ToTreeDataAccessorTest >> testAddFirst [
 	self assert: tree dataAccessor asArray equals: #(88 1 2 3 4).
 	tree dataAccessor addFirst: 99.
 	self assert: tree dataAccessor asArray equals: #(99 88 1 2 3 4).
-	self assert: (tree dataSource collect: #unwrapped) asArray equals: #(99 88 1 2 3 4)
+	self assert: (tree dataSource collect: #unwrappedDataItem) asArray equals: #(99 88 1 2 3 4)
 ]
 
 { #category : #'tests - adding' }
@@ -175,7 +175,7 @@ ToTreeDataAccessorTest >> testAddLast [
 	tree dataAccessor addLast: 99.
 	self assert: tree dataAccessor asArray equals: #( 1 2 3 4 88 99 ).
 	self
-		assert: (tree dataSource collect: #unwrapped) asArray
+		assert: (tree dataSource collect: #unwrappedDataItem) asArray
 		equals: #( 1 2 3 4 88 99 )
 ]
 
@@ -203,8 +203,8 @@ ToTreeDataAccessorTest >> testAnySatisfy [
 ToTreeDataAccessorTest >> testAt [
 
 	tree dataAccessor addAll: #('Jim' 'Mary' 'John' 'Andrew').
-	self assert: (tree dataSource at: 1) unwrapped equals: 'Jim'.
-	self assert: (tree dataSource at: 2) unwrapped equals: 'Mary'.
+	self assert: (tree dataSource at: 1) unwrappedDataItem equals: 'Jim'.
+	self assert: (tree dataSource at: 2) unwrappedDataItem equals: 'Mary'.
 	self assert: (tree dataAccessor at: 1) equals: 'Jim'.
 	self assert: (tree dataAccessor at: 2) equals: 'Mary'
 ]
@@ -218,7 +218,7 @@ ToTreeDataAccessorTest >> testAtPut [
 	wrapper := tree dataSource at: 2.
 	tree dataAccessor at: 2 put: 5.
 	self assert: (tree dataAccessor at: 2) equals: 5.
-	self assert: (tree dataSource at: 2) identicalTo: wrapper
+	self deny: (tree dataSource at: 2) identicalTo: wrapper
 ]
 
 { #category : #'tests - enumerating' }
@@ -239,7 +239,7 @@ ToTreeDataAccessorTest >> testConcatenation [
 	self
 		assert: result
 		equals: #( 1 2 3 4 5 6 7 8 9 ) asOrderedCollection.
-	self assert: (tree dataSource collect: #unwrapped) asArray equals: #( 1 2 3 4 ).
+	self assert: (tree dataSource collect: #unwrappedDataItem) asArray equals: #( 1 2 3 4 ).
 ]
 
 { #category : #'tests - copying' }
@@ -387,7 +387,7 @@ ToTreeDataAccessorTest >> testLast [
 	tree dataAccessor initializeWith: #( 1 2 3 4 5).
 	self assert: (tree dataAccessor last) equals: 5.
 	self assert: (tree dataAccessor last: 3) asArray equals: #(3 4 5).
-	self assert: (tree dataSource collect: #unwrapped) asArray equals: #( 1 2 3 4 5)
+	self assert: (tree dataSource collect: #unwrappedDataItem) asArray equals: #( 1 2 3 4 5)
 ]
 
 { #category : #'tests - copying' }

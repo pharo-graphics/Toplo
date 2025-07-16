@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTabPaneBarElement,
 	#superclass : #ToTabBarElement,
-	#category : #'Toplo-Widget-TabPane-TabBar'
+	#category : #'Toplo-Widget-TabPane-TabPane'
 }
 
 { #category : #'t - item list - accessing' }

@@ -21,5 +21,5 @@ Class {
 { #category : #accessing }
 ToTreeNodeHolder >> treeDataItem [ 
 
-	^ dataItem unwrapped
+	^ dataItem unwrappedDataItem
 ]

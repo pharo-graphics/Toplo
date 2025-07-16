@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuPane,
 	#superclass : #ToElement,
-	#traits : 'TToItem + TToMenuItem + TToItemBarContainer + TToItemBarOwner + TToMenuItemListOwner + TToOrientable',
-	#classTraits : 'TToItem classTrait + TToMenuItem classTrait + TToItemBarContainer classTrait + TToItemBarOwner classTrait + TToMenuItemListOwner classTrait + TToOrientable classTrait',
+	#traits : 'TToItem + TToMenuItem + TToItemBarContainer + TToMenuItemBarContainer + TToOrientable',
+	#classTraits : 'TToItem classTrait + TToMenuItem classTrait + TToItemBarContainer classTrait + TToMenuItemBarContainer classTrait + TToOrientable classTrait',
 	#instVars : [
 		'autoOpen',
 		'isSubPane'
@@ -155,7 +155,7 @@ ToMenuPane >> onAddedInItemBarOwner: aMenuItemBar [
 	aMenuItemBar onAddedMenuPane: self
 ]
 
-{ #category : #'t - menu item list owner - double dispatch' }
+{ #category : #'t - menu item bar container - double dispatch' }
 ToMenuPane >> onAddedMenu: aMenu [
 
 	aMenu isMenuPaneMenu: true.

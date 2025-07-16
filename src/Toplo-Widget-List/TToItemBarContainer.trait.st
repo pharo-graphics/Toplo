@@ -1,5 +1,8 @@
 Trait {
 	#name : #TToItemBarContainer,
+	#instVars : [
+		'itemBar'
+	],
 	#category : #'Toplo-Widget-List-ItemBar'
 }
 
@@ -44,13 +47,13 @@ TToItemBarContainer >> addItem: anItem beforeIndex: anInteger [
 	self onAddedItem: anItem
 ]
 
-{ #category : #'t - item bar container - accessing' }
+{ #category : #'t - item bar container - configuration' }
 TToItemBarContainer >> autoDistribute [
 
 	^ self itemBar autoDistribute
 ]
 
-{ #category : #'t - item bar container - accessing' }
+{ #category : #'t - item bar container - configuration' }
 TToItemBarContainer >> autoDistribute: aBoolean [
 
 	self itemBar autoDistribute = aBoolean ifTrue: [ ^ self ].
@@ -77,17 +80,6 @@ TToItemBarContainer >> deselectedAtPosition: anInteger [
 ]
 
 { #category : #'t - item bar container - disable/ enable' }
-TToItemBarContainer >> disableItem: anItem [
-
-	self
-		deprecated: 'Use #disabledItem: instead'
-		transformWith:
-		'`@rcvr disableItem: `@arg1' -> '`@rcvr disabledItem: `@arg1'.
-
-	self disabledItem: anItem
-]
-
-{ #category : #'t - item bar container - disable/ enable' }
 TToItemBarContainer >> disabledAtPosition: anInteger [
 
 	self itemBar disabledAtPosition: anInteger
@@ -97,17 +89,6 @@ TToItemBarContainer >> disabledAtPosition: anInteger [
 TToItemBarContainer >> disabledItem: anItem [
 
 	self itemBar disabledItem: anItem
-]
-
-{ #category : #'t - item bar container - disable/ enable' }
-TToItemBarContainer >> enableItem: anItem [
-
-	self
-		deprecated: 'Use #enabledItem: instead'
-		transformWith:
-		'`@rcvr enableItem: `@arg1' -> '`@rcvr enabledItem: `@arg1'.
-
-	self enabledItem: anItem
 ]
 
 { #category : #'t - item bar container - disable/ enable' }
@@ -122,7 +103,7 @@ TToItemBarContainer >> enabledItem: anItem [
 	self itemBar enabledItem: anItem
 ]
 
-{ #category : #'t - item bar container - accessing' }
+{ #category : #'t - item bar container - configuration' }
 TToItemBarContainer >> exactItemHeight: aNumberOrNil [
 
 	self itemBar exactItemHeight = aNumberOrNil ifTrue: [ ^ self ].
@@ -130,7 +111,7 @@ TToItemBarContainer >> exactItemHeight: aNumberOrNil [
 	self requestNewConfiguration
 ]
 
-{ #category : #'t - item bar container - accessing' }
+{ #category : #'t - item bar container - configuration' }
 TToItemBarContainer >> exactItemWidth: aNumberOrNil [
 
 	self itemBar exactItemWidth = aNumberOrNil ifTrue: [ ^ self ].
@@ -138,7 +119,7 @@ TToItemBarContainer >> exactItemWidth: aNumberOrNil [
 	self requestNewConfiguration
 ]
 
-{ #category : #'t - item bar container - accessing' }
+{ #category : #'t - item bar container - configuration' }
 TToItemBarContainer >> exactNodeHeight: aNumberOrNil [
 
 	self itemBar exactNodeHeight = aNumberOrNil ifTrue: [ ^ self ].
@@ -146,7 +127,7 @@ TToItemBarContainer >> exactNodeHeight: aNumberOrNil [
 	self requestNewConfiguration
 ]
 
-{ #category : #'t - item bar container - accessing' }
+{ #category : #'t - item bar container - configuration' }
 TToItemBarContainer >> exactNodeWidth: aNumberOrNil [
 
 	self itemBar exactNodeWidth = aNumberOrNil ifTrue: [ ^ self ].
@@ -172,19 +153,25 @@ TToItemBarContainer >> hiddenItem: anItem [
 	self itemBar hiddenItem: anItem
 ]
 
+{ #category : #'t - item bar container - initializing' }
+TToItemBarContainer >> initializeAsItemBarOwner [
+
+	self setItemBar: self newItemBar
+]
+
 { #category : #'t - item bar container - accessing' }
 TToItemBarContainer >> innerElement [
 
 	^ self itemBar innerElement
 ]
 
-{ #category : #'t - item bar container - accessing' }
+{ #category : #'t - item bar container - configuration' }
 TToItemBarContainer >> isFlowable [
 
 	^ self itemBar isFlowable
 ]
 
-{ #category : #'t - item bar container - accessing' }
+{ #category : #'t - item bar container - configuration' }
 TToItemBarContainer >> isFlowable: aBoolean [
 
 	self itemBar isFlowable = aBoolean ifTrue: [ ^ self ].
@@ -198,13 +185,13 @@ TToItemBarContainer >> isItemContainer [
 	^ true
 ]
 
-{ #category : #'t - item bar container - accessing' }
+{ #category : #'t - item bar container - configuration' }
 TToItemBarContainer >> isScrollable [
 
 	^ self itemBar isScrollable
 ]
 
-{ #category : #'t - item bar container - accessing' }
+{ #category : #'t - item bar container - configuration' }
 TToItemBarContainer >> isScrollable: aBoolean [
 
 	self itemBar isScrollable = aBoolean ifTrue: [ ^ self ].
@@ -213,49 +200,9 @@ TToItemBarContainer >> isScrollable: aBoolean [
 ]
 
 { #category : #'t - item bar container - accessing' }
-TToItemBarContainer >> isScrolling [
+TToItemBarContainer >> itemBar [
 
-	self
-		deprecated: 'Use #isScrollable'
-		transformWith: '`@r isScrolling' -> '`@r isScrollable'.
-	^ self isScrollable
-]
-
-{ #category : #'t - item bar container - accessing' }
-TToItemBarContainer >> isScrolling: aBoolean [
-
-	self
-		deprecated: 'Use #isScrollable:'
-		transformWith: '`@r isScrolling: `@a' -> '`@r isScrollable: `@a'.
-	self isScrollable: aBoolean
-]
-
-{ #category : #'t - item bar container - accessing' }
-TToItemBarContainer >> isWrapping [
-
-	self
-		deprecated: 'Use #isFlowable'
-		transformWith: '`@r isWrapping' -> '`@r isFlowable'.
-	^ self isFlowable
-]
-
-{ #category : #'t - item bar container - accessing' }
-TToItemBarContainer >> isWrapping: aBoolean [
-
-	self
-		deprecated: 'Use #isFlowable:'
-		transformWith: '`@r isWrapping: `@a' -> '`@r isFlowable: `@a'.
-	self isFlowable: aBoolean
-]
-
-{ #category : #'t - item bar container - accessing' }
-TToItemBarContainer >> itemList [
-
-	self
-		deprecated: 'Use itemBar instead'
-		transformWith: '`@rcvr itemList' -> '`@rcvr itemBar'.
-
-	^ self itemBar
+	^ itemBar
 ]
 
 { #category : #'t - item bar container - accessing' }
@@ -264,7 +211,7 @@ TToItemBarContainer >> items [
 	^ self itemBar dataAccessor
 ]
 
-{ #category : #'t - item bar container - accessing' }
+{ #category : #'t - item bar container - initializing' }
 TToItemBarContainer >> newItemBar [
 
 	^ ToItemBarElement new
@@ -407,24 +354,31 @@ TToItemBarContainer >> selectionOption [
 ]
 
 { #category : #'t - item bar container - accessing' }
+TToItemBarContainer >> setItemBar: anItemBar [
+
+	itemBar ifNotNil: [ BlImmutableObjectChangeError signal ].
+	itemBar := anItemBar 
+]
+
+{ #category : #'t - item bar container - configuration' }
 TToItemBarContainer >> uniformNodeHeight [
 
 	^ self itemBar uniformNodeHeight
 ]
 
-{ #category : #'t - item bar container - accessing' }
+{ #category : #'t - item bar container - configuration' }
 TToItemBarContainer >> uniformNodeHeight: aBoolean [
 
 	self itemBar uniformNodeHeight: aBoolean
 ]
 
-{ #category : #'t - item bar container - accessing' }
+{ #category : #'t - item bar container - configuration' }
 TToItemBarContainer >> uniformNodeWidth [
 
 	^ self itemBar uniformNodeWidth
 ]
 
-{ #category : #'t - item bar container - accessing' }
+{ #category : #'t - item bar container - configuration' }
 TToItemBarContainer >> uniformNodeWidth: aBoolean [
 
 	self itemBar uniformNodeWidth: aBoolean

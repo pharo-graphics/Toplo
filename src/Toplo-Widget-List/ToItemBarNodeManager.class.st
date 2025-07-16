@@ -15,7 +15,7 @@ ToItemBarNodeManager >> buildNode: aNode [
 { #category : #initialization }
 ToItemBarNodeManager >> defaultFakeDataItem [
 
-	^ ToBarItemElement new
+	^ ToBarItem new
 ]
 
 { #category : #'instance creation' }

@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToListInnerElement,
-	#category : #'Toplo-Widget-List-Core-BarElement'
+	#category : #'Toplo-Widget-List-Core'
 }
 
 { #category : #'t - list node holder' }

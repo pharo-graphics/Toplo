@@ -1,8 +1,8 @@
 Class {
 	#name : #ToTabGroupElement,
 	#superclass : #ToTripletElement,
-	#traits : 'TToItemBarContainer + TToItemBarOwner',
-	#classTraits : 'TToItemBarContainer classTrait + TToItemBarOwner classTrait',
+	#traits : 'TToItemBarContainer',
+	#classTraits : 'TToItemBarContainer classTrait',
 	#instVars : [
 		'invisibleNodes',
 		'visibleNodes',
@@ -253,7 +253,7 @@ ToTabGroupElement >> isAtStartSide [
 	^ self atStartSide
 ]
 
-{ #category : #'t - item bar container - accessing' }
+{ #category : #'t - item bar container - initializing' }
 ToTabGroupElement >> newItemBar [
 
 	^ self barElementClass new

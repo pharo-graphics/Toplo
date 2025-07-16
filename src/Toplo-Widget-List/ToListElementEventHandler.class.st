@@ -1,8 +1,6 @@
 Class {
 	#name : #ToListElementEventHandler,
 	#superclass : #BlCustomEventHandler,
-	#traits : 'TToListElementEventHandler',
-	#classTraits : 'TToListElementEventHandler classTrait',
 	#category : #'Toplo-Widget-List-Core'
 }
 

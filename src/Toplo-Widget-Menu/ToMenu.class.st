@@ -4,8 +4,8 @@ I'm a composite of Menu items. I can behave as a menu item (this is why I inheri
 Class {
 	#name : #ToMenu,
 	#superclass : #ToMenuItem,
-	#traits : 'TToItemBarContainer + TToItemBarOwner + TToMenuItemListOwner + TToMenuWindowModel',
-	#classTraits : 'TToItemBarContainer classTrait + TToItemBarOwner classTrait + TToMenuItemListOwner classTrait + TToMenuWindowModel classTrait',
+	#traits : 'TToItemBarContainer + TToMenuItemBarContainer + TToMenuWindowModel',
+	#classTraits : 'TToItemBarContainer classTrait + TToMenuItemBarContainer classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
 		'isSubmenu',
 		'builder',
@@ -178,7 +178,7 @@ ToMenu >> mouseOverEvent: anEvent [
 		ifFalse: [ self closeWindow ]
 ]
 
-{ #category : #'t - item bar container - accessing' }
+{ #category : #'t - item bar container - initializing' }
 ToMenu >> newItemBar [
 
 	^ ToMenuItemBarElement new
@@ -196,7 +196,7 @@ ToMenu >> onAddedInItemBarOwner: aMenu [
 	aMenu onAddedMenu: self
 ]
 
-{ #category : #'t - menu item list owner - double dispatch' }
+{ #category : #'t - menu item bar container - double dispatch' }
 ToMenu >> onAddedMenu: aMenu [
 
 	aMenu isSubmenu: true.
@@ -209,7 +209,7 @@ ToMenu >> onRemovedFromItemBarOwner: aMenu [
 	aMenu onRemovedMenu: self
 ]
 
-{ #category : #'t - menu item list owner - double dispatch' }
+{ #category : #'t - menu item bar container - double dispatch' }
 ToMenu >> onRemovedMenu: aMenu [
 
 	aMenu isSubmenu: false.

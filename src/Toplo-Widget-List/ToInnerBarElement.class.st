@@ -62,7 +62,20 @@ ToInnerBarElement >> applyWidgetConfiguration [
 { #category : #layout }
 ToInnerBarElement >> checkFullyVisibleNodes [
 
-	trackElement checkFullyVisibleNodes
+	| invisibleNodes visibleNodes |
+	(listElement isFlowable or: [ listElement autoDistribute ])
+		ifTrue: [
+				invisibleNodes := #(  ).
+				visibleNodes := self nodes asArray ]
+		ifFalse: [
+				invisibleNodes := self nodesSelect: [ :n |
+					                  n isFullyVisibleInInnerElement not ].
+				visibleNodes := self nodes difference: invisibleNodes ].
+
+	self dispatchEvent: (ToBarVisibleNodeListChangedEvent new
+			 visibleNodes: visibleNodes;
+			 invisibleNodes: invisibleNodes;
+			 yourself)
 ]
 
 { #category : #'private - commands' }
@@ -149,7 +162,7 @@ ToInnerBarElement >> initialize [
 
 	super initialize.
 	self initializeDataSource.
-	self addEventHandler: ToListInnerElementEventHandler new.
+	self addEventHandler: ToInnerBarElementEventHandler new.
 	self trackElement: self scrollableBarTrackElementClass new.
 	self installFakeNode.
 
@@ -264,6 +277,10 @@ ToInnerBarElement >> onEnterLayoutOrScroll [
 ToInnerBarElement >> onExitLayoutOrScroll [
 
 
+]
+
+{ #category : #'t - bar element' }
+ToInnerBarElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes [
 ]
 
 { #category : #'data source updates' }

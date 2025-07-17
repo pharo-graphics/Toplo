@@ -65,8 +65,7 @@ ToTabGroupElement >> barElementClass [
 { #category : #configuration }
 ToTabGroupElement >> canShowInvisibleNodesMenu [
 
-	^ self isFlowable not and: [
-		  self autoDistribute not and: [ invisibleNodes notEmpty ] ]
+	^ self isFlowable not and: [ self autoDistribute not ]
 ]
 
 { #category : #configuration }
@@ -75,17 +74,6 @@ ToTabGroupElement >> checkAddNewTabItemButton [
 	showAddTabItemButton 
 		ifTrue: [ addTabItemButton visibility: BlVisibility visible ]
 		ifFalse: [ addTabItemButton visibility: BlVisibility gone ]
-]
-
-{ #category : #configuration }
-ToTabGroupElement >> checkInvisibleNodes [
-
-	self canShowInvisibleNodesMenu
-		ifTrue: [ self showInvisibleNodesMenu: true ]
-		ifFalse: [ self showInvisibleNodesMenu: false ].
-
-	self itemBar selectionElementsDo: [ :se |
-		se visibility: se node visibility ]
 ]
 
 { #category : #initialization }
@@ -160,7 +148,12 @@ ToTabGroupElement >> initialize [
 	self resetInvisibleNodes.
 	self initializeAsItemBarOwner.
 	self initializeParts.
-
+	self itemBar innerElement
+		addEventHandlerOn: ToBarVisibleNodeListChangedEvent
+		do: [ :anEvent |
+				self
+					onInvisibleNodes: anEvent invisibleNodes
+					visibleNodes: anEvent visibleNodes ].
 	self itemBar
 		addEventHandlerOn: ToListSelectionChangedEvent
 		do: [ :event | self fireEvent: event copy ].
@@ -257,8 +250,6 @@ ToTabGroupElement >> isAtStartSide [
 ToTabGroupElement >> newItemBar [
 
 	^ self barElementClass new
-		  parentTabGroupElement: self;
-		  yourself
 ]
 
 { #category : #skin }
@@ -277,8 +268,8 @@ ToTabGroupElement >> newWidgetConfiguration [
 ToTabGroupElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes [
 
 	| startIdx endIdx |
-	invisibleNodes := theInvisibleNodes asArray.
-	visibleNodes := theVisibleNodes asArray.
+	invisibleNodes := theInvisibleNodes copy.
+	visibleNodes := theVisibleNodes copy.
 
 	startIdx := visibleNodes
 		            ifEmpty: [ 0 ]
@@ -288,12 +279,20 @@ ToTabGroupElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibl
 		          ifNotEmpty: [ visibleNodes last holder position ].
 
 	invisibleNodes do: [ :n |
-			n holder position > endIdx ifTrue: [
-				n isVisible ifTrue: [ n visibility: BlVisibility hidden ] ] ].
+			n holder position > endIdx
+				ifTrue: [
+				n isVisible ifTrue: [ n visibility: BlVisibility hidden ] ]
+				ifFalse: [
+				n isVisible ifFalse: [ n visibility: BlVisibility visible ] ] ].
 	visibleNodes do: [ :n |
 		n isVisible ifFalse: [ n visibility: BlVisibility visible ] ].
 
-	self dispatchEvent: ToVisibleTabsChanged new
+	(self canShowInvisibleNodesMenu and: [ invisibleNodes notEmpty ])
+		ifTrue: [ self showInvisibleNodesMenu: true ]
+		ifFalse: [ self showInvisibleNodesMenu: false ].
+
+	self itemBar selectionElementsDo: [ :se |
+		se visibility: se node visibility ]
 ]
 
 { #category : #initialization }

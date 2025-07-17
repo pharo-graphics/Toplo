@@ -2,8 +2,7 @@ Class {
 	#name : #ToTabBarElement,
 	#superclass : #ToCheckableBarElement,
 	#instVars : [
-		'atStartSide',
-		'parentTabGroupElement'
+		'atStartSide'
 	],
 	#category : #'Toplo-Widget-TabPane-TabBar'
 }
@@ -61,17 +60,4 @@ ToTabBarElement >> isAtStartSide [
 ToTabBarElement >> newRawSkin [ 
 
 	^ ToTabBarElementSkin new
-]
-
-{ #category : #'t - bar element' }
-ToTabBarElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes [
-
-	parentTabGroupElement ifNotNil: [ :p |
-		p onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes ]
-]
-
-{ #category : #accessing }
-ToTabBarElement >> parentTabGroupElement: anObject [
-
-	parentTabGroupElement := anObject
 ]

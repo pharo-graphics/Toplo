@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-TabPane-TabGroup'
 }
 
-{ #category : #adding }
+{ #category : #'element events handling' }
 ToTabGroupElementEventHandler >> addButtonClickedEvent: anEvent [
 
 	anEvent currentTarget addNewTabItem.
@@ -15,7 +15,6 @@ ToTabGroupElementEventHandler >> addButtonClickedEvent: anEvent [
 ToTabGroupElementEventHandler >> eventsToHandle [
 
 	^ {
-		  ToVisibleTabsChanged.
 		  BlLayoutResizerChangedEvent.
 		  ToAddButtonClickedEvent }
 ]
@@ -24,10 +23,4 @@ ToTabGroupElementEventHandler >> eventsToHandle [
 ToTabGroupElementEventHandler >> layoutResizerChangedEvent: anEvent [
 
 	anEvent currentTarget requestNewConfiguration
-]
-
-{ #category : #'element events handling' }
-ToTabGroupElementEventHandler >> visibleTabsChanged: anEvent [
-
-	anEvent currentTarget checkInvisibleNodes
 ]

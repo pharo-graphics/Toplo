@@ -96,24 +96,6 @@ ToScrollableBarTrackElement >> autoDistribute [
 	^ listElement autoDistribute
 ]
 
-{ #category : #layout }
-ToScrollableBarTrackElement >> checkFullyVisibleNodes [
-
-	| invisibleNodes visibleNodes |
-	(self isFlowable or: [ self autoDistribute ])
-		ifTrue: [
-			invisibleNodes := #(  ).
-			visibleNodes := self nodes ]
-		ifFalse: [
-			invisibleNodes := self nodesSelect: [ :n |
-				                  n isFullyVisibleInInnerElement not ].
-			visibleNodes := self nodes difference: invisibleNodes ].
-
-	listElement
-		onInvisibleNodes: invisibleNodes
-		visibleNodes: visibleNodes
-]
-
 { #category : #accessing }
 ToScrollableBarTrackElement >> fakeNode [ 
 

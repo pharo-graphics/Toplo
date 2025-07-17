@@ -4,15 +4,15 @@ Trait {
 }
 
 { #category : #'t - bar element' }
-TToBarElement >> checkFullyVisibleNodes [ 
+TToBarElement >> defaultInnerElement [
 
-	self innerElement checkFullyVisibleNodes 
+	^ self defaultInnerElementClass onBarElement: self
 ]
 
 { #category : #'t - bar element' }
-TToBarElement >> defaultInnerElement [
+TToBarElement >> defaultInnerElementClass [
 
-	^ ToInnerBarElement onBarElement: self
+	^ ToInnerBarElement 
 ]
 
 { #category : #'t - bar element' }
@@ -25,12 +25,6 @@ TToBarElement >> fakeNode [
 TToBarElement >> installFakeNode [
 
 	self innerElement installFakeNode
-]
-
-{ #category : #'t - bar element' }
-TToBarElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes [
-
-	
 ]
 
 { #category : #'t - bar element' }

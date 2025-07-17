@@ -5030,7 +5030,6 @@ ToSandBox class >> example_TabGroupElementWithUSStates [
 
 	| tabs dashBoard |
 	tabs := ToTabGroupElement new.
-	tabs exactItemWidth: 30.
 	tabs tabItemBuilder: [ :tabItem :data :tabGroup |
 			tabItem labelText: data asString.
 			tabItem removable: true ].

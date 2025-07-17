@@ -1,9 +1,5 @@
 Trait {
 	#name : #TToItemList,
-	#instVars : [
-		'exactItemWidth',
-		'exactItemHeight'
-	],
 	#category : #'Toplo-Widget-List-Core'
 }
 
@@ -70,38 +66,6 @@ TToItemList >> disabledItem: anItem [
 TToItemList >> enabledItem: anItem [
 
 	self enabledAtPosition: anItem positionInList
-]
-
-{ #category : #'t - item list - accessing' }
-TToItemList >> exactItemHeight [
-
-	^ exactItemHeight
-]
-
-{ #category : #'t - item list - accessing' }
-TToItemList >> exactItemHeight: aNumberOrNil [
-
-	exactItemHeight = aNumberOrNil ifTrue:[ ^ self ].
-	exactItemHeight := aNumberOrNil.
-	self requestNewConfiguration.
-	self notifyDataSourceChanged.
-	self requestLayout
-]
-
-{ #category : #'t - item list - accessing' }
-TToItemList >> exactItemWidth [
-
-	^ exactItemWidth
-]
-
-{ #category : #'t - item list - accessing' }
-TToItemList >> exactItemWidth: aNumberOrNil [
-
-	exactItemWidth = aNumberOrNil ifTrue:[ ^ self ].
-	exactItemWidth := aNumberOrNil.
-	self requestNewConfiguration.
-	self notifyDataSourceChanged.
-	self requestLayout
 ]
 
 { #category : #'t - item list - hidden/visible' }

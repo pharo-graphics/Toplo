@@ -104,22 +104,6 @@ TToItemBarContainer >> enabledItem: anItem [
 ]
 
 { #category : #'t - item bar container - configuration' }
-TToItemBarContainer >> exactItemHeight: aNumberOrNil [
-
-	self itemBar exactItemHeight = aNumberOrNil ifTrue: [ ^ self ].
-	self itemBar exactItemHeight: aNumberOrNil.
-	self requestNewConfiguration
-]
-
-{ #category : #'t - item bar container - configuration' }
-TToItemBarContainer >> exactItemWidth: aNumberOrNil [
-
-	self itemBar exactItemWidth = aNumberOrNil ifTrue: [ ^ self ].
-	self itemBar exactItemWidth: aNumberOrNil.
-	self requestNewConfiguration
-]
-
-{ #category : #'t - item bar container - configuration' }
 TToItemBarContainer >> exactNodeHeight: aNumberOrNil [
 
 	self itemBar exactNodeHeight = aNumberOrNil ifTrue: [ ^ self ].

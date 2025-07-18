@@ -9,6 +9,13 @@ ToTabPaneHeaderConfiguration >> applyOn: anElement [
 
 	super applyOn: anElement.
 
+	self configureAlignmentIn: anElement
+]
+
+{ #category : #hook }
+ToTabPaneHeaderConfiguration >> configureAlignmentIn: anElement [
+
+
 	anElement alignment ifNull: [
 			startFlexible := false.
 			endFlexible := false ].
@@ -21,6 +28,7 @@ ToTabPaneHeaderConfiguration >> applyOn: anElement [
 	anElement alignment = BlElementAlignment middle ifTrue: [
 			startFlexible := true.
 			endFlexible := true ].
+
 	self configureStartFillerIn: anElement.
 	self configureEndFillerIn: anElement.
 	self configureTabGroupIn: anElement

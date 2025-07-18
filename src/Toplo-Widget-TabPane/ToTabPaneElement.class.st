@@ -4,7 +4,6 @@ Class {
 	#traits : 'TToItemBarContainer',
 	#classTraits : 'TToItemBarContainer classTrait',
 	#instVars : [
-		'tabGroup',
 		'bodyContainer',
 		'headerContainer'
 	],
@@ -14,7 +13,25 @@ Class {
 { #category : #adding }
 ToTabPaneElement >> addTabItemData: aData [
 
-	tabGroup addTabItemData: aData
+	self tabGroup addTabItemData: aData
+]
+
+{ #category : #accessing }
+ToTabPaneElement >> alignEnd [
+
+	headerContainer alignEnd
+]
+
+{ #category : #accessing }
+ToTabPaneElement >> alignMiddle [
+
+	headerContainer alignMiddle
+]
+
+{ #category : #accessing }
+ToTabPaneElement >> alignStart [
+
+	headerContainer alignStart
 ]
 
 { #category : #configuration }
@@ -22,40 +39,34 @@ ToTabPaneElement >> applyWidgetConfiguration [
 
 	super applyWidgetConfiguration.
 
-	tabGroup horizontal: self isHorizontal not.
+	self tabGroup horizontal: self isHorizontal not.
 	self atStartSide
 		ifTrue: [ self beStartToEnd ]
 		ifFalse: [ self beEndToStart ].
 	self isHorizontal
 		ifTrue: [
-			self header
-				beVertical;
-				vMatchParent;
-				hFitContent.
-			tabGroup
-				vMatchParent;
-				hFitContent ]
+				self header
+					beVertical;
+					vMatchParent;
+					hFitContent ]
 		ifFalse: [
-			self header
-				beHorizontal;
-				hMatchParent;
-				vFitContent.
-			tabGroup
-				hMatchParent;
-				vFitContent ]
+				self header
+					beHorizontal;
+					hMatchParent;
+					vFitContent ]
 ]
 
 { #category : #accessing }
 ToTabPaneElement >> atStartSide [
 
-	^ tabGroup atStartSide
+	^ self tabGroup atStartSide
 ]
 
 { #category : #accessing }
 ToTabPaneElement >> atStartSide: aBoolean [
 
-	tabGroup atStartSide: aBoolean.
-	self requestNewConfiguration 
+	self tabGroup atStartSide: aBoolean.
+	self requestNewConfiguration.
 ]
 
 { #category : #accessing }
@@ -80,30 +91,23 @@ ToTabPaneElement >> header [
 ToTabPaneElement >> initialize [
 
 	super initialize.
-	headerContainer := ToPane new
-		                 id: #header;
-		                 yourself.
+
+	headerContainer := ToTabPaneHeaderElement new.
 	bodyContainer := ToPane new
 		                 id: #body;
 		                 yourself.
 	bodyContainer matchParent.
-	tabGroup := self newTabGroupElement.
-	self setItemBar: tabGroup itemBar.
-	headerContainer addChild: tabGroup.
+	self setItemBar: self tabGroup itemBar.
 	self addChildren: {
 			headerContainer.
 			bodyContainer }.
 	self addEventHandler: self defaultEventHandler
 ]
 
-{ #category : #initialization }
-ToTabPaneElement >> newTabGroupElement [
+{ #category : #accessing }
+ToTabPaneElement >> noAlignment [
 
-	| tg |
-	tg := ToTabPaneGroupElement new.
-	tg matchParent.
-	^ tg
-
+	headerContainer noAlignment
 ]
 
 { #category : #accessing }
@@ -116,42 +120,42 @@ ToTabPaneElement >> preservePane [
 { #category : #accessing }
 ToTabPaneElement >> showAddTabItemButton [
 
-	^ tabGroup showAddTabItemButton
+	^ self tabGroup showAddTabItemButton
 ]
 
 { #category : #accessing }
 ToTabPaneElement >> showAddTabItemButton: aBoolean [
 
-	tabGroup showAddTabItemButton: aBoolean
+	self tabGroup showAddTabItemButton: aBoolean
 ]
 
 { #category : #accessing }
 ToTabPaneElement >> tabGroup [ 
 
-	^ tabGroup 
+	^ headerContainer tabGroup 
 ]
 
 { #category : #accessing }
 ToTabPaneElement >> tabItemBuilder: aValuable [
 	" aValuable takes the new TabItemElement, the data and the TabGroupElement as arguments "
 	
-	tabGroup tabItemBuilder: aValuable
+	self tabGroup tabItemBuilder: aValuable
 ]
 
 { #category : #'t - checkable group owner' }
 ToTabPaneElement >> withStrictCheckingStrategy [ 
 
-	tabGroup withStrictCheckingStrategy
+	self tabGroup withStrictCheckingStrategy
 ]
 
 { #category : #'t - checkable group owner' }
 ToTabPaneElement >> withWeakCheckingStrategy [ 
 
-	tabGroup withWeakCheckingStrategy
+	self tabGroup withWeakCheckingStrategy
 ]
 
 { #category : #'t - checkable group owner' }
 ToTabPaneElement >> withoutCheckingStrategy [ 
 
-	tabGroup withoutCheckingStrategy
+	self tabGroup withoutCheckingStrategy
 ]

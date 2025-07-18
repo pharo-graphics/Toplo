@@ -11,6 +11,7 @@ Class {
 ToTabGroupElementConfiguration >> applyOn: aTabGroupElement [
 
 	super applyOn: aTabGroupElement.
+
 	aTabGroupElement checkAddNewTabItemButton.
 
 	aTabGroupElement itemBar horizontal: aTabGroupElement isHorizontal.

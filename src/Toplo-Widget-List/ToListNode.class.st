@@ -8,14 +8,13 @@ Class {
 { #category : #configuration }
 ToListNode >> applyWidgetConfiguration [
 
+	| l |
 	super applyWidgetConfiguration.
-	self constraintsDo: [ :c |
-		| l |
-		l := self holder listElement.
-		l isHorizontal
-			ifTrue: [ c horizontal fitContent ]
-			ifFalse: [ c horizontal matchParent ].
-		c vertical fitContent ].
+	l := self holder listElement.
+	l isHorizontal
+		ifTrue: [ self hFitContent ]
+		ifFalse: [ self hMatchParent ].
+	self vFitContent.
 	self holder initializeNode
 ]
 

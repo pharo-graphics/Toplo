@@ -4,14 +4,10 @@ Class {
 	#traits : 'TBlAlignable + TBlOrientableLayout',
 	#classTraits : 'TBlAlignable classTrait + TBlOrientableLayout classTrait',
 	#instVars : [
-		'weightSum',
 		'verticalAlignment',
 		'horizontalAlignment',
 		'orientation',
-		'shouldUseLargestChild',
-		'cellSpacing',
-		'direction',
-		'interspace'
+		'direction'
 	],
 	#category : #'Toplo-Core-TripletLayout'
 }
@@ -61,18 +57,6 @@ ToTripletLayout >> beVertical [
 	self orientation: ToTripletLayoutVerticalOrientation new
 ]
 
-{ #category : #accessing }
-ToTripletLayout >> cellSpacing [
-	<return: #Number>
-	
-	^ cellSpacing
-]
-
-{ #category : #accessing }
-ToTripletLayout >> cellSpacing: aNumber [	
-	cellSpacing := aNumber asFloat
-]
-
 { #category : #initialization }
 ToTripletLayout >> defaultHorizontalAlignment [
 	"By default alignment should not influence on layout process,
@@ -99,15 +83,6 @@ ToTripletLayout >> defaultVerticalAlignment [
 	<return: #BlNullAlignment>
 	
 	^ BlElementAlignment null vertical
-]
-
-{ #category : #initialization }
-ToTripletLayout >> defaultWeightSum [
-	"Default weight sum should be 0 to indicate that actual weight should be calculated
-	as arithmetic sum of childrens' weight"
-	<return: #Number>
-	
-	^ 0
 ]
 
 { #category : #'api - direction' }
@@ -137,26 +112,10 @@ ToTripletLayout >> initialize [
 
 	super initialize.
 
-	weightSum := self defaultWeightSum.
-	shouldUseLargestChild := false.
-	cellSpacing := 0.0.
-	interspace := 0.0.
 	verticalAlignment := self defaultVerticalAlignment.
 	horizontalAlignment := self defaultHorizontalAlignment.
 
 	self orientation: self defaultOrientation
-]
-
-{ #category : #accessing }
-ToTripletLayout >> interspace [
-	
-	^ interspace
-]
-
-{ #category : #accessing }
-ToTripletLayout >> interspace: aNumber [	
-	
-	interspace := aNumber asFloat
 ]
 
 { #category : #layout }
@@ -229,15 +188,6 @@ ToTripletLayout >> rightToLeft [
 	self direction: BlLayoutDirection rightToLeft
 ]
 
-{ #category : #testing }
-ToTripletLayout >> shouldUseLargestChild [
-	"When true, all children with a weight will be considered having the minimum size of the largest child.
-	If false, all children are measured normally."
-	<return: #Boolean>
-
-	^ shouldUseLargestChild
-]
-
 { #category : #accessing }
 ToTripletLayout >> verticalAlignment [
 	^ verticalAlignment
@@ -246,34 +196,4 @@ ToTripletLayout >> verticalAlignment [
 { #category : #accessing }
 ToTripletLayout >> verticalAlignment: anAlignment [
 	verticalAlignment := anAlignment
-]
-
-{ #category : #accessing }
-ToTripletLayout >> weightSum [
-	<return: #Number>
-
-	^ weightSum
-]
-
-{ #category : #accessing }
-ToTripletLayout >> weightSum: aNumber [
-	weightSum := aNumber asFloat
-]
-
-{ #category : #'api - configuration' }
-ToTripletLayout >> withSpaceEqualization [
-	"When set to true, all children with a weight will be considered having the minimum size of the largest child.
-	If false, all children are measured normally.
-	Disabled by default."
-
-	shouldUseLargestChild := true
-]
-
-{ #category : #'api - configuration' }
-ToTripletLayout >> withoutSpaceEqualization [
-	"When set to true, all children with a weight will be considered having the minimum size of the largest child.
-	If false, all children are measured normally.
-	Disabled by default."
-
-	shouldUseLargestChild := false
 ]

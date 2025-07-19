@@ -2,9 +2,6 @@ Class {
 	#name : #ToTripletLayoutMeasurer,
 	#superclass : #Object,
 	#instVars : [
-		'isBaselineAligned',
-		'useLargestChild',
-		'cellSpacing',
 		'nodes',
 		'parent',
 		'breadthSpec',
@@ -12,26 +9,15 @@ Class {
 		'orientation',
 		'totalLength',
 		'totalWeight',
-		'skippedMeasure',
 		'extentSpec',
 		'usedExcessSpace',
-		'largestChildLength',
 		'matchBreadth',
 		'maxBreadth',
-		'allFillParent',
-		'weightedMaxBreadth',
-		'alternativeMaxBreadth',
 		'measuredLength',
-		'layout',
-		'interSpacing'
+		'layout'
 	],
 	#category : #'Toplo-Core-TripletLayout'
 }
-
-{ #category : #measurement }
-ToTripletLayoutMeasurer >> baselineMeasure [
-	self subclassResponsibility
-]
 
 { #category : #accessing }
 ToTripletLayoutMeasurer >> breadthSpec [
@@ -42,11 +28,6 @@ ToTripletLayoutMeasurer >> breadthSpec [
 ToTripletLayoutMeasurer >> canMeasureExactUsingExcessSpaceForNode: aNode [
 
 	^ self isLengthExact and: [ self shouldUseExcessSpaceForNode: aNode ]
-]
-
-{ #category : #'accessing - properties' }
-ToTripletLayoutMeasurer >> cellSpacing [
-	^ cellSpacing
 ]
 
 { #category : #'private - measurement' }
@@ -63,22 +44,12 @@ ToTripletLayoutMeasurer >> childBreadthSpecForNode: aNode [
 ToTripletLayoutMeasurer >> initialize [
 	super initialize.
 
-	useLargestChild := false.
-	isBaselineAligned := false.
-	cellSpacing := 0.0.
-	interSpacing := 0.0.
-
 	totalLength := 0.0.
 	totalWeight := 0.0.
 	usedExcessSpace := 0.0.
-	skippedMeasure := false.
 	matchBreadth := false.
-	largestChildLength := 0.0.
 	measuredLength := 0.0.
-	alternativeMaxBreadth := 0.0.
-	maxBreadth := 0.0.
-	allFillParent := true.
-	weightedMaxBreadth := 0.0
+	maxBreadth := 0.0
 ]
 
 { #category : #initialization }
@@ -87,9 +58,6 @@ ToTripletLayoutMeasurer >> initializeWith: aParentElement layout: aLinearLayout 
 	parent := aParentElement.
 	orientation := aToTripletLayoutOrientation.
 	layout := aLinearLayout.
-	useLargestChild := layout shouldUseLargestChild.
-	cellSpacing := layout cellSpacing.
-	interSpacing := layout interspace.
 
 	extentSpec := anExtentSpec.
 	breadthSpec := orientation breadthSpec: anExtentSpec.
@@ -97,17 +65,6 @@ ToTripletLayoutMeasurer >> initializeWith: aParentElement layout: aLinearLayout 
 
 	nodes := aParentElement children accountedByLayout
 		collect: [ :aChildElement | ToTripletLayoutNode new initializeWith: aChildElement orientation: orientation ]
-]
-
-{ #category : #accessing }
-ToTripletLayoutMeasurer >> interspace [
-
-	^ interSpacing
-]
-
-{ #category : #'accessing - properties' }
-ToTripletLayoutMeasurer >> isBaselineAligned [
-	^ isBaselineAligned
 ]
 
 { #category : #testing }
@@ -120,22 +77,7 @@ ToTripletLayoutMeasurer >> isLengthExact [
 	^ self lengthSpec isExact
 ]
 
-{ #category : #measurement }
-ToTripletLayoutMeasurer >> largestMeasure [
-	"I re-measure my length for the case when we consider all weighted children to have the minimum size of the largest child"
-	
-	self useLargestChild
-		ifFalse: [ ^ self ].
-	
-	(lengthSpec isAtMost or: [ lengthSpec isUnspecified ])
-		ifFalse: [ ^ self ].
-	
-	totalLength := 0.
-	
-	self nodes do: [ :aNode | self updateTotalLengthFromLargestChild: aNode ]
-]
-
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToTripletLayoutMeasurer >> layout [ 
 
 	^ layout
@@ -211,8 +153,7 @@ ToTripletLayoutMeasurer >> measureOn: anElement [
 
 	anElement ignoreRequestLayoutDuring: [ self preMeasure ].
 
-	self baselineMeasure.
-	self largestMeasure.
+"	self baselineMeasure."
 
 	totalLength := totalLength + (orientation paddingLength: parent).
 	
@@ -245,9 +186,6 @@ ToTripletLayoutMeasurer >> parent [
 { #category : #measurement }
 ToTripletLayoutMeasurer >> postMeasure [
 
-	(allFillParent not and: [ breadthSpec isExact not ]) ifTrue: [
-		maxBreadth := alternativeMaxBreadth ].
-
 	maxBreadth := maxBreadth + (orientation paddingBreadth: parent).
 
 	"Check against our minimum height"
@@ -263,15 +201,10 @@ ToTripletLayoutMeasurer >> postMeasure [
 ToTripletLayoutMeasurer >> preMeasure [
 
 	"See how wide/tall everyone is. Also remember max breadth."
-	self nodes size > 1 ifTrue: [ 
-		totalLength := totalLength + ((self nodes size - 1) * self interspace) ].
 	
 	self nodes do: [ :aNode |
 		| matchBreadthLocally childBreadth shouldUseExcessSpace |
-	
-		aNode hasSpaceBefore
-			ifTrue: [ totalLength := totalLength + self cellSpacing ].
-			
+				
 		totalWeight := totalWeight + aNode weight.
 		
 		"we must store the result because it may temporary change during measurement"
@@ -309,11 +242,7 @@ ToTripletLayoutMeasurer >> preMeasure [
 						aNode lengthResizer: BlLayoutResizer matchParent.
 						usedExcessSpace := usedExcessSpace + childLength ].
 				
-				self updateTotalLengthAfterMeasuring: aNode.
-				
-				largestChildLength := largestChildLength max: childLength ].
-		
-		self flag: 'Add baseline support here'.
+				self updateTotalLengthAfterMeasuring: aNode ].
 		
 		matchBreadthLocally := false.
 		(self isBreadthExact not and: [ aNode breadthResizer isMatchParent ])
@@ -324,25 +253,8 @@ ToTripletLayoutMeasurer >> preMeasure [
 				matchBreadthLocally := true ].
 		
 		childBreadth := aNode measuredBreadth + aNode marginBreadth.
-		self processBaseline: aNode breadth: childBreadth.
 
-		maxBreadth := maxBreadth max: childBreadth.
-		allFillParent := allFillParent and: [ aNode breadthResizer isMatchParent ].
-		
-		aNode weight > 0
-			ifTrue: [
-				"Heights of weighted elements are bogus if we end up remeasuring, so keep them separate."
-				weightedMaxBreadth := (matchBreadthLocally
-					ifTrue: [ aNode marginBreadth ]
-					ifFalse: [ childBreadth ]) max: weightedMaxBreadth ]
-			ifFalse: [
-				alternativeMaxBreadth := (matchBreadthLocally
-					ifTrue: [ aNode marginBreadth ]
-					ifFalse: [ childBreadth ]) max: alternativeMaxBreadth ] ].
-			
-	self nodes ifNotEmpty: [ :theNodes |
-		theNodes last hasSpaceAfter
-			ifTrue: [ totalLength := totalLength + self cellSpacing ] ]
+		maxBreadth := maxBreadth max: childBreadth ]
 ]
 
 { #category : #'private - measurement' }
@@ -350,26 +262,16 @@ ToTripletLayoutMeasurer >> prepareForWeightedMeasure [
 	self subclassResponsibility
 ]
 
-{ #category : #'private - measurement' }
-ToTripletLayoutMeasurer >> processBaseline: aNode breadth: aChildBreadth [
-	"I process baseline of a given child node if it is supported."
-
-	self subclassResponsibility
-]
-
 { #category : #'accessing - properties' }
 ToTripletLayoutMeasurer >> remainingWeightSum [
-	<return: #Number>
 
-	^ self weightSum > 0
-		ifTrue: [ self weightSum ]
-		ifFalse: [ totalWeight ]
+	^  totalWeight
 ]
 
 { #category : #'private - measurement' }
 ToTripletLayoutMeasurer >> shouldUseExcessSpaceForNode: aNode [
 
-	^ (lengthSpec isUnspecified not or: [ useLargestChild ]) and: [
+	^ (lengthSpec isUnspecified not) and: [
 		  aNode shouldUseExcessSpace ]
 ]
 
@@ -412,99 +314,44 @@ ToTripletLayoutMeasurer >> updateTotalLengthAfterMeasuring: aNode [
 	self subclassResponsibility
 ]
 
-{ #category : #'private - measurement' }
-ToTripletLayoutMeasurer >> updateTotalLengthFromLargestChild: aNode [
-	"I update the total length taking into account the length of the largest child"
-
-	self subclassResponsibility
-]
-
-{ #category : #'accessing - properties' }
-ToTripletLayoutMeasurer >> useLargestChild [
-	^ useLargestChild
-]
-
-{ #category : #'accessing - properties' }
-ToTripletLayoutMeasurer >> weightSum [
-	^ layout weightSum
-]
-
 { #category : #measurement }
 ToTripletLayoutMeasurer >> weightedMeasure [
-	"I measure weighted children if there is enough excess space"	
-	| remainingExcess |
 
-	"Check against our minimum length"
-	measuredLength := totalLength max: (orientation minimalLength: parent).
-
-	"Reconcile our calculated size with the lengthSpec"
+	| remainingExcess remainingWeightSum |
+	measuredLength := totalLength max:
+		                  (orientation minimalLength: parent).
 	measuredLength := lengthSpec sizeFor: measuredLength.
-	
-	"Either expand children with weight to take up available space or shrink them if they extend beyond our current bounds.
-	If we skipped measurement on any children, we need to measure them now."
 	remainingExcess := measuredLength - totalLength + usedExcessSpace.
 
-	(skippedMeasure or: [ remainingExcess > 0 and: [ totalWeight > 0 ] ])
-		ifTrue: [
-			| remainingWeightSum |
-			
-			remainingWeightSum := self remainingWeightSum.
-			
-			self prepareForWeightedMeasure.
-			
-			self nodes do: [ :aNode |
-				| childWeight childLength childBreadth matchBreadthLocally |
-				
-				childWeight := aNode weight.
-				childWeight > 0
-					ifTrue: [
-						| shareSpace childLengthSpec childBreadthSpec |
-						" Deal with precision "
-						shareSpace := (remainingWeightSum closeTo: 0)
-							ifTrue: [ 0.0 ]
-							ifFalse: [ (childWeight * remainingExcess / remainingWeightSum) asFloat ].
+	(remainingExcess > 0 and: [ totalWeight > 0 ]) ifFalse: [ ^ self ].
+	remainingWeightSum := self remainingWeightSum.
 
-						remainingExcess := remainingExcess - shareSpace.
-						remainingWeightSum := remainingWeightSum - childWeight.
-
-						childLength := (self useLargestChild and: [ self isLengthExact not ])
-							ifTrue: [ largestChildLength ]
-							ifFalse: [ aNode lengthResizer isMatchParent
-								"This child needs to be laid out from scratch using only its share of excess space."
-								ifTrue: [ shareSpace ]
-								"This child had some intrinsic width to which we need to add its share of excess space."
-								ifFalse: [ aNode measuredLength + shareSpace ] ].
-							
-						childLengthSpec := BlMeasurementSpec exact: (0.0 max: childLength).
-						childBreadthSpec := self childBreadthSpecForNode: aNode.	
-						aNode measure: (orientation extentSpecBreadth: childBreadthSpec lengthSpec: childLengthSpec) ].
-				
-				self updateTotalLengthAfterMeasuring: aNode.
-
-				matchBreadthLocally := breadthSpec isExact not and: [ aNode breadthResizer isMatchParent ].
-				childBreadth := aNode measuredBreadth + aNode marginBreadth.
-				maxBreadth := maxBreadth max: childBreadth.
-				alternativeMaxBreadth := (matchBreadthLocally
-					ifTrue: [ aNode marginBreadth ]
-					ifFalse: [ childBreadth ]) max: alternativeMaxBreadth.
-				allFillParent := allFillParent and: [ aNode breadthResizer isMatchParent ].
-				
-				self processBaseline: aNode breadth: childBreadth ].
-			
-			totalLength := totalLength + (orientation paddingLength: parent).
-			self baselineMeasure ]
-
-		ifFalse: [
-			alternativeMaxBreadth := alternativeMaxBreadth max: weightedMaxBreadth.
-			
-			" We have no limit, so make all weighted views as wide as the largest child.
-           Children will have already been measured once."
-			(self useLargestChild and: [ self isLengthExact not ])
-				ifTrue: [
-					self nodes
-						select: [ :aNode | aNode weight > 0 ]
-						thenDo: [ :aNode |
-							aNode measure: (orientation
-								extentBreadth: (BlMeasurementSpec exact: aNode measuredBreadth)
-								lengthSpec: (BlMeasurementSpec exact: largestChildLength)) ] ] ]
+	self prepareForWeightedMeasure.
+	self nodes do: [ :aNode |
+			| childWeight childLength childBreadth matchBreadthLocally |
+			childWeight := aNode weight.
+			childWeight > 0 ifTrue: [
+					| shareSpace childLengthSpec childBreadthSpec |
+					shareSpace := (remainingWeightSum closeTo: 0)
+						              ifTrue: [ 0.0 ]
+						              ifFalse: [
+						              (childWeight * remainingExcess
+						               / remainingWeightSum) asFloat ].
+					remainingExcess := remainingExcess - shareSpace.
+					remainingWeightSum := remainingWeightSum - childWeight.
+					childLength := aNode lengthResizer isMatchParent
+						               ifTrue: [ shareSpace ]
+						               ifFalse: [ aNode measuredLength + shareSpace ].
+					childLengthSpec := BlMeasurementSpec exact:
+						                   (0.0 max: childLength).
+					childBreadthSpec := self childBreadthSpecForNode: aNode.
+					aNode measure: (orientation
+							 extentSpecBreadth: childBreadthSpec
+							 lengthSpec: childLengthSpec) ].
+			self updateTotalLengthAfterMeasuring: aNode.
+			matchBreadthLocally := breadthSpec isExact not and: [
+				                       aNode breadthResizer isMatchParent ].
+			childBreadth := aNode measuredBreadth + aNode marginBreadth.
+			maxBreadth := maxBreadth max: childBreadth ].
+	totalLength := totalLength + (orientation paddingLength: parent)
 ]

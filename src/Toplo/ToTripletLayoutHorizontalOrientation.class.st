@@ -45,7 +45,7 @@ ToTripletLayoutHorizontalOrientation >> isHorizontal [
 
 { #category : #layout }
 ToTripletLayoutHorizontalOrientation >> layout: anElement in: aRectangle context: aBlElementBoundsUpdateContext [
-	|top right bottom left majorBounds elementInnerBounds theLayeredChildren turn |
+	|top right bottom left majorBounds elementInnerBounds theLayeredChildren  |
 	"Layout subnodes vertically in column one by one
 	based on previousely measured extent"
 
@@ -74,12 +74,11 @@ ToTripletLayoutHorizontalOrientation >> layout: anElement in: aRectangle context
 	left := majorBounds left.
 	top := majorBounds top.
 	
-	turn := 1.
 	self layout direction
 		with: theLayeredChildren
 		inject: left @ top
 		into: [ :origin :child |
-			| childBounds childMarginBounds childConstraints interspacing |
+			| childBounds childMarginBounds childConstraints |
 			childConstraints := child constraints linear.
 			childBounds := origin + (child margin topLeft max: 0.0@0.0) extent: child measuredExtent.
 			childMarginBounds := origin extent: child measuredExtent + (child margin extent max: 0.0@0.0).  
@@ -96,19 +95,12 @@ ToTripletLayoutHorizontalOrientation >> layout: anElement in: aRectangle context
 				translation := childConstraints vertical alignment translationOf: childMarginBounds in: allowedBounds.
 				childBounds := childBounds translateBy: translation ].
 			
-			childBounds := childBounds translateBy: (self layout cellSpacing @ 0.0).
-			interspacing := turn = 1
-			                ifTrue: [ 0.0 ]
-			                ifFalse: [ self layout interspace ].
-			interspacing > 0.0 ifTrue: [ childBounds := childBounds translateBy: (turn - 1 * interspacing) @ 0.0 ].
-			
 			"telling each subnode what bounds to use for layouting process.
 			Because measuring process does not modify actual extent
 			we need to use a measured one"
 			child applyLayoutIn: childBounds context: aBlElementBoundsUpdateContext.
 			"translating origin horizontally right for next subnode"
-			turn := turn + 1.
-			(origin x + child measuredWidth + (child margin width max: 0.0) + self layout cellSpacing) @ origin y ]
+			(origin x + child measuredWidth + (child margin width max: 0.0)) @ origin y ]
 ]
 
 { #category : #orientation }

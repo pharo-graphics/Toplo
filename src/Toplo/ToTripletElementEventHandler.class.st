@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTripletElementEventHandler,
 	#superclass : #BlCustomEventHandler,
-	#category : #'Toplo-Core'
+	#category : #'Toplo-Core-Triplet'
 }
 
 { #category : #'events handling' }

@@ -3,5 +3,5 @@ Class {
 	#superclass : #ToTripletElement,
 	#traits : 'TToLabeledIcon',
 	#classTraits : 'TToLabeledIcon classTrait',
-	#category : #'Toplo-Core'
+	#category : #'Toplo-Core-Triplet'
 }

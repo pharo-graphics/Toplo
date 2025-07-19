@@ -8,7 +8,7 @@ Trait {
 		'middleElement',
 		'endElement'
 	],
-	#category : #'Toplo-Core'
+	#category : #'Toplo-Core-Triplet'
 }
 
 { #category : #'t - triplet element - accessing' }
@@ -215,6 +215,7 @@ TToTripletElement >> initializeAsTripletElement [
 
 	"the midddle container must be created because other parts are added according to its position"
 	self createMiddleContainer.
+	self layout: self defaultLayout.
 	self addEventHandler: self defaultTripletEventHandler
 ]
 

@@ -3,13 +3,13 @@ Class {
 	#superclass : #ToElement,
 	#traits : 'TToOrientable + TToTripletElement',
 	#classTraits : 'TToOrientable classTrait + TToTripletElement classTrait',
-	#category : #'Toplo-Core'
+	#category : #'Toplo-Core-Triplet'
 }
 
 { #category : #initialization }
 ToTripletElement >> defaultLayout [ 
 
-	^ BlLinearLayout horizontal.
+	^ ToTripletLayout horizontal.
 
 ]
 

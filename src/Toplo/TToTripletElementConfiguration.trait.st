@@ -13,7 +13,7 @@ Trait {
 		'startInterspace',
 		'alignCenter'
 	],
-	#category : #'Toplo-Core'
+	#category : #'Toplo-Core-Triplet'
 }
 
 { #category : #'t - triplet element accessing' }
@@ -52,12 +52,12 @@ TToTripletElementConfiguration >> configureChildrenIn: anElement [
 	anElement isHorizontal
 		ifTrue: [
 				allChildren do: [ :child |
-						child constraints linear vertical alignCenter.
-						child constraints frame vertical alignCenter ] ]
+						child constraints triplet vertical alignCenter.
+						 ] ]
 		ifFalse: [
 				allChildren do: [ :child |
-						child constraints linear horizontal alignCenter.
-						child constraints frame horizontal alignCenter ] ].
+						child constraints triplet horizontal alignCenter.
+						] ].
 	alignCenter
 		ifTrue: [ anElement layout alignCenter ]
 		ifFalse: [ anElement layout alignCenterLeft ].

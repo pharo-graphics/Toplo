@@ -24,3 +24,9 @@ BlLayoutCommonConstraints >> infiniteDo: aValuable [
 	self hasInfinite ifFalse: [ ^ self ].
 	aValuable value: self infinite
 ]
+
+{ #category : #'*Toplo' }
+BlLayoutCommonConstraints >> triplet [ 
+
+	^ self at: ToTripletLayout 
+]

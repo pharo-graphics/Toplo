@@ -9437,12 +9437,12 @@ ToSandBox class >> tripletWith2IconsAnd1Label [
 	| but |
 	but := ToTripletElement new.
 	but startElement: (BlElement new
-			 size: 25 asPoint;
+			 extent: 25 asPoint;
 			 background: Color red;
 			 yourself).
 	but middleElement: (ToLabel text: 'Middle').
 	but endElement: (BlElement new
-			 size: 25 asPoint;
+			 extent: 25 asPoint;
 			 background: Color red;
 			 yourself).
 	^ but

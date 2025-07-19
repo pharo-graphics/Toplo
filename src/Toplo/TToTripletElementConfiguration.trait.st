@@ -11,22 +11,18 @@ Trait {
 		'endAlignment',
 		'endInterspace',
 		'startInterspace',
-		'hideStart',
-		'hideMiddle',
-		'hideEnd',
-		'canHidePart',
 		'alignCenter'
 	],
 	#category : #'Toplo-Core'
 }
 
-{ #category : #accessing }
+{ #category : #'t - triplet element accessing' }
 TToTripletElementConfiguration >> alignCenter [
 
 	^ alignCenter
 ]
 
-{ #category : #accessing }
+{ #category : #'t - triplet element accessing' }
 TToTripletElementConfiguration >> alignCenter: aBoolean [
 
 	alignCenter := aBoolean
@@ -41,20 +37,7 @@ TToTripletElementConfiguration >> applyTripletElementConfigurationOn: anElement 
 	self configureEndGapIn: anElement.
 	self configureStartContainerIn: anElement.
 	self configureStartFillerIn: anElement.
-	self configureStartGapIn: anElement.
-	self configureHiddenPartIn: anElement
-]
-
-{ #category : #'t - triplet element accessing' }
-TToTripletElementConfiguration >> canHidePart [
-
-	^ canHidePart
-]
-
-{ #category : #'t - triplet element accessing' }
-TToTripletElementConfiguration >> canHidePart: aBoolean [
-
-	canHidePart := aBoolean
+	self configureStartGapIn: anElement
 ]
 
 { #category : #'t - triplet element configuration' }
@@ -155,33 +138,6 @@ TToTripletElementConfiguration >> configureEndGapIn: anElement [
 			endGap ifNil: [ ^ self ].
 			endGap removeFromParent.
 			endGap := nil ]
-]
-
-{ #category : #'t - triplet element configuration' }
-TToTripletElementConfiguration >> configureHiddenPartIn: anElement [
-
-	hideStart
-		ifTrue: [
-			anElement startChildren do: [ :child |
-				child visibility: BlVisibility gone ] ]
-		ifFalse: [
-			anElement startChildren do: [ :child |
-				child visibility: BlVisibility visible ] ].
-	hideMiddle
-		ifTrue: [
-			anElement middleChildren do: [ :child |
-				child visibility: BlVisibility gone ] ]
-		ifFalse: [
-			anElement middleChildren do: [ :child |
-				child visibility: BlVisibility visible ] ].
-	hideEnd
-		ifTrue: [
-			anElement endChildren do: [ :child |
-				child visibility: BlVisibility gone ] ]
-		ifFalse: [
-			anElement endChildren do: [ :child |
-				child visibility: BlVisibility visible ] ]
-
 ]
 
 { #category : #'t - triplet element configuration' }
@@ -310,50 +266,10 @@ TToTripletElementConfiguration >> endInterspace: aNumber [
 	endInterspace := aNumber
 ]
 
-{ #category : #'t - triplet element accessing' }
-TToTripletElementConfiguration >> hideEnd [
-
-	^ hideEnd
-]
-
-{ #category : #'t - triplet element accessing' }
-TToTripletElementConfiguration >> hideEnd: aBoolean [
-
-	hideEnd := aBoolean
-]
-
-{ #category : #'t - triplet element accessing' }
-TToTripletElementConfiguration >> hideMiddle [
-
-	^ hideMiddle
-]
-
-{ #category : #'t - triplet element accessing' }
-TToTripletElementConfiguration >> hideMiddle: aBoolean [
-
-	hideMiddle := aBoolean
-]
-
-{ #category : #'t - triplet element accessing' }
-TToTripletElementConfiguration >> hideStart [
-
-	^ hideStart
-]
-
-{ #category : #'t - triplet element accessing' }
-TToTripletElementConfiguration >> hideStart: aBoolean [
-
-	hideStart := aBoolean
-]
-
 { #category : #'t - triplet element configuration' }
 TToTripletElementConfiguration >> initializeAsTripletElementConfiguration [
 
 	alignCenter := false.
-	canHidePart := false.
-	hideStart := false.
-	hideMiddle := false.
-	hideEnd := false.
 	startFlexible := false.
 	endFlexible := false.
 	startInterspace := 0.

@@ -20,17 +20,5 @@ ToTripletElementEventHandler >> clickAbortedEvent: anEvent [
 ToTripletElementEventHandler >> eventsToHandle [
 
 	^ {
-		  ToTripletPartVisibilityChangeRequest.
 		  BlClickAbortedEvent }
-]
-
-{ #category : #'event handling' }
-ToTripletElementEventHandler >> tripletPartVisibilityChangeRequest: anEvent [
-
-	| target |
-	target := anEvent currentTarget.
-	target canHidePart ifFalse: [ ^ self ].
-	target hideStart: anEvent hideStart.
-	target hideMiddle: anEvent hideMiddle.
-	target hideEnd: anEvent hideEnd
 ]

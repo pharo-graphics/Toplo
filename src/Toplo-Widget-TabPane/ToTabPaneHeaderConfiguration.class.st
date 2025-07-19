@@ -15,7 +15,6 @@ ToTabPaneHeaderConfiguration >> applyOn: anElement [
 { #category : #hook }
 ToTabPaneHeaderConfiguration >> configureAlignmentIn: anElement [
 
-
 	anElement alignment ifNull: [
 			startFlexible := false.
 			endFlexible := false ].

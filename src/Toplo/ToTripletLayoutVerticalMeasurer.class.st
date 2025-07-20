@@ -13,11 +13,6 @@ ToTripletLayoutVerticalMeasurer >> measureExactUsingExcessSpace: aNode [
 ]
 
 { #category : #'private - measurement' }
-ToTripletLayoutVerticalMeasurer >> prepareForWeightedMeasure [
-	totalLength := 0.0
-]
-
-{ #category : #'private - measurement' }
 ToTripletLayoutVerticalMeasurer >> updateTotalLengthAfterMeasuring: aNode [
 	"I update the total length after measuring a given node based on its measured length and margin"
 

@@ -63,8 +63,11 @@ ToTripletLayoutMeasurer >> initializeWith: aParentElement layout: aLinearLayout 
 	breadthSpec := orientation breadthSpec: anExtentSpec.
 	lengthSpec := orientation lengthSpec: anExtentSpec.
 
-	nodes := aParentElement children accountedByLayout
-		collect: [ :aChildElement | ToTripletLayoutNode new initializeWith: aChildElement orientation: orientation ]
+	nodes := aParentElement children accountedByLayout collect: [
+			         :aChildElement |
+			         ToTripletLayoutNode new
+				         initializeWith: aChildElement
+				         orientation: orientation ]
 ]
 
 { #category : #testing }
@@ -152,8 +155,6 @@ ToTripletLayoutMeasurer >> measureExactUsingExcessSpace: aNode [
 ToTripletLayoutMeasurer >> measureOn: anElement [
 
 	anElement ignoreRequestLayoutDuring: [ self preMeasure ].
-
-"	self baselineMeasure."
 
 	totalLength := totalLength + (orientation paddingLength: parent).
 	
@@ -259,7 +260,8 @@ ToTripletLayoutMeasurer >> preMeasure [
 
 { #category : #'private - measurement' }
 ToTripletLayoutMeasurer >> prepareForWeightedMeasure [
-	self subclassResponsibility
+
+		totalLength := 0.0.
 ]
 
 { #category : #'accessing - properties' }
@@ -327,6 +329,7 @@ ToTripletLayoutMeasurer >> weightedMeasure [
 	remainingWeightSum := self remainingWeightSum.
 
 	self prepareForWeightedMeasure.
+	
 	self nodes do: [ :aNode |
 			| childWeight childLength childBreadth matchBreadthLocally |
 			childWeight := aNode weight.

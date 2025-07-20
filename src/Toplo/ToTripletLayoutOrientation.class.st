@@ -27,11 +27,6 @@ ToTripletLayoutOrientation >> = anObject [
 ]
 
 { #category : #orientation }
-ToTripletLayoutOrientation >> breadthMode [
-	^ self subclassResponsibility
-]
-
-{ #category : #orientation }
 ToTripletLayoutOrientation >> breadthProperties: anElement [
 	^ self subclassResponsibility
 ]
@@ -84,16 +79,6 @@ ToTripletLayoutOrientation >> layout: aLinearLayout [
 
 { #category : #layout }
 ToTripletLayoutOrientation >> layout: anElement in: aRectangle context: aBlElementBoundsUpdateContext [
-	^ self subclassResponsibility
-]
-
-{ #category : #orientation }
-ToTripletLayoutOrientation >> lengthLinearProperties: anElement [
-	^ self subclassResponsibility
-]
-
-{ #category : #orientation }
-ToTripletLayoutOrientation >> lengthMode [
 	^ self subclassResponsibility
 ]
 

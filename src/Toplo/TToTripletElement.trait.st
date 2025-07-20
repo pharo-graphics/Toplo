@@ -283,10 +283,8 @@ TToTripletElement >> newFrameContainer [
 		  constraintsDo: [ :c |
 			  c horizontal fitContent.
 			  c vertical fitContent.
-			  c linear vertical alignCenter.
-			  c linear horizontal alignCenter.
-			  c frame vertical alignCenter.
-			  c frame horizontal alignCenter ];
+			  c triplet vertical alignCenter.
+			  c triplet horizontal alignCenter ];
 		  layout: BlFrameLayout new;
 		  yourself
 ]
@@ -298,10 +296,8 @@ TToTripletElement >> newLinearContainer [
 		  constraintsDo: [ :c |
 			  c horizontal fitContent.
 			  c vertical fitContent.
-			  c linear vertical alignCenter.
-			  c linear horizontal alignCenter.
-			  c frame vertical alignCenter.
-			  c frame horizontal alignCenter ];
+			  c triplet vertical alignCenter.
+			  c triplet horizontal alignCenter ];
 		  layout: BlLinearLayout new;
 		  yourself
 ]

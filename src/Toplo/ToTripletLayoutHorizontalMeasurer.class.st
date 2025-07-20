@@ -15,15 +15,6 @@ ToTripletLayoutHorizontalMeasurer >> measureExactUsingExcessSpace: aNode [
 ]
 
 { #category : #'private - measurement' }
-ToTripletLayoutHorizontalMeasurer >> prepareForWeightedMeasure [
-	
-	totalLength := 0.0.
-	
-	self flag: 'Why reset max breadth?'.
-	maxBreadth := 0.0.
-]
-
-{ #category : #'private - measurement' }
 ToTripletLayoutHorizontalMeasurer >> updateTotalLengthAfterMeasuring: aNode [
 	"I update the total length after measuring a given node based on its measured length and margin"
 	

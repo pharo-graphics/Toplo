@@ -51,7 +51,7 @@ ToTripletLayoutNode >> hasSpaceBefore [
 ToTripletLayoutNode >> initializeWith: anElement orientation: aToTripletLayoutOrientation [
 	element := anElement.
 	orientation := aToTripletLayoutOrientation.
-	linearConstraints := anElement constraints linear.
+	linearConstraints := anElement constraints triplet
 ]
 
 { #category : #'accessing - constraints' }

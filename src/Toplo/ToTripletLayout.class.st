@@ -120,6 +120,7 @@ ToTripletLayout >> initialize [
 
 { #category : #layout }
 ToTripletLayout >> layout: anElement in: aRectangle context: aBlElementBoundsUpdateContext [
+
 	self orientation layout: anElement in: aRectangle context: aBlElementBoundsUpdateContext.
 	self layoutIgnored: anElement context: aBlElementBoundsUpdateContext
 ]

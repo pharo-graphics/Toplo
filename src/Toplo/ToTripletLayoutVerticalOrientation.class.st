@@ -5,11 +5,6 @@ Class {
 }
 
 { #category : #orientation }
-ToTripletLayoutVerticalOrientation >> breadthMode [
-	^ self layout cache widthMode
-]
-
-{ #category : #orientation }
 ToTripletLayoutVerticalOrientation >> breadthProperties: anElement [
 	^ anElement constraints horizontal
 ]
@@ -79,7 +74,7 @@ ToTripletLayoutVerticalOrientation >> layout: anElement in: aRectangle context: 
 		inject: left @ top
 		into: [ :origin :child |
 			| childBounds childMarginBounds childConstraints |
-			childConstraints := child constraints linear.
+			childConstraints := child constraints triplet.
 			childBounds := origin + (child margin topLeft max: 0.0@0.0) extent: child measuredExtent.
 			childMarginBounds := origin extent: child measuredExtent + (child margin extent max: 0.0@0.0).  
 			
@@ -101,16 +96,6 @@ ToTripletLayoutVerticalOrientation >> layout: anElement in: aRectangle context: 
 			child applyLayoutIn: childBounds context: aBlElementBoundsUpdateContext.
 			"translating origin vertically down for next subnode"
 			origin x @(origin y + child measuredHeight + (child margin height max: 0.0)) ]
-]
-
-{ #category : #orientation }
-ToTripletLayoutVerticalOrientation >> lengthLinearProperties: aChildElement [
-	^ aChildElement constraints linear vertical
-]
-
-{ #category : #orientation }
-ToTripletLayoutVerticalOrientation >> lengthMode [
-	^ self layout cache heightMode
 ]
 
 { #category : #orientation }

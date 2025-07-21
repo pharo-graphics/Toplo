@@ -10,23 +10,10 @@ Trait {
 		'startAlignment',
 		'endAlignment',
 		'endInterspace',
-		'startInterspace',
-		'alignCenter'
+		'startInterspace'
 	],
 	#category : #'Toplo-Core-Triplet'
 }
-
-{ #category : #'t - triplet element accessing' }
-TToTripletElementConfiguration >> alignCenter [
-
-	^ alignCenter
-]
-
-{ #category : #'t - triplet element accessing' }
-TToTripletElementConfiguration >> alignCenter: aBoolean [
-
-	alignCenter := aBoolean
-]
 
 { #category : #'t - triplet element configuration' }
 TToTripletElementConfiguration >> applyTripletElementConfigurationOn: anElement [
@@ -52,15 +39,11 @@ TToTripletElementConfiguration >> configureChildrenIn: anElement [
 	anElement isHorizontal
 		ifTrue: [
 				allChildren do: [ :child |
-						child constraints triplet vertical alignCenter.
-						 ] ]
+					child constraints triplet vertical alignCenter ] ]
 		ifFalse: [
 				allChildren do: [ :child |
-						child constraints triplet horizontal alignCenter.
-						] ].
-	alignCenter
-		ifTrue: [ anElement layout alignCenter ]
-		ifFalse: [ anElement layout alignCenterLeft ].
+					child constraints triplet horizontal alignCenter ] ].
+			
 	anElement requestLayout
 ]
 
@@ -89,11 +72,9 @@ TToTripletElementConfiguration >> configureEndElementIn: anElement [
 	anElement endElement ifNil: [ ^ self ].
 	anElement isHorizontal
 		ifTrue: [
-			anElement endElement constraints frame horizontal alignRight.
-			anElement endElement constraints linear horizontal alignRight ]
+		anElement endElement constraints linear horizontal alignRight ]
 		ifFalse: [
-			anElement endElement constraints frame vertical alignBottom.
-			anElement endElement constraints linear vertical alignBottom ]
+		anElement endElement constraints linear vertical alignBottom ]
 ]
 
 { #category : #'t - triplet element configuration' }
@@ -101,18 +82,17 @@ TToTripletElementConfiguration >> configureEndFillerIn: anElement [
 
 	endFlexible
 		ifTrue: [
-			endFiller ifNil: [
+				endFiller ifNotNil: [ ^ self ].
 				endFiller := anElement newFiller
-					               id: #'end-filler';
-					               yourself.
-				anElement addChild: endFiller after: anElement middleContainer ].
-			self on: endFiller resizerDo: [ :c |
-				c vertical matchParent.
-				c horizontal matchParent ] ]
+					             id: #'end-filler';
+					             yourself.
+				endFiller constraints vertical matchParent.
+				endFiller constraints horizontal matchParent.
+				anElement addChild: endFiller after: anElement middleContainer ]
 		ifFalse: [
-			endFiller ifNil: [ ^ self ].
-			endFiller removeFromParent.
-			endFiller := nil ]
+				endFiller ifNil: [ ^ self ].
+				endFiller removeFromParent.
+				endFiller := nil ]
 ]
 
 { #category : #'t - triplet element configuration' }
@@ -165,11 +145,9 @@ TToTripletElementConfiguration >> configureStartElementIn: anElement [
 	anElement startElement ifNil: [ ^ self ].
 	anElement isHorizontal
 		ifTrue: [
-			anElement startElement constraints frame horizontal alignLeft.
-			anElement startElement constraints linear horizontal alignLeft ]
+		anElement startElement constraints linear horizontal alignLeft ]
 		ifFalse: [
-			anElement startElement constraints frame vertical alignBottom.
-			anElement startElement constraints linear vertical alignBottom ]
+		anElement startElement constraints linear vertical alignBottom ]
 ]
 
 { #category : #'t - triplet element configuration' }
@@ -177,18 +155,17 @@ TToTripletElementConfiguration >> configureStartFillerIn: anElement [
 
 	startFlexible
 		ifTrue: [
-			startFiller ifNil: [
+				startFiller ifNotNil: [ ^ self ].
 				startFiller := anElement newFiller
 					               id: #'start-filler';
 					               yourself.
-				anElement addChild: startFiller before: anElement middleContainer ].
-			self on: startFiller resizerDo: [ :c |
-				c vertical matchParent.
-				c horizontal matchParent ] ]
+				startFiller constraints vertical matchParent.
+				startFiller constraints horizontal matchParent.
+				anElement addChild: startFiller before: anElement middleContainer ]
 		ifFalse: [
-			startFiller ifNil: [ ^ self ].
-			startFiller removeFromParent.
-			startFiller := nil ]
+				startFiller ifNil: [ ^ self ].
+				startFiller removeFromParent.
+				startFiller := nil ]
 ]
 
 { #category : #'t - triplet element configuration' }
@@ -269,7 +246,6 @@ TToTripletElementConfiguration >> endInterspace: aNumber [
 { #category : #'t - triplet element configuration' }
 TToTripletElementConfiguration >> initializeAsTripletElementConfiguration [
 
-	alignCenter := false.
 	startFlexible := false.
 	endFlexible := false.
 	startInterspace := 0.

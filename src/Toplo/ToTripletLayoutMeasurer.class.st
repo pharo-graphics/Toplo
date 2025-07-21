@@ -205,7 +205,7 @@ ToTripletLayoutMeasurer >> preMeasure [
 	
 	self nodes do: [ :aNode |
 		| matchBreadthLocally childBreadth shouldUseExcessSpace |
-				
+
 		totalWeight := totalWeight + aNode weight.
 		
 		"we must store the result because it may temporary change during measurement"

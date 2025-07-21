@@ -12,17 +12,11 @@ Trait {
 }
 
 { #category : #'t - triplet element - accessing' }
-TToTripletElement >> alignCenter [
-
-	^ self widgetConfiguration alignCenter
-]
-
-{ #category : #'t - triplet element - accessing' }
 TToTripletElement >> alignCenter: aBoolean [
 
-	self alignCenter = aBoolean ifTrue: [ ^ self ].
-	self widgetConfiguration alignCenter: aBoolean.
-	self requestNewConfiguration
+	aBoolean
+		ifTrue: [ self layout alignCenter ]
+		ifFalse: [ self layout alignCenterLeft ]
 ]
 
 { #category : #'t - triplet element - instance creation' }
@@ -55,7 +49,7 @@ TToTripletElement >> checkStartContainer [
 { #category : #'t - triplet element - instance creation' }
 TToTripletElement >> createEndContainer [
 
-	endContainer := self newFrameContainer
+	endContainer := self newLinearContainer
 		                  id: #'end-container';
 		                  yourself.
 	self addChild: endContainer
@@ -73,7 +67,7 @@ TToTripletElement >> createMiddleContainer [
 { #category : #'t - triplet element - instance creation' }
 TToTripletElement >> createStartContainer [
 
-	startContainer := self newFrameContainer
+	startContainer := self newLinearContainer
 		                  id: #'start-container';
 		                  yourself.
 	self addChild: startContainer at: 1
@@ -216,6 +210,7 @@ TToTripletElement >> initializeAsTripletElement [
 	"the midddle container must be created because other parts are added according to its position"
 	self createMiddleContainer.
 	self layout: self defaultLayout.
+	self alignCenter: false.
 	self addEventHandler: self defaultTripletEventHandler
 ]
 
@@ -272,20 +267,7 @@ TToTripletElement >> newFiller [
 
 	^ BlElement new
 		  extent: 0 @ 0;
-		  layout: BlLinearLayout new;
-		  yourself
-]
-
-{ #category : #'t - triplet element - instance creation' }
-TToTripletElement >> newFrameContainer [
-
-	^ BlElement new
-		  constraintsDo: [ :c |
-			  c horizontal fitContent.
-			  c vertical fitContent.
-			  c triplet vertical alignCenter.
-			  c triplet horizontal alignCenter ];
-		  layout: BlFrameLayout new;
+		  layout: BlBasicLayout new;
 		  yourself
 ]
 
@@ -305,7 +287,7 @@ TToTripletElement >> newLinearContainer [
 { #category : #'t - triplet element - instance creation' }
 TToTripletElement >> newMiddleContainer [
 
-	^ self newFrameContainer
+	^ self newLinearContainer
 ]
 
 { #category : #'t - triplet element - accessing' }

@@ -4832,7 +4832,7 @@ ToSandBox class >> example_SimpleTabPane [
 	tabPane := ToTabPaneElement new.
 	tabPane matchParent.
 	space root addChild: tabPane.
-	tabPane tabItemBuilder: [ :tabItem :data |
+	tabPane itemBuilder: [ :tabItem :data |
 			tabItem
 				id: data asSymbol;
 				labelText: data asString;
@@ -4971,7 +4971,7 @@ ToSandBox class >> example_TabGroupElement [
 	tabs isScrollable: true.
 	tabs hMatchParent.
 	tabs showAddTabItemButton: true.
-	tabs tabItemBuilder: [ :tabItem :data  |
+	tabs itemBuilder: [ :tabItem :data  |
 		tabItem labelText: data asString.
 		tabItem removable: true ].
 	50 to: 70 do: [ :i |
@@ -4988,7 +4988,7 @@ ToSandBox class >> example_TabGroupElementWithDaily [
 
 	| tabs dashBoard |
 	tabs := ToTabGroupElement new.
-	tabs tabItemBuilder: [ :tabItem :data :tabGroup |
+	tabs itemBuilder: [ :tabItem :data :tabGroup |
 			tabItem labelText: data asString.
 			tabItem removable: true ].
 
@@ -5030,7 +5030,7 @@ ToSandBox class >> example_TabGroupElementWithUSStates [
 
 	| tabs dashBoard |
 	tabs := ToTabGroupElement new.
-	tabs tabItemBuilder: [ :tabItem :data :tabGroup |
+	tabs itemBuilder: [ :tabItem :data :tabGroup |
 			tabItem labelText: data asString.
 			tabItem removable: true ].
 
@@ -9350,7 +9350,7 @@ ToSandBox class >> tabPaneElementWithUSStates [
 
 	| tpane |
 	tpane := ToTabPaneElement new.
-	tpane tabItemBuilder: [ :tabButton :aData :tabGroup |
+	tpane itemBuilder: [ :tabButton :aData :tabGroup |
 			| lab |
 			lab := ToLabel text: aData asString.
 			lab enableShrinkLayer: true.

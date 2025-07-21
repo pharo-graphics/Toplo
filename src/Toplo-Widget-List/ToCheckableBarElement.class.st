@@ -28,7 +28,7 @@ ToCheckableBarElement >> initialize [
 
 	self group
 		addEventHandlerOn: ToCheckableGroupChangedEvent
-		do: [ :event | self fireEvent: event copy ].
+		do: [ :event | self dispatchEvent: event copy ].
 
 	self primarySelectionMode selectionOption
 		grouped: false;

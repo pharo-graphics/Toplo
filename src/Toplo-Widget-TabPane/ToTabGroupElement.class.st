@@ -155,8 +155,11 @@ ToTabGroupElement >> initialize [
 					onInvisibleNodes: anEvent invisibleNodes
 					visibleNodes: anEvent visibleNodes ].
 	self itemBar
+		addEventHandlerOn: ToCheckableGroupChangedEvent 
+		do: [ :event | self dispatchEvent: event copy ].
+	self itemBar
 		addEventHandlerOn: ToListSelectionChangedEvent
-		do: [ :event | self fireEvent: event copy ].
+		do: [ :event | self dispatchEvent: event copy ].
 
 	self addEventHandler: self defaultEventHandler.
 	tabItemFactory := self defaultTabItemFactory.

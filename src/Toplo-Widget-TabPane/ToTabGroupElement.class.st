@@ -12,8 +12,8 @@ Class {
 		'invisibleNodeMenuItemBuilder',
 		'addTabItemButton',
 		'tabItemFactory',
-		'tabItemBuilder',
-		'showAddTabItemButton'
+		'showAddTabItemButton',
+		'itemBuilder'
 	],
 	#category : #'Toplo-Widget-TabPane-TabGroup'
 }
@@ -38,7 +38,7 @@ ToTabGroupElement >> addTabItemData: aData [
 	newItem := tabItemFactory value.
 	" add the new item before building it to allow the builder to use the item holder "
 	self addItem: newItem.
-	tabItemBuilder cull: newItem cull: aData cull: self.
+	itemBuilder cull: newItem cull: aData cull: self.
 
 ]
 
@@ -111,7 +111,7 @@ ToTabGroupElement >> defaultInvisibleNodesMenuBuilder [
 ]
 
 { #category : #initialization }
-ToTabGroupElement >> defaultTabItemBuilder [
+ToTabGroupElement >> defaultItemBuilder [
 
 	^ [ :aTabItem :aData :tabGroupElement |
 		  aTabItem labelText: aData asString ]
@@ -163,7 +163,7 @@ ToTabGroupElement >> initialize [
 
 	self addEventHandler: self defaultEventHandler.
 	tabItemFactory := self defaultTabItemFactory.
-	tabItemBuilder := self defaultTabItemBuilder.
+	itemBuilder := self defaultItemBuilder.
 	showAddTabItemButton := false
 ]
 
@@ -247,6 +247,13 @@ ToTabGroupElement >> isAtEndSide [
 ToTabGroupElement >> isAtStartSide [
 
 	^ self atStartSide
+]
+
+{ #category : #accessing }
+ToTabGroupElement >> itemBuilder: aValuable [
+	" aValuable takes the new TabItemElement, the data and the TabGroupElement as arguments "
+
+	itemBuilder := aValuable
 ]
 
 { #category : #'t - item bar container - initializing' }
@@ -343,13 +350,6 @@ ToTabGroupElement >> showInvisibleTabItem: aTabItemElement [
 ToTabGroupElement >> startExtraBuilder: aValuable [
 
 	aValuable value: self startElement
-]
-
-{ #category : #accessing }
-ToTabGroupElement >> tabItemBuilder: aValuable [
-	" aValuable takes the new TabItemElement, the data and the TabGroupElement as arguments "
-
-	tabItemBuilder := aValuable
 ]
 
 { #category : #accessing }

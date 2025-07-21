@@ -113,6 +113,13 @@ ToTabPaneElement >> initialize [
 ]
 
 { #category : #accessing }
+ToTabPaneElement >> itemBuilder: aValuable [
+	" aValuable takes the new TabItemElement, the data and the TabGroupElement as arguments "
+	
+	self tabGroup itemBuilder: aValuable
+]
+
+{ #category : #accessing }
 ToTabPaneElement >> noAlignment [
 
 	headerContainer noAlignment
@@ -141,13 +148,6 @@ ToTabPaneElement >> showAddTabItemButton: aBoolean [
 ToTabPaneElement >> tabGroup [ 
 
 	^ headerContainer tabGroup 
-]
-
-{ #category : #accessing }
-ToTabPaneElement >> tabItemBuilder: aValuable [
-	" aValuable takes the new TabItemElement, the data and the TabGroupElement as arguments "
-	
-	self tabGroup tabItemBuilder: aValuable
 ]
 
 { #category : #'t - checkable group owner' }

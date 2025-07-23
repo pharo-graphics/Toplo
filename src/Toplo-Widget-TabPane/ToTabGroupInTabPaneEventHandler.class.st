@@ -1,11 +1,14 @@
 Class {
-	#name : #ToTabPaneEventHandler,
+	#name : #ToTabGroupInTabPaneEventHandler,
 	#superclass : #BlCustomEventHandler,
+	#instVars : [
+		'tabPane'
+	],
 	#category : #'Toplo-Widget-TabPane-TabPane'
 }
 
-{ #category : #'event handling' }
-ToTabPaneEventHandler >> applyPaneDestroyerOfTabButton: aTabButton [
+{ #category : #'events handling' }
+ToTabGroupInTabPaneEventHandler >> applyPaneDestroyerOfTabButton: aTabButton [
 
 	| innerPane |
 	innerPane := aTabButton holder innerPane.
@@ -19,11 +22,10 @@ ToTabPaneEventHandler >> applyPaneDestroyerOfTabButton: aTabButton [
 			aTabButton holder innerPane: nil ]
 ]
 
-{ #category : #'event handling' }
-ToTabPaneEventHandler >> checkableGroupChangedEvent: anEvent [
+{ #category : #'events handling' }
+ToTabGroupInTabPaneEventHandler >> checkableGroupChangedEvent: anEvent [
 
-	| tabPane body button innerPane |
-	tabPane := anEvent currentTarget.
+	|  body button innerPane |
 	body := tabPane body.
 	body removeChildren.
 	anEvent checkedList size = 1 ifFalse: [ ^ self ].
@@ -45,23 +47,34 @@ ToTabPaneEventHandler >> checkableGroupChangedEvent: anEvent [
 		cull: button holder node
 		cull: button holder.
 	button holder innerPane: innerPane.
-	body addChild: innerPane
+	body addChild: innerPane.
+	
+	tabPane dispatchEvent: anEvent copy
 ]
 
 { #category : #'api - accessing' }
-ToTabPaneEventHandler >> eventsToHandle [
+ToTabGroupInTabPaneEventHandler >> eventsToHandle [
 
-	^ { ToCheckableGroupChangedEvent.  ToItemRemovedFromBarEvent. }
+	^ {
+		  ToCheckableGroupChangedEvent.
+		  ToItemRemovedFromBarEvent.
+		  ToListSelectionChangedEvent }
 ]
 
-{ #category : #'event handling' }
-ToTabPaneEventHandler >> itemRemovedFromBarEvent: anEvent [
+{ #category : #'events handling' }
+ToTabGroupInTabPaneEventHandler >> itemRemovedFromBarEvent: anEvent [
 
 	anEvent wasSelected ifTrue: [
 		self applyPaneDestroyerOfTabButton: anEvent item ].
-	anEvent currentTarget dataSource ifEmpty: [
-			| tabPane body |
-			tabPane := anEvent currentTarget.
+	tabPane dataSource ifEmpty: [
+			| body |
 			body := tabPane body.
-			body removeChildren ]
+			body removeChildren ].
+	tabPane dispatchEvent: anEvent copy
+]
+
+{ #category : #accessing }
+ToTabGroupInTabPaneEventHandler >> tabPane: aTabPaneElement [
+
+	tabPane := aTabPaneElement
 ]

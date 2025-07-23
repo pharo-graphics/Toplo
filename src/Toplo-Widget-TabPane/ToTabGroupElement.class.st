@@ -34,11 +34,12 @@ ToTabGroupElement >> addNewTabItem [
 { #category : #adding }
 ToTabGroupElement >> addTabItemData: aData [
 
-	| newItem |
-	newItem := tabItemFactory value.
+	| newTabItem |
+	newTabItem := tabItemFactory value.
 	" add the new item before building it to allow the builder to use the item holder "
-	self addItem: newItem.
-	itemBuilder cull: newItem cull: aData cull: self.
+	self addItem: newTabItem.
+	itemBuilder cull: newTabItem cull: aData cull: self.
+	newTabItem holder node requestNewConfiguration
 
 ]
 
@@ -148,22 +149,10 @@ ToTabGroupElement >> initialize [
 	self resetInvisibleNodes.
 	self initializeAsItemBarOwner.
 	self initializeParts.
-	self itemBar innerElement
-		addEventHandlerOn: ToBarVisibleNodeListChangedEvent
-		do: [ :anEvent |
-				self
-					onInvisibleNodes: anEvent invisibleNodes
-					visibleNodes: anEvent visibleNodes ].
-	self itemBar
-		addEventHandlerOn: ToCheckableGroupChangedEvent 
-		do: [ :event | self dispatchEvent: event copy ].
-	self itemBar
-		addEventHandlerOn: ToBarItemEvent 
-		do: [ :event | self dispatchEvent: event copy ].
-	self itemBar
-		addEventHandlerOn: ToListSelectionChangedEvent
-		do: [ :event | self dispatchEvent: event copy ].
-
+	self itemBar addEventHandler:
+		(ToTabBarInGroupElementEventHandler new
+			 tabGroup: self;
+			 yourself).
 	self addEventHandler: self defaultEventHandler.
 	tabItemFactory := self defaultTabItemFactory.
 	itemBuilder := self defaultItemBuilder.

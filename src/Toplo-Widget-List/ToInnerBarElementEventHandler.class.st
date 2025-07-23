@@ -11,7 +11,8 @@ ToInnerBarElementEventHandler >> barVisibleNodeListChangedEvent: anEvent [
 	innerBar := anEvent currentTarget.
 	innerBar
 		onInvisibleNodes: anEvent invisibleNodes
-		visibleNodes: anEvent visibleNodes
+		visibleNodes: anEvent visibleNodes.
+	innerBar listElement dispatchEvent: anEvent copy
 ]
 
 { #category : #'api - accessing' }

@@ -16,17 +16,7 @@ ToTabGroupElementEventHandler >> eventsToHandle [
 
 	^ {
 		  BlLayoutResizerChangedEvent.
-		  ToItemRemovedFromBarEvent.
 		  ToAddButtonClickedEvent }
-]
-
-{ #category : #'element events handling' }
-ToTabGroupElementEventHandler >> itemRemovedFromBarEvent: anEvent [
-	
-	| tabItemHolder |
-	anEvent wasSelected ifFalse: [ ^ self ].
-	tabItemHolder := anEvent item holder.
-	tabItemHolder checkNextAfterRemovalAtPosition: tabItemHolder position
 ]
 
 { #category : #'element events handling' }

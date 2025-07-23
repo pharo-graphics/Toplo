@@ -9370,10 +9370,11 @@ ToSandBox class >> tabPaneElementWithUSStates [
 				tooltipString: aData asString;
 				removable: true;
 				paneBuilder: [ :pane |
-						| emptyPh |
+						| emptyPh c |
+						c := Color random.
 						pane withNullSkin.
-						pane background: (Color random alpha: 0.1).
-
+						pane border: c.
+						pane background: (c alpha: 0.1).
 						emptyPh := ToEmptyPlaceholderLayer new attachToParent: pane.
 						pane userData at: #placeholder put: emptyPh ];
 				paneDestroyer: [ :pane |

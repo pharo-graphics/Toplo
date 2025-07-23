@@ -525,6 +525,12 @@ ToInnerBarElement >> stopScrollersInternal [
 ]
 
 { #category : #accessing }
+ToInnerBarElement >> trackElement [
+	" introduced for tests, should be used privately "
+	^ trackElement 
+]
+
+{ #category : #accessing }
 ToInnerBarElement >> trackElement: anElement [
 
 	trackElement ifNotNil: [ (BlImmutableObjectChangeError object: self) signal ].

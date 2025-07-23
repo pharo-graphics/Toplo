@@ -75,12 +75,6 @@ ToTabPaneElement >> body [
 	^ bodyContainer 
 ]
 
-{ #category : #initialization }
-ToTabPaneElement >> defaultEventHandler [ 
-
-	^ ToTabPaneEventHandler new
-]
-
 { #category : #accessing }
 ToTabPaneElement >> header [ 
 
@@ -101,15 +95,9 @@ ToTabPaneElement >> initialize [
 	self addChildren: {
 			headerContainer.
 			bodyContainer }.
-			
-	self tabGroup
-		addEventHandlerOn: ToCheckableGroupChangedEvent
-		do: [ :event | self dispatchEvent: event copy ].
-	self tabGroup
-		addEventHandlerOn: ToListSelectionChangedEvent
-		do: [ :event | self dispatchEvent: event copy ].
-
-	self addEventHandler: self defaultEventHandler
+	self tabGroup addEventHandler: (ToTabGroupInTabPaneEventHandler new
+			 tabPane: self;
+			 yourself)
 ]
 
 { #category : #accessing }

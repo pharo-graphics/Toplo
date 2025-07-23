@@ -21,3 +21,10 @@ ToItemNodeHolder >> initializeNode [
 		self isHidden ifTrue: [ self node height: 0 ] ]
 
 ]
+
+{ #category : #removing }
+ToItemNodeHolder >> removeNodeFromBar [
+
+	" redefined to use the item bar API "
+	self listElement removeItem: self node item
+]

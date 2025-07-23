@@ -57,7 +57,11 @@ ToTabPaneEventHandler >> eventsToHandle [
 { #category : #'event handling' }
 ToTabPaneEventHandler >> itemRemovedFromBarEvent: anEvent [
 
-	anEvent wasSelected ifFalse: [ ^ self ].
+	anEvent wasSelected ifTrue: [
+		self applyPaneDestroyerOfTabButton: anEvent item ].
 	anEvent currentTarget dataSource ifEmpty: [
-		self applyPaneDestroyerOfTabButton: anEvent item ]
+			| tabPane body |
+			tabPane := anEvent currentTarget.
+			body := tabPane body.
+			body removeChildren ]
 ]

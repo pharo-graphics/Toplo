@@ -9381,7 +9381,7 @@ ToSandBox class >> tabPaneElementWithUSStates [
 						'pane destroyed' traceCr.
 						emptyPh := pane userData at: #placeholder.
 						emptyPh detach ] ].
-	(self statesOfAmerica copyFrom: 1 to: 4) do: [ :l | tpane addTabItemData: l ].
+	(self statesOfAmerica copyFrom: 1 to: 20) do: [ :l | tpane addTabItemData: l ].
 	tpane isFlowable: false.
 	tpane isScrollable: true.
 	^ tpane

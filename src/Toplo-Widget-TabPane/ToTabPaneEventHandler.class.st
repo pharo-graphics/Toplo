@@ -5,6 +5,21 @@ Class {
 }
 
 { #category : #'event handling' }
+ToTabPaneEventHandler >> applyPaneDestroyerOfTabButton: aTabButton [
+
+	| innerPane |
+	innerPane := aTabButton holder innerPane.
+	innerPane ifNil: [ ^ self ].
+	aTabButton paneDestroyer ifNotNil: [ :destroyer |
+			destroyer
+				cull: innerPane
+				cull: aTabButton
+				cull: aTabButton holder node
+				cull: aTabButton holder.
+			aTabButton holder innerPane: nil ]
+]
+
+{ #category : #'event handling' }
 ToTabPaneEventHandler >> checkableGroupChangedEvent: anEvent [
 
 	| tabPane body button innerPane |
@@ -23,13 +38,7 @@ ToTabPaneEventHandler >> checkableGroupChangedEvent: anEvent [
 	button paneDestroyer ifNotNil: [ :destroyer |
 			innerPane
 				addEventHandlerOn: BlElementRemovedFromParentEvent
-				doOnce: [
-						destroyer
-							cull: innerPane
-							cull: button
-							cull: button holder node
-							cull: button holder.
-						button holder innerPane: nil ] ].
+				doOnce: [ self applyPaneDestroyerOfTabButton: button ] ].
 	button paneBuilder
 		cull: innerPane
 		cull: button
@@ -41,5 +50,14 @@ ToTabPaneEventHandler >> checkableGroupChangedEvent: anEvent [
 
 { #category : #'api - accessing' }
 ToTabPaneEventHandler >> eventsToHandle [
-	^  { ToCheckableGroupChangedEvent }
+
+	^ { ToCheckableGroupChangedEvent.  ToItemRemovedFromBarEvent. }
+]
+
+{ #category : #'event handling' }
+ToTabPaneEventHandler >> itemRemovedFromBarEvent: anEvent [
+
+	anEvent wasSelected ifFalse: [ ^ self ].
+	anEvent currentTarget dataSource ifEmpty: [
+		self applyPaneDestroyerOfTabButton: anEvent item ]
 ]

@@ -5,22 +5,14 @@ Class {
 }
 
 { #category : #removing }
-ToTabNodeHolder >> removeNodeFromBar [
+ToTabNodeHolder >> checkNextAfterRemovalAtPosition: aPosition [
 	" remove from bar and make sure that the next tab (or the last one) is checked after"
 
-	| index nextChecked dataAccessor |
-	self node isRemovable ifFalse: [ ^ self ].
+	| nextChecked dataAccessor |
 	dataAccessor := self listElement dataAccessor.
-	index := self node item isChecked
-		         ifTrue: [ self position ]
-		         ifFalse: [ 0 ].
-
-	super removeNodeFromBar.
-
-	index > 0 ifFalse: [ ^ self ].
 	dataAccessor ifEmpty: [ ^ self ].
-	nextChecked := dataAccessor size < index
+	nextChecked := dataAccessor size < aPosition
 		               ifTrue: [ dataAccessor last ]
-		               ifFalse: [ dataAccessor at: index ].
+		               ifFalse: [ dataAccessor at: aPosition ].
 	nextChecked checked: true
 ]

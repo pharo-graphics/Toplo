@@ -34,3 +34,20 @@ ToItemBarElement >> newRawSkin [
 
 	^ ToItemBarElementSkin new
 ]
+
+{ #category : #'t - item list - adding/removing' }
+ToItemBarElement >> notifyItemAdded: anItem [
+
+	self dispatchEvent: (ToItemAddedInBarEvent new
+			 item: anItem;
+			 yourself)
+]
+
+{ #category : #'t - item list - adding/removing' }
+ToItemBarElement >> notifyItemRemoved: anItem wasSelected: aBoolean [
+
+	self dispatchEvent: (ToItemRemovedFromBarEvent new
+			 item: anItem;
+			 wasSelected: aBoolean;
+			 yourself)
+]

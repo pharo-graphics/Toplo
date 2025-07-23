@@ -106,6 +106,9 @@ ToTabPaneElement >> initialize [
 		addEventHandlerOn: ToCheckableGroupChangedEvent
 		do: [ :event | self dispatchEvent: event copy ].
 	self tabGroup
+		addEventHandlerOn: ToBarItemEvent
+		do: [ :event | self dispatchEvent: event copy ].
+	self tabGroup
 		addEventHandlerOn: ToListSelectionChangedEvent
 		do: [ :event | self dispatchEvent: event copy ].
 

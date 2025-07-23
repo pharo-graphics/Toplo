@@ -6,13 +6,6 @@ Class {
 	#category : #'Toplo-Widget-List-ItemList'
 }
 
-{ #category : #configuration }
-ToListItemNode >> applyWidgetConfiguration [
-
-	super applyWidgetConfiguration.
-	self applyItemNodeConfiguration
-]
-
 { #category : #initialization }
 ToListItemNode >> initialize [
 

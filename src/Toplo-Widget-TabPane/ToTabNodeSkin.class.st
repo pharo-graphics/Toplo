@@ -55,9 +55,10 @@ ToTabNodeSkin >> installSkinEvent: anEvent [
 				leftPad := leftPad * 2.
 				(listElement isVertical and: [ listElement atStartSide not ])
 					ifTrue: [
-						c ignored horizontal alignRight.
+						c anchors add: (c anchors rightAnchor on: e rightAnchor).
 						rightPad := rightPad * 2 ]
-					ifFalse: [ c ignored horizontal alignLeft ].
+					ifFalse: [ 
+						c anchors add: (c anchors leftAnchor on: e leftAnchor) ].
 				c ignored vertical alignCenter ] ].
 		e item constraintsDo: [ :c | c linear vertical alignCenter ]. 
 		e padding: (BlInsets

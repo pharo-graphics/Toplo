@@ -54,6 +54,7 @@ BlElement >> allowSkinEventClass: aSkinEventClass [
 { #category : #'*Toplo' }
 BlElement >> applyDownwardConfiguration [
 
+	self toConfiguration ifNotNil: [ :tc | tc applyOn: self ]
 ]
 
 { #category : #'*Toplo' }
@@ -81,8 +82,6 @@ BlElement >> applySkinInstallersDeeply [
 
 { #category : #'*Toplo' }
 BlElement >> applyUpwardConfiguration [
-
-	self toConfiguration ifNotNil: [ :tc | tc applyOn: self ].
 	" now consume the request for configuration to avoid 
 	a useless application during next pass if I'm send programmatically "
 	self spaceDo: [ :sp |

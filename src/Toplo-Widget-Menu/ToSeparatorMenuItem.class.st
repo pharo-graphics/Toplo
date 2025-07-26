@@ -4,11 +4,11 @@ Class {
 	#category : #'Toplo-Widget-Menu-Items'
 }
 
-{ #category : #initialization }
-ToSeparatorMenuItem >> applyUpwardConfiguration [
+{ #category : #configuration }
+ToSeparatorMenuItem >> applyDownwardConfiguration [
 	" Sent to let any menu item to adapt its resizer/layout  constraints before the node is added in the menu list. Notice that I am sent before the node adding + the selections shift is actually finished. Thus, this place is not adequate for changing one of the list selections (use #addedInMenu for that) "
 
-	super applyUpwardConfiguration.
+	super applyDownwardConfiguration.
 	self holderDo: [ :h |
 		h node matchParent.
 		h listElement isHorizontal

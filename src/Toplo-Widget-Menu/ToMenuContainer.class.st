@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #configuration }
-ToMenuContainer >> applyUpwardConfiguration [ 
+ToMenuContainer >> applyDownwardConfiguration [ 
 
-	super applyUpwardConfiguration.
+	super applyDownwardConfiguration.
 	self isScrollable 
 		ifTrue: [
 			self itemBar isVertical

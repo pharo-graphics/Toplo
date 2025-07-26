@@ -7,9 +7,9 @@ Class {
 }
 
 { #category : #configuration }
-ToShrinkableContainer >> applyUpwardConfiguration [ 
+ToShrinkableContainer >> applyDownwardConfiguration [ 
 
-	super applyUpwardConfiguration.
+	super applyDownwardConfiguration.
 	self applyShrinkableConfiguration 
 ]
 

@@ -35,9 +35,9 @@ ToTabPaneElement >> alignStart [
 ]
 
 { #category : #configuration }
-ToTabPaneElement >> applyUpwardConfiguration [
+ToTabPaneElement >> applyDownwardConfiguration [
 
-	super applyUpwardConfiguration.
+	super applyDownwardConfiguration.
 
 	self tabGroup horizontal: self isHorizontal not.
 	self atStartSide

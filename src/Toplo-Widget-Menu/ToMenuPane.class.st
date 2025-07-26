@@ -26,11 +26,11 @@ ToMenuPane >> addMenu: aMenu [
 ]
 
 { #category : #configuration }
-ToMenuPane >> applyUpwardConfiguration [
+ToMenuPane >> applyDownwardConfiguration [
 	" just force the resizer of the secondary direction 
 	( vertical direction in case of an horizontal bar )"
 
-	super applyUpwardConfiguration.
+	super applyDownwardConfiguration.
 	self uniformNodeWidth: self isVertical.
 	self itemBar horizontal: self isHorizontal.
 	self itemBar isScrollable: self isScrollable.

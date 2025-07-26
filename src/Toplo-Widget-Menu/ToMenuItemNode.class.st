@@ -5,10 +5,10 @@ Class {
 }
 
 { #category : #configuration }
-ToMenuItemNode >> applyUpwardConfiguration [
+ToMenuItemNode >> applyDownwardConfiguration [
 
-	super applyUpwardConfiguration.
-	self item applyUpwardConfiguration
+	super applyDownwardConfiguration.
+	self item applyDownwardConfiguration
 ]
 
 { #category : #'t - item node' }

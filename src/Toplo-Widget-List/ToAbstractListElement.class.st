@@ -56,10 +56,10 @@ ToAbstractListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 ]
 
 { #category : #configuration }
-ToAbstractListElement >> applyUpwardConfiguration [
+ToAbstractListElement >> applyDownwardConfiguration [
 
-	super applyUpwardConfiguration.
-	self innerElement applyUpwardConfiguration
+	super applyDownwardConfiguration.
+	self innerElement applyDownwardConfiguration
 ]
 
 { #category : #layout }

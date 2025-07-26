@@ -6,10 +6,10 @@ Class {
 }
 
 { #category : #configuration }
-ToListNode >> applyUpwardConfiguration [
+ToListNode >> applyDownwardConfiguration [
 
 	| l |
-	super applyUpwardConfiguration.
+	super applyDownwardConfiguration.
 	l := self holder listElement.
 	l isHorizontal
 		ifTrue: [ self hFitContent ]

@@ -23,8 +23,6 @@ TToConfigurableBarElement >> autoDistribute: aBoolean [
 
 	autoDistribute = aBoolean ifTrue: [ ^ self ].
 	autoDistribute := aBoolean.
-	" notify dataSource changed to renew all nodes "
-	self notifyDataSourceChanged.
 	self requestNewConfiguration
 ]
 
@@ -40,7 +38,6 @@ TToConfigurableBarElement >> exactNodeHeight: aNumberOrNil [
 	exactNodeHeight = aNumberOrNil ifTrue:[ ^ self ].
 	exactNodeHeight := aNumberOrNil.
 	self requestNewConfiguration.
-	self notifyDataSourceChanged.
 	self requestLayout
 ]
 
@@ -56,7 +53,6 @@ TToConfigurableBarElement >> exactNodeWidth: aNumberOrNil [
 	exactNodeWidth = aNumberOrNil ifTrue:[ ^ self ].
 	exactNodeWidth := aNumberOrNil.
 	self requestNewConfiguration.
-	self notifyDataSourceChanged.
 	self requestLayout
 ]
 
@@ -107,7 +103,6 @@ TToConfigurableBarElement >> uniformNodeHeight: aBoolean [
 	uniformNodeHeight = aBoolean ifTrue: [ ^ self ].
 	uniformNodeHeight := aBoolean.
 	self requestNewConfiguration.
-	self notifyDataSourceChanged.
 	self requestLayout
 ]
 
@@ -123,6 +118,5 @@ TToConfigurableBarElement >> uniformNodeWidth: aBoolean [
 	uniformNodeWidth = aBoolean ifTrue: [ ^ self ].
 	uniformNodeWidth := aBoolean.
 	self requestNewConfiguration.
-	self notifyDataSourceChanged.
 	self requestLayout
 ]

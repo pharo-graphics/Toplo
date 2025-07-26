@@ -52,13 +52,13 @@ ToTabNodeSkin >> installSkinEvent: anEvent [
 		e removeButtonDo: [ :rb |
 			rb visibility: BlVisibility hidden.
 			rb constraintsDo: [ :c |
-				leftPad := leftPad * 2.
 				(listElement isVertical and: [ listElement atStartSide not ])
 					ifTrue: [
-						c anchors add: (c anchors rightAnchor on: e rightAnchor).
-						rightPad := rightPad * 2 ]
+						c anchors add: (c anchors rightAnchor on: e rightAnchor - 5).
+						rightPad := rightPad + 15 ]
 					ifFalse: [ 
-						c anchors add: (c anchors leftAnchor on: e leftAnchor) ].
+						c anchors add: (c anchors leftAnchor on: e leftAnchor + 5).
+						leftPad := leftPad + 15 ].
 				c ignored vertical alignCenter ] ].
 		e item constraintsDo: [ :c | c linear vertical alignCenter ]. 
 		e padding: (BlInsets

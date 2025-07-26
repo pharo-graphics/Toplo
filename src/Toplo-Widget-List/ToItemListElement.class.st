@@ -7,9 +7,9 @@ Class {
 }
 
 { #category : #configuration }
-ToItemListElement >> applyWidgetConfiguration [ 
+ToItemListElement >> applyUpwardConfiguration [ 
 
-	super applyWidgetConfiguration.
+	super applyUpwardConfiguration.
 	self applyItemListConfiguration
 ]
 

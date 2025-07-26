@@ -36,9 +36,9 @@ ToInfiniteElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 ]
 
 { #category : #configuration }
-ToInfiniteElement >> applyWidgetConfiguration [
+ToInfiniteElement >> applyUpwardConfiguration [
 
-	super applyWidgetConfiguration.
+	super applyUpwardConfiguration.
 	self layout beHorizontal: self listElement isHorizontal.
 	self constraintsDo: [ :c |
 		self listElement isHMatchParent ifFalse: [ c horizontal fitContent ].

@@ -83,7 +83,7 @@ ToButton >> newRawSkin [
 ]
 
 { #category : #configuration }
-ToButton >> newWidgetConfiguration [ 
+ToButton >> newToConfiguration [ 
 
 	^ ToTripletElementConfiguration new
 ]

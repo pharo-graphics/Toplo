@@ -5,10 +5,10 @@ Class {
 }
 
 { #category : #configuration }
-ToMenuItemNode >> applyWidgetConfiguration [
+ToMenuItemNode >> applyUpwardConfiguration [
 
-	super applyWidgetConfiguration.
-	self item applyWidgetConfiguration
+	super applyUpwardConfiguration.
+	self item applyUpwardConfiguration
 ]
 
 { #category : #'t - item node' }

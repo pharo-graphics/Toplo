@@ -7,9 +7,9 @@ Class {
 }
 
 { #category : #configuration }
-ToTagElement >> applyWidgetConfiguration [ 
+ToTagElement >> applyUpwardConfiguration [ 
 
-	super applyWidgetConfiguration.
+	super applyUpwardConfiguration.
 	self removeRemoveButton.
 	self isRemovable
 		ifTrue: [ self addRemoveButton ].

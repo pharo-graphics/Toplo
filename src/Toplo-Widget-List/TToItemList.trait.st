@@ -47,7 +47,7 @@ TToItemList >> addItem: anItem beforeIndex: anInteger [
 { #category : #'t - item list - configuration' }
 TToItemList >> applyItemListConfiguration [
 
-	self nodesDo: [ :node | node applyWidgetConfiguration ]
+	self nodesDo: [ :node | node applyUpwardConfiguration ]
 ]
 
 { #category : #'t - item list - hidden/visible' }

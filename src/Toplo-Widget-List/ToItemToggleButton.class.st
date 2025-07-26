@@ -27,7 +27,7 @@ ToItemToggleButton >> initialize [
 ]
 
 { #category : #configuration }
-ToItemToggleButton >> newWidgetConfiguration [ 
+ToItemToggleButton >> newToConfiguration [ 
 
 	^ ToTripletElementConfiguration new
 ]

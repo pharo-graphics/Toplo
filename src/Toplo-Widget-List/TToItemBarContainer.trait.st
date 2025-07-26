@@ -58,7 +58,7 @@ TToItemBarContainer >> autoDistribute: aBoolean [
 
 	self itemBar autoDistribute = aBoolean ifTrue: [ ^ self ].
 	self itemBar autoDistribute: aBoolean.
-	self requestNewConfiguration
+	self requestConfiguration
 ]
 
 { #category : #'t - item bar container - accessing' }
@@ -108,7 +108,7 @@ TToItemBarContainer >> exactNodeHeight: aNumberOrNil [
 
 	self itemBar exactNodeHeight = aNumberOrNil ifTrue: [ ^ self ].
 	self itemBar exactNodeHeight: aNumberOrNil.
-	self requestNewConfiguration
+	self requestConfiguration
 ]
 
 { #category : #'t - item bar container - configuration' }
@@ -116,7 +116,7 @@ TToItemBarContainer >> exactNodeWidth: aNumberOrNil [
 
 	self itemBar exactNodeWidth = aNumberOrNil ifTrue: [ ^ self ].
 	self itemBar exactNodeWidth: aNumberOrNil.
-	self requestNewConfiguration
+	self requestConfiguration
 ]
 
 { #category : #'t - item bar container - testing' }
@@ -160,7 +160,7 @@ TToItemBarContainer >> isFlowable: aBoolean [
 
 	self itemBar isFlowable = aBoolean ifTrue: [ ^ self ].
 	self itemBar isFlowable: aBoolean.
-	self requestNewConfiguration
+	self requestConfiguration
 ]
 
 { #category : #'t - item bar container - testing' }
@@ -180,7 +180,7 @@ TToItemBarContainer >> isScrollable: aBoolean [
 
 	self itemBar isScrollable = aBoolean ifTrue: [ ^ self ].
 	self itemBar isScrollable: aBoolean.
-	self requestNewConfiguration
+	self requestConfiguration
 ]
 
 { #category : #'t - item bar container - accessing' }

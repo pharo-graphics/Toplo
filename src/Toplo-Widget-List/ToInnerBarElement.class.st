@@ -45,9 +45,9 @@ ToInnerBarElement >> addedDataSourceCommand: aCommand [
 ]
 
 { #category : #'t - list node holder' }
-ToInnerBarElement >> applyWidgetConfiguration [
+ToInnerBarElement >> applyUpwardConfiguration [
 
-	super applyWidgetConfiguration.
+	super applyUpwardConfiguration.
 	listElement isHFitContent
 		ifTrue: [ self hFitContent ]
 		ifFalse: [ self hMatchParent ].
@@ -56,7 +56,7 @@ ToInnerBarElement >> applyWidgetConfiguration [
 		ifTrue: [ self vFitContent ]
 		ifFalse: [ self vMatchParent ].
 
-	trackElement applyWidgetConfiguration
+	trackElement applyUpwardConfiguration
 ]
 
 { #category : #layout }
@@ -199,7 +199,7 @@ ToInnerBarElement >> installFakeNode [
 	Pay attention to add the fake node ** before ** the fake node building "
 	self addFakeNode: fakeNode.
 	self nodeManager buildNode: fakeNode.
-	self requestNewConfiguration
+	self requestConfiguration
 ]
 
 { #category : #accessing }
@@ -291,7 +291,7 @@ ToInnerBarElement >> onItemRangeChanged: aPositionStart itemCount: anItemCount [
 		pos := node holder position.
 		(pos >= aPositionStart and: [ pos < (aPositionStart + anItemCount) ])
 			ifTrue: [
-				node requestNewConfiguration ] ]
+				node requestConfiguration ] ]
 ]
 
 { #category : #'data source updates' }

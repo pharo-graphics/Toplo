@@ -34,9 +34,9 @@ ToSelectElement >> allowDeselection [
 ]
 
 { #category : #configuration }
-ToSelectElement >> applyWidgetConfiguration [ 
+ToSelectElement >> applyUpwardConfiguration [ 
 
-	super applyWidgetConfiguration.
+	super applyUpwardConfiguration.
 	self filterTextField selectFiltrable: filtrable.
 	sample ifNotNil: [ self innerElement sample: sample ]
 ]
@@ -110,7 +110,7 @@ ToSelectElement >> filtrable [
 ToSelectElement >> filtrable: aBoolean [
 
 	filtrable := aBoolean.
-	self requestNewConfiguration
+	self requestConfiguration
 ]
 
 { #category : #accessing }
@@ -353,7 +353,7 @@ ToSelectElement >> refresh [
 ToSelectElement >> sample: aDataItem [
 
 	sample := aDataItem.
-	self requestNewConfiguration
+	self requestConfiguration
 ]
 
 { #category : #accessing }

@@ -39,7 +39,7 @@ ToMenuItem >> newRightHandSide [
 ]
 
 { #category : #configuration }
-ToMenuItem >> newWidgetConfiguration [ 
+ToMenuItem >> newToConfiguration [ 
 
 	^ ToTripletElementConfiguration new
 ]

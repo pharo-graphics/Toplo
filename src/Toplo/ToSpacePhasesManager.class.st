@@ -26,7 +26,7 @@ ToSpacePhasesManager >> applyAllConfigurationsIn: aSpace [
 	needConfigurationPass := false.
 	runningConfigurationPass := nextConfigurationPass.
 	nextConfigurationPass := nextConfigurationPass + 1.
-	aSpace root checkWidgetConfigurationPassDeeply.
+	aSpace root checkConfigurationPassDeeply.
 
 ]
 

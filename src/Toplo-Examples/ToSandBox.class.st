@@ -187,7 +187,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 			switch hMatchParent.
 			confPane addChild: switch.
 
-			aBar whenWidgetConfigurationAppliedDo: [
+			aBar whenConfigurationAppliedDo: [
 					assoc key key isSymbol ifTrue: [
 						switch checked: (aBar perform: assoc key key) ] ] ].
 
@@ -2168,7 +2168,7 @@ ToSandBox class >> example_CodeEditor [
 		           checkAction: [ :evt :target :value |
 			           album disabled: value ];
 		           yourself.
-	album whenWidgetConfigurationAppliedDo: [
+	album whenConfigurationAppliedDo: [
 		disabox checked: album isDisabled ].
 
 	menuPane := ToMenuPane new.
@@ -2253,7 +2253,7 @@ ToSandBox class >> example_EditorWithMinHeight [
 	inspectBtn clickAction: [ album space root inspect ].
 	disabox checkAction: [ :evt :target :value |
 			           album disabled: value ].
-	album whenWidgetConfigurationAppliedDo: [
+	album whenConfigurationAppliedDo: [
 		disabox disabled: album isDisabled ].
 	showStatisticsBtn clickAction: [
 		album space showStatisticsWindow ].
@@ -9324,7 +9324,7 @@ ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 	addTabItemButtonSwicth hMatchParent.
 	confPane addChild: addTabItemButtonSwicth.
 
-	aTabGroupElement whenWidgetConfigurationAppliedDo: [ 
+	aTabGroupElement whenConfigurationAppliedDo: [ 
 		startToEndSwitch checked: aTabGroupElement atStartSide.
 		addTabItemButtonSwicth checked: aTabGroupElement showAddTabItemButton ].
 

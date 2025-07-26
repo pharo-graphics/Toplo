@@ -23,7 +23,7 @@ TToConfigurableBarElement >> autoDistribute: aBoolean [
 
 	autoDistribute = aBoolean ifTrue: [ ^ self ].
 	autoDistribute := aBoolean.
-	self requestNewConfiguration
+	self requestConfiguration
 ]
 
 { #category : #'t - configurable bar element' }
@@ -37,7 +37,7 @@ TToConfigurableBarElement >> exactNodeHeight: aNumberOrNil [
 
 	exactNodeHeight = aNumberOrNil ifTrue:[ ^ self ].
 	exactNodeHeight := aNumberOrNil.
-	self requestNewConfiguration.
+	self requestConfiguration.
 	self requestLayout
 ]
 
@@ -52,7 +52,7 @@ TToConfigurableBarElement >> exactNodeWidth: aNumberOrNil [
 
 	exactNodeWidth = aNumberOrNil ifTrue:[ ^ self ].
 	exactNodeWidth := aNumberOrNil.
-	self requestNewConfiguration.
+	self requestConfiguration.
 	self requestLayout
 ]
 
@@ -67,7 +67,7 @@ TToConfigurableBarElement >> isFlowable: aBoolean [
 
 	isFlowable = aBoolean ifTrue: [ ^ self ].
 	isFlowable := aBoolean.
-	self requestNewConfiguration
+	self requestConfiguration
 ]
 
 { #category : #'t - configurable bar element' }
@@ -82,7 +82,7 @@ TToConfigurableBarElement >> isScrollable: aBoolean [
 	isScrollable = aBoolean ifTrue: [ ^ self ].
 	isScrollable := aBoolean.
 	self requestLayout.
-	self requestNewConfiguration
+	self requestConfiguration
 ]
 
 { #category : #'t - configurable bar element' }
@@ -102,7 +102,7 @@ TToConfigurableBarElement >> uniformNodeHeight: aBoolean [
 
 	uniformNodeHeight = aBoolean ifTrue: [ ^ self ].
 	uniformNodeHeight := aBoolean.
-	self requestNewConfiguration.
+	self requestConfiguration.
 	self requestLayout
 ]
 
@@ -117,6 +117,6 @@ TToConfigurableBarElement >> uniformNodeWidth: aBoolean [
 
 	uniformNodeWidth = aBoolean ifTrue: [ ^ self ].
 	uniformNodeWidth := aBoolean.
-	self requestNewConfiguration.
+	self requestConfiguration.
 	self requestLayout
 ]

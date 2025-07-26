@@ -6,10 +6,10 @@ Class {
 }
 
 { #category : #configuration }
-ToListNode >> applyWidgetConfiguration [
+ToListNode >> applyUpwardConfiguration [
 
 	| l |
-	super applyWidgetConfiguration.
+	super applyUpwardConfiguration.
 	l := self holder listElement.
 	l isHorizontal
 		ifTrue: [ self hFitContent ]

@@ -35,9 +35,9 @@ ToTabPaneElement >> alignStart [
 ]
 
 { #category : #configuration }
-ToTabPaneElement >> applyWidgetConfiguration [
+ToTabPaneElement >> applyUpwardConfiguration [
 
-	super applyWidgetConfiguration.
+	super applyUpwardConfiguration.
 
 	self tabGroup horizontal: self isHorizontal not.
 	self atStartSide
@@ -66,7 +66,7 @@ ToTabPaneElement >> atStartSide [
 ToTabPaneElement >> atStartSide: aBoolean [
 
 	self tabGroup atStartSide: aBoolean.
-	self requestNewConfiguration.
+	self requestConfiguration.
 ]
 
 { #category : #accessing }

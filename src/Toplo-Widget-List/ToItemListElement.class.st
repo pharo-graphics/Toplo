@@ -7,9 +7,9 @@ Class {
 }
 
 { #category : #configuration }
-ToItemListElement >> applyDownwardConfiguration [ 
+ToItemListElement >> applyConfiguration [ 
 
-	super applyDownwardConfiguration.
+	super applyConfiguration.
 	self applyItemListConfiguration
 ]
 

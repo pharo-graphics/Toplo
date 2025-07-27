@@ -27,6 +27,13 @@ ToAbstractListElement >> addedDataSourceCommand: aCommand [
 	self innerElementDo: [ :inner | inner addedDataSourceCommand: aCommand ]
 ]
 
+{ #category : #configuration }
+ToAbstractListElement >> applyConfiguration [
+
+	super applyConfiguration.
+	self innerElement applyConfiguration
+]
+
 { #category : #'private - commands' }
 ToAbstractListElement >> applyDataSourceFilterCommand: aDataSourceCommand [
 ]
@@ -53,13 +60,6 @@ ToAbstractListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 					in: self selectionModel ] ]
 		ifEmpty: [
 		self selectionModel copySelectionFrom: sieve selectionModel ]
-]
-
-{ #category : #configuration }
-ToAbstractListElement >> applyDownwardConfiguration [
-
-	super applyDownwardConfiguration.
-	self innerElement applyDownwardConfiguration
 ]
 
 { #category : #layout }

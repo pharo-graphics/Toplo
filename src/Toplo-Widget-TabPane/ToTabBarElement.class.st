@@ -8,9 +8,9 @@ Class {
 }
 
 { #category : #configuration }
-ToTabBarElement >> applyDownwardConfiguration [
+ToTabBarElement >> applyConfiguration [
 
-	super applyDownwardConfiguration.
+	super applyConfiguration.
 	self nodesDo: [ :node |
 		node item requestConfiguration.
 		node requestNewSkin ].

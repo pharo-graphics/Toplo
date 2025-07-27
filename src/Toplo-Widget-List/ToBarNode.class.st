@@ -7,10 +7,10 @@ Class {
 }
 
 { #category : #configuration }
-ToBarNode >> applyDownwardConfiguration [
+ToBarNode >> applyConfiguration [
 
 	| bar |
-	super applyDownwardConfiguration.
+	super applyConfiguration.
 	bar := self holder listElement.
 	bar isFlowable
 		ifTrue: [ self fitContent ]

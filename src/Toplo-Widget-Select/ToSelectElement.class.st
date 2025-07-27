@@ -34,9 +34,9 @@ ToSelectElement >> allowDeselection [
 ]
 
 { #category : #configuration }
-ToSelectElement >> applyDownwardConfiguration [ 
+ToSelectElement >> applyConfiguration [ 
 
-	super applyDownwardConfiguration.
+	super applyConfiguration.
 	self filterTextField selectFiltrable: filtrable.
 	sample ifNotNil: [ self innerElement sample: sample ]
 ]

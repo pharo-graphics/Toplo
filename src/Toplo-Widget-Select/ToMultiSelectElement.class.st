@@ -22,9 +22,9 @@ ToMultiSelectElement >> addGroup: anObject withData: aCollection [
 ]
 
 { #category : #configuration }
-ToMultiSelectElement >> applyDownwardConfiguration [ 
+ToMultiSelectElement >> applyConfiguration [ 
 
-	super applyDownwardConfiguration.
+	super applyConfiguration.
 	self innerElement isFlowable: isFlowable.
 	self innerElement keepPickOrder: keepPickOrder.
 	" in case of hide selected, the picking outside handler should not be activated.

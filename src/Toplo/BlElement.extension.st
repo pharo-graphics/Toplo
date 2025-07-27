@@ -52,7 +52,7 @@ BlElement >> allowSkinEventClass: aSkinEventClass [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> applyDownwardConfiguration [
+BlElement >> applyConfiguration [
 
 	self toConfiguration ifNotNil: [ :tc | tc applyOn: self ]
 ]
@@ -100,7 +100,7 @@ BlElement >> checkConfigurationPassDeeply [
 
 	| requested |
 	requested := self isConfigurationRequested.
-	requested ifTrue: [ self applyDownwardConfiguration ].
+	requested ifTrue: [ self applyConfiguration ].
 	self childrenDo: [ :child | child checkConfigurationPassDeeply ].
 	requested ifFalse: [ ^ self ].
 	self applyUpwardConfiguration

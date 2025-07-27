@@ -45,9 +45,9 @@ ToInnerBarElement >> addedDataSourceCommand: aCommand [
 ]
 
 { #category : #'t - list node holder' }
-ToInnerBarElement >> applyDownwardConfiguration [
+ToInnerBarElement >> applyConfiguration [
 
-	super applyDownwardConfiguration.
+	super applyConfiguration.
 	listElement isHFitContent
 		ifTrue: [ self hFitContent ]
 		ifFalse: [ self hMatchParent ].
@@ -56,7 +56,7 @@ ToInnerBarElement >> applyDownwardConfiguration [
 		ifTrue: [ self vFitContent ]
 		ifFalse: [ self vMatchParent ].
 
-	trackElement applyDownwardConfiguration
+	trackElement applyConfiguration
 ]
 
 { #category : #layout }

@@ -7,9 +7,9 @@ Class {
 }
 
 { #category : #configuration }
-ToTabNode >> applyDownwardConfiguration [
+ToTabNode >> applyConfiguration [
 
-	super applyDownwardConfiguration.
+	super applyConfiguration.
 	self isRemovable
 		ifTrue: [ self addRemoveButton ]
 		ifFalse: [ self removeRemoveButton ].

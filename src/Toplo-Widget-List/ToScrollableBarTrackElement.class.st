@@ -39,9 +39,9 @@ ToScrollableBarTrackElement >> addHolder: anHolder at: aPosition [
 ]
 
 { #category : #configuration }
-ToScrollableBarTrackElement >> applyDownwardConfiguration [
+ToScrollableBarTrackElement >> applyConfiguration [
 
-	super applyDownwardConfiguration.
+	super applyConfiguration.
 	self layout: self newLayoutStrategy.
 
 	listElement isHFitContent
@@ -66,13 +66,13 @@ ToScrollableBarTrackElement >> applyDownwardConfiguration [
 							ifFalse: [ self vFitContent ] ] ].
 
 	self applyFakeNodeConfiguration.
-	self nodesDo: [ :n | n applyDownwardConfiguration ]
+	self nodesDo: [ :n | n applyConfiguration ]
 ]
 
 { #category : #configuration }
 ToScrollableBarTrackElement >> applyFakeNodeConfiguration [
 
-	fakeNode applyDownwardConfiguration.
+	fakeNode applyConfiguration.
 
 	"in case my orientation changes the original size must be stored.
 	The original size has to be stored before setting the height or the width to zero.

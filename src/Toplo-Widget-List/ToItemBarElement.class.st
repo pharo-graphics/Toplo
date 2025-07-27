@@ -10,9 +10,9 @@ Class {
 }
 
 { #category : #configuration }
-ToItemBarElement >> applyDownwardConfiguration [ 
+ToItemBarElement >> applyConfiguration [ 
 
-	super applyDownwardConfiguration.
+	super applyConfiguration.
 	self applyItemListConfiguration
 ]
 

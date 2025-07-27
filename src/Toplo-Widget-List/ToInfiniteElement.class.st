@@ -13,7 +13,7 @@ Class {
 ToInfiniteElement class >> onListElement: aListElement [
 
 	^ self basicNew
-		  listElement: aListElement;
+		  onListElement: aListElement;
 		  initialize
 ]
 
@@ -158,12 +158,6 @@ ToInfiniteElement >> listElement [
 	^ listElement
 ]
 
-{ #category : #private }
-ToInfiniteElement >> listElement: aListElement [
-
-	listElement := aListElement
-]
-
 { #category : #'instance creation' }
 ToInfiniteElement >> newNodeHolderFromDataSource: aDataSource [
 
@@ -217,6 +211,12 @@ ToInfiniteElement >> nodesWithIndexDo: aBlock [
 
 	self nodesDo: [ :node |
 		aBlock value: node value: node holder position ]
+]
+
+{ #category : #initialization }
+ToInfiniteElement >> onListElement: aListElement [
+
+	listElement := aListElement
 ]
 
 { #category : #'t - list node holder' }

@@ -29,7 +29,7 @@ TToMenuItemBarContainer >> closeAllWindowsForItemsSatisfying: aBlock [
 ]
 
 { #category : #'t - menu item bar container  - initialization' }
-TToMenuItemBarContainer >> initializeAsMenuItemListOwner [ 
+TToMenuItemBarContainer >> initializeAsMenuItemBarContainer [ 
 
 	self itemBar menuBarOwner: self
 ]

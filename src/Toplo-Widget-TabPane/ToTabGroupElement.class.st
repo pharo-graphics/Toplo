@@ -147,7 +147,7 @@ ToTabGroupElement >> initialize [
 
 	super initialize.
 	self resetInvisibleNodes.
-	self initializeAsItemBarOwner.
+	self initializeAsItemBarContainer.
 	self initializeParts.
 	self itemBar addEventHandler:
 		(ToTabBarInGroupElementEventHandler new

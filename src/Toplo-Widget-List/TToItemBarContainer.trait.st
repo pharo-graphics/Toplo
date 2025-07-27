@@ -138,7 +138,7 @@ TToItemBarContainer >> hiddenItem: anItem [
 ]
 
 { #category : #'t - item bar container - initializing' }
-TToItemBarContainer >> initializeAsItemBarOwner [
+TToItemBarContainer >> initializeAsItemBarContainer [
 
 	self setItemBar: self newItemBar
 ]

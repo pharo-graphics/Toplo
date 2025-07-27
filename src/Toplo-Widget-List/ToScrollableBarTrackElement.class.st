@@ -163,6 +163,12 @@ ToScrollableBarTrackElement >> linearLayoutClass [
 ]
 
 { #category : #accessing }
+ToScrollableBarTrackElement >> listElement [ 
+
+	^ listElement 
+]
+
+{ #category : #accessing }
 ToScrollableBarTrackElement >> maxMeasuredNodeSize [
 
 	^ self layout maxMeasuredNodeSize

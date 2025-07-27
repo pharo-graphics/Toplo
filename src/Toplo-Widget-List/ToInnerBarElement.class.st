@@ -14,10 +14,10 @@ Class {
 }
 
 { #category : #'instance creation' }
-ToInnerBarElement class >> onBarElement: aBarElement [
+ToInnerBarElement class >> onListElement: aListElement [
 
 	^ self basicNew
-		  onBarElement: aBarElement;
+		  onListElement: aListElement;
 		  initialize
 ]
 
@@ -209,12 +209,6 @@ ToInnerBarElement >> listElement [
 ]
 
 { #category : #accessing }
-ToInnerBarElement >> listElement: aListElement [
-
-	listElement := aListElement
-]
-
-{ #category : #accessing }
 ToInnerBarElement >> maxMeasuredNodeSize [
 
 	^ trackElement maxMeasuredNodeSize
@@ -260,13 +254,6 @@ ToInnerBarElement >> nodesSelect: aBlock [
 ToInnerBarElement >> nodesWithIndexDo: aBlock [
 
 	trackElement nodesWithIndexDo: aBlock
-]
-
-{ #category : #initialization }
-ToInnerBarElement >> onBarElement: aListElement [
-
-	listElement ifNotNil: [ BlImmutableObjectChangeError signal ].
-	self listElement: aListElement
 ]
 
 { #category : #'hooks - layout' }
@@ -339,6 +326,13 @@ ToInnerBarElement >> onItemsChanged [
 	self addAllHolders: holders at: 1.
 	self updatePositions
 
+]
+
+{ #category : #initialization }
+ToInnerBarElement >> onListElement: aListElement [
+
+	listElement ifNotNil: [ BlImmutableObjectChangeError signal ].
+	listElement := aListElement
 ]
 
 { #category : #'hooks - scrolling' }

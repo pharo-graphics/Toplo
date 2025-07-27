@@ -71,8 +71,8 @@ ToMenuPane >> closeWindow [
 ToMenuPane >> initialize [
 
 	super initialize.
-	self initializeAsItemBarOwner.
-	self initializeAsMenuItemListOwner.
+	self initializeAsItemBarContainer.
+	self initializeAsMenuItemBarContainer.
 
 	autoOpen := false.
 	isSubPane := false.

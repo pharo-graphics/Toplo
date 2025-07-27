@@ -7,12 +7,6 @@ Class {
 }
 
 { #category : #initialization }
-ToAccordionListElement >> defaultInnerElement [ 
-
-	^ ToInfiniteElement onListElement: self
-]
-
-{ #category : #initialization }
 ToAccordionListElement >> defaultNodeManagerClass [
 	"The object responsible to populate the list nodes."
 

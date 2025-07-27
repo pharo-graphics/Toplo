@@ -167,9 +167,15 @@ ToAbstractListElement >> defaultEventHandler [
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultInnerElement [ 
+ToAbstractListElement >> defaultInnerElement [
 
-	^ self subclassResponsibility 
+	^ self defaultInnerElementClass onListElement: self
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> defaultInnerElementClass [
+
+	^ ToInfiniteElement
 ]
 
 { #category : #initialization }

@@ -137,7 +137,7 @@ ToPopupWindowManager >> defaultAutoCloseDelay [
 	" automatically close the window if the delay between the popup 
 	and an event (mouse-up) is greater than this delay"
 
-	^ 200 milliSeconds
+	^ 300 milliSeconds
 ]
 
 { #category : #initialization }

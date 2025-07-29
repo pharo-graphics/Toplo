@@ -194,22 +194,18 @@ ToExMiniBrowser >> newPackageToSelectorListPane [
 	listsPane := ToPane new.
 	listsPane id: #listPane.
 	listsPane matchParent.
-	listsPane layout cellSpacing: 3.
 
 	packagesPane := self newPackagePane.
 	classesPane := self newClassPane.
 	protocols := self newProtocolPane.
 	selectors := self newSelectorPane.
-
-"	packages withRowNumbers.
-	classes withRowNumbers.
-	protocols withRowNumbers.
-	selectors withRowNumbers."
-
-	listsPane addChild: packagesPane.
-	listsPane addChild: classesPane.
-	listsPane addChild: protocols.
-	listsPane addChild: selectors.
+	{
+		packagesPane.
+		classesPane.
+		protocols.
+		selectors } do: [ :p |
+			p margin: (BlInsets all: 2).p padding: (BlInsets all: 2).
+			listsPane addChild: p ].
 	listsPane addDividers.
 
 	^ listsPane

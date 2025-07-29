@@ -181,14 +181,14 @@ ToDivider >> layoutInHorizontalPaneWithContext: aContext [
 
 	| firstY secondY gap firstX secondX position |
 	
-	firstX := self leftResizedElement measuredBounds inParent right + self leftResizedElement constraints margin right.
+	firstX := self leftResizedElement measuredBounds inParent right "+ self leftResizedElement constraints margin right".
 	firstY := self leftResizedElement measuredBounds inParent top + self leftResizedElement constraints margin top.
 
 	secondX := self rightResizedElement measuredBounds inParent left - self rightResizedElement constraints margin left.	
 	secondY := self rightResizedElement measuredBounds inParent top + self rightResizedElement constraints margin top.
 	
 	gap := (((secondX - firstX)  - (self thickness )) / 2).
-	position := (firstX + gap) @ (firstY min: secondY).
+	position := (firstX "+ gap") @ (firstY min: secondY).
 
 	self constraints position: position.
 	self measuredBounds position: position
@@ -228,32 +228,30 @@ ToDivider >> leftResizedElement [
 ToDivider >> measureInHorizontalPane: anExtentMeasurementSpec [
 
 	| firstH secondH w |
-	firstH := self topResizedElement measuredBounds height. "- (self topTarget constraints margin top + self topTarget constraints margin bottom)"
-	secondH := self bottomResizedElement measuredBounds height. "- (self bottomTarget constraints margin top + self bottomTarget constraints margin bottom)"
+	firstH := self topResizedElement measuredHeight.
+	secondH := self bottomResizedElement measuredHeight.
 	self measuredExtent: self thickness @ (firstH max: secondH).
-	w := self resizedElementWeightFromWidth: self firstResizedElement measuredWidth.
-	(self firstResizedElement constraints linear weight closeTo: w) ifFalse: [
-		self firstResizedElement constraintsDo: [ :c | c linear weight: w ] ].
-	self weight: w.
-	w := self resizedElementWeightFromWidth: self secondResizedElement measuredWidth.
-	(self secondResizedElement constraints linear weight closeTo: w) ifFalse: [
-		self secondResizedElement constraintsDo: [ :c | c linear weight: w ] ]
+	w := self resizedElementWeightFromWidth:
+		     self firstResizedElement measuredWidth.
+	self firstResizedElement constraintsDo: [ :c | c linear weight: w ].
+	w := self resizedElementWeightFromWidth:
+		     self secondResizedElement measuredWidth.
+	self secondResizedElement constraintsDo: [ :c | c linear weight: w ]
 ]
 
 { #category : #layout }
 ToDivider >> measureInVerticalPane: anExtentMeasurementSpec [
 
 	| firstW secondW w |
-	firstW := self topResizedElement measuredWidth. "- (self topTarget constraints margin left + self topTarget constraints margin right)"
-	secondW := self bottomResizedElement measuredWidth. "- (self bottomTarget constraints margin left + self bottomTarget constraints margin right)"
+	firstW := self topResizedElement measuredWidth.
+	secondW := self bottomResizedElement measuredWidth.
 	self measuredExtent: (firstW max: secondW) @ self thickness.
-	w := self resizedElementWeightFromWidth: self firstResizedElement measuredHeight.
-	(self firstResizedElement constraints linear weight closeTo: w) ifFalse: [
-		self firstResizedElement constraintsDo: [ :c | c linear weight: w ] ].
-	self weight: w.
-	w := self resizedElementWeightFromWidth: self secondResizedElement measuredHeight.
-	(self secondResizedElement constraints linear weight closeTo: w) ifFalse: [
-		self secondResizedElement constraintsDo: [ :c | c linear weight: w ] ]
+	w := self resizedElementWeightFromWidth:
+		     self firstResizedElement measuredHeight.
+	self firstResizedElement constraintsDo: [ :c | c linear weight: w ].
+	w := self resizedElementWeightFromWidth:
+		     self secondResizedElement measuredHeight.
+	self secondResizedElement constraintsDo: [ :c | c linear weight: w ]
 ]
 
 { #category : #skin }

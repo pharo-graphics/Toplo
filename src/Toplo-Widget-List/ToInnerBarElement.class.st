@@ -14,10 +14,10 @@ Class {
 }
 
 { #category : #'instance creation' }
-ToInnerBarElement class >> onBarElement: aBarElement [
+ToInnerBarElement class >> onListElement: aListElement [
 
 	^ self basicNew
-		  onBarElement: aBarElement;
+		  onListElement: aListElement;
 		  initialize
 ]
 
@@ -45,9 +45,9 @@ ToInnerBarElement >> addedDataSourceCommand: aCommand [
 ]
 
 { #category : #'t - list node holder' }
-ToInnerBarElement >> applyWidgetConfiguration [
+ToInnerBarElement >> applyConfiguration [
 
-	super applyWidgetConfiguration.
+	super applyConfiguration.
 	listElement isHFitContent
 		ifTrue: [ self hFitContent ]
 		ifFalse: [ self hMatchParent ].
@@ -56,7 +56,7 @@ ToInnerBarElement >> applyWidgetConfiguration [
 		ifTrue: [ self vFitContent ]
 		ifFalse: [ self vMatchParent ].
 
-	trackElement applyWidgetConfiguration
+	trackElement applyConfiguration
 ]
 
 { #category : #layout }
@@ -199,19 +199,13 @@ ToInnerBarElement >> installFakeNode [
 	Pay attention to add the fake node ** before ** the fake node building "
 	self addFakeNode: fakeNode.
 	self nodeManager buildNode: fakeNode.
-	self requestNewConfiguration
+	self requestConfiguration
 ]
 
 { #category : #accessing }
 ToInnerBarElement >> listElement [
 
 	^ listElement
-]
-
-{ #category : #accessing }
-ToInnerBarElement >> listElement: aListElement [
-
-	listElement := aListElement
 ]
 
 { #category : #accessing }
@@ -262,13 +256,6 @@ ToInnerBarElement >> nodesWithIndexDo: aBlock [
 	trackElement nodesWithIndexDo: aBlock
 ]
 
-{ #category : #initialization }
-ToInnerBarElement >> onBarElement: aListElement [
-
-	listElement ifNotNil: [ BlImmutableObjectChangeError signal ].
-	self listElement: aListElement
-]
-
 { #category : #'hooks - layout' }
 ToInnerBarElement >> onEnterLayoutOrScroll [
 ]
@@ -291,7 +278,7 @@ ToInnerBarElement >> onItemRangeChanged: aPositionStart itemCount: anItemCount [
 		pos := node holder position.
 		(pos >= aPositionStart and: [ pos < (aPositionStart + anItemCount) ])
 			ifTrue: [
-				node requestNewConfiguration ] ]
+				node requestConfiguration ] ]
 ]
 
 { #category : #'data source updates' }
@@ -339,6 +326,13 @@ ToInnerBarElement >> onItemsChanged [
 	self addAllHolders: holders at: 1.
 	self updatePositions
 
+]
+
+{ #category : #initialization }
+ToInnerBarElement >> onListElement: aListElement [
+
+	listElement ifNotNil: [ BlImmutableObjectChangeError signal ].
+	listElement := aListElement
 ]
 
 { #category : #'hooks - scrolling' }
@@ -522,6 +516,12 @@ ToInnerBarElement >> stopScroll [
 ToInnerBarElement >> stopScrollersInternal [ 
 
 	scrollFlinger stop
+]
+
+{ #category : #accessing }
+ToInnerBarElement >> trackElement [
+	" introduced for tests, should be used privately "
+	^ trackElement 
 ]
 
 { #category : #accessing }

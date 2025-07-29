@@ -187,7 +187,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 			switch hMatchParent.
 			confPane addChild: switch.
 
-			aBar whenWidgetConfigurationAppliedDo: [
+			aBar whenConfigurationAppliedDo: [
 					assoc key key isSymbol ifTrue: [
 						switch checked: (aBar perform: assoc key key) ] ] ].
 
@@ -2168,7 +2168,7 @@ ToSandBox class >> example_CodeEditor [
 		           checkAction: [ :evt :target :value |
 			           album disabled: value ];
 		           yourself.
-	album whenWidgetConfigurationAppliedDo: [
+	album whenConfigurationAppliedDo: [
 		disabox checked: album isDisabled ].
 
 	menuPane := ToMenuPane new.
@@ -2253,7 +2253,7 @@ ToSandBox class >> example_EditorWithMinHeight [
 	inspectBtn clickAction: [ album space root inspect ].
 	disabox checkAction: [ :evt :target :value |
 			           album disabled: value ].
-	album whenWidgetConfigurationAppliedDo: [
+	album whenConfigurationAppliedDo: [
 		disabox disabled: album isDisabled ].
 	showStatisticsBtn clickAction: [
 		album space showStatisticsWindow ].
@@ -9324,7 +9324,7 @@ ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 	addTabItemButtonSwicth hMatchParent.
 	confPane addChild: addTabItemButtonSwicth.
 
-	aTabGroupElement whenWidgetConfigurationAppliedDo: [ 
+	aTabGroupElement whenConfigurationAppliedDo: [ 
 		startToEndSwitch checked: aTabGroupElement atStartSide.
 		addTabItemButtonSwicth checked: aTabGroupElement showAddTabItemButton ].
 
@@ -9370,10 +9370,11 @@ ToSandBox class >> tabPaneElementWithUSStates [
 				tooltipString: aData asString;
 				removable: true;
 				paneBuilder: [ :pane |
-						| emptyPh |
+						| emptyPh c |
+						c := Color random.
 						pane withNullSkin.
-						pane background: (Color random alpha: 0.1).
-
+						pane border: c.
+						pane background: (c alpha: 0.1).
 						emptyPh := ToEmptyPlaceholderLayer new attachToParent: pane.
 						pane userData at: #placeholder put: emptyPh ];
 				paneDestroyer: [ :pane |
@@ -9381,7 +9382,7 @@ ToSandBox class >> tabPaneElementWithUSStates [
 						'pane destroyed' traceCr.
 						emptyPh := pane userData at: #placeholder.
 						emptyPh detach ] ].
-	(self statesOfAmerica copyFrom: 1 to: 4) do: [ :l | tpane addTabItemData: l ].
+	(self statesOfAmerica copyFrom: 1 to: 20) do: [ :l | tpane addTabItemData: l ].
 	tpane isFlowable: false.
 	tpane isScrollable: true.
 	^ tpane

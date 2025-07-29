@@ -4,12 +4,6 @@ Trait {
 }
 
 { #category : #'t - bar element' }
-TToBarElement >> defaultInnerElement [
-
-	^ self defaultInnerElementClass onBarElement: self
-]
-
-{ #category : #'t - bar element' }
 TToBarElement >> defaultInnerElementClass [
 
 	^ ToInnerBarElement 

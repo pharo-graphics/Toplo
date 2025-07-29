@@ -35,9 +35,9 @@ ToTabPaneElement >> alignStart [
 ]
 
 { #category : #configuration }
-ToTabPaneElement >> applyWidgetConfiguration [
+ToTabPaneElement >> applyConfiguration [
 
-	super applyWidgetConfiguration.
+	super applyConfiguration.
 
 	self tabGroup horizontal: self isHorizontal not.
 	self atStartSide
@@ -66,19 +66,13 @@ ToTabPaneElement >> atStartSide [
 ToTabPaneElement >> atStartSide: aBoolean [
 
 	self tabGroup atStartSide: aBoolean.
-	self requestNewConfiguration.
+	self requestConfiguration.
 ]
 
 { #category : #accessing }
 ToTabPaneElement >> body [ 
 
 	^ bodyContainer 
-]
-
-{ #category : #initialization }
-ToTabPaneElement >> defaultEventHandler [ 
-
-	^ ToTabPaneEventHandler new
 ]
 
 { #category : #accessing }
@@ -101,15 +95,9 @@ ToTabPaneElement >> initialize [
 	self addChildren: {
 			headerContainer.
 			bodyContainer }.
-			
-	self tabGroup
-		addEventHandlerOn: ToCheckableGroupChangedEvent
-		do: [ :event | self dispatchEvent: event copy ].
-	self tabGroup
-		addEventHandlerOn: ToListSelectionChangedEvent
-		do: [ :event | self dispatchEvent: event copy ].
-
-	self addEventHandler: self defaultEventHandler
+	self tabGroup addEventHandler: (ToTabGroupInTabPaneEventHandler new
+			 tabPane: self;
+			 yourself)
 ]
 
 { #category : #accessing }

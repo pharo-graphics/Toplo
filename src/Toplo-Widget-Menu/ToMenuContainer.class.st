@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #configuration }
-ToMenuContainer >> applyWidgetConfiguration [ 
+ToMenuContainer >> applyConfiguration [ 
 
-	super applyWidgetConfiguration.
+	super applyConfiguration.
 	self isScrollable 
 		ifTrue: [
 			self itemBar isVertical
@@ -81,7 +81,7 @@ ToMenuContainer >> isScrollable [
 ToMenuContainer >> isScrollable: aBoolean [
 
 	self itemBar isScrollable: aBoolean.
-	self requestNewConfiguration
+	self requestConfiguration
 ]
 
 { #category : #accessing }

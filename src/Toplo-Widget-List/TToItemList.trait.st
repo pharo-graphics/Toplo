@@ -47,7 +47,7 @@ TToItemList >> addItem: anItem beforeIndex: anInteger [
 { #category : #'t - item list - configuration' }
 TToItemList >> applyItemListConfiguration [
 
-	self nodesDo: [ :node | node applyWidgetConfiguration ]
+	self nodesDo: [ :node | node applyConfiguration ]
 ]
 
 { #category : #'t - item list - hidden/visible' }
@@ -93,15 +93,28 @@ TToItemList >> items [
 ]
 
 { #category : #'t - item list - adding/removing' }
-TToItemList >> onAddedItem: anItem [
+TToItemList >> notifyItemAdded: anItem [
 
-	anItem listElement: self
 ]
 
 { #category : #'t - item list - adding/removing' }
-TToItemList >> onRemovedItem: anItem [
+TToItemList >> notifyItemRemoved: anItem wasSelected: aBoolean [
 
-	anItem listElement: nil
+]
+
+{ #category : #'t - item list - adding/removing' }
+TToItemList >> onAddedItem: anItem [
+
+	anItem listElement: self.
+	self notifyItemAdded: anItem
+]
+
+{ #category : #'t - item list - adding/removing' }
+TToItemList >> onRemovedItem: anItem wasSelected: aBoolean [
+
+	self notifyItemRemoved: anItem wasSelected: aBoolean.
+	anItem listElement: nil.
+
 ]
 
 { #category : #'t - item list - adding/removing' }
@@ -119,8 +132,12 @@ TToItemList >> removeAllItems: aCollection [
 { #category : #'t - item list - adding/removing' }
 TToItemList >> removeItem: anItem [
 
-	self items remove: anItem.
-	self onRemovedItem: anItem
+	| wasSelected |
+	wasSelected := self isSelectedAtPosition: anItem holder position.
+	self items removeAt: anItem holder position.
+	self onRemovedItem: anItem wasSelected: wasSelected.
+
+
 ]
 
 { #category : #'t - item list - unselectable/selectable' }

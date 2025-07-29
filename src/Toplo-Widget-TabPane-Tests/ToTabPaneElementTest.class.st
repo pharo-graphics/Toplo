@@ -9,7 +9,7 @@ Class {
 		'firstTabBuildCount',
 		'secondTabBuildCount'
 	],
-	#category : #'Toplo-Widget-TabPane-Tests'
+	#category : #'Toplo-Widget-TabPane-Tests-TabPane'
 }
 
 { #category : #running }
@@ -200,6 +200,38 @@ ToTabPaneElementTest >> testCloseUnselectedPage4 [
 ]
 
 { #category : #tests }
+ToTabPaneElementTest >> testCloseUnselectedPage5 [
+	"first selected before, remove first button, second selected after "
+
+	| firstButton secondButton |
+	self withTwoTabButtons.
+	firstButton := tabPane items first.
+	secondButton := tabPane items second.
+	firstButton removable: true.
+	secondButton removable: true.
+	self waitTestingSpaces.
+	BlSpace simulateClickOn: firstButton.
+	self waitTestingSpaces.
+	self assert: firstButton isSelected.
+	self deny: secondButton isSelected.
+	" one have first to ensure that the remove button is visible 
+	(with Raw skin, the remove button is only visible when the mouse is over its tab button) "
+	BlSpace simulateMouseMoveInside: firstButton removeButton.
+	BlSpace simulateClickOn: firstButton removeButton.
+	self waitTestingSpaces.
+	self assert: tabPane items size equals: 1.
+	self assert: tabPane items first identicalTo: secondButton.
+	self assert: secondButton isSelected.
+
+	firstButton := tabPane items first.
+	BlSpace simulateMouseMoveInside: firstButton removeButton.
+	BlSpace simulateClickOn: firstButton removeButton.
+	self waitTestingSpaces.
+	self assert: tabPane items size equals: 0.
+	self assert: tabPane body children isEmpty
+]
+
+{ #category : #tests }
 ToTabPaneElementTest >> testIsSelected [
 
 	| firstButton secondButton |
@@ -277,6 +309,30 @@ ToTabPaneElementTest >> testPaneBuilderIsValuedOnSelect2 [
 	self waitTestingSpaces.
 	self assert: firstTabBuildCount equals: 2.
 	self assert: secondTabBuildCount equals: 2
+]
+
+{ #category : #tests }
+ToTabPaneElementTest >> testRemoveAllItems [
+	"first selected before, remove first button, second selected after "
+
+	| firstButton secondButton |
+	self withTwoTabButtons.
+	firstButton := tabPane items first.
+	secondButton := tabPane items second.
+	firstButton removable: true.
+	secondButton removable: true.
+	self waitTestingSpaces.
+	BlSpace simulateClickOn: firstButton.
+	self waitTestingSpaces.
+	self assert: firstButton isSelected.
+	self deny: secondButton isSelected.
+	self assert: tabPane body children notEmpty.
+	tabPane removeAllItems.
+	self waitTestingSpaces.
+	self assert: tabPane items size equals: 0.
+	self assert: tabPane body children isEmpty.
+
+
 ]
 
 { #category : #tests }

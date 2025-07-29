@@ -13,7 +13,7 @@ Class {
 ToInfiniteElement class >> onListElement: aListElement [
 
 	^ self basicNew
-		  listElement: aListElement;
+		  onListElement: aListElement;
 		  initialize
 ]
 
@@ -21,6 +21,20 @@ ToInfiniteElement class >> onListElement: aListElement [
 ToInfiniteElement >> addedDataSourceCommand: aCommand [
 
 	self requestLayout
+]
+
+{ #category : #configuration }
+ToInfiniteElement >> applyConfiguration [
+
+	super applyConfiguration.
+	self layout beHorizontal: self listElement isHorizontal.
+	self constraintsDo: [ :c |
+			self listElement isHMatchParent
+				ifTrue: [ c horizontal matchParent ]
+				ifFalse: [ c horizontal fitContent ].
+			self listElement isVMatchParent
+				ifTrue: [ c vertical matchParent ]
+				ifFalse: [ c vertical fitContent ] ]
 ]
 
 { #category : #'private - commands' }
@@ -33,16 +47,6 @@ ToInfiniteElement >> applyDataSourceFilterCommand: aDataSourceCommand [
 ToInfiniteElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 
 	listElement applyDataSourceSieveCommand: aDataSourceCommand
-]
-
-{ #category : #configuration }
-ToInfiniteElement >> applyWidgetConfiguration [
-
-	super applyWidgetConfiguration.
-	self layout beHorizontal: self listElement isHorizontal.
-	self constraintsDo: [ :c |
-		self listElement isHMatchParent ifFalse: [ c horizontal fitContent ].
-		self listElement isVMatchParent ifFalse: [ c vertical fitContent ] ]
 ]
 
 { #category : #'t - infinite accessing' }
@@ -140,10 +144,7 @@ ToInfiniteElement >> fullyVisibleNodesSelect: aBlock [
 ToInfiniteElement >> initialize [
 
 	super initialize.
-	self addEventHandler: ToListInnerElementEventHandler new.
-	self constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical matchParent ]
+	self addEventHandler: ToListInnerElementEventHandler new
 ]
 
 { #category : #'t - infinite accessing' }
@@ -156,12 +157,6 @@ ToInfiniteElement >> innerElement [
 ToInfiniteElement >> listElement [
 
 	^ listElement
-]
-
-{ #category : #private }
-ToInfiniteElement >> listElement: aListElement [
-
-	listElement := aListElement
 ]
 
 { #category : #'instance creation' }
@@ -217,6 +212,12 @@ ToInfiniteElement >> nodesWithIndexDo: aBlock [
 
 	self nodesDo: [ :node |
 		aBlock value: node value: node holder position ]
+]
+
+{ #category : #initialization }
+ToInfiniteElement >> onListElement: aListElement [
+
+	listElement := aListElement
 ]
 
 { #category : #'t - list node holder' }

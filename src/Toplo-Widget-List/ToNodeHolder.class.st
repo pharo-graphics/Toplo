@@ -219,9 +219,6 @@ ToNodeHolder >> release [
 
 { #category : #removing }
 ToNodeHolder >> removeNodeFromBar [
-	" 
-	since a select node is created by selecting and item in the list element, 
-	removing the node is done by deselecting the corresponding list item in the select popu list "
 
 	self dataSource removeAt: self position
 ]

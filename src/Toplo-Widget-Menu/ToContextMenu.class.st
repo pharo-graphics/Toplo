@@ -44,8 +44,8 @@ ToContextMenu >> initialize [
 
 	super initialize.
 	self fitContent.
-	self initializeAsItemBarOwner.
-	self initializeAsMenuItemListOwner.
+	self initializeAsItemBarContainer.
+	self initializeAsMenuItemBarContainer.
 	self root addChild: self itemBar
 ]
 

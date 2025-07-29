@@ -22,5 +22,5 @@ ToTabGroupElementEventHandler >> eventsToHandle [
 { #category : #'element events handling' }
 ToTabGroupElementEventHandler >> layoutResizerChangedEvent: anEvent [
 
-	anEvent currentTarget requestNewConfiguration
+	anEvent currentTarget requestConfiguration
 ]

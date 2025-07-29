@@ -7,16 +7,10 @@ Class {
 }
 
 { #category : #configuration }
-ToItemListElement >> applyWidgetConfiguration [ 
+ToItemListElement >> applyConfiguration [ 
 
-	super applyWidgetConfiguration.
+	super applyConfiguration.
 	self applyItemListConfiguration
-]
-
-{ #category : #initialization }
-ToItemListElement >> defaultInnerElement [
-
-	^ ToInfiniteElement onListElement: self
 ]
 
 { #category : #'t - item list - accessing' }

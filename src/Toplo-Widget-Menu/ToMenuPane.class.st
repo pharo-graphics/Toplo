@@ -26,11 +26,11 @@ ToMenuPane >> addMenu: aMenu [
 ]
 
 { #category : #configuration }
-ToMenuPane >> applyWidgetConfiguration [
+ToMenuPane >> applyConfiguration [
 	" just force the resizer of the secondary direction 
 	( vertical direction in case of an horizontal bar )"
 
-	super applyWidgetConfiguration.
+	super applyConfiguration.
 	self uniformNodeWidth: self isVertical.
 	self itemBar horizontal: self isHorizontal.
 	self itemBar isScrollable: self isScrollable.
@@ -71,8 +71,8 @@ ToMenuPane >> closeWindow [
 ToMenuPane >> initialize [
 
 	super initialize.
-	self initializeAsItemBarOwner.
-	self initializeAsMenuItemListOwner.
+	self initializeAsItemBarContainer.
+	self initializeAsMenuItemBarContainer.
 
 	autoOpen := false.
 	isSubPane := false.

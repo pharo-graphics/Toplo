@@ -36,7 +36,7 @@ ToTabPaneHeaderElement >> alignment [
 ToTabPaneHeaderElement >> alignment: anElementAlignment [ 
 
 	alignment := anElementAlignment.
-	self requestNewConfiguration
+	self requestConfiguration
 ]
 
 { #category : #accessing }
@@ -65,7 +65,7 @@ ToTabPaneHeaderElement >> newTabGroupElement [
 ]
 
 { #category : #configuration }
-ToTabPaneHeaderElement >> newWidgetConfiguration [ 
+ToTabPaneHeaderElement >> newToConfiguration [ 
 
 	^ ToTabPaneHeaderConfiguration new
 ]

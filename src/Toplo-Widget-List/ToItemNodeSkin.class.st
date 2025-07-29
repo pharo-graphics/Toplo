@@ -8,5 +8,6 @@ Class {
 ToItemNodeSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
-	anEvent elementDo: [ :e | e item constraintsDo: [ :c | c linear vertical alignCenter ]. ]
+	anEvent elementDo: [ :e |
+		e item constraintsDo: [ :c | c linear vertical alignCenter ] ]
 ]

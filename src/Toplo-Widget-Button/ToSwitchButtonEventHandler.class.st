@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-Button-Switch'
 }
 
-{ #category : #'checkable event handling' }
+{ #category : #'event handling' }
 ToSwitchButtonEventHandler >> checkableChangedEvent: anEvent [
 
 	| target |
@@ -12,7 +12,7 @@ ToSwitchButtonEventHandler >> checkableChangedEvent: anEvent [
 	target icon checked: anEvent checked
 ]
 
-{ #category : #'checkable event handling' }
+{ #category : #'event handling' }
 ToSwitchButtonEventHandler >> checkableCheckEvent: anEvent [
 
 	| target |

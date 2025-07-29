@@ -27,6 +27,13 @@ ToAbstractListElement >> addedDataSourceCommand: aCommand [
 	self innerElementDo: [ :inner | inner addedDataSourceCommand: aCommand ]
 ]
 
+{ #category : #configuration }
+ToAbstractListElement >> applyConfiguration [
+
+	super applyConfiguration.
+	self innerElement applyConfiguration
+]
+
 { #category : #'private - commands' }
 ToAbstractListElement >> applyDataSourceFilterCommand: aDataSourceCommand [
 ]
@@ -53,13 +60,6 @@ ToAbstractListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 					in: self selectionModel ] ]
 		ifEmpty: [
 		self selectionModel copySelectionFrom: sieve selectionModel ]
-]
-
-{ #category : #configuration }
-ToAbstractListElement >> applyWidgetConfiguration [
-
-	super applyWidgetConfiguration.
-	self innerElement applyWidgetConfiguration
 ]
 
 { #category : #layout }
@@ -167,9 +167,15 @@ ToAbstractListElement >> defaultEventHandler [
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultInnerElement [ 
+ToAbstractListElement >> defaultInnerElement [
 
-	^ self subclassResponsibility 
+	^ self defaultInnerElementClass onListElement: self
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> defaultInnerElementClass [
+
+	^ ToInfiniteElement
 ]
 
 { #category : #initialization }

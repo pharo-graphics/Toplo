@@ -34,26 +34,27 @@ ToTabGroupElement >> addNewTabItem [
 { #category : #adding }
 ToTabGroupElement >> addTabItemData: aData [
 
-	| newItem |
-	newItem := tabItemFactory value.
+	| newTabItem |
+	newTabItem := tabItemFactory value.
 	" add the new item before building it to allow the builder to use the item holder "
-	self addItem: newItem.
-	itemBuilder cull: newItem cull: aData cull: self.
+	self addItem: newTabItem.
+	itemBuilder cull: newTabItem cull: aData cull: self.
+	newTabItem holder node requestConfiguration
 
 ]
 
 { #category : #accessing }
 ToTabGroupElement >> atStartSide [
 
-	^ self widgetConfiguration atStartSide
+	^ self toConfiguration atStartSide
 ]
 
 { #category : #accessing }
 ToTabGroupElement >> atStartSide: aBoolean [
 
 	self atStartSide = aBoolean ifTrue: [ ^ self ].
-	self widgetConfiguration atStartSide: aBoolean.
-	self requestNewConfiguration
+	self toConfiguration atStartSide: aBoolean.
+	self requestConfiguration
 ]
 
 { #category : #initialization }
@@ -146,21 +147,12 @@ ToTabGroupElement >> initialize [
 
 	super initialize.
 	self resetInvisibleNodes.
-	self initializeAsItemBarOwner.
+	self initializeAsItemBarContainer.
 	self initializeParts.
-	self itemBar innerElement
-		addEventHandlerOn: ToBarVisibleNodeListChangedEvent
-		do: [ :anEvent |
-				self
-					onInvisibleNodes: anEvent invisibleNodes
-					visibleNodes: anEvent visibleNodes ].
-	self itemBar
-		addEventHandlerOn: ToCheckableGroupChangedEvent 
-		do: [ :event | self dispatchEvent: event copy ].
-	self itemBar
-		addEventHandlerOn: ToListSelectionChangedEvent
-		do: [ :event | self dispatchEvent: event copy ].
-
+	self itemBar addEventHandler:
+		(ToTabBarInGroupElementEventHandler new
+			 tabGroup: self;
+			 yourself).
 	self addEventHandler: self defaultEventHandler.
 	tabItemFactory := self defaultTabItemFactory.
 	itemBuilder := self defaultItemBuilder.
@@ -269,7 +261,7 @@ ToTabGroupElement >> newRawSkin [
 ]
 
 { #category : #configuration }
-ToTabGroupElement >> newWidgetConfiguration [ 
+ToTabGroupElement >> newToConfiguration [ 
 
 	^ ToTabGroupElementConfiguration new
 ]
@@ -325,7 +317,7 @@ ToTabGroupElement >> showAddTabItemButton: aBoolean [
 
 	showAddTabItemButton = aBoolean ifTrue: [ ^ self ].
 	showAddTabItemButton := aBoolean.
-	self requestNewConfiguration 
+	self requestConfiguration 
 ]
 
 { #category : #configuration }

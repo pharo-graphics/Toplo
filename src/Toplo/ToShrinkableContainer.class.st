@@ -7,9 +7,9 @@ Class {
 }
 
 { #category : #configuration }
-ToShrinkableContainer >> applyWidgetConfiguration [ 
+ToShrinkableContainer >> applyConfiguration [ 
 
-	super applyWidgetConfiguration.
+	super applyConfiguration.
 	self applyShrinkableConfiguration 
 ]
 
@@ -17,7 +17,7 @@ ToShrinkableContainer >> applyWidgetConfiguration [
 ToShrinkableContainer >> onChildAdded: anElement [
 
 	super onChildAdded: anElement.
-	self requestNewConfiguration 
+	self requestConfiguration 
 ]
 
 { #category : #'children dispatching' }
@@ -27,5 +27,5 @@ ToShrinkableContainer >> onChildToBeRemoved: anElement [
 	self shrinkFeedbackLayer ifNil: [ ^ self ].
 	self shrinkFeedbackLayer shrinked = anElement ifFalse: [ ^ self ].
 	self shrinkFeedbackLayer shrinked: nil.
-	self requestNewConfiguration 
+	self requestConfiguration 
 ]

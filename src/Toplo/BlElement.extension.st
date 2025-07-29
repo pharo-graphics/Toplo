@@ -52,6 +52,12 @@ BlElement >> allowSkinEventClass: aSkinEventClass [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> applyConfiguration [
+
+	self toConfiguration ifNotNil: [ :tc | tc applyOn: self ]
+]
+
+{ #category : #'*Toplo' }
 BlElement >> applyEnqueuedStatesDeeply [
 
 	self skinManagerDo: [ :sm | sm applyEnqueuedStatesIn: self ].
@@ -75,14 +81,12 @@ BlElement >> applySkinInstallersDeeply [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> applyWidgetConfiguration [
-
-	self widgetConfiguration ifNotNil: [ :tc | tc applyOn: self ].
+BlElement >> applyUpwardConfiguration [
 	" now consume the request for configuration to avoid 
 	a useless application during next pass if I'm send programmatically "
 	self spaceDo: [ :sp |
 		self nextConfigurationPass: sp runningConfigurationPass ].
-	self dispatchEvent: ToWidgetConfigurationAppliedEvent new
+	self dispatchEvent: ToConfigurationAppliedEvent new
 ]
 
 { #category : #'*Toplo' }
@@ -92,18 +96,14 @@ BlElement >> borderBuilder [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> checkWidgetConfigurationPass [
+BlElement >> checkConfigurationPassDeeply [
 
-	self nextConfigurationPass = self space runningConfigurationPass
-		ifFalse: [ ^ self ].
-	self applyWidgetConfiguration
-]
-
-{ #category : #'*Toplo' }
-BlElement >> checkWidgetConfigurationPassDeeply [
-
-	self withAllChildrenDepthFirstDo: [ :child |
-		child checkWidgetConfigurationPass ]
+	| requested |
+	requested := self isConfigurationRequested.
+	requested ifTrue: [ self applyConfiguration ].
+	self childrenDo: [ :child | child checkConfigurationPassDeeply ].
+	requested ifFalse: [ ^ self ].
+	self applyUpwardConfiguration
 ]
 
 { #category : #'*Toplo' }
@@ -224,7 +224,7 @@ BlElement >> flagAsDisabled: aBoolean [
 		ifFalse: [ self flagAsEnabled ].
 	self dispatchEvent: ToEnablementChangedEvent new.
 	self skinManagerDo: [ :sm | sm enablementChangedIn: self ].
-	self requestNewConfiguration
+	self requestConfiguration
 ]
 
 { #category : #'*Toplo' }
@@ -314,6 +314,12 @@ BlElement >> installedSkin [
 
 	self skinManagerDo: [ :sm | ^ sm installedSkin ].
 	^ nil
+]
+
+{ #category : #'*Toplo' }
+BlElement >> isConfigurationRequested [
+
+	^ self nextConfigurationPass = self space runningConfigurationPass
 ]
 
 { #category : #'*Toplo' }
@@ -468,7 +474,7 @@ BlElement >> newTextAttributesBuilder [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> newWidgetConfiguration [
+BlElement >> newToConfiguration [
 
 	^ nil
 ]
@@ -607,7 +613,7 @@ BlElement >> removedFromMenu: aMenu [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> requestNewConfiguration [
+BlElement >> requestConfiguration [
 
 	self spaceDo: [ :sp |
 		self nextConfigurationPass: sp nextConfigurationPass.
@@ -621,7 +627,7 @@ BlElement >> requestNewConfigurationPass [
 		deprecated: 'Use #requestNewConfiguration'
 		transformWith: '`@rcvr requestNewConfigurationPass'
 			-> '`@rcvr requestNewConfiguration'.
-	self requestNewConfiguration
+	self requestConfiguration
 ]
 
 { #category : #'*Toplo' }
@@ -775,6 +781,27 @@ BlElement >> textAttributesBuilderDo: aBlock [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> toConfiguration [
+
+	^ self userData at: #toConfiguration ifAbsentPut: [
+		  | conf |
+		  conf := self newToConfiguration.
+		  conf ifNotNil: [ conf onInstalledIn: self ].
+		  conf ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> toConfiguration: anElementConfiguration [
+
+	self userData at: #toConfiguration ifPresent: [ :conf |
+		conf onUninstalledIn: self.
+		self userData removeKey: #toConfiguration ].
+	anElementConfiguration ifNil: [ ^ self ].
+	self userData at: #toConfiguration put: anElementConfiguration.
+	anElementConfiguration onInstalledIn: self
+]
+
+{ #category : #'*Toplo' }
 BlElement >> toStyleStore [
 
 	^ self userData at: #toStyleStore ifAbsent: [ ]
@@ -856,32 +883,11 @@ BlElement >> valueOfTokenNamed: aSymbol [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> whenWidgetConfigurationAppliedDo: aValuable [
+BlElement >> whenConfigurationAppliedDo: aValuable [
 
 	self
-		addEventHandlerOn: ToWidgetConfigurationAppliedEvent
+		addEventHandlerOn: ToConfigurationAppliedEvent
 		do: [ :evt | aValuable cull: evt ]
-]
-
-{ #category : #'*Toplo' }
-BlElement >> widgetConfiguration [
-
-	^ self userData at: #widgetConfiguration ifAbsentPut: [
-		  | conf |
-		  conf := self newWidgetConfiguration.
-		  conf ifNotNil: [ conf onInstalledIn: self ].
-		  conf ]
-]
-
-{ #category : #'*Toplo' }
-BlElement >> widgetConfiguration: anElementConfiguration [
-
-	self userData at: #widgetConfiguration ifPresent: [ :conf |
-		conf onUninstalledIn: self.
-		self userData removeKey: #widgetConfiguration ].
-	anElementConfiguration ifNil: [ ^ self ].
-	self userData at: #widgetConfiguration put: anElementConfiguration.
-	anElementConfiguration onInstalledIn: self
 ]
 
 { #category : #'*Toplo' }

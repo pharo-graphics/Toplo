@@ -10,9 +10,9 @@ Class {
 }
 
 { #category : #'t - bar element' }
-ToMenuItemBarElement >> defaultInnerElement [
+ToMenuItemBarElement >> defaultInnerElementClass [
 
-	^ ToMenuInnerBarElement onBarElement: self
+	^ ToMenuInnerBarElement
 ]
 
 { #category : #'t - item bar element - accessing' }

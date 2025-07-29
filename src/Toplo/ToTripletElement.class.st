@@ -33,7 +33,7 @@ ToTripletElement >> installRawStyle [
 ]
 
 { #category : #configuration }
-ToTripletElement >> newWidgetConfiguration [ 
+ToTripletElement >> newToConfiguration [ 
 
 	^ ToTripletElementConfiguration new
 ]

@@ -17,5 +17,5 @@ TToRemovableItem >> removable: aBoolean [
 
 	removable = aBoolean ifTrue: [ ^ self ].
 	removable := aBoolean.
-	self requestNewConfiguration
+	self requestConfiguration
 ]

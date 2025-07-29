@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTabNodeSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Widget-TabPane-TabPane'
+	#category : #'Toplo-Widget-TabPane-TabBar'
 }
 
 { #category : #'event handling' }
@@ -52,12 +52,13 @@ ToTabNodeSkin >> installSkinEvent: anEvent [
 		e removeButtonDo: [ :rb |
 			rb visibility: BlVisibility hidden.
 			rb constraintsDo: [ :c |
-				leftPad := leftPad * 2.
 				(listElement isVertical and: [ listElement atStartSide not ])
 					ifTrue: [
-						c ignored horizontal alignRight.
-						rightPad := rightPad * 2 ]
-					ifFalse: [ c ignored horizontal alignLeft ].
+						c anchors add: (c anchors rightAnchor on: e rightAnchor - 5).
+						rightPad := rightPad + 15 ]
+					ifFalse: [ 
+						c anchors add: (c anchors leftAnchor on: e leftAnchor + 5).
+						leftPad := leftPad + 15 ].
 				c ignored vertical alignCenter ] ].
 		e item constraintsDo: [ :c | c linear vertical alignCenter ]. 
 		e padding: (BlInsets

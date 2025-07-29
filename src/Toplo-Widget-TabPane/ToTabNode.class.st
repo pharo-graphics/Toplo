@@ -7,10 +7,12 @@ Class {
 }
 
 { #category : #configuration }
-ToTabNode >> applyWidgetConfiguration [
+ToTabNode >> applyConfiguration [
 
-	super applyWidgetConfiguration.
-	self isRemovable ifTrue: [ self addRemoveButton ] ifFalse: [ self removeRemoveButton ].
+	super applyConfiguration.
+	self isRemovable
+		ifTrue: [ self addRemoveButton ]
+		ifFalse: [ self removeRemoveButton ].
 	self requestNewSkin
 ]
 

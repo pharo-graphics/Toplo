@@ -1,3 +1,12 @@
+"
+This class represents a slider.
+
+This slider was originally created to experiment how to create a slider with Bloc and try different advanced behaviours.
+
+This slider is not properly working at the time but we can still explore its code to extract some interesting things and implement them later into the new `ToNewBasicSlider`
+
+
+"
 Class {
 	#name : #ToOldBasicSlider,
 	#superclass : #ToElement,

@@ -24,7 +24,7 @@ ToNewBasicVerticalSliderSkin >> initializeKnobForElement: element [
 	| sliderKnob pt |
 	sliderKnob := element sliderKnob.
 	sliderKnob id: #sliderKnob.
-	sliderKnob zIndex: 3.
+	sliderKnob zIndex: 4.
 	pt := 20 @ 20.
 	sliderKnob
 		geometry: BlCircleGeometry new;
@@ -39,12 +39,11 @@ ToNewBasicVerticalSliderSkin >> initializeKnobForElement: element [
 
 { #category : #'event handling' }
 ToNewBasicVerticalSliderSkin >> installSkinEvent: anEvent [
-
+	"Be careful, adding padding makes the knob imprecise"
 	anEvent elementDo: [ :elt |
 			elt size: 50 @ 200.
 			elt layout: BlFrameLayout new.
 			elt clipChildren: false.
-			elt padding: (BlInsets all: 5).
 			self initializeBarForElement: elt.
 			self initializeKnobForElement: elt ]
 ]

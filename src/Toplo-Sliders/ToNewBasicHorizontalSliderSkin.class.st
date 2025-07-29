@@ -25,7 +25,7 @@ ToNewBasicHorizontalSliderSkin >> initializeKnobForElement: element [
 	| sliderKnob pt |
 	sliderKnob := element sliderKnob.
 	sliderKnob id: #sliderKnob.
-	sliderKnob zIndex: 3.
+	sliderKnob zIndex: 4.
 	pt := 20 @ 20.
 	sliderKnob
 		geometry: BlCircleGeometry new;
@@ -35,18 +35,16 @@ ToNewBasicHorizontalSliderSkin >> initializeKnobForElement: element [
 	sliderKnob whenLayoutedDoOnce: [
 			sliderKnob constraintsDo: [ :c |
 					c frame vertical alignCenter.
-					c frame horizontal alignLeftAt:
-							 pt x / 2 / element width ] ]
+					c frame horizontal alignLeftAt: pt x / 2 / element width ] ]
 ]
 
 { #category : #'event handling' }
 ToNewBasicHorizontalSliderSkin >> installSkinEvent: anEvent [
-
+	"Be careful, adding padding makes the knob imprecise"
 	anEvent elementDo: [ :elt |
 			elt size: 200 @ 50.
 			elt layout: BlFrameLayout new.
 			elt clipChildren: false.
-			elt padding: (BlInsets all: 5).
 			self initializeBarForElement: elt.
 			self initializeKnobForElement: elt ]
 ]

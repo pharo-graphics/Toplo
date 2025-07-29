@@ -35,9 +35,7 @@ ToNewBasicHorizontalSlider >> moveKnobTo: aPosition [
 	newPos := newPosX @ newPos y.
 
 	sliderKnob constraintsDo: [ :c |
-			c frame horizontal alignment:
-				(BlHorizontalCoordinateLeftAlignment new coordinate:
-					 newPosX / self width) ].
+		c frame horizontal alignLeftAt: newPosX / self width ].
 
 	self currentValue: (self valueAtCoord: newPos)
 ]

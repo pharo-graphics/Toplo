@@ -1,3 +1,8 @@
+"
+This class represents a slider.
+
+This slider was originally created for the CoypuIDE project and it is not properly working at the current time, but we can still explore its code to extract some interesting things and implement them later into the new `ToNewBasicSlider`  
+"
 Class {
 	#name : #ToDesignSlider,
 	#superclass : #BlElement,

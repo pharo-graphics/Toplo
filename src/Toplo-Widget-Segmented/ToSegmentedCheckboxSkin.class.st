@@ -112,7 +112,8 @@ ToSegmentedCheckboxSkin >> pressedSkinEvent: anEvent [
 
 	super pressedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e border: BlBorder empty ]
+		self flag: 'TODO: see issue #298'.
+		"e border: BlBorder empty" ]
 ]
 
 { #category : #'event handling' }

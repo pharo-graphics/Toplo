@@ -5604,6 +5604,7 @@ ToSandBox class >> example_buttonWith2Icons [
 
 	| but  |
 	but := self example_buttonWithIcon.
+	"but addEventHandlerOn: ToSkinEvent do: [ :event | event traceCr ]."
 	but clickAction: [ :evt :target | target traceCr ].
 	but addEventHandlerOn: BlDoubleClickEvent do: [ :event | event traceCr ].
 	but label: (ToLabel text: 'Button with 2 icons').
@@ -6088,6 +6089,24 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 	pane dividers second weight: 5.
 	pane dividers third weight: 0.5.
 	pane openInSpace
+]
+
+{ #category : #pane }
+ToSandBox class >> example_hugePane [
+
+	| space pane |
+	space := BlSpace new.
+	pane := ToPane vertical.
+	space root addChild: pane.
+	space show.
+
+	space root inUIProcessDo: [
+			1 to: 1000 do: [ :i | 
+					| label button |
+					label := 'Button ' , i asString.
+					button := ToButton labelText: label.
+					pane addChild: button.
+					pane horizontal: i odd ] ]
 ]
 
 { #category : #menu }

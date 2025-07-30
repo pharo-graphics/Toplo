@@ -87,10 +87,12 @@ ToTabPaneElement >> initialize [
 	super initialize.
 
 	headerContainer := ToTabPaneHeaderElement new.
-	bodyContainer := ToPane new
+	bodyContainer := BlElement new
 		                 id: #body;
 		                 yourself.
-	bodyContainer matchParent.
+	bodyContainer constraintsDo: [ :c |
+			c vertical matchParent.
+			c horizontal matchParent ].
 	self setItemBar: self tabGroup itemBar.
 	self addChildren: {
 			headerContainer.

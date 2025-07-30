@@ -92,9 +92,10 @@ ToDividerSkin >> pressedSkinEvent: anEvent [
 
 	super pressedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e mouseCursor: e resizerCursor.
+		self flag: 'TODO: see issue #298'.
+		"e mouseCursor: e resizerCursor.
 		e border: e pressedBorder.
-		e background: e pressedBackground ]
+		e background: e pressedBackground" ]
 ]
 
 { #category : #'event handling' }
@@ -102,7 +103,8 @@ ToDividerSkin >> releasedSkinEvent: anEvent [
 
 	super releasedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e mouseCursor: Cursor normal.
+		self flag: 'TODO: see issue #298'.
+		"e mouseCursor: Cursor normal.
 		e border: e defaultBorder.
-		e background: e defaultBackground ]
+		e background: e defaultBackground" ]
 ]

@@ -34,7 +34,7 @@ ToTabGroupInTabPaneEventHandler >> checkableGroupChangedEvent: anEvent [
 	innerPane ifNotNil: [
 			body addChild: innerPane.
 			^ self ].
-	innerPane := ToPane new
+	innerPane := ToElement new
 		             matchParent;
 		             yourself.
 	button paneDestroyer ifNotNil: [ :destroyer |

@@ -30,6 +30,12 @@ ToGeneralButton >> isMenuButton [
 ]
 
 { #category : #testing }
+ToGeneralButton >> isMouseUpOutsideSensible [ 
+
+	^ true
+]
+
+{ #category : #testing }
 ToGeneralButton >> menuButton [ 
 
 	^ self firstInParentChainSatisfying: [ :p | p isMenuItem ]

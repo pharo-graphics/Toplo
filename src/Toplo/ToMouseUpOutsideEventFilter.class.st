@@ -1,5 +1,5 @@
 Class {
-	#name : #ToStillPressedPickOutsideEventFilter,
+	#name : #ToMouseUpOutsideEventFilter,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'holder',
@@ -9,57 +9,57 @@ Class {
 }
 
 { #category : #accessing }
-ToStillPressedPickOutsideEventFilter >> element: anElement [
+ToMouseUpOutsideEventFilter >> element: anElement [
 
 	element := anElement
 ]
 
 { #category : #'api - accessing' }
-ToStillPressedPickOutsideEventFilter >> eventsToHandle [
+ToMouseUpOutsideEventFilter >> eventsToHandle [
 
 	^ { BlMouseUpEvent }
 ]
 
 { #category : #'api - hooks' }
-ToStillPressedPickOutsideEventFilter >> isInstalled [
+ToMouseUpOutsideEventFilter >> isInstalled [
 
 	^ holder notNil
 ]
 
 { #category : #'mouse handlers' }
-ToStillPressedPickOutsideEventFilter >> mouseUpEvent: anEvent [
+ToMouseUpOutsideEventFilter >> mouseUpEvent: anEvent [
 	" 
 	do nothing if the original event target is inside my target 
 	"
+	holder ifNil: [ ^ self ].
+	" I'm a one shot event filter, so remove myself as an event filter here"
+	holder removeEventFilter: self.
 
 	element space ifNil: [ " if my target is removed
 		This can be the case if the parent is removed "
-		holder removeEventFilter: self.
 		holder := nil.
 		^ self ].
 
-	" It it ouside my target, do nothing "
+	" do nothing if it is inside my element "
 	(anEvent target withAllParentsInclude: element) ifTrue: [ ^ self ].
 
+	" ouside, consume mouse up and launch mouse up outside "
 	anEvent consume.
-	holder ifNil: [ ^ self ].
-	" ok, mouseUp outside the element and outside of the popup window "
-	holder removeEventFilter: self.
-	element dispatchEvent: (ToPickOutsideEvent new
+	element dispatchEvent: (ToMouseUpOutsideEvent new
 			 sourceEvent: anEvent;
 			 fillFromTime: element space time;
 			 yourself)
 ]
 
 { #category : #'api - hooks' }
-ToStillPressedPickOutsideEventFilter >> onInstalledIn: anElement [
+ToMouseUpOutsideEventFilter >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	holder := anElement
 ]
 
 { #category : #'api - hooks' }
-ToStillPressedPickOutsideEventFilter >> onUninstalledIn: anElement [
+ToMouseUpOutsideEventFilter >> onUninstalledIn: anElement [
 
 	holder := nil.
 	super onUninstalledIn: anElement

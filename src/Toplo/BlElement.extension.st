@@ -387,6 +387,12 @@ BlElement >> isMenuPane [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> isMouseUpOutsideSensible [
+
+	^ false
+]
+
+{ #category : #'*Toplo' }
 BlElement >> isPreventedSkinEvent: aSkinEvent [
 
 	^ self isPreventedSkinEventClass: aSkinEvent class

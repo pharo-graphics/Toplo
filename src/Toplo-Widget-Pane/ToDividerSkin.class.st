@@ -9,7 +9,9 @@ ToDividerSkin >> dragStartedSkinEvent: anEvent [
 
 	super dragStartedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e mouseCursor: e resizerCursor ]
+		e mouseCursor: e resizerCursor.
+		e border: e defaultBorder.
+		e background: e defaultBackground  ]
 ]
 
 { #category : #'event handling' }
@@ -17,9 +19,7 @@ ToDividerSkin >> draggedSkinEvent: anEvent [
 
 	super draggedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e mouseCursor: e resizerCursor.
-		e border: e hoveredBorder.
-		e background: e draggedBackground ]
+		e mouseCursor: e resizerCursor ]
 ]
 
 { #category : #'event handling' }
@@ -67,15 +67,6 @@ ToDividerSkin >> installSkinEvent: anEvent [
 										 c anchors parent horizontalCenterAnchor).
 								c anchors add:
 									(c anchors verticalCenterAnchor on: c anchors parent verticalCenterAnchor) ] ] ]
-]
-
-{ #category : #'event handling' }
-ToDividerSkin >> leavedSkinEvent: anEvent [
-
-	super leavedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e border: e defaultBorder.
-		e background: e defaultBackground ]
 ]
 
 { #category : #'event handling' }

@@ -1,5 +1,5 @@
 Class {
-	#name : #ToPickOutsideEvent,
+	#name : #ToMouseUpOutsideEvent,
 	#superclass : #BlEvent,
 	#instVars : [
 		'sourceEvent'
@@ -8,19 +8,19 @@ Class {
 }
 
 { #category : #sending }
-ToPickOutsideEvent >> sendTo: anObject [
+ToMouseUpOutsideEvent >> sendTo: anObject [
 
-	anObject pickOutsideEvent: self
+	anObject mouseUpOutsideEvent: self
 ]
 
 { #category : #accessing }
-ToPickOutsideEvent >> sourceEvent [
+ToMouseUpOutsideEvent >> sourceEvent [
 
 	^ sourceEvent
 ]
 
 { #category : #accessing }
-ToPickOutsideEvent >> sourceEvent: anEvent [
+ToMouseUpOutsideEvent >> sourceEvent: anEvent [
 
 	sourceEvent := anEvent
 ]

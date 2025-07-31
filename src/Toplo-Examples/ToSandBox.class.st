@@ -7328,7 +7328,7 @@ ToSandBox class >> example_stillHoveredEvent [
 			c frame vertical alignCenter.
 			c frame horizontal alignCenter ].
 	e addChild: lab.
-	e size: 200 asPoint.
+	e extent: 200 asPoint.
 	e border: Color black.
 	count := 0.
 	e addEventHandler: (BlEventHandler

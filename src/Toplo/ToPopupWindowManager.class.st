@@ -164,7 +164,7 @@ ToPopupWindowManager >> eventsToHandle [
 	^ super eventsToHandle , {
 		  BlMouseUpEvent.
 		  BlMouseDownEvent.
-		  ToPickOutsideEvent.
+		  ToMouseUpOutsideEvent.
 		  ToStartStillHoveredEvent }
 ]
 
@@ -216,6 +216,13 @@ ToPopupWindowManager >> mouseUpEvent: anEvent [
 	self checkCloseWindowOnPickingEvent: anEvent
 ]
 
+{ #category : #'event handling' }
+ToPopupWindowManager >> mouseUpOutsideEvent: anEvent [
+
+	self isInline ifTrue: [ ^ self ].
+	self checkCloseWindowOnPickingEvent: anEvent sourceEvent
+]
+
 { #category : #'window handling' }
 ToPopupWindowManager >> newPickOutsideFilter [
 
@@ -247,13 +254,6 @@ ToPopupWindowManager >> onOpened [
 		self uninstallPickOutsideFilter.
 		^ self ].
 	self installPickOutsideFilter
-]
-
-{ #category : #'event handling' }
-ToPopupWindowManager >> pickOutsideEvent: anEvent [
-
-	self isInline ifTrue: [ ^ self ].
-	self checkCloseWindowOnPickingEvent: anEvent sourceEvent
 ]
 
 { #category : #'window handling' }

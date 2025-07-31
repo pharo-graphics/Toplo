@@ -66,6 +66,14 @@ ToMenuPopupManager >> mouseLeaveEvent: anEvent [
 
 ]
 
+{ #category : #'event handling' }
+ToMenuPopupManager >> mouseUpOutsideEvent: anEvent [
+
+	super mouseUpOutsideEvent: anEvent.
+	anchorElement menuPaneDo: [ :mb |
+		mb cancelAutoOpen ]
+]
+
 { #category : #'window handling' }
 ToMenuPopupManager >> newWindow [
 
@@ -88,14 +96,6 @@ ToMenuPopupManager >> onOpened [
 
 	super onOpened.
 	anchorElement itemBar requestFocus
-]
-
-{ #category : #'event handling' }
-ToMenuPopupManager >> pickOutsideEvent: anEvent [
-
-	super pickOutsideEvent: anEvent.
-	anchorElement menuPaneDo: [ :mb |
-		mb cancelAutoOpen ]
 ]
 
 { #category : #'window handling' }

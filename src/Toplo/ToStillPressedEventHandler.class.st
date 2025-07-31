@@ -2,7 +2,7 @@ Class {
 	#name : #ToStillPressedEventHandler,
 	#superclass : #ToEventGeneratorHandler,
 	#instVars : [
-		'pickOutsideFilter'
+		'mouseUpOutsideFilter'
 	],
 	#category : #'Toplo-Support-EventGenerator'
 }
@@ -13,7 +13,7 @@ ToStillPressedEventHandler >> eventsToHandle [
 	^ {
 		  BlMouseDownEvent.
 		  BlMouseUpEvent.
-		  ToPickOutsideEvent }
+		  ToMouseUpOutsideEvent }
 ]
 
 { #category : #initialization }
@@ -36,16 +36,23 @@ ToStillPressedEventHandler >> mouseDownEvent: anEvent [
 		           delay: delay asDuration;
 		           action: [self taskActionFromEvent: anEvent in: target].
 
-	pickOutsideFilter := ToStillPressedPickOutsideEventFilter new
+	mouseUpOutsideFilter := ToMouseUpOutsideEventFilter new
 		                     element: target;
 		                     yourself.		
-	target space root addEventFilter: pickOutsideFilter.
+	target space root addEventFilter: mouseUpOutsideFilter.
 	target enqueueTask: checker
 ]
 
 { #category : #'mouse handlers' }
 ToStillPressedEventHandler >> mouseUpEvent: anEvent [
 
+	self stopTaskFromEvent: anEvent in: anEvent currentTarget
+]
+
+{ #category : #'mouse handlers' }
+ToStillPressedEventHandler >> mouseUpOutsideEvent: anEvent [
+
+	checker ifNil: [ ^ self ].
 	self stopTaskFromEvent: anEvent in: anEvent currentTarget
 ]
 
@@ -73,21 +80,14 @@ ToStillPressedEventHandler >> newStopEvent [
 		  yourself
 ]
 
-{ #category : #'mouse handlers' }
-ToStillPressedEventHandler >> pickOutsideEvent: anEvent [
-
-	checker ifNil: [ ^ self ].
-	self stopTaskFromEvent: anEvent in: anEvent currentTarget
-]
-
 { #category : #accessing }
 ToStillPressedEventHandler >> stopTaskFromEvent: anEvent in: aTarget [
 
-	pickOutsideFilter ifNotNil: [
-		pickOutsideFilter isInstalled ifTrue: [
+	mouseUpOutsideFilter ifNotNil: [
+		mouseUpOutsideFilter isInstalled ifTrue: [
 			aTarget spaceDo: [ :sp |
-				sp root removeEventFilter: pickOutsideFilter ] ].
-		pickOutsideFilter := nil ].
+				sp root removeEventFilter: mouseUpOutsideFilter ] ].
+		mouseUpOutsideFilter := nil ].
 
 	super stopTaskFromEvent: anEvent in: aTarget
 ]
@@ -95,11 +95,11 @@ ToStillPressedEventHandler >> stopTaskFromEvent: anEvent in: aTarget [
 { #category : #accessing }
 ToStillPressedEventHandler >> stopTaskIn: target [
 
-	pickOutsideFilter ifNotNil: [
-		pickOutsideFilter isInstalled ifTrue: [
+	mouseUpOutsideFilter ifNotNil: [
+		mouseUpOutsideFilter isInstalled ifTrue: [
 			target spaceDo: [ :sp |
-				sp root removeEventFilter: pickOutsideFilter ] ].
-		pickOutsideFilter := nil ].
+				sp root removeEventFilter: mouseUpOutsideFilter ] ].
+		mouseUpOutsideFilter := nil ].
 
 	super stopTaskIn: target
 ]

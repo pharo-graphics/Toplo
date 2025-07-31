@@ -96,12 +96,12 @@ ToGeneralButtonSkin >> pressedSkinEvent: anEvent [
 	super pressedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		self flag: 'TODO: see issue #298'.
-		"
+		
 		e isMenuButton ifFalse: [
 			(e hasStamp: #borderless) ifFalse: [
 				e border: (BlBorder
 						 paint: (e valueOfTokenNamed: #'color-primary-pressed')
-						 width: (e valueOfTokenNamed: #'line-width')) ]" ]
+						 width: (e valueOfTokenNamed: #'line-width')) ] ] ]
 ]
 
 { #category : #'event handling' }
@@ -110,9 +110,9 @@ ToGeneralButtonSkin >> releasedSkinEvent: anEvent [
 	super releasedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 			self flag: 'TODO: see issue #298'.
-			"e isMenuButton ifFalse: [
+			e isMenuButton ifFalse: [
 					(e hasStamp: #borderless) ifFalse: [
 							e border: (BlBorder
 									 paint: (e valueOfTokenNamed: #'color-primary-hover')
-									 width: (e valueOfTokenNamed: #'line-width')) ]" ]
+									 width: (e valueOfTokenNamed: #'line-width')) ] ] ]
 ]

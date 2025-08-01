@@ -54,6 +54,14 @@ ToRawSkinForTest >> disabledSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToRawSkinForTest >> dragEndedSkinEvent: anEvent [
+
+	super dragEndedSkinEvent: anEvent.
+	self addReceivedEvent: anEvent
+
+]
+
+{ #category : #'event handling' }
 ToRawSkinForTest >> dragHoveredSkinEvent: anEvent [
 
 	super dragHoveredSkinEvent: anEvent.

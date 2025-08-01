@@ -90,6 +90,16 @@ ToSwitchButtonSkin >> pressedSkinEvent: anEvent [
 	super pressedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		self flag: 'TODO: see issue #298'.
-		"e labelDo: [ :lab |
-			lab foreground: (e valueOfTokenNamed: #'color-primary-pressed') ]" ]
+		e labelDo: [ :lab |
+			lab foreground: (e valueOfTokenNamed: #'color-primary-pressed') ] ]
+]
+
+{ #category : #'event handling' }
+ToSwitchButtonSkin >> releasedSkinEvent: anEvent [
+
+	super releasedSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		self flag: 'TODO: see issue #298'.
+		e labelDo: [ :lab |
+			lab foreground: (e valueOfTokenNamed: #'color-primary') ] ]
 ]

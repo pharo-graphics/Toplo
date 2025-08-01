@@ -51,21 +51,19 @@ ToSkinStateGenerator >> dragEndEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
 	dragged := false.
-	leaved ifTrue: [ ^ self ].
-	leaved := true.
 	self enqueueSkinState:
 		(ToTransientState skinEvent:
-			 (ToReleasedSkinEvent sourceEvent: anEvent)).
-	self enqueueSkinState:
-		(ToTransientState skinEvent:
-			 (ToLeftSkinEvent sourceEvent: anEvent))
+			 (ToDragEndedSkinEvent sourceEvent: anEvent))
 ]
 
 { #category : #'dnd handlers' }
 ToSkinStateGenerator >> dragEnterEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
-	leaved := false
+	leaved := false.
+	self enqueueSkinState:
+		(ToTransientState skinEvent:
+			 (ToDragHoveredSkinEvent sourceEvent: anEvent))
 ]
 
 { #category : #'dnd handlers' }
@@ -83,7 +81,9 @@ ToSkinStateGenerator >> dragLeaveEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
 	leaved := true.
-	dragged := false
+	self enqueueSkinState:
+		(ToTransientState skinEvent:
+			 (ToDragLeftSkinEvent sourceEvent: anEvent))
 ]
 
 { #category : #'dnd handlers' }
@@ -180,24 +180,23 @@ ToSkinStateGenerator >> mouseDownEvent: anEvent [
 { #category : #'mouse handlers' }
 ToSkinStateGenerator >> mouseEnterEvent: anEvent [
 
+	anEvent primaryButtonPressed ifTrue: [ ^ self ].
 	target isEnabled ifFalse: [ ^ self ].
 	leaved := false.
 	self enqueueSkinState:
-		(ToTransientState skinEvent: ((anEvent primaryButtonPressed
-				   ifTrue: [ ToDragHoveredSkinEvent ]
-				   ifFalse: [ ToHoveredSkinEvent ]) sourceEvent: anEvent))
+		(ToTransientState skinEvent:
+			 (ToHoveredSkinEvent sourceEvent: anEvent))
 ]
 
 { #category : #'mouse handlers' }
 ToSkinStateGenerator >> mouseLeaveEvent: anEvent [
 
-	leaved ifTrue: [ ^ self ].
+	anEvent primaryButtonPressed ifTrue: [ ^ self ].
 	target isEnabled ifFalse: [ ^ self ].
+	leaved ifTrue: [ ^ self ].
 	leaved := true.
 	self enqueueSkinState:
-		(ToTransientState skinEvent: ((anEvent primaryButtonPressed
-				   ifTrue: [ ToDragLeftSkinEvent ]
-				   ifFalse: [ ToLeftSkinEvent ]) sourceEvent: anEvent))
+		(ToTransientState skinEvent: (ToLeftSkinEvent sourceEvent: anEvent))
 ]
 
 { #category : #'mouse handlers' }

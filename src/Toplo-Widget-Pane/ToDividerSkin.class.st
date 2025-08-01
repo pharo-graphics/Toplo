@@ -5,21 +5,12 @@ Class {
 }
 
 { #category : #'event handling' }
-ToDividerSkin >> dragStartedSkinEvent: anEvent [
+ToDividerSkin >> dragEndedSkinEvent: anEvent [
 
-	super dragStartedSkinEvent: anEvent.
+	super dragEndedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e mouseCursor: e resizerCursor.
 		e border: e defaultBorder.
-		e background: e defaultBackground  ]
-]
-
-{ #category : #'event handling' }
-ToDividerSkin >> draggedSkinEvent: anEvent [
-
-	super draggedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e mouseCursor: e resizerCursor ]
+		e background: e defaultBackground ]
 ]
 
 { #category : #'event handling' }
@@ -74,6 +65,7 @@ ToDividerSkin >> leftSkinEvent: anEvent [
 
 	super leftSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
+		e mouseCursor: Cursor normal.
 		e border: e defaultBorder.
 		e background: e defaultBackground ]
 ]
@@ -84,18 +76,6 @@ ToDividerSkin >> pressedSkinEvent: anEvent [
 	super pressedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		self flag: 'TODO: see issue #298'.
-		"e mouseCursor: e resizerCursor.
 		e border: e pressedBorder.
-		e background: e pressedBackground" ]
-]
-
-{ #category : #'event handling' }
-ToDividerSkin >> releasedSkinEvent: anEvent [
-
-	super releasedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		self flag: 'TODO: see issue #298'.
-		"e mouseCursor: Cursor normal.
-		e border: e defaultBorder.
-		e background: e defaultBackground" ]
+		e background: e pressedBackground ]
 ]

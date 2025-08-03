@@ -12,7 +12,7 @@ ToIcon class >> iconImage: anInnerImage [
 	^ self innerImage: anInnerImage
 ]
 
-{ #category : #'t - image holder - initialization' }
+{ #category : #initialization }
 ToIcon >> defaultLayout [
 
 	^ BlLinearLayout new 

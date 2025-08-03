@@ -228,7 +228,12 @@ ToSkinManager >> postponedInstallSkinHandler [
 { #category : #'element setup' }
 ToSkinManager >> registerTheme: aTheme [
 
-	self registeredThemeClasses add: aTheme class
+	| registered |
+	registered := aTheme class.
+	self registeredThemeClasses add: aTheme class.
+	(registered class canUnderstand: #initializeToploTheme:) ifFalse: [
+		^ self ].
+	registered class initializeToploTheme: aTheme
 ]
 
 { #category : #accessing }

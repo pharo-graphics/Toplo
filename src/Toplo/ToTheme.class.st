@@ -392,6 +392,12 @@ ToTheme class >> technicalTokenProperties [
 ]
 
 { #category : #accessing }
+ToTheme >> addTokenNamed: aSymbol withValue: anObject [
+
+	self addTokenProperty: (aSymbol -> anObject) asTokenProperty 
+]
+
+{ #category : #accessing }
 ToTheme >> addTokenProperties: aCollection [
 
 	tokenProperties addAll: aCollection

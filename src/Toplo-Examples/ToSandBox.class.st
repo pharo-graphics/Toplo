@@ -633,13 +633,13 @@ ToSandBox class >> exampleGhostAccordionWithLabel [
 ]
 
 { #category : #theme }
-ToSandBox class >> exampleLocalThemeChangesChildrenLookup [	
+ToSandBox class >> exampleLocalThemeChangesChildrenLookup [
 
 	| space parent child changeButton |
 	space := BlSpace new.
 
 	parent := ToButton new
-		          size: 200 asPoint;
+		          extent: 200 asPoint;
 		          position: 50 asPoint;
 		          border: (BlBorder paint: Color red width: 4).
 
@@ -655,9 +655,10 @@ ToSandBox class >> exampleLocalThemeChangesChildrenLookup [
 		                size: 200 @ 50;
 		                position: 300 @ 50;
 		                clickAction: [
-			                (parent localTheme isNil or: (parent localTheme class = ToRawTheme))
-				                ifTrue: [ parent localTheme: ToRawDarkTheme new ]
-				                ifFalse: [ parent localTheme: ToRawTheme new ] ];
+				                (parent localTheme isNil or:
+						                 parent localTheme class = ToRawTheme)
+					                ifTrue: [ parent localTheme: ToRawDarkTheme new ]
+					                ifFalse: [ parent localTheme: ToRawTheme new ] ];
 		                label: (ToLabel text: 'Change parent local theme');
 		                yourself.
 
@@ -7436,7 +7437,7 @@ ToSandBox class >> example_stylesheet [
 		        extent: 50 asPoint;
 		        position: 50 asPoint.
 	verticalElem := ToElement new
-		                size: 50 @ 100;
+		                extent: 50 @ 100;
 		                position: 50 @ 150.
 	horizontalElem := ToElement new
 		                  size: 100 @ 50;

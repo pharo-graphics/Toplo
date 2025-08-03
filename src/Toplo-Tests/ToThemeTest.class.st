@@ -8,7 +8,7 @@ Class {
 ToThemeTest >> testThemeChanged [
 
 	| e |
-	e := ToElementForThemeTest new.
+	e := ToElement new.
 	e defaultSkin: ToRawSkinForThemeTest new.
 	space root addChild: e.
 	self waitTestingSpaces.
@@ -24,7 +24,7 @@ ToThemeTest >> testThemeChanged [
 ToThemeTest >> testThemeChangedWithStyleSheetTheme [
 
 	| e |
-	e := ToElementForThemeTest new.
+	e := ToElement new.
 	e defaultRawSkin: ToRawSkinForThemeTest new.
 	space root addChild: e.
 	self waitTestingSpaces.

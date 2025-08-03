@@ -56,9 +56,9 @@ ToSkinInstaller >> installing: aBoolean [
 { #category : #hook }
 ToSkinInstaller >> installingWhile: aBlock [
 
-	self installing: true.	
-	aBlock value.
-	self installing: false
+	self isInstalling ifTrue: [ ^ self ].
+	self installing: true.
+	aBlock ensure: [ self installing: false ]
 ]
 
 { #category : #testing }

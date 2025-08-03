@@ -763,7 +763,8 @@ BlElement >> styleSheet [
 { #category : #'*Toplo-LookAndFeel' }
 BlElement >> styleSheet: aStyleSheet [
 
-	self ensuredSkinManager setStyleSheet: aStyleSheet in: self
+	self ensuredSkinManager setStyleSheet: aStyleSheet in: self.
+	self requestNewSkin
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
@@ -825,13 +826,6 @@ BlElement >> toThemeInstalled [
 	self childrenDo: [ :c | c toThemeInstalled ].
 	self dispatchEvent: ToThemeInstalledEvent new.
 	self requestNewSkin
-]
-
-{ #category : #'*Toplo-LookAndFeel' }
-BlElement >> toThemePreInstall: aTheme [
-
-	self childrenDo: [ :c | c toThemePreInstall: aTheme ].
-	self dispatchEvent: (ToThemePreInstallEvent new theme: aTheme; yourself)
 ]
 
 { #category : #'*Toplo-LookAndFeel' }

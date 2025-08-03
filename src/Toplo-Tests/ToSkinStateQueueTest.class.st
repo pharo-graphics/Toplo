@@ -69,6 +69,7 @@ ToSkinStateQueueTest >> testEnqueueInstallStateForThroughARequest [
 	e defaultSkin: sk.
 	" the default skin is set "
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
+	e skinManager uninstallSkinIn: e.
 	" but not installed for now "
 	self
 		deny: (e skinManager installedSkin)

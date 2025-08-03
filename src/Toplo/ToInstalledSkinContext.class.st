@@ -18,10 +18,9 @@ ToInstalledSkinContext >> borderBuilder [
 { #category : #accessing }
 ToInstalledSkinContext >> installSkin: aSkin in: anElement [
 
-	installedSkin = aSkin ifTrue: [ ^ self ].
-
+	self assert: installedSkin isNil description: 'The skin must not be already stored!.'.
 	self
-		assert: [ (anElement eventDispatcher handlers includes: aSkin) not ]
+		assert: [ anElement eventDispatcher handlers noneSatisfy: [ :h | h class = aSkin class ] ]
 		description: [ 'The skin must not be already registered!' ].
 
 	installedSkin := aSkin.

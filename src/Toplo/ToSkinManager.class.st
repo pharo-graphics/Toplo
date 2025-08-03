@@ -7,7 +7,6 @@ Class {
 		'skinContext',
 		'applySkinInstallerOnFirstRequest',
 		'styleSheet',
-		'registeredThemeClasses',
 		'skinStateQueue',
 		'textAttributesBuilder',
 		'postponedInstallSkinHandler',
@@ -191,12 +190,6 @@ ToSkinManager >> isInstallingSkin [
 	^ self skinInstaller notNil and: [ self skinInstaller isInstalling ]
 ]
 
-{ #category : #'element setup' }
-ToSkinManager >> isSetUpForTheme: aTheme [
-
-	^ self registeredThemeClasses includes: aTheme class
-]
-
 { #category : #private }
 ToSkinManager >> onSkinChangedIn: anElement [
 
@@ -223,23 +216,6 @@ ToSkinManager >> postponeRequestSkinIn: anElement [
 ToSkinManager >> postponedInstallSkinHandler [
 
 	^ postponedInstallSkinHandler
-]
-
-{ #category : #'element setup' }
-ToSkinManager >> registerTheme: aTheme [
-
-	| registered |
-	registered := aTheme class.
-	self registeredThemeClasses add: aTheme class.
-	(registered class canUnderstand: #initializeToploTheme:) ifFalse: [
-		^ self ].
-	registered class initializeToploTheme: aTheme
-]
-
-{ #category : #accessing }
-ToSkinManager >> registeredThemeClasses [
-
-	^ registeredThemeClasses ifNil: [ registeredThemeClasses := IdentitySet new ] 
 ]
 
 { #category : #'skin - install / uninstall request' }
@@ -335,14 +311,6 @@ ToSkinManager >> setStyleSheet: aStyleSheet in: anElement [
 	styleSheet := aStyleSheet.
 	self styleSheet ifNotNil: [ :curr | curr onInstalledIn: anElement ].
 	anElement requestSkinApplication
-]
-
-{ #category : #'element setup' }
-ToSkinManager >> setUp: anElement forTheme: aTheme [ 
-
-	(self isSetUpForTheme: aTheme) ifTrue: [ ^ self ].
-	self registerTheme: aTheme.
-	aTheme setUpElement: anElement
 ]
 
 { #category : #accessing }

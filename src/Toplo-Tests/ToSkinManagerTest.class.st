@@ -324,6 +324,8 @@ ToSkinManagerTest >> testInstallSkinInError [
 	self should: [ e skinManager installSkin: skin in: e ] raise: Error.
 
 	space root addChild: e.
+	self should: [ e skinManager installSkin: skin in: e ] raise: Error.
+	e skinManager uninstallSkinIn: e.
 	e skinManager installSkin: skin in: e.
 	self assert: e skinManager installedSkin notNil
 ]
@@ -407,27 +409,10 @@ ToSkinManagerTest >> testIsRequestSkinPostponed2 [
 ]
 
 { #category : #tests }
-ToSkinManagerTest >> testIsSetUpForTheme [
-
-	| e theme skin |
-	e := ToElement new.
-	theme := ToRawTheme new.
-	self deny: (e skinManager isSetUpForTheme: theme).
-	self assert: e skinManager registeredThemeClasses isEmpty.
-	self assert: ((theme newSkinFor: e) isKindOf: ToRawSkin).
-	space root addChild: e.
-	skin := theme newSkinFor: e.
-	self assert: e skinManager registeredThemeClasses size equals: 1.
-	self assert: e skinManager registeredThemeClasses anyOne equals: ToRawTheme
-]
-
-{ #category : #tests }
 ToSkinManagerTest >> testOnInstalledIn [
 
 	| e |
 	e := ToElement new.
-	self assert: e skinManager registeredThemeClasses notNil.
-	self assert: e skinManager registeredThemeClasses isEmpty.
 	self deny: e skinManager hasPostponedInstallSkinHandler.
 	self assert: e skinManager skinInstaller isNil.
 	e ensuredToStyleStore tokenPropertyIndex changedAction value.
@@ -461,34 +446,6 @@ ToSkinManagerTest >> testPostponeRequestSkinIn [
 
 	
 
-]
-
-{ #category : #tests }
-ToSkinManagerTest >> testRegisterTheme [
-
-	| e |
-	e := ToElement new.
-	self assert: e skinManager registeredThemeClasses notNil.
-	self assert: e skinManager registeredThemeClasses isEmpty.
-	e skinManager registerTheme: ToRawTheme new.
-	self assert: e skinManager registeredThemeClasses size equals: 1.
-	self
-		assert: e skinManager registeredThemeClasses anyOne
-		equals: ToRawTheme
-]
-
-{ #category : #tests }
-ToSkinManagerTest >> testRegisteredThemeClasses [
-
-	| e |
-	e := ToElement new.
-	self assert: e skinManager registeredThemeClasses notNil.
-	self assert: e skinManager registeredThemeClasses isEmpty.
-	e skinManager setUp: e forTheme: ToRawTheme new.
-	self assert: e skinManager registeredThemeClasses size equals: 1.
-	self
-		assert: e skinManager registeredThemeClasses anyOne
-		equals: ToRawTheme
 ]
 
 { #category : #tests }
@@ -724,44 +681,6 @@ ToSkinManagerTest >> testSetStyleSheetIn [
 	e := ToElement new.
 	e skinManager setStyleSheet: ToStyleSheet new in: e.
 	self assert: e skinManager styleSheet notNil
-]
-
-{ #category : #tests }
-ToSkinManagerTest >> testSetUpForTheme [
-
-	| e theme |
-	e := ToElement new.
-	self assert: e skinManager registeredThemeClasses notNil.
-	self assert: e skinManager registeredThemeClasses isEmpty.
-	theme := ToRawTheme new.
-	self deny: (e skinManager isSetUpForTheme: theme).
-	e skinManager setUp: e forTheme: theme.
-	self assert: (e skinManager isSetUpForTheme: theme).
-	self assert: e skinManager registeredThemeClasses size equals: 1.
-	self
-		assert: e skinManager registeredThemeClasses anyOne
-		equals: ToRawTheme.
-	e skinManager setUp: e forTheme: ToRawTheme new.
-	self assert: e skinManager registeredThemeClasses size equals: 1.
-	self
-		assert: e skinManager registeredThemeClasses anyOne
-		equals: ToRawTheme
-]
-
-{ #category : #tests }
-ToSkinManagerTest >> testSetUpForThemeIn2 [
-
-	| e theme skin |
-	e := ToElement new.
-	self assert: e skinManager registeredThemeClasses notNil.
-	self assert: e skinManager registeredThemeClasses isEmpty.
-	theme := ToRawTheme new.
-	space root addChild: e.
-	skin := theme newSkinFor: e.
-	self assert: e skinManager registeredThemeClasses size equals: 1.
-	self
-		assert: e skinManager registeredThemeClasses anyOne
-		equals: ToRawTheme
 ]
 
 { #category : #tests }

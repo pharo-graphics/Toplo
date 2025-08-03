@@ -312,34 +312,31 @@ ToThemeExamples class >> example_ToLabelWithHeadingSkin [
 { #category : #'examples - labels' }
 ToThemeExamples class >> example_WithLateBoundPropertyWriter [
 
-	| styleSheet lab parent |
-	styleSheet := ToStyleSheet new
-		              inherits: false;
-		              yourself.
-	styleSheet addWritableProperty: (ToPseudoProperty new
-			 name: #textBuilder;
-			 writer: [ :e :v | e text attributes: v attributes ]).
-	styleSheet select: ToLabel asTypeSelector style: [ :sr |
-		sr
-			when: ToInstallSkinEvent
-			write: #textBuilder asWritableProperty
-			with: [ :e |
-				e textAttributesBuilder defaultFontName: 'American Typewriter'.
-				e textAttributesBuilder fontSize: 32.
-				e textAttributesBuilder foreground:
-					(e valueOfTokenNamed: #'my-red-color') ] ].
+	| styleSheet1 styleSheet2 lab |
 	lab := ToLabel new.
-	lab text: 'Hello My World'.
-	parent := ToElement new matchParent.
-	parent addEventHandlerOn: ToThemePreInstallEvent do: [ :event |
-		event currentTarget lookupTheme addTokenProperty:
-			(ToTokenProperty name: #'my-red-color' value: Color red) ].
-	parent localTheme: ToBeeTheme new.
-	lab styleSheet: styleSheet.
+	lab addTokenNamed: #'my-foreground' withValue: Color green.
 
-	parent addChild: lab.
-	parent openInSpace.
-	lab inspect
+	styleSheet1 := ToStyleSheet new.
+	styleSheet2 := ToStyleSheet new.
+
+	styleSheet1 select: ToLabel asTypeSelector style: [ :sr |
+			sr
+				when: ToEnabledSkinEvent
+				write: #'text-attributes-with-builder' asWritableProperty
+				with: [ :e |
+						'ToEnabledSkinEvent' traceCr.
+						e textAttributesBuilder foreground:
+							(e valueOfTokenNamed: #'my-foreground').
+						e textAttributesBuilder defaultFontSize: 32.
+						e textAttributesBuilder ] ].
+
+	lab styleSheet: styleSheet1.
+	lab text: 'Click on me to change my stylesheet'.
+	lab clickAction: [
+			lab styleSheet = styleSheet1
+				ifTrue: [ lab styleSheet: styleSheet2 ]
+				ifFalse: [ lab styleSheet: styleSheet1 ] ].
+	lab openInSpace
 ]
 
 { #category : #'examples - buttons' }

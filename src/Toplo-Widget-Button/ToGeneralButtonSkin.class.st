@@ -95,8 +95,6 @@ ToGeneralButtonSkin >> pressedSkinEvent: anEvent [
 
 	super pressedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		self flag: 'TODO: see issue #298'.
-		
 		e isMenuButton ifFalse: [
 			(e hasStamp: #borderless) ifFalse: [
 				e border: (BlBorder
@@ -109,7 +107,6 @@ ToGeneralButtonSkin >> releasedSkinEvent: anEvent [
 
 	super releasedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-			self flag: 'TODO: see issue #298'.
 			e isMenuButton ifFalse: [
 					(e hasStamp: #borderless) ifFalse: [
 							e border: (BlBorder

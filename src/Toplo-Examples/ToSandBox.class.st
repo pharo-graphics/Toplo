@@ -5604,7 +5604,7 @@ ToSandBox class >> example_buttonWith2Icons [
 
 	| but  |
 	but := self example_buttonWithIcon.
-	"but addEventHandlerOn: ToSkinEvent do: [ :event | event traceCr ]."
+	but addEventHandlerOn: ToSkinEvent do: [ :event | event traceCr ].
 	but clickAction: [ :evt :target | target traceCr ].
 	but addEventHandlerOn: BlDoubleClickEvent do: [ :event | event traceCr ].
 	but label: (ToLabel text: 'Button with 2 icons').

@@ -22,7 +22,7 @@ ToSkinInstaller >> applyOn: anElement [
 					because  requestNewSkin may be sent during skin installation 
 					(in that case it it ignored) "
 				sm applyEnqueuedStatesIn: anElement ].
-			sm setSkinInstaller: nil in: anElement ] ]
+			sm onSkinInstallerApplied ] ]
 ]
 
 { #category : #hook }

@@ -692,16 +692,6 @@ BlElement >> skinInstaller [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> skinInstaller: aSkinInstaller [
-
-	self
-		deprecated: 'Please delegate to the skinManager instead'
-		transformWith: '`@receiver skinInstaller: `@arg' -> '`@receiver skinManager setSkinInstaller: `@arg in: `@receiver'.
-
-	self ensuredSkinManager setSkinInstaller: aSkinInstaller in: self
-]
-
-{ #category : #'*Toplo' }
 BlElement >> skinManager [
 
 	^ self userData at: #skinManager ifAbsent: [  ]

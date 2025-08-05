@@ -40,12 +40,6 @@ ToSkinManager >> applySkinInstallerIn: anElement [
 ]
 
 { #category : #'skin - installing / uninstalling' }
-ToSkinManager >> applySkinInstallerOnFirstRequest [
-
-	^ applySkinInstallerOnFirstRequest 
-]
-
-{ #category : #'skin - installing / uninstalling' }
 ToSkinManager >> applySkinInstallerOnFirstRequest: aBoolean [
 
 	applySkinInstallerOnFirstRequest := aBoolean
@@ -72,14 +66,9 @@ ToSkinManager >> borderBuilder [
 ]
 
 { #category : #'skin - installing / uninstalling' }
-ToSkinManager >> canApplySkinInstallerNowIn: anElement [
+ToSkinManager >> canApplySkinInstallerNow [
 
-	skinRequestCount > 1 ifTrue: [ ^ false ].
-	self applySkinInstallerOnFirstRequest ifTrue: [ ^ true ].
-	anElement parentDo: [ :p |
-		p skinManagerDo: [ :sm |
-			(sm canApplySkinInstallerNowIn: p) ifTrue: [ ^ true ] ] ].
-	^ false
+	^ skinRequestCount = 1 and: [ applySkinInstallerOnFirstRequest ]
 ]
 
 { #category : #accessing }
@@ -145,6 +134,16 @@ ToSkinManager >> ensureHaveSkinContext [
 	skinContext ifNil: [ skinContext := ToInstalledSkinContext new ]
 ]
 
+{ #category : #'skin - install / uninstall request' }
+ToSkinManager >> forceSkinInstaller: aSkinInstaller in: anElement [
+
+	"*** private use only for tests *** "
+	
+	skinInstaller := aSkinInstaller.
+	aSkinInstaller ifNil: [ ^ self ].
+	anElement space needSkinInstallPass: true
+]
+
 { #category : #testing }
 ToSkinManager >> hasPostponedInstallSkinHandler [
 
@@ -191,10 +190,16 @@ ToSkinManager >> isInstallingSkin [
 ]
 
 { #category : #private }
-ToSkinManager >> onSkinChangedIn: anElement [
+ToSkinManager >> onDefaultSkinChangedIn: anElement [
 
 	skinRequestCount := 0.
 	self requestNewSkinIn: anElement
+]
+
+{ #category : #'skin - install / uninstall request' }
+ToSkinManager >> onSkinInstallerApplied [
+
+	skinInstaller := nil
 ]
 
 { #category : #'skin - install / uninstall request' }
@@ -221,20 +226,22 @@ ToSkinManager >> postponedInstallSkinHandler [
 { #category : #'skin - install / uninstall request' }
 ToSkinManager >> requestInstallSkinIn: anElement [
 
-	anElement space ifNil: [ ^ self postponeRequestSkinIn: anElement ].
+	| space |
+	space := anElement space.
+	space ifNil: [ ^ self postponeRequestSkinIn: anElement ].
 	self skinInstaller ifNil: [ "'requestInstallSkinIn: ' trace. anElement traceCr."
-		skinRequestCount := skinRequestCount + 1.
-		" check that the skin related space phases are installed "
-		self setSkinInstaller: ToSkinInstaller new in: anElement ].
-	skinRequestCount = 1 ifFalse: [ ^ self ].
+			skinRequestCount := skinRequestCount + 1.
+			skinInstaller := ToSkinInstaller new ].
 	" *** Important point: a skin can be installed instantly.
-	This is used to avoid visual flashing effects in some situations: 
+	This is used to avoid visual flashing effects or lags in some situations: 
 	selection or labels updating in lists as examples. 
 	But but but it is possible only at the first request. Why ?
 	Because requestInstallSkin can be sent many times 
 	(as an example during a theme installation). 
 	Thus, applying each request instantly could increase time consuming for nothing **** "
-	(self canApplySkinInstallerNowIn: anElement) ifFalse: [ ^ self ].
+	self canApplySkinInstallerNow ifFalse: [
+			space needSkinInstallPass: true.
+			^ self ].
 	" then apply the installer now "
 	" but before, apply the uninstaller if any"
 	self skinUninstaller ifNotNil: [ :u | u applyOn: anElement ].
@@ -278,7 +285,7 @@ ToSkinManager >> setDefaultRawSkin: aSkin in: anElement [
 
 	self defaultRawSkin = aSkin ifTrue: [ ^ self ].
 	self defaultRawSkin: aSkin.
-	self onSkinChangedIn: anElement
+	self onDefaultSkinChangedIn: anElement
 ]
 
 { #category : #'accessing - default skin' }
@@ -286,16 +293,7 @@ ToSkinManager >> setDefaultSkin: aSkin in: anElement [
 
 	self defaultSkin = aSkin ifTrue: [ ^ self ].
 	self defaultSkin: aSkin.
-	self onSkinChangedIn: anElement
-]
-
-{ #category : #'skin - install / uninstall request' }
-ToSkinManager >> setSkinInstaller: aSkinInstaller in: anElement [
-
-	
-	skinInstaller := aSkinInstaller.
-	aSkinInstaller ifNil: [ ^ self ].
-	anElement spaceDo: [ :sp | sp needSkinInstallPass: true ]
+	self onDefaultSkinChangedIn: anElement
 ]
 
 { #category : #'skin - install / uninstall request' }

@@ -57,14 +57,14 @@ ToSkinnableSlotTest >> testWriteTo2 [
 	space root addChild: e.
 	self assert: e skinRequestCount equals: 1.
 	e child2: ToElement new.
-	self assert: e skinRequestCount equals: 1.
+	self assert: e skinRequestCount equals: 2.
 
 	space applyAllSkinInstallers.
-	self assert: e skinRequestCount equals: 1.
+	self assert: e skinRequestCount equals: 2.
 
 	space applyAllEnqueuedStates.
-	self assert: e skinRequestCount equals: 1.
-	self assert: e skinInstalledCount equals: 1 
+	self assert: e skinRequestCount equals: 2.
+	self assert: e skinInstalledCount equals: 2
 
 	
 ]
@@ -153,12 +153,12 @@ ToSkinnableSlotTest >> testWriteToWithSpaceAddChildBefore [
 	self assert: e skinRequestCount equals: 1.
 
 	e child1: ToElement new.
-	self assert: e skinRequestCount equals: 1.
+	self assert: e skinRequestCount equals: 2.
 	space applyAllSkinInstallers.
-	self assert: e skinRequestCount equals: 1.
+	self assert: e skinRequestCount equals: 2.
 	space applyAllEnqueuedStates.
-	self assert: e skinRequestCount equals: 1.
-	self assert: e skinInstalledCount equals: 1 
+	self assert: e skinRequestCount equals: 2.
+	self assert: e skinInstalledCount equals: 2 
 
 	
 ]

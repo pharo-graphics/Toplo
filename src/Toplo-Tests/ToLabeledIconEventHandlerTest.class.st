@@ -114,11 +114,9 @@ ToLabeledIconEventHandlerTest >> testlayoutConstraintsChangedEvent [
 
 	| li |
 	li := ToLabeledIcon new.
-	li applySkinInstallerOnFirstRequest: false.
-
 	space root addChild: li.
 	li exact: 10 @ 10.
-	self assert: li skinManager skinInstaller notNil.
+	self assert: li skinManager skinInstaller isNil.
 	li skinManager forceSkinInstaller: nil in: li.
 	self assert: li skinManager skinInstaller isNil.
 	li fitContent.

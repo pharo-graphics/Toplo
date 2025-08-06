@@ -49,9 +49,8 @@ ToSkinUninstallerTest >> testWithNullSkin [
 
 	| e |
 	e := ToElement new.
-	e applySkinInstallerOnFirstRequest: false.
 	space root addChild: e.
-	self assert: e skinManager skinInstaller notNil.
+	self assert: e skinManager skinInstaller isNil.
 	e skinManager applySkinReinstallIn: e.
 	self assert: e skinManager installedSkin notNil.
 	e withNullSkin.
@@ -67,9 +66,8 @@ ToSkinUninstallerTest >> testWithSetSkin [
 
 	| e |
 	e := ToElement new.
-	e applySkinInstallerOnFirstRequest: false.
 	space root addChild: e.
-	self assert: e skinManager skinInstaller notNil.
+	self assert: e skinManager skinInstaller isNil.
 	e skinManager applySkinReinstallIn: e.
 	self assert: e skinManager installedSkin notNil.
 	e defaultSkin: ToNullSkin new.

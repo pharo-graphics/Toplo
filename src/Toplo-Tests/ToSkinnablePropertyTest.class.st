@@ -28,7 +28,7 @@ ToSkinnablePropertyTest >> testWriteTo [
 	| w prop writer reader |
 	w := ToElement new.
 	BlSpace new root addChild: w.
-	self assert: w skinManager skinInstaller notNil.
+	self assert: w skinManager skinInstaller isNil.
 	prop := ToSkinnableProperty new.
 	writer := [ :e :v | e background: v ].
 	reader := [ :e | e background ].

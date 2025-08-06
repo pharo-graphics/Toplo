@@ -5,7 +5,6 @@ Class {
 		'userData',
 		'skinRequestCount',
 		'skinContext',
-		'applySkinInstallerOnFirstRequest',
 		'styleSheet',
 		'skinStateQueue',
 		'textAttributesBuilder',
@@ -39,12 +38,6 @@ ToSkinManager >> applySkinInstallerIn: anElement [
 ]
 
 { #category : #'skin - installing / uninstalling' }
-ToSkinManager >> applySkinInstallerOnFirstRequest: aBoolean [
-
-	applySkinInstallerOnFirstRequest := aBoolean
-]
-
-{ #category : #'skin - installing / uninstalling' }
 ToSkinManager >> applySkinReinstallIn: anElement [
 
 	self applySkinUninstallerIn: anElement.
@@ -62,12 +55,6 @@ ToSkinManager >> applySkinUninstallerIn: anElement [
 ToSkinManager >> borderBuilder [
 
 	^ self skinContext borderBuilder
-]
-
-{ #category : #'skin - installing / uninstalling' }
-ToSkinManager >> canApplySkinInstallerNow [
-
-	^ skinRequestCount = 1 and: [ applySkinInstallerOnFirstRequest ]
 ]
 
 { #category : #accessing }
@@ -148,8 +135,7 @@ ToSkinManager >> initialize [
 
 	super initialize.
 	userData := IdentityDictionary new.
-	skinRequestCount := 0.
-	self applySkinInstallerOnFirstRequest: false
+	skinRequestCount := 0
 ]
 
 { #category : #'skin - installing / uninstalling' }
@@ -184,7 +170,7 @@ ToSkinManager >> isInstallingSkin [
 { #category : #private }
 ToSkinManager >> onDefaultSkinChangedIn: anElement [
 
-	skinRequestCount := 0.
+	"skinRequestCount := 0."
 	self requestNewSkinIn: anElement
 ]
 
@@ -210,7 +196,7 @@ ToSkinManager >> requestInstallSkinIn: anElement [
 	(as an example during a theme installation). 
 	Thus, applying each request instantly could increase time consuming for nothing **** "
 	space ifNil: [ ^ self ].
-	self canApplySkinInstallerNow ifFalse: [
+	skinRequestCount = 1 ifFalse: [
 			space needSkinInstallPass: true.
 			^ self ].
 	" then apply the installer now "

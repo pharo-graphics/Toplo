@@ -9,7 +9,6 @@ Class {
 		'styleSheet',
 		'skinStateQueue',
 		'textAttributesBuilder',
-		'postponedInstallSkinHandler',
 		'skinInstaller',
 		'skinUninstaller'
 	],
@@ -144,13 +143,6 @@ ToSkinManager >> forceSkinInstaller: aSkinInstaller in: anElement [
 	anElement space needSkinInstallPass: true
 ]
 
-{ #category : #testing }
-ToSkinManager >> hasPostponedInstallSkinHandler [
-
-	
-	^ postponedInstallSkinHandler notNil
-]
-
 { #category : #initialization }
 ToSkinManager >> initialize [ 
 
@@ -203,33 +195,11 @@ ToSkinManager >> onSkinInstallerApplied [
 ]
 
 { #category : #'skin - install / uninstall request' }
-ToSkinManager >> postponeRequestSkinIn: anElement [
-
-	| handler |
-	postponedInstallSkinHandler ifNotNil: [ ^ self ].
-	handler := BlEventHandler new.
-	handler eventClass: ToAddedToSpaceEvent.
-	handler action: [ :evt |
-		evt target removeEventHandler: postponedInstallSkinHandler.
-		postponedInstallSkinHandler := nil.
-		self requestInstallSkinIn: evt target ].
-	postponedInstallSkinHandler := handler.
-	anElement addEventHandler: handler
-]
-
-{ #category : #'skin - install / uninstall request' }
-ToSkinManager >> postponedInstallSkinHandler [
-
-	^ postponedInstallSkinHandler
-]
-
-{ #category : #'skin - install / uninstall request' }
 ToSkinManager >> requestInstallSkinIn: anElement [
 
 	| space |
 	space := anElement space.
-	space ifNil: [ ^ self postponeRequestSkinIn: anElement ].
-	self skinInstaller ifNil: [ "'requestInstallSkinIn: ' trace. anElement traceCr."
+	skinInstaller ifNil: [ 
 			skinRequestCount := skinRequestCount + 1.
 			skinInstaller := ToSkinInstaller new ].
 	" *** Important point: a skin can be installed instantly.
@@ -239,14 +209,15 @@ ToSkinManager >> requestInstallSkinIn: anElement [
 	Because requestInstallSkin can be sent many times 
 	(as an example during a theme installation). 
 	Thus, applying each request instantly could increase time consuming for nothing **** "
+	space ifNil: [ ^ self ].
 	self canApplySkinInstallerNow ifFalse: [
 			space needSkinInstallPass: true.
 			^ self ].
 	" then apply the installer now "
 	" but before, apply the uninstaller if any"
-	self skinUninstaller ifNotNil: [ :u | u applyOn: anElement ].
+	skinUninstaller ifNotNil: [ :u | u applyOn: anElement ].
 	" finally install the skin"
-	self skinInstaller applyOn: anElement
+	skinInstaller applyOn: anElement
 ]
 
 { #category : #'skin - install / uninstall request' }

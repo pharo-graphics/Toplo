@@ -31,7 +31,7 @@ ToSkinnablePropertySlotTest >> testWriteTo [
 	self assert: e backgroundValue isTransparent.
 	" 1 requestSkin (postponed )"
 	e backgroundValue: Color blue.
-	self assert: e skinRequestCount equals: 0.
+	self assert: e skinRequestCount equals: 1.
 	self assert: e backgroundValue paint color equals: Color blue.
 	self assert: e background paint color equals: Color blue.
 	" + 2 requestSkin (#onAddedToSceneGraph is sent 2 times)"
@@ -72,16 +72,12 @@ ToSkinnablePropertySlotTest >> testWriteTo4 [
 	e := ToElementWithSkinnablePropertiesForTest new.
 
 	self assert: e skinManager skinInstaller isNil.
-	self deny: e skinManager hasPostponedInstallSkinHandler.
 	" + 1 requestSkin "
 	e backgroundValue: Color blue.
 	" + 1 requestSkin "
 	e borderValue: Color red.
 	" + 2 requestSkin "
 	self assert: e skinInstalledCount equals: 0.
-	" since e is not attached in space, skin installing is postponer and no new skin installer is instanciated"
-	self assert: e skinManager hasPostponedInstallSkinHandler.
-
 	space root addChild: e.
 	self assert: e skinInstalledCount equals: 0.
 

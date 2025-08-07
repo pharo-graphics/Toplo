@@ -86,7 +86,9 @@ BlElement >> applyUpwardConfiguration [
 { #category : #'*Toplo' }
 BlElement >> borderBuilder [
 
-	^ self skinManager borderBuilder
+	^ self userData
+		  at: #borderBuilder
+		  ifAbsentPut: [ BlBorderBuilder new ]
 ]
 
 { #category : #'*Toplo' }
@@ -107,15 +109,31 @@ BlElement >> closedEventClass [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> defaultRawSkin [
+
+	^ self userData at: #defaultRawSkin ifAbsent: [  ]
+]
+
+{ #category : #'*Toplo' }
 BlElement >> defaultRawSkin: aSkin [
 
-	self ensuredSkinManager setDefaultRawSkin: aSkin in: self
+	self defaultRawSkin = aSkin ifTrue: [ ^ self ].
+	self userData at: #defaultRawSkin put: aSkin.
+	self requestNewSkin 
+]
+
+{ #category : #'*Toplo' }
+BlElement >> defaultSkin [
+
+	^ self userData at: #defaultSkin ifAbsent: [  ]
 ]
 
 { #category : #'*Toplo' }
 BlElement >> defaultSkin: aSkin [
 
-	self ensuredSkinManager setDefaultSkin: aSkin in: self
+	self defaultSkin = aSkin ifTrue: [ ^ self ].
+	self userData at: #defaultSkin put: aSkin.
+	self requestNewSkin
 ]
 
 { #category : #'*Toplo' }
@@ -512,14 +530,6 @@ BlElement >> onRemovedFromItemBarOwner: anItemBar [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> onSkinInstalled: aSkin [
-]
-
-{ #category : #'*Toplo' }
-BlElement >> onSkinUninstalled: aSkin [
-]
-
-{ #category : #'*Toplo' }
 BlElement >> openInInnerWindow [
 
 	| frame |
@@ -762,7 +772,9 @@ BlElement >> styleSheetChain [
 { #category : #'*Toplo' }
 BlElement >> textAttributesBuilder [
 
-	^ self skinManager textAttributesBuilderIn: self
+	^ self userData
+		  at: #textAttributesBuilder
+		  ifAbsentPut: [ self newTextAttributesBuilder ]
 ]
 
 { #category : #'*Toplo' }
@@ -819,6 +831,18 @@ BlElement >> toThemeUninstalled: aTheme [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> tokenPropertyValue: aSymbol [
+	" look-up following child-parent association 
+	for each element, try first to get the property from the local styleStampIndex 
+	"
+
+	self withAllParentsDo: [ :p |
+			p toStyleStore ifNotNil: [ :tst |
+				^ tst tokenPropertyValue: aSymbol from: p ] ].
+	^ nil
+]
+
+{ #category : #'*Toplo' }
 BlElement >> tokenValueNamed: aSymbol [
 
 	self
@@ -860,8 +884,7 @@ BlElement >> valueOfStamp: aSymbol [
 BlElement >> valueOfTokenNamed: aSymbol [
 
 	| found |
-	self skinManagerDo: [ :sm |
-		found := sm tokenPropertyValue: aSymbol from: self ].
+	found := self tokenPropertyValue: aSymbol.
 	found ifNil: [ (ToElementPropertyNotFound name: aSymbol) signal ].
 	^ found
 ]
@@ -877,7 +900,7 @@ BlElement >> whenConfigurationAppliedDo: aValuable [
 { #category : #'*Toplo' }
 BlElement >> withNullSkin [
 
-	self ensuredSkinManager setDefaultSkin: ToNullSkin new in: self
+	self defaultSkin: ToNullSkin new
 ]
 
 { #category : #'*Toplo' }

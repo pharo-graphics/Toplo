@@ -262,7 +262,7 @@ ToElementTest >> testSetSkin [
 		equals: 1.
 
 	" force uninstall->install->initial states "
-	e skinManager setDefaultSkin: (sk := ToRawSkinForTest new) in: e.
+	e defaultSkin: (sk := ToRawSkinForTest new).
 	e skinManager applySkinReinstallIn: e.
 	self
 		assert: (sk receivedCountForClass: ToUninstallSkinEvent)

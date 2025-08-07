@@ -21,7 +21,7 @@ ToRawTheme class >> label [
 { #category : #accessing }
 ToRawTheme >> defaultSkinFor: anElement [
 
-	^ anElement skinManager defaultRawSkin ifNil: [
+	^ anElement defaultRawSkin ifNil: [
 		  super defaultSkinFor: anElement ]
 ]
 

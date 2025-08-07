@@ -19,7 +19,7 @@ ToButterflyTheme class >> label [
 { #category : #accessing }
 ToButterflyTheme >> defaultSkinFor: anElement [
 
-	^ anElement skinManager defaultButterflySkin ifNil: [
+	^ anElement defaultButterflySkin ifNil: [
 		  super defaultSkinFor: anElement ]
 ]
 

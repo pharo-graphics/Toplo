@@ -93,6 +93,13 @@ ToSkinManager >> forceSkinInstaller: aSkinInstaller in: anElement [
 	anElement space needSkinInstallPass: true
 ]
 
+{ #category : #'skin - install / uninstall request' }
+ToSkinManager >> forceSkinUninstaller: aSkinUninstaller in: anElement [
+	"*** private use only for tests *** "
+
+	skinUninstaller := aSkinUninstaller
+]
+
 { #category : #initialization }
 ToSkinManager >> initialize [ 
 
@@ -139,10 +146,16 @@ ToSkinManager >> installedSkinDo: aBlock [
 	aBlock value: self installedSkin
 ]
 
-{ #category : #'skin - install / uninstall request' }
+{ #category : #'skin - installing / uninstalling' }
 ToSkinManager >> onSkinInstallerApplied [
 
 	skinInstaller := nil
+]
+
+{ #category : #'skin - installing / uninstalling' }
+ToSkinManager >> onSkinUninstallerApplied [
+
+	skinUninstaller := nil
 ]
 
 { #category : #'skin - install / uninstall request' }
@@ -198,12 +211,6 @@ ToSkinManager >> requestUninstallSkinRecursivelyIn: anElement [
 
 	anElement withAllChildrenBreadthFirstDo: [ :child |
 		child skinManagerDo: [ :sm | sm requestUninstallSkinIn: child ] ]
-]
-
-{ #category : #'skin - install / uninstall request' }
-ToSkinManager >> setSkinUninstaller: aSkinUninstaller in: anElement [
-
-	skinUninstaller := aSkinUninstaller
 ]
 
 { #category : #'accessing - styleSheet' }

@@ -1,13 +1,6 @@
 Class {
 	#name : #ToFloatOverlay,
 	#superclass : #ToOverlayElement,
-	#instVars : [
-		'margin',
-		'northWest',
-		'northEast',
-		'southWest',
-		'southEast'
-	],
 	#category : #'Toplo-Widget-Float'
 }
 
@@ -29,28 +22,4 @@ ToFloatOverlay >> initialize [
 	super initialize.
 	self layout: self defaultLayout.
 	self elevation: self defaultElevation 
-]
-
-{ #category : #accessing }
-ToFloatOverlay >> northEast [
-
-	^ northEast
-]
-
-{ #category : #accessing }
-ToFloatOverlay >> northWest [
-
-	^ northWest
-]
-
-{ #category : #accessing }
-ToFloatOverlay >> southEast [
-
-	^ southEast
-]
-
-{ #category : #accessing }
-ToFloatOverlay >> southWest [
-
-	^ southWest
 ]

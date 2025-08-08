@@ -2370,16 +2370,15 @@ ToSandBox class >> example_FloatArrowsAraoundACircle [
 
 	floatLayer := ToFloatOverlay new.
 	floatLayer attachToParent: pane.
-	
+
 	circle := ToElement new
 		          extent: 40 asPoint;
 		          yourself.
 	circle geometry: BlCircleGeometry new.
 	circle margin: (BlInsets all: 15).
 	circle constraintsDo: [ :c |
-			c anchors add:
-				(c anchors bottomRightAnchor on: c anchors parent bottomRightAnchor - 50) ].
-	circle border: Color lightGray.
+			c anchors add: (c anchors bottomRightAnchor on:
+					 c anchors parent bottomRightAnchor - 50) ].
 	floatLayer addChild: circle.
 	{
 		('up' -> 0).
@@ -2387,9 +2386,9 @@ ToSandBox class >> example_FloatArrowsAraoundACircle [
 		('down' -> 180).
 		('left' -> 270) } do: [ :assoc |
 			| but |
-			but := (ToIconicButton new iconImage:
+			but := ToIconicButton new iconImage:
 				       (ToMaterialDesignIconProvider innerImageNamed:
-					        'outlined_keyboardarrow' , assoc key)) .
+					        'outlined_keyboardarrow' , assoc key).
 			but extent: 20 asPoint.
 			but := but asFloatElement.
 			but geometry: BlCircleGeometry new.
@@ -2404,7 +2403,7 @@ ToSandBox class >> example_FloatArrowsAraoundACircle [
 { #category : #float }
 ToSandBox class >> example_Floats [
 
-	| rightBtn leftBtn pane floatLayer textField floatContainer |
+	| rightBtn leftBtn pane floatLayer textField floatContainer floatContainerHolder |
 	rightBtn := ToIconicButton new iconImage:
 		            (ToMaterialDesignIconProvider innerImageNamed:
 			             'outlined_keyboardarrowright').
@@ -2422,16 +2421,16 @@ ToSandBox class >> example_Floats [
 
 	floatLayer := ToFloatOverlay new.
 	floatLayer attachToParent: pane.
-	floatContainer := ToFloatContainer new.
+	floatContainer := ToElement new.
+	floatContainer layout: BlLinearLayout horizontal.
 	floatContainer addChild: textField.
 	floatContainer addChild: leftBtn.
 	floatContainer addChild: rightBtn.
-	floatContainer constraintsDo: [ :c |
-			c anchors add:
-				(c anchors rightAnchor on: c anchors parent rightAnchor - 10).
-			c anchors add:
-				(c anchors bottomAnchor on: c anchors parent bottomAnchor - 10) ].
-	floatLayer addChild: floatContainer.
+	floatContainerHolder := floatContainer asFloatElement.
+	floatContainerHolder constraintsDo: [ :c |
+			c anchors add: (c anchors bottomRightAnchor on:
+					 c anchors parent bottomRightAnchor - (10 @ 10)) ].
+	floatLayer addChild: floatContainerHolder.
 
 	pane openInInnerWindow
 ]
@@ -3099,7 +3098,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 { #category : #float }
 ToSandBox class >> example_ListWithFloatButtons [
 
-	| floatLayer floatContainer list addBtn removeBtn floatAdd floatRemove |
+	| floatLayer list addBtn removeBtn floatAdd floatRemove |
 	list := self example_ListWithEditableAndContextMenu.
 	addBtn := ToIconicButton new iconImage:
 		          (ToMaterialDesignIconProvider innerImageNamed:
@@ -3124,26 +3123,28 @@ ToSandBox class >> example_ListWithFloatButtons [
 	floatAdd geometry: BlCircleGeometry new.
 	floatRemove geometry: BlCircleGeometry new.
 
-	floatRemove visibility: BlVisibility hidden.
+	floatRemove visibility: BlVisibility gone.
 
 	list
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent
 		do: [ :evt |
 				floatRemove visibility: (evt selectedIndexes
-						 ifEmpty: [ BlVisibility hidden ]
+						 ifEmpty: [ BlVisibility gone ]
 						 ifNotEmpty: [ BlVisibility visible ]) ].
 
 	floatLayer := ToFloatOverlay new.
 	floatLayer attachToParent: list.
 
-	floatContainer := ToFloatContainer new.
-	floatContainer addChild: floatRemove.
-	floatContainer addChild: floatAdd.
-	floatContainer constraintsDo: [ :c |
+	floatAdd constraintsDo: [ :c |
+			c anchors add: (c anchors bottomRightAnchor on:
+					 c anchors parent bottomRightAnchor - 20 asPoint) ].
+	floatRemove constraintsDo: [ :c |
 			c anchors add:
 				(c anchors bottomRightAnchor on:
-					 c anchors parent bottomRightAnchor) ].
-	floatLayer addChild: floatContainer.
+					 (floatAdd bottomLeftAnchor - (5 @ 0))) ].
+	
+	floatLayer addChild: floatAdd.
+	floatLayer addChild: floatRemove.
 ]
 
 { #category : #list }
@@ -5584,6 +5585,30 @@ ToSandBox class >> example_WithSeparator [
 	menu addItem: (ToMenuItem new label: (ToLabel text: 'Close')).
 	container pane addChild: menu.
 	container openInSpace
+]
+
+{ #category : #badge }
+ToSandBox class >> example_badgeOnAButton [
+
+	| badge btn |
+	badge := ToNumericalBadge new counter: 22.
+	btn := ToButton new labelText: 'Button'.
+	btn addChild: badge.
+	btn position: 100 asPoint.
+	btn openInSpace
+]
+
+{ #category : #badge }
+ToSandBox class >> example_badgeOnAnElement [
+
+	| badge btn |
+	badge := ToNumericalBadge new counter: 22.
+	btn := ToElement new.
+	btn extent: 100 asPoint.
+	btn position: 100 asPoint.
+	btn border: Color black.
+	btn addChild: badge.
+	btn openInSpace
 ]
 
 { #category : #bar }

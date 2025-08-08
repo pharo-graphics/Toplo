@@ -739,15 +739,6 @@ BlElement >> skinUninstaller [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> skinUninstaller: aSkinUninstaller [
-
-	self
-		deprecated: 'Please delegate to the skinManager instead'
-		transformWith: '`@receiver skinUninstaller: `@arg' -> '`@receiver skinManager setSkinUninstaller: `@arg in: `@receiver'.
-	self skinManager setSkinUninstaller: aSkinUninstaller in: self
-]
-
-{ #category : #'*Toplo' }
 BlElement >> styleSheet [
 
 	self skinManagerDo: [ :sm | ^ sm styleSheet  ].

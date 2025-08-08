@@ -25,8 +25,12 @@ ToFloatHolder >> initialize [
 	self elevation: self defaultElevation
 ]
 
-{ #category : #'instance creation' }
-ToFloatHolder >> newRawSkin [ 
+{ #category : #skin }
+ToFloatHolder >> installRawStyle [
 
-	^ ToFloatHolderSkin new
+	super installRawStyle.
+
+	self background: (self valueOfTokenNamed: #'background-color').
+	self effect:
+		(BlGaussianShadowEffect color: Color gray width: 8 offset: 1 @ 1)
 ]

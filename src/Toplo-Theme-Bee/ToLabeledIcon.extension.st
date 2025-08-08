@@ -1,12 +1,6 @@
 Extension { #name : #ToLabeledIcon }
 
 { #category : #'*Toplo-Theme-Bee' }
-ToLabeledIcon >> defaultBeeStyleStamps [
-
-	^ #( #'labeled-icon' )
-]
-
-{ #category : #'*Toplo-Theme-Bee' }
 ToLabeledIcon >> installBeeStyle [
 
 	super installBeeStyle.

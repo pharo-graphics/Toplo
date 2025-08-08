@@ -13,17 +13,15 @@ ToSkinDemoStyleSheetTest >> testBasicRuleChangingBackgroundWhenInstalled [
 	theme styleSheet addWritableProperty:
 		(ToFeatureProperty name: #background).
 	theme styleSheet select: ToElement asTypeSelector style: [ :sr |
-		sr
-			when: ToInstallSkinEvent
-			write: (theme property: #background)
-			with: [ :e | Color red ] ].
+			sr
+				when: ToInstallSkinEvent
+				write: (theme property: #background)
+				with: [ :e | Color red ] ].
 
 	elem := ToElement new.
 	elem background: Color blue.
 	space toTheme: theme.
 	space root addChild: elem.
-	self assert: elem background paint color equals: Color blue.
-	self waitTestingSpaces.
 	self assert: elem background paint color equals: Color red
 ]
 
@@ -201,14 +199,15 @@ ToSkinDemoStyleSheetTest >> testRuleNestedInOtherRuleDependsOnStamp [
 	theme styleSheet addWritableProperty:
 		(ToFeatureProperty name: #background).
 	theme styleSheet select: ToElement asTypeSelector style: [ :sr |
-		sr
-			when: ToInstallSkinEvent
-			write: (theme property: #background)
-			with: [ :e | Color red ].
-		sr select: #stamped asStampSelector style: [ :stampSr |
-			stampSr when: ToInstallSkinEvent
-			write: (theme property: #background)
-			with: [ :e | Color green ] ]. ].
+			sr
+				when: ToInstallSkinEvent
+				write: (theme property: #background)
+				with: [ :e | Color red ].
+			sr select: #stamped asStampSelector style: [ :stampSr |
+					stampSr
+						when: ToInstallSkinEvent
+						write: (theme property: #background)
+						with: [ :e | Color green ] ] ].
 
 	elem := ToElement new.
 	elem background: Color blue.
@@ -217,9 +216,6 @@ ToSkinDemoStyleSheetTest >> testRuleNestedInOtherRuleDependsOnStamp [
 	space toTheme: theme.
 	space root addChild: elem.
 	space root addChild: stampedElem.
-	self assert: elem background paint color equals: Color blue.
-	self assert: stampedElem background paint color equals: Color blue.
-	self waitTestingSpaces.
 	self assert: elem background paint color equals: Color red.
-	self assert: stampedElem background paint color equals: Color green.
+	self assert: stampedElem background paint color equals: Color green
 ]

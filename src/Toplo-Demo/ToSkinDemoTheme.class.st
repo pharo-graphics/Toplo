@@ -23,7 +23,7 @@ ToSkinDemoTheme class >> defaultTokenProperties [
 ]
 
 { #category : #accessing }
-ToSkinDemoTheme >> newSkinInstanceFor: anElement [ 
+ToSkinDemoTheme >> newSkinFor: anElement [ 
 
 	^ anElement newSkinDemoSkin 
 ]

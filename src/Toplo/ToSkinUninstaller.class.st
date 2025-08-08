@@ -10,5 +10,5 @@ ToSkinUninstaller >> applyOn: anElement [
 
 	anElement skinManagerDo: [ :sm |
 		sm uninstallSkinIn: anElement.
-		sm setSkinUninstaller: nil in: anElement ]
+		sm onSkinUninstallerApplied ]
 ]

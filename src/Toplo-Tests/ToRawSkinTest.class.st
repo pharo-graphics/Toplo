@@ -103,7 +103,9 @@ ToRawSkinTest >> testOnInstalledInSendsInstallRawStyle [
 	e := ToElementForRawSkinTest new.
 	space root addChild: e.
 	skin := ToRawSkin new.
-	self deny: e styleInstalled.
+	self assert: e styleInstalled.
+	skin onUninstalledIn: e.
+	self assert: e styleUninstalled.
 	skin onInstalledIn: e.
 	self assert: e styleInstalled.
 ]

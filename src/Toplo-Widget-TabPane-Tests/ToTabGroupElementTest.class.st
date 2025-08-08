@@ -237,5 +237,6 @@ ToTabGroupElementTest >> withTwoTabItems [
 			 id: #second;
 			 labelText: 'Second';
 			 yourself).
+	tabGroup forceLayout
 
 ]

@@ -449,6 +449,7 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved [
 	list := self listWithRemoveRowButtons.
 	list dataAccessor addAll: (1 to: 2).
 	space applyAllSkinInstallers.
+	space root forceLayout.
 	self waitTestingSpaces.
 	self assert: list dataAccessor size equals: 2.
 	remButtons := (list allChildrenBreadthFirstSelect: [ :child |
@@ -457,6 +458,7 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved [
 	fillers := (list selectChildrenWithId: #filler) asOrderedCollection.
 	BlSpace simulateMouseDownOn: fillers first.
 	BlSpace simulateMouseUpOn: fillers first.
+	self waitTestingSpaces.
 	self assert: list dataAccessor size equals: 2.
 	self assert: list selectionModel selectedIndexes equals: { 1 }.
 	self

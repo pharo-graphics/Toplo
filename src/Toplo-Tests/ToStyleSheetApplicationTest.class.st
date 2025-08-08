@@ -154,8 +154,6 @@ ToStyleSheetApplicationTest >> testButtonSkin0 [
 				with: [ :e | e valueOfTokenNamed: #'color-error-pressed' ] ].
 
 	button := ToButton new.
-	button applySkinInstallerOnFirstRequest: false.
-
 	space toTheme: theme.
 	space root addChild: button.
 	button addStamp: #button.

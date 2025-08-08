@@ -28,7 +28,7 @@ ToNullSkinTest >> testWithASkinInstalledBefore [
 	self assert: w skinManager installedSkin isNil.
 	w ensuredSkinManager requestInstallSkinIn: w.
 	BlSpace new root addChild: w.
-	self assert: w skinManager skinInstaller notNil.
+	self assert: w skinManager skinInstaller isNil.
 	w skinManager applySkinReinstallIn: w.
 	installedSkin := w skinManager installedSkin.
 	self assert: installedSkin notNil.
@@ -59,7 +59,7 @@ ToNullSkinTest >> testWithNullSkin [
 	w := ToElement new.
 	w withNullSkin.
 	BlSpace new root addChild: w.
-	self assert: w skinManager skinInstaller notNil.
+	self assert: w skinManager skinInstaller isNil.
 	w skinManager applySkinReinstallIn: w.
 	self assert: w skinManager installedSkin isNullSkin.
 

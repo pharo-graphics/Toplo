@@ -22,6 +22,5 @@ ToAbstractListNode >> defaultLayout [
 ToAbstractListNode >> initialize [
 
 	super initialize.
-	self applySkinInstallerOnFirstRequest: true.
 	self layout: self defaultLayout
 ]

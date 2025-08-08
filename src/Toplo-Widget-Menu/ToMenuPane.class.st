@@ -10,6 +10,22 @@ Class {
 	#category : #'Toplo-Widget-Menu-Pane'
 }
 
+{ #category : #factory }
+ToMenuPane class >> horizontal [
+
+	^ self new
+		  beHorizontal;
+		  yourself
+]
+
+{ #category : #factory }
+ToMenuPane class >> vertical [
+
+	^ self new
+		  beVertical;
+		  yourself
+]
+
 { #category : #adding }
 ToMenuPane >> addFiller [
 

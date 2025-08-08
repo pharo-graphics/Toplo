@@ -8,7 +8,7 @@ Class {
 ToThemeTest >> testThemeChanged [
 
 	| e |
-	e := ToElementForThemeTest new.
+	e := ToElement new.
 	e defaultSkin: ToRawSkinForThemeTest new.
 	space root addChild: e.
 	self waitTestingSpaces.
@@ -24,7 +24,7 @@ ToThemeTest >> testThemeChanged [
 ToThemeTest >> testThemeChangedWithStyleSheetTheme [
 
 	| e |
-	e := ToElementForThemeTest new.
+	e := ToElement new.
 	e defaultRawSkin: ToRawSkinForThemeTest new.
 	space root addChild: e.
 	self waitTestingSpaces.
@@ -59,20 +59,17 @@ ToThemeTest >> testThemeChangedWithStyleSheetTheme3 [
 
 	| e |
 	e := ToLabeledIcon new.
-	e applySkinInstallerOnFirstRequest: false.
 	space toTheme: ToBeeDarkTheme new.
 	space root addChild: e.
 	e addStamp: #primary.
 	e labelText: 'Default button'.
-	self assert:
-		(e skinManager installedSkin) isNil.
+	self assert: e skinManager installedSkin notNil.
 	" because of the token properties installation -> have a skin installer/uninstaller "
 	self assert: e skinManager skinInstaller notNil.
 	self applyAllEnqueuedStates.
 	self waitTestingSpaces.
 	self assert: e skinManager skinInstaller isNil.
-	self assert:
-		(e skinManager installedSkin) notNil.
+	self assert: e skinManager installedSkin notNil.
 	"self assert: e skinManager skinUninstaller isNil."
 	self applyAllEnqueuedStates.
 	self waitTestingSpaces.

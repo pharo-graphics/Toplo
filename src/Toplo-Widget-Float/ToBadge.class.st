@@ -15,7 +15,8 @@ ToBadge class >> initializeToploThemeFor: aTheme [
 	aTheme addTokenNamed: #'badge-background' withValue: Color red.
 	aTheme addTokenNamed: #'badge-geometry' withValue: BlCircleGeometry new.
 	aTheme addTokenNamed: #'badge-font-size' withValue: 10.
-	aTheme addTokenNamed: #'badge-text-foreground' withValue: Color white
+	aTheme addTokenNamed: #'badge-text-foreground' withValue: Color white.
+	aTheme addTokenNamed: #'badge-lag' withValue: 8
 ]
 
 { #category : #initialization }

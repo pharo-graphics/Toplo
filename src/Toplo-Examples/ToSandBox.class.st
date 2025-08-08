@@ -5590,12 +5590,18 @@ ToSandBox class >> example_WithSeparator [
 { #category : #badge }
 ToSandBox class >> example_badgeOnAButton [
 
-	| badge btn |
-	badge := ToNumericalBadge new counter: 22.
+	| badge btn space overlay |
+	space := BlSpace new.
+	badge := ToNumericalBadge new.
 	btn := ToButton new labelText: 'Button'.
-	btn addChild: badge.
+	overlay := ToBadgeOverlay new.
+	overlay attachTo: btn.
+	overlay addChild: badge.
+	btn clickAction: [ overlay inspect ].
 	btn position: 100 asPoint.
-	btn openInSpace
+	space root addChild: btn.
+	space root addChild: overlay.
+	space show
 ]
 
 { #category : #badge }

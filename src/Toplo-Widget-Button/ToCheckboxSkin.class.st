@@ -63,7 +63,7 @@ ToCheckboxSkin >> indeterminateSkinEvent: anEvent [
 		e icon
 			innerImage: (e valueOfTokenNamed: 'checkbox-indeterminate-image');
 			innerImageColor: (e valueOfTokenNamed: #'color-primary');
-			size: (e valueOfTokenNamed: #'checkable-icon-size') ]
+			extent: (e valueOfTokenNamed: #'checkable-icon-size') ]
 ]
 
 { #category : #'event handling' }

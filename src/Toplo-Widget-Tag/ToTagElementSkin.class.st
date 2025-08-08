@@ -12,7 +12,7 @@ ToTagElementSkin >> disabledSkinEvent: anEvent [
 		e border: BlBorder empty.
 		e background: (e valueOfTokenNamed: #'color-bg-container-disabled').
 		e iconDo: [ :ic |
-			ic formColor: (e valueOfTokenNamed: #'color-text-disabled') ].
+			ic innerImageColor: (e valueOfTokenNamed: #'color-text-disabled') ].
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text-disabled') ] ]
 ]

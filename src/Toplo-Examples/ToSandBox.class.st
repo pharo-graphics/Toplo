@@ -3098,6 +3098,59 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 { #category : #float }
 ToSandBox class >> example_ListWithFloatButtons [
 
+	| floatContainer list addBtn removeBtn floatAdd floatRemove |
+	list := self example_ListWithEditableAndContextMenu.
+	addBtn := ToIconicButton new iconImage:
+		          (ToMaterialDesignIconProvider innerImageNamed:
+			           'outlined_addcircleoutline').
+	addBtn extent: 25 asPoint.
+	removeBtn := ToIconicButton new iconImage:
+		             (ToMaterialDesignIconProvider innerImageNamed:
+			              'outlined_removecircleoutline').
+	removeBtn extent: 25 asPoint.
+
+	removeBtn clickAction: [
+			list selecter selectedIndexes reverseDo: [ :idx |
+				list dataAccessor removeAt: idx ] ].
+
+	addBtn clickAction: [
+			list dataAccessor addFirst:
+				String loremIpsum substrings first , ' (inserted as first item)' ].
+
+	floatAdd := addBtn asFloatElement.
+	floatRemove := removeBtn asFloatElement.
+
+	floatAdd geometry: BlCircleGeometry new.
+	floatRemove geometry: BlCircleGeometry new.
+
+	floatRemove visibility: BlVisibility hidden.
+
+	list
+		addEventHandlerOn: ToListPrimarySelectionChangedEvent
+		do: [ :evt |
+				floatRemove visibility: (evt selectedIndexes
+						 ifEmpty: [ BlVisibility hidden ]
+						 ifNotEmpty: [ BlVisibility visible ]) ].
+
+	floatContainer := ToElement new.
+	floatContainer layout: BlLinearLayout horizontal.
+	floatContainer fitContent.
+	floatContainer layout cellSpacing: 5.
+	floatContainer preventMouseEvents.
+	floatContainer elevation: (BlRelativeElevation elevation: 16).
+	floatContainer constraintsDo: [ :c | 
+		c ignoreByLayout.
+		c anchors add: (c anchors bottomRightAnchor on:
+					 c anchors parent bottomRightAnchor - (10@10)) ].
+	list addChild: floatContainer.
+	
+	floatContainer addChild: floatRemove.
+	floatContainer addChild: floatAdd.
+]
+
+{ #category : #float }
+ToSandBox class >> example_ListWithFloatButtons2 [
+
 	| floatLayer list addBtn removeBtn floatAdd floatRemove |
 	list := self example_ListWithEditableAndContextMenu.
 	addBtn := ToIconicButton new iconImage:
@@ -3133,18 +3186,20 @@ ToSandBox class >> example_ListWithFloatButtons [
 						 ifNotEmpty: [ BlVisibility visible ]) ].
 
 	floatLayer := ToFloatOverlay new.
+	floatLayer padding: (BlInsets all: 10).
 	floatLayer attachToParent: list.
 
 	floatAdd constraintsDo: [ :c |
-			c anchors add: (c anchors bottomRightAnchor on:
-					 c anchors parent bottomRightAnchor - 20 asPoint) ].
+			c anchors add:
+				(c anchors bottomRightAnchor on:
+					 c anchors parent bottomRightAnchor) ].
 	floatRemove constraintsDo: [ :c |
 			c anchors add:
 				(c anchors bottomRightAnchor on:
-					 (floatAdd bottomLeftAnchor - (5 @ 0))) ].
-	
+					 floatAdd bottomLeftAnchor - (5 @ 0)) ].
+
 	floatLayer addChild: floatAdd.
-	floatLayer addChild: floatRemove.
+	floatLayer addChild: floatRemove
 ]
 
 { #category : #list }
@@ -5590,31 +5645,45 @@ ToSandBox class >> example_WithSeparator [
 { #category : #badge }
 ToSandBox class >> example_badgeOnAButton [
 
-	| badge btn space overlay |
+	| badge btn space pane subPane1 subPane2 |
 	space := BlSpace new.
+	pane := ToPane vertical.
+	pane position: 100 asPoint.
+	subPane1 := ToPane new extent: 100 asPoint.
+	subPane2 := ToPane horizontal.
+	pane addChildren: {
+			subPane1.
+			subPane2 }.
 	badge := ToNumericalBadge new.
 	btn := ToButton new labelText: 'Button'.
-	overlay := ToBadgeOverlay new.
-	overlay attachTo: btn.
-	overlay addChild: badge.
-	btn clickAction: [ overlay inspect ].
-	btn position: 100 asPoint.
-	space root addChild: btn.
-	space root addChild: overlay.
+	btn clickAction: [ space inspect ].
+	badge constraints anchors referenceElement: btn.
+	subPane2 addChild: btn.
+	pane addChild: badge.
+	space root addChild: pane.
 	space show
 ]
 
 { #category : #badge }
 ToSandBox class >> example_badgeOnAnElement [
 
-	| badge btn |
-	badge := ToNumericalBadge new counter: 22.
-	btn := ToElement new.
+	| badge btn space btnPart |
+	badge := ToNumericalBadge new count: 2222.
+	btn := ToElement new layout: BlBasicLayout new.
 	btn extent: 100 asPoint.
 	btn position: 100 asPoint.
 	btn border: Color black.
-	btn addChild: badge.
-	btn openInSpace
+	btnPart := ToElement new.
+	btnPart extent: 40 asPoint.
+	btnPart position: 80@20.
+	btnPart border: Color red.
+	btn addChild: btnPart.
+	badge constraints anchors referenceElement: btnPart.
+	space := BlSpace new.
+	space root addChild: badge.
+	space root addChild: btn.
+	space show
+
 ]
 
 { #category : #bar }

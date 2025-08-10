@@ -4,27 +4,33 @@ Class {
 	#traits : 'TObservable',
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
-		'#counter => ObservableSlot'
+		'#count => ObservableSlot',
+		'#overflowCount => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-Float'
 }
 
 { #category : #accessing }
-ToNumericalBadge >> counter [
+ToNumericalBadge >> count [
 
-	^ counter
+	^ count ifNil: [ count := 0 ]
 ]
 
 { #category : #accessing }
-ToNumericalBadge >> counter: aNumber [
+ToNumericalBadge >> count: aNumber [
 
-	counter := aNumber
+	count := aNumber
 ]
 
 { #category : #'private - accessing' }
-ToNumericalBadge >> counterChanged [
+ToNumericalBadge >> countChanged [
 
-	label text: counter asString.
+	| n t |
+	n := self count min: self overflowCount.
+	t := String streamContents: [ :str |
+			     str nextPutAll: n asString.
+			     count > overflowCount ifTrue: [ str nextPut: $+ ] ].
+	label text: t
 ]
 
 { #category : #accessing }
@@ -36,7 +42,7 @@ ToNumericalBadge >> decrement [
 { #category : #accessing }
 ToNumericalBadge >> decrementBy: aNumber [
 
-	counter := counter - aNumber
+	count := self count - aNumber
 ]
 
 { #category : #accessing }
@@ -48,7 +54,7 @@ ToNumericalBadge >> increment [
 { #category : #accessing }
 ToNumericalBadge >> incrementBy: aNumber [
 
-	counter := counter + aNumber
+	count := self count + aNumber
 ]
 
 { #category : #initialization }
@@ -56,6 +62,23 @@ ToNumericalBadge >> initialize [
 
 	super initialize.
 	self class initializeSlots: self.
-	self property: #counter whenChangedDo: [ self counterChanged ].
-	self counter: 0
+	self property: #count whenChangedDo: [ self countChanged ].
+	self property: #overflowCount whenChangedDo: [ self countChanged ].
+	self tooltipBuilder: [ :window :request |
+			window root addChild: ((ToLabel text: self count asString)
+					 defaultRawSkin: ToLabelInTooltipSkin new;
+					 yourself) ].
+	self countChanged
+]
+
+{ #category : #accessing }
+ToNumericalBadge >> overflowCount [
+
+	^ overflowCount ifNil: [ overflowCount := 99 ]
+]
+
+{ #category : #accessing }
+ToNumericalBadge >> overflowCount: aNumber [
+
+	overflowCount := aNumber
 ]

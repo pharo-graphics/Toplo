@@ -22,13 +22,7 @@ ToWidgetLink >> addedHandler: anEventHandler in: aTarget for: aReceiver [
 		addEventHandlerOn: ToWidgetLinkDissociateEvent
 		doOnce: [ :event |
 				aTarget removeEventHandler: anEventHandler.
-				aReceiver ifNotNil: [ aReceiver removeLinkedAction: self ] ]
-]
-
-{ #category : #initialization }
-ToWidgetLink >> configureToUpdateLinkedObject: anObject from: aValueProvider [
-
-	self subclassResponsibility 
+				aReceiver ifNotNil: [ aReceiver removeWidgetLink: self ] ]
 ]
 
 { #category : #'event management accessing' }
@@ -40,63 +34,10 @@ ToWidgetLink >> eventDispatcher [
 		  eventDispatcher := BlDirectEventDispatcher on: self ]
 ]
 
-{ #category : #running }
-ToWidgetLink >> launchWithLinkedObject: anObjectOrValuable from: aTarget onEvent: anEvent withValue: aValue [
+{ #category : #initialization }
+ToWidgetLink >> link: anObjectOrValuable withWidget: aCheckable [
 
-	| space action |
-	aTarget isDisabled ifTrue: [ ^ self ].
-	action := [
-	          self
-		          runWithLinkedObject: anObjectOrValuable
-		          from: aTarget
-		          onEvent: anEvent
-		          withValue: aValue ].
-	space := aTarget space.
-	space
-		ifNil: [ aTarget enqueueTask: (BlTaskAction new action: action) ]
-		ifNotNil: [ action value ]
-]
-
-{ #category : #running }
-ToWidgetLink >> onActionRunnedDo: aValuable [
-
-	self addedHandler:
-		(self addEventHandlerOn: ToLinkActionRunnedEvent do: [ :evt |
-			 aValuable
-				 cull: evt sourceEvent
-				 cull: evt linkedObject
-				 cull: evt changedValue ])
-]
-
-{ #category : #running }
-ToWidgetLink >> run [
-
-	self dispatchEvent: ToRunLinkActionRequest new
-]
-
-{ #category : #running }
-ToWidgetLink >> runWithEvent: anEvent [
-
-	self dispatchEvent: (ToRunLinkActionRequest new
-			 sourceEvent: anEvent;
-			 yourself)
-]
-
-{ #category : #running }
-ToWidgetLink >> runWithLinkedObject: anObject from: aTarget onEvent: anEvent withValue: aValue [
-
-	| space time evt |
-	space := aTarget space.
-	time := space ifNotNil: [ :sp | sp time ].
-	evt := ToLinkActionRunnedEvent new
-		       fillFromTime: time;
-		       linkedObject: anObject;
-		       sourceEvent: anEvent;
-		       changedValue: aValue;
-		       yourself.
-	self dispatchEvent: evt.
-	aTarget = self ifTrue: [ ^ self ].
-	aTarget fireEvent: evt copy
+	self subclassResponsibility 
 ]
 
 { #category : #initialization }

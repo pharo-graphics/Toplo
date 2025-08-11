@@ -7,24 +7,62 @@ Class {
 	#category : #'Toplo-Core-WidgetLink'
 }
 
-{ #category : #initialization }
-ToActionLink >> link: aTarget with: anObject action: aValuable [
+{ #category : #accessing }
+ToActionLink >> action: anAction [
 
-	action := aValuable.
-	self configureToUpdateLinkedObject: anObject from: aTarget
+	action := anAction
 ]
 
 { #category : #running }
-ToActionLink >> runWithLinkedObject: anObjectOrValuable from: aTarget onEvent: anEvent withValue: aValue [
+ToActionLink >> onActionRunnedDo: aValuable [
 
-	| linked |
+	self addedHandler:
+		(self addEventHandlerOn: ToLinkActionRunnedEvent do: [ :evt |
+			 aValuable
+				 cull: evt sourceEvent
+				 cull: evt linkedObject
+				 cull: evt changedValue ])
+]
+
+{ #category : #running }
+ToActionLink >> onRunLinkActionRequest: anEvent withLinkedObject: anObjectOrValuable fromWidget: aTarget withValue: aValue [
+
+	| runnedBlock linked |
+	aTarget isDisabled ifTrue: [ ^ self ].
 	linked := anObjectOrValuable isBlock
 		          ifTrue: [ anObjectOrValuable cull: aTarget ]
 		          ifFalse: [ anObjectOrValuable ].
-	action cull: anEvent cull: linked cull: aValue.
-	super
-		runWithLinkedObject: linked
-		from: aTarget
-		onEvent: anEvent
-		withValue: aValue
+	runnedBlock := [
+		               | space time evt |
+		               action
+			               cull: anEvent sourceEvent
+			               cull: linked
+			               cull: aValue.
+		               space := aTarget space.
+		               time := space ifNotNil: [ :sp | sp time ].
+		               evt := ToLinkActionRunnedEvent new
+			                      fillFromTime: time;
+			                      linkedObject: anObjectOrValuable;
+			                      sourceEvent: anEvent sourceEvent;
+			                      changedValue: aValue;
+			                      yourself.
+		               self dispatchEvent: evt.
+		               aTarget fireEvent: evt copy ].
+	aTarget space
+		ifNil: [ aTarget inUIProcessDo: runnedBlock ]
+		ifNotNil: [ runnedBlock value ]
+]
+
+{ #category : #running }
+ToActionLink >> run [
+
+	self dispatchEvent: ToRunLinkActionRequest new
+]
+
+{ #category : #running }
+ToActionLink >> runWithEvent: anEvent [
+
+	self dispatchEvent: (ToRunLinkActionRequest new
+			 sourceEvent: anEvent;
+			 yourself)
 ]

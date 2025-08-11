@@ -9,15 +9,17 @@ Class {
 }
 
 { #category : #initialization }
-ToBadge class >> initializeToploThemeFor: aTheme [
+ToBadge class >> initializeRawToploTheme: aTheme [
 
-	<toploThemeInstaller>
-	aTheme addTokenNamed: #'badge-size' withValue: 16 asPoint.
+	<toploThemeInstallerFor: #ToTheme>
+	aTheme addTokenNamed: #'badge-min-width' withValue: 20.
 	aTheme addTokenNamed: #'badge-background' withValue: Color red.
-	aTheme addTokenNamed: #'badge-geometry' withValue: (BlRoundedRectangleGeometry  cornerRadius: 8).
-	aTheme addTokenNamed: #'badge-font-size' withValue: 10.
+	aTheme
+		addTokenNamed: #'badge-geometry'
+		withValue: (BlRoundedRectangleGeometry cornerRadius: 10).
+	aTheme addTokenNamed: #'badge-font-size' withValue: 12.
 	aTheme addTokenNamed: #'badge-text-foreground' withValue: Color white.
-	aTheme addTokenNamed: #'badge-lag' withValue: 8
+	aTheme addTokenNamed: #'badge-offset' withValue: 10 @ -10
 ]
 
 { #category : #initialization }
@@ -39,7 +41,6 @@ ToBadge >> initialize [
 			c frame vertical alignCenter ].
 	self addChild: label.
 	self fitContent.
-	self minWidth: 16.
 	self padding: (BlInsets all: 2).
 	self setUpAnchors.
 	self tooltipBuilder: [ :window :request |
@@ -52,11 +53,12 @@ ToBadge >> initialize [
 ToBadge >> installRawStyle [
 
 	super installRawStyle.
-	"self extent: (self valueOfTokenNamed: #'badge-size')."
+	self minWidth: (self valueOfTokenNamed: #'badge-min-width').
 	self background: (self valueOfTokenNamed: #'badge-background').	
 	self geometry: (self valueOfTokenNamed: #'badge-geometry').
 	self addTokenNamed: #'font-size' withValue: (self valueOfTokenNamed: #'badge-font-size').
 	self addTokenNamed: #'color-text' withValue: (self valueOfTokenNamed: #'badge-text-foreground').
+	self offset: (self valueOfTokenNamed: #'badge-offset').
 ]
 
 { #category : #accessing }

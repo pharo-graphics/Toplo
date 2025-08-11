@@ -5670,7 +5670,7 @@ ToSandBox class >> example_badgeOnAnElement [
 	| badge btn space btnPart |
 	badge := ToNumericalBadge new count: 2222.
 	btn := ToElement new layout: BlBasicLayout new.
-	btn extent: 100 asPoint.
+	btn extent: 150 asPoint.
 	btn position: 100 asPoint.
 	btn border: Color black.
 	btnPart := ToElement new.
@@ -5840,9 +5840,9 @@ ToSandBox class >> example_clickAction [
 	| pane e action |
 	pane := ToPane vertical.
 	e := ToElement new.
-	e size: 50 asPoint.
+	e extent: 50 asPoint.
 	e background: Color blue.
-	action := e clickAction: [ :evt | evt traceCr ].
+	action := e newClickAction: [ :evt | evt traceCr ].
 	e addEventHandlerOn: BlClickEvent do: [ :event |
 			action run.
 			action runWithEvent: event ].
@@ -6541,22 +6541,21 @@ ToSandBox class >> example_linkClickAction [
 	| pane e |
 	pane := ToPane vertical.
 	e := ToElement new.
-	e size: 50 asPoint.
+	e extent: 50 asPoint.
 	e background: Color blue.
 	e
 		addEventHandlerOn: BlClickEvent
-		do: [ :event | e linkedActions do: [ :action | action run ] ].
+		do: [ :event | e widgetLinks do: [ :action | action run ] ].
 	pane addChild: e.
 	pane addChild: (ToButton new
 			 labelText: 'List actions on Transcript';
-			 clickAction: [ e linkedActions traceCr ]).
+			 clickAction: [ e widgetLinks traceCr ]).
 	pane addChild: (ToButton new
 			 labelText: 'Link a new action';
 			 clickAction: [ e linkClickAction: [ :evt | evt traceCr ] ]).
 	pane addChild: (ToButton new
 			 labelText: 'Unlink all actions';
-			 clickAction: [
-				 e unlinkAllActions ]).
+			 clickAction: [ e unlinkAllWidgetLinks ]).
 	pane openInSpace
 ]
 

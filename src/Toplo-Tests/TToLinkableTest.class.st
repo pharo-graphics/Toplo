@@ -19,15 +19,15 @@ TToLinkableTest >> setUp [
 ]
 
 { #category : #tests }
-TToLinkableTest >> testAddLinkedAction [
+TToLinkableTest >> testAddWidgetLink [
 
 	| action |
 	action := element newClickAction: [ :evt |  ].
-	self assert: element linkedActions size equals: 0.
-	element addLinkedAction: action.
-	self assert: element linkedActions size equals: 1.
-	element addLinkedAction: action.
-	self assert: element linkedActions size equals: 1.
+	self assert: element widgetLinks size equals: 0.
+	element addWidgetLink: action.
+	self assert: element widgetLinks size equals: 1.
+	element addWidgetLink: action.
+	self assert: element widgetLinks size equals: 1.
 
 
 	
@@ -136,18 +136,18 @@ TToLinkableTest >> testLinkCheckAction [
 	checkable := ToCheckbox new labelText: 'XXXXX'; yourself.
 	space root addChild: checkable.
 
-	self assert: checkable linkedActions isEmpty.
+	self assert: checkable widgetLinks isEmpty.
 	checkable linkCheckAction: [ :evt |
 			received := evt.
 			runCount := runCount + 1 ].
-	self assert: checkable linkedActions size equals: 1.
+	self assert: checkable widgetLinks size equals: 1.
 	BlSpace simulateClickOn: checkable.
 	self waitTestingSpaces.
 	self assert: received notNil.
 	self assert: runCount equals: 1.
 	prevReceived := received.
 	received := nil.
-	checkable linkedActions do: [ :action | action run ].
+	checkable widgetLinks do: [ :action | action run ].
 	self assert: received isNil.
 	self assert: runCount equals: 2
 ]
@@ -162,11 +162,11 @@ TToLinkableTest >> testLinkCheckAction2 [
 	checkable linkCheckAction: [ :evt |
 			received := evt.
 			runCount := runCount + 1 ].
-	self assert: checkable linkedActions size equals: 1.
+	self assert: checkable widgetLinks size equals: 1.
 	BlSpace simulateClickOn: checkable.
 	self assert: runCount equals: 1.
 
-	checkable linkedActions do: [ :action | action run ].
+	checkable widgetLinks do: [ :action | action run ].
 	space root addChild: checkable.
 	self assert: received notNil.
 	self waitTestingSpaces.
@@ -183,22 +183,22 @@ TToLinkableTest >> testLinkClickAction [
 	| received prevReceived runCount |
 	received := nil.
 	runCount := 0.
-	self assert: element linkedActions isEmpty.
+	self assert: element widgetLinks isEmpty.
 	element linkClickAction: [ :evt |
 			received := evt.
 			runCount := runCount + 1 ].
-	self assert: element linkedActions size equals: 1.
+	self assert: element widgetLinks size equals: 1.
 	BlSpace simulateClickOn: element.
 	self waitTestingSpaces.
 	self assert: received notNil.
 	self assert: runCount equals: 1.
 	prevReceived := received.
 	received := nil.
-	element linkedActions do: [ :action | action run ].
+	element widgetLinks do: [ :action | action run ].
 	self assert: received isNil.
 	self assert: runCount equals: 2.
 	received := nil.
-	element linkedActions do: [ :action |
+	element widgetLinks do: [ :action |
 		action runWithEvent: prevReceived ].
 	self assert: received equals: prevReceived.
 	self assert: runCount equals: 3
@@ -294,25 +294,25 @@ TToLinkableTest >> testNewClickAction [
 ]
 
 { #category : #tests }
-TToLinkableTest >> testRemoveLinkedAction [
+TToLinkableTest >> testRemoveWidgetLink [
 
 	| action |
 	action := element newClickAction: [ :evt |  ].
-	self assert: element linkedActions size equals: 0.
-	element addLinkedAction: action.
-	self assert: element linkedActions size equals: 1.
-	element removeLinkedAction: action.
-	self assert: element linkedActions size equals: 0.
+	self assert: element widgetLinks size equals: 0.
+	element addWidgetLink: action.
+	self assert: element widgetLinks size equals: 1.
+	element removeWidgetLink: action.
+	self assert: element widgetLinks size equals: 0.
 
 
 	
 ]
 
 { #category : #tests }
-TToLinkableTest >> testUnlinkAllActions [
+TToLinkableTest >> testUnlinkAllWidgetLinks [
 
 	| runCount blk |
-	self assert: element linkedActions isEmpty.
+	self assert: element widgetLinks isEmpty.
 	runCount := 0.
 	blk := [ :evt |
 			runCount := runCount + 1 ].
@@ -320,18 +320,18 @@ TToLinkableTest >> testUnlinkAllActions [
 	element linkClickAction: blk.
 	
 	" 2 new click actions "
-	self assert: element linkedActions size equals: 2.
+	self assert: element widgetLinks size equals: 2.
 	BlSpace simulateClickOn: element.
 	self waitTestingSpaces.
 	self assert: runCount equals: 2.
 	
-	element linkedActions do: [ :action | action run ].
+	element widgetLinks do: [ :action | action run ].
 	" run actions programmatically "
 	self assert: runCount equals: 4.
 	
-	element unlinkAllActions.	
+	element unlinkAllWidgetLinks.	
 	" no more action to run on click "
-	self assert: element linkedActions size equals: 0.
+	self assert: element widgetLinks size equals: 0.
 	BlSpace simulateClickOn: element.
 	self waitTestingSpaces.
 	self assert: runCount equals: 4.

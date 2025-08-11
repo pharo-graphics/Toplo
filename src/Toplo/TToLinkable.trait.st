@@ -4,13 +4,9 @@ Trait {
 }
 
 { #category : #'t - linkable - private' }
-TToLinkable >> addLinkedAction: aLinkAction [
+TToLinkable >> addWidgetLink: aLinkAction [
 
-	| storedActions |
-	storedActions := self userData
-		                 at: #linkedActions
-		                 ifAbsentPut: [ IdentitySet new ].
-	storedActions add: aLinkAction
+	self widgetLinks add: aLinkAction
 ]
 
 { #category : #'t - linkable - declare action' }
@@ -56,13 +52,13 @@ TToLinkable >> linkCheckAction: aValuable [
 	and the boolean value of receiver
 	as optional arguments."
 
-	self addLinkedAction: (self newCheckAction: aValuable)
+	self addWidgetLink: (self newCheckAction: aValuable)
 ]
 
 { #category : #'t - linkable - link/unlink action' }
 TToLinkable >> linkCheckAction: aValuable with: linkedObject [ 
 
-	self addLinkedAction: (self newCheckAction: aValuable with: linkedObject)
+	self addWidgetLink: (self newCheckAction: aValuable with: linkedObject)
 
 
 ]
@@ -70,19 +66,13 @@ TToLinkable >> linkCheckAction: aValuable with: linkedObject [
 { #category : #'t - linkable - link/unlink action' }
 TToLinkable >> linkClickAction: aValuable [
 
-	self addLinkedAction: (self newClickAction: aValuable)
+	self addWidgetLink: (self newClickAction: aValuable)
 ]
 
 { #category : #'t - linkable - link/unlink action' }
 TToLinkable >> linkClickAction: aValuable with: anObject [ 
 
-	self addLinkedAction: (self newClickAction: aValuable with: anObject)
-]
-
-{ #category : #'t - linkable - accessing' }
-TToLinkable >> linkedActions [
-
-	^ self userData at: #linkedActions ifAbsent: [ #(  ) ]
+	self addWidgetLink: (self newClickAction: aValuable with: anObject)
 ]
 
 { #category : #'t - linkable - instance creation' }
@@ -98,22 +88,20 @@ TToLinkable >> newCheckAction: aValuable [
 { #category : #'t - linkable - instance creation' }
 TToLinkable >> newCheckAction: aValuable onGroup: aCheckableGroup [
 
-	^ ToCheckableGroupActionLink new
-		  link: self
-		  with: aCheckableGroup
-		  action: aValuable
+	^ (ToCheckableGroupActionLink new action: aValuable)
+		  link: aCheckableGroup withWidget: self;
+		  yourself
 ]
 
 { #category : #'t - linkable - instance creation' }
-TToLinkable >> newCheckAction: aValuable with: linkedObject [ 
-
+TToLinkable >> newCheckAction: aValuable with: linkedObject [
 	" link the receiver through a valuable action along with a linked object. 
 	Tha valuable take the event, the linked object and
 	the boolean value of checkable receiver as arguments."
-	^ ToCheckableActionLink new
-		  link: self
-		  with: linkedObject
-		  action: aValuable
+
+	^ (ToCheckableActionLink new action: aValuable)
+		  link: linkedObject withWidget: self;
+		  yourself
 ]
 
 { #category : #'t - linkable - instance creation' }
@@ -123,31 +111,27 @@ TToLinkable >> newClickAction: aValuable [
 ]
 
 { #category : #'t - linkable - instance creation' }
-TToLinkable >> newClickAction: aValuable with: anObject [ 
+TToLinkable >> newClickAction: aValuable with: anObject [
 
-	^ ToClickableActionLink new
-		  link: self
-		  with: anObject
-		  action: aValuable;
-		yourself
+	^ (ToClickableActionLink new action: aValuable)
+		  link: anObject withWidget: self;
+		  yourself
 ]
 
 { #category : #'t - linkable - private' }
-TToLinkable >> removeLinkedAction: aLinkAction [
+TToLinkable >> removeWidgetLink: aWidgetLink [
 
-	| storedActions |
-	storedActions := self userData
-		                 at: #linkedActions
-		                 ifAbsent: [ ^ self ].
-	storedActions remove: aLinkAction ifAbsent: [ ]
+	self widgetLinks remove: aWidgetLink ifAbsent: [ ]
 ]
 
 { #category : #'t - linkable - link/unlink action' }
-TToLinkable >> unlinkAllActions [
+TToLinkable >> unlinkAllWidgetLinks [
 
-	| storedActions |
-	storedActions := self userData
-		                 at: #linkedActions
-		                 ifAbsent: [ ^ self ].
-	storedActions copy do: [ :action | action unlink ]
+	self widgetLinks copy do: [ :link | link unlink ]
+]
+
+{ #category : #'t - linkable - accessing' }
+TToLinkable >> widgetLinks [
+
+	^ self userData at: #widgetLinks ifAbsentPut: [ IdentitySet new ]
 ]

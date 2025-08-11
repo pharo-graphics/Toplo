@@ -456,10 +456,15 @@ ToTheme >> newSkinFor: anElement [
 { #category : #'api - hooks' }
 ToTheme >> onInstalledIn: anElement [
 
-	(Pragma allNamed: #toploThemeInstaller) do: [ :each |
-		each methodClass soleInstance
-			perform: each methodSelector
-			with: self ].
+	(Pragma allNamed: #toploThemeInstallerFor:) do: [ :each |
+			| themeClassName themeClass |
+			themeClassName := each arguments first asSymbol.
+			themeClass := self class environment classNamed: themeClassName.
+			(self class = themeClass or: [ self class inheritsFrom: themeClass ])
+				ifTrue: [
+					each methodClass soleInstance
+						perform: each methodSelector
+						with: self ] ].
 
 	anElement addAllTokenProperties: self tokenProperties.
 	anElement toThemeInstalled

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToNumericalBadge,
-	#superclass : #ToBadge,
+	#superclass : #ToLabelledBadge,
 	#traits : 'TObservable',
 	#classTraits : 'TObservable classTrait',
 	#instVars : [

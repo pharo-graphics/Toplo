@@ -1,11 +1,11 @@
 Class {
-	#name : #ToBadgePlacement,
+	#name : #ToFloatPlacement,
 	#superclass : #Object,
 	#category : #'Toplo-Widget-Float'
 }
 
 { #category : #configuration }
-ToBadgePlacement >> configureBadge: aBadge [
+ToFloatPlacement >> configure: aFloat [
 
 	self subclassResponsibility 
 ]

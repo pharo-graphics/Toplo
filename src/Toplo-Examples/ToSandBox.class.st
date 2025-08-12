@@ -2386,13 +2386,16 @@ ToSandBox class >> example_FloatArrowsAraoundACircle [
 		('down' -> 180).
 		('left' -> 270) } do: [ :assoc |
 			| but |
-			but := ToIconicButton new iconImage:
-				       (ToMaterialDesignIconProvider innerImageNamed:
-					        'outlined_keyboardarrow' , assoc key).
-			but extent: 20 asPoint.
-			but := but asFloatElement.
+			but := ToFloatElement new.
+			but builder: [ :e |
+					e addChild: (ToIconicButton new
+							 iconImage: (ToMaterialDesignIconProvider innerImageNamed:
+										  'outlined_keyboardarrow' , assoc key);
+							 extent: 20 asPoint;
+							 yourself) ].
 			but geometry: BlCircleGeometry new.
 			but constraintsDo: [ :c |
+					c anchors removeAll.
 					c anchors add: (c anchors centerAnchor on:
 							 (circle perimeterAnchor degrees: assoc value)) ].
 			floatLayer addChild: but ].
@@ -2403,7 +2406,7 @@ ToSandBox class >> example_FloatArrowsAraoundACircle [
 { #category : #float }
 ToSandBox class >> example_Floats [
 
-	| rightBtn leftBtn pane floatLayer textField floatContainer floatContainerHolder |
+	| rightBtn leftBtn pane floatLayer textField floatContainer |
 	rightBtn := ToIconicButton new iconImage:
 		            (ToMaterialDesignIconProvider innerImageNamed:
 			             'outlined_keyboardarrowright').
@@ -2421,16 +2424,14 @@ ToSandBox class >> example_Floats [
 
 	floatLayer := ToFloatOverlay new.
 	floatLayer attachToParent: pane.
-	floatContainer := ToElement new.
-	floatContainer layout: BlLinearLayout horizontal.
-	floatContainer addChild: textField.
-	floatContainer addChild: leftBtn.
-	floatContainer addChild: rightBtn.
-	floatContainerHolder := floatContainer asFloatElement.
-	floatContainerHolder constraintsDo: [ :c |
-			c anchors add: (c anchors bottomRightAnchor on:
-					 c anchors parent bottomRightAnchor - (10 @ 10)) ].
-	floatLayer addChild: floatContainerHolder.
+	floatContainer := ToFloatElement new.
+	floatContainer builder: [ :e |
+			e layout: BlLinearLayout horizontal.
+			e addChild: textField.
+			e addChild: leftBtn.
+			e addChild: rightBtn ].
+	floatContainer offset: (10 @ 10) negated. 
+	floatLayer addChild: floatContainer.
 
 	pane openInInnerWindow
 ]
@@ -3133,6 +3134,7 @@ ToSandBox class >> example_ListWithFloatButtons [
 						 ifNotEmpty: [ BlVisibility visible ]) ].
 
 	floatContainer := ToElement new.
+	floatContainer padding: (BlInsets all: 5).
 	floatContainer layout: BlLinearLayout horizontal.
 	floatContainer fitContent.
 	floatContainer layout cellSpacing: 5.

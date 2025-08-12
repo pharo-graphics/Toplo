@@ -1,6 +1,6 @@
 Class {
 	#name : #ToBadge,
-	#superclass : #ToFloatElement,
+	#superclass : #ToAnchoredElement,
 	#category : #'Toplo-Widget-Float'
 }
 
@@ -25,6 +25,12 @@ ToBadge class >> initializeRawToploTheme: aTheme [
 ToBadge >> defaultOffset [
 
 	^ 8 @ -8
+]
+
+{ #category : #initialization }
+ToBadge >> defaultPlacement [ 
+
+	^ ToAnchoredAtTopRight new
 ]
 
 { #category : #initialization }

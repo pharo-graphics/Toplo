@@ -1,11 +1,11 @@
 Class {
-	#name : #ToFloatPlacement,
+	#name : #ToAnchoredPlacement,
 	#superclass : #Object,
 	#category : #'Toplo-Widget-Float'
 }
 
 { #category : #configuration }
-ToFloatPlacement >> configure: aFloat [
+ToAnchoredPlacement >> configure: aFloat [
 
 	self subclassResponsibility 
 ]

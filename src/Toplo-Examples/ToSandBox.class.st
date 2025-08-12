@@ -2394,10 +2394,10 @@ ToSandBox class >> example_FloatArrowsAraoundACircle [
 							 extent: 20 asPoint;
 							 yourself) ].
 			but geometry: BlCircleGeometry new.
-			but constraintsDo: [ :c |
-					c anchors removeAll.
-					c anchors add: (c anchors centerAnchor on:
-							 (circle perimeterAnchor degrees: assoc value)) ].
+			but placement:
+				(ToAnchoredExplicitPlacement new constraintsAction: [ :c |
+						 c anchors add: (c anchors centerAnchor on:
+								  (circle perimeterAnchor degrees: assoc value)) ]).
 			floatLayer addChild: but ].
 
 	pane openInInnerWindow
@@ -3099,7 +3099,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 { #category : #float }
 ToSandBox class >> example_ListWithFloatButtons [
 
-	| floatContainer list addBtn removeBtn floatAdd floatRemove |
+	| floatContainer list addBtn removeBtn |
 	list := self example_ListWithEditableAndContextMenu.
 	addBtn := ToIconicButton new iconImage:
 		          (ToMaterialDesignIconProvider innerImageNamed:
@@ -3118,18 +3118,14 @@ ToSandBox class >> example_ListWithFloatButtons [
 			list dataAccessor addFirst:
 				String loremIpsum substrings first , ' (inserted as first item)' ].
 
-	floatAdd := addBtn asFloatElement.
-	floatRemove := removeBtn asFloatElement.
-
-	floatAdd geometry: BlCircleGeometry new.
-	floatRemove geometry: BlCircleGeometry new.
-
-	floatRemove visibility: BlVisibility hidden.
+	addBtn geometry: BlCircleGeometry new.
+	removeBtn geometry: BlCircleGeometry new.
+	removeBtn visibility: BlVisibility hidden.
 
 	list
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent
 		do: [ :evt |
-				floatRemove visibility: (evt selectedIndexes
+				removeBtn visibility: (evt selectedIndexes
 						 ifEmpty: [ BlVisibility hidden ]
 						 ifNotEmpty: [ BlVisibility visible ]) ].
 
@@ -3146,8 +3142,8 @@ ToSandBox class >> example_ListWithFloatButtons [
 					 c anchors parent bottomRightAnchor - (10@10)) ].
 	list addChild: floatContainer.
 	
-	floatContainer addChild: floatRemove.
-	floatContainer addChild: floatAdd.
+	floatContainer addChild: removeBtn.
+	floatContainer addChild: addBtn 
 ]
 
 { #category : #float }
@@ -3191,14 +3187,10 @@ ToSandBox class >> example_ListWithFloatButtons2 [
 	floatLayer padding: (BlInsets all: 10).
 	floatLayer attachToParent: list.
 
-	floatAdd constraintsDo: [ :c |
+	floatRemove placement: (ToAnchoredExplicitPlacement new constraintsAction: [ :c |
 			c anchors add:
 				(c anchors bottomRightAnchor on:
-					 c anchors parent bottomRightAnchor) ].
-	floatRemove constraintsDo: [ :c |
-			c anchors add:
-				(c anchors bottomRightAnchor on:
-					 floatAdd bottomLeftAnchor - (5 @ 0)) ].
+					 floatAdd bottomLeftAnchor - (5 @ 0)) ] ).
 
 	floatLayer addChild: floatAdd.
 	floatLayer addChild: floatRemove

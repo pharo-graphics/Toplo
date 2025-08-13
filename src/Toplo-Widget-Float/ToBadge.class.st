@@ -8,17 +8,23 @@ Class {
 ToBadge class >> initializeRawToploTheme: aTheme [
 
 	<toploThemeInstallerFor: #ToTheme>
-	aTheme addTokenNamed: #'badge-min-width' withValue: 20.
+	aTheme addTokenNamed: #'badge-min-width' withValue: 16.
 	aTheme addTokenNamed: #'badge-background' withValue: Color red.
-	aTheme
-		addTokenNamed: #'badge-geometry'
-		withValue: (BlRoundedRectangleGeometry cornerRadius: 10).
-	aTheme
-		addTokenNamed: #'badge-inner-geometry'
-		withValue: (BlRoundedRectangleGeometry cornerRadius: 9).
 	aTheme addTokenNamed: #'badge-font-size' withValue: 12.
 	aTheme addTokenNamed: #'badge-text-foreground' withValue: Color white.
-	aTheme addTokenNamed: #'badge-offset' withValue: 14 @ -14
+	aTheme addTokenNamed: #'badge-offset' withValue: 10 @ -10
+]
+
+{ #category : #configuration }
+ToBadge >> applyConfiguration [
+
+	super applyConfiguration.
+
+	self whenLayoutedDoOnce: [
+			self geometry: (BlRoundedRectangleGeometry cornerRadius:
+					 self measuredHeight - self margin height / 2).
+			innerElement geometry: (BlRoundedRectangleGeometry cornerRadius:
+					 innerElement measuredHeight - innerElement margin height / 2) ]
 ]
 
 { #category : #initialization }
@@ -37,8 +43,8 @@ ToBadge >> defaultPlacement [
 ToBadge >> initialize [
 
 	super initialize.
-	innerElement padding: (BlInsets all: 2).
-	self padding: (BlInsets all: 3)
+	innerElement padding: (BlInsets horizontal: 4).
+	self padding: (BlInsets all: 2)
 ]
 
 { #category : #skin }
@@ -47,9 +53,7 @@ ToBadge >> installRawStyle [
 	super installRawStyle.
 	innerElement minWidth: (self valueOfTokenNamed: #'badge-min-width').
 	innerElement background: (self valueOfTokenNamed: #'badge-background').	
-	innerElement geometry: (self valueOfTokenNamed: #'badge-inner-geometry').
 	self background: (self valueOfTokenNamed: #'background-color').
-	self geometry: (self valueOfTokenNamed: #'badge-geometry').
 	self addTokenNamed: #'font-size' withValue: (self valueOfTokenNamed: #'badge-font-size').
 	self addTokenNamed: #'color-text' withValue: (self valueOfTokenNamed: #'badge-text-foreground').
 	self offset: (self valueOfTokenNamed: #'badge-offset').

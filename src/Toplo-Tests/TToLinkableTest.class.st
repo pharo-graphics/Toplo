@@ -96,35 +96,15 @@ TToLinkableTest >> testClickAction [
 { #category : #tests }
 TToLinkableTest >> testClickAction2 [
 
-	| received value theElement |
+	| received value |
 	received := nil.
-	element clickAction: [ :evt :obj :val |
+	element clickAction: [ :evt :val |
 			received := evt.
-			theElement := obj.
 			value := val ].
 	BlSpace simulateClickOn: element.
 	self waitTestingSpaces.
 	self assert: received notNil.
-	self assert: value isNil.
-	self assert: theElement identicalTo: element
-]
-
-{ #category : #tests }
-TToLinkableTest >> testClickActionWith [
-
-	| received value theElement |
-	received := nil.
-	element
-		clickAction: [ :evt :obj :val |
-				received := evt.
-				theElement := obj.
-				value := val ]
-		with: space root.
-	BlSpace simulateClickOn: element.
-	self waitTestingSpaces.
-	self assert: received notNil.
-	self assert: value isNil.
-	self assert: theElement identicalTo: space root
+	self assert: value isNil
 ]
 
 { #category : #tests }

@@ -25,6 +25,30 @@ ToActionLink >> onActionRunnedDo: aValuable [
 ]
 
 { #category : #running }
+ToActionLink >> onRunLinkActionRequest: anEvent onWidget: aTarget withValue: aValue [
+
+	| runnedBlock |
+	aTarget isDisabled ifTrue: [ ^ self ].
+	runnedBlock := [
+		               | space time evt |
+		               action
+			               cull: anEvent sourceEvent
+			               cull: aValue.
+		               space := aTarget space.
+		               time := space ifNotNil: [ :sp | sp time ].
+		               evt := ToLinkActionRunnedEvent new
+			                      fillFromTime: time;
+			                      sourceEvent: anEvent sourceEvent;
+			                      changedValue: aValue;
+			                      yourself.
+		               self dispatchEvent: evt.
+		               aTarget fireEvent: evt copy ].
+	aTarget space
+		ifNil: [ aTarget inUIProcessDo: runnedBlock ]
+		ifNotNil: [ runnedBlock value ]
+]
+
+{ #category : #running }
 ToActionLink >> onRunLinkActionRequest: anEvent withLinkedObject: anObjectOrValuable fromWidget: aTarget withValue: aValue [
 
 	| runnedBlock linked |

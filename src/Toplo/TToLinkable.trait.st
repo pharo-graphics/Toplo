@@ -39,12 +39,6 @@ TToLinkable >> clickAction: aValuable [
 	self newClickAction: aValuable
 ]
 
-{ #category : #'t - linkable - declare action' }
-TToLinkable >> clickAction: aValuable with: anObject [ 
-
-	self newClickAction: aValuable with: anObject 
-]
-
 { #category : #'t - linkable - link/unlink action' }
 TToLinkable >> linkCheckAction: aValuable [
 	" link the receiver through a valuable action. 
@@ -67,12 +61,6 @@ TToLinkable >> linkCheckAction: aValuable with: linkedObject [
 TToLinkable >> linkClickAction: aValuable [
 
 	self addWidgetLink: (self newClickAction: aValuable)
-]
-
-{ #category : #'t - linkable - link/unlink action' }
-TToLinkable >> linkClickAction: aValuable with: anObject [ 
-
-	self addWidgetLink: (self newClickAction: aValuable with: anObject)
 ]
 
 { #category : #'t - linkable - instance creation' }
@@ -107,14 +95,9 @@ TToLinkable >> newCheckAction: aValuable with: linkedObject [
 { #category : #'t - linkable - instance creation' }
 TToLinkable >> newClickAction: aValuable [
 
-	^ self newClickAction: aValuable with: self
-]
-
-{ #category : #'t - linkable - instance creation' }
-TToLinkable >> newClickAction: aValuable with: anObject [
-
-	^ (ToClickableActionLink new action: aValuable)
-		  link: anObject withWidget: self;
+	^ ToClickableActionLink new
+		  action: aValuable;
+		  onWidget: self;
 		  yourself
 ]
 

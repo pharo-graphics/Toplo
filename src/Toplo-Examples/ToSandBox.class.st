@@ -2105,11 +2105,10 @@ ToSandBox class >> example_CodeEditor [
 	menuBuilder := [ :menu :request |
 		               menu addItem: (ToMenuItem new
 				                labelText: 'Select all';
-				                clickAction: [ :evt :a |
-						                a selecter
+				                clickAction: [ :evt |
+						                album selecter
 							                all;
-							                apply ]
-				                with: album;
+							                apply ];
 				                yourself).
 		               menu addItem: (ToMenu new
 				                labelText: 'Edit';
@@ -2117,24 +2116,21 @@ ToSandBox class >> example_CodeEditor [
 						                | item |
 						                item := ToMenuItem new
 							                        labelText: 'Copy';
-							                        clickAction: [ :evt :ed |
-								                        ed copySelected ]
-							                        with: album editor;
+							                        clickAction: [ :evt |
+								                        album editor copySelected ];
 							                        yourself.
 						                album hasSelection ifFalse: [ item disable ].
 						                m addItem: item.
 						                m addItem: (ToMenuItem new
 								                 labelText: 'Cut';
-								                 clickAction: [ :evt :ed | ed cutSelected ]
-								                 with: album editor;
+								                 clickAction: [ :evt | album editor cutSelected ];
 								                 yourself).
 						                album hasSelection ifFalse: [
 							                m items last disable ].
 
 						                m addItem: (ToMenuItem new
 								                 labelText: 'Paste';
-								                 clickAction: [ :evt :ed | ed paste ]
-								                 with: album editor;
+								                 clickAction: [ :evt :ed | album editor paste ];
 								                 yourself).
 						                album editor paster fromClipboard isEmpty
 							                ifTrue: [ m items last disable ].

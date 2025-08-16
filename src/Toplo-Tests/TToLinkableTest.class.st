@@ -54,30 +54,24 @@ TToLinkableTest >> testCheckAction [
 { #category : #tests }
 TToLinkableTest >> testCheckActionWith [
 
-	| received checkable theElement value |
+	| received checkable value |
 	received := nil.
-	theElement := nil.
 	value := nil.
 	checkable := ToCheckbox new
 		             labelText: 'XXXXX';
 		             yourself.
 	space root addChild: checkable.
 	checkable
-		checkAction: [ :evt :obj :val |
+		checkAction: [ :evt :val |
 				received := evt.
-				theElement := obj.
-				value := val ]
-		with: space root.
+				value := val ].
 	checkable dispatchEvent: ToCheckableChangedEvent new.
 	self assert: (received isKindOf: ToCheckableChangedEvent).
-	self assert: theElement identicalTo: space root.
 	self deny: value.
 	received := nil.
-	theElement := nil.
 	value := nil.
 	checkable checked: true.
 	self assert: (received isKindOf: ToCheckableChangedEvent).
-	self assert: theElement identicalTo: space root.
 	self assert: value
 ]
 
@@ -226,12 +220,11 @@ TToLinkableTest >> testNewCheckActionOnGroup [
 					 yourself) ].
 
 	groupContainer := ToPane vertical.
-	groupContainer
-		newCheckAction: [ :evt :grp :list |
+	group
+		newGroupCheckAction: [ :evt :list |
 				received := evt.
-				theGroup := grp.
-				theList := list ]
-		onGroup: group.
+				theGroup := evt target.
+				theList := list ].
 
 	groupContainer width: 150.
 	groupContainer addChildren: group registeredCheckables.

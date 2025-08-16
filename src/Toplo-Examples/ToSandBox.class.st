@@ -139,8 +139,8 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	menu addItem: (ToRadioMenuItem new
 			 label: (ToLabel text: 'Dark theme');
-			 checkAction: [ :evt :cbox :v |
-					 cbox space toTheme: (v
+			 checkAction: [ :evt :v |
+					 evt currentTarget space toTheme: (v
 								  ifTrue: [ ToRawDarkTheme new ]
 								  ifFalse: [ ToRawTheme new ]) ];
 			 yourself).
@@ -154,8 +154,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 			 yourself).
 	menu addItem: (ToRadioMenuItem new
 			 label: (ToLabel text: 'Disabled bar');
-			 checkAction: [ :evt :target :value | target disabled: value ]
-			 with: aBar;
+			 checkAction: [ :evt :value | aBar disabled: value ];
 			 yourself).
 	confPane addChild: menu.
 
@@ -178,7 +177,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 		 -> 'Disabled items are unselectable') } do: [ :assoc |
 			| switch |
 			switch := ToSwitchButton new labelText: assoc value value.
-			switch checkAction: [ :evt :target :value |
+			switch checkAction: [ :evt :value |
 					assoc key value isSymbol
 						ifTrue: [ aBar perform: assoc key value with: value ]
 						ifFalse: [ assoc key value value: value ] ].
@@ -427,12 +426,11 @@ ToSandBox class >> checkingStrategyChooserFor: aCheckableBar [
 			       yourself.
 		buttons add: chb.
 		chb
-			newCheckAction: [ :evt :bar :value |
+			newCheckAction: [ :evt :value |
 				value ifTrue: [
 					| message |
 					message := modeAssoc value.
-					bar perform: message ] ]
-			with: aCheckableBar ].
+					aCheckableBar perform: message ] ] ].
 
 	checkingStrategyGroup registerAll: buttons.
 
@@ -1534,11 +1532,10 @@ ToSandBox class >> example_CheckAction [
 	r1 := ToRadioButton new
 		      id: #r1;
 		      labelText: 'Dark theme';
-		      newCheckAction: [ :evt :space :v |
-			      space toTheme: (v
+		      newCheckAction: [ :evt :v |
+			      evt currentTarget space toTheme: (v
 						       ifTrue: [ ToRawDarkTheme new ]
-						       ifFalse: [ ToRawTheme new ]) ]
-		      with: [ :radio | radio space ];
+						       ifFalse: [ ToRawTheme new ]) ];
 		      yourself.
 
 	containerElement addChildren: { r1 }.
@@ -6098,16 +6095,16 @@ ToSandBox class >> example_group3 [
 				(ToRadioButton new
 					 id: #r1;
 					 labelText: 'Light theme';
-					 newCheckAction: [ :evt :space :v |
-						 v ifTrue: [ space toTheme: ToRawTheme new ] ]
-					 with: [ :radio | radio space ];
+					 newCheckAction: [ :evt :v | | space |
+						 space := evt currentTarget space.
+						 v ifTrue: [ space toTheme: ToRawTheme new ] ];
 					 yourself).
 				(ToRadioButton new
 					 id: #r2;
 					 labelText: 'Dark theme';
-					 newCheckAction: [ :evt :space :v |
-						 v ifTrue: [ space toTheme: ToRawDarkTheme new ] ]
-					 with: [ :radio | radio space ];
+					 newCheckAction: [ :evt :v | | space |
+						 space := evt currentTarget space.
+						 v ifTrue: [ space toTheme: ToRawDarkTheme new ] ];
 					 yourself) }.
 	
 	group registeredCheckables second checked: true.
@@ -9192,7 +9189,7 @@ ToSandBox class >> resizerBoardFor: aBar [
 						        yourself.
 					buttons add: cbox.
 					cbox
-						newCheckAction: [ :evt :bar :value |
+						newCheckAction: [ :evt :value |
 								| policy |
 								value ifTrue: [
 										mode = #Exact
@@ -9202,8 +9199,7 @@ ToSandBox class >> resizerBoardFor: aBar [
 													policy := dir = #Horizontal
 														          ifTrue: [ ('h' , mode) asSymbol ]
 														          ifFalse: [ ('v' , mode) asSymbol ].
-													bar perform: policy ] ] ]
-						with: aBar ].
+													aBar perform: policy ] ] ] ].
 
 			group registerAll: buttons.
 			buttons second checked: true.
@@ -9317,14 +9313,13 @@ ToSandBox class >> selectionModeChooserFor: aBar [
 			       yourself.
 		selectionModeGroup register: chb.
 		chb
-			newCheckAction: [ :evt :selMode :value |
-				value ifTrue: [
-					| chosen |
+			newCheckAction: [ :evt :value |
+				value ifTrue: [ | chosen selMode |
 					chosen := modeAssoc key.
+					selMode := aBar primarySelectionMode.
 					selMode enabled: chosen ~= #Disabled.
 					modeAssoc value ifNotNil: [ :message |
-						selMode perform: message asSymbol with: true ] ] ]
-			with: aBar primarySelectionMode ].
+						selMode perform: message asSymbol with: true ] ] ] ].
 
 	selectionModeGroup registeredCheckables first checked: true.
 	selectionModeContainer := ToPane vertical.

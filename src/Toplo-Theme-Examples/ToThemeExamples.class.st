@@ -163,14 +163,13 @@ ToThemeExamples class >> example_BlElementWithTheme [
 	themeSwitcher := ToCheckbox new
 		                 labelText: 'Dark Theme';
 		                 beEndToStart;
-		                 newCheckAction: [ :evt :pane :v |
-			                 pane localTheme: (v
+		                 newCheckAction: [ :evt :v |
+			                 pn localTheme: (v
 						                  ifTrue: [ ToBeeDarkTheme new ]
 						                  ifFalse: [ ToBeeTheme new ]).
 			                 v
 				                 ifTrue: [ pn background: Color gray ]
-				                 ifFalse: [ pn background: Color white ] ]
-		                 with: pn;
+				                 ifFalse: [ pn background: Color white ] ];
 		                 yourself.
 
 	themeSwitcher defaultSkin: ToCheckboxSkin new.

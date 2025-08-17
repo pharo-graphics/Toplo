@@ -1624,7 +1624,7 @@ ToSandBox class >> example_CheckableBarElement [
 		#'New York'. #'North Carolina'. #'North Dakota'. #Ohio. #Oklahoma.
 		#Oregon. #'Pennsylvania Rhode Island'. #'South Carolina'.
 		#'South Dakota'. #Tennessee. #Texas. #Utah. #Vermont. #Virginia.
-		#Washington. #'West Virginia'. #Wisconsin. #Wyoming } do: [ :l | bar addItem: (ToCheckbox new labelText: l) ].
+		#Washington. #'West Virginia'. #Wisconsin. #Wyoming } do: [ :l | bar addItem: (ToRadioButton new labelText: l) ].
 
 	"bar selecter selectIndex: 3."
 	container addChild: bar.

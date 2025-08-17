@@ -1,8 +1,8 @@
 Class {
 	#name : #ToCheckableListElement,
 	#superclass : #ToItemListElement,
-	#traits : 'TToCheckableGroupOwner',
-	#classTraits : 'TToCheckableGroupOwner classTrait',
+	#traits : 'TToCheckableGroupOwner + TToCheckableListElement',
+	#classTraits : 'TToCheckableGroupOwner classTrait + TToCheckableListElement classTrait',
 	#category : #'Toplo-Widget-List-ItemList'
 }
 
@@ -16,19 +16,5 @@ ToCheckableListElement >> defaultNodeManagerClass [
 ToCheckableListElement >> initialize [ 
 
 	super initialize.
-	
-	self group
-		addEventHandlerOn: ToCheckableGroupChangedEvent
-		do: [ :event | self dispatchEvent: event copy ].
-
-	self primarySelectionMode selectionOption
-		grouped: false;
-		beneath: true;
-		triggerSelectionState: true.
-	
-	self contextMenuSelectionMode selectionOption
-		grouped: false;
-		beneath: false.
-
-	self primarySelectionMode makeDisabledUnselectable: true
+	self initializeAsCheckableListElement
 ]

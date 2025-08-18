@@ -77,6 +77,7 @@ ToMenuItemEventHandler >> onPickingEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
 	target closeOnPicking ifFalse: [ ^ self ].
+	target parentMenuDo: [ :p | p closeOnPicking ifFalse: [ ^ self ] ].
 	target isInline ifTrue: [ ^ self ].
 	target rootMenuDo: [ :rm | 
 		" ask the window manager because 

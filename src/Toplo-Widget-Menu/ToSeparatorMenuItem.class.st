@@ -22,16 +22,11 @@ ToSeparatorMenuItem >> applyConfiguration [
 					c vertical exact: 1 ] ] ]
 ]
 
-{ #category : #'t - menu item' }
-ToSeparatorMenuItem >> closeOnPicking [ 
-
-	^ false
-]
-
 { #category : #initialization }
 ToSeparatorMenuItem >> initialize [
 
 	super initialize.
+	closeOnPicking := false.
 	self addChild: (ToElement new
 			 layout: BlLinearLayout new;
 			 yourself).

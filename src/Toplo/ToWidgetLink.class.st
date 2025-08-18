@@ -36,7 +36,7 @@ ToWidgetLink >> onWidget: anElement [
 
 { #category : #initialization }
 ToWidgetLink >> unlink [
-
+  
 	self dispatchEvent: ToWidgetLinkDissociateEvent new.
 	widget := nil
 ]

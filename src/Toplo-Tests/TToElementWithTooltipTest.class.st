@@ -199,7 +199,6 @@ TToElementWithTooltipTest >> testTooltipPopupDelay [
 	e := ToElement new.
 	e extent: 50 @ 50.
 	e tooltipPopupDelay: 100 milliSeconds.
-	self assert: e tooltipPopupDelay equals: 100 milliSeconds.
 	space root addChild: e.
 	e tooltipContent: (ToElement new
 			 extent: 20 @ 20;

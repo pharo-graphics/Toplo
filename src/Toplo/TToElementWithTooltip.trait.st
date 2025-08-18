@@ -18,13 +18,6 @@ TToElementWithTooltip >> currentTooltipWindow [
 ]
 
 { #category : #'t - element with tooltip' }
-TToElementWithTooltip >> hasOpenedTooltip [
-	" do not use #tooltipWindowHandler to avoid TooltipWindowHandler installation here "
-	self deprecated: 'Unless there are users. add an issue if this is the case'.
-	^ self currentTooltipWindow notNil
-]
-
-{ #category : #'t - element with tooltip' }
 TToElementWithTooltip >> hasTooltip [
 	" do not use #tooltipWindowHandler to avoid TooltipWindowHandler installation here "
 
@@ -93,16 +86,9 @@ TToElementWithTooltip >> tooltipContent: anElement [
 ]
 
 { #category : #'t - element with tooltip' }
-TToElementWithTooltip >> tooltipPopupDelay [
-	
-	^ self userData at: #tooltipPopupDelay ifAbsent: [  ]
-]
-
-{ #category : #'t - element with tooltip' }
 TToElementWithTooltip >> tooltipPopupDelay: aDuration [
 	
-	self userData at: #tooltipPopupDelay put: aDuration.
-	self rawTooltipWindowManager ifNotNil: [ :h | h autoPopupDelay: aDuration ]
+	self tooltipWindowManager autoPopupDelay: aDuration
 ]
 
 { #category : #'t - element with tooltip' }
@@ -128,8 +114,6 @@ TToElementWithTooltip >> tooltipWindowManager [
 	^ self userData at: #tooltipWindowManager ifAbsentPut: [
 		  | handler |
 		  handler := ToTooltipPopupManager new.
-			" pay attention that the handler must be added before changing the delay "
 		  self addEventHandler: handler.
-		  self tooltipPopupDelay ifNotNil: [ :d | handler autoPopupDelay: d ].
 		  handler ]
 ]

@@ -4,10 +4,11 @@ Class {
 	#category : #'Toplo-Widget-Menu-Items'
 }
 
-{ #category : #'t - menu item' }
-ToCustomMenuItem >> closeOnPicking [ 
+{ #category : #initialization }
+ToCustomMenuItem >> initialize [ 
 
-	^ false
+	super initialize.
+	closeOnPicking := false
 ]
 
 { #category : #testing }

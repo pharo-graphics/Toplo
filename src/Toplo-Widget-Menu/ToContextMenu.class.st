@@ -22,6 +22,12 @@ ToContextMenu >> close [
 	super close
 ]
 
+{ #category : #testing }
+ToContextMenu >> closeOnPicking [
+
+	^ true
+]
+
 { #category : #'t - menu window model' }
 ToContextMenu >> closeWindow [
 
@@ -106,15 +112,13 @@ ToContextMenu >> newItemBar [
 { #category : #'t - menu item bar container - double dispatch' }
 ToContextMenu >> onAddedMenu: aMenu [
 
-	aMenu isSubmenu: true.
-	aMenu closeOnPicking: false
+	aMenu isSubmenu: true
 ]
 
 { #category : #'t - menu item bar container - double dispatch' }
 ToContextMenu >> onRemovedMenu: aMenu [
 
-	aMenu isSubmenu: false.
-	aMenu closeOnPicking: false
+	aMenu isSubmenu: false
 ]
 
 { #category : #'t - menu window model' }

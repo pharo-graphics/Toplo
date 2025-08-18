@@ -96,7 +96,7 @@ ToWidgetLink >> runWithLinkedObject: anObject from: aTarget onEvent: anEvent wit
 		       yourself.
 	self dispatchEvent: evt.
 	aTarget = self ifTrue: [ ^ self ].
-	aTarget fireEvent: evt copy
+	aTarget dispatchEvent: evt copy
 ]
 
 { #category : #initialization }

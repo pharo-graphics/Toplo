@@ -53,18 +53,6 @@ ToMenu >> builder: aValuable [
 	builder := aValuable
 ]
 
-{ #category : #testing }
-ToMenu >> closeOnPicking [
-
-	^ self manager closeOnPicking and: [ self isTopMenu not ]
-]
-
-{ #category : #testing }
-ToMenu >> closeOnPicking: aBoolean [
-
-	self manager closeOnPicking: aBoolean
-]
-
 { #category : #'t - menu window model' }
 ToMenu >> closeWindow [
 
@@ -199,8 +187,7 @@ ToMenu >> onAddedInItemBarOwner: aMenu [
 { #category : #'t - menu item bar container - double dispatch' }
 ToMenu >> onAddedMenu: aMenu [
 
-	aMenu isSubmenu: true.
-	aMenu closeOnPicking: false
+	aMenu isSubmenu: true
 ]
 
 { #category : #'adding-removing' }
@@ -212,8 +199,7 @@ ToMenu >> onRemovedFromItemBarOwner: aMenu [
 { #category : #'t - menu item bar container - double dispatch' }
 ToMenu >> onRemovedMenu: aMenu [
 
-	aMenu isSubmenu: false.
-	aMenu closeOnPicking: false
+	aMenu isSubmenu: false
 ]
 
 { #category : #accessing }

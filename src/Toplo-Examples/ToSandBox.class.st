@@ -3533,9 +3533,6 @@ ToSandBox class >> example_MenuWithCustomItems [
 			center.
 			left }.
 
-	menu
-		newCheckAction: [ :evt :group :list | list traceCr ]
-		onGroup: grp.
 	menu addSeparator.
 
 	lbl := ToAttributedLabel text: 'Radio button icon first'.
@@ -3570,9 +3567,7 @@ ToSandBox class >> example_MenuWithCustomItems [
 			right.
 			center.
 			left }.
-	menu
-		checkAction: [ :evt :group :list | list traceCr ]
-		onGroup: grp.
+
 	menu addSeparator.
 
 	lbl := ToAttributedLabel new text:
@@ -3643,7 +3638,7 @@ ToSandBox class >> example_OpenSaveSaveAsCloseWithSubmenu [
 	| menu container saveAs lbl |
 	container := ToInnerWindow new
 		             position: 10 @ 10;
-		             size: 400 @ 200;
+		             extent: 400 @ 200;
 		             yourself.
 	menu := ToMenu new.
 	"menu label: (ToLabel text: 'Menu')."
@@ -3656,7 +3651,7 @@ ToSandBox class >> example_OpenSaveSaveAsCloseWithSubmenu [
 			        italic;
 			        foreground: (Color blue alpha: 0.7)).
 	menu addSeparator.
-	menu addItem: (ToCustomMenuItem new in: [ :e | e addChild: lbl]).
+	menu addItem: (ToCustomMenuItem new in: [ :e | e addChild: lbl ]).
 
 	menu addItem: (ToMenuItem new
 			 icon: (ToImage inner: (self iconNamed: #solidMenu));

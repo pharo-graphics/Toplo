@@ -6,6 +6,9 @@ Class {
 	#superclass : #ToBarItem,
 	#traits : 'TToMenuItem',
 	#classTraits : 'TToMenuItem classTrait',
+	#instVars : [
+		'closeOnPicking'
+	],
 	#category : #'Toplo-Widget-Menu-Items'
 }
 
@@ -22,6 +25,18 @@ ToMenuItemElement >> applyConfiguration [
 			ifFalse: [
 				self hMatchParent ] ].
 	self vFitContent
+]
+
+{ #category : #'t - menu item' }
+ToMenuItemElement >> closeOnPicking [ 
+
+	^ closeOnPicking 
+]
+
+{ #category : #testing }
+ToMenuItemElement >> closeOnPicking: aBoolean [
+
+	closeOnPicking := aBoolean
 ]
 
 { #category : #'t - menu window model' }
@@ -65,6 +80,7 @@ ToMenuItemElement >> includes: anElement [
 ToMenuItemElement >> initialize [
 
 	super initialize.
+	closeOnPicking := true.
 	self addEventHandler: self defaultEventHandler.
 	self constraintsDo: [ :c | c linear vertical alignCenter ]
 ]

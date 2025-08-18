@@ -11,16 +11,15 @@ ToClickableActionLink >> launchableFromEvent: anEvent [
 	| launchable |
 	" by default: yes "
 	launchable := true.
-	anEvent currentTarget spaceDo: [ :sp |
-		| popupTime w |
-		" If i'm launched from a kind of popup window, don't launch the action if the event occur just after the window popup (to avoid that an popup menu item is launched immediately after the window popup). this can arise in case of a window position correction to stay visible within its root element bounds"
-		w := anEvent currentTarget
-			     allParentsDetect: [ :p | p isKindOf: ToAnchoredWindow ]
-			     ifFound: [ :p | p ]
-			     ifNone: [  ].
-		w ifNotNil: [
-			popupTime := w popupTimestamp.
-			launchable := popupTime isNil or: [anEvent timestamp - popupTime > 300 milliSeconds ] ] ].
+	anEvent currentTarget spaceDo: [ :sp | " If i'm launched from a kind of popup window, don't launch the action if the event occur just after the window popup (to avoid that an popup menu item is launched immediately after the window popup). this can arise in case of a window position correction to stay visible within its root element bounds"
+			anEvent currentTarget
+				allParentsDetect: [ :p | p isKindOf: ToAnchoredWindow ]
+				ifFound: [ :w |
+						| popupTime |
+						popupTime := w popupTimestamp.
+						launchable := popupTime isNil or: [
+							              anEvent timestamp - popupTime > 300 milliSeconds ] ]
+				ifNone: [ ] ].
 	^ launchable
 ]
 
@@ -28,6 +27,7 @@ ToClickableActionLink >> launchableFromEvent: anEvent [
 ToClickableActionLink >> onWidget: aClickable [
 
 	| handler |
+	super onWidget: aClickable.
 	handler := aClickable
 		           addEventHandlerOn: aClickable clickEventClass
 		           do: [ :event |
@@ -35,11 +35,5 @@ ToClickableActionLink >> onWidget: aClickable [
 				           " evaluate if the action can be launched "
 				           (self launchableFromEvent: event) ifTrue: [
 					           self runWithEvent: event ] ].
-	self addedHandler: handler in: aClickable for: aClickable.
-
-	handler := self
-		           addEventHandlerOn: ToRunLinkActionRequest
-		           do: [ :event |
-		           self onRunLinkActionRequest: event onWidget: aClickable ].
-	self addedHandler: handler in: self for: aClickable
+	self addedHandler: handler in: aClickable
 ]

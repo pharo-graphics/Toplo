@@ -16,36 +16,43 @@ ToActionLink >> action: anAction [
 { #category : #running }
 ToActionLink >> onActionRunnedDo: aValuable [
 
-	self addedHandler: (self
-			 addEventHandlerOn: ToLinkActionRunnedEvent
-			 do: [ :evt | aValuable cull: evt sourceEvent ])
+	self
+		addedHandler: (self
+				 addEventHandlerOn: ToLinkActionRunnedEvent
+				 do: [ :evt | aValuable cull: evt sourceEvent ])
+		in: self
 ]
 
 { #category : #running }
-ToActionLink >> onRunLinkActionRequest: anEvent onWidget: aTarget [
+ToActionLink >> onRunActionRequest: anEvent [ 
 
 	| runnedBlock |
-	aTarget isDisabled ifTrue: [ ^ self ].
+	widget isDisabled ifTrue: [ ^ self ].
 	runnedBlock := [
 		               | space time evt |
 		               action cull: anEvent sourceEvent.
-		               space := aTarget space.
+		               space := widget space.
 		               time := space ifNotNil: [ :sp | sp time ].
 		               evt := ToLinkActionRunnedEvent new
 			                      fillFromTime: time;
 			                      sourceEvent: anEvent sourceEvent;
 			                      yourself.
 		               self dispatchEvent: evt.
-		               aTarget fireEvent: evt copy ].
-	aTarget space
-		ifNil: [ aTarget inUIProcessDo: runnedBlock ]
+		               widget fireEvent: evt copy ].
+	widget space
+		ifNil: [ widget inUIProcessDo: runnedBlock ]
 		ifNotNil: [ runnedBlock value ]
 ]
 
 { #category : #initialization }
-ToActionLink >> onWidget: aCheckable [
+ToActionLink >> onWidget: anElement [
 
-	^ self subclassResponsibility
+	| handler |
+	super onWidget: anElement.
+	handler := self
+		           addEventHandlerOn: ToRunLinkActionRequest
+		           do: [ :event | self onRunActionRequest: event ].
+	self addedHandler: handler in: self
 ]
 
 { #category : #running }

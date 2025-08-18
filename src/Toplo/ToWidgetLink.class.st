@@ -4,19 +4,14 @@ Class {
 	#traits : 'TBlEventTarget',
 	#classTraits : 'TBlEventTarget classTrait',
 	#instVars : [
-		'eventDispatcher'
+		'eventDispatcher',
+		'widget'
 	],
 	#category : #'Toplo-Core-WidgetLink'
 }
 
-{ #category : #adding }
-ToWidgetLink >> addedHandler: anEventHandler [
-
-	self addedHandler: anEventHandler in: self for: nil
-]
-
-{ #category : #adding }
-ToWidgetLink >> addedHandler: anEventHandler in: aTarget for: aReceiver [
+{ #category : #'handlers management' }
+ToWidgetLink >> addedHandler: anEventHandler in: aTarget [
 
 	self
 		addEventHandlerOn: ToWidgetLinkDissociateEvent
@@ -34,13 +29,20 @@ ToWidgetLink >> eventDispatcher [
 ]
 
 { #category : #initialization }
-ToWidgetLink >> link: anObjectOrValuable withWidget: aCheckable [
+ToWidgetLink >> onWidget: anElement [
 
-	self subclassResponsibility 
+	self widget: anElement
 ]
 
 { #category : #initialization }
 ToWidgetLink >> unlink [
 
-	self dispatchEvent: ToWidgetLinkDissociateEvent new
+	self dispatchEvent: ToWidgetLinkDissociateEvent new.
+	widget := nil
+]
+
+{ #category : #accessing }
+ToWidgetLink >> widget: anElement [
+
+	widget := anElement
 ]

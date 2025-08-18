@@ -28,9 +28,8 @@ TToLinkable >> groupCheckAction: aValuable [
 
 { #category : #'t - linkable - instance creation' }
 TToLinkable >> newCheckAction: aValuable [
-	" link the receiver through a valuable action along with a linked object. 
-	Tha valuable take the event, the linked object and
-	the boolean value of checkable receiver as arguments."
+	" link the receiver through a valuable action . 
+	Tha valuable take the event as optional argument."
 
 	^ (ToCheckableActionLink new action: aValuable)
 		  onWidget: self;
@@ -39,6 +38,9 @@ TToLinkable >> newCheckAction: aValuable [
 
 { #category : #'t - linkable - instance creation' }
 TToLinkable >> newClickAction: aValuable [
+
+	" link the receiver through a valuable action . 
+	Tha valuable take the event as optional argument."
 
 	^ ToClickableActionLink new
 		  action: aValuable;
@@ -49,6 +51,9 @@ TToLinkable >> newClickAction: aValuable [
 { #category : #'t - linkable - instance creation' }
 TToLinkable >> newGroupCheckAction: aValuable [ 
 
+	" link the receiver through a valuable action . 
+	Tha valuable take the event as optional argument."
+	
 	^ (ToCheckableGroupActionLink new action: aValuable)
 		  onWidget: self;
 		  yourself

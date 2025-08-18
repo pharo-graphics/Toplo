@@ -8,13 +8,9 @@ Class {
 ToCheckableActionLink >> onWidget: aCheckable [
 
 	| handler |
+	super onWidget: aCheckable.
 	handler := aCheckable
 		           addEventHandlerOn: ToCheckableChangedEvent
 		           do: [ :event | self runWithEvent: event ].
-	self addedHandler: handler in: aCheckable for: aCheckable.
-	handler := self
-		           addEventHandlerOn: ToRunLinkActionRequest
-		           do: [ :event |
-		           self onRunLinkActionRequest: event onWidget: aCheckable ].
-	self addedHandler: handler in: self for: aCheckable
+	self addedHandler: handler in: aCheckable
 ]

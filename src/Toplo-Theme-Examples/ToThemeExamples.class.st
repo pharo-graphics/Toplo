@@ -163,11 +163,11 @@ ToThemeExamples class >> example_BlElementWithTheme [
 	themeSwitcher := ToCheckbox new
 		                 labelText: 'Dark Theme';
 		                 beEndToStart;
-		                 newCheckAction: [ :evt :v |
-			                 pn localTheme: (v
+		                 checkAction: [ :evt |
+			                 pn localTheme: (evt currentTarget isChecked
 						                  ifTrue: [ ToBeeDarkTheme new ]
 						                  ifFalse: [ ToBeeTheme new ]).
-			                 v
+			                 evt currentTarget isChecked
 				                 ifTrue: [ pn background: Color gray ]
 				                 ifFalse: [ pn background: Color white ] ];
 		                 yourself.
@@ -268,11 +268,11 @@ ToThemeExamples class >> example_ToLabelWithHeadingSkin [
 		                 beEndToStart.
 	themeSwitcher defaultSkin: ToCheckboxSkin new.
 	themeSwitcher
-		checkAction: [ :evt :cbox :v |
-			cbox space toTheme: (v
+		checkAction: [ :evt |
+			evt target space toTheme: (evt target isChecked
 					 ifTrue: [ ToBeeDarkTheme new ]
 					 ifFalse: [ ToBeeTheme new ]) ].
-	themeSwitcher checked: true.
+	themeSwitcher checked: (Toplo defaultThemeClass = ToBeeDarkTheme).
 	space root addChild: themeSwitcher.
 
 	listElement := ToListElement new nodeBuilder: [ :node :dataItem :holder |

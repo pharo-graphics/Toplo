@@ -16,30 +16,24 @@ ToActionLink >> action: anAction [
 { #category : #running }
 ToActionLink >> onActionRunnedDo: aValuable [
 
-	self addedHandler:
-		(self addEventHandlerOn: ToLinkActionRunnedEvent do: [ :evt |
-			 aValuable
-				 cull: evt sourceEvent
-				 cull: evt linkedObject
-				 cull: evt changedValue ])
+	self addedHandler: (self
+			 addEventHandlerOn: ToLinkActionRunnedEvent
+			 do: [ :evt | aValuable cull: evt sourceEvent ])
 ]
 
 { #category : #running }
-ToActionLink >> onRunLinkActionRequest: anEvent onWidget: aTarget withValue: aValue [
+ToActionLink >> onRunLinkActionRequest: anEvent onWidget: aTarget [
 
 	| runnedBlock |
 	aTarget isDisabled ifTrue: [ ^ self ].
 	runnedBlock := [
 		               | space time evt |
-		               action
-			               cull: anEvent sourceEvent
-			               cull: aValue.
+		               action cull: anEvent sourceEvent.
 		               space := aTarget space.
 		               time := space ifNotNil: [ :sp | sp time ].
 		               evt := ToLinkActionRunnedEvent new
 			                      fillFromTime: time;
 			                      sourceEvent: anEvent sourceEvent;
-			                      changedValue: aValue;
 			                      yourself.
 		               self dispatchEvent: evt.
 		               aTarget fireEvent: evt copy ].
@@ -48,33 +42,10 @@ ToActionLink >> onRunLinkActionRequest: anEvent onWidget: aTarget withValue: aVa
 		ifNotNil: [ runnedBlock value ]
 ]
 
-{ #category : #running }
-ToActionLink >> onRunLinkActionRequest: anEvent withLinkedObject: anObjectOrValuable fromWidget: aTarget withValue: aValue [
+{ #category : #initialization }
+ToActionLink >> onWidget: aCheckable [
 
-	| runnedBlock linked |
-	aTarget isDisabled ifTrue: [ ^ self ].
-	linked := anObjectOrValuable isBlock
-		          ifTrue: [ anObjectOrValuable cull: aTarget ]
-		          ifFalse: [ anObjectOrValuable ].
-	runnedBlock := [
-		               | space time evt |
-		               action
-			               cull: anEvent sourceEvent
-			               cull: linked
-			               cull: aValue.
-		               space := aTarget space.
-		               time := space ifNotNil: [ :sp | sp time ].
-		               evt := ToLinkActionRunnedEvent new
-			                      fillFromTime: time;
-			                      linkedObject: anObjectOrValuable;
-			                      sourceEvent: anEvent sourceEvent;
-			                      changedValue: aValue;
-			                      yourself.
-		               self dispatchEvent: evt.
-		               aTarget fireEvent: evt copy ].
-	aTarget space
-		ifNil: [ aTarget inUIProcessDo: runnedBlock ]
-		ifNotNil: [ runnedBlock value ]
+	^ self subclassResponsibility
 ]
 
 { #category : #running }

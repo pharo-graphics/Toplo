@@ -139,8 +139,8 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	menu addItem: (ToRadioMenuItem new
 			 label: (ToLabel text: 'Dark theme');
-			 checkAction: [ :evt :v |
-					 evt currentTarget space toTheme: (v
+			 checkAction: [ :evt |
+					 evt currentTarget space toTheme: (evt target isChecked
 								  ifTrue: [ ToRawDarkTheme new ]
 								  ifFalse: [ ToRawTheme new ]) ];
 			 yourself).
@@ -154,7 +154,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 			 yourself).
 	menu addItem: (ToRadioMenuItem new
 			 label: (ToLabel text: 'Disabled bar');
-			 checkAction: [ :evt :value | aBar disabled: value ];
+			 checkAction: [ :evt | aBar disabled: evt target isChecked ];
 			 yourself).
 	confPane addChild: menu.
 
@@ -177,10 +177,10 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 		 -> 'Disabled items are unselectable') } do: [ :assoc |
 			| switch |
 			switch := ToSwitchButton new labelText: assoc value value.
-			switch checkAction: [ :evt :value |
+			switch checkAction: [ :evt  |
 					assoc key value isSymbol
-						ifTrue: [ aBar perform: assoc key value with: value ]
-						ifFalse: [ assoc key value value: value ] ].
+						ifTrue: [ aBar perform: assoc key value with: evt target isChecked ]
+						ifFalse: [ assoc key value value: evt target isChecked ] ].
 
 			switch startFlexible: true.
 			switch hMatchParent.
@@ -191,9 +191,9 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 						switch checked: (aBar perform: assoc key key) ] ] ].
 
 	animSwitch := ToSwitchButton new labelText: 'Animate transition'.
-	animSwitch checkAction: [ :evt :option :v |
+	animSwitch checkAction: [ :evt  |
 			| d |
-			d := v
+			d := evt target isChecked
 				     ifTrue: [ 200 milliSeconds ]
 				     ifFalse: [ 0 milliSeconds ].
 			aBar selectionOption animationDuration: d.
@@ -425,8 +425,8 @@ ToSandBox class >> checkingStrategyChooserFor: aCheckableBar [
 			       yourself.
 		checkingStrategyGroupPane addChild: chb.
 		chb
-			newCheckAction: [ :evt :value |
-				value ifTrue: [
+			checkAction: [ :evt  |
+				chb isChecked ifTrue: [
 					| message |
 					message := modeAssoc value.
 					aCheckableBar perform: message ] ] ].
@@ -1525,12 +1525,12 @@ ToSandBox class >> example_CheckAction [
 	r1 := ToRadioButton new
 		      id: #r1;
 		      labelText: 'Dark theme';
-		      newCheckAction: [ :evt :v |
-			      evt currentTarget space toTheme: (v
+		      checkAction: [ :evt |
+			      evt currentTarget space toTheme: (evt currentTarget isChecked
 						       ifTrue: [ ToRawDarkTheme new ]
 						       ifFalse: [ ToRawTheme new ]) ];
 		      yourself.
-
+	r1 checked: (Toplo defaultThemeClass = ToRawDarkTheme).
 	containerElement addChildren: { r1 }.
 	containerElement openInSpace
 ]
@@ -1649,8 +1649,8 @@ ToSandBox class >> example_Checkbox [
 	ToTheme cleanUp.
 	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
 	chb addEventHandlerOn: ToSkinEvent do: [ :evt | evt traceCr ].
-	chb checkAction: [ :evt :target :value  |
-		value traceCr ].
+	chb checkAction: [ :evt   |
+		evt target isChecked traceCr ].
 	chb openInInnerWindow
 ]
 
@@ -1661,8 +1661,8 @@ ToSandBox class >> example_CheckboxChecked [
 	ToTheme cleanUp.
 	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
 	chb addEventHandlerOn: ToSkinEvent do: [ :evt | evt traceCr ].
-	chb checkAction: [ :evt :target :value  |
-		value traceCr ].
+	chb checkAction: [ :evt   |
+		evt target isChecked ].
 	chb checked: true.
 	chb openInInnerWindow
 ]
@@ -1674,9 +1674,9 @@ ToSandBox class >> example_CheckboxCheckedDisabled [
 	ToTheme cleanUp.
 	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
 	chb addEventHandlerOn: ToSkinEvent do: [ :evt | evt traceCr ].
-	chb checkAction: [ :evt :target :value |
+	chb checkAction: [ :evt  |
 		'isChecked: ' trace.
-		value traceCr ].
+		evt target isChecked traceCr ].
 	chb checked: true.
 	chb disabled: true.
 	disBtn := ToSwitchButton new labelText: 'Enable/disable'.
@@ -1826,7 +1826,7 @@ ToSandBox class >> example_CheckboxStartFlexibleWithGroup [
 	group registeredCheckables second checked: true.
 
 	group 
-		groupCheckAction: [ :evt :checkedList | checkedList traceCr ].
+		groupCheckAction: [ :evt | evt checkedList traceCr ].
 	group matchParent.
 	group openInSpace
 ]
@@ -1872,7 +1872,7 @@ ToSandBox class >> example_CheckboxVerticalGroupHorizontal [
 		group addChild: chb ].
 
 	group registeredCheckables second checked: true.
-	group groupCheckAction:[ :evt :checkedList | checkedList traceCr ].
+	group groupCheckAction:[ :evt | evt checkedList traceCr ].
 	group openInSpace
 ]
 
@@ -2152,8 +2152,8 @@ ToSandBox class >> example_CodeEditor [
 		                     yourself.
 	disabox := ToCheckMenuItem new
 		           label: (ToLabel text: 'Disable');
-		           checkAction: [ :evt :target :value |
-			           album disabled: value ];
+		           checkAction: [ :evt  |
+			           album disabled: evt target isChecked ];
 		           yourself.
 	album whenConfigurationAppliedDo: [
 		disabox checked: album isDisabled ].
@@ -2238,8 +2238,8 @@ ToSandBox class >> example_EditorWithMinHeight [
 	pane addChild: album.
 
 	inspectBtn clickAction: [ album space root inspect ].
-	disabox checkAction: [ :evt :target :value |
-			           album disabled: value ].
+	disabox checkAction: [ :evt  |
+			           album disabled: evt target isChecked ].
 	album whenConfigurationAppliedDo: [
 		disabox disabled: album isDisabled ].
 	showStatisticsBtn clickAction: [
@@ -4755,29 +4755,29 @@ ToSandBox class >> example_SimpleOpenSaveSaveAsClose [
 	| menu container |
 	container := ToInnerWindow new
 		             position: 10 @ 10;
-		             size: 400 @ 200;
+		             extent: 400 @ 200;
 		             yourself.
 	menu := ToMenu new background: Color random.
 	menu label: (ToLabel text: 'Menu').
 	menu addItem: (ToMenuItem new
-			 icon: ((ToImage inner: (self iconNamed: #solidMenu)));
+			 icon: (ToImage inner: (self iconNamed: #solidMenu));
 			 label: (ToLabel text: 'Open')).
 	menu addItem: (ToMenuItem new
-			 icon: ((ToImage inner: (self iconNamed: #solidMenu)));
+			 icon: (ToImage inner: (self iconNamed: #solidMenu));
 			 label: (ToLabel text: 'Save');
 			 background: (Color random alpha: 0.2)).
 	menu addItem: (ToMenuItem new
-			 icon: ((ToImage inner: (self iconNamed: #solidMenu)));
+			 icon: (ToImage inner: (self iconNamed: #solidMenu));
 			 label: (ToLabel text: 'Save as');
 			 background: (Color random alpha: 0.2)).
-	menu items last clickAction: [ :evt :target | target inspect ].
+	menu items last clickAction: [ :evt | evt target inspect ].
 	menu addSeparator.
 	menu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Close');
 			 background: (Color random alpha: 0.2)).
-	menu items last clickAction: [ :evt :target | target inspect ].
+	menu items last clickAction: [ :evt | evt target inspect ].
 	container pane addChild: menu.
-	
+
 	container openInSpace
 ]
 
@@ -5199,8 +5199,8 @@ ToSandBox class >> example_ToggleButtonChecked [
 	toggle addEventHandler: (BlEventHandler
 			 on: ToSkinEvent
 			 do: [ :evt | evt target = toggle ifTrue: [ evt traceCr ] ]).
-	toggle checkAction: [ :evt :target :value |
-		value traceCr ].
+	toggle checkAction: [ :evt |
+		evt target isChecked traceCr ].
 	toggle checked: true.
 	toggle openInInnerWindow
 ]
@@ -5554,7 +5554,7 @@ ToSandBox class >> example_WithCheckBox [
 
 	menu addItem: (ToRadioMenuItem new
 			 label: (ToLabel text: 'Check');
-			 checkAction: [ :evt :target :value | value traceCr ];
+			 checkAction: [ :evt | evt target isChecked traceCr ];
 			 yourself).
 	grp := ToCheckableGroup new.
 	right := ToCheckMenuItem new
@@ -5669,7 +5669,7 @@ ToSandBox class >> example_buttonWith2Icons [
 	| but  |
 	but := self example_buttonWithIcon.
 	but addEventHandlerOn: ToSkinEvent do: [ :event | event traceCr ].
-	but clickAction: [ :evt :target | target traceCr ].
+	but clickAction: [ :evt | evt target traceCr ].
 	but addEventHandlerOn: BlDoubleClickEvent do: [ :event | event traceCr ].
 	but label: (ToLabel text: 'Button with 2 icons').
 	but endElement: (ToImage inner: ToThemeIcons searchOutlined16x16).
@@ -5723,8 +5723,8 @@ ToSandBox class >> example_buttonWithDisableEnable [
 	button := (ToButton id: #buttonA)
 		          labelText: 'Button';
 		          yourself.
-	disabox checkAction: [ :evt :target :value | button disabled: value ].
-	button clickAction: [ :evt :target | disabox checked: true. button disabled: true ].
+	disabox checkAction: [ :evt | button disabled: evt target isChecked ].
+	button clickAction: [ :evt | disabox checked: true. button disabled: true ].
 	button addEventHandlerOn: ToHoveredSkinEvent do: [ :evt |  ].
 	pane addChild: disabox.
 	pane addChild: button.
@@ -5805,7 +5805,7 @@ ToSandBox class >> example_clickAction [
 	e := ToElement new.
 	e extent: 50 asPoint.
 	e background: Color blue.
-	action := e newClickAction: [ :evt | evt traceCr ].
+	action := e clickAction: [ :evt | evt traceCr ].
 	e addEventHandlerOn: BlClickEvent do: [ :event |
 			action run.
 			action runWithEvent: event ].
@@ -6069,19 +6069,23 @@ ToSandBox class >> example_group3 [
 				(ToRadioButton new
 					 id: #r1;
 					 labelText: 'Light theme';
-					 newCheckAction: [ :evt :v | | space |
-						 space := evt currentTarget space.
-						 v ifTrue: [ space toTheme: ToRawTheme new ] ];
+					 checkAction: [ :evt |
+							 | space |
+							 space := evt currentTarget space.
+							 evt currentTarget isChecked ifTrue: [
+									 space toTheme: ToRawTheme new ] ];
 					 yourself).
 				(ToRadioButton new
 					 id: #r2;
 					 labelText: 'Dark theme';
-					 newCheckAction: [ :evt :v | | space |
-						 space := evt currentTarget space.
-						 v ifTrue: [ space toTheme: ToRawDarkTheme new ] ];
+					 checkAction: [ :evt |
+							 | space |
+							 space := evt currentTarget space.
+							 evt currentTarget isChecked ifTrue: [
+									 space toTheme: ToRawDarkTheme new ] ];
 					 yourself) }.
-	
-	group registeredCheckables second checked: true.
+	group registeredCheckables first checked: (Toplo defaultThemeClass = ToRawTheme).
+	group registeredCheckables second checked: (Toplo defaultThemeClass = ToRawDarkTheme).
 	containerElement addChildren: group registeredCheckables.
 
 	containerElement openInSpace
@@ -6098,14 +6102,15 @@ ToSandBox class >> example_group4 [
 		registerAll: {
 				(ToRadioButton new
 					 labelText: 'Light theme';
-					 checkAction: [ :evt :btn :v | Toplo defaultThemeClass: ToRawTheme ];
+					 checkAction: [ :evt | containerElement localTheme: ToRawTheme new];
 					 yourself).
 				(ToRadioButton new
 					 labelText: 'Dark theme';
-					 checkAction: [ :evt :btn :v | Toplo defaultThemeClass: ToRawDarkTheme ];
+					 checkAction: [ :evt| containerElement localTheme: ToRawDarkTheme new];
 					 yourself) }.
 
 	containerElement addChildren: group registeredCheckables.
+	containerElement localTheme: ToRawDarkTheme new.
 	group registeredCheckables second checked: true.
 
 	containerElement openInSpace
@@ -7580,7 +7585,6 @@ ToSandBox class >> example_switchButton2 [
 		((ToImage inner: (self iconNamed: #glamorousClose))
 			 innerImageColor: Color white).
 
-	th checkAction: [ :evt :target :value | value traceCr ].
 	sp := th openInSpace
 ]
 
@@ -9138,8 +9142,9 @@ ToSandBox class >> resizerBoardFor: aBar [
 						        yourself.
 					group addChild: cbox.
 					cbox
-						newCheckAction: [ :evt :value |
-								| policy |
+						checkAction: [ :evt  |
+								| policy value |
+								value := evt currentTarget isChecked.
 								value ifTrue: [
 										mode = #Exact
 											ifTrue: [ sizeInputPane enabled: true ]
@@ -9261,7 +9266,9 @@ ToSandBox class >> selectionModeChooserFor: aBar [
 			       yourself.
 		selectionModeGroup addChild: chb.
 		chb
-			newCheckAction: [ :evt :value |
+			checkAction: [ :evt | 
+				| value |
+				value := evt currentTarget isChecked.
 				value ifTrue: [ | chosen selMode |
 					chosen := modeAssoc key.
 					selMode := aBar primarySelectionMode.
@@ -9362,14 +9369,14 @@ ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 
 	confPane := self barConfigurationBoardFor: aTabGroupElement.
 	startToEndSwitch := ToSwitchButton new labelText: 'At start'.
-	startToEndSwitch checkAction: [ :evt :value | aTabGroupElement atStartSide: value ].
+	startToEndSwitch checkAction: [ :evt | aTabGroupElement atStartSide: evt target isChecked ].
 
 	startToEndSwitch startFlexible: true.
 	startToEndSwitch hMatchParent.
 	confPane addChild: startToEndSwitch.
 
 	addTabItemButtonSwicth := ToSwitchButton new labelText: 'Show new tab button'.
-	addTabItemButtonSwicth checkAction: [ :evt :value | aTabGroupElement showAddTabItemButton: value ].
+	addTabItemButtonSwicth checkAction: [ :evt | aTabGroupElement showAddTabItemButton: evt target isChecked ].
 
 	addTabItemButtonSwicth startFlexible: true.
 	addTabItemButtonSwicth hMatchParent.

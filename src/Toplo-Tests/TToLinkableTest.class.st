@@ -47,9 +47,9 @@ TToLinkableTest >> testCheckActionWith [
 		             yourself.
 	space root addChild: checkable.
 	checkable
-		checkAction: [ :evt :val |
+		checkAction: [ :evt |
 				received := evt.
-				value := val ].
+				value := evt target isChecked ].
 	checkable dispatchEvent: ToCheckableChangedEvent new.
 	self assert: (received isKindOf: ToCheckableChangedEvent).
 	self deny: value.
@@ -75,15 +75,13 @@ TToLinkableTest >> testClickAction [
 { #category : #tests }
 TToLinkableTest >> testClickAction2 [
 
-	| received value |
+	| received |
 	received := nil.
-	element clickAction: [ :evt :val |
-			received := evt.
-			value := val ].
+	element clickAction: [ :evt |
+			received := evt ].
 	BlSpace simulateClickOn: element.
 	self waitTestingSpaces.
-	self assert: received notNil.
-	self assert: value isNil
+	self assert: received notNil
 ]
 
 { #category : #tests }
@@ -98,10 +96,10 @@ TToLinkableTest >> testGroupCheckAction [
 					 yourself) ].
 
 	group
-		groupCheckAction: [ :evt :list |
+		groupCheckAction: [ :evt  |
 				received := evt.
 				theGroup := evt target.
-				theList := list ].
+				theList := evt checkedList ].
 
 	group width: 150.
 	space root addChild: group.
@@ -183,10 +181,10 @@ TToLinkableTest >> testNewGroupCheckAction [
 					 yourself) ].
 
 	group
-		newGroupCheckAction: [ :evt :list |
+		newGroupCheckAction: [ :evt  |
 				received := evt.
 				theGroup := evt target.
-				theList := list ].
+				theList := evt checkedList ].
 
 	group width: 150.
 	group uniformNodeWidth: true.
@@ -216,10 +214,10 @@ TToLinkableTest >> testNewGroupCheckAction2 [
 
 	group matchParent.
 	self waitTestingSpaces.
-	group newGroupCheckAction: [ :evt :list |
+	group newGroupCheckAction: [ :evt |
 			received := evt.
 			theGroup := evt target.
-			theList := list ].
+			theList := evt checkedList ].
 
 	space root addChild: group.
 	" wait to update the data source "

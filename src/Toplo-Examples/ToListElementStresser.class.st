@@ -365,11 +365,11 @@ ToListElementStresser >> newSelectionBoardOn: aListElement [
 	pane := ToMenuPane horizontal.
 	pane addItem: (ToMenuItem new
 			 labelText: 'Inspect';
-			 clickAction: [ :evt :target | target space inspect ];
+			 clickAction: [ :evt | evt target space inspect ];
 			 yourself).
 	pane addItem: (ToMenuItem new
 			 labelText: 'Statistics';
-			 clickAction: [ :evt :target | target space showStatisticsWindow ];
+			 clickAction: [ :evt | evt target space showStatisticsWindow ];
 			 yourself).
 	lab := ToLabel new.
 	labItem := ToCustomMenuItem new.

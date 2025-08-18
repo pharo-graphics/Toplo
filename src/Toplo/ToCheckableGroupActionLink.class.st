@@ -5,26 +5,6 @@ Class {
 }
 
 { #category : #initialization }
-ToCheckableGroupActionLink >> link: aCheckableGroup withWidget: anElement [
-
-	| handler |
-	handler := aCheckableGroup
-		           addEventHandlerOn: ToCheckableGroupChangedEvent
-		           do: [ :event | self runWithEvent: event ].
-	self addedHandler: handler in: aCheckableGroup for: nil.
-
-	handler := self
-		           addEventHandlerOn: ToRunLinkActionRequest
-		           do: [ :event |
-				           self
-					           onRunLinkActionRequest: event
-					           withLinkedObject: aCheckableGroup
-					           fromWidget: anElement
-					           withValue: aCheckableGroup checkedList ].
-	self addedHandler: handler in: self for: nil
-]
-
-{ #category : #initialization }
 ToCheckableGroupActionLink >> onWidget: anElement [
 
 	| handler |
@@ -36,9 +16,6 @@ ToCheckableGroupActionLink >> onWidget: anElement [
 	handler := self
 		           addEventHandlerOn: ToRunLinkActionRequest
 		           do: [ :event |
-				           self
-					           onRunLinkActionRequest: event
-					           onWidget: anElement
-					           withValue: anElement checkedList ].
+		           self onRunLinkActionRequest: event onWidget: anElement ].
 	self addedHandler: handler in: self for: nil
 ]

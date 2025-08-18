@@ -25,30 +25,6 @@ ToClickableActionLink >> launchableFromEvent: anEvent [
 ]
 
 { #category : #initialization }
-ToClickableActionLink >> link: anObjectOrValuable withWidget: aClickable [
-
-	| handler |
-	handler := aClickable
-		           addEventHandlerOn: aClickable clickEventClass
-		           do: [ :event |
-				           event consume.
-				           " evaluate if the action can be launched "
-				           (self launchableFromEvent: event) ifTrue: [
-					           self runWithEvent: event ] ].
-	self addedHandler: handler in: aClickable for: aClickable.
-
-	handler := self
-		           addEventHandlerOn: ToRunLinkActionRequest
-		           do: [ :event |
-				           self
-					           onRunLinkActionRequest: event
-					           withLinkedObject: anObjectOrValuable
-					           fromWidget: aClickable
-					           withValue: nil ].
-	self addedHandler: handler in: self for: aClickable
-]
-
-{ #category : #initialization }
 ToClickableActionLink >> onWidget: aClickable [
 
 	| handler |
@@ -64,9 +40,6 @@ ToClickableActionLink >> onWidget: aClickable [
 	handler := self
 		           addEventHandlerOn: ToRunLinkActionRequest
 		           do: [ :event |
-				           self
-					           onRunLinkActionRequest: event
-					           onWidget: aClickable
-					           withValue: nil ].
+		           self onRunLinkActionRequest: event onWidget: aClickable ].
 	self addedHandler: handler in: self for: aClickable
 ]

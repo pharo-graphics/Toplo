@@ -21,8 +21,7 @@ ToWidgetLink >> addedHandler: anEventHandler in: aTarget for: aReceiver [
 	self
 		addEventHandlerOn: ToWidgetLinkDissociateEvent
 		doOnce: [ :event |
-				aTarget removeEventHandler: anEventHandler.
-				aReceiver ifNotNil: [ aReceiver removeWidgetLink: self ] ]
+				aTarget removeEventHandler: anEventHandler ]
 ]
 
 { #category : #'event management accessing' }

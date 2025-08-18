@@ -3,12 +3,6 @@ Trait {
 	#category : #'Toplo-Core'
 }
 
-{ #category : #'t - linkable - private' }
-TToLinkable >> addWidgetLink: aLinkAction [
-
-	self widgetLinks add: aLinkAction
-]
-
 { #category : #'t - linkable - declare action' }
 TToLinkable >> checkAction: aValuable [
 	" link the receiver through a valuable action. 
@@ -20,31 +14,16 @@ TToLinkable >> checkAction: aValuable [
 ]
 
 { #category : #'t - linkable - declare action' }
-TToLinkable >> checkAction: aValuable onGroup: aCheckableGroup [
-
-	self newCheckAction: aValuable onGroup: aCheckableGroup
-]
-
-{ #category : #'t - linkable - declare action' }
 TToLinkable >> clickAction: aValuable [
 
 	self newClickAction: aValuable
 ]
 
-{ #category : #'t - linkable - link/unlink action' }
-TToLinkable >> linkCheckAction: aValuable [
-	" link the receiver through a valuable action. 
-	The valuable take the event, the receiver (a checkable))
-	and the boolean value of receiver
-	as optional arguments."
+{ #category : #'t - linkable - declare action' }
+TToLinkable >> groupCheckAction: aValuable [ 
+	
+	self newGroupCheckAction: aValuable 
 
-	self addWidgetLink: (self newCheckAction: aValuable)
-]
-
-{ #category : #'t - linkable - link/unlink action' }
-TToLinkable >> linkClickAction: aValuable [
-
-	self addWidgetLink: (self newClickAction: aValuable)
 ]
 
 { #category : #'t - linkable - instance creation' }
@@ -55,14 +34,6 @@ TToLinkable >> newCheckAction: aValuable [
 
 	^ (ToCheckableActionLink new action: aValuable)
 		  onWidget: self;
-		  yourself
-]
-
-{ #category : #'t - linkable - instance creation' }
-TToLinkable >> newCheckAction: aValuable onGroup: aCheckableGroup [
-
-	^ (ToCheckableGroupActionLink new action: aValuable)
-		  link: aCheckableGroup withWidget: self;
 		  yourself
 ]
 
@@ -81,22 +52,4 @@ TToLinkable >> newGroupCheckAction: aValuable [
 	^ (ToCheckableGroupActionLink new action: aValuable)
 		  onWidget: self;
 		  yourself
-]
-
-{ #category : #'t - linkable - private' }
-TToLinkable >> removeWidgetLink: aWidgetLink [
-
-	self widgetLinks remove: aWidgetLink ifAbsent: [ ]
-]
-
-{ #category : #'t - linkable - link/unlink action' }
-TToLinkable >> unlinkAllWidgetLinks [
-
-	self widgetLinks copy do: [ :link | link unlink ]
-]
-
-{ #category : #'t - linkable - accessing' }
-TToLinkable >> widgetLinks [
-
-	^ self userData at: #widgetLinks ifAbsentPut: [ IdentitySet new ]
 ]

@@ -11,15 +11,11 @@ TToCheckableListElement >> initializeAsCheckableListElement [
 		do: [ :event | self dispatchEvent: event copy ].
 
 	self addEventHandler: ToCheckableBarElementEventHandler new.
-
-	self primarySelectionMode selectionOption
-		grouped: false;
-		beneath: true;
-		triggerSelectionState: true.
+	self primarySelectionMode selectionOption withEmbeddedRepresentation.
 	
 	self contextMenuSelectionMode selectionOption
 		grouped: false;
-		beneath: false.
+		beneath: true.
 
 	self primarySelectionMode makeDisabledUnselectable: true
 ]

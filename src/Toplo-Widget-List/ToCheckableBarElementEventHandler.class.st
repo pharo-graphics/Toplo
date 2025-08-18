@@ -21,7 +21,7 @@ ToCheckableBarElementEventHandler >> eventsToHandle [
 	^ { ToListPrimarySelectionChangedEvent. ToCheckableGroupChangedEvent }
 ]
 
-{ #category : #'element handlers' }
+{ #category : #'event handling' }
 ToCheckableBarElementEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 
 	| listElement |

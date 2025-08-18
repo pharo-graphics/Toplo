@@ -2120,7 +2120,7 @@ ToSandBox class >> example_CodeEditor [
 
 						                m addItem: (ToMenuItem new
 								                 labelText: 'Paste';
-								                 clickAction: [ :evt :ed | album editor paste ];
+								                 clickAction: [ :evt | album editor paste ];
 								                 yourself).
 						                album editor paster fromClipboard isEmpty
 							                ifTrue: [ m items last disable ].

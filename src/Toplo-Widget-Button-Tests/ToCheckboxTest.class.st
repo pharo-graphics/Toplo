@@ -32,11 +32,10 @@ ToCheckboxTest >> testCheckedDisabledInSpace [
 
 	| chb |
 	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
-	chb applySkinInstallerOnFirstRequest: false.
 	chb checked: true.
 	self assert: chb icon isNil.
 	space root addChild: chb.
-	self assert: chb icon isNil.
+	self assert: chb icon notNil.
 	space applyAllSkinPhases.
 	self assert: chb icon notNil.
 	chb disabled: true.

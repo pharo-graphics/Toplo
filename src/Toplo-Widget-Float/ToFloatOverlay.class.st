@@ -1,13 +1,6 @@
 Class {
 	#name : #ToFloatOverlay,
 	#superclass : #ToOverlayElement,
-	#instVars : [
-		'margin',
-		'northWest',
-		'northEast',
-		'southWest',
-		'southEast'
-	],
 	#category : #'Toplo-Widget-Float'
 }
 
@@ -23,34 +16,22 @@ ToFloatOverlay >> defaultLayout [
 	^ BlAnchorLayout new
 ]
 
+{ #category : #'t - overlay element - geometry' }
+ToFloatOverlay >> extentFrom: anExtent [
+
+	^ super extentFrom: anExtent - self padding extent
+]
+
 { #category : #initialization }
 ToFloatOverlay >> initialize [ 
 
 	super initialize.
 	self layout: self defaultLayout.
-	self elevation: self defaultElevation 
+	self elevation: self defaultElevation
 ]
 
-{ #category : #accessing }
-ToFloatOverlay >> northEast [
+{ #category : #'t - overlay element - geometry' }
+ToFloatOverlay >> positionFrom: aPoint [
 
-	^ northEast
-]
-
-{ #category : #accessing }
-ToFloatOverlay >> northWest [
-
-	^ northWest
-]
-
-{ #category : #accessing }
-ToFloatOverlay >> southEast [
-
-	^ southEast
-]
-
-{ #category : #accessing }
-ToFloatOverlay >> southWest [
-
-	^ southWest
+	^ super positionFrom: aPoint + self padding topLeft
 ]

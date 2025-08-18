@@ -1,6 +1,6 @@
 Class {
 	#name : #ToCheckableBarElementEventHandler,
-	#superclass : #ToListElementEventHandler,
+	#superclass : #BlCustomEventHandler,
 	#category : #'Toplo-Widget-List-ItemBar'
 }
 
@@ -18,10 +18,10 @@ ToCheckableBarElementEventHandler >> checkableGroupChangedEvent: anEvent [
 { #category : #'api - accessing' }
 ToCheckableBarElementEventHandler >> eventsToHandle [
 
-	^ super eventsToHandle , { ToListPrimarySelectionChangedEvent. ToCheckableGroupChangedEvent }
+	^ { ToListPrimarySelectionChangedEvent. ToCheckableGroupChangedEvent }
 ]
 
-{ #category : #'element handlers' }
+{ #category : #'event handling' }
 ToCheckableBarElementEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 
 	| listElement |

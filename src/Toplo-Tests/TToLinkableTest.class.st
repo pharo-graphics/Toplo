@@ -19,21 +19,6 @@ TToLinkableTest >> setUp [
 ]
 
 { #category : #tests }
-TToLinkableTest >> testAddWidgetLink [
-
-	| action |
-	action := element newClickAction: [ :evt |  ].
-	self assert: element widgetLinks size equals: 0.
-	element addWidgetLink: action.
-	self assert: element widgetLinks size equals: 1.
-	element addWidgetLink: action.
-	self assert: element widgetLinks size equals: 1.
-
-
-	
-]
-
-{ #category : #tests }
 TToLinkableTest >> testCheckAction [
 
 	| received checkable |
@@ -54,30 +39,24 @@ TToLinkableTest >> testCheckAction [
 { #category : #tests }
 TToLinkableTest >> testCheckActionWith [
 
-	| received checkable theElement value |
+	| received checkable value |
 	received := nil.
-	theElement := nil.
 	value := nil.
 	checkable := ToCheckbox new
 		             labelText: 'XXXXX';
 		             yourself.
 	space root addChild: checkable.
 	checkable
-		checkAction: [ :evt :obj :val |
+		checkAction: [ :evt :val |
 				received := evt.
-				theElement := obj.
-				value := val ]
-		with: space root.
+				value := val ].
 	checkable dispatchEvent: ToCheckableChangedEvent new.
 	self assert: (received isKindOf: ToCheckableChangedEvent).
-	self assert: theElement identicalTo: space root.
 	self deny: value.
 	received := nil.
-	theElement := nil.
 	value := nil.
 	checkable checked: true.
 	self assert: (received isKindOf: ToCheckableChangedEvent).
-	self assert: theElement identicalTo: space root.
 	self assert: value
 ]
 
@@ -108,80 +87,32 @@ TToLinkableTest >> testClickAction2 [
 ]
 
 { #category : #tests }
-TToLinkableTest >> testLinkCheckAction [
- 
-	| received prevReceived runCount checkable|
-	received := nil.
-	runCount := 0.
-	checkable := ToCheckbox new labelText: 'XXXXX'; yourself.
-	space root addChild: checkable.
+TToLinkableTest >> testGroupCheckAction [
 
-	self assert: checkable widgetLinks isEmpty.
-	checkable linkCheckAction: [ :evt |
-			received := evt.
-			runCount := runCount + 1 ].
-	self assert: checkable widgetLinks size equals: 1.
-	BlSpace simulateClickOn: checkable.
+	| group received theGroup theList |
+	group := ToCheckableGroupPane new.
+	group withStrictCheckingStrategy.
+	{ 'Monday'. 'Tuesday'. 'Wednesday'. 'Thursday'. 'Friday' } do: [ :day |
+			group addChild: (ToToggleButton new
+					 labelText: day;
+					 yourself) ].
+
+	group
+		groupCheckAction: [ :evt :list |
+				received := evt.
+				theGroup := evt target.
+				theList := list ].
+
+	group width: 150.
+	space root addChild: group.
+	group items second checked: true.
 	self waitTestingSpaces.
 	self assert: received notNil.
-	self assert: runCount equals: 1.
-	prevReceived := received.
-	received := nil.
-	checkable widgetLinks do: [ :action | action run ].
-	self assert: received isNil.
-	self assert: runCount equals: 2
-]
-
-{ #category : #tests }
-TToLinkableTest >> testLinkCheckAction2 [
- 
-	| received runCount checkable|
-	received := nil.
-	runCount := 0.
-	checkable := ToCheckbox new labelText: 'XXXXX'; yourself.
-	checkable linkCheckAction: [ :evt |
-			received := evt.
-			runCount := runCount + 1 ].
-	self assert: checkable widgetLinks size equals: 1.
-	BlSpace simulateClickOn: checkable.
-	self assert: runCount equals: 1.
-
-	checkable widgetLinks do: [ :action | action run ].
-	space root addChild: checkable.
-	self assert: received notNil.
-	self waitTestingSpaces.
-	self assert: received isNil.
-	self assert: runCount equals: 2.
-
-
-
-]
-
-{ #category : #tests }
-TToLinkableTest >> testLinkClickAction [
-
-	| received prevReceived runCount |
-	received := nil.
-	runCount := 0.
-	self assert: element widgetLinks isEmpty.
-	element linkClickAction: [ :evt |
-			received := evt.
-			runCount := runCount + 1 ].
-	self assert: element widgetLinks size equals: 1.
-	BlSpace simulateClickOn: element.
-	self waitTestingSpaces.
-	self assert: received notNil.
-	self assert: runCount equals: 1.
-	prevReceived := received.
-	received := nil.
-	element widgetLinks do: [ :action | action run ].
-	self assert: received isNil.
-	self assert: runCount equals: 2.
-	received := nil.
-	element widgetLinks do: [ :action |
-		action runWithEvent: prevReceived ].
-	self assert: received equals: prevReceived.
-	self assert: runCount equals: 3
+	self assert: theGroup identicalTo: group.
+	self assert: theList size equals: 1.
+	self
+		assert: theList first
+		identicalTo: group items second
 ]
 
 { #category : #tests }
@@ -214,39 +145,6 @@ TToLinkableTest >> testNewCheckAction [
 ]
 
 { #category : #tests }
-TToLinkableTest >> testNewCheckActionOnGroup [
-
-	| group groupContainer received theGroup theList |
-	group := ToCheckableGroup new.
-	group withStrictCheckingStrategy.
-	{ 'Monday'. 'Tuesday'. 'Wednesday'. 'Thursday'. 'Friday' } do: [ :day |
-			group register: (ToToggleButton new
-					 labelText: day;
-					 hMatchParent;
-					 yourself) ].
-
-	groupContainer := ToPane vertical.
-	groupContainer
-		newCheckAction: [ :evt :grp :list |
-				received := evt.
-				theGroup := grp.
-				theList := list ]
-		onGroup: group.
-
-	groupContainer width: 150.
-	groupContainer addChildren: group registeredCheckables.
-	space root addChild: groupContainer.
-	group registeredCheckables second checked: true.
-	self waitTestingSpaces.
-	self assert: received notNil.
-	self assert: theGroup identicalTo: group.
-	self assert: theList size equals: 1.
-	self
-		assert: theList first
-		identicalTo: group registeredCheckables second
-]
-
-{ #category : #tests }
 TToLinkableTest >> testNewClickAction [
 
 	| received prevReceived action passedInAction |
@@ -274,48 +172,63 @@ TToLinkableTest >> testNewClickAction [
 ]
 
 { #category : #tests }
-TToLinkableTest >> testRemoveWidgetLink [
+TToLinkableTest >> testNewGroupCheckAction [
 
-	| action |
-	action := element newClickAction: [ :evt |  ].
-	self assert: element widgetLinks size equals: 0.
-	element addWidgetLink: action.
-	self assert: element widgetLinks size equals: 1.
-	element removeWidgetLink: action.
-	self assert: element widgetLinks size equals: 0.
+	| group received theGroup theList |
+	group := ToCheckableBarElement new.
+	group withStrictCheckingStrategy.
+	{ 'Monday'. 'Tuesday'. 'Wednesday'. 'Thursday'. 'Friday' } do: [ :day |
+			group addItem: (ToToggleButton new
+					 labelText: day;
+					 yourself) ].
 
+	group
+		newGroupCheckAction: [ :evt :list |
+				received := evt.
+				theGroup := evt target.
+				theList := list ].
 
-	
+	group width: 150.
+	group uniformNodeWidth: true.
+	space root addChild: group.
+	group items second checked: true.
+	self waitTestingSpaces.
+	self assert: received notNil.
+	self assert: theGroup identicalTo: group.
+	self assert: theList size equals: 1.
+	self
+		assert: theList first
+		identicalTo: group items second
 ]
 
 { #category : #tests }
-TToLinkableTest >> testUnlinkAllWidgetLinks [
+TToLinkableTest >> testNewGroupCheckAction2 [
 
-	| runCount blk |
-	self assert: element widgetLinks isEmpty.
-	runCount := 0.
-	blk := [ :evt |
-			runCount := runCount + 1 ].
-	element linkClickAction: blk.
-	element linkClickAction: blk.
-	
-	" 2 new click actions "
-	self assert: element widgetLinks size equals: 2.
-	BlSpace simulateClickOn: element.
+	| group received theGroup theList |
+	group := ToCheckableListElement new.
+	group withStrictCheckingStrategy.
+	group addAllItems:
+		({ 'Monday'. 'Tuesday'. 'Wednesday'. 'Thursday'. 'Friday' }
+			 collect: [ :day |
+					 ToToggleButton new
+						 labelText: day;
+						 yourself ]).
+
+	group matchParent.
 	self waitTestingSpaces.
-	self assert: runCount equals: 2.
-	
-	element widgetLinks do: [ :action | action run ].
-	" run actions programmatically "
-	self assert: runCount equals: 4.
-	
-	element unlinkAllWidgetLinks.	
-	" no more action to run on click "
-	self assert: element widgetLinks size equals: 0.
-	BlSpace simulateClickOn: element.
+	group newGroupCheckAction: [ :evt :list |
+			received := evt.
+			theGroup := evt target.
+			theList := list ].
+
+	space root addChild: group.
+	" wait to update the data source "
 	self waitTestingSpaces.
-	self assert: runCount equals: 4.
-
-
-
+	group items second checked: true.
+	" wait to let the space run the task that dispatch a ToCheckableGroupChangedEvent "
+	self waitTestingSpaces.
+	self assert: received notNil.
+	self assert: theGroup identicalTo: group.
+	self assert: theList size equals: 1.
+	self assert: theList first identicalTo: group items second
 ]

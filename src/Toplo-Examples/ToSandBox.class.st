@@ -139,8 +139,8 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	menu addItem: (ToRadioMenuItem new
 			 label: (ToLabel text: 'Dark theme');
-			 checkAction: [ :evt :cbox :v |
-					 cbox space toTheme: (v
+			 checkAction: [ :evt :v |
+					 evt currentTarget space toTheme: (v
 								  ifTrue: [ ToRawDarkTheme new ]
 								  ifFalse: [ ToRawTheme new ]) ];
 			 yourself).
@@ -154,8 +154,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 			 yourself).
 	menu addItem: (ToRadioMenuItem new
 			 label: (ToLabel text: 'Disabled bar');
-			 checkAction: [ :evt :target :value | target disabled: value ]
-			 with: aBar;
+			 checkAction: [ :evt :value | aBar disabled: value ];
 			 yourself).
 	confPane addChild: menu.
 
@@ -178,7 +177,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 		 -> 'Disabled items are unselectable') } do: [ :assoc |
 			| switch |
 			switch := ToSwitchButton new labelText: assoc value value.
-			switch checkAction: [ :evt :target :value |
+			switch checkAction: [ :evt :value |
 					assoc key value isSymbol
 						ifTrue: [ aBar perform: assoc key value with: value ]
 						ifFalse: [ assoc key value value: value ] ].
@@ -414,9 +413,8 @@ ToSandBox class >> buildSelectListElementIn: aSelectElement withIconProvider: an
 { #category : #bar }
 ToSandBox class >> checkingStrategyChooserFor: aCheckableBar [
 
-	| buttons checkingStrategyContainer checkingStrategyGroup |
-	checkingStrategyGroup := ToCheckableGroup new.
-	buttons := OrderedCollection new.
+	| checkingStrategyContainer checkingStrategyGroupPane |
+	checkingStrategyGroupPane := ToCheckableGroupPane vertical.
 	{
 		(#Strict -> #withStrictCheckingStrategy).
 		(#Weak -> #withWeakCheckingStrategy).
@@ -425,26 +423,22 @@ ToSandBox class >> checkingStrategyChooserFor: aCheckableBar [
 		chb := ToRadioButton new
 			       labelText: modeAssoc key asString;
 			       yourself.
-		buttons add: chb.
+		checkingStrategyGroupPane addChild: chb.
 		chb
-			newCheckAction: [ :evt :bar :value |
+			newCheckAction: [ :evt :value |
 				value ifTrue: [
 					| message |
 					message := modeAssoc value.
-					bar perform: message ] ]
-			with: aCheckableBar ].
+					aCheckableBar perform: message ] ] ].
 
-	checkingStrategyGroup registerAll: buttons.
-
-	buttons first checked: true.
+	checkingStrategyGroupPane registeredCheckables first checked: true.
 	checkingStrategyContainer := ToPane vertical.
 	checkingStrategyContainer vFitContent.
 	checkingStrategyContainer hMatchParent.
 	checkingStrategyContainer addChild:
 		(ToLabel text: 'Checking strategy').
-	checkingStrategyContainer layout cellSpacing: 0.
-	checkingStrategyContainer addChildren:
-		checkingStrategyGroup registeredCheckables.
+	checkingStrategyContainer addChild:
+		checkingStrategyGroupPane.
 	^ checkingStrategyContainer
 ]
 
@@ -671,20 +665,17 @@ ToSandBox class >> exampleLocalThemeChangesChildrenLookup [
 ToSandBox class >> examplePaneWithAccordionsWithCheckableGroup [
 
 	<script>
-	| pane group |
-	pane := ToPane new.
-	pane layout: BlLinearLayout vertical.
+	| pane |
+	pane := ToCheckableGroupPane vertical.
 	pane hMatchParent.
-	group := ToCheckableGroup new.
-	group withWeakCheckingStrategy.
+	pane group withWeakCheckingStrategy.
 	pane vFitContent.
-	(1 to: 5) collect: [ :i |
+	(1 to: 5) do: [ :i |
 		pane addChild:
 			((self accordionWithLabelText: 'Header ' , i asString)
 				 isExpanded: false;
 				 expandIconAtStart: false;
 				 yourself) ].
-	group registerAll: pane children.
 	pane openInSpace.
 	^ pane
 ]
@@ -1525,7 +1516,7 @@ ToSandBox class >> example_ButtonTurnedAsToggleButton [
 	toggle openInInnerWindow
 ]
 
-{ #category : #checkbox }
+{ #category : #checkables }
 ToSandBox class >> example_CheckAction [
 
 	| containerElement r1 |
@@ -1534,11 +1525,10 @@ ToSandBox class >> example_CheckAction [
 	r1 := ToRadioButton new
 		      id: #r1;
 		      labelText: 'Dark theme';
-		      newCheckAction: [ :evt :space :v |
-			      space toTheme: (v
+		      newCheckAction: [ :evt :v |
+			      evt currentTarget space toTheme: (v
 						       ifTrue: [ ToRawDarkTheme new ]
-						       ifFalse: [ ToRawTheme new ]) ]
-		      with: [ :radio | radio space ];
+						       ifFalse: [ ToRawTheme new ]) ];
 		      yourself.
 
 	containerElement addChildren: { r1 }.
@@ -1627,16 +1617,32 @@ ToSandBox class >> example_CheckableBarElement [
 		#'New York'. #'North Carolina'. #'North Dakota'. #Ohio. #Oklahoma.
 		#Oregon. #'Pennsylvania Rhode Island'. #'South Carolina'.
 		#'South Dakota'. #Tennessee. #Texas. #Utah. #Vermont. #Virginia.
-		#Washington. #'West Virginia'. #Wisconsin. #Wyoming } do: [ :l | bar addItem: (ToCheckbox new labelText: l) ].
+		#Washington. #'West Virginia'. #Wisconsin. #Wyoming } do: [ :l | bar addItem: (ToRadioButton new labelText: l) ].
 
 	"bar selecter selectIndex: 3."
+	bar uniformNodeWidth: true.
 	container addChild: bar.
 	bar items third checked: true.
 	space root addChild: container.
 	space show
 ]
 
-{ #category : #checkbox }
+{ #category : #checkables }
+ToSandBox class >> example_CheckableGroup [
+
+	| cgroup |
+	cgroup := ToCheckableGroupPane new.
+	{ #None. #Start. #Center. #End } do: [ :mode |
+			| chb |
+			chb := ToCheckbox new
+				       labelText: mode asString;
+				       id: mode.
+			cgroup addChild: chb ].
+	cgroup vertical: true.
+	cgroup openInSpace
+]
+
+{ #category : #checkables }
 ToSandBox class >> example_Checkbox [
 
 	| chb |
@@ -1648,7 +1654,7 @@ ToSandBox class >> example_Checkbox [
 	chb openInInnerWindow
 ]
 
-{ #category : #checkbox }
+{ #category : #checkables }
 ToSandBox class >> example_CheckboxChecked [
 
 	| chb |
@@ -1661,7 +1667,7 @@ ToSandBox class >> example_CheckboxChecked [
 	chb openInInnerWindow
 ]
 
-{ #category : #checkbox }
+{ #category : #checkables }
 ToSandBox class >> example_CheckboxCheckedDisabled [
 
 	| chb sp disBtn |
@@ -1685,7 +1691,7 @@ ToSandBox class >> example_CheckboxCheckedDisabled [
 	sp show
 ]
 
-{ #category : #checkbox }
+{ #category : #checkables }
 ToSandBox class >> example_CheckboxGroupAndNoneStrategy [
 
 	| group container buttons |
@@ -1703,9 +1709,9 @@ ToSandBox class >> example_CheckboxGroupAndNoneStrategy [
 	group registerAll: buttons.
 
 	container := ToElement new.
-	container
-		newCheckAction: [ :event :m :checkedList | checkedList traceCr ]
-		onGroup: group.
+	group
+		addEventHandlerOn: ToCheckableGroupChangedEvent
+		do: [ :evt | evt checkedList traceCr ].
 
 	container constraintsDo: [ :c |
 			c horizontal matchParent.
@@ -1718,7 +1724,7 @@ ToSandBox class >> example_CheckboxGroupAndNoneStrategy [
 	container openInSpace
 ]
 
-{ #category : #checkbox }
+{ #category : #checkables }
 ToSandBox class >> example_CheckboxGroupAndStrictStrategy [
 
 	| group container buttons |
@@ -1734,9 +1740,9 @@ ToSandBox class >> example_CheckboxGroupAndStrictStrategy [
 	buttons second checked: true.
 	group registerAll: buttons.
 	container := ToElement new.
-	container
-		newCheckAction: [ :evt :grp :list | list traceCr ]
-		onGroup: group.
+	group
+		addEventHandlerOn: ToCheckableGroupChangedEvent
+		do: [ :evt | evt checkedList traceCr ].
 	container constraintsDo: [ :c |
 		c horizontal matchParent.
 		c vertical matchParent ].
@@ -1748,7 +1754,7 @@ ToSandBox class >> example_CheckboxGroupAndStrictStrategy [
 	container openInSpace
 ]
 
-{ #category : #checkbox }
+{ #category : #checkables }
 ToSandBox class >> example_CheckboxGroupAndWeakStrategy [
 
 	| group container buttons |
@@ -1766,9 +1772,9 @@ ToSandBox class >> example_CheckboxGroupAndWeakStrategy [
 	group registerAll: buttons.
 
 	container := ToElement new.
-	container
-		newCheckAction: [ :evt :grp :list | list traceCr ]
-		onGroup: group.
+	group
+		addEventHandlerOn: ToCheckableGroupChangedEvent
+		do: [ :evt | evt checkedList traceCr ].
 	container constraintsDo: [ :c |
 		c horizontal matchParent.
 		c vertical matchParent ].
@@ -1780,7 +1786,7 @@ ToSandBox class >> example_CheckboxGroupAndWeakStrategy [
 	container openInSpace
 ]
 
-{ #category : #checkbox }
+{ #category : #checkables }
 ToSandBox class >> example_CheckboxNoLabel [
 
 	| chb |
@@ -1790,7 +1796,7 @@ ToSandBox class >> example_CheckboxNoLabel [
 	chb openInInnerWindow
 ]
 
-{ #category : #checkbox }
+{ #category : #checkables }
 ToSandBox class >> example_CheckboxStartFlexible [
 
 	| chb |
@@ -1803,12 +1809,11 @@ ToSandBox class >> example_CheckboxStartFlexible [
 	chb openInInnerWindow
 ]
 
-{ #category : #checkbox }
+{ #category : #checkables }
 ToSandBox class >> example_CheckboxStartFlexibleWithGroup [
 
-	| group container buttons |
-	group := ToCheckableGroup new.
-	buttons := OrderedCollection new.
+	| group |
+	group := ToCheckableGroupPane vertical.
 	1 to: 4 do: [ :idx |
 		| chb |
 		chb := ToCheckbox new
@@ -1817,25 +1822,16 @@ ToSandBox class >> example_CheckboxStartFlexibleWithGroup [
 			       beEndToStart;
 			       labelText: idx asString;
 			       id: idx asString.
-		buttons add: chb ].
-	buttons second checked: true.
-	group registerAll: buttons.
+		group addChild: chb ].
+	group registeredCheckables second checked: true.
 
-	container := ToElement new.
-	container
-		newCheckAction: [ :evt :grp :list | list traceCr ]
-		onGroup: group.
-	container background: Color veryLightGray.
-	container matchParent.
-
-	container layout: BlLinearLayout vertical.
-	container layout cellSpacing: 5.
-
-	container addChildren: group registeredCheckables.
-	container openInSpace
+	group 
+		groupCheckAction: [ :evt :checkedList | checkedList traceCr ].
+	group matchParent.
+	group openInSpace
 ]
 
-{ #category : #checkbox }
+{ #category : #checkables }
 ToSandBox class >> example_CheckboxUnchecked [
 
 	| chb |
@@ -1847,7 +1843,7 @@ ToSandBox class >> example_CheckboxUnchecked [
 	chb openInInnerWindow
 ]
 
-{ #category : #checkbox }
+{ #category : #checkables }
 ToSandBox class >> example_CheckboxVertical [
 
 	| chb |
@@ -1861,11 +1857,11 @@ ToSandBox class >> example_CheckboxVertical [
 	chb openInInnerWindow
 ]
 
-{ #category : #checkbox }
+{ #category : #checkables }
 ToSandBox class >> example_CheckboxVerticalGroupHorizontal [
 
-	| group container |
-	group := ToCheckableGroup new.
+	| group |
+	group := ToCheckableGroupPane horizontal.
 	1 to: 4 do: [ :idx |
 		| chb |
 		chb := ToRadioButton new
@@ -1873,20 +1869,14 @@ ToSandBox class >> example_CheckboxVerticalGroupHorizontal [
 			       labelText: idx asString;
 			       id: idx asString.
 		chb beStartToEnd.
-		group register: chb ].
+		group addChild: chb ].
 
 	group registeredCheckables second checked: true.
-	container := ToElement new.
-	container matchParent.
-	container layout: BlLinearLayout horizontal.
-	container addChildren: group registeredCheckables.
-	container
-		newCheckAction: [ :evt :grp :list | list traceCr ]
-		onGroup: group.
-	container openInInnerWindow
+	group groupCheckAction:[ :evt :checkedList | checkedList traceCr ].
+	group openInSpace
 ]
 
-{ #category : #checkbox }
+{ #category : #checkables }
 ToSandBox class >> example_CheckboxWithExactWidth [
 
 	| chb |
@@ -1897,7 +1887,7 @@ ToSandBox class >> example_CheckboxWithExactWidth [
 	chb openInInnerWindow
 ]
 
-{ #category : #checkbox }
+{ #category : #checkables }
 ToSandBox class >> example_CheckboxWithIndeterminate [
 
 	| but |
@@ -2963,6 +2953,7 @@ ToSandBox class >> example_ListWithAllClassesAsCheckbox [
 
 	| l |
 	l := ToCheckableListElement new.
+	l addEventHandlerOn: ToCheckableGroupChangedEvent do: [ :evt | evt traceCr ].
 	l group withoutCheckingStrategy.
 	l addAllItems: ((Smalltalk globals allClasses) collect: [ :cls |
 			 ToCheckbox new
@@ -3376,9 +3367,6 @@ ToSandBox class >> example_MenuPaneScrollableWithCustomItems [
 			center.
 			left }.
 
-	menuPane
-		newCheckAction: [ :evt :group :list | list traceCr ]
-		onGroup: grp.
 	menuPane addSeparator.
 
 	lbl := ToAttributedLabel text: 'Radio button icon first'.
@@ -3413,9 +3401,7 @@ ToSandBox class >> example_MenuPaneScrollableWithCustomItems [
 			right.
 			center.
 			left }.
-	menuPane
-		checkAction: [ :evt :group :list | list traceCr ]
-		onGroup: grp.
+
 	menuPane addSeparator.
 
 	lbl := ToAttributedLabel new text:
@@ -3580,9 +3566,6 @@ ToSandBox class >> example_MenuWithCustomItems [
 			center.
 			left }.
 
-	menu
-		newCheckAction: [ :evt :group :list | list traceCr ]
-		onGroup: grp.
 	menu addSeparator.
 
 	lbl := ToAttributedLabel text: 'Radio button icon first'.
@@ -3617,9 +3600,7 @@ ToSandBox class >> example_MenuWithCustomItems [
 			right.
 			center.
 			left }.
-	menu
-		checkAction: [ :evt :group :list | list traceCr ]
-		onGroup: grp.
+
 	menu addSeparator.
 
 	lbl := ToAttributedLabel new text:
@@ -3900,7 +3881,7 @@ ToSandBox class >> example_ProtoObjectSubclasses [
 	l openInSpace
 ]
 
-{ #category : #checkbox }
+{ #category : #checkables }
 ToSandBox class >> example_RadioButtonChecked [
 
 	| but |
@@ -3911,7 +3892,7 @@ ToSandBox class >> example_RadioButtonChecked [
 	but openInSpace
 ]
 
-{ #category : #checkbox }
+{ #category : #checkables }
 ToSandBox class >> example_RadioButtonUnchecked [
 
 	| but |
@@ -3921,7 +3902,7 @@ ToSandBox class >> example_RadioButtonUnchecked [
 	but openInSpace
 ]
 
-{ #category : #checkbox }
+{ #category : #checkables }
 ToSandBox class >> example_RadioButtonWithIndeterminate [
 
 	| but |
@@ -5227,24 +5208,16 @@ ToSandBox class >> example_ToggleButtonChecked [
 { #category : #'toggle button' }
 ToSandBox class >> example_ToggleButtonGroupAndStrictStrategy [
 
-	| group groupContainer |
-	group := ToCheckableGroup new.
-	group withStrictCheckingStrategy.
+	| group |
+	group := ToCheckableGroupPane vertical.
 	{ 'Monday'. 'Tuesday'. 'Wednesday'. 'Thursday'. 'Friday' } do: [ :day |
-		group register: (ToToggleButton new
+		group addChild: (ToToggleButton new
 				 labelText: day;
 				 hMatchParent;
 				 yourself) ].
-
-
-	groupContainer := ToPane vertical.
-	groupContainer
-		newCheckAction: [ :evt :grp :list | list traceCr ]
-		onGroup: group.
-
-	groupContainer width: 150.
-	groupContainer addChildren: group registeredCheckables.
-	groupContainer openInSpace.
+	group
+		groupCheckAction: [ :evt | evt checkedList traceCr ].
+	group openInSpace.
 	group registeredCheckables second checked: true.
 ]
 
@@ -5261,9 +5234,9 @@ ToSandBox class >> example_ToggleButtonGroupAndWeakStrategy [
 				 yourself) ].
 	group registeredCheckables second checked: true.
 	groupContainer := ToPane vertical.
-	groupContainer
-		newCheckAction: [ :evt :grp :list | list traceCr ]
-		onGroup: group.
+	group
+		addEventHandlerOn: ToCheckableGroupChangedEvent
+		do: [ :evt | evt checkedList traceCr ].
 
 	groupContainer width: 150.
 	groupContainer addChildren: group registeredCheckables.
@@ -6037,7 +6010,7 @@ ToSandBox class >> example_emptyBoxWithCustomLabel [
 	box openInSpace
 ]
 
-{ #category : #checkbox }
+{ #category : #checkables }
 ToSandBox class >> example_group [
 
 	| group container |
@@ -6052,16 +6025,16 @@ ToSandBox class >> example_group [
 	container := ToPane horizontal.
 	group registeredCheckables last checked: true.
 	container addChildren: group registeredCheckables.
-	container
-		newCheckAction: [ :evt :grp :l | l traceCr ]
-		onGroup: group.
+	group
+		addEventHandlerOn: ToCheckableGroupChangedEvent
+		do: [ :evt | evt checkedList traceCr ].
 	container openInInnerWindow
 ]
 
-{ #category : #checkbox }
+{ #category : #checkables }
 ToSandBox class >> example_group2 [
 
-	| containerElement group  |
+	| containerElement group |
 	containerElement := ToPane vertical.
 
 	(group := ToCheckableGroup new)
@@ -6077,16 +6050,14 @@ ToSandBox class >> example_group2 [
 					 yourself) }.
 	containerElement addChildren: group registeredCheckables.
 
-	containerElement
-		newCheckAction: [ :evt :grp :l |
-		Toplo defaultThemeClass: (l first userData at: #theme) ]
-		onGroup: group.
+	group addEventHandlerOn: ToCheckableGroupChangedEvent do: [ :evt |
+		Toplo defaultThemeClass: (evt checkedList first userData at: #theme) ].
 	group registeredCheckables second checked: true.
 
 	containerElement openInSpace
 ]
 
-{ #category : #checkbox }
+{ #category : #checkables }
 ToSandBox class >> example_group3 [
 
 	| containerElement group |
@@ -6098,16 +6069,16 @@ ToSandBox class >> example_group3 [
 				(ToRadioButton new
 					 id: #r1;
 					 labelText: 'Light theme';
-					 newCheckAction: [ :evt :space :v |
-						 v ifTrue: [ space toTheme: ToRawTheme new ] ]
-					 with: [ :radio | radio space ];
+					 newCheckAction: [ :evt :v | | space |
+						 space := evt currentTarget space.
+						 v ifTrue: [ space toTheme: ToRawTheme new ] ];
 					 yourself).
 				(ToRadioButton new
 					 id: #r2;
 					 labelText: 'Dark theme';
-					 newCheckAction: [ :evt :space :v |
-						 v ifTrue: [ space toTheme: ToRawDarkTheme new ] ]
-					 with: [ :radio | radio space ];
+					 newCheckAction: [ :evt :v | | space |
+						 space := evt currentTarget space.
+						 v ifTrue: [ space toTheme: ToRawDarkTheme new ] ];
 					 yourself) }.
 	
 	group registeredCheckables second checked: true.
@@ -6116,7 +6087,7 @@ ToSandBox class >> example_group3 [
 	containerElement openInSpace
 ]
 
-{ #category : #checkbox }
+{ #category : #checkables }
 ToSandBox class >> example_group4 [
 
 	| containerElement group |
@@ -6523,30 +6494,6 @@ ToSandBox class >> example_labelFieldWithShrinkFeedback [
 	t matchParent.
 	innerWindow := t openInInnerWindow.
 
-]
-
-{ #category : #button }
-ToSandBox class >> example_linkClickAction [
-
-	| pane e |
-	pane := ToPane vertical.
-	e := ToElement new.
-	e extent: 50 asPoint.
-	e background: Color blue.
-	e
-		addEventHandlerOn: BlClickEvent
-		do: [ :event | e widgetLinks do: [ :action | action run ] ].
-	pane addChild: e.
-	pane addChild: (ToButton new
-			 labelText: 'List actions on Transcript';
-			 clickAction: [ e widgetLinks traceCr ]).
-	pane addChild: (ToButton new
-			 labelText: 'Link a new action';
-			 clickAction: [ e linkClickAction: [ :evt | evt traceCr ] ]).
-	pane addChild: (ToButton new
-			 labelText: 'Unlink all actions';
-			 clickAction: [ e unlinkAllWidgetLinks ]).
-	pane openInSpace
 ]
 
 { #category : #menu }
@@ -9150,7 +9097,7 @@ ToSandBox class >> path_sharp_electric_bike_SVG [
 { #category : #bar }
 ToSandBox class >> resizerBoardFor: aBar [
 
-	| pane group buttons container |
+	| pane group container |
 	pane := ToPane horizontal.
 	{ #Horizontal. #Vertical } do: [ :dir |
 			| sizeInputPane sizeInput |
@@ -9182,17 +9129,16 @@ ToSandBox class >> resizerBoardFor: aBar [
 			sizeInputPane childrenDo: [ :child |
 				child constraints linear vertical alignCenter ].
 
-			group := ToCheckableGroup new.
-			buttons := OrderedCollection new.
+			group := ToCheckableGroupPane vertical.
 
 			{ #MatchParent. #FitContent. #Exact } do: [ :mode |
 					| cbox |
 					cbox := ToRadioButton new
 						        labelText: mode asString;
 						        yourself.
-					buttons add: cbox.
+					group addChild: cbox.
 					cbox
-						newCheckAction: [ :evt :bar :value |
+						newCheckAction: [ :evt :value |
 								| policy |
 								value ifTrue: [
 										mode = #Exact
@@ -9202,17 +9148,15 @@ ToSandBox class >> resizerBoardFor: aBar [
 													policy := dir = #Horizontal
 														          ifTrue: [ ('h' , mode) asSymbol ]
 														          ifFalse: [ ('v' , mode) asSymbol ].
-													bar perform: policy ] ] ]
-						with: aBar ].
+													aBar perform: policy ] ] ] ].
 
-			group registerAll: buttons.
-			buttons second checked: true.
+			group registeredCheckables second checked: true.
 			container := ToPane vertical.
 			container padding: (BlInsets all: 2).
 			container hMatchParent.
 			container vFitContent.
 			container addChild: (ToLabel text: dir asString).
-			container addChildren: group registeredCheckables.
+			container addChild: group.
 			container addChild: sizeInputPane.
 			pane addChild: container ].
 	^ pane
@@ -9306,7 +9250,7 @@ ToSandBox class >> selectionChangedEvent: anEvent [
 ToSandBox class >> selectionModeChooserFor: aBar [
 
 	| selectionModeGroup selectionModeContainer |
-	selectionModeGroup := ToCheckableGroup new.
+	selectionModeGroup := ToCheckableGroupPane vertical.
 	{
 		(#Multiple -> #multiple:).
 		(#Single -> #single:).
@@ -9315,24 +9259,22 @@ ToSandBox class >> selectionModeChooserFor: aBar [
 		chb := ToRadioButton new
 			       labelText: modeAssoc key asString;
 			       yourself.
-		selectionModeGroup register: chb.
+		selectionModeGroup addChild: chb.
 		chb
-			newCheckAction: [ :evt :selMode :value |
-				value ifTrue: [
-					| chosen |
+			newCheckAction: [ :evt :value |
+				value ifTrue: [ | chosen selMode |
 					chosen := modeAssoc key.
+					selMode := aBar primarySelectionMode.
 					selMode enabled: chosen ~= #Disabled.
 					modeAssoc value ifNotNil: [ :message |
-						selMode perform: message asSymbol with: true ] ] ]
-			with: aBar primarySelectionMode ].
+						selMode perform: message asSymbol with: true ] ] ] ].
 
 	selectionModeGroup registeredCheckables first checked: true.
 	selectionModeContainer := ToPane vertical.
 	selectionModeContainer padding: (BlInsets all: 2).
 	selectionModeContainer hMatchParent.
 	selectionModeContainer addChild: (ToLabel text: 'Selection mode').
-	selectionModeContainer addChildren:
-		selectionModeGroup registeredCheckables.
+	selectionModeContainer addChild: selectionModeGroup.
 	^ selectionModeContainer
 ]
 
@@ -9420,14 +9362,14 @@ ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 
 	confPane := self barConfigurationBoardFor: aTabGroupElement.
 	startToEndSwitch := ToSwitchButton new labelText: 'At start'.
-	startToEndSwitch checkAction: [ :evt :target :value | aTabGroupElement atStartSide: value ].
+	startToEndSwitch checkAction: [ :evt :value | aTabGroupElement atStartSide: value ].
 
 	startToEndSwitch startFlexible: true.
 	startToEndSwitch hMatchParent.
 	confPane addChild: startToEndSwitch.
 
 	addTabItemButtonSwicth := ToSwitchButton new labelText: 'Show new tab button'.
-	addTabItemButtonSwicth checkAction: [ :evt :target :value | aTabGroupElement showAddTabItemButton: value ].
+	addTabItemButtonSwicth checkAction: [ :evt :value | aTabGroupElement showAddTabItemButton: value ].
 
 	addTabItemButtonSwicth startFlexible: true.
 	addTabItemButtonSwicth hMatchParent.

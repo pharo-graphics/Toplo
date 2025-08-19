@@ -3,7 +3,7 @@ Trait {
 	#category : #'Toplo-Core'
 }
 
-{ #category : #adding }
+{ #category : #'t - badgeable element' }
 TToBadgeableElement >> addBadge: aBadge [
 
 	self addEventHandler: (ToBadgeableEventHandler new
@@ -11,7 +11,7 @@ TToBadgeableElement >> addBadge: aBadge [
 			 yourself)
 ]
 
-{ #category : #adding }
+{ #category : #'t - badgeable element' }
 TToBadgeableElement >> removeBadge: aBadge [
 
 	self dispatchEvent: (ToBadgeRemovedEvent new

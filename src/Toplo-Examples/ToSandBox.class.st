@@ -5608,45 +5608,42 @@ ToSandBox class >> example_WithSeparator [
 { #category : #badge }
 ToSandBox class >> example_badgeOnAButton [
 
-	| badge btn space pane subPane1 subPane2 |
+	| badge btn space |
 	space := BlSpace new.
-	pane := ToPane vertical.
-	pane position: 100 asPoint.
-	subPane1 := ToPane new extent: 100 asPoint.
-	subPane2 := ToPane horizontal.
-	pane addChildren: {
-			subPane1.
-			subPane2 }.
 	badge := ToNumericalBadge new.
-	btn := ToButton new labelText: 'Button'.
-	btn clickAction: [ space inspect ].
-	badge constraints anchors referenceElement: btn.
-	subPane2 addChild: btn.
-	pane addChild: badge.
-	space root addChild: pane.
+	btn := ToButton new labelText: 'Click to add/remove a badge'.
+	btn clickAction: [
+			badge referenceElement
+				ifNil: [
+						badge increment.
+						btn addBadge: badge ]
+				ifNotNil: [ btn removeBadge: badge ] ].
+	btn position: 100 asPoint.
+	btn addBadge: badge.
+	space root addChild: btn.
 	space show
 ]
 
 { #category : #badge }
 ToSandBox class >> example_badgeOnAnElement [
 
-	| badge btn space btnPart |
+	| badge pane space badged |
 	badge := ToNumericalBadge new count: 2222.
-	btn := ToElement new layout: BlBasicLayout new.
-	btn extent: 150 asPoint.
-	btn position: 100 asPoint.
-	btn border: Color black.
-	btnPart := ToElement new.
-	btnPart extent: 40 asPoint.
-	btnPart position: 80@20.
-	btnPart border: Color red.
-	btn addChild: btnPart.
-	badge constraints anchors referenceElement: btnPart.
+	pane := ToElement new.
 	space := BlSpace new.
-	space root addChild: badge.
-	space root addChild: btn.
+	space root addChild: pane.
+	pane extent: 150 asPoint.
+	pane position: 100 asPoint.
+	pane border: Color black.
+	badged := ToElement new.
+	badged extent: 40 asPoint.
+	badged constraintsDo: [ :c |
+			c frame horizontal alignCenter.
+			c frame vertical alignCenter ].
+	badged border: Color red.
+	badged addBadge: badge.
+	pane addChild: badged.
 	space show
-
 ]
 
 { #category : #bar }

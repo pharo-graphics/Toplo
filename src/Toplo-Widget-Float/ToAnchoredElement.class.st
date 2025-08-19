@@ -91,6 +91,12 @@ ToAnchoredElement >> defaultElevation [
 ]
 
 { #category : #initialization }
+ToAnchoredElement >> defaultInnerBackground [
+
+	^ Color transparent
+]
+
+{ #category : #initialization }
 ToAnchoredElement >> defaultOffset [
 
 	^ 0 asPoint
@@ -108,6 +114,7 @@ ToAnchoredElement >> initialize [
 
 	super initialize.
 	innerElement := ToElement new.
+	innerElement background: self defaultInnerBackground.
 	innerElement fitContent.
 	innerElement constraintsDo: [ :c |
 			c frame vertical alignCenter.
@@ -141,4 +148,18 @@ ToAnchoredElement >> placement: aPlacement [
 
 	placement := aPlacement.
 	self requestConfiguration 
+]
+
+{ #category : #accessing }
+ToAnchoredElement >> referenceElement [ 
+
+	^ self constraints anchors referenceElement
+]
+
+{ #category : #accessing }
+ToAnchoredElement >> referenceElement: anElement [
+
+	(anElement notNil and: [ self referenceElement notNil ]) ifTrue: [ 
+			BlImmutableObjectChangeError signal ].
+	self constraintsDo: [ :c | c anchors referenceElement: anElement ]
 ]

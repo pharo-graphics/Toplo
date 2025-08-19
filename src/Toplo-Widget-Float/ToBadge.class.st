@@ -8,20 +8,19 @@ Class {
 ToBadge class >> initializeRawToploTheme: aTheme [
 
 	<toploThemeInstallerFor: #ToTheme>
-	aTheme addTokenNamed: #'badge-padding' withValue: (BlInsets all: 2).
 	aTheme addTokenNamed: #'badge-horizontal-gap' withValue: 4.
 	aTheme addTokenNamed: #'badge-font-size' withValue: 12.
 	aTheme addTokenNamed: #'badge-text-foreground' withValue: Color white
 ]
 
 { #category : #initialization }
-ToBadge >> defaultBackground [
+ToBadge >> defaultInnerBackground [
 
 	^ Color red
 ]
 
 { #category : #initialization }
-ToBadge >> defaultMinWidth [
+ToBadge >> defaultInnerMinWidth [
 
 	^ 16
 ]
@@ -42,8 +41,7 @@ ToBadge >> defaultPlacement [
 ToBadge >> initialize [
 
 	super initialize.
-	innerElement background: self defaultBackground.
-	innerElement minWidth: self defaultMinWidth 
+	innerElement minWidth: self defaultInnerMinWidth 
 ]
 
 { #category : #skin }
@@ -52,8 +50,6 @@ ToBadge >> installRawStyle [
 	super installRawStyle.
 	innerElement padding: (BlInsets horizontal:
 			 (self valueOfTokenNamed: #'badge-horizontal-gap')).
-	self padding: (self valueOfTokenNamed: #'badge-padding').
-	self background: (self valueOfTokenNamed: #'background-color').
 	self
 		addTokenNamed: #'font-size'
 		withValue: (self valueOfTokenNamed: #'badge-font-size').

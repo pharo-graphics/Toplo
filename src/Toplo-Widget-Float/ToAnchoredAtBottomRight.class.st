@@ -6,7 +6,7 @@ Class {
 
 { #category : #configuration }
 ToAnchoredAtBottomRight >> configure: anAnchored [
-anAnchored offset traceCr.
+
 	anAnchored constraintsDo: [ :c |
 			c anchors removeAll.
 			c anchors add: (c anchors bottomRightAnchor on:

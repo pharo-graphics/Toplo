@@ -133,7 +133,7 @@ ToAnchoredElement >> initialize [
 { #category : #accessing }
 ToAnchoredElement >> offset [
 
-	^ offset ifNil: [ offset := 8 @ -8 ]
+	^ offset
 ]
 
 { #category : #accessing }

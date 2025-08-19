@@ -10,5 +10,5 @@ ToAnchoredAtBottomLeft >> configure: anAnchored [
 	anAnchored constraintsDo: [ :c |
 			c anchors removeAll.
 			c anchors add: (c anchors bottomLeftAnchor on:
-					 c anchors parent bottomLeftAnchor + anAnchored offset) ]
+					 c anchors parent bottomLeftAnchor + anAnchored offset negated) ]
 ]

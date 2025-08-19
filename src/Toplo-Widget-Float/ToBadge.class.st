@@ -28,7 +28,7 @@ ToBadge >> defaultInnerMinWidth [
 { #category : #initialization }
 ToBadge >> defaultOffset [
 
-	^ 10 @ -10
+	^ 10 @ 10
 ]
 
 { #category : #initialization }

@@ -10,5 +10,5 @@ anAnchored offset traceCr.
 	anAnchored constraintsDo: [ :c |
 			c anchors removeAll.
 			c anchors add: (c anchors bottomRightAnchor on:
-					 c anchors parent bottomRightAnchor + anAnchored offset) ]
+					 c anchors parent bottomRightAnchor + anAnchored offset ) ]
 ]

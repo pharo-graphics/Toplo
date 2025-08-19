@@ -11,7 +11,7 @@ ToAnchoredAtTop >> configure: anAnchored [
 			c anchors removeAll.
 			c anchors add:
 				(c anchors topAnchor on:
-					 c anchors parent topAnchor + anAnchored offset y).
+					 c anchors parent topAnchor - anAnchored offset y).
 			c anchors add: (c anchors horizontalCenterAnchor on:
 					 c anchors parent horizontalCenterAnchor + anAnchored offset x) ]
 ]

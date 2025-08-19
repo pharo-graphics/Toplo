@@ -10,5 +10,5 @@ ToAnchoredAtTopLeft >> configure: anAnchored [
 	anAnchored constraintsDo: [ :c |
 			c anchors removeAll.
 			c anchors add: (c anchors topLeftAnchor on:
-					 c anchors parent topLeftAnchor + anAnchored offset) ]
+					 c anchors parent topLeftAnchor - anAnchored offset) ]
 ]

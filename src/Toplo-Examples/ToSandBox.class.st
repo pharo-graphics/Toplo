@@ -2357,15 +2357,15 @@ ToSandBox class >> example_FloatArrowsAraoundACircle [
 	floatLayer := ToFloatOverlay new.
 	floatLayer attachToParent: pane.
 
-	circle := ToElement new
-		          extent: 40 asPoint;
+	circle := ToFloatElement new
+		          extent: 60 asPoint;
 		          yourself.
 	circle geometry: BlCircleGeometry new.
-	circle margin: (BlInsets all: 15).
-	circle constraintsDo: [ :c |
-			c anchors add: (c anchors bottomRightAnchor on:
-					 c anchors parent bottomRightAnchor - 50) ].
+	circle visibility: BlVisibility hidden.
+	circle atBottomRight.
+	circle offset: 20 negated asPoint.
 	floatLayer addChild: circle.
+
 	{
 		('up' -> 0).
 		('right' -> 90).
@@ -2380,11 +2380,11 @@ ToSandBox class >> example_FloatArrowsAraoundACircle [
 							 extent: 20 asPoint;
 							 yourself) ].
 			but geometry: BlCircleGeometry new.
-			but placement:
-				(ToAnchoredExplicitPlacement new constraintsAction: [ :c |
-						 c anchors add: (c anchors centerAnchor on:
-								  (circle perimeterAnchor degrees: assoc value)) ]).
+			but offset: 0 asPoint.
+			but atPerimeterAround: circle atDegrees: assoc value.
 			floatLayer addChild: but ].
+
+
 
 	pane openInInnerWindow
 ]

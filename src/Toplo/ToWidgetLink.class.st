@@ -29,7 +29,7 @@ ToWidgetLink >> eventDispatcher [
 ]
 
 { #category : #initialization }
-ToWidgetLink >> onWidget: anElement [
+ToWidgetLink >> linkWith: anElement [
 
 	self widget: anElement
 ]

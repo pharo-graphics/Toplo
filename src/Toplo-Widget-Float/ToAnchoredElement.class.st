@@ -34,9 +34,23 @@ ToAnchoredElement >> atBottomRight [
 ]
 
 { #category : #configuration }
+ToAnchoredElement >> atCenter [
+
+	self placement: ToAnchoredAtCenter new
+]
+
+{ #category : #configuration }
 ToAnchoredElement >> atLeft [
 
 	self placement: ToAnchoredAtLeft new
+]
+
+{ #category : #configuration }
+ToAnchoredElement >> atPerimeterAround: aPivotalElement atDegrees: anAngleInDegrees [
+
+	self placement: (ToAnchoredAtPerimeter new
+			 around: aPivotalElement atDegrees: anAngleInDegrees;
+			 yourself)
 ]
 
 { #category : #configuration }

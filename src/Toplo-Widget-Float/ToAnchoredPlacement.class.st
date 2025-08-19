@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #configuration }
-ToAnchoredPlacement >> configure: aFloat [
+ToAnchoredPlacement >> configure: anAnchored [
 
 	self subclassResponsibility 
 ]

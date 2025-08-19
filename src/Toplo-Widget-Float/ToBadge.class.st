@@ -8,29 +8,28 @@ Class {
 ToBadge class >> initializeRawToploTheme: aTheme [
 
 	<toploThemeInstallerFor: #ToTheme>
-	aTheme addTokenNamed: #'badge-min-width' withValue: 16.
-	aTheme addTokenNamed: #'badge-background' withValue: Color red.
+	aTheme addTokenNamed: #'badge-padding' withValue: (BlInsets all: 2).
+	aTheme addTokenNamed: #'badge-horizontal-gap' withValue: 4.
 	aTheme addTokenNamed: #'badge-font-size' withValue: 12.
-	aTheme addTokenNamed: #'badge-text-foreground' withValue: Color white.
-	aTheme addTokenNamed: #'badge-offset' withValue: 10 @ -10
+	aTheme addTokenNamed: #'badge-text-foreground' withValue: Color white
 ]
 
-{ #category : #configuration }
-ToBadge >> applyConfiguration [
+{ #category : #initialization }
+ToBadge >> defaultBackground [
 
-	super applyConfiguration.
+	^ Color red
+]
 
-	self whenLayoutedDoOnce: [
-			self geometry: (BlRoundedRectangleGeometry cornerRadius:
-					 self measuredHeight - self margin height / 2).
-			innerElement geometry: (BlRoundedRectangleGeometry cornerRadius:
-					 innerElement measuredHeight - innerElement margin height / 2) ]
+{ #category : #initialization }
+ToBadge >> defaultMinWidth [
+
+	^ 16
 ]
 
 { #category : #initialization }
 ToBadge >> defaultOffset [
 
-	^ 8 @ -8
+	^ 10 @ -10
 ]
 
 { #category : #initialization }
@@ -43,18 +42,35 @@ ToBadge >> defaultPlacement [
 ToBadge >> initialize [
 
 	super initialize.
-	innerElement padding: (BlInsets horizontal: 4).
-	self padding: (BlInsets all: 2)
+	innerElement background: self defaultBackground.
+	innerElement minWidth: self defaultMinWidth 
 ]
 
 { #category : #skin }
 ToBadge >> installRawStyle [
 
 	super installRawStyle.
-	innerElement minWidth: (self valueOfTokenNamed: #'badge-min-width').
-	innerElement background: (self valueOfTokenNamed: #'badge-background').	
+	innerElement padding: (BlInsets horizontal:
+			 (self valueOfTokenNamed: #'badge-horizontal-gap')).
+	self padding: (self valueOfTokenNamed: #'badge-padding').
 	self background: (self valueOfTokenNamed: #'background-color').
-	self addTokenNamed: #'font-size' withValue: (self valueOfTokenNamed: #'badge-font-size').
-	self addTokenNamed: #'color-text' withValue: (self valueOfTokenNamed: #'badge-text-foreground').
-	self offset: (self valueOfTokenNamed: #'badge-offset').
+	self
+		addTokenNamed: #'font-size'
+		withValue: (self valueOfTokenNamed: #'badge-font-size').
+	self
+		addTokenNamed: #'color-text'
+		withValue: (self valueOfTokenNamed: #'badge-text-foreground')
+]
+
+{ #category : #layout }
+ToBadge >> onMeasure: anExtentMeasurementSpec [
+
+	| prevHeight |
+	prevHeight := self measuredHeight.
+	super onMeasure: anExtentMeasurementSpec.
+	prevHeight ~= self measuredHeight ifFalse: [ ^ self ].
+	self geometry: (BlRoundedRectangleGeometry cornerRadius:
+			 self measuredHeight - self margin height / 2).
+	innerElement geometry: (BlRoundedRectangleGeometry cornerRadius:
+			 innerElement measuredHeight - innerElement margin height / 2)
 ]

@@ -13,6 +13,17 @@ ToActionLink >> action: anAction [
 	action := anAction
 ]
 
+{ #category : #initialization }
+ToActionLink >> linkWith: anElement [
+
+	| handler |
+	super linkWith: anElement.
+	handler := self
+		           addEventHandlerOn: ToRunLinkActionRequest
+		           do: [ :event | self onRunActionRequest: event ].
+	self addedHandler: handler in: self
+]
+
 { #category : #running }
 ToActionLink >> onActionRunnedDo: aValuable [
 
@@ -42,17 +53,6 @@ ToActionLink >> onRunActionRequest: anEvent [
 	widget space
 		ifNil: [ widget inUIProcessDo: runnedBlock ]
 		ifNotNil: [ runnedBlock value ]
-]
-
-{ #category : #initialization }
-ToActionLink >> onWidget: anElement [
-
-	| handler |
-	super onWidget: anElement.
-	handler := self
-		           addEventHandlerOn: ToRunLinkActionRequest
-		           do: [ :event | self onRunActionRequest: event ].
-	self addedHandler: handler in: self
 ]
 
 { #category : #running }

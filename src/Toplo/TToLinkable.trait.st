@@ -32,7 +32,7 @@ TToLinkable >> newCheckAction: aValuable [
 	Tha valuable take the event as optional argument."
 
 	^ (ToCheckableActionLink new action: aValuable)
-		  onWidget: self;
+		  linkWith: self;
 		  yourself
 ]
 
@@ -44,7 +44,7 @@ TToLinkable >> newClickAction: aValuable [
 
 	^ ToClickableActionLink new
 		  action: aValuable;
-		  onWidget: self;
+		  linkWith: self;
 		  yourself
 ]
 
@@ -55,6 +55,6 @@ TToLinkable >> newGroupCheckAction: aValuable [
 	Tha valuable take the event as optional argument."
 	
 	^ (ToCheckableGroupActionLink new action: aValuable)
-		  onWidget: self;
+		  linkWith: self;
 		  yourself
 ]

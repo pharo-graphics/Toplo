@@ -5,10 +5,10 @@ Class {
 }
 
 { #category : #initialization }
-ToCheckableActionLink >> onWidget: aCheckable [
+ToCheckableActionLink >> linkWith: aCheckable [
 
 	| handler |
-	super onWidget: aCheckable.
+	super linkWith: aCheckable.
 	handler := aCheckable
 		           addEventHandlerOn: ToCheckableChangedEvent
 		           do: [ :event | self runWithEvent: event ].

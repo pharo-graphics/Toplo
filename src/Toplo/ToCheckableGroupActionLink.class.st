@@ -5,10 +5,10 @@ Class {
 }
 
 { #category : #initialization }
-ToCheckableGroupActionLink >> onWidget: aCheckGroupOwner [
+ToCheckableGroupActionLink >> linkWith: aCheckGroupOwner [
 
 	| handler |
-	super onWidget: aCheckGroupOwner.
+	super linkWith: aCheckGroupOwner.
 	handler := aCheckGroupOwner
 		           addEventHandlerOn: ToCheckableGroupChangedEvent
 		           do: [ :event | self runWithEvent: event ].

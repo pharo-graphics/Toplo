@@ -24,10 +24,10 @@ ToClickableActionLink >> launchableFromEvent: anEvent [
 ]
 
 { #category : #initialization }
-ToClickableActionLink >> onWidget: aClickable [
+ToClickableActionLink >> linkWith: aClickable [
 
 	| handler |
-	super onWidget: aClickable.
+	super linkWith: aClickable.
 	handler := aClickable
 		           addEventHandlerOn: aClickable clickEventClass
 		           do: [ :event |

@@ -77,6 +77,12 @@ ToAnchoredElement >> atTopRight [
 	self placement: ToAnchoredAtTopRight new
 ]
 
+{ #category : #'attaching  / detaching' }
+ToAnchoredElement >> attachToElement: anElement [
+
+	self subclassResponsibility 
+]
+
 { #category : #accessing }
 ToAnchoredElement >> builder: aValuable [
 
@@ -109,6 +115,12 @@ ToAnchoredElement >> defaultPlacement [
 	^ ToAnchoredAtCenter new
 ]
 
+{ #category : #'attaching  / detaching' }
+ToAnchoredElement >> detachFromElement [
+
+	self subclassResponsibility 
+]
+
 { #category : #initialization }
 ToAnchoredElement >> initialize [ 
 
@@ -128,6 +140,12 @@ ToAnchoredElement >> initialize [
 	offset := self defaultOffset.
 	placement := self defaultPlacement 
 
+]
+
+{ #category : #accessing }
+ToAnchoredElement >> isAttached [
+
+	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }
@@ -160,6 +178,6 @@ ToAnchoredElement >> referenceElement [
 ToAnchoredElement >> referenceElement: anElement [
 
 	(anElement notNil and: [ self referenceElement notNil ]) ifTrue: [ 
-			BlImmutableObjectChangeError signal ].
+			Error signal: 'Already attached to an element' ].
 	self constraintsDo: [ :c | c anchors referenceElement: anElement ]
 ]

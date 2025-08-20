@@ -1,5 +1,5 @@
 Class {
-	#name : #ToBadgeRemovedEvent,
+	#name : #ToBadgeDetachedEvent,
 	#superclass : #BlEvent,
 	#instVars : [
 		'badge'
@@ -8,19 +8,19 @@ Class {
 }
 
 { #category : #accessing }
-ToBadgeRemovedEvent >> badge [
+ToBadgeDetachedEvent >> badge [
 
 	^ badge
 ]
 
 { #category : #accessing }
-ToBadgeRemovedEvent >> badge: aBadge [
+ToBadgeDetachedEvent >> badge: aBadge [
 
 	badge := aBadge
 ]
 
 { #category : #sending }
-ToBadgeRemovedEvent >> sendTo: anObject [
+ToBadgeDetachedEvent >> sendTo: anObject [
 
-	anObject badgeRemovedEvent: self 
+	anObject badgeDetachedEvent: self 
 ]

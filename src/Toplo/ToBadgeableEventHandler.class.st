@@ -21,7 +21,7 @@ ToBadgeableEventHandler >> badge: aBadge [
 ]
 
 { #category : #'event handling' }
-ToBadgeableEventHandler >> badgeRemovedEvent: anEvent [
+ToBadgeableEventHandler >> badgeDetachedEvent: anEvent [
 
 	anEvent badge = badge ifFalse: [ ^ self ].
 	badge isAttachedToSceneGraph ifTrue: [ badge removeFromParent ].
@@ -36,7 +36,7 @@ ToBadgeableEventHandler >> eventsToHandle [
 	^ {
 		  ToAddedToSpaceEvent.
 		  ToRemovedFromSpaceEvent.
-		  ToBadgeRemovedEvent }
+		  ToBadgeDetachedEvent }
 ]
 
 { #category : #'api - hooks' }

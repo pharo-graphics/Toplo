@@ -13,6 +13,14 @@ ToBadge class >> initializeRawToploTheme: aTheme [
 	aTheme addTokenNamed: #'badge-text-foreground' withValue: Color white
 ]
 
+{ #category : #'attaching  / detaching' }
+ToBadge >> attachToElement: anElement [
+
+	anElement addEventHandler: (ToBadgeableEventHandler new
+			 badge: self;
+			 yourself)
+]
+
 { #category : #initialization }
 ToBadge >> defaultInnerBackground [
 
@@ -37,6 +45,14 @@ ToBadge >> defaultPlacement [
 	^ ToAnchoredAtTopRight new
 ]
 
+{ #category : #'attaching  / detaching' }
+ToBadge >> detachFromElement [
+
+	self referenceElement dispatchEvent: (ToBadgeDetachedEvent new
+			 badge: self;
+			 yourself)
+]
+
 { #category : #initialization }
 ToBadge >> initialize [
 
@@ -56,6 +72,12 @@ ToBadge >> installRawStyle [
 	self
 		addTokenNamed: #'color-text'
 		withValue: (self valueOfTokenNamed: #'badge-text-foreground')
+]
+
+{ #category : #'attaching  / detaching' }
+ToBadge >> isAttached [
+
+	^ self referenceElement notNil
 ]
 
 { #category : #layout }

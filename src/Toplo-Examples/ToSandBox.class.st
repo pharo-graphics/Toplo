@@ -5613,13 +5613,13 @@ ToSandBox class >> example_badgeOnAButton [
 	badge := ToNumericalBadge new.
 	btn := ToButton new labelText: 'Click to add/remove a badge'.
 	btn clickAction: [
-			badge referenceElement
-				ifNil: [
+			badge isAttached
+				ifFalse: [
 						badge increment.
-						btn addBadge: badge ]
-				ifNotNil: [ btn removeBadge: badge ] ].
+						badge attachToElement: btn ]
+				ifTrue: [ badge detachFromElement ] ].
 	btn position: 100 asPoint.
-	btn addBadge: badge.
+	badge attachToElement: btn.
 	space root addChild: btn.
 	space show
 ]
@@ -5641,7 +5641,7 @@ ToSandBox class >> example_badgeOnAnElement [
 			c frame horizontal alignCenter.
 			c frame vertical alignCenter ].
 	badged border: Color red.
-	badged addBadge: badge.
+	badge attachToElement: badged.
 	pane addChild: badged.
 	space show
 ]

@@ -56,6 +56,24 @@ ToTabPaneHeaderElement >> initialize [
 	self noAlignment 
 ]
 
+{ #category : #accessing }
+ToTabPaneHeaderElement >> isAlignEnd [
+
+	^ self alignment = BlElementAlignment end
+]
+
+{ #category : #accessing }
+ToTabPaneHeaderElement >> isAlignMiddle [
+
+	^ self alignment = BlElementAlignment middle
+]
+
+{ #category : #accessing }
+ToTabPaneHeaderElement >> isAlignStart [
+
+	^ self alignment = BlElementAlignment start
+]
+
 { #category : #'instance creation' }
 ToTabPaneHeaderElement >> newTabGroupElement [
 

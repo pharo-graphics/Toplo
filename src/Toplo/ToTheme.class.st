@@ -409,29 +409,16 @@ ToTheme >> addTokenProperty: aTokenProperty [
 	tokenProperties add: aTokenProperty
 ]
 
-{ #category : #initialization }
-ToTheme >> defaultElementStampsFor: anElement [ 
-
-	^ { }
-]
-
 { #category : #accessing }
 ToTheme >> defaultSkinFor: anElement [
 
-	anElement skinManager setUp: anElement forTheme: self.
-	^ self expectedSkinFor: anElement
+	^ anElement defaultSkin
 ]
 
 { #category : #accessing }
 ToTheme >> defaultTokenProperties [
 
 	^ self class defaultTokenProperties
-]
-
-{ #category : #accessing }
-ToTheme >> expectedSkinFor: anElement [
-
-	^ anElement skinManager ifNotNil: [:sm | sm defaultSkin ]
 ]
 
 { #category : #accessing }
@@ -463,20 +450,22 @@ ToTheme >> name [
 { #category : #accessing }
 ToTheme >> newSkinFor: anElement [
 
-	anElement ensuredSkinManager setUp: anElement forTheme: self.
-	^ self newSkinInstanceFor: anElement
-]
-
-{ #category : #accessing }
-ToTheme >> newSkinInstanceFor: anElement [
-
 	^ self subclassResponsibility 
 ]
 
 { #category : #'api - hooks' }
 ToTheme >> onInstalledIn: anElement [
 
-	anElement toThemePreInstall: self.
+	(Pragma allNamed: #toploThemeInstallerFor:) do: [ :each |
+			| themeClassName themeClass |
+			themeClassName := each arguments first asSymbol.
+			themeClass := self class environment classNamed: themeClassName.
+			(self class = themeClass or: [ self class inheritsFrom: themeClass ])
+				ifTrue: [
+					each methodClass soleInstance
+						perform: each methodSelector
+						with: self ] ].
+
 	anElement addAllTokenProperties: self tokenProperties.
 	anElement toThemeInstalled
 ]
@@ -484,7 +473,8 @@ ToTheme >> onInstalledIn: anElement [
 { #category : #'api - hooks' }
 ToTheme >> onUninstalledIn: anElement [
 
-	anElement removeAllTokenPropertiesFromNames: (self tokenProperties collect: [:tp | tp name]).
+	anElement removeAllTokenPropertiesFromNames:
+		(self tokenProperties collect: [ :tp | tp name ]).
 	anElement toThemeUninstalled: self
 ]
 
@@ -496,12 +486,6 @@ ToTheme >> printOn: aStream [
 		nextPutAll: ' [ ';
 		nextPutAll: self name;
 		nextPutAll: ' ]'
-]
-
-{ #category : #hook }
-ToTheme >> setUpElement: anElement [
-
-	anElement addAllStamps: (self defaultElementStampsFor: anElement) 
 ]
 
 { #category : #styling }

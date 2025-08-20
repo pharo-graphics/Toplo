@@ -1,6 +1,6 @@
 Class {
 	#name : #ToBadge,
-	#superclass : #ToAnchoredElement,
+	#superclass : #ToBaseBadge,
 	#category : #'Toplo-Widget-Float'
 }
 
@@ -11,14 +11,6 @@ ToBadge class >> initializeRawToploTheme: aTheme [
 	aTheme addTokenNamed: #'badge-horizontal-gap' withValue: 4.
 	aTheme addTokenNamed: #'badge-font-size' withValue: 12.
 	aTheme addTokenNamed: #'badge-text-foreground' withValue: Color white
-]
-
-{ #category : #'attaching  / detaching' }
-ToBadge >> attachToElement: anElement [
-
-	anElement addEventHandler: (ToBadgeableEventHandler new
-			 badge: self;
-			 yourself)
 ]
 
 { #category : #initialization }
@@ -45,14 +37,6 @@ ToBadge >> defaultPlacement [
 	^ ToAnchoredAtTopRight new
 ]
 
-{ #category : #'attaching  / detaching' }
-ToBadge >> detachFromElement [
-
-	self referenceElement dispatchEvent: (ToBadgeDetachedEvent new
-			 badge: self;
-			 yourself)
-]
-
 { #category : #initialization }
 ToBadge >> initialize [
 
@@ -72,12 +56,6 @@ ToBadge >> installRawStyle [
 	self
 		addTokenNamed: #'color-text'
 		withValue: (self valueOfTokenNamed: #'badge-text-foreground')
-]
-
-{ #category : #'attaching  / detaching' }
-ToBadge >> isAttached [
-
-	^ self referenceElement notNil
 ]
 
 { #category : #layout }

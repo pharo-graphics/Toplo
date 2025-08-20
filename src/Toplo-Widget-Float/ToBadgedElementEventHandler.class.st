@@ -1,5 +1,5 @@
 Class {
-	#name : #ToBadgeableEventHandler,
+	#name : #ToBadgedElementEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'badge'
@@ -8,20 +8,20 @@ Class {
 }
 
 { #category : #'event handling' }
-ToBadgeableEventHandler >> addedToSpaceEvent: anEvent [
+ToBadgedElementEventHandler >> addedToSpaceEvent: anEvent [
 
 	badge isAttachedToSceneGraph ifFalse: [
 		anEvent currentTarget space root addChild: badge ]
 ]
 
 { #category : #accessing }
-ToBadgeableEventHandler >> badge: aBadge [
+ToBadgedElementEventHandler >> badge: aBadge [
 
 	badge := aBadge
 ]
 
 { #category : #'event handling' }
-ToBadgeableEventHandler >> badgeDetachedEvent: anEvent [
+ToBadgedElementEventHandler >> badgeDetachedEvent: anEvent [
 
 	anEvent badge = badge ifFalse: [ ^ self ].
 	badge isAttachedToSceneGraph ifTrue: [ badge removeFromParent ].
@@ -31,7 +31,7 @@ ToBadgeableEventHandler >> badgeDetachedEvent: anEvent [
 ]
 
 { #category : #'api - accessing' }
-ToBadgeableEventHandler >> eventsToHandle [
+ToBadgedElementEventHandler >> eventsToHandle [
 
 	^ {
 		  ToAddedToSpaceEvent.
@@ -40,7 +40,7 @@ ToBadgeableEventHandler >> eventsToHandle [
 ]
 
 { #category : #'api - hooks' }
-ToBadgeableEventHandler >> onInstalledIn: anElement [
+ToBadgedElementEventHandler >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	badge referenceElement: anElement.
@@ -49,7 +49,7 @@ ToBadgeableEventHandler >> onInstalledIn: anElement [
 ]
 
 { #category : #'event handling' }
-ToBadgeableEventHandler >> removedFromSpaceEvent: anEvent [
+ToBadgedElementEventHandler >> removedFromSpaceEvent: anEvent [
 
 	badge isAttachedToSceneGraph ifFalse: [ ^ self ].
 	badge removeFromParent

@@ -142,7 +142,7 @@ ToAnchoredElement >> initialize [
 
 ]
 
-{ #category : #accessing }
+{ #category : #'attaching  / detaching' }
 ToAnchoredElement >> isAttached [
 
 	^ self subclassResponsibility 

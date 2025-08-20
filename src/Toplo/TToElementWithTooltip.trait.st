@@ -4,14 +4,6 @@ Trait {
 }
 
 { #category : #'t - element with tooltip' }
-TToElementWithTooltip >> closeTooltipOnMouseLeave: aBoolean [
-
-	"Set a help string to display to the user if he let the mouse over the widget (a tooltip)."
-
-	self tooltipWindowManager closeOnMouseLeave: aBoolean
-]
-
-{ #category : #'t - element with tooltip' }
 TToElementWithTooltip >> currentTooltipWindow [
 
 	^ self rawTooltipWindowManager ifNotNil: [ :h | h currentWindow ]
@@ -22,12 +14,6 @@ TToElementWithTooltip >> hasTooltip [
 	" do not use #tooltipWindowHandler to avoid TooltipWindowHandler installation here "
 
 	^ self rawTooltipWindowManager notNil
-]
-
-{ #category : #'t - element with tooltip' }
-TToElementWithTooltip >> newTooltipWindowEvent: anEvent [
-
-	^ self rawTooltipWindowManager newWindowEvent: anEvent
 ]
 
 { #category : #'t - element with tooltip' }
@@ -86,9 +72,9 @@ TToElementWithTooltip >> tooltipContent: anElement [
 ]
 
 { #category : #'t - element with tooltip' }
-TToElementWithTooltip >> tooltipPopupDelay: aDuration [
-	
-	self tooltipWindowManager autoPopupDelay: aDuration
+TToElementWithTooltip >> tooltipManagerDo: aValuable [
+
+	aValuable value: self tooltipWindowManager 
 ]
 
 { #category : #'t - element with tooltip' }

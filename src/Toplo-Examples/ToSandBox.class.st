@@ -5350,6 +5350,21 @@ ToSandBox class >> example_ToggleButtonWithIndeterminate [
 	toggle openInInnerWindow
 ]
 
+{ #category : #tooltip }
+ToSandBox class >> example_TooltipPopupOnMouseDown [
+
+	| but |
+	but := ToButton new.
+	but tooltipManagerDo: [ :m | m popupOnMouseDown: true ].
+	but labelText: 'Button with tooltip'.
+	but tooltipBuilder: [ :window :request |
+			window root addChild: (BlElement new
+					 background: Color random;
+					 extent: 70 @ 100;
+					 yourself) ].
+	but openInInnerWindow
+]
+
 { #category : #triplet }
 ToSandBox class >> example_TripletElementWith2IconsAnd1LabelInInnerWindow [
 
@@ -8233,7 +8248,7 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeave [
 
 	| but |
 	but := ToButton new.
-	but closeTooltipOnMouseLeave: false.
+	but tooltipManagerDo: [ :m | m closeOnMouseLeave: false].
 	but labelText: 'Button with tooltip with selectable text'.
 	but tooltipBuilder: [ :window :request |
 		| txtfld |
@@ -8248,7 +8263,7 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 	| but text origString win |
 	but := ToButton new.
 	but labelText: 'Button with editable tooltip'.
-	but closeTooltipOnMouseLeave: false.
+	but tooltipManagerDo: [ :m | m closeOnMouseLeave: false].
 	
 
 	origString := 'Edit <Mouse still pressed> - Accept <Return>'.

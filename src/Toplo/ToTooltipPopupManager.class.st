@@ -2,7 +2,8 @@ Class {
 	#name : #ToTooltipPopupManager,
 	#superclass : #ToPopupWindowManager,
 	#instVars : [
-		'closeOnMouseLeave'
+		'closeOnMouseLeave',
+		'popupOnMouseDown'
 	],
 	#category : #'Toplo-Core-Tooltip'
 }
@@ -17,12 +18,6 @@ ToTooltipPopupManager >> closeOnMouseLeave: aBoolean [
 ToTooltipPopupManager >> defaultAutoPopupDelay [
 
 	^ 700 milliSeconds
-]
-
-{ #category : #initialization }
-ToTooltipPopupManager >> defaultCloseOnPicking [
-
-	^ false
 ]
 
 { #category : #initialization }
@@ -41,8 +36,8 @@ ToTooltipPopupManager >> eventsToHandle [
 ToTooltipPopupManager >> initialize [
 
 	super initialize.
-	self useNoMouseButton.
-	closeOnMouseLeave := true.
+	self popupOnMouseDown: false.
+	self closeOnMouseLeave: true.
 	upCountRequired := 0
 ]
 
@@ -70,7 +65,14 @@ ToTooltipPopupManager >> onInstalledIn: anElement [
 { #category : #accessing }
 ToTooltipPopupManager >> popupOnMouseDown [
 
-	^ false
+	^ popupOnMouseDown
+]
+
+{ #category : #accessing }
+ToTooltipPopupManager >> popupOnMouseDown: aBoolean [
+	" useful for tablet UI "
+
+	popupOnMouseDown := aBoolean
 ]
 
 { #category : #accessing }

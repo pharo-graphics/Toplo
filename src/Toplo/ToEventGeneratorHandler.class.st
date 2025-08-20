@@ -46,6 +46,12 @@ ToEventGeneratorHandler >> newStopEvent [
 ]
 
 { #category : #accessing }
+ToEventGeneratorHandler >> startDelay [
+
+	^ startDelay
+]
+
+{ #category : #accessing }
 ToEventGeneratorHandler >> startDelay: aDuration [
 
 	startDelay := aDuration

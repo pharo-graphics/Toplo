@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'badge'
 	],
-	#category : #'Toplo-Core'
+	#category : #'Toplo-Widget-Float'
 }
 
 { #category : #'event handling' }

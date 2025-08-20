@@ -92,11 +92,11 @@ ToEventGeneratorHandler >> taskActionFromEvent: anEvent in: aTarget [
 	evt := startEvent
 		       ifNil: [
 			       startEvent := self newStartEvent
-				                     sourceEvent: anEvent;
+				                     sourceEvent: anEvent copy;
 				                     yourself ]
 		       ifNotNil: [
 			       self newRepeatedEvent 
-				       sourceEvent: anEvent;
+				       sourceEvent: anEvent copy;
 				       yourself ].
 	aTarget dispatchEvent: evt.
 	evt isConsumed ifTrue: [ self stopTaskFromEvent: anEvent in: aTarget ]

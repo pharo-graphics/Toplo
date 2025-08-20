@@ -3,7 +3,7 @@ Class {
 	#superclass : #ToPopupWindowManager,
 	#instVars : [
 		'closeOnMouseLeave',
-		'popupOnMouseDown'
+		'popupOnPressed'
 	],
 	#category : #'Toplo-Core-Tooltip'
 }
@@ -14,16 +14,23 @@ ToTooltipPopupManager >> closeOnMouseLeave: aBoolean [
 	closeOnMouseLeave := aBoolean
 ]
 
-{ #category : #accessing }
-ToTooltipPopupManager >> defaultAutoPopupDelay [
+{ #category : #'window handling' }
+ToTooltipPopupManager >> consumeEventAfterForcedClosing [
 
-	^ 700 milliSeconds
+	^ false
 ]
 
 { #category : #initialization }
 ToTooltipPopupManager >> defaultPlacement [
 
 	^ ToTooltipPlacement new
+]
+
+{ #category : #initialization }
+ToTooltipPopupManager >> defaultPopupDelay [
+	" popup the window after this delay "
+
+	^ 700 milliSeconds
 ]
 
 { #category : #'api - accessing' }
@@ -36,9 +43,17 @@ ToTooltipPopupManager >> eventsToHandle [
 ToTooltipPopupManager >> initialize [
 
 	super initialize.
-	self popupOnMouseDown: false.
+	popupOnPressed := false.
 	self closeOnMouseLeave: true.
 	upCountRequired := 0
+]
+
+{ #category : #'event handling' }
+ToTooltipPopupManager >> mouseDownEvent: anEvent [
+
+	anEvent button = mouseButton ifFalse: [ ^ self ].
+	anEvent consume.
+	self unqueuePopupTaskFromEvent: anEvent
 ]
 
 { #category : #'event handling' }
@@ -50,29 +65,18 @@ ToTooltipPopupManager >> mouseLeaveEvent: anEvent [
 
 ]
 
-{ #category : #'window handling' }
-ToTooltipPopupManager >> onAutoClosedOnEvent: anEvent [
-]
+{ #category : #accessing }
+ToTooltipPopupManager >> popupOnPressed [
 
-{ #category : #'api - hooks' }
-ToTooltipPopupManager >> onInstalledIn: anElement [
-
-	super onInstalledIn: anElement.
-	self autoPopupDelay: self defaultAutoPopupDelay 
-	 
+	^ popupOnPressed
 ]
 
 { #category : #accessing }
-ToTooltipPopupManager >> popupOnMouseDown [
-
-	^ popupOnMouseDown
-]
-
-{ #category : #accessing }
-ToTooltipPopupManager >> popupOnMouseDown: aBoolean [
+ToTooltipPopupManager >> popupOnPressed: aBoolean [
 	" useful for tablet UI "
 
-	popupOnMouseDown := aBoolean
+	popupOnPressed := aBoolean.
+	self installDelayedPopupHandler
 ]
 
 { #category : #accessing }

@@ -4105,7 +4105,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	| select innerWindow newTagFactory |
 	select := ToMultiSelectElement new.
 	select filtrable: true.
-	select manager autoPopupDelay: 400 milliSeconds.
+	"select manager popupDelay: 400 milliSeconds."
 
 	select
 		addEventHandlerOn: ToSelectChangedEvent
@@ -5330,7 +5330,7 @@ ToSandBox class >> example_TooltipPopupOnMouseDown [
 
 	| but |
 	but := ToButton new.
-	but tooltipManagerDo: [ :m | m popupOnMouseDown: true ].
+	but tooltipManagerDo: [ :m | m popupOnPressed: true ].
 	but labelText: 'Button with tooltip'.
 	but tooltipBuilder: [ :window :request |
 			window root addChild: (BlElement new

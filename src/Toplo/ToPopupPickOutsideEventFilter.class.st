@@ -30,7 +30,7 @@ ToPopupPickOutsideEventFilter >> checkLegitimacy [
 { #category : #private }
 ToPopupPickOutsideEventFilter >> checkUpCount [
 
-	windowManager popupOnMouseDown ifTrue: [
+	windowManager popupOnPressed ifTrue: [
 		upCount isZero ifFalse: [
 			upCount := upCount - 1.
 			^ false ] ].

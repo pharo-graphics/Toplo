@@ -15,12 +15,6 @@ ToMultiSelectPopupManager >> checkCloseWindowOnPickingEvent: anEvent [
 ]
 
 { #category : #initialization }
-ToMultiSelectPopupManager >> defaultCloseOnPicking [
-
-	^ false
-]
-
-{ #category : #initialization }
 ToMultiSelectPopupManager >> listElementClass [
 
 	^ ToMultiSelectListElement

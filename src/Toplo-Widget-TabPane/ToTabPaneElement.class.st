@@ -103,6 +103,24 @@ ToTabPaneElement >> initialize [
 ]
 
 { #category : #accessing }
+ToTabPaneElement >> isAlignEnd [
+
+	^ headerContainer isAlignEnd
+]
+
+{ #category : #accessing }
+ToTabPaneElement >> isAlignMiddle [
+
+	^ headerContainer isAlignMiddle
+]
+
+{ #category : #accessing }
+ToTabPaneElement >> isAlignStart [
+
+	^ headerContainer isAlignStart
+]
+
+{ #category : #accessing }
 ToTabPaneElement >> itemBuilder: aValuable [
 	" aValuable takes the new TabItemElement, the data and the TabGroupElement as arguments "
 	

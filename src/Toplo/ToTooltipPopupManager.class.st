@@ -36,7 +36,7 @@ ToTooltipPopupManager >> defaultPopupDelay [
 { #category : #'api - accessing' }
 ToTooltipPopupManager >> eventsToHandle [
 
-	^ super eventsToHandle , { BlMouseLeaveEvent }
+	^ super eventsToHandle , { BlMouseLeaveEvent. BlMouseUpEvent }
 ]
 
 { #category : #initialization }
@@ -54,6 +54,14 @@ ToTooltipPopupManager >> mouseLeaveEvent: anEvent [
 	closeOnMouseLeave ifFalse: [ ^ self ].
 	self closeWindow
 
+]
+
+{ #category : #'event handling' }
+ToTooltipPopupManager >> mouseUpEvent: anEvent [
+
+	"windowBuilder ifNil: [ ^ self ]."
+	self unqueuePopupTaskFromEvent: anEvent.
+	self closeWindow
 ]
 
 { #category : #accessing }

@@ -53,7 +53,7 @@ ToWidgetLink >> launchWithLinkedObject: anObjectOrValuable from: aTarget onEvent
 		          withValue: aValue ].
 	space := aTarget space.
 	space
-		ifNil: [ aTarget enqueueTask: (BlTaskAction new action: action) ]
+		ifNil: [ aTarget inUIProcessDo: action ]
 		ifNotNil: [ action value ]
 ]
 

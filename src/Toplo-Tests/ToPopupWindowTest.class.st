@@ -138,8 +138,8 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp [
 	self waitTestingSpacesTimeout: 300 milliSeconds.
 	self assert: windowManager currentWindow isOpened.
 	BlSpace simulateMouseUpOn: e.
-	self waitTestingSpacesTimeout: 300 milliSeconds.
-	self assert: windowManager currentWindow isOpened.
+	self waitTestingSpacesTimeout: 400 milliSeconds.
+	self assert: windowManager currentWindow isNil.
 
 	self waitTestingSpaces.
 

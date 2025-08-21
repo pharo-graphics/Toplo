@@ -48,8 +48,9 @@ ToActionLink >> onRunActionRequest: anEvent [
 			                      fillFromTime: time;
 			                      sourceEvent: anEvent sourceEvent;
 			                      yourself.
-		               self dispatchEvent: evt.
-		               widget fireEvent: evt copy ].
+		               self dispatchEvent: evt copy.
+		               widget fireEvent: evt ].
+	"runnedBlock value"
 	widget space
 		ifNil: [ widget inUIProcessDo: runnedBlock ]
 		ifNotNil: [ runnedBlock value ]

@@ -104,12 +104,13 @@ ToPopupWindowManager >> closeOnPicking: aBoolean [
 ]
 
 { #category : #'window handling' }
-ToPopupWindowManager >> closeWindow [ 
+ToPopupWindowManager >> closeWindow [
 
 	self canCloseWindow ifFalse: [ ^ false ].
-	super closeWindow.
+	" postpone vindow closing to let other action tasks run (in case a clickAction is to be runned) "
+	anchorRoot ifNotNil: [ :ar |
+		ar enqueueTask: (BlTaskAction new action: [ super closeWindow ]) ].
 	^ true
-
 ]
 
 { #category : #'window handling' }

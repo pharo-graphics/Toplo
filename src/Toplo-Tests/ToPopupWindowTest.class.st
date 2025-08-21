@@ -126,6 +126,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp [
 		     extent: 100 @ 40;
 		     position: 50 @ 50.
 	space root addChild: e.
+	e forceLayout.
 	self waitTestingSpaces.
 
 	windowManager := ToPopupWindowManager new windowBuilder: [
@@ -135,10 +136,13 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp [
 
 	" mouse down immediately followed by a mouse up -> the popup should stay opened"
 	BlSpace simulateMouseDownOn: e.
-	self waitTestingSpacesTimeout: 300 milliSeconds.
+	100 milliSeconds wait.
+	self assert: windowManager currentWindow notNil.
 	self assert: windowManager currentWindow isOpened.
 	BlSpace simulateMouseUpOn: e.
-	self waitTestingSpacesTimeout: 300 milliSeconds.
+	self waitTestingSpaces.
+	100 milliSeconds wait.
+	self assert: windowManager currentWindow notNil.
 	self assert: windowManager currentWindow isOpened.
 
 	self waitTestingSpaces.

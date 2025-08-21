@@ -107,7 +107,10 @@ ToPopupWindowManager >> closeOnPicking: aBoolean [
 ToPopupWindowManager >> closeWindow [ 
 
 	self canCloseWindow ifFalse: [ ^ false ].
-	super closeWindow.
+	" enqueue a task to close the window. It is to ensure that the possible 
+	linked actions are runned *** before *** the window is closed "
+	anchorRoot ifNotNil: [ :ar |
+		ar enqueueTask: (BlTaskAction new action: [ super closeWindow ]) ].
 	^ true
 
 ]

@@ -55,14 +55,9 @@ ToMenuItemEventHandler >> mouseLeaveEvent: anEvent [
 { #category : #'mouse handlers' }
 ToMenuItemEventHandler >> mouseUpEvent: anEvent [
 
-	| usedEvent |
 	target isMenu ifTrue: [
 		target menuPaneDo: [ :mb | mb switchAutoOpen ] ].
-	" enqueue a task to close the menu. It is to ensure that the possible 
-	menu item link action is runned *** before *** the menu is closed "
-	usedEvent := anEvent copy.
-	target enqueueTask:
-		(BlTaskAction new action: [ self onPickingEvent: usedEvent ])
+	self onPickingEvent: anEvent
 ]
 
 { #category : #'api - hooks' }

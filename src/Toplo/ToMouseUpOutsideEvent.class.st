@@ -2,10 +2,23 @@ Class {
 	#name : #ToMouseUpOutsideEvent,
 	#superclass : #BlEvent,
 	#instVars : [
-		'sourceEvent'
+		'sourceEvent',
+		'emitter'
 	],
 	#category : #'Toplo-Core'
 }
+
+{ #category : #accessing }
+ToMouseUpOutsideEvent >> emitter [
+
+	^ emitter
+]
+
+{ #category : #accessing }
+ToMouseUpOutsideEvent >> emitter: anObject [
+
+	emitter := anObject
+]
 
 { #category : #sending }
 ToMouseUpOutsideEvent >> sendTo: anObject [

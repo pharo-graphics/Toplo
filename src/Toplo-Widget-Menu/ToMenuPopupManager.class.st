@@ -71,6 +71,7 @@ ToMenuPopupManager >> mouseLeaveEvent: anEvent [
 ToMenuPopupManager >> mouseUpOutsideEvent: anEvent [
 
 	super mouseUpOutsideEvent: anEvent.
+	anEvent emitter = pickOutsideFilter ifFalse: [ ^ self ].
 	anchorElement menuPaneDo: [ :mb |
 		mb cancelAutoOpen ]
 ]

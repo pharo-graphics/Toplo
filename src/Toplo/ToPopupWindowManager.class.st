@@ -107,7 +107,6 @@ ToPopupWindowManager >> closeOnPicking: aBoolean [
 ToPopupWindowManager >> closeWindow [ 
 
 	self canCloseWindow ifFalse: [ ^ false ].
-	self unqueuePopupTaskFromEvent: nil.
 	super closeWindow.
 	^ true
 
@@ -156,11 +155,10 @@ ToPopupWindowManager >> defaultStarter [
 ToPopupWindowManager >> eventsToHandle [
 
 	^ super eventsToHandle , {
-		  BlMouseUpEvent.
-		  BlMouseDownEvent.
 		  ToMouseUpOutsideEvent.
 		  ToStartStillHoveredEvent.
-		  ToStartStillPressedEvent }
+		  ToStartStillPressedEvent.
+		  ToStopStillPressedEvent }
 ]
 
 { #category : #'window handling' }
@@ -207,20 +205,10 @@ ToPopupWindowManager >> installPickOutsideFilter [
 ]
 
 { #category : #'event handling' }
-ToPopupWindowManager >> mouseDownEvent: anEvent [
-
-]
-
-{ #category : #'event handling' }
-ToPopupWindowManager >> mouseUpEvent: anEvent [
-	
-	self isInline ifTrue: [ ^ self ].
-	self checkCloseWindowOnPickingEvent: anEvent
-]
-
-{ #category : #'event handling' }
 ToPopupWindowManager >> mouseUpOutsideEvent: anEvent [
 
+	anEvent emitter = pickOutsideFilter ifFalse: [ ^ self ].
+	checkPickOutside ifFalse: [ ^ self ].
 	self isInline ifTrue: [ ^ self ].
 	self forceCloseWindowOnEvent: anEvent sourceEvent
 ]
@@ -237,6 +225,7 @@ ToPopupWindowManager >> newDelayedPopupHandler [
 ToPopupWindowManager >> newPickOutsideFilter [
 
 	^ self pickOutsideFilterClass new
+		  element: anchorElement;
 		  windowManager: self;
 		  upCountRequired: upCountRequired;
 		  yourself
@@ -316,24 +305,31 @@ ToPopupWindowManager >> popupOnPressed [
 	^ true
 ]
 
-{ #category : #'still pressed - hovered' }
+{ #category : #'event handling' }
 ToPopupWindowManager >> startStillHoveredEvent: anEvent [
 	" first I have to test if I'am concerned by this event "
 
 	anEvent emitter = delayedPopupHandler ifFalse: [ ^ self ].
-	self popupEvent: anEvent
+	self popupEvent: anEvent sourceEvent
 ]
 
-{ #category : #'still pressed - hovered' }
+{ #category : #'event handling' }
 ToPopupWindowManager >> startStillPressedEvent: anEvent [
 	" first I have to test if I'am concerned by this event "
 	
 	anEvent emitter = delayedPopupHandler ifFalse: [ ^ self ].
 	windowBuilder ifNil: [ ^ self ].
 	anEvent sourceEvent button = mouseButton ifFalse: [ ^ self ].
-	currentWindow ifNil: [ ^ self popupEvent: anEvent ].
+	currentWindow ifNil: [ ^ self popupEvent: anEvent sourceEvent].
 	self isInline ifTrue: [ currentWindow close ].
 
+]
+
+{ #category : #'event handling' }
+ToPopupWindowManager >> stopStillPressedEvent: anEvent [
+	
+	self isInline ifTrue: [ ^ self ].
+	self checkCloseWindowOnPickingEvent: anEvent sourceEvent
 ]
 
 { #category : #initialization }

@@ -54,7 +54,6 @@ ToMenuItemEventHandler >> mouseLeaveEvent: anEvent [
 
 { #category : #'mouse handlers' }
 ToMenuItemEventHandler >> mouseUpEvent: anEvent [
-	" check event and current target "
 
 	| usedEvent |
 	target isMenu ifTrue: [
@@ -75,7 +74,8 @@ ToMenuItemEventHandler >> onInstalledIn: anElement [
 
 { #category : #'mouse handlers' }
 ToMenuItemEventHandler >> onPickingEvent: anEvent [
-	" check event and current target "
+	" a mouse up or down event is received. 
+	Close the menu if its closing is allowed from here "
 
 	target isEnabled ifFalse: [ ^ self ].
 	target closeOnPicking ifFalse: [ ^ self ].

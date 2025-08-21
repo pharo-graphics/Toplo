@@ -49,17 +49,8 @@ ToTooltipPopupManager >> initialize [
 ]
 
 { #category : #'event handling' }
-ToTooltipPopupManager >> mouseDownEvent: anEvent [
-
-	anEvent button = mouseButton ifFalse: [ ^ self ].
-	anEvent consume.
-	self unqueuePopupTaskFromEvent: anEvent
-]
-
-{ #category : #'event handling' }
 ToTooltipPopupManager >> mouseLeaveEvent: anEvent [
 
-	self unqueuePopupTaskFromEvent: anEvent.
 	closeOnMouseLeave ifFalse: [ ^ self ].
 	self closeWindow
 

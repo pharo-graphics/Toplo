@@ -77,12 +77,6 @@ ToMenuPane >> cancelAutoOpen [
 	self rootMenuPane autoOpen: false
 ]
 
-{ #category : #'t - menu window model' }
-ToMenuPane >> closeWindow [
-
-	self itemList do: [ :it | it isMenuItem ifTrue: [ it closeWindow ] ]
-]
-
 { #category : #initialization }
 ToMenuPane >> initialize [
 

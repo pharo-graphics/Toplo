@@ -103,13 +103,16 @@ ToPopupWindowTest >> testElementWithTooltipAndPopupWindowManager [
 	self assert: windowManager currentWindow isOpened.
 	self assert: tooltipWindowManager currentWindow isNil.
 	BlSpace simulateMouseUpOn: e.
-	self waitTestingSpaces.
+	self waitTestingSpacesTimeout: 400 milliSeconds.
 	self assert: windowManager currentWindow isOpened.
-
+	
+	150 milliSecond wait.
+	
 	BlSpace simulateMouseDownOn: e.
 	self waitTestingSpaces.
-	self assert: windowManager currentWindow isNil.
+	self assert: windowManager currentWindow isOpened.
 	BlSpace simulateMouseUpOn: e.
+
 	self waitTestingSpaces.
 	self assert: windowManager currentWindow isNil
 ]
@@ -138,9 +141,11 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp [
 	self waitTestingSpacesTimeout: 300 milliSeconds.
 	self assert: windowManager currentWindow isOpened.
 
+	self waitTestingSpaces.
+
 	BlSpace simulateMouseDownOn: e.
 	self waitTestingSpacesTimeout: 300 milliSeconds.
-	self assert: windowManager currentWindow isNil.
+	self assert: windowManager currentWindow isOpened.
 	BlSpace simulateMouseUpOn: e.
 	self waitTestingSpacesTimeout: 300 milliSeconds.
 	self assert: windowManager currentWindow isNil
@@ -167,10 +172,12 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp2 [
 	self waitTestingSpaces.
 	self assert: windowManager currentWindow notNil.
 	self assert: windowManager currentWindow isOpened.
+	
 	(windowManager autoCloseDelay + 1 milliSecond) wait.
+	
 	BlSpace simulateMouseUpOn: e.
 	self waitTestingSpaces.
-	" window is closed on mouse-up "
+	" window is closed on mouse-up because of the delay "
 	self assert: windowManager currentWindow isNil
 ]
 

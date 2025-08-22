@@ -9,7 +9,9 @@ Class {
 		'upCountRequired',
 		'checkPickOutside',
 		'closeOnPicking',
-		'delayedPopupHandler'
+		'delayedPopupHandler',
+		'popupOnPressed',
+		'popupOnHovered'
 	],
 	#category : #'Toplo-Core-Window'
 }
@@ -178,25 +180,19 @@ ToPopupWindowManager >> initialize [
 	self usePrimaryMouseButton .
  	autoCloseDelay := self defaultAutoCloseDelay.
 	closeOnPicking := self defaultCloseOnPicking.
-	popupDelay := self defaultPopupDelay.
 	checkPickOutside := true.
-	upCountRequired := 1
+	upCountRequired := 1.
+	popupDelay := self defaultPopupDelay.
+	popupOnPressed := true.
+	popupOnHovered := false.
+
+
 ]
 
 { #category : #accessing }
 ToPopupWindowManager >> inlineWindowClass [
 
 	^ ToInlineWindowElement 
-]
-
-{ #category : #initialization }
-ToPopupWindowManager >> installDelayedPopupHandler [
-
-	delayedPopupHandler ifNotNil: [
-		anchorElement removeEventHandler: delayedPopupHandler ].
-	delayedPopupHandler := self newDelayedPopupHandler.
-	delayedPopupHandler startDelay: self popupDelay.
-	anchorElement addEventHandler: delayedPopupHandler
 ]
 
 { #category : #initialization }
@@ -218,10 +214,8 @@ ToPopupWindowManager >> mouseUpOutsideEvent: anEvent [
 
 { #category : #initialization }
 ToPopupWindowManager >> newDelayedPopupHandler [
-
-	^ self popupOnPressed
-		  ifTrue: [ ToStillPressedEventHandler new ]
-		  ifFalse: [ ToStillHoveredEventHandler new ]
+	
+	^ ToMixedEventGeneratorHandler new
 ]
 
 { #category : #'window handling' }
@@ -245,7 +239,13 @@ ToPopupWindowManager >> onClosed [
 ToPopupWindowManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	self installDelayedPopupHandler
+	
+	delayedPopupHandler := self newDelayedPopupHandler.
+	delayedPopupHandler startDelay: self popupDelay.
+	delayedPopupHandler activateOnPressed: self popupOnPressed.
+	delayedPopupHandler activateOnHovered: self popupOnHovered.
+
+	anchorElement addEventHandler: delayedPopupHandler
 ]
 
 { #category : #'window handling' }
@@ -282,7 +282,7 @@ ToPopupWindowManager >> popupDelay [
 ToPopupWindowManager >> popupDelay: aDuration [
 
 	popupDelay := aDuration.
-	self installDelayedPopupHandler
+	delayedPopupHandler startDelay: self popupDelay.
 ]
 
 { #category : #'window handling' }
@@ -303,9 +303,30 @@ ToPopupWindowManager >> popupNewWindowEvent: anEvent [
 ]
 
 { #category : #accessing }
+ToPopupWindowManager >> popupOnHovered [
+
+	^ popupOnHovered
+]
+
+{ #category : #accessing }
+ToPopupWindowManager >> popupOnHovered: aBoolean [
+
+	popupOnHovered := aBoolean.
+	delayedPopupHandler activateOnHovered: self popupOnHovered.
+]
+
+{ #category : #accessing }
 ToPopupWindowManager >> popupOnPressed [
 
-	^ true
+	^ popupOnPressed
+]
+
+{ #category : #accessing }
+ToPopupWindowManager >> popupOnPressed: aBoolean [
+	" useful for tablet UI "
+
+	popupOnPressed := aBoolean.
+	delayedPopupHandler activateOnPressed: self popupOnPressed
 ]
 
 { #category : #'event handling' }
@@ -323,7 +344,7 @@ ToPopupWindowManager >> startStillPressedEvent: anEvent [
 	anEvent emitter = delayedPopupHandler ifFalse: [ ^ self ].
 	windowBuilder ifNil: [ ^ self ].
 	anEvent sourceEvent button = mouseButton ifFalse: [ ^ self ].
-	currentWindow ifNil: [ ^ self popupEvent: anEvent sourceEvent].
+	currentWindow ifNil: [ ^ self popupEvent: anEvent sourceEvent ].
 	self isInline ifTrue: [ currentWindow close ].
 
 ]

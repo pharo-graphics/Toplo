@@ -60,6 +60,12 @@ ToMultiSelectElement >> checkMaxSelectedCount [
 	self innerElement checkMaxSelectedCount
 ]
 
+{ #category : #'accessing - window' }
+ToMultiSelectElement >> closeOnItemPicking [
+
+	^ false
+]
+
 { #category : #accessing }
 ToMultiSelectElement >> hideSelected [
 

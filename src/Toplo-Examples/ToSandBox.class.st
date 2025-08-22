@@ -140,9 +140,11 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	menu addItem: (ToRadioMenuItem new
 			 label: (ToLabel text: 'Dark theme');
 			 checkAction: [ :evt :cbox :v |
-					 cbox space toTheme: (v
+					 cbox space toTheme: (evt target isChecked
 								  ifTrue: [ ToRawDarkTheme new ]
 								  ifFalse: [ ToRawTheme new ]) ];
+			 in: [ :rad |
+				 rad checked: Toplo defaultThemeClass = ToRawDarkTheme ];
 			 yourself).
 	menu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Space statistics');
@@ -158,7 +160,6 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 			 with: aBar;
 			 yourself).
 	confPane addChild: menu.
-
 
 	{
 		(#isVertical -> #isVertical: -> 'Vertical').
@@ -3621,6 +3622,53 @@ ToSandBox class >> example_MenuWithSelect [
 	menu openInSpace
 ]
 
+{ #category : #'still pressed hovered event' }
+ToSandBox class >> example_MixedEventGenerator [
+
+	| e count lab color |
+	e := ToElement new
+		     id: #'my-element';
+		     yourself.
+	e addEventHandler: (ToMixedEventGeneratorHandler new
+			 startDelay: 500 milliSeconds;
+			 delay: 200 milliSeconds;
+			 yourself).
+	e layout: BlFrameLayout new.
+	lab := ToLabel new text: 'Enter here'.
+	lab constraintsDo: [ :c |
+			c frame vertical alignCenter.
+			c frame horizontal alignCenter ].
+	e addChild: lab.
+	e extent: 200 asPoint.
+	e border: Color black.
+	count := 0.
+	color := Color white alpha: 0.3.
+
+	e addEventHandler: (BlEventHandler
+			 on: ToGeneratorEvent
+			 do: [ :event |
+					 event trace.
+					 event sourceEvent traceCr ]).
+
+	e addEventHandler: (BlEventHandler
+			 on: ToStillHoveredEvent
+			 do: [ :event |
+					 e background: color.
+					 lab text: count asString asRopedText.
+					 count := count + 1.
+					 color := color darker.
+					 count > 50 ifTrue: [ event consume ] ]).
+
+	e addEventHandler: (BlEventHandler
+			 on: ToStopStillHoveredEvent
+			 do: [ :event |
+					 count := 0.
+					 color := Color white alpha: 0.3.
+					 e background: color ]).
+
+	e openInSpace
+]
+
 { #category : #list }
 ToSandBox class >> example_NodeContainerWithStatesOfAmerica [
 
@@ -4105,7 +4153,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	| select innerWindow newTagFactory |
 	select := ToMultiSelectElement new.
 	select filtrable: true.
-	select manager autoPopupDelay: 400 milliSeconds.
+	"select manager popupDelay: 400 milliSeconds."
 
 	select
 		addEventHandlerOn: ToSelectChangedEvent
@@ -5330,7 +5378,10 @@ ToSandBox class >> example_TooltipPopupOnMouseDown [
 
 	| but |
 	but := ToButton new.
-	but tooltipManagerDo: [ :m | m popupOnMouseDown: true ].
+	but tooltipManagerDo: [ :m |
+			m popupOnPressed: true.
+			m popupOnHovered: false.
+			m popupDelay: 500 milliSeconds ].
 	but labelText: 'Button with tooltip'.
 	but tooltipBuilder: [ :window :request |
 			window root addChild: (BlElement new
@@ -5585,12 +5636,17 @@ ToSandBox class >> example_WithSeparator [
 		             extent: 400 @ 200;
 		             yourself.
 	menu := ToMenu new.
-	"menu tooltipString: 'tooltip content'."
+	menu tooltipString: 'tooltip content'.
 	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	menu addItem: (ToMenuItem new label: (ToLabel text: 'Open')) disable.
 
 	menu addSeparator.
-	menu addItem: (ToMenuItem new label: (ToLabel text: 'Close')).
+	menu addItem: (ToMenuItem new
+			 label: (ToLabel text: 'Close');
+			 clickAction: [ :evt |
+					 'Close action ' trace.
+					 evt traceCr ];
+			 yourself).
 	container pane addChild: menu.
 	container openInSpace
 ]
@@ -7359,6 +7415,46 @@ ToSandBox class >> example_stillHoveredEvent [
 ]
 
 { #category : #'still pressed hovered event' }
+ToSandBox class >> example_stillHoveredEventWithMixedHandler [
+
+	| e count lab |
+	e := ToElement new layout: BlBasicLayout new.
+	e addChild: (BlElement new
+			 extent: 30 asPoint;
+			 position: 40 asPoint;
+			 background: Color gray;
+			 yourself).
+	e addEventHandler: (ToMixedEventGeneratorHandler new
+			 startDelay: 500 milliSeconds;
+			 activateOnPressed: false;
+			 yourself).
+
+	lab := ToLabel new text: 'Keep mouse inside'.
+	lab constraintsDo: [ :c |
+			c frame vertical alignCenter.
+			c frame horizontal alignCenter ].
+	e addChild: lab.
+	e extent: 200 asPoint.
+	e border: Color black.
+	count := 0.
+	e addEventHandler: (BlEventHandler
+			 on: ToGeneratorEvent
+			 do: [ :event |
+					 event trace.
+					 ' ' trace.
+					 event sourceEvent traceCr ]).
+	e addEventHandler: (BlEventHandler
+			 on: ToStillHoveredEvent
+			 do: [ :event |
+					 lab text: count asString asRopedText.
+					 count := count + 1.
+					 count > 80 ifTrue: [
+							 event consume.
+							 count := 0 ] ]).
+	e openInSpace
+]
+
+{ #category : #'still pressed hovered event' }
 ToSandBox class >> example_stillPressedEvent [
 
 	| e count lab color |
@@ -7368,6 +7464,54 @@ ToSandBox class >> example_stillPressedEvent [
 	e addEventHandler: (ToStillPressedEventHandler new
 			 startDelay: 500 milliSeconds;
 			 delay: 200 milliSeconds;
+			 yourself).
+	e layout: BlFrameLayout new.
+	lab := ToLabel new text: 'Keep mouse pressed here'.
+	lab constraintsDo: [ :c |
+			c frame vertical alignCenter.
+			c frame horizontal alignCenter ].
+	e addChild: lab.
+	e extent: 200 asPoint.
+	e border: Color black.
+	count := 0.
+	color := Color white alpha: 0.3.
+
+	e addEventHandler: (BlEventHandler
+			 on: ToGeneratorEvent
+			 do: [ :event |
+					 event trace.
+					 event sourceEvent traceCr ]).
+
+	e addEventHandler: (BlEventHandler
+			 on: ToStillPressedEvent
+			 do: [ :event |
+					 e background: color.
+					 lab text: count asString asRopedText.
+					 count := count + 1.
+					 color := color darker.
+					 count > 50 ifTrue: [ event consume ] ]).
+
+	e addEventHandler: (BlEventHandler
+			 on: ToStopStillPressedEvent
+			 do: [ :event |
+					 count := 0.
+					 color := Color white alpha: 0.3.
+					 e background: color ]).
+
+	e openInSpace
+]
+
+{ #category : #'still pressed hovered event' }
+ToSandBox class >> example_stillPressedEventWithMixedHandler [
+
+	| e count lab color |
+	e := ToElement new
+		     id: #'my-element';
+		     yourself.
+	e addEventHandler: (ToMixedEventGeneratorHandler new
+			 startDelay: 500 milliSeconds;
+			 delay: 200 milliSeconds;
+			 activateOnHovered: false;
 			 yourself).
 	e layout: BlFrameLayout new.
 	lab := ToLabel new text: 'Keep mouse pressed here'.

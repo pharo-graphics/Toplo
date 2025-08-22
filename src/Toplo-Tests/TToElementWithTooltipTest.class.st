@@ -13,7 +13,7 @@ TToElementWithTooltipTest >> testCloseTooltipOnMouseLeave [
 	| e |
 	e := ToElement new.
 	e extent: 50 @ 50.
-	e tooltipManagerDo: [ :m | m popupDelay: 10 milliSeconds ].
+	e tooltipManagerDo: [ :m | m autoPopupDelay: 10 milliSeconds ].
 	space root addChild: e.
 	self assert: e currentTooltipWindow isNil.
 	e tooltipContent: (ToElement new
@@ -35,7 +35,7 @@ TToElementWithTooltipTest >> testCloseTooltipOnMouseLeave2 [
 	e := ToElement new.
 	e extent: 50 @ 50.
 	e tooltipManagerDo: [:m | m closeOnMouseLeave: false ].
-	e tooltipManagerDo: [ :m | m popupDelay: 10 milliSeconds ].
+	e tooltipManagerDo: [ :m | m autoPopupDelay: 10 milliSeconds ].
 	space root addChild: e.
 	self assert: e currentTooltipWindow isNil.
 	e tooltipContent: (ToElement new
@@ -198,9 +198,10 @@ TToElementWithTooltipTest >> testTooltipPopupDelay [
 	| e |
 	e := ToElement new.
 	e extent: 50 @ 50.
+
 	e tooltipManagerDo: [ :m | 
-		m popupDelay: 100 milliSeconds.
-		self assert: m popupDelay equals: 100 milliSeconds].
+		m autoPopupDelay: 100 milliSeconds.
+		self assert: m autoPopupDelay equals: 100 milliSeconds].
 	space root addChild: e.
 	e tooltipContent: (ToElement new
 			 extent: 20 @ 20;

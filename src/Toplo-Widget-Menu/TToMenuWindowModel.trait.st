@@ -12,7 +12,7 @@ TToMenuWindowModel >> closeWindow [
 { #category : #testing }
 TToMenuWindowModel >> isInline [
 
-	^ self manager isInline
+	^ self windowManager isInline
 ]
 
 { #category : #'t - menu window model' }

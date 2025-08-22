@@ -11,7 +11,6 @@ ToBlElementTest >> testApplicableListenersFor [
 	e := BlElement new.
 	theme := ToStyleSheetThemeForTest new.
 	space toTheme: theme.
-	
 	space root addChild: e.
 	self applyAllEnqueuedStates.
 	self waitTestingSpaces.
@@ -112,14 +111,15 @@ ToBlElementTest >> testRequestSkin [
 	self assert: e skinManager isNil.
 	self assert: e skinManager isNil.
 	e ensuredSkinManager requestInstallSkinIn: e.
-	self assert: e skinManager skinInstaller isNil.
+	self assert: e skinManager skinInstaller notNil.
 	self assert: e skinManager installedSkin isNil.
 	space root addChild: e.
-	self assert: e skinManager skinInstaller isNil.
+	self assert: e skinManager skinInstaller notNil.
 	self assert: e skinManager installedSkin isNil.
 	space applyAllSkinInstallers.
 	self assert: e skinManager skinInstaller isNil.
-	self assert: e skinManager installedSkin isNil
+	self assert: e skinManager installedSkin notNil
+	
 ]
 
 { #category : #tests }
@@ -134,8 +134,9 @@ ToBlElementTest >> testRequestSkin2 [
 	self assert: e skinManager isNil.
 	e ensuredSkinManager requestInstallSkinIn: e.
 	self assert: e skinManager notNil.
-	self assert: e skinManager skinInstaller notNil.
-	self assert: e skinManager installedSkin isNil.
+	self assert: e skinManager skinInstaller isNil.
+	self assert: e skinManager installedSkin notNil.
+	" apply skin installer from space has no effect on e since it has no skinInstaller "
 	space applyAllSkinInstallers.
 	self assert: e skinManager skinInstaller isNil.
 	self assert: e skinManager installedSkin notNil
@@ -149,20 +150,9 @@ ToBlElementTest >> testUnsortedApplicableListenersFor [
 	theme := ToStyleSheetThemeForTest new.
 	space toTheme: theme.
 	space root addChild: e.
-	self assert: e toStyleStore isNil.
-	self applyAllEnqueuedStates.
-	self assert: e toStyleStore isNil.
-	self waitTestingSpaces.
-	self assert: e toStyleStore isNil.
 	self assert: (theme unsortedApplicableListenersFor: e) size equals: 0.
-	self assert: e toStyleStore isNil.
-	e addStamp: #element.
-	self assert: e toStyleStore notNil.
-	self assert: e skinManager isNil.
-	self applyAllEnqueuedStates.
-	self waitTestingSpaces.
-	self assert: e skinManager isNil.
-
+	e := ToElement new.
+	space root addChild: e.
 	self assert: (theme unsortedApplicableListenersFor: e) size equals: 5.
 
 	

@@ -5,6 +5,13 @@ Class {
 }
 
 { #category : #'window handling' }
+ToMenuPopupManager >> autoCloseWindow [ 
+
+	super autoCloseWindow.
+	anchorElement menuPaneDo: [ :mb | mb cancelAutoOpen ]
+]
+
+{ #category : #'window handling' }
 ToMenuPopupManager >> beInline [ 
 
 	windowStarter := ToInlineMenuStarter new.
@@ -42,14 +49,6 @@ ToMenuPopupManager >> eventsToHandle [
 		  BlMouseLeaveEvent }
 ]
 
-{ #category : #'window handling' }
-ToMenuPopupManager >> forceCloseWindowOnEvent: anEvent [ 
-
-	anchorElement menuPaneDo: [ :mb | mb cancelAutoOpen ].
-	super forceCloseWindowOnEvent: anEvent.
-
-]
-
 { #category : #accessing }
 ToMenuPopupManager >> inlineWindowClass [
 
@@ -71,7 +70,6 @@ ToMenuPopupManager >> mouseLeaveEvent: anEvent [
 ToMenuPopupManager >> mouseUpOutsideEvent: anEvent [
 
 	super mouseUpOutsideEvent: anEvent.
-	anEvent emitter = pickOutsideFilter ifFalse: [ ^ self ].
 	anchorElement menuPaneDo: [ :mb |
 		mb cancelAutoOpen ]
 ]
@@ -104,6 +102,13 @@ ToMenuPopupManager >> onOpened [
 ToMenuPopupManager >> pickOutsideFilterClass [ 
 
 	^ ToMenuPickOutsideEventFilter
+]
+
+{ #category : #'window handling' }
+ToMenuPopupManager >> popupNewWindowEvent: anEvent [
+
+	"element items ifEmpty: [ ^ self ]."
+	super popupNewWindowEvent: anEvent
 ]
 
 { #category : #accessing }

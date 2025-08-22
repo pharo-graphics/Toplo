@@ -103,16 +103,13 @@ ToPopupWindowTest >> testElementWithTooltipAndPopupWindowManager [
 	self assert: windowManager currentWindow isOpened.
 	self assert: tooltipWindowManager currentWindow isNil.
 	BlSpace simulateMouseUpOn: e.
-	self waitTestingSpacesTimeout: 400 milliSeconds.
-	self assert: windowManager currentWindow isOpened.
-	
-	150 milliSecond wait.
-	
-	BlSpace simulateMouseDownOn: e.
 	self waitTestingSpaces.
 	self assert: windowManager currentWindow isOpened.
-	BlSpace simulateMouseUpOn: e.
 
+	BlSpace simulateMouseDownOn: e.
+	self waitTestingSpaces.
+	self assert: windowManager currentWindow isNil.
+	BlSpace simulateMouseUpOn: e.
 	self waitTestingSpaces.
 	self assert: windowManager currentWindow isNil
 ]
@@ -126,7 +123,6 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp [
 		     extent: 100 @ 40;
 		     position: 50 @ 50.
 	space root addChild: e.
-	e forceLayout.
 	self waitTestingSpaces.
 
 	windowManager := ToPopupWindowManager new windowBuilder: [
@@ -136,20 +132,15 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp [
 
 	" mouse down immediately followed by a mouse up -> the popup should stay opened"
 	BlSpace simulateMouseDownOn: e.
-	100 milliSeconds wait.
-	self assert: windowManager currentWindow notNil.
+	self waitTestingSpacesTimeout: 300 milliSeconds.
 	self assert: windowManager currentWindow isOpened.
 	BlSpace simulateMouseUpOn: e.
-	self waitTestingSpaces.
-	100 milliSeconds wait.
-	self assert: windowManager currentWindow notNil.
+	self waitTestingSpacesTimeout: 300 milliSeconds.
 	self assert: windowManager currentWindow isOpened.
-
-	self waitTestingSpaces.
 
 	BlSpace simulateMouseDownOn: e.
 	self waitTestingSpacesTimeout: 300 milliSeconds.
-	self assert: windowManager currentWindow isOpened.
+	self assert: windowManager currentWindow isNil.
 	BlSpace simulateMouseUpOn: e.
 	self waitTestingSpacesTimeout: 300 milliSeconds.
 	self assert: windowManager currentWindow isNil
@@ -176,12 +167,10 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp2 [
 	self waitTestingSpaces.
 	self assert: windowManager currentWindow notNil.
 	self assert: windowManager currentWindow isOpened.
-	
 	(windowManager autoCloseDelay + 1 milliSecond) wait.
-	
 	BlSpace simulateMouseUpOn: e.
 	self waitTestingSpaces.
-	" window is closed on mouse-up because of the delay "
+	" window is closed on mouse-up "
 	self assert: windowManager currentWindow isNil
 ]
 

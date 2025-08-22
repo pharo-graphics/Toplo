@@ -26,32 +26,17 @@ ToStyleRuleTest >> testCanBeAppliedTo [
 ToStyleRuleTest >> testCanBeAppliedToInTheme [
 
 	| rule theme1 theme2 theme3 e |
-	e := ToElementForStyleRuleTest new.
+	e := ToElement new.
 	theme1 := ToThemeForStyleRuleTest new.
 	rule := ToStyleRule new selector: ToUniversalSelector new.
-	self assert: (rule canBeAppliedTo: e inTheme: theme1).
-	self assert: (e skinManager isSetUpForTheme: theme1).
-	self assert: e themeForSetup identicalTo: theme1.
-	
-	" the initialization is done only one time for a particular theme class "
-	e setUpByTheme: nil.
+	self assert: (rule canBeAppliedTo: e inTheme: theme1).	
 	rule canBeAppliedTo: e inTheme: theme1.
-	self assert: (e skinManager isSetUpForTheme: theme1).
-	" -> not setup for the same theme "
-	self assert: e themeForSetup isNil.
-	
 	" now with another theme of the same class "
 	theme2 := ToThemeForStyleRuleTest new.
-	self assert: (rule canBeAppliedTo: e inTheme: theme2).
-	self assert: (e skinManager isSetUpForTheme: theme2).
-	self assert: e themeForSetup isNil.
-	
-		" now with another theme of a different class "
+	self assert: (rule canBeAppliedTo: e inTheme: theme2).	
+	" now with another theme of a different class "
 	theme3 := ToSubThemeForStyleRuleTest new.
-	self assert: (rule canBeAppliedTo: e inTheme: theme3).
-	self assert: (e skinManager isSetUpForTheme: theme3).
-	self assert: e themeForSetup identicalTo: theme3.
-
+	self assert: (rule canBeAppliedTo: e inTheme: theme3)
 	
 ]
 
@@ -297,16 +282,15 @@ ToStyleRuleTest >> testCanBeRecursivelyAppliedToForTheme [
 
 	| rule theme e |
 	theme := ToThemeForStyleRuleTest new.
-	e := ToElementForStyleRuleTest new.
+	e := ToElement new.
 	rule := ToStyleRule new selector: ToUniversalSelector new.
 	self assert: (rule canBeRecursivelyAppliedTo: e forTheme: theme).
-	self assert: (e skinManager isSetUpForTheme: theme).
 	rule addStyleRule: (ToStyleRule new selector:
-			 (ToTypeSelector new type: ToElementForStyleRuleTest)).
+			 (ToTypeSelector new type: ToElement)).
 	self assert: (rule canBeRecursivelyAppliedTo: e forTheme: theme).
 	rule addStyleRule:
 		(ToStyleRule new selector: (ToNotSelector new left:
-				  (ToTypeSelector new type: ToElementForStyleRuleTest))).
+				  (ToTypeSelector new type: ToElement))).
 	self deny: (rule canBeRecursivelyAppliedTo: e forTheme: theme)
 ]
 
@@ -314,10 +298,10 @@ ToStyleRuleTest >> testCanBeRecursivelyAppliedToForTheme [
 ToStyleRuleTest >> testPutApplicableListenersForElementForThemeIn [
 
 	| rule subRule w1 w2 e listeners |
-	e := ToElementForStyleRuleTest new.
+	e := ToElement new.
 	rule := ToStyleRule new selector: ToUniversalSelector new.
 	subRule := ToStyleRule new selector:
-		           (ToTypeSelector new type: ToElementForStyleRuleTest).
+		           (ToTypeSelector new type: ToElement).
 	rule addStyleRule: subRule.
 	listeners := Array streamContents: [ :stream |
 		           rule
@@ -344,7 +328,7 @@ ToStyleRuleTest >> testRawStyleRules [
 	rule := ToStyleRule new selector: ToUniversalSelector new.
 	self assert: rule rawStyleRules isEmpty.
 	rule addStyleRule: (ToStyleRule new selector:
-			 (ToTypeSelector new type: ToElementForStyleRuleTest)).
+			 (ToTypeSelector new type: ToElement)).
 	self assert: rule rawStyleRules size equals: 1
 ]
 

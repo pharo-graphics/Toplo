@@ -42,9 +42,9 @@ ToSelectElement >> applyConfiguration [
 ]
 
 { #category : #'accessing - window' }
-ToSelectElement >> closeOnItemPicking [
+ToSelectElement >> closeOnPicking [
 
-	^ true
+	^ self manager closeOnPicking
 ]
 
 { #category : #'accessing - window' }

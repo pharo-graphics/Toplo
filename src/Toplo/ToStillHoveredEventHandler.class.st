@@ -1,8 +1,6 @@
 Class {
 	#name : #ToStillHoveredEventHandler,
-	#superclass : #BlCustomEventHandler,
-	#traits : 'TToEventGeneratorHandler',
-	#classTraits : 'TToEventGeneratorHandler classTrait',
+	#superclass : #ToEventGeneratorHandler,
 	#category : #'Toplo-Support-EventGenerator'
 }
 
@@ -14,26 +12,27 @@ ToStillHoveredEventHandler >> eventsToHandle [
 		  BlMouseLeaveEvent }
 ]
 
-{ #category : #initialization }
-ToStillHoveredEventHandler >> initialize [ 
-
-	super initialize.
-	self initializeAsEventGeneratorHandler 
-]
-
-{ #category : #'event handling' }
+{ #category : #'mouse handlers' }
 ToStillHoveredEventHandler >> mouseEnterEvent: anEvent [
 
-	self startEvent: anEvent
+	| target |
+	checker ifNotNil: [ ^ self ].
+	target := anEvent currentTarget.
+	startTime := time now.
+	checker := BlRepeatedTaskAction new
+		           delay: delay asDuration;
+		           action: [ self taskActionFromEvent: anEvent in: target].
+	target enqueueTask: checker
 ]
 
-{ #category : #'event handling' }
+{ #category : #'mouse handlers' }
 ToStillHoveredEventHandler >> mouseLeaveEvent: anEvent [
 
-	self stopEvent: anEvent
+	checker ifNil: [ ^ self ].
+	self stopTaskFromEvent: anEvent in: anEvent currentTarget
 ]
 
-{ #category : #'event handling' }
+{ #category : #'instance creation' }
 ToStillHoveredEventHandler >> newRepeatedEvent [
 
 	^ ToStillHoveredEvent new
@@ -41,7 +40,7 @@ ToStillHoveredEventHandler >> newRepeatedEvent [
 		  yourself
 ]
 
-{ #category : #'event handling' }
+{ #category : #'instance creation' }
 ToStillHoveredEventHandler >> newStartEvent [
 
 	^ ToStartStillHoveredEvent new
@@ -49,7 +48,7 @@ ToStillHoveredEventHandler >> newStartEvent [
 		  yourself
 ]
 
-{ #category : #'event handling' }
+{ #category : #'instance creation' }
 ToStillHoveredEventHandler >> newStopEvent [
 
 	^ ToStopStillHoveredEvent new

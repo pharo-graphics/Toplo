@@ -80,7 +80,6 @@ ToMenu >> initialize [
 	isSubmenu := false.
 	isMenuPaneMenu := false.
 	openOnHovered := true.
-	self applySkinInstallerOnFirstRequest: true.
 
 	windowManager := ToMenuPopupManager new
 		                 windowBuilder: [ :window :request |

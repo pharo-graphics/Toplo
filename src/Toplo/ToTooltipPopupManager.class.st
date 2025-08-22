@@ -2,7 +2,8 @@ Class {
 	#name : #ToTooltipPopupManager,
 	#superclass : #ToPopupWindowManager,
 	#instVars : [
-		'closeOnMouseLeave'
+		'closeOnMouseLeave',
+		'popupOnMouseDown'
 	],
 	#category : #'Toplo-Core-Tooltip'
 }
@@ -13,10 +14,10 @@ ToTooltipPopupManager >> closeOnMouseLeave: aBoolean [
 	closeOnMouseLeave := aBoolean
 ]
 
-{ #category : #'window handling' }
-ToTooltipPopupManager >> consumeEventAfterForcedClosing [
+{ #category : #accessing }
+ToTooltipPopupManager >> defaultAutoPopupDelay [
 
-	^ false
+	^ 700 milliSeconds
 ]
 
 { #category : #initialization }
@@ -25,44 +26,53 @@ ToTooltipPopupManager >> defaultPlacement [
 	^ ToTooltipPlacement new
 ]
 
-{ #category : #initialization }
-ToTooltipPopupManager >> defaultPopupDelay [
-	" popup the window after this delay "
-
-	^ 700 milliSeconds
-]
-
 { #category : #'api - accessing' }
 ToTooltipPopupManager >> eventsToHandle [
 
-	^ super eventsToHandle , { BlMouseLeaveEvent. BlMouseUpEvent }
+	^ super eventsToHandle , { BlMouseLeaveEvent }
 ]
 
 { #category : #initialization }
 ToTooltipPopupManager >> initialize [
 
 	super initialize.
+	self popupOnMouseDown: false.
 	self closeOnMouseLeave: true.
-	upCountRequired := 0.
-	popupOnPressed := false.
-	popupOnHovered := true
+	upCountRequired := 0
 ]
 
 { #category : #'event handling' }
 ToTooltipPopupManager >> mouseLeaveEvent: anEvent [
 
+	self unqueuePopupTaskFromEvent: anEvent.
 	closeOnMouseLeave ifFalse: [ ^ self ].
 	self closeWindow
 
 ]
 
-{ #category : #'event handling' }
-ToTooltipPopupManager >> mouseUpEvent: anEvent [
+{ #category : #'window handling' }
+ToTooltipPopupManager >> onAutoClosedOnEvent: anEvent [
+]
 
-	"windowBuilder ifNil: [ ^ self ]."
-	self unqueuePopupTaskFromEvent: anEvent.
-	delayedPopupHandler reset.
-	self closeWindow
+{ #category : #'api - hooks' }
+ToTooltipPopupManager >> onInstalledIn: anElement [
+
+	super onInstalledIn: anElement.
+	self autoPopupDelay: self defaultAutoPopupDelay 
+	 
+]
+
+{ #category : #accessing }
+ToTooltipPopupManager >> popupOnMouseDown [
+
+	^ popupOnMouseDown
+]
+
+{ #category : #accessing }
+ToTooltipPopupManager >> popupOnMouseDown: aBoolean [
+	" useful for tablet UI "
+
+	popupOnMouseDown := aBoolean
 ]
 
 { #category : #accessing }

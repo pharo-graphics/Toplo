@@ -3,11 +3,10 @@ Class {
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'upCount',
+		'windowManager',
 		'holder',
 		'checkElement',
-		'plugged',
-		'element',
-		'windowManager'
+		'plugged'
 	],
 	#category : #'Toplo-Core-Window'
 }
@@ -19,7 +18,6 @@ ToPopupPickOutsideEventFilter >> checkLegitimacy [
 	If it is not present, then simply remove myself as event filter.
 	"
 
-	holder ifNil: [ ^ false ].
 	(self popupWindow isNil or: [ windowManager checkPickOutside not ])
 		ifTrue: [ " if the window is not present or the checking flag is set to false in the windowManager.
 		The window can be nil if the parent of the popup element is removed "
@@ -32,7 +30,7 @@ ToPopupPickOutsideEventFilter >> checkLegitimacy [
 { #category : #private }
 ToPopupPickOutsideEventFilter >> checkUpCount [
 
-	windowManager popupOnPressed ifTrue: [
+	windowManager popupOnMouseDown ifTrue: [
 		upCount isZero ifFalse: [
 			upCount := upCount - 1.
 			^ false ] ].
@@ -40,9 +38,9 @@ ToPopupPickOutsideEventFilter >> checkUpCount [
 ]
 
 { #category : #accessing }
-ToPopupPickOutsideEventFilter >> element: anElement [
+ToPopupPickOutsideEventFilter >> element [
 
-	element := anElement
+	^ windowManager anchorElement
 ]
 
 { #category : #'api - accessing' }
@@ -67,7 +65,7 @@ ToPopupPickOutsideEventFilter >> isPickedOutsideEvent: anEvent [
 	target := anEvent target.
 	" Is it ouside the element ? "
 	checkElement ifTrue: [
-		(target withAllParentsInclude: element) ifTrue: [ ^ false ] ].
+		(target withAllParentsInclude: self element) ifTrue: [ ^ false ] ].
 
 	"and outside of the popup windows ? "
 	self popupWindow withAllSubwindowsDo: [ :w |
@@ -122,9 +120,8 @@ ToPopupPickOutsideEventFilter >> onMouseUpEvent: anEvent [
 
 	" ok, mouseUp outside the element and outside of the popup window "
 	anEvent target space ifNil: [ ^ self ].
-	element dispatchEvent: (ToMouseUpOutsideEvent new
+	self element dispatchEvent: (ToMouseUpOutsideEvent new
 			 sourceEvent: anEvent;
-			 emitter: self;
 			 fillFromTime: anEvent target space time;
 			 yourself)
 ]
@@ -158,12 +155,6 @@ ToPopupPickOutsideEventFilter >> unplug [
 ToPopupPickOutsideEventFilter >> upCountRequired: anInteger [
 
 	upCount := anInteger 
-]
-
-{ #category : #accessing }
-ToPopupPickOutsideEventFilter >> windowManager [
-
-	^ windowManager
 ]
 
 { #category : #accessing }

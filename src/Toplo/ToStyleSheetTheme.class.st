@@ -26,7 +26,7 @@ ToStyleSheetTheme >> initialize [
 ]
 
 { #category : #accessing }
-ToStyleSheetTheme >> newSkinFor: anElement [
+ToStyleSheetTheme >> newSkinInstanceFor: anElement [
 
 	^ self newStyleSheetBasedSkinInstanceFor: anElement
 ]

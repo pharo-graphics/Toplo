@@ -45,12 +45,6 @@ BlSpace >> isApplyingConfigurations [
 ]
 
 { #category : #'*Toplo' }
-BlSpace >> needSkinInstallPass [
-
-	^ self phasesManager needSkinInstallPass
-]
-
-{ #category : #'*Toplo' }
 BlSpace >> needSkinInstallPass: aBoolean [
 
 	self phasesManager needSkinInstallPass: aBoolean.

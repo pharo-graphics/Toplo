@@ -140,6 +140,7 @@ ToSwitchIcon >> initialize [
 	super initialize.
 	self id: #'switchIcon'.
 	wishedExtent := self defaultExtent.
+	self applySkinInstallerOnFirstRequest: false.
 	self layout: BlBasicLayout new.
 	track := self newTrack.
 	handle := self newHandle.

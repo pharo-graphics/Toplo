@@ -168,8 +168,9 @@ ToLabel >> hasText [
 { #category : #initialization }
 ToLabel >> initialize [
 
-	super initialize.
 	self class initializeSlots: self.
+	super initialize.
+	self applySkinInstallerOnFirstRequest: true.
 	self fitContent.
 	self focusability: BlFocusability none.
 

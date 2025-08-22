@@ -52,8 +52,9 @@ ToElementWithSkinnablePropertiesForTest >> borderValue: anObject [
 { #category : #initialization }
 ToElementWithSkinnablePropertiesForTest >> initialize [
 
-	super initialize.
 	self class initializeSlots: self.
+	super initialize.
+	self applySkinInstallerOnFirstRequest: false.
 
 	" count the number of state engine applyOn: (only for dirty element stored in the space) "
 	skinStateQueueApplicationCount := 0

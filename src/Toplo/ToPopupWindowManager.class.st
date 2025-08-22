@@ -38,7 +38,7 @@ ToPopupWindowManager >> autoCloseDelay: aDelay [
 
 { #category : #'window handling' }
 ToPopupWindowManager >> beInline [ 
-	" for inline windows/ menus"
+
 	windowStarter := ToInlineWindowStarter new.
 	self unplugPickOutsideFilter
 ]

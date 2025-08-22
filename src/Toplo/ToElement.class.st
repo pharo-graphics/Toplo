@@ -42,6 +42,7 @@ ToElement >> initialize [
 	super initialize.
 	self layout: self defaultLayout.
 	self initializeForToplo.
+	self applySkinInstallerOnFirstRequest: false.
 	self constraints horizontal fitContent.	
 	self constraints vertical fitContent.
 

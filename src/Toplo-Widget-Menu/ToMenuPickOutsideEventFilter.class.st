@@ -29,7 +29,7 @@ ToMenuPickOutsideEventFilter >> onMouseUpEvent: anEvent [
 	" Clicking on a menu item that is not a top item 
 	should cancel the menubar auto-open"
 
-	self element menuPaneDo: [ :mb |
+	element menuPaneDo: [ :mb |
 		(anEvent target firstInParentChainSatisfying: [ :e |
 			 e isKindOf: ToMenuItemElement ]) ifNotNil: [ :w |
 			w isTopMenu ifFalse: [ mb cancelAutoOpen ] ] ].

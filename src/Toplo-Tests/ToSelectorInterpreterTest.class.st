@@ -12,16 +12,19 @@ ToSelectorInterpreterTest >> testPush [
 
 	| selector e engine theme |
 	selector := ToIdSelector new id: #'my-id'.
-	e := ToElement new.
+	e := ToElementForStyleRuleTest new.
 	e id: #'my-id'.
 	engine := ToSelectorInterpreter new.
 	" the result is false since the selector is exact by default "
 	engine check: selector on: e.
-	self assert: engine result.	
+	self assert: engine result.
+	self assert: e themeForSetup isNil.
+	
 	theme := ToThemeForStyleRuleTest new.
 	engine theme: theme.
 	engine check: selector on: e.
-	self assert: engine result
+	self assert: engine result.
+	self assert: e themeForSetup identicalTo: theme.
 
 	
 	

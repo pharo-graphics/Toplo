@@ -361,27 +361,22 @@ ToListElementStresser >> newListElement [
 { #category : #initialization }
 ToListElementStresser >> newSelectionBoardOn: aListElement [
 
-	| pane lab labItem |
-	pane := ToMenuPane horizontal.
-	pane addItem: (ToMenuItem new
-			 labelText: 'Inspect';
-			 clickAction: [ :evt | evt target space inspect ];
-			 yourself).
-	pane addItem: (ToMenuItem new
+	| pane lab |
+	pane := ToPane horizontal.
+	pane padding: (BlInsets all: 3).
+	pane addChild: (ToButton new
 			 labelText: 'Statistics';
-			 clickAction: [ :evt | evt target space showStatisticsWindow ];
+			 clickAction: [ :evt :target | target space showStatisticsWindow ];
 			 yourself).
-	lab := ToLabel new.
-	labItem := ToCustomMenuItem new.
-	labItem addChild: lab.
-	pane addItem: labItem.
+	pane addChild: (lab := ToLabel new).
 	aListElement
 		addEventHandlerOn: ToListSelectionChangedEvent
 		do: [ :event |
 			| nb |
 			nb := aListElement selectionModel underlyingModel intervals size.
 			lab text: (self selectionResultsTextOn: aListElement) ].
-	"pane childrenDo: [ :child | child constraintsDo: [ :c | c linear vertical alignCenter ] ]."
+	pane layout cellSpacing: 5.
+	pane childrenDo: [ :child | child constraintsDo: [ :c | c linear vertical alignCenter ] ].
 	^ pane
 ]
 

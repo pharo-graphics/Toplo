@@ -35,6 +35,8 @@ ToSelectorInterpreter >> pop [
 { #category : #accessing }
 ToSelectorInterpreter >> push: anElement [
 
+	self themeDo: [ :th |
+		anElement skinManagerDo: [ :sm | sm setUp: anElement forTheme: th ] ].
 	targetStack push: anElement
 ]
 

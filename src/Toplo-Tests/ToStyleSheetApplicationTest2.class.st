@@ -18,10 +18,13 @@ ToStyleSheetApplicationTest2 >> testApplicationOnElement [
 			with: [ :e | Color red ] ].
 
 	elem := ToElement new.
+	elem applySkinInstallerOnFirstRequest: false.
 
 	elem background: Color blue.
 	space toTheme: theme.
 	space root addChild: elem.
+	self assert: elem background paint color equals: Color blue.
+	self waitTestingSpaces.
 	self assert: elem background paint color equals: Color red
 ]
 
@@ -43,6 +46,7 @@ ToStyleSheetApplicationTest2 >> testApplicationOnElementHovered [
 				with: [ :e | Color yellow ] ].
 
 	elem := ToElement new.
+	elem applySkinInstallerOnFirstRequest: false.
 
 	elem extent: 20 asPoint.
 	elem position: 100 asPoint.

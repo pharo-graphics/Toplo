@@ -104,7 +104,7 @@ ToStyleSheetTest >> testOnUninstalledIn [
 	self deny: e skinManager skinUninstaller notNil.
 	self deny: child skinManager skinUninstaller notNil.
 	e styleSheet: nil.
-	self assert: e skinManager skinInstaller notNil.
+	self assert: e skinManager skinInstaller isNil.
 	self assert: child skinManager skinInstaller isNil.
 	self assert: e skinManager skinUninstaller notNil.
 	self assert: child skinManager skinUninstaller notNil.

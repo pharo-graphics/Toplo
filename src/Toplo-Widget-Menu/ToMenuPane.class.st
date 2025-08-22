@@ -10,22 +10,6 @@ Class {
 	#category : #'Toplo-Widget-Menu-Pane'
 }
 
-{ #category : #factory }
-ToMenuPane class >> horizontal [
-
-	^ self new
-		  beHorizontal;
-		  yourself
-]
-
-{ #category : #factory }
-ToMenuPane class >> vertical [
-
-	^ self new
-		  beVertical;
-		  yourself
-]
-
 { #category : #adding }
 ToMenuPane >> addFiller [
 
@@ -75,12 +59,6 @@ ToMenuPane >> autoOpen: anObject [
 ToMenuPane >> cancelAutoOpen [
 
 	self rootMenuPane autoOpen: false
-]
-
-{ #category : #'t - menu window model' }
-ToMenuPane >> closeWindow [
-
-	self itemList do: [ :it | it isMenuItem ifTrue: [ it closeWindow ] ]
 ]
 
 { #category : #initialization }

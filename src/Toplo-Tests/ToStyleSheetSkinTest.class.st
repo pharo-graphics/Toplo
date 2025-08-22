@@ -29,6 +29,7 @@ ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 
 	| w skin layoutDirectionProp layoutProp layoutWriter directionWriter |
 	w := ToElement new.
+	w applySkinInstallerOnFirstRequest: false.
 	space toTheme: ToStyleSheetTheme new.
 	space root addChild: w.
 	w layout: BlBasicLayout new.

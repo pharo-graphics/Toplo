@@ -11,7 +11,14 @@ ToThemeForStyleRuleTest class >> label [
 ]
 
 { #category : #accessing }
-ToThemeForStyleRuleTest >> newSkinFor: anElement [
+ToThemeForStyleRuleTest >> newSkinInstanceFor: anElement [
 
 	^ ToNullSkin new
+]
+
+{ #category : #hook }
+ToThemeForStyleRuleTest >> setUpElement: anElement [
+
+	super setUpElement: anElement.
+	anElement setUpByTheme: self
 ]

@@ -17,14 +17,14 @@ ToButterflyTheme class >> label [
 ]
 
 { #category : #accessing }
-ToButterflyTheme >> defaultSkinFor: anElement [
+ToButterflyTheme >> expectedSkinFor: anElement [
 
-	^ anElement defaultButterflySkin ifNil: [
-		  super defaultSkinFor: anElement ]
+	^ anElement skinManager defaultButterflySkin ifNil: [
+		  super expectedSkinFor: anElement ]
 ]
 
 { #category : #accessing }
-ToButterflyTheme >> newSkinFor: anElement [
+ToButterflyTheme >> newSkinInstanceFor: anElement [
 
 	^ anElement newButterflySkin
 ]

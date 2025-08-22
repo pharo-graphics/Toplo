@@ -171,6 +171,12 @@ ToDivider >> isHorizontal [
 ]
 
 { #category : #testing }
+ToDivider >> isMouseUpOutsideSensible [ 
+
+	^ true
+]
+
+{ #category : #testing }
 ToDivider >> isVertical [
 
 	^ self isHorizontal not

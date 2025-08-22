@@ -7,64 +7,24 @@ Class {
 	#category : #'Toplo-Core-WidgetLink'
 }
 
-{ #category : #accessing }
-ToActionLink >> action: anAction [
-
-	action := anAction
-]
-
 { #category : #initialization }
-ToActionLink >> linkWith: anElement [
+ToActionLink >> link: aTarget with: anObject action: aValuable [
 
-	| handler |
-	super linkWith: anElement.
-	handler := self
-		           addEventHandlerOn: ToRunLinkActionRequest
-		           do: [ :event | self onRunActionRequest: event ].
-	self addedHandler: handler in: self
+	action := aValuable.
+	self configureToUpdateLinkedObject: anObject from: aTarget
 ]
 
 { #category : #running }
-ToActionLink >> onActionRunnedDo: aValuable [
+ToActionLink >> runWithLinkedObject: anObjectOrValuable from: aTarget onEvent: anEvent withValue: aValue [
 
-	self
-		addedHandler: (self
-				 addEventHandlerOn: ToLinkActionRunnedEvent
-				 do: [ :evt | aValuable cull: evt sourceEvent ])
-		in: self
-]
-
-{ #category : #running }
-ToActionLink >> onRunActionRequest: anEvent [ 
-
-	| runnedBlock |
-	widget isDisabled ifTrue: [ ^ self ].
-	runnedBlock := [
-		               | space time evt |
-		               action cull: anEvent sourceEvent.
-		               space := widget space.
-		               time := space ifNotNil: [ :sp | sp time ].
-		               evt := ToLinkActionRunnedEvent new
-			                      fillFromTime: time;
-			                      sourceEvent: anEvent sourceEvent;
-			                      yourself.
-		               self dispatchEvent: evt.
-		               widget fireEvent: evt copy ].
-	widget space
-		ifNil: [ widget inUIProcessDo: runnedBlock ]
-		ifNotNil: [ runnedBlock value ]
-]
-
-{ #category : #running }
-ToActionLink >> run [
-
-	self dispatchEvent: ToRunLinkActionRequest new
-]
-
-{ #category : #running }
-ToActionLink >> runWithEvent: anEvent [
-
-	self dispatchEvent: (ToRunLinkActionRequest new
-			 sourceEvent: anEvent;
-			 yourself)
+	| linked |
+	linked := anObjectOrValuable isBlock
+		          ifTrue: [ anObjectOrValuable cull: aTarget ]
+		          ifFalse: [ anObjectOrValuable ].
+	action cull: anEvent cull: linked cull: aValue.
+	super
+		runWithLinkedObject: linked
+		from: aTarget
+		onEvent: anEvent
+		withValue: aValue
 ]

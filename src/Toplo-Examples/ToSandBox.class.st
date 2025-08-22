@@ -139,10 +139,12 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	menu addItem: (ToRadioMenuItem new
 			 label: (ToLabel text: 'Dark theme');
-			 checkAction: [ :evt |
-					 evt currentTarget space toTheme: (evt target isChecked
+			 checkAction: [ :evt :cbox :v |
+					 cbox space toTheme: (evt target isChecked
 								  ifTrue: [ ToRawDarkTheme new ]
 								  ifFalse: [ ToRawTheme new ]) ];
+			 in: [ :rad |
+				 rad checked: Toplo defaultThemeClass = ToRawDarkTheme ];
 			 yourself).
 	menu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Space statistics');
@@ -154,10 +156,10 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 			 yourself).
 	menu addItem: (ToRadioMenuItem new
 			 label: (ToLabel text: 'Disabled bar');
-			 checkAction: [ :evt | aBar disabled: evt target isChecked ];
+			 checkAction: [ :evt :target :value | target disabled: value ]
+			 with: aBar;
 			 yourself).
 	confPane addChild: menu.
-
 
 	{
 		(#isVertical -> #isVertical: -> 'Vertical').
@@ -177,10 +179,10 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 		 -> 'Disabled items are unselectable') } do: [ :assoc |
 			| switch |
 			switch := ToSwitchButton new labelText: assoc value value.
-			switch checkAction: [ :evt  |
+			switch checkAction: [ :evt :target :value |
 					assoc key value isSymbol
-						ifTrue: [ aBar perform: assoc key value with: evt target isChecked ]
-						ifFalse: [ assoc key value value: evt target isChecked ] ].
+						ifTrue: [ aBar perform: assoc key value with: value ]
+						ifFalse: [ assoc key value value: value ] ].
 
 			switch startFlexible: true.
 			switch hMatchParent.
@@ -191,9 +193,9 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 						switch checked: (aBar perform: assoc key key) ] ] ].
 
 	animSwitch := ToSwitchButton new labelText: 'Animate transition'.
-	animSwitch checkAction: [ :evt  |
+	animSwitch checkAction: [ :evt :option :v |
 			| d |
-			d := evt target isChecked
+			d := v
 				     ifTrue: [ 200 milliSeconds ]
 				     ifFalse: [ 0 milliSeconds ].
 			aBar selectionOption animationDuration: d.
@@ -413,8 +415,9 @@ ToSandBox class >> buildSelectListElementIn: aSelectElement withIconProvider: an
 { #category : #bar }
 ToSandBox class >> checkingStrategyChooserFor: aCheckableBar [
 
-	| checkingStrategyContainer checkingStrategyGroupPane |
-	checkingStrategyGroupPane := ToCheckableGroupPane vertical.
+	| buttons checkingStrategyContainer checkingStrategyGroup |
+	checkingStrategyGroup := ToCheckableGroup new.
+	buttons := OrderedCollection new.
 	{
 		(#Strict -> #withStrictCheckingStrategy).
 		(#Weak -> #withWeakCheckingStrategy).
@@ -423,22 +426,26 @@ ToSandBox class >> checkingStrategyChooserFor: aCheckableBar [
 		chb := ToRadioButton new
 			       labelText: modeAssoc key asString;
 			       yourself.
-		checkingStrategyGroupPane addChild: chb.
+		buttons add: chb.
 		chb
-			checkAction: [ :evt  |
-				chb isChecked ifTrue: [
+			newCheckAction: [ :evt :bar :value |
+				value ifTrue: [
 					| message |
 					message := modeAssoc value.
-					aCheckableBar perform: message ] ] ].
+					bar perform: message ] ]
+			with: aCheckableBar ].
 
-	checkingStrategyGroupPane registeredCheckables first checked: true.
+	checkingStrategyGroup registerAll: buttons.
+
+	buttons first checked: true.
 	checkingStrategyContainer := ToPane vertical.
 	checkingStrategyContainer vFitContent.
 	checkingStrategyContainer hMatchParent.
 	checkingStrategyContainer addChild:
 		(ToLabel text: 'Checking strategy').
-	checkingStrategyContainer addChild:
-		checkingStrategyGroupPane.
+	checkingStrategyContainer layout cellSpacing: 0.
+	checkingStrategyContainer addChildren:
+		checkingStrategyGroup registeredCheckables.
 	^ checkingStrategyContainer
 ]
 
@@ -627,13 +634,13 @@ ToSandBox class >> exampleGhostAccordionWithLabel [
 ]
 
 { #category : #theme }
-ToSandBox class >> exampleLocalThemeChangesChildrenLookup [
+ToSandBox class >> exampleLocalThemeChangesChildrenLookup [	
 
 	| space parent child changeButton |
 	space := BlSpace new.
 
 	parent := ToButton new
-		          extent: 200 asPoint;
+		          size: 200 asPoint;
 		          position: 50 asPoint;
 		          border: (BlBorder paint: Color red width: 4).
 
@@ -649,10 +656,9 @@ ToSandBox class >> exampleLocalThemeChangesChildrenLookup [
 		                size: 200 @ 50;
 		                position: 300 @ 50;
 		                clickAction: [
-				                (parent localTheme isNil or:
-						                 parent localTheme class = ToRawTheme)
-					                ifTrue: [ parent localTheme: ToRawDarkTheme new ]
-					                ifFalse: [ parent localTheme: ToRawTheme new ] ];
+			                (parent localTheme isNil or: (parent localTheme class = ToRawTheme))
+				                ifTrue: [ parent localTheme: ToRawDarkTheme new ]
+				                ifFalse: [ parent localTheme: ToRawTheme new ] ];
 		                label: (ToLabel text: 'Change parent local theme');
 		                yourself.
 
@@ -665,17 +671,20 @@ ToSandBox class >> exampleLocalThemeChangesChildrenLookup [
 ToSandBox class >> examplePaneWithAccordionsWithCheckableGroup [
 
 	<script>
-	| pane |
-	pane := ToCheckableGroupPane vertical.
+	| pane group |
+	pane := ToPane new.
+	pane layout: BlLinearLayout vertical.
 	pane hMatchParent.
-	pane group withWeakCheckingStrategy.
+	group := ToCheckableGroup new.
+	group withWeakCheckingStrategy.
 	pane vFitContent.
-	(1 to: 5) do: [ :i |
+	(1 to: 5) collect: [ :i |
 		pane addChild:
 			((self accordionWithLabelText: 'Header ' , i asString)
 				 isExpanded: false;
 				 expandIconAtStart: false;
 				 yourself) ].
+	group registerAll: pane children.
 	pane openInSpace.
 	^ pane
 ]
@@ -1516,7 +1525,7 @@ ToSandBox class >> example_ButtonTurnedAsToggleButton [
 	toggle openInInnerWindow
 ]
 
-{ #category : #checkables }
+{ #category : #checkbox }
 ToSandBox class >> example_CheckAction [
 
 	| containerElement r1 |
@@ -1525,12 +1534,13 @@ ToSandBox class >> example_CheckAction [
 	r1 := ToRadioButton new
 		      id: #r1;
 		      labelText: 'Dark theme';
-		      checkAction: [ :evt |
-			      evt currentTarget space toTheme: (evt currentTarget isChecked
+		      newCheckAction: [ :evt :space :v |
+			      space toTheme: (v
 						       ifTrue: [ ToRawDarkTheme new ]
-						       ifFalse: [ ToRawTheme new ]) ];
+						       ifFalse: [ ToRawTheme new ]) ]
+		      with: [ :radio | radio space ];
 		      yourself.
-	r1 checked: (Toplo defaultThemeClass = ToRawDarkTheme).
+
 	containerElement addChildren: { r1 }.
 	containerElement openInSpace
 ]
@@ -1617,66 +1627,50 @@ ToSandBox class >> example_CheckableBarElement [
 		#'New York'. #'North Carolina'. #'North Dakota'. #Ohio. #Oklahoma.
 		#Oregon. #'Pennsylvania Rhode Island'. #'South Carolina'.
 		#'South Dakota'. #Tennessee. #Texas. #Utah. #Vermont. #Virginia.
-		#Washington. #'West Virginia'. #Wisconsin. #Wyoming } do: [ :l | bar addItem: (ToRadioButton new labelText: l) ].
+		#Washington. #'West Virginia'. #Wisconsin. #Wyoming } do: [ :l | bar addItem: (ToCheckbox new labelText: l) ].
 
 	"bar selecter selectIndex: 3."
-	bar uniformNodeWidth: true.
 	container addChild: bar.
 	bar items third checked: true.
 	space root addChild: container.
 	space show
 ]
 
-{ #category : #checkables }
-ToSandBox class >> example_CheckableGroup [
-
-	| cgroup |
-	cgroup := ToCheckableGroupPane new.
-	{ #None. #Start. #Center. #End } do: [ :mode |
-			| chb |
-			chb := ToCheckbox new
-				       labelText: mode asString;
-				       id: mode.
-			cgroup addChild: chb ].
-	cgroup vertical: true.
-	cgroup openInSpace
-]
-
-{ #category : #checkables }
+{ #category : #checkbox }
 ToSandBox class >> example_Checkbox [
 
 	| chb |
 	ToTheme cleanUp.
 	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
 	chb addEventHandlerOn: ToSkinEvent do: [ :evt | evt traceCr ].
-	chb checkAction: [ :evt   |
-		evt target isChecked traceCr ].
+	chb checkAction: [ :evt :target :value  |
+		value traceCr ].
 	chb openInInnerWindow
 ]
 
-{ #category : #checkables }
+{ #category : #checkbox }
 ToSandBox class >> example_CheckboxChecked [
 
 	| chb |
 	ToTheme cleanUp.
 	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
 	chb addEventHandlerOn: ToSkinEvent do: [ :evt | evt traceCr ].
-	chb checkAction: [ :evt   |
-		evt target isChecked ].
+	chb checkAction: [ :evt :target :value  |
+		value traceCr ].
 	chb checked: true.
 	chb openInInnerWindow
 ]
 
-{ #category : #checkables }
+{ #category : #checkbox }
 ToSandBox class >> example_CheckboxCheckedDisabled [
 
 	| chb sp disBtn |
 	ToTheme cleanUp.
 	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
 	chb addEventHandlerOn: ToSkinEvent do: [ :evt | evt traceCr ].
-	chb checkAction: [ :evt  |
+	chb checkAction: [ :evt :target :value |
 		'isChecked: ' trace.
-		evt target isChecked traceCr ].
+		value traceCr ].
 	chb checked: true.
 	chb disabled: true.
 	disBtn := ToSwitchButton new labelText: 'Enable/disable'.
@@ -1691,7 +1685,7 @@ ToSandBox class >> example_CheckboxCheckedDisabled [
 	sp show
 ]
 
-{ #category : #checkables }
+{ #category : #checkbox }
 ToSandBox class >> example_CheckboxGroupAndNoneStrategy [
 
 	| group container buttons |
@@ -1709,9 +1703,9 @@ ToSandBox class >> example_CheckboxGroupAndNoneStrategy [
 	group registerAll: buttons.
 
 	container := ToElement new.
-	group
-		addEventHandlerOn: ToCheckableGroupChangedEvent
-		do: [ :evt | evt checkedList traceCr ].
+	container
+		newCheckAction: [ :event :m :checkedList | checkedList traceCr ]
+		onGroup: group.
 
 	container constraintsDo: [ :c |
 			c horizontal matchParent.
@@ -1724,7 +1718,7 @@ ToSandBox class >> example_CheckboxGroupAndNoneStrategy [
 	container openInSpace
 ]
 
-{ #category : #checkables }
+{ #category : #checkbox }
 ToSandBox class >> example_CheckboxGroupAndStrictStrategy [
 
 	| group container buttons |
@@ -1740,9 +1734,9 @@ ToSandBox class >> example_CheckboxGroupAndStrictStrategy [
 	buttons second checked: true.
 	group registerAll: buttons.
 	container := ToElement new.
-	group
-		addEventHandlerOn: ToCheckableGroupChangedEvent
-		do: [ :evt | evt checkedList traceCr ].
+	container
+		newCheckAction: [ :evt :grp :list | list traceCr ]
+		onGroup: group.
 	container constraintsDo: [ :c |
 		c horizontal matchParent.
 		c vertical matchParent ].
@@ -1754,7 +1748,7 @@ ToSandBox class >> example_CheckboxGroupAndStrictStrategy [
 	container openInSpace
 ]
 
-{ #category : #checkables }
+{ #category : #checkbox }
 ToSandBox class >> example_CheckboxGroupAndWeakStrategy [
 
 	| group container buttons |
@@ -1772,9 +1766,9 @@ ToSandBox class >> example_CheckboxGroupAndWeakStrategy [
 	group registerAll: buttons.
 
 	container := ToElement new.
-	group
-		addEventHandlerOn: ToCheckableGroupChangedEvent
-		do: [ :evt | evt checkedList traceCr ].
+	container
+		newCheckAction: [ :evt :grp :list | list traceCr ]
+		onGroup: group.
 	container constraintsDo: [ :c |
 		c horizontal matchParent.
 		c vertical matchParent ].
@@ -1786,7 +1780,7 @@ ToSandBox class >> example_CheckboxGroupAndWeakStrategy [
 	container openInSpace
 ]
 
-{ #category : #checkables }
+{ #category : #checkbox }
 ToSandBox class >> example_CheckboxNoLabel [
 
 	| chb |
@@ -1796,7 +1790,7 @@ ToSandBox class >> example_CheckboxNoLabel [
 	chb openInInnerWindow
 ]
 
-{ #category : #checkables }
+{ #category : #checkbox }
 ToSandBox class >> example_CheckboxStartFlexible [
 
 	| chb |
@@ -1809,11 +1803,12 @@ ToSandBox class >> example_CheckboxStartFlexible [
 	chb openInInnerWindow
 ]
 
-{ #category : #checkables }
+{ #category : #checkbox }
 ToSandBox class >> example_CheckboxStartFlexibleWithGroup [
 
-	| group |
-	group := ToCheckableGroupPane vertical.
+	| group container buttons |
+	group := ToCheckableGroup new.
+	buttons := OrderedCollection new.
 	1 to: 4 do: [ :idx |
 		| chb |
 		chb := ToCheckbox new
@@ -1822,16 +1817,25 @@ ToSandBox class >> example_CheckboxStartFlexibleWithGroup [
 			       beEndToStart;
 			       labelText: idx asString;
 			       id: idx asString.
-		group addChild: chb ].
-	group registeredCheckables second checked: true.
+		buttons add: chb ].
+	buttons second checked: true.
+	group registerAll: buttons.
 
-	group 
-		groupCheckAction: [ :evt | evt checkedList traceCr ].
-	group matchParent.
-	group openInSpace
+	container := ToElement new.
+	container
+		newCheckAction: [ :evt :grp :list | list traceCr ]
+		onGroup: group.
+	container background: Color veryLightGray.
+	container matchParent.
+
+	container layout: BlLinearLayout vertical.
+	container layout cellSpacing: 5.
+
+	container addChildren: group registeredCheckables.
+	container openInSpace
 ]
 
-{ #category : #checkables }
+{ #category : #checkbox }
 ToSandBox class >> example_CheckboxUnchecked [
 
 	| chb |
@@ -1843,7 +1847,7 @@ ToSandBox class >> example_CheckboxUnchecked [
 	chb openInInnerWindow
 ]
 
-{ #category : #checkables }
+{ #category : #checkbox }
 ToSandBox class >> example_CheckboxVertical [
 
 	| chb |
@@ -1857,11 +1861,11 @@ ToSandBox class >> example_CheckboxVertical [
 	chb openInInnerWindow
 ]
 
-{ #category : #checkables }
+{ #category : #checkbox }
 ToSandBox class >> example_CheckboxVerticalGroupHorizontal [
 
-	| group |
-	group := ToCheckableGroupPane horizontal.
+	| group container |
+	group := ToCheckableGroup new.
 	1 to: 4 do: [ :idx |
 		| chb |
 		chb := ToRadioButton new
@@ -1869,14 +1873,20 @@ ToSandBox class >> example_CheckboxVerticalGroupHorizontal [
 			       labelText: idx asString;
 			       id: idx asString.
 		chb beStartToEnd.
-		group addChild: chb ].
+		group register: chb ].
 
 	group registeredCheckables second checked: true.
-	group groupCheckAction:[ :evt | evt checkedList traceCr ].
-	group openInSpace
+	container := ToElement new.
+	container matchParent.
+	container layout: BlLinearLayout horizontal.
+	container addChildren: group registeredCheckables.
+	container
+		newCheckAction: [ :evt :grp :list | list traceCr ]
+		onGroup: group.
+	container openInInnerWindow
 ]
 
-{ #category : #checkables }
+{ #category : #checkbox }
 ToSandBox class >> example_CheckboxWithExactWidth [
 
 	| chb |
@@ -1887,7 +1897,7 @@ ToSandBox class >> example_CheckboxWithExactWidth [
 	chb openInInnerWindow
 ]
 
-{ #category : #checkables }
+{ #category : #checkbox }
 ToSandBox class >> example_CheckboxWithIndeterminate [
 
 	| but |
@@ -2095,10 +2105,11 @@ ToSandBox class >> example_CodeEditor [
 	menuBuilder := [ :menu :request |
 		               menu addItem: (ToMenuItem new
 				                labelText: 'Select all';
-				                clickAction: [ :evt |
-						                album selecter
+				                clickAction: [ :evt :a |
+						                a selecter
 							                all;
-							                apply ];
+							                apply ]
+				                with: album;
 				                yourself).
 		               menu addItem: (ToMenu new
 				                labelText: 'Edit';
@@ -2106,21 +2117,24 @@ ToSandBox class >> example_CodeEditor [
 						                | item |
 						                item := ToMenuItem new
 							                        labelText: 'Copy';
-							                        clickAction: [ :evt |
-								                        album editor copySelected ];
+							                        clickAction: [ :evt :ed |
+								                        ed copySelected ]
+							                        with: album editor;
 							                        yourself.
 						                album hasSelection ifFalse: [ item disable ].
 						                m addItem: item.
 						                m addItem: (ToMenuItem new
 								                 labelText: 'Cut';
-								                 clickAction: [ :evt | album editor cutSelected ];
+								                 clickAction: [ :evt :ed | ed cutSelected ]
+								                 with: album editor;
 								                 yourself).
 						                album hasSelection ifFalse: [
 							                m items last disable ].
 
 						                m addItem: (ToMenuItem new
 								                 labelText: 'Paste';
-								                 clickAction: [ :evt | album editor paste ];
+								                 clickAction: [ :evt :ed | ed paste ]
+								                 with: album editor;
 								                 yourself).
 						                album editor paster fromClipboard isEmpty
 							                ifTrue: [ m items last disable ].
@@ -2152,8 +2166,8 @@ ToSandBox class >> example_CodeEditor [
 		                     yourself.
 	disabox := ToCheckMenuItem new
 		           label: (ToLabel text: 'Disable');
-		           checkAction: [ :evt  |
-			           album disabled: evt target isChecked ];
+		           checkAction: [ :evt :target :value |
+			           album disabled: value ];
 		           yourself.
 	album whenConfigurationAppliedDo: [
 		disabox checked: album isDisabled ].
@@ -2238,8 +2252,8 @@ ToSandBox class >> example_EditorWithMinHeight [
 	pane addChild: album.
 
 	inspectBtn clickAction: [ album space root inspect ].
-	disabox checkAction: [ :evt  |
-			           album disabled: evt target isChecked ].
+	disabox checkAction: [ :evt :target :value |
+			           album disabled: value ].
 	album whenConfigurationAppliedDo: [
 		disabox disabled: album isDisabled ].
 	showStatisticsBtn clickAction: [
@@ -2356,35 +2370,33 @@ ToSandBox class >> example_FloatArrowsAraoundACircle [
 
 	floatLayer := ToFloatOverlay new.
 	floatLayer attachToParent: pane.
-
-	circle := ToFloatElement new
-		          extent: 60 asPoint;
+	
+	circle := ToElement new
+		          extent: 40 asPoint;
 		          yourself.
 	circle geometry: BlCircleGeometry new.
-	circle visibility: BlVisibility hidden.
-	circle atBottomRight.
-	circle offset: 20 negated asPoint.
+	circle margin: (BlInsets all: 15).
+	circle constraintsDo: [ :c |
+			c anchors add:
+				(c anchors bottomRightAnchor on: c anchors parent bottomRightAnchor - 50) ].
+	circle border: Color lightGray.
 	floatLayer addChild: circle.
-
 	{
 		('up' -> 0).
 		('right' -> 90).
 		('down' -> 180).
 		('left' -> 270) } do: [ :assoc |
 			| but |
-			but := ToFloatElement new.
-			but builder: [ :e |
-					e addChild: (ToIconicButton new
-							 iconImage: (ToMaterialDesignIconProvider innerImageNamed:
-										  'outlined_keyboardarrow' , assoc key);
-							 extent: 20 asPoint;
-							 yourself) ].
+			but := (ToIconicButton new iconImage:
+				       (ToMaterialDesignIconProvider innerImageNamed:
+					        'outlined_keyboardarrow' , assoc key)) .
+			but extent: 20 asPoint.
+			but := but asFloatElement.
 			but geometry: BlCircleGeometry new.
-			but offset: 0 asPoint.
-			but atPerimeterAround: circle atDegrees: assoc value.
+			but constraintsDo: [ :c |
+					c anchors add: (c anchors centerAnchor on:
+							 (circle perimeterAnchor degrees: assoc value)) ].
 			floatLayer addChild: but ].
-
-
 
 	pane openInInnerWindow
 ]
@@ -2410,13 +2422,15 @@ ToSandBox class >> example_Floats [
 
 	floatLayer := ToFloatOverlay new.
 	floatLayer attachToParent: pane.
-	floatContainer := ToFloatElement new.
-	floatContainer builder: [ :e |
-			e layout: BlLinearLayout horizontal.
-			e addChild: textField.
-			e addChild: leftBtn.
-			e addChild: rightBtn ].
-	floatContainer offset: (10 @ 10) negated. 
+	floatContainer := ToFloatContainer new.
+	floatContainer addChild: textField.
+	floatContainer addChild: leftBtn.
+	floatContainer addChild: rightBtn.
+	floatContainer constraintsDo: [ :c |
+			c anchors add:
+				(c anchors rightAnchor on: c anchors parent rightAnchor - 10).
+			c anchors add:
+				(c anchors bottomAnchor on: c anchors parent bottomAnchor - 10) ].
 	floatLayer addChild: floatContainer.
 
 	pane openInInnerWindow
@@ -2953,7 +2967,6 @@ ToSandBox class >> example_ListWithAllClassesAsCheckbox [
 
 	| l |
 	l := ToCheckableListElement new.
-	l addEventHandlerOn: ToCheckableGroupChangedEvent do: [ :evt | evt traceCr ].
 	l group withoutCheckingStrategy.
 	l addAllItems: ((Smalltalk globals allClasses) collect: [ :cls |
 			 ToCheckbox new
@@ -3086,57 +3099,7 @@ ToSandBox class >> example_ListWithEditableAndContextMenu [
 { #category : #float }
 ToSandBox class >> example_ListWithFloatButtons [
 
-	| floatContainer list addBtn removeBtn |
-	list := self example_ListWithEditableAndContextMenu.
-	addBtn := ToIconicButton new iconImage:
-		          (ToMaterialDesignIconProvider innerImageNamed:
-			           'outlined_addcircleoutline').
-	addBtn extent: 25 asPoint.
-	removeBtn := ToIconicButton new iconImage:
-		             (ToMaterialDesignIconProvider innerImageNamed:
-			              'outlined_removecircleoutline').
-	removeBtn extent: 25 asPoint.
-
-	removeBtn clickAction: [
-			list selecter selectedIndexes reverseDo: [ :idx |
-				list dataAccessor removeAt: idx ] ].
-
-	addBtn clickAction: [
-			list dataAccessor addFirst:
-				String loremIpsum substrings first , ' (inserted as first item)' ].
-
-	addBtn geometry: BlCircleGeometry new.
-	removeBtn geometry: BlCircleGeometry new.
-	removeBtn visibility: BlVisibility hidden.
-
-	list
-		addEventHandlerOn: ToListPrimarySelectionChangedEvent
-		do: [ :evt |
-				removeBtn visibility: (evt selectedIndexes
-						 ifEmpty: [ BlVisibility hidden ]
-						 ifNotEmpty: [ BlVisibility visible ]) ].
-
-	floatContainer := ToElement new.
-	floatContainer padding: (BlInsets all: 5).
-	floatContainer layout: BlLinearLayout horizontal.
-	floatContainer fitContent.
-	floatContainer layout cellSpacing: 5.
-	floatContainer preventMouseEvents.
-	floatContainer elevation: (BlRelativeElevation elevation: 16).
-	floatContainer constraintsDo: [ :c | 
-		c ignoreByLayout.
-		c anchors add: (c anchors bottomRightAnchor on:
-					 c anchors parent bottomRightAnchor - (10@10)) ].
-	list addChild: floatContainer.
-	
-	floatContainer addChild: removeBtn.
-	floatContainer addChild: addBtn 
-]
-
-{ #category : #float }
-ToSandBox class >> example_ListWithFloatButtons2 [
-
-	| floatLayer list addBtn removeBtn floatAdd floatRemove |
+	| floatLayer floatContainer list addBtn removeBtn floatAdd floatRemove |
 	list := self example_ListWithEditableAndContextMenu.
 	addBtn := ToIconicButton new iconImage:
 		          (ToMaterialDesignIconProvider innerImageNamed:
@@ -3161,26 +3124,26 @@ ToSandBox class >> example_ListWithFloatButtons2 [
 	floatAdd geometry: BlCircleGeometry new.
 	floatRemove geometry: BlCircleGeometry new.
 
-	floatRemove visibility: BlVisibility gone.
+	floatRemove visibility: BlVisibility hidden.
 
 	list
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent
 		do: [ :evt |
 				floatRemove visibility: (evt selectedIndexes
-						 ifEmpty: [ BlVisibility gone ]
+						 ifEmpty: [ BlVisibility hidden ]
 						 ifNotEmpty: [ BlVisibility visible ]) ].
 
 	floatLayer := ToFloatOverlay new.
-	floatLayer padding: (BlInsets all: 10).
 	floatLayer attachToParent: list.
 
-	floatRemove placement: (ToAnchoredExplicitPlacement new constraintsAction: [ :c |
+	floatContainer := ToFloatContainer new.
+	floatContainer addChild: floatRemove.
+	floatContainer addChild: floatAdd.
+	floatContainer constraintsDo: [ :c |
 			c anchors add:
 				(c anchors bottomRightAnchor on:
-					 floatAdd bottomLeftAnchor - (5 @ 0)) ] ).
-
-	floatLayer addChild: floatAdd.
-	floatLayer addChild: floatRemove
+					 c anchors parent bottomRightAnchor) ].
+	floatLayer addChild: floatContainer.
 ]
 
 { #category : #list }
@@ -3367,6 +3330,9 @@ ToSandBox class >> example_MenuPaneScrollableWithCustomItems [
 			center.
 			left }.
 
+	menuPane
+		newCheckAction: [ :evt :group :list | list traceCr ]
+		onGroup: grp.
 	menuPane addSeparator.
 
 	lbl := ToAttributedLabel text: 'Radio button icon first'.
@@ -3401,7 +3367,9 @@ ToSandBox class >> example_MenuPaneScrollableWithCustomItems [
 			right.
 			center.
 			left }.
-
+	menuPane
+		checkAction: [ :evt :group :list | list traceCr ]
+		onGroup: grp.
 	menuPane addSeparator.
 
 	lbl := ToAttributedLabel new text:
@@ -3654,6 +3622,53 @@ ToSandBox class >> example_MenuWithSelect [
 	menu openInSpace
 ]
 
+{ #category : #'still pressed hovered event' }
+ToSandBox class >> example_MixedEventGenerator [
+
+	| e count lab color |
+	e := ToElement new
+		     id: #'my-element';
+		     yourself.
+	e addEventHandler: (ToMixedEventGeneratorHandler new
+			 startDelay: 500 milliSeconds;
+			 delay: 200 milliSeconds;
+			 yourself).
+	e layout: BlFrameLayout new.
+	lab := ToLabel new text: 'Enter here'.
+	lab constraintsDo: [ :c |
+			c frame vertical alignCenter.
+			c frame horizontal alignCenter ].
+	e addChild: lab.
+	e extent: 200 asPoint.
+	e border: Color black.
+	count := 0.
+	color := Color white alpha: 0.3.
+
+	e addEventHandler: (BlEventHandler
+			 on: ToGeneratorEvent
+			 do: [ :event |
+					 event trace.
+					 event sourceEvent traceCr ]).
+
+	e addEventHandler: (BlEventHandler
+			 on: ToStillHoveredEvent
+			 do: [ :event |
+					 e background: color.
+					 lab text: count asString asRopedText.
+					 count := count + 1.
+					 color := color darker.
+					 count > 50 ifTrue: [ event consume ] ]).
+
+	e addEventHandler: (BlEventHandler
+			 on: ToStopStillHoveredEvent
+			 do: [ :event |
+					 count := 0.
+					 color := Color white alpha: 0.3.
+					 e background: color ]).
+
+	e openInSpace
+]
+
 { #category : #list }
 ToSandBox class >> example_NodeContainerWithStatesOfAmerica [
 
@@ -3881,7 +3896,7 @@ ToSandBox class >> example_ProtoObjectSubclasses [
 	l openInSpace
 ]
 
-{ #category : #checkables }
+{ #category : #checkbox }
 ToSandBox class >> example_RadioButtonChecked [
 
 	| but |
@@ -3892,7 +3907,7 @@ ToSandBox class >> example_RadioButtonChecked [
 	but openInSpace
 ]
 
-{ #category : #checkables }
+{ #category : #checkbox }
 ToSandBox class >> example_RadioButtonUnchecked [
 
 	| but |
@@ -3902,7 +3917,7 @@ ToSandBox class >> example_RadioButtonUnchecked [
 	but openInSpace
 ]
 
-{ #category : #checkables }
+{ #category : #checkbox }
 ToSandBox class >> example_RadioButtonWithIndeterminate [
 
 	| but |
@@ -4138,7 +4153,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	| select innerWindow newTagFactory |
 	select := ToMultiSelectElement new.
 	select filtrable: true.
-	select manager autoPopupDelay: 400 milliSeconds.
+	"select manager popupDelay: 400 milliSeconds."
 
 	select
 		addEventHandlerOn: ToSelectChangedEvent
@@ -4755,29 +4770,29 @@ ToSandBox class >> example_SimpleOpenSaveSaveAsClose [
 	| menu container |
 	container := ToInnerWindow new
 		             position: 10 @ 10;
-		             extent: 400 @ 200;
+		             size: 400 @ 200;
 		             yourself.
 	menu := ToMenu new background: Color random.
 	menu label: (ToLabel text: 'Menu').
 	menu addItem: (ToMenuItem new
-			 icon: (ToImage inner: (self iconNamed: #solidMenu));
+			 icon: ((ToImage inner: (self iconNamed: #solidMenu)));
 			 label: (ToLabel text: 'Open')).
 	menu addItem: (ToMenuItem new
-			 icon: (ToImage inner: (self iconNamed: #solidMenu));
+			 icon: ((ToImage inner: (self iconNamed: #solidMenu)));
 			 label: (ToLabel text: 'Save');
 			 background: (Color random alpha: 0.2)).
 	menu addItem: (ToMenuItem new
-			 icon: (ToImage inner: (self iconNamed: #solidMenu));
+			 icon: ((ToImage inner: (self iconNamed: #solidMenu)));
 			 label: (ToLabel text: 'Save as');
 			 background: (Color random alpha: 0.2)).
-	menu items last clickAction: [ :evt | evt target inspect ].
+	menu items last clickAction: [ :evt :target | target inspect ].
 	menu addSeparator.
 	menu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Close');
 			 background: (Color random alpha: 0.2)).
-	menu items last clickAction: [ :evt | evt target inspect ].
+	menu items last clickAction: [ :evt :target | target inspect ].
 	container pane addChild: menu.
-
+	
 	container openInSpace
 ]
 
@@ -5199,8 +5214,8 @@ ToSandBox class >> example_ToggleButtonChecked [
 	toggle addEventHandler: (BlEventHandler
 			 on: ToSkinEvent
 			 do: [ :evt | evt target = toggle ifTrue: [ evt traceCr ] ]).
-	toggle checkAction: [ :evt |
-		evt target isChecked traceCr ].
+	toggle checkAction: [ :evt :target :value |
+		value traceCr ].
 	toggle checked: true.
 	toggle openInInnerWindow
 ]
@@ -5208,16 +5223,24 @@ ToSandBox class >> example_ToggleButtonChecked [
 { #category : #'toggle button' }
 ToSandBox class >> example_ToggleButtonGroupAndStrictStrategy [
 
-	| group |
-	group := ToCheckableGroupPane vertical.
+	| group groupContainer |
+	group := ToCheckableGroup new.
+	group withStrictCheckingStrategy.
 	{ 'Monday'. 'Tuesday'. 'Wednesday'. 'Thursday'. 'Friday' } do: [ :day |
-		group addChild: (ToToggleButton new
+		group register: (ToToggleButton new
 				 labelText: day;
 				 hMatchParent;
 				 yourself) ].
-	group
-		groupCheckAction: [ :evt | evt checkedList traceCr ].
-	group openInSpace.
+
+
+	groupContainer := ToPane vertical.
+	groupContainer
+		newCheckAction: [ :evt :grp :list | list traceCr ]
+		onGroup: group.
+
+	groupContainer width: 150.
+	groupContainer addChildren: group registeredCheckables.
+	groupContainer openInSpace.
 	group registeredCheckables second checked: true.
 ]
 
@@ -5234,9 +5257,9 @@ ToSandBox class >> example_ToggleButtonGroupAndWeakStrategy [
 				 yourself) ].
 	group registeredCheckables second checked: true.
 	groupContainer := ToPane vertical.
-	group
-		addEventHandlerOn: ToCheckableGroupChangedEvent
-		do: [ :evt | evt checkedList traceCr ].
+	groupContainer
+		newCheckAction: [ :evt :grp :list | list traceCr ]
+		onGroup: group.
 
 	groupContainer width: 150.
 	groupContainer addChildren: group registeredCheckables.
@@ -5355,7 +5378,10 @@ ToSandBox class >> example_TooltipPopupOnMouseDown [
 
 	| but |
 	but := ToButton new.
-	but tooltipManagerDo: [ :m | m popupOnMouseDown: true ].
+	but tooltipManagerDo: [ :m |
+			m popupOnPressed: true.
+			m popupOnHovered: false.
+			m popupDelay: 500 milliSeconds ].
 	but labelText: 'Button with tooltip'.
 	but tooltipBuilder: [ :window :request |
 			window root addChild: (BlElement new
@@ -5569,7 +5595,7 @@ ToSandBox class >> example_WithCheckBox [
 
 	menu addItem: (ToRadioMenuItem new
 			 label: (ToLabel text: 'Check');
-			 checkAction: [ :evt | evt target isChecked traceCr ];
+			 checkAction: [ :evt :target :value | value traceCr ];
 			 yourself).
 	grp := ToCheckableGroup new.
 	right := ToCheckMenuItem new
@@ -5610,55 +5636,19 @@ ToSandBox class >> example_WithSeparator [
 		             extent: 400 @ 200;
 		             yourself.
 	menu := ToMenu new.
-	"menu tooltipString: 'tooltip content'."
+	menu tooltipString: 'tooltip content'.
 	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	menu addItem: (ToMenuItem new label: (ToLabel text: 'Open')) disable.
 
 	menu addSeparator.
-	menu addItem: (ToMenuItem new label: (ToLabel text: 'Close')).
+	menu addItem: (ToMenuItem new
+			 label: (ToLabel text: 'Close');
+			 clickAction: [ :evt |
+					 'Close action ' trace.
+					 evt traceCr ];
+			 yourself).
 	container pane addChild: menu.
 	container openInSpace
-]
-
-{ #category : #badge }
-ToSandBox class >> example_badgeOnAButton [
-
-	| badge btn space |
-	space := BlSpace new.
-	badge := ToNumericalBadge new.
-	btn := ToButton new labelText: 'Click to add/remove a badge'.
-	btn clickAction: [
-			badge isAttached
-				ifFalse: [
-						badge increment.
-						badge attachToElement: btn ]
-				ifTrue: [ badge detachFromElement ] ].
-	btn position: 100 asPoint.
-	badge attachToElement: btn.
-	space root addChild: btn.
-	space show
-]
-
-{ #category : #badge }
-ToSandBox class >> example_badgeOnAnElement [
-
-	| badge pane space badged |
-	badge := ToNumericalBadge new count: 2222.
-	pane := ToElement new.
-	space := BlSpace new.
-	space root addChild: pane.
-	pane extent: 150 asPoint.
-	pane position: 100 asPoint.
-	pane border: Color black.
-	badged := ToElement new.
-	badged extent: 40 asPoint.
-	badged constraintsDo: [ :c |
-			c frame horizontal alignCenter.
-			c frame vertical alignCenter ].
-	badged border: Color red.
-	badge attachToElement: badged.
-	pane addChild: badged.
-	space show
 ]
 
 { #category : #bar }
@@ -5681,7 +5671,7 @@ ToSandBox class >> example_buttonWith2Icons [
 	| but  |
 	but := self example_buttonWithIcon.
 	but addEventHandlerOn: ToSkinEvent do: [ :event | event traceCr ].
-	but clickAction: [ :evt | evt target traceCr ].
+	but clickAction: [ :evt :target | target traceCr ].
 	but addEventHandlerOn: BlDoubleClickEvent do: [ :event | event traceCr ].
 	but label: (ToLabel text: 'Button with 2 icons').
 	but endElement: (ToImage inner: ToThemeIcons searchOutlined16x16).
@@ -5735,8 +5725,8 @@ ToSandBox class >> example_buttonWithDisableEnable [
 	button := (ToButton id: #buttonA)
 		          labelText: 'Button';
 		          yourself.
-	disabox checkAction: [ :evt | button disabled: evt target isChecked ].
-	button clickAction: [ :evt | disabox checked: true. button disabled: true ].
+	disabox checkAction: [ :evt :target :value | button disabled: value ].
+	button clickAction: [ :evt :target | disabox checked: true. button disabled: true ].
 	button addEventHandlerOn: ToHoveredSkinEvent do: [ :evt |  ].
 	pane addChild: disabox.
 	pane addChild: button.
@@ -5815,7 +5805,7 @@ ToSandBox class >> example_clickAction [
 	| pane e action |
 	pane := ToPane vertical.
 	e := ToElement new.
-	e extent: 50 asPoint.
+	e size: 50 asPoint.
 	e background: Color blue.
 	action := e clickAction: [ :evt | evt traceCr ].
 	e addEventHandlerOn: BlClickEvent do: [ :event |
@@ -6022,7 +6012,7 @@ ToSandBox class >> example_emptyBoxWithCustomLabel [
 	box openInSpace
 ]
 
-{ #category : #checkables }
+{ #category : #checkbox }
 ToSandBox class >> example_group [
 
 	| group container |
@@ -6037,16 +6027,16 @@ ToSandBox class >> example_group [
 	container := ToPane horizontal.
 	group registeredCheckables last checked: true.
 	container addChildren: group registeredCheckables.
-	group
-		addEventHandlerOn: ToCheckableGroupChangedEvent
-		do: [ :evt | evt checkedList traceCr ].
+	container
+		newCheckAction: [ :evt :grp :l | l traceCr ]
+		onGroup: group.
 	container openInInnerWindow
 ]
 
-{ #category : #checkables }
+{ #category : #checkbox }
 ToSandBox class >> example_group2 [
 
-	| containerElement group |
+	| containerElement group  |
 	containerElement := ToPane vertical.
 
 	(group := ToCheckableGroup new)
@@ -6062,14 +6052,16 @@ ToSandBox class >> example_group2 [
 					 yourself) }.
 	containerElement addChildren: group registeredCheckables.
 
-	group addEventHandlerOn: ToCheckableGroupChangedEvent do: [ :evt |
-		Toplo defaultThemeClass: (evt checkedList first userData at: #theme) ].
+	containerElement
+		newCheckAction: [ :evt :grp :l |
+		Toplo defaultThemeClass: (l first userData at: #theme) ]
+		onGroup: group.
 	group registeredCheckables second checked: true.
 
 	containerElement openInSpace
 ]
 
-{ #category : #checkables }
+{ #category : #checkbox }
 ToSandBox class >> example_group3 [
 
 	| containerElement group |
@@ -6081,29 +6073,25 @@ ToSandBox class >> example_group3 [
 				(ToRadioButton new
 					 id: #r1;
 					 labelText: 'Light theme';
-					 checkAction: [ :evt |
-							 | space |
-							 space := evt currentTarget space.
-							 evt currentTarget isChecked ifTrue: [
-									 space toTheme: ToRawTheme new ] ];
+					 newCheckAction: [ :evt :space :v |
+						 v ifTrue: [ space toTheme: ToRawTheme new ] ]
+					 with: [ :radio | radio space ];
 					 yourself).
 				(ToRadioButton new
 					 id: #r2;
 					 labelText: 'Dark theme';
-					 checkAction: [ :evt |
-							 | space |
-							 space := evt currentTarget space.
-							 evt currentTarget isChecked ifTrue: [
-									 space toTheme: ToRawDarkTheme new ] ];
+					 newCheckAction: [ :evt :space :v |
+						 v ifTrue: [ space toTheme: ToRawDarkTheme new ] ]
+					 with: [ :radio | radio space ];
 					 yourself) }.
-	group registeredCheckables first checked: (Toplo defaultThemeClass = ToRawTheme).
-	group registeredCheckables second checked: (Toplo defaultThemeClass = ToRawDarkTheme).
+	
+	group registeredCheckables second checked: true.
 	containerElement addChildren: group registeredCheckables.
 
 	containerElement openInSpace
 ]
 
-{ #category : #checkables }
+{ #category : #checkbox }
 ToSandBox class >> example_group4 [
 
 	| containerElement group |
@@ -6114,15 +6102,14 @@ ToSandBox class >> example_group4 [
 		registerAll: {
 				(ToRadioButton new
 					 labelText: 'Light theme';
-					 checkAction: [ :evt | containerElement localTheme: ToRawTheme new];
+					 checkAction: [ :evt :btn :v | Toplo defaultThemeClass: ToRawTheme ];
 					 yourself).
 				(ToRadioButton new
 					 labelText: 'Dark theme';
-					 checkAction: [ :evt| containerElement localTheme: ToRawDarkTheme new];
+					 checkAction: [ :evt :btn :v | Toplo defaultThemeClass: ToRawDarkTheme ];
 					 yourself) }.
 
 	containerElement addChildren: group registeredCheckables.
-	containerElement localTheme: ToRawDarkTheme new.
 	group registeredCheckables second checked: true.
 
 	containerElement openInSpace
@@ -6511,6 +6498,31 @@ ToSandBox class >> example_labelFieldWithShrinkFeedback [
 	t matchParent.
 	innerWindow := t openInInnerWindow.
 
+]
+
+{ #category : #button }
+ToSandBox class >> example_linkClickAction [
+
+	| pane e |
+	pane := ToPane vertical.
+	e := ToElement new.
+	e size: 50 asPoint.
+	e background: Color blue.
+	e
+		addEventHandlerOn: BlClickEvent
+		do: [ :event | e linkedActions do: [ :action | action run ] ].
+	pane addChild: e.
+	pane addChild: (ToButton new
+			 labelText: 'List actions on Transcript';
+			 clickAction: [ e linkedActions traceCr ]).
+	pane addChild: (ToButton new
+			 labelText: 'Link a new action';
+			 clickAction: [ e linkClickAction: [ :evt | evt traceCr ] ]).
+	pane addChild: (ToButton new
+			 labelText: 'Unlink all actions';
+			 clickAction: [
+				 e unlinkAllActions ]).
+	pane openInSpace
 ]
 
 { #category : #menu }
@@ -7403,6 +7415,46 @@ ToSandBox class >> example_stillHoveredEvent [
 ]
 
 { #category : #'still pressed hovered event' }
+ToSandBox class >> example_stillHoveredEventWithMixedHandler [
+
+	| e count lab |
+	e := ToElement new layout: BlBasicLayout new.
+	e addChild: (BlElement new
+			 extent: 30 asPoint;
+			 position: 40 asPoint;
+			 background: Color gray;
+			 yourself).
+	e addEventHandler: (ToMixedEventGeneratorHandler new
+			 startDelay: 500 milliSeconds;
+			 activateOnPressed: false;
+			 yourself).
+
+	lab := ToLabel new text: 'Keep mouse inside'.
+	lab constraintsDo: [ :c |
+			c frame vertical alignCenter.
+			c frame horizontal alignCenter ].
+	e addChild: lab.
+	e extent: 200 asPoint.
+	e border: Color black.
+	count := 0.
+	e addEventHandler: (BlEventHandler
+			 on: ToGeneratorEvent
+			 do: [ :event |
+					 event trace.
+					 ' ' trace.
+					 event sourceEvent traceCr ]).
+	e addEventHandler: (BlEventHandler
+			 on: ToStillHoveredEvent
+			 do: [ :event |
+					 lab text: count asString asRopedText.
+					 count := count + 1.
+					 count > 80 ifTrue: [
+							 event consume.
+							 count := 0 ] ]).
+	e openInSpace
+]
+
+{ #category : #'still pressed hovered event' }
 ToSandBox class >> example_stillPressedEvent [
 
 	| e count lab color |
@@ -7412,6 +7464,54 @@ ToSandBox class >> example_stillPressedEvent [
 	e addEventHandler: (ToStillPressedEventHandler new
 			 startDelay: 500 milliSeconds;
 			 delay: 200 milliSeconds;
+			 yourself).
+	e layout: BlFrameLayout new.
+	lab := ToLabel new text: 'Keep mouse pressed here'.
+	lab constraintsDo: [ :c |
+			c frame vertical alignCenter.
+			c frame horizontal alignCenter ].
+	e addChild: lab.
+	e extent: 200 asPoint.
+	e border: Color black.
+	count := 0.
+	color := Color white alpha: 0.3.
+
+	e addEventHandler: (BlEventHandler
+			 on: ToGeneratorEvent
+			 do: [ :event |
+					 event trace.
+					 event sourceEvent traceCr ]).
+
+	e addEventHandler: (BlEventHandler
+			 on: ToStillPressedEvent
+			 do: [ :event |
+					 e background: color.
+					 lab text: count asString asRopedText.
+					 count := count + 1.
+					 color := color darker.
+					 count > 50 ifTrue: [ event consume ] ]).
+
+	e addEventHandler: (BlEventHandler
+			 on: ToStopStillPressedEvent
+			 do: [ :event |
+					 count := 0.
+					 color := Color white alpha: 0.3.
+					 e background: color ]).
+
+	e openInSpace
+]
+
+{ #category : #'still pressed hovered event' }
+ToSandBox class >> example_stillPressedEventWithMixedHandler [
+
+	| e count lab color |
+	e := ToElement new
+		     id: #'my-element';
+		     yourself.
+	e addEventHandler: (ToMixedEventGeneratorHandler new
+			 startDelay: 500 milliSeconds;
+			 delay: 200 milliSeconds;
+			 activateOnHovered: false;
 			 yourself).
 	e layout: BlFrameLayout new.
 	lab := ToLabel new text: 'Keep mouse pressed here'.
@@ -7490,7 +7590,7 @@ ToSandBox class >> example_stylesheet [
 		        extent: 50 asPoint;
 		        position: 50 asPoint.
 	verticalElem := ToElement new
-		                extent: 50 @ 100;
+		                size: 50 @ 100;
 		                position: 50 @ 150.
 	horizontalElem := ToElement new
 		                  size: 100 @ 50;
@@ -7597,6 +7697,7 @@ ToSandBox class >> example_switchButton2 [
 		((ToImage inner: (self iconNamed: #glamorousClose))
 			 innerImageColor: Color white).
 
+	th checkAction: [ :evt :target :value | value traceCr ].
 	sp := th openInSpace
 ]
 
@@ -9113,7 +9214,7 @@ ToSandBox class >> path_sharp_electric_bike_SVG [
 { #category : #bar }
 ToSandBox class >> resizerBoardFor: aBar [
 
-	| pane group container |
+	| pane group buttons container |
 	pane := ToPane horizontal.
 	{ #Horizontal. #Vertical } do: [ :dir |
 			| sizeInputPane sizeInput |
@@ -9145,18 +9246,18 @@ ToSandBox class >> resizerBoardFor: aBar [
 			sizeInputPane childrenDo: [ :child |
 				child constraints linear vertical alignCenter ].
 
-			group := ToCheckableGroupPane vertical.
+			group := ToCheckableGroup new.
+			buttons := OrderedCollection new.
 
 			{ #MatchParent. #FitContent. #Exact } do: [ :mode |
 					| cbox |
 					cbox := ToRadioButton new
 						        labelText: mode asString;
 						        yourself.
-					group addChild: cbox.
+					buttons add: cbox.
 					cbox
-						checkAction: [ :evt  |
-								| policy value |
-								value := evt currentTarget isChecked.
+						newCheckAction: [ :evt :bar :value |
+								| policy |
 								value ifTrue: [
 										mode = #Exact
 											ifTrue: [ sizeInputPane enabled: true ]
@@ -9165,15 +9266,17 @@ ToSandBox class >> resizerBoardFor: aBar [
 													policy := dir = #Horizontal
 														          ifTrue: [ ('h' , mode) asSymbol ]
 														          ifFalse: [ ('v' , mode) asSymbol ].
-													aBar perform: policy ] ] ] ].
+													bar perform: policy ] ] ]
+						with: aBar ].
 
-			group registeredCheckables second checked: true.
+			group registerAll: buttons.
+			buttons second checked: true.
 			container := ToPane vertical.
 			container padding: (BlInsets all: 2).
 			container hMatchParent.
 			container vFitContent.
 			container addChild: (ToLabel text: dir asString).
-			container addChild: group.
+			container addChildren: group registeredCheckables.
 			container addChild: sizeInputPane.
 			pane addChild: container ].
 	^ pane
@@ -9267,7 +9370,7 @@ ToSandBox class >> selectionChangedEvent: anEvent [
 ToSandBox class >> selectionModeChooserFor: aBar [
 
 	| selectionModeGroup selectionModeContainer |
-	selectionModeGroup := ToCheckableGroupPane vertical.
+	selectionModeGroup := ToCheckableGroup new.
 	{
 		(#Multiple -> #multiple:).
 		(#Single -> #single:).
@@ -9276,24 +9379,24 @@ ToSandBox class >> selectionModeChooserFor: aBar [
 		chb := ToRadioButton new
 			       labelText: modeAssoc key asString;
 			       yourself.
-		selectionModeGroup addChild: chb.
+		selectionModeGroup register: chb.
 		chb
-			checkAction: [ :evt | 
-				| value |
-				value := evt currentTarget isChecked.
-				value ifTrue: [ | chosen selMode |
+			newCheckAction: [ :evt :selMode :value |
+				value ifTrue: [
+					| chosen |
 					chosen := modeAssoc key.
-					selMode := aBar primarySelectionMode.
 					selMode enabled: chosen ~= #Disabled.
 					modeAssoc value ifNotNil: [ :message |
-						selMode perform: message asSymbol with: true ] ] ] ].
+						selMode perform: message asSymbol with: true ] ] ]
+			with: aBar primarySelectionMode ].
 
 	selectionModeGroup registeredCheckables first checked: true.
 	selectionModeContainer := ToPane vertical.
 	selectionModeContainer padding: (BlInsets all: 2).
 	selectionModeContainer hMatchParent.
 	selectionModeContainer addChild: (ToLabel text: 'Selection mode').
-	selectionModeContainer addChild: selectionModeGroup.
+	selectionModeContainer addChildren:
+		selectionModeGroup registeredCheckables.
 	^ selectionModeContainer
 ]
 
@@ -9381,14 +9484,14 @@ ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 
 	confPane := self barConfigurationBoardFor: aTabGroupElement.
 	startToEndSwitch := ToSwitchButton new labelText: 'At start'.
-	startToEndSwitch checkAction: [ :evt | aTabGroupElement atStartSide: evt target isChecked ].
+	startToEndSwitch checkAction: [ :evt :target :value | aTabGroupElement atStartSide: value ].
 
 	startToEndSwitch startFlexible: true.
 	startToEndSwitch hMatchParent.
 	confPane addChild: startToEndSwitch.
 
 	addTabItemButtonSwicth := ToSwitchButton new labelText: 'Show new tab button'.
-	addTabItemButtonSwicth checkAction: [ :evt | aTabGroupElement showAddTabItemButton: evt target isChecked ].
+	addTabItemButtonSwicth checkAction: [ :evt :target :value | aTabGroupElement showAddTabItemButton: value ].
 
 	addTabItemButtonSwicth startFlexible: true.
 	addTabItemButtonSwicth hMatchParent.

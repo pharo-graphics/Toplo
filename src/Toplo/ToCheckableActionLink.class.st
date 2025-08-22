@@ -5,12 +5,22 @@ Class {
 }
 
 { #category : #initialization }
-ToCheckableActionLink >> linkWith: aCheckable [
+ToCheckableActionLink >> configureToUpdateLinkedObject: anObjectOrValuable from: aCheckable [
 
 	| handler |
-	super linkWith: aCheckable.
+	
 	handler := aCheckable
 		           addEventHandlerOn: ToCheckableChangedEvent
 		           do: [ :event | self runWithEvent: event ].
-	self addedHandler: handler in: aCheckable
+	self addedHandler: handler in: aCheckable for: aCheckable.
+	
+	handler := self
+		           addEventHandlerOn: ToRunLinkActionRequest
+		           do: [ :event |
+			           self
+				           launchWithLinkedObject: anObjectOrValuable 
+				           from: aCheckable
+				           onEvent: event sourceEvent
+				           withValue: aCheckable checked ].
+	self addedHandler: handler in: self for: aCheckable
 ]

@@ -52,7 +52,7 @@ ToButtonTest >> testClickAborted [
 				  background: Color blue;
 				  yourself)).
 	but matchParent.
-	but clickAction: [ count := count + 1 ].
+	but newClickAction: [ count := count + 1 ].
 	space root addChild: but.
 	BlSpace simulateMouseDownOn: but.
 	BlSpace simulateMouseUpOn: but icon.

@@ -11,7 +11,6 @@ Class {
 ToAccordionItemHeaderElement >> initialize [ 
 
 	super initialize.
-	self applySkinInstallerOnFirstRequest: true.
 	isExpanded := false
 ]
 

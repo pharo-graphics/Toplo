@@ -19,24 +19,24 @@ ToRawTheme class >> label [
 ]
 
 { #category : #accessing }
-ToRawTheme >> expectedSkinFor: anElement [
+ToRawTheme >> defaultSkinFor: anElement [
 
-	^ anElement skinManager defaultRawSkin ifNil: [
-		  super expectedSkinFor: anElement ]
+	^ anElement defaultRawSkin ifNil: [
+		  super defaultSkinFor: anElement ]
 ]
 
 { #category : #accessing }
-ToRawTheme >> newRootSkinInstance [
+ToRawTheme >> newRootSkin [
 
 	^ ToSpaceRootSkin new
 ]
 
 { #category : #accessing }
-ToRawTheme >> newSkinInstanceFor: anElement [
+ToRawTheme >> newSkinFor: anElement [
 
 	| space |
 	space := anElement space.
 	^ (space notNil and: [ space root == anElement ])
-		  ifTrue: [ self newRootSkinInstance ]
+		  ifTrue: [ self newRootSkin ]
 		  ifFalse: [ anElement newRawSkin ]
 ]

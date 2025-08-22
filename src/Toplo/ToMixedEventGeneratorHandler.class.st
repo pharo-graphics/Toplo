@@ -111,12 +111,6 @@ ToMixedEventGeneratorHandler >> newStopEvent [
 ]
 
 { #category : #'event handling' }
-ToMixedEventGeneratorHandler >> reset [
-
-	self resetEventClasses
-]
-
-{ #category : #'event handling' }
 ToMixedEventGeneratorHandler >> resetEventClasses [
 
 	startEventClass := nil.

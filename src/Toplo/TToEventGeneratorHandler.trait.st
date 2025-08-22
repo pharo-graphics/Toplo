@@ -48,14 +48,13 @@ TToEventGeneratorHandler >> startDelay: aDuration [
 { #category : #'t - event generator handler' }
 TToEventGeneratorHandler >> startEvent: anEvent [
 
-	| target eventToUse |
+	| target  |
 	checker ifNotNil: [ ^ self ].
-	eventToUse := anEvent copy.
 	target := anEvent currentTarget.
 	startTime := time now.
 	checker := BlRepeatedTaskAction new
 		           delay: delay asDuration;
-		           action: [self taskActionFromEvent: eventToUse in: target].
+		           action: [self taskActionFromEvent: anEvent in: target].
 		
 	mouseUpOutsideFilter := ToMouseUpOutsideEventFilter new
 		                     element: target;
@@ -93,21 +92,18 @@ TToEventGeneratorHandler >> stopTaskFromEvent: anEvent in: aTarget [
 { #category : #'t - event generator handler' }
 TToEventGeneratorHandler >> taskActionFromEvent: anEvent in: aTarget [
 
-	| evt now eventToUse |
-	eventToUse := anEvent copy.
-	
+	| evt now |
 	now := time now.
 	now >= (startTime + startDelay) ifFalse: [ ^ self ].
 	evt := startEvent
 		       ifNil: [
 			       startEvent := self newStartEvent
-				                     sourceEvent: eventToUse;
+				                     sourceEvent: anEvent copy;
 				                     yourself ]
 		       ifNotNil: [
 			       self newRepeatedEvent 
-				       sourceEvent: eventToUse;
+				       sourceEvent: anEvent copy;
 				       yourself ].
-
 	aTarget dispatchEvent: evt.
-	evt isConsumed ifTrue: [ self stopTaskFromEvent: eventToUse in: aTarget ]
+	evt isConsumed ifTrue: [ self stopTaskFromEvent: anEvent in: aTarget ]
 ]

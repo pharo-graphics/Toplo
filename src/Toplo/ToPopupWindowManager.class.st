@@ -9,9 +9,7 @@ Class {
 		'upCountRequired',
 		'checkPickOutside',
 		'closeOnPicking',
-		'delayedPopupHandler',
-		'popupOnPressed',
-		'popupOnHovered'
+		'delayedPopupHandler'
 	],
 	#category : #'Toplo-Core-Window'
 }
@@ -40,7 +38,7 @@ ToPopupWindowManager >> autoCloseDelay: aDelay [
 
 { #category : #'window handling' }
 ToPopupWindowManager >> beInline [ 
-
+	" for inline windows/ menus"
 	windowStarter := ToInlineWindowStarter new.
 	self unplugPickOutsideFilter
 ]
@@ -109,8 +107,7 @@ ToPopupWindowManager >> closeOnPicking: aBoolean [
 ToPopupWindowManager >> closeWindow [
 
 	self canCloseWindow ifFalse: [ ^ false ].
-	" enqueue a task to close the window. It is to ensure that the possible 
-	linked actions are runned *** before *** the window is closed "
+	" postpone vindow closing to let other action tasks run (in case a clickAction is to be runned) "
 	anchorRoot ifNotNil: [ :ar |
 		ar enqueueTask: (BlTaskAction new action: [ super closeWindow ]) ].
 	^ true
@@ -179,19 +176,25 @@ ToPopupWindowManager >> initialize [
 	self usePrimaryMouseButton .
  	autoCloseDelay := self defaultAutoCloseDelay.
 	closeOnPicking := self defaultCloseOnPicking.
-	checkPickOutside := true.
-	upCountRequired := 1.
 	popupDelay := self defaultPopupDelay.
-	popupOnPressed := true.
-	popupOnHovered := false.
-
-
+	checkPickOutside := true.
+	upCountRequired := 1
 ]
 
 { #category : #accessing }
 ToPopupWindowManager >> inlineWindowClass [
 
 	^ ToInlineWindowElement 
+]
+
+{ #category : #initialization }
+ToPopupWindowManager >> installDelayedPopupHandler [
+
+	delayedPopupHandler ifNotNil: [
+		anchorElement removeEventHandler: delayedPopupHandler ].
+	delayedPopupHandler := self newDelayedPopupHandler.
+	delayedPopupHandler startDelay: self popupDelay.
+	anchorElement addEventHandler: delayedPopupHandler
 ]
 
 { #category : #initialization }
@@ -213,8 +216,10 @@ ToPopupWindowManager >> mouseUpOutsideEvent: anEvent [
 
 { #category : #initialization }
 ToPopupWindowManager >> newDelayedPopupHandler [
-	
-	^ ToMixedEventGeneratorHandler new
+
+	^ self popupOnPressed
+		  ifTrue: [ ToStillPressedEventHandler new ]
+		  ifFalse: [ ToStillHoveredEventHandler new ]
 ]
 
 { #category : #'window handling' }
@@ -238,13 +243,7 @@ ToPopupWindowManager >> onClosed [
 ToPopupWindowManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	
-	delayedPopupHandler := self newDelayedPopupHandler.
-	delayedPopupHandler startDelay: self popupDelay.
-	delayedPopupHandler activateOnPressed: self popupOnPressed.
-	delayedPopupHandler activateOnHovered: self popupOnHovered.
-
-	anchorElement addEventHandler: delayedPopupHandler
+	self installDelayedPopupHandler
 ]
 
 { #category : #'window handling' }
@@ -281,7 +280,7 @@ ToPopupWindowManager >> popupDelay [
 ToPopupWindowManager >> popupDelay: aDuration [
 
 	popupDelay := aDuration.
-	delayedPopupHandler startDelay: self popupDelay.
+	self installDelayedPopupHandler
 ]
 
 { #category : #'window handling' }
@@ -302,30 +301,9 @@ ToPopupWindowManager >> popupNewWindowEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToPopupWindowManager >> popupOnHovered [
-
-	^ popupOnHovered
-]
-
-{ #category : #accessing }
-ToPopupWindowManager >> popupOnHovered: aBoolean [
-
-	popupOnHovered := aBoolean.
-	delayedPopupHandler activateOnHovered: self popupOnHovered.
-]
-
-{ #category : #accessing }
 ToPopupWindowManager >> popupOnPressed [
 
-	^ popupOnPressed
-]
-
-{ #category : #accessing }
-ToPopupWindowManager >> popupOnPressed: aBoolean [
-	" useful for tablet UI "
-
-	popupOnPressed := aBoolean.
-	delayedPopupHandler activateOnPressed: self popupOnPressed
+	^ true
 ]
 
 { #category : #'event handling' }
@@ -343,7 +321,7 @@ ToPopupWindowManager >> startStillPressedEvent: anEvent [
 	anEvent emitter = delayedPopupHandler ifFalse: [ ^ self ].
 	windowBuilder ifNil: [ ^ self ].
 	anEvent sourceEvent button = mouseButton ifFalse: [ ^ self ].
-	currentWindow ifNil: [ ^ self popupEvent: anEvent sourceEvent ].
+	currentWindow ifNil: [ ^ self popupEvent: anEvent sourceEvent].
 	self isInline ifTrue: [ currentWindow close ].
 
 ]

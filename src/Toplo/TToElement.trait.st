@@ -7,8 +7,8 @@ Trait {
 TToElement >> asFloatElement [
 
 	| holder |
-	holder := ToFloatHolder new.
-	holder addChild: self.
+	holder := ToFloatElement new.
+	holder builder: [:e | e addChild: self].
 	^ holder
 ]
 

@@ -40,7 +40,6 @@ ToTreeNode >> hasLeafDataItem [
 ToTreeNode >> initialize [
 
 	super initialize.
-	self applySkinInstallerOnFirstRequest: true.
 	content := ToTripletElement new.
 	content hMatchParent.
 	content vFitContent.

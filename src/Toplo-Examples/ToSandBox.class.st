@@ -5380,6 +5380,7 @@ ToSandBox class >> example_TooltipPopupOnMouseDown [
 	but := ToButton new.
 	but tooltipManagerDo: [ :m |
 			m popupOnPressed: true.
+			m popupOnHovered: false.
 			m popupDelay: 500 milliSeconds ].
 	but labelText: 'Button with tooltip'.
 	but tooltipBuilder: [ :window :request |

@@ -61,6 +61,7 @@ ToTooltipPopupManager >> mouseUpEvent: anEvent [
 
 	"windowBuilder ifNil: [ ^ self ]."
 	self unqueuePopupTaskFromEvent: anEvent.
+	delayedPopupHandler reset.
 	self closeWindow
 ]
 

@@ -20,6 +20,7 @@ ToTagElement >> applyConfiguration [
 ToTagElement >> initialize [ 
 
 	super initialize.
+	self applySkinInstallerOnFirstRequest: true.
 	self takeFocusOnClick: false.
 	removable := false
 ]

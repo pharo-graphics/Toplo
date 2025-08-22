@@ -18,7 +18,7 @@ ToRawThemeForTest class >> defaultTokenProperties [
 ]
 
 { #category : #accessing }
-ToRawThemeForTest >> newSkinFor: anElement [
+ToRawThemeForTest >> newSkinInstanceFor: anElement [
 
 	^ ToRawSkin new.
 ]

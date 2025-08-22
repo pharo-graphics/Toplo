@@ -9,9 +9,7 @@ ToSkinInstallerTest >> testApplyOn [
 
 	| e |
 	e := ToElement new.
-	self
-		should: [ e skinManager forceSkinInstaller: ToSkinInstaller new in: e ]
-		raise: Error.
+	e skinManager setSkinInstaller: ToSkinInstaller new in: e.
 	" an element must be attached to a space 
 	because installing a skin requires a theme"
 	self should: [ e skinManager applySkinReinstallIn: e ] raise: Error.
@@ -27,9 +25,7 @@ ToSkinInstallerTest >> testApplyOnWithRawSkin [
 	| e |
 	e := ToElementForRawSkinTest new.
 	space toTheme: ToRawTheme new.
-	self
-		should: [ e skinManager forceSkinInstaller: ToSkinInstaller new in: e ]
-		raise: Error.
+	e skinManager setSkinInstaller: ToSkinInstaller new in: e.
 	" an element must be attached to a space 
 	because installing a skin requires a theme"
 	self should: [ e skinManager applySkinReinstallIn: e ] raise: Error.
@@ -47,12 +43,12 @@ ToSkinInstallerTest >> testInstallSkinInWithErrorNonAttachedInSpace [
 	| e |
 	e := ToElement new.
 	self assert: e skinManager skinInstaller isNil.
-	self assert: e skinManager installedSkin isNil.
-	self
-		should: [ e skinManager forceSkinInstaller: ToSkinInstaller new in: e ]
-		raise: Error.
+	self assert:
+		(e skinManager installedSkin) isNil.
+	e skinManager setSkinInstaller: ToSkinInstaller new in: e.
 	self assert: e skinManager skinInstaller notNil.
-	self assert: e skinManager installedSkin isNil.
+	self assert:
+		(e skinManager installedSkin) isNil.
 	" an element must be attached to a space 
 	because installing a skin requires a theme"
 	self should: [ e lookupTheme ] raise: Error.

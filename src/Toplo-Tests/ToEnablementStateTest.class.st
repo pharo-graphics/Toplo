@@ -9,13 +9,14 @@ ToEnablementStateTest >> testApplyOn [
 
 	| e receivedEnabledEvt receivedDisabledEvt |
 	e := ToElement new.
+	e applySkinInstallerOnFirstRequest: false.
+	space root addChild: e.
 	e addEventHandler: (BlEventHandler
 			 on: ToEnabledSkinEvent
 			 do: [ :event | receivedEnabledEvt := event ]).
 	e addEventHandler: (BlEventHandler
 			 on: ToDisabledSkinEvent
 			 do: [ :event | receivedDisabledEvt := event ]).
-	space root addChild: e.
 	e skinManager applySkinReinstallIn: e.
 	self assert: (receivedEnabledEvt isKindOf: ToEnabledSkinEvent)
 ]
@@ -25,14 +26,15 @@ ToEnablementStateTest >> testApplyOn2 [
 
 	| e receivedEnabledEvt receivedDisabledEvt |
 	e := ToElement new.
+	e applySkinInstallerOnFirstRequest: false.
 	e enable.
+	space root addChild: e.
 	e addEventHandler: (BlEventHandler
 			 on: ToEnabledSkinEvent
 			 do: [ :event | receivedEnabledEvt := event ]).
 	e addEventHandler: (BlEventHandler
 			 on: ToDisabledSkinEvent
 			 do: [ :event | receivedDisabledEvt := event ]).
-	space root addChild: e.
 	e skinManager applySkinReinstallIn: e.
 	self assert: (receivedEnabledEvt isKindOf: ToEnabledSkinEvent)
 ]
@@ -42,6 +44,9 @@ ToEnablementStateTest >> testApplyOn3 [
 
 	| e receivedEnabledEvt receivedDisabledEvt |
 	e := ToElement new.
+	e applySkinInstallerOnFirstRequest: false.
+
+	space root addChild: e.
 	e enable.
 	e addEventHandler: (BlEventHandler
 			 on: ToEnabledSkinEvent
@@ -49,7 +54,6 @@ ToEnablementStateTest >> testApplyOn3 [
 	e addEventHandler: (BlEventHandler
 			 on: ToDisabledSkinEvent
 			 do: [ :event | receivedDisabledEvt := event ]).
-	space root addChild: e.
 	e skinManager applySkinReinstallIn: e.
 	self assert: (receivedEnabledEvt isKindOf: ToEnabledSkinEvent)
 ]
@@ -59,14 +63,15 @@ ToEnablementStateTest >> testApplyOnWhenDisabled [
 
 	| e receivedEnabledEvt receivedDisabledEvt |
 	e := ToElement new.
+	e applySkinInstallerOnFirstRequest: false.
 	e disable.
+	space root addChild: e.
 	e addEventHandler: (BlEventHandler
 			 on: ToEnabledSkinEvent
 			 do: [ :event | receivedEnabledEvt := event ]).
 	e addEventHandler: (BlEventHandler
 			 on: ToDisabledSkinEvent
 			 do: [ :event | receivedDisabledEvt := event ]).
-	space root addChild: e.
 	e skinManager applySkinReinstallIn: e.
 	self assert: (receivedDisabledEvt isKindOf: ToDisabledSkinEvent)
 ]
@@ -76,6 +81,8 @@ ToEnablementStateTest >> testApplyOnWhenDisabled2 [
 
 	| e receivedEnabledEvt receivedDisabledEvt |
 	e := ToElement new.
+	e applySkinInstallerOnFirstRequest: false.
+	space root addChild: e.
 	e disable.
 	e addEventHandler: (BlEventHandler
 			 on: ToEnabledSkinEvent
@@ -83,7 +90,7 @@ ToEnablementStateTest >> testApplyOnWhenDisabled2 [
 	e addEventHandler: (BlEventHandler
 			 on: ToDisabledSkinEvent
 			 do: [ :event | receivedDisabledEvt := event ]).
-	space root addChild: e.
+	e skinManager applySkinReinstallIn: e.
 	self assert: (receivedDisabledEvt isKindOf: ToDisabledSkinEvent)
 ]
 

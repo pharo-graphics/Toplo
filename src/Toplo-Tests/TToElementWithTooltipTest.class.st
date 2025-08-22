@@ -198,7 +198,6 @@ TToElementWithTooltipTest >> testTooltipPopupDelay [
 	| e |
 	e := ToElement new.
 	e extent: 50 @ 50.
-
 	e tooltipManagerDo: [ :m | 
 		m popupDelay: 100 milliSeconds.
 		self assert: m popupDelay equals: 100 milliSeconds].

@@ -134,7 +134,7 @@ ToSpacePhasesManagerTest >> testNeedSkinInstallPass [
 	space applyAllSkinInstallers.
 	self deny: space phasesManager needSkinInstallPass.
 	space root addChild: e.
-	self deny: space phasesManager needSkinInstallPass.
+	self assert: space phasesManager needSkinInstallPass.
 	space applyAllSkinInstallers.
 	" all skin installers should have been applied "
 	self deny: space phasesManager needSkinInstallPass.
@@ -156,14 +156,15 @@ ToSpacePhasesManagerTest >> testNeedSkinStateApplicationPass [
 
 	| e |
 	e := ToElement new.
+	e applySkinInstallerOnFirstRequest: false.
 	space applyAllSkinInstallers.
 	self deny: space phasesManager needSkinInstallPass.
 	self assert: space phasesManager needSkinStateApplicationPass.
 	space applyAllEnqueuedStates.
 	self deny: space phasesManager needSkinStateApplicationPass.
 	space root addChild: e.
-	self deny: space phasesManager needSkinInstallPass.
-	self assert: space phasesManager needSkinStateApplicationPass.
+	self assert: space phasesManager needSkinInstallPass.
+	self deny: space phasesManager needSkinStateApplicationPass.
 	space applyAllSkinInstallers.
 	self assert: space phasesManager needSkinStateApplicationPass.
 	space applyAllEnqueuedStates.

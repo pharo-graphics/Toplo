@@ -10,6 +10,12 @@ Class {
 	#category : #'Toplo-Widget-Menu-Items'
 }
 
+{ #category : #'t - menu item' }
+ToToggleMenuItem >> closeOnPicking: aBoolean [
+
+	closeOnPicking := aBoolean
+]
+
 { #category : #initialization }
 ToToggleMenuItem >> initialize [
 

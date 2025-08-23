@@ -13,13 +13,13 @@ ToMenuPopupManager >> beInline [
 ]
 
 { #category : #'event handling' }
-ToMenuPopupManager >> closeOnMouseDownEvent: anEvent [
+ToMenuPopupManager >> canCloseWindowOnMouseDownEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
 	(target isInline or: [ target isInInlineWindow ]) ifTrue: [
 		^ true ].
-	^ super closeOnMouseDownEvent: anEvent
+	^ super canCloseWindowOnMouseDownEvent: anEvent
 ]
 
 { #category : #initialization }
@@ -82,16 +82,16 @@ ToMenuPopupManager >> newWindow [
 ]
 
 { #category : #'window handling' }
-ToMenuPopupManager >> onClosed [
+ToMenuPopupManager >> onWindowClosed [
 
-	super onClosed.
+	super onWindowClosed.
 	anchorElement itemBar secondarySelecter deselectAll
 ]
 
 { #category : #'window handling' }
-ToMenuPopupManager >> onOpened [
+ToMenuPopupManager >> onWindowOpened [
 
-	super onOpened.
+	super onWindowOpened.
 	anchorElement itemBar requestFocus
 ]
 

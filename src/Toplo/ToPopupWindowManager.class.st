@@ -50,7 +50,8 @@ ToPopupWindowManager >> beInline [
 { #category : #'window handling' }
 ToPopupWindowManager >> canCloseWindow [
 
-	^ pickOutsideFilter isNil or: [ pickOutsideFilter isPlugged ]
+	self flag: 'Keep it for now. To be checked if it is useful '.
+	^ true. "pickOutsideFilter isNil or: [ pickOutsideFilter isPlugged ]"
 ]
 
 { #category : #'window handling' }
@@ -69,10 +70,16 @@ ToPopupWindowManager >> canCloseWindowAfter: aTimestamp [
 	^ true
 ]
 
-{ #category : #'window handling' }
-ToPopupWindowManager >> checkCloseWindowOnPickingEvent: anEvent [
+{ #category : #'event handling' }
+ToPopupWindowManager >> canCloseWindowOnMouseDownEvent: anEvent [
 
-	(self closeOnMouseDownEvent: anEvent) ifFalse: [ ^ self ].
+	^ self closeOnPicking
+]
+
+{ #category : #'window handling' }
+ToPopupWindowManager >> checkCloseWindowOnEvent: anEvent [
+
+	(self canCloseWindowOnMouseDownEvent: anEvent) ifFalse: [ ^ self ].
 	(self canCloseWindowAfter: anEvent timestamp) ifFalse: [ ^ self ].
 	self forceCloseWindowOnEvent: anEvent
 ]
@@ -87,12 +94,6 @@ ToPopupWindowManager >> checkPickOutside [
 ToPopupWindowManager >> checkPickOutside: aBoolean [
 
 	checkPickOutside := aBoolean
-]
-
-{ #category : #'event handling' }
-ToPopupWindowManager >> closeOnMouseDownEvent: anEvent [
-
-	^ self closeOnPicking
 ]
 
 { #category : #accessing }
@@ -243,7 +244,7 @@ ToPopupWindowManager >> mouseUpOutsideEvent: anEvent [
 	anEvent emitter = pickOutsideFilter ifFalse: [ ^ self ].
 	checkPickOutside ifFalse: [ ^ self ].
 	self isInline ifTrue: [ ^ self ].
-	self forceCloseWindowOnEvent: anEvent sourceEvent
+	self closeWindow
 ]
 
 { #category : #initialization }
@@ -262,13 +263,6 @@ ToPopupWindowManager >> newPickOutsideFilter [
 		  yourself
 ]
 
-{ #category : #'window handling' }
-ToPopupWindowManager >> onClosed [
-
-	self uninstallPickOutsideFilter.
-	super onClosed
-]
-
 { #category : #'api - hooks' }
 ToPopupWindowManager >> onInstalledIn: anElement [
 
@@ -283,9 +277,16 @@ ToPopupWindowManager >> onInstalledIn: anElement [
 ]
 
 { #category : #'window handling' }
-ToPopupWindowManager >> onOpened [
+ToPopupWindowManager >> onWindowClosed [
 
-	super onOpened.
+	self uninstallPickOutsideFilter.
+	super onWindowClosed
+]
+
+{ #category : #'window handling' }
+ToPopupWindowManager >> onWindowOpened [
+
+	super onWindowOpened.
 	checkPickOutside ifFalse: [
 		self uninstallPickOutsideFilter.
 		^ self ].
@@ -393,7 +394,7 @@ ToPopupWindowManager >> stopStillHoveredEvent: anEvent [
 ToPopupWindowManager >> stopStillPressedEvent: anEvent [
 	
 	self isInline ifTrue: [ ^ self ].
-	self checkCloseWindowOnPickingEvent: anEvent sourceEvent
+	self checkCloseWindowOnEvent: anEvent sourceEvent
 ]
 
 { #category : #initialization }

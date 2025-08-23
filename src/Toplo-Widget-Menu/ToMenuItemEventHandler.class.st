@@ -80,7 +80,7 @@ ToMenuItemEventHandler >> onPickingEvent: anEvent [
 		" ask the window manager because 
 		it can manage the timestamp and finally can decide 
 		to not close the menu window or to stop a delayed task"
-		rm manager ifNotNil: [:m | m checkCloseWindowOnPickingEvent: anEvent ] ]
+		rm manager ifNotNil: [:m | m checkCloseWindowOnEvent: anEvent ] ]
 ]
 
 { #category : #'api - hooks' }

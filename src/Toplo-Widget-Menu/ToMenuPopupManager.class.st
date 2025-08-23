@@ -63,11 +63,6 @@ ToMenuPopupManager >> mouseEnterEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToMenuPopupManager >> mouseLeaveEvent: anEvent [
-
-]
-
-{ #category : #'event handling' }
 ToMenuPopupManager >> mouseUpOutsideEvent: anEvent [
 
 	super mouseUpOutsideEvent: anEvent.

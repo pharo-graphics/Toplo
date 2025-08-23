@@ -34,7 +34,7 @@ TToElementWithTooltipTest >> testCloseTooltipOnMouseLeave2 [
 	| e |
 	e := ToElement new.
 	e extent: 50 @ 50.
-	e tooltipManagerDo: [:m | m closeOnMouseLeave: false ].
+	e tooltipManagerDo: [:m | m closeOnMouseLeaved: false ].
 	e tooltipManagerDo: [ :m | m popupDelay: 10 milliSeconds ].
 	space root addChild: e.
 	self assert: e currentTooltipWindow isNil.

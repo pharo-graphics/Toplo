@@ -374,11 +374,10 @@ ToPopupWindowManager >> startStillHoveredEvent: anEvent [
 { #category : #'event handling' }
 ToPopupWindowManager >> startStillPressedEvent: anEvent [
 	" first I have to test if I'am concerned by this event "
-	
 	anEvent emitter = delayedPopupHandler ifFalse: [ ^ self ].
 	windowBuilder ifNil: [ ^ self ].
 	anEvent sourceEvent button = mouseButton ifFalse: [ ^ self ].
-	currentWindow ifNil: [ ^ self popupEvent: anEvent sourceEvent ].
+	currentWindow ifNil: [ ^ self popupEvent: anEvent sourceEvent copy].
 	self isInline ifTrue: [ currentWindow close ].
 
 ]

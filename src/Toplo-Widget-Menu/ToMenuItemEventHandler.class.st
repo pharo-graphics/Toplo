@@ -55,7 +55,6 @@ ToMenuItemEventHandler >> mouseLeaveEvent: anEvent [
 { #category : #'mouse handlers' }
 ToMenuItemEventHandler >> mouseUpEvent: anEvent [
 
-	self class name trace. ' mouseUpEvent:' traceCr.
 	target isMenu ifTrue: [
 		target menuPaneDo: [ :mb | mb switchAutoOpen ] ].
 	" enqueue a task to close the menu. It is to ensure that the possible 

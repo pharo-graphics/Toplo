@@ -57,8 +57,6 @@ ToMenuItemEventHandler >> mouseUpEvent: anEvent [
 
 	target isMenu ifTrue: [
 		target menuPaneDo: [ :mb | mb switchAutoOpen ] ].
-	" enqueue a task to close the menu. It is to ensure that the possible 
-	menu item link action is runned *** before *** the menu is closed "
 	self onPickingEvent: anEvent
 ]
 

@@ -186,5 +186,6 @@ TToCheckable >> uncheck [
 { #category : #'t - checkable - group' }
 TToCheckable >> unregisterFromGroup [
 
-	self group ifNotNil: [:grp | grp unregister: self ]
+	self group unregister: self.
+	self group: nil
 ]

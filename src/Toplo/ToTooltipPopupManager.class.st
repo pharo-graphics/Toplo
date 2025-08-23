@@ -2,8 +2,7 @@ Class {
 	#name : #ToTooltipPopupManager,
 	#superclass : #ToPopupWindowManager,
 	#instVars : [
-		'closeOnMouseLeave',
-		'popupOnPressed'
+		'closeOnMouseLeave'
 	],
 	#category : #'Toplo-Core-Tooltip'
 }
@@ -43,9 +42,10 @@ ToTooltipPopupManager >> eventsToHandle [
 ToTooltipPopupManager >> initialize [
 
 	super initialize.
-	popupOnPressed := false.
 	self closeOnMouseLeave: true.
-	upCountRequired := 0
+	upCountRequired := 0.
+	popupOnPressed := false.
+	popupOnHovered := true
 ]
 
 { #category : #'event handling' }
@@ -61,21 +61,8 @@ ToTooltipPopupManager >> mouseUpEvent: anEvent [
 
 	"windowBuilder ifNil: [ ^ self ]."
 	self unqueuePopupTaskFromEvent: anEvent.
+	delayedPopupHandler reset.
 	self closeWindow
-]
-
-{ #category : #accessing }
-ToTooltipPopupManager >> popupOnPressed [
-
-	^ popupOnPressed
-]
-
-{ #category : #accessing }
-ToTooltipPopupManager >> popupOnPressed: aBoolean [
-	" useful for tablet UI "
-
-	popupOnPressed := aBoolean.
-	self installDelayedPopupHandler
 ]
 
 { #category : #accessing }

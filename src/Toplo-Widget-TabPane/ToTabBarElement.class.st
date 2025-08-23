@@ -41,6 +41,9 @@ ToTabBarElement >> defaultNodeManagerClass [
 ToTabBarElement >> initialize [ 
 
 	super initialize.
+	self primarySelectionMode selectionOption
+		grouped: false;
+		beneath: true.
 	atStartSide := true
 ]
 

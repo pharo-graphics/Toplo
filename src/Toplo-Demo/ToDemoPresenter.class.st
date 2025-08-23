@@ -52,8 +52,8 @@ ToDemoPresenter class >> demo2 [
 
 { #category : #demos }
 ToDemoPresenter class >> demo3 [
-	<demo>
 
+	<demo>
 	| containerElement checkableGroup lightThemeBtn darkThemeBtn |
 	(containerElement := ToPane vertical) padding: (BlInsets all: 10).
 	(checkableGroup := ToCheckableGroup new)
@@ -68,13 +68,15 @@ ToDemoPresenter class >> demo3 [
 					                 labelText: 'Dark theme';
 					                 yourself) }.
 
-	containerElement
-		newCheckAction: [ :evt :grp :list |
-			list first = lightThemeBtn
-				ifTrue: [ containerElement space toTheme: ToRawTheme new ]
-				ifFalse: [ containerElement space toTheme: ToRawDarkTheme new ] ]
-		onGroup: checkableGroup.
-		
+	checkableGroup
+		addEventHandlerOn: ToCheckableGroupChangedEvent
+		do: [ :evt |
+				| list |
+				list := evt checkedList.
+				list first = lightThemeBtn
+					ifTrue: [ containerElement space toTheme: ToRawTheme new ]
+					ifFalse: [ containerElement space toTheme: ToRawDarkTheme new ] ].
+
 	checkableGroup registeredCheckables second checked: true.
 	containerElement addChildren: checkableGroup registeredCheckables.
 	^ containerElement

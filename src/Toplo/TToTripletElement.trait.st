@@ -22,7 +22,8 @@ TToTripletElement >> alignCenter: aBoolean [
 
 	self alignCenter = aBoolean ifTrue: [ ^ self ].
 	self toConfiguration alignCenter: aBoolean.
-	self requestConfiguration
+	self requestConfiguration.
+	self requestNewSkin
 ]
 
 { #category : #'t - triplet element - instance creation' }
@@ -97,7 +98,8 @@ TToTripletElement >> endAlignment: aNumber [
 	self endAlignment = aNumber ifTrue: [ ^ self ].
 	self checkEndContainer.
 	self toConfiguration endAlignment: aNumber.
-	self requestConfiguration
+	self requestConfiguration.
+	self requestNewSkin
 ]
 
 { #category : #'t - triplet element - accessing' }
@@ -130,7 +132,8 @@ TToTripletElement >> endElement: anElement [
 	endElement ifNotNil: [
 		self checkEndContainer.
 		endContainer addChild: endElement ].
-	self requestConfiguration
+	self requestConfiguration.
+	self requestNewSkin
 ]
 
 { #category : #'t - triplet element - accessing' }
@@ -156,7 +159,8 @@ TToTripletElement >> endFlexible: aBoolean [
 
 	self endFlexible = aBoolean ifTrue: [ ^ self ].
 	self toConfiguration endFlexible: aBoolean.
-	self requestConfiguration
+	self requestConfiguration.
+	self requestNewSkin
 ]
 
 { #category : #'t - triplet element - accessing' }
@@ -176,7 +180,8 @@ TToTripletElement >> endInterspace: aNumber [
 
 	self endInterspace = aNumber ifTrue: [ ^ self ].
 	self toConfiguration endInterspace: aNumber.
-	self requestConfiguration
+	self requestConfiguration.
+	self requestNewSkin
 ]
 
 { #category : #'t - triplet element - accessing' }
@@ -263,7 +268,8 @@ TToTripletElement >> middleElement: anElement [
 	middleElement ifNotNil: [ :s | s removeFromParent ].
 	middleElement := anElement.
 	middleElement ifNotNil: [ middleContainer addChild: middleElement ].
-	self requestConfiguration
+	self requestConfiguration.
+	self requestNewSkin
 ]
 
 { #category : #'t - triplet element - instance creation' }
@@ -323,7 +329,8 @@ TToTripletElement >> startAlignment: aNumber [
 	self startAlignment = aNumber ifTrue: [ ^ self ].
 	self checkStartContainer.
 	self toConfiguration startAlignment: aNumber.
-	self requestConfiguration
+	self requestConfiguration.
+	self requestNewSkin
 ]
 
 { #category : #'t - triplet element - accessing' }
@@ -356,7 +363,8 @@ TToTripletElement >> startElement: anElement [
 	startElement ifNotNil: [
 		self checkStartContainer.
 		startContainer addChild: startElement ].
-	self requestConfiguration
+	self requestConfiguration.
+	self requestNewSkin
 ]
 
 { #category : #'t - triplet element - accessing' }
@@ -376,7 +384,8 @@ TToTripletElement >> startFlexible: aBoolean [
 
 	self startFlexible = aBoolean ifTrue: [ ^ self ].
 	self toConfiguration startFlexible: aBoolean.
-	self requestConfiguration
+	self requestConfiguration.
+	self requestNewSkin
 ]
 
 { #category : #'t - triplet element - accessing' }
@@ -396,5 +405,6 @@ TToTripletElement >> startInterspace: aNumber [
 
 	self startInterspace = aNumber ifTrue: [ ^ self ].
 	self toConfiguration startInterspace: aNumber.
-	self requestConfiguration
+	self requestConfiguration.
+	self requestNewSkin
 ]

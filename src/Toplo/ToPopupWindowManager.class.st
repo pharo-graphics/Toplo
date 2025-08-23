@@ -243,7 +243,6 @@ ToPopupWindowManager >> mouseUpOutsideEvent: anEvent [
 	anEvent emitter = pickOutsideFilter ifFalse: [ ^ self ].
 	checkPickOutside ifFalse: [ ^ self ].
 	self isInline ifTrue: [ ^ self ].
-	self unqueuePopupTaskFromEvent: anEvent sourceEvent. 
 	self forceCloseWindowOnEvent: anEvent sourceEvent
 ]
 
@@ -369,20 +368,18 @@ ToPopupWindowManager >> startStillHoveredEvent: anEvent [
 	" first I have to test if I'am concerned by this event "
 
 	anEvent emitter = delayedPopupHandler ifFalse: [ ^ self ].
-	self popupEvent: anEvent sourceEvent copy
+	self popupEvent: anEvent sourceEvent
 ]
 
 { #category : #'event handling' }
 ToPopupWindowManager >> startStillPressedEvent: anEvent [
 	" first I have to test if I'am concerned by this event "
-
 	anEvent emitter = delayedPopupHandler ifFalse: [ ^ self ].
 	windowBuilder ifNil: [ ^ self ].
 	anEvent sourceEvent button = mouseButton ifFalse: [ ^ self ].
-	currentWindow ifNil: [
-			self unqueuePopupTaskFromEvent: anEvent sourceEvent.
-			^ self popupEvent: anEvent sourceEvent copy ].
-	self isInline ifTrue: [ currentWindow close ]
+	currentWindow ifNil: [ ^ self popupEvent: anEvent sourceEvent copy].
+	self isInline ifTrue: [ currentWindow close ].
+
 ]
 
 { #category : #'event handling' }

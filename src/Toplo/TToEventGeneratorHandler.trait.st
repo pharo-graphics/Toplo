@@ -29,7 +29,6 @@ TToEventGeneratorHandler >> initializeAsEventGeneratorHandler [
 { #category : #'t - event generator handler' }
 TToEventGeneratorHandler >> mouseUpOutsideEvent: anEvent [
 
-	anEvent emitter = mouseUpOutsideFilter ifFalse: [ ^ self ].
 	self stopEvent: anEvent
 ]
 

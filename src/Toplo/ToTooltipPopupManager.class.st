@@ -27,7 +27,6 @@ ToTooltipPopupManager >> defaultPopupDelay [
 ToTooltipPopupManager >> initialize [
 
 	super initialize.
-	upCountRequired := 0.
 	closeOnMouseReleased := true.
 	closeOnMouseLeaved := true.
 	popupOnPressed := false.

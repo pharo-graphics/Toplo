@@ -7,8 +7,7 @@ Class {
 { #category : #'window handling' }
 ToMenuPopupManager >> beInline [ 
 
-	windowStarter := ToInlineMenuStarter new.
-	self unplugPickOutsideFilter
+	super beInline.
 	anchorElement openOnHovered: false
 ]
 
@@ -57,18 +56,30 @@ ToMenuPopupManager >> inlineWindowClass [
 ]
 
 { #category : #'event handling' }
+ToMenuPopupManager >> isPickedOutsideEvent: anEvent [
+	" return true if the event is considered as a pick outside event "
+
+	| target |
+	target := anEvent target.
+	(target firstInParentChainSatisfying: [ :e |
+		 e isKindOf: ToAnchoredWindow ]) ifNotNil: [ :w |
+		target := w anchorElement ].
+	target ifNil: [ ^ super isPickedOutsideEvent: anEvent ].
+	(target hasAnyInParentChainSatisfying: [ :e |
+		 e isKindOf: ToMenuItemElement ]) ifTrue: [ ^ false ].
+	^ super isPickedOutsideEvent: anEvent
+]
+
+{ #category : #'event handling' }
 ToMenuPopupManager >> mouseEnterEvent: anEvent [
 
 	anchorElement itemBar secondarySelecter deselectAll
 ]
 
-{ #category : #'event handling' }
-ToMenuPopupManager >> mouseUpOutsideEvent: anEvent [
+{ #category : #'window handling' }
+ToMenuPopupManager >> newInlineWindowStarter [ 
 
-	super mouseUpOutsideEvent: anEvent.
-	anEvent emitter = pickOutsideFilter ifFalse: [ ^ self ].
-	anchorElement menuPaneDo: [ :mb |
-		mb cancelAutoOpen ]
+	^ ToInlineMenuStarter new
 ]
 
 { #category : #'window handling' }
@@ -79,6 +90,14 @@ ToMenuPopupManager >> newWindow [
 	self anchorElement isSubmenu ifTrue: [
 		self anchorRoot: self anchorElement parentMenu manager anchorRoot ].
 	^ w
+]
+
+{ #category : #'event handling' }
+ToMenuPopupManager >> onMouseUpOutsideEvent: anEvent [
+
+	super onMouseUpOutsideEvent: anEvent.
+	anchorElement menuPaneDo: [ :mb |
+		mb cancelAutoOpen ]
 ]
 
 { #category : #'window handling' }
@@ -93,12 +112,6 @@ ToMenuPopupManager >> onWindowOpened [
 
 	super onWindowOpened.
 	anchorElement itemBar requestFocus
-]
-
-{ #category : #'window handling' }
-ToMenuPopupManager >> pickOutsideFilterClass [ 
-
-	^ ToMenuPickOutsideEventFilter
 ]
 
 { #category : #accessing }

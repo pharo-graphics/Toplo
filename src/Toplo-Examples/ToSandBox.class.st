@@ -8425,7 +8425,7 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 				event consume.
 				editedLabel popupEditorEvent: event ];
 			whenEditorOpenedDo: [ :editorEvent |
-				window preventPickOutsideClosing.
+				window preventPickOutside.
 				editorEvent editorElement addStamp: #preformatted.
 				editorEvent editorElement whenCancelRequestedDo: [ :cancelRequest |
 						text := origString asRopedText.
@@ -8435,7 +8435,7 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 				editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
 						editorEvent target text: acceptedEvent target text.
 						text := acceptedEvent target text ] ];
-			whenEditorClosedDo: [ :event | window allowPickOutsideClosing ].
+			whenEditorClosedDo: [ :event | window allowPickOutside ].
 
 		resetBtn := ToButton new
 			            labelText: 'Reset';

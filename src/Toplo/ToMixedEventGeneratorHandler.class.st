@@ -1,8 +1,6 @@
 Class {
 	#name : #ToMixedEventGeneratorHandler,
-	#superclass : #BlCustomEventHandler,
-	#traits : 'TToEventGeneratorHandler',
-	#classTraits : 'TToEventGeneratorHandler classTrait',
+	#superclass : #ToEventGeneratorHandler,
 	#instVars : [
 		'startEventClass',
 		'stopEventClass',

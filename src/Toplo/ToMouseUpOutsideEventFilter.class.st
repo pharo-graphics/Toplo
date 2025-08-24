@@ -32,25 +32,15 @@ ToMouseUpOutsideEventFilter >> mouseUpEvent: anEvent [
 	do nothing if the original event target is inside my target 
 	"
 
-	holder ifNil: [ ^ self ].
-	" I'm a one shot event filter, so remove myself as an event filter here"
-	holder removeEventFilter: self.
-
 	element space ifNil: [ " if my target is removed
 		This can be the case if the parent is removed "
-			holder := nil.
+			holder ifNotNil: [ :h | h removeEventFilter: self ].
 			^ self ].
 
-	" do nothing if it is inside my element "
-	(anEvent target withAllParentsInclude: element) ifTrue: [ ^ self ].
+	""" do nothing if it is inside my element ""
+	(anEvent target withAllParentsInclude: element) ifTrue: [ ^ self ]."
 
-	" ouside, consume mouse up and launch mouse up outside "
-	"anEvent consume."
-	element dispatchEvent: (ToMouseUpOutsideEvent new
-			 sourceEvent: anEvent;
-			 emitter: self;
-			 fillFromTime: element space time;
-			 yourself)
+	self onMouseUpEvent: anEvent
 ]
 
 { #category : #'api - hooks' }
@@ -58,6 +48,19 @@ ToMouseUpOutsideEventFilter >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	holder := anElement
+]
+
+{ #category : #'mouse handlers' }
+ToMouseUpOutsideEventFilter >> onMouseUpEvent: anEvent [
+
+	" ouside, consume mouse up and launch mouse up outside "
+	"anEvent consume."
+
+	element dispatchEvent: (ToMouseUpOutsideEvent new
+			 sourceEvent: anEvent;
+			 emitter: self;
+			 fillFromTime: element space time;
+			 yourself)
 ]
 
 { #category : #'api - hooks' }

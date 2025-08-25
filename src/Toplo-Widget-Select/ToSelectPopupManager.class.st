@@ -9,17 +9,6 @@ Class {
 	#category : #'Toplo-Widget-Select-manager'
 }
 
-{ #category : #'window handling' }
-ToSelectPopupManager >> checkCloseWindowOnEvent: anEvent [
-	" don't autoclose if mouse up on a filter textfield "
-
-	| target |
-	target := anEvent target.
-	(target withAllParentsInclude: anchorElement filterTextField)
-		ifTrue: [ ^ self ].
-	super checkCloseWindowOnEvent: anEvent
-]
-
 { #category : #initialization }
 ToSelectPopupManager >> defaultMaxHeight [
 
@@ -49,6 +38,12 @@ ToSelectPopupManager >> defaultPlacement [
 			  theWin position:
 					  (theElem bounds inParent: theRoot) bounds bottomLeft ];
 		  yourself
+]
+
+{ #category : #accessing }
+ToSelectPopupManager >> defaultWindowClass [
+
+	^ ToSelectPopupWindow 
 ]
 
 { #category : #accessing }
@@ -151,10 +146,15 @@ ToSelectPopupManager >> onWindowOpened [
 	self anchorElement onPopupWindowOpened
 ]
 
-{ #category : #accessing }
-ToSelectPopupManager >> popupWindowClass [
+{ #category : #'window handling' }
+ToSelectPopupManager >> requestCloseWindowOnEvent: anEvent [
+	" don't autoclose if mouse up on a filter textfield "
 
-	^ ToSelectPopupWindow 
+	| target |
+	target := anEvent target.
+	(target withAllParentsInclude: anchorElement filterTextField)
+		ifTrue: [ ^ self ].
+	super requestCloseWindowOnEvent: anEvent
 ]
 
 { #category : #accessing }

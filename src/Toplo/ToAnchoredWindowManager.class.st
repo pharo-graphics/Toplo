@@ -124,6 +124,12 @@ ToAnchoredWindowManager >> defaultWindowBuilder [
 	
 ]
 
+{ #category : #accessing }
+ToAnchoredWindowManager >> defaultWindowClass [
+
+	^ ToAnchoredWindow 
+]
+
 { #category : #initialization }
 ToAnchoredWindowManager >> defaultWindowStarter [
 
@@ -291,12 +297,6 @@ ToAnchoredWindowManager >> placement [
 ToAnchoredWindowManager >> placement: aPlacement [
 
 	placement := aPlacement
-]
-
-{ #category : #accessing }
-ToAnchoredWindowManager >> popupWindowClass [
-
-	^ ToAnchoredWindow 
 ]
 
 { #category : #'window handling' }

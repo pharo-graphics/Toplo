@@ -69,6 +69,12 @@ ToMenuItemElement >> hasIcon [
 ]
 
 { #category : #testing }
+ToMenuItemElement >> hasInlineWindow [
+
+	^ false
+]
+
+{ #category : #testing }
 ToMenuItemElement >> includes: anElement [
 
 	self allChildrenBreadthFirstDo: [ :e | e = anElement ifTrue: [ ^ true ] ].

@@ -11,16 +11,6 @@ ToMenuPopupManager >> beInline [
 	anchorElement openOnHovered: false
 ]
 
-{ #category : #'event handling' }
-ToMenuPopupManager >> canCloseWindowOnMouseDownEvent: anEvent [
-
-	| target |
-	target := anEvent currentTarget.
-	(target isInline or: [ target isInInlineWindow ]) ifTrue: [
-		^ true ].
-	^ super canCloseWindowOnMouseDownEvent: anEvent
-]
-
 { #category : #initialization }
 ToMenuPopupManager >> defaultMeasurement [
 
@@ -31,6 +21,12 @@ ToMenuPopupManager >> defaultMeasurement [
 ToMenuPopupManager >> defaultPlacement [
 
 	^ ToMenuPlacement new
+]
+
+{ #category : #accessing }
+ToMenuPopupManager >> defaultWindowClass [
+
+	^ ToMenuWindow
 ]
 
 { #category : #'api - accessing' }
@@ -112,10 +108,4 @@ ToMenuPopupManager >> onWindowOpened [
 
 	super onWindowOpened.
 	anchorElement itemBar requestFocus
-]
-
-{ #category : #accessing }
-ToMenuPopupManager >> popupWindowClass [
-
-	^ ToMenuWindow
 ]

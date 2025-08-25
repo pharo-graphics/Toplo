@@ -2185,8 +2185,8 @@ ToSandBox class >> example_EditableList2WithAllClassesNames [
 				 on: ToListStrongSelectionEvent
 				 do: [ :event |
 					 event indexes size == 1 ifTrue: [
-							 (l nodeAt: event indexes first) label popupEditorEvent: event ] ]);
-		withRowNumbers.
+							 (l nodeAt: event indexes first) label popupEditorEvent: event ] ]).
+	l	withRowNumbers.
 
 	l dataAccessor addAll:
 		(Smalltalk globals allClasses collect: [ :cls | cls -> cls name ]).
@@ -5174,7 +5174,6 @@ ToSandBox class >> example_ThemeSelectNoDeselection [
 
 	| select |
 	select := self themeSelect.
-	select closeOnPicking: true.
 	select placeholderString: 'Select a Toplo theme'.
 	select
 		addEventHandlerOn: ToSelectChangedEvent

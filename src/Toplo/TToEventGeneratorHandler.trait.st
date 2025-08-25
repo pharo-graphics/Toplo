@@ -65,6 +65,7 @@ TToEventGeneratorHandler >> startDelay: aDuration [
 TToEventGeneratorHandler >> startEvent: anEvent [
 
 	| target eventToUse |
+
 	checker ifNotNil: [ ^ self ].
 	target := anEvent currentTarget.
 	eventToUse := anEvent copy.

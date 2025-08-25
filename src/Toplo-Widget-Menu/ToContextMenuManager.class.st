@@ -10,6 +10,12 @@ ToContextMenuManager >> defaultPlacement [
 	^ ToAnchoredPickedPlacement new
 ]
 
+{ #category : #accessing }
+ToContextMenuManager >> defaultWindowClass [
+
+	^ ToContextMenu 
+]
+
 { #category : #'event handling' }
 ToContextMenuManager >> elementPositionInSpaceChangedEvent: anEvent [
 
@@ -40,12 +46,6 @@ ToContextMenuManager >> onWindowOpened [
 
 	super onWindowOpened.
 	currentWindow itemBar requestFocus
-]
-
-{ #category : #accessing }
-ToContextMenuManager >> popupWindowClass [
-
-	^ ToContextMenu 
 ]
 
 { #category : #accessing }

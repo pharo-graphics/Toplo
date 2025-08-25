@@ -37,9 +37,8 @@ ToMouseUpOutsideEventFilter >> mouseUpEvent: anEvent [
 			holder ifNotNil: [ :h | h removeEventFilter: self ].
 			^ self ].
 
-	""" do nothing if it is inside my element ""
-	(anEvent target withAllParentsInclude: element) ifTrue: [ ^ self ]."
-
+	" do nothing if it is inside my element "
+	(anEvent target withAllParentsInclude: element) ifTrue: [ ^ self ].
 	self onMouseUpEvent: anEvent
 ]
 

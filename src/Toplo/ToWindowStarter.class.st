@@ -34,5 +34,5 @@ ToWindowStarter >> stopWindow: aWindow fromManager: aManager [
 { #category : #accessing }
 ToWindowStarter >> windowClassFromManager: aManager [
 
-	^ aManager popupWindowClass 
+	^ aManager defaultWindowClass 
 ]

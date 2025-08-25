@@ -10,7 +10,7 @@ ToMenuBarFlowLayout >> measure: anElement with: anExtentSpec [
 	| menuBarOwner |
 	menuBarOwner := anElement listElement menuBarOwner.
 	" in case of an inline menu, the item minWidth is forced to be its menuBarOwner width"
-	menuBarOwner isInline ifTrue: [
+	menuBarOwner hasInlineWindow ifTrue: [
 		self minNodeWidth: menuBarOwner measuredWidth ].
 	super measure: anElement with: anExtentSpec
 ]

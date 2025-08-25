@@ -23,7 +23,7 @@ ToPopupWindowTest >> testElement [
 		                 :anchWin
 		                 :element |  ].
 	e addEventHandler: windowManager.
-	win := windowManager newWindowEvent: nil.
+	win := windowManager createNewWindowOnEvent: nil.
 	win popup.
 
 	self waitTestingSpaces.
@@ -34,7 +34,7 @@ ToPopupWindowTest >> testElement [
 	self assert: win isClosed.
 
 	self should: [ win popup ] raise: Error.
-	win := windowManager newWindowEvent: nil.
+	win := windowManager createNewWindowOnEvent: nil.
 	win popup.
 	self waitTestingSpaces.
 	self assert: win anchorElement equals: e.

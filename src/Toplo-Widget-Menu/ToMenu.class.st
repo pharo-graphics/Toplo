@@ -91,10 +91,10 @@ ToMenu >> initialize [
 	self addEventHandler: windowManager
 ]
 
-{ #category : #testing }
+{ #category : #'t - menu window model' }
 ToMenu >> isInline [
 
-	^ self manager isInline
+	^ super isInline
 ]
 
 { #category : #accessing }

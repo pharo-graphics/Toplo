@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #testing }
-ToInlineWindowStarter >> isInline [
+ToInlineWindowStarter >> isForInlineWindow [
 
 	^ true
 ]

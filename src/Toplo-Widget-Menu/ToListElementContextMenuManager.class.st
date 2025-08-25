@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'window handling' }
-ToListElementContextMenuManager >> newWindowRequestFrom: anEvent [
+ToListElementContextMenuManager >> newWindowRequestOnEvent: anEvent [
 	" as an example, sent from my mouseDownEvent: "
 
 	|  selectionModel |
@@ -14,7 +14,7 @@ ToListElementContextMenuManager >> newWindowRequestFrom: anEvent [
 	" pass the selection model to the event for the context menu window builder.
 	see ToAnchoredWindowManager>>newWindowEvent: "
 
-	^ (super newWindowRequestFrom: anEvent)
+	^ (super newWindowRequestOnEvent: anEvent)
 		  selectionModel: selectionModel;
 		  yourself
 ]

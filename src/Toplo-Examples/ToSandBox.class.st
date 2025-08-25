@@ -5406,6 +5406,7 @@ ToSandBox class >> example_TooltipPopupOnMouseDown [
 	but tooltipManagerDo: [ :m |
 			m popupOnPressed: true.
 			m popupOnHovered: true.
+			m closeOnMouseLeaved: false.
 			m popupDelay: 500 milliSeconds ].
 	but labelText: 'Button with tooltip'.
 	but tooltipBuilder: [ :window :request |
@@ -6036,7 +6037,7 @@ ToSandBox class >> example_elementWithEditor [
 	editorWindowManager := ToContentEditorManager new.
 	e addEventHandler: editorWindowManager.
 	e addEventHandlerOn: BlClickEvent do: [ :event |
-		(editorWindowManager newWindowEvent: event) ifNotNil: [ :win |
+		(editorWindowManager createNewWindowOnEvent: event) ifNotNil: [ :win |
 			win popupEvent: event ] ].
 	e openInSpace
 ]
@@ -7015,7 +7016,7 @@ ToSandBox class >> example_overlayWindow1 [
 					 text: 'Click to close me';
 					 yourself) ].
 	e openInInnerWindow.
-	(windowManager newWindowEvent: nil) popup
+	(windowManager createNewWindowOnEvent: nil) popup
 ]
 
 { #category : #window }
@@ -7047,7 +7048,7 @@ ToSandBox class >> example_overlayWindow2 [
 			anchWin background: Color red.
 			anchWin border: (BlBorder paint: Color black width: 2) ].
 	e openInInnerWindow.
-	(windowManager newWindowEvent: nil) popup
+	(windowManager createNewWindowOnEvent: nil) popup
 ]
 
 { #category : #window }

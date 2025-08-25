@@ -18,7 +18,7 @@ ToAnchoredWindowManagerTest >> testCloseWindow [
 		                 :anchWin
 		                 :request |  ].
 	e addEventHandler: windowManager.
-	win := windowManager newWindowEvent: nil.
+	win := windowManager createNewWindowOnEvent: nil.
 	win popup.
 	self waitTestingSpaces.
 	self assert: win isOpened.
@@ -37,7 +37,7 @@ ToAnchoredWindowManagerTest >> testCurrentWindow [
 		                 :element |  ].
 	e addEventHandler: windowManager.
 	self assert: windowManager currentWindow isNil.
-	win := windowManager newWindowEvent: nil.
+	win := windowManager createNewWindowOnEvent: nil.
 	self assert: windowManager currentWindow identicalTo: win.
 	win popup.
 	self waitTestingSpaces.
@@ -58,7 +58,7 @@ ToAnchoredWindowManagerTest >> testDefaultPositionHook [
 		                 :anchWin
 		                 :element |  ].
 	e addEventHandler: windowManager.
-	win := windowManager newWindowEvent: nil.
+	win := windowManager createNewWindowOnEvent: nil.
 	win popup.
 	self waitTestingSpaces.
 	self
@@ -87,12 +87,12 @@ ToAnchoredWindowManagerTest >> testElement [
 		                 :element |  ].
 	e addEventHandler: windowManager.
 	" create the window -> plug-in the window handler "
-	win := windowManager newWindowEvent: nil.
+	win := windowManager createNewWindowOnEvent: nil.
 
 	self assert: win anchorElement identicalTo: e.
 
 	" a window handler can be used only for one window  "
-	self should: [ windowManager newWindowEvent: nil ] raise: Error.
+	self should: [ windowManager createNewWindowOnEvent: nil ] raise: Error.
 	win addEventHandler: (BlEventHandler
 			 on: ToOpenedEvent
 			 do: [ :event | openEventFromWindow := event ]).
@@ -145,7 +145,7 @@ ToAnchoredWindowManagerTest >> testElementEventHandlerClass [
 		                 :anchWin
 		                 :element |  ].
 	e addEventHandler: windowManager.
-	win := windowManager newWindowEvent: nil.
+	win := windowManager createNewWindowOnEvent: nil.
 	win popup.
 	self waitTestingSpaces.
 	self assert: win anchorElement equals: e.
@@ -173,7 +173,7 @@ ToAnchoredWindowManagerTest >> testElementPositionInSpaceChangedEvent [
 		                 :anchWin
 		                 :element |  ].
 	e addEventHandler: windowManager.
-	win := windowManager newWindowEvent: nil.
+	win := windowManager createNewWindowOnEvent: nil.
 	win popup.
 	self waitTestingSpaces.
 	self waitTestingSpaces.
@@ -202,7 +202,7 @@ ToAnchoredWindowManagerTest >> testElementRemovedFromParentEvent [
 		                 :anchWin
 		                 :element |  ].
 	e addEventHandler: windowManager.
-	win := windowManager newWindowEvent: nil.
+	win := windowManager createNewWindowOnEvent: nil.
 	win popup.
 	closed := false.
 	win addEventHandler: (BlEventHandler
@@ -232,7 +232,7 @@ ToAnchoredWindowManagerTest >> testHasWindow [
 		                 :element |  ].
 	e addEventHandler: windowManager.
 	self deny: windowManager hasWindow.
-	win := windowManager newWindowEvent: nil.
+	win := windowManager createNewWindowOnEvent: nil.
 	self assert: windowManager hasWindow.
 	win popup.
 	self waitTestingSpaces.
@@ -251,13 +251,13 @@ ToAnchoredWindowManagerTest >> testNewWindowEvent [
 		                 :anchWin
 		                 :element |  ].
 	" no element -> Error "
-	self should: [ windowManager newWindowEvent: nil ] raise: Error.
+	self should: [ windowManager createNewWindowOnEvent: nil ] raise: Error.
 	e addEventHandler: windowManager.
 	self assert: windowManager currentWindow isNil.
-	win := windowManager newWindowEvent: nil.
+	win := windowManager createNewWindowOnEvent: nil.
 	self assert: windowManager currentWindow identicalTo: win.
 	" the window is already built -> Error "
-	self should: [ windowManager newWindowEvent: nil ] raise: Error
+	self should: [ windowManager createNewWindowOnEvent: nil ] raise: Error
 ]
 
 { #category : #tests }
@@ -268,10 +268,10 @@ ToAnchoredWindowManagerTest >> testNewWindowEvent2 [
 	space root addChild: e.
 	windowManager := ToAnchoredWindowManagerForTest new.
 	e addEventHandler: windowManager.
-	win1 := windowManager newWindowEvent: nil.
+	win1 := windowManager createNewWindowOnEvent: nil.
 	self assert: windowManager currentWindow identicalTo: win1.
 	" the window is already built -> Error "
-	self should: [ windowManager newWindowEvent: nil ] raise: Error.
+	self should: [ windowManager createNewWindowOnEvent: nil ] raise: Error.
 	" the window is closed, closing it with #closWindow has no effect "
 	windowManager closeWindow.
 ]
@@ -300,7 +300,7 @@ ToAnchoredWindowManagerTest >> testPositionHook [
 		                 :anchWin
 		                 :element |  ].
 	e addEventHandler: windowManager.
-	win := windowManager newWindowEvent: nil.
+	win := windowManager createNewWindowOnEvent: nil.
 	win popup.
 	self waitTestingSpaces.
 	self waitTestingSpaces.
@@ -329,7 +329,7 @@ ToAnchoredWindowManagerTest >> testPositionHook2 [
 		                 :anchWin
 		                 :element |  ].
 	e addEventHandler: windowManager.
-	win := windowManager newWindowEvent: nil.
+	win := windowManager createNewWindowOnEvent: nil.
 	win popup.
 	self waitTestingSpaces.
 	self waitTestingSpaces.
@@ -369,7 +369,7 @@ ToAnchoredWindowManagerTest >> testPositionHook3 [
 			 action: [ :theWin :evt :aBoundsUpdater | theWin position: 30 @ 30 ];
 			 yourself).
 
-	win := windowManager newWindowEvent: nil.
+	win := windowManager createNewWindowOnEvent: nil.
 
 	win popup.
 	self waitTestingSpaces.
@@ -398,7 +398,7 @@ ToAnchoredWindowManagerTest >> testWindowBuilder [
 		                 builder.
 	self assert: windowManager windowBuilder identicalTo: builder.
 	e addEventHandler: windowManager.
-	win := windowManager newWindowEvent: nil.
+	win := windowManager createNewWindowOnEvent: nil.
 	self assert: win root children size equals: 1.
 	self assert: win root firstChild id asSymbol identicalTo: #child.
 	win popup.

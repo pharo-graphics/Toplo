@@ -10,7 +10,7 @@ Trait {
 { #category : #'t - anchored window element - testing' }
 TToAnchoredWindowElement >> allowPickOutside [
 
-	self manager allowPickOutside
+	self manager checkPickOutside: true
 ]
 
 { #category : #'t - anchored window element - accessing' }
@@ -190,7 +190,7 @@ TToAnchoredWindowElement >> positionOnEvent: anEvent context: aBlElementBoundsUp
 { #category : #'t - anchored window element - displaying' }
 TToAnchoredWindowElement >> preventPickOutside [
 
-	self manager preventPickOutside
+	self manager checkPickOutside: false
 ]
 
 { #category : #'t - anchored window element - private layout' }

@@ -10,7 +10,8 @@ ToMultiSelectPopupManager >> checkCloseWindowOnEvent: anEvent [
 
 	| target |
 	target := anEvent target.
-	(target withAllParentsInclude: anchorElement barElement) ifTrue: [ ^ self ].
+	(target withAllParentsInclude: anchorElement barElement) ifTrue: [
+		^ self ].
 	super checkCloseWindowOnEvent: anEvent
 ]
 

@@ -350,7 +350,7 @@ ToLabel >> popupEditorEvent: anEvent [
 	" prepare the window with the editor and open it"
 
 	self hasEditor ifTrue: [ ^ self ].
-	(editorWindowManager newWindowEvent: anEvent) ifNotNil: [ :win |
+	(editorWindowManager createNewWindowOnEvent: anEvent) ifNotNil: [ :win |
 		win popupEvent: anEvent ]
 ]
 

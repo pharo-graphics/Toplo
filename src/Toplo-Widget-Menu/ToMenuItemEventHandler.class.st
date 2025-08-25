@@ -76,11 +76,10 @@ ToMenuItemEventHandler >> onPickingEvent: anEvent [
 	target closeOnPicking ifFalse: [ ^ self ].
 	target parentMenuDo: [ :p | p closeOnPicking ifFalse: [ ^ self ] ].
 	target isInline ifTrue: [ ^ self ].
-	target rootMenuDo: [ :rm | 
-		" ask the window manager because 
+	target rootMenuDo: [ :rm | " ask the window manager because 
 		it can manage the timestamp and finally can decide 
 		to not close the menu window or to stop a delayed task"
-		rm manager ifNotNil: [:m | m checkCloseWindowOnEvent: anEvent ] ]
+		rm manager ifNotNil: [ :m | m checkCloseWindowOnEvent: anEvent ] ]
 ]
 
 { #category : #'api - hooks' }

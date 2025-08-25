@@ -284,7 +284,7 @@ TToTripletElement >> newFiller [
 { #category : #'t - triplet element - instance creation' }
 TToTripletElement >> newFrameContainer [
 
-	^ BlElement new
+	^ ToElement new
 		  constraintsDo: [ :c |
 			  c horizontal fitContent.
 			  c vertical fitContent.

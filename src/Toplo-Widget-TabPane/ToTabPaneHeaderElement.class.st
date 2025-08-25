@@ -94,6 +94,35 @@ ToTabPaneHeaderElement >> noAlignment [
 	self alignment: BlElementAlignment null
 ]
 
+{ #category : #layout }
+ToTabPaneHeaderElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
+
+	| w |
+	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
+	"w := self endContainer measuredBounds inSpace left - self startContainer measuredBounds inSpace right.
+	w trace.' ' trace. self trackElement measuredWidth trace. 
+	(self trackElement measuredWidth <= w)
+		ifTrue: [ 
+			' fitContent' traceCr.
+			self trackElement parent hFitContent. 
+			self trackElement parent parent hFitContent.
+			self trackElement parent parent parent hFitContent.
+			self trackElement parent parent parent parent hFitContent ]
+		ifFalse: [ 
+			' matchParent' traceCr.
+			self trackElement parent hMatchParent. 
+			self trackElement parent parent hMatchParent.
+			self trackElement parent parent parent hMatchParent.
+			self trackElement parent parent parent parent hMatchParent]"
+]
+
+{ #category : #layout }
+ToTabPaneHeaderElement >> onMeasure: anExtentMeasurementSpec [
+
+	super onMeasure: anExtentMeasurementSpec.
+
+]
+
 { #category : #accessing }
 ToTabPaneHeaderElement >> startExtraBuilder: aValuable [
 
@@ -104,4 +133,10 @@ ToTabPaneHeaderElement >> startExtraBuilder: aValuable [
 ToTabPaneHeaderElement >> tabGroup [ 
 
 	^ tabGroup
+]
+
+{ #category : #accessing }
+ToTabPaneHeaderElement >> trackElement [
+
+	^ self middleElement trackElement
 ]

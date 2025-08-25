@@ -81,6 +81,12 @@ ToTabPaneElement >> header [
 	^ headerContainer 
 ]
 
+{ #category : #accessing }
+ToTabPaneElement >> hidePartlyVisibleNodes: aBoolean [
+
+	self tabGroup hidePartlyVisibleNodes: aBoolean
+]
+
 { #category : #initialization }
 ToTabPaneElement >> initialize [
 

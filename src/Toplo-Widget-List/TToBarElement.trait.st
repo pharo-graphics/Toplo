@@ -44,6 +44,12 @@ TToBarElement >> sample: aDataItem [
 ]
 
 { #category : #'t - bar element' }
+TToBarElement >> trackElement [
+
+	^ self innerElement trackElement
+]
+
+{ #category : #'t - bar element' }
 TToBarElement >> uninstallFakeNode [
 
 	self innerElement uninstallFakeNode

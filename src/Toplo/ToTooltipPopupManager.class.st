@@ -1,26 +1,11 @@
 Class {
 	#name : #ToTooltipPopupManager,
 	#superclass : #ToPopupWindowManager,
-	#instVars : [
-		'closeOnMouseLeave'
-	],
 	#category : #'Toplo-Core-Tooltip'
 }
 
-{ #category : #accessing }
-ToTooltipPopupManager >> closeOnMouseLeave: aBoolean [
-
-	closeOnMouseLeave := aBoolean
-]
-
-{ #category : #accessing }
-ToTooltipPopupManager >> defaultAutoPopupDelay [
-
-	^ 700 milliSeconds
-]
-
-{ #category : #initialization }
-ToTooltipPopupManager >> defaultCloseOnPicking [
+{ #category : #'event handling' }
+ToTooltipPopupManager >> consumeEventAfterForcedClosing [
 
 	^ false
 ]
@@ -31,46 +16,22 @@ ToTooltipPopupManager >> defaultPlacement [
 	^ ToTooltipPlacement new
 ]
 
-{ #category : #'api - accessing' }
-ToTooltipPopupManager >> eventsToHandle [
+{ #category : #initialization }
+ToTooltipPopupManager >> defaultPopupDelay [
+	" popup the window after this delay "
 
-	^ super eventsToHandle , { BlMouseLeaveEvent }
+	^ 700 milliSeconds
 ]
 
 { #category : #initialization }
 ToTooltipPopupManager >> initialize [
 
 	super initialize.
-	self useNoMouseButton.
-	closeOnMouseLeave := true.
-	upCountRequired := 0
-]
-
-{ #category : #'event handling' }
-ToTooltipPopupManager >> mouseLeaveEvent: anEvent [
-
-	self unqueuePopupTaskFromEvent: anEvent.
-	closeOnMouseLeave ifFalse: [ ^ self ].
-	self closeWindow
-
-]
-
-{ #category : #'window handling' }
-ToTooltipPopupManager >> onAutoClosedOnEvent: anEvent [
-]
-
-{ #category : #'api - hooks' }
-ToTooltipPopupManager >> onInstalledIn: anElement [
-
-	super onInstalledIn: anElement.
-	self autoPopupDelay: self defaultAutoPopupDelay 
-	 
-]
-
-{ #category : #accessing }
-ToTooltipPopupManager >> popupOnMouseDown [
-
-	^ false
+	upCountRequired := 0.
+	closeOnMouseReleased := true.
+	closeOnMouseLeaved := true.
+	popupOnPressed := false.
+	popupOnHovered := true
 ]
 
 { #category : #accessing }

@@ -29,7 +29,7 @@ TToMenuItemBarContainer >> closeAllWindowsForItemsSatisfying: aBlock [
 ]
 
 { #category : #'t - menu item bar container  - initialization' }
-TToMenuItemBarContainer >> initializeAsMenuItemListOwner [ 
+TToMenuItemBarContainer >> initializeAsMenuItemBarContainer [ 
 
 	self itemBar menuBarOwner: self
 ]
@@ -65,7 +65,7 @@ TToMenuItemBarContainer >> onAddedMenuPane: aMenuPane [
 	self onAddedMenuItem: aMenuPane.
 	aMenuPane isSubPane: true.
 	aMenuPane unselectable: true.
-	self requestNewConfiguration.
+	self requestConfiguration.
 
 ]
 
@@ -111,7 +111,7 @@ TToMenuItemBarContainer >> onRemovedMenuPane: aMenuPane [
 		aMenuPane positionInBar.
 	aMenuPane isSubPane: false.
 	self onRemovedMenuItem: aMenuPane.
-	self requestNewConfiguration.
+	self requestConfiguration.
 
 
 ]

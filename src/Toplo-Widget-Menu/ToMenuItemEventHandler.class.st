@@ -17,7 +17,7 @@ ToMenuItemEventHandler >> eventsToHandle [
 ToMenuItemEventHandler >> linkActionRunnedEvent: anEvent [
 	" check event and current target "
 
-	self onPickingEvent: anEvent
+	"self onPickingEvent: anEvent"
 ]
 
 { #category : #'mouse handlers' }
@@ -54,14 +54,10 @@ ToMenuItemEventHandler >> mouseLeaveEvent: anEvent [
 
 { #category : #'mouse handlers' }
 ToMenuItemEventHandler >> mouseUpEvent: anEvent [
-	" check event and current target "
 
 	target isMenu ifTrue: [
 		target menuPaneDo: [ :mb | mb switchAutoOpen ] ].
-	" enqueue a task to close the menu. It is to ensure that the possible 
-	menu item link action is runned *** before *** the menu is closed "
-	target enqueueTask:
-		(BlTaskAction new action: [ self onPickingEvent: anEvent ])
+	self onPickingEvent: anEvent
 ]
 
 { #category : #'api - hooks' }
@@ -73,16 +69,18 @@ ToMenuItemEventHandler >> onInstalledIn: anElement [
 
 { #category : #'mouse handlers' }
 ToMenuItemEventHandler >> onPickingEvent: anEvent [
-	" check event and current target "
+	" a mouse up or down event is received. 
+	Close the menu if its closing is allowed from here "
 
 	target isEnabled ifFalse: [ ^ self ].
 	target closeOnPicking ifFalse: [ ^ self ].
+	target parentMenuDo: [ :p | p closeOnPicking ifFalse: [ ^ self ] ].
 	target isInline ifTrue: [ ^ self ].
 	target rootMenuDo: [ :rm | 
 		" ask the window manager because 
 		it can manage the timestamp and finally can decide 
 		to not close the menu window or to stop a delayed task"
-		rm manager ifNotNil: [:m | m checkCloseWindowOnPickingEvent: anEvent ] ]
+		rm manager ifNotNil: [:m | m checkCloseWindowOnEvent: anEvent ] ]
 ]
 
 { #category : #'api - hooks' }

@@ -12,19 +12,16 @@ ToSelectorInterpreterTest >> testPush [
 
 	| selector e engine theme |
 	selector := ToIdSelector new id: #'my-id'.
-	e := ToElementForStyleRuleTest new.
+	e := ToElement new.
 	e id: #'my-id'.
 	engine := ToSelectorInterpreter new.
 	" the result is false since the selector is exact by default "
 	engine check: selector on: e.
-	self assert: engine result.
-	self assert: e themeForSetup isNil.
-	
+	self assert: engine result.	
 	theme := ToThemeForStyleRuleTest new.
 	engine theme: theme.
 	engine check: selector on: e.
-	self assert: engine result.
-	self assert: e themeForSetup identicalTo: theme.
+	self assert: engine result
 
 	
 	
@@ -437,7 +434,7 @@ ToSelectorInterpreterTest >> testVisitParentSatisfyingSelector [
 	engine check: selector on: label.
 	self deny: engine result.
 	button label: label.
-	button applyWidgetConfiguration.
+	button applyConfiguration.
 
 	engine check: selector on: label.
 	self deny: engine result.
@@ -499,7 +496,7 @@ ToSelectorInterpreterTest >> testVisitParentSatisfyingSelector3 [
 	engine check: selector on: label.
 	self deny: engine result.
 	element label: label.
-	element applyWidgetConfiguration.
+	element applyConfiguration.
 
 	engine check: selector on: label.
 	self deny: engine result.
@@ -524,7 +521,7 @@ ToSelectorInterpreterTest >> testVisitParentSatisfyingSelector4 [
 	engine check: selector on: label.
 	self deny: engine result.
 	element label: label.
-	element applyWidgetConfiguration.
+	element applyConfiguration.
 
 	engine check: selector on: label.
 	self deny: engine result.
@@ -885,7 +882,7 @@ ToSelectorInterpreterTest >> testVisitTypeSelectorAndChildSelector [
 		            (ToTypeSelector new type: ToLabel).
 	e := ToLabeledIcon new.
 	e label: (ToLabel text: 'A').
-	e applyWidgetConfiguration.
+	e applyConfiguration.
 
 	engine := ToSelectorInterpreter new.
 	engine check: selector on: e.
@@ -898,7 +895,7 @@ ToSelectorInterpreterTest >> testVisitTypeSelectorAndParentSelector [
 	| selector e engine |
 	e := ToLabeledIcon new.
 	e label: (ToLabel text: 'A').
-	e applyWidgetConfiguration.
+	e applyConfiguration.
 
 	selector := (ToTypeSelector new type: ToLabel)
 		            withParent: (ToTypeSelector new type: ToLabeledIcon)

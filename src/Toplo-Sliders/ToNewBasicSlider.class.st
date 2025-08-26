@@ -1,3 +1,10 @@
+"
+This class represents a slider.
+
+This slider aims to be the foundation of a new slider for Toplo, its design is simple and its API aims to gather the basic behaviors of a slider.
+
+This slider was influenced by the `ToDesignSlider` and the `ToOldBasicSlider`.
+"
 Class {
 	#name : #ToNewBasicSlider,
 	#superclass : #ToElement,
@@ -11,28 +18,6 @@ Class {
 	],
 	#category : #'Toplo-Sliders-Core'
 }
-
-{ #category : #'as yet unclassified' }
-ToNewBasicSlider class >> simpleExample [
-
-	<script>
-	| slider textElt space |
-	slider := ToNewBasicSlider new
-		          position: 50 asPoint.
-
-	textElt := BlTextElement new
-		           position: 150 @ 100;
-		           text: 0.0 asRopedText.
-
-	space := BlSpace new.
-	space root addChildren: {
-			slider.
-			textElt }.
-
-	slider validatedValueCallback: [ :value |
-		textElt text: value asRopedText ].
-	space show
-]
 
 { #category : #private }
 ToNewBasicSlider >> currentValue [

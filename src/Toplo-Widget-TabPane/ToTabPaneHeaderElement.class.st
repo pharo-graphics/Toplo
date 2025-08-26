@@ -36,7 +36,7 @@ ToTabPaneHeaderElement >> alignment [
 ToTabPaneHeaderElement >> alignment: anElementAlignment [ 
 
 	alignment := anElementAlignment.
-	self requestNewConfiguration
+	self requestConfiguration
 ]
 
 { #category : #accessing }
@@ -56,6 +56,24 @@ ToTabPaneHeaderElement >> initialize [
 	self noAlignment 
 ]
 
+{ #category : #accessing }
+ToTabPaneHeaderElement >> isAlignEnd [
+
+	^ self alignment = BlElementAlignment end
+]
+
+{ #category : #accessing }
+ToTabPaneHeaderElement >> isAlignMiddle [
+
+	^ self alignment = BlElementAlignment middle
+]
+
+{ #category : #accessing }
+ToTabPaneHeaderElement >> isAlignStart [
+
+	^ self alignment = BlElementAlignment start
+]
+
 { #category : #'instance creation' }
 ToTabPaneHeaderElement >> newTabGroupElement [
 
@@ -65,7 +83,7 @@ ToTabPaneHeaderElement >> newTabGroupElement [
 ]
 
 { #category : #configuration }
-ToTabPaneHeaderElement >> newWidgetConfiguration [ 
+ToTabPaneHeaderElement >> newToConfiguration [ 
 
 	^ ToTabPaneHeaderConfiguration new
 ]

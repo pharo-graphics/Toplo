@@ -13,7 +13,7 @@ ToContextMenuManager >> defaultPlacement [
 { #category : #'event handling' }
 ToContextMenuManager >> elementPositionInSpaceChangedEvent: anEvent [
 
-	self currentWindowDo: [ :cw | cw close ] 
+	self closeWindow
 ]
 
 { #category : #initialization }
@@ -32,9 +32,9 @@ ToContextMenuManager >> newPickOutsideFilter [
 ]
 
 { #category : #'window handling' }
-ToContextMenuManager >> onOpened [
+ToContextMenuManager >> onWindowOpened [
 
-	super onOpened.
+	super onWindowOpened.
 	currentWindow itemBar requestFocus
 ]
 

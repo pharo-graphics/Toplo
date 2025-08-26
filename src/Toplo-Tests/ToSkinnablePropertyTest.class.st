@@ -28,7 +28,7 @@ ToSkinnablePropertyTest >> testWriteTo [
 	| w prop writer reader |
 	w := ToElement new.
 	BlSpace new root addChild: w.
-	self assert: w skinManager skinInstaller notNil.
+	self assert: w skinManager skinInstaller isNil.
 	prop := ToSkinnableProperty new.
 	writer := [ :e :v | e background: v ].
 	reader := [ :e | e background ].
@@ -51,6 +51,7 @@ ToSkinnablePropertyTest >> testWriteToWithDelegation [
 
 	| w prop writer reader |
 	w := ToLabeledIcon new.
+	BlSpace new root addChild: w.
 	w label: (ToLabel text: '').
 	self assert: w label text asString equals: '' asRopedText asString.
 	prop := ToSkinnableProperty new.
@@ -67,8 +68,6 @@ ToSkinnablePropertyTest >> testWriteToWithDelegation [
 	self
 		assert: (prop read: w) asString
 		equals: 'Hello' asRopedText asString.
-	self assert: w skinManager skinInstaller isNil.
-	BlSpace new root addChild: w.
 	self deny: w skinManager skinInstaller isNil
 ]
 

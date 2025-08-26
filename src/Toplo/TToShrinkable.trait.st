@@ -55,7 +55,7 @@ TToShrinkable >> checkedShrinkabilityOrientation [
 TToShrinkable >> checkedShrinkabilityOrientation: anOrientation [
 
 	checkedShrinkabilityOrientation := anOrientation.
-	self requestNewConfiguration
+	self requestConfiguration
 ]
 
 { #category : #'t - shrinkable' }
@@ -103,5 +103,5 @@ TToShrinkable >> shrinkTolerance [
 TToShrinkable >> shrinkTolerance: aNumber [
 
 	shrinkTolerance := aNumber.
-	self requestNewConfiguration 
+	self requestConfiguration 
 ]

@@ -4,11 +4,11 @@ Class {
 	#category : #'Toplo-Widget-Menu-Items'
 }
 
-{ #category : #initialization }
-ToSeparatorMenuItem >> applyWidgetConfiguration [
+{ #category : #configuration }
+ToSeparatorMenuItem >> applyConfiguration [
 	" Sent to let any menu item to adapt its resizer/layout  constraints before the node is added in the menu list. Notice that I am sent before the node adding + the selections shift is actually finished. Thus, this place is not adequate for changing one of the list selections (use #addedInMenu for that) "
 
-	super applyWidgetConfiguration.
+	super applyConfiguration.
 	self holderDo: [ :h |
 		h node matchParent.
 		h listElement isHorizontal
@@ -22,16 +22,11 @@ ToSeparatorMenuItem >> applyWidgetConfiguration [
 					c vertical exact: 1 ] ] ]
 ]
 
-{ #category : #'t - menu item' }
-ToSeparatorMenuItem >> closeOnPicking [ 
-
-	^ false
-]
-
 { #category : #initialization }
 ToSeparatorMenuItem >> initialize [
 
 	super initialize.
+	closeOnPicking := false.
 	self addChild: (ToElement new
 			 layout: BlLinearLayout new;
 			 yourself).

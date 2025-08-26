@@ -63,7 +63,7 @@ ToCheckboxSkin >> indeterminateSkinEvent: anEvent [
 		e icon
 			innerImage: (e valueOfTokenNamed: 'checkbox-indeterminate-image');
 			innerImageColor: (e valueOfTokenNamed: #'color-primary');
-			size: (e valueOfTokenNamed: #'checkable-icon-size') ]
+			extent: (e valueOfTokenNamed: #'checkable-icon-size') ]
 ]
 
 { #category : #'event handling' }
@@ -109,14 +109,6 @@ ToCheckboxSkin >> leftSkinEvent: anEvent [
 					ic innerImageColor: (e valueOfTokenNamed: #'color-primary') ].
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text') ].
-		e border: BlBorder empty ]
-]
-
-{ #category : #'event handling' }
-ToCheckboxSkin >> pressedSkinEvent: anEvent [
-
-	super pressedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
 		e border: BlBorder empty ]
 ]
 

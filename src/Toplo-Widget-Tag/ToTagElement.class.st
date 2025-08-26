@@ -7,9 +7,9 @@ Class {
 }
 
 { #category : #configuration }
-ToTagElement >> applyWidgetConfiguration [ 
+ToTagElement >> applyConfiguration [ 
 
-	super applyWidgetConfiguration.
+	super applyConfiguration.
 	self removeRemoveButton.
 	self isRemovable
 		ifTrue: [ self addRemoveButton ].
@@ -20,7 +20,6 @@ ToTagElement >> applyWidgetConfiguration [
 ToTagElement >> initialize [ 
 
 	super initialize.
-	self applySkinInstallerOnFirstRequest: true.
 	self takeFocusOnClick: false.
 	removable := false
 ]

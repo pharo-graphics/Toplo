@@ -34,17 +34,17 @@ ToSelectElement >> allowDeselection [
 ]
 
 { #category : #configuration }
-ToSelectElement >> applyWidgetConfiguration [ 
+ToSelectElement >> applyConfiguration [ 
 
-	super applyWidgetConfiguration.
+	super applyConfiguration.
 	self filterTextField selectFiltrable: filtrable.
 	sample ifNotNil: [ self innerElement sample: sample ]
 ]
 
 { #category : #'accessing - window' }
-ToSelectElement >> closeOnPicking [
+ToSelectElement >> closeOnItemPicking [
 
-	^ self manager closeOnPicking
+	^ true
 ]
 
 { #category : #'accessing - window' }
@@ -110,7 +110,7 @@ ToSelectElement >> filtrable [
 ToSelectElement >> filtrable: aBoolean [
 
 	filtrable := aBoolean.
-	self requestNewConfiguration
+	self requestConfiguration
 ]
 
 { #category : #accessing }
@@ -233,27 +233,11 @@ ToSelectElement >> newShortcutsStore [
 	^ ToSelectShortcutsStore new
 ]
 
-{ #category : #window }
-ToSelectElement >> onClosed [
-	self
-		deprecated: 'Use #onPopupWindowClosed'
-		transformWith: '`@rcvr onWindowClosed' -> '`@rcvr onPopupWindowClosed'.
-	self onPopupWindowClosed
-]
-
 { #category : #layout }
 ToSelectElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
 	"self class name trace. ' ' trace. 'onLayout: context:' traceCr"
-]
-
-{ #category : #window }
-ToSelectElement >> onOpened [
-	self
-		deprecated: 'Use #onPopupWindowOpened'
-		transformWith: '`@rcvr onWindowOpened' -> '`@rcvr onPopupWindowOpened'.
-	self onPopupWindowOpened
 ]
 
 { #category : #window }
@@ -353,7 +337,7 @@ ToSelectElement >> refresh [
 ToSelectElement >> sample: aDataItem [
 
 	sample := aDataItem.
-	self requestNewConfiguration
+	self requestConfiguration
 ]
 
 { #category : #accessing }

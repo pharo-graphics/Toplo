@@ -110,7 +110,7 @@ ToMenuItemSkin >> pressedSkinEvent: anEvent [
 
 	super pressedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-			self isTogglable ifFalse: [
+		self isTogglable ifFalse: [
 					e iconDo: [ :ic |
 						ic adaptToColor:
 							(e valueOfTokenNamed: #'color-primary-pressed') ].

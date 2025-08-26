@@ -13,7 +13,7 @@ TToElementWithTooltipTest >> testCloseTooltipOnMouseLeave [
 	| e |
 	e := ToElement new.
 	e extent: 50 @ 50.
-	e tooltipPopupDelay: 10 milliSeconds.
+	e tooltipManagerDo: [ :m | m popupDelay: 10 milliSeconds ].
 	space root addChild: e.
 	self assert: e currentTooltipWindow isNil.
 	e tooltipContent: (ToElement new
@@ -34,8 +34,8 @@ TToElementWithTooltipTest >> testCloseTooltipOnMouseLeave2 [
 	| e |
 	e := ToElement new.
 	e extent: 50 @ 50.
-	e closeTooltipOnMouseLeave: false.
-	e tooltipPopupDelay: 10 milliSeconds.
+	e tooltipManagerDo: [:m | m closeOnMouseLeaved: false ].
+	e tooltipManagerDo: [ :m | m popupDelay: 10 milliSeconds ].
 	space root addChild: e.
 	self assert: e currentTooltipWindow isNil.
 	e tooltipContent: (ToElement new
@@ -58,7 +58,7 @@ TToElementWithTooltipTest >> testCurrentTooltipWindow [
 	e tooltipContent: ToElement new.
 	self assert: e hasTooltip.
 	self assert: e currentTooltipWindow isNil.
-	e newTooltipWindowEvent: nil.
+	e rawTooltipWindowManager newWindowEvent: nil.
 	self assert: e currentTooltipWindow notNil.
 	self
 		assert: e currentTooltipWindow class
@@ -73,7 +73,7 @@ TToElementWithTooltipTest >> testHasOpenedTooltip [
 	e := ToElement new.
 	e tooltipContent: ToElement new.
 	self assert: e currentTooltipWindow isNil.
-	e newTooltipWindowEvent: nil.
+	e rawTooltipWindowManager newWindowEvent: nil.
 	self assert: e currentTooltipWindow notNil.
 	self
 		assert: e currentTooltipWindow class
@@ -87,7 +87,7 @@ TToElementWithTooltipTest >> testHasTooltip [
 	|  e  |
 	e := ToElement new.
 	self assert: e hasTooltip not.
-	self should: [e newTooltipWindowEvent: nil] raise: Error.
+	self should: [	e rawTooltipWindowManager newWindowEvent: nil ] raise: Error.
 	e tooltipContent: ToElement new.
 	self assert: e hasTooltip.
 	^ e
@@ -100,11 +100,11 @@ TToElementWithTooltipTest >> testNewTooltipWindowEvent [
 	e := ToElement new.
 	self assert: e currentTooltipWindow isNil.
 	self assert: e rawTooltipWindowManager isNil.
-	self should: [ e newTooltipWindowEvent: nil ] raise: Error.
+	self should: [	e rawTooltipWindowManager newWindowEvent: nil ] raise: Error.
 	e tooltipContent: ToElement new.
 	self assert: e hasTooltip.
 	self assert: e rawTooltipWindowManager notNil.
-	e newTooltipWindowEvent: nil.
+	e rawTooltipWindowManager newWindowEvent: nil.
 	self assert: e tooltipWindowManager currentWindow notNil.
 	self assert: e currentTooltipWindow identicalTo: e tooltipWindowManager currentWindow.
 	^ e
@@ -156,7 +156,7 @@ TToElementWithTooltipTest >> testTooltip [
 	self assert: e hasTooltip not.
 	e tooltip: [ :win :theRequest | win root addChild: tt ].
 	self assert: e hasTooltip.
-	ttwin := e newTooltipWindowEvent: nil.
+	ttwin := e rawTooltipWindowManager newWindowEvent: nil.
 	self assert: e currentTooltipWindow identicalTo: ttwin.
 	self assert: ttwin root firstChild identicalTo: tt.
 	self assert: ttwin anchorElement identicalTo: e.
@@ -198,8 +198,10 @@ TToElementWithTooltipTest >> testTooltipPopupDelay [
 	| e |
 	e := ToElement new.
 	e extent: 50 @ 50.
-	e tooltipPopupDelay: 100 milliSeconds.
-	self assert: e tooltipPopupDelay equals: 100 milliSeconds.
+
+	e tooltipManagerDo: [ :m | 
+		m popupDelay: 100 milliSeconds.
+		self assert: m popupDelay equals: 100 milliSeconds].
 	space root addChild: e.
 	e tooltipContent: (ToElement new
 			 extent: 20 @ 20;
@@ -225,7 +227,7 @@ TToElementWithTooltipTest >> testTooltipRequestEvent [
 	self assert: e hasTooltip not.
 	e tooltip: [:win :theRequest | win root addChild: tt. request := theRequest].
 	self assert: e hasTooltip.
-	ttwin := e newTooltipWindowEvent: nil.
+	ttwin := e rawTooltipWindowManager newWindowEvent: nil.
 	self assert: request class identicalTo: ttwin manager windowRequestClass.
 	self assert: request target identicalTo: e
 ]
@@ -239,7 +241,7 @@ TToElementWithTooltipTest >> testTooltipString [
 	self assert: e hasTooltip not.
 	e tooltipString: 'X'.
 	self assert: e hasTooltip.
-	ttwin := e newTooltipWindowEvent: nil.
+	ttwin := e rawTooltipWindowManager newWindowEvent: nil.
 	self assert: ttwin root firstChild notNil.
 	self assert: ttwin root firstChild text asString equals: 'X'.
 	^ e
@@ -254,7 +256,7 @@ TToElementWithTooltipTest >> testTooltipText [
 	self assert: e hasTooltip not.
 	e tooltipText: ('X' asRopedText).
 	self assert: e hasTooltip.
-	ttwin := e newTooltipWindowEvent: nil.
+	ttwin := e rawTooltipWindowManager newWindowEvent: nil.
 	self assert: ttwin root firstChild notNil.
 	self assert: (ttwin root firstChild isKindOf: ToLabel).
 	self assert: ttwin root firstChild text asString equals: 'X' asRopedText asString.
@@ -271,7 +273,7 @@ TToElementWithTooltipTest >> testTooltipWindowManager [
 	e tooltip: [ :win :theRequest | win root addChild: ToElement new ].
 	self assert: e hasTooltip.
 	self assert: e rawTooltipWindowManager notNil.
-	e newTooltipWindowEvent: nil.
+	e rawTooltipWindowManager newWindowEvent: nil.
 	self assert: e tooltipWindowManager currentWindow notNil.
 	self assert: e tooltipWindowManager anchorElement identicalTo: e.
 	^ e

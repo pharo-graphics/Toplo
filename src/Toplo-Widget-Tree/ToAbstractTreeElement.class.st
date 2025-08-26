@@ -42,12 +42,6 @@ ToAbstractTreeElement >> defaultDataSource [
 	^ ToTreeDataSource new
 ]
 
-{ #category : #initialization }
-ToAbstractTreeElement >> defaultInnerElement [
-
-	^ ToInfiniteElement onListElement: self
-]
-
 { #category : #'expanding-collapsing' }
 ToAbstractTreeElement >> expandAll [
 

@@ -10,9 +10,9 @@ Class {
 }
 
 { #category : #configuration }
-ToItemBarElement >> applyWidgetConfiguration [ 
+ToItemBarElement >> applyConfiguration [ 
 
-	super applyWidgetConfiguration.
+	super applyConfiguration.
 	self applyItemListConfiguration
 ]
 

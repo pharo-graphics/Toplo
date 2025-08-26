@@ -39,22 +39,22 @@ ToTabGroupElement >> addTabItemData: aData [
 	" add the new item before building it to allow the builder to use the item holder "
 	self addItem: newTabItem.
 	itemBuilder cull: newTabItem cull: aData cull: self.
-	newTabItem holder node requestNewConfiguration
+	newTabItem holder node requestConfiguration
 
 ]
 
 { #category : #accessing }
 ToTabGroupElement >> atStartSide [
 
-	^ self widgetConfiguration atStartSide
+	^ self toConfiguration atStartSide
 ]
 
 { #category : #accessing }
 ToTabGroupElement >> atStartSide: aBoolean [
 
 	self atStartSide = aBoolean ifTrue: [ ^ self ].
-	self widgetConfiguration atStartSide: aBoolean.
-	self requestNewConfiguration
+	self toConfiguration atStartSide: aBoolean.
+	self requestConfiguration
 ]
 
 { #category : #initialization }
@@ -147,7 +147,7 @@ ToTabGroupElement >> initialize [
 
 	super initialize.
 	self resetInvisibleNodes.
-	self initializeAsItemBarOwner.
+	self initializeAsItemBarContainer.
 	self initializeParts.
 	self itemBar addEventHandler:
 		(ToTabBarInGroupElementEventHandler new
@@ -261,7 +261,7 @@ ToTabGroupElement >> newRawSkin [
 ]
 
 { #category : #configuration }
-ToTabGroupElement >> newWidgetConfiguration [ 
+ToTabGroupElement >> newToConfiguration [ 
 
 	^ ToTabGroupElementConfiguration new
 ]
@@ -317,7 +317,7 @@ ToTabGroupElement >> showAddTabItemButton: aBoolean [
 
 	showAddTabItemButton = aBoolean ifTrue: [ ^ self ].
 	showAddTabItemButton := aBoolean.
-	self requestNewConfiguration 
+	self requestConfiguration 
 ]
 
 { #category : #configuration }

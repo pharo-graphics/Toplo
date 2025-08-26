@@ -51,21 +51,19 @@ ToSkinStateGenerator >> dragEndEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
 	dragged := false.
-	leaved ifTrue: [ ^ self ].
-	leaved := true.
 	self enqueueSkinState:
 		(ToTransientState skinEvent:
-			 (ToReleasedSkinEvent sourceEvent: anEvent)).
-	self enqueueSkinState:
-		(ToTransientState skinEvent:
-			 (ToLeftSkinEvent sourceEvent: anEvent))
+			 (ToDragEndedSkinEvent sourceEvent: anEvent))
 ]
 
 { #category : #'dnd handlers' }
 ToSkinStateGenerator >> dragEnterEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
-	leaved := false
+	leaved := false.
+	self enqueueSkinState:
+		(ToTransientState skinEvent:
+			 (ToDragHoveredSkinEvent sourceEvent: anEvent))
 ]
 
 { #category : #'dnd handlers' }
@@ -83,7 +81,9 @@ ToSkinStateGenerator >> dragLeaveEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
 	leaved := true.
-	dragged := false
+	self enqueueSkinState:
+		(ToTransientState skinEvent:
+			 (ToDragLeftSkinEvent sourceEvent: anEvent))
 ]
 
 { #category : #'dnd handlers' }
@@ -137,7 +137,7 @@ ToSkinStateGenerator >> eventsToHandle [
 		  BlMouseLeaveEvent.
 		  ToCheckableCheckEvent.
 		  ToListNodeSelectedEvent.
-		  ToPickOutsideEvent }
+		  ToMouseUpOutsideEvent }
 ]
 
 { #category : #'focus events handling' }
@@ -180,7 +180,7 @@ ToSkinStateGenerator >> mouseDownEvent: anEvent [
 { #category : #'mouse handlers' }
 ToSkinStateGenerator >> mouseEnterEvent: anEvent [
 
-	anEvent primaryButtonPressed ifTrue: [ ^  self ].
+	anEvent primaryButtonPressed ifTrue: [ ^ self ].
 	target isEnabled ifFalse: [ ^ self ].
 	leaved := false.
 	self enqueueSkinState:
@@ -191,14 +191,12 @@ ToSkinStateGenerator >> mouseEnterEvent: anEvent [
 { #category : #'mouse handlers' }
 ToSkinStateGenerator >> mouseLeaveEvent: anEvent [
 
-	leaved ifTrue: [ ^ self ].
-	anEvent primaryButtonPressed ifTrue: [ ^  self ].
+	anEvent primaryButtonPressed ifTrue: [ ^ self ].
 	target isEnabled ifFalse: [ ^ self ].
+	leaved ifTrue: [ ^ self ].
 	leaved := true.
-
 	self enqueueSkinState:
-		(ToTransientState skinEvent:
-			 (ToLeftSkinEvent sourceEvent: anEvent))
+		(ToTransientState skinEvent: (ToLeftSkinEvent sourceEvent: anEvent))
 ]
 
 { #category : #'mouse handlers' }
@@ -210,6 +208,29 @@ ToSkinStateGenerator >> mouseUpEvent: anEvent [
 		secondary: [  ]
 		middle: [  ]
 		other: [  ]
+]
+
+{ #category : #'mouse handlers' }
+ToSkinStateGenerator >> mouseUpOutsideEvent: anEvent [
+	"Outside event can have a button label or icon as target. 
+	In that case, no action is triggered "
+
+	| wasPressed |
+	target isEnabled ifFalse: [ ^ self ].
+	wasPressed := pressed.
+	pressed := false.
+	dragged := false.
+
+	wasPressed ifTrue: [
+		self enqueueSkinState: (ToTransientState skinEvent:
+				 (ToReleasedSkinEvent sourceEvent: anEvent)) ].
+
+	leaved ifTrue: [ ^ self ].
+	leaved := true.
+	target isEnabled ifFalse: [ ^ self ].
+	self enqueueSkinState:
+		(ToTransientState skinEvent:
+			 (ToLeftSkinEvent sourceEvent: anEvent))
 ]
 
 { #category : #'api - hooks' }
@@ -240,29 +261,6 @@ ToSkinStateGenerator >> openedEvent: anEvent [
 ]
 
 { #category : #'mouse handlers' }
-ToSkinStateGenerator >> pickOutsideEvent: anEvent [
-	"Outside event can have a button label or icon as target. 
-	In that case, no action is triggered "
-
-	| wasPressed |
-	target isEnabled ifFalse: [ ^ self ].
-	wasPressed := pressed.
-	pressed := false.
-	dragged := false.
-
-	wasPressed ifTrue: [
-		self enqueueSkinState: (ToTransientState skinEvent:
-				 (ToReleasedSkinEvent sourceEvent: anEvent)) ].
-
-	leaved ifTrue: [ ^ self ].
-	leaved := true.
-	target isEnabled ifFalse: [ ^ self ].
-	self enqueueSkinState:
-		(ToTransientState skinEvent:
-			 (ToLeftSkinEvent sourceEvent: anEvent))
-]
-
-{ #category : #'mouse handlers' }
 ToSkinStateGenerator >> primaryClickEvent: anEvent [
 
 	self enqueueSkinState:
@@ -274,6 +272,14 @@ ToSkinStateGenerator >> primaryClickEvent: anEvent [
 ToSkinStateGenerator >> primaryMouseDownEvent: anEvent [
 
 	pressed := true.
+	
+	target isMouseUpOutsideSensible ifTrue: [
+			| mouseUpOutsideFilter |
+			mouseUpOutsideFilter := ToMouseUpOutsideEventFilter new
+				                        element: target;
+				                        yourself.
+			target space root addEventFilter: mouseUpOutsideFilter ].
+		
 	self enqueueSkinState:
 		(ToTransientState skinEvent:
 			 (ToPressedSkinEvent sourceEvent: anEvent))
@@ -284,6 +290,7 @@ ToSkinStateGenerator >> primaryMouseUpEvent: anEvent [
 
 	dragged := false.
 	leaved := false.
+	pressed := false.
 	self enqueueSkinState: (ToTransientState skinEvent:
 			 (ToReleasedSkinEvent sourceEvent: anEvent))
 ]

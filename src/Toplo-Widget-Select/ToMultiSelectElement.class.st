@@ -22,9 +22,9 @@ ToMultiSelectElement >> addGroup: anObject withData: aCollection [
 ]
 
 { #category : #configuration }
-ToMultiSelectElement >> applyWidgetConfiguration [ 
+ToMultiSelectElement >> applyConfiguration [ 
 
-	super applyWidgetConfiguration.
+	super applyConfiguration.
 	self innerElement isFlowable: isFlowable.
 	self innerElement keepPickOrder: keepPickOrder.
 	" in case of hide selected, the picking outside handler should not be activated.
@@ -60,6 +60,12 @@ ToMultiSelectElement >> checkMaxSelectedCount [
 	self innerElement checkMaxSelectedCount
 ]
 
+{ #category : #'accessing - window' }
+ToMultiSelectElement >> closeOnItemPicking [
+
+	^ false
+]
+
 { #category : #accessing }
 ToMultiSelectElement >> hideSelected [
 
@@ -70,7 +76,7 @@ ToMultiSelectElement >> hideSelected [
 ToMultiSelectElement >> hideSelected: aBoolean [
 
 	hideSelected := aBoolean.
-	self requestNewConfiguration
+	self requestConfiguration
 ]
 
 { #category : #accessing }
@@ -104,7 +110,7 @@ ToMultiSelectElement >> innerElementClass [
 ToMultiSelectElement >> isFlowable: aBoolean [
 
 	isFlowable := aBoolean.
-	self requestNewConfiguration
+	self requestConfiguration
 ]
 
 { #category : #accessing }
@@ -117,14 +123,14 @@ ToMultiSelectElement >> isScrollable: aBoolean [
 ToMultiSelectElement >> keepPickOrder: aBoolean [
 
 	keepPickOrder := aBoolean.
-	self requestNewConfiguration
+	self requestConfiguration
 ]
 
 { #category : #accessing }
 ToMultiSelectElement >> maxSelectedCount: aNumber [
 
 	maxSelectedCount := aNumber.
-	self requestNewConfiguration
+	self requestConfiguration
 ]
 
 { #category : #'instance creation' }

@@ -12,16 +12,6 @@ ToElementTest >> testApplySkinInstallerOnFirstRequest [
 
 	| e |
 	e := ToElement new.
-	e applySkinInstallerOnFirstRequest: false.
-	space root addChild: e.
-	self assert: e skinManager skinInstaller notNil.
-	self assert: e skinManager installedSkin isNil.
-	space applyAllSkinInstallers.
-	self assert: e skinManager skinInstaller isNil.
-	self assert: e skinManager installedSkin notNil.
-
-	e := ToElement new.
-	e applySkinInstallerOnFirstRequest: true.
 	space root addChild: e.
 	self assert: e skinManager skinInstaller isNil.
 	self assert: e skinManager installedSkin notNil.
@@ -35,49 +25,16 @@ ToElementTest >> testApplySkinInstallerOnFirstRequestButWithNoEffect [
 
 	| e |
 	e := ToElement new.
-	e applySkinInstallerOnFirstRequest: false.
 	space root addChild: e.
-	" asking to apply the skin installer on first request after it has been already requested has no effect.
-	Indeed, the better place for a send of applySkinInstallerOnFirstRequest: is in the initialize method
-	to be sure it will have an effect on the first requestInstallSkin "
+	" the skin installer is not immediately applied after it has been already requested. "
 	self assert: e skinManager skinRequestCount equals: 1.
-	e applySkinInstallerOnFirstRequest: true.
-	" have a skin installer"
-	self assert: e skinManager skinInstaller notNil.
+	" no skin installer anymore "
+	self assert: e skinManager skinInstaller isNil.
 	" and to not have an installed skin -> illustrates no effect of applySkinInstallerOnFirstRequest: "
-	self assert: e skinManager installedSkin isNil.
+	self assert: e skinManager installedSkin notNil.
 	e ensuredSkinManager requestInstallSkinIn: e.
-	self assert: e skinManager skinInstaller isNil.
-	self assert: e skinManager installedSkin notNil
-]
-
-{ #category : #'test initialize' }
-ToElementTest >> testApplySkinInstallerOnFirstRequestWithPostponedRequest [
-
-	| e |
-	e := ToElement new.
-	e applySkinInstallerOnFirstRequest: true.
-	e ensuredSkinManager requestInstallSkinIn: e.
-	" request install skin should be postponed here "
-	self assert: e skinManager hasPostponedInstallSkinHandler.
-	self assert: e skinManager skinRequestCount equals: 0.
-	self assert: e skinManager skinInstaller isNil.
-	self assert:
-		e skinManager installedSkin  isNil.
-	space root addChild: e.
-	self assert: e skinManager skinRequestCount > 1.
-	" the skin is installed "
-	self assert:
-		e skinManager installedSkin  notNil.
-	" but other install have been requested after the first installation :
-	- by the postponed request
-	- by the theme installation "
 	self assert: e skinManager skinInstaller notNil.
-	space applyAllSkinPhases.
-	" now all is in normal state "
-	self assert: e skinManager skinInstaller isNil.
-	self assert:
-		e skinManager installedSkin  notNil
+	self assert: e skinManager installedSkin notNil
 ]
 
 { #category : #tests }
@@ -94,15 +51,14 @@ ToElementTest >> testDefaultSkin [
 
 	| e sk sk2 |
 	e := ToElement new.
-	e applySkinInstallerOnFirstRequest: false.
 	space root addChild: e.
 	e defaultSkin: (sk := ToRawSkinForTest new).
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
-	self assert: e skinManager installedSkin isNil.
+	self assert: e skinManager installedSkin notNil.
 	e ensuredSkinManager requestInstallSkinIn: e.
 	" no change "
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
-	self assert: e skinManager installedSkin isNil.
+	self assert: e skinManager installedSkin notNil.
 	self assert: (sk receivedCountForClass: ToInstallSkinEvent) equals: 0.
 	e skinManager applySkinReinstallIn: e.
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
@@ -158,11 +114,10 @@ ToElementTest >> testInstallNewSkinNow [
 
 	| e skin |
 	e := ToElement new.
-	e applySkinInstallerOnFirstRequest: false.
 	space root addChild: e.
-	self assert: e skinManager skinInstaller notNil.
+	self assert: e skinManager skinInstaller isNil.
 	self assert:
-		e skinManager installedSkin isNil.
+		e skinManager installedSkin notNil.
 	space applyAllSkinInstallers.
 	self assert: e skinManager skinInstaller isNil.
 	self assert:
@@ -228,25 +183,10 @@ ToElementTest >> testOnAddedToSceneGraph [
 
 	| e |
 	e := ToElement new.
-	e applySkinInstallerOnFirstRequest: false.
 	self assert: e skinManager skinInstaller isNil.
 	space root addChild: e.
-	self assert: e skinManager skinInstaller notNil.
-	self assert: (e skinManager skinInstaller isKindOf: ToSkinInstaller)
-]
-
-{ #category : #'test initialize' }
-ToElementTest >> testPostponeRequestSkin [
-	" check install/uninstall/initial states if setSkin: is used"
-
-	| e |
-	e := ToElement new.
-	e ensuredSkinManager requestInstallSkinIn: e.
-	self assert: e skinManager skinInstaller isNil.
-	self assert: e skinManager hasPostponedInstallSkinHandler.
-	space root addChild: e.
-	self deny: e skinManager hasPostponedInstallSkinHandler.
-	self assert: e skinManager skinInstaller notNil
+	self assert: e skinManager skinInstaller isNil	.
+	self assert: e skinManager installedSkin notNil
 ]
 
 { #category : #'test initialize' }
@@ -254,19 +194,18 @@ ToElementTest >> testRequestSkin [
 
 	| e |
 	e := ToElement new.
-	e applySkinInstallerOnFirstRequest: false.
 	self assert: e skinManager skinInstaller isNil.
 	self assert:
 		e skinManager installedSkin isNil.
 	self assert: e skinManager notNil.
 	e ensuredSkinManager requestInstallSkinIn: e.
-	self assert: e skinManager skinInstaller isNil.
-	self assert:
-		e skinManager installedSkin isNil.
-	space root addChild: e.
 	self assert: e skinManager skinInstaller notNil.
 	self assert:
 		e skinManager installedSkin isNil.
+	space root addChild: e.
+	self assert: e skinManager skinInstaller isNil.
+	self assert:
+		e skinManager installedSkin notNil.
 	space applyAllSkinInstallers.
 	self assert: e skinManager skinInstaller isNil.
 	self assert:
@@ -278,7 +217,6 @@ ToElementTest >> testRequestSkin2 [
 
 	| e |
 	e := ToElement new.
-	e applySkinInstallerOnFirstRequest: false.
 	self assert: e skinManager skinInstaller isNil.
 	self assert:
 		e skinManager installedSkin isNil.
@@ -287,7 +225,7 @@ ToElementTest >> testRequestSkin2 [
 	e ensuredSkinManager requestInstallSkinIn: e.
 	self assert: e skinManager skinInstaller notNil.
 	self assert:
-		e skinManager installedSkin isNil.
+		e skinManager installedSkin notNil.
 	space applyAllSkinInstallers.
 	self assert: e skinManager skinInstaller isNil.
 	self assert:
@@ -300,15 +238,14 @@ ToElementTest >> testSetSkin [
 
 	| e sk sk2 |
 	e := ToElement new.
-	e applySkinInstallerOnFirstRequest: false.
 	space root addChild: e.
 	e defaultSkin: (sk := ToRawSkinForTest new).
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
-	self assert: e skinManager installedSkin isNil.
+	self assert: e skinManager installedSkin notNil.
 	e ensuredSkinManager requestInstallSkinIn: e.
 	" no change "
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
-	self assert: e skinManager installedSkin isNil.
+	self assert: e skinManager installedSkin notNil.
 	self assert: (sk receivedCountForClass: ToInstallSkinEvent) equals: 0.
 	e skinManager applySkinReinstallIn: e.
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
@@ -325,7 +262,7 @@ ToElementTest >> testSetSkin [
 		equals: 1.
 
 	" force uninstall->install->initial states "
-	e skinManager setDefaultSkin: (sk := ToRawSkinForTest new) in: e.
+	e defaultSkin: (sk := ToRawSkinForTest new).
 	e skinManager applySkinReinstallIn: e.
 	self
 		assert: (sk receivedCountForClass: ToUninstallSkinEvent)
@@ -364,12 +301,9 @@ ToElementTest >> testSkinInstallRequestCount [
 
 	| e |
 	e := ToElement new.
-	e applySkinInstallerOnFirstRequest: false.
 	self assert: e skinManager skinRequestCount equals: 0.
 	e ensuredSkinManager requestInstallSkinIn: e.
-	" request install skin should be postponed here "
-	self assert: e skinManager hasPostponedInstallSkinHandler.
-	self assert: e skinManager skinRequestCount equals: 0.
+	self assert: e skinManager skinRequestCount equals: 1.
 	space root addChild: e.
 	self assert: e skinManager skinRequestCount equals: 1
 	" several install may be requested after the first installation :
@@ -384,8 +318,7 @@ ToElementTest >> testWithNullSkin [
 	e := ToElement new.
 	e ensuredSkinManager requestInstallSkinIn: e.
 	space root addChild: e.
-	self assert: e skinManager skinInstaller notNil.
-	self assert: (e skinManager skinInstaller isKindOf: ToSkinInstaller).
+	self assert: e skinManager skinInstaller isNil.
 	e skinManager applySkinReinstallIn: e.
 	self
 		assert:
@@ -446,7 +379,6 @@ ToElementTest >> testWithoutSkinNonContamination2 [
 
 	| e child childchild |
 	e := ToElement new.
-	e applySkinInstallerOnFirstRequest: false.
 	space root addChild: e.
 	child := ToElement new.
 	childchild := ToElement new.
@@ -454,7 +386,7 @@ ToElementTest >> testWithoutSkinNonContamination2 [
 	e withNullSkin.
 	e ensuredSkinManager requestInstallSkinIn: e.
 	self assert: (e skinManager skinToInstallIn: e) isNullSkin.
-	self assert: e skinManager installedSkin isNil.
+	self assert: e skinManager installedSkin notNil.
 	self assert: childchild skinManager installedSkin isNil.
 	e skinManager applySkinReinstallIn: e.
 	self assert: e skinManager skinInstaller isNil.

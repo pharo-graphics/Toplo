@@ -5,12 +5,6 @@ Class {
 }
 
 { #category : #initialization }
-ToExPicsumListElement >> defaultInnerElement [
-
-	^ ToInfiniteElement onListElement: self
-]
-
-{ #category : #initialization }
 ToExPicsumListElement >> defaultNodeManagerClass [
 
 	^ ToExPicsumNodeManager

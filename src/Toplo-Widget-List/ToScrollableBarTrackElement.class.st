@@ -39,30 +39,9 @@ ToScrollableBarTrackElement >> addHolder: anHolder at: aPosition [
 ]
 
 { #category : #configuration }
-ToScrollableBarTrackElement >> applyFakeNodeConfiguration [
+ToScrollableBarTrackElement >> applyConfiguration [
 
-	fakeNode applyWidgetConfiguration.
-
-	"in case my orientation changes the original size must be stored.
-	The original size has to be stored before setting the height or the width to zero.
-	see also addFakeNode:"
-
-	self isHorizontal
-		ifTrue: [
-				fakeNode userData at: #fakeNodeOriginalSize ifPresent: [ :s |
-						fakeNode height: s y.
-						fakeNode width: 0 ] ]
-		ifFalse: [
-				fakeNode userData at: #fakeNodeOriginalSize ifPresent: [ :s |
-						fakeNode width: s x.
-						fakeNode height: 0 ] ].
-	listElement updateAllSelections 
-]
-
-{ #category : #configuration }
-ToScrollableBarTrackElement >> applyWidgetConfiguration [
-
-	super applyWidgetConfiguration.
+	super applyConfiguration.
 	self layout: self newLayoutStrategy.
 
 	listElement isHFitContent
@@ -87,7 +66,28 @@ ToScrollableBarTrackElement >> applyWidgetConfiguration [
 							ifFalse: [ self vFitContent ] ] ].
 
 	self applyFakeNodeConfiguration.
-	self nodesDo: [ :n | n applyWidgetConfiguration ]
+	self nodesDo: [ :n | n applyConfiguration ]
+]
+
+{ #category : #configuration }
+ToScrollableBarTrackElement >> applyFakeNodeConfiguration [
+
+	fakeNode applyConfiguration.
+
+	"in case my orientation changes the original size must be stored.
+	The original size has to be stored before setting the height or the width to zero.
+	see also addFakeNode:"
+
+	self isHorizontal
+		ifTrue: [
+				fakeNode userData at: #fakeNodeOriginalSize ifPresent: [ :s |
+						fakeNode height: s y.
+						fakeNode width: 0 ] ]
+		ifFalse: [
+				fakeNode userData at: #fakeNodeOriginalSize ifPresent: [ :s |
+						fakeNode width: s x.
+						fakeNode height: 0 ] ].
+	listElement updateAllSelections 
 ]
 
 { #category : #testing }
@@ -160,6 +160,12 @@ ToScrollableBarTrackElement >> isScrollable [
 ToScrollableBarTrackElement >> linearLayoutClass [
 
 	^ ToBarLinearLayout
+]
+
+{ #category : #accessing }
+ToScrollableBarTrackElement >> listElement [ 
+
+	^ listElement 
 ]
 
 { #category : #accessing }

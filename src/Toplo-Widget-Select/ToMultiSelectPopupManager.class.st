@@ -5,19 +5,13 @@ Class {
 }
 
 { #category : #'window handling' }
-ToMultiSelectPopupManager >> checkCloseWindowOnPickingEvent: anEvent [
+ToMultiSelectPopupManager >> checkCloseWindowOnEvent: anEvent [
 	" don't autoclose if mouse up on a select bar item "
 
 	| target |
 	target := anEvent target.
 	(target withAllParentsInclude: anchorElement barElement) ifTrue: [ ^ self ].
-	super checkCloseWindowOnPickingEvent: anEvent
-]
-
-{ #category : #initialization }
-ToMultiSelectPopupManager >> defaultCloseOnPicking [
-
-	^ false
+	super checkCloseWindowOnEvent: anEvent
 ]
 
 { #category : #initialization }

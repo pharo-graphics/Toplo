@@ -1,11 +1,11 @@
 Class {
-	#name : #ToTemeUpdateStresser,
+	#name : #ToThemeUpdateStresser,
 	#superclass : #Object,
 	#category : #'Toplo-Examples-Stressers'
 }
 
 { #category : #running }
-ToTemeUpdateStresser class >> run [
+ToThemeUpdateStresser class >> run [
 
 	<script>
 	| p |

@@ -8,11 +8,11 @@ Class {
 }
 
 { #category : #configuration }
-ToTabBarElement >> applyWidgetConfiguration [
+ToTabBarElement >> applyConfiguration [
 
-	super applyWidgetConfiguration.
+	super applyConfiguration.
 	self nodesDo: [ :node |
-		node item requestNewConfiguration.
+		node item requestConfiguration.
 		node requestNewSkin ].
 	self requestLayout
 ]
@@ -28,7 +28,7 @@ ToTabBarElement >> atStartSide: aBoolean [
 
 	atStartSide = aBoolean ifTrue: [ ^ self ].
 	atStartSide := aBoolean.
-	self requestNewConfiguration
+	self requestConfiguration
 ]
 
 { #category : #'t - item list - accessing' }
@@ -41,6 +41,9 @@ ToTabBarElement >> defaultNodeManagerClass [
 ToTabBarElement >> initialize [ 
 
 	super initialize.
+	self primarySelectionMode selectionOption
+		grouped: false;
+		beneath: true.
 	atStartSide := true
 ]
 

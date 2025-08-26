@@ -10,6 +10,22 @@ Class {
 	#category : #'Toplo-Widget-Menu-Pane'
 }
 
+{ #category : #factory }
+ToMenuPane class >> horizontal [
+
+	^ self new
+		  beHorizontal;
+		  yourself
+]
+
+{ #category : #factory }
+ToMenuPane class >> vertical [
+
+	^ self new
+		  beVertical;
+		  yourself
+]
+
 { #category : #adding }
 ToMenuPane >> addFiller [
 
@@ -26,11 +42,11 @@ ToMenuPane >> addMenu: aMenu [
 ]
 
 { #category : #configuration }
-ToMenuPane >> applyWidgetConfiguration [
+ToMenuPane >> applyConfiguration [
 	" just force the resizer of the secondary direction 
 	( vertical direction in case of an horizontal bar )"
 
-	super applyWidgetConfiguration.
+	super applyConfiguration.
 	self uniformNodeWidth: self isVertical.
 	self itemBar horizontal: self isHorizontal.
 	self itemBar isScrollable: self isScrollable.
@@ -61,18 +77,12 @@ ToMenuPane >> cancelAutoOpen [
 	self rootMenuPane autoOpen: false
 ]
 
-{ #category : #'t - menu window model' }
-ToMenuPane >> closeWindow [
-
-	self itemList do: [ :it | it isMenuItem ifTrue: [ it closeWindow ] ]
-]
-
 { #category : #initialization }
 ToMenuPane >> initialize [
 
 	super initialize.
-	self initializeAsItemBarOwner.
-	self initializeAsMenuItemListOwner.
+	self initializeAsItemBarContainer.
+	self initializeAsMenuItemBarContainer.
 
 	autoOpen := false.
 	isSubPane := false.

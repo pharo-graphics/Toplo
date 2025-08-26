@@ -63,7 +63,7 @@ ToAnchoredWindowManager >> closedEvent: anEvent [
 	I must be sure that the event is sent from my current window "
 
 	currentWindow = anEvent window ifFalse: [ ^ self ].
-	self onClosed
+	self onWindowClosed
 ]
 
 { #category : #accessing }
@@ -225,15 +225,6 @@ ToAnchoredWindowManager >> newWindowRequestFrom: anEvent [
 		  yourself
 ]
 
-{ #category : #'window handling' }
-ToAnchoredWindowManager >> onClosed [
-
-	currentWindow ifNil: [ ^ self ].
-	currentWindow root removeChildren.
-	currentWindow manager: nil.
-	currentWindow := nil
-]
-
 { #category : #'api - hooks' }
 ToAnchoredWindowManager >> onInstalledIn: anElement [
 
@@ -251,16 +242,25 @@ ToAnchoredWindowManager >> onMeasure: anExtentMeasurementSpec onEvent: anEvent [
 		onEvent: anEvent
 ]
 
-{ #category : #'window handling' }
-ToAnchoredWindowManager >> onOpened [
-
-]
-
 { #category : #'api - hooks' }
 ToAnchoredWindowManager >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
 	anchorElement := nil
+]
+
+{ #category : #'window handling' }
+ToAnchoredWindowManager >> onWindowClosed [
+
+	currentWindow ifNil: [ ^ self ].
+	currentWindow root removeChildren.
+	currentWindow manager: nil.
+	currentWindow := nil
+]
+
+{ #category : #'window handling' }
+ToAnchoredWindowManager >> onWindowOpened [
+
 ]
 
 { #category : #'event handling' }
@@ -270,7 +270,7 @@ ToAnchoredWindowManager >> openedEvent: anEvent [
 	" send from the window. Since I'm the only handler whatever the opened event, 
 	I must be sure that the event is sent from my current window "
 	currentWindow = anEvent window ifFalse: [ ^ self ].
-	self onOpened
+	self onWindowOpened
 ]
 
 { #category : #accessing }

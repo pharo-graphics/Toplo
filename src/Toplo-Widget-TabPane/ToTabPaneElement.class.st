@@ -35,9 +35,9 @@ ToTabPaneElement >> alignStart [
 ]
 
 { #category : #configuration }
-ToTabPaneElement >> applyWidgetConfiguration [
+ToTabPaneElement >> applyConfiguration [
 
-	super applyWidgetConfiguration.
+	super applyConfiguration.
 
 	self tabGroup horizontal: self isHorizontal not.
 	self atStartSide
@@ -66,7 +66,7 @@ ToTabPaneElement >> atStartSide [
 ToTabPaneElement >> atStartSide: aBoolean [
 
 	self tabGroup atStartSide: aBoolean.
-	self requestNewConfiguration.
+	self requestConfiguration.
 ]
 
 { #category : #accessing }
@@ -87,10 +87,12 @@ ToTabPaneElement >> initialize [
 	super initialize.
 
 	headerContainer := ToTabPaneHeaderElement new.
-	bodyContainer := ToPane new
+	bodyContainer := BlElement new
 		                 id: #body;
 		                 yourself.
-	bodyContainer matchParent.
+	bodyContainer constraintsDo: [ :c |
+			c vertical matchParent.
+			c horizontal matchParent ].
 	self setItemBar: self tabGroup itemBar.
 	self addChildren: {
 			headerContainer.
@@ -98,6 +100,24 @@ ToTabPaneElement >> initialize [
 	self tabGroup addEventHandler: (ToTabGroupInTabPaneEventHandler new
 			 tabPane: self;
 			 yourself)
+]
+
+{ #category : #accessing }
+ToTabPaneElement >> isAlignEnd [
+
+	^ headerContainer isAlignEnd
+]
+
+{ #category : #accessing }
+ToTabPaneElement >> isAlignMiddle [
+
+	^ headerContainer isAlignMiddle
+]
+
+{ #category : #accessing }
+ToTabPaneElement >> isAlignStart [
+
+	^ headerContainer isAlignStart
 ]
 
 { #category : #accessing }

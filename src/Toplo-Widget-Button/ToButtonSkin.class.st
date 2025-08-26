@@ -115,3 +115,17 @@ ToButtonSkin >> pressedSkinEvent: anEvent [
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-primary-pressed') ] ]
 ]
+
+{ #category : #'event handling' }
+ToButtonSkin >> releasedSkinEvent: anEvent [
+
+	super releasedSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+			e iconDo: [ :ic |
+				ic adaptToColor: (e valueOfTokenNamed: #'color-primary') ].
+			e endElementDo: [ :ic |
+					(ic respondsTo: #adaptToColor:) ifTrue: [
+						ic adaptToColor: (e valueOfTokenNamed: #'color-primary') ] ].
+			e labelDo: [ :lab |
+				lab foreground: (e valueOfTokenNamed: #'color-primary') ] ]
+]

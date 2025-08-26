@@ -727,12 +727,6 @@ ToBeeTheme >> declareTextPaneRules [
 ]
 
 { #category : #initialization }
-ToBeeTheme >> defaultElementStampsFor: anElement [ 
-
-	^ anElement defaultBeeStyleStamps
-]
-
-{ #category : #initialization }
 ToBeeTheme >> initializeStyleRules [ 
 
 	super initializeStyleRules.

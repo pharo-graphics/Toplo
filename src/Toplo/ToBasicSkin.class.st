@@ -84,6 +84,21 @@ ToBasicSkin >> disabledSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToBasicSkin >> dragEndedSkinEvent: anEvent [
+
+]
+
+{ #category : #'event handling' }
+ToBasicSkin >> dragHoveredSkinEvent: anEvent [
+
+]
+
+{ #category : #'event handling' }
+ToBasicSkin >> dragLeftSkinEvent: anEvent [
+
+]
+
+{ #category : #'event handling' }
 ToBasicSkin >> dragStartedLookEvent: anEvent [
 
 	self

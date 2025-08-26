@@ -1,0 +1,162 @@
+Class {
+	#name : #ToTripletLayoutVerticalOrientation,
+	#superclass : #ToTripletLayoutOrientation,
+	#category : #'Toplo-Core-TripletLayout'
+}
+
+{ #category : #orientation }
+ToTripletLayoutVerticalOrientation >> breadthProperties: anElement [
+	^ anElement constraints horizontal
+]
+
+{ #category : #orientation }
+ToTripletLayoutVerticalOrientation >> breadthSpec: anExtentSpec [
+	^ anExtentSpec widthSpec
+]
+
+{ #category : #orientation }
+ToTripletLayoutVerticalOrientation >> extentBreadth: breadth lengthSpec: length [
+	^ breadth @ length
+]
+
+{ #category : #orientation }
+ToTripletLayoutVerticalOrientation >> extentSpecBreadth: breadthSpec lengthSpec: lengthSpec [
+
+	^ BlExtentMeasurementSpec
+		  widthSpec: breadthSpec
+		  heightSpec: lengthSpec
+]
+
+{ #category : #factory }
+ToTripletLayoutVerticalOrientation >> inverted [
+
+	^ ToTripletLayoutHorizontalOrientation new
+]
+
+{ #category : #testing }
+ToTripletLayoutVerticalOrientation >> isVertical [
+	^ true
+]
+
+{ #category : #layout }
+ToTripletLayoutVerticalOrientation >> layout: anElement in: aRectangle context: aBlElementBoundsUpdateContext [
+	|top right bottom left majorBounds elementInnerBounds theLayeredChildren |
+	"Layout subnodes vertically in column one by one
+	based on previously measured extent"
+	
+	top := anElement padding top.
+	left := anElement padding left. 
+	right := left.
+	bottom := top.
+
+	theLayeredChildren := anElement children accountedByLayout.
+
+	self layout direction
+		with: theLayeredChildren
+		do: [ :child | 
+		right := right max: child measuredWidth + (child margin width max: 0.0).
+		bottom := bottom + child measuredHeight + (child margin height max: 0.0) ].
+	
+	majorBounds := (left@top corner: right@bottom).
+	elementInnerBounds := anElement padding inset: anElement boundsInLocal.
+	majorBounds = elementInnerBounds ifFalse: [
+		| translation |
+		translation := (self layout verticalAlignment directed: self layout direction) translationOf: majorBounds in: elementInnerBounds.
+		majorBounds := majorBounds translateBy: translation ].
+
+	right := majorBounds right.
+	bottom := majorBounds bottom.
+	left := majorBounds left.
+	top := majorBounds top.
+
+	self layout direction
+		with: anElement children accountedByLayout
+		inject: left @ top
+		into: [ :origin :child |
+			| childBounds childMarginBounds childConstraints |
+			childConstraints := child constraints triplet.
+			childBounds := origin + (child margin topLeft max: 0.0@0.0) extent: child measuredExtent.
+			childMarginBounds := origin extent: child measuredExtent + (child margin extent max: 0.0@0.0).  
+			
+			self layout horizontalAlignment ifNotNull: [ 
+				| translation allowedBounds |
+				allowedBounds := childMarginBounds origin extent: elementInnerBounds width @ child measuredHeight.
+				translation := (self layout horizontalAlignment directed: self layout direction) translationOf: childMarginBounds in: allowedBounds.
+				childBounds := childBounds translateBy: translation ].
+
+			self layout horizontalAlignment ifNull: [ 
+				| translation allowedBounds |
+				allowedBounds := childMarginBounds origin extent: elementInnerBounds width @ child measuredHeight.
+				translation := (childConstraints horizontal alignment directed: self layout direction) translationOf: childMarginBounds in: allowedBounds.
+				childBounds := childBounds translateBy: translation ].
+						
+			"telling each subnode what bounds to use for layouting process.
+			Because measuring process does not modify actual extent
+			we need to use a measured one"
+			child applyLayoutIn: childBounds context: aBlElementBoundsUpdateContext.
+			"translating origin vertically down for next subnode"
+			origin x @(origin y + child measuredHeight + (child margin height max: 0.0)) ]
+]
+
+{ #category : #orientation }
+ToTripletLayoutVerticalOrientation >> lengthProperties: aChildElement [
+	^ aChildElement constraints vertical
+]
+
+{ #category : #orientation }
+ToTripletLayoutVerticalOrientation >> lengthSpec: anExtentSpec [
+	^ anExtentSpec heightSpec
+]
+
+{ #category : #orientation }
+ToTripletLayoutVerticalOrientation >> marginBreadth: anElement [
+
+	^ anElement margin width
+]
+
+{ #category : #orientation }
+ToTripletLayoutVerticalOrientation >> marginLength: anElement [
+
+	^ anElement margin height
+]
+
+{ #category : #orientation }
+ToTripletLayoutVerticalOrientation >> measureChildWithMargin: child parentSpec: anExtentMeasurementSpec breadthUsed: breadthUsed lengthUsed: lengthUsed [
+	self layout
+		measureChildWithMargins: child
+		parentSpec: anExtentMeasurementSpec
+		widthUsed: breadthUsed
+		heightUsed: lengthUsed
+]
+
+{ #category : #orientation }
+ToTripletLayoutVerticalOrientation >> measuredBreadth: anElement [
+	^ anElement measuredWidth
+]
+
+{ #category : #orientation }
+ToTripletLayoutVerticalOrientation >> measuredLength: anElement [
+	^ anElement measuredHeight
+]
+
+{ #category : #orientation }
+ToTripletLayoutVerticalOrientation >> minimalBreadth: anElement [
+	^ anElement constraints minWidth
+]
+
+{ #category : #orientation }
+ToTripletLayoutVerticalOrientation >> minimalLength: anElement [
+	^ anElement constraints minHeight
+]
+
+{ #category : #orientation }
+ToTripletLayoutVerticalOrientation >> paddingBreadth: anElement [
+
+	^ anElement padding width
+]
+
+{ #category : #orientation }
+ToTripletLayoutVerticalOrientation >> paddingLength: anElement [
+
+	^ anElement padding height
+]

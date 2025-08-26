@@ -3,7 +3,7 @@ Class {
 	#superclass : #ToWidgetConfiguration,
 	#traits : 'TToTripletElementConfiguration',
 	#classTraits : 'TToTripletElementConfiguration classTrait',
-	#category : #'Toplo-Core'
+	#category : #'Toplo-Core-Triplet'
 }
 
 { #category : #hook }

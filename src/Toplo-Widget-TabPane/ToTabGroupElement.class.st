@@ -194,21 +194,18 @@ ToTabGroupElement >> initializeInvisibleNodesMenu [
 { #category : #initialization }
 ToTabGroupElement >> initializeParts [
 
-	| container |
 	self initializeInvisibleNodesMenu.
 	self initializeAddTabItemButton.
 	self startElement: self newLinearContainer.
 	self middleElement: self itemBar.
-	container := self newLinearContainer.
+	self endElement: self newLinearContainer.
 	endExtraContainer := self newLinearContainer.
 	menusContainer := self newLinearContainer.
 	invisibleNodeMenuItemBuilder := self defaultInvisibleNodeMenuItemBuilder.
 	menusContainer addChild: invisibleNodesMenu.
-	container addChild: addTabItemButton.
-	container addChild: menusContainer.
-	container addChild: endExtraContainer.
-	self endElement: container.
-	self endContainer layout: BlLinearLayout new
+	self endElement addChild: addTabItemButton.
+	self endElement addChild: menusContainer.
+	self endElement addChild: endExtraContainer
 ]
 
 { #category : #accessing }

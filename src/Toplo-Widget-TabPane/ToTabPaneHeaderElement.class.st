@@ -3,7 +3,8 @@ Class {
 	#superclass : #ToTripletElement,
 	#instVars : [
 		'tabGroup',
-		'alignment'
+		'alignment',
+		'tabGroupDynamicLayoutMode'
 	],
 	#category : #'Toplo-Widget-TabPane-TabPane'
 }
@@ -39,6 +40,29 @@ ToTabPaneHeaderElement >> alignment: anElementAlignment [
 	self requestConfiguration
 ]
 
+{ #category : #initialization }
+ToTabPaneHeaderElement >> checkTabGroupDynamicLayoutMode [
+
+	tabGroupDynamicLayoutMode ifFalse: [ ^ self ].
+	self trackElement parent isHFitContent
+		ifTrue: [
+				| groupEndBnds tabPaneEndBnds w |
+				groupEndBnds := self tabGroup endContainer bounds inParent: self.
+				tabPaneEndBnds := self endContainer bounds.
+				w := tabPaneEndBnds left - groupEndBnds right.
+				w < 1 ifTrue: [
+						self trackElement allParentsUpTo: self tabGroup do: [ :p |
+								self isHorizontal
+									ifTrue: [ p hMatchParent ]
+									ifFalse: [ p vMatchParent ] ] ] ]
+		ifFalse: [
+				self tabGroup invisibleNodes ifEmpty: [
+						self trackElement allParentsUpTo: self tabGroup do: [ :p |
+								self isHorizontal
+									ifTrue: [ p hFitContent ]
+									ifFalse: [ p vFitContent ] ] ] ]
+]
+
 { #category : #accessing }
 ToTabPaneHeaderElement >> endExtraBuilder: aValuable [
 
@@ -49,11 +73,15 @@ ToTabPaneHeaderElement >> endExtraBuilder: aValuable [
 ToTabPaneHeaderElement >> initialize [
 
 	super initialize.
+	tabGroupDynamicLayoutMode := false.
 	self startElement: self newLinearContainer.
 	self endElement: self newLinearContainer.
 	tabGroup := self newTabGroupElement.
 	self middleElement: tabGroup.
-	self noAlignment 
+	self noAlignment.
+	self
+		addEventHandlerOn: BlElementExtentChangedEvent
+		do: [ self checkTabGroupDynamicLayoutMode ]
 ]
 
 { #category : #accessing }
@@ -94,35 +122,6 @@ ToTabPaneHeaderElement >> noAlignment [
 	self alignment: BlElementAlignment null
 ]
 
-{ #category : #layout }
-ToTabPaneHeaderElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
-
-	| w |
-	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
-	"w := self endContainer measuredBounds inSpace left - self startContainer measuredBounds inSpace right.
-	w trace.' ' trace. self trackElement measuredWidth trace. 
-	(self trackElement measuredWidth <= w)
-		ifTrue: [ 
-			' fitContent' traceCr.
-			self trackElement parent hFitContent. 
-			self trackElement parent parent hFitContent.
-			self trackElement parent parent parent hFitContent.
-			self trackElement parent parent parent parent hFitContent ]
-		ifFalse: [ 
-			' matchParent' traceCr.
-			self trackElement parent hMatchParent. 
-			self trackElement parent parent hMatchParent.
-			self trackElement parent parent parent hMatchParent.
-			self trackElement parent parent parent parent hMatchParent]"
-]
-
-{ #category : #layout }
-ToTabPaneHeaderElement >> onMeasure: anExtentMeasurementSpec [
-
-	super onMeasure: anExtentMeasurementSpec.
-
-]
-
 { #category : #accessing }
 ToTabPaneHeaderElement >> startExtraBuilder: aValuable [
 
@@ -136,7 +135,14 @@ ToTabPaneHeaderElement >> tabGroup [
 ]
 
 { #category : #accessing }
+ToTabPaneHeaderElement >> tabGroupDynamicLayoutMode: aBoolean [
+
+	tabGroupDynamicLayoutMode := aBoolean.
+	self checkTabGroupDynamicLayoutMode
+]
+
+{ #category : #accessing }
 ToTabPaneHeaderElement >> trackElement [
 
-	^ self middleElement trackElement
+	^ self tabGroup trackElement
 ]

@@ -36,24 +36,23 @@ ToTabPaneHeaderConfiguration >> configureAlignmentIn: anElement [
 { #category : #hook }
 ToTabPaneHeaderConfiguration >> configureTabGroupIn: anElement [
 
+
 	(startFlexible or: [ endFlexible ]) ifTrue: [
 			anElement tabGroup fitContent.
-			anElement middleContainer constraintsDo: [ :c |
-					c horizontal fitContent.
-					c vertical fitContent ].
+			anElement middleContainer hFitContent.
+			anElement middleContainer vFitContent.
 			^ self ].
 
 	anElement isHorizontal
 		ifTrue: [
 				anElement tabGroup hMatchParent.
 				anElement tabGroup vFitContent.
-				anElement middleContainer constraintsDo: [ :c |
-						c horizontal matchParent.
-						c vertical fitContent ] ]
+				anElement middleContainer hMatchParent.
+				anElement middleContainer vFitContent ]
 		ifFalse: [
 				anElement tabGroup vMatchParent.
 				anElement tabGroup hFitContent.
-				anElement middleContainer constraintsDo: [ :c |
-						c vertical matchParent.
-						c horizontal fitContent ] ]
+				anElement middleContainer vMatchParent.
+				anElement middleContainer hFitContent ]
+
 ]

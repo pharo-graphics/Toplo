@@ -40,10 +40,11 @@ ToTabBarInGroupElementEventHandler >> itemAddedInBarEvent: anEvent [
 ToTabBarInGroupElementEventHandler >> itemRemovedFromBarEvent: anEvent [
 
 	| tabItemHolder |
+	tabGroup dispatchEvent: anEvent copy.
 	anEvent wasSelected ifFalse: [ ^ self ].
 	tabItemHolder := anEvent item holder.
 	tabItemHolder checkNextAfterRemovalAtPosition: tabItemHolder position.
-	tabGroup dispatchEvent: anEvent copy
+
 ]
 
 { #category : #accessing }

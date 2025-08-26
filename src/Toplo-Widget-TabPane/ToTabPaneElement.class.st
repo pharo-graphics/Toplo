@@ -75,6 +75,12 @@ ToTabPaneElement >> body [
 	^ bodyContainer 
 ]
 
+{ #category : #initialization }
+ToTabPaneElement >> checkTabGroupDynamicLayoutMode [
+
+	self header checkTabGroupDynamicLayoutMode
+]
+
 { #category : #accessing }
 ToTabPaneElement >> header [ 
 
@@ -162,6 +168,12 @@ ToTabPaneElement >> showAddTabItemButton: aBoolean [
 ToTabPaneElement >> tabGroup [ 
 
 	^ headerContainer tabGroup 
+]
+
+{ #category : #accessing }
+ToTabPaneElement >> tabGroupDynamicLayoutMode: aBoolean [
+
+	self header tabGroupDynamicLayoutMode: aBoolean
 ]
 
 { #category : #'t - checkable group owner' }

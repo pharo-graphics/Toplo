@@ -28,3 +28,9 @@ ToLabelledBadge >> label [
 
 	^ label
 ]
+
+{ #category : #accessing }
+ToLabelledBadge >> labelText: aTextOrString [
+
+	self label text: aTextOrString
+]

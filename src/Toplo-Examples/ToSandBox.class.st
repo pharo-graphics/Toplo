@@ -6018,6 +6018,23 @@ ToSandBox class >> example_clickAction [
 	pane openInSpace
 ]
 
+{ #category : #badge }
+ToSandBox class >> example_compositeBadgeOnAButton [
+
+	| badge btn space |
+	space := BlSpace new.
+	badge := ToCompositeBadge new.
+	badge addChild: (ToNumericalBadge new incrementBy: 5; yourself).
+	badge addChild: (ToLabelledBadge new labelText: 'X'; yourself).
+	
+	btn := ToButton new labelText: 'Button with Composite Badge'.
+	btn clickAction: [ :evt | evt target space root inspect ].
+	btn position: 100 asPoint.
+	space root addChild: btn.
+	badge attachToElement: btn.
+	space show
+]
+
 { #category : #list }
 ToSandBox class >> example_contactList [
 
@@ -9676,7 +9693,7 @@ ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 	confPane addChild: addTabItemButtonSwicth.
 
 	dynamicLayoutModeSwitch := ToSwitchButton new labelText: 'Dynamic layout mode'.
-	dynamicLayoutModeSwitch checkAction: [ :evt | aTabGroupElement compactLayoutMode: evt target isChecked ].
+	dynamicLayoutModeSwitch checkAction: [ :evt | aTabGroupElement compactHeaderLayoutMode: evt target isChecked ].
 
 	dynamicLayoutModeSwitch startFlexible: true.
 	dynamicLayoutModeSwitch hMatchParent.

@@ -14,41 +14,30 @@ ToBadge class >> initializeRawToploTheme: aTheme [
 ]
 
 { #category : #initialization }
-ToBadge >> defaultInnerBackground [
+ToBadge >> defaultBackground [
 
 	^ Color red
 ]
 
 { #category : #initialization }
-ToBadge >> defaultInnerMinWidth [
+ToBadge >> defaultMinWidth [
 
 	^ 16
-]
-
-{ #category : #initialization }
-ToBadge >> defaultOffset [
-
-	^ 10 @ 10
-]
-
-{ #category : #initialization }
-ToBadge >> defaultPlacement [ 
-
-	^ ToAnchoredAtTopRight new
 ]
 
 { #category : #initialization }
 ToBadge >> initialize [
 
 	super initialize.
-	innerElement minWidth: self defaultInnerMinWidth 
+	self minWidth: self defaultMinWidth.
+	self background: self defaultBackground 
 ]
 
 { #category : #skin }
 ToBadge >> installRawStyle [
 
 	super installRawStyle.
-	innerElement padding: (BlInsets horizontal:
+	self padding: (BlInsets horizontal:
 			 (self valueOfTokenNamed: #'badge-horizontal-gap')).
 	self
 		addTokenNamed: #'font-size'
@@ -66,7 +55,5 @@ ToBadge >> onMeasure: anExtentMeasurementSpec [
 	super onMeasure: anExtentMeasurementSpec.
 	prevHeight ~= self measuredHeight ifFalse: [ ^ self ].
 	self geometry: (BlRoundedRectangleGeometry cornerRadius:
-			 self measuredHeight - self margin height / 2).
-	innerElement geometry: (BlRoundedRectangleGeometry cornerRadius:
-			 innerElement measuredHeight - innerElement margin height / 2)
+			 self measuredHeight - self margin height / 2)
 ]

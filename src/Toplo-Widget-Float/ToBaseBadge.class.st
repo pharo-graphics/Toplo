@@ -7,9 +7,22 @@ Class {
 { #category : #'attaching  / detaching' }
 ToBaseBadge >> attachToElement: anElement [
 
+	self constraintsDo: [ :c | c ignoreByLayout ].
 	anElement addEventHandler: (ToBadgedElementEventHandler new
 			 badge: self;
 			 yourself)
+]
+
+{ #category : #initialization }
+ToBaseBadge >> defaultOffset [
+
+	^ 10 @ 10
+]
+
+{ #category : #initialization }
+ToBaseBadge >> defaultPlacement [ 
+
+	^ ToAnchoredAtTopRight new
 ]
 
 { #category : #'attaching  / detaching' }
@@ -17,7 +30,9 @@ ToBaseBadge >> detachFromElement [
 
 	self referenceElement dispatchEvent: (ToBadgeDetachedEvent new
 			 badge: self;
-			 yourself)
+			 yourself).
+	self constraintsDo: [ :c | c accountByLayout ]. 
+
 ]
 
 { #category : #'attaching  / detaching' }

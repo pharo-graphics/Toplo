@@ -1,6 +1,9 @@
 Class {
 	#name : #ToFloatElement,
 	#superclass : #ToAnchoredElement,
+	#instVars : [
+		'innerElement'
+	],
 	#category : #'Toplo-Widget-Float'
 }
 
@@ -15,6 +18,19 @@ ToFloatElement >> defaultOffset [
 ToFloatElement >> defaultPlacement [ 
 
 	^ ToAnchoredAtBottomRight new
+]
+
+{ #category : #initialization }
+ToFloatElement >> initialize [ 
+
+	super initialize.
+	innerElement := ToElement new.
+	innerElement fitContent.
+	innerElement constraintsDo: [ :c |
+			c frame vertical alignCenter.
+			c frame horizontal alignCenter ].
+	self addChild: innerElement.
+
 ]
 
 { #category : #skin }

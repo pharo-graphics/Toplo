@@ -2,7 +2,6 @@ Class {
 	#name : #ToAnchoredElement,
 	#superclass : #ToElement,
 	#instVars : [
-		'innerElement',
 		'offset',
 		'placement'
 	],
@@ -86,7 +85,7 @@ ToAnchoredElement >> attachToElement: anElement [
 { #category : #accessing }
 ToAnchoredElement >> builder: aValuable [
 
-	aValuable value: innerElement
+	aValuable value: self
 ]
 
 { #category : #initialization }
@@ -94,12 +93,6 @@ ToAnchoredElement >> defaultElevation [
 
 	" to be over context menu selection element "
 	^ BlRelativeElevation elevation: 16
-]
-
-{ #category : #initialization }
-ToAnchoredElement >> defaultInnerBackground [
-
-	^ Color transparent
 ]
 
 { #category : #initialization }
@@ -125,18 +118,9 @@ ToAnchoredElement >> detachFromElement [
 ToAnchoredElement >> initialize [ 
 
 	super initialize.
-	innerElement := ToElement new.
-	innerElement background: self defaultInnerBackground.
-	innerElement fitContent.
-	innerElement constraintsDo: [ :c |
-			c frame vertical alignCenter.
-			c frame horizontal alignCenter ].
-	self addChild: innerElement.
-
 	self focusability: BlFocusability none.
 	self elevation: self defaultElevation.
 	self fitContent.
-	self constraintsDo: [ :c | c ignoreByLayout ].
 	offset := self defaultOffset.
 	placement := self defaultPlacement 
 

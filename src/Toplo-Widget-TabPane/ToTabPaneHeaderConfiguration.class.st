@@ -30,7 +30,8 @@ ToTabPaneHeaderConfiguration >> configureAlignmentIn: anElement [
 
 	self configureStartFillerIn: anElement.
 	self configureEndFillerIn: anElement.
-	self configureTabGroupIn: anElement
+	self configureTabGroupIn: anElement.
+	anElement alignCenter: true.
 ]
 
 { #category : #hook }
@@ -53,6 +54,7 @@ ToTabPaneHeaderConfiguration >> configureTabGroupIn: anElement [
 				anElement tabGroup vMatchParent.
 				anElement tabGroup hFitContent.
 				anElement middleContainer vMatchParent.
-				anElement middleContainer hFitContent ]
+				anElement middleContainer hFitContent ].
+	anElement checkTabGroupDynamicLayoutMode
 
 ]

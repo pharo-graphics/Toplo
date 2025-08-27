@@ -43,13 +43,19 @@ ToTabPaneHeaderElement >> alignment: anElementAlignment [
 { #category : #initialization }
 ToTabPaneHeaderElement >> checkTabGroupDynamicLayoutMode [
 
+	| scrollable |
 	tabGroupDynamicLayoutMode ifFalse: [ ^ self ].
-	self trackElement parent isHFitContent
+	scrollable := self trackElement parent.
+	((self isHorizontal and: [ scrollable isHFitContent ]) or: [
+		 self isVertical and: [ scrollable isVFitContent ] ])
 		ifTrue: [
 				| groupEndBnds tabPaneEndBnds w |
 				groupEndBnds := self tabGroup endContainer bounds inParent: self.
 				tabPaneEndBnds := self endContainer bounds.
-				w := tabPaneEndBnds left - groupEndBnds right.
+
+				w := self isHorizontal
+					     ifTrue: [ tabPaneEndBnds left - groupEndBnds right ]
+					     ifFalse: [ tabPaneEndBnds top - groupEndBnds bottom ].
 				w < 1 ifTrue: [
 						self trackElement allParentsUpTo: self tabGroup do: [ :p |
 								self isHorizontal

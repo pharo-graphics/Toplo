@@ -27,9 +27,10 @@ ToTabBarElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e border: BlBorder empty.
-		" keep the element factory to set them again on skin uninstalling "
-		self installSelectionFactoriesIn: e ]
+			e border: BlBorder empty.
+			e padding: BlInsets empty.
+			" keep the element factory to set them again on skin uninstalling "
+			self installSelectionFactoriesIn: e ]
 ]
 
 { #category : #'event handling' }

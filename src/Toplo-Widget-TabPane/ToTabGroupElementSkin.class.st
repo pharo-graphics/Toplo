@@ -11,6 +11,5 @@ ToTabGroupElementSkin >> installSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e background: Color transparent.
 		e border: BlBorder empty.
-		e startInterspace: (e valueOfTokenNamed: #'button-interspace').
-		e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
+		e endElement layout cellSpacing: 10 ]
 ]

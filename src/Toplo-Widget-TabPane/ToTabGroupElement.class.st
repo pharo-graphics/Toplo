@@ -164,7 +164,7 @@ ToTabGroupElement >> initialize [
 	tabItemFactory := self defaultTabItemFactory.
 	itemBuilder := self defaultItemBuilder.
 	showAddTabItemButton := false.
-	hidePartlyVisibleNodes := false
+	hidePartlyVisibleNodes := false.
 ]
 
 { #category : #initialization }

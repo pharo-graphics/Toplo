@@ -8,7 +8,13 @@ Class {
 ToTabPaneHeaderConfiguration >> applyOn: anElement [
 
 	super applyOn: anElement.
-
+	anElement isHorizontal
+		ifTrue: [
+				anElement hMatchParent.
+				anElement vFitContent ]
+		ifFalse: [
+				anElement vMatchParent.
+				anElement hFitContent ].
 	self configureAlignmentIn: anElement
 ]
 
@@ -16,20 +22,18 @@ ToTabPaneHeaderConfiguration >> applyOn: anElement [
 ToTabPaneHeaderConfiguration >> configureAlignmentIn: anElement [
 
 	anElement alignment ifNull: [
-			startFlexible := false.
-			endFlexible := false ].
+			anElement startFlexible: false.
+			anElement endFlexible: false ].
 	anElement alignment = BlElementAlignment start ifTrue: [
-			startFlexible := false.
-			endFlexible := true ].
+			anElement startFlexible: false.
+			anElement endFlexible: true  ].
 	anElement alignment = BlElementAlignment end ifTrue: [
-			startFlexible := true.
-			endFlexible := false ].
+			anElement startFlexible: true.
+			anElement endFlexible: false  ].
 	anElement alignment = BlElementAlignment middle ifTrue: [
-			startFlexible := true.
-			endFlexible := true ].
+			anElement startFlexible: true.
+			anElement endFlexible: true  ].
 
-	self configureStartFillerIn: anElement.
-	self configureEndFillerIn: anElement.
 	self configureTabGroupIn: anElement.
 	anElement alignCenter: true.
 ]
@@ -37,11 +41,9 @@ ToTabPaneHeaderConfiguration >> configureAlignmentIn: anElement [
 { #category : #hook }
 ToTabPaneHeaderConfiguration >> configureTabGroupIn: anElement [
 
-
-	(startFlexible or: [ endFlexible ]) ifTrue: [
+	(anElement isStartFlexible or: [ anElement isEndFlexible ]) ifTrue: [
 			anElement tabGroup fitContent.
-			anElement middleContainer hFitContent.
-			anElement middleContainer vFitContent.
+			anElement middleContainer fitContent.
 			^ self ].
 
 	anElement isHorizontal
@@ -56,5 +58,4 @@ ToTabPaneHeaderConfiguration >> configureTabGroupIn: anElement [
 				anElement middleContainer vMatchParent.
 				anElement middleContainer hFitContent ].
 	anElement checkTabGroupDynamicLayoutMode
-
 ]

@@ -1,10 +1,6 @@
 Trait {
 	#name : #TToTripletElementConfiguration,
 	#instVars : [
-		'startFiller',
-		'endFiller',
-		'startFlexible',
-		'endFlexible',
 		'endGap',
 		'startGap',
 		'startAlignment',
@@ -33,10 +29,8 @@ TToTripletElementConfiguration >> applyTripletElementConfigurationOn: anElement 
 
 	self configureChildrenIn: anElement.
 	self configureEndContainerIn: anElement.
-	self configureEndFillerIn: anElement.
 	self configureEndGapIn: anElement.
 	self configureStartContainerIn: anElement.
-	self configureStartFillerIn: anElement.
 	self configureStartGapIn: anElement
 ]
 
@@ -97,25 +91,6 @@ TToTripletElementConfiguration >> configureEndElementIn: anElement [
 ]
 
 { #category : #'t - triplet element configuration' }
-TToTripletElementConfiguration >> configureEndFillerIn: anElement [
-
-	endFlexible
-		ifTrue: [
-			endFiller ifNil: [
-				endFiller := anElement newFiller
-					               id: #'end-filler';
-					               yourself.
-				anElement addChild: endFiller after: anElement middleContainer ].
-			self on: endFiller resizerDo: [ :c |
-				c vertical matchParent.
-				c horizontal matchParent ] ]
-		ifFalse: [
-			endFiller ifNil: [ ^ self ].
-			endFiller removeFromParent.
-			endFiller := nil ]
-]
-
-{ #category : #'t - triplet element configuration' }
 TToTripletElementConfiguration >> configureEndGapIn: anElement [
 
 	endInterspace isZero
@@ -173,25 +148,6 @@ TToTripletElementConfiguration >> configureStartElementIn: anElement [
 ]
 
 { #category : #'t - triplet element configuration' }
-TToTripletElementConfiguration >> configureStartFillerIn: anElement [
-
-	startFlexible
-		ifTrue: [
-			startFiller ifNil: [
-				startFiller := anElement newFiller
-					               id: #'start-filler';
-					               yourself.
-				anElement addChild: startFiller before: anElement middleContainer ].
-			self on: startFiller resizerDo: [ :c |
-				c vertical matchParent.
-				c horizontal matchParent ] ]
-		ifFalse: [
-			startFiller ifNil: [ ^ self ].
-			startFiller removeFromParent.
-			startFiller := nil ]
-]
-
-{ #category : #'t - triplet element configuration' }
 TToTripletElementConfiguration >> configureStartGapIn: anElement [
 
 	startInterspace isZero
@@ -231,24 +187,6 @@ TToTripletElementConfiguration >> endAlignment: aNumber [
 ]
 
 { #category : #'t - triplet element accessing' }
-TToTripletElementConfiguration >> endFiller [
-
-	^ endFiller
-]
-
-{ #category : #'t - triplet element accessing' }
-TToTripletElementConfiguration >> endFlexible [
-
-	^ endFlexible
-]
-
-{ #category : #'t - triplet element accessing' }
-TToTripletElementConfiguration >> endFlexible: aBoolean [
-
-	endFlexible := aBoolean
-]
-
-{ #category : #'t - triplet element accessing' }
 TToTripletElementConfiguration >> endGap [
 
 	^ endGap
@@ -270,8 +208,6 @@ TToTripletElementConfiguration >> endInterspace: aNumber [
 TToTripletElementConfiguration >> initializeAsTripletElementConfiguration [
 
 	alignCenter := false.
-	startFlexible := false.
-	endFlexible := false.
 	startInterspace := 0.
 	endInterspace := 0
 ]
@@ -305,24 +241,6 @@ TToTripletElementConfiguration >> startAlignment [
 TToTripletElementConfiguration >> startAlignment: aNumber [
 
 	startAlignment := aNumber
-]
-
-{ #category : #'t - triplet element accessing' }
-TToTripletElementConfiguration >> startFiller [
-
-	^ startFiller
-]
-
-{ #category : #'t - triplet element accessing' }
-TToTripletElementConfiguration >> startFlexible [
-
-	^ startFlexible
-]
-
-{ #category : #'t - triplet element accessing' }
-TToTripletElementConfiguration >> startFlexible: aBoolean [
-
-	startFlexible := aBoolean
 ]
 
 { #category : #'t - triplet element accessing' }

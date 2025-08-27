@@ -6,7 +6,9 @@ Trait {
 		'endContainer',
 		'startElement',
 		'middleElement',
-		'endElement'
+		'endElement',
+		'startFiller',
+		'endFiller'
 	],
 	#category : #'Toplo-Core'
 }
@@ -145,20 +147,36 @@ TToTripletElement >> endElementDo: aBlock [
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endFiller [
 
-	^ self toConfiguration endFiller
+	^ endFiller
+]
+
+{ #category : #'t - triplet element - accessing' }
+TToTripletElement >> endFillerBuilder: aBlock [
+
+	self endFlexible: true.
+	aBlock value: self endFiller
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endFlexible [
 
-	^ self toConfiguration endFlexible
+	^ endFiller notNil
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endFlexible: aBoolean [
 
-	self endFlexible = aBoolean ifTrue: [ ^ self ].
-	self toConfiguration endFlexible: aBoolean.
+	aBoolean
+		ifTrue: [
+				endFiller ifNotNil: [ ^ self ].
+				endFiller := self newFiller.
+				endFiller id: #'end-filler'.
+				endFiller matchParent.
+				self addChild: endFiller after: middleContainer ]
+		ifFalse: [
+				endFiller ifNil: [ ^ self ].
+				endFiller removeFromParent.
+				endFiller := nil ].
 	self requestConfiguration.
 	self requestNewSkin
 ]
@@ -226,7 +244,7 @@ TToTripletElement >> initializeAsTripletElement [
 { #category : #'t - triplet element - testing' }
 TToTripletElement >> isEndFlexible [
 
-	^ self toConfiguration endFlexible
+	^ self endFlexible
 ]
 
 { #category : #'t - triplet element - testing' }
@@ -239,7 +257,7 @@ TToTripletElement >> isExact [
 { #category : #'t - triplet element - testing' }
 TToTripletElement >> isStartFlexible [
 
-	^ self toConfiguration startFlexible
+	^ self startFlexible
 ]
 
 { #category : #'t - triplet element - accessing' }
@@ -272,10 +290,16 @@ TToTripletElement >> middleElement: anElement [
 	self requestNewSkin
 ]
 
+{ #category : #'t - triplet element - accessing' }
+TToTripletElement >> middleElementDo: aBlock [
+
+	middleElement ifNotNil: [ :ic | aBlock value: ic ]
+]
+
 { #category : #'t - triplet element - instance creation' }
 TToTripletElement >> newFiller [
 
-	^ BlElement new
+	^ ToElement new
 		  extent: 0 @ 0;
 		  layout: BlLinearLayout new;
 		  yourself
@@ -339,7 +363,7 @@ TToTripletElement >> startChildren [
 	^ Array streamContents: [ :stream |
 		  startContainer ifNotNil: [ :s | stream nextPut: s ].
 		  self startGap ifNotNil: [ :s | stream nextPut: s ].
-		  self startFiller ifNotNil: [ :s | stream nextPut: s ] ]
+		  startFiller ifNotNil: [ :s | stream nextPut: s ] ]
 ]
 
 { #category : #'t - triplet element - accessing' }
@@ -368,22 +392,44 @@ TToTripletElement >> startElement: anElement [
 ]
 
 { #category : #'t - triplet element - accessing' }
+TToTripletElement >> startElementDo: aBlock [
+
+	startElement ifNotNil: [ :ic | aBlock value: ic ]
+]
+
+{ #category : #'t - triplet element - accessing' }
 TToTripletElement >> startFiller [
 
-	^ self toConfiguration startFiller
+	^ startFiller
+]
+
+{ #category : #'t - triplet element - accessing' }
+TToTripletElement >> startFillerBuilder: aBlock [
+
+	self startFlexible: true.
+	aBlock value: startFiller
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startFlexible [
 
-	^ self toConfiguration startFlexible
+	^ startFiller notNil
 ]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> startFlexible: aBoolean [
 
-	self startFlexible = aBoolean ifTrue: [ ^ self ].
-	self toConfiguration startFlexible: aBoolean.
+	aBoolean
+		ifTrue: [
+				startFiller ifNotNil: [ ^ self ].
+				startFiller := self newFiller.
+				startFiller id: #'start-filler'.
+				startFiller matchParent.
+				self addChild: startFiller before: middleContainer ]
+		ifFalse: [
+				startFiller ifNil: [ ^ self ].
+				startFiller removeFromParent.
+				startFiller := nil ].
 	self requestConfiguration.
 	self requestNewSkin
 ]

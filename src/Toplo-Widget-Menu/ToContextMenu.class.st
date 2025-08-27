@@ -55,7 +55,7 @@ ToContextMenu >> initialize [
 	self root addChild: self itemBar
 ]
 
-{ #category : #testing }
+{ #category : #'t - menu window model' }
 ToContextMenu >> isInline [ 
 
 	^ false

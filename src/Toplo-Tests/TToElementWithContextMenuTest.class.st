@@ -207,7 +207,7 @@ TToElementWithContextMenuTest >> testCurrentContextMenuWindow [
 	self assert: e currentContextMenu notNil.
 	self
 		assert: e currentContextMenu class
-		equals: e contextMenuManager popupWindowClass.
+		equals: e contextMenuManager defaultWindowClass.
 	^ e
 ]
 
@@ -236,7 +236,7 @@ TToElementWithContextMenuTest >> testHasOpenedContextMenu [
 	self assert: e currentContextMenu notNil.
 	self
 		assert: e currentContextMenu class
-		equals: e contextMenuManager popupWindowClass.
+		equals: e contextMenuManager defaultWindowClass.
 	^ e
 ]
 

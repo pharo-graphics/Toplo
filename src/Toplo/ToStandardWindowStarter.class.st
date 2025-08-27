@@ -7,13 +7,11 @@ Class {
 { #category : #'starting-stopping' }
 ToStandardWindowStarter >> startWindow: aWindow fromManager: aManager [
 
-	aManager anchorRoot addChild: aWindow.
-	"aManager anchorElement requestNewSkin"
+	aManager anchorRoot addChild: aWindow
 ]
 
 { #category : #'starting-stopping' }
 ToStandardWindowStarter >> stopWindow: aWindow fromManager: aManager [
 
-	aWindow removeFromParent.
-	"aManager anchorElement requestNewSkin"
+	aWindow removeFromParent
 ]

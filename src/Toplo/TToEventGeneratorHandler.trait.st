@@ -7,7 +7,8 @@ Trait {
 		'startDelay',
 		'startTime',
 		'startEvent',
-		'mouseUpOutsideFilter'
+		'mouseUpOutsideFilter',
+		'mouseOutsideEventChecker'
 	],
 	#category : #'Toplo-Support-EventGenerator'
 }
@@ -23,14 +24,29 @@ TToEventGeneratorHandler >> initializeAsEventGeneratorHandler [
 
 	delay := 0 milliSeconds.
 	startDelay := 0 milliSeconds.
-	time := BlTime real
+	time := BlTime real.
+	mouseOutsideEventChecker := [ :event | true ]
+]
+
+{ #category : #'t - event generator handler' }
+TToEventGeneratorHandler >> mouseOutsideEventChecker: aValuable [
+
+	mouseOutsideEventChecker := aValuable
 ]
 
 { #category : #'t - event generator handler' }
 TToEventGeneratorHandler >> mouseUpOutsideEvent: anEvent [
 
-	anEvent emitter = mouseUpOutsideFilter ifFalse: [ ^ self ].
+	(mouseOutsideEventChecker value: anEvent) ifFalse: [ ^ self ].
+	anEvent sourceEvent consume.
 	self stopEvent: anEvent
+]
+
+{ #category : #'t - event generator handler' }
+TToEventGeneratorHandler >> resetTaskFromEvent: anEvent in: aTarget [
+
+	self stopTaskFromEvent: anEvent in: aTarget.
+	self reset
 ]
 
 { #category : #'t - event generator handler' }
@@ -49,6 +65,7 @@ TToEventGeneratorHandler >> startDelay: aDuration [
 TToEventGeneratorHandler >> startEvent: anEvent [
 
 	| target eventToUse |
+
 	checker ifNotNil: [ ^ self ].
 	target := anEvent currentTarget.
 	eventToUse := anEvent copy.

@@ -46,7 +46,7 @@ ToMenuInlineWindowElement >> initialize [
 	self addEventHandler: ToMenuContainerEventHandler new
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : #testing }
 ToMenuInlineWindowElement >> isInline [ 
 
 	^ true

@@ -233,94 +233,99 @@ ToSandBox class >> barWithData: aCollection [
 	bar := ToGenericBarElement new.
 	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
 	bar nodeBuilder: [ :node :dataItem :holder |
-		| fontSize triplet label |
-		triplet := ToTripletElement new.
-		triplet
-			hMatchParent;
-			vFitContent.
-		fontSize := rand nextIntegerBetween: 10 and: 16.
-		label := (ToLabel text:
-				          holder position asString , ': ' , dataItem asString)
-			         fontSize: fontSize;
-			         yourself.
-		triplet startElement: ToIconicRemoveButton new.
-		triplet startElement clickAction: [ triplet startElement fireEvent: ToRemoveButtonClickedEvent new ].
-		triplet middleElement: label.
-		triplet startInterspace: 10.
-		triplet constraintsDo: [ :c | c linear vertical alignCenter ].
-		node addChild: triplet ].
+			| fontSize triplet label |
+			triplet := ToTripletElement new.
+			triplet
+				hMatchParent;
+				vFitContent.
+			fontSize := rand nextIntegerBetween: 10 and: 16.
+			label := (ToLabel text:
+					          holder position asString , ': ' , dataItem asString)
+				         fontSize: fontSize;
+				         yourself.
+			triplet startElement: ToIconicRemoveButton new.
+			triplet startElement clickAction: [
+				triplet startElement fireEvent: ToRemoveButtonClickedEvent new ].
+			triplet middleElement: label.
+			triplet startInterspace: 10.
+			triplet constraintsDo: [ :c | c linear vertical alignCenter ].
+			node addChild: triplet ].
 
 	bar contextMenu: [ :menu :request |
-		| idxes target |
-		target := request currentTarget.
-		idxes := request selectedIndexes.
-		menu addItem: (ToMenuItem new
-				 labelText: 'Inspect list';
-				 clickAction: [ target inspect ];
-				 yourself).
-		menu addItem: (ToMenuItem new
-				 labelText: 'Remove all';
-				 clickAction: [ target dataAccessor removeAll ];
-				 yourself).
-		menu addItem: (ToMenuItem new
-				 labelText: 'Add first a new item';
-				 clickAction: [
-					 target dataAccessor addFirst:
-							 String loremIpsum substrings first , ' (added first)' ];
-				 yourself).
-		menu addItem: (ToMenuItem new
-				 labelText: 'Add last a new item';
-				 clickAction: [
-					 target dataAccessor add:
-							 String loremIpsum substrings first , ' (added last)' ];
-				 yourself).
-		idxes ifNotEmpty: [
-			menu addItem: (ToMenu new
-					 labelText: 'Selected node';
-					 in: [ :m |
-						 m addItem: (ToMenuItem new
-									  labelText: 'Inspect';
-									  clickAction: [
-										  Array withAll:
-												  (idxes collect: [ :idx | target nodeAt: idx ]) inspect ];
-									  yourself).
-						 m addItem: (ToMenuItem new
-								  labelText: 'Remove';
-								  clickAction: [
-									  idxes reverseDo: [ :idx | bar dataAccessor removeAt: idx ] ];
-								  yourself).
-						 m addItem: (ToMenuItem new
-								  labelText: 'Unable/disable';
-								  clickAction: [
-									  idxes do: [ :idx | (bar nodeAt: idx) disable ] ];
-								  yourself).
-						 m addItem: (ToMenuItem new
-								  labelText: 'Unselectable';
-								  clickAction: [
-									  idxes do: [ :idx |
-											  bar unselectableSelecter selectIndex: idx ] ];
-								  yourself).
-						 m addItem: (ToMenuItem new
-								  labelText: 'Insert before';
-								  clickAction: [
-									  | idx |
-									  idx := idxes first.
-									  target dataAccessor
-										  add:
-											  String loremIpsum substrings first , ' (inserted before)'
-										  beforeIndex: idx ];
-								  yourself).
-						 m addItem: (ToMenuItem new
-								  labelText: 'Insert after';
-								  clickAction: [
-									  | idx |
-									  idx := idxes last.
-									  target dataAccessor
-										  add:
-											  String loremIpsum substrings first , ' (inserted after)'
-										  afterIndex: idx ];
-								  yourself) ];
-					 yourself) ] ].
+			| idxes target |
+			target := request currentTarget.
+			idxes := request selectedIndexes.
+			menu addItem: (ToMenuItem new
+					 labelText: 'Inspect list';
+					 clickAction: [ target inspect ];
+					 yourself).
+			menu addItem: (ToMenuItem new
+					 labelText: 'Remove all';
+					 clickAction: [ target dataAccessor removeAll ];
+					 yourself).
+			menu addItem: (ToMenuItem new
+					 labelText: 'Add first a new item';
+					 clickAction: [
+							 target dataAccessor addFirst:
+									 String loremIpsum substrings first , ' (added first)' ];
+					 yourself).
+			menu addItem: (ToMenuItem new
+					 labelText: 'Add last a new item';
+					 clickAction: [
+							 target dataAccessor add:
+									 String loremIpsum substrings first , ' (added last)' ];
+					 yourself).
+			idxes ifNotEmpty: [
+					menu addItem: (ToMenu new
+							 labelText: 'Selected node';
+							 in: [ :m |
+									 m addItem: (ToMenuItem new
+												  labelText: 'Inspect';
+												  clickAction: [
+													  Array withAll:
+															  (idxes collect: [ :idx | target nodeAt: idx ])
+																  inspect ];
+												  yourself).
+									 m addItem: (ToMenuItem new
+											  labelText: 'Remove';
+											  clickAction: [
+												  idxes reverseDo: [ :idx |
+														  bar dataAccessor removeAt: idx ] ];
+											  yourself).
+									 m addItem: (ToMenuItem new
+											  labelText: 'Unable/disable';
+											  clickAction: [
+												  idxes do: [ :idx | (bar nodeAt: idx) disable ] ];
+											  yourself).
+									 m addItem: (ToMenuItem new
+											  labelText: 'Unselectable';
+											  clickAction: [
+												  idxes do: [ :idx |
+														  bar unselectableSelecter selectIndex: idx ] ];
+											  yourself).
+									 m addItem: (ToMenuItem new
+											  labelText: 'Insert before';
+											  clickAction: [
+													  | idx |
+													  idx := idxes first.
+													  target dataAccessor
+														  add:
+															  String loremIpsum substrings first
+															  , ' (inserted before)'
+														  beforeIndex: idx ];
+											  yourself).
+									 m addItem: (ToMenuItem new
+											  labelText: 'Insert after';
+											  clickAction: [
+													  | idx |
+													  idx := idxes last.
+													  target dataAccessor
+														  add:
+															  String loremIpsum substrings first
+															  , ' (inserted after)'
+														  afterIndex: idx ];
+											  yourself) ];
+							 yourself) ] ].
 
 	confBoard := self barConfigurationBoardFor: bar.
 	selectionModeBoard := self selectionModeChooserFor: bar.
@@ -2185,8 +2190,8 @@ ToSandBox class >> example_EditableList2WithAllClassesNames [
 				 on: ToListStrongSelectionEvent
 				 do: [ :event |
 					 event indexes size == 1 ifTrue: [
-							 (l nodeAt: event indexes first) label popupEditorEvent: event ] ]);
-		withRowNumbers.
+							 (l nodeAt: event indexes first) label popupEditorEvent: event ] ]).
+	l	withRowNumbers.
 
 	l dataAccessor addAll:
 		(Smalltalk globals allClasses collect: [ :cls | cls -> cls name ]).
@@ -5147,6 +5152,138 @@ ToSandBox class >> example_TabPaneElementWithUSStates0 [
 	^ tpane
 ]
 
+{ #category : #tabPane }
+ToSandBox class >> example_TabPaneVerticalWithCompactHeaderLayoutMode [
+
+	| tabPane |
+	tabPane := self example_TabPaneWithCompactHeaderLayoutMode.
+	tabPane vertical: false.
+	^ tabPane.
+	
+
+]
+
+{ #category : #tabPane }
+ToSandBox class >> example_TabPaneWithAlignment [
+
+	| tabPane |
+	tabPane := ToTabPaneElement new.
+	tabPane vertical: true.
+	tabPane matchParent.
+	tabPane alignMiddle.
+	tabPane isFlowable: false.
+
+	tabPane itemBuilder: [ :tabButton :aData :tabGroup |
+			tabButton removable: true.
+			tabButton label: (ToLabel text: aData asString).
+			tabButton paneBuilder: [ :pane |
+					| e |
+					e := ToElement new matchParent.
+					e background: Color random.
+					pane addChild: e ] ].
+
+	tabPane header startExtraBuilder: [ :extra |
+			| e |
+			e := ToElement new withNullSkin.
+			e extent: 100 @ 30.
+			e background: Color pink.
+			extra addChild: e ].
+
+	tabPane tabGroup startExtraBuilder: [ :extra |
+			| e |
+			e := ToElement new withNullSkin.
+			e extent: 40 @ 30.
+			e background: Color yellow.
+			extra addChild: e ].
+
+	tabPane header endExtraBuilder: [ :extra |
+			| e |
+			e := ToElement new withNullSkin.
+			e extent: 20 @ 30.
+			e background: Color pink.
+			extra addChild: e ].
+
+	tabPane tabGroup endExtraBuilder: [ :extra |
+			| e |
+			e := ToElement new withNullSkin.
+			e extent: 40 @ 30.
+			e background: Color yellow.
+			extra addChild: e ].
+
+	tabPane header endFillerBuilder: [ :filler |
+			| e |
+			e := ToElement new withNullSkin.
+			e matchParent.
+			e background: Color blue.
+			filler addChild: e ].
+
+	tabPane header startFillerBuilder: [ :filler |
+			| e |
+			e := ToElement new withNullSkin.
+			e matchParent.
+			e background: Color blue.
+			filler addChild: e ].
+
+	tabPane addTabItemData: 'Tab'.
+	tabPane openInInnerWindow
+]
+
+{ #category : #tabPane }
+ToSandBox class >> example_TabPaneWithCompactHeaderLayoutMode [
+
+	| tabPane |
+	tabPane := ToTabPaneElement new.
+
+	tabPane matchParent.
+	tabPane compactHeaderLayoutMode: true.
+	tabPane showAddTabItemButton: true.
+	tabPane isFlowable: false.
+	tabPane isScrollable: true.
+	tabPane atStartSide: true.
+	tabPane vertical: true.
+
+	tabPane itemBuilder: [ :tabButton :aData :tabGroup |
+			tabButton removable: true.
+			tabButton label: (ToLabel text: aData asString).
+			tabButton paneBuilder: [ :pane |
+					| e |
+					e := ToElement new matchParent.
+					e background: Color random.
+					pane addChild: e ] ].
+
+	tabPane header startExtraBuilder: [ :extra |
+			| e |
+			e := ToElement new withNullSkin.
+			e extent: 30 asPoint.
+			e background: Color yellow.
+			e border: Color black.
+			extra addChild: e ].
+	tabPane tabGroup startExtraBuilder: [ :extra |
+			| e |
+			e := ToElement new withNullSkin.
+			e extent: 30 asPoint.
+			e background: Color red.
+			extra addChild: e ].
+	tabPane tabGroup endExtraBuilder: [ :extra |
+			| e |
+			e := ToElement new withNullSkin.
+			e extent: 30 asPoint.
+			e background: Color red.
+			extra addChild: e ].
+	tabPane header endExtraBuilder: [ :extra |
+			| e |
+			e := ToElement new withNullSkin.
+			e extent: 30 asPoint.
+			e border: Color black.
+			e background: Color yellow.
+			extra addChild: e ].
+
+	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
+		tabPane addTabItemData: l ].
+	tabPane openInInnerWindow.
+	^ tabPane
+]
+
 { #category : #tag }
 ToSandBox class >> example_TagBar [
 
@@ -5174,7 +5311,6 @@ ToSandBox class >> example_ThemeSelectNoDeselection [
 
 	| select |
 	select := self themeSelect.
-	select closeOnPicking: true.
 	select placeholderString: 'Select a Toplo theme'.
 	select
 		addEventHandlerOn: ToSelectChangedEvent
@@ -5406,6 +5542,7 @@ ToSandBox class >> example_TooltipPopupOnMouseDown [
 	but tooltipManagerDo: [ :m |
 			m popupOnPressed: true.
 			m popupOnHovered: true.
+			m closeOnMouseLeaved: false.
 			m popupDelay: 500 milliSeconds ].
 	but labelText: 'Button with tooltip'.
 	but tooltipBuilder: [ :window :request |
@@ -6036,7 +6173,7 @@ ToSandBox class >> example_elementWithEditor [
 	editorWindowManager := ToContentEditorManager new.
 	e addEventHandler: editorWindowManager.
 	e addEventHandlerOn: BlClickEvent do: [ :event |
-		(editorWindowManager newWindowEvent: event) ifNotNil: [ :win |
+		(editorWindowManager createNewWindowOnEvent: event) ifNotNil: [ :win |
 			win popupEvent: event ] ].
 	e openInSpace
 ]
@@ -7015,7 +7152,7 @@ ToSandBox class >> example_overlayWindow1 [
 					 text: 'Click to close me';
 					 yourself) ].
 	e openInInnerWindow.
-	(windowManager newWindowEvent: nil) popup
+	(windowManager createNewWindowOnEvent: nil) popup
 ]
 
 { #category : #window }
@@ -7047,7 +7184,7 @@ ToSandBox class >> example_overlayWindow2 [
 			anchWin background: Color red.
 			anchWin border: (BlBorder paint: Color black width: 2) ].
 	e openInInnerWindow.
-	(windowManager newWindowEvent: nil) popup
+	(windowManager createNewWindowOnEvent: nil) popup
 ]
 
 { #category : #window }
@@ -8425,7 +8562,7 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 				event consume.
 				editedLabel popupEditorEvent: event ];
 			whenEditorOpenedDo: [ :editorEvent |
-				window preventPickOutsideClosing.
+				window preventPickOutside.
 				editorEvent editorElement addStamp: #preformatted.
 				editorEvent editorElement whenCancelRequestedDo: [ :cancelRequest |
 						text := origString asRopedText.
@@ -8435,7 +8572,7 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 				editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
 						editorEvent target text: acceptedEvent target text.
 						text := acceptedEvent target text ] ];
-			whenEditorClosedDo: [ :event | window allowPickOutsideClosing ].
+			whenEditorClosedDo: [ :event | window allowPickOutside ].
 
 		resetBtn := ToButton new
 			            labelText: 'Reset';
@@ -9519,7 +9656,7 @@ ToSandBox class >> tabBarElementDashBoardFor: aTabBarElement [
 { #category : #tabPane }
 ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 
-	| mainPane barPane confPane startToEndSwitch addTabItemButtonSwicth |
+	| mainPane barPane confPane startToEndSwitch addTabItemButtonSwicth dynamicLayoutModeSwitch |
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
 
@@ -9537,6 +9674,13 @@ ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 	addTabItemButtonSwicth startFlexible: true.
 	addTabItemButtonSwicth hMatchParent.
 	confPane addChild: addTabItemButtonSwicth.
+
+	dynamicLayoutModeSwitch := ToSwitchButton new labelText: 'Dynamic layout mode'.
+	dynamicLayoutModeSwitch checkAction: [ :evt | aTabGroupElement compactLayoutMode: evt target isChecked ].
+
+	dynamicLayoutModeSwitch startFlexible: true.
+	dynamicLayoutModeSwitch hMatchParent.
+	confPane addChild: dynamicLayoutModeSwitch.
 
 	aTabGroupElement whenConfigurationAppliedDo: [ 
 		startToEndSwitch checked: aTabGroupElement atStartSide.

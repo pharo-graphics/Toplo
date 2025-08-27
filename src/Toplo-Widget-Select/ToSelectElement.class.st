@@ -48,12 +48,6 @@ ToSelectElement >> closeOnItemPicking [
 ]
 
 { #category : #'accessing - window' }
-ToSelectElement >> closeOnPicking: aBoolean [
-
-	self manager closeOnPicking: aBoolean
-]
-
-{ #category : #'accessing - window' }
 ToSelectElement >> currentPopupWindow [
 
 	^ self manager currentWindow

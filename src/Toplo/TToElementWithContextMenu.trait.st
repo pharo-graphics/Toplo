@@ -84,7 +84,7 @@ TToElementWithContextMenu >> hasOpenedContextMenu [
 { #category : #'t - element with context menu' }
 TToElementWithContextMenu >> newContextMenuEvent: anEvent [
 
-	^ self rawContextMenuManager newWindowEvent: anEvent
+	^ self rawContextMenuManager createNewWindowOnEvent: anEvent
 ]
 
 { #category : #'t - element with context menu' }

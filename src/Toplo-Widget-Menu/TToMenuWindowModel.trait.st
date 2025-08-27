@@ -9,10 +9,19 @@ TToMenuWindowModel >> closeWindow [
 	^ self explicitRequirement 
 ]
 
-{ #category : #testing }
+{ #category : #'t - menu window model' }
+TToMenuWindowModel >> hasInlineWindow [
+
+	^ self manager hasInlineWindow
+]
+
+{ #category : #'t - menu window model' }
 TToMenuWindowModel >> isInline [
 
-	^ self manager isInline
+	self
+		deprecated: 'Use #hasInlineWindow instead'
+		transformWith: '`@rcvr isInline' -> '`@rcvr hasInlineWindow'.
+	^ self hasInlineWindow
 ]
 
 { #category : #'t - menu window model' }

@@ -43,13 +43,13 @@ ToAnchoredWindowManager >> anchorRoot: anElement [
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> buildCurrentWindowFromRequest: aRequest [
+ToAnchoredWindowManager >> closeWindow [
 
-	windowBuilder value: currentWindow value: aRequest
+	self closeWindowOnEvent: nil
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> closeWindow [
+ToAnchoredWindowManager >> closeWindowOnEvent: anEvent [
 
 	currentWindow ifNil: [ ^ self ].
 	currentWindow isOpened ifFalse: [ ^ self ].
@@ -66,6 +66,31 @@ ToAnchoredWindowManager >> closedEvent: anEvent [
 	self onWindowClosed
 ]
 
+{ #category : #'window handling' }
+ToAnchoredWindowManager >> createNewWindowOnEvent: anEvent [
+
+	| request |
+	currentWindow ifNotNil: [
+		^ Error signal: 'Asking for a window building twice' ].
+	self anchorElement ifNil: [
+		^ Error signal: 'An element is required for building a window' ].
+	self windowBuilder ifNil: [
+		^ Error signal: 'A window builder is required for building a window' ].
+
+	request := self newWindowRequestOnEvent: anEvent.
+
+	" dispatch the event. handlers can eventually feed the event with additional data 
+	that can be used by the builder "
+	self anchorElement dispatchEvent: request.
+
+	" the event is dispatched, eventually updated with additional data, 
+	the current window can be created then built"
+	currentWindow := self newWindow.
+	" use the accessor because it is lazy "
+	self windowBuilder value: currentWindow value: request.
+	^ currentWindow
+]
+
 { #category : #accessing }
 ToAnchoredWindowManager >> currentWindow [
 
@@ -76,15 +101,6 @@ ToAnchoredWindowManager >> currentWindow [
 ToAnchoredWindowManager >> currentWindowDo: aValuable [
 
 	currentWindow ifNotNil: [ :cw | aValuable value: cw ]
-]
-
-{ #category : #initialization }
-ToAnchoredWindowManager >> defaultBuilder [
-	" return a valuable used to build the window. The window is passed as first argument and the argument is request event "
-
-	^ [ :theWindow :theRequest | ]
-
-	
 ]
 
 { #category : #initialization }
@@ -100,7 +116,22 @@ ToAnchoredWindowManager >> defaultPlacement [
 ]
 
 { #category : #initialization }
-ToAnchoredWindowManager >> defaultStarter [
+ToAnchoredWindowManager >> defaultWindowBuilder [
+	" return a valuable used to build the window. The window is passed as first argument and the argument is request event "
+
+	^ [ :theWindow :theRequest | ]
+
+	
+]
+
+{ #category : #accessing }
+ToAnchoredWindowManager >> defaultWindowClass [
+
+	^ ToAnchoredWindow 
+]
+
+{ #category : #initialization }
+ToAnchoredWindowManager >> defaultWindowStarter [
 
 	^ ToStandardWindowStarter new
 ]
@@ -152,6 +183,12 @@ ToAnchoredWindowManager >> handleEvent: anEvent [
 ]
 
 { #category : #testing }
+ToAnchoredWindowManager >> hasInlineWindow [
+
+	^ windowStarter isForInlineWindow
+]
+
+{ #category : #testing }
 ToAnchoredWindowManager >> hasWindow [
 
 	^ currentWindow notNil
@@ -161,14 +198,17 @@ ToAnchoredWindowManager >> hasWindow [
 ToAnchoredWindowManager >> initialize [
 
 	super initialize.
-	windowBuilder := self defaultBuilder.
-	windowStarter := self defaultStarter
+	windowBuilder := self defaultWindowBuilder.
+	windowStarter := self defaultWindowStarter
 ]
 
 { #category : #testing }
 ToAnchoredWindowManager >> isInline [ 
 
-	^ windowStarter isInline
+	self
+		deprecated: 'Use #hasInlineWindow instead'
+		transformWith: '`@rcvr isInline' -> '`@rcvr hasInlineWindow'.
+	^ self hasInlineWindow
 ]
 
 { #category : #accessing }
@@ -192,33 +232,7 @@ ToAnchoredWindowManager >> newWindow [
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> newWindowEvent: anEvent [
-
-	| request |
-	currentWindow ifNotNil: [
-		^ Error signal: 'Asking for a window building twice' ].
-	self anchorElement ifNil: [
-		^ Error signal: 'An element is required for building a window' ].
-	self windowBuilder ifNil: [
-		^ Error signal: 'A window builder is required for building a window' ].
-
-	self anchorElement isEnabled ifFalse: [ ^ nil ].
-
-	request := self newWindowRequestFrom: anEvent.
-
-	" dispatch the event. handlers can eventually feed the event with additional data 
-	that can be used by the builder "
-	self anchorElement dispatchEvent: request.
-
-	" the event is dispatched, eventually updated with additional data, 
-	the current window can be created then built"
-	currentWindow := self newWindow.
-	self buildCurrentWindowFromRequest: request.
-	^ currentWindow
-]
-
-{ #category : #'window handling' }
-ToAnchoredWindowManager >> newWindowRequestFrom: anEvent [
+ToAnchoredWindowManager >> newWindowRequestOnEvent: anEvent [
 
 	^ self windowRequestClass new
 		  sourceEvent: anEvent;
@@ -285,12 +299,6 @@ ToAnchoredWindowManager >> placement: aPlacement [
 	placement := aPlacement
 ]
 
-{ #category : #accessing }
-ToAnchoredWindowManager >> popupWindowClass [
-
-	^ ToAnchoredWindow 
-]
-
 { #category : #'window handling' }
 ToAnchoredWindowManager >> positionWindowOnEvent: anEvent context: aBlElementBoundsUpdateContext [
 
@@ -327,12 +335,14 @@ ToAnchoredWindowManager >> themeInstalledEvent: anEvent [
 
 { #category : #accessing }
 ToAnchoredWindowManager >> windowBuilder [
+	" return a valuable used to build the window. The window is passed as first argument and the argument is request event "
 
-	^ windowBuilder
+	^ windowBuilder ifNil: [ windowBuilder := self defaultWindowBuilder ]
 ]
 
 { #category : #accessing }
 ToAnchoredWindowManager >> windowBuilder: aWindowBuilderValuable [
+	" a valuable with the window as first argument and a request event as second argument "
 
 	windowBuilder := aWindowBuilderValuable
 ]

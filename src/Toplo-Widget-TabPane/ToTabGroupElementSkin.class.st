@@ -9,8 +9,14 @@ ToTabGroupElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e background: Color transparent.
-		e border: BlBorder empty.
-		e startInterspace: (e valueOfTokenNamed: #'button-interspace').
-		e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
+			e background: Color transparent.
+			e border: BlBorder empty.
+			e isHorizontal
+				ifTrue: [
+						e menusContainer padding:
+							(BlInsets horizontal:
+								 (e valueOfTokenNamed: #'padding-content-H')) ]
+				ifFalse: [
+						e menusContainer padding:
+							(BlInsets vertical: (e valueOfTokenNamed: #'padding-content-V')) ] ]
 ]

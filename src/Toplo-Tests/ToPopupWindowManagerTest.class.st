@@ -63,7 +63,7 @@ ToPopupWindowManagerTest >> testElementEventHandlerClass [
 
 	windowManager := ToPopupWindowManager new.
 	e addEventHandler: windowManager.
-	win := windowManager newWindowEvent: nil.
+	win := windowManager createNewWindowOnEvent: nil.
 	win popup.
 	self waitTestingSpaces.
 	self assert: win anchorElement equals: e.
@@ -84,7 +84,7 @@ ToPopupWindowManagerTest >> testElementPositionInSpaceChangedEvent [
 
 	windowManager := ToPopupWindowManager new.
 	e addEventHandler: windowManager.
-	win := windowManager newWindowEvent: nil.
+	win := windowManager createNewWindowOnEvent: nil.
 	win popup.
 	self waitTestingSpaces.
 	self assert: win isOpened.

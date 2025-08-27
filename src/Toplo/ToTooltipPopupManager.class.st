@@ -23,19 +23,18 @@ ToTooltipPopupManager >> defaultPopupDelay [
 	^ 700 milliSeconds
 ]
 
+{ #category : #accessing }
+ToTooltipPopupManager >> defaultWindowClass [
+
+	^ ToTooltipWindow 
+]
+
 { #category : #initialization }
 ToTooltipPopupManager >> initialize [
 
 	super initialize.
-	upCountRequired := 0.
 	closeOnMouseReleased := true.
 	closeOnMouseLeaved := true.
 	popupOnPressed := false.
 	popupOnHovered := true
-]
-
-{ #category : #accessing }
-ToTooltipPopupManager >> popupWindowClass [
-
-	^ ToTooltipWindow 
 ]

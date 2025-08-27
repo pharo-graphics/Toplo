@@ -10,6 +10,12 @@ ToContextMenuManager >> defaultPlacement [
 	^ ToAnchoredPickedPlacement new
 ]
 
+{ #category : #accessing }
+ToContextMenuManager >> defaultWindowClass [
+
+	^ ToContextMenu 
+]
+
 { #category : #'event handling' }
 ToContextMenuManager >> elementPositionInSpaceChangedEvent: anEvent [
 
@@ -23,12 +29,16 @@ ToContextMenuManager >> initialize [
 	self useSecondaryMouseButton
 ]
 
-{ #category : #'window handling' }
-ToContextMenuManager >> newPickOutsideFilter [
+{ #category : #'event handling' }
+ToContextMenuManager >> isPickedOutsideEvent: anEvent [
+	" return true if the event is considered as a pick outside event "
 
-	^ super newPickOutsideFilter
-		  shouldCheckElement: false;
-		  yourself
+	| target |
+	target := anEvent target.
+	"and outside of the popup windows ? "
+	currentWindow withAllSubwindowsDo: [ :w |
+		(target withAllParentsInclude: w) ifTrue: [ ^ false ] ].
+	^ true
 ]
 
 { #category : #'window handling' }
@@ -36,12 +46,6 @@ ToContextMenuManager >> onWindowOpened [
 
 	super onWindowOpened.
 	currentWindow itemBar requestFocus
-]
-
-{ #category : #accessing }
-ToContextMenuManager >> popupWindowClass [
-
-	^ ToContextMenu 
 ]
 
 { #category : #accessing }

@@ -8,9 +8,9 @@ Trait {
 }
 
 { #category : #'t - anchored window element - testing' }
-TToAnchoredWindowElement >> allowPickOutsideClosing [
+TToAnchoredWindowElement >> allowPickOutside [
 
-	self manager plugPickOutsideFilter
+	self manager checkPickOutside: true
 ]
 
 { #category : #'t - anchored window element - accessing' }
@@ -188,9 +188,9 @@ TToAnchoredWindowElement >> positionOnEvent: anEvent context: aBlElementBoundsUp
 ]
 
 { #category : #'t - anchored window element - displaying' }
-TToAnchoredWindowElement >> preventPickOutsideClosing [
+TToAnchoredWindowElement >> preventPickOutside [
 
-	self manager unplugPickOutsideFilter
+	self manager checkPickOutside: false
 ]
 
 { #category : #'t - anchored window element - private layout' }

@@ -76,9 +76,22 @@ ToTabPaneElement >> body [
 ]
 
 { #category : #accessing }
+ToTabPaneElement >> compactHeaderLayoutMode: aBoolean [
+
+	self header compactLayoutMode: aBoolean.
+	self requestConfiguration 
+]
+
+{ #category : #accessing }
 ToTabPaneElement >> header [ 
 
 	^ headerContainer 
+]
+
+{ #category : #accessing }
+ToTabPaneElement >> hidePartlyVisibleNodes: aBoolean [
+
+	self tabGroup hidePartlyVisibleNodes: aBoolean
 ]
 
 { #category : #initialization }
@@ -140,6 +153,12 @@ ToTabPaneElement >> preservePane [
 	^ false
 ]
 
+{ #category : #'hooks - layout' }
+ToTabPaneElement >> requestLayoutModeCheck [
+
+	headerContainer requestLayoutModeCheck
+]
+
 { #category : #accessing }
 ToTabPaneElement >> showAddTabItemButton [
 
@@ -156,6 +175,16 @@ ToTabPaneElement >> showAddTabItemButton: aBoolean [
 ToTabPaneElement >> tabGroup [ 
 
 	^ headerContainer tabGroup 
+]
+
+{ #category : #accessing }
+ToTabPaneElement >> tabGroupDynamicLayoutMode: aBoolean [
+
+	self
+		deprecated: 'Use compactHeaderLayoutMode: instead'
+		transformWith: '`@rcvr tabGroupDynamicLayoutMode: `@arg'
+			-> '`@rcvr compactHeaderLayoutMode: `@arg'.
+	self compactHeaderLayoutMode: aBoolean
 ]
 
 { #category : #'t - checkable group owner' }

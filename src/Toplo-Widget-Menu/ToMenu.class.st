@@ -91,10 +91,10 @@ ToMenu >> initialize [
 	self addEventHandler: windowManager
 ]
 
-{ #category : #testing }
+{ #category : #'t - menu window model' }
 ToMenu >> isInline [
 
-	^ self manager isInline
+	^ super isInline
 ]
 
 { #category : #accessing }
@@ -186,7 +186,9 @@ ToMenu >> onAddedInItemBarOwner: aMenu [
 { #category : #'t - menu item bar container - double dispatch' }
 ToMenu >> onAddedMenu: aMenu [
 
-	aMenu isSubmenu: true
+	aMenu isSubmenu: true.
+	" don't close a menu item on picking (mouse up or mouse down) "
+	aMenu closeOnPicking: false
 ]
 
 { #category : #'adding-removing' }

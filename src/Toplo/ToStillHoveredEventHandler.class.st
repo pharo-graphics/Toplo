@@ -1,8 +1,6 @@
 Class {
 	#name : #ToStillHoveredEventHandler,
-	#superclass : #BlCustomEventHandler,
-	#traits : 'TToEventGeneratorHandler',
-	#classTraits : 'TToEventGeneratorHandler classTrait',
+	#superclass : #ToEventGeneratorHandler,
 	#category : #'Toplo-Support-EventGenerator'
 }
 

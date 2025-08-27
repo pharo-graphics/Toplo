@@ -5164,6 +5164,71 @@ ToSandBox class >> example_TabPaneVerticalWithDynamicLayoutMode [
 ]
 
 { #category : #tabPane }
+ToSandBox class >> example_TabPaneWithAlignment [
+
+	| tabPane |
+	tabPane := ToTabPaneElement new.
+	tabPane vertical: true.
+	tabPane matchParent.
+	tabPane alignMiddle.
+	tabPane isFlowable: false.
+
+	tabPane itemBuilder: [ :tabButton :aData :tabGroup |
+			tabButton removable: true.
+			tabButton label: (ToLabel text: aData asString).
+			tabButton paneBuilder: [ :pane |
+					| e |
+					e := ToElement new matchParent.
+					e background: Color random.
+					pane addChild: e ] ].
+
+	tabPane header startExtraBuilder: [ :extra |
+			| e |
+			e := ToElement new withNullSkin.
+			e extent: 100 @ 30.
+			e background: Color pink.
+			extra addChild: e ].
+
+	tabPane tabGroup startExtraBuilder: [ :extra |
+			| e |
+			e := ToElement new withNullSkin.
+			e extent: 40 @ 30.
+			e background: Color yellow.
+			extra addChild: e ].
+
+	tabPane header endExtraBuilder: [ :extra |
+			| e |
+			e := ToElement new withNullSkin.
+			e extent: 20 @ 30.
+			e background: Color pink.
+			extra addChild: e ].
+
+	tabPane tabGroup endExtraBuilder: [ :extra |
+			| e |
+			e := ToElement new withNullSkin.
+			e extent: 40 @ 30.
+			e background: Color yellow.
+			extra addChild: e ].
+
+	tabPane header endFillerBuilder: [ :filler |
+			| e |
+			e := ToElement new withNullSkin.
+			e matchParent.
+			e background: Color blue.
+			filler addChild: e ].
+
+	tabPane header startFillerBuilder: [ :filler |
+			| e |
+			e := ToElement new withNullSkin.
+			e matchParent.
+			e background: Color blue.
+			filler addChild: e ].
+
+	tabPane addTabItemData: 'Tab'.
+	tabPane openInInnerWindow
+]
+
+{ #category : #tabPane }
 ToSandBox class >> example_TabPaneWithDynamicLayoutMode [
 
 	| tabPane |

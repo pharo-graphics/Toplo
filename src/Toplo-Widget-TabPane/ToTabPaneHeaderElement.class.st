@@ -81,7 +81,9 @@ ToTabPaneHeaderElement >> initialize [
 	super initialize.
 	tabGroupDynamicLayoutMode := false.
 	self startElement: self newLinearContainer.
+	self startElement id: #'start-extra-container'.
 	self endElement: self newLinearContainer.
+	self endElement id: #'end-extra-container'.
 	tabGroup := self newTabGroupElement.
 	self middleElement: tabGroup.
 	self noAlignment.

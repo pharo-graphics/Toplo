@@ -200,12 +200,20 @@ ToTabGroupElement >> initializeParts [
 	self middleElement: self itemBar.
 	self endElement: self newLinearContainer.
 	endExtraContainer := self newLinearContainer.
+	endExtraContainer id: #'end-extra-container'.
 	menusContainer := self newLinearContainer.
+	menusContainer id: #'menus-container'.
 	invisibleNodeMenuItemBuilder := self defaultInvisibleNodeMenuItemBuilder.
+	menusContainer addChild: addTabItemButton.
+	addTabItemButton id: #'add-tab-button'.
 	menusContainer addChild: invisibleNodesMenu.
-	self endElement addChild: addTabItemButton.
+	invisibleNodesMenu id: #'invisible-nodes-menu'.
 	self endElement addChild: menusContainer.
-	self endElement addChild: endExtraContainer
+	self endElement addChild: endExtraContainer.
+	
+	self startElement id: #'start-extra-container'.
+	self middleElement id: #'tab-bar'.
+	self endElement id: #'end-container'.
 ]
 
 { #category : #accessing }
@@ -251,6 +259,12 @@ ToTabGroupElement >> itemBuilder: aValuable [
 	" aValuable takes the new TabItemElement, the data and the TabGroupElement as arguments "
 
 	itemBuilder := aValuable
+]
+
+{ #category : #accessing }
+ToTabGroupElement >> menusContainer [
+
+	^ menusContainer 
 ]
 
 { #category : #'t - item bar container - initializing' }

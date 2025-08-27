@@ -146,6 +146,7 @@ ToTabPaneHeaderElement >> onLayoutDone [
 { #category : #'hooks - layout' }
 ToTabPaneHeaderElement >> requestTabGroupDynamicLayoutModeCheck [
 
+	tabGroupDynamicLayoutMode ifFalse: [ ^ self ].
 	tabGroupDynamicLayoutModeCheckRequested := true
 ]
 

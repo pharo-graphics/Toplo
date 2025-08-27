@@ -173,7 +173,8 @@ ToTabPaneElement >> tabGroup [
 { #category : #accessing }
 ToTabPaneElement >> tabGroupDynamicLayoutMode: aBoolean [
 
-	self header tabGroupDynamicLayoutMode: aBoolean
+	self header tabGroupDynamicLayoutMode: aBoolean.
+	self requestConfiguration 
 ]
 
 { #category : #'t - checkable group owner' }

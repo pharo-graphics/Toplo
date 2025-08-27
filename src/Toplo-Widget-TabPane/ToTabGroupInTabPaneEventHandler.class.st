@@ -64,7 +64,7 @@ ToTabGroupInTabPaneEventHandler >> eventsToHandle [
 { #category : #'events handling' }
 ToTabGroupInTabPaneEventHandler >> itemAddedInBarEvent: anEvent [
 
-	tabPane requestTabGroupDynamicLayoutModeCheck.
+	tabPane requestLayoutModeCheck.
 	tabPane dispatchEvent: anEvent copy
 ]
 
@@ -78,7 +78,7 @@ ToTabGroupInTabPaneEventHandler >> itemRemovedFromBarEvent: anEvent [
 			body := tabPane body.
 			body removeChildren ].
 		
-	tabPane requestTabGroupDynamicLayoutModeCheck.
+	tabPane requestLayoutModeCheck.
 	tabPane dispatchEvent: anEvent copy
 ]
 

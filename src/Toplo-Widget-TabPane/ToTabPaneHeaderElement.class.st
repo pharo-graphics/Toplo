@@ -4,8 +4,8 @@ Class {
 	#instVars : [
 		'tabGroup',
 		'alignment',
-		'tabGroupDynamicLayoutMode',
-		'tabGroupDynamicLayoutModeCheckRequested'
+		'compactLayoutMode',
+		'layoutModeCheckRequested'
 	],
 	#category : #'Toplo-Widget-TabPane-TabPane'
 }
@@ -42,10 +42,10 @@ ToTabPaneHeaderElement >> alignment: anElementAlignment [
 ]
 
 { #category : #initialization }
-ToTabPaneHeaderElement >> checkTabGroupDynamicLayoutMode [
+ToTabPaneHeaderElement >> checkLayoutMode [
 
 	| scrollable |
-	tabGroupDynamicLayoutMode ifFalse: [ ^ self ].
+	compactLayoutMode ifFalse: [ ^ self ].
 	scrollable := self trackElement parent.
 	((self isHorizontal and: [ scrollable isHFitContent ]) or: [
 		 self isVertical and: [ scrollable isVFitContent ] ])
@@ -71,6 +71,13 @@ ToTabPaneHeaderElement >> checkTabGroupDynamicLayoutMode [
 ]
 
 { #category : #accessing }
+ToTabPaneHeaderElement >> compactLayoutMode: aBoolean [
+
+	compactLayoutMode := aBoolean.
+	self requestLayoutModeCheck 
+]
+
+{ #category : #accessing }
 ToTabPaneHeaderElement >> endExtraBuilder: aValuable [
 
 	aValuable value: self endElement
@@ -80,7 +87,7 @@ ToTabPaneHeaderElement >> endExtraBuilder: aValuable [
 ToTabPaneHeaderElement >> initialize [
 
 	super initialize.
-	tabGroupDynamicLayoutMode := false.
+	compactLayoutMode := false.
 	self startElement: self newLinearContainer.
 	self startElement id: #'start-extra-container'.
 	self endElement: self newLinearContainer.
@@ -89,10 +96,10 @@ ToTabPaneHeaderElement >> initialize [
 	self middleElement: tabGroup.
 	self noAlignment.
 
-	tabGroupDynamicLayoutModeCheckRequested := false.
+	layoutModeCheckRequested := false.
 	self
 		addEventHandlerOn: BlElementExtentChangedEvent
-		do: [ self requestTabGroupDynamicLayoutModeCheck ]
+		do: [ self requestLayoutModeCheck ]
 ]
 
 { #category : #accessing }
@@ -137,17 +144,17 @@ ToTabPaneHeaderElement >> noAlignment [
 ToTabPaneHeaderElement >> onLayoutDone [ 
 
 	super onLayoutDone.
-	tabGroupDynamicLayoutModeCheckRequested ifFalse: [ ^ self ].
-	self checkTabGroupDynamicLayoutMode.
-	tabGroupDynamicLayoutModeCheckRequested := false
+	layoutModeCheckRequested ifFalse: [ ^ self ].
+	self checkLayoutMode.
+	layoutModeCheckRequested := false
 
 ]
 
 { #category : #'hooks - layout' }
-ToTabPaneHeaderElement >> requestTabGroupDynamicLayoutModeCheck [
+ToTabPaneHeaderElement >> requestLayoutModeCheck [
 
-	tabGroupDynamicLayoutMode ifFalse: [ ^ self ].
-	tabGroupDynamicLayoutModeCheckRequested := true
+	compactLayoutMode ifFalse: [ ^ self ].
+	layoutModeCheckRequested := true
 ]
 
 { #category : #accessing }
@@ -160,13 +167,6 @@ ToTabPaneHeaderElement >> startExtraBuilder: aValuable [
 ToTabPaneHeaderElement >> tabGroup [ 
 
 	^ tabGroup
-]
-
-{ #category : #accessing }
-ToTabPaneHeaderElement >> tabGroupDynamicLayoutMode: aBoolean [
-
-	tabGroupDynamicLayoutMode := aBoolean.
-	self requestTabGroupDynamicLayoutModeCheck 
 ]
 
 { #category : #accessing }

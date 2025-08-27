@@ -5153,10 +5153,10 @@ ToSandBox class >> example_TabPaneElementWithUSStates0 [
 ]
 
 { #category : #tabPane }
-ToSandBox class >> example_TabPaneVerticalWithDynamicLayoutMode [
+ToSandBox class >> example_TabPaneVerticalWithCompactHeaderLayoutMode [
 
 	| tabPane |
-	tabPane := self example_TabPaneWithDynamicLayoutMode.
+	tabPane := self example_TabPaneWithCompactHeaderLayoutMode.
 	tabPane vertical: false.
 	^ tabPane.
 	
@@ -5229,13 +5229,13 @@ ToSandBox class >> example_TabPaneWithAlignment [
 ]
 
 { #category : #tabPane }
-ToSandBox class >> example_TabPaneWithDynamicLayoutMode [
+ToSandBox class >> example_TabPaneWithCompactHeaderLayoutMode [
 
 	| tabPane |
 	tabPane := ToTabPaneElement new.
 
 	tabPane matchParent.
-	tabPane tabGroupDynamicLayoutMode: true.
+	tabPane compactHeaderLayoutMode: true.
 	tabPane showAddTabItemButton: true.
 	tabPane isFlowable: false.
 	tabPane isScrollable: true.
@@ -5281,7 +5281,7 @@ ToSandBox class >> example_TabPaneWithDynamicLayoutMode [
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		tabPane addTabItemData: l ].
 	tabPane openInInnerWindow.
-	^ tabPane 
+	^ tabPane
 ]
 
 { #category : #tag }
@@ -9676,7 +9676,7 @@ ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 	confPane addChild: addTabItemButtonSwicth.
 
 	dynamicLayoutModeSwitch := ToSwitchButton new labelText: 'Dynamic layout mode'.
-	dynamicLayoutModeSwitch checkAction: [ :evt | aTabGroupElement tabGroupDynamicLayoutMode: evt target isChecked ].
+	dynamicLayoutModeSwitch checkAction: [ :evt | aTabGroupElement compactLayoutMode: evt target isChecked ].
 
 	dynamicLayoutModeSwitch startFlexible: true.
 	dynamicLayoutModeSwitch hMatchParent.

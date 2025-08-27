@@ -76,6 +76,13 @@ ToTabPaneElement >> body [
 ]
 
 { #category : #accessing }
+ToTabPaneElement >> compactHeaderLayoutMode: aBoolean [
+
+	self header compactLayoutMode: aBoolean.
+	self requestConfiguration 
+]
+
+{ #category : #accessing }
 ToTabPaneElement >> header [ 
 
 	^ headerContainer 
@@ -147,9 +154,9 @@ ToTabPaneElement >> preservePane [
 ]
 
 { #category : #'hooks - layout' }
-ToTabPaneElement >> requestTabGroupDynamicLayoutModeCheck [
+ToTabPaneElement >> requestLayoutModeCheck [
 
-	headerContainer requestTabGroupDynamicLayoutModeCheck
+	headerContainer requestLayoutModeCheck
 ]
 
 { #category : #accessing }
@@ -173,8 +180,11 @@ ToTabPaneElement >> tabGroup [
 { #category : #accessing }
 ToTabPaneElement >> tabGroupDynamicLayoutMode: aBoolean [
 
-	self header tabGroupDynamicLayoutMode: aBoolean.
-	self requestConfiguration 
+	self
+		deprecated: 'Use compactHeaderLayoutMode: instead'
+		transformWith: '`@rcvr tabGroupDynamicLayoutMode: `@arg'
+			-> '`@rcvr compactHeaderLayoutMode: `@arg'.
+	self compactHeaderLayoutMode: aBoolean
 ]
 
 { #category : #'t - checkable group owner' }

@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'tabGroup',
 		'alignment',
-		'tabGroupDynamicLayoutMode'
+		'tabGroupDynamicLayoutMode',
+		'tabGroupDynamicLayoutModeCheckRequested'
 	],
 	#category : #'Toplo-Widget-TabPane-TabPane'
 }
@@ -87,9 +88,11 @@ ToTabPaneHeaderElement >> initialize [
 	tabGroup := self newTabGroupElement.
 	self middleElement: tabGroup.
 	self noAlignment.
+
+	tabGroupDynamicLayoutModeCheckRequested := false.
 	self
 		addEventHandlerOn: BlElementExtentChangedEvent
-		do: [ self checkTabGroupDynamicLayoutMode ]
+		do: [ self requestTabGroupDynamicLayoutModeCheck ]
 ]
 
 { #category : #accessing }
@@ -130,6 +133,22 @@ ToTabPaneHeaderElement >> noAlignment [
 	self alignment: BlElementAlignment null
 ]
 
+{ #category : #'hooks - layout' }
+ToTabPaneHeaderElement >> onLayoutDone [ 
+
+	super onLayoutDone.
+	tabGroupDynamicLayoutModeCheckRequested ifFalse: [ ^ self ].
+	self checkTabGroupDynamicLayoutMode.
+	tabGroupDynamicLayoutModeCheckRequested := false
+
+]
+
+{ #category : #'hooks - layout' }
+ToTabPaneHeaderElement >> requestTabGroupDynamicLayoutModeCheck [
+
+	tabGroupDynamicLayoutModeCheckRequested := true
+]
+
 { #category : #accessing }
 ToTabPaneHeaderElement >> startExtraBuilder: aValuable [
 
@@ -146,7 +165,7 @@ ToTabPaneHeaderElement >> tabGroup [
 ToTabPaneHeaderElement >> tabGroupDynamicLayoutMode: aBoolean [
 
 	tabGroupDynamicLayoutMode := aBoolean.
-	self checkTabGroupDynamicLayoutMode
+	self requestTabGroupDynamicLayoutModeCheck 
 ]
 
 { #category : #accessing }

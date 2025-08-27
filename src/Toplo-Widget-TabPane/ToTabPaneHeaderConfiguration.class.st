@@ -57,5 +57,6 @@ ToTabPaneHeaderConfiguration >> configureTabGroupIn: anElement [
 				anElement tabGroup hFitContent.
 				anElement middleContainer vMatchParent.
 				anElement middleContainer hFitContent ].
-	anElement checkTabGroupDynamicLayoutMode
+			
+	anElement requestTabGroupDynamicLayoutModeCheck 
 ]

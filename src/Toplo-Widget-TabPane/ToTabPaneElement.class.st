@@ -75,12 +75,6 @@ ToTabPaneElement >> body [
 	^ bodyContainer 
 ]
 
-{ #category : #initialization }
-ToTabPaneElement >> checkTabGroupDynamicLayoutMode [
-
-	self header checkTabGroupDynamicLayoutMode
-]
-
 { #category : #accessing }
 ToTabPaneElement >> header [ 
 
@@ -150,6 +144,12 @@ ToTabPaneElement >> preservePane [
 	self deprecated: 'Use ToTabButton>>#paneDestroyer: to set a destroyer to a particular button'.
 
 	^ false
+]
+
+{ #category : #'hooks - layout' }
+ToTabPaneElement >> requestTabGroupDynamicLayoutModeCheck [
+
+	headerContainer requestTabGroupDynamicLayoutModeCheck
 ]
 
 { #category : #accessing }

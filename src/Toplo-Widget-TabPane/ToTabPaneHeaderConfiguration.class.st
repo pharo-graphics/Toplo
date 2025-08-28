@@ -44,25 +44,31 @@ ToTabPaneHeaderConfiguration >> configureAlignmentIn: anElement [
 { #category : #hook }
 ToTabPaneHeaderConfiguration >> configureTabGroupIn: anElement [
 
+	| tabGroup |
+	tabGroup := anElement tabGroup.
 	(anElement isStartFlexible or: [ anElement isEndFlexible ]) ifTrue: [
-			anElement tabGroup fitContent.
+			tabGroup fitContent.
 			anElement middleContainer fitContent.
 			^ self ].
 
 	anElement isHorizontal
 		ifTrue: [
-				anElement tabGroup hMatchParent.
-				anElement tabGroup vFitContent.
+				tabGroup hMatchParent.
+				tabGroup vFitContent.
 				anElement middleContainer hMatchParent.
 				anElement middleContainer vFitContent ]
 		ifFalse: [
-				anElement tabGroup vMatchParent.
-				anElement tabGroup hFitContent.
+				tabGroup vMatchParent.
+				tabGroup hFitContent.
 				anElement middleContainer vMatchParent.
 				anElement middleContainer hFitContent ].
-
+	tabGroup isFlowable ifTrue: [ ^ self ].
 	matchParentMode
-		ifTrue: [ self switchToMatchParentIn: anElement ]
+		ifTrue: [
+				self switchToMatchParentIn: anElement.
+				tabGroup selectionModel selectedIndexesDo: [ :idx |
+						tabGroup whenLayoutedDoOnce: [
+							tabGroup selecter scrollTowardStartToDataSourcePosition: idx ] ] ]
 		ifFalse: [ self switchToFitContentIn: anElement ]
 ]
 

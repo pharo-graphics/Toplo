@@ -25,10 +25,10 @@ ToTabGroupElement >> addNewTabItem [
 	self itemBar
 		addEventHandlerOn: ToListNodeAddedEvent
 		doOnce: [ :event |
-			self itemBar whenLayoutedDoOnce: [  
-				self selecter scrollTowardStartToDataSourcePosition:
-					event node holder position.
-				event node item checked: true ] ].
+				self itemBar whenLayoutedDoOnce: [
+						event node item checked: true.
+						self selecter scrollTowardStartToDataSourcePosition:
+							event node holder position ] ].
 	self addTabItemData: 'New Tab'
 ]
 

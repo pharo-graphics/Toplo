@@ -85,7 +85,7 @@ ToAnchoredElement >> attachToElement: anElement [
 { #category : #accessing }
 ToAnchoredElement >> builder: aValuable [
 
-	aValuable value: self
+	self subclassResponsibility 
 ]
 
 { #category : #initialization }

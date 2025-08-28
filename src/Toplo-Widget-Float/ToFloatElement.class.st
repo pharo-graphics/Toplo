@@ -14,6 +14,12 @@ ToFloatElement >> attachToElement: anElement [
 	anElement floatOverlay addChild: self
 ]
 
+{ #category : #accessing }
+ToFloatElement >> builder: aValuable [
+
+	aValuable value: innerElement 
+]
+
 { #category : #initialization }
 ToFloatElement >> defaultOffset [
 
@@ -25,6 +31,12 @@ ToFloatElement >> defaultOffset [
 ToFloatElement >> defaultPlacement [ 
 
 	^ ToAnchoredAtBottomRight new
+]
+
+{ #category : #'attaching  / detaching' }
+ToFloatElement >> detachFromElement [
+
+	self removeFromParent
 ]
 
 { #category : #initialization }
@@ -40,11 +52,8 @@ ToFloatElement >> initialize [
 
 ]
 
-{ #category : #skin }
-ToFloatElement >> installRawStyle [
+{ #category : #'attaching  / detaching' }
+ToFloatElement >> isAttached [
 
-	super installRawStyle.
-	self background: (self valueOfTokenNamed: #'background-color').
-	self effect:
-		(BlGaussianShadowEffect color: Color gray width: 8 offset: 1 @ 1)
+	^ self hasParent
 ]

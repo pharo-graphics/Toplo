@@ -13,6 +13,12 @@ ToBaseBadge >> attachToElement: anElement [
 			 yourself)
 ]
 
+{ #category : #accessing }
+ToBaseBadge >> builder: aValuable [
+
+	aValuable value: self
+]
+
 { #category : #initialization }
 ToBaseBadge >> defaultOffset [
 

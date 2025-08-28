@@ -41,40 +41,32 @@ ToTabPaneHeaderElement >> alignment: anElementAlignment [
 	self requestConfiguration
 ]
 
-{ #category : #initialization }
+{ #category : #configuration }
 ToTabPaneHeaderElement >> checkLayoutMode [
 
-	| scrollable |
 	compactLayoutMode ifFalse: [ ^ self ].
-	scrollable := self trackElement parent.
-	((self isHorizontal and: [ scrollable isHFitContent ]) or: [
-		 self isVertical and: [ scrollable isVFitContent ] ])
-		ifTrue: [
+	self matchParentMode 
+		ifFalse: [
 				| groupEndBnds tabPaneEndBnds w |
-				groupEndBnds := self tabGroup endContainer bounds inParent: self.
-				tabPaneEndBnds := self endContainer bounds.
-
+				groupEndBnds := tabGroup endContainer bounds inParent: self.
+				tabPaneEndBnds := endContainer bounds.
 				w := self isHorizontal
 					     ifTrue: [ tabPaneEndBnds left - groupEndBnds right ]
 					     ifFalse: [ tabPaneEndBnds top - groupEndBnds bottom ].
-				w < 1 ifTrue: [
-						self trackElement allParentsUpTo: self tabGroup do: [ :p |
-								self isHorizontal
-									ifTrue: [ p hMatchParent ]
-									ifFalse: [ p vMatchParent ] ] ] ]
-		ifFalse: [
-				self tabGroup invisibleNodes ifEmpty: [
-						self trackElement allParentsUpTo: self tabGroup do: [ :p |
-								self isHorizontal
-									ifTrue: [ p hFitContent ]
-									ifFalse: [ p vFitContent ] ] ] ]
+				w < 1 ifTrue: [ self matchParentMode: true ] ]
+		ifTrue: [
+			self invisibleNodes ifEmpty: [
+				self matchParentMode: false ] ]
 ]
 
 { #category : #accessing }
 ToTabPaneHeaderElement >> compactLayoutMode: aBoolean [
 
+	compactLayoutMode = aBoolean ifTrue: [ ^ self ].
 	compactLayoutMode := aBoolean.
-	self requestLayoutModeCheck 
+	aBoolean
+		ifTrue: [ self requestLayoutModeCheck ]
+		ifFalse: [ self matchParentMode: true ]
 ]
 
 { #category : #accessing }
@@ -88,6 +80,7 @@ ToTabPaneHeaderElement >> initialize [
 
 	super initialize.
 	compactLayoutMode := false.
+	layoutModeCheckRequested := false.
 	self startElement: self newLinearContainer.
 	self startElement id: #'start-extra-container'.
 	self endElement: self newLinearContainer.
@@ -96,10 +89,15 @@ ToTabPaneHeaderElement >> initialize [
 	self middleElement: tabGroup.
 	self noAlignment.
 
-	layoutModeCheckRequested := false.
 	self
 		addEventHandlerOn: BlElementExtentChangedEvent
 		do: [ self requestLayoutModeCheck ]
+]
+
+{ #category : #accessing }
+ToTabPaneHeaderElement >> invisibleNodes [ 
+
+	^ tabGroup invisibleNodes
 ]
 
 { #category : #accessing }
@@ -118,6 +116,20 @@ ToTabPaneHeaderElement >> isAlignMiddle [
 ToTabPaneHeaderElement >> isAlignStart [
 
 	^ self alignment = BlElementAlignment start
+]
+
+{ #category : #configuration }
+ToTabPaneHeaderElement >> matchParentMode [
+
+	^ self toConfiguration matchParentMode
+]
+
+{ #category : #configuration }
+ToTabPaneHeaderElement >> matchParentMode: aBoolean [
+
+	self toConfiguration matchParentMode = aBoolean ifTrue: [ ^ self ].
+	self toConfiguration matchParentMode: aBoolean.
+	self requestConfiguration
 ]
 
 { #category : #'instance creation' }

@@ -132,6 +132,7 @@ ToSandBox class >> barConfigurationBoardFor: aBar [
 
 	| menu confPane animSwitch |
 	confPane := ToPane vertical.
+	confPane id: #configurationPane.
 	confPane matchParent.
 	confPane padding: (BlInsets all: 5).
 
@@ -4802,6 +4803,19 @@ ToSandBox class >> example_SieveOnTreeWithClasses [
 	pane openInSpace
 ]
 
+{ #category : #float }
+ToSandBox class >> example_SimpleFloat [
+
+	| plusBtn pane floatLayer |
+	plusBtn := ToButton new labelText: '+'; yourself.
+	pane := ToPane new matchParent.
+
+	floatLayer := ToFloatOverlay new.
+	floatLayer attachToParent: pane.
+	floatLayer addChild: plusBtn asFloatElement.
+	pane openInInnerWindow
+]
+
 { #category : #menu }
 ToSandBox class >> example_SimpleOpenSaveSaveAsClose [
 
@@ -5133,7 +5147,7 @@ ToSandBox class >> example_TabPaneElementWithUSStates [
 	"tpane items third checked: true."
 	tpane selecter selectIndex: 3.
 
-	dashBoard := self tabGroupElementDashBoardFor: tpane.
+	dashBoard := self tabPaneElementDashBoardFor: tpane.
 	dashBoard openInSpace.
 	tpane tabGroup requestFocus.
 	^ tpane
@@ -5142,7 +5156,7 @@ ToSandBox class >> example_TabPaneElementWithUSStates [
 { #category : #tabPane }
 ToSandBox class >> example_TabPaneElementWithUSStates0 [
 
-	| tpane dashBoard |
+	| tpane |
 	tpane := self tabPaneElementWithUSStates.
 	tpane selecter selectIndex: 3.
 	"tpane items third checked: true."
@@ -9673,7 +9687,7 @@ ToSandBox class >> tabBarElementDashBoardFor: aTabBarElement [
 { #category : #tabPane }
 ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 
-	| mainPane barPane confPane startToEndSwitch addTabItemButtonSwicth dynamicLayoutModeSwitch |
+	| mainPane barPane confPane startToEndSwitch addTabItemButtonSwicth |
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
 
@@ -9692,13 +9706,6 @@ ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 	addTabItemButtonSwicth hMatchParent.
 	confPane addChild: addTabItemButtonSwicth.
 
-	dynamicLayoutModeSwitch := ToSwitchButton new labelText: 'Dynamic layout mode'.
-	dynamicLayoutModeSwitch checkAction: [ :evt | aTabGroupElement compactHeaderLayoutMode: evt target isChecked ].
-
-	dynamicLayoutModeSwitch startFlexible: true.
-	dynamicLayoutModeSwitch hMatchParent.
-	confPane addChild: dynamicLayoutModeSwitch.
-
 	aTabGroupElement whenConfigurationAppliedDo: [ 
 		startToEndSwitch checked: aTabGroupElement atStartSide.
 		addTabItemButtonSwicth checked: aTabGroupElement showAddTabItemButton ].
@@ -9716,6 +9723,24 @@ ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 			barPane }.
 	mainPane addDividers.
 	mainPane matchParent.
+
+	^ mainPane
+]
+
+{ #category : #tabPane }
+ToSandBox class >> tabPaneElementDashBoardFor: aTabPaneElement [
+
+	| mainPane confPane layoutModeSwitch |
+	mainPane := self tabGroupElementDashBoardFor: aTabPaneElement.
+	confPane := mainPane childWithId: #configurationPane.
+	layoutModeSwitch := ToSwitchButton new labelText:
+		                    'Compact layout mode'.
+	layoutModeSwitch checkAction: [ :evt |
+		aTabPaneElement header compactLayoutMode: evt target isChecked ].
+
+	layoutModeSwitch startFlexible: true.
+	layoutModeSwitch hMatchParent.
+	confPane addChild: layoutModeSwitch.
 
 	^ mainPane
 ]

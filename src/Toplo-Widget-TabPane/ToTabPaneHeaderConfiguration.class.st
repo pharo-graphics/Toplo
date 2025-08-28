@@ -1,6 +1,9 @@
 Class {
 	#name : #ToTabPaneHeaderConfiguration,
 	#superclass : #ToTripletElementConfiguration,
+	#instVars : [
+		'matchParentMode'
+	],
 	#category : #'Toplo-Widget-TabPane-TabPane'
 }
 
@@ -57,6 +60,49 @@ ToTabPaneHeaderConfiguration >> configureTabGroupIn: anElement [
 				anElement tabGroup hFitContent.
 				anElement middleContainer vMatchParent.
 				anElement middleContainer hFitContent ].
-			
-	anElement requestLayoutModeCheck 
+
+	matchParentMode
+		ifTrue: [ self switchToMatchParentIn: anElement ]
+		ifFalse: [ self switchToFitContentIn: anElement ]
+]
+
+{ #category : #initialization }
+ToTabPaneHeaderConfiguration >> initialize [ 
+
+	super initialize.
+	matchParentMode := true
+]
+
+{ #category : #accessing }
+ToTabPaneHeaderConfiguration >> matchParentMode [
+
+	^ matchParentMode
+]
+
+{ #category : #accessing }
+ToTabPaneHeaderConfiguration >> matchParentMode: aBoolean [
+
+	matchParentMode := aBoolean
+]
+
+{ #category : #'private - layout managing' }
+ToTabPaneHeaderConfiguration >> switchToFitContentIn: anHeaderElement [
+
+	anHeaderElement trackElement
+		allParentsUpTo: anHeaderElement tabGroup
+		do: [ :p |
+				anHeaderElement isHorizontal
+					ifTrue: [ p hFitContent ]
+					ifFalse: [ p vFitContent ] ]
+]
+
+{ #category : #'private - layout managing' }
+ToTabPaneHeaderConfiguration >> switchToMatchParentIn: anHeaderElement [
+
+	anHeaderElement trackElement
+		allParentsUpTo: anHeaderElement tabGroup
+		do: [ :p |
+				anHeaderElement isHorizontal
+					ifTrue: [ p hMatchParent ]
+					ifFalse: [ p vMatchParent ] ]
 ]

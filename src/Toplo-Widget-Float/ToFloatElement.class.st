@@ -7,10 +7,17 @@ Class {
 	#category : #'Toplo-Widget-Float'
 }
 
+{ #category : #'attaching  / detaching' }
+ToFloatElement >> attachToElement: anElement [
+
+	self constraintsDo: [ :c | c ignoreByLayout ].
+	anElement floatOverlay addChild: self
+]
+
 { #category : #initialization }
 ToFloatElement >> defaultOffset [
 
-	^ 8 negated asPoint.
+	^ 10 negated asPoint.
 
 ]
 

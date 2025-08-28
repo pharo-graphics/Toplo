@@ -4925,6 +4925,7 @@ ToSandBox class >> example_SimpleTabPane [
 	| tabPane space |
 	space := BlSpace new.
 	tabPane := ToTabPaneElement new.
+	tabPane isFlowable: false.
 	tabPane matchParent.
 	space root addChild: tabPane.
 	tabPane itemBuilder: [ :tabItem :data |
@@ -9730,7 +9731,7 @@ ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 { #category : #tabPane }
 ToSandBox class >> tabPaneElementDashBoardFor: aTabPaneElement [
 
-	| mainPane confPane layoutModeSwitch |
+	| mainPane confPane hideParlyVisibleNodesSwitch layoutModeSwitch |
 	mainPane := self tabGroupElementDashBoardFor: aTabPaneElement.
 	confPane := mainPane childWithId: #configurationPane.
 	layoutModeSwitch := ToSwitchButton new labelText:
@@ -9741,6 +9742,16 @@ ToSandBox class >> tabPaneElementDashBoardFor: aTabPaneElement [
 	layoutModeSwitch startFlexible: true.
 	layoutModeSwitch hMatchParent.
 	confPane addChild: layoutModeSwitch.
+
+	hideParlyVisibleNodesSwitch := ToSwitchButton new labelText:
+		                    'Hide partly visible modes'.
+	hideParlyVisibleNodesSwitch checkAction: [ :evt |
+		aTabPaneElement hidePartlyVisibleNodes: evt target isChecked ].
+
+	hideParlyVisibleNodesSwitch startFlexible: true.
+	hideParlyVisibleNodesSwitch hMatchParent.
+	confPane addChild: hideParlyVisibleNodesSwitch.
+
 
 	^ mainPane
 ]

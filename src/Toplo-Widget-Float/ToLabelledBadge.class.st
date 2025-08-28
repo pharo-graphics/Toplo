@@ -12,7 +12,6 @@ ToLabelledBadge >> initialize [
 
 	super initialize.
 	label := ToLabel text: ''.
-	label bold.
 	label constraintsDo: [ :c |
 			c frame horizontal alignCenter.
 			c frame vertical alignCenter ].

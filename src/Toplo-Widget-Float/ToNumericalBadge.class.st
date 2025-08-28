@@ -1,11 +1,12 @@
 Class {
 	#name : #ToNumericalBadge,
-	#superclass : #ToLabelledBadge,
+	#superclass : #ToBadge,
 	#traits : 'TObservable',
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
 		'#count => ObservableSlot',
-		'#overflowCount => ObservableSlot'
+		'#overflowCount => ObservableSlot',
+		'#showZero => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-Float'
 }
@@ -25,12 +26,21 @@ ToNumericalBadge >> count: aNumber [
 { #category : #'private - accessing' }
 ToNumericalBadge >> countChanged [
 
-	| n t |
+	| n t label |
 	n := self count min: self overflowCount.
+	self children reverseDo: [ :child | child removeFromParent ].
+	(n isZero not or: [ showZero ]) ifFalse: [
+			self extent: self minWidth asPoint.
+			^ self ].
+	self fitContent.
 	t := String streamContents: [ :str |
 			     str nextPutAll: n asString.
 			     count > overflowCount ifTrue: [ str nextPut: $+ ] ].
-	label text: t
+	label := ToLabel text: t.
+	label constraintsDo: [ :c |
+			c frame horizontal alignCenter.
+			c frame vertical alignCenter ].
+	self addChild: label
 ]
 
 { #category : #accessing }
@@ -62,8 +72,10 @@ ToNumericalBadge >> initialize [
 
 	super initialize.
 	self class initializeSlots: self.
+	showZero := false.
 	self property: #count whenChangedDo: [ self countChanged ].
 	self property: #overflowCount whenChangedDo: [ self countChanged ].
+	self property: #showZero whenChangedDo: [ self countChanged ].
 	self tooltipBuilder: [ :window :request |
 			window root addChild: ((ToLabel text: self count asString)
 					 defaultRawSkin: ToLabelInTooltipSkin new;
@@ -81,4 +93,10 @@ ToNumericalBadge >> overflowCount [
 ToNumericalBadge >> overflowCount: aNumber [
 
 	overflowCount := aNumber
+]
+
+{ #category : #accessing }
+ToNumericalBadge >> showZero: aBoolean [
+
+	showZero := aBoolean 
 ]

@@ -9731,9 +9731,33 @@ ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 { #category : #tabPane }
 ToSandBox class >> tabPaneElementDashBoardFor: aTabPaneElement [
 
-	| mainPane confPane hideParlyVisibleNodesSwitch layoutModeSwitch |
+	| mainPane confPane hideParlyVisibleNodesSwitch layoutModeSwitch alignmentGroup |
 	mainPane := self tabGroupElementDashBoardFor: aTabPaneElement.
 	confPane := mainPane childWithId: #configurationPane.
+
+	confPane addChild: (ToLabel new text: 'Alignment').
+	alignmentGroup := ToCheckableGroupPane vertical.
+	alignmentGroup fitContent.
+	{
+		('No alignment' -> BlElementAlignment null).
+		('Start' -> BlElementAlignment start).
+		('Middle' -> BlElementAlignment middle).
+		('End' -> BlElementAlignment end) } do: [ :assoc |
+			| rad |
+			rad := ToRadioButton new
+				       labelText: assoc key;
+				       id: assoc key asSymbol.
+			rad userData at: #align put: assoc value.
+			rad checked: aTabPaneElement headerAlignment = assoc value.
+			alignmentGroup addChild: rad ].
+
+	alignmentGroup groupCheckAction: [ :evt |
+			| align |
+			align := evt checkedList anyOne userData at: #align.
+			aTabPaneElement headerAlignment: align ].
+
+	confPane addChild: alignmentGroup.
+
 	layoutModeSwitch := ToSwitchButton new labelText:
 		                    'Compact layout mode'.
 	layoutModeSwitch checkAction: [ :evt |
@@ -9744,7 +9768,7 @@ ToSandBox class >> tabPaneElementDashBoardFor: aTabPaneElement [
 	confPane addChild: layoutModeSwitch.
 
 	hideParlyVisibleNodesSwitch := ToSwitchButton new labelText:
-		                    'Hide partly visible modes'.
+		                               'Hide partly visible modes'.
 	hideParlyVisibleNodesSwitch checkAction: [ :evt |
 		aTabPaneElement hidePartlyVisibleNodes: evt target isChecked ].
 

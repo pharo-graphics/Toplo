@@ -89,6 +89,18 @@ ToTabPaneElement >> header [
 ]
 
 { #category : #accessing }
+ToTabPaneElement >> headerAlignment [
+
+	^ headerContainer alignment
+]
+
+{ #category : #accessing }
+ToTabPaneElement >> headerAlignment: anElementAlignment [ 
+
+	headerContainer alignment: anElementAlignment 
+]
+
+{ #category : #accessing }
 ToTabPaneElement >> hidePartlyVisibleNodes: aBoolean [
 
 	self tabGroup hidePartlyVisibleNodes: aBoolean

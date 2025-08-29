@@ -7,8 +7,7 @@ Class {
 		'skinStateQueue',
 		'skinInstaller',
 		'skinUninstaller',
-		'installedSkin',
-		'removedFromSpaceHandler'
+		'installedSkin'
 	],
 	#category : #'Toplo-Core-Skin'
 }
@@ -16,10 +15,8 @@ Class {
 { #category : #'skin state generation' }
 ToSkinManager >> addSkinStateGeneration: aValuable for: anElement [
 
-	" add a skin generation action to be evaluated by the states application phase "
-	anElement space
-		ifNotNil: [ :space | space addSkinStateGeneration: aValuable ]
-		ifNil: [ aValuable value ]
+	installedSkin addSkinStateGeneration: aValuable for: anElement
+	
 ]
 
 { #category : #'accessing - skin state queue' }
@@ -104,6 +101,7 @@ ToSkinManager >> forceSkinUninstaller: aSkinUninstaller in: anElement [
 ToSkinManager >> initialize [ 
 
 	super initialize.
+	installedSkin := ToUnknownSkin instance.
 	skinStateQueue := ToSkinStateQueue new.
 	skinRequestCount := 0
 ]
@@ -111,24 +109,19 @@ ToSkinManager >> initialize [
 { #category : #'skin - installing / uninstalling' }
 ToSkinManager >> installSkin: aSkin in: anElement [
 
-	self
-		assert: installedSkin isNil
-		description: 'The skin must not be already stored!.'.
-	self assert: removedFromSpaceHandler isNil.
-	self
-		assert: [
-				anElement eventDispatcher handlers noneSatisfy: [ :h |
-					h class = aSkin class ] ]
-		description: [ 'The skin must not be already registered!' ].
+	Bloc debugModeEnabled ifTrue: [
+			self
+				assert: installedSkin isUnknownSkin 
+				description: 'The skin must not be already stored!.'.
+			self
+				assert: [
+						anElement eventDispatcher handlers noneSatisfy: [ :h |
+							h class = aSkin class ] ]
+				description: [ 'The skin must not be already registered!' ] ].
+
 	" store the skin "
 	installedSkin := aSkin.
 	anElement addEventHandler: installedSkin.
-	" install the event handler that will ask for a skin uninstaller when element is removed from space "
-	removedFromSpaceHandler := anElement
-		                           addEventHandlerOn:
-		                           ToRemovedFromSpaceEvent
-		                           do: [
-		                           self requestUninstallSkinIn: anElement ].
 	self skinStateQueue enqueueInstallStateForElement: anElement
 ]
 
@@ -142,8 +135,8 @@ ToSkinManager >> installedSkin [
 { #category : #'accessing - installed skin' }
 ToSkinManager >> installedSkinDo: aBlock [
 
-	installedSkin ifNil: [ ^ self ].
-	aBlock value: self installedSkin
+	installedSkin isUnknownSkin ifTrue: [ ^ self ].
+	aBlock value: installedSkin
 ]
 
 { #category : #'skin - installing / uninstalling' }
@@ -199,7 +192,7 @@ ToSkinManager >> requestUninstallSkinIn: anElement [
 	Thus, to avoid infinite recurssion, do nothing if a skin installer is 
 	being installing"
 
-	installedSkin ifNil: [ ^ self ].
+	installedSkin isUnknownSkin ifTrue: [ ^ self ].
 	(skinInstaller notNil and: [ skinInstaller isInstalling ]) ifTrue: [
 		^ self ].
 	skinUninstaller ifNotNil: [ ^ self ].
@@ -211,6 +204,12 @@ ToSkinManager >> requestUninstallSkinRecursivelyIn: anElement [
 
 	anElement withAllChildrenBreadthFirstDo: [ :child |
 		child skinManagerDo: [ :sm | sm requestUninstallSkinIn: child ] ]
+]
+
+{ #category : #'skin - install / uninstall request' }
+ToSkinManager >> resetSkinRequestCount [ 
+
+	skinRequestCount := 0
 ]
 
 { #category : #'accessing - styleSheet' }
@@ -271,12 +270,10 @@ ToSkinManager >> styleSheet: anObject [
 ToSkinManager >> uninstallSkinIn: anElement [
 	" uninstall the skin "
 
-	installedSkin ifNil: [ ^ self ].
+	installedSkin isUnknownSkin ifTrue: [ ^ self ].
 	self skinStateQueue enqueueUninstallStateForElement: anElement.
 	" do not wait the next pulse to ensure the uninstallation is done here "
 	skinStateQueue applyEnqueuedStatesIn: anElement.
-	anElement removeEventHandler: removedFromSpaceHandler.
-	removedFromSpaceHandler := nil.
 	anElement removeEventHandler: installedSkin.
-	installedSkin := nil
+	installedSkin := ToUnknownSkin instance
 ]

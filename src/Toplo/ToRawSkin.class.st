@@ -1,8 +1,8 @@
 Class {
 	#name : #ToRawSkin,
 	#superclass : #ToBasicSkin,
-	#traits : 'TToLookEventListenerRegistry',
-	#classTraits : 'TToLookEventListenerRegistry classTrait',
+	#traits : 'TToSkinEventListenerRegistry',
+	#classTraits : 'TToSkinEventListenerRegistry classTrait',
 	#category : #'Toplo-Core-Skin'
 }
 

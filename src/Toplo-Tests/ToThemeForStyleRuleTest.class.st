@@ -13,5 +13,5 @@ ToThemeForStyleRuleTest class >> label [
 { #category : #accessing }
 ToThemeForStyleRuleTest >> newSkinFor: anElement [
 
-	^ ToNullSkin new
+	^ ToNullSkin instance
 ]

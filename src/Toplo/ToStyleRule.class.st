@@ -1,8 +1,8 @@
 Class {
 	#name : #ToStyleRule,
 	#superclass : #Object,
-	#traits : 'TToLookEventListenerRegistry + TToStyleRulesHolder',
-	#classTraits : 'TToLookEventListenerRegistry classTrait + TToStyleRulesHolder classTrait',
+	#traits : 'TToSkinEventListenerRegistry + TToStyleRulesHolder',
+	#classTraits : 'TToSkinEventListenerRegistry classTrait + TToStyleRulesHolder classTrait',
 	#instVars : [
 		'selector',
 		'subStyleRules'

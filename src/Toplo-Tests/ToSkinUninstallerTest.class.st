@@ -14,13 +14,13 @@ ToSkinUninstallerTest >> testApplyOn [
 	e := ToElement new.
 	e skinManager forceSkinUninstaller: ToSkinUninstaller new in: e.
 	e skinManager applySkinUninstallerIn: e.
-	self deny: e skinManager installedSkin notNil.
+	self deny: e skinManager installedSkin isKnownSkin.
 	space root addChild: e.
 	e skinManager applySkinReinstallIn: e.
-	self assert: e skinManager installedSkin notNil.
+	self assert: e skinManager installedSkin isKnownSkin.
 	e skinManager forceSkinUninstaller: ToSkinUninstaller new in: e.
 	e skinManager applySkinUninstallerIn: e.
-	self assert: e skinManager installedSkin isNil
+	self deny: e skinManager installedSkin isKnownSkin
 ]
 
 { #category : #tests }
@@ -31,16 +31,16 @@ ToSkinUninstallerTest >> testApplyOnWithRawSkin [
 	space toTheme: ToRawTheme new.
 	e skinManager forceSkinUninstaller: ToSkinUninstaller new in: e.
 	e skinManager applySkinUninstallerIn: e.
-	self deny: e skinManager installedSkin notNil.
+	self deny: e skinManager installedSkin isKnownSkin.
 	" since the element is not attached "
 	self deny: e styleUninstalled.
 	space root addChild: e.
 	e skinManager applySkinReinstallIn: e.
-	self assert: e skinManager installedSkin notNil.
+	self assert: e skinManager installedSkin isKnownSkin.
 	self assert: e styleInstalled.
 	e skinManager forceSkinUninstaller: ToSkinUninstaller new in: e.
 	e skinManager applySkinUninstallerIn: e.
-	self assert: e skinManager installedSkin isNil.
+	self deny: e skinManager installedSkin isKnownSkin.
 	self assert: e styleUninstalled
 ]
 
@@ -52,10 +52,10 @@ ToSkinUninstallerTest >> testWithNullSkin [
 	space root addChild: e.
 	self assert: e skinManager skinInstaller isNil.
 	e skinManager applySkinReinstallIn: e.
-	self assert: e skinManager installedSkin notNil.
+	self assert: e skinManager installedSkin isKnownSkin.
 	e withNullSkin.
 	e skinManager applySkinUninstallerIn: e.
-	self assert: e skinManager installedSkin isNil.
+	self deny: e skinManager installedSkin isKnownSkin.
 	self assert: e skinManager skinInstaller notNil.
 	e skinManager applySkinReinstallIn: e.
 	self assert: e skinManager installedSkin isNullSkin
@@ -69,10 +69,10 @@ ToSkinUninstallerTest >> testWithSetSkin [
 	space root addChild: e.
 	self assert: e skinManager skinInstaller isNil.
 	e skinManager applySkinReinstallIn: e.
-	self assert: e skinManager installedSkin notNil.
+	self assert: e skinManager installedSkin isKnownSkin.
 	e defaultSkin: ToNullSkin new.
 	e skinManager applySkinUninstallerIn: e.
-	self assert: e skinManager installedSkin isNil.
+	self deny: e skinManager installedSkin isKnownSkin.
 	self assert: e skinManager skinInstaller notNil.
 	e skinManager applySkinReinstallIn: e.
 	self assert: e skinManager installedSkin isNullSkin

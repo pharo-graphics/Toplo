@@ -27,7 +27,7 @@ ToSkinStateQueueTest >> testEnqueueInstallStateFor [
 	| q e sk isk |
 	e := self newElementInSpace.
 	isk := e skinManager installedSkin.
-	self assert: isk notNil.
+	self assert: isk isKnownSkin.
 	q := e skinManager skinStateQueue.
 	q := ToSkinStateQueue new.
 	self assert: q nextStates notNil.
@@ -59,7 +59,7 @@ ToSkinStateQueueTest >> testEnqueueInstallStateForThroughARequest [
 	| q e sk isk |
 	e := self newElementInSpace.
 	isk := e skinManager installedSkin.
-	self assert: isk notNil.
+	self assert: isk isKnownSkin.
 	q := e skinManager skinStateQueue.
 	q := ToSkinStateQueue new.
 	self assert: q nextStates notNil.

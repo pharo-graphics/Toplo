@@ -25,14 +25,14 @@ ToNullSkinTest >> testWithASkinInstalledBefore [
 	| w installedSkin nsk |
 	w := ToElement new.
 	self assert: w skinManager skinInstaller isNil.
-	self assert: w skinManager installedSkin isNil.
+	self deny: w skinManager installedSkin isKnownSkin.
+	w defaultSkin: ToRawSkin new.
 	w ensuredSkinManager requestInstallSkinIn: w.
 	BlSpace new root addChild: w.
 	self assert: w skinManager skinInstaller isNil.
 	w skinManager applySkinReinstallIn: w.
 	installedSkin := w skinManager installedSkin.
-	self assert: installedSkin notNil.
-	self deny: (installedSkin isKindOf: ToNullSkin).
+	self assert: installedSkin isKnownSkin.
 	self assert: w skinManager skinStateQueue nextStates isEmpty.
 	w defaultSkin: (nsk := ToNullSkin new).
 	w skinManager applySkinReinstallIn: w.

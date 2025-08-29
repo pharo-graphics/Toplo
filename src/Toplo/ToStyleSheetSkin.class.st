@@ -1,8 +1,8 @@
 Class {
 	#name : #ToStyleSheetSkin,
 	#superclass : #ToSkin,
-	#traits : 'TToLookEventListenerRegistry',
-	#classTraits : 'TToLookEventListenerRegistry classTrait',
+	#traits : 'TToSkinEventListenerRegistry',
+	#classTraits : 'TToSkinEventListenerRegistry classTrait',
 	#category : #'Toplo-Core-Skin'
 }
 

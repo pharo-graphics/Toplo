@@ -64,17 +64,15 @@ TToTripletElementConfiguration >> configureEndContainerIn: anElement [
 	anElement endContainer ifNil: [ ^ self ].
 	anElement isHorizontal
 		ifTrue: [
-			self on: anElement endContainer resizerDo: [ :c |
 				endAlignment
-					ifNil: [ c horizontal fitContent ]
-					ifNotNil: [ c horizontal exact: endAlignment ].
-				c vertical fitContent ] ]
+					ifNil: [ anElement endContainer hFitContent ]
+					ifNotNil: [ anElement endContainer hExact: endAlignment ].
+				anElement endContainer vFitContent ]
 		ifFalse: [
-			self on: anElement endContainer resizerDo: [ :c |
 				endAlignment
-					ifNil: [ c vertical fitContent ]
-					ifNotNil: [ c vertical exact: endAlignment ].
-				c horizontal fitContent ] ]
+					ifNil: [ anElement endContainer vFitContent ]
+					ifNotNil: [ anElement endContainer vExact: endAlignment ].
+				anElement endContainer hFitContent ]
 ]
 
 { #category : #'t - triplet element configuration' }
@@ -95,24 +93,22 @@ TToTripletElementConfiguration >> configureEndGapIn: anElement [
 
 	endInterspace isZero
 		ifFalse: [
-			endGap ifNil: [
-				endGap := anElement newFiller
-					          id: #'end-gap';
-					          yourself.
-				anElement addChild: endGap after: anElement middleContainer ].
-			anElement isHorizontal
-				ifTrue: [
-					self on: endGap resizerDo: [ :c |
-						c vertical exact: 0.
-						c horizontal exact: endInterspace ] ]
-				ifFalse: [
-					self on: endGap resizerDo: [ :c |
-						c horizontal exact: 0.
-						c vertical exact: endInterspace ] ] ]
+				endGap ifNil: [
+						endGap := anElement newFiller
+							          id: #'end-gap';
+							          yourself.
+						anElement addChild: endGap after: anElement middleContainer ].
+				anElement isHorizontal
+					ifTrue: [
+							endGap vExact: 0.
+							endGap hExact: endInterspace ]
+					ifFalse: [
+							endGap hExact: 0.
+							endGap vExact: endInterspace ] ]
 		ifTrue: [
-			endGap ifNil: [ ^ self ].
-			endGap removeFromParent.
-			endGap := nil ]
+				endGap ifNil: [ ^ self ].
+				endGap removeFromParent.
+				endGap := nil ]
 ]
 
 { #category : #'t - triplet element configuration' }
@@ -121,17 +117,15 @@ TToTripletElementConfiguration >> configureStartContainerIn: anElement [
 	anElement startContainer ifNil: [ ^ self ].
 	anElement isHorizontal
 		ifTrue: [
-			self on: anElement startContainer resizerDo: [ :c |
 				startAlignment
-					ifNil: [ c horizontal fitContent ]
-					ifNotNil: [ c horizontal exact: startAlignment ].
-				c vertical fitContent ] ]
+					ifNil: [ anElement startContainer hFitContent ]
+					ifNotNil: [ anElement startContainer hExact: startAlignment ].
+				anElement startContainer vFitContent ]
 		ifFalse: [
-			self on: anElement startContainer resizerDo: [ :c |
 				startAlignment
-					ifNil: [ c vertical fitContent ]
-					ifNotNil: [ c vertical exact: startAlignment ].
-				c horizontal fitContent ] ]
+					ifNil: [ anElement startContainer vFitContent ]
+					ifNotNil: [ anElement startContainer vExact: startAlignment ].
+				anElement startContainer hFitContent ]
 ]
 
 { #category : #'t - triplet element configuration' }
@@ -152,24 +146,22 @@ TToTripletElementConfiguration >> configureStartGapIn: anElement [
 
 	startInterspace isZero
 		ifFalse: [
-			startGap ifNil: [
-				startGap := anElement newFiller
-					            id: #'start-gap';
-					            yourself.
-				anElement addChild: startGap before: anElement middleContainer ].
-			anElement isHorizontal
-				ifTrue: [
-					self on: startGap resizerDo: [ :c |
-						c vertical exact: 0.
-						c horizontal exact: startInterspace ] ]
-				ifFalse: [
-					self on: startGap resizerDo: [ :c |
-						c horizontal exact: 0.
-						c vertical exact: startInterspace ] ] ]
+				startGap ifNil: [
+						startGap := anElement newFiller
+							            id: #'start-gap';
+							            yourself.
+						anElement addChild: startGap before: anElement middleContainer ].
+				anElement isHorizontal
+					ifTrue: [
+							startGap vExact: 0.
+							startGap hExact: startInterspace ]
+					ifFalse: [
+							startGap hExact: 0.
+							startGap vExact: startInterspace ] ]
 		ifTrue: [
-			startGap ifNil: [ ^ self ].
-			startGap removeFromParent.
-			startGap := nil ]
+				startGap ifNil: [ ^ self ].
+				startGap removeFromParent.
+				startGap := nil ]
 ]
 
 { #category : #'t - triplet element accessing' }
@@ -210,25 +202,6 @@ TToTripletElementConfiguration >> initializeAsTripletElementConfiguration [
 	alignCenter := false.
 	startInterspace := 0.
 	endInterspace := 0
-]
-
-{ #category : #'t - triplet element configuration' }
-TToTripletElementConfiguration >> on: anElement resizerDo: aBlock [ 
-	"Perform aBlock with anElement constraints as argument.
-	Note: After evaluation my owner requests a layout update!
-	aBlock must not be nil.
-	aBlock must accept exactly one argument
-	owner can implement additional actions by handling the BlLayoutResizerChangedEvent
-	"
-
-	| hr vr |
-	hr := anElement constraints horizontal resizer.
-	vr := anElement constraints vertical resizer.
-	aBlock value: anElement constraints.
-	(hr = anElement constraints horizontal resizer and: [
-		 vr = anElement constraints vertical resizer ]) ifTrue: [ ^ self ].
-	anElement requestLayout
-
 ]
 
 { #category : #'t - triplet element accessing' }

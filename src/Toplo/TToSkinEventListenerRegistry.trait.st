@@ -1,5 +1,5 @@
 Trait {
-	#name : #TToLookEventListenerRegistry,
+	#name : #TToSkinEventListenerRegistry,
 	#instVars : [
 		'skinEventListeners'
 	],
@@ -7,44 +7,44 @@ Trait {
 }
 
 { #category : #'t - skin event listener registry' }
-TToLookEventListenerRegistry >> addAllSkinEventListeners: aListenerCollection [
+TToSkinEventListenerRegistry >> addAllSkinEventListeners: aListenerCollection [
 
 	self skinEventListeners addAll: aListenerCollection
 ]
 
 { #category : #'t - skin event listener registry' }
-TToLookEventListenerRegistry >> addSkinEventListener: aListener [
+TToSkinEventListenerRegistry >> addSkinEventListener: aListener [
 
 	self skinEventListeners add: aListener
 ]
 
 { #category : #'t - skin event listener registry' }
-TToLookEventListenerRegistry >> removeAllSkinEventListeners [
+TToSkinEventListenerRegistry >> removeAllSkinEventListeners [
 
 	self removeAllSkinEventListeners: self skinEventListeners 
 ]
 
 { #category : #'t - skin event listener registry' }
-TToLookEventListenerRegistry >> removeAllSkinEventListeners: aListenerCollection [
+TToSkinEventListenerRegistry >> removeAllSkinEventListeners: aListenerCollection [
 
 	self skinEventListeners removeAll: aListenerCollection
 ]
 
 { #category : #'t - skin event listener registry' }
-TToLookEventListenerRegistry >> removeSkinEventListener: aListener [
+TToSkinEventListenerRegistry >> removeSkinEventListener: aListener [
 
 	self skinEventListeners remove: aListener
 ]
 
 { #category : #'t - skin event listener registry' }
-TToLookEventListenerRegistry >> skinEventListeners [
+TToSkinEventListenerRegistry >> skinEventListeners [
 
 	^ skinEventListeners ifNil: [
 		  skinEventListeners := OrderedCollection new ]
 ]
 
 { #category : #'t - skin event listener registry' }
-TToLookEventListenerRegistry >> skinEventListeners: anEventListenerCollection [
+TToSkinEventListenerRegistry >> skinEventListeners: anEventListenerCollection [
 
 	self removeAllSkinEventListeners.
 	self addAllSkinEventListeners: anEventListenerCollection

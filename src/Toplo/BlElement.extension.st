@@ -322,13 +322,6 @@ BlElement >> installShortcuts [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> installedSkin [
-
-	self skinManagerDo: [ :sm | ^ sm installedSkin ].
-	^ nil
-]
-
-{ #category : #'*Toplo' }
 BlElement >> isConfigurationRequested [
 
 	^ self nextConfigurationPass = self space runningConfigurationPass
@@ -891,7 +884,7 @@ BlElement >> whenConfigurationAppliedDo: aValuable [
 { #category : #'*Toplo' }
 BlElement >> withNullSkin [
 
-	self defaultSkin: ToNullSkin new
+	self defaultSkin: ToNullSkin instance
 ]
 
 { #category : #'*Toplo' }

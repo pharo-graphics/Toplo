@@ -88,22 +88,20 @@ ToSkinManager >> installNewSkinIn: anElement [
 	newSkinRequested ifFalse: [ ^ self ].
 	self installingWhile: [
 			self uninstallSkinIn: anElement.
-			self installedSkin replaceSkinIn: anElement withSkinManager: self.
+			(self skinToInstallIn: anElement) ifNotNil: [ :skin |
+				self installSkin: skin in: anElement ].
+			" check skin installation "
+			installedSkin isUnknownSkin ifTrue: [
+				Error signal: 'The skin remains unknown' ].
+			" apply style here directly to benefit from the installer recursion protection
+					because  requestNewSkin may be sent during skin installation 
+					(in that case it it ignored) "
+			self applyEnqueuedStatesIn: anElement.
 			newSkinRequested := false ]
 ]
 
 { #category : #'skin - installing / uninstalling' }
 ToSkinManager >> installSkin: aSkin in: anElement [
-
-	Bloc debugModeEnabled ifTrue: [
-			self
-				assert: installedSkin isUnknownSkin 
-				description: 'The skin must not be already stored!.'.
-			self
-				assert: [
-						anElement eventDispatcher handlers noneSatisfy: [ :h |
-							(h isKindOf: ToSkin) and: [ h ~= ToUnknownSkin instance ] ] ]
-				description: [ 'The skin must not be already registered!' ] ].
 
 	" store the skin "
 	installedSkin := aSkin.

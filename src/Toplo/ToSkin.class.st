@@ -42,10 +42,3 @@ ToSkin >> isUnknownSkin [
 
 	^ false
 ]
-
-{ #category : #installing }
-ToSkin >> replaceSkinIn: anElement withSkinManager: aSkinManager [
-
-	"Nothing to do: only an unknown skin is allowed to install a skin"
-	Error signal
-]

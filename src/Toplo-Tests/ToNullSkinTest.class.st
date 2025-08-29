@@ -30,6 +30,7 @@ ToNullSkinTest >> testWithASkinInstalledBefore [
 	w ensuredSkinManager requestInstallSkinIn: w.
 	BlSpace new root addChild: w.
 	self assert: w skinManager skinInstaller isNil.
+	" reinstalling has no effect here "
 	w skinManager applySkinReinstallIn: w.
 	installedSkin := w skinManager installedSkin.
 	self assert: installedSkin isKnownSkin.
@@ -40,7 +41,10 @@ ToNullSkinTest >> testWithASkinInstalledBefore [
 	self assert: w skinManager installedSkin identicalTo: nsk.
 	w skinManager applySkinReinstallIn: w.
 	self assert: w skinManager installedSkin identicalTo: nsk.
-	w ensuredSkinManager requestInstallSkinIn: w.
+	w skinManager requestInstallSkinIn: w.
+	" should raise an error since an uninstall is not required "
+	self should: [w skinManager applySkinReinstallIn: w] raise: Error.
+	w skinManager requestUninstallSkinIn: w.
 	w skinManager applySkinReinstallIn: w.
 	self assert: w skinManager installedSkin identicalTo: nsk.
 	self assert: w skinManager skinStateQueue nextStates isEmpty.
@@ -65,6 +69,7 @@ ToNullSkinTest >> testWithNullSkin [
 
 	self assert:
 		((sk := w skinManager installedSkin) isKindOf: ToNullSkin).
+	w ensuredSkinManager requestUninstallSkinIn: w.
 	w ensuredSkinManager requestInstallSkinIn: w.
 	w skinManager applySkinReinstallIn: w.
 	self assert: w skinManager installedSkin identicalTo: sk.

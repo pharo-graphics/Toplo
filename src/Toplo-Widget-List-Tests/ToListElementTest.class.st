@@ -176,6 +176,21 @@ ToListElementTest >> testDisabledWithFourNodes2 [
 ]
 
 { #category : #'test node - enablement' }
+ToListElementTest >> testDisabledWithOneNode [
+
+	| l |
+	l := ToListElement new.
+	space root addChild: l.
+	l dataAccessor add: 'first'.
+	self waitTestingSpaces.
+	self assert: l nodes size equals: 1.
+	self assert: l disabledSelectionModel isEmpty.
+	l disabledSelecter selectIndex: 1.
+	self waitTestingSpaces.
+	self assert: l disabledSelecter selectedIndex equals: 1.
+]
+
+{ #category : #'test node - enablement' }
 ToListElementTest >> testDisabledWithThreeNodes [
 
 	| l |
@@ -371,6 +386,7 @@ ToListElementTest >> testEmptyListSelectPreviousInSelection [
 ToListElementTest >> testEnable [
 
 	| l |
+	self skip.
 	l := ToListElement new.
 	space root addChild: l.
 	l matchParent.

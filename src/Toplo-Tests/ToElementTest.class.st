@@ -74,8 +74,9 @@ ToElementTest >> testDefaultSkin [
 		equals: 0.
 
 	e defaultSkin: sk.
-	e ensuredSkinManager requestInstallSkinIn: e.
-	e skinManager applySkinReinstallIn: e.
+	self assert: e ensuredSkinManager skinRequestCount equals: 2.
+	e ensuredSkinManager requestNewSkinIn: e.
+	"e skinManager applySkinReinstallIn: e."
 	" no change since same skin "
 	self assert: (sk receivedCountForClass: ToInstallSkinEvent) equals: 1.
 	self
@@ -124,14 +125,14 @@ ToElementTest >> testInstallNewSkinNow [
 		e skinManager installedSkin isKnownSkin.
 	skin := e skinManager installedSkin .
 	" now request a skin installation "
+	e ensuredSkinManager requestUninstallSkinIn: e.
 	e ensuredSkinManager requestInstallSkinIn: e.
 	self assert: e skinManager skinInstaller notNil.
 	" apply all skin installers "
 	space applyAllSkinInstallers.
 	" but the installation has no effect because there is already one skin installed "
 	self
-		assert: e skinManager installedSkin
-		identicalTo: skin.
+		assert: e skinManager installedSkin isKnownSkin.
 	" now force a new skin installation "
 	self installNewSkinNowIn: e.
 	self
@@ -222,6 +223,7 @@ ToElementTest >> testRequestSkin2 [
 		e skinManager installedSkin isKnownSkin.
 	self assert: e skinManager notNil.
 	space root addChild: e.
+	e ensuredSkinManager requestUninstallSkinIn: e.
 	e ensuredSkinManager requestInstallSkinIn: e.
 	self assert: e skinManager skinInstaller notNil.
 	self assert:

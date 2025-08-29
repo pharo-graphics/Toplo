@@ -116,7 +116,7 @@ ToSkinManager >> installSkin: aSkin in: anElement [
 			self
 				assert: [
 						anElement eventDispatcher handlers noneSatisfy: [ :h |
-							h class = aSkin class ] ]
+							(h isKindOf: ToSkin) and: [ h ~= ToUnknownSkin instance ] ] ]
 				description: [ 'The skin must not be already registered!' ] ].
 
 	" store the skin "

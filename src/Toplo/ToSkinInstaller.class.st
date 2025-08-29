@@ -13,16 +13,7 @@ ToSkinInstaller >> applyOn: anElement [
 
 	self installingWhile: [
 			anElement skinManagerDo: [ :sm |
-					sm installedSkin isUnknownSkin ifTrue: [
-							(sm skinToInstallIn: anElement) ifNotNil: [ :skin |
-								sm installSkin: skin in: anElement ].
-							" check skin installation "
-							sm installedSkin isUnknownSkin ifTrue: [
-								Error signal: 'The skin remains unknown' ].
-							" apply style here directly to benefit from the installer recursion protection
-					because  requestNewSkin may be sent during skin installation 
-					(in that case it it ignored) "
-							sm applyEnqueuedStatesIn: anElement ].
+					sm installedSkin replaceSkinIn: anElement withSkinManager: sm.
 					sm onSkinInstallerApplied ] ]
 ]
 

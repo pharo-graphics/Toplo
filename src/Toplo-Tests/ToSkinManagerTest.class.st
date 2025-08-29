@@ -176,7 +176,7 @@ ToSkinManagerTest >> testElementRemovedFromSceneGraph [
 	e skinManager installSkin: skin in: e.
 	self assert: e skinManager skinUninstaller isNil.
 	space root removeChild: e.
-	self assert: e skinManager skinUninstaller notNil
+	self assert: e skinManager skinRequestCount isZero
 ]
 
 { #category : #tests }
@@ -255,6 +255,9 @@ ToSkinManagerTest >> testInstallSkinIn [
 	space root addChild: e.
 
 	skin := ToRawSkin new.
+	" the element has an installed skin that must be uninstalled before "
+	self should: [e skinManager installSkin: skin in: e] raise: Error.
+	e skinManager uninstallSkinIn: e.
 	e skinManager installSkin: skin in: e.
 	self assert: e skinManager installedSkin identicalTo: skin
 ]
@@ -404,6 +407,7 @@ ToSkinManagerTest >> testRequestInstallSkinIn [
 	| e  |
 	e := ToElement new.
 	space root addChild: e.
+	e skinManager requestUninstallSkinIn: e.
 	e skinManager requestInstallSkinIn: e.
 	" the requestSkin is postpone since the element is not attached "
 	self assert: e skinManager skinInstaller notNil.

@@ -23,8 +23,7 @@ ToElementInitializeEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 	addedToSceneGraph := true.
 	target := anEvent currentTarget.
 	target applyConfiguration.
-	target ensuredSkinManager requestUninstallSkinIn: target.
-	target ensuredSkinManager requestInstallSkinIn: target.
+	target ensuredSkinManager requestNewSkinIn: target.
 	target space checkToploPhases.
 	target dispatchEvent: ToAddedToSpaceEvent new
 ]
@@ -37,8 +36,7 @@ ToElementInitializeEventHandler >> elementRemovedFromSceneGraphEvent: anEvent [
 	" Just set a skin uninstaller when I'm removed from space. 
 	The skin will be actually uninstalled if I'm added back to a space "
 	anEvent currentTarget skinManagerDo: [ :sm |
-			sm resetSkinRequestCount.
-			"sm requestUninstallSkinIn: self" ]
+			sm resetSkinRequestCount ]
 ]
 
 { #category : #'api - accessing' }

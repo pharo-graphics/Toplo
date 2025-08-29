@@ -12,11 +12,10 @@ ToThemeTest >> testThemeChanged [
 	e defaultSkin: ToRawSkinForThemeTest new.
 	space root addChild: e.
 	self waitTestingSpaces.
-	self assert: e skinManager skinInstaller isNil.
+	self deny: e skinManager newSkinRequested.
 	space toTheme: ToRawDarkTheme new.
 	self waitTestingSpaces.
-	self assert: e skinManager skinUninstaller isNil.
-	self assert: e skinManager skinInstaller isNil.
+	self deny: e skinManager newSkinRequested.
 	self assert: e skinManager installedSkin class identicalTo: ToRawSkinForThemeTest
 ]
 
@@ -28,12 +27,11 @@ ToThemeTest >> testThemeChangedWithStyleSheetTheme [
 	e defaultRawSkin: ToRawSkinForThemeTest new.
 	space root addChild: e.
 	self waitTestingSpaces.
-	self assert: e skinManager skinInstaller isNil.
+	self deny: e skinManager newSkinRequested.
 	self assert: (e skinManager installedSkin isKindOf: ToRawSkinForThemeTest).
 	space toTheme: ToBeeDarkTheme new.
 	self waitTestingSpaces.
-	self assert: e skinManager skinUninstaller isNil.
-	self assert: e skinManager skinInstaller isNil.
+	self deny: e skinManager newSkinRequested.
 	self assert: (e skinManager installedSkin isKindOf: ToBeeSkin)
 ]
 
@@ -48,8 +46,7 @@ ToThemeTest >> testThemeChangedWithStyleSheetTheme2 [
 	self waitTestingSpaces.
 	space toTheme: ToBeeDarkTheme new.
 	self waitTestingSpaces.
-	self assert: e skinManager skinUninstaller isNil.
-	self assert: e skinManager skinInstaller isNil.
+	self deny: e skinManager newSkinRequested.
 	self assert: (e skinManager installedSkin isKindOf: ToBeeSkin)
 
 ]
@@ -65,14 +62,12 @@ ToThemeTest >> testThemeChangedWithStyleSheetTheme3 [
 	e labelText: 'Default button'.
 	self assert: e skinManager installedSkin isKnownSkin.
 	" because of the token properties installation -> have a skin installer/uninstaller "
-	self assert: e skinManager skinInstaller notNil.
+	self assert: e skinManager newSkinRequested.
 	self applyAllEnqueuedStates.
 	self waitTestingSpaces.
-	self assert: e skinManager skinInstaller isNil.
+	self deny: e skinManager newSkinRequested.
 	self assert: e skinManager installedSkin isKnownSkin.
-	"self assert: e skinManager skinUninstaller isNil."
 	self applyAllEnqueuedStates.
 	self waitTestingSpaces.
-	self assert: e skinManager skinUninstaller isNil.
-	self assert: e skinManager skinInstaller isNil
+	self deny: e skinManager newSkinRequested
 ]

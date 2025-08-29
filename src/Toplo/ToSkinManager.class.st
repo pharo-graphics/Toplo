@@ -5,9 +5,9 @@ Class {
 		'skinRequestCount',
 		'styleSheet',
 		'skinStateQueue',
-		'skinInstaller',
-		'skinUninstaller',
-		'installedSkin'
+		'newSkinRequested',
+		'installedSkin',
+		'installing'
 	],
 	#category : #'Toplo-Core-Skin'
 }
@@ -24,27 +24,6 @@ ToSkinManager >> applyEnqueuedStatesIn: anElement [
 	" run the skin actually by flushing the state queue"
 
 	self skinStateQueue applyEnqueuedStatesIn: anElement
-]
-
-{ #category : #'skin - installing / uninstalling' }
-ToSkinManager >> applySkinInstallerIn: anElement [
-	" ask the skin installer (if any) to actually install the skin "
-
-	self skinInstaller ifNotNil: [ :si | si applyOn: anElement ]
-]
-
-{ #category : #'skin - installing / uninstalling' }
-ToSkinManager >> applySkinReinstallIn: anElement [
-
-	self applySkinUninstallerIn: anElement.
-	self applySkinInstallerIn: anElement
-]
-
-{ #category : #'skin - installing / uninstalling' }
-ToSkinManager >> applySkinUninstallerIn: anElement [
-
-	" ask the skin uninstaller (if any) to actually uninstall the skin "
-	self skinUninstaller ifNotNil: [ :su | su applyOn: anElement ]
 ]
 
 { #category : #accessing }
@@ -80,30 +59,37 @@ ToSkinManager >> enqueueSkinState: aSkinState in: anElement [
 		inQueue: self skinStateQueue
 ]
 
-{ #category : #'skin - install / uninstall request' }
-ToSkinManager >> forceSkinInstaller: aSkinInstaller in: anElement [
+{ #category : #private }
+ToSkinManager >> forceNewSkinRequested: aBoolean in: anElement [
 
 	"*** private use only for tests *** "
 	
-	skinInstaller := aSkinInstaller.
-	aSkinInstaller ifNil: [ ^ self ].
+	newSkinRequested := aBoolean.
+	newSkinRequested ifFalse: [ ^ self ].
 	anElement space needSkinInstallPass: true
 ]
 
-{ #category : #'skin - install / uninstall request' }
-ToSkinManager >> forceSkinUninstaller: aSkinUninstaller in: anElement [
-	"*** private use only for tests *** "
-
-	skinUninstaller := aSkinUninstaller
-]
-
 { #category : #initialization }
-ToSkinManager >> initialize [ 
+ToSkinManager >> initialize [
 
 	super initialize.
+
+	installing := false.
+	newSkinRequested := false.
 	installedSkin := ToUnknownSkin instance.
 	skinStateQueue := ToSkinStateQueue new.
 	skinRequestCount := 0
+]
+
+{ #category : #'skin - installing / uninstalling' }
+ToSkinManager >> installNewSkinIn: anElement [
+	" actually install the skin if requested "
+
+	newSkinRequested ifFalse: [ ^ self ].
+	self installingWhile: [
+			self uninstallSkinIn: anElement.
+			self installedSkin replaceSkinIn: anElement withSkinManager: self.
+			newSkinRequested := false ]
 ]
 
 { #category : #'skin - installing / uninstalling' }
@@ -140,25 +126,27 @@ ToSkinManager >> installedSkinDo: aBlock [
 ]
 
 { #category : #'skin - installing / uninstalling' }
-ToSkinManager >> onSkinInstallerApplied [
+ToSkinManager >> installingWhile: aBlock [
 
-	skinInstaller := nil
+	installing ifTrue: [ ^ self ].
+	installing := true.
+	aBlock ensure: [ installing := false ]
 ]
 
-{ #category : #'skin - installing / uninstalling' }
-ToSkinManager >> onSkinUninstallerApplied [
+{ #category : #accessing }
+ToSkinManager >> newSkinRequested [
 
-	skinUninstaller := nil
+	^ newSkinRequested
 ]
 
 { #category : #'skin - install / uninstall request' }
-ToSkinManager >> requestInstallSkinIn: anElement [
+ToSkinManager >> requestNewSkinIn: anElement [
 
 	| space |
 	space := anElement space.
-	skinInstaller ifNil: [ 
+	newSkinRequested ifFalse: [ 
 			skinRequestCount := skinRequestCount + 1.
-			skinInstaller := ToSkinInstaller new ].
+			newSkinRequested := true ].
 	" *** Important point: a skin can be installed instantly.
 	This is used to avoid visual flashing effects or lags in some situations: 
 	selection or labels updating in lists as examples. 
@@ -172,38 +160,9 @@ ToSkinManager >> requestInstallSkinIn: anElement [
 			^ self ].
 	" then apply the installer now "
 	" but before, apply the uninstaller if any"
-	skinUninstaller ifNotNil: [ :u | u applyOn: anElement ].
+	"skinUninstaller ifNotNil: [ :u | u applyOn: anElement ]."
 	" finally install the skin"
-	skinInstaller applyOn: anElement
-]
-
-{ #category : #'skin - install / uninstall request' }
-ToSkinManager >> requestNewSkinIn: anElement [
-
-	self requestUninstallSkinIn: anElement.
-	self requestInstallSkinIn: anElement
-]
-
-{ #category : #'skin - install / uninstall request' }
-ToSkinManager >> requestUninstallSkinIn: anElement [
-	" having an installer which responds true to isInstalling means that the element 
-	is already installing a skin.
-	and a #requestNewSkin can be sent during a skin installation.
-	Thus, to avoid infinite recurssion, do nothing if a skin installer is 
-	being installing"
-
-	installedSkin isUnknownSkin ifTrue: [ ^ self ].
-	(skinInstaller notNil and: [ skinInstaller isInstalling ]) ifTrue: [
-		^ self ].
-	skinUninstaller ifNotNil: [ ^ self ].
-	skinUninstaller := ToSkinUninstaller new
-]
-
-{ #category : #'skin - install / uninstall request' }
-ToSkinManager >> requestUninstallSkinRecursivelyIn: anElement [
-
-	anElement withAllChildrenBreadthFirstDo: [ :child |
-		child skinManagerDo: [ :sm | sm requestUninstallSkinIn: child ] ]
+	self installNewSkinIn: anElement
 ]
 
 { #category : #'skin - install / uninstall request' }
@@ -219,12 +178,6 @@ ToSkinManager >> setStyleSheet: aStyleSheet in: anElement [
 	styleSheet := aStyleSheet.
 	self styleSheet ifNotNil: [ :curr | curr onInstalledIn: anElement ].
 	anElement requestSkinApplication
-]
-
-{ #category : #accessing }
-ToSkinManager >> skinInstaller [ 
-
-	^ skinInstaller
 ]
 
 { #category : #'skin - install / uninstall request' }
@@ -246,12 +199,6 @@ ToSkinManager >> skinToInstallIn: anElement [
 	theme := anElement lookupTheme.
 	^ (theme defaultSkinFor: anElement) ifNil: [
 		  theme newSkinFor: anElement ]
-]
-
-{ #category : #accessing }
-ToSkinManager >> skinUninstaller [
-
-	^ skinUninstaller 
 ]
 
 { #category : #'accessing - styleSheet' }

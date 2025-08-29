@@ -20,7 +20,7 @@ ToSpaceRootSkinTest >> testInstallSkinEvent [
 			 on: ToSpacePhasesStarted
 			 do: [
 				 goneHere := true.
-				 e skinManager applySkinReinstallIn: e.
+				 e skinManager installNewSkinIn: e.
 				 self deny: e background isTransparent ]).
 	space root addChild: e.
 	self assert: e background paint color equals: (e valueOfTokenNamed: #'background-color').

@@ -28,7 +28,7 @@ ToSkinnablePropertyTest >> testWriteTo [
 	| w prop writer reader |
 	w := ToElement new.
 	BlSpace new root addChild: w.
-	self assert: w skinManager skinInstaller isNil.
+	self deny: w skinManager newSkinRequested.
 	prop := ToSkinnableProperty new.
 	writer := [ :e :v | e background: v ].
 	reader := [ :e | e background ].
@@ -39,7 +39,7 @@ ToSkinnablePropertyTest >> testWriteTo [
 	self assert: prop reader equals: reader.
 	self assert: prop name equals: #background.
 	prop write: Color blue to: w.
-	self deny: w skinManager skinInstaller isNil.
+	self assert: w skinManager newSkinRequested.
 
 	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color blue.
@@ -60,15 +60,15 @@ ToSkinnablePropertyTest >> testWriteToWithDelegation [
 	prop writer: writer.
 	prop reader: reader.
 	prop name: #'label-text'.
-	w ensuredSkinManager requestInstallSkinIn: w.
-	w skinManager applySkinReinstallIn: w.
-	self assert: w skinManager skinInstaller isNil.
+	w ensuredSkinManager requestNewSkinIn: w.
+	w skinManager installNewSkinIn: w.
+	self deny: w skinManager newSkinRequested.
 	prop write: 'Hello' asRopedText to: w.
 	self assert: (w label text equals: 'Hello' asRopedText).
 	self
 		assert: (prop read: w) asString
 		equals: 'Hello' asRopedText asString.
-	self deny: w skinManager skinInstaller isNil
+	self assert: w skinManager newSkinRequested
 ]
 
 { #category : #tests }
@@ -82,12 +82,12 @@ ToSkinnablePropertyTest >> testWrongDefinition [
 	prop writer: writer.
 	prop reader: reader.
 	prop name: #unknownFeature.
-	self assert: w skinManager skinInstaller isNil.
+	self deny: w skinManager newSkinRequested.
 	self should: [ w perform: #unknownFeature ] raise: Error.
 	self
 		should: [ w perform: #unknownFeature: with: Color red ]
 		raise: Error.
 	self should: [ prop read: w ] raise: Error.
 	self should: [ prop write: Color blue to: w ] raise: Error.
-	self assert: w skinManager skinInstaller isNil
+	self deny: w skinManager newSkinRequested
 ]

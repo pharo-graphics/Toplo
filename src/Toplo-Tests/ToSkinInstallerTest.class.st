@@ -10,14 +10,14 @@ ToSkinInstallerTest >> testApplyOn [
 	| e |
 	e := ToElement new.
 	self
-		should: [ e skinManager forceSkinInstaller: ToSkinInstaller new in: e ]
+		should: [ e skinManager forceNewSkinRequested: true in:  e ]
 		raise: Error.
 	" an element must be attached to a space 
 	because installing a skin requires a theme"
-	self should: [ e skinManager applySkinReinstallIn: e ] raise: Error.
-	self assert: e skinManager skinInstaller notNil.
+	self should: [ e skinManager installNewSkinIn: e ] raise: Error.
+	self assert: e skinManager newSkinRequested.
 	space root addChild: e.
-	e skinManager applySkinReinstallIn: e.
+	e skinManager installNewSkinIn: e.
 	self assert: e skinManager installedSkin isKnownSkin
 ]
 
@@ -28,15 +28,15 @@ ToSkinInstallerTest >> testApplyOnWithRawSkin [
 	e := ToElementForRawSkinTest new.
 	space toTheme: ToRawTheme new.
 	self
-		should: [ e skinManager forceSkinInstaller: ToSkinInstaller new in: e ]
+		should: [ e skinManager forceNewSkinRequested: true in: e ]
 		raise: Error.
 	" an element must be attached to a space 
 	because installing a skin requires a theme"
-	self should: [ e skinManager applySkinReinstallIn: e ] raise: Error.
+	self should: [ e skinManager installNewSkinIn: e ] raise: Error.
 	self deny: e styleInstalled.
-	self assert: e skinManager skinInstaller notNil.
+	self assert: e skinManager newSkinRequested.
 	space root addChild: e.
-	e skinManager applySkinReinstallIn: e.
+	e skinManager installNewSkinIn: e.
 	self assert: e skinManager installedSkin isKnownSkin.
 	self assert: e styleInstalled
 ]
@@ -46,15 +46,15 @@ ToSkinInstallerTest >> testInstallSkinInWithErrorNonAttachedInSpace [
 
 	| e |
 	e := ToElement new.
-	self assert: e skinManager skinInstaller isNil.
+	self deny: e skinManager newSkinRequested.
 	self deny: e skinManager installedSkin isKnownSkin.
 	self
-		should: [ e skinManager forceSkinInstaller: ToSkinInstaller new in: e ]
+		should: [ e skinManager forceNewSkinRequested: true in: e ]
 		raise: Error.
-	self assert: e skinManager skinInstaller notNil.
+	self assert: e skinManager newSkinRequested.
 	self deny: e skinManager installedSkin isKnownSkin.
 	" an element must be attached to a space 
 	because installing a skin requires a theme"
 	self should: [ e lookupTheme ] raise: Error.
-	self should: [ e skinManager skinInstaller applyOn: e ] raise: Error
+	self should: [ e skinManager installNewSkinIn: e ] raise: Error
 ]

@@ -22,6 +22,6 @@ ToDemo4 >> newRawSkin [
 ToDemo4 >> onAddedToSceneGraph [
 
 	super onAddedToSceneGraph.
-	self ensuredSkinManager requestInstallSkinIn: self.
+	self ensuredSkinManager requestNewSkinIn: self.
 	self addEventHandler: ToSkinStateGenerator new
 ]

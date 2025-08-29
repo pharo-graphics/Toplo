@@ -53,10 +53,10 @@ ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 	" Since checkSkinInstallation will switch to ToInstallState "
 	" the installation will fail because the widget layout (not a BlLinearLayout) does not understand #direction:"
 	w defaultSkin: skin.
-	w ensuredSkinManager requestInstallSkinIn: w.
+	w ensuredSkinManager requestNewSkinIn: w.
 	" since applySkinInstaller will applyStyles "
 	self
-		should: [ w skinManager applySkinReinstallIn: w ]
+		should: [ w skinManager installNewSkinIn: w ]
 		raise: MessageNotUnderstood.
 
 	" Now change writers order and it should be ok "
@@ -83,7 +83,7 @@ ToStyleSheetSkinTest >> testSkinEventAction [
 	self assert: skin skinEventListeners size equals: 1.
 	self assert: skin skinEventListeners first identicalTo: action.
 	w defaultSkin: skin.
-	w skinManager applySkinReinstallIn: w.
+	w skinManager installNewSkinIn: w.
 
 	self assert: w background paint color equals: Color blue
 ]
@@ -111,7 +111,7 @@ ToStyleSheetSkinTest >> testSkinEventActionMixedWithWriter [
 	self assert: skin skinEventListeners first identicalTo: action.
 	self assert: skin skinEventListeners second identicalTo: propWriter.
 	w defaultSkin: skin.
-	w skinManager applySkinReinstallIn: w.
+	w skinManager installNewSkinIn: w.
 	self assert: w background paint color equals: Color blue
 ]
 
@@ -131,7 +131,7 @@ ToStyleSheetSkinTest >> testSkinEventListeners [
 	self assert: skin skinEventListeners size equals: 1.
 	self assert: skin skinEventListeners first identicalTo: propWriter.
 	w defaultSkin: skin.
-	w skinManager applySkinReinstallIn: w.
+	w skinManager installNewSkinIn: w.
 
 	self assert: w background paint color equals: Color blue
 ]
@@ -174,7 +174,7 @@ ToStyleSheetSkinTest >> testSupplementWriter [
 						 dashArray: #( 4 5 );
 						 build ] yourself) }.
 	w defaultSkin: skin.
-	w skinManager applySkinReinstallIn: w.
+	w skinManager installNewSkinIn: w.
 	self assert: w background paint color equals: Color blue.
 	self assert: w border paint color equals: Color black.
 	self assert: w border style dashArray equals: #( 4 5 )
@@ -210,8 +210,8 @@ ToStyleSheetSkinTest >> testWithAnimationOn2EventClasses [
 				 yourself) }.
 
 	w defaultSkin: skin.
-	w ensuredSkinManager requestInstallSkinIn: w.
-	w skinManager applySkinReinstallIn: w.
+	w ensuredSkinManager requestNewSkinIn: w.
+	w skinManager installNewSkinIn: w.
 
 	self assert: w background paint color equals: Color white.
 
@@ -239,7 +239,7 @@ ToStyleSheetSkinTest >> testWithNoWriter [
 	skin := ToStyleSheetSkin new.
 	w defaultSkin: skin.
 	paint := w background paint.
-	w skinManager applySkinReinstallIn: w.
+	w skinManager installNewSkinIn: w.
 
 	self assert: w background paint equals: paint
 ]
@@ -264,7 +264,7 @@ ToStyleSheetSkinTest >> testWithTwoWriters [
 				 value: Color yellow;
 				 yourself) }.
 	w defaultSkin: skin.
-	w skinManager applySkinReinstallIn: w.
+	w skinManager installNewSkinIn: w.
 
 	self assert: w background paint color equals: Color blue.
 	self assert: w border paint color equals: Color yellow
@@ -297,7 +297,7 @@ ToStyleSheetSkinTest >> testWithTwoWritersTwoEventClasses [
 				 value: Color red;
 				 yourself) }.
 	w defaultSkin: skin.
-	w skinManager applySkinReinstallIn: w.
+	w skinManager installNewSkinIn: w.
 
 	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color blue.

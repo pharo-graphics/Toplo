@@ -16,7 +16,7 @@ ToEnablementStateTest >> testApplyOn [
 			 on: ToDisabledSkinEvent
 			 do: [ :event | receivedDisabledEvt := event ]).
 	space root addChild: e.
-	e skinManager applySkinReinstallIn: e.
+	e skinManager installNewSkinIn: e.
 	self assert: (receivedEnabledEvt isKindOf: ToEnabledSkinEvent)
 ]
 
@@ -33,7 +33,7 @@ ToEnablementStateTest >> testApplyOn2 [
 			 on: ToDisabledSkinEvent
 			 do: [ :event | receivedDisabledEvt := event ]).
 	space root addChild: e.
-	e skinManager applySkinReinstallIn: e.
+	e skinManager installNewSkinIn: e.
 	self assert: (receivedEnabledEvt isKindOf: ToEnabledSkinEvent)
 ]
 
@@ -50,7 +50,7 @@ ToEnablementStateTest >> testApplyOn3 [
 			 on: ToDisabledSkinEvent
 			 do: [ :event | receivedDisabledEvt := event ]).
 	space root addChild: e.
-	e skinManager applySkinReinstallIn: e.
+	e skinManager installNewSkinIn: e.
 	self assert: (receivedEnabledEvt isKindOf: ToEnabledSkinEvent)
 ]
 
@@ -67,7 +67,7 @@ ToEnablementStateTest >> testApplyOnWhenDisabled [
 			 on: ToDisabledSkinEvent
 			 do: [ :event | receivedDisabledEvt := event ]).
 	space root addChild: e.
-	e skinManager applySkinReinstallIn: e.
+	e skinManager installNewSkinIn: e.
 	self assert: (receivedDisabledEvt isKindOf: ToDisabledSkinEvent)
 ]
 

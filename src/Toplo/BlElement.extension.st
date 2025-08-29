@@ -69,8 +69,7 @@ BlElement >> applyEnqueuedStatesDeeply [
 BlElement >> applySkinInstallersDeeply [
 
 	self skinManagerDo: [ :sm |
-			sm applySkinUninstallerIn: self.
-			sm applySkinInstallerIn: self ].
+			sm installNewSkinIn: self ].
 	self childrenDo: [ :child | child applySkinInstallersDeeply ]
 ]
 
@@ -646,16 +645,6 @@ BlElement >> requestSkinApplication [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> requestUninstallSkin [
-
-	self
-		deprecated: 'Please delegate to the skinManager instead'
-		transformWith: '`@receiver requestUninstallSkin' -> '`@receiver skinManagerDo: [ :sm | sm requestUninstallSkinIn: `@receiver ]'.
-
-	self skinManagerDo: [ :sm | sm requestUninstallSkinIn: self ]
-]
-
-{ #category : #'*Toplo' }
 BlElement >> selectionSkinEventsPrevented [
 
 	^ (self isPreventedSkinEventClass: ToSelectedSkinEvent) or: [
@@ -680,12 +669,6 @@ BlElement >> shortcutsStoreDo: aValuable [
 
 	self userData at: #shortcutsStore ifPresent: [ :store | aValuable value: store ].
 	
-]
-
-{ #category : #'*Toplo' }
-BlElement >> skinInstaller [
-
-	^ self skinManager skinInstaller
 ]
 
 { #category : #'*Toplo' }
@@ -719,16 +702,6 @@ BlElement >> skinToInstall [
 
 	^ self skinManager skinToInstallIn: self
 
-]
-
-{ #category : #'*Toplo' }
-BlElement >> skinUninstaller [
-
-	self
-		deprecated: 'Please delegate to the skinManager instead'
-		transformWith: '`@receiver skinUninstaller' -> '`@receiver skinManager skinUninstaller'.
-		
-	^ self skinManager skinUninstaller
 ]
 
 { #category : #'*Toplo' }

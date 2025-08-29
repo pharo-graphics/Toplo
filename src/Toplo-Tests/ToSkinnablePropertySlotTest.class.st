@@ -72,7 +72,7 @@ ToSkinnablePropertySlotTest >> testWriteTo4 [
 	| e requestCpt |
 	e := ToElementWithSkinnablePropertiesForTest new.
 
-	self assert: e skinManager skinInstaller isNil.
+	self deny: e skinManager newSkinRequested.
 	" + 1 requestSkin "
 	e backgroundValue: Color blue.
 	" + 1 requestSkin "
@@ -94,7 +94,7 @@ ToSkinnablePropertySlotTest >> testWriteTo4 [
 	self assert: e skinRequestCount equals: requestCpt + 1.
 	self assert: e skinInstalledCount equals: 2.
 	self assert: e skinStateQueueApplicationCount equals: 3.
-	self assert: e skinManager skinInstaller isNil.
+	self deny: e skinManager newSkinRequested.
 
 	e backgroundValue: Color blue.
 
@@ -103,7 +103,7 @@ ToSkinnablePropertySlotTest >> testWriteTo4 [
 
 	e borderValue: Color red.
 	" border change -> but no new skin installer because there is already one"
-	self assert: e skinManager skinInstaller notNil.
+	self assert: e skinManager newSkinRequested.
 	self assert: e skinRequestCount equals: 3.
 	self assert: e skinStateQueueApplicationCount equals: 3.
 	space applyAllSkinInstallers.
@@ -115,12 +115,12 @@ ToSkinnablePropertySlotTest >> testWriteTo4 [
 	self assert: e skinRequestCount equals: requestCpt + 2.
 	self assert: e skinInstalledCount equals: 3.
 	self assert: e skinStateQueueApplicationCount equals: 5.
-	self assert: e skinManager skinInstaller isNil.
+	self deny: e skinManager newSkinRequested.
 
 	space applyAllSkinInstallers.
 	space applyAllEnqueuedStates.
 
-	self assert: e skinManager skinInstaller isNil.
+	self deny: e skinManager newSkinRequested.
 	self assert: e skinRequestCount equals: requestCpt + 2.
 	" no new state "
 	self assert: e skinStateQueueApplicationCount equals: 5.
@@ -139,7 +139,7 @@ ToSkinnablePropertySlotTest >> testWriteToWithSpaceAddChildBefore [
 	space applyAllSkinInstallers.
 	space applyAllEnqueuedStates.
 
-	self assert: e skinManager skinInstaller isNil.
+	self deny: e skinManager newSkinRequested.
 	self assert: e skinRequestCount equals: 2.
 	self assert: e skinInstalledCount equals: 2.
 	self assert: e skinStateQueueApplicationCount equals: 3

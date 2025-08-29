@@ -98,7 +98,7 @@ ToSkinnableSlotTest >> testWriteTo4 [
 	| e |
 	e := ToElementWithSkinnableSlotsForTest new.
 	self assert: e skinRequestCount equals: 0.
-	self assert: e skinManager skinInstaller isNil.
+	self deny: e skinManager newSkinRequested.
 	e child1: ToElement new.
 	self assert: e skinRequestCount equals: 1.
 	e child1: ToElement new.
@@ -114,12 +114,12 @@ ToSkinnableSlotTest >> testWriteTo4 [
 	" because of the child1: "
 
 	self assert: e skinInstalledCount equals: 1.
-	self assert: e skinManager skinInstaller notNil.
+	self assert: e skinManager newSkinRequested.
 
 	space applyAllSkinInstallers.
 	self assert: e skinRequestCount equals: 2.
 	self assert: e skinInstalledCount equals: 2.
-	self assert: e skinManager skinInstaller isNil.
+	self deny: e skinManager newSkinRequested.
 	self assert: e skinStateQueueApplicationCount equals: 3.
 
 	e child1: ToElement new.
@@ -132,11 +132,11 @@ ToSkinnableSlotTest >> testWriteTo4 [
 	self assert: e skinRequestCount equals: 3.
 	self assert: e skinInstalledCount equals: 3.
 	self assert: e skinStateQueueApplicationCount equals: 5.
-	self assert: e skinManager skinInstaller isNil.
+	self deny: e skinManager newSkinRequested.
 
 	space applyAllSkinInstallers.
 
-	self assert: e skinManager skinInstaller isNil.
+	self deny: e skinManager newSkinRequested.
 	self assert: e skinRequestCount equals: 3.
 	" no new state enqueued "
 	self assert: e skinStateQueueApplicationCount equals: 5.

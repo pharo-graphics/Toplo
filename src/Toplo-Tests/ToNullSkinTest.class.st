@@ -24,28 +24,26 @@ ToNullSkinTest >> testWithASkinInstalledBefore [
 
 	| w installedSkin nsk |
 	w := ToElement new.
-	self assert: w skinManager skinInstaller isNil.
+	self deny: w skinManager newSkinRequested.
 	self deny: w skinManager installedSkin isKnownSkin.
 	w defaultSkin: ToRawSkin new.
-	w ensuredSkinManager requestInstallSkinIn: w.
+	w ensuredSkinManager requestNewSkinIn: w.
 	BlSpace new root addChild: w.
-	self assert: w skinManager skinInstaller isNil.
+	self deny: w skinManager newSkinRequested.
 	" reinstalling has no effect here "
-	w skinManager applySkinReinstallIn: w.
+	w skinManager installNewSkinIn: w.
 	installedSkin := w skinManager installedSkin.
 	self assert: installedSkin isKnownSkin.
 	self assert: w skinManager skinStateQueue nextStates isEmpty.
 	w defaultSkin: (nsk := ToNullSkin new).
-	w skinManager applySkinReinstallIn: w.
+	w skinManager installNewSkinIn: w.
 	self deny: w skinManager installedSkin identicalTo: installedSkin.
 	self assert: w skinManager installedSkin identicalTo: nsk.
-	w skinManager applySkinReinstallIn: w.
+	w skinManager installNewSkinIn: w.
 	self assert: w skinManager installedSkin identicalTo: nsk.
-	w skinManager requestInstallSkinIn: w.
+	w skinManager requestNewSkinIn: w.
 	" should raise an error since an uninstall is not required "
-	self should: [w skinManager applySkinReinstallIn: w] raise: Error.
-	w skinManager requestUninstallSkinIn: w.
-	w skinManager applySkinReinstallIn: w.
+	w skinManager installNewSkinIn: w.
 	self assert: w skinManager installedSkin identicalTo: nsk.
 	self assert: w skinManager skinStateQueue nextStates isEmpty.
 	w skinManager
@@ -63,15 +61,14 @@ ToNullSkinTest >> testWithNullSkin [
 	w := ToElement new.
 	w withNullSkin.
 	BlSpace new root addChild: w.
-	self assert: w skinManager skinInstaller isNil.
-	w skinManager applySkinReinstallIn: w.
+	self deny: w skinManager newSkinRequested.
+	w skinManager installNewSkinIn: w.
 	self assert: w skinManager installedSkin isNullSkin.
 
 	self assert:
 		((sk := w skinManager installedSkin) isKindOf: ToNullSkin).
-	w ensuredSkinManager requestUninstallSkinIn: w.
-	w ensuredSkinManager requestInstallSkinIn: w.
-	w skinManager applySkinReinstallIn: w.
+	w ensuredSkinManager requestNewSkinIn: w.
+	w skinManager installNewSkinIn: w.
 	self assert: w skinManager installedSkin identicalTo: sk.
 	self assert: w skinManager skinStateQueue nextStates isEmpty
 ]

@@ -391,9 +391,9 @@ ToStyleStoreTest >> testTokenPropertyNamedFromBeforeSpaceShown2 [
 				 goneHere := true.
 				 self assert:
 					 (e skinManager ifNotNil: [ :sm | sm installedSkin ]) notNil.
-				 self assert: e skinManager skinInstaller isNil.
+				 self deny: e skinManager newSkinRequested.
 				 self assert: (e valueOfTokenNamed: #'background-color') notNil.
-				 e skinManager applySkinReinstallIn: e.
+				 e skinManager installNewSkinIn: e.
 				 self deny: e background isTransparent ]).
 
 	e defaultSkin: ToSpaceRootSkin new.
@@ -415,7 +415,7 @@ ToStyleStoreTest >> testTokenPropertyNamedRequiresSpaceSkinPhasesStarted [
 			 on: ToSpacePhasesStarted
 			 do: [
 				 goneHere := true.
-				 e skinManager applySkinReinstallIn: e.
+				 e skinManager installNewSkinIn: e.
 				 self deny: e background isTransparent ]).
 	e defaultSkin: ToSpaceRootSkin new.
 	space root addChild: e.

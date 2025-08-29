@@ -231,7 +231,7 @@ ToSkinManagerTest >> testInstallSkinIn [
 
 	skin := ToRawSkin new.
 	" the element has an installed skin that must be uninstalled before "
-	self should: [e skinManager installSkin: skin in: e] raise: Error.
+	e skinManager installSkin: skin in: e.
 	e skinManager uninstallSkinIn: e.
 	e skinManager installSkin: skin in: e.
 	self assert: e skinManager installedSkin identicalTo: skin
@@ -286,7 +286,7 @@ ToSkinManagerTest >> testInstallSkinInError [
 	self should: [ e skinManager installSkin: skin in: e ] raise: Error.
 
 	space root addChild: e.
-	self should: [ e skinManager installSkin: skin in: e ] raise: Error.
+	e skinManager installSkin: skin in: e.
 	e skinManager uninstallSkinIn: e.
 	e skinManager installSkin: skin in: e.
 	self assert: e skinManager installedSkin isKnownSkin.

@@ -3048,31 +3048,6 @@ ToSandBox class >> example_ListWithAllMethods [
 ]
 
 { #category : #list }
-ToSandBox class >> example_ListWithCustomSelectionMeasurementAndPlacement [
-
-	| statesList |
-	statesList := ToListElement new matchParent.
-	statesList nodeBuilder: [ :node :dataItem :holder |
-		node
-			addChild: (ToLabel text: dataItem);
-			preventSelectionSkinEvents;
-			hMatchParent ].
-	statesList dataAccessor addAll: self statesOfAmerica.
-	" mandatory option here: the selection are separate (one selection element for each selected node)"
-	statesList selectionOption grouped: false.
-	statesList selectionOption elementFactory: [
-		ToListPrimarySelectionElement new
-			placement:
-				(ToActionPlacement new action: [ :elem :evt :aBoundsUpdater | 
-						 elem position: elem node bounds inParent position
-								 + (0 @ (elem node measuredHeight - 2)) ]);
-			measurement: (ToActionMeasurement new action: [ :spec :elem :evt |
-						 spec heightSpec beExact: 2 ]);
-			yourself ].
-	statesList openInSpace
-]
-
-{ #category : #list }
 ToSandBox class >> example_ListWithEditableAndContextMenu [
 
 	| l |

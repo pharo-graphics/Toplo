@@ -16,6 +16,16 @@ ToListSelectionElementEventHandler >> eventsToHandle [
 ]
 
 { #category : #'selection managing' }
+ToListSelectionElementEventHandler >> updateNodesIn: aListElement [
+
+	aListElement nodesDo: [ :aNode |
+		| holder |
+		holder := aNode holder.
+		holder shouldIgnore ifFalse: [
+			holder initializeNode ] ].
+]
+
+{ #category : #'selection managing' }
 ToListSelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
 	" the selection has changed but the touched indexes is empty means 
 	that a selection element remains for removed indexes"

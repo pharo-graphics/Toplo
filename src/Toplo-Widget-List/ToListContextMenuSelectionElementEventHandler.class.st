@@ -21,16 +21,6 @@ ToListContextMenuSelectionElementEventHandler >> listContextMenuSelectionChanged
 ]
 
 { #category : #'element handlers' }
-ToListContextMenuSelectionElementEventHandler >> listPrimarySelectionChangedEvent: anEvent [
-	" the context menu should be close "
-
-	| target |
-	target := anEvent currentTarget.
-	target currentContextMenu ifNotNil: [ :win |
-		win isOpened ifTrue: [ win close ] ]
-]
-
-{ #category : #'element handlers' }
 ToListContextMenuSelectionElementEventHandler >> windowRequest: anEvent [
 
 	| childNode target nodeContainer globalPosition selectionModel |

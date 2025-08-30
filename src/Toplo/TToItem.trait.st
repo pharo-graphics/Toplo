@@ -66,7 +66,7 @@ TToItem >> hidden: aBoolean [
 TToItem >> isSelected [
 
 	self listElementDo: [ :l | ^ l isSelectedItem: self ].
-	self itemConstraintsDo: [ :c | ^ c selected ].
+	"self itemConstraintsDo: [ :c | ^ c selected ]."
 	^ false
 ]
 

@@ -16,8 +16,10 @@ ToListDisabledSelectionElementEventHandler >> listDisabledSelectionChangedEvent:
 	| touchedIntervals target |
 	touchedIntervals := anEvent touchedIntervals.
 	target := anEvent currentTarget.
-
 	self updateSelectionFromEvent: anEvent.
-	touchedIntervals do: [ :int |
-		target dataSource notifyItemsChanged: int ]
+	target nodesDo: [ :aNode |
+		| holder |
+		holder := aNode holder.
+		holder shouldIgnore ifFalse: [
+			holder initializeNode ] ].
 ]

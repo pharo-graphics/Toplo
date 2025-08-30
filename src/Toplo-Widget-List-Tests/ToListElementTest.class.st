@@ -151,7 +151,7 @@ ToListElementTest >> testDisabledWithFourNodes [
 	l dataAccessor add: 'first'.
 	space root addChild: l.
 	self waitTestingSpaces.
-	l innerElement firstChild holder disabled: true.
+	l innerElement firstChild disabled: true.
 	l dataAccessor addFirst: 'second'.
 	l dataAccessor add: 'third'.
 	l dataAccessor add: 'fourth' afterIndex: 2.
@@ -168,7 +168,7 @@ ToListElementTest >> testDisabledWithFourNodes2 [
 	l dataAccessor add: 'first'.
 	l dataAccessor add: 'second'.
 	self waitTestingSpaces.
-	l nodes second holder disabled: true.
+	l nodes second disabled: true.
 	l dataAccessor add: 'third'.
 	l dataAccessor add: 'fourth'.
 	self waitTestingSpaces.
@@ -241,7 +241,7 @@ ToListElementTest >> testDisabledWithTwoNodes2 [
 	self waitTestingSpaces.
 	self assert: l nodes size equals: 1.
 	self assert: l disabledSelectionModel isEmpty.
-	l nodes first holder disabled: true.
+	l nodes first disabled: true.
 	self waitTestingSpaces.
 	self assert: l disabledSelecter selectedIndex equals: 1.
 	l dataAccessor addFirst: 'second'.
@@ -386,9 +386,10 @@ ToListElementTest >> testEmptyListSelectPreviousInSelection [
 ToListElementTest >> testEnable [
 
 	| l |
-	self skip.
+
 	l := ToListElement new.
 	space root addChild: l.
+
 	l matchParent.
 	l dataAccessor addAll: { #A. #B. #C }.
 	l selecter selectIndex: 2.

@@ -17,6 +17,9 @@ ToTabGroupElementTest >> setUp [
 	tabGroup := ToTabGroupElement new.
 	tabGroup matchParent.
 	space root addChild: tabGroup.
+	tabGroup forceLayout.
+	self waitTestingSpaces 
+
 ]
 
 { #category : #tests }

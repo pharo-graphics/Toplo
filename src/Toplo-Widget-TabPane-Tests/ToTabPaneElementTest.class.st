@@ -21,6 +21,9 @@ ToTabPaneElementTest >> setUp [
 	tabPane := ToTabPaneElement new.
 	tabPane matchParent.
 	space root addChild: tabPane.
+	tabPane forceLayout.
+	BlSpace simulateMouseMoveInside: tabPane.
+	self waitTestingSpaces 
 ]
 
 { #category : #tests }

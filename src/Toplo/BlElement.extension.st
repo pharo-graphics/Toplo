@@ -323,7 +323,7 @@ BlElement >> installShortcuts [
 { #category : #'*Toplo' }
 BlElement >> isConfigurationRequested [
 
-	^ self nextConfigurationPass = self space runningConfigurationPass
+	^ self isAttachedToSceneGraph and: [ self nextConfigurationPass = self space runningConfigurationPass ]
 ]
 
 { #category : #'*Toplo' }

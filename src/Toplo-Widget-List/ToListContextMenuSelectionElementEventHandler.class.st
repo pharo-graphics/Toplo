@@ -8,7 +8,6 @@ Class {
 ToListContextMenuSelectionElementEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , {
-		  ToListPrimarySelectionChangedEvent.
 		  ToListElementContextMenuRequest.
 		  ToListContextMenuSelectionChangedEvent }
 ]

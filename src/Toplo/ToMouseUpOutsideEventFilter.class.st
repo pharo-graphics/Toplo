@@ -20,6 +20,14 @@ ToMouseUpOutsideEventFilter >> eventsToHandle [
 	^ { BlMouseUpEvent }
 ]
 
+{ #category : #testing }
+ToMouseUpOutsideEventFilter >> isElementOutside [
+
+	" is the element iside or outside ? 
+	ifTrue, a mouse up on the element is considered as an outside event"
+	^ false
+]
+
 { #category : #'api - hooks' }
 ToMouseUpOutsideEventFilter >> isInstalled [
 
@@ -27,19 +35,42 @@ ToMouseUpOutsideEventFilter >> isInstalled [
 ]
 
 { #category : #'mouse handlers' }
+ToMouseUpOutsideEventFilter >> isMouseUpOnElement: anEvent [
+	" do nothing if it is inside my element "
+
+	^ anEvent target withAllParentsInclude: element
+]
+
+{ #category : #'mouse handlers' }
+ToMouseUpOutsideEventFilter >> isMouseUpOutsideEvent: anEvent [
+	" do nothing if it is inside my element "
+
+	" is the mouse up occurs on the element itsef ?"
+	(self isMouseUpOnElement: anEvent) ifTrue: [
+		" is the element considered as outside ? "
+		self isElementOutside ifFalse: [ ^ false ] ].
+	" mouse up outside the element detected "
+	^ true
+]
+
+{ #category : #'mouse handlers' }
 ToMouseUpOutsideEventFilter >> mouseUpEvent: anEvent [
 	" 
 	do nothing if the original event target is inside my target 
 	"
-
+	holder ifNil: [ ^ self ].
 	element space ifNil: [ " if my target is removed
 		This can be the case if the parent is removed "
 			holder ifNotNil: [ :h | h removeEventFilter: self ].
 			^ self ].
+	(self isMouseUpOutsideEvent: anEvent) ifFalse: [ ^ self ].
 
-	" do nothing if it is inside my element "
-	(anEvent target withAllParentsInclude: element) ifTrue: [ ^ self ].
-	self onMouseUpEvent: anEvent
+	" ok, the event is outside. Consuming should be done in the handler"
+	element dispatchEvent: (ToMouseUpOutsideEvent new
+			 sourceEvent: anEvent;
+			 emitter: self;
+			 fillFromTime: element space time;
+			 yourself)
 ]
 
 { #category : #'api - hooks' }
@@ -68,4 +99,11 @@ ToMouseUpOutsideEventFilter >> onUninstalledIn: anElement [
 	holder := nil.
 	super onUninstalledIn: anElement
 
+]
+
+{ #category : #'api - hooks' }
+ToMouseUpOutsideEventFilter >> stop [
+
+	holder ifNil: [ ^ self ].
+	holder removeEventFilter: self
 ]

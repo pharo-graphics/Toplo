@@ -55,9 +55,16 @@ ToMenuItemEventHandler >> mouseLeaveEvent: anEvent [
 { #category : #'mouse handlers' }
 ToMenuItemEventHandler >> mouseUpEvent: anEvent [
 
-	target isMenu ifTrue: [
-		target menuPaneDo: [ :mb | mb switchAutoOpen ] ].
-	self onPickingEvent: anEvent
+	target isEnabled ifFalse: [ ^ self ].
+	target closeOnPicking ifFalse: [ ^ self ].
+
+	target isInInlineWindow ifTrue: [
+			target parentMenuDo: [ :m | m manager closeWindowOnEvent: anEvent ].
+			^ self ].
+	target rootMenuDo: [ :rm | " ask the window manager because 
+		it can manage the timestamp and finally can decide 
+		to not close the menu window or to stop a delayed task"
+		rm manager ifNotNil: [ :m | m closeWindowOnEvent: anEvent ] ]
 ]
 
 { #category : #'api - hooks' }
@@ -65,19 +72,6 @@ ToMenuItemEventHandler >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	target := anElement
-]
-
-{ #category : #'mouse handlers' }
-ToMenuItemEventHandler >> onPickingEvent: anEvent [
-	" a mouse up or down event is received. 
-	Close the menu if its closing is allowed from here "
-
-	target isEnabled ifFalse: [ ^ self ].
-	target closeOnPicking ifFalse: [ ^ self ].
-	target rootMenuDo: [ :rm | " ask the window manager because 
-		it can manage the timestamp and finally can decide 
-		to not close the menu window or to stop a delayed task"
-		rm manager ifNotNil: [ :m | m requestCloseWindowOnEvent: anEvent ] ]
 ]
 
 { #category : #'api - hooks' }

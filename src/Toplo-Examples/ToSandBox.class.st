@@ -3569,6 +3569,7 @@ ToSandBox class >> example_MenuWithSelect [
 	selector popupListElement dataAccessor addAll:
 		{ 1. 2. 3. 4. 5. 6. 7. 8. 9. 10. 11. 12 }.
 	item := ToCustomMenuItem new in: [ :e | e addChild: selector ].
+	item closeOnPicking: false.
 	menu addItem: item.
 	menu openInSpace
 ]
@@ -5474,7 +5475,7 @@ ToSandBox class >> example_TooltipPopupOnMouseDown [
 			m popupOnPressed: true.
 			m popupOnHovered: true.
 			m closeOnMouseLeaved: false.
-			m popupDelay: 500 milliSeconds ].
+			m popupDelay: 800 milliSeconds ].
 	but labelText: 'Button with tooltip'.
 	but tooltipBuilder: [ :window :request |
 			window root addChild: (BlElement new

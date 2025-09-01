@@ -35,6 +35,8 @@ ToTabPaneElementTest >> testCloseLastPage [
 	secondButton := tabPane items second.
 	firstButton removable: true.
 	secondButton removable: true.
+	firstButton holder node addRemoveButton. 
+	secondButton holder node  addRemoveButton. 
 	tabPane forceLayout.
 	clicked := false.
 	self waitTestingSpacesTimeout: 400 milliSeconds.
@@ -62,6 +64,8 @@ ToTabPaneElementTest >> testCloseSelectedPage [
 	secondButton := tabPane items second.
 	firstButton removable: true.
 	secondButton removable: true.
+	firstButton holder node addRemoveButton. 
+	secondButton holder node  addRemoveButton. 
 	self waitTestingSpaces.
 	BlSpace simulateClickOn: secondButton.
 	self waitTestingSpaces.
@@ -85,6 +89,8 @@ ToTabPaneElementTest >> testCloseSelectedPage2 [
 	secondButton := tabPane items second.
 	firstButton removable: true.
 	secondButton removable: true.
+	firstButton holder node addRemoveButton. 
+	secondButton holder node  addRemoveButton. 
 	self waitTestingSpaces.
 	BlSpace simulateClickOn: firstButton.
 	self waitTestingSpaces.
@@ -110,6 +116,8 @@ ToTabPaneElementTest >> testCloseUnselectedPage [
 	secondButton := tabPane items second.
 	firstButton removable: true.
 	secondButton removable: true.
+	firstButton holder node addRemoveButton. 
+	secondButton holder node  addRemoveButton. 
 	tabPane forceLayout.
 	self waitTestingSpacesTimeout: 400 milliSeconds.
 	firstButton removeButton addEventHandlerOn: BlClickEvent do: [ :evt | clicked := true ].
@@ -137,6 +145,8 @@ ToTabPaneElementTest >> testCloseUnselectedPage2 [
 	secondButton := tabPane items second.
 	firstButton removable: true.
 	secondButton removable: true.
+	firstButton holder node addRemoveButton. 
+	secondButton holder node  addRemoveButton. 
 	self waitTestingSpaces.
 	BlSpace simulateClickOn: firstButton.
 	self waitTestingSpaces.
@@ -162,6 +172,8 @@ ToTabPaneElementTest >> testCloseUnselectedPage3 [
 	secondButton := tabPane items second.
 	firstButton removable: true.
 	secondButton removable: true.
+	firstButton holder node addRemoveButton. 
+	secondButton holder node  addRemoveButton. 
 	self waitTestingSpaces.
 	BlSpace simulateClickOn: secondButton.
 	self waitTestingSpaces.
@@ -187,6 +199,8 @@ ToTabPaneElementTest >> testCloseUnselectedPage4 [
 	secondButton := tabPane items second.
 	firstButton removable: true.
 	secondButton removable: true.
+	firstButton holder node addRemoveButton. 
+	secondButton holder node  addRemoveButton. 
 	self waitTestingSpaces.
 	BlSpace simulateClickOn: firstButton.
 	self waitTestingSpaces.
@@ -212,6 +226,8 @@ ToTabPaneElementTest >> testCloseUnselectedPage5 [
 	secondButton := tabPane items second.
 	firstButton removable: true.
 	secondButton removable: true.
+	firstButton holder node addRemoveButton. 
+	secondButton holder node  addRemoveButton. 
 	self waitTestingSpaces.
 	BlSpace simulateClickOn: firstButton.
 	self waitTestingSpaces.

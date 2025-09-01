@@ -49,10 +49,12 @@ ToMixedEventGeneratorHandler >> initialize [
 ToMixedEventGeneratorHandler >> mouseDownEvent: anEvent [
 
 	activateOnPressed ifFalse: [ ^ self ].
+
 	startEventClass = ToStartStillHoveredEvent ifTrue: [ ^ self ].
 	startEventClass := ToStartStillPressedEvent.
 	stopEventClass := ToStopStillPressedEvent.
 	repeatedEventClass := ToStillPressedEvent.
+
 	self startEvent: anEvent
 ]
 

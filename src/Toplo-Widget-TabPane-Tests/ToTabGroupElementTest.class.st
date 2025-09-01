@@ -76,6 +76,8 @@ ToTabGroupElementTest >> testRemoveItem [
 	secondItem removable: true.
 	tabGroup forceLayout.
 	clicked := false.
+	firstItem holder node addRemoveButton. 
+	secondItem holder node  addRemoveButton. 
 	self waitTestingSpacesTimeout: 400 milliSeconds.
 	secondItem removeButton
 		addEventHandlerOn: BlClickEvent
@@ -103,6 +105,8 @@ ToTabGroupElementTest >> testRemoveItem2 [
 	secondItem := tabGroup items second.
 	firstItem removable: true.
 	secondItem removable: true.
+	firstItem holder node addRemoveButton. 
+	secondItem holder node  addRemoveButton. 
 	self waitTestingSpaces.
 	BlSpace simulateClickOn: secondItem.
 	self waitTestingSpaces.
@@ -128,6 +132,8 @@ ToTabGroupElementTest >> testRemoveItem3 [
 	secondItem := tabGroup items second.
 	firstItem removable: true.
 	secondItem removable: true.
+	firstItem holder node addRemoveButton. 
+	secondItem holder node  addRemoveButton. 
 	self waitTestingSpaces.
 	BlSpace simulateClickOn: firstItem.
 	self waitTestingSpaces.
@@ -152,6 +158,8 @@ ToTabGroupElementTest >> testRemoveItem4 [
 	secondItem := tabGroup items second.
 	firstItem removable: true.
 	secondItem removable: true.
+	firstItem holder node addRemoveButton. 
+	secondItem holder node  addRemoveButton. 
 	self waitTestingSpaces.
 	BlSpace simulateClickOn: secondItem.
 	self waitTestingSpaces.
@@ -177,6 +185,8 @@ ToTabGroupElementTest >> testRemoveItem5 [
 	secondItem := tabGroup items second.
 	firstItem removable: true.
 	secondItem removable: true.
+	firstItem holder node addRemoveButton. 
+	secondItem holder node  addRemoveButton. 
 	self waitTestingSpaces.
 	BlSpace simulateClickOn: firstItem.
 	self waitTestingSpaces.
@@ -202,6 +212,8 @@ ToTabGroupElementTest >> testRemoveItem6 [
 	secondItem := tabGroup items second.
 	firstItem removable: true.
 	secondItem removable: true.
+	firstItem holder node addRemoveButton. 
+	secondItem holder node  addRemoveButton. 
 	self waitTestingSpaces.
 	BlSpace simulateClickOn: firstItem.
 	self waitTestingSpaces.

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToInlineMenuStarter,
 	#superclass : #ToWindowStarter,
-	#category : #'Toplo-Core-Window'
+	#category : #'Toplo-Widget-Menu-Window'
 }
 
 { #category : #testing }
@@ -25,8 +25,6 @@ ToInlineMenuStarter >> startWindow: aWindow fromManager: aManager [
 { #category : #'starting-stopping' }
 ToInlineMenuStarter >> stopWindow: aWindow fromManager: aManager [
 
-	" an inline window works correctly only with wrapping (need for the flow layout)"
-	aWindow itemBar isFlowable: true.
 	aManager anchorElement menuBarOwner removeItem: aWindow.
 	" need to install a new skin to change the icon (from closed to opened) "
 	aManager anchorElement requestNewSkin

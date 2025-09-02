@@ -216,7 +216,7 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'dash-array' value: #( 3 3 )).
 
 		  "#( 'SFMono-Regular' , Consolas , 'Liberation Mono', Menlo , Courier , monospace )"
-		  (ToTokenProperty name: #'font-family-code' value: 'Courier').
+		  (ToTokenProperty name: #'font-name' value: (AeFontManager defaultFontFamilyName)).
 		  (ToTokenProperty name: #'font-size' value: 14).
 		  (ToTokenProperty name: #'font-size-in-tooltip' value: 12).
 		  (ToTokenProperty name: #'font-size-H1' value: 38).

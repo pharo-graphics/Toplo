@@ -455,12 +455,6 @@ ToAbstractListElement >> placeholderClass [
 	^ ToEmptyPlaceholderLayer
 ]
 
-{ #category : #'t - element with placeholder' }
-ToAbstractListElement >> placeholderElevation [
-
-	^ self innerElement elevation
-]
-
 { #category : #layout }
 ToAbstractListElement >> postponeAction: aValuable [
 

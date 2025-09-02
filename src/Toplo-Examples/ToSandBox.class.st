@@ -2258,49 +2258,17 @@ ToSandBox class >> example_EditorWithMinHeight [
 { #category : #album }
 ToSandBox class >> example_EditorWithPlaceholder [
 
-	| placeholderText view |
-	placeholderText := ('Here is a placeholder text' , String cr
-	                    , 'visible only if the text is empty')
-		                   asRopedText.
-	placeholderText foreground: Color lightGray.
-	placeholderText fontSize: 24.
+	| placeholderString view |
+	placeholderString := ('Here is a placeholder text' , String cr
+	                    , 'visible only if the text is empty').
 
 	view := ToAlbum new
-		        placeholderBuilder: [ :placeholder :e |
-			        | lab |
-			        lab := ToAttributedLabel new text: placeholderText.
-			        lab beMultiLine.
-			        placeholder addChild: lab ];
+		        placeholderString: placeholderString;
 		        withRowNumbers;
 		        withSaveCapability;
 		        whenSaveRequestedDo: [ :saveRequested |
 			        saveRequested accepted: true ];
 		        yourself.
-	view openInInnerWindow
-]
-
-{ #category : #album }
-ToSandBox class >> example_EditorWithPlaceholderWithAlbum [
-
-	| placeholderText view |
-	placeholderText := ('Here is a placeholder text' , String cr
-	                    , 'visible only if the text' , String cr
-	                    , 'is empty') asRopedText.
-	placeholderText foreground: Color veryLightGray.
-	placeholderText fontSize: 30.
-
-	view := ToAlbum new
-		        placeholderBuilder: [ :placeholder :e |
-			        | lab |
-			        lab := ToAlbum new text: placeholderText.
-			        lab beReadonlyWithSelection.
-			        lab addStamp: #preformatted.
-			        placeholder addChild: lab ];
-		        withRowNumbers;
-		        withSaveCapability;
-		        whenSaveRequestedDo: [ :saveRequested |
-			        saveRequested accepted: true ];
-		        addEditsFeedbackLayer.
 	view openInInnerWindow
 ]
 
@@ -4026,7 +3994,6 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 
 	| select |
 	select := ToMultiSelectElement new.
-
 	select isFlowable: true.
 	select keepPickOrder: true.
 	select filtrable: true.

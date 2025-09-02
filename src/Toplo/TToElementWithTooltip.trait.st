@@ -89,7 +89,6 @@ TToElementWithTooltip >> tooltipString: aString [
 TToElementWithTooltip >> tooltipText: aText [
 
 	self tooltipContent: ((ToLabel text: aText asRopedText)
-			 defaultRawSkin: ToLabelInTooltipSkin new;
 			 beMultiLine;
 			 yourself)
 ]

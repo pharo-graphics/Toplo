@@ -22,16 +22,18 @@ TToElementWithPlaceholder >> placeholderBuilder: aValuable [
 	| ph |
 	ph := self placeholderLayer.
 	ph ifNotNil: [
-		ph detach.
-		ph removeFromParent ].
+			ph detach.
+			ph removeFromParent ].
 	aValuable ifNil: [ ^ self ].
 	ph := self newPlaceholder.
 	ph id: #toploPlaceholder.
+	ph addEventHandlerOn: ToAddedToSpaceEvent do: [ :event |
+			ph padding: self padding.
+			ph margin: self margin ].
 	aValuable value: ph value: self.
 	ph visibility: BlVisibility gone.
-	ph attachTo: self.
-	ph elevation: self placeholderElevation.
-	self addChild: ph
+	ph attachToParent: self.
+	ph elevation: self placeholderElevation
 ]
 
 { #category : #'t - element with placeholder' }
@@ -60,9 +62,12 @@ TToElementWithPlaceholder >> placeholderString: aString [
 		self placeholderBuilder: nil.
 		^ self ].
 
-	self placeholderBuilder: [ :placeholder :e |
-		placeholder padding: e padding.
-		placeholder addChild: (ToLabel text: aString) ]
+	self placeholderBuilder: [ :placeholder :e | 
+		| lab |
+		lab := ToLabel text: aString.
+		lab multiLine: true.
+		lab constraintsDo: [ :c | c linear vertical alignCenter ].
+		placeholder addChild: lab ]
 ]
 
 { #category : #'t - element with placeholder' }
@@ -74,7 +79,6 @@ TToElementWithPlaceholder >> placeholderText: aText [
 		^ self ].
 
 	self placeholderBuilder: [ :placeholder :theElement |
-		placeholder padding: theElement padding.
 		placeholder addChild: (ToAttributedLabel new
 				 text: aText;
 				 yourself) ]

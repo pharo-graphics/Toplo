@@ -77,9 +77,7 @@ ToNumericalBadge >> initialize [
 	self property: #overflowCount whenChangedDo: [ self countChanged ].
 	self property: #showZero whenChangedDo: [ self countChanged ].
 	self tooltipBuilder: [ :window :request |
-			window root addChild: ((ToLabel text: self count asString)
-					 defaultRawSkin: ToLabelInTooltipSkin new;
-					 yourself) ].
+		window root addChild: (ToLabel text: self count asString) ].
 	self countChanged
 ]
 

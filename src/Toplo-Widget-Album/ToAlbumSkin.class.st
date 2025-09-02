@@ -70,24 +70,22 @@ ToAlbumSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		(e hasStamp: #'sh-styled')
-			ifTrue: [ e styleTable: (e valueOfTokenNamed: #'sh-style-table') ]
-			ifFalse: [
-				(e hasStamp: #preformatted) ifFalse: [
-					e text
-						defaultFontSize: (e valueOfTokenNamed: #'font-size');
-						lineSpacing: (e valueOfTokenNamed: #'line-height').
-					(e hasStamp: #placeholder)
-						ifTrue: [ e text foreground: Color gray lighter ]
-						ifFalse: [ e text foreground: (e valueOfTokenNamed: #'color-text') ] ] ].
+			(e hasStamp: #'code-editor')
+				ifTrue: [ e styleTable: (e valueOfTokenNamed: #'sh-style-table') ]
+				ifFalse: [
+						e text
+							defaultFontName: (e valueOfTokenNamed: #'font-name');
+							defaultFontSize: (e valueOfTokenNamed: #'font-size');
+							lineSpacing: (e valueOfTokenNamed: #'line-height');
+							foreground: (e valueOfTokenNamed: #'color-text') ].
 
-		e geometry: (BlRoundedRectangleGeometry cornerRadius:
-				 (e valueOfTokenNamed: #'border-radius')).
-		e margin: BlInsets empty.
-		e outskirts: BlOutskirts inside.
-		e padding: (BlInsets
-				 horizontal: (e valueOfTokenNamed: #'padding-content-HS')
-				 vertical: (e valueOfTokenNamed: #'padding-content-VS')) ]
+			e geometry: (BlRoundedRectangleGeometry cornerRadius:
+					 (e valueOfTokenNamed: #'border-radius')).
+			e margin: BlInsets empty.
+			e outskirts: BlOutskirts inside.
+			e padding: (BlInsets
+					 horizontal: (e valueOfTokenNamed: #'padding-content-HS')
+					 vertical: (e valueOfTokenNamed: #'padding-content-VS')) ]
 ]
 
 { #category : #'event handling' }

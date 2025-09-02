@@ -180,6 +180,12 @@ TToAnchoredWindowElement >> popupTimestamp [
 	^ popupTimestamp 
 ]
 
+{ #category : #'t - anchored window element - accessing' }
+TToAnchoredWindowElement >> popupTimestamp: aTimestamp [
+
+	popupTimestamp := aTimestamp
+]
+
 { #category : #'t - anchored window element - displaying' }
 TToAnchoredWindowElement >> positionOnEvent: anEvent context: aBlElementBoundsUpdateContext [
 

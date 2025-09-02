@@ -11,15 +11,12 @@ ToClickableActionLink >> launchableFromEvent: anEvent [
 	| launchable |
 	" by default: yes "
 	launchable := true.
-	anEvent currentTarget spaceDo: [ :sp | " If i'm launched from a kind of popup window, don't launch the action if the event occur just after the window popup (to avoid that an popup menu item is launched immediately after the window popup). this can arise in case of a window position correction to stay visible within its root element bounds"
-			anEvent currentTarget
-				allParentsDetect: [ :p | p isKindOf: ToAnchoredWindow ]
-				ifFound: [ :w |
-						| popupTime |
-						popupTime := w popupTimestamp.
-						launchable := popupTime isNil or: [
-							              anEvent timestamp - popupTime > 300 milliSeconds ] ]
-				ifNone: [ ] ].
+	" If i'm launched from a kind of popup window, don't launch the action if the event occur just after the window popup (to avoid that an popup menu item is launched immediately after the window popup). this can arise in case of a window position correction to stay visible within its root element bounds"
+	anEvent currentTarget
+		allParentsDetect: [ :p | p isKindOf: ToAnchoredWindow ]
+		ifFound: [ :w |
+		launchable := w manager isMinimumDelayExceededOnEvent: anEvent ]
+		ifNone: [ ].
 	^ launchable
 ]
 

@@ -8,7 +8,8 @@ Class {
 		'anchorRoot',
 		'placement',
 		'measurement',
-		'windowStarter'
+		'windowStarter',
+		'minDelayAfterOpening'
 	],
 	#category : #'Toplo-Core-Window'
 }
@@ -198,6 +199,7 @@ ToAnchoredWindowManager >> hasWindow [
 ToAnchoredWindowManager >> initialize [
 
 	super initialize.
+	minDelayAfterOpening := 300 milliSeconds.
 	windowBuilder := self defaultWindowBuilder.
 	windowStarter := self defaultWindowStarter
 ]
@@ -209,6 +211,24 @@ ToAnchoredWindowManager >> isInline [
 		deprecated: 'Use #hasInlineWindow instead'
 		transformWith: '`@rcvr isInline' -> '`@rcvr hasInlineWindow'.
 	^ self hasInlineWindow
+]
+
+{ #category : #'window handling' }
+ToAnchoredWindowManager >> isMinimumDelayExceededAfter: aTimeStamp [
+
+	| delay |
+	currentWindow ifNil: [ ^ true ].
+	aTimeStamp ifNil: [ ^ true ].
+	" check a minimum delay between opening and closing - 
+	useful to not close immediately context menu on mouse up"
+	delay := aTimeStamp - currentWindow popupTimestamp.
+	^ delay > minDelayAfterOpening
+]
+
+{ #category : #'window handling' }
+ToAnchoredWindowManager >> isMinimumDelayExceededOnEvent: anEvent [
+
+	^ self isMinimumDelayExceededAfter: anEvent timestamp
 ]
 
 { #category : #accessing }

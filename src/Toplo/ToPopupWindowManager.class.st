@@ -10,7 +10,6 @@ Class {
 		'delayedPopupHandler',
 		'popupOnPressed',
 		'popupOnHovered',
-		'minDelayBeforeClosing',
 		'closeOnLeaved',
 		'closeOnReleased'
 	],
@@ -189,7 +188,6 @@ ToPopupWindowManager >> initialize [
 	super initialize.
 	self usePrimaryMouseButton.
  	autoCloseDelay := self defaultAutoCloseDelay.
-	minDelayBeforeClosing := 300 milliSeconds.
 	checkPickOutside := true.
 	popupDelay := self defaultPopupDelay.
 	closeOnReleased := false.
@@ -211,24 +209,6 @@ ToPopupWindowManager >> installPickOutsideFilter [
 	pickOutsideFilter ifNotNil: [ ^ self ].
 	pickOutsideFilter := self newPickOutsideFilter.
 	anchorElement space root addEventFilter: pickOutsideFilter.
-]
-
-{ #category : #'window handling' }
-ToPopupWindowManager >> isMinimumDelayExceededAfter: aTimeStamp [
-
-	| delay |
-	currentWindow ifNil: [ ^ true ].
-	aTimeStamp ifNil: [ ^ true ].
-	" check a minimum delay between opening and closing - 
-	useful to not close immediately context menu on mouse up"
-	delay := aTimeStamp - currentWindow popupTimestamp.
-	^ delay > minDelayBeforeClosing
-]
-
-{ #category : #'window handling' }
-ToPopupWindowManager >> isMinimumDelayExceededOnEvent: anEvent [
-
-	^ self isMinimumDelayExceededAfter: anEvent timestamp
 ]
 
 { #category : #'event handling' }

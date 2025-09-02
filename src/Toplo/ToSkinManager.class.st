@@ -2,12 +2,11 @@ Class {
 	#name : #ToSkinManager,
 	#superclass : #Object,
 	#instVars : [
-		'skinRequestCount',
 		'styleSheet',
 		'skinStateQueue',
 		'newSkinRequested',
 		'installedSkin',
-		'installing'
+		'isInstallingSkin'
 	],
 	#category : #'Toplo-Core-Skin'
 }
@@ -74,11 +73,10 @@ ToSkinManager >> initialize [
 
 	super initialize.
 
-	installing := false.
+	isInstallingSkin := false.
 	newSkinRequested := false.
 	installedSkin := ToUnknownSkin instance.
-	skinStateQueue := ToSkinStateQueue new.
-	skinRequestCount := 0
+	skinStateQueue := ToSkinStateQueue new
 ]
 
 { #category : #'skin - installing / uninstalling' }
@@ -86,6 +84,7 @@ ToSkinManager >> installNewSkinIn: anElement [
 	" actually install the skin if requested "
 
 	newSkinRequested ifFalse: [ ^ self ].
+	isInstallingSkin ifTrue: [ ^ self ].
 	self installingWhile: [
 			self uninstallSkinIn: anElement.
 			(self skinToInstallIn: anElement) ifNotNil: [ :skin |
@@ -126,9 +125,12 @@ ToSkinManager >> installedSkinDo: aBlock [
 { #category : #'skin - installing / uninstalling' }
 ToSkinManager >> installingWhile: aBlock [
 
-	installing ifTrue: [ ^ self ].
-	installing := true.
-	aBlock ensure: [ installing := false ]
+	isInstallingSkin ifTrue: [
+			'Asking to install a skin while a skin is currently under installation'
+				traceCr.
+			^ self ].
+	isInstallingSkin := true.
+	aBlock ensure: [ isInstallingSkin := false ]
 ]
 
 { #category : #accessing }
@@ -140,11 +142,7 @@ ToSkinManager >> newSkinRequested [
 { #category : #'skin - install / uninstall request' }
 ToSkinManager >> requestNewSkinIn: anElement [
 
-	| space |
-	space := anElement space.
-	newSkinRequested ifFalse: [ 
-			skinRequestCount := skinRequestCount + 1.
-			newSkinRequested := true ].
+	newSkinRequested := true.
 	" *** Important point: a skin can be installed instantly.
 	This is used to avoid visual flashing effects or lags in some situations: 
 	selection or labels updating in lists as examples. 
@@ -152,21 +150,15 @@ ToSkinManager >> requestNewSkinIn: anElement [
 	Because requestInstallSkin can be sent many times 
 	(as an example during a theme installation). 
 	Thus, applying each request instantly could increase time consuming for nothing **** "
-	space ifNil: [ ^ self ].
-	skinRequestCount = 1 ifFalse: [
-			space needSkinInstallPass: true.
+	anElement isAttachedToSceneGraph ifFalse: [ ^ self ].
+	installedSkin isUnknownSkin ifFalse: [
+			anElement space needSkinInstallPass: true.
 			^ self ].
 	" then apply the installer now "
 	" but before, apply the uninstaller if any"
 	"skinUninstaller ifNotNil: [ :u | u applyOn: anElement ]."
 	" finally install the skin"
 	self installNewSkinIn: anElement
-]
-
-{ #category : #'skin - install / uninstall request' }
-ToSkinManager >> resetSkinRequestCount [ 
-
-	skinRequestCount := 0
 ]
 
 { #category : #'accessing - styleSheet' }
@@ -176,12 +168,6 @@ ToSkinManager >> setStyleSheet: aStyleSheet in: anElement [
 	styleSheet := aStyleSheet.
 	self styleSheet ifNotNil: [ :curr | curr onInstalledIn: anElement ].
 	anElement requestSkinApplication
-]
-
-{ #category : #'skin - install / uninstall request' }
-ToSkinManager >> skinRequestCount [ 
-
-	^ skinRequestCount
 ]
 
 { #category : #accessing }

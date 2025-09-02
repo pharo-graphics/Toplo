@@ -1,11 +1,13 @@
 Class {
-	#name : #ToBasicSkin,
+	#name : #ToGeneralSkin,
 	#superclass : #ToSkin,
+	#traits : 'TToSkinEventListenerRegistry + TToStyleSheetSkin',
+	#classTraits : 'TToSkinEventListenerRegistry classTrait + TToStyleSheetSkin classTrait',
 	#category : #'Toplo-Core-Skin'
 }
 
 { #category : #'event handling' }
-ToBasicSkin >> checkedLookEvent: anEvent [
+ToGeneralSkin >> checkedLookEvent: anEvent [
 
 	self
 		deprecated: 'use checkedSkinEvent: instead'
@@ -16,12 +18,12 @@ ToBasicSkin >> checkedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> checkedSkinEvent: anEvent [
+ToGeneralSkin >> checkedSkinEvent: anEvent [
 
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> clickedLookEvent: anEvent [
+ToGeneralSkin >> clickedLookEvent: anEvent [
 
 	self
 		deprecated: 'use clickedSkinEvent: instead'
@@ -32,11 +34,11 @@ ToBasicSkin >> clickedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> clickedSkinEvent: anEvent [
+ToGeneralSkin >> clickedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> closedLookEvent: anEvent [
+ToGeneralSkin >> closedLookEvent: anEvent [
 
 	self
 		deprecated: 'use closedSkinEvent: instead'
@@ -48,11 +50,11 @@ ToBasicSkin >> closedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> closedSkinEvent: anEvent [
+ToGeneralSkin >> closedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> deselectedLookEvent: anEvent [
+ToGeneralSkin >> deselectedLookEvent: anEvent [
 
 	self
 		deprecated: 'use deselectedSkinEvent: instead'
@@ -63,11 +65,11 @@ ToBasicSkin >> deselectedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> deselectedSkinEvent: anEvent [
+ToGeneralSkin >> deselectedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> disabledLookEvent: anEvent [
+ToGeneralSkin >> disabledLookEvent: anEvent [
 
 	self
 		deprecated: 'use disabledSkinEvent: instead'
@@ -78,28 +80,28 @@ ToBasicSkin >> disabledLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> disabledSkinEvent: anEvent [
+ToGeneralSkin >> disabledSkinEvent: anEvent [
 
 
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> dragEndedSkinEvent: anEvent [
+ToGeneralSkin >> dragEndedSkinEvent: anEvent [
 
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> dragHoveredSkinEvent: anEvent [
+ToGeneralSkin >> dragHoveredSkinEvent: anEvent [
 
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> dragLeftSkinEvent: anEvent [
+ToGeneralSkin >> dragLeftSkinEvent: anEvent [
 
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> dragStartedLookEvent: anEvent [
+ToGeneralSkin >> dragStartedLookEvent: anEvent [
 
 	self
 		deprecated: 'use dragStartedSkinEvent: instead'
@@ -110,12 +112,12 @@ ToBasicSkin >> dragStartedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> dragStartedSkinEvent: anEvent [
+ToGeneralSkin >> dragStartedSkinEvent: anEvent [
 
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> draggedLookEvent: anEvent [
+ToGeneralSkin >> draggedLookEvent: anEvent [
 
 	self
 		deprecated: 'use draggedSkinEvent: instead'
@@ -126,12 +128,12 @@ ToBasicSkin >> draggedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> draggedSkinEvent: anEvent [
+ToGeneralSkin >> draggedSkinEvent: anEvent [
 
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> droppedLookEvent: anEvent [
+ToGeneralSkin >> droppedLookEvent: anEvent [
 
 	self
 		deprecated: 'use droppedSkinEvent: instead'
@@ -142,12 +144,12 @@ ToBasicSkin >> droppedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> droppedSkinEvent: anEvent [
+ToGeneralSkin >> droppedSkinEvent: anEvent [
 
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> enabledLookEvent: anEvent [
+ToGeneralSkin >> enabledLookEvent: anEvent [
 
 	self
 		deprecated: 'use enabledSkinEvent: instead'
@@ -158,11 +160,11 @@ ToBasicSkin >> enabledLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> enabledSkinEvent: anEvent [
+ToGeneralSkin >> enabledSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> focusedLookEvent: anEvent [
+ToGeneralSkin >> focusedLookEvent: anEvent [
 
 	self
 		deprecated: 'use focusedSkinEvent: instead'
@@ -173,12 +175,19 @@ ToBasicSkin >> focusedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> focusedSkinEvent: anEvent [
+ToGeneralSkin >> focusedSkinEvent: anEvent [
 
 ]
 
+{ #category : #'api - event managing' }
+ToGeneralSkin >> handleEvent: anEvent [
+
+	super handleEvent: anEvent.
+	anEvent sendToStyleSheetSkin: self
+]
+
 { #category : #'event handling' }
-ToBasicSkin >> hoveredLookEvent: anEvent [
+ToGeneralSkin >> hoveredLookEvent: anEvent [
 
 	self
 		deprecated: 'use hoveredSkinEvent: instead'
@@ -189,12 +198,12 @@ ToBasicSkin >> hoveredLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> hoveredSkinEvent: anEvent [
+ToGeneralSkin >> hoveredSkinEvent: anEvent [
 
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> indeterminateLookEvent: anEvent [
+ToGeneralSkin >> indeterminateLookEvent: anEvent [
 
 	self
 		deprecated: 'use indeterminateSkinEvent: instead'
@@ -205,12 +214,12 @@ ToBasicSkin >> indeterminateLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> indeterminateSkinEvent: anEvent [
+ToGeneralSkin >> indeterminateSkinEvent: anEvent [
 
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> installLookEvent: anEvent [
+ToGeneralSkin >> installLookEvent: anEvent [
 
 	self
 		deprecated: 'use installSkinEvent: instead'
@@ -221,13 +230,13 @@ ToBasicSkin >> installLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> installSkinEvent: anEvent [
+ToGeneralSkin >> installSkinEvent: anEvent [
 
 
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> leavedLookEvent: anEvent [
+ToGeneralSkin >> leavedLookEvent: anEvent [
 
 	self
 		deprecated: 'use leavedSkinEvent: instead'
@@ -238,7 +247,7 @@ ToBasicSkin >> leavedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> leavedSkinEvent: anEvent [
+ToGeneralSkin >> leavedSkinEvent: anEvent [
 
 	self
 		deprecated: 'Use #leftSkinEvent: instead'
@@ -248,11 +257,19 @@ ToBasicSkin >> leavedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> leftSkinEvent: anEvent [
+ToGeneralSkin >> leftSkinEvent: anEvent [
+]
+
+{ #category : #'api - hooks' }
+ToGeneralSkin >> onInstalledIn: anElement [
+
+	super onInstalledIn: anElement.
+	(anElement lookupTheme applicableListenersFor: anElement)
+		ifNotEmpty: [ :writers | self skinEventListeners: writers ]
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> openedLookEvent: anEvent [
+ToGeneralSkin >> openedLookEvent: anEvent [
 
 	self
 		deprecated: 'use openedSkinEvent: instead'
@@ -264,11 +281,11 @@ ToBasicSkin >> openedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> openedSkinEvent: anEvent [
+ToGeneralSkin >> openedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> pressedLookEvent: anEvent [
+ToGeneralSkin >> pressedLookEvent: anEvent [
 
 	self
 		deprecated: 'use pressedSkinEvent: instead'
@@ -279,12 +296,12 @@ ToBasicSkin >> pressedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> pressedSkinEvent: anEvent [
+ToGeneralSkin >> pressedSkinEvent: anEvent [
 
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> releasedLookEvent: anEvent [
+ToGeneralSkin >> releasedLookEvent: anEvent [
 
 	self
 		deprecated: 'use releasedSkinEvent: instead'
@@ -295,12 +312,12 @@ ToBasicSkin >> releasedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> releasedSkinEvent: anEvent [
+ToGeneralSkin >> releasedSkinEvent: anEvent [
 
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> selectedLookEvent: anEvent [
+ToGeneralSkin >> selectedLookEvent: anEvent [
 
 	self
 		deprecated: 'use selectedSkinEvent: instead'
@@ -311,22 +328,22 @@ ToBasicSkin >> selectedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> selectedSkinEvent: anEvent [
+ToGeneralSkin >> selectedSkinEvent: anEvent [
 
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> startStillHoveredSkinEvent: anEvent [
+ToGeneralSkin >> startStillHoveredSkinEvent: anEvent [
 
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> startStillPressedSkinEvent: anEvent [
+ToGeneralSkin >> startStillPressedSkinEvent: anEvent [
 
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> stillHoveredLookEvent: anEvent [
+ToGeneralSkin >> stillHoveredLookEvent: anEvent [
 
 	self
 		deprecated: 'use stillHoveredSkinEvent: instead'
@@ -337,12 +354,12 @@ ToBasicSkin >> stillHoveredLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> stillHoveredSkinEvent: anEvent [
+ToGeneralSkin >> stillHoveredSkinEvent: anEvent [
 
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> stillPressedLookEvent: anEvent [
+ToGeneralSkin >> stillPressedLookEvent: anEvent [
 
 	self
 		deprecated: 'use stillPressedSkinEvent: instead'
@@ -353,22 +370,22 @@ ToBasicSkin >> stillPressedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> stillPressedSkinEvent: anEvent [
+ToGeneralSkin >> stillPressedSkinEvent: anEvent [
 
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> stopStillHoveredSkinEvent: anEvent [
+ToGeneralSkin >> stopStillHoveredSkinEvent: anEvent [
 
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> stopStillPressedSkinEvent: anEvent [
+ToGeneralSkin >> stopStillPressedSkinEvent: anEvent [
 
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> uncheckedLookEvent: anEvent [
+ToGeneralSkin >> uncheckedLookEvent: anEvent [
 
 	self
 		deprecated: 'use uncheckedSkinEvent: instead'
@@ -379,11 +396,11 @@ ToBasicSkin >> uncheckedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> uncheckedSkinEvent: anEvent [
+ToGeneralSkin >> uncheckedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> unfocusedLookEvent: anEvent [
+ToGeneralSkin >> unfocusedLookEvent: anEvent [
 
 	self
 		deprecated: 'use unfocusedSkinEvent: instead'
@@ -394,13 +411,13 @@ ToBasicSkin >> unfocusedLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> unfocusedSkinEvent: anEvent [
+ToGeneralSkin >> unfocusedSkinEvent: anEvent [
 
 
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> uninstallLookEvent: anEvent [
+ToGeneralSkin >> uninstallLookEvent: anEvent [
 
 	self
 		deprecated: 'use uninstallSkinEvent: instead'
@@ -411,5 +428,5 @@ ToBasicSkin >> uninstallLookEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBasicSkin >> uninstallSkinEvent: anEvent [
+ToGeneralSkin >> uninstallSkinEvent: anEvent [
 ]

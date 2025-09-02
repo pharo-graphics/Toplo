@@ -1,5 +1,5 @@
 Class {
 	#name : #ToSkinDemoSkin,
-	#superclass : #ToBasicSkin,
+	#superclass : #ToGeneralSkin,
 	#category : #'Toplo-Demo-Skin Demo - 3'
 }

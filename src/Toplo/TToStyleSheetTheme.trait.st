@@ -97,16 +97,6 @@ TToStyleSheetTheme >> initializeAsStyleSheetTheme [
 TToStyleSheetTheme >> initializeStyleRules [
 ]
 
-{ #category : #'t - style sheet theme - styling' }
-TToStyleSheetTheme >> newStyleSheetBasedSkinInstanceFor: anElement [
-
-	| skin |
-	skin := (self skinClassFor: anElement) new.
-	(self applicableListenersFor: anElement) ifNotEmpty: [ :writers |
-		skin skinEventListeners: writers ].
-	^ skin
-]
-
 { #category : #'t - style sheet theme - accessing writable properties' }
 TToStyleSheetTheme >> property: aSymbol [
 
@@ -131,12 +121,6 @@ TToStyleSheetTheme >> rootRulesFor: anElement [
 	^ Array streamContents: [ :str |
 		  anElement styleSheetChain reverseDo: [ :ss |
 			  str nextPutAll: ss styleRules ] ]
-]
-
-{ #category : #'t - style sheet theme - styling' }
-TToStyleSheetTheme >> skinClassFor: anElement [
-
-	^ ToStyleSheetSkin
 ]
 
 { #category : #'t - style sheet theme' }

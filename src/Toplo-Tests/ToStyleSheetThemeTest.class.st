@@ -36,6 +36,16 @@ ToStyleSheetThemeTest >> testApplicableRulesFor [
 ]
 
 { #category : #tests }
+ToStyleSheetThemeTest >> testNewSkinFor [
+
+	| e theme skin |
+	e := BlElement new.
+	theme := ToStyleSheetThemeForTest new.
+	skin := theme newSkinFor: e.
+	self assert: skin class identicalTo: ToStyleSheetSkin 
+]
+
+{ #category : #tests }
 ToStyleSheetThemeTest >> testNewSkinInstanceFor [
 
 	| e theme skin |
@@ -57,16 +67,6 @@ ToStyleSheetThemeTest >> testRootRulesFor [
 	space root addChild: e.
 	self assert: (theme rootRulesFor: e) size equals: 1
 	
-]
-
-{ #category : #tests }
-ToStyleSheetThemeTest >> testSkinClassFor [
-
-	| e theme skinCls |
-	e := BlElement new.
-	theme := ToStyleSheetThemeForTest new.
-	skinCls := theme skinClassFor: e.
-	self assert: skinCls identicalTo: ToStyleSheetSkin 
 ]
 
 { #category : #tests }

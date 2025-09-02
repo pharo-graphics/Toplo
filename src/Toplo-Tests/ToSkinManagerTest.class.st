@@ -15,8 +15,8 @@ ToSkinManagerTest >> testApplySkinInstallerIn [
 	space root addChild: e.
 	e skinManager uninstallSkinIn: e.
 	e defaultSkin: (sk := ToRawSkin new).
-	self deny: e skinManager installedSkin isKnownSkin.
-	self assert: e skinManager newSkinRequested.
+	self assert: e skinManager installedSkin isKnownSkin.
+	self deny: e skinManager newSkinRequested.
 	e skinManager installNewSkinIn: e.
 	self assert: e skinManager installedSkin identicalTo: sk.
 	self deny: e skinManager newSkinRequested
@@ -28,7 +28,8 @@ ToSkinManagerTest >> testApplySkinInstallerIn2 [
 	| e |
 	e := ToElement new.
 	" no skinInstaller -> no installed skin  "
-	e skinManager installNewSkinIn: e.
+	self waitTestingSpaces.
+	e ensuredSkinManager installNewSkinIn: e.
 	self deny: e skinManager installedSkin isKnownSkin.
 	e skinManager requestNewSkinIn: e.
 	self assert: e skinManager newSkinRequested.
@@ -66,10 +67,10 @@ ToSkinManagerTest >> testComputedStyleSheetChainIn [
 		(childchildchild skinManager computedStyleSheetChainIn: childchildchild)
 		equals: #(  ).
 	space root addChild: e.
-	" no styleSheet theme by default "
+	" no styleSheet theme by default but any skin has a styleSheet"
 	self assert:
 		(childchildchild skinManager computedStyleSheetChainIn: childchildchild)
-			isEmpty.
+			size equals: 1.
 	space toTheme: ToStyleSheetTheme new.
 	self waitTestingSpaces.
 
@@ -116,13 +117,13 @@ ToSkinManagerTest >> testDefaultRawSkinIn [
 	e defaultRawSkin: (sk := ToRawSkin new).
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
 	self assert: e defaultRawSkin identicalTo: sk.
-	self deny:
+	self assert:
 		(e skinManager installedSkin) isKnownSkin.
 	self
 		assert:
 			(e eventDispatcher handlers select: [ :h | h isKindOf: ToRawSkin ])
 				size
-		equals: 0
+		equals: 1
 ]
 
 { #category : #tests }
@@ -149,11 +150,17 @@ ToSkinManagerTest >> testElementRemovedFromSceneGraph [
 
 	" this ensures that the skin is removed if the element is added back as a child."
 
-	| e |
+	| e sk |
 	e := ToElement new.
 	space root addChild: e.
+	self waitTestingSpaces.
+	self assert: e skinManager notNil.
+	e skinManagerDo: [ :sm | sk := sm installedSkin ].
+	self deny: sk isUnknownSkin.
 	space root removeChild: e.
-	self assert: e skinManager skinRequestCount isZero
+	space root addChild: e.
+	self waitTestingSpaces.
+	e skinManagerDo: [ :sm | self deny: sm installedSkin identicalTo: sk ]
 ]
 
 { #category : #tests }
@@ -218,8 +225,8 @@ ToSkinManagerTest >> testForceDefaultSkinInWhenInSpace [
 	e defaultSkin: (sk := ToRawSkin new).
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
-	self deny: e skinManager installedSkin isKnownSkin.
-	self assert: e skinManager newSkinRequested
+	self assert: e skinManager installedSkin identicalTo: sk.
+	self deny: e skinManager newSkinRequested
 ]
 
 { #category : #tests }
@@ -412,6 +419,16 @@ ToSkinManagerTest >> testRequestSkinInWithChildrenWhenInSpace [
 	self deny: e skinManager newSkinRequested.
 	self deny: child skinManager newSkinRequested.
 	self deny: childchild skinManager newSkinRequested.
+	self assert: child skinManager installedSkin isKnownSkin.
+	self assert: childchild skinManager installedSkin isKnownSkin.
+	self waitTestingSpaces.
+	self deny: child skinManager newSkinRequested.
+	self deny: childchild skinManager newSkinRequested.
+	self assert: e skinManager installedSkin isKnownSkin.
+	self assert: child skinManager installedSkin isKnownSkin.
+	self assert: childchild skinManager installedSkin isKnownSkin 
+
+	
 
 ]
 
@@ -427,7 +444,10 @@ ToSkinManagerTest >> testSetDefaultRawSkinIn [
 	space root addChild: e.
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
 	self assert: e skinManager installedSkin isKnownSkin.
-	self deny: e skinManager newSkinRequested
+	self deny: e skinManager newSkinRequested.
+	self waitTestingSpaces.
+	self deny: e skinManager newSkinRequested.
+
 ]
 
 { #category : #tests }
@@ -467,11 +487,12 @@ ToSkinManagerTest >> testSkinInstaller [
 	childchild := ToElement new.
 	e addChild: child.
 	child addChild: childchild.
-
+	self waitTestingSpaces.
 	self deny: e skinManager newSkinRequested.
 	self deny: child skinManager newSkinRequested.
 	self deny: childchild skinManager newSkinRequested.
 	space root addChild: e.
+	self waitTestingSpaces.
 	" first skinInstaller is applied  "
 	self deny: e skinManager newSkinRequested.
 	self deny: child skinManager newSkinRequested.

@@ -1,6 +1,8 @@
 Class {
 	#name : #ToTheme,
 	#superclass : #Object,
+	#traits : 'TToStyleSheetTheme + TToStyleRuleScripter + TToStyleRulesHolder',
+	#classTraits : 'TToStyleSheetTheme classTrait + TToStyleRuleScripter classTrait + TToStyleRulesHolder classTrait',
 	#instVars : [
 		'icons',
 		'tokenProperties'
@@ -438,7 +440,9 @@ ToTheme >> initialize [
 
 	super initialize.
 	tokenProperties := self technicalTokenProperties asOrderedCollection.
-	tokenProperties addAll: self defaultTokenProperties
+	tokenProperties addAll: self defaultTokenProperties.
+
+	self initializeAsStyleSheetTheme 
 ]
 
 { #category : #accessing }
@@ -467,6 +471,7 @@ ToTheme >> onInstalledIn: anElement [
 						with: self ] ].
 
 	anElement addAllTokenProperties: self tokenProperties.
+	anElement styleSheet: self styleSheet.
 	anElement toThemeInstalled
 ]
 
@@ -475,6 +480,7 @@ ToTheme >> onUninstalledIn: anElement [
 
 	anElement removeAllTokenPropertiesFromNames:
 		(self tokenProperties collect: [ :tp | tp name ]).
+	anElement styleSheet: nil.
 	anElement toThemeUninstalled: self
 ]
 
@@ -488,10 +494,10 @@ ToTheme >> printOn: aStream [
 		nextPutAll: ' ]'
 ]
 
-{ #category : #styling }
-ToTheme >> styleSheet [ 
+{ #category : #'t - stylesheet scripter' }
+ToTheme >> skinEventListenerHolder [ 
 
-	^ nil
+	^ self styleSheet script
 ]
 
 { #category : #accessing }

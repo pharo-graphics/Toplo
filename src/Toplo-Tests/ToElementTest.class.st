@@ -27,7 +27,6 @@ ToElementTest >> testApplySkinInstallerOnFirstRequestButWithNoEffect [
 	e := ToElement new.
 	space root addChild: e.
 	" the skin installer is not immediately applied after it has been already requested. "
-	self assert: e skinManager skinRequestCount equals: 1.
 	" no skin installer anymore "
 	self deny: e skinManager newSkinRequested.
 	" and to not have an installed skin -> illustrates no effect of applySkinInstallerOnFirstRequest: "
@@ -74,7 +73,6 @@ ToElementTest >> testDefaultSkin [
 		equals: 0.
 
 	e defaultSkin: sk.
-	self assert: e ensuredSkinManager skinRequestCount equals: 2.
 	e ensuredSkinManager requestNewSkinIn: e.
 	self assert: (sk receivedCountForClass: ToInstallSkinEvent) equals: 1.
 	self
@@ -296,14 +294,11 @@ ToElementTest >> testSkinInstallRequestCount [
 
 	| e |
 	e := ToElement new.
-	self assert: e skinManager skinRequestCount equals: 0.
+	self assert: e skinManager installedSkin isUnknownSkin.
 	e ensuredSkinManager requestNewSkinIn: e.
-	self assert: e skinManager skinRequestCount equals: 1.
+	self assert: e skinManager installedSkin isUnknownSkin.
 	space root addChild: e.
-	self assert: e skinManager skinRequestCount equals: 1
-	" several install may be requested after the first installation :
-	- by the postponed request
-	- by the theme installation "
+	self deny: e skinManager installedSkin isUnknownSkin
 ]
 
 { #category : #'test initialize' }

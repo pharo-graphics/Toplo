@@ -33,8 +33,8 @@ ToTooltipPopupManager >> defaultWindowClass [
 ToTooltipPopupManager >> initialize [
 
 	super initialize.
-	closeOnMouseReleased := true.
-	closeOnMouseLeaved := true.
+	closeOnReleased := true.
+	closeOnLeaved := true.
 	popupOnPressed := false.
 	popupOnHovered := true
 ]

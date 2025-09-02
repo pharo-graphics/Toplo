@@ -5474,7 +5474,7 @@ ToSandBox class >> example_TooltipPopupOnMouseDown [
 	but tooltipManagerDo: [ :m |
 			m popupOnPressed: true.
 			m popupOnHovered: true.
-			m closeOnMouseLeaved: false.
+			m closeOnLeaved: false.
 			m popupDelay: 800 milliSeconds ].
 	but labelText: 'Button with tooltip'.
 	but tooltipBuilder: [ :window :request |
@@ -8478,12 +8478,12 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeave [
 
 	| but |
 	but := ToButton new.
-	but tooltipManagerDo: [ :m | m closeOnMouseLeaved: false].
+	but tooltipManagerDo: [ :m | m closeOnLeaved: false ].
 	but labelText: 'Button with tooltip with selectable text'.
 	but tooltipBuilder: [ :window :request |
-		| txtfld |
-		txtfld := ToSelectableLabel new text: 'Selectable text'.
-		window root addChild: txtfld ].
+			| txtfld |
+			txtfld := ToSelectableLabel new text: 'Selectable text'.
+			window root addChild: txtfld ].
 	but openInSpace
 ]
 
@@ -8493,49 +8493,50 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 	| but text origString win |
 	but := ToButton new.
 	but labelText: 'Button with editable tooltip'.
-	but tooltipManagerDo: [ :m | m closeOnMouseLeaved: false].
-	
+	but tooltipManagerDo: [ :m | m closeOnLeaved: false ].
+
 
 	origString := 'Edit <Mouse still pressed> - Accept <Return>'.
 	text := origString asRopedText.
 
 	but tooltipBuilder: [ :window :request |
-		| editedLabel resetBtn |
-		editedLabel := ToLabel text: text.
-		editedLabel addEventHandler: (ToStillPressedEventHandler new
-				 startDelay: 800 milliSeconds;
-				 yourself).
-		editedLabel
-			beEditable;
-			addEventHandlerOn: ToStartStillPressedEvent do: [ :event |
-				event consume.
-				editedLabel popupEditorEvent: event ];
-			whenEditorOpenedDo: [ :editorEvent |
-				window preventPickOutside.
-				editorEvent editorElement addStamp: #preformatted.
-				editorEvent editorElement whenCancelRequestedDo: [ :cancelRequest |
-						text := origString asRopedText.
-						editorEvent target text: text ].
-				editorEvent editorElement whenSaveRequestedDo: [ :saveRequest |
-						saveRequest accepted: true ].
-				editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
-						editorEvent target text: acceptedEvent target text.
-						text := acceptedEvent target text ] ];
-			whenEditorClosedDo: [ :event | window allowPickOutside ].
+			| editedLabel resetBtn |
+			editedLabel := ToLabel text: text.
+			editedLabel addEventHandler: (ToStillPressedEventHandler new
+					 startDelay: 800 milliSeconds;
+					 yourself).
+			editedLabel
+				beEditable;
+				addEventHandlerOn: ToStartStillPressedEvent do: [ :event |
+						event consume.
+						editedLabel popupEditorEvent: event ];
+				whenEditorOpenedDo: [ :editorEvent |
+						window preventPickOutside.
+						editorEvent editorElement addStamp: #preformatted.
+						editorEvent editorElement whenCancelRequestedDo: [
+									:cancelRequest |
+									text := origString asRopedText.
+									editorEvent target text: text ].
+						editorEvent editorElement whenSaveRequestedDo: [ :saveRequest |
+								saveRequest accepted: true ].
+						editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
+									editorEvent target text: acceptedEvent target text.
+									text := acceptedEvent target text ] ];
+				whenEditorClosedDo: [ :event | window allowPickOutside ].
 
-		resetBtn := ToButton new
-			            labelText: 'Reset';
-			            clickAction: [
-				            text := origString asRopedText.
-				            editedLabel text: text ];
-			            yourself.
-		editedLabel margin: (BlInsets vertical: 5).
-		window root addChild: editedLabel.
-		window root addChild: resetBtn ].
+			resetBtn := ToButton new
+				            labelText: 'Reset';
+				            clickAction: [
+						            text := origString asRopedText.
+						            editedLabel text: text ];
+				            yourself.
+			editedLabel margin: (BlInsets vertical: 5).
+			window root addChild: editedLabel.
+			window root addChild: resetBtn ].
 
 	but clickAction: [ 'Button clicked' traceCr ].
 	win := but openInInnerWindow.
-	but tooltipWindowManager anchorRoot: win.
+	but tooltipWindowManager anchorRoot: win
 ]
 
 { #category : #label }

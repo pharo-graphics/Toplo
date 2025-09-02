@@ -54,17 +54,27 @@ ToMenuItemEventHandler >> mouseLeaveEvent: anEvent [
 
 { #category : #'mouse handlers' }
 ToMenuItemEventHandler >> mouseUpEvent: anEvent [
+	" don't consume the event here to let checkables items receive it "
 
 	target isEnabled ifFalse: [ ^ self ].
+	
+	" auto-open is managed from the manager if target is a menu "
+	target isMenu ifFalse: [
+		target menuPaneDo: [ :mb | mb cancelAutoOpen ] ].
+
 	target closeOnPicking ifFalse: [ ^ self ].
 
-	target isInInlineWindow ifTrue: [
-			target parentMenuDo: [ :m | m manager closeWindowOnEvent: anEvent ].
-			^ self ].
-	target rootMenuDo: [ :rm | " ask the window manager because 
+	" ask the window manager to actually close the window because 
 		it can manage the timestamp and finally can decide 
 		to not close the menu window or to stop a delayed task"
-		rm manager ifNotNil: [ :m | m closeWindowOnEvent: anEvent ] ]
+
+	target isInInlineWindow ifTrue: [ " remove only the inline menu tree "
+			target parentMenuDo: [ :m |
+				m manager checkCloseWindowOnEvent: anEvent ].
+			^ self ].
+	" close the complete menu tree starting from the root "
+	target rootMenuDo: [ :rm |
+		rm manager ifNotNil: [ :m | m checkCloseWindowOnEvent: anEvent ] ]
 ]
 
 { #category : #'api - hooks' }

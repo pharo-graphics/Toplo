@@ -12,10 +12,10 @@ ToMenuPopupManager >> beInline [
 ]
 
 { #category : #'window handling' }
-ToMenuPopupManager >> closeWindowOnEvent: anEvent [ 
+ToMenuPopupManager >> checkCloseWindowOnEvent: anEvent [ 
 
 	anchorElement menuPaneDo: [ :mb | mb cancelAutoOpen ].
-	super closeWindowOnEvent: anEvent
+	super checkCloseWindowOnEvent: anEvent
 ]
 
 { #category : #initialization }
@@ -91,7 +91,10 @@ ToMenuPopupManager >> onWindowClosed [
 ToMenuPopupManager >> onWindowOpened [
 
 	super onWindowOpened.
-	anchorElement itemBar requestFocus
+	anchorElement itemBar requestFocus.
+	anchorElement isInline ifTrue: [ ^ self ].
+	anchorElement menuPaneDo: [ :mb | mb startAutoOpen ].
+
 ]
 
 { #category : #initialization }

@@ -116,7 +116,6 @@ ToSpacePhasesManagerTest >> testNeedConfigurationPass [
 	e := ToElement new.
 	space applyAllWidgetConfigurations.
 	self deny: space phasesManager needConfigurationPass.
-	e requestConfiguration.
 	space root addChild: e.
 	self deny: space phasesManager needConfigurationPass.
 	e requestConfiguration.

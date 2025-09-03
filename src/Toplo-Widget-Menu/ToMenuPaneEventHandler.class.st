@@ -13,6 +13,7 @@ ToMenuPaneEventHandler >> eventsToHandle [
 	^ {
 		  BlMouseLeaveEvent.
 		  BlMouseOverEvent.
+		  BlMouseUpEvent.
 		  BlLayoutResizerChangedEvent }
 ]
 
@@ -32,6 +33,17 @@ ToMenuPaneEventHandler >> mouseLeaveEvent: anEvent [
 ToMenuPaneEventHandler >> mouseOverEvent: anEvent [
 
 	target mouseOverEvent: anEvent
+]
+
+{ #category : #'event handling' }
+ToMenuPaneEventHandler >> mouseUpEvent: anEvent [
+
+	target isEnabled ifFalse: [ ^ self ].
+	" don't cancel auto-open if on a menu because it is started by a mouse up on root menus  "
+	anEvent target
+		withAllParentsUpTo: target
+		do: [ :p | p isMenu ifTrue: [ ^ self ] ].
+	target cancelAutoOpen
 ]
 
 { #category : #'api - hooks' }

@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Tests-Core-Theme'
 }
 
-{ #category : #'rules declaring' }
+{ #category : #initialization }
 ToStyleSheetThemeForTest >> declareElementRules [
 	" one rule for elements with the stamp #element "
 

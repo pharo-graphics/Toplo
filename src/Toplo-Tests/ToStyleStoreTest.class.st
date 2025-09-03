@@ -391,12 +391,12 @@ ToStyleStoreTest >> testTokenPropertyNamedFromBeforeSpaceShown2 [
 				 goneHere := true.
 				 self assert:
 					 (e skinManager ifNotNil: [ :sm | sm installedSkin ]) notNil.
-				 self assert: e skinManager skinInstaller isNil.
+				 self deny: e skinManager newSkinRequested.
 				 self assert: (e valueOfTokenNamed: #'background-color') notNil.
-				 e skinManager applySkinReinstallIn: e.
+				 e skinManager installNewSkinIn: e.
 				 self deny: e background isTransparent ]).
 
-	e defaultSkin: ToSpaceRootSkin new.
+	e defaultSkin: ToBackgroundColorSkinForTest new.
 	space root addChild: e.
 	" since the space skin phases are not not installed by the the skin phase manager,
 	the theme is not installed an then, installing a skin that requires a property fails "
@@ -415,9 +415,9 @@ ToStyleStoreTest >> testTokenPropertyNamedRequiresSpaceSkinPhasesStarted [
 			 on: ToSpacePhasesStarted
 			 do: [
 				 goneHere := true.
-				 e skinManager applySkinReinstallIn: e.
+				 e skinManager installNewSkinIn: e.
 				 self deny: e background isTransparent ]).
-	e defaultSkin: ToSpaceRootSkin new.
+	e defaultSkin: ToBackgroundColorSkinForTest new.
 	space root addChild: e.
 	self deny: e background isTransparent.
 	self assert: goneHere

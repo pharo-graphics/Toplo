@@ -54,12 +54,6 @@ ToElementWithSkinnableSlotsForTest >> skinInstalledCount [
 	^ self skinManager skinInstalledCount
 ]
 
-{ #category : #accessing }
-ToElementWithSkinnableSlotsForTest >> skinRequestCount [
-
-	^ self skinManager skinRequestCount 
-]
-
 { #category : #initialization }
 ToElementWithSkinnableSlotsForTest >> skinStateQueueApplicationCount [
 

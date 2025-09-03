@@ -34,5 +34,6 @@ ToStandardPopupStarter >> stopWindow: aWindow fromManager: aManager [
 	windowHandler ifNotNil: [
 		aWindow removeEventHandler: windowHandler.
 		windowHandler := nil ].
+
 	super stopWindow: aWindow fromManager: aManager
 ]

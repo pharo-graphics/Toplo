@@ -80,6 +80,7 @@ ToMenu >> initialize [
 	isSubmenu := false.
 	isMenuPaneMenu := false.
 	openOnHovered := true.
+	closeOnPicking := false.
 
 	windowManager := ToMenuPopupManager new
 		                 windowBuilder: [ :window :request |

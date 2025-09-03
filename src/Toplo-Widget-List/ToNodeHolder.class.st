@@ -73,7 +73,7 @@ ToNodeHolder >> dataSource [
 ToNodeHolder >> disabled: aBoolean [
 
 	| selecter |
-	selecter := self listElement disabledSelecter.
+	selecter := self listElement disabledSelectionModel .
 	aBoolean
 		ifTrue: [ selecter selectIndex: self position ]
 		ifFalse: [ selecter deselectIndex: self position ]

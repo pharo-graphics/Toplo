@@ -1,6 +1,6 @@
 Class {
 	#name : #ToButterflySkin,
-	#superclass : #ToBasicSkin,
+	#superclass : #ToGeneralSkin,
 	#category : #'Toplo-Demo-2 - ButterflyTheme'
 }
 

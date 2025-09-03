@@ -321,7 +321,6 @@ ToAbstractListElement >> initialize [
 	self primarySelectionMode: self defaultPrimarySelectionMode.
 	self secondarySelectionMode: self defaultSecondarySelectionMode.
 	self contextMenuSelectionMode: self defaultContextMenuSelectionMode.
-	self contextMenuManagerClass: self defaultContextMenuManagerClass.
 	self newUnselectableSelectionMode onInstalledIn: self.
 	self newHiddenSelectionMode onInstalledIn: self.
 	self newDisabledSelectionMode onInstalledIn: self.
@@ -454,12 +453,6 @@ ToAbstractListElement >> onSievedWith: aSieve [
 ToAbstractListElement >> placeholderClass [
 
 	^ ToEmptyPlaceholderLayer
-]
-
-{ #category : #'t - element with placeholder' }
-ToAbstractListElement >> placeholderElevation [
-
-	^ self innerElement elevation
 ]
 
 { #category : #layout }

@@ -72,12 +72,6 @@ ToElementWithSkinnablePropertiesForTest >> skinInstalledCount [
 ]
 
 { #category : #accessing }
-ToElementWithSkinnablePropertiesForTest >> skinRequestCount [
-
-	^ self skinManager skinRequestCount 
-]
-
-{ #category : #accessing }
 ToElementWithSkinnablePropertiesForTest >> skinStateQueueApplicationCount [
 
 	^ skinStateQueueApplicationCount

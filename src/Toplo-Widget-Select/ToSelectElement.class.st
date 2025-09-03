@@ -15,8 +15,8 @@ See https://ant.design/components/select for a functional reference.
 Class {
 	#name : #ToSelectElement,
 	#superclass : #ToElement,
-	#traits : 'TToElementWithPlaceholder',
-	#classTraits : 'TToElementWithPlaceholder classTrait',
+	#traits : 'TToPlaceholderUser',
+	#classTraits : 'TToPlaceholderUser classTrait',
 	#instVars : [
 		'filtrable',
 		'iconContainer',
@@ -74,6 +74,12 @@ ToSelectElement >> defaultEventHandler [
 ToSelectElement >> defaultLayout [ 
 
 	^ BlLinearLayout horizontal
+]
+
+{ #category : #'t - place holder user' }
+ToSelectElement >> elementWithPlaceHolder [
+
+	^ self innerElement
 ]
 
 { #category : #accessing }

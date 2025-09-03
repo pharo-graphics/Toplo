@@ -11,6 +11,13 @@ ToMenuPopupManager >> beInline [
 	anchorElement openOnHovered: false
 ]
 
+{ #category : #'window handling' }
+ToMenuPopupManager >> checkCloseWindowOnEvent: anEvent [ 
+
+	anchorElement menuPaneDo: [ :mb | mb cancelAutoOpen ].
+	super checkCloseWindowOnEvent: anEvent
+]
+
 { #category : #initialization }
 ToMenuPopupManager >> defaultMeasurement [
 
@@ -37,33 +44,10 @@ ToMenuPopupManager >> eventsToHandle [
 		  BlMouseLeaveEvent }
 ]
 
-{ #category : #'window handling' }
-ToMenuPopupManager >> forceCloseWindowOnEvent: anEvent [ 
-
-	anchorElement menuPaneDo: [ :mb | mb cancelAutoOpen ].
-	super forceCloseWindowOnEvent: anEvent.
-
-]
-
 { #category : #accessing }
 ToMenuPopupManager >> inlineWindowClass [
 
 	^ ToMenuInlineWindowElement
-]
-
-{ #category : #'event handling' }
-ToMenuPopupManager >> isPickedOutsideEvent: anEvent [
-	" return true if the event is considered as a pick outside event "
-
-	| target |
-	target := anEvent target.
-	(target firstInParentChainSatisfying: [ :e |
-		 e isKindOf: ToAnchoredWindow ]) ifNotNil: [ :w |
-		target := w anchorElement ].
-	target ifNil: [ ^ super isPickedOutsideEvent: anEvent ].
-	(target hasAnyInParentChainSatisfying: [ :e |
-		 e isKindOf: ToMenuItemElement ]) ifTrue: [ ^ false ].
-	^ super isPickedOutsideEvent: anEvent
 ]
 
 { #category : #'event handling' }
@@ -107,5 +91,14 @@ ToMenuPopupManager >> onWindowClosed [
 ToMenuPopupManager >> onWindowOpened [
 
 	super onWindowOpened.
-	anchorElement itemBar requestFocus
+	anchorElement itemBar requestFocus.
+	anchorElement isInline ifTrue: [ ^ self ].
+	anchorElement menuPaneDo: [ :mb | mb startAutoOpen ].
+
+]
+
+{ #category : #initialization }
+ToMenuPopupManager >> pickOutsideFilterClass [
+
+	^ ToMenuMouseUpOutsideEventFilter
 ]

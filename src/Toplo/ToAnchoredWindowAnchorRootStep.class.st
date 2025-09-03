@@ -7,12 +7,10 @@ Class {
 { #category : #running }
 ToAnchoredWindowAnchorRootStep >> nextStepFor: aWindow onEvent: anEvent onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
-	| p |
 	aWindow manager ifNil: [ ^ self ].
-	p := aWindow correctedPositionWithinAnchorRoot.
-	p ~= aWindow measuredPosition ifTrue: [
-		aWindow position: p].
+	aWindow position: aWindow correctedPositionWithinAnchorRoot.
 	aWindow toFront.
+	aWindow spaceDo: [ :sp | aWindow popupTimestamp: sp time now ].
 	aWindow visibility: BlVisibility visible.
 	^ nil
 ]

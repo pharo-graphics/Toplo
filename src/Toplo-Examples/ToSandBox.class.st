@@ -2258,49 +2258,17 @@ ToSandBox class >> example_EditorWithMinHeight [
 { #category : #album }
 ToSandBox class >> example_EditorWithPlaceholder [
 
-	| placeholderText view |
-	placeholderText := ('Here is a placeholder text' , String cr
-	                    , 'visible only if the text is empty')
-		                   asRopedText.
-	placeholderText foreground: Color lightGray.
-	placeholderText fontSize: 24.
+	| placeholderString view |
+	placeholderString := ('Here is a placeholder text' , String cr
+	                    , 'visible only if the text is empty').
 
 	view := ToAlbum new
-		        placeholderBuilder: [ :placeholder :e |
-			        | lab |
-			        lab := ToAttributedLabel new text: placeholderText.
-			        lab beMultiLine.
-			        placeholder addChild: lab ];
+		        placeholderString: placeholderString;
 		        withRowNumbers;
 		        withSaveCapability;
 		        whenSaveRequestedDo: [ :saveRequested |
 			        saveRequested accepted: true ];
 		        yourself.
-	view openInInnerWindow
-]
-
-{ #category : #album }
-ToSandBox class >> example_EditorWithPlaceholderWithAlbum [
-
-	| placeholderText view |
-	placeholderText := ('Here is a placeholder text' , String cr
-	                    , 'visible only if the text' , String cr
-	                    , 'is empty') asRopedText.
-	placeholderText foreground: Color veryLightGray.
-	placeholderText fontSize: 30.
-
-	view := ToAlbum new
-		        placeholderBuilder: [ :placeholder :e |
-			        | lab |
-			        lab := ToAlbum new text: placeholderText.
-			        lab beReadonlyWithSelection.
-			        lab addStamp: #preformatted.
-			        placeholder addChild: lab ];
-		        withRowNumbers;
-		        withSaveCapability;
-		        whenSaveRequestedDo: [ :saveRequested |
-			        saveRequested accepted: true ];
-		        addEditsFeedbackLayer.
 	view openInInnerWindow
 ]
 
@@ -3048,31 +3016,6 @@ ToSandBox class >> example_ListWithAllMethods [
 ]
 
 { #category : #list }
-ToSandBox class >> example_ListWithCustomSelectionMeasurementAndPlacement [
-
-	| statesList |
-	statesList := ToListElement new matchParent.
-	statesList nodeBuilder: [ :node :dataItem :holder |
-		node
-			addChild: (ToLabel text: dataItem);
-			preventSelectionSkinEvents;
-			hMatchParent ].
-	statesList dataAccessor addAll: self statesOfAmerica.
-	" mandatory option here: the selection are separate (one selection element for each selected node)"
-	statesList selectionOption grouped: false.
-	statesList selectionOption elementFactory: [
-		ToListPrimarySelectionElement new
-			placement:
-				(ToActionPlacement new action: [ :elem :evt :aBoundsUpdater | 
-						 elem position: elem node bounds inParent position
-								 + (0 @ (elem node measuredHeight - 2)) ]);
-			measurement: (ToActionMeasurement new action: [ :spec :elem :evt |
-						 spec heightSpec beExact: 2 ]);
-			yourself ].
-	statesList openInSpace
-]
-
-{ #category : #list }
 ToSandBox class >> example_ListWithEditableAndContextMenu [
 
 	| l |
@@ -3594,6 +3537,7 @@ ToSandBox class >> example_MenuWithSelect [
 	selector popupListElement dataAccessor addAll:
 		{ 1. 2. 3. 4. 5. 6. 7. 8. 9. 10. 11. 12 }.
 	item := ToCustomMenuItem new in: [ :e | e addChild: selector ].
+	item closeOnPicking: false.
 	menu addItem: item.
 	menu openInSpace
 ]
@@ -4050,7 +3994,6 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 
 	| select |
 	select := ToMultiSelectElement new.
-
 	select isFlowable: true.
 	select keepPickOrder: true.
 	select filtrable: true.
@@ -4292,37 +4235,46 @@ ToSandBox class >> example_SelectMultiFiltrableScrolling [
 ToSandBox class >> example_SelectMultiFiltrableWithCheckboxes [
 
 	| select skinBuilder |
-	
 	select := ToMultiSelectElement new.
 	select popupListElement selectionOption withEmbeddedRepresentation.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
 
 	skinBuilder := [
-	               ToScriptableSkin new
-		               onInstallSkinEvent: [ :e :evt |
-			               e icon: (ToImage inner: (e valueOfTokenNamed: #'checkbox-unchecked-image')).
-			               e icon size: (e valueOfTokenNamed: #'menu-icon-size').
-			               e icon innerImageColor: (e valueOfTokenNamed: #'color-primary') ];
-		               onSelectedSkinEvent: [ :e :evt |
-			               e icon
-				               innerImage: (e valueOfTokenNamed: #'checkbox-checked-image');
-				               innerImageColor: (e valueOfTokenNamed: #'color-primary') ];
-		               onDeselectedSkinEvent: [ :e :evt |
-			               e icon
-				               innerImage: (e valueOfTokenNamed: #'checkbox-unchecked-image');
-				               innerImageColor: (e valueOfTokenNamed: #'color-primary') ];
-		               yourself ].
+		               ToScriptableSkin new
+			               onInstallSkinEvent: [ :e :evt |
+					               e icon:
+							               (ToImage inner:
+									                (e valueOfTokenNamed:
+											                 #'checkbox-unchecked-image')).
+					               e icon extent:
+							               (e valueOfTokenNamed: #'menu-icon-size').
+					               e icon innerImageColor:
+							               (e valueOfTokenNamed: #'color-primary') ];
+			               onSelectedSkinEvent: [ :e :evt |
+					               e icon
+						               innerImage:
+							               (e valueOfTokenNamed: #'checkbox-checked-image');
+						               innerImageColor:
+							               (e valueOfTokenNamed: #'color-primary') ];
+			               onDeselectedSkinEvent: [ :e :evt |
+					               e icon
+						               innerImage:
+							               (e valueOfTokenNamed:
+									                #'checkbox-unchecked-image');
+						               innerImageColor:
+							               (e valueOfTokenNamed: #'color-primary') ];
+			               yourself ].
 	select popupListElement nodeBuilder: [ :node :aState :holder |
-		| box |
-		box := ToLabeledIcon new
-			       labelText: aState;
-			       startFlexible: true;
-			       hMatchParent;
-			       beEndToStart;
-			       yourself.
-		
-		node addChild: box.
-		box defaultSkin: skinBuilder value. ].
+			| box |
+			box := ToLabeledIcon new
+				       labelText: aState;
+				       startFlexible: true;
+				       hMatchParent;
+				       beEndToStart;
+				       yourself.
+
+			node addChild: box.
+			box defaultSkin: skinBuilder value ].
 	select openInSpace
 ]
 
@@ -5498,8 +5450,8 @@ ToSandBox class >> example_TooltipPopupOnMouseDown [
 	but tooltipManagerDo: [ :m |
 			m popupOnPressed: true.
 			m popupOnHovered: true.
-			m closeOnMouseLeaved: false.
-			m popupDelay: 500 milliSeconds ].
+			m closeOnLeaved: false.
+			m popupDelay: 800 milliSeconds ].
 	but labelText: 'Button with tooltip'.
 	but tooltipBuilder: [ :window :request |
 			window root addChild: (BlElement new
@@ -8502,12 +8454,12 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeave [
 
 	| but |
 	but := ToButton new.
-	but tooltipManagerDo: [ :m | m closeOnMouseLeaved: false].
+	but tooltipManagerDo: [ :m | m closeOnLeaved: false ].
 	but labelText: 'Button with tooltip with selectable text'.
 	but tooltipBuilder: [ :window :request |
-		| txtfld |
-		txtfld := ToSelectableLabel new text: 'Selectable text'.
-		window root addChild: txtfld ].
+			| txtfld |
+			txtfld := ToSelectableLabel new text: 'Selectable text'.
+			window root addChild: txtfld ].
 	but openInSpace
 ]
 
@@ -8517,49 +8469,50 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 	| but text origString win |
 	but := ToButton new.
 	but labelText: 'Button with editable tooltip'.
-	but tooltipManagerDo: [ :m | m closeOnMouseLeaved: false].
-	
+	but tooltipManagerDo: [ :m | m closeOnLeaved: false ].
+
 
 	origString := 'Edit <Mouse still pressed> - Accept <Return>'.
 	text := origString asRopedText.
 
 	but tooltipBuilder: [ :window :request |
-		| editedLabel resetBtn |
-		editedLabel := ToLabel text: text.
-		editedLabel addEventHandler: (ToStillPressedEventHandler new
-				 startDelay: 800 milliSeconds;
-				 yourself).
-		editedLabel
-			beEditable;
-			addEventHandlerOn: ToStartStillPressedEvent do: [ :event |
-				event consume.
-				editedLabel popupEditorEvent: event ];
-			whenEditorOpenedDo: [ :editorEvent |
-				window preventPickOutside.
-				editorEvent editorElement addStamp: #preformatted.
-				editorEvent editorElement whenCancelRequestedDo: [ :cancelRequest |
-						text := origString asRopedText.
-						editorEvent target text: text ].
-				editorEvent editorElement whenSaveRequestedDo: [ :saveRequest |
-						saveRequest accepted: true ].
-				editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
-						editorEvent target text: acceptedEvent target text.
-						text := acceptedEvent target text ] ];
-			whenEditorClosedDo: [ :event | window allowPickOutside ].
+			| editedLabel resetBtn |
+			editedLabel := ToLabel text: text.
+			editedLabel addEventHandler: (ToStillPressedEventHandler new
+					 startDelay: 800 milliSeconds;
+					 yourself).
+			editedLabel
+				beEditable;
+				addEventHandlerOn: ToStartStillPressedEvent do: [ :event |
+						event consume.
+						editedLabel popupEditorEvent: event ];
+				whenEditorOpenedDo: [ :editorEvent |
+						window preventPickOutside.
+						editorEvent editorElement addStamp: #preformatted.
+						editorEvent editorElement whenCancelRequestedDo: [
+									:cancelRequest |
+									text := origString asRopedText.
+									editorEvent target text: text ].
+						editorEvent editorElement whenSaveRequestedDo: [ :saveRequest |
+								saveRequest accepted: true ].
+						editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
+									editorEvent target text: acceptedEvent target text.
+									text := acceptedEvent target text ] ];
+				whenEditorClosedDo: [ :event | window allowPickOutside ].
 
-		resetBtn := ToButton new
-			            labelText: 'Reset';
-			            clickAction: [
-				            text := origString asRopedText.
-				            editedLabel text: text ];
-			            yourself.
-		editedLabel margin: (BlInsets vertical: 5).
-		window root addChild: editedLabel.
-		window root addChild: resetBtn ].
+			resetBtn := ToButton new
+				            labelText: 'Reset';
+				            clickAction: [
+						            text := origString asRopedText.
+						            editedLabel text: text ];
+				            yourself.
+			editedLabel margin: (BlInsets vertical: 5).
+			window root addChild: editedLabel.
+			window root addChild: resetBtn ].
 
 	but clickAction: [ 'Button clicked' traceCr ].
 	win := but openInInnerWindow.
-	but tooltipWindowManager anchorRoot: win.
+	but tooltipWindowManager anchorRoot: win
 ]
 
 { #category : #label }

@@ -31,9 +31,7 @@ ToListBasicAdditionalSelectionElementEventHandler >> listAdditionalSelectionChan
 	target := anEvent currentTarget.
 
 	self updateSelectionFromEvent: anEvent.
-
-	touchedIntervals do: [ :int |
-		target dataSource notifyItemsChanged: int ]
+	self updateNodesIn: target
 ]
 
 { #category : #accessing }

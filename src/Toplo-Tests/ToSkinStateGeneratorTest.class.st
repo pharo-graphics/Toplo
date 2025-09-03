@@ -12,10 +12,10 @@ ToSkinStateGeneratorTest >> newElementInSpace [
 
 	| e |
 	e := ToElement new.
-	self assert: e skinManager skinInstaller isNil.
+	self deny: e skinManager newSkinRequested.
 	e defaultSkin: ToRawSkin new.
 	space root addChild: e.
-	self assert: e skinManager skinInstaller isNil.
+	self deny: e skinManager newSkinRequested.
 	" to install the element skin  "
 	space applyAllSkinInstallers.
 

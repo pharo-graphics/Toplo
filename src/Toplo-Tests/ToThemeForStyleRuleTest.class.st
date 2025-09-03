@@ -10,7 +10,7 @@ ToThemeForStyleRuleTest class >> label [
 	^ 'A theme class for tests'
 ]
 
-{ #category : #accessing }
+{ #category : #'skin creation' }
 ToThemeForStyleRuleTest >> newSkinFor: anElement [
 
 	^ ToNullSkin instance

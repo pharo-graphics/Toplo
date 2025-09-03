@@ -254,12 +254,12 @@ ToAlbum >> styler: aBlStyler [
 		self styler unsubscribe: self.
 		self unsubscribe: styler ].
 	
-	self removeStamp: #'sh-styled'.
+	self removeStamp: #'code-editor'.
 	self userData at: #styler put: aBlStyler.
 
 	self styler ifNil: [ ^ self ].
 	
-	self addStamp: #'sh-styled'.
+	self addStamp: #'code-editor'.
 
 	aBlStyler fontName: self codeFontName.
 	aBlStyler

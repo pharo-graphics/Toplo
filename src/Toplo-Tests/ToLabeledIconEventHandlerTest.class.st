@@ -15,22 +15,22 @@ ToLabeledIconEventHandlerTest >> testDirection [
 	space root addChild: li.
 
 	li beStartToEnd .
-	li skinManager forceSkinInstaller: nil in: li.
+	li skinManager forceNewSkinRequested: false in: li.
 	li direction: BlLayoutDirection rightToLeft.
-	self assert: li skinManager skinInstaller notNil.
-	li skinManager forceSkinInstaller: nil in: li.
+	self assert: li skinManager newSkinRequested.
+	li skinManager forceNewSkinRequested: false in: li.
 	li direction: BlLayoutDirection rightToLeft.
-	self assert: li skinManager skinInstaller isNil.
+	self deny: li skinManager newSkinRequested.
 
-	li skinManager forceSkinInstaller: nil in: li.
+	li skinManager forceNewSkinRequested: false in: li.
 	li direction: BlLayoutDirection leftToRight.
-	self assert: li skinManager skinInstaller notNil.
-	li skinManager forceSkinInstaller: nil in: li.
+	self assert: li skinManager newSkinRequested.
+	li skinManager forceNewSkinRequested: false in: li.
 	li direction: BlLayoutDirection leftToRight.
-	self assert: li skinManager skinInstaller isNil.
+	self deny: li skinManager newSkinRequested.
 
 	li direction: BlLayoutDirection rightToLeft.
-	self assert: li skinManager skinInstaller notNil
+	self assert: li skinManager newSkinRequested
 ]
 
 { #category : #'layout constraints' }
@@ -41,23 +41,24 @@ ToLabeledIconEventHandlerTest >> testLayoutDirectionChangedEvent [
 	space root addChild: li.
 	li beStartToEnd.
 	li beEndToStart.
-	self assert: li skinManager skinInstaller notNil.
-	li skinManager forceSkinInstaller: nil in: li.
+	self assert: li skinManager newSkinRequested.
+	li skinManager forceNewSkinRequested: false in: li.
 	li beStartToEnd.
-	self assert: li skinManager skinInstaller notNil.
-	li skinManager forceSkinInstaller: nil in: li.
+	self assert: li skinManager newSkinRequested.
+	li skinManager forceNewSkinRequested: false in: li.
 	li startToEnd: false.
-	self assert: li skinManager skinInstaller notNil.
-	li skinManager forceSkinInstaller: nil in: li.
+	self assert: li skinManager newSkinRequested.
+	li skinManager forceNewSkinRequested: false in: li.
 	li startToEnd: true.
-	self assert: li skinManager skinInstaller notNil.
-	li skinManager forceSkinInstaller: nil in: li.
+	self assert: li skinManager newSkinRequested.
+	li skinManager forceNewSkinRequested: false in: li.
 	li endToStart: true.
-	self assert: li skinManager skinInstaller notNil.
-	li skinManager forceSkinInstaller: nil in: li.
+	self assert: li skinManager newSkinRequested.
+	li skinManager forceNewSkinRequested: false in: li.
 	li endToStart: false.
-	self assert: li skinManager skinInstaller notNil.
-	li skinManager forceSkinInstaller: nil in: li
+	self assert: li skinManager newSkinRequested.
+	li skinManager forceNewSkinRequested: false in: li.
+
 ]
 
 { #category : #'layout constraints' }
@@ -68,23 +69,24 @@ ToLabeledIconEventHandlerTest >> testLayoutOrientationChangedEvent [
 	space root addChild: li.
 	li beHorizontal.
 	li beVertical.
-	self assert: li skinManager skinInstaller notNil.
-	li skinManager forceSkinInstaller: nil in: li.
+	self assert: li skinManager newSkinRequested.
+	li skinManager forceNewSkinRequested: false in: li.
 	li beHorizontal.
-	self assert: li skinManager skinInstaller notNil.
-	li skinManager forceSkinInstaller: nil in: li.
+	self assert: li skinManager newSkinRequested.
+	li skinManager forceNewSkinRequested: false in: li.
 	li vertical: true.
-	self assert: li skinManager skinInstaller notNil.
-	li skinManager forceSkinInstaller: nil in: li.
+	self assert: li skinManager newSkinRequested.
+	li skinManager forceNewSkinRequested: false in: li.
 	li vertical: false.
-	self assert: li skinManager skinInstaller notNil.
-	li skinManager forceSkinInstaller: nil in: li.
+	self assert: li skinManager newSkinRequested.
+	li skinManager forceNewSkinRequested: false in: li.
 	li horizontal: false.
-	self assert: li skinManager skinInstaller notNil.
-	li skinManager forceSkinInstaller: nil in: li.
+	self assert: li skinManager newSkinRequested.
+	li skinManager forceNewSkinRequested: false in: li.
 	li horizontal: true.
-	self assert: li skinManager skinInstaller notNil.
-	li skinManager forceSkinInstaller: nil in: li
+	self assert: li skinManager newSkinRequested.
+	li skinManager forceNewSkinRequested: false in: li.
+
 ]
 
 { #category : #'layout constraints' }
@@ -94,19 +96,19 @@ ToLabeledIconEventHandlerTest >> testOrientation [
 	li := ToLabeledIcon new.
 	space root addChild: li.
 	li beStartToEnd.
-	li skinManager forceSkinInstaller: nil in: li.
+	li skinManager forceNewSkinRequested: false in: li.
 	li orientation: BlLinearLayoutOrientation vertical.
-	self assert: li skinManager skinInstaller notNil.
-	li skinManager forceSkinInstaller: nil in: li.
+	self assert: li skinManager newSkinRequested.
+	li skinManager forceNewSkinRequested: false in: li.
 	li orientation: BlLinearLayoutOrientation vertical.
-	self assert: li skinManager skinInstaller isNil.
+	self deny: li skinManager newSkinRequested.
 
-	li skinManager forceSkinInstaller: nil in: li.
+	li skinManager forceNewSkinRequested: false in: li.
 	li orientation: BlLinearLayoutOrientation horizontal.
-	self assert: li skinManager skinInstaller notNil.
-	li skinManager forceSkinInstaller: nil in: li.
+	self assert: li skinManager newSkinRequested.
+	li skinManager forceNewSkinRequested: false in: li.
 	li orientation: BlLinearLayoutOrientation horizontal.
-	self assert: li skinManager skinInstaller isNil
+	self deny: li skinManager newSkinRequested
 ]
 
 { #category : #'layout constraints' }
@@ -116,51 +118,52 @@ ToLabeledIconEventHandlerTest >> testlayoutConstraintsChangedEvent [
 	li := ToLabeledIcon new.
 	space root addChild: li.
 	li exact: 10 @ 10.
-	self assert: li skinManager skinInstaller isNil.
-	li skinManager forceSkinInstaller: nil in: li.
-	self assert: li skinManager skinInstaller isNil.
+	self deny: li skinManager newSkinRequested.
+	li skinManager forceNewSkinRequested: false in: li.
+	self deny: li skinManager newSkinRequested.
 	li fitContent.
-	self assert: li skinManager skinInstaller isNil.
-	li skinManager forceSkinInstaller: nil in: li.
-	self assert: li skinManager skinInstaller isNil.
+	self deny: li skinManager newSkinRequested.
+	li skinManager forceNewSkinRequested: false in: li.
+	self deny: li skinManager newSkinRequested.
 	li fitContentLimited.
-	self assert: li skinManager skinInstaller isNil.
-	li skinManager forceSkinInstaller: nil in: li.
-	self assert: li skinManager skinInstaller isNil.
+	self deny: li skinManager newSkinRequested.
+	li skinManager forceNewSkinRequested: false in: li.
+	self deny: li skinManager newSkinRequested.
 	li hExact: 20.
-	self assert: li skinManager skinInstaller isNil.
-	li skinManager forceSkinInstaller: nil in: li.
-	self assert: li skinManager skinInstaller isNil.
+	self deny: li skinManager newSkinRequested.
+	li skinManager forceNewSkinRequested: false in: li.
+	self deny: li skinManager newSkinRequested.
 	li hFitContent.
-	self assert: li skinManager skinInstaller isNil.
-	li skinManager forceSkinInstaller: nil in: li.
-	self assert: li skinManager skinInstaller isNil.
+	self deny: li skinManager newSkinRequested.
+	li skinManager forceNewSkinRequested: false in: li.
+	self deny: li skinManager newSkinRequested.
 	li hFitContentLimited.
-	self assert: li skinManager skinInstaller isNil.
-	li skinManager forceSkinInstaller: nil in: li.
-	self assert: li skinManager skinInstaller isNil.
+	self deny: li skinManager newSkinRequested.
+	li skinManager forceNewSkinRequested: false in: li.
+	self deny: li skinManager newSkinRequested.
 	li hMatchParent.
-	self assert: li skinManager skinInstaller isNil.
-	li skinManager forceSkinInstaller: nil in: li.
-	self assert: li skinManager skinInstaller isNil.
+	self deny: li skinManager newSkinRequested.
+	li skinManager forceNewSkinRequested: false in: li.
+	self deny: li skinManager newSkinRequested.
 	li matchParent.
-	self assert: li skinManager skinInstaller isNil.
-	li skinManager forceSkinInstaller: nil in: li.
-	self assert: li skinManager skinInstaller isNil.
+	self deny: li skinManager newSkinRequested.
+	li skinManager forceNewSkinRequested: false in: li.
+	self deny: li skinManager newSkinRequested.
 	li vExact: 20.
-	self assert: li skinManager skinInstaller isNil.
-	li skinManager forceSkinInstaller: nil in: li.
-	self assert: li skinManager skinInstaller isNil.
+	self deny: li skinManager newSkinRequested.
+	li skinManager forceNewSkinRequested: false in: li.
+	self deny: li skinManager newSkinRequested.
 	li vFitContent.
-	self assert: li skinManager skinInstaller isNil.
-	li skinManager forceSkinInstaller: nil in: li.
-	self assert: li skinManager skinInstaller isNil.
+	self deny: li skinManager newSkinRequested.
+	li skinManager forceNewSkinRequested: false in: li.
+	self deny: li skinManager newSkinRequested.
 	li vFitContentLimited.
-	self assert: li skinManager skinInstaller isNil.
-	li skinManager forceSkinInstaller: nil in: li.
-	self assert: li skinManager skinInstaller isNil.
+	self deny: li skinManager newSkinRequested.
+	li skinManager forceNewSkinRequested: false in: li.
+	self deny: li skinManager newSkinRequested.
 	li vMatchParent.
-	self assert: li skinManager skinInstaller isNil.
-	li skinManager forceSkinInstaller: nil in: li.
-	self assert: li skinManager skinInstaller isNil
+	self deny: li skinManager newSkinRequested.
+	li skinManager forceNewSkinRequested: false in: li.
+	self deny: li skinManager newSkinRequested.
+
 ]

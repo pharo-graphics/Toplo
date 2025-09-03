@@ -17,8 +17,8 @@ ToRawThemeForTest class >> defaultTokenProperties [
 	^ { (ToTokenProperty name: #'test-background-color' value: Color white) }
 ]
 
-{ #category : #accessing }
+{ #category : #'skin creation' }
 ToRawThemeForTest >> newSkinFor: anElement [
 
-	^ ToRawSkin new.
+	^ ToRawSkin new
 ]

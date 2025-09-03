@@ -7,8 +7,7 @@ Trait {
 		'startDelay',
 		'startTime',
 		'startEvent',
-		'mouseUpOutsideFilter',
-		'mouseOutsideEventChecker'
+		'standaloneMouseOutsideFilter'
 	],
 	#category : #'Toplo-Support-EventGenerator'
 }
@@ -25,20 +24,12 @@ TToEventGeneratorHandler >> initializeAsEventGeneratorHandler [
 	delay := 0 milliSeconds.
 	startDelay := 0 milliSeconds.
 	time := BlTime real.
-	mouseOutsideEventChecker := [ :event | true ]
-]
-
-{ #category : #'t - event generator handler' }
-TToEventGeneratorHandler >> mouseOutsideEventChecker: aValuable [
-
-	mouseOutsideEventChecker := aValuable
+	standaloneMouseOutsideFilter := true
 ]
 
 { #category : #'t - event generator handler' }
 TToEventGeneratorHandler >> mouseUpOutsideEvent: anEvent [
 
-	(mouseOutsideEventChecker value: anEvent) ifFalse: [ ^ self ].
-	anEvent sourceEvent consume.
 	self stopEvent: anEvent
 ]
 
@@ -47,6 +38,12 @@ TToEventGeneratorHandler >> resetTaskFromEvent: anEvent in: aTarget [
 
 	self stopTaskFromEvent: anEvent in: aTarget.
 	self reset
+]
+
+{ #category : #'t - event generator handler' }
+TToEventGeneratorHandler >> standaloneMouseOutsideFilter: aBoolean [
+
+	standaloneMouseOutsideFilter := aBoolean
 ]
 
 { #category : #'t - event generator handler' }
@@ -65,19 +62,20 @@ TToEventGeneratorHandler >> startDelay: aDuration [
 TToEventGeneratorHandler >> startEvent: anEvent [
 
 	| target eventToUse |
-
 	checker ifNotNil: [ ^ self ].
 	target := anEvent currentTarget.
 	eventToUse := anEvent copy.
 	startTime := time now.
 	checker := BlRepeatedTaskAction new
 		           delay: delay asDuration;
-		           action: [self taskActionFromEvent: eventToUse in: target].
-		
-	mouseUpOutsideFilter := ToMouseUpOutsideEventFilter new
-		                     element: target;
-		                     yourself.		
-	target space root addEventFilter: mouseUpOutsideFilter.
+		           action: [
+			           self taskActionFromEvent: eventToUse in: target ].
+	standaloneMouseOutsideFilter ifTrue: [
+			| mouseUpOutsideFilter |
+			mouseUpOutsideFilter := ToOneShotMouseUpOutsideEventFilter new
+				                        element: target;
+				                        yourself.
+			target space root addEventFilter: mouseUpOutsideFilter ].
 	target enqueueTask: checker
 ]
 
@@ -89,12 +87,6 @@ TToEventGeneratorHandler >> stopEvent: anEvent [
 
 { #category : #'t - event generator handler' }
 TToEventGeneratorHandler >> stopTaskFromEvent: anEvent in: aTarget [
-
-	mouseUpOutsideFilter ifNotNil: [
-		mouseUpOutsideFilter isInstalled ifTrue: [
-			aTarget spaceDo: [ :sp |
-				sp root removeEventFilter: mouseUpOutsideFilter ] ].
-		mouseUpOutsideFilter := nil ].
 
 	checker ifNotNil: [
 		checker stop.

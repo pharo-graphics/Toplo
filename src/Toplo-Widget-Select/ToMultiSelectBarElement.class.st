@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMultiSelectBarElement,
 	#superclass : #ToTagBarElement,
-	#traits : 'TToSelectInnerContainerElement',
-	#classTraits : 'TToSelectInnerContainerElement classTrait',
+	#traits : 'TToSelectInnerContainerElement + TToElementWithPlaceholder',
+	#classTraits : 'TToSelectInnerContainerElement classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [
 		'selectElement',
 		'maxSelectedCount',

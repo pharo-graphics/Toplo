@@ -12,7 +12,7 @@ ToSkinStateQueueTest >> newElementInSpace [
 
 	| e |
 	e := ToElement new.
-	self assert: e skinManager skinInstaller isNil.
+	self deny: e skinManager newSkinRequested.
 	space root addChild: e.
 	self assert: e skinManager notNil.
 	" to install the element skin  "

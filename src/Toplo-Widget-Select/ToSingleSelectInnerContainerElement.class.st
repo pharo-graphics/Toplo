@@ -1,8 +1,8 @@
 Class {
 	#name : #ToSingleSelectInnerContainerElement,
 	#superclass : #ToElement,
-	#traits : 'TToSelectInnerContainerElement',
-	#classTraits : 'TToSelectInnerContainerElement classTrait',
+	#traits : 'TToSelectInnerContainerElement + TToElementWithPlaceholder',
+	#classTraits : 'TToSelectInnerContainerElement classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [
 		'selectElement',
 		'fakeDataView',
@@ -108,6 +108,15 @@ ToSingleSelectInnerContainerElement >> installFakeDataView [
 	fakeDataView id: #fakeDataView.
 	fakeDataView width: 0.
 	self addChild: fakeDataView before: dataView
+]
+
+{ #category : #skin }
+ToSingleSelectInnerContainerElement >> installRawStyle [
+
+	super installRawStyle.
+	self background: Color transparent.
+	self padding: (BlInsets all: 5)
+
 ]
 
 { #category : #testing }

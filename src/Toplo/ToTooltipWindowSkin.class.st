@@ -9,10 +9,17 @@ ToTooltipWindowSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-	e padding: (BlInsets
-			 horizontal: (e valueOfTokenNamed: #'padding-content-H')
-			 vertical: (e valueOfTokenNamed: #'padding-content-V')).
-	e effect: (e valueOfTokenNamed: #'effect-window') ]
+			e
+				addTokenNamed: #'font-size'
+				withValue: (e valueOfTokenNamed: #'font-size-in-tooltip').
+			e
+				addTokenNamed: #'color-text'
+				withValue: (e valueOfTokenNamed: #'text-foreground-in-tooltip').
+
+			e padding: (BlInsets
+					 horizontal: (e valueOfTokenNamed: #'padding-content-H')
+					 vertical: (e valueOfTokenNamed: #'padding-content-V')).
+			e effect: (e valueOfTokenNamed: #'effect-window') ]
 ]
 
 { #category : #'event handling' }

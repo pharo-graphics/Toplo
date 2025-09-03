@@ -17,9 +17,7 @@ ToLabelledBadge >> initialize [
 			c frame vertical alignCenter ].
 	self builder: [ :inner | inner addChild: label ].
 	self tooltipBuilder: [ :window :request |
-			window root addChild: ((ToLabel text: label text copy)
-					 defaultRawSkin: ToLabelInTooltipSkin new;
-					 yourself) ]
+		window root addChild: (ToLabel text: label text copy) ]
 ]
 
 { #category : #accessing }

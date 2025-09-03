@@ -1,8 +1,6 @@
 Class {
 	#name : #ToRawTheme,
 	#superclass : #ToTheme,
-	#traits : 'TToStyleSheetTheme',
-	#classTraits : 'TToStyleSheetTheme classTrait',
 	#category : #'Toplo-Core-Theme'
 }
 
@@ -12,31 +10,32 @@ ToRawTheme class >> canBeDefault [
 	^ true
 ]
 
+{ #category : #initialization }
+ToRawTheme class >> initializeToRawTheme: aTheme [
+
+	<toploThemeInstallerFor: #ToRawTheme>
+	" for the space root element "
+	aTheme select: (aTheme id: BlSpace defaultRootLabel) style: [
+			aTheme
+				write: (aTheme property: #background)
+				with: [ :e | e valueOfTokenNamed: #'background-color' ] ]
+]
+
 { #category : #accessing }
 ToRawTheme class >> label [
 
 	^'Raw'
 ]
 
-{ #category : #accessing }
+{ #category : #'skin creation' }
 ToRawTheme >> defaultSkinFor: anElement [
 
 	^ anElement defaultRawSkin ifNil: [
 		  super defaultSkinFor: anElement ]
 ]
 
-{ #category : #accessing }
-ToRawTheme >> newRootSkin [
-
-	^ ToSpaceRootSkin new
-]
-
-{ #category : #accessing }
+{ #category : #'skin creation' }
 ToRawTheme >> newSkinFor: anElement [
 
-	| space |
-	space := anElement space.
-	^ (space notNil and: [ space root == anElement ])
-		  ifTrue: [ self newRootSkin ]
-		  ifFalse: [ anElement newRawSkin ]
+	^ anElement newRawSkin
 ]

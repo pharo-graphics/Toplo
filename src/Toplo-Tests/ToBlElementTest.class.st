@@ -110,14 +110,14 @@ ToBlElementTest >> testRequestSkin [
 	self assert: e skinManager isNil.
 	self assert: e skinManager isNil.
 	self assert: e skinManager isNil.
-	e ensuredSkinManager requestInstallSkinIn: e.
-	self assert: e skinManager skinInstaller notNil.
+	e ensuredSkinManager requestNewSkinIn: e.
+	self assert: e skinManager newSkinRequested.
 	self assert: e skinManager installedSkin isUnknownSkin .
 	space root addChild: e.
-	self assert: e skinManager skinInstaller notNil.
+	self assert: e skinManager newSkinRequested.
 	self assert: e skinManager installedSkin isUnknownSkin.
 	space applyAllSkinInstallers.
-	self assert: e skinManager skinInstaller isNil.
+	self deny: e skinManager newSkinRequested.
 	self assert: e skinManager installedSkin isKnownSkin 
 	
 ]
@@ -132,13 +132,13 @@ ToBlElementTest >> testRequestSkin2 [
 	self assert: e skinManager isNil.
 	space root addChild: e.
 	self assert: e skinManager isNil.
-	e ensuredSkinManager requestInstallSkinIn: e.
+	e ensuredSkinManager requestNewSkinIn: e.
 	self assert: e skinManager notNil.
-	self assert: e skinManager skinInstaller isNil.
+	self deny: e skinManager newSkinRequested.
 	self assert: e skinManager installedSkin isKnownSkin.
 	" apply skin installer from space has no effect on e since it has no skinInstaller "
 	space applyAllSkinInstallers.
-	self assert: e skinManager skinInstaller isNil.
+	self deny: e skinManager newSkinRequested.
 	self assert: e skinManager installedSkin isKnownSkin
 ]
 

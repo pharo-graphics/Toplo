@@ -136,6 +136,20 @@ ToSpecificBarElementTest >> testDisabledWithFourNodesLateAddToSpace2 [
 ]
 
 { #category : #tests }
+ToSpecificBarElementTest >> testDisabledWithOneNode [
+
+	l dataAccessor add: 'first'.
+	space root addChild: l.
+	self waitTestingSpaces.
+	self assert: l nodes size equals: 1.
+	self assert: l disabledSelectionModel isEmpty.
+	l disabledSelecter selectIndex: 1.
+	self waitTestingSpaces.
+	self assert: l disabledSelecter selectedIndex equals: 1.
+	self assert: l nodes first isDisabled.
+]
+
+{ #category : #tests }
 ToSpecificBarElementTest >> testDisabledWithThreeNodes [
 
 	l dataAccessor add: 'first'.

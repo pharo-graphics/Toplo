@@ -149,8 +149,7 @@ ToStyleSheet >> onInstalledIn: anElement [
 { #category : #initialization }
 ToStyleSheet >> onUninstalledIn: anElement [
 
-	anElement skinManagerDo: [ :sm |
-		sm requestUninstallSkinRecursivelyIn: anElement ]
+	
 ]
 
 { #category : #'accessing - writable properties' }

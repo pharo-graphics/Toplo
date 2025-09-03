@@ -4235,37 +4235,46 @@ ToSandBox class >> example_SelectMultiFiltrableScrolling [
 ToSandBox class >> example_SelectMultiFiltrableWithCheckboxes [
 
 	| select skinBuilder |
-	
 	select := ToMultiSelectElement new.
 	select popupListElement selectionOption withEmbeddedRepresentation.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
 
 	skinBuilder := [
-	               ToScriptableSkin new
-		               onInstallSkinEvent: [ :e :evt |
-			               e icon: (ToImage inner: (e valueOfTokenNamed: #'checkbox-unchecked-image')).
-			               e icon size: (e valueOfTokenNamed: #'menu-icon-size').
-			               e icon innerImageColor: (e valueOfTokenNamed: #'color-primary') ];
-		               onSelectedSkinEvent: [ :e :evt |
-			               e icon
-				               innerImage: (e valueOfTokenNamed: #'checkbox-checked-image');
-				               innerImageColor: (e valueOfTokenNamed: #'color-primary') ];
-		               onDeselectedSkinEvent: [ :e :evt |
-			               e icon
-				               innerImage: (e valueOfTokenNamed: #'checkbox-unchecked-image');
-				               innerImageColor: (e valueOfTokenNamed: #'color-primary') ];
-		               yourself ].
+		               ToScriptableSkin new
+			               onInstallSkinEvent: [ :e :evt |
+					               e icon:
+							               (ToImage inner:
+									                (e valueOfTokenNamed:
+											                 #'checkbox-unchecked-image')).
+					               e icon extent:
+							               (e valueOfTokenNamed: #'menu-icon-size').
+					               e icon innerImageColor:
+							               (e valueOfTokenNamed: #'color-primary') ];
+			               onSelectedSkinEvent: [ :e :evt |
+					               e icon
+						               innerImage:
+							               (e valueOfTokenNamed: #'checkbox-checked-image');
+						               innerImageColor:
+							               (e valueOfTokenNamed: #'color-primary') ];
+			               onDeselectedSkinEvent: [ :e :evt |
+					               e icon
+						               innerImage:
+							               (e valueOfTokenNamed:
+									                #'checkbox-unchecked-image');
+						               innerImageColor:
+							               (e valueOfTokenNamed: #'color-primary') ];
+			               yourself ].
 	select popupListElement nodeBuilder: [ :node :aState :holder |
-		| box |
-		box := ToLabeledIcon new
-			       labelText: aState;
-			       startFlexible: true;
-			       hMatchParent;
-			       beEndToStart;
-			       yourself.
-		
-		node addChild: box.
-		box defaultSkin: skinBuilder value. ].
+			| box |
+			box := ToLabeledIcon new
+				       labelText: aState;
+				       startFlexible: true;
+				       hMatchParent;
+				       beEndToStart;
+				       yourself.
+
+			node addChild: box.
+			box defaultSkin: skinBuilder value ].
 	select openInSpace
 ]
 

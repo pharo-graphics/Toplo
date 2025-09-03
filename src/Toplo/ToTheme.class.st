@@ -460,20 +460,20 @@ ToTheme >> newSkinFor: anElement [
 { #category : #'api - hooks' }
 ToTheme >> onInstalledIn: anElement [
 
-	anElement isSpaceRoot ifTrue: [ 
-	(Pragma allNamed: #toploThemeInstallerFor:) do: [ :each |
-			| themeClassName themeClass |
-			themeClassName := each arguments first asSymbol.
-			themeClass := self class environment classNamed: themeClassName.
-			(self class = themeClass or: [ self class inheritsFrom: themeClass ])
-				ifTrue: [
-					each methodClass soleInstance
-						perform: each methodSelector
-						with: self ] ] ].
+	anElement isSpaceRoot ifTrue: [
+			(Pragma allNamed: #toploThemeInstallerFor:) do: [ :each |
+					| themeClassName themeClass |
+					themeClassName := each arguments first asSymbol.
+					themeClass := self class environment classNamed: themeClassName.
+					(self class = themeClass or: [
+						 self class inheritsFrom: themeClass ]) ifTrue: [
+						each methodClass soleInstance
+							perform: each methodSelector
+							with: self ] ] ].
 
 	anElement addAllTokenProperties: self tokenProperties.
 	anElement styleSheet: self styleSheet.
-	
+
 	anElement toThemeInstalled
 ]
 

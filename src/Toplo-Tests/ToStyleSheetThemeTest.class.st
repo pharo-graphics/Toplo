@@ -46,16 +46,6 @@ ToStyleSheetThemeTest >> testNewSkinFor [
 ]
 
 { #category : #tests }
-ToStyleSheetThemeTest >> testNewSkinInstanceFor [
-
-	| e theme skin |
-	e := BlElement new.
-	theme := ToStyleSheetThemeForTest new.
-	skin := theme newSkinFor: e.
-	self assert: (skin isKindOf: ToStyleSheetSkin)
-]
-
-{ #category : #tests }
 ToStyleSheetThemeTest >> testRootRulesFor [
 
 	| e space theme |

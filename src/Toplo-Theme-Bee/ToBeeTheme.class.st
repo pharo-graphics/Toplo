@@ -737,8 +737,8 @@ ToBeeTheme >> initializeStyleRules [
 	self declareTextPaneRules 
 ]
 
-{ #category : #accessing }
+{ #category : #'skin creation' }
 ToBeeTheme >> newSkinFor: anElement [
 
-	^ ToBeeSkin new forElement: anElement inTheme: self
+	^ ToBeeSkin new
 ]

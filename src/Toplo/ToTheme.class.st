@@ -411,10 +411,10 @@ ToTheme >> addTokenProperty: aTokenProperty [
 	tokenProperties add: aTokenProperty
 ]
 
-{ #category : #accessing }
+{ #category : #'skin creation' }
 ToTheme >> defaultSkinFor: anElement [
 
-	^ anElement defaultSkin
+	^ anElement defaultSkin ifNil: [ self newSkinFor: anElement ]
 ]
 
 { #category : #accessing }
@@ -451,15 +451,16 @@ ToTheme >> name [
 	^ self class label
 ]
 
-{ #category : #accessing }
+{ #category : #'skin creation' }
 ToTheme >> newSkinFor: anElement [
 
-	^ self subclassResponsibility 
+	^ ToGeneralSkin new
 ]
 
 { #category : #'api - hooks' }
 ToTheme >> onInstalledIn: anElement [
 
+	anElement isSpaceRoot ifTrue: [ 
 	(Pragma allNamed: #toploThemeInstallerFor:) do: [ :each |
 			| themeClassName themeClass |
 			themeClassName := each arguments first asSymbol.
@@ -468,10 +469,11 @@ ToTheme >> onInstalledIn: anElement [
 				ifTrue: [
 					each methodClass soleInstance
 						perform: each methodSelector
-						with: self ] ].
+						with: self ] ] ].
 
 	anElement addAllTokenProperties: self tokenProperties.
 	anElement styleSheet: self styleSheet.
+	
 	anElement toThemeInstalled
 ]
 

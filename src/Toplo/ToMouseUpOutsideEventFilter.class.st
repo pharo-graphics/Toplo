@@ -48,7 +48,7 @@ ToMouseUpOutsideEventFilter >> isMouseUpOutsideEvent: anEvent [
 	" is the mouse up occurs on the element itsef ?"
 	(self isMouseUpOnElement: anEvent) ifTrue: [
 		" is the element considered as outside ? "
-		self isElementOutside ifFalse: [ ^ false ] ].
+		^ self isElementOutside ].
 	" mouse up outside the element detected "
 	^ true
 ]
@@ -58,14 +58,15 @@ ToMouseUpOutsideEventFilter >> mouseUpEvent: anEvent [
 	" 
 	do nothing if the original event target is inside my target 
 	"
-	holder ifNil: [ ^ self ].
-	element space ifNil: [ " if my target is removed
+
+	holder isAttachedToSceneGraph ifFalse: [ " if my target is removed
 		This can be the case if the parent is removed "
-			holder ifNotNil: [ :h | h removeEventFilter: self ].
+			holder removeEventFilter: self.
 			^ self ].
+
 	(self isMouseUpOutsideEvent: anEvent) ifFalse: [ ^ self ].
 
-	" ok, the event is outside. Consuming should be done in the handler"
+	" ok, the event is outside. Consuming should be done outside "
 	element dispatchEvent: (ToMouseUpOutsideEvent new
 			 sourceEvent: anEvent;
 			 emitter: self;

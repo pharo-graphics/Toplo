@@ -22,7 +22,7 @@ ToSkinDemoTheme class >> defaultTokenProperties [
 			   value: Color lightRed darker) }
 ]
 
-{ #category : #accessing }
+{ #category : #'skin creation' }
 ToSkinDemoTheme >> newSkinFor: anElement [ 
 
 	^ anElement newSkinDemoSkin 

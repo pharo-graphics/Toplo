@@ -15,7 +15,7 @@ ToRawTheme class >> initializeToRawTheme: aTheme [
 
 	<toploThemeInstallerFor: #ToRawTheme>
 	" for the space root element "
-	aTheme select: (aTheme id: #'space-root') style: [
+	aTheme select: (aTheme id: BlSpace defaultRootLabel) style: [
 			aTheme
 				write: (aTheme property: #background)
 				with: [ :e | e valueOfTokenNamed: #'background-color' ] ]
@@ -27,15 +27,15 @@ ToRawTheme class >> label [
 	^'Raw'
 ]
 
-{ #category : #accessing }
+{ #category : #'skin creation' }
 ToRawTheme >> defaultSkinFor: anElement [
 
 	^ anElement defaultRawSkin ifNil: [
 		  super defaultSkinFor: anElement ]
 ]
 
-{ #category : #accessing }
+{ #category : #'skin creation' }
 ToRawTheme >> newSkinFor: anElement [
 
-	^ anElement newRawSkin forElement: anElement inTheme: self
+	^ anElement newRawSkin
 ]

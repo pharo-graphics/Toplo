@@ -179,10 +179,11 @@ ToSkinManager >> skinStateQueue [
 { #category : #'skin - installing / uninstalling' }
 ToSkinManager >> skinToInstallIn: anElement [
 
-	| theme |
+	| theme skin |
 	theme := anElement lookupTheme.
-	^ (theme defaultSkinFor: anElement) ifNil: [
-		  theme newSkinFor: anElement ]
+	skin := theme defaultSkinFor: anElement.
+	skin setUpforElement: anElement inTheme: theme.
+	^ skin
 ]
 
 { #category : #'accessing - styleSheet' }

@@ -42,3 +42,9 @@ ToSkin >> isUnknownSkin [
 
 	^ false
 ]
+
+{ #category : #'t - styleSheet theme - accessing writable properties' }
+ToSkin >> setUpforElement: anElement inTheme: aTheme [
+
+	
+]

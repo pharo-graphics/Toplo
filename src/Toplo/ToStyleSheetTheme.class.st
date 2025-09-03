@@ -10,8 +10,8 @@ ToStyleSheetTheme class >> canBeDefault [
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : #'skin creation' }
 ToStyleSheetTheme >> newSkinFor: anElement [
 
-	^ ToStyleSheetSkin new forElement: anElement inTheme: self
+	^ ToStyleSheetSkin new
 ]

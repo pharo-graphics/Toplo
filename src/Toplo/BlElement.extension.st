@@ -409,6 +409,12 @@ BlElement >> isPreventedSkinEventClass: aSkinEventClass [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> isSpaceRoot [
+
+	^ self id = BlSpace defaultRootLabel
+]
+
+{ #category : #'*Toplo' }
 BlElement >> localTheme [
 
 	^ self userData at: #localTheme ifAbsent: [ ]

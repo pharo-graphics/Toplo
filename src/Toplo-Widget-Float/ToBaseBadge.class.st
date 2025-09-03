@@ -8,6 +8,7 @@ Class {
 ToBaseBadge class >> initializeToRawTheme: aTheme [
 
 	<toploThemeInstallerFor: #ToRawTheme>
+	
 	aTheme addTokenNamed: #'badge-horizontal-gap' withValue: 4.
 	aTheme addTokenNamed: #'badge-font-size' withValue: 12.
 	aTheme addTokenNamed: #'badge-text-foreground' withValue: Color white.

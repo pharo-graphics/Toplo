@@ -7,7 +7,6 @@ Trait {
 		'startDelay',
 		'startTime',
 		'startEvent',
-		'mouseUpOutsideFilter',
 		'standaloneMouseOutsideFilter'
 	],
 	#category : #'Toplo-Support-EventGenerator'
@@ -72,7 +71,8 @@ TToEventGeneratorHandler >> startEvent: anEvent [
 		           action: [
 			           self taskActionFromEvent: eventToUse in: target ].
 	standaloneMouseOutsideFilter ifTrue: [
-			mouseUpOutsideFilter := ToMouseUpOutsideEventFilter new
+			| mouseUpOutsideFilter |
+			mouseUpOutsideFilter := ToOneShotMouseUpOutsideEventFilter new
 				                        element: target;
 				                        yourself.
 			target space root addEventFilter: mouseUpOutsideFilter ].
@@ -87,12 +87,6 @@ TToEventGeneratorHandler >> stopEvent: anEvent [
 
 { #category : #'t - event generator handler' }
 TToEventGeneratorHandler >> stopTaskFromEvent: anEvent in: aTarget [
-
-	mouseUpOutsideFilter ifNotNil: [
-		mouseUpOutsideFilter isInstalled ifTrue: [
-			aTarget spaceDo: [ :sp |
-				sp root removeEventFilter: mouseUpOutsideFilter ] ].
-		mouseUpOutsideFilter := nil ].
 
 	checker ifNotNil: [
 		checker stop.

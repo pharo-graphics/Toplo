@@ -21,8 +21,7 @@ ToRawThemeTest >> testNewRootSkin [
 	theme := ToRawTheme new.
 	space := BlSpace new.
 	e := space root.
-	self assert: ((theme newSkinFor: e) isKindOf: ToRawSkin).
-	self assert: (theme newSkinFor: e) class identicalTo: theme newRootSkin class
+	self assert: ((theme newSkinFor: e) isKindOf: ToRawSkin)
 ]
 
 { #category : #tests }

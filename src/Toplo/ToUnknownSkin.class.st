@@ -16,6 +16,7 @@ ToUnknownSkin class >> instance [
 { #category : #adding }
 ToUnknownSkin >> addSkinStateGeneration: aValuable for: anElement [
 
+	" in case the element is not is space, its skin state can be updated  "
 	aValuable value
 ]
 

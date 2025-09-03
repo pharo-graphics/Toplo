@@ -1,11 +1,11 @@
 Class {
-	#name : #ToSpaceRootSkin,
+	#name : #ToBackgroundColorSkinForTest,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Core-Skin'
+	#category : #'Toplo-Tests-Core-Theme'
 }
 
 { #category : #'event handling' }
-ToSpaceRootSkin >> installSkinEvent: anEvent [
+ToBackgroundColorSkinForTest >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 

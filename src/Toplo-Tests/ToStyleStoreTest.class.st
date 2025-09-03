@@ -396,7 +396,7 @@ ToStyleStoreTest >> testTokenPropertyNamedFromBeforeSpaceShown2 [
 				 e skinManager installNewSkinIn: e.
 				 self deny: e background isTransparent ]).
 
-	e defaultSkin: ToSpaceRootSkin new.
+	e defaultSkin: ToBackgroundColorSkinForTest new.
 	space root addChild: e.
 	" since the space skin phases are not not installed by the the skin phase manager,
 	the theme is not installed an then, installing a skin that requires a property fails "
@@ -417,7 +417,7 @@ ToStyleStoreTest >> testTokenPropertyNamedRequiresSpaceSkinPhasesStarted [
 				 goneHere := true.
 				 e skinManager installNewSkinIn: e.
 				 self deny: e background isTransparent ]).
-	e defaultSkin: ToSpaceRootSkin new.
+	e defaultSkin: ToBackgroundColorSkinForTest new.
 	space root addChild: e.
 	self deny: e background isTransparent.
 	self assert: goneHere

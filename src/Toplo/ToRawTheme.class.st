@@ -10,6 +10,17 @@ ToRawTheme class >> canBeDefault [
 	^ true
 ]
 
+{ #category : #initialization }
+ToRawTheme class >> initializeToRawTheme: aTheme [
+
+	<toploThemeInstallerFor: #ToRawTheme>
+	" for the space root element "
+	aTheme select: (aTheme id: #'space-root') style: [
+			aTheme
+				write: (aTheme property: #background)
+				with: [ :e | e valueOfTokenNamed: #'background-color' ] ]
+]
+
 { #category : #accessing }
 ToRawTheme class >> label [
 
@@ -24,19 +35,7 @@ ToRawTheme >> defaultSkinFor: anElement [
 ]
 
 { #category : #accessing }
-ToRawTheme >> newRootSkin [
-
-	^ ToSpaceRootSkin new
-]
-
-{ #category : #accessing }
 ToRawTheme >> newSkinFor: anElement [
 
-	| space skin |
-	space := anElement space.
-	skin := (space notNil and: [ space root == anElement ])
-		        ifTrue: [ self newRootSkin ]
-		        ifFalse: [ anElement newRawSkin ].
-	skin forElement: anElement inTheme: self.
-	^ skin
+	^ anElement newRawSkin forElement: anElement inTheme: self
 ]

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToListElementContextMenuManager,
 	#superclass : #ToContextMenuManager,
-	#category : #'Toplo-Widget-List-ContextMenu'
+	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
 { #category : #'window handling' }

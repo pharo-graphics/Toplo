@@ -295,13 +295,13 @@ ToSandBox class >> barWithData: aCollection [
 											  yourself).
 									 m addItem: (ToMenuItem new
 											  labelText: 'Unable/disable';
-											  clickAction: [
-												  idxes do: [ :idx | (bar nodeAt: idx) disable ] ];
+											  clickAction: [ 
+												  idxes do: [ :idx | (bar nodeAt: idx) disabled: (bar nodeAt: idx ) isEnabled ] ];
 											  yourself).
 									 m addItem: (ToMenuItem new
 											  labelText: 'Unselectable';
 											  clickAction: [
-												  idxes do: [ :idx |
+												  idxes do: [ :idx | 
 														  bar unselectableSelecter selectIndex: idx ] ];
 											  yourself).
 									 m addItem: (ToMenuItem new

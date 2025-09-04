@@ -105,12 +105,6 @@ ToListSelectionWithElementOption >> checkSelectionContainerIn: aListElement [
 		aListElement addChild: selectionContainer ]
 ]
 
-{ #category : #'private - selection updating' }
-ToListSelectionWithElementOption >> forgetPreviousBoundsIn: aListElement [
-
-	previousSelectionBounds := nil
-]
-
 { #category : #testing }
 ToListSelectionWithElementOption >> isAnimated [
 
@@ -136,15 +130,6 @@ ToListSelectionWithElementOption >> newSelectionElementIn: aListElement [
 		  listElement: aListElement;
 		  selectionOption: self;
 		  yourself
-]
-
-{ #category : #'nodes collecting' }
-ToListSelectionWithElementOption >> refreshSelectionIn: aListElement withSelectionModel: aSelectionModel [
-
-	self forgetPreviousBoundsIn: aListElement.
-	super
-		refreshSelectionIn: aListElement
-		withSelectionModel: aSelectionModel
 ]
 
 { #category : #'nodes collecting' }

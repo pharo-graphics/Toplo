@@ -234,8 +234,7 @@ BlElement >> flagAsDisabled: aBoolean [
 			self flagAsDisabled ]
 		ifFalse: [ self flagAsEnabled ].
 	self dispatchEvent: ToEnablementChangedEvent new.
-	self skinManagerDo: [ :sm | sm enablementChangedIn: self ].
-	self requestConfiguration
+	self skinManagerDo: [ :sm | sm enablementChangedIn: self ]
 ]
 
 { #category : #'*Toplo' }

@@ -15,15 +15,14 @@ ToLabelSkin >> deselectedSkinEvent: anEvent [
 	anEvent selectionMode selectionOption isMasked ifTrue: [ ^ self ].
 	anEvent selectionMode selectionOption hasEmbeddedRepresentation
 		ifTrue: [ ^ self ].
-	anEvent elementDo: [ :e | "e text asString trace. ' ' trace. anEvent traceCr."
-		e foreground: foreground ]
+	anEvent elementDo: [ :e | e foreground: foreground ]
 ]
 
 { #category : #'event handling' }
 ToLabelSkin >> disabledSkinEvent: anEvent [
 
 	super disabledSkinEvent: anEvent.
-	anEvent elementDo: [ :e | "e text asString trace. ' ' trace. anEvent traceCr."
+	anEvent elementDo: [ :e |
 		e foreground: (e valueOfTokenNamed: #'color-text-disabled') ]
 ]
 
@@ -31,21 +30,20 @@ ToLabelSkin >> disabledSkinEvent: anEvent [
 ToLabelSkin >> enabledSkinEvent: anEvent [
 
 	super enabledSkinEvent: anEvent.
-	anEvent elementDo: [ :e | "e text asString trace. ' ' trace. anEvent traceCr."
-		e foreground: foreground ]
+	anEvent elementDo: [ :e | e foreground: foreground ]
 ]
 
 { #category : #'event handling' }
 ToLabelSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
-	anEvent elementDo: [ :e | "e text asString trace. ' ' trace. anEvent traceCr."
-		foreground := e valueOfTokenNamed: #'color-text'.
-		e textAttributesBuilder
-			defaultFontSize: (e valueOfTokenNamed: #'font-size');
-			lineSpacing: (e valueOfTokenNamed: #'line-height');
-			foreground: foreground.
-		e applyStyle ]
+	anEvent elementDo: [ :e |
+			foreground := e valueOfTokenNamed: #'color-text'.
+			e textAttributesBuilder
+				defaultFontSize: (e valueOfTokenNamed: #'font-size');
+				lineSpacing: (e valueOfTokenNamed: #'line-height');
+				foreground: foreground.
+			e applyStyle ]
 ]
 
 { #category : #'event handling' }
@@ -57,10 +55,11 @@ ToLabelSkin >> selectedSkinEvent: anEvent [
 	anEvent selectionMode selectionOption hasEmbeddedRepresentation
 		ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e |
-		| f |
-		f := anEvent focused
-			     ifTrue: [ e valueOfTokenNamed: #'selected-focused-foreground' ]
-			     ifFalse: [
-			     e valueOfTokenNamed: #'selected-unfocused-foreground' ].
-		e foreground: f ]
+			| f |
+			f := anEvent focused
+				     ifTrue: [
+				     e valueOfTokenNamed: #'selected-focused-foreground' ]
+				     ifFalse: [
+				     e valueOfTokenNamed: #'selected-unfocused-foreground' ].
+			e foreground: f ]
 ]

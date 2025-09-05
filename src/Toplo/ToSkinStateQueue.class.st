@@ -79,7 +79,11 @@ ToSkinStateQueue >> enqueueUninstallStateFor: anElement [
 	nextStates reset.
 	installState := nil.
 	" store the uninstall state "
-	self enqueueState: ToUninstallState instance for: anElement
+	self enqueueState: ToUninstallState instance for: anElement.
+	" do not wait the next pulse to ensure the uninstallation is done here.
+	In case of theme switch, this must be done here to ensure that selection 
+	in list are correctly updated according the new theme"
+	self applyEnqueuedStatesFor: anElement
 ]
 
 { #category : #'instinsic state accessing' }

@@ -70,14 +70,14 @@ ToElementTest >> testDefaultSkin [
 	self assert: (sk receivedCountForClass: ToInstallSkinEvent) equals: 1.
 	self
 		assert: (sk receivedCountForClass: ToUninstallSkinEvent)
-		equals: 1.
+		equals: 0.
 
 	e defaultSkin: sk.
 	e ensuredSkinManager requestNewSkinIn: e.
 	self assert: (sk receivedCountForClass: ToInstallSkinEvent) equals: 1.
 	self
 		assert: (sk receivedCountForClass: ToUninstallSkinEvent)
-		equals: 1.
+		equals: 0.
 
 	self
 		assert:
@@ -103,7 +103,7 @@ ToElementTest >> testDefaultSkin [
 		equals: 1.
 	self
 		assert: (sk2 receivedCountForClass: ToUninstallSkinEvent)
-		equals: 1
+		equals: 0
 ]
 
 { #category : #'test initialize' }
@@ -246,7 +246,7 @@ ToElementTest >> testSetSkin [
 	self assert: (sk receivedCountForClass: ToInstallSkinEvent) equals: 1.
 	self
 		assert: (sk receivedCountForClass: ToUninstallSkinEvent)
-		equals: 1.
+		equals: 0.
 
 	self
 		assert:
@@ -259,7 +259,7 @@ ToElementTest >> testSetSkin [
 	e skinManager installNewSkinIn: e.
 	self
 		assert: (sk receivedCountForClass: ToUninstallSkinEvent)
-		equals: 1.
+		equals: 0.
 	self assert: (sk receivedCountForClass: ToInstallSkinEvent) equals: 1.
 
 	self
@@ -286,7 +286,7 @@ ToElementTest >> testSetSkin [
 		equals: 1.
 	self
 		assert: (sk2 receivedCountForClass: ToUninstallSkinEvent)
-		equals: 1
+		equals: 0
 ]
 
 { #category : #'test initialize' }

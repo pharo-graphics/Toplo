@@ -101,6 +101,7 @@ ToIntrinsicStateTest >> testApplyOnChecked [
 
 	| e state checkedEvt uncheckedEvt |
 	e := ToElement new.
+	space root addChild: e.
 	e addEventHandler: (BlEventHandler
 			 on: ToCheckedSkinEvent
 			 do: [ :event | checkedEvt := event ]).
@@ -120,6 +121,7 @@ ToIntrinsicStateTest >> testApplyOnCheckedWhenDisabled [
 
 	| e state checkedEvt uncheckedEvt |
 	e := ToElement new.
+	space root addChild: e.
 	e disable.
 	e addEventHandler: (BlEventHandler
 			 on: ToCheckedSkinEvent
@@ -140,6 +142,7 @@ ToIntrinsicStateTest >> testApplyOnFocused [
 
 	| e state focusedEvt unfocusedEvt |
 	e := ToElement new.
+	space root addChild: e.
 	e addEventHandler: (BlEventHandler
 			 on: ToFocusedSkinEvent
 			 do: [ :event | focusedEvt := event ]).
@@ -160,6 +163,7 @@ ToIntrinsicStateTest >> testApplyOnFocusedWhenDisabled [
 
 	| e state focusedEvt unfocusedEvt |
 	e := ToElement new.
+	space root addChild: e.
 	e disable.
 	e addEventHandler: (BlEventHandler
 			 on: ToFocusedSkinEvent
@@ -180,6 +184,7 @@ ToIntrinsicStateTest >> testApplyOnUnchecked [
 
 	| e state checkedEvt uncheckedEvt |
 	e := ToElement new.
+	space root addChild: e.
 	e addEventHandler: (BlEventHandler
 			 on: ToCheckedSkinEvent
 			 do: [ :event | checkedEvt := event ]).
@@ -196,6 +201,7 @@ ToIntrinsicStateTest >> testApplyOnUnfocused [
 
 	| e state focusedEvt unfocusedEvt |
 	e := ToElement new.
+	space root addChild: e.
 	e addEventHandler: (BlEventHandler
 			 on: ToFocusedSkinEvent
 			 do: [ :event | focusedEvt := event ]).

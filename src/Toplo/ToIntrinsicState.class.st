@@ -1,13 +1,12 @@
 Class {
 	#name : #ToIntrinsicState,
-	#superclass : #ToElementState,
+	#superclass : #ToIntrinsicStateBase,
 	#instVars : [
 		'enqueued',
 		'enabled',
 		'checked',
 		'focused',
-		'selected',
-		'selectionOption'
+		'selectionState'
 	],
 	#category : #'Toplo-Core-States'
 }
@@ -17,12 +16,18 @@ ToIntrinsicState >> applyOn: anElement fromQueue: aQueue [
 
 	" enabled can be nil, in that case no event dispatching is required"
 	enabled = true ifTrue: [  self dispatchEnablementEventOn: anElement fromQueue: aQueue ].
-	self dispatchSelectionEventOn: anElement fromQueue: aQueue.
+	selectionState ifNotNil: [ :ses | ses applyOn: anElement fromQueue: aQueue ].
 	self dispatchCheckEventOn: anElement fromQueue: aQueue.
 	self dispatchFocusEventOn: anElement fromQueue: aQueue.
 	enabled = false ifTrue: [  self dispatchEnablementEventOn: anElement fromQueue: aQueue ].
 	enqueued := false
 
+]
+
+{ #category : #accessing }
+ToIntrinsicState >> checked [
+
+	^ checked
 ]
 
 { #category : #accessing }
@@ -67,25 +72,10 @@ ToIntrinsicState >> dispatchFocusEventOn: anElement fromQueue: aQueue [
 	self dispatchSkinEvent: skinEvtCls new on: anElement fromQueue: aQueue
 ]
 
-{ #category : #'look event sending' }
-ToIntrinsicState >> dispatchSelectionEventOn: anElement fromQueue: aQueue [
+{ #category : #accessing }
+ToIntrinsicState >> enabled [
 
-	| skinEvtCls skinEvt |
-	selected ifNil: [ ^ self ].
-	skinEvtCls := selected
-		              ifTrue: [ ToSelectedSkinEvent ]
-		              ifFalse: [ ToDeselectedSkinEvent ].
-	skinEvt := skinEvtCls new.
-	skinEvt focused: focused.
-	skinEvt selectionOption: selectionOption.
-	self dispatchSkinEvent: skinEvt on: anElement fromQueue: aQueue
-]
-
-{ #category : #'look event sending' }
-ToIntrinsicState >> dispatchSkinEvent: anEvent on: anElement fromQueue: aQueue [
-
-	anElement spaceDo: [ :sp | anEvent fillFromTime: anElement space time ].
-	anElement dispatchEvent: anEvent
+	^ enabled
 ]
 
 { #category : #accessing }
@@ -107,19 +97,25 @@ ToIntrinsicState >> enqueued: aBoolean [
 ]
 
 { #category : #accessing }
+ToIntrinsicState >> focused [
+
+	^ focused
+]
+
+{ #category : #accessing }
 ToIntrinsicState >> focused: aBoolean [
 
 	focused := aBoolean
 ]
 
 { #category : #accessing }
-ToIntrinsicState >> selected: aBoolean [
+ToIntrinsicState >> selectionState [
 
-	selected := aBoolean
+	^ selectionState
 ]
 
 { #category : #accessing }
-ToIntrinsicState >> selectionOption: anObject [
+ToIntrinsicState >> selectionState: aSelectionState [
 
-	selectionOption := anObject
+	selectionState := aSelectionState
 ]

@@ -84,7 +84,7 @@ ToSkinnablePropertySlotTest >> testWriteTo4 [
 	self assert: e skinInstalledCount equals: 2.
 
 	self assert: e skinInstalledCount equals: 2.
-	self assert: e skinStateQueueApplicationCount equals: 3.
+	self assert: e skinStateQueueApplicationCount equals: 2.
 	self deny: e skinManager newSkinRequested.
 
 	e backgroundValue: Color blue.
@@ -93,15 +93,15 @@ ToSkinnablePropertySlotTest >> testWriteTo4 [
 	e borderValue: Color red.
 	" border change -> but no new skin installer because there is already one"
 	self assert: e skinManager newSkinRequested.
-	self assert: e skinStateQueueApplicationCount equals: 3.
+	self assert: e skinStateQueueApplicationCount equals: 2.
 	space applyAllSkinInstallers.
 	" here states queue is applied two times: 1 for unsinstalling and 2 for installing "
-	self assert: e skinStateQueueApplicationCount equals: 5.
+	self assert: e skinStateQueueApplicationCount equals: 3.
 
 	space applyAllEnqueuedStates.
 
 	self assert: e skinInstalledCount equals: 3.
-	self assert: e skinStateQueueApplicationCount equals: 5.
+	self assert: e skinStateQueueApplicationCount equals: 3.
 	self deny: e skinManager newSkinRequested.
 
 	space applyAllSkinInstallers.
@@ -109,7 +109,7 @@ ToSkinnablePropertySlotTest >> testWriteTo4 [
 
 	self deny: e skinManager newSkinRequested.
 	" no new state "
-	self assert: e skinStateQueueApplicationCount equals: 5.
+	self assert: e skinStateQueueApplicationCount equals: 3.
 	self assert: e skinInstalledCount equals: 3
 ]
 
@@ -127,5 +127,5 @@ ToSkinnablePropertySlotTest >> testWriteToWithSpaceAddChildBefore [
 
 	self deny: e skinManager newSkinRequested.
 	self assert: e skinInstalledCount equals: 2.
-	self assert: e skinStateQueueApplicationCount equals: 3
+	self assert: e skinStateQueueApplicationCount equals: 2
 ]

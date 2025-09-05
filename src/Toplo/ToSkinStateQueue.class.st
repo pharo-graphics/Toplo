@@ -21,6 +21,7 @@ ToSkinStateQueue >> applyEnqueuedStatesFor: anElement [
 { #category : #'instinsic state accessing' }
 ToSkinStateQueue >> checked: aBoolean for: anElement [
 
+	intrinsicState checked = aBoolean ifTrue: [^ self ].
 	intrinsicState checked: aBoolean.
 	self enqueueIntrinsicStateFor: anElement
 ]
@@ -28,6 +29,7 @@ ToSkinStateQueue >> checked: aBoolean for: anElement [
 { #category : #'instinsic state accessing' }
 ToSkinStateQueue >> enabled: aBoolean for: anElement [
 
+	intrinsicState enabled = aBoolean ifTrue: [^ self ].
 	intrinsicState enabled: aBoolean.
 	self enqueueIntrinsicStateFor: anElement
 ]
@@ -77,16 +79,13 @@ ToSkinStateQueue >> enqueueUninstallStateFor: anElement [
 	nextStates reset.
 	installState := nil.
 	" store the uninstall state "
-	self enqueueState: ToUninstallState instance for: anElement.
-	" do not wait the next pulse to ensure the uninstallation is done here "
-	self applyEnqueuedStatesFor: anElement
+	self enqueueState: ToUninstallState instance for: anElement
 ]
 
 { #category : #'instinsic state accessing' }
 ToSkinStateQueue >> focused: aBoolean for: anElement [
-	" Do not force state application if the element is not in a space.
-	It can also be the case when a layout is computed for an infinite "
 
+	intrinsicState focused = aBoolean ifTrue: [^ self ].
 	intrinsicState focused: aBoolean.
 	self enqueueIntrinsicStateFor: anElement
 ]
@@ -121,8 +120,17 @@ ToSkinStateQueue >> nextStates [
 { #category : #'instinsic state accessing' }
 ToSkinStateQueue >> selected: isSelected selectionOption: aSelectionOption focused: isFocused for: anElement [
 
-	intrinsicState selected: isSelected.
-	intrinsicState selectionOption: aSelectionOption.
-	intrinsicState focused: isFocused.
+	| ses |
+	ses := intrinsicState selectionState.
+	ses ifNotNil: [
+			(ses selected = isSelected and: [
+				 ses selectionOption = aSelectionOption and: [
+					 ses focused = isFocused ] ]) ifTrue: [ ^ self ] ].
+
+	ses := ToSelectionState new.
+	ses selected: isSelected.
+	ses selectionOption: aSelectionOption.
+	ses focused: isFocused.
+	intrinsicState selectionState: ses.
 	self enqueueIntrinsicStateFor: anElement
 ]

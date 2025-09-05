@@ -645,7 +645,7 @@ ToSandBox class >> exampleLocalThemeChangesChildrenLookup [
 		          border: (BlBorder paint: Color red width: 4).
 
 	child := ToButton new
-		         size: 100 @ 50;
+		         extent: 100 @ 50;
 		         constraintsDo: [ :c | c ignoreByLayout ];
 		         position: 30 asPoint.
 
@@ -7700,7 +7700,7 @@ ToSandBox class >> example_stylesheet [
 		                extent: 50 @ 100;
 		                position: 50 @ 150.
 	horizontalElem := ToElement new
-		                  size: 100 @ 50;
+		                  extent: 100 @ 50;
 		                  position: 150 @ 50.
 	biggerElem := ToElement new
 		              size: 100 asPoint;
@@ -8342,7 +8342,7 @@ ToSandBox class >> example_toImageFromUrl [
 
 	| im |
 	im := ToImage fromUrl: 'https://unsplash.it/400/300?image=1083'.
-	im size: 400@300.
+	im extent: 400 @ 300.
 	im openInSpace
 ]
 
@@ -9454,14 +9454,14 @@ ToSandBox class >> selectWithEditingMultiSelection [
 { #category : #'labeled icon' }
 ToSandBox class >> selectableLabeledIconlWithIconAndText [
 
-	| but  |
+	| but |
 	but := ToLabeledIcon new.
 	but label: (ToSelectableLabel new text: 'Selectable Labeled icon').
 	but icon: (ToImage inner: (BlElement new
-			 size: 60 @ 60;
-			 background: (Color blue alpha: 0.2);
-			 yourself)).
-			but inspect.
+				  extent: 60 @ 60;
+				  background: (Color blue alpha: 0.2);
+				  yourself)).
+	but inspect.
 	^ but
 ]
 

@@ -111,10 +111,7 @@ ToSkinStateGenerator >> enqueueSkinState: aState [
 ToSkinStateGenerator >> enqueueTransientState: aState for: anElement [
 
 	anElement skinManagerDo: [ :sm |
-		sm
-			addSkinStateGeneration: [
-			sm enqueueTransientState: aState for: anElement ]
-			for: anElement ]
+		sm enqueueTransientState: aState for: anElement ]
 ]
 
 { #category : #'api - accessing' }

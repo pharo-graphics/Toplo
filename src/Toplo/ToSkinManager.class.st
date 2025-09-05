@@ -11,13 +11,6 @@ Class {
 	#category : #'Toplo-Core-Skin'
 }
 
-{ #category : #'skin state generation' }
-ToSkinManager >> addSkinStateGeneration: aValuable for: anElement [
-
-	installedSkin addSkinStateGeneration: aValuable for: anElement
-	
-]
-
 { #category : #'accessing - skin state queue' }
 ToSkinManager >> applyEnqueuedStatesFor: anElement [
 	" run the skin actually by flushing the state queue"
@@ -28,10 +21,7 @@ ToSkinManager >> applyEnqueuedStatesFor: anElement [
 { #category : #'skin state generation' }
 ToSkinManager >> checkState: isChecked in: anElement [
 
-	self
-		addSkinStateGeneration: [
-		self skinStateQueue checked: isChecked for: anElement]
-		for: anElement
+	skinStateQueue checked: isChecked for: anElement
 ]
 
 { #category : #accessing }
@@ -53,10 +43,7 @@ ToSkinManager >> computedStyleSheetChainIn: anElement [
 { #category : #'skin state generation' }
 ToSkinManager >> enablementState: isEnabled in: anElement [
 
-	self
-		addSkinStateGeneration: [
-		self skinStateQueue enabled: isEnabled for: anElement ]
-		for: anElement
+	skinStateQueue enabled: isEnabled for: anElement
 ]
 
 { #category : #'skin state generation' }
@@ -68,10 +55,7 @@ ToSkinManager >> enqueueTransientState: aSkinState for: anElement [
 { #category : #'skin state generation' }
 ToSkinManager >> focusState: isFocused in: anElement [
 
-	self
-		addSkinStateGeneration: [
-		self skinStateQueue focused: isFocused for: anElement ]
-		for: anElement
+	skinStateQueue focused: isFocused for: anElement
 ]
 
 { #category : #private }
@@ -180,16 +164,13 @@ ToSkinManager >> requestNewSkinIn: anElement [
 { #category : #'skin state generation' }
 ToSkinManager >> selectionState: isSelected selectionOption: aSelectionOption focused: isFocused in: anElement [
 
-	self
-		addSkinStateGeneration: [
-				anElement withAllChildrenBreadthFirstDo: [ :child |
-						child skinManagerDo: [ :sm |
-								sm skinStateQueue
-									selected: isSelected
-									selectionOption: aSelectionOption
-									focused: isFocused
-									for: child ] ] ]
-		for: anElement
+	anElement withAllChildrenBreadthFirstDo: [ :child |
+			child skinManagerDo: [ :sm |
+					sm skinStateQueue
+						selected: isSelected
+						selectionOption: aSelectionOption
+						focused: isFocused
+						for: child ] ]
 ]
 
 { #category : #'accessing - styleSheet' }

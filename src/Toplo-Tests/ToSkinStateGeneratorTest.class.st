@@ -37,22 +37,18 @@ ToSkinStateGeneratorTest >> testGenerateCheckStateFromEvent [
 	self assert: nextStates size equals: nextStatesSize.
 
 	e dispatchEvent: evt.
-	self assert: nextStates size equals: nextStatesSize.
-	e space phasesManager runStateGenerations.
 	self assert: nextStates size equals: nextStatesSize + 1.
 
 	nextStatesSize := nextStates size.
 
 	evt := ToCheckableCheckEvent checked: false.
 	e dispatchEvent: evt.
-	e space phasesManager runStateGenerations.
 
 	" no changed since the intrinsicState is already enqueued "
 	self assert: nextStates size equals: nextStatesSize.
 
 	evt := ToCheckableCheckEvent checked: true.
 	e dispatchEvent: evt.
-	e space phasesManager runStateGenerations.
 	self assert: nextStates size equals: nextStatesSize
 ]
 
@@ -69,7 +65,6 @@ ToSkinStateGeneratorTest >> testGenerateClickedStateFromEvent [
 	nextStatesSize := nextStates size.
 
 	e dispatchEvent: evt.
-	e space phasesManager runStateGenerations.
 	self assert: nextStates size equals: nextStatesSize + 1.
 
 
@@ -77,7 +72,6 @@ ToSkinStateGeneratorTest >> testGenerateClickedStateFromEvent [
 		       BlMouseButton primary.
 
 	e dispatchEvent: evt.
-	e space phasesManager runStateGenerations.
 	self assert: nextStates size equals: nextStatesSize + 2
 ]
 
@@ -93,19 +87,16 @@ ToSkinStateGeneratorTest >> testGenerateHoveredStateFromEvent [
 	nextStatesSize := nextStates size.
 
 	e dispatchEvent: evt.
-	e space phasesManager runStateGenerations.
 	self assert: nextStates size equals: nextStatesSize + 1.
 
 	evt := BlMouseEnterEvent new.
 
 	e dispatchEvent: evt.
-	e space phasesManager runStateGenerations.
 	self assert: nextStates size equals: nextStatesSize + 2.
 
 	evt := BlMouseLeaveEvent new.
 
 	e dispatchEvent: evt.
-	e space phasesManager runStateGenerations.
 
 	self assert: nextStates size equals: nextStatesSize + 3
 ]

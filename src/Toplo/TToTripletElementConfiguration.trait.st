@@ -42,19 +42,16 @@ TToTripletElementConfiguration >> configureChildrenIn: anElement [
 	self configureEndElementIn: anElement.
 	allChildren := Array streamContents: [ :stream |
 			               stream nextPutAll: anElement startChildren.
+			               stream nextPut: anElement middleContainer.
 			               stream nextPutAll: anElement endChildren ].
 	anElement isHorizontal
 		ifTrue: [
 				allChildren do: [ :child |
-						child constraints linear vertical alignCenter.
-						child constraints frame vertical alignCenter ] ]
+						child constraints linear vertical alignCenter ] ]
 		ifFalse: [
 				allChildren do: [ :child |
-						child constraints linear horizontal alignCenter.
-						child constraints frame horizontal alignCenter ] ].
-	alignCenter
-		ifTrue: [ anElement layout alignCenter ]
-		ifFalse: [ anElement layout alignCenterLeft ].
+						child constraints linear horizontal alignCenter ] ].
+	alignCenter ifTrue: [ anElement layout alignCenter ].
 	anElement requestLayout
 ]
 

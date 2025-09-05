@@ -1868,6 +1868,7 @@ ToSandBox class >> example_CheckboxVertical [
 ToSandBox class >> example_CheckboxVerticalGroupHorizontal [
 
 	| group |
+	
 	group := ToCheckableGroupPane horizontal.
 	1 to: 4 do: [ :idx |
 		| chb |
@@ -1875,9 +1876,8 @@ ToSandBox class >> example_CheckboxVerticalGroupHorizontal [
 			       beVertical;
 			       labelText: idx asString;
 			       id: idx asString.
-		chb beStartToEnd.
+		chb beEndToStart.
 		group addChild: chb ].
-
 	group registeredCheckables second checked: true.
 	group groupCheckAction:[ :evt | evt checkedList traceCr ].
 	group openInSpace
@@ -5781,6 +5781,7 @@ ToSandBox class >> example_buttonWith2Icons [
 
 	| but  |
 	but := self example_buttonWithIcon.
+	but clickAction: [ :evt | evt currentTarget requestFocus ].
 	but addEventHandlerOn: ToSkinEvent do: [ :event | event traceCr ].
 	but clickAction: [ :evt | evt target traceCr ].
 	but addEventHandlerOn: BlDoubleClickEvent do: [ :event | event traceCr ].

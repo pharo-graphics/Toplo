@@ -58,11 +58,12 @@ ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 			directionWriter.
 			layoutWriter }.
 
-	w skinManager skinStateQueue enqueueInstallStateForElement: w.
+	w skinManager skinStateQueue enqueueUninstallStateFor: w.
+	w skinManager skinStateQueue enqueueInstallStateFor: w.
 	" the installation will fail because the widget layout (not a BlLinearLayout) 
 	does not understand #direction:"
 	self
-		should: [ w skinManagerDo: [ :sm | sm applyEnqueuedStatesIn: w ] ]
+		should: [ w skinManagerDo: [ :sm | sm applyEnqueuedStatesFor: w ] ]
 		raise: Error.
 	self deny: (w layout isKindOf: BlLinearLayout).
 
@@ -71,8 +72,8 @@ ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 			layoutWriter.
 			directionWriter }.
 
-	w skinManager skinStateQueue enqueueInstallStateForElement: w.
-	w skinManagerDo: [ :sm | sm applyEnqueuedStatesIn: w ].
+	w skinManager skinStateQueue enqueueInstallStateFor: w.
+	w skinManagerDo: [ :sm | sm applyEnqueuedStatesFor: w ].
 	self assert: (w layout isKindOf: BlLinearLayout).
 	self assert: w layout direction isRightToLeft
 ]
@@ -243,16 +244,16 @@ ToStyleSheetSkinTest >> testWithAnimationOn2EventClasses [
 	self assert: w background paint color equals: Color white.
 
 	w skinManager
-		enqueueSkinState:
+		enqueueTransientState:
 		(ToTransientState skinEvent: ToHoveredSkinEvent new)
-		in: w.
+		for: w.
 	animation onFinishedDo: [ :x |
 		self assert: w background paint color equals: Color black.
 
 		w skinManager
-			enqueueSkinState:
+			enqueueTransientState:
 			(ToTransientState skinEvent: ToLeftSkinEvent new)
-			in: w.
+			for: w.
 		animation onFinishedDo: [ :xx |
 			self assert: w background paint color equals: Color white ] ]
 ]

@@ -1,11 +1,26 @@
 Class {
 	#name : #ToSkinManagementState,
-	#superclass : #ToImplicitState,
+	#superclass : #ToSimpleState,
+	#classInstVars : [
+		'instance'
+	],
 	#category : #'Toplo-Core-States'
 }
 
-{ #category : #testing }
-ToSkinManagementState >> canBeEnqueuedFromElement: anElement inQueue: aStateQueue [
+{ #category : #accessing }
+ToSkinManagementState class >> instance [
 
-	Error signal: 'A skin management state can''t be enqueued from an element itself'
+	^ instance ifNil: [ instance := self new ]
+]
+
+{ #category : #accessing }
+ToSkinManagementState >> skinEvent [ 
+
+	^ self skinEventClass new
+]
+
+{ #category : #accessing }
+ToSkinManagementState >> skinEventClass [ 
+
+	^ self subclassResponsibility 
 ]

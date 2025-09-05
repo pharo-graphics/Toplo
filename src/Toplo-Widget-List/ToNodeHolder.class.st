@@ -225,6 +225,14 @@ ToNodeHolder >> removeNodeFromBar [
 ]
 
 { #category : #accessing }
+ToNodeHolder >> selected: aBoolean [
+
+	aBoolean
+		ifTrue: [ self selecter selectIndex: self position ]
+		ifFalse: [ self selecter deselectIndex: self position ]
+]
+
+{ #category : #accessing }
 ToNodeHolder >> selecter [ 
 
 	^ self listElement selecter

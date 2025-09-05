@@ -20,7 +20,7 @@ ToGeneralButton >> initialize [
 
 	super initialize.
 	self initializeAsClickable.
-	takeFocusOnClick := true
+	takeFocusOnClick := false
 ]
 
 { #category : #testing }

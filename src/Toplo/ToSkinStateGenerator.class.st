@@ -13,18 +13,14 @@ Class {
 { #category : #'focus events handling' }
 ToSkinStateGenerator >> blurEvent: anEvent [
 
-	self enqueueSkinState: (ToFocusState new
-			 focused: false;
-			 yourself)
+	target skinManagerDo: [ :sm | sm focusState: false in: target ]
 ]
 
 { #category : #'checkable event handling' }
 ToSkinStateGenerator >> checkableCheckEvent: anEvent [
 	"ToCheclableCheckEvent can be send either because of a click or because the checkable as been checked programmatically"
 
-	self enqueueSkinState: (ToCheckState new
-			 checked: anEvent checked;
-			 yourself)
+	target skinManagerDo: [ :sm | sm checkState: anEvent checked in: target ]
 ]
 
 { #category : #'mouse handlers' }
@@ -108,16 +104,16 @@ ToSkinStateGenerator >> dropEvent: anEvent [
 { #category : #'state generating' }
 ToSkinStateGenerator >> enqueueSkinState: aState [
 
-	self enqueueSkinState: aState in: target
+	self enqueueTransientState: aState for: target
 ]
 
 { #category : #'state generating' }
-ToSkinStateGenerator >> enqueueSkinState: aState in: anElement [
+ToSkinStateGenerator >> enqueueTransientState: aState for: anElement [
 
 	anElement skinManagerDo: [ :sm |
 		sm
 			addSkinStateGeneration: [
-			sm enqueueSkinState: aState in: anElement ]
+			sm enqueueTransientState: aState for: anElement ]
 			for: anElement ]
 ]
 
@@ -144,9 +140,7 @@ ToSkinStateGenerator >> eventsToHandle [
 ToSkinStateGenerator >> focusEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
-	self enqueueSkinState: (ToFocusState new
-			 focused: true;
-			 yourself)
+	target skinManagerDo: [ :sm | sm focusState: true in: target ]
 ]
 
 { #category : #'api - event managing' }
@@ -158,12 +152,13 @@ ToSkinStateGenerator >> handleEvent: anEvent [
 { #category : #'list selection' }
 ToSkinStateGenerator >> listNodeSelectedEvent: anEvent [
 
-	target isEnabled ifFalse: [ ^ self ].
-	self enqueueSkinState: (ToSelectionState new
-			 selected: anEvent selected;
-			 focused: anEvent listElement isFocused;
-			 selectionOption: anEvent selectionOption;
-			 yourself)
+	"target isEnabled ifFalse: [ ^ self ]."
+	target skinManagerDo: [ :sm |
+			sm
+				selectionState: anEvent selected
+				selectionOption: anEvent selectionOption
+				focused: anEvent listElement isFocused
+				in: target ]
 ]
 
 { #category : #'mouse handlers' }

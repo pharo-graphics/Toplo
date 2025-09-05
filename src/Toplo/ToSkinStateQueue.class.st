@@ -3,97 +3,98 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'nextStates',
-		'previousInstallState',
-		'intrinsicStateIndex',
-		'installStateApplied'
+		'installStateApplied',
+		'intrinsicState',
+		'installState'
 	],
 	#category : #'Toplo-Core-States'
 }
 
 { #category : #'state application' }
-ToSkinStateQueue >> applyEnqueuedStatesIn: anElement [
+ToSkinStateQueue >> applyEnqueuedStatesFor: anElement [
 
 	nextStates do: [ :nextInQueue | 
 		nextInQueue applyOn: anElement fromQueue: self ].
 	nextStates reset
 ]
 
-{ #category : #'state application' }
-ToSkinStateQueue >> applyOn: anElement [
+{ #category : #'instinsic state accessing' }
+ToSkinStateQueue >> checked: aBoolean for: anElement [
 
-	self
-		deprecated: 'Use applyEnqueuedStatesIn: instead'
-		transformWith: '`@receiver applyOn: `@argument'
-			-> '`@receiver applyEnqueuedStatesIn: `@argument'.
+	intrinsicState checked: aBoolean.
+	self enqueueIntrinsicStateFor: anElement
+]
 
-	self applyEnqueuedStatesIn: anElement
+{ #category : #'instinsic state accessing' }
+ToSkinStateQueue >> enabled: aBoolean for: anElement [
+
+	intrinsicState enabled: aBoolean.
+	self enqueueIntrinsicStateFor: anElement
 ]
 
 { #category : #adding }
-ToSkinStateQueue >> enablementChangedIn: anElement [
-	" Do not force state application if the element is not in a space.
-	It can also be the case when a layout is computed for an infinite "
+ToSkinStateQueue >> enqueueInstallStateFor: anElement [
+	
+	installState ifNotNil: [ ^ self ].
+	installState := ToInstallState instance.
+	self enqueueState: installState for: anElement.
+	intrinsicState enabled: anElement isEnabled.
+	self enqueueState: intrinsicState for: anElement.
+	intrinsicState enqueued: true
+]
+
+{ #category : #adding }
+ToSkinStateQueue >> enqueueIntrinsicStateFor: anElement [
 
 	(anElement isAttachedToSceneGraph not or: [ installStateApplied not ])
 		ifTrue: [ ^ anElement requestNewSkin ].
-	nextStates reset.
-	self enqueueEnablementStateForElement: anElement.
-	self applyEnqueuedStatesIn: anElement
-]
-
-{ #category : #adding }
-ToSkinStateQueue >> enqueueEnablementStateForElement: anElement [
-	" restitute the intrasic states (as enablement, check)
-	enablement state must always be the first one for an enabled element, 
-	it must be the last one to be enqueued for a disabled element  "
-
-	anElement isEnabled ifTrue: [
-		self
-			enqueueState: (ToEnablementState new enabled: true)
-			for: anElement ].
-
-	self intrinsicStatesDo: [ :state |
-		self enqueueState: state for: anElement ].
-
-	anElement isEnabled ifFalse: [
-		self
-			enqueueState: (ToEnablementState new enabled: false)
-			for: anElement ]
-]
-
-{ #category : #adding }
-ToSkinStateQueue >> enqueueInstallStateForElement: anElement [
-	" install state required  "
-	
-	previousInstallState := ToInstallState new.
-	self enqueueState: previousInstallState for: anElement.
-	self enqueueEnablementStateForElement: anElement
+	intrinsicState enqueued ifTrue: [ ^ self ].
+	self enqueueState: intrinsicState for: anElement.
+	intrinsicState enqueued: true
 ]
 
 { #category : #adding }
 ToSkinStateQueue >> enqueueState: aState for: anElement [
-	" all states kinds are enqueued here "
 
-	(anElement isPreventedSkinEvent: aState skinEvent) ifTrue: [ ^ self ].
 	nextStates add: aState.
 	anElement spaceDo: [ :sp | sp needSkinStateApplicationPass: true ]
 ]
 
 { #category : #adding }
-ToSkinStateQueue >> enqueueUninstallStateForElement: anElement [
+ToSkinStateQueue >> enqueueTransientState: aState for: anElement [
+	" all states kinds are enqueued here "
+
+	installState ifNil: [ ^ self ].
+	(anElement isPreventedSkinEvent: aState skinEvent) ifTrue: [ ^ self ].
+	self enqueueState: aState for: anElement
+]
+
+{ #category : #adding }
+ToSkinStateQueue >> enqueueUninstallStateFor: anElement [
 	" uninstall state required  "
 
 	" have to ignore previous skin events to avoid to apply them to the new skin"
 	nextStates reset.
-	previousInstallState := nil.
+	installState := nil.
 	" store the uninstall state "
-	self enqueueState: ToUninstallState new for: anElement
+	self enqueueState: ToUninstallState instance for: anElement.
+	" do not wait the next pulse to ensure the uninstallation is done here "
+	self applyEnqueuedStatesFor: anElement
 ]
 
-{ #category : #accessing }
+{ #category : #'instinsic state accessing' }
+ToSkinStateQueue >> focused: aBoolean for: anElement [
+	" Do not force state application if the element is not in a space.
+	It can also be the case when a layout is computed for an infinite "
+
+	intrinsicState focused: aBoolean.
+	self enqueueIntrinsicStateFor: anElement
+]
+
+{ #category : #testing }
 ToSkinStateQueue >> hasInstallStateEnqueued [
 
-	^ previousInstallState notNil
+	^ installState notNil
 ]
 
 { #category : #initialization }
@@ -102,9 +103,7 @@ ToSkinStateQueue >> initialize [
 	super initialize.
 	installStateApplied := false.
 	nextStates := OrderedCollection new.
-	" Use an ordered dictionary for intrinsicStateIndex to ensure that an 
-	EnableState is always the last state "
-	intrinsicStateIndex := OrderedIdentityDictionary new
+	intrinsicState := ToIntrinsicState new
 ]
 
 { #category : #'state application' }
@@ -113,20 +112,17 @@ ToSkinStateQueue >> installStateApplied: aBoolean [
 	installStateApplied := aBoolean
 ]
 
-{ #category : #'intrinsic states' }
-ToSkinStateQueue >> intrinsicStatesDo: aBlock [
-
-	intrinsicStateIndex valuesDo: aBlock
-]
-
 { #category : #accessing }
 ToSkinStateQueue >> nextStates [
 
 	^ nextStates
 ]
 
-{ #category : #'intrinsic states' }
-ToSkinStateQueue >> onIntrinsicStateEnqueueRequested: aState [
+{ #category : #'instinsic state accessing' }
+ToSkinStateQueue >> selected: isSelected selectionOption: aSelectionOption focused: isFocused for: anElement [
 
-	intrinsicStateIndex at: aState class put: aState
+	intrinsicState selected: isSelected.
+	intrinsicState selectionOption: aSelectionOption.
+	intrinsicState focused: isFocused.
+	self enqueueIntrinsicStateFor: anElement
 ]

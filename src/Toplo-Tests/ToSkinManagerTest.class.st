@@ -169,13 +169,13 @@ ToSkinManagerTest >> testEnqueueSkinStateIn [
 	| w |
 	w := ToElement new.
 	self assert: w skinManager skinStateQueue nextStates size equals: 0.
-	w skinManager skinStateQueue enqueueInstallStateForElement: w.
+	w skinManager skinStateQueue enqueueInstallStateFor: w.
 	" Have a ToInstallState + a ToEnablementState "
 	self assert: w skinManager skinStateQueue nextStates size equals: 2.
 	w skinManager
-		enqueueSkinState:
+		enqueueTransientState:
 		(ToTransientState skinEvent: ToHoveredSkinEvent new)
-		in: w.
+		for: w.
 	self assert: w skinManager skinStateQueue nextStates size equals: 3
 ]
 
@@ -186,9 +186,9 @@ ToSkinManagerTest >> testEnqueueSkinStateInUnauthorized [
 	w := ToElement new.
 	self assert: w skinManager skinStateQueue nextStates size equals: 0.
 	w skinManager
-		enqueueSkinState:
+		enqueueTransientState:
 		(ToTransientState skinEvent: ToHoveredSkinEvent new)
-		in: w.
+		for: w.
 	" a transient state can't be enqueued if an install state has not be enqueued before "
 	self assert: w skinManager skinStateQueue nextStates size equals: 0
 ]

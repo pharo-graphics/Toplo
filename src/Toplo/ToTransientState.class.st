@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTransientState,
-	#superclass : #ToElementState,
+	#superclass : #ToSimpleState,
 	#instVars : [
 		'skinEvent'
 	],
@@ -41,12 +41,6 @@ ToTransientState >> skinEvent [
 ToTransientState >> skinEvent: aSkinEvent [
 
 	skinEvent := aSkinEvent
-]
-
-{ #category : #accessing }
-ToTransientState >> skinEventClass [
-
-	^ skinEvent class
 ]
 
 { #category : #accessing }

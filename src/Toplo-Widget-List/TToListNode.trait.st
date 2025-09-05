@@ -39,3 +39,9 @@ TToListNode >> listElementDo: aValuable [
 
 	self holder listElement ifNotNil: [ :le | aValuable value: le ]
 ]
+
+{ #category : #'t - list node' }
+TToListNode >> selected: aBoolean [
+
+	self holder selected: aBoolean
+]

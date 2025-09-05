@@ -23,12 +23,6 @@ ToSkinStateGeneratorTest >> newElementInSpace [
 ]
 
 { #category : #tests }
-ToSkinStateGeneratorTest >> testCheckableCheckEvent [
-
-	self testGenerateCheckStateFromEvent 
-]
-
-{ #category : #tests }
 ToSkinStateGeneratorTest >> testGenerateCheckStateFromEvent [
 
 	| e evt nextStates nextStatesSize |
@@ -53,13 +47,13 @@ ToSkinStateGeneratorTest >> testGenerateCheckStateFromEvent [
 	e dispatchEvent: evt.
 	e space phasesManager runStateGenerations.
 
-	" no changed since the element is in the same state (2 successives uncheck) "
-	self assert: nextStates size equals: nextStatesSize + 1.
+	" no changed since the intrinsicState is already enqueued "
+	self assert: nextStates size equals: nextStatesSize.
 
 	evt := ToCheckableCheckEvent checked: true.
 	e dispatchEvent: evt.
 	e space phasesManager runStateGenerations.
-	self assert: nextStates size equals: nextStatesSize + 2
+	self assert: nextStates size equals: nextStatesSize
 ]
 
 { #category : #tests }

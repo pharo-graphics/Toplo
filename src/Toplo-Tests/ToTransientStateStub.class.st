@@ -33,10 +33,3 @@ ToTransientStateStub >> onAppliedOn: anElement fromQueue: aQueue [
 	super onAppliedOn: anElement fromQueue: aQueue.
 	applyCount := applyCount + 1
 ]
-
-{ #category : #'look event sending' }
-ToTransientStateStub >> requestEnqueueFromElement: anElement inQueue: aStateQueue [
-
-	canBeEnqueued := self canBeEnqueuedFromElement: anElement inQueue: aStateQueue.
-	super requestEnqueueFromElement: anElement inQueue: aStateQueue
-]

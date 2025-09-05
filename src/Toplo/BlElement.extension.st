@@ -60,7 +60,7 @@ BlElement >> applyConfiguration [
 { #category : #'*Toplo' }
 BlElement >> applyEnqueuedStatesDeeply [
 
-	self skinManagerDo: [ :sm | sm applyEnqueuedStatesIn: self ].
+	self skinManagerDo: [ :sm | sm applyEnqueuedStatesFor: self ].
 	self childrenDo: [ :child | child applyEnqueuedStatesDeeply ].
 
 ]
@@ -144,8 +144,7 @@ BlElement >> disable [
 { #category : #'*Toplo' }
 BlElement >> disabled: aBoolean [
 
-	self flagAsDisabled: aBoolean.
-	self childrenDo: [ :child | child disabled: aBoolean ]
+	self withAllChildrenBreadthFirstDo: [ :child | child flagAsDisabled: aBoolean ]
 ]
 
 { #category : #'*Toplo' }
@@ -230,11 +229,11 @@ BlElement >> flagAsDisabled: aBoolean [
 	self isDisabled = aBoolean ifTrue: [ ^ self ].
 	aBoolean
 		ifTrue: [
-			self loseFocus.
-			self flagAsDisabled ]
+				self loseFocus.
+				self flagAsDisabled ]
 		ifFalse: [ self flagAsEnabled ].
 	self dispatchEvent: ToEnablementChangedEvent new.
-	self skinManagerDo: [ :sm | sm enablementChangedIn: self ]
+	self skinManagerDo: [ :sm | sm enablementState: aBoolean not in: self ]
 ]
 
 { #category : #'*Toplo' }
@@ -405,6 +404,12 @@ BlElement >> isPreventedSkinEvent: aSkinEvent [
 BlElement >> isPreventedSkinEventClass: aSkinEventClass [
 
 	^ self preventedSkinEventClasses includes: aSkinEventClass
+]
+
+{ #category : #'*Toplo' }
+BlElement >> isSelected [
+
+	^ false
 ]
 
 { #category : #'*Toplo' }
@@ -647,6 +652,12 @@ BlElement >> requestNewSkin [
 BlElement >> requestSkinApplication [
 
 	self spaceDo: [ :sp | sp requestNextPulse ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> selected: aBoolean [
+
+	" no effect by default "
 ]
 
 { #category : #'*Toplo' }

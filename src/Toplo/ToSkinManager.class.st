@@ -164,13 +164,15 @@ ToSkinManager >> requestNewSkinIn: anElement [
 { #category : #'skin state generation' }
 ToSkinManager >> selectionState: isSelected selectionOption: aSelectionOption focused: isFocused in: anElement [
 
-	anElement withAllChildrenBreadthFirstDo: [ :child |
-			child skinManagerDo: [ :sm |
-					sm skinStateQueue
-						selected: isSelected
-						selectionOption: aSelectionOption
-						focused: isFocused
-						for: child ] ]
+	anElement
+		withAllChildrenBreadthFirstDo: [ :child |
+				child skinManagerDo: [ :sm |
+						sm skinStateQueue
+							selected: isSelected
+							selectionOption: aSelectionOption
+							focused: isFocused
+							for: child ] ]
+		while: [ :child | child selectionSkinEventsPrevented not ]
 ]
 
 { #category : #'accessing - styleSheet' }

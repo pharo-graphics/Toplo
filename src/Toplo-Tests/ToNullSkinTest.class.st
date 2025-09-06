@@ -46,10 +46,7 @@ ToNullSkinTest >> testWithASkinInstalledBefore [
 	w skinManager installNewSkinIn: w.
 	self assert: w skinManager installedSkin identicalTo: nsk.
 	self assert: w skinManager skinStateQueue nextStates isEmpty.
-	w skinManager
-		enqueueTransientState:
-		(ToTransientState skinEvent: ToHoveredSkinEvent new)
-		for: w.
+	w skinManager enqueueTransientState: ToHoveredSkinEvent new for: w.
 	w skinManagerDo: [ :sm | sm applyEnqueuedStatesFor: w ].
 	self assert: w skinManager skinStateQueue nextStates isEmpty
 ]

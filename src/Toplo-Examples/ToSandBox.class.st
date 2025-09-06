@@ -5375,7 +5375,6 @@ ToSandBox class >> example_ToggleButtonInListElement [
 			                 clickAction: [ node inspect ];
 			                 yourself.
 		inspectButton preventSelectionSkinEvents.
-
 		moveNumberLabel constraintsDo: [ :c | c linear vertical alignCenter ].
 
 		moveButtons do: [ :e |

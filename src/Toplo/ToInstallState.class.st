@@ -5,10 +5,10 @@ Class {
 }
 
 { #category : #'look event sending' }
-ToInstallState >> onAppliedOn: anElement fromQueue: aQueue [
+ToInstallState >> applyOn: anElement fromQueue: aQueue [
 
+	super applyOn: anElement fromQueue: aQueue.
 	aQueue ifNotNil: [ aQueue installStateApplied: true ].
-	super onAppliedOn: anElement fromQueue: aQueue
 ]
 
 { #category : #accessing }

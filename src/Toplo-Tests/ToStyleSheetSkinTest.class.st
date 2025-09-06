@@ -217,7 +217,7 @@ ToStyleSheetSkinTest >> testWithAnimationOn2EventClasses [
 	w skinManager installNewSkinIn: w.
 
 	animation := ToPropertyColorTransitionAnimation new.
-	prop := self writablePropertyIndex propertyNamed: #'background'.
+	prop := self writablePropertyIndex propertyNamed: #background.
 
 	skin skinEventListeners: {
 			(ToPropertyWriter new
@@ -243,19 +243,13 @@ ToStyleSheetSkinTest >> testWithAnimationOn2EventClasses [
 	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color white.
 
-	w skinManager
-		enqueueTransientState:
-		(ToTransientState skinEvent: ToHoveredSkinEvent new)
-		for: w.
+	w skinManager enqueueTransientState: ToHoveredSkinEvent new for: w.
 	animation onFinishedDo: [ :x |
-		self assert: w background paint color equals: Color black.
+			self assert: w background paint color equals: Color black.
 
-		w skinManager
-			enqueueTransientState:
-			(ToTransientState skinEvent: ToLeftSkinEvent new)
-			for: w.
-		animation onFinishedDo: [ :xx |
-			self assert: w background paint color equals: Color white ] ]
+			w skinManager enqueueTransientState: ToLeftSkinEvent new for: w.
+			animation onFinishedDo: [ :xx |
+				self assert: w background paint color equals: Color white ] ]
 ]
 
 { #category : #'test with accessors' }

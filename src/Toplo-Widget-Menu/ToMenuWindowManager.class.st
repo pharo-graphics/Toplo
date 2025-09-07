@@ -1,43 +1,43 @@
 Class {
-	#name : #ToMenuPopupManager,
+	#name : #ToMenuWindowManager,
 	#superclass : #ToPopupWindowManager,
 	#category : #'Toplo-Widget-Menu-Window'
 }
 
 { #category : #'window handling' }
-ToMenuPopupManager >> beInline [ 
+ToMenuWindowManager >> beInline [ 
 
 	super beInline.
 	anchorElement openOnHovered: false
 ]
 
 { #category : #'window handling' }
-ToMenuPopupManager >> checkCloseWindowOnEvent: anEvent [ 
+ToMenuWindowManager >> checkCloseWindowOnEvent: anEvent [ 
 
 	anchorElement menuPaneDo: [ :mb | mb cancelAutoOpen ].
 	super checkCloseWindowOnEvent: anEvent
 ]
 
 { #category : #initialization }
-ToMenuPopupManager >> defaultMeasurement [
+ToMenuWindowManager >> defaultMeasurement [
 
 	^ ToMenuMeasurement new
 ]
 
 { #category : #initialization }
-ToMenuPopupManager >> defaultPlacement [
+ToMenuWindowManager >> defaultPlacement [
 
 	^ ToMenuPlacement new
 ]
 
 { #category : #accessing }
-ToMenuPopupManager >> defaultWindowClass [
+ToMenuWindowManager >> defaultWindowClass [
 
 	^ ToMenuWindow
 ]
 
 { #category : #'api - accessing' }
-ToMenuPopupManager >> eventsToHandle [
+ToMenuWindowManager >> eventsToHandle [
 
 	^ super eventsToHandle , {
 		  BlMouseEnterEvent.
@@ -45,25 +45,25 @@ ToMenuPopupManager >> eventsToHandle [
 ]
 
 { #category : #accessing }
-ToMenuPopupManager >> inlineWindowClass [
+ToMenuWindowManager >> inlineWindowClass [
 
 	^ ToMenuInlineWindowElement
 ]
 
 { #category : #'event handling' }
-ToMenuPopupManager >> mouseEnterEvent: anEvent [
+ToMenuWindowManager >> mouseEnterEvent: anEvent [
 
 	anchorElement itemBar secondarySelecter deselectAll
 ]
 
 { #category : #'window handling' }
-ToMenuPopupManager >> newInlineWindowStarter [ 
+ToMenuWindowManager >> newInlineWindowStarter [ 
 
 	^ ToInlineMenuStarter new
 ]
 
 { #category : #'window handling' }
-ToMenuPopupManager >> newWindow [
+ToMenuWindowManager >> newWindow [
 
 	| w |
 	w := super newWindow.
@@ -73,7 +73,29 @@ ToMenuPopupManager >> newWindow [
 ]
 
 { #category : #'event handling' }
-ToMenuPopupManager >> onMouseUpOutsideEvent: anEvent [
+ToMenuWindowManager >> onMouseUpOnItemEvent: anEvent [
+
+	| target |
+	target := anEvent currentTarget.
+	target isEnabled ifFalse: [ ^ self ].
+
+	" auto-open is managed from the manager if target is a menu "
+	target isMenu ifFalse: [
+		target menuPaneDo: [ :mb | mb cancelAutoOpen ] ].
+
+	target closeOnPicking ifFalse: [ ^ self ].
+
+	target isInInlineWindow ifTrue: [ " remove only the inline menu tree "
+			target parentMenuDo: [ :m |
+				m manager checkCloseWindowOnEvent: anEvent ].
+			^ self ].
+	" close the complete menu tree starting from the root "
+	target rootMenuDo: [ :rm |
+		rm manager ifNotNil: [ :m | m checkCloseWindowOnEvent: anEvent ] ]
+]
+
+{ #category : #'event handling' }
+ToMenuWindowManager >> onMouseUpOutsideEvent: anEvent [
 
 	super onMouseUpOutsideEvent: anEvent.
 	anchorElement menuPaneDo: [ :mb |
@@ -81,14 +103,14 @@ ToMenuPopupManager >> onMouseUpOutsideEvent: anEvent [
 ]
 
 { #category : #'window handling' }
-ToMenuPopupManager >> onWindowClosed [
+ToMenuWindowManager >> onWindowClosed [
 
 	super onWindowClosed.
 	anchorElement itemBar secondarySelecter deselectAll
 ]
 
 { #category : #'window handling' }
-ToMenuPopupManager >> onWindowOpened [
+ToMenuWindowManager >> onWindowOpened [
 
 	super onWindowOpened.
 	anchorElement itemBar requestFocus.
@@ -98,7 +120,7 @@ ToMenuPopupManager >> onWindowOpened [
 ]
 
 { #category : #initialization }
-ToMenuPopupManager >> pickOutsideFilterClass [
+ToMenuWindowManager >> pickOutsideFilterClass [
 
 	^ ToMenuMouseUpOutsideEventFilter
 ]

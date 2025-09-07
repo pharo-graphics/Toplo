@@ -13,9 +13,10 @@ ToLabelSkin >> deselectedSkinEvent: anEvent [
 	super deselectedSkinEvent: anEvent.
 	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
 	anEvent selectionMode selectionOption isMasked ifTrue: [ ^ self ].
-	anEvent selectionMode selectionOption hasEmbeddedRepresentation
-		ifTrue: [ ^ self ].
-	anEvent elementDo: [ :e | e foreground: foreground ]
+	anEvent selectionMode selectionOption hasEmbeddedRepresentation ifTrue: [ ^ self ].
+	anEvent elementDo: [ :e |
+			"e text asString = '2: BB' ifTrue: [ anEvent traceCr ]."
+			e foreground: foreground ]
 ]
 
 { #category : #'event handling' }
@@ -23,6 +24,7 @@ ToLabelSkin >> disabledSkinEvent: anEvent [
 
 	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
+		"e text asString = '2: BB' ifTrue: [ anEvent traceCr ]."
 		e foreground: (e valueOfTokenNamed: #'color-text-disabled') ]
 ]
 
@@ -30,7 +32,9 @@ ToLabelSkin >> disabledSkinEvent: anEvent [
 ToLabelSkin >> enabledSkinEvent: anEvent [
 
 	super enabledSkinEvent: anEvent.
-	anEvent elementDo: [ :e | e foreground: foreground ]
+	anEvent elementDo: [ :e |
+			"e text asString = '2: BB' ifTrue: [ anEvent traceCr ]."
+			e foreground: foreground ]
 ]
 
 { #category : #'event handling' }
@@ -56,6 +60,7 @@ ToLabelSkin >> selectedSkinEvent: anEvent [
 		ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e |
 			| f |
+			"e text asString = '2: BB' ifTrue: [ anEvent traceCr ]."
 			f := anEvent focused
 				     ifTrue: [
 				     e valueOfTokenNamed: #'selected-focused-foreground' ]

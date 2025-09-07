@@ -14,7 +14,7 @@ ToSkinEvent >> disabledElementDo: aBlock [
 { #category : #accessing }
 ToSkinEvent >> elementDo: aBlock [
 
-	aBlock value: self target
+	aBlock value: self currentTarget
 ]
 
 { #category : #accessing }

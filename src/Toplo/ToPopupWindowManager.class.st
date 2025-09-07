@@ -340,6 +340,7 @@ ToPopupWindowManager >> popupOnPressed: aBoolean [
 { #category : #'window handling' }
 ToPopupWindowManager >> requestCloseWindowOnEvent: anEvent [
 
+	currentWindow ifNil: [ ^ self ].
 	(self canCloseWindowAfter: anEvent timestamp) ifFalse: [ ^ self ].
 	self checkCloseWindowOnEvent: anEvent
 ]

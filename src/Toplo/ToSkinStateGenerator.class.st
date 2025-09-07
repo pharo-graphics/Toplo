@@ -13,18 +13,14 @@ Class {
 { #category : #'focus events handling' }
 ToSkinStateGenerator >> blurEvent: anEvent [
 
-	self enqueueSkinState: (ToFocusState new
-			 focused: false;
-			 yourself)
+	target skinManagerDo: [ :sm | sm focusState: false in: target ]
 ]
 
 { #category : #'checkable event handling' }
 ToSkinStateGenerator >> checkableCheckEvent: anEvent [
 	"ToCheclableCheckEvent can be send either because of a click or because the checkable as been checked programmatically"
 
-	self enqueueSkinState: (ToCheckState new
-			 checked: anEvent checked;
-			 yourself)
+	target skinManagerDo: [ :sm | sm checkState: anEvent checked in: target ]
 ]
 
 { #category : #'mouse handlers' }
@@ -41,9 +37,7 @@ ToSkinStateGenerator >> clickEvent: anEvent [
 { #category : #'window event handling' }
 ToSkinStateGenerator >> closedEvent: anEvent [
 
-	self enqueueSkinState:
-		(ToTransientState skinEvent:
-			 (ToClosedSkinEvent sourceEvent: anEvent))
+	self enqueueTransientState: (ToClosedSkinEvent sourceEvent: anEvent)
 ]
 
 { #category : #'dnd handlers' }
@@ -51,9 +45,7 @@ ToSkinStateGenerator >> dragEndEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
 	dragged := false.
-	self enqueueSkinState:
-		(ToTransientState skinEvent:
-			 (ToDragEndedSkinEvent sourceEvent: anEvent))
+	self enqueueTransientState: (ToDragEndedSkinEvent sourceEvent: anEvent)
 ]
 
 { #category : #'dnd handlers' }
@@ -61,9 +53,8 @@ ToSkinStateGenerator >> dragEnterEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
 	leaved := false.
-	self enqueueSkinState:
-		(ToTransientState skinEvent:
-			 (ToDragHoveredSkinEvent sourceEvent: anEvent))
+	self enqueueTransientState:
+		(ToDragHoveredSkinEvent sourceEvent: anEvent)
 ]
 
 { #category : #'dnd handlers' }
@@ -71,9 +62,7 @@ ToSkinStateGenerator >> dragEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
 	dragged ifFalse: [ ^ self ].
-	self enqueueSkinState:
-		(ToTransientState skinEvent:
-			 (ToDraggedSkinEvent sourceEvent: anEvent))
+	self enqueueTransientState: (ToDraggedSkinEvent sourceEvent: anEvent)
 ]
 
 { #category : #'dnd handlers' }
@@ -81,9 +70,8 @@ ToSkinStateGenerator >> dragLeaveEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
 	leaved := true.
-	self enqueueSkinState:
-		(ToTransientState skinEvent:
-			 (ToDragLeftSkinEvent sourceEvent: anEvent))
+	self enqueueTransientState:
+		(ToDragLeftSkinEvent sourceEvent: anEvent)
 ]
 
 { #category : #'dnd handlers' }
@@ -92,33 +80,28 @@ ToSkinStateGenerator >> dragStartEvent: anEvent [
 	target isEnabled ifFalse: [ ^ self ].
 	dragged ifTrue: [ ^ self ].
 	dragged := true.
-	self enqueueSkinState: (ToTransientState skinEvent:
-			 (ToDragStartedSkinEvent sourceEvent: anEvent))
+	self enqueueTransientState:
+		(ToDragStartedSkinEvent sourceEvent: anEvent)
 ]
 
 { #category : #'dnd handlers' }
 ToSkinStateGenerator >> dropEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
-	self enqueueSkinState:
-		(ToTransientState skinEvent:
-			 (ToDroppedSkinEvent sourceEvent: anEvent))
+	self enqueueTransientState: (ToDroppedSkinEvent sourceEvent: anEvent)
 ]
 
 { #category : #'state generating' }
-ToSkinStateGenerator >> enqueueSkinState: aState [
+ToSkinStateGenerator >> enqueueTransientState: aState [
 
-	self enqueueSkinState: aState in: target
+	self enqueueTransientState: aState for: target
 ]
 
 { #category : #'state generating' }
-ToSkinStateGenerator >> enqueueSkinState: aState in: anElement [
+ToSkinStateGenerator >> enqueueTransientState: aState for: anElement [
 
 	anElement skinManagerDo: [ :sm |
-		sm
-			addSkinStateGeneration: [
-			sm enqueueSkinState: aState in: anElement ]
-			for: anElement ]
+		sm enqueueTransientState: aState for: anElement ]
 ]
 
 { #category : #'api - accessing' }
@@ -144,9 +127,7 @@ ToSkinStateGenerator >> eventsToHandle [
 ToSkinStateGenerator >> focusEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
-	self enqueueSkinState: (ToFocusState new
-			 focused: true;
-			 yourself)
+	target skinManagerDo: [ :sm | sm focusState: true in: target ]
 ]
 
 { #category : #'api - event managing' }
@@ -158,12 +139,13 @@ ToSkinStateGenerator >> handleEvent: anEvent [
 { #category : #'list selection' }
 ToSkinStateGenerator >> listNodeSelectedEvent: anEvent [
 
-	target isEnabled ifFalse: [ ^ self ].
-	self enqueueSkinState: (ToSelectionState new
-			 selected: anEvent selected;
-			 focused: anEvent listElement isFocused;
-			 selectionOption: anEvent selectionOption;
-			 yourself)
+	"target isEnabled ifFalse: [ ^ self ]."
+	target skinManagerDo: [ :sm |
+			sm
+				selectionState: anEvent selected
+				selectionOption: anEvent selectionOption
+				focused: anEvent listElement isFocused
+				in: target ]
 ]
 
 { #category : #'mouse handlers' }
@@ -183,9 +165,7 @@ ToSkinStateGenerator >> mouseEnterEvent: anEvent [
 	anEvent primaryButtonPressed ifTrue: [ ^ self ].
 	target isEnabled ifFalse: [ ^ self ].
 	leaved := false.
-	self enqueueSkinState:
-		(ToTransientState skinEvent:
-			 (ToHoveredSkinEvent sourceEvent: anEvent))
+	self enqueueTransientState: (ToHoveredSkinEvent sourceEvent: anEvent)
 ]
 
 { #category : #'mouse handlers' }
@@ -195,8 +175,7 @@ ToSkinStateGenerator >> mouseLeaveEvent: anEvent [
 	target isEnabled ifFalse: [ ^ self ].
 	leaved ifTrue: [ ^ self ].
 	leaved := true.
-	self enqueueSkinState:
-		(ToTransientState skinEvent: (ToLeftSkinEvent sourceEvent: anEvent))
+	self enqueueTransientState: (ToLeftSkinEvent sourceEvent: anEvent)
 ]
 
 { #category : #'mouse handlers' }
@@ -222,15 +201,13 @@ ToSkinStateGenerator >> mouseUpOutsideEvent: anEvent [
 	dragged := false.
 
 	wasPressed ifTrue: [
-		self enqueueSkinState: (ToTransientState skinEvent:
-				 (ToReleasedSkinEvent sourceEvent: anEvent)) ].
+		self enqueueTransientState:
+			(ToReleasedSkinEvent sourceEvent: anEvent) ].
 
 	leaved ifTrue: [ ^ self ].
 	leaved := true.
 	target isEnabled ifFalse: [ ^ self ].
-	self enqueueSkinState:
-		(ToTransientState skinEvent:
-			 (ToLeftSkinEvent sourceEvent: anEvent))
+	self enqueueTransientState: (ToLeftSkinEvent sourceEvent: anEvent)
 ]
 
 { #category : #'api - hooks' }
@@ -255,17 +232,13 @@ ToSkinStateGenerator >> onUninstalledIn: anElement [
 { #category : #'window event handling' }
 ToSkinStateGenerator >> openedEvent: anEvent [
 
-	self enqueueSkinState:
-		(ToTransientState skinEvent:
-			 (ToOpenedSkinEvent sourceEvent: anEvent))
+	self enqueueTransientState: (ToOpenedSkinEvent sourceEvent: anEvent)
 ]
 
 { #category : #'mouse handlers' }
 ToSkinStateGenerator >> primaryClickEvent: anEvent [
 
-	self enqueueSkinState:
-		(ToTransientState skinEvent:
-			 (ToClickedSkinEvent sourceEvent: anEvent))
+	self enqueueTransientState: (ToClickedSkinEvent sourceEvent: anEvent)
 ]
 
 { #category : #'mouse handlers' }
@@ -280,9 +253,7 @@ ToSkinStateGenerator >> primaryMouseDownEvent: anEvent [
 				                        yourself.
 			target space root addEventFilter: mouseUpOutsideFilter ].
 
-	self enqueueSkinState:
-		(ToTransientState skinEvent:
-			 (ToPressedSkinEvent sourceEvent: anEvent))
+	self enqueueTransientState: (ToPressedSkinEvent sourceEvent: anEvent)
 ]
 
 { #category : #'mouse handlers' }
@@ -291,50 +262,50 @@ ToSkinStateGenerator >> primaryMouseUpEvent: anEvent [
 	dragged := false.
 	leaved := false.
 	pressed := false.
-	self enqueueSkinState: (ToTransientState skinEvent:
-			 (ToReleasedSkinEvent sourceEvent: anEvent))
+	self enqueueTransientState:
+		(ToReleasedSkinEvent sourceEvent: anEvent)
 ]
 
 { #category : #'still pressed - hovered' }
 ToSkinStateGenerator >> startStillHoveredEvent: anEvent [
 
-	self enqueueSkinState: (ToTransientState skinEvent:
-			 (ToStartStillHoveredSkinEvent sourceEvent: anEvent))
+	self enqueueTransientState:
+		(ToStartStillHoveredSkinEvent sourceEvent: anEvent)
 ]
 
 { #category : #'still pressed - hovered' }
 ToSkinStateGenerator >> startStillPressedEvent: anEvent [
 
-	self enqueueSkinState: (ToTransientState skinEvent:
-			 (ToStartStillPressedSkinEvent sourceEvent: anEvent))
+	self enqueueTransientState:
+		(ToStartStillPressedSkinEvent sourceEvent: anEvent)
 ]
 
 { #category : #'still pressed - hovered' }
 ToSkinStateGenerator >> stillHoveredEvent: anEvent [
 
-	self enqueueSkinState: (ToTransientState skinEvent:
-			 (ToStillHoveredSkinEvent sourceEvent: anEvent))
+	self enqueueTransientState:
+		(ToStillHoveredSkinEvent sourceEvent: anEvent)
 ]
 
 { #category : #'still pressed - hovered' }
 ToSkinStateGenerator >> stillPressedEvent: anEvent [
 
-	self enqueueSkinState: (ToTransientState skinEvent:
-			 (ToStillPressedSkinEvent sourceEvent: anEvent))
+	self enqueueTransientState:
+		(ToStillPressedSkinEvent sourceEvent: anEvent)
 ]
 
 { #category : #'still pressed - hovered' }
 ToSkinStateGenerator >> stopStillHoveredEvent: anEvent [
 
-	self enqueueSkinState: (ToTransientState skinEvent:
-			 (ToStopStillHoveredSkinEvent sourceEvent: anEvent))
+	self enqueueTransientState:
+		(ToStopStillHoveredSkinEvent sourceEvent: anEvent)
 ]
 
 { #category : #'still pressed - hovered' }
 ToSkinStateGenerator >> stopStillPressedEvent: anEvent [
 
-	self enqueueSkinState: (ToTransientState skinEvent:
-			 (ToStopStillPressedSkinEvent sourceEvent: anEvent))
+	self enqueueTransientState:
+		(ToStopStillPressedSkinEvent sourceEvent: anEvent)
 ]
 
 { #category : #accessing }

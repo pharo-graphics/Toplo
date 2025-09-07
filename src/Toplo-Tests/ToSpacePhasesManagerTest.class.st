@@ -17,21 +17,6 @@ ToSpacePhasesManagerTest >> testApplyAllConfigurationsIn [
 ]
 
 { #category : #tests }
-ToSpacePhasesManagerTest >> testApplyAllEnqueuedStatesIn [
-
-	| e |
-	e := ToElement new.
-	space root addChild: e.
-	space applyAllSkinInstallers.
-	e skinManager
-		enqueueSkinState: (ToFocusState new focused: true)
-		in: e.
-	self assert: e skinManager skinStateQueue nextStates size > 0.
-	space phasesManager applyAllEnqueuedStatesIn: space.
-	self assert: e skinManager skinStateQueue nextStates size equals: 0
-]
-
-{ #category : #tests }
 ToSpacePhasesManagerTest >> testApplyAllSkinInstallersIn [
 
 	space phasesManager needSkinInstallPass: true.

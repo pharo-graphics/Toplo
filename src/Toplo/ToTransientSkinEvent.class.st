@@ -1,6 +1,8 @@
 Class {
 	#name : #ToTransientSkinEvent,
 	#superclass : #ToSkinEvent,
+	#traits : 'TToSimpleState',
+	#classTraits : 'TToSimpleState classTrait',
 	#instVars : [
 		'sourceEvent'
 	],
@@ -17,6 +19,12 @@ ToTransientSkinEvent class >> isAbstract [
 ToTransientSkinEvent class >> sourceEvent: anEvent [
 
 	^ self new sourceEvent: anEvent
+]
+
+{ #category : #'t - simple state' }
+ToTransientSkinEvent >> skinEvent [ 
+
+	^ self
 ]
 
 { #category : #accessing }

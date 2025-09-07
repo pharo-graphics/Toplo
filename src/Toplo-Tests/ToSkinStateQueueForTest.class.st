@@ -5,11 +5,11 @@ Class {
 }
 
 { #category : #hook }
-ToSkinStateQueueForTest >> applyEnqueuedStatesIn: anElement [
+ToSkinStateQueueForTest >> applyEnqueuedStatesFor: anElement [
 
 	| atLeastOne |
 	atLeastOne := nextStates notEmpty.
-	super applyEnqueuedStatesIn: anElement.
+	super applyEnqueuedStatesFor: anElement.
 	atLeastOne ifTrue: [
 		anElement skinStateQueueApplied ]
 ]

@@ -14,7 +14,7 @@ ToClickableFocusEventHandler class >> action: aBlock [
 ToClickableFocusEventHandler >> handleEvent: anEvent [
 
 	(anEvent isKindOf: anEvent currentTarget clickEventClass) ifTrue: [
-		"anEvent currentTarget requestFocus" ]
+		anEvent currentTarget requestFocus ]
 ]
 
 { #category : #'api - event managing' }

@@ -645,7 +645,7 @@ ToSandBox class >> exampleLocalThemeChangesChildrenLookup [
 		          border: (BlBorder paint: Color red width: 4).
 
 	child := ToButton new
-		         size: 100 @ 50;
+		         extent: 100 @ 50;
 		         constraintsDo: [ :c | c ignoreByLayout ];
 		         position: 30 asPoint.
 
@@ -1868,6 +1868,7 @@ ToSandBox class >> example_CheckboxVertical [
 ToSandBox class >> example_CheckboxVerticalGroupHorizontal [
 
 	| group |
+	
 	group := ToCheckableGroupPane horizontal.
 	1 to: 4 do: [ :idx |
 		| chb |
@@ -1875,9 +1876,8 @@ ToSandBox class >> example_CheckboxVerticalGroupHorizontal [
 			       beVertical;
 			       labelText: idx asString;
 			       id: idx asString.
-		chb beStartToEnd.
+		chb beEndToStart.
 		group addChild: chb ].
-
 	group registeredCheckables second checked: true.
 	group groupCheckAction:[ :evt | evt checkedList traceCr ].
 	group openInSpace
@@ -5375,7 +5375,6 @@ ToSandBox class >> example_ToggleButtonInListElement [
 			                 clickAction: [ node inspect ];
 			                 yourself.
 		inspectButton preventSelectionSkinEvents.
-
 		moveNumberLabel constraintsDo: [ :c | c linear vertical alignCenter ].
 
 		moveButtons do: [ :e |
@@ -5781,6 +5780,7 @@ ToSandBox class >> example_buttonWith2Icons [
 
 	| but  |
 	but := self example_buttonWithIcon.
+	but clickAction: [ :evt | evt currentTarget requestFocus ].
 	but addEventHandlerOn: ToSkinEvent do: [ :event | event traceCr ].
 	but clickAction: [ :evt | evt target traceCr ].
 	but addEventHandlerOn: BlDoubleClickEvent do: [ :event | event traceCr ].
@@ -7699,7 +7699,7 @@ ToSandBox class >> example_stylesheet [
 		                extent: 50 @ 100;
 		                position: 50 @ 150.
 	horizontalElem := ToElement new
-		                  size: 100 @ 50;
+		                  extent: 100 @ 50;
 		                  position: 150 @ 50.
 	biggerElem := ToElement new
 		              size: 100 asPoint;
@@ -8341,7 +8341,7 @@ ToSandBox class >> example_toImageFromUrl [
 
 	| im |
 	im := ToImage fromUrl: 'https://unsplash.it/400/300?image=1083'.
-	im size: 400@300.
+	im extent: 400 @ 300.
 	im openInSpace
 ]
 
@@ -9453,14 +9453,14 @@ ToSandBox class >> selectWithEditingMultiSelection [
 { #category : #'labeled icon' }
 ToSandBox class >> selectableLabeledIconlWithIconAndText [
 
-	| but  |
+	| but |
 	but := ToLabeledIcon new.
 	but label: (ToSelectableLabel new text: 'Selectable Labeled icon').
 	but icon: (ToImage inner: (BlElement new
-			 size: 60 @ 60;
-			 background: (Color blue alpha: 0.2);
-			 yourself)).
-			but inspect.
+				  extent: 60 @ 60;
+				  background: (Color blue alpha: 0.2);
+				  yourself)).
+	but inspect.
 	^ but
 ]
 

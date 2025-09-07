@@ -56,6 +56,7 @@ ToCheckableBarElementTest >> testItemChecked [
 ToCheckableBarElementTest >> testItemSelected [
 
 	bar selecter selectIndex: 1.
+	self waitTestingSpaces.
 	self assert: bar items first isChecked.
 	self waitTestingSpaces.
 	self assert: bar selectionModel selectedIndexes equals: #( 1 )

@@ -4,15 +4,6 @@ Class {
 	#category : #'Toplo-Core-Skin'
 }
 
-{ #category : #adding }
-ToSkin >> addSkinStateGeneration: aValuable for: anElement [
-
-	" add a skin generation action to be evaluated by the states application phase "
-	(anElement isAttachedToSceneGraph)
-		ifTrue: [ anElement space addSkinStateGeneration: aValuable ]
-		ifFalse: aValuable
-]
-
 { #category : #'api - accessing' }
 ToSkin >> eventsToHandle [
 

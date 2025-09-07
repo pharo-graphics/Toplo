@@ -14,6 +14,13 @@ ToTransientStateStub >> applyCount [
 	^ applyCount
 ]
 
+{ #category : #'look event sending' }
+ToTransientStateStub >> applyOn: anElement fromQueue: aQueue [
+
+	super applyOn: anElement fromQueue: aQueue.
+	applyCount := applyCount + 1
+]
+
 { #category : #accessing }
 ToTransientStateStub >> canBeEnqueued [
 
@@ -25,18 +32,4 @@ ToTransientStateStub >> initialize [
 
 	super initialize.
 	applyCount := 0
-]
-
-{ #category : #'look event sending' }
-ToTransientStateStub >> onAppliedOn: anElement fromQueue: aQueue [
-
-	super onAppliedOn: anElement fromQueue: aQueue.
-	applyCount := applyCount + 1
-]
-
-{ #category : #'look event sending' }
-ToTransientStateStub >> requestEnqueueFromElement: anElement inQueue: aStateQueue [
-
-	canBeEnqueued := self canBeEnqueuedFromElement: anElement inQueue: aStateQueue.
-	super requestEnqueueFromElement: anElement inQueue: aStateQueue
 ]

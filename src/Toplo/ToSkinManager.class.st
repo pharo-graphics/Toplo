@@ -11,18 +11,17 @@ Class {
 	#category : #'Toplo-Core-Skin'
 }
 
-{ #category : #'skin state generation' }
-ToSkinManager >> addSkinStateGeneration: aValuable for: anElement [
-
-	installedSkin addSkinStateGeneration: aValuable for: anElement
-	
-]
-
 { #category : #'accessing - skin state queue' }
-ToSkinManager >> applyEnqueuedStatesIn: anElement [
+ToSkinManager >> applyEnqueuedStatesFor: anElement [
 	" run the skin actually by flushing the state queue"
 
-	self skinStateQueue applyEnqueuedStatesIn: anElement
+	self skinStateQueue applyEnqueuedStatesFor: anElement
+]
+
+{ #category : #'skin state generation' }
+ToSkinManager >> checkState: isChecked in: anElement [
+
+	skinStateQueue checked: isChecked for: anElement
 ]
 
 { #category : #accessing }
@@ -41,21 +40,22 @@ ToSkinManager >> computedStyleSheetChainIn: anElement [
 			  current := current parent ] ]
 ]
 
-{ #category : #'skin - installing / uninstalling' }
-ToSkinManager >> enablementChangedIn: anElement [
+{ #category : #'skin state generation' }
+ToSkinManager >> enablementState: isEnabled in: anElement [
 
-	self
-		addSkinStateGeneration: [
-		self skinStateQueue enablementChangedIn: anElement ]
-		for: anElement
+	skinStateQueue enabled: isEnabled for: anElement
 ]
 
 { #category : #'skin state generation' }
-ToSkinManager >> enqueueSkinState: aSkinState in: anElement [
+ToSkinManager >> enqueueTransientState: aSkinState for: anElement [
 
-	aSkinState
-		requestEnqueueFromElement: anElement
-		inQueue: self skinStateQueue
+	skinStateQueue enqueueTransientState: aSkinState for: anElement
+]
+
+{ #category : #'skin state generation' }
+ToSkinManager >> focusState: isFocused in: anElement [
+
+	skinStateQueue focused: isFocused for: anElement
 ]
 
 { #category : #private }
@@ -95,7 +95,7 @@ ToSkinManager >> installNewSkinIn: anElement [
 			" apply style here directly to benefit from the installer recursion protection
 					because  requestNewSkin may be sent during skin installation 
 					(in that case it it ignored) "
-			self applyEnqueuedStatesIn: anElement.
+			self applyEnqueuedStatesFor: anElement.
 			newSkinRequested := false ]
 ]
 
@@ -105,7 +105,7 @@ ToSkinManager >> installSkin: aSkin in: anElement [
 	" store the skin "
 	installedSkin := aSkin.
 	anElement addEventHandler: installedSkin.
-	self skinStateQueue enqueueInstallStateForElement: anElement
+	self skinStateQueue enqueueInstallStateFor: anElement
 ]
 
 { #category : #'accessing - installed skin' }
@@ -161,6 +161,20 @@ ToSkinManager >> requestNewSkinIn: anElement [
 	self installNewSkinIn: anElement
 ]
 
+{ #category : #'skin state generation' }
+ToSkinManager >> selectionState: isSelected selectionOption: aSelectionOption focused: isFocused in: anElement [
+
+	anElement
+		withAllChildrenBreadthFirstDo: [ :child |
+				child skinManagerDo: [ :sm |
+						sm skinStateQueue
+							selected: isSelected
+							selectionOption: aSelectionOption
+							focused: isFocused
+							for: child ] ]
+		while: [ :child | child selectionSkinEventsPrevented not ]
+]
+
 { #category : #'accessing - styleSheet' }
 ToSkinManager >> setStyleSheet: aStyleSheet in: anElement [
 
@@ -203,9 +217,7 @@ ToSkinManager >> uninstallSkinIn: anElement [
 	" uninstall the skin "
 
 	installedSkin isUnknownSkin ifTrue: [ ^ self ].
-	self skinStateQueue enqueueUninstallStateForElement: anElement.
-	" do not wait the next pulse to ensure the uninstallation is done here "
-	skinStateQueue applyEnqueuedStatesIn: anElement.
+	self skinStateQueue enqueueUninstallStateFor: anElement.
 	anElement removeEventHandler: installedSkin.
 	installedSkin := ToUnknownSkin instance
 ]

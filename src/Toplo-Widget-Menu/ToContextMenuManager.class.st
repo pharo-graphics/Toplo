@@ -19,6 +19,7 @@ ToContextMenuManager >> defaultWindowClass [
 { #category : #'event handling' }
 ToContextMenuManager >> elementPositionInSpaceChangedEvent: anEvent [
 
+	currentWindow ifNil: [ ^ self ].
 	self closeWindow
 ]
 

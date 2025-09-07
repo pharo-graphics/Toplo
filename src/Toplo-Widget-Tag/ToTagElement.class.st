@@ -28,7 +28,7 @@ ToTagElement >> initialize [
 ToTagElement >> initializeAsCheckable [ 
 
 	super initializeAsCheckable.
-	self takeFocusOnClick: true
+	self takeFocusOnClick: false
 ]
 
 { #category : #skin }

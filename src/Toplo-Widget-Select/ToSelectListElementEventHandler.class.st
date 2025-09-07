@@ -30,7 +30,8 @@ ToSelectListElementEventHandler >> mouseUpEvent: anEvent [
 	listElement := anEvent currentTarget.
 	selectElement := listElement selectElement.
 	selectElement closeOnItemPicking ifTrue: [
-		listElement postponeAction: [ selectElement currentPopupWindow close ] ] 
+			listElement postponeAction: [
+				selectElement currentPopupWindow ifNotNil: [ :w | w close ] ] ]
 ]
 
 { #category : #'element handlers' }

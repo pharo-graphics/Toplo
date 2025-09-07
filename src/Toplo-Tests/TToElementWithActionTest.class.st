@@ -249,8 +249,6 @@ TToElementWithActionTest >> testRunCount [
 TToElementWithActionTest >> testRunCount2 [
 
 	| actionLink count |
-	self flag: 'To check while it doesnt work with two consecutive clicks '.
-	self skip.
 	count := 0.
 	actionLink := element newClickAction: [ :evt | count := count + 1 ].
 	self assert: actionLink runCount equals: 0.
@@ -258,10 +256,9 @@ TToElementWithActionTest >> testRunCount2 [
 	self waitTestingSpaces.
 	self assert: actionLink runCount equals: count.
 	self assert: actionLink runCount equals: 1.
+	(BlMouseProcessor dblClickDelay + 1 milliSecond) wait.
 	BlSpace simulateClickOn: element.
 	self waitTestingSpaces.
 	self assert: actionLink runCount equals: count.
-	self assert: actionLink runCount equals: 2.
-
-	
+	self assert: actionLink runCount equals: 2
 ]

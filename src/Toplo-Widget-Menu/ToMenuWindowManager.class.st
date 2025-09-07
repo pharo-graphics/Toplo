@@ -73,28 +73,6 @@ ToMenuWindowManager >> newWindow [
 ]
 
 { #category : #'event handling' }
-ToMenuWindowManager >> onMouseUpOnItemEvent: anEvent [
-
-	| target |
-	target := anEvent currentTarget.
-	target isEnabled ifFalse: [ ^ self ].
-
-	" auto-open is managed from the manager if target is a menu "
-	target isMenu ifFalse: [
-		target menuPaneDo: [ :mb | mb cancelAutoOpen ] ].
-
-	target closeOnPicking ifFalse: [ ^ self ].
-
-	target isInInlineWindow ifTrue: [ " remove only the inline menu tree "
-			target parentMenuDo: [ :m |
-				m manager checkCloseWindowOnEvent: anEvent ].
-			^ self ].
-	" close the complete menu tree starting from the root "
-	target rootMenuDo: [ :rm |
-		rm manager ifNotNil: [ :m | m checkCloseWindowOnEvent: anEvent ] ]
-]
-
-{ #category : #'event handling' }
 ToMenuWindowManager >> onMouseUpOutsideEvent: anEvent [
 
 	super onMouseUpOutsideEvent: anEvent.

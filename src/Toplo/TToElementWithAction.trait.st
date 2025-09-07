@@ -24,7 +24,7 @@ TToElementWithAction >> ensuredLinkedActions [
 
 	^ self userData
 		  at: #linkedActions
-		  ifAbsentPut: [ ToActionLinkSet new ]
+		  ifAbsentPut: [ ToActionLinkSet new holder: self; yourself]
 ]
 
 { #category : #'t - element with action' }
@@ -40,6 +40,12 @@ TToElementWithAction >> linkedActions [
 	^ self userData
 		  at: #linkedActions
 		  ifAbsent: [  ]
+]
+
+{ #category : #'t - element with action' }
+TToElementWithAction >> linkedActionsDo: aValuable [
+
+	self linkedActions ifNotNil: [ :la | aValuable value: la ]
 ]
 
 { #category : #'t - element with action' }

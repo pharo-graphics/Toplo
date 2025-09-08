@@ -11,6 +11,6 @@ ToCheckableActionLink >> linkWith: aCheckable [
 	super linkWith: aCheckable.
 	handler := aCheckable
 		           addEventHandlerOn: ToCheckableChangedEvent
-		           do: [ :event | self runWithEvent: event ].
+		           do: [ :event | self requestNextRunWithEvent: event ].
 	self addedHandler: handler in: aCheckable
 ]

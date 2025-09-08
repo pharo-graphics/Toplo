@@ -11,6 +11,6 @@ ToCheckableGroupActionLink >> linkWith: aCheckGroupOwner [
 	super linkWith: aCheckGroupOwner.
 	handler := aCheckGroupOwner
 		           addEventHandlerOn: ToCheckableGroupChangedEvent
-		           do: [ :event | self runWithEvent: event ].
+		           do: [ :event | self requestNextRunWithEvent: event ].
 	self addedHandler: handler in: aCheckGroupOwner
 ]

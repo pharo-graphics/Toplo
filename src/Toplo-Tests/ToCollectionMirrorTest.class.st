@@ -8,22 +8,6 @@ Class {
 }
 
 { #category : #tests }
-ToCollectionMirrorTest >> testAdd [
-
-	| l m |
-	l := ToObservableCollection new.
-	m := l newMirror.
-	l add: 88.
-	self
-		assert: m asOrderedCollection
-		equals: #( 88 ) asOrderedCollection.
-	l add: 99.
-	self
-		assert: m asOrderedCollection
-		equals: #( 88 99 ) asOrderedCollection
-]
-
-{ #category : #tests }
 ToCollectionMirrorTest >> testAddAll [
 
 	| l m |
@@ -36,6 +20,22 @@ ToCollectionMirrorTest >> testAddAll [
 	self
 		assert: m asArray
 		equals: #(1 2 3 4)
+]
+
+{ #category : #tests }
+ToCollectionMirrorTest >> testRegisterActionLink [
+
+	| l m |
+	l := ToObservableCollection new.
+	m := l newMirror.
+	l add: 88.
+	self
+		assert: m asOrderedCollection
+		equals: #( 88 ) asOrderedCollection.
+	l add: 99.
+	self
+		assert: m asOrderedCollection
+		equals: #( 88 99 ) asOrderedCollection
 ]
 
 { #category : #tests }

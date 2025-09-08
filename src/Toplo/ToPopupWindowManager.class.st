@@ -68,12 +68,7 @@ ToPopupWindowManager >> checkCloseWindowOnEvent: anEvent [
 			anEvent ifNotNil: [
 					(self isMinimumDelayExceededOnEvent: anEvent) ifFalse: [ ^ self ].
 					self consumeEventAfterForcedClosing ifTrue: [ anEvent consume ] ] ].
-
-	" enqueue a task to close the window. It is to ensure that the possible 
-	linked actions are runned *** before *** the window is closed "
-	anchorRoot ifNotNil: [ :ar |
-			ar enqueueTask:
-				(BlTaskAction new action: [ self closeWindowOnEvent: anEvent ]) ]
+	self closeWindowOnEvent: anEvent
 ]
 
 { #category : #accessing }
@@ -371,6 +366,10 @@ ToPopupWindowManager >> startStillPressedEvent: anEvent [
 
 { #category : #'event handling' }
 ToPopupWindowManager >> stopStillHoveredEvent: anEvent [
+
+	self hasInlineWindow ifTrue: [ ^ self ].
+	closeOnLeaved ifFalse: [ ^ self ].
+	self requestCloseWindowOnEvent: anEvent sourceEvent
 ]
 
 { #category : #'event handling' }

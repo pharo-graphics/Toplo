@@ -20,17 +20,6 @@ ToTreeDataAccessorTest >> setUp [
 ]
 
 { #category : #'tests - adding' }
-ToTreeDataAccessorTest >> testAdd [
-
-	tree dataAccessor addAll: #(1 2 3 4).
-	tree dataAccessor add: 88.
-	self assert: tree dataAccessor asOrderedCollection equals: #(1 2 3 4 88) asOrderedCollection.
-	tree dataAccessor add: 99.
-	self assert: tree dataAccessor asOrderedCollection equals: #(1 2 3 4 88 99) asOrderedCollection.
-	self assert: (tree dataSource collect: #unwrappedDataItem) asArray equals: #(1 2 3 4 88 99)
-]
-
-{ #category : #'tests - adding' }
 ToTreeDataAccessorTest >> testAddAfter [
 
 	tree dataAccessor addAll: #(1 2 3 4).
@@ -388,6 +377,17 @@ ToTreeDataAccessorTest >> testLast [
 	self assert: (tree dataAccessor last) equals: 5.
 	self assert: (tree dataAccessor last: 3) asArray equals: #(3 4 5).
 	self assert: (tree dataSource collect: #unwrappedDataItem) asArray equals: #( 1 2 3 4 5)
+]
+
+{ #category : #'tests - adding' }
+ToTreeDataAccessorTest >> testRegisterActionLink [
+
+	tree dataAccessor addAll: #(1 2 3 4).
+	tree dataAccessor add: 88.
+	self assert: tree dataAccessor asOrderedCollection equals: #(1 2 3 4 88) asOrderedCollection.
+	tree dataAccessor add: 99.
+	self assert: tree dataAccessor asOrderedCollection equals: #(1 2 3 4 88 99) asOrderedCollection.
+	self assert: (tree dataSource collect: #unwrappedDataItem) asArray equals: #(1 2 3 4 88 99)
 ]
 
 { #category : #'tests - copying' }

@@ -5450,6 +5450,7 @@ ToSandBox class >> example_TooltipPopupOnMouseDown [
 			m popupOnPressed: true.
 			m popupOnHovered: true.
 			m closeOnLeaved: false.
+			m closeOnReleased: false.
 			m popupDelay: 800 milliSeconds ].
 	but labelText: 'Button with tooltip'.
 	but tooltipBuilder: [ :window :request |

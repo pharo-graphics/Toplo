@@ -94,7 +94,33 @@ ToButtonTest >> testClickAborted2 [
 ]
 
 { #category : #'click handler' }
-ToButtonTest >> testClickReplacingHandler [
+ToButtonTest >> testClickWhenDisabled [
+
+	| but done |
+	but := ToButton new.
+	but disable.
+	done := 0.
+	but clickAction: [ done := done +1 ].
+	self assert: done equals: 0.
+	
+]
+
+{ #category : #'click handler' }
+ToButtonTest >> testClickWith1Action [
+
+	| but done |
+	but := ToButton new.
+	space root addChild: but.
+	done := 0.
+	but clickAction: [ done := done +1 ].
+	but dispatchEvent: BlMouseUpEvent primary asClickEvent.
+	self waitTestingSpaces.
+	self assert: done equals: 1
+	
+]
+
+{ #category : #'click handler' }
+ToButtonTest >> testClickWith2Actions [
 
 	| but done link1 link2 |
 	but := ToButton new.
@@ -128,33 +154,7 @@ ToButtonTest >> testClickReplacingHandler [
 ]
 
 { #category : #'click handler' }
-ToButtonTest >> testClickWhenDisabled [
-
-	| but done |
-	but := ToButton new.
-	but disable.
-	done := 0.
-	but clickAction: [ done := done +1 ].
-	self assert: done equals: 0.
-	
-]
-
-{ #category : #'click handler' }
-ToButtonTest >> testClickWithSimpleHandler [
-
-	| but done |
-	but := ToButton new.
-	space root addChild: but.
-	done := 0.
-	but clickAction: [ done := done +1 ].
-	but dispatchEvent: BlMouseUpEvent primary asClickEvent.
-	self waitTestingSpaces.
-	self assert: done equals: 1
-	
-]
-
-{ #category : #'click handler' }
-ToButtonTest >> testClickWithoutHandler [
+ToButtonTest >> testClickWithoutAction [
 
 	| but |
 	but := ToButton new.

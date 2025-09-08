@@ -2,7 +2,7 @@
 A TToLinkableTest is a test class for testing the behavior of TToLinkable
 "
 Class {
-	#name : #TToLinkableTest,
+	#name : #TToElementWithActionPoolTest,
 	#superclass : #ToParameterizedHostTest,
 	#instVars : [
 		'element'
@@ -11,7 +11,7 @@ Class {
 }
 
 { #category : #running }
-TToLinkableTest >> setUp [
+TToElementWithActionPoolTest >> setUp [
 
 	super setUp.
 	element := ToElement new extent: 50 asPoint.
@@ -19,7 +19,7 @@ TToLinkableTest >> setUp [
 ]
 
 { #category : #tests }
-TToLinkableTest >> testCheckAction [
+TToElementWithActionPoolTest >> testCheckAction [
 
 	| received checkable |
 	received := nil.
@@ -37,7 +37,7 @@ TToLinkableTest >> testCheckAction [
 ]
 
 { #category : #tests }
-TToLinkableTest >> testCheckActionWith [
+TToElementWithActionPoolTest >> testCheckActionWith [
 
 	| received checkable value |
 	received := nil.
@@ -61,7 +61,7 @@ TToLinkableTest >> testCheckActionWith [
 ]
 
 { #category : #tests }
-TToLinkableTest >> testClickAction [
+TToElementWithActionPoolTest >> testClickAction [
 
 	| received |
 	received := nil.
@@ -73,7 +73,7 @@ TToLinkableTest >> testClickAction [
 ]
 
 { #category : #tests }
-TToLinkableTest >> testClickAction2 [
+TToElementWithActionPoolTest >> testClickAction2 [
 
 	| received |
 	received := nil.
@@ -85,7 +85,7 @@ TToLinkableTest >> testClickAction2 [
 ]
 
 { #category : #tests }
-TToLinkableTest >> testGroupCheckAction [
+TToElementWithActionPoolTest >> testGroupCheckAction [
 
 	| group received theGroup theList |
 	group := ToCheckableGroupPane new.
@@ -114,12 +114,14 @@ TToLinkableTest >> testGroupCheckAction [
 ]
 
 { #category : #tests }
-TToLinkableTest >> testNewCheckAction [
+TToElementWithActionPoolTest >> testNewCheckAction [
 
 	| received prevReceived action passedInAction checkable |
 	received := nil.
 	passedInAction := false.
-	checkable := ToCheckbox new labelText: 'XXXXX'; yourself.
+	checkable := ToCheckbox new
+		             labelText: 'XXXXX';
+		             yourself.
 	space root addChild: checkable.
 	action := checkable newCheckAction: [ :evt |
 			          received := evt.
@@ -132,18 +134,18 @@ TToLinkableTest >> testNewCheckAction [
 	prevReceived := received.
 	received := nil.
 	passedInAction := false.
-	action run.
+	action requestNextRun.
 	self assert: received isNil.
 	self assert: passedInAction.
 	received := nil.
 	passedInAction := false.
-	action runWithEvent: prevReceived.
+	action requestNextRunWithEvent: prevReceived.
 	self assert: received equals: prevReceived.
 	self assert: passedInAction
 ]
 
 { #category : #tests }
-TToLinkableTest >> testNewClickAction [
+TToElementWithActionPoolTest >> testNewClickAction [
 
 	| received prevReceived action passedInAction |
 	received := nil.
@@ -159,18 +161,18 @@ TToLinkableTest >> testNewClickAction [
 	prevReceived := received.
 	received := nil.
 	passedInAction := false.
-	action run.
+	action requestNextRun.
 	self assert: received isNil.
 	self assert: passedInAction.
 	received := nil.
 	passedInAction := false.
-	action runWithEvent: prevReceived.
+	action requestNextRunWithEvent: prevReceived.
 	self assert: received equals: prevReceived.
 	self assert: passedInAction
 ]
 
 { #category : #tests }
-TToLinkableTest >> testNewGroupCheckAction [
+TToElementWithActionPoolTest >> testNewGroupCheckAction [
 
 	| group received theGroup theList |
 	group := ToCheckableBarElement new.
@@ -200,7 +202,7 @@ TToLinkableTest >> testNewGroupCheckAction [
 ]
 
 { #category : #tests }
-TToLinkableTest >> testNewGroupCheckAction2 [
+TToElementWithActionPoolTest >> testNewGroupCheckAction2 [
 
 	| group received theGroup theList |
 	group := ToCheckableListElement new.
@@ -229,4 +231,36 @@ TToLinkableTest >> testNewGroupCheckAction2 [
 	self assert: theGroup identicalTo: group.
 	self assert: theList size equals: 1.
 	self assert: theList first identicalTo: group items second
+]
+
+{ #category : #tests }
+TToElementWithActionPoolTest >> testRunCount [
+
+	| actionLink count |
+	count := 0.
+	actionLink := element newClickAction: [ :evt | count := count + 1 ].
+	self assert: actionLink runCount equals: 0.
+	BlSpace simulateClickOn: element.
+	self waitTestingSpaces.
+	self assert: actionLink runCount equals: count.
+	self assert: actionLink runCount equals: 1.
+	
+]
+
+{ #category : #tests }
+TToElementWithActionPoolTest >> testRunCount2 [
+
+	| actionLink count |
+	count := 0.
+	actionLink := element newClickAction: [ :evt | count := count + 1 ].
+	self assert: actionLink runCount equals: 0.
+	BlSpace simulateClickOn: element.
+	self waitTestingSpaces.
+	self assert: actionLink runCount equals: count.
+	self assert: actionLink runCount equals: 1.
+	(BlMouseProcessor dblClickDelay + 1 milliSecond) wait.
+	BlSpace simulateClickOn: element.
+	self waitTestingSpaces.
+	self assert: actionLink runCount equals: count.
+	self assert: actionLink runCount equals: 2
 ]

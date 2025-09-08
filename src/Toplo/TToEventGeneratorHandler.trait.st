@@ -71,11 +71,11 @@ TToEventGeneratorHandler >> startEvent: anEvent [
 		           action: [
 			           self taskActionFromEvent: eventToUse in: target ].
 	standaloneMouseOutsideFilter ifTrue: [
-			| mouseUpOutsideFilter |
-			mouseUpOutsideFilter := ToOneShotMouseUpOutsideEventFilter new
+			| filter |
+			filter := ToOneShotMouseUpOutsideEventFilter new
 				                        element: target;
 				                        yourself.
-			target space root addEventFilter: mouseUpOutsideFilter ].
+			target space root addEventFilter: filter ].
 	target enqueueTask: checker
 ]
 

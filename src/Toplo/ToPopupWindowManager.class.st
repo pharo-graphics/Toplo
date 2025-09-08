@@ -366,6 +366,10 @@ ToPopupWindowManager >> startStillPressedEvent: anEvent [
 
 { #category : #'event handling' }
 ToPopupWindowManager >> stopStillHoveredEvent: anEvent [
+
+	self hasInlineWindow ifTrue: [ ^ self ].
+	closeOnLeaved ifFalse: [ ^ self ].
+	self requestCloseWindowOnEvent: anEvent sourceEvent
 ]
 
 { #category : #'event handling' }

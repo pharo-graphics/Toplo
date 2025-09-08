@@ -8,23 +8,6 @@ Class {
 }
 
 { #category : #tests }
-ToTreeDataAccessorMirrorTest >> testAdd [
-
-	| tree l m |
-	tree := ToTreeElement new.
-	l := tree dataAccessor.
-	m := l newMirror.
-	l add: 88.
-	self
-		assert: m asOrderedCollection
-		equals: #( 88 ) asOrderedCollection.
-	l add: 99.
-	self
-		assert: m asOrderedCollection
-		equals: #( 88 99 ) asOrderedCollection
-]
-
-{ #category : #tests }
 ToTreeDataAccessorMirrorTest >> testAddAll [
 
 	| tree l m |
@@ -38,6 +21,23 @@ ToTreeDataAccessorMirrorTest >> testAddAll [
 	self
 		assert: m asArray
 		equals: #(1 2 3 4)
+]
+
+{ #category : #tests }
+ToTreeDataAccessorMirrorTest >> testRegisterActionLink [
+
+	| tree l m |
+	tree := ToTreeElement new.
+	l := tree dataAccessor.
+	m := l newMirror.
+	l add: 88.
+	self
+		assert: m asOrderedCollection
+		equals: #( 88 ) asOrderedCollection.
+	l add: 99.
+	self
+		assert: m asOrderedCollection
+		equals: #( 88 99 ) asOrderedCollection
 ]
 
 { #category : #tests }

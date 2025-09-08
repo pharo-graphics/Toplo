@@ -21,7 +21,7 @@ TToClickable >> clickEventClass: anEventClass [
 { #category : #'t - clickable' }
 TToClickable >> initializeAsClickable [ 
 
-	self addEventHandler: ToClickableFocusEventHandler new.
+	self addEventHandler: ToClickableEventHandler new.
 ]
 
 { #category : #'t - clickable' }

@@ -2,7 +2,7 @@
 A TToLinkableTest is a test class for testing the behavior of TToLinkable
 "
 Class {
-	#name : #TToElementWithActionTest,
+	#name : #TToElementWithActionPoolTest,
 	#superclass : #ToParameterizedHostTest,
 	#instVars : [
 		'element'
@@ -11,7 +11,7 @@ Class {
 }
 
 { #category : #running }
-TToElementWithActionTest >> setUp [
+TToElementWithActionPoolTest >> setUp [
 
 	super setUp.
 	element := ToElement new extent: 50 asPoint.
@@ -19,7 +19,7 @@ TToElementWithActionTest >> setUp [
 ]
 
 { #category : #tests }
-TToElementWithActionTest >> testCheckAction [
+TToElementWithActionPoolTest >> testCheckAction [
 
 	| received checkable |
 	received := nil.
@@ -37,7 +37,7 @@ TToElementWithActionTest >> testCheckAction [
 ]
 
 { #category : #tests }
-TToElementWithActionTest >> testCheckActionWith [
+TToElementWithActionPoolTest >> testCheckActionWith [
 
 	| received checkable value |
 	received := nil.
@@ -61,7 +61,7 @@ TToElementWithActionTest >> testCheckActionWith [
 ]
 
 { #category : #tests }
-TToElementWithActionTest >> testClickAction [
+TToElementWithActionPoolTest >> testClickAction [
 
 	| received |
 	received := nil.
@@ -73,7 +73,7 @@ TToElementWithActionTest >> testClickAction [
 ]
 
 { #category : #tests }
-TToElementWithActionTest >> testClickAction2 [
+TToElementWithActionPoolTest >> testClickAction2 [
 
 	| received |
 	received := nil.
@@ -85,7 +85,7 @@ TToElementWithActionTest >> testClickAction2 [
 ]
 
 { #category : #tests }
-TToElementWithActionTest >> testGroupCheckAction [
+TToElementWithActionPoolTest >> testGroupCheckAction [
 
 	| group received theGroup theList |
 	group := ToCheckableGroupPane new.
@@ -114,12 +114,14 @@ TToElementWithActionTest >> testGroupCheckAction [
 ]
 
 { #category : #tests }
-TToElementWithActionTest >> testNewCheckAction [
+TToElementWithActionPoolTest >> testNewCheckAction [
 
 	| received prevReceived action passedInAction checkable |
 	received := nil.
 	passedInAction := false.
-	checkable := ToCheckbox new labelText: 'XXXXX'; yourself.
+	checkable := ToCheckbox new
+		             labelText: 'XXXXX';
+		             yourself.
 	space root addChild: checkable.
 	action := checkable newCheckAction: [ :evt |
 			          received := evt.
@@ -132,18 +134,18 @@ TToElementWithActionTest >> testNewCheckAction [
 	prevReceived := received.
 	received := nil.
 	passedInAction := false.
-	action run.
+	action requestNextRun.
 	self assert: received isNil.
 	self assert: passedInAction.
 	received := nil.
 	passedInAction := false.
-	action runWithEvent: prevReceived.
+	action requestNextRunWithEvent: prevReceived.
 	self assert: received equals: prevReceived.
 	self assert: passedInAction
 ]
 
 { #category : #tests }
-TToElementWithActionTest >> testNewClickAction [
+TToElementWithActionPoolTest >> testNewClickAction [
 
 	| received prevReceived action passedInAction |
 	received := nil.
@@ -159,18 +161,18 @@ TToElementWithActionTest >> testNewClickAction [
 	prevReceived := received.
 	received := nil.
 	passedInAction := false.
-	action run.
+	action requestNextRun.
 	self assert: received isNil.
 	self assert: passedInAction.
 	received := nil.
 	passedInAction := false.
-	action runWithEvent: prevReceived.
+	action requestNextRunWithEvent: prevReceived.
 	self assert: received equals: prevReceived.
 	self assert: passedInAction
 ]
 
 { #category : #tests }
-TToElementWithActionTest >> testNewGroupCheckAction [
+TToElementWithActionPoolTest >> testNewGroupCheckAction [
 
 	| group received theGroup theList |
 	group := ToCheckableBarElement new.
@@ -200,7 +202,7 @@ TToElementWithActionTest >> testNewGroupCheckAction [
 ]
 
 { #category : #tests }
-TToElementWithActionTest >> testNewGroupCheckAction2 [
+TToElementWithActionPoolTest >> testNewGroupCheckAction2 [
 
 	| group received theGroup theList |
 	group := ToCheckableListElement new.
@@ -232,7 +234,7 @@ TToElementWithActionTest >> testNewGroupCheckAction2 [
 ]
 
 { #category : #tests }
-TToElementWithActionTest >> testRunCount [
+TToElementWithActionPoolTest >> testRunCount [
 
 	| actionLink count |
 	count := 0.
@@ -246,7 +248,7 @@ TToElementWithActionTest >> testRunCount [
 ]
 
 { #category : #tests }
-TToElementWithActionTest >> testRunCount2 [
+TToElementWithActionPoolTest >> testRunCount2 [
 
 	| actionLink count |
 	count := 0.

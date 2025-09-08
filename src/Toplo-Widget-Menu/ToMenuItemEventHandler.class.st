@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'action handling' }
-ToMenuItemEventHandler >> allLinkActionsRunnedEvent: anEvent [
+ToMenuItemEventHandler >> actionPoolRunnedEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
@@ -32,7 +32,7 @@ ToMenuItemEventHandler >> checkCloseWindowOnEvent: anEvent [
 { #category : #'api - accessing' }
 ToMenuItemEventHandler >> eventsToHandle [
 
-	^  { BlMouseEnterEvent. BlMouseLeaveEvent. BlMouseUpEvent. ToAllLinkActionsRunnedEvent }
+	^  { BlMouseEnterEvent. BlMouseLeaveEvent. BlMouseUpEvent. ToActionPoolRunnedEvent }
 ]
 
 { #category : #'mouse handlers' }
@@ -83,7 +83,7 @@ ToMenuItemEventHandler >> mouseUpEvent: anEvent [
 	The window can't be closed before all actions are runned.
 	The window closing will occur on ToAllLinkActionsRunnedEvent receiving
 	( see allLinkActionsRunnedEvent: )"
-	target linkedActionsDo: [ :la | ^ self ].
+	target actionPoolDo: [ :la | ^ self ].
 	" close the complete menu tree starting from the root "
 	self checkCloseWindowOnEvent: anEvent
 ]

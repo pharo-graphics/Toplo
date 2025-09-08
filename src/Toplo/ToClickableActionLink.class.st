@@ -31,6 +31,6 @@ ToClickableActionLink >> linkWith: aClickable [
 				           event consume.
 				           " evaluate if the action can be launched "
 				           (self launchableFromEvent: event) ifTrue: [
-					           self runWithEvent: event ] ].
+					           self requestNextRunWithEvent: event ] ].
 	self addedHandler: handler in: aClickable
 ]

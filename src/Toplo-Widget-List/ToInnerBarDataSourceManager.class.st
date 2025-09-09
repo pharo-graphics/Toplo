@@ -40,7 +40,7 @@ ToInnerBarDataSourceManager >> onItemsChanged [
 { #category : #'data source updates' }
 ToInnerBarDataSourceManager >> postponeAction: aValuable [
 
-	aValuable value
+	innerBarElement enqueueTask: (BlTaskAction new action: aValuable)
 ]
 
 { #category : #'data source updates' }

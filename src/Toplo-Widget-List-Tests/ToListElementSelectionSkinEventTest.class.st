@@ -79,6 +79,7 @@ ToListElementSelectionSkinEventTest >> testSelectedSkinEventCountAfterRemove [
 	self assert: (selectionCounts includesKey: 2) not.
 	self assert: (selectionCounts at: 1) equals: 1.
 	
+	self waitTestingSpaces.
 	self assert: receivedSelectedEvents size equals: 1.
 	receivedSelectedEvents do: [ :evt |
 		self assert: evt currentTarget holder position equals: 1 ].

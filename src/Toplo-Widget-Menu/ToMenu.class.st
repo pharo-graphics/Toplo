@@ -95,7 +95,7 @@ ToMenu >> initialize [
 { #category : #'t - menu window model' }
 ToMenu >> isInline [
 
-	^ super isInline
+	^ self hasInlineWindow 
 ]
 
 { #category : #accessing }
@@ -150,20 +150,6 @@ ToMenu >> manager [
 ToMenu >> menuWindow [
 
 	^ self manager currentWindow
-]
-
-{ #category : #'event handling' }
-ToMenu >> mouseLeaveEvent: anEvent [
-
-	self itemList secondarySelecter deselectAll
-]
-
-{ #category : #'event handling' }
-ToMenu >> mouseOverEvent: anEvent [
-
-	(anEvent target withAllParentsInclude: self)
-		ifTrue: [ self menuWindow ifNil: [ self popupEvent: anEvent ] ]
-		ifFalse: [ self closeWindow ]
 ]
 
 { #category : #'t - item bar container - initializing' }

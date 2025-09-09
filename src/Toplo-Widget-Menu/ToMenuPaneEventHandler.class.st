@@ -32,7 +32,21 @@ ToMenuPaneEventHandler >> mouseLeaveEvent: anEvent [
 { #category : #'event handling' }
 ToMenuPaneEventHandler >> mouseOverEvent: anEvent [
 
-	target mouseOverEvent: anEvent
+	| menus |
+	target isAutoOpen ifFalse: [ ^ self ].
+
+	" auto-open action "
+	" get all menus "
+	menus := target items select: [ :m |
+		         m isItemContainer and: [ m isInline not ] ].
+	" 
+	if over a child of a menu or over a menu itself, then
+	popup the menu window if it is closed.
+	if over another element of the bar, then close all menu windows"
+	menus do: [ :m |
+			(anEvent target withAllParentsInclude: m)
+				ifTrue: [ m menuWindow ifNil: [ m popupEvent: anEvent ] ]
+				ifFalse: [ m closeWindow ] ]
 ]
 
 { #category : #'event handling' }

@@ -60,8 +60,7 @@ ToListElementEventHandler >> elementExtentChangedEvent: anEvent [
 		updateAllSelections;
 		extentChanged.
 	listElement spaceDo: [ :sp |
-			sp enqueueTask:
-				(BlTaskAction new action: [ sp mouseProcessor handleLastMouseMove ]) ]
+		listElement postponeAction: [ sp mouseProcessor handleLastMouseMove ] ]
 ]
 
 { #category : #'selection managing' }
@@ -71,9 +70,7 @@ ToListElementEventHandler >> elementScrolledEvent: anEvent [
 	listElement := anEvent currentTarget.
 	listElement updateAllSelections.
 	listElement spaceDo: [ :sp |
-		sp enqueueTask:
-			(BlTaskAction new action: [ sp mouseProcessor handleLastMouseMove ]) ].
-
+		listElement postponeAction: [ sp mouseProcessor handleLastMouseMove ] ]
 ]
 
 { #category : #'api - accessing' }

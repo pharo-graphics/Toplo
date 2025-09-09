@@ -12,6 +12,16 @@ ToMenuWindowManager >> beInline [
 ]
 
 { #category : #'window handling' }
+ToMenuWindowManager >> bottomUpCloseWindowRequestOnEvent: anEvent [ 
+	" requestto actually manage the window closing "
+
+	self checkCloseWindowOnEvent: anEvent.
+	self hasInlineWindow ifTrue: [ ^ self ].
+	anchorElement parentMenuDo: [ :rm |
+		rm manager bottomUpCloseWindowRequestOnEvent: anEvent ]
+]
+
+{ #category : #'window handling' }
 ToMenuWindowManager >> checkCloseWindowOnEvent: anEvent [ 
 
 	anchorElement menuPaneDo: [ :mb | mb cancelAutoOpen ].

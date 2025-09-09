@@ -7,26 +7,19 @@ Class {
 { #category : #'action handling' }
 ToMenuItemEventHandler >> actionPoolRunnedEvent: anEvent [
 
-	| target |
-	target := anEvent currentTarget.
-	target closeOnPicking ifFalse: [ ^ self ].
-	self checkCloseWindowOnEvent: anEvent
+	" all actions are runned, now close the window "
+	self closeWindowRequestOnEvent: anEvent
 ]
 
 { #category : #'mouse handlers' }
-ToMenuItemEventHandler >> checkCloseWindowOnEvent: anEvent [
+ToMenuItemEventHandler >> closeWindowRequestOnEvent: anEvent [
 	" ask the window manager to actually manage the window closing "
 
 	| target |
 	target := anEvent currentTarget.
-
-	target isInInlineWindow ifTrue: [ " remove only the inline menu tree "
-			target parentMenuDo: [ :m |
-				m manager checkCloseWindowOnEvent: anEvent ].
-			^ self ].
-
-	target rootMenuDo: [ :rm |
-		rm manager checkCloseWindowOnEvent: anEvent ]
+	target closeOnPicking ifFalse: [ ^ self ].
+	target parentMenuDo: [ :m |
+		m manager bottomUpCloseWindowRequestOnEvent: anEvent ]
 ]
 
 { #category : #'api - accessing' }
@@ -37,15 +30,10 @@ ToMenuItemEventHandler >> eventsToHandle [
 
 { #category : #'mouse handlers' }
 ToMenuItemEventHandler >> mouseEnterEvent: anEvent [
-	" check event and current target "
 
 	| target |
 	target := anEvent currentTarget.
-	(anEvent anyButtonPressed and: [ anEvent currentTarget ~= target ])
-		ifTrue: [ ^ self ].
 	target isEnabled ifFalse: [ ^ self ].
-	"target isMenu ifFalse: [ ^ self ]."
-
 	target closeAllOtherPopupMenuWindows.
 	target menuPane
 		ifNil: [ target isSubmenu ifFalse: [ ^ self ] ]
@@ -77,13 +65,11 @@ ToMenuItemEventHandler >> mouseUpEvent: anEvent [
 	target := anEvent currentTarget.
 	target isEnabled ifFalse: [ ^ self ].
 
-	target closeOnPicking ifFalse: [ ^ self ].
-
 	" if the item has one or several linkActions, do nothing here. 
 	The window can't be closed before all actions are runned.
-	The window closing will occur on ToAllLinkActionsRunnedEvent receiving
-	( see allLinkActionsRunnedEvent: )"
+	The window closing will occur on ToActionPoolRunnedEvent receiving
+	( see actionPoolRunnedEvent: )"
 	target actionPoolDo: [ :la | ^ self ].
-	" close the complete menu tree starting from the root "
-	self checkCloseWindowOnEvent: anEvent
+
+	self closeWindowRequestOnEvent: anEvent
 ]

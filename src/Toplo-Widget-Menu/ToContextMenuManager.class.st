@@ -4,6 +4,13 @@ Class {
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
+{ #category : #'window handling' }
+ToContextMenuManager >> bottomUpCloseWindowRequestOnEvent: anEvent [ 
+	" requestto actually manage the window closing "
+
+	self checkCloseWindowOnEvent: anEvent
+]
+
 { #category : #initialization }
 ToContextMenuManager >> defaultPlacement [
 

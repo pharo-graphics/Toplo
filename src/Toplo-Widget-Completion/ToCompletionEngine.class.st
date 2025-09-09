@@ -334,6 +334,26 @@ ToCompletionEngine >> openMenu [
 
 ]
 
+{ #category : #'menu morph' }
+ToCompletionEngine >> openMenuForced: forced [
+
+	| theMenu theContext |
+	self stopCompletionDelay.
+	
+	theContext := self createContext.
+	(forced or: [ theContext hasEntries ]) ifFalse: [ ^ self ].
+	context := theContext.
+	
+	theMenu := ToCompletionMenu
+		           engine: self
+		           position: 50 @ 50.
+		           "(editor selectionPosition: self completionToken)."
+		
+"	theMenu isClosed ifTrue: [ ^ self ]."
+	widget := theMenu.
+	NECPreferences showCompletionDetails ifTrue: [ theMenu showDetail ]
+]
+
 { #category : #replacement }
 ToCompletionEngine >> replaceTokenInEditorWith: aString [
 	"Main API with the completion context.

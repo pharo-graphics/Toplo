@@ -21,19 +21,6 @@ ToObservableCollectionMirrorUpdaterTest >> setUp [
 ]
 
 { #category : #'tests - adding' }
-ToObservableCollectionMirrorUpdaterTest >> testAdd [
-
-	ocol add: 88.
-	self
-		assert: mirror asOrderedCollection
-		equals: #( 88 ) asOrderedCollection.
-	ocol add: 99.
-	self
-		assert: mirror asOrderedCollection
-		equals: #( 88 99 ) asOrderedCollection
-]
-
-{ #category : #'tests - adding' }
 ToObservableCollectionMirrorUpdaterTest >> testAddAfter [
 
 	| i |
@@ -226,6 +213,19 @@ ToObservableCollectionMirrorUpdaterTest >> testAtPut [
 	self assert: mirror asArray equals: #(1 5 3 4).
 	self should: [ ocol at: 5 put: 8 ] raise: Error.
 	self deny: mirror asArray equals: #(1 5 3 4 8)
+]
+
+{ #category : #'tests - adding' }
+ToObservableCollectionMirrorUpdaterTest >> testRegisterActionLink [
+
+	ocol add: 88.
+	self
+		assert: mirror asOrderedCollection
+		equals: #( 88 ) asOrderedCollection.
+	ocol add: 99.
+	self
+		assert: mirror asOrderedCollection
+		equals: #( 88 99 ) asOrderedCollection
 ]
 
 { #category : #'tests - removing' }

@@ -26,8 +26,6 @@ ToTripletElementConfiguration >> initialize [
 ToTripletElementConfiguration >> release [ 
 
 	super release.
-	startFiller := nil.
-	endFiller := nil.
 	endGap := nil.
 	startGap := nil
 ]

@@ -15,14 +15,14 @@ ToIntervalCollection >> = anObject [
 	^ intervals = anObject intervals
 ]
 
-{ #category : #private }
+{ #category : #accessing }
 ToIntervalCollection >> addAllIntervals: anIntervalArray [
 	" adapted from https://coderbyte.com/algorithm/insert-interval-into-list-of-sorted-disjoint-intervals "
 
 	anIntervalArray do: [ :i | self addInterval: i ]
 ]
 
-{ #category : #private }
+{ #category : #accessing }
 ToIntervalCollection >> addInterval: anInterval [
 	" adapted from https://coderbyte.com/algorithm/insert-interval-into-list-of-sorted-disjoint-intervals "
 

@@ -37,7 +37,6 @@ ToElementWithSkinnableSlotsForTest >> child2: aToElement [
 ToElementWithSkinnableSlotsForTest >> initialize [
 
 	super initialize.
-	self applySkinInstallerOnFirstRequest: false.
 
 	" count the number of state engine applyOn: (only for dirty element stored in the space) "
 	skinStateQueueApplicationCount := 0
@@ -53,12 +52,6 @@ ToElementWithSkinnableSlotsForTest >> newSkinManager [
 ToElementWithSkinnableSlotsForTest >> skinInstalledCount [
 
 	^ self skinManager skinInstalledCount
-]
-
-{ #category : #accessing }
-ToElementWithSkinnableSlotsForTest >> skinRequestCount [
-
-	^ self skinManager skinRequestCount 
 ]
 
 { #category : #initialization }

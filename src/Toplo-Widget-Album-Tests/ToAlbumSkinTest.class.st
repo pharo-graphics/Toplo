@@ -28,12 +28,12 @@ ToAlbumSkinTest >> testFocusedSkinEvent [
 ToAlbumSkinTest >> testUnfocusedSkinEvent [
 
 	| a1 a2 unfocusCount |
-	a1 := ToAlbum new extent: 100 asPoint.
+	a1 := ToListElement new extent: 100 asPoint.
 	a2 := ToAlbum new extent: 100 asPoint.
 	space root addChild: a1.
 	space root addChild: a2.
-	self deny: a1 hasFocus.
-	self deny: a2 hasFocus.
+	self deny: a1 isFocused.
+	self deny: a2 isFocused.
 	unfocusCount := 0.
 	a2
 		addEventHandlerOn: ToUnfocusedSkinEvent
@@ -43,6 +43,8 @@ ToAlbumSkinTest >> testUnfocusedSkinEvent [
 	space applyAllSkinPhases.
 	a1 requestFocus.
 	self waitTestingSpaces.
+	self assert: a1 isFocused.
+	self deny: a2 isFocused.
 	space applyAllSkinPhases.
 	self assert: unfocusCount equals: 1
 ]

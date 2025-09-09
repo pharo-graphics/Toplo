@@ -1,6 +1,8 @@
 Class {
 	#name : #ToTheme,
 	#superclass : #Object,
+	#traits : 'TToStyleSheetTheme + TToStyleRuleScripter + TToStyleRulesHolder',
+	#classTraits : 'TToStyleSheetTheme classTrait + TToStyleRuleScripter classTrait + TToStyleRulesHolder classTrait',
 	#instVars : [
 		'icons',
 		'tokenProperties'
@@ -214,7 +216,7 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'dash-array' value: #( 3 3 )).
 
 		  "#( 'SFMono-Regular' , Consolas , 'Liberation Mono', Menlo , Courier , monospace )"
-		  (ToTokenProperty name: #'font-family-code' value: 'Courier').
+		  (ToTokenProperty name: #'font-name' value: (AeFontManager defaultFontFamilyName)).
 		  (ToTokenProperty name: #'font-size' value: 14).
 		  (ToTokenProperty name: #'font-size-in-tooltip' value: 12).
 		  (ToTokenProperty name: #'font-size-H1' value: 38).
@@ -409,29 +411,16 @@ ToTheme >> addTokenProperty: aTokenProperty [
 	tokenProperties add: aTokenProperty
 ]
 
-{ #category : #initialization }
-ToTheme >> defaultElementStampsFor: anElement [ 
-
-	^ { }
-]
-
-{ #category : #accessing }
+{ #category : #'skin creation' }
 ToTheme >> defaultSkinFor: anElement [
 
-	anElement skinManager setUp: anElement forTheme: self.
-	^ self expectedSkinFor: anElement
+	^ anElement defaultSkin ifNil: [ self newSkinFor: anElement ]
 ]
 
 { #category : #accessing }
 ToTheme >> defaultTokenProperties [
 
 	^ self class defaultTokenProperties
-]
-
-{ #category : #accessing }
-ToTheme >> expectedSkinFor: anElement [
-
-	^ anElement skinManager ifNotNil: [:sm | sm defaultSkin ]
 ]
 
 { #category : #accessing }
@@ -451,7 +440,9 @@ ToTheme >> initialize [
 
 	super initialize.
 	tokenProperties := self technicalTokenProperties asOrderedCollection.
-	tokenProperties addAll: self defaultTokenProperties
+	tokenProperties addAll: self defaultTokenProperties.
+
+	self initializeAsStyleSheetTheme 
 ]
 
 { #category : #accessing }
@@ -460,31 +451,38 @@ ToTheme >> name [
 	^ self class label
 ]
 
-{ #category : #accessing }
+{ #category : #'skin creation' }
 ToTheme >> newSkinFor: anElement [
 
-	anElement ensuredSkinManager setUp: anElement forTheme: self.
-	^ self newSkinInstanceFor: anElement
-]
-
-{ #category : #accessing }
-ToTheme >> newSkinInstanceFor: anElement [
-
-	^ self subclassResponsibility 
+	^ ToGeneralSkin new
 ]
 
 { #category : #'api - hooks' }
 ToTheme >> onInstalledIn: anElement [
 
-	anElement toThemePreInstall: self.
+	anElement isSpaceRoot ifTrue: [
+			(Pragma allNamed: #toploThemeInstallerFor:) do: [ :each |
+					| themeClassName themeClass |
+					themeClassName := each arguments first asSymbol.
+					themeClass := self class environment classNamed: themeClassName.
+					(self class = themeClass or: [
+						 self class inheritsFrom: themeClass ]) ifTrue: [
+						each methodClass soleInstance
+							perform: each methodSelector
+							with: self ] ] ].
+
 	anElement addAllTokenProperties: self tokenProperties.
+	anElement styleSheet: self styleSheet.
+
 	anElement toThemeInstalled
 ]
 
 { #category : #'api - hooks' }
 ToTheme >> onUninstalledIn: anElement [
 
-	anElement removeAllTokenPropertiesFromNames: (self tokenProperties collect: [:tp | tp name]).
+	anElement removeAllTokenPropertiesFromNames:
+		(self tokenProperties collect: [ :tp | tp name ]).
+	anElement styleSheet: nil.
 	anElement toThemeUninstalled: self
 ]
 
@@ -498,16 +496,10 @@ ToTheme >> printOn: aStream [
 		nextPutAll: ' ]'
 ]
 
-{ #category : #hook }
-ToTheme >> setUpElement: anElement [
+{ #category : #'t - stylesheet scripter' }
+ToTheme >> skinEventListenerHolder [ 
 
-	anElement addAllStamps: (self defaultElementStampsFor: anElement) 
-]
-
-{ #category : #styling }
-ToTheme >> styleSheet [ 
-
-	^ nil
+	^ self styleSheet script
 ]
 
 { #category : #accessing }

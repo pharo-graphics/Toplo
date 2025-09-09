@@ -82,9 +82,7 @@ ToListElementSelectionSkinEventTest >> testSelectedSkinEventCountAfterRemove [
 	self assert: receivedSelectedEvents size equals: 1.
 	receivedSelectedEvents do: [ :evt |
 		self assert: evt currentTarget holder position equals: 1 ].
-	self assert: receivedDeselectedEvents size equals: 1.
-	receivedDeselectedEvents do: [ :evt |
-		self assert: evt currentTarget holder position equals: 1 ]
+	self assert: receivedDeselectedEvents size equals: 0
 ]
 
 { #category : #'test selection - skin' }
@@ -110,4 +108,14 @@ ToListElementSelectionSkinEventTest >> testSelectedSkinEventCountAfterSelect [
 	receivedSelectedEvents do: [ :evt |
 		self assert: evt currentTarget holder position equals: 2 ].
 	self assert: receivedDeselectedEvents size equals: 0.
+	listElement selecter selectOnlyIndex: 1.
+	self waitTestingSpaces.
+	space applyAllSkinPhases.
+
+	self assert: receivedDeselectedEvents size equals: 1.
+	receivedDeselectedEvents do: [ :evt |
+		self assert: evt currentTarget holder position equals: 2 ].
+
+
+
 ]

@@ -76,15 +76,13 @@ ToStyleSheetTest >> testOnInstalledIn [
 	e addChild: child.
 	space root addChild: e.
 	space applyAllSkinInstallers.
-	self assert: e skinManager skinInstaller isNil.
-	self assert: e skinManager installedSkin notNil.
-	self assert: child skinManager skinInstaller isNil.
-	self assert: child skinManager installedSkin notNil.
+	self deny: e skinManager newSkinRequested.
+	self assert: e skinManager installedSkin isKnownSkin.
+	self deny: child skinManager newSkinRequested.
+	self assert: child skinManager installedSkin isKnownSkin.
 	e styleSheet: sheet.
-	self assert: e skinManager skinInstaller notNil.
-	self assert: child skinManager skinInstaller notNil.
-	self assert: e skinManager skinUninstaller notNil.
-	self assert: child skinManager skinUninstaller notNil.
+	self assert: e skinManager newSkinRequested.
+	self assert: child skinManager newSkinRequested.
 
 ]
 
@@ -99,16 +97,11 @@ ToStyleSheetTest >> testOnUninstalledIn [
 	space root addChild: e.
 	e styleSheet: sheet.
 	space applyAllSkinInstallers.
-	self deny: e skinManager skinInstaller notNil.
-	self deny: child skinManager skinInstaller notNil.
-	self deny: e skinManager skinUninstaller notNil.
-	self deny: child skinManager skinUninstaller notNil.
+	self deny: e skinManager newSkinRequested.
+	self deny: child skinManager newSkinRequested.
 	e styleSheet: nil.
-	self assert: e skinManager skinInstaller isNil.
-	self assert: child skinManager skinInstaller isNil.
-	self assert: e skinManager skinUninstaller notNil.
-	self assert: child skinManager skinUninstaller notNil.
-
+	self assert: e skinManager newSkinRequested.
+	self deny: child skinManager newSkinRequested
 ]
 
 { #category : #'writable property tests' }

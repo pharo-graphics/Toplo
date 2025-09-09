@@ -76,9 +76,34 @@ ToTabPaneElement >> body [
 ]
 
 { #category : #accessing }
+ToTabPaneElement >> compactHeaderLayoutMode: aBoolean [
+
+	self header compactLayoutMode: aBoolean.
+	self requestConfiguration 
+]
+
+{ #category : #accessing }
 ToTabPaneElement >> header [ 
 
 	^ headerContainer 
+]
+
+{ #category : #accessing }
+ToTabPaneElement >> headerAlignment [
+
+	^ headerContainer alignment
+]
+
+{ #category : #accessing }
+ToTabPaneElement >> headerAlignment: anElementAlignment [ 
+
+	headerContainer alignment: anElementAlignment 
+]
+
+{ #category : #accessing }
+ToTabPaneElement >> hidePartlyVisibleNodes: aBoolean [
+
+	self tabGroup hidePartlyVisibleNodes: aBoolean
 ]
 
 { #category : #initialization }
@@ -103,6 +128,24 @@ ToTabPaneElement >> initialize [
 ]
 
 { #category : #accessing }
+ToTabPaneElement >> isAlignEnd [
+
+	^ headerContainer isAlignEnd
+]
+
+{ #category : #accessing }
+ToTabPaneElement >> isAlignMiddle [
+
+	^ headerContainer isAlignMiddle
+]
+
+{ #category : #accessing }
+ToTabPaneElement >> isAlignStart [
+
+	^ headerContainer isAlignStart
+]
+
+{ #category : #accessing }
 ToTabPaneElement >> itemBuilder: aValuable [
 	" aValuable takes the new TabItemElement, the data and the TabGroupElement as arguments "
 	
@@ -122,6 +165,12 @@ ToTabPaneElement >> preservePane [
 	^ false
 ]
 
+{ #category : #'hooks - layout' }
+ToTabPaneElement >> requestLayoutModeCheck [
+
+	headerContainer requestLayoutModeCheck
+]
+
 { #category : #accessing }
 ToTabPaneElement >> showAddTabItemButton [
 
@@ -138,6 +187,16 @@ ToTabPaneElement >> showAddTabItemButton: aBoolean [
 ToTabPaneElement >> tabGroup [ 
 
 	^ headerContainer tabGroup 
+]
+
+{ #category : #accessing }
+ToTabPaneElement >> tabGroupDynamicLayoutMode: aBoolean [
+
+	self
+		deprecated: 'Use compactHeaderLayoutMode: instead'
+		transformWith: '`@rcvr tabGroupDynamicLayoutMode: `@arg'
+			-> '`@rcvr compactHeaderLayoutMode: `@arg'.
+	self compactHeaderLayoutMode: aBoolean
 ]
 
 { #category : #'t - checkable group owner' }

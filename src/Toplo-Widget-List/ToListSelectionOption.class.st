@@ -139,12 +139,6 @@ ToListSelectionOption >> onUninstalledIn: aListElement [
 	representationOption removeSelectionContainer 
 ]
 
-{ #category : #'private - selection updating' }
-ToListSelectionOption >> refreshSelectionIn: aListElement withSelectionModel: aSelectionModel [
-
-	representationOption refreshSelectionIn: aListElement withSelectionModel: aSelectionModel
-]
-
 { #category : #accessing }
 ToListSelectionOption >> representation: aRepresentationOption [
 

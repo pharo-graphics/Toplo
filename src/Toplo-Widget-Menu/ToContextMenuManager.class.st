@@ -4,16 +4,30 @@ Class {
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
+{ #category : #'window handling' }
+ToContextMenuManager >> bottomUpCloseWindowRequestOnEvent: anEvent [ 
+	" requestto actually manage the window closing "
+
+	self checkCloseWindowOnEvent: anEvent
+]
+
 { #category : #initialization }
 ToContextMenuManager >> defaultPlacement [
 
 	^ ToAnchoredPickedPlacement new
 ]
 
+{ #category : #accessing }
+ToContextMenuManager >> defaultWindowClass [
+
+	^ ToContextMenu 
+]
+
 { #category : #'event handling' }
 ToContextMenuManager >> elementPositionInSpaceChangedEvent: anEvent [
 
-	self currentWindowDo: [ :cw | cw close ] 
+	currentWindow ifNil: [ ^ self ].
+	self closeWindow
 ]
 
 { #category : #initialization }
@@ -24,24 +38,16 @@ ToContextMenuManager >> initialize [
 ]
 
 { #category : #'window handling' }
-ToContextMenuManager >> newPickOutsideFilter [
+ToContextMenuManager >> onWindowOpened [
 
-	^ super newPickOutsideFilter
-		  shouldCheckElement: false;
-		  yourself
-]
-
-{ #category : #'window handling' }
-ToContextMenuManager >> onOpened [
-
-	super onOpened.
+	super onWindowOpened.
 	currentWindow itemBar requestFocus
 ]
 
-{ #category : #accessing }
-ToContextMenuManager >> popupWindowClass [
+{ #category : #initialization }
+ToContextMenuManager >> pickOutsideFilterClass [ 
 
-	^ ToContextMenu 
+	^ ToContextMenuMouseUpOutsideEventFilter
 ]
 
 { #category : #accessing }

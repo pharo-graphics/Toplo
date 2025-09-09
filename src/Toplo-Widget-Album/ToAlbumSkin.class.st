@@ -1,9 +1,6 @@
 Class {
 	#name : #ToAlbumSkin,
 	#superclass : #ToRawSkin,
-	#instVars : [
-		'enablementFeedbackLayer'
-	],
 	#category : #'Toplo-Widget-Album-TextPane'
 }
 
@@ -20,13 +17,15 @@ ToAlbumSkin >> disabledSkinEvent: anEvent [
 
 	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e border: (self blurBorderIn: e).
-		enablementFeedbackLayer ifNil: [
-			enablementFeedbackLayer := ToOverlayElement new.			
-			enablementFeedbackLayer preventMouseEvents.
-			enablementFeedbackLayer background: (e valueOfTokenNamed: #'text-editor-background-disabled').
-			enablementFeedbackLayer attachTo: e.
-			e addChild: enablementFeedbackLayer ] ]
+			e border: (self blurBorderIn: e).
+			e childWithId: #enablementFeedbackLayer ifNone: [
+					| layer |
+					layer := ToOverlayElement new.
+					layer id: #enablementFeedbackLayer.
+					layer preventMouseEvents.
+					layer background:
+						(e valueOfTokenNamed: #'text-editor-background-disabled').
+					layer attachToParent: e ] ]
 ]
 
 { #category : #'event handling' }
@@ -34,10 +33,10 @@ ToAlbumSkin >> enabledSkinEvent: anEvent [
 
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e border: (self blurBorderIn: e).
-		enablementFeedbackLayer ifNotNil: [
-			enablementFeedbackLayer removeFromParent.
-			enablementFeedbackLayer := nil ] ]
+			e border: (self blurBorderIn: e).
+			e childWithId: #enablementFeedbackLayer
+				ifFound: [ :layer |
+				layer removeFromParent ] ]
 ]
 
 { #category : #accessing }
@@ -70,24 +69,22 @@ ToAlbumSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		(e hasStamp: #'sh-styled')
-			ifTrue: [ e styleTable: (e valueOfTokenNamed: #'sh-style-table') ]
-			ifFalse: [
-				(e hasStamp: #preformatted) ifFalse: [
-					e text
-						defaultFontSize: (e valueOfTokenNamed: #'font-size');
-						lineSpacing: (e valueOfTokenNamed: #'line-height').
-					(e hasStamp: #placeholder)
-						ifTrue: [ e text foreground: Color gray lighter ]
-						ifFalse: [ e text foreground: (e valueOfTokenNamed: #'color-text') ] ] ].
+			(e hasStamp: #'code-editor')
+				ifTrue: [ e styleTable: (e valueOfTokenNamed: #'sh-style-table') ]
+				ifFalse: [
+						e text
+							defaultFontName: (e valueOfTokenNamed: #'font-name');
+							defaultFontSize: (e valueOfTokenNamed: #'font-size');
+							lineSpacing: (e valueOfTokenNamed: #'line-height');
+							foreground: (e valueOfTokenNamed: #'color-text') ].
 
-		e geometry: (BlRoundedRectangleGeometry cornerRadius:
-				 (e valueOfTokenNamed: #'border-radius')).
-		e margin: BlInsets empty.
-		e outskirts: BlOutskirts inside.
-		e padding: (BlInsets
-				 horizontal: (e valueOfTokenNamed: #'padding-content-HS')
-				 vertical: (e valueOfTokenNamed: #'padding-content-VS')) ]
+			e geometry: (BlRoundedRectangleGeometry cornerRadius:
+					 (e valueOfTokenNamed: #'border-radius')).
+			e margin: BlInsets empty.
+			e outskirts: BlOutskirts inside.
+			e padding: (BlInsets
+					 horizontal: (e valueOfTokenNamed: #'padding-content-HS')
+					 vertical: (e valueOfTokenNamed: #'padding-content-VS')) ]
 ]
 
 { #category : #'event handling' }
@@ -116,7 +113,7 @@ ToAlbumSkin >> uninstallSkinEvent: anEvent [
 
 	super uninstallSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		enablementFeedbackLayer ifNotNil: [
-			enablementFeedbackLayer removeFromParent.
-			enablementFeedbackLayer := nil ] ]
+			e childWithId: #enablementFeedbackLayer
+				ifFound: [ :layer |
+				layer removeFromParent ] ]
 ]

@@ -8,7 +8,6 @@ Class {
 ToListContextMenuSelectionElementEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , {
-		  ToListPrimarySelectionChangedEvent.
 		  ToListElementContextMenuRequest.
 		  ToListContextMenuSelectionChangedEvent }
 ]
@@ -18,16 +17,6 @@ ToListContextMenuSelectionElementEventHandler >> listContextMenuSelectionChanged
 	" sent by the context menu selecter"
 
 	self updateSelectionFromEvent: anEvent
-]
-
-{ #category : #'element handlers' }
-ToListContextMenuSelectionElementEventHandler >> listPrimarySelectionChangedEvent: anEvent [
-	" the context menu should be close "
-
-	| target |
-	target := anEvent currentTarget.
-	target currentContextMenu ifNotNil: [ :win |
-		win isOpened ifTrue: [ win close ] ]
 ]
 
 { #category : #'element handlers' }

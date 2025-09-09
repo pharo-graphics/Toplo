@@ -1,13 +1,6 @@
 Extension { #name : #BlSpace }
 
 { #category : #'*Toplo' }
-BlSpace >> addSkinStateGeneration: aValuable [
-
-	self phasesManager addSkinStateGeneration: aValuable.
-	self requestNextPulse
-]
-
-{ #category : #'*Toplo' }
 BlSpace >> applyAllEnqueuedStates [
 
 	self phasesManager applyAllEnqueuedStatesIn: self
@@ -42,6 +35,12 @@ BlSpace >> checkToploPhases [
 BlSpace >> isApplyingConfigurations [
 
 	^ self phasesManager isApplyingConfigurations
+]
+
+{ #category : #'*Toplo' }
+BlSpace >> needSkinInstallPass [
+
+	^ self phasesManager needSkinInstallPass
 ]
 
 { #category : #'*Toplo' }

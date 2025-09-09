@@ -15,6 +15,12 @@ ToElementForRawSkinTest >> installRawStyle [
 	styleInstalled := true
 ]
 
+{ #category : #skin }
+ToElementForRawSkinTest >> newRawSkin [ 
+
+	^ ToRawSkin new
+]
+
 { #category : #accessing }
 ToElementForRawSkinTest >> styleInstalled [
 

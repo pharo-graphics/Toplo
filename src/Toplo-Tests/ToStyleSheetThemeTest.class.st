@@ -36,25 +36,13 @@ ToStyleSheetThemeTest >> testApplicableRulesFor [
 ]
 
 { #category : #tests }
-ToStyleSheetThemeTest >> testDefaultElementStampsFor [
+ToStyleSheetThemeTest >> testNewSkinFor [
 
 	| e theme skin |
 	e := BlElement new.
 	theme := ToStyleSheetThemeForTest new.
-	self assert: (theme defaultElementStampsFor: e) equals: { #'element' }.
 	skin := theme newSkinFor: e.
-	self assert: (skin isKindOf: ToStyleSheetSkin).
-	self assert: (e allStamps includesAll: (theme defaultElementStampsFor: e))
-]
-
-{ #category : #tests }
-ToStyleSheetThemeTest >> testNewSkinInstanceFor [
-
-	| e theme skin |
-	e := BlElement new.
-	theme := ToStyleSheetThemeForTest new.
-	skin := theme newSkinInstanceFor: e.
-	self assert: (skin isKindOf: ToStyleSheetSkin)
+	self assert: skin class identicalTo: ToStyleSheetSkin 
 ]
 
 { #category : #tests }
@@ -69,30 +57,6 @@ ToStyleSheetThemeTest >> testRootRulesFor [
 	space root addChild: e.
 	self assert: (theme rootRulesFor: e) size equals: 1
 	
-]
-
-{ #category : #tests }
-ToStyleSheetThemeTest >> testSetUpElement [
-
-	| e theme skin |
-	e := BlElement new.
-	theme := ToStyleSheetThemeForTest new.
-	self assert: (theme defaultElementStampsFor: e) equals: { #element }.
-	skin := theme newSkinInstanceFor: e.
-	self assert: (skin isKindOf: ToStyleSheetSkin).
-	self assert: (e allStamps isEmpty).
-	theme setUpElement: e.
-	self assert: (e allStamps includesAll: (theme defaultElementStampsFor: e))
-]
-
-{ #category : #tests }
-ToStyleSheetThemeTest >> testSkinClassFor [
-
-	| e theme skinCls |
-	e := BlElement new.
-	theme := ToStyleSheetThemeForTest new.
-	skinCls := theme skinClassFor: e.
-	self assert: skinCls identicalTo: ToStyleSheetSkin 
 ]
 
 { #category : #tests }

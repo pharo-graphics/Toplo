@@ -4,12 +4,12 @@ Class {
 	#category : #'Toplo-Tests-Core-Theme'
 }
 
-{ #category : #'rules declaring' }
+{ #category : #initialization }
 ToStyleSheetThemeForTest >> declareElementRules [
 	" one rule for elements with the stamp #element "
 
 	self
-		select: #element asStampSelector
+		select: (ToElement asTypeSelector exact: false; yourself)
 		style: [  " 5 writers - but only 3 of them remain (override) "
 			self write: (self property: #background) with: Color white.
 			self write: (self property: #background) withAll: {
@@ -23,12 +23,6 @@ ToStyleSheetThemeForTest >> declareElementRules [
 				when: ToLeftSkinEvent
 				write: (self property: #background)
 				with: Color brown ]
-]
-
-{ #category : #initialization }
-ToStyleSheetThemeForTest >> defaultElementStampsFor: anElement [ 
-
-	^ { #element }
 ]
 
 { #category : #initialization }

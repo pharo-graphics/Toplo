@@ -13,7 +13,8 @@ Class {
 		'addTabItemButton',
 		'tabItemFactory',
 		'showAddTabItemButton',
-		'itemBuilder'
+		'itemBuilder',
+		'hidePartlyVisibleNodes'
 	],
 	#category : #'Toplo-Widget-TabPane-TabGroup'
 }
@@ -24,10 +25,10 @@ ToTabGroupElement >> addNewTabItem [
 	self itemBar
 		addEventHandlerOn: ToListNodeAddedEvent
 		doOnce: [ :event |
-			self itemBar whenLayoutedDoOnce: [  
-				self selecter scrollTowardStartToDataSourcePosition:
-					event node holder position.
-				event node item checked: true ] ].
+				self itemBar whenLayoutedDoOnce: [
+						event node item checked: true.
+						self selecter scrollTowardStartToDataSourcePosition:
+							event node holder position ] ].
 	self addTabItemData: 'New Tab'
 ]
 
@@ -142,6 +143,12 @@ ToTabGroupElement >> group [
 	^ self itemBar group
 ]
 
+{ #category : #accessing }
+ToTabGroupElement >> hidePartlyVisibleNodes: aBoolean [
+
+	hidePartlyVisibleNodes := aBoolean
+]
+
 { #category : #initialization }
 ToTabGroupElement >> initialize [
 
@@ -156,7 +163,8 @@ ToTabGroupElement >> initialize [
 	self addEventHandler: self defaultEventHandler.
 	tabItemFactory := self defaultTabItemFactory.
 	itemBuilder := self defaultItemBuilder.
-	showAddTabItemButton := false
+	showAddTabItemButton := false.
+	hidePartlyVisibleNodes := false.
 ]
 
 { #category : #initialization }
@@ -186,21 +194,26 @@ ToTabGroupElement >> initializeInvisibleNodesMenu [
 { #category : #initialization }
 ToTabGroupElement >> initializeParts [
 
-	| container |
 	self initializeInvisibleNodesMenu.
 	self initializeAddTabItemButton.
 	self startElement: self newLinearContainer.
 	self middleElement: self itemBar.
-	container := self newLinearContainer.
+	self endElement: self newLinearContainer.
 	endExtraContainer := self newLinearContainer.
+	endExtraContainer id: #'end-extra-container'.
 	menusContainer := self newLinearContainer.
+	menusContainer id: #'menus-container'.
 	invisibleNodeMenuItemBuilder := self defaultInvisibleNodeMenuItemBuilder.
+	menusContainer addChild: addTabItemButton.
+	addTabItemButton id: #'add-tab-button'.
 	menusContainer addChild: invisibleNodesMenu.
-	container addChild: addTabItemButton.
-	container addChild: menusContainer.
-	container addChild: endExtraContainer.
-	self endElement: container.
-	self endContainer layout: BlLinearLayout new
+	invisibleNodesMenu id: #'invisible-nodes-menu'.
+	self endElement addChild: menusContainer.
+	self endElement addChild: endExtraContainer.
+	
+	self startElement id: #'start-extra-container'.
+	self middleElement id: #'tab-bar'.
+	self endElement id: #'end-container'.
 ]
 
 { #category : #accessing }
@@ -248,6 +261,12 @@ ToTabGroupElement >> itemBuilder: aValuable [
 	itemBuilder := aValuable
 ]
 
+{ #category : #accessing }
+ToTabGroupElement >> menusContainer [
+
+	^ menusContainer 
+]
+
 { #category : #'t - item bar container - initializing' }
 ToTabGroupElement >> newItemBar [
 
@@ -280,21 +299,22 @@ ToTabGroupElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibl
 		          ifEmpty: [ 0 ]
 		          ifNotEmpty: [ visibleNodes last holder position ].
 
-	invisibleNodes do: [ :n |
-			n holder position > endIdx
-				ifTrue: [
-				n isVisible ifTrue: [ n visibility: BlVisibility hidden ] ]
-				ifFalse: [
+	hidePartlyVisibleNodes ifTrue: [
+			invisibleNodes do: [ :n |
+					n holder position > endIdx
+						ifTrue: [
+						n isVisible ifTrue: [ n visibility: BlVisibility hidden ] ]
+						ifFalse: [
+						n isVisible ifFalse: [ n visibility: BlVisibility visible ] ] ].
+			visibleNodes do: [ :n |
 				n isVisible ifFalse: [ n visibility: BlVisibility visible ] ] ].
-	visibleNodes do: [ :n |
-		n isVisible ifFalse: [ n visibility: BlVisibility visible ] ].
 
 	(self canShowInvisibleNodesMenu and: [ invisibleNodes notEmpty ])
 		ifTrue: [ self showInvisibleNodesMenu: true ]
 		ifFalse: [ self showInvisibleNodesMenu: false ].
-
-	self itemBar selectionElementsDo: [ :se |
-		se visibility: se node visibility ]
+	hidePartlyVisibleNodes ifTrue: [
+			self itemBar selectionElementsDo: [ :se |
+				se visibility: se node visibility ] ]
 ]
 
 { #category : #initialization }
@@ -342,6 +362,12 @@ ToTabGroupElement >> showInvisibleTabItem: aTabItemElement [
 ToTabGroupElement >> startExtraBuilder: aValuable [
 
 	aValuable value: self startElement
+]
+
+{ #category : #accessing }
+ToTabGroupElement >> trackElement [
+
+	^ self middleElement trackElement
 ]
 
 { #category : #accessing }

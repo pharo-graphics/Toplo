@@ -10,15 +10,8 @@ ToThemeForStyleRuleTest class >> label [
 	^ 'A theme class for tests'
 ]
 
-{ #category : #accessing }
-ToThemeForStyleRuleTest >> newSkinInstanceFor: anElement [
+{ #category : #'skin creation' }
+ToThemeForStyleRuleTest >> newSkinFor: anElement [
 
-	^ ToNullSkin new
-]
-
-{ #category : #hook }
-ToThemeForStyleRuleTest >> setUpElement: anElement [
-
-	super setUpElement: anElement.
-	anElement setUpByTheme: self
+	^ ToNullSkin instance
 ]

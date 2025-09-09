@@ -76,7 +76,7 @@ ToStyleSheetApplicationTest >> testButtonLabelSkin0 [
 
 	labelSkin skinEventListeners: writers.
 	button label defaultSkin: labelSkin.
-	button label skinManager applySkinReinstallIn: button label.
+	button label skinManager installNewSkinIn: button label.
 	attributes := button label text attributesAt: 1.
 	self assert: attributes notEmpty.
 	foregroundAttr := attributes
@@ -154,8 +154,6 @@ ToStyleSheetApplicationTest >> testButtonSkin0 [
 				with: [ :e | e valueOfTokenNamed: #'color-error-pressed' ] ].
 
 	button := ToButton new.
-	button applySkinInstallerOnFirstRequest: false.
-
 	space toTheme: theme.
 	space root addChild: button.
 	button addStamp: #button.
@@ -167,7 +165,7 @@ ToStyleSheetApplicationTest >> testButtonSkin0 [
 	button defaultSkin: nil.
 	"self assert: button skinManager installedSkin isNil."
 	button defaultSkin: skin.
-	button skinManager applySkinReinstallIn: button.
+	button skinManager installNewSkinIn: button.
 	self assert: button border width equals: 1.
 	self assert: button border paint isColorPaint.
 	self
@@ -192,7 +190,7 @@ ToStyleSheetApplicationTest >> testButtonSkin0 [
 
 	labelSkin skinEventListeners: writers.
 	label defaultSkin: labelSkin.
-	label skinManager applySkinReinstallIn: label.
+	label skinManager installNewSkinIn: label.
 	attributes := button label text attributesAt: 1.
 	self assert: attributes notEmpty.
 	foregroundAttr := attributes
@@ -234,7 +232,7 @@ ToStyleSheetApplicationTest >> testButtonSkinWithInterspace [
 	skin := ToStyleSheetSkin new.
 	skin skinEventListeners: writers.
 	elem defaultSkin: skin.
-	elem skinManager applySkinReinstallIn: elem.
+	elem skinManager installNewSkinIn: elem.
 	self assert: (elem layout isKindOf: BlLinearLayout).
 	self assert: elem layout interspace equals: 10
 ]
@@ -267,7 +265,7 @@ ToStyleSheetApplicationTest >> testSkinWith2SkinEventActionOnSameSkinEventEvent 
 	skin := ToStyleSheetSkin new.
 	skin skinEventListeners: listeners.
 	elem defaultSkin: skin.
-	elem skinManager applySkinReinstallIn: elem.
+	elem skinManager installNewSkinIn: elem.
 	self assert: elem border width equals: 1.
 	self assert: elem border paint isColorPaint.
 	self assert: elem border paint color equals: Color blue
@@ -291,7 +289,7 @@ ToStyleSheetApplicationTest >> testSkinWithAnUniversalRule [
 	skin := ToStyleSheetSkin new.
 	skin skinEventListeners: writers.
 	elem defaultSkin: skin.
-	elem skinManager applySkinReinstallIn: elem.
+	elem skinManager installNewSkinIn: elem.
 	self assert: elem background paint color equals: Color red
 ]
 
@@ -324,8 +322,8 @@ ToStyleSheetApplicationTest >> testSkinWithChildRule [
 	skin := ToStyleSheetSkin new.
 	skin skinEventListeners: writers.
 	child defaultSkin: skin.
-	parent skinManager applySkinReinstallIn: parent.
-	child skinManager applySkinReinstallIn: child.
+	parent skinManager installNewSkinIn: parent.
+	child skinManager installNewSkinIn: child.
 
 	self assert: child border width equals: 3.
 	self assert: child border paint isColorPaint.
@@ -363,8 +361,8 @@ ToStyleSheetApplicationTest >> testSkinWithChildRule2 [
 	skin := ToStyleSheetSkin new.
 	skin skinEventListeners: writers.
 	child defaultSkin: skin.
-	parent skinManager applySkinReinstallIn: parent.
-	child skinManager applySkinReinstallIn: child.
+	parent skinManager installNewSkinIn: parent.
+	child skinManager installNewSkinIn: child.
 	self assert: child border width equals: 3.
 	self assert: child border paint isColorPaint.
 	self assert: child border paint color equals: Color red
@@ -391,7 +389,7 @@ ToStyleSheetApplicationTest >> testSkinWithIdRule [
 	skin := ToStyleSheetSkin new.
 	skin skinEventListeners: writers.
 	elem defaultSkin: skin.
-	elem skinManager applySkinReinstallIn: elem.
+	elem skinManager installNewSkinIn: elem.
 	self assert: elem border width equals: 3.
 	self assert: elem border paint isColorPaint.
 	self assert: elem border paint color equals: Color red
@@ -416,7 +414,7 @@ ToStyleSheetApplicationTest >> testSkinWithSkinEventAction [
 	skin := ToStyleSheetSkin new.
 	skin skinEventListeners: listeners.
 	elem defaultSkin: skin.
-	elem skinManager applySkinReinstallIn: elem.
+	elem skinManager installNewSkinIn: elem.
 	self assert: elem border width equals: 3.
 	self assert: elem border paint isColorPaint.
 	self assert: elem border paint color equals: Color red
@@ -443,7 +441,7 @@ ToStyleSheetApplicationTest >> testSkinWithSkinEventAction2 [
 	skin := ToStyleSheetSkin new.
 	skin skinEventListeners: listeners.
 	elem defaultSkin: skin.
-	elem skinManager applySkinReinstallIn: elem.
+	elem skinManager installNewSkinIn: elem.
 	self assert: elem border width equals: 3.
 	self assert: elem border paint isColorPaint.
 	self assert: elem border paint color equals: Color red
@@ -474,7 +472,7 @@ ToStyleSheetApplicationTest >> testSkinWithSkinEventActionMixedWithWriter [
 	skin := ToStyleSheetSkin new.
 	skin skinEventListeners: listeners.
 	elem defaultSkin: skin.
-	elem skinManager applySkinReinstallIn: elem.
+	elem skinManager installNewSkinIn: elem.
 	self assert: elem border width equals: 1.
 	self assert: elem border paint isColorPaint.
 	self assert: elem border paint color equals: Color blue
@@ -506,7 +504,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyle0 [
 	skin := ToStyleSheetSkin new.
 	skin skinEventListeners: writers.
 	button defaultSkin: skin.
-	button skinManager applySkinReinstallIn: button.
+	button skinManager installNewSkinIn: button.
 	self assert: button background paint isColorPaint.
 	self assert: button background paint color equals: Color black
 ]
@@ -543,7 +541,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules0 [
 	skin := ToStyleSheetSkin new.
 	skin skinEventListeners: writers.
 	button defaultSkin: skin.
-	button skinManager applySkinReinstallIn: button.
+	button skinManager installNewSkinIn: button.
 	self assert: button background paint isColorPaint.
 	self assert: button background paint color equals: Color black.
 
@@ -558,7 +556,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules0 [
 	skin := ToStyleSheetSkin new.
 	skin skinEventListeners: writers.
 	button defaultSkin: skin.
-	button skinManager applySkinReinstallIn: button.
+	button skinManager installNewSkinIn: button.
 
 	self assert: button background paint isColorPaint.
 	self assert: button background paint color equals: Color red.
@@ -607,7 +605,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules1 [
 	skin := ToStyleSheetSkin new.
 	skin skinEventListeners: writers.
 	child defaultSkin: skin.
-	child skinManager applySkinReinstallIn: child.
+	child skinManager installNewSkinIn: child.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -653,7 +651,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules2 [
 	skin skinEventListeners: writers.
 	child defaultSkin: skin.
 
-	child skinManager applySkinReinstallIn: child.
+	child skinManager installNewSkinIn: child.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -698,7 +696,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules22 [
 	skin := ToStyleSheetSkin new.
 	skin skinEventListeners: writers.
 	child defaultSkin: skin.
-	child skinManager applySkinReinstallIn: child.
+	child skinManager installNewSkinIn: child.
 
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
@@ -746,7 +744,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules3 [
 	skin skinEventListeners: writers.
 	child defaultSkin: skin.
 
-	child skinManager applySkinReinstallIn: child.
+	child skinManager installNewSkinIn: child.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -793,7 +791,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules32 [
 	skin skinEventListeners: writers.
 	child defaultSkin: skin.
 
-	child skinManager applySkinReinstallIn: child.
+	child skinManager installNewSkinIn: child.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -843,7 +841,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithSubRules33 [
 	skin skinEventListeners: writers.
 	child defaultSkin: skin.
 
-	child skinManager applySkinReinstallIn: child.
+	child skinManager installNewSkinIn: child.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -877,7 +875,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules1 [
 	skin skinEventListeners: writers.
 	child defaultSkin: skin.
 
-	child skinManager applySkinReinstallIn: child.
+	child skinManager installNewSkinIn: child.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -914,7 +912,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules2 [
 	skin skinEventListeners: writers.
 	child defaultSkin: skin.
 
-	child skinManager applySkinReinstallIn: child.
+	child skinManager installNewSkinIn: child.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -955,7 +953,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules3 [
 	skin skinEventListeners: writers.
 	child defaultSkin: skin.
 
-	child skinManager applySkinReinstallIn: child.
+	child skinManager installNewSkinIn: child.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red
 ]
@@ -1005,7 +1003,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules4 [
 	skin skinEventListeners: writers.
 	child defaultSkin: skin.
 
-	child skinManager applySkinReinstallIn: child.
+	child skinManager installNewSkinIn: child.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color red.
 
@@ -1016,7 +1014,7 @@ ToStyleSheetApplicationTest >> testStyleSheetStyleWithoutSubRules4 [
 	skin := ToStyleSheetSkin new.
 	skin skinEventListeners: writers.
 	child defaultSkin: skin.
-	child skinManager applySkinReinstallIn: child.
+	child skinManager installNewSkinIn: child.
 	self assert: child background paint isColorPaint.
 	self assert: child background paint color equals: Color blue
 ]

@@ -8,7 +8,8 @@ Class {
 		'dataSourceManager',
 		'listElement',
 		'dataSourceObserver',
-		'trackElement'
+		'trackElement',
+		'previousInvisibleNodes'
 	],
 	#category : #'Toplo-Widget-List-InnerBar'
 }
@@ -71,11 +72,12 @@ ToInnerBarElement >> checkFullyVisibleNodes [
 				invisibleNodes := self nodesSelect: [ :n |
 					                  n isFullyVisibleInInnerElement not ].
 				visibleNodes := self nodes difference: invisibleNodes ].
-
+	previousInvisibleNodes = invisibleNodes ifTrue: [ ^ self ].
+	previousInvisibleNodes := invisibleNodes.
 	self dispatchEvent: (ToBarVisibleNodeListChangedEvent new
 			 visibleNodes: visibleNodes;
 			 invisibleNodes: invisibleNodes;
-			 yourself)
+			 yourself) 
 ]
 
 { #category : #'private - commands' }
@@ -278,7 +280,7 @@ ToInnerBarElement >> onItemRangeChanged: aPositionStart itemCount: anItemCount [
 		pos := node holder position.
 		(pos >= aPositionStart and: [ pos < (aPositionStart + anItemCount) ])
 			ifTrue: [
-				node requestConfiguration ] ]
+				node applyConfiguration ] ]
 ]
 
 { #category : #'data source updates' }

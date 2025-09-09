@@ -12,21 +12,14 @@ ToSkinStateGeneratorTest >> newElementInSpace [
 
 	| e |
 	e := ToElement new.
-	e applySkinInstallerOnFirstRequest: false.
-
-	self assert: e skinManager skinInstaller isNil.
+	self deny: e skinManager newSkinRequested.
+	e defaultSkin: ToRawSkin new.
 	space root addChild: e.
-	self assert: e skinManager skinInstaller notNil.
+	self deny: e skinManager newSkinRequested.
 	" to install the element skin  "
 	space applyAllSkinInstallers.
 
 	^ e
-]
-
-{ #category : #tests }
-ToSkinStateGeneratorTest >> testCheckableCheckEvent [
-
-	self testGenerateCheckStateFromEvent 
 ]
 
 { #category : #tests }
@@ -44,23 +37,19 @@ ToSkinStateGeneratorTest >> testGenerateCheckStateFromEvent [
 	self assert: nextStates size equals: nextStatesSize.
 
 	e dispatchEvent: evt.
-	self assert: nextStates size equals: nextStatesSize.
-	e space phasesManager runStateGenerations.
 	self assert: nextStates size equals: nextStatesSize + 1.
 
 	nextStatesSize := nextStates size.
 
 	evt := ToCheckableCheckEvent checked: false.
 	e dispatchEvent: evt.
-	e space phasesManager runStateGenerations.
 
-	" no changed since the element is in the same state (2 successives uncheck) "
-	self assert: nextStates size equals: nextStatesSize + 1.
+	" no changed since the intrinsicState is already enqueued "
+	self assert: nextStates size equals: nextStatesSize.
 
 	evt := ToCheckableCheckEvent checked: true.
 	e dispatchEvent: evt.
-	e space phasesManager runStateGenerations.
-	self assert: nextStates size equals: nextStatesSize + 2
+	self assert: nextStates size equals: nextStatesSize
 ]
 
 { #category : #tests }
@@ -76,7 +65,6 @@ ToSkinStateGeneratorTest >> testGenerateClickedStateFromEvent [
 	nextStatesSize := nextStates size.
 
 	e dispatchEvent: evt.
-	e space phasesManager runStateGenerations.
 	self assert: nextStates size equals: nextStatesSize + 1.
 
 
@@ -84,7 +72,6 @@ ToSkinStateGeneratorTest >> testGenerateClickedStateFromEvent [
 		       BlMouseButton primary.
 
 	e dispatchEvent: evt.
-	e space phasesManager runStateGenerations.
 	self assert: nextStates size equals: nextStatesSize + 2
 ]
 
@@ -100,19 +87,16 @@ ToSkinStateGeneratorTest >> testGenerateHoveredStateFromEvent [
 	nextStatesSize := nextStates size.
 
 	e dispatchEvent: evt.
-	e space phasesManager runStateGenerations.
 	self assert: nextStates size equals: nextStatesSize + 1.
 
 	evt := BlMouseEnterEvent new.
 
 	e dispatchEvent: evt.
-	e space phasesManager runStateGenerations.
 	self assert: nextStates size equals: nextStatesSize + 2.
 
 	evt := BlMouseLeaveEvent new.
 
 	e dispatchEvent: evt.
-	e space phasesManager runStateGenerations.
 
 	self assert: nextStates size equals: nextStatesSize + 3
 ]

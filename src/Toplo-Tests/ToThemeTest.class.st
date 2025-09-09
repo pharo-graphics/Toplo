@@ -8,33 +8,31 @@ Class {
 ToThemeTest >> testThemeChanged [
 
 	| e |
-	e := ToElementForThemeTest new.
+	e := ToElement new.
 	e defaultSkin: ToRawSkinForThemeTest new.
 	space root addChild: e.
 	self waitTestingSpaces.
-	self assert: e skinManager skinInstaller isNil.
+	self deny: e skinManager newSkinRequested.
 	space toTheme: ToRawDarkTheme new.
 	self waitTestingSpaces.
-	self assert: e skinManager skinUninstaller isNil.
-	self assert: e skinManager skinInstaller isNil.
-	self assert: e installedSkin class identicalTo: ToRawSkinForThemeTest
+	self deny: e skinManager newSkinRequested.
+	self assert: e skinManager installedSkin class identicalTo: ToRawSkinForThemeTest
 ]
 
 { #category : #tests }
 ToThemeTest >> testThemeChangedWithStyleSheetTheme [
 
 	| e |
-	e := ToElementForThemeTest new.
+	e := ToElement new.
 	e defaultRawSkin: ToRawSkinForThemeTest new.
 	space root addChild: e.
 	self waitTestingSpaces.
-	self assert: e skinManager skinInstaller isNil.
-	self assert: (e installedSkin isKindOf: ToRawSkinForThemeTest).
+	self deny: e skinManager newSkinRequested.
+	self assert: (e skinManager installedSkin isKindOf: ToRawSkinForThemeTest).
 	space toTheme: ToBeeDarkTheme new.
 	self waitTestingSpaces.
-	self assert: e skinManager skinUninstaller isNil.
-	self assert: e skinManager skinInstaller isNil.
-	self assert: (e installedSkin isKindOf: ToBeeSkin)
+	self deny: e skinManager newSkinRequested.
+	self assert: (e skinManager installedSkin isKindOf: ToBeeSkin)
 ]
 
 { #category : #tests }
@@ -48,9 +46,8 @@ ToThemeTest >> testThemeChangedWithStyleSheetTheme2 [
 	self waitTestingSpaces.
 	space toTheme: ToBeeDarkTheme new.
 	self waitTestingSpaces.
-	self assert: e skinManager skinUninstaller isNil.
-	self assert: e skinManager skinInstaller isNil.
-	self assert: (e installedSkin isKindOf: ToBeeSkin)
+	self deny: e skinManager newSkinRequested.
+	self assert: (e skinManager installedSkin isKindOf: ToBeeSkin)
 
 ]
 
@@ -59,23 +56,18 @@ ToThemeTest >> testThemeChangedWithStyleSheetTheme3 [
 
 	| e |
 	e := ToLabeledIcon new.
-	e applySkinInstallerOnFirstRequest: false.
 	space toTheme: ToBeeDarkTheme new.
 	space root addChild: e.
 	e addStamp: #primary.
 	e labelText: 'Default button'.
-	self assert:
-		(e skinManager installedSkin) isNil.
+	self assert: e skinManager installedSkin isKnownSkin.
 	" because of the token properties installation -> have a skin installer/uninstaller "
-	self assert: e skinManager skinInstaller notNil.
+	self assert: e skinManager newSkinRequested.
 	self applyAllEnqueuedStates.
 	self waitTestingSpaces.
-	self assert: e skinManager skinInstaller isNil.
-	self assert:
-		(e skinManager installedSkin) notNil.
-	"self assert: e skinManager skinUninstaller isNil."
+	self deny: e skinManager newSkinRequested.
+	self assert: e skinManager installedSkin isKnownSkin.
 	self applyAllEnqueuedStates.
 	self waitTestingSpaces.
-	self assert: e skinManager skinUninstaller isNil.
-	self assert: e skinManager skinInstaller isNil
+	self deny: e skinManager newSkinRequested
 ]

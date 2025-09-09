@@ -23,25 +23,6 @@ ToTransientStateTest >> testApplyOn [
 ]
 
 { #category : #tests }
-ToTransientStateTest >> testCanBeEnqueuedFromElementInQueue [
-
-	| e stateEvt state |
-	e := ToElement new.
-	state := ToTransientStateStub skinEvent:
-		         (stateEvt := ToHoveredSkinEvent new).
-	" no, the state is not enqueued since a ToInstallState has not been enqueued before "
-	self deny: (state
-			 canBeEnqueuedFromElement: e
-			 inQueue: e skinManager skinStateQueue).
-	state := ToTransientStateStub skinEvent:
-		         (stateEvt := ToHoveredSkinEvent new).
-	e skinManager skinStateQueue enqueueInstallStateForElement: e.
-	self assert: (state
-			 canBeEnqueuedFromElement: e
-			 inQueue: e skinManager skinStateQueue)
-]
-
-{ #category : #tests }
 ToTransientStateTest >> testOnAppliedOn [
 
 	| e stateEvt state |
@@ -51,38 +32,6 @@ ToTransientStateTest >> testOnAppliedOn [
 	state applyOn: e fromQueue: nil.
 	self assert: state applyCount equals: 1
 	
-]
-
-{ #category : #tests }
-ToTransientStateTest >> testRequestEnqueueFromElementInQueue [
-
-	| e stateEvt state |
-	e := ToElement new.
-	state := ToTransientStateStub skinEvent:
-		         (stateEvt := ToHoveredSkinEvent new).
-	state
-		requestEnqueueFromElement: e
-		inQueue: e skinManager skinStateQueue.
-	" no, the state is not enqueued since a ToInstallState has not been enqueued before "
-	self deny: state canBeEnqueued.
-	self assert: e skinManager skinStateQueue nextStates isEmpty.
-	state := ToTransientStateStub skinEvent:
-		         (stateEvt := ToHoveredSkinEvent new).
-	e skinManager skinStateQueue enqueueInstallStateForElement: e.
-	state
-		requestEnqueueFromElement: e
-		inQueue: e skinManager skinStateQueue.
-	self assert: state canBeEnqueued.
-	self assert: e skinManager skinStateQueue nextStates size equals: 3.
-	self assert:
-		(e skinManager skinStateQueue nextStates first isKindOf:
-			 ToInstallState).
-	self assert:
-		(e skinManager skinStateQueue nextStates second isKindOf:
-			 ToEnablementState).
-	self assert:
-		(e skinManager skinStateQueue nextStates third isKindOf:
-			 ToTransientState)
 ]
 
 { #category : #tests }

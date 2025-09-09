@@ -52,7 +52,7 @@ TToElementWithContextMenu >> contextMenuManager: aWindowHandler [
 { #category : #'t - element with context menu' }
 TToElementWithContextMenu >> contextMenuManagerClass [
 
-	^ self userData at: #contextMenuManagerClass ifAbsentPut: [ ToContextMenuManager]
+	^ self userData at: #contextMenuManagerClass ifAbsentPut: [ self defaultContextMenuManagerClass ]
 ]
 
 { #category : #'t - element with context menu' }
@@ -65,6 +65,12 @@ TToElementWithContextMenu >> contextMenuManagerClass: aHandlerClass [
 TToElementWithContextMenu >> currentContextMenu [
 
 	^ self rawContextMenuManager ifNotNil: [ :h | h currentWindow ]
+]
+
+{ #category : #'t - element with context menu' }
+TToElementWithContextMenu >> defaultContextMenuManagerClass [
+
+	^ ToContextMenuManager
 ]
 
 { #category : #'t - element with context menu' }
@@ -84,7 +90,7 @@ TToElementWithContextMenu >> hasOpenedContextMenu [
 { #category : #'t - element with context menu' }
 TToElementWithContextMenu >> newContextMenuEvent: anEvent [
 
-	^ self rawContextMenuManager newWindowEvent: anEvent
+	^ self rawContextMenuManager createNewWindowOnEvent: anEvent
 ]
 
 { #category : #'t - element with context menu' }

@@ -13,6 +13,12 @@ ToLabelEditorManager >> defaultPlacement [
 ]
 
 { #category : #accessing }
+ToLabelEditorManager >> defaultWindowClass [
+
+	^ ToLabelEditorWindow 
+]
+
+{ #category : #accessing }
 ToLabelEditorManager >> editorClosedEventClass [
 
 	^ ToLabelEditorClosedEvent 
@@ -39,10 +45,4 @@ ToLabelEditorManager >> newEditorForLabel: aLabel [
 		all;
 		apply.
 	^ ed
-]
-
-{ #category : #accessing }
-ToLabelEditorManager >> popupWindowClass [
-
-	^ ToLabelEditorWindow 
 ]

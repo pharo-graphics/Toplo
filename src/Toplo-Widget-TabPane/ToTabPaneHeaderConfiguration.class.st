@@ -1,6 +1,9 @@
 Class {
 	#name : #ToTabPaneHeaderConfiguration,
 	#superclass : #ToTripletElementConfiguration,
+	#instVars : [
+		'matchParentMode'
+	],
 	#category : #'Toplo-Widget-TabPane-TabPane'
 }
 
@@ -8,7 +11,13 @@ Class {
 ToTabPaneHeaderConfiguration >> applyOn: anElement [
 
 	super applyOn: anElement.
-
+	anElement isHorizontal
+		ifTrue: [
+				anElement hMatchParent.
+				anElement vFitContent ]
+		ifFalse: [
+				anElement vMatchParent.
+				anElement hFitContent ].
 	self configureAlignmentIn: anElement
 ]
 
@@ -16,44 +25,90 @@ ToTabPaneHeaderConfiguration >> applyOn: anElement [
 ToTabPaneHeaderConfiguration >> configureAlignmentIn: anElement [
 
 	anElement alignment ifNull: [
-			startFlexible := false.
-			endFlexible := false ].
+			anElement startFlexible: false.
+			anElement endFlexible: false ].
 	anElement alignment = BlElementAlignment start ifTrue: [
-			startFlexible := false.
-			endFlexible := true ].
+			anElement startFlexible: false.
+			anElement endFlexible: true  ].
 	anElement alignment = BlElementAlignment end ifTrue: [
-			startFlexible := true.
-			endFlexible := false ].
+			anElement startFlexible: true.
+			anElement endFlexible: false  ].
 	anElement alignment = BlElementAlignment middle ifTrue: [
-			startFlexible := true.
-			endFlexible := true ].
+			anElement startFlexible: true.
+			anElement endFlexible: true  ].
 
-	self configureStartFillerIn: anElement.
-	self configureEndFillerIn: anElement.
-	self configureTabGroupIn: anElement
+	self configureTabGroupIn: anElement.
+	anElement alignCenter: true.
 ]
 
 { #category : #hook }
 ToTabPaneHeaderConfiguration >> configureTabGroupIn: anElement [
 
-	(startFlexible or: [ endFlexible ]) ifTrue: [
-			anElement tabGroup fitContent.
-			anElement middleContainer constraintsDo: [ :c |
-					c horizontal fitContent.
-					c vertical fitContent ].
+	| tabGroup |
+	tabGroup := anElement tabGroup.
+	(anElement isStartFlexible or: [ anElement isEndFlexible ]) ifTrue: [
+			tabGroup fitContent.
+			anElement middleContainer fitContent.
 			^ self ].
 
 	anElement isHorizontal
 		ifTrue: [
-				anElement tabGroup hMatchParent.
-				anElement tabGroup vFitContent.
-				anElement middleContainer constraintsDo: [ :c |
-						c horizontal matchParent.
-						c vertical fitContent ] ]
+				tabGroup hMatchParent.
+				tabGroup vFitContent.
+				anElement middleContainer hMatchParent.
+				anElement middleContainer vFitContent ]
 		ifFalse: [
-				anElement tabGroup vMatchParent.
-				anElement tabGroup hFitContent.
-				anElement middleContainer constraintsDo: [ :c |
-						c vertical matchParent.
-						c horizontal fitContent ] ]
+				tabGroup vMatchParent.
+				tabGroup hFitContent.
+				anElement middleContainer vMatchParent.
+				anElement middleContainer hFitContent ].
+	tabGroup isFlowable ifTrue: [ ^ self ].
+	matchParentMode
+		ifTrue: [
+				self switchToMatchParentIn: anElement.
+				tabGroup selectionModel selectedIndexesDo: [ :idx |
+						tabGroup whenLayoutedDoOnce: [
+							tabGroup selecter scrollTowardStartToDataSourcePosition: idx ] ] ]
+		ifFalse: [ self switchToFitContentIn: anElement ]
+]
+
+{ #category : #initialization }
+ToTabPaneHeaderConfiguration >> initialize [ 
+
+	super initialize.
+	matchParentMode := true
+]
+
+{ #category : #accessing }
+ToTabPaneHeaderConfiguration >> matchParentMode [
+
+	^ matchParentMode
+]
+
+{ #category : #accessing }
+ToTabPaneHeaderConfiguration >> matchParentMode: aBoolean [
+
+	matchParentMode := aBoolean
+]
+
+{ #category : #'private - layout managing' }
+ToTabPaneHeaderConfiguration >> switchToFitContentIn: anHeaderElement [
+
+	anHeaderElement trackElement
+		allParentsUpTo: anHeaderElement tabGroup
+		do: [ :p |
+				anHeaderElement isHorizontal
+					ifTrue: [ p hFitContent ]
+					ifFalse: [ p vFitContent ] ]
+]
+
+{ #category : #'private - layout managing' }
+ToTabPaneHeaderConfiguration >> switchToMatchParentIn: anHeaderElement [
+
+	anHeaderElement trackElement
+		allParentsUpTo: anHeaderElement tabGroup
+		do: [ :p |
+				anHeaderElement isHorizontal
+					ifTrue: [ p hMatchParent ]
+					ifFalse: [ p vMatchParent ] ]
 ]

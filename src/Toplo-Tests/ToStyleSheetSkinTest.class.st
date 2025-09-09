@@ -29,11 +29,11 @@ ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 
 	| w skin layoutDirectionProp layoutProp layoutWriter directionWriter |
 	w := ToElement new.
-	w applySkinInstallerOnFirstRequest: false.
 	space toTheme: ToStyleSheetTheme new.
 	space root addChild: w.
 	w layout: BlBasicLayout new.
-	skin := ToBeeSkin new.
+	skin := ToStyleSheetSkin new.
+	
 	layoutDirectionProp := self writablePropertyIndex propertyNamed:
 		                       #'layout-direction'.
 	layoutProp := self writablePropertyIndex propertyNamed: #layout.
@@ -47,26 +47,33 @@ ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 		                property: layoutProp;
 		                value: BlLinearLayout new;
 		                yourself.
+
+	w defaultSkin: skin.
+	w ensuredSkinManager requestNewSkinIn: w.
+
+	" since applySkinInstaller will applyStyles "
+	self installNewSkinNowIn: w.
+	" force the event listeners in failing order (directionWriter before layoutWriter)"
 	skin skinEventListeners: {
 			directionWriter.
 			layoutWriter }.
 
-	" Since checkSkinInstallation will switch to ToInstallState "
-	" the installation will fail because the widget layout (not a BlLinearLayout) does not understand #direction:"
-	w defaultSkin: skin.
-	w ensuredSkinManager requestInstallSkinIn: w.
-	" since applySkinInstaller will applyStyles "
+	w skinManager skinStateQueue enqueueUninstallStateFor: w.
+	w skinManager skinStateQueue enqueueInstallStateFor: w.
+	" the installation will fail because the widget layout (not a BlLinearLayout) 
+	does not understand #direction:"
 	self
-		should: [ w skinManager applySkinReinstallIn: w ]
-		raise: MessageNotUnderstood.
+		should: [ w skinManagerDo: [ :sm | sm applyEnqueuedStatesFor: w ] ]
+		raise: Error.
+	self deny: (w layout isKindOf: BlLinearLayout).
 
 	" Now change writers order and it should be ok "
 	skin skinEventListeners: {
 			layoutWriter.
 			directionWriter }.
 
-	w skinManager skinStateQueue enqueueInstallStateForElement: w.
-	w skinManagerDo: [ :sm | sm applyEnqueuedStatesIn: w ].
+	w skinManager skinStateQueue enqueueInstallStateFor: w.
+	w skinManagerDo: [ :sm | sm applyEnqueuedStatesFor: w ].
 	self assert: (w layout isKindOf: BlLinearLayout).
 	self assert: w layout direction isRightToLeft
 ]
@@ -78,14 +85,19 @@ ToStyleSheetSkinTest >> testSkinEventAction [
 	w := ToElement new.
 	space root addChild: w.
 	skin := ToStyleSheetSkin new.
+	w defaultSkin: skin.
+	" skin installation initialize the event listeners collection "
+	self installNewSkinNowIn: w.
+	" now one can update the listeners collection "
 	action := ToSkinEventAction new action: [ :e |
 		          e background: Color blue ].
 	skin skinEventListeners: { action }.
 	self assert: skin skinEventListeners size equals: 1.
 	self assert: skin skinEventListeners first identicalTo: action.
-	w defaultSkin: skin.
-	w skinManager applySkinReinstallIn: w.
 
+	" a ToInstallSkinEvent to force the running of the action "
+	w dispatchEvent: ToInstallSkinEvent new.
+	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color blue
 ]
 
@@ -103,16 +115,21 @@ ToStyleSheetSkinTest >> testSkinEventActionMixedWithWriter [
 		              value: Color blue;
 		              yourself.
 	skin := ToStyleSheetSkin new.
+	w defaultSkin: skin.
+	w skinManager installNewSkinIn: w.
+
 	" SkinEventAction instances must be before all PropertyWriter instances. 
 	This must be ensured by the skin building procedure"
 	skin skinEventListeners: {
 			action.
 			propWriter }.
+	w dispatchEvent: ToInstallSkinEvent new.
 	self assert: skin skinEventListeners size equals: 2.
 	self assert: skin skinEventListeners first identicalTo: action.
 	self assert: skin skinEventListeners second identicalTo: propWriter.
-	w defaultSkin: skin.
-	w skinManager applySkinReinstallIn: w.
+	
+	
+	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color blue
 ]
 
@@ -128,12 +145,15 @@ ToStyleSheetSkinTest >> testSkinEventListeners [
 		              property: prop;
 		              value: Color blue;
 		              yourself.
+	w defaultSkin: skin.
+	w skinManager installNewSkinIn: w.
+
 	skin skinEventListeners: { propWriter }.
 	self assert: skin skinEventListeners size equals: 1.
 	self assert: skin skinEventListeners first identicalTo: propWriter.
-	w defaultSkin: skin.
-	w skinManager applySkinReinstallIn: w.
+	w dispatchEvent: ToInstallSkinEvent new.
 
+	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color blue
 ]
 
@@ -144,6 +164,9 @@ ToStyleSheetSkinTest >> testSupplementWriter [
 	w := ToElement new.
 	space root addChild: w.
 	skin := ToStyleSheetSkin new.
+	w defaultSkin: skin.
+	w skinManager installNewSkinIn: w.
+
 	borderBuilder := BlBorderBuilder new.
 	backgroundProp := self writablePropertyIndex propertyNamed:
 		                  #background.
@@ -174,8 +197,9 @@ ToStyleSheetSkinTest >> testSupplementWriter [
 						 paint: Color black;
 						 dashArray: #( 4 5 );
 						 build ] yourself) }.
-	w defaultSkin: skin.
-	w skinManager applySkinReinstallIn: w.
+
+	w dispatchEvent: ToInstallSkinEvent new.
+	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color blue.
 	self assert: w border paint color equals: Color black.
 	self assert: w border style dashArray equals: #( 4 5 )
@@ -188,8 +212,12 @@ ToStyleSheetSkinTest >> testWithAnimationOn2EventClasses [
 	w := ToElement new.
 	space root addChild: w.
 	skin := ToStyleSheetSkin new.
+	w defaultSkin: skin.
+	w ensuredSkinManager requestNewSkinIn: w.
+	w skinManager installNewSkinIn: w.
+
 	animation := ToPropertyColorTransitionAnimation new.
-	prop := self writablePropertyIndex propertyNamed: #'background'.
+	prop := self writablePropertyIndex propertyNamed: #background.
 
 	skin skinEventListeners: {
 			(ToPropertyWriter new
@@ -210,25 +238,18 @@ ToStyleSheetSkinTest >> testWithAnimationOn2EventClasses [
 				 animation: animation;
 				 yourself) }.
 
-	w defaultSkin: skin.
-	w ensuredSkinManager requestInstallSkinIn: w.
-	w skinManager applySkinReinstallIn: w.
+	w dispatchEvent: ToInstallSkinEvent new.
 
+	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color white.
 
-	w skinManager
-		enqueueSkinState:
-		(ToTransientState skinEvent: ToHoveredSkinEvent new)
-		in: w.
+	w skinManager enqueueTransientState: ToHoveredSkinEvent new for: w.
 	animation onFinishedDo: [ :x |
-		self assert: w background paint color equals: Color black.
+			self assert: w background paint color equals: Color black.
 
-		w skinManager
-			enqueueSkinState:
-			(ToTransientState skinEvent: ToLeftSkinEvent new)
-			in: w.
-		animation onFinishedDo: [ :xx |
-			self assert: w background paint color equals: Color white ] ]
+			w skinManager enqueueTransientState: ToLeftSkinEvent new for: w.
+			animation onFinishedDo: [ :xx |
+				self assert: w background paint color equals: Color white ] ]
 ]
 
 { #category : #'test with accessors' }
@@ -240,7 +261,7 @@ ToStyleSheetSkinTest >> testWithNoWriter [
 	skin := ToStyleSheetSkin new.
 	w defaultSkin: skin.
 	paint := w background paint.
-	w skinManager applySkinReinstallIn: w.
+	w skinManager installNewSkinIn: w.
 
 	self assert: w background paint equals: paint
 ]
@@ -252,6 +273,9 @@ ToStyleSheetSkinTest >> testWithTwoWriters [
 	w := ToElement new.
 	space root addChild: w.
 	skin := ToStyleSheetSkin new.
+	w defaultSkin: skin.
+	w skinManager installNewSkinIn: w.
+	
 	backgroundProp := self writablePropertyIndex propertyNamed:
 		                  #background.
 	borderProp := self writablePropertyIndex propertyNamed: #border.
@@ -264,9 +288,8 @@ ToStyleSheetSkinTest >> testWithTwoWriters [
 				 property: borderProp;
 				 value: Color yellow;
 				 yourself) }.
-	w defaultSkin: skin.
-	w skinManager applySkinReinstallIn: w.
-
+	w dispatchEvent: ToInstallSkinEvent new.
+	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color blue.
 	self assert: w border paint color equals: Color yellow
 ]
@@ -278,6 +301,8 @@ ToStyleSheetSkinTest >> testWithTwoWritersTwoEventClasses [
 	w := ToElement new.
 	space root addChild: w.
 	skin := ToStyleSheetSkin new.
+	w defaultSkin: skin.
+	w skinManager installNewSkinIn: w.
 	backgroundProp := self writablePropertyIndex propertyNamed:
 		                  #background.
 	borderProp := self writablePropertyIndex propertyNamed: #border.
@@ -297,9 +322,7 @@ ToStyleSheetSkinTest >> testWithTwoWritersTwoEventClasses [
 				 property: borderProp;
 				 value: Color red;
 				 yourself) }.
-	w defaultSkin: skin.
-	w skinManager applySkinReinstallIn: w.
-
+	w dispatchEvent: ToInstallSkinEvent new.
 	self assert: (w background isKindOf: BlPaintBackground).
 	self assert: w background paint color equals: Color blue.
 	self assert: w border paint color equals: Color red

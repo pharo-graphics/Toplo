@@ -12,8 +12,7 @@ ToSkinStateQueueTest >> newElementInSpace [
 
 	| e |
 	e := ToElement new.
-	e applySkinInstallerOnFirstRequest: false.
-	self assert: e skinManager skinInstaller isNil.
+	self deny: e skinManager newSkinRequested.
 	space root addChild: e.
 	self assert: e skinManager notNil.
 	" to install the element skin  "
@@ -28,7 +27,7 @@ ToSkinStateQueueTest >> testEnqueueInstallStateFor [
 	| q e sk isk |
 	e := self newElementInSpace.
 	isk := e skinManager installedSkin.
-	self assert: isk notNil.
+	self assert: isk isKnownSkin.
 	q := e skinManager skinStateQueue.
 	q := ToSkinStateQueue new.
 	self assert: q nextStates notNil.
@@ -41,13 +40,13 @@ ToSkinStateQueueTest >> testEnqueueInstallStateFor [
 	self
 		deny: (e skinManager installedSkin)
 		identicalTo: sk.
-	q enqueueInstallStateForElement: e.
+	q enqueueInstallStateFor: e.
 	" on enqueued, the state requests a next pulse and the queue is emptied "
 	self assert: q nextStates size equals: 2.
 	self assert: q nextStates first class identicalTo: ToInstallState.
 	self
 		assert: q nextStates second class
-		identicalTo: ToEnablementState.
+		identicalTo: ToIntrinsicState.
 	" the skin should not be installed for now because the element has no skin installer"
 	self
 		deny: (e skinManager installedSkin)
@@ -60,7 +59,7 @@ ToSkinStateQueueTest >> testEnqueueInstallStateForThroughARequest [
 	| q e sk isk |
 	e := self newElementInSpace.
 	isk := e skinManager installedSkin.
-	self assert: isk notNil.
+	self assert: isk isKnownSkin.
 	q := e skinManager skinStateQueue.
 	q := ToSkinStateQueue new.
 	self assert: q nextStates notNil.
@@ -69,6 +68,7 @@ ToSkinStateQueueTest >> testEnqueueInstallStateForThroughARequest [
 	e defaultSkin: sk.
 	" the default skin is set "
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
+	e skinManager uninstallSkinIn: e.
 	" but not installed for now "
 	self
 		deny: (e skinManager installedSkin)

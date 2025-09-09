@@ -52,9 +52,8 @@ ToElementWithSkinnablePropertiesForTest >> borderValue: anObject [
 { #category : #initialization }
 ToElementWithSkinnablePropertiesForTest >> initialize [
 
-	self class initializeSlots: self.
 	super initialize.
-	self applySkinInstallerOnFirstRequest: false.
+	self class initializeSlots: self.
 
 	" count the number of state engine applyOn: (only for dirty element stored in the space) "
 	skinStateQueueApplicationCount := 0
@@ -70,12 +69,6 @@ ToElementWithSkinnablePropertiesForTest >> newSkinManager [
 ToElementWithSkinnablePropertiesForTest >> skinInstalledCount [
 
 	^ self skinManager skinInstalledCount
-]
-
-{ #category : #accessing }
-ToElementWithSkinnablePropertiesForTest >> skinRequestCount [
-
-	^ self skinManager skinRequestCount 
 ]
 
 { #category : #accessing }

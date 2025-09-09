@@ -15,8 +15,8 @@ See https://ant.design/components/select for a functional reference.
 Class {
 	#name : #ToSelectElement,
 	#superclass : #ToElement,
-	#traits : 'TToElementWithPlaceholder',
-	#classTraits : 'TToElementWithPlaceholder classTrait',
+	#traits : 'TToPlaceholderUser',
+	#classTraits : 'TToPlaceholderUser classTrait',
 	#instVars : [
 		'filtrable',
 		'iconContainer',
@@ -42,15 +42,9 @@ ToSelectElement >> applyConfiguration [
 ]
 
 { #category : #'accessing - window' }
-ToSelectElement >> closeOnPicking [
+ToSelectElement >> closeOnItemPicking [
 
-	^ self manager closeOnPicking
-]
-
-{ #category : #'accessing - window' }
-ToSelectElement >> closeOnPicking: aBoolean [
-
-	self manager closeOnPicking: aBoolean
+	^ true
 ]
 
 { #category : #'accessing - window' }
@@ -80,6 +74,12 @@ ToSelectElement >> defaultEventHandler [
 ToSelectElement >> defaultLayout [ 
 
 	^ BlLinearLayout horizontal
+]
+
+{ #category : #'t - place holder user' }
+ToSelectElement >> elementWithPlaceHolder [
+
+	^ self innerElement
 ]
 
 { #category : #accessing }
@@ -233,27 +233,11 @@ ToSelectElement >> newShortcutsStore [
 	^ ToSelectShortcutsStore new
 ]
 
-{ #category : #window }
-ToSelectElement >> onClosed [
-	self
-		deprecated: 'Use #onPopupWindowClosed'
-		transformWith: '`@rcvr onWindowClosed' -> '`@rcvr onPopupWindowClosed'.
-	self onPopupWindowClosed
-]
-
 { #category : #layout }
 ToSelectElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
 	"self class name trace. ' ' trace. 'onLayout: context:' traceCr"
-]
-
-{ #category : #window }
-ToSelectElement >> onOpened [
-	self
-		deprecated: 'Use #onPopupWindowOpened'
-		transformWith: '`@rcvr onWindowOpened' -> '`@rcvr onPopupWindowOpened'.
-	self onPopupWindowOpened
 ]
 
 { #category : #window }

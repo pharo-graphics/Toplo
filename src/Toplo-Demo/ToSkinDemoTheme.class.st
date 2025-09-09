@@ -22,8 +22,8 @@ ToSkinDemoTheme class >> defaultTokenProperties [
 			   value: Color lightRed darker) }
 ]
 
-{ #category : #accessing }
-ToSkinDemoTheme >> newSkinInstanceFor: anElement [ 
+{ #category : #'skin creation' }
+ToSkinDemoTheme >> newSkinFor: anElement [ 
 
 	^ anElement newSkinDemoSkin 
 ]

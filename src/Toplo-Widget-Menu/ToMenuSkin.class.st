@@ -7,7 +7,7 @@ Class {
 { #category : #'event handling' }
 ToMenuSkin >> arrowImageFor: aMenuItem [
 
-	^ aMenuItem isInline
+	^ aMenuItem hasInlineWindow 
 		  ifTrue: [
 				  aMenuItem isOpened
 					  ifTrue: [ ToIconicArrowButton up ]

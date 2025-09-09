@@ -8,27 +8,6 @@ Class {
 }
 
 { #category : #'tests - adding' }
-ToObservableCollectionTest >> testAdd [
-
-	| l i|
-	l := ToObservableCollection new.
-
-	l addEventHandler: (BlEventHandler
-			 on: ToCollectionAddEvent do: [ :ann | i := ann interval ]).
-	l add: 88.
-	self
-		assert: l asOrderedCollection
-		equals: #( 88 ) asOrderedCollection.
-	self assert: i notNil.
-	self assert: i equals: (1 to: 1).
-	l add: 99.
-	self assert: i equals: (2 to: 2).
-	self
-		assert: l asOrderedCollection
-		equals: #( 88 99 ) asOrderedCollection
-]
-
-{ #category : #'tests - adding' }
 ToObservableCollectionTest >> testAddAfter [
 
 	| l i |
@@ -385,6 +364,27 @@ ToObservableCollectionTest >> testEventDispatcher [
 	| l |
 	l := ToObservableCollection new.
 	self assert: (l eventDispatcher isKindOf: BlEventDispatcher)
+]
+
+{ #category : #'tests - adding' }
+ToObservableCollectionTest >> testRegisterActionLink [
+
+	| l i|
+	l := ToObservableCollection new.
+
+	l addEventHandler: (BlEventHandler
+			 on: ToCollectionAddEvent do: [ :ann | i := ann interval ]).
+	l add: 88.
+	self
+		assert: l asOrderedCollection
+		equals: #( 88 ) asOrderedCollection.
+	self assert: i notNil.
+	self assert: i equals: (1 to: 1).
+	l add: 99.
+	self assert: i equals: (2 to: 2).
+	self
+		assert: l asOrderedCollection
+		equals: #( 88 99 ) asOrderedCollection
 ]
 
 { #category : #'tests - removing' }

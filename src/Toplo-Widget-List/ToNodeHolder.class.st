@@ -75,8 +75,8 @@ ToNodeHolder >> disabled: aBoolean [
 	| selecter |
 	selecter := self listElement disabledSelecter.
 	aBoolean
-		ifTrue: [ selecter selectIndex: self position ]
-		ifFalse: [ selecter deselectIndex: self position ]
+		ifTrue: [ self isDisabled ifFalse: [ selecter selectIndex: self position ] ]
+		ifFalse: [ self isEnabled ifFalse: [selecter deselectIndex: self position ] ]
 ]
 
 { #category : #initialization }
@@ -91,6 +91,7 @@ ToNodeHolder >> initialize [
 { #category : #accessing }
 ToNodeHolder >> initializeNode [
 
+	notifiedSelected := false.
 	self node disabled: self isDisabled.
 	self isHidden ifTrue: [ self node height: 0 ]
 ]
@@ -221,6 +222,14 @@ ToNodeHolder >> release [
 ToNodeHolder >> removeNodeFromBar [
 
 	self dataSource removeAt: self position
+]
+
+{ #category : #accessing }
+ToNodeHolder >> selected: aBoolean [
+
+	aBoolean
+		ifTrue: [ self selecter selectIndex: self position ]
+		ifFalse: [ self selecter deselectIndex: self position ]
 ]
 
 { #category : #accessing }

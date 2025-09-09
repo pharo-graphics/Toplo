@@ -4,24 +4,9 @@ Trait {
 }
 
 { #category : #'t - element with tooltip' }
-TToElementWithTooltip >> closeTooltipOnMouseLeave: aBoolean [
-
-	"Set a help string to display to the user if he let the mouse over the widget (a tooltip)."
-
-	self tooltipWindowManager closeOnMouseLeave: aBoolean
-]
-
-{ #category : #'t - element with tooltip' }
 TToElementWithTooltip >> currentTooltipWindow [
 
 	^ self rawTooltipWindowManager ifNotNil: [ :h | h currentWindow ]
-]
-
-{ #category : #'t - element with tooltip' }
-TToElementWithTooltip >> hasOpenedTooltip [
-	" do not use #tooltipWindowHandler to avoid TooltipWindowHandler installation here "
-	self deprecated: 'Unless there are users. add an issue if this is the case'.
-	^ self currentTooltipWindow notNil
 ]
 
 { #category : #'t - element with tooltip' }
@@ -29,12 +14,6 @@ TToElementWithTooltip >> hasTooltip [
 	" do not use #tooltipWindowHandler to avoid TooltipWindowHandler installation here "
 
 	^ self rawTooltipWindowManager notNil
-]
-
-{ #category : #'t - element with tooltip' }
-TToElementWithTooltip >> newTooltipWindowEvent: anEvent [
-
-	^ self rawTooltipWindowManager newWindowEvent: anEvent
 ]
 
 { #category : #'t - element with tooltip' }
@@ -93,16 +72,9 @@ TToElementWithTooltip >> tooltipContent: anElement [
 ]
 
 { #category : #'t - element with tooltip' }
-TToElementWithTooltip >> tooltipPopupDelay [
-	
-	^ self userData at: #tooltipPopupDelay ifAbsent: [  ]
-]
+TToElementWithTooltip >> tooltipManagerDo: aValuable [
 
-{ #category : #'t - element with tooltip' }
-TToElementWithTooltip >> tooltipPopupDelay: aDuration [
-	
-	self userData at: #tooltipPopupDelay put: aDuration.
-	self rawTooltipWindowManager ifNotNil: [ :h | h autoPopupDelay: aDuration ]
+	aValuable value: self tooltipWindowManager 
 ]
 
 { #category : #'t - element with tooltip' }
@@ -117,7 +89,6 @@ TToElementWithTooltip >> tooltipString: aString [
 TToElementWithTooltip >> tooltipText: aText [
 
 	self tooltipContent: ((ToLabel text: aText asRopedText)
-			 defaultRawSkin: ToLabelInTooltipSkin new;
 			 beMultiLine;
 			 yourself)
 ]
@@ -128,8 +99,6 @@ TToElementWithTooltip >> tooltipWindowManager [
 	^ self userData at: #tooltipWindowManager ifAbsentPut: [
 		  | handler |
 		  handler := ToTooltipPopupManager new.
-			" pay attention that the handler must be added before changing the delay "
 		  self addEventHandler: handler.
-		  self tooltipPopupDelay ifNotNil: [ :d | handler autoPopupDelay: d ].
 		  handler ]
 ]

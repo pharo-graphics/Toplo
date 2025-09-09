@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'needSkinInstallPass',
 		'needSkinStateApplicationPass',
-		'stateGenerations',
 		'phasesInstallationDone',
 		'nextConfigurationPass',
 		'runningConfigurationPass',
@@ -12,12 +11,6 @@ Class {
 	],
 	#category : #'Toplo-Core-SpaceFrame'
 }
-
-{ #category : #adding }
-ToSpacePhasesManager >> addSkinStateGeneration: aValuable [
-
-	stateGenerations add: aValuable
-]
 
 { #category : #'configurations application' }
 ToSpacePhasesManager >> applyAllConfigurationsIn: aSpace [
@@ -33,7 +26,6 @@ ToSpacePhasesManager >> applyAllConfigurationsIn: aSpace [
 { #category : #'skins application' }
 ToSpacePhasesManager >> applyAllEnqueuedStatesIn: aSpace [
 
-	self runStateGenerations.
 	needSkinStateApplicationPass ifFalse: [ ^ self ].
 	aSpace root applyEnqueuedStatesDeeply.
 	needSkinStateApplicationPass := false
@@ -64,8 +56,7 @@ ToSpacePhasesManager >> initialize [
 	phasesInstallationDone := false.
 	needSkinInstallPass := true.
 	needSkinStateApplicationPass := true.
-	needConfigurationPass := true.
-	stateGenerations := OrderedCollection new
+	needConfigurationPass := true
 ]
 
 { #category : #'phases installation' }
@@ -177,14 +168,6 @@ ToSpacePhasesManager >> requestNewConfigurationPass [
 
 	self isApplyingConfigurations ifTrue: [ ^ self ].
 	needConfigurationPass := true
-]
-
-{ #category : #'skins application' }
-ToSpacePhasesManager >> runStateGenerations [
-
-	stateGenerations ifNil: [ ^ self ].
-	stateGenerations do: [ :g | g value ].
-	stateGenerations reset
 ]
 
 { #category : #'configurations application' }

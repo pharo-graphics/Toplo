@@ -20,7 +20,6 @@ ToTagElement >> applyConfiguration [
 ToTagElement >> initialize [ 
 
 	super initialize.
-	self applySkinInstallerOnFirstRequest: true.
 	self takeFocusOnClick: false.
 	removable := false
 ]
@@ -29,7 +28,7 @@ ToTagElement >> initialize [
 ToTagElement >> initializeAsCheckable [ 
 
 	super initializeAsCheckable.
-	self takeFocusOnClick: true
+	self takeFocusOnClick: false
 ]
 
 { #category : #skin }

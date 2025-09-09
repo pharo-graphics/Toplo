@@ -11,7 +11,7 @@ ToTextFieldPlaceholder >> initialize [
 	self layout alignCenterLeft
 ]
 
-{ #category : #initialization }
+{ #category : #skin }
 ToTextFieldPlaceholder >> installRawStyle [
 
 	super installRawStyle.

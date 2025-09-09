@@ -14,13 +14,9 @@ ToTestCaseWithSpace >> installNewSkinNowIn: anElement [
 	anElement space ifNil: [
 		Error signal:
 			'A non attached element can''t ask for an immediate skin change ' ].
-	anElement skinManagerDo: [ :sm |
-		sm requestUninstallSkinIn: anElement ].
-	anElement skinManager skinUninstaller ifNotNil: [ :su |
-		su applyOn: anElement ].
-	anElement ensuredSkinManager requestInstallSkinIn: anElement.
-	anElement skinManager skinInstaller ifNotNil: [ :si |
-		si applyOn: anElement ].
+	anElement ensuredSkinManager requestNewSkinIn: anElement.
+	anElement skinManager newSkinRequested ifTrue: [ 
+		anElement skinManager installNewSkinIn: anElement ].
 	anElement requestSkinApplication
 ]
 

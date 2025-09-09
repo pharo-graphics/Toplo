@@ -1,7 +1,7 @@
 Class {
 	#name : #ToPropertyWritersHolderElementForTest,
 	#superclass : #Object,
-	#traits : 'TToLookEventListenerRegistry',
-	#classTraits : 'TToLookEventListenerRegistry classTrait',
+	#traits : 'TToSkinEventListenerRegistry',
+	#classTraits : 'TToSkinEventListenerRegistry classTrait',
 	#category : #'Toplo-Tests-Core-StyleSheet'
 }

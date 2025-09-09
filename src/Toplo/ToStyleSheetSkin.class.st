@@ -1,8 +1,8 @@
 Class {
 	#name : #ToStyleSheetSkin,
 	#superclass : #ToSkin,
-	#traits : 'TToLookEventListenerRegistry',
-	#classTraits : 'TToLookEventListenerRegistry classTrait',
+	#traits : 'TToSkinEventListenerRegistry + TToStyleSheetSkin',
+	#classTraits : 'TToSkinEventListenerRegistry classTrait + TToStyleSheetSkin classTrait',
 	#category : #'Toplo-Core-Skin'
 }
 
@@ -10,10 +10,4 @@ Class {
 ToStyleSheetSkin >> handleEvent: anEvent [
 
 	anEvent sendToStyleSheetSkin: self
-]
-
-{ #category : #'hook - event managing' }
-ToStyleSheetSkin >> sendEventToPropertyWriters: anEvent [
-
-	self skinEventListeners do: [ :s | s receiveEvent: anEvent  ] 
 ]

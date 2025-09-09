@@ -63,7 +63,7 @@ ToPopupWindowManagerTest >> testElementEventHandlerClass [
 
 	windowManager := ToPopupWindowManager new.
 	e addEventHandler: windowManager.
-	win := windowManager newWindowEvent: nil.
+	win := windowManager createNewWindowOnEvent: nil.
 	win popup.
 	self waitTestingSpaces.
 	self assert: win anchorElement equals: e.
@@ -84,7 +84,7 @@ ToPopupWindowManagerTest >> testElementPositionInSpaceChangedEvent [
 
 	windowManager := ToPopupWindowManager new.
 	e addEventHandler: windowManager.
-	win := windowManager newWindowEvent: nil.
+	win := windowManager createNewWindowOnEvent: nil.
 	win popup.
 	self waitTestingSpaces.
 	self assert: win isOpened.
@@ -277,8 +277,8 @@ ToPopupWindowManagerTest >> testNoAutoCloseEvenAfterLongDelay [
 	BlSpace simulateMouseUpOn: e.
 	" window is not closed on mouse-up "
 	self waitTestingSpaces.
-	self assert: windowManager currentWindow isNil.
-	self assert: closed.
+	self assert: windowManager currentWindow notNil.
+	self deny: closed.
 
 	windowManager autoCloseDelay: 400 milliSeconds.
 	closed := false.

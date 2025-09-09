@@ -20,7 +20,7 @@ ToItemToggleButton >> defaultLayout [
 ToItemToggleButton >> initialize [
 
 	super initialize.
-	self addEventHandler: ToClickableFocusEventHandler new.
+	self addEventHandler: ToClickableEventHandler new.
 	self initializeAsTripletElement.
 	self initializeAsCheckable.
 	self clickEventClass: ToCheckableChangedEvent

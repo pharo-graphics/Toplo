@@ -1,9 +1,9 @@
 Class {
 	#name : #ToSelectionState,
-	#superclass : #ToIntrinsicState,
+	#superclass : #ToIntrinsicStateBase,
 	#instVars : [
-		'selected',
 		'focused',
+		'selected',
 		'selectionOption'
 	],
 	#category : #'Toplo-Core-States'
@@ -12,14 +12,14 @@ Class {
 { #category : #'look event sending' }
 ToSelectionState >> applyOn: anElement fromQueue: aQueue [
 
-	anElement
-		withAllChildrenBreadthFirstDo: [ :child |
-				| se |
-				se := self skinEvent.
-				child spaceDo: [ :sp | se fillFromTime: child space time ].
-				child dispatchEvent: se.
-				self onAppliedOn: child fromQueue: aQueue ]
-		while: [ :child | child selectionSkinEventsPrevented not ]
+	| skinEvtCls skinEvt |
+	skinEvtCls := selected
+		              ifTrue: [ ToSelectedSkinEvent ]
+		              ifFalse: [ ToDeselectedSkinEvent ].
+	skinEvt := skinEvtCls new.
+	skinEvt focused: focused.
+	skinEvt selectionOption: selectionOption.
+	self dispatchSkinEvent: skinEvt on: anElement fromQueue: aQueue
 ]
 
 { #category : #accessing }
@@ -53,15 +53,7 @@ ToSelectionState >> selectionOption [
 ]
 
 { #category : #accessing }
-ToSelectionState >> selectionOption: aSelectionElementOption [
+ToSelectionState >> selectionOption: aSelectionOption [
 
-	selectionOption := aSelectionElementOption
-]
-
-{ #category : #accessing }
-ToSelectionState >> skinEventClass [
-
-	^ self selected
-		  ifTrue: [ ToSelectedSkinEvent ]
-		  ifFalse: [ ToDeselectedSkinEvent ]
+	selectionOption := aSelectionOption
 ]

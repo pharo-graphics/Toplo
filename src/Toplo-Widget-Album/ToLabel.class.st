@@ -148,6 +148,7 @@ ToLabel >> fontSize: aNumber [
 { #category : #'api - text style' }
 ToLabel >> foreground: aBlPaint [
 
+	"self text asString = '2: BB' ifTrue: [ 'foreground. ' trace. aBlPaint traceCr ]."
 	self attributesBuilder attribute: (BlTextForegroundAttribute paint: aBlPaint)
 ]
 
@@ -168,9 +169,8 @@ ToLabel >> hasText [
 { #category : #initialization }
 ToLabel >> initialize [
 
-	self class initializeSlots: self.
 	super initialize.
-	self applySkinInstallerOnFirstRequest: true.
+	self class initializeSlots: self.
 	self fitContent.
 	self focusability: BlFocusability none.
 
@@ -351,7 +351,7 @@ ToLabel >> popupEditorEvent: anEvent [
 	" prepare the window with the editor and open it"
 
 	self hasEditor ifTrue: [ ^ self ].
-	(editorWindowManager newWindowEvent: anEvent) ifNotNil: [ :win |
+	(editorWindowManager createNewWindowOnEvent: anEvent) ifNotNil: [ :win |
 		win popupEvent: anEvent ]
 ]
 

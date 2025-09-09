@@ -40,10 +40,25 @@ ToContentEditorManager >> editorOpenedEventClass [
 	^ ToElementEditorOpenedEvent 
 ]
 
-{ #category : #'window handling' }
-ToContentEditorManager >> onClosed [
+{ #category : #'api - hooks' }
+ToContentEditorManager >> onInstalledIn: anElement [
 
-	super onClosed.
+	super onInstalledIn: anElement.
+	anElement onInstalledEditorManager: self
+]
+
+{ #category : #'api - hooks' }
+ToContentEditorManager >> onUninstalledIn: anElement [
+
+	anElement onUninstalledEditorManager: self.
+	super onInstalledIn: anElement.
+
+]
+
+{ #category : #'window handling' }
+ToContentEditorManager >> onWindowClosed [
+
+	super onWindowClosed.
 	anchorElement dispatchEvent: (self editorClosedEventClass new
 			 editorElement: editor;
 			 yourself).
@@ -55,17 +70,10 @@ ToContentEditorManager >> onClosed [
 	editor := nil
 ]
 
-{ #category : #'api - hooks' }
-ToContentEditorManager >> onInstalledIn: anElement [
-
-	super onInstalledIn: anElement.
-	anElement onInstalledEditorManager: self
-]
-
 { #category : #'window handling' }
-ToContentEditorManager >> onOpened [
+ToContentEditorManager >> onWindowOpened [
 
-	super onOpened.
+	super onWindowOpened.
 
 	editor := anchorElement newEditorForManager: self.
 
@@ -76,14 +84,6 @@ ToContentEditorManager >> onOpened [
 			 anchorElement dispatchEvent: (self editorOpenedEventClass new
 					  editorElement: editor;
 					  yourself) ])
-]
-
-{ #category : #'api - hooks' }
-ToContentEditorManager >> onUninstalledIn: anElement [
-
-	anElement onUninstalledEditorManager: self.
-	super onInstalledIn: anElement.
-
 ]
 
 { #category : #enumerating }

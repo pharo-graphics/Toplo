@@ -9,17 +9,6 @@ Class {
 	#category : #'Toplo-Widget-Select-manager'
 }
 
-{ #category : #'window handling' }
-ToSelectPopupManager >> checkCloseWindowOnPickingEvent: anEvent [
-	" don't autoclose if mouse up on a filter textfield "
-
-	| target |
-	target := anEvent target.
-	target = anchorElement filterTextField ifTrue: [ ^ self ].
-	(target allParentsInclude: anchorElement filterTextField) ifTrue: [ ^ self ].
-	super checkCloseWindowOnPickingEvent: anEvent
-]
-
 { #category : #initialization }
 ToSelectPopupManager >> defaultMaxHeight [
 
@@ -49,6 +38,12 @@ ToSelectPopupManager >> defaultPlacement [
 			  theWin position:
 					  (theElem bounds inParent: theRoot) bounds bottomLeft ];
 		  yourself
+]
+
+{ #category : #accessing }
+ToSelectPopupManager >> defaultWindowClass [
+
+	^ ToSelectPopupWindow 
 ]
 
 { #category : #accessing }
@@ -111,14 +106,6 @@ ToSelectPopupManager >> newListElement [
 	^ newListElement
 ]
 
-{ #category : #'window handling' }
-ToSelectPopupManager >> onClosed [
-
-	super onClosed.
-	" if case one of my children has focus "
-	self anchorElement onPopupWindowClosed
-]
-
 { #category : #'api - hooks' }
 ToSelectPopupManager >> onInstalledIn: anElement [
 
@@ -134,13 +121,6 @@ ToSelectPopupManager >> onInstalledIn: anElement [
 	sieve := listElement newSieve
 ]
 
-{ #category : #'window handling' }
-ToSelectPopupManager >> onOpened [
-
-	super onOpened.
-	self anchorElement onPopupWindowOpened
-]
-
 { #category : #'api - hooks' }
 ToSelectPopupManager >> onUninstalledIn: anElement [
 
@@ -151,10 +131,30 @@ ToSelectPopupManager >> onUninstalledIn: anElement [
 
 ]
 
-{ #category : #accessing }
-ToSelectPopupManager >> popupWindowClass [
+{ #category : #'window handling' }
+ToSelectPopupManager >> onWindowClosed [
 
-	^ ToSelectPopupWindow 
+	super onWindowClosed.
+	" if case one of my children has focus "
+	self anchorElement onPopupWindowClosed
+]
+
+{ #category : #'window handling' }
+ToSelectPopupManager >> onWindowOpened [
+
+	super onWindowOpened.
+	self anchorElement onPopupWindowOpened
+]
+
+{ #category : #'window handling' }
+ToSelectPopupManager >> requestCloseWindowOnEvent: anEvent [
+	" don't autoclose if mouse up on a filter textfield "
+
+	| target |
+	target := anEvent target.
+	(target withAllParentsInclude: anchorElement filterTextField)
+		ifTrue: [ ^ self ].
+	super requestCloseWindowOnEvent: anEvent
 ]
 
 { #category : #accessing }

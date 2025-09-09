@@ -17,21 +17,6 @@ ToSpacePhasesManagerTest >> testApplyAllConfigurationsIn [
 ]
 
 { #category : #tests }
-ToSpacePhasesManagerTest >> testApplyAllEnqueuedStatesIn [
-
-	| e |
-	e := ToElement new.
-	space root addChild: e.
-	space applyAllSkinInstallers.
-	e skinManager
-		enqueueSkinState: (ToFocusState new focused: true)
-		in: e.
-	self assert: e skinManager skinStateQueue nextStates size > 0.
-	space phasesManager applyAllEnqueuedStatesIn: space.
-	self assert: e skinManager skinStateQueue nextStates size equals: 0
-]
-
-{ #category : #tests }
 ToSpacePhasesManagerTest >> testApplyAllSkinInstallersIn [
 
 	space phasesManager needSkinInstallPass: true.
@@ -116,7 +101,6 @@ ToSpacePhasesManagerTest >> testNeedConfigurationPass [
 	e := ToElement new.
 	space applyAllWidgetConfigurations.
 	self deny: space phasesManager needConfigurationPass.
-	e requestConfiguration.
 	space root addChild: e.
 	self deny: space phasesManager needConfigurationPass.
 	e requestConfiguration.
@@ -134,7 +118,7 @@ ToSpacePhasesManagerTest >> testNeedSkinInstallPass [
 	space applyAllSkinInstallers.
 	self deny: space phasesManager needSkinInstallPass.
 	space root addChild: e.
-	self assert: space phasesManager needSkinInstallPass.
+	self deny: space phasesManager needSkinInstallPass.
 	space applyAllSkinInstallers.
 	" all skin installers should have been applied "
 	self deny: space phasesManager needSkinInstallPass.
@@ -156,15 +140,14 @@ ToSpacePhasesManagerTest >> testNeedSkinStateApplicationPass [
 
 	| e |
 	e := ToElement new.
-	e applySkinInstallerOnFirstRequest: false.
 	space applyAllSkinInstallers.
 	self deny: space phasesManager needSkinInstallPass.
 	self assert: space phasesManager needSkinStateApplicationPass.
 	space applyAllEnqueuedStates.
 	self deny: space phasesManager needSkinStateApplicationPass.
 	space root addChild: e.
-	self assert: space phasesManager needSkinInstallPass.
-	self deny: space phasesManager needSkinStateApplicationPass.
+	self deny: space phasesManager needSkinInstallPass.
+	self assert: space phasesManager needSkinStateApplicationPass.
 	space applyAllSkinInstallers.
 	self assert: space phasesManager needSkinStateApplicationPass.
 	space applyAllEnqueuedStates.

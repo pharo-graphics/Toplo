@@ -60,7 +60,7 @@ TToMenuItem >> closeAllPopupMenuWindows [
 { #category : #'t - menu item' }
 TToMenuItem >> isInInlineWindow [
 
-	self parentMenuDo: [ :m | ^ m isInline ].
+	self parentMenuDo: [ :m | ^ m hasInlineWindow ].
 	^ false
 ]
 

@@ -97,14 +97,6 @@ ToListSelectionRepresentationOption >> notifyNodesSelectedIn: aListElement [
 		n holder notifySelectedWithOption: selectionOption ]
 ]
 
-{ #category : #'nodes collecting' }
-ToListSelectionRepresentationOption >> refreshSelectionIn: aListElement withSelectionModel: aSelectionModel [
-
-	self
-		updateSelectionIn: aListElement
-		withSelectionModel: aSelectionModel
-]
-
 { #category : #removing }
 ToListSelectionRepresentationOption >> removeSelectionContainer [
 ]

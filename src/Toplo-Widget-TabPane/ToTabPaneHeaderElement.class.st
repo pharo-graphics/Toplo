@@ -3,7 +3,9 @@ Class {
 	#superclass : #ToTripletElement,
 	#instVars : [
 		'tabGroup',
-		'alignment'
+		'alignment',
+		'compactLayoutMode',
+		'layoutModeCheckRequested'
 	],
 	#category : #'Toplo-Widget-TabPane-TabPane'
 }
@@ -39,6 +41,34 @@ ToTabPaneHeaderElement >> alignment: anElementAlignment [
 	self requestConfiguration
 ]
 
+{ #category : #configuration }
+ToTabPaneHeaderElement >> checkLayoutMode [
+
+	compactLayoutMode ifFalse: [ ^ self ].
+	self matchParentMode 
+		ifFalse: [
+				| groupEndBnds tabPaneEndBnds w |
+				groupEndBnds := tabGroup endContainer bounds inParent: self.
+				tabPaneEndBnds := endContainer bounds.
+				w := self isHorizontal
+					     ifTrue: [ tabPaneEndBnds left - groupEndBnds right ]
+					     ifFalse: [ tabPaneEndBnds top - groupEndBnds bottom ].
+				w < 1 ifTrue: [ self matchParentMode: true ] ]
+		ifTrue: [
+			self invisibleNodes ifEmpty: [
+				self matchParentMode: false ] ]
+]
+
+{ #category : #accessing }
+ToTabPaneHeaderElement >> compactLayoutMode: aBoolean [
+
+	compactLayoutMode = aBoolean ifTrue: [ ^ self ].
+	compactLayoutMode := aBoolean.
+	aBoolean
+		ifTrue: [ self requestLayoutModeCheck ]
+		ifFalse: [ self matchParentMode: true ]
+]
+
 { #category : #accessing }
 ToTabPaneHeaderElement >> endExtraBuilder: aValuable [
 
@@ -49,11 +79,57 @@ ToTabPaneHeaderElement >> endExtraBuilder: aValuable [
 ToTabPaneHeaderElement >> initialize [
 
 	super initialize.
+	compactLayoutMode := false.
+	layoutModeCheckRequested := false.
 	self startElement: self newLinearContainer.
+	self startElement id: #'start-extra-container'.
 	self endElement: self newLinearContainer.
+	self endElement id: #'end-extra-container'.
 	tabGroup := self newTabGroupElement.
 	self middleElement: tabGroup.
-	self noAlignment 
+	self noAlignment.
+
+	self
+		addEventHandlerOn: BlElementExtentChangedEvent
+		do: [ self requestLayoutModeCheck ]
+]
+
+{ #category : #accessing }
+ToTabPaneHeaderElement >> invisibleNodes [ 
+
+	^ tabGroup invisibleNodes
+]
+
+{ #category : #accessing }
+ToTabPaneHeaderElement >> isAlignEnd [
+
+	^ self alignment = BlElementAlignment end
+]
+
+{ #category : #accessing }
+ToTabPaneHeaderElement >> isAlignMiddle [
+
+	^ self alignment = BlElementAlignment middle
+]
+
+{ #category : #accessing }
+ToTabPaneHeaderElement >> isAlignStart [
+
+	^ self alignment = BlElementAlignment start
+]
+
+{ #category : #configuration }
+ToTabPaneHeaderElement >> matchParentMode [
+
+	^ self toConfiguration matchParentMode
+]
+
+{ #category : #configuration }
+ToTabPaneHeaderElement >> matchParentMode: aBoolean [
+
+	self toConfiguration matchParentMode = aBoolean ifTrue: [ ^ self ].
+	self toConfiguration matchParentMode: aBoolean.
+	self requestConfiguration
 ]
 
 { #category : #'instance creation' }
@@ -76,6 +152,23 @@ ToTabPaneHeaderElement >> noAlignment [
 	self alignment: BlElementAlignment null
 ]
 
+{ #category : #'hooks - layout' }
+ToTabPaneHeaderElement >> onLayoutDone [ 
+
+	super onLayoutDone.
+	layoutModeCheckRequested ifFalse: [ ^ self ].
+	self checkLayoutMode.
+	layoutModeCheckRequested := false
+
+]
+
+{ #category : #'hooks - layout' }
+ToTabPaneHeaderElement >> requestLayoutModeCheck [
+
+	compactLayoutMode ifFalse: [ ^ self ].
+	layoutModeCheckRequested := true
+]
+
 { #category : #accessing }
 ToTabPaneHeaderElement >> startExtraBuilder: aValuable [
 
@@ -86,4 +179,10 @@ ToTabPaneHeaderElement >> startExtraBuilder: aValuable [
 ToTabPaneHeaderElement >> tabGroup [ 
 
 	^ tabGroup
+]
+
+{ #category : #accessing }
+ToTabPaneHeaderElement >> trackElement [
+
+	^ self tabGroup trackElement
 ]

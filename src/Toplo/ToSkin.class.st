@@ -17,7 +17,25 @@ ToSkin >> handleEvent: anEvent [
 ]
 
 { #category : #testing }
+ToSkin >> isKnownSkin [
+
+	^ self isUnknownSkin not
+]
+
+{ #category : #testing }
 ToSkin >> isNullSkin [
 
 	^ false
+]
+
+{ #category : #testing }
+ToSkin >> isUnknownSkin [
+
+	^ false
+]
+
+{ #category : #'t - styleSheet theme - accessing writable properties' }
+ToSkin >> setUpforElement: anElement inTheme: aTheme [
+
+	
 ]

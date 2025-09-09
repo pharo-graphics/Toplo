@@ -50,7 +50,7 @@ paddingXS	Control the extra small padding of the element.	number	8
 "
 Class {
 	#name : #ToBeeTheme,
-	#superclass : #ToStyleSheetTheme,
+	#superclass : #ToTheme,
 	#category : #'Toplo-Theme-Bee'
 }
 
@@ -727,12 +727,6 @@ ToBeeTheme >> declareTextPaneRules [
 ]
 
 { #category : #initialization }
-ToBeeTheme >> defaultElementStampsFor: anElement [ 
-
-	^ anElement defaultBeeStyleStamps
-]
-
-{ #category : #initialization }
 ToBeeTheme >> initializeStyleRules [ 
 
 	super initializeStyleRules.
@@ -743,8 +737,8 @@ ToBeeTheme >> initializeStyleRules [
 	self declareTextPaneRules 
 ]
 
-{ #category : #styling }
-ToBeeTheme >> skinClassFor: anElement [
+{ #category : #'skin creation' }
+ToBeeTheme >> newSkinFor: anElement [
 
-	^ ToBeeSkin
+	^ ToBeeSkin new
 ]

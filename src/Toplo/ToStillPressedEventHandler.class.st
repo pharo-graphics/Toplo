@@ -1,9 +1,6 @@
 Class {
 	#name : #ToStillPressedEventHandler,
 	#superclass : #ToEventGeneratorHandler,
-	#instVars : [
-		'mouseUpOutsideFilter'
-	],
 	#category : #'Toplo-Support-EventGenerator'
 }
 
@@ -20,43 +17,22 @@ ToStillPressedEventHandler >> eventsToHandle [
 ToStillPressedEventHandler >> initialize [ 
 
 	super initialize.
-	delay := 0 milliSeconds.
-	startDelay := 0 milliSeconds.
-	time := BlTime real
+	self initializeAsEventGeneratorHandler 
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : #'event handling' }
 ToStillPressedEventHandler >> mouseDownEvent: anEvent [
 
-	| target  |
-	checker ifNotNil: [ ^ self ].
-	target := anEvent currentTarget.
-	startTime := time now.
-	checker := BlRepeatedTaskAction new
-		           delay: delay asDuration;
-		           action: [self taskActionFromEvent: anEvent in: target].
-
-	mouseUpOutsideFilter := ToMouseUpOutsideEventFilter new
-		                     element: target;
-		                     yourself.		
-	target space root addEventFilter: mouseUpOutsideFilter.
-	target enqueueTask: checker
+	self startEvent: anEvent
 ]
 
-{ #category : #'mouse handlers' }
+{ #category : #'event handling' }
 ToStillPressedEventHandler >> mouseUpEvent: anEvent [
 
-	self stopTaskFromEvent: anEvent in: anEvent currentTarget
+	self stopEvent: anEvent
 ]
 
-{ #category : #'mouse handlers' }
-ToStillPressedEventHandler >> mouseUpOutsideEvent: anEvent [
-
-	checker ifNil: [ ^ self ].
-	self stopTaskFromEvent: anEvent in: anEvent currentTarget
-]
-
-{ #category : #'instance creation' }
+{ #category : #'event handling' }
 ToStillPressedEventHandler >> newRepeatedEvent [
 
 	^ ToStillPressedEvent new
@@ -64,7 +40,7 @@ ToStillPressedEventHandler >> newRepeatedEvent [
 		  yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : #'event handling' }
 ToStillPressedEventHandler >> newStartEvent [
 
 	^ ToStartStillPressedEvent new
@@ -72,34 +48,10 @@ ToStillPressedEventHandler >> newStartEvent [
 		  yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : #'event handling' }
 ToStillPressedEventHandler >> newStopEvent [
 
 	^ ToStopStillPressedEvent new
 		  emitter: self;
 		  yourself
-]
-
-{ #category : #accessing }
-ToStillPressedEventHandler >> stopTaskFromEvent: anEvent in: aTarget [
-
-	mouseUpOutsideFilter ifNotNil: [
-		mouseUpOutsideFilter isInstalled ifTrue: [
-			aTarget spaceDo: [ :sp |
-				sp root removeEventFilter: mouseUpOutsideFilter ] ].
-		mouseUpOutsideFilter := nil ].
-
-	super stopTaskFromEvent: anEvent in: aTarget
-]
-
-{ #category : #accessing }
-ToStillPressedEventHandler >> stopTaskIn: target [
-
-	mouseUpOutsideFilter ifNotNil: [
-		mouseUpOutsideFilter isInstalled ifTrue: [
-			target spaceDo: [ :sp |
-				sp root removeEventFilter: mouseUpOutsideFilter ] ].
-		mouseUpOutsideFilter := nil ].
-
-	super stopTaskIn: target
 ]

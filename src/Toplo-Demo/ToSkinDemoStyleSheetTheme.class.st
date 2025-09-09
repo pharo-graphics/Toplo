@@ -206,7 +206,7 @@ ToSkinDemoStyleSheetTheme class >> exampleRuleNestedInOtherRuleDependsOnStamp [
 	space show
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 ToSkinDemoStyleSheetTheme >> clickedRules [ 
 self
 				when: ToClickedSkinEvent
@@ -217,7 +217,7 @@ self
 						ifFalse: [ Color lightRed darker ] ]
 ]
 
-{ #category : #colors }
+{ #category : #initialization }
 ToSkinDemoStyleSheetTheme >> constantRules [
 
 	self write: (self property: #size) with: 100 @ 50.
@@ -230,7 +230,7 @@ ToSkinDemoStyleSheetTheme >> constantRules [
 			width: (e valueOfTokenNamed: #'border-radius') ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 ToSkinDemoStyleSheetTheme >> hoveredRules [ 
 
 self
@@ -256,7 +256,7 @@ ToSkinDemoStyleSheetTheme >> initializeStyleRules [
 			self clickedRules ]
 ]
 
-{ #category : #colors }
+{ #category : #initialization }
 ToSkinDemoStyleSheetTheme >> installRules [
 
 	self
@@ -268,7 +268,7 @@ ToSkinDemoStyleSheetTheme >> installRules [
 				ifFalse: [ Color lightRed ] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 ToSkinDemoStyleSheetTheme >> leftRules [ 
 self
 				when: ToLeftSkinEvent

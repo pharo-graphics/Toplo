@@ -22,6 +22,7 @@ ToRawSkinTest >> testBasicStyleSheet [
 
 	| e styleSheet |
 	e := ToElement new.
+	e defaultSkin: ToRawSkin new.
 	e extent: 50 asPoint.
 	styleSheet := ToStyleSheet new.
 	styleSheet select: ToElement asTypeSelector style: [ :sr |
@@ -103,7 +104,9 @@ ToRawSkinTest >> testOnInstalledInSendsInstallRawStyle [
 	e := ToElementForRawSkinTest new.
 	space root addChild: e.
 	skin := ToRawSkin new.
-	self deny: e styleInstalled.
+	self assert: e styleInstalled.
+	skin onUninstalledIn: e.
+	self assert: e styleUninstalled.
 	skin onInstalledIn: e.
 	self assert: e styleInstalled.
 ]

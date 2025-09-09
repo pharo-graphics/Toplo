@@ -5,21 +5,12 @@ Class {
 }
 
 { #category : #initialization }
-ToCheckableGroupActionLink >> configureToUpdateLinkedObject: aCheckableGroup from: anElement [
+ToCheckableGroupActionLink >> linkWith: aCheckGroupOwner [
 
 	| handler |
-	handler := aCheckableGroup
+	super linkWith: aCheckGroupOwner.
+	handler := aCheckGroupOwner
 		           addEventHandlerOn: ToCheckableGroupChangedEvent
-		           do: [ :event | self runWithEvent: event  ].		
-	self addedHandler: handler in: aCheckableGroup for: nil.
-
-	handler := self
-		           addEventHandlerOn: ToRunLinkActionRequest
-		           do: [ :event |
-			           self
-				           launchWithLinkedObject: aCheckableGroup
-				           from: anElement
-				           onEvent: event sourceEvent
-				           withValue: aCheckableGroup checkedList ].
-	self addedHandler: handler in: self for: nil
+		           do: [ :event | self requestNextRunWithEvent: event ].
+	self addedHandler: handler in: aCheckGroupOwner
 ]

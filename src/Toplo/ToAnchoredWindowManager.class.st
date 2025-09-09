@@ -8,7 +8,8 @@ Class {
 		'anchorRoot',
 		'placement',
 		'measurement',
-		'windowStarter'
+		'windowStarter',
+		'minDelayAfterOpening'
 	],
 	#category : #'Toplo-Core-Window'
 }
@@ -43,13 +44,13 @@ ToAnchoredWindowManager >> anchorRoot: anElement [
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> buildCurrentWindowFromRequest: aRequest [
+ToAnchoredWindowManager >> closeWindow [
 
-	windowBuilder value: currentWindow value: aRequest
+	self closeWindowOnEvent: nil
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> closeWindow [
+ToAnchoredWindowManager >> closeWindowOnEvent: anEvent [
 
 	currentWindow ifNil: [ ^ self ].
 	currentWindow isOpened ifFalse: [ ^ self ].
@@ -63,7 +64,32 @@ ToAnchoredWindowManager >> closedEvent: anEvent [
 	I must be sure that the event is sent from my current window "
 
 	currentWindow = anEvent window ifFalse: [ ^ self ].
-	self onClosed
+	self onWindowClosed
+]
+
+{ #category : #'window handling' }
+ToAnchoredWindowManager >> createNewWindowOnEvent: anEvent [
+
+	| request |
+	currentWindow ifNotNil: [
+		^ Error signal: 'Asking for a window building twice' ].
+	self anchorElement ifNil: [
+		^ Error signal: 'An element is required for building a window' ].
+	self windowBuilder ifNil: [
+		^ Error signal: 'A window builder is required for building a window' ].
+
+	request := self newWindowRequestOnEvent: anEvent.
+
+	" dispatch the event. handlers can eventually feed the event with additional data 
+	that can be used by the builder "
+	self anchorElement dispatchEvent: request.
+
+	" the event is dispatched, eventually updated with additional data, 
+	the current window can be created then built"
+	currentWindow := self newWindow.
+	" use the accessor because it is lazy "
+	self windowBuilder value: currentWindow value: request.
+	^ currentWindow
 ]
 
 { #category : #accessing }
@@ -79,15 +105,6 @@ ToAnchoredWindowManager >> currentWindowDo: aValuable [
 ]
 
 { #category : #initialization }
-ToAnchoredWindowManager >> defaultBuilder [
-	" return a valuable used to build the window. The window is passed as first argument and the argument is request event "
-
-	^ [ :theWindow :theRequest | ]
-
-	
-]
-
-{ #category : #initialization }
 ToAnchoredWindowManager >> defaultMeasurement [
 
 	^ ToNoCustomMeasurement new
@@ -100,7 +117,22 @@ ToAnchoredWindowManager >> defaultPlacement [
 ]
 
 { #category : #initialization }
-ToAnchoredWindowManager >> defaultStarter [
+ToAnchoredWindowManager >> defaultWindowBuilder [
+	" return a valuable used to build the window. The window is passed as first argument and the argument is request event "
+
+	^ [ :theWindow :theRequest | ]
+
+	
+]
+
+{ #category : #accessing }
+ToAnchoredWindowManager >> defaultWindowClass [
+
+	^ ToAnchoredWindow 
+]
+
+{ #category : #initialization }
+ToAnchoredWindowManager >> defaultWindowStarter [
 
 	^ ToStandardWindowStarter new
 ]
@@ -152,6 +184,12 @@ ToAnchoredWindowManager >> handleEvent: anEvent [
 ]
 
 { #category : #testing }
+ToAnchoredWindowManager >> hasInlineWindow [
+
+	^ windowStarter isForInlineWindow
+]
+
+{ #category : #testing }
 ToAnchoredWindowManager >> hasWindow [
 
 	^ currentWindow notNil
@@ -161,14 +199,36 @@ ToAnchoredWindowManager >> hasWindow [
 ToAnchoredWindowManager >> initialize [
 
 	super initialize.
-	windowBuilder := self defaultBuilder.
-	windowStarter := self defaultStarter
+	minDelayAfterOpening := 300 milliSeconds.
+	windowBuilder := self defaultWindowBuilder.
+	windowStarter := self defaultWindowStarter
 ]
 
 { #category : #testing }
 ToAnchoredWindowManager >> isInline [ 
 
-	^ windowStarter isInline
+	self
+		deprecated: 'Use #hasInlineWindow instead'
+		transformWith: '`@rcvr isInline' -> '`@rcvr hasInlineWindow'.
+	^ self hasInlineWindow
+]
+
+{ #category : #'window handling' }
+ToAnchoredWindowManager >> isMinimumDelayExceededAfter: aTimeStamp [
+
+	| delay |
+	currentWindow ifNil: [ ^ true ].
+	aTimeStamp ifNil: [ ^ true ].
+	" check a minimum delay between opening and closing - 
+	useful to not close immediately context menu on mouse up"
+	delay := aTimeStamp - currentWindow popupTimestamp.
+	^ delay > minDelayAfterOpening
+]
+
+{ #category : #'window handling' }
+ToAnchoredWindowManager >> isMinimumDelayExceededOnEvent: anEvent [
+
+	^ self isMinimumDelayExceededAfter: anEvent timestamp
 ]
 
 { #category : #accessing }
@@ -192,46 +252,11 @@ ToAnchoredWindowManager >> newWindow [
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> newWindowEvent: anEvent [
-
-	| request |
-	currentWindow ifNotNil: [
-		^ Error signal: 'Asking for a window building twice' ].
-	self anchorElement ifNil: [
-		^ Error signal: 'An element is required for building a window' ].
-	self windowBuilder ifNil: [
-		^ Error signal: 'A window builder is required for building a window' ].
-
-	self anchorElement isEnabled ifFalse: [ ^ nil ].
-
-	request := self newWindowRequestFrom: anEvent.
-
-	" dispatch the event. handlers can eventually feed the event with additional data 
-	that can be used by the builder "
-	self anchorElement dispatchEvent: request.
-
-	" the event is dispatched, eventually updated with additional data, 
-	the current window can be created then built"
-	currentWindow := self newWindow.
-	self buildCurrentWindowFromRequest: request.
-	^ currentWindow
-]
-
-{ #category : #'window handling' }
-ToAnchoredWindowManager >> newWindowRequestFrom: anEvent [
+ToAnchoredWindowManager >> newWindowRequestOnEvent: anEvent [
 
 	^ self windowRequestClass new
 		  sourceEvent: anEvent;
 		  yourself
-]
-
-{ #category : #'window handling' }
-ToAnchoredWindowManager >> onClosed [
-
-	currentWindow ifNil: [ ^ self ].
-	currentWindow root removeChildren.
-	currentWindow manager: nil.
-	currentWindow := nil
 ]
 
 { #category : #'api - hooks' }
@@ -251,16 +276,25 @@ ToAnchoredWindowManager >> onMeasure: anExtentMeasurementSpec onEvent: anEvent [
 		onEvent: anEvent
 ]
 
-{ #category : #'window handling' }
-ToAnchoredWindowManager >> onOpened [
-
-]
-
 { #category : #'api - hooks' }
 ToAnchoredWindowManager >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
 	anchorElement := nil
+]
+
+{ #category : #'window handling' }
+ToAnchoredWindowManager >> onWindowClosed [
+
+	currentWindow ifNil: [ ^ self ].
+	currentWindow root removeChildren.
+	currentWindow manager: nil.
+	currentWindow := nil
+]
+
+{ #category : #'window handling' }
+ToAnchoredWindowManager >> onWindowOpened [
+
 ]
 
 { #category : #'event handling' }
@@ -270,7 +304,7 @@ ToAnchoredWindowManager >> openedEvent: anEvent [
 	" send from the window. Since I'm the only handler whatever the opened event, 
 	I must be sure that the event is sent from my current window "
 	currentWindow = anEvent window ifFalse: [ ^ self ].
-	self onOpened
+	self onWindowOpened
 ]
 
 { #category : #accessing }
@@ -283,12 +317,6 @@ ToAnchoredWindowManager >> placement [
 ToAnchoredWindowManager >> placement: aPlacement [
 
 	placement := aPlacement
-]
-
-{ #category : #accessing }
-ToAnchoredWindowManager >> popupWindowClass [
-
-	^ ToAnchoredWindow 
 ]
 
 { #category : #'window handling' }
@@ -327,12 +355,14 @@ ToAnchoredWindowManager >> themeInstalledEvent: anEvent [
 
 { #category : #accessing }
 ToAnchoredWindowManager >> windowBuilder [
+	" return a valuable used to build the window. The window is passed as first argument and the argument is request event "
 
-	^ windowBuilder
+	^ windowBuilder ifNil: [ windowBuilder := self defaultWindowBuilder ]
 ]
 
 { #category : #accessing }
 ToAnchoredWindowManager >> windowBuilder: aWindowBuilderValuable [
+	" a valuable with the window as first argument and a request event as second argument "
 
 	windowBuilder := aWindowBuilderValuable
 ]

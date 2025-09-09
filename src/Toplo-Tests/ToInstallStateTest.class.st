@@ -12,44 +12,15 @@ ToInstallStateTest >> testApplyOn [
 	e addEventHandler: (BlEventHandler
 			 on: ToInstallSkinEvent
 			 do: [ :event | receivedEvt := event ]).
-	(stateEvt := ToInstallState new) applyOn: e fromQueue: nil.
+	(stateEvt := ToInstallState instance) applyOn: e fromQueue: nil.
 	self assert: (receivedEvt isKindOf: ToInstallSkinEvent)
-]
-
-{ #category : #running }
-ToInstallStateTest >> testCanBeEnqueuedFromElementInQueue [
-
-	| e state |
-	e := ToElement new.
-	state := ToInstallState new.
-	" An element is not allowed to enqueue a management state"
-	self
-		should: [
-			state
-				canBeEnqueuedFromElement: e
-				inQueue: e skinManager skinStateQueue ]
-		raise: Error
-]
-
-{ #category : #running }
-ToInstallStateTest >> testRequestEnqueueFromElementInQueue [
-
-	| e state |
-	e := ToElement new.
-	state := ToInstallState new.
-	self
-		should: [
-			state
-				requestEnqueueFromElement: e
-				inQueue: e skinManager skinStateQueue ]
-		raise: Error
 ]
 
 { #category : #running }
 ToInstallStateTest >> testSkinEvent [
 
 	| state  |
-	state := ToInstallState new.
+	state := ToInstallState instance.
 	self assert: (state skinEvent isKindOf: ToInstallSkinEvent) 
 	
 ]

@@ -8,7 +8,8 @@ Class {
 		'selectors',
 		'codePane',
 		'classSide',
-		'selectedSelector'
+		'selectedSelector',
+		'pane'
 	],
 	#category : #'Toplo-Examples-TopLevel'
 }
@@ -102,6 +103,7 @@ ToExMiniBrowser >> newClassPane [
 { #category : #initialization }
 ToExMiniBrowser >> newCodePane [
 
+	| completionEngine |
 	codePane := ToAlbum new.
 	codePane withRowNumbers.
 
@@ -109,6 +111,19 @@ ToExMiniBrowser >> newCodePane [
 
 	codePane contextMenuBuilder: [ :codeMenu :element |
 		codeMenu addItem: (ToMenuItem new labelText: 'Accept') ].
+	
+	completionEngine := ToCompletionEngine new.
+	completionEngine browser: self.
+	completionEngine setEditor: codePane editor.
+	
+	codePane editorDo: [ :ed | ed addEventHandlerOn: AlbTextEditedEvent do: [ :event |
+			"ed inspect."
+			"completionEngine handleKeyDownBefore: event editor: codePane" ] ].
+	
+	codePane addEventHandlerOn: BlKeyDownEvent do: [ :event |
+"		selectedSelector inspect."
+		completionEngine showMenu.
+		completionEngine handleKeyDownBefore: event editor: codePane editor]. 
 
 	^ codePane
 ]
@@ -116,7 +131,6 @@ ToExMiniBrowser >> newCodePane [
 { #category : #initialization }
 ToExMiniBrowser >> newMainPane [
 
-	| pane |
 	pane := ToPane new.
 	pane beVertical.
 	pane addChild: self newPackageToSelectorListPane.
@@ -275,6 +289,12 @@ ToExMiniBrowser >> packageSelectionChangedEvent: aToSelectionChanged [
 	classes dataAccessor addAll: clsList
 ]
 
+{ #category : #accessing }
+ToExMiniBrowser >> pane [ 
+
+	^ pane
+]
+
 { #category : #initialization }
 ToExMiniBrowser >> protocolSelectionChangedEvent: aToSelectionChanged [
 
@@ -312,6 +332,12 @@ ToExMiniBrowser >> refreshClassSelectionWithSelectedIndexes: aCollection [
 	allProtocols sort: [ :a :b | a name < b name ].
 
 	protocols dataAccessor addAll: allProtocols
+]
+
+{ #category : #accessing }
+ToExMiniBrowser >> selectedSelector [ 
+
+	^  selectedSelector 
 ]
 
 { #category : #initialization }

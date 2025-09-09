@@ -1,0 +1,651 @@
+"
+I am class defining the main interface of a completion engine.
+-	I subscribe to a widget and receive events to provide completion.
+-	Then, when I decide to accept an element of the completion, I know how to modify the underlying text widget.
+
+I'm also used by the `NECPreferences` to detect the available engines in the system by checking my subclasses. It is important that I'm here, so there are no circular dependencies between the Morphic specific Completion engine and the abstract backend.
+
+
+I live as an instance variable in a Browser, Debugger, Workspace or other window. I'm the glue between all participants of the completion system. I create a `NECContext` and pass myself to the `NECMenuMorph`. I process the keyboard events and pass them to the `NECMenuMorph` or close the morph if needed.
+
+My method `codeCompletionAround: aBlock textMorph: aTextMorph keyStroke: evt`
+is the starting point of the completion process.
+
+I'm invoked before and after a keystroke. Check method `handleKeystrokeBefore: evt editor: editor` and `handleKeystrokeAfter: evt editor: editor`.
+
+The completion occurs in specific character position. The editor is responsible for determining such positions: look at senders of `atCompletionPosition`.
+"
+Class {
+	#name : #ToCompletionEngine,
+	#superclass : #Object,
+	#instVars : [
+		'contextClass',
+		'widget',
+		'editor',
+		'context',
+		'inverseMapping',
+		'completionDelay',
+		'browser'
+	],
+	#classVars : [
+		'ContextClass'
+	],
+	#category : #'Toplo-Widget-Completion'
+}
+
+{ #category : #accessing }
+ToCompletionEngine class >> contextClass [
+	^ContextClass ifNil: [ CompletionContext ]
+]
+
+{ #category : #accessing }
+ToCompletionEngine class >> contextClass: aClass [
+	ContextClass := aClass
+]
+
+{ #category : #accessing }
+ToCompletionEngine class >> isCompletionEnabled [
+	^NECPreferences enabled
+]
+
+{ #category : #private }
+ToCompletionEngine >> browse [
+
+	^ widget ifNil: [ false ] ifNotNil: [ widget browse ]
+]
+
+{ #category : #accessing }
+ToCompletionEngine >> browser [ 
+
+	^ browser
+		
+]
+
+{ #category : #accessing }
+ToCompletionEngine >> browser: aToMiniBrowser [
+
+	browser := aToMiniBrowser 
+		
+]
+
+{ #category : #'menu morph' }
+ToCompletionEngine >> closeMenu [
+	self stopCompletionDelay.
+	widget
+		ifNotNil: [ widget delete ].
+	widget := nil
+]
+
+{ #category : #replacement }
+ToCompletionEngine >> completionToken [
+	"Return the word just before the caret"
+
+	^ (self editor privateText
+		   copyFrom: self completionTokenStart
+		   to: self editor selection firstIndex - 1) asString
+]
+
+{ #category : #replacement }
+ToCompletionEngine >> completionTokenStart [
+	"This is the position in the editor where the completion token starts"
+
+	| caret |
+	self editor selection firstIndex <= 1 ifTrue: [ ^ self editor selection firstIndex ].
+	(self editor
+		 isWordCharacterAt: self editor selection firstIndex - 1
+		 in: self editor text) ifFalse: [ ^ self editor selection firstIndex ].
+
+	"Look back.
+	If the caret is at the end of a keyword (i.e., just after a colon) go back twice"
+	caret := self editor selection firstIndex.
+	(self editor characterAt: caret - 1) = $: ifTrue: [
+		caret := self editor previousWord: caret ].
+	caret := self editor previousWord: caret.
+	^ caret
+]
+
+{ #category : #accessing }
+ToCompletionEngine >> context [
+	^context ifNil: [ context := self createContext ]
+]
+
+{ #category : #private }
+ToCompletionEngine >> contextClass [
+
+	^ contextClass ifNil: [ self class contextClass ]
+]
+
+{ #category : #accessing }
+ToCompletionEngine >> contextClass: aClass [
+	contextClass := aClass
+]
+
+{ #category : #'menu morph' }
+ToCompletionEngine >> createContext [
+
+	| class |
+	class := self browser selectedSelector key.
+	"class := editor model ifNotNil: [ :model | model selectedClassOrMetaClass ]."
+	^ self contextClass
+		  engine: self
+		  class: class
+		  source: editor privateText asString
+		  position: editor cursor position
+]
+
+{ #category : #accessing }
+ToCompletionEngine >> editor [
+	^ editor
+]
+
+{ #category : #keyboard }
+ToCompletionEngine >> handleKeyDownAfter: aKeyboardEvent editor: aParagraphEditor [
+
+	^ self updateCompletionAfterEdition: aParagraphEditor
+]
+
+{ #category : #keyboard }
+ToCompletionEngine >> handleKeyDownBefore: aKeyboardEvent editor: anEditor [
+	"I return a boolean.
+	true when I have handled the event and no futher processing is needed by the caller.
+
+	This method would be cleaner if splitted."
+	
+	"TO DO: Check smartBackspace"
+
+	| key |
+	self setEditor: anEditor.
+	key := aKeyboardEvent key.
+
+	(self isMenuOpen not and: [
+		 "self editor atCompletionPosition and: ["
+			 NECPreferences popupShowWithShortcut matches: { aKeyboardEvent } ] "]")
+		ifTrue: [
+			aKeyboardEvent supressNextKeyPress: true.
+			self openMenu.
+			^ true ].
+
+	key = KeyboardKey backspace ifTrue: [
+		"self smartBackspace ifTrue:" [ ^ true ] ].
+
+	self isMenuOpen ifFalse: [ ^ false ].
+
+	({
+		 KeyboardKey left.
+		 KeyboardKey right.
+		 KeyboardKey keypadLeft.
+		 KeyboardKey keypadRight } includes: key) ifTrue: [ "just move the caret"
+		^ false ].
+
+	({
+		 KeyboardKey up.
+		 KeyboardKey keypadUp } includes: key) ifTrue: [
+		"menuMorph moveUp."
+		^ true ].
+	({
+		 KeyboardKey down.
+		 KeyboardKey keypadDown } includes: key) ifTrue: [
+		"menuMorph moveDown."
+		^ true ].
+	key = KeyboardKey pageUp ifTrue: [
+		"menuMorph pageUp."
+		^ true ].
+	key = KeyboardKey pageDown ifTrue: [
+		"menuMorph pageDown."
+		^ true ].
+	((key = KeyboardKey enter or: [ key = KeyboardKey keypadEnter ])
+		 and: [ NECPreferences useEnterToAccept ]) ifTrue: [
+	"	menuMorph insertSelected ifTrue: [ ^ true ]" ].
+	key = KeyboardKey tab ifTrue: [
+		"menuMorph insertSelected ifTrue: [ ^ true ] "].
+	key = KeyboardKey backspace ifTrue: [
+		"editor isCaretBehindChar ifFalse: [ self closeMenu ].
+		^ false" ].
+	key = KeyboardKey escape ifTrue: [
+		"self closeMenu.
+		^ true" ].
+	^ false
+]
+
+{ #category : #keyboard }
+ToCompletionEngine >> handleKeystrokeAfter: aKeyboardEvent editor: aParagraphEditor [
+
+	^ self updateCompletionAfterEdition: aParagraphEditor
+]
+
+{ #category : #keyboard }
+ToCompletionEngine >> handleKeystrokeBefore: aKeyboardEvent editor: anEditor [
+	"I return a boolean.
+	true when I have handled the event and no futher processing is needed by the caller.
+
+	This method would be cleaner if splitted."
+
+	| keyCharacter controlKeyPressed |
+	self setEditor: anEditor.
+	keyCharacter := aKeyboardEvent keyCharacter.
+	controlKeyPressed := aKeyboardEvent controlKeyPressed.
+
+	(self smartInputWithEvent: aKeyboardEvent)
+		ifNotNil: [ ^ true ].
+
+	self isMenuOpen
+		ifFalse: [ ^ self handleKeystrokeWithoutMenu: aKeyboardEvent ].
+
+	(controlKeyPressed not and: [ aKeyboardEvent keyCharacter isCompletionCharacter ])
+		ifFalse: [
+			self closeMenu.
+			^ keyCharacter = Character escape ].
+	^ false
+]
+
+{ #category : #keyboard }
+ToCompletionEngine >> handleKeystrokeWithoutMenu: aKeyboardEvent [
+	"I handle resetting the completion menu, and I return true when I handle an event."
+
+	self stopCompletionDelay.
+
+	NECPreferences popupShowAutomatic ifTrue: [
+		(aKeyboardEvent anyModifierKeyPressed not
+		and: [ aKeyboardEvent keyCharacter isCompletionCharacter ])
+			ifTrue: [ self resetCompletionDelay ] ].
+
+	^ false
+]
+
+{ #category : #testing }
+ToCompletionEngine >> hasCompletionContext [
+
+	^ context isNotNil
+]
+
+{ #category : #'menu morph' }
+ToCompletionEngine >> hasDetail [
+
+	^ self isMenuOpen and: [ widget hasDetail ]
+]
+
+{ #category : #actions }
+ToCompletionEngine >> hideDetail [
+
+	widget hideDetail
+]
+
+{ #category : #keyboard }
+ToCompletionEngine >> invalidateEditorMorph [
+		editor morph invalidRect: editor morph bounds
+]
+
+{ #category : #'menu morph' }
+ToCompletionEngine >> isMenuOpen [
+
+	^widget isNotNil
+]
+
+{ #category : #testing }
+ToCompletionEngine >> isScripting [
+
+	^ self editor
+		ifNotNil: [ self editor isScripting ]
+		ifNil: [ false ]
+]
+
+{ #category : #keyboard }
+ToCompletionEngine >> leftArrow [
+	"I return false when the arrow is at its left-most position.
+	Otherwise i return true."
+
+	(widget hideDetail)
+			ifFalse: [
+				self closeMenu.
+				^ false ].
+	^ true
+]
+
+{ #category : #'menu morph' }
+ToCompletionEngine >> menuClosed [
+	widget := nil.
+	context := nil
+]
+
+{ #category : #private }
+ToCompletionEngine >> menuMorphClass [
+	^ NECMenuMorph
+]
+
+{ #category : #keyboard }
+ToCompletionEngine >> newSmartCharacterInsertionStringForLeft: left right: right [
+	((NECPreferences smartCharactersWithDoubleSpace includes: left) or: [
+	(NECPreferences smartCharactersWithDoubleSpace includes: right)])
+	ifTrue: [
+		^ String with: left with: Character space with: Character space  with: right ].
+
+	((NECPreferences smartCharactersWithSingleSpace includes: left) or: [
+	(NECPreferences smartCharactersWithSingleSpace includes: right)])
+	ifTrue: [
+		^ String with: left with: Character space  with: right ].
+
+	^ String with: left with: right
+]
+
+{ #category : #'menu morph' }
+ToCompletionEngine >> openMenu [
+
+	self openMenuForced: true
+
+]
+
+{ #category : #replacement }
+ToCompletionEngine >> replaceTokenInEditorWith: aString [
+	"Main API with the completion context.
+
+	Replace the current completion token (as it was extracted by the completion context) by aString.
+	aString content is free and will inserted as a replacement as is, except for a possible ending space that will not be inserted if there is already a space in the text.
+
+	The caret will be moved at the end of the inserted string, or between the first double spaces.
+	This rule allows to put the cursor inside an inserted keyword selector where each keyword is separated by two spaces.
+	e.g. after replacing with `'between:  and:'`, the caret is set after the first keyword.
+
+	The completion context uses this API to insert text into the text editor"
+
+	| newString doubleSpace oldSelectionInterval replacementInterval wordStart wordEnd |
+
+	newString := aString.
+	oldSelectionInterval := self editor selectionInterval.
+	replacementInterval := self replacementInterval.
+	wordStart := replacementInterval first.
+	wordEnd := replacementInterval last.
+
+	self editor
+		selectInvisiblyFrom: wordStart
+		to: wordEnd.
+
+	"Do not insert an aditional space if there is already one"
+	(newString last = $  and: [
+		wordEnd <= self editor text size and: [
+			(self editor text at: wordEnd + 1) = $ ]]) ifTrue: [ newString := newString copyWithoutIndex: newString size ].
+
+	self editor replaceSelectionWith: newString fromSelection: oldSelectionInterval.
+	doubleSpace := newString indexOfSubCollection: '  ' startingAt: 1 ifAbsent: [ newString size ].
+	self editor selectAt: wordStart + doubleSpace.
+
+	self editor morph invalidRect: self editor morph bounds
+]
+
+{ #category : #replacement }
+ToCompletionEngine >> replacementInterval [
+
+	| wordEnd wordStart |
+	wordStart := self completionTokenStart.
+
+	"If completionToken is not empty, the end is the end of the whole word (according to the editor)"
+	wordEnd := wordStart = editor caret
+		           ifTrue: [ wordStart ]
+		           ifFalse: [ self editor nextWord: wordStart ].
+
+	"If this is a keyword (i.e., ends with a : and not a :=), replace the colon too, as we want to replace selector parts"
+	(wordEnd <= self editor text size and: [
+		 (self editor characterAt: wordEnd) = $: ]) ifTrue: [
+		(wordEnd + 1 <= self editor text size and: [
+			 (self editor characterAt: wordEnd + 1) = $= ]) ifFalse: [
+			wordEnd := wordEnd + 1 ] ].
+
+	"If the returned index is the size of the text that means that the caret is at the end of the text and there is no more word after, so add 1 to the index to be out of range to select the entierely word because of the selectInvisiblyFrom:to: remove 1 just after to be at the end of then final word"
+	wordEnd > self editor text size ifTrue: [ wordEnd := wordEnd + 1 ].
+
+	^ wordStart to: wordEnd - 1
+]
+
+{ #category : #private }
+ToCompletionEngine >> resetCompletionDelay [
+	"Open the popup after 100ms and only after certain characters"
+	self stopCompletionDelay.
+	self isMenuOpen ifTrue: [ ^ self ].
+	editor atCompletionPosition ifFalse: [ ^ self ].
+
+	completionDelay := [
+			(Delay forMilliseconds: NECPreferences popupAutomaticDelay) wait.
+			MorphicUIManager new defer:  [
+				editor atCompletionPosition ifTrue: [ self openMenuForced: false ]]
+		] fork
+]
+
+{ #category : #private }
+ToCompletionEngine >> setEditor: anObject [
+	editor ifNotNil: [
+		"make sure we unsubscribe from old editor
+		editor morph ifNotNil: [:m | m announcer unsubscribe: self]" ].
+	editor := anObject.
+	"editor morph onAnnouncement: MorphLostFocus send: #closeMenu to: self.
+	editor morph onAnnouncement: MorphClosePopups send: #closeMenu to: self"
+]
+
+{ #category : #actions }
+ToCompletionEngine >> showDetail [
+
+	widget showDetail
+]
+
+{ #category : #accessing }
+ToCompletionEngine >> showMenu [ 
+
+	self isMenuOpen ifFalse: [ self openMenu ].
+	widget isVisible ifTrue: [ widget visibility: BlVisibility visible ].
+]
+
+{ #category : #keyboard }
+ToCompletionEngine >> smartBackspace [
+
+	| opposite smartCharacter index |
+	editor hasSelection ifTrue: [ ^ false ].
+	smartCharacter := editor privateText
+		                  at: editor selection firstIndex - 1
+		                  ifAbsent: [ ^ false ]. "take the opposite"
+	opposite := self
+		            smartCharacterOppositeOf: smartCharacter
+		            ifAbsent: [ ^ false ].
+
+	index := editor stopIndex.
+	[
+	index <= editor text size and: [ (editor text at: index) isSeparator ] ]
+		whileTrue: [ index := index + 1 ].
+
+	(index <= editor text size and: [ (editor text at: index) = opposite ])
+		ifFalse: [ ^ false ].
+	(self
+		 smartNeedExtraRemoveIn: editor text
+		 for: smartCharacter
+		 opposite: opposite
+		 at: editor startIndex) ifFalse: [ ^ false ].
+
+	editor closeTypeIn.
+	editor selectInvisiblyFrom: editor startIndex - 1 to: index.
+	editor replaceSelectionWith: editor nullText.
+	self invalidateEditorMorph.
+	^ true
+]
+
+{ #category : #settings }
+ToCompletionEngine >> smartCharacterOppositeOf: char ifAbsent: aBlock [
+	^(self smartCharactersMapping at: char ifAbsent: [ ^aBlock value ]) key
+]
+
+{ #category : #settings }
+ToCompletionEngine >> smartCharacterPairFor: char ifAbsent: aBlock [
+	| left right |
+
+	left := self smartCharactersMapping at: char ifPresent: [ char ] ifAbsent: [
+		self smartInverseMapping at: char ifPresent: [:key | key ] ifAbsent: [ ^aBlock value ]].
+
+	right := self smartCharacterOppositeOf: left ifAbsent: [ ^aBlock value ].
+
+ 	^ left -> right
+]
+
+{ #category : #settings }
+ToCompletionEngine >> smartCharacterShouldClose: char [
+	^(self smartCharactersMapping at: char ifAbsent: [ ^false ]) value
+]
+
+{ #category : #keyboard }
+ToCompletionEngine >> smartCharacterWithEvent: anEvent [
+	"char is extracted from anEvent, anEvent is passed because we may need it.
+	We may remove char if this is not costly."
+
+	| opposite previous next char insertion insertionCenter matchingPair |
+	char := anEvent keyCharacter.
+	editor hasSelection
+		ifTrue: [
+			"We selected a piece of text and we type the same character that previously, so we unwrap it"
+			"We selected a piece of text if the character is not a special one we do nothing."
+			matchingPair := self smartCharacterPairFor: char ifAbsent: [ ^ nil ].	"else we wrap the selection"	"editor replaceSelectionWith: (String with: char) , (editor selection) , (String with: opposite)."	"ugly logic it should be encapsulated in the editor "
+
+			editor encloseWith: matchingPair.
+			self invalidateEditorMorph.
+			^ true ].	
+	"We are not in a selection"
+
+	(self smartCharacterShouldClose: char)
+		ifFalse: [ "It is a closing smart character. Do not ignore it: if the user typed it, then assume the user wants it."
+			^ nil ].
+
+	"Check if we are typing an opening smart character, and if so, add the matching closing string."
+	opposite := self smartCharacterOppositeOf: char ifAbsent: [ ^ nil ].
+	previous := editor previousCharacterIfAbsent: [ Character space ].
+	next := editor nextCharacterIfAbsent: [ Character space ].
+	(previous ~= $$ and: [ "char literals are not smart"
+		 (next isSeparator and: [ previous isSeparator ]) or: [
+			 char = previous or: [ next = opposite ] ] ]) ifFalse: [ ^ nil ].
+
+	insertion := self newSmartCharacterInsertionStringForLeft: char right: opposite.
+	editor replaceSelectionWith: insertion.
+	insertionCenter := insertion size // 2 max: 1.
+	editor selectFrom: editor startIndex + insertionCenter to: editor startIndex + (insertionCenter - 1).
+	self invalidateEditorMorph.
+	^ true
+]
+
+{ #category : #settings }
+ToCompletionEngine >> smartCharacters [
+	^ NECPreferences smartCharacters
+]
+
+{ #category : #settings }
+ToCompletionEngine >> smartCharactersMapping [
+	^ NECPreferences smartCharactersMapping
+]
+
+{ #category : #keyboard }
+ToCompletionEngine >> smartInputWithEvent: anEvent [
+	"aCharacter is extracted from anEvent, anEvent is passed because we may need it.
+	We may remove aCharacter if this is not costly."
+
+	self smartCharacters
+		ifFalse: [ ^ nil ].
+
+	^ self smartCharacterWithEvent: anEvent
+]
+
+{ #category : #settings }
+ToCompletionEngine >> smartInverseMapping [
+	^ inverseMapping ifNil: [
+		inverseMapping := Dictionary new.
+		self smartCharactersMapping
+			keysAndValuesDo: [ :char :inverse | inverseMapping at: inverse key put: char ].
+		inverseMapping ]
+]
+
+{ #category : #private }
+ToCompletionEngine >> smartNeedExtraRemoveIn: currentText for: opposite [
+	"Test if smart remove need to remove an extra character when the smart character
+	 is equal to its opposite"
+
+	(currentText select: [ :char | char = opposite ]) size odd
+		ifTrue: [ ^ false ].
+	^ true
+]
+
+{ #category : #private }
+ToCompletionEngine >> smartNeedExtraRemoveIn: currentText for: smartCharacter opposite: opposite at: position [
+	"Test if we need to remove an extra character when removing a smart character (any kind of smart character)
+	 Do not consider literal characters to be smart characters"
+
+	^ (position <= 2 or: [ (currentText at: position - 2) ~= $$ ]) and: [
+		  smartCharacter = opposite
+			  ifTrue: [ self smartNeedExtraRemoveIn: currentText for: opposite ]
+			  ifFalse: [
+				  self
+					  smartNeedExtraRemovePairedIn: currentText
+					  for: smartCharacter
+					  opposite: opposite
+					  at: position ] ]
+]
+
+{ #category : #private }
+ToCompletionEngine >> smartNeedExtraRemovePairedIn: currentText for: smartCharacter opposite: opposite at: position [
+	"Test if we need to remove an extra character when removing a paired smart character.
+	 A paired smart character is any smart character who has an opposite who is diferent to itself: [], ()"
+
+	| startIndex countSmart countOpposite |
+	countSmart := 0.
+	countOpposite := 0.
+	startIndex := self
+		smartStartIndexIn: currentText
+		for: smartCharacter
+		opposite: opposite
+		at: position.
+
+	(currentText allButFirst: startIndex)
+		do: [ :char |
+			char = smartCharacter
+				ifTrue: [ countSmart := countSmart + 1 ].
+			char = opposite
+				ifTrue: [ countOpposite := countOpposite + 1 ] ].
+
+	^ (countSmart > countOpposite and: [ (countOpposite - countSmart) odd ]) not
+]
+
+{ #category : #private }
+ToCompletionEngine >> smartStartIndexIn: currentText for: smartCharacter opposite: opposite at: position [
+
+	(position - 1) to: 1 by: -1 do: [ :index | | char |
+		char := currentText at: index.
+		(char = smartCharacter or: [ char = opposite ])
+			 ifFalse: [ ^ index ] ].
+	^ 0
+]
+
+{ #category : #accessing }
+ToCompletionEngine >> space [ 
+
+	^ self browser pane space
+]
+
+{ #category : #private }
+ToCompletionEngine >> stopCompletionDelay [
+
+    completionDelay ifNotNil: [
+        completionDelay isTerminating ifFalse: [ completionDelay terminate ] ]
+]
+
+{ #category : #replacement }
+ToCompletionEngine >> tokenToReplace [
+
+	| interval |
+	interval := self replacementInterval.
+	^ self editor text copyFrom: interval first to: interval last
+]
+
+{ #category : #keyboard }
+ToCompletionEngine >> updateCompletionAfterEdition: aParagraphEditor [
+
+	(aParagraphEditor isNil or: [ self isMenuOpen not ]) ifTrue: [
+		^ self ].
+
+	context completionTokenStart = self completionTokenStart ifFalse: [ ^ self closeMenu ].
+
+	"Do not update the content nor refresh the menu if the context token is the same"
+	context completionToken = self completionToken ifTrue: [ ^self ].
+
+	context narrowWith: self completionToken.
+	widget refreshSelection
+]

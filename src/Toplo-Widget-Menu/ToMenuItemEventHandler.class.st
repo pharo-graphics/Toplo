@@ -25,7 +25,7 @@ ToMenuItemEventHandler >> bottomUpCloseWindowRequestOnEvent: anEvent [
 { #category : #'api - accessing' }
 ToMenuItemEventHandler >> eventsToHandle [
 
-	^  { BlMouseEnterEvent. BlMouseLeaveEvent. BlMouseUpEvent. ToActionPoolRunnedEvent }
+	^  { BlMouseEnterEvent. BlMouseUpEvent. ToActionPoolRunnedEvent }
 ]
 
 { #category : #'mouse handlers' }
@@ -52,6 +52,9 @@ ToMenuItemEventHandler >> mouseLeaveEvent: anEvent [
 	target := anEvent currentTarget.
 	anEvent anyButtonPressed ifTrue: [ ^ self ].
 	target isEnabled ifFalse: [ ^ self ].
+	" if the item has one or several linkActions, do nothing here. 
+	The window can't be closed before all actions are runned."
+	target actionPoolDo: [ :la | ^ self ].
 	target closeAllSiblingMenuWindows
 ]
 

@@ -12,7 +12,7 @@ TToMenuWindowModel >> closeWindow [
 { #category : #'t - menu window model' }
 TToMenuWindowModel >> hasInlineWindow [
 
-	^ self manager ifNotNil: [:m | m hasInlineWindow] ifNil: [ false ]
+	^ self manager hasInlineWindow
 ]
 
 { #category : #'t - menu window model' }

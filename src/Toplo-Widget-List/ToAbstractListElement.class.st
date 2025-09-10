@@ -7,7 +7,8 @@ Class {
 		'next',
 		'dataSource',
 		'nodeManager',
-		'selectionModeMap'
+		'selectionModeMap',
+		'mouseMoveReplayRequested'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -60,6 +61,15 @@ ToAbstractListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 					in: self selectionModel ] ]
 		ifEmpty: [
 		self selectionModel copySelectionFrom: sieve selectionModel ]
+]
+
+{ #category : #layout }
+ToAbstractListElement >> checkMouseMoveReplayRequest [
+
+	mouseMoveReplayRequested ifFalse: [ ^ self ].
+	self spaceDo: [ :sp |
+		sp mouseProcessor handleLastMouseMove ].
+	mouseMoveReplayRequested := false
 ]
 
 { #category : #layout }
@@ -308,7 +318,8 @@ ToAbstractListElement >> hiddenSelectionModel [
 ToAbstractListElement >> initialize [
 
 	super initialize.
-
+	
+	mouseMoveReplayRequested := false.
 	nodeManager := self defaultNodeManager.
 	selectionModeMap := IdentityDictionary new.
 
@@ -442,6 +453,13 @@ ToAbstractListElement >> offsetPositionRecordsForFilter: aStartPosition itemCoun
 		self selectionModel copySelectionFrom: aSieve selectionModel ]
 ]
 
+{ #category : #'hooks - layout' }
+ToAbstractListElement >> onLayoutDone [
+
+	super onLayoutDone.
+	self checkMouseMoveReplayRequest 
+]
+
 { #category : #'private - commands' }
 ToAbstractListElement >> onSievedWith: aSieve [
 
@@ -458,10 +476,7 @@ ToAbstractListElement >> placeholderClass [
 { #category : #layout }
 ToAbstractListElement >> postponeAction: aValuable [
 
-	self dataSourceManager postponeAction: aValuable.
-	self innerElement requestLayout
-
-	
+	self dataSourceManager postponeAction: aValuable
 ]
 
 { #category : #accessing }
@@ -486,6 +501,22 @@ ToAbstractListElement >> removeSelectionMode: aSelectionMode [
 		at: aSelectionMode selectionChangedEventClass
 		ifAbsent: [ Error signal: 'Selection mode not found' ].
 	selectionModeMap removeKey: aSelectionMode selectionChangedEventClass
+]
+
+{ #category : #layout }
+ToAbstractListElement >> requestLayout: aSourceElement [
+
+	super requestLayout: aSourceElement.
+	aSourceElement
+		withAllParentsDetect: [ :p | p = self next ]
+		ifFound: [ :p | self requestMouseMoveReplay ]
+		ifNone: [ ]
+]
+
+{ #category : #layout }
+ToAbstractListElement >> requestMouseMoveReplay [
+
+	mouseMoveReplayRequested := true
 ]
 
 { #category : #'accessing selecters' }

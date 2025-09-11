@@ -350,9 +350,9 @@ ToTreeDataItemWrapper >> updateTreeNodeAtPosition: aPositionInDataSource [
 
 	self treeNodeAtPosition: aPositionInDataSource do: [ :node |
 			node requestNewSkin.
-			treeElement postponeAction: [
-				node holder allowSelectionNotification: true.
-				node holder notifySelectedWithOption: treeElement selectionOption ] ]
+			treeElement postponeAction: [ :t |
+					node holder allowSelectionNotification: true.
+					node holder notifySelectedWithOption: t selectionOption ] ]
 ]
 
 { #category : #accessing }

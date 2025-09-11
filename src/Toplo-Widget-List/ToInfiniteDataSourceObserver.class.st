@@ -10,7 +10,7 @@ ToInfiniteDataSourceObserver >> infiniteDataSourceChanged: anEvent [
 	| listElement |
 	super infiniteDataSourceChanged: anEvent.
 	listElement := infiniteElement listElement.
-	listElement postponeAction: [ listElement updateAllSelections ]
+	listElement postponeAction: [ :l | l updateAllSelections ]
 ]
 
 { #category : #'event handling' }
@@ -19,7 +19,7 @@ ToInfiniteDataSourceObserver >> infiniteDataSourceItemRangeChanged: anEvent [
 	| listElement |
 	super infiniteDataSourceItemRangeChanged: anEvent.
 	listElement := infiniteElement listElement.
-	listElement postponeAction: [ listElement updateAllSelections ]
+	listElement postponeAction: [ :l | l updateAllSelections ]
 ]
 
 { #category : #'event handling' }

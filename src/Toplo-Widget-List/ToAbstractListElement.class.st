@@ -476,7 +476,7 @@ ToAbstractListElement >> placeholderClass [
 { #category : #layout }
 ToAbstractListElement >> postponeAction: aValuable [
 
-	self dataSourceManager postponeAction: aValuable
+	self dataSourceManager postponeAction: aValuable for: self
 ]
 
 { #category : #accessing }
@@ -507,10 +507,8 @@ ToAbstractListElement >> removeSelectionMode: aSelectionMode [
 ToAbstractListElement >> requestLayout: aSourceElement [
 
 	super requestLayout: aSourceElement.
-	aSourceElement
-		withAllParentsDetect: [ :p | p = self next ]
-		ifFound: [ :p | self requestMouseMoveReplay ]
-		ifNone: [ ]
+	(aSourceElement = self next or: [ aSourceElement parent = self next ])
+		ifTrue: [ self requestMouseMoveReplay ]
 ]
 
 { #category : #layout }

@@ -80,10 +80,10 @@ ToInfiniteDataSourceManager >> onItemsSieved: aPositionStart itemCount: anItemCo
 ]
 
 { #category : #'t - postponed command holder' }
-ToInfiniteDataSourceManager >> postponeAction: aValuable [
+ToInfiniteDataSourceManager >> postponeAction: aValuable for: aTarget [
 
 	self postponeCommand: (ToInfiniteDataSourceActionCommand new
-			 action: aValuable;
+			 action: [ aValuable cull: aTarget ];
 			 yourself)
 ]
 

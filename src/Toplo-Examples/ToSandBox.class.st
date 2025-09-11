@@ -6030,7 +6030,7 @@ ToSandBox class >> example_contactList [
 
 	addPredefinedAction := addPredefinedButton newClickAction: [
 		                       dataBlock value ].
-	addPredefinedAction run.
+	addPredefinedAction requestNextRun.
 	inputPane := ToPane horizontal.
 	inputPane layout cellSpacing: 10.
 	inputPane addChildren: {

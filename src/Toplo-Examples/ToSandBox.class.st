@@ -1745,6 +1745,7 @@ ToSandBox class >> example_CheckboxGroupAndStrictStrategy [
 			       id: idx asString.
 		buttons add: chb ].
 	buttons second checked: true.
+	buttons third checked: true.
 	group registerAll: buttons.
 	container := ToElement new.
 	group

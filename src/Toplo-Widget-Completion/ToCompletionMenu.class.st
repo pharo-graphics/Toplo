@@ -73,10 +73,11 @@ ToCompletionMenu >> initializeListAndMessageElement [
 { #category : #initialization }
 ToCompletionMenu >> initializeListElement [
 
+	| element |
 	listElement := ToListElement new nodeBuilder: [ :node :dataItem :holder |
 			               | lab |
 			               lab := ToLabel new
-				                      text: dataItem name;
+				                      text: dataItem selector;
 				                      yourself.
 			               node addChild: (ToLabeledIcon new
 					                label: lab;
@@ -85,7 +86,7 @@ ToCompletionMenu >> initializeListElement [
 
 
 	listElement dataAccessor addAll:
-		((1 to: 12) collect: [ :i | Object subclasses at: i ]).
+		((1 to: 12) collect: [ :i | Object methodDict at: (Object methodDict keys at: i)]).
 
 	listElement dataAccessor collection size >= 10
 		ifTrue: [ 
@@ -93,27 +94,14 @@ ToCompletionMenu >> initializeListElement [
 		ifFalse: [
 			listElement constraintsDo: [ :c | c vertical fitContent ] ].
 
+
+	element := ToListElement new.
+	element openInSpace.
+	listElement addEventHandler:
+		(ToListSelectionHistoryExampleEventHandler new historyList:
+			 element).
+
 	listElement requestFocus
-]
-
-{ #category : #initialization }
-ToCompletionMenu >> initializeListElement2 [
-
-	listElement := ToElement new
-		               constraintsDo: [ :c |
-				               c vertical fitContent.
-				               c horizontal matchParent ];
-		               layout: BlLinearLayout vertical.
-
-	1 to: 10 do: [ :i |
-			| elt |
-			elt := ToLabel new
-				       padding: (BlInsets left: 5);
-				       constraintsDo: [ :c |
-						       c vertical exact: 20.
-						       c horizontal matchParent ];
-				       text: 'Test' asRopedText.
-			listElement addChild: elt ]
 ]
 
 { #category : #initialization }

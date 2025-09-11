@@ -346,7 +346,7 @@ ToCompletionEngine >> openMenuForced: forced [
 	
 	theMenu := ToCompletionMenu
 		           engine: self
-		           position: 50 @ 50.
+		           position: 500 @ 300.
 		           "(editor selectionPosition: self completionToken)."
 		
 "	theMenu isClosed ifTrue: [ ^ self ]."

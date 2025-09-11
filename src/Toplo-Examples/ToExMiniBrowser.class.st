@@ -9,7 +9,8 @@ Class {
 		'codePane',
 		'classSide',
 		'selectedSelector',
-		'pane'
+		'pane',
+		'withCompletion'
 	],
 	#category : #'Toplo-Examples-TopLevel'
 }
@@ -18,6 +19,13 @@ Class {
 ToExMiniBrowser class >> open [
 	<script>
 	self new open
+]
+
+{ #category : #'as yet unclassified' }
+ToExMiniBrowser class >> openWithCompletion [
+
+	<script>
+	self new openWithCompletion.
 ]
 
 { #category : #'code editor' }
@@ -54,7 +62,8 @@ ToExMiniBrowser >> initialize [
 
 	super initialize.
 	
-	classSide := false
+	classSide := false.
+	withCompletion := false
 ]
 
 { #category : #initialization }
@@ -111,19 +120,25 @@ ToExMiniBrowser >> newCodePane [
 
 	codePane contextMenuBuilder: [ :codeMenu :element |
 		codeMenu addItem: (ToMenuItem new labelText: 'Accept') ].
-	
-	completionEngine := ToCompletionEngine new.
-	completionEngine browser: self.
-	completionEngine setEditor: codePane editor.
-	
-	codePane editorDo: [ :ed | ed addEventHandlerOn: AlbTextEditedEvent do: [ :event |
-			"ed inspect."
-			"completionEngine handleKeyDownBefore: event editor: codePane" ] ].
-	
-	codePane addEventHandlerOn: BlKeyDownEvent do: [ :event |
-"		selectedSelector inspect."
-		completionEngine showMenu.
-		completionEngine handleKeyDownBefore: event editor: codePane editor]. 
+
+	withCompletion ifTrue: [
+			completionEngine := ToCompletionEngine new.
+			completionEngine browser: self.
+			completionEngine setEditor: codePane editor.
+
+			codePane editorDo: [ :ed |
+					ed
+						addEventHandlerOn: AlbTextEditedEvent
+						do: [ :event | "ed inspect.""completionEngine handleKeyDownBefore: event editor: codePane"
+							 ] ].
+
+			codePane
+				addEventHandlerOn: BlKeyDownEvent
+				do: [ :event | "		selectedSelector inspect."
+						completionEngine showMenu.
+						completionEngine
+							handleKeyDownBefore: event
+							editor: codePane editor ] ].
 
 	^ codePane
 ]
@@ -263,6 +278,13 @@ ToExMiniBrowser >> newSelectorPane [
 ToExMiniBrowser >> open [
 
 	self newMainPane openInSpace title: 'Mini browser'
+]
+
+{ #category : #'as yet unclassified' }
+ToExMiniBrowser >> openWithCompletion [
+
+	withCompletion := true.
+	self open.
 ]
 
 { #category : #initialization }

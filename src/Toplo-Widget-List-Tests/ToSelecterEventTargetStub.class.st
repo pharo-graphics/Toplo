@@ -21,9 +21,9 @@ ToSelecterEventTargetStub >> itemCount [
 ]
 
 { #category : #'data source updates' }
-ToSelecterEventTargetStub >> postponeAction: aValuable [
+ToSelecterEventTargetStub >> postponeAction: aValuable [ 
 
-	aValuable value
+	aValuable cull: nil
 ]
 
 { #category : #accessing }

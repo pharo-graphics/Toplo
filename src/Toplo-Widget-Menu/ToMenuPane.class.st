@@ -136,17 +136,6 @@ ToMenuPane >> menuPane [
 ToMenuPane >> menuWindowDo: aValuable [
 ]
 
-{ #category : #'event handling' }
-ToMenuPane >> mouseOverEvent: anEvent [
-
-	self isAutoOpen ifFalse: [ ^ self ].
-
-	" auto-open action "
-	self items do: [ :m |
-		(m isItemContainer and: [ m isInline not ]) ifTrue: [
-			m mouseOverEvent: anEvent ] ]
-]
-
 { #category : #'t - item list holder - initializing' }
 ToMenuPane >> newItemBar [
 

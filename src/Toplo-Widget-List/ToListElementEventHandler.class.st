@@ -49,7 +49,7 @@ ToListElementEventHandler >> doubleClickEvent: anEvent [
 	anEvent consume
 ]
 
-{ #category : #'selection managing' }
+{ #category : #'element events handling' }
 ToListElementEventHandler >> elementExtentChangedEvent: anEvent [
 
 	| listElement |
@@ -58,22 +58,16 @@ ToListElementEventHandler >> elementExtentChangedEvent: anEvent [
 		mode requestNewRepresentation ].
 	listElement
 		updateAllSelections;
-		extentChanged.
-	listElement spaceDo: [ :sp |
-			sp enqueueTask:
-				(BlTaskAction new action: [ sp mouseProcessor handleLastMouseMove ]) ]
+		extentChanged
 ]
 
-{ #category : #'selection managing' }
+{ #category : #'element events handling' }
 ToListElementEventHandler >> elementScrolledEvent: anEvent [
 
 	| listElement |
 	listElement := anEvent currentTarget.
 	listElement updateAllSelections.
-	listElement spaceDo: [ :sp |
-		sp enqueueTask:
-			(BlTaskAction new action: [ sp mouseProcessor handleLastMouseMove ]) ].
-
+	listElement requestMouseMoveReplay
 ]
 
 { #category : #'api - accessing' }
@@ -155,13 +149,13 @@ ToListElementEventHandler >> listNodeRemovedEvent: anEvent [
 	node holder unbindDataItem
 ]
 
-{ #category : #'infinite event handling' }
+{ #category : #'selection managing' }
 ToListElementEventHandler >> listPrimarySelectionModeChangedEvent: anEvent [
 
 	anEvent currentTarget selecter deselectAll 
 ]
 
-{ #category : #'infinite event handling' }
+{ #category : #'selection managing' }
 ToListElementEventHandler >> listSecondarySelectionModeChangedEvent: anEvent [
 
 	anEvent currentTarget secondarySelecter deselectAll 

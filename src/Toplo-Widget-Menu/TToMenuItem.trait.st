@@ -4,57 +4,22 @@ Trait {
 }
 
 { #category : #'t - menu item' }
-TToMenuItem >> allMenuWindows [
-
-	^ Array streamContents: [ :stream |
-		  self allMenuWindowsDo: [ :mw | stream nextPut: mw ] ]
-]
-
-{ #category : #'t - menu item' }
-TToMenuItem >> allMenuWindowsDo: aValuable [
-
-	| r |
-	r := self rootMenuItemContainer ifNil: [ ^ self ].
-	r allChildrenDepthFirstDo: [ :child |
-		(child isKindOf: ToMenu) ifTrue: [ child menuWindowDo: aValuable ] ]
-]
-
-{ #category : #'t - menu item' }
-TToMenuItem >> allOtherMenuWindows [
-
-	^ Array streamContents: [ :stream |
-		  self allOtherMenuWindowsDo: [ :mw | stream nextPut: mw ] ]
-]
-
-{ #category : #'t - menu item' }
-TToMenuItem >> allOtherMenuWindowsDo: aValuable [
-
-	| r |
-	r := self rootMenuItemContainer ifNil: [ ^ self ].
-	r allChildrenDepthFirstDo: [ :child |
-		(child ~= self and: [
-			 (child isKindOf: ToMenu) ]) ifTrue: [
-			child menuWindowDo: aValuable ] ]
-]
-
-{ #category : #'t - menu item' }
 TToMenuItem >> barOwnerDo: aValuable [
 
 	self menuBarOwner ifNotNil: [ :bo | aValuable value: bo ]
 ]
 
 { #category : #'t - menu item' }
-TToMenuItem >> closeAllOtherPopupMenuWindows [
+TToMenuItem >> closeAllSiblingMenuWindows [
 
-	self allOtherMenuWindowsDo: [ :mw |
-		mw isInline ifFalse: [ mw close ] ]
-]
+	self isInInlineWindow ifTrue: [ ^ self ].
+	self isInline ifTrue: [ ^ self ].
 
-{ #category : #'t - menu item' }
-TToMenuItem >> closeAllPopupMenuWindows [
-
-	self allMenuWindowsDo: [ :mw |
-		mw isInline ifFalse: [ mw close ] ]
+	self parentMenuDo: [ :pm |
+			pm items do: [ :sibling |
+					sibling = self ifFalse: [
+						sibling isInline ifFalse: [
+							sibling menuWindowDo: [ :w | w close ] ] ] ] ]
 ]
 
 { #category : #'t - menu item' }

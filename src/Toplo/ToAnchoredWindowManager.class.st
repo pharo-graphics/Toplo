@@ -64,7 +64,7 @@ ToAnchoredWindowManager >> closedEvent: anEvent [
 	I must be sure that the event is sent from my current window "
 
 	currentWindow = anEvent window ifFalse: [ ^ self ].
-	self onWindowClosed
+	self onWindowClosedOnEvent: anEvent
 ]
 
 { #category : #'window handling' }
@@ -284,7 +284,7 @@ ToAnchoredWindowManager >> onUninstalledIn: anElement [
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> onWindowClosed [
+ToAnchoredWindowManager >> onWindowClosedOnEvent: anEvent [
 
 	currentWindow ifNil: [ ^ self ].
 	currentWindow root removeChildren.
@@ -293,7 +293,7 @@ ToAnchoredWindowManager >> onWindowClosed [
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> onWindowOpened [
+ToAnchoredWindowManager >> onWindowOpenedOnEvent: anEvent [
 
 ]
 
@@ -304,7 +304,7 @@ ToAnchoredWindowManager >> openedEvent: anEvent [
 	" send from the window. Since I'm the only handler whatever the opened event, 
 	I must be sure that the event is sent from my current window "
 	currentWindow = anEvent window ifFalse: [ ^ self ].
-	self onWindowOpened
+	self onWindowOpenedOnEvent: anEvent
 ]
 
 { #category : #accessing }

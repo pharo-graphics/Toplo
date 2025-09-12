@@ -38,9 +38,9 @@ ToContextMenuManager >> initialize [
 ]
 
 { #category : #'window handling' }
-ToContextMenuManager >> onWindowOpened [
+ToContextMenuManager >> onWindowOpenedOnEvent: anEvent [
 
-	super onWindowOpened.
+	super onWindowOpenedOnEvent: anEvent.
 	currentWindow itemBar requestFocus
 ]
 

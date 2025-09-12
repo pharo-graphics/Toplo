@@ -91,16 +91,16 @@ ToMenuWindowManager >> onMouseUpOutsideEvent: anEvent [
 ]
 
 { #category : #'window handling' }
-ToMenuWindowManager >> onWindowClosed [
+ToMenuWindowManager >> onWindowClosedOnEvent: anEvent [
 
-	super onWindowClosed.
+	super onWindowClosedOnEvent: anEvent.
 	anchorElement itemBar secondarySelecter deselectAll
 ]
 
 { #category : #'window handling' }
-ToMenuWindowManager >> onWindowOpened [
+ToMenuWindowManager >> onWindowOpenedOnEvent: anEvent [
 
-	super onWindowOpened.
+	super onWindowOpenedOnEvent: anEvent.
 	anchorElement itemBar requestFocus.
 	anchorElement isInline ifTrue: [ ^ self ].
 	anchorElement menuPaneDo: [ :mb | mb startAutoOpen ].

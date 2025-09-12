@@ -56,9 +56,9 @@ ToContentEditorManager >> onUninstalledIn: anElement [
 ]
 
 { #category : #'window handling' }
-ToContentEditorManager >> onWindowClosed [
+ToContentEditorManager >> onWindowClosedOnEvent: anEvent [
 
-	super onWindowClosed.
+	super onWindowClosedOnEvent: anEvent.
 	anchorElement dispatchEvent: (self editorClosedEventClass new
 			 editorElement: editor;
 			 yourself).
@@ -71,9 +71,9 @@ ToContentEditorManager >> onWindowClosed [
 ]
 
 { #category : #'window handling' }
-ToContentEditorManager >> onWindowOpened [
+ToContentEditorManager >> onWindowOpenedOnEvent: anEvent [
 
-	super onWindowOpened.
+	super onWindowOpenedOnEvent: anEvent.
 
 	editor := anchorElement newEditorForManager: self.
 

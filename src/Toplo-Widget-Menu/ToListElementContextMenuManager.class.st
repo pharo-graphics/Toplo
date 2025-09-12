@@ -20,10 +20,10 @@ ToListElementContextMenuManager >> newWindowRequestOnEvent: anEvent [
 ]
 
 { #category : #'window handling' }
-ToListElementContextMenuManager >> onWindowClosed [
+ToListElementContextMenuManager >> onWindowClosedOnEvent: anEvent [
 
 	anchorElement contextMenuSelecter deselectAll.
-	super onWindowClosed.
+	super onWindowClosedOnEvent: anEvent
 
 ]
 

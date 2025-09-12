@@ -115,22 +115,6 @@ ToPopupWindowManager >> closeOnReleased: aBoolean [
 	closeOnReleased := aBoolean 
 ]
 
-{ #category : #'window handling' }
-ToPopupWindowManager >> closeWindowOnEvent: anEvent [
-
-	self resetPopupHandlerOnEvent: anEvent.
-	self uninstallPickOutsideFilter.
-	super closeWindowOnEvent: anEvent
-]
-
-{ #category : #'event handling' }
-ToPopupWindowManager >> closedEvent: anEvent [
-
-	super closedEvent: anEvent.
-	self resetPopupHandlerOnEvent: anEvent.
-	self uninstallPickOutsideFilter.
-]
-
 { #category : #'event handling' }
 ToPopupWindowManager >> consumeEventAfterForcedClosing [
 
@@ -270,9 +254,17 @@ ToPopupWindowManager >> onMouseUpOutsideEvent: anEvent [
 ]
 
 { #category : #'window handling' }
-ToPopupWindowManager >> onWindowOpened [
+ToPopupWindowManager >> onWindowClosedOnEvent: anEvent [
 
-	super onWindowOpened.
+	super onWindowClosedOnEvent: anEvent.
+	self resetPopupHandlerOnEvent: anEvent.
+	self uninstallPickOutsideFilter.
+]
+
+{ #category : #'window handling' }
+ToPopupWindowManager >> onWindowOpenedOnEvent: anEvent [
+
+	super onWindowOpenedOnEvent: anEvent.
 	self installPickOutsideFilter
 ]
 
@@ -386,11 +378,7 @@ ToPopupWindowManager >> uncheckCloseWindowOnEvent: anEvent [
 			anEvent ifNotNil: [
 				self consumeEventAfterForcedClosing ifTrue: [ anEvent consume ] ] ].
 
-	" enqueue a task to close the window. It is to ensure that the possible 
-	linked actions are runned *** before *** the window is closed "
-	anchorRoot ifNotNil: [ :ar |
-			ar enqueueTask:
-				(BlTaskAction new action: [ self closeWindowOnEvent: anEvent ]) ]
+	anchorRoot ifNotNil: [ :ar | self closeWindowOnEvent: anEvent ]
 ]
 
 { #category : #initialization }

@@ -7,16 +7,10 @@ Trait {
 	#category : #'Toplo-Core-Window'
 }
 
-{ #category : #'t - anchored window element - testing' }
-TToAnchoredWindowElement >> allowPickOutside [
-
-	self manager checkPickOutside: true
-]
-
 { #category : #'t - anchored window element - accessing' }
 TToAnchoredWindowElement >> anchorElement [
 
-	^ self manager ifNotNil: [ :h | h anchorElement ]
+	^ self manager anchorElement
 ]
 
 { #category : #'t - anchored window element - accessing' }
@@ -46,6 +40,12 @@ TToAnchoredWindowElement >> close [
 ]
 
 { #category : #'t - anchored window element - accessing' }
+TToAnchoredWindowElement >> closedEventClass [ 
+
+	^ ToAnchoredElementClosedEvent 
+]
+
+{ #category : #'t - anchored window element - accessing' }
 TToAnchoredWindowElement >> correctedPositionWithinAnchorRoot [
 
 	^ self measuredPosition
@@ -55,6 +55,26 @@ TToAnchoredWindowElement >> correctedPositionWithinAnchorRoot [
 TToAnchoredWindowElement >> defaultElevation [
 
 	^ BlRelativeElevation elevation: (SmallInteger maxVal - 900)
+]
+
+{ #category : #'t - anchored window element - displaying' }
+TToAnchoredWindowElement >> dispatchClosedEvent [
+	" need to dispatch also to the element holding the window
+	so that the window manager can manage the window 
+	(recall that the window manager is an event handler of the element)"
+
+	super dispatchClosedEvent.
+	self anchorElement dispatchEvent: self newClosedEvent
+]
+
+{ #category : #'t - anchored window element - displaying' }
+TToAnchoredWindowElement >> dispatchOpenedEvent [
+
+	super dispatchOpenedEvent.
+	" need to dispatch also to the element holding the window
+	so that the window manager can manage the window 
+	(recall that the window manager is an event handler of the element)"
+	self anchorElement dispatchEvent: self newOpenedEvent
 ]
 
 { #category : #'t - anchored window element - accessing' }
@@ -68,6 +88,12 @@ TToAnchoredWindowElement >> element [
 TToAnchoredWindowElement >> hasAnchorElement [
 
 	^ self anchorElement notNil
+]
+
+{ #category : #'t - anchored window element - testing' }
+TToAnchoredWindowElement >> hasManager [
+
+	^ self manager notNil
 ]
 
 { #category : #'t - anchored window element - testing' }
@@ -145,6 +171,12 @@ TToAnchoredWindowElement >> open [
 	self dispatchOpenedEvent
 ]
 
+{ #category : #'t - anchored window element - accessing' }
+TToAnchoredWindowElement >> openedEventClass [ 
+
+	^ ToAnchoredElementOpenedEvent 
+]
+
 { #category : #'t - anchored window element - displaying' }
 TToAnchoredWindowElement >> popup [
 	
@@ -193,16 +225,18 @@ TToAnchoredWindowElement >> positionOnEvent: anEvent context: aBlElementBoundsUp
 	self manager positionWindowOnEvent: anEvent context: aBlElementBoundsUpdateContext
 ]
 
-{ #category : #'t - anchored window element - displaying' }
-TToAnchoredWindowElement >> preventPickOutside [
-
-	self manager checkPickOutside: false
-]
-
 { #category : #'t - anchored window element - private layout' }
 TToAnchoredWindowElement >> refreshLayout [
 
 	self layoutStep: self newStartLayoutStep
+]
+
+{ #category : #'t - anchored window element - accessing' }
+TToAnchoredWindowElement >> root [
+	"Return my current root element.
+	root can not be nil"
+	
+	^ self
 ]
 
 { #category : #'t - anchored window element - displaying' }

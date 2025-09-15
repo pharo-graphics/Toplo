@@ -59,6 +59,7 @@ ToMouseUpOutsideEventFilter >> mouseUpEvent: anEvent [
 	do nothing if the original event target is inside my target 
 	"
 
+	holder ifNil: [ ^ self ].
 	holder isAttachedToSceneGraph ifFalse: [ " if my target is removed
 		This can be the case if the parent is removed "
 			holder removeEventFilter: self.
@@ -79,19 +80,6 @@ ToMouseUpOutsideEventFilter >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	holder := anElement
-]
-
-{ #category : #'mouse handlers' }
-ToMouseUpOutsideEventFilter >> onMouseUpEvent: anEvent [
-
-	" ouside, consume mouse up and launch mouse up outside "
-	"anEvent consume."
-
-	element dispatchEvent: (ToMouseUpOutsideEvent new
-			 sourceEvent: anEvent;
-			 emitter: self;
-			 fillFromTime: element space time;
-			 yourself)
 ]
 
 { #category : #'api - hooks' }

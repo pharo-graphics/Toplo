@@ -18,8 +18,7 @@ ToAlbum >> addEditsFeedbackLayer [
 	self editsFeedbackLayer ifNotNil: [ ^ self ].
 	layer := ToAlbumEditsFeedbackLayer new.
 	layer id: #editsFeedbackLayer.
-	layer attachTo: self.
-	self addChild: layer
+	layer attachToParent: self
 ]
 
 { #category : #initialization }
@@ -179,8 +178,7 @@ ToAlbum >> removeEditsFeedbackLayer [
 
 	| layer |
 	layer := self editsFeedbackLayer ifNil: [ ^ self ].
-	layer detach.
-	self removeChild: layer
+	layer detachFromParent
 ]
 
 { #category : #'transaction hook' }

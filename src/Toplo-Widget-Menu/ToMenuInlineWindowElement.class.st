@@ -20,7 +20,7 @@ ToMenuInlineWindowElement >> collectedNodesDo: aValuable [
  			child isFake ifFalse: [ aValuable value: child ] ] ]
 ]
 
-{ #category : #'api - displaying' }
+{ #category : #'t - anchored window element - displaying' }
 ToMenuInlineWindowElement >> dispatchClosedEvent [
 	" need to dispatch also to the element holding the window
 	so that the window manager can manage the window 

@@ -311,16 +311,6 @@ ToSelectElement >> popupMinHeight: aNumber [
 	self manager minHeight: aNumber
 ]
 
-{ #category : #accessing }
-ToSelectElement >> popupWindowManager [
-
-	self
-		deprecated: 'Use #windowManager'
-		transformWith: '`@rcvr popupWindowManager' -> '`@rcvr windowManager'.
-
-	^ self windowManager 
-]
-
 { #category : #'accessing - window' }
 ToSelectElement >> popupWindowPlacement: aPlacement [
 

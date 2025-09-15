@@ -22,8 +22,7 @@ TToElementWithPlaceholder >> placeholderBuilder: aValuable [
 	| ph |
 	ph := self placeholderLayer.
 	ph ifNotNil: [
-			ph detach.
-			ph removeFromParent ].
+			ph detachFromParent ].
 	aValuable ifNil: [ ^ self ].
 	ph := self newPlaceholder.
 	ph id: #toploPlaceholder.

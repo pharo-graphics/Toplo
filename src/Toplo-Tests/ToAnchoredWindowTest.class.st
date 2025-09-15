@@ -129,7 +129,7 @@ ToAnchoredWindowTest >> testElement [
 
 	| win e windowManager |
 	win := ToAnchoredWindow new.
-	self assert: win anchorElement isNil.
+	self deny: win hasManager.
 	e := ToElement new.
 	space root addChild: e.
 	self waitTestingSpaces.
@@ -145,7 +145,7 @@ ToAnchoredWindowTest >> testHasAssociateElement [
 
 	| win e windowManager |
 	win := ToAnchoredWindow new.
-	self deny: win hasAnchorElement.
+	self deny: win hasManager.
 	self should: [ win popup ] raise: Error.
 	e := ToElement new.
 	space root addChild: e.
@@ -366,12 +366,12 @@ ToAnchoredWindowTest >> testPopupEventWithoutElement [
 
 	| w |
 	w := ToAnchoredWindow new.
-	self assert: w hasAnchorElement not.
+	self deny: w hasManager.
 	self should: [ w popup ] raise: Error
 ]
 
 { #category : #tests }
-ToAnchoredWindowTest >> testPopupTimeStamp [
+ToAnchoredWindowTest >> testPopupTimestamp [
 
 	| win windowManager e openedEvent timeStamp |
 	e := ToElement new.

@@ -10,9 +10,14 @@ Class {
 ToEdgePane >> initialize [ 
 
 	super initialize.
-	self withNullSkin.
-	self extent: 100 asPoint.
-	self background: Color lightGray
+	self width: 100.
+	self vMatchParent
+]
+
+{ #category : #'instance creation' }
+ToEdgePane >> newRawSkin [ 
+
+	^ ToEdgePaneSkin new
 ]
 
 { #category : #layout }

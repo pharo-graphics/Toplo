@@ -152,6 +152,7 @@ ToPopupWindowManager >> defaultWindowStarter [
 ToPopupWindowManager >> eventsToHandle [
 
 	^ super eventsToHandle , {
+		  ToWindowCheckPickOutsideEvent.
 		  ToMouseUpOutsideEvent.
 		  ToStartStillHoveredEvent.
 		  ToStopStillHoveredEvent.
@@ -352,8 +353,8 @@ ToPopupWindowManager >> startStillPressedEvent: anEvent [
 
 	anEvent emitter = delayedPopupHandler ifFalse: [ ^ self ].
 	anEvent sourceEvent button = mouseButton ifFalse: [ ^ self ].
-	currentWindow ifNil: [ ^ self popupEvent: anEvent sourceEvent ].
-	self hasInlineWindow ifTrue: [ currentWindow close ]
+	currentWindow ifNotNil: [ ^ self ].
+	self popupEvent: anEvent sourceEvent
 ]
 
 { #category : #'event handling' }
@@ -367,7 +368,6 @@ ToPopupWindowManager >> stopStillHoveredEvent: anEvent [
 { #category : #'event handling' }
 ToPopupWindowManager >> stopStillPressedEvent: anEvent [
 
-	self hasInlineWindow ifTrue: [ ^ self ].
 	self requestCloseWindowOnEvent: anEvent sourceEvent
 ]
 
@@ -406,4 +406,10 @@ ToPopupWindowManager >> usePrimaryMouseButton [
 ToPopupWindowManager >> useSecondaryMouseButton [
 
 	mouseButton := BlMouseButton secondary
+]
+
+{ #category : #'window handling' }
+ToPopupWindowManager >> windowCheckPickOutsideEvent: anEvent [
+
+	checkPickOutside := anEvent allowed
 ]

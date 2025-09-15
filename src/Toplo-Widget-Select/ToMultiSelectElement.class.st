@@ -27,10 +27,7 @@ ToMultiSelectElement >> applyConfiguration [
 	super applyConfiguration.
 	self innerElement isFlowable: isFlowable.
 	self innerElement keepPickOrder: keepPickOrder.
-	" in case of hide selected, the picking outside handler should not be activated.
-	If not, an unexpected list closing occurs when clicking on the last popup list item "
-	self manager checkPickOutside: hideSelected not.
-	 
+
 	self iconContainer maxSelectedCount: maxSelectedCount .
 	self innerElement maxSelectedCount: maxSelectedCount.
 

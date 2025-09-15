@@ -8489,7 +8489,7 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 						event consume.
 						editedLabel popupEditorEvent: event ];
 				whenEditorOpenedDo: [ :editorEvent |
-						window preventPickOutside.
+						window checkPickOutside: false.
 						editorEvent editorElement addStamp: #preformatted.
 						editorEvent editorElement whenCancelRequestedDo: [
 									:cancelRequest |
@@ -8499,8 +8499,7 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 								saveRequest accepted: true ].
 						editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
 									editorEvent target text: acceptedEvent target text.
-									text := acceptedEvent target text ] ];
-				whenEditorClosedDo: [ :event | window allowPickOutside ].
+									text := acceptedEvent target text ] ].
 
 			resetBtn := ToButton new
 				            labelText: 'Reset';
@@ -9712,7 +9711,7 @@ ToSandBox class >> tabPaneElementWithUSStates [
 						| emptyPh |
 						'pane destroyed' traceCr.
 						emptyPh := pane userData at: #placeholder.
-						emptyPh detach ] ].
+						emptyPh detachFromParent ] ].
 	(self statesOfAmerica copyFrom: 1 to: 20) do: [ :l | tpane addTabItemData: l ].
 	tpane isFlowable: false.
 	tpane isScrollable: true.

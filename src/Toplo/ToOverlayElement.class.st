@@ -13,6 +13,13 @@ ToOverlayElement >> attachToParent: anElement [
 	anElement addChild: self
 ]
 
+{ #category : #'api - attaching / detaching' }
+ToOverlayElement >> detachFromParent [
+
+	self detach.
+	self removeFromParent
+]
+
 { #category : #initialization }
 ToOverlayElement >> initialize [ 
 

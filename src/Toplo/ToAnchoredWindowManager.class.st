@@ -184,12 +184,6 @@ ToAnchoredWindowManager >> handleEvent: anEvent [
 ]
 
 { #category : #testing }
-ToAnchoredWindowManager >> hasInlineWindow [
-
-	^ windowStarter isForInlineWindow
-]
-
-{ #category : #testing }
 ToAnchoredWindowManager >> hasWindow [
 
 	^ currentWindow notNil

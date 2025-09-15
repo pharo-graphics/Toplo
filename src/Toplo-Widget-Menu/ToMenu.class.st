@@ -82,7 +82,7 @@ ToMenu >> initialize [
 	openOnHovered := true.
 	closeOnPicking := false.
 
-	windowManager := ToMenuWindowManager new
+	windowManager := ToPopupMenuWindowManager new
 		                 windowBuilder: [ :window :request |
 			                 builder ifNotNil: [
 					                 self removeAllItems.

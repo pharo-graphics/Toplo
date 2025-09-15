@@ -8499,7 +8499,8 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 								saveRequest accepted: true ].
 						editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
 									editorEvent target text: acceptedEvent target text.
-									text := acceptedEvent target text ] ].
+									text := acceptedEvent target text ] ];
+				whenEditorClosedDo: [ :event | window checkPickOutside: true ].
 
 			resetBtn := ToButton new
 				            labelText: 'Reset';

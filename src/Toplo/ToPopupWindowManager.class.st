@@ -39,13 +39,6 @@ ToPopupWindowManager >> autoCloseDelay: aDelay [
 ]
 
 { #category : #'window handling' }
-ToPopupWindowManager >> beInline [ 
-	" for inline windows/ menus"
-	windowStarter := self newInlineWindowStarter.
-	checkPickOutside := false.
-]
-
-{ #category : #'window handling' }
 ToPopupWindowManager >> canCloseWindowAfter: aTimestamp [
 
 	| delay |
@@ -177,12 +170,6 @@ ToPopupWindowManager >> initialize [
 
 ]
 
-{ #category : #accessing }
-ToPopupWindowManager >> inlineWindowClass [
-
-	^ ToInlineWindowElement 
-]
-
 { #category : #initialization }
 ToPopupWindowManager >> installPickOutsideFilter [
 
@@ -218,12 +205,6 @@ ToPopupWindowManager >> mouseUpOutsideEvent: anEvent [
 ToPopupWindowManager >> newDelayedPopupHandler [
 	
 	^ ToMixedEventGeneratorHandler new
-]
-
-{ #category : #'window handling' }
-ToPopupWindowManager >> newInlineWindowStarter [
-
-	^ ToInlineWindowStarter new
 ]
 
 { #category : #initialization }
@@ -360,7 +341,6 @@ ToPopupWindowManager >> startStillPressedEvent: anEvent [
 { #category : #'event handling' }
 ToPopupWindowManager >> stopStillHoveredEvent: anEvent [
 
-	self hasInlineWindow ifTrue: [ ^ self ].
 	closeOnLeaved ifFalse: [ ^ self ].
 	self requestCloseWindowOnEvent: anEvent sourceEvent
 ]

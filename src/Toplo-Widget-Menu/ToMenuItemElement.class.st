@@ -91,16 +91,6 @@ ToMenuItemElement >> initialize [
 	self constraintsDo: [ :c | c linear vertical alignCenter ]
 ]
 
-{ #category : #accessing }
-ToMenuItemElement >> inlineWindowLevel [
-
-	| l |
-	l := 0.
-	self withAllParentsDo: [ :p |
-		(p isKindOf: ToMenuInlineWindowElement) ifTrue: [ l := l + 1 ] ].
-	^ l
-]
-
 { #category : #testing }
 ToMenuItemElement >> isInline [
 

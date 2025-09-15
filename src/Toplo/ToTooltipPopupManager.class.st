@@ -38,3 +38,11 @@ ToTooltipPopupManager >> initialize [
 	popupOnPressed := false.
 	popupOnHovered := true
 ]
+
+{ #category : #'event handling' }
+ToTooltipPopupManager >> mouseUpEvent: anEvent [
+
+	self resetPopupHandlerOnEvent: anEvent.
+	super mouseUpEvent: anEvent.
+	self closeWindow
+]

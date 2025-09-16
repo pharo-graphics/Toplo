@@ -243,6 +243,16 @@ BlElement >> flagAsEnabled [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> floatOverlay [
+
+	^ self userData at: #floatOverlay ifAbsentPut: [
+			  | overlay |
+			  overlay := ToFloatOverlay new.
+			  overlay attachToParent: self.
+			  overlay ]
+]
+
+{ #category : #'*Toplo' }
 BlElement >> hasAnyInParentChainSatisfying: aValuable [
 	"Return true if the valuable answers true with one of my parent including myself "
 

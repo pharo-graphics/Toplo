@@ -7,6 +7,14 @@ Class {
 	#category : #'Toplo-Widget-Float'
 }
 
+{ #category : #configuration }
+ToFloatElement >> applyConfiguration [ 
+
+	super applyConfiguration.
+	self isHMatchParent ifTrue: [ innerElement hMatchParent.  ] ifFalse: [ innerElement hFitContent ].	
+	self  isVMatchParent ifTrue: [ innerElement vMatchParent .  ] ifFalse: [ innerElement vFitContent ].
+]
+
 { #category : #'attaching  / detaching' }
 ToFloatElement >> attachToElement: anElement [
 
@@ -43,8 +51,11 @@ ToFloatElement >> detachFromElement [
 ToFloatElement >> initialize [ 
 
 	super initialize.
+	self
+		addEventHandlerOn: BlLayoutResizerChangedEvent
+		do: [ :event | self requestConfiguration ].
+
 	innerElement := ToElement new.
-	innerElement fitContent.
 	innerElement constraintsDo: [ :c |
 			c frame vertical alignCenter.
 			c frame horizontal alignCenter ].

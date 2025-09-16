@@ -54,16 +54,6 @@ ToPopupWindowManager >> canCloseWindowAfter: aTimestamp [
 	^ true
 ]
 
-{ #category : #'window handling' }
-ToPopupWindowManager >> checkCloseWindowOnEvent: anEvent [
-
-	currentWindow ifNotNil: [
-			anEvent ifNotNil: [
-					(self isMinimumDelayExceededOnEvent: anEvent) ifFalse: [ ^ self ].
-					self consumeEventAfterForcedClosing ifTrue: [ anEvent consume ] ] ].
-	self closeWindowOnEvent: anEvent
-]
-
 { #category : #accessing }
 ToPopupWindowManager >> checkPickOutside [
 
@@ -83,29 +73,27 @@ ToPopupWindowManager >> closeOnLeaved: aBoolean [
 ]
 
 { #category : #accessing }
-ToPopupWindowManager >> closeOnMouseLeaved: aBoolean [
-
-	self
-		deprecated: 'Use #CloseOnLeaved'
-		transformWith:
-		'`@rcvr closeOnMouseLeaved: `@arg' -> '`@rcvr closeOnLeaved: `@arg'.
-	self closeOnLeaved: aBoolean
-]
-
-{ #category : #accessing }
-ToPopupWindowManager >> closeOnMouseReleased: aBoolean [
-
-	self
-		deprecated: 'Use #closeOnReleased:'
-		transformWith: '`@rcvr closeOnMouseReleased: `@arg'
-			-> '`@rcvr closeOnReleased: `@arg'.
-	self closeOnReleased: aBoolean
-]
-
-{ #category : #accessing }
 ToPopupWindowManager >> closeOnReleased: aBoolean [
 
 	closeOnReleased := aBoolean 
+]
+
+{ #category : #'window handling' }
+ToPopupWindowManager >> closeWindowIfMinimumDelayExceededOnEvent: anEvent [
+
+	currentWindow ifNil: [ ^ self ].
+	anEvent ifNotNil: [
+		(self isMinimumDelayExceededOnEvent: anEvent) ifFalse: [ ^ self ] ].
+	self closeWindowNowOnEvent: anEvent
+]
+
+{ #category : #'window handling' }
+ToPopupWindowManager >> closeWindowNowOnEvent: anEvent [
+
+	currentWindow ifNil: [ ^ self ].
+	anEvent ifNotNil: [
+		self consumeEventAfterForcedClosing ifTrue: [ anEvent consume ] ].
+	anchorRoot ifNotNil: [ :ar | self closeWindowOnEvent: anEvent ]
 ]
 
 { #category : #'event handling' }
@@ -183,14 +171,14 @@ ToPopupWindowManager >> mouseLeaveEvent: anEvent [
 
 	closeOnLeaved ifFalse: [ ^ self ].
 	" use uncheck version to not cancel auto-open "
-	self uncheckCloseWindowOnEvent: anEvent
+	self closeWindowNowOnEvent: anEvent
 ]
 
 { #category : #'event handling' }
 ToPopupWindowManager >> mouseUpEvent: anEvent [
 
 	closeOnReleased ifFalse: [ ^ self ].
-	self checkCloseWindowOnEvent: anEvent
+	self closeWindowIfMinimumDelayExceededOnEvent: anEvent
 ]
 
 { #category : #'event handling' }
@@ -232,7 +220,7 @@ ToPopupWindowManager >> onInstalledIn: anElement [
 { #category : #'event handling' }
 ToPopupWindowManager >> onMouseUpOutsideEvent: anEvent [
 
-	self checkCloseWindowOnEvent: anEvent
+	self closeWindowIfMinimumDelayExceededOnEvent: anEvent
 ]
 
 { #category : #'window handling' }
@@ -311,7 +299,7 @@ ToPopupWindowManager >> requestCloseWindowOnEvent: anEvent [
 
 	currentWindow ifNil: [ ^ self ].
 	(self canCloseWindowAfter: anEvent timestamp) ifFalse: [ ^ self ].
-	self checkCloseWindowOnEvent: anEvent
+	self closeWindowIfMinimumDelayExceededOnEvent: anEvent
 ]
 
 { #category : #'window handling' }
@@ -349,16 +337,6 @@ ToPopupWindowManager >> stopStillHoveredEvent: anEvent [
 ToPopupWindowManager >> stopStillPressedEvent: anEvent [
 
 	self requestCloseWindowOnEvent: anEvent sourceEvent
-]
-
-{ #category : #'window handling' }
-ToPopupWindowManager >> uncheckCloseWindowOnEvent: anEvent [
-
-	currentWindow ifNotNil: [
-			anEvent ifNotNil: [
-				self consumeEventAfterForcedClosing ifTrue: [ anEvent consume ] ] ].
-
-	anchorRoot ifNotNil: [ :ar | self closeWindowOnEvent: anEvent ]
 ]
 
 { #category : #initialization }

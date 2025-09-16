@@ -73,15 +73,15 @@ ToAnchoredWindowManager >> createNewWindowOnEvent: anEvent [
 	| request |
 	currentWindow ifNotNil: [
 		^ Error signal: 'Asking for a window building twice' ].
-	self anchorElement ifNil: [
+	anchorElement ifNil: [
 		^ Error signal: 'An element is required for building a window' ].
-	self windowBuilder ifNil: [
+	windowBuilder ifNil: [
 		^ Error signal: 'A window builder is required for building a window' ].
 
 	request := self newWindowRequestOnEvent: anEvent.
 
-	" dispatch the event. handlers can eventually feed the event with additional data 
-	that can be used by the builder "
+	" dispatch the event. handlers can eventually feed the event 
+	with additional data that can be used by the builder "
 	self anchorElement dispatchEvent: request.
 
 	" the event is dispatched, eventually updated with additional data, 
@@ -161,7 +161,7 @@ ToAnchoredWindowManager >> elementPositionInSpaceChangedEvent: anEvent [
 { #category : #'event handling' }
 ToAnchoredWindowManager >> elementRemovedFromParentEvent: anEvent [
 
-	self currentWindowDo: [ :cw | cw isOpened ifTrue: [ cw close ] ]
+	self closeWindow
 ]
 
 { #category : #'api - accessing' }
@@ -196,15 +196,6 @@ ToAnchoredWindowManager >> initialize [
 	minDelayAfterOpening := 300 milliSeconds.
 	windowBuilder := self defaultWindowBuilder.
 	windowStarter := self defaultWindowStarter
-]
-
-{ #category : #testing }
-ToAnchoredWindowManager >> isInline [ 
-
-	self
-		deprecated: 'Use #hasInlineWindow instead'
-		transformWith: '`@rcvr isInline' -> '`@rcvr hasInlineWindow'.
-	^ self hasInlineWindow
 ]
 
 { #category : #'window handling' }
@@ -326,7 +317,7 @@ ToAnchoredWindowManager >> positionWindowOnEvent: anEvent context: aBlElementBou
 { #category : #'event handling' }
 ToAnchoredWindowManager >> removedFromSpaceEvent: anEvent [
 
-	self currentWindowDo: [ :cw | cw isOpened ifTrue: [ cw close ] ]
+	self closeWindow
 ]
 
 { #category : #'window handling' }
@@ -380,6 +371,6 @@ ToAnchoredWindowManager >> windowRequestClass [
 { #category : #'event handling' }
 ToAnchoredWindowManager >> withAllSubwindowsDo: aBlock [
 
-	self currentWindowDo: [ :cw |
-		cw withAllSubwindowsDo: aBlock ]
+	currentWindow ifNil: [ ^ self ].
+	currentWindow withAllSubwindowsDo: aBlock
 ]

@@ -8,7 +8,7 @@ Class {
 ToContextMenuManager >> bottomUpCloseWindowRequestOnEvent: anEvent [ 
 	" requestto actually manage the window closing "
 
-	self checkCloseWindowOnEvent: anEvent
+	self closeWindowIfMinimumDelayExceededOnEvent: anEvent
 ]
 
 { #category : #initialization }

@@ -16,17 +16,17 @@ ToPopupMenuWindowManager >> beInline [
 ToPopupMenuWindowManager >> bottomUpCloseWindowRequestOnEvent: anEvent [ 
 	" requestto actually manage the window closing "
 
-	self checkCloseWindowOnEvent: anEvent.
+	self closeWindowIfMinimumDelayExceededOnEvent: anEvent.
 	self hasInlineWindow ifTrue: [ ^ self ].
 	anchorElement parentMenuDo: [ :rm |
 		rm manager bottomUpCloseWindowRequestOnEvent: anEvent ]
 ]
 
 { #category : #'window handling' }
-ToPopupMenuWindowManager >> checkCloseWindowOnEvent: anEvent [ 
+ToPopupMenuWindowManager >> closeWindowIfMinimumDelayExceededOnEvent: anEvent [ 
 
 	anchorElement menuPaneDo: [ :mb | mb cancelAutoOpen ].
-	super checkCloseWindowOnEvent: anEvent
+	super closeWindowIfMinimumDelayExceededOnEvent: anEvent
 ]
 
 { #category : #initialization }
@@ -51,8 +51,7 @@ ToPopupMenuWindowManager >> defaultWindowClass [
 ToPopupMenuWindowManager >> eventsToHandle [
 
 	^ super eventsToHandle , {
-		  BlMouseEnterEvent.
-		  BlMouseLeaveEvent }
+		  BlMouseEnterEvent }
 ]
 
 { #category : #testing }
@@ -82,11 +81,9 @@ ToPopupMenuWindowManager >> newInlineWindowStarter [
 { #category : #'window handling' }
 ToPopupMenuWindowManager >> newWindow [
 
-	| w |
-	w := super newWindow.
-	self anchorElement isSubmenu ifTrue: [
-		self anchorRoot: self anchorElement parentMenu manager anchorRoot ].
-	^ w
+	anchorElement isSubmenu ifTrue: [
+		anchorRoot := anchorElement parentMenu manager anchorRoot ].
+	^ super newWindow
 ]
 
 { #category : #'event handling' }

@@ -4043,7 +4043,7 @@ ToSandBox class >> example_SelectMonoFiltrable [
 	select selecter selectIndex: 2.
 	select placeholderString: 'Select a state'.
 	innerWindow := ToInnerWindow new.
-	select manager anchorRoot: innerWindow root.
+	select anchorRoot: innerWindow root.
 	select width: 300.
 	"select position: 50 @ 50."
 	innerWindow pane addChild: select.
@@ -4059,7 +4059,7 @@ ToSandBox class >> example_SelectMonoNotFiltrable [
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select placeholderString: 'Select a state'.
 	innerWindow := ToInnerWindow new.
-	select manager anchorRoot: innerWindow root.
+	select anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 50.
 	innerWindow pane addChild: select.
@@ -4120,7 +4120,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	select popupMaxHeight: 200.
 	select placeholderString: 'Select a state'.
 	innerWindow := ToInnerWindow new.
-	select manager anchorRoot: innerWindow root.
+	select anchorRoot: innerWindow root.
 	select hMatchParent.
 	select selecter selectIndex: 2.
 	innerWindow pane addChild: select.
@@ -4143,7 +4143,7 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistribution [
 	select popupMaxHeight: 200.
 	select placeholderString: 'Select a state'.
 	innerWindow := ToInnerWindow new.
-	select manager anchorRoot: innerWindow root.
+	select anchorRoot: innerWindow root.
 	select hMatchParent.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
@@ -4164,7 +4164,7 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistributionWithMax [
 	select popupMaxHeight: 200.
 	select placeholderString: 'Select a state'.
 	innerWindow := ToInnerWindow new.
-	select manager anchorRoot: innerWindow root.
+	select anchorRoot: innerWindow root.
 	select hMatchParent.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
@@ -4185,7 +4185,7 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrapping [
 	select popupMaxHeight: 200.
 	select placeholderString: 'Select a state'.
 	innerWindow := ToInnerWindow new.
-	select manager anchorRoot: innerWindow root.
+	select anchorRoot: innerWindow root.
 	select hMatchParent.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
@@ -4205,7 +4205,7 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrappingKeepPickOrder [
 	select popupMaxHeight: 200.
 	select placeholderString: 'Select a state'.
 	innerWindow := ToInnerWindow new.
-	select manager anchorRoot: innerWindow root.
+	select anchorRoot: innerWindow root.
 	select hMatchParent.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
@@ -4225,7 +4225,7 @@ ToSandBox class >> example_SelectMultiFiltrableScrolling [
 	select popupMaxHeight: 200.
 	select placeholderString: 'Select a state'.
 	innerWindow := ToInnerWindow new.
-	select manager anchorRoot: innerWindow root.
+	select anchorRoot: innerWindow root.
 	select hMatchParent.
 	innerWindow pane addChild: select.
 	innerWindow height: 600.
@@ -4295,7 +4295,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 	select popupMaxHeight: 200.
 	select placeholderString: 'Selected are removed'.
 	innerWindow := ToInnerWindow new.
-	select manager anchorRoot: innerWindow root.
+	select anchorRoot: innerWindow root.
 	select hMatchParent.
 	select popupListElement withRowNumbers.
 	innerWindow pane addChild: select.
@@ -4315,7 +4315,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected2 [
 	select popupMaxHeight: 200.
 	select placeholderString: 'Selected are removed'.
 	innerWindow := ToInnerWindow new.
-	select manager anchorRoot: innerWindow root.
+	select anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 10.
 	innerWindow pane addChild: select.
@@ -4355,7 +4355,7 @@ ToSandBox class >> example_SelectMultiNotFiltrable [
 	select popupListElement nodeBuilder: [ :node :dataItem :holder |
 		node addChild: (ToLabel text: dataItem asString) hMatchParent ].
 	innerWindow := ToInnerWindow new.
-	select manager anchorRoot: innerWindow root.
+	select anchorRoot: innerWindow root.
 	select hExact: 300.
 	select position: 50 @ 50.
 
@@ -4381,7 +4381,7 @@ ToSandBox class >> example_SelectMultiNotFiltrableWithGroups [
 
 	select placeholderString: 'Select states'.
 	innerWindow := ToInnerWindow new.
-	select manager anchorRoot: innerWindow root.
+	select anchorRoot: innerWindow root.
 	innerWindow root padding:( BlInsets all: 10).
 	select filterTextField requestFocus.
 	innerWindow pane addChild: select.
@@ -5693,7 +5693,7 @@ ToSandBox class >> example_WithCheckBox [
 
 	menu position: 10 @ 10.
 	frame := ToInnerWindow new.
-	menu manager anchorRoot: frame pane.
+	menu anchorRoot: frame pane.
 	frame pane addChild: menu.
 	frame openInSpace
 ]
@@ -7412,7 +7412,7 @@ ToSandBox class >> example_selectWith5Nodes [
 	select popupListElement nodeBuilder: [ :node :dataItem :holder |
 		node addChild: (ToLabel text: dataItem asString) hMatchParent ].
 	innerWindow := ToInnerWindow new.
-	select manager anchorRoot: innerWindow root.
+	select anchorRoot: innerWindow root.
 	select width: 300.
 	select position: 50 @ 50.
 	select manager minHeight: 10.
@@ -7454,7 +7454,7 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 			includesSubstring: aPattern asString
 			caseSensitive: false ].
 	innerWindow := ToInnerWindow new.
-	select manager anchorRoot: innerWindow root.
+	select anchorRoot: innerWindow root.
 	select hMatchParent.
 	select popupListElement dataAccessor updateAllWith:
 		Smalltalk globals allClasses.

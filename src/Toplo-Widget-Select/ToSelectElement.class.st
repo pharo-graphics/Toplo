@@ -33,6 +33,12 @@ ToSelectElement >> allowDeselection [
 	^ true
 ]
 
+{ #category : #accessing }
+ToSelectElement >> anchorRoot: anElement [
+
+	self manager anchorRoot: anElement
+]
+
 { #category : #configuration }
 ToSelectElement >> applyConfiguration [ 
 

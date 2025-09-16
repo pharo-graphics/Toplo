@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Core-Tooltip'
 }
 
-{ #category : #'t - inline window element - accessing' }
+{ #category : #'t - anchored window element - accessing' }
 ToTooltipWindow >> correctedPositionWithinAnchorRoot [
 
 	| t rect rootRect bndsInSpace |

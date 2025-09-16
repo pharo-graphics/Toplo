@@ -8,11 +8,15 @@ Class {
 }
 
 { #category : #configuration }
-ToFloatElement >> applyConfiguration [ 
+ToFloatElement >> applyConfiguration [
 
 	super applyConfiguration.
-	self isHMatchParent ifTrue: [ innerElement hMatchParent.  ] ifFalse: [ innerElement hFitContent ].	
-	self  isVMatchParent ifTrue: [ innerElement vMatchParent .  ] ifFalse: [ innerElement vFitContent ].
+	self isHMatchParent
+		ifTrue: [ innerElement hMatchParent ]
+		ifFalse: [ innerElement hFitContent ].
+	self isVMatchParent
+		ifTrue: [ innerElement vMatchParent ]
+		ifFalse: [ innerElement vFitContent ]
 ]
 
 { #category : #'attaching  / detaching' }

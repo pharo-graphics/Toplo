@@ -47,13 +47,6 @@ ToPopupMenuWindowManager >> defaultWindowClass [
 	^ ToMenuWindow
 ]
 
-{ #category : #'api - accessing' }
-ToPopupMenuWindowManager >> eventsToHandle [
-
-	^ super eventsToHandle , {
-		  BlMouseEnterEvent }
-]
-
 { #category : #testing }
 ToPopupMenuWindowManager >> hasInlineWindow [
 

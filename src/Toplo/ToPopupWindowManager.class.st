@@ -140,6 +140,7 @@ ToPopupWindowManager >> eventsToHandle [
 		  ToStartStillPressedEvent.
 		  ToStopStillPressedEvent.
 		  BlMouseUpEvent.
+		  BlMouseEnterEvent.
 		  BlMouseLeaveEvent }
 ]
 
@@ -164,6 +165,12 @@ ToPopupWindowManager >> installPickOutsideFilter [
 	pickOutsideFilter ifNotNil: [ ^ self ].
 	pickOutsideFilter := self newPickOutsideFilter.
 	anchorElement space root addEventFilter: pickOutsideFilter.
+]
+
+{ #category : #'event handling' }
+ToPopupWindowManager >> mouseEnterEvent: anEvent [
+
+
 ]
 
 { #category : #'event handling' }

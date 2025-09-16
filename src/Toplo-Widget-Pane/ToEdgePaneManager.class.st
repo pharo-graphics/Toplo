@@ -10,7 +10,7 @@ Class {
 { #category : #initialization }
 ToEdgePaneManager >> defaultPlacement [ 
 
-	^ ToAnchoredTopLeftDownPlacement new
+	^ ToNoCustomPlacement new
 ]
 
 { #category : #accessing }
@@ -19,21 +19,34 @@ ToEdgePaneManager >> defaultWindowClass [
 	^ ToEdgePane 
 ]
 
+{ #category : #'api - hooks' }
+ToEdgePaneManager >> onInstalledIn: anElement [
+
+	super onInstalledIn: anElement.
+	overlay := ToOverlayElement new.
+	overlay background: (Color lightGray alpha: 0.3)
+]
+
+{ #category : #'api - hooks' }
+ToEdgePaneManager >> onUninstalledIn: anElement [
+
+	super onUninstalledIn: anElement.
+	overlay := nil
+]
+
 { #category : #'window handling' }
 ToEdgePaneManager >> onWindowClosedOnEvent: anEvent [
 
-	super onWindowClosedOnEvent: anEvent.
 	overlay detachFromParent.
-	overlay := nil
+	super onWindowClosedOnEvent: anEvent
 ]
 
 { #category : #'window handling' }
 ToEdgePaneManager >> onWindowOpenedOnEvent: anEvent [
 
 	super onWindowOpenedOnEvent: anEvent.
-	overlay := ToOverlayElement new.
-	overlay background: (Color lightGray alpha: 0.3).
-	overlay attachToParent: self anchorRoot
+	overlay attachToParent: self anchorRoot.
+
 ]
 
 { #category : #'window handling' }

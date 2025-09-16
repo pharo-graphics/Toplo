@@ -34,7 +34,7 @@ ToContextMenu >> closeWindow [
 	self close
 ]
 
-{ #category : #'api - displaying' }
+{ #category : #'t - anchored window element - accessing' }
 ToContextMenu >> correctedPositionWithinAnchorRoot [
 
 	| t rect rootRect |

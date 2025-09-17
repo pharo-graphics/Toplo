@@ -47,12 +47,6 @@ ToPopupMenuWindowManager >> defaultWindowClass [
 	^ ToMenuWindow
 ]
 
-{ #category : #testing }
-ToPopupMenuWindowManager >> hasInlineWindow [
-
-	^ windowStarter isForInlineWindow
-]
-
 { #category : #accessing }
 ToPopupMenuWindowManager >> inlineWindowClass [
 

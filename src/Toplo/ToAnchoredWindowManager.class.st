@@ -147,15 +147,13 @@ ToAnchoredWindowManager >> element [
 { #category : #'event handling' }
 ToAnchoredWindowManager >> elementExtentChangedEvent: anEvent [
 
-	currentWindow ifNil: [ ^ self ].
-	currentWindow refreshLayout
+	windowStarter anchorElementExtentChangedEvent: anEvent fromManager: self
 ]
 
 { #category : #'event handling' }
 ToAnchoredWindowManager >> elementPositionInSpaceChangedEvent: anEvent [
 
-	currentWindow ifNil: [ ^ self ].
-	currentWindow refreshLayout
+	windowStarter anchorElementPositionChangedEvent: anEvent fromManager: self
 ]
 
 { #category : #'event handling' }
@@ -321,9 +319,9 @@ ToAnchoredWindowManager >> removedFromSpaceEvent: anEvent [
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> startWindow: aWindow [ 
+ToAnchoredWindowManager >> startWindow: aWindow onEvent: anEvent [
 
-	windowStarter startWindow: aWindow fromManager: self
+	windowStarter startWindow: aWindow fromManager: self onEvent: anEvent
 ]
 
 { #category : #'window handling' }

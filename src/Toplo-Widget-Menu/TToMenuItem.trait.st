@@ -12,14 +12,10 @@ TToMenuItem >> barOwnerDo: aValuable [
 { #category : #'t - menu item' }
 TToMenuItem >> closeAllSiblingMenuWindows [
 
-	self isInInlineWindow ifTrue: [ ^ self ].
-	self isInline ifTrue: [ ^ self ].
-
-	self parentMenuDo: [ :pm |
-			pm items do: [ :sibling |
-					sibling = self ifFalse: [
-						sibling isInline ifFalse: [
-							sibling menuWindowDo: [ :w | w close ] ] ] ] ]
+	| siblingWindows |
+	siblingWindows := Array streamContents: [ :stream |
+		                  self nextPutAllSiblingMenuWindowsIn: stream ].
+	siblingWindows do: [ :w | w close ]
 ]
 
 { #category : #'t - menu item' }
@@ -53,6 +49,17 @@ TToMenuItem >> menuPane [
 	self parentChainReverseDo: [ :e |
 		(e isKindOf: ToMenuPane) ifTrue: [ ^ e ] ].
 	^ nil
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> nextPutAllSiblingMenuWindowsIn: aStream [
+
+	self isInline ifTrue: [ ^ self ].
+	self parentMenuDo: [ :pm |
+			pm items do: [ :sibling |
+					sibling = self ifFalse: [
+							sibling isInline ifFalse: [
+								sibling menuWindowDo: [ :w | aStream nextPut: w ] ] ] ] ]
 ]
 
 { #category : #'t - menu item' }

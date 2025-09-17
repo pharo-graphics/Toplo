@@ -1,8 +1,8 @@
 Class {
 	#name : #ToAnchoredWindow,
 	#superclass : #ToBasicWindowElement,
-	#traits : 'TToAnchoredWindowElement',
-	#classTraits : 'TToAnchoredWindowElement classTrait',
+	#traits : 'TToAnchoredWindowElement + TToRelayoutableWindowElement',
+	#classTraits : 'TToAnchoredWindowElement classTrait + TToRelayoutableWindowElement classTrait',
 	#category : #'Toplo-Core-Window'
 }
 

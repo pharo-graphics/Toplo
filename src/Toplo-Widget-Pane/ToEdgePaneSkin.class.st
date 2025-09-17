@@ -8,5 +8,7 @@ Class {
 ToEdgePaneSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
-	anEvent elementDo: [ :e | e geometry: BlRectangleGeometry new ]
+	anEvent elementDo: [ :e |
+			e geometry: BlRectangleGeometry new.
+			e background: Color red ]
 ]

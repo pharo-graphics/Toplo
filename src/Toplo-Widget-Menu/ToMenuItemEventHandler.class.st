@@ -25,7 +25,7 @@ ToMenuItemEventHandler >> bottomUpCloseWindowRequestOnEvent: anEvent [
 { #category : #'api - accessing' }
 ToMenuItemEventHandler >> eventsToHandle [
 
-	^  { BlMouseEnterEvent. BlMouseUpEvent. ToActionPoolRunnedEvent }
+	^  { BlMouseEnterEvent. BlMouseLeaveEvent. BlMouseUpEvent. ToActionPoolRunnedEvent }
 ]
 
 { #category : #'mouse handlers' }
@@ -38,7 +38,6 @@ ToMenuItemEventHandler >> mouseEnterEvent: anEvent [
 	target menuPane
 		ifNil: [ target isSubmenu ifFalse: [ ^ self ] ]
 		ifNotNil: [ :mb | mb isAutoOpen ifFalse: [ ^ self ] ].
-
 	target isOpened ifTrue: [ ^ self ].
 	target openOnHovered ifFalse: [ ^ self ].
 	target popupEvent: anEvent

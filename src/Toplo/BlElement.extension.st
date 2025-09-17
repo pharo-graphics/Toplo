@@ -160,6 +160,16 @@ BlElement >> dispatchOpenedEvent [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> edgePaneOverlay [
+
+	^ self userData at: #edgePaneOverlay ifAbsentPut: [
+			  | overlay |
+			  overlay := ToFloatOverlay new.
+			  overlay attachToParent: self.
+			  overlay ]
+]
+
+{ #category : #'*Toplo' }
 BlElement >> enable [
 
 	self disabled: false

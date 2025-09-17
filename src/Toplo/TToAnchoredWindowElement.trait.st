@@ -19,17 +19,6 @@ TToAnchoredWindowElement >> anchorRoot [
 	^ self manager anchorRoot
 ]
 
-{ #category : #'t - anchored window element - private layout' }
-TToAnchoredWindowElement >> checkLayoutStepOnLayout: aBounds context: aBlElementBoundsUpdateContext [
-
-	self layoutStep ifNotNil: [ :ls |
-			self layoutStep: (ls
-					 nextStepFor: self
-					 onEvent: self lastPopupEvent
-					 onLayout: aBounds
-					 context: aBlElementBoundsUpdateContext) ]
-]
-
 { #category : #'t - anchored window element - displaying' }
 TToAnchoredWindowElement >> close [
 
@@ -43,12 +32,6 @@ TToAnchoredWindowElement >> close [
 TToAnchoredWindowElement >> closedEventClass [ 
 
 	^ ToAnchoredElementClosedEvent 
-]
-
-{ #category : #'t - anchored window element - accessing' }
-TToAnchoredWindowElement >> correctedPositionWithinAnchorRoot [
-
-	^ self measuredPosition
 ]
 
 { #category : #'t - anchored window element - accessing' }
@@ -102,40 +85,6 @@ TToAnchoredWindowElement >> isOpened [
 	^ self hasParent
 ]
 
-{ #category : #'t - anchored window element - private layout' }
-TToAnchoredWindowElement >> lastPopupEvent [
-
-	^ self userData at: #lastPopupEvent ifAbsent: [  ]
-]
-
-{ #category : #'t - anchored window element - private layout' }
-TToAnchoredWindowElement >> lastPopupEvent: anEvent [
-
-	self userData at: #lastPopupEvent put: anEvent
-]
-
-{ #category : #'t - anchored window element - private layout' }
-TToAnchoredWindowElement >> launchOpening [
-
-	self layoutStep: self newStartLayoutStep.
-	self open
-]
-
-{ #category : #'t - anchored window element - accessing' }
-TToAnchoredWindowElement >> layoutStep [
-
-	^ self userData at: #layoutStep ifAbsent: [  ]
-]
-
-{ #category : #'t - anchored window element - accessing' }
-TToAnchoredWindowElement >> layoutStep: aLayoutStep [
-
-	aLayoutStep ifNil: [
-		^ self userData removeKey: #layoutStep ifAbsent: [  ] ].
-	self userData at: #layoutStep put: aLayoutStep.
-	aLayoutStep onSetInAnchoredWindow: self
-]
-
 { #category : #'t - anchored window element - accessing' }
 TToAnchoredWindowElement >> manager [
 
@@ -148,25 +97,10 @@ TToAnchoredWindowElement >> manager: aWindowHandler [
 	windowManager := aWindowHandler 
 ]
 
-{ #category : #'t - anchored window element - private layout' }
-TToAnchoredWindowElement >> newStartLayoutStep [ 
-
-	^ ToAnchoredWindowOpeningStartStep new
-]
-
 { #category : #'t - anchored window element - displaying' }
-TToAnchoredWindowElement >> onMeasure: anExtentMeasurementSpec onEvent: anEvent [
+TToAnchoredWindowElement >> openOnEvent: anEvent [
 
-	self manager ifNil: [ ^ self ].
-	self manager onMeasure: anExtentMeasurementSpec onEvent: anEvent
-]
-
-{ #category : #'t - anchored window element - displaying' }
-TToAnchoredWindowElement >> open [
-
-	self start.
-	self localTheme ifNil: [
-		self localTheme: self anchorElement lookupTheme ].
+	self startOnEvent: anEvent.
 	popupTimestamp := self space time now.
 	self dispatchOpenedEvent
 ]
@@ -185,7 +119,6 @@ TToAnchoredWindowElement >> popup [
 
 { #category : #'t - anchored window element - displaying' }
 TToAnchoredWindowElement >> popupEvent: anEvent [
-	" I have to set the position here "
 
 	self manager ifNil: [
 		Error signal:
@@ -202,8 +135,7 @@ TToAnchoredWindowElement >> popupEvent: anEvent [
 	self isOpened ifTrue: [
 		Error signal: 'An opened window shouldn''t be asked to popup' ].
 
-	self lastPopupEvent: anEvent.
-	self launchOpening
+	self openOnEvent: anEvent
 ]
 
 { #category : #'t - anchored window element - accessing' }
@@ -218,19 +150,6 @@ TToAnchoredWindowElement >> popupTimestamp: aTimestamp [
 	popupTimestamp := aTimestamp
 ]
 
-{ #category : #'t - anchored window element - displaying' }
-TToAnchoredWindowElement >> positionOnEvent: anEvent context: aBlElementBoundsUpdateContext [
-
-	self manager ifNil: [ ^ self ].
-	self manager positionWindowOnEvent: anEvent context: aBlElementBoundsUpdateContext
-]
-
-{ #category : #'t - anchored window element - private layout' }
-TToAnchoredWindowElement >> refreshLayout [
-
-	self layoutStep: self newStartLayoutStep
-]
-
 { #category : #'t - anchored window element - accessing' }
 TToAnchoredWindowElement >> root [
 	"Return my current root element.
@@ -240,9 +159,9 @@ TToAnchoredWindowElement >> root [
 ]
 
 { #category : #'t - anchored window element - displaying' }
-TToAnchoredWindowElement >> start [
+TToAnchoredWindowElement >> startOnEvent: anEvent [
 
-	self manager startWindow: self
+	self manager startWindow: self onEvent: anEvent
 ]
 
 { #category : #'t - anchored window element - displaying' }

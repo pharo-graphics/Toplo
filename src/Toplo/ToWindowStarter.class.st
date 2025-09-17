@@ -4,23 +4,26 @@ Class {
 	#category : #'Toplo-Core-Window'
 }
 
+{ #category : #'private - layout' }
+ToWindowStarter >> anchorElementExtentChangedEvent: anEvent fromManager: aManager [
+
+
+]
+
+{ #category : #'private - layout' }
+ToWindowStarter >> anchorElementPositionChangedEvent: anEvent fromManager: aManager [
+
+
+]
+
 { #category : #testing }
 ToWindowStarter >> isForInlineWindow [
 
 	^ false
 ]
 
-{ #category : #testing }
-ToWindowStarter >> isInline [
-
-	self
-		deprecated: 'Use #isForInlineWindow instead'
-		transformWith: '`@rcvr isInline' -> '`@rcvr isForInlineWindow'.
-	^ self isForInlineWindow
-]
-
 { #category : #'starting-stopping' }
-ToWindowStarter >> startWindow: aWindow fromManager: aManager [
+ToWindowStarter >> startWindow: aWindow fromManager: aManager  onEvent: anEvent [
 
 	self subclassResponsibility 
 ]

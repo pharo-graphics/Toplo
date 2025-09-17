@@ -21,13 +21,6 @@ TToMenuItemBarContainer >> addSeparatorBeforeIndex: anInteger [
 	self addItem: ToSeparatorMenuItem new beforeIndex: anInteger
 ]
 
-{ #category : #'t - menu item bar container - adding/removing' }
-TToMenuItemBarContainer >> closeAllWindowsForItemsSatisfying: aBlock [
-
-	self items do: [ :it |
-		(aBlock value: it) ifTrue: [ it menuWindowDo: [ :w | w close ] ] ]
-]
-
 { #category : #'t - menu item bar container  - initialization' }
 TToMenuItemBarContainer >> initializeAsMenuItemBarContainer [ 
 

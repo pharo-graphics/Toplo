@@ -34,8 +34,8 @@ ToContextMenu >> closeWindow [
 	self close
 ]
 
-{ #category : #'t - anchored window element - accessing' }
-ToContextMenu >> correctedPositionWithinAnchorRoot [
+{ #category : #'t - relayoutable window element - accessing' }
+ToContextMenu >> correctedPositionAccordingToAnchorRoot [
 
 	| t rect rootRect |
 	rect := (self measuredBounds inSpace inChild: self anchorRoot) bounds asRectangle.

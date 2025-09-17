@@ -38,7 +38,7 @@ ToMenuPaneEventHandler >> mouseOverEvent: anEvent [
 	" auto-open action "
 	" get all menus "
 	menus := target items select: [ :m |
-		         m isItemContainer and: [ m isInline not ] ].
+		         m isItemContainer and: [ m isInline not and: [ m isMenuPane not ]] ].
 	" 
 	if over a child of a menu or over a menu itself, then
 	popup the menu window if it is closed.

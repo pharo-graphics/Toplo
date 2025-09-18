@@ -92,7 +92,6 @@ ToPopupMenuWindowManager >> onWindowClosedOnEvent: anEvent [
 ToPopupMenuWindowManager >> onWindowOpenedOnEvent: anEvent [
 
 	super onWindowOpenedOnEvent: anEvent.
-	anchorElement itemBar requestFocus.
 	anchorElement isInline ifTrue: [ ^ self ].
 	anchorElement menuPaneDo: [ :mb | mb startAutoOpen ].
 

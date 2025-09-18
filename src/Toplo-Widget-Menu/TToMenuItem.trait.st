@@ -4,6 +4,15 @@ Trait {
 }
 
 { #category : #'t - menu item' }
+TToMenuItem >> allOtherMenuWindowsDo: aValuable [
+
+	self rootMenuItemContainerDo: [ :rmc |
+			rmc allChildrenDepthFirstDo: [ :child |
+					(child ~= self and: [ child isKindOf: ToMenu ]) ifTrue: [
+						child menuWindowDo: aValuable ] ] ]
+]
+
+{ #category : #'t - menu item' }
 TToMenuItem >> barOwnerDo: aValuable [
 
 	self menuBarOwner ifNotNil: [ :bo | aValuable value: bo ]
@@ -12,10 +21,8 @@ TToMenuItem >> barOwnerDo: aValuable [
 { #category : #'t - menu item' }
 TToMenuItem >> closeAllSiblingMenuWindows [
 
-	| siblingWindows |
-	siblingWindows := Array streamContents: [ :stream |
-		                  self nextPutAllSiblingMenuWindowsIn: stream ].
-	siblingWindows do: [ :w | w close ]
+	self allOtherMenuWindowsDo: [ :mw |
+		mw isInline ifFalse: [ mw close ] ]
 ]
 
 { #category : #'t - menu item' }
@@ -52,17 +59,6 @@ TToMenuItem >> menuPane [
 ]
 
 { #category : #'t - menu item' }
-TToMenuItem >> nextPutAllSiblingMenuWindowsIn: aStream [
-
-	self isInline ifTrue: [ ^ self ].
-	self parentMenuDo: [ :pm |
-			pm items do: [ :sibling |
-					sibling = self ifFalse: [
-							sibling isInline ifFalse: [
-								sibling menuWindowDo: [ :w | aStream nextPut: w ] ] ] ] ]
-]
-
-{ #category : #'t - menu item' }
 TToMenuItem >> parentMenu [
 
 	self flag: #ToBeChecked.
@@ -86,6 +82,29 @@ TToMenuItem >> rootMenuItemContainer [
 		((e isKindOf: ToMenuWindow) or: [ e isKindOf: ToMenuPane ]) ifTrue: [
 			^ e ] ].
 	^ nil
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> rootMenuItemContainerDo: aValuable [
+
+	self rootMenuItemContainer ifNotNil: [ :rmc | aValuable cull: rmc ]
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> rootMenuOrMenuPane [
+
+	^ self parentMenu
+		  ifNil: [
+		  self menuPane
+			  ifNil: [ self ]
+			  ifNotNil: [ :rmp | rmp rootMenuPane ] ]
+		  ifNotNil: [ :pm | pm rootMenuOrMenuPane ]
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> rootMenuOrMenuPaneDo: aBlock [
+
+	self rootMenuOrMenuPane ifNotNil: [ :p | aBlock value: p ]
 ]
 
 { #category : #'t - menu item' }

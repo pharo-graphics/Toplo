@@ -114,6 +114,12 @@ ToMenuWindow >> items [
 ]
 
 { #category : #'t - anchored window element - accessing' }
+ToMenuWindow >> menuItem [
+
+	^ self manager anchorElement
+]
+
+{ #category : #'t - anchored window element - accessing' }
 ToMenuWindow >> menuWindow [
 
 	^ self

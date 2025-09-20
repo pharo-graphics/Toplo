@@ -15,7 +15,7 @@ ToAnyUIEventOutsideEventFilter >> anyUIEventOutsideEvent: anEvent [
 		This can be the case if the parent is removed "
 			holder removeEventFilter: self.
 			^ self ].
-
+	anEvent isMouseMove ifTrue: [ ^ self ].
 	(self isOutsideEvent: anEvent) ifFalse: [ ^ self ].
 
 	" ok, the event is outside. Consuming should be done outside "

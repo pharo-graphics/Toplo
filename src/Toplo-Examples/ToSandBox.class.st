@@ -1405,6 +1405,24 @@ ToSandBox class >> example_AnchorWithPointTransition [
 	pane openInSpace
 ]
 
+{ #category : #filters }
+ToSandBox class >> example_AnyEventFilter [
+
+	| space e |
+	space := BlSpace new.
+	e := ToElement new
+		     position: 100 asPoint;
+		     extent: 100 asPoint;
+		     background: Color red.
+	space root addChild: e.
+	space root addEventFilter:
+		(ToAnyUIEventOutsideEventFilter new element: e).
+	e
+		addEventHandlerOn: ToAnyUIEventOutsideEvent
+		do: [ :evt | evt sourceEvent traceCr ].
+	space show
+]
+
 { #category : #list }
 ToSandBox class >> example_BasicListWithAllClasses3 [
 

@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #testing }
-ToContextMenuMouseUpOutsideEventFilter >> isElementOutside [
+ToContextMenuMouseUpOutsideEventFilter >> isElementIgnored [
 
 	" is the element iside or outside ? 
 	ifTrue, a mouse up on the element is considered as an outside event"

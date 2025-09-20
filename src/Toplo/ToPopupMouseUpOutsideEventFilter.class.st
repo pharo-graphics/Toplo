@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #'mouse handlers' }
-ToPopupMouseUpOutsideEventFilter >> isMouseUpOutsideEvent: anEvent [
+ToPopupMouseUpOutsideEventFilter >> isOutsideEvent: anEvent [
 
 	| target |
 	target := anEvent target.
@@ -16,7 +16,7 @@ ToPopupMouseUpOutsideEventFilter >> isMouseUpOutsideEvent: anEvent [
 	not considered as outside"
 	"(manager isMinimumDelayExceededOnEvent: anEvent) ifFalse: [ ^ false ]."
 	" first consider the element itself "
-	(super isMouseUpOutsideEvent: anEvent) ifFalse: [ ^ false ].
+	(super isOutsideEvent: anEvent) ifFalse: [ ^ false ].
 	" then consider all windows : the main popup and its sub-windows.
 	Not outside if the mouse up occurs on one of the windows"
 

@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'mouse handlers' }
-ToMenuMouseUpOutsideEventFilter >> isMouseUpOutsideEvent: anEvent [
+ToMenuMouseUpOutsideEventFilter >> isOutsideEvent: anEvent [
 
 	| target |
 	target := anEvent target.
@@ -21,5 +21,5 @@ ToMenuMouseUpOutsideEventFilter >> isMouseUpOutsideEvent: anEvent [
 			foundAnchorElement := w anchorElement.
 			(foundAnchorElement hasAnyInParentChainSatisfying: [ :e |
 				 e isKindOf: ToCustomMenuItem ]) ifTrue: [ ^ false ] ].
-	^ super isMouseUpOutsideEvent: anEvent
+	^ super isOutsideEvent: anEvent
 ]

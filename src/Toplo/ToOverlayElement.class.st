@@ -3,8 +3,20 @@ Class {
 	#superclass : #BlOverlayElement,
 	#traits : 'TToElement',
 	#classTraits : 'TToElement classTrait',
+	#instVars : [
+		'mouseEventAllowed'
+	],
 	#category : #'Toplo-Core-Overlay'
 }
+
+{ #category : #configuration }
+ToOverlayElement >> applyConfiguration [
+
+	super applyConfiguration.
+	mouseEventAllowed
+		ifTrue: [ self allowMouseEvents ]
+		ifFalse: [ self preventMouseEvents ]
+]
 
 { #category : #'api - attaching / detaching' }
 ToOverlayElement >> attachToParent: anElement [
@@ -25,7 +37,7 @@ ToOverlayElement >> initialize [
 
 	super initialize.
 	self initializeForToplo.
-	self preventMouseEvents 
+	mouseEventAllowed := false
 ]
 
 { #category : #testing }
@@ -38,6 +50,14 @@ ToOverlayElement >> isBeneath [
 ToOverlayElement >> isOver [
 
 	^ self elevation > overlayReferenceElement elevation
+]
+
+{ #category : #accessing }
+ToOverlayElement >> mouseEventAllowed: aBoolean [
+
+	aBoolean = mouseEventAllowed ifTrue: [ ^ self ].
+	mouseEventAllowed := aBoolean.
+	self requestConfiguration 
 ]
 
 { #category : #accessing }

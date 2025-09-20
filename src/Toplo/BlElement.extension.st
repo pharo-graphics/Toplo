@@ -164,7 +164,7 @@ BlElement >> edgePaneOverlay [
 
 	^ self userData at: #edgePaneOverlay ifAbsentPut: [
 			  | overlay |
-			  overlay := ToFloatOverlay new.
+			  overlay := ToEdgePaneOverlay new.
 			  overlay attachToParent: self.
 			  overlay ]
 ]
@@ -672,6 +672,12 @@ BlElement >> requestNewSkin [
 BlElement >> requestSkinApplication [
 
 	self spaceDo: [ :sp | sp requestNextPulse ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> resetEdgePaneOverlay [
+
+	^ self userData removeKey: #edgePaneOverlay ifAbsent: [ ]
 ]
 
 { #category : #'*Toplo' }

@@ -33,7 +33,7 @@ ToMenuWindow >> correctedPositionAccordingToAnchorRoot [
 	" in case of a root menu (including context menu), just keep the computed position.
 	If not, then in case of an horizontal menubar, keep also the computed position.
 	In case of a vertical menubar, it may be necessary to also fix the position x "
-	rootMenuOrMenuPane := parentMenu rootMenuItemContainer.
+	rootMenuOrMenuPane := parentMenu rootMenuWindowOrMenuPane.
 	(t x isZero or: [
 		 parentMenu isSubmenu not and: [
 			 rootMenuOrMenuPane isNil or: [ rootMenuOrMenuPane isHorizontal ] ] ])

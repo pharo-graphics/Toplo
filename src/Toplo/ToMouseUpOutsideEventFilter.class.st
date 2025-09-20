@@ -1,17 +1,17 @@
 Class {
 	#name : #ToMouseUpOutsideEventFilter,
-	#superclass : #BlCustomEventHandler,
-	#instVars : [
-		'holder',
-		'element'
-	],
+	#superclass : #ToEventOutsideEventFilter,
 	#category : #'Toplo-Support-EventGenerator'
 }
 
-{ #category : #accessing }
-ToMouseUpOutsideEventFilter >> element: anElement [
+{ #category : #'mouse handlers' }
+ToMouseUpOutsideEventFilter >> dispatchOutsideEventOn: anEvent [
 
-	element := anElement
+	element dispatchEvent: (ToMouseUpOutsideEvent new
+			 sourceEvent: anEvent;
+			 emitter: self;
+			 fillFromTime: element space time;
+			 yourself)
 ]
 
 { #category : #'api - accessing' }
@@ -20,37 +20,10 @@ ToMouseUpOutsideEventFilter >> eventsToHandle [
 	^ { BlMouseUpEvent }
 ]
 
-{ #category : #testing }
-ToMouseUpOutsideEventFilter >> isElementOutside [
+{ #category : #'api - event managing' }
+ToMouseUpOutsideEventFilter >> handleEvent: anEvent [
 
-	" is the element iside or outside ? 
-	ifTrue, a mouse up on the element is considered as an outside event"
-	^ false
-]
-
-{ #category : #'api - hooks' }
-ToMouseUpOutsideEventFilter >> isInstalled [
-
-	^ holder notNil
-]
-
-{ #category : #'mouse handlers' }
-ToMouseUpOutsideEventFilter >> isMouseUpOnElement: anEvent [
-	" do nothing if it is inside my element "
-
-	^ anEvent target withAllParentsInclude: element
-]
-
-{ #category : #'mouse handlers' }
-ToMouseUpOutsideEventFilter >> isMouseUpOutsideEvent: anEvent [
-	" do nothing if it is inside my element "
-
-	" is the mouse up occurs on the element itsef ?"
-	(self isMouseUpOnElement: anEvent) ifTrue: [
-		" is the element considered as outside ? "
-		^ self isElementOutside ].
-	" mouse up outside the element detected "
-	^ true
+	anEvent sendTo: self
 ]
 
 { #category : #'mouse handlers' }
@@ -65,34 +38,14 @@ ToMouseUpOutsideEventFilter >> mouseUpEvent: anEvent [
 			holder removeEventFilter: self.
 			^ self ].
 
-	(self isMouseUpOutsideEvent: anEvent) ifFalse: [ ^ self ].
+	(self isOutsideEvent: anEvent) ifFalse: [ ^ self ].
 
 	" ok, the event is outside. Consuming should be done outside "
-	element dispatchEvent: (ToMouseUpOutsideEvent new
-			 sourceEvent: anEvent;
-			 emitter: self;
-			 fillFromTime: element space time;
-			 yourself)
+	self dispatchOutsideEventOn: anEvent
 ]
 
-{ #category : #'api - hooks' }
-ToMouseUpOutsideEventFilter >> onInstalledIn: anElement [
+{ #category : #'api - event managing' }
+ToMouseUpOutsideEventFilter >> wantsEvent: anEvent [
 
-	super onInstalledIn: anElement.
-	holder := anElement
-]
-
-{ #category : #'api - hooks' }
-ToMouseUpOutsideEventFilter >> onUninstalledIn: anElement [
-
-	holder := nil.
-	super onUninstalledIn: anElement
-
-]
-
-{ #category : #'api - hooks' }
-ToMouseUpOutsideEventFilter >> stop [
-
-	holder ifNil: [ ^ self ].
-	holder removeEventFilter: self
+	^ anEvent isKindOf: BlMouseUpEvent
 ]

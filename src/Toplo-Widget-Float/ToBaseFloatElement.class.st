@@ -1,28 +1,13 @@
 Class {
 	#name : #ToBaseFloatElement,
 	#superclass : #ToAnchoredElement,
-	#instVars : [
-		'innerElement'
-	],
 	#category : #'Toplo-Widget-Float'
 }
-
-{ #category : #configuration }
-ToBaseFloatElement >> applyConfiguration [
-
-	super applyConfiguration.
-	self isHMatchParent
-		ifTrue: [ innerElement hMatchParent ]
-		ifFalse: [ innerElement hFitContent ].
-	self isVMatchParent
-		ifTrue: [ innerElement vMatchParent ]
-		ifFalse: [ innerElement vFitContent ]
-]
 
 { #category : #accessing }
 ToBaseFloatElement >> builder: aValuable [
 
-	aValuable value: innerElement 
+	aValuable value: self 
 ]
 
 { #category : #'attaching  / detaching' }
@@ -37,14 +22,7 @@ ToBaseFloatElement >> initialize [
 	super initialize.
 	self
 		addEventHandlerOn: BlLayoutResizerChangedEvent
-		do: [ :event | self requestConfiguration ].
-
-	innerElement := self newInnerElement.
-	innerElement constraintsDo: [ :c |
-			c frame vertical alignCenter.
-			c frame horizontal alignCenter ].
-	self addChild: innerElement.
-
+		do: [ :event | self requestConfiguration ]
 ]
 
 { #category : #'attaching  / detaching' }

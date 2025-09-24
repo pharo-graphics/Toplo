@@ -1,9 +1,6 @@
 Class {
 	#name : #ToMenuPaneEventHandler,
 	#superclass : #BlCustomEventHandler,
-	#instVars : [
-		'target'
-	],
 	#category : #'Toplo-Widget-Menu-Pane'
 }
 
@@ -26,13 +23,14 @@ ToMenuPaneEventHandler >> layoutResizerChangedEvent: anEvent [
 { #category : #'event handling' }
 ToMenuPaneEventHandler >> mouseLeaveEvent: anEvent [
 
-	target itemBar secondarySelecter deselectAll
+	anEvent currentTarget itemBar secondarySelecter deselectAll
 ]
 
 { #category : #'event handling' }
 ToMenuPaneEventHandler >> mouseOverEvent: anEvent [
 
-	| menus |
+	| menus target |
+	target := anEvent currentTarget.
 	target isAutoOpen ifFalse: [ ^ self ].
 
 	" auto-open action "
@@ -52,24 +50,12 @@ ToMenuPaneEventHandler >> mouseOverEvent: anEvent [
 { #category : #'event handling' }
 ToMenuPaneEventHandler >> mouseUpEvent: anEvent [
 
+	| target |
+	target := anEvent currentTarget.
 	target isEnabled ifFalse: [ ^ self ].
 	" don't cancel auto-open if on a menu because it is started by a mouse up on root menus  "
 	anEvent target
 		withAllParentsUpTo: target
 		do: [ :p | p isMenu ifTrue: [ ^ self ] ].
 	target cancelAutoOpen
-]
-
-{ #category : #'api - hooks' }
-ToMenuPaneEventHandler >> onInstalledIn: anElement [
-
-	super onInstalledIn: anElement.
-	target := anElement
-]
-
-{ #category : #'api - hooks' }
-ToMenuPaneEventHandler >> onUninstalledIn: anElement [
-
-	super onUninstalledIn: anElement.
-	target := nil
 ]

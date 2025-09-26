@@ -244,11 +244,7 @@ ToPopupWindowManager >> onWindowClosedOnEvent: anEvent [
 ToPopupWindowManager >> onWindowOpenedOnEvent: anEvent [
 
 	super onWindowOpenedOnEvent: anEvent.
-	self installPickOutsideFilter.
-	closeOnLeaved ifFalse: [ ^ self ].
-	currentWindow
-		addEventHandlerOn: BlMouseEnterEvent
-		do: [ :evt | self resetPopupHandlerOnEvent: evt ]
+	self installPickOutsideFilter
 ]
 
 { #category : #initialization }

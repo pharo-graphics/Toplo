@@ -1,18 +1,8 @@
 Class {
 	#name : #ToMouseUpOutsideEventFilter,
-	#superclass : #ToEventOutsideEventFilter,
+	#superclass : #ToOutsideEventFilter,
 	#category : #'Toplo-Support-EventGenerator'
 }
-
-{ #category : #'mouse handlers' }
-ToMouseUpOutsideEventFilter >> dispatchOutsideEventOn: anEvent [
-
-	element dispatchEvent: (ToMouseUpOutsideEvent new
-			 sourceEvent: anEvent;
-			 emitter: self;
-			 fillFromTime: element space time;
-			 yourself)
-]
 
 { #category : #'api - accessing' }
 ToMouseUpOutsideEventFilter >> eventsToHandle [

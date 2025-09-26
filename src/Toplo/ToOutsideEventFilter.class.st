@@ -1,5 +1,5 @@
 Class {
-	#name : #ToEventOutsideEventFilter,
+	#name : #ToOutsideEventFilter,
 	#superclass : #BlBasicEventHandler,
 	#instVars : [
 		'holder',
@@ -8,14 +8,23 @@ Class {
 	#category : #'Toplo-Support-EventGenerator'
 }
 
+{ #category : #'mouse handlers' }
+ToOutsideEventFilter >> dispatchOutsideEventOn: anEvent [
+
+	element dispatchEvent: (anEvent asOutsideEvent
+			 sourceEvent: anEvent;
+			 emitter: self;
+			 yourself)
+]
+
 { #category : #accessing }
-ToEventOutsideEventFilter >> element: anElement [
+ToOutsideEventFilter >> element: anElement [
 
 	element := anElement
 ]
 
 { #category : #testing }
-ToEventOutsideEventFilter >> isElementIgnored [
+ToOutsideEventFilter >> isElementIgnored [
 
 	" is the element inide or outside ? 
 	ifTrue, a mouse up on the element is considered as an outside event"
@@ -23,20 +32,20 @@ ToEventOutsideEventFilter >> isElementIgnored [
 ]
 
 { #category : #'mouse handlers' }
-ToEventOutsideEventFilter >> isEventOnElement: anEvent [
+ToOutsideEventFilter >> isEventOnElement: anEvent [
 	" do nothing if it is inside my element "
 
 	^ anEvent target withAllParentsInclude: element
 ]
 
 { #category : #'api - hooks' }
-ToEventOutsideEventFilter >> isInstalled [
+ToOutsideEventFilter >> isInstalled [
 
 	^ holder notNil
 ]
 
 { #category : #'mouse handlers' }
-ToEventOutsideEventFilter >> isOutsideEvent: anEvent [
+ToOutsideEventFilter >> isOutsideEvent: anEvent [
 	" do nothing if it is inside my element "
 
 	" is the mouse up occurs on the element itsef ?"
@@ -48,14 +57,14 @@ ToEventOutsideEventFilter >> isOutsideEvent: anEvent [
 ]
 
 { #category : #'api - hooks' }
-ToEventOutsideEventFilter >> onInstalledIn: anElement [
+ToOutsideEventFilter >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	holder := anElement
 ]
 
 { #category : #'api - hooks' }
-ToEventOutsideEventFilter >> onUninstalledIn: anElement [
+ToOutsideEventFilter >> onUninstalledIn: anElement [
 
 	holder := nil.
 	super onUninstalledIn: anElement
@@ -63,7 +72,7 @@ ToEventOutsideEventFilter >> onUninstalledIn: anElement [
 ]
 
 { #category : #'api - hooks' }
-ToEventOutsideEventFilter >> stop [
+ToOutsideEventFilter >> stop [
 
 	holder ifNil: [ ^ self ].
 	holder removeEventFilter: self

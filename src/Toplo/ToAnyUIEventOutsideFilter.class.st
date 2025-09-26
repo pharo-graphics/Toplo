@@ -1,11 +1,11 @@
 Class {
-	#name : #ToAnyUIEventOutsideEventFilter,
-	#superclass : #ToEventOutsideEventFilter,
+	#name : #ToAnyUIEventOutsideFilter,
+	#superclass : #ToOutsideEventFilter,
 	#category : #'Toplo-Support-EventGenerator'
 }
 
 { #category : #'event handling' }
-ToAnyUIEventOutsideEventFilter >> anyUIEventOutsideEvent: anEvent [
+ToAnyUIEventOutsideFilter >> anyUIEventOutsideEvent: anEvent [
 	" 
 	do nothing if the original event target is inside my target 
 	"
@@ -22,30 +22,20 @@ ToAnyUIEventOutsideEventFilter >> anyUIEventOutsideEvent: anEvent [
 	self dispatchOutsideEventOn: anEvent
 ]
 
-{ #category : #'mouse handlers' }
-ToAnyUIEventOutsideEventFilter >> dispatchOutsideEventOn: anEvent [
-
-	element dispatchEvent: (ToAnyUIEventOutsideEvent new
-			 sourceEvent: anEvent;
-			 emitter: self;
-			 fillFromTime: element space time;
-			 yourself)
-]
-
 { #category : #'api - accessing' }
-ToAnyUIEventOutsideEventFilter >> eventsToHandle [
+ToAnyUIEventOutsideFilter >> eventsToHandle [
 
 	^ { BlUIEvent }
 ]
 
 { #category : #'api - event managing' }
-ToAnyUIEventOutsideEventFilter >> handleEvent: anEvent [
+ToAnyUIEventOutsideFilter >> handleEvent: anEvent [
 
 	self anyUIEventOutsideEvent: anEvent
 ]
 
 { #category : #'api - event managing' }
-ToAnyUIEventOutsideEventFilter >> wantsEvent: anEvent [
+ToAnyUIEventOutsideFilter >> wantsEvent: anEvent [
 
 	^ anEvent isKindOf: BlUIEvent
 ]

@@ -1416,7 +1416,7 @@ ToSandBox class >> example_AnyEventFilter [
 		     background: Color red.
 	space root addChild: e.
 	space root addEventFilter:
-		(ToAnyUIEventOutsideEventFilter new element: e).
+		(ToAnyUIEventOutsideFilter new element: e).
 	e
 		addEventHandlerOn: ToAnyUIEventOutsideEvent
 		do: [ :evt | evt sourceEvent traceCr ].

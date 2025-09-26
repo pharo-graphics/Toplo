@@ -16,7 +16,7 @@ ToPopupMenuWindowManager >> beInline [
 ToPopupMenuWindowManager >> bottomUpCloseWindowRequestOnEvent: anEvent [ 
 	" requestto actually manage the window closing "
 
-	self closeWindowIfMinimumDelayExceededOnEvent: anEvent.
+	self closeWindowNowOnEvent: anEvent.
 	self hasInlineWindow ifTrue: [ ^ self ].
 	anchorElement parentMenuDo: [ :rm |
 		rm manager bottomUpCloseWindowRequestOnEvent: anEvent ]

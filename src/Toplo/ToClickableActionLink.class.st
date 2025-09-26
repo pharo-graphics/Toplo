@@ -15,7 +15,7 @@ ToClickableActionLink >> launchableFromEvent: anEvent [
 	anEvent currentTarget
 		allParentsDetect: [ :p | p isKindOf: ToAnchoredWindow ]
 		ifFound: [ :w |
-		launchable := w manager isMinimumDelayExceededOnEvent: anEvent ]
+		launchable := w manager isMinimumDelayBeforeActionRunningExceededOnEvent: anEvent ]
 		ifNone: [ ].
 	^ launchable
 ]

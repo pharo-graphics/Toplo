@@ -3197,7 +3197,19 @@ ToSandBox class >> example_Menu2 [
 			 yourself).
 	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	container pane addChild: menu.
-	container openInSpace
+	container openInSpace.
+	^ menu 
+]
+
+{ #category : #menu }
+ToSandBox class >> example_Menu3 [
+
+	| menu |
+	menu := self example_Menu2.
+	menu manager popupOnHovered: true.
+	menu manager closeOnLeaved: true.
+	menu manager minDelayBeforeClosing: 2000 milliSeconds.
+	^ menu
 ]
 
 { #category : #menu }

@@ -83,7 +83,9 @@ ToPopupWindowManager >> closeWindowIfMinimumDelayExceededOnEvent: anEvent [
 
 	currentWindow ifNil: [ ^ self ].
 	anEvent ifNotNil: [
-		(self isMinimumDelayExceededOnEvent: anEvent) ifFalse: [ ^ self ] ].
+			(self isMinimumDelayBeforeClosingExceededOnEvent: anEvent) ifFalse: [
+					self resetPopupHandlerOnEvent: anEvent.
+					^ self ] ].
 	self closeWindowNowOnEvent: anEvent
 ]
 
@@ -178,14 +180,14 @@ ToPopupWindowManager >> mouseLeaveEvent: anEvent [
 
 	closeOnLeaved ifFalse: [ ^ self ].
 	" use uncheck version to not cancel auto-open "
-	self closeWindowNowOnEvent: anEvent
+	self closeWindowIfMinimumDelayExceededOnEvent: anEvent
 ]
 
 { #category : #'event handling' }
 ToPopupWindowManager >> mouseUpEvent: anEvent [
 
 	closeOnReleased ifFalse: [ ^ self ].
-	self closeWindowIfMinimumDelayExceededOnEvent: anEvent
+	self closeWindowNowOnEvent: anEvent
 ]
 
 { #category : #'event handling' }
@@ -227,7 +229,7 @@ ToPopupWindowManager >> onInstalledIn: anElement [
 { #category : #'event handling' }
 ToPopupWindowManager >> onMouseUpOutsideEvent: anEvent [
 
-	self closeWindowIfMinimumDelayExceededOnEvent: anEvent
+	self closeWindowNowOnEvent: anEvent
 ]
 
 { #category : #'window handling' }
@@ -242,7 +244,11 @@ ToPopupWindowManager >> onWindowClosedOnEvent: anEvent [
 ToPopupWindowManager >> onWindowOpenedOnEvent: anEvent [
 
 	super onWindowOpenedOnEvent: anEvent.
-	self installPickOutsideFilter
+	self installPickOutsideFilter.
+	closeOnLeaved ifFalse: [ ^ self ].
+	currentWindow
+		addEventHandlerOn: BlMouseEnterEvent
+		do: [ :evt | self resetPopupHandlerOnEvent: evt ]
 ]
 
 { #category : #initialization }

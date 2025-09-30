@@ -132,17 +132,17 @@ ToSelectPopupManager >> onUninstalledIn: anElement [
 ]
 
 { #category : #'window handling' }
-ToSelectPopupManager >> onWindowClosed [
+ToSelectPopupManager >> onWindowClosedOnEvent: anEvent [
 
-	super onWindowClosed.
+	super onWindowClosedOnEvent: anEvent.
 	" if case one of my children has focus "
 	self anchorElement onPopupWindowClosed
 ]
 
 { #category : #'window handling' }
-ToSelectPopupManager >> onWindowOpened [
+ToSelectPopupManager >> onWindowOpenedOnEvent: anEvent [
 
-	super onWindowOpened.
+	super onWindowOpenedOnEvent: anEvent.
 	self anchorElement onPopupWindowOpened
 ]
 

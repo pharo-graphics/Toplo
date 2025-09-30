@@ -33,8 +33,16 @@ ToTooltipPopupManager >> defaultWindowClass [
 ToTooltipPopupManager >> initialize [
 
 	super initialize.
+	minDelayAfterOpening := 0 milliSeconds.
 	closeOnReleased := true.
 	closeOnLeaved := true.
 	popupOnPressed := false.
 	popupOnHovered := true
+]
+
+{ #category : #'event handling' }
+ToTooltipPopupManager >> mouseUpEvent: anEvent [
+
+	self resetPopupHandlerOnEvent: anEvent.
+	super mouseUpEvent: anEvent
 ]

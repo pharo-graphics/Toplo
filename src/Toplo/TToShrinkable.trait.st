@@ -14,10 +14,8 @@ TToShrinkable >> addShrinkFeedbackLayer [
 	self shrinkFeedbackLayer ifNotNil: [ ^ self ].
 	layer := ToGradientShrinkFeedbackLayer new.
 	layer id: #shrinkFeedbackLayer.
-	layer attachTo: self.
-	layer visibility: BlVisibility hidden.
-	self addChild: layer.
-
+	layer attachToParent: self.
+	layer visibility: BlVisibility hidden
 ]
 
 { #category : #'t - shrinkable' }
@@ -82,8 +80,7 @@ TToShrinkable >> removeShrinkFeedbackLayer [
 
 	| layer |
 	layer := self shrinkFeedbackLayer ifNil: [ ^ self ].
-	layer detach.
-	self removeChild: layer.
+	layer detachFromParent.
 	layer shrinked: nil
 ]
 

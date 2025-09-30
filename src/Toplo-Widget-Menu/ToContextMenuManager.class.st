@@ -1,6 +1,6 @@
 Class {
 	#name : #ToContextMenuManager,
-	#superclass : #ToPopupWindowManager,
+	#superclass : #ToMenuWindowManager,
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
@@ -8,7 +8,7 @@ Class {
 ToContextMenuManager >> bottomUpCloseWindowRequestOnEvent: anEvent [ 
 	" requestto actually manage the window closing "
 
-	self checkCloseWindowOnEvent: anEvent
+	self closeWindowIfMinimumDelayExceededOnEvent: anEvent
 ]
 
 { #category : #initialization }
@@ -38,9 +38,9 @@ ToContextMenuManager >> initialize [
 ]
 
 { #category : #'window handling' }
-ToContextMenuManager >> onWindowOpened [
+ToContextMenuManager >> onWindowOpenedOnEvent: anEvent [
 
-	super onWindowOpened.
+	super onWindowOpenedOnEvent: anEvent.
 	currentWindow itemBar requestFocus
 ]
 

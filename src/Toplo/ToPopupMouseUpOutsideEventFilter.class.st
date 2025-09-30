@@ -19,7 +19,7 @@ ToPopupMouseUpOutsideEventFilter >> isMouseUpOutsideEvent: anEvent [
 	(super isMouseUpOutsideEvent: anEvent) ifFalse: [ ^ false ].
 	" then consider all windows : the main popup and its sub-windows.
 	Not outside if the mouse up occurs on one of the windows"
-	
+
 	manager currentWindow withAllSubwindowsDo: [ :w |
 		(target withAllParentsInclude: w) ifTrue: [ ^ false ] ].
 	^ true

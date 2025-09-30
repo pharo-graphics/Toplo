@@ -7,6 +7,7 @@ Class {
 { #category : #'api - event managing' }
 ToOneShotMouseUpOutsideEventFilter >> handleEvent: anEvent [
 
+	holder ifNil: [ ^ self ].
 	super handleEvent: anEvent.
 	holder removeEventFilter: self
 ]

@@ -6,7 +6,7 @@ Class {
 
 { #category : #'window handling' }
 ToListElementContextMenuManager >> newWindowRequestOnEvent: anEvent [
-	" as an example, sent from my mouseDownEvent: "
+	" feed the request with a copy of the selectionModel to be used from the window builder valuable "
 
 	|  selectionModel |
 	" copy the selection to have unabled, hidden and unselectable selection passed to the menu builder "
@@ -20,10 +20,10 @@ ToListElementContextMenuManager >> newWindowRequestOnEvent: anEvent [
 ]
 
 { #category : #'window handling' }
-ToListElementContextMenuManager >> onWindowClosed [
+ToListElementContextMenuManager >> onWindowClosedOnEvent: anEvent [
 
 	anchorElement contextMenuSelecter deselectAll.
-	super onWindowClosed.
+	super onWindowClosedOnEvent: anEvent
 
 ]
 

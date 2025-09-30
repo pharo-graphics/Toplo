@@ -33,6 +33,12 @@ ToSelectElement >> allowDeselection [
 	^ true
 ]
 
+{ #category : #accessing }
+ToSelectElement >> anchorRoot: anElement [
+
+	self manager anchorRoot: anElement
+]
+
 { #category : #configuration }
 ToSelectElement >> applyConfiguration [ 
 
@@ -309,16 +315,6 @@ ToSelectElement >> popupMaxHeight: aNumber [
 ToSelectElement >> popupMinHeight: aNumber [
 
 	self manager minHeight: aNumber
-]
-
-{ #category : #accessing }
-ToSelectElement >> popupWindowManager [
-
-	self
-		deprecated: 'Use #windowManager'
-		transformWith: '`@rcvr popupWindowManager' -> '`@rcvr windowManager'.
-
-	^ self windowManager 
 ]
 
 { #category : #'accessing - window' }

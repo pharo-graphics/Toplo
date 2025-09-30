@@ -12,33 +12,6 @@ ToMenuInlineWindowElement >> closeWindow [
 	self close
 ]
 
-{ #category : #enumerating }
-ToMenuInlineWindowElement >> collectedNodesDo: aValuable [ 
- 
- 	self allChildrenBreadthFirstDo: [ :child |
- 		(child isKindOf: ToMenuItemNode) ifTrue: [
- 			child isFake ifFalse: [ aValuable value: child ] ] ]
-]
-
-{ #category : #'api - displaying' }
-ToMenuInlineWindowElement >> dispatchClosedEvent [
-	" need to dispatch also to the element holding the window
-	so that the window manager can manage the window 
-	(recall that the window manager is an event handler of the element)"
-
-	super dispatchClosedEvent.
-	self anchorElement dispatchEvent: self newClosedEvent
-]
-
-{ #category : #testing }
-ToMenuInlineWindowElement >> includes: anElement [
-
-	self = anElement ifTrue: [ ^ true ].
-	(self items anySatisfy: [ :e | e includes: anElement ]) ifTrue: [
-		^ true ].
-	^ false
-]
-
 { #category : #initialization }
 ToMenuInlineWindowElement >> initialize [ 
 
@@ -108,27 +81,6 @@ ToMenuInlineWindowElement >> menuWindow [
 ToMenuInlineWindowElement >> newRawSkin [ 
 
 	^ ToMenuInlineWindowSkin new
-]
-
-{ #category : #layout }
-ToMenuInlineWindowElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
-
-	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
-	self checkLayoutStepOnLayout: aBounds context: aBlElementBoundsUpdateContext
-]
-
-{ #category : #layout }
-ToMenuInlineWindowElement >> onMeasure: anExtentMeasurementSpec [
-
-	super onMeasure: anExtentMeasurementSpec.
-	self onMeasure: anExtentMeasurementSpec onEvent: self lastPopupEvent 
-]
-
-{ #category : #'t - anchored window element - private layout' }
-ToMenuInlineWindowElement >> refreshLayout [
-
-	"self layoutStep: self newStartLayoutStep.
-	self requestLayout"
 ]
 
 { #category : #'t - inline window element - accessing' }

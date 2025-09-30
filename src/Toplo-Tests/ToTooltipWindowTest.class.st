@@ -57,5 +57,5 @@ ToTooltipWindowTest >> testInitialize [
 
 	| w |
 	w := ToTooltipWindow new.
-	self assert: w anchorElement isNil
+	self deny: w hasManager
 ]

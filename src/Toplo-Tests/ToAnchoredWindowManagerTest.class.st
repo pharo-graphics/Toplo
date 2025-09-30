@@ -155,7 +155,7 @@ ToAnchoredWindowManagerTest >> testElementEventHandlerClass [
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
 			 eh isKindOf: ToAnchoredWindowManager ]).
 
-	self deny: win hasAnchorElement.
+	self deny: win hasManager.
 	self should: [ win popup ] raise: Error
 ]
 

@@ -1,35 +1,15 @@
 Class {
 	#name : #ToAnchoredWindow,
 	#superclass : #ToBasicWindowElement,
-	#traits : 'TToAnchoredWindowElement',
-	#classTraits : 'TToAnchoredWindowElement classTrait',
+	#traits : 'TToAnchoredWindowElement + TToRelayoutableWindowElement',
+	#classTraits : 'TToAnchoredWindowElement classTrait + TToRelayoutableWindowElement classTrait',
 	#category : #'Toplo-Core-Window'
 }
 
 { #category : #accessing }
-ToAnchoredWindow >> closedEventClass [ 
+ToAnchoredWindow >> checkPickOutside: aBoolean [
 
-	^ ToAnchoredElementClosedEvent 
-]
-
-{ #category : #'api - displaying' }
-ToAnchoredWindow >> dispatchClosedEvent [
-	" need to dispatch also to the element holding the window
-	so that the window manager can manage the window 
-	(recall that the window manager is an event handler of the element)"
-
-	super dispatchClosedEvent.
-	self anchorElement dispatchEvent: self newClosedEvent
-]
-
-{ #category : #'api - displaying' }
-ToAnchoredWindow >> dispatchOpenedEvent [
-
-	super dispatchOpenedEvent.
-	" need to dispatch also to the element holding the window
-	so that the window manager can manage the window 
-	(recall that the window manager is an event handler of the element)"
-	self anchorElement dispatchEvent: self newOpenedEvent
+	self manager checkPickOutside: aBoolean
 ]
 
 { #category : #layout }
@@ -48,12 +28,6 @@ ToAnchoredWindow >> onMeasure: anExtentMeasurementSpec [
 
 ]
 
-{ #category : #accessing }
-ToAnchoredWindow >> openedEventClass [ 
-
-	^ ToAnchoredElementOpenedEvent 
-]
-
 { #category : #'api - displaying' }
 ToAnchoredWindow >> toThemeInstalled [
 
@@ -62,13 +36,4 @@ ToAnchoredWindow >> toThemeInstalled [
 		lt := e lookupTheme.
 		self localTheme = lt ifFalse: [ self localTheme: lt ] ].
 	super toThemeInstalled
-]
-
-{ #category : #accessing }
-ToAnchoredWindow >> windowManager [
-
-	self
-		deprecated: 'Use #manager instead'
-		transformWith: '`@rcvr windowManager' -> '`@rcvr manager'.
-	^ self manager
 ]

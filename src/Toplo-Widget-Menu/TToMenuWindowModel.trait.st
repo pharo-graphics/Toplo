@@ -16,15 +16,6 @@ TToMenuWindowModel >> hasInlineWindow [
 ]
 
 { #category : #'t - menu window model' }
-TToMenuWindowModel >> isInline [
-
-	self
-		deprecated: 'Use #hasInlineWindow instead'
-		transformWith: '`@rcvr isInline' -> '`@rcvr hasInlineWindow'.
-	^ self hasInlineWindow
-]
-
-{ #category : #'t - menu window model' }
 TToMenuWindowModel >> isSubmenu [
 
 	^ self explicitRequirement 

@@ -64,7 +64,7 @@ ToAnchoredWindowManager >> closedEvent: anEvent [
 	I must be sure that the event is sent from my current window "
 
 	currentWindow = anEvent window ifFalse: [ ^ self ].
-	self onWindowClosed
+	self onWindowClosedOnEvent: anEvent
 ]
 
 { #category : #'window handling' }
@@ -73,15 +73,15 @@ ToAnchoredWindowManager >> createNewWindowOnEvent: anEvent [
 	| request |
 	currentWindow ifNotNil: [
 		^ Error signal: 'Asking for a window building twice' ].
-	self anchorElement ifNil: [
+	anchorElement ifNil: [
 		^ Error signal: 'An element is required for building a window' ].
-	self windowBuilder ifNil: [
+	windowBuilder ifNil: [
 		^ Error signal: 'A window builder is required for building a window' ].
 
 	request := self newWindowRequestOnEvent: anEvent.
 
-	" dispatch the event. handlers can eventually feed the event with additional data 
-	that can be used by the builder "
+	" dispatch the event. handlers can eventually feed the event 
+	with additional data that can be used by the builder "
 	self anchorElement dispatchEvent: request.
 
 	" the event is dispatched, eventually updated with additional data, 
@@ -147,21 +147,19 @@ ToAnchoredWindowManager >> element [
 { #category : #'event handling' }
 ToAnchoredWindowManager >> elementExtentChangedEvent: anEvent [
 
-	currentWindow ifNil: [ ^ self ].
-	currentWindow refreshLayout
+	windowStarter anchorElementExtentChangedEvent: anEvent fromManager: self
 ]
 
 { #category : #'event handling' }
 ToAnchoredWindowManager >> elementPositionInSpaceChangedEvent: anEvent [
 
-	currentWindow ifNil: [ ^ self ].
-	currentWindow refreshLayout
+	windowStarter anchorElementPositionChangedEvent: anEvent fromManager: self
 ]
 
 { #category : #'event handling' }
 ToAnchoredWindowManager >> elementRemovedFromParentEvent: anEvent [
 
-	self currentWindowDo: [ :cw | cw isOpened ifTrue: [ cw close ] ]
+	self closeWindow
 ]
 
 { #category : #'api - accessing' }
@@ -184,12 +182,6 @@ ToAnchoredWindowManager >> handleEvent: anEvent [
 ]
 
 { #category : #testing }
-ToAnchoredWindowManager >> hasInlineWindow [
-
-	^ windowStarter isForInlineWindow
-]
-
-{ #category : #testing }
 ToAnchoredWindowManager >> hasWindow [
 
 	^ currentWindow notNil
@@ -202,15 +194,6 @@ ToAnchoredWindowManager >> initialize [
 	minDelayAfterOpening := 300 milliSeconds.
 	windowBuilder := self defaultWindowBuilder.
 	windowStarter := self defaultWindowStarter
-]
-
-{ #category : #testing }
-ToAnchoredWindowManager >> isInline [ 
-
-	self
-		deprecated: 'Use #hasInlineWindow instead'
-		transformWith: '`@rcvr isInline' -> '`@rcvr hasInlineWindow'.
-	^ self hasInlineWindow
 ]
 
 { #category : #'window handling' }
@@ -284,7 +267,7 @@ ToAnchoredWindowManager >> onUninstalledIn: anElement [
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> onWindowClosed [
+ToAnchoredWindowManager >> onWindowClosedOnEvent: anEvent [
 
 	currentWindow ifNil: [ ^ self ].
 	currentWindow root removeChildren.
@@ -293,7 +276,7 @@ ToAnchoredWindowManager >> onWindowClosed [
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> onWindowOpened [
+ToAnchoredWindowManager >> onWindowOpenedOnEvent: anEvent [
 
 ]
 
@@ -304,7 +287,7 @@ ToAnchoredWindowManager >> openedEvent: anEvent [
 	" send from the window. Since I'm the only handler whatever the opened event, 
 	I must be sure that the event is sent from my current window "
 	currentWindow = anEvent window ifFalse: [ ^ self ].
-	self onWindowOpened
+	self onWindowOpenedOnEvent: anEvent
 ]
 
 { #category : #accessing }
@@ -332,13 +315,13 @@ ToAnchoredWindowManager >> positionWindowOnEvent: anEvent context: aBlElementBou
 { #category : #'event handling' }
 ToAnchoredWindowManager >> removedFromSpaceEvent: anEvent [
 
-	self currentWindowDo: [ :cw | cw isOpened ifTrue: [ cw close ] ]
+	self closeWindow
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> startWindow: aWindow [ 
+ToAnchoredWindowManager >> startWindow: aWindow onEvent: anEvent [
 
-	windowStarter startWindow: aWindow fromManager: self
+	windowStarter startWindow: aWindow fromManager: self onEvent: anEvent
 ]
 
 { #category : #'window handling' }
@@ -386,6 +369,6 @@ ToAnchoredWindowManager >> windowRequestClass [
 { #category : #'event handling' }
 ToAnchoredWindowManager >> withAllSubwindowsDo: aBlock [
 
-	self currentWindowDo: [ :cw |
-		cw withAllSubwindowsDo: aBlock ]
+	currentWindow ifNil: [ ^ self ].
+	currentWindow withAllSubwindowsDo: aBlock
 ]

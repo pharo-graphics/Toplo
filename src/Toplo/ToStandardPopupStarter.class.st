@@ -9,9 +9,9 @@ Class {
 }
 
 { #category : #'starting-stopping' }
-ToStandardPopupStarter >> startWindow: aWindow fromManager: aManager [
+ToStandardPopupStarter >> startWindow: aWindow fromManager: aManager onEvent: anEvent [
 
-	super startWindow: aWindow fromManager: aManager.
+	super startWindow: aWindow fromManager: aManager onEvent: anEvent.
 	" add the handler to update the window layout (mainly its position and it hability to scroll).
 	The window extent and the anchor root extent changes are to be monitored for that purpose "
 	windowHandler ifNil: [

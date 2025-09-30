@@ -4,8 +4,8 @@ Class {
 	#category : #'Toplo-Core-Tooltip'
 }
 
-{ #category : #'t - inline window element - accessing' }
-ToTooltipWindow >> correctedPositionWithinAnchorRoot [
+{ #category : #'t - relayoutable window element - accessing' }
+ToTooltipWindow >> correctedPositionAccordingToAnchorRoot [
 
 	| t rect rootRect bndsInSpace |
 	bndsInSpace := self measuredBounds inSpace.

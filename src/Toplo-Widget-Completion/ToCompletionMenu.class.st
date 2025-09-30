@@ -47,6 +47,13 @@ ToCompletionMenu >> initialize [
 "	self background: Color veryLightGray."
 	self initializeScrollBar. 
 	self initializeListAndMessageElement.
+	self initializeDetailElement.
+]
+
+{ #category : #initialization }
+ToCompletionMenu >> initializeDetailElement [ 
+
+	detailElement := ToCompletionDetail new.
 ]
 
 { #category : #initialization }
@@ -73,7 +80,6 @@ ToCompletionMenu >> initializeListAndMessageElement [
 { #category : #initialization }
 ToCompletionMenu >> initializeListElement [
 
-	| element |
 	listElement := ToListElement new nodeBuilder: [ :node :dataItem :holder |
 			               | lab |
 			               lab := ToLabel new
@@ -84,6 +90,7 @@ ToCompletionMenu >> initializeListElement [
 					                startInterspace: 10;
 					                hMatchParent) ].
 
+	listElement primarySelectionMode beSingleSelection.
 
 	listElement dataAccessor addAll:
 		((1 to: 12) collect: [ :i | Object methodDict at: (Object methodDict keys at: i)]).
@@ -94,13 +101,13 @@ ToCompletionMenu >> initializeListElement [
 		ifFalse: [
 			listElement constraintsDo: [ :c | c vertical fitContent ] ].
 
+	listElement addEventHandlerOn: ToListPrimarySelectionChangedEvent do: [ :e | 
+		e selectedIndexes do: [ :idx |
+			detailElement ifNil: [ ^ self ].
+			self updateDetailWith: (listElement dataAccessor at: idx).
+			self showDetail. ] ].
 
-	element := ToListElement new.
-	element openInSpace.
-	listElement addEventHandler:
-		(ToListSelectionHistoryExampleEventHandler new historyList:
-			 element).
-
+	listElement selecter selectIndex: 1.
 	listElement requestFocus
 ]
 
@@ -183,11 +190,21 @@ ToCompletionMenu >> selected: aNumber [
 
 { #category : #actions }
 ToCompletionMenu >> showDetail [
+
+	detailElement parent ifNil: [ engine space root addChild: detailElement ].
+
+	detailElement position: listElement positionInSpace + (250 @ 0)
+
 	"we need to create and display the detail widget before uncommenting this"
 
 	"detailElement ifNotNil: [ ^ self browse ].
 	self itemsCount isZero ifTrue: [ ^ self ].
 	detailElement := ToCompletionDetail new.
 	self updateDetail."
+]
 
+{ #category : #'as yet unclassified' }
+ToCompletionMenu >> updateDetailWith: aCompiledMethod [
+
+	detailElement updateWith: aCompiledMethod 
 ]

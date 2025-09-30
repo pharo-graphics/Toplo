@@ -285,6 +285,7 @@ ToExMiniBrowser >> openWithCompletion [
 
 	withCompletion := true.
 	self open.
+	^ self
 ]
 
 { #category : #initialization }

@@ -24,10 +24,10 @@ ToPrimarySelectionModelTest >> testCopySelectionFrom [
 	s := ToPrimarySelectionModel new.
 	sub := ToSubSelectionModel new uniqueId: #sub.
 	s recordSubSelectionModel: sub.
-	s selectIndex: 10.
+	s selectOneMoreIndex: 10.
 	sub selectIndex: 2.
 	dup := ToPrimarySelectionModel new.
-	self should: [dup copySelectionFrom: s] raise: Error.
+	self should: [ dup copySelectionFrom: s ] raise: Error.
 	self deny: (dup containsIndex: 10).
 	dup recordSubSelectionModel: sub copy.
 	dup copySelectionFrom: s.
@@ -41,9 +41,9 @@ ToPrimarySelectionModelTest >> testCopyWithSelectedIndexes [
 
 	| s c |
 	s := ToPrimarySelectionModel new.
-	s selectIndex: 10.
+	s selectOneMoreIndex: 10.
 	c := s copy.
-	self assert: c selectedIndexes equals: #(10)
+	self assert: c selectedIndexes equals: #( 10 )
 ]
 
 { #category : #tests }
@@ -53,13 +53,20 @@ ToPrimarySelectionModelTest >> testCopyWithSubs [
 	s := ToPrimarySelectionModel new.
 	sub := ToSubSelectionModel new uniqueId: #sub.
 	s recordSubSelectionModel: sub.
-	s selectIndex: 10.
+	s selectOneMoreIndex: 10.
 	sub selectIndex: 2.
 	dup := s copy.
 	self assert: dup selectedIndexes equals: #( 10 ).
-	self assert: (dup subSelectionModelIndex subSelectionModelWithId: #sub) equals: sub.
-	self deny: (dup subSelectionModelIndex subSelectionModelWithId: #sub) identicalTo: sub.
-	self assert: ((dup subSelectionModelIndex subSelectionModelWithId: #sub)) selectedIndexes equals: #( 2 )
+	self
+		assert: (dup subSelectionModelIndex subSelectionModelWithId: #sub)
+		equals: sub.
+	self
+		deny: (dup subSelectionModelIndex subSelectionModelWithId: #sub)
+		identicalTo: sub.
+	self
+		assert: (dup subSelectionModelIndex subSelectionModelWithId: #sub)
+				selectedIndexes
+		equals: #( 2 )
 ]
 
 { #category : #tests }
@@ -69,9 +76,11 @@ ToPrimarySelectionModelTest >> testRecordSubSelectionModel [
 	s := ToPrimarySelectionModel new.
 	sub := ToSubSelectionModel new uniqueId: #sub.
 	s recordSubSelectionModel: sub.
-	s selectIndex: 10.
+	s selectOneMoreIndex: 10.
 	sub selectIndex: 2.
 	self assert: s selectedIndexes equals: #( 10 ).
-	self assert: (s subSelectionModelIndex subSelectionModelWithId: #sub) equals: sub.
+	self
+		assert: (s subSelectionModelIndex subSelectionModelWithId: #sub)
+		equals: sub.
 	self assert: sub selectedIndexes equals: #( 2 )
 ]

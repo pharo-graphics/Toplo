@@ -432,21 +432,17 @@ ToListSelecter >> selectAll [
 { #category : #operations }
 ToListSelecter >> selectIndex: anIndex [
 
-	self addCommand: (ToIntervalSelectionCommand new
-			 from: anIndex to: anIndex;
-			 operation: (ToAddSelectionOperation new
-					  deselectAllBefore: self isSingleSelection;
-					  yourself))
+	self selectOneMoreIndex: anIndex
 ]
 
 { #category : #operations }
 ToListSelecter >> selectIndex: aStartIndex to: anEndIndex [
 
 	self isSingleSelection ifTrue: [
-		aStartIndex ~= anEndIndex ifTrue: [
-			^ ToInvalidElementCommand signal ].
-		self selectIndex: aStartIndex.
-		^ self ].
+			aStartIndex ~= anEndIndex ifTrue: [
+				^ ToInvalidElementCommand signal ].
+			self selectOneMoreIndex: aStartIndex.
+			^ self ].
 
 	self addCommand: (ToIntervalSelectionCommand new
 			 from: aStartIndex to: anEndIndex;
@@ -466,6 +462,16 @@ ToListSelecter >> selectIndexes: anArray [
 	self addCommand: (ToIndexesSelectionCommand new
 			 indexes: anArray;
 			 operation: ToAddSelectionOperation new)
+]
+
+{ #category : #operations }
+ToListSelecter >> selectOneMoreIndex: anIndex [
+
+	self addCommand: (ToIntervalSelectionCommand new
+			 from: anIndex to: anIndex;
+			 operation: (ToAddSelectionOperation new
+					  deselectAllBefore: self isSingleSelection;
+					  yourself))
 ]
 
 { #category : #operations }

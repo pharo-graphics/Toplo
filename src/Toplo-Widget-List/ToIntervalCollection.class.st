@@ -293,9 +293,9 @@ ToIntervalCollection >> select: fromIndex to: toIndex [
 ]
 
 { #category : #'api - selection' }
-ToIntervalCollection >> selectIndex: aNumber [
+ToIntervalCollection >> selectIndex: anIndex [
 
-	self addInterval: (aNumber to: aNumber)
+	self selectOneMoreIndex: anIndex
 ]
 
 { #category : #'api - selection' }
@@ -308,4 +308,10 @@ ToIntervalCollection >> selectIndex: fromIndex to: toIndex [
 ToIntervalCollection >> selectIndexes: anArray [
 
 	anArray do: [ :idx | self addInterval: (idx to: idx) ]
+]
+
+{ #category : #'api - selection' }
+ToIntervalCollection >> selectOneMoreIndex: aNumber [
+
+	self addInterval: (aNumber to: aNumber)
 ]

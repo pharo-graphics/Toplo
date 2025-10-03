@@ -75,8 +75,11 @@ ToNodeHolder >> disabled: aBoolean [
 	| selecter |
 	selecter := self listElement disabledSelecter.
 	aBoolean
-		ifTrue: [ self isDisabled ifFalse: [ selecter selectIndex: self position ] ]
-		ifFalse: [ self isEnabled ifFalse: [selecter deselectIndex: self position ] ]
+		ifTrue: [
+			self isDisabled ifFalse: [
+				selecter selectOneMoreIndex: self position ] ]
+		ifFalse: [
+		self isEnabled ifFalse: [ selecter deselectIndex: self position ] ]
 ]
 
 { #category : #initialization }

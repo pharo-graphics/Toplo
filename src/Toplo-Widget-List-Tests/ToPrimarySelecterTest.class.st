@@ -46,7 +46,7 @@ ToPrimarySelecterTest >> testAddCommand [
 ToPrimarySelecterTest >> testDeselectTo [
 
 	| cmd |
-	element selectionModel selectIndex: element itemCount + 1.
+	element selectionModel selectOneMoreIndex: element itemCount + 1.
 	self assert: element selectionModel selectedIndexes equals: #( 101 ).
 	selecter addCommand: (cmd := ToIntervalSelectionCommand new
 			        from: 1;
@@ -63,7 +63,7 @@ ToPrimarySelecterTest >> testDeselectToWithChangedItemCount [
 	| cmd to |
 	to := element itemCount + 1.
 	element selectionModel itemCountGetter: to.
-	element selectionModel selectIndex: to.
+	element selectionModel selectOneMoreIndex: to.
 	self assert: element selectionModel selectedIndexes equals: { to }.
 	element selectionModel itemCountGetter: 0.
 	self assert: element selectionModel itemCount equals: 0.

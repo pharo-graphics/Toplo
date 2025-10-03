@@ -95,29 +95,29 @@ ToIntervalCollectionTest >> testDeselectAndDeselectedIndex [
 ToIntervalCollectionTest >> testDeselectAndDeselectedIndex2 [
 
 	s removeAll.
-	s selectIndex: 1.
+	s selectOneMoreIndex: 1.
 	s selectIndex: 5.
 	s selectIndex: 8.
 	s selectIndex: 12.
 	s selectIndex: 16.
-	self assert: s indices equals: #(1 5 8 12 16).
+	self assert: s indices equals: #( 1 5 8 12 16 ).
 	s deselectIndex: 4.
-	self assert: s indices equals: #(1 5 8 12 16)
+	self assert: s indices equals: #( 1 5 8 12 16 )
 ]
 
 { #category : #tests }
 ToIntervalCollectionTest >> testDeselectAndDeselectedIndex3 [
 
 	s removeAll.
-	s selectIndex: 1.
+	s selectOneMoreIndex: 1.
 	s selectIndex: 5.
 	s selectIndex: 8.
 	s selectIndex: 12.
 	s selectIndex: 16.
-	self assert: s indices equals: #(1 5 8 12 16).
+	self assert: s indices equals: #( 1 5 8 12 16 ).
 	s selectIndex: 1.
 	s deselectIndex: 4.
-	self assert: s indices equals: #(1 5 8 12 16)
+	self assert: s indices equals: #( 1 5 8 12 16 )
 ]
 
 { #category : #tests }
@@ -210,7 +210,7 @@ ToIntervalCollectionTest >> testEquals1 [
 ToIntervalCollectionTest >> testEquals2 [
 
 	| sc |
-	1 to: 10 by: 2 do: [ :idx | s selectIndex: idx ].
+	1 to: 10 by: 2 do: [ :idx | s selectOneMoreIndex: idx ].
 	self assert: s intervals size equals: 5.
 	sc := s copy.
 	1 to: 10 by: 1 do: [ :idx | s selectIndex: idx ].
@@ -307,19 +307,29 @@ ToIntervalCollectionTest >> testInsertInterval0 [
 
 	s removeAll.
 	self assert: s intervals asArray equals: {  }.
-	1 to: 5 do: [ :idx | s selectIndex: idx ].
+	1 to: 5 do: [ :idx | s selectOneMoreIndex: idx ].
 	self assert: s intervals asArray equals: { (1 to: 5) }.
 	1 to: 5 by: 2 do: [ :idx | s selectIndex: idx ].
 	self assert: s intervals asArray equals: { (1 to: 5) }.
 	s removeAll.
 	1 to: 5 by: 2 do: [ :idx | s selectIndex: idx ].
-	self assert: s intervals asArray equals: { (1 to: 1). (3 to: 3). (5 to: 5) }.
+	self assert: s intervals asArray equals: {
+			(1 to: 1).
+			(3 to: 3).
+			(5 to: 5) }.
 	s selectIndex: 1.
-	self assert: s intervals asArray equals: { (1 to: 1). (3 to: 3). (5 to: 5) }.
+	self assert: s intervals asArray equals: {
+			(1 to: 1).
+			(3 to: 3).
+			(5 to: 5) }.
 	s selectIndex: 2.
-	self assert: s intervals asArray equals: { (1 to: 3). (5 to: 5) }.
+	self assert: s intervals asArray equals: {
+			(1 to: 3).
+			(5 to: 5) }.
 	s selectIndex: 3.
-	self assert: s intervals asArray equals: { (1 to: 3). (5 to: 5) }.
+	self assert: s intervals asArray equals: {
+			(1 to: 3).
+			(5 to: 5) }.
 	s selectIndex: 4.
 	self assert: s intervals asArray equals: { (1 to: 5) }.
 	s selectIndex: 5.
@@ -330,7 +340,7 @@ ToIntervalCollectionTest >> testInsertInterval0 [
 ToIntervalCollectionTest >> testInsertInterval1 [
 
 	s removeAll.
-	1 to: 20 by: 2 do: [ :idx | s selectIndex: idx ].
+	1 to: 20 by: 2 do: [ :idx | s selectOneMoreIndex: idx ].
 	self assert: s intervals asArray equals: {
 			(1 to: 1).
 			(3 to: 3).
@@ -533,11 +543,10 @@ ToIntervalCollectionTest >> testLastIndex [
 ToIntervalCollectionTest >> testRemoveAll [
 
 	s removeAll.
-	self assert: s isEmpty .
-	s selectIndex: 10.
+	self assert: s isEmpty.
+	s selectOneMoreIndex: 10.
 	s removeAll.
 	self assert: s isEmpty
-
 ]
 
 { #category : #tests }
@@ -548,7 +557,7 @@ ToIntervalCollectionTest >> testSelectDeselectContainsCopy [
 	r2 := r1 odd
 		      ifTrue: [ r1 - 1 ]
 		      ifFalse: [ r1 ].
-	1 to: r1 by: 2 do: [ :idx | s selectIndex: idx ].
+	1 to: r1 by: 2 do: [ :idx | s selectOneMoreIndex: idx ].
 	1 to: r1 by: 2 do: [ :idx | self assert: (s containsIndex: idx) ].
 	2 to: r2 by: 2 do: [ :idx | self deny: (s containsIndex: idx) ].
 	sc := s copy.
@@ -563,7 +572,7 @@ ToIntervalCollectionTest >> testSelectDeselectContainsCopy [
 ToIntervalCollectionTest >> testSelectIndex [
 
 	s removeAll.
-	s selectIndex: 1.
+	s selectOneMoreIndex: 1.
 	s assert: (s containsIndex: 1).
 	s selectIndex: 5.
 	s selectIndex: 6.

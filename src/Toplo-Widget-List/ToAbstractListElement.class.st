@@ -234,7 +234,7 @@ ToAbstractListElement >> deselectedAtPosition: anInteger [
 { #category : #'accessing selecters' }
 ToAbstractListElement >> disabledAtPosition: anInteger [
 
-	self disabledSelecter selectIndex: anInteger
+	self disabledSelecter selectOneMoreIndex: anInteger
 ]
 
 { #category : #'accessing selecters' }
@@ -627,7 +627,7 @@ ToAbstractListElement >> sieveClass [
 { #category : #'accessing selecters' }
 ToAbstractListElement >> unselectableAtPosition: anInteger [
 
-	self unselectableSelecter selectIndex: anInteger
+	self unselectableSelecter selectOneMoreIndex: anInteger
 ]
 
 { #category : #'accessing selecters' }

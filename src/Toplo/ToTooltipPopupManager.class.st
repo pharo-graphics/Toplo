@@ -44,5 +44,6 @@ ToTooltipPopupManager >> initialize [
 ToTooltipPopupManager >> mouseUpEvent: anEvent [
 
 	self resetPopupHandlerOnEvent: anEvent.
+	closeOnReleased ifTrue: [ self closeWindowNowOnEvent: anEvent ].
 	super mouseUpEvent: anEvent
 ]

@@ -124,7 +124,8 @@ ToTabPaneElement >> initialize [
 			bodyContainer }.
 	self tabGroup addEventHandler: (ToTabGroupInTabPaneEventHandler new
 			 tabPane: self;
-			 yourself)
+			 yourself).
+	self withStrictCheckingStrategy
 ]
 
 { #category : #accessing }
@@ -202,17 +203,20 @@ ToTabPaneElement >> tabGroupDynamicLayoutMode: aBoolean [
 { #category : #'t - checkable group owner' }
 ToTabPaneElement >> withStrictCheckingStrategy [ 
 
-	self tabGroup withStrictCheckingStrategy
+	self tabGroup withStrictCheckingStrategy.
+	self selectionMode multiple: false
 ]
 
 { #category : #'t - checkable group owner' }
 ToTabPaneElement >> withWeakCheckingStrategy [ 
 
-	self tabGroup withWeakCheckingStrategy
+	self tabGroup withWeakCheckingStrategy.
+	self selectionMode multiple: false
 ]
 
 { #category : #'t - checkable group owner' }
 ToTabPaneElement >> withoutCheckingStrategy [ 
 
-	self tabGroup withoutCheckingStrategy
+	self tabGroup withoutCheckingStrategy.
+	self selectionMode multiple: true
 ]

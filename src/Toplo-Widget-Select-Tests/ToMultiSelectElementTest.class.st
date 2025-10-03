@@ -19,10 +19,12 @@ ToMultiSelectElementTest >> testAddDataAndSelectIndex [
 			d1.
 			d2.
 			d3 }.
-	cb selecter selectIndex: 1.
+	cb selecter selectOneMoreIndex: 1.
 	self assert: cb popupDataAccessor size equals: 3.
 	self assert: cb selecter selectedIndex equals: 1.
-	self assert: cb innerElement nodes first firstChild label text asString equals: d1
+	self
+		assert: cb innerElement nodes first firstChild label text asString
+		equals: d1
 ]
 
 { #category : #tests }
@@ -57,7 +59,7 @@ ToMultiSelectElementTest >> testNoSelectedData2 [
 	cb := ToMultiSelectElement new.
 	space root addChild: cb.
 	self assert: cb selecter selectedIndex isZero.
-	cb selecter selectIndex: 0.
+	cb selecter selectOneMoreIndex: 0.
 	self waitTestingSpaces.
 	self assert: cb selecter selectedIndex isZero
 ]
@@ -75,7 +77,7 @@ ToMultiSelectElementTest >> testRemove [
 			d1.
 			d2.
 			d3 }.
-	cb selecter selectIndex: 1.
+	cb selecter selectOneMoreIndex: 1.
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement nodes size equals: 1.
 	cb popupDataAccessor removeFirst.
@@ -97,7 +99,7 @@ ToMultiSelectElementTest >> testRemove1 [
 			d1.
 			d2.
 			d3 }.
-	cb selecter selectIndex: 1.
+	cb selecter selectOneMoreIndex: 1.
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement nodes size equals: 1.
 	cb popupDataAccessor removeAt: 1.
@@ -119,10 +121,10 @@ ToMultiSelectElementTest >> testRemove2 [
 			d1.
 			d2.
 			d3 }.
-	cb selecter selectIndex: 1.
+	cb selecter selectOneMoreIndex: 1.
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement nodes size equals: 1.
-	cb popupDataAccessor removeFrom:1 to: 1.
+	cb popupDataAccessor removeFrom: 1 to: 1.
 	self waitTestingSpaces.
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement nodes isEmpty
@@ -141,10 +143,10 @@ ToMultiSelectElementTest >> testRemove3 [
 			d1.
 			d2.
 			d3 }.
-	cb selecter selectIndex: 1.
+	cb selecter selectOneMoreIndex: 1.
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement nodes size equals: 1.
-	cb popupDataAccessor removeFrom:1 to: 2.
+	cb popupDataAccessor removeFrom: 1 to: 2.
 	self waitTestingSpaces.
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement nodes isEmpty
@@ -162,7 +164,7 @@ ToMultiSelectElementTest >> testRemove4 [
 			d1.
 			d2.
 			d3 }.
-	cb selecter selectIndex: 1.
+	cb selecter selectOneMoreIndex: 1.
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement nodes size equals: 1.
 
@@ -174,7 +176,7 @@ ToMultiSelectElementTest >> testRemove4 [
 { #category : #tests }
 ToMultiSelectElementTest >> testRemove5 [
 
-	| cb d1 d2 d3 d4|
+	| cb d1 d2 d3 d4 |
 	cb := ToMultiSelectElement new.
 	space root addChild: cb.
 	d1 := '#1'.
@@ -186,7 +188,7 @@ ToMultiSelectElementTest >> testRemove5 [
 			d2.
 			d3.
 			d4 }.
-	cb selecter selectIndex: 1.
+	cb selecter selectOneMoreIndex: 1.
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement nodes size equals: 1.
 
@@ -208,7 +210,7 @@ ToMultiSelectElementTest >> testRemoveAll [
 			d1.
 			d2.
 			d3 }.
-	cb selecter selectIndex: 1.
+	cb selecter selectOneMoreIndex: 1.
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement nodes size equals: 1.
 
@@ -241,18 +243,20 @@ ToMultiSelectElementTest >> testWithStructuredData [
 	cb := ToMultiSelectElement new.
 	space root addChild: cb.
 	cb popupListElement nodeBuilder: [ :node :assoc :holder |
-		node addChild: (ToLabel text: assoc key)].
+		node addChild: (ToLabel text: assoc key) ].
 	cb nodeBuilder: [ :node :assoc |
-		node addChild: (ToLabel text: assoc key)].
+		node addChild: (ToLabel text: assoc key) ].
 	cb popupListElement dataAccessor addAll: (d := {
 			      ('Bee Theme' -> ToBeeTheme).
 			      ('Raw Theme' -> ToRawTheme) }).
-	cb selecter selectIndex: 1.
+	cb selecter selectOneMoreIndex: 1.
 	self waitTestingSpaces.
 	idx := cb selectionModel selectedIndexes first.
 	selectedData := cb popupListElement dataAccessor at: idx.
 	self assert: selectedData value identicalTo: ToBeeTheme.
-	self assert: cb innerElement nodes first firstChild text asString equals: d first key.
+	self
+		assert: cb innerElement nodes first firstChild text asString
+		equals: d first key.
 	cb selecter deselectAll.
 	self waitTestingSpaces.
 	self assert: cb selectionModel selectedIndexes isEmpty.

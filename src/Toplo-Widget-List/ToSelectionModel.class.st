@@ -254,7 +254,7 @@ ToSelectionModel >> selectAll [
 { #category : #updating }
 ToSelectionModel >> selectIndex: anIndex [
 
-	underlyingModel selectIndex: anIndex
+	self selectOneMoreIndex: anIndex
 ]
 
 { #category : #updating }
@@ -270,7 +270,13 @@ ToSelectionModel >> selectIndex: aFirstIndex to: aSecondIndex [
 ToSelectionModel >> selectIndexes: anArray [
 
 	anArray ifEmpty: [ ^ self ].
-	anArray do: [ :idx | self selectIndex: idx ]
+	anArray do: [ :idx | self selectOneMoreIndex: idx ]
+]
+
+{ #category : #updating }
+ToSelectionModel >> selectOneMoreIndex: anIndex [
+
+	underlyingModel selectOneMoreIndex: anIndex
 ]
 
 { #category : #accessing }
@@ -379,10 +385,11 @@ ToSelectionModel >> sideIdx: aGap startingAt: anIndex [
 ]
 
 { #category : #updating }
-ToSelectionModel >> transferSelectionFromIndex: anIndex toIndex: targetIndex in: anotherPrimarySelectionModel [ 
+ToSelectionModel >> transferSelectionFromIndex: anIndex toIndex: targetIndex in: anotherPrimarySelectionModel [
 
 	(self containsIndex: anIndex)
-		ifTrue: [ anotherPrimarySelectionModel selectIndex: targetIndex ]
+		ifTrue: [
+		anotherPrimarySelectionModel selectOneMoreIndex: targetIndex ]
 		ifFalse: [ anotherPrimarySelectionModel deselectIndex: targetIndex ]
 ]
 

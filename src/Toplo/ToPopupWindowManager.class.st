@@ -185,9 +185,6 @@ ToPopupWindowManager >> mouseLeaveEvent: anEvent [
 
 { #category : #'event handling' }
 ToPopupWindowManager >> mouseUpEvent: anEvent [
-
-	closeOnReleased ifFalse: [ ^ self ].
-	self closeWindowNowOnEvent: anEvent
 ]
 
 { #category : #'event handling' }

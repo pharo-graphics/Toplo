@@ -19,9 +19,8 @@ ToSelectionModelTest >> testContainsIndex [
 	| s |
 	s := ToSelectionModel new.
 	self deny: (s containsIndex: 1).
-	s selectIndex: 1.
-	s assert: (s containsIndex: 1).
-
+	s selectOneMoreIndex: 1.
+	s assert: (s containsIndex: 1)
 ]
 
 { #category : #tests }
@@ -59,11 +58,10 @@ ToSelectionModelTest >> testDeselectAll [
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
 	s deselectAll.
-	self assert: s isEmpty .
-	s selectIndex: 10.
+	self assert: s isEmpty.
+	s selectOneMoreIndex: 10.
 	s deselectAll.
 	self assert: s isEmpty
-
 ]
 
 { #category : #tests }
@@ -107,14 +105,14 @@ ToSelectionModelTest >> testDeselectAndDeselectedIndex2 [
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
 	s deselectAll.
-	s selectIndex: 1.
+	s selectOneMoreIndex: 1.
 	s selectIndex: 5.
 	s selectIndex: 8.
 	s selectIndex: 12.
 	s selectIndex: 16.
-	self assert: s selectedIndexes equals: #(1 5 8 12 16).
+	self assert: s selectedIndexes equals: #( 1 5 8 12 16 ).
 	s deselectIndex: 4.
-	self assert: s selectedIndexes equals: #(1 5 8 12 16)
+	self assert: s selectedIndexes equals: #( 1 5 8 12 16 )
 ]
 
 { #category : #tests }
@@ -123,15 +121,15 @@ ToSelectionModelTest >> testDeselectAndDeselectedIndex3 [
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
 	s deselectAll.
-	s selectIndex: 1.
+	s selectOneMoreIndex: 1.
 	s selectIndex: 5.
 	s selectIndex: 8.
 	s selectIndex: 12.
 	s selectIndex: 16.
-	self assert: s selectedIndexes equals: #(1 5 8 12 16).
+	self assert: s selectedIndexes equals: #( 1 5 8 12 16 ).
 	s selectIndex: 1.
 	s deselectIndex: 4.
-	self assert: s selectedIndexes equals: #(1 5 8 12 16)
+	self assert: s selectedIndexes equals: #( 1 5 8 12 16 )
 ]
 
 { #category : #tests }
@@ -224,7 +222,7 @@ ToSelectionModelTest >> testItemCount [
 	| s |
 	s := ToSelectionModel new on: self.
 	self assert: s itemCount equals: self itemCount.
-	s underlyingModel selectIndex: 1.
+	s underlyingModel selectOneMoreIndex: 1.
 	s assert: (s containsIndex: 1)
 ]
 
@@ -271,10 +269,9 @@ ToSelectionModelTest >> testSelectAll [
 	s := ToSelectionModel new itemCountGetter: 100.
 	s selectAll.
 	self assert: s lastIndex equals: 100.
-	s selectIndex: 10.
+	s selectOneMoreIndex: 10.
 	s selectAll.
-	self assert: s lastIndex equals: 100.
-
+	self assert: s lastIndex equals: 100
 ]
 
 { #category : #tests }
@@ -312,7 +309,7 @@ ToSelectionModelTest >> testSelectIndex [
 
 	| s |
 	s := ToSelectionModel new itemCountGetter: 100.
-	s selectIndex: 1.
+	s selectOneMoreIndex: 1.
 	s selectIndex: 5.
 	s selectIndex: 6.
 	self assert: s selectedIndexes equals: { 1. 5. 6 }.
@@ -409,10 +406,10 @@ ToSelectionModelTest >> testSelectedItemCount [
 	| s |
 	s := ToSelectionModel new on: self.
 	self assert: s selectedIndexesCount equals: 0.
-	s selectIndex: 1.
+	s selectOneMoreIndex: 1.
 	self assert: s selectedIndexesCount equals: 1.
 	s selectAll.
-	self assert: s selectedIndexesCount equals: self itemCount.
+	self assert: s selectedIndexesCount equals: self itemCount
 ]
 
 { #category : #tests }

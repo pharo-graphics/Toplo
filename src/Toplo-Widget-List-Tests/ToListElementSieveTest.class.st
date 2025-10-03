@@ -249,26 +249,23 @@ ToListElementSieveTest >> testOriginalIndexMapWhenDataAreAddedBeforeTheSieve2 [
 
 { #category : #'tests - selection' }
 ToListElementSieveTest >> testSelectionViaList [
-
 	" the selecter can be used to select item programatically "
-	
+
 	list dataAccessor addAll: self statesOfAmerica.
-	list selecter selectIndex: 3.
+	list selecter selectOneMoreIndex: 3.
 	self waitTestingSpaces.
-	self assert: sieve selectionModel selectedIndexes equals: #(3).
+	self assert: sieve selectionModel selectedIndexes equals: #( 3 ).
 	sieve pattern: 'Alabama'.
 	500 milliSeconds wait.
 	self waitTestingSpaces.
 	self assert: list dataAccessor size equals: 1.
-	self assert: sieve selectionModel selectedIndexes equals: #(3).
-	self assert: list selectionModel selectedIndexes equals: #().
+	self assert: sieve selectionModel selectedIndexes equals: #( 3 ).
+	self assert: list selectionModel selectedIndexes equals: #(  ).
 	sieve pattern: ''.
 	500 milliSeconds wait.
 	self waitTestingSpaces.
-	self assert: sieve selectionModel selectedIndexes equals: #(3).
-	self assert: list selectionModel selectedIndexes equals: #(3).
-
-
+	self assert: sieve selectionModel selectedIndexes equals: #( 3 ).
+	self assert: list selectionModel selectedIndexes equals: #( 3 )
 ]
 
 { #category : #'tests - selection' }
@@ -303,24 +300,21 @@ ToListElementSieveTest >> testSelectionViaList2 [
 
 { #category : #'tests - selection' }
 ToListElementSieveTest >> testSelectionViaSelecter [
-
 	" the selecter can be used to select item programatically "
-	
+
 	list dataAccessor addAll: self statesOfAmerica.
-	sieve selecter selectIndex: 3.
+	sieve selecter selectOneMoreIndex: 3.
 	self waitTestingSpaces.
-	self assert: sieve selectionModel selectedIndexes equals: #(3).
+	self assert: sieve selectionModel selectedIndexes equals: #( 3 ).
 	sieve pattern: 'Alabama'.
 	500 milliSeconds wait.
 	self waitTestingSpaces.
 	self assert: list dataAccessor size equals: 1.
-	self assert: sieve selectionModel selectedIndexes equals: #(3).
-	self assert: list selectionModel selectedIndexes equals: #().
+	self assert: sieve selectionModel selectedIndexes equals: #( 3 ).
+	self assert: list selectionModel selectedIndexes equals: #(  ).
 	sieve pattern: ''.
 	500 milliSeconds wait.
 	self waitTestingSpaces.
-	self assert: sieve selectionModel selectedIndexes equals: #(3).
-	self assert: list selectionModel selectedIndexes equals: #(3).
-
-
+	self assert: sieve selectionModel selectedIndexes equals: #( 3 ).
+	self assert: list selectionModel selectedIndexes equals: #( 3 )
 ]

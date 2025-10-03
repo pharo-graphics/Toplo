@@ -64,12 +64,11 @@ ToTabPaneHeaderConfiguration >> configureTabGroupIn: anElement [
 				anElement middleContainer hFitContent ].
 	tabGroup isFlowable ifTrue: [ ^ self ].
 	matchParentMode
-		ifTrue: [
-				self switchToMatchParentIn: anElement.
-				tabGroup selectionModel selectedIndexesDo: [ :idx |
-						tabGroup whenLayoutedDoOnce: [
-							tabGroup selecter scrollTowardStartToDataSourcePosition: idx ] ] ]
-		ifFalse: [ self switchToFitContentIn: anElement ]
+		ifTrue: [ self switchToMatchParentIn: anElement ]
+		ifFalse: [ self switchToFitContentIn: anElement ].
+	tabGroup selectionModel selectedIndexesDo: [ :idx |
+			anElement whenLayoutedDoOnce: [
+				tabGroup selecter scrollTowardStartToDataSourcePosition: idx ] ]
 ]
 
 { #category : #initialization }

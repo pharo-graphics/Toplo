@@ -27,7 +27,8 @@ ToTabBarInGroupElementEventHandler >> eventsToHandle [
 	^ {
 		  ToBarVisibleNodeListChangedEvent.
 		  ToCheckableGroupChangedEvent.
-		  ToBarItemEvent }
+		  ToBarItemEvent.
+		  ToListPrimarySelectionChangedEvent }
 ]
 
 { #category : #'events handling' }
@@ -45,6 +46,13 @@ ToTabBarInGroupElementEventHandler >> itemRemovedFromBarEvent: anEvent [
 	tabItemHolder := anEvent item holder.
 	tabItemHolder checkNextAfterRemovalAtPosition: tabItemHolder position.
 
+]
+
+{ #category : #'events handling' }
+ToTabBarInGroupElementEventHandler >> listPrimarySelectionChangedEvent: anEvent [
+
+	anEvent selectedIndexes do: [ :idx |
+		anEvent currentTarget selecter scrollTowardStartToDataSourcePosition: idx ]
 ]
 
 { #category : #accessing }

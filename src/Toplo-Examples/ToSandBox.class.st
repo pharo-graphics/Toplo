@@ -3349,11 +3349,11 @@ ToSandBox class >> example_MenuPaneScrollableWithCustomItems [
 ]
 
 { #category : #menu }
-ToSandBox class >> example_MenuPopupOnHovered [
+ToSandBox class >> example_MenuPopover [
 
 	| menu |
 	menu := self example_Menu2.
-	menu manager popupOnHovered: true.
+	menu manager popover: true.
 	^ menu
 ]
 
@@ -5255,7 +5255,8 @@ ToSandBox class >> example_ThemeSelectNoDeselection [
 		do: [ :event | event selectedData asString traceCr ].
 	select selecter selectIndex: 4.
 	select allowDeselection: false.
-	select openInSpace
+	select openInSpace.
+	^ select
 ]
 
 { #category : #select }
@@ -5264,6 +5265,15 @@ ToSandBox class >> example_ThemeSelectNoDeselectionPopupOnTop [
 	| select |
 	select := self themeSelectNoDeselectionPopupOnTop.
 	select openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_ThemeSelectPopover [
+
+	| select |
+	select := self example_ThemeSelectNoDeselection.
+	select manager popover: true.
+	^ select
 ]
 
 { #category : #select }
@@ -5478,7 +5488,7 @@ ToSandBox class >> example_TooltipPopupOnMouseDown [
 	but := ToButton new.
 	but tooltipManagerDo: [ :m |
 			m popupOnPressed: true.
-			m popupOnHovered: true.
+			m popover: true.
 			m closeOnLeaved: false.
 			m closeOnReleased: false.
 			m popupDelay: 800 milliSeconds ].

@@ -37,7 +37,7 @@ ToTooltipPopupManager >> initialize [
 	closeOnReleased := true.
 	closeOnLeaved := true.
 	popupOnPressed := false.
-	popupOnHovered := true
+	popover := true
 ]
 
 { #category : #'event handling' }

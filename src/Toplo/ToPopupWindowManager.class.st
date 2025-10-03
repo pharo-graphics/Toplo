@@ -7,11 +7,11 @@ Class {
 		'autoCloseDelay',
 		'delayedPopupHandler',
 		'popupOnPressed',
-		'popupOnHovered',
 		'closeOnLeaved',
 		'closeOnReleased',
 		'checkOutsideEvent',
-		'outsideEventFilter'
+		'outsideEventFilter',
+		'popover'
 	],
 	#category : #'Toplo-Core-Window'
 }
@@ -163,7 +163,7 @@ ToPopupWindowManager >> initialize [
 	closeOnReleased := false.
 	closeOnLeaved := false.
 	popupOnPressed := true.
-	popupOnHovered := false
+	popover := false
 
 ]
 
@@ -192,7 +192,8 @@ ToPopupWindowManager >> mouseLeaveEvent: anEvent [
 { #category : #'event handling' }
 ToPopupWindowManager >> mouseOutsideEvent: anEvent [
 
-	closeOnLeaved ifFalse: [ ^ self ].
+	anEvent emitter = outsideEventFilter ifFalse: [ ^ self ].
+	checkOutsideEvent ifFalse: [ ^ self ].
 	anEvent sourceEvent consume.
 	self onOutsideEvent: anEvent
 ]
@@ -200,13 +201,14 @@ ToPopupWindowManager >> mouseOutsideEvent: anEvent [
 { #category : #'event handling' }
 ToPopupWindowManager >> mouseUpEvent: anEvent [
 
-	closeOnReleased ifTrue: [ self closeWindowNowOnEvent: anEvent ].
-
+	closeOnReleased ifFalse: [ ^ self ].
+	self closeWindowIfMinimumDelayExceededOnEvent: anEvent
 ]
 
 { #category : #'event handling' }
 ToPopupWindowManager >> mouseUpOutsideEvent: anEvent [
 
+	anEvent emitter = outsideEventFilter ifFalse: [ ^ self ].
 	checkOutsideEvent ifFalse: [ ^ self ].
 	anEvent sourceEvent consume.
 	self onOutsideEvent: anEvent
@@ -222,7 +224,7 @@ ToPopupWindowManager >> newDelayedPopupHandler [
 ToPopupWindowManager >> newOutsideEventFilter [
 
 	^ ToOutsideEventFilter new
-		  eventsToHandle: (popupOnHovered
+		  eventsToHandle: (popover
 				   ifTrue: [
 						   {
 							   BlMouseOverEvent.
@@ -240,7 +242,7 @@ ToPopupWindowManager >> onInstalledIn: anElement [
 	delayedPopupHandler := self newDelayedPopupHandler.
 	delayedPopupHandler startDelay: self popupDelay.
 	delayedPopupHandler activateOnPressed: popupOnPressed.
-	delayedPopupHandler activateOnHovered: popupOnHovered.
+	delayedPopupHandler activateOnHovered: popover.
 	delayedPopupHandler standaloneMouseOutsideFilter: false.
 	anchorElement addEventHandler: delayedPopupHandler
 ]
@@ -267,6 +269,14 @@ ToPopupWindowManager >> onWindowOpenedOnEvent: anEvent [
 ]
 
 { #category : #accessing }
+ToPopupWindowManager >> popover: aBoolean [
+
+	popover := aBoolean.
+	closeOnReleased := true.
+	delayedPopupHandler activateOnHovered: popover.
+]
+
+{ #category : #accessing }
 ToPopupWindowManager >> popupDelay [
 
 	^ popupDelay
@@ -287,19 +297,6 @@ ToPopupWindowManager >> popupEvent: anEvent [
 	self createNewWindowOnEvent: anEvent.
 	currentWindow popupEvent: anEvent.
 	anEvent ifNotNil: [ :evt | evt consume ]
-]
-
-{ #category : #accessing }
-ToPopupWindowManager >> popupOnHovered [
-
-	^ popupOnHovered
-]
-
-{ #category : #accessing }
-ToPopupWindowManager >> popupOnHovered: aBoolean [
-
-	popupOnHovered := aBoolean.
-	delayedPopupHandler activateOnHovered: popupOnHovered.
 ]
 
 { #category : #accessing }

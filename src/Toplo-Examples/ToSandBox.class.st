@@ -3215,7 +3215,19 @@ ToSandBox class >> example_Menu2 [
 			 yourself).
 	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	container pane addChild: menu.
-	container openInSpace
+	container openInSpace.
+	^ menu 
+]
+
+{ #category : #menu }
+ToSandBox class >> example_Menu3 [
+
+	| menu |
+	menu := self example_Menu2.
+	menu manager popupOnHovered: true.
+	menu manager closeOnLeaved: true.
+	menu manager minDelayBeforeClosing: 2000 milliSeconds.
+	^ menu
 ]
 
 { #category : #menu }
@@ -5058,7 +5070,7 @@ ToSandBox class >> example_TabPaneElementWithUSStates [
 	tpane := self tabPaneElementWithUSStates.
 	tpane matchParent.
 	"tpane items third checked: true."
-	tpane selecter selectIndex: 3.
+	tpane selecter selectOnlyIndex: 3.
 
 	dashBoard := self tabPaneElementDashBoardFor: tpane.
 	dashBoard openInSpace.

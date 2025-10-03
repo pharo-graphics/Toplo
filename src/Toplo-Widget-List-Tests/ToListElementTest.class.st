@@ -79,8 +79,8 @@ ToListElementTest >> testDisable [
 	space root addChild: l.
 	l matchParent.
 	l dataAccessor addAll: { #A. #B. #C }.
-	l selecter selectIndex: 2.
-	l secondarySelecter selectIndex: 3.
+	l selecter selectOneMoreIndex: 2.
+	l secondarySelecter selectOneMoreIndex: 3.
 	self waitTestingSpaces.
 	self assert: l selectionModel selectedIndexes equals: { 2 }.
 	self assert: l secondarySelectionModel selectedIndexes equals: { 3 }.
@@ -90,7 +90,6 @@ ToListElementTest >> testDisable [
 	self assert: l selectionModel isEmpty.
 	self assert: l secondarySelectionModel isEmpty.
 	l nodesDo: [ :n | self assert: n isDisabled ]
-	
 ]
 
 { #category : #'test selection - mode' }
@@ -115,7 +114,7 @@ ToListElementTest >> testDisabledSelectionModel2 [
 	l := ToListElement new.
 	space root addChild: l.
 	l dataAccessor addAll: { #A. #B. #C }.
-	l selecter selectIndex: 2.
+	l selecter selectOneMoreIndex: 2.
 	self waitTestingSpaces.
 	self assert: l selectionModel selectedIndexes equals: { 2 }.
 	self
@@ -185,9 +184,9 @@ ToListElementTest >> testDisabledWithOneNode [
 	self waitTestingSpaces.
 	self assert: l nodes size equals: 1.
 	self assert: l disabledSelectionModel isEmpty.
-	l disabledSelecter selectIndex: 1.
+	l disabledSelecter selectOneMoreIndex: 1.
 	self waitTestingSpaces.
-	self assert: l disabledSelecter selectedIndex equals: 1.
+	self assert: l disabledSelecter selectedIndex equals: 1
 ]
 
 { #category : #'test node - enablement' }
@@ -222,7 +221,7 @@ ToListElementTest >> testDisabledWithTwoNodes [
 	self waitTestingSpaces.
 	self assert: l innerElement children size equals: 1.
 	self assert: l disabledSelectionModel isEmpty.
-	l disabledSelecter selectIndex: 1.
+	l disabledSelecter selectOneMoreIndex: 1.
 	self waitTestingSpaces.
 	self assert: l disabledSelecter selectedIndex equals: 1.
 	l dataAccessor addFirst: 'second'.
@@ -287,13 +286,13 @@ ToListElementTest >> testDoubleListsSelectionEvents [
 	list1 addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :e |
-				 list2 selecter deselectAll.
-				 e currentTarget selectionModel selectedIndexesDo: [ :idx |
-					 list2 selecter selectIndex: idx ].
-				 self waitTestingSpaces ]).
+					 list2 selecter deselectAll.
+					 e currentTarget selectionModel selectedIndexesDo: [ :idx |
+						 list2 selecter selectOneMoreIndex: idx ].
+					 self waitTestingSpaces ]).
 	panel addChild: list1.
 	panel addChild: list2.
-	list1 selecter selectIndex: 1.
+	list1 selecter selectOneMoreIndex: 1.
 	self waitTestingSpaces.
 	self assert: (list1 selectionModel containsIndex: 1).
 	self assert: (list2 selectionModel containsIndex: 1).
@@ -330,7 +329,7 @@ ToListElementTest >> testEmptyListAddOrRemoveNextInSelection [
 	self assert: l dataAccessor isEmpty.
 	l forceLayout.
 	self assert: l selectionModel isEmpty.
-	l selecter selectIndex: l selecter nextSelectableIndex.
+	l selecter selectOneMoreIndex: l selecter nextSelectableIndex.
 	self assert: l selecter currentIndex isZero
 ]
 
@@ -343,7 +342,7 @@ ToListElementTest >> testEmptyListAddOrRemovePreviousInSelection [
 	self assert: l dataAccessor isEmpty.
 	l forceLayout.
 	self assert: l selectionModel isEmpty.
-	l selecter selectIndex: l selecter previousSelectableIndex.
+	l selecter selectOneMoreIndex: l selecter previousSelectableIndex.
 	l selecter scrollToDataSourcePosition: l selecter currentIndex.
 	self assert: l selecter currentIndex isZero
 ]
@@ -358,10 +357,10 @@ ToListElementTest >> testEmptyListSelectNextInSelection [
 	self assert: l dataAccessor isEmpty.
 	l forceLayout.
 	self assert: l selectionModel isEmpty.
-	l selecter selectIndex: l selecter nextSelectableIndex.
+	l selecter selectOneMoreIndex: l selecter nextSelectableIndex.
 	self assert: l selecter currentIndex isZero.
 	self assert: l selectionModel isEmpty.
-	l selecter selectIndex: l selecter nextSelectableIndex.
+	l selecter selectOneMoreIndex: l selecter nextSelectableIndex.
 	self assert: l selecter currentIndex isZero.
 	self assert: l selectionModel isEmpty
 ]
@@ -375,8 +374,8 @@ ToListElementTest >> testEmptyListSelectPreviousInSelection [
 	l fitContent.
 	self assert: l dataAccessor isEmpty.
 	l forceLayout.
-	l selecter selectIndex: l selecter previousSelectableIndex.
-	l selecter selectIndex: l selecter previousSelectableIndex.
+	l selecter selectOneMoreIndex: l selecter previousSelectableIndex.
+	l selecter selectOneMoreIndex: l selecter previousSelectableIndex.
 	l selecter scrollToDataSourcePosition: l selecter currentIndex.
 	self assert: l selecter currentIndex isZero.
 	self assert: l selectionModel isEmpty
@@ -386,14 +385,13 @@ ToListElementTest >> testEmptyListSelectPreviousInSelection [
 ToListElementTest >> testEnable [
 
 	| l |
-
 	l := ToListElement new.
 	space root addChild: l.
 
 	l matchParent.
 	l dataAccessor addAll: { #A. #B. #C }.
-	l selecter selectIndex: 2.
-	l secondarySelecter selectIndex: 3.
+	l selecter selectOneMoreIndex: 2.
+	l secondarySelecter selectOneMoreIndex: 3.
 	l disable.
 	self waitTestingSpaces.
 	self assert: l isDisabled.
@@ -404,10 +402,7 @@ ToListElementTest >> testEnable [
 	self assert: l isEnabled.
 	self assert: l selectionModel isEmpty.
 	self assert: l secondarySelectionModel isEmpty.
-	l nodesDo: [ :n | self deny: n isDisabled ].
-
-	
-	
+	l nodesDo: [ :n | self deny: n isDisabled ]
 ]
 
 { #category : #'test selection - mode' }
@@ -443,20 +438,19 @@ ToListElementTest >> testMakeDisabledUnselectable [
 	l selectionMode makeDisabledUnselectable: true.
 	space root addChild: l.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
-	l disabledSelecter selectIndex: 3.
+	l disabledSelecter selectOneMoreIndex: 3.
 	self waitTestingSpaces.
 	self waitTestingSpaces.
 	self assert: l disabledSelecter selectedIndexes equals: { 3 }.
 	self assert: l unselectableSelecter selectedIndexes equals: {  }.
-	l selecter selectIndex: 3.
+	l selecter selectOneMoreIndex: 3.
 	self waitTestingSpaces.
 	self assert: l selecter selectedIndexes equals: {  }.
 	l selectionMode makeDisabledUnselectable: false.
 	l selecter selectIndex: 3.
 	self waitTestingSpaces.
 	self waitTestingSpaces.
-	self assert: l selecter selectedIndexes equals: { 3 }.
-
+	self assert: l selecter selectedIndexes equals: { 3 }
 ]
 
 { #category : #'test selection - adding/removing' }
@@ -734,8 +728,8 @@ ToListElementTest >> testSelectAndScrollToNext [
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l dataAccessor size equals: 5.
 	l forceLayout.
-	l selecter selectIndex: 4.
-	l selecter selectIndex: 2.
+	l selecter selectOneMoreIndex: 4.
+	l selecter selectOneMoreIndex: 2.
 	self waitTestingSpaces.
 	self assert: l selecter currentIndex equals: 2.
 	self
@@ -766,12 +760,12 @@ ToListElementTest >> testSelectAndScrollToPrevious [
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l dataAccessor size equals: 5.
-	l selecter selectIndex: 4.
+	l selecter selectOneMoreIndex: 4.
 	self waitTestingSpaces.
 	l forceLayout.
 	self assert: l selecter currentIndex equals: 4.
 	self assert: l selectionModel selectedIndexes asArray equals: #( 4 ).
-	l selecter selectIndex: l selecter previousSelectableIndex.
+	l selecter selectOneMoreIndex: l selecter previousSelectableIndex.
 	l selecter scrollToDataSourcePosition: l selecter currentIndex.
 	self waitTestingSpaces.
 	self assert: l selecter currentIndex equals: 3.
@@ -1003,7 +997,7 @@ ToListElementTest >> testSelectionWithOneNode [
 	self waitTestingSpaces.
 	self assert: l innerElement children size equals: 1.
 	self assert: l selectionModel isEmpty.
-	l selecter selectIndex: 1.
+	l selecter selectOneMoreIndex: 1.
 	self waitTestingSpaces.
 	self assert: l selecter selectedIndex equals: 1.
 	self assert: l selectionModel selectedIndexes equals: { 1 }
@@ -1019,7 +1013,7 @@ ToListElementTest >> testSelectionWithTwoNodes [
 	self waitTestingSpaces.
 	self assert: l innerElement children size equals: 1.
 	self assert: l selectionModel isEmpty.
-	l selecter selectIndex: 1.
+	l selecter selectOneMoreIndex: 1.
 	self waitTestingSpaces.
 	self assert: l selecter selectedIndex equals: 1.
 	l dataAccessor addFirst: 'second'.

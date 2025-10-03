@@ -9,7 +9,8 @@ Class {
 		'placement',
 		'measurement',
 		'windowStarter',
-		'minDelayAfterOpening'
+		'minDelayBeforeClosing',
+		'minDelayBeforeActionRunning'
 	],
 	#category : #'Toplo-Core-Window'
 }
@@ -191,13 +192,26 @@ ToAnchoredWindowManager >> hasWindow [
 ToAnchoredWindowManager >> initialize [
 
 	super initialize.
-	minDelayAfterOpening := 300 milliSeconds.
+	minDelayBeforeClosing := 300 milliSeconds.
+	minDelayBeforeActionRunning := 300 milliSeconds.
 	windowBuilder := self defaultWindowBuilder.
 	windowStarter := self defaultWindowStarter
 ]
 
+{ #category : #testing }
+ToAnchoredWindowManager >> isMinimumDelayBeforeActionRunningExceededOnEvent: anEvent [
+
+	| delay |
+	currentWindow ifNil: [ ^ true ].
+	anEvent timestamp ifNil: [ ^ true ].
+	" check a minimum delay between opening and closing - 
+	useful to not close immediately context menu on mouse up"
+	delay := anEvent timestamp - currentWindow popupTimestamp.
+	^ delay > minDelayBeforeActionRunning
+]
+
 { #category : #'window handling' }
-ToAnchoredWindowManager >> isMinimumDelayExceededAfter: aTimeStamp [
+ToAnchoredWindowManager >> isMinimumDelayBeforeClosingExceededAfter: aTimeStamp [
 
 	| delay |
 	currentWindow ifNil: [ ^ true ].
@@ -205,13 +219,13 @@ ToAnchoredWindowManager >> isMinimumDelayExceededAfter: aTimeStamp [
 	" check a minimum delay between opening and closing - 
 	useful to not close immediately context menu on mouse up"
 	delay := aTimeStamp - currentWindow popupTimestamp.
-	^ delay > minDelayAfterOpening
+	^ delay > minDelayBeforeClosing
 ]
 
 { #category : #'window handling' }
-ToAnchoredWindowManager >> isMinimumDelayExceededOnEvent: anEvent [
+ToAnchoredWindowManager >> isMinimumDelayBeforeClosingExceededOnEvent: anEvent [
 
-	^ self isMinimumDelayExceededAfter: anEvent timestamp
+	^ self isMinimumDelayBeforeClosingExceededAfter: anEvent timestamp
 ]
 
 { #category : #accessing }
@@ -224,6 +238,12 @@ ToAnchoredWindowManager >> measurement [
 ToAnchoredWindowManager >> measurement: aMeasurement [
 
 	measurement := aMeasurement 
+]
+
+{ #category : #accessing }
+ToAnchoredWindowManager >> minDelayBeforeClosing: aDelay [
+
+	minDelayBeforeClosing := aDelay
 ]
 
 { #category : #'window handling' }

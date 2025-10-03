@@ -25,7 +25,7 @@ ToTabGroupInTabPaneEventHandler >> applyPaneDestroyerOfTabButton: aTabButton [
 { #category : #'events handling' }
 ToTabGroupInTabPaneEventHandler >> checkableGroupChangedEvent: anEvent [
 
-	|  body button innerPane |
+	| body button innerPane |
 	body := tabPane body.
 	body removeChildren.
 	anEvent checkedList size = 1 ifFalse: [ ^ self ].
@@ -48,7 +48,6 @@ ToTabGroupInTabPaneEventHandler >> checkableGroupChangedEvent: anEvent [
 		cull: button holder.
 	button holder innerPane: innerPane.
 	body addChild: innerPane.
-	
 	tabPane dispatchEvent: anEvent copy
 ]
 
@@ -57,8 +56,7 @@ ToTabGroupInTabPaneEventHandler >> eventsToHandle [
 
 	^ {
 		  ToCheckableGroupChangedEvent.
-		  ToBarItemEvent.
-		  ToListSelectionChangedEvent }
+		  ToBarItemEvent }
 ]
 
 { #category : #'events handling' }

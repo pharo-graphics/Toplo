@@ -99,13 +99,6 @@ ToFrontSelectionModel >> previousSelectableIndexStartingAt: anIndex [
 ]
 
 { #category : #updating }
-ToFrontSelectionModel >> selectIndex: anIndex [
-
-	self unselectableSelectionModelDo: [ :sm | (sm containsIndex: anIndex) ifTrue: [ ^ self ] ].
-	super selectIndex: anIndex
-]
-
-{ #category : #updating }
 ToFrontSelectionModel >> selectIndex: aFirstIndex to: aSecondIndex [
 
 	| from to |
@@ -118,6 +111,14 @@ ToFrontSelectionModel >> selectIndex: aFirstIndex to: aSecondIndex [
 	self unselectableSelectionModelDo: [ :sm |
 		from to: to do: [ :idx |
 			(self isUnselectableIndex: idx) ifTrue: [ self deselectIndex: idx ] ] ]
+]
+
+{ #category : #updating }
+ToFrontSelectionModel >> selectOneMoreIndex: anIndex [
+
+	self unselectableSelectionModelDo: [ :sm |
+		(sm containsIndex: anIndex) ifTrue: [ ^ self ] ].
+	super selectOneMoreIndex: anIndex
 ]
 
 { #category : #updating }

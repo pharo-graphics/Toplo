@@ -25,10 +25,7 @@ ToTabGroupElement >> addNewTabItem [
 	self itemBar
 		addEventHandlerOn: ToListNodeAddedEvent
 		doOnce: [ :event |
-				self itemBar whenLayoutedDoOnce: [
-						event node item checked: true.
-						self selecter scrollTowardStartToDataSourcePosition:
-							event node holder position ] ].
+			self itemBar whenLayoutedDoOnce: [ event node item checked: true ] ].
 	self addTabItemData: 'New Tab'
 ]
 
@@ -352,8 +349,6 @@ ToTabGroupElement >> showInvisibleNodesMenu: aBoolean [
 { #category : #accessing }
 ToTabGroupElement >> showInvisibleTabItem: aTabItemElement [
 
-	self selecter scrollTowardStartToDataSourcePosition:
-		aTabItemElement holder position.
 	self requestFocus.
 	aTabItemElement checked: true
 ]

@@ -185,7 +185,6 @@ ToPopupWindowManager >> mouseEnterEvent: anEvent [
 ToPopupWindowManager >> mouseLeaveEvent: anEvent [
 
 	closeOnLeaved ifFalse: [ ^ self ].
-	" use uncheck version to not cancel auto-open "
 	self closeWindowIfMinimumDelayExceededOnEvent: anEvent
 ]
 
@@ -194,6 +193,7 @@ ToPopupWindowManager >> mouseOutsideEvent: anEvent [
 
 	anEvent emitter = outsideEventFilter ifFalse: [ ^ self ].
 	checkOutsideEvent ifFalse: [ ^ self ].
+	popover ifFalse: [ closeOnLeaved ifFalse: [ ^ self ] ].
 	anEvent sourceEvent consume.
 	self onOutsideEvent: anEvent
 ]
@@ -201,7 +201,6 @@ ToPopupWindowManager >> mouseOutsideEvent: anEvent [
 { #category : #'event handling' }
 ToPopupWindowManager >> mouseUpEvent: anEvent [
 
-	closeOnReleased ifFalse: [ ^ self ].
 	self closeWindowIfMinimumDelayExceededOnEvent: anEvent
 ]
 
@@ -272,7 +271,6 @@ ToPopupWindowManager >> onWindowOpenedOnEvent: anEvent [
 ToPopupWindowManager >> popover: aBoolean [
 
 	popover := aBoolean.
-	closeOnReleased := true.
 	delayedPopupHandler activateOnHovered: popover.
 ]
 
@@ -349,6 +347,7 @@ ToPopupWindowManager >> stopStillHoveredEvent: anEvent [
 { #category : #'event handling' }
 ToPopupWindowManager >> stopStillPressedEvent: anEvent [
 
+	closeOnReleased ifFalse: [ ^ self ].
 	self requestCloseWindowOnEvent: anEvent sourceEvent
 ]
 

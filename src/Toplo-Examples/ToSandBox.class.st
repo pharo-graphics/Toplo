@@ -5052,7 +5052,7 @@ ToSandBox class >> example_TabPaneElementWithUSStates [
 	tpane := self tabPaneElementWithUSStates.
 	tpane matchParent.
 	"tpane items third checked: true."
-	tpane selecter selectIndex: 3.
+	tpane selecter selectOnlyIndex: 3.
 
 	dashBoard := self tabPaneElementDashBoardFor: tpane.
 	dashBoard openInSpace.

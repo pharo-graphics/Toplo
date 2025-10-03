@@ -18,6 +18,7 @@ ToMenuItemEventHandler >> bottomUpCloseWindowRequestOnEvent: anEvent [
 	| target |
 	target := anEvent currentTarget.
 	target closeOnPicking ifFalse: [ ^ self ].
+	target menuPaneDo: [ :mp | mp cancelAutoOpen ].
 	target parentMenuDo: [ :m |
 		m manager bottomUpCloseWindowRequestOnEvent: anEvent ]
 ]

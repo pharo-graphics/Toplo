@@ -27,8 +27,8 @@ TToAnchoredWindowElement >> anchorRoot [
 TToAnchoredWindowElement >> close [
 
 	self isOpened ifFalse: [ Error signal: 'Closing a closed window' ].
-	self stop.
 	self dispatchClosedEvent.
+	self stop.
 
 ]
 
@@ -50,8 +50,9 @@ TToAnchoredWindowElement >> dispatchClosedEvent [
 	so that the window manager can manage the window 
 	(recall that the window manager is an event handler of the element)"
 
+	self anchorElement dispatchEvent: self newClosedEvent.
 	super dispatchClosedEvent.
-	self anchorElement dispatchEvent: self newClosedEvent
+
 ]
 
 { #category : #'t - anchored window element - displaying' }
@@ -171,7 +172,10 @@ TToAnchoredWindowElement >> startOnEvent: anEvent [
 { #category : #'t - anchored window element - displaying' }
 TToAnchoredWindowElement >> stop [
 
-	self manager stopWindow: self
+	self root removeChildren.
+	self manager ifNil: [ ^ self ].
+	self manager stopWindow: self.
+
 ]
 
 { #category : #'t - anchored window element - displaying' }

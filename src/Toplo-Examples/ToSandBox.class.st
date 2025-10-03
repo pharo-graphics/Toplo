@@ -3221,17 +3221,6 @@ ToSandBox class >> example_Menu2 [
 ]
 
 { #category : #menu }
-ToSandBox class >> example_Menu3 [
-
-	| menu |
-	menu := self example_Menu2.
-	menu manager popupOnHovered: true.
-	menu manager closeOnLeaved: true.
-	menu manager minDelayBeforeClosing: 2000 milliSeconds.
-	^ menu
-]
-
-{ #category : #menu }
 ToSandBox class >> example_MenuPaneScrollableWithCustomItems [
 
 	| menuPane grp right center left textField sub lbl item |
@@ -3357,6 +3346,15 @@ ToSandBox class >> example_MenuPaneScrollableWithCustomItems [
 	sub addItem: (ToMenuItem new labelText: 'Locally').
 	menuPane addItem: sub.
 	menuPane openInSpace
+]
+
+{ #category : #menu }
+ToSandBox class >> example_MenuPopupOnHovered [
+
+	| menu |
+	menu := self example_Menu2.
+	menu manager popupOnHovered: true.
+	^ menu
 ]
 
 { #category : #menu }
@@ -8520,7 +8518,7 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 						event consume.
 						editedLabel popupEditorEvent: event ];
 				whenEditorOpenedDo: [ :editorEvent |
-						window checkPickOutside: false.
+						window checkOutsideEvent: false.
 						editorEvent editorElement addStamp: #preformatted.
 						editorEvent editorElement whenCancelRequestedDo: [
 									:cancelRequest |
@@ -8531,7 +8529,7 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 						editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
 									editorEvent target text: acceptedEvent target text.
 									text := acceptedEvent target text ] ];
-				whenEditorClosedDo: [ :event | window checkPickOutside: true ].
+				whenEditorClosedDo: [ :event | window checkOutsideEvent: true ].
 
 			resetBtn := ToButton new
 				            labelText: 'Reset';

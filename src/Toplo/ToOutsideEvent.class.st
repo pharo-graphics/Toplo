@@ -1,5 +1,5 @@
 Class {
-	#name : #ToEventOutsideEvent,
+	#name : #ToOutsideEvent,
 	#superclass : #BlEvent,
 	#instVars : [
 		'sourceEvent',
@@ -9,25 +9,25 @@ Class {
 }
 
 { #category : #accessing }
-ToEventOutsideEvent >> emitter [
+ToOutsideEvent >> emitter [
 
 	^ emitter
 ]
 
 { #category : #accessing }
-ToEventOutsideEvent >> emitter: anObject [
+ToOutsideEvent >> emitter: anObject [
 
 	emitter := anObject
 ]
 
 { #category : #accessing }
-ToEventOutsideEvent >> sourceEvent [
+ToOutsideEvent >> sourceEvent [
 
 	^ sourceEvent
 ]
 
 { #category : #accessing }
-ToEventOutsideEvent >> sourceEvent: anEvent [
+ToOutsideEvent >> sourceEvent: anEvent [
 
 	sourceEvent := anEvent
 ]

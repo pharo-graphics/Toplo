@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAnyUIEventOutsideEvent,
-	#superclass : #ToEventOutsideEvent,
+	#superclass : #ToOutsideEvent,
 	#category : #'Toplo-Core'
 }
 

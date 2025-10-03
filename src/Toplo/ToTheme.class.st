@@ -47,9 +47,9 @@ ToTheme class >> defaultTokenProperties [
 			   name: #empty_box
 			   value: (ToMiscellaneousIcons innerImageNamed: 'filled_emptyBox')).
 		  (ToTokenProperty
-			   name: #'check'
-			   value: (ToMaterialDesignIconProvider innerImageNamed:
-					    'outlined_check')).
+			   name: #check
+			   value:
+			   (ToMaterialDesignIconProvider innerImageNamed: 'outlined_check')).
 
 		  (ToTokenProperty
 			   name: #'iconic-arrow-right'
@@ -68,26 +68,26 @@ ToTheme class >> defaultTokenProperties [
 			   value: (ToMaterialDesignIconProvider innerImageNamed:
 					    'outlined_keyboardarrowup')).
 
-		(ToTokenProperty
-			   name: #'iconic-arrow-breadth'
-			   value: 18).
-		(ToTokenProperty
-			   name: #'node-indent'
-			   value: 18).
-		(ToTokenProperty
-			   name: #'node-interspace'
-			   value: 8).
+		  (ToTokenProperty name: #'iconic-arrow-breadth' value: 18).
+		  (ToTokenProperty name: #'node-indent' value: 18).
+		  (ToTokenProperty name: #'node-interspace' value: 8).
 		  (ToTokenProperty name: #'border-radius' value: 4).
 		  (ToTokenProperty name: #'border-radius-LG' value: 8).
 		  (ToTokenProperty name: #'border-radius-SM' value: 4).
 
 		  (ToTokenProperty
-			   name: #'animation-window-opening'
+			   name: #'window-opening-animation'
 			   value: [ :win |
-				   win opacity: 0.1.
-				   win addAnimation:
-					   ((BlOpacityAnimation new opacity: 1.9) duration:
-						    500 milliSeconds) ]).
+					   win opacity: 0.1.
+					   win addAnimation:
+						   ((BlOpacityAnimation new opacity: 1.9) duration:
+							    500 milliSeconds) ]).
+		  (ToTokenProperty
+			   name: #'window-closing-animation'
+			   value: [ :win |
+					   win addAnimation: ((BlOpacityAnimation new opacity: 0.3)
+							    duration: 300 milliSeconds;
+							    onFinishedDo: [ win stop ]) ]).
 
 		  (ToTokenProperty
 			   name: #'effect-window'
@@ -187,7 +187,9 @@ ToTheme class >> defaultTokenProperties [
 			   value: (Color fromHexString: '#faad14')).
 
 		  (ToTokenProperty name: #'color-text' value: Color black).
-		(ToTokenProperty name: #'color-text-placeholder' value: Color lightGray).
+		  (ToTokenProperty
+			   name: #'color-text-placeholder'
+			   value: Color lightGray).
 		  (ToTokenProperty
 			   name: #'color-text-description'
 			   value: (Color black alpha: 0.45)).
@@ -216,7 +218,9 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'dash-array' value: #( 3 3 )).
 
 		  "#( 'SFMono-Regular' , Consolas , 'Liberation Mono', Menlo , Courier , monospace )"
-		  (ToTokenProperty name: #'font-name' value: (AeFontManager defaultFontFamilyName)).
+		  (ToTokenProperty
+			   name: #'font-name'
+			   value: AeFontManager defaultFontFamilyName).
 		  (ToTokenProperty name: #'font-size' value: 14).
 		  (ToTokenProperty name: #'font-size-in-tooltip' value: 12).
 		  (ToTokenProperty name: #'font-size-H1' value: 38).
@@ -240,7 +244,9 @@ ToTheme class >> defaultTokenProperties [
 			   name: #'focus-border-paint'
 			   value: self defaultColorPrimary).
 		  (ToTokenProperty name: #'border-width' value: 1).
-		  (ToTokenProperty name: #'border-paint' value: (Color veryLightGray alpha: 0.2)).
+		  (ToTokenProperty
+			   name: #'border-paint'
+			   value: (Color veryLightGray alpha: 0.2)).
 
 		  "Size, margin and padding"
 		  (ToTokenProperty name: #'control-height' value: 32).
@@ -291,8 +297,9 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'inline-item-gap' value: 7).
 		  (ToTokenProperty
 			   name: #'checkbox-checked-image'
-			   value: (ToMaterialDesignIconProvider innerImageNamed:
-					    'outlined_checkbox')).
+			   value:
+			   (ToMaterialDesignIconProvider innerImageNamed:
+				    'outlined_checkbox')).
 		  (ToTokenProperty
 			   name: #'checkbox-unchecked-image'
 			   value: (ToMaterialDesignIconProvider innerImageNamed:
@@ -335,7 +342,7 @@ ToTheme class >> defaultTokenProperties [
 			   value: self defaultCheckboxHeight asPoint).
 		  (ToTokenProperty
 			   name: #'color-list-primary-selection-focused'
-			   value: (self defaultColorPrimary)).
+			   value: self defaultColorPrimary).
 		  (ToTokenProperty
 			   name: #'color-list-primary-selection-over-focused'
 			   value: (self defaultColorPrimary alpha: 0.3)).

@@ -80,7 +80,7 @@ ToOutsideEventFilter >> initialize [
 { #category : #'mouse handlers' }
 ToOutsideEventFilter >> isOutsideEvent: anEvent [
 	" does the event occurs on the element itsef ?"
-
+	
 	^ self elementToCheck isOutsideEvent: anEvent
 ]
 

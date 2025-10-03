@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMouseUpOutsideEvent,
-	#superclass : #ToEventOutsideEvent,
+	#superclass : #ToOutsideEvent,
 	#category : #'Toplo-Core'
 }
 

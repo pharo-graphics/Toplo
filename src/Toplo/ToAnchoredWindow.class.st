@@ -7,9 +7,21 @@ Class {
 }
 
 { #category : #accessing }
+ToAnchoredWindow >> checkOutsideEvent: aBoolean [
+
+	self manager checkOutsideEvent: aBoolean
+]
+
+{ #category : #accessing }
 ToAnchoredWindow >> checkPickOutside: aBoolean [
 
-	self manager checkPickOutside: aBoolean
+	self
+		deprecated: 'Use #checkOutsideEvent instead'
+		transformWith:
+		'`@rcvr checkPickOutside: `@arg'
+		-> '`@rcvr checkOutsideEvent: `@arg'.
+
+	self checkOutsideEvent: aBoolean
 ]
 
 { #category : #layout }

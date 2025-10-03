@@ -20,5 +20,5 @@ ToMenuContainerSkin >> openedSkinEvent: anEvent [
 
 	super openedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		(e valueOfTokenNamed: #'animation-window-opening') value: e ]
+		(e valueOfTokenNamed: #'window-opening-animation') value: e ]
 ]

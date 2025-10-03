@@ -8,7 +8,7 @@ Class {
 ToPopupMenuWindowManager >> beInline [ 
 	" for inline windows/ menus"
 	windowStarter := self newInlineWindowStarter.
-	checkPickOutside := false.
+	checkOutsideEvent := false.
 	anchorElement openOnHovered: false
 ]
 
@@ -74,9 +74,9 @@ ToPopupMenuWindowManager >> newWindow [
 ]
 
 { #category : #'event handling' }
-ToPopupMenuWindowManager >> onMouseUpOutsideEvent: anEvent [
+ToPopupMenuWindowManager >> onOutsideEvent: anEvent [
 
-	super onMouseUpOutsideEvent: anEvent.
+	super onOutsideEvent: anEvent.
 	anchorElement menuPaneDo: [ :mb |
 		mb cancelAutoOpen ]
 ]

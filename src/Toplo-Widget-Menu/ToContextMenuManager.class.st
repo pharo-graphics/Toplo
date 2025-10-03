@@ -38,9 +38,9 @@ ToContextMenuManager >> initialize [
 ]
 
 { #category : #initialization }
-ToContextMenuManager >> newPickOutsideFilter [
+ToContextMenuManager >> newOutsideEventFilter [
 
-	^ super newPickOutsideFilter
+	^ super newOutsideEventFilter
 		  elementToCheck: currentWindow;
 		  yourself
 ]

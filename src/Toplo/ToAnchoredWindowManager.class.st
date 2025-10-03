@@ -289,9 +289,6 @@ ToAnchoredWindowManager >> onUninstalledIn: anElement [
 { #category : #'window handling' }
 ToAnchoredWindowManager >> onWindowClosedOnEvent: anEvent [
 
-	currentWindow ifNil: [ ^ self ].
-	currentWindow root removeChildren.
-	currentWindow manager: nil.
 	currentWindow := nil
 ]
 

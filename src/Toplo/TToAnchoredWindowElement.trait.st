@@ -27,8 +27,8 @@ TToAnchoredWindowElement >> anchorRoot [
 TToAnchoredWindowElement >> close [
 
 	self isOpened ifFalse: [ Error signal: 'Closing a closed window' ].
-	self dispatchClosedEvent.
 	self stop.
+	self dispatchClosedEvent.
 
 ]
 

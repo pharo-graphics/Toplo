@@ -7,6 +7,10 @@ Trait {
 	#category : #'Toplo-Core-Window'
 }
 
+{ #category : #'t - anchored window element - displaying' }
+TToAnchoredWindowElement >> allSubwindowsDo: aBlock [
+]
+
 { #category : #'t - anchored window element - accessing' }
 TToAnchoredWindowElement >> anchorElement [
 

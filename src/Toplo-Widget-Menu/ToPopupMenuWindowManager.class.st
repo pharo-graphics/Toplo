@@ -96,9 +96,3 @@ ToPopupMenuWindowManager >> onWindowOpenedOnEvent: anEvent [
 	anchorElement menuPaneDo: [ :mb | mb startAutoOpen ].
 
 ]
-
-{ #category : #initialization }
-ToPopupMenuWindowManager >> pickOutsideFilterClass [
-
-	^ ToMenuMouseUpOutsideEventFilter
-]

@@ -122,6 +122,20 @@ ToMenu >> isOpened [
 	^ self menuWindow notNil and: [ self menuWindow isOpened ]
 ]
 
+{ #category : #testing }
+ToMenu >> isOutsideEvent: anEvent [
+
+	| windows |
+	windows := Array streamContents: [ :stream |
+			           self manager currentWindowDo: [ :w |
+				           w withAllSubwindowsDo: [ :sub | stream nextPut: sub ] ] ].
+	(windows allSatisfy: [ :w | w isOutsideEvent: anEvent ]) ifFalse: [
+		^ false ].
+	(self items allSatisfy: [ :it | it isOutsideEvent: anEvent ])
+		ifFalse: [ ^ false ].
+	^ super isOutsideEvent: anEvent
+]
+
 { #category : #'t - menu window model' }
 ToMenu >> isSubmenu [
 

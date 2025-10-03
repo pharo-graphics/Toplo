@@ -248,7 +248,8 @@ ToSkinStateGenerator >> primaryMouseDownEvent: anEvent [
 
 	target isMouseUpOutsideSensible ifTrue: [
 			| mouseUpOutsideFilter |
-			mouseUpOutsideFilter := ToOneShotMouseUpOutsideEventFilter new
+			mouseUpOutsideFilter := ToOutsideEventFilter newOneShotInstance
+				                        eventsToHandle: { BlMouseUpEvent };
 				                        element: target;
 				                        yourself.
 			target space root addEventFilter: mouseUpOutsideFilter ].

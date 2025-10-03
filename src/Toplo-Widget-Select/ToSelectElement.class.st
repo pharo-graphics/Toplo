@@ -59,6 +59,12 @@ ToSelectElement >> currentPopupWindow [
 	^ self manager currentWindow
 ]
 
+{ #category : #'accessing - window' }
+ToSelectElement >> currentPopupWindowDo: aValuable [
+
+	^ self manager currentWindowDo: aValuable 
+]
+
 { #category : #'accessing - list' }
 ToSelectElement >> dataAccessor [
 
@@ -188,6 +194,14 @@ ToSelectElement >> isFiltrable [
 ToSelectElement >> isMultipleSelection [ 
 
 	^ self innerElement isMultipleSelection
+]
+
+{ #category : #testing }
+ToSelectElement >> isOutsideEvent: anEvent [
+
+	self currentPopupWindowDo: [ :w |
+		(w isOutsideEvent: anEvent) ifFalse: [ ^ false ] ].
+	^ super isOutsideEvent: anEvent
 ]
 
 { #category : #'accessing - list' }

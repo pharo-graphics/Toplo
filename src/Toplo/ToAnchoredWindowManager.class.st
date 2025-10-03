@@ -353,7 +353,8 @@ ToAnchoredWindowManager >> stopWindow: aWindow [
 { #category : #'event handling' }
 ToAnchoredWindowManager >> themeInstalledEvent: anEvent [
 
-	self withAllSubwindowsDo: [ :cw | cw toThemeInstalled ]
+	self currentWindowDo: [ :w |
+		w withAllSubwindowsDo: [ :cw | cw toThemeInstalled ] ]
 ]
 
 { #category : #accessing }
@@ -384,11 +385,4 @@ ToAnchoredWindowManager >> windowRequest: anEvent [
 ToAnchoredWindowManager >> windowRequestClass [
 
 	^ ToWindowRequest 
-]
-
-{ #category : #'event handling' }
-ToAnchoredWindowManager >> withAllSubwindowsDo: aBlock [
-
-	currentWindow ifNil: [ ^ self ].
-	currentWindow withAllSubwindowsDo: aBlock
 ]

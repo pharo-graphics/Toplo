@@ -4,6 +4,14 @@ Class {
 	#category : #'Toplo-Widget-Menu-Window'
 }
 
+{ #category : #'t - anchored window element - displaying' }
+ToMenuWindow >> allSubwindowsDo: aBlock [
+
+	self items do: [ :i |
+		i menuWindowDo: [ :w | w withAllSubwindowsDo: aBlock ] ].
+	super allSubwindowsDo: aBlock
+]
+
 { #category : #configuration }
 ToMenuWindow >> applyConfiguration [ 
 

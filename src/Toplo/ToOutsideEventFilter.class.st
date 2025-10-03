@@ -2,11 +2,21 @@ Class {
 	#name : #ToOutsideEventFilter,
 	#superclass : #BlBasicEventHandler,
 	#instVars : [
-		'holder',
-		'element'
+		'element',
+		'elementToCheck',
+		'eventsToHandle',
+		'oneShot'
 	],
 	#category : #'Toplo-Support-EventGenerator'
 }
+
+{ #category : #'instance creation' }
+ToOutsideEventFilter class >> newOneShotInstance [
+
+	^ self new
+		  oneShot: true;
+		  yourself
+]
 
 { #category : #'mouse handlers' }
 ToOutsideEventFilter >> dispatchOutsideEventOn: anEvent [
@@ -23,57 +33,66 @@ ToOutsideEventFilter >> element: anElement [
 	element := anElement
 ]
 
-{ #category : #testing }
-ToOutsideEventFilter >> isElementIgnored [
+{ #category : #accessing }
+ToOutsideEventFilter >> elementToCheck [
 
-	" is the element inide or outside ? 
-	ifTrue, a mouse up on the element is considered as an outside event"
-	^ false
+	^ elementToCheck ifNil: [ elementToCheck := element ]
 ]
 
-{ #category : #'mouse handlers' }
-ToOutsideEventFilter >> isEventOnElement: anEvent [
-	" do nothing if it is inside my element "
+{ #category : #accessing }
+ToOutsideEventFilter >> elementToCheck: anElement [
 
-	^ anEvent target withAllParentsInclude: element
+	elementToCheck := anElement
 ]
 
-{ #category : #'api - hooks' }
-ToOutsideEventFilter >> isInstalled [
+{ #category : #'api - accessing' }
+ToOutsideEventFilter >> eventsToHandle [
 
-	^ holder notNil
+	^ eventsToHandle ifNil: [ eventsToHandle := #(  ) ]
+]
+
+{ #category : #'api - accessing' }
+ToOutsideEventFilter >> eventsToHandle: anEventClasseArray [
+
+	eventsToHandle := anEventClasseArray
+]
+
+{ #category : #'api - event managing' }
+ToOutsideEventFilter >> handleEvent: anEvent [
+	" 
+	do nothing if the original event target is inside my target 
+	"
+	| target |
+	target := anEvent currentTarget.
+	(self isOutsideEvent: anEvent) ifTrue: [ " ok, the event is outside. Consuming should be done outside "
+		self dispatchOutsideEventOn: anEvent ].
+	oneShot ifFalse: [ ^ self ].
+	target removeEventFilter: self
+]
+
+{ #category : #initialization }
+ToOutsideEventFilter >> initialize [ 
+
+	super initialize.
+	oneShot := false
 ]
 
 { #category : #'mouse handlers' }
 ToOutsideEventFilter >> isOutsideEvent: anEvent [
-	" do nothing if it is inside my element "
+	" does the event occurs on the element itsef ?"
 
-	" is the mouse up occurs on the element itsef ?"
-	(self isEventOnElement: anEvent) ifTrue: [
-		" is the element considered as outside ? "
-		^ self isElementIgnored ].
-	" mouse up outside the element detected "
-	^ true
+	^ self elementToCheck isOutsideEvent: anEvent
 ]
 
-{ #category : #'api - hooks' }
-ToOutsideEventFilter >> onInstalledIn: anElement [
+{ #category : #accessing }
+ToOutsideEventFilter >> oneShot: aBoolean [
 
-	super onInstalledIn: anElement.
-	holder := anElement
+	oneShot := aBoolean
 ]
 
-{ #category : #'api - hooks' }
-ToOutsideEventFilter >> onUninstalledIn: anElement [
+{ #category : #'api - event managing' }
+ToOutsideEventFilter >> wantsEvent: anEvent [
 
-	holder := nil.
-	super onUninstalledIn: anElement
-
-]
-
-{ #category : #'api - hooks' }
-ToOutsideEventFilter >> stop [
-
-	holder ifNil: [ ^ self ].
-	holder removeEventFilter: self
+	^ self eventsToHandle anySatisfy: [ :cls |
+		  anEvent class == cls or: [ anEvent class inheritsFrom: cls ] ]
 ]

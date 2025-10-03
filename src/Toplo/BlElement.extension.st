@@ -415,6 +415,13 @@ BlElement >> isMouseUpOutsideSensible [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> isOutsideEvent: anEvent [
+
+	" is the event occurs on myself or on one of my children ?"
+	^ (anEvent target withAllParentsInclude: self) not
+]
+
+{ #category : #'*Toplo' }
 BlElement >> isPreventedSkinEvent: aSkinEvent [
 
 	^ self isPreventedSkinEventClass: aSkinEvent class

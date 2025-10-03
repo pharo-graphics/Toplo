@@ -4,6 +4,10 @@ Class {
 	#category : #'Toplo-Core-Window'
 }
 
+{ #category : #enumerating }
+ToBasicWindowElement >> allSubwindowsDo: aBlock [
+]
+
 { #category : #'api - displaying' }
 ToBasicWindowElement >> close [
 

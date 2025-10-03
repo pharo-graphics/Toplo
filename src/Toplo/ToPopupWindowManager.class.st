@@ -205,8 +205,8 @@ ToPopupWindowManager >> newDelayedPopupHandler [
 ToPopupWindowManager >> newPickOutsideFilter [
 
 	^ self pickOutsideFilterClass new
+		  eventsToHandle: { BlMouseUpEvent };
 		  element: anchorElement;
-		  manager: self;
 		  yourself
 ]
 
@@ -226,7 +226,7 @@ ToPopupWindowManager >> onInstalledIn: anElement [
 { #category : #'event handling' }
 ToPopupWindowManager >> onMouseUpOutsideEvent: anEvent [
 
-	self closeWindowNowOnEvent: anEvent
+	self closeWindowIfMinimumDelayExceededOnEvent: anEvent
 ]
 
 { #category : #'window handling' }
@@ -247,7 +247,7 @@ ToPopupWindowManager >> onWindowOpenedOnEvent: anEvent [
 { #category : #initialization }
 ToPopupWindowManager >> pickOutsideFilterClass [
 
-	^ ToPopupMouseUpOutsideEventFilter
+	^ ToOutsideEventFilter
 ]
 
 { #category : #accessing }
@@ -349,9 +349,9 @@ ToPopupWindowManager >> stopStillPressedEvent: anEvent [
 ToPopupWindowManager >> uninstallPickOutsideFilter [
 
 	pickOutsideFilter ifNil: [ ^ self ].
-	pickOutsideFilter stop.
-	pickOutsideFilter := nil.
-
+	anchorElement isAttachedToSceneGraph ifTrue: [
+		anchorElement space root removeEventFilter: pickOutsideFilter ].
+	pickOutsideFilter := nil
 ]
 
 { #category : #initialization }

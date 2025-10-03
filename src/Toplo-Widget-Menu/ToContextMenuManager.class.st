@@ -37,17 +37,19 @@ ToContextMenuManager >> initialize [
 	self useSecondaryMouseButton
 ]
 
+{ #category : #initialization }
+ToContextMenuManager >> newPickOutsideFilter [
+
+	^ super newPickOutsideFilter
+		  elementToCheck: currentWindow;
+		  yourself
+]
+
 { #category : #'window handling' }
 ToContextMenuManager >> onWindowOpenedOnEvent: anEvent [
 
 	super onWindowOpenedOnEvent: anEvent.
 	currentWindow itemBar requestFocus
-]
-
-{ #category : #initialization }
-ToContextMenuManager >> pickOutsideFilterClass [ 
-
-	^ ToContextMenuMouseUpOutsideEventFilter
 ]
 
 { #category : #accessing }

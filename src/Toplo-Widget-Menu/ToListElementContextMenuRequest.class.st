@@ -1,6 +1,6 @@
 Class {
 	#name : #ToListElementContextMenuRequest,
-	#superclass : #ToContextMenuRequest,
+	#superclass : #ToWindowRequest,
 	#instVars : [
 		'selectionModel'
 	],

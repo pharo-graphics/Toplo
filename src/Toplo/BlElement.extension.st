@@ -1,6 +1,10 @@
 Extension { #name : #BlElement }
 
 { #category : #'*Toplo' }
+BlElement >> actionPoolDo: aValuable [
+]
+
+{ #category : #'*Toplo' }
 BlElement >> addAllStamps: aCollectionOfSymbol [
 
 	self ensuredToStyleStore addAllStamps: aCollectionOfSymbol
@@ -336,6 +340,13 @@ BlElement >> installRawStyle [
 BlElement >> installShortcuts [
 
 	self shortcutsStoreDo: [ :store | store install ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> isActionRunnableAfter: aTimeStamp [
+
+	self parentDo: [ :p | ^ p isActionRunnableAfter: aTimeStamp ].
+	^ true
 ]
 
 { #category : #'*Toplo' }

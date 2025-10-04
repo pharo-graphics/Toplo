@@ -1,15 +1,23 @@
 Class {
 	#name : #ToPopupMenuWindowManager,
-	#superclass : #ToMenuWindowManager,
+	#superclass : #ToPopupWindowManager,
 	#category : #'Toplo-Widget-Menu-Window'
 }
+
+{ #category : #accessing }
+ToPopupMenuWindowManager >> anchorRoot [
+	" the root element in which the window is placed "
+
+	anchorElement isSubmenu ifTrue: [
+		^ anchorElement parentMenu manager anchorRoot ].
+	^ super anchorRoot
+]
 
 { #category : #'window handling' }
 ToPopupMenuWindowManager >> beInline [ 
 	" for inline windows/ menus"
 	windowStarter := self newInlineWindowStarter.
-	checkOutsideEvent := false.
-	anchorElement openOnHovered: false
+	checkOutsideEvent := false
 ]
 
 { #category : #'window handling' }
@@ -38,7 +46,9 @@ ToPopupMenuWindowManager >> defaultPlacement [
 { #category : #accessing }
 ToPopupMenuWindowManager >> defaultWindowClass [
 
-	^ ToMenuWindow
+	^ anchorElement isSubmenu
+		  ifTrue: [ ToSubmenuWindow ]
+		  ifFalse: [ ToMenuWindow ]
 ]
 
 { #category : #accessing }
@@ -47,39 +57,18 @@ ToPopupMenuWindowManager >> inlineWindowClass [
 	^ ToMenuInlineWindowElement
 ]
 
-{ #category : #'event handling' }
-ToPopupMenuWindowManager >> mouseEnterEvent: anEvent [
-
-	anchorElement itemBar secondarySelecter deselectAll
-]
-
 { #category : #'window handling' }
 ToPopupMenuWindowManager >> newInlineWindowStarter [ 
 
 	^ ToInlineMenuStarter new
 ]
 
-{ #category : #'window handling' }
-ToPopupMenuWindowManager >> newWindow [
-
-	anchorElement isSubmenu ifTrue: [
-		anchorRoot := anchorElement parentMenu manager anchorRoot ].
-	^ super newWindow
-]
-
 { #category : #'event handling' }
 ToPopupMenuWindowManager >> onOutsideEvent: anEvent [
 
 	super onOutsideEvent: anEvent.
-	anchorElement menuPaneDo: [ :mb |
-		mb cancelAutoOpen ]
-]
-
-{ #category : #'window handling' }
-ToPopupMenuWindowManager >> onWindowClosedOnEvent: anEvent [
-
-	super onWindowClosedOnEvent: anEvent.
-	anchorElement itemBar secondarySelecter deselectAll
+	anchorElement isInline ifTrue: [ ^ self ].
+	anchorElement menuPaneDo: [ :mb | mb cancelAutoOpen ]
 ]
 
 { #category : #'window handling' }
@@ -87,6 +76,5 @@ ToPopupMenuWindowManager >> onWindowOpenedOnEvent: anEvent [
 
 	super onWindowOpenedOnEvent: anEvent.
 	anchorElement isInline ifTrue: [ ^ self ].
-	anchorElement menuPaneDo: [ :mb | mb startAutoOpen ].
-
+	anchorElement menuPaneDo: [ :mb | mb startAutoOpen ]
 ]

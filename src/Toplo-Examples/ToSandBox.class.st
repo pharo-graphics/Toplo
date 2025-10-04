@@ -2194,7 +2194,7 @@ ToSandBox class >> example_CodeEditor [
 
 	pane addChild: menuPane.
 	pane addChild: album.
-	pane openInSpace
+	pane openInInnerWindow 
 ]
 
 { #category : #list }
@@ -3563,6 +3563,7 @@ ToSandBox class >> example_MenuWithSelect [
 	selector := ToSingleSelectElement new.
 	selector placeholderString: 'Choose a level number'.
 	selector filtrable: false.
+	"selector manager popover: true."
 	selector width: 170.
 	selector popupListElement dataAccessor addAll:
 		{ 1. 2. 3. 4. 5. 6. 7. 8. 9. 10. 11. 12 }.

@@ -32,8 +32,8 @@ ToAnchoredWindowManager >> anchorElement [
 
 { #category : #accessing }
 ToAnchoredWindowManager >> anchorRoot [
-
 	" the root element in which the window is placed "
+
 	^ anchorRoot ifNil: [ anchorRoot := anchorElement space root ]
 ]
 
@@ -183,6 +183,12 @@ ToAnchoredWindowManager >> handleEvent: anEvent [
 ]
 
 { #category : #testing }
+ToAnchoredWindowManager >> hasInlineWindow [
+
+	^ windowStarter isForInlineWindow
+]
+
+{ #category : #testing }
 ToAnchoredWindowManager >> hasWindow [
 
 	^ currentWindow notNil
@@ -199,14 +205,13 @@ ToAnchoredWindowManager >> initialize [
 ]
 
 { #category : #testing }
-ToAnchoredWindowManager >> isMinimumDelayBeforeActionRunningExceededOnEvent: anEvent [
+ToAnchoredWindowManager >> isActionRunnableAfter: aTimeStamp [
 
 	| delay |
-	currentWindow ifNil: [ ^ true ].
-	anEvent timestamp ifNil: [ ^ true ].
+	aTimeStamp ifNil: [ ^ true ].
 	" check a minimum delay between opening and closing - 
 	useful to not close immediately context menu on mouse up"
-	delay := anEvent timestamp - currentWindow popupTimestamp.
+	delay := aTimeStamp - currentWindow popupTimestamp.
 	^ delay > minDelayBeforeActionRunning
 ]
 
@@ -289,8 +294,6 @@ ToAnchoredWindowManager >> onUninstalledIn: anElement [
 { #category : #'window handling' }
 ToAnchoredWindowManager >> onWindowClosedOnEvent: anEvent [
 
-	currentWindow ifNil: [ ^ self ].
-	currentWindow manager: nil.
 	currentWindow := nil
 ]
 
@@ -346,6 +349,7 @@ ToAnchoredWindowManager >> startWindow: aWindow onEvent: anEvent [
 { #category : #'window handling' }
 ToAnchoredWindowManager >> stopWindow: aWindow [
 
+	aWindow root removeChildren.
 	windowStarter stopWindow: aWindow fromManager: self
 ]
 

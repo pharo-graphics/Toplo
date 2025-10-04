@@ -24,6 +24,13 @@ ToAnchoredWindow >> checkPickOutside: aBoolean [
 	self checkOutsideEvent: aBoolean
 ]
 
+{ #category : #testing }
+ToAnchoredWindow >> isActionRunnableAfter: aTimeStamp [
+
+	^ self manager isActionRunnableAfter:
+		  aTimeStamp
+]
+
 { #category : #layout }
 ToAnchoredWindow >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 

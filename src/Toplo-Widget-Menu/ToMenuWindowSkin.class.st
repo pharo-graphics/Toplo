@@ -1,11 +1,21 @@
 Class {
-	#name : #ToMenuContainerSkin,
+	#name : #ToMenuWindowSkin,
 	#superclass : #ToRawSkin,
 	#category : #'Toplo-Widget-Menu-Window'
 }
 
 { #category : #'event handling' }
-ToMenuContainerSkin >> installSkinEvent: anEvent [
+ToMenuWindowSkin >> closedSkinEvent: anEvent [
+
+	super closedSkinEvent: anEvent.
+	anEvent elementDo: [ :e | | screenshot |
+		screenshot := e screenshot.
+		e anchorRoot addChild: screenshot.
+		(e valueOfTokenNamed: #'window-closing-animation') value: screenshot ]
+]
+
+{ #category : #'event handling' }
+ToMenuWindowSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -16,7 +26,7 @@ ToMenuContainerSkin >> installSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToMenuContainerSkin >> openedSkinEvent: anEvent [
+ToMenuWindowSkin >> openedSkinEvent: anEvent [
 
 	super openedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |

@@ -136,7 +136,7 @@ ToMenuWindow >> menuWindow [
 { #category : #skin }
 ToMenuWindow >> newRawSkin [ 
 
-	^ ToMenuContainerSkin new
+	^ ToMenuWindowSkin new
 ]
 
 { #category : #'t - anchored window element - private layout' }

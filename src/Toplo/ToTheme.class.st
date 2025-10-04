@@ -80,14 +80,14 @@ ToTheme class >> defaultTokenProperties [
 			   value: [ :win |
 					   win opacity: 0.1.
 					   win addAnimation:
-						   ((BlOpacityAnimation new opacity: 1.9) duration:
-							    500 milliSeconds) ]).
+						   ((BlOpacityAnimation new opacity: 1.0) duration:
+							    400 milliSeconds) ]).
 		  (ToTokenProperty
 			   name: #'window-closing-animation'
 			   value: [ :win |
-					   win addAnimation: ((BlOpacityAnimation new opacity: 0.3)
-							    duration: 300 milliSeconds;
-							    onFinishedDo: [ win stop ]) ]).
+					   win addAnimation: ((BlOpacityAnimation new opacity: 0.1)
+							    duration: 400 milliSeconds;
+							    onFinishedDo: [ win removeFromParent ]) ]).
 
 		  (ToTokenProperty
 			   name: #'effect-window'

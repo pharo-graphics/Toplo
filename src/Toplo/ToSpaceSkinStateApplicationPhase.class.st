@@ -14,5 +14,8 @@ ToSpaceSkinStateApplicationPhase >> name [
 { #category : #actions }
 ToSpaceSkinStateApplicationPhase >> runOn: aSpace [
 
-	aSpace applyAllEnqueuedStates
+	aSpace
+		dispatchTimeEvent: ToSpaceSkinStateApplicationEndEvent
+		during: [ aSpace applyAllEnqueuedStates ]
+	
 ]

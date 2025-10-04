@@ -59,7 +59,7 @@ ToSkinStateQueue >> enqueueIntrinsicStateFor: anElement [
 ToSkinStateQueue >> enqueueState: aState for: anElement [
 
 	nextStates add: aState.
-	anElement spaceDo: [ :sp | sp needSkinStateApplicationPass: true ]
+	anElement spaceDo: [ :sp | sp requestSkinStateApplicationPass ]
 ]
 
 { #category : #adding }

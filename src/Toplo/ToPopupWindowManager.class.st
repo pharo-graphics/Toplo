@@ -101,7 +101,7 @@ ToPopupWindowManager >> closeWindowNowOnEvent: anEvent [
 	currentWindow ifNil: [ ^ self ].
 	anEvent ifNotNil: [
 		self consumeEventAfterForcedClosing ifTrue: [ anEvent consume ] ].
-	anchorRoot ifNotNil: [ :ar | self closeWindowOnEvent: anEvent ]
+	self closeWindowOnEvent: anEvent
 ]
 
 { #category : #'event handling' }
@@ -173,6 +173,12 @@ ToPopupWindowManager >> installOutsideEventFilter [
 	outsideEventFilter ifNotNil: [ ^ self ].
 	outsideEventFilter := self newOutsideEventFilter.
 	anchorElement space root addEventFilter: outsideEventFilter.
+]
+
+{ #category : #accessing }
+ToPopupWindowManager >> isPopover [
+
+	^ popover
 ]
 
 { #category : #'event handling' }

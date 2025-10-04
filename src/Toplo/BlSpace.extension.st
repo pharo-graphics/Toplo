@@ -76,6 +76,12 @@ BlSpace >> requestNewConfigurationPass [
 	self requestNextPulse 
 ]
 
+{ #category : #'*Toplo' }
+BlSpace >> requestSkinStateApplicationPass [
+
+	self needSkinStateApplicationPass: true
+]
+
 { #category : #'*Toplo-LookAndFeel' }
 BlSpace >> resetToTheme [
 

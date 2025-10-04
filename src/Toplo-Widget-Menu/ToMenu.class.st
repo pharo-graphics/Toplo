@@ -10,7 +10,6 @@ Class {
 		'isSubmenu',
 		'builder',
 		'windowManager',
-		'openOnHovered',
 		'isMenuPaneMenu',
 		'showExpandIcon'
 	],
@@ -79,7 +78,6 @@ ToMenu >> initialize [
 
 	isSubmenu := false.
 	isMenuPaneMenu := false.
-	openOnHovered := true.
 	closeOnPicking := false.
 
 	windowManager := ToPopupMenuWindowManager new
@@ -202,18 +200,6 @@ ToMenu >> onRemovedFromItemBarOwner: aMenu [
 ToMenu >> onRemovedMenu: aMenu [
 
 	aMenu isSubmenu: false
-]
-
-{ #category : #accessing }
-ToMenu >> openOnHovered [
-
-	^ openOnHovered
-]
-
-{ #category : #accessing }
-ToMenu >> openOnHovered: aBoolean [
-
-	openOnHovered := aBoolean
 ]
 
 { #category : #'t - menu window model' }

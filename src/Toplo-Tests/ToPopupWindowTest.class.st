@@ -33,7 +33,6 @@ ToPopupWindowTest >> testElement [
 	self waitTestingSpaces.
 	self assert: win isClosed.
 
-	self should: [ win popup ] raise: Error.
 	win := windowManager createNewWindowOnEvent: nil.
 	win popup.
 	self waitTestingSpaces.

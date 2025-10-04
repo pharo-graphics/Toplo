@@ -67,9 +67,9 @@ ToPopupWindowManagerTest >> testElementEventHandlerClass [
 	win popup.
 	self waitTestingSpaces.
 	self assert: win anchorElement equals: e.
+	self assert: win manager currentWindow identicalTo: win.
 	win close.
-	self deny: win hasManager.
-	self should: [ win popup ] raise: Error
+	self deny: win manager currentWindow identicalTo: win
 ]
 
 { #category : #tests }

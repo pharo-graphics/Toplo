@@ -37,13 +37,23 @@ ToTooltipPopupManager >> initialize [
 	closeOnReleased := true.
 	closeOnLeaved := true.
 	popupOnPressed := false.
-	popupOnHovered := true
+	popover := true
+]
+
+{ #category : #'event handling' }
+ToTooltipPopupManager >> mouseOutsideEvent: anEvent [
+
+	anEvent emitter = outsideEventFilter ifFalse: [ ^ self ].
+	checkOutsideEvent ifFalse: [ ^ self ].
+	closeOnLeaved ifFalse: [ ^ self ].
+	super mouseOutsideEvent: anEvent
+
 ]
 
 { #category : #'event handling' }
 ToTooltipPopupManager >> mouseUpEvent: anEvent [
 
 	self resetPopupHandlerOnEvent: anEvent.
-	closeOnReleased ifTrue: [ self closeWindowNowOnEvent: anEvent ].
+	closeOnReleased ifFalse: [ ^ self ].
 	super mouseUpEvent: anEvent
 ]

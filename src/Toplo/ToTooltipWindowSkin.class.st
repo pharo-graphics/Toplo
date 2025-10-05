@@ -5,6 +5,16 @@ Class {
 }
 
 { #category : #'event handling' }
+ToTooltipWindowSkin >> closedSkinEvent: anEvent [
+
+	super closedSkinEvent: anEvent.
+	anEvent elementDo: [ :e | | screenshot |
+		screenshot := e screenshot.
+		e anchorRoot addChild: screenshot.
+		(e valueOfTokenNamed: #'window-closing-animation') value: screenshot ]
+]
+
+{ #category : #'event handling' }
 ToTooltipWindowSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
@@ -27,5 +37,5 @@ ToTooltipWindowSkin >> openedSkinEvent: anEvent [
 
 	super openedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		(e valueOfTokenNamed: #'animation-window-opening') value: e ]
+		(e valueOfTokenNamed: #'window-opening-animation') value: e ]
 ]

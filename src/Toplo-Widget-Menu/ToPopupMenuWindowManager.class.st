@@ -1,15 +1,23 @@
 Class {
 	#name : #ToPopupMenuWindowManager,
-	#superclass : #ToMenuWindowManager,
+	#superclass : #ToPopupWindowManager,
 	#category : #'Toplo-Widget-Menu-Window'
 }
+
+{ #category : #accessing }
+ToPopupMenuWindowManager >> anchorRoot [
+	" the root element in which the window is placed "
+
+	anchorElement isSubmenu ifTrue: [
+		^ anchorElement parentMenu manager anchorRoot ].
+	^ super anchorRoot
+]
 
 { #category : #'window handling' }
 ToPopupMenuWindowManager >> beInline [ 
 	" for inline windows/ menus"
 	windowStarter := self newInlineWindowStarter.
-	checkPickOutside := false.
-	anchorElement openOnHovered: false
+	checkOutsideEvent := false
 ]
 
 { #category : #'window handling' }
@@ -18,15 +26,9 @@ ToPopupMenuWindowManager >> bottomUpCloseWindowRequestOnEvent: anEvent [
 
 	self closeWindowNowOnEvent: anEvent.
 	self hasInlineWindow ifTrue: [ ^ self ].
+	anchorElement menuPaneDo: [ :mb | mb cancelAutoOpen ].
 	anchorElement parentMenuDo: [ :rm |
 		rm manager bottomUpCloseWindowRequestOnEvent: anEvent ]
-]
-
-{ #category : #'window handling' }
-ToPopupMenuWindowManager >> closeWindowIfMinimumDelayExceededOnEvent: anEvent [ 
-
-	anchorElement menuPaneDo: [ :mb | mb cancelAutoOpen ].
-	super closeWindowIfMinimumDelayExceededOnEvent: anEvent
 ]
 
 { #category : #initialization }
@@ -44,7 +46,9 @@ ToPopupMenuWindowManager >> defaultPlacement [
 { #category : #accessing }
 ToPopupMenuWindowManager >> defaultWindowClass [
 
-	^ ToMenuWindow
+	^ anchorElement isSubmenu
+		  ifTrue: [ ToSubmenuWindow ]
+		  ifFalse: [ ToMenuWindow ]
 ]
 
 { #category : #accessing }
@@ -53,39 +57,18 @@ ToPopupMenuWindowManager >> inlineWindowClass [
 	^ ToMenuInlineWindowElement
 ]
 
-{ #category : #'event handling' }
-ToPopupMenuWindowManager >> mouseEnterEvent: anEvent [
-
-	anchorElement itemBar secondarySelecter deselectAll
-]
-
 { #category : #'window handling' }
 ToPopupMenuWindowManager >> newInlineWindowStarter [ 
 
 	^ ToInlineMenuStarter new
 ]
 
-{ #category : #'window handling' }
-ToPopupMenuWindowManager >> newWindow [
-
-	anchorElement isSubmenu ifTrue: [
-		anchorRoot := anchorElement parentMenu manager anchorRoot ].
-	^ super newWindow
-]
-
 { #category : #'event handling' }
-ToPopupMenuWindowManager >> onMouseUpOutsideEvent: anEvent [
+ToPopupMenuWindowManager >> onOutsideEvent: anEvent [
 
-	super onMouseUpOutsideEvent: anEvent.
-	anchorElement menuPaneDo: [ :mb |
-		mb cancelAutoOpen ]
-]
-
-{ #category : #'window handling' }
-ToPopupMenuWindowManager >> onWindowClosedOnEvent: anEvent [
-
-	super onWindowClosedOnEvent: anEvent.
-	anchorElement itemBar secondarySelecter deselectAll
+	super onOutsideEvent: anEvent.
+	anchorElement isInline ifTrue: [ ^ self ].
+	anchorElement menuPaneDo: [ :mb | mb cancelAutoOpen ]
 ]
 
 { #category : #'window handling' }
@@ -93,12 +76,5 @@ ToPopupMenuWindowManager >> onWindowOpenedOnEvent: anEvent [
 
 	super onWindowOpenedOnEvent: anEvent.
 	anchorElement isInline ifTrue: [ ^ self ].
-	anchorElement menuPaneDo: [ :mb | mb startAutoOpen ].
-
-]
-
-{ #category : #initialization }
-ToPopupMenuWindowManager >> pickOutsideFilterClass [
-
-	^ ToMenuMouseUpOutsideEventFilter
+	anchorElement menuPaneDo: [ :mb | mb startAutoOpen ]
 ]

@@ -36,8 +36,11 @@ ToSkinStateGenerator >> clickEvent: anEvent [
 
 { #category : #'window event handling' }
 ToSkinStateGenerator >> closedEvent: anEvent [
+	" directly dispatch the skin event to allow the hnadling of the closed window 
+	(with a closing animation as an example ) "
 
-	self enqueueTransientState: (ToClosedSkinEvent sourceEvent: anEvent)
+	target skinManagerDo: [ :sm |
+		target dispatchEvent: (ToClosedSkinEvent sourceEvent: anEvent) ]
 ]
 
 { #category : #'dnd handlers' }
@@ -248,7 +251,8 @@ ToSkinStateGenerator >> primaryMouseDownEvent: anEvent [
 
 	target isMouseUpOutsideSensible ifTrue: [
 			| mouseUpOutsideFilter |
-			mouseUpOutsideFilter := ToOneShotMouseUpOutsideEventFilter new
+			mouseUpOutsideFilter := ToOutsideEventFilter newOneShotInstance
+				                        eventsToHandle: { BlMouseUpEvent };
 				                        element: target;
 				                        yourself.
 			target space root addEventFilter: mouseUpOutsideFilter ].

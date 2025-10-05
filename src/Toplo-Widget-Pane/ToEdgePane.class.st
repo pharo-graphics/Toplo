@@ -1,26 +1,23 @@
 Class {
 	#name : #ToEdgePane,
 	#superclass : #ToBaseFloatElement,
+	#traits : 'TToOrientable',
+	#classTraits : 'TToOrientable classTrait',
 	#category : #'Toplo-Widget-Pane-Core'
 }
-
-{ #category : #configuration }
-ToEdgePane >> applyConfiguration [
-
-	super applyConfiguration.
-	self isHMatchParent
-		ifTrue: [ innerElement horizontal: true ]
-		ifFalse: [ innerElement horizontal: false ].
-	self isVMatchParent
-		ifTrue: [ innerElement vertical: true ]
-		ifFalse: [ innerElement vertical: false ]
-]
 
 { #category : #'attaching  / detaching' }
 ToEdgePane >> attachToElement: anElement [
 
 	self constraintsDo: [ :c | c ignoreByLayout ].
-	anElement edgePaneOverlay addChild: self
+	anElement edgePaneOverlay pushPane: self.
+	
+]
+
+{ #category : #initialization }
+ToEdgePane >> defaultLayout [ 
+
+	^ BlLinearLayout new
 ]
 
 { #category : #initialization }
@@ -33,7 +30,11 @@ ToEdgePane >> defaultPlacement [
 ToEdgePane >> initialize [
 
 	super initialize.
-	self vMatchParent
+	self vMatchParent.
+	self addEventHandlerOn: BlMouseUpEvent do: [ :event | event consume ].
+	self addEventHandlerOn: ToMouseUpOutsideEvent do: [ :event |
+			event consume.
+			event emitter pop ]
 ]
 
 { #category : #initialization }

@@ -6,7 +6,7 @@ Trait {
 { #category : #'t - menu item' }
 TToMenuItem >> allOtherMenuWindowsDo: aValuable [
 
-	self rootMenuItemContainerDo: [ :rmc |
+	self rootMenuWindowOrMenuPaneDo: [ :rmc |
 			rmc allChildrenDepthFirstDo: [ :child |
 					(child ~= self and: [ child isKindOf: ToMenu ]) ifTrue: [
 						child menuWindowDo: aValuable ] ] ]
@@ -76,21 +76,6 @@ TToMenuItem >> parentMenuDo: aBlock [
 ]
 
 { #category : #'t - menu item' }
-TToMenuItem >> rootMenuItemContainer [
-
-	self parentChainReverseDo: [ :e |
-		((e isKindOf: ToMenuWindow) or: [ e isKindOf: ToMenuPane ]) ifTrue: [
-			^ e ] ].
-	^ nil
-]
-
-{ #category : #'t - menu item' }
-TToMenuItem >> rootMenuItemContainerDo: aValuable [
-
-	self rootMenuItemContainer ifNotNil: [ :rmc | aValuable cull: rmc ]
-]
-
-{ #category : #'t - menu item' }
 TToMenuItem >> rootMenuOrMenuPane [
 
 	^ self parentMenu
@@ -105,6 +90,21 @@ TToMenuItem >> rootMenuOrMenuPane [
 TToMenuItem >> rootMenuOrMenuPaneDo: aBlock [
 
 	self rootMenuOrMenuPane ifNotNil: [ :p | aBlock value: p ]
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> rootMenuWindowOrMenuPane [
+
+	self parentChainReverseDo: [ :e |
+		((e isKindOf: ToMenuWindow) or: [ e isKindOf: ToMenuPane ]) ifTrue: [
+			^ e ] ].
+	^ nil
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> rootMenuWindowOrMenuPaneDo: aValuable [
+
+	self rootMenuWindowOrMenuPane ifNotNil: [ :rmc | aValuable cull: rmc ]
 ]
 
 { #category : #'t - menu item' }

@@ -11,7 +11,7 @@ ToMenuPlacement >> positionElement: aWindow onEvent: anEvent context: aBlElement
 	| root element pos rootMenuOrMenuPane |
 	root := aWindow anchorRoot.
 	element := aWindow anchorElement.
-	rootMenuOrMenuPane := element rootMenuItemContainer.
+	rootMenuOrMenuPane := element rootMenuWindowOrMenuPane.
 
 	pos := (element isSubmenu or: [
 		        rootMenuOrMenuPane notNil and: [

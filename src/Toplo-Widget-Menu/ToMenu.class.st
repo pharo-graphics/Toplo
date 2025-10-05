@@ -10,7 +10,6 @@ Class {
 		'isSubmenu',
 		'builder',
 		'windowManager',
-		'openOnHovered',
 		'isMenuPaneMenu',
 		'showExpandIcon'
 	],
@@ -79,7 +78,6 @@ ToMenu >> initialize [
 
 	isSubmenu := false.
 	isMenuPaneMenu := false.
-	openOnHovered := true.
 	closeOnPicking := false.
 
 	windowManager := ToPopupMenuWindowManager new
@@ -120,6 +118,20 @@ ToMenu >> isMenuPaneMenu: aBoolean [
 ToMenu >> isOpened [ 
 
 	^ self menuWindow notNil and: [ self menuWindow isOpened ]
+]
+
+{ #category : #testing }
+ToMenu >> isOutsideEvent: anEvent [
+
+	| windows |
+	windows := Array streamContents: [ :stream |
+			           self manager currentWindowDo: [ :w |
+				           w withAllSubwindowsDo: [ :sub | stream nextPut: sub ] ] ].
+	(windows allSatisfy: [ :w | w isOutsideEvent: anEvent ]) ifFalse: [
+		^ false ].
+	(self items allSatisfy: [ :it | it isOutsideEvent: anEvent ])
+		ifFalse: [ ^ false ].
+	^ super isOutsideEvent: anEvent
 ]
 
 { #category : #'t - menu window model' }
@@ -188,18 +200,6 @@ ToMenu >> onRemovedFromItemBarOwner: aMenu [
 ToMenu >> onRemovedMenu: aMenu [
 
 	aMenu isSubmenu: false
-]
-
-{ #category : #accessing }
-ToMenu >> openOnHovered [
-
-	^ openOnHovered
-]
-
-{ #category : #accessing }
-ToMenu >> openOnHovered: aBoolean [
-
-	openOnHovered := aBoolean
 ]
 
 { #category : #'t - menu window model' }

@@ -73,6 +73,20 @@ ToContextMenu >> isOpened [
 	^ super isOpened
 ]
 
+{ #category : #testing }
+ToContextMenu >> isOutsideEvent: anEvent [
+
+	| windows |
+	windows := Array streamContents: [ :stream |
+			           self manager currentWindowDo: [ :w |
+				           w allSubwindowsDo: [ :sub | stream nextPut: sub ] ] ].
+	(windows allSatisfy: [ :w | w isOutsideEvent: anEvent ]) ifFalse: [
+		^ false ].
+	(self items allSatisfy: [ :it | it isOutsideEvent: anEvent ])
+		ifFalse: [ ^ false ].
+	^ super isOutsideEvent: anEvent
+]
+
 { #category : #'t - menu window model' }
 ToContextMenu >> isSubmenu [
 

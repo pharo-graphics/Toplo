@@ -12,6 +12,14 @@ ToCustomMenuItem >> initialize [
 ]
 
 { #category : #testing }
+ToCustomMenuItem >> isOutsideEvent: anEvent [
+
+	(self children allSatisfy: [ :child | child isOutsideEvent: anEvent ])
+		ifFalse: [ ^ false ].
+	^ super isOutsideEvent: anEvent
+]
+
+{ #category : #testing }
 ToCustomMenuItem >> isSelectable [
 
 	^ false

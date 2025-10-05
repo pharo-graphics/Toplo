@@ -36,7 +36,7 @@ ToTabNodeSkin >> hoveredSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e removeButtonDo: [ :rb |
 			rb visibility: BlVisibility visible.
-			(e valueOfTokenNamed: #'animation-window-opening') value: rb ].
+			(e valueOfTokenNamed: #'window-opening-animation') value: rb ].
 		e mouseCursor: Cursor webLink ]
 ]
 

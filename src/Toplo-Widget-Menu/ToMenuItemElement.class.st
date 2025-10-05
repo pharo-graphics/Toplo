@@ -153,10 +153,8 @@ ToMenuItemElement >> onRemovedFromItemBarOwner: aMenu [
 	aMenu onRemovedMenuItem: self
 ]
 
-{ #category : #accessing }
-ToMenuItemElement >> openOnHovered [
-
-	^ false
+{ #category : #'t - anchored window element - displaying' }
+ToMenuItemElement >> popupEvent: anEvent [
 ]
 
 { #category : #'t - menu window model' }

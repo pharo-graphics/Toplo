@@ -7,6 +7,10 @@ Trait {
 	#category : #'Toplo-Core-Window'
 }
 
+{ #category : #'t - anchored window element - displaying' }
+TToAnchoredWindowElement >> allSubwindowsDo: aBlock [
+]
+
 { #category : #'t - anchored window element - accessing' }
 TToAnchoredWindowElement >> anchorElement [
 
@@ -23,8 +27,10 @@ TToAnchoredWindowElement >> anchorRoot [
 TToAnchoredWindowElement >> close [
 
 	self isOpened ifFalse: [ Error signal: 'Closing a closed window' ].
-	self stop.
 	self dispatchClosedEvent.
+	self stop.
+
+
 
 ]
 
@@ -46,8 +52,9 @@ TToAnchoredWindowElement >> dispatchClosedEvent [
 	so that the window manager can manage the window 
 	(recall that the window manager is an event handler of the element)"
 
+	self anchorElement dispatchEvent: self newClosedEvent.
 	super dispatchClosedEvent.
-	self anchorElement dispatchEvent: self newClosedEvent
+
 ]
 
 { #category : #'t - anchored window element - displaying' }
@@ -159,6 +166,20 @@ TToAnchoredWindowElement >> root [
 ]
 
 { #category : #'t - anchored window element - displaying' }
+TToAnchoredWindowElement >> screenshot [
+
+	| aCanvas screenshot |
+	aCanvas := AeCanvas extent: self anchorRoot extent.
+	aCanvas pathTranslate: self position negated.
+	self aeFullDrawOn: aCanvas.
+	screenshot := aCanvas asForm asElement.
+	screenshot elevation: self elevation.
+	screenshot position: self position.
+	screenshot extent: self extent.
+	^ screenshot
+]
+
+{ #category : #'t - anchored window element - displaying' }
 TToAnchoredWindowElement >> startOnEvent: anEvent [
 
 	self manager startWindow: self onEvent: anEvent
@@ -167,7 +188,9 @@ TToAnchoredWindowElement >> startOnEvent: anEvent [
 { #category : #'t - anchored window element - displaying' }
 TToAnchoredWindowElement >> stop [
 
-	self manager stopWindow: self
+	self manager ifNil: [ ^ self ].
+	self manager stopWindow: self.
+
 ]
 
 { #category : #'t - anchored window element - displaying' }

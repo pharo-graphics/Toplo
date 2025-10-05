@@ -22,7 +22,7 @@ ToSelectPopupWindow >> initialize [
 ToSelectPopupWindow >> installRawStyle [
 
 	super installRawStyle.
-	(self valueOfTokenNamed: #'animation-window-opening') value: self.
+	(self valueOfTokenNamed: #'window-opening-animation') value: self.
 	self border: BlBorder empty
 ]
 

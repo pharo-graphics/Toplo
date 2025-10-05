@@ -18,6 +18,7 @@ ToMenuItemEventHandler >> bottomUpCloseWindowRequestOnEvent: anEvent [
 	| target |
 	target := anEvent currentTarget.
 	target closeOnPicking ifFalse: [ ^ self ].
+	target menuPaneDo: [ :mp | mp cancelAutoOpen ].
 	target parentMenuDo: [ :m |
 		m manager bottomUpCloseWindowRequestOnEvent: anEvent ]
 ]
@@ -39,13 +40,13 @@ ToMenuItemEventHandler >> mouseEnterEvent: anEvent [
 		ifNil: [ target isSubmenu ifFalse: [ ^ self ] ]
 		ifNotNil: [ :mb | mb isAutoOpen ifFalse: [ ^ self ] ].
 	target isOpened ifTrue: [ ^ self ].
-	target openOnHovered ifFalse: [ ^ self ].
+	target isInline ifTrue: [ ^ self ].
 	target popupEvent: anEvent
 ]
 
 { #category : #'mouse handlers' }
 ToMenuItemEventHandler >> mouseUpEvent: anEvent [
-	" ask the window manager to actually manage the event "
+
 	| target |
 	target := anEvent currentTarget.
 	target isEnabled ifFalse: [ ^ self ].

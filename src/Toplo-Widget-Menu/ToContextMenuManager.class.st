@@ -1,12 +1,11 @@
 Class {
 	#name : #ToContextMenuManager,
-	#superclass : #ToMenuWindowManager,
+	#superclass : #ToPopupWindowManager,
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
 { #category : #'window handling' }
 ToContextMenuManager >> bottomUpCloseWindowRequestOnEvent: anEvent [ 
-	" requestto actually manage the window closing "
 
 	self closeWindowNowOnEvent: anEvent
 ]
@@ -37,21 +36,10 @@ ToContextMenuManager >> initialize [
 	self useSecondaryMouseButton
 ]
 
-{ #category : #'window handling' }
-ToContextMenuManager >> onWindowOpenedOnEvent: anEvent [
-
-	super onWindowOpenedOnEvent: anEvent.
-	currentWindow itemBar requestFocus
-]
-
 { #category : #initialization }
-ToContextMenuManager >> pickOutsideFilterClass [ 
+ToContextMenuManager >> newOutsideEventFilter [
 
-	^ ToContextMenuMouseUpOutsideEventFilter
-]
-
-{ #category : #accessing }
-ToContextMenuManager >> windowRequestClass [
-
-	^ ToContextMenuRequest 
+	^ super newOutsideEventFilter
+		  elementToCheck: currentWindow;
+		  yourself
 ]

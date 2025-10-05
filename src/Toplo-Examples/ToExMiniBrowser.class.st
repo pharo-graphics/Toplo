@@ -21,7 +21,7 @@ ToExMiniBrowser class >> open [
 	self new open
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 ToExMiniBrowser class >> openWithCompletion [
 
 	<script>

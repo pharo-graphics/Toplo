@@ -1,6 +1,10 @@
 Extension { #name : #BlElement }
 
 { #category : #'*Toplo' }
+BlElement >> actionPoolDo: aValuable [
+]
+
+{ #category : #'*Toplo' }
 BlElement >> addAllStamps: aCollectionOfSymbol [
 
 	self ensuredToStyleStore addAllStamps: aCollectionOfSymbol
@@ -164,7 +168,7 @@ BlElement >> edgePaneOverlay [
 
 	^ self userData at: #edgePaneOverlay ifAbsentPut: [
 			  | overlay |
-			  overlay := ToFloatOverlay new.
+			  overlay := ToEdgePaneOverlay new.
 			  overlay attachToParent: self.
 			  overlay ]
 ]
@@ -339,6 +343,13 @@ BlElement >> installShortcuts [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> isActionRunnableAfter: aTimeStamp [
+
+	self parentDo: [ :p | ^ p isActionRunnableAfter: aTimeStamp ].
+	^ true
+]
+
+{ #category : #'*Toplo' }
 BlElement >> isConfigurationRequested [
 
 	^ self isAttachedToSceneGraph and: [ self nextConfigurationPass = self space runningConfigurationPass ]
@@ -412,6 +423,13 @@ BlElement >> isMenuPane [
 BlElement >> isMouseUpOutsideSensible [
 
 	^ false
+]
+
+{ #category : #'*Toplo' }
+BlElement >> isOutsideEvent: anEvent [
+
+	" is the event occurs on myself or on one of my children ?"
+	^ (anEvent target withAllParentsInclude: self) not
 ]
 
 { #category : #'*Toplo' }
@@ -672,6 +690,12 @@ BlElement >> requestNewSkin [
 BlElement >> requestSkinApplication [
 
 	self spaceDo: [ :sp | sp requestNextPulse ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> resetEdgePaneOverlay [
+
+	^ self userData removeKey: #edgePaneOverlay ifAbsent: [ ]
 ]
 
 { #category : #'*Toplo' }

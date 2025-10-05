@@ -3,15 +3,15 @@ Class {
 	#superclass : #ToAnchoredWindowManager,
 	#instVars : [
 		'mouseButton',
-		'pickOutsideFilter',
 		'popupDelay',
 		'autoCloseDelay',
-		'checkPickOutside',
 		'delayedPopupHandler',
 		'popupOnPressed',
-		'popupOnHovered',
 		'closeOnLeaved',
-		'closeOnReleased'
+		'closeOnReleased',
+		'checkOutsideEvent',
+		'outsideEventFilter',
+		'popover'
 	],
 	#category : #'Toplo-Core-Window'
 }
@@ -55,15 +55,21 @@ ToPopupWindowManager >> canCloseWindowAfter: aTimestamp [
 ]
 
 { #category : #accessing }
-ToPopupWindowManager >> checkPickOutside [
+ToPopupWindowManager >> checkOutsideEvent: aBoolean [
 
-	^ checkPickOutside
+	checkOutsideEvent := aBoolean
 ]
 
 { #category : #accessing }
 ToPopupWindowManager >> checkPickOutside: aBoolean [
 
-	checkPickOutside := aBoolean
+	self
+		deprecated: 'Use #checkOutsideEvent instead'
+		transformWith:
+		'`@rcvr checkPickOutside: `@arg'
+		-> '`@rcvr checkOutsideEvent: `@arg'.
+
+	self checkOutsideEvent: aBoolean
 ]
 
 { #category : #accessing }
@@ -95,7 +101,7 @@ ToPopupWindowManager >> closeWindowNowOnEvent: anEvent [
 	currentWindow ifNil: [ ^ self ].
 	anEvent ifNotNil: [
 		self consumeEventAfterForcedClosing ifTrue: [ anEvent consume ] ].
-	anchorRoot ifNotNil: [ :ar | self closeWindowOnEvent: anEvent ]
+	self closeWindowOnEvent: anEvent
 ]
 
 { #category : #'event handling' }
@@ -135,8 +141,8 @@ ToPopupWindowManager >> defaultWindowStarter [
 ToPopupWindowManager >> eventsToHandle [
 
 	^ super eventsToHandle , {
-		  ToWindowCheckPickOutsideEvent.
 		  ToMouseUpOutsideEvent.
+		  ToMouseOutsideEvent.
 		  ToStartStillHoveredEvent.
 		  ToStopStillHoveredEvent.
 		  ToStartStillPressedEvent.
@@ -152,21 +158,27 @@ ToPopupWindowManager >> initialize [
 	super initialize.
 	self usePrimaryMouseButton.
  	autoCloseDelay := self defaultAutoCloseDelay.
-	checkPickOutside := true.
+	checkOutsideEvent := true.
 	popupDelay := self defaultPopupDelay.
 	closeOnReleased := false.
 	closeOnLeaved := false.
 	popupOnPressed := true.
-	popupOnHovered := false
+	popover := false
 
 ]
 
 { #category : #initialization }
-ToPopupWindowManager >> installPickOutsideFilter [
+ToPopupWindowManager >> installOutsideEventFilter [
 
-	pickOutsideFilter ifNotNil: [ ^ self ].
-	pickOutsideFilter := self newPickOutsideFilter.
-	anchorElement space root addEventFilter: pickOutsideFilter.
+	outsideEventFilter ifNotNil: [ ^ self ].
+	outsideEventFilter := self newOutsideEventFilter.
+	anchorElement space root addEventFilter: outsideEventFilter.
+]
+
+{ #category : #accessing }
+ToPopupWindowManager >> isPopover [
+
+	^ popover
 ]
 
 { #category : #'event handling' }
@@ -179,20 +191,32 @@ ToPopupWindowManager >> mouseEnterEvent: anEvent [
 ToPopupWindowManager >> mouseLeaveEvent: anEvent [
 
 	closeOnLeaved ifFalse: [ ^ self ].
-	" use uncheck version to not cancel auto-open "
 	self closeWindowIfMinimumDelayExceededOnEvent: anEvent
 ]
 
 { #category : #'event handling' }
+ToPopupWindowManager >> mouseOutsideEvent: anEvent [
+
+	anEvent emitter = outsideEventFilter ifFalse: [ ^ self ].
+	checkOutsideEvent ifFalse: [ ^ self ].
+	popover ifFalse: [ closeOnLeaved ifFalse: [ ^ self ] ].
+	anEvent sourceEvent consume.
+	self onOutsideEvent: anEvent
+]
+
+{ #category : #'event handling' }
 ToPopupWindowManager >> mouseUpEvent: anEvent [
+
+	self closeWindowIfMinimumDelayExceededOnEvent: anEvent
 ]
 
 { #category : #'event handling' }
 ToPopupWindowManager >> mouseUpOutsideEvent: anEvent [
 
-	checkPickOutside ifFalse: [ ^ self ].
+	anEvent emitter = outsideEventFilter ifFalse: [ ^ self ].
+	checkOutsideEvent ifFalse: [ ^ self ].
 	anEvent sourceEvent consume.
-	self onMouseUpOutsideEvent: anEvent
+	self onOutsideEvent: anEvent
 ]
 
 { #category : #initialization }
@@ -202,11 +226,16 @@ ToPopupWindowManager >> newDelayedPopupHandler [
 ]
 
 { #category : #initialization }
-ToPopupWindowManager >> newPickOutsideFilter [
+ToPopupWindowManager >> newOutsideEventFilter [
 
-	^ self pickOutsideFilterClass new
+	^ ToOutsideEventFilter new
+		  eventsToHandle: (popover
+				   ifTrue: [
+						   {
+							   BlMouseOverEvent.
+							   BlMouseUpEvent } ]
+				   ifFalse: [ { BlMouseUpEvent } ]);
 		  element: anchorElement;
-		  manager: self;
 		  yourself
 ]
 
@@ -218,15 +247,15 @@ ToPopupWindowManager >> onInstalledIn: anElement [
 	delayedPopupHandler := self newDelayedPopupHandler.
 	delayedPopupHandler startDelay: self popupDelay.
 	delayedPopupHandler activateOnPressed: popupOnPressed.
-	delayedPopupHandler activateOnHovered: popupOnHovered.
+	delayedPopupHandler activateOnHovered: popover.
 	delayedPopupHandler standaloneMouseOutsideFilter: false.
 	anchorElement addEventHandler: delayedPopupHandler
 ]
 
 { #category : #'event handling' }
-ToPopupWindowManager >> onMouseUpOutsideEvent: anEvent [
+ToPopupWindowManager >> onOutsideEvent: anEvent [
 
-	self closeWindowNowOnEvent: anEvent
+	self closeWindowIfMinimumDelayExceededOnEvent: anEvent
 ]
 
 { #category : #'window handling' }
@@ -234,20 +263,21 @@ ToPopupWindowManager >> onWindowClosedOnEvent: anEvent [
 
 	super onWindowClosedOnEvent: anEvent.
 	self resetPopupHandlerOnEvent: anEvent.
-	self uninstallPickOutsideFilter.
+	self uninstallOutsideEventFilter.
 ]
 
 { #category : #'window handling' }
 ToPopupWindowManager >> onWindowOpenedOnEvent: anEvent [
 
 	super onWindowOpenedOnEvent: anEvent.
-	self installPickOutsideFilter
+	self installOutsideEventFilter
 ]
 
-{ #category : #initialization }
-ToPopupWindowManager >> pickOutsideFilterClass [
+{ #category : #accessing }
+ToPopupWindowManager >> popover: aBoolean [
 
-	^ ToPopupMouseUpOutsideEventFilter
+	popover := aBoolean.
+	delayedPopupHandler activateOnHovered: popover.
 ]
 
 { #category : #accessing }
@@ -274,30 +304,11 @@ ToPopupWindowManager >> popupEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToPopupWindowManager >> popupOnHovered [
-
-	^ popupOnHovered
-]
-
-{ #category : #accessing }
-ToPopupWindowManager >> popupOnHovered: aBoolean [
-
-	popupOnHovered := aBoolean.
-	delayedPopupHandler activateOnHovered: self popupOnHovered.
-]
-
-{ #category : #accessing }
-ToPopupWindowManager >> popupOnPressed [
-
-	^ popupOnPressed
-]
-
-{ #category : #accessing }
 ToPopupWindowManager >> popupOnPressed: aBoolean [
 	" useful for tablet UI "
 
 	popupOnPressed := aBoolean.
-	delayedPopupHandler activateOnPressed: self popupOnPressed
+	delayedPopupHandler activateOnPressed: popupOnPressed
 ]
 
 { #category : #'window handling' }
@@ -342,16 +353,17 @@ ToPopupWindowManager >> stopStillHoveredEvent: anEvent [
 { #category : #'event handling' }
 ToPopupWindowManager >> stopStillPressedEvent: anEvent [
 
+	closeOnReleased ifFalse: [ ^ self ].
 	self requestCloseWindowOnEvent: anEvent sourceEvent
 ]
 
 { #category : #initialization }
-ToPopupWindowManager >> uninstallPickOutsideFilter [
+ToPopupWindowManager >> uninstallOutsideEventFilter [
 
-	pickOutsideFilter ifNil: [ ^ self ].
-	pickOutsideFilter stop.
-	pickOutsideFilter := nil.
-
+	outsideEventFilter ifNil: [ ^ self ].
+	anchorElement isAttachedToSceneGraph ifTrue: [
+		anchorElement space root removeEventFilter: outsideEventFilter ].
+	outsideEventFilter := nil
 ]
 
 { #category : #initialization }
@@ -370,10 +382,4 @@ ToPopupWindowManager >> usePrimaryMouseButton [
 ToPopupWindowManager >> useSecondaryMouseButton [
 
 	mouseButton := BlMouseButton secondary
-]
-
-{ #category : #'window handling' }
-ToPopupWindowManager >> windowCheckPickOutsideEvent: anEvent [
-
-	checkPickOutside := anEvent allowed
 ]

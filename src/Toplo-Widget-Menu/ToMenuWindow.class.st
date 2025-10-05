@@ -4,6 +4,14 @@ Class {
 	#category : #'Toplo-Widget-Menu-Window'
 }
 
+{ #category : #'t - anchored window element - displaying' }
+ToMenuWindow >> allSubwindowsDo: aBlock [
+
+	self items do: [ :i |
+		i menuWindowDo: [ :w | w withAllSubwindowsDo: aBlock ] ].
+	super allSubwindowsDo: aBlock
+]
+
 { #category : #configuration }
 ToMenuWindow >> applyConfiguration [ 
 
@@ -33,7 +41,7 @@ ToMenuWindow >> correctedPositionAccordingToAnchorRoot [
 	" in case of a root menu (including context menu), just keep the computed position.
 	If not, then in case of an horizontal menubar, keep also the computed position.
 	In case of a vertical menubar, it may be necessary to also fix the position x "
-	rootMenuOrMenuPane := parentMenu rootMenuItemContainer.
+	rootMenuOrMenuPane := parentMenu rootMenuWindowOrMenuPane.
 	(t x isZero or: [
 		 parentMenu isSubmenu not and: [
 			 rootMenuOrMenuPane isNil or: [ rootMenuOrMenuPane isHorizontal ] ] ])
@@ -128,7 +136,7 @@ ToMenuWindow >> menuWindow [
 { #category : #skin }
 ToMenuWindow >> newRawSkin [ 
 
-	^ ToMenuContainerSkin new
+	^ ToMenuWindowSkin new
 ]
 
 { #category : #'t - anchored window element - private layout' }

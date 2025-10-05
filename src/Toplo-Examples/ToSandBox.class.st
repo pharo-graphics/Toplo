@@ -1405,6 +1405,25 @@ ToSandBox class >> example_AnchorWithPointTransition [
 	pane openInSpace
 ]
 
+{ #category : #filters }
+ToSandBox class >> example_AnyEventFilter [
+
+	| space e |
+	space := BlSpace new.
+	e := ToElement new
+		     position: 100 asPoint;
+		     extent: 100 asPoint;
+		     background: Color red.
+	space root addChild: e.
+	space root addEventFilter: (ToOutsideEventFilter new
+			 eventsToHandle: { BlUIEvent };
+			 element: e).
+	e
+		addEventHandlerOn: ToAnyUIEventOutsideEvent
+		do: [ :evt | evt sourceEvent traceCr ].
+	space show
+]
+
 { #category : #list }
 ToSandBox class >> example_BasicListWithAllClasses3 [
 
@@ -2175,7 +2194,7 @@ ToSandBox class >> example_CodeEditor [
 
 	pane addChild: menuPane.
 	pane addChild: album.
-	pane openInSpace
+	pane openInInnerWindow 
 ]
 
 { #category : #list }
@@ -3202,17 +3221,6 @@ ToSandBox class >> example_Menu2 [
 ]
 
 { #category : #menu }
-ToSandBox class >> example_Menu3 [
-
-	| menu |
-	menu := self example_Menu2.
-	menu manager popupOnHovered: true.
-	menu manager closeOnLeaved: true.
-	menu manager minDelayBeforeClosing: 2000 milliSeconds.
-	^ menu
-]
-
-{ #category : #menu }
 ToSandBox class >> example_MenuPaneScrollableWithCustomItems [
 
 	| menuPane grp right center left textField sub lbl item |
@@ -3338,6 +3346,15 @@ ToSandBox class >> example_MenuPaneScrollableWithCustomItems [
 	sub addItem: (ToMenuItem new labelText: 'Locally').
 	menuPane addItem: sub.
 	menuPane openInSpace
+]
+
+{ #category : #menu }
+ToSandBox class >> example_MenuPopover [
+
+	| menu |
+	menu := self example_Menu2.
+	menu manager popover: true.
+	^ menu
 ]
 
 { #category : #menu }
@@ -3546,6 +3563,7 @@ ToSandBox class >> example_MenuWithSelect [
 	selector := ToSingleSelectElement new.
 	selector placeholderString: 'Choose a level number'.
 	selector filtrable: false.
+	"selector manager popover: true."
 	selector width: 170.
 	selector popupListElement dataAccessor addAll:
 		{ 1. 2. 3. 4. 5. 6. 7. 8. 9. 10. 11. 12 }.
@@ -5238,7 +5256,8 @@ ToSandBox class >> example_ThemeSelectNoDeselection [
 		do: [ :event | event selectedData asString traceCr ].
 	select selecter selectIndex: 4.
 	select allowDeselection: false.
-	select openInSpace
+	select openInSpace.
+	^ select
 ]
 
 { #category : #select }
@@ -5247,6 +5266,15 @@ ToSandBox class >> example_ThemeSelectNoDeselectionPopupOnTop [
 	| select |
 	select := self themeSelectNoDeselectionPopupOnTop.
 	select openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_ThemeSelectPopover [
+
+	| select |
+	select := self example_ThemeSelectNoDeselection.
+	select manager popover: true.
+	^ select
 ]
 
 { #category : #select }
@@ -5461,7 +5489,7 @@ ToSandBox class >> example_TooltipPopupOnMouseDown [
 	but := ToButton new.
 	but tooltipManagerDo: [ :m |
 			m popupOnPressed: true.
-			m popupOnHovered: true.
+			m popover: true.
 			m closeOnLeaved: false.
 			m closeOnReleased: false.
 			m popupDelay: 800 milliSeconds ].
@@ -8501,7 +8529,7 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 						event consume.
 						editedLabel popupEditorEvent: event ];
 				whenEditorOpenedDo: [ :editorEvent |
-						window checkPickOutside: false.
+						window checkOutsideEvent: false.
 						editorEvent editorElement addStamp: #preformatted.
 						editorEvent editorElement whenCancelRequestedDo: [
 									:cancelRequest |
@@ -8512,7 +8540,7 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 						editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
 									editorEvent target text: acceptedEvent target text.
 									text := acceptedEvent target text ] ];
-				whenEditorClosedDo: [ :event | window checkPickOutside: true ].
+				whenEditorClosedDo: [ :event | window checkOutsideEvent: true ].
 
 			resetBtn := ToButton new
 				            labelText: 'Reset';

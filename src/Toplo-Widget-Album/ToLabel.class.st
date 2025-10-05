@@ -351,6 +351,7 @@ ToLabel >> popupEditorEvent: anEvent [
 	" prepare the window with the editor and open it"
 
 	self hasEditor ifTrue: [ ^ self ].
+	self isAttachedToSceneGraph ifFalse: [ ^ self ].
 	(editorWindowManager createNewWindowOnEvent: anEvent) ifNotNil: [ :win |
 		win popupEvent: anEvent ]
 ]

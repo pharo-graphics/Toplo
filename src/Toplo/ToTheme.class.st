@@ -75,20 +75,20 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'border-radius-LG' value: 8).
 		  (ToTokenProperty name: #'border-radius-SM' value: 4).
 
-		  (ToTokenProperty
+ 		(ToTokenProperty
 			   name: #'window-opening-animation'
 			   value: [ :win |
-					   win opacity: 0.1.
+					   win opacity: 0.0.
 					   win addAnimation:
 						   ((BlOpacityAnimation new opacity: 1.0) duration:
 							    400 milliSeconds) ]).
+
 		  (ToTokenProperty
 			   name: #'window-closing-animation'
 			   value: [ :win |
-					   win addAnimation: ((BlOpacityAnimation new opacity: 0.1)
-							    duration: 400 milliSeconds;
+					   win addAnimation: ((BlTransformAnimation scale: 1.0 @ 0.5)
+							    duration: 200 milliSeconds;
 							    onFinishedDo: [ win removeFromParent ]) ]).
-
 		  (ToTokenProperty
 			   name: #'effect-window'
 			   value: (BlGaussianShadowEffect

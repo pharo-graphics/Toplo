@@ -24,7 +24,7 @@ ToPopupMenuWindowManager >> beInline [
 ToPopupMenuWindowManager >> bottomUpCloseWindowRequestOnEvent: anEvent [ 
 	" requestto actually manage the window closing "
 
-	self closeWindowNowOnEvent: anEvent.
+	self closeWindowIfMinimumDelayExceededOnEvent: anEvent.
 	self hasInlineWindow ifTrue: [ ^ self ].
 	anchorElement menuPaneDo: [ :mb | mb cancelAutoOpen ].
 	anchorElement parentMenuDo: [ :rm |

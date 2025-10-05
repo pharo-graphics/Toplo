@@ -23,6 +23,7 @@ TToElementWithTooltipTest >> testCloseTooltipOnMouseLeave [
 	BlSpace pulseUntilEmptyTaskQueue: space timeout: 11 milliSeconds.
 	self assert: e currentTooltipWindow notNil.
 	BlSpace simulateMouseMoveOutside: e.
+	BlSpace pulseUntilEmptyTaskQueue: space timeout: 11 milliSeconds.
 	self assert: e currentTooltipWindow isNil.
 
 	^ e

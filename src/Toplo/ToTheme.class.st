@@ -75,7 +75,7 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'border-radius-LG' value: 8).
 		  (ToTokenProperty name: #'border-radius-SM' value: 4).
 
- 		(ToTokenProperty
+		  (ToTokenProperty
 			   name: #'window-opening-animation'
 			   value: [ :win |
 					   win opacity: 0.0.
@@ -86,9 +86,21 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty
 			   name: #'window-closing-animation'
 			   value: [ :win |
-					   win addAnimation: ((BlTransformAnimation scale: 1.0 @ 0.5)
-							    duration: 200 milliSeconds;
-							    onFinishedDo: [ win removeFromParent ]) ]).
+					   win whenLayoutedDoOnce: [
+							   | s |
+							   s := win height.
+							   win addAnimation: (BlNumberTransition new
+									    duration: 200 milliSeconds;
+									    from: s;
+									    to: s / 3;
+									    onStepDo: [ :number :anElement |
+											    anElement height: number.
+											    anElement opacity: anElement opacity - 0.1 ];
+									    onFinishedDo: [
+											    win spaceDo: [ :sp |
+														    win removeFromParent.
+														    sp mouseProcessor handleLastMouseMove ] ];
+									    yourself) ] ]).
 		  (ToTokenProperty
 			   name: #'effect-window'
 			   value: (BlGaussianShadowEffect

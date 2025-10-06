@@ -86,21 +86,20 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty
 			   name: #'window-closing-animation'
 			   value: [ :win |
-					   win whenLayoutedDoOnce: [
-							   | s |
-							   s := win height.
-							   win addAnimation: (BlNumberTransition new
-									    duration: 200 milliSeconds;
-									    from: s;
-									    to: s / 3;
-									    onStepDo: [ :number :anElement |
-											    anElement height: number.
-											    anElement opacity: anElement opacity - 0.1 ];
-									    onFinishedDo: [
-											    win spaceDo: [ :sp |
-														    win removeFromParent.
-														    sp mouseProcessor handleLastMouseMove ] ];
-									    yourself) ] ]).
+					   | s |
+					   s := win constraints vertical resizer size.
+					   win addAnimation: (BlNumberTransition new
+							    duration: 200 milliSeconds;
+							    from: s;
+							    to: s / 3;
+							    onStepDo: [ :number :anElement |
+									    anElement height: number.
+									    anElement opacity: anElement opacity - 0.1 ];
+							    onFinishedDo: [
+									    win spaceDo: [ :sp |
+												    win removeFromParent.
+												    sp mouseProcessor handleLastMouseMove ] ];
+							    yourself) ]).
 		  (ToTokenProperty
 			   name: #'effect-window'
 			   value: (BlGaussianShadowEffect

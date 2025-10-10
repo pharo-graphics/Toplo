@@ -87,7 +87,7 @@ ToTheme class >> defaultTokenProperties [
 			   name: #'window-closing-animation'
 			   value: [ :win |
 					   | s |
-					   win opacity: 0.6.
+					   win opacity: 0.8.
 					   s := win constraints vertical resizer size.
 					   win addAnimation: (BlNumberTransition new
 							    duration: 250 milliSeconds;

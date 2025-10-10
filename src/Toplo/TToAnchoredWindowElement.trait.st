@@ -176,6 +176,7 @@ TToAnchoredWindowElement >> screenshot [
 	screenshot elevation: self elevation.
 	screenshot position: self position.
 	screenshot extent: self extent.
+	screenshot constraintsDo: [ :c | c ignoreByLayout ].
 	^ screenshot
 ]
 

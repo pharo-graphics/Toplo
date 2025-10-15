@@ -17,6 +17,7 @@ Class {
 
 { #category : #'instance creation' }
 ToCompletionMenu class >> engine: aCompletionEngine position: aPoint [
+
 	^ self new engine: aCompletionEngine position: aPoint
 ]
 

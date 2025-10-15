@@ -224,15 +224,16 @@ TToElementWithContextMenuTest >> testHasContextMenu [
 ]
 
 { #category : #tests }
-TToElementWithContextMenuTest >> testHasOpenedContextMenu [
+TToElementWithContextMenuTest >> testNewContextMenu [
 
 	| e |
 	e := ToElement new.
+	self deny: e hasContextMenu.
 	e contextMenuItems: { ToMenuItem new }.
-	self assert: e hasOpenedContextMenu not.
+	self assert: e hasContextMenu.
 	self assert: e currentContextMenu isNil.
-	e newContextMenuEvent: nil.
-	self assert: e hasOpenedContextMenu.
+	e newContextMenu.
+	self assert: e hasContextMenu.
 	self assert: e currentContextMenu notNil.
 	self
 		assert: e currentContextMenu class

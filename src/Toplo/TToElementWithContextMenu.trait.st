@@ -81,10 +81,9 @@ TToElementWithContextMenu >> hasContextMenu [
 ]
 
 { #category : #'t - element with context menu' }
-TToElementWithContextMenu >> hasOpenedContextMenu [
-	" do not use #contextMenuWindowHandler to avoid ContextMenuWindowHandler installation here "
+TToElementWithContextMenu >> newContextMenu [
 
-	^ self currentContextMenu notNil
+	^ self newContextMenuEvent: nil
 ]
 
 { #category : #'t - element with context menu' }

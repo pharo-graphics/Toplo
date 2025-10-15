@@ -12,7 +12,7 @@ Class {
 		'arrowDown',
 		'detailElement'
 	],
-	#category : #'Toplo-Widget-Completion'
+	#category : #'Toplo-Widget-Completion-Core'
 }
 
 { #category : #'instance creation' }

@@ -7,7 +7,7 @@ Class {
 		'nameElement',
 		'sourceElement'
 	],
-	#category : #'Toplo-Widget-Completion'
+	#category : #'Toplo-Widget-Completion-Core'
 }
 
 { #category : #initialization }

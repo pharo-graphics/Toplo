@@ -30,7 +30,7 @@ Class {
 	#classVars : [
 		'ContextClass'
 	],
-	#category : #'Toplo-Widget-Completion'
+	#category : #'Toplo-Widget-Completion-Core'
 }
 
 { #category : #accessing }

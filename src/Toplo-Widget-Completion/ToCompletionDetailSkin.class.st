@@ -1,7 +1,7 @@
 Class {
 	#name : #ToCompletionDetailSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Widget-Completion'
+	#category : #'Toplo-Widget-Completion-Core'
 }
 
 { #category : #'event handling' }

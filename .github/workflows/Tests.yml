@@ -14,7 +14,7 @@ jobs:
       fail-fast: false
       matrix:
         smalltalk: [ Pharo64-12, Pharo64-13, Pharo64-14 ]
-        os: [ windows-latest ]
+        os: [ macos-latest ]
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.smalltalk }} on ${{ matrix.os }}
     steps:
@@ -28,6 +28,6 @@ jobs:
       - name: Load in New Image and Run Tests
         run: smalltalkci -s ${{ matrix.smalltalk }} .ci.ston
         shell: bash
-        timeout-minutes: 10
+        timeout-minutes: 20
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

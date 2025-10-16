@@ -12,9 +12,7 @@ ToGeneralButtonTest >> testGeneralButton [
 	button := ToGeneralButton new.
 
 	self assert: button isEnabled.
-	self assert: button isDisabled equals: false.
-
-	self assert: button currentTooltipWindow isNil
+	self deny: button isDisabled
 ]
 
 { #category : #tests }
@@ -24,6 +22,6 @@ ToGeneralButtonTest >> testGeneralButtonTooltip [
 	| button |
 	button := ToGeneralButton new.
 	button tooltipText: 'I am a tooltip content'.
-
-	self assert: button currentTooltipWindow isNil
+	self assert: button currentTooltipWindow isNil.
+	self assert: button rawTooltipManager notNil
 ]

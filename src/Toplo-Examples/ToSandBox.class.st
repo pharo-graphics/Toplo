@@ -252,7 +252,7 @@ ToSandBox class >> barWithData: aCollection [
 			triplet constraintsDo: [ :c | c linear vertical alignCenter ].
 			node addChild: triplet ].
 
-	bar contextMenu: [ :menu :request |
+	bar contextMenuBuilder: [ :menu :request |
 			| idxes target |
 			target := request currentTarget.
 			idxes := request selectedIndexes.
@@ -295,13 +295,15 @@ ToSandBox class >> barWithData: aCollection [
 											  yourself).
 									 m addItem: (ToMenuItem new
 											  labelText: 'Unable/disable';
-											  clickAction: [ 
-												  idxes do: [ :idx | (bar nodeAt: idx) disabled: (bar nodeAt: idx ) isEnabled ] ];
+											  clickAction: [
+													  idxes do: [ :idx |
+															  (bar nodeAt: idx) disabled:
+																	  (bar nodeAt: idx) isEnabled ] ];
 											  yourself).
 									 m addItem: (ToMenuItem new
 											  labelText: 'Unselectable';
 											  clickAction: [
-												  idxes do: [ :idx | 
+												  idxes do: [ :idx |
 														  bar unselectableSelecter selectIndex: idx ] ];
 											  yourself).
 									 m addItem: (ToMenuItem new
@@ -2140,7 +2142,8 @@ ToSandBox class >> example_CodeEditor [
 						                m addItem: item.
 						                m addItem: (ToMenuItem new
 								                 labelText: 'Cut';
-								                 clickAction: [ :evt | album editor cutSelected ];
+								                 clickAction: [ :evt |
+									                 album editor cutSelected ];
 								                 yourself).
 						                album hasSelection ifFalse: [
 							                m items last disable ].
@@ -2164,7 +2167,7 @@ ToSandBox class >> example_CodeEditor [
 								                 clickAction: [ album requestCancel ];
 								                 yourself).
 						                album edited ifFalse: [ m items last disable ] ]) ].
-	album contextMenu: menuBuilder.
+	album contextMenuBuilder: menuBuilder.
 
 	fileMenu := ToMenu new labelText: 'Edit'.
 	fileMenu builder: menuBuilder.
@@ -2179,7 +2182,7 @@ ToSandBox class >> example_CodeEditor [
 		                     yourself.
 	disabox := ToCheckMenuItem new
 		           label: (ToLabel text: 'Disable');
-		           checkAction: [ :evt  |
+		           checkAction: [ :evt |
 			           album disabled: evt target isChecked ];
 		           yourself.
 	album whenConfigurationAppliedDo: [
@@ -2194,7 +2197,7 @@ ToSandBox class >> example_CodeEditor [
 
 	pane addChild: menuPane.
 	pane addChild: album.
-	pane openInInnerWindow 
+	pane openInInnerWindow
 ]
 
 { #category : #list }

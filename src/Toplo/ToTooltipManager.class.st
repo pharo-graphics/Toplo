@@ -1,36 +1,36 @@
 Class {
-	#name : #ToTooltipPopupManager,
+	#name : #ToTooltipManager,
 	#superclass : #ToPopupWindowManager,
 	#category : #'Toplo-Core-Tooltip'
 }
 
 { #category : #'event handling' }
-ToTooltipPopupManager >> consumeEventAfterForcedClosing [
+ToTooltipManager >> consumeEventAfterForcedClosing [
 
 	^ false
 ]
 
 { #category : #initialization }
-ToTooltipPopupManager >> defaultPlacement [
+ToTooltipManager >> defaultPlacement [
 
 	^ ToTooltipPlacement new
 ]
 
 { #category : #initialization }
-ToTooltipPopupManager >> defaultPopupDelay [
+ToTooltipManager >> defaultPopupDelay [
 	" popup the window after this delay "
 
 	^ 700 milliSeconds
 ]
 
 { #category : #accessing }
-ToTooltipPopupManager >> defaultWindowClass [
+ToTooltipManager >> defaultWindowClass [
 
 	^ ToTooltipWindow 
 ]
 
 { #category : #initialization }
-ToTooltipPopupManager >> initialize [
+ToTooltipManager >> initialize [
 
 	super initialize.
 	minDelayBeforeClosing := 0 milliSeconds.
@@ -41,7 +41,7 @@ ToTooltipPopupManager >> initialize [
 ]
 
 { #category : #'event handling' }
-ToTooltipPopupManager >> mouseOutsideEvent: anEvent [
+ToTooltipManager >> mouseOutsideEvent: anEvent [
 
 	anEvent emitter = outsideEventFilter ifFalse: [ ^ self ].
 	checkOutsideEvent ifFalse: [ ^ self ].
@@ -51,7 +51,7 @@ ToTooltipPopupManager >> mouseOutsideEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToTooltipPopupManager >> mouseUpEvent: anEvent [
+ToTooltipManager >> mouseUpEvent: anEvent [
 
 	self resetPopupHandlerOnEvent: anEvent.
 	closeOnReleased ifFalse: [ ^ self ].

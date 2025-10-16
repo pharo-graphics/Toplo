@@ -80,6 +80,12 @@ ToAbstractListElement >> consumeFinalStepCommands [
 	
 ]
 
+{ #category : #initialization }
+ToAbstractListElement >> contextMenuManagerClass [
+
+	^ ToListElementContextMenuManager
+]
+
 { #category : #'accessing selecters' }
 ToAbstractListElement >> contextMenuSelecter [ 
 
@@ -150,12 +156,6 @@ ToAbstractListElement >> dataUpdater [
 			'`@receiver dataUpdater'
 				-> '`@receiver dataAccessor'.
 	^ self dataAccessor
-]
-
-{ #category : #initialization }
-ToAbstractListElement >> defaultContextMenuManagerClass [
-
-	^ ToListElementContextMenuManager
 ]
 
 { #category : #initialization }

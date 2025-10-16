@@ -92,8 +92,9 @@ ToPopupWindowTest >> testElementWithTooltipAndPopupWindowManager [
 		                 :anchWin
 		                 :element |  ].
 	e addEventHandler: windowManager.
-	e tooltipContent: (ToLabel text: 'Tooltip content').
-	tooltipWindowManager := e tooltipWindowManager.
+	e tooltipBuilder: [ :win :request |
+		win root addChild: (ToLabel text: 'Tooltip content') ].
+	tooltipWindowManager := e ensuredTooltipManager.
 	self assert: tooltipWindowManager notNil.
 
 	" mouse down immediately followed by a mouse up -> the popup should stay opened"
@@ -104,9 +105,9 @@ ToPopupWindowTest >> testElementWithTooltipAndPopupWindowManager [
 	BlSpace simulateMouseUpOn: e.
 	self waitTestingSpacesTimeout: 400 milliSeconds.
 	self assert: windowManager currentWindow isOpened.
-	
+
 	150 milliSecond wait.
-	
+
 	BlSpace simulateMouseDownOn: e.
 	self waitTestingSpaces.
 	self assert: windowManager currentWindow isOpened.

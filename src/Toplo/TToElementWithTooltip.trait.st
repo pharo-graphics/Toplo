@@ -6,75 +6,90 @@ Trait {
 { #category : #'t - element with tooltip' }
 TToElementWithTooltip >> currentTooltipWindow [
 
-	^ self rawTooltipWindowManager ifNotNil: [ :h | h currentWindow ]
+	^ self rawTooltipManager ifNotNil: [ :h | h currentWindow ]
+]
+
+{ #category : #'t - element with tooltip' }
+TToElementWithTooltip >> ensuredTooltipManager [
+
+	^ self userData
+		  at: #tooltipManager
+		  ifAbsentPut: [ self installedNewTooltipManager ]
 ]
 
 { #category : #'t - element with tooltip' }
 TToElementWithTooltip >> hasTooltip [
 	" do not use #tooltipWindowHandler to avoid TooltipWindowHandler installation here "
 
-	^ self rawTooltipWindowManager notNil
+	^ self rawTooltipManager notNil
 ]
 
 { #category : #'t - element with tooltip' }
-TToElementWithTooltip >> rawTooltipWindowManager [
+TToElementWithTooltip >> installedNewTooltipManager [
 
-	^ self userData at: #tooltipWindowManager ifAbsent: [ ]
+	| h |
+	self addEventHandler: (h := self tooltipManagerClass new).
+	^ h
+]
+
+{ #category : #'t - element with tooltip' }
+TToElementWithTooltip >> rawTooltipManager [
+
+	^ self userData at: #tooltipManager ifAbsent: [ ]
 ]
 
 { #category : #'t - element with tooltip' }
 TToElementWithTooltip >> removeTooltip [
 
-	self removeTooltipWindowManager
+	self removeTooltipManager
 ]
 
 { #category : #'t - element with tooltip' }
-TToElementWithTooltip >> removeTooltipWindowManager [
+TToElementWithTooltip >> removeTooltipManager [
 
 	| manager |
-	manager := self rawTooltipWindowManager.
+	manager := self rawTooltipManager.
 	manager ifNil: [ ^ self ].
 	manager currentWindowDo: [:cw | cw isOpened ifTrue: [ cw close ] ].
 	self removeEventHandler: manager.
-	self userData removeKey: #tooltipWindowManager
+	self userData removeKey: #tooltipManager
 ]
 
 { #category : #'t - element with tooltip' }
 TToElementWithTooltip >> tooltip: aValuable [
-	" aValuable take the window to build as first argument and the request event as second argument. if aValuable is nil, then the context menu builder is removed"
+	" aValuable take the window to build as first argument and the request event as second argument "
 
 	self tooltipBuilder: aValuable
-]
-
-{ #category : #'t - element with tooltip' }
-TToElementWithTooltip >> tooltipBuilder [
-
-	^ self tooltipWindowManager windowBuilder
 ]
 
 { #category : #'t - element with tooltip' }
 TToElementWithTooltip >> tooltipBuilder: aValuable [
 	" aValuable take the tooltip window to build as first argument and the request event as second argument "
 
-	aValuable ifNil: [
-		self removeTooltipWindowManager.
-		^ self ].
-	self tooltipWindowManager windowBuilder: aValuable
+	self ensuredTooltipManager windowBuilder: aValuable
 ]
 
 { #category : #'t - element with tooltip' }
 TToElementWithTooltip >> tooltipContent: anElement [
 
-	anElement ifNil: [
-		self removeTooltipWindowManager.
-		^ self ].
-	self tooltipBuilder: [ :win :requestEventt | win root addChild: anElement ]
+	self
+		deprecated: 'Use #tooltipBuilder:'
+		transformWith: '`@rcvr tooltipContent: `@arg'
+			->
+			'`@rcvr tooltipBuilder: [ :win :request | win root addChild: `@arg ]'.
+	self tooltipBuilder: [ :win :request | win root addChild: anElement ]
+]
+
+{ #category : #'t - element with tooltip' }
+TToElementWithTooltip >> tooltipManagerClass [
+
+	^ ToTooltipManager
 ]
 
 { #category : #'t - element with tooltip' }
 TToElementWithTooltip >> tooltipManagerDo: aValuable [
 
-	aValuable value: self tooltipWindowManager 
+	aValuable value: self ensuredTooltipManager
 ]
 
 { #category : #'t - element with tooltip' }
@@ -88,17 +103,19 @@ TToElementWithTooltip >> tooltipString: aString [
 { #category : #'t - element with tooltip' }
 TToElementWithTooltip >> tooltipText: aText [
 
-	self tooltipContent: ((ToLabel text: aText asRopedText)
-			 beMultiLine;
-			 yourself)
+	self tooltipBuilder: [ :win :request |
+			win root addChild: ((ToLabel text: aText asRopedText)
+					 beMultiLine;
+					 yourself) ]
 ]
 
 { #category : #'t - element with tooltip' }
 TToElementWithTooltip >> tooltipWindowManager [
 
-	^ self userData at: #tooltipWindowManager ifAbsentPut: [
-		  | handler |
-		  handler := ToTooltipPopupManager new.
-		  self addEventHandler: handler.
-		  handler ]
+	self
+		deprecated: 'Use #ensuredTooltipManager'
+		transformWith:
+		'`@rcvr tooltipWindowManager' -> '`@rcvr ensuredTooltipManager'.	
+
+	^ self ensuredTooltipManager
 ]

@@ -5,8 +5,12 @@ Trait {
 
 { #category : #'t - element with context menu' }
 TToElementWithContextMenu >> contextMenu: aValuable [
-	" aValuable take the context menu to build as first argument and the request event as second argument. if aValuable is nil, then the context menu builder is removed"
+	" aValuable take the context menu to build as first argument and the request event as second argument "
 
+	self
+		deprecated: 'Use #contextMenuBuilder:'
+		transformWith:
+		'`@rcvr contextMenu: `@arg' -> '`@rcvr contextMenuBuilder: `@arg'.
 	self contextMenuBuilder: aValuable
 ]
 
@@ -14,51 +18,37 @@ TToElementWithContextMenu >> contextMenu: aValuable [
 TToElementWithContextMenu >> contextMenuBuilder: aValuable [
 	" aValuable take the context menu to build as first argument and the request event  as second aargument "
 
-	aValuable ifNil: [
-		self contextMenuManager: nil.
-		^ self ].
-	self contextMenuManager windowBuilder: aValuable
+	self ensuredContextMenuManager windowBuilder: aValuable
 ]
 
 { #category : #'t - element with context menu' }
 TToElementWithContextMenu >> contextMenuItems: anArray [
+	" syntactic sugar "
 
-	anArray ifNil: [
-		self removeContextMenuManager.
-		^ self ].
-	self contextMenuBuilder: [ :win :theRequestEvent | win addAllItems: anArray ]
+	self
+		deprecated: 'Use #contextMenuBuilder:'
+		transformWith: '`@rcvr contextMenuItems: `@arg'
+			->
+			'`@rcvr contextMenuBuilder: [:menu :request | menu addAllItems: `@arg ]'.
+	self contextMenuBuilder: [ :win :theRequestEvent |
+		win addAllItems: anArray ]
 ]
 
 { #category : #'t - element with context menu' }
 TToElementWithContextMenu >> contextMenuManager [
 
-	^ self userData at: #contextMenuManager ifAbsentPut: [
-		  | handler |
-		  handler := self contextMenuManagerClass new.
-		  self addEventHandler: handler.
-		  handler ]
-]
+	self
+		deprecated: 'Use #ensuredCntextMenuManager'
+		transformWith:
+		'`@rcvr contextMenuManager' -> '`@rcvr ensuredContextMenuManager'.	
 
-{ #category : #'t - element with context menu' }
-TToElementWithContextMenu >> contextMenuManager: aWindowHandler [
-
-	self rawContextMenuManager = aWindowHandler ifTrue: [ ^ self ].
-	self removeContextMenuManager.
-	aWindowHandler ifNil: [ ^ self ].
-	self addEventHandler: aWindowHandler.
-	self userData at: #contextMenuManager put: aWindowHandler
+	^ self ensuredContextMenuManager
 ]
 
 { #category : #'t - element with context menu' }
 TToElementWithContextMenu >> contextMenuManagerClass [
 
-	^ self userData at: #contextMenuManagerClass ifAbsentPut: [ self defaultContextMenuManagerClass ]
-]
-
-{ #category : #'t - element with context menu' }
-TToElementWithContextMenu >> contextMenuManagerClass: aHandlerClass [
-
-	self userData at: #contextMenuManagerClass put: aHandlerClass
+	^ ToContextMenuManager
 ]
 
 { #category : #'t - element with context menu' }
@@ -68,26 +58,53 @@ TToElementWithContextMenu >> currentContextMenu [
 ]
 
 { #category : #'t - element with context menu' }
-TToElementWithContextMenu >> defaultContextMenuManagerClass [
+TToElementWithContextMenu >> ensuredContextMenuManager [
 
-	^ ToContextMenuManager
+	^ self userData
+		  at: #contextMenuManager
+		  ifAbsentPut: [ self installedNewContextMenuManager ]
 ]
 
 { #category : #'t - element with context menu' }
 TToElementWithContextMenu >> hasContextMenu [
 	" do not use #contextMenuWindowHandler to avoid ContextMenuWindowHandler installation here "
 
-	^ self rawContextMenuManager notNil
+	^ self currentContextMenu notNil
+]
+
+{ #category : #'t - element with context menu' }
+TToElementWithContextMenu >> installedNewContextMenuManager [
+
+	| h |
+	self addEventHandler: (h := self contextMenuManagerClass new).
+	^ h
 ]
 
 { #category : #'t - element with context menu' }
 TToElementWithContextMenu >> newContextMenu [
 
-	^ self newContextMenuEvent: nil
+	^ self newContextMenuOnEvent: nil
 ]
 
 { #category : #'t - element with context menu' }
 TToElementWithContextMenu >> newContextMenuEvent: anEvent [
+
+	self
+		deprecated: 'Use newContextMenuOnEvent:'
+		transformWith: '`@rcvr newContextMenuEvent: `@arg'
+			-> '`@rcvr newContextMenuOnEvent: `@arg'.
+
+	^ self newContextMenuOnEvent: anEvent
+]
+
+{ #category : #'t - element with context menu' }
+TToElementWithContextMenu >> newContextMenuManager [
+
+	^ self contextMenuManagerClass new
+]
+
+{ #category : #'t - element with context menu' }
+TToElementWithContextMenu >> newContextMenuOnEvent: anEvent [
 
 	^ self rawContextMenuManager createNewWindowOnEvent: anEvent
 ]
@@ -99,7 +116,7 @@ TToElementWithContextMenu >> rawContextMenuManager [
 ]
 
 { #category : #'t - element with context menu' }
-TToElementWithContextMenu >> removeContextMenuManager [
+TToElementWithContextMenu >> removeContextMenuBuilder [
 
 	| manager |
 	manager := self rawContextMenuManager.
@@ -107,4 +124,14 @@ TToElementWithContextMenu >> removeContextMenuManager [
 	manager hasWindow ifTrue: [ manager currentWindow close ].
 	self removeEventHandler: manager.
 	self userData removeKey: #contextMenuManager
+]
+
+{ #category : #'t - element with context menu' }
+TToElementWithContextMenu >> removeContextMenuManager [
+
+	self
+		deprecated: 'Use #removeContextMenuBuilder'
+		transformWith:
+		'`@rcvr removeContextMenuManager' -> '`@rcvr removeContextMenuBuilder'.	
+	self removeContextMenuBuilder 
 ]

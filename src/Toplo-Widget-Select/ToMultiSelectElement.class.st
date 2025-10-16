@@ -45,6 +45,12 @@ ToMultiSelectElement >> barElement [
 	^ self innerElement
 ]
 
+{ #category : #accessing }
+ToMultiSelectElement >> barTrackElement [ 
+
+	^ self barElement trackElement
+]
+
 { #category : #'accessing - selection' }
 ToMultiSelectElement >> checkHideSelectionFromListElement [
 

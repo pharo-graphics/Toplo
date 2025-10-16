@@ -9,9 +9,7 @@ Class {
 { #category : #'attaching  / detaching' }
 ToEdgePane >> attachToElement: anElement [
 
-	self constraintsDo: [ :c | c ignoreByLayout ].
-	anElement edgePaneOverlay pushPane: self.
-	
+	self constraintsDo: [ :c | c ignoreByLayout ]
 ]
 
 { #category : #initialization }
@@ -30,11 +28,7 @@ ToEdgePane >> defaultPlacement [
 ToEdgePane >> initialize [
 
 	super initialize.
-	self vMatchParent.
-	self addEventHandlerOn: BlMouseUpEvent do: [ :event | event consume ].
-	self addEventHandlerOn: ToMouseUpOutsideEvent do: [ :event |
-			event consume.
-			event emitter pop ]
+	self vMatchParent
 ]
 
 { #category : #initialization }

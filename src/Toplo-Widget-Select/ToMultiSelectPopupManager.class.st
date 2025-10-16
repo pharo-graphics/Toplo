@@ -10,6 +10,14 @@ ToMultiSelectPopupManager >> listElementClass [
 	^ ToMultiSelectListElement
 ]
 
+{ #category : #'event handling' }
+ToMultiSelectPopupManager >> mouseUpEvent: anEvent [
+
+	anEvent target = anchorElement barTrackElement ifFalse: [
+		^ self ].
+	super mouseUpEvent: anEvent
+]
+
 { #category : #initialization }
 ToMultiSelectPopupManager >> newListElement [
 
@@ -17,6 +25,14 @@ ToMultiSelectPopupManager >> newListElement [
 	newListElement := super newListElement.
 	newListElement primarySelectionMode multiple: true.
 	^ newListElement
+]
+
+{ #category : #'event handling' }
+ToMultiSelectPopupManager >> popupEvent: anEvent [
+
+	anEvent target = anchorElement barTrackElement ifFalse: [
+		^ self ].
+	super popupEvent: anEvent
 ]
 
 { #category : #'window handling' }

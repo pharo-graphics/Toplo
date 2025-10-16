@@ -247,16 +247,13 @@ ToSkinStateGenerator >> primaryClickEvent: anEvent [
 { #category : #'mouse handlers' }
 ToSkinStateGenerator >> primaryMouseDownEvent: anEvent [
 
+	| mouseUpOutsideFilter |
 	pressed := true.
-
-	target isMouseUpOutsideSensible ifTrue: [
-			| mouseUpOutsideFilter |
-			mouseUpOutsideFilter := ToOutsideEventFilter newOneShotInstance
-				                        eventsToHandle: { BlMouseUpEvent };
-				                        element: target;
-				                        yourself.
-			target space root addEventFilter: mouseUpOutsideFilter ].
-
+	mouseUpOutsideFilter := ToOutsideEventFilter newOneShotInstance
+		                        eventsToHandle: { BlMouseUpEvent };
+		                        element: target;
+		                        yourself.
+	target space root addEventFilter: mouseUpOutsideFilter.
 	self enqueueTransientState: (ToPressedSkinEvent sourceEvent: anEvent)
 ]
 

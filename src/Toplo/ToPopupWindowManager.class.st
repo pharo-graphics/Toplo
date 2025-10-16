@@ -160,7 +160,7 @@ ToPopupWindowManager >> initialize [
  	autoCloseDelay := self defaultAutoCloseDelay.
 	checkOutsideEvent := true.
 	popupDelay := self defaultPopupDelay.
-	closeOnReleased := false.
+	closeOnReleased := true.
 	closeOnLeaved := false.
 	popupOnPressed := true.
 	popover := false
@@ -207,6 +207,7 @@ ToPopupWindowManager >> mouseOutsideEvent: anEvent [
 { #category : #'event handling' }
 ToPopupWindowManager >> mouseUpEvent: anEvent [
 
+	closeOnReleased ifFalse: [ ^ self ].
 	self closeWindowIfMinimumDelayExceededOnEvent: anEvent
 ]
 

@@ -24,21 +24,12 @@ ToGeneralButton >> initialize [
 ]
 
 { #category : #testing }
-ToGeneralButton >> isMenuButton [ 
+ToGeneralButton >> isMenuButton [
 
-	^ self hasAnyInParentChainSatisfying: [ :p | p isMenuItem ]
-]
-
-{ #category : #testing }
-ToGeneralButton >> isMouseUpOutsideSensible [ 
-
-	^ true
-]
-
-{ #category : #testing }
-ToGeneralButton >> menuButton [ 
-
-	^ self firstInParentChainSatisfying: [ :p | p isMenuItem ]
+	^ self
+		  withAllParentsDetect: [ :p | p isMenuItem ]
+		  ifFound: [ :p | true ]
+		  ifNone: [ false ]
 ]
 
 { #category : #skin }

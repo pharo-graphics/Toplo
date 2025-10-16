@@ -56,6 +56,15 @@ BlElement >> allowSkinEventClass: aSkinEventClass [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> anyInParentsSatisfy: aValuable [
+	"Return true if the valuable answers true with one of my parent including myself "
+
+	(aValuable value: self) ifTrue: [ ^ true ].
+	self parentDo: [ :p | ^ p anyInParentsSatisfy: aValuable ].
+	^ false
+]
+
+{ #category : #'*Toplo' }
 BlElement >> applyConfiguration [
 
 	self toConfiguration ifNotNil: [ :tc | tc applyOn: self ]
@@ -164,16 +173,6 @@ BlElement >> dispatchOpenedEvent [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> edgePaneOverlay [
-
-	^ self userData at: #edgePaneOverlay ifAbsentPut: [
-			  | overlay |
-			  overlay := ToEdgePaneOverlay new.
-			  overlay attachToParent: self.
-			  overlay ]
-]
-
-{ #category : #'*Toplo' }
 BlElement >> enable [
 
 	self disabled: false
@@ -223,15 +222,6 @@ BlElement >> ensuredToStyleStore [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> firstInParentChainSatisfying: aValuable [
-	"Return the first parent for which the valuable answers true with one of my parent starting from myself "
-
-	(aValuable value: self) ifTrue: [ ^ self ].
-	self parentDo: [ :p | ^ p firstInParentChainSatisfying: aValuable ].
-	^ nil
-]
-
-{ #category : #'*Toplo' }
 BlElement >> flagAsDisabled [
 
 	self userData at: #enabled put: false
@@ -267,15 +257,6 @@ BlElement >> floatOverlay [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> hasAnyInParentChainSatisfying: aValuable [
-	"Return true if the valuable answers true with one of my parent including myself "
-
-	(aValuable value: self) ifTrue: [ ^ true ].
-	self parentDo: [ :p | ^ p hasAnyInParentChainSatisfying: aValuable ].
-	^ false
-]
-
-{ #category : #'*Toplo' }
 BlElement >> hasEnablementFlag [
 
 	^ self userData includesKey: #enabled
@@ -285,14 +266,6 @@ BlElement >> hasEnablementFlag [
 BlElement >> hasHolder [
 
 	^ self constraints hasHolder
-]
-
-{ #category : #'*Toplo' }
-BlElement >> hasParentSatisfying: aValuable [
-	"Return true if the valuable answers true with my parent "
-
-	self parentDo: [ :p | (aValuable value: p) ifTrue: [ ^ true ] ].
-	^ false
 ]
 
 { #category : #'*Toplo' }
@@ -352,7 +325,8 @@ BlElement >> isActionRunnableAfter: aTimeStamp [
 { #category : #'*Toplo' }
 BlElement >> isConfigurationRequested [
 
-	^ self isAttachedToSceneGraph and: [ self nextConfigurationPass = self space runningConfigurationPass ]
+	^ self isAttachedToSceneGraph and: [
+		  self nextConfigurationPass = self space runningConfigurationPass ]
 ]
 
 { #category : #'*Toplo' }
@@ -415,12 +389,6 @@ BlElement >> isMenuItem [
 
 { #category : #'*Toplo' }
 BlElement >> isMenuPane [
-
-	^ false
-]
-
-{ #category : #'*Toplo' }
-BlElement >> isMouseUpOutsideSensible [
 
 	^ false
 ]
@@ -578,32 +546,6 @@ BlElement >> openedEventClass [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> parentChain [
-	"Return an array containing all my parents (including myself) ordered from myself to the space root   "
-
-	| p |
-	p := self.
-	^ Array streamContents: [ :stream |
-		  [ p isNil ] whileFalse: [
-			  stream nextPut: p.
-			  p := p parent ] ]
-]
-
-{ #category : #'*Toplo' }
-BlElement >> parentChainDo: aBlock [
-	"evaluate a block with each of my parents (including myself) ordered from myself to the space root   "
-
-	self parentChain do: aBlock
-]
-
-{ #category : #'*Toplo' }
-BlElement >> parentChainReverseDo: aBlock [
-	"evaluate a block with each of my parents (including myself) ordered from my space root to myself  "
-
-	self parentChain reverseDo: aBlock
-]
-
-{ #category : #'*Toplo' }
 BlElement >> preventSelectionSkinEvents [
 
 	self preventSkinEventClass: ToSelectedSkinEvent.
@@ -682,12 +624,6 @@ BlElement >> requestNewSkin [
 BlElement >> requestSkinApplication [
 
 	self spaceDo: [ :sp | sp requestNextPulse ]
-]
-
-{ #category : #'*Toplo' }
-BlElement >> resetEdgePaneOverlay [
-
-	^ self userData removeKey: #edgePaneOverlay ifAbsent: [ ]
 ]
 
 { #category : #'*Toplo' }

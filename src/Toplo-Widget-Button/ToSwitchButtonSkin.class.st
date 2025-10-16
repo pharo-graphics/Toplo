@@ -54,7 +54,7 @@ ToSwitchButtonSkin >> installSkinEvent: anEvent [
 			ifTrue: [
 			e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
 			ifFalse: [ e endInterspace: 0 ].
-		(e hasAnyInParentChainSatisfying: [ :p | p isMenuItem ]) ifFalse: [
+		(e anyInParentsSatisfy: [ :p | p isMenuItem ]) ifFalse: [
 			e padding: (BlInsets
 					 top: (e valueOfTokenNamed: #'padding-content-VXS')
 					 left: (e valueOfTokenNamed: #'padding-XS')

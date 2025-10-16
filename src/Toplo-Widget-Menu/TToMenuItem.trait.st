@@ -53,7 +53,7 @@ TToMenuItem >> menuBarOwner [
 { #category : #'t - menu item' }
 TToMenuItem >> menuPane [
 
-	self parentChainReverseDo: [ :e |
+	self withAllParentsReverseDo: [ :e |
 		(e isKindOf: ToMenuPane) ifTrue: [ ^ e ] ].
 	^ nil
 ]
@@ -95,9 +95,9 @@ TToMenuItem >> rootMenuOrMenuPaneDo: aBlock [
 { #category : #'t - menu item' }
 TToMenuItem >> rootMenuWindowOrMenuPane [
 
-	self parentChainReverseDo: [ :e |
-		((e isKindOf: ToMenuWindow) or: [ e isKindOf: ToMenuPane ]) ifTrue: [
-			^ e ] ].
+	self withAllParentsReverseDo: [ :e |
+			((e isKindOf: ToMenuWindow) or: [ e isKindOf: ToMenuPane ])
+				ifTrue: [ ^ e ] ].
 	^ nil
 ]
 

@@ -18,6 +18,12 @@ ToOutsideEventFilter class >> newOneShotInstance [
 		  yourself
 ]
 
+{ #category : #'api - event managing' }
+ToOutsideEventFilter >> discardOnEvent: anEvent [
+
+	anEvent currentTarget removeEventFilter: self
+]
+
 { #category : #'mouse handlers' }
 ToOutsideEventFilter >> dispatchOutsideEventOn: anEvent [
 
@@ -62,12 +68,13 @@ ToOutsideEventFilter >> handleEvent: anEvent [
 	" 
 	do nothing if the original event target is inside my target 
 	"
-	| target |
-	target := anEvent currentTarget.
+
+	(element isNil or: [ element isAttachedToSceneGraph not ]) ifTrue: [
+		^ self discardOnEvent: anEvent ].
 	(self isOutsideEvent: anEvent) ifTrue: [ " ok, the event is outside. Consuming should be done outside "
 		self dispatchOutsideEventOn: anEvent ].
 	oneShot ifFalse: [ ^ self ].
-	target removeEventFilter: self
+	self discardOnEvent: anEvent
 ]
 
 { #category : #initialization }

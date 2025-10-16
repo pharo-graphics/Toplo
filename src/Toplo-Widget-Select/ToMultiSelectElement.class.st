@@ -139,7 +139,7 @@ ToMultiSelectElement >> maxSelectedCount: aNumber [
 { #category : #'instance creation' }
 ToMultiSelectElement >> newIconContainer [
 
-	^ ToMultiSelectIconContainer new forFiltering: self isFiltrable 
+	^ ToMultiSelectIconContainer new
 ]
 
 { #category : #'instance creation' }

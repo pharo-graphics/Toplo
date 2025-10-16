@@ -4,6 +4,18 @@ Class {
 	#category : #'Toplo-Widget-Select-manager'
 }
 
+{ #category : #'event handling' }
+ToMultiSelectPopupManager >> isOpeningOrClosingEvent: anEvent [
+
+	| target |
+	target := anEvent target.
+	(target = anchorElement barElement innerElement or: [
+			 target = anchorElement barTrackElement or: [
+					 target withAllParents anySatisfy: [ :p |
+						 p = anchorElement iconContainer ] ] ]) ifFalse: [ ^ false ].
+	^ true
+]
+
 { #category : #initialization }
 ToMultiSelectPopupManager >> listElementClass [
 
@@ -13,8 +25,7 @@ ToMultiSelectPopupManager >> listElementClass [
 { #category : #'event handling' }
 ToMultiSelectPopupManager >> mouseUpEvent: anEvent [
 
-	anEvent target = anchorElement barTrackElement ifFalse: [
-		^ self ].
+	(self isOpeningOrClosingEvent: anEvent) ifFalse: [ ^ self ].
 	super mouseUpEvent: anEvent
 ]
 
@@ -30,8 +41,7 @@ ToMultiSelectPopupManager >> newListElement [
 { #category : #'event handling' }
 ToMultiSelectPopupManager >> popupEvent: anEvent [
 
-	anEvent target = anchorElement barTrackElement ifFalse: [
-		^ self ].
+	(self isOpeningOrClosingEvent: anEvent) ifFalse: [ ^ self ].
 	super popupEvent: anEvent
 ]
 

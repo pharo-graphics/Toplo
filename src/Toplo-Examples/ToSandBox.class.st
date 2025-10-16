@@ -7173,31 +7173,31 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 	win := ToInnerWindow new title: 'Context menu Example'.
 	win width: 600.
 
-	win pane contextMenu: [ :menu :request |
-		menu addItem: (ToMenuItem new
-				 id: #openFile;
-				 labelText: 'Open file';
-				 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
-		menu addItem: (ToMenuItem new labelText: 'Export').
-		menu addSeparator.
+	win pane contextMenuBuilder: [ :menu :request |
+			menu addItem: (ToMenuItem new
+					 id: #openFile;
+					 labelText: 'Open file';
+					 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
+			menu addItem: (ToMenuItem new labelText: 'Export').
+			menu addSeparator.
 
-		1 timesRepeat: [
-			sub := ToMenu new labelText: 'Save All'.
-			sub addItem: (ToMenuItem new labelText: 'Locally').
+			1 timesRepeat: [
+					sub := ToMenu new labelText: 'Save All'.
+					sub addItem: (ToMenuItem new labelText: 'Locally').
 
-			subsub := ToMenu new
-				          labelText: 'Externally';
-				          icon:
-					          (ToImage inner:
-							           (Smalltalk ui icons iconNamed: #solidMenu)).
+					subsub := ToMenu new
+						          labelText: 'Externally';
+						          icon:
+							          (ToImage inner:
+									           (Smalltalk ui icons iconNamed: #solidMenu)).
 
-			subsub addItem: (ToMenuItem new
-					 id: #here;
-					 labelText: 'Here').
+					subsub addItem: (ToMenuItem new
+							 id: #here;
+							 labelText: 'Here').
 
-			sub addItem: subsub.
+					sub addItem: subsub.
 
-			menu addItem: sub ] ].
+					menu addItem: sub ] ].
 
 	bar := ToMenuPane new
 		       hMatchParent;
@@ -9155,8 +9155,8 @@ ToSandBox class >> listWithEditableAndContextMenu [
 	option grouped: false.
 	option beneath: false.
 	option elementFactory: [
-		ToListSelectionElement new defaultSkin:
-			ToListDisabledSelectionElementExampleSkin new ].
+			ToListSelectionElement new defaultSkin:
+				ToListDisabledSelectionElementExampleSkin new ].
 	disabledMode changeSelectionOptionWith: option.
 
 	unselectableMode := l unselectableSelectionMode.
@@ -9164,46 +9164,46 @@ ToSandBox class >> listWithEditableAndContextMenu [
 	option grouped: false.
 	option beneath: false.
 	option elementFactory: [
-		ToListSelectionElement new defaultSkin:
-			ToListUnselectableSelectionElementExampleSkin new ].
+			ToListSelectionElement new defaultSkin:
+				ToListUnselectableSelectionElementExampleSkin new ].
 	unselectableMode changeSelectionOptionWith: option.
 
 	l placeholderBuilder: [ :placeholder :e |
-		placeholder empty labelText:
-			'Invoke the context menu ' , String cr , 'to initialize the list' ].
+			placeholder empty labelText:
+				'Invoke the context menu ' , String cr , 'to initialize the list' ].
 
 	l nodeBuilder: [ :node :dataItem :holder |
-		| lab |
-		lab := ToLabel text: dataItem.
-		lab beMultiLine.
-		lab beEditable.
-		holder isSelectable ifTrue: [
-			lab addEventHandler: (BlEventHandler
-					 on: ToStillPressedEvent
-					 do: [ :event |
-						 event consume.
-						 lab popupEditorEvent: event ]).
-			lab whenEditorOpenedDo: [ :editorEvent |
-				l disableScrolledEvent.
-				editorEvent editorElement whenSaveRequestedDo: [ :request |
-					request accepted: true ].
-				editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
-					editorEvent target text: acceptedEvent target text.
-					l dataAccessor at: holder position put: lab text asString ] ] ].
-		lab whenEditorClosedDo: [ l enableScrolledEvent ].
+			| lab |
+			lab := ToLabel text: dataItem.
+			lab beMultiLine.
+			lab beEditable.
+			holder isSelectable ifTrue: [
+					lab addEventHandler: (BlEventHandler
+							 on: ToStillPressedEvent
+							 do: [ :event |
+									 event consume.
+									 lab popupEditorEvent: event ]).
+					lab whenEditorOpenedDo: [ :editorEvent |
+							l disableScrolledEvent.
+							editorEvent editorElement whenSaveRequestedDo: [ :request |
+								request accepted: true ].
+							editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
+									editorEvent target text: acceptedEvent target text.
+									l dataAccessor at: holder position put: lab text asString ] ] ].
+			lab whenEditorClosedDo: [ l enableScrolledEvent ].
 
-		node addChild: (ToLabeledIcon new
-				 label: lab;
-				 hMatchParent) ].
+			node addChild: (ToLabeledIcon new
+					 label: lab;
+					 hMatchParent) ].
 
 	l addEventHandler: (BlEventHandler
 			 on: ToListStrongSelectionEvent
 			 do: [ :event |
-				 self inform:
-					 'Double click on: ' , (event indexes asString contractTo: 150) ]).
+					 self inform:
+						 'Double click on: ' , (event indexes asString contractTo: 150) ]).
 
 	menuFactory := self listMenuFenuFactory.
-	l contextMenu: menuFactory.
+	l contextMenuBuilder: menuFactory.
 	l withRowNumbers.
 	^ l
 ]

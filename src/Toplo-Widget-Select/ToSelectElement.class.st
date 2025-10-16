@@ -223,7 +223,7 @@ ToSelectElement >> manager [
 { #category : #'instance creation' }
 ToSelectElement >> newIconContainer [
 
-	^ ToSelectIconContainer new forFiltering: self isFiltrable 
+	^ ToSelectIconContainer new
 ]
 
 { #category : #'instance creation' }

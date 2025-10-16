@@ -1,17 +1,8 @@
 Class {
 	#name : #ToSelectIconContainer,
 	#superclass : #ToTripletElement,
-	#instVars : [
-		'forFiltering'
-	],
 	#category : #'Toplo-Widget-Select-Core'
 }
-
-{ #category : #accessing }
-ToSelectIconContainer >> forFiltering: aBoolean [
-
-	forFiltering := aBoolean
-]
 
 { #category : #accessing }
 ToSelectIconContainer >> icon [
@@ -31,12 +22,6 @@ ToSelectIconContainer >> initialize [
 
 	super initialize.
 	self id: #iconContainer
-]
-
-{ #category : #testing }
-ToSelectIconContainer >> isSelectFiltrable [ 
-
-	^ forFiltering
 ]
 
 { #category : #skin }

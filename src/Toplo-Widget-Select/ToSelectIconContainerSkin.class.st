@@ -41,6 +41,7 @@ ToSelectIconContainerSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
+			e padding: (BlInsets horizontal: 5).
 			e middleContainer padding: (BlInsets horizontal: 5).
 			e icon ifNil: [
 					| image |

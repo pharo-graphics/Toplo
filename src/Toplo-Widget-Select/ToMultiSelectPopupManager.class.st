@@ -9,11 +9,10 @@ ToMultiSelectPopupManager >> isOpeningOrClosingEvent: anEvent [
 
 	| target |
 	target := anEvent target.
-	(target = anchorElement barElement innerElement or: [
-			 target = anchorElement barTrackElement or: [
-					 target withAllParents anySatisfy: [ :p |
-						 p = anchorElement iconContainer ] ] ]) ifFalse: [ ^ false ].
-	^ true
+	^ target = anchorElement barInnerElement or: [
+			  target = anchorElement barTrackElement or: [
+				  target anyInParentsSatisfy: [ :p |
+					  p = anchorElement iconContainer ] ] ]
 ]
 
 { #category : #initialization }

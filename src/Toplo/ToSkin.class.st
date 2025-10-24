@@ -4,6 +4,14 @@ Class {
 	#category : #'Toplo-Core-Skin'
 }
 
+{ #category : #'state  application dispatch' }
+ToSkin >> applyEnqueuedStatesFor: anElement [
+	" run the skin actually by flushing the state queue"
+
+	anElement skinManagerDo: [ :sm |
+		sm skinStateQueue applyEnqueuedStatesFor: anElement ]
+]
+
 { #category : #'api - accessing' }
 ToSkin >> eventsToHandle [
 

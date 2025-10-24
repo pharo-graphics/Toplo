@@ -15,7 +15,9 @@ Class {
 ToSkinManager >> applyEnqueuedStatesFor: anElement [
 	" run the skin actually by flushing the state queue"
 
-	self skinStateQueue applyEnqueuedStatesFor: anElement
+	" dispatch to the skin "
+
+	installedSkin applyEnqueuedStatesFor: anElement
 ]
 
 { #category : #'skin state generation' }

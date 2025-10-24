@@ -3224,6 +3224,65 @@ ToSandBox class >> example_Menu2 [
 ]
 
 { #category : #menu }
+ToSandBox class >> example_Menu3 [
+
+	| container |
+	container := ToElement new matchParent.
+	container contextMenuBuilder: [ :menu :elem |
+			| item sub |
+			item := ToMenuItem new labelText: 'MenuItem1'.
+			item icon:
+				(ToMaterialDesignIconProvider iconNamed: #outlined_cropfree).
+			menu addItem: item.
+			item := ToMenuItem new labelText: 'MenuItem2'.
+			item icon:
+				(ToMaterialDesignIconProvider iconNamed: #outlined_callsplit).
+			menu addItem: item.
+			item := ToMenuItem new labelText: 'MenuItem3'.
+			item icon:
+				(ToMaterialDesignIconProvider iconNamed: #outlined_delete).
+			menu addItem: item.
+			item := ToMenuItem new labelText: 'MenuItem4'.
+			item icon: (ToMaterialDesignIconProvider iconNamed: #outlined_sms).
+			menu addItem: item.
+			item := ToMenuItem new labelText: 'MenuItem5'.
+			menu addItem: item.
+
+			item := ToMenu new labelText: 'Menu1'.
+			sub := ToMenuItem new labelText: 'SubMenu1'.
+			item addItem: sub.
+			sub := ToMenuItem new labelText: 'SubMenu2'.
+			item addItem: sub.
+			menu addItem: item.
+
+			item := ToMenu new labelText: 'Menu2'.
+			sub := ToMenuItem new labelText: 'SubMenu1'.
+			item addItem: sub.
+			sub := ToMenuItem new labelText: 'SubMenu2'.
+			item addItem: sub.
+			sub := ToMenuItem new labelText: 'SubMenu3'.
+			item addItem: sub.
+			menu addItem: item.
+
+			item := ToMenu new labelText: 'Menu3'.
+			sub := ToMenuItem new labelText: 'SubMenu1'.
+			item addItem: sub.
+			sub := ToMenuItem new labelText: 'SubMenu2'.
+			item addItem: sub.
+			sub := ToMenuItem new labelText: 'SubMenu3'.
+			item addItem: sub.
+			sub := ToMenuItem new labelText: 'SubMenu4'.
+			item addItem: sub.
+			sub := ToMenuItem new labelText: 'SubMenu5'.
+			item addItem: sub.
+			menu addItem: item ].
+
+	container openInSpace.
+	container inspect
+	
+]
+
+{ #category : #menu }
 ToSandBox class >> example_MenuPaneScrollableWithCustomItems [
 
 	| menuPane grp right center left textField sub lbl item |

@@ -121,6 +121,12 @@ ToSkinStateQueue >> nextStates [
 	^ nextStates
 ]
 
+{ #category : #accessing }
+ToSkinStateQueue >> resetStates [
+
+	nextStates reset
+]
+
 { #category : #'instinsic state accessing' }
 ToSkinStateQueue >> selected: isSelected selectionOption: aSelectionOption focused: isFocused for: anElement [
 

@@ -42,5 +42,6 @@ ToTableNode >> resetConfiguration [
 			cols do: [ :column |
 					self addChild: (ToElement new
 							 id: column key;
+							 matchParent;
 							 yourself) ] ]
 ]

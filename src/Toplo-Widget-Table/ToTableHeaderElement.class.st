@@ -9,7 +9,7 @@ Class {
 
 { #category : #accessing }
 ToTableHeaderElement >> columns: aListOfColumns [
-
+	self removeChildren.
 	aListOfColumns do: [ :column |
 			self addChild: ((ToLabel text: column title)
 					 matchParent;

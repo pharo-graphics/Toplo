@@ -33,7 +33,10 @@ ToTableNodeManager >> columns: anObject [
 { #category : #'t - generic node manager' }
 ToTableNodeManager >> defaultNodeFactory [
 
-	^ [ :holder | ToTableNode withColumns: self columns ]
+	^ [ :holder |
+		  (ToTableNode withColumns: self columns)
+			  id: #row;
+			  yourself ]
 ]
 
 { #category : #initialization }

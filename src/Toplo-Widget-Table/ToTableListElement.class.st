@@ -35,10 +35,10 @@ ToTableListElement >> initialize [
 
 	super initialize.
 	self class initializeSlots: self.
-	self
-		property: #columns
-		whenChangedDo: [ self nodeManager columns: self columns ].
-		
+	self property: #columns whenChangedDo: [
+			self nodeManager columns: self columns.
+			self notifyDataSourceChanged ].
+
 	self constraints vertical fitContent.
-	self constraints horizontal matchParent.
+	self constraints horizontal matchParent
 ]

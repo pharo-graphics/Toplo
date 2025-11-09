@@ -28,7 +28,7 @@ ToTableElementTest >> setUp [
 				 dataIndex: 'numberOfMethods';
 				 yourself) }.
 	table dataAccessor addAll:
-		(Smalltalk globals allClasses copyFrom: 1 to: 12).
+		(Smalltalk globals allClasses copyFrom: 1 to: 3).
 	self waitTestingSpaces
 ]
 
@@ -57,6 +57,16 @@ ToTableElementTest >> testAddColumn [
 	rows := table selectChildrenWithId: #row.
 	self assert: rows isNotEmpty.
 	rows do: [ :row | self assert: row children size equals: 3 ]
+]
+
+{ #category : #running }
+ToTableElementTest >> testAddElementInData [
+
+	self assert: (table selectChildrenWithId: #row) size equals: 3.
+	table dataAccessor addAll:
+		(Smalltalk globals allClasses copyFrom: 4 to: 6).
+	self waitTestingSpaces.
+	self assert: (table selectChildrenWithId: #row) size equals: 6
 ]
 
 { #category : #running }

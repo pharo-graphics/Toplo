@@ -11,7 +11,7 @@ Class {
 ToTableHeaderElement >> columns: aListOfColumns [
 	self removeChildren.
 	aListOfColumns do: [ :column |
-			self addChild: ((ToLabel text: column title)
+			self addChild: ((ToTableHeaderLabelElement text: column title)
 					 matchParent;
 					 yourself) ]
 ]

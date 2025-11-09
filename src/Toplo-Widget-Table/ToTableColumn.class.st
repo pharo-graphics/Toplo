@@ -12,7 +12,7 @@ Class {
 		'key',
 		'renderBlock'
 	],
-	#category : #'Toplo-Widget-Table'
+	#category : #'Toplo-Widget-Table-Core'
 }
 
 { #category : #accessing }

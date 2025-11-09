@@ -5,5 +5,5 @@ We manipulate me through `ToTableElement`
 Class {
 	#name : #ToTableDataSource,
 	#superclass : #ToInfiniteCollectionDataSource,
-	#category : #'Toplo-Widget-Table'
+	#category : #'Toplo-Widget-Table-Core'
 }

@@ -9,7 +9,7 @@ Class {
 	#instVars : [
 		'tableElement'
 	],
-	#category : #'Toplo-Widget-Table'
+	#category : #'Toplo-Widget-Table-Core'
 }
 
 { #category : #accessing }

@@ -30,3 +30,9 @@ ToTableHeaderElement >> initialize [
 	self constraints vertical fitContent.
 	self constraints horizontal matchParent.
 ]
+
+{ #category : #initialization }
+ToTableHeaderElement >> newRawSkin [ 
+
+	^ ToTableHeaderSkin new
+]

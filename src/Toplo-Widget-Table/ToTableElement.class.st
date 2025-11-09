@@ -52,6 +52,18 @@ ToTableElement >> header: anObject [
 ]
 
 { #category : #initialization }
+ToTableElement >> initScrollBar [
+	| vscrollBar |
+	vscrollBar := BlVerticalScrollbarElement new.
+	vscrollBar constraintsDo: [ :c |
+		c ignoreByLayout.
+		c margin: (BlInsets left: 10).
+		c ignored horizontal alignRight.
+		c ignored vertical alignBottom ].
+	vscrollBar attachTo: self list.
+]
+
+{ #category : #initialization }
 ToTableElement >> initialize [
 
 	super initialize.
@@ -65,7 +77,8 @@ ToTableElement >> initialize [
 		          yourself.
 	self addChildren: {
 			header.
-			list }.
+			list asScrollableElement }.
+	self initScrollBar.
 	self property: #columns whenChangedDo: [
 			list columns: self columns.
 			header columns: self columns ]

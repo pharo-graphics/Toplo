@@ -76,6 +76,7 @@ ToTableColumn >> retrieveDataFromDataIndex: aDataItem [
 	| result |
 	dataIndex isString ifTrue: [
 		^ aDataItem perform: self dataIndex asSymbol ].
+	self dataIndex isFullBlock ifTrue: [ ^ self dataIndex value: aDataItem ].
 	result := aDataItem perform: self dataIndex first asSymbol.
 	dataIndex allButFirstDo: [ :symbol |
 		result := result perform: symbol asSymbol ].

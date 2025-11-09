@@ -3,14 +3,16 @@ I am the main entry point to reprensent a Table based on the [ant design](https:
 "
 Class {
 	#name : #ToTableElement,
-	#superclass : #ToAbstractListElement,
+	#superclass : #ToElement,
 	#traits : 'TObservable',
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
 		'#columns => ObservableSlot',
-		'#showHeader'
+		'#showHeader',
+		'#header',
+		'#list'
 	],
-	#category : #'Toplo-Widget-Table'
+	#category : #'Toplo-Widget-Table-Core'
 }
 
 { #category : #accessing }
@@ -25,9 +27,28 @@ ToTableElement >> columns: anObject [
 	columns := anObject
 ]
 
+{ #category : #accessing }
+ToTableElement >> dataAccessor [
+	^ self list dataAccessor
+]
+
 { #category : #initialization }
-ToTableElement >> defaultNodeManagerClass [
-	^ ToTableNodeManager
+ToTableElement >> defaultLayout [ 
+
+	" don't use vertical or horizontal to allow vertical centering of children "
+	^ BlLinearLayout vertical
+]
+
+{ #category : #accessing }
+ToTableElement >> header [
+
+	^ header
+]
+
+{ #category : #accessing }
+ToTableElement >> header: anObject [
+
+	header := anObject
 ]
 
 { #category : #initialization }
@@ -35,8 +56,29 @@ ToTableElement >> initialize [
 
 	super initialize.
 	self class initializeSlots: self.
-	showHeader := true.
-	self
-		property: #columns
-		whenChangedDo: [ self nodeManager columns: self columns ]
+	self matchParent.
+	list := ToTableListElement new
+		        id: #list;
+		        yourself.
+	header := ToTableHeaderElement new
+		          id: #header;
+		          yourself.
+	self addChildren: {
+			header.
+			list }.
+	self property: #columns whenChangedDo: [
+			list columns: self columns.
+			header columns: self columns ]
+]
+
+{ #category : #accessing }
+ToTableElement >> list [
+
+	^ list
+]
+
+{ #category : #accessing }
+ToTableElement >> list: anObject [
+
+	list := anObject
 ]

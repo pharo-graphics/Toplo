@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'columns'
 	],
-	#category : #'Toplo-Widget-Table'
+	#category : #'Toplo-Widget-Table-List'
 }
 
 { #category : #'instance creation' }

@@ -7,6 +7,25 @@ Class {
 	#category : #'Toplo-Widget-Table-Header'
 }
 
+{ #category : #initialization }
+ToTableHeaderElement class >> initializeToRawTheme: aTheme [
+	" Now setup the default label weight and the header padding "
+
+	<toploThemeInstallerFor: #ToRawTheme>
+	aTheme select: (self asTypeSelector exact: false) style: [
+			aTheme when: ToInstallSkinEvent do: [ :header |
+					header
+						addTokenNamed: #'font-weight-attribute'
+						withValue: BlFontWeightAttribute bold ].
+			aTheme
+				when: ToInstallSkinEvent
+				write: (aTheme property: #padding)
+				with: [ :header |
+						BlInsets
+							horizontal: (header valueOfTokenNamed: #'list-padding-H')
+							vertical: (header valueOfTokenNamed: #'list-padding-V') ] ]
+]
+
 { #category : #'as yet unclassified' }
 ToTableHeaderElement >> buildHeaderLabelFor: column [
 
@@ -34,10 +53,4 @@ ToTableHeaderElement >> initialize [
 	super initialize.
 	self constraints vertical fitContent.
 	self constraints horizontal matchParent
-]
-
-{ #category : #initialization }
-ToTableHeaderElement >> newRawSkin [ 
-
-	^ ToTableHeaderSkin new
 ]

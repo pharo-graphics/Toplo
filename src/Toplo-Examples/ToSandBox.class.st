@@ -8847,6 +8847,27 @@ ToSandBox class >> example_toLabel_editableMultiline [
 	lab openInSpace
 ]
 
+{ #category : #'t - orientable' }
+ToSandBox class >> example_toTable1 [
+
+	| table |
+	table := ToTableElement new.
+	table columns: {
+			(ToTableColumn new
+				 title: 'Name';
+				 key: 'name';
+				 dataIndex: 'name';
+				 yourself).
+			(ToTableColumn new
+				 title: 'Number of methods';
+				 key: 'methods';
+				 dataIndex: 'numberOfMethods';
+				 yourself) }.
+	table dataAccessor addAll:
+		(Smalltalk globals allClasses copyFrom: 1 to: 100).
+	table openInSpace
+]
+
 { #category : #'button-dep' }
 ToSandBox class >> example_toWidgetAsButton0 [
 

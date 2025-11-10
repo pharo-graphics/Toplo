@@ -36,7 +36,7 @@ ToTableColumnHeaderElement >> initialize [
 	self
 		hMatchParent;
 		vFitContent.
-	label := ToTableHeaderLabelElement new
+	label := ToLabel new
 		         id: #label;
 		         yourself.
 	self middleElement: label

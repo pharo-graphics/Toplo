@@ -88,7 +88,7 @@ ToTableElement >> initialize [
 	self buildHeader.
 	self addChildren: {
 			header.
-			list asScrollableElement }.
+			list }.
 	self initScrollBar.
 	self property: #columns whenChangedDo: [
 			list columns: self columns.
@@ -109,32 +109,26 @@ ToTableElement >> list: anObject [
 
 { #category : #sorting }
 ToTableElement >> performDataSort [
-	"I sort the data based on the information in the column configuration"
 
 	| sortFunctions |
-	sortFunctions := self columns
-		                 select: [ :column |
-			                 column sortOrder isNotNil and: [
-				                 column sorterBlock isNotNil ] ]
-		                 thenCollect: [ :column |
-				                 | sortFunction |
-				                 "Build the sort block that also retrieve the computed data from column configuration"
-				                 sortFunction := [ :itemA :itemB |
-					                                 column sorterBlock
-						                                 value:
-						                                 (column
-							                                  retrieveDataFromDataIndex:
-							                                  itemA)
-						                                 value:
-						                                 (column
-							                                  retrieveDataFromDataIndex:
-							                                  itemB) ].
-				                 "Make the block ascending or descending depending on the configuration"
-				                 column sortOrder = #ascending
-					                 ifTrue: [ sortFunction ascending ]
-					                 ifFalse: [ sortFunction descending ].
-				                 sortFunction ].
-	sortFunctions do: [ :sortFunction |
-		self dataAccessor collection sort: sortFunction ].
+	"I sort the data based on the information in the column configuration""for now sort by column from left to right. Future should implement an order of sorting"
+	sortFunctions := (self columns
+		                  select: [ :column |
+			                  column sortOrder isNotNil and: [
+				                  column sorterBlock isNotNil ] ]
+		                  thenCollect: [ :column |
+				                  | sortFunction |
+				                  "reverse sort function in case of descending"
+				                  sortFunction := column sortOrder = #descending
+					                                  ifFalse: [
+					                                  column sorterBlock
+						                                  asSortFunction reversed ]
+					                                  ifTrue: [
+					                                  column sorterBlock
+						                                  asSortFunction ].
+				                  column -> sortFunction ]) asDictionary.
+	sortFunctions keysAndValuesDo: [ :keyColumn :valueSortFunction |
+			self dataAccessor collection sort: [ :item1 :item2 |
+				valueSortFunction value: item1 value: item2 ] ].
 	self dataAccessor notifyChanged
 ]

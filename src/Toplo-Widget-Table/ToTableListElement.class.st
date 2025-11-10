@@ -37,8 +37,11 @@ ToTableListElement >> initialize [
 	self class initializeSlots: self.
 	self property: #columns whenChangedDo: [
 			self nodeManager columns: self columns.
-			self notifyDataSourceChanged ].
+			self notifyDataSourceChanged ]
+]
 
-	self constraints vertical fitContent.
-	self constraints horizontal matchParent
+{ #category : #skin }
+ToTableListElement >> newRawSkin [ 
+
+	^ ToTableListElementSkin new
 ]

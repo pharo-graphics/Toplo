@@ -60,7 +60,8 @@ ToTableElement >> initScrollBar [
 		c margin: (BlInsets left: 10).
 		c ignored horizontal alignRight.
 		c ignored vertical alignBottom ].
-	vscrollBar attachTo: self list.
+	vscrollBar attachTo: self list innerElement.
+	self list addChild: vscrollBar 
 ]
 
 { #category : #initialization }
@@ -77,7 +78,7 @@ ToTableElement >> initialize [
 		          yourself.
 	self addChildren: {
 			header.
-			list asScrollableElement }.
+			list }.
 	self initScrollBar.
 	self property: #columns whenChangedDo: [
 			list columns: self columns.

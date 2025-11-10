@@ -10,7 +10,10 @@ Class {
 		'title',
 		'dataIndex',
 		'key',
-		'renderBlock'
+		'renderBlock',
+		'sorterBlock',
+		'sortDirections',
+		'sortOrder'
 	],
 	#category : #'Toplo-Widget-Table-Core'
 }
@@ -37,7 +40,8 @@ ToTableColumn >> defaultRenderBlock [
 ToTableColumn >> initialize [
 
 	super initialize.
-	renderBlock := self defaultRenderBlock
+	renderBlock := self defaultRenderBlock.
+	sortDirections := ToSortDirection both
 ]
 
 { #category : #accessing }
@@ -52,19 +56,34 @@ ToTableColumn >> key: anObject [
 	key := anObject
 ]
 
+{ #category : #sorting }
+ToTableColumn >> nextSort [
+	"order is nil -> ascend -> descend -> nil"
+
+	sortDirections isSortNone ifTrue: [ ^ self ].
+	sortOrder ifNil: [ "ascend then descend"
+			sortDirections hasSortAscend ifTrue: [ ^ sortOrder := #ascending ].
+			sortDirections hasSortDescend ifTrue: [ ^ sortOrder := #descending ] ].
+
+	sortOrder = #ascending ifTrue: [ "descend then nil"
+		sortDirections hasSortDescend ifTrue: [ ^ sortOrder := #descending ] ].
+	"default if descending or if ascending but cannot decending"
+	^ sortOrder := nil
+]
+
 { #category : #rendering }
 ToTableColumn >> render: aDataItem [
 	
 	^ self renderBlock value: (self retrieveDataFromDataIndex: aDataItem)
 ]
 
-{ #category : #accessing }
+{ #category : #rendering }
 ToTableColumn >> renderBlock [
 
 	^ renderBlock
 ]
 
-{ #category : #accessing }
+{ #category : #rendering }
 ToTableColumn >> renderBlock: anObject [
 
 	renderBlock := anObject
@@ -81,6 +100,44 @@ ToTableColumn >> retrieveDataFromDataIndex: aDataItem [
 	dataIndex allButFirstDo: [ :symbol |
 		result := result perform: symbol asSymbol ].
 	^ result
+]
+
+{ #category : #accessing }
+ToTableColumn >> sortDirections [
+	"Supported sort way could be ascend, descend, both or none"
+
+	^ sortDirections
+]
+
+{ #category : #accessing }
+ToTableColumn >> sortDirections: anObject [
+
+	sortDirections := anObject
+]
+
+{ #category : #accessing }
+ToTableColumn >> sortOrder [
+
+	^ sortOrder
+]
+
+{ #category : #accessing }
+ToTableColumn >> sortOrder: anObject [
+
+	^ sortOrder := anObject
+]
+
+{ #category : #sorting }
+ToTableColumn >> sorterBlock [
+	"nil mean this column do not support sorting. Not nil mean there is at least on sorting possible"
+
+	^ sorterBlock
+]
+
+{ #category : #sorting }
+ToTableColumn >> sorterBlock: anObject [
+
+	sorterBlock := anObject
 ]
 
 { #category : #accessing }

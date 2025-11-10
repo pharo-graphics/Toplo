@@ -15,6 +15,16 @@ Class {
 	#category : #'Toplo-Widget-Table-Core'
 }
 
+{ #category : #initialization }
+ToTableElement >> buildHeader [
+
+	header := ToTableHeaderElement new
+		          id: #header;
+		          yourself.
+	self addEventHandlerOn: ToSortColumn do: [ :event |
+			self performDataSort ]
+]
+
 { #category : #accessing }
 ToTableElement >> columns [
 
@@ -75,9 +85,7 @@ ToTableElement >> initialize [
 	list := ToTableListElement new
 		        id: #list;
 		        yourself.
-	header := ToTableHeaderElement new
-		          id: #header;
-		          yourself.
+	self buildHeader.
 	self addChildren: {
 			header.
 			list }.
@@ -97,4 +105,30 @@ ToTableElement >> list [
 ToTableElement >> list: anObject [
 
 	list := anObject
+]
+
+{ #category : #sorting }
+ToTableElement >> performDataSort [
+
+	| sortFunctions |
+	"I sort the data based on the information in the column configuration""for now sort by column from left to right. Future should implement an order of sorting"
+	sortFunctions := (self columns
+		                  select: [ :column |
+			                  column sortOrder isNotNil and: [
+				                  column sorterBlock isNotNil ] ]
+		                  thenCollect: [ :column |
+				                  | sortFunction |
+				                  "reverse sort function in case of descending"
+				                  sortFunction := column sortOrder = #descending
+					                                  ifFalse: [
+					                                  column sorterBlock
+						                                  asSortFunction reversed ]
+					                                  ifTrue: [
+					                                  column sorterBlock
+						                                  asSortFunction ].
+				                  column -> sortFunction ]) asDictionary.
+	sortFunctions keysAndValuesDo: [ :keyColumn :valueSortFunction |
+			self dataAccessor collection sort: [ :item1 :item2 |
+				valueSortFunction value: item1 value: item2 ] ].
+	self dataAccessor notifyChanged
 ]

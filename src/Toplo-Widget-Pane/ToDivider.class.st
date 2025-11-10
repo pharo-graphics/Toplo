@@ -3,20 +3,16 @@ Class {
 	#superclass : #ToElement,
 	#instVars : [
 		'thickness',
-		'container',
 		'firstResizedElement',
-		'secondResizedElement',
-		'firstLayoutDone',
-		'wasHorizontal'
+		'secondResizedElement'
 	],
 	#category : #'Toplo-Widget-Pane-Core'
 }
 
 { #category : #'instance creation' }
-ToDivider class >> between: aFirstElement and: aSecondElement in: aPane [
+ToDivider class >> between: aFirstElement and: aSecondElement [
 
 	^ self basicNew
-		  container: aPane;
 		  firstResizedElement: aFirstElement;
 		  secondResizedElement: aSecondElement;
 		  initialize;
@@ -26,7 +22,7 @@ ToDivider class >> between: aFirstElement and: aSecondElement in: aPane [
 { #category : #'instance creation' }
 ToDivider class >> new [
 
-	^ self error: 'Use between:and:in'
+	^ self error: 'Use between:and:'
 ]
 
 { #category : #accessing }
@@ -40,42 +36,7 @@ ToDivider >> bottomResizedElement [
 { #category : #layout }
 ToDivider >> canApplyLayoutOnPanes [
 
-	^ self isAttachedToSceneGraph and: [ self container width isZero not ]
-]
-
-{ #category : #layout }
-ToDivider >> checkFirstLayout [
-
-	firstLayoutDone ifFalse: [
-		| w |
-		w := self constraints linear weight.
-		w ~= 1 ifTrue: [ 
-			self firstResizedElement constraints linear weight: w ] ].
-	firstLayoutDone := true
-]
-
-{ #category : #accessing }
-ToDivider >> container [
-
-	^ container
-]
-
-{ #category : #accessing }
-ToDivider >> container: aPane [
-
-	container := aPane
-]
-
-{ #category : #initialization }
-ToDivider >> defaultBackground [
-
-	^ Color veryLightGray alpha: 0.1
-]
-
-{ #category : #initialization }
-ToDivider >> defaultBorder [
-
-	^ BlBorder empty
+	^ self isAttachedToSceneGraph and: [ self parent width isZero not ]
 ]
 
 { #category : #initialization }
@@ -85,39 +46,15 @@ ToDivider >> defaultEventHandler [
 ]
 
 { #category : #initialization }
-ToDivider >> defaultGeometry [
-
-	^ BlRoundedRectangleGeometry cornerRadius: 2
-]
-
-{ #category : #initialization }
 ToDivider >> defaultLayout [
 
 	^ BlBasicLayout new 
 ]
 
 { #category : #initialization }
-ToDivider >> defaultMargins [ 
-
-	^ BlInsets empty
-]
-
-{ #category : #initialization }
-ToDivider >> defaultPadding [
-
-	^ BlInsets empty
-]
-
-{ #category : #initialization }
 ToDivider >> defaultThickness [
 
 	^ 3
-]
-
-{ #category : #skin }
-ToDivider >> draggedBackground [
-
-	^ Color veryLightGray alpha: 0.6
 ]
 
 { #category : #accessing }
@@ -132,42 +69,18 @@ ToDivider >> firstResizedElement: anElement [
 	firstResizedElement := anElement
 ]
 
-{ #category : #skin }
-ToDivider >> hoveredBackground [
-
-	^ Color veryLightGray alpha: 0.3
-]
-
-{ #category : #skin }
-ToDivider >> hoveredBorder [
-
-	^ self defaultBorder
-]
-
 { #category : #initialization }
 ToDivider >> initialize [
 
 	super initialize.
-	firstLayoutDone := false.
-	self thickness: self defaultThickness.
 	self constraintsDo: [ :c | c ignoreByLayout ].
 	self addEventHandler: self defaultEventHandler 
-]
-
-{ #category : #skin }
-ToDivider >> installRawStyle [ 
-
-	super installRawStyle.
-	self geometry: self defaultGeometry.
-	self margin: self defaultMargins.
-	self padding: self defaultPadding
-
 ]
 
 { #category : #testing }
 ToDivider >> isHorizontal [
 
-	^ self container isVertical
+	^ self parent isVertical
 ]
 
 { #category : #testing }
@@ -207,7 +120,7 @@ ToDivider >> layoutInVerticalPaneWithContext: aContext [
 	secondX := self bottomResizedElement bounds left + self bottomResizedElement constraints margin left.
 
 	gap := secondY - firstY / 2 - (self thickness / 2).
-	x := self container direction isLeftToRight
+	x := self parent direction isLeftToRight
 		     ifTrue: [ firstX max: secondX ]
 		     ifFalse: [ firstX min: secondX ].
 
@@ -228,8 +141,8 @@ ToDivider >> leftResizedElement [
 ToDivider >> measureInHorizontalPane: anExtentMeasurementSpec [
 
 	| firstH secondH w |
-	firstH := self topResizedElement measuredBounds height. "- (self topTarget constraints margin top + self topTarget constraints margin bottom)"
-	secondH := self bottomResizedElement measuredBounds height. "- (self bottomTarget constraints margin top + self bottomTarget constraints margin bottom)"
+	firstH := self topResizedElement measuredBounds height.
+	secondH := self bottomResizedElement measuredBounds height.
 	self measuredExtent: self thickness @ (firstH max: secondH).
 	w := self resizedElementWeightFromWidth: self firstResizedElement measuredWidth.
 	(self firstResizedElement constraints linear weight closeTo: w) ifFalse: [
@@ -244,8 +157,8 @@ ToDivider >> measureInHorizontalPane: anExtentMeasurementSpec [
 ToDivider >> measureInVerticalPane: anExtentMeasurementSpec [
 
 	| firstW secondW w |
-	firstW := self topResizedElement measuredWidth. "- (self topTarget constraints margin left + self topTarget constraints margin right)"
-	secondW := self bottomResizedElement measuredWidth. "- (self bottomTarget constraints margin left + self bottomTarget constraints margin right)"
+	firstW := self topResizedElement measuredWidth. 
+	secondW := self bottomResizedElement measuredWidth. 
 	self measuredExtent: (firstW max: secondW) @ self thickness.
 	w := self resizedElementWeightFromWidth: self firstResizedElement measuredHeight.
 	(self firstResizedElement constraints linear weight closeTo: w) ifFalse: [
@@ -266,11 +179,7 @@ ToDivider >> newRawSkin [
 ToDivider >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
 	self canApplyLayoutOnPanes ifFalse: [ ^ self ].
-	wasHorizontal = self isHorizontal ifFalse: [
-		firstLayoutDone ifTrue: [ self requestNewSkin ] ].
-	wasHorizontal := self isHorizontal.
-	self checkFirstLayout.
-	wasHorizontal
+	self isHorizontal
 		ifTrue: [
 		self layoutInVerticalPaneWithContext: aBlElementBoundsUpdateContext ]
 		ifFalse: [
@@ -295,48 +204,9 @@ ToDivider >> onMeasure: anExtentMeasurementSpec [
 ]
 
 { #category : #accessing }
-ToDivider >> pane [
-
-	self
-		deprecated: 'Please use #container instead'
-		transformWith: '`@rcvr pane' -> '`@rcvr container'.
-	^ self container
-]
-
-{ #category : #accessing }
-ToDivider >> pane: aPane [
-
-	self
-		deprecated: 'Please use #container: instead'
-		transformWith: '`@rcvr pane: `@arg' -> '`@rcvr container: `@arg'.
-
-	self container: aPane
-]
-
-{ #category : #skin }
-ToDivider >> pressedBackground [
-
-	^ Color veryLightGray alpha: 0.6
-]
-
-{ #category : #skin }
-ToDivider >> pressedBorder [
-
-	^ self defaultBorder
-]
-
-{ #category : #accessing }
 ToDivider >> resizedElementWeightFromWidth: aWidth [
 
-	^ aWidth / self container width
-]
-
-{ #category : #skin }
-ToDivider >> resizerCursor [
-
-	^ self isHorizontal
-		  ifTrue: [ Cursor resizeTop ]
-		  ifFalse: [ Cursor resizeRight ]
+	^ aWidth / self parent width
 ]
 
 { #category : #accessing }
@@ -362,13 +232,14 @@ ToDivider >> secondResizedElement: anElement [
 { #category : #accessing }
 ToDivider >> thickness [
 
-	^ thickness
+	^ thickness ifNil: [ thickness := self defaultThickness ]
 ]
 
 { #category : #accessing }
 ToDivider >> thickness: aNumber [
 
-	thickness := aNumber
+	thickness := aNumber.
+	self requestLayout
 ]
 
 { #category : #accessing }

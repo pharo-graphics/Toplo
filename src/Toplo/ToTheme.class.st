@@ -234,7 +234,9 @@ ToTheme class >> defaultTokenProperties [
 			   name: #'font-name'
 			   value: AeFontManager defaultFontFamilyName).
 		  (ToTokenProperty name: #'font-size' value: 14).
-		  (ToTokenProperty name: #'font-weight-attribute' value: (BlFontWeightAttribute normal)).
+		  (ToTokenProperty
+			   name: #'font-weight-attribute'
+			   value: BlFontWeightAttribute normal).
 		  (ToTokenProperty name: #'font-size-in-tooltip' value: 12).
 		  (ToTokenProperty name: #'font-size-H1' value: 38).
 		  (ToTokenProperty name: #'font-size-H2' value: 30).
@@ -397,7 +399,14 @@ ToTheme class >> defaultTokenProperties [
 			   value: self defaultColorPrimary darker).
 		  (ToTokenProperty
 			   name: #'list-context-menu-selection-border-gap'
-			   value: 1.0) }
+			   value: 1.0).
+		  (ToTokenProperty
+			   name: #'divider-hovered-background'
+			   value: (Color veryLightGray alpha: 0.3)).
+		  (ToTokenProperty
+			   name: #'divider-pressed-background'
+			   value: (Color veryLightGray alpha: 0.6)).
+		  (ToTokenProperty name: #'divider-image-size' value: 30) }
 ]
 
 { #category : #accessing }

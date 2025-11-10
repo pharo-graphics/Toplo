@@ -34,7 +34,7 @@ ToPane class >> vertical [
 ToPane >> addDividerBetween: aFirstElement and: aSecondElement [
 
 	| divider |
-	divider := ToDivider between: aFirstElement and: aSecondElement in: self.
+	divider := ToDivider between: aFirstElement and: aSecondElement.
 	self addChild: divider.
 	^ divider 
 ]

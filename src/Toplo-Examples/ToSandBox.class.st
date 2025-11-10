@@ -8868,6 +8868,29 @@ ToSandBox class >> example_toTable1 [
 	table openInSpace
 ]
 
+{ #category : #'t - orientable' }
+ToSandBox class >> example_toTableWithSort [
+
+	| table |
+	table := ToTableElement new.
+	table columns: {
+			(ToTableColumn new
+				 title: 'Name';
+				 key: 'name';
+				 dataIndex: 'name';
+				 sorterBlock: #name descending;
+				 yourself).
+			(ToTableColumn new
+				 title: 'Number of methods';
+				 key: 'methods';
+				 dataIndex: 'numberOfMethods';
+				 yourself) }.
+	table dataAccessor addAll:
+		(Smalltalk globals allClasses copyFrom: 1 to: 12).
+	table openInSpace.
+	^ table
+]
+
 { #category : #'button-dep' }
 ToSandBox class >> example_toWidgetAsButton0 [
 
@@ -8877,7 +8900,7 @@ ToSandBox class >> example_toWidgetAsButton0 [
 		addEventHandlerOn: BlPrimaryClickEvent
 		do: [ self inform: 'Click' ].
 	but background: Color blue.
-	but size: 50 @ 50.
+	but extent: 50 @ 50.
 	but openInSpace
 ]
 

@@ -234,6 +234,7 @@ ToTheme class >> defaultTokenProperties [
 			   name: #'font-name'
 			   value: AeFontManager defaultFontFamilyName).
 		  (ToTokenProperty name: #'font-size' value: 14).
+		  (ToTokenProperty name: #'font-weight-attribute' value: (BlFontWeightAttribute normal)).
 		  (ToTokenProperty name: #'font-size-in-tooltip' value: 12).
 		  (ToTokenProperty name: #'font-size-H1' value: 38).
 		  (ToTokenProperty name: #'font-size-H2' value: 30).

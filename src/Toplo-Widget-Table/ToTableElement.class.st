@@ -29,6 +29,7 @@ ToTableElement >> columns: anObject [
 
 { #category : #accessing }
 ToTableElement >> dataAccessor [
+
 	^ self list dataAccessor
 ]
 
@@ -53,15 +54,16 @@ ToTableElement >> header: anObject [
 
 { #category : #initialization }
 ToTableElement >> initScrollBar [
+
 	| vscrollBar |
 	vscrollBar := BlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
-		c ignoreByLayout.
-		c margin: (BlInsets left: 10).
-		c ignored horizontal alignRight.
-		c ignored vertical alignBottom ].
+			c ignoreByLayout.
+			c margin: (BlInsets left: 10).
+			c ignored horizontal alignRight.
+			c ignored vertical alignBottom ].
 	vscrollBar attachTo: self list innerElement.
-	self list addChild: vscrollBar 
+	self list addChild: vscrollBar
 ]
 
 { #category : #initialization }

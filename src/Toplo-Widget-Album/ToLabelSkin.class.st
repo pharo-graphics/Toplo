@@ -46,6 +46,7 @@ ToLabelSkin >> installSkinEvent: anEvent [
 			e textAttributesBuilder
 				defaultFontSize: (e valueOfTokenNamed: #'font-size');
 				lineSpacing: (e valueOfTokenNamed: #'line-height');
+				attribute: (e valueOfTokenNamed: #'font-weight-attribute');
 				foreground: foreground.
 			e applyStyle ]
 ]

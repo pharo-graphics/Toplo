@@ -8856,7 +8856,7 @@ ToSandBox class >> example_toWidgetAsButton0 [
 		addEventHandlerOn: BlPrimaryClickEvent
 		do: [ self inform: 'Click' ].
 	but background: Color blue.
-	but size: 50 @ 50.
+	but extent: 50 @ 50.
 	but openInSpace
 ]
 

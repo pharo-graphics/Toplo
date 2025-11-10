@@ -7,6 +7,13 @@ Class {
 	#category : #'Toplo-Widget-Table-Header'
 }
 
+{ #category : #initialization }
+ToTableHeaderLabelElement >> initialize [
+
+	super initialize.
+	
+]
+
 { #category : #skin }
 ToTableHeaderLabelElement >> newRawSkin [ 
 

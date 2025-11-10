@@ -15,6 +15,16 @@ Class {
 	#category : #'Toplo-Widget-Table-Core'
 }
 
+{ #category : #initialization }
+ToTableElement >> buildHeader [
+
+	header := ToTableHeaderElement new
+		          id: #header;
+		          yourself.
+	self addEventHandlerOn: ToSortColumn do: [ :event |
+			self performDataSort ]
+]
+
 { #category : #accessing }
 ToTableElement >> columns [
 
@@ -72,9 +82,7 @@ ToTableElement >> initialize [
 	list := ToTableListElement new
 		        id: #list;
 		        yourself.
-	header := ToTableHeaderElement new
-		          id: #header;
-		          yourself.
+	self buildHeader.
 	self addChildren: {
 			header.
 			list asScrollableElement }.
@@ -94,4 +102,36 @@ ToTableElement >> list [
 ToTableElement >> list: anObject [
 
 	list := anObject
+]
+
+{ #category : #sorting }
+ToTableElement >> performDataSort [
+	"I sort the data based on the information in the column configuration"
+
+	| sortFunctions |
+	sortFunctions := self columns
+		                 select: [ :column |
+			                 column sortOrder isNotNil and: [
+				                 column sorterBlock isNotNil ] ]
+		                 thenCollect: [ :column |
+				                 | sortFunction |
+				                 "Build the sort block that also retrieve the computed data from column configuration"
+				                 sortFunction := [ :itemA :itemB |
+					                                 column sorterBlock
+						                                 value:
+						                                 (column
+							                                  retrieveDataFromDataIndex:
+							                                  itemA)
+						                                 value:
+						                                 (column
+							                                  retrieveDataFromDataIndex:
+							                                  itemB) ].
+				                 "Make the block ascending or descending depending on the configuration"
+				                 column sortOrder = #ascending
+					                 ifTrue: [ sortFunction ascending ]
+					                 ifFalse: [ sortFunction descending ].
+				                 sortFunction ].
+	sortFunctions do: [ :sortFunction |
+		self dataAccessor collection sort: sortFunction ].
+	self dataAccessor notifyChanged
 ]

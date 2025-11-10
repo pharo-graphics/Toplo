@@ -9,22 +9,21 @@ Class {
 
 { #category : #initialization }
 ToTableHeaderElement class >> initializeToRawTheme: aTheme [
+	" Now setup the default label weight and the header padding "
 
 	<toploThemeInstallerFor: #ToRawTheme>
-	aTheme
-		addTokenNamed: #'table-label-weight-attribute'
-		withValue: BlFontWeightAttribute bold.
-
-	" Now setup the default label weight and the header padding "
 	aTheme select: (self asTypeSelector exact: false) style: [
 			aTheme when: ToInstallSkinEvent do: [ :header |
 					header
 						addTokenNamed: #'font-weight-attribute'
-						withValue:
-						(header valueOfTokenNamed: #'table-label-weight-attribute').
-					header padding: (BlInsets
-							 horizontal: (header valueOfTokenNamed: #'list-padding-H')
-							 vertical: (header valueOfTokenNamed: #'list-padding-V')) ] ]
+						withValue: BlFontWeightAttribute bold ].
+			aTheme
+				when: ToInstallSkinEvent
+				write: (aTheme property: #padding)
+				with: [ :header |
+						BlInsets
+							horizontal: (header valueOfTokenNamed: #'list-padding-H')
+							vertical: (header valueOfTokenNamed: #'list-padding-V') ] ]
 ]
 
 { #category : #accessing }

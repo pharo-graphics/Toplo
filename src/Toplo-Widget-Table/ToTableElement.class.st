@@ -22,6 +22,7 @@ ToTableElement >> buildHeader [
 		          id: #header;
 		          yourself.
 	self addEventHandlerOn: ToSortColumn do: [ :event |
+			event consume.
 			self performDataSort ]
 ]
 
@@ -32,9 +33,9 @@ ToTableElement >> columns [
 ]
 
 { #category : #accessing }
-ToTableElement >> columns: anObject [
+ToTableElement >> columns: aTableColumnArray [
 
-	columns := anObject
+	columns := aTableColumnArray
 ]
 
 { #category : #accessing }

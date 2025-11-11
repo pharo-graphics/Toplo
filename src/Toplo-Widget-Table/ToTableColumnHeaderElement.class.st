@@ -22,9 +22,9 @@ ToTableColumnHeaderElement >> column [
 ]
 
 { #category : #accessing }
-ToTableColumnHeaderElement >> column: anObject [
+ToTableColumnHeaderElement >> column: aTableColumn [
 
-	column := anObject.
+	column := aTableColumn.
 	self updateColumn
 ]
 

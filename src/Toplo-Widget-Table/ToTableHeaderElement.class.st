@@ -26,17 +26,17 @@ ToTableHeaderElement class >> initializeToRawTheme: aTheme [
 							vertical: (header valueOfTokenNamed: #'list-padding-V') ] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 ToTableHeaderElement >> buildHeaderLabelFor: column [
 
 	^ ToTableColumnHeaderElement column: column 
 ]
 
 { #category : #accessing }
-ToTableHeaderElement >> columns: aListOfColumns [
+ToTableHeaderElement >> columns: aTableColumnArray [
 
 	self removeChildren.
-	aListOfColumns do: [ :column |
+	aTableColumnArray do: [ :column |
 		self addChild: (self buildHeaderLabelFor: column) matchParent ]
 ]
 

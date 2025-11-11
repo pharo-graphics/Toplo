@@ -8864,7 +8864,7 @@ ToSandBox class >> example_toTable1 [
 				 dataIndex: 'numberOfMethods';
 				 yourself) }.
 	table dataAccessor addAll:
-		(Smalltalk globals allClasses copyFrom: 1 to: 100).
+		(Smalltalk globals allClasses ).
 	table openInSpace
 ]
 

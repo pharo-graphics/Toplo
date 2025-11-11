@@ -1,8 +1,6 @@
 Class {
 	#name : #ToTableNodeManager,
 	#superclass : #ToAbstractNodeManager,
-	#traits : 'TToGenericNodeManager',
-	#classTraits : 'TToGenericNodeManager classTrait',
 	#instVars : [
 		'columns'
 	],
@@ -12,10 +10,16 @@ Class {
 { #category : #initialization }
 ToTableNodeManager >> buildNode: aTableNode [
 
-	self columns do: [ :column |
-			aTableNode
-				addChild: (column render: aTableNode holder dataItem)
-				in: column key ]
+	aTableNode removeChildren.
+	self columns ifNotNil: [ :cols |
+			cols do: [ :column |
+					| columnPart |
+					columnPart := ToElement new
+						              id: column key;
+						              matchParent;
+						              yourself.
+					columnPart addChild: (column render: aTableNode holder dataItem).
+					aTableNode addChild: columnPart ] ]
 ]
 
 { #category : #accessing }
@@ -25,25 +29,9 @@ ToTableNodeManager >> columns [
 ]
 
 { #category : #accessing }
-ToTableNodeManager >> columns: anObject [
+ToTableNodeManager >> columns: aTableColumnArray [
 
-	columns := anObject
-]
-
-{ #category : #'t - generic node manager' }
-ToTableNodeManager >> defaultNodeFactory [
-
-	^ [ :holder |
-		  (ToTableNode withColumns: self columns)
-			  id: #row;
-			  yourself ]
-]
-
-{ #category : #initialization }
-ToTableNodeManager >> initialize [ 
-
-	super initialize.
-	self initializeAsGenericNodeManager.
+	columns := aTableColumnArray
 ]
 
 { #category : #'instance creation' }
@@ -55,5 +43,7 @@ ToTableNodeManager >> newHolder [
 { #category : #'instance creation' }
 ToTableNodeManager >> newNodeForHolder: aNodeHolder [
 
-	^ nodeFactory cull: aNodeHolder
+	^ ToTableNode new
+		  id: #row;
+		  yourself
 ]

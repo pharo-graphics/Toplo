@@ -4,44 +4,36 @@ I represent the list part of the table
 Class {
 	#name : #ToTableListElement,
 	#superclass : #ToAbstractListElement,
-	#traits : 'TObservable',
-	#classTraits : 'TObservable classTrait',
-	#instVars : [
-		'#columns => ObservableSlot'
-	],
 	#category : #'Toplo-Widget-Table-List'
 }
+
+{ #category : #initialization }
+ToTableListElement class >> initializeToRawTheme: aTheme [
+	" Now setup the default label weight and the header padding "
+
+	<toploThemeInstallerFor: #ToRawTheme>
+	aTheme select: (self asTypeSelector exact: false) style: [
+			aTheme
+				when: ToInstallSkinEvent
+				write: (aTheme property: #geometry)
+				with: [ :header | BlRectangleGeometry new ] ]
+]
 
 { #category : #accessing }
 ToTableListElement >> columns [
 
-	^ columns
+	^ self nodeManager columns
 ]
 
 { #category : #accessing }
-ToTableListElement >> columns: anObject [
+ToTableListElement >> columns: aTableColumnArray [
 
-	columns := anObject
+	self nodeManager columns: aTableColumnArray.
+	self notifyDataSourceChanged
 ]
 
 { #category : #initialization }
 ToTableListElement >> defaultNodeManagerClass [
 
 	^ ToTableNodeManager
-]
-
-{ #category : #initialization }
-ToTableListElement >> initialize [
-
-	super initialize.
-	self class initializeSlots: self.
-	self property: #columns whenChangedDo: [
-			self nodeManager columns: self columns.
-			self notifyDataSourceChanged ]
-]
-
-{ #category : #skin }
-ToTableListElement >> newRawSkin [ 
-
-	^ ToTableListElementSkin new
 ]

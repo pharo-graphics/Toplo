@@ -6386,8 +6386,8 @@ ToSandBox class >> example_horizontalPaneWithDivider [
 	pane addChild: btn.
 
 	pane addDividers.
-	pane dividers first weight: 10.
-	pane dividers second weight: 5.
+	pane dividers first weight: 2.
+	pane dividers second weight: 1.
 	pane dividers third weight: 0.5.
 	pane openInSpace
 ]

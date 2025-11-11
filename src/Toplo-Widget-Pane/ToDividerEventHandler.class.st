@@ -135,7 +135,6 @@ ToDividerEventHandler >> horizontalDragEvent: anEvent resizedElement: aResizedEl
 		 anEvent modifiers isShift ]) ifTrue: [
 			aResizedElement width: aWidth.
 			^ self ].
-
 	w := divider resizedElementWeightFromWidth: aWidth.
 	aResizedElement constraints linear weight: w
 ]

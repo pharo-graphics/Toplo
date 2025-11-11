@@ -130,11 +130,12 @@ ToDividerEventHandler >> horizontalDragEvent: anEvent resizedElement: aResizedEl
 	| w other divider |
 	divider := anEvent currentTarget.
 	other := self otherResizedElementFrom: aResizedElement event: anEvent.
-	((aResizedElement = anEvent currentTarget firstResizedElement and: [
+	((aResizedElement = divider firstResizedElement and: [
 		  other constraints horizontal resizer isExact ]) or: [
 		 anEvent modifiers isShift ]) ifTrue: [
 			aResizedElement width: aWidth.
 			^ self ].
+
 	w := divider resizedElementWeightFromWidth: aWidth.
 	aResizedElement constraints linear weight: w
 ]
@@ -182,6 +183,6 @@ ToDividerEventHandler >> verticalDragEvent: anEvent resizedElement: aResizedElem
 			aResizedElement height: aHeight.
 			^ self ].
 
-	w := divider resizedElementWeightFromWidth: aHeight.
+	w := divider resizedElementWeightFromHeight: aHeight.
 	aResizedElement constraints linear weight: w
 ]

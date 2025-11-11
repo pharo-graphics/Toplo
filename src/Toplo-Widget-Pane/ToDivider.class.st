@@ -103,8 +103,7 @@ ToDivider >> layoutInHorizontalPaneWithContext: aContext [
 	gap := (((secondX - firstX)  - (self thickness )) / 2).
 	position := (firstX + gap) @ (firstY min: secondY).
 
-	self constraints position: position.
-	self measuredBounds position: position
+	self position: position
 ]
 
 { #category : #layout }
@@ -125,8 +124,7 @@ ToDivider >> layoutInVerticalPaneWithContext: aContext [
 		     ifFalse: [ firstX min: secondX ].
 
 	position := x @ firstY + gap.
-	self constraints position: position.
-	self measuredBounds position: position
+	self position: position
 ]
 
 { #category : #accessing }
@@ -160,11 +158,11 @@ ToDivider >> measureInVerticalPane: anExtentMeasurementSpec [
 	firstW := self topResizedElement measuredWidth. 
 	secondW := self bottomResizedElement measuredWidth. 
 	self measuredExtent: (firstW max: secondW) @ self thickness.
-	w := self resizedElementWeightFromWidth: self firstResizedElement measuredHeight.
+	w := self resizedElementWeightFromHeight: self firstResizedElement measuredHeight.
 	(self firstResizedElement constraints linear weight closeTo: w) ifFalse: [
 		self firstResizedElement constraintsDo: [ :c | c linear weight: w ] ].
 	self weight: w.
-	w := self resizedElementWeightFromWidth: self secondResizedElement measuredHeight.
+	w := self resizedElementWeightFromHeight: self secondResizedElement measuredHeight.
 	(self secondResizedElement constraints linear weight closeTo: w) ifFalse: [
 		self secondResizedElement constraintsDo: [ :c | c linear weight: w ] ]
 ]
@@ -201,6 +199,12 @@ ToDivider >> onMeasure: anExtentMeasurementSpec [
 	
 
 	
+]
+
+{ #category : #accessing }
+ToDivider >> resizedElementWeightFromHeight: aWidth [
+
+	^ aWidth / self parent height
 ]
 
 { #category : #accessing }

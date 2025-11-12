@@ -9,8 +9,9 @@ Class {
 
 { #category : #initialization }
 ToTableNodeManager >> buildNode: aTableNode [
-
+self flag: 'The column should have a builder '.
 	aTableNode removeChildren.
+	" a table node is built as a linear row with one child for each column"
 	self columns ifNotNil: [ :cols |
 			cols do: [ :column |
 					| columnPart |

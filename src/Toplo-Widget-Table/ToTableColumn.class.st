@@ -13,36 +13,33 @@ Class {
 		'sorterBlock',
 		'sortDirections',
 		'sortOrder',
-		'builder',
-		'width'
+		'width',
+		'dataViewBuilder',
+		'headerViewBuilder'
 	],
 	#category : #'Toplo-Widget-Table-Core'
 }
 
 { #category : #rendering }
-ToTableColumn >> buildColumnPart: columnPartElement fromNode: aTableNode [
+ToTableColumn >> buildDataView: anElement fromNode: aTableNode [
 
 	| columnData |
-	width ifNotNil: [ columnPartElement width: width ].
+	width ifNotNil: [ anElement width: width ].
 	columnData := self columnDataFromDataIndex:
 		              aTableNode holder dataItem.
-	builder
-		cull: columnPartElement
+	dataViewBuilder
+		cull: anElement
 		cull: columnData
 		cull: aTableNode holder
 ]
 
-{ #category : #accessing }
-ToTableColumn >> builder [
+{ #category : #rendering }
+ToTableColumn >> buildHeaderView: anElement [
 
-	^ builder
-]
-
-{ #category : #accessing }
-ToTableColumn >> builder: aValuable [
-	" aValuable takes 3 optional arguments: the element to build, the data and the node holder "
-
-	builder := aValuable
+	width ifNotNil: [ anElement width: width ].
+	headerViewBuilder
+		cull: anElement
+		cull: self
 ]
 
 { #category : #rendering }
@@ -70,19 +67,59 @@ ToTableColumn >> dataIndex: anObject [
 	dataIndex := anObject
 ]
 
+{ #category : #accessing }
+ToTableColumn >> dataViewBuilder [
+
+	^ dataViewBuilder
+]
+
+{ #category : #accessing }
+ToTableColumn >> dataViewBuilder: aValuable [
+	" aValuable takes 3 optional arguments: the element to build, the data and the node holder "
+
+	dataViewBuilder := aValuable
+]
+
 { #category : #initialization }
-ToTableColumn >> defaultBuilder [
+ToTableColumn >> defaultDataViewBuilder [
 
 	^ [ :element :dataItem :holder |
 	  element addChild: (ToLabel text: dataItem asString) ]
 ]
 
 { #category : #initialization }
+ToTableColumn >> defaultHeaderBuilder [
+
+	^ [ :element :column |
+	  element addChild: (ToLabel text: column title asString) ]
+]
+
+{ #category : #initialization }
+ToTableColumn >> defaultSortDirection [
+
+	^ ToSortDirection both
+]
+
+{ #category : #accessing }
+ToTableColumn >> headerViewBuilder [
+
+	^ headerViewBuilder
+]
+
+{ #category : #accessing }
+ToTableColumn >> headerViewBuilder: aValuable [
+	" aValuable takes 2 optional arguments: the element to build and the column "
+
+	headerViewBuilder := aValuable
+]
+
+{ #category : #initialization }
 ToTableColumn >> initialize [
 
 	super initialize.
-	builder := self defaultBuilder.
-	sortDirections := ToSortDirection both
+	headerViewBuilder := self defaultHeaderBuilder.
+	dataViewBuilder := self defaultDataViewBuilder.
+	sortDirections := self defaultSortDirection
 ]
 
 { #category : #accessing }
@@ -145,9 +182,9 @@ ToTableColumn >> sorterBlock [
 ]
 
 { #category : #sorting }
-ToTableColumn >> sorterBlock: anObject [
+ToTableColumn >> sorterBlock: aValuable [
 
-	sorterBlock := anObject
+	sorterBlock := aValuable
 ]
 
 { #category : #accessing }

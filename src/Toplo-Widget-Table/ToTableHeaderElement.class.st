@@ -51,6 +51,6 @@ ToTableHeaderElement >> defaultLayout [
 ToTableHeaderElement >> initialize [
 
 	super initialize.
-	self constraints vertical fitContent.
-	self constraints horizontal matchParent
+	self vFitContent.
+	self hMatchParent
 ]

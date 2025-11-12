@@ -14,13 +14,13 @@ ToTableNodeManager >> buildNode: aTableNode [
 	" a table node is built as a linear row with one child for each column"
 	self columns ifNotNil: [ :cols |
 			cols do: [ :column |
-					| columnPart |
-					columnPart := ToElement new
+					| view |
+					view := ToElement new
 						              id: column key;
 						              matchParent;
 						              yourself.
-					aTableNode addChild: columnPart.
-					column buildColumnPart: columnPart fromNode: aTableNode ] ]
+					aTableNode addChild: view.
+					column buildDataView: view fromNode: aTableNode ] ]
 ]
 
 { #category : #accessing }

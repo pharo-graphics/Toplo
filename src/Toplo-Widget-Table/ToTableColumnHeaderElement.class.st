@@ -31,15 +31,10 @@ ToTableColumnHeaderElement >> column: aTableColumn [
 { #category : #initialization }
 ToTableColumnHeaderElement >> initialize [
 
-	| label |
 	super initialize.
 	self
 		hMatchParent;
-		vFitContent.
-	label := ToLabel new
-		         id: #label;
-		         yourself.
-	self middleElement: label
+		vFitContent
 ]
 
 { #category : #updating }
@@ -53,7 +48,7 @@ ToTableColumnHeaderElement >> updateArrowOrientation: arrow [
 { #category : #updating }
 ToTableColumnHeaderElement >> updateColumn [
 
-	(self childWithId: #label) text: column title.
+	column buildHeaderView: self middleContainer.
 	column width
 		ifNotNil: [ :w | self width: w ]
 		ifNil: [ self hMatchParent ].

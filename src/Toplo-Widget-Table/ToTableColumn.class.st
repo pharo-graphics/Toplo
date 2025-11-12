@@ -10,13 +10,51 @@ Class {
 		'title',
 		'dataIndex',
 		'key',
-		'renderBlock',
 		'sorterBlock',
 		'sortDirections',
-		'sortOrder'
+		'sortOrder',
+		'builder'
 	],
 	#category : #'Toplo-Widget-Table-Core'
 }
+
+{ #category : #rendering }
+ToTableColumn >> buildColumnPart: columnPartElement fromNode: aTableNode [
+
+	| columnData |
+	columnData := self columnDataFromDataIndex:
+		              aTableNode holder dataItem.
+	builder
+		cull: columnPartElement
+		cull: columnData
+		cull: aTableNode holder
+]
+
+{ #category : #accessing }
+ToTableColumn >> builder [
+
+	^ builder
+]
+
+{ #category : #accessing }
+ToTableColumn >> builder: aValuable [
+	" aValuable takes 3 optional arguments: the element to build, the data and the node holder "
+
+	builder := aValuable
+]
+
+{ #category : #rendering }
+ToTableColumn >> columnDataFromDataIndex: aDataItem [
+
+	| result |
+	dataIndex isString ifTrue: [
+		^ aDataItem perform: self dataIndex asSymbol ].
+	self dataIndex isFullBlock ifTrue: [ ^ self dataIndex value: aDataItem ].
+	result := aDataItem perform: self dataIndex first asSymbol.
+	dataIndex allButFirstDo: [ :symbol |
+		result := result perform: symbol asSymbol ].
+	^ result
+]
 
 { #category : #accessing }
 ToTableColumn >> dataIndex [
@@ -31,16 +69,17 @@ ToTableColumn >> dataIndex: anObject [
 ]
 
 { #category : #initialization }
-ToTableColumn >> defaultRenderBlock [
+ToTableColumn >> defaultBuilder [
 
-	^ [ :value | ToLabel text: value ]
+	^ [ :element :dataItem :holder |
+	  element addChild: (ToLabel text: dataItem asString) ]
 ]
 
 { #category : #initialization }
 ToTableColumn >> initialize [
 
 	super initialize.
-	renderBlock := self defaultRenderBlock.
+	builder := self defaultBuilder.
 	sortDirections := ToSortDirection both
 ]
 
@@ -69,37 +108,6 @@ ToTableColumn >> nextSort [
 		sortDirections hasSortDescend ifTrue: [ ^ sortOrder := #descending ] ].
 	"default if descending or if ascending but cannot decending"
 	^ sortOrder := nil
-]
-
-{ #category : #rendering }
-ToTableColumn >> render: aDataItem [
-	
-	^ self renderBlock value: (self retrieveDataFromDataIndex: aDataItem)
-]
-
-{ #category : #rendering }
-ToTableColumn >> renderBlock [
-
-	^ renderBlock
-]
-
-{ #category : #rendering }
-ToTableColumn >> renderBlock: anObject [
-
-	renderBlock := anObject
-]
-
-{ #category : #rendering }
-ToTableColumn >> retrieveDataFromDataIndex: aDataItem [
-
-	| result |
-	dataIndex isString ifTrue: [
-		^ aDataItem perform: self dataIndex asSymbol ].
-	self dataIndex isFullBlock ifTrue: [ ^ self dataIndex value: aDataItem ].
-	result := aDataItem perform: self dataIndex first asSymbol.
-	dataIndex allButFirstDo: [ :symbol |
-		result := result perform: symbol asSymbol ].
-	^ result
 ]
 
 { #category : #accessing }

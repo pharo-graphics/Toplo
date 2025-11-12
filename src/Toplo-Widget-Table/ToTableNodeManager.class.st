@@ -9,7 +9,7 @@ Class {
 
 { #category : #initialization }
 ToTableNodeManager >> buildNode: aTableNode [
-self flag: 'The column should have a builder '.
+
 	aTableNode removeChildren.
 	" a table node is built as a linear row with one child for each column"
 	self columns ifNotNil: [ :cols |
@@ -19,8 +19,8 @@ self flag: 'The column should have a builder '.
 						              id: column key;
 						              matchParent;
 						              yourself.
-					columnPart addChild: (column render: aTableNode holder dataItem).
-					aTableNode addChild: columnPart ] ]
+					aTableNode addChild: columnPart.
+					column buildColumnPart: columnPart fromNode: aTableNode ] ]
 ]
 
 { #category : #accessing }

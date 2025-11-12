@@ -77,10 +77,11 @@ ToMenuRegistration >> builder: aBuilder [
 
 { #category : #testing }
 ToMenuRegistration >> childrenFromGroup: aGroupName [
+	|group|
+	group := self findChildrenItems: aGroupName.
+	self assert: group isGroup.
+	^ group childrenItems
 
-	^ childrenItems select: [ :item | 
-			item groupName = aGroupName 
-				and: [ item isGroup = false ]]
 ]
 
 { #category : #accessing }

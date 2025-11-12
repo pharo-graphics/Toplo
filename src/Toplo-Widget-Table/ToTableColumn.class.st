@@ -13,7 +13,8 @@ Class {
 		'sorterBlock',
 		'sortDirections',
 		'sortOrder',
-		'builder'
+		'builder',
+		'width'
 	],
 	#category : #'Toplo-Widget-Table-Core'
 }
@@ -22,6 +23,7 @@ Class {
 ToTableColumn >> buildColumnPart: columnPartElement fromNode: aTableNode [
 
 	| columnData |
+	width ifNotNil: [ columnPartElement width: width ].
 	columnData := self columnDataFromDataIndex:
 		              aTableNode holder dataItem.
 	builder
@@ -158,4 +160,16 @@ ToTableColumn >> title [
 ToTableColumn >> title: anObject [
 
 	title := anObject
+]
+
+{ #category : #accessing }
+ToTableColumn >> width [
+
+	^ width 
+]
+
+{ #category : #accessing }
+ToTableColumn >> width: aNumber [
+
+	width := aNumber
 ]

@@ -52,15 +52,19 @@ ToTableColumnHeaderElement >> updateArrowOrientation: arrow [
 
 { #category : #updating }
 ToTableColumnHeaderElement >> updateColumn [
+
 	(self childWithId: #label) text: column title.
+	column width
+		ifNotNil: [ :w | self width: w ]
+		ifNil: [ self hMatchParent ].
 	column sorterBlock ifNotNil: [
 			| arrow |
 			arrow := ToIconicArrowButton new.
 			self startElement: arrow.
 			self updateArrowOrientation: arrow.
 			self startElement clickAction: [
-				column nextSort.
-				self updateArrowOrientation: arrow.
-				self startElement fireEvent: (ToSortColumn column: column) ].
+					column nextSort.
+					self updateArrowOrientation: arrow.
+					self startElement fireEvent: (ToSortColumn column: column) ].
 			self startInterspace: 10 ]
 ]

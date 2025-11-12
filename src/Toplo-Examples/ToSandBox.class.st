@@ -8869,6 +8869,34 @@ ToSandBox class >> example_toTable1 [
 ]
 
 { #category : #'t - orientable' }
+ToSandBox class >> example_toTableWithBuilder [
+
+	| table |
+	table := ToTableElement new.
+	table columns: {
+			(ToTableColumn new
+				 title: 'Name';
+				 key: 'name';
+				 dataIndex: 'name';
+				 yourself).
+			(ToTableColumn new
+				 title: 'Number of methods';
+				 key: 'methods';
+				 dataIndex: 'numberOfMethods';
+				 builder: [ :elem :data :holder |
+						 | lab |
+						 lab := ToAttributedLabel text: data asString.
+						 data > 30 ifTrue: [ lab foreground: Color red ].
+						 elem addChild: lab ];
+				 width: 130;
+				 yourself) }.
+	table dataAccessor addAll:
+		(Smalltalk globals allClasses select: [ :cls |
+			 cls numberOfMethods >= 20 ]).
+	table openInSpace
+]
+
+{ #category : #'t - orientable' }
 ToSandBox class >> example_toTableWithSort [
 
 	| table |
@@ -8885,8 +8913,7 @@ ToSandBox class >> example_toTableWithSort [
 				 key: 'methods';
 				 dataIndex: 'numberOfMethods';
 				 yourself) }.
-	table dataAccessor addAll:
-		(Smalltalk globals allClasses copyFrom: 1 to: 12).
+	table dataAccessor addAll: Smalltalk globals allClasses.
 	table openInSpace.
 	^ table
 ]

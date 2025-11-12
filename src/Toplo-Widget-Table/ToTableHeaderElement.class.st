@@ -37,7 +37,7 @@ ToTableHeaderElement >> columns: aTableColumnArray [
 
 	self removeChildren.
 	aTableColumnArray do: [ :column |
-		self addChild: (self buildHeaderLabelFor: column) matchParent ]
+		self addChild: (self buildHeaderLabelFor: column)  ]
 ]
 
 { #category : #initialization }

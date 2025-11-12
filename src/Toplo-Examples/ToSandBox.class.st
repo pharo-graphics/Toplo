@@ -8878,12 +8878,15 @@ ToSandBox class >> example_toTableWithBuilder [
 				 title: 'Name';
 				 key: 'name';
 				 dataIndex: 'name';
+				 sorterBlock: #name descending;
+				 width: 300;
 				 yourself).
 			(ToTableColumn new
-				 title: 'Number of methods';
 				 key: 'methods';
 				 dataIndex: 'numberOfMethods';
-				 builder: [ :elem :data :holder |
+				 headerViewBuilder: [ :header :column |
+					 header addChild: (ToLabel text: 'Nb') ];
+				 dataViewBuilder: [ :elem :data :holder |
 						 | lab |
 						 " use a ToLabel to fit the theme constraints "
 						 lab := data > 30
@@ -8897,7 +8900,7 @@ ToSandBox class >> example_toTableWithBuilder [
 				 yourself) }.
 	table dataAccessor addAll:
 		(Smalltalk globals allClasses select: [ :cls |
-			 cls numberOfMethods >= 20 ]).
+			 cls numberOfMethods >= 20 ]) shuffle.
 	table openInSpace
 ]
 

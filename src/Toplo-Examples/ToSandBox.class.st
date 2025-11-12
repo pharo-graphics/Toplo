@@ -8885,8 +8885,13 @@ ToSandBox class >> example_toTableWithBuilder [
 				 dataIndex: 'numberOfMethods';
 				 builder: [ :elem :data :holder |
 						 | lab |
-						 lab := ToAttributedLabel text: data asString.
-						 data > 30 ifTrue: [ lab foreground: Color red ].
+						 " use a ToLabel to fit the theme constraints "
+						 lab := data > 30
+							        ifTrue: [
+									        (ToAttributedLabel text: data asString)
+										        foreground: Color red;
+										        yourself ]
+							        ifFalse: [ ToLabel text: data asString ].
 						 elem addChild: lab ];
 				 width: 130;
 				 yourself) }.

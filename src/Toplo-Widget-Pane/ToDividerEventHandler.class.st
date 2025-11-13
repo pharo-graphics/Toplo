@@ -11,23 +11,28 @@ Class {
 { #category : #accessing }
 ToDividerEventHandler >> dragDeltaFromEvent: anEvent [
 
-	^ (anEvent position - globalStartPosition) rounded
+	| divider localStartPosition localEventPosition |
+	divider := anEvent currentTarget.
+	localStartPosition := divider globalPointToLocal: globalStartPosition.
+	localEventPosition := divider globalPointToLocal: anEvent position.
+	^ (localEventPosition - localStartPosition) rounded
 ]
 
 { #category : #'dnd handlers' }
 ToDividerEventHandler >> dragEvent: anEvent [
 
-	| dragDelta divider |
+	| dragDelta divider orientedDragDelta |
 	anEvent consume.
 
 	divider := anEvent currentTarget.
 	dragDelta := self dragDeltaFromEvent: anEvent.
+	orientedDragDelta := divider isHorizontal
+		                     ifTrue: [ 0.0 @ dragDelta y ]
+		                     ifFalse: [ dragDelta x @ 0.0 ].
 
-	divider isHorizontal
-		ifTrue: [
-		divider position: dividerStartPosition + (0.0 @ dragDelta y) ]
-		ifFalse: [
-		divider position: dividerStartPosition + (dragDelta x @ 0.0) ]
+	divider position: dividerStartPosition + orientedDragDelta.
+	divider dispatchEvent:
+		(ToDividerDraggedEvent new delta: orientedDragDelta)
 ]
 
 { #category : #'dnd handlers' }

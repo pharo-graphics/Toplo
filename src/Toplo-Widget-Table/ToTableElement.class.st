@@ -93,7 +93,14 @@ ToTableElement >> initialize [
 	self initScrollBar.
 	self property: #columns whenChangedDo: [
 			list columns: self columns.
-			header columns: self columns ]
+			header columns: self columns.
+			self updateDividers ]
+]
+
+{ #category : #testing }
+ToTableElement >> isVertical [ 
+
+	^ true
 ]
 
 { #category : #accessing }
@@ -132,4 +139,21 @@ ToTableElement >> performDataSort [
 			self dataAccessor collection sort: [ :item1 :item2 |
 				valueSortFunction value: item1 value: item2 ] ].
 	self dataAccessor notifyChanged
+]
+
+{ #category : #initialization }
+ToTableElement >> updateDividers [
+
+	| headerColumnElements |
+	headerColumnElements := self selectChildrenWithId: #headerColumn.
+	self whenLayoutedDoOnce: [
+			headerColumnElements overlappingPairsDo: [ :first :second |
+					| div |
+					div := ToDivider new
+						       vertical: true;
+						       yourself.
+					div position:
+						first position + ((first width - (div thickness / 2) asFloat)
+						@ 0.0).
+					self addChild: div ] ]
 ]

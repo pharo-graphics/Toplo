@@ -32,6 +32,7 @@ ToTableColumnHeaderElement >> column: aTableColumn [
 ToTableColumnHeaderElement >> initialize [
 
 	super initialize.
+	self id: #headerColumn.
 	self
 		hMatchParent;
 		vFitContent

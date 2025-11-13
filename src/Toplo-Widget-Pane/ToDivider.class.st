@@ -1,16 +1,26 @@
 Class {
 	#name : #ToDivider,
 	#superclass : #ToElement,
+	#traits : 'TToOrientable',
+	#classTraits : 'TToOrientable classTrait',
 	#instVars : [
 		'thickness'
 	],
 	#category : #'Toplo-Widget-Pane-Core'
 }
 
-{ #category : #layout }
-ToDivider >> canApplyLayoutOnPanes [
+{ #category : #configuration }
+ToDivider >> applyConfiguration [ 
 
-	^ self isAttachedToSceneGraph and: [ self parent width isZero not ]
+	super applyConfiguration.
+	self isHorizontal
+		ifTrue: [
+				self hMatchParent.
+				self constraints vertical exact: self thickness ]
+		ifFalse: [
+				self vMatchParent.
+				self constraints horizontal exact: self thickness ].
+	self requestNewSkin
 ]
 
 { #category : #initialization }
@@ -22,7 +32,7 @@ ToDivider >> defaultEventHandler [
 { #category : #initialization }
 ToDivider >> defaultLayout [
 
-	^ BlBasicLayout new 
+	^ BlLinearLayout new 
 ]
 
 { #category : #initialization }
@@ -39,70 +49,10 @@ ToDivider >> initialize [
 	self addEventHandler: self defaultEventHandler 
 ]
 
-{ #category : #testing }
-ToDivider >> isHorizontal [
-
-	^ self parent isVertical
-]
-
-{ #category : #testing }
-ToDivider >> isVertical [
-
-	^ self isHorizontal not
-]
-
-{ #category : #layout }
-ToDivider >> layoutInHorizontalPane [
-
-
-]
-
-{ #category : #layout }
-ToDivider >> layoutInVerticalPane [
-
-
-]
-
-{ #category : #layout }
-ToDivider >> measureInHorizontalPane [
-
-
-]
-
-{ #category : #layout }
-ToDivider >> measureInVerticalPane [
-
-
-]
-
 { #category : #skin }
 ToDivider >> newRawSkin [
 
 	^ ToDividerSkin new
-]
-
-{ #category : #layout }
-ToDivider >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
-
-	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
-	self canApplyLayoutOnPanes ifFalse: [ ^ self ].
-
-	self isHorizontal
-		ifTrue: [ self layoutInVerticalPane ]
-		ifFalse: [ self layoutInHorizontalPane ].
-
-
-]
-
-{ #category : #layout }
-ToDivider >> onMeasure: anExtentMeasurementSpec [
-
-	super onMeasure: anExtentMeasurementSpec.
-	self canApplyLayoutOnPanes ifFalse: [ ^ self ].
-
-	self isHorizontal
-		ifTrue: [ self measureInVerticalPane ]
-		ifFalse: [ self measureInHorizontalPane ]
 ]
 
 { #category : #accessing }
@@ -115,5 +65,5 @@ ToDivider >> thickness [
 ToDivider >> thickness: aNumber [
 
 	thickness := aNumber.
-	self requestLayout
+	self requestConfiguration
 ]

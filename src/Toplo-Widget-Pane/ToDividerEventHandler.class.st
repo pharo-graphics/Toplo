@@ -2,10 +2,17 @@ Class {
 	#name : #ToDividerEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
-		'startPosition'
+		'dividerStartPosition',
+		'globalStartPosition'
 	],
 	#category : #'Toplo-Widget-Pane-Core'
 }
+
+{ #category : #accessing }
+ToDividerEventHandler >> dragDeltaFromEvent: anEvent [
+
+	^ (anEvent position - globalStartPosition) rounded
+]
 
 { #category : #'dnd handlers' }
 ToDividerEventHandler >> dragEvent: anEvent [
@@ -14,15 +21,13 @@ ToDividerEventHandler >> dragEvent: anEvent [
 	anEvent consume.
 
 	divider := anEvent currentTarget.
-	dragDelta := anEvent position - startPosition.
-	(divider isVertical and: [ divider parent isLeftToRight ]) ifTrue: [
-		dragDelta := dragDelta negated ].
+	dragDelta := self dragDeltaFromEvent: anEvent.
 
 	divider isHorizontal
-		ifTrue: [ divider position: startPosition + (0.0 @ dragDelta y) ]
+		ifTrue: [
+		divider position: dividerStartPosition + (0.0 @ dragDelta y) ]
 		ifFalse: [
-			divider position:
-				startPosition position + (dragDelta x negated @ 0.0) ]
+		divider position: dividerStartPosition + (dragDelta x @ 0.0) ]
 ]
 
 { #category : #'dnd handlers' }
@@ -34,7 +39,8 @@ ToDividerEventHandler >> dragStartEvent: anEvent [
 	divider := anEvent currentTarget.
 
 	"drag start position in parent"
-	startPosition := anEvent position
+	globalStartPosition := anEvent position.
+	dividerStartPosition :=  divider constraints position 
 ]
 
 { #category : #'api - accessing' }

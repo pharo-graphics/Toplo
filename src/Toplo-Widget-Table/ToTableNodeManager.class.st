@@ -15,7 +15,7 @@ ToTableNodeManager >> buildNode: aTableNode [
 	self columns ifNotNil: [ :cols |
 			cols do: [ :column |
 					| view |
-					view := ToElement new
+					view := ToElement new 
 						              id: column key;
 						              matchParent;
 						              yourself.

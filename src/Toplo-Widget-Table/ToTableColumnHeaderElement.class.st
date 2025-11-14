@@ -61,6 +61,5 @@ ToTableColumnHeaderElement >> updateColumn [
 			self startElement clickAction: [
 					column nextSort.
 					self updateArrowOrientation: arrow.
-					self startElement fireEvent: (ToSortColumn column: column) ].
-			self startInterspace: 10 ]
+					self startElement fireEvent: (ToSortColumn column: column) ] ]
 ]

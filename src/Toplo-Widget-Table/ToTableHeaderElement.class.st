@@ -47,6 +47,19 @@ ToTableHeaderElement >> defaultLayout [
 	^ BlLinearLayout new
 ]
 
+{ #category : #accessing }
+ToTableHeaderElement >> dividerAt: anIndex movedBy: aDistance from: aStartLocation [
+
+	| headerColumnElements first second |
+	headerColumnElements := self selectChildrenWithId: #headerColumn.
+	first := headerColumnElements at: anIndex.
+	second := headerColumnElements at: anIndex + 1.
+	first width: aStartLocation + aDistance.
+	first column width: aStartLocation + aDistance.
+	"second width: aStartLocation - aDistance.
+	second column width: aStartLocation - aDistance"
+]
+
 { #category : #initialization }
 ToTableHeaderElement >> initialize [
 

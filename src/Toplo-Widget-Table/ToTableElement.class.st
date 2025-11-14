@@ -94,13 +94,8 @@ ToTableElement >> initialize [
 	self property: #columns whenChangedDo: [
 			list columns: self columns.
 			header columns: self columns.
-			self updateDividers ]
-]
-
-{ #category : #testing }
-ToTableElement >> isVertical [ 
-
-	^ true
+			self updateDividers ].
+	self addEventHandler: ToTableElementEventHandler new
 ]
 
 { #category : #accessing }
@@ -145,15 +140,21 @@ ToTableElement >> performDataSort [
 ToTableElement >> updateDividers [
 
 	| headerColumnElements |
-	headerColumnElements := self selectChildrenWithId: #headerColumn.
+	headerColumnElements := self header selectChildrenWithId:
+		                        #headerColumn.
 	self whenLayoutedDoOnce: [
 			headerColumnElements overlappingPairsDo: [ :first :second |
 					| div |
 					div := ToDivider new
+						       id: #columnDivider;
 						       vertical: true;
 						       yourself.
-					div position:
-						first position + ((first width - (div thickness / 2) asFloat)
-						@ 0.0).
-					self addChild: div ] ]
+					div position: first bounds right - div thickness @ 0.0.
+					self addChild: div.
+					div
+						addEventHandlerOn: ToDividerStartDragEvent
+						do: [ :event | self dispatchEvent: event ].
+					div
+						addEventHandlerOn: ToDividerDragEvent
+						do: [ :event | self dispatchEvent: event ] ] ]
 ]

@@ -31,8 +31,10 @@ ToDividerEventHandler >> dragEvent: anEvent [
 		                     ifFalse: [ dragDelta x @ 0.0 ].
 
 	divider position: dividerStartPosition + orientedDragDelta.
-	divider dispatchEvent:
-		(ToDividerDraggedEvent new delta: orientedDragDelta)
+	divider dispatchEvent: (ToDividerDragEvent new
+			 delta: orientedDragDelta;
+			 sourceEvent: anEvent;
+			 yourself)
 ]
 
 { #category : #'dnd handlers' }
@@ -45,7 +47,10 @@ ToDividerEventHandler >> dragStartEvent: anEvent [
 
 	"drag start position in parent"
 	globalStartPosition := anEvent position.
-	dividerStartPosition :=  divider constraints position 
+	dividerStartPosition := divider constraints position.
+	divider dispatchEvent: (ToDividerStartDragEvent new
+			 sourceEvent: anEvent;
+			 yourself)
 ]
 
 { #category : #'api - accessing' }

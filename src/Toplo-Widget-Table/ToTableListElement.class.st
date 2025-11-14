@@ -16,7 +16,11 @@ ToTableListElement class >> initializeToRawTheme: aTheme [
 			aTheme
 				when: ToInstallSkinEvent
 				write: (aTheme property: #geometry)
-				with: [ :header | BlRectangleGeometry new ] ]
+				with: [ :header | BlRectangleGeometry new ].
+			aTheme
+				when: ToInstallSkinEvent
+				write: (aTheme property: #padding)
+				with: [ :header | BlInsets empty ] ]
 ]
 
 { #category : #accessing }
@@ -36,4 +40,11 @@ ToTableListElement >> columns: aTableColumnArray [
 ToTableListElement >> defaultNodeManagerClass [
 
 	^ ToTableNodeManager
+]
+
+{ #category : #accessing }
+ToTableListElement >> dividerAt: anIndex movedBy: aDistance from: aStartLocation [
+
+	self innerElement nodes do: [ :n |
+		n dividerAt: anIndex movedBy: aDistance from: aStartLocation ]
 ]

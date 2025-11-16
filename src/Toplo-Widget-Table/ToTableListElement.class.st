@@ -48,3 +48,9 @@ ToTableListElement >> dividerAt: anIndex movedBy: aDistance from: aStartLocation
 	self innerElement nodes do: [ :n |
 		n dividerAt: anIndex movedBy: aDistance from: aStartLocation ]
 ]
+
+{ #category : #initialization }
+ToTableListElement >> freezeColumnsWidth [
+
+	self innerElement nodesDo: [ :n | n freezeColumnsWidth ]
+]

@@ -14,8 +14,10 @@ Class {
 		'sortDirections',
 		'sortOrder',
 		'width',
+		'resizable',
 		'dataViewBuilder',
-		'headerViewBuilder'
+		'headerViewBuilder',
+		'startDragWidth'
 	],
 	#category : #'Toplo-Widget-Table-Core'
 }
@@ -119,7 +121,8 @@ ToTableColumn >> initialize [
 	super initialize.
 	headerViewBuilder := self defaultHeaderBuilder.
 	dataViewBuilder := self defaultDataViewBuilder.
-	sortDirections := self defaultSortDirection
+	sortDirections := self defaultSortDirection.
+	resizable := true
 ]
 
 { #category : #accessing }
@@ -147,6 +150,18 @@ ToTableColumn >> nextSort [
 		sortDirections hasSortDescend ifTrue: [ ^ sortOrder := #descending ] ].
 	"default if descending or if ascending but cannot decending"
 	^ sortOrder := nil
+]
+
+{ #category : #accessing }
+ToTableColumn >> resizable [
+
+	^ resizable
+]
+
+{ #category : #accessing }
+ToTableColumn >> resizable: aBoolean [
+
+	resizable := aBoolean
 ]
 
 { #category : #accessing }
@@ -185,6 +200,18 @@ ToTableColumn >> sorterBlock [
 ToTableColumn >> sorterBlock: aValuable [
 
 	sorterBlock := aValuable
+]
+
+{ #category : #accessing }
+ToTableColumn >> startDragWidth [
+
+	^ startDragWidth
+]
+
+{ #category : #accessing }
+ToTableColumn >> startDragWidth: aWidth [
+
+	startDragWidth := aWidth
 ]
 
 { #category : #accessing }

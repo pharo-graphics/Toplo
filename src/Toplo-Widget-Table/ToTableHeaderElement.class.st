@@ -16,14 +16,7 @@ ToTableHeaderElement class >> initializeToRawTheme: aTheme [
 			aTheme when: ToInstallSkinEvent do: [ :header |
 					header
 						addTokenNamed: #'font-weight-attribute'
-						withValue: BlFontWeightAttribute bold ].
-			aTheme
-				when: ToInstallSkinEvent
-				write: (aTheme property: #padding)
-				with: [ :header |
-						BlInsets
-							horizontal: (header valueOfTokenNamed: #'list-padding-H')
-							vertical: (header valueOfTokenNamed: #'list-padding-V') ] ]
+						withValue: BlFontWeightAttribute bold ] ]
 ]
 
 { #category : #initialization }
@@ -50,14 +43,35 @@ ToTableHeaderElement >> defaultLayout [
 { #category : #accessing }
 ToTableHeaderElement >> dividerAt: anIndex movedBy: aDistance from: aStartLocation [
 
-	| headerColumnElements first second |
+	|  element |
+	element := self headerColumnElements at: anIndex.
+	element updateWidthWith: element column startDragWidth + aDistance
+]
+
+{ #category : #accessing }
+ToTableHeaderElement >> dividerAt: anIndex startDragAt: aDistance [
+
+	| headerColumnElements first |
 	headerColumnElements := self selectChildrenWithId: #headerColumn.
 	first := headerColumnElements at: anIndex.
-	second := headerColumnElements at: anIndex + 1.
-	first width: aStartLocation + aDistance.
-	first column width: aStartLocation + aDistance.
-	"second width: aStartLocation - aDistance.
-	second column width: aStartLocation - aDistance"
+	first column startDragWidth: first width
+]
+
+{ #category : #initialization }
+ToTableHeaderElement >> freezeColumnsWidth [
+
+	| headerColumnElements last |
+	headerColumnElements := self selectChildrenWithId: #headerColumn.
+	headerColumnElements allButLastDo: [ :e | e updateWidthWith: e width ].
+	last := headerColumnElements last.
+	last column resizable ifTrue: [ ^ self ].
+	last updateWidthWith: last width
+]
+
+{ #category : #accessing }
+ToTableHeaderElement >> headerColumnElements [
+
+	^ self selectChildrenWithId: #headerColumn
 ]
 
 { #category : #initialization }

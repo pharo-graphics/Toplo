@@ -51,6 +51,13 @@ ToTableElement >> defaultLayout [
 	^ BlLinearLayout vertical
 ]
 
+{ #category : #initialization }
+ToTableElement >> freezeColumnsWidth [
+
+	header freezeColumnsWidth.
+	list freezeColumnsWidth
+]
+
 { #category : #accessing }
 ToTableElement >> header [
 
@@ -94,8 +101,35 @@ ToTableElement >> initialize [
 	self property: #columns whenChangedDo: [
 			list columns: self columns.
 			header columns: self columns.
-			self updateDividers ].
+			self initializeDividers ].
 	self addEventHandler: ToTableElementEventHandler new
+]
+
+{ #category : #initialization }
+ToTableElement >> initializeDividers [
+
+	| headerColumnElements index |
+	headerColumnElements := self header selectChildrenWithId:
+		                        #headerColumn.
+	index := 0.
+	self whenLayoutedDoOnce: [
+			headerColumnElements overlappingPairsDo: [ :first :second |
+					| div col |
+					index := index + 1.
+					col := columns at: index.
+					col resizable ifTrue: [
+							div := ToTableDivider new
+								       id: #columnDivider;
+								       yourself.
+							div columnElementIndex: index.
+							div setPositionInTable: self.
+							self addChild: div.
+							div
+								addEventHandlerOn: ToDividerStartDragEvent
+								do: [ :event | self dispatchEvent: event ].
+							div
+								addEventHandlerOn: ToDividerDragEvent
+								do: [ :event | self dispatchEvent: event ] ] ] ]
 ]
 
 { #category : #accessing }
@@ -139,22 +173,8 @@ ToTableElement >> performDataSort [
 { #category : #initialization }
 ToTableElement >> updateDividers [
 
-	| headerColumnElements |
-	headerColumnElements := self header selectChildrenWithId:
-		                        #headerColumn.
+	| dividers |
+	dividers := self selectChildrenWithId: #columnDivider.
 	self whenLayoutedDoOnce: [
-			headerColumnElements overlappingPairsDo: [ :first :second |
-					| div |
-					div := ToDivider new
-						       id: #columnDivider;
-						       vertical: true;
-						       yourself.
-					div position: first bounds right - div thickness @ 0.0.
-					self addChild: div.
-					div
-						addEventHandlerOn: ToDividerStartDragEvent
-						do: [ :event | self dispatchEvent: event ].
-					div
-						addEventHandlerOn: ToDividerDragEvent
-						do: [ :event | self dispatchEvent: event ] ] ]
+		dividers do: [ :div | div setPositionInTable: self ] ]
 ]

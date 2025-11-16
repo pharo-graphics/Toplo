@@ -63,3 +63,11 @@ ToTableColumnHeaderElement >> updateColumn [
 					self updateArrowOrientation: arrow.
 					self startElement fireEvent: (ToSortColumn column: column) ] ]
 ]
+
+{ #category : #accessing }
+ToTableColumnHeaderElement >> updateWidthWith: aNumber [
+
+	self width: aNumber.
+	self column width: aNumber.
+
+]

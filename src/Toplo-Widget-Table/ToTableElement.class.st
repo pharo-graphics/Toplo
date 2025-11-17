@@ -51,6 +51,13 @@ ToTableElement >> defaultLayout [
 	^ BlLinearLayout vertical
 ]
 
+{ #category : #initialization }
+ToTableElement >> freezeCellsWidth [
+
+	header freezeCellsWidth.
+	list freezeCellsWidth
+]
+
 { #category : #accessing }
 ToTableElement >> header [
 
@@ -93,7 +100,35 @@ ToTableElement >> initialize [
 	self initScrollBar.
 	self property: #columns whenChangedDo: [
 			list columns: self columns.
-			header columns: self columns ]
+			header columns: self columns.
+			self initializeDividers ].
+	self addEventHandler: ToTableElementEventHandler new
+]
+
+{ #category : #initialization }
+ToTableElement >> initializeDividers [
+
+	| headerColumnElements index |
+	headerColumnElements := self header cells.
+	index := 0.
+	self whenLayoutedDoOnce: [
+			headerColumnElements overlappingPairsDo: [ :first :second |
+					| div col |
+					index := index + 1.
+					col := columns at: index.
+					col resizable ifTrue: [
+							div := ToTableDivider new
+								       id: #columnDivider;
+								       yourself.
+							div cellIndex: index.
+							div setPositionInTable: self.
+							self addChild: div.
+							div
+								addEventHandlerOn: ToDividerStartDragEvent
+								do: [ :event | self dispatchEvent: event ].
+							div
+								addEventHandlerOn: ToDividerDragEvent
+								do: [ :event | self dispatchEvent: event ] ] ] ]
 ]
 
 { #category : #accessing }
@@ -132,4 +167,13 @@ ToTableElement >> performDataSort [
 			self dataAccessor collection sort: [ :item1 :item2 |
 				valueSortFunction value: item1 value: item2 ] ].
 	self dataAccessor notifyChanged
+]
+
+{ #category : #initialization }
+ToTableElement >> updateDividers [
+
+	| dividers |
+	dividers := self selectChildrenWithId: #columnDivider.
+	self whenLayoutedDoOnce: [
+		dividers do: [ :div | div setPositionInTable: self ] ]
 ]

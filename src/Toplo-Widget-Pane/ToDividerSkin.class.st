@@ -36,29 +36,7 @@ ToDividerSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-			| im |
-			e geometry: (BlRoundedRectangleGeometry cornerRadius: 2).
-			e background: e defaultBackground.
-			e childWithId: #gripImage ifFound: [ :f | f removeFromParent ].
-			im := ToImage inner: (self innerImageIn: e).
-			im id: #gripImage.
-			im extent: (e valueOfTokenNamed: #'divider-image-size') asPoint.
-			im innerImageColor:
-				(e valueOfTokenNamed: #'divider-hovered-background').
-			e addChild: im.
-			im constraintsDo: [ :c |
-					c ignoreByLayout.
-					e isHorizontal
-						ifTrue: [
-								c anchors add: (c anchors verticalCenterAnchor on:
-										 c anchors parent verticalCenterAnchor).
-								c anchors add: (c anchors horizontalCenterAnchor on:
-										 c anchors parent horizontalCenterAnchor) ]
-						ifFalse: [
-								c anchors add: (c anchors horizontalCenterAnchor on:
-										 c anchors parent horizontalCenterAnchor).
-								c anchors add: (c anchors verticalCenterAnchor on:
-										 c anchors parent verticalCenterAnchor) ] ] ]
+			e background: e defaultBackground ]
 ]
 
 { #category : #'event handling' }

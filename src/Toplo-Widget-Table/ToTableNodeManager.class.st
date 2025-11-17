@@ -15,10 +15,11 @@ ToTableNodeManager >> buildNode: aTableNode [
 	self columns ifNotNil: [ :cols |
 			cols do: [ :column |
 					| view |
-					view := ToElement new
-						              id: column key;
-						              matchParent;
-						              yourself.
+					view := ToTableListCellElement new
+						        id: column key;
+						        column: column;
+						        matchParent;
+						        yourself.
 					aTableNode addChild: view.
 					column buildDataView: view fromNode: aTableNode ] ]
 ]

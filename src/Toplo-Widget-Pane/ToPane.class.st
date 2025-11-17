@@ -34,7 +34,7 @@ ToPane class >> vertical [
 ToPane >> addDividerBetween: aFirstElement and: aSecondElement [
 
 	| divider |
-	divider := ToDivider between: aFirstElement and: aSecondElement.
+	divider := ToPaneDivider between: aFirstElement and: aSecondElement.
 	self addChild: divider.
 	^ divider 
 ]
@@ -61,7 +61,7 @@ ToPane >> defaultLayout [
 { #category : #dividers }
 ToPane >> dividers [
 
-	^ self children select: [ :child | child isKindOf: ToDivider ]
+	^ self children select: [ :child | child isKindOf: ToPaneDivider ]
 ]
 
 { #category : #skin }

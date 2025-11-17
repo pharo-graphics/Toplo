@@ -16,28 +16,24 @@ ToTableHeaderElement class >> initializeToRawTheme: aTheme [
 			aTheme when: ToInstallSkinEvent do: [ :header |
 					header
 						addTokenNamed: #'font-weight-attribute'
-						withValue: BlFontWeightAttribute bold ].
-			aTheme
-				when: ToInstallSkinEvent
-				write: (aTheme property: #padding)
-				with: [ :header |
-						BlInsets
-							horizontal: (header valueOfTokenNamed: #'list-padding-H')
-							vertical: (header valueOfTokenNamed: #'list-padding-V') ] ]
+						withValue: BlFontWeightAttribute bold ] ]
 ]
 
-{ #category : #initialization }
-ToTableHeaderElement >> buildHeaderLabelFor: column [
+{ #category : #accessing }
+ToTableHeaderElement >> cells [
 
-	^ ToTableColumnHeaderElement column: column 
+	^ self selectChildrenWithId: #headerCell
 ]
 
 { #category : #accessing }
 ToTableHeaderElement >> columns: aTableColumnArray [
 
 	self removeChildren.
-	aTableColumnArray do: [ :column |
-		self addChild: (self buildHeaderLabelFor: column)  ]
+	aTableColumnArray do: [ :column | | cell |
+		cell := self newCell.
+		self addChild: cell.
+		cell column: column.
+		cell initializeFromColumn ]
 ]
 
 { #category : #initialization }
@@ -47,10 +43,42 @@ ToTableHeaderElement >> defaultLayout [
 	^ BlLinearLayout new
 ]
 
+{ #category : #accessing }
+ToTableHeaderElement >> divider: aDivider movedBy: aDistance from: aStartLocation [
+
+	|  cell |
+	cell := self cells at: aDivider cellIndex.
+	cell updateWidthWith: cell column startDragWidth + aDistance
+]
+
+{ #category : #accessing }
+ToTableHeaderElement >> divider: aDivider startDragAt: aDistance [
+
+	|  cell |
+	cell := self cells at: aDivider cellIndex.
+	cell column startDragWidth: cell width
+]
+
+{ #category : #initialization }
+ToTableHeaderElement >> freezeCellsWidth [
+
+	| last |
+	self cells allButLastDo: [ :e | e updateWidthWith: e width ].
+	last := self cells last.
+	last column resizable ifTrue: [ ^ self ].
+	last updateWidthWith: last width
+]
+
 { #category : #initialization }
 ToTableHeaderElement >> initialize [
 
 	super initialize.
 	self vFitContent.
 	self hMatchParent
+]
+
+{ #category : #initialization }
+ToTableHeaderElement >> newCell [
+
+	^ ToTableHeaderCellElement new
 ]

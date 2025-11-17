@@ -8857,14 +8857,25 @@ ToSandBox class >> example_toTable1 [
 				 title: 'Name';
 				 key: 'name';
 				 dataIndex: 'name';
+				 "width: 150;"
+				" resizable: false;"
 				 yourself).
 			(ToTableColumn new
 				 title: 'Number of methods';
 				 key: 'methods';
 				 dataIndex: 'numberOfMethods';
+				 yourself).
+			(ToTableColumn new
+				 title: 'Space used';
+				 key: 'space';
+				 dataIndex: 'spaceUsed';
+				 yourself).
+			(ToTableColumn new
+				 title: 'Package';
+				 key: 'package';
+				 dataIndex: [:cls | cls packageName ];
 				 yourself) }.
-	table dataAccessor addAll:
-		(Smalltalk globals allClasses ).
+	table dataAccessor addAll: Smalltalk globals allClasses.
 	table openInSpace
 ]
 
@@ -8879,7 +8890,6 @@ ToSandBox class >> example_toTableWithBuilder [
 				 key: 'name';
 				 dataIndex: 'name';
 				 sorterBlock: #name descending;
-				 width: 300;
 				 yourself).
 			(ToTableColumn new
 				 key: 'methods';
@@ -9052,6 +9062,8 @@ ToSandBox class >> example_verticalPaneWithDivider [
 
 	| pane e1 e2 e3 btn |
 	pane := ToPane vertical.
+	pane withNullSkin.
+	pane padding: (BlInsets all: 5).
 	pane matchParent.
 	e1 := ToElement new
 		      background: (Color random alpha: 0.2);

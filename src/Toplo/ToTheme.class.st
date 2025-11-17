@@ -288,6 +288,9 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'list-node-padding-V' value: 2).
 		  (ToTokenProperty name: #'bar-node-padding-H' value: 3).
 		  (ToTokenProperty name: #'bar-node-padding-V' value: 2).
+		  (ToTokenProperty name: #'table-cell-padding-H' value: 6).
+		  (ToTokenProperty name: #'table-cell-padding-V' value: 4).
+		  (ToTokenProperty name: #'table-header-cell-padding-V' value: 10).
 		  (ToTokenProperty name: #'menu-node-padding-H' value: 6).
 		  (ToTokenProperty name: #'menu-node-padding-V' value: 2).
 		  (ToTokenProperty name: #'menu-item-padding-H' value: 6).

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToCheckboxTest,
-	#superclass : #ToTestCaseWithSpace,
+	#superclass : #ToParameterizedHostTest,
 	#category : #'Toplo-Widget-Button-Tests-Checkable'
 }
 
@@ -119,4 +119,24 @@ ToCheckboxTest >> testStartUnchecked [
 	cb addEventHandler: (BlEventHandler
 			 on: ToAddedToSpaceEvent 
 			 do: [ space close ])
+]
+
+{ #category : #tests }
+ToCheckboxTest >> testSwitchToNextCheckStateOnClick [
+
+	| cb  |
+	cb := ToCheckbox new.
+	space root addChild: cb.
+	self deny: cb checked.
+	BlSpace simulateClickOn: cb.
+	self assert: cb checked.
+	cb switchToNextCheckStateOnClick: false.
+	BlSpace simulateClickOn: cb.
+	self assert: cb checked.
+
+	
+	
+
+	
+
 ]

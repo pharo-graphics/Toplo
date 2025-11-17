@@ -6,7 +6,8 @@ Class {
 		'group',
 		'checked',
 		'withIndeterminate',
-		'eventHandler'
+		'eventHandler',
+		'switchToNextCheckStateOnClick'
 	],
 	#category : #'Toplo-Widget-Button-Checkable'
 }
@@ -145,4 +146,17 @@ ToCheckableData >> privateChecked: aBooleanOrIndeterminate [
 ToCheckableData >> switchToNextCheckState [
 
 	self checked: self nextCheckValue 
+]
+
+{ #category : #'checking protocol' }
+ToCheckableData >> switchToNextCheckStateOnClick [
+
+	^ switchToNextCheckStateOnClick ifNil: [
+		  switchToNextCheckStateOnClick := true ]
+]
+
+{ #category : #'checking protocol' }
+ToCheckableData >> switchToNextCheckStateOnClick: aBoolean [
+
+	switchToNextCheckStateOnClick := aBoolean
 ]

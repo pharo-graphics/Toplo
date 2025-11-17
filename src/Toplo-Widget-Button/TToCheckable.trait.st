@@ -178,6 +178,18 @@ TToCheckable >> switchToNextCheckState [
 ]
 
 { #category : #'t - checkable  - protocol' }
+TToCheckable >> switchToNextCheckStateOnClick [
+
+	^ self checkableData switchToNextCheckStateOnClick
+]
+
+{ #category : #'t - checkable  - protocol' }
+TToCheckable >> switchToNextCheckStateOnClick: aBoolean [
+
+	self checkableData switchToNextCheckStateOnClick: aBoolean
+]
+
+{ #category : #'t - checkable  - protocol' }
 TToCheckable >> uncheck [
 
 	self checked: false

@@ -39,5 +39,6 @@ ToCheckableEventHandler >> primaryClickEvent: anEvent [
 
 	| currentTarget |
 	currentTarget := anEvent currentTarget.
+	currentTarget switchToNextCheckStateOnClick ifFalse: [ ^ self ].
 	currentTarget switchToNextCheckState
 ]

@@ -8,7 +8,7 @@ Class {
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
 		'#columns => ObservableSlot',
-		'#showHeader',
+		'#showHeader => ObservableSlot',
 		'#header',
 		'#list'
 	],
@@ -90,6 +90,7 @@ ToTableElement >> initialize [
 	super initialize.
 	self class initializeSlots: self.
 	self matchParent.
+	self padding: (BlInsets all: 1).
 	list := ToTableListElement new
 		        id: #list;
 		        yourself.
@@ -102,6 +103,10 @@ ToTableElement >> initialize [
 			list columns: self columns.
 			header columns: self columns.
 			self initializeDividers ].
+	self property: #showHeader whenChangedDo: [
+			showHeader
+				ifTrue: [ header constraintsDo: [ :c | c vertical fitContent ] ]
+				ifFalse: [ header constraintsDo: [ :c | c vertical exact: 0.0 ] ] ].
 	self addEventHandler: ToTableElementEventHandler new
 ]
 
@@ -167,6 +172,12 @@ ToTableElement >> performDataSort [
 			self dataAccessor collection sort: [ :item1 :item2 |
 				valueSortFunction value: item1 value: item2 ] ].
 	self dataAccessor notifyChanged
+]
+
+{ #category : #accessing }
+ToTableElement >> showHeader: aBoolean [
+
+	showHeader := aBoolean
 ]
 
 { #category : #initialization }

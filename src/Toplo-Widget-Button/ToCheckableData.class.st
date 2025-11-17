@@ -158,5 +158,9 @@ ToCheckableData >> switchToNextCheckStateOnClick [
 { #category : #'checking protocol' }
 ToCheckableData >> switchToNextCheckStateOnClick: aBoolean [
 
+	" true by default.
+	With false, it prevents from automatically switch to next state 
+	to let the user decide when to do it.
+	see https://github.com/pharo-graphics/Toplo/issues/336 "
 	switchToNextCheckStateOnClick := aBoolean
 ]

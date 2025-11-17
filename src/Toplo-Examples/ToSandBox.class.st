@@ -1683,6 +1683,20 @@ ToSandBox class >> example_Checkbox [
 ]
 
 { #category : #checkables }
+ToSandBox class >> example_Checkbox2 [
+
+	| chb |
+	ToTheme cleanUp.
+	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
+	chb switchToNextCheckStateOnClick: false.
+	chb addEventHandlerOn: BlClickEvent do: [ :event | chb checked: chb checked not ].
+	chb addEventHandlerOn: ToSkinEvent do: [ :evt | evt traceCr ].
+	chb checkAction: [ :evt   |
+		evt target isChecked traceCr ].
+	chb openInInnerWindow
+]
+
+{ #category : #checkables }
 ToSandBox class >> example_CheckboxChecked [
 
 	| chb |

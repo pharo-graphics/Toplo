@@ -12,18 +12,17 @@ ToTableElementEventHandler >> addedToSpaceEvent: anEvent [
 
 	| table |
 	table := anEvent currentTarget.
-	table whenLayoutedDoOnce: [ table freezeColumnsWidth ]
+	table whenLayoutedDoOnce: [ table freezeCellsWidth ]
 ]
 
 { #category : #'divider dragging' }
 ToTableElementEventHandler >> dividerDragEvent: anEvent [
 
-	| table dividers pos |
+	| table divider  |
 	table := anEvent currentTarget.
-	dividers := table selectChildrenWithId: #columnDivider.
-	pos := anEvent sourceEvent target columnElementIndex.
-	table header dividerAt: pos movedBy: anEvent delta x from: dividerStartPosition x.
-	table list dividerAt: pos movedBy: anEvent delta x from: dividerStartPosition x.
+	divider := anEvent sourceEvent target.
+	table header divider: divider movedBy: anEvent delta x from: dividerStartPosition x.
+	table list divider: divider movedBy: anEvent delta x from: dividerStartPosition x.
 	table updateDividers
 ]
 
@@ -35,8 +34,8 @@ ToTableElementEventHandler >> dividerStartDragEvent: anEvent [
 	dividerStartPosition := divider constraints position.
 	table := anEvent currentTarget.
 	dividers := table selectChildrenWithId: #columnDivider.
-	pos := anEvent sourceEvent target columnElementIndex.
-	table header dividerAt: pos startDragAt: dividerStartPosition x
+	pos := anEvent sourceEvent target cellIndex.
+	table header divider: divider startDragAt: dividerStartPosition x
 ]
 
 { #category : #'api - accessing' }

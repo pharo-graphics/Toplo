@@ -19,18 +19,21 @@ ToTableHeaderElement class >> initializeToRawTheme: aTheme [
 						withValue: BlFontWeightAttribute bold ] ]
 ]
 
-{ #category : #initialization }
-ToTableHeaderElement >> buildHeaderLabelFor: column [
+{ #category : #accessing }
+ToTableHeaderElement >> cells [
 
-	^ ToTableColumnHeaderElement column: column 
+	^ self selectChildrenWithId: #headerCell
 ]
 
 { #category : #accessing }
 ToTableHeaderElement >> columns: aTableColumnArray [
 
 	self removeChildren.
-	aTableColumnArray do: [ :column |
-		self addChild: (self buildHeaderLabelFor: column)  ]
+	aTableColumnArray do: [ :column | | cell |
+		cell := self newCell.
+		self addChild: cell.
+		cell column: column.
+		cell initializeFromColumn ]
 ]
 
 { #category : #initialization }
@@ -41,37 +44,29 @@ ToTableHeaderElement >> defaultLayout [
 ]
 
 { #category : #accessing }
-ToTableHeaderElement >> dividerAt: anIndex movedBy: aDistance from: aStartLocation [
+ToTableHeaderElement >> divider: aDivider movedBy: aDistance from: aStartLocation [
 
-	|  element |
-	element := self headerColumnElements at: anIndex.
-	element updateWidthWith: element column startDragWidth + aDistance
+	|  cell |
+	cell := self cells at: aDivider cellIndex.
+	cell updateWidthWith: cell column startDragWidth + aDistance
 ]
 
 { #category : #accessing }
-ToTableHeaderElement >> dividerAt: anIndex startDragAt: aDistance [
+ToTableHeaderElement >> divider: aDivider startDragAt: aDistance [
 
-	| headerColumnElements first |
-	headerColumnElements := self selectChildrenWithId: #headerColumn.
-	first := headerColumnElements at: anIndex.
-	first column startDragWidth: first width
+	|  cell |
+	cell := self cells at: aDivider cellIndex.
+	cell column startDragWidth: cell width
 ]
 
 { #category : #initialization }
-ToTableHeaderElement >> freezeColumnsWidth [
+ToTableHeaderElement >> freezeCellsWidth [
 
-	| headerColumnElements last |
-	headerColumnElements := self selectChildrenWithId: #headerColumn.
-	headerColumnElements allButLastDo: [ :e | e updateWidthWith: e width ].
-	last := headerColumnElements last.
+	| last |
+	self cells allButLastDo: [ :e | e updateWidthWith: e width ].
+	last := self cells last.
 	last column resizable ifTrue: [ ^ self ].
 	last updateWidthWith: last width
-]
-
-{ #category : #accessing }
-ToTableHeaderElement >> headerColumnElements [
-
-	^ self selectChildrenWithId: #headerColumn
 ]
 
 { #category : #initialization }
@@ -80,4 +75,10 @@ ToTableHeaderElement >> initialize [
 	super initialize.
 	self vFitContent.
 	self hMatchParent
+]
+
+{ #category : #initialization }
+ToTableHeaderElement >> newCell [
+
+	^ ToTableHeaderCellElement new
 ]

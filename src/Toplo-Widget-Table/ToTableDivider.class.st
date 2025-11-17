@@ -2,21 +2,21 @@ Class {
 	#name : #ToTableDivider,
 	#superclass : #ToDivider,
 	#instVars : [
-		'columnElementIndex'
+		'cellIndex'
 	],
 	#category : #'Toplo-Widget-Table-Core'
 }
 
 { #category : #accessing }
-ToTableDivider >> columnElementIndex [
+ToTableDivider >> cellIndex [
 
-	^ columnElementIndex
+	^ cellIndex
 ]
 
 { #category : #accessing }
-ToTableDivider >> columnElementIndex: anIndex [
+ToTableDivider >> cellIndex: anIndex [
 
-	columnElementIndex := anIndex
+	cellIndex := anIndex
 ]
 
 { #category : #initialization }
@@ -30,9 +30,9 @@ ToTableDivider >> initialize [
 { #category : #initialization }
 ToTableDivider >> setPositionInTable: aTableElement [
 
-	| headerColumnElements element bnds |
-	headerColumnElements := aTableElement header headerColumnElements.
-	element := headerColumnElements at: columnElementIndex.
-	bnds := element bounds inParent: aTableElement.
+	| headerCells cell bnds |
+	headerCells := aTableElement header cells.
+	cell := headerCells at: cellIndex.
+	bnds := cell bounds inParent: aTableElement.
 	self position: bnds right - self thickness @ 0.0
 ]

@@ -52,10 +52,10 @@ ToTableElement >> defaultLayout [
 ]
 
 { #category : #initialization }
-ToTableElement >> freezeColumnsWidth [
+ToTableElement >> freezeCellsWidth [
 
-	header freezeColumnsWidth.
-	list freezeColumnsWidth
+	header freezeCellsWidth.
+	list freezeCellsWidth
 ]
 
 { #category : #accessing }
@@ -109,8 +109,7 @@ ToTableElement >> initialize [
 ToTableElement >> initializeDividers [
 
 	| headerColumnElements index |
-	headerColumnElements := self header selectChildrenWithId:
-		                        #headerColumn.
+	headerColumnElements := self header cells.
 	index := 0.
 	self whenLayoutedDoOnce: [
 			headerColumnElements overlappingPairsDo: [ :first :second |
@@ -121,7 +120,7 @@ ToTableElement >> initializeDividers [
 							div := ToTableDivider new
 								       id: #columnDivider;
 								       yourself.
-							div columnElementIndex: index.
+							div cellIndex: index.
 							div setPositionInTable: self.
 							self addChild: div.
 							div

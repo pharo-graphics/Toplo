@@ -5,36 +5,40 @@ Class {
 }
 
 { #category : #accessing }
+ToTableNode >> cells [ 
+
+	^ self children asArray
+]
+
+{ #category : #accessing }
 ToTableNode >> columns [
 
 	^ self holder listElement columns
 ]
 
 { #category : #accessing }
-ToTableNode >> dividerAt: anIndex movedBy: aDistance from: aStartLocation [
+ToTableNode >> divider: aDivider movedBy: aDistance from: aStartLocation [
 
-	| elements first column |
-	column := self holder listElement columns at: anIndex.
-	elements := self children.
-	first := self childAt: anIndex.
-	first width: column startDragWidth + aDistance
+	| cell |
+	cell := self cells at: aDivider cellIndex.
+	cell width: cell column startDragWidth + aDistance
 ]
 
 { #category : #initialization }
-ToTableNode >> freezeColumnsWidth [
+ToTableNode >> freezeCellsWidth [
 
-	| columns index columnElements last |
+	| columns index cells last |
 	columns := self holder listElement columns.
 	index := 1.
-	columnElements := self children asArray.
-	columnElements allButLastDo: [ :child |
+	cells := self cells.
+	cells allButLastDo: [ :child |
 			| col |
 			col := columns at: index.
-			child constraints horizontal exact: child width.
+			child updateWidthWith: child width.
 			index := index + 1 ].
 	columns last resizable ifTrue: [ ^ self ].
-	last := columnElements last.
-	last constraints horizontal exact: last width
+	last := cells last.
+	last updateWidthWith: last width
 ]
 
 { #category : #skin }

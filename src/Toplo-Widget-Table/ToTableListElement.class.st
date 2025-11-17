@@ -43,14 +43,14 @@ ToTableListElement >> defaultNodeManagerClass [
 ]
 
 { #category : #accessing }
-ToTableListElement >> dividerAt: anIndex movedBy: aDistance from: aStartLocation [
+ToTableListElement >> divider: aDivider movedBy: aDistance from: aStartLocation [
 
 	self innerElement nodes do: [ :n |
-		n dividerAt: anIndex movedBy: aDistance from: aStartLocation ]
+		n divider: aDivider movedBy: aDistance from: aStartLocation ]
 ]
 
 { #category : #initialization }
-ToTableListElement >> freezeColumnsWidth [
+ToTableListElement >> freezeCellsWidth [
 
-	self innerElement nodesDo: [ :n | n freezeColumnsWidth ]
+	self innerElement nodesDo: [ :n | n freezeCellsWidth ]
 ]

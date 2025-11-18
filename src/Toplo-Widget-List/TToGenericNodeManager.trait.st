@@ -4,18 +4,52 @@ Trait {
 		'nodeHolderFactory',
 		'nodeFactory',
 		'nodeBuilder',
-		'nodeUnbuilder'
+		'nodeUnbuilder',
+		'checkableNode'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
 
 { #category : #'t - generic node manager' }
+TToGenericNodeManager >> buildCheckableNode: aNode [
+
+	| part cbox |
+	cbox := ToCheckbox new.
+	cbox focusability: BlFocusability none.
+	cbox checked: aNode holder isSelected.
+	cbox
+		addEventHandlerOn: ToCheckableCheckEvent
+		do: [ :event | aNode holder selected: event checked ].
+	aNode addChild: cbox.
+	part := ToElement new
+		        hMatchParent;
+		        vFitContent.
+	part layout: BlLinearLayout horizontal.
+	cbox constraintsDo: [ :c | c linear vertical alignCenter ].
+	part constraintsDo: [ :c | c linear vertical alignCenter ].
+	aNode addChild: part.
+	nodeBuilder cull: part cull: aNode holder dataItem cull: aNode holder
+]
+
+{ #category : #'t - generic node manager' }
 TToGenericNodeManager >> buildNode: aNode [
 
-	nodeBuilder
-		cull: aNode
-		cull: aNode holder dataItem
-		cull: aNode holder
+	checkableNode ifTrue: [ ^ self buildCheckableNode: aNode ].
+	self buildSimpleNode: aNode
+]
+
+{ #category : #'t - generic node manager' }
+TToGenericNodeManager >> buildSimpleNode: aNode [
+
+	
+	nodeBuilder cull: aNode cull: aNode holder dataItem cull: aNode holder
+	
+]
+
+{ #category : #'t - generic node manager' }
+TToGenericNodeManager >> checkableNode: aBoolean [
+
+	checkableNode := aBoolean
 ]
 
 { #category : #'t - generic node manager' }
@@ -49,7 +83,8 @@ TToGenericNodeManager >> initializeAsGenericNodeManager [
 	nodeBuilder := self defaultNodeBuilder.
 	nodeUnbuilder := self defaultNodeUnbuilder.
 	nodeFactory := self defaultNodeFactory.
-	nodeHolderFactory := self defaultNodeHolderFactory
+	nodeHolderFactory := self defaultNodeHolderFactory.
+	checkableNode := false
 ]
 
 { #category : #'t - generic node manager' }

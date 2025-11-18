@@ -3,6 +3,7 @@ Class {
 	#superclass : #ToAbstractListSelectionMode,
 	#instVars : [
 		'selectOnPressed',
+		'selectOnClick',
 		'deselectOnPressed',
 		'multiple'
 	],
@@ -49,6 +50,7 @@ ToListPrimarySelectionMode >> initialize [
 
 	super initialize.
 	selectOnPressed := false.
+	selectOnClick := true.
 	deselectOnPressed := false.
 	multiple := true
 ]
@@ -160,6 +162,18 @@ ToListPrimarySelectionMode >> onRemovedNode: aNode [
 	(aNode eventDispatcher handlers select: [ :handler |
 		 handler class = aNode clickEventHandlerClass ]) do: [ :handler |
 		aNode removeEventHandler: handler ]
+]
+
+{ #category : #accessing }
+ToListPrimarySelectionMode >> selectOnClick [
+
+	^ selectOnClick
+]
+
+{ #category : #accessing }
+ToListPrimarySelectionMode >> selectOnClick: aBoolean [
+
+	selectOnClick := aBoolean
 ]
 
 { #category : #accessing }

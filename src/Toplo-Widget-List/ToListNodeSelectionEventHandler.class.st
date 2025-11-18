@@ -175,6 +175,7 @@ ToListNodeSelectionEventHandler >> pickEvent: anEvent [
 	listElement isEnabled ifFalse: [ ^ self ].
 	mode := listElement primarySelectionMode.
 	mode selectOnPressed ifTrue: [ ^ self ].
+	mode selectOnClick ifFalse: [ ^ self ].
 	self notifyClickOnNodeFromEvent: anEvent
 ]
 

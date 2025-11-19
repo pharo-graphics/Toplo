@@ -11,7 +11,20 @@ ToCheckboxSkin >> checkedSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e icon
 			innerImage: (e valueOfTokenNamed: #'checkbox-checked-image');
-			innerImageColor: (e valueOfTokenNamed: #'color-primary'). ]
+			innerImageColor: (e valueOfTokenNamed: #'checkbox-color'). ]
+]
+
+{ #category : #'event handling' }
+ToCheckboxSkin >> deselectedSkinEvent: anEvent [
+
+	super deselectedSkinEvent: anEvent.
+
+	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
+	anEvent selectionMode selectionOption isMasked ifTrue: [ ^ self ].
+	anEvent selectionMode selectionOption hasEmbeddedRepresentation
+		ifTrue: [ ^ self ].
+	anEvent elementDo: [ :e |
+			e removeTokenNamed: #'checkbox-color' ]
 ]
 
 { #category : #'event handling' }
@@ -39,7 +52,7 @@ ToCheckboxSkin >> enabledSkinEvent: anEvent [
 			(e isMenuButton or: [
 				 e anyInParentsSatisfy: [ :p | p isKindOf: ToAbstractListNode ] ])
 				ifTrue: [ e background: BlBackground transparent ].
-			e icon innerImageColor: (e valueOfTokenNamed: #'color-primary') ]
+			e icon innerImageColor: (e valueOfTokenNamed: #'checkbox-color') ]
 ]
 
 { #category : #'event handling' }
@@ -47,7 +60,8 @@ ToCheckboxSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e border: BlBorder empty ]
+			e icon innerImageColor: (e valueOfTokenNamed: #'checkbox-color').
+			e border: BlBorder empty ]
 ]
 
 { #category : #accessing }
@@ -63,7 +77,7 @@ ToCheckboxSkin >> indeterminateSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e icon
 			innerImage: (e valueOfTokenNamed: 'checkbox-indeterminate-image');
-			innerImageColor: (e valueOfTokenNamed: #'color-primary');
+			innerImageColor: (e valueOfTokenNamed: #'checkbox-color');
 			extent: (e valueOfTokenNamed: #'checkable-icon-size') ]
 ]
 
@@ -85,7 +99,7 @@ ToCheckboxSkin >> installSkinEvent: anEvent [
 			e icon:
 				(ToImage inner: (e valueOfTokenNamed: #'checkbox-unchecked-image')).
 			e icon extent: (e valueOfTokenNamed: #'checkable-icon-size').
-			e icon innerImageColor: (e valueOfTokenNamed: #'color-primary').
+			e icon innerImageColor: (e valueOfTokenNamed: #'checkbox-color').
 			e border: BlBorder empty ]
 ]
 
@@ -95,7 +109,7 @@ ToCheckboxSkin >> leavedSkinEvent: anEvent [
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
-					ic innerImageColor: (e valueOfTokenNamed: #'color-primary') ].
+					ic innerImageColor: (e valueOfTokenNamed: #'checkbox-color') ].
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text') ].
 		e border: BlBorder empty ]
@@ -107,10 +121,29 @@ ToCheckboxSkin >> leftSkinEvent: anEvent [
 	super leftSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e iconDo: [ :ic |
-					ic innerImageColor: (e valueOfTokenNamed: #'color-primary') ].
+					ic innerImageColor: (e valueOfTokenNamed: #'checkbox-color') ].
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text') ].
 		e border: BlBorder empty ]
+]
+
+{ #category : #'event handling' }
+ToCheckboxSkin >> selectedSkinEvent: anEvent [
+
+	super selectedSkinEvent: anEvent.
+
+	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
+	anEvent selectionMode selectionOption isMasked ifTrue: [ ^ self ].
+	anEvent selectionMode selectionOption hasEmbeddedRepresentation
+		ifTrue: [ ^ self ].
+	anEvent elementDo: [ :e |
+			| f |
+			f := anEvent focused
+				     ifTrue: [
+				     e valueOfTokenNamed: #'selected-focused-foreground' ]
+				     ifFalse: [
+				     e valueOfTokenNamed: #'selected-unfocused-foreground' ].
+			e addTokenNamed: #'checkbox-color' withValue: f ]
 ]
 
 { #category : #'event handling' }
@@ -120,7 +153,7 @@ ToCheckboxSkin >> uncheckedSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e icon
 			innerImage: (e valueOfTokenNamed: #'checkbox-unchecked-image');
-			innerImageColor: (e valueOfTokenNamed: #'color-primary') ]
+			innerImageColor: (e valueOfTokenNamed: #'checkbox-color') ]
 ]
 
 { #category : #'event handling' }

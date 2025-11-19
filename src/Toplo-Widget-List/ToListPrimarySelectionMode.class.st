@@ -115,7 +115,7 @@ ToListPrimarySelectionMode >> onAddedNode: aNode [
 		aNode addEventHandler: cls new ]
 ]
 
-{ #category : #'event handling' }
+{ #category : #'selection managing' }
 ToListPrimarySelectionMode >> onClickEvent: anEvent onNode: aNode [
 	" implement the default/standard selection/deselection protocol"
 
@@ -127,30 +127,31 @@ ToListPrimarySelectionMode >> onClickEvent: anEvent onNode: aNode [
 
 	" Multiple selection "
 	self isMultipleSelection ifTrue: [ " SHIFT "
-		modifiers isShift ifTrue: [
-			| curr |
-			curr := self selecter currentIndex.
-			self selecter selectIndex: curr to: index.
+			modifiers ifNotNil: [
+					modifiers isShift ifTrue: [
+							| curr |
+							curr := self selecter currentIndex.
+							self selecter selectIndex: curr to: index.
+							^ self ].
+					" CMD-CTRL "
+					(modifiers isPrimaryModifier or: [
+						 selectOnPressed or: [ deselectOnPressed ] ]) ifTrue: [
+							(self selectionModel containsIndex: index)
+								ifTrue: [
+										(modifiers isPrimaryModifier or: [ deselectOnPressed ])
+											ifTrue: [ self selecter deselectIndex: index ] ]
+								ifFalse: [ self selecter selectIndex: index ].
+							^ self ] ].
+			" No modifier"
+			self selecter selectOnlyIndex: index.
 			^ self ].
-		" CMD-CTRL "
-		(modifiers isPrimaryModifier or: [
-			 selectOnPressed or: [ deselectOnPressed ] ]) ifTrue: [
-			(self selectionModel containsIndex: index)
-				ifTrue: [
-					(modifiers isPrimaryModifier or: [ deselectOnPressed ])
-						ifTrue: [ self selecter deselectIndex: index ] ]
-				ifFalse: [ self selecter selectIndex: index ].
-			^ self ].
-		" No modifier"
-		self selecter selectOnlyIndex: index.
-		^ self ].
 
 	" Single selection "
 	" CMD-CTRL  "
-	(modifiers isPrimaryModifier or: [ selectOnPressed ]) ifTrue: [
-		(deselectOnPressed and: [
-			 self selectionModel containsIndex: index ]) ifTrue: [
-			^ self selecter deselectIndex: index ] ].
+	((modifiers notNil and: [ modifiers isPrimaryModifier ]) or: [
+		 selectOnPressed ]) ifTrue: [
+			(deselectOnPressed and: [ self selectionModel containsIndex: index ])
+				ifTrue: [ ^ self selecter deselectIndex: index ] ].
 
 	" No modifier"
 	self selecter selectOnlyIndex: index

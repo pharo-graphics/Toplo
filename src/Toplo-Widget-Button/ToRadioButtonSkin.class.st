@@ -11,7 +11,7 @@ ToRadioButtonSkin >> checkedSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e icon
 			innerImage: (e valueOfTokenNamed: #'radio-checked-image');
-			innerImageColor: (e valueOfTokenNamed: #'color-primary') ]
+			innerImageColor: (e valueOfTokenNamed: #'checkbox-color') ]
 ]
 
 { #category : #accessing }
@@ -37,5 +37,5 @@ ToRadioButtonSkin >> uncheckedSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 		e icon
 			innerImage: (e valueOfTokenNamed: #'radio-unchecked-image');
-			innerImageColor: (e valueOfTokenNamed: #'color-primary') ]
+			innerImageColor: (e valueOfTokenNamed: #'checkbox-color') ]
 ]

@@ -758,6 +758,7 @@ ToSandBox class >> example_2ListsWithEditableAndContextMenu [
 	| win1 win2 l1 l2 space |
 	l1 := self listWithEditableAndContextMenu.
 	l2 := self listWithEditableAndContextMenu.
+	l2 useCheckbox.
 	
 	win1 := ToInnerWindow new.
 	win1 pane addChild: l1.
@@ -816,7 +817,17 @@ ToSandBox class >> example_AllClasses [
 		((Smalltalk globals allClasses select: [ :cls |
 			  cls subclasses notEmpty ]) sorted: [ :a :b | a name < b name ]).
 
-	l openInSpace
+	l openInSpace.
+	^ l
+]
+
+{ #category : #tree }
+ToSandBox class >> example_AllClassesWithCheckbox [
+	"For this example we created a new wrapper dealing with classes and methods at the same time, a new Node was also created (ToTreeSubAndMethNode) to apply a new skin (ToTreeNodeSubAndMethSkin) with new icons and a different background color for methods "
+
+	| l |
+	l := self example_AllClasses.
+	l useCheckbox
 ]
 
 { #category : #window }
@@ -2917,11 +2928,7 @@ ToSandBox class >> example_ListWithAllClasses4Bis [
 			     node addChild: (ToLabel text: dataItem name).
 			     node childrenDo: [ :child |
 				     child constraints linear vertical alignCenter ] ].
-	l nodeManager checkableNode: true.
-	l selectionOption beneath: false.
-	l selectionMode selectOnPressed: false.
-	l selectionMode selectOnClick: false.
-	"l selectionOption masked: true."
+	l useCheckbox.
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l openInSpace
 ]
@@ -4398,6 +4405,24 @@ ToSandBox class >> example_SelectMultiFiltrableWithCheckboxes [
 
 			node addChild: box.
 			box defaultSkin: skinBuilder value ].
+	select openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_SelectMultiFiltrableWithCheckboxesBis [
+
+	| select |
+	select := ToMultiSelectElement new.
+	select popupListElement useCheckbox.
+	select popupListElement dataAccessor addAll: self statesOfAmerica.
+	select popupListElement nodeBuilder: [ :node :aState :holder |
+			| label |
+			label := ToLabeledIcon new
+				       labelText: aState;
+				       startFlexible: true;
+				       hMatchParent;
+				       yourself.
+			node addChild: label ].
 	select openInSpace
 ]
 
@@ -8887,8 +8912,7 @@ ToSandBox class >> example_toTable1 [
 				 title: 'Name';
 				 key: 'name';
 				 dataIndex: 'name';
-				 "width: 150;"
-				" resizable: false;"
+				 useCheckbox;
 				 yourself).
 			(ToTableColumn new
 				 title: 'Number of methods';
@@ -8903,7 +8927,7 @@ ToSandBox class >> example_toTable1 [
 			(ToTableColumn new
 				 title: 'Package';
 				 key: 'package';
-				 dataIndex: [:cls | cls packageName ];
+				 dataIndex: [ :cls | cls packageName ];
 				 yourself) }.
 	table dataAccessor addAll: Smalltalk globals allClasses.
 	table openInSpace

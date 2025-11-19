@@ -17,9 +17,8 @@ TToGenericNodeManager >> buildCheckableNode: aNode [
 	cbox := ToCheckbox new.
 	cbox focusability: BlFocusability none.
 	cbox checked: aNode holder isSelected.
-	cbox
-		addEventHandlerOn: ToCheckableCheckEvent
-		do: [ :event | aNode holder selected: event checked ].
+	cbox addEventHandlerOn: ToCheckableCheckEvent do: [ :event |
+		aNode holder listElement notifyClickOnNode: aNode fromEvent: event ].
 	aNode addChild: cbox.
 	part := ToElement new
 		        hMatchParent;

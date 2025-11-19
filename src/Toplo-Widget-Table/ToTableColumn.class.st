@@ -17,21 +17,51 @@ Class {
 		'resizable',
 		'dataViewBuilder',
 		'headerViewBuilder',
-		'startDragWidth'
+		'startDragWidth',
+		'withCheckbox'
 	],
 	#category : #'Toplo-Widget-Table-Core'
 }
 
 { #category : #rendering }
-ToTableColumn >> buildDataView: anElement fromNode: aTableNode [
+ToTableColumn >> buildCellElement: anElement inNode: aTableNode [
 
-	| columnData |
+	| cellData |
 	width ifNotNil: [ anElement width: width ].
-	columnData := self columnDataFromDataIndex:
-		              aTableNode holder dataItem.
+	cellData := self fetchedCellDataFromDataIndex: aTableNode holder dataItem.
+	withCheckbox ifTrue: [
+			^ self
+				  buildCheckableCellElement: anElement
+				  inNode: aTableNode
+				  withData: cellData ].
+	self
+		buildSimpleCellElement: anElement
+		inNode: aTableNode
+		withData: cellData
+]
+
+{ #category : #rendering }
+ToTableColumn >> buildCheckableCellElement: anElement inNode: aTableNode withData: aColumnData [
+
+	| innerElement cbox |
+	cbox := ToCheckbox new.
+	cbox focusability: BlFocusability none.
+	cbox checked: aTableNode holder isSelected.
+	cbox
+		addEventHandlerOn: ToCheckableCheckEvent
+		do: [ :event | aTableNode holder selected: event checked ].
+	anElement addChild: cbox.
+	innerElement := ToElement new
+		                hMatchParent;
+		                vFitContent.
+	innerElement layout: BlLinearLayout horizontal.
+	cbox constraintsDo: [ :c | c linear vertical alignCenter ].
+	innerElement constraintsDo: [ :c | c linear vertical alignCenter ].
+	anElement addChild: innerElement.
+
 	dataViewBuilder
-		cull: anElement
-		cull: columnData
+		cull: innerElement
+		cull: aColumnData
 		cull: aTableNode holder
 ]
 
@@ -45,16 +75,12 @@ ToTableColumn >> buildHeaderView: anElement [
 ]
 
 { #category : #rendering }
-ToTableColumn >> columnDataFromDataIndex: aDataItem [
+ToTableColumn >> buildSimpleCellElement: anElement inNode: aTableNode withData: aColumnData [
 
-	| result |
-	dataIndex isString ifTrue: [
-		^ aDataItem perform: self dataIndex asSymbol ].
-	self dataIndex isFullBlock ifTrue: [ ^ self dataIndex value: aDataItem ].
-	result := aDataItem perform: self dataIndex first asSymbol.
-	dataIndex allButFirstDo: [ :symbol |
-		result := result perform: symbol asSymbol ].
-	^ result
+	dataViewBuilder
+		cull: anElement
+		cull: aColumnData
+		cull: aTableNode holder
 ]
 
 { #category : #accessing }
@@ -102,6 +128,19 @@ ToTableColumn >> defaultSortDirection [
 	^ ToSortDirection both
 ]
 
+{ #category : #rendering }
+ToTableColumn >> fetchedCellDataFromDataIndex: aDataItem [
+
+	| result |
+	dataIndex isString ifTrue: [
+		^ aDataItem perform: self dataIndex asSymbol ].
+	self dataIndex isFullBlock ifTrue: [ ^ self dataIndex value: aDataItem ].
+	result := aDataItem perform: self dataIndex first asSymbol.
+	dataIndex allButFirstDo: [ :symbol |
+		result := result perform: symbol asSymbol ].
+	^ result
+]
+
 { #category : #accessing }
 ToTableColumn >> headerViewBuilder [
 
@@ -122,7 +161,8 @@ ToTableColumn >> initialize [
 	headerViewBuilder := self defaultHeaderBuilder.
 	dataViewBuilder := self defaultDataViewBuilder.
 	sortDirections := self defaultSortDirection.
-	resizable := true
+	resizable := true.
+	withCheckbox := false
 ]
 
 { #category : #accessing }
@@ -227,6 +267,12 @@ ToTableColumn >> title: anObject [
 ]
 
 { #category : #accessing }
+ToTableColumn >> useCheckbox [ 
+
+	withCheckbox := true
+]
+
+{ #category : #accessing }
 ToTableColumn >> width [
 
 	^ width 
@@ -236,4 +282,10 @@ ToTableColumn >> width [
 ToTableColumn >> width: aNumber [
 
 	width := aNumber
+]
+
+{ #category : #accessing }
+ToTableColumn >> withCheckbox [
+
+	^ withCheckbox 
 ]

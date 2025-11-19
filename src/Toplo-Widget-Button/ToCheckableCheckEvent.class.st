@@ -2,7 +2,8 @@ Class {
 	#name : #ToCheckableCheckEvent,
 	#superclass : #BlEvent,
 	#instVars : [
-		'checked'
+		'checked',
+		'sourceEvent'
 	],
 	#category : #'Toplo-Widget-Button-Checkable'
 }
@@ -41,8 +42,26 @@ ToCheckableCheckEvent >> current: aBoolean [
 	self checked: aBoolean
 ]
 
+{ #category : #accessing }
+ToCheckableCheckEvent >> modifiers [ 
+
+	^ sourceEvent ifNotNil: [ :se | se modifiers ]
+]
+
 { #category : #sending }
 ToCheckableCheckEvent >> sendTo: anObject [
 
 	anObject checkableCheckEvent: self
+]
+
+{ #category : #accessing }
+ToCheckableCheckEvent >> sourceEvent [
+
+	^ sourceEvent
+]
+
+{ #category : #accessing }
+ToCheckableCheckEvent >> sourceEvent: anEvent [
+
+	sourceEvent := anEvent
 ]

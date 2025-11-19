@@ -49,6 +49,9 @@ ToMenuPane >> applyConfiguration [
 	super applyConfiguration.
 	self uniformNodeWidth: self isVertical.
 	self itemBar horizontal: self isHorizontal.
+	self itemBar constraintsDo: [ :c |
+			c linear vertical alignCenter.
+			c linear horizontal alignCenter ].
 	self itemBar isScrollable: self isScrollable.
 	self itemBar isFlowable: self isFlowable.
 	self isHFitContent

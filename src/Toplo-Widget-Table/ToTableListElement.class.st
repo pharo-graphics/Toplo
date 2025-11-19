@@ -33,6 +33,9 @@ ToTableListElement >> columns [
 ToTableListElement >> columns: aTableColumnArray [
 
 	self nodeManager columns: aTableColumnArray.
+	(aTableColumnArray anySatisfy: [ :col | col withCheckbox ])
+		ifTrue: [ self selectionMode selectOnClick: false ]
+		ifFalse: [ self selectionMode selectOnClick: true ].
 	self notifyDataSourceChanged
 ]
 

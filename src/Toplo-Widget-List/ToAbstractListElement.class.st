@@ -423,6 +423,36 @@ ToAbstractListElement >> nodeManager [
 	^ nodeManager
 ]
 
+{ #category : #'selection updating' }
+ToAbstractListElement >> notifyClickOnNode: aNode fromEvent: anEvent [
+
+	| req min |
+	aNode isAttachedToSceneGraph ifFalse: [ ^ self ].
+	self isDisabled ifTrue: [ ^ self ].
+
+	" in case the listElement is not focused (and focusable), 
+	check if the selection has to be preserved.
+	If it is to be preserve the do nothing here.
+	The listElement event handler will request the focus"
+	(self isFocusable and: [ self hasFocus not ]) ifTrue: [
+		" the node may have the focus for keyboard input as an example.
+		The listElement should not take the focus in this case "
+		aNode hasFocus ifFalse: [self requestFocus].
+		min := self selectionMode minSelectedIndexesCountForSelectionPreserving.
+		self selectionModel selectedIndexesCount > min ifTrue: [
+			^ self ] ].
+	
+	req := ToListClickOnNodeRequestEvent new
+		       requestedAction: [
+			       aNode dispatchEvent: (ToListClickOnNodeEvent new
+						        fillFromTime: aNode space time;
+						        sourceEvent: anEvent;
+						        yourself) ];
+		       yourself.
+
+	aNode dispatchAuthorisationRequest: req
+]
+
 { #category : #notifications }
 ToAbstractListElement >> notifyDataSourceChanged [
 

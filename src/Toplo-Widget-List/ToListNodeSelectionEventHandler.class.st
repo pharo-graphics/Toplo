@@ -126,34 +126,10 @@ ToListNodeSelectionEventHandler >> multipleSelectionListClickOnNodeEvent: anEven
 { #category : #'mouse handlers' }
 ToListNodeSelectionEventHandler >> notifyClickOnNodeFromEvent: anEvent [
 
-	| listElement mode node req min |
+	| listElement node |
 	node := anEvent currentTarget.
-	node isAttachedToSceneGraph ifFalse: [ ^ self ].
 	listElement := node holder listElement.
-	listElement isDisabled ifTrue: [ ^ self ].
-
-	" in case the listElement is not focused (and focusable), 
-	check if the selection has to be preserved.
-	If it is to be preserve the do nothing here.
-	The listElement event handler will request the focus"
-	(listElement isFocusable and: [ listElement hasFocus not ]) ifTrue: [
-		" the node may have the focus for keyboard input as an example.
-		The listElement should not take the focus in this case "
-		node hasFocus ifFalse: [listElement requestFocus].
-		mode := listElement selectionMode.
-		min := mode minSelectedIndexesCountForSelectionPreserving.
-		listElement selectionModel selectedIndexesCount > min ifTrue: [
-			^ self ] ].
-	
-	req := ToListClickOnNodeRequestEvent new
-		       requestedAction: [
-			       node dispatchEvent: (ToListClickOnNodeEvent new
-						        fillFromTime: node space time;
-						        sourceEvent: anEvent;
-						        yourself) ];
-		       yourself.
-
-	node dispatchAuthorisationRequest: req
+	listElement notifyClickOnNode: node fromEvent: anEvent
 ]
 
 { #category : #'selection events' }

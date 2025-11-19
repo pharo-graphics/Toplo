@@ -23,3 +23,11 @@ TToGenericListElement >> nodeUnbuilder: aValuable [
 	"aValuable takes 3 args: first, the node to build and second, its holder in the list element and the data item"
 	self nodeManager nodeUnbuilder: aValuable
 ]
+
+{ #category : #'t - generic list element' }
+TToGenericListElement >> useCheckbox [
+
+	self nodeManager checkableNode: true.
+	self selectionMode selectOnPressed: false.
+	self selectionMode selectOnClick: false
+]

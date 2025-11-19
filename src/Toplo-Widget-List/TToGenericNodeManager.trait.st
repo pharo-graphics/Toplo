@@ -19,11 +19,24 @@ TToGenericNodeManager >> buildCheckableNode: aNode [
 	cbox id: #nodeCheckbox.
 	cbox focusability: BlFocusability none.
 	cbox checked: aNode holder isSelected.
-	cbox
-		addEventHandlerOn: ToCheckableCheckEvent
-		do: [ :event | self checkableCheckEvent: event onNode: aNode ].
+	
+	" add a guard to prevent checking if it not desired.
+	Here, it is not possible to take the check into account 
+	if the list is not focused"
+	cbox addEventHandlerOn: ToCheckableCheckRequestEvent do: [ :event |
+			(listElement hasFocus not and: [ listElement isFocusable ])
+				ifTrue: [ event deny ] ].
+	" In case the checkbox has been checked, update the list selection "
+	cbox addEventHandlerOn: ToCheckableCheckEvent do: [ :event |
+			| req |
+			req := ToListClickOnNodeRequestEvent new
+				       requestedAction: [
+					       self checkableCheckEvent: event onNode: aNode ];
+				       yourself.
+			aNode dispatchAuthorisationRequest: req ].
 
 	aNode addChild: cbox.
+
 	part := ToElement new
 		        hMatchParent;
 		        vFitContent.

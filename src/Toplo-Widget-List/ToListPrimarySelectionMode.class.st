@@ -116,11 +116,53 @@ ToListPrimarySelectionMode >> onAddedNode: aNode [
 ]
 
 { #category : #'selection managing' }
-ToListPrimarySelectionMode >> onClickEvent: anEvent onNode: aNode [
+ToListPrimarySelectionMode >> onClickEvent: anEvent onMultpleSelectionListNode: aNode [
 	" implement the default/standard selection/deselection protocol"
 
 	| index modifiers shift primaryModifier passiveNode |
+	index := aNode holder position.
+	modifiers := anEvent sourceEvent modifiers.
+	shift := modifiers notNil and: [ modifiers isShift ].
+
+	primaryModifier := modifiers notNil and: [
+		                   modifiers isPrimaryModifier ].
+	" a passive node is a node that can't be selected directly with the mouse.
+	As an example, a list that uses a checkbox on each node to drive the selection "
+	passiveNode := selectOnPressed not and: [ selectOnClick not ].
+	" Shift "
+	shift ifTrue: [
+			| curr |
+			curr := self selecter currentIndex.
+			self selecter selectIndex: (curr min: index) to: (index max: curr).
+			^ self ].
+	" CMD-CTRL "
+	(primaryModifier or: [
+		 passiveNode or: [ selectOnPressed or: [ deselectOnPressed ] ] ])
+		ifTrue: [
+				(self selectionModel containsIndex: index)
+					ifTrue: [ self selecter deselectIndex: index ]
+					ifFalse: [ self selecter selectIndex: index ].
+				^ self ].
+	" No modifier"
+	self selecter selectOnlyIndex: index.
+	^ self
+]
+
+{ #category : #'selection managing' }
+ToListPrimarySelectionMode >> onClickEvent: anEvent onNode: aNode [
+	" implement the default/standard selection/deselection protocol"
+
 	self isDisabled ifTrue: [ ^ self ].
+	self isMultipleSelection ifTrue: [
+		^ self onClickEvent: anEvent onMultpleSelectionListNode: aNode ].
+	self onClickEvent: anEvent onSingleSelectionListNode: aNode
+]
+
+{ #category : #'selection managing' }
+ToListPrimarySelectionMode >> onClickEvent: anEvent onSingleSelectionListNode: aNode [
+	" implement the default/standard selection/deselection protocol"
+
+	| index modifiers shift primaryModifier passiveNode |
 
 	index := aNode holder position.
 	modifiers := anEvent sourceEvent modifiers.
@@ -131,26 +173,6 @@ ToListPrimarySelectionMode >> onClickEvent: anEvent onNode: aNode [
 	" a passive node is a node that can't be selected directly with the mouse.
 	As an example, a list that uses a checkbox on each node to drive the selection "
 	passiveNode := selectOnPressed not and: [ selectOnClick not ].
-	" Multiple selection "
-	self isMultipleSelection ifTrue: [ " SHIFT "
-			shift ifTrue: [
-					| curr |
-					curr := self selecter currentIndex.
-					self selecter selectIndex: curr to: index.
-					^ self ].
-			" CMD-CTRL "
-			(primaryModifier or: [
-				 passiveNode or: [ selectOnPressed or: [ deselectOnPressed ] ] ])
-				ifTrue: [
-						(self selectionModel containsIndex: index)
-							ifTrue: [
-									(primaryModifier or: [ passiveNode or: [ deselectOnPressed ] ])
-										ifTrue: [ self selecter deselectIndex: index ] ]
-							ifFalse: [ self selecter selectIndex: index ].
-						^ self ].
-			" No modifier"
-			self selecter selectOnlyIndex: index.
-			^ self ].
 
 	" Single selection "
 	" CMD-CTRL  "

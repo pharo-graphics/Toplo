@@ -30,11 +30,9 @@ TToGenericListElement >> useCheckbox [
 	self nodeManager checkableNode: true.
 	self selectionMode selectOnPressed: false.
 	self selectionMode selectOnClick: false.
-	self addEventHandlerOn: ToListPrimarySelectionChangedEvent do: [
-			| selectedIndexes |
-			selectedIndexes := self selecter selectedIndexes.
-			self innerElement nodesDo: [ :nd |
-					| cbox |
-					cbox := nd childWithId: #nodeCheckbox.
-					cbox checked: (selectedIndexes includes: nd holder position) ] ]
+	self
+		addEventHandlerOn: ToListPrimarySelectionChangedEvent
+		do: [ :event |
+				event touchedIntervals do: [ :int |
+					self dataSource notifyItemsChanged: int ] ]
 ]

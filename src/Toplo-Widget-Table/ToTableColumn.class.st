@@ -18,7 +18,7 @@ Class {
 		'dataViewBuilder',
 		'headerViewBuilder',
 		'startDragWidth',
-		'withCheckbox'
+		'useCheckbox'
 	],
 	#category : #'Toplo-Widget-Table-Core'
 }
@@ -29,7 +29,7 @@ ToTableColumn >> buildCellElement: anElement inNode: aTableNode [
 	| cellData |
 	width ifNotNil: [ anElement width: width ].
 	cellData := self fetchedCellDataFromDataIndex: aTableNode holder dataItem.
-	withCheckbox ifTrue: [
+	useCheckbox ifTrue: [
 			^ self
 				  buildCheckableCellElement: anElement
 				  inNode: aTableNode
@@ -43,22 +43,9 @@ ToTableColumn >> buildCellElement: anElement inNode: aTableNode [
 { #category : #rendering }
 ToTableColumn >> buildCheckableCellElement: anElement inNode: aTableNode withData: aColumnData [
 
-	| innerElement cbox |
-	cbox := ToCheckbox new.
-	cbox focusability: BlFocusability none.
-	cbox checked: aTableNode holder isSelected.
-	cbox
-		addEventHandlerOn: ToCheckableCheckEvent
-		do: [ :event | aTableNode holder selected: event checked ].
-	anElement addChild: cbox.
-	innerElement := ToElement new
-		                hMatchParent;
-		                vFitContent.
-	innerElement layout: BlLinearLayout horizontal.
-	cbox constraintsDo: [ :c | c linear vertical alignCenter ].
-	innerElement constraintsDo: [ :c | c linear vertical alignCenter ].
-	anElement addChild: innerElement.
-
+	| tableListElement innerElement |
+	tableListElement := aTableNode holder listElement.
+	innerElement := tableListElement newCheckableElementIn: anElement inNode: aTableNode.
 	dataViewBuilder
 		cull: innerElement
 		cull: aColumnData
@@ -162,7 +149,7 @@ ToTableColumn >> initialize [
 	dataViewBuilder := self defaultDataViewBuilder.
 	sortDirections := self defaultSortDirection.
 	resizable := true.
-	withCheckbox := false
+	useCheckbox := false
 ]
 
 { #category : #accessing }
@@ -269,7 +256,13 @@ ToTableColumn >> title: anObject [
 { #category : #accessing }
 ToTableColumn >> useCheckbox [ 
 
-	withCheckbox := true
+	^ useCheckbox
+]
+
+{ #category : #accessing }
+ToTableColumn >> useCheckbox: aBoolean [
+
+	useCheckbox := aBoolean
 ]
 
 { #category : #accessing }
@@ -282,10 +275,4 @@ ToTableColumn >> width [
 ToTableColumn >> width: aNumber [
 
 	width := aNumber
-]
-
-{ #category : #accessing }
-ToTableColumn >> withCheckbox [
-
-	^ withCheckbox 
 ]

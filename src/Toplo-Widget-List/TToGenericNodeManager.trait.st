@@ -13,38 +13,10 @@ Trait {
 { #category : #'t - generic node manager' }
 TToGenericNodeManager >> buildCheckableNode: aNode [
 
-	| part cbox listElement |
+	| innerElement listElement |
 	listElement := aNode holder listElement.
-	cbox := ToCheckbox new.
-	cbox id: #nodeCheckbox.
-	cbox focusability: BlFocusability none.
-	cbox checked: aNode holder isSelected.
-	
-	" add a guard to prevent checking if it not desired.
-	Here, it is not possible to take the check into account 
-	if the list is not focused"
-	cbox addEventHandlerOn: ToCheckableCheckRequestEvent do: [ :event |
-			(listElement hasFocus not and: [ listElement isFocusable ])
-				ifTrue: [ event deny ] ].
-	" In case the checkbox has been checked, update the list selection "
-	cbox addEventHandlerOn: ToCheckableCheckEvent do: [ :event |
-			| req |
-			req := ToListClickOnNodeRequestEvent new
-				       requestedAction: [
-					       self checkableCheckEvent: event onNode: aNode ];
-				       yourself.
-			aNode dispatchAuthorisationRequest: req ].
-
-	aNode addChild: cbox.
-
-	part := ToElement new
-		        hMatchParent;
-		        vFitContent.
-	part layout: BlLinearLayout horizontal.
-	cbox constraintsDo: [ :c | c linear vertical alignCenter ].
-	part constraintsDo: [ :c | c linear vertical alignCenter ].
-	aNode addChild: part.
-	nodeBuilder cull: part cull: aNode holder dataItem cull: aNode holder
+	innerElement := listElement newCheckableElementIn: aNode inNode: aNode.
+	nodeBuilder cull: innerElement cull: aNode holder dataItem cull: aNode holder
 ]
 
 { #category : #'t - generic node manager' }
@@ -57,19 +29,10 @@ TToGenericNodeManager >> buildNode: aNode [
 { #category : #'t - generic node manager' }
 TToGenericNodeManager >> buildSimpleNode: aNode [
 
-	
-	nodeBuilder cull: aNode cull: aNode holder dataItem cull: aNode holder
-	
-]
-
-{ #category : #'t - generic node manager' }
-TToGenericNodeManager >> checkableCheckEvent: anEvent onNode: aNode [
-
-	| listElement |
-	anEvent checked ifFalse: [ ^ aNode holder selected: false ].
-	listElement := aNode holder listElement.
-	listElement spaceDo: [ :sp | anEvent sourceEvent: sp mouseProcessor lastMouseDownEvent ].
-	listElement notifyClickOnNode: aNode fromEvent: anEvent
+	nodeBuilder
+		cull: aNode
+		cull: aNode holder dataItem
+		cull: aNode holder
 ]
 
 { #category : #'t - generic node manager' }

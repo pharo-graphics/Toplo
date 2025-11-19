@@ -25,14 +25,8 @@ TToGenericListElement >> nodeUnbuilder: aValuable [
 ]
 
 { #category : #'t - generic list element' }
-TToGenericListElement >> useCheckbox [
+TToGenericListElement >> useCheckbox: aBoolean [
 
-	self nodeManager checkableNode: true.
-	self selectionMode selectOnPressed: false.
-	self selectionMode selectOnClick: false.
-	self
-		addEventHandlerOn: ToListPrimarySelectionChangedEvent
-		do: [ :event |
-				event touchedIntervals do: [ :int |
-					self dataSource notifyItemsChanged: int ] ]
+	self nodeManager checkableNode: aBoolean.
+	self onUseCheckboxChangedWith: aBoolean
 ]

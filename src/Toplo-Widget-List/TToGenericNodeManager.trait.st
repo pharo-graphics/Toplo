@@ -13,12 +13,16 @@ Trait {
 { #category : #'t - generic node manager' }
 TToGenericNodeManager >> buildCheckableNode: aNode [
 
-	| part cbox |
+	| part cbox listElement |
+	listElement := aNode holder listElement.
 	cbox := ToCheckbox new.
+	cbox id: #nodeCheckbox.
 	cbox focusability: BlFocusability none.
 	cbox checked: aNode holder isSelected.
-	cbox addEventHandlerOn: ToCheckableCheckEvent do: [ :event |
-		aNode holder listElement notifyClickOnNode: aNode fromEvent: event ].
+	cbox
+		addEventHandlerOn: ToCheckableCheckEvent
+		do: [ :event | self checkableCheckEvent: event onNode: aNode ].
+
 	aNode addChild: cbox.
 	part := ToElement new
 		        hMatchParent;
@@ -43,6 +47,16 @@ TToGenericNodeManager >> buildSimpleNode: aNode [
 	
 	nodeBuilder cull: aNode cull: aNode holder dataItem cull: aNode holder
 	
+]
+
+{ #category : #'t - generic node manager' }
+TToGenericNodeManager >> checkableCheckEvent: anEvent onNode: aNode [
+
+	| listElement |
+	anEvent checked ifFalse: [ ^ aNode holder selected: false ].
+	listElement := aNode holder listElement.
+	listElement spaceDo: [ :sp | anEvent sourceEvent: sp mouseProcessor lastMouseDownEvent ].
+	listElement notifyClickOnNode: aNode fromEvent: anEvent
 ]
 
 { #category : #'t - generic node manager' }

@@ -18,6 +18,15 @@ Class {
 ToGenericTreeNodeManager >> buildNode: aTreeNode [
 
 	| content |
+	checkableNode ifTrue: [
+			| listElement checkElement |
+			listElement := aTreeNode holder listElement.
+			checkElement := ToElement new
+				                hFitContent;
+				                vFitContent;
+				                yourself.
+			listElement newCheckableElementIn: checkElement inNode: aTreeNode.
+			aTreeNode addChild: checkElement at: 1 ].
 	content := ToElement new
 		           hMatchParent;
 		           vFitContent;
@@ -26,7 +35,9 @@ ToGenericTreeNodeManager >> buildNode: aTreeNode [
 	nodeBuilder
 		cull: content
 		cull: aTreeNode holder treeDataItem
-		cull: aTreeNode holder
+		cull: aTreeNode holder.
+	aTreeNode childrenDo: [ :child |
+		child constraintsDo: [ :c | c linear vertical alignCenter ] ]
 ]
 
 { #category : #'children accessing' }

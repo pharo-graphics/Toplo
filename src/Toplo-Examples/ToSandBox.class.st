@@ -1956,6 +1956,7 @@ ToSandBox class >> example_ClassHierarchiesWithMethods [
 
 	| treeElement |
 	treeElement := ToTreeElement new.
+	treeElement useCheckbox: true.
 	treeElement withRowNumbers.
 	treeElement contextMenuBuilder: [ :menu :request |
 			| selectionModel indexes target |

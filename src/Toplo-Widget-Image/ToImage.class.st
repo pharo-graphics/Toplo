@@ -42,6 +42,18 @@ ToImage class >> inner: anImage [
 	^ self new innerImage: anImage
 ]
 
+{ #category : #settings }
+ToImage class >> settingsOn: aBuilder [
+
+	<systemsettings>
+	(aBuilder setting: #allowFormColorChange)
+		parent: #Toplo;
+		label: 'Enable Form color change in a ToImage';
+		default: false;
+		target: self;
+		description: 'Allow/disallow form color change in a ToImage'
+]
+
 { #category : #accessing }
 ToImage class >> svgInnerImageId [
 

@@ -93,9 +93,7 @@ ToTableElement >> initialize [
 
 	self matchParent.
 	self padding: (BlInsets all: 1).
-	list := ToTableListElement new
-		        id: #list;
-		        yourself.
+	list := self newListElement.
 	self buildHeader.
 	self addChildren: {
 			header.
@@ -172,11 +170,26 @@ ToTableElement >> newHeaderCheckboxInColumn: aColumn [
 	^ cbox
 ]
 
+{ #category : #initialization }
+ToTableElement >> newListElement [
+
+	^ ToTableListElement new
+		  id: #list;
+		  yourself
+]
+
+{ #category : #accessing }
+ToTableElement >> nodeManager [
+
+	^ list nodeManager
+]
+
 { #category : #sorting }
 ToTableElement >> performDataSort [
 
 	| sortFunctions |
-	"I sort the data based on the information in the column configuration""for now sort by column from left to right. Future should implement an order of sorting"
+	"I sort the data based on the information in the column configuration.
+	for now sort by column from left to right. Future should implement an order of sorting"
 	sortFunctions := (self columns
 		                  select: [ :col |
 		                  col sortOrder isNotNil and: [

@@ -260,7 +260,7 @@ ToTableColumn >> sortOrder [
 { #category : #accessing }
 ToTableColumn >> sortOrder: anObject [
 
-	^ sortOrder := anObject
+	sortOrder := anObject
 ]
 
 { #category : #sorting }

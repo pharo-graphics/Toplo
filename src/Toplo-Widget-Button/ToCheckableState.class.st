@@ -1,5 +1,5 @@
 Class {
-	#name : #ToCheckableData,
+	#name : #ToCheckableState,
 	#superclass : #Object,
 	#instVars : [
 		'owner',
@@ -13,88 +13,94 @@ Class {
 }
 
 { #category : #accessing }
-ToCheckableData >> allowIndeterminate [
+ToCheckableState >> allowIndeterminate [
 
 	^ withIndeterminate ifNil: [ withIndeterminate := false  ]
 ]
 
 { #category : #accessing }
-ToCheckableData >> allowIndeterminate: aBoolean [
+ToCheckableState >> allowIndeterminate: aBoolean [
 
 	withIndeterminate := aBoolean
 ]
 
 { #category : #accessing }
-ToCheckableData >> checked [
+ToCheckableState >> checked [
 
 	^ checked ifNil: [ checked := false ]
 ]
 
 { #category : #'checking protocol' }
-ToCheckableData >> checked: aBooleanOrIndeterminate [ 
+ToCheckableState >> checked: aBooleanOrIndeterminate [
 
-	| current |
+	| current req |
 	aBooleanOrIndeterminate ifNil: [ Error signal: 'nil not allowed' ].
-	(aBooleanOrIndeterminate isSymbol and: [ owner allowIndeterminate not ])
-		ifTrue: [
+	(aBooleanOrIndeterminate isSymbol and: [
+		 owner allowIndeterminate not ]) ifTrue: [
 			Error signal:
 				'a symbol not allowed except when indeterminate is explicitly allowed ' ].
 	current := checked.
 	aBooleanOrIndeterminate = current ifTrue: [ ^ self ].
 	owner isDisabled ifTrue: [ ^ self ].
 	owner group ifNotNil: [ :grp |
-		(grp allowChangeWith: aBooleanOrIndeterminate forCheckable: owner)
-			ifFalse: [ ^ self ] ].
-	self privateChecked: aBooleanOrIndeterminate.
-	self notifyChanged
+			(grp allowChangeWith: aBooleanOrIndeterminate forCheckable: owner)
+				ifFalse: [ ^ self ] ].
+
+	req := ToCheckableCheckRequestEvent new
+		       requestedAction: [
+				       self privateChecked: aBooleanOrIndeterminate.
+				       self notifyChanged ];
+		       yourself.
+
+	owner dispatchAuthorisationRequest: req
 ]
 
 { #category : #accessing }
-ToCheckableData >> eventHandler [
+ToCheckableState >> eventHandler [
 
 	^ eventHandler
 ]
 
 { #category : #accessing }
-ToCheckableData >> eventHandler: anEventHandler [
+ToCheckableState >> eventHandler: anEventHandler [
 
 	eventHandler := anEventHandler
 ]
 
 { #category : #accessing }
-ToCheckableData >> group [
+ToCheckableState >> group [
 
 	^ group
 ]
 
 { #category : #accessing }
-ToCheckableData >> group: aGroup [
+ToCheckableState >> group: aGroup [
 
 	group := aGroup
 ]
 
 { #category : #testing }
-ToCheckableData >> isChecked [
+ToCheckableState >> isChecked [
 
 	" since checked can be nil, test is with = "
 	^ self checked = true
 ]
 
 { #category : #testing }
-ToCheckableData >> isIndeterminate [
+ToCheckableState >> isIndeterminate [
 
 	^ self checked isSymbol
 ]
 
 { #category : #testing }
-ToCheckableData >> isUnchecked [
+ToCheckableState >> isUnchecked [
 
 	" since checked can be nil, test is with = "
 	^ self checked = false
 ]
 
 { #category : #'checking protocol' }
-ToCheckableData >> nextCheckValue [
+ToCheckableState >> nextCheckValue [
 
 	self allowIndeterminate ifTrue: [ " unchecked -> indeterminate -> checked"
 		owner isIndeterminate ifTrue: [ ^ true ].
@@ -104,7 +110,7 @@ ToCheckableData >> nextCheckValue [
 ]
 
 { #category : #'t - checkable  - protocol' }
-ToCheckableData >> notifyChanged [ 
+ToCheckableState >> notifyChanged [ 
 
 	owner dispatchEvent: (ToCheckableChangedEvent new
 			 checked: self isChecked;
@@ -112,19 +118,19 @@ ToCheckableData >> notifyChanged [
 ]
 
 { #category : #accessing }
-ToCheckableData >> owner [
+ToCheckableState >> owner [
 
 	^ owner
 ]
 
 { #category : #accessing }
-ToCheckableData >> owner: aCheckable [
+ToCheckableState >> owner: aCheckable [
 
 	owner := aCheckable
 ]
 
 { #category : #'checking protocol' }
-ToCheckableData >> privateChecked: aBooleanOrIndeterminate [
+ToCheckableState >> privateChecked: aBooleanOrIndeterminate [
 	" notice a change of the state and send an event for the skin.
 	Sent locally from the checkable>>checked: method and can be sent from
 	the checkableGroup of the checkable."
@@ -143,20 +149,20 @@ ToCheckableData >> privateChecked: aBooleanOrIndeterminate [
 ]
 
 { #category : #'checking protocol' }
-ToCheckableData >> switchToNextCheckState [
+ToCheckableState >> switchToNextCheckState [
 
 	self checked: self nextCheckValue 
 ]
 
 { #category : #'checking protocol' }
-ToCheckableData >> switchToNextCheckStateOnClick [
+ToCheckableState >> switchToNextCheckStateOnClick [
 
 	^ switchToNextCheckStateOnClick ifNil: [
 		  switchToNextCheckStateOnClick := true ]
 ]
 
 { #category : #'checking protocol' }
-ToCheckableData >> switchToNextCheckStateOnClick: aBoolean [
+ToCheckableState >> switchToNextCheckStateOnClick: aBoolean [
 
 	" true by default.
 	With false, it prevents from automatically switch to next state 

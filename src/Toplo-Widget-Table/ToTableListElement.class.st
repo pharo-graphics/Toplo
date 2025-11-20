@@ -4,6 +4,8 @@ I represent the list part of the table
 Class {
 	#name : #ToTableListElement,
 	#superclass : #ToAbstractListElement,
+	#traits : 'TToCheckableSelectionManager',
+	#classTraits : 'TToCheckableSelectionManager classTrait',
 	#category : #'Toplo-Widget-Table-List'
 }
 
@@ -33,7 +35,7 @@ ToTableListElement >> columns [
 ToTableListElement >> columns: aTableColumnArray [
 
 	self nodeManager columns: aTableColumnArray.
-	self notifyDataSourceChanged
+	self onUseCheckboxChangedWith: (aTableColumnArray anySatisfy: [ :col | col useCheckbox ])
 ]
 
 { #category : #initialization }

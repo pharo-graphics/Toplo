@@ -314,6 +314,9 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'menu-item-end-interspace' value: 15).
 		  (ToTokenProperty name: #'inline-item-gap' value: 7).
 		  (ToTokenProperty
+			   name: #'checkbox-color'
+			   value: self defaultColorPrimary).
+		  (ToTokenProperty
 			   name: #'checkbox-checked-image'
 			   value:
 			   (ToMaterialDesignIconProvider innerImageNamed:

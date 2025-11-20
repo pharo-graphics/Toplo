@@ -758,6 +758,7 @@ ToSandBox class >> example_2ListsWithEditableAndContextMenu [
 	| win1 win2 l1 l2 space |
 	l1 := self listWithEditableAndContextMenu.
 	l2 := self listWithEditableAndContextMenu.
+	l2 useCheckbox: true.
 	
 	win1 := ToInnerWindow new.
 	win1 pane addChild: l1.
@@ -778,45 +779,55 @@ ToSandBox class >> example_AllClasses [
 	| l |
 	l := ToTreeElement new.
 	l nodeManager childrenGetter: [ :dataItem |
-		dataItem isClass
-			ifTrue: [
-				Array streamContents: [ :stream |
-					stream nextPutAll: dataItem subclasses.
-					stream nextPutAll:
-						(dataItem methods collect: [ :each | each selector ]) sorted ] ]
-			ifFalse: [ #(  ) ] ].
+			dataItem isClass
+				ifTrue: [
+						Array streamContents: [ :stream |
+								stream nextPutAll: dataItem subclasses.
+								stream nextPutAll:
+									(dataItem methods collect: [ :each | each selector ]) sorted ] ]
+				ifFalse: [ #(  ) ] ].
 	l nodeManager nodeFactory: [ :holder | ToExTreeSubAndMethNode new ].
 	l withRowNumbers.
-	l contextMenu: [ :menu :request |
-		| selectionModel indexes target |
-		target := request currentTarget.
-		selectionModel := request selectionModel.
-		indexes := request selectedIndexes.
-		indexes traceCr.
-		menu addItem: (ToMenuItem new
-				 labelText: 'Expand all';
-				 clickAction: [
-					 indexes
-						 ifEmpty: [ target expandAll ]
-						 ifNotEmpty: [
-							 indexes reverseDo: [ :idx |
-									 (target dataSource at: idx) expandAll ] ] ];
-				 yourself).
-		menu addItem: (ToMenuItem new
-				 labelText: 'Collapse all';
-				 clickAction: [
-					 indexes
-						 ifEmpty: [ target collapseAll ]
-						 ifNotEmpty: [
-							 indexes reverseDo: [ :idx |
-									 (target dataSource at: idx) collapse ] ] ];
-				 yourself) ].
+	l contextMenuBuilder: [ :menu :request |
+			| selectionModel indexes target |
+			target := request currentTarget.
+			selectionModel := request selectionModel.
+			indexes := request selectedIndexes.
+			indexes traceCr.
+			menu addItem: (ToMenuItem new
+					 labelText: 'Expand all';
+					 clickAction: [
+							 indexes
+								 ifEmpty: [ target expandAll ]
+								 ifNotEmpty: [
+									 indexes reverseDo: [ :idx |
+											 (target dataSource at: idx) expandAll ] ] ];
+					 yourself).
+			menu addItem: (ToMenuItem new
+					 labelText: 'Collapse all';
+					 clickAction: [
+							 indexes
+								 ifEmpty: [ target collapseAll ]
+								 ifNotEmpty: [
+									 indexes reverseDo: [ :idx |
+											 (target dataSource at: idx) collapse ] ] ];
+					 yourself) ].
 
 	l dataAccessor addAll:
 		((Smalltalk globals allClasses select: [ :cls |
 			  cls subclasses notEmpty ]) sorted: [ :a :b | a name < b name ]).
 
-	l openInSpace
+	l openInSpace.
+	^ l
+]
+
+{ #category : #tree }
+ToSandBox class >> example_AllClassesWithCheckbox [
+	"For this example we created a new wrapper dealing with classes and methods at the same time, a new Node was also created (ToTreeSubAndMethNode) to apply a new skin (ToTreeNodeSubAndMethSkin) with new icons and a different background color for methods "
+
+	| l |
+	l := self example_AllClasses.
+	l useCheckbox: true
 ]
 
 { #category : #window }
@@ -1945,8 +1956,9 @@ ToSandBox class >> example_ClassHierarchiesWithMethods [
 
 	| treeElement |
 	treeElement := ToTreeElement new.
+	treeElement useCheckbox: true.
 	treeElement withRowNumbers.
-	treeElement contextMenu: [ :menu :request |
+	treeElement contextMenuBuilder: [ :menu :request |
 			| selectionModel indexes target |
 			target := request currentTarget.
 			selectionModel := request selectionModel.
@@ -2890,21 +2902,34 @@ ToSandBox class >> example_ListWithAllClasses3 [
 ToSandBox class >> example_ListWithAllClasses4 [
 
 	| l |
-	self flag: 'Does not work as expected. A dedicated node type seems necessary'.
 	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
-		     | cbox |
-		     cbox := ToCheckbox new.
-		     cbox
-			     labelText: dataItem name;
-			     startInterspace: 10;
-			     hMatchParent;
-			     startFlexible: true.
-		     cbox focusability: BlFocusability none.
-		     cbox checked: holder isSelected.
-		     node addChild: cbox ].
-	"l primarySelectionMode selectOnMouseDown: true."
-	"l primarySelectionMode deselectOnMouseDown: false"
-	l selectionOption masked: true.
+			     | cbox |
+			     cbox := ToCheckbox new.
+			     cbox focusability: BlFocusability none.
+			     cbox checked: holder isSelected.
+			     cbox
+				     addEventHandlerOn: ToCheckableCheckEvent
+				     do: [ :event | holder selected: event checked ].
+			     node addChild: cbox.
+			     node addChild: (ToLabel text: dataItem name).
+			node childrenDo: [ :child | child constraints linear vertical alignCenter ] ].
+	l selectionOption beneath: false.
+	l selectionMode selectOnPressed: false.
+	l selectionMode selectOnClick: false.
+	"l selectionOption masked: true."
+	l dataAccessor addAll: Smalltalk globals allClasses.
+	l openInSpace
+]
+
+{ #category : #list }
+ToSandBox class >> example_ListWithAllClasses4Bis [
+
+	| l |
+	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
+			     node addChild: (ToLabel text: dataItem name).
+			     node childrenDo: [ :child |
+				     child constraints linear vertical alignCenter ] ].
+	l useCheckbox: true.
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l openInSpace
 ]
@@ -2956,7 +2981,6 @@ ToSandBox class >> example_ListWithAllClassesAsCheckbox [
 
 	| l |
 	l := ToCheckableListElement new.
-	l addEventHandlerOn: ToCheckableGroupChangedEvent do: [ :evt | evt traceCr ].
 	l group withoutCheckingStrategy.
 	l addAllItems: ((Smalltalk globals allClasses) collect: [ :cls |
 			 ToCheckbox new
@@ -4382,6 +4406,24 @@ ToSandBox class >> example_SelectMultiFiltrableWithCheckboxes [
 
 			node addChild: box.
 			box defaultSkin: skinBuilder value ].
+	select openInSpace
+]
+
+{ #category : #select }
+ToSandBox class >> example_SelectMultiFiltrableWithCheckboxesBis [
+
+	| select |
+	select := ToMultiSelectElement new.
+	select popupListElement useCheckbox: true.
+	select popupListElement dataAccessor addAll: self statesOfAmerica.
+	select popupListElement nodeBuilder: [ :node :aState :holder |
+			| label |
+			label := ToLabeledIcon new
+				       labelText: aState;
+				       startFlexible: true;
+				       hMatchParent;
+				       yourself.
+			node addChild: label ].
 	select openInSpace
 ]
 
@@ -6163,8 +6205,8 @@ ToSandBox class >> example_contactList [
 			| line remBut |
 			node ensureCanManageSkin.
 			line := ToElement new
-				        layout: BlLinearLayout horizontal;
-				        matchParent.
+				        layout: BlLinearLayout horizontal; hMatchParent;
+		        vFitContent.
 			line addChild: (ToLabel new
 					 text: dataItem name;
 					 width: 100;
@@ -8871,8 +8913,7 @@ ToSandBox class >> example_toTable1 [
 				 title: 'Name';
 				 key: 'name';
 				 dataIndex: 'name';
-				 "width: 150;"
-				" resizable: false;"
+				 useCheckbox: true;
 				 yourself).
 			(ToTableColumn new
 				 title: 'Number of methods';
@@ -8887,10 +8928,11 @@ ToSandBox class >> example_toTable1 [
 			(ToTableColumn new
 				 title: 'Package';
 				 key: 'package';
-				 dataIndex: [:cls | cls packageName ];
+				 dataIndex: [ :cls | cls packageName ];
 				 yourself) }.
-	table dataAccessor addAll: Smalltalk globals allClasses.
-	table openInSpace
+	table dataAccessor addAll: (Smalltalk globals allClasses copyFrom: 1 to: 30).
+	table openInSpace.
+	table selecter selectAll 
 ]
 
 { #category : #'t - orientable' }
@@ -8945,7 +8987,7 @@ ToSandBox class >> example_toTableWithSort [
 				 key: 'methods';
 				 dataIndex: 'numberOfMethods';
 				 yourself) }.
-	table dataAccessor addAll: Smalltalk globals allClasses.
+	table dataAccessor addAll: (Smalltalk globals allClasses copyFrom: 1 to: 30).
 	table openInSpace.
 	^ table
 ]
@@ -9237,7 +9279,7 @@ ToSandBox class >> listMenuFenuFactory [
 			  | node idx label |
 			  idx := indexes first.
 			  node := target nodeAt: idx.
-			  label := node firstChild label.
+			  label := node childWithId: #nodeLabel.
 			  selectionMenu addItem: (ToMenuItem new
 					   labelText: 'Inspect node';
 					   clickAction: [ node inspect ];
@@ -9338,7 +9380,9 @@ ToSandBox class >> listWithEditableAndContextMenu [
 
 	l nodeBuilder: [ :node :dataItem :holder |
 			| lab |
-			lab := ToLabel text: dataItem.
+			lab := (ToLabel text: dataItem)
+				       id: #nodeLabel;
+				       yourself.
 			lab beMultiLine.
 			lab beEditable.
 			holder isSelectable ifTrue: [

@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-Tree-Core'
 }
 
-{ #category : #initialization }
+{ #category : #'node building' }
 ToTreeNodeManager >> buildNode: aTreeNode [
 
 	aTreeNode middleElement:

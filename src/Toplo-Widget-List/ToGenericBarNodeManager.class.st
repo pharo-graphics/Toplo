@@ -1,8 +1,8 @@
 Class {
 	#name : #ToGenericBarNodeManager,
 	#superclass : #ToAbstractBarNodeManager,
-	#traits : 'TToGenericNodeManager',
-	#classTraits : 'TToGenericNodeManager classTrait',
+	#traits : 'TToGenericNodeManager + TToListGenericCheckableNodeBuilder',
+	#classTraits : 'TToGenericNodeManager classTrait + TToListGenericCheckableNodeBuilder classTrait',
 	#category : #'Toplo-Widget-List-Core-BarElement'
 }
 

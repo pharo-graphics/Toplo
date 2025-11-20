@@ -17,44 +17,104 @@ Class {
 		'resizable',
 		'dataViewBuilder',
 		'headerViewBuilder',
-		'startDragWidth'
+		'startDragWidth',
+		'useCheckbox'
 	],
 	#category : #'Toplo-Widget-Table-Core'
 }
 
 { #category : #rendering }
-ToTableColumn >> buildDataView: anElement fromNode: aTableNode [
+ToTableColumn >> buildCheckableHeaderCellElement: anElement inTableElement: aTableElement [
 
-	| columnData |
-	width ifNotNil: [ anElement width: width ].
-	columnData := self columnDataFromDataIndex:
-		              aTableNode holder dataItem.
+	| innerElement cbox |
+	cbox := aTableElement newHeaderCheckboxInColumn: self.
+	innerElement := ToElement new
+		                hMatchParent;
+		                vFitContent.
+	innerElement layout: BlLinearLayout horizontal.
+	cbox constraintsDo: [ :c | c linear vertical alignCenter ].
+	innerElement constraintsDo: [ :c | c linear vertical alignCenter ].
+	anElement addChild: cbox.
+	anElement addChild: innerElement.
+
+	headerViewBuilder cull: innerElement cull: self cull: aTableElement
+]
+
+{ #category : #rendering }
+ToTableColumn >> buildCheckableListCellElement: anElement inNode: aTableNode withData: aColumnData [
+
+	| tableListElement innerElement cbox |
+	tableListElement := aTableNode holder listElement.
+	cbox := tableListElement newCheckboxInNode: aTableNode.
+	innerElement := ToElement new
+		                hMatchParent;
+		                vFitContent.
+	innerElement layout: BlLinearLayout horizontal.
+	cbox constraintsDo: [ :c | c linear vertical alignCenter ].
+	innerElement constraintsDo: [ :c | c linear vertical alignCenter ].
+	anElement addChild: cbox.
+	anElement addChild: innerElement.
+
 	dataViewBuilder
-		cull: anElement
-		cull: columnData
+		cull: innerElement
+		cull: aColumnData
 		cull: aTableNode holder
 ]
 
 { #category : #rendering }
-ToTableColumn >> buildHeaderView: anElement [
+ToTableColumn >> buildHeaderCellElement: anElement inTableElement: aTableElement [
 
 	width ifNotNil: [ anElement width: width ].
-	headerViewBuilder
-		cull: anElement
-		cull: self
+	useCheckbox
+		ifTrue: [
+				self
+					buildCheckableHeaderCellElement: anElement
+					inTableElement: aTableElement ]
+		ifFalse: [
+				self
+					buildSimpleHeaderCellElement: anElement
+					inTableElement: aTableElement ].
+
+	anElement childrenDo: [ :child |
+		child constraintsDo: [ :c | c linear vertical alignCenter ] ]
 ]
 
 { #category : #rendering }
-ToTableColumn >> columnDataFromDataIndex: aDataItem [
+ToTableColumn >> buildListCellElement: anElement inNode: aTableNode [
 
-	| result |
-	dataIndex isString ifTrue: [
-		^ aDataItem perform: self dataIndex asSymbol ].
-	self dataIndex isFullBlock ifTrue: [ ^ self dataIndex value: aDataItem ].
-	result := aDataItem perform: self dataIndex first asSymbol.
-	dataIndex allButFirstDo: [ :symbol |
-		result := result perform: symbol asSymbol ].
-	^ result
+	| cellData |
+	width ifNotNil: [ anElement width: width ].
+	cellData := self fetchedCellDataFromDataIndex:
+		            aTableNode holder dataItem.
+	useCheckbox
+		ifTrue: [
+				self
+					buildCheckableListCellElement: anElement
+					inNode: aTableNode
+					withData: cellData ]
+		ifFalse: [
+				self
+					buildSimpleListCellElement: anElement
+					inNode: aTableNode
+					withData: cellData ].
+
+	anElement childrenDo: [ :child |
+		child constraintsDo: [ :c | c linear vertical alignCenter ] ]
+]
+
+{ #category : #rendering }
+ToTableColumn >> buildSimpleHeaderCellElement: anElement inTableElement: aTableElement [
+
+	headerViewBuilder cull: anElement cull: self cull: aTableElement
+]
+
+{ #category : #rendering }
+ToTableColumn >> buildSimpleListCellElement: anElement inNode: aTableNode withData: aColumnData [
+
+	dataViewBuilder
+		cull: anElement
+		cull: aColumnData
+		cull: aTableNode holder
 ]
 
 { #category : #accessing }
@@ -102,6 +162,19 @@ ToTableColumn >> defaultSortDirection [
 	^ ToSortDirection both
 ]
 
+{ #category : #rendering }
+ToTableColumn >> fetchedCellDataFromDataIndex: aDataItem [
+
+	| result |
+	dataIndex isString ifTrue: [
+		^ aDataItem perform: self dataIndex asSymbol ].
+	self dataIndex isFullBlock ifTrue: [ ^ self dataIndex value: aDataItem ].
+	result := aDataItem perform: self dataIndex first asSymbol.
+	dataIndex allButFirstDo: [ :symbol |
+		result := result perform: symbol asSymbol ].
+	^ result
+]
+
 { #category : #accessing }
 ToTableColumn >> headerViewBuilder [
 
@@ -110,7 +183,7 @@ ToTableColumn >> headerViewBuilder [
 
 { #category : #accessing }
 ToTableColumn >> headerViewBuilder: aValuable [
-	" aValuable takes 2 optional arguments: the element to build and the column "
+	" aValuable takes 3 optional arguments: the element to build, the column and the table element"
 
 	headerViewBuilder := aValuable
 ]
@@ -122,7 +195,8 @@ ToTableColumn >> initialize [
 	headerViewBuilder := self defaultHeaderBuilder.
 	dataViewBuilder := self defaultDataViewBuilder.
 	sortDirections := self defaultSortDirection.
-	resizable := true
+	resizable := true.
+	useCheckbox := false
 ]
 
 { #category : #accessing }
@@ -224,6 +298,18 @@ ToTableColumn >> title [
 ToTableColumn >> title: anObject [
 
 	title := anObject
+]
+
+{ #category : #accessing }
+ToTableColumn >> useCheckbox [ 
+
+	^ useCheckbox
+]
+
+{ #category : #accessing }
+ToTableColumn >> useCheckbox: aBoolean [
+
+	useCheckbox := aBoolean
 ]
 
 { #category : #accessing }

@@ -54,3 +54,25 @@ ToCompositeSelecter >> unrecordSubSelecter: aSelecter [
 	subSelecterIndex removeKey:	aSelecter selectionChangedEventClass.
 	self selectionModel unrecordSubSelectionModel: aSelecter selectionModel
 ]
+
+{ #category : #operations }
+ToCompositeSelecter >> updateSelectionAfter: aValuable withDataAccessor: aDataAccessor [
+
+	| selectionIndex |
+	" a dictionary to store the selected item collection (value) of each selecter (key)"
+	selectionIndex := IdentityDictionary new.
+
+	" save selected data items for each sub-selecter "
+	subSelecterIndex valuesDo: [ :subselecter |
+			| selection |
+			selection := subselecter selectedIndexes collect: [ :idx |
+				             aDataAccessor at: idx ].
+			selectionIndex at: subselecter put: selection ].
+
+	super updateSelectionAfter: aValuable withDataAccessor: aDataAccessor.
+
+	" select back the selected items"
+	selectionIndex keysAndValuesDo: [ :subselecter :selection |
+			subselecter selectOnlyIndexes:
+				(selection collect: [ :dataItem | aDataAccessor indexOf: dataItem ]) ]
+]

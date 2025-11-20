@@ -26,14 +26,15 @@ ToTableHeaderElement >> cells [
 ]
 
 { #category : #accessing }
-ToTableHeaderElement >> columns: aTableColumnArray [
+ToTableHeaderElement >> columns: aTableColumnArray inTableElement: aTableElement [
 
 	self removeChildren.
 	aTableColumnArray do: [ :column | | cell |
 		cell := self newCell.
+		cell constraintsDo: [ :c | c linear vertical alignCenter ].
 		self addChild: cell.
 		cell column: column.
-		cell initializeFromColumn ]
+		cell initializeFromColumnInTableElement: aTableElement ]
 ]
 
 { #category : #initialization }

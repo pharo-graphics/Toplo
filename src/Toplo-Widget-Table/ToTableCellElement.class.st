@@ -23,6 +23,7 @@ ToTableCellElement >> column: aTableColumn [
 ToTableCellElement >> initialize [
 
 	super initialize.
+	self layout: BlLinearLayout horizontal.
 	self
 		hMatchParent;
 		vFitContent

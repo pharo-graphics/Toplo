@@ -4,18 +4,16 @@ Trait {
 		'nodeHolderFactory',
 		'nodeFactory',
 		'nodeBuilder',
-		'nodeUnbuilder'
+		'nodeUnbuilder',
+		'checkableNode'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
 
 { #category : #'t - generic node manager' }
-TToGenericNodeManager >> buildNode: aNode [
+TToGenericNodeManager >> checkableNode: aBoolean [
 
-	nodeBuilder
-		cull: aNode
-		cull: aNode holder dataItem
-		cull: aNode holder
+	checkableNode := aBoolean
 ]
 
 { #category : #'t - generic node manager' }
@@ -49,7 +47,8 @@ TToGenericNodeManager >> initializeAsGenericNodeManager [
 	nodeBuilder := self defaultNodeBuilder.
 	nodeUnbuilder := self defaultNodeUnbuilder.
 	nodeFactory := self defaultNodeFactory.
-	nodeHolderFactory := self defaultNodeHolderFactory
+	nodeHolderFactory := self defaultNodeHolderFactory.
+	checkableNode := false
 ]
 
 { #category : #'t - generic node manager' }
@@ -62,6 +61,13 @@ TToGenericNodeManager >> newHolder [
 TToGenericNodeManager >> newNodeForHolder: aNodeHolder [
 
 	^ nodeFactory cull: aNodeHolder
+]
+
+{ #category : #'t - generic node manager' }
+TToGenericNodeManager >> nodeBuilder [
+	"aValuable takes 3 optional args: first, the node to build, second, the dataItem and third, the holder in the list element "
+
+	^ nodeBuilder
 ]
 
 { #category : #'t - generic node manager' }
@@ -97,4 +103,10 @@ TToGenericNodeManager >> unbuildNode: aNode [
 
 	nodeUnbuilder cull: aNode cull: aNode holder dataItem cull: aNode holder
 
+]
+
+{ #category : #'t - generic node manager' }
+TToGenericNodeManager >> useCheckableNode [
+
+	^ checkableNode
 ]

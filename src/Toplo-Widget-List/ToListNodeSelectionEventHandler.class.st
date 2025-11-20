@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'clickLauncher'
 	],
-	#category : #'Toplo-Widget-List-Selection-Mode'
+	#category : #'Toplo-Widget-List-Node'
 }
 
 { #category : #'mouse handlers' }
@@ -50,7 +50,7 @@ ToListNodeSelectionEventHandler >> hasClickLauncher [
 ToListNodeSelectionEventHandler >> launchClick: aBlock event: anEvent [
 	" click launcher management to allow double click to work with several selected nodes "
 
-	| listElement node holder mode dblClickDelay |
+	| listElement node holder mode dblClickDelay modifiers shift primaryModifier |
 	node := anEvent currentTarget.
 	holder := node holder.
 	listElement := node holder listElement.
@@ -58,15 +58,19 @@ ToListNodeSelectionEventHandler >> launchClick: aBlock event: anEvent [
 	dblClickDelay := listElement selectionMode doubleClickTimeout.
 
 	(listElement hasFocus not and: [ listElement isFocusable ]) ifTrue: [
-		self terminateClickLauncherOnNode: node onEvent: anEvent.
-		^ self ].
+			self terminateClickLauncherOnNode: node onEvent: anEvent.
+			^ self ].
+
+	modifiers := anEvent sourceEvent modifiers.
+	shift := modifiers notNil and: [ modifiers isShift ].
+	primaryModifier := modifiers notNil and: [
+		                   modifiers isPrimaryModifier ].
 
 	" do not try double click if ctrl or Cmd or shift is pressed "
-	(holder isSelected not or: [
-		 anEvent sourceEvent modifiers isPrimaryModifier or: [
-			 anEvent sourceEvent modifiers isShift ] ]) ifTrue: [
-		self terminateClickLauncherOnNode: node onEvent: anEvent.
-		^ aBlock value ].
+	(holder isSelected not or: [ primaryModifier or: [ shift ] ])
+		ifTrue: [
+				self terminateClickLauncherOnNode: node onEvent: anEvent.
+				^ aBlock value ].
 
 	" Already have a click launcher "
 	self hasClickLauncher ifTrue: [ ^ self ].
@@ -76,9 +80,9 @@ ToListNodeSelectionEventHandler >> launchClick: aBlock event: anEvent [
 	mode selectedIndexesCount > 0 ifFalse: [ ^ aBlock value ].
 
 	self clickLauncher: ([
-		 dblClickDelay asDelay wait.
-		 aBlock value.
-		 self clickLauncher: nil ]
+			 dblClickDelay asDelay wait.
+			 aBlock value.
+			 self clickLauncher: nil ]
 			 forkAt: Processor lowIOPriority
 			 named: self class name)
 ]
@@ -126,34 +130,10 @@ ToListNodeSelectionEventHandler >> multipleSelectionListClickOnNodeEvent: anEven
 { #category : #'mouse handlers' }
 ToListNodeSelectionEventHandler >> notifyClickOnNodeFromEvent: anEvent [
 
-	| listElement mode node req min |
+	| listElement node |
 	node := anEvent currentTarget.
-	node isAttachedToSceneGraph ifFalse: [ ^ self ].
 	listElement := node holder listElement.
-	listElement isDisabled ifTrue: [ ^ self ].
-
-	" in case the listElement is not focused (and focusable), 
-	check if the selection has to be preserved.
-	If it is to be preserve the do nothing here.
-	The listElement event handler will request the focus"
-	(listElement isFocusable and: [ listElement hasFocus not ]) ifTrue: [
-		" the node may have the focus for keyboard input as an example.
-		The listElement should not take the focus in this case "
-		node hasFocus ifFalse: [listElement requestFocus].
-		mode := listElement selectionMode.
-		min := mode minSelectedIndexesCountForSelectionPreserving.
-		listElement selectionModel selectedIndexesCount > min ifTrue: [
-			^ self ] ].
-	
-	req := ToListClickOnNodeRequestEvent new
-		       requestedAction: [
-			       node dispatchEvent: (ToListClickOnNodeEvent new
-						        fillFromTime: node space time;
-						        sourceEvent: anEvent;
-						        yourself) ];
-		       yourself.
-
-	node dispatchAuthorisationRequest: req
+	listElement notifyClickOnNode: node fromEvent: anEvent
 ]
 
 { #category : #'selection events' }
@@ -175,6 +155,7 @@ ToListNodeSelectionEventHandler >> pickEvent: anEvent [
 	listElement isEnabled ifFalse: [ ^ self ].
 	mode := listElement primarySelectionMode.
 	mode selectOnPressed ifTrue: [ ^ self ].
+	mode selectOnClick ifFalse: [ ^ self ].
 	self notifyClickOnNodeFromEvent: anEvent
 ]
 

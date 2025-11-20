@@ -36,7 +36,7 @@ ToButton >> beNotCheckable [
 
 	self isCheckable ifFalse: [ ^ self ].
 	self releaseCheckable.
-	self checkableData: nil.
+	self checkableState: nil.
 	self requestNewSkin
 ]
 

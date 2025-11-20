@@ -1,8 +1,8 @@
 Class {
 	#name : #ToTreeElement,
 	#superclass : #ToAbstractTreeElement,
-	#traits : 'TToGenericListElement',
-	#classTraits : 'TToGenericListElement classTrait',
+	#traits : 'TToGenericListElement + TToCheckableSelectionManager',
+	#classTraits : 'TToGenericListElement classTrait + TToCheckableSelectionManager classTrait',
 	#category : #'Toplo-Widget-Tree-Core'
 }
 

@@ -81,6 +81,7 @@ ToTableElement >> initScrollBar [
 			c ignored horizontal alignRight.
 			c ignored vertical alignBottom ].
 	vscrollBar attachTo: self list innerElement.
+	vscrollBar elevation: (BlRelativeElevation elevation: 20).
 	self list addChild: vscrollBar
 ]
 
@@ -89,6 +90,7 @@ ToTableElement >> initialize [
 
 	super initialize.
 	self class initializeSlots: self.
+
 	self matchParent.
 	self padding: (BlInsets all: 1).
 	list := ToTableListElement new
@@ -101,7 +103,7 @@ ToTableElement >> initialize [
 	self initScrollBar.
 	self property: #columns whenChangedDo: [
 			list columns: self columns.
-			header columns: self columns.
+			header columns: self columns inTableElement: self.
 			self initializeDividers ].
 	self property: #showHeader whenChangedDo: [
 			showHeader
@@ -148,30 +150,56 @@ ToTableElement >> list: anObject [
 	list := anObject
 ]
 
+{ #category : #'event handling' }
+ToTableElement >> newHeaderCheckboxInColumn: aColumn [
+
+	| cbox |
+	cbox := ToCheckbox new.
+	cbox allowIndeterminate: true.
+	cbox focusability: BlFocusability none.
+	cbox switchToNextCheckStateOnClick: false.
+	self updateHeaderCheckboxForListSelection: cbox.
+
+	" In case the checkbox has been clicked, update the list selection "
+	cbox
+		addEventHandlerOn: BlClickEvent
+		do: [ :event | self updateListSelectionFromHeaderCheckbox: cbox ].
+
+	list
+		addEventHandlerOn: ToListPrimarySelectionChangedEvent
+		do: [ :event | self updateHeaderCheckboxForListSelection: cbox ].
+
+	^ cbox
+]
+
 { #category : #sorting }
 ToTableElement >> performDataSort [
 
 	| sortFunctions |
 	"I sort the data based on the information in the column configuration""for now sort by column from left to right. Future should implement an order of sorting"
 	sortFunctions := (self columns
-		                  select: [ :column |
-			                  column sortOrder isNotNil and: [
-				                  column sorterBlock isNotNil ] ]
-		                  thenCollect: [ :column |
-				                  | sortFunction |
+		                  select: [ :col |
+		                  col sortOrder isNotNil and: [
+			                  col sorterBlock isNotNil ] ]
+		                  thenCollect: [ :col |
+				                  | f |
 				                  "reverse sort function in case of descending"
-				                  sortFunction := column sortOrder = #descending
-					                                  ifFalse: [
-					                                  column sorterBlock
-						                                  asSortFunction reversed ]
-					                                  ifTrue: [
-					                                  column sorterBlock
-						                                  asSortFunction ].
-				                  column -> sortFunction ]) asDictionary.
-	sortFunctions keysAndValuesDo: [ :keyColumn :valueSortFunction |
-			self dataAccessor collection sort: [ :item1 :item2 |
-				valueSortFunction value: item1 value: item2 ] ].
-	self dataAccessor notifyChanged
+				                  f := col sorterBlock asSortFunction.
+				                  col sortOrder = #descending ifFalse: [
+					                  f := f reversed ].
+				                  col -> f ]) asDictionary.
+	self selecter
+		updateSelectionAfter: [
+				sortFunctions keysAndValuesDo: [ :keyColumn :valueSortFunction |
+						self dataAccessor sort: [ :item1 :item2 |
+							valueSortFunction value: item1 value: item2 ] ] ]
+		withDataAccessor: self dataAccessor
+]
+
+{ #category : #accessing }
+ToTableElement >> selecter [
+
+	^ self list selecter
 ]
 
 { #category : #accessing }
@@ -187,4 +215,26 @@ ToTableElement >> updateDividers [
 	dividers := self selectChildrenWithId: #columnDivider.
 	self whenLayoutedDoOnce: [
 		dividers do: [ :div | div setPositionInTable: self ] ]
+]
+
+{ #category : #'event handling' }
+ToTableElement >> updateHeaderCheckboxForListSelection: aCheckbox [
+
+	| selectedIndexes |
+	selectedIndexes := list selecter selectedIndexes.
+	(selectedIndexes notEmpty and: [
+		 selectedIndexes size = list dataAccessor itemCount ])
+		ifTrue: [ aCheckbox checked: true ]
+		ifFalse: [
+				selectedIndexes isEmpty
+					ifTrue: [ aCheckbox checked: false ]
+					ifFalse: [ aCheckbox checked: #indeterminate ] ]
+]
+
+{ #category : #'event handling' }
+ToTableElement >> updateListSelectionFromHeaderCheckbox: aCheckbox [
+
+	(aCheckbox isIndeterminate or: [ aCheckbox isChecked not ])
+		ifTrue: [ list selecter selectAll ]
+		ifFalse: [ list selecter deselectAll ]
 ]

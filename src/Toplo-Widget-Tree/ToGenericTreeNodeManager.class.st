@@ -6,18 +6,23 @@ I hold the logic of building and destroying NodeHolders and TreeNodes whenever t
 Class {
 	#name : #ToGenericTreeNodeManager,
 	#superclass : #ToTreeNodeManager,
-	#traits : 'TToGenericNodeManager',
-	#classTraits : 'TToGenericNodeManager classTrait',
-	#instVars : [
-		'childrenGetter'
-	],
+	#traits : 'TToGenericNodeManager + TToGenericTreeNodeManager',
+	#classTraits : 'TToGenericNodeManager classTrait + TToGenericTreeNodeManager classTrait',
 	#category : #'Toplo-Widget-Tree-Core'
 }
 
-{ #category : #'t - generic node manager' }
+{ #category : #'node building' }
 ToGenericTreeNodeManager >> buildNode: aTreeNode [
 
 	| content |
+	
+	checkableNode ifTrue: [
+			| listElement cbox |
+			listElement := aTreeNode holder listElement.
+			cbox := listElement newCheckboxInNode: aTreeNode.
+			cbox constraintsDo: [ :c | c linear vertical alignCenter ].
+			aTreeNode addChild: cbox at: 1 ].
+		
 	content := ToElement new
 		           hMatchParent;
 		           vFitContent;
@@ -26,25 +31,9 @@ ToGenericTreeNodeManager >> buildNode: aTreeNode [
 	nodeBuilder
 		cull: content
 		cull: aTreeNode holder treeDataItem
-		cull: aTreeNode holder
-]
-
-{ #category : #'children accessing' }
-ToGenericTreeNodeManager >> childrenFromDataItem: aDataItem [
-
-	^ (childrenGetter value: aDataItem) asArray
-]
-
-{ #category : #accessing }
-ToGenericTreeNodeManager >> childrenGetter: aValuable [
-
-	childrenGetter := aValuable
-]
-
-{ #category : #initialization }
-ToGenericTreeNodeManager >> defaultChildrenGetter [
-
-	^ [ :dataItem | #(  ) ]
+		cull: aTreeNode holder.
+	aTreeNode childrenDo: [ :child |
+		child constraintsDo: [ :c | c linear vertical alignCenter ] ]
 ]
 
 { #category : #'t - generic node manager' }
@@ -59,7 +48,7 @@ ToGenericTreeNodeManager >> initialize [
 
 	super initialize.
 	self initializeAsGenericNodeManager.
-	childrenGetter := self defaultChildrenGetter 
+	self initializeAsGenericTreeNodeManager
 ]
 
 { #category : #'t - generic node manager' }

@@ -341,7 +341,7 @@ TToItemBarContainer >> selectionOption [
 TToItemBarContainer >> setItemBar: anItemBar [
 
 	itemBar ifNotNil: [ BlImmutableObjectChangeError signal ].
-	itemBar := anItemBar 
+	itemBar := anItemBar
 ]
 
 { #category : #'t - item bar container - configuration' }

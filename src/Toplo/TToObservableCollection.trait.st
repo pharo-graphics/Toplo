@@ -168,9 +168,7 @@ TToObservableCollection >> at: anInteger put: anObject [
 	| interval |
 	interval := anInteger to: anInteger.
 	self collection at: anInteger put: anObject.
-	self dispatchEvent: (ToCollectionUpdateEvent new
-					 interval: interval;
-					 yourself)
+	self notifyUpdatedInterval: interval
 ]
 
 { #category : #'t - observable collection - enumerating' }
@@ -596,9 +594,7 @@ TToObservableCollection >> replaceFrom: start to: stop with: replacement startin
 				to: stop
 				with: replacement
 				startingAt: repStart.
-	self dispatchEvent: (ToCollectionUpdateEvent new
-					 interval: interval;
-					 yourself)
+	self notifyUpdatedInterval: interval
 ]
 
 { #category : #'t - observable collection - initialization' }

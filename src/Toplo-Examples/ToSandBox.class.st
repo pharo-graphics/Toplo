@@ -8930,8 +8930,9 @@ ToSandBox class >> example_toTable1 [
 				 key: 'package';
 				 dataIndex: [ :cls | cls packageName ];
 				 yourself) }.
-	table dataAccessor addAll: Smalltalk globals allClasses.
-	table openInSpace
+	table dataAccessor addAll: (Smalltalk globals allClasses copyFrom: 1 to: 30).
+	table openInSpace.
+	table selecter selectAll 
 ]
 
 { #category : #'t - orientable' }
@@ -8986,7 +8987,7 @@ ToSandBox class >> example_toTableWithSort [
 				 key: 'methods';
 				 dataIndex: 'numberOfMethods';
 				 yourself) }.
-	table dataAccessor addAll: Smalltalk globals allClasses.
+	table dataAccessor addAll: (Smalltalk globals allClasses copyFrom: 1 to: 30).
 	table openInSpace.
 	^ table
 ]

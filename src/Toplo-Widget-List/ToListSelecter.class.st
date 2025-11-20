@@ -596,3 +596,14 @@ ToListSelecter >> updateSelection [
 	element ifNil: [ ^ self ].
 	element updateAllSelections
 ]
+
+{ #category : #operations }
+ToListSelecter >> updateSelectionAfter: aValuable withDataAccessor: aDataAccessor [
+
+	| selection |
+	selection := self selectedIndexes collect: [ :idx |
+		             aDataAccessor at: idx ].
+	aValuable value.
+	self selectOnlyIndexes:
+		(selection collect: [ :dataItem | aDataAccessor indexOf: dataItem ])
+]

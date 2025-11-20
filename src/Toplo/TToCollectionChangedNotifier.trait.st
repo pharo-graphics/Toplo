@@ -59,6 +59,15 @@ TToCollectionChangedNotifier >> notifySievedWith: aSieve interval: anInterval [
 ]
 
 { #category : #'t - collection changed notifier' }
+TToCollectionChangedNotifier >> notifyUpdatedInterval: anInterval [
+
+	self notificationAllowed ifFalse: [ ^ self ].
+	self dispatchEvent: (ToCollectionUpdateEvent new
+			 interval: anInterval;
+			 yourself)
+]
+
+{ #category : #'t - collection changed notifier' }
 TToCollectionChangedNotifier >> preventNotificationWhile: aBlock [
 
 	| prev |

@@ -167,7 +167,7 @@ ToAbstractListElement >> defaultContextMenuSelectionMode [
 { #category : #initialization }
 ToAbstractListElement >> defaultDataSource [
 
-	^ ToInfiniteCollectionDataSource new
+	^ ToSortableInfiniteCollectionDataSource new
 ]
 
 { #category : #initialization }

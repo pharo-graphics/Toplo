@@ -21,7 +21,7 @@ ToTableNodeManager >> buildNode: aTableNode [
 						        matchParent;
 						        yourself.
 					aTableNode addChild: cellElement.
-					column buildCellElement: cellElement inNode: aTableNode ] ]
+					column buildListCellElement: cellElement inNode: aTableNode ] ]
 ]
 
 { #category : #accessing }

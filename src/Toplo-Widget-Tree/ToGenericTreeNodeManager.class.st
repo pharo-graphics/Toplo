@@ -6,11 +6,8 @@ I hold the logic of building and destroying NodeHolders and TreeNodes whenever t
 Class {
 	#name : #ToGenericTreeNodeManager,
 	#superclass : #ToTreeNodeManager,
-	#traits : 'TToGenericNodeManager',
-	#classTraits : 'TToGenericNodeManager classTrait',
-	#instVars : [
-		'childrenGetter'
-	],
+	#traits : 'TToGenericNodeManager + TToGenericTreeNodeManager',
+	#classTraits : 'TToGenericNodeManager classTrait + TToGenericTreeNodeManager classTrait',
 	#category : #'Toplo-Widget-Tree-Core'
 }
 
@@ -39,24 +36,6 @@ ToGenericTreeNodeManager >> buildNode: aTreeNode [
 		child constraintsDo: [ :c | c linear vertical alignCenter ] ]
 ]
 
-{ #category : #'children accessing' }
-ToGenericTreeNodeManager >> childrenFromDataItem: aDataItem [
-
-	^ (childrenGetter value: aDataItem) asArray
-]
-
-{ #category : #accessing }
-ToGenericTreeNodeManager >> childrenGetter: aValuable [
-
-	childrenGetter := aValuable
-]
-
-{ #category : #initialization }
-ToGenericTreeNodeManager >> defaultChildrenGetter [
-
-	^ [ :dataItem | #(  ) ]
-]
-
 { #category : #'t - generic node manager' }
 ToGenericTreeNodeManager >> defaultNodeFactory [
 
@@ -69,7 +48,7 @@ ToGenericTreeNodeManager >> initialize [
 
 	super initialize.
 	self initializeAsGenericNodeManager.
-	childrenGetter := self defaultChildrenGetter 
+	self initializeAsGenericTreeNodeManager
 ]
 
 { #category : #'t - generic node manager' }

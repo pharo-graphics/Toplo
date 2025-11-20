@@ -27,26 +27,28 @@ ToTableHeaderCellElement >> initialize [
 ]
 
 { #category : #updating }
-ToTableHeaderCellElement >> initializeFromColumn [
+ToTableHeaderCellElement >> initializeFromColumnInTableElement: aTableElement [
 
 	innerElement := ToTripletElement new.
 	innerElement
 		hMatchParent;
 		vFitContent.
 	self addChild: innerElement.
-	column buildHeaderView: innerElement middleContainer.
+	innerElement middleContainer layout: BlLinearLayout horizontal.
+	column buildHeaderCellElement: innerElement middleContainer inTableElement: aTableElement.
 	column width
 		ifNotNil: [ :w | self width: w ]
 		ifNil: [ self hMatchParent ].
 	column sorterBlock ifNotNil: [
 			| arrow |
 			arrow := ToIconicArrowButton new.
-			innerElement startElement: arrow.
+			innerElement endElement: arrow.
+			innerElement endFlexible: true.
 			self updateArrowOrientation: arrow.
-			innerElement startElement clickAction: [
+			innerElement endElement clickAction: [
 					column nextSort.
 					self updateArrowOrientation: arrow.
-					innerElement startElement fireEvent:
+					innerElement endElement fireEvent:
 						(ToSortColumn column: column) ] ]
 ]
 

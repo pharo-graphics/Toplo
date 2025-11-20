@@ -11,3 +11,11 @@ ToGenericListElement >> defaultNodeManagerClass [
 
 	^ ToGenericListNodeManager  
 ]
+
+{ #category : #sorting }
+ToGenericListElement >> sort: aSortBlock [
+
+	self selecter
+		updateSelectionAfter: [ self dataAccessor sort: aSortBlock ]
+		withDataAccessor: self dataAccessor
+]

@@ -188,12 +188,10 @@ ToTableElement >> performDataSort [
 				                  col sortOrder = #descending ifFalse: [
 					                  f := f reversed ].
 				                  col -> f ]) asDictionary.
-	self selecter
-		updateSelectionAfter: [
-				sortFunctions keysAndValuesDo: [ :keyColumn :valueSortFunction |
-						self dataAccessor sort: [ :item1 :item2 |
-							valueSortFunction value: item1 value: item2 ] ] ]
-		withDataAccessor: self dataAccessor
+	self updateSelectionAfter: [
+			sortFunctions keysAndValuesDo: [ :keyColumn :valueSortFunction |
+					self dataAccessor sort: [ :item1 :item2 |
+						valueSortFunction value: item1 value: item2 ] ] ]
 ]
 
 { #category : #accessing }
@@ -237,4 +235,10 @@ ToTableElement >> updateListSelectionFromHeaderCheckbox: aCheckbox [
 	(aCheckbox isIndeterminate or: [ aCheckbox isChecked not ])
 		ifTrue: [ list selecter selectAll ]
 		ifFalse: [ list selecter deselectAll ]
+]
+
+{ #category : #'selection updating' }
+ToTableElement >> updateSelectionAfter: aValuable [
+
+	list updateSelectionAfter: aValuable
 ]

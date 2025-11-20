@@ -8914,6 +8914,7 @@ ToSandBox class >> example_toTable1 [
 				 key: 'name';
 				 dataIndex: 'name';
 				 useCheckbox: true;
+				 sorterBlock: #name descending;
 				 yourself).
 			(ToTableColumn new
 				 title: 'Number of methods';
@@ -8930,9 +8931,10 @@ ToSandBox class >> example_toTable1 [
 				 key: 'package';
 				 dataIndex: [ :cls | cls packageName ];
 				 yourself) }.
-	table dataAccessor addAll: (Smalltalk globals allClasses copyFrom: 1 to: 30).
+	table dataAccessor addAll:
+		(Smalltalk globals allClasses copyFrom: 1 to: 30).
 	table openInSpace.
-	table selecter selectAll 
+	table selecter selectAll
 ]
 
 { #category : #'t - orientable' }

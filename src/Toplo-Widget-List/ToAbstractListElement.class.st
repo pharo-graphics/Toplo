@@ -705,6 +705,15 @@ ToAbstractListElement >> updateSecondarySelection [
 	self updateModeSelectionFrom: self secondarySelectionMode
 ]
 
+{ #category : #'selection updating' }
+ToAbstractListElement >> updateSelectionAfter: aValuable [
+
+	self selecter
+		updateSelectionAfter: aValuable
+		withDataAccessor: self dataAccessor.
+	self postponeAction: [ self notifyDataSourceChanged ]
+]
+
 { #category : #'accessing selecters' }
 ToAbstractListElement >> visibleAtPosition: anInteger [
 

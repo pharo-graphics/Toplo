@@ -4,8 +4,8 @@ I represent the list part of the table
 Class {
 	#name : #ToTableListElement,
 	#superclass : #ToAbstractListElement,
-	#traits : 'TToCheckboxBasedSelectionManager',
-	#classTraits : 'TToCheckboxBasedSelectionManager classTrait',
+	#traits : 'TToCheckableSelectionManager',
+	#classTraits : 'TToCheckableSelectionManager classTrait',
 	#category : #'Toplo-Widget-Table-List'
 }
 

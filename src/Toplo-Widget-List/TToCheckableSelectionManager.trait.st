@@ -1,13 +1,13 @@
 Trait {
-	#name : #TToCheckboxBasedSelectionManager,
+	#name : #TToCheckableSelectionManager,
 	#instVars : [
 		'checkBoxSelectionHandler'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
 
-{ #category : #'t - checkbox based selection manager' }
-TToCheckboxBasedSelectionManager >> addCheckboxSelectionManagement [
+{ #category : #'t - checkable selection manager' }
+TToCheckableSelectionManager >> addCheckboxSelectionManagement [
 
 	checkBoxSelectionHandler ifNotNil: [ ^ self ].
 	self selectionMode selectOnClick: false.
@@ -20,10 +20,10 @@ TToCheckboxBasedSelectionManager >> addCheckboxSelectionManagement [
 						                            int ] ]
 ]
 
-{ #category : #'t - checkbox based selection manager' }
-TToCheckboxBasedSelectionManager >> newCheckableElementIn: anElement inNode: aNode [
+{ #category : #'t - checkable selection manager' }
+TToCheckableSelectionManager >> newCheckboxInNode: aNode [
 
-	| innerElement cbox |
+	|  cbox |
 	cbox := ToCheckbox new.
 	cbox focusability: BlFocusability none.
 	cbox checked: aNode holder isSelected.
@@ -43,20 +43,12 @@ TToCheckboxBasedSelectionManager >> newCheckableElementIn: anElement inNode: aNo
 					       self onCheckableCheckEvent: event onNode: aNode ];
 				       yourself.
 			aNode dispatchAuthorisationRequest: req ].
+	^ cbox
 
-	anElement addChild: cbox.
-	innerElement := ToElement new
-		                hMatchParent;
-		                vFitContent.
-	innerElement layout: BlLinearLayout horizontal.
-	cbox constraintsDo: [ :c | c linear vertical alignCenter ].
-	innerElement constraintsDo: [ :c | c linear vertical alignCenter ].
-	anElement addChild: innerElement.
-	^ innerElement
 ]
 
-{ #category : #'t - checkbox based selection manager' }
-TToCheckboxBasedSelectionManager >> onCheckableCheckEvent: anEvent onNode: aNode [
+{ #category : #'t - checkable selection manager' }
+TToCheckableSelectionManager >> onCheckableCheckEvent: anEvent onNode: aNode [
 
 	anEvent checked ifFalse: [ ^ aNode holder selected: false ].
 	self spaceDo: [ :sp |
@@ -64,8 +56,8 @@ TToCheckboxBasedSelectionManager >> onCheckableCheckEvent: anEvent onNode: aNode
 	self notifyClickOnNode: aNode fromEvent: anEvent
 ]
 
-{ #category : #'t - checkbox based selection manager' }
-TToCheckboxBasedSelectionManager >> onUseCheckboxChangedWith: aBoolean [
+{ #category : #'t - checkable selection manager' }
+TToCheckableSelectionManager >> onUseCheckboxChangedWith: aBoolean [
 
 	aBoolean
 		ifTrue: [ self addCheckboxSelectionManagement ]
@@ -73,8 +65,8 @@ TToCheckboxBasedSelectionManager >> onUseCheckboxChangedWith: aBoolean [
 	self notifyDataSourceChanged
 ]
 
-{ #category : #'t - checkbox based selection manager' }
-TToCheckboxBasedSelectionManager >> removeCheckboxSelectionManagement [
+{ #category : #'t - checkable selection manager' }
+TToCheckableSelectionManager >> removeCheckboxSelectionManagement [
 
 	checkBoxSelectionHandler ifNil: [ ^ self ].
 	self selectionMode selectOnClick: true.

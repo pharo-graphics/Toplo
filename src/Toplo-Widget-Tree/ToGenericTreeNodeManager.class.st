@@ -14,19 +14,18 @@ Class {
 	#category : #'Toplo-Widget-Tree-Core'
 }
 
-{ #category : #'t - generic node manager' }
+{ #category : #'node building' }
 ToGenericTreeNodeManager >> buildNode: aTreeNode [
 
 	| content |
+	
 	checkableNode ifTrue: [
-			| listElement checkElement |
+			| listElement cbox |
 			listElement := aTreeNode holder listElement.
-			checkElement := ToElement new
-				                hFitContent;
-				                vFitContent;
-				                yourself.
-			listElement newCheckableElementIn: checkElement inNode: aTreeNode.
-			aTreeNode addChild: checkElement at: 1 ].
+			cbox := listElement newCheckboxInNode: aTreeNode.
+			cbox constraintsDo: [ :c | c linear vertical alignCenter ].
+			aTreeNode addChild: cbox at: 1 ].
+		
 	content := ToElement new
 		           hMatchParent;
 		           vFitContent;

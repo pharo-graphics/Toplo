@@ -28,24 +28,39 @@ ToTableColumn >> buildCellElement: anElement inNode: aTableNode [
 
 	| cellData |
 	width ifNotNil: [ anElement width: width ].
-	cellData := self fetchedCellDataFromDataIndex: aTableNode holder dataItem.
-	useCheckbox ifTrue: [
-			^ self
-				  buildCheckableCellElement: anElement
-				  inNode: aTableNode
-				  withData: cellData ].
-	self
-		buildSimpleCellElement: anElement
-		inNode: aTableNode
-		withData: cellData
+	cellData := self fetchedCellDataFromDataIndex:
+		            aTableNode holder dataItem.
+	useCheckbox
+		ifTrue: [
+				self
+					buildCheckableCellElement: anElement
+					inNode: aTableNode
+					withData: cellData ]
+		ifFalse: [
+				self
+					buildSimpleCellElement: anElement
+					inNode: aTableNode
+					withData: cellData ].
+
+	anElement childrenDo: [ :child |
+		child constraintsDo: [ :c | c linear vertical alignCenter ] ]
 ]
 
 { #category : #rendering }
 ToTableColumn >> buildCheckableCellElement: anElement inNode: aTableNode withData: aColumnData [
 
-	| tableListElement innerElement |
+	| tableListElement innerElement cbox |
 	tableListElement := aTableNode holder listElement.
-	innerElement := tableListElement newCheckableElementIn: anElement inNode: aTableNode.
+	cbox := tableListElement newCheckboxInNode: aTableNode.
+	innerElement := ToElement new
+		                hMatchParent;
+		                vFitContent.
+	innerElement layout: BlLinearLayout horizontal.
+	cbox constraintsDo: [ :c | c linear vertical alignCenter ].
+	innerElement constraintsDo: [ :c | c linear vertical alignCenter ].
+	anElement addChild: cbox.
+	anElement addChild: innerElement.
+
 	dataViewBuilder
 		cull: innerElement
 		cull: aColumnData

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToGenericListElement,
 	#superclass : #ToAbstractListElement,
-	#traits : 'TToGenericListElement + TToCheckboxBasedSelectionManager',
-	#classTraits : 'TToGenericListElement classTrait + TToCheckboxBasedSelectionManager classTrait',
+	#traits : 'TToGenericListElement + TToCheckableSelectionManager',
+	#classTraits : 'TToGenericListElement classTrait + TToCheckableSelectionManager classTrait',
 	#category : #'Toplo-Widget-List-Core'
 }
 

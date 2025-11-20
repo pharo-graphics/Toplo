@@ -11,31 +11,6 @@ Trait {
 }
 
 { #category : #'t - generic node manager' }
-TToGenericNodeManager >> buildCheckableNode: aNode [
-
-	| innerElement listElement |
-	listElement := aNode holder listElement.
-	innerElement := listElement newCheckableElementIn: aNode inNode: aNode.
-	nodeBuilder cull: innerElement cull: aNode holder dataItem cull: aNode holder
-]
-
-{ #category : #'t - generic node manager' }
-TToGenericNodeManager >> buildNode: aNode [
-
-	checkableNode ifTrue: [ ^ self buildCheckableNode: aNode ].
-	self buildSimpleNode: aNode
-]
-
-{ #category : #'t - generic node manager' }
-TToGenericNodeManager >> buildSimpleNode: aNode [
-
-	nodeBuilder
-		cull: aNode
-		cull: aNode holder dataItem
-		cull: aNode holder
-]
-
-{ #category : #'t - generic node manager' }
 TToGenericNodeManager >> checkableNode: aBoolean [
 
 	checkableNode := aBoolean
@@ -89,6 +64,13 @@ TToGenericNodeManager >> newNodeForHolder: aNodeHolder [
 ]
 
 { #category : #'t - generic node manager' }
+TToGenericNodeManager >> nodeBuilder [
+	"aValuable takes 3 optional args: first, the node to build, second, the dataItem and third, the holder in the list element "
+
+	^ nodeBuilder
+]
+
+{ #category : #'t - generic node manager' }
 TToGenericNodeManager >> nodeBuilder: aValuable [
 	"aValuable takes 3 optional args: first, the node to build, second, the dataItem and third, the holder in the list element "
 
@@ -121,4 +103,10 @@ TToGenericNodeManager >> unbuildNode: aNode [
 
 	nodeUnbuilder cull: aNode cull: aNode holder dataItem cull: aNode holder
 
+]
+
+{ #category : #'t - generic node manager' }
+TToGenericNodeManager >> useCheckableNode [
+
+	^ checkableNode
 ]

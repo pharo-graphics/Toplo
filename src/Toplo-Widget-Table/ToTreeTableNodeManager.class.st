@@ -13,12 +13,7 @@ Class {
 ToTreeTableNodeManager >> buildNode: aNode [
 
 	| content |
-	"checkableNode ifTrue: [
-			| listElement cbox |
-			listElement := aTreeNode holder listElement.
-			cbox := listElement newCheckboxInNode: aTreeNode.
-			cbox constraintsDo: [ :c | c linear vertical alignCenter ].
-			aTreeNode addChild: cbox at: 1 ]."
+		
 	aNode initializeStartElement.
 	content := ToElement new
 		           hMatchParent;

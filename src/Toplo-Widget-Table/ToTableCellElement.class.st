@@ -36,17 +36,6 @@ ToTableCellElement >> newColumnState [
 ]
 
 { #category : #accessing }
-ToTableCellElement >> onMeasure: anExtentMeasurementSpec [
-
-	| widthSpec |
-	super onMeasure: anExtentMeasurementSpec.
-	column ifNil: [ ^ self ].
-	column width ifNil: [ ^ self ].
-	widthSpec := anExtentMeasurementSpec widthSpec.
-	widthSpec size: column width.
-]
-
-{ #category : #accessing }
 ToTableCellElement >> updateWidthWith: aNumber [
 
 	self constraintsDo: [ :c | c horizontal exact: aNumber ]

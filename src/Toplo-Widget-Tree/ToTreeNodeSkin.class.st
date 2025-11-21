@@ -22,11 +22,8 @@ ToTreeNodeSkin >> installSkinEvent: anEvent [
 						ifFalse: [
 								wrapper isExpanded
 									ifFalse: [ arrowIcon beRight ]
-									ifTrue: [ arrowIcon beDown ] ].
-					arrowIcon extent:
-						(e valueOfTokenNamed: #'iconic-arrow-breadth') asPoint ].
-
-			e startElement padding: (BlInsets left: w).
+									ifTrue: [ arrowIcon beDown ] ] ].
+			e indentWidth: w.
 			e startInterspace: interspace ]
 ]
 

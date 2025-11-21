@@ -5,7 +5,7 @@ Class {
 		'width',
 		'startDragWidth'
 	],
-	#category : #'Toplo-Widget-Table-Core'
+	#category : #'Toplo-Widget-Table-Header'
 }
 
 { #category : #accessing }

@@ -21,11 +21,7 @@ ToTableListElement class >> initializeToRawTheme: aTheme [
 			aTheme
 				when: ToInstallSkinEvent
 				write: (aTheme property: #geometry)
-				with: [ :header | BlRectangleGeometry new ].
-			aTheme
-				when: ToInstallSkinEvent
-				write: (aTheme property: #padding)
-				with: [ :header | BlInsets empty ] ]
+				with: [ :header | BlRectangleGeometry new ] ]
 ]
 
 { #category : #accessing }

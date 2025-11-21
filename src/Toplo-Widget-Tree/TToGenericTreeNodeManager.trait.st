@@ -27,5 +27,5 @@ TToGenericTreeNodeManager >> defaultChildrenGetter [
 { #category : #'t - generic tree node manager' }
 TToGenericTreeNodeManager >> initializeAsGenericTreeNodeManager [ 
 
-	childrenGetter := self defaultChildrenGetter 
+	childrenGetter := self defaultChildrenGetter
 ]

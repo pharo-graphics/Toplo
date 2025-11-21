@@ -14,9 +14,9 @@ ToTableHeaderElement class >> initializeToRawTheme: aTheme [
 	<toploThemeInstallerFor: #ToRawTheme>
 	aTheme select: (self asTypeSelector exact: false) style: [
 			aTheme when: ToInstallSkinEvent do: [ :header |
-					header
-						addTokenNamed: #'font-weight-attribute'
-						withValue: BlFontWeightAttribute bold ] ]
+					header padding: (BlInsets
+							 horizontal: (header valueOfTokenNamed: #'list-padding-H')
+							 vertical: (header valueOfTokenNamed: #'list-padding-V')) ] ]
 ]
 
 { #category : #accessing }

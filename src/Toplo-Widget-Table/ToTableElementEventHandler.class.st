@@ -29,12 +29,10 @@ ToTableElementEventHandler >> dividerDragEvent: anEvent [
 { #category : #'divider dragging' }
 ToTableElementEventHandler >> dividerStartDragEvent: anEvent [
 
-	| divider table dividers pos |
+	| divider table |
 	divider := anEvent sourceEvent target.
 	dividerStartPosition := divider constraints position.
 	table := anEvent currentTarget.
-	dividers := table selectChildrenWithId: #columnDivider.
-	pos := anEvent sourceEvent target cellIndex.
 	table header divider: divider startDragAt: dividerStartPosition x
 ]
 

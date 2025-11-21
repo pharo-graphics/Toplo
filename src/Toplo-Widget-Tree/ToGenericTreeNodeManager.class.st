@@ -22,7 +22,6 @@ ToGenericTreeNodeManager >> buildNode: aTreeNode [
 			cbox := listElement newCheckboxInNode: aTreeNode.
 			cbox constraintsDo: [ :c | c linear vertical alignCenter ].
 			aTreeNode addChild: cbox at: 1 ].
-		
 
 	aTreeNode initializeStartElement.
 	content := ToElement new

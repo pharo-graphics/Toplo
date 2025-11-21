@@ -83,7 +83,7 @@ ToTableColumn >> buildListCellElement: anElement atIndex: aColumnIndex inNode: a
 
 	| cellData state |
 	state := aTableNode holder listElement cellStateAt: aColumnIndex.
-	state width ifNotNil: [ anElement width: state width ].
+	state width ifNotNil: [:w | anElement width: w ].
 	cellData := self fetchedCellDataFromDataIndex:
 		            aTableNode holder dataItem.
 	useCheckbox
@@ -97,6 +97,7 @@ ToTableColumn >> buildListCellElement: anElement atIndex: aColumnIndex inNode: a
 					buildSimpleListCellElement: anElement
 					inNode: aTableNode
 					withData: cellData ].
+
 
 	anElement childrenDo: [ :child |
 		child constraintsDo: [ :c | c linear vertical alignCenter ] ]

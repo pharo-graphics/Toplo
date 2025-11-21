@@ -23,24 +23,24 @@ ToTableNode >> divider: aDivider movedBy: aDistance from: aStartLocation [
 	listElement := self holder listElement.
 	state := listElement cellStateAt: aDivider cellIndex.
 	cell := self cells at: aDivider cellIndex.
-	cell width: state startDragWidth + aDistance
+	cell updateWidthWith: state startDragWidth + aDistance
 ]
 
 { #category : #initialization }
 ToTableNode >> freezeCellsWidth [
 
-	| columns index cells last |
+	| columns index cells last state |
 	columns := self holder listElement columns.
 	index := 1.
 	cells := self cells.
-	cells allButLastDo: [ :child |
-			| col |
-			col := columns at: index.
-			child updateWidthWith: child width.
+	cells allButLastDo: [ :cell |
+			state := self holder listElement cellStateAt: index.
+			cell updateWidthWith: state width.
 			index := index + 1 ].
 	columns last resizable ifTrue: [ ^ self ].
 	last := cells last.
-	last updateWidthWith: last width
+	state := self holder listElement cellStateAt: index.
+	last updateWidthWith: state width
 ]
 
 { #category : #skin }

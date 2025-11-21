@@ -9004,7 +9004,6 @@ ToSandBox class >> example_toTreeTable1 [
 
 	| table |
 	table := ToTreeTableElement new.
-
 	table nodeManager childrenGetter: [ :dataItem |
 		dataItem subclasses sorted: [ :a :b | a name < b name ] ].
 	table columns: {
@@ -9012,7 +9011,7 @@ ToSandBox class >> example_toTreeTable1 [
 				 title: 'Name';
 				 key: 'name';
 				 dataIndex: #name;
-				 useCheckbox: false;
+				 useCheckbox: true;
 				 " sorterBlock: #name descending;"yourself).
 			(ToTableColumn new
 				 title: 'Number of methods';
@@ -9029,8 +9028,11 @@ ToSandBox class >> example_toTreeTable1 [
 				 key: 'package';
 				 dataIndex: [ :cls | cls packageName ];
 				 yourself) }.
-	table dataAccessor addAll:
-		(Smalltalk globals allClasses copyFrom: 1 to: 30).
+	table dataAccessor add: ProtoObject.
+	table dataAccessor add: BlElement.
+	table dataAccessor add: Collection.
+	table dataAccessor add: String.
+
 	table openInSpace
 ]
 

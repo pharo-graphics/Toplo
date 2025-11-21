@@ -26,6 +26,18 @@ ToTreeNode >> hasLeafDataItem [
 	^ self holder dataWrapper hasLeafDataItem
 ]
 
+{ #category : #'instance creation' }
+ToTreeNode >> indentFiller [
+
+	^ self startElement childWithId: #indentFiller
+]
+
+{ #category : #accessing }
+ToTreeNode >> indentWidth: aNumber [
+
+	self indentFiller width: aNumber
+]
+
 { #category : #initialization }
 ToTreeNode >> initialize [
 
@@ -47,7 +59,10 @@ ToTreeNode >> initialize [
 { #category : #'instance creation' }
 ToTreeNode >> initializeStartElement [
 
-	self startElement addChild: self newStartElement 
+
+	self startElement addChild: self newIndentFiller.
+	self startElement addChild: self newArrowIcon.
+
 ]
 
 { #category : #testing }
@@ -60,20 +75,8 @@ ToTreeNode >> isLeaf [
 	^ self hasLeafDataItem
 ]
 
-{ #category : #'t - triplet element - instance creation' }
-ToTreeNode >> newMiddleContainer [
-
-	^ self newLinearContainer
-]
-
-{ #category : #skin }
-ToTreeNode >> newRawSkin [ 
-	
-	^ ToTreeNodeSkin new
-]
-
 { #category : #'instance creation' }
-ToTreeNode >> newStartElement [
+ToTreeNode >> newArrowIcon [
 
 	| arrowIcon aWrapper |
 	aWrapper := self holder dataWrapper.
@@ -90,6 +93,26 @@ ToTreeNode >> newStartElement [
 			c linear horizontal alignLeft.
 			c linear vertical alignCenter ].
 	^ arrowIcon
+]
+
+{ #category : #'instance creation' }
+ToTreeNode >> newIndentFiller [
+
+	^ self newFiller
+		  id: #indentFiller;
+		  background: Color red
+]
+
+{ #category : #'t - triplet element - instance creation' }
+ToTreeNode >> newMiddleContainer [
+
+	^ self newLinearContainer
+]
+
+{ #category : #skin }
+ToTreeNode >> newRawSkin [ 
+	
+	^ ToTreeNodeSkin new
 ]
 
 { #category : #'instance creation' }

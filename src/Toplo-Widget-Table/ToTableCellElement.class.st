@@ -29,6 +29,12 @@ ToTableCellElement >> initialize [
 		vFitContent
 ]
 
+{ #category : #initialization }
+ToTableCellElement >> newColumnState [
+
+	^ ToTableColumnState new
+]
+
 { #category : #accessing }
 ToTableCellElement >> onMeasure: anExtentMeasurementSpec [
 
@@ -43,6 +49,5 @@ ToTableCellElement >> onMeasure: anExtentMeasurementSpec [
 { #category : #accessing }
 ToTableCellElement >> updateWidthWith: aNumber [
 
-	self column width: aNumber.
-	self constraintsDo: [ :c | c horizontal exact: self column width ]
+	self constraintsDo: [ :c | c horizontal exact: aNumber ]
 ]

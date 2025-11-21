@@ -2,7 +2,8 @@ Class {
 	#name : #ToTableHeaderCellElement,
 	#superclass : #ToTableCellElement,
 	#instVars : [
-		'innerElement'
+		'innerElement',
+		'state'
 	],
 	#category : #'Toplo-Widget-Table-Header'
 }
@@ -19,11 +20,19 @@ ToTableHeaderCellElement class >> initializeToRawTheme: aTheme [
 							 vertical: (cell valueOfTokenNamed: #'table-header-cell-padding-V')) ] ]
 ]
 
+{ #category : #accessing }
+ToTableHeaderCellElement >> column: aTableColumn [
+
+	super column: aTableColumn.
+	self initializeState
+]
+
 { #category : #initialization }
 ToTableHeaderCellElement >> initialize [
 
 	super initialize.
-	self id: #headerCell
+	self id: #headerCell.
+	state := self newColumnState.
 ]
 
 { #category : #updating }
@@ -52,6 +61,18 @@ ToTableHeaderCellElement >> initializeFromColumnInTableElement: aTableElement [
 						(ToSortColumn column: column) ] ]
 ]
 
+{ #category : #initialization }
+ToTableHeaderCellElement >> initializeState [
+
+	state initializeFromColumn: column
+]
+
+{ #category : #accessing }
+ToTableHeaderCellElement >> state [
+
+	^ state
+]
+
 { #category : #updating }
 ToTableHeaderCellElement >> updateArrowOrientation: arrow [
 
@@ -63,6 +84,7 @@ ToTableHeaderCellElement >> updateArrowOrientation: arrow [
 { #category : #accessing }
 ToTableHeaderCellElement >> updateWidthWith: aNumber [
 
+	state width: aNumber.
 	super updateWidthWith: aNumber.
 
 ]

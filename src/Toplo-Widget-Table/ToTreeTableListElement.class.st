@@ -3,8 +3,17 @@ Class {
 	#superclass : #ToTreeElement,
 	#traits : 'TToCheckableSelectionManager',
 	#classTraits : 'TToCheckableSelectionManager classTrait',
+	#instVars : [
+		'parentTable'
+	],
 	#category : #'Toplo-Widget-Table-List'
 }
+
+{ #category : #accessing }
+ToTreeTableListElement >> cellStateAt: anIndex [
+
+	^ (self headerCellAt: anIndex) state
+]
 
 { #category : #accessing }
 ToTreeTableListElement >> columns [
@@ -36,4 +45,22 @@ ToTreeTableListElement >> divider: aDivider movedBy: aDistance from: aStartLocat
 ToTreeTableListElement >> freezeCellsWidth [
 
 	self innerElement nodesDo: [ :n | n freezeCellsWidth ]
+]
+
+{ #category : #accessing }
+ToTreeTableListElement >> headerCellAt: anIndex [
+
+	^ parentTable header cells at: anIndex
+]
+
+{ #category : #accessing }
+ToTreeTableListElement >> parentTable [
+
+	^ parentTable
+]
+
+{ #category : #accessing }
+ToTreeTableListElement >> parentTable: aTableElement [
+
+	parentTable := aTableElement
 ]

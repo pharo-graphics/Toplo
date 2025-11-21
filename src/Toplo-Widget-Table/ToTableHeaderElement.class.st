@@ -49,7 +49,7 @@ ToTableHeaderElement >> divider: aDivider movedBy: aDistance from: aStartLocatio
 
 	|  cell |
 	cell := self cells at: aDivider cellIndex.
-	cell updateWidthWith: cell column startDragWidth + aDistance
+	cell updateWidthWith: cell state startDragWidth + aDistance
 ]
 
 { #category : #accessing }
@@ -57,7 +57,7 @@ ToTableHeaderElement >> divider: aDivider startDragAt: aDistance [
 
 	|  cell |
 	cell := self cells at: aDivider cellIndex.
-	cell column startDragWidth: cell width
+	cell state startDragWidth: cell width
 ]
 
 { #category : #initialization }

@@ -96,6 +96,7 @@ ToTableElement >> initialize [
 	list := self newListElement 
 		  id: #list;
 		  yourself.
+	list parentTable: self.
 	self buildHeader.
 	self addChildren: {
 			header.
@@ -127,6 +128,7 @@ ToTableElement >> initializeDividers [
 							div := ToTableDivider new
 								       id: #columnDivider;
 								       yourself.
+							div tableElement: self.
 							div cellIndex: index.
 							div setPositionInTable: self.
 							self addChild: div.

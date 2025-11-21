@@ -19,9 +19,11 @@ ToTreeTableNode >> columns [
 { #category : #accessing }
 ToTreeTableNode >> divider: aDivider movedBy: aDistance from: aStartLocation [
 
-	| cell |
+	| cell listElement state |
+	listElement := self holder listElement.
+	state := listElement cellStateAt: aDivider cellIndex.
 	cell := self cells at: aDivider cellIndex.
-	cell width: cell column startDragWidth + aDistance
+	cell width: state startDragWidth + aDistance
 ]
 
 { #category : #initialization }
@@ -44,5 +46,5 @@ ToTreeTableNode >> freezeCellsWidth [
 { #category : #skin }
 ToTreeTableNode >> newRawSkin [ 
 	
-	^ ToTreeNodeSkin new
+	^ ToTreeTableNodeSkin new
 ]

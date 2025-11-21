@@ -6,6 +6,9 @@ Class {
 	#superclass : #ToAbstractListElement,
 	#traits : 'TToCheckableSelectionManager',
 	#classTraits : 'TToCheckableSelectionManager classTrait',
+	#instVars : [
+		'parentTable'
+	],
 	#category : #'Toplo-Widget-Table-List'
 }
 
@@ -23,6 +26,12 @@ ToTableListElement class >> initializeToRawTheme: aTheme [
 				when: ToInstallSkinEvent
 				write: (aTheme property: #padding)
 				with: [ :header | BlInsets empty ] ]
+]
+
+{ #category : #accessing }
+ToTableListElement >> cellStateAt: anIndex [
+
+	^ (self headerCellAt: anIndex) state
 ]
 
 { #category : #accessing }
@@ -55,4 +64,22 @@ ToTableListElement >> divider: aDivider movedBy: aDistance from: aStartLocation 
 ToTableListElement >> freezeCellsWidth [
 
 	self innerElement nodesDo: [ :n | n freezeCellsWidth ]
+]
+
+{ #category : #accessing }
+ToTableListElement >> headerCellAt: anIndex [
+
+	^ parentTable header cells at: anIndex
+]
+
+{ #category : #accessing }
+ToTableListElement >> parentTable [
+
+	^ parentTable
+]
+
+{ #category : #accessing }
+ToTableListElement >> parentTable: aTableElement [
+
+	parentTable := aTableElement
 ]

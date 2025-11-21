@@ -17,7 +17,6 @@ Class {
 		'resizable',
 		'dataViewBuilder',
 		'headerViewBuilder',
-		'startDragWidth',
 		'useCheckbox'
 	],
 	#category : #'Toplo-Widget-Table-Core'
@@ -80,10 +79,11 @@ ToTableColumn >> buildHeaderCellElement: anElement inTableElement: aTableElement
 ]
 
 { #category : #rendering }
-ToTableColumn >> buildListCellElement: anElement inNode: aTableNode [
+ToTableColumn >> buildListCellElement: anElement atIndex: aColumnIndex inNode: aTableNode [
 
-	| cellData |
-	width ifNotNil: [ anElement width: width ].
+	| cellData state |
+	state := aTableNode holder listElement cellStateAt: aColumnIndex.
+	state width ifNotNil: [ anElement width: state width ].
 	cellData := self fetchedCellDataFromDataIndex:
 		            aTableNode holder dataItem.
 	useCheckbox
@@ -274,18 +274,6 @@ ToTableColumn >> sorterBlock [
 ToTableColumn >> sorterBlock: aValuable [
 
 	sorterBlock := aValuable
-]
-
-{ #category : #accessing }
-ToTableColumn >> startDragWidth [
-
-	^ startDragWidth
-]
-
-{ #category : #accessing }
-ToTableColumn >> startDragWidth: aWidth [
-
-	startDragWidth := aWidth
 ]
 
 { #category : #accessing }

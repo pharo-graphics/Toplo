@@ -11,6 +11,7 @@ Class {
 
 { #category : #'node building' }
 ToTreeTableNodeManager >> buildNode: aNode [
+
 	| content |
 	"checkableNode ifTrue: [
 			| listElement cbox |
@@ -25,18 +26,21 @@ ToTreeTableNodeManager >> buildNode: aNode [
 		           yourself.
 	content layout: BlLinearLayout horizontal.
 	aNode middleElement: content.
-	
+
 	" a table node is built as a linear row with one child for each column"
 	self columns ifNotNil: [ :cols |
-			cols do: [ :column |
+			cols withIndexDo: [ :column :idx |
 					| cellElement |
 					cellElement := ToTableListCellElement new
-						        id: column key;
-						        column: column;
-						        matchParent;
-						        yourself.
+						               id: column key;
+						               column: column;
+						               matchParent;
+						               yourself.
 					content addChild: cellElement.
-					column buildListCellElement: cellElement inNode: aNode ] ]
+					column
+						buildListCellElement: cellElement
+						atIndex: idx
+						inNode: aNode ] ]
 ]
 
 { #category : #accessing }

@@ -321,5 +321,5 @@ ToTableColumn >> width [
 { #category : #accessing }
 ToTableColumn >> width: aNumber [
 
-	width := aNumber
+	width := aNumber 
 ]

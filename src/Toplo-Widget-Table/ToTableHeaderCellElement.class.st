@@ -64,6 +64,5 @@ ToTableHeaderCellElement >> updateArrowOrientation: arrow [
 ToTableHeaderCellElement >> updateWidthWith: aNumber [
 
 	super updateWidthWith: aNumber.
-	self column width: aNumber.
 
 ]

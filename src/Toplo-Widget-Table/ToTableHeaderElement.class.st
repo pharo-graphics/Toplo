@@ -28,7 +28,7 @@ ToTableHeaderElement >> cells [
 { #category : #accessing }
 ToTableHeaderElement >> columns: aTableColumnArray inTableElement: aTableElement [
 
-	self removeChildren.
+	self removeCells.
 	aTableColumnArray do: [ :column | | cell |
 		cell := self newCell.
 		cell constraintsDo: [ :c | c linear vertical alignCenter ].
@@ -82,4 +82,10 @@ ToTableHeaderElement >> initialize [
 ToTableHeaderElement >> newCell [
 
 	^ ToTableHeaderCellElement new
+]
+
+{ #category : #accessing }
+ToTableHeaderElement >> removeCells [
+
+	self cells do: [ :c | c removeFromParent ]
 ]

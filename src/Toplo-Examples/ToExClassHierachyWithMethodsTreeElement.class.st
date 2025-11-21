@@ -11,27 +11,27 @@ ToExClassHierachyWithMethodsTreeElement class >> example [
 	| l |
 	l := self new.
 	l withRowNumbers.
-	l contextMenu: [ :menu :request |
-		| selectionModel indexes target |
-		target := request currentTarget.
-		selectionModel := request selectionModel.
-		indexes := request selectedIndexes.
-		menu addItem: (ToMenuItem new
-				 labelText: 'Expand all';
-				 clickAction: [
-					 indexes
-						 ifEmpty: [ target expandAll ]
-						 ifNotEmpty: [
-							 indexes do: [ :idx | (target dataSource at: idx) expandAll ] ] ];
-				 yourself).
-		menu addItem: (ToMenuItem new
-				 labelText: 'Collapse all';
-				 clickAction: [
-					 indexes
-						 ifEmpty: [ target collapseAll ]
-						 ifNotEmpty: [
-							 indexes do: [ :idx | (target dataSource at: idx) collapse ] ] ];
-				 yourself) ].
+	l contextMenuBuilder: [ :menu :request |
+			| selectionModel indexes target |
+			target := request currentTarget.
+			selectionModel := request selectionModel.
+			indexes := request selectedIndexes.
+			menu addItem: (ToMenuItem new
+					 labelText: 'Expand all';
+					 clickAction: [
+							 indexes
+								 ifEmpty: [ target expandAll ]
+								 ifNotEmpty: [
+									 indexes do: [ :idx | (target dataSource at: idx) expandAll ] ] ];
+					 yourself).
+			menu addItem: (ToMenuItem new
+					 labelText: 'Collapse all';
+					 clickAction: [
+							 indexes
+								 ifEmpty: [ target collapseAll ]
+								 ifNotEmpty: [
+									 indexes do: [ :idx | (target dataSource at: idx) collapse ] ] ];
+					 yourself) ].
 	l dataAccessor add: ProtoObject.
 	"l dataAccessor add: Collection.
 	l dataAccessor add: String."

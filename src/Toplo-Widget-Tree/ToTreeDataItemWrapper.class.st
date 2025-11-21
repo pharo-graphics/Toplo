@@ -329,7 +329,7 @@ ToTreeDataItemWrapper >> treeElement: aTreeElement [
 { #category : #'private - accessing' }
 ToTreeDataItemWrapper >> treeNodeAtPosition: aPositionInDataSource [
 
-	^ treeElement nodesDetect: [ :node | node holder dataItem = self ]
+	^ treeElement nodesDetect: [ :node | node holder dataWrapper = self ]
 ]
 
 { #category : #'private - accessing' }
@@ -342,7 +342,7 @@ ToTreeDataItemWrapper >> treeNodeAtPosition: aPositionInDataSource do: aValuable
 { #category : #accessing }
 ToTreeDataItemWrapper >> unwrappedDataItem [ 
 
-	^ self dataItem
+	^ dataItem
 ]
 
 { #category : #'private - accessing' }

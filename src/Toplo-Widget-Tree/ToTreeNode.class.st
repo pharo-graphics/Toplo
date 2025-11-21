@@ -23,7 +23,7 @@ ToTreeNode >> createStartContainer [
 { #category : #testing }
 ToTreeNode >> hasLeafDataItem [
 
-	^ self holder dataItem hasLeafDataItem
+	^ self holder dataWrapper hasLeafDataItem
 ]
 
 { #category : #initialization }
@@ -76,16 +76,16 @@ ToTreeNode >> newRawSkin [
 ToTreeNode >> newStartElement [
 
 	| arrowIcon aWrapper |
-	aWrapper := self holder dataItem.
-	arrowIcon := ToImage new
-		             id: #arrowIcon;
-		             yourself.
+	aWrapper := self holder dataWrapper.
+	arrowIcon := ToIconicArrowButton none.
 	aWrapper hasLeafDataItem ifFalse: [
 			arrowIcon := aWrapper isExpanded
 				             ifFalse: [ ToIconicArrowButton right ]
 				             ifTrue: [ ToIconicArrowButton down ].
 			arrowIcon clickAction: [
 				self dispatchEvent: ToArrowButtonClickedEvent new ] ].
+
+	arrowIcon id: #arrowIcon.
 	arrowIcon constraintsDo: [ :c |
 			c linear horizontal alignLeft.
 			c linear vertical alignCenter ].
@@ -101,11 +101,11 @@ ToTreeNode >> newToConfiguration [
 { #category : #accessing }
 ToTreeNode >> nodeDepth [
 
-	^ self holder dataItem nodeDepth
+	^ self holder dataWrapper nodeDepth
 ]
 
 { #category : #testing }
 ToTreeNode >> toggle [
 
-	^ self holder dataItem toggle
+	^ self holder dataWrapper toggle
 ]

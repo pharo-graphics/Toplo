@@ -13,10 +13,19 @@ ToTreeNodeSkin >> installSkinEvent: anEvent [
 			interspace := e valueOfTokenNamed: #'node-interspace'.
 			indent := e valueOfTokenNamed: #'node-indent'.
 			w := e nodeDepth * indent.
-			arrowIcon := e startElement childWithId: #arrowIcon ifNone: [].
-			arrowIcon ifNotNil: [  
-				arrowIcon extent:
-					(e valueOfTokenNamed: #'iconic-arrow-breadth') asPoint ].
+			arrowIcon := e startElement childWithId: #arrowIcon ifNone: [ ].
+			arrowIcon ifNotNil: [
+					| wrapper |
+					wrapper := e holder dataWrapper.
+					wrapper hasLeafDataItem
+						ifTrue: [ arrowIcon beNone ]
+						ifFalse: [
+								wrapper isExpanded
+									ifFalse: [ arrowIcon beRight ]
+									ifTrue: [ arrowIcon beDown ] ].
+					arrowIcon extent:
+						(e valueOfTokenNamed: #'iconic-arrow-breadth') asPoint ].
+
 			e startElement padding: (BlInsets left: w).
 			e startInterspace: interspace ]
 ]

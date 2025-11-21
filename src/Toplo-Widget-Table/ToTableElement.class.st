@@ -18,7 +18,7 @@ Class {
 { #category : #initialization }
 ToTableElement >> buildHeader [
 
-	header := ToTableHeaderElement new
+	header := self newHeaderElement
 		          id: #header;
 		          yourself.
 	self addEventHandlerOn: ToSortColumn do: [ :event |
@@ -93,7 +93,9 @@ ToTableElement >> initialize [
 
 	self matchParent.
 	self padding: (BlInsets all: 1).
-	list := self newListElement.
+	list := self newListElement 
+		  id: #list;
+		  yourself.
 	self buildHeader.
 	self addChildren: {
 			header.
@@ -171,11 +173,15 @@ ToTableElement >> newHeaderCheckboxInColumn: aColumn [
 ]
 
 { #category : #initialization }
+ToTableElement >> newHeaderElement [
+
+	^ ToTableHeaderElement new
+]
+
+{ #category : #initialization }
 ToTableElement >> newListElement [
 
 	^ ToTableListElement new
-		  id: #list;
-		  yourself
 ]
 
 { #category : #accessing }

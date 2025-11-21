@@ -3877,7 +3877,8 @@ ToSandBox class >> example_Popup1 [
 
 { #category : #tree }
 ToSandBox class >> example_PreviousIntegers [
-	"This example shows classes as a list but using TreeNodes, tree logic is not implemented at this time of writing the example"
+	"This example shows classes as a list but using TreeNodes, 
+	tree logic is not implemented at this time of writing the example"
 
 	| l |
 	l := ToTreeElement new.
@@ -9003,24 +9004,25 @@ ToSandBox class >> example_toTreeTable1 [
 
 	| table |
 	table := ToTreeTableElement new.
+
 	table nodeManager childrenGetter: [ :dataItem |
 		dataItem subclasses sorted: [ :a :b | a name < b name ] ].
 	table columns: {
 			(ToTableColumn new
 				 title: 'Name';
 				 key: 'name';
-				 dataIndex: 'name';
+				 dataIndex: #name;
 				 useCheckbox: false;
 				 " sorterBlock: #name descending;"yourself).
 			(ToTableColumn new
 				 title: 'Number of methods';
 				 key: 'methods';
-				 dataIndex: 'numberOfMethods';
+				 dataIndex: #numberOfMethods;
 				 yourself).
 			(ToTableColumn new
 				 title: 'Space used';
 				 key: 'space';
-				 dataIndex: 'spaceUsed';
+				 dataIndex: #spaceUsed;
 				 yourself).
 			(ToTableColumn new
 				 title: 'Package';

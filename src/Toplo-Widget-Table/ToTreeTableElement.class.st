@@ -5,9 +5,13 @@ Class {
 }
 
 { #category : #initialization }
+ToTreeTableElement >> newHeaderElement [
+
+	^ ToTreeTableHeaderElement new
+]
+
+{ #category : #initialization }
 ToTreeTableElement >> newListElement [
 
 	^ ToTreeTableListElement new
-		  id: #list;
-		  yourself
 ]

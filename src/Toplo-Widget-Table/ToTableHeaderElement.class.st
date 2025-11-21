@@ -14,9 +14,9 @@ ToTableHeaderElement class >> initializeToRawTheme: aTheme [
 	<toploThemeInstallerFor: #ToRawTheme>
 	aTheme select: (self asTypeSelector exact: false) style: [
 			aTheme when: ToInstallSkinEvent do: [ :header |
-					header
-						addTokenNamed: #'font-weight-attribute'
-						withValue: BlFontWeightAttribute bold ] ]
+					header padding: (BlInsets
+							 horizontal: (header valueOfTokenNamed: #'list-padding-H')
+							 vertical: (header valueOfTokenNamed: #'list-padding-V')) ] ]
 ]
 
 { #category : #accessing }
@@ -28,7 +28,7 @@ ToTableHeaderElement >> cells [
 { #category : #accessing }
 ToTableHeaderElement >> columns: aTableColumnArray inTableElement: aTableElement [
 
-	self removeChildren.
+	self removeCells.
 	aTableColumnArray do: [ :column | | cell |
 		cell := self newCell.
 		cell constraintsDo: [ :c | c linear vertical alignCenter ].
@@ -49,7 +49,7 @@ ToTableHeaderElement >> divider: aDivider movedBy: aDistance from: aStartLocatio
 
 	|  cell |
 	cell := self cells at: aDivider cellIndex.
-	cell updateWidthWith: cell column startDragWidth + aDistance
+	cell updateWidthWith: cell state startDragWidth + aDistance
 ]
 
 { #category : #accessing }
@@ -57,7 +57,7 @@ ToTableHeaderElement >> divider: aDivider startDragAt: aDistance [
 
 	|  cell |
 	cell := self cells at: aDivider cellIndex.
-	cell column startDragWidth: cell width
+	cell state startDragWidth: cell width
 ]
 
 { #category : #initialization }
@@ -82,4 +82,10 @@ ToTableHeaderElement >> initialize [
 ToTableHeaderElement >> newCell [
 
 	^ ToTableHeaderCellElement new
+]
+
+{ #category : #accessing }
+ToTableHeaderElement >> removeCells [
+
+	self cells do: [ :c | c removeFromParent ]
 ]

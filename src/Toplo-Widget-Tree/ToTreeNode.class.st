@@ -6,48 +6,63 @@ I visually represent a line of data from a tree structure
 Class {
 	#name : #ToTreeNode,
 	#superclass : #ToListNode,
-	#instVars : [
-		'content'
-	],
+	#traits : 'TToOrientable + TToTripletElement',
+	#classTraits : 'TToOrientable classTrait + TToTripletElement classTrait',
 	#category : #'Toplo-Widget-Tree-Core'
 }
 
-{ #category : #accessing }
-ToTreeNode >> content [
+{ #category : #'t - triplet element - instance creation' }
+ToTreeNode >> createStartContainer [
 
-	^ content 
-]
-
-{ #category : #accessing }
-ToTreeNode >> endElement [
-
-	^ content endElement
-]
-
-{ #category : #accessing }
-ToTreeNode >> endElement: anElement [
-
-	content endElement: anElement
+	startContainer := self newLinearContainer
+		                  id: #'start-container';
+		                  yourself.
+	self addChild: startContainer at: 1
 ]
 
 { #category : #testing }
 ToTreeNode >> hasLeafDataItem [
 
-	^ self holder dataItem hasLeafDataItem
+	^ self holder dataWrapper hasLeafDataItem
+]
+
+{ #category : #'instance creation' }
+ToTreeNode >> indentFiller [
+
+	^ self startElement childWithId: #indentFiller
+]
+
+{ #category : #accessing }
+ToTreeNode >> indentWidth: aNumber [
+
+	self indentFiller width: aNumber
 ]
 
 { #category : #initialization }
 ToTreeNode >> initialize [
 
 	super initialize.
-	content := ToTripletElement new.
-	content hMatchParent.
-	content vFitContent.
-	content middleContainer constraintsDo: [:c | c horizontal matchParent ].
-	self addChild: content.
+	self initializeAsTripletElement.
+	self hMatchParent.
+	self vFitContent.
+	self middleContainer constraintsDo: [ :c |
+			c horizontal matchParent.
+			c vertical fitContent ].
+	self startElement: ToElement new.
+	self startElement layout: BlLinearLayout horizontal.
+
 	self addEventHandlerOn: ToArrowButtonClickedEvent do: [ :event |
-		event consume.
-		self toggle ]
+			event consume.
+			self toggle ]
+]
+
+{ #category : #'instance creation' }
+ToTreeNode >> initializeStartElement [
+
+
+	self startElement addChild: self newIndentFiller.
+	self startElement addChild: self newArrowIcon.
+
 ]
 
 { #category : #testing }
@@ -60,16 +75,38 @@ ToTreeNode >> isLeaf [
 	^ self hasLeafDataItem
 ]
 
-{ #category : #accessing }
-ToTreeNode >> middleElement [
+{ #category : #'instance creation' }
+ToTreeNode >> newArrowIcon [
 
-	^ content middleElement
+	| arrowIcon aWrapper |
+	aWrapper := self holder dataWrapper.
+	arrowIcon := ToIconicArrowButton none.
+	aWrapper hasLeafDataItem ifFalse: [
+			arrowIcon := aWrapper isExpanded
+				             ifFalse: [ ToIconicArrowButton right ]
+				             ifTrue: [ ToIconicArrowButton down ].
+			arrowIcon clickAction: [
+				self dispatchEvent: ToArrowButtonClickedEvent new ] ].
+
+	arrowIcon id: #arrowIcon.
+	arrowIcon constraintsDo: [ :c |
+			c linear horizontal alignLeft.
+			c linear vertical alignCenter ].
+	^ arrowIcon
 ]
 
-{ #category : #accessing }
-ToTreeNode >> middleElement: anElement [
+{ #category : #'instance creation' }
+ToTreeNode >> newIndentFiller [
 
-	content middleElement: anElement
+	^ self newFiller
+		  id: #indentFiller;
+		  background: Color red
+]
+
+{ #category : #'t - triplet element - instance creation' }
+ToTreeNode >> newMiddleContainer [
+
+	^ self newLinearContainer
 ]
 
 { #category : #skin }
@@ -78,32 +115,20 @@ ToTreeNode >> newRawSkin [
 	^ ToTreeNodeSkin new
 ]
 
+{ #category : #'instance creation' }
+ToTreeNode >> newToConfiguration [ 
+
+	^ ToTripletElementConfiguration new
+]
+
 { #category : #accessing }
 ToTreeNode >> nodeDepth [
 
-	^ self holder dataItem nodeDepth
-]
-
-{ #category : #accessing }
-ToTreeNode >> startElement [ 
-
-	^ content startElement
-]
-
-{ #category : #accessing }
-ToTreeNode >> startElement: anElement [
-
-	content startElement: anElement
-]
-
-{ #category : #accessing }
-ToTreeNode >> startInterspace: anInteger [
-
-	content startInterspace: anInteger
+	^ self holder dataWrapper nodeDepth
 ]
 
 { #category : #testing }
 ToTreeNode >> toggle [
 
-	^ self holder dataItem toggle
+	^ self holder dataWrapper toggle
 ]

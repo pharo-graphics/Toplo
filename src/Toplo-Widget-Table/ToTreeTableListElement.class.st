@@ -1,9 +1,6 @@
-"
-I represent the list part of the table
-"
 Class {
-	#name : #ToTableListElement,
-	#superclass : #ToAbstractListElement,
+	#name : #ToTreeTableListElement,
+	#superclass : #ToTreeElement,
 	#traits : 'TToCheckableSelectionManager',
 	#classTraits : 'TToCheckableSelectionManager classTrait',
 	#instVars : [
@@ -13,7 +10,7 @@ Class {
 }
 
 { #category : #initialization }
-ToTableListElement class >> initializeToRawTheme: aTheme [
+ToTreeTableListElement class >> initializeToRawTheme: aTheme [
 	" Now setup the default label weight and the header padding "
 
 	<toploThemeInstallerFor: #ToRawTheme>
@@ -25,57 +22,57 @@ ToTableListElement class >> initializeToRawTheme: aTheme [
 ]
 
 { #category : #accessing }
-ToTableListElement >> cellStateAt: anIndex [
+ToTreeTableListElement >> cellStateAt: anIndex [
 
 	^ (self headerCellAt: anIndex) state
 ]
 
 { #category : #accessing }
-ToTableListElement >> columns [
+ToTreeTableListElement >> columns [
 
 	^ self nodeManager columns
 ]
 
 { #category : #accessing }
-ToTableListElement >> columns: aTableColumnArray [
+ToTreeTableListElement >> columns: aTableColumnArray [
 
 	self nodeManager columns: aTableColumnArray.
 	self onUseCheckboxChangedWith: (aTableColumnArray anySatisfy: [ :col | col useCheckbox ])
 ]
 
 { #category : #initialization }
-ToTableListElement >> defaultNodeManagerClass [
+ToTreeTableListElement >> defaultNodeManagerClass [
 
-	^ ToTableNodeManager
+	^ ToTreeTableNodeManager
 ]
 
 { #category : #accessing }
-ToTableListElement >> divider: aDivider movedBy: aDistance from: aStartLocation [
+ToTreeTableListElement >> divider: aDivider movedBy: aDistance from: aStartLocation [
 
 	self innerElement nodes do: [ :n |
 		n divider: aDivider movedBy: aDistance from: aStartLocation ]
 ]
 
 { #category : #initialization }
-ToTableListElement >> freezeCellsWidth [
+ToTreeTableListElement >> freezeCellsWidth [
 
 	self innerElement nodesDo: [ :n | n freezeCellsWidth ]
 ]
 
 { #category : #accessing }
-ToTableListElement >> headerCellAt: anIndex [
+ToTreeTableListElement >> headerCellAt: anIndex [
 
 	^ parentTable header cells at: anIndex
 ]
 
 { #category : #accessing }
-ToTableListElement >> parentTable [
+ToTreeTableListElement >> parentTable [
 
 	^ parentTable
 ]
 
 { #category : #accessing }
-ToTableListElement >> parentTable: aTableElement [
+ToTreeTableListElement >> parentTable: aTableElement [
 
 	parentTable := aTableElement
 ]

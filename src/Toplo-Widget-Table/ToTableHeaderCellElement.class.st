@@ -2,7 +2,8 @@ Class {
 	#name : #ToTableHeaderCellElement,
 	#superclass : #ToTableCellElement,
 	#instVars : [
-		'innerElement'
+		'innerElement',
+		'state'
 	],
 	#category : #'Toplo-Widget-Table-Header'
 }
@@ -14,16 +15,28 @@ ToTableHeaderCellElement class >> initializeToRawTheme: aTheme [
 	<toploThemeInstallerFor: #ToRawTheme>
 	aTheme select: (self asTypeSelector exact: false) style: [
 			aTheme when: ToInstallSkinEvent do: [ :cell |
+					cell
+						addTokenNamed: #'font-weight-attribute'
+						withValue: BlFontWeightAttribute bold.
 					cell padding: (BlInsets
 							 horizontal: (cell valueOfTokenNamed: #'table-cell-padding-H')
-							 vertical: (cell valueOfTokenNamed: #'table-header-cell-padding-V')) ] ]
+							 vertical:
+							 (cell valueOfTokenNamed: #'table-header-cell-padding-V')) ] ]
+]
+
+{ #category : #accessing }
+ToTableHeaderCellElement >> column: aTableColumn [
+
+	super column: aTableColumn.
+	self initializeState
 ]
 
 { #category : #initialization }
 ToTableHeaderCellElement >> initialize [
 
 	super initialize.
-	self id: #headerCell
+	self id: #headerCell.
+	state := self newColumnState.
 ]
 
 { #category : #updating }
@@ -52,6 +65,18 @@ ToTableHeaderCellElement >> initializeFromColumnInTableElement: aTableElement [
 						(ToSortColumn column: column) ] ]
 ]
 
+{ #category : #initialization }
+ToTableHeaderCellElement >> initializeState [
+
+	state initializeFromColumn: column
+]
+
+{ #category : #accessing }
+ToTableHeaderCellElement >> state [
+
+	^ state
+]
+
 { #category : #updating }
 ToTableHeaderCellElement >> updateArrowOrientation: arrow [
 
@@ -63,7 +88,7 @@ ToTableHeaderCellElement >> updateArrowOrientation: arrow [
 { #category : #accessing }
 ToTableHeaderCellElement >> updateWidthWith: aNumber [
 
+	state width: aNumber.
 	super updateWidthWith: aNumber.
-	self column width: aNumber.
 
 ]

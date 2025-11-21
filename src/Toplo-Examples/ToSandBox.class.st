@@ -1956,7 +1956,6 @@ ToSandBox class >> example_ClassHierarchiesWithMethods [
 
 	| treeElement |
 	treeElement := ToTreeElement new.
-	treeElement useCheckbox: true.
 	treeElement withRowNumbers.
 	treeElement contextMenuBuilder: [ :menu :request |
 			| selectionModel indexes target |
@@ -3878,38 +3877,39 @@ ToSandBox class >> example_Popup1 [
 
 { #category : #tree }
 ToSandBox class >> example_PreviousIntegers [
-	"This example shows classes as a list but using TreeNodes, tree logic is not implemented at this time of writing the example"
+	"This example shows classes as a list but using TreeNodes, 
+	tree logic is not implemented at this time of writing the example"
 
 	| l |
 	l := ToTreeElement new.
 	l nodeManager childrenGetter: [ :dataItem |
-		dataItem = 1
-			ifTrue: [ {  } ]
-			ifFalse: [ { (dataItem - 1) } ] ].
-	l contextMenu: [ :menu :request |
-		| selectionModel indexes target |
-		target := request currentTarget.
-		selectionModel := request selectionModel.
-		indexes := request selectedIndexes.
-		indexes traceCr.
-		menu addItem: (ToMenuItem new
-				 labelText: 'Expand all';
-				 clickAction: [
-					 indexes
-						 ifEmpty: [ target expandAll ]
-						 ifNotEmpty: [
-							 indexes reverseDo: [ :idx |
-									 (target dataSource at: idx) expandAll ] ] ];
-				 yourself).
-		menu addItem: (ToMenuItem new
-				 labelText: 'Collapse all';
-				 clickAction: [
-					 indexes
-						 ifEmpty: [ target collapseAll ]
-						 ifNotEmpty: [
-							 indexes reverseDo: [ :idx |
-									 (target dataSource at: idx) collapse ] ] ];
-				 yourself) ].
+			dataItem = 1
+				ifTrue: [ {  } ]
+				ifFalse: [ { (dataItem - 1) } ] ].
+	l contextMenuBuilder: [ :menu :request |
+			| selectionModel indexes target |
+			target := request currentTarget.
+			selectionModel := request selectionModel.
+			indexes := request selectedIndexes.
+			indexes traceCr.
+			menu addItem: (ToMenuItem new
+					 labelText: 'Expand all';
+					 clickAction: [
+							 indexes
+								 ifEmpty: [ target expandAll ]
+								 ifNotEmpty: [
+									 indexes reverseDo: [ :idx |
+											 (target dataSource at: idx) expandAll ] ] ];
+					 yourself).
+			menu addItem: (ToMenuItem new
+					 labelText: 'Collapse all';
+					 clickAction: [
+							 indexes
+								 ifEmpty: [ target collapseAll ]
+								 ifNotEmpty: [
+									 indexes reverseDo: [ :idx |
+											 (target dataSource at: idx) collapse ] ] ];
+					 yourself) ].
 	l dataAccessor addAll: (1 to: 10).
 	l openInSpace
 ]
@@ -3920,9 +3920,10 @@ ToSandBox class >> example_ProtoObjectSubclasses [
 
 	| l |
 	l := ToTreeElement new.
-	l nodeManager childrenGetter: [ :dataItem | dataItem subclasses sorted: [ :a :b | a name < b name ]].
+	l nodeManager childrenGetter: [ :dataItem |
+		dataItem subclasses sorted: [ :a :b | a name < b name ] ].
 	l withRowNumbers.
-	l contextMenu: [ :menu :request |
+	l contextMenuBuilder: [ :menu :request |
 			| selectionModel indexes target |
 			target := request currentTarget.
 			selectionModel := request selectionModel.
@@ -4768,10 +4769,12 @@ ToSandBox class >> example_SieveOnTree [
 				dataItem do: [ :c | stream nextPut: c asSymbol ] ] ].
 	treeElement placeholderBuilder: [ :placeholder :e |
 		placeholder empty ].
-	treeElement addEventHandlerOn: ToListPrimarySelectionChangedEvent do: [ :evt | evt selectedIndexes traceCr ].
+	treeElement
+		addEventHandlerOn: ToListPrimarySelectionChangedEvent
+		do: [ :evt | evt selectedIndexes traceCr ].
 
 	data := SystemNavigation default allMethods.
-	treeElement contextMenu: [ :menu :request |
+	treeElement contextMenuBuilder: [ :menu :request |
 			| selectionModel indexes target |
 			target := request currentTarget.
 			selectionModel := request selectionModel.
@@ -4790,7 +4793,8 @@ ToSandBox class >> example_SieveOnTree [
 							 indexes
 								 ifEmpty: [ target collapseAll ]
 								 ifNotEmpty: [
-									 indexes reverseDo: [ :idx | (target dataSource at: idx) collapse ] ] ];
+									 indexes reverseDo: [ :idx |
+											 (target dataSource at: idx) collapse ] ] ];
 					 yourself) ].
 	treeElement withRowNumbers.
 	sieve := treeElement newSieve.
@@ -4804,8 +4808,10 @@ ToSandBox class >> example_SieveOnTree [
 
 	treeElement nodeBuilder: [ :node :dataItem :holder |
 		node addChild: (ToLabel new text: dataItem printString) ].
-	
-	treeElement addEventHandlerOn: ToListPrimarySelectionChangedEvent do: [ :evt | self selectionChangedEvent: evt ].
+
+	treeElement
+		addEventHandlerOn: ToListPrimarySelectionChangedEvent
+		do: [ :evt | self selectionChangedEvent: evt ].
 
 	pane addChild: treeElement.
 	pane addChild: filterField.
@@ -8933,8 +8939,7 @@ ToSandBox class >> example_toTable1 [
 				 yourself) }.
 	table dataAccessor addAll:
 		(Smalltalk globals allClasses copyFrom: 1 to: 30).
-	table openInSpace.
-	table selecter selectAll
+	table openInSpace
 ]
 
 { #category : #'t - orientable' }
@@ -8992,6 +8997,43 @@ ToSandBox class >> example_toTableWithSort [
 	table dataAccessor addAll: (Smalltalk globals allClasses copyFrom: 1 to: 30).
 	table openInSpace.
 	^ table
+]
+
+{ #category : #'t - orientable' }
+ToSandBox class >> example_toTreeTable1 [
+
+	| table |
+	table := ToTreeTableElement new.
+	table nodeManager childrenGetter: [ :dataItem |
+		dataItem subclasses sorted: [ :a :b | a name < b name ] ].
+	table columns: {
+			(ToTableColumn new
+				 title: 'Name';
+				 key: 'name';
+				 dataIndex: #name;
+				 useCheckbox: true;
+				 " sorterBlock: #name descending;"yourself).
+			(ToTableColumn new
+				 title: 'Number of methods';
+				 key: 'methods';
+				 dataIndex: #numberOfMethods;
+				 yourself).
+			(ToTableColumn new
+				 title: 'Space used';
+				 key: 'space';
+				 dataIndex: #spaceUsed;
+				 yourself).
+			(ToTableColumn new
+				 title: 'Package';
+				 key: 'package';
+				 dataIndex: [ :cls | cls packageName ];
+				 yourself) }.
+	table dataAccessor add: ProtoObject.
+	table dataAccessor add: BlElement.
+	table dataAccessor add: Collection.
+	table dataAccessor add: String.
+
+	table openInSpace
 ]
 
 { #category : #'button-dep' }

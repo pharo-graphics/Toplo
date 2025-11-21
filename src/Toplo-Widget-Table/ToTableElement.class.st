@@ -18,7 +18,7 @@ Class {
 { #category : #initialization }
 ToTableElement >> buildHeader [
 
-	header := ToTableHeaderElement new
+	header := self newHeaderElement
 		          id: #header;
 		          yourself.
 	self addEventHandlerOn: ToSortColumn do: [ :event |
@@ -93,9 +93,10 @@ ToTableElement >> initialize [
 
 	self matchParent.
 	self padding: (BlInsets all: 1).
-	list := ToTableListElement new
-		        id: #list;
-		        yourself.
+	list := self newListElement 
+		  id: #list;
+		  yourself.
+	list parentTable: self.
 	self buildHeader.
 	self addChildren: {
 			header.
@@ -127,6 +128,7 @@ ToTableElement >> initializeDividers [
 							div := ToTableDivider new
 								       id: #columnDivider;
 								       yourself.
+							div tableElement: self.
 							div cellIndex: index.
 							div setPositionInTable: self.
 							self addChild: div.
@@ -172,11 +174,30 @@ ToTableElement >> newHeaderCheckboxInColumn: aColumn [
 	^ cbox
 ]
 
+{ #category : #initialization }
+ToTableElement >> newHeaderElement [
+
+	^ ToTableHeaderElement new
+]
+
+{ #category : #initialization }
+ToTableElement >> newListElement [
+
+	^ ToTableListElement new
+]
+
+{ #category : #accessing }
+ToTableElement >> nodeManager [
+
+	^ list nodeManager
+]
+
 { #category : #sorting }
 ToTableElement >> performDataSort [
 
 	| sortFunctions |
-	"I sort the data based on the information in the column configuration""for now sort by column from left to right. Future should implement an order of sorting"
+	"I sort the data based on the information in the column configuration.
+	for now sort by column from left to right. Future should implement an order of sorting"
 	sortFunctions := (self columns
 		                  select: [ :col |
 		                  col sortOrder isNotNil and: [

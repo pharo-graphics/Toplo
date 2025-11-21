@@ -20,6 +20,12 @@ ToIconicArrowButton class >> left [
 ]
 
 { #category : #accessing }
+ToIconicArrowButton class >> none [ 
+
+	^ self new orientation: #none
+]
+
+{ #category : #accessing }
 ToIconicArrowButton class >> right [ 
 
 	^ self new orientation: #right
@@ -41,6 +47,12 @@ ToIconicArrowButton >> beDown [
 ToIconicArrowButton >> beLeft [
 
 	self orientation: #left
+]
+
+{ #category : #accessing }
+ToIconicArrowButton >> beNone [
+
+	self orientation: #none
 ]
 
 { #category : #accessing }
@@ -73,6 +85,12 @@ ToIconicArrowButton >> isDown [
 ToIconicArrowButton >> isLeft [
 
 	^ orientation = #left
+]
+
+{ #category : #accessing }
+ToIconicArrowButton >> isNone [
+
+	^ orientation = #none
 ]
 
 { #category : #accessing }

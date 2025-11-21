@@ -19,7 +19,26 @@ Class {
 }
 
 { #category : #accessing }
+ToTreeNodeHolder >> bindDataItem: aDataItem [
+	" associate the data item and then build the node "
+
+	dataWrapper := aDataItem.
+	self flag: 'The recycling case have to be re-worked'.
+	" I can already have a node in case of recycling "
+	self node ifNotNil: [ ^ self ].
+	self setupNodeWith: (self nodeManager newNodeForHolder: self).
+	self dataItem: aDataItem unwrappedDataItem.
+	self nodeManager buildNode: self node
+]
+
+{ #category : #accessing }
+ToTreeNodeHolder >> dataWrapper [
+
+	^ dataWrapper
+]
+
+{ #category : #accessing }
 ToTreeNodeHolder >> treeDataItem [ 
 
-	^ dataItem unwrappedDataItem
+	^ dataItem 
 ]

@@ -2,6 +2,7 @@ Class {
 	#name : #ToTableDivider,
 	#superclass : #ToDivider,
 	#instVars : [
+		'tableElement',
 		'cellIndex'
 	],
 	#category : #'Toplo-Widget-Table-Core'
@@ -35,4 +36,16 @@ ToTableDivider >> setPositionInTable: aTableElement [
 	cell := headerCells at: cellIndex.
 	bnds := cell bounds inParent: aTableElement.
 	self position: bnds right - self thickness @ 0.0
+]
+
+{ #category : #accessing }
+ToTableDivider >> tableElement [
+
+	^ tableElement
+]
+
+{ #category : #accessing }
+ToTableDivider >> tableElement: aTableElement [
+
+	tableElement := aTableElement
 ]

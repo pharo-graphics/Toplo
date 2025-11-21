@@ -29,6 +29,12 @@ ToTableCellElement >> initialize [
 		vFitContent
 ]
 
+{ #category : #initialization }
+ToTableCellElement >> newColumnState [
+
+	^ ToTableColumnState new
+]
+
 { #category : #accessing }
 ToTableCellElement >> updateWidthWith: aNumber [
 

@@ -13,15 +13,18 @@ ToTableNodeManager >> buildNode: aTableNode [
 	aTableNode removeChildren.
 	" a table node is built as a linear row with one child for each column"
 	self columns ifNotNil: [ :cols |
-			cols do: [ :column |
+			cols withIndexDo: [ :column :idx |
 					| cellElement |
 					cellElement := ToTableListCellElement new
-						        id: column key;
-						        column: column;
-						        matchParent;
-						        yourself.
+						               id: column key;
+						               column: column;
+						               matchParent;
+						               yourself.
 					aTableNode addChild: cellElement.
-					column buildListCellElement: cellElement inNode: aTableNode ] ]
+					column
+						buildListCellElement: cellElement
+						atIndex: idx
+						inNode: aTableNode ] ]
 ]
 
 { #category : #accessing }

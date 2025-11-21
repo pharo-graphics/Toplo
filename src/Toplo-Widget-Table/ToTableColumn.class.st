@@ -17,7 +17,6 @@ Class {
 		'resizable',
 		'dataViewBuilder',
 		'headerViewBuilder',
-		'startDragWidth',
 		'useCheckbox'
 	],
 	#category : #'Toplo-Widget-Table-Core'
@@ -80,10 +79,11 @@ ToTableColumn >> buildHeaderCellElement: anElement inTableElement: aTableElement
 ]
 
 { #category : #rendering }
-ToTableColumn >> buildListCellElement: anElement inNode: aTableNode [
+ToTableColumn >> buildListCellElement: anElement atIndex: aColumnIndex inNode: aTableNode [
 
-	| cellData |
-	width ifNotNil: [ anElement width: width ].
+	| cellData state |
+	state := aTableNode holder listElement cellStateAt: aColumnIndex.
+	state width ifNotNil: [:w | anElement width: w ].
 	cellData := self fetchedCellDataFromDataIndex:
 		            aTableNode holder dataItem.
 	useCheckbox
@@ -97,6 +97,7 @@ ToTableColumn >> buildListCellElement: anElement inNode: aTableNode [
 					buildSimpleListCellElement: anElement
 					inNode: aTableNode
 					withData: cellData ].
+
 
 	anElement childrenDo: [ :child |
 		child constraintsDo: [ :c | c linear vertical alignCenter ] ]
@@ -260,7 +261,7 @@ ToTableColumn >> sortOrder [
 { #category : #accessing }
 ToTableColumn >> sortOrder: anObject [
 
-	^ sortOrder := anObject
+	sortOrder := anObject
 ]
 
 { #category : #sorting }
@@ -274,18 +275,6 @@ ToTableColumn >> sorterBlock [
 ToTableColumn >> sorterBlock: aValuable [
 
 	sorterBlock := aValuable
-]
-
-{ #category : #accessing }
-ToTableColumn >> startDragWidth [
-
-	^ startDragWidth
-]
-
-{ #category : #accessing }
-ToTableColumn >> startDragWidth: aWidth [
-
-	startDragWidth := aWidth
 ]
 
 { #category : #accessing }
@@ -321,5 +310,5 @@ ToTableColumn >> width [
 { #category : #accessing }
 ToTableColumn >> width: aNumber [
 
-	width := aNumber
+	width := aNumber 
 ]

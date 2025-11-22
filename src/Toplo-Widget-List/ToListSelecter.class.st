@@ -177,6 +177,12 @@ ToListSelecter >> eventDispatcher [
 		  eventDispatcher := BlDirectEventDispatcher on: self ]
 ]
 
+{ #category : #testing }
+ToListSelecter >> hasSelection [
+
+	^ self selectionModel isNotEmpty
+]
+
 { #category : #initialization }
 ToListSelecter >> initialize [ 
 

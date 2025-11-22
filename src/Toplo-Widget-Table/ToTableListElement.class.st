@@ -21,7 +21,14 @@ ToTableListElement class >> initializeToRawTheme: aTheme [
 			aTheme
 				when: ToInstallSkinEvent
 				write: (aTheme property: #geometry)
-				with: [ :header | BlRectangleGeometry new ] ]
+				with: [ :header | BlRectangleGeometry new ] ].
+
+	aTheme select: #cellCheckbox asIdSelector style: [
+			aTheme
+				when: ToInstallSkinEvent
+				write: (aTheme property: #padding)
+				with: [ :cbox |
+					BlInsets horizontal: (cbox valueOfTokenNamed: #'padding-XS') ] ]
 ]
 
 { #category : #accessing }

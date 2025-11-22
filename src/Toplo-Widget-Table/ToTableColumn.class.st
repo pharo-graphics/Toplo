@@ -15,9 +15,9 @@ Class {
 		'sortOrder',
 		'width',
 		'resizable',
-		'dataViewBuilder',
-		'headerViewBuilder',
-		'useCheckbox'
+		'useCheckbox',
+		'cellBuilder',
+		'headerCellBuilder'
 	],
 	#category : #'Toplo-Widget-Table-Core'
 }
@@ -36,7 +36,7 @@ ToTableColumn >> buildCheckableHeaderCellElement: anElement inTableElement: aTab
 	anElement addChild: cbox.
 	anElement addChild: innerElement.
 
-	headerViewBuilder cull: innerElement cull: self cull: aTableElement
+	headerCellBuilder cull: innerElement cull: self cull: aTableElement
 ]
 
 { #category : #rendering }
@@ -54,7 +54,7 @@ ToTableColumn >> buildCheckableListCellElement: anElement inNode: aTableNode wit
 	anElement addChild: cbox.
 	anElement addChild: innerElement.
 
-	dataViewBuilder
+	cellBuilder
 		cull: innerElement
 		cull: aColumnData
 		cull: aTableNode holder
@@ -106,16 +106,29 @@ ToTableColumn >> buildListCellElement: anElement atIndex: aColumnIndex inNode: a
 { #category : #rendering }
 ToTableColumn >> buildSimpleHeaderCellElement: anElement inTableElement: aTableElement [
 
-	headerViewBuilder cull: anElement cull: self cull: aTableElement
+	headerCellBuilder cull: anElement cull: self cull: aTableElement
 ]
 
 { #category : #rendering }
 ToTableColumn >> buildSimpleListCellElement: anElement inNode: aTableNode withData: aColumnData [
 
-	dataViewBuilder
+	cellBuilder
 		cull: anElement
 		cull: aColumnData
 		cull: aTableNode holder
+]
+
+{ #category : #accessing }
+ToTableColumn >> cellBuilder [
+
+	^ cellBuilder
+]
+
+{ #category : #accessing }
+ToTableColumn >> cellBuilder: aValuable [
+	" aValuable takes 3 optional arguments: the element to build, the data and the node holder "
+
+	cellBuilder := aValuable
 ]
 
 { #category : #accessing }
@@ -130,28 +143,15 @@ ToTableColumn >> dataIndex: anObject [
 	dataIndex := anObject
 ]
 
-{ #category : #accessing }
-ToTableColumn >> dataViewBuilder [
-
-	^ dataViewBuilder
-]
-
-{ #category : #accessing }
-ToTableColumn >> dataViewBuilder: aValuable [
-	" aValuable takes 3 optional arguments: the element to build, the data and the node holder "
-
-	dataViewBuilder := aValuable
-]
-
 { #category : #initialization }
-ToTableColumn >> defaultDataViewBuilder [
+ToTableColumn >> defaultCellBuilder [
 
 	^ [ :element :dataItem :holder |
 	  element addChild: (ToLabel text: dataItem asString) ]
 ]
 
 { #category : #initialization }
-ToTableColumn >> defaultHeaderBuilder [
+ToTableColumn >> defaultHeaderCellBuilder [
 
 	^ [ :element :column |
 	  element addChild: (ToLabel text: column title asString) ]
@@ -177,24 +177,24 @@ ToTableColumn >> fetchedCellDataFromDataIndex: aDataItem [
 ]
 
 { #category : #accessing }
-ToTableColumn >> headerViewBuilder [
+ToTableColumn >> headerCellBuilder [
 
-	^ headerViewBuilder
+	^ headerCellBuilder
 ]
 
 { #category : #accessing }
-ToTableColumn >> headerViewBuilder: aValuable [
+ToTableColumn >> headerCellBuilder: aValuable [
 	" aValuable takes 3 optional arguments: the element to build, the column and the table element"
 
-	headerViewBuilder := aValuable
+	headerCellBuilder := aValuable
 ]
 
 { #category : #initialization }
 ToTableColumn >> initialize [
 
 	super initialize.
-	headerViewBuilder := self defaultHeaderBuilder.
-	dataViewBuilder := self defaultDataViewBuilder.
+	headerCellBuilder := self defaultHeaderCellBuilder.
+	cellBuilder := self defaultCellBuilder.
 	sortDirections := self defaultSortDirection.
 	resizable := true.
 	useCheckbox := false

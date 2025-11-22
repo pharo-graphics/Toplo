@@ -19,7 +19,7 @@ ToTheme class >> canBeDefault [
 { #category : #accessing }
 ToTheme class >> defaultCheckboxHeight [
 
-	^ 20
+	^ 18
 ]
 
 { #category : #accessing }

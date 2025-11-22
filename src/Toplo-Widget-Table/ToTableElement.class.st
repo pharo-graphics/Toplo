@@ -156,9 +156,8 @@ ToTableElement >> list: anObject [
 ToTableElement >> newHeaderCheckboxInColumn: aColumn [
 
 	| cbox |
-	cbox := ToCheckbox new.
+	cbox := list newCheckbox.
 	cbox allowIndeterminate: true.
-	cbox focusability: BlFocusability none.
 	cbox switchToNextCheckStateOnClick: false.
 	self updateHeaderCheckboxForListSelection: cbox.
 

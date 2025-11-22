@@ -21,19 +21,30 @@ TToCheckableSelectionManager >> addCheckboxSelectionManagement [
 ]
 
 { #category : #'t - checkable selection manager' }
-TToCheckableSelectionManager >> newCheckboxInNode: aNode [
+TToCheckableSelectionManager >> newCheckbox [
 
 	|  cbox |
 	cbox := ToCheckbox new.
+	cbox addStamp: #iconic.
+	cbox id: #cellCheckbox.
 	cbox focusability: BlFocusability none.
-	cbox checked: aNode holder isSelected.
-	
+	^ cbox
+]
+
+{ #category : #'t - checkable selection manager' }
+TToCheckableSelectionManager >> newCheckboxInNode: aNode [
+
+	| cbox |
+	cbox := self newCheckbox.
 	" add a guard to prevent checking if it not desired.
 	Here, it is not possible to take the check into account 
 	if the list is not focused"
 	cbox addEventHandlerOn: ToCheckableCheckRequestEvent do: [ :event |
-			(self hasFocus not and: [ self isFocusable ])
-				ifTrue: [ event deny ] ].
+			(self hasFocus not and: [ self isFocusable ]) ifTrue: [
+					(self selecter hasSelection and: [
+						 self selecter selectedIndexes size > 1 ]) ifTrue: [ event deny ] ] ].
+
+	cbox checked: aNode holder isSelected.
 
 	" In case the checkbox has been checked, update the list selection "
 	cbox addEventHandlerOn: ToCheckableCheckEvent do: [ :event |
@@ -44,7 +55,6 @@ TToCheckableSelectionManager >> newCheckboxInNode: aNode [
 				       yourself.
 			aNode dispatchAuthorisationRequest: req ].
 	^ cbox
-
 ]
 
 { #category : #'t - checkable selection manager' }

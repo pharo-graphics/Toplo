@@ -8957,9 +8957,9 @@ ToSandBox class >> example_toTableWithBuilder [
 			(ToTableColumn new
 				 key: 'methods';
 				 dataIndex: 'numberOfMethods';
-				 headerViewBuilder: [ :header :column |
+				 headerCellBuilder: [ :header :column |
 					 header addChild: (ToLabel text: 'Nb') ];
-				 dataViewBuilder: [ :elem :data :holder |
+				 cellBuilder: [ :elem :data :holder |
 						 | lab |
 						 " use a ToLabel to fit the theme constraints "
 						 lab := data > 30
@@ -9012,7 +9012,49 @@ ToSandBox class >> example_toTreeTable1 [
 				 key: 'name';
 				 dataIndex: #name;
 				 useCheckbox: true;
-				 " sorterBlock: #name descending;"yourself).
+				cellBuilder: [ :element :dataItem :holder |
+	  element addChild: (ToLabel text: dataItem asString) ];
+				 yourself).
+			(ToTableColumn new
+				 title: 'Number of methods';
+				 key: 'methods';
+				 dataIndex: #numberOfMethods;
+				 yourself).
+			(ToTableColumn new
+				 title: 'Space used';
+				 key: 'space';
+				 dataIndex: #spaceUsed;
+				 yourself).
+			(ToTableColumn new
+				 title: 'Package';
+				 key: 'package';
+				 dataIndex: [ :cls | cls packageName ];
+				 yourself) }.
+	table dataAccessor add: ProtoObject.
+	table dataAccessor add: BlElement.
+	table dataAccessor add: Collection.
+	table dataAccessor add: String.
+
+	table openInSpace
+]
+
+{ #category : #'t - orientable' }
+ToSandBox class >> example_toTreeTable2 [
+
+	| table |
+	
+	table := ToTreeTableElement new.
+	table nodeManager childrenGetter: [ :dataItem |
+		dataItem subclasses sorted: [ :a :b | a name < b name ] ].
+	table columns: {
+			(ToTableColumn new
+				 title: 'Name';
+				 key: 'name';
+				 dataIndex: #name;
+				 useCheckbox: true;
+				cellBuilder: [ :element :dataItem :holder |
+	  element addChild: (ToLabel text: dataItem asString) ];
+				 yourself).
 			(ToTableColumn new
 				 title: 'Number of methods';
 				 key: 'methods';

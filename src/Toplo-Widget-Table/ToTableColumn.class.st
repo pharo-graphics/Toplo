@@ -16,6 +16,8 @@ Class {
 		'width',
 		'resizable',
 		'useCheckbox',
+		'cellFactory',
+		'headerCellFactory',
 		'cellBuilder',
 		'headerCellBuilder'
 	],
@@ -23,59 +25,18 @@ Class {
 }
 
 { #category : #rendering }
-ToTableColumn >> buildCheckableHeaderCellElement: anElement inTableElement: aTableElement [
+ToTableColumn >> buildHeaderCellElement: anHeaderCellElement inTableElement: aTableElement [
 
-	| innerElement cbox |
-	cbox := aTableElement newHeaderCheckboxInColumn: self.
-	innerElement := ToElement new
-		                hMatchParent;
-		                vFitContent.
-	innerElement layout: BlLinearLayout horizontal.
-	cbox constraintsDo: [ :c | c linear vertical alignCenter ].
-	innerElement constraintsDo: [ :c | c linear vertical alignCenter ].
-	anElement addChild: cbox.
-	anElement addChild: innerElement.
-
-	headerCellBuilder cull: innerElement cull: self cull: aTableElement
-]
-
-{ #category : #rendering }
-ToTableColumn >> buildCheckableListCellElement: anElement inNode: aTableNode withData: aColumnData [
-
-	| tableListElement innerElement cbox |
-	tableListElement := aTableNode holder listElement.
-	cbox := tableListElement newCheckboxInNode: aTableNode.
-	innerElement := ToElement new
-		                hMatchParent;
-		                vFitContent.
-	innerElement layout: BlLinearLayout horizontal.
-	cbox constraintsDo: [ :c | c linear vertical alignCenter ].
-	innerElement constraintsDo: [ :c | c linear vertical alignCenter ].
-	anElement addChild: cbox.
-	anElement addChild: innerElement.
-
-	cellBuilder
-		cull: innerElement
-		cull: aColumnData
-		cull: aTableNode holder
-]
-
-{ #category : #rendering }
-ToTableColumn >> buildHeaderCellElement: anElement inTableElement: aTableElement [
-
-	width ifNotNil: [ anElement width: width ].
-	useCheckbox
-		ifTrue: [
-				self
-					buildCheckableHeaderCellElement: anElement
-					inTableElement: aTableElement ]
-		ifFalse: [
-				self
-					buildSimpleHeaderCellElement: anElement
-					inTableElement: aTableElement ].
-
-	anElement childrenDo: [ :child |
-		child constraintsDo: [ :c | c linear vertical alignCenter ] ]
+	width ifNotNil: [ anHeaderCellElement width: width ].
+	useCheckbox ifTrue: [
+			| cbox |
+			cbox := aTableElement newHeaderCheckboxInColumn: self.
+			cbox constraintsDo: [ :c | c linear vertical alignCenter ].
+			anHeaderCellElement startContainer addChild: cbox ].
+	headerCellBuilder
+		cull: anHeaderCellElement middleContainer
+		cull: self
+		cull: aTableElement
 ]
 
 { #category : #rendering }
@@ -83,38 +44,18 @@ ToTableColumn >> buildListCellElement: anElement atIndex: aColumnIndex inNode: a
 
 	| cellData state |
 	state := aTableNode holder listElement cellStateAt: aColumnIndex.
-	state width ifNotNil: [:w | anElement width: w ].
+	state width ifNotNil: [ :w | anElement width: w ].
 	cellData := self fetchedCellDataFromDataIndex:
 		            aTableNode holder dataItem.
-	useCheckbox
-		ifTrue: [
-				self
-					buildCheckableListCellElement: anElement
-					inNode: aTableNode
-					withData: cellData ]
-		ifFalse: [
-				self
-					buildSimpleListCellElement: anElement
-					inNode: aTableNode
-					withData: cellData ].
-
-
-	anElement childrenDo: [ :child |
-		child constraintsDo: [ :c | c linear vertical alignCenter ] ]
-]
-
-{ #category : #rendering }
-ToTableColumn >> buildSimpleHeaderCellElement: anElement inTableElement: aTableElement [
-
-	headerCellBuilder cull: anElement cull: self cull: aTableElement
-]
-
-{ #category : #rendering }
-ToTableColumn >> buildSimpleListCellElement: anElement inNode: aTableNode withData: aColumnData [
-
+	useCheckbox ifTrue: [
+			| tableListElement cbox |
+			tableListElement := aTableNode holder listElement.
+			cbox := tableListElement newCheckboxInNode: aTableNode.
+			cbox constraintsDo: [ :c | c linear vertical alignCenter ].
+			anElement startContainer addChild: cbox ].
 	cellBuilder
-		cull: anElement
-		cull: aColumnData
+		cull: anElement middleContainer
+		cull: cellData
 		cull: aTableNode holder
 ]
 
@@ -129,6 +70,18 @@ ToTableColumn >> cellBuilder: aValuable [
 	" aValuable takes 3 optional arguments: the element to build, the data and the node holder "
 
 	cellBuilder := aValuable
+]
+
+{ #category : #accessing }
+ToTableColumn >> cellFactory [
+
+	^ cellFactory
+]
+
+{ #category : #accessing }
+ToTableColumn >> cellFactory: anObject [
+
+	cellFactory := anObject
 ]
 
 { #category : #accessing }
@@ -187,6 +140,18 @@ ToTableColumn >> headerCellBuilder: aValuable [
 	" aValuable takes 3 optional arguments: the element to build, the column and the table element"
 
 	headerCellBuilder := aValuable
+]
+
+{ #category : #accessing }
+ToTableColumn >> headerCellFactory [
+
+	^ headerCellFactory
+]
+
+{ #category : #accessing }
+ToTableColumn >> headerCellFactory: anObject [
+
+	headerCellFactory := anObject
 ]
 
 { #category : #initialization }

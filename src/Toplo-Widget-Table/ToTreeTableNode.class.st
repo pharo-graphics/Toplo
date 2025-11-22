@@ -7,7 +7,7 @@ Class {
 { #category : #accessing }
 ToTreeTableNode >> cells [ 
 
-	^ self middleElement children asArray
+	^ self middleContainer children asArray
 ]
 
 { #category : #accessing }

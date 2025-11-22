@@ -11,16 +11,8 @@ Class {
 
 { #category : #'node building' }
 ToTreeTableNodeManager >> buildNode: aNode [
-
-	| content |
 		
-	aNode initializeStartElement.
-	content := ToElement new
-		           hMatchParent;
-		           vFitContent;
-		           yourself.
-	content layout: BlLinearLayout horizontal.
-	aNode middleElement: content.
+	aNode initializeStartContainer.
 
 	" a table node is built as a linear row with one child for each column"
 	self columns ifNotNil: [ :cols |
@@ -31,7 +23,7 @@ ToTreeTableNodeManager >> buildNode: aNode [
 						               column: column;
 						               matchParent;
 						               yourself.
-					content addChild: cellElement.
+					aNode middleContainer addChild: cellElement.
 					column
 						buildListCellElement: cellElement
 						atIndex: idx

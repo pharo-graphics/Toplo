@@ -9012,8 +9012,6 @@ ToSandBox class >> example_toTreeTable1 [
 				 key: 'name';
 				 dataIndex: #name;
 				 useCheckbox: true;
-				cellBuilder: [ :element :dataItem :holder |
-	  element addChild: (ToLabel text: dataItem asString) ];
 				 yourself).
 			(ToTableColumn new
 				 title: 'Number of methods';
@@ -9042,8 +9040,8 @@ ToSandBox class >> example_toTreeTable1 [
 ToSandBox class >> example_toTreeTable2 [
 
 	| table |
-	
 	table := ToTreeTableElement new.
+	table inspect.
 	table nodeManager childrenGetter: [ :dataItem |
 		dataItem subclasses sorted: [ :a :b | a name < b name ] ].
 	table columns: {
@@ -9052,8 +9050,12 @@ ToSandBox class >> example_toTreeTable2 [
 				 key: 'name';
 				 dataIndex: #name;
 				 useCheckbox: true;
-				cellBuilder: [ :element :dataItem :holder |
-	  element addChild: (ToLabel text: dataItem asString) ];
+				 cellBuilder: [ :cell :cls :holder |
+						 cell addChild: (ToLabeledIcon new
+									  startInterspace: 6;
+									  labelText: cls asString;
+									  iconImage: (self iconNamed: cls systemIconName);
+									  yourself) ];
 				 yourself).
 			(ToTableColumn new
 				 title: 'Number of methods';

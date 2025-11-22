@@ -1,123 +1,12 @@
 Trait {
 	#name : #TToTripletElement,
 	#instVars : [
-		'startContainer',
-		'middleContainer',
-		'endContainer',
 		'startElement',
 		'middleElement',
-		'endElement',
-		'startFiller',
-		'endFiller'
+		'endElement'
 	],
 	#category : #'Toplo-Core'
 }
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> alignCenter [
-
-	^ self toConfiguration alignCenter
-]
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> alignCenter: aBoolean [
-
-	self alignCenter = aBoolean ifTrue: [ ^ self ].
-	self toConfiguration alignCenter: aBoolean.
-	self requestConfiguration.
-	self requestNewSkin
-]
-
-{ #category : #'t - triplet element - instance creation' }
-TToTripletElement >> checkEndContainer [
-
-	endContainer ifNotNil: [ ^ self ].
-	self createEndContainer
-
-
-]
-
-{ #category : #'t - triplet element - instance creation' }
-TToTripletElement >> checkMiddleContainer [ 
-
-	middleContainer ifNotNil: [ ^ self ].
-	self createMiddleContainer
-
-
-]
-
-{ #category : #'t - triplet element - instance creation' }
-TToTripletElement >> checkStartContainer [ 
-
-	startContainer ifNotNil: [ ^ self ].
-	self createStartContainer
-
-
-]
-
-{ #category : #'t - triplet element - instance creation' }
-TToTripletElement >> createEndContainer [
-
-	endContainer := self newFrameContainer
-		                  id: #'end-container';
-		                  yourself.
-	self addChild: endContainer
-]
-
-{ #category : #'t - triplet element - instance creation' }
-TToTripletElement >> createMiddleContainer [
-
-	middleContainer ifNotNil: [ ^ self ].
-	middleContainer := self newMiddleContainer.
-	middleContainer id: #'middle-container'.
-	self addChild: middleContainer
-]
-
-{ #category : #'t - triplet element - instance creation' }
-TToTripletElement >> createStartContainer [
-
-	startContainer := self newFrameContainer
-		                  id: #'start-container';
-		                  yourself.
-	self addChild: startContainer at: 1
-]
-
-{ #category : #'t - triplet element - initialization' }
-TToTripletElement >> defaultTripletEventHandler [
-
-	^ ToTripletElementEventHandler new
-]
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> endAlignment [
-
-	^ self toConfiguration endAlignment
-]
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> endAlignment: aNumber [
-
-	self endAlignment = aNumber ifTrue: [ ^ self ].
-	self checkEndContainer.
-	self toConfiguration endAlignment: aNumber.
-	self requestConfiguration.
-	self requestNewSkin
-]
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> endChildren [
-
-	^ Array streamContents: [ :stream |
-		  endContainer ifNotNil: [ :s | stream nextPut: s ].
-		  self endGap ifNotNil: [ :s | stream nextPut: s ].
-		  self endFiller ifNotNil: [ :s | stream nextPut: s ] ]
-]
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> endContainer [
-
-	^ endContainer
-]
 
 { #category : #'t - triplet element - accessing' }
 TToTripletElement >> endElement [
@@ -133,7 +22,7 @@ TToTripletElement >> endElement: anElement [
 	endElement := anElement.
 	endElement ifNotNil: [
 		self checkEndContainer.
-		endContainer addChild: endElement ].
+		self endContainer addChild: endElement ].
 	self requestConfiguration.
 	self requestNewSkin
 ]
@@ -142,77 +31,6 @@ TToTripletElement >> endElement: anElement [
 TToTripletElement >> endElementDo: aBlock [
 
 	endElement ifNotNil: [ :ic | aBlock value: ic ]
-]
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> endFiller [
-
-	^ endFiller
-]
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> endFillerBuilder: aBlock [
-
-	self endFlexible: true.
-	aBlock value: self endFiller
-]
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> endFlexible [
-
-	^ endFiller notNil
-]
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> endFlexible: aBoolean [
-
-	aBoolean
-		ifTrue: [
-				endFiller ifNotNil: [ ^ self ].
-				endFiller := self newFiller.
-				endFiller id: #'end-filler'.
-				endFiller matchParent.
-				self addChild: endFiller after: middleContainer ]
-		ifFalse: [
-				endFiller ifNil: [ ^ self ].
-				endFiller removeFromParent.
-				endFiller := nil ].
-	self requestConfiguration.
-	self requestNewSkin
-]
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> endGap [
-
-	^ self toConfiguration endGap
-]
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> endInterspace [
-
-	^ self toConfiguration endInterspace
-]
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> endInterspace: aNumber [
-
-	self endInterspace = aNumber ifTrue: [ ^ self ].
-	self toConfiguration endInterspace: aNumber.
-	self requestConfiguration.
-	self requestNewSkin
-]
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> flexible [
-
-	^ self startFlexible and: [ self endFlexible ]
-]
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> flexible: aBoolean [
-
-	self startFlexible: aBoolean.
-	self endFlexible: aBoolean
 ]
 
 { #category : #'t - triplet element - testing' }
@@ -236,41 +54,7 @@ TToTripletElement >> hasStartElement [
 { #category : #'t - triplet element - initialization' }
 TToTripletElement >> initializeAsTripletElement [
 
-	"the midddle container must be created because other parts are added according to its position"
-	self createMiddleContainer.
-	self addEventHandler: self defaultTripletEventHandler
-]
 
-{ #category : #'t - triplet element - testing' }
-TToTripletElement >> isEndFlexible [
-
-	^ self endFlexible
-]
-
-{ #category : #'t - triplet element - testing' }
-TToTripletElement >> isExact [
-
-	^ self constraints vertical resizer isExact and: [
-		  self constraints horizontal resizer isExact ]
-]
-
-{ #category : #'t - triplet element - testing' }
-TToTripletElement >> isStartFlexible [
-
-	^ self startFlexible
-]
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> middleChildren [
-
-	^ Array streamContents: [ :stream |
-		  middleContainer ifNotNil: [ :s | stream nextPut: s ] ]
-]
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> middleContainer [
-
-	^ middleContainer 
 ]
 
 { #category : #'t - triplet element - accessing' }
@@ -285,7 +69,7 @@ TToTripletElement >> middleElement: anElement [
 	middleElement = anElement ifTrue: [ ^ self ].
 	middleElement ifNotNil: [ :s | s removeFromParent ].
 	middleElement := anElement.
-	middleElement ifNotNil: [ middleContainer addChild: middleElement ].
+	middleElement ifNotNil: [ self middleContainer addChild: middleElement ].
 	self requestConfiguration.
 	self requestNewSkin
 ]
@@ -294,85 +78,6 @@ TToTripletElement >> middleElement: anElement [
 TToTripletElement >> middleElementDo: aBlock [
 
 	middleElement ifNotNil: [ :ic | aBlock value: ic ]
-]
-
-{ #category : #'t - triplet element - instance creation' }
-TToTripletElement >> newFiller [
-
-	^ ToElement new
-		  withNullSkin;
-		  extent: 0 @ 0;
-		  layout: BlLinearLayout new;
-		  yourself
-]
-
-{ #category : #'t - triplet element - instance creation' }
-TToTripletElement >> newFrameContainer [
-
-	^ ToElement new
-		  withNullSkin;
-		  constraintsDo: [ :c |
-				  c horizontal fitContent.
-				  c vertical fitContent.
-				  c linear vertical alignCenter.
-				  c linear horizontal alignCenter.
-				  c frame vertical alignCenter.
-				  c frame horizontal alignCenter ];
-		  layout: BlFrameLayout new;
-		  yourself
-]
-
-{ #category : #'t - triplet element - instance creation' }
-TToTripletElement >> newLinearContainer [
-
-	^ ToElement new
-		  withNullSkin;
-		  constraintsDo: [ :c |
-				  c horizontal fitContent.
-				  c vertical fitContent.
-				  c linear vertical alignCenter.
-				  c linear horizontal alignCenter.
-				  c frame vertical alignCenter.
-				  c frame horizontal alignCenter ];
-		  layout: BlLinearLayout new;
-		  yourself
-]
-
-{ #category : #'t - triplet element - instance creation' }
-TToTripletElement >> newMiddleContainer [
-
-	^ self newFrameContainer
-]
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> startAlignment [
-
-	^ self toConfiguration startAlignment
-]
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> startAlignment: aNumber [
-
-	self startAlignment = aNumber ifTrue: [ ^ self ].
-	self checkStartContainer.
-	self toConfiguration startAlignment: aNumber.
-	self requestConfiguration.
-	self requestNewSkin
-]
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> startChildren [
-
-	^ Array streamContents: [ :stream |
-		  startContainer ifNotNil: [ :s | stream nextPut: s ].
-		  self startGap ifNotNil: [ :s | stream nextPut: s ].
-		  startFiller ifNotNil: [ :s | stream nextPut: s ] ]
-]
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> startContainer [
-
-	^ startContainer
 ]
 
 { #category : #'t - triplet element - accessing' }
@@ -389,7 +94,7 @@ TToTripletElement >> startElement: anElement [
 	startElement := anElement.
 	startElement ifNotNil: [
 		self checkStartContainer.
-		startContainer addChild: startElement ].
+		self startContainer addChild: startElement ].
 	self requestConfiguration.
 	self requestNewSkin
 ]
@@ -398,62 +103,4 @@ TToTripletElement >> startElement: anElement [
 TToTripletElement >> startElementDo: aBlock [
 
 	startElement ifNotNil: [ :ic | aBlock value: ic ]
-]
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> startFiller [
-
-	^ startFiller
-]
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> startFillerBuilder: aBlock [
-
-	self startFlexible: true.
-	aBlock value: startFiller
-]
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> startFlexible [
-
-	^ startFiller notNil
-]
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> startFlexible: aBoolean [
-
-	aBoolean
-		ifTrue: [
-				startFiller ifNotNil: [ ^ self ].
-				startFiller := self newFiller.
-				startFiller id: #'start-filler'.
-				startFiller matchParent.
-				self addChild: startFiller before: middleContainer ]
-		ifFalse: [
-				startFiller ifNil: [ ^ self ].
-				startFiller removeFromParent.
-				startFiller := nil ].
-	self requestConfiguration.
-	self requestNewSkin
-]
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> startGap [
-
-	^ self toConfiguration startGap
-]
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> startInterspace [
-
-	^ self toConfiguration startInterspace
-]
-
-{ #category : #'t - triplet element - accessing' }
-TToTripletElement >> startInterspace: aNumber [
-
-	self startInterspace = aNumber ifTrue: [ ^ self ].
-	self toConfiguration startInterspace: aNumber.
-	self requestConfiguration.
-	self requestNewSkin
 ]

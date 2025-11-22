@@ -1,11 +1,11 @@
 Class {
-	#name : #ToTripletElementEventHandler,
+	#name : #ToTripletContainerEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#category : #'Toplo-Core'
 }
 
 { #category : #'events handling' }
-ToTripletElementEventHandler >> clickAbortedEvent: anEvent [
+ToTripletContainerEventHandler >> clickAbortedEvent: anEvent [
 
 	| aClickEvent target |
 	target := anEvent currentTarget.
@@ -17,7 +17,7 @@ ToTripletElementEventHandler >> clickAbortedEvent: anEvent [
 ]
 
 { #category : #'api - accessing' }
-ToTripletElementEventHandler >> eventsToHandle [
+ToTripletContainerEventHandler >> eventsToHandle [
 
 	^ {
 		  BlClickAbortedEvent }

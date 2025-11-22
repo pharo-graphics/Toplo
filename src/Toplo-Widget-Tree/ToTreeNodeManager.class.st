@@ -7,7 +7,7 @@ Class {
 { #category : #'node building' }
 ToTreeNodeManager >> buildNode: aTreeNode [
 
-	aTreeNode middleElement:
+	aTreeNode middleContainer addChild:
 		(ToLabel text: aTreeNode holder treeDataItem asString)
 ]
 

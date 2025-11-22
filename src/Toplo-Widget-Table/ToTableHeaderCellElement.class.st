@@ -2,7 +2,6 @@ Class {
 	#name : #ToTableHeaderCellElement,
 	#superclass : #ToTableCellElement,
 	#instVars : [
-		'innerElement',
 		'state'
 	],
 	#category : #'Toplo-Widget-Table-Header'
@@ -42,27 +41,22 @@ ToTableHeaderCellElement >> initialize [
 { #category : #updating }
 ToTableHeaderCellElement >> initializeFromColumnInTableElement: aTableElement [
 
-	innerElement := ToTripletElement new.
-	innerElement
-		hMatchParent;
-		vFitContent.
-	self addChild: innerElement.
-	innerElement middleContainer layout: BlLinearLayout horizontal.
-	column buildHeaderCellElement: innerElement middleContainer inTableElement: aTableElement.
+	column
+		buildHeaderCellElement: self
+		inTableElement: aTableElement.
 	column width
 		ifNotNil: [ :w | self width: w ]
 		ifNil: [ self hMatchParent ].
 	column sorterBlock ifNotNil: [
 			| arrow |
 			arrow := ToIconicArrowButton new.
-			innerElement endElement: arrow.
-			innerElement endFlexible: true.
+			self endContainer addChild: arrow.
+			self endFlexible: true.
 			self updateArrowOrientation: arrow.
-			innerElement endElement clickAction: [
+			self endContainer clickAction: [
 					column nextSort.
 					self updateArrowOrientation: arrow.
-					innerElement endElement fireEvent:
-						(ToSortColumn column: column) ] ]
+					self endContainer fireEvent: (ToSortColumn column: column) ] ]
 ]
 
 { #category : #initialization }

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTripletElementConfiguration,
-	#superclass : #ToWidgetConfiguration,
+	#superclass : #ToTripletContainerConfiguration,
 	#traits : 'TToTripletElementConfiguration',
 	#classTraits : 'TToTripletElementConfiguration classTrait',
 	#category : #'Toplo-Core'
@@ -20,12 +20,4 @@ ToTripletElementConfiguration >> initialize [
 
 	super initialize.
 	self initializeAsTripletElementConfiguration
-]
-
-{ #category : #dependencies }
-ToTripletElementConfiguration >> release [ 
-
-	super release.
-	endGap := nil.
-	startGap := nil
 ]

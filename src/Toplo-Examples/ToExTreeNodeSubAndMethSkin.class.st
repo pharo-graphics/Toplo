@@ -9,9 +9,9 @@ ToExTreeNodeSubAndMethSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-			e startElement
+			e startContainer
 				childWithId: #itemIcon
-				ifNone: [ e startElement addChild: (self newIconForNode: e) ] ]
+				ifNone: [ e startContainer addChild: (self newIconForNode: e) ] ]
 ]
 
 { #category : #icons }

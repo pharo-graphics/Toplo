@@ -13,8 +13,6 @@ Class {
 
 { #category : #'node building' }
 ToGenericTreeNodeManager >> buildNode: aTreeNode [
-
-	| content |
 	
 	checkableNode ifTrue: [
 			| listElement cbox |
@@ -23,14 +21,9 @@ ToGenericTreeNodeManager >> buildNode: aTreeNode [
 			cbox constraintsDo: [ :c | c linear vertical alignCenter ].
 			aTreeNode addChild: cbox at: 1 ].
 
-	aTreeNode initializeStartElement.
-	content := ToElement new
-		           hMatchParent;
-		           vFitContent;
-		           yourself.
-	aTreeNode middleElement: content.
+	aTreeNode initializeStartContainer.
 	nodeBuilder
-		cull: content
+		cull: aTreeNode middleContainer
 		cull: aTreeNode holder treeDataItem
 		cull: aTreeNode holder.
 	aTreeNode childrenDo: [ :child |

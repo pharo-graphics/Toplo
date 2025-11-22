@@ -6,12 +6,12 @@ I visually represent a line of data from a tree structure
 Class {
 	#name : #ToTreeNode,
 	#superclass : #ToListNode,
-	#traits : 'TToOrientable + TToTripletElement',
-	#classTraits : 'TToOrientable classTrait + TToTripletElement classTrait',
+	#traits : 'TToOrientable + TToTripletContainer',
+	#classTraits : 'TToOrientable classTrait + TToTripletContainer classTrait',
 	#category : #'Toplo-Widget-Tree-Core'
 }
 
-{ #category : #'t - triplet element - instance creation' }
+{ #category : #'t - triplet container - instance creation' }
 ToTreeNode >> createStartContainer [
 
 	startContainer := self newLinearContainer
@@ -29,7 +29,7 @@ ToTreeNode >> hasLeafDataItem [
 { #category : #'instance creation' }
 ToTreeNode >> indentFiller [
 
-	^ self startElement childWithId: #indentFiller
+	^ self startContainer childWithId: #indentFiller
 ]
 
 { #category : #accessing }
@@ -42,26 +42,24 @@ ToTreeNode >> indentWidth: aNumber [
 ToTreeNode >> initialize [
 
 	super initialize.
-	self initializeAsTripletElement.
+	self initializeAsTripletContainer.
+	self createStartContainer.
 	self hMatchParent.
 	self vFitContent.
 	self middleContainer constraintsDo: [ :c |
 			c horizontal matchParent.
 			c vertical fitContent ].
-	self startElement: ToElement new.
-	self startElement layout: BlLinearLayout horizontal.
-
 	self addEventHandlerOn: ToArrowButtonClickedEvent do: [ :event |
 			event consume.
 			self toggle ]
 ]
 
 { #category : #'instance creation' }
-ToTreeNode >> initializeStartElement [
+ToTreeNode >> initializeStartContainer [
 
 
-	self startElement addChild: self newIndentFiller.
-	self startElement addChild: self newArrowIcon.
+	self startContainer addChild: self newIndentFiller.
+	self startContainer addChild: self newArrowIcon.
 
 ]
 
@@ -103,7 +101,7 @@ ToTreeNode >> newIndentFiller [
 		  background: Color red
 ]
 
-{ #category : #'t - triplet element - instance creation' }
+{ #category : #'t - triplet container - instance creation' }
 ToTreeNode >> newMiddleContainer [
 
 	^ self newLinearContainer
@@ -118,7 +116,7 @@ ToTreeNode >> newRawSkin [
 { #category : #'instance creation' }
 ToTreeNode >> newToConfiguration [ 
 
-	^ ToTripletElementConfiguration new
+	^ ToTripletContainerConfiguration new
 ]
 
 { #category : #accessing }

@@ -13,7 +13,7 @@ ToTreeNodeSkin >> installSkinEvent: anEvent [
 			interspace := e valueOfTokenNamed: #'node-interspace'.
 			indent := e valueOfTokenNamed: #'node-indent'.
 			w := e nodeDepth * indent.
-			arrowIcon := e startElement childWithId: #arrowIcon ifNone: [ ].
+			arrowIcon := e startContainer childWithId: #arrowIcon ifNone: [ ].
 			arrowIcon ifNotNil: [
 					| wrapper |
 					wrapper := e holder dataWrapper.

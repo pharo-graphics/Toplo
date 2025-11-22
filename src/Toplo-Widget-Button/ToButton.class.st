@@ -1,8 +1,8 @@
 Class {
 	#name : #ToButton,
 	#superclass : #ToGeneralButton,
-	#traits : 'TToTripletElement + TToLabeledIcon + TToCheckable + TToOrientable',
-	#classTraits : 'TToTripletElement classTrait + TToLabeledIcon classTrait + TToCheckable classTrait + TToOrientable classTrait',
+	#traits : 'TToTripletContainer + TToTripletElement + TToLabeledIcon + TToCheckable + TToOrientable',
+	#classTraits : 'TToTripletContainer classTrait + TToTripletElement classTrait + TToLabeledIcon classTrait + TToCheckable classTrait + TToOrientable classTrait',
 	#category : #'Toplo-Widget-Button-Clickable'
 }
 
@@ -61,7 +61,7 @@ ToButton >> icon: anElement [
 ToButton >> initialize [ 
 
 	super initialize.
-	self initializeAsTripletElement
+	self initializeAsTripletContainer
 ]
 
 { #category : #'t - labeled icon' }

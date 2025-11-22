@@ -3,7 +3,8 @@ Class {
 	#superclass : #ToTripletContainer,
 	#instVars : [
 		'alignment',
-		'compactLayoutMode'
+		'compactLayoutMode',
+		'layoutModeCheckRequested'
 	],
 	#category : #'Toplo-Widget-TabPane-TabPane'
 }
@@ -39,11 +40,32 @@ ToTabPaneHeaderElement >> alignment: anElementAlignment [
 	self requestConfiguration
 ]
 
+{ #category : #configuration }
+ToTabPaneHeaderElement >> checkLayoutMode [
+
+	compactLayoutMode ifFalse: [ ^ self ].
+	self matchParentMode
+		ifFalse: [
+				| w |
+				" If fitContent, the invisible nodes list is always empty.
+				one have to check the geometry "
+				w := self isHorizontal
+					     ifTrue: [ self width - self tabGroup width ]
+					     ifFalse: [ self height - self tabGroup height ].
+				w < 0.0 ifTrue: [ self matchParentMode: true ] ]
+		ifTrue: [ " just check the invisible nodes, if it is empty, 
+			then one can switch to a fitContent"
+			self invisibleNodes ifEmpty: [ self matchParentMode: false ] ]
+]
+
 { #category : #accessing }
 ToTabPaneHeaderElement >> compactLayoutMode: aBoolean [
 
 	compactLayoutMode = aBoolean ifTrue: [ ^ self ].
-	compactLayoutMode := aBoolean 
+	compactLayoutMode := aBoolean.
+	aBoolean
+		ifTrue: [ self requestLayoutModeCheck ]
+		ifFalse: [ self matchParentMode: true ]
 ]
 
 { #category : #accessing }
@@ -57,11 +79,15 @@ ToTabPaneHeaderElement >> initialize [
 
 	super initialize.
 	compactLayoutMode := false.
+	layoutModeCheckRequested := false.
 	self createStartContainer.
 	self createEndContainer.
 	self startContainer id: #'start-extra-container'.
 	self endContainer id: #'end-extra-container'.
-	self noAlignment
+	self noAlignment.
+	self
+		addEventHandlerOn: BlElementExtentChangedEvent
+		do: [ self requestLayoutModeCheck ]
 ]
 
 { #category : #accessing }
@@ -138,6 +164,23 @@ ToTabPaneHeaderElement >> newToConfiguration [
 ToTabPaneHeaderElement >> noAlignment [
 
 	self alignment: BlElementAlignment null
+]
+
+{ #category : #'hooks - layout' }
+ToTabPaneHeaderElement >> onLayoutDone [ 
+
+	super onLayoutDone.
+	layoutModeCheckRequested ifFalse: [ ^ self ].
+	self checkLayoutMode.
+	layoutModeCheckRequested := false
+
+]
+
+{ #category : #'hooks - layout' }
+ToTabPaneHeaderElement >> requestLayoutModeCheck [
+
+	compactLayoutMode ifFalse: [ ^ self ].
+	layoutModeCheckRequested := true
 ]
 
 { #category : #accessing }

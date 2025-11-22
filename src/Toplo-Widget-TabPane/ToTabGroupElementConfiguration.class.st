@@ -24,24 +24,12 @@ ToTabGroupElementConfiguration >> applyOn: aTabGroupElement [
 	aTabGroupElement itemBar matchParent.
 
 	aTabGroupElement isHFitContent
-		ifTrue: [
-				aTabGroupElement middleContainer constraintsDo: [ :c |
-					c horizontal fitContent ].
-				aTabGroupElement itemBar hFitContent ]
-		ifFalse: [
-				aTabGroupElement middleContainer constraintsDo: [ :c |
-					c horizontal matchParent ].
-				aTabGroupElement itemBar hMatchParent ].
+		ifTrue: [ aTabGroupElement itemBar hFitContent ]
+		ifFalse: [ aTabGroupElement itemBar hMatchParent ].
 
 	aTabGroupElement isVFitContent
-		ifTrue: [
-				aTabGroupElement middleContainer constraintsDo: [ :c |
-					c vertical fitContent ].
-				aTabGroupElement itemBar vFitContent ]
-		ifFalse: [
-				aTabGroupElement middleContainer constraintsDo: [ :c |
-					c vertical matchParent ].
-				aTabGroupElement itemBar vMatchParent ].
+		ifTrue: [ aTabGroupElement itemBar vFitContent ]
+		ifFalse: [ aTabGroupElement itemBar vMatchParent ].
 
 	aTabGroupElement isHorizontal
 		ifTrue: [
@@ -52,8 +40,6 @@ ToTabGroupElementConfiguration >> applyOn: aTabGroupElement [
 				aTabGroupElement endContainer layout beVertical.
 				aTabGroupElement endContainer childrenDo: [ :child |
 					child layout beVertical ] ].
-
-	aTabGroupElement  alignCenter: true.
 
 	aTabGroupElement itemBar updateAllSelections.
 

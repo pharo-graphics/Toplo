@@ -166,6 +166,12 @@ ToTabPaneElement >> preservePane [
 	^ false
 ]
 
+{ #category : #'hooks - layout' }
+ToTabPaneElement >> requestLayoutModeCheck [
+
+	headerContainer requestLayoutModeCheck
+]
+
 { #category : #accessing }
 ToTabPaneElement >> showAddTabItemButton [
 

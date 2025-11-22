@@ -19,24 +19,6 @@ ToTableCellElement >> column: aTableColumn [
 	column := aTableColumn
 ]
 
-{ #category : #'t - triplet container - instance creation' }
-ToTableCellElement >> createEndContainer [
-
-	endContainer := self newLinearContainer
-		                  id: #'end-container';
-		                  yourself.
-	self addChild: endContainer
-]
-
-{ #category : #'t - triplet container - instance creation' }
-ToTableCellElement >> createStartContainer [
-
-	startContainer := self newLinearContainer
-		                  id: #'start-container';
-		                  yourself.
-	self addChild: startContainer at: 1
-]
-
 { #category : #initialization }
 ToTableCellElement >> initialize [
 
@@ -52,7 +34,19 @@ ToTableCellElement >> newColumnState [
 ]
 
 { #category : #'t - triplet container - instance creation' }
+ToTableCellElement >> newEndContainer [
+
+	^ self newLinearContainer
+]
+
+{ #category : #'t - triplet container - instance creation' }
 ToTableCellElement >> newMiddleContainer [
+
+	^ self newLinearContainer
+]
+
+{ #category : #'t - triplet container - instance creation' }
+ToTableCellElement >> newStartContainer [
 
 	^ self newLinearContainer
 ]

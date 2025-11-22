@@ -55,7 +55,7 @@ TToTripletContainer >> checkStartContainer [
 { #category : #'t - triplet container - instance creation' }
 TToTripletContainer >> createEndContainer [
 
-	endContainer := self newFrameContainer
+	endContainer := self newEndContainer
 		                  id: #'end-container';
 		                  yourself.
 	self addChild: endContainer
@@ -73,7 +73,7 @@ TToTripletContainer >> createMiddleContainer [
 { #category : #'t - triplet container - instance creation' }
 TToTripletContainer >> createStartContainer [
 
-	startContainer := self newFrameContainer
+	startContainer := self newStartContainer
 		                  id: #'start-container';
 		                  yourself.
 	self addChild: startContainer at: 1
@@ -221,6 +221,12 @@ TToTripletContainer >> middleContainer [
 ]
 
 { #category : #'t - triplet container - instance creation' }
+TToTripletContainer >> newEndContainer [
+
+	^ self newFrameContainer
+]
+
+{ #category : #'t - triplet container - instance creation' }
 TToTripletContainer >> newFiller [
 
 	^ ToElement new
@@ -264,6 +270,12 @@ TToTripletContainer >> newLinearContainer [
 
 { #category : #'t - triplet container - instance creation' }
 TToTripletContainer >> newMiddleContainer [
+
+	^ self newFrameContainer
+]
+
+{ #category : #'t - triplet container - instance creation' }
+TToTripletContainer >> newStartContainer [
 
 	^ self newFrameContainer
 ]

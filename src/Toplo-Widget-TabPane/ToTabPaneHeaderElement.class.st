@@ -1,11 +1,9 @@
 Class {
 	#name : #ToTabPaneHeaderElement,
-	#superclass : #ToTripletElement,
+	#superclass : #ToTripletContainer,
 	#instVars : [
-		'tabGroup',
 		'alignment',
-		'compactLayoutMode',
-		'layoutModeCheckRequested'
+		'compactLayoutMode'
 	],
 	#category : #'Toplo-Widget-TabPane-TabPane'
 }
@@ -41,38 +39,17 @@ ToTabPaneHeaderElement >> alignment: anElementAlignment [
 	self requestConfiguration
 ]
 
-{ #category : #configuration }
-ToTabPaneHeaderElement >> checkLayoutMode [
-
-	compactLayoutMode ifFalse: [ ^ self ].
-	self matchParentMode 
-		ifFalse: [
-				| groupEndBnds tabPaneEndBnds w |
-				groupEndBnds := tabGroup endContainer bounds inParent: self.
-				tabPaneEndBnds := endContainer bounds.
-				w := self isHorizontal
-					     ifTrue: [ tabPaneEndBnds left - groupEndBnds right ]
-					     ifFalse: [ tabPaneEndBnds top - groupEndBnds bottom ].
-				w < 1 ifTrue: [ self matchParentMode: true ] ]
-		ifTrue: [
-			self invisibleNodes ifEmpty: [
-				self matchParentMode: false ] ]
-]
-
 { #category : #accessing }
 ToTabPaneHeaderElement >> compactLayoutMode: aBoolean [
 
 	compactLayoutMode = aBoolean ifTrue: [ ^ self ].
-	compactLayoutMode := aBoolean.
-	aBoolean
-		ifTrue: [ self requestLayoutModeCheck ]
-		ifFalse: [ self matchParentMode: true ]
+	compactLayoutMode := aBoolean 
 ]
 
 { #category : #accessing }
 ToTabPaneHeaderElement >> endExtraBuilder: aValuable [
 
-	aValuable value: self endElement
+	aValuable value: self endContainer
 ]
 
 { #category : #initialization }
@@ -80,24 +57,17 @@ ToTabPaneHeaderElement >> initialize [
 
 	super initialize.
 	compactLayoutMode := false.
-	layoutModeCheckRequested := false.
-	self startElement: self newLinearContainer.
-	self startElement id: #'start-extra-container'.
-	self endElement: self newLinearContainer.
-	self endElement id: #'end-extra-container'.
-	tabGroup := self newTabGroupElement.
-	self middleElement: tabGroup.
-	self noAlignment.
-
-	self
-		addEventHandlerOn: BlElementExtentChangedEvent
-		do: [ self requestLayoutModeCheck ]
+	self createStartContainer.
+	self createEndContainer.
+	self startContainer id: #'start-extra-container'.
+	self endContainer id: #'end-extra-container'.
+	self noAlignment
 ]
 
 { #category : #accessing }
 ToTabPaneHeaderElement >> invisibleNodes [ 
 
-	^ tabGroup invisibleNodes
+	^ self tabGroup invisibleNodes
 ]
 
 { #category : #accessing }
@@ -132,6 +102,24 @@ ToTabPaneHeaderElement >> matchParentMode: aBoolean [
 	self requestConfiguration
 ]
 
+{ #category : #'t - triplet container - instance creation' }
+ToTabPaneHeaderElement >> newEndContainer [ 
+
+	^ self newLinearContainer
+]
+
+{ #category : #'t - triplet container - instance creation' }
+ToTabPaneHeaderElement >> newMiddleContainer [ 
+
+	^ self newTabGroupElement
+]
+
+{ #category : #'t - triplet container - instance creation' }
+ToTabPaneHeaderElement >> newStartContainer [ 
+
+	^ self newLinearContainer
+]
+
 { #category : #'instance creation' }
 ToTabPaneHeaderElement >> newTabGroupElement [
 
@@ -152,33 +140,16 @@ ToTabPaneHeaderElement >> noAlignment [
 	self alignment: BlElementAlignment null
 ]
 
-{ #category : #'hooks - layout' }
-ToTabPaneHeaderElement >> onLayoutDone [ 
-
-	super onLayoutDone.
-	layoutModeCheckRequested ifFalse: [ ^ self ].
-	self checkLayoutMode.
-	layoutModeCheckRequested := false
-
-]
-
-{ #category : #'hooks - layout' }
-ToTabPaneHeaderElement >> requestLayoutModeCheck [
-
-	compactLayoutMode ifFalse: [ ^ self ].
-	layoutModeCheckRequested := true
-]
-
 { #category : #accessing }
 ToTabPaneHeaderElement >> startExtraBuilder: aValuable [
 
-	aValuable value: self startElement
+	aValuable value: self startContainer
 ]
 
 { #category : #accessing }
 ToTabPaneHeaderElement >> tabGroup [ 
 
-	^ tabGroup
+	^ self middleContainer 
 ]
 
 { #category : #accessing }

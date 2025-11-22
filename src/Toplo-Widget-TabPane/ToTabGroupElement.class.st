@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTabGroupElement,
-	#superclass : #ToTripletElement,
+	#superclass : #ToTripletContainer,
 	#traits : 'TToItemBarContainer',
 	#classTraits : 'TToItemBarContainer classTrait',
 	#instVars : [
@@ -151,8 +151,8 @@ ToTabGroupElement >> initialize [
 
 	super initialize.
 	self resetInvisibleNodes.
-	self initializeAsItemBarContainer.
 	self initializeParts.
+	self setItemBar: self middleContainer.
 	self itemBar addEventHandler:
 		(ToTabBarInGroupElementEventHandler new
 			 tabGroup: self;
@@ -193,9 +193,8 @@ ToTabGroupElement >> initializeParts [
 
 	self initializeInvisibleNodesMenu.
 	self initializeAddTabItemButton.
-	self startElement: self newLinearContainer.
-	self middleElement: self itemBar.
-	self endElement: self newLinearContainer.
+	self createStartContainer.
+	self createEndContainer.
 	endExtraContainer := self newLinearContainer.
 	endExtraContainer id: #'end-extra-container'.
 	menusContainer := self newLinearContainer.
@@ -205,12 +204,8 @@ ToTabGroupElement >> initializeParts [
 	addTabItemButton id: #'add-tab-button'.
 	menusContainer addChild: invisibleNodesMenu.
 	invisibleNodesMenu id: #'invisible-nodes-menu'.
-	self endElement addChild: menusContainer.
-	self endElement addChild: endExtraContainer.
-	
-	self startElement id: #'start-extra-container'.
-	self middleElement id: #'tab-bar'.
-	self endElement id: #'end-container'.
+	self endContainer addChild: menusContainer.
+	self endContainer addChild: endExtraContainer
 ]
 
 { #category : #accessing }
@@ -264,16 +259,34 @@ ToTabGroupElement >> menusContainer [
 	^ menusContainer 
 ]
 
+{ #category : #'t - triplet container - instance creation' }
+ToTabGroupElement >> newEndContainer [ 
+
+	^ self newLinearContainer
+]
+
 { #category : #'t - item bar container - initializing' }
 ToTabGroupElement >> newItemBar [
 
 	^ self barElementClass new
 ]
 
+{ #category : #'t - triplet container - instance creation' }
+ToTabGroupElement >> newMiddleContainer [ 
+
+	^ self newItemBar
+]
+
 { #category : #skin }
 ToTabGroupElement >> newRawSkin [ 
 
 	^ ToTabGroupElementSkin new
+]
+
+{ #category : #'t - triplet container - instance creation' }
+ToTabGroupElement >> newStartContainer [ 
+
+	^ self newLinearContainer
 ]
 
 { #category : #configuration }
@@ -356,13 +369,13 @@ ToTabGroupElement >> showInvisibleTabItem: aTabItemElement [
 { #category : #accessing }
 ToTabGroupElement >> startExtraBuilder: aValuable [
 
-	aValuable value: self startElement
+	aValuable value: self startContainer
 ]
 
 { #category : #accessing }
 ToTabGroupElement >> trackElement [
 
-	^ self middleElement trackElement
+	^ self itemBar trackElement
 ]
 
 { #category : #accessing }

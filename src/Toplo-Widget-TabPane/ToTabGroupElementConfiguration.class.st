@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTabGroupElementConfiguration,
-	#superclass : #ToTripletElementConfiguration,
+	#superclass : #ToTripletContainerConfiguration,
 	#instVars : [
 		'atStartSide'
 	],
@@ -45,12 +45,12 @@ ToTabGroupElementConfiguration >> applyOn: aTabGroupElement [
 
 	aTabGroupElement isHorizontal
 		ifTrue: [
-				aTabGroupElement endElement layout beHorizontal.
-				aTabGroupElement endElement childrenDo: [ :child |
+				aTabGroupElement endContainer layout beHorizontal.
+				aTabGroupElement endContainer childrenDo: [ :child |
 					child layout beHorizontal ] ]
 		ifFalse: [
-				aTabGroupElement endElement layout beVertical.
-				aTabGroupElement endElement childrenDo: [ :child |
+				aTabGroupElement endContainer layout beVertical.
+				aTabGroupElement endContainer childrenDo: [ :child |
 					child layout beVertical ] ].
 
 	aTabGroupElement  alignCenter: true.

@@ -11,15 +11,6 @@ Class {
 	#category : #'Toplo-Widget-Tree-Core'
 }
 
-{ #category : #'t - triplet container - instance creation' }
-ToTreeNode >> createStartContainer [
-
-	startContainer := self newLinearContainer
-		                  id: #'start-container';
-		                  yourself.
-	self addChild: startContainer at: 1
-]
-
 { #category : #testing }
 ToTreeNode >> hasLeafDataItem [
 
@@ -111,6 +102,12 @@ ToTreeNode >> newMiddleContainer [
 ToTreeNode >> newRawSkin [ 
 	
 	^ ToTreeNodeSkin new
+]
+
+{ #category : #'t - triplet container - instance creation' }
+ToTreeNode >> newStartContainer [
+
+	^ self newLinearContainer
 ]
 
 { #category : #'instance creation' }

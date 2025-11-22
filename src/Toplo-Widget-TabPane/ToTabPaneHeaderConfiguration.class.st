@@ -53,13 +53,12 @@ ToTabPaneHeaderConfiguration >> configureTabGroupIn: anElement [
 	anElement isHorizontal
 		ifTrue: [
 				tabGroup hMatchParent.
-				tabGroup vFitContent.
-				tabGroup constraintsDo: [ :c | c linear horizontal alignLeft ] ]
+				tabGroup vFitContent ]
 		ifFalse: [
 				tabGroup vMatchParent.
-				tabGroup hFitContent.
-				tabGroup constraintsDo: [ :c | c linear vertical alignTop ] ].
+				tabGroup hFitContent ].
 	tabGroup isFlowable ifTrue: [ ^ self ].
+
 	matchParentMode
 		ifTrue: [ self switchToMatchParentIn: anElement ]
 		ifFalse: [ self switchToFitContentIn: anElement ].

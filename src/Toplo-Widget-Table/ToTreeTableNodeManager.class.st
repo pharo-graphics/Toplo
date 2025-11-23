@@ -14,19 +14,19 @@ ToTreeTableNodeManager >> buildNode: aNode [
 
 	aNode initializeStartContainer.
 
-	" a table node is built as a linear row with one child for each column"
+	" a table node is built as a linear row with one container for each column"
 	self columns ifNotNil: [ :cols |
 			cols withIndexDo: [ :column :idx |
-					| cellElement |
-					cellElement := (ToTableListCellContainer
-						                holder: aNode holder
-						                column: column)
-						               id: column key;
-						               matchParent;
-						               yourself.
-					aNode middleContainer addChild: cellElement.
+					| container |
+					container := (ToTableListCellContainer
+						              holder: aNode holder
+						              column: column)
+						             id: column key;
+						             matchParent;
+						             yourself.
+					aNode middleContainer addChild: container.
 					column
-						buildListCellInContainer: cellElement
+						buildListCellInContainer: container
 						atIndex: idx
 						inNode: aNode ] ]
 ]

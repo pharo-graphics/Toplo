@@ -11,19 +11,19 @@ Class {
 ToTableNodeManager >> buildNode: aTableNode [
 
 	aTableNode removeChildren.
-	" a table node is built as a linear row with one child for each column"
+	" a table node is built as a linear row with one container for each column"
 	self columns ifNotNil: [ :cols |
 			cols withIndexDo: [ :column :idx |
-					| cellElement |
-					cellElement := (ToTableListCellContainer
-						                holder: aTableNode holder
-						                column: column)
-						               id: column key;
-						               matchParent;
-						               yourself.
-					aTableNode addChild: cellElement.
+					| container |
+					container := (ToTableListCellContainer
+						              holder: aTableNode holder
+						              column: column)
+						             id: column key;
+						             matchParent;
+						             yourself.
+					aTableNode addChild: container.
 					column
-						buildListCellInContainer: cellElement
+						buildListCellInContainer: container
 						atIndex: idx
 						inNode: aTableNode ] ]
 ]

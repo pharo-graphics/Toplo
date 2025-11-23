@@ -53,10 +53,10 @@ ToTableHeaderCellElement >> initializeFromColumnInTableElement: aTableElement [
 			self endContainer addChild: arrow.
 			self endFlexible: true.
 			self updateArrowOrientation: arrow.
-			self endContainer clickAction: [
+			arrow clickAction: [
 					column nextSort.
 					self updateArrowOrientation: arrow.
-					self endContainer fireEvent: (ToSortColumn column: column) ] ]
+					aTableElement header dispatchEvent: (ToColumnSortRequestEvent column: column) ] ]
 ]
 
 { #category : #initialization }

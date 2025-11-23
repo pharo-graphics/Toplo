@@ -10,20 +10,18 @@ Class {
 		'#columns => ObservableSlot',
 		'#showHeader => ObservableSlot',
 		'#header',
-		'#list'
+		'#list',
+		'#dividersUpdateRequested'
 	],
 	#category : #'Toplo-Widget-Table-Core'
 }
 
 { #category : #initialization }
-ToTableElement >> buildHeader [
+ToTableElement >> addDivider: aDivider atIndex: anIndex [
 
-	header := self newHeaderElement
-		          id: #header;
-		          yourself.
-	self addEventHandlerOn: ToSortColumn do: [ :event |
-			event consume.
-			self performDataSort ]
+	aDivider cellIndex: anIndex.
+	self addChild: aDivider.
+	aDivider setPositionInTable
 ]
 
 { #category : #accessing }
@@ -51,13 +49,6 @@ ToTableElement >> defaultLayout [
 	^ BlLinearLayout vertical
 ]
 
-{ #category : #initialization }
-ToTableElement >> freezeCellsWidth [
-
-	header freezeCellsWidth.
-	list freezeCellsWidth
-]
-
 { #category : #accessing }
 ToTableElement >> header [
 
@@ -71,7 +62,66 @@ ToTableElement >> header: anObject [
 ]
 
 { #category : #initialization }
-ToTableElement >> initScrollBar [
+ToTableElement >> initialize [
+
+	super initialize.
+	self class initializeSlots: self.
+	dividersUpdateRequested := false.
+	self matchParent.
+	self padding: (BlInsets all: 1).
+	self initializeList.
+	self initializeHeader.
+	self addChildren: {
+			header.
+			list }.
+	self initializeScrollBar.
+	self property: #columns whenChangedDo: [
+			list columns: self columns.
+			header columns: self columns.
+			self initializeDividers ].
+	self property: #showHeader whenChangedDo: [
+			showHeader
+				ifTrue: [ header constraintsDo: [ :c | c vertical fitContent ] ]
+				ifFalse: [ header constraintsDo: [ :c | c vertical exact: 0.0 ] ] ].
+	self addEventHandler: ToTableElementEventHandler new
+]
+
+{ #category : #initialization }
+ToTableElement >> initializeDividers [
+
+	| headerColumnElements index |
+	self removeDividers.
+	headerColumnElements := self header cells.
+	index := 0.
+	headerColumnElements overlappingPairsDo: [ :first :second |
+			| col |
+			index := index + 1.
+			col := columns at: index.
+			col resizable ifTrue: [
+				self addDivider: self newDivider atIndex: index ] ].
+	self requestDividersUpdate
+]
+
+{ #category : #initialization }
+ToTableElement >> initializeHeader [
+
+	header := self newHeaderElement
+		          id: #header;
+		          parentTable: self;
+		          yourself
+]
+
+{ #category : #initialization }
+ToTableElement >> initializeList [
+
+	list := self newListElement
+		        id: #list;
+		        parentTable: self;
+		        yourself
+]
+
+{ #category : #initialization }
+ToTableElement >> initializeScrollBar [
 
 	| vscrollBar |
 	vscrollBar := BlVerticalScrollbarElement new.
@@ -85,61 +135,6 @@ ToTableElement >> initScrollBar [
 	self list addChild: vscrollBar
 ]
 
-{ #category : #initialization }
-ToTableElement >> initialize [
-
-	super initialize.
-	self class initializeSlots: self.
-
-	self matchParent.
-	self padding: (BlInsets all: 1).
-	list := self newListElement 
-		  id: #list;
-		  yourself.
-	list parentTable: self.
-	self buildHeader.
-	self addChildren: {
-			header.
-			list }.
-	self initScrollBar.
-	self property: #columns whenChangedDo: [
-			list columns: self columns.
-			header columns: self columns inTableElement: self.
-			self initializeDividers ].
-	self property: #showHeader whenChangedDo: [
-			showHeader
-				ifTrue: [ header constraintsDo: [ :c | c vertical fitContent ] ]
-				ifFalse: [ header constraintsDo: [ :c | c vertical exact: 0.0 ] ] ].
-	self addEventHandler: ToTableElementEventHandler new
-]
-
-{ #category : #initialization }
-ToTableElement >> initializeDividers [
-
-	| headerColumnElements index |
-	headerColumnElements := self header cells.
-	index := 0.
-	self whenLayoutedDoOnce: [
-			headerColumnElements overlappingPairsDo: [ :first :second |
-					| div col |
-					index := index + 1.
-					col := columns at: index.
-					col resizable ifTrue: [
-							div := ToTableDivider new
-								       id: #columnDivider;
-								       yourself.
-							div tableElement: self.
-							div cellIndex: index.
-							div setPositionInTable: self.
-							self addChild: div.
-							div
-								addEventHandlerOn: ToDividerStartDragEvent
-								do: [ :event | self dispatchEvent: event ].
-							div
-								addEventHandlerOn: ToDividerDragEvent
-								do: [ :event | self dispatchEvent: event ] ] ] ]
-]
-
 { #category : #accessing }
 ToTableElement >> list [
 
@@ -150,6 +145,15 @@ ToTableElement >> list [
 ToTableElement >> list: anObject [
 
 	list := anObject
+]
+
+{ #category : #initialization }
+ToTableElement >> newDivider [
+
+	^ ToTableDivider new
+		  id: #columnDivider;
+		  parentTable: self;
+		  yourself
 ]
 
 { #category : #'event handling' }
@@ -191,27 +195,33 @@ ToTableElement >> nodeManager [
 	^ list nodeManager
 ]
 
-{ #category : #sorting }
-ToTableElement >> performDataSort [
+{ #category : #'hooks - layout' }
+ToTableElement >> onLayoutDone [
 
-	| sortFunctions |
-	"I sort the data based on the information in the column configuration.
-	for now sort by column from left to right. Future should implement an order of sorting"
-	sortFunctions := (self columns
-		                  select: [ :col |
-		                  col sortOrder isNotNil and: [
-			                  col sorterBlock isNotNil ] ]
-		                  thenCollect: [ :col |
-				                  | f |
-				                  "reverse sort function in case of descending"
-				                  f := col sorterBlock asSortFunction.
-				                  col sortOrder = #descending ifFalse: [
-					                  f := f reversed ].
-				                  col -> f ]) asDictionary.
-	self updateSelectionAfter: [
-			sortFunctions keysAndValuesDo: [ :keyColumn :valueSortFunction |
-					self dataAccessor sort: [ :item1 :item2 |
-						valueSortFunction value: item1 value: item2 ] ] ]
+	super onLayoutDone.
+	dividersUpdateRequested ifTrue: [ self updateDividers ]
+]
+
+{ #category : #initialization }
+ToTableElement >> recordCellsWidth [
+
+	header recordCellsWidth.
+	list recordCellsWidth
+]
+
+{ #category : #initialization }
+ToTableElement >> removeDividers [
+
+	| dividers |
+	dividers := self selectChildrenWithId: #columnDivider.
+	dividers do: [ :d | d removeFromParent ]
+]
+
+{ #category : #'hooks - layout' }
+ToTableElement >> requestDividersUpdate [
+
+	dividersUpdateRequested := true.
+	self requestLayout
 ]
 
 { #category : #accessing }
@@ -231,20 +241,18 @@ ToTableElement >> updateDividers [
 
 	| dividers |
 	dividers := self selectChildrenWithId: #columnDivider.
-	self whenLayoutedDoOnce: [
-		dividers do: [ :div | div setPositionInTable: self ] ]
+	dividers do: [ :div | div setPositionInTable ].
+	dividersUpdateRequested := false
 ]
 
 { #category : #'event handling' }
 ToTableElement >> updateHeaderCheckboxForListSelection: aCheckbox [
 
-	| selectedIndexes |
-	selectedIndexes := list selecter selectedIndexes.
-	(selectedIndexes notEmpty and: [
-		 selectedIndexes size = list dataAccessor itemCount ])
+	(list selectionModel isNotEmpty and: [
+		 list selectionModel selectedIndexesCount = list dataAccessor itemCount ])
 		ifTrue: [ aCheckbox checked: true ]
 		ifFalse: [
-				selectedIndexes isEmpty
+				list selectionModel isEmpty
 					ifTrue: [ aCheckbox checked: false ]
 					ifFalse: [ aCheckbox checked: #indeterminate ] ]
 ]

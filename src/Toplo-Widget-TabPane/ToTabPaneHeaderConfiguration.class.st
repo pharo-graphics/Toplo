@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTabPaneHeaderConfiguration,
-	#superclass : #ToTripletElementConfiguration,
+	#superclass : #ToTripletContainerConfiguration,
 	#instVars : [
 		'matchParentMode'
 	],
@@ -37,8 +37,8 @@ ToTabPaneHeaderConfiguration >> configureAlignmentIn: anElement [
 			anElement startFlexible: true.
 			anElement endFlexible: true  ].
 
-	self configureTabGroupIn: anElement.
-	anElement alignCenter: true.
+	self configureTabGroupIn: anElement".
+	anElement alignCenter: true."
 ]
 
 { #category : #hook }
@@ -48,24 +48,21 @@ ToTabPaneHeaderConfiguration >> configureTabGroupIn: anElement [
 	tabGroup := anElement tabGroup.
 	(anElement isStartFlexible or: [ anElement isEndFlexible ]) ifTrue: [
 			tabGroup fitContent.
-			anElement middleContainer fitContent.
 			^ self ].
 
 	anElement isHorizontal
 		ifTrue: [
 				tabGroup hMatchParent.
-				tabGroup vFitContent.
-				anElement middleContainer hMatchParent.
-				anElement middleContainer vFitContent ]
+				tabGroup vFitContent ]
 		ifFalse: [
 				tabGroup vMatchParent.
-				tabGroup hFitContent.
-				anElement middleContainer vMatchParent.
-				anElement middleContainer hFitContent ].
+				tabGroup hFitContent ].
 	tabGroup isFlowable ifTrue: [ ^ self ].
+
 	matchParentMode
 		ifTrue: [ self switchToMatchParentIn: anElement ]
 		ifFalse: [ self switchToFitContentIn: anElement ].
+
 	tabGroup selectionModel selectedIndexesDo: [ :idx |
 			anElement whenLayoutedDoOnce: [
 				tabGroup selecter scrollTowardStartToDataSourcePosition: idx ] ]

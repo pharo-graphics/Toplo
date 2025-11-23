@@ -98,14 +98,28 @@ ToSelectionModel >> hash [
 ToSelectionModel >> ifEmpty: aBlock [
 
 	self isEmpty ifFalse: [ ^ self ].
-	aBlock value
+	^ aBlock value
+]
+
+{ #category : #testing }
+ToSelectionModel >> ifEmpty: aBlock ifNotEmpty: notEmptyBlock [
+
+	self isEmpty ifFalse: [ ^ notEmptyBlock cull: self ].
+	^ aBlock value
 ]
 
 { #category : #testing }
 ToSelectionModel >> ifNotEmpty: aBlock [
 
 	self isEmpty ifTrue: [ ^ self ].
-	aBlock cull: self
+	^ aBlock cull: self
+]
+
+{ #category : #testing }
+ToSelectionModel >> ifNotEmpty: notEmptyBlock ifEmpty: aBlock [ 
+
+	self isEmpty ifFalse: [ ^ notEmptyBlock cull: self ].
+	^ aBlock value
 ]
 
 { #category : #initialization }

@@ -31,7 +31,7 @@ ToCheckableState >> checked [
 ]
 
 { #category : #'checking protocol' }
-ToCheckableState >> checked: aBooleanOrIndeterminate [
+ToCheckableState >> checked: aBooleanOrIndeterminate requestBefore: requestBefore [
 
 	| current req |
 	aBooleanOrIndeterminate ifNil: [ Error signal: 'nil not allowed' ].
@@ -46,13 +46,19 @@ ToCheckableState >> checked: aBooleanOrIndeterminate [
 			(grp allowChangeWith: aBooleanOrIndeterminate forCheckable: owner)
 				ifFalse: [ ^ self ] ].
 
-	req := ToCheckableCheckRequestEvent new
-		       requestedAction: [
-				       self privateChecked: aBooleanOrIndeterminate.
-				       self notifyChanged ];
-		       yourself.
+	requestBefore ifTrue: [
+			req := ToCheckableCheckRequestEvent new
+				       requestedAction: [
+					       self privateNotifyChecked: aBooleanOrIndeterminate ];
+				       yourself.
+			^ owner dispatchAuthorisationRequest: req ].
+	self privateNotifyChecked: aBooleanOrIndeterminate
+]
 
-	owner dispatchAuthorisationRequest: req
+{ #category : #'checking protocol' }
+ToCheckableState >> ensureChecked: aBooleanOrIndeterminate [
+
+	self checked: aBooleanOrIndeterminate requestBefore: false
 ]
 
 { #category : #accessing }
@@ -149,9 +155,22 @@ ToCheckableState >> privateChecked: aBooleanOrIndeterminate [
 ]
 
 { #category : #'checking protocol' }
+ToCheckableState >> privateNotifyChecked: aBooleanOrIndeterminate [
+
+	self privateChecked: aBooleanOrIndeterminate.
+	self notifyChanged 
+]
+
+{ #category : #'checking protocol' }
+ToCheckableState >> requestChecked: aBooleanOrIndeterminate [ 
+
+	self checked: aBooleanOrIndeterminate requestBefore: true
+]
+
+{ #category : #'checking protocol' }
 ToCheckableState >> switchToNextCheckState [
 
-	self checked: self nextCheckValue 
+	self requestChecked: self nextCheckValue 
 ]
 
 { #category : #'checking protocol' }

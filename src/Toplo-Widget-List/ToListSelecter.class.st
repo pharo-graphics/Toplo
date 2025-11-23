@@ -511,11 +511,11 @@ ToListSelecter >> selectOnlyIndexes: anArray [
 { #category : #accessing }
 ToListSelecter >> selectedIndex [
 
-	self selectionModel selectedIndexes size > 1 ifTrue: [
+	self selectionModel selectedIndexesCount > 1 ifTrue: [
 		Error signal: 'Only zero or one selected index is allowed' ].
-	^ self selectionModel selectedIndexes
+	^ self selectionModel 
 		  ifEmpty: [ 0 ]
-		  ifNotEmpty: [ :s | s first ]
+		  ifNotEmpty: [ :s | s firstIndex ]
 ]
 
 { #category : #accessing }

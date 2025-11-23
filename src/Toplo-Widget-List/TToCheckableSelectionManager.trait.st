@@ -11,13 +11,13 @@ TToCheckableSelectionManager >> addCheckboxSelectionManagement [
 
 	checkBoxSelectionHandler ifNotNil: [ ^ self ].
 	self selectionMode selectOnClick: false.
-	checkBoxSelectionHandler := self
-		                            addEventHandlerOn:
-		                            ToListPrimarySelectionChangedEvent
+	checkBoxSelectionHandler := BlEventHandler
+		                            on: ToListPrimarySelectionChangedEvent
 		                            do: [ :event |
-				                            event touchedIntervals do: [ :int |
-					                            self dataSource notifyItemsChanged:
-						                            int ] ]
+		                            self
+			                            updateCheckboxesOnSelectionChangedEvent:
+			                            event ].
+	self addEventHandler: checkBoxSelectionHandler
 ]
 
 { #category : #'t - checkable selection manager' }
@@ -82,4 +82,11 @@ TToCheckableSelectionManager >> removeCheckboxSelectionManagement [
 	self selectionMode selectOnClick: true.
 	self removeEventHandler: checkBoxSelectionHandler.
 	checkBoxSelectionHandler := nil
+]
+
+{ #category : #'t - checkable selection manager' }
+TToCheckableSelectionManager >> updateCheckboxesOnSelectionChangedEvent: anEvent [
+
+	anEvent touchedIntervals do: [ :int |
+		self dataSource notifyItemsChanged: int ]
 ]

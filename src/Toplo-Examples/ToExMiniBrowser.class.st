@@ -329,7 +329,7 @@ ToExMiniBrowser >> selectedSelector [
 { #category : #initialization }
 ToExMiniBrowser >> selectorSelectionChangedEvent: aToSelectionChanged [
 
-	aToSelectionChanged selectedIndexes size = 1 ifTrue: [
+	aToSelectionChanged selectedIndexesCount = 1 ifTrue: [
 		^ self changeCodeInEditor ].
 	self clearCodeInEditor
 ]

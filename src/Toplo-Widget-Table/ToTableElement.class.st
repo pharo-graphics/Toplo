@@ -248,13 +248,11 @@ ToTableElement >> updateDividers [
 { #category : #'event handling' }
 ToTableElement >> updateHeaderCheckboxForListSelection: aCheckbox [
 
-	| selectedIndexes |
-	selectedIndexes := list selecter selectedIndexes.
-	(selectedIndexes notEmpty and: [
-		 selectedIndexes size = list dataAccessor itemCount ])
+	(list selectionModel isNotEmpty and: [
+		 list selectionModel selectedIndexesCount = list dataAccessor itemCount ])
 		ifTrue: [ aCheckbox checked: true ]
 		ifFalse: [
-				selectedIndexes isEmpty
+				list selectionModel isEmpty
 					ifTrue: [ aCheckbox checked: false ]
 					ifFalse: [ aCheckbox checked: #indeterminate ] ]
 ]

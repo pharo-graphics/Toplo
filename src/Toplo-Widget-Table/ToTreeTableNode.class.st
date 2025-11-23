@@ -29,23 +29,6 @@ ToTreeTableNode >> divider: aDivider movedBy: aDistance from: aStartLocation [
 	cell updateWidthWith: state startDragWidth + aDistance - indent
 ]
 
-{ #category : #initialization }
-ToTreeTableNode >> freezeCellsWidth [
-
-	| columns index cells last state |
-	columns := self holder listElement columns.
-	index := 1.
-	cells := self cells.
-	cells allButLastDo: [ :cell |
-			state := self holder listElement cellStateAt: index.
-			cell updateWidthWith: state width.
-			index := index + 1 ].
-	columns last resizable ifTrue: [ ^ self ].
-	last := cells last.
-	state := self holder listElement cellStateAt: index.
-	last updateWidthWith: state width
-]
-
 { #category : #accessing }
 ToTreeTableNode >> indentWidth: aNumber [
 
@@ -62,4 +45,21 @@ ToTreeTableNode >> indentWidth: aNumber [
 ToTreeTableNode >> newRawSkin [ 
 	
 	^ ToTreeTableNodeSkin new
+]
+
+{ #category : #initialization }
+ToTreeTableNode >> recordCellsWidth [
+
+	| columns index cells last state |
+	columns := self holder listElement columns.
+	index := 1.
+	cells := self cells.
+	cells allButLastDo: [ :cell |
+			state := self holder listElement cellStateAt: index.
+			cell updateWidthWith: state width.
+			index := index + 1 ].
+	columns last resizable ifTrue: [ ^ self ].
+	last := cells last.
+	state := self holder listElement cellStateAt: index.
+	last updateWidthWith: state width
 ]

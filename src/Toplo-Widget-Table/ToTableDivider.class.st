@@ -2,8 +2,8 @@ Class {
 	#name : #ToTableDivider,
 	#superclass : #ToDivider,
 	#instVars : [
-		'tableElement',
-		'cellIndex'
+		'cellIndex',
+		'parentTable'
 	],
 	#category : #'Toplo-Widget-Table-Core'
 }
@@ -25,27 +25,27 @@ ToTableDivider >> initialize [
 
 	super initialize.
 	self vertical: true.
-	self elevation: (BlRelativeElevation elevation: 1)
+	self elevation: (BlRelativeElevation elevation: 1).
+	self addEventHandler: ToTableDividerEventHandler new
+]
+
+{ #category : #accessing }
+ToTableDivider >> parentTable [
+
+	^ parentTable
+]
+
+{ #category : #accessing }
+ToTableDivider >> parentTable: aTableElement [
+
+	parentTable := aTableElement
 ]
 
 { #category : #initialization }
-ToTableDivider >> setPositionInTable: aTableElement [
-
+ToTableDivider >> setPositionInTable [
 	| headerCells cell bnds |
-	headerCells := aTableElement header cells.
+	headerCells := parentTable header cells.
 	cell := headerCells at: cellIndex.
-	bnds := cell bounds inParent: aTableElement.
+	bnds := cell bounds inParent: parentTable.
 	self position: bnds right - self thickness @ 0.0
-]
-
-{ #category : #accessing }
-ToTableDivider >> tableElement [
-
-	^ tableElement
-]
-
-{ #category : #accessing }
-ToTableDivider >> tableElement: aTableElement [
-
-	tableElement := aTableElement
 ]

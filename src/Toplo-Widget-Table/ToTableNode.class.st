@@ -26,8 +26,14 @@ ToTableNode >> divider: aDivider movedBy: aDistance from: aStartLocation [
 	cell updateWidthWith: state startDragWidth + aDistance
 ]
 
+{ #category : #skin }
+ToTableNode >> newRawSkin [ 
+
+	^ ToTableNodeSkin new
+]
+
 { #category : #initialization }
-ToTableNode >> freezeCellsWidth [
+ToTableNode >> recordCellsWidth [
 
 	| columns index cells last state |
 	columns := self holder listElement columns.
@@ -41,10 +47,4 @@ ToTableNode >> freezeCellsWidth [
 	last := cells last.
 	state := self holder listElement cellStateAt: index.
 	last updateWidthWith: state width
-]
-
-{ #category : #skin }
-ToTableNode >> newRawSkin [ 
-
-	^ ToTableNodeSkin new
 ]

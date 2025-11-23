@@ -1,3 +1,6 @@
+"
+ToAntDesignIconProvider listElementWithAllIcons openInSpace
+"
 Class {
 	#name : #ToAntDesignIconProvider,
 	#superclass : #ToImportedIconProvider,

@@ -63,12 +63,6 @@ ToTableListElement >> divider: aDivider movedBy: aDistance from: aStartLocation 
 		n divider: aDivider movedBy: aDistance from: aStartLocation ]
 ]
 
-{ #category : #initialization }
-ToTableListElement >> freezeCellsWidth [
-
-	self innerElement nodesDo: [ :n | n freezeCellsWidth ]
-]
-
 { #category : #accessing }
 ToTableListElement >> headerCellAt: anIndex [
 
@@ -85,4 +79,10 @@ ToTableListElement >> parentTable [
 ToTableListElement >> parentTable: aTableElement [
 
 	parentTable := aTableElement
+]
+
+{ #category : #initialization }
+ToTableListElement >> recordCellsWidth [
+
+	self innerElement nodesDo: [ :n | n recordCellsWidth ]
 ]

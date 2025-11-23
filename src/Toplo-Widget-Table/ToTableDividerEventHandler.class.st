@@ -1,0 +1,37 @@
+Class {
+	#name : #ToTableDividerEventHandler,
+	#superclass : #BlCustomEventHandler,
+	#instVars : [
+		'startDragPosition'
+	],
+	#category : #'Toplo-Widget-Table-Core'
+}
+
+{ #category : #'divider dragging' }
+ToTableDividerEventHandler >> dividerDragEvent: anEvent [
+
+	| table divider  |
+	divider := anEvent currentTarget.
+	table := divider parentTable.
+	table header divider: divider movedBy: anEvent delta x from: startDragPosition x.
+	table list divider: divider movedBy: anEvent delta x from: startDragPosition x.
+	table requestDividersUpdate
+]
+
+{ #category : #'divider dragging' }
+ToTableDividerEventHandler >> dividerStartDragEvent: anEvent [
+
+	| divider table |
+	divider := anEvent currentTarget.
+	startDragPosition := divider constraints position.
+	table := divider parentTable.
+	table header divider: divider startDragAt: startDragPosition x
+]
+
+{ #category : #'api - accessing' }
+ToTableDividerEventHandler >> eventsToHandle [
+
+	^ {
+		  ToDividerStartDragEvent.
+		  ToDividerDragEvent }
+]

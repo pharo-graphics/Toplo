@@ -4,6 +4,9 @@ I represent how header should be render. The disposition should be similar to wh
 Class {
 	#name : #ToTableHeaderElement,
 	#superclass : #ToElement,
+	#instVars : [
+		'parentTable'
+	],
 	#category : #'Toplo-Widget-Table-Header'
 }
 
@@ -26,15 +29,13 @@ ToTableHeaderElement >> cells [
 ]
 
 { #category : #accessing }
-ToTableHeaderElement >> columns: aTableColumnArray inTableElement: aTableElement [
+ToTableHeaderElement >> columns: aTableColumnArray [
 
 	self removeCells.
-	aTableColumnArray do: [ :column | | cell |
-		cell := self newCell.
-		cell constraintsDo: [ :c | c linear vertical alignCenter ].
-		self addChild: cell.
-		cell column: column.
-		cell initializeFromColumnInTableElement: aTableElement ]
+	aTableColumnArray do: [ :column |
+			| cell |
+			cell := self newCellInColumn: column.
+			self addChild: cell ]
 ]
 
 { #category : #initialization }
@@ -61,27 +62,44 @@ ToTableHeaderElement >> divider: aDivider startDragAt: aDistance [
 ]
 
 { #category : #initialization }
-ToTableHeaderElement >> freezeCellsWidth [
+ToTableHeaderElement >> initialize [
+
+	super initialize.
+	self vFitContent.
+	self hMatchParent.
+	self addEventHandler: ToTableHeaderElementEventHandler new
+]
+
+{ #category : #initialization }
+ToTableHeaderElement >> newCellInColumn: aColumn [
+
+	^ ToTableHeaderCellElement new
+		  column: aColumn;
+		  constraintsDo: [ :c | c linear vertical alignCenter ];
+		  initializeFromColumnInTableElement: parentTable;
+		  yourself
+]
+
+{ #category : #accessing }
+ToTableHeaderElement >> parentTable [
+
+	^ parentTable
+]
+
+{ #category : #accessing }
+ToTableHeaderElement >> parentTable: aTableElement [
+
+	parentTable := aTableElement
+]
+
+{ #category : #initialization }
+ToTableHeaderElement >> recordCellsWidth [
 
 	| last |
 	self cells allButLastDo: [ :e | e updateWidthWith: e width ].
 	last := self cells last.
 	last column resizable ifTrue: [ ^ self ].
 	last updateWidthWith: last width
-]
-
-{ #category : #initialization }
-ToTableHeaderElement >> initialize [
-
-	super initialize.
-	self vFitContent.
-	self hMatchParent
-]
-
-{ #category : #initialization }
-ToTableHeaderElement >> newCell [
-
-	^ ToTableHeaderCellElement new
 ]
 
 { #category : #accessing }

@@ -44,7 +44,7 @@ TToCheckableSelectionManager >> newCheckboxInNode: aNode [
 					(self selectionModel isNotEmpty and: [
 						 self selectionModel selectedIndexesCount > 1 ]) ifTrue: [ event deny ] ] ].
 
-	cbox checked: aNode holder isSelected.
+	cbox ensureChecked: aNode holder isSelected.
 
 	" In case the checkbox has been checked, update the list selection "
 	cbox addEventHandlerOn: ToCheckableCheckEvent do: [ :event |

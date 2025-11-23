@@ -73,7 +73,7 @@ TToCheckable >> checked [
 { #category : #'t - checkable  - protocol' }
 TToCheckable >> checked: aBooleanOrIndeterminate [
 
-	self checkableState checked: aBooleanOrIndeterminate 
+	self checkableState requestChecked: aBooleanOrIndeterminate 
 ]
 
 { #category : #'t - checkable - accessing' }
@@ -83,6 +83,12 @@ TToCheckable >> ensureCheckableState [
 		self checkableState: (ToCheckableState new
 				 owner: self;
 				 yourself) ]
+]
+
+{ #category : #'t - checkable  - protocol' }
+TToCheckable >> ensureChecked: aBooleanOrIndeterminate [
+
+	self checkableState ensureChecked: aBooleanOrIndeterminate 
 ]
 
 { #category : #'t - checkable - group' }

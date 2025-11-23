@@ -11,21 +11,22 @@ Class {
 
 { #category : #'node building' }
 ToTreeTableNodeManager >> buildNode: aNode [
-		
+
 	aNode initializeStartContainer.
 
 	" a table node is built as a linear row with one child for each column"
 	self columns ifNotNil: [ :cols |
 			cols withIndexDo: [ :column :idx |
 					| cellElement |
-					cellElement := ToTableListCellElement new
+					cellElement := (ToTableListCellContainer
+						                holder: aNode holder
+						                column: column)
 						               id: column key;
-						               column: column;
 						               matchParent;
 						               yourself.
 					aNode middleContainer addChild: cellElement.
 					column
-						buildListCellElement: cellElement
+						buildListCellInContainer: cellElement
 						atIndex: idx
 						inNode: aNode ] ]
 ]

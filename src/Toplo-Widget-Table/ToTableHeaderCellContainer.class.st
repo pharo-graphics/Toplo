@@ -1,14 +1,23 @@
 Class {
-	#name : #ToTableHeaderCellElement,
-	#superclass : #ToTableCellElement,
+	#name : #ToTableHeaderCellContainer,
+	#superclass : #ToTableCellContainer,
 	#instVars : [
 		'state'
 	],
 	#category : #'Toplo-Widget-Table-Header'
 }
 
+{ #category : #'instance creation' }
+ToTableHeaderCellContainer class >> column: aColumn [
+
+	^ self basicNew
+		  column: aColumn;
+		  initialize;
+		  yourself
+]
+
 { #category : #initialization }
-ToTableHeaderCellElement class >> initializeToRawTheme: aTheme [
+ToTableHeaderCellContainer class >> initializeToRawTheme: aTheme [
 	" Now setup the default label weight and the header padding "
 
 	<toploThemeInstallerFor: #ToRawTheme>
@@ -24,25 +33,24 @@ ToTableHeaderCellElement class >> initializeToRawTheme: aTheme [
 ]
 
 { #category : #accessing }
-ToTableHeaderCellElement >> column: aTableColumn [
+ToTableHeaderCellContainer >> column: aTableColumn [
 
 	super column: aTableColumn.
 	self initializeState
 ]
 
 { #category : #initialization }
-ToTableHeaderCellElement >> initialize [
+ToTableHeaderCellContainer >> initialize [
 
 	super initialize.
-	self id: #headerCell.
-	state := self newColumnState.
+	self id: #headerCellContainer
 ]
 
 { #category : #updating }
-ToTableHeaderCellElement >> initializeFromColumnInTableElement: aTableElement [
+ToTableHeaderCellContainer >> initializeFromColumnInTableElement: aTableElement [
 
 	column
-		buildHeaderCellElement: self
+		buildHeaderCellInContainer: self
 		inTableElement: aTableElement.
 	column width
 		ifNotNil: [ :w | self width: w ]
@@ -60,19 +68,25 @@ ToTableHeaderCellElement >> initializeFromColumnInTableElement: aTableElement [
 ]
 
 { #category : #initialization }
-ToTableHeaderCellElement >> initializeState [
+ToTableHeaderCellContainer >> initializeState [
 
-	state initializeFromColumn: column
+	self state initializeFromColumn: column
+]
+
+{ #category : #'t - triplet container - instance creation' }
+ToTableHeaderCellContainer >> newMiddleContainer [ 
+
+	^ column headerCellFactory value
 ]
 
 { #category : #accessing }
-ToTableHeaderCellElement >> state [
+ToTableHeaderCellContainer >> state [
 
-	^ state
+	^ state ifNil: [ state := self newColumnState ]
 ]
 
 { #category : #updating }
-ToTableHeaderCellElement >> updateArrowOrientation: arrow [
+ToTableHeaderCellContainer >> updateArrowOrientation: arrow [
 
 	self column sortOrder = #ascending ifTrue: [ ^ arrow beDown ].
 	self column sortOrder = #descending ifTrue: [ ^ arrow beUp ].
@@ -80,7 +94,7 @@ ToTableHeaderCellElement >> updateArrowOrientation: arrow [
 ]
 
 { #category : #accessing }
-ToTableHeaderCellElement >> updateWidthWith: aNumber [
+ToTableHeaderCellContainer >> updateWidthWith: aNumber [
 
 	state width: aNumber.
 	super updateWidthWith: aNumber.

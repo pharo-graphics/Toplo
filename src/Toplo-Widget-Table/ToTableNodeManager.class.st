@@ -15,14 +15,15 @@ ToTableNodeManager >> buildNode: aTableNode [
 	self columns ifNotNil: [ :cols |
 			cols withIndexDo: [ :column :idx |
 					| cellElement |
-					cellElement := ToTableListCellElement new
+					cellElement := (ToTableListCellContainer
+						                holder: aTableNode holder
+						                column: column)
 						               id: column key;
-						               column: column;
 						               matchParent;
 						               yourself.
 					aTableNode addChild: cellElement.
 					column
-						buildListCellElement: cellElement
+						buildListCellInContainer: cellElement
 						atIndex: idx
 						inNode: aTableNode ] ]
 ]

@@ -24,7 +24,7 @@ ToTreeTableListElement class >> initializeToRawTheme: aTheme [
 { #category : #accessing }
 ToTreeTableListElement >> cellStateAt: anIndex [
 
-	^ (self headerCellAt: anIndex) state
+	^ (self headerCellContainerAt: anIndex) state
 ]
 
 { #category : #accessing }
@@ -54,9 +54,9 @@ ToTreeTableListElement >> divider: aDivider movedBy: aDistance from: aStartLocat
 ]
 
 { #category : #accessing }
-ToTreeTableListElement >> headerCellAt: anIndex [
+ToTreeTableListElement >> headerCellContainerAt: anIndex [
 
-	^ parentTable header cells at: anIndex
+	^ parentTable header cellContainers at: anIndex
 ]
 
 { #category : #accessing }

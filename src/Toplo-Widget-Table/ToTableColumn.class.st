@@ -25,26 +25,26 @@ Class {
 }
 
 { #category : #rendering }
-ToTableColumn >> buildHeaderCellElement: anHeaderCellElement inTableElement: aTableElement [
+ToTableColumn >> buildHeaderCellInContainer: anHeaderCellContainer inTableElement: aTableElement [
 
-	width ifNotNil: [ anHeaderCellElement width: width ].
+	width ifNotNil: [ anHeaderCellContainer width: width ].
 	useCheckbox ifTrue: [
 			| cbox |
 			cbox := aTableElement newHeaderCheckboxInColumn: self.
 			cbox constraintsDo: [ :c | c linear vertical alignCenter ].
-			anHeaderCellElement startContainer addChild: cbox ].
+			anHeaderCellContainer startContainer addChild: cbox ].
 	headerCellBuilder
-		cull: anHeaderCellElement middleContainer
+		cull: anHeaderCellContainer middleContainer
 		cull: self
 		cull: aTableElement
 ]
 
 { #category : #rendering }
-ToTableColumn >> buildListCellElement: anElement atIndex: aColumnIndex inNode: aTableNode [
+ToTableColumn >> buildListCellInContainer: aCellContainer atIndex: aColumnIndex inNode: aTableNode [
 
 	| cellData state |
 	state := aTableNode holder listElement cellStateAt: aColumnIndex.
-	state width ifNotNil: [ :w | anElement width: w ].
+	state width ifNotNil: [ :w | aCellContainer width: w ].
 	cellData := self fetchedCellDataFromDataIndex:
 		            aTableNode holder dataItem.
 	useCheckbox ifTrue: [
@@ -52,9 +52,9 @@ ToTableColumn >> buildListCellElement: anElement atIndex: aColumnIndex inNode: a
 			tableListElement := aTableNode holder listElement.
 			cbox := tableListElement newCheckboxInNode: aTableNode.
 			cbox constraintsDo: [ :c | c linear vertical alignCenter ].
-			anElement startContainer addChild: cbox ].
+			aCellContainer startContainer addChild: cbox ].
 	cellBuilder
-		cull: anElement middleContainer
+		cull: aCellContainer middleContainer
 		cull: cellData
 		cull: aTableNode holder
 ]
@@ -75,7 +75,7 @@ ToTableColumn >> cellBuilder: aValuable [
 { #category : #accessing }
 ToTableColumn >> cellFactory [
 
-	^ cellFactory
+	^ cellFactory ifNil: [ cellFactory := self defaultCellFactory ]
 ]
 
 { #category : #accessing }
@@ -104,10 +104,22 @@ ToTableColumn >> defaultCellBuilder [
 ]
 
 { #category : #initialization }
+ToTableColumn >> defaultCellFactory [
+
+	^ [ :holder | ToTableListCell new ]
+]
+
+{ #category : #initialization }
 ToTableColumn >> defaultHeaderCellBuilder [
 
 	^ [ :element :column |
 	  element addChild: (ToLabel text: column title asString) ]
+]
+
+{ #category : #initialization }
+ToTableColumn >> defaultHeaderCellFactory [
+
+	^ [ ToTableHeaderCell new ]
 ]
 
 { #category : #initialization }
@@ -145,7 +157,8 @@ ToTableColumn >> headerCellBuilder: aValuable [
 { #category : #accessing }
 ToTableColumn >> headerCellFactory [
 
-	^ headerCellFactory
+	^ headerCellFactory ifNil: [
+		  headerCellFactory := self defaultHeaderCellFactory ]
 ]
 
 { #category : #accessing }

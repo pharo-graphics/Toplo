@@ -89,11 +89,11 @@ ToTableElement >> initialize [
 { #category : #initialization }
 ToTableElement >> initializeDividers [
 
-	| headerColumnElements index |
+	| containers index |
 	self removeDividers.
-	headerColumnElements := self header cells.
+	containers := self header cellContainers.
 	index := 0.
-	headerColumnElements overlappingPairsDo: [ :first :second |
+	containers overlappingPairsDo: [ :first :second |
 			| col |
 			index := index + 1.
 			col := columns at: index.

@@ -23,19 +23,19 @@ ToTableHeaderElement class >> initializeToRawTheme: aTheme [
 ]
 
 { #category : #accessing }
-ToTableHeaderElement >> cells [
+ToTableHeaderElement >> cellContainers [
 
-	^ self selectChildrenWithId: #headerCell
+	^ self selectChildrenWithId: #headerCellContainer
 ]
 
 { #category : #accessing }
 ToTableHeaderElement >> columns: aTableColumnArray [
 
-	self removeCells.
+	self removeCellContainers.
 	aTableColumnArray do: [ :column |
-			| cell |
-			cell := self newCellInColumn: column.
-			self addChild: cell ]
+			| cellContainer |
+			cellContainer := self newCellContainerInColumn: column.
+			self addChild: cellContainer ]
 ]
 
 { #category : #initialization }
@@ -48,17 +48,17 @@ ToTableHeaderElement >> defaultLayout [
 { #category : #accessing }
 ToTableHeaderElement >> divider: aDivider movedBy: aDistance from: aStartLocation [
 
-	|  cell |
-	cell := self cells at: aDivider cellIndex.
-	cell updateWidthWith: cell state startDragWidth + aDistance
+	|  cont |
+	cont := self cellContainers at: aDivider cellIndex.
+	cont updateWidthWith: cont state startDragWidth + aDistance
 ]
 
 { #category : #accessing }
 ToTableHeaderElement >> divider: aDivider startDragAt: aDistance [
 
-	|  cell |
-	cell := self cells at: aDivider cellIndex.
-	cell state startDragWidth: cell width
+	|  cont |
+	cont := self cellContainers at: aDivider cellIndex.
+	cont state startDragWidth: cont width
 ]
 
 { #category : #initialization }
@@ -71,10 +71,9 @@ ToTableHeaderElement >> initialize [
 ]
 
 { #category : #initialization }
-ToTableHeaderElement >> newCellInColumn: aColumn [
+ToTableHeaderElement >> newCellContainerInColumn: aColumn [
 
-	^ ToTableHeaderCellElement new
-		  column: aColumn;
+	^ (ToTableHeaderCellContainer column: aColumn)
 		  constraintsDo: [ :c | c linear vertical alignCenter ];
 		  initializeFromColumnInTableElement: parentTable;
 		  yourself
@@ -96,14 +95,14 @@ ToTableHeaderElement >> parentTable: aTableElement [
 ToTableHeaderElement >> recordCellsWidth [
 
 	| last |
-	self cells allButLastDo: [ :e | e updateWidthWith: e width ].
-	last := self cells last.
+	self cellContainers allButLastDo: [ :e | e updateWidthWith: e width ].
+	last := self cellContainers last.
 	last column resizable ifTrue: [ ^ self ].
 	last updateWidthWith: last width
 ]
 
 { #category : #accessing }
-ToTableHeaderElement >> removeCells [
+ToTableHeaderElement >> removeCellContainers [
 
-	self cells do: [ :c | c removeFromParent ]
+	self cellContainers do: [ :c | c removeFromParent ]
 ]

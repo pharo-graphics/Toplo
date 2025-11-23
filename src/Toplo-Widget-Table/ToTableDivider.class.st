@@ -43,9 +43,9 @@ ToTableDivider >> parentTable: aTableElement [
 
 { #category : #initialization }
 ToTableDivider >> setPositionInTable [
-	| headerCells cell bnds |
-	headerCells := parentTable header cells.
-	cell := headerCells at: cellIndex.
-	bnds := cell bounds inParent: parentTable.
+	| containers cont bnds |
+	containers := parentTable header cellContainers.
+	cont := containers at: cellIndex.
+	bnds := cont bounds inParent: parentTable.
 	self position: bnds right - self thickness @ 0.0
 ]

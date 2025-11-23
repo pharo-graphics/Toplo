@@ -1,5 +1,5 @@
 Class {
-	#name : #ToTableCellElement,
+	#name : #ToTableCellContainer,
 	#superclass : #ToTripletContainer,
 	#instVars : [
 		'column'
@@ -7,20 +7,32 @@ Class {
 	#category : #'Toplo-Widget-Table-Core'
 }
 
+{ #category : #'instance creation' }
+ToTableCellContainer class >> new [
+
+	^ Error signal: 'Use the adequate subclass constructor instead'
+]
+
 { #category : #accessing }
-ToTableCellElement >> column [
+ToTableCellContainer >> cell [ 
+
+	^ self middleContainer
+]
+
+{ #category : #accessing }
+ToTableCellContainer >> column [
 
 	^ column
 ]
 
 { #category : #accessing }
-ToTableCellElement >> column: aTableColumn [
+ToTableCellContainer >> column: aTableColumn [
 
 	column := aTableColumn
 ]
 
 { #category : #initialization }
-ToTableCellElement >> initialize [
+ToTableCellContainer >> initialize [
 
 	super initialize.
 	self createStartContainer.
@@ -28,31 +40,31 @@ ToTableCellElement >> initialize [
 ]
 
 { #category : #initialization }
-ToTableCellElement >> newColumnState [
+ToTableCellContainer >> newColumnState [
 
 	^ ToTableColumnState new
 ]
 
 { #category : #'t - triplet container - instance creation' }
-ToTableCellElement >> newEndContainer [
+ToTableCellContainer >> newEndContainer [
 
 	^ self newLinearContainer
 ]
 
 { #category : #'t - triplet container - instance creation' }
-ToTableCellElement >> newMiddleContainer [
+ToTableCellContainer >> newMiddleContainer [
 
 	^ self newLinearContainer
 ]
 
 { #category : #'t - triplet container - instance creation' }
-ToTableCellElement >> newStartContainer [
+ToTableCellContainer >> newStartContainer [
 
 	^ self newLinearContainer
 ]
 
 { #category : #accessing }
-ToTableCellElement >> updateWidthWith: aNumber [
+ToTableCellContainer >> updateWidthWith: aNumber [
 
 	self constraintsDo: [ :c | c horizontal exact: aNumber ]
 ]

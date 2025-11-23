@@ -34,7 +34,7 @@ ToTableListElement class >> initializeToRawTheme: aTheme [
 { #category : #accessing }
 ToTableListElement >> cellStateAt: anIndex [
 
-	^ (self headerCellAt: anIndex) state
+	^ (self headerCellContainerAt: anIndex) state
 ]
 
 { #category : #accessing }
@@ -64,9 +64,9 @@ ToTableListElement >> divider: aDivider movedBy: aDistance from: aStartLocation 
 ]
 
 { #category : #accessing }
-ToTableListElement >> headerCellAt: anIndex [
+ToTableListElement >> headerCellContainerAt: anIndex [
 
-	^ parentTable header cells at: anIndex
+	^ parentTable header cellContainers at: anIndex
 ]
 
 { #category : #accessing }

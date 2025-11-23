@@ -33,8 +33,10 @@ ToTableColumn >> buildHeaderCellInContainer: anHeaderCellContainer inTableElemen
 			cbox := aTableElement newHeaderCheckboxInColumn: self.
 			cbox constraintsDo: [ :c | c linear vertical alignCenter ].
 			anHeaderCellContainer startContainer addChild: cbox ].
+	anHeaderCellContainer cell constraintsDo: [ :c |
+		c horizontal matchParent ].
 	headerCellBuilder
-		cull: anHeaderCellContainer middleContainer
+		cull: anHeaderCellContainer cell
 		cull: self
 		cull: aTableElement
 ]
@@ -53,8 +55,9 @@ ToTableColumn >> buildListCellInContainer: aCellContainer atIndex: aColumnIndex 
 			cbox := tableListElement newCheckboxInNode: aTableNode.
 			cbox constraintsDo: [ :c | c linear vertical alignCenter ].
 			aCellContainer startContainer addChild: cbox ].
+	aCellContainer cell constraintsDo: [ :c | c horizontal matchParent ].
 	cellBuilder
-		cull: aCellContainer middleContainer
+		cull: aCellContainer cell
 		cull: cellData
 		cull: aTableNode holder
 ]

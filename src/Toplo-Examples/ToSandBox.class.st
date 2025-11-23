@@ -9012,7 +9012,7 @@ ToSandBox class >> example_toTreeTable1 [
 				 title: 'Name';
 				 key: 'name';
 				 dataIndex: #name;
-				 useCheckbox: true;
+				 useCheckbox: false;
 				 yourself).
 			(ToTableColumn new
 				 title: 'Number of methods';
@@ -9053,6 +9053,9 @@ ToSandBox class >> example_toTreeTable2 [
 				 useCheckbox: true;
 				 cellBuilder: [ :cell :cls :holder |
 						 cell addChild: (ToLabeledIcon new
+									  withNullSkin;
+									  background: Color green;
+									  hMatchParent;
 									  startInterspace: 6;
 									  labelText: cls asString;
 									  iconImage: (self iconNamed: cls systemIconName);

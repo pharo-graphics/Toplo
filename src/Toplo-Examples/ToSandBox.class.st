@@ -2791,7 +2791,7 @@ ToSandBox class >> example_ListOneClass [
 
 	| l |
 	l := ToListElement new nodeBuilder: [ :node :dataItem  :holder |
-		     node addChild: (ToCheckbox new
+		     node addChild: (ToLabeledIcon new
 				      labelText: dataItem name;
 				      startInterspace: 10;
 				      hMatchParent) ].
@@ -10108,7 +10108,7 @@ ToSandBox class >> tripletWith2IconsAnd1Label [
 	| but |
 	but := ToTripletElement new.
 	but startElement: (BlElement new
-			 size: 25 asPoint;
+			 extent: 25 asPoint;
 			 background: Color red;
 			 yourself).
 	but middleElement: (ToLabel text: 'Middle').

@@ -21,7 +21,7 @@ TToTripletElement >> endElement: anElement [
 	endElement ifNotNil: [ :s | s removeFromParent ].
 	endElement := anElement.
 	endElement ifNotNil: [
-		self checkEndContainer.
+		self ensureEndContainer.
 		self endContainer addChild: endElement ].
 	self requestConfiguration.
 	self requestNewSkin
@@ -53,6 +53,10 @@ TToTripletElement >> hasStartElement [
 
 { #category : #'t - triplet element - initialization' }
 TToTripletElement >> initializeAsTripletElement [
+
+	self initializeAsTripletContainer.
+	"the midddle container must be created because other parts are added according to its position"
+	self createMiddleContainer.
 
 
 ]
@@ -93,7 +97,7 @@ TToTripletElement >> startElement: anElement [
 	startElement ifNotNil: [ :s | s removeFromParent ].
 	startElement := anElement.
 	startElement ifNotNil: [
-		self checkStartContainer.
+		self ensureStartContainer.
 		self startContainer addChild: startElement ].
 	self requestConfiguration.
 	self requestNewSkin

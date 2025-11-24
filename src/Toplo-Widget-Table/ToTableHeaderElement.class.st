@@ -61,6 +61,7 @@ ToTableHeaderElement >> divider: aDivider startDragAt: aDistance [
 ToTableHeaderElement >> initialize [
 
 	super initialize.
+	self createMiddleContainer.
 	self vFitContent.
 	self hMatchParent.
 	self addEventHandler: ToTableHeaderElementEventHandler new

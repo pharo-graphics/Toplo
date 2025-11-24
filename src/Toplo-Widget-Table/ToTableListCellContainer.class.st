@@ -10,10 +10,8 @@ Class {
 { #category : #'instance creation' }
 ToTableListCellContainer class >> holder: aTableNodeHolder column: aColumn [
 
-	^ self basicNew
-		  holder: aTableNodeHolder;
-		  column: aColumn;
-		  initialize;
+	^ self new
+		  holder: aTableNodeHolder column: aColumn;
 		  yourself
 ]
 
@@ -36,6 +34,13 @@ ToTableListCellContainer class >> initializeToRawTheme: aTheme [
 ToTableListCellContainer >> holder: aTableNodeHolder [
 
 	tableNodeHolder := aTableNodeHolder 
+]
+
+{ #category : #accessing }
+ToTableListCellContainer >> holder: aTableNodeHolder column: aColumn [
+
+	self holder: aTableNodeHolder.
+	self column: aColumn
 ]
 
 { #category : #'t - triplet container - instance creation' }

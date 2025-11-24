@@ -26,33 +26,6 @@ TToTripletContainer >> alignCenter: aBoolean [
 ]
 
 { #category : #'t - triplet container - instance creation' }
-TToTripletContainer >> checkEndContainer [
-
-	endContainer ifNotNil: [ ^ self ].
-	self createEndContainer
-
-
-]
-
-{ #category : #'t - triplet container - instance creation' }
-TToTripletContainer >> checkMiddleContainer [ 
-
-	middleContainer ifNotNil: [ ^ self ].
-	self createMiddleContainer
-
-
-]
-
-{ #category : #'t - triplet container - instance creation' }
-TToTripletContainer >> checkStartContainer [ 
-
-	startContainer ifNotNil: [ ^ self ].
-	self createStartContainer
-
-
-]
-
-{ #category : #'t - triplet container - instance creation' }
 TToTripletContainer >> createEndContainer [
 
 	endContainer := self newEndContainer
@@ -95,7 +68,7 @@ TToTripletContainer >> endAlignment [
 TToTripletContainer >> endAlignment: aNumber [
 
 	self endAlignment = aNumber ifTrue: [ ^ self ].
-	self checkEndContainer.
+	self ensureEndContainer.
 	self toConfiguration endAlignment: aNumber.
 	self requestConfiguration.
 	self requestNewSkin
@@ -174,6 +147,33 @@ TToTripletContainer >> endInterspace: aNumber [
 	self requestNewSkin
 ]
 
+{ #category : #'t - triplet container - instance creation' }
+TToTripletContainer >> ensureEndContainer [
+
+	endContainer ifNotNil: [ ^ self ].
+	self createEndContainer
+
+
+]
+
+{ #category : #'t - triplet container - instance creation' }
+TToTripletContainer >> ensureMiddleContainer [ 
+
+	middleContainer ifNotNil: [ ^ self ].
+	self createMiddleContainer
+
+
+]
+
+{ #category : #'t - triplet container - instance creation' }
+TToTripletContainer >> ensureStartContainer [ 
+
+	startContainer ifNotNil: [ ^ self ].
+	self createStartContainer
+
+
+]
+
 { #category : #'t - triplet container - accessing' }
 TToTripletContainer >> flexible [
 
@@ -190,8 +190,6 @@ TToTripletContainer >> flexible: aBoolean [
 { #category : #'t - triplet container - initialization' }
 TToTripletContainer >> initializeAsTripletContainer [
 
-	"the midddle container must be created because other parts are added according to its position"
-	self createMiddleContainer.
 	self addEventHandler: self defaultTripletEventHandler
 ]
 
@@ -290,7 +288,7 @@ TToTripletContainer >> startAlignment [
 TToTripletContainer >> startAlignment: aNumber [
 
 	self startAlignment = aNumber ifTrue: [ ^ self ].
-	self checkStartContainer.
+	self ensureStartContainer.
 	self toConfiguration startAlignment: aNumber.
 	self requestConfiguration.
 	self requestNewSkin

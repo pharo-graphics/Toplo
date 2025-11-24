@@ -61,7 +61,7 @@ ToButton >> icon: anElement [
 ToButton >> initialize [ 
 
 	super initialize.
-	self initializeAsTripletContainer
+	self initializeAsTripletElement
 ]
 
 { #category : #'t - labeled icon' }

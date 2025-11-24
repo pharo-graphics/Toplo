@@ -21,6 +21,7 @@ ToGenericTreeNodeManager >> buildNode: aTreeNode [
 			cbox constraintsDo: [ :c | c linear vertical alignCenter ].
 			aTreeNode addChild: cbox at: 1 ].
 
+	aTreeNode createStartContainer.
 	aTreeNode initializeStartContainer.
 	nodeBuilder
 		cull: aTreeNode middleContainer

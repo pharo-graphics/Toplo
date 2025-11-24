@@ -14,7 +14,7 @@ Class {
 ToMenuItem >> initialize [ 
 
 	super initialize.
-	self initializeAsTripletContainer.
+	self initializeAsTripletElement.
 	self endElement: self newRightHandSide
 ]
 

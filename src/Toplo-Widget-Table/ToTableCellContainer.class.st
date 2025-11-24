@@ -7,12 +7,6 @@ Class {
 	#category : #'Toplo-Widget-Table-Core'
 }
 
-{ #category : #'instance creation' }
-ToTableCellContainer class >> new [
-
-	^ Error signal: 'Use the adequate subclass constructor instead'
-]
-
 { #category : #accessing }
 ToTableCellContainer >> cell [ 
 
@@ -28,15 +22,10 @@ ToTableCellContainer >> column [
 { #category : #accessing }
 ToTableCellContainer >> column: aTableColumn [
 
-	column := aTableColumn
-]
+	column ifNotNil: [ (BlImmutableObjectChangeError object: self) signal  ].
+	column := aTableColumn.
+	self createMiddleContainer
 
-{ #category : #initialization }
-ToTableCellContainer >> initialize [
-
-	super initialize.
-	self createStartContainer.
-	self createEndContainer
 ]
 
 { #category : #initialization }

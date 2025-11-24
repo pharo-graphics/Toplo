@@ -9,6 +9,7 @@ Class {
 { #category : #'node building' }
 ToTreeTableNodeManager >> buildNode: aNode [
 
+	aNode ensureStartContainer.
 	aNode initializeStartContainer.
 	self buildColumnsInNode: aNode
 ]

@@ -151,6 +151,7 @@ ToTabGroupElement >> initialize [
 
 	super initialize.
 	self resetInvisibleNodes.
+	self createMiddleContainer.
 	self initializeParts.
 	self setItemBar: self middleContainer.
 	self itemBar addEventHandler:

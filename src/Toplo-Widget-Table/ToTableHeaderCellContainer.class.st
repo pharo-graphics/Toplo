@@ -10,9 +10,8 @@ Class {
 { #category : #'instance creation' }
 ToTableHeaderCellContainer class >> column: aColumn [
 
-	^ self basicNew
+	^ self new
 		  column: aColumn;
-		  initialize;
 		  yourself
 ]
 
@@ -62,6 +61,7 @@ ToTableHeaderCellContainer >> initializeFromColumnInTableElement: aTableElement 
 	column sorterBlock ifNotNil: [
 			| sorterContainer |
 			sorterContainer := self newSorterContainer.
+			self ensureEndContainer.
 			self endContainer addChild: sorterContainer.
 			column sorterContainerBuilder
 				cull: sorterContainer

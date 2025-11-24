@@ -81,6 +81,7 @@ ToTabPaneHeaderElement >> initialize [
 	compactLayoutMode := false.
 	layoutModeCheckRequested := false.
 	self createStartContainer.
+	self createMiddleContainer.
 	self createEndContainer.
 	self startContainer id: #'start-extra-container'.
 	self endContainer id: #'end-extra-container'.

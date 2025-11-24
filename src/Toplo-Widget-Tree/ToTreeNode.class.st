@@ -34,7 +34,7 @@ ToTreeNode >> initialize [
 
 	super initialize.
 	self initializeAsTripletContainer.
-	self createStartContainer.
+	self createMiddleContainer.
 	self hMatchParent.
 	self vFitContent.
 	self middleContainer constraintsDo: [ :c |

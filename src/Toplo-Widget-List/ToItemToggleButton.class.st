@@ -21,7 +21,7 @@ ToItemToggleButton >> initialize [
 
 	super initialize.
 	self addEventHandler: ToClickableEventHandler new.
-	self initializeAsTripletContainer.
+	self initializeAsTripletElement.
 	self initializeAsCheckable.
 	self clickEventClass: ToCheckableChangedEvent
 ]

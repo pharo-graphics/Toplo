@@ -16,6 +16,12 @@ ToAbstractNodeManager >> newHolder [
 ]
 
 { #category : #'instance creation' }
+ToAbstractNodeManager >> newNodeContainer [
+
+	^ ToNodeContainer new
+]
+
+{ #category : #'instance creation' }
 ToAbstractNodeManager >> newNodeForHolder: aNodeHolder [
 
 	^ self subclassResponsibility 

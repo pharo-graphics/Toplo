@@ -127,7 +127,7 @@ BaselineOfToplo >> registerPackages: spec [
 		
 	spec package: #'Toplo-Widget-Table' with: [
 		spec requires:
-			#( #Toplo #'Toplo-Widget-List' ) ].
+			#( #Toplo #'Toplo-Widget-List' #'Toplo-Widget-Tree' ) ].
 
 	spec
 		package: #'Toplo-Widget-Table-Tests'

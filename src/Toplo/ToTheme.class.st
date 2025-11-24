@@ -285,18 +285,18 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'list-padding-H' value: 6).
 		  (ToTokenProperty name: #'list-padding-V' value: 6).
 		  (ToTokenProperty name: #'list-node-padding-H' value: 2).
-		  (ToTokenProperty name: #'list-node-padding-V' value: 2).
+		  (ToTokenProperty name: #'list-node-padding-V' value: 5).
 		  (ToTokenProperty name: #'bar-node-padding-H' value: 3).
-		  (ToTokenProperty name: #'bar-node-padding-V' value: 2).
+		  (ToTokenProperty name: #'bar-node-padding-V' value: 4).
 		  (ToTokenProperty name: #'table-cell-padding-H' value: 6).
 		  (ToTokenProperty name: #'table-cell-padding-V' value: 4).
 		  (ToTokenProperty name: #'table-header-cell-padding-V' value: 10).
 		  (ToTokenProperty name: #'menu-node-padding-H' value: 6).
-		  (ToTokenProperty name: #'menu-node-padding-V' value: 2).
+		  (ToTokenProperty name: #'menu-node-padding-V' value: 6).
 		  (ToTokenProperty name: #'menu-item-padding-H' value: 6).
-		  (ToTokenProperty name: #'menu-item-padding-V' value: 1).
-		  (ToTokenProperty name: #'menu-window-padding-H' value: 8).
-		  (ToTokenProperty name: #'menu-window-padding-V' value: 8).
+		  (ToTokenProperty name: #'menu-item-padding-V' value: 4).
+		  (ToTokenProperty name: #'menu-window-padding-H' value: 14).
+		  (ToTokenProperty name: #'menu-window-padding-V' value: 14).
 		  (ToTokenProperty name: #'segmented-node-padding-H' value: 0).
 		  (ToTokenProperty name: #'segmented-node-padding-V' value: 0).
 		  (ToTokenProperty name: #'segmented-border-radius' value: 12).

@@ -3,7 +3,7 @@ I represent how header should be render. The disposition should be similar to wh
 "
 Class {
 	#name : #ToTableHeaderElement,
-	#superclass : #ToElement,
+	#superclass : #ToTripletContainer,
 	#instVars : [
 		'parentTable'
 	],
@@ -16,10 +16,13 @@ ToTableHeaderElement class >> initializeToRawTheme: aTheme [
 
 	<toploThemeInstallerFor: #ToRawTheme>
 	aTheme select: (self asTypeSelector exact: false) style: [
-			aTheme when: ToInstallSkinEvent do: [ :header |
-					header padding: (BlInsets
-							 horizontal: (header valueOfTokenNamed: #'list-padding-H')
-							 vertical: (header valueOfTokenNamed: #'list-padding-V')) ] ]
+			aTheme
+				when: ToInstallSkinEvent
+				write: (aTheme property: #padding)
+				with: [ :e |
+						BlInsets
+							horizontal: (e valueOfTokenNamed: #'list-padding-H')
+							vertical: (e valueOfTokenNamed: #'list-padding-V') ] ]
 ]
 
 { #category : #accessing }
@@ -35,14 +38,7 @@ ToTableHeaderElement >> columns: aTableColumnArray [
 	aTableColumnArray do: [ :column |
 			| cellContainer |
 			cellContainer := self newCellContainerInColumn: column.
-			self addChild: cellContainer ]
-]
-
-{ #category : #initialization }
-ToTableHeaderElement >> defaultLayout [ 
-
-	" don't use vertical or horizontal to allow vertical centering of children "
-	^ BlLinearLayout new
+			self middleContainer addChild: cellContainer ]
 ]
 
 { #category : #accessing }
@@ -76,6 +72,14 @@ ToTableHeaderElement >> newCellContainerInColumn: aColumn [
 	^ (ToTableHeaderCellContainer column: aColumn)
 		  constraintsDo: [ :c | c linear vertical alignCenter ];
 		  initializeFromColumnInTableElement: parentTable;
+		  yourself
+]
+
+{ #category : #'t - triplet container - instance creation' }
+ToTableHeaderElement >> newMiddleContainer [
+
+	^ self newLinearContainer
+		  hMatchParent;
 		  yourself
 ]
 

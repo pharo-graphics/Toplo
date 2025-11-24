@@ -19,7 +19,8 @@ Class {
 		'cellFactory',
 		'headerCellFactory',
 		'cellBuilder',
-		'headerCellBuilder'
+		'headerCellBuilder',
+		'sorterContainerBuilder'
 	],
 	#category : #'Toplo-Widget-Table-Core'
 }
@@ -28,13 +29,16 @@ Class {
 ToTableColumn >> buildHeaderCellInContainer: anHeaderCellContainer inTableElement: aTableElement [
 
 	width ifNotNil: [ anHeaderCellContainer width: width ].
+	
 	useCheckbox ifTrue: [
 			| cbox |
 			cbox := aTableElement newHeaderCheckboxInColumn: self.
 			cbox constraintsDo: [ :c | c linear vertical alignCenter ].
 			anHeaderCellContainer startContainer addChild: cbox ].
+
 	anHeaderCellContainer cell constraintsDo: [ :c |
 		c horizontal matchParent ].
+
 	headerCellBuilder
 		cull: anHeaderCellContainer cell
 		cull: self
@@ -131,6 +135,22 @@ ToTableColumn >> defaultSortDirection [
 	^ ToSortDirection both
 ]
 
+{ #category : #initialization }
+ToTableColumn >> defaultSorterContainerBuilder [
+	" aValuable takes 3 optional arguments: the element to build, the column and the table element"
+
+	^ [ :sorterContainer :column :table |
+		  | arrow |
+		  arrow := ToIconicArrowButton new.
+		  column updateArrowOrientation: arrow.
+		  sorterContainer addChild: arrow.
+		  arrow clickAction: [
+				  column nextSort.
+				  column updateArrowOrientation: arrow.
+				  table header dispatchEvent:
+					  (ToColumnSortRequestEvent column: column) ] ]
+]
+
 { #category : #rendering }
 ToTableColumn >> fetchedCellDataFromDataIndex: aDataItem [
 
@@ -176,6 +196,7 @@ ToTableColumn >> initialize [
 	super initialize.
 	headerCellBuilder := self defaultHeaderCellBuilder.
 	cellBuilder := self defaultCellBuilder.
+	sorterContainerBuilder := self defaultSorterContainerBuilder.
 	sortDirections := self defaultSortDirection.
 	resizable := true.
 	useCheckbox := false
@@ -259,6 +280,18 @@ ToTableColumn >> sorterBlock: aValuable [
 ]
 
 { #category : #accessing }
+ToTableColumn >> sorterContainerBuilder [
+
+	^ sorterContainerBuilder
+]
+
+{ #category : #accessing }
+ToTableColumn >> sorterContainerBuilder: aValuable [
+
+	sorterContainerBuilder := aValuable
+]
+
+{ #category : #accessing }
 ToTableColumn >> title [
 
 	^ title
@@ -268,6 +301,14 @@ ToTableColumn >> title [
 ToTableColumn >> title: anObject [
 
 	title := anObject
+]
+
+{ #category : #sorting }
+ToTableColumn >> updateArrowOrientation: arrow [
+
+	self sortOrder = #ascending ifTrue: [ ^ arrow beDown ].
+	self sortOrder = #descending ifTrue: [ ^ arrow beUp ].
+	^ arrow beRight 
 ]
 
 { #category : #accessing }

@@ -25,6 +25,8 @@ ToStyleSheet class >> defaultWritablePropertyList [
 		  (ToFeatureProperty name: #height).
 		  (ToFeatureProperty name: #width).
 		  (ToFeatureProperty name: #margin).
+		  (ToFeatureProperty name: #startInterspace).
+		  (ToFeatureProperty name: #endInterspace).
 		  (ToFeatureProperty name: #padding).
 		  (ToFeatureProperty name: #icon).
 		  (ToFeatureProperty name: #label).

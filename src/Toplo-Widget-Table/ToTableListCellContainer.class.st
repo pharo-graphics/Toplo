@@ -23,10 +23,13 @@ ToTableListCellContainer class >> initializeToRawTheme: aTheme [
 
 	<toploThemeInstallerFor: #ToRawTheme>
 	aTheme select: (self asTypeSelector exact: false) style: [
-			aTheme when: ToInstallSkinEvent do: [ :cell |
-					cell padding: (BlInsets
-							 horizontal: (cell valueOfTokenNamed: #'table-cell-padding-H')
-							 vertical: (cell valueOfTokenNamed: #'table-cell-padding-V')) ] ]
+			aTheme
+				when: ToInstallSkinEvent
+				write: (aTheme property: #padding)
+				with: [ :cont |
+						BlInsets
+							horizontal: (cont valueOfTokenNamed: #'table-cell-padding-H')
+							vertical: (cont valueOfTokenNamed: #'table-cell-padding-V') ] ]
 ]
 
 { #category : #accessing }

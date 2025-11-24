@@ -22,14 +22,20 @@ ToTableHeaderCellContainer class >> initializeToRawTheme: aTheme [
 
 	<toploThemeInstallerFor: #ToRawTheme>
 	aTheme select: (self asTypeSelector exact: false) style: [
-			aTheme when: ToInstallSkinEvent do: [ :cell |
-					cell
-						addTokenNamed: #'font-weight-attribute'
-						withValue: BlFontWeightAttribute bold.
-					cell padding: (BlInsets
-							 horizontal: (cell valueOfTokenNamed: #'table-cell-padding-H')
-							 vertical:
-							 (cell valueOfTokenNamed: #'table-header-cell-padding-V')) ] ]
+			aTheme
+				when: ToInstallSkinEvent
+				do: [ :cont | "cont background: Color red."
+						cont
+							addTokenNamed: #'font-weight-attribute'
+							withValue: BlFontWeightAttribute bold ].
+			aTheme
+				when: ToInstallSkinEvent
+				write: (aTheme property: #padding)
+				with: [ :cont |
+						BlInsets
+							horizontal: (cont valueOfTokenNamed: #'table-cell-padding-H')
+							vertical:
+							(cont valueOfTokenNamed: #'table-header-cell-padding-V') ] ]
 ]
 
 { #category : #accessing }
@@ -49,22 +55,18 @@ ToTableHeaderCellContainer >> initialize [
 { #category : #updating }
 ToTableHeaderCellContainer >> initializeFromColumnInTableElement: aTableElement [
 
-	column
-		buildHeaderCellInContainer: self
-		inTableElement: aTableElement.
+	column buildHeaderCellInContainer: self inTableElement: aTableElement.
 	column width
 		ifNotNil: [ :w | self width: w ]
 		ifNil: [ self hMatchParent ].
 	column sorterBlock ifNotNil: [
-			| arrow |
-			arrow := ToIconicArrowButton new.
-			self endContainer addChild: arrow.
-			self endFlexible: true.
-			self updateArrowOrientation: arrow.
-			arrow clickAction: [
-					column nextSort.
-					self updateArrowOrientation: arrow.
-					aTableElement header dispatchEvent: (ToColumnSortRequestEvent column: column) ] ]
+			| sorterContainer |
+			sorterContainer := self newSorterContainer.
+			self endContainer addChild: sorterContainer.
+			column sorterContainerBuilder
+				cull: sorterContainer
+				cull: column
+				cull: aTableElement ]
 ]
 
 { #category : #initialization }
@@ -79,18 +81,23 @@ ToTableHeaderCellContainer >> newMiddleContainer [
 	^ column headerCellFactory value
 ]
 
+{ #category : #updating }
+ToTableHeaderCellContainer >> newSorterContainer [
+
+	| sorterContainer |
+	sorterContainer := ToElement new
+		                   id: #sorterContainer;
+		                   yourself.
+	sorterContainer layout: BlLinearLayout horizontal.
+	sorterContainer fitContent.
+	sorterContainer constraintsDo: [ :c | c linear vertical alignCenter ].
+	^ sorterContainer
+]
+
 { #category : #accessing }
 ToTableHeaderCellContainer >> state [
 
 	^ state ifNil: [ state := self newColumnState ]
-]
-
-{ #category : #updating }
-ToTableHeaderCellContainer >> updateArrowOrientation: arrow [
-
-	self column sortOrder = #ascending ifTrue: [ ^ arrow beDown ].
-	self column sortOrder = #descending ifTrue: [ ^ arrow beUp ].
-	^ arrow beRight 
 ]
 
 { #category : #accessing }

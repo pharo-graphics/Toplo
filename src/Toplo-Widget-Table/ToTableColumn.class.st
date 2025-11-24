@@ -148,7 +148,7 @@ ToTableColumn >> defaultSorterContainerBuilder [
 				  column nextSort.
 				  column updateArrowOrientation: arrow.
 				  table header dispatchEvent:
-					  (ToColumnSortRequestEvent column: column) ] ]
+					  (ToTableSortRequestEvent column: column) ] ]
 ]
 
 { #category : #rendering }

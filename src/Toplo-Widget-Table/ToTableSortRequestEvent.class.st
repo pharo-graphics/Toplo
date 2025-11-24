@@ -2,7 +2,7 @@
 I am the event that say a column is asked to be next sorted
 "
 Class {
-	#name : #ToColumnSortRequestEvent,
+	#name : #ToTableSortRequestEvent,
 	#superclass : #BlEvent,
 	#instVars : [
 		'column'
@@ -11,7 +11,7 @@ Class {
 }
 
 { #category : #accessing }
-ToColumnSortRequestEvent class >> column: aColumn [
+ToTableSortRequestEvent class >> column: aColumn [
 
 	^ self new
 		  column: aColumn;
@@ -19,19 +19,19 @@ ToColumnSortRequestEvent class >> column: aColumn [
 ]
 
 { #category : #accessing }
-ToColumnSortRequestEvent >> column [
+ToTableSortRequestEvent >> column [
 
 	^ column
 ]
 
 { #category : #accessing }
-ToColumnSortRequestEvent >> column: anObject [
+ToTableSortRequestEvent >> column: anObject [
 
 	column := anObject
 ]
 
 { #category : #sending }
-ToColumnSortRequestEvent >> sendTo: anObject [
+ToTableSortRequestEvent >> sendTo: anObject [
 
 	anObject columnSortRequestEvent: self
 ]

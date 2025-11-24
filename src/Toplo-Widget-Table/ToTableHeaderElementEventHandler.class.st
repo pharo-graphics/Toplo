@@ -32,5 +32,5 @@ ToTableHeaderElementEventHandler >> columnSortRequestEvent: anEvent [
 
 { #category : #'api - accessing' }
 ToTableHeaderElementEventHandler >> eventsToHandle [
-	^  { ToColumnSortRequestEvent }
+	^  { ToTableSortRequestEvent }
 ]

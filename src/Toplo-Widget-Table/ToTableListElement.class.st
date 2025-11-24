@@ -4,11 +4,8 @@ I represent the list part of the table
 Class {
 	#name : #ToTableListElement,
 	#superclass : #ToAbstractListElement,
-	#traits : 'TToCheckableSelectionManager',
-	#classTraits : 'TToCheckableSelectionManager classTrait',
-	#instVars : [
-		'parentTable'
-	],
+	#traits : 'TToCheckableSelectionManager + TToTableListElement',
+	#classTraits : 'TToCheckableSelectionManager classTrait + TToTableListElement classTrait',
 	#category : #'Toplo-Widget-Table-List'
 }
 
@@ -31,58 +28,8 @@ ToTableListElement class >> initializeToRawTheme: aTheme [
 					BlInsets horizontal: (cbox valueOfTokenNamed: #'padding-XS') ] ]
 ]
 
-{ #category : #accessing }
-ToTableListElement >> cellStateAt: anIndex [
-
-	^ (self headerCellContainerAt: anIndex) state
-]
-
-{ #category : #accessing }
-ToTableListElement >> columns [
-
-	^ self nodeManager columns
-]
-
-{ #category : #accessing }
-ToTableListElement >> columns: aTableColumnArray [
-
-	self nodeManager columns: aTableColumnArray.
-	self onUseCheckboxChangedWith: (aTableColumnArray anySatisfy: [ :col | col useCheckbox ])
-]
-
 { #category : #initialization }
 ToTableListElement >> defaultNodeManagerClass [
 
 	^ ToTableNodeManager
-]
-
-{ #category : #accessing }
-ToTableListElement >> divider: aDivider movedBy: aDistance from: aStartLocation [
-
-	self innerElement nodes do: [ :n |
-		n divider: aDivider movedBy: aDistance from: aStartLocation ]
-]
-
-{ #category : #accessing }
-ToTableListElement >> headerCellContainerAt: anIndex [
-
-	^ parentTable header cellContainers at: anIndex
-]
-
-{ #category : #accessing }
-ToTableListElement >> parentTable [
-
-	^ parentTable
-]
-
-{ #category : #accessing }
-ToTableListElement >> parentTable: aTableElement [
-
-	parentTable := aTableElement
-]
-
-{ #category : #initialization }
-ToTableListElement >> recordCellsWidth [
-
-	self innerElement nodesDo: [ :n | n recordCellsWidth ]
 ]

@@ -1,28 +1,24 @@
 Class {
 	#name : #ToTreeTableNode,
 	#superclass : #ToTreeNode,
+	#traits : 'TToTableNode',
+	#classTraits : 'TToTableNode classTrait',
 	#category : #'Toplo-Widget-Table-List'
 }
 
 { #category : #accessing }
+ToTreeTableNode >> addCellContainer: aCellContainer [
+
+	self  middleContainer addChild: aCellContainer
+]
+
+{ #category : #'t - table node' }
 ToTreeTableNode >> cellContainers [ 
 
 	^ self middleContainer children asArray
 ]
 
-{ #category : #accessing }
-ToTreeTableNode >> cells [ 
-
-	^ self cellContainers collect: [ :cont | cont cell ]
-]
-
-{ #category : #accessing }
-ToTreeTableNode >> columns [
-
-	^ self holder listElement columns
-]
-
-{ #category : #accessing }
+{ #category : #'t - table node' }
 ToTreeTableNode >> divider: aDivider movedBy: aDistance from: aStartLocation [
 
 	| container listElement state indent |
@@ -51,21 +47,4 @@ ToTreeTableNode >> indentWidth: aNumber [
 ToTreeTableNode >> newRawSkin [ 
 	
 	^ ToTreeTableNodeSkin new
-]
-
-{ #category : #initialization }
-ToTreeTableNode >> recordCellsWidth [
-
-	| columns index containers last state |
-	columns := self holder listElement columns.
-	index := 1.
-	containers := self cellContainers.
-	containers allButLastDo: [ :cont |
-			state := self holder listElement cellStateAt: index.
-			cont updateWidthWith: state width.
-			index := index + 1 ].
-	columns last resizable ifTrue: [ ^ self ].
-	last := containers last.
-	state := self holder listElement cellStateAt: index.
-	last updateWidthWith: state width
 ]

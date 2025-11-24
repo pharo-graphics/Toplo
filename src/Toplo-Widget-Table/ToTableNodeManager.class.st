@@ -1,43 +1,17 @@
 Class {
 	#name : #ToTableNodeManager,
 	#superclass : #ToAbstractNodeManager,
-	#instVars : [
-		'columns'
-	],
+	#traits : 'TToTableNodeManager',
+	#classTraits : 'TToTableNodeManager classTrait',
 	#category : #'Toplo-Widget-Table-List'
 }
 
 { #category : #initialization }
-ToTableNodeManager >> buildNode: aTableNode [
+ToTableNodeManager >> buildNode: aNode [
 
-	aTableNode removeChildren.
+	aNode removeChildren.
 	" a table node is built as a linear row with one container for each column"
-	self columns ifNotNil: [ :cols |
-			cols withIndexDo: [ :column :idx |
-					| container |
-					container := (ToTableListCellContainer
-						              holder: aTableNode holder
-						              column: column)
-						             id: column key;
-						             matchParent;
-						             yourself.
-					aTableNode addChild: container.
-					column
-						buildListCellInContainer: container
-						atIndex: idx
-						inNode: aTableNode ] ]
-]
-
-{ #category : #accessing }
-ToTableNodeManager >> columns [
-
-	^ columns
-]
-
-{ #category : #accessing }
-ToTableNodeManager >> columns: aTableColumnArray [
-
-	columns := aTableColumnArray
+	self buildColumnsInNode: aNode
 ]
 
 { #category : #'instance creation' }

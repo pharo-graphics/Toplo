@@ -53,7 +53,7 @@ ToTableElementTest >> testAddColumn [
 				 dataIndex: 'numberOfVariables';
 				 yourself) }.
 	self waitTestingSpaces.
-	self assert: (table childWithId: #header) children size equals: 3.
+	self assert: (table childWithId: #header) middleContainer children size equals: 3.
 	rows := table selectChildrenWithId: #row.
 	self assert: rows isNotEmpty.
 	rows do: [ :row | self assert: row children size equals: 3 ]
@@ -73,7 +73,7 @@ ToTableElementTest >> testAddElementInData [
 ToTableElementTest >> testNumberOfColumn [
 
 	| rows |
-	self assert: (table childWithId: #header) children size equals: 2.
+	self assert: (table childWithId: #header) middleContainer children size equals: 2.
 	rows := table selectChildrenWithId: #row.
 	self assert: rows isNotEmpty.
 	rows do: [ :row | self assert: row children size equals: 2 ]

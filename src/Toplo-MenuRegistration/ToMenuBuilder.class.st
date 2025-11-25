@@ -137,8 +137,8 @@ ToMenuBuilder >> arrangeItems [
 	| newCollectedItem |
 	newCollectedItem := OrderedCollection new.
 	collectedItems do: [ :item |
-		(item parent isNil or:
-			 [ (self allNamedItems includes: item parent) not] ) ifTrue: [
+		(item parentMenuItem isNil" or:
+			 [ (self allNamedItems includes: item parent) not]" ) ifTrue: [
 			newCollectedItem add: item ] ].
 	collectedItems := newCollectedItem.
 	self sortItems.
@@ -215,7 +215,10 @@ ToMenuBuilder >> group: aSymbol [
 	| newGroup |
 	(self groups includes: aSymbol) ifTrue: [
 		^ self groupsNamed: aSymbol ].
-	newGroup := (self item: aSymbol) groupName: aSymbol; isGroup: true.
+	newGroup := (self item: aSymbol)
+		            groupName: aSymbol;
+		            isGroup: true;
+						withSeparatorAfter.
 	^ newGroup
 ]
 
@@ -247,7 +250,7 @@ ToMenuBuilder >> handleAddToParent: aMenuRegistration [
 			^ self ].
 	((self itemsNamed: aMenuRegistration parent) isGroup)
 		ifTrue: [ aMenuRegistration groupName: aMenuRegistration parent ].
-	parentMenu := self lookUpForParent: aMenuRegistration parent.
+	parentMenu := self itemsNamed: aMenuRegistration parent "self lookUpForParent: aMenuRegistration parent".
 	aMenuRegistration parentMenuItem: parentMenu.
 	parentMenu addChild: aMenuRegistration.
 	aMenuRegistration
@@ -266,16 +269,21 @@ ToMenuBuilder >> handleDuplicatedShortcut: anItem [
 { #category : #'error handling' }
 ToMenuBuilder >> handleGroupsUsage: anItem [
 
+	| groupItem |
 	anItem name ifNil: [ ^ self ].
 	(self groups includes: anItem name) ifTrue: [ ^ self ].
 	anItem parentMenuItem ifNotNil: [
-		(anItem groupName isNil and:
-			 [ anItem parentMenuItem groupName isNotNil]) ifTrue: [
+		(anItem groupName isNil and: [
+			 anItem parentMenuItem groupName isNotNil ]) ifTrue: [
 			anItem groupName: anItem parentMenuItem groupName ] ].
 	anItem groupName ifNil: [ ^ self ].
 	(self isAnExistingGroup: anItem groupName) ifFalse: [
 		self group: anItem groupName ].
-	(self groupsNamed: anItem groupName) addChild: anItem
+	groupItem := self groupsNamed: anItem groupName.
+	(anItem parentMenuItem isNil and: [ anItem isGroup = false ]) ifFalse: [
+		^ self ].
+	groupItem addChild: anItem.
+	anItem parentMenuItem: groupItem
 ]
 
 { #category : #'error handling' }

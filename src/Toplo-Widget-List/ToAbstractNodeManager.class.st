@@ -25,6 +25,12 @@ ToAbstractNodeManager >> buildNodeContainer: aNodeContainer [
 ]
 
 { #category : #accessing }
+ToAbstractNodeManager >> checkableNode [
+
+	^ checkableNode
+]
+
+{ #category : #accessing }
 ToAbstractNodeManager >> checkableNode: aBoolean [
 
 	checkableNode := aBoolean 

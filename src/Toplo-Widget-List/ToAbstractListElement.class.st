@@ -714,6 +714,19 @@ ToAbstractListElement >> updateSelectionAfter: aValuable [
 	self postponeAction: [ self notifyDataSourceChanged ]
 ]
 
+{ #category : #configuration }
+ToAbstractListElement >> useCheckbox [
+
+	^ self nodeManager checkableNode
+]
+
+{ #category : #configuration }
+ToAbstractListElement >> useCheckbox: aBoolean [
+
+	self nodeManager checkableNode: aBoolean.
+	self onUseCheckboxChangedWith: aBoolean
+]
+
 { #category : #'accessing selecters' }
 ToAbstractListElement >> visibleAtPosition: anInteger [
 

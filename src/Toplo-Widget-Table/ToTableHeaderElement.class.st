@@ -5,7 +5,8 @@ Class {
 	#name : #ToTableHeaderElement,
 	#superclass : #ToTripletContainer,
 	#instVars : [
-		'parentTable'
+		'parentTable',
+		'checkbox'
 	],
 	#category : #'Toplo-Widget-Table-Header'
 }
@@ -23,6 +24,16 @@ ToTableHeaderElement class >> initializeToRawTheme: aTheme [
 						BlInsets
 							horizontal: (e valueOfTokenNamed: #'list-padding-H')
 							vertical: (e valueOfTokenNamed: #'list-padding-V') ] ]
+]
+
+{ #category : #accessing }
+ToTableHeaderElement >> addCheckbox [
+
+	checkbox ifNotNil: [ ^ self ].
+	checkbox := parentTable newHeaderCheckbox.
+	checkbox constraintsDo: [ :c | c linear vertical alignCenter ].
+	self ensureStartContainer.
+	self startContainer addChild: checkbox
 ]
 
 { #category : #accessing }
@@ -84,6 +95,12 @@ ToTableHeaderElement >> newMiddleContainer [
 		  yourself
 ]
 
+{ #category : #'instance creation' }
+ToTableHeaderElement >> newRawSkin [ 
+
+	^ ToTableHeaderElementSkin new
+]
+
 { #category : #accessing }
 ToTableHeaderElement >> parentTable [
 
@@ -110,4 +127,20 @@ ToTableHeaderElement >> recordCellsWidth [
 ToTableHeaderElement >> removeCellContainers [
 
 	self cellContainers do: [ :c | c removeFromParent ]
+]
+
+{ #category : #accessing }
+ToTableHeaderElement >> removeCheckbox [
+
+	checkbox ifNil: [ ^ self ].
+	checkbox removeFromParent
+]
+
+{ #category : #accessing }
+ToTableHeaderElement >> useCheckbox: aBoolean [
+
+	aBoolean
+		ifTrue: [ self addCheckbox ]
+		ifFalse: [ self removeCheckbox ].
+	self requestNewSkin
 ]

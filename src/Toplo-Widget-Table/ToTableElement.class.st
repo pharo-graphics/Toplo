@@ -163,7 +163,7 @@ ToTableElement >> newDivider [
 ]
 
 { #category : #'event handling' }
-ToTableElement >> newHeaderCheckboxInColumn: aColumn [
+ToTableElement >> newHeaderCheckbox [
 
 	| cbox |
 	cbox := list newCheckbox.
@@ -275,4 +275,12 @@ ToTableElement >> updateListSelectionFromHeaderCheckbox: aCheckbox [
 ToTableElement >> updateSelectionAfter: aValuable [
 
 	list updateSelectionAfter: aValuable
+]
+
+{ #category : #accessing }
+ToTableElement >> useCheckbox: aBoolean [
+
+	list useCheckbox: aBoolean.
+	header useCheckbox: aBoolean
+	
 ]

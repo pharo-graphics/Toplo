@@ -8939,7 +8939,14 @@ ToSandBox class >> example_toTable1 [
 				 yourself) }.
 	table dataAccessor addAll:
 		(Smalltalk globals allClasses copyFrom: 1 to: 30).
-	table openInSpace
+	table openInSpace.
+	^ table
+]
+
+{ #category : #'t - orientable' }
+ToSandBox class >> example_toTable1WithCheckbox [
+
+	self example_toTable1 useCheckbox: true
 ]
 
 { #category : #'t - orientable' }
@@ -9033,7 +9040,14 @@ ToSandBox class >> example_toTreeTable1 [
 	table dataAccessor add: Collection.
 	table dataAccessor add: String.
 
-	table openInSpace
+	table openInSpace.
+	^ table
+]
+
+{ #category : #'t - orientable' }
+ToSandBox class >> example_toTreeTable1WithCheckbox [
+
+	self example_toTreeTable1 useCheckbox: true
 ]
 
 { #category : #'t - orientable' }
@@ -9049,7 +9063,6 @@ ToSandBox class >> example_toTreeTable2 [
 				 title: 'Name';
 				 key: 'name';
 				 dataIndex: #name;
-				 useCheckbox: true;
 				 cellBuilder: [ :cell :cls :holder |
 						 cell addChild: (ToLabeledIcon new
 									  startInterspace: 6;

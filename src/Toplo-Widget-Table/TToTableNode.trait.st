@@ -26,7 +26,7 @@ TToTableNode >> divider: aDivider movedBy: aDistance from: aStartLocation [
 
 	| container listElement state |
 	listElement := self holder listElement.
-	state := listElement cellStateAt: aDivider cellIndex.
+	state := listElement columnStateAt: aDivider cellIndex.
 	container := self cellContainers at: aDivider cellIndex.
 	container updateWidthWith: state startDragWidth + aDistance
 ]
@@ -39,11 +39,11 @@ TToTableNode >> recordCellsWidth [
 	index := 1.
 	containers := self cellContainers.
 	containers allButLastDo: [ :cont |
-			state := self holder listElement cellStateAt: index.
+			state := self holder listElement columnStateAt: index.
 			cont updateWidthWith: state width.
 			index := index + 1 ].
 	columns last resizable ifTrue: [ ^ self ].
 	last := containers last.
-	state := self holder listElement cellStateAt: index.
+	state := self holder listElement columnStateAt: index.
 	last updateWidthWith: state width
 ]

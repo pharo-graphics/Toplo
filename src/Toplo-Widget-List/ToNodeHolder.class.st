@@ -164,6 +164,12 @@ ToNodeHolder >> nodeContainer: aNodeContainer [
 ]
 
 { #category : #accessing }
+ToNodeHolder >> nodeDepth [
+
+	^ 0
+]
+
+{ #category : #accessing }
 ToNodeHolder >> nodeManager [ 
 
 	^ self listElement nodeManager

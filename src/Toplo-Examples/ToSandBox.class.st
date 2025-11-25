@@ -8920,7 +8920,6 @@ ToSandBox class >> example_toTable1 [
 				 title: 'Name';
 				 key: 'name';
 				 dataIndex: 'name';
-				 useCheckbox: true;
 				 sorterBlock: #name descending;
 				 yourself).
 			(ToTableColumn new
@@ -9005,6 +9004,7 @@ ToSandBox class >> example_toTreeTable1 [
 
 	| table |
 	table := ToTreeTableElement new.
+	table inspect.
 	table nodeManager childrenGetter: [ :dataItem |
 		dataItem subclasses sorted: [ :a :b | a name < b name ] ].
 	table columns: {
@@ -9012,7 +9012,6 @@ ToSandBox class >> example_toTreeTable1 [
 				 title: 'Name';
 				 key: 'name';
 				 dataIndex: #name;
-				 useCheckbox: false;
 				 yourself).
 			(ToTableColumn new
 				 title: 'Number of methods';

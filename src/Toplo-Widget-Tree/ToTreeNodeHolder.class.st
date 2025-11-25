@@ -32,6 +32,12 @@ ToTreeNodeHolder >> dataWrapper [
 ]
 
 { #category : #accessing }
+ToTreeNodeHolder >> nodeDepth [
+
+	^ dataWrapper nodeDepth
+]
+
+{ #category : #accessing }
 ToTreeNodeHolder >> treeDataItem [ 
 
 	^ dataItem 

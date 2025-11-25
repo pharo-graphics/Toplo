@@ -61,6 +61,12 @@ ToTableElement >> header: anObject [
 	header := anObject
 ]
 
+{ #category : #accessing }
+ToTableElement >> indexOfColumn: aColumn [
+
+	^ columns indexOf: aColumn
+]
+
 { #category : #initialization }
 ToTableElement >> initialize [
 

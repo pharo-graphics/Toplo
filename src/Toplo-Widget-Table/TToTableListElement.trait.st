@@ -7,7 +7,7 @@ Trait {
 }
 
 { #category : #'t - table list element' }
-TToTableListElement >> cellStateAt: anIndex [
+TToTableListElement >> columnStateAt: anIndex [
 
 	^ (self headerCellContainerAt: anIndex) state
 ]
@@ -21,8 +21,7 @@ TToTableListElement >> columns [
 { #category : #'t - table list element' }
 TToTableListElement >> columns: aTableColumnArray [
 
-	self nodeManager columns: aTableColumnArray.
-	self onUseCheckboxChangedWith: (aTableColumnArray anySatisfy: [ :col | col useCheckbox ])
+	self nodeManager columns: aTableColumnArray
 ]
 
 { #category : #'t - table list element' }

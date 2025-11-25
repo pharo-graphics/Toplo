@@ -9,7 +9,7 @@ Class {
 { #category : #accessing }
 ToTreeTableNode >> addCellContainer: aCellContainer [
 
-	self   addChild: aCellContainer
+	self addChild: aCellContainer
 ]
 
 { #category : #'t - table node' }
@@ -18,29 +18,23 @@ ToTreeTableNode >> cellContainers [
 	^ self children asArray
 ]
 
+{ #category : #accessing }
+ToTreeTableNode >> containerIndentWidth [
+
+	^ self holder nodeContainer indentWidth
+]
+
 { #category : #'t - table node' }
 ToTreeTableNode >> divider: aDivider movedBy: aDistance from: aStartLocation [
 
 	| container listElement state indent |
 	listElement := self holder listElement.
-	state := listElement cellStateAt: aDivider cellIndex.
+	state := listElement columnStateAt: aDivider cellIndex.
 	container := self cellContainers at: aDivider cellIndex.
 	indent := aDivider cellIndex = 1
-		          ifTrue: [ self indentFiller width ]
+		          ifTrue: [ self containerIndentWidth ]
 		          ifFalse: [ 0 ].
 	container updateWidthWith: state startDragWidth + aDistance - indent
-]
-
-{ #category : #accessing }
-ToTreeTableNode >> indentWidth: aNumber [
-
-	| listElement cont state |
-	super indentWidth: aNumber.
-	listElement := self holder listElement.
-
-	cont := self cellContainers first.
-	state := listElement cellStateAt: 1.
-	state width ifNotNil: [ cont updateWidthWith: state width - aNumber ]
 ]
 
 { #category : #skin }

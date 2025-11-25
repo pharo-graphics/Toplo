@@ -31,6 +31,12 @@ ToTableListCellContainer class >> initializeToRawTheme: aTheme [
 ]
 
 { #category : #accessing }
+ToTableListCellContainer >> columnIndex [
+
+	^ self parentTable indexOfColumn: column
+]
+
+{ #category : #accessing }
 ToTableListCellContainer >> holder: aTableNodeHolder [
 
 	tableNodeHolder := aTableNodeHolder 
@@ -47,4 +53,34 @@ ToTableListCellContainer >> holder: aTableNodeHolder column: aColumn [
 ToTableListCellContainer >> newMiddleContainer [ 
 
 	^ column cellFactory cull: tableNodeHolder
+]
+
+{ #category : #'instance creation' }
+ToTableListCellContainer >> newRawSkin [ 
+
+	^ ToTableListCellContainerSkin new
+]
+
+{ #category : #accessing }
+ToTableListCellContainer >> nodeDepth [
+
+	^ tableNodeHolder nodeDepth
+]
+
+{ #category : #accessing }
+ToTableListCellContainer >> parentTable [
+
+	^ self tableListEement parentTable
+]
+
+{ #category : #accessing }
+ToTableListCellContainer >> tableListEement [
+
+	^ tableNodeHolder listElement 
+]
+
+{ #category : #accessing }
+ToTableListCellContainer >> tableNodeHolder [
+
+	^ tableNodeHolder
 ]

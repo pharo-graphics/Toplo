@@ -13,7 +13,13 @@ ToTreeNodeContainer >> hasLeafDataItem [
 { #category : #'instance creation' }
 ToTreeNodeContainer >> indentFiller [
 
-	^ self startContainer childWithId: #indentFiller
+	^ self startContainer childWithId: #indentFiller ifNone: [  ]
+]
+
+{ #category : #accessing }
+ToTreeNodeContainer >> indentWidth [
+
+	^ self indentFiller ifNotNil: [ :if | if width ] ifNil: [ 0 ]
 ]
 
 { #category : #accessing }

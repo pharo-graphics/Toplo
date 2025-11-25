@@ -15,7 +15,6 @@ Class {
 		'sortOrder',
 		'width',
 		'resizable',
-		'useCheckbox',
 		'cellFactory',
 		'headerCellFactory',
 		'cellBuilder',
@@ -28,14 +27,7 @@ Class {
 { #category : #rendering }
 ToTableColumn >> buildHeaderCellInContainer: anHeaderCellContainer inTableElement: aTableElement [
 
-	width ifNotNil: [ anHeaderCellContainer width: width ].
-	
-	useCheckbox ifTrue: [
-			| cbox |
-			cbox := aTableElement newHeaderCheckboxInColumn: self.
-			cbox constraintsDo: [ :c | c linear vertical alignCenter ].
-			anHeaderCellContainer ensureStartContainer.
-			anHeaderCellContainer startContainer addChild: cbox ].
+	width ifNotNil: [ anHeaderCellContainer updateWidthWith: width ].	
 
 	anHeaderCellContainer cell constraintsDo: [ :c |
 		c horizontal matchParent ].
@@ -50,18 +42,11 @@ ToTableColumn >> buildHeaderCellInContainer: anHeaderCellContainer inTableElemen
 ToTableColumn >> buildListCellInContainer: aCellContainer atIndex: aColumnIndex inNode: aTableNode [
 
 	| cellData state |
-	state := aTableNode holder listElement cellStateAt: aColumnIndex.
-	state width ifNotNil: [ :w | aCellContainer width: w ].
+	state := aTableNode holder listElement columnStateAt: aColumnIndex.
 	cellData := self fetchedCellDataFromDataIndex:
 		            aTableNode holder dataItem.
-	useCheckbox ifTrue: [
-			| tableListElement cbox |
-			tableListElement := aTableNode holder listElement.
-			cbox := tableListElement newCheckboxInNodeContainer: aTableNode.
-			cbox constraintsDo: [ :c | c linear vertical alignCenter ].
-			aCellContainer ensureStartContainer.
-			aCellContainer startContainer addChild: cbox ].
 	aCellContainer cell constraintsDo: [ :c | c horizontal matchParent ].
+
 	cellBuilder
 		cull: aCellContainer cell
 		cull: cellData
@@ -200,8 +185,7 @@ ToTableColumn >> initialize [
 	cellBuilder := self defaultCellBuilder.
 	sorterContainerBuilder := self defaultSorterContainerBuilder.
 	sortDirections := self defaultSortDirection.
-	resizable := true.
-	useCheckbox := false
+	resizable := true
 ]
 
 { #category : #accessing }
@@ -311,18 +295,6 @@ ToTableColumn >> updateArrowOrientation: arrow [
 	self sortOrder = #ascending ifTrue: [ ^ arrow beDown ].
 	self sortOrder = #descending ifTrue: [ ^ arrow beUp ].
 	^ arrow beRight 
-]
-
-{ #category : #accessing }
-ToTableColumn >> useCheckbox [ 
-
-	^ useCheckbox
-]
-
-{ #category : #accessing }
-ToTableColumn >> useCheckbox: aBoolean [
-
-	useCheckbox := aBoolean
 ]
 
 { #category : #accessing }

@@ -26,19 +26,19 @@ ToInnerBarElement class >> onListElement: aListElement [
 ToInnerBarElement >> addAllHolders: anArray at: aPosition [
 
 	anArray reverseDo: [ :h | self addHolder: h at: aPosition].
-	anArray do: [ :h | self notifyChildAttached: h node  ]
+	anArray do: [ :h | self notifyChildAttached: h nodeContainer  ]
 ]
 
 { #category : #'accessing - nodes' }
-ToInnerBarElement >> addFakeNode: aNode [
+ToInnerBarElement >> addFakeNodeContainer: aNodeContainer [
 
-	trackElement addFakeNode: aNode
+	trackElement addFakeNodeContainer: aNodeContainer
 ]
 
 { #category : #'accessing - nodes' }
 ToInnerBarElement >> addHolder: anHolder at: aPosition [
 
-	trackElement addChild: anHolder node at: aPosition + 1
+	trackElement addChild: anHolder nodeContainer at: aPosition + 1
 ]
 
 { #category : #'private - commands' }
@@ -67,11 +67,11 @@ ToInnerBarElement >> checkFullyVisibleNodes [
 	(listElement isFlowable or: [ listElement autoDistribute ])
 		ifTrue: [
 				invisibleNodes := #(  ).
-				visibleNodes := self nodes asArray ]
+				visibleNodes := self nodeContainers asArray ]
 		ifFalse: [
-				invisibleNodes := self nodesSelect: [ :n |
-					                  n isFullyVisibleInInnerElement not ].
-				visibleNodes := self nodes difference: invisibleNodes ].
+				invisibleNodes := self nodeContainersSelect: [ :container |
+					                  container isFullyVisibleInInnerElement not ].
+				visibleNodes := self nodeContainers difference: invisibleNodes ].
 	previousInvisibleNodes = invisibleNodes ifTrue: [ ^ self ].
 	previousInvisibleNodes := invisibleNodes.
 	self dispatchEvent: (ToBarVisibleNodeListChangedEvent new
@@ -125,38 +125,38 @@ ToInnerBarElement >> defaultScrollFlinger [
 ]
 
 { #category : #'accessing - nodes' }
-ToInnerBarElement >> fakeNode [ 
+ToInnerBarElement >> fakeNodeContainer [ 
 
-	^ trackElement fakeNode
+	^ trackElement fakeNodeContainer
 ]
 
 { #category : #'t - list node holder' }
 ToInnerBarElement >> findElementHolderForDataSourcePosition: aPosition [
 	"Return the holder for the node in the given position of the data set"
 
-	self nodesDo: [ :aNode |
+	self nodeContainersDo: [ :container |
 		| holder |
-		holder := aNode holder.
+		holder := container holder.
 		holder position = aPosition ifTrue: [ ^ holder ] ].
 	^ nil
 ]
 
 { #category : #'accessing - nodes' }
-ToInnerBarElement >> fullyVisibleNodes [
+ToInnerBarElement >> fullyVisibleNodeContainers [
 
-	^ trackElement fullyVisibleNodes
+	^ trackElement fullyVisibleNodeContainers
 ]
 
 { #category : #'accessing - nodes' }
-ToInnerBarElement >> fullyVisibleNodesDo: aBlock [
+ToInnerBarElement >> fullyVisibleNodeContainersDo: aBlock [
 
-	trackElement fullyVisibleNodesDo: aBlock
+	trackElement fullyVisibleNodeContainersDo: aBlock
 ]
 
 { #category : #'accessing - nodes' }
-ToInnerBarElement >> fullyVisibleNodesSelect: aBlock [
+ToInnerBarElement >> fullyVisibleNodeContainersSelect: aBlock [
 
-	^ trackElement fullyVisibleNodesSelect: aBlock
+	^ trackElement fullyVisibleNodeContainersSelect: aBlock
 ]
 
 { #category : #initialization }
@@ -166,7 +166,7 @@ ToInnerBarElement >> initialize [
 	self initializeDataSource.
 	self addEventHandler: ToInnerBarElementEventHandler new.
 	self trackElement: self scrollableBarTrackElementClass new.
-	self installFakeNode.
+	self installFakeNodeContainer.
 
 	self matchParent.
 	self focusability: BlFocusability ignore
@@ -189,18 +189,18 @@ ToInnerBarElement >> innerElement [
 ]
 
 { #category : #initialization }
-ToInnerBarElement >> installFakeNode [
+ToInnerBarElement >> installFakeNodeContainer [
 	" the fake node is added in case of an empty data source to ensure a 
 	suitable minimum height according to the node class, the node builder 
 	and the data kind."
 
-	| fakeNode |
-	fakeNode := self nodeManager newFakeNodeIn: self.
+	| fakeContainer |
+	fakeContainer := self nodeManager newFakeNodeContainerIn: self.
 
 	" add the fake node (to keep a constant minimum size ).
 	Pay attention to add the fake node ** before ** the fake node building "
-	self addFakeNode: fakeNode.
-	self nodeManager buildNode: fakeNode.
+	self addFakeNodeContainer: fakeContainer.
+	self nodeManager buildNode: fakeContainer node.
 	self requestConfiguration
 ]
 
@@ -222,40 +222,40 @@ ToInnerBarElement >> newNodeHolderFromDataSource: aDataSource [
 	^ listElement nodeManager newHolder
 ]
 
+{ #category : #'t - list node holder' }
+ToInnerBarElement >> nodeContainers [
+
+	^ trackElement nodeContainers
+]
+
+{ #category : #'t - list node holder' }
+ToInnerBarElement >> nodeContainersDetect: aBlock [
+
+	^ trackElement nodeContainersDetect: aBlock 
+]
+
+{ #category : #'t - list node holder' }
+ToInnerBarElement >> nodeContainersDo: aBlock [
+
+	trackElement nodeContainersDo: aBlock
+]
+
+{ #category : #'t - list node holder' }
+ToInnerBarElement >> nodeContainersSelect: aBlock [
+
+	^ trackElement nodeContainersSelect: aBlock 
+]
+
+{ #category : #'t - list node holder' }
+ToInnerBarElement >> nodeContainersWithIndexDo: aBlock [
+
+	trackElement nodeContainersWithIndexDo: aBlock
+]
+
 { #category : #accessing }
 ToInnerBarElement >> nodeManager [
 
 	^ self listElement nodeManager
-]
-
-{ #category : #'t - list node holder' }
-ToInnerBarElement >> nodes [
-
-	^ trackElement nodes
-]
-
-{ #category : #'t - list node holder' }
-ToInnerBarElement >> nodesDetect: aBlock [
-
-	^ trackElement nodesDetect: aBlock 
-]
-
-{ #category : #'t - list node holder' }
-ToInnerBarElement >> nodesDo: aBlock [
-
-	trackElement nodesDo: aBlock
-]
-
-{ #category : #'t - list node holder' }
-ToInnerBarElement >> nodesSelect: aBlock [
-
-	^ trackElement nodesSelect: aBlock 
-]
-
-{ #category : #'t - list node holder' }
-ToInnerBarElement >> nodesWithIndexDo: aBlock [
-
-	trackElement nodesWithIndexDo: aBlock
 ]
 
 { #category : #'hooks - layout' }
@@ -275,12 +275,12 @@ ToInnerBarElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibl
 { #category : #'data source updates' }
 ToInnerBarElement >> onItemRangeChanged: aPositionStart itemCount: anItemCount [
 
-	self nodesDo: [ :node |
+	self nodeContainersDo: [ :container |
 		| pos |
-		pos := node holder position.
+		pos := container holder position.
 		(pos >= aPositionStart and: [ pos < (aPositionStart + anItemCount) ])
 			ifTrue: [
-				node applyConfiguration ] ]
+				container applyConfiguration ] ]
 ]
 
 { #category : #'data source updates' }
@@ -302,12 +302,12 @@ ToInnerBarElement >> onItemRangeInserted: aPositionStart itemCount: anItemCount 
 { #category : #'data source updates' }
 ToInnerBarElement >> onItemRangeRemoved: aPositionStart itemCount: anItemCount [
 
-	| nodes |
-	nodes := self nodesSelect: [ :node |
-		         node holder position
+	| allContainers |
+	allContainers := self nodeContainersSelect: [ :container |
+		         container holder position
 			         between: aPositionStart 
 			         and: aPositionStart + anItemCount - 1].
-	self removeAllNodes: nodes.
+	self removeAllNodeContainers: allContainers.
 	self updatePositions
 
 ]
@@ -317,7 +317,7 @@ ToInnerBarElement >> onItemsChanged [
 
 	| holders |
 
-	self removeAllNodes: self nodes.
+	self removeAllNodeContainers: self nodeContainers.
 	holders := Array streamContents: [ :stream |
 		           | holder |
 		           1 to: self dataSource itemCount do: [ :idx |
@@ -366,29 +366,30 @@ ToInnerBarElement >> prefetchingAllowed [
 ]
 
 { #category : #'accessing - nodes' }
-ToInnerBarElement >> removeAllNodes: anArray [
+ToInnerBarElement >> removeAllNodeContainers: anArray [
 
-	trackElement removeAllNodes: anArray.
-	anArray do: [ :node | self notifyChildDetached: node  ]
+	trackElement removeAllNodeContainers: anArray.
+	anArray do: [ :container | self notifyChildDetached: container  ]
 ]
 
 { #category : #'accessing - nodes' }
-ToInnerBarElement >> removeFakeNode [
+ToInnerBarElement >> removeFakeNodeContainer [
 
-	trackElement removeFakeNode
+	trackElement fakeNodeContainer ifNil: [ ^ self ].
+	trackElement removeFakeNodeContainer
 ]
 
 { #category : #'accessing - nodes' }
-ToInnerBarElement >> removeNode: aNode [
+ToInnerBarElement >> removeNodeContainer: aNode [
 
-	trackElement removeNode: aNode 
+	trackElement removeNodeContainer: aNode 
 ]
 
 { #category : #scrolling }
 ToInnerBarElement >> scrollDeltaFromDataSourcePosition: anIndex [
 
 	| node bnds pad |
-	node := self nodeAt: anIndex.
+	node := self nodeContainerAt: anIndex.
 	node ifNil: [ ^ nil ].
 	node isFullyVisibleInInnerElement ifTrue: [ ^ nil ].
 	bnds := node measuredBounds inParent: listElement.
@@ -402,7 +403,7 @@ ToInnerBarElement >> scrollDeltaFromDataSourcePosition: anIndex [
 ToInnerBarElement >> scrollDeltaTowardEndFromDataSourcePosition: anIndex [
 
 	| node bnds offset padding |
-	node := self nodeAt: anIndex.
+	node := self nodeContainerAt: anIndex.
 	node ifNil: [ ^ nil ].
 	node isFullyVisibleInInnerElement ifTrue: [ ^ nil ].
 	bnds := node measuredBounds inParent: listElement.
@@ -418,7 +419,7 @@ ToInnerBarElement >> scrollDeltaTowardEndFromDataSourcePosition: anIndex [
 ToInnerBarElement >> scrollDeltaTowardStartFromDataSourcePosition: anIndex [
 
 	| node bnds pad |
-	node := self nodeAt: anIndex.
+	node := self nodeContainerAt: anIndex.
 	node ifNil: [ ^ nil ].
 	node isFullyVisibleInInnerElement ifTrue: [ ^ nil ].
 	bnds := node measuredBounds inParent: listElement.
@@ -537,13 +538,13 @@ ToInnerBarElement >> trackElement: anElement [
 ]
 
 { #category : #initialization }
-ToInnerBarElement >> uninstallFakeNode [
+ToInnerBarElement >> uninstallFakeNodeContainer [
 	" the fake node is added in case of an empty data source to ensure a 
 	suitable minimum height according to the node class, the node builder 
 	and the data kind."
 
 	" remove the fake node (to keep a constant minimum size ) "
-	self removeFakeNode
+	self removeFakeNodeContainer
 ]
 
 { #category : #'data source updates' }
@@ -551,7 +552,7 @@ ToInnerBarElement >> updatePositions [
 
 	| pos |
 	pos := 0.
-	self nodesDo: [ :node |
+	self nodeContainersDo: [ :container |
 		pos := pos + 1.
-		node holder bindAtPosition: pos ]
+		container holder bindAtPosition: pos ]
 ]

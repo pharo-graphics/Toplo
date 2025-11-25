@@ -61,12 +61,12 @@ ToListContextMenuSelectionElementEventHandler >> withTargetNodeFromEvent: anEven
 	| globalPosition currTarget childNode |
 	globalPosition := anEvent position.
 	currTarget := anEvent currentTarget.
-	childNode := currTarget nodes
+	childNode := currTarget nodeContainers
 		             detect: [ :node |
 			             node holder isSelectable and: [
 				             node containsGlobalPoint: globalPosition ] ]
 		             ifNone: [
-			             currTarget innerElement nodes
+			             currTarget innerElement nodeContainers
 				             detect: [ :node |
 					             | gap |
 					             gap := currTarget isHorizontal
@@ -76,7 +76,7 @@ ToListContextMenuSelectionElementEventHandler >> withTargetNodeFromEvent: anEven
 						             node containsGlobalPoint:
 							             globalPosition - (0 @ gap) ] ]
 				             ifNone: [
-					             currTarget innerElement nodes
+					             currTarget innerElement nodeContainers
 						             detect: [ :node |
 							             | gap |
 							             gap := currTarget isHorizontal

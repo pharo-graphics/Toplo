@@ -72,7 +72,7 @@ ToListInnerElementEventHandler >> infiniteElementAttachedEvent: anEvent [
 
 	anEvent currentTarget listElement dispatchEvent:
 		(ToListNodeAddedEvent new
-			 node: anEvent element;
+			 node: anEvent element node;
 			 yourself)
 ]
 
@@ -81,7 +81,7 @@ ToListInnerElementEventHandler >> infiniteElementDetachedEvent: anEvent [
 
 	anEvent currentTarget listElement dispatchEvent:
 		(ToListNodeRemovedEvent new
-			 node: anEvent element;
+			 node: anEvent element node;
 			 yourself)
 ]
 

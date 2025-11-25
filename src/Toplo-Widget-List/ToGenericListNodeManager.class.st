@@ -14,6 +14,12 @@ ToGenericListNodeManager >> initialize [
 ]
 
 { #category : #'instance creation' }
+ToGenericListNodeManager >> newNodeContainer [ 
+
+	^ ToListNodeContainer new
+]
+
+{ #category : #'instance creation' }
 ToGenericListNodeManager >> newNodeForHolder: aNodeHolder [
 
 	^ nodeFactory cull: aNodeHolder

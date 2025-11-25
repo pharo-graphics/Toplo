@@ -98,11 +98,11 @@ ToTabGroupElement >> defaultInvisibleNodesMenuBuilder [
 		  middlePos := self visibleNodes
 			               ifEmpty: [ 0 ]
 			               ifNotEmpty: [ :vn | vn first holder position - 1 ].
-		  self invisibleNodes do: [ :node |
-				  node isEnabled ifTrue: [
+		  self invisibleNodes do: [ :container |
+				  container node isEnabled ifTrue: [
 						  | mitem |
 						  mitem := ToTabInvisibleNodeMenuItem new
-							           tabNode: node;
+							           tabNode: container node;
 							           yourself.
 						  invisibleNodeMenuItemBuilder cull: mitem cull: request.
 						  menu addItem: mitem ] ].

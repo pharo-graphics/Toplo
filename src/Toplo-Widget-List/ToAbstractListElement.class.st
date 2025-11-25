@@ -266,7 +266,7 @@ ToAbstractListElement >> extentChanged [
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> fakeNode [
+ToAbstractListElement >> fakeNodeContainer [
 
 	^ nil
 ]

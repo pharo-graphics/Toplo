@@ -13,13 +13,13 @@ ToListSelectionWithSeparateElementOption >> isSeparate [
 { #category : #'nodes collecting' }
 ToListSelectionWithSeparateElementOption >> newSelectionRepresentationArrayFrom: aListElement withSelectionModel: aSelectionModel [
 
-	^ (aListElement nodesSelect: [ :node |
+	^ (aListElement nodeContainersSelect: [ :container |
 		   | idx |
-		   idx := node holder position.
+		   idx := container holder position.
 		   (aSelectionModel containsIndex: idx) and: [
-			   aSelectionModel isVisibleIndex: idx ] ]) collect: [ :node |
+			   aSelectionModel isVisibleIndex: idx ] ]) collect: [ :container |
 		  ToSeparateSelection new
-			  node: node;
+			  node: container;
 			  createSelectionElementIn: aListElement option: selectionOption;
 			  yourself ]
 ]

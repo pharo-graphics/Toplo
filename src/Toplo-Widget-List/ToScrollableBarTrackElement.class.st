@@ -2,40 +2,24 @@ Class {
 	#name : #ToScrollableBarTrackElement,
 	#superclass : #ToElement,
 	#instVars : [
-		'fakeNode',
 		'listElement'
 	],
 	#category : #'Toplo-Widget-List-InnerBar'
 }
 
 { #category : #'accessing - children' }
-ToScrollableBarTrackElement >> addFakeNode: aNode [
+ToScrollableBarTrackElement >> addFakeNodeContainer: aNodeContainer [
 
-	| sizeHandler |
-	fakeNode ifNotNil: [ self removeFakeNode ].
-	fakeNode := aNode.
-	aNode visibility: BlVisibility hidden.
-	" The purpose of the size handler is to make a fake node remains invisible. 
-	this is ensured by forcing the height to zero 
-	(if the bar is vertical) or the width to zero 
-	(if ther bar is horizontal).  "
-	fakeNode whenLayoutedDoOnce: [
-			fakeNode userData at: #fakeNodeOriginalSize put: fakeNode extent.
-			self applyFakeNodeConfiguration ].
-
-	sizeHandler := fakeNode
-		               addEventHandlerOn: BlElementExtentChangedEvent
-		               do: [ self applyFakeNodeConfiguration ].
-	fakeNode userData at: #fakeNodeSizeHandler put: sizeHandler.
-	self addChild: aNode at: 1
+	self fakeNodeContainer ifNotNil: [ Error signal: 'Fake node container already added' ].
+	self addChild: aNodeContainer at: 1
 ]
 
 { #category : #'accessing - children' }
 ToScrollableBarTrackElement >> addHolder: anHolder at: aPosition [
 
-	| node |
-	node := anHolder node.
-	self addChild: node at: aPosition + 1
+	| container |
+	container := anHolder nodeContainer.
+	self addChild: container at: aPosition + 1
 ]
 
 { #category : #configuration }
@@ -65,29 +49,7 @@ ToScrollableBarTrackElement >> applyConfiguration [
 							ifTrue: [ self hFitContent ]
 							ifFalse: [ self vFitContent ] ] ].
 
-	self applyFakeNodeConfiguration.
-	self nodesDo: [ :n | n applyConfiguration ]
-]
-
-{ #category : #configuration }
-ToScrollableBarTrackElement >> applyFakeNodeConfiguration [
-
-	fakeNode applyConfiguration.
-
-	"in case my orientation changes the original size must be stored.
-	The original size has to be stored before setting the height or the width to zero.
-	see also addFakeNode:"
-
-	self isHorizontal
-		ifTrue: [
-				fakeNode userData at: #fakeNodeOriginalSize ifPresent: [ :s |
-						fakeNode height: s y.
-						fakeNode width: 0 ] ]
-		ifFalse: [
-				fakeNode userData at: #fakeNodeOriginalSize ifPresent: [ :s |
-						fakeNode width: s x.
-						fakeNode height: 0 ] ].
-	listElement updateAllSelections 
+	self childrenDo: [ :container | container applyConfiguration ]
 ]
 
 { #category : #testing }
@@ -97,9 +59,17 @@ ToScrollableBarTrackElement >> autoDistribute [
 ]
 
 { #category : #accessing }
-ToScrollableBarTrackElement >> fakeNode [ 
+ToScrollableBarTrackElement >> fakeNodeContainer [
 
-	^ fakeNode
+	^ self hasChildren
+		  ifTrue: [ self firstChild ]
+		  ifFalse: [ ]
+]
+
+{ #category : #accessing }
+ToScrollableBarTrackElement >> fakeNodeContainerDo: aBlock [ 
+
+	self fakeNodeContainer ifNotNil: [ :container | aBlock value: container ]
 ]
 
 { #category : #layout }
@@ -109,26 +79,26 @@ ToScrollableBarTrackElement >> flowLayoutClass [
 ]
 
 { #category : #'accessing - children' }
-ToScrollableBarTrackElement >> fullyVisibleNodes [
+ToScrollableBarTrackElement >> fullyVisibleNodeContainers [
 
 	^ Array streamContents: [ :stream |
-		  self fullyVisibleNodesDo: [ :node | stream nextPut: node ] ]
+		  self fullyVisibleNodeContainersDo: [ :container | stream nextPut: container ] ]
 ]
 
 { #category : #'accessing - children' }
-ToScrollableBarTrackElement >> fullyVisibleNodesDo: aBlock [
+ToScrollableBarTrackElement >> fullyVisibleNodeContainersDo: aBlock [
 
-	self nodesDo: [ :node |
-		node isFullyVisibleInInnerElement ifTrue: [ aBlock value: node ] ]
+	self nodeContainersDo: [ :container |
+		container isFullyVisibleInInnerElement ifTrue: [ aBlock value: container ] ]
 ]
 
 { #category : #'accessing - children' }
-ToScrollableBarTrackElement >> fullyVisibleNodesSelect: aBlock [
+ToScrollableBarTrackElement >> fullyVisibleNodeContainersSelect: aBlock [
 
 	^ Array streamContents: [ :stream |
-		  self nodesDo: [ :node |
-			  node isFullyVisibleInInnerElement ifTrue: [
-				  (aBlock value: node) ifTrue: [ stream nextPut: node ] ] ] ]
+		  self nodeContainersDo: [ :container |
+			  container isFullyVisibleInInnerElement ifTrue: [
+				  (aBlock value: container) ifTrue: [ stream nextPut: container ] ] ] ]
 ]
 
 { #category : #initialization }
@@ -205,39 +175,39 @@ ToScrollableBarTrackElement >> newLinearLayout [
 ]
 
 { #category : #accessing }
-ToScrollableBarTrackElement >> nodes [
+ToScrollableBarTrackElement >> nodeContainers [
 
 	^ Array streamContents: [ :stream |
-		  self nodesDo: [ :node | stream nextPut: node ] ]
+		  self nodeContainersDo: [ :container | stream nextPut: container ] ]
 ]
 
 { #category : #'accessing - children' }
-ToScrollableBarTrackElement >> nodesDetect: aBlock [
+ToScrollableBarTrackElement >> nodeContainersDetect: aBlock [
 
-	self nodesDo: [ :node | (aBlock value: node) ifTrue: [ ^ node ] ].
+	self nodeContainersDo: [ :container | (aBlock value: container) ifTrue: [ ^ container ] ].
 	^ nil
 ]
 
 { #category : #'accessing - children' }
-ToScrollableBarTrackElement >> nodesDo: aBlock [
+ToScrollableBarTrackElement >> nodeContainersDo: aBlock [
 
-	self childrenDo: [ :node |
-		node = fakeNode ifFalse: [ aBlock value: node ] ]
+	self childrenDo: [ :container |
+		container isFake ifFalse: [ aBlock value: container ] ]
 ]
 
 { #category : #'accessing - children' }
-ToScrollableBarTrackElement >> nodesSelect: aBlock [
+ToScrollableBarTrackElement >> nodeContainersSelect: aBlock [
 
 	^ Array streamContents: [ :stream |
-		  self nodesDo: [ :node |
-			  (aBlock value: node) ifTrue: [ stream nextPut: node ] ] ]
+		  self nodeContainersDo: [ :container |
+			  (aBlock value: container) ifTrue: [ stream nextPut: container ] ] ]
 ]
 
 { #category : #'accessing - children' }
-ToScrollableBarTrackElement >> nodesWithIndexDo: aBlock [
+ToScrollableBarTrackElement >> nodeContainersWithIndexDo: aBlock [
 
-	self nodesDo: [ :node |
-		aBlock value: node value: node holder position]
+	self nodeContainersDo: [ :container |
+		aBlock value: container value: container holder position]
 ]
 
 { #category : #initialization }
@@ -249,41 +219,34 @@ ToScrollableBarTrackElement >> onListElement: aListElement [
 { #category : #'accessing - children' }
 ToScrollableBarTrackElement >> partlyVisibleNodesDo: aBlock [
 
-	self nodesDo: [ :node |
-		node isPartlyVisible ifTrue: [ aBlock value: node ] ]
+	self nodeContainersDo: [ :container |
+		container isPartlyVisible ifTrue: [ aBlock value: container ] ]
 ]
 
 { #category : #'accessing - children' }
 ToScrollableBarTrackElement >> partlyVisibleNodesSelect: aBlock [
 
 	^ Array streamContents: [ :stream |
-		  self partlyVisibleNodesDo: [ :node |
-			  (aBlock value: node) ifTrue: [ stream nextPut: node ] ] ]
+		  self partlyVisibleNodesDo: [ :container |
+			  (aBlock value: container) ifTrue: [ stream nextPut: container ] ] ]
 ]
 
 { #category : #'accessing - children' }
-ToScrollableBarTrackElement >> removeAllNodes: anArray [
+ToScrollableBarTrackElement >> removeAllNodeContainers: anArray [
 
-	anArray reverseDo: [ :node | self removeNode: node ]
+	anArray reverseDo: [ :container | self removeNodeContainer: container ]
 ]
 
 { #category : #'accessing - children' }
-ToScrollableBarTrackElement >> removeFakeNode [
+ToScrollableBarTrackElement >> removeFakeNodeContainer [
 
-	fakeNode ifNotNil: [
-			| sizeHandler |
-			" see #addFakeNode: and #applyFakeNodeConfiguration comments on sizeHandler and on fakeNodeOriginalSize "
-			sizeHandler := fakeNode userData at: #fakeNodeSizeHandler.
-			fakeNode removeEventHandler: sizeHandler.
-			fakeNode userData removeKey: #fakeNodeSizeHandler.
-			fakeNode userData removeKey: #fakeNodeOriginalSize ifAbsent: [].
-			fakeNode removeFromParent.
-			fakeNode visibility: BlVisibility visible. ].
-	fakeNode := nil
+	self fakeNodeContainer ifNil: [ Error signal: 'Fake node container not present' ].
+	self fakeNodeContainer removeFromParent.
+
 ]
 
 { #category : #'accessing - children' }
-ToScrollableBarTrackElement >> removeNode: aNode [
+ToScrollableBarTrackElement >> removeNodeContainer: container [
 
-	aNode removeFromParent
+	container removeFromParent
 ]

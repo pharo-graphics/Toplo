@@ -4,18 +4,18 @@ Class {
 	#instVars : [
 		'listElement',
 		'selectionOption',
-		'nodes'
+		'nodeContainers'
 	],
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
 { #category : #'private - selection element' }
-ToListSelectionElement >> boundsFromNodesIn: aListElement [
+ToListSelectionElement >> boundsInListElement: aListElement [
 
-	| first last startBnds endBnds corner myNodes |
-	myNodes := self nodes.
-	first := myNodes first.
-	last := myNodes last.
+	| first last startBnds endBnds corner containers |
+	containers := self nodeContainers.
+	first := containers first.
+	last := containers last.
 	startBnds := (first measuredBounds inSpace inChild:
 		              aListElement innerElement) bounds.
 	endBnds := first = last
@@ -75,21 +75,21 @@ ToListSelectionElement >> listElement: aListElement [
 ]
 
 { #category : #accessing }
-ToListSelectionElement >> node [
+ToListSelectionElement >> nodeContainer [
 
-	^ nodes first
+	^ nodeContainers first
 ]
 
 { #category : #accessing }
-ToListSelectionElement >> nodes [
+ToListSelectionElement >> nodeContainers [
 
-	^ nodes
+	^ nodeContainers
 ]
 
 { #category : #accessing }
-ToListSelectionElement >> nodes: aNodeArray [
+ToListSelectionElement >> nodeContainers: anArray [
 
-	nodes := aNodeArray
+	nodeContainers := anArray
 ]
 
 { #category : #private }

@@ -28,8 +28,8 @@ TToTableListElement >> columns: aTableColumnArray [
 { #category : #'t - table list element' }
 TToTableListElement >> divider: aDivider movedBy: aDistance from: aStartLocation [
 
-	self innerElement nodes do: [ :n |
-		n divider: aDivider movedBy: aDistance from: aStartLocation ]
+	self innerElement nodeContainersDo: [ :container |
+		container node divider: aDivider movedBy: aDistance from: aStartLocation ]
 ]
 
 { #category : #'t - table list element' }
@@ -53,5 +53,5 @@ TToTableListElement >> parentTable: aTableElement [
 { #category : #'t - table list element' }
 TToTableListElement >> recordCellsWidth [
 
-	self innerElement nodesDo: [ :n | n recordCellsWidth ]
+	self innerElement nodeContainersDo: [ :container | container node recordCellsWidth ]
 ]

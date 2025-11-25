@@ -10,22 +10,22 @@ TToBarElement >> defaultInnerElementClass [
 ]
 
 { #category : #'t - bar element' }
-TToBarElement >> fakeNode [
+TToBarElement >> fakeNodeContainer [
 
-	^ self innerElement fakeNode
+	^ self innerElement fakeNodeContainer
 ]
 
 { #category : #'t - bar element' }
-TToBarElement >> installFakeNode [
+TToBarElement >> installFakeNodeContainer [
 
-	self innerElement installFakeNode
+	self innerElement installFakeNodeContainer
 ]
 
 { #category : #'t - bar element' }
-TToBarElement >> reinstallFakeNode [
+TToBarElement >> reinstallFakeNodeContainer [
 
-	self uninstallFakeNode.
-	self installFakeNode
+	self uninstallFakeNodeContainer.
+	self installFakeNodeContainer
 ]
 
 { #category : #'t - bar element' }
@@ -38,7 +38,7 @@ TToBarElement >> sample [
 TToBarElement >> sample: aDataItem [
 
 	self nodeManager fakeDataItem: aDataItem.
-	self reinstallFakeNode.
+	self reinstallFakeNodeContainer.
 	self requestLayout
 	
 ]
@@ -50,7 +50,7 @@ TToBarElement >> trackElement [
 ]
 
 { #category : #'t - bar element' }
-TToBarElement >> uninstallFakeNode [
+TToBarElement >> uninstallFakeNodeContainer [
 
-	self innerElement uninstallFakeNode
+	self innerElement uninstallFakeNodeContainer
 ]

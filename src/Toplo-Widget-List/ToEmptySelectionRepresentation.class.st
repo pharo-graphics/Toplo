@@ -11,7 +11,7 @@ ToEmptySelectionRepresentation >> isEmpty [
 ]
 
 { #category : #accessing }
-ToEmptySelectionRepresentation >> nodes [
+ToEmptySelectionRepresentation >> nodeContainers [
 
 	^ #(  )
 ]

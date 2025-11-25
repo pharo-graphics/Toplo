@@ -8,13 +8,8 @@ Class {
 { #category : #configuration }
 ToListNode >> applyConfiguration [
 
-	| l |
 	super applyConfiguration.
-	l := self holder listElement.
-	l isHorizontal
-		ifTrue: [ self hFitContent ]
-		ifFalse: [ self hMatchParent ].
-	self vFitContent.
+	self matchParent.
 	self holder initializeNode
 ]
 

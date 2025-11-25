@@ -284,7 +284,7 @@ ToSandBox class >> barWithData: aCollection [
 												  labelText: 'Inspect';
 												  clickAction: [
 													  Array withAll:
-															  (idxes collect: [ :idx | target nodeAt: idx ])
+															  (idxes collect: [ :idx | target nodeContainerAt: idx ])
 																  inspect ];
 												  yourself).
 									 m addItem: (ToMenuItem new
@@ -297,8 +297,8 @@ ToSandBox class >> barWithData: aCollection [
 											  labelText: 'Unable/disable';
 											  clickAction: [
 													  idxes do: [ :idx |
-															  (bar nodeAt: idx) disabled:
-																	  (bar nodeAt: idx) isEnabled ] ];
+															  (bar nodeContainerAt: idx) disabled:
+																	  (bar nodeContainerAt: idx) isEnabled ] ];
 											  yourself).
 									 m addItem: (ToMenuItem new
 											  labelText: 'Unselectable';
@@ -2239,7 +2239,7 @@ ToSandBox class >> example_EditableList2WithAllClassesNames [
 				 on: ToListStrongSelectionEvent
 				 do: [ :event |
 					 event indexes size == 1 ifTrue: [
-							 (l nodeAt: event indexes first) label popupEditorEvent: event ] ]).
+							 (l nodeContainerAt: event indexes first) label popupEditorEvent: event ] ]).
 	l	withRowNumbers.
 
 	l dataAccessor addAll:
@@ -2915,7 +2915,6 @@ ToSandBox class >> example_ListWithAllClasses4 [
 	l selectionOption beneath: false.
 	l selectionMode selectOnPressed: false.
 	l selectionMode selectOnClick: false.
-	"l selectionOption masked: true."
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l openInSpace
 ]
@@ -9365,13 +9364,13 @@ ToSandBox class >> listMenuFenuFactory [
 		  selectionMenu := ToMenu new.
 		  selectionMenu label: (ToLabel new text: 'Selection').
 		  indexes size = 1 ifTrue: [
-			  | node idx label |
+			  | container idx label |
 			  idx := indexes first.
-			  node := target nodeAt: idx.
-			  label := node childWithId: #nodeLabel.
+			  container := target nodeContainerAt: idx.
+			  label := container childWithId: #nodeLabel.
 			  selectionMenu addItem: (ToMenuItem new
 					   labelText: 'Inspect node';
-					   clickAction: [ node inspect ];
+					   clickAction: [ container inspect ];
 					   yourself).
 			  selectionMenu addItem: (ToMenuItem new
 					   labelText: 'Edit';
@@ -9382,11 +9381,11 @@ ToSandBox class >> listMenuFenuFactory [
 							    ifTrue: [ 'Be multiline' ]
 							    ifFalse: [ 'Be monoline' ]);
 					   clickAction: [
-						   node firstChild label monoLine: label isMonoLine not ];
+						   container firstChild label monoLine: label isMonoLine not ];
 					   yourself).
 			  selectionMenu addItem: (ToMenuItem new
 					   labelText: 'Inspect';
-					   clickAction: [ node inspect ];
+					   clickAction: [ container inspect ];
 					   yourself).
 			  selectionMenu addSeparator ].
 
@@ -9395,8 +9394,8 @@ ToSandBox class >> listMenuFenuFactory [
 				   clickAction: [
 					   indexes do: [ :idx |
 							   | di |
-							   di := (target nodeAt: idx) isDisabled.
-							   (target nodeAt: idx) disabled: di not ] ];
+							   di := (target nodeContainerAt: idx) isDisabled.
+							   (target nodeContainerAt: idx) disabled: di not ] ];
 				   yourself).
 		  selectionMenu addItem: (ToMenuItem new
 				   labelText: 'Set unselectable';

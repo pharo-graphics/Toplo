@@ -65,33 +65,39 @@ TToListElementDecorator >> next [
 ]
 
 { #category : #'t - list element decorator - children - accessing' }
-TToListElementDecorator >> nodeAt: anIndex [
+TToListElementDecorator >> nodeContainerAt: anIndex [
 
-	^ self next nodeAt: anIndex
+	^ self next nodeContainerAt: anIndex
+]
+
+{ #category : #'t - list element decorator - children - accessing' }
+TToListElementDecorator >> nodeContainers [
+
+	^ self next nodeContainers
+]
+
+{ #category : #'t - list element decorator - children - accessing' }
+TToListElementDecorator >> nodeContainersDetect: aValuable [
+
+	^ self next nodeContainersDetect: aValuable
+]
+
+{ #category : #'t - list element decorator - children - accessing' }
+TToListElementDecorator >> nodeContainersDo: aValuable [
+
+	self next nodeContainersDo: aValuable
+]
+
+{ #category : #'t - list element decorator - children - accessing' }
+TToListElementDecorator >> nodeContainersSelect: aValuable [
+
+	^ self next nodeContainersSelect: aValuable
 ]
 
 { #category : #'t - list element decorator - children - accessing' }
 TToListElementDecorator >> nodes [
 
-	^ self next nodes
-]
-
-{ #category : #'t - list element decorator - children - accessing' }
-TToListElementDecorator >> nodesDetect: aValuable [
-
-	^ self next nodesDetect: aValuable
-]
-
-{ #category : #'t - list element decorator - children - accessing' }
-TToListElementDecorator >> nodesDo: aValuable [
-
-	self next nodesDo: aValuable
-]
-
-{ #category : #'t - list element decorator - children - accessing' }
-TToListElementDecorator >> nodesSelect: aValuable [
-
-	^ self next nodesSelect: aValuable
+	^ self nodeContainers collect: [ :container | container node ]
 ]
 
 { #category : #'t - list element decorator - infinite accessing' }

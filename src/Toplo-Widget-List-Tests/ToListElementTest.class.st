@@ -89,7 +89,7 @@ ToListElementTest >> testDisable [
 	self assert: l isDisabled.
 	self assert: l selectionModel isEmpty.
 	self assert: l secondarySelectionModel isEmpty.
-	l nodesDo: [ :n | self assert: n isDisabled ]
+	l nodeContainersDo: [ :container | self assert: container isDisabled ]
 ]
 
 { #category : #'test selection - mode' }
@@ -167,7 +167,7 @@ ToListElementTest >> testDisabledWithFourNodes2 [
 	l dataAccessor add: 'first'.
 	l dataAccessor add: 'second'.
 	self waitTestingSpaces.
-	l nodes second disabled: true.
+	l nodeContainers second disabled: true.
 	l dataAccessor add: 'third'.
 	l dataAccessor add: 'fourth'.
 	self waitTestingSpaces.
@@ -182,7 +182,7 @@ ToListElementTest >> testDisabledWithOneNode [
 	space root addChild: l.
 	l dataAccessor add: 'first'.
 	self waitTestingSpaces.
-	self assert: l nodes size equals: 1.
+	self assert: l nodeContainers size equals: 1.
 	self assert: l disabledSelectionModel isEmpty.
 	l disabledSelecter selectOneMoreIndex: 1.
 	self waitTestingSpaces.
@@ -238,9 +238,9 @@ ToListElementTest >> testDisabledWithTwoNodes2 [
 	l dataAccessor add: 'first'.
 	space root addChild: l.
 	self waitTestingSpaces.
-	self assert: l nodes size equals: 1.
+	self assert: l nodeContainers size equals: 1.
 	self assert: l disabledSelectionModel isEmpty.
-	l nodes first disabled: true.
+	l nodeContainers first disabled: true.
 	self waitTestingSpaces.
 	self assert: l disabledSelecter selectedIndex equals: 1.
 	l dataAccessor addFirst: 'second'.
@@ -257,12 +257,12 @@ ToListElementTest >> testDisabledWithTwoNodes3 [
 	l dataAccessor add: 'first'.
 	space root addChild: l.
 	self waitTestingSpaces.
-	self assert: l nodes size equals: 1.
+	self assert: l nodeContainers size equals: 1.
 	self assert: l disabledSelectionModel isEmpty.
-	l nodes first disabled: true.
+	l nodeContainers first disabled: true.
 	self waitTestingSpaces.
 	self assert: l disabledSelecter selectedIndex equals: 1.
-	self assert: l nodes first isDisabled.
+	self assert: l nodeContainers first node isDisabled.
 	l dataAccessor addFirst: 'second'.
 	self waitTestingSpaces.
 	self assert: l disabledSelecter selectedIndex equals: 2.
@@ -308,7 +308,7 @@ ToListElementTest >> testEmptyList [
 	| l |
 	l := ToListElement new.
 	l fitContent.
-	self assert: l nodes identicalTo: l innerElement children.
+	self assert: l nodeContainers identicalTo: l innerElement children.
 	self assert: l selecter selectedIndexes isEmpty.
 	self assert: l selectionModel underlyingModel isEmpty.
 	self assert: l secondarySelectionModel underlyingModel isEmpty.	
@@ -397,12 +397,12 @@ ToListElementTest >> testEnable [
 	self assert: l isDisabled.
 	self assert: l selectionModel isEmpty.
 	self assert: l secondarySelectionModel isEmpty.
-	l nodesDo: [ :n | self assert: n isDisabled ].
+	l nodeContainersDo: [ :container | self assert: container isDisabled ].
 	l enable.
 	self assert: l isEnabled.
 	self assert: l selectionModel isEmpty.
 	self assert: l secondarySelectionModel isEmpty.
-	l nodesDo: [ :n | self deny: n isDisabled ]
+	l nodeContainersDo: [ :container | self deny: container isDisabled ]
 ]
 
 { #category : #'test selection - mode' }
@@ -599,20 +599,20 @@ ToListElementTest >> testOneSpecifcNode [
 	self assert: l dataSource first equals: 'first'.
 	" no node since the list is not added in a space "
 	self assert: l innerElement children size equals: 0.
-	self assert: l nodes identicalTo: l innerElement children.
-	self assert: l nodes size equals: 0.
+	self assert: l nodeContainers identicalTo: l innerElement children.
+	self assert: l nodeContainers size equals: 0.
 	" adding the list in the space consequence is a layout computing which update the list nodes"
 	space root addChild: l.
 	self waitTestingSpaces.
 	self assert: l innerElement children size equals: 1.
-	self assert: l innerElement firstChild class identicalTo: ToSpecificListNodeForTest.	
-	self assert: l nodes first class identicalTo: ToSpecificListNodeForTest.	
-	self assert: l nodes first holder class identicalTo: ToSpecificListNodeHolderForTest.	
-	self assert: l nodes first children size equals: 1.	
-	self assert: l nodes first firstChild class identicalTo: ToLabel.	
-	self assert: l nodes first firstChild text asString equals: '1:first'.	
-	self assert: l nodes first holder num equals: 1.	
-	self assert: l nodes first holder dataItem equals: 'first'
+	self assert: l innerElement firstChild node class identicalTo: ToSpecificListNodeForTest.	
+	self assert: l nodeContainers first node class identicalTo: ToSpecificListNodeForTest.	
+	self assert: l nodeContainers first holder class identicalTo: ToSpecificListNodeHolderForTest.	
+	self assert: l nodeContainers first node children size equals: 1.	
+	self assert: l nodeContainers first node firstChild class identicalTo: ToLabel.	
+	self assert: l nodeContainers first node firstChild text asString equals: '1:first'.	
+	self assert: l nodeContainers first holder num equals: 1.	
+	self assert: l nodeContainers first holder dataItem equals: 'first'
 ]
 
 { #category : #'test - selection changed event' }

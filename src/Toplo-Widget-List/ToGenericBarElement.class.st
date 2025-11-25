@@ -13,9 +13,9 @@ ToGenericBarElement >> defaultNodeManagerClass [
 ]
 
 { #category : #accessing }
-ToGenericBarElement >> fakeNode [
+ToGenericBarElement >> fakeNodeContainer [
 
-	^ self innerElement fakeNode
+	^ self innerElement fakeNodeContainer
 ]
 
 { #category : #initialization }
@@ -44,7 +44,7 @@ ToGenericBarElement >> nodeBuilder: aValuable [
 
 	super nodeBuilder: aValuable.
 	self nodeManager fakeDataItem: nil.
-	self reinstallFakeNode.
+	self reinstallFakeNodeContainer.
 	self notifyDataSourceChanged
 ]
 

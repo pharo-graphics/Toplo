@@ -16,7 +16,7 @@ ToAbstractNodeManager >> newHolder [
 ]
 
 { #category : #'instance creation' }
-ToAbstractNodeManager >> newNodeContainer [
+ToAbstractNodeManager >> newNodeContainer [ 
 
 	^ ToNodeContainer new
 ]

@@ -59,7 +59,7 @@ ToTabGroupElementTest >> testRemoveAllItems [
 	self waitTestingSpaces.
 	self assert: tabGroup items size equals: 0.
 	self assert: tabGroup itemBar items size equals: 0.
-	self assert: tabGroup itemBar innerElement nodes size equals: 0.
+	self assert: tabGroup itemBar innerElement nodeContainers size equals: 0.
 	" the fake node remains "
 	self assert: tabGroup itemBar innerElement trackElement children size equals: 1
 
@@ -234,7 +234,7 @@ ToTabGroupElementTest >> testRemoveItem6 [
 	self waitTestingSpaces.
 	self assert: tabGroup items size equals: 0.
 	self assert: tabGroup itemBar items size equals: 0.
-	self assert: tabGroup itemBar innerElement nodes size equals: 0.
+	self assert: tabGroup itemBar innerElement nodeContainers size equals: 0.
 	" the fake node remains "
 	self assert: tabGroup itemBar innerElement trackElement children size equals: 1
 

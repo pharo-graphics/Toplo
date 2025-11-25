@@ -12,8 +12,8 @@ Class {
 ToSelectionWithElement >> createSelectionElementIn: aListElement option: aSelectionRepresentationOption [
 
 	cachedSelectionElement := aSelectionRepresentationOption newSelectionElementIn: aListElement.
-	cachedSelectionElement nodes: self nodes.
-	preComputedBounds := cachedSelectionElement boundsFromNodesIn: aListElement.
+	cachedSelectionElement nodeContainers: self nodeContainers.
+	preComputedBounds := cachedSelectionElement boundsInListElement: aListElement.
 	self refreshSelectionElementIn: aListElement option: aSelectionRepresentationOption
 ]
 

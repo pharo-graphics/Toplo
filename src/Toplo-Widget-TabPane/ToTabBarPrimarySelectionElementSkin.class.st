@@ -8,5 +8,5 @@ Class {
 ToTabBarPrimarySelectionElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
-	anEvent elementDo: [ :e | e visibility: e node visibility ]
+	anEvent elementDo: [ :e | e visibility: e nodeContainer visibility ]
 ]

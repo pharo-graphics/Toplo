@@ -23,12 +23,12 @@ ToMenuItemBarElementTest >> setUp [
 ToMenuItemBarElementTest >> test [
 
 	| n |
-	self assert: l nodes size equals: l dataAccessor size.
+	self assert: l nodeContainers size equals: l dataAccessor size.
 	self assert: (l nodeManager isKindOf: ToMenuItemNodeManager).
 	l addAllItems:
 		((1 to: 10) collect: [ :i | ToMenuItem new labelText: i asString ]).
-	n := l nodes first.
-	self assert: (n isKindOf: ToMenuItemNode).
+	n := l nodeContainers first.
+	self assert: (n node isKindOf: ToMenuItemNode).
 	self assert: (n holder isKindOf: ToItemNodeHolder).
 	self assert: (n holder dataItem isKindOf: ToMenuItem)
 	
@@ -41,8 +41,8 @@ ToMenuItemBarElementTest >> testAddItem [
 	item := ToMenuItem new labelText: '#1'.
 	l addItem: item.
 	self waitTestingSpaces.
-	self assert: l nodes size equals: 1.
-	n := l nodes first.
+	self assert: l nodeContainers size equals: 1.
+	n := l nodeContainers first node.
 	self assert: (n isKindOf: ToMenuItemNode).
 	self assert: (n holder isKindOf: ToItemNodeHolder).
 	self assert: (n holder dataItem isKindOf: ToMenuItem).
@@ -54,13 +54,13 @@ ToMenuItemBarElementTest >> testAddItem [
 ToMenuItemBarElementTest >> testDisableItemAfterAdding [
 
 	| n item |
-	self assert: l nodes size equals: 0.
+	self assert: l nodeContainers size equals: 0.
 	item := ToMenuItem new labelText: 'A'.
 	l addItem: item.
 	item disable.
 	self waitTestingSpaces.
 
-	n := l nodes first.
+	n := l nodeContainers first node.
 	self assert: n holder dataItem identicalTo: item.
 	self assert: item positionInList equals: 1.
 	self assert:

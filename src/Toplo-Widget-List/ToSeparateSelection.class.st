@@ -36,7 +36,7 @@ ToSeparateSelection >> node: anObject [
 ]
 
 { #category : #accessing }
-ToSeparateSelection >> nodes [
+ToSeparateSelection >> nodeContainers [
 
 	^ Array with: node
 ]

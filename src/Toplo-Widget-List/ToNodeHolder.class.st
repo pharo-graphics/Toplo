@@ -22,9 +22,9 @@ ToNodeHolder >> bindDataItem: aDataItem [
 
 	self flag: 'The recycling case have to be re-worked'.
 	" I can already have a node in case of recycling "
-	self node ifNotNil: [ ^ self ].
-	self setupNodeWith: (self nodeManager newNodeForHolder: self).
-	self dataItem: aDataItem.
+	self nodeContainer ifNotNil: [ ^ self ].
+	self setupNodeContainerWith: (self nodeManager newNodeContainer).
+	self dataItem: (self unwrappedDataItemFrom: aDataItem).
 	self nodeManager buildNode: self node
 ]
 
@@ -146,13 +146,19 @@ ToNodeHolder >> listElement [
 { #category : #accessing }
 ToNodeHolder >> node [
 
-	^ self itemElement 
+	^ self nodeContainer node 
 ]
 
 { #category : #accessing }
-ToNodeHolder >> node: aNode [
+ToNodeHolder >> nodeContainer [
 
-	itemElement := aNode
+	^ self itemElement
+]
+
+{ #category : #accessing }
+ToNodeHolder >> nodeContainer: aNodeContainer [
+
+	itemElement := aNodeContainer
 ]
 
 { #category : #accessing }
@@ -248,10 +254,13 @@ ToNodeHolder >> selectionModel [
 ]
 
 { #category : #accessing }
-ToNodeHolder >> setupNodeWith: aNode [
+ToNodeHolder >> setupNodeContainerWith: aNodeContainer [
 
-	self node: aNode.
-	aNode holder: self
+	self nodeContainer: aNodeContainer.
+	aNodeContainer holder: self.
+	aNodeContainer
+		hMatchParent;
+		vFitContent
 ]
 
 { #category : #accessing }
@@ -260,4 +269,10 @@ ToNodeHolder >> unbindDataItem [
 	| nodeManager |
 	nodeManager := self listElement nodeManager.
 	nodeManager unbuildNode: self node
+]
+
+{ #category : #accessing }
+ToNodeHolder >> unwrappedDataItemFrom: aDataItem [
+
+	^ aDataItem
 ]

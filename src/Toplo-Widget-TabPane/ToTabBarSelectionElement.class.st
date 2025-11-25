@@ -29,17 +29,17 @@ ToTabBarSelectionElement >> initialize [
 { #category : #private }
 ToTabBarSelectionElement >> positionFrom: aPoint in: aListElement [
 
-	| x y node nodeBounds insets |
+	| x y container nodeBounds insets |
 	aListElement isFlowable ifTrue: [
 		^ super positionFrom: aPoint in: aListElement ].
 	" compute the selection element to be over the parent track element "
-	node := self node.
+	container := self nodeContainer.
 	insets := BlInsets all: 0.
-	node
+	container
 		allParentsUpTo: aListElement
 		do: [ :p | insets := insets + p padding ].
-	node space ifNil: [ ^ aPoint ].
-	nodeBounds := node measuredBounds.
+	container space ifNil: [ ^ aPoint ].
+	nodeBounds := container measuredBounds.
 	aListElement isHorizontal
 		ifTrue: [
 				x := aPoint x.

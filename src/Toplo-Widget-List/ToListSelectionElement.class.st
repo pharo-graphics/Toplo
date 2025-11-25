@@ -75,6 +75,14 @@ ToListSelectionElement >> listElement: aListElement [
 ]
 
 { #category : #accessing }
+ToListSelectionElement >> node [
+
+	self deprecated: 'Use #nodeContainer' transformWith: '`@r node'->'`@r nodeContainer'.
+
+	^ self nodeContainer
+]
+
+{ #category : #accessing }
 ToListSelectionElement >> nodeContainer [
 
 	^ nodeContainers first

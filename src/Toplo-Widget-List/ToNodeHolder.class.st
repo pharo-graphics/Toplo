@@ -25,6 +25,8 @@ ToNodeHolder >> bindDataItem: aDataItem [
 	self nodeContainer ifNotNil: [ ^ self ].
 	self setupNodeContainerWith: (self nodeManager newNodeContainer).
 	self dataItem: (self unwrappedDataItemFrom: aDataItem).
+
+	self nodeManager buildNodeContainer: self nodeContainer.
 	self nodeManager buildNode: self node
 ]
 
@@ -191,7 +193,7 @@ ToNodeHolder >> notifyNodeSelectedEvent: anEvent [
 
 	notifiedSelected := anEvent selected.
 	wasFocused := self listElement focused.
-	self node dispatchEvent: anEvent
+	self nodeContainer dispatchEvent: anEvent
 ]
 
 { #category : #selection }

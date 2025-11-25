@@ -9,13 +9,13 @@ Class {
 { #category : #accessing }
 ToTreeTableNode >> addCellContainer: aCellContainer [
 
-	self  middleContainer addChild: aCellContainer
+	self   addChild: aCellContainer
 ]
 
 { #category : #'t - table node' }
 ToTreeTableNode >> cellContainers [ 
 
-	^ self middleContainer children asArray
+	^ self children asArray
 ]
 
 { #category : #'t - table node' }

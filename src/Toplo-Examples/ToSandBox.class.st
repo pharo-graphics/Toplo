@@ -827,7 +827,8 @@ ToSandBox class >> example_AllClassesWithCheckbox [
 
 	| l |
 	l := self example_AllClasses.
-	l useCheckbox: true
+	l useCheckbox: true.
+	l inspect
 ]
 
 { #category : #window }

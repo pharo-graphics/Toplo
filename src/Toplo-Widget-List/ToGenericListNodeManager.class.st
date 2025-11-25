@@ -1,8 +1,8 @@
 Class {
 	#name : #ToGenericListNodeManager,
 	#superclass : #ToAbstractNodeManager,
-	#traits : 'TToGenericNodeManager + TToListGenericCheckableNodeBuilder',
-	#classTraits : 'TToGenericNodeManager classTrait + TToListGenericCheckableNodeBuilder classTrait',
+	#traits : 'TToGenericNodeManager',
+	#classTraits : 'TToGenericNodeManager classTrait',
 	#category : #'Toplo-Widget-List-Core'
 }
 

@@ -14,21 +14,11 @@ Class {
 { #category : #'node building' }
 ToGenericTreeNodeManager >> buildNode: aTreeNode [
 	
-	checkableNode ifTrue: [
-			| listElement cbox |
-			listElement := aTreeNode holder listElement.
-			cbox := listElement newCheckboxInNode: aTreeNode.
-			cbox constraintsDo: [ :c | c linear vertical alignCenter ].
-			aTreeNode addChild: cbox at: 1 ].
-
-	aTreeNode createStartContainer.
-	aTreeNode initializeStartContainer.
 	nodeBuilder
-		cull: aTreeNode middleContainer
+		cull: aTreeNode 
 		cull: aTreeNode holder treeDataItem
 		cull: aTreeNode holder.
-	aTreeNode childrenDo: [ :child |
-		child constraintsDo: [ :c | c linear vertical alignCenter ] ]
+
 ]
 
 { #category : #'t - generic node manager' }

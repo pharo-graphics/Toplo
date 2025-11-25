@@ -1,6 +1,6 @@
 Class {
 	#name : #ToExTreeNodeSubAndMethSkin,
-	#superclass : #ToTreeNodeSkin,
+	#superclass : #ToListNodeSkin,
 	#category : #'Toplo-Examples-TopLevel-Trees'
 }
 
@@ -9,9 +9,8 @@ ToExTreeNodeSubAndMethSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-			e startContainer
-				childWithId: #itemIcon
-				ifNone: [ e startContainer addChild: (self newIconForNode: e) ] ]
+			e childWithId: #itemIcon
+				ifNone: [ e addChild: (self newIconForNode: e) at: 1] ]
 ]
 
 { #category : #icons }
@@ -29,6 +28,14 @@ ToExTreeNodeSubAndMethSkin >> newIconForNode: aNode [
 			c linear horizontal alignLeft.
 			c linear vertical alignCenter ].
 	interspace := aNode valueOfTokenNamed: #'node-interspace'.
-	icon margin: (BlInsets left: interspace).
+	icon margin: (BlInsets right: interspace).
 	^ icon
+]
+
+{ #category : #'event handling' }
+ToExTreeNodeSubAndMethSkin >> uninstallSkinEvent: anEvent [
+
+	super uninstallSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e removeChild: (e childWithId: #itemIcon e) ]
 ]

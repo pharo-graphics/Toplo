@@ -33,6 +33,12 @@ ToNodeContainer >> newMiddleContainer [
 	^ node
 ]
 
+{ #category : #'t - triplet container - instance creation' }
+ToNodeContainer >> newStartContainer [
+
+	^ self newLinearContainer 
+]
+
 { #category : #accessing }
 ToNodeContainer >> node [
 

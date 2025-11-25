@@ -9,8 +9,6 @@ Class {
 { #category : #'node building' }
 ToTreeTableNodeManager >> buildNode: aNode [
 
-	aNode ensureStartContainer.
-	aNode initializeStartContainer.
 	self buildColumnsInNode: aNode
 ]
 
@@ -19,12 +17,6 @@ ToTreeTableNodeManager >> initialize [
 
 	super initialize.
 	self initializeAsGenericTreeNodeManager 
-]
-
-{ #category : #'t - generic node manager' }
-ToTreeTableNodeManager >> newHolder [
-
-	^ ToTreeNodeHolder new
 ]
 
 { #category : #'t - generic node manager' }

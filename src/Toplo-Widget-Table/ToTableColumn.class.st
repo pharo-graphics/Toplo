@@ -57,7 +57,7 @@ ToTableColumn >> buildListCellInContainer: aCellContainer atIndex: aColumnIndex 
 	useCheckbox ifTrue: [
 			| tableListElement cbox |
 			tableListElement := aTableNode holder listElement.
-			cbox := tableListElement newCheckboxInNode: aTableNode.
+			cbox := tableListElement newCheckboxInNodeContainer: aTableNode.
 			cbox constraintsDo: [ :c | c linear vertical alignCenter ].
 			aCellContainer ensureStartContainer.
 			aCellContainer startContainer addChild: cbox ].

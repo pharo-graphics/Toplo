@@ -1,8 +1,8 @@
 Class {
 	#name : #ToAbstractListElement,
 	#superclass : #ToElement,
-	#traits : 'TToListElementDecorator + TToElementWithPlaceholder + TToOrientable',
-	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait + TToOrientable classTrait',
+	#traits : 'TToCheckableSelectionManager + TToListElementDecorator + TToElementWithPlaceholder + TToOrientable',
+	#classTraits : 'TToCheckableSelectionManager classTrait + TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait + TToOrientable classTrait',
 	#instVars : [
 		'next',
 		'dataSource',

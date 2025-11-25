@@ -9,7 +9,7 @@ Class {
 ToListNode >> applyConfiguration [
 
 	super applyConfiguration.
-	self matchParent.
+	self hMatchParent.
 	self holder initializeNode
 ]
 

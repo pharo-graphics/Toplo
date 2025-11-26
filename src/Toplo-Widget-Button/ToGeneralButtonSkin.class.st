@@ -59,7 +59,7 @@ ToGeneralButtonSkin >> installSkinEvent: anEvent [
 		(e hasStamp: #iconic) ifFalse: [
 				e padding: (BlInsets
 						 horizontal: (e valueOfTokenNamed: #'padding-XS')
-						 vertical: (e valueOfTokenNamed: #'padding-content-VXS')) ] ]
+						 vertical: (e valueOfTokenNamed: #'padding-content-VS')) ] ]
 ]
 
 { #category : #'event handling' }

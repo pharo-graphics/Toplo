@@ -61,7 +61,7 @@ ToScrollableBarTrackElement >> autoDistribute [
 { #category : #accessing }
 ToScrollableBarTrackElement >> fakeNodeContainer [
 
-	^ self hasChildren
+	^ (self hasChildren and: [ self firstChild isFake ])
 		  ifTrue: [ self firstChild ]
 		  ifFalse: [ ]
 ]

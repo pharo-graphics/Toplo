@@ -53,7 +53,7 @@ TToSelectInnerContainerElement >> onSelectionChangedInPopupListElement: anEvent 
 { #category : #'t - select inner container' }
 TToSelectInnerContainerElement >> refreshFromPopupListSelection [
 
-	^ self explicitRequirement 
+	^ self subclassResponsibility 
 ]
 
 { #category : #'t - select inner container' }

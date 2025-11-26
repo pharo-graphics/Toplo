@@ -35,7 +35,7 @@ ToAbstractBarNodeManager >> initialize [
 { #category : #'instance creation' }
 ToAbstractBarNodeManager >> newFakeNodeContainer [ 
 
-	^ ToFakeNodeContainer new
+	^ ToBarFakeNodeContainer new
 ]
 
 { #category : #'instance creation' }

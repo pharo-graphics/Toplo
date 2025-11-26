@@ -4255,7 +4255,6 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	select hMatchParent.
 	select selecter selectIndex: 2.
 	innerWindow pane addChild: select.
-	"innerWindow height: 600."
 	innerWindow openInSpace.
 	^ select
 ]

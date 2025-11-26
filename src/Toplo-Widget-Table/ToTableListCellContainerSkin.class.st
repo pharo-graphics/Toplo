@@ -9,13 +9,15 @@ ToTableListCellContainerSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-			| columnIndex columnState indent indentWidth |
-			indent := e valueOfTokenNamed: #'node-indent'.
-			indentWidth := indent * e nodeDepth.
-			columnIndex := e columnIndex.
-			columnState := e tableNodeHolder listElement columnStateAt: columnIndex.
+			| columnState listElement |
+			listElement := e tableNodeHolder listElement.
+			columnState := listElement columnStateAt: e columnIndex.
 			columnState width ifNotNil: [ :w |
-					columnIndex = 1
-						ifTrue: [ e width: w - indentWidth ]
+					e columnIndex = 1
+						ifTrue: [
+								| indent indentWidth |
+								indent := e valueOfTokenNamed: #'node-indent'.
+								indentWidth := indent * e nodeDepth.
+								e width: w - indentWidth ]
 						ifFalse: [ e width: w ] ] ]
 ]

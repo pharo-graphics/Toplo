@@ -70,7 +70,7 @@ ToTheme class >> defaultTokenProperties [
 
 		  (ToTokenProperty name: #'iconic-arrow-breadth' value: 18).
 		  (ToTokenProperty name: #'node-indent' value: 18).
-		  (ToTokenProperty name: #'node-interspace' value: 8).
+		  (ToTokenProperty name: #'node-interspace' value: 6).
 		  (ToTokenProperty name: #'border-radius' value: 4).
 		  (ToTokenProperty name: #'border-radius-LG' value: 8).
 		  (ToTokenProperty name: #'border-radius-SM' value: 4).

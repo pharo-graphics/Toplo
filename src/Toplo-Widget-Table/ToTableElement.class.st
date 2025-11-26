@@ -84,7 +84,8 @@ ToTableElement >> initialize [
 	self property: #columns whenChangedDo: [
 			list columns: self columns.
 			header columns: self columns.
-			self initializeDividers ].
+			self initializeDividers.
+			list notifyDataSourceChanged ].
 	self property: #showHeader whenChangedDo: [
 			showHeader
 				ifTrue: [ header constraintsDo: [ :c | c vertical fitContent ] ]

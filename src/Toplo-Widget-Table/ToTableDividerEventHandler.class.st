@@ -19,6 +19,16 @@ ToTableDividerEventHandler >> dividerDragEvent: anEvent [
 ]
 
 { #category : #'divider dragging' }
+ToTableDividerEventHandler >> dividerDragRequestEvent: anEvent [
+
+	| divider state  w |
+	divider := anEvent currentTarget.
+	state := divider parentTable list columnStateAt: divider cellIndex.
+	w := state startDragWidth + anEvent delta x.
+	w > 10 ifFalse: [ anEvent deny ]
+]
+
+{ #category : #'divider dragging' }
 ToTableDividerEventHandler >> dividerStartDragEvent: anEvent [
 
 	| divider table |
@@ -33,5 +43,6 @@ ToTableDividerEventHandler >> eventsToHandle [
 
 	^ {
 		  ToDividerStartDragEvent.
-		  ToDividerDragEvent }
+		  ToDividerDragEvent.
+		ToDividerDragRequestEvent }
 ]

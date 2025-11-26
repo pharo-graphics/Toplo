@@ -21,6 +21,13 @@ ToTableDivider >> cellIndex: anIndex [
 ]
 
 { #category : #initialization }
+ToTableDivider >> dragTarget [
+	| containers |
+	containers := parentTable header cellContainers.
+	^ containers at: cellIndex
+]
+
+{ #category : #initialization }
 ToTableDivider >> initialize [
 
 	super initialize.
@@ -43,9 +50,8 @@ ToTableDivider >> parentTable: aTableElement [
 
 { #category : #initialization }
 ToTableDivider >> setPositionInTable [
-	| containers cont bnds |
-	containers := parentTable header cellContainers.
-	cont := containers at: cellIndex.
+	| cont bnds |
+	cont := self dragTarget.
 	bnds := cont bounds inParent: parentTable.
 	self position: bnds right - self thickness @ 0.0
 ]

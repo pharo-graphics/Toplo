@@ -13,7 +13,7 @@ ToPaneDividerEventHandler >> dragEvent: anEvent [
 
 	| firstTargetBounds secondTargetBounds dragDelta divider secondDragDelta |
 	anEvent consume.
-super dragEvent: anEvent.
+	super dragEvent: anEvent.
 	divider := anEvent currentTarget.
 	firstTargetBounds := globalSideStartBounds first copy.
 	secondTargetBounds := globalSideStartBounds second copy.

@@ -54,8 +54,8 @@ ToScrollableBarTrackElement >> configureLayout [
 	(self layout class = self newLayoutStrategyClass and: [
 		 self layout orientation isHorizontal = self isHorizontal ])
 		ifFalse: [ self layout: self newLayoutStrategy ].
-	self layout uniformNodeWidth: listElement uniformNodeWidth.
-	self layout uniformNodeHeight: listElement uniformNodeHeight.
+	self layout uniformNodeWidth: self uniformNodeWidth.
+	self layout uniformNodeHeight: self uniformNodeHeight.
 ]
 
 { #category : #configuration }
@@ -217,4 +217,16 @@ ToScrollableBarTrackElement >> removeAllNodeContainers: anArray [
 ToScrollableBarTrackElement >> removeNodeContainer: container [
 
 	container removeFromParent
+]
+
+{ #category : #configuration }
+ToScrollableBarTrackElement >> uniformNodeHeight [
+
+	^ listElement uniformNodeHeight
+]
+
+{ #category : #configuration }
+ToScrollableBarTrackElement >> uniformNodeWidth [
+
+	^ listElement uniformNodeWidth
 ]

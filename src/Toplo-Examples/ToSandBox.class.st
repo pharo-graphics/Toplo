@@ -1612,7 +1612,7 @@ ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheetDarkTheme [
 	btn label addStamp: #H3.
 	btn addStamp: #primary.
 	btn addStamp: #danger.
-	btn size: 500 @ 100.
+	btn extent: 500 @ 100.
 	space := BlSpace new toTheme: ToBeeDarkTheme new.
 	space root layout: BlLinearLayout vertical.
 	space root addChildren: {
@@ -5413,27 +5413,6 @@ ToSandBox class >> example_ThemeSelectWithPlaceholder [
 	win openInSpace
 ]
 
-{ #category : #'button-dep' }
-ToSandBox class >> example_ToButtonWithDefaultSkin0 [
-
-
-	| space button1 pane |
-	
-	space := BlSpace new.
-	pane := ToPane horizontal.
-	pane layout cellSpacing: 10.
-	space root layout: (BlLinearLayout vertical cellSpacing: 10).
-
-	button1 := ToButton new.
-	button1 label: (ToLabel text: 'Default raw button').
-	button1 icon: (ToImage new innerImage: (ToThemeIcons searchOutlined16x16)).
-
-	space root addChild: pane.
-	space root addChild: button1.
-
-	space show.
-]
-
 { #category : #'toggle button' }
 ToSandBox class >> example_ToggleButton [
 
@@ -8218,21 +8197,6 @@ ToSandBox class >> example_textFieldsInListElement [
 ]
 
 { #category : #'button-dep' }
-ToSandBox class >> example_toAlbumAsButton [
-
-	| but |
-	but := ToAlbum new
-		       text: 'Hello world'";
-		       preventChildrenMouseEvents".
-	but
-		addEventHandlerOn: BlPrimaryClickEvent
-		do: [ self inform: 'Click' ].
-"	but background: Color blue."
-	but size: 300 @ 100.
-	but openInSpace
-]
-
-{ #category : #'button-dep' }
 ToSandBox class >> example_toBasicButton0 [
 
 	| but |
@@ -8247,7 +8211,7 @@ ToSandBox class >> example_toBasicButton1 [
 	| but |
 	but := ToGeneralButton new.
 	but addChild: (BlElement new
-			 size: 30 @ 30;
+			 extent: 30 @ 30;
 			 yourself).
 	but clickAction: [ self inform: 'clicked' ].
 	but background: (Color blue alpha: 0.3).
@@ -8277,7 +8241,7 @@ ToSandBox class >> example_toBasicButton3 [
 				         fontSize: 40;
 				         yourself)).
 	but matchParent.
-	but layout alignCenter.
+	but alignCenter: true.
 	but clickAction: [ self inform: 'clicked' ].
 	but openInSpace
 ]
@@ -8303,29 +8267,21 @@ ToSandBox class >> example_toBasicButton4 [
 ]
 
 { #category : #'button-dep' }
-ToSandBox class >> example_toButton0 [
-
-	| but |
-	but := ToButton new.
-	but openInSpace
-]
-
-{ #category : #'button-dep' }
 ToSandBox class >> example_toButtonOrientationChanger [
 
 	| but space iconImage count |
 	but := ToButton new.
 	but label: (ToLabel text: 'Button' asRopedText bold).
 	iconImage := BlElement new
-		             size: 20 @ 20;
+		             extent: 20 @ 20;
 		             background: Color lightGray;
 		             yourself.
 	but iconImage: iconImage.
 	count := 0.
-	but clickAction: [ :evt :b | 
-		count := count + 1.
-		count traceCr.
-		b orientation: b orientation inverted ].
+	but clickAction: [ :evt |
+			count := count + 1.
+			count traceCr.
+			but orientation: but orientation inverted ].
 	space := BlSpace new.
 	space root addChild: but.
 	space show.
@@ -8377,7 +8333,7 @@ ToSandBox class >> example_toButtonWithIconAndTextAndExtra [
 	but label: (ToLabel text: 'Button').
 	but iconImage: ToThemeIcons searchOutlined16x16.
 	but endElement: (BlElement new
-			 size: 8 @ 9;
+			 extent: 8 @ 9;
 			 background: ToThemeIcons plainTriangle5x9;
 			 yourself).
 	space := BlSpace new.
@@ -8389,7 +8345,10 @@ ToSandBox class >> example_toButtonWithIconAndTextAndExtra [
 ToSandBox class >> example_toButtonWithIconOnly [
 
 	| but space container |
-	container := BlElement new size: 200@200; border: (BlBorder paint: Color gray); background: (Color gray alpha: 0.1).
+	container := BlElement new
+		             extent: 200 @ 200;
+		             border: (BlBorder paint: Color gray);
+		             background: (Color gray alpha: 0.1).
 	but := ToButton new.
 	"but addLook: ToButtonLinkLook new."
 	"but addLook: ToButtonDashedLook new."
@@ -8398,13 +8357,14 @@ ToSandBox class >> example_toButtonWithIconOnly [
 	"but addLook: ToButtonDangerLook new."
 	"but addLook: ToButtonLinkLook new."
 
-	but icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
+	but icon:
+		(ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
 	"but icon addLook: ToImagePrimaryLook new."
 	"but icon addLook: ToImageDangerLook new."
 	container addChild: but.
 	space := BlSpace new.
 	space root addChild: container.
-	space show 
+	space show
 ]
 
 { #category : #'button-dep' }
@@ -8414,34 +8374,38 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 	but := ToButton new.
 	but label: (ToLabel text: 'Button').
 	but iconImage: (BlElement new
-			 size: 60 @ 20;
+			 extent: 60 @ 20;
 			 background: (Color blue alpha: 0.2);
 			 yourself).
 	but beRightToLeft.
 	but layout cellSpacing: 10.
 	count := 0.
-	but addEventHandlerOn: BlClickEvent do: [ :event | count := count + 1. count traceCr ].
+	but addEventHandlerOn: BlClickEvent do: [ :event |
+			count := count + 1.
+			count traceCr ].
 	but clickAction: [ but icon background: Color random ].
 	space := BlSpace new.
 	space root addChild: but.
-	space show 
+	space show
 ]
 
 { #category : #'button-dep' }
 ToSandBox class >> example_toButtonWithTextAndIconVertical [
 
 	| but space |
-	but := ToButton new padding: (BlInsets all: 4); beVertical.
+	but := ToButton new
+		       padding: (BlInsets all: 4);
+		       beVertical.
 	but label: (ToLabel text: 'Button').
 	but iconImage: (BlElement new
-			 size: 60 @ 20;
+			 extent: 60 @ 20;
 			 background: (Color blue alpha: 0.2);
 			 yourself).
 	but layout cellSpacing: 10.
 	but clickAction: [ but icon background: Color random ].
 	space := BlSpace new.
 	space root addChild: but.
-	space show 
+	space show
 ]
 
 { #category : #'button-dep' }

@@ -6242,11 +6242,11 @@ ToSandBox class >> example_contextMenu [
 
 	| container |
 	container := ToElement new matchParent.
-	container contextMenu: [ :win :request |
-		win addItem: (ToMenuItem new
-				 labelText: 'Open';
-				 clickAction: [ self inform: 'Open' ];
-				 yourself) ].
+	container contextMenuBuilder: [ :win :request |
+			win addItem: (ToMenuItem new
+					 labelText: 'Open';
+					 clickAction: [ self inform: 'Open' ];
+					 yourself) ].
 
 	container openInSpace
 ]
@@ -7371,22 +7371,22 @@ ToSandBox class >> example_rootFrameWithContextMenu_menuPaneVertical [
 	win := ToInnerWindow new title: 'Context menu Example'.
 
 
-	win pane contextMenu: [ :contextMenu :request |
-		contextMenu addItem: (ToMenuItem new
-				 labelText: 'Open file';
-				 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
-		contextMenu addItem: (ToMenuItem new labelText: 'Export').
-		contextMenu addSeparator.
-		sub := ToMenu new labelText: 'Save All'.
-		sub addItem: (ToMenuItem new labelText: 'Locally').
-		subsub := ToMenu new
-			          labelText: 'Externally';
-			          icon:
-				          (ToImage inner:
-						           (Smalltalk ui icons iconNamed: #solidMenu)).
-		subsub addItem: (ToMenuItem new labelText: 'Here').
-		sub addItem: subsub.
-		contextMenu addItem: sub ].
+	win pane contextMenuBuilder: [ :contextMenu :request |
+			contextMenu addItem: (ToMenuItem new
+					 labelText: 'Open file';
+					 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
+			contextMenu addItem: (ToMenuItem new labelText: 'Export').
+			contextMenu addSeparator.
+			sub := ToMenu new labelText: 'Save All'.
+			sub addItem: (ToMenuItem new labelText: 'Locally').
+			subsub := ToMenu new
+				          labelText: 'Externally';
+				          icon:
+					          (ToImage inner:
+							           (Smalltalk ui icons iconNamed: #solidMenu)).
+			subsub addItem: (ToMenuItem new labelText: 'Here').
+			sub addItem: subsub.
+			contextMenu addItem: sub ].
 
 	bar := ToMenuPane new
 		       hMatchParent;

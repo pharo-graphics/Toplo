@@ -22,5 +22,6 @@ ToAbstractListNode >> defaultLayout [
 ToAbstractListNode >> initialize [
 
 	super initialize.
-	self layout: self defaultLayout
+	self layout: self defaultLayout.
+	self matchParent
 ]

@@ -7,6 +7,13 @@ Class {
 	#category : #'Toplo-Widget-TabPane-TabGroup'
 }
 
+{ #category : #configuration }
+ToTabInvisibleNodesMenu >> applyConfiguration [ 
+
+	super applyConfiguration.
+	self fitContent
+]
+
 { #category : #skin }
 ToTabInvisibleNodesMenu >> newRawSkin [
 

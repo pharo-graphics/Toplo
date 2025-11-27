@@ -39,11 +39,11 @@ ToAbstractBarNodeManager >> newFakeNodeContainer [
 ]
 
 { #category : #'instance creation' }
-ToAbstractBarNodeManager >> newFakeNodeContainerIn: anInnerBarElement [
+ToAbstractBarNodeManager >> newFakeNodeContainerIn: aBarElement [
 
 	| holder fakeContainer |
 	holder := self newHolder.
-	holder infiniteElement: anInnerBarElement.
+	holder infiniteElement: aBarElement innerElement.
 	holder dataItem: fakeDataItem.
 	holder bindAtPosition: 0.
 	fakeContainer := self newFakeNodeContainer.

@@ -32,7 +32,7 @@ ToAbstractListElement >> addedDataSourceCommand: aCommand [
 ToAbstractListElement >> applyConfiguration [
 
 	super applyConfiguration.
-	self innerElement applyConfiguration
+	self childrenDo: #applyConfiguration
 ]
 
 { #category : #'private - commands' }
@@ -263,12 +263,6 @@ ToAbstractListElement >> enabledAtPosition: anInteger [
 
 { #category : #layout }
 ToAbstractListElement >> extentChanged [
-]
-
-{ #category : #accessing }
-ToAbstractListElement >> fakeNodeContainer [
-
-	^ nil
 ]
 
 { #category : #'t - item' }

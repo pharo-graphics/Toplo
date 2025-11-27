@@ -33,18 +33,29 @@ ToBarNodeContainer >> applyConfiguration [
 ]
 
 { #category : #testing }
-ToBarNodeContainer >> isFullyVisibleInInnerElement [
+ToBarNodeContainer >> intersectionRectangleWithListElement [
+
+	| intersection bnds pbnds list |
+	list := self holder listElement.
+	bnds := self measuredBounds inSpace bounds asRectangle.
+	pbnds := self listElementReferenceBoundsInSpace asRectangle.
+	intersection := bnds intersect: pbnds.
+	^ intersection
+]
+
+{ #category : #testing }
+ToBarNodeContainer >> isFullyVisibleInListElement [
 
 	| bnds  intersection |
 	bnds := (self measuredBounds inSpace) asRectangle.
-	intersection := self nodeAndListElementIntersection.
+	intersection := self intersectionRectangleWithListElement.
 	^ intersection = bnds
 ]
 
 { #category : #testing }
-ToBarNodeContainer >> isPartlyVisible [
+ToBarNodeContainer >> isPartlyVisibleInListElement [
 
-	^ self nodeAndListElementIntersection
+	^ self intersectionRectangleWithListElement
 		  ifNotNil: [ :i | i isZero not ]
 		  ifNil: [ false ]
 ]
@@ -55,15 +66,4 @@ ToBarNodeContainer >> listElementReferenceBoundsInSpace [
 	|  list |
 	list := self holder listElement.
 	^ list innerElement bounds inSpace
-]
-
-{ #category : #testing }
-ToBarNodeContainer >> nodeAndListElementIntersection [
-
-	| intersection bnds pbnds list |
-	list := self holder listElement.
-	bnds := self measuredBounds inSpace bounds asRectangle.
-	pbnds := self listElementReferenceBoundsInSpace asRectangle.
-	intersection := bnds intersect: pbnds.
-	^ intersection
 ]

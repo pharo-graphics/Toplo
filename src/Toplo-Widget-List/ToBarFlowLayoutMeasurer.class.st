@@ -25,11 +25,10 @@ ToBarFlowLayoutMeasurer >> fillChildrenFor: anElement with: anExtentSpec [
 	self barUniformMeasure.
 
 	self barNodes do: [ :child |
-		| element |
-		element := child element.
-		element isFake ifFalse: [
+			| element |
+			element := child element.
 			child width: element measuredWidth.
-			child height: element measuredHeight ] ]
+			child height: element measuredHeight ]
 ]
 
 { #category : #accessing }

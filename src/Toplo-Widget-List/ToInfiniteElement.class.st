@@ -128,18 +128,6 @@ ToInfiniteElement >> findElementHolderForDataSourcePosition: aPosition [
 	^ super findElementHolderForDataSourcePosition: aPosition
 ]
 
-{ #category : #'node enumerating' }
-ToInfiniteElement >> fullyVisibleNodeContainersDo: aBlock [
-
-	self nodeContainersDo: aBlock
-]
-
-{ #category : #'node enumerating' }
-ToInfiniteElement >> fullyVisibleNodeContainersSelect: aBlock [
-
-	^ self nodeContainersSelect: aBlock
-]
-
 { #category : #initialization }
 ToInfiniteElement >> initialize [
 
@@ -192,6 +180,12 @@ ToInfiniteElement >> nodeContainersDo: aBlock [
 ]
 
 { #category : #'t - list node holder' }
+ToInfiniteElement >> nodeContainersReject: aBlock [
+
+	^ self nodeContainersSelect: [ :container | (aBlock value: container) not ]
+]
+
+{ #category : #'t - list node holder' }
 ToInfiniteElement >> nodeContainersSelect: aBlock [
 
 	^ Array streamContents: [ :stream |
@@ -224,14 +218,6 @@ ToInfiniteElement >> onListElement: aListElement [
 ToInfiniteElement >> partlyVisibleNodesDo: aBlock [
 
 	self nodeContainersDo: aBlock
-]
-
-{ #category : #'t - list node holder' }
-ToInfiniteElement >> partlyVisibleNodesSelect: aBlock [
-
-	^ Array streamContents: [ :stream |
-		  self partlyVisibleNodesDo: [ :container |
-			  (aBlock value: container) ifTrue: [ stream nextPut: container ] ] ]
 ]
 
 { #category : #private }

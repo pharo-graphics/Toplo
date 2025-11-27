@@ -12,16 +12,11 @@ ToGenericBarElement >> defaultNodeManagerClass [
 	^ ToGenericBarNodeManager 
 ]
 
-{ #category : #accessing }
-ToGenericBarElement >> fakeNodeContainer [
-
-	^ self innerElement fakeNodeContainer
-]
-
 { #category : #initialization }
 ToGenericBarElement >> initialize [
 
 	super initialize.
+	self initializeAsBarElement.
 	self primarySelectionMode selectionOption
 		grouped: false;
 		beneath: true;

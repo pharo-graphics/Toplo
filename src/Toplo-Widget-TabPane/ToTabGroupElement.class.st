@@ -4,8 +4,6 @@ Class {
 	#traits : 'TToItemBarContainer',
 	#classTraits : 'TToItemBarContainer classTrait',
 	#instVars : [
-		'invisibleNodes',
-		'visibleNodes',
 		'invisibleNodesMenu',
 		'endExtraContainer',
 		'menusContainer',
@@ -14,7 +12,9 @@ Class {
 		'tabItemFactory',
 		'showAddTabItemButton',
 		'itemBuilder',
-		'hidePartlyVisibleNodes'
+		'hidePartlyVisibleNodes',
+		'invisibleNodeContainers',
+		'visibleNodeContainers'
 	],
 	#category : #'Toplo-Widget-TabPane-TabGroup'
 }
@@ -94,19 +94,14 @@ ToTabGroupElement >> defaultInvisibleNodeMenuItemBuilder [
 ToTabGroupElement >> defaultInvisibleNodesMenuBuilder [
 
 	^ [ :menu :request |
-		  | middlePos |
-		  middlePos := self visibleNodes
-			               ifEmpty: [ 0 ]
-			               ifNotEmpty: [ :vn | vn first holder position - 1 ].
-		  self invisibleNodes do: [ :container |
+		  self invisibleNodeContainers do: [ :container |
 				  container node isEnabled ifTrue: [
 						  | mitem |
 						  mitem := ToTabInvisibleNodeMenuItem new
 							           tabNode: container node;
 							           yourself.
 						  invisibleNodeMenuItemBuilder cull: mitem cull: request.
-						  menu addItem: mitem ] ].
-		  menu addSeparatorBeforeIndex: (middlePos max: 1) ]
+						  menu addItem: mitem ] ] ]
 ]
 
 { #category : #initialization }
@@ -150,7 +145,7 @@ ToTabGroupElement >> hidePartlyVisibleNodes: aBoolean [
 ToTabGroupElement >> initialize [
 
 	super initialize.
-	self resetInvisibleNodes.
+	self resetInvisibleNodeContainers.
 	self createMiddleContainer.
 	self initializeParts.
 	self setItemBar: self middleContainer.
@@ -210,6 +205,12 @@ ToTabGroupElement >> initializeParts [
 ]
 
 { #category : #accessing }
+ToTabGroupElement >> invisibleNodeContainers [ 
+
+	^ invisibleNodeContainers 
+]
+
+{ #category : #accessing }
 ToTabGroupElement >> invisibleNodeMenuItemBuilder: aValuable [
 	"a valuable takes the menu item, the invisible node and the menu request as arguments "
 
@@ -219,7 +220,9 @@ ToTabGroupElement >> invisibleNodeMenuItemBuilder: aValuable [
 { #category : #accessing }
 ToTabGroupElement >> invisibleNodes [ 
 
-	^ invisibleNodes 
+	self deprecated: 'Use #invisibleNodeContainers' transformWith: '`@r invisibleNodes' -> '`@r invisibleNodeContainers'.
+
+	^ self invisibleNodeContainers 
 ]
 
 { #category : #accessing }
@@ -297,30 +300,30 @@ ToTabGroupElement >> newToConfiguration [
 ]
 
 { #category : #'t - bar element' }
-ToTabGroupElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes [
+ToTabGroupElement >> onInvisibleNodeContainers: theInvisibleNodes visibleNodeContainers: theVisibleNodes [
 
 	| startIdx endIdx |
-	invisibleNodes := theInvisibleNodes copy.
-	visibleNodes := theVisibleNodes copy.
+	invisibleNodeContainers := theInvisibleNodes copy.
+	visibleNodeContainers := theVisibleNodes copy.
 
-	startIdx := visibleNodes
+	startIdx := visibleNodeContainers
 		            ifEmpty: [ 0 ]
-		            ifNotEmpty: [ visibleNodes first holder position ].
-	endIdx := visibleNodes
+		            ifNotEmpty: [ visibleNodeContainers first holder position ].
+	endIdx := visibleNodeContainers
 		          ifEmpty: [ 0 ]
-		          ifNotEmpty: [ visibleNodes last holder position ].
+		          ifNotEmpty: [ visibleNodeContainers last holder position ].
 
 	hidePartlyVisibleNodes ifTrue: [
-			invisibleNodes do: [ :n |
+			invisibleNodeContainers do: [ :n |
 					n holder position > endIdx
 						ifTrue: [
 						n isVisible ifTrue: [ n visibility: BlVisibility hidden ] ]
 						ifFalse: [
 						n isVisible ifFalse: [ n visibility: BlVisibility visible ] ] ].
-			visibleNodes do: [ :n |
+			visibleNodeContainers do: [ :n |
 				n isVisible ifFalse: [ n visibility: BlVisibility visible ] ] ].
 
-	(self canShowInvisibleNodesMenu and: [ invisibleNodes notEmpty ])
+	(self canShowInvisibleNodesMenu and: [ invisibleNodeContainers notEmpty ])
 		ifTrue: [ self showInvisibleNodesMenu: true ]
 		ifFalse: [ self showInvisibleNodesMenu: false ].
 	hidePartlyVisibleNodes ifTrue: [
@@ -329,10 +332,10 @@ ToTabGroupElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibl
 ]
 
 { #category : #initialization }
-ToTabGroupElement >> resetInvisibleNodes [
+ToTabGroupElement >> resetInvisibleNodeContainers [
 
-	invisibleNodes := #().
-	visibleNodes := #()
+	invisibleNodeContainers := #().
+	visibleNodeContainers := #()
 
 	
 ]
@@ -380,9 +383,16 @@ ToTabGroupElement >> trackElement [
 ]
 
 { #category : #accessing }
+ToTabGroupElement >> visibleNodeContainers [
+
+	^ visibleNodeContainers 
+]
+
+{ #category : #accessing }
 ToTabGroupElement >> visibleNodes [
 
-	^ visibleNodes 
+	self deprecated: 'Use #visibleNodeContainers' transformWith: '`@r visibleNodes' -> '`@r visibleNodeContainers'.
+	^ self visibleNodeContainers
 ]
 
 { #category : #'t - checkable group owner' }

@@ -55,7 +55,7 @@ ToTabPaneHeaderElement >> checkLayoutMode [
 				w < 0.0 ifTrue: [ self matchParentMode: true ] ]
 		ifTrue: [ " just check the invisible nodes, if it is empty, 
 			then one can switch to a fitContent"
-			self invisibleNodes ifEmpty: [ self matchParentMode: false ] ]
+			self invisibleNodeContainers ifEmpty: [ self matchParentMode: false ] ]
 ]
 
 { #category : #accessing }
@@ -92,9 +92,15 @@ ToTabPaneHeaderElement >> initialize [
 ]
 
 { #category : #accessing }
+ToTabPaneHeaderElement >> invisibleNodeContainers [ 
+
+	^ self tabGroup invisibleNodeContainers
+]
+
+{ #category : #accessing }
 ToTabPaneHeaderElement >> invisibleNodes [ 
 
-	^ self tabGroup invisibleNodes
+	^ self tabGroup invisibleNodeContainers
 ]
 
 { #category : #accessing }

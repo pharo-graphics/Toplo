@@ -50,6 +50,12 @@ TToListInnerElement >> nodeContainersDo: aBlock [
 ]
 
 { #category : #'t - list node holder' }
+TToListInnerElement >> nodeContainersReject: aBlock [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #'t - list node holder' }
 TToListInnerElement >> nodeContainersSelect: aBlock [
 
 	^ self explicitRequirement 
@@ -94,12 +100,6 @@ TToListInnerElement >> notifyChildDetached: anElement [
 
 { #category : #'t - list node holder' }
 TToListInnerElement >> partlyVisibleNodesDo: aBlock [
-
-	^ self explicitRequirement 
-]
-
-{ #category : #'t - list node holder' }
-TToListInnerElement >> partlyVisibleNodesSelect: aBlock [
 
 	^ self explicitRequirement 
 ]

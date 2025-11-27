@@ -56,7 +56,7 @@ ToListInnerElementEventHandler >> infiniteDecorationBoundsChangedEvent: anEvent 
 		s := anEvent decoration computedBounds width.
 		previousDecorationSize = s ifTrue: [ ^ self ].
 		previousDecorationSize := s.
-		anEvent currentTarget listElement notifyPrimarySelectionDirty.
+		"anEvent currentTarget listElement notifyPrimarySelectionDirty."
 		^ self ].
 
 	(insets top > 0 or: [ insets bottom > 0 ]) ifFalse: [ ^ self ].

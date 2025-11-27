@@ -14,17 +14,16 @@ TToBarMeasurer >> barUniformMeasure [
 
 	self shouldCheckUniformSize ifFalse: [ ^ self ].
 	self maxSizeDo: [ :maxSize |
-		self barNodes do: [ :child |
-			| element |
-			element := child element.
-			element isFake ifFalse: [
-				| w h |
-				w := child element measuredWidth.
-				h := child element measuredHeight.
-				self layout uniformNodeWidth ifTrue: [ w := maxSize x max: w ].
-				self layout uniformNodeHeight ifTrue: [ h := maxSize y max: h ].
-				(child element measuredWidth < w or: [ child element measuredHeight < h ]) ifTrue: [
-					element measure: (BlExtentMeasurementSpec exact: w @ h) ] ] ] ]
+			self barNodes do: [ :child |
+					| element w h |
+					element := child element.
+					w := element measuredWidth.
+					h := element measuredHeight.
+					self layout uniformNodeWidth ifTrue: [ w := maxSize x max: w ].
+					self layout uniformNodeHeight ifTrue: [ h := maxSize y max: h ].
+					(element measuredWidth < w or: [ element measuredHeight < h ])
+						ifTrue: [
+						element measure: (BlExtentMeasurementSpec exact: w @ h) ] ] ]
 ]
 
 { #category : #'t - bar measurer' }

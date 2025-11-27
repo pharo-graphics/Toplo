@@ -36,8 +36,8 @@ ToBarLinearLayoutHorizontalMeasurer >> largestMeasure [
 	self layout uniformNodeWidth ifFalse: [ ^ self ].
 	totalLength := 0.
 	self barNodes do: [ :aNode |
-		aNode element isFake ifFalse: [ 
-			aNode element isHMatchParent ifFalse: [self updateTotalLengthFromLargestChild: aNode ] ] ]
+			aNode element isHMatchParent ifFalse: [
+				self updateTotalLengthFromLargestChild: aNode ] ]
 ]
 
 { #category : #measurement }

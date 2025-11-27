@@ -89,6 +89,12 @@ TToListElementDecorator >> nodeContainersDo: aValuable [
 ]
 
 { #category : #'t - list element decorator - children - accessing' }
+TToListElementDecorator >> nodeContainersReject: aValuable [
+
+	^ self next nodeContainersReject: aValuable
+]
+
+{ #category : #'t - list element decorator - children - accessing' }
 TToListElementDecorator >> nodeContainersSelect: aValuable [
 
 	^ self next nodeContainersSelect: aValuable

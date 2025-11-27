@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'t - bar element' }
-ToMultiSelectInnerBarElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes [
+ToMultiSelectInnerBarElement >> onInvisibleNodeContainers: theInvisibleNodes visibleNodeContainers: theVisibleNodes [
 
 	| visibleNodes invisibleNodes composite finalCount |
 	listElement isFlowable ifTrue: [ ^ self ].

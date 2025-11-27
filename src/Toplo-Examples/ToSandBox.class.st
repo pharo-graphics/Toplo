@@ -3232,7 +3232,7 @@ ToSandBox class >> example_Menu0 [
 	| menu container |
 	container := ToInnerWindow new
 		             position: 10 @ 10;
-		             size: 400 @ 200;
+		             extent: 400 @ 200;
 		             yourself.
 	menu := ToMenu new.
 	menu tooltipString: 'tooltip content'.
@@ -7846,7 +7846,7 @@ ToSandBox class >> example_stylesheet [
 		                  extent: 100 @ 50;
 		                  position: 150 @ 50.
 	biggerElem := ToElement new
-		              size: 100 asPoint;
+		              extent: 100 asPoint;
 		              position: 150 asPoint.
 
 	space := BlSpace new.
@@ -8641,7 +8641,7 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 
 	but clickAction: [ 'Button clicked' traceCr ].
 	win := but openInInnerWindow.
-	but tooltipWindowManager anchorRoot: win
+	but ensuredTooltipManager anchorRoot: win
 ]
 
 { #category : #label }

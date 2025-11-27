@@ -53,8 +53,9 @@ ToScrollableBarTrackElement >> configureLayout [
 
 	(self layout class = self newLayoutStrategyClass and: [
 		 self layout orientation isHorizontal = self isHorizontal ])
-		ifTrue: [ ^ self ].
-	self layout: self newLayoutStrategy
+		ifFalse: [ self layout: self newLayoutStrategy ].
+	self layout uniformNodeWidth: listElement uniformNodeWidth.
+	self layout uniformNodeHeight: listElement uniformNodeHeight.
 ]
 
 { #category : #configuration }
@@ -121,12 +122,9 @@ ToScrollableBarTrackElement >> maxMeasuredNodeSize [
 { #category : #layout }
 ToScrollableBarTrackElement >> newFlowLayout [
 
-	^ (self isHorizontal
-		   ifTrue: [ self flowLayoutClass horizontal ]
-		   ifFalse: [ self flowLayoutClass vertical ])
-		  uniformNodeWidth: listElement uniformNodeWidth;
-		  uniformNodeHeight: listElement uniformNodeHeight;
-		  yourself
+	^ self isHorizontal
+		  ifTrue: [ self flowLayoutClass horizontal ]
+		  ifFalse: [ self flowLayoutClass vertical ]
 ]
 
 { #category : #layout }
@@ -148,12 +146,9 @@ ToScrollableBarTrackElement >> newLayoutStrategyClass [
 { #category : #layout }
 ToScrollableBarTrackElement >> newLinearLayout [
 
-	^ (self isHorizontal
-		   ifTrue: [ self linearLayoutClass horizontal ]
-		   ifFalse: [ self linearLayoutClass vertical ])
-		  uniformNodeWidth: listElement uniformNodeWidth;
-		  uniformNodeHeight: listElement uniformNodeHeight;
-		  yourself
+	^ self isHorizontal
+		  ifTrue: [ self linearLayoutClass horizontal ]
+		  ifFalse: [ self linearLayoutClass vertical ]
 ]
 
 { #category : #'accessing - children' }

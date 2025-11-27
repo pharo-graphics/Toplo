@@ -11,8 +11,12 @@ ToMenuScrollableBarTrackElement >> applyConfiguration [
 	self childrenDo: [ :child |
 			child constraintsDo: [ :c |
 					listElement isHorizontal
-						ifTrue: [ c linear vertical alignCenter ]
-						ifFalse: [ c linear horizontal alignCenter ] ] ]
+						ifTrue: [ 
+							c frame vertical alignCenter.
+							c linear vertical alignCenter ]
+						ifFalse: [ 
+							c linear horizontal alignCenter.
+							c linear horizontal alignCenter ] ] ]
 ]
 
 { #category : #layout }

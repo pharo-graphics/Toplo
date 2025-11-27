@@ -8908,12 +8908,11 @@ ToSandBox class >> example_toLabel_editableMultiline [
 	lab openInSpace
 ]
 
-{ #category : #'t - orientable' }
+{ #category : #table }
 ToSandBox class >> example_toTable1 [
 
 	| table |
 	table := ToTableElement new.
-	table inspect.
 	table columns: {
 			(ToTableColumn new
 				 title: 'Name';
@@ -8942,13 +8941,13 @@ ToSandBox class >> example_toTable1 [
 	^ table
 ]
 
-{ #category : #'t - orientable' }
+{ #category : #table }
 ToSandBox class >> example_toTable1WithCheckbox [
 
 	self example_toTable1 useCheckbox: true
 ]
 
-{ #category : #'t - orientable' }
+{ #category : #table }
 ToSandBox class >> example_toTableWithBuilder [
 
 	| table |
@@ -8983,7 +8982,7 @@ ToSandBox class >> example_toTableWithBuilder [
 	table openInSpace
 ]
 
-{ #category : #'t - orientable' }
+{ #category : #table }
 ToSandBox class >> example_toTableWithSort [
 
 	| table |
@@ -9005,12 +9004,11 @@ ToSandBox class >> example_toTableWithSort [
 	^ table
 ]
 
-{ #category : #'t - orientable' }
+{ #category : #table }
 ToSandBox class >> example_toTreeTable1 [
 
 	| table |
 	table := ToTreeTableElement new.
-	table inspect.
 	table nodeManager childrenGetter: [ :dataItem |
 		dataItem subclasses sorted: [ :a :b | a name < b name ] ].
 	table columns: {
@@ -9043,18 +9041,17 @@ ToSandBox class >> example_toTreeTable1 [
 	^ table
 ]
 
-{ #category : #'t - orientable' }
+{ #category : #table }
 ToSandBox class >> example_toTreeTable1WithCheckbox [
 
 	self example_toTreeTable1 useCheckbox: true
 ]
 
-{ #category : #'t - orientable' }
+{ #category : #table }
 ToSandBox class >> example_toTreeTable2 [
 
 	| table |
 	table := ToTreeTableElement new.
-	table inspect.
 	table nodeManager childrenGetter: [ :dataItem |
 		dataItem subclasses sorted: [ :a :b | a name < b name ] ].
 	table columns: {

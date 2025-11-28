@@ -5,28 +5,29 @@ Class {
 }
 
 { #category : #'t - bar element' }
-ToMultiSelectInnerBarElement >> onInvisibleNodeContainers: theInvisibleNodes visibleNodeContainers: theVisibleNodes [
+ToMultiSelectInnerBarElement >> onInvisibleNodeContainers: theInvisibleContainers visibleNodeContainers: theVisibleContainers [
 
-	| visibleNodes invisibleNodes composite finalCount |
+	| theVisibles theInvisibles summary finalCount |
 	listElement isFlowable ifTrue: [ ^ self ].
 	listElement isScrollable ifTrue: [ ^ self ].
-	theInvisibleNodes ifEmpty: [ ^ self ].
+	theInvisibleContainers ifEmpty: [ ^ self ].
+	
 	" in case of composite node at first it means that 
 	there is no more visible node to cumulate in a composite node"
 	self nodeContainers size = 1 ifTrue: [ ^ self ].
-	visibleNodes := theVisibleNodes copy.
-	invisibleNodes := theInvisibleNodes copy.
-	visibleNodes ifNotEmpty: [
-		invisibleNodes := theInvisibleNodes copyWith: visibleNodes last.
-		visibleNodes := visibleNodes copyWithout: visibleNodes last ].
-	" now cumulate invisible nodes in a composite tag model "
-	composite := ToCompositeTag new.
-	composite items: (Array streamContents: [ :stream |
+	theVisibles := theVisibleContainers copy.
+	theInvisibles := theInvisibleContainers copy.
+	theVisibles ifNotEmpty: [
+		"theInvisibles := theInvisibleContainers copyWith: theVisibles last.
+		theVisibles := theVisibles copyWithout: theVisibles last" ].
+	" now cover the last visible node with a summary of invisible nodes  "
+	"summary := ToMultiSelectSummaryTagElement new.
+	summary invisibleItems: (Array streamContents: [ :stream |
 			 invisibleNodes do: [ :n |
-				 stream nextPutAll: n holder dataItem items ] ]).
-	finalCount := listElement nodesCount - visibleNodes size.
-	composite content: '+ ' , finalCount asString , ' ...'.
-	invisibleNodes do: [ :node |
-		listElement dataAccessor removeAt: node holder position ].
-	listElement dataAccessor add: composite
+				 stream nextPutAll: n holder dataItem items ] ])."
+"	finalCount := listElement nodesCount - theInvisibles size."
+	"composite content: '+ ' , finalCount asString , ' ...'."
+	theInvisibles reverseDo: [ :container |
+		listElement dataAccessor removeAt: container holder position ].
+	"listElement dataAccessor add: composite"
 ]

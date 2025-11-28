@@ -4133,19 +4133,21 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 
 	| select |
 	select := ToMultiSelectElement new.
-	select isFlowable: true.
+
+	select isFlowable: false.
 	select keepPickOrder: true.
 	select filtrable: true.
+	select nodeBuilder: [ :node :iconDesc :holder |
+			| tag |
+			tag := ToTagElement new icon: (iconDesc icon extent: 48 asPoint).
+			tag removable: true.
+			node addChild: tag ].
+
 	self
 		buildSelectListElementIn: select
 		withIconProvider: ToMaterialDesignIconProvider.
-
-
-	select tagBuilder: [ :tag :iconDesc :holder |
-			tag removable: true.
-			tag borderless: false.
-			tag icon: (iconDesc icon extent: 48 asPoint) ].
 	select sample: select popupListElement dataAccessor first.
+
 
 	select hMatchParent.
 	select placeholderString: 'Select icons'.
@@ -4211,42 +4213,40 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	| select innerWindow newTagFactory |
 	select := ToMultiSelectElement new.
 	select filtrable: true.
-	"select manager popupDelay: 400 milliSeconds."
-
-	select
-		addEventHandlerOn: ToSelectChangedEvent
-		do: [ :event | event selectedIndexes traceCr ].
-
-	select isFlowable: true.
+	select isFlowable: false.
 	select keepPickOrder: true.
 
 	select popupListElement selectionOption grouped: false.
 	select popupListElement selectionOption beneath: false.
 	select popupListElement selectionOption elementFactory: [
-		ToListSelectionElement new defaultSkin:
-			ToMultiSelectElementCheckSkin new ].
-
-	newTagFactory := [ :stateColorAssoc |
-	                 | tag |
-	                 tag := ToTagElement new
-		                        labelText: stateColorAssoc key asString;
-		                        yourself.
-	                 tag borderless: true.
-	                 tag foregroundColor: stateColorAssoc value.
-	                 tag backgroundColor:
-		                 (stateColorAssoc value veryMuchLighter alpha: 0.5).
-	                 tag ].
+			ToListSelectionElement new defaultSkin:
+				ToMultiSelectElementCheckSkin new ].
 
 	select sample: 'X' -> Color white.
-	select nodeBuilder: [ :node :stateColorAssoc :holder |
-		| tag |
-		tag := newTagFactory value: stateColorAssoc.
-		tag borderless: false.
-		tag removable: true.
-		node addChild: tag ].
+	newTagFactory := [ :stateColorAssoc |
+		                 | tag |
+		                 tag := ToTagElement new.
+		                 stateColorAssoc ifNotNil: [
+				                 tag := tag labelText:
+					                        stateColorAssoc key asString.
+				                 tag borderless: true.
+				                 tag foregroundColor: stateColorAssoc value.
+				                 tag backgroundColor:
+					                 (stateColorAssoc value veryMuchLighter alpha:
+						                  0.5) ].
+		                 tag ].
+
+	select header nodeBuilder: [ :node :stateColorAssoc :holder |
+			| tag |
+			tag := newTagFactory value: stateColorAssoc.
+			tag borderless: false.
+			tag removable: true.
+			node addChild: tag ].
 
 	select popupListElement nodeBuilder: [ :node :stateColorAssoc :holder |
-		node addChild: (newTagFactory value: stateColorAssoc) hMatchParent; yourself].
+			node
+				addChild: (newTagFactory value: stateColorAssoc) hMatchParent;
+				yourself ].
 
 	select sieve filter: [ :stateAssoc :pattern |
 		stateAssoc key beginsWith: pattern caseSensitive: false ].
@@ -4440,9 +4440,6 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 	| select innerWindow |
 	select := ToMultiSelectElement new.
 	select isFlowable: true.
-	select tagBuilder: [ :tag :stateName | 
-		tag labelText: stateName.
-		tag removable: true ].
 	select hideSelected: true.
 	select popupListElement dataAccessor updateAllWith:
 		self statesOfAmerica.

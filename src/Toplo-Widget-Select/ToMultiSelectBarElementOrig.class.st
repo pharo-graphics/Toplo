@@ -1,6 +1,6 @@
 Class {
-	#name : #ToMultiSelectBarElement,
-	#superclass : #ToGenericBarElement,
+	#name : #ToMultiSelectBarElementOrig,
+	#superclass : #ToTagBarElement,
 	#traits : 'TToSelectInnerContainerElement + TToElementWithPlaceholder',
 	#classTraits : 'TToSelectInnerContainerElement classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [
@@ -13,22 +13,14 @@ Class {
 	#category : #'Toplo-Widget-Select-Multi'
 }
 
-{ #category : #'instance creation' }
-ToMultiSelectBarElement class >> onSelectElement: aSelectElement [
-
-	^ self basicNew
-		  selectElement: aSelectElement;
-		  initialize
-]
-
 { #category : #'accessing - selection' }
-ToMultiSelectBarElement >> allowSelectedCount: aNumber [
+ToMultiSelectBarElementOrig >> allowSelectedCount: aNumber [
 
 	^ maxSelectedCount isZero or: [ aNumber <= maxSelectedCount ]
 ]
 
 { #category : #'accessing - selection' }
-ToMultiSelectBarElement >> assertMaxSelectedCount: aNumber [
+ToMultiSelectBarElementOrig >> assertMaxSelectedCount: aNumber [
 
 	(self allowSelectedCount: aNumber) ifFalse: [
 		self enqueueTask: (BlTaskAction new action: [
@@ -36,14 +28,14 @@ ToMultiSelectBarElement >> assertMaxSelectedCount: aNumber [
 ]
 
 { #category : #'accessing - selection' }
-ToMultiSelectBarElement >> checkHideSelectionFromListElement [
+ToMultiSelectBarElementOrig >> checkHideSelectionFromListElement [
 
 	selectElement hideSelected ifFalse: [ ^ self ].
 	self popupListElement hideSelection
 ]
 
 { #category : #'accessing - selection' }
-ToMultiSelectBarElement >> checkMaxSelectedCount [
+ToMultiSelectBarElementOrig >> checkMaxSelectedCount [
 
 	| sM disabledSM groupeSM selectedCount |
 	maxSelectedCount isZero ifTrue: [ ^ self ].
@@ -73,44 +65,44 @@ ToMultiSelectBarElement >> checkMaxSelectedCount [
 ]
 
 { #category : #'t - bar element' }
-ToMultiSelectBarElement >> defaultInnerElementClass [
+ToMultiSelectBarElementOrig >> defaultInnerElementClass [
 
 	^ ToMultiSelectInnerBarElement
 ]
 
 { #category : #initialization }
-ToMultiSelectBarElement >> defaultLayout [
+ToMultiSelectBarElementOrig >> defaultLayout [
 
 	^ BlLinearLayout horizontal
 ]
 
 { #category : #initialization }
-ToMultiSelectBarElement >> defaultNodeManagerClass [ 
+ToMultiSelectBarElementOrig >> defaultNodeManagerClass [ 
 
 	^ ToMultiSelectNodeManager
 ]
 
 { #category : #layout }
-ToMultiSelectBarElement >> extentChanged [
+ToMultiSelectBarElementOrig >> extentChanged [
 
 	super extentChanged.
 	self refreshFromPopupListSelection
 ]
 
 { #category : #'t - select inner container' }
-ToMultiSelectBarElement >> filterTextField [ 
+ToMultiSelectBarElementOrig >> filterTextField [ 
 
 	^ filterTextField 
 ]
 
 { #category : #'t - select inner container' }
-ToMultiSelectBarElement >> filterTextField: aTextField [
+ToMultiSelectBarElementOrig >> filterTextField: aTextField [
 
 	filterTextField := aTextField 
 ]
 
 { #category : #initialization }
-ToMultiSelectBarElement >> initialize [
+ToMultiSelectBarElementOrig >> initialize [
 
 	super initialize.
 
@@ -127,20 +119,20 @@ ToMultiSelectBarElement >> initialize [
 ]
 
 { #category : #accessing }
-ToMultiSelectBarElement >> keepPickOrder [
+ToMultiSelectBarElementOrig >> keepPickOrder [
 
 	^ keepPickOrder 
 ]
 
 { #category : #accessing }
-ToMultiSelectBarElement >> keepPickOrder: aBoolean [
+ToMultiSelectBarElementOrig >> keepPickOrder: aBoolean [
 
 	keepPickOrder := aBoolean.
 	self refreshFromPopupListSelection
 ]
 
 { #category : #accessing }
-ToMultiSelectBarElement >> listElement [
+ToMultiSelectBarElementOrig >> listElement [
 
 	self
 		deprecated: 'Use #popupListElement'
@@ -150,21 +142,21 @@ ToMultiSelectBarElement >> listElement [
 ]
 
 { #category : #accessing }
-ToMultiSelectBarElement >> maxSelectedCount: aNumber [
+ToMultiSelectBarElementOrig >> maxSelectedCount: aNumber [
 
 	maxSelectedCount := aNumber.
 	self refreshFromPopupListSelection
 ]
 
 { #category : #accessing }
-ToMultiSelectBarElement >> popupListElement [
+ToMultiSelectBarElementOrig >> popupListElement [
 
 
 	^ selectElement popupListElement
 ]
 
 { #category : #'t - select inner container' }
-ToMultiSelectBarElement >> refresh [
+ToMultiSelectBarElementOrig >> refresh [
 
 	self
 		deprecated: '#refreshFromPopupListSelection instead'
@@ -174,45 +166,65 @@ ToMultiSelectBarElement >> refresh [
 ]
 
 { #category : #'t - select inner container' }
-ToMultiSelectBarElement >> refreshFromPopupListSelection [
+ToMultiSelectBarElementOrig >> refreshFromPopupListSelection [
 	" rebuild the current bar nodes according to the selection in the popup list "
 
-	| previousDataItems newDataItems |
+	| previousTagModels newTagModels |
 	selectElement showHidePlaceholder.
 	" copy the previous tag models "
-	previousDataItems := self dataAccessor asOrderedCollection.
-	newDataItems := OrderedCollection new.
-
+	previousTagModels := self dataAccessor asOrderedCollection.
+	newTagModels := OrderedCollection new.
+	" take care of a possible composite tag models that represents a list of items "
+	previousTagModels ifNotEmpty: [
+		| last |
+		last := previousTagModels last.
+		last isComposite ifTrue: [
+			previousTagModels removeLast.
+			previousTagModels addAll: last items ] ].
 	" reconstruct the item list. ensure the reuse of pre-existing items"
 	selectElement selectionModel selectedIndexesDo: [ :idx |
-		| new previous dataItem |
-		dataItem := selectElement sieve originalData at: idx.
-		newDataItems add: dataItem ].
+		| new previous data |
+		data := selectElement sieve originalData at: idx.
+		previous := previousTagModels
+			            detect: [ :item | item data = data ]
+			            ifNone: [  ].
+		previous
+			ifNotNil: [
+				new := previous.
+				previousTagModels remove: previous ]
+			ifNil: [
+				new := ToPickedTag new
+					       data: data;
+					       yourself.
+				pickCount := pickCount + 1.
+				new pickOrder: pickCount ].
+		newTagModels add: new ].
 
-	"keepPickOrder ifTrue: [
-		newTagModels sort: [ :a :b | a pickOrder < b pickOrder ] ]."
+	keepPickOrder ifTrue: [
+		newTagModels sort: [ :a :b | a pickOrder < b pickOrder ] ].
 
 	" if the list has changed then replace all in one datasource command "
-	"self dataAccessor asOrderedCollection = newDataItems ifTrue: [ ^ self ]."
-	self dataAccessor updateAllWith: newDataItems.
+	self dataAccessor asOrderedCollection = newTagModels ifTrue: [ ^ self ].
+	self dataAccessor removeAll.
+	self dataAccessor addAll: newTagModels.
 	self checkHideSelectionFromListElement.
 	self checkMaxSelectedCount
 ]
 
 { #category : #'t - select inner container' }
-ToMultiSelectBarElement >> selectElement [
+ToMultiSelectBarElementOrig >> selectElement [
 
 	^ selectElement
 ]
 
 { #category : #'t - select inner container' }
-ToMultiSelectBarElement >> selectElement: aSelectElement [
+ToMultiSelectBarElementOrig >> selectElement: aSelectElement [
 
 	selectElement := aSelectElement
 ]
 
 { #category : #accessing }
-ToMultiSelectBarElement >> sieve [
+ToMultiSelectBarElementOrig >> sieve [
 
 	^ selectElement sieve
 ]

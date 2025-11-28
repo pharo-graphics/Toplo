@@ -164,7 +164,13 @@ ToMultiSelectElement >> newRawSkin [
 ToMultiSelectElement >> nodeBuilder: aValuable [
 	"aValuable takes 3 optional args: first, the node to build, second, the dataItem and third, the holder in the list element "
 
-	self innerElement nodeBuilder: aValuable
+	self nodeManager nodeBuilder: aValuable
+]
+
+{ #category : #accessing }
+ToMultiSelectElement >> nodeManager [
+
+	^ self innerElement nodeManager
 ]
 
 { #category : #'accessing - selection' }

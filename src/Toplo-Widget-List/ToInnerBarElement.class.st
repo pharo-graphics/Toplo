@@ -226,7 +226,7 @@ ToInnerBarElement >> onExitLayoutOrScroll [
 ]
 
 { #category : #'t - bar element' }
-ToInnerBarElement >> onInvisibleNodeContainers: theInvisibleNodes visibleNodeContainers: theVisibleNodes [
+ToInnerBarElement >> onInvisibleNodeContainers: theInvisibleContainers visibleNodeContainers: theVisibleContainers [
 ]
 
 { #category : #'data source updates' }

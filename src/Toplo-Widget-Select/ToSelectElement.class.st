@@ -65,17 +65,6 @@ ToSelectElement >> currentPopupWindowDo: aValuable [
 	^ self manager currentWindowDo: aValuable 
 ]
 
-{ #category : #'accessing - list' }
-ToSelectElement >> dataAccessor [
-
-	self
-		deprecated: 'Use #popupListDataAccessor'
-		transformWith:
-		'`@rcvr dataAccessor' -> '`@rcvr popupListDataAccessor'.
-
-	^ self popupListElement dataAccessor
-]
-
 { #category : #initialization }
 ToSelectElement >> defaultEventHandler [
 
@@ -109,7 +98,7 @@ ToSelectElement >> filterStringChanged [
 { #category : #accessing }
 ToSelectElement >> filterTextField [ 
 
-	^ self innerElement filterTextField
+	^ self header filterTextField
 ]
 
 { #category : #accessing }
@@ -123,6 +112,12 @@ ToSelectElement >> filtrable: aBoolean [
 
 	filtrable := aBoolean.
 	self requestConfiguration
+]
+
+{ #category : #accessing }
+ToSelectElement >> header [ 
+
+	^ self innerElement 
 ]
 
 { #category : #accessing }
@@ -149,7 +144,12 @@ ToSelectElement >> initialize [
 	self addEventHandler: windowManager.
 
 	self iconContainer: self newIconContainer.
-	self innerElement: self newInnerElement.
+	innerElement := self newInnerElement.
+	innerElement constraintsDo: [ :c |
+		c linear vertical alignCenter.
+		c horizontal matchParent.
+		c vertical fitContent ].
+	
 	self addChildren: {
 			self innerElement.
 			self iconContainer }.
@@ -166,16 +166,6 @@ ToSelectElement >> initialize [
 ToSelectElement >> innerElement [
 
 	^ innerElement
-]
-
-{ #category : #accessing }
-ToSelectElement >> innerElement: anInnerContainerElement [
-
-	innerElement := anInnerContainerElement.
-	innerElement constraintsDo: [ :c |
-		c linear vertical alignCenter.
-		c horizontal matchParent.
-		c vertical fitContent ]
 ]
 
 { #category : #'instance creation' }
@@ -202,16 +192,6 @@ ToSelectElement >> isOutsideEvent: anEvent [
 	self currentPopupWindowDo: [ :w |
 		(w isOutsideEvent: anEvent) ifFalse: [ ^ false ] ].
 	^ super isOutsideEvent: anEvent
-]
-
-{ #category : #'accessing - list' }
-ToSelectElement >> listElement [
-
-	self
-		deprecated: 'Use #popupListElement'
-		transformWith: '`@rcvr listElement' -> '`@rcvr popupListElement'.
-
-	^ self popupListElement
 ]
 
 { #category : #accessing }
@@ -277,7 +257,7 @@ ToSelectElement >> onPopupWindowOpened [
 { #category : #'accessing - selection' }
 ToSelectElement >> onSelectionChangedInPopupListElement: anEvent [
 
-	self innerElement onSelectionChangedInPopupListElement: anEvent
+	self header onSelectionChangedInPopupListElement: anEvent
 ]
 
 { #category : #accessing }
@@ -293,30 +273,9 @@ ToSelectElement >> popupDataAccessor [
 ]
 
 { #category : #'accessing - list' }
-ToSelectElement >> popupListDataAccessor [
-
-	self
-		deprecated: 'Use #popupListElement dataAccessor'
-		transformWith: '`@rcvr popupListDataAccessor' -> '`@rcvr popupListElement dataAccessor'.
-
-	^ self popupListElement dataAccessor
-]
-
-{ #category : #'accessing - list' }
 ToSelectElement >> popupListElement [
 
 	^ self manager listElement
-]
-
-{ #category : #'accessing - selection' }
-ToSelectElement >> popupListSelectionModel [
-
-
-	self
-		deprecated: 'Use #selectionModel'
-		transformWith: '`@rcvr popupListSelectionModel' -> '`@rcvr selectionModel'.
-
-	^ self selectionModel
 ]
 
 { #category : #'accessing - list' }
@@ -377,13 +336,4 @@ ToSelectElement >> showHidePlaceholder [
 ToSelectElement >> sieve [
 
 	^ self manager sieve
-]
-
-{ #category : #accessing }
-ToSelectElement >> windowManager [
-
-	self
-		deprecated: 'Use #manager instead'
-		transformWith: '`@rcvr windowManager' -> '`@rcvr manager'.
-	^ self manager
 ]

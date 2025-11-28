@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMultiSelectHolder,
-	#superclass : #ToTagNodeHolder,
+	#superclass : #ToNodeHolder,
 	#category : #'Toplo-Widget-Select-Multi'
 }
 
@@ -17,9 +17,8 @@ ToMultiSelectHolder >> removeNodeFromBar [
 	removing the node is done by deselecting the corresponding list item in the select popup list "
 
 	| index |
-	self tagModel isComposite ifTrue: [ ^ self ].
 	index := self selectElement sieve originalData indexOf:
-		         self tagModel data.
+		         self dataItem.
 	self selecter deselectIndex: index
 ]
 

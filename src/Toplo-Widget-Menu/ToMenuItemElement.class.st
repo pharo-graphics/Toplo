@@ -12,21 +12,6 @@ Class {
 	#category : #'Toplo-Widget-Menu-Items'
 }
 
-{ #category : #configuration }
-ToMenuItemElement >> applyConfiguration [
-	" Sent to let any menu item to adapt its resizer/layout  constraints before the node is added in the menu list "
-
-	super applyConfiguration.
-	self holderDo: [ :h |
-		"h nodeContainer fitContent."
-		h listElement isHorizontal
-			ifTrue: [
-				self hFitContent ]
-			ifFalse: [
-				self hMatchParent ] ].
-	self vFitContent
-]
-
 { #category : #'t - menu item' }
 ToMenuItemElement >> closeOnPicking [ 
 

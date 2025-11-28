@@ -1639,25 +1639,32 @@ ToSandBox class >> example_CheckBoxWithDefaultStyleSheetDarkTheme [
 { #category : #bar }
 ToSandBox class >> example_CheckableBarElement [
 
-| bar space container |
-
+	| bar space container |
 	container := ToPane new.
 	container matchParent.
-	container contextMenu: [ :menu :request | 
-		menu addItem: (ToMenuItem new labelText: 'Inspect'; clickAction: [container inspect];yourself) ].
-	
+	container contextMenuBuilder: [ :menu :request |
+			menu addItem: (ToMenuItem new
+					 labelText: 'Inspect';
+					 clickAction: [ container inspect ];
+					 yourself) ].
+
 	bar := ToCheckableBarElement new.
 	space := BlSpace new.
 	bar matchParent.
 	{ #Alabama. #Alaska. #Arizona. #Arkansas. #California. #Colorado.
-		#Connecticut. #Delaware. #Florida. #Georgia. #Hawaii. #Idaho. #Illinois. #Indiana.
-		#Iowa. #Kansas. #Kentucky. #Louisiana. #Maine. #Maryland. #Massachusetts.
-		#Michigan. #Minnesota. #Mississippi. #Missouri. #Montana. #Nebraska.
-		#Nevada. #'New Hampshire'. #'New Jersey'. #'New Mexico'.
-		#'New York'. #'North Carolina'. #'North Dakota'. #Ohio. #Oklahoma.
-		#Oregon. #'Pennsylvania Rhode Island'. #'South Carolina'.
-		#'South Dakota'. #Tennessee. #Texas. #Utah. #Vermont. #Virginia.
-		#Washington. #'West Virginia'. #Wisconsin. #Wyoming } do: [ :l | bar addItem: (ToRadioButton new labelText: l) ].
+	#Connecticut. #Delaware. #Florida. #Georgia. #Hawaii. #Idaho. #Illinois.
+	#Indiana. #Iowa. #Kansas. #Kentucky. #Louisiana. #Maine. #Maryland.
+	#Massachusetts. #Michigan. #Minnesota. #Mississippi. #Missouri.
+	#Montana. #Nebraska. #Nevada. #'New Hampshire'. #'New Jersey'.
+	#'New Mexico'. #'New York'. #'North Carolina'. #'North Dakota'.
+	#Ohio. #Oklahoma. #Oregon. #'Pennsylvania Rhode Island'.
+	#'South Carolina'. #'South Dakota'. #Tennessee. #Texas. #Utah. #Vermont.
+	#Virginia. #Washington. #'West Virginia'. #Wisconsin. #Wyoming } do: [
+			:l |
+			bar addItem: (ToToggleButton new
+					 labelText: l;
+					 hMatchParent;
+					 yourself) ].
 
 	"bar selecter selectIndex: 3."
 	bar uniformNodeWidth: true.
@@ -5368,6 +5375,26 @@ ToSandBox class >> example_TagBar [
 	rootPane openInSpace
 ]
 
+{ #category : #tag }
+ToSandBox class >> example_TagBar2 [
+
+	| tb dashBoard rootPane |
+	tb := ToItemBarElement new.
+	tb horizontal: true.
+	tb dataAccessor addAll:
+		(ToSandBox statesOfAmerica collect: [ :s | ToTagElement new labelText: s; yourself ]).
+	tb openInSpace 
+	"dashBoard := self barConfigurationBoardFor: tb.
+	rootPane := ToPane horizontal.
+	rootPane padding: (BlInsets all: 5).
+	rootPane matchParent.
+
+	rootPane addChild: dashBoard.
+	rootPane addChild: tb.
+	rootPane addDividers.
+	rootPane openInSpace"
+]
+
 { #category : #select }
 ToSandBox class >> example_ThemeSelectNoDeselection [
 
@@ -7420,9 +7447,9 @@ ToSandBox class >> example_scaledImage [
 ToSandBox class >> example_segmentedWithCheckboxes [
 
 	| seg dashBoard |
-	seg := ToSegmentedBarElement new.
+	seg := ToCheckableBarElement new.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		seg addItem: (ToSegmentedCheckbox new
+		seg addItem: (ToCheckbox new
 				 labelText: l;
 				 yourself) ].
 	(seg items at: 2) disable.
@@ -7435,10 +7462,10 @@ ToSandBox class >> example_segmentedWithCheckboxes [
 ToSandBox class >> example_segmentedWithLabels [
 
 	| seg dashBoard rootPane feedbackPane maj |
-	seg := ToSegmentedBarElement new.
+	seg := ToCheckableBarElement new.
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		seg addItem: (ToSegmentedToggleButton new
+		seg addItem: (ToToggleButton new
 				 labelText: l;
 				 yourself) ].
 
@@ -7486,10 +7513,9 @@ ToSandBox class >> example_segmentedWithLabels [
 ToSandBox class >> example_segmentedWithLabelsAndIcons [
 
 	| seg dashBoard rootPane feedbackPane maj |
-	seg := ToSegmentedBarElement new.
-
+	seg := ToCheckableBarElement new.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		seg addItem: (ToSegmentedToggleButton new
+		seg addItem: (ToToggleButton new
 				 iconImage: ToThemeIcons searchOutlined16x16;
 				 labelText: l;
 				 yourself) ].
@@ -7535,9 +7561,9 @@ ToSandBox class >> example_segmentedWithLabelsAndIcons [
 ToSandBox class >> example_segmentedWithRadioButtons [
 
 	| seg dashBoard |
-	seg := ToSegmentedBarElement new.
+	seg := ToCheckableBarElement new.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		seg addItem: (ToSegmentedRadioButton new
+		seg addItem: (ToRadioButton new
 				 labelText: l;
 				 yourself) ].
 	(seg items at: 2) disable.
@@ -9708,8 +9734,8 @@ ToSandBox class >> segmentedDashBoardFor: aSegmentedElement [
 	mainPane matchParent.
 
 	confPane := self barConfigurationBoardFor: aSegmentedElement.
-	(confPane childWithId: #selectOnPressedSwitch) disable.
-	(confPane childWithId: #deselectOnPressedSwitch) disable.
+	(confPane childWithId: #selectOnPressedSwitch ifFound: [:child | child disable]).
+	(confPane childWithId: #deselectOnPressedSwitch ifFound: [:child | child disable]).
 	confPane padding: (BlInsets all: 5).
 	confPane width: 250.
 	confPane border: Color lightGray.

@@ -162,7 +162,7 @@ BaselineOfToplo >> registerPackages: spec [
 			#( #Toplo #'Toplo-Widget-Album' #'Toplo-Widget-Button'
 			   #'Toplo-Widget-Select' #'Toplo-Widget-Image'
 			   #'Toplo-Widget-InnerWindow' #'Toplo-Widget-List'
-			   #'Toplo-Widget-Menu' #'Toplo-Widget-Pane' #'Toplo-Widget-Segmented' ) ].
+			   #'Toplo-Widget-Menu' #'Toplo-Widget-Pane' ) ].
 
 	spec package: #'Toplo-Widget-Select' with: [
 		spec requires: #( #Toplo #'Toplo-Widget-List' #'Toplo-Widget-Album'
@@ -176,10 +176,6 @@ BaselineOfToplo >> registerPackages: spec [
 	spec
 		package: #'Toplo-Widget-TabPane'
 		with: [ spec requires: #( #Toplo #'Toplo-Widget-Pane' ) ].
-
-	spec package: #'Toplo-Widget-Segmented' with: [
-		spec requires:
-			#( #Toplo #'Toplo-Widget-Button' #'Toplo-Widget-List' ) ].
 
 	spec package: #'Toplo-Widget-Tag' with: [
 		spec requires:

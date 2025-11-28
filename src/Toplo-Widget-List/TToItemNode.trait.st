@@ -10,7 +10,8 @@ Trait {
 TToItemNode >> initializeAsItemNode [
 
 	self layout: BlLinearLayout horizontal.
-	self fitContent
+	self hMatchParent.
+	self vFitContent
 ]
 
 { #category : #'t - item node' }

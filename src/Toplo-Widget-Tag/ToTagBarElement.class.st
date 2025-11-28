@@ -43,7 +43,7 @@ ToTagBarElement >> nodesCount [
 	| count |
 	count := 0.
 	self nodeContainersDo: [ :container |
-		count := count + container nodesCount ].
+		count := count + container node nodesCount ].
 	^ count
 ]
 

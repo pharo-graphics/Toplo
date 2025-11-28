@@ -14,7 +14,7 @@ ToMultiSelectHolder >> popupListElement [
 ToMultiSelectHolder >> removeNodeFromBar [
 	" 
 	since a select node is created by selecting and item in the list element, 
-	removing the node is done by deselecting the corresponding list item in the select popu list "
+	removing the node is done by deselecting the corresponding list item in the select popup list "
 
 	| index |
 	self tagModel isComposite ifTrue: [ ^ self ].

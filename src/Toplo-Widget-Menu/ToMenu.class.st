@@ -72,7 +72,6 @@ ToMenu >> includes: anElement [
 ToMenu >> initialize [
 
 	super initialize.
-	self fitContent.
 	self initializeAsItemBarContainer.
 	self initializeAsMenuItemBarContainer.
 

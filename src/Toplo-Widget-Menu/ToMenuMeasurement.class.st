@@ -12,8 +12,8 @@ ToMenuMeasurement >> onMeasure: anExtentMeasurementSpec element: aWindow onEvent
 	| height pos |
 	pos := aWindow measuredPosition.
 	height := aWindow padding height + aWindow margin height.
-	aWindow itemBar nodesDo: [ :node |
-		height := height + node measuredHeight ].
+	aWindow itemBar nodeContainersDo: [ :container |
+		height := height + container measuredHeight ].
 	(aWindow anchorRoot height "- pos y") <= height
 		ifTrue: [
 			aWindow vMatchParent. "height: (aWindow anchorRoot height - pos y)."

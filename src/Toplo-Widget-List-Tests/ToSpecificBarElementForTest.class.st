@@ -11,3 +11,10 @@ ToSpecificBarElementForTest >> defaultNodeManagerClass [
 
 	^ ToSpecificBarNodeManagerForTest
 ]
+
+{ #category : #initialization }
+ToSpecificBarElementForTest >> initialize [ 
+
+	super initialize.
+	self initializeAsBarElement 
+]

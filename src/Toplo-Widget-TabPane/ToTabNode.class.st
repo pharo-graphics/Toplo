@@ -16,14 +16,6 @@ ToTabNode >> applyConfiguration [
 	self requestNewSkin
 ]
 
-{ #category : #'t - bar node' }
-ToTabNode >> listElementReferenceBoundsInSpace [
-
-	|  list |
-	list := self holder listElement.
-	^ list bounds inSpace
-]
-
 { #category : #'t - item node' }
 ToTabNode >> newRawSkin [ 
 

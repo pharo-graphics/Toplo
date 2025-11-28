@@ -5,18 +5,18 @@ Class {
 }
 
 { #category : #'element events handling' }
-ToInnerBarElementEventHandler >> barVisibleNodeListChangedEvent: anEvent [
+ToInnerBarElementEventHandler >> barVisibleNodeContainerListChangedEvent: anEvent [
 
 	| innerBar |
 	innerBar := anEvent currentTarget.
 	innerBar
-		onInvisibleNodes: anEvent invisibleNodes
-		visibleNodes: anEvent visibleNodes.
+		onInvisibleNodeContainers: anEvent invisibleNodeContainers
+		visibleNodeContainers: anEvent visibleNodeContainers.
 	innerBar listElement dispatchEvent: anEvent copy
 ]
 
 { #category : #'api - accessing' }
 ToInnerBarElementEventHandler >> eventsToHandle [
 
-	^ super eventsToHandle , { ToBarVisibleNodeListChangedEvent }
+	^ super eventsToHandle , { ToBarVisibleNodeContainerListChangedEvent }
 ]

@@ -37,7 +37,7 @@ ToBarLinearLayoutVerticalMeasurer >> largestMeasure [
 	self layout uniformNodeHeight ifFalse: [ ^ self ].
 	totalLength := 0.
 	self barNodes do: [ :aNode |
-		aNode element isFake ifFalse: [ self updateTotalLengthFromLargestChild: aNode ] ]
+		self updateTotalLengthFromLargestChild: aNode ]
 ]
 
 { #category : #measurement }

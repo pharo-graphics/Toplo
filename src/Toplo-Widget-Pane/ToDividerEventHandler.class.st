@@ -21,36 +21,49 @@ ToDividerEventHandler >> dragDeltaFromEvent: anEvent [
 { #category : #'dnd handlers' }
 ToDividerEventHandler >> dragEvent: anEvent [
 
-	| dragDelta divider orientedDragDelta |
-	anEvent consume.
-
+	| dragDelta divider orientedDragDelta req |
 	divider := anEvent currentTarget.
 	dragDelta := self dragDeltaFromEvent: anEvent.
 	orientedDragDelta := divider isHorizontal
 		                     ifTrue: [ 0.0 @ dragDelta y ]
 		                     ifFalse: [ dragDelta x @ 0.0 ].
 
-	divider position: dividerStartPosition + orientedDragDelta.
-	divider dispatchEvent: (ToDividerDragEvent new
-			 delta: orientedDragDelta;
-			 sourceEvent: anEvent;
-			 yourself)
+	req := ToDividerDragRequestEvent new
+		       sourceEvent: anEvent;
+		       delta: orientedDragDelta;
+		       requestedAction: [
+				       anEvent consume.
+				       divider position: dividerStartPosition + orientedDragDelta.
+				       divider dispatchEvent: (ToDividerDragEvent new
+							        delta: orientedDragDelta;
+							        sourceEvent: anEvent;
+							        yourself) ];
+		       yourself.
+
+	divider dispatchAuthorisationRequest: req
 ]
 
 { #category : #'dnd handlers' }
 ToDividerEventHandler >> dragStartEvent: anEvent [
 	" consume before super send to ensure dragged state "
 
-	| divider |
-	anEvent consume.
+	| divider req |
 	divider := anEvent currentTarget.
 
 	"drag start position in parent"
 	globalStartPosition := anEvent position.
 	dividerStartPosition := divider constraints position.
-	divider dispatchEvent: (ToDividerStartDragEvent new
-			 sourceEvent: anEvent;
-			 yourself)
+
+	req := ToDividerStartDragRequestEvent new
+		       sourceEvent: anEvent;
+		       requestedAction: [
+				       anEvent consume.
+				       divider dispatchEvent: (ToDividerStartDragEvent new
+							        sourceEvent: anEvent;
+							        yourself) ];
+		       yourself.
+
+	divider dispatchAuthorisationRequest: req
 ]
 
 { #category : #'api - accessing' }

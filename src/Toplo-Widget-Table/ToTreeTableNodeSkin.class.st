@@ -1,5 +1,5 @@
 Class {
 	#name : #ToTreeTableNodeSkin,
-	#superclass : #ToTreeNodeSkin,
+	#superclass : #ToRawSkin,
 	#category : #'Toplo-Widget-Table-List'
 }

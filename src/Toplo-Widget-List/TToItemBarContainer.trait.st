@@ -202,9 +202,9 @@ TToItemBarContainer >> newItemBar [
 ]
 
 { #category : #'t - item bar container - accessing' }
-TToItemBarContainer >> nodesDo: aValuable [
+TToItemBarContainer >> nodeContainersDo: aValuable [
 
-	self itemBar nodesDo: aValuable
+	self itemBar nodeContainersDo: aValuable
 ]
 
 { #category : #'t - item bar container - double dispatch' }

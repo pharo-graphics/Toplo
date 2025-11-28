@@ -8,11 +8,11 @@ Class {
 }
 
 { #category : #'events handling' }
-ToTabBarInGroupElementEventHandler >> barVisibleNodeListChangedEvent: anEvent [
+ToTabBarInGroupElementEventHandler >> barVisibleNodeContainerListChangedEvent: anEvent [
 
 	tabGroup
-		onInvisibleNodes: anEvent invisibleNodes
-		visibleNodes: anEvent visibleNodes
+		onInvisibleNodeContainers: anEvent invisibleNodeContainers
+		visibleNodeContainers: anEvent visibleNodeContainers
 ]
 
 { #category : #'events handling' }
@@ -25,7 +25,7 @@ ToTabBarInGroupElementEventHandler >> checkableGroupChangedEvent: anEvent [
 ToTabBarInGroupElementEventHandler >> eventsToHandle [
 
 	^ {
-		  ToBarVisibleNodeListChangedEvent.
+		  ToBarVisibleNodeContainerListChangedEvent.
 		  ToCheckableGroupChangedEvent.
 		  ToBarItemEvent.
 		  ToListPrimarySelectionChangedEvent }

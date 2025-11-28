@@ -26,6 +26,7 @@ ToItemBarElement >> defaultNodeManagerClass [
 ToItemBarElement >> initialize [
 
 	super initialize.
+	self initializeAsBarElement.
 	self initializeAsItemListElement
 ]
 

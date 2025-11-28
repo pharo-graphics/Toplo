@@ -39,7 +39,7 @@ TToTripletContainer >> createMiddleContainer [
 
 	middleContainer ifNotNil: [ ^ self ].
 	middleContainer := self newMiddleContainer.
-	middleContainer id: #'middle-container'.
+	middleContainer id ifNil: [ middleContainer id: #'middle-container' ].
 	self addChild: middleContainer
 ]
 

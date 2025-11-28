@@ -11,6 +11,13 @@ Class {
 	#category : #'Toplo-Widget-List-ItemBar'
 }
 
+{ #category : #configuration }
+ToBarItem >> applyConfiguration [ 
+
+	super applyConfiguration.
+	self applyItemConfiguration 
+]
+
 { #category : #initialization }
 ToBarItem >> defaultLayout [
 

@@ -61,6 +61,12 @@ ToTableElement >> header: anObject [
 	header := anObject
 ]
 
+{ #category : #accessing }
+ToTableElement >> indexOfColumn: aColumn [
+
+	^ columns indexOf: aColumn
+]
+
 { #category : #initialization }
 ToTableElement >> initialize [
 
@@ -78,7 +84,8 @@ ToTableElement >> initialize [
 	self property: #columns whenChangedDo: [
 			list columns: self columns.
 			header columns: self columns.
-			self initializeDividers ].
+			self initializeDividers.
+			list notifyDataSourceChanged ].
 	self property: #showHeader whenChangedDo: [
 			showHeader
 				ifTrue: [ header constraintsDo: [ :c | c vertical fitContent ] ]
@@ -157,7 +164,7 @@ ToTableElement >> newDivider [
 ]
 
 { #category : #'event handling' }
-ToTableElement >> newHeaderCheckboxInColumn: aColumn [
+ToTableElement >> newHeaderCheckbox [
 
 	| cbox |
 	cbox := list newCheckbox.
@@ -269,4 +276,12 @@ ToTableElement >> updateListSelectionFromHeaderCheckbox: aCheckbox [
 ToTableElement >> updateSelectionAfter: aValuable [
 
 	list updateSelectionAfter: aValuable
+]
+
+{ #category : #accessing }
+ToTableElement >> useCheckbox: aBoolean [
+
+	list useCheckbox: aBoolean.
+	header useCheckbox: aBoolean
+	
 ]

@@ -34,10 +34,10 @@ ToCompositeSelectionRepresentation >> isComposite [
 ]
 
 { #category : #accessing }
-ToCompositeSelectionRepresentation >> nodes [
+ToCompositeSelectionRepresentation >> nodeContainers [
 
 	^ Array streamContents: [ :stream |
-		  representations do: [ :r | stream nextPutAll: r nodes ] ]
+		  representations do: [ :r | stream nextPutAll: r nodeContainers ] ]
 ]
 
 { #category : #removing }

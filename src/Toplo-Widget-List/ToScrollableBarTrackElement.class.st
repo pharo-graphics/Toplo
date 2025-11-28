@@ -2,55 +2,37 @@ Class {
 	#name : #ToScrollableBarTrackElement,
 	#superclass : #ToElement,
 	#instVars : [
-		'fakeNode',
 		'listElement'
 	],
 	#category : #'Toplo-Widget-List-InnerBar'
 }
 
 { #category : #'accessing - children' }
-ToScrollableBarTrackElement >> addFakeNode: aNode [
-
-	| sizeHandler |
-	fakeNode ifNotNil: [ self removeFakeNode ].
-	fakeNode := aNode.
-	aNode visibility: BlVisibility hidden.
-	" The purpose of the size handler is to make a fake node remains invisible. 
-	this is ensured by forcing the height to zero 
-	(if the bar is vertical) or the width to zero 
-	(if ther bar is horizontal).  "
-	fakeNode whenLayoutedDoOnce: [
-			fakeNode userData at: #fakeNodeOriginalSize put: fakeNode extent.
-			self applyFakeNodeConfiguration ].
-
-	sizeHandler := fakeNode
-		               addEventHandlerOn: BlElementExtentChangedEvent
-		               do: [ self applyFakeNodeConfiguration ].
-	fakeNode userData at: #fakeNodeSizeHandler put: sizeHandler.
-	self addChild: aNode at: 1
-]
-
-{ #category : #'accessing - children' }
 ToScrollableBarTrackElement >> addHolder: anHolder at: aPosition [
 
-	| node |
-	node := anHolder node.
-	self addChild: node at: aPosition + 1
+	| container |
+	container := anHolder nodeContainer.
+	self addChild: container at: aPosition
 ]
 
 { #category : #configuration }
 ToScrollableBarTrackElement >> applyConfiguration [
 
 	super applyConfiguration.
-	self layout: self newLayoutStrategy.
+	self configureLayout.
+	self configureResizer.
+	self configureChildrenDistribution.
+	self childrenDo: [ :child | child applyConfiguration ]
+]
 
-	listElement isHFitContent
-		ifTrue: [ self hFitContent ]
-		ifFalse: [ self hMatchParent ].
+{ #category : #testing }
+ToScrollableBarTrackElement >> autoDistribute [
 
-	listElement isVFitContent
-		ifTrue: [ self vFitContent ]
-		ifFalse: [ self vMatchParent ].
+	^ listElement autoDistribute
+]
+
+{ #category : #configuration }
+ToScrollableBarTrackElement >> configureChildrenDistribution [
 
 	self autoDistribute
 		ifTrue: [
@@ -63,72 +45,35 @@ ToScrollableBarTrackElement >> applyConfiguration [
 				(self isFlowable not and: [ self isScrollable ]) ifTrue: [
 						self isHorizontal
 							ifTrue: [ self hFitContent ]
-							ifFalse: [ self vFitContent ] ] ].
-
-	self applyFakeNodeConfiguration.
-	self nodesDo: [ :n | n applyConfiguration ]
+							ifFalse: [ self vFitContent ] ] ]
 ]
 
 { #category : #configuration }
-ToScrollableBarTrackElement >> applyFakeNodeConfiguration [
+ToScrollableBarTrackElement >> configureLayout [
 
-	fakeNode applyConfiguration.
-
-	"in case my orientation changes the original size must be stored.
-	The original size has to be stored before setting the height or the width to zero.
-	see also addFakeNode:"
-
-	self isHorizontal
-		ifTrue: [
-				fakeNode userData at: #fakeNodeOriginalSize ifPresent: [ :s |
-						fakeNode height: s y.
-						fakeNode width: 0 ] ]
-		ifFalse: [
-				fakeNode userData at: #fakeNodeOriginalSize ifPresent: [ :s |
-						fakeNode width: s x.
-						fakeNode height: 0 ] ].
-	listElement updateAllSelections 
+	(self layout class = self newLayoutStrategyClass and: [
+		 self layout orientation isHorizontal = self isHorizontal ])
+		ifFalse: [ self layout: self newLayoutStrategy ].
+	self layout uniformNodeWidth: self uniformNodeWidth.
+	self layout uniformNodeHeight: self uniformNodeHeight.
 ]
 
-{ #category : #testing }
-ToScrollableBarTrackElement >> autoDistribute [
+{ #category : #configuration }
+ToScrollableBarTrackElement >> configureResizer [
 
-	^ listElement autoDistribute
-]
+	listElement isHFitContent
+		ifTrue: [ self hFitContent ]
+		ifFalse: [ self hMatchParent ].
 
-{ #category : #accessing }
-ToScrollableBarTrackElement >> fakeNode [ 
-
-	^ fakeNode
+	listElement isVFitContent
+		ifTrue: [ self vFitContent ]
+		ifFalse: [ self vMatchParent ]
 ]
 
 { #category : #layout }
 ToScrollableBarTrackElement >> flowLayoutClass [
 
 	^ ToBarFlowLayout
-]
-
-{ #category : #'accessing - children' }
-ToScrollableBarTrackElement >> fullyVisibleNodes [
-
-	^ Array streamContents: [ :stream |
-		  self fullyVisibleNodesDo: [ :node | stream nextPut: node ] ]
-]
-
-{ #category : #'accessing - children' }
-ToScrollableBarTrackElement >> fullyVisibleNodesDo: aBlock [
-
-	self nodesDo: [ :node |
-		node isFullyVisibleInInnerElement ifTrue: [ aBlock value: node ] ]
-]
-
-{ #category : #'accessing - children' }
-ToScrollableBarTrackElement >> fullyVisibleNodesSelect: aBlock [
-
-	^ Array streamContents: [ :stream |
-		  self nodesDo: [ :node |
-			  node isFullyVisibleInInnerElement ifTrue: [
-				  (aBlock value: node) ifTrue: [ stream nextPut: node ] ] ] ]
 ]
 
 { #category : #initialization }
@@ -177,12 +122,9 @@ ToScrollableBarTrackElement >> maxMeasuredNodeSize [
 { #category : #layout }
 ToScrollableBarTrackElement >> newFlowLayout [
 
-	^ (self isHorizontal
-		   ifTrue: [ self flowLayoutClass horizontal ]
-		   ifFalse: [ self flowLayoutClass vertical ])
-		  uniformNodeWidth: listElement uniformNodeWidth;
-		  uniformNodeHeight: listElement uniformNodeHeight;
-		  yourself
+	^ self isHorizontal
+		  ifTrue: [ self flowLayoutClass horizontal ]
+		  ifFalse: [ self flowLayoutClass vertical ]
 ]
 
 { #category : #layout }
@@ -194,50 +136,62 @@ ToScrollableBarTrackElement >> newLayoutStrategy [
 ]
 
 { #category : #layout }
-ToScrollableBarTrackElement >> newLinearLayout [
+ToScrollableBarTrackElement >> newLayoutStrategyClass [
 
-	^ (self isHorizontal
-		   ifTrue: [ self linearLayoutClass horizontal ]
-		   ifFalse: [ self linearLayoutClass vertical ])
-		  uniformNodeWidth: listElement uniformNodeWidth;
-		  uniformNodeHeight: listElement uniformNodeHeight;
-		  yourself
+	^ self isFlowable
+		  ifTrue: [ self flowLayoutClass ]
+		  ifFalse: [ self linearLayoutClass ]
 ]
 
-{ #category : #accessing }
-ToScrollableBarTrackElement >> nodes [
+{ #category : #layout }
+ToScrollableBarTrackElement >> newLinearLayout [
 
-	^ Array streamContents: [ :stream |
-		  self nodesDo: [ :node | stream nextPut: node ] ]
+	^ self isHorizontal
+		  ifTrue: [ self linearLayoutClass horizontal ]
+		  ifFalse: [ self linearLayoutClass vertical ]
 ]
 
 { #category : #'accessing - children' }
-ToScrollableBarTrackElement >> nodesDetect: aBlock [
+ToScrollableBarTrackElement >> nodeContainers [
 
-	self nodesDo: [ :node | (aBlock value: node) ifTrue: [ ^ node ] ].
+	^ self children
+]
+
+{ #category : #'accessing - children' }
+ToScrollableBarTrackElement >> nodeContainersDetect: aBlock [
+
+	self nodeContainersDo: [ :container | (aBlock value: container) ifTrue: [ ^ container ] ].
 	^ nil
 ]
 
 { #category : #'accessing - children' }
-ToScrollableBarTrackElement >> nodesDo: aBlock [
+ToScrollableBarTrackElement >> nodeContainersDo: aBlock [
 
-	self childrenDo: [ :node |
-		node = fakeNode ifFalse: [ aBlock value: node ] ]
+	self childrenDo: [ :container | aBlock value: container ]
 ]
 
 { #category : #'accessing - children' }
-ToScrollableBarTrackElement >> nodesSelect: aBlock [
+ToScrollableBarTrackElement >> nodeContainersReject: aBlock [
+
+	^ self nodeContainersSelect: [ :container | (aBlock value: container) not ]
+]
+
+{ #category : #'accessing - children' }
+ToScrollableBarTrackElement >> nodeContainersSelect: aBlock [
 
 	^ Array streamContents: [ :stream |
-		  self nodesDo: [ :node |
-			  (aBlock value: node) ifTrue: [ stream nextPut: node ] ] ]
+		  self nodeContainersDo: [ :container |
+			  (aBlock value: container) ifTrue: [ stream nextPut: container ] ] ]
 ]
 
 { #category : #'accessing - children' }
-ToScrollableBarTrackElement >> nodesWithIndexDo: aBlock [
+ToScrollableBarTrackElement >> nodeContainersWithIndexDo: aBlock [
 
-	self nodesDo: [ :node |
-		aBlock value: node value: node holder position]
+	| idx |
+	idx := 1.
+	self nodeContainersDo: [ :container |
+			aBlock value: container value: idx.
+			idx := idx + 1 ]
 ]
 
 { #category : #initialization }
@@ -249,41 +203,30 @@ ToScrollableBarTrackElement >> onListElement: aListElement [
 { #category : #'accessing - children' }
 ToScrollableBarTrackElement >> partlyVisibleNodesDo: aBlock [
 
-	self nodesDo: [ :node |
-		node isPartlyVisible ifTrue: [ aBlock value: node ] ]
+	self nodeContainersDo: [ :container |
+		container isPartlyVisibleInListElement ifTrue: [ aBlock value: container ] ]
 ]
 
 { #category : #'accessing - children' }
-ToScrollableBarTrackElement >> partlyVisibleNodesSelect: aBlock [
+ToScrollableBarTrackElement >> removeAllNodeContainers: anArray [
 
-	^ Array streamContents: [ :stream |
-		  self partlyVisibleNodesDo: [ :node |
-			  (aBlock value: node) ifTrue: [ stream nextPut: node ] ] ]
+	anArray reverseDo: [ :container | self removeNodeContainer: container ]
 ]
 
 { #category : #'accessing - children' }
-ToScrollableBarTrackElement >> removeAllNodes: anArray [
+ToScrollableBarTrackElement >> removeNodeContainer: container [
 
-	anArray reverseDo: [ :node | self removeNode: node ]
+	container removeFromParent
 ]
 
-{ #category : #'accessing - children' }
-ToScrollableBarTrackElement >> removeFakeNode [
+{ #category : #configuration }
+ToScrollableBarTrackElement >> uniformNodeHeight [
 
-	fakeNode ifNotNil: [
-			| sizeHandler |
-			" see #addFakeNode: and #applyFakeNodeConfiguration comments on sizeHandler and on fakeNodeOriginalSize "
-			sizeHandler := fakeNode userData at: #fakeNodeSizeHandler.
-			fakeNode removeEventHandler: sizeHandler.
-			fakeNode userData removeKey: #fakeNodeSizeHandler.
-			fakeNode userData removeKey: #fakeNodeOriginalSize ifAbsent: [].
-			fakeNode removeFromParent.
-			fakeNode visibility: BlVisibility visible. ].
-	fakeNode := nil
+	^ listElement uniformNodeHeight
 ]
 
-{ #category : #'accessing - children' }
-ToScrollableBarTrackElement >> removeNode: aNode [
+{ #category : #configuration }
+ToScrollableBarTrackElement >> uniformNodeWidth [
 
-	aNode removeFromParent
+	^ listElement uniformNodeWidth
 ]

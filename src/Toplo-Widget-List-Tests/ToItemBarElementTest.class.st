@@ -23,7 +23,7 @@ ToItemBarElementTest >> setUp [
 ToItemBarElementTest >> test [
 
 	| n |
-	self assert: l nodes size equals: l dataAccessor size.
+	self assert: l nodeContainers size equals: l dataAccessor size.
 	self assert: (l nodeManager isKindOf: ToItemNodeManagerForTest).
 	l addAllItems:
 		((1 to: 10) collect: [ :i | ToItemElementForTest new text: i asString ]).
@@ -41,7 +41,7 @@ ToItemBarElementTest >> testAddItem [
 	item := ToItemElementForTest new text: '#1'.
 	l addItem: item.
 	self waitTestingSpaces.
-	self assert: l nodes size equals: 1.
+	self assert: l nodeContainers size equals: 1.
 	n := l nodes first.
 	self assert: (n isKindOf: ToItemNodeForTest).
 	self assert: (n holder isKindOf: ToBarNodeHolderForTest).
@@ -54,7 +54,7 @@ ToItemBarElementTest >> testAddItem [
 ToItemBarElementTest >> testDisableItemAfterAdding [
 
 	| n item |
-	self assert: l nodes size equals: 0.
+	self assert: l nodeContainers size equals: 0.
 	item := ToItemElementForTest new text: 'A'.
 	l addItem: item.
 	item disable.
@@ -73,7 +73,7 @@ ToItemBarElementTest >> testDisableItemAfterAdding [
 ToItemBarElementTest >> testDisableItemAfterAdding2 [
 
 	| n item |
-	self assert: l nodes size equals: 0.
+	self assert: l nodeContainers size equals: 0.
 	item := ToItemElementForTest new text: 'A'.
 	l addItem: item.
 	item := ToItemElementForTest new text: 'B'.
@@ -110,7 +110,7 @@ ToItemBarElementTest >> testDisableItemAfterAdding2 [
 ToItemBarElementTest >> testDisableItemBeforeAdding [
 
 	| n item |
-	self assert: l nodes size equals: 0.
+	self assert: l nodeContainers size equals: 0.
 	item := ToItemElementForTest new text: 'A'.
 	item disabled: true.
 	l addItem: item.
@@ -130,7 +130,7 @@ ToItemBarElementTest >> testDisableItemBeforeAdding [
 ToItemBarElementTest >> testDisableItemBeforeAdding2 [
 
 	| n item |
-	self assert: l nodes size equals: 0.
+	self assert: l nodeContainers size equals: 0.
 	item := ToItemElementForTest new text: 'A'.
 	l addItem: item.
 	item := ToItemElementForTest new text: 'B'.

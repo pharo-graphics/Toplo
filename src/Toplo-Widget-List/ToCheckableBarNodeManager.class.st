@@ -18,7 +18,7 @@ ToCheckableBarNodeManager >> buildNode: aNode [
 { #category : #initialization }
 ToCheckableBarNodeManager >> defaultFakeDataItem [
 
-	^ ToItemToggleButton new
+	^ ToToggleButton new
 		  labelText: 'X';
 		  yourself
 ]

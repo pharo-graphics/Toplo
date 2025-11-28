@@ -26,9 +26,15 @@ ToTagBarElement >> initialize [
 ]
 
 { #category : #'t - list element decorator - children - accessing' }
-ToTagBarElement >> nodes [
+ToTagBarElement >> nodeContainers [
 
-	^ self innerElement nodes
+	^ self innerElement nodeContainers
+]
+
+{ #category : #'t - list element decorator - children - accessing' }
+ToTagBarElement >> nodeContainersDo: aBlock [
+
+	self innerElement nodeContainersDo: aBlock
 ]
 
 { #category : #accessing }
@@ -36,15 +42,9 @@ ToTagBarElement >> nodesCount [
 
 	| count |
 	count := 0.
-	self nodesDo: [ :node |
-		count := count + node nodesCount ].
+	self nodeContainersDo: [ :container |
+		count := count + container node nodesCount ].
 	^ count
-]
-
-{ #category : #'t - list element decorator - children - accessing' }
-ToTagBarElement >> nodesDo: aBlock [
-
-	self innerElement nodesDo: aBlock
 ]
 
 { #category : #'t - bar element' }

@@ -4,6 +4,18 @@ Trait {
 }
 
 { #category : #'t - item' }
+TToItem >> applyItemConfiguration [
+
+	self holderDo: [ :h |
+		h listElement isHorizontal
+			ifTrue: [
+				self hFitContent ]
+			ifFalse: [
+				self hMatchParent ] ].
+	self vFitContent
+]
+
+{ #category : #'t - item' }
 TToItem >> barElement [ 
 
 	self

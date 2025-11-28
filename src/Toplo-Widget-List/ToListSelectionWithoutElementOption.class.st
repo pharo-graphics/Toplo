@@ -13,12 +13,12 @@ ToListSelectionWithoutElementOption >> isEmbedded [
 { #category : #'nodes collecting' }
 ToListSelectionWithoutElementOption >> newSelectionRepresentationArrayFrom: aListElement withSelectionModel: aSelectionModel [
 
-	^ (aListElement nodesSelect: [ :node |
+	^ (aListElement nodeContainersSelect: [ :container |
 		   | idx |
-		   idx := node holder position.
+		   idx := container holder position.
 		   (aSelectionModel containsIndex: idx) and: [
-			   aSelectionModel isVisibleIndex: idx ] ]) collect: [ :node |
-		  ToSelectionWithoutElement new node: node ]
+			   aSelectionModel isVisibleIndex: idx ] ]) collect: [ :container |
+		  ToSelectionWithoutElement new node: container ]
 ]
 
 { #category : #'nodes collecting' }

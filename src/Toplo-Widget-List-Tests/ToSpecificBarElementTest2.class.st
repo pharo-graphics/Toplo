@@ -264,7 +264,7 @@ ToSpecificBarElementTest2 >> testDisabledWithOneNode [
 	l dataAccessor add: (ToLabel text: 'first').
 	space root addChild: l.
 	self waitTestingSpaces.
-	self assert: l nodes size equals: 1.
+	self assert: l nodeContainers size equals: 1.
 	self assert: l disabledSelectionModel isEmpty.
 	l disabledSelecter selectOneMoreIndex: 1.
 	self waitTestingSpaces.
@@ -277,7 +277,7 @@ ToSpecificBarElementTest2 >> testDisabledWithThreeNodes [
 	l dataAccessor add: (ToLabel text: 'first').
 	space root addChild: l.
 	self waitTestingSpaces.
-	self assert: l nodes size equals: 1.
+	self assert: l nodeContainers size equals: 1.
 	self assert: l disabledSelectionModel isEmpty.
 	l disabledSelecter selectOneMoreIndex: 1.
 	self waitTestingSpaces.
@@ -314,7 +314,7 @@ ToSpecificBarElementTest2 >> testDisabledWithTwoNodes [
 	l dataAccessor add: (ToLabel text: 'first').
 	space root addChild: l.
 	self waitTestingSpaces.
-	self assert: l nodes size equals: 1.
+	self assert: l nodeContainers size equals: 1.
 	self assert: l disabledSelectionModel isEmpty.
 	l disabledSelecter selectOneMoreIndex: 1.
 	self waitTestingSpaces.
@@ -332,7 +332,7 @@ ToSpecificBarElementTest2 >> testDisabledWithTwoNodes2 [
 	l dataAccessor add: (ToLabel text: 'first').
 	space root addChild: l.
 	self waitTestingSpaces.
-	self assert: l nodes size equals: 1.
+	self assert: l nodeContainers size equals: 1.
 	self assert: l disabledSelectionModel isEmpty.
 	l disabledSelecter selectOneMoreIndex: 1.
 	self waitTestingSpaces.
@@ -377,7 +377,7 @@ ToSpecificBarElementTest2 >> testOneNode [
 	l dataAccessor add: (ToLabel text: 'first').
 	self waitTestingSpaces.
 	self assert: l dataSource first text asString equals: 'first'.
-	self assert: l nodes  size equals: 1.
+	self assert: l nodeContainers  size equals: 1.
 	self assert: l nodes first class identicalTo: ToSpecificBarNodeForTest2.	
 	self assert: l nodes first  holder class identicalTo: ToSpecificBarNodeHolderForTest2.	
 	self assert: l nodes first  children size equals: 1.	
@@ -394,7 +394,7 @@ ToSpecificBarElementTest2 >> testSelectionWithOneNode [
 	l dataAccessor add: (ToLabel text: 'first').
 	space root addChild: l.
 	self waitTestingSpaces.
-	self assert: l nodes size equals: 1.
+	self assert: l nodeContainers size equals: 1.
 	self assert: l selectionModel isEmpty.
 	l selecter selectOneMoreIndex: 1.
 	self waitTestingSpaces.
@@ -408,7 +408,7 @@ ToSpecificBarElementTest2 >> testSelectionWithTwoNodes [
 	l dataAccessor add: (ToLabel text: 'first').
 	space root addChild: l.
 	self waitTestingSpaces.
-	self assert: l nodes size equals: 1.
+	self assert: l nodeContainers size equals: 1.
 	self assert: l selectionModel isEmpty.
 	l selecter selectOneMoreIndex: 1.
 	self waitTestingSpaces.

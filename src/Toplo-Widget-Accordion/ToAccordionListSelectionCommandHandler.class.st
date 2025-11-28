@@ -13,8 +13,8 @@ ToAccordionListSelectionCommandHandler >> addIndexesFromCommand: aCommand [
 		currentTarget selectionModel allIndexesDo: [ :idx |
 			self removeIndex: idx ] ].
 	indexes do: [ :idx |
-		(currentTarget nodeAt: idx) ifNotNil: [ :node |
-			node item isExpanded: true ] ]
+		(currentTarget nodeContainerAt: idx) ifNotNil: [ :container |
+			container item isExpanded: true ] ]
 ]
 
 { #category : #'command handling' }
@@ -59,8 +59,8 @@ ToAccordionListSelectionCommandHandler >> removeAllIndexes: anIndexCollection [
 { #category : #'command handling' }
 ToAccordionListSelectionCommandHandler >> removeIndex: anIndex [
 
-	(currentTarget nodeAt: anIndex) ifNotNil: [ :node |
-		node item isExpanded: false ].
+	(currentTarget nodeContainerAt: anIndex) ifNotNil: [ :container |
+		container item isExpanded: false ].
 	currentTarget cleanUpRecyclerAt: anIndex
 ]
 

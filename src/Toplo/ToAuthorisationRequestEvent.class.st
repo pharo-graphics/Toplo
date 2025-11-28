@@ -78,28 +78,3 @@ ToAuthorisationRequestEvent >> requestedAction: aBlock [
 
 	requestedAction := aBlock
 ]
-
-{ #category : #accessing }
-ToAuthorisationRequestEvent >> requestedEvent: anEvent [
-
-	self deprecated: 'The API changed. no more source event but a requested action block'
-]
-
-{ #category : #accessing }
-ToAuthorisationRequestEvent >> sourceEvent [
-
-	self
-		deprecated: 'The API changed. no more source event but a requested action block'.
-
-]
-
-{ #category : #accessing }
-ToAuthorisationRequestEvent >> sourceEvent: anEvent [
-
-	self
-		deprecated: 'Use requestedEvent: instead'
-		transformWith: '`@receiver sourceEvent: `@argument'
-			-> '`@receiver requestedEvent: `@argument'.
-
-	self requestedEvent: anEvent
-]

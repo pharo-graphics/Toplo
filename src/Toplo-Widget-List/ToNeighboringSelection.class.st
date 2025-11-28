@@ -11,7 +11,7 @@ Class {
 ToNeighboringSelection >> = other [
 
 	super = other ifFalse: [ ^ false ].
-	^ nodes = other nodes and: [
+	^ nodes = other nodeContainers and: [
 				  preComputedBounds = other preComputedBounds ]
 ]
 
@@ -22,7 +22,7 @@ ToNeighboringSelection >> hash [
 ]
 
 { #category : #accessing }
-ToNeighboringSelection >> nodes [
+ToNeighboringSelection >> nodeContainers [
 
 	^ nodes
 ]

@@ -128,18 +128,6 @@ ToInfiniteElement >> findElementHolderForDataSourcePosition: aPosition [
 	^ super findElementHolderForDataSourcePosition: aPosition
 ]
 
-{ #category : #'node enumerating' }
-ToInfiniteElement >> fullyVisibleNodesDo: aBlock [
-
-	self nodesDo: aBlock
-]
-
-{ #category : #'node enumerating' }
-ToInfiniteElement >> fullyVisibleNodesSelect: aBlock [
-
-	^ self nodesSelect: aBlock
-]
-
 { #category : #initialization }
 ToInfiniteElement >> initialize [
 
@@ -166,52 +154,58 @@ ToInfiniteElement >> newNodeHolderFromDataSource: aDataSource [
 ]
 
 { #category : #'t - list node holder' }
-ToInfiniteElement >> nodeAt: aPosition [
+ToInfiniteElement >> nodeContainerAt: aPosition [
 
 	^ (self findElementHolderForDataSourcePosition: aPosition) ifNotNil: [
 		  :holder | holder node ]
 ]
 
-{ #category : #'accessing - children' }
-ToInfiniteElement >> nodeContainingGlobalPosition: aPoint [
-
-	self nodesDo: [ :node |
-		(node containsGlobalPoint: aPoint) ifTrue: [ ^ node ] ].
-	^ nil
-]
-
 { #category : #'t - list node holder' }
-ToInfiniteElement >> nodes [
+ToInfiniteElement >> nodeContainers [
 
 	^ self children
 ]
 
 { #category : #'t - list node holder' }
-ToInfiniteElement >> nodesDetect: aBlock [
+ToInfiniteElement >> nodeContainersDetect: aBlock [
 
-	self nodesDo: [ :node | (aBlock value: node) ifTrue: [ ^ node ] ].
+	self nodeContainersDo: [ :container | (aBlock value: container) ifTrue: [ ^ container ] ].
 	^ nil
 ]
 
 { #category : #'t - list node holder' }
-ToInfiniteElement >> nodesDo: aBlock [
+ToInfiniteElement >> nodeContainersDo: aBlock [
 
 	self childrenDo: [ :node | aBlock value: node ]
 ]
 
 { #category : #'t - list node holder' }
-ToInfiniteElement >> nodesSelect: aBlock [
+ToInfiniteElement >> nodeContainersReject: aBlock [
 
-	^ Array streamContents: [ :stream |
-		  self nodesDo: [ :node |
-			  (aBlock value: node) ifTrue: [ stream nextPut: node ] ] ]
+	^ self nodeContainersSelect: [ :container | (aBlock value: container) not ]
 ]
 
 { #category : #'t - list node holder' }
-ToInfiniteElement >> nodesWithIndexDo: aBlock [
+ToInfiniteElement >> nodeContainersSelect: aBlock [
 
-	self nodesDo: [ :node |
-		aBlock value: node value: node holder position ]
+	^ Array streamContents: [ :stream |
+		  self nodeContainersDo: [ :container |
+			  (aBlock value: container) ifTrue: [ stream nextPut: container ] ] ]
+]
+
+{ #category : #'t - list node holder' }
+ToInfiniteElement >> nodeContainersWithIndexDo: aBlock [
+
+	self nodeContainersDo: [ :container |
+		aBlock value: container value: container holder position ]
+]
+
+{ #category : #'accessing - children' }
+ToInfiniteElement >> nodeContainingGlobalPosition: aPoint [
+
+	self nodeContainersDo: [ :container |
+		(container containsGlobalPoint: aPoint) ifTrue: [ ^ container ] ].
+	^ nil
 ]
 
 { #category : #initialization }
@@ -223,15 +217,7 @@ ToInfiniteElement >> onListElement: aListElement [
 { #category : #'t - list node holder' }
 ToInfiniteElement >> partlyVisibleNodesDo: aBlock [
 
-	self nodesDo: aBlock
-]
-
-{ #category : #'t - list node holder' }
-ToInfiniteElement >> partlyVisibleNodesSelect: aBlock [
-
-	^ Array streamContents: [ :stream |
-		  self partlyVisibleNodesDo: [ :node |
-			  (aBlock value: node) ifTrue: [ stream nextPut: node ] ] ]
+	self nodeContainersDo: aBlock
 ]
 
 { #category : #private }

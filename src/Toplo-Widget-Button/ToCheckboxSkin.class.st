@@ -50,7 +50,7 @@ ToCheckboxSkin >> enabledSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 			e border: BlBorder empty.
 			(e isMenuButton or: [
-				 e anyInParentsSatisfy: [ :p | p isKindOf: ToAbstractListNode ] ])
+				 e anyInParentsSatisfy: [ :p | p isKindOf: ToNodeContainer ] ])
 				ifTrue: [ e background: BlBackground transparent ].
 			e icon innerImageColor: (e valueOfTokenNamed: #'checkbox-color') ]
 ]

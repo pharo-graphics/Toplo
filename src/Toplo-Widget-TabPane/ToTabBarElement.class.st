@@ -11,9 +11,9 @@ Class {
 ToTabBarElement >> applyConfiguration [
 
 	super applyConfiguration.
-	self nodesDo: [ :node |
-		node item requestConfiguration.
-		node requestNewSkin ].
+	self nodeContainersDo: [ :container |
+		container node item requestConfiguration.
+		container node requestNewSkin ].
 	self requestLayout
 ]
 

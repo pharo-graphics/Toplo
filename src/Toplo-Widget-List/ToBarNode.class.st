@@ -9,30 +9,8 @@ Class {
 { #category : #configuration }
 ToBarNode >> applyConfiguration [
 
-	| bar |
 	super applyConfiguration.
-	bar := self holder listElement.
-	bar isFlowable
-		ifTrue: [ self fitContent ]
-		ifFalse: [
-				bar isVertical
-					ifTrue: [
-							bar isHMatchParent
-								ifTrue: [ self hMatchParent ]
-								ifFalse: [ self hFitContent ].
-							bar autoDistribute
-								ifTrue: [ self vMatchParent ]
-								ifFalse: [ self vFitContent ] ]
-					ifFalse: [
-							bar isVMatchParent
-								ifTrue: [ self vMatchParent ]
-								ifFalse: [ self vFitContent ].
-							bar autoDistribute
-								ifTrue: [ self hMatchParent ]
-								ifFalse: [ self hFitContent ] ] ].
-	self holder initializeNode.
-	bar exactNodeWidth ifNotNil: [ :w | self width: w ].
-	bar exactNodeHeight ifNotNil: [ :h | self height: h ]
+	self holder initializeNode
 ]
 
 { #category : #'t - list node' }
@@ -45,6 +23,7 @@ ToBarNode >> clickEventHandlerClass [
 ToBarNode >> initialize [
 
 	super initialize.
+	self matchParent.
 	self addEventHandlerOn: ToRemoveButtonClickedEvent do: [ :event |
 			| target listElement |
 			" since the event is fired, on should stop it dispatching here "

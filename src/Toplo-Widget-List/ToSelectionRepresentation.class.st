@@ -29,7 +29,7 @@ ToSelectionRepresentation >> isEmpty [
 ]
 
 { #category : #accessing }
-ToSelectionRepresentation >> nodes [
+ToSelectionRepresentation >> nodeContainers [
 	^ self subclassResponsibility
 ]
 

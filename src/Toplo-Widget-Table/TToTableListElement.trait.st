@@ -7,7 +7,7 @@ Trait {
 }
 
 { #category : #'t - table list element' }
-TToTableListElement >> cellStateAt: anIndex [
+TToTableListElement >> columnStateAt: anIndex [
 
 	^ (self headerCellContainerAt: anIndex) state
 ]
@@ -21,15 +21,14 @@ TToTableListElement >> columns [
 { #category : #'t - table list element' }
 TToTableListElement >> columns: aTableColumnArray [
 
-	self nodeManager columns: aTableColumnArray.
-	self onUseCheckboxChangedWith: (aTableColumnArray anySatisfy: [ :col | col useCheckbox ])
+	self nodeManager columns: aTableColumnArray
 ]
 
 { #category : #'t - table list element' }
 TToTableListElement >> divider: aDivider movedBy: aDistance from: aStartLocation [
 
-	self innerElement nodes do: [ :n |
-		n divider: aDivider movedBy: aDistance from: aStartLocation ]
+	self innerElement nodeContainersDo: [ :container |
+		container node divider: aDivider movedBy: aDistance from: aStartLocation ]
 ]
 
 { #category : #'t - table list element' }
@@ -53,5 +52,5 @@ TToTableListElement >> parentTable: aTableElement [
 { #category : #'t - table list element' }
 TToTableListElement >> recordCellsWidth [
 
-	self innerElement nodesDo: [ :n | n recordCellsWidth ]
+	self innerElement nodeContainersDo: [ :container | container node recordCellsWidth ]
 ]

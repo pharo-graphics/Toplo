@@ -32,7 +32,7 @@ TToCheckableSelectionManager >> newCheckbox [
 ]
 
 { #category : #'t - checkable selection manager' }
-TToCheckableSelectionManager >> newCheckboxInNode: aNode [
+TToCheckableSelectionManager >> newCheckboxInNodeContainer: aNode [
 
 	| cbox |
 	cbox := self newCheckbox.
@@ -51,19 +51,19 @@ TToCheckableSelectionManager >> newCheckboxInNode: aNode [
 			| req |
 			req := ToListClickOnNodeRequestEvent new
 				       requestedAction: [
-					       self onCheckableCheckEvent: event onNode: aNode ];
+					       self onCheckableCheckEvent: event onNodeContainer: aNode ];
 				       yourself.
 			aNode dispatchAuthorisationRequest: req ].
 	^ cbox
 ]
 
 { #category : #'t - checkable selection manager' }
-TToCheckableSelectionManager >> onCheckableCheckEvent: anEvent onNode: aNode [
+TToCheckableSelectionManager >> onCheckableCheckEvent: anEvent onNodeContainer: aNode [
 
 	anEvent checked ifFalse: [ ^ aNode holder selected: false ].
 	self spaceDo: [ :sp |
 		anEvent sourceEvent: sp mouseProcessor lastMouseDownEvent ].
-	self notifyClickOnNode: aNode fromEvent: anEvent
+	self notifyClickOnNode: aNode node fromEvent: anEvent
 ]
 
 { #category : #'t - checkable selection manager' }

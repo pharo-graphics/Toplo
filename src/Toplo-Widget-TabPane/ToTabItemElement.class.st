@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTabItemElement,
-	#superclass : #ToItemToggleButton,
+	#superclass : #ToToggleButton,
 	#traits : 'TToRemovableItem',
 	#classTraits : 'TToRemovableItem classTrait',
 	#instVars : [

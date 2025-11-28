@@ -248,7 +248,7 @@ ToTreeDataItemWrapper >> notifyCollapsedAtPosition: aPosition [
 			(and then, before the list is changed)"
 
 	treeElement consumeFinalStepCommands.
-	self updateTreeNodeAtPosition: aPosition.	
+	self updateTreeAtPosition: aPosition.	
 	treeElement dispatchEvent: (ToTreeDataItemWrapperCollapsedEvent new
 			 wrapper: self;
 			 yourself)
@@ -263,7 +263,7 @@ ToTreeDataItemWrapper >> notifyExpandedAllAtPosition: aPosition [
 			(and then, before the list is changed)"
 
 	treeElement consumeFinalStepCommands.
-	self updateTreeNodeAtPosition: aPosition.
+	self updateTreeAtPosition: aPosition.
 	treeElement dispatchEvent: (ToTreeDataItemWrapperExpandedEvent new
 			 wrapper: self;
 			 deeply: true;
@@ -279,7 +279,7 @@ ToTreeDataItemWrapper >> notifyExpandedAtPosition: aPosition [
 			(and then, before the list is changed)"
 
 	treeElement consumeFinalStepCommands.
-	self updateTreeNodeAtPosition: aPosition.	
+	self updateTreeAtPosition: aPosition.	
 	treeElement dispatchEvent: (ToTreeDataItemWrapperExpandedEvent new
 			 wrapper: self;
 			 yourself)
@@ -327,15 +327,15 @@ ToTreeDataItemWrapper >> treeElement: aTreeElement [
 ]
 
 { #category : #'private - accessing' }
-ToTreeDataItemWrapper >> treeNodeAtPosition: aPositionInDataSource [
+ToTreeDataItemWrapper >> treeNodeContainerAtPosition: aPositionInDataSource [
 
-	^ treeElement nodesDetect: [ :node | node holder dataWrapper = self ]
+	^ treeElement nodeContainersDetect: [ :container | container holder dataWrapper = self ]
 ]
 
 { #category : #'private - accessing' }
-ToTreeDataItemWrapper >> treeNodeAtPosition: aPositionInDataSource do: aValuable [
+ToTreeDataItemWrapper >> treeNodeContainerAtPosition: aPositionInDataSource do: aValuable [
 
-	(self treeNodeAtPosition: aPositionInDataSource) ifNotNil: [ :tn |
+	(self treeNodeContainerAtPosition: aPositionInDataSource) ifNotNil: [ :tn |
 		aValuable value: tn ]
 ]
 
@@ -346,13 +346,13 @@ ToTreeDataItemWrapper >> unwrappedDataItem [
 ]
 
 { #category : #'private - accessing' }
-ToTreeDataItemWrapper >> updateTreeNodeAtPosition: aPositionInDataSource [
+ToTreeDataItemWrapper >> updateTreeAtPosition: aPositionInDataSource [
 
-	self treeNodeAtPosition: aPositionInDataSource do: [ :node |
-			node requestNewSkin.
+	self treeNodeContainerAtPosition: aPositionInDataSource do: [ :container |
+			container requestNewSkin.
 			treeElement postponeAction: [ :t |
-					node holder allowSelectionNotification: true.
-					node holder notifySelectedWithOption: t selectionOption ] ]
+					container holder allowSelectionNotification: true.
+					container holder notifySelectedWithOption: t selectionOption ] ]
 ]
 
 { #category : #accessing }

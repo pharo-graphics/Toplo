@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'t - bar element' }
-ToMultiSelectInnerBarElement >> onInvisibleNodes: theInvisibleNodes visibleNodes: theVisibleNodes [
+ToMultiSelectInnerBarElement >> onInvisibleNodeContainers: theInvisibleNodes visibleNodeContainers: theVisibleNodes [
 
 	| visibleNodes invisibleNodes composite finalCount |
 	listElement isFlowable ifTrue: [ ^ self ].
@@ -13,7 +13,7 @@ ToMultiSelectInnerBarElement >> onInvisibleNodes: theInvisibleNodes visibleNodes
 	theInvisibleNodes ifEmpty: [ ^ self ].
 	" in case of composite node at first it means that 
 	there is no more visible node to cumulate in a composite node"
-	self nodes size = 1 ifTrue: [ ^ self ].
+	self nodeContainers size = 1 ifTrue: [ ^ self ].
 	visibleNodes := theVisibleNodes copy.
 	invisibleNodes := theInvisibleNodes copy.
 	visibleNodes ifNotEmpty: [

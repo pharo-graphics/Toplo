@@ -284,7 +284,7 @@ ToSandBox class >> barWithData: aCollection [
 												  labelText: 'Inspect';
 												  clickAction: [
 													  Array withAll:
-															  (idxes collect: [ :idx | target nodeAt: idx ])
+															  (idxes collect: [ :idx | target nodeContainerAt: idx ])
 																  inspect ];
 												  yourself).
 									 m addItem: (ToMenuItem new
@@ -297,8 +297,8 @@ ToSandBox class >> barWithData: aCollection [
 											  labelText: 'Unable/disable';
 											  clickAction: [
 													  idxes do: [ :idx |
-															  (bar nodeAt: idx) disabled:
-																	  (bar nodeAt: idx) isEnabled ] ];
+															  (bar nodeContainerAt: idx) disabled:
+																	  (bar nodeContainerAt: idx) isEnabled ] ];
 											  yourself).
 									 m addItem: (ToMenuItem new
 											  labelText: 'Unselectable';
@@ -827,7 +827,8 @@ ToSandBox class >> example_AllClassesWithCheckbox [
 
 	| l |
 	l := self example_AllClasses.
-	l useCheckbox: true
+	l useCheckbox: true.
+	l inspect
 ]
 
 { #category : #window }
@@ -1611,7 +1612,7 @@ ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheetDarkTheme [
 	btn label addStamp: #H3.
 	btn addStamp: #primary.
 	btn addStamp: #danger.
-	btn size: 500 @ 100.
+	btn extent: 500 @ 100.
 	space := BlSpace new toTheme: ToBeeDarkTheme new.
 	space root layout: BlLinearLayout vertical.
 	space root addChildren: {
@@ -1638,25 +1639,32 @@ ToSandBox class >> example_CheckBoxWithDefaultStyleSheetDarkTheme [
 { #category : #bar }
 ToSandBox class >> example_CheckableBarElement [
 
-| bar space container |
-
+	| bar space container |
 	container := ToPane new.
 	container matchParent.
-	container contextMenu: [ :menu :request | 
-		menu addItem: (ToMenuItem new labelText: 'Inspect'; clickAction: [container inspect];yourself) ].
-	
+	container contextMenuBuilder: [ :menu :request |
+			menu addItem: (ToMenuItem new
+					 labelText: 'Inspect';
+					 clickAction: [ container inspect ];
+					 yourself) ].
+
 	bar := ToCheckableBarElement new.
 	space := BlSpace new.
 	bar matchParent.
 	{ #Alabama. #Alaska. #Arizona. #Arkansas. #California. #Colorado.
-		#Connecticut. #Delaware. #Florida. #Georgia. #Hawaii. #Idaho. #Illinois. #Indiana.
-		#Iowa. #Kansas. #Kentucky. #Louisiana. #Maine. #Maryland. #Massachusetts.
-		#Michigan. #Minnesota. #Mississippi. #Missouri. #Montana. #Nebraska.
-		#Nevada. #'New Hampshire'. #'New Jersey'. #'New Mexico'.
-		#'New York'. #'North Carolina'. #'North Dakota'. #Ohio. #Oklahoma.
-		#Oregon. #'Pennsylvania Rhode Island'. #'South Carolina'.
-		#'South Dakota'. #Tennessee. #Texas. #Utah. #Vermont. #Virginia.
-		#Washington. #'West Virginia'. #Wisconsin. #Wyoming } do: [ :l | bar addItem: (ToRadioButton new labelText: l) ].
+	#Connecticut. #Delaware. #Florida. #Georgia. #Hawaii. #Idaho. #Illinois.
+	#Indiana. #Iowa. #Kansas. #Kentucky. #Louisiana. #Maine. #Maryland.
+	#Massachusetts. #Michigan. #Minnesota. #Mississippi. #Missouri.
+	#Montana. #Nebraska. #Nevada. #'New Hampshire'. #'New Jersey'.
+	#'New Mexico'. #'New York'. #'North Carolina'. #'North Dakota'.
+	#Ohio. #Oklahoma. #Oregon. #'Pennsylvania Rhode Island'.
+	#'South Carolina'. #'South Dakota'. #Tennessee. #Texas. #Utah. #Vermont.
+	#Virginia. #Washington. #'West Virginia'. #Wisconsin. #Wyoming } do: [
+			:l |
+			bar addItem: (ToToggleButton new
+					 labelText: l;
+					 hMatchParent;
+					 yourself) ].
 
 	"bar selecter selectIndex: 3."
 	bar uniformNodeWidth: true.
@@ -2239,7 +2247,7 @@ ToSandBox class >> example_EditableList2WithAllClassesNames [
 				 on: ToListStrongSelectionEvent
 				 do: [ :event |
 					 event indexes size == 1 ifTrue: [
-							 (l nodeAt: event indexes first) label popupEditorEvent: event ] ]).
+							 (l nodeContainerAt: event indexes first) label popupEditorEvent: event ] ]).
 	l	withRowNumbers.
 
 	l dataAccessor addAll:
@@ -2915,7 +2923,6 @@ ToSandBox class >> example_ListWithAllClasses4 [
 	l selectionOption beneath: false.
 	l selectionMode selectOnPressed: false.
 	l selectionMode selectOnClick: false.
-	"l selectionOption masked: true."
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l openInSpace
 ]
@@ -3232,7 +3239,7 @@ ToSandBox class >> example_Menu0 [
 	| menu container |
 	container := ToInnerWindow new
 		             position: 10 @ 10;
-		             size: 400 @ 200;
+		             extent: 400 @ 200;
 		             yourself.
 	menu := ToMenu new.
 	menu tooltipString: 'tooltip content'.
@@ -4255,7 +4262,6 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	select hMatchParent.
 	select selecter selectIndex: 2.
 	innerWindow pane addChild: select.
-	"innerWindow height: 600."
 	innerWindow openInSpace.
 	^ select
 ]
@@ -5369,6 +5375,26 @@ ToSandBox class >> example_TagBar [
 	rootPane openInSpace
 ]
 
+{ #category : #tag }
+ToSandBox class >> example_TagBar2 [
+
+	| tb dashBoard rootPane |
+	tb := ToItemBarElement new.
+	tb horizontal: true.
+	tb dataAccessor addAll:
+		(ToSandBox statesOfAmerica collect: [ :s | ToTagElement new labelText: s; yourself ]).
+	tb openInSpace 
+	"dashBoard := self barConfigurationBoardFor: tb.
+	rootPane := ToPane horizontal.
+	rootPane padding: (BlInsets all: 5).
+	rootPane matchParent.
+
+	rootPane addChild: dashBoard.
+	rootPane addChild: tb.
+	rootPane addDividers.
+	rootPane openInSpace"
+]
+
 { #category : #select }
 ToSandBox class >> example_ThemeSelectNoDeselection [
 
@@ -5412,27 +5438,6 @@ ToSandBox class >> example_ThemeSelectWithPlaceholder [
 	choice popupDataAccessor addAll: { 'OS-X'. 'Windows'. 'Linux' }.
 	win pane addChild: choice.
 	win openInSpace
-]
-
-{ #category : #'button-dep' }
-ToSandBox class >> example_ToButtonWithDefaultSkin0 [
-
-
-	| space button1 pane |
-	
-	space := BlSpace new.
-	pane := ToPane horizontal.
-	pane layout cellSpacing: 10.
-	space root layout: (BlLinearLayout vertical cellSpacing: 10).
-
-	button1 := ToButton new.
-	button1 label: (ToLabel text: 'Default raw button').
-	button1 icon: (ToImage new innerImage: (ToThemeIcons searchOutlined16x16)).
-
-	space root addChild: pane.
-	space root addChild: button1.
-
-	space show.
 ]
 
 { #category : #'toggle button' }
@@ -6243,11 +6248,11 @@ ToSandBox class >> example_contextMenu [
 
 	| container |
 	container := ToElement new matchParent.
-	container contextMenu: [ :win :request |
-		win addItem: (ToMenuItem new
-				 labelText: 'Open';
-				 clickAction: [ self inform: 'Open' ];
-				 yourself) ].
+	container contextMenuBuilder: [ :win :request |
+			win addItem: (ToMenuItem new
+					 labelText: 'Open';
+					 clickAction: [ self inform: 'Open' ];
+					 yourself) ].
 
 	container openInSpace
 ]
@@ -7372,22 +7377,22 @@ ToSandBox class >> example_rootFrameWithContextMenu_menuPaneVertical [
 	win := ToInnerWindow new title: 'Context menu Example'.
 
 
-	win pane contextMenu: [ :contextMenu :request |
-		contextMenu addItem: (ToMenuItem new
-				 labelText: 'Open file';
-				 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
-		contextMenu addItem: (ToMenuItem new labelText: 'Export').
-		contextMenu addSeparator.
-		sub := ToMenu new labelText: 'Save All'.
-		sub addItem: (ToMenuItem new labelText: 'Locally').
-		subsub := ToMenu new
-			          labelText: 'Externally';
-			          icon:
-				          (ToImage inner:
-						           (Smalltalk ui icons iconNamed: #solidMenu)).
-		subsub addItem: (ToMenuItem new labelText: 'Here').
-		sub addItem: subsub.
-		contextMenu addItem: sub ].
+	win pane contextMenuBuilder: [ :contextMenu :request |
+			contextMenu addItem: (ToMenuItem new
+					 labelText: 'Open file';
+					 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
+			contextMenu addItem: (ToMenuItem new labelText: 'Export').
+			contextMenu addSeparator.
+			sub := ToMenu new labelText: 'Save All'.
+			sub addItem: (ToMenuItem new labelText: 'Locally').
+			subsub := ToMenu new
+				          labelText: 'Externally';
+				          icon:
+					          (ToImage inner:
+							           (Smalltalk ui icons iconNamed: #solidMenu)).
+			subsub addItem: (ToMenuItem new labelText: 'Here').
+			sub addItem: subsub.
+			contextMenu addItem: sub ].
 
 	bar := ToMenuPane new
 		       hMatchParent;
@@ -7442,9 +7447,9 @@ ToSandBox class >> example_scaledImage [
 ToSandBox class >> example_segmentedWithCheckboxes [
 
 	| seg dashBoard |
-	seg := ToSegmentedBarElement new.
+	seg := ToCheckableBarElement new.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		seg addItem: (ToSegmentedCheckbox new
+		seg addItem: (ToCheckbox new
 				 labelText: l;
 				 yourself) ].
 	(seg items at: 2) disable.
@@ -7457,10 +7462,10 @@ ToSandBox class >> example_segmentedWithCheckboxes [
 ToSandBox class >> example_segmentedWithLabels [
 
 	| seg dashBoard rootPane feedbackPane maj |
-	seg := ToSegmentedBarElement new.
+	seg := ToCheckableBarElement new.
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		seg addItem: (ToSegmentedToggleButton new
+		seg addItem: (ToToggleButton new
 				 labelText: l;
 				 yourself) ].
 
@@ -7508,10 +7513,9 @@ ToSandBox class >> example_segmentedWithLabels [
 ToSandBox class >> example_segmentedWithLabelsAndIcons [
 
 	| seg dashBoard rootPane feedbackPane maj |
-	seg := ToSegmentedBarElement new.
-
+	seg := ToCheckableBarElement new.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		seg addItem: (ToSegmentedToggleButton new
+		seg addItem: (ToToggleButton new
 				 iconImage: ToThemeIcons searchOutlined16x16;
 				 labelText: l;
 				 yourself) ].
@@ -7557,9 +7561,9 @@ ToSandBox class >> example_segmentedWithLabelsAndIcons [
 ToSandBox class >> example_segmentedWithRadioButtons [
 
 	| seg dashBoard |
-	seg := ToSegmentedBarElement new.
+	seg := ToCheckableBarElement new.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		seg addItem: (ToSegmentedRadioButton new
+		seg addItem: (ToRadioButton new
 				 labelText: l;
 				 yourself) ].
 	(seg items at: 2) disable.
@@ -7868,7 +7872,7 @@ ToSandBox class >> example_stylesheet [
 		                  extent: 100 @ 50;
 		                  position: 150 @ 50.
 	biggerElem := ToElement new
-		              size: 100 asPoint;
+		              extent: 100 asPoint;
 		              position: 150 asPoint.
 
 	space := BlSpace new.
@@ -8219,21 +8223,6 @@ ToSandBox class >> example_textFieldsInListElement [
 ]
 
 { #category : #'button-dep' }
-ToSandBox class >> example_toAlbumAsButton [
-
-	| but |
-	but := ToAlbum new
-		       text: 'Hello world'";
-		       preventChildrenMouseEvents".
-	but
-		addEventHandlerOn: BlPrimaryClickEvent
-		do: [ self inform: 'Click' ].
-"	but background: Color blue."
-	but size: 300 @ 100.
-	but openInSpace
-]
-
-{ #category : #'button-dep' }
 ToSandBox class >> example_toBasicButton0 [
 
 	| but |
@@ -8248,7 +8237,7 @@ ToSandBox class >> example_toBasicButton1 [
 	| but |
 	but := ToGeneralButton new.
 	but addChild: (BlElement new
-			 size: 30 @ 30;
+			 extent: 30 @ 30;
 			 yourself).
 	but clickAction: [ self inform: 'clicked' ].
 	but background: (Color blue alpha: 0.3).
@@ -8278,7 +8267,7 @@ ToSandBox class >> example_toBasicButton3 [
 				         fontSize: 40;
 				         yourself)).
 	but matchParent.
-	but layout alignCenter.
+	but alignCenter: true.
 	but clickAction: [ self inform: 'clicked' ].
 	but openInSpace
 ]
@@ -8304,29 +8293,21 @@ ToSandBox class >> example_toBasicButton4 [
 ]
 
 { #category : #'button-dep' }
-ToSandBox class >> example_toButton0 [
-
-	| but |
-	but := ToButton new.
-	but openInSpace
-]
-
-{ #category : #'button-dep' }
 ToSandBox class >> example_toButtonOrientationChanger [
 
 	| but space iconImage count |
 	but := ToButton new.
 	but label: (ToLabel text: 'Button' asRopedText bold).
 	iconImage := BlElement new
-		             size: 20 @ 20;
+		             extent: 20 @ 20;
 		             background: Color lightGray;
 		             yourself.
 	but iconImage: iconImage.
 	count := 0.
-	but clickAction: [ :evt :b | 
-		count := count + 1.
-		count traceCr.
-		b orientation: b orientation inverted ].
+	but clickAction: [ :evt |
+			count := count + 1.
+			count traceCr.
+			but orientation: but orientation inverted ].
 	space := BlSpace new.
 	space root addChild: but.
 	space show.
@@ -8378,7 +8359,7 @@ ToSandBox class >> example_toButtonWithIconAndTextAndExtra [
 	but label: (ToLabel text: 'Button').
 	but iconImage: ToThemeIcons searchOutlined16x16.
 	but endElement: (BlElement new
-			 size: 8 @ 9;
+			 extent: 8 @ 9;
 			 background: ToThemeIcons plainTriangle5x9;
 			 yourself).
 	space := BlSpace new.
@@ -8390,7 +8371,10 @@ ToSandBox class >> example_toButtonWithIconAndTextAndExtra [
 ToSandBox class >> example_toButtonWithIconOnly [
 
 	| but space container |
-	container := BlElement new size: 200@200; border: (BlBorder paint: Color gray); background: (Color gray alpha: 0.1).
+	container := BlElement new
+		             extent: 200 @ 200;
+		             border: (BlBorder paint: Color gray);
+		             background: (Color gray alpha: 0.1).
 	but := ToButton new.
 	"but addLook: ToButtonLinkLook new."
 	"but addLook: ToButtonDashedLook new."
@@ -8399,13 +8383,14 @@ ToSandBox class >> example_toButtonWithIconOnly [
 	"but addLook: ToButtonDangerLook new."
 	"but addLook: ToButtonLinkLook new."
 
-	but icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
+	but icon:
+		(ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
 	"but icon addLook: ToImagePrimaryLook new."
 	"but icon addLook: ToImageDangerLook new."
 	container addChild: but.
 	space := BlSpace new.
 	space root addChild: container.
-	space show 
+	space show
 ]
 
 { #category : #'button-dep' }
@@ -8415,34 +8400,38 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 	but := ToButton new.
 	but label: (ToLabel text: 'Button').
 	but iconImage: (BlElement new
-			 size: 60 @ 20;
+			 extent: 60 @ 20;
 			 background: (Color blue alpha: 0.2);
 			 yourself).
 	but beRightToLeft.
 	but layout cellSpacing: 10.
 	count := 0.
-	but addEventHandlerOn: BlClickEvent do: [ :event | count := count + 1. count traceCr ].
+	but addEventHandlerOn: BlClickEvent do: [ :event |
+			count := count + 1.
+			count traceCr ].
 	but clickAction: [ but icon background: Color random ].
 	space := BlSpace new.
 	space root addChild: but.
-	space show 
+	space show
 ]
 
 { #category : #'button-dep' }
 ToSandBox class >> example_toButtonWithTextAndIconVertical [
 
 	| but space |
-	but := ToButton new padding: (BlInsets all: 4); beVertical.
+	but := ToButton new
+		       padding: (BlInsets all: 4);
+		       beVertical.
 	but label: (ToLabel text: 'Button').
 	but iconImage: (BlElement new
-			 size: 60 @ 20;
+			 extent: 60 @ 20;
 			 background: (Color blue alpha: 0.2);
 			 yourself).
 	but layout cellSpacing: 10.
 	but clickAction: [ but icon background: Color random ].
 	space := BlSpace new.
 	space root addChild: but.
-	space show 
+	space show
 ]
 
 { #category : #'button-dep' }
@@ -8678,7 +8667,7 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 
 	but clickAction: [ 'Button clicked' traceCr ].
 	win := but openInInnerWindow.
-	but tooltipWindowManager anchorRoot: win
+	but ensuredTooltipManager anchorRoot: win
 ]
 
 { #category : #label }
@@ -8909,18 +8898,16 @@ ToSandBox class >> example_toLabel_editableMultiline [
 	lab openInSpace
 ]
 
-{ #category : #'t - orientable' }
+{ #category : #table }
 ToSandBox class >> example_toTable1 [
 
 	| table |
 	table := ToTableElement new.
-	table inspect.
 	table columns: {
 			(ToTableColumn new
 				 title: 'Name';
 				 key: 'name';
 				 dataIndex: 'name';
-				 useCheckbox: true;
 				 sorterBlock: #name descending;
 				 yourself).
 			(ToTableColumn new
@@ -8940,10 +8927,17 @@ ToSandBox class >> example_toTable1 [
 				 yourself) }.
 	table dataAccessor addAll:
 		(Smalltalk globals allClasses copyFrom: 1 to: 30).
-	table openInSpace
+	table openInSpace.
+	^ table
 ]
 
-{ #category : #'t - orientable' }
+{ #category : #table }
+ToSandBox class >> example_toTable1WithCheckbox [
+
+	self example_toTable1 useCheckbox: true
+]
+
+{ #category : #table }
 ToSandBox class >> example_toTableWithBuilder [
 
 	| table |
@@ -8978,7 +8972,7 @@ ToSandBox class >> example_toTableWithBuilder [
 	table openInSpace
 ]
 
-{ #category : #'t - orientable' }
+{ #category : #table }
 ToSandBox class >> example_toTableWithSort [
 
 	| table |
@@ -9000,7 +8994,7 @@ ToSandBox class >> example_toTableWithSort [
 	^ table
 ]
 
-{ #category : #'t - orientable' }
+{ #category : #table }
 ToSandBox class >> example_toTreeTable1 [
 
 	| table |
@@ -9012,7 +9006,6 @@ ToSandBox class >> example_toTreeTable1 [
 				 title: 'Name';
 				 key: 'name';
 				 dataIndex: #name;
-				 useCheckbox: false;
 				 yourself).
 			(ToTableColumn new
 				 title: 'Number of methods';
@@ -9034,15 +9027,21 @@ ToSandBox class >> example_toTreeTable1 [
 	table dataAccessor add: Collection.
 	table dataAccessor add: String.
 
-	table openInSpace
+	table openInSpace.
+	^ table
 ]
 
-{ #category : #'t - orientable' }
+{ #category : #table }
+ToSandBox class >> example_toTreeTable1WithCheckbox [
+
+	self example_toTreeTable1 useCheckbox: true
+]
+
+{ #category : #table }
 ToSandBox class >> example_toTreeTable2 [
 
 	| table |
 	table := ToTreeTableElement new.
-	table inspect.
 	table nodeManager childrenGetter: [ :dataItem |
 		dataItem subclasses sorted: [ :a :b | a name < b name ] ].
 	table columns: {
@@ -9050,7 +9049,6 @@ ToSandBox class >> example_toTreeTable2 [
 				 title: 'Name';
 				 key: 'name';
 				 dataIndex: #name;
-				 useCheckbox: true;
 				 cellBuilder: [ :cell :cls :holder |
 						 cell addChild: (ToLabeledIcon new
 									  startInterspace: 6;
@@ -9365,13 +9363,13 @@ ToSandBox class >> listMenuFenuFactory [
 		  selectionMenu := ToMenu new.
 		  selectionMenu label: (ToLabel new text: 'Selection').
 		  indexes size = 1 ifTrue: [
-			  | node idx label |
+			  | container idx label |
 			  idx := indexes first.
-			  node := target nodeAt: idx.
-			  label := node childWithId: #nodeLabel.
+			  container := target nodeContainerAt: idx.
+			  label := container childWithId: #nodeLabel.
 			  selectionMenu addItem: (ToMenuItem new
 					   labelText: 'Inspect node';
-					   clickAction: [ node inspect ];
+					   clickAction: [ container inspect ];
 					   yourself).
 			  selectionMenu addItem: (ToMenuItem new
 					   labelText: 'Edit';
@@ -9382,11 +9380,11 @@ ToSandBox class >> listMenuFenuFactory [
 							    ifTrue: [ 'Be multiline' ]
 							    ifFalse: [ 'Be monoline' ]);
 					   clickAction: [
-						   node firstChild label monoLine: label isMonoLine not ];
+						   container firstChild label monoLine: label isMonoLine not ];
 					   yourself).
 			  selectionMenu addItem: (ToMenuItem new
 					   labelText: 'Inspect';
-					   clickAction: [ node inspect ];
+					   clickAction: [ container inspect ];
 					   yourself).
 			  selectionMenu addSeparator ].
 
@@ -9395,8 +9393,8 @@ ToSandBox class >> listMenuFenuFactory [
 				   clickAction: [
 					   indexes do: [ :idx |
 							   | di |
-							   di := (target nodeAt: idx) isDisabled.
-							   (target nodeAt: idx) disabled: di not ] ];
+							   di := (target nodeContainerAt: idx) isDisabled.
+							   (target nodeContainerAt: idx) disabled: di not ] ];
 				   yourself).
 		  selectionMenu addItem: (ToMenuItem new
 				   labelText: 'Set unselectable';
@@ -9736,8 +9734,8 @@ ToSandBox class >> segmentedDashBoardFor: aSegmentedElement [
 	mainPane matchParent.
 
 	confPane := self barConfigurationBoardFor: aSegmentedElement.
-	(confPane childWithId: #selectOnPressedSwitch) disable.
-	(confPane childWithId: #deselectOnPressedSwitch) disable.
+	(confPane childWithId: #selectOnPressedSwitch ifFound: [:child | child disable]).
+	(confPane childWithId: #deselectOnPressedSwitch ifFound: [:child | child disable]).
 	confPane padding: (BlInsets all: 5).
 	confPane width: 250.
 	confPane border: Color lightGray.

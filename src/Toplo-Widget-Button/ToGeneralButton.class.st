@@ -1,13 +1,20 @@
 Class {
 	#name : #ToGeneralButton,
 	#superclass : #ToElement,
-	#traits : 'TToClickable',
-	#classTraits : 'TToClickable classTrait',
+	#traits : 'TToItem + TToClickable',
+	#classTraits : 'TToItem classTrait + TToClickable classTrait',
 	#instVars : [
 		'takeFocusOnClick'
 	],
 	#category : #'Toplo-Widget-Button-Clickable'
 }
+
+{ #category : #configuration }
+ToGeneralButton >> applyConfiguration [ 
+
+	super applyConfiguration.
+	self applyItemConfiguration 
+]
 
 { #category : #initialization }
 ToGeneralButton >> defaultLayout [ 

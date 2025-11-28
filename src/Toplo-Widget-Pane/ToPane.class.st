@@ -69,7 +69,6 @@ ToPane >> installRawStyle [
 
 	super installRawStyle.
 	self outskirts: BlOutskirts outside.
-	self padding: (BlInsets all: 1).
 	self background: (self valueOfTokenNamed: #'background-color').
 	self geometry: (BlRoundedRectangleGeometry cornerRadius:
 			 (self valueOfTokenNamed: #'border-radius'))

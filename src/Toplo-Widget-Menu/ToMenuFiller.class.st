@@ -10,7 +10,7 @@ ToMenuFiller >> applyConfiguration [
 
 	super applyConfiguration.
 	self holderDo: [ :h |
-		h node matchParent ]
+		h nodeContainer matchParent ]
 ]
 
 { #category : #initialization }

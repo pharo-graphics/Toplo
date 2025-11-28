@@ -85,16 +85,16 @@ ToListSelectionRepresentationOption >> nextSelectionRepresentationFrom: aListEle
 ToListSelectionRepresentationOption >> notifyNodesDeselectedIn: aListElement [
 
 	self triggerSelectionState ifFalse: [ ^ self ].
-	aListElement innerElement nodesDo: [ :n |
-		n holder notifyDeselectedWithOption: selectionOption ]
+	aListElement innerElement nodeContainersDo: [ :container |
+		container holder notifyDeselectedWithOption: selectionOption ]
 ]
 
 { #category : #'private - selection notification' }
 ToListSelectionRepresentationOption >> notifyNodesSelectedIn: aListElement [
 
 	self triggerSelectionState ifFalse: [ ^ self ].
-	aListElement innerElement nodesDo: [ :n |
-		n holder notifySelectedWithOption: selectionOption ]
+	aListElement innerElement nodeContainersDo: [ :container |
+		container holder notifySelectedWithOption: selectionOption ]
 ]
 
 { #category : #removing }

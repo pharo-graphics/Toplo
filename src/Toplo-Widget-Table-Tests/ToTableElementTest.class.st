@@ -38,17 +38,17 @@ ToTableElementTest >> testAddColumn [
 	| rows |
 	table columns: {
 			(ToTableColumn new
-				 title: 'Name';
+				 title: 'Name 2';
 				 key: 'name';
 				 dataIndex: 'name';
 				 yourself).
 			(ToTableColumn new
-				 title: 'Number of methods';
+				 title: 'Number of methods 2';
 				 key: 'methods';
 				 dataIndex: 'numberOfMethods';
 				 yourself).
 			(ToTableColumn new
-				 title: 'Number of variables';
+				 title: 'Number of variables 2';
 				 key: 'variables';
 				 dataIndex: 'numberOfVariables';
 				 yourself) }.

@@ -23,7 +23,6 @@ TToTableNodeManager >> buildColumnsInNode: aNode [
 						              holder: aNode holder
 						              column: column)
 						             id: column key;
-						             matchParent;
 						             yourself.
 					self addContainer: container inNode: aNode.
 					column

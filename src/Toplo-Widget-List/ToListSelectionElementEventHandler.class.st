@@ -18,9 +18,9 @@ ToListSelectionElementEventHandler >> eventsToHandle [
 { #category : #'selection managing' }
 ToListSelectionElementEventHandler >> updateNodesIn: aListElement [
 
-	aListElement nodesDo: [ :aNode |
+	aListElement nodeContainersDo: [ :container |
 		| holder |
-		holder := aNode holder.
+		holder := container holder.
 		holder shouldIgnore ifFalse: [
 			holder initializeNode ] ].
 ]

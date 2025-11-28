@@ -1,8 +1,8 @@
 Class {
 	#name : #ToAbstractListElement,
 	#superclass : #ToElement,
-	#traits : 'TToListElementDecorator + TToElementWithPlaceholder + TToOrientable',
-	#classTraits : 'TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait + TToOrientable classTrait',
+	#traits : 'TToCheckableSelectionManager + TToListElementDecorator + TToElementWithPlaceholder + TToOrientable',
+	#classTraits : 'TToCheckableSelectionManager classTrait + TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait + TToOrientable classTrait',
 	#instVars : [
 		'next',
 		'dataSource',
@@ -32,7 +32,7 @@ ToAbstractListElement >> addedDataSourceCommand: aCommand [
 ToAbstractListElement >> applyConfiguration [
 
 	super applyConfiguration.
-	self innerElement applyConfiguration
+	self childrenDo: #applyConfiguration
 ]
 
 { #category : #'private - commands' }
@@ -263,12 +263,6 @@ ToAbstractListElement >> enabledAtPosition: anInteger [
 
 { #category : #layout }
 ToAbstractListElement >> extentChanged [
-]
-
-{ #category : #accessing }
-ToAbstractListElement >> fakeNode [
-
-	^ nil
 ]
 
 { #category : #'t - item' }
@@ -712,6 +706,19 @@ ToAbstractListElement >> updateSelectionAfter: aValuable [
 		updateSelectionAfter: aValuable
 		withDataAccessor: self dataAccessor.
 	self postponeAction: [ self notifyDataSourceChanged ]
+]
+
+{ #category : #configuration }
+ToAbstractListElement >> useCheckbox [
+
+	^ self nodeManager checkableNode
+]
+
+{ #category : #configuration }
+ToAbstractListElement >> useCheckbox: aBoolean [
+
+	self nodeManager checkableNode: aBoolean.
+	self onUseCheckboxChangedWith: aBoolean
 ]
 
 { #category : #'accessing selecters' }

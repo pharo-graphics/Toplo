@@ -34,7 +34,7 @@ ToSelectionWithoutElement >> node: anObject [
 ]
 
 { #category : #accessing }
-ToSelectionWithoutElement >> nodes [
+ToSelectionWithoutElement >> nodeContainers [
 
 	^ Array with: node
 ]

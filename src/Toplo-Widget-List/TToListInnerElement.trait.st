@@ -22,7 +22,7 @@ TToListInnerElement >> findElementHolderForDataSourcePosition: aPosition [
 ]
 
 { #category : #'t - list node holder' }
-TToListInnerElement >> nodeAt: anIndex [
+TToListInnerElement >> nodeContainerAt: anIndex [
 
 	" return the holder for the data at anIndex according to currently viewed data range. 
 	Returns nil if anIndex is not currently viewed in the infinite element"
@@ -32,50 +32,56 @@ TToListInnerElement >> nodeAt: anIndex [
 ]
 
 { #category : #'t - list node holder' }
+TToListInnerElement >> nodeContainers [
+
+	^ self explicitRequirement 
+]
+
+{ #category : #'t - list node holder' }
+TToListInnerElement >> nodeContainersDetect: aBlock [
+
+	^ self explicitRequirement 
+]
+
+{ #category : #'t - list node holder' }
+TToListInnerElement >> nodeContainersDo: aBlock [
+
+	^ self explicitRequirement 
+]
+
+{ #category : #'t - list node holder' }
+TToListInnerElement >> nodeContainersReject: aBlock [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #'t - list node holder' }
+TToListInnerElement >> nodeContainersSelect: aBlock [
+
+	^ self explicitRequirement 
+]
+
+{ #category : #'t - list node holder' }
+TToListInnerElement >> nodeContainersWithIndexDo: aBlock [
+
+	^ self explicitRequirement 
+]
+
+{ #category : #'t - list node holder' }
 TToListInnerElement >> nodeGroupsSatisfying: aBlock [
 	" return an array of collection. Each collection contains a list of adjacent selected nodes "
 
 	^ Array streamContents: [ :stream |
 		  | g |
 		  g := OrderedCollection new.
-		  self partlyVisibleNodesDo: [ :node |
-			  (aBlock value: node)
-				  ifTrue: [ g add: node ]
+		  self partlyVisibleNodesDo: [ :container |
+			  (aBlock value: container)
+				  ifTrue: [ g add: container ]
 				  ifFalse: [
 					  g ifNotEmpty: [
 						  stream nextPut: g.
 						  g := OrderedCollection new ] ] ].
 		  g ifNotEmpty: [ stream nextPut: g ] ]
-]
-
-{ #category : #'t - list node holder' }
-TToListInnerElement >> nodes [
-
-	^ self explicitRequirement 
-]
-
-{ #category : #'t - list node holder' }
-TToListInnerElement >> nodesDetect: aBlock [
-
-	^ self explicitRequirement 
-]
-
-{ #category : #'t - list node holder' }
-TToListInnerElement >> nodesDo: aBlock [
-
-	^ self explicitRequirement 
-]
-
-{ #category : #'t - list node holder' }
-TToListInnerElement >> nodesSelect: aBlock [
-
-	^ self explicitRequirement 
-]
-
-{ #category : #'t - list node holder' }
-TToListInnerElement >> nodesWithIndexDo: aBlock [
-
-	^ self explicitRequirement 
 ]
 
 { #category : #'t - list node holder' }
@@ -99,16 +105,10 @@ TToListInnerElement >> partlyVisibleNodesDo: aBlock [
 ]
 
 { #category : #'t - list node holder' }
-TToListInnerElement >> partlyVisibleNodesSelect: aBlock [
-
-	^ self explicitRequirement 
-]
-
-{ #category : #'t - list node holder' }
 TToListInnerElement >> selectableNodeContainingGlobalPosition: aPoint [
 
-	self nodesDo: [ :node |
-		((node containsGlobalPoint: aPoint) and: [ node holder isSelectable ])
-			ifTrue: [ ^ node ] ].
+	self nodeContainersDo: [ :container |
+		((container containsGlobalPoint: aPoint) and: [ container holder isSelectable ])
+			ifTrue: [ ^ container ] ].
 	^ nil
 ]

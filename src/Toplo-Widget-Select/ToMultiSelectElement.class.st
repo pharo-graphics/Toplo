@@ -104,7 +104,7 @@ ToMultiSelectElement >> initialize [
 	super initialize.
 	self sieve
 		addEventHandlerOn: ToListSelecterCommandApplicationRequestEvent
-		do: [ :event | event deny ].
+		do: [ :event | "event deny" ].
 	hideSelected := false.
 	withGroups := false.
 	isFlowable := false.

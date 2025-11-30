@@ -15,7 +15,7 @@ ToMultiSelectListElementEventHandler >> eventsToHandle [
 { #category : #'event handling' }
 ToMultiSelectListElementEventHandler >> listSelecterCommandApplicationRequestEvent: anEvent [
 
-	anEvent deny
+	"anEvent deny"
 ]
 
 { #category : #'event handling' }

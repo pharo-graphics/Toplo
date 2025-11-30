@@ -1,6 +1,6 @@
 Class {
 	#name : #ToListSelectionCommandAppliedEvent,
-	#superclass : #ToAuthorisationRequestEvent,
+	#superclass : #BlEvent,
 	#instVars : [
 		'command'
 	],

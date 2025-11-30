@@ -40,7 +40,7 @@ ToDividerEventHandler >> dragEvent: anEvent [
 							        yourself) ];
 		       yourself.
 
-	divider dispatchAuthorisationRequest: req
+	divider dispatchRequest: req
 ]
 
 { #category : #'dnd handlers' }
@@ -63,7 +63,7 @@ ToDividerEventHandler >> dragStartEvent: anEvent [
 							        yourself) ];
 		       yourself.
 
-	divider dispatchAuthorisationRequest: req
+	divider dispatchRequest: req
 ]
 
 { #category : #'api - accessing' }

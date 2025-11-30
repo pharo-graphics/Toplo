@@ -53,7 +53,7 @@ TToCheckableSelectionManager >> newCheckboxInNodeContainer: aNode [
 				       requestedAction: [
 					       self onCheckableCheckEvent: event onNodeContainer: aNode ];
 				       yourself.
-			aNode dispatchAuthorisationRequest: req ].
+			aNode dispatchRequest: req ].
 	^ cbox
 ]
 

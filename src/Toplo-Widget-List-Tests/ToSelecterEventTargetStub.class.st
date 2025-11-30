@@ -1,8 +1,8 @@
 Class {
 	#name : #ToSelecterEventTargetStub,
 	#superclass : #BlElement,
-	#traits : 'TToAuthorisationRequestTarget',
-	#classTraits : 'TToAuthorisationRequestTarget classTrait',
+	#traits : 'TToRequestTarget',
+	#classTraits : 'TToRequestTarget classTrait',
 	#instVars : [
 		'selectionModel',
 		'scrollIndex'

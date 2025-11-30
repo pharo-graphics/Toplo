@@ -8,15 +8,20 @@ Class {
 ToMultiSelectNodeManager >> defaultNodeBuilder [
 
 	^ [ :node :dataItem :holder |
-		  node addChild: (ToTagElement new
-				   labelText: dataItem asString;
-				   removable: true;
-				   hMatchParent;
-				   yourself) ]
+		  node
+			  labelText: dataItem asString;
+			  removable: true;
+			  hMatchParent ]
 ]
 
 { #category : #'t - generic node manager' }
-ToMultiSelectNodeManager >> newHolder [ 
+ToMultiSelectNodeManager >> defaultNodeFactory [
 
-	^ ToMultiSelectHolder new
+	^ [ :holder | ToMultiSelectNode new ]
+]
+
+{ #category : #'t - generic node manager' }
+ToMultiSelectNodeManager >> defaultNodeHolderFactory [
+
+	^ [ ToMultiSelectHolder new ]
 ]

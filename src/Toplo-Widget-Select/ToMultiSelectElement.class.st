@@ -30,7 +30,6 @@ ToMultiSelectElement >> applyConfiguration [
 
 	self iconContainer maxSelectedCount: maxSelectedCount .
 	self innerElement maxSelectedCount: maxSelectedCount.
-
 ]
 
 { #category : #accessing }
@@ -66,7 +65,8 @@ ToMultiSelectElement >> checkHideSelectionFromListElement [
 { #category : #'accessing - selection' }
 ToMultiSelectElement >> checkMaxSelectedCount [
 
-	self innerElement checkMaxSelectedCount
+	self popupListElement postponeAction: [
+		self innerElement checkMaxSelectedCount ]
 ]
 
 { #category : #'accessing - window' }
@@ -102,6 +102,9 @@ ToMultiSelectElement >> iconContainer: anIconContainer [
 ToMultiSelectElement >> initialize [
 
 	super initialize.
+	self sieve
+		addEventHandlerOn: ToListSelecterCommandApplicationRequestEvent
+		do: [ :event | event deny ].
 	hideSelected := false.
 	withGroups := false.
 	isFlowable := false.

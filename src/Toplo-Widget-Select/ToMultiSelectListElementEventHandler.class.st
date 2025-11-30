@@ -7,7 +7,15 @@ Class {
 { #category : #'api - accessing' }
 ToMultiSelectListElementEventHandler >> eventsToHandle [
 
-	^ super eventsToHandle , { ToSelectGroupSelectionChangedEvent }
+	^ super eventsToHandle , {
+		  ToListSelecterCommandApplicationRequestEvent.
+		  ToSelectGroupSelectionChangedEvent }
+]
+
+{ #category : #'event handling' }
+ToMultiSelectListElementEventHandler >> listSelecterCommandApplicationRequestEvent: anEvent [
+
+	anEvent deny
 ]
 
 { #category : #'event handling' }

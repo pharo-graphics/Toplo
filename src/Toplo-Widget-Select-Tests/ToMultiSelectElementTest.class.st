@@ -23,7 +23,7 @@ ToMultiSelectElementTest >> testAddDataAndSelectIndex [
 	self assert: cb popupDataAccessor size equals: 3.
 	self assert: cb selecter selectedIndex equals: 1.
 	self
-		assert: cb innerElement nodes first firstChild label text asString
+		assert: cb innerElement nodes first middleElement text asString
 		equals: d1
 ]
 
@@ -243,9 +243,9 @@ ToMultiSelectElementTest >> testWithStructuredData [
 	cb := ToMultiSelectElement new.
 	space root addChild: cb.
 	cb popupListElement nodeBuilder: [ :node :assoc :holder |
-		node addChild: (ToLabel text: assoc key) ].
+		node label: (ToLabel text: assoc key) ].
 	cb nodeBuilder: [ :node :assoc |
-		node addChild: (ToLabel text: assoc key) ].
+		node label: (ToLabel text: assoc key) ].
 	cb popupListElement dataAccessor addAll: (d := {
 			      ('Bee Theme' -> ToBeeTheme).
 			      ('Raw Theme' -> ToRawTheme) }).
@@ -255,7 +255,7 @@ ToMultiSelectElementTest >> testWithStructuredData [
 	selectedData := cb popupListElement dataAccessor at: idx.
 	self assert: selectedData value identicalTo: ToBeeTheme.
 	self
-		assert: cb innerElement nodes first firstChild text asString
+		assert: cb innerElement nodes first label text asString
 		equals: d first key.
 	cb selecter deselectAll.
 	self waitTestingSpaces.

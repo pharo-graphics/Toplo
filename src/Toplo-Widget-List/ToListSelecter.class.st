@@ -38,7 +38,11 @@ ToListSelecter >> applyBasicCommand: aCommand [
 { #category : #'command application' }
 ToListSelecter >> applyCommand: aCommand [
 
-	aCommand applicationResquestIn: self
+	element dispatchRequest:
+		(ToListSelecterCommandApplicationRequestEvent new
+			 command: aCommand;
+			 requestedAction: [ aCommand applicationResquestIn: self ];
+			 yourself)
 ]
 
 { #category : #'command application' }
@@ -279,19 +283,17 @@ ToListSelecter >> nextSelectableIndexToScrollTo [
 { #category : #'command application' }
 ToListSelecter >> onBasicCommandApplied: aCommand [
 
-	| req |
 	selectionChangedEventClass ifNil: [ ^ self ].
-	req := ToListSelectionCommandAppliedEvent new
-		       command: aCommand;
-		       requestedAction: [
-			       element dispatchEvent: (selectionChangedEventClass new
-						        selectionModel: aCommand selectionModel;
-						        touchedIntervals: aCommand intervals;
-						        selectionOption: self selectionOption;
-						        yourself) ];
-		       yourself.
+	
+	element dispatchEvent: (ToListSelectionCommandAppliedEvent new
+			 command: aCommand;
+			 yourself).
 
-	element dispatchAuthorisationRequest: req.
+	element dispatchEvent: (selectionChangedEventClass new
+			 selectionModel: aCommand selectionModel;
+			 touchedIntervals: aCommand intervals;
+			 selectionOption: self selectionOption;
+			 yourself)
 ]
 
 { #category : #'command application' }

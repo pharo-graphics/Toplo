@@ -21,9 +21,9 @@ ToListUnselectableSelectionElementExampleSkin >> installSkinEvent: anEvent [
 			c frame vertical alignCenter ].
 
 		btn clickAction: [ 
-			e nodes do: [ :node |
-				node holder listElement unselectableSelecter deselectIndex:
-					node holder position ] ].
+			e nodeContainers do: [ :container |
+				container holder listElement unselectableSelecter deselectIndex:
+					container holder position ] ].
 
 		" consume mouseUp/mouseDown to avoid unwanted opening/closing of the popup list element"
 		btn addEventHandler: (BlEventHandler

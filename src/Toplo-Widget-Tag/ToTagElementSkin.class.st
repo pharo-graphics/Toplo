@@ -62,6 +62,7 @@ ToTagElementSkin >> installSkinEvent: anEvent [
 				leftPad := leftPad + 15.
 				c ignored horizontal alignLeft.
 				c ignored vertical alignCenter ] ].
+		e margin: (BlInsets all: 1).
 
 		e padding: (BlInsets
 				 top: topPad

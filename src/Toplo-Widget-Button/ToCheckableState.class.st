@@ -51,7 +51,7 @@ ToCheckableState >> checked: aBooleanOrIndeterminate requestBefore: requestBefor
 				       requestedAction: [
 					       self privateNotifyChecked: aBooleanOrIndeterminate ];
 				       yourself.
-			^ owner dispatchAuthorisationRequest: req ].
+			^ owner dispatchRequest: req ].
 	self privateNotifyChecked: aBooleanOrIndeterminate
 ]
 

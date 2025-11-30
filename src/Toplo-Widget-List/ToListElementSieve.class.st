@@ -1,8 +1,8 @@
 Class {
 	#name : #ToListElementSieve,
 	#superclass : #Object,
-	#traits : 'TBlEventTarget + TToAuthorisationRequestTarget',
-	#classTraits : 'TBlEventTarget classTrait + TToAuthorisationRequestTarget classTrait',
+	#traits : 'TBlEventTarget + TToRequestTarget',
+	#classTraits : 'TBlEventTarget classTrait + TToRequestTarget classTrait',
 	#instVars : [
 		'originalData',
 		'currentData',

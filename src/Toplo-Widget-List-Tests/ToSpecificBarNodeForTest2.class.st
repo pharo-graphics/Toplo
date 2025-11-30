@@ -10,6 +10,7 @@ Class {
 ToSpecificBarNodeForTest2 >> initialize [ 
 
 	super initialize.
+	self initializeAsBarNode.
 	self constraintsDo: [ :c |
 		c horizontal fitContent.
 		c vertical fitContent ]

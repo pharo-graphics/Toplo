@@ -10,7 +10,8 @@ Class {
 { #category : #'api - accessing' }
 ToSieveEventHandler >> eventsToHandle [
 
-	^ { ToListPrimarySelectionChangedEvent }
+	^ {
+		  ToListPrimarySelectionChangedEvent }
 ]
 
 { #category : #accessing }
@@ -19,7 +20,7 @@ ToSieveEventHandler >> listElement: aSievedListElement [
 	listElement := aSievedListElement
 ]
 
-{ #category : #'api - accessing' }
+{ #category : #'event handling' }
 ToSieveEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 	" I'm sent when the selecter of my sieve is used directly for a selection operation
 	as an example, to intialize some selected elements programmatically "

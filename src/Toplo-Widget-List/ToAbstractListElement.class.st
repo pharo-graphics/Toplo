@@ -444,7 +444,7 @@ ToAbstractListElement >> notifyClickOnNode: aNode fromEvent: anEvent [
 						        yourself) ];
 		       yourself.
 
-	aNode dispatchAuthorisationRequest: req
+	aNode dispatchRequest: req
 ]
 
 { #category : #notifications }

@@ -351,6 +351,38 @@ ToSandBox class >> barWithData: aCollection [
 	rootPane openInSpace
 ]
 
+{ #category : #window }
+ToSandBox class >> broken_example_Inline1 [
+
+	| menu popupWindowHandler |
+	self flag: 'not working when trying to popup 2 times'.
+	menu := ToElement new
+		        layout: BlLinearLayout vertical;
+		        background: Color transparent;
+		        id: #'red-button';
+		        border: Color red;
+		        extent: 100 @ 100;
+		        position: 50 @ 50.
+
+	popupWindowHandler := ToPopupWindowManager new.
+	menu addEventHandler: popupWindowHandler.
+
+	popupWindowHandler beInline.
+	popupWindowHandler windowBuilder: [ :popup :element |
+			| item |
+			popup size: 80 asPoint.
+			popup border: Color black.
+			item := ToElement new
+				        height: 50;
+				        hMatchParent.
+			item background: Color yellow.
+			item addEventHandler: (BlEventHandler
+					 on: BlPrimaryClickEvent
+					 do: [ self inform: 'Click' ]).
+			popup root addChild: item ].
+	menu openInSpace
+]
+
 { #category : #select }
 ToSandBox class >> buildSelectListElementIn: aSelectElement withIconProvider: anIconProviderClass [
 
@@ -655,11 +687,10 @@ ToSandBox class >> exampleLocalThemeChangesChildrenLookup [
 	parent addChild: child.
 
 	changeButton := ToButton new
-		                size: 200 @ 50;
+		                extent: 200 @ 50;
 		                position: 300 @ 50;
 		                clickAction: [
-				                (parent localTheme isNil or:
-						                 parent localTheme class = ToRawTheme)
+				                (parent localTheme isNil or: parent localTheme class = ToRawTheme)
 					                ifTrue: [ parent localTheme: ToRawDarkTheme new ]
 					                ifFalse: [ parent localTheme: ToRawTheme new ] ];
 		                label: (ToLabel text: 'Change parent local theme');
@@ -2543,38 +2574,6 @@ ToSandBox class >> example_HugeIntegerList [
 	space show
 ]
 
-{ #category : #window }
-ToSandBox class >> example_Inline1 [
-
-	| menu popupWindowHandler |
-	self flag: 'not working when trying to popup 2 times'.
-	menu := ToElement new
-		        layout: BlLinearLayout vertical;
-		        background: Color transparent;
-		        id: #'red-button';
-		        border: Color red;
-		        size: 100 @ 100;
-		        position: 50 @ 50.
-
-	popupWindowHandler := ToPopupWindowManager new.
-	menu addEventHandler: popupWindowHandler.
-
-	popupWindowHandler beInline.
-	popupWindowHandler windowBuilder: [ :popup :element |
-		| item |
-		popup size: 80 asPoint.
-		popup border: Color black.
-		item := ToElement new
-			        height: 50;
-			        hMatchParent.
-		item background: Color yellow.
-		item addEventHandler: (BlEventHandler
-				 on: BlPrimaryClickEvent
-				 do: [ self inform: 'Click' ]).
-		popup root addChild: item ].
-	menu openInSpace
-]
-
 { #category : #list }
 ToSandBox class >> example_IntegerList [
 
@@ -2770,27 +2769,24 @@ ToSandBox class >> example_List12Classes [
 
 	| l menuFactory |
 	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
-		     node addChild: (ToLabel new
-				      text: dataItem name;
-				      hMatchParent) ].
-	l dataAccessor addAll:
-		(Smalltalk globals allClasses copyFrom: 1 to: 12).
+			     node addChild: (ToLabel new
+					      text: dataItem name;
+					      hMatchParent) ].
+	l dataAccessor addAll: (Smalltalk globals allClasses copyFrom: 1 to: 12).
 	menuFactory := [ :menu :request |
-	               | selectionModel indexes target |
-	               target := request currentTarget.
-	               selectionModel := request selectionModel.
-	               indexes := request selectedIndexes.
-	               menu addItem: (ToMenuItem new
-			                labelText: 'Remove';
-			                clickAction: [
-				                indexes sort reverseDo: [ :idx |
-						                target dataAccessor removeAt: idx ] ];
-			                yourself).
-	               menu addItem: (ToMenuItem new
-			                labelText: 'Inspect list';
-			                clickAction: [ target inspect ];
-			                yourself) ].
-	l contextMenu: menuFactory.
+		               | selectionModel indexes target |
+		               target := request currentTarget.
+		               selectionModel := request selectionModel.
+		               indexes := request selectedIndexes.
+		               menu addItem: (ToMenuItem new
+				                labelText: 'Remove';
+				                clickAction: [ indexes sort reverseDo: [ :idx | target dataAccessor removeAt: idx ] ];
+				                yourself).
+		               menu addItem: (ToMenuItem new
+				                labelText: 'Inspect list';
+				                clickAction: [ target inspect ];
+				                yourself) ].
+	l contextMenuBuilder: menuFactory.
 	l openInSpace
 ]
 
@@ -2824,13 +2820,12 @@ ToSandBox class >> example_ListTwoClasses [
 
 	| l |
 	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
-		     node
-			     addChild: (ToLabeledIcon new labelText: dataItem asString);
-			     hMatchParent ].
+			     node
+				     addChild: (ToLabeledIcon new labelText: dataItem asString);
+				     hMatchParent ].
 	l withRowNumbers.
-	l contextMenu: self listMenuFenuFactory.
-	l dataAccessor addAll:
-		(Smalltalk globals allClasses copyFrom: 1 to: 12).
+	l contextMenuBuilder: self listMenuFenuFactory.
+	l dataAccessor addAll: (Smalltalk globals allClasses copyFrom: 1 to: 12).
 	l openInSpace
 ]
 
@@ -6263,14 +6258,14 @@ ToSandBox class >> example_elementWithEditor [
 	| e editorWindowManager |
 	e := ToElementWithEditor new
 		     background: Color blue;
-		     size: 100 asPoint;
+		     extent: 100 asPoint;
 		     position: 20 asPoint;
 		     yourself.
 	editorWindowManager := ToContentEditorManager new.
 	e addEventHandler: editorWindowManager.
-	e addEventHandlerOn: BlClickEvent do: [ :event |
-		(editorWindowManager createNewWindowOnEvent: event) ifNotNil: [ :win |
-			win popupEvent: event ] ].
+	e
+		addEventHandlerOn: BlClickEvent
+		do: [ :event | (editorWindowManager createNewWindowOnEvent: event) ifNotNil: [ :win | win popupEvent: event ] ].
 	e openInSpace
 ]
 
@@ -10111,7 +10106,7 @@ ToSandBox class >> tripletWith2IconsAnd1Label [
 			 yourself).
 	but middleElement: (ToLabel text: 'Middle').
 	but endElement: (BlElement new
-			 size: 25 asPoint;
+			 extent: 25 asPoint;
 			 background: Color red;
 			 yourself).
 	^ but

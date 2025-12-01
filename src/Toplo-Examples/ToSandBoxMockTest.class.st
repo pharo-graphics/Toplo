@@ -23,7 +23,7 @@ ToSandBoxMockTest >> closeWindows [
 ToSandBoxMockTest >> testMocks [
 
 	| selectors errors sortedSelectors exceptions |
-	self skip.
+	
 	self timeLimit: 120 seconds.
 	errors := OrderedCollection new.
 	exceptions := OrderedCollection new.
@@ -34,6 +34,7 @@ ToSandBoxMockTest >> testMocks [
 		sortBlock: [ :a :b | a < b ];
 		addAll: selectors.
 
+	
 	"
 	#example_SieveOnList2With_350000_Items produces a test time out even if we set 20 Seconds as a limit
 	"

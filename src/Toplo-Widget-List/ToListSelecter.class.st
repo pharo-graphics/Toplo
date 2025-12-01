@@ -41,6 +41,7 @@ ToListSelecter >> applyCommand: aCommand [
 	element dispatchRequest:
 		(ToListSelecterCommandApplicationRequestEvent new
 			 command: aCommand;
+			 selectionModel: selectionModel;
 			 requestedAction: [ aCommand applicationResquestIn: self ];
 			 yourself)
 ]

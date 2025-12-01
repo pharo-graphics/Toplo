@@ -15,7 +15,12 @@ ToMultiSelectListElementEventHandler >> eventsToHandle [
 { #category : #'event handling' }
 ToMultiSelectListElementEventHandler >> listSelecterCommandApplicationRequestEvent: anEvent [
 
-	"anEvent deny"
+	| listElement select |
+	listElement := anEvent currentTarget.
+	anEvent selectionModel = listElement selectionModel ifFalse: [ ^ self ].
+	listElement selectionModel selectedIndexesCount > 0 ifFalse: [ ^ self ].
+	select := listElement selectElement.
+	select checkMaxSelectedCount 
 ]
 
 { #category : #'event handling' }

@@ -102,14 +102,25 @@ ToMultiSelectElement >> iconContainer: anIconContainer [
 ToMultiSelectElement >> initialize [
 
 	super initialize.
-	self sieve
-		addEventHandlerOn: ToListSelecterCommandApplicationRequestEvent
-		do: [ :event | "event deny" ].
+	self initializeSelectionCommandChecker.
 	hideSelected := false.
 	withGroups := false.
 	isFlowable := false.
 	keepPickOrder := false.
 	maxSelectedCount := 0
+]
+
+{ #category : #initialization }
+ToMultiSelectElement >> initializeSelectionCommandChecker [
+
+	" add the checked to checke the selection command "
+	self addEventHandler:
+		ToMultiSelectSelecterCommandApplicationChecker new.
+	" add the handler in my sieve so that I can receive the selecter command application event  "
+	self sieve
+		addEventHandlerOn: ToListSelecterCommandApplicationRequestEvent
+		do: [ :event | self dispatchEvent: event copy ].
+
 ]
 
 { #category : #'instance creation' }

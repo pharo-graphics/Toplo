@@ -2,7 +2,8 @@ Class {
 	#name : #ToListSelecterCommandApplicationRequestEvent,
 	#superclass : #ToAuthorisationRequestEvent,
 	#instVars : [
-		'command'
+		'command',
+		'selectionModel'
 	],
 	#category : #'Toplo-Widget-List-Selection-Selecter'
 }
@@ -17,6 +18,18 @@ ToListSelecterCommandApplicationRequestEvent >> command [
 ToListSelecterCommandApplicationRequestEvent >> command: aSelectionCommand [
 
 	command := aSelectionCommand
+]
+
+{ #category : #accessing }
+ToListSelecterCommandApplicationRequestEvent >> selectionModel [
+
+	^ selectionModel
+]
+
+{ #category : #accessing }
+ToListSelecterCommandApplicationRequestEvent >> selectionModel: aSelectionModel [
+
+	selectionModel := aSelectionModel
 ]
 
 { #category : #sending }

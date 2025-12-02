@@ -150,6 +150,12 @@ ToMultiSelectElement >> keepPickOrder: aBoolean [
 ]
 
 { #category : #accessing }
+ToMultiSelectElement >> maxSelectedCount [
+
+	^ maxSelectedCount 
+]
+
+{ #category : #accessing }
 ToMultiSelectElement >> maxSelectedCount: aNumber [
 
 	maxSelectedCount := aNumber.

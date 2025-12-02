@@ -39,5 +39,7 @@ ToSelectListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
 
 	| listElement |
 	listElement := anEvent currentTarget.
-	listElement selectElement onSelectionChangedInPopupListElement: anEvent
+	listElement inUIProcessDo: [
+			listElement selectElement onSelectionChangedInPopupListElement:
+				anEvent ]
 ]

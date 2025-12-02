@@ -23,7 +23,8 @@ ToploVisitor >> visitMenuBuilder: aMenuBuilder [
 
 	aMenuBuilder collectedItems do: [ :item |
 		item isGroup ifFalse: [
-			menuPane addChild: (item accept: self) ] ].
+			menuPane addChild: (item accept: self) ]
+		ifTrue: [ item childrenItems do: [ :subItem | subItem accept: self ] ] ].
 	self show
 ]
 
@@ -37,8 +38,12 @@ ToploVisitor >> visitMenuRegistration: aMenuRegistration [
 					         ifTrue: [ aMenuRegistration name asString ]
 					         ifFalse: [ aMenuRegistration label ]).
 			aMenuRegistration childrenItems do: [ :subItem |
-				subItem isGroup ifFalse: [ menu addItem: (subItem accept: self) ] ].
-			aMenuRegistration separator ifTrue: [ menu addSeparator ]. ]
+				subItem isGroup
+					ifFalse: [ menu addItem: (subItem accept: self) ]
+					ifTrue: [
+						subItem childrenItems do: [ :subItemChild |
+							 menu addItem: (subItemChild accept: self) ] ] ].
+			aMenuRegistration separator ifTrue: [ menu addSeparator ] ]
 		ifFalse: [
 			menu := ToMenuItem new
 				        labelText: (aMenuRegistration label = ''

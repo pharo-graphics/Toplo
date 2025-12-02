@@ -1,3 +1,12 @@
+"
+I support the application of query that filter a list.
+For example when we want to see all the methods starting with S in a list of selectors.
+I communicate by event `ToObservableCollectionFilterApplierEvent` with the collections that can react to such event. 
+
+I'm based on a low priority process - See  method `newProcessIn:`.
+
+I'm used by the `ToListElementSieve` that in addition supports the handling of selections (selected indexes).
+"
 Class {
 	#name : #ToObservableCollectionFilterApplier,
 	#superclass : #Object,

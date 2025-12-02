@@ -27,10 +27,20 @@ ToMenuBuilder class >> aLittleMenu: aBuilder [
 ]
 
 { #category : #examples }
+ToMenuBuilder class >> doAfter: builder [ 
+
+	| menuPane |
+	builder resolve.
+	menuPane := builder accept: ToploVisitor new.
+	menuPane openInSpace.
+	builder inspect.
+]
+
+{ #category : #examples }
 ToMenuBuilder class >> exampleMenu [
 	<script>
 	| builder menuPane |
-	builder := ToMenuBuilderOld new.
+	builder := ToMenuBuilder new.
 
 	(builder item: #MyFirstMenu)
 		label: 'GrandParent';
@@ -64,49 +74,44 @@ ToMenuBuilder class >> exampleMenu [
 				label: 'AnotherChild3';
 				order:  2].
 			
-	builder resolve.
-	menuPane := builder accept: ToploVisitor new.
-	menuPane openInSpace.
-	builder inspect.
-	
+	self doAfter: builder.
 ]
 
-{ #category : #examples }
+{ #category : #'Protocol (examples) - 4 selector(s)' }
 ToMenuBuilder class >> exampleMenuWithAction [
 
 	<script>
 	| builder |
-	builder := ToMenuBuilderOld new.
+	builder := ToMenuBuilder new.
 
 	(builder item: #MyFirstMenu)
 		label: 'Parent';
 		order: 3;
-		groupName: 'aGroup';
 		with: [
-			(builder item: #Playground)
+			(builder item: #Playground2)
 				parent: #MyFirstMenu;
 				action: [ Smalltalk tools openWorkspace ];
 				label: 'Open a playground';
 				order: 9999.
+			(builder item: #Playground1)
+				parent: #MyFirstMenu;
+				action: [ Smalltalk tools openWorkspace ];
+				label: 'Open a playground first';
+				order: 1.
+				
+				
 			].
-	builder resolve.
-	builder accept: ToploVisitor new.
-	builder inspect
+	self doAfter: builder
 ]
 
 { #category : #examples }
 ToMenuBuilder class >> exampleWorldMenu [
 	<script>
 	
-	| builder menuPane |
+	| builder |
 	builder := (self pragmaKeyword: #worldMenu) collectDeclarations.
-	builder resolve.
-	"builder should accept the visitor it should kick the visitor."
-	menuPane := builder accept: ToploVisitor new.
-	menuPane openInSpace.
-	menuPane inspect.
-	builder inspect.
-	
+
+	self doAfter: builder.
 ]
 
 { #category : #accessing }

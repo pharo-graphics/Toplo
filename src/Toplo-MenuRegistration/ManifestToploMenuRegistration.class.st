@@ -11,5 +11,5 @@ Class {
 ManifestToploMenuRegistration class >> ruleEqualsTrueRuleV1FalsePositive [
 
 	<ignoreForCoverage>
-	^ #(#(#(#RGMethodDefinition #(#ToMenuBuilder #onlyItems #false)) #'2025-07-01T09:42:52.907349+02:00') )
+	^ #(#(#(#RGMethodDefinition #(#ToMenuBuilderOld #onlyItems #false)) #'2025-07-01T09:42:52.907349+02:00') )
 ]

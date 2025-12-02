@@ -1,34 +1,34 @@
 Class {
-	#name : #ToMenuRegistrationTest,
+	#name : #ToMenuRegistrationOldTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'menu'
 	],
-	#category : #'Toplo-MenuRegistration-New'
+	#category : #'Toplo-MenuRegistration-Old'
 }
 
 { #category : #running }
-ToMenuRegistrationTest >> setUp [
+ToMenuRegistrationOldTest >> setUp [
 
 	super setUp.
-	menu := ToMenuRegistration new name: 'TheParent'.
+	menu := ToMenuRegistrationOld new name: 'TheParent'.
 ]
 
 { #category : #tests }
-ToMenuRegistrationTest >> testHasChildren [
+ToMenuRegistrationOldTest >> testHasChildren [
 
 	menu addChild: ToMenuRegistrationOld new.
 	self assert: menu hasChildren
 ]
 
 { #category : #tests }
-ToMenuRegistrationTest >> testHasNoChildren [
+ToMenuRegistrationOldTest >> testHasNoChildren [
 
 	self assert: menu hasNoChildren
 ]
 
 { #category : #tests }
-ToMenuRegistrationTest >> testSortChildren [
+ToMenuRegistrationOldTest >> testSortChildren [
 
 	menu addChild: (ToMenuRegistrationOld new
 			 name: #Child1;

@@ -1,5 +1,5 @@
 Class {
 	#name : #MorphicVisitor,
 	#superclass : #MenuRegistrationVisitor,
-	#category : #'Toplo-MenuRegistration'
+	#category : #'Toplo-MenuRegistration-Visitor'
 }

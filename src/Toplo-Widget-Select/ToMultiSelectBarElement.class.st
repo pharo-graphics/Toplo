@@ -24,7 +24,7 @@ ToMultiSelectBarElement class >> onSelectElement: aSelectElement [
 { #category : #'accessing - selection' }
 ToMultiSelectBarElement >> allowSelectedCount: aNumber [
 
-	^ maxSelectedCount isZero or: [ aNumber <= maxSelectedCount ]
+	^ self haveMaxSelectedCount not or: [ aNumber <= maxSelectedCount ]
 ]
 
 { #category : #'accessing - selection' }
@@ -39,14 +39,14 @@ ToMultiSelectBarElement >> assertMaxSelectedCount: aNumber [
 ToMultiSelectBarElement >> checkHideSelectionFromListElement [
 
 	selectElement hideSelected ifFalse: [ ^ self ].
-	self popupListElement hideSelection
+	"self popupListElement inUIProcessDo: [ self popupListElement hideSelection ]"
 ]
 
 { #category : #'accessing - selection' }
 ToMultiSelectBarElement >> checkMaxSelectedCount [
 
 	| sM disabledSM groupeSM selectedCount |
-	maxSelectedCount isZero ifTrue: [ ^ self ].
+	self haveMaxSelectedCount ifFalse: [ ^ self ].
 
 	disabledSM := self popupListElement disabledSelectionModel.
 	groupeSM := self popupListElement groupSelectionModel.
@@ -139,6 +139,12 @@ ToMultiSelectBarElement >> filterTextField: aTextField [
 	filterTextField := aTextField 
 ]
 
+{ #category : #'accessing - selection' }
+ToMultiSelectBarElement >> haveMaxSelectedCount [
+
+	^ maxSelectedCount ~= -1
+]
+
 { #category : #initialization }
 ToMultiSelectBarElement >> initialize [
 
@@ -149,7 +155,7 @@ ToMultiSelectBarElement >> initialize [
 	self primarySelectionMode makeDisabledUnselectable: true.
 	self secondarySelectionMode selectionOption masked: true.
 	self focusability: BlFocusability ignore.
-	maxSelectedCount := 0.
+	maxSelectedCount := -1.
 	keepPickOrder := false.
 	pickCount := 0.
 
@@ -225,6 +231,12 @@ ToMultiSelectBarElement >> refreshFromPopupListSelection [
 	"self dataAccessor asOrderedCollection = newDataItems ifTrue: [ ^ self ]."
 	self dataAccessor updateAllWith: newDataItems.
 	self checkHideSelectionFromListElement
+]
+
+{ #category : #'accessing - selection' }
+ToMultiSelectBarElement >> removeMaxSelectedCount [
+
+	maxSelectedCount := -1
 ]
 
 { #category : #'t - select inner container' }

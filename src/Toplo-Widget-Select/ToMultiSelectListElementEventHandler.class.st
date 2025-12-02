@@ -8,8 +8,26 @@ Class {
 ToMultiSelectListElementEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , {
+		  ToListPrimarySelectionChangedEvent.
 		  ToListSelecterCommandApplicationRequestEvent.
 		  ToSelectGroupSelectionChangedEvent }
+]
+
+{ #category : #'event handling' }
+ToMultiSelectListElementEventHandler >> listPrimarySelectionChangedEvent: anEvent [
+
+	| listElement selectElement selectedDataItems changedEvent |
+	listElement := anEvent currentTarget.
+	selectElement := listElement selectElement.
+	selectElement refreshFromPopupListSelection.
+	selectedDataItems := selectElement selectionModel
+		                     selectedIndexesCollect: [ :idx |
+		                     selectElement sieve originalData at: idx ].
+	changedEvent := ToSelectChangedEvent new.
+	changedEvent selectedDataItems: selectedDataItems.
+	changedEvent selectedIndexes:
+		selectElement selectionModel selectedIndexes.
+	selectElement dispatchEvent: changedEvent
 ]
 
 { #category : #'event handling' }

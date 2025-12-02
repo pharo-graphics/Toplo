@@ -4484,11 +4484,12 @@ ToSandBox class >> example_SelectMultiFiltrableWithMax [
 
 	| select  |
 	select := self example_SelectMultiFiltrable.
+	"self halt."
+	select maxSelectedCount: 3.
 	select selecter selectIndex: 3.
-	select selecter selectIndex: 4.
 	select selecter selectIndex: 5.
+	select selecter selectIndex: 4.
 	select selecter selectIndex: 6.
-	select maxSelectedCount: 4.
 
 ]
 

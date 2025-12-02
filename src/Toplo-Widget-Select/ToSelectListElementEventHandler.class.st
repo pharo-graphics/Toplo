@@ -37,9 +37,8 @@ ToSelectListElementEventHandler >> mouseUpEvent: anEvent [
 { #category : #'element handlers' }
 ToSelectListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
 
-	| listElement |
+	| listElement selectElement |
 	listElement := anEvent currentTarget.
-	listElement inUIProcessDo: [
-			listElement selectElement onSelectionChangedInPopupListElement:
-				anEvent ]
+	selectElement := listElement selectElement.
+	selectElement refreshFromPopupListSelection
 ]

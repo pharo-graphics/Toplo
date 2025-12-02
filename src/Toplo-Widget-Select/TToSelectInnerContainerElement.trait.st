@@ -44,13 +44,6 @@ TToSelectInnerContainerElement >> newFilterTextField [
 ]
 
 { #category : #'t - select inner container' }
-TToSelectInnerContainerElement >> onSelectionChangedInPopupListElement: anEvent [
-
-	self refreshFromPopupListSelection.
-	self requestLayout
-]
-
-{ #category : #'t - select inner container' }
 TToSelectInnerContainerElement >> refreshFromPopupListSelection [
 
 	^ self subclassResponsibility 

@@ -254,12 +254,6 @@ ToSelectElement >> onPopupWindowOpened [
 		ifFalse: [ self requestFocus ]
 ]
 
-{ #category : #'accessing - selection' }
-ToSelectElement >> onSelectionChangedInPopupListElement: anEvent [
-
-	self header onSelectionChangedInPopupListElement: anEvent
-]
-
 { #category : #accessing }
 ToSelectElement >> pattern: aPattern [
 
@@ -300,6 +294,12 @@ ToSelectElement >> popupWindowPlacement: aPlacement [
 ToSelectElement >> refresh [
 
 	self innerElement refreshFromPopupListSelection
+]
+
+{ #category : #'accessing - selection' }
+ToSelectElement >> refreshFromPopupListSelection [
+
+	self header refreshFromPopupListSelection
 ]
 
 { #category : #accessing }

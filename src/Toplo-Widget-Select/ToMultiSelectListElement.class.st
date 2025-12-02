@@ -27,7 +27,6 @@ ToMultiSelectListElement >> defaultNodeManagerClass [
 
 { #category : #'accessing - selection' }
 ToMultiSelectListElement >> hideSelection [
-
 	" Hiding is implemented with the list hidden selection model.
 	The node hiding works as follow:
 	- an hidden node index is selected (added) in the hidden selection model
@@ -35,10 +34,11 @@ ToMultiSelectListElement >> hideSelection [
 	- see ToNodeHolder>>#initializeNode, to have a look on how the hiiden is visually implemented.
 	by default, the height of the node container is set to zero.
 	"
+
 	self sieve withLocalAndOriginalIndexDo: [ :d :localIndex :originalIndex |
-		(self selectionModel containsIndex: localIndex)
-			ifTrue: [ self selectionModel hideIndex: localIndex ]
-			ifFalse: [ self selectionModel unhideIndex: localIndex ] ].
+			(self selectionModel containsIndex: localIndex)
+				ifTrue: [ self selectionModel hideIndex: localIndex ]
+				ifFalse: [ self selectionModel unhideIndex: localIndex ] ].
 	self notifyDataSourceChanged
 ]
 

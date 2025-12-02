@@ -75,6 +75,12 @@ ToMultiSelectElement >> closeOnItemPicking [
 	^ false
 ]
 
+{ #category : #'accessing - selection' }
+ToMultiSelectElement >> haveMaxSelectedCount [
+
+	^ maxSelectedCount ~= -1
+]
+
 { #category : #accessing }
 ToMultiSelectElement >> hideSelected [
 
@@ -107,7 +113,7 @@ ToMultiSelectElement >> initialize [
 	withGroups := false.
 	isFlowable := false.
 	keepPickOrder := false.
-	maxSelectedCount := 0
+	maxSelectedCount := -1
 ]
 
 { #category : #initialization }
@@ -119,7 +125,10 @@ ToMultiSelectElement >> initializeSelectionCommandChecker [
 	" add the handler in my sieve so that I can receive the selecter command application event  "
 	self sieve
 		addEventHandlerOn: ToListSelecterCommandApplicationRequestEvent
-		do: [ :event | self dispatchEvent: event copy ].
+		do: [ :event | | copiedEvent |
+			copiedEvent := event copy.
+			self dispatchEvent: copiedEvent.
+			event authorized: copiedEvent authorized ].
 
 ]
 
@@ -191,19 +200,6 @@ ToMultiSelectElement >> nodeBuilder: aValuable [
 ToMultiSelectElement >> nodeManager [
 
 	^ self innerElement nodeManager
-]
-
-{ #category : #'accessing - selection' }
-ToMultiSelectElement >> onSelectionChangedInPopupListElement: anEvent [
-
-	| selectedDataItems changedEvent |
-	super onSelectionChangedInPopupListElement: anEvent.
-	selectedDataItems := self selectionModel selectedIndexesCollect: [
-		                     :idx | self sieve originalData at: idx ].
-	changedEvent := ToSelectChangedEvent new.
-	changedEvent selectedDataItems: selectedDataItems.
-	changedEvent selectedIndexes: self selectionModel selectedIndexes.
-	self dispatchEvent: changedEvent
 ]
 
 { #category : #'accessing - list' }

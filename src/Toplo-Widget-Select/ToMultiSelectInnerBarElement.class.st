@@ -11,7 +11,6 @@ ToMultiSelectInnerBarElement >> onInvisibleNodeContainers: theInvisibleContainer
 	listElement isFlowable ifTrue: [ ^ self ].
 	listElement isScrollable ifTrue: [ ^ self ].
 	theInvisibleContainers ifEmpty: [ ^ self ].
-	theInvisibleContainers inspect.
 	" in case of composite node at first it means that 
 	there is no more visible node to cumulate in a composite node"
 	self nodeContainers size = 1 ifTrue: [ ^ self ].

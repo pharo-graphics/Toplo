@@ -205,7 +205,7 @@ ToMenuRegistrationOld >> isChild: aSymbol [
 		ifTrue: [ ^ true ]
 		ifFalse: [
 			| nextItem |
-			nextItem := builder itemsNamed: aSymbol.
+			nextItem := builder itemNamed: aSymbol.
 			nextItem ifNotNil: [ nextItem := nextItem parent ].
 			^ self isChild: nextItem ]
 ]

@@ -21,6 +21,12 @@ Class {
 	#category : #'Toplo-MenuRegistration-New'
 }
 
+{ #category : #visiting }
+MenuItemSpec >> accept: aVisitor [
+
+	^ aVisitor visitMenuItemSpec: self
+]
+
 { #category : #accessing }
 MenuItemSpec >> action [
 	"Answer the action associated with the receiver"
@@ -163,4 +169,10 @@ MenuItemSpec >> subMenu [
 MenuItemSpec >> subMenu: aMenuSpec [
 	"Answer the receiver's subMenu"
 	subMenu := aMenuSpec
+]
+
+{ #category : #accessing }
+MenuItemSpec >> withSeparatorAfter [
+
+	separator := true
 ]

@@ -19,6 +19,12 @@ MenuSpec class >> withModel: aModel [
 	^ self new model: aModel
 ]
 
+{ #category : #visiting }
+MenuSpec >> accept: aVisitor [
+
+	^ aVisitor visitMenuSpec: self
+]
+
 { #category : #construction }
 MenuSpec >> add: aString [
 	^ self add: aString action: nil

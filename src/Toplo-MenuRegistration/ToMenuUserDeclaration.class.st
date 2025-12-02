@@ -3,7 +3,7 @@ I represent the action of registering a menu item.
 The interpretation of my instances will generate a menu.
 "
 Class {
-	#name : #ToMenuRegistration,
+	#name : #ToMenuUserDeclaration,
 	#superclass : #Object,
 	#instVars : [
 		'builder',
@@ -30,54 +30,54 @@ Class {
 }
 
 { #category : #visiting }
-ToMenuRegistration >> accept: aVisitor [
+ToMenuUserDeclaration >> accept: aVisitor [
 
 	^ aVisitor visitMenuRegistration: self
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> action [
+ToMenuUserDeclaration >> action [
 
 	^ action
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> action: aBlock [
+ToMenuUserDeclaration >> action: aBlock [
 
 	action := aBlock
 ]
 
 { #category : #adding }
-ToMenuRegistration >> addChild: aMenuRegistration [
+ToMenuUserDeclaration >> addChild: aMenuRegistration [
 
 	childrenItems add: aMenuRegistration
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> arguments [
+ToMenuUserDeclaration >> arguments [
 	^ arguments
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> arguments: anArray [
+ToMenuUserDeclaration >> arguments: anArray [
 
 	arguments := anArray.
 	self updateAction
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> builder [
+ToMenuUserDeclaration >> builder [
 	^ builder
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> builder: aBuilder [
+ToMenuUserDeclaration >> builder: aBuilder [
 
 	builder := aBuilder
 ]
 
 { #category : #testing }
-ToMenuRegistration >> childrenFromGroup: aGroupName [
+ToMenuUserDeclaration >> childrenFromGroup: aGroupName [
 
 	^ childrenItems select: [ :item | 
 			item groupName = aGroupName 
@@ -85,19 +85,19 @@ ToMenuRegistration >> childrenFromGroup: aGroupName [
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> childrenItems [
+ToMenuUserDeclaration >> childrenItems [
 
 	^ childrenItems
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> childrenItems: anOrderedCollectionOfMenuRegistration [
+ToMenuUserDeclaration >> childrenItems: anOrderedCollectionOfMenuRegistration [
 
 	childrenItems := anOrderedCollectionOfMenuRegistration
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> curatedLabel [
+ToMenuUserDeclaration >> curatedLabel [
 	"form now to see the cause"
 	^ (self label = ''
 		ifTrue: [ self  name asString ]
@@ -105,77 +105,77 @@ ToMenuRegistration >> curatedLabel [
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> enabled: aBlock [ 
+ToMenuUserDeclaration >> enabled: aBlock [ 
 	enableBlock := aBlock
 ]
 
 { #category : #testing }
-ToMenuRegistration >> findChildrenItems: aSymbol [
+ToMenuUserDeclaration >> findChildrenItems: aSymbol [
 	childrenItems do: [ :item | item name = aSymbol ifTrue: [ ^ item ] ].
 	^ nil
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> groupName [
+ToMenuUserDeclaration >> groupName [
 
 	^ groupName
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> groupName: aSymbol [
+ToMenuUserDeclaration >> groupName: aSymbol [
 
 	groupName := aSymbol
 ]
 
 { #category : #testing }
-ToMenuRegistration >> hasChildren [
+ToMenuUserDeclaration >> hasChildren [
 
 	^ childrenItems isNotEmpty
 ]
 
 { #category : #testing }
-ToMenuRegistration >> hasIcon [
+ToMenuUserDeclaration >> hasIcon [
 	^ icon isNotNil
 ]
 
 { #category : #testing }
-ToMenuRegistration >> hasKeyText [
+ToMenuUserDeclaration >> hasKeyText [
 
 	^ shortcut isNotNil
 ]
 
 { #category : #testing }
-ToMenuRegistration >> hasNoChildren [
+ToMenuUserDeclaration >> hasNoChildren [
 
 	^ childrenItems isEmpty
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> help [
+ToMenuUserDeclaration >> help [
 
 	^ help
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> help: aString [
+ToMenuUserDeclaration >> help: aString [
 
 	help := aString
 ]
 
 { #category : #testing }
-ToMenuRegistration >> icon [
+ToMenuUserDeclaration >> icon [
 
 	^ icon
 ]
 
 { #category : #testing }
-ToMenuRegistration >> icon: aForm [
+ToMenuUserDeclaration >> icon: aForm [
 	"set the icon that is shown in the menu"
 	icon := aForm
 ]
 
 { #category : #testing }
-ToMenuRegistration >> iconName: aSymbol [
+ToMenuUserDeclaration >> iconName: aSymbol [
 	"instead of forcing clients to refer to an icon builder such Smalltalk ui icons
 	this message encapsulates it inside the builder itself. When removing uses of Smalltalk ui icons it avoid to force to subclass class with menu to inherit from Model."
 
@@ -183,7 +183,7 @@ ToMenuRegistration >> iconName: aSymbol [
 ]
 
 { #category : #initialization }
-ToMenuRegistration >> initialize [
+ToMenuUserDeclaration >> initialize [
 
 	super initialize.
 	childrenItems := OrderedCollection new.
@@ -198,108 +198,108 @@ ToMenuRegistration >> initialize [
 ]
 
 { #category : #testing }
-ToMenuRegistration >> isChild: aSymbol [
+ToMenuUserDeclaration >> isChild: aSymbol [
 
 	aSymbol ifNil: [ ^ false ].
 	aSymbol = name
 		ifTrue: [ ^ true ]
 		ifFalse: [
 			| nextItem |
-			nextItem := builder itemsNamed: aSymbol.
+			nextItem := builder itemNamed: aSymbol.
 			nextItem ifNotNil: [ nextItem := nextItem parent ].
 			^ self isChild: nextItem ]
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> isGroup [
+ToMenuUserDeclaration >> isGroup [
 
 	^ isGroup
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> isGroup: aBoolean [
+ToMenuUserDeclaration >> isGroup: aBoolean [
 
 	isGroup := aBoolean
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> keyText: aString [
+ToMenuUserDeclaration >> keyText: aString [
 
 	shortcut := aString
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> label [
+ToMenuUserDeclaration >> label [
 
 	^ label
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> label: aString [
+ToMenuUserDeclaration >> label: aString [
 
 	label := aString 
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> name [
+ToMenuUserDeclaration >> name [
 
 	^ name
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> name: aSymbol [
+ToMenuUserDeclaration >> name: aSymbol [
 
 	name := aSymbol
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> order [
+ToMenuUserDeclaration >> order [
 
 	^ order
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> order: anInteger [
+ToMenuUserDeclaration >> order: anInteger [
 
 	order := anInteger
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> parent [
+ToMenuUserDeclaration >> parent [
 	^ parent
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> parent: aSymbol [
+ToMenuUserDeclaration >> parent: aSymbol [
 
 	parent := aSymbol
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> parentMenuItem [
+ToMenuUserDeclaration >> parentMenuItem [
 
 	^ parentMenuItem
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> parentMenuItem: aMenuRegistration [
+ToMenuUserDeclaration >> parentMenuItem: aMenuRegistration [
 
 	parentMenuItem := aMenuRegistration
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> precondition [
+ToMenuUserDeclaration >> precondition [
 	^ precondition
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> precondition: aValuableBlock [
+ToMenuUserDeclaration >> precondition: aValuableBlock [
 
 	precondition := aValuableBlock
 ]
 
 { #category : #printing }
-ToMenuRegistration >> printOn: aStream [
+ToMenuUserDeclaration >> printOn: aStream [
 
 	super printOn: aStream.
 	aStream << '('.
@@ -311,60 +311,60 @@ ToMenuRegistration >> printOn: aStream [
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> selector [
+ToMenuUserDeclaration >> selector [
 	^ selector
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> selector: aSelector [
+ToMenuUserDeclaration >> selector: aSelector [
 
 	selector := aSelector.
 	self updateAction.
 ]
 
 { #category : #separator }
-ToMenuRegistration >> separator [
+ToMenuUserDeclaration >> separator [
 
 	^ separator
 ]
 
 { #category : #separator }
-ToMenuRegistration >> separator: aBoolean [
+ToMenuUserDeclaration >> separator: aBoolean [
 
 	separator := aBoolean
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> shortcut [
+ToMenuUserDeclaration >> shortcut [
 	^ shortcut
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> shortcut: aString [
+ToMenuUserDeclaration >> shortcut: aString [
 
 	shortcut := aString
 ]
 
 { #category : #sorting }
-ToMenuRegistration >> sortChildren [
+ToMenuUserDeclaration >> sortChildren [
 
 	childrenItems := childrenItems sorted: [ :c1 :c2 | c1 order <= c2 order ].
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> target [
+ToMenuUserDeclaration >> target [
 	^ target
 ]
 
 { #category : #accessing }
-ToMenuRegistration >> target: aSymbol [
+ToMenuUserDeclaration >> target: aSymbol [
 
 	target := aSymbol.
 	self updateAction.
 ]
 
 { #category : #sorting }
-ToMenuRegistration >> updateAction [
+ToMenuUserDeclaration >> updateAction [
 
 	self action: [
 	          MessageSend
@@ -374,7 +374,7 @@ ToMenuRegistration >> updateAction [
 ]
 
 { #category : #'instance creation' }
-ToMenuRegistration >> with: aBlock [
+ToMenuUserDeclaration >> with: aBlock [
 
 	| currentItem |
 	aBlock value.
@@ -387,7 +387,7 @@ ToMenuRegistration >> with: aBlock [
 ]
 
 { #category : #separator }
-ToMenuRegistration >> withSeparatorAfter [
+ToMenuUserDeclaration >> withSeparatorAfter [
 
 	separator := true
 ]

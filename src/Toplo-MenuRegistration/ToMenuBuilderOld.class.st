@@ -97,7 +97,7 @@ ToMenuBuilderOld class >> exampleWorldMenu [
 	<script>
 	
 	| builder menuPane |
-	builder := (self pragmaKeyword: #worldMenu) collectRegistrations.
+	builder := (self pragmaKeyword: #worldMenu) collectDeclarations.
 	builder resolve.
 	"builder should accept the visitor it should kick the visitor."
 	menuPane := builder accept: ToploVisitor new.
@@ -169,7 +169,7 @@ ToMenuBuilderOld >> changeParent: aMenuRegistration for: aSymbol [
 	"Change the parent for an item, if the item doesn't exist we create one"
 
 	| item |
-	item := self itemsNamed: aSymbol.
+	item := self itemNamed: aSymbol.
 	item isCollection ifTrue: [ self item: aSymbol ].
 	(item parent = aMenuRegistration name or: [ item parent isNil] )
 		ifFalse: [ self addConflict: WrongParentPlacement new ].
@@ -178,7 +178,7 @@ ToMenuBuilderOld >> changeParent: aMenuRegistration for: aSymbol [
 ]
 
 { #category : #'spec accessing' }
-ToMenuBuilderOld >> collectRegistrations [
+ToMenuBuilderOld >> collectDeclarations [
 	"Retrieve all pragma methods and evaluate them by passing the
 	MenuRegistration class as argument. The result is a list of trees
 	stored in my itemList inst var"
@@ -222,27 +222,16 @@ ToMenuBuilderOld >> group: aSymbol [
 	"Create a new group"
 
 	| newGroup |
-	(self groups includes: aSymbol) ifTrue: [
-		^ self groupsNamed: aSymbol ].
+	(self namesOfAlreadyExistingGroups includes: aSymbol) ifTrue: [
+		^ self groupNamed: aSymbol ].
 	newGroup := (self item: aSymbol) groupName: aSymbol; isGroup: true.
 	^ newGroup
 ]
 
 { #category : #accessing }
-ToMenuBuilderOld >> groups [
+ToMenuBuilderOld >> groupNamed: aSymbol [
 
-	| groupsNames |
-	groupsNames := OrderedCollection new.
-	collectedItems do: [ :item |
-		item isGroup ifTrue: [
-			groupsNames add: item groupName ] ].
-	^ groupsNames 
-]
-
-{ #category : #accessing }
-ToMenuBuilderOld >> groupsNamed: aSymbol [
-
-	^ self itemsNamed: aSymbol
+	^ self itemNamed: aSymbol
 ]
 
 { #category : #adding }
@@ -254,7 +243,7 @@ ToMenuBuilderOld >> handleAddToParent: aMenuRegistration [
 		ifTrue: [
 			currentRoot addChild: aMenuRegistration.
 			^ self ].
-	((self itemsNamed: aMenuRegistration parent) isGroup)
+	((self itemNamed: aMenuRegistration parent) isGroup)
 		ifTrue: [ aMenuRegistration groupName: aMenuRegistration parent ].
 	parentMenu := self lookUpForParent: aMenuRegistration parent.
 	aMenuRegistration parentMenuItem: parentMenu.
@@ -276,7 +265,7 @@ ToMenuBuilderOld >> handleDuplicatedShortcut: anItem [
 ToMenuBuilderOld >> handleGroupsUsage: anItem [
 
 	anItem name ifNil: [ ^ self ].
-	(self groups includes: anItem name) ifTrue: [ ^ self ].
+	(self namesOfAlreadyExistingGroups includes: anItem name) ifTrue: [ ^ self ].
 	anItem parentMenuItem ifNotNil: [
 		(anItem groupName isNil and:
 			 [ anItem parentMenuItem groupName isNotNil]) ifTrue: [
@@ -284,7 +273,7 @@ ToMenuBuilderOld >> handleGroupsUsage: anItem [
 	anItem groupName ifNil: [ ^ self ].
 	(self isAnExistingGroup: anItem groupName) ifFalse: [
 		self group: anItem groupName ].
-	(self groupsNamed: anItem groupName) addChild: anItem
+	(self groupNamed: anItem groupName) addChild: anItem
 ]
 
 { #category : #'error handling' }
@@ -330,7 +319,7 @@ ToMenuBuilderOld >> initialize [
 { #category : #accessing }
 ToMenuBuilderOld >> isAnExistingGroup: aSymbol [
 
-	^ self groups anySatisfy: [ :gName | gName = aSymbol ]
+	^ self namesOfAlreadyExistingGroups anySatisfy: [ :gName | gName = aSymbol ]
 ]
 
 { #category : #accessing }
@@ -347,7 +336,7 @@ ToMenuBuilderOld >> item: aSymbol [
 		self addConflict: (DuplicatedItem new
 				 itemNamed: aSymbol;
 				 yourself).
-		^ self itemsNamed: aSymbol ].
+		^ self itemNamed: aSymbol ].
 	newItem := ToMenuRegistrationOld new
 		           name: aSymbol;
 		           builder: self.
@@ -356,7 +345,7 @@ ToMenuBuilderOld >> item: aSymbol [
 ]
 
 { #category : #querying }
-ToMenuBuilderOld >> itemsNamed: aSymbol [
+ToMenuBuilderOld >> itemNamed: aSymbol [
 
 	collectedItems do: [ :item | item name = aSymbol ifTrue: [ ^ item ] ].
 	^ currentRoot
@@ -366,10 +355,21 @@ ToMenuBuilderOld >> itemsNamed: aSymbol [
 ToMenuBuilderOld >> lookUpForParent: aMenuRegistration [
 	|item|
 	aMenuRegistration ifNil: [ ^ currentRoot ].
-	item := self itemsNamed: aMenuRegistration.
+	item := self itemNamed: aMenuRegistration.
 	item isGroup ifFalse: [
 		^ item ].
 	^ self lookUpForParent: item parent
+]
+
+{ #category : #accessing }
+ToMenuBuilderOld >> namesOfAlreadyExistingGroups [
+
+	| groupsNames |
+	groupsNames := OrderedCollection new.
+	collectedItems do: [ :item |
+		item isGroup ifTrue: [
+			groupsNames add: item groupName ] ].
+	^ groupsNames 
 ]
 
 { #category : #querying }

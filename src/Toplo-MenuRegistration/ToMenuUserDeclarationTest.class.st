@@ -1,5 +1,5 @@
 Class {
-	#name : #ToMenuRegistrationTest,
+	#name : #ToMenuUserDeclarationTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'menu'
@@ -8,35 +8,35 @@ Class {
 }
 
 { #category : #running }
-ToMenuRegistrationTest >> setUp [
+ToMenuUserDeclarationTest >> setUp [
 
 	super setUp.
-	menu := ToMenuRegistration new name: 'TheParent'.
+	menu := ToMenuUserDeclaration new name: 'TheParent'.
 ]
 
 { #category : #tests }
-ToMenuRegistrationTest >> testHasChildren [
+ToMenuUserDeclarationTest >> testHasChildren [
 
-	menu addChild: ToMenuRegistrationOld new.
+	menu addChild: ToMenuUserDeclaration new.
 	self assert: menu hasChildren
 ]
 
 { #category : #tests }
-ToMenuRegistrationTest >> testHasNoChildren [
+ToMenuUserDeclarationTest >> testHasNoChildren [
 
 	self assert: menu hasNoChildren
 ]
 
 { #category : #tests }
-ToMenuRegistrationTest >> testSortChildren [
+ToMenuUserDeclarationTest >> testSortChildren [
 
-	menu addChild: (ToMenuRegistrationOld new
+	menu addChild: (ToMenuUserDeclaration new
 			 name: #Child1;
 			 order: 99).
-	menu addChild: (ToMenuRegistrationOld new
+	menu addChild: (ToMenuUserDeclaration new
 			 name: #Child2;
 			 order: 1).
-	menu addChild: (ToMenuRegistrationOld new
+	menu addChild: (ToMenuUserDeclaration new
 			 name: #Child3;
 			 order: 2).
 	menu sortChildren.

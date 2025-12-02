@@ -31,20 +31,17 @@ ToploVisitor >> visitMenuBuilder: aMenuBuilder [
 ToploVisitor >> visitMenuRegistration: aMenuRegistration [
 
 	| menu |
+	
 	aMenuRegistration hasChildren
 		ifTrue: [
-			menu := ToMenu new labelText: (aMenuRegistration label = ''
-					         ifTrue: [ aMenuRegistration name asString ]
-					         ifFalse: [ aMenuRegistration label ]).
+			menu := ToMenu new labelText: aMenuRegistration curatedLabel.
+		
 			aMenuRegistration childrenItems do: [ :subItem |
 				subItem isGroup ifFalse: [ menu addItem: (subItem accept: self) ] ].
 			aMenuRegistration separator ifTrue: [ menu addSeparator ]. ]
 		ifFalse: [
-			menu := ToMenuItem new
-				        labelText: (aMenuRegistration label = ''
-						         ifTrue: [ aMenuRegistration name asString ]
-						         ifFalse: [ aMenuRegistration label ]);
-				        clickAction: aMenuRegistration action;
-				        yourself ].
+			menu := ToMenuItem new labelText: aMenuRegistration curatedLabel.
+			menu clickAction: aMenuRegistration action.
+			aMenuRegistration hasIcon ifTrue: [ menu iconImage: aMenuRegistration icon asElement ] ].
 	^ menu
 ]

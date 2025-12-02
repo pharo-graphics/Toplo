@@ -23,7 +23,8 @@ Class {
 		'arguments',
 		'separator',
 		'help',
-		'icon'
+		'icon',
+		'enableBlock'
 	],
 	#category : #'Toplo-MenuRegistration-Core'
 }
@@ -95,6 +96,19 @@ ToMenuRegistration >> childrenItems: anOrderedCollectionOfMenuRegistration [
 	childrenItems := anOrderedCollectionOfMenuRegistration
 ]
 
+{ #category : #accessing }
+ToMenuRegistration >> curatedLabel [
+	"form now to see the cause"
+	^ (self label = ''
+		ifTrue: [ self  name asString ]
+		ifFalse: [ self label ]).
+]
+
+{ #category : #accessing }
+ToMenuRegistration >> enabled: aBlock [ 
+	enableBlock := aBlock
+]
+
 { #category : #testing }
 ToMenuRegistration >> findChildrenItems: aSymbol [
 	childrenItems do: [ :item | item name = aSymbol ifTrue: [ ^ item ] ].
@@ -117,6 +131,17 @@ ToMenuRegistration >> groupName: aSymbol [
 ToMenuRegistration >> hasChildren [
 
 	^ childrenItems isNotEmpty
+]
+
+{ #category : #testing }
+ToMenuRegistration >> hasIcon [
+	^ icon isNotNil
+]
+
+{ #category : #testing }
+ToMenuRegistration >> hasKeyText [
+
+	^ shortcut isNotNil
 ]
 
 { #category : #testing }

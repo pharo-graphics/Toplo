@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'menuPane'
 	],
-	#category : #'MenuRegistration-Visitor'
+	#category : #'Toplo-MenuRegistration'
 }
 
 { #category : #accessing }

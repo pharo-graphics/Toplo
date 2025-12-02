@@ -67,6 +67,10 @@ BlElement >> anyInParentsSatisfy: aValuable [
 { #category : #'*Toplo' }
 BlElement >> applyConfiguration [
 
+	"During the configuration phase, elements that requested reconfiguration (using the message `requestConfiguration`) get this method executed.
+	
+	Subclasses may redefine this hook method."
+	
 	self toConfiguration ifNotNil: [ :tc | tc applyOn: self ]
 ]
 

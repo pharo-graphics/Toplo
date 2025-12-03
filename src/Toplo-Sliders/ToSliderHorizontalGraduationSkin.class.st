@@ -22,7 +22,7 @@ ToSliderHorizontalGraduationSkin >> installSkinEvent: anEvent [
 			"self installStepsSkin: element" ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #skin }
 ToSliderHorizontalGraduationSkin >> installStepsSkin: anElement [
 
 	| minValue maxValue valueDiff |

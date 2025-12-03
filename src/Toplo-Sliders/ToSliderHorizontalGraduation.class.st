@@ -10,7 +10,7 @@ Class {
 	#category : #'Toplo-Sliders-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 ToSliderHorizontalGraduation >> connectToSlider: aSlider [
 
 	slider := aSlider.
@@ -38,13 +38,13 @@ ToSliderHorizontalGraduation >> initializeStepGraduations [
 			self addChild: element ]
 ]
 
-{ #category : #'instance creation' }
+{ #category : #skin }
 ToSliderHorizontalGraduation >> newRawSkin [  
 
 	^ ToSliderHorizontalGraduationSkin new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #initialization }
 ToSliderHorizontalGraduation >> reinitializeStepGraduations [
 
 	self removeChildren.

@@ -1,11 +1,11 @@
 Class {
-	#name : #ToMultiSelectInnerBarElement,
+	#name : #ToMultiSelectInnerFiniteListElement,
 	#superclass : #ToInnerFiniteListElement,
 	#category : #'Toplo-Widget-Select-Multi'
 }
 
 { #category : #'t - bar element' }
-ToMultiSelectInnerBarElement >> onInvisibleNodeContainers: theInvisibleNodes visibleNodeContainers: theVisibleNodes [
+ToMultiSelectInnerFiniteListElement >> onInvisibleNodeContainers: theInvisibleNodes visibleNodeContainers: theVisibleNodes [
 
 	| visibleNodes invisibleNodes composite finalCount |
 	listElement isFlowable ifTrue: [ ^ self ].

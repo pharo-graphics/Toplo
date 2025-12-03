@@ -1,5 +1,5 @@
 Class {
-	#name : #ToAbstractBarNodeManager,
+	#name : #ToAbstractFiniteNodeManager,
 	#superclass : #ToAbstractNodeManager,
 	#instVars : [
 		'fakeDataItem'
@@ -8,38 +8,38 @@ Class {
 }
 
 { #category : #initialization }
-ToAbstractBarNodeManager >> defaultFakeDataItem [
+ToAbstractFiniteNodeManager >> defaultFakeDataItem [
 
 	^ nil
 ]
 
 { #category : #accessing }
-ToAbstractBarNodeManager >> fakeDataItem [
+ToAbstractFiniteNodeManager >> fakeDataItem [
 
 	^ fakeDataItem
 ]
 
 { #category : #accessing }
-ToAbstractBarNodeManager >> fakeDataItem: anObject [
+ToAbstractFiniteNodeManager >> fakeDataItem: anObject [
 
 	fakeDataItem := anObject
 ]
 
 { #category : #initialization }
-ToAbstractBarNodeManager >> initialize [ 
+ToAbstractFiniteNodeManager >> initialize [ 
 
 	super initialize.
 	fakeDataItem := self defaultFakeDataItem 
 ]
 
 { #category : #'instance creation' }
-ToAbstractBarNodeManager >> newFakeNodeContainer [ 
+ToAbstractFiniteNodeManager >> newFakeNodeContainer [ 
 
 	^ ToFiniteListFakeNodeContainer new
 ]
 
 { #category : #'instance creation' }
-ToAbstractBarNodeManager >> newFakeNodeContainerIn: aBarElement [
+ToAbstractFiniteNodeManager >> newFakeNodeContainerIn: aBarElement [
 
 	| holder fakeContainer |
 	holder := self newHolder.
@@ -54,7 +54,7 @@ ToAbstractBarNodeManager >> newFakeNodeContainerIn: aBarElement [
 ]
 
 { #category : #'instance creation' }
-ToAbstractBarNodeManager >> newNodeContainer [ 
+ToAbstractFiniteNodeManager >> newNodeContainer [ 
 
 	^ ToFiniteListNodeContainer new
 ]

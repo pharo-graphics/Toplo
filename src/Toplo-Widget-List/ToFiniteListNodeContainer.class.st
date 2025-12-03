@@ -1,3 +1,7 @@
+"
+I'm a triplet (start, middle, end) and I'm child of an inner for finite list. 
+My role is to contain `ToListNode` element.
+"
 Class {
 	#name : #ToFiniteListNodeContainer,
 	#superclass : #ToNodeContainer,

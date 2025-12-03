@@ -1,6 +1,6 @@
 Class {
 	#name : #ToGenericFiniteListNodeManager,
-	#superclass : #ToAbstractBarNodeManager,
+	#superclass : #ToAbstractFiniteNodeManager,
 	#traits : 'TToGenericNodeManager',
 	#classTraits : 'TToGenericNodeManager classTrait',
 	#category : #'Toplo-Widget-List-Core-FiniteListElement'

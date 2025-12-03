@@ -1,6 +1,6 @@
 Class {
 	#name : #ToItemFiniteListNodeManager,
-	#superclass : #ToAbstractBarNodeManager,
+	#superclass : #ToAbstractFiniteNodeManager,
 	#category : #'Toplo-Widget-List-ItemFiniteList'
 }
 

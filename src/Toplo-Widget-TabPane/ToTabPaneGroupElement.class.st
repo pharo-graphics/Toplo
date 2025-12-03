@@ -7,7 +7,7 @@ Class {
 { #category : #initialization }
 ToTabPaneGroupElement >> barElementClass [
 
-	^ ToTabPaneBarElement 
+	^ ToTabPaneFiniteListElement 
 ]
 
 { #category : #initialization }

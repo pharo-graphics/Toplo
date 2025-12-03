@@ -134,7 +134,7 @@ ToInnerFiniteListElement >> initialize [
 	super initialize.
 	self initializeDataSource.
 	self addEventHandler: ToInnerFiniteListElementEventHandler new.
-	self trackElement: self scrollableBarTrackElementClass new.
+	self trackElement: self scrollableFiniteListTrackElementClass new.
 	self matchParent.
 	self focusability: BlFocusability ignore
 ]
@@ -395,7 +395,7 @@ ToInnerFiniteListElement >> scrollTowardStartToDataSourcePosition: anIndex [
 ]
 
 { #category : #initialization }
-ToInnerFiniteListElement >> scrollableBarTrackElementClass [
+ToInnerFiniteListElement >> scrollableFiniteListTrackElementClass [
 
 	^ ToScrollableFiniteListTrackElement 
 ]

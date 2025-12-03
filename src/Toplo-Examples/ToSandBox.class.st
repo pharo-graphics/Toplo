@@ -5148,7 +5148,7 @@ ToSandBox class >> example_TabPaneWithCompactHeaderLayoutMode [
 ToSandBox class >> example_TagFiniteList [
 
 	| tb dashBoard rootPane |
-	tb := ToTagBarElement new.
+	tb := ToTagFiniteListElement new.
 	tb horizontal: true.
 	tb dataAccessor addAll:
 		(ToSandBox statesOfAmerica collect: [ :s | ToSingleTag new data: s ]).

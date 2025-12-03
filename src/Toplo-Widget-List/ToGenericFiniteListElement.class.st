@@ -1,3 +1,6 @@
+"
+I'm a generic list 
+"
 Class {
 	#name : #ToGenericFiniteListElement,
 	#superclass : #ToGenericListElement,

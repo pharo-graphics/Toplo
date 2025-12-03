@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTagNodeSkin,
-	#superclass : #ToBarNodeSkin,
+	#superclass : #ToFiniteListNodeSkin,
 	#category : #'Toplo-Widget-Tag-Tag'
 }
 

@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #initialization }
-ToMenuInnerFiniteListElement >> scrollableBarTrackElementClass [
+ToMenuInnerFiniteListElement >> scrollableFiniteListTrackElementClass [
 
 	^ ToMenuScrollableBarTrackElement 
 ]

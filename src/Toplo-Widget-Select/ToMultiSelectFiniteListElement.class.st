@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMultiSelectFiniteListElement,
-	#superclass : #ToTagBarElement,
+	#superclass : #ToTagFiniteListElement,
 	#traits : 'TToSelectInnerContainerElement + TToElementWithPlaceholder',
 	#classTraits : 'TToSelectInnerContainerElement classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [
@@ -67,7 +67,7 @@ ToMultiSelectFiniteListElement >> checkMaxSelectedCount [
 { #category : #'t - bar element' }
 ToMultiSelectFiniteListElement >> defaultInnerElementClass [
 
-	^ ToMultiSelectInnerBarElement
+	^ ToMultiSelectInnerFiniteListElement
 ]
 
 { #category : #initialization }

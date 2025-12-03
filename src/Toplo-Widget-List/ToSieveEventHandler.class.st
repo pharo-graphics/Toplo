@@ -37,9 +37,9 @@ ToSieveEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 									toIndex: localIndex
 									in: listElement selectionModel ] ] ].
 
-	" dispatch a specific, different from the primary selection change event that will be sent after.
+	" dispatch a specific, different from the primary selection change event.
 	It is useful for sieve list user that relies on the sieve internal selection to adapt themeself 
-	according to the sieve selection"
+	according to the sieve selection "
 	listElement dispatchEvent: (ToSieveSelectionChangedEvent new
 			 sieve: sieve;
 			 selectionModel: sieve selectionModel;

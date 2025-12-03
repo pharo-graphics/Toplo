@@ -4,8 +4,8 @@ I'm a generic list
 Class {
 	#name : #ToGenericFiniteListElement,
 	#superclass : #ToGenericListElement,
-	#traits : 'TToConfigurableBarElement + TToFiniteListElement',
-	#classTraits : 'TToConfigurableBarElement classTrait + TToFiniteListElement classTrait',
+	#traits : 'TToConfigurableFiniteListElement + TToFiniteListElement',
+	#classTraits : 'TToConfigurableFiniteListElement classTrait + TToFiniteListElement classTrait',
 	#category : #'Toplo-Widget-List-Core-FiniteListElement'
 }
 
@@ -33,7 +33,7 @@ ToGenericFiniteListElement >> initialize [
 { #category : #skin }
 ToGenericFiniteListElement >> newRawSkin [ 
 
-	^ ToBarElementSkin new
+	^ ToFiniteListElementSkin new
 ]
 
 { #category : #accessing }

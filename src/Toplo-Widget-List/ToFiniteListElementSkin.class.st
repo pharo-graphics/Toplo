@@ -1,11 +1,11 @@
 Class {
-	#name : #ToBarElementSkin,
+	#name : #ToFiniteListElementSkin,
 	#superclass : #ToBasicListElementSkin,
 	#category : #'Toplo-Widget-List-Core-FiniteListElement'
 }
 
 { #category : #'event handling' }
-ToBarElementSkin >> focusedSkinEvent: anEvent [
+ToFiniteListElementSkin >> focusedSkinEvent: anEvent [
 
 	super focusedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -13,7 +13,7 @@ ToBarElementSkin >> focusedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToBarElementSkin >> installSkinEvent: anEvent [
+ToFiniteListElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -24,7 +24,7 @@ ToBarElementSkin >> installSkinEvent: anEvent [
 ]
 
 { #category : #'accessing - shortcuts' }
-ToBarElementSkin >> shortcutsToInstallIn: aListElement [
+ToFiniteListElementSkin >> shortcutsToInstallIn: aListElement [
 
 	^ Array streamContents: [ :stream |
 		  stream nextPutAll: (super shortcutsToInstallIn: aListElement).
@@ -54,7 +54,7 @@ ToBarElementSkin >> shortcutsToInstallIn: aListElement [
 ]
 
 { #category : #'event handling' }
-ToBarElementSkin >> unfocusedSkinEvent: anEvent [
+ToFiniteListElementSkin >> unfocusedSkinEvent: anEvent [
 
 	super unfocusedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |

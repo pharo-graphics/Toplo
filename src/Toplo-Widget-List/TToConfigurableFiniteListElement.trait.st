@@ -1,5 +1,5 @@
 Trait {
-	#name : #TToConfigurableBarElement,
+	#name : #TToConfigurableFiniteListElement,
 	#instVars : [
 		'exactNodeWidth',
 		'exactNodeHeight',
@@ -13,13 +13,13 @@ Trait {
 }
 
 { #category : #'t - configurable bar element' }
-TToConfigurableBarElement >> autoDistribute [
+TToConfigurableFiniteListElement >> autoDistribute [
 
 	^ autoDistribute ifNil: [ autoDistribute := false ] 
 ]
 
 { #category : #'t - configurable bar element' }
-TToConfigurableBarElement >> autoDistribute: aBoolean [
+TToConfigurableFiniteListElement >> autoDistribute: aBoolean [
 
 	autoDistribute = aBoolean ifTrue: [ ^ self ].
 	autoDistribute := aBoolean.
@@ -27,13 +27,13 @@ TToConfigurableBarElement >> autoDistribute: aBoolean [
 ]
 
 { #category : #'t - configurable bar element' }
-TToConfigurableBarElement >> exactNodeHeight [
+TToConfigurableFiniteListElement >> exactNodeHeight [
 
 	^ exactNodeHeight
 ]
 
 { #category : #'t - configurable bar element' }
-TToConfigurableBarElement >> exactNodeHeight: aNumberOrNil [
+TToConfigurableFiniteListElement >> exactNodeHeight: aNumberOrNil [
 
 	exactNodeHeight = aNumberOrNil ifTrue:[ ^ self ].
 	exactNodeHeight := aNumberOrNil.
@@ -42,13 +42,13 @@ TToConfigurableBarElement >> exactNodeHeight: aNumberOrNil [
 ]
 
 { #category : #'t - configurable bar element' }
-TToConfigurableBarElement >> exactNodeWidth [
+TToConfigurableFiniteListElement >> exactNodeWidth [
 
 	^ exactNodeWidth
 ]
 
 { #category : #'t - configurable bar element' }
-TToConfigurableBarElement >> exactNodeWidth: aNumberOrNil [
+TToConfigurableFiniteListElement >> exactNodeWidth: aNumberOrNil [
 
 	exactNodeWidth = aNumberOrNil ifTrue:[ ^ self ].
 	exactNodeWidth := aNumberOrNil.
@@ -57,13 +57,13 @@ TToConfigurableBarElement >> exactNodeWidth: aNumberOrNil [
 ]
 
 { #category : #'t - configurable bar element' }
-TToConfigurableBarElement >> isFlowable [
+TToConfigurableFiniteListElement >> isFlowable [
 
 	^ isFlowable ifNil: [ isFlowable := true ]
 ]
 
 { #category : #'t - configurable bar element' }
-TToConfigurableBarElement >> isFlowable: aBoolean [
+TToConfigurableFiniteListElement >> isFlowable: aBoolean [
 
 	isFlowable = aBoolean ifTrue: [ ^ self ].
 	isFlowable := aBoolean.
@@ -71,13 +71,13 @@ TToConfigurableBarElement >> isFlowable: aBoolean [
 ]
 
 { #category : #'t - configurable bar element' }
-TToConfigurableBarElement >> isScrollable [
+TToConfigurableFiniteListElement >> isScrollable [
 
 	^ isScrollable ifNil: [ isScrollable := false ]
 ]
 
 { #category : #'t - configurable bar element' }
-TToConfigurableBarElement >> isScrollable: aBoolean [
+TToConfigurableFiniteListElement >> isScrollable: aBoolean [
 
 	isScrollable = aBoolean ifTrue: [ ^ self ].
 	isScrollable := aBoolean.
@@ -86,19 +86,19 @@ TToConfigurableBarElement >> isScrollable: aBoolean [
 ]
 
 { #category : #'t - configurable bar element' }
-TToConfigurableBarElement >> maxMeasuredNodeSize [
+TToConfigurableFiniteListElement >> maxMeasuredNodeSize [
 
 	^ self innerElement maxMeasuredNodeSize
 ]
 
 { #category : #'t - configurable bar element' }
-TToConfigurableBarElement >> uniformNodeHeight [
+TToConfigurableFiniteListElement >> uniformNodeHeight [
 
 	^ uniformNodeHeight ifNil: [ uniformNodeHeight := false ]
 ]
 
 { #category : #'t - configurable bar element' }
-TToConfigurableBarElement >> uniformNodeHeight: aBoolean [
+TToConfigurableFiniteListElement >> uniformNodeHeight: aBoolean [
 
 	uniformNodeHeight = aBoolean ifTrue: [ ^ self ].
 	uniformNodeHeight := aBoolean.
@@ -107,13 +107,13 @@ TToConfigurableBarElement >> uniformNodeHeight: aBoolean [
 ]
 
 { #category : #'t - configurable bar element' }
-TToConfigurableBarElement >> uniformNodeWidth [
+TToConfigurableFiniteListElement >> uniformNodeWidth [
 
 	^ uniformNodeWidth ifNil: [ uniformNodeWidth := false ]
 ]
 
 { #category : #'t - configurable bar element' }
-TToConfigurableBarElement >> uniformNodeWidth: aBoolean [
+TToConfigurableFiniteListElement >> uniformNodeWidth: aBoolean [
 
 	uniformNodeWidth = aBoolean ifTrue: [ ^ self ].
 	uniformNodeWidth := aBoolean.

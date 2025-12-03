@@ -1,3 +1,12 @@
+"
+I'm composed of three containers (`BlElement`) start, middle, and end.
+I support
+- start interspace: that represents the space between the start, the middle element.
+- end interspace the same as above
+- start flexible qnd end flexible that control the behavior of such elements if I have a fixed size or match parent.
+
+In addition, I offer startGap end endGap to support a kind of tabulation of start and end element. This is used to align the middle element in presence of starting icons.
+"
 Trait {
 	#name : #TToTripletContainer,
 	#instVars : [

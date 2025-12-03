@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTabNodeManager,
-	#superclass : #ToCheckableBarNodeManager,
-	#category : #'Toplo-Widget-TabPane-TabBar'
+	#superclass : #ToCheckableFiniteListNodeManager,
+	#category : #'Toplo-Widget-TabPane-TabFiniteList'
 }
 
 { #category : #initialization }

@@ -4,8 +4,8 @@ I'm a composite of Menu items. I can behave as a menu item (this is why I inheri
 Class {
 	#name : #ToMenu,
 	#superclass : #ToMenuItem,
-	#traits : 'TToItemBarContainer + TToMenuItemBarContainer + TToMenuWindowModel',
-	#classTraits : 'TToItemBarContainer classTrait + TToMenuItemBarContainer classTrait + TToMenuWindowModel classTrait',
+	#traits : 'TToItemFiniteListContainer + TToMenuItemBarContainer + TToMenuWindowModel',
+	#classTraits : 'TToItemFiniteListContainer classTrait + TToMenuItemBarContainer classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
 		'isSubmenu',
 		'builder',
@@ -166,7 +166,7 @@ ToMenu >> menuWindow [
 { #category : #'t - item bar container - initializing' }
 ToMenu >> newItemBar [
 
-	^ ToMenuItemBarElement new
+	^ ToMenuItemFiniteListElement new
 ]
 
 { #category : #skin }

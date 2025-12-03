@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'label'
 	],
-	#category : #'Toplo-Widget-List-Tests-ItemBar'
+	#category : #'Toplo-Widget-List-Tests-ItemFiniteList'
 }
 
 { #category : #initialization }

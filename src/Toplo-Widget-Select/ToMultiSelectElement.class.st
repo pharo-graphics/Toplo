@@ -112,7 +112,7 @@ ToMultiSelectElement >> initialize [
 { #category : #'instance creation' }
 ToMultiSelectElement >> innerElementClass [
 
-	^ ToMultiSelectBarElement
+	^ ToMultiSelectFiniteListElement
 ]
 
 { #category : #accessing }

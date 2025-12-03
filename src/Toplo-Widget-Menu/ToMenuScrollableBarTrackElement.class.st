@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMenuScrollableBarTrackElement,
-	#superclass : #ToScrollableBarTrackElement,
+	#superclass : #ToScrollableFiniteListTrackElement,
 	#category : #'Toplo-Widget-Menu-ItemBar'
 }
 
@@ -22,5 +22,5 @@ ToMenuScrollableBarTrackElement >> applyConfiguration [
 { #category : #layout }
 ToMenuScrollableBarTrackElement >> flowLayoutClass [
 
-	^ ToMenuBarFlowLayout 
+	^ ToMenuFiniteListFlowLayout 
 ]

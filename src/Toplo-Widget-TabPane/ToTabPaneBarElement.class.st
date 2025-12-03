@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTabPaneBarElement,
-	#superclass : #ToTabBarElement,
+	#superclass : #ToTabFiniteListElement,
 	#category : #'Toplo-Widget-TabPane-TabPane'
 }
 

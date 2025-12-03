@@ -5,21 +5,15 @@ Class {
 	#classTraits : 'TToElementWithResizeGrips classTrait',
 	#instVars : [
 		'paneElement',
-		'barElement'
+		'finiteListElement'
 	],
 	#category : #'Toplo-Widget-InnerWindow-Core'
 }
 
 { #category : #accessing }
-ToInnerWindow >> bar [
-
-	^ barElement 
-]
-
-{ #category : #accessing }
 ToInnerWindow >> closeButton [ 
 
-	^ barElement childWithId: #'close-button' ifNone: [  ]
+	^ finiteListElement childWithId: #'close-button' ifNone: [  ]
 ]
 
 { #category : #initialization }
@@ -115,7 +109,13 @@ ToInnerWindow >> defaultTitle [
 { #category : #accessing }
 ToInnerWindow >> expandButton [ 
 
-	^ barElement childWithId: #'expand-button' ifNone: [  ]
+	^ finiteListElement childWithId: #'expand-button' ifNone: [  ]
+]
+
+{ #category : #accessing }
+ToInnerWindow >> finiteList [
+
+	^ finiteListElement 
 ]
 
 { #category : #initialization }
@@ -132,16 +132,16 @@ ToInnerWindow >> initialize [
 { #category : #accessing }
 ToInnerWindow >> initializeBarElement [
 
-	barElement := self defaultBarElement.
-	barElement addEventHandler: self newBarPullHandler.
-	self root addChild: barElement at: 1
+	finiteListElement := self defaultBarElement.
+	finiteListElement addEventHandler: self newBarPullHandler.
+	self root addChild: finiteListElement at: 1
 ]
 
 { #category : #accessing }
 ToInnerWindow >> initializePaneElement [
 
 	paneElement := self defaultPaneElement.
-	self root addChild: paneElement after: barElement
+	self root addChild: paneElement after: finiteListElement
 ]
 
 { #category : #skin }
@@ -149,7 +149,7 @@ ToInnerWindow >> installRawStyle [
 
 	super installRawStyle.
 
-	self bar
+	self finiteList
 		padding: (BlInsets top: 2 bottom: 1);
 		outskirts: BlOutskirts inside;
 		border: (	self valueOfTokenNamed: #'color-border')
@@ -192,5 +192,5 @@ ToInnerWindow >> title: aString [
 { #category : #accessing }
 ToInnerWindow >> titleLabel [
 
-	^ barElement childWithId: #'title-label' ifNone: [  ]
+	^ finiteListElement childWithId: #'title-label' ifNone: [  ]
 ]

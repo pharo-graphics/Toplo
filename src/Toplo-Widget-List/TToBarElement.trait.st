@@ -12,7 +12,7 @@ TToBarElement >> addFakeNodeContainer: aNodeContainer [
 { #category : #'t - bar element' }
 TToBarElement >> defaultInnerElementClass [
 
-	^ ToInnerBarElement 
+	^ ToInnerFiniteListElement 
 ]
 
 { #category : #'t - bar element - fake container' }

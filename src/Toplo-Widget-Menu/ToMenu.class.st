@@ -166,7 +166,7 @@ ToMenu >> menuWindow [
 { #category : #'t - item bar container - initializing' }
 ToMenu >> newItemBar [
 
-	^ ToMenuItemBarElement new
+	^ ToMenuItemFiniteListElement new
 ]
 
 { #category : #skin }

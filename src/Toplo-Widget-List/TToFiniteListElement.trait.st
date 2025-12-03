@@ -1,22 +1,22 @@
 Trait {
-	#name : #TToBarElement,
+	#name : #TToFiniteListElement,
 	#category : #'Toplo-Widget-List-Core-BarElement'
 }
 
 { #category : #'t - bar element - fake container' }
-TToBarElement >> addFakeNodeContainer: aNodeContainer [
+TToFiniteListElement >> addFakeNodeContainer: aNodeContainer [
 
 	self addChild: aNodeContainer at: 1
 ]
 
 { #category : #'t - bar element' }
-TToBarElement >> defaultInnerElementClass [
+TToFiniteListElement >> defaultInnerElementClass [
 
 	^ ToInnerFiniteListElement 
 ]
 
 { #category : #'t - bar element - fake container' }
-TToBarElement >> fakeNodeContainer [
+TToFiniteListElement >> fakeNodeContainer [
 
 	^ (self hasChildren and: [ self firstChild isFake ])
 		  ifTrue: [ self firstChild ]
@@ -24,13 +24,13 @@ TToBarElement >> fakeNodeContainer [
 ]
 
 { #category : #'t - bar element' }
-TToBarElement >> initializeAsBarElement [
+TToFiniteListElement >> initializeAsBarElement [
 
 	self installFakeNodeContainer
 ]
 
 { #category : #'t - bar element - fake container' }
-TToBarElement >> installFakeNodeContainer [
+TToFiniteListElement >> installFakeNodeContainer [
 	" the fake node is added in case of an empty data source to ensure a 
 	suitable minimum height according to the node class, the node builder 
 	and the data kind."
@@ -46,27 +46,27 @@ TToBarElement >> installFakeNodeContainer [
 ]
 
 { #category : #'t - bar element - fake container' }
-TToBarElement >> reinstallFakeNodeContainer [
+TToFiniteListElement >> reinstallFakeNodeContainer [
 
 	self uninstallFakeNodeContainer.
 	self installFakeNodeContainer
 ]
 
 { #category : #'t - bar element - fake container' }
-TToBarElement >> removeFakeNodeContainer [
+TToFiniteListElement >> removeFakeNodeContainer [
 
 	self fakeNodeContainer ifNil: [ Error signal: 'Fake node container not present' ].
 	self fakeNodeContainer removeFromParent
 ]
 
 { #category : #'t - bar element - fake container' }
-TToBarElement >> sample [
+TToFiniteListElement >> sample [
 
 	^ self nodeManager fakeDataItem
 ]
 
 { #category : #'t - bar element - fake container' }
-TToBarElement >> sample: aDataItem [
+TToFiniteListElement >> sample: aDataItem [
 
 	self nodeManager fakeDataItem: aDataItem.
 	self reinstallFakeNodeContainer.
@@ -75,13 +75,13 @@ TToBarElement >> sample: aDataItem [
 ]
 
 { #category : #'t - bar element' }
-TToBarElement >> trackElement [
+TToFiniteListElement >> trackElement [
 
 	^ self innerElement trackElement
 ]
 
 { #category : #'t - bar element - fake container' }
-TToBarElement >> uninstallFakeNodeContainer [
+TToFiniteListElement >> uninstallFakeNodeContainer [
 	" the fake node is added in case of an empty data source to ensure a 
 	suitable minimum height according to the node class, the node builder 
 	and the data kind."

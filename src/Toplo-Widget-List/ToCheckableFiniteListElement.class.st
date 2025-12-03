@@ -2,21 +2,21 @@
 I'm list whose contents is a checkable element (i.e. a list of toggle elements)
 "
 Class {
-	#name : #ToCheckableBarElement,
-	#superclass : #ToItemBarElement,
+	#name : #ToCheckableFiniteListElement,
+	#superclass : #ToItemFiniteListElement,
 	#traits : 'TToCheckableGroupOwner + TToCheckableListElement',
 	#classTraits : 'TToCheckableGroupOwner classTrait + TToCheckableListElement classTrait',
 	#category : #'Toplo-Widget-List-ItemBar'
 }
 
 { #category : #'t - item list - accessing' }
-ToCheckableBarElement >> defaultNodeManagerClass [ 
+ToCheckableFiniteListElement >> defaultNodeManagerClass [ 
 
 	^ ToCheckableBarNodeManager 
 ]
 
 { #category : #initialization }
-ToCheckableBarElement >> initialize [
+ToCheckableFiniteListElement >> initialize [
 
 	super initialize.
 	self initializeAsCheckableListElement

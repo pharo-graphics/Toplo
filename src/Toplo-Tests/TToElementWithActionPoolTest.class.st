@@ -175,7 +175,7 @@ TToElementWithActionPoolTest >> testNewClickAction [
 TToElementWithActionPoolTest >> testNewGroupCheckAction [
 
 	| group received theGroup theList |
-	group := ToCheckableBarElement new.
+	group := ToCheckableFiniteListElement new.
 	group withStrictCheckingStrategy.
 	{ 'Monday'. 'Tuesday'. 'Wednesday'. 'Thursday'. 'Friday' } do: [ :day |
 			group addItem: (ToToggleButton new

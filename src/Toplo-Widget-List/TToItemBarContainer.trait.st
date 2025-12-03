@@ -198,7 +198,7 @@ TToItemBarContainer >> items [
 { #category : #'t - item bar container - initializing' }
 TToItemBarContainer >> newItemBar [
 
-	^ ToItemBarElement new
+	^ ToItemFiniteListElement new
 ]
 
 { #category : #'t - item bar container - accessing' }

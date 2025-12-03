@@ -1,8 +1,8 @@
 Class {
 	#name : #ToSpecificBarNodeForTest,
 	#superclass : #ToListNode,
-	#traits : 'TToBarNode',
-	#classTraits : 'TToBarNode classTrait',
+	#traits : 'TToFiniteListNode',
+	#classTraits : 'TToFiniteListNode classTrait',
 	#category : #'Toplo-Widget-List-Tests-Core-BarElement'
 }
 

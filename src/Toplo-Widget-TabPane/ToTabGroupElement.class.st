@@ -58,7 +58,7 @@ ToTabGroupElement >> atStartSide: aBoolean [
 { #category : #initialization }
 ToTabGroupElement >> barElementClass [
 
-	^ ToTabBarElement 
+	^ ToTabFiniteListElement 
 ]
 
 { #category : #configuration }

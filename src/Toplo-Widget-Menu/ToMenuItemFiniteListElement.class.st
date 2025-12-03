@@ -2,27 +2,27 @@
 I'm a list whose node contents is a menu item element.
 "
 Class {
-	#name : #ToMenuItemBarElement,
-	#superclass : #ToItemBarElement,
+	#name : #ToMenuItemFiniteListElement,
+	#superclass : #ToItemFiniteListElement,
 	#traits : 'TToMenuItemBar',
 	#classTraits : 'TToMenuItemBar classTrait',
 	#category : #'Toplo-Widget-Menu-ItemBar'
 }
 
 { #category : #'t - bar element' }
-ToMenuItemBarElement >> defaultInnerElementClass [
+ToMenuItemFiniteListElement >> defaultInnerElementClass [
 
 	^ ToMenuInnerBarElement
 ]
 
 { #category : #'t - item bar element - accessing' }
-ToMenuItemBarElement >> defaultNodeManagerClass [
+ToMenuItemFiniteListElement >> defaultNodeManagerClass [
 
 	^ ToMenuItemNodeManager
 ]
 
 { #category : #initialization }
-ToMenuItemBarElement >> initialize [
+ToMenuItemFiniteListElement >> initialize [
 
 	super initialize.
 	
@@ -37,7 +37,7 @@ ToMenuItemBarElement >> initialize [
 ]
 
 { #category : #skin }
-ToMenuItemBarElement >> newRawSkin [ 
+ToMenuItemFiniteListElement >> newRawSkin [ 
 
 	^ ToMenuItemBarElementSkin new
 ]

@@ -27,7 +27,7 @@ ToItemBarNodeManager >> newHolder [
 { #category : #'instance creation' }
 ToItemBarNodeManager >> newNodeForHolder: aNodeHolder [
 
-	^ ToBarItemNode new
+	^ ToFiniteListItemNode new
 ]
 
 { #category : #initialization }

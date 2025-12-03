@@ -1,19 +1,19 @@
 Class {
-	#name : #ToGenericBarElement,
+	#name : #ToGenericFiniteListElement,
 	#superclass : #ToGenericListElement,
-	#traits : 'TToConfigurableBarElement + TToBarElement',
-	#classTraits : 'TToConfigurableBarElement classTrait + TToBarElement classTrait',
+	#traits : 'TToConfigurableBarElement + TToFiniteListElement',
+	#classTraits : 'TToConfigurableBarElement classTrait + TToFiniteListElement classTrait',
 	#category : #'Toplo-Widget-List-Core-BarElement'
 }
 
 { #category : #initialization }
-ToGenericBarElement >> defaultNodeManagerClass [
+ToGenericFiniteListElement >> defaultNodeManagerClass [
 
 	^ ToGenericBarNodeManager 
 ]
 
 { #category : #initialization }
-ToGenericBarElement >> initialize [
+ToGenericFiniteListElement >> initialize [
 
 	super initialize.
 	self initializeAsBarElement.
@@ -28,13 +28,13 @@ ToGenericBarElement >> initialize [
 ]
 
 { #category : #skin }
-ToGenericBarElement >> newRawSkin [ 
+ToGenericFiniteListElement >> newRawSkin [ 
 
 	^ ToBarElementSkin new
 ]
 
 { #category : #accessing }
-ToGenericBarElement >> nodeBuilder: aValuable [
+ToGenericFiniteListElement >> nodeBuilder: aValuable [
 	"aValuable takes 3 optional args: first, the node to build, second, the dataItem and third, the holder in the list element "
 
 	super nodeBuilder: aValuable.
@@ -44,7 +44,7 @@ ToGenericBarElement >> nodeBuilder: aValuable [
 ]
 
 { #category : #accessing }
-ToGenericBarElement >> nodeFactory: aValuable [
+ToGenericFiniteListElement >> nodeFactory: aValuable [
 	" aValuable that takes a node holder as unique argument and which running results in a new node "
 
 	super nodeFactory: aValuable.

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToDemoPresenter,
 	#superclass : #BlDemoPresenter,
-	#category : #'Toplo-Demo'
+	#category : #'Toplo-Demo-Presenter'
 }
 
 { #category : #demos }

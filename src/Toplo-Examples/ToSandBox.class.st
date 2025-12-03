@@ -86,7 +86,7 @@ ToSandBox class >> accordionWithLabelText: aString [
 	^ inst
 ]
 
-{ #category : #bar }
+{ #category : #'finite list' }
 ToSandBox class >> alignmentChooserFor: aCheckableBar [
 
 	| buttons alignContainer alignGroup |
@@ -125,230 +125,6 @@ ToSandBox class >> alignmentChooserFor: aCheckableBar [
 	alignContainer layout cellSpacing: 0.
 	alignContainer addChildren: alignGroup registeredCheckables.
 	^ alignContainer
-]
-
-{ #category : #bar }
-ToSandBox class >> barConfigurationBoardFor: aBar [
-
-	| menu confPane animSwitch |
-	confPane := ToPane vertical.
-	confPane id: #configurationPane.
-	confPane matchParent.
-	confPane padding: (BlInsets all: 5).
-
-	menu := ToMenu new.
-	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
-	menu addItem: (ToRadioMenuItem new
-			 label: (ToLabel text: 'Dark theme');
-			 checkAction: [ :evt |
-					 evt currentTarget space toTheme: (evt target isChecked
-								  ifTrue: [ ToRawDarkTheme new ]
-								  ifFalse: [ ToRawTheme new ]) ];
-			 in: [ :rad |
-				 rad checked: Toplo defaultThemeClass = ToRawDarkTheme ];
-			 yourself).
-	menu addItem: (ToMenuItem new
-			 label: (ToLabel text: 'Space statistics');
-			 clickAction: [ aBar space showStatisticsWindow ];
-			 yourself).
-	menu addItem: (ToMenuItem new
-			 label: (ToLabel text: 'Inspect');
-			 clickAction: [ aBar space root inspect ];
-			 yourself).
-	menu addItem: (ToRadioMenuItem new
-			 label: (ToLabel text: 'Disabled bar');
-			 checkAction: [ :evt | aBar disabled: evt target isChecked ];
-			 yourself).
-	confPane addChild: menu.
-
-	{
-		(#isVertical -> #isVertical: -> 'Vertical').
-		(#isFlowable -> #isFlowable: -> 'Flowable').
-		(#uniformNodeWidth -> #uniformNodeWidth: -> 'Uniform width').
-		(#uniformNodeHeight -> #uniformNodeHeight: -> 'Uniform height').
-		(#isScrollable -> #isScrollable: -> 'Scrollable').
-		(#autoDistribute -> #autoDistribute: -> 'Auto-distribute').
-		([ aBar selectionMode selectOnPressed ]
-		 -> [ :v | aBar selectionMode selectOnPressed: v ]
-		 -> 'Select on pressed').
-		([ aBar selectionMode deselectOnPressed ]
-		 -> [ :v | aBar selectionMode deselectOnPressed: v ]
-		 -> 'Deselect on pressed').
-		([ aBar selectionMode makeDisabledUnselectable ]
-		 -> [ :v | aBar selectionMode makeDisabledUnselectable: v ]
-		 -> 'Disabled items are unselectable') } do: [ :assoc |
-			| switch |
-			switch := ToSwitchButton new labelText: assoc value value.
-			switch checkAction: [ :evt  |
-					assoc key value isSymbol
-						ifTrue: [ aBar perform: assoc key value with: evt target isChecked ]
-						ifFalse: [ assoc key value value: evt target isChecked ] ].
-
-			switch startFlexible: true.
-			switch hMatchParent.
-			confPane addChild: switch.
-
-			aBar whenConfigurationAppliedDo: [
-					assoc key key isSymbol ifTrue: [
-						switch checked: (aBar perform: assoc key key) ] ] ].
-
-	animSwitch := ToSwitchButton new labelText: 'Animate transition'.
-	animSwitch checkAction: [ :evt  |
-			| d |
-			d := evt target isChecked
-				     ifTrue: [ 200 milliSeconds ]
-				     ifFalse: [ 0 milliSeconds ].
-			aBar selectionOption animationDuration: d.
-			aBar secondarySelectionOption animationDuration: d ].
-
-	animSwitch startFlexible: true.
-	animSwitch hMatchParent.
-	confPane addChild: animSwitch.
-	confPane addChild: (self resizerBoardFor: aBar).
-	^ confPane
-]
-
-{ #category : #bar }
-ToSandBox class >> barDashBoardFor: aBar [
-
-	| mainPane barPane confPane |
-	mainPane := ToPane horizontal.
-	mainPane matchParent.
-	barPane := ToPane horizontal.
-	barPane matchParent.
-	barPane addChild: aBar.
-
-	confPane := self barConfigurationBoardFor: aBar.
-	confPane padding: (BlInsets all: 5).
-	mainPane addChildren: {
-			confPane.
-			barPane }.
-	^ mainPane
-]
-
-{ #category : #bar }
-ToSandBox class >> barWithData: aCollection [
-
-	| bar confBoard barPane rootPane selectionModeBoard rand |
-	rand := Random new.
-	bar := ToGenericFiniteListElement new.
-	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
-	bar nodeBuilder: [ :node :dataItem :holder |
-			| fontSize triplet label |
-			triplet := ToTripletElement new.
-			triplet
-				hMatchParent;
-				vFitContent.
-			fontSize := rand nextIntegerBetween: 10 and: 16.
-			label := (ToLabel text:
-					          holder position asString , ': ' , dataItem asString)
-				         fontSize: fontSize;
-				         yourself.
-			triplet startElement: ToIconicRemoveButton new.
-			triplet startElement clickAction: [
-				triplet startElement fireEvent: ToRemoveButtonClickedEvent new ].
-			triplet middleElement: label.
-			triplet startInterspace: 10.
-			triplet constraintsDo: [ :c | c linear vertical alignCenter ].
-			node addChild: triplet ].
-
-	bar contextMenuBuilder: [ :menu :request |
-			| idxes target |
-			target := request currentTarget.
-			idxes := request selectedIndexes.
-			menu addItem: (ToMenuItem new
-					 labelText: 'Inspect list';
-					 clickAction: [ target inspect ];
-					 yourself).
-			menu addItem: (ToMenuItem new
-					 labelText: 'Remove all';
-					 clickAction: [ target dataAccessor removeAll ];
-					 yourself).
-			menu addItem: (ToMenuItem new
-					 labelText: 'Add first a new item';
-					 clickAction: [
-							 target dataAccessor addFirst:
-									 String loremIpsum substrings first , ' (added first)' ];
-					 yourself).
-			menu addItem: (ToMenuItem new
-					 labelText: 'Add last a new item';
-					 clickAction: [
-							 target dataAccessor add:
-									 String loremIpsum substrings first , ' (added last)' ];
-					 yourself).
-			idxes ifNotEmpty: [
-					menu addItem: (ToMenu new
-							 labelText: 'Selected node';
-							 in: [ :m |
-									 m addItem: (ToMenuItem new
-												  labelText: 'Inspect';
-												  clickAction: [
-													  Array withAll:
-															  (idxes collect: [ :idx | target nodeContainerAt: idx ])
-																  inspect ];
-												  yourself).
-									 m addItem: (ToMenuItem new
-											  labelText: 'Remove';
-											  clickAction: [
-												  idxes reverseDo: [ :idx |
-														  bar dataAccessor removeAt: idx ] ];
-											  yourself).
-									 m addItem: (ToMenuItem new
-											  labelText: 'Unable/disable';
-											  clickAction: [
-													  idxes do: [ :idx |
-															  (bar nodeContainerAt: idx) disabled:
-																	  (bar nodeContainerAt: idx) isEnabled ] ];
-											  yourself).
-									 m addItem: (ToMenuItem new
-											  labelText: 'Unselectable';
-											  clickAction: [
-												  idxes do: [ :idx |
-														  bar unselectableSelecter selectIndex: idx ] ];
-											  yourself).
-									 m addItem: (ToMenuItem new
-											  labelText: 'Insert before';
-											  clickAction: [
-													  | idx |
-													  idx := idxes first.
-													  target dataAccessor
-														  add:
-															  String loremIpsum substrings first
-															  , ' (inserted before)'
-														  beforeIndex: idx ];
-											  yourself).
-									 m addItem: (ToMenuItem new
-											  labelText: 'Insert after';
-											  clickAction: [
-													  | idx |
-													  idx := idxes last.
-													  target dataAccessor
-														  add:
-															  String loremIpsum substrings first
-															  , ' (inserted after)'
-														  afterIndex: idx ];
-											  yourself) ];
-							 yourself) ] ].
-
-	confBoard := self barConfigurationBoardFor: bar.
-	selectionModeBoard := self selectionModeChooserFor: bar.
-	confBoard addChild: selectionModeBoard.
-
-	bar dataAccessor addAll: aCollection.
-	bar isFlowable: true.
-	bar uniformNodeWidth: true.
-	rootPane := ToPane horizontal.
-	rootPane padding: (BlInsets all: 5).
-	rootPane matchParent.
-	barPane := ToPane horizontal.
-	barPane padding: (BlInsets all: 5).
-	barPane matchParent.
-	barPane addChild: bar.
-
-	rootPane addChild: confBoard.
-	rootPane addChild: barPane.
-	rootPane addDividers first weight: 0.5.
-	rootPane openInSpace
 ]
 
 { #category : #window }
@@ -451,7 +227,7 @@ ToSandBox class >> buildSelectListElementIn: aSelectElement withIconProvider: an
 	aSelectElement popupListElement dataAccessor addAll: iconDescs
 ]
 
-{ #category : #bar }
+{ #category : #'finite list' }
 ToSandBox class >> checkingStrategyChooserFor: aCheckableBar [
 
 	| checkingStrategyContainer checkingStrategyGroupPane |
@@ -1667,8 +1443,8 @@ ToSandBox class >> example_CheckBoxWithDefaultStyleSheetDarkTheme [
 	space show
 ]
 
-{ #category : #bar }
-ToSandBox class >> example_CheckableBarElement [
+{ #category : #'finite list' }
+ToSandBox class >> example_CheckableFiniteListElement [
 
 	| bar space container |
 	container := ToPane new.
@@ -2408,6 +2184,26 @@ ToSandBox class >> example_FilterOnList2WithStatesOfAmerica [
 	pane addChild: listElement.
 	pane addChild: filterField.
 	pane openInSpace
+]
+
+{ #category : #tag }
+ToSandBox class >> example_FiniteList2 [
+
+	| tb dashBoard rootPane |
+	tb := ToItemFiniteListElement new.
+	tb horizontal: true.
+	tb dataAccessor addAll:
+		(ToSandBox statesOfAmerica collect: [ :s | ToTagElement new labelText: s; yourself ]).
+	tb openInSpace 
+	"dashBoard := self barConfigurationBoardFor: tb.
+	rootPane := ToPane horizontal.
+	rootPane padding: (BlInsets all: 5).
+	rootPane matchParent.
+
+	rootPane addChild: dashBoard.
+	rootPane addChild: tb.
+	rootPane addDividers.
+	rootPane openInSpace"
 ]
 
 { #category : #float }
@@ -5349,7 +5145,7 @@ ToSandBox class >> example_TabPaneWithCompactHeaderLayoutMode [
 ]
 
 { #category : #tag }
-ToSandBox class >> example_TagBar [
+ToSandBox class >> example_TagFiniteList [
 
 	| tb dashBoard rootPane |
 	tb := ToTagBarElement new.
@@ -5359,7 +5155,7 @@ ToSandBox class >> example_TagBar [
 	tb tagBuilder: [ :tagElement :aStateName :holder |
 		tagElement labelText: aStateName , ' ' , holder position asString.
 		tagElement removable: true ].
-	dashBoard := self barConfigurationBoardFor: tb.
+	dashBoard := self finiteListConfigurationBoardFor: tb.
 	rootPane := ToPane horizontal.
 	rootPane padding: (BlInsets all: 5).
 	rootPane matchParent.
@@ -5368,26 +5164,6 @@ ToSandBox class >> example_TagBar [
 	rootPane addChild: tb.
 	rootPane addDividers.
 	rootPane openInSpace
-]
-
-{ #category : #tag }
-ToSandBox class >> example_TagBar2 [
-
-	| tb dashBoard rootPane |
-	tb := ToItemFiniteListElement new.
-	tb horizontal: true.
-	tb dataAccessor addAll:
-		(ToSandBox statesOfAmerica collect: [ :s | ToTagElement new labelText: s; yourself ]).
-	tb openInSpace 
-	"dashBoard := self barConfigurationBoardFor: tb.
-	rootPane := ToPane horizontal.
-	rootPane padding: (BlInsets all: 5).
-	rootPane matchParent.
-
-	rootPane addChild: dashBoard.
-	rootPane addChild: tb.
-	rootPane addDividers.
-	rootPane openInSpace"
 ]
 
 { #category : #select }
@@ -5927,20 +5703,6 @@ ToSandBox class >> example_badgeOnAnElement [
 	space show
 ]
 
-{ #category : #bar }
-ToSandBox class >> example_bar [
-
-	self barWithData: ToSandBox statesOfAmerica. "copyFrom: 1 to: 20"
-
-]
-
-{ #category : #bar }
-ToSandBox class >> example_bar2 [
-
-	self barWithData: { 'B'. 'BB'. 'BB'}
-
-]
-
 { #category : #button }
 ToSandBox class >> example_buttonWith2Icons [
 
@@ -6304,6 +6066,20 @@ ToSandBox class >> example_emptyBoxWithCustomLabel [
 		             yourself.
 	box labelText: labelText.
 	box openInSpace
+]
+
+{ #category : #'finite list' }
+ToSandBox class >> example_finiteList [
+
+	self finiteListWithData: ToSandBox statesOfAmerica. "copyFrom: 1 to: 20"
+
+]
+
+{ #category : #'finite list' }
+ToSandBox class >> example_finiteList2 [
+
+	self finiteListWithData: { 'B'. 'BB'. 'BB'}
+
 ]
 
 { #category : #checkables }
@@ -9279,6 +9055,230 @@ ToSandBox class >> experiment_intervalCollection [
 	^ t
 ]
 
+{ #category : #'finite list' }
+ToSandBox class >> finiteListConfigurationBoardFor: aBar [
+
+	| menu confPane animSwitch |
+	confPane := ToPane vertical.
+	confPane id: #configurationPane.
+	confPane matchParent.
+	confPane padding: (BlInsets all: 5).
+
+	menu := ToMenu new.
+	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	menu addItem: (ToRadioMenuItem new
+			 label: (ToLabel text: 'Dark theme');
+			 checkAction: [ :evt |
+					 evt currentTarget space toTheme: (evt target isChecked
+								  ifTrue: [ ToRawDarkTheme new ]
+								  ifFalse: [ ToRawTheme new ]) ];
+			 in: [ :rad |
+				 rad checked: Toplo defaultThemeClass = ToRawDarkTheme ];
+			 yourself).
+	menu addItem: (ToMenuItem new
+			 label: (ToLabel text: 'Space statistics');
+			 clickAction: [ aBar space showStatisticsWindow ];
+			 yourself).
+	menu addItem: (ToMenuItem new
+			 label: (ToLabel text: 'Inspect');
+			 clickAction: [ aBar space root inspect ];
+			 yourself).
+	menu addItem: (ToRadioMenuItem new
+			 label: (ToLabel text: 'Disabled bar');
+			 checkAction: [ :evt | aBar disabled: evt target isChecked ];
+			 yourself).
+	confPane addChild: menu.
+
+	{
+		(#isVertical -> #isVertical: -> 'Vertical').
+		(#isFlowable -> #isFlowable: -> 'Flowable').
+		(#uniformNodeWidth -> #uniformNodeWidth: -> 'Uniform width').
+		(#uniformNodeHeight -> #uniformNodeHeight: -> 'Uniform height').
+		(#isScrollable -> #isScrollable: -> 'Scrollable').
+		(#autoDistribute -> #autoDistribute: -> 'Auto-distribute').
+		([ aBar selectionMode selectOnPressed ]
+		 -> [ :v | aBar selectionMode selectOnPressed: v ]
+		 -> 'Select on pressed').
+		([ aBar selectionMode deselectOnPressed ]
+		 -> [ :v | aBar selectionMode deselectOnPressed: v ]
+		 -> 'Deselect on pressed').
+		([ aBar selectionMode makeDisabledUnselectable ]
+		 -> [ :v | aBar selectionMode makeDisabledUnselectable: v ]
+		 -> 'Disabled items are unselectable') } do: [ :assoc |
+			| switch |
+			switch := ToSwitchButton new labelText: assoc value value.
+			switch checkAction: [ :evt  |
+					assoc key value isSymbol
+						ifTrue: [ aBar perform: assoc key value with: evt target isChecked ]
+						ifFalse: [ assoc key value value: evt target isChecked ] ].
+
+			switch startFlexible: true.
+			switch hMatchParent.
+			confPane addChild: switch.
+
+			aBar whenConfigurationAppliedDo: [
+					assoc key key isSymbol ifTrue: [
+						switch checked: (aBar perform: assoc key key) ] ] ].
+
+	animSwitch := ToSwitchButton new labelText: 'Animate transition'.
+	animSwitch checkAction: [ :evt  |
+			| d |
+			d := evt target isChecked
+				     ifTrue: [ 200 milliSeconds ]
+				     ifFalse: [ 0 milliSeconds ].
+			aBar selectionOption animationDuration: d.
+			aBar secondarySelectionOption animationDuration: d ].
+
+	animSwitch startFlexible: true.
+	animSwitch hMatchParent.
+	confPane addChild: animSwitch.
+	confPane addChild: (self resizerBoardFor: aBar).
+	^ confPane
+]
+
+{ #category : #'finite list' }
+ToSandBox class >> finiteListDashBoardFor: aBar [
+
+	| mainPane barPane confPane |
+	mainPane := ToPane horizontal.
+	mainPane matchParent.
+	barPane := ToPane horizontal.
+	barPane matchParent.
+	barPane addChild: aBar.
+
+	confPane := self finiteListConfigurationBoardFor: aBar.
+	confPane padding: (BlInsets all: 5).
+	mainPane addChildren: {
+			confPane.
+			barPane }.
+	^ mainPane
+]
+
+{ #category : #'finite list' }
+ToSandBox class >> finiteListWithData: aCollection [
+
+	| bar confBoard barPane rootPane selectionModeBoard rand |
+	rand := Random new.
+	bar := ToGenericFiniteListElement new.
+	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
+	bar nodeBuilder: [ :node :dataItem :holder |
+			| fontSize triplet label |
+			triplet := ToTripletElement new.
+			triplet
+				hMatchParent;
+				vFitContent.
+			fontSize := rand nextIntegerBetween: 10 and: 16.
+			label := (ToLabel text:
+					          holder position asString , ': ' , dataItem asString)
+				         fontSize: fontSize;
+				         yourself.
+			triplet startElement: ToIconicRemoveButton new.
+			triplet startElement clickAction: [
+				triplet startElement fireEvent: ToRemoveButtonClickedEvent new ].
+			triplet middleElement: label.
+			triplet startInterspace: 10.
+			triplet constraintsDo: [ :c | c linear vertical alignCenter ].
+			node addChild: triplet ].
+
+	bar contextMenuBuilder: [ :menu :request |
+			| idxes target |
+			target := request currentTarget.
+			idxes := request selectedIndexes.
+			menu addItem: (ToMenuItem new
+					 labelText: 'Inspect list';
+					 clickAction: [ target inspect ];
+					 yourself).
+			menu addItem: (ToMenuItem new
+					 labelText: 'Remove all';
+					 clickAction: [ target dataAccessor removeAll ];
+					 yourself).
+			menu addItem: (ToMenuItem new
+					 labelText: 'Add first a new item';
+					 clickAction: [
+							 target dataAccessor addFirst:
+									 String loremIpsum substrings first , ' (added first)' ];
+					 yourself).
+			menu addItem: (ToMenuItem new
+					 labelText: 'Add last a new item';
+					 clickAction: [
+							 target dataAccessor add:
+									 String loremIpsum substrings first , ' (added last)' ];
+					 yourself).
+			idxes ifNotEmpty: [
+					menu addItem: (ToMenu new
+							 labelText: 'Selected node';
+							 in: [ :m |
+									 m addItem: (ToMenuItem new
+												  labelText: 'Inspect';
+												  clickAction: [
+													  Array withAll:
+															  (idxes collect: [ :idx | target nodeContainerAt: idx ])
+																  inspect ];
+												  yourself).
+									 m addItem: (ToMenuItem new
+											  labelText: 'Remove';
+											  clickAction: [
+												  idxes reverseDo: [ :idx |
+														  bar dataAccessor removeAt: idx ] ];
+											  yourself).
+									 m addItem: (ToMenuItem new
+											  labelText: 'Unable/disable';
+											  clickAction: [
+													  idxes do: [ :idx |
+															  (bar nodeContainerAt: idx) disabled:
+																	  (bar nodeContainerAt: idx) isEnabled ] ];
+											  yourself).
+									 m addItem: (ToMenuItem new
+											  labelText: 'Unselectable';
+											  clickAction: [
+												  idxes do: [ :idx |
+														  bar unselectableSelecter selectIndex: idx ] ];
+											  yourself).
+									 m addItem: (ToMenuItem new
+											  labelText: 'Insert before';
+											  clickAction: [
+													  | idx |
+													  idx := idxes first.
+													  target dataAccessor
+														  add:
+															  String loremIpsum substrings first
+															  , ' (inserted before)'
+														  beforeIndex: idx ];
+											  yourself).
+									 m addItem: (ToMenuItem new
+											  labelText: 'Insert after';
+											  clickAction: [
+													  | idx |
+													  idx := idxes last.
+													  target dataAccessor
+														  add:
+															  String loremIpsum substrings first
+															  , ' (inserted after)'
+														  afterIndex: idx ];
+											  yourself) ];
+							 yourself) ] ].
+
+	confBoard := self finiteListConfigurationBoardFor: bar.
+	selectionModeBoard := self selectionModeChooserFor: bar.
+	confBoard addChild: selectionModeBoard.
+
+	bar dataAccessor addAll: aCollection.
+	bar isFlowable: true.
+	bar uniformNodeWidth: true.
+	rootPane := ToPane horizontal.
+	rootPane padding: (BlInsets all: 5).
+	rootPane matchParent.
+	barPane := ToPane horizontal.
+	barPane padding: (BlInsets all: 5).
+	barPane matchParent.
+	barPane addChild: bar.
+
+	rootPane addChild: confBoard.
+	rootPane addChild: barPane.
+	rootPane addDividers first weight: 0.5.
+	rootPane openInSpace
+]
+
 { #category : #'labeled icon' }
 ToSandBox class >> labeledIconlWithIconAndText [
 
@@ -9652,7 +9652,7 @@ ToSandBox class >> path_sharp_electric_bike_SVG [
 	^ '<svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24"><g><rect fill="none" height="24" width="24"/></g><g><g><path d="M19,7h-0.82L16,1h-4v2h2.6l1.46,4h-4.81l-0.36-1H12V4H7v2h1.75l1.82,5H9.9C9.46,8.77,7.59,7.12,5.25,7.01 C2.45,6.87,0,9.2,0,12c0,2.8,2.2,5,5,5c2.46,0,4.45-1.69,4.9-4h4.2c0.44,2.23,2.31,3.88,4.65,3.99c2.8,0.13,5.25-2.19,5.25-5 C24,9.2,21.8,7,19,7z M7.82,13c-0.4,1.17-1.49,2-2.82,2c-1.68,0-3-1.32-3-3s1.32-3,3-3c1.33,0,2.42,0.83,2.82,2H5v2H7.82z M14.1,11h-1.4l-0.73-2H15C14.56,9.58,14.24,10.25,14.1,11z M19,15c-1.68,0-3-1.32-3-3c0-0.93,0.41-1.73,1.05-2.28l0.96,2.64 l1.88-0.68l-0.97-2.67C18.94,9.01,18.97,9,19,9c1.68,0,3,1.32,3,3S20.68,15,19,15z"/><polygon points="11,20 7,20 13,23 13,21 17,21 11,18"/></g></g></svg>'
 ]
 
-{ #category : #bar }
+{ #category : #'finite list' }
 ToSandBox class >> resizerBoardFor: aBar [
 
 	| pane group container |
@@ -9728,7 +9728,7 @@ ToSandBox class >> segmentedDashBoardFor: aSegmentedElement [
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
 
-	confPane := self barConfigurationBoardFor: aSegmentedElement.
+	confPane := self finiteListConfigurationBoardFor: aSegmentedElement.
 	(confPane childWithId: #selectOnPressedSwitch ifFound: [:child | child disable]).
 	(confPane childWithId: #deselectOnPressedSwitch ifFound: [:child | child disable]).
 	confPane padding: (BlInsets all: 5).
@@ -9805,7 +9805,7 @@ ToSandBox class >> selectionChangedEvent: anEvent [
 	"anEvent traceCr."
 ]
 
-{ #category : #bar }
+{ #category : #'finite list' }
 ToSandBox class >> selectionModeChooserFor: aBar [
 
 	| selectionModeGroup selectionModeContainer |
@@ -9901,7 +9901,7 @@ ToSandBox class >> statesOfAmericaWithGroups [
 ToSandBox class >> tabBarElementDashBoardFor: aTabBarElement [
 
 	| confPane barPane mainPane |
-	confPane := self barConfigurationBoardFor: aTabBarElement.
+	confPane := self finiteListConfigurationBoardFor: aTabBarElement.
 	barPane := ToPane vertical.
 	barPane matchParent.
 	barPane addChild: aTabBarElement.
@@ -9921,7 +9921,7 @@ ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
 
-	confPane := self barConfigurationBoardFor: aTabGroupElement.
+	confPane := self finiteListConfigurationBoardFor: aTabGroupElement.
 	startToEndSwitch := ToSwitchButton new labelText: 'At start'.
 	startToEndSwitch checkAction: [ :evt | aTabGroupElement atStartSide: evt target isChecked ].
 

@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'l'
 	],
-	#category : #'Toplo-Widget-Menu-Tests-ItemBar'
+	#category : #'Toplo-Widget-Menu-Tests-ItemFiniteList'
 }
 
 { #category : #running }

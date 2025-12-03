@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'table'
 	],
-	#category : #'Toplo-Widget-Table-Tests-Core'
+	#category : #'Toplo-Widget-Table-Tests'
 }
 
 { #category : #running }

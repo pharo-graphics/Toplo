@@ -1,4 +1,5 @@
 "
+I'm node manager for finite lists.
 My fakeData item is an item that is used to define the size when the list has no element. 
 This avoids flickering or changing size when inappropriate.
 "

@@ -293,13 +293,13 @@ ToSelectElement >> popupWindowPlacement: aPlacement [
 { #category : #accessing }
 ToSelectElement >> refresh [
 
-	self innerElement refreshFromPopupListSelection
+	self refreshHeaderFromPopupListSelection
 ]
 
 { #category : #'accessing - selection' }
-ToSelectElement >> refreshFromPopupListSelection [
+ToSelectElement >> refreshHeaderFromPopupListSelection [
 
-	self header refreshFromPopupListSelection
+	self header refreshHeaderFromPopupListSelection
 ]
 
 { #category : #accessing }

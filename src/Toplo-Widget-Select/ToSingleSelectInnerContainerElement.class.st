@@ -36,7 +36,7 @@ ToSingleSelectInnerContainerElement >> dataViewBuilder: aValuable [
 	" aValuable takes 2 args: the dataItemView and the selected dataItem "
 
 	dataViewBuilder := aValuable.
-	self refreshFromPopupListSelection.
+	self refreshHeaderFromPopupListSelection.
 	fakeDataItem ifNil: [ ^ self ].
 	self reinstallFakeDataView
 ]
@@ -138,11 +138,11 @@ ToSingleSelectInnerContainerElement >> refresh [
 		deprecated: '#refreshFromPopupListSelection instead'
 		transformWith:
 		'`@rcvr refresh' -> '`@rcvr refreshFromPopupListSelection'.
-	self refreshFromPopupListSelection
+	self refreshHeaderFromPopupListSelection
 ]
 
 { #category : #'t - select inner container' }
-ToSingleSelectInnerContainerElement >> refreshFromPopupListSelection [
+ToSingleSelectInnerContainerElement >> refreshHeaderFromPopupListSelection [
 
 	| selectedIndex dataItem selectionModel originalData changedEvent |
 	selectElement showHidePlaceholder.

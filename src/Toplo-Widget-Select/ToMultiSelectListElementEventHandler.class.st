@@ -19,7 +19,7 @@ ToMultiSelectListElementEventHandler >> listPrimarySelectionChangedEvent: anEven
 	| listElement selectElement selectedDataItems changedEvent |
 	listElement := anEvent currentTarget.
 	selectElement := listElement selectElement.
-	selectElement refreshFromPopupListSelection.
+	selectElement refreshHeaderFromPopupListSelection.
 	selectedDataItems := selectElement selectionModel
 		                     selectedIndexesCollect: [ :idx |
 		                     selectElement sieve originalData at: idx ].

@@ -19,7 +19,7 @@ ToSelectListElementEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEv
 	| listElement |
 	super infiniteDataSourceEmptinessChangedEvent: anEvent.
 	listElement := anEvent currentTarget.
-	listElement selectElement innerElement refreshFromPopupListSelection
+	listElement selectElement innerElement refreshHeaderFromPopupListSelection
 ]
 
 { #category : #'mouse handlers' }
@@ -38,7 +38,8 @@ ToSelectListElementEventHandler >> mouseUpEvent: anEvent [
 ToSelectListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
 
 	| listElement selectElement |
+	"'sieveSelectionChangedEvent:' traceCr."
 	listElement := anEvent currentTarget.
 	selectElement := listElement selectElement.
-	selectElement refreshFromPopupListSelection
+	selectElement refreshHeaderFromPopupListSelection
 ]

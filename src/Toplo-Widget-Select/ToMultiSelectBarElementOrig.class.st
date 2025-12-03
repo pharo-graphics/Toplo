@@ -86,7 +86,7 @@ ToMultiSelectBarElementOrig >> defaultNodeManagerClass [
 ToMultiSelectBarElementOrig >> extentChanged [
 
 	super extentChanged.
-	self refreshFromPopupListSelection
+	self refreshHeaderFromPopupListSelection
 ]
 
 { #category : #'t - select inner container' }
@@ -128,7 +128,7 @@ ToMultiSelectBarElementOrig >> keepPickOrder [
 ToMultiSelectBarElementOrig >> keepPickOrder: aBoolean [
 
 	keepPickOrder := aBoolean.
-	self refreshFromPopupListSelection
+	self refreshHeaderFromPopupListSelection
 ]
 
 { #category : #accessing }
@@ -145,7 +145,7 @@ ToMultiSelectBarElementOrig >> listElement [
 ToMultiSelectBarElementOrig >> maxSelectedCount: aNumber [
 
 	maxSelectedCount := aNumber.
-	self refreshFromPopupListSelection
+	self refreshHeaderFromPopupListSelection
 ]
 
 { #category : #accessing }
@@ -162,11 +162,11 @@ ToMultiSelectBarElementOrig >> refresh [
 		deprecated: '#refreshFromPopupListSelection instead'
 		transformWith:
 		'`@rcvr refresh' -> '`@rcvr refreshFromPopupListSelection'.
-	self refreshFromPopupListSelection
+	self refreshHeaderFromPopupListSelection
 ]
 
 { #category : #'t - select inner container' }
-ToMultiSelectBarElementOrig >> refreshFromPopupListSelection [
+ToMultiSelectBarElementOrig >> refreshHeaderFromPopupListSelection [
 	" rebuild the current bar nodes according to the selection in the popup list "
 
 	| previousTagModels newTagModels |

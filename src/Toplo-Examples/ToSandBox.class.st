@@ -683,7 +683,6 @@ ToSandBox class >> example_AnchorLayout [
 		        yourself.
 	blue background: Color blue.
 	blue extent: 30 asPoint.
-	blue margin: (BlInsets all: 10).
 	blue constraintsDo: [ :c |
 			c anchors add: (blue rightAnchor on: pane rightAnchor).
 			c anchors add: (blue bottomAnchor on: pane bottomAnchor) ].
@@ -791,7 +790,6 @@ ToSandBox class >> example_AnchorLayout1v4 [
 		        id: #blue;
 		        yourself.
 	blue background: Color blue.
-	blue margin: (BlInsets all: 10).
 	blue constraintsDo: [ :c |
 			c anchors add: (blue leftAnchor on: pane leftAnchor).
 			c anchors add: (blue topAnchor on: pane topAnchor).

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToFiniteListNode,
 	#superclass : #ToAbstractListNode,
-	#traits : 'TToBarNode',
-	#classTraits : 'TToBarNode classTrait',
+	#traits : 'TToFiniteListNode',
+	#classTraits : 'TToFiniteListNode classTrait',
 	#category : #'Toplo-Widget-List-Node'
 }
 

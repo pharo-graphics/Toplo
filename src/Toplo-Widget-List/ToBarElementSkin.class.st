@@ -1,7 +1,7 @@
 Class {
 	#name : #ToBarElementSkin,
 	#superclass : #ToBasicListElementSkin,
-	#category : #'Toplo-Widget-List-Core-BarElement'
+	#category : #'Toplo-Widget-List-Core-FiniteListElement'
 }
 
 { #category : #'event handling' }

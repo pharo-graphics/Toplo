@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTabNodeHolder,
 	#superclass : #ToItemNodeHolder,
-	#category : #'Toplo-Widget-TabPane-TabBar'
+	#category : #'Toplo-Widget-TabPane-TabFiniteList'
 }
 
 { #category : #removing }

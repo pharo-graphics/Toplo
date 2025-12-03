@@ -1,7 +1,7 @@
 Class {
 	#name : #ToItemNodeManagerForTest,
 	#superclass : #ToItemFiniteListNodeManager,
-	#category : #'Toplo-Widget-List-Tests-ItemBar'
+	#category : #'Toplo-Widget-List-Tests-ItemFiniteList'
 }
 
 { #category : #initialization }
@@ -13,7 +13,7 @@ ToItemNodeManagerForTest >> defaultFakeDataItem [
 { #category : #'instance creation' }
 ToItemNodeManagerForTest >> newHolder [
 
-	^ ToBarNodeHolderForTest new
+	^ ToFiniteListNodeHolderForTest new
 ]
 
 { #category : #'instance creation' }

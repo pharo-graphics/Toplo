@@ -231,7 +231,7 @@ ToSandBox class >> barWithData: aCollection [
 
 	| bar confBoard barPane rootPane selectionModeBoard rand |
 	rand := Random new.
-	bar := ToGenericBarElement new.
+	bar := ToGenericFiniteListElement new.
 	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
 	bar nodeBuilder: [ :node :dataItem :holder |
 			| fontSize triplet label |
@@ -3725,7 +3725,7 @@ ToSandBox class >> example_MixedEventGenerator [
 ToSandBox class >> example_NodeContainerWithStatesOfAmerica [
 
 	| l |
-	l := ToGenericBarElement new.
+	l := ToGenericFiniteListElement new.
 	l exactNodeWidth: 100.
 	l horizontal: true.
 	l dataAccessor addAll: self statesOfAmerica.
@@ -5095,7 +5095,7 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 ToSandBox class >> example_TabBarElement [
 
 	| tabs board |
-	tabs := ToTabBarElement new.
+	tabs := ToTabFiniteListElement new.
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		tabs addItem: (ToTabItemElement new

@@ -9,7 +9,7 @@ Trait {
 		'isFlowable',
 		'isScrollable'
 	],
-	#category : #'Toplo-Widget-List-Core-BarElement'
+	#category : #'Toplo-Widget-List-Core-FiniteListElement'
 }
 
 { #category : #'t - configurable bar element' }

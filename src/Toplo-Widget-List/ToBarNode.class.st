@@ -3,10 +3,10 @@ I'm a node that contains the elements built from the datasource. See superclass 
 In addition I'm in bar (a finite list by opposition to infinite). 
 "
 Class {
-	#name : #ToBarNode,
+	#name : #ToFiniteListNode,
 	#superclass : #ToAbstractListNode,
-	#traits : 'TToBarNode',
-	#classTraits : 'TToBarNode classTrait',
+	#traits : 'TToFiniteListNode',
+	#classTraits : 'TToFiniteListNode classTrait',
 	#category : #'Toplo-Widget-List-Node'
 }
 
@@ -43,5 +43,5 @@ ToBarNode >> initialize [
 { #category : #skin }
 ToBarNode >> newRawSkin [ 
 
-	^ ToBarNodeSkin new
+	^ ToFiniteListNodeSkin new
 ]

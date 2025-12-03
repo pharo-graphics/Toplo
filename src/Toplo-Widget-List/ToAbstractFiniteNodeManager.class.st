@@ -1,3 +1,7 @@
+"
+My fakeData item is an item that is used to define the size when the list has no element. 
+This avoids flickering or changing size when inappropriate.
+"
 Class {
 	#name : #ToAbstractFiniteNodeManager,
 	#superclass : #ToAbstractNodeManager,

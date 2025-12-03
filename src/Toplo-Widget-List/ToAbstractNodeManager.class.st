@@ -1,3 +1,7 @@
+"
+I have the responsibility to build the nodeContainers, the nodeHolders and the nodes.
+For each data item I create a nodeContainer, its node and the holder that relates the data, the list, and the nodeContainer.  
+"
 Class {
 	#name : #ToAbstractNodeManager,
 	#superclass : #Object,

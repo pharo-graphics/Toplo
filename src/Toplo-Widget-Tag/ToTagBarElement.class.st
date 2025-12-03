@@ -1,11 +1,11 @@
 Class {
-	#name : #ToTagFiniteListElement,
-	#superclass : #ToGenericFiniteListElement,
+	#name : #ToTagBarElement,
+	#superclass : #ToGenericBarElement,
 	#category : #'Toplo-Widget-Tag-Tag'
 }
 
 { #category : #'instance creation' }
-ToTagFiniteListElement class >> onSelectElement: aSelectElement [
+ToTagBarElement class >> onSelectElement: aSelectElement [
 
 	^ self basicNew
 		  selectElement: aSelectElement;
@@ -13,32 +13,32 @@ ToTagFiniteListElement class >> onSelectElement: aSelectElement [
 ]
 
 { #category : #initialization }
-ToTagFiniteListElement >> defaultNodeManagerClass [
+ToTagBarElement >> defaultNodeManagerClass [
 
 	^ ToTagNodeManager
 ]
 
 { #category : #initialization }
-ToTagFiniteListElement >> initialize [
+ToTagBarElement >> initialize [
 
 	super initialize.
 	self sample: 'X'
 ]
 
 { #category : #'t - list element decorator - children - accessing' }
-ToTagFiniteListElement >> nodeContainers [
+ToTagBarElement >> nodeContainers [
 
 	^ self innerElement nodeContainers
 ]
 
 { #category : #'t - list element decorator - children - accessing' }
-ToTagFiniteListElement >> nodeContainersDo: aBlock [
+ToTagBarElement >> nodeContainersDo: aBlock [
 
 	self innerElement nodeContainersDo: aBlock
 ]
 
 { #category : #accessing }
-ToTagFiniteListElement >> nodesCount [
+ToTagBarElement >> nodesCount [
 
 	| count |
 	count := 0.
@@ -48,7 +48,7 @@ ToTagFiniteListElement >> nodesCount [
 ]
 
 { #category : #'t - bar element' }
-ToTagFiniteListElement >> sample: aData [
+ToTagBarElement >> sample: aData [
 
 	super sample: (ToSingleTag new
 			 data: aData;
@@ -56,7 +56,7 @@ ToTagFiniteListElement >> sample: aData [
 ]
 
 { #category : #accessing }
-ToTagFiniteListElement >> tagBuilder: aValuable [
+ToTagBarElement >> tagBuilder: aValuable [
 
 	self nodeManager tagBuilder: aValuable.
 	self notifyDataSourceChanged 

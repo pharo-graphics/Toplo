@@ -120,7 +120,7 @@ ToContextMenu >> menuWindow [
 { #category : #'t - item bar container - initializing' }
 ToContextMenu >> newItemBar [
 
-	^ ToMenuItemFiniteListElement new
+	^ ToMenuItemBarElement new
 ]
 
 { #category : #'t - menu item bar container - double dispatch' }

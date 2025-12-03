@@ -1,5 +1,5 @@
 Class {
-	#name : #ToFiniteListItemNode,
+	#name : #ToBarItemNode,
 	#superclass : #ToFiniteListNode,
 	#traits : 'TToItemNode',
 	#classTraits : 'TToItemNode classTrait',
@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : #initialization }
-ToFiniteListItemNode >> initialize [
+ToBarItemNode >> initialize [
 
 	super initialize.
 	self initializeAsItemNode 

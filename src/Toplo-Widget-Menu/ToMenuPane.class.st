@@ -142,7 +142,7 @@ ToMenuPane >> menuWindowDo: aValuable [
 { #category : #'t - item list holder - initializing' }
 ToMenuPane >> newItemBar [
 
-	^ ToMenuItemFiniteListElement new
+	^ ToMenuItemBarElement new
 ]
 
 { #category : #skin }

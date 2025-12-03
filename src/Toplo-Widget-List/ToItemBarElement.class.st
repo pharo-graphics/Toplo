@@ -2,28 +2,28 @@
 I'm a list whose node contents is a BlElement
 "
 Class {
-	#name : #ToItemFiniteListElement,
+	#name : #ToItemBarElement,
 	#superclass : #ToAbstractListElement,
-	#traits : 'TToConfigurableBarElement + TToFiniteListElement + TToItemList',
-	#classTraits : 'TToConfigurableBarElement classTrait + TToFiniteListElement classTrait + TToItemList classTrait',
+	#traits : 'TToConfigurableBarElement + TToBarElement + TToItemList',
+	#classTraits : 'TToConfigurableBarElement classTrait + TToBarElement classTrait + TToItemList classTrait',
 	#category : #'Toplo-Widget-List-ItemBar'
 }
 
 { #category : #configuration }
-ToItemFiniteListElement >> applyConfiguration [ 
+ToItemBarElement >> applyConfiguration [ 
 
 	super applyConfiguration.
 	self applyItemListConfiguration
 ]
 
 { #category : #initialization }
-ToItemFiniteListElement >> defaultNodeManagerClass [
+ToItemBarElement >> defaultNodeManagerClass [
 
 	^ ToItemBarNodeManager
 ]
 
 { #category : #initialization }
-ToItemFiniteListElement >> initialize [
+ToItemBarElement >> initialize [
 
 	super initialize.
 	self initializeAsBarElement.
@@ -31,13 +31,13 @@ ToItemFiniteListElement >> initialize [
 ]
 
 { #category : #skin }
-ToItemFiniteListElement >> newRawSkin [ 
+ToItemBarElement >> newRawSkin [ 
 
 	^ ToItemBarElementSkin new
 ]
 
 { #category : #'t - item list - adding/removing' }
-ToItemFiniteListElement >> notifyItemAdded: anItem [
+ToItemBarElement >> notifyItemAdded: anItem [
 
 	self dispatchEvent: (ToItemAddedInBarEvent new
 			 item: anItem;
@@ -45,7 +45,7 @@ ToItemFiniteListElement >> notifyItemAdded: anItem [
 ]
 
 { #category : #'t - item list - adding/removing' }
-ToItemFiniteListElement >> notifyItemRemoved: anItem wasSelected: aBoolean [
+ToItemBarElement >> notifyItemRemoved: anItem wasSelected: aBoolean [
 
 	self dispatchEvent: (ToItemRemovedFromBarEvent new
 			 item: anItem;

@@ -1,11 +1,11 @@
 Class {
-	#name : #ToFiniteListCheckableNode,
-	#superclass : #ToFiniteListItemNode,
+	#name : #ToBarCheckableNode,
+	#superclass : #ToBarItemNode,
 	#category : #'Toplo-Widget-List-ItemBar'
 }
 
 { #category : #'t - list node' }
-ToFiniteListCheckableNode >> clickEventHandlerClass [
+ToBarCheckableNode >> clickEventHandlerClass [
 
 	^  ToCheckableNodeSelectionEventHandler
 ]

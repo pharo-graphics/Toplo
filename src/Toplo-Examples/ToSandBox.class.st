@@ -231,7 +231,7 @@ ToSandBox class >> barWithData: aCollection [
 
 	| bar confBoard barPane rootPane selectionModeBoard rand |
 	rand := Random new.
-	bar := ToGenericFiniteListElement new.
+	bar := ToGenericBarElement new.
 	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
 	bar nodeBuilder: [ :node :dataItem :holder |
 			| fontSize triplet label |
@@ -1648,7 +1648,7 @@ ToSandBox class >> example_CheckableBarElement [
 					 clickAction: [ container inspect ];
 					 yourself) ].
 
-	bar := ToCheckableFiniteListElement new.
+	bar := ToCheckableBarElement new.
 	space := BlSpace new.
 	bar matchParent.
 	{ #Alabama. #Alaska. #Arizona. #Arkansas. #California. #Colorado.
@@ -3730,7 +3730,7 @@ ToSandBox class >> example_MixedEventGenerator [
 ToSandBox class >> example_NodeContainerWithStatesOfAmerica [
 
 	| l |
-	l := ToGenericFiniteListElement new.
+	l := ToGenericBarElement new.
 	l exactNodeWidth: 100.
 	l horizontal: true.
 	l dataAccessor addAll: self statesOfAmerica.
@@ -5096,7 +5096,7 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 ToSandBox class >> example_TabBarElement [
 
 	| tabs board |
-	tabs := ToTabFiniteListElement new.
+	tabs := ToTabBarElement new.
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		tabs addItem: (ToTabItemElement new
@@ -5353,7 +5353,7 @@ ToSandBox class >> example_TabPaneWithCompactHeaderLayoutMode [
 ToSandBox class >> example_TagBar [
 
 	| tb dashBoard rootPane |
-	tb := ToTagFiniteListElement new.
+	tb := ToTagBarElement new.
 	tb horizontal: true.
 	tb dataAccessor addAll:
 		(ToSandBox statesOfAmerica collect: [ :s | ToSingleTag new data: s ]).
@@ -5375,7 +5375,7 @@ ToSandBox class >> example_TagBar [
 ToSandBox class >> example_TagBar2 [
 
 	| tb dashBoard rootPane |
-	tb := ToItemFiniteListElement new.
+	tb := ToItemBarElement new.
 	tb horizontal: true.
 	tb dataAccessor addAll:
 		(ToSandBox statesOfAmerica collect: [ :s | ToTagElement new labelText: s; yourself ]).
@@ -7443,7 +7443,7 @@ ToSandBox class >> example_scaledImage [
 ToSandBox class >> example_segmentedWithCheckboxes [
 
 	| seg dashBoard |
-	seg := ToCheckableFiniteListElement new.
+	seg := ToCheckableBarElement new.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		seg addItem: (ToCheckbox new
 				 labelText: l;
@@ -7458,7 +7458,7 @@ ToSandBox class >> example_segmentedWithCheckboxes [
 ToSandBox class >> example_segmentedWithLabels [
 
 	| seg dashBoard rootPane feedbackPane maj |
-	seg := ToCheckableFiniteListElement new.
+	seg := ToCheckableBarElement new.
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		seg addItem: (ToToggleButton new
@@ -7509,7 +7509,7 @@ ToSandBox class >> example_segmentedWithLabels [
 ToSandBox class >> example_segmentedWithLabelsAndIcons [
 
 	| seg dashBoard rootPane feedbackPane maj |
-	seg := ToCheckableFiniteListElement new.
+	seg := ToCheckableBarElement new.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		seg addItem: (ToToggleButton new
 				 iconImage: ToThemeIcons searchOutlined16x16;
@@ -7557,7 +7557,7 @@ ToSandBox class >> example_segmentedWithLabelsAndIcons [
 ToSandBox class >> example_segmentedWithRadioButtons [
 
 	| seg dashBoard |
-	seg := ToCheckableFiniteListElement new.
+	seg := ToCheckableBarElement new.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		seg addItem: (ToRadioButton new
 				 labelText: l;

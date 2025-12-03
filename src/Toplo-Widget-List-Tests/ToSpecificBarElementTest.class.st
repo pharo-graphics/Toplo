@@ -14,7 +14,7 @@ Class {
 ToSpecificBarElementTest >> setUp [ 
 
 	super setUp.
-	l := ToSpecificFiniteListElementForTest new
+	l := ToSpecificBarElementForTest new
 ]
 
 { #category : #tests }

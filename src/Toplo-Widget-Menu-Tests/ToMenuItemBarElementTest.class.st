@@ -14,7 +14,7 @@ Class {
 ToMenuItemBarElementTest >> setUp [
 
 	super setUp.
-	l := ToMenuItemFiniteListElement new.
+	l := ToMenuItemBarElement new.
 	l vMatchParent.
 	space root addChild: l
 ]

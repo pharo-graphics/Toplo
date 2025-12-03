@@ -14,7 +14,7 @@ Class {
 ToItemBarElementTest >> setUp [
 
 	super setUp.
-	l := ToItemFiniteListElementForTest new.
+	l := ToItemBarElementForTest new.
 	l vMatchParent.
 	space root addChild: l
 ]

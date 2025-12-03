@@ -1,6 +1,6 @@
 Class {
-	#name : #ToMultiSelectFiniteListElement,
-	#superclass : #ToGenericFiniteListElement,
+	#name : #ToMultiSelectBarElement,
+	#superclass : #ToGenericBarElement,
 	#traits : 'TToSelectInnerContainerElement + TToElementWithPlaceholder',
 	#classTraits : 'TToSelectInnerContainerElement classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [
@@ -14,7 +14,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-ToMultiSelectFiniteListElement class >> onSelectElement: aSelectElement [
+ToMultiSelectBarElement class >> onSelectElement: aSelectElement [
 
 	^ self basicNew
 		  selectElement: aSelectElement;
@@ -22,13 +22,13 @@ ToMultiSelectFiniteListElement class >> onSelectElement: aSelectElement [
 ]
 
 { #category : #'accessing - selection' }
-ToMultiSelectFiniteListElement >> allowSelectedCount: aNumber [
+ToMultiSelectBarElement >> allowSelectedCount: aNumber [
 
 	^ self haveMaxSelectedCount not or: [ aNumber <= maxSelectedCount ]
 ]
 
 { #category : #'accessing - selection' }
-ToMultiSelectFiniteListElement >> assertMaxSelectedCount: aNumber [
+ToMultiSelectBarElement >> assertMaxSelectedCount: aNumber [
 
 	(self allowSelectedCount: aNumber) ifFalse: [
 		self enqueueTask: (BlTaskAction new action: [
@@ -36,14 +36,14 @@ ToMultiSelectFiniteListElement >> assertMaxSelectedCount: aNumber [
 ]
 
 { #category : #'accessing - selection' }
-ToMultiSelectFiniteListElement >> checkHideSelectionFromListElement [
+ToMultiSelectBarElement >> checkHideSelectionFromListElement [
 
 	selectElement hideSelected ifFalse: [ ^ self ].
 	"self popupListElement inUIProcessDo: [ self popupListElement hideSelection ]"
 ]
 
 { #category : #'accessing - selection' }
-ToMultiSelectFiniteListElement >> checkMaxSelectedCount [
+ToMultiSelectBarElement >> checkMaxSelectedCount [
 
 	| sM disabledSM groupeSM selectedCount |
 	self haveMaxSelectedCount ifFalse: [ ^ self ].
@@ -73,7 +73,7 @@ ToMultiSelectFiniteListElement >> checkMaxSelectedCount [
 ]
 
 { #category : #'accessing - selection' }
-ToMultiSelectFiniteListElement >> checkMaxSelectedCountOld [
+ToMultiSelectBarElement >> checkMaxSelectedCountOld [
 
 	| sM disabledSM groupeSM selectedCount |
 	maxSelectedCount isZero ifTrue: [ ^ self ].
@@ -103,50 +103,50 @@ ToMultiSelectFiniteListElement >> checkMaxSelectedCountOld [
 ]
 
 { #category : #'t - bar element' }
-ToMultiSelectFiniteListElement >> defaultInnerElementClass [
+ToMultiSelectBarElement >> defaultInnerElementClass [
 
 	^ ToMultiSelectInnerBarElement
 ]
 
 { #category : #initialization }
-ToMultiSelectFiniteListElement >> defaultLayout [
+ToMultiSelectBarElement >> defaultLayout [
 
 	^ BlLinearLayout horizontal
 ]
 
 { #category : #initialization }
-ToMultiSelectFiniteListElement >> defaultNodeManagerClass [ 
+ToMultiSelectBarElement >> defaultNodeManagerClass [ 
 
 	^ ToMultiSelectNodeManager
 ]
 
 { #category : #layout }
-ToMultiSelectFiniteListElement >> extentChanged [
+ToMultiSelectBarElement >> extentChanged [
 
 	super extentChanged.
 	self updateFromPopupListSelection
 ]
 
 { #category : #'t - select inner container' }
-ToMultiSelectFiniteListElement >> filterTextField [ 
+ToMultiSelectBarElement >> filterTextField [ 
 
 	^ filterTextField 
 ]
 
 { #category : #'t - select inner container' }
-ToMultiSelectFiniteListElement >> filterTextField: aTextField [
+ToMultiSelectBarElement >> filterTextField: aTextField [
 
 	filterTextField := aTextField 
 ]
 
 { #category : #'accessing - selection' }
-ToMultiSelectFiniteListElement >> haveMaxSelectedCount [
+ToMultiSelectBarElement >> haveMaxSelectedCount [
 
 	^ maxSelectedCount ~= -1
 ]
 
 { #category : #initialization }
-ToMultiSelectFiniteListElement >> initialize [
+ToMultiSelectBarElement >> initialize [
 
 	super initialize.
 
@@ -163,20 +163,20 @@ ToMultiSelectFiniteListElement >> initialize [
 ]
 
 { #category : #accessing }
-ToMultiSelectFiniteListElement >> keepPickOrder [
+ToMultiSelectBarElement >> keepPickOrder [
 
 	^ keepPickOrder 
 ]
 
 { #category : #accessing }
-ToMultiSelectFiniteListElement >> keepPickOrder: aBoolean [
+ToMultiSelectBarElement >> keepPickOrder: aBoolean [
 
 	keepPickOrder := aBoolean.
 	self updateFromPopupListSelection
 ]
 
 { #category : #accessing }
-ToMultiSelectFiniteListElement >> listElement [
+ToMultiSelectBarElement >> listElement [
 
 	self
 		deprecated: 'Use #popupListElement'
@@ -186,44 +186,44 @@ ToMultiSelectFiniteListElement >> listElement [
 ]
 
 { #category : #accessing }
-ToMultiSelectFiniteListElement >> maxSelectedCount: aNumber [
+ToMultiSelectBarElement >> maxSelectedCount: aNumber [
 
 	maxSelectedCount := aNumber
 ]
 
 { #category : #accessing }
-ToMultiSelectFiniteListElement >> popupListElement [
+ToMultiSelectBarElement >> popupListElement [
 
 
 	^ selectElement popupListElement
 ]
 
 { #category : #'accessing - selection' }
-ToMultiSelectFiniteListElement >> removeMaxSelectedCount [
+ToMultiSelectBarElement >> removeMaxSelectedCount [
 
 	maxSelectedCount := -1
 ]
 
 { #category : #'t - select inner container' }
-ToMultiSelectFiniteListElement >> selectElement [
+ToMultiSelectBarElement >> selectElement [
 
 	^ selectElement
 ]
 
 { #category : #'t - select inner container' }
-ToMultiSelectFiniteListElement >> selectElement: aSelectElement [
+ToMultiSelectBarElement >> selectElement: aSelectElement [
 
 	selectElement := aSelectElement
 ]
 
 { #category : #accessing }
-ToMultiSelectFiniteListElement >> sieve [
+ToMultiSelectBarElement >> sieve [
 
 	^ selectElement sieve
 ]
 
 { #category : #'t - select inner container' }
-ToMultiSelectFiniteListElement >> updateFromPopupListSelection [
+ToMultiSelectBarElement >> updateFromPopupListSelection [
 	" rebuild the current bar nodes according to the selection in the popup list "
 
 	| previousDataItems newDataItems |

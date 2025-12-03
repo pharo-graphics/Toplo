@@ -14,7 +14,7 @@ Class {
 ToCheckableBarElementTest >> setUp [ 
 
 	super setUp.
-	bar := ToCheckableFiniteListElement new.
+	bar := ToCheckableBarElement new.
 	space root addChild: bar.
 	bar matchParent.
 	self statesOfAmerica do: [ :l | bar addItem: (ToToggleButton new labelText: l) ]

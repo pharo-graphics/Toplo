@@ -1,6 +1,6 @@
 Class {
-	#name : #ToTabFiniteListElement,
-	#superclass : #ToCheckableFiniteListElement,
+	#name : #ToTabBarElement,
+	#superclass : #ToCheckableBarElement,
 	#instVars : [
 		'atStartSide'
 	],
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #configuration }
-ToTabFiniteListElement >> applyConfiguration [
+ToTabBarElement >> applyConfiguration [
 
 	super applyConfiguration.
 	self nodeContainersDo: [ :container |
@@ -18,13 +18,13 @@ ToTabFiniteListElement >> applyConfiguration [
 ]
 
 { #category : #accessing }
-ToTabFiniteListElement >> atStartSide [
+ToTabBarElement >> atStartSide [
 
 	^ atStartSide
 ]
 
 { #category : #accessing }
-ToTabFiniteListElement >> atStartSide: aBoolean [
+ToTabBarElement >> atStartSide: aBoolean [
 
 	atStartSide = aBoolean ifTrue: [ ^ self ].
 	atStartSide := aBoolean.
@@ -32,13 +32,13 @@ ToTabFiniteListElement >> atStartSide: aBoolean [
 ]
 
 { #category : #'t - item list - accessing' }
-ToTabFiniteListElement >> defaultNodeManagerClass [
+ToTabBarElement >> defaultNodeManagerClass [
 
 	^ ToTabNodeManager
 ]
 
 { #category : #initialization }
-ToTabFiniteListElement >> initialize [ 
+ToTabBarElement >> initialize [ 
 
 	super initialize.
 	self primarySelectionMode selectionOption
@@ -48,19 +48,19 @@ ToTabFiniteListElement >> initialize [
 ]
 
 { #category : #testing }
-ToTabFiniteListElement >> isAtEndSide [ 
+ToTabBarElement >> isAtEndSide [ 
 
 	^ self isAtStartSide not
 ]
 
 { #category : #testing }
-ToTabFiniteListElement >> isAtStartSide [
+ToTabBarElement >> isAtStartSide [
 
 	^ atStartSide
 ]
 
 { #category : #skin }
-ToTabFiniteListElement >> newRawSkin [ 
+ToTabBarElement >> newRawSkin [ 
 
 	^ ToTabBarElementSkin new
 ]

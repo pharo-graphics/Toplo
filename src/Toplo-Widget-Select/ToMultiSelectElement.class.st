@@ -135,7 +135,7 @@ ToMultiSelectElement >> initializeListSelectionChecker [
 { #category : #'instance creation' }
 ToMultiSelectElement >> innerElementClass [
 
-	^ ToMultiSelectFiniteListElement
+	^ ToMultiSelectBarElement
 ]
 
 { #category : #accessing }

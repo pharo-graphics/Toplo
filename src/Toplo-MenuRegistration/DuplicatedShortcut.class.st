@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'shortcut'
 	],
-	#category : #'Toplo-MenuRegistration-Report'
+	#category : #'Toplo-MenuRegistration-New'
 }
 
 { #category : #accessing }

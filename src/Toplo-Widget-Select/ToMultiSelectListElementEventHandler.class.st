@@ -8,26 +8,8 @@ Class {
 ToMultiSelectListElementEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , {
-		  ToListPrimarySelectionChangedEvent.
 		  ToListSelecterCommandApplicationRequestEvent.
 		  ToSelectGroupSelectionChangedEvent }
-]
-
-{ #category : #'event handling' }
-ToMultiSelectListElementEventHandler >> listPrimarySelectionChangedEvent: anEvent [
-
-	| listElement selectElement selectedDataItems changedEvent |
-	listElement := anEvent currentTarget.
-	selectElement := listElement selectElement.
-	selectElement refreshHeaderFromPopupListSelection.
-	selectedDataItems := selectElement selectionModel
-		                     selectedIndexesCollect: [ :idx |
-		                     selectElement sieve originalData at: idx ].
-	changedEvent := ToSelectChangedEvent new.
-	changedEvent selectedDataItems: selectedDataItems.
-	changedEvent selectedIndexes:
-		selectElement selectionModel selectedIndexes.
-	selectElement dispatchEvent: changedEvent
 ]
 
 { #category : #'event handling' }
@@ -52,4 +34,18 @@ ToMultiSelectListElementEventHandler >> selectGroupSelectionChangedEvent: anEven
 		self flag: 'Given that the list is initialized with #makeDisabledUnselectable: true, having to unselect here is not desired. It is necessary here because instead, the secondary selection can be on a group index.'.
 		listElement unselectableSelecter selectIndex: int first to: int last.
 		listElement dataSource notifyItemsChanged: int ]
+]
+
+{ #category : #'event handling' }
+ToMultiSelectListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
+
+	| listElement selectElement changedEvent |
+	super sieveSelectionChangedEvent: anEvent.
+	listElement := anEvent currentTarget.
+	selectElement := listElement selectElement.
+	changedEvent := ToSelectChangedEvent new.
+	changedEvent selectedDataItems: selectElement selectedDataItems.
+	changedEvent selectedIndexes:
+		selectElement selectionModel selectedIndexes.
+	selectElement dispatchEvent: changedEvent
 ]

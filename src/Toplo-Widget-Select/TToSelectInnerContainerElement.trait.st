@@ -44,12 +44,6 @@ TToSelectInnerContainerElement >> newFilterTextField [
 ]
 
 { #category : #'t - select inner container' }
-TToSelectInnerContainerElement >> refreshHeaderFromPopupListSelection [
-
-	^ self subclassResponsibility 
-]
-
-{ #category : #'t - select inner container' }
 TToSelectInnerContainerElement >> selectElement [
 
 	^ self explicitRequirement 
@@ -59,6 +53,12 @@ TToSelectInnerContainerElement >> selectElement [
 TToSelectInnerContainerElement >> selectElement: aSelectElement [
 
 	self explicitRequirement 
+]
+
+{ #category : #'t - select inner container' }
+TToSelectInnerContainerElement >> updateFromPopupListSelection [
+
+	^ self subclassResponsibility 
 ]
 
 { #category : #'t - select inner container' }

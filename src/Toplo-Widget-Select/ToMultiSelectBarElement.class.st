@@ -124,7 +124,7 @@ ToMultiSelectBarElement >> defaultNodeManagerClass [
 ToMultiSelectBarElement >> extentChanged [
 
 	super extentChanged.
-	self refreshHeaderFromPopupListSelection
+	self updateFromPopupListSelection
 ]
 
 { #category : #'t - select inner container' }
@@ -172,7 +172,7 @@ ToMultiSelectBarElement >> keepPickOrder [
 ToMultiSelectBarElement >> keepPickOrder: aBoolean [
 
 	keepPickOrder := aBoolean.
-	self refreshHeaderFromPopupListSelection
+	self updateFromPopupListSelection
 ]
 
 { #category : #accessing }
@@ -198,41 +198,6 @@ ToMultiSelectBarElement >> popupListElement [
 	^ selectElement popupListElement
 ]
 
-{ #category : #'t - select inner container' }
-ToMultiSelectBarElement >> refresh [
-
-	self
-		deprecated: '#refreshFromPopupListSelection instead'
-		transformWith:
-		'`@rcvr refresh' -> '`@rcvr refreshFromPopupListSelection'.
-	self refreshHeaderFromPopupListSelection
-]
-
-{ #category : #'t - select inner container' }
-ToMultiSelectBarElement >> refreshHeaderFromPopupListSelection [
-	" rebuild the current bar nodes according to the selection in the popup list "
-
-	| previousDataItems newDataItems |
-	selectElement showHidePlaceholder.
-	" copy the previous tag models "
-	previousDataItems := self dataAccessor asOrderedCollection.
-	newDataItems := OrderedCollection new.
-
-	" reconstruct the item list. ensure the reuse of pre-existing items"
-	selectElement selectionModel selectedIndexesDo: [ :idx |
-		| new previous dataItem |
-		dataItem := selectElement sieve originalData at: idx.
-		newDataItems add: dataItem ].
-
-	"keepPickOrder ifTrue: [
-		newTagModels sort: [ :a :b | a pickOrder < b pickOrder ] ]."
-
-	" if the list has changed then replace all in one datasource command "
-	"self dataAccessor asOrderedCollection = newDataItems ifTrue: [ ^ self ]."
-	self dataAccessor updateAllWith: newDataItems.
-	self checkHideSelectionFromListElement
-]
-
 { #category : #'accessing - selection' }
 ToMultiSelectBarElement >> removeMaxSelectedCount [
 
@@ -255,4 +220,23 @@ ToMultiSelectBarElement >> selectElement: aSelectElement [
 ToMultiSelectBarElement >> sieve [
 
 	^ selectElement sieve
+]
+
+{ #category : #'t - select inner container' }
+ToMultiSelectBarElement >> updateFromPopupListSelection [
+	" rebuild the current bar nodes according to the selection in the popup list "
+
+	| previousDataItems newDataItems |
+	selectElement showHidePlaceholder.
+	" copy the previous tag models "
+	previousDataItems := self dataAccessor asOrderedCollection.
+	newDataItems := selectElement selectedDataItems.
+
+	"keepPickOrder ifTrue: [
+		newTagModels sort: [ :a :b | a pickOrder < b pickOrder ] ]."
+
+	" if the list has changed then replace all in one datasource command "
+	"self dataAccessor asOrderedCollection = newDataItems ifTrue: [ ^ self ]."
+	self dataAccessor updateAllWith: newDataItems.
+	self checkHideSelectionFromListElement
 ]

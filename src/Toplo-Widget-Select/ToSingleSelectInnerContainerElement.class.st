@@ -36,7 +36,7 @@ ToSingleSelectInnerContainerElement >> dataViewBuilder: aValuable [
 	" aValuable takes 2 args: the dataItemView and the selected dataItem "
 
 	dataViewBuilder := aValuable.
-	self refreshHeaderFromPopupListSelection.
+	self updateFromPopupListSelection.
 	fakeDataItem ifNil: [ ^ self ].
 	self reinstallFakeDataView
 ]
@@ -114,7 +114,6 @@ ToSingleSelectInnerContainerElement >> installFakeDataView [
 ToSingleSelectInnerContainerElement >> installRawStyle [
 
 	super installRawStyle.
-	self background: Color transparent.
 	self padding: (BlInsets all: 5)
 
 ]
@@ -129,43 +128,6 @@ ToSingleSelectInnerContainerElement >> isMultipleSelection [
 ToSingleSelectInnerContainerElement >> newDataView [
 
 	^ dataViewFactory cull: self
-]
-
-{ #category : #'t - select inner container' }
-ToSingleSelectInnerContainerElement >> refresh [
-
-		self
-		deprecated: '#refreshFromPopupListSelection instead'
-		transformWith:
-		'`@rcvr refresh' -> '`@rcvr refreshFromPopupListSelection'.
-	self refreshHeaderFromPopupListSelection
-]
-
-{ #category : #'t - select inner container' }
-ToSingleSelectInnerContainerElement >> refreshHeaderFromPopupListSelection [
-
-	| selectedIndex dataItem selectionModel originalData changedEvent |
-	selectElement showHidePlaceholder.
-
-	selectionModel := self manager sieve selectionModel.
-	originalData := self manager sieve originalData.
-	selectedIndex := selectionModel isEmpty
-		                 ifTrue: [ 0 ]
-		                 ifFalse: [ selectionModel firstIndex ].
-
-	currentSelectedIndex = selectedIndex ifTrue: [ ^ self ].
-	currentSelectedIndex := selectedIndex.
-
-	dataView removeChildren.
-
-	selectedIndex isZero ifFalse: [
-		dataItem := originalData at: selectedIndex.
-		dataViewBuilder cull: dataView cull: dataItem ].
-
-	changedEvent := ToSelectChangedEvent new.
-	changedEvent selectedData: dataItem.
-	changedEvent selectedIndex: selectedIndex.
-	selectElement dispatchEvent: changedEvent
 ]
 
 { #category : #initialization }
@@ -199,4 +161,31 @@ ToSingleSelectInnerContainerElement >> uninstallFakeDataView [
 		
 	self removeChild: fakeDataView
 
+]
+
+{ #category : #'t - select inner container' }
+ToSingleSelectInnerContainerElement >> updateFromPopupListSelection [
+
+	| selectedIndex dataItem selectionModel originalData changedEvent |
+	selectElement showHidePlaceholder.
+
+	selectionModel := self manager sieve selectionModel.
+	originalData := self manager sieve originalData.
+	selectedIndex := selectionModel isEmpty
+		                 ifTrue: [ 0 ]
+		                 ifFalse: [ selectionModel firstIndex ].
+
+	currentSelectedIndex = selectedIndex ifTrue: [ ^ self ].
+	currentSelectedIndex := selectedIndex.
+
+	dataView removeChildren.
+
+	selectedIndex isZero ifFalse: [
+		dataItem := originalData at: selectedIndex.
+		dataViewBuilder cull: dataView cull: dataItem ].
+
+	changedEvent := ToSelectChangedEvent new.
+	changedEvent selectedData: dataItem.
+	changedEvent selectedIndex: selectedIndex.
+	selectElement dispatchEvent: changedEvent
 ]

@@ -290,16 +290,10 @@ ToSelectElement >> popupWindowPlacement: aPlacement [
 	self manager placement: aPlacement
 ]
 
-{ #category : #accessing }
-ToSelectElement >> refresh [
-
-	self refreshHeaderFromPopupListSelection
-]
-
-{ #category : #'accessing - selection' }
+{ #category : #private }
 ToSelectElement >> refreshHeaderFromPopupListSelection [
 
-	self header refreshHeaderFromPopupListSelection
+	self header updateFromPopupListSelection 
 ]
 
 { #category : #accessing }
@@ -307,6 +301,13 @@ ToSelectElement >> sample: aDataItem [
 
 	sample := aDataItem.
 	self requestConfiguration
+]
+
+{ #category : #'accessing - selection' }
+ToSelectElement >> selectedDataItems [
+
+	^ self selectionModel selectedIndexesCollect: [ :idx |
+		  self sieve originalData at: idx ]
 ]
 
 { #category : #accessing }

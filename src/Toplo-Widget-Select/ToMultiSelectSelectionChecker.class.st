@@ -1,5 +1,5 @@
 Class {
-	#name : #ToMultiSelectSelecterCommandApplicationChecker,
+	#name : #ToMultiSelectSelectionChecker,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'selectedIndexes'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #adding }
-ToMultiSelectSelecterCommandApplicationChecker >> addIndexesSelectionCommand: aCommand [
+ToMultiSelectSelectionChecker >> addIndexesSelectionCommand: aCommand [
 
 	aCommand operation deselectAllBefore ifTrue: [
 		selectedIndexes removeAll ].
@@ -16,7 +16,7 @@ ToMultiSelectSelecterCommandApplicationChecker >> addIndexesSelectionCommand: aC
 ]
 
 { #category : #adding }
-ToMultiSelectSelecterCommandApplicationChecker >> addIntervalSelectionCommand: aCommand [
+ToMultiSelectSelectionChecker >> addIntervalSelectionCommand: aCommand [
 
 	aCommand operation deselectAllBefore ifTrue: [
 		selectedIndexes removeAll ].
@@ -24,19 +24,19 @@ ToMultiSelectSelecterCommandApplicationChecker >> addIntervalSelectionCommand: a
 ]
 
 { #category : #adding }
-ToMultiSelectSelecterCommandApplicationChecker >> addWholeSelectionCommand: aCommand [
+ToMultiSelectSelectionChecker >> addWholeSelectionCommand: aCommand [
 
 	selectedIndexes addAll: (1 to: aCommand selectionModel itemCount)
 ]
 
 { #category : #'api - accessing' }
-ToMultiSelectSelecterCommandApplicationChecker >> eventsToHandle [
+ToMultiSelectSelectionChecker >> eventsToHandle [
 
 	^ { ToListSelecterCommandApplicationRequestEvent }
 ]
 
 { #category : #'event handling' }
-ToMultiSelectSelecterCommandApplicationChecker >> listSelecterCommandApplicationRequestEvent: anEvent [
+ToMultiSelectSelectionChecker >> listSelecterCommandApplicationRequestEvent: anEvent [
 
 	| request command currentSelectElement |
 	request := anEvent.
@@ -56,19 +56,19 @@ ToMultiSelectSelecterCommandApplicationChecker >> listSelecterCommandApplication
 ]
 
 { #category : #adding }
-ToMultiSelectSelecterCommandApplicationChecker >> removeIndexesSelectionCommand: aCommand [
+ToMultiSelectSelectionChecker >> removeIndexesSelectionCommand: aCommand [
 
 	selectedIndexes removeAll: aCommand indexes
 ]
 
 { #category : #adding }
-ToMultiSelectSelecterCommandApplicationChecker >> removeIntervalSelectionCommand: aCommand [
+ToMultiSelectSelectionChecker >> removeIntervalSelectionCommand: aCommand [
 
 	selectedIndexes removeAll: (aCommand from to: aCommand to)
 ]
 
 { #category : #adding }
-ToMultiSelectSelecterCommandApplicationChecker >> removeWholeSelectionCommand: aCommand [
+ToMultiSelectSelectionChecker >> removeWholeSelectionCommand: aCommand [
 
 	selectedIndexes removeAll
 ]

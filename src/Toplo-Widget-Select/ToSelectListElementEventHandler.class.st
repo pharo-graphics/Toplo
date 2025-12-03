@@ -19,7 +19,7 @@ ToSelectListElementEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEv
 	| listElement |
 	super infiniteDataSourceEmptinessChangedEvent: anEvent.
 	listElement := anEvent currentTarget.
-	listElement selectElement innerElement refreshHeaderFromPopupListSelection
+	listElement selectElement refreshHeaderFromPopupListSelection
 ]
 
 { #category : #'mouse handlers' }
@@ -34,7 +34,7 @@ ToSelectListElementEventHandler >> mouseUpEvent: anEvent [
 				selectElement currentPopupWindow ifNotNil: [ :w | w close ] ] ]
 ]
 
-{ #category : #'element handlers' }
+{ #category : #'event handling' }
 ToSelectListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
 
 	| listElement selectElement |

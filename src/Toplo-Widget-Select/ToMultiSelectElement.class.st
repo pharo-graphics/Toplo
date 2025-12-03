@@ -108,7 +108,7 @@ ToMultiSelectElement >> iconContainer: anIconContainer [
 ToMultiSelectElement >> initialize [
 
 	super initialize.
-	self initializeSelectionCommandChecker.
+	self initializeListSelectionChecker.
 	hideSelected := false.
 	withGroups := false.
 	isFlowable := false.
@@ -117,11 +117,11 @@ ToMultiSelectElement >> initialize [
 ]
 
 { #category : #initialization }
-ToMultiSelectElement >> initializeSelectionCommandChecker [
+ToMultiSelectElement >> initializeListSelectionChecker [
 
 	" add the checked to checke the selection command "
 	self addEventHandler:
-		ToMultiSelectSelecterCommandApplicationChecker new.
+		ToMultiSelectSelectionChecker new.
 	" add the handler in my sieve so that I can receive the selecter command application event  "
 	self sieve
 		addEventHandlerOn: ToListSelecterCommandApplicationRequestEvent

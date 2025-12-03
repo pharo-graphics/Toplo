@@ -1,10 +1,10 @@
 Trait {
-	#name : #TToFiniteListNode,
+	#name : #TToBarNode,
 	#category : #'Toplo-Widget-List-Node'
 }
 
 { #category : #'t - bar node' }
-TToFiniteListNode >> initializeAsBarNode [
+TToBarNode >> initializeAsBarNode [
 
 	self matchParent.
 	self addEventHandlerOn: ToRemoveButtonClickedEvent do: [ :event |
@@ -19,7 +19,7 @@ TToFiniteListNode >> initializeAsBarNode [
 ]
 
 { #category : #'t - bar node' }
-TToFiniteListNode >> removeFromBar [
+TToBarNode >> removeFromBar [
 
 	self holder removeNodeFromBar 
 ]

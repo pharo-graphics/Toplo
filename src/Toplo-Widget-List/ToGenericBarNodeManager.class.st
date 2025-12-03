@@ -9,7 +9,7 @@ Class {
 { #category : #'t - generic node manager' }
 ToGenericBarNodeManager >> defaultNodeFactory [
 
-	^ [ :holder | ToFiniteListNode new ]
+	^ [ :holder | ToBarNode new ]
 ]
 
 { #category : #initialization }

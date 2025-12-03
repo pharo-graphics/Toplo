@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTagNode,
-	#superclass : #ToFiniteListNode,
+	#superclass : #ToBarNode,
 	#category : #'Toplo-Widget-Tag-Tag'
 }
 

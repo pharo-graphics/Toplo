@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMultiSelectNode,
 	#superclass : #ToTagElement,
-	#traits : 'TToListNode + TToFiniteListNode',
-	#classTraits : 'TToListNode classTrait + TToFiniteListNode classTrait',
+	#traits : 'TToListNode + TToBarNode',
+	#classTraits : 'TToListNode classTrait + TToBarNode classTrait',
 	#category : #'Toplo-Widget-Select-Multi'
 }
 

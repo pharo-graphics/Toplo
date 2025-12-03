@@ -1,26 +1,26 @@
 Class {
-	#name : #ToFiniteListNode,
+	#name : #ToBarNode,
 	#superclass : #ToAbstractListNode,
-	#traits : 'TToFiniteListNode',
-	#classTraits : 'TToFiniteListNode classTrait',
+	#traits : 'TToBarNode',
+	#classTraits : 'TToBarNode classTrait',
 	#category : #'Toplo-Widget-List-Node'
 }
 
 { #category : #configuration }
-ToFiniteListNode >> applyConfiguration [
+ToBarNode >> applyConfiguration [
 
 	super applyConfiguration.
 	self holder initializeNode
 ]
 
 { #category : #'t - list node' }
-ToFiniteListNode >> clickEventHandlerClass [
+ToBarNode >> clickEventHandlerClass [
 
 	^  ToListNodeSelectionEventHandler
 ]
 
 { #category : #initialization }
-ToFiniteListNode >> initialize [
+ToBarNode >> initialize [
 
 	super initialize.
 	self initializeAsBarNode 
@@ -28,7 +28,7 @@ ToFiniteListNode >> initialize [
 ]
 
 { #category : #skin }
-ToFiniteListNode >> newRawSkin [ 
+ToBarNode >> newRawSkin [ 
 
 	^ ToBarNodeSkin new
 ]

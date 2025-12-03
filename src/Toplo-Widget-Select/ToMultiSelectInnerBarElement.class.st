@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMultiSelectInnerBarElement,
-	#superclass : #ToInnerFiniteListElement,
+	#superclass : #ToInnerBarElement,
 	#category : #'Toplo-Widget-Select-Multi'
 }
 

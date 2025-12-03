@@ -1,11 +1,11 @@
 Class {
-	#name : #ToBarNodeSkin,
+	#name : #ToFiniteListNodeSkin,
 	#superclass : #ToRawSkin,
 	#category : #'Toplo-Widget-List-Node'
 }
 
 { #category : #'event handling' }
-ToBarNodeSkin >> installSkinEvent: anEvent [
+ToFiniteListNodeSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |

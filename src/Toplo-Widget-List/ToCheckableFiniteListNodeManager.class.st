@@ -1,11 +1,11 @@
 Class {
-	#name : #ToCheckableBarNodeManager,
-	#superclass : #ToItemBarNodeManager,
-	#category : #'Toplo-Widget-List-ItemBar'
+	#name : #ToCheckableFiniteListNodeManager,
+	#superclass : #ToItemFiniteListNodeManager,
+	#category : #'Toplo-Widget-List-ItemFiniteList'
 }
 
 { #category : #initialization }
-ToCheckableBarNodeManager >> buildNode: aNode [
+ToCheckableFiniteListNodeManager >> buildNode: aNode [
 
 	| checkableElement holder |
 	super buildNode: aNode.
@@ -16,7 +16,7 @@ ToCheckableBarNodeManager >> buildNode: aNode [
 ]
 
 { #category : #initialization }
-ToCheckableBarNodeManager >> defaultFakeDataItem [
+ToCheckableFiniteListNodeManager >> defaultFakeDataItem [
 
 	^ ToToggleButton new
 		  labelText: 'X';
@@ -24,13 +24,13 @@ ToCheckableBarNodeManager >> defaultFakeDataItem [
 ]
 
 { #category : #'instance creation' }
-ToCheckableBarNodeManager >> newNodeForHolder: aNodeHolder [
+ToCheckableFiniteListNodeManager >> newNodeForHolder: aNodeHolder [
 
-	^ ToBarCheckableNode new
+	^ ToFiniteListCheckableNode new
 ]
 
 { #category : #initialization }
-ToCheckableBarNodeManager >> unbuildNode: aNode [
+ToCheckableFiniteListNodeManager >> unbuildNode: aNode [
 
 	aNode holder dataItem unregisterFromGroup.
 	super unbuildNode: aNode 

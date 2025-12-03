@@ -1,11 +1,11 @@
 Class {
-	#name : #ToBarFakeNodeContainer,
-	#superclass : #ToBarNodeContainer,
+	#name : #ToFiniteListFakeNodeContainer,
+	#superclass : #ToFiniteListNodeContainer,
 	#category : #'Toplo-Widget-List-Node'
 }
 
 { #category : #configuration }
-ToBarFakeNodeContainer >> applyConfiguration [
+ToFiniteListFakeNodeContainer >> applyConfiguration [
 
 	"in case my orientation changes the original size must be stored.
 	The original size has to be stored before setting the height or the width to zero.
@@ -21,14 +21,14 @@ ToBarFakeNodeContainer >> applyConfiguration [
 ]
 
 { #category : #initialization }
-ToBarFakeNodeContainer >> initialize [
+ToFiniteListFakeNodeContainer >> initialize [
 
 	super initialize.
 	self visibility: BlVisibility hidden
 ]
 
 { #category : #testing }
-ToBarFakeNodeContainer >> isFake [
+ToFiniteListFakeNodeContainer >> isFake [
 
 	^ true
 ]

@@ -1,18 +1,18 @@
 Class {
-	#name : #ToItemBarElementSkin,
+	#name : #ToItemFiniteListElementSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Widget-List-ItemBar'
+	#category : #'Toplo-Widget-List-ItemFiniteList'
 }
 
 { #category : #'event handling' }
-ToItemBarElementSkin >> focusedSkinEvent: anEvent [
+ToItemFiniteListElementSkin >> focusedSkinEvent: anEvent [
 
 	super focusedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |  ]
 ]
 
 { #category : #'event handling' }
-ToItemBarElementSkin >> installSkinEvent: anEvent [
+ToItemFiniteListElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -35,7 +35,7 @@ ToItemBarElementSkin >> installSkinEvent: anEvent [
 ]
 
 { #category : #'accessing - shortcuts' }
-ToItemBarElementSkin >> shortcutsToInstallIn: aListElement [
+ToItemFiniteListElementSkin >> shortcutsToInstallIn: aListElement [
 
 	^ Array streamContents: [ :stream |
 		  stream nextPut: (BlShortcutWithAction new
@@ -57,14 +57,14 @@ ToItemBarElementSkin >> shortcutsToInstallIn: aListElement [
 ]
 
 { #category : #'event handling' }
-ToItemBarElementSkin >> unfocusedSkinEvent: anEvent [
+ToItemFiniteListElementSkin >> unfocusedSkinEvent: anEvent [
 
 	super unfocusedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |  ]
 ]
 
 { #category : #'event handling' }
-ToItemBarElementSkin >> uninstallSkinEvent: anEvent [
+ToItemFiniteListElementSkin >> uninstallSkinEvent: anEvent [
 
 	super uninstallSkinEvent: anEvent.
 	anEvent elementDo: [ :e | e uninstallShortcuts ]

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTabBarElement,
-	#superclass : #ToCheckableBarElement,
+	#superclass : #ToCheckableFiniteListElement,
 	#instVars : [
 		'atStartSide'
 	],

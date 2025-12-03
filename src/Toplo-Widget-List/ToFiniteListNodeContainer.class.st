@@ -1,11 +1,11 @@
 Class {
-	#name : #ToBarNodeContainer,
+	#name : #ToFiniteListNodeContainer,
 	#superclass : #ToNodeContainer,
 	#category : #'Toplo-Widget-List-Node'
 }
 
 { #category : #configuration }
-ToBarNodeContainer >> applyConfiguration [
+ToFiniteListNodeContainer >> applyConfiguration [
 
 	| bar |
 	super applyConfiguration.
@@ -33,7 +33,7 @@ ToBarNodeContainer >> applyConfiguration [
 ]
 
 { #category : #testing }
-ToBarNodeContainer >> intersectionRectangleWithListElement [
+ToFiniteListNodeContainer >> intersectionRectangleWithListElement [
 
 	| intersection bnds pbnds list |
 	list := self holder listElement.
@@ -44,7 +44,7 @@ ToBarNodeContainer >> intersectionRectangleWithListElement [
 ]
 
 { #category : #testing }
-ToBarNodeContainer >> isFullyVisibleInListElement [
+ToFiniteListNodeContainer >> isFullyVisibleInListElement [
 
 	| bnds  intersection |
 	bnds := (self measuredBounds inSpace) asRectangle.
@@ -53,7 +53,7 @@ ToBarNodeContainer >> isFullyVisibleInListElement [
 ]
 
 { #category : #testing }
-ToBarNodeContainer >> isPartlyVisibleInListElement [
+ToFiniteListNodeContainer >> isPartlyVisibleInListElement [
 
 	^ self intersectionRectangleWithListElement
 		  ifNotNil: [ :i | i isZero not ]
@@ -61,7 +61,7 @@ ToBarNodeContainer >> isPartlyVisibleInListElement [
 ]
 
 { #category : #testing }
-ToBarNodeContainer >> listElementReferenceBoundsInSpace [
+ToFiniteListNodeContainer >> listElementReferenceBoundsInSpace [
 
 	|  list |
 	list := self holder listElement.

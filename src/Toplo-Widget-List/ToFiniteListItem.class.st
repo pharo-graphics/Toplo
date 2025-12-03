@@ -4,22 +4,22 @@ My parent list old refers to the element that contains the list that contains me
 
 "
 Class {
-	#name : #ToBarItem,
+	#name : #ToFiniteListItem,
 	#superclass : #ToElement,
 	#traits : 'TToItem',
 	#classTraits : 'TToItem classTrait',
-	#category : #'Toplo-Widget-List-ItemBar'
+	#category : #'Toplo-Widget-List-ItemFiniteList'
 }
 
 { #category : #configuration }
-ToBarItem >> applyConfiguration [ 
+ToFiniteListItem >> applyConfiguration [ 
 
 	super applyConfiguration.
 	self applyItemConfiguration 
 ]
 
 { #category : #initialization }
-ToBarItem >> defaultLayout [
+ToFiniteListItem >> defaultLayout [
 
 	^ BlLinearLayout vertical
 ]

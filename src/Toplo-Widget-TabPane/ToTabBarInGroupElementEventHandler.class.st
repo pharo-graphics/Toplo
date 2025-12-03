@@ -27,7 +27,7 @@ ToTabBarInGroupElementEventHandler >> eventsToHandle [
 	^ {
 		  ToBarVisibleNodeContainerListChangedEvent.
 		  ToCheckableGroupChangedEvent.
-		  ToBarItemEvent.
+		  ToFiniteListItemEvent.
 		  ToListPrimarySelectionChangedEvent }
 ]
 

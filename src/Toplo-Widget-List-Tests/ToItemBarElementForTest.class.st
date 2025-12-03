@@ -1,6 +1,6 @@
 Class {
 	#name : #ToItemBarElementForTest,
-	#superclass : #ToItemBarElement,
+	#superclass : #ToItemFiniteListElement,
 	#category : #'Toplo-Widget-List-Tests-ItemBar'
 }
 

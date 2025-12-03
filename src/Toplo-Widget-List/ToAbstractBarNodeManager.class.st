@@ -35,7 +35,7 @@ ToAbstractBarNodeManager >> initialize [
 { #category : #'instance creation' }
 ToAbstractBarNodeManager >> newFakeNodeContainer [ 
 
-	^ ToBarFakeNodeContainer new
+	^ ToFiniteListFakeNodeContainer new
 ]
 
 { #category : #'instance creation' }
@@ -56,5 +56,5 @@ ToAbstractBarNodeManager >> newFakeNodeContainerIn: aBarElement [
 { #category : #'instance creation' }
 ToAbstractBarNodeManager >> newNodeContainer [ 
 
-	^ ToBarNodeContainer new
+	^ ToFiniteListNodeContainer new
 ]

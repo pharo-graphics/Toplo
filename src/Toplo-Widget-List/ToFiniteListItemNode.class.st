@@ -1,13 +1,13 @@
 Class {
-	#name : #ToBarItemNode,
-	#superclass : #ToBarNode,
+	#name : #ToFiniteListItemNode,
+	#superclass : #ToFiniteListNode,
 	#traits : 'TToItemNode',
 	#classTraits : 'TToItemNode classTrait',
-	#category : #'Toplo-Widget-List-ItemBar'
+	#category : #'Toplo-Widget-List-ItemFiniteList'
 }
 
 { #category : #initialization }
-ToBarItemNode >> initialize [
+ToFiniteListItemNode >> initialize [
 
 	super initialize.
 	self initializeAsItemNode 

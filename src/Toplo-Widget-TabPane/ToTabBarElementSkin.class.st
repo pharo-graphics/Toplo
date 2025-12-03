@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTabBarElementSkin,
-	#superclass : #ToItemBarElementSkin,
+	#superclass : #ToItemFiniteListElementSkin,
 	#instVars : [
 		'previousSelectionFactory',
 		'previousSecondarySelectionFactory'

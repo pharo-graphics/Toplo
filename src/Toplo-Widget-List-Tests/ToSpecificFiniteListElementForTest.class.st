@@ -1,8 +1,8 @@
 Class {
 	#name : #ToSpecificFiniteListElementForTest,
 	#superclass : #ToAbstractListElement,
-	#traits : 'TToConfigurableBarElement + TToFiniteListElement',
-	#classTraits : 'TToConfigurableBarElement classTrait + TToFiniteListElement classTrait',
+	#traits : 'TToConfigurableFiniteListElement + TToFiniteListElement',
+	#classTraits : 'TToConfigurableFiniteListElement classTrait + TToFiniteListElement classTrait',
 	#category : #'Toplo-Widget-List-Tests-Core-FiniteListElement'
 }
 

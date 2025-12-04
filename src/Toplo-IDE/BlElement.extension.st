@@ -1,7 +1,7 @@
 Extension { #name : #BlElement }
 
 { #category : #'*Toplo-IDE' }
-BlElement >> inspectionSkin [
+BlElement >> inspectionSkin: aBuilder [
 
 	<inspectorPresentationOrder: 30 title: 'Skin'>
 	self skinManager ifNil: [
@@ -14,7 +14,7 @@ BlElement >> inspectionSkin [
 ]
 
 { #category : #'*Toplo-IDE' }
-BlElement >> inspectionStamps [
+BlElement >> inspectionStamps: aBuilder [
 
 	<inspectorPresentationOrder: 30 title: 'Stamps'>
 	| table |
@@ -47,7 +47,7 @@ BlElement >> inspectionStamps [
 ]
 
 { #category : #'*Toplo-IDE' }
-BlElement >> inspectionTokens [
+BlElement >> inspectionTokens: aBuilder [
 
 	<inspectorPresentationOrder: 31 title: 'Tokens'>
 	| table |
@@ -80,7 +80,7 @@ table contextMenu: (SpMenuPresenter new
 ]
 
 { #category : #'*Toplo-IDE' }
-BlElement >> styleSheetRulesCount [
+BlElement >> styleSheetRulesCount: aBuilder [
 
 	self skinManagerDo: [ :skinManager |
 		skinManager installedSkinDo: [ :skin |

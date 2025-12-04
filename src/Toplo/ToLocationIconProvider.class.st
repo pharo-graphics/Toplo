@@ -88,7 +88,7 @@ ToLocationIconProvider >> initializeLoaderMap [
 ]
 
 { #category : #inspecting }
-ToLocationIconProvider >> inspectionIcons [
+ToLocationIconProvider >> inspectionIcons: aBuilder [
 	<inspectorPresentationOrder: 0 title: 'Icons'> 
 
 	^ SpListPresenter new

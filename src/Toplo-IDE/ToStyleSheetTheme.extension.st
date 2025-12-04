@@ -1,7 +1,7 @@
 Extension { #name : #ToStyleSheetTheme }
 
 { #category : #'*Toplo-IDE' }
-ToStyleSheetTheme >> inspectionStyleRules [
+ToStyleSheetTheme >> inspectionStyleRules: aBuilder [
 
 	<inspectorPresentationOrder: 1 title: 'Style Rules'>
 	^ ToStyleSheetThemeInspectorSpec new styleSheetTheme:
@@ -9,7 +9,7 @@ ToStyleSheetTheme >> inspectionStyleRules [
 ]
 
 { #category : #'*Toplo-IDE' }
-ToStyleSheetTheme >> inspectionTokens [
+ToStyleSheetTheme >> inspectionTokens: aBuilder [
 
 	<inspectorPresentationOrder: 31 title: 'Theme Tokens'>
 	| table |
@@ -42,7 +42,7 @@ ToStyleSheetTheme >> inspectionTokens [
 ]
 
 { #category : #'*Toplo-IDE' }
-ToStyleSheetTheme >> inspectionWritableProperties [
+ToStyleSheetTheme >> inspectionWritableProperties: aBuilder [
 
 	<inspectorPresentationOrder: 3 title: 'Writable Properties'>
 	| table |

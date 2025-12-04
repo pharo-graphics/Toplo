@@ -1,3 +1,9 @@
+"
+I'm abstract a triplet (start, middle, end) for list. 
+I'm one of the children of the inner element of a list.
+I hold a kind of `ToAbstractListNode` as my middle container.  
+I refer to the nodeHolder (a kind of `ToNodeHolder`).
+"
 Class {
 	#name : #ToNodeContainer,
 	#superclass : #ToTripletContainer,

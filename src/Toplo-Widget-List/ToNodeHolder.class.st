@@ -1,3 +1,14 @@
+"
+I'm a connection between several pieces of information. 
+
+I refer to 
+- a nodeContainer element
+- a list element (accessible via the infinite element) 
+- a node element
+- the data 
+
+For each of this information look at my public API
+"
 Class {
 	#name : #ToNodeHolder,
 	#superclass : #BlInfiniteHolder,

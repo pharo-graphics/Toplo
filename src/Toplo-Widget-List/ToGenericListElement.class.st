@@ -1,3 +1,6 @@
+"
+I'm a list managed by a generic node manager (this manager is based of blocks for holder, node container et node building).
+"
 Class {
 	#name : #ToGenericListElement,
 	#superclass : #ToAbstractListElement,

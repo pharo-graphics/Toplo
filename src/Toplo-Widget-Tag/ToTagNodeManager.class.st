@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTagNodeManager,
-	#superclass : #ToGenericBarNodeManager,
+	#superclass : #ToGenericFiniteListNodeManager,
 	#instVars : [
 		'compositeNodeBuilder',
 		'tagBuilder'

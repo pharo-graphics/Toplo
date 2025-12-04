@@ -3,16 +3,22 @@ Class {
 	#superclass : #TestCase,
 	#instVars : [
 		'toploExampleMenu',
-		'worldMenuExample'
+		'worldMenuExample',
+		'builder'
 	],
-	#category : #'Toplo-MenuRegistration-Tests'
+	#category : #'Toplo-MenuRegistration-New'
 }
+
+{ #category : #'tests - before resolution' }
+MenuBuilderTest >> setUp [
+
+	builder := ToMenuBuilder new.
+
+]
 
 { #category : #'tests - before resolution' }
 MenuBuilderTest >> testBeforeResolveSimpleItemNoParentAvailable [
 
-	| builder |
-	builder := ToMenuBuilder new.
 	(builder item: #MyOwnCoolTool)
 		parent: #Tools;
 		label: 'My own cool tool'.
@@ -28,9 +34,8 @@ MenuBuilderTest >> testBeforeResolveSimpleItemNoParentAvailable [
 { #category : #'tests - pragma' }
 MenuBuilderTest >> testBuilderBeforePragmasCollectedItems [
 
-	| builder |
-	builder := ToMenuBuilder pragmaKeyword: #toploWorldMenu1.
-	builder collectRegistrations.
+	builder pragmaKeywords: { #toploWorldMenu1}.
+	builder collectDeclarations.
 	self 
 		assert: builder collectedItems size 
 		equals: 3.
@@ -44,10 +49,9 @@ MenuBuilderTest >> testBuilderBeforePragmasCollectedItems [
 { #category : #'tests - pragma' }
 MenuBuilderTest >> testBuilderCollectsAndResolvesPragmasCollectedItems [
 	
-	| builder |
-	builder := ToMenuBuilder pragmaKeywords: { #toploWorldMenu1 }.
+	builder pragmaKeywords: { #toploWorldMenu1 }.
 	builder 
-		collectRegistrations; 	
+		collectDeclarations; 	
 		resolve.
 	self assert: builder collectedItems size equals: 1.
 	self assert: builder collectedItems first name equals:  'RootWithTwoChildren'.
@@ -57,9 +61,9 @@ MenuBuilderTest >> testBuilderCollectsAndResolvesPragmasCollectedItems [
 { #category : #'tests - pragma' }
 MenuBuilderTest >> testBuilderCollectsItems [
 	
-	| builder namesOfItems |
-	builder := ToMenuBuilder pragmaKeywords: { #toploWorldMenu1 }.
-	builder collectRegistrations. 	
+	| namesOfItems |
+	builder pragmaKeywords: { #toploWorldMenu1 }.
+	builder collectDeclarations. 	
 	self assert: builder collectedItems size equals: 3. 
 	
 	namesOfItems := { 'RootWithTwoChildren' . 'Child1' . 'Child2' }. 
@@ -77,15 +81,13 @@ MenuBuilderTest >> testBuilderPragmas [
 		equals: 1.
 	self 
 		assert: prgas first selector
-		equals: #toploWorldMenu1.
+		equals: #toploWorldMenuXXX123.
 		
 ]
 
 { #category : #'tests - conflicts' }
 MenuBuilderTest >> testDefinitionOfTwoSimilarParentIsAConflict [
 
-	| builder |
-	builder := ToMenuBuilder new.
 	(builder item: #Tools) label: 'The root tools'.
 
 	(builder item: #MyOwnCoolTool)
@@ -100,12 +102,12 @@ MenuBuilderTest >> testDefinitionOfTwoSimilarParentIsAConflict [
 { #category : #'tests - diff' }
 MenuBuilderTest >> testDiffBrowseMenu [
 
-	| aBuilder oldBuilder concernItem listWorldItemName |
+	| aBuilder morphicBuilder concernItem listWorldItemName |
 	self skip.
 	aBuilder := self worldMenuExampleExampleMenu.
-	oldBuilder := PragmaMenuBuilder pragmaKeyword: 'worldMenu' model: nil.
-	oldBuilder buildTree.
-	concernItem := oldBuilder itemNamed: #Browsing.
+	morphicBuilder := PragmaMenuBuilder pragmaKeyword: 'worldMenu' model: nil.
+	morphicBuilder buildTree.
+	concernItem := morphicBuilder itemNamed: #Browsing.
 
 	listWorldItemName := (concernItem itemNamed: #Browsing) itemList
 		                     collect: [ :child | child name ].
@@ -113,10 +115,10 @@ MenuBuilderTest >> testDiffBrowseMenu [
 	self
 		assert: (concernItem itemNamed: #Browsing) itemList size
 		equals:
-		((aBuilder itemsNamed: #Browse) childrenFromGroup: #Browsing) size.
+		((aBuilder itemNamed: #Browse) childrenFromGroup: #Browsing) size.
 	self
 		assert:
-			(((aBuilder itemsNamed: #Browse) childrenFromGroup: #Browsing)
+			(((aBuilder itemNamed: #Browse) childrenFromGroup: #Browsing)
 				 collect: [ :item | item name ])
 		equals: listWorldItemName
 ]
@@ -124,12 +126,12 @@ MenuBuilderTest >> testDiffBrowseMenu [
 { #category : #'tests - diff' }
 MenuBuilderTest >> testDiffDebugMenu [
 
-	| aBuilder oldBuilder concernItem listWorldItemName |
+	| aBuilder morphicBuilder concernItem listWorldItemName |
 	self skip.
 	aBuilder := self worldMenuExampleExampleMenu.
-	oldBuilder := PragmaMenuBuilder pragmaKeyword: 'worldMenu' model: nil.
-	oldBuilder buildTree.
-	concernItem := oldBuilder itemNamed: #Debug.
+	morphicBuilder := PragmaMenuBuilder pragmaKeyword: 'worldMenu' model: nil.
+	morphicBuilder buildTree.
+	concernItem := morphicBuilder itemNamed: #Debug.
 	listWorldItemName := (concernItem itemNamed: #Profiling) itemList
 		                     collect: [ :child | child name ].
 	self
@@ -138,10 +140,10 @@ MenuBuilderTest >> testDiffDebugMenu [
 	self
 		assert: (concernItem itemNamed: #Profiling) itemList size
 		equals:
-		((aBuilder itemsNamed: #Debug) childrenFromGroup: #Profiling) size.
+		((aBuilder itemNamed: #Debug) childrenFromGroup: #Profiling) size.
 	self
 		assert:
-			(((aBuilder itemsNamed: #Debug) childrenFromGroup: #Profiling)
+			(((aBuilder itemNamed: #Debug) childrenFromGroup: #Profiling)
 				 collect: [ :item | item name ])
 		equals: listWorldItemName
 ]
@@ -149,22 +151,22 @@ MenuBuilderTest >> testDiffDebugMenu [
 { #category : #'tests - diff' }
 MenuBuilderTest >> testDiffPharoMenu [
 
-	| aBuilder oldBuilder concernItem listWorldItemName |
+	| aBuilder morphicBuilder concernItem listWorldItemName |
 	self skip.
 	aBuilder := self worldMenuExampleExampleMenu.
-	oldBuilder := PragmaMenuBuilder pragmaKeyword: 'worldMenu' model: nil.
-	oldBuilder buildTree.
-	concernItem := oldBuilder itemNamed: #Pharo.
+	morphicBuilder := PragmaMenuBuilder pragmaKeyword: 'worldMenu' model: nil.
+	morphicBuilder buildTree.
+	concernItem := morphicBuilder itemNamed: #Pharo.
 	listWorldItemName := (concernItem itemNamed: #Saving) itemList
 		                     collect: [ :child | child name ].
 	self assert: (concernItem itemNamed: #Saving) itemList size equals: 3.
 	self
 		assert: (concernItem itemNamed: #Saving) itemList size
 		equals:
-		((aBuilder itemsNamed: #Pharo) childrenFromGroup: #Saving) size.
+		((aBuilder itemNamed: #Pharo) childrenFromGroup: #Saving) size.
 	self
 		assert:
-			(((aBuilder itemsNamed: #Pharo) childrenFromGroup: #Saving)
+			(((aBuilder itemNamed: #Pharo) childrenFromGroup: #Saving)
 				 collect: [ :item | item name ])
 		equals: listWorldItemName
 ]
@@ -172,12 +174,12 @@ MenuBuilderTest >> testDiffPharoMenu [
 { #category : #'tests - diff' }
 MenuBuilderTest >> testDiffSourcesMenu [
 
-	| aBuilder oldBuilder concernItem listWorldItemName |
+	| aBuilder morphicBuilder concernItem listWorldItemName |
 	self skip.
 	aBuilder := self worldMenuExampleExampleMenu.
-	oldBuilder := PragmaMenuBuilder pragmaKeyword: 'worldMenu' model: nil.
-	oldBuilder buildTree.
-	concernItem := oldBuilder itemNamed: #Sources.
+	morphicBuilder := PragmaMenuBuilder pragmaKeyword: 'worldMenu' model: nil.
+	morphicBuilder buildTree.
+	concernItem := morphicBuilder itemNamed: #Sources.
 	listWorldItemName := (concernItem itemNamed: #Refactoring) itemList
 		                     collect: [ :child | child name ].
 	self
@@ -186,10 +188,10 @@ MenuBuilderTest >> testDiffSourcesMenu [
 	self
 		assert: (concernItem itemNamed: #Refactoring) itemList size
 		equals:
-		((aBuilder itemsNamed: #Sources) childrenFromGroup: #Refactoring) size.
+		((aBuilder itemNamed: #Sources) childrenFromGroup: #Refactoring) size.
 	self
 		assert:
-			(((aBuilder itemsNamed: #Sources) childrenFromGroup: #Refactoring)
+			(((aBuilder itemNamed: #Sources) childrenFromGroup: #Refactoring)
 				 collect: [ :item | item name ])
 		equals: listWorldItemName
 ]
@@ -197,12 +199,12 @@ MenuBuilderTest >> testDiffSourcesMenu [
 { #category : #'tests - diff' }
 MenuBuilderTest >> testDiffSystemMenu [
 
-	| aBuilder oldBuilder concernItem listWorldItemName |
+	| aBuilder morphicBuilder concernItem listWorldItemName |
 	self skip.
 	aBuilder := self worldMenuExampleExampleMenu.
-	oldBuilder := PragmaMenuBuilder pragmaKeyword: 'worldMenu' model: nil.
-	oldBuilder buildTree.
-	concernItem := oldBuilder itemNamed: #System.
+	morphicBuilder := PragmaMenuBuilder pragmaKeyword: 'worldMenu' model: nil.
+	morphicBuilder buildTree.
+	concernItem := morphicBuilder itemNamed: #System.
 
 	listWorldItemName := (concernItem itemNamed: #World) itemList
 		                     collect: [ :child | child name ].
@@ -210,10 +212,10 @@ MenuBuilderTest >> testDiffSystemMenu [
 	self
 		assert: (concernItem itemNamed: #World) itemList size
 		equals:
-		((aBuilder itemsNamed: #System) childrenFromGroup: #World) size.
+		((aBuilder itemNamed: #System) childrenFromGroup: #World) size.
 	self
 		assert:
-			(((aBuilder itemsNamed: #System) childrenFromGroup: #World)
+			(((aBuilder itemNamed: #System) childrenFromGroup: #World)
 				 collect: [ :item | item name ])
 		equals: listWorldItemName
 ]
@@ -221,8 +223,6 @@ MenuBuilderTest >> testDiffSystemMenu [
 { #category : #'tests - conflicts' }
 MenuBuilderTest >> testDuplicatedIdenticalItem [
 
-	| builder |
-	builder := ToMenuBuilder new.
 
 	builder item: #MyOwnCoolMenu.
 	builder item: #MyOwnCoolMenu.
@@ -234,9 +234,6 @@ MenuBuilderTest >> testDuplicatedIdenticalItem [
 { #category : #'tests - conflicts' }
 MenuBuilderTest >> testDuplicatedIdenticalItemShortcut [
 
-	| builder |
-	builder := ToMenuBuilder new.
-
 	(builder item: #PrettyMenu) shortcut: 'u'.
 	(builder item: #UglyMenu) shortcut: 'u'.
 	builder resolve.
@@ -246,9 +243,6 @@ MenuBuilderTest >> testDuplicatedIdenticalItemShortcut [
 
 { #category : #'tests - conflicts' }
 MenuBuilderTest >> testDuplicatedIdenticalItemWithChild [
-
-	| builder |
-	builder := ToMenuBuilder new.
 
 	(builder item: #MyOwnCoolMenu) with: [ builder item: #BobbyLeMenu ].
 	(builder item: #MyOwnCoolMenu) with: [ builder item: #BobbyLeMenu ].
@@ -266,9 +260,6 @@ MenuBuilderTest >> testDuplicatedIdenticalItemWithChild [
 { #category : #'tests - conflicts' }
 MenuBuilderTest >> testDuplicatedIdenticalItemWithDifferentChild [
 
-	| builder |
-	builder := ToMenuBuilder new.
-
 	(builder item: #MyOwnCoolMenu) with: [ builder item: #BobbyLeMenu ].
 	(builder item: #MyOwnCoolMenu) with: [ builder item: #BobLeMenu ].
 	builder resolve.
@@ -285,28 +276,23 @@ MenuBuilderTest >> testDuplicatedIdenticalItemWithDifferentChild [
 { #category : #'tests - groups' }
 MenuBuilderTest >> testItemInAnUndeclaredGroupCreatesGroup [
 
-	| builder |
-	builder := ToMenuBuilder new.
-
 	(builder item: #Tools)
 		label: 'The root tools';
 		groupName: #OurGroup.
 
 	builder resolve.
 	self 
-		assert: builder groups size 
+		assert: builder namesOfAlreadyExistingGroups size 
 		equals: 1.
-	self assert: (builder groups includes: #OurGroup).
+	self assert: (builder namesOfAlreadyExistingGroups includes: #OurGroup).
 	self 
-		assert: (builder groupsNamed: #OurGroup) childrenItems first name 
+		assert: (builder groupNamed: #OurGroup) childrenItems first name 
 		equals: #Tools
 ]
 
 { #category : #'tests - groups' }
 MenuBuilderTest >> testItemInGroupAlreadyDeclared [
 
-	| builder |
-	builder := ToMenuBuilder new.
 	builder group: #OurGroup.
 
 	(builder item: #Tools)
@@ -319,15 +305,32 @@ MenuBuilderTest >> testItemInGroupAlreadyDeclared [
 		assert: builder collectedItems size 
 		equals: 2.
 	self
-		assert: (builder groupsNamed: #OurGroup) childrenItems first name
+		assert: (builder groupNamed: #OurGroup) childrenItems first name
 		equals: #Tools
+]
+
+{ #category : #'tests - groups' }
+MenuBuilderTest >> testItemNamed [
+
+	(builder item: #Tools) label: 'The root tools'.
+	self assert: (builder itemNamed: #Tools) name equals: #Tools.
+	(builder item: #Tools2) label: 'The root tools 2'.
+	self assert: (builder itemNamed: #Tools) name equals: #Tools.
+	self assert: (builder itemNamed: #Tools2) name equals: #Tools2.
+	
+	(builder group: #OurGroup) parent: #Tools.
+	(builder group: #OurGroup2) parent: #Tools.
+	builder resolve.
+	
+	self assert: (builder itemNamed: #Tools) name equals: #Tools.
+	self assert: (builder itemNamed: #Tools2) name equals: #Tools2.
+	self assert: (builder itemNamed: #Tools2) name equals: #Tools2.
+	
+	
 ]
 
 { #category : #tests }
 MenuBuilderTest >> testOrderedTree [
-
-	| builder |
-	builder := ToMenuBuilder new.
 
 	(builder item: #MyMenu)
 		order: 3;
@@ -356,25 +359,23 @@ MenuBuilderTest >> testOrderedTree [
 		assert: builder collectedItems last name 
 		equals: #MyMenu.
 	self
-		assert: (builder itemsNamed: #MySecondMenu) childrenItems first name
+		assert: (builder itemNamed: #MySecondMenu) childrenItems first name
 		equals: #MySecondMenuChild2
 ]
 
 { #category : #'tests - todo' }
 MenuBuilderTest >> testResolveAnUnknownParent [
 
-	| builder |
-	builder := ToMenuBuilder new.
 	(builder item: #MyOwnCoolTool)
 		parent: #Tools;
 		label: 'My own cool tool'.
 
 	builder resolve.
 	self
-		assert: (builder itemsNamed: #MyOwnCoolTool) parent
+		assert: (builder itemNamed: #MyOwnCoolTool) parent
 		equals: #Tools.
 	self assert:
-		(builder itemsNamed: #MyOwnCoolTool) parentMenuItem isNil.
+		(builder itemNamed: #MyOwnCoolTool) parentMenuItem isNil.
 
 	self assert: builder hasConflict.
 	self assert: builder conflicts first class equals: ParentNotFound
@@ -383,8 +384,6 @@ MenuBuilderTest >> testResolveAnUnknownParent [
 { #category : #'tests - duplicated items' }
 MenuBuilderTest >> testResolveThreeDepth [
 
-	| builder |
-	builder := ToMenuBuilder new.
 	(builder item: #Root) label: 'The root tools'.
 
 	(builder item: #Sub)
@@ -403,8 +402,6 @@ MenuBuilderTest >> testResolveThreeDepth [
 { #category : #'tests - duplicated items' }
 MenuBuilderTest >> testResolveThreeDepthBroken [
 
-	| builder |
-	builder := ToMenuBuilder new.
 	(builder item: #Root) label: 'The root tools'.
 
 	(builder item: #Sub)
@@ -422,9 +419,6 @@ MenuBuilderTest >> testResolveThreeDepthBroken [
 
 { #category : #'tests - resolve phase' }
 MenuBuilderTest >> testResolveWithDeclaresOneItemWithAChild [
-
-	| builder |
-	builder := ToMenuBuilder new.
 
 	(builder item: #MyMenu)
 		parent: #Tools;
@@ -444,20 +438,17 @@ MenuBuilderTest >> testResolveWithDeclaresOneItemWithAChild [
 	
 	self
 		assert:
-		(builder itemsNamed: #MyMenu) childrenItems first label
+		(builder itemNamed: #MyMenu) childrenItems first label
 		equals: 'My own cool tool also here'.
 
 	self
 		assert:
-		(builder itemsNamed: #MyMenu) childrenItems first parent
+		(builder itemNamed: #MyMenu) childrenItems first parent
 		equals: #MyMenu
 ]
 
 { #category : #'tests - resolve phase' }
 MenuBuilderTest >> testResolveWithDeclaresOneItemWithAParentAndAChild [
-
-	| builder |
-	builder := ToMenuBuilder new.
 
 	(builder item: #MyMenu)
 		parent: #Tools;
@@ -469,25 +460,23 @@ MenuBuilderTest >> testResolveWithDeclaresOneItemWithAParentAndAChild [
 				label: 'My own cool tool also here' ].
 
 	builder resolve.
-	self assert: builder groups size equals: 1.
+	self assert: builder namesOfAlreadyExistingGroups size equals: 1.
 	self
-		assert: (builder groupsNamed: #BeautifulMenu) childrenItems size
+		assert: (builder groupNamed: #BeautifulMenu) childrenItems size
 		equals: 2.
 	self
 		assert:
-			((builder groupsNamed: #BeautifulMenu) childrenItems collect: [
+			((builder groupNamed: #BeautifulMenu) childrenItems collect: [
 				 :item | item name ])
 		equals: { #MyMenu. #MyMenuChild } asOrderedCollection.
 	self
-		assert: (builder itemsNamed: #MyMenu) childrenItems first parent
+		assert: (builder itemNamed: #MyMenu) childrenItems first parent
 		equals: #MyMenu
 ]
 
 { #category : #'tests - resolve phase' }
 MenuBuilderTest >> testResolveWithItemWithExplicitParentUnknowDeclared [
 
-	| builder |
-	builder := ToMenuBuilder new.
 	(builder item: #MyMenu)
 		parent: #Tools;
 		label: 'The coolest tool here';
@@ -506,19 +495,16 @@ MenuBuilderTest >> testResolveWithItemWithExplicitParentUnknowDeclared [
 	self assert: builder collectedItems size equals: 1.
 
 	self
-		assert: (builder itemsNamed: #MyMenu) childrenItems first name
+		assert: (builder itemNamed: #MyMenu) childrenItems first name
 		equals: #MyBrokenItem.
 
 	self
-		assert: (builder itemsNamed: #MyMenu) childrenItems first parent
+		assert: (builder itemNamed: #MyMenu) childrenItems first parent
 		equals: #MyMenu.
 ]
 
 { #category : #'tests - before resolution' }
 MenuBuilderTest >> testSimpleItemBeforeParentDefinition [
-
-	| builder |
-	builder := ToMenuBuilder new.
 	
 	"we create a first item whose parent will be created after"
 	(builder item: #MyOwnCoolTool)
@@ -540,8 +526,7 @@ MenuBuilderTest >> testSimpleItemBeforeParentDefinition [
 { #category : #'tests - resolve phase' }
 MenuBuilderTest >> testSimpleItemWithItemNoParentDeclared [
 
-	| builder conflict |
-	builder := ToMenuBuilder new.
+	| conflict |
 
 	(builder item: #MyOwnCoolMenu)
 		parent: #Tools;
@@ -561,25 +546,22 @@ MenuBuilderTest >> testSimpleItemWithItemNoParentDeclared [
 
 
 	self
-		assert: (builder itemsNamed: #MyOwnCoolMenu) parent
+		assert: (builder itemNamed: #MyOwnCoolMenu) parent
 		equals: #Tools.
 	self
 		assert:
-			(builder itemsNamed: #MyOwnCoolMenu) childrenItems first
+			(builder itemNamed: #MyOwnCoolMenu) childrenItems first
 				label
 		equals: 'My own cool tool also here'.
 
 	self
 		assert:
-			(builder itemsNamed: #MyOwnCoolMenu) childrenItems first parent
+			(builder itemNamed: #MyOwnCoolMenu) childrenItems first parent
 		equals: #MyOwnCoolMenu
 ]
 
 { #category : #'tests - resolve phase' }
 MenuBuilderTest >> testSimpleItemWithItemWhoHaveAChild [
-
-	| builder |
-	builder := ToMenuBuilder new.
 
 	(builder item: #MyOwnCoolMenu)
 		label: 'The coolest tool here';
@@ -595,24 +577,21 @@ MenuBuilderTest >> testSimpleItemWithItemWhoHaveAChild [
 
 	self
 		assert:
-		(builder itemsNamed: #MyOwnCoolMenu) childrenItems first label
+		(builder itemNamed: #MyOwnCoolMenu) childrenItems first label
 		equals: 'My own cool tool also here'.
 	self
 		assert:
-			(builder itemsNamed: #MyOwnCoolMenu) childrenItems first
+			(builder itemNamed: #MyOwnCoolMenu) childrenItems first
 				childrenItems size
 		equals: 1.
 	self
-		assert: ((builder itemsNamed: #MyOwnCoolMenu) childrenItems first
+		assert: ((builder itemNamed: #MyOwnCoolMenu) childrenItems first
 				 findChildrenItems: #MyOwnCoolTool2) label
 		equals: 'My own cool tool 2 also here'.
 ]
 
 { #category : #'tests - resolve phase' }
 MenuBuilderTest >> testSimpleItemWithItemWithExplicitParentDeclared [
-
-	| builder |
-	builder := ToMenuBuilder new.
 
 	(builder item: #MyOwnCoolMenu)
 		parent: #Tools;
@@ -627,13 +606,13 @@ MenuBuilderTest >> testSimpleItemWithItemWithExplicitParentDeclared [
 
 	self
 		assert:
-			(builder itemsNamed: #MyOwnCoolMenu) childrenItems first
+			(builder itemNamed: #MyOwnCoolMenu) childrenItems first
 				label
 		equals: 'My own cool tool also here'.
 
 	self
 		assert:
-			(builder itemsNamed: #MyOwnCoolMenu) childrenItems first
+			(builder itemNamed: #MyOwnCoolMenu) childrenItems first
 				parent
 		equals: #MyOwnCoolMenu
 ]
@@ -641,9 +620,6 @@ MenuBuilderTest >> testSimpleItemWithItemWithExplicitParentDeclared [
 { #category : #'tests - resolve phase' }
 MenuBuilderTest >> testSimpleItemWithMultiplesItemsWithExpliciteDeclaredParent [
 
-	| builder |
-	builder := ToMenuBuilder new.
-
 	(builder item: #MyOwnCoolMenu)
 		parent: #Tools;
 		label: 'The coolest tool here';
@@ -660,12 +636,12 @@ MenuBuilderTest >> testSimpleItemWithMultiplesItemsWithExpliciteDeclaredParent [
 
 	self
 		assert:
-			(builder itemsNamed: #MyOwnCoolMenu) childrenItems first
+			(builder itemNamed: #MyOwnCoolMenu) childrenItems first
 				label
 		equals: 'My own cool tool also here'.
 	self
 		assert:
-			(builder itemsNamed: #MyOwnCoolMenu) childrenItems second
+			(builder itemNamed: #MyOwnCoolMenu) childrenItems second
 				label
 		equals: 'My own cool tool 2 also here'.
 ]
@@ -673,9 +649,6 @@ MenuBuilderTest >> testSimpleItemWithMultiplesItemsWithExpliciteDeclaredParent [
 { #category : #'tests - resolve phase' }
 MenuBuilderTest >> testSimpleItemWithMultiplesItemsWithNoParentDeclared [
 
-	| builder |
-	builder := ToMenuBuilder new.
-
 	(builder item: #MyOwnCoolMenu)
 		parent: #Tools;
 		label: 'The coolest tool here';
@@ -690,12 +663,12 @@ MenuBuilderTest >> testSimpleItemWithMultiplesItemsWithNoParentDeclared [
 
 	self
 		assert:
-			(builder itemsNamed: #MyOwnCoolMenu) childrenItems first
+			(builder itemNamed: #MyOwnCoolMenu) childrenItems first
 				label
 		equals: 'My own cool tool also here'.
 	self
 		assert:
-			(builder itemsNamed: #MyOwnCoolMenu) childrenItems second
+			(builder itemNamed: #MyOwnCoolMenu) childrenItems second
 				label
 		equals: 'My own cool tool 2 also here'.
 ]
@@ -703,8 +676,6 @@ MenuBuilderTest >> testSimpleItemWithMultiplesItemsWithNoParentDeclared [
 { #category : #'tests - duplicated items' }
 MenuBuilderTest >> testThreeDepth [
 
-	| builder |
-	builder := ToMenuBuilder new.
 	(builder item: #Root) label: 'The root tools'.
 
 	(builder item: #Sub)
@@ -721,40 +692,53 @@ MenuBuilderTest >> testThreeDepth [
 
 { #category : #'tests - groups' }
 MenuBuilderTest >> testTwoGroupDeclarationWithSameNameCreatesOnlyOneGroup [
-	| builder |
-	builder := ToMenuBuilder new.
-	builder group: #OurGroup.
-	builder group: #OurGroup.
+
+	| g1 |
+	(builder item: #Tools) label: 'The root tools'.
+	(builder item: #Tools2) label: 'The root tools 2'.
+	
+	g1 := (builder group: #OurGroup).
+	
+	"yes parent is a parentName and parent: is part of the public API of the declaration"
+	g1 parent: #Tools.
+
+	(builder group: #OurGroup2) parent: #Tools.
 	builder resolve.
 	
+	"for each root"
 	self 
 		assert: builder collectedItems size 
 		equals: 2.
-	self
-		assert: (builder groupsNamed: #OurGroup) childrenItems first name
-		equals: #Tools
+		
+	self assert: builder collectedItems first label equals: 'The root tools'.
+	self assert: builder collectedItems second label equals: 'The root tools 2'.
+	
+	self 
+		assert: g1 parent 
+		equals: #Tools.
+	self 
+		assert: g1 parentMenuItem name 
+		equals: #Tools.	
+		
+		
+		
+	
 ]
 
 { #category : #'tests - todo' }
 MenuBuilderTest >> testTwoGroupsWithSameName [
 
-	| builder |
-	builder := ToMenuBuilder new.
-	
 	(builder group: #Tools) label: 'The root tools'.
 	(builder group: #Tools) label: 'The root tools'.
 
 	self 
-		assert: builder groups size 
+		assert: builder namesOfAlreadyExistingGroups size 
 		equals: 1.
-	self assert: (builder groups includes: #Tools).
+	self assert: (builder namesOfAlreadyExistingGroups includes: #Tools).
 ]
 
 { #category : #tests }
 MenuBuilderTest >> testWithDeclaresOneItemWithAChild [
-
-	| builder |
-	builder := ToMenuBuilder new.
 
 	(builder item: #MyMenu)
 		parent: #Tools;
@@ -771,15 +755,15 @@ MenuBuilderTest >> testWithDeclaresOneItemWithAChild [
 	self assert: builder collectedItems size equals: 2.
 
 	self
-		assert: (builder itemsNamed: #MyMenuChild) parent
+		assert: (builder itemNamed: #MyMenuChild) parent
 		equals: #MyMenu.
 
 	self
-		assert: (builder itemsNamed: #MyMenuChild) parent
+		assert: (builder itemNamed: #MyMenuChild) parent
 		equals: #MyMenu.
 
 	self
-		assert: (builder itemsNamed: #MyMenuChild) label
+		assert: (builder itemNamed: #MyMenuChild) label
 		equals: 'My own cool tool also here'
 ]
 
@@ -793,8 +777,10 @@ MenuBuilderTest >> toploExampleMenu [
 { #category : #examples }
 MenuBuilderTest >> toploExampleMenuBuilder: aBuilderClass [
 
-	^ (aBuilderClass pragmaKeyword: #toploWorldMenu1)
-		  collectRegistrations;
+	"the class ToMenuBuilder defines one method with such pragma for tests."
+	
+	^ (aBuilderClass pragmaKeyword: #toploWorldMenuXXX123)
+		  collectDeclarations;
 		  resolve;
 		  yourself
 ]
@@ -810,7 +796,7 @@ MenuBuilderTest >> worldMenuExampleExampleMenu [
 MenuBuilderTest >> worldMenuExampleMenuBuilder: aClass [
 
 	^ (aClass pragmaKeyword: #worldMenu)
-		  collectRegistrations;
+		  collectDeclarations;
 		  resolve;
 		  yourself
 ]

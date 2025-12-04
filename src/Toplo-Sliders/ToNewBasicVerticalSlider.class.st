@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Sliders-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #examples }
 ToNewBasicVerticalSlider class >> simpleExample [
 
 	<script>

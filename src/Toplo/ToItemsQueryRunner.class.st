@@ -1,3 +1,6 @@
+"
+I'm 
+"
 Class {
 	#name : #ToItemsQueryRunner,
 	#superclass : #Object,
@@ -9,7 +12,7 @@ Class {
 		'items',
 		'delay'
 	],
-	#category : #'Toplo-Core-QueryRunner'
+	#category : #'Toplo-Unused-QueryRunner'
 }
 
 { #category : #'private filtering' }

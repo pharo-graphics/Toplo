@@ -56,7 +56,7 @@ ToTabGroupInTabPaneEventHandler >> eventsToHandle [
 
 	^ {
 		  ToCheckableGroupChangedEvent.
-		  ToBarItemEvent }
+		  ToFiniteListItemEvent }
 ]
 
 { #category : #'events handling' }

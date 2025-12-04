@@ -21,10 +21,10 @@ ToTreeElementTest >> setUp [
 
 { #category : #'expanding-collapsing tests' }
 ToTreeElementTest >> testCollapse [
-	" the data source size decreases when collapsing a wrapper  "
+	"The data source size decreases when collapsing a wrapper"
 
 	| wrapper size |
-	" get the second node wrapper "
+	"get the second node wrapper"
 	wrapper := tree dataSource at: 2.
 	"expand it, then no event should be dispateched"
 	size := tree dataSource size.

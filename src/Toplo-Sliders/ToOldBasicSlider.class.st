@@ -166,18 +166,6 @@ ToOldBasicSlider >> barThickness: anObject [
 	barThickness := anObject
 ]
 
-{ #category : #'main configuration' }
-ToOldBasicSlider >> beHorizontal [
-
-	self horizontal: true.
-]
-
-{ #category : #'main configuration' }
-ToOldBasicSlider >> beVertical [
-
-	self horizontal: false.
-]
-
 { #category : #'private - building' }
 ToOldBasicSlider >> buildDefaultHandle [
 
@@ -186,7 +174,7 @@ ToOldBasicSlider >> buildDefaultHandle [
 	bl := ToElement new
 		      geometry: BlCircleGeometry new;
 		      background: self class interactorDefaultColor;
-		      size: pt;
+		      extent: pt;
 		      transformDo: [ :t | t translateBy: pt negated / 2 ].
 	^ bl
 ]
@@ -204,11 +192,9 @@ ToOldBasicSlider >> buildHorizontalBackground [
 
 	| bgElt |
 	bgElt := ToElement new.
-	bgElt size:
-		self widgetSize x - (2 * self sliderPixelMargin) @ barThickness.
+	bgElt extent: self widgetSize x - (2 * self sliderPixelMargin) @ barThickness.
 	bgElt id: #sliderBackground.
-	bgElt position: self sliderPixelMargin
-		@ (self widgetSize y / 2 - (barThickness / 2)).
+	bgElt position: self sliderPixelMargin @ (self widgetSize y / 2 - (barThickness / 2)).
 	bgElt background: self class backgroundDefaultColor.
 	bgElt zIndex: 0.
 	self addChild: bgElt.
@@ -220,12 +206,9 @@ ToOldBasicSlider >> buildHorizontalBar [
 
 	| bar |
 	bar := ToElement new.
-	bar size:
-		(self valueToCoord: currentValue)
-		- (self sliderPixelMargin) @ barThickness.
+	bar extent: (self valueToCoord: currentValue) - self sliderPixelMargin @ barThickness.
 	bar id: #sliderBar.
-	bar position: self sliderPixelMargin
-		@ (self widgetSize y / 2 - (barThickness / 2)).
+	bar position: self sliderPixelMargin @ (self widgetSize y / 2 - (barThickness / 2)).
 	bar background: self class barDefaultColor.
 	bar zIndex: 2.
 	self addChild: bar.
@@ -341,22 +324,12 @@ ToOldBasicSlider >> changedCurrentValue: aValue withSlider: aBool [
 	v := self valueToCoord: aValue.
 	self isHorizontal
 		ifTrue: [
-			aBool ifTrue: [
-				self sliderHandle ifNotNil: [ :sl |
-					sl position: v @ sl constraints position y ] ].
-			self sliderBar size:
-				v - self sliderPixelMargin @ self sliderBar size y ]
+				aBool ifTrue: [ self sliderHandle ifNotNil: [ :sl | sl position: v @ sl constraints position y ] ].
+				self sliderBar extent: v - self sliderPixelMargin @ self sliderBar extent y ]
 		ifFalse: [
-			aBool ifTrue: [
-				self sliderHandle ifNotNil: [ :sl |
-					sl position: sl constraints position x @ v ] ].
-			self sliderBar size:
-				barThickness
-				@ (self widgetSize y - (self valueToCoord: currentValue)
-					 - self sliderPixelMargin).
-			self sliderBar position:
-				self widgetSize x / 2 - (barThickness / 2)
-				@ (self valueToCoord: currentValue) ].
+				aBool ifTrue: [ self sliderHandle ifNotNil: [ :sl | sl position: sl constraints position x @ v ] ].
+				self sliderBar size: barThickness @ (self widgetSize y - (self valueToCoord: currentValue) - self sliderPixelMargin).
+				self sliderBar position: self widgetSize x / 2 - (barThickness / 2) @ (self valueToCoord: currentValue) ].
 	color := self colorForValue: aValue.
 	self sliderHandle background: color.
 	self sliderBar background: color
@@ -525,7 +498,7 @@ ToOldBasicSlider >> initialize [
 	minValue := 0.0.
 	self size: 300 @ 30.
 	currentValue := 0.0.
-	self beHorizontal.
+	self newHorizontal.
 	sliderPixelMargin := 5.
 	disabledRebuilding := false.
 	stepValue := 1.
@@ -619,6 +592,18 @@ ToOldBasicSlider >> nearestValue: aValue [
 	^ val
 ]
 
+{ #category : #'main configuration' }
+ToOldBasicSlider >> newHorizontal [
+
+	self horizontal: true.
+]
+
+{ #category : #'main configuration' }
+ToOldBasicSlider >> newVertical [
+
+	self horizontal: false.
+]
+
 { #category : #'api - transformations' }
 ToOldBasicSlider >> pointToValue: point [
 
@@ -631,10 +616,9 @@ ToOldBasicSlider >> pointToValue: point [
 ToOldBasicSlider >> pointToXValue: point [
 
 	| facteur valeur |
-	facteur := point x / self sliderBackground size x.
+	facteur := point x / self sliderBackground extent x.
 	valeur := self maxValue - self minValue * facteur.
-	valeur := (valeur roundTo: (self stepValue ifNil: [ 1 ]))
-	          + self minValue.
+	valeur := (valeur roundTo: (self stepValue ifNil: [ 1 ])) + self minValue.
 	valeur := self nearestValue: valeur.
 	^ valeur
 ]
@@ -709,7 +693,7 @@ ToOldBasicSlider >> setValue: aValue [
 { #category : #'api - bounds' }
 ToOldBasicSlider >> size: aValue [
 
-	super size: aValue.
+	super extent: aValue.
 	self widgetSize: aValue.
 	self isSliderBuilt ifTrue: [ self rebuildSlider ]
 ]

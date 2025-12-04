@@ -1,3 +1,9 @@
+"
+I manage the possibility to keep a selection while filtering it. 
+For example in a method list, the user selects some the initialize methods, then filter the list based on the init pattern, he/she will see the previously selected initialize methods. 
+
+I'm using `ToObservableCollectionFilterApplier`.  
+"
 Class {
 	#name : #ToListElementSieve,
 	#superclass : #Object,

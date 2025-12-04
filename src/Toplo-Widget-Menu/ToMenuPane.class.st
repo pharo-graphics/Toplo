@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuPane,
 	#superclass : #ToElement,
-	#traits : 'TToItem + TToMenuItem + TToItemBarContainer + TToMenuItemBarContainer + TToOrientable',
-	#classTraits : 'TToItem classTrait + TToMenuItem classTrait + TToItemBarContainer classTrait + TToMenuItemBarContainer classTrait + TToOrientable classTrait',
+	#traits : 'TToItem + TToMenuItem + TToItemFiniteListContainer + TToMenuItemBarContainer + TToOrientable',
+	#classTraits : 'TToItem classTrait + TToMenuItem classTrait + TToItemFiniteListContainer classTrait + TToMenuItemBarContainer classTrait + TToOrientable classTrait',
 	#instVars : [
 		'autoOpen',
 		'isSubPane'
@@ -142,7 +142,7 @@ ToMenuPane >> menuWindowDo: aValuable [
 { #category : #'t - item list holder - initializing' }
 ToMenuPane >> newItemBar [
 
-	^ ToMenuItemBarElement new
+	^ ToMenuItemFiniteListElement new
 ]
 
 { #category : #skin }

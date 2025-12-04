@@ -33,31 +33,22 @@ Class {
 	#category : #'Toplo-Sliders-Core'
 }
 
-{ #category : #accessing }
-ToDesignSlider class >> beHorizontal [
-
-	^ self new beHorizontal 
-]
-
-{ #category : #accessing }
-ToDesignSlider class >> beVertical [ 
-	
-	^ self new beVertical 
-]
-
-{ #category : #accessing }
-ToDesignSlider class >> label: aString [ 
-
-	|slider|
-	slider := self new name: aString.
-	slider initializeLabel.
-	^ slider
-]
-
 { #category : #'instance creation' }
 ToDesignSlider class >> new [
 
 	^ self readOnly initializeEvents
+]
+
+{ #category : #'instance creation' }
+ToDesignSlider class >> newHorizontal [
+
+	^ self new newHorizontal 
+]
+
+{ #category : #'instance creation' }
+ToDesignSlider class >> newVertical [ 
+	
+	^ self new newVertical 
 ]
 
 { #category : #'instance creation' }
@@ -75,13 +66,41 @@ ToDesignSlider class >> readOnlyLabel: aString [
 	^ slider
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #examples }
 ToDesignSlider class >> simpleExampleHorizontal [
 	"The values of the slider are also written in the transcript"
 
 	<script>
 	| slider textElt container |
-	slider := self beHorizontal.
+	slider := self newHorizontal.
+	
+	textElt := BlTextElement new position: slider defaultSize.
+	textElt constraintsDo: [ :c |
+		c linear vertical alignCenter
+		 ].
+	textElt text: slider value asRopedText.
+
+	slider callBack: [ :value | textElt text: value asRopedText ].
+
+	container := BlElement new.
+	container layout: BlLinearLayout horizontal.
+	container constraintsDo: [ :c | 
+			c horizontal fitContent.
+			c vertical fitContent
+			 ].
+	container addChild: slider.
+	container addChild: textElt.
+
+	container openInSpace
+]
+
+{ #category : #examples }
+ToDesignSlider class >> simpleExampleVertical [
+	"The values of the slider are also written in the transcript"
+
+	<script>
+	| slider textElt container |
+	slider := self newVertical.
 	textElt := BlTextElement new position: slider defaultSize.
 
 	textElt text: slider value asRopedText.
@@ -96,25 +115,13 @@ ToDesignSlider class >> simpleExampleHorizontal [
 	container openInSpace
 ]
 
-{ #category : #'as yet unclassified' }
-ToDesignSlider class >> simpleExampleVertical [
-	"The values of the slider are also written in the transcript"
+{ #category : #'instance creation' }
+ToDesignSlider class >> withLabel: aString [ 
 
-	<script>
-	| slider textElt container |
-	slider := self beVertical.
-	textElt := BlTextElement new position: slider defaultSize.
-
-	textElt text: slider value asRopedText.
-
-	slider callBack: [ :value | textElt text: value asRopedText ].
-
-	container := BlElement new clipChildren: false.
-
-	container addChild: slider.
-	container addChild: textElt.
-
-	container openInSpace
+	|slider|
+	slider := self new name: aString.
+	slider initializeLabel.
+	^ slider
 ]
 
 { #category : #accessing }
@@ -167,13 +174,6 @@ ToDesignSlider >> basicSetValue: aNumber [
 	self callBack ifNotNil: [ :e | e value: value ]
 ]
 
-{ #category : #accessing }
-ToDesignSlider >> beHorizontal [
-
-	self horizontal: true.
-	self rebuild
-]
-
 { #category : #building }
 ToDesignSlider >> beSegmented [
 
@@ -189,13 +189,6 @@ ToDesignSlider >> beSmooth [
 	self segmented: false.
 	self segmentedValues: nil.
 	self rebuild
-]
-
-{ #category : #accessing }
-ToDesignSlider >> beVertical [
-
-	self horizontal: false.
-	self buildVertical
 ]
 
 { #category : #building }
@@ -229,7 +222,7 @@ ToDesignSlider >> callBack: aBlock [
 	callBack := aBlock 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #building }
 ToDesignSlider >> changeMaxValueLabelTo: aValue [
 
 	maxLabel text: (aValue asRopedText attributes: {
@@ -239,7 +232,7 @@ ToDesignSlider >> changeMaxValueLabelTo: aValue [
 	maxValue := aValue
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #building }
 ToDesignSlider >> changeMinValueLabelTo: aValue [
 
 	minLabel text: (aValue asRopedText attributes: {
@@ -285,16 +278,14 @@ ToDesignSlider >> defaultBar [
 
 	| size |
 	size := self
-		        ifHorizontal: [
-		        self defaultBarLength @ self defaultBarThickness ]
-		        ifVertical: [
-		        self defaultBarThickness @ self defaultBarLength ].
+		        ifHorizontal: [ self defaultBarLength @ self defaultBarThickness ]
+		        ifVertical: [ self defaultBarThickness @ self defaultBarLength ].
 
 	^ BlElement new
 		  geometry: (BlRoundedRectangleGeometry cornerRadius: 10);
 		  background: self barDefaultColor;
-		  size: size;
-		constraintsDo: [ :c | c ignoreByLayout ];
+		  extent: size;
+		  constraintsDo: [ :c | c ignoreByLayout ];
 		  yourself
 ]
 
@@ -320,15 +311,13 @@ ToDesignSlider >> defaultColor [
 ToDesignSlider >> defaultColoredBar [
 
 	| size |
-	size := self
-		        ifHorizontal: [ 0 @ self defaultBarThickness ]
-		        ifVertical: [ self defaultBarThickness @ 0.1 ].
+	size := self ifHorizontal: [ 0 @ self defaultBarThickness ] ifVertical: [ self defaultBarThickness @ 0.1 ].
 
 	^ BlElement new
 		  geometry: (BlRoundedRectangleGeometry cornerRadius: 10);
 		  background: self coloredBarDefaultColor;
-		constraintsDo: [ :c | c ignoreByLayout ];
-		  size: size;
+		  constraintsDo: [ :c | c ignoreByLayout ];
+		  extent: size;
 		  yourself
 ]
 
@@ -336,17 +325,14 @@ ToDesignSlider >> defaultColoredBar [
 ToDesignSlider >> defaultHandle [
 
 	| size elt |
-	size := self
-		        ifHorizontal: [ 5 @ barThickness ]
-		        ifVertical: [ barThickness @ 5 ].
+	size := self ifHorizontal: [ 5 @ barThickness ] ifVertical: [ barThickness @ 5 ].
 
 	elt := BlElement new
 		       background: self handleDefaultColor;
 		       geometry: (BlRoundedRectangleGeometry cornerRadius: 2);
-		constraintsDo: [ :c | c ignoreByLayout ];
-		       size: size;
-		       transformDo: [ :t | "so the position is now the center"
-			       t translateBy: size negated / 2 ];
+		       constraintsDo: [ :c | c ignoreByLayout ];
+		       extent: size;
+		       transformDo: [ :t | "so the position is now the center" t translateBy: size negated / 2 ];
 		       yourself.
 
 	^ elt
@@ -686,6 +672,20 @@ ToDesignSlider >> nearestValue: aValue [
 	^ val
 ]
 
+{ #category : #accessing }
+ToDesignSlider >> newHorizontal [
+
+	self horizontal: true.
+	self rebuild
+]
+
+{ #category : #accessing }
+ToDesignSlider >> newVertical [
+
+	self horizontal: false.
+	self buildVertical
+]
+
 { #category : #'api - transformations' }
 ToDesignSlider >> positionDefaultBar: aBar [
 
@@ -774,9 +774,7 @@ ToDesignSlider >> setValue: aNumber [
 ToDesignSlider >> size: aValue [
 	"just to keep the widgset size"
 
-	super size: aValue.
-	
-	" for now do not support resize
+	super extent: aValue " for now do not support resize
 	
 	self isBuildSlider ifTrue: [ self rebuildSlider ]
 	"
@@ -800,12 +798,11 @@ ToDesignSlider >> updateColoredBarTo: aPosition [
 
 	self
 		ifHorizontal: [
-			coloredBar position: bar position.
-			coloredBar size: (aPosition - coloredBar position) x @ barThickness ]
+				coloredBar position: bar position.
+				coloredBar extent: (aPosition - coloredBar position) x @ barThickness ]
 		ifVertical: [
-			coloredBar position: aPosition x - (barThickness / 2) @ aPosition y.
-			coloredBar size:
-				barThickness @ (bar position y + barLength - aPosition y) ]
+				coloredBar position: aPosition x - (barThickness / 2) @ aPosition y.
+				coloredBar size: barThickness @ (bar position y + barLength - aPosition y) ]
 ]
 
 { #category : #accessing }

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMultiSelectNodeManager,
-	#superclass : #ToGenericBarNodeManager,
+	#superclass : #ToGenericFiniteListNodeManager,
 	#category : #'Toplo-Widget-Select-Multi'
 }
 

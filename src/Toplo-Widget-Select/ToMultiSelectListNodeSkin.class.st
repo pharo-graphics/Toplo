@@ -1,7 +1,7 @@
 Class {
 	#name : #ToMultiSelectListNodeSkin,
 	#superclass : #ToListNodeSkin,
-	#category : #'Toplo-Widget-Select-List'
+	#category : #'Toplo-Widget-Select-PopupList'
 }
 
 { #category : #'event handling' }

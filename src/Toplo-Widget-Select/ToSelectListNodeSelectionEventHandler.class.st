@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSelectListNodeSelectionEventHandler,
 	#superclass : #ToListNodeSelectionEventHandler,
-	#category : #'Toplo-Widget-Select-List'
+	#category : #'Toplo-Widget-Select-PopupList'
 }
 
 { #category : #'mouse handlers' }

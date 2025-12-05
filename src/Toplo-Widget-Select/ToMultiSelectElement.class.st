@@ -27,7 +27,6 @@ ToMultiSelectElement >> applyConfiguration [
 	super applyConfiguration.
 	self innerElement isFlowable: isFlowable.
 	self innerElement keepPickOrder: keepPickOrder.
-
 	self iconContainer maxSelectedCount: maxSelectedCount .
 	self innerElement maxSelectedCount: maxSelectedCount.
 ]
@@ -63,10 +62,9 @@ ToMultiSelectElement >> checkHideSelectionFromListElement [
 ]
 
 { #category : #'accessing - selection' }
-ToMultiSelectElement >> checkMaxSelectedCount [
+ToMultiSelectElement >> checkMaxSelectedCountInPopupList [
 
-	self popupListElement postponeAction: [
-		self innerElement checkMaxSelectedCount ]
+		self popupListElement postponeAction: [ innerElement checkMaxSelectedCount ]
 ]
 
 { #category : #'accessing - window' }
@@ -119,7 +117,7 @@ ToMultiSelectElement >> initialize [
 { #category : #initialization }
 ToMultiSelectElement >> initializeListSelectionChecker [
 
-	" add the checked to checke the selection command "
+	" add the checked to check the selection command "
 	self addEventHandler:
 		ToMultiSelectSelectionChecker new.
 	" add the handler in my sieve so that I can receive the selecter command application event  "
@@ -202,6 +200,13 @@ ToMultiSelectElement >> nodeManager [
 	^ self innerElement nodeManager
 ]
 
+{ #category : #window }
+ToMultiSelectElement >> onPopupWindowOpened [
+
+	super onPopupWindowOpened.
+	self checkMaxSelectedCountInPopupList 
+]
+
 { #category : #'accessing - list' }
 ToMultiSelectElement >> setGroupIndex: anIndex [
 
@@ -215,10 +220,11 @@ ToMultiSelectElement >> tagBuilder: aValuable [
 	self innerElement tagBuilder: aValuable
 ]
 
-{ #category : #private }
-ToMultiSelectElement >> updateSelectedCountLabel [
+{ #category : #'accessing - selection' }
+ToMultiSelectElement >> updateSelectedCountLabelInHeader [
 
-	self iconContainer updateSelectedCountLabel
+	self iconContainer updateSelectedCountLabelWith:
+		self header dataSource size
 ]
 
 { #category : #accessing }

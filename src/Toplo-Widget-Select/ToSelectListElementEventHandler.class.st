@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSelectListElementEventHandler,
 	#superclass : #ToListElementEventHandler,
-	#category : #'Toplo-Widget-Select-List'
+	#category : #'Toplo-Widget-Select-PopupList'
 }
 
 { #category : #'api - accessing' }

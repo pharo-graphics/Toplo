@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSelectListNodeHolder,
 	#superclass : #ToNodeHolder,
-	#category : #'Toplo-Widget-Select-List'
+	#category : #'Toplo-Widget-Select-PopupList'
 }
 
 { #category : #testing }

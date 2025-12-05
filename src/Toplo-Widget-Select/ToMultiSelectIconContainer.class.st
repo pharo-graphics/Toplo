@@ -37,10 +37,10 @@ ToMultiSelectIconContainer >> selectionModel: aSelectionModel [
 ]
 
 { #category : #accessing }
-ToMultiSelectIconContainer >> updateSelectedCountLabel [
+ToMultiSelectIconContainer >> updateSelectedCountLabelWith: aNumber [
 
-	maxSelectedCount isZero ifTrue: [ ^ self ].
+	"maxSelectedCount = -1 ifTrue: [ ^ self ]."
 	self selectedCountLabel text:
-		selectionModel selectedIndexesCount asString , ' / '
-		, maxSelectedCount asString
+		aNumber asString , ' / ' , maxSelectedCount asString.
+	self selectedCountLabel text asString traceCr
 ]

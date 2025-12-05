@@ -1,7 +1,7 @@
 Class {
 	#name : #ToMultiSelectListElement,
 	#superclass : #ToSelectListElement,
-	#category : #'Toplo-Widget-Select-List'
+	#category : #'Toplo-Widget-Select-PopupList'
 }
 
 { #category : #'private - commands' }
@@ -10,7 +10,7 @@ ToMultiSelectListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 
 	super applyDataSourceSieveCommand: aDataSourceCommand.
 	selectElement checkHideSelectionFromListElement.
-	selectElement checkMaxSelectedCount
+	selectElement checkMaxSelectedCountInPopupList
 ]
 
 { #category : #initialization }

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMultiSelectFiniteListElement,
-	#superclass : #ToTagFiniteListElement,
+	#superclass : #ToGenericFiniteListElement,
 	#traits : 'TToSelectInnerContainerElement + TToElementWithPlaceholder',
 	#classTraits : 'TToSelectInnerContainerElement classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [
@@ -45,30 +45,30 @@ ToMultiSelectFiniteListElement >> checkHideSelectionFromListElement [
 { #category : #'accessing - selection' }
 ToMultiSelectFiniteListElement >> checkMaxSelectedCount [
 
-	| sM disabledSM groupeSM selectedCount |
+	| sM disabledSM groupeSM selectedCount prevDisabledSM |
 	self haveMaxSelectedCount ifFalse: [ ^ self ].
 
 	disabledSM := self popupListElement disabledSelectionModel.
 	groupeSM := self popupListElement groupSelectionModel.
 	sM := self popupListElement selectionModel.
 
-	selectElement updateSelectedCountLabel.
 	selectedCount := selectElement selectionModel selectedIndexesCount.
 
-	"self assertMaxSelectedCount: selectedIndexCount."
+	prevDisabledSM := disabledSM copy.
 	self sieve withLocalAndOriginalIndexDo: [ :d :localIndex :originalIndex |
-		(groupeSM containsIndex: localIndex) ifFalse: [
-			selectedCount < maxSelectedCount
-				ifTrue: [ disabledSM deselectIndex: localIndex ]
-				ifFalse: [
-					(selectElement selectionModel containsIndex: originalIndex)
-						ifFalse: [ disabledSM selectIndex: localIndex ] ].
-			" to transfer the selection to the sieve selection model "
-			sM
-				transferSelectionFromIndex: localIndex
-				toIndex: originalIndex
-				in: selectElement selectionModel ] ].
+			(groupeSM containsIndex: localIndex) ifFalse: [
+					selectedCount < maxSelectedCount
+						ifTrue: [ disabledSM deselectIndex: localIndex ]
+						ifFalse: [
+								(selectElement selectionModel containsIndex: originalIndex)
+									ifFalse: [ disabledSM selectIndex: localIndex ] ].
+					" to transfer the selection to the sieve selection model "
+					sM
+						transferSelectionFromIndex: localIndex
+						toIndex: originalIndex
+						in: selectElement selectionModel ] ].
 
+	prevDisabledSM = disabledSM ifTrue: [ ^ self ].
 	self popupListElement notifyDataSourceChanged
 ]
 
@@ -152,8 +152,8 @@ ToMultiSelectFiniteListElement >> initialize [
 
 	" no visible primary and secondary selection elements "
 	self selectionOption masked: true.
-	self primarySelectionMode makeDisabledUnselectable: true.
-	self secondarySelectionMode selectionOption masked: true.
+	self selectionMode makeDisabledUnselectable: true.
+	self secondarySelectionOption masked: true.
 	self focusability: BlFocusability ignore.
 	maxSelectedCount := -1.
 	keepPickOrder := false.

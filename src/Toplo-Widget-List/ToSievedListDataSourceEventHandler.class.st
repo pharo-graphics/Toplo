@@ -13,10 +13,9 @@ ToSievedListDataSourceEventHandler >> buildOriginalIndexMap [
 
 	sieve originalIndexMap removeAll.
 	sieve selectionModel deselectAll.
-	listElement postponeAction: [ :l |
-		l dataSource withIndexDo: [ :aData :idx |
-			sieve originalIndexMap at: aData put: idx ].
-		sieve selectionModel copySelectionFrom: l selectionModel ]
+	listElement dataSource withIndexDo: [ :aData :idx |
+		sieve originalIndexMap at: aData put: idx ].
+	sieve selectionModel copySelectionFrom: listElement selectionModel
 ]
 
 { #category : #'api - accessing' }

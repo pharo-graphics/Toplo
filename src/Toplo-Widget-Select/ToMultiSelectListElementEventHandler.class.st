@@ -1,26 +1,13 @@
 Class {
 	#name : #ToMultiSelectListElementEventHandler,
 	#superclass : #ToSelectListElementEventHandler,
-	#category : #'Toplo-Widget-Select-List'
+	#category : #'Toplo-Widget-Select-PopupList'
 }
 
 { #category : #'api - accessing' }
 ToMultiSelectListElementEventHandler >> eventsToHandle [
 
-	^ super eventsToHandle , {
-		  ToListSelecterCommandApplicationRequestEvent.
-		  ToSelectGroupSelectionChangedEvent }
-]
-
-{ #category : #'event handling' }
-ToMultiSelectListElementEventHandler >> listSelecterCommandApplicationRequestEvent: anEvent [
-
-	| listElement select |
-	listElement := anEvent currentTarget.
-	anEvent selectionModel = listElement selectionModel ifFalse: [ ^ self ].
-	listElement selectionModel selectedIndexesCount > 0 ifFalse: [ ^ self ].
-	select := listElement selectElement.
-	select checkMaxSelectedCount 
+	^ super eventsToHandle , { ToSelectGroupSelectionChangedEvent }
 ]
 
 { #category : #'event handling' }
@@ -43,6 +30,7 @@ ToMultiSelectListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
 	super sieveSelectionChangedEvent: anEvent.
 	listElement := anEvent currentTarget.
 	selectElement := listElement selectElement.
+	selectElement checkMaxSelectedCountInPopupList.
 	changedEvent := ToSelectChangedEvent new.
 	changedEvent selectedDataItems: selectElement selectedDataItems.
 	changedEvent selectedIndexes:

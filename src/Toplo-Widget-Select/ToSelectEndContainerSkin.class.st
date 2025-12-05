@@ -1,18 +1,18 @@
 Class {
-	#name : #ToSelectIconContainerSkin,
+	#name : #ToSelectEndContainerSkin,
 	#superclass : #ToRawSkin,
 	#category : #'Toplo-Widget-Select-Core'
 }
 
 { #category : #'event handling' }
-ToSelectIconContainerSkin >> closedSkinEvent: anEvent [
+ToSelectEndContainerSkin >> closedSkinEvent: anEvent [
 
 	super closedSkinEvent: anEvent.
 	anEvent elementDo: [ :e | e icon beUp ]
 ]
 
 { #category : #'event handling' }
-ToSelectIconContainerSkin >> disabledSkinEvent: anEvent [
+ToSelectEndContainerSkin >> disabledSkinEvent: anEvent [
 
 	super disabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -21,7 +21,7 @@ ToSelectIconContainerSkin >> disabledSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToSelectIconContainerSkin >> enabledSkinEvent: anEvent [
+ToSelectEndContainerSkin >> enabledSkinEvent: anEvent [
 
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -29,7 +29,7 @@ ToSelectIconContainerSkin >> enabledSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToSelectIconContainerSkin >> hoveredSkinEvent: anEvent [
+ToSelectEndContainerSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -37,7 +37,7 @@ ToSelectIconContainerSkin >> hoveredSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToSelectIconContainerSkin >> installSkinEvent: anEvent [
+ToSelectEndContainerSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -52,7 +52,7 @@ ToSelectIconContainerSkin >> installSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToSelectIconContainerSkin >> leavedSkinEvent: anEvent [
+ToSelectEndContainerSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -60,7 +60,7 @@ ToSelectIconContainerSkin >> leavedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToSelectIconContainerSkin >> leftSkinEvent: anEvent [
+ToSelectEndContainerSkin >> leftSkinEvent: anEvent [
 
 	super leftSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -68,14 +68,14 @@ ToSelectIconContainerSkin >> leftSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToSelectIconContainerSkin >> openedSkinEvent: anEvent [
+ToSelectEndContainerSkin >> openedSkinEvent: anEvent [
 
 	super openedSkinEvent: anEvent.
 	anEvent elementDo: [ :e | e icon beDown ]
 ]
 
 { #category : #'event handling' }
-ToSelectIconContainerSkin >> uninstallSkinEvent: anEvent [
+ToSelectEndContainerSkin >> uninstallSkinEvent: anEvent [
 
 	super uninstallSkinEvent: anEvent.
 	anEvent elementDo: [ :e | ]

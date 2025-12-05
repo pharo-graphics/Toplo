@@ -8,7 +8,7 @@ Class {
 ToSelectElementSkin >> closedSkinEvent: anEvent [
 
 	super closedSkinEvent: anEvent.
-	anEvent elementDo: [ :e | e iconContainer dispatchEvent: anEvent copy ]
+	anEvent elementDo: [ :e | e endContainer dispatchEvent: anEvent copy ]
 ]
 
 { #category : #'event handling' }
@@ -24,7 +24,7 @@ ToSelectElementSkin >> installSkinEvent: anEvent [
 ToSelectElementSkin >> openedSkinEvent: anEvent [
 
 	super openedSkinEvent: anEvent.
-	anEvent elementDo: [ :e | e iconContainer dispatchEvent: anEvent copy ]
+	anEvent elementDo: [ :e | e endContainer dispatchEvent: anEvent copy ]
 ]
 
 { #category : #'accessing - shortcuts' }

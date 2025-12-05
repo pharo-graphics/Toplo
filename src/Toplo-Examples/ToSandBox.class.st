@@ -4275,6 +4275,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithMax [
 
 	| select  |
 	select := self example_SelectMultiFiltrable.
+	"select inspect."
 	"self halt."
 	select maxSelectedCount: 3.
 	select selecter selectIndex: 3.
@@ -4289,6 +4290,7 @@ ToSandBox class >> example_SelectMultiNotFiltrable [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
+	select inspect.
 	select maxSelectedCount: 4.
 	select filtrable: false.
 	select isFlowable: true.

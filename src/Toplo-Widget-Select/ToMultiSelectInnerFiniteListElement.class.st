@@ -30,3 +30,10 @@ ToMultiSelectInnerFiniteListElement >> onInvisibleNodeContainers: theInvisibleCo
 		listElement dataAccessor removeAt: container holder position ].
 	"listElement dataAccessor add: composite"
 ]
+
+{ #category : #'hooks - layout' }
+ToMultiSelectInnerFiniteListElement >> onLayoutDone [ 
+
+	super onLayoutDone.
+	listElement selectElement checkMaxSelectedCountInHeader
+]

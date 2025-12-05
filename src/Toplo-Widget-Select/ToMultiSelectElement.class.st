@@ -27,7 +27,7 @@ ToMultiSelectElement >> applyConfiguration [
 	super applyConfiguration.
 	self innerElement isFlowable: isFlowable.
 	self innerElement keepPickOrder: keepPickOrder.
-	self iconContainer maxSelectedCount: maxSelectedCount .
+	self endContainer maxSelectedCount: maxSelectedCount .
 	self innerElement maxSelectedCount: maxSelectedCount.
 ]
 
@@ -62,9 +62,16 @@ ToMultiSelectElement >> checkHideSelectionFromListElement [
 ]
 
 { #category : #'accessing - selection' }
+ToMultiSelectElement >> checkMaxSelectedCountInHeader [
+
+	self endContainer updateSelectedCountLabelWith:
+		self header dataSource size
+]
+
+{ #category : #'accessing - selection' }
 ToMultiSelectElement >> checkMaxSelectedCountInPopupList [
 
-		self popupListElement postponeAction: [ innerElement checkMaxSelectedCount ]
+		self popupListElement postponeAction: [ self innerElement checkMaxSelectedCount ]
 ]
 
 { #category : #'accessing - window' }
@@ -90,16 +97,6 @@ ToMultiSelectElement >> hideSelected: aBoolean [
 
 	hideSelected := aBoolean.
 	self requestConfiguration
-]
-
-{ #category : #accessing }
-ToMultiSelectElement >> iconContainer: anIconContainer [
-
-	self iconContainer = anIconContainer ifTrue: [ ^ self ].
-	self iconContainer ifNotNil: [
-		self iconContainer onUninstalledIn: self ].
-	super iconContainer: anIconContainer.
-	anIconContainer selectionModel: self selectionModel
 ]
 
 { #category : #initialization }
@@ -170,9 +167,9 @@ ToMultiSelectElement >> maxSelectedCount: aNumber [
 ]
 
 { #category : #'instance creation' }
-ToMultiSelectElement >> newIconContainer [
+ToMultiSelectElement >> newEndContainer [
 
-	^ ToMultiSelectIconContainer new
+	^ ToMultiSelectEndContainer new
 ]
 
 { #category : #'instance creation' }
@@ -218,13 +215,6 @@ ToMultiSelectElement >> tagBuilder: aValuable [
 	"aValuable takes 3 optional args: first, the node to build, second, the dataItem and third, the holder in the list element "
 
 	self innerElement tagBuilder: aValuable
-]
-
-{ #category : #'accessing - selection' }
-ToMultiSelectElement >> updateSelectedCountLabelInHeader [
-
-	self iconContainer updateSelectedCountLabelWith:
-		self header dataSource size
 ]
 
 { #category : #accessing }

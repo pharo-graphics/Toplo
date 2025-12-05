@@ -51,7 +51,7 @@ ToMultiSelectSelectionChecker >> listSelecterCommandApplicationRequestEvent: anE
 	command applyWithOperator: self.
 	selectedIndexes size > currentSelectElement maxSelectedCount ifTrue: [
 		request deny ].
-	currentSelectElement updateSelectedCountLabelInHeader.
+	currentSelectElement checkMaxSelectedCountInHeader.
 	currentSelectElement := nil.
 	request := nil
 ]

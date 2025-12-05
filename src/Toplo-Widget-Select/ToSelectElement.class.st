@@ -14,13 +14,11 @@ See https://ant.design/components/select for a functional reference.
 "
 Class {
 	#name : #ToSelectElement,
-	#superclass : #ToElement,
+	#superclass : #ToTripletContainer,
 	#traits : 'TToPlaceholderUser',
 	#classTraits : 'TToPlaceholderUser classTrait',
 	#instVars : [
 		'filtrable',
-		'iconContainer',
-		'innerElement',
 		'windowManager',
 		'sample'
 	],
@@ -123,14 +121,7 @@ ToSelectElement >> header [
 { #category : #accessing }
 ToSelectElement >> iconContainer [
 
-	^ iconContainer
-]
-
-{ #category : #accessing }
-ToSelectElement >> iconContainer: anIconContainer [
-
-	iconContainer := anIconContainer.
-	iconContainer constraintsDo: [ :c | c linear vertical alignCenter ]
+	^ self endContainer
 ]
 
 { #category : #initialization }
@@ -142,18 +133,9 @@ ToSelectElement >> initialize [
 	" for the popup "
 	windowManager := self newPopupWindowManager.
 	self addEventHandler: windowManager.
-
-	self iconContainer: self newIconContainer.
-	innerElement := self newInnerElement.
-	innerElement constraintsDo: [ :c |
-		c linear vertical alignCenter.
-		c horizontal matchParent.
-		c vertical fitContent ].
-	
-	self addChildren: {
-			self innerElement.
-			self iconContainer }.
-			
+	self ensureMiddleContainer.
+	self ensureEndContainer.
+				
 	self addEventHandler: self defaultEventHandler.
 
 	" a select is made to be horizontal. the following constraints 
@@ -165,7 +147,7 @@ ToSelectElement >> initialize [
 { #category : #accessing }
 ToSelectElement >> innerElement [
 
-	^ innerElement
+	^ self middleContainer 
 ]
 
 { #category : #'instance creation' }
@@ -200,17 +182,21 @@ ToSelectElement >> manager [
 	^ windowManager 
 ]
 
-{ #category : #'instance creation' }
-ToSelectElement >> newIconContainer [
+{ #category : #'t - triplet container - instance creation' }
+ToSelectElement >> newEndContainer [
 
-	^ ToSelectIconContainer new
+	^ ToSelectEndContainer new
 ]
 
-{ #category : #'instance creation' }
-ToSelectElement >> newInnerElement [
+{ #category : #'t - triplet container - instance creation' }
+ToSelectElement >> newMiddleContainer [ 
 
 	| container |
 	container := self innerElementClass onSelectElement: self.
+	container constraintsDo: [ :c |
+		c linear vertical alignCenter.
+		c horizontal matchParent.
+		c vertical fitContent ].
 	container id: #innerElement.
 	^ container
 ]

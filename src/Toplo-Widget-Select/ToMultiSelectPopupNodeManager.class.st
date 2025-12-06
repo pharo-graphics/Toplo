@@ -1,11 +1,11 @@
 Class {
-	#name : #ToMultiSelectNodeManager,
+	#name : #ToMultiSelectPopupNodeManager,
 	#superclass : #ToGenericFiniteListNodeManager,
 	#category : #'Toplo-Widget-Select-Multi'
 }
 
 { #category : #'t - generic node manager' }
-ToMultiSelectNodeManager >> defaultNodeBuilder [
+ToMultiSelectPopupNodeManager >> defaultNodeBuilder [
 
 	^ [ :node :dataItem :holder |
 		  node
@@ -15,13 +15,19 @@ ToMultiSelectNodeManager >> defaultNodeBuilder [
 ]
 
 { #category : #'t - generic node manager' }
-ToMultiSelectNodeManager >> defaultNodeFactory [
+ToMultiSelectPopupNodeManager >> defaultNodeFactory [
 
 	^ [ :holder | ToMultiSelectNode new ]
 ]
 
 { #category : #'t - generic node manager' }
-ToMultiSelectNodeManager >> defaultNodeHolderFactory [
+ToMultiSelectPopupNodeManager >> defaultNodeHolderFactory [
 
 	^ [ ToMultiSelectHolder new ]
+]
+
+{ #category : #'t - generic node manager' }
+ToMultiSelectPopupNodeManager >> newNodeContainer [ 
+
+	^ ToMultiSelectPopupNodeContainer new
 ]

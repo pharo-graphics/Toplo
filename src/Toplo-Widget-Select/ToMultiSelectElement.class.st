@@ -71,7 +71,8 @@ ToMultiSelectElement >> checkMaxSelectedCountInHeader [
 { #category : #'accessing - selection' }
 ToMultiSelectElement >> checkMaxSelectedCountInPopupList [
 
-		self popupListElement postponeAction: [ self innerElement checkMaxSelectedCount ]
+	self popupListElement postponeAction: [
+		self innerElement checkMaxSelectedCount ]
 ]
 
 { #category : #'accessing - window' }
@@ -130,7 +131,7 @@ ToMultiSelectElement >> initializeListSelectionChecker [
 { #category : #'instance creation' }
 ToMultiSelectElement >> innerElementClass [
 
-	^ ToMultiSelectFiniteListElement
+	^ ToMultiSelectPopupListElement
 ]
 
 { #category : #accessing }

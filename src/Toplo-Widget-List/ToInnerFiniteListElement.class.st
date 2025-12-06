@@ -30,6 +30,12 @@ ToInnerFiniteListElement >> addAllHolders: anArray at: aPosition [
 ]
 
 { #category : #'accessing - nodes' }
+ToInnerFiniteListElement >> addHolder: anHolder [
+
+	trackElement addChild: anHolder nodeContainer
+]
+
+{ #category : #'accessing - nodes' }
 ToInnerFiniteListElement >> addHolder: anHolder at: aPosition [
 
 	trackElement addChild: anHolder nodeContainer at: aPosition

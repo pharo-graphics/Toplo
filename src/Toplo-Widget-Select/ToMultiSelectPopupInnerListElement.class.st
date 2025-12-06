@@ -1,11 +1,11 @@
 Class {
-	#name : #ToMultiSelectInnerFiniteListElement,
+	#name : #ToMultiSelectPopupInnerListElement,
 	#superclass : #ToInnerFiniteListElement,
 	#category : #'Toplo-Widget-Select-Multi'
 }
 
 { #category : #'t - bar element' }
-ToMultiSelectInnerFiniteListElement >> onInvisibleNodeContainers: theInvisibleContainers visibleNodeContainers: theVisibleContainers [
+ToMultiSelectPopupInnerListElement >> onInvisibleNodeContainers: theInvisibleContainers visibleNodeContainers: theVisibleContainers [
 
 	| theVisibles theInvisibles summary finalCount |
 	listElement isFlowable ifTrue: [ ^ self ].
@@ -32,7 +32,7 @@ ToMultiSelectInnerFiniteListElement >> onInvisibleNodeContainers: theInvisibleCo
 ]
 
 { #category : #'hooks - layout' }
-ToMultiSelectInnerFiniteListElement >> onLayoutDone [ 
+ToMultiSelectPopupInnerListElement >> onLayoutDone [ 
 
 	super onLayoutDone.
 	listElement selectElement checkMaxSelectedCountInHeader

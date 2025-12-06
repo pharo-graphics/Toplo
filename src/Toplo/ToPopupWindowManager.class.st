@@ -281,6 +281,12 @@ ToPopupWindowManager >> popover: aBoolean [
 	delayedPopupHandler activateOnHovered: popover.
 ]
 
+{ #category : #'window handling' }
+ToPopupWindowManager >> popup [
+
+	self popupEvent: nil
+]
+
 { #category : #accessing }
 ToPopupWindowManager >> popupDelay [
 

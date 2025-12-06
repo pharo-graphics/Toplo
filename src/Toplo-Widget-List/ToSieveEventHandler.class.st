@@ -43,6 +43,5 @@ ToSieveEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 	listElement dispatchEvent: (ToSieveSelectionChangedEvent new
 			 sieve: sieve;
 			 selectionModel: sieve selectionModel;
-			 yourself).
-	listElement updateAllSelections
+			 yourself)
 ]

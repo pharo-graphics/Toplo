@@ -90,12 +90,12 @@ ToTheme class >> defaultTokenProperties [
 					   win opacity: 0.8.
 					   s := win constraints vertical resizer size.
 					   win addAnimation: (BlNumberTransition new
-							    duration: 250 milliSeconds;
+							    duration: 100 milliSeconds;
 							    from: s;
-							    to: s / 3;
+							    to: s / 4;
 							    onStepDo: [ :number :anElement |
 									    anElement height: number.
-									    anElement opacity: anElement opacity - 0.01 ];
+									    anElement opacity: anElement opacity - 0.05 ];
 							    onFinishedDo: [
 									    win spaceDo: [ :sp |
 												    win removeFromParent.

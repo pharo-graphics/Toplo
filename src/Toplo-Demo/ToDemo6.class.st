@@ -20,7 +20,6 @@ ToDemo6 class >> example0 [
 	pane addChild: dem2.
 
 	space root addChild: pane.
-	space inspect.
 	space show
 ]
 
@@ -41,7 +40,6 @@ ToDemo6 class >> example1 [
 	pane addChild: dem1.
 	pane addChild: dem2.	
 	space root addChild: pane.
-	space inspect.
 	space show
 ]
 

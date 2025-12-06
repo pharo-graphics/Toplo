@@ -634,8 +634,7 @@ ToSandBox class >> example_AllClassesWithCheckbox [
 
 	| l |
 	l := self example_AllClasses.
-	l useCheckbox: true.
-	l inspect
+	l useCheckbox: true
 ]
 
 { #category : #window }
@@ -3112,8 +3111,7 @@ ToSandBox class >> example_Menu3 [
 			item addItem: sub.
 			menu addItem: item ].
 
-	container openInSpace.
-	container inspect
+	container openInSpace
 	
 ]
 
@@ -6820,7 +6818,6 @@ ToSandBox class >> example_menuPaneVertical [
 	bar vFitContent.
 	frame pane addChild: bar.
 	frame openInSpace
-	"frame inspect"
 ]
 
 { #category : #menu }
@@ -6928,7 +6925,6 @@ ToSandBox class >> example_menuPaneVertical2 [
 	bar vMatchParent.
 	frame pane addChild: bar.
 	frame openInSpace
-	"frame inspect"
 ]
 
 { #category : #menu }
@@ -6998,7 +6994,6 @@ ToSandBox class >> example_menuPaneVerticalScrollable [
 
 	frame pane addChild: bar.
 	frame openInSpace
-	"frame inspect"
 ]
 
 { #category : #window }
@@ -9798,7 +9793,6 @@ ToSandBox class >> selectableLabeledIconlWithIconAndText [
 				  extent: 60 @ 60;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
-	but inspect.
 	^ but
 ]
 

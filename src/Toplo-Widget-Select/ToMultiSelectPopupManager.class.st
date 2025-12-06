@@ -37,10 +37,11 @@ ToMultiSelectPopupManager >> newListElement [
 	^ newListElement
 ]
 
-{ #category : #'event handling' }
+{ #category : #'window handling' }
 ToMultiSelectPopupManager >> popupEvent: anEvent [
 
-	(self isOpeningOrClosingEvent: anEvent) ifFalse: [ ^ self ].
+	anEvent ifNotNil: [
+		(self isOpeningOrClosingEvent: anEvent) ifFalse: [ ^ self ] ].
 	super popupEvent: anEvent
 ]
 

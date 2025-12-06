@@ -17,7 +17,6 @@ ToDemo1 class >> example0 [
 	| dem |
 	dem := ToDemo1 new.
 	dem requestNewSkin.
-	dem inspect.
 	dem openInSpace
 ]
 

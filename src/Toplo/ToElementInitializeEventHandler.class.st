@@ -22,9 +22,9 @@ ToElementInitializeEventHandler >> elementAddedToSceneGraphEvent: anEvent [
 	addedToSceneGraph ifTrue: [ ^ self ].
 	addedToSceneGraph := true.
 	target := anEvent currentTarget.
-	target space checkToploPhases.
 	target applyConfiguration.
 	target ensuredSkinManager requestNewSkinIn: target.
+	target space checkToploPhases.
 	target dispatchEvent: ToAddedToSpaceEvent new
 ]
 

@@ -323,7 +323,6 @@ ToThemeExamples class >> example_WithLateBoundPropertyWriter [
 				when: ToEnabledSkinEvent
 				write: #'text-attributes-with-builder' asWritableProperty
 				with: [ :e |
-						'ToEnabledSkinEvent' traceCr.
 						e textAttributesBuilder foreground:
 							(e valueOfTokenNamed: #'my-foreground').
 						e textAttributesBuilder defaultFontSize: 32.

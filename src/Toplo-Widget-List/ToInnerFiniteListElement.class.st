@@ -117,7 +117,7 @@ ToInnerFiniteListElement >> defaultScrollFlinger [
 	^ ToInfiniteScrollFlinger
 ]
 
-{ #category : #'t - list node holder' }
+{ #category : #'t - list inner element' }
 ToInnerFiniteListElement >> findElementHolderForDataSourcePosition: aPosition [
 	"Return the holder for the node in the given position of the data set"
 
@@ -173,37 +173,37 @@ ToInnerFiniteListElement >> newNodeHolderFromDataSource: aDataSource [
 	^ listElement nodeManager newHolder
 ]
 
-{ #category : #'t - list node holder' }
+{ #category : #'t - list inner element' }
 ToInnerFiniteListElement >> nodeContainers [
 
 	^ trackElement nodeContainers
 ]
 
-{ #category : #'t - list node holder' }
+{ #category : #'t - list inner element' }
 ToInnerFiniteListElement >> nodeContainersDetect: aBlock [
 
 	^ trackElement nodeContainersDetect: aBlock 
 ]
 
-{ #category : #'t - list node holder' }
+{ #category : #'t - list inner element' }
 ToInnerFiniteListElement >> nodeContainersDo: aBlock [
 
 	trackElement nodeContainersDo: aBlock
 ]
 
-{ #category : #'t - list node holder' }
+{ #category : #'t - list inner element' }
 ToInnerFiniteListElement >> nodeContainersReject: aBlock [
 
 	^ trackElement nodeContainersReject: aBlock 
 ]
 
-{ #category : #'t - list node holder' }
+{ #category : #'t - list inner element' }
 ToInnerFiniteListElement >> nodeContainersSelect: aBlock [
 
 	^ trackElement nodeContainersSelect: aBlock 
 ]
 
-{ #category : #'t - list node holder' }
+{ #category : #'t - list inner element' }
 ToInnerFiniteListElement >> nodeContainersWithIndexDo: aBlock [
 
 	trackElement nodeContainersWithIndexDo: aBlock
@@ -304,7 +304,7 @@ ToInnerFiniteListElement >> onScrolled: aPoint [
 	self checkFullyVisibleNodeContainers
 ]
 
-{ #category : #'t - list node holder' }
+{ #category : #'t - list inner element' }
 ToInnerFiniteListElement >> partlyVisibleNodesDo: aBlock [
 
 	trackElement partlyVisibleNodesDo: aBlock

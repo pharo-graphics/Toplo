@@ -51,7 +51,6 @@ ToAbstractListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 				self selectionModel resetAll.
 				start := aDataSourceCommand positionStart.
 				count := aDataSourceCommand itemCount.
-				sieve selectionModel selectedIndexes traceCr.
 				start to: start + count - 1 do: [ :localIndex |
 						| d originalIndex |
 						d := self dataSource at: localIndex.
@@ -501,7 +500,7 @@ ToAbstractListElement >> placeholderClass [
 { #category : #layout }
 ToAbstractListElement >> postponeAction: aValuable [
 
-	self dataSourceManager postponeAction: aValuable for: self
+	self innerElement postponeAction: aValuable for: self
 ]
 
 { #category : #accessing }

@@ -36,8 +36,7 @@ ToSievedListElementEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 	listElement := anEvent currentTarget.
 	listSelModel := listElement selectionModel.
 
-	" have to do nothing if the list is empty. Else, the selection can be lost in case of single select"
-	listElement dataSource ifEmpty: [ ^ self ].
+	" Have to proceed normally even the list datasource is empty to allow dependent element to be updated "
 	" reset the selection in case of single selection mode "
 	listElement isMultipleSelection
 		ifFalse: [ sieve selectionModel deselectAll ].
@@ -77,8 +76,7 @@ ToSievedListElementEventHandler >> listSelectionCommandAppliedEvent: aSelectionC
 	listSelModel == aSelectionCommandAppliedEvent selectionModel
 		ifFalse: [ ^ self ].
 
-	" have to do nothing if the list is empty. Else, the selection can be lost in case of single select"
-	listElement dataSource ifEmpty: [ ^ self ].
+	" Have to proceed normally even the list datasource is empty to allow dependent element to be updated "
 	" reset the selection in case of single selection mode "
 	listElement isMultipleSelection
 		ifFalse: [ sieve selectionModel deselectAll ].

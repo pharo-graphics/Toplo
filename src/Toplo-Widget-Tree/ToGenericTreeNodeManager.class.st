@@ -28,16 +28,16 @@ ToGenericTreeNodeManager >> defaultNodeFactory [
 	  ToTreeNode new ]
 ]
 
+{ #category : #'t - generic node manager' }
+ToGenericTreeNodeManager >> defaultNodeHolderFactory [
+
+	^ [ ToTreeNodeHolder new ]
+]
+
 { #category : #initialization }
 ToGenericTreeNodeManager >> initialize [ 
 
 	super initialize.
 	self initializeAsGenericNodeManager.
 	self initializeAsGenericTreeNodeManager
-]
-
-{ #category : #'t - generic node manager' }
-ToGenericTreeNodeManager >> newHolder [
-
-	^ super newHolder
 ]

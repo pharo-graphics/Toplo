@@ -1,42 +1,42 @@
 Class {
-	#name : #ToMenuUserDeclarationTest,
+	#name : #ToMenuUserDeclarationOTest,
 	#superclass : #TestCase,
 	#instVars : [
 		'menu'
 	],
-	#category : #'Toplo-MenuRegistration-New'
+	#category : #'Toplo-MenuRegistration-O'
 }
 
 { #category : #running }
-ToMenuUserDeclarationTest >> setUp [
+ToMenuUserDeclarationOTest >> setUp [
 
 	super setUp.
-	menu := ToMenuUserDeclaration new name: 'TheParent'.
+	menu := ToMenuUserDeclarationO new name: 'TheParent'.
 ]
 
 { #category : #tests }
-ToMenuUserDeclarationTest >> testHasChildren [
+ToMenuUserDeclarationOTest >> testHasChildren [
 
-	menu addChild: ToMenuUserDeclaration new.
+	menu addChild: ToMenuUserDeclarationO new.
 	self assert: menu hasChildren
 ]
 
 { #category : #tests }
-ToMenuUserDeclarationTest >> testHasNoChildren [
+ToMenuUserDeclarationOTest >> testHasNoChildren [
 
 	self assert: menu hasNoChildren
 ]
 
 { #category : #tests }
-ToMenuUserDeclarationTest >> testSortChildren [
+ToMenuUserDeclarationOTest >> testSortChildren [
 
-	menu addChild: (ToMenuUserDeclaration new
+	menu addChild: (ToMenuUserDeclarationO new
 			 name: #Child1;
 			 order: 99).
-	menu addChild: (ToMenuUserDeclaration new
+	menu addChild: (ToMenuUserDeclarationO new
 			 name: #Child2;
 			 order: 1).
-	menu addChild: (ToMenuUserDeclaration new
+	menu addChild: (ToMenuUserDeclarationO new
 			 name: #Child3;
 			 order: 2).
 	menu sortChildren.

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToploVisitor,
-	#superclass : #MenuRegistrationVisitor,
-	#category : #'Toplo-MenuRegistration-Visitor'
+	#superclass : #SMenuDeclarationVisitor,
+	#category : #'Toplo-MenuRegistration-New'
 }
 
 { #category : #initialization }

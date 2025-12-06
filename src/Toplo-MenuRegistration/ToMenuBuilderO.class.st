@@ -2,7 +2,7 @@
 I'm responsible for the interpretation of menu registrations. 
 "
 Class {
-	#name : #ToMenuBuilder,
+	#name : #ToMenuBuilderO,
 	#superclass : #Object,
 	#instVars : [
 		'currentRoot',
@@ -11,11 +11,11 @@ Class {
 		'conflicts',
 		'pragmas'
 	],
-	#category : #'Toplo-MenuRegistration-New'
+	#category : #'Toplo-MenuRegistration-O'
 }
 
 { #category : #examples }
-ToMenuBuilder class >> aLittleMenu: aBuilder [
+ToMenuBuilderO class >> aLittleMenu: aBuilder [
 
 	<toploWorldMenuXXX123>
 	
@@ -27,7 +27,7 @@ ToMenuBuilder class >> aLittleMenu: aBuilder [
 ]
 
 { #category : #examples }
-ToMenuBuilder class >> doAfter: builder [ 
+ToMenuBuilderO class >> doAfter: builder [ 
 
 	| menuPane |
 	builder resolve.
@@ -37,10 +37,10 @@ ToMenuBuilder class >> doAfter: builder [
 ]
 
 { #category : #examples }
-ToMenuBuilder class >> exampleMenu [
+ToMenuBuilderO class >> exampleMenu [
 	<script>
 	| builder menuPane |
-	builder := ToMenuBuilder new.
+	builder := ToMenuBuilderO new.
 
 	(builder item: #MyFirstMenu)
 		label: 'GrandParent';
@@ -78,11 +78,11 @@ ToMenuBuilder class >> exampleMenu [
 ]
 
 { #category : #'Protocol (examples) - 4 selector(s)' }
-ToMenuBuilder class >> exampleMenuWithAction [
+ToMenuBuilderO class >> exampleMenuWithAction [
 
 	<script>
 	| builder |
-	builder := ToMenuBuilder new.
+	builder := ToMenuBuilderO new.
 
 	(builder item: #MyFirstMenu)
 		label: 'Parent';
@@ -105,7 +105,7 @@ ToMenuBuilder class >> exampleMenuWithAction [
 ]
 
 { #category : #examples }
-ToMenuBuilder class >> exampleWorldMenu [
+ToMenuBuilderO class >> exampleWorldMenu [
 	<script>
 	
 	| builder |
@@ -115,14 +115,14 @@ ToMenuBuilder class >> exampleWorldMenu [
 ]
 
 { #category : #accessing }
-ToMenuBuilder class >> pragmaKeyword: aPragmaKeyword [
+ToMenuBuilderO class >> pragmaKeyword: aPragmaKeyword [
 	"Build a builder using aPragmaKeyword as the pragma keyword"
 	
 	^ self new pragmaKeywords: { aPragmaKeyword }
 ]
 
 { #category : #accessing }
-ToMenuBuilder class >> pragmaKeywords: aCollection [
+ToMenuBuilderO class >> pragmaKeywords: aCollection [
 	
 	^ self new
 		pragmaKeywords: aCollection;
@@ -130,25 +130,25 @@ ToMenuBuilder class >> pragmaKeywords: aCollection [
 ]
 
 { #category : #visiting }
-ToMenuBuilder >> accept: aVisitor [
+ToMenuBuilderO >> accept: aVisitor [
 
 	^ aVisitor visitMenuBuilder: self
 ]
 
 { #category : #adding }
-ToMenuBuilder >> addConflict: aDuplicatedItem [
+ToMenuBuilderO >> addConflict: aDuplicatedItem [
 
 	conflicts add: aDuplicatedItem 
 ]
 
 { #category : #accessing }
-ToMenuBuilder >> allNamedItems [
+ToMenuBuilderO >> allNamedItems [
 
 	^ collectedItems collect: [ :item | item name ]
 ]
 
 { #category : #editing }
-ToMenuBuilder >> arrangeItems [
+ToMenuBuilderO >> arrangeItems [
 
 	| newCollectedItem |
 	newCollectedItem := OrderedCollection new.
@@ -162,7 +162,7 @@ ToMenuBuilder >> arrangeItems [
 ]
 
 { #category : #editing }
-ToMenuBuilder >> arrangeItemsParameters [
+ToMenuBuilderO >> arrangeItemsParameters [
 
 	collectedItems do: [ :item |
 		self handleDuplicatedShortcut: item.
@@ -172,7 +172,7 @@ ToMenuBuilder >> arrangeItemsParameters [
 ]
 
 { #category : #editing }
-ToMenuBuilder >> changeParent: aMenuRegistration for: aSymbol [
+ToMenuBuilderO >> changeParent: aMenuRegistration for: aSymbol [
 	"Change the parent for an item, if the item doesn't exist we create one"
 
 	| item |
@@ -185,7 +185,7 @@ ToMenuBuilder >> changeParent: aMenuRegistration for: aSymbol [
 ]
 
 { #category : #'declaration accessing' }
-ToMenuBuilder >> collectDeclarations [
+ToMenuBuilderO >> collectDeclarations [
 	"Retrieve all pragma methods and evaluate them by passing the
 	MenuDescription class as argument. The result is a list of trees
 	stored in my itemList inst var"
@@ -195,50 +195,50 @@ ToMenuBuilder >> collectDeclarations [
 ]
 
 { #category : #accessing }
-ToMenuBuilder >> collectedItems [
+ToMenuBuilderO >> collectedItems [
 
 	^ collectedItems 
 ]
 
 { #category : #accessing }
-ToMenuBuilder >> collectedItems: menuDescriptions [
+ToMenuBuilderO >> collectedItems: menuDescriptions [
 
 	collectedItems := menuDescriptions 
 ]
 
 { #category : #accessing }
-ToMenuBuilder >> conflicts [
+ToMenuBuilderO >> conflicts [
 
 	^ conflicts
 ]
 
 { #category : #accessing }
-ToMenuBuilder >> currentRoot [
+ToMenuBuilderO >> currentRoot [
 
 	^ currentRoot
 ]
 
 { #category : #accessing }
-ToMenuBuilder >> currentRoot: aMenuRegistration [
+ToMenuBuilderO >> currentRoot: aMenuRegistration [
 
 	currentRoot := aMenuRegistration
 ]
 
 { #category : #'public user API' }
-ToMenuBuilder >> group: aSymbol [
+ToMenuBuilderO >> group: aSymbol [
 	"Create a new group"
 
 	^ self newGroup: aSymbol
 ]
 
 { #category : #accessing }
-ToMenuBuilder >> groupNamed: aSymbol [
+ToMenuBuilderO >> groupNamed: aSymbol [
 
 	^ self itemNamed: aSymbol
 ]
 
 { #category : #adding }
-ToMenuBuilder >> handleAddToParent: aMenuRegistration [
+ToMenuBuilderO >> handleAddToParent: aMenuRegistration [
 
 	| parentMenu |
 	(aMenuRegistration parent isNil or: [  
@@ -255,7 +255,7 @@ ToMenuBuilder >> handleAddToParent: aMenuRegistration [
 ]
 
 { #category : #'error handling' }
-ToMenuBuilder >> handleDuplicatedShortcut: anItem [
+ToMenuBuilderO >> handleDuplicatedShortcut: anItem [
 
 	anItem shortcut ifNil: [ ^ self ].
 	collectedItems do: [ :item |
@@ -265,7 +265,7 @@ ToMenuBuilder >> handleDuplicatedShortcut: anItem [
 ]
 
 { #category : #'error handling' }
-ToMenuBuilder >> handleGroupsUsage: anItem [
+ToMenuBuilderO >> handleGroupsUsage: anItem [
 
 	anItem name ifNil: [ ^ self ].
 	(self namesOfAlreadyExistingGroups includes: anItem name) ifTrue: [ ^ self ].
@@ -280,7 +280,7 @@ ToMenuBuilder >> handleGroupsUsage: anItem [
 ]
 
 { #category : #'error handling' }
-ToMenuBuilder >> handleUnknownParent: anItem [
+ToMenuBuilderO >> handleUnknownParent: anItem [
 
 	| pName |
 	pName := anItem parent.
@@ -291,19 +291,19 @@ ToMenuBuilder >> handleUnknownParent: anItem [
 ]
 
 { #category : #testing }
-ToMenuBuilder >> hasConflict [
+ToMenuBuilderO >> hasConflict [
 
 	^ conflicts isNotEmpty
 ]
 
 { #category : #testing }
-ToMenuBuilder >> hasNoConflict [
+ToMenuBuilderO >> hasNoConflict [
 
 	^ conflicts isEmpty
 ]
 
 { #category : #querying }
-ToMenuBuilder >> indexOfChildNamed: aSymbol [
+ToMenuBuilderO >> indexOfChildNamed: aSymbol [
 
 	1 to: collectedItems size do: [ :ind |
 		(collectedItems at: ind) name = aSymbol ifTrue: [ ^ ind ] ].
@@ -311,28 +311,28 @@ ToMenuBuilder >> indexOfChildNamed: aSymbol [
 ]
 
 { #category : #initialization }
-ToMenuBuilder >> initialize [
+ToMenuBuilderO >> initialize [
 
 	super initialize.
 	conflicts := OrderedCollection new. 
-	currentRoot := ToMenuUserDeclaration new.
+	currentRoot := ToMenuUserDeclarationO new.
 	collectedItems := OrderedCollection new.
 ]
 
 { #category : #accessing }
-ToMenuBuilder >> isAnExistingGroup: aSymbol [
+ToMenuBuilderO >> isAnExistingGroup: aSymbol [
 
 	^ self namesOfAlreadyExistingGroups anySatisfy: [ :gName | gName = aSymbol ]
 ]
 
 { #category : #accessing }
-ToMenuBuilder >> isInItems: aSymbol [
+ToMenuBuilderO >> isInItems: aSymbol [
 
 	^ collectedItems anySatisfy: [ :item | item name = aSymbol ]
 ]
 
 { #category : #'public user API' }
-ToMenuBuilder >> item: aSymbol [
+ToMenuBuilderO >> item: aSymbol [
 
 	| newItem |
 	(self isInItems: aSymbol) ifTrue: [
@@ -340,7 +340,7 @@ ToMenuBuilder >> item: aSymbol [
 				 itemNamed: aSymbol;
 				 yourself).
 		^ self itemNamed: aSymbol ].
-	newItem := ToMenuUserDeclaration new
+	newItem := ToMenuUserDeclarationO new
 		           name: aSymbol;
 		           builder: self.
 	collectedItems add: newItem.
@@ -348,7 +348,7 @@ ToMenuBuilder >> item: aSymbol [
 ]
 
 { #category : #querying }
-ToMenuBuilder >> itemNamed: aSymbol [
+ToMenuBuilderO >> itemNamed: aSymbol [
 
 	collectedItems do: [ :item | item name = aSymbol ifTrue: [ ^ item ] ].
 	self flag: 'why returning the current root when we do not find 
@@ -357,7 +357,7 @@ ToMenuBuilder >> itemNamed: aSymbol [
 ]
 
 { #category : #querying }
-ToMenuBuilder >> lookUpForParent: aMenuRegistration [
+ToMenuBuilderO >> lookUpForParent: aMenuRegistration [
 
 	| item |
 	aMenuRegistration ifNil: [ ^ currentRoot ].
@@ -368,7 +368,7 @@ ToMenuBuilder >> lookUpForParent: aMenuRegistration [
 ]
 
 { #category : #accessing }
-ToMenuBuilder >> namesOfAlreadyExistingGroups [
+ToMenuBuilderO >> namesOfAlreadyExistingGroups [
 
 	| groupsNames |
 	groupsNames := OrderedCollection new.
@@ -379,7 +379,7 @@ ToMenuBuilder >> namesOfAlreadyExistingGroups [
 ]
 
 { #category : #accessing }
-ToMenuBuilder >> newGroup: aSymbol [
+ToMenuBuilderO >> newGroup: aSymbol [
 	"Create a new group"
 
 	| newGroup |
@@ -390,25 +390,25 @@ ToMenuBuilder >> newGroup: aSymbol [
 ]
 
 { #category : #querying }
-ToMenuBuilder >> onlyItems [
+ToMenuBuilderO >> onlyItems [
 
 	^ collectedItems select: [ :item | item isGroup not ]
 ]
 
 { #category : #accessing }
-ToMenuBuilder >> pragmaKeywords [
+ToMenuBuilderO >> pragmaKeywords [
 
 	^ pragmaKeywords
 ]
 
 { #category : #accessing }
-ToMenuBuilder >> pragmaKeywords: aCollectionOfSymbol [
+ToMenuBuilderO >> pragmaKeywords: aCollectionOfSymbol [
 
 	pragmaKeywords := aCollectionOfSymbol
 ]
 
 { #category : #'declaration accessing' }
-ToMenuBuilder >> pragmas [
+ToMenuBuilderO >> pragmas [
 	"Return all pragmas which keyword is self pragmaKeyword"
 
 	^  (self pragmaKeywords flatCollect: [ :each | Pragma allNamed: each ])
@@ -416,20 +416,20 @@ ToMenuBuilder >> pragmas [
 ]
 
 { #category : #private }
-ToMenuBuilder >> resolve [
+ToMenuBuilderO >> resolve [
 
 	self arrangeItemsParameters.
 	self arrangeItems
 ]
 
 { #category : #sorting }
-ToMenuBuilder >> sortItems [
+ToMenuBuilderO >> sortItems [
 
 	collectedItems := collectedItems sorted: [ :c1 :c2 |  c1 order <= c2 order ]
 ]
 
 { #category : #sorting }
-ToMenuBuilder >> sortedTree: aMenuRegistration [
+ToMenuBuilderO >> sortedTree: aMenuRegistration [
 
 	aMenuRegistration childrenItems ifEmpty: [ ^ self ].
 	aMenuRegistration sortChildren.
@@ -438,6 +438,6 @@ ToMenuBuilder >> sortedTree: aMenuRegistration [
 ]
 
 { #category : #'public user API' }
-ToMenuBuilder >> withSeparatorAfter [
+ToMenuBuilderO >> withSeparatorAfter [
 	currentRoot withSeparatorAfter
 ]

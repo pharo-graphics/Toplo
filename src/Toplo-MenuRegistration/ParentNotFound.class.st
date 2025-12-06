@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'itemName'
 	],
-	#category : #'Toplo-MenuRegistration-New'
+	#category : #'Toplo-MenuRegistration-O'
 }
 
 { #category : #accessing }

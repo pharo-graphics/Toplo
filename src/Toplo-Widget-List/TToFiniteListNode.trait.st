@@ -10,7 +10,7 @@ Trait {
 	#category : #'Toplo-Widget-List-Node'
 }
 
-{ #category : #'t - bar node' }
+{ #category : #'t - finite list node' }
 TToFiniteListNode >> initializeAsBarNode [
 
 	self matchParent.
@@ -25,7 +25,7 @@ TToFiniteListNode >> initializeAsBarNode [
 			listElement postponeAction: [ :l | l requestMouseMoveReplay ] ]
 ]
 
-{ #category : #'t - bar node' }
+{ #category : #'t - finite list node' }
 TToFiniteListNode >> removeFromBar [
 
 	self holder removeNodeFromBar 

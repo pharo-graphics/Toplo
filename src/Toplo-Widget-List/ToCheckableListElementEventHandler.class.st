@@ -1,11 +1,11 @@
 Class {
-	#name : #ToCheckableBarElementEventHandler,
+	#name : #ToCheckableListElementEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#category : #'Toplo-Widget-List-ItemFiniteList'
 }
 
 { #category : #'event handling' }
-ToCheckableBarElementEventHandler >> checkableGroupChangedEvent: anEvent [
+ToCheckableListElementEventHandler >> checkableGroupChangedEvent: anEvent [
 
 	| currTarget selectedIndexes |
 	currTarget := anEvent currentTarget.
@@ -16,13 +16,13 @@ ToCheckableBarElementEventHandler >> checkableGroupChangedEvent: anEvent [
 ]
 
 { #category : #'api - accessing' }
-ToCheckableBarElementEventHandler >> eventsToHandle [
+ToCheckableListElementEventHandler >> eventsToHandle [
 
 	^ { ToListPrimarySelectionChangedEvent. ToCheckableGroupChangedEvent }
 ]
 
 { #category : #'event handling' }
-ToCheckableBarElementEventHandler >> listPrimarySelectionChangedEvent: anEvent [
+ToCheckableListElementEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 
 	| listElement |
 	listElement := anEvent currentTarget.

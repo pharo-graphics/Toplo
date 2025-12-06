@@ -1,34 +1,34 @@
 Trait {
-	#name : #TToMenuItemBarContainer,
+	#name : #TToMenuItemFiniteListContainer,
 	#category : #'Toplo-Widget-Menu-Items'
 }
 
 { #category : #'t - menu item bar container - adding/removing' }
-TToMenuItemBarContainer >> addSeparator [
+TToMenuItemFiniteListContainer >> addSeparator [
 
 	self addItem: ToSeparatorMenuItem new
 ]
 
 { #category : #'t - menu item bar container - adding/removing' }
-TToMenuItemBarContainer >> addSeparatorAfterIndex: anInteger [
+TToMenuItemFiniteListContainer >> addSeparatorAfterIndex: anInteger [
 
 	self addItem: ToSeparatorMenuItem new afterIndex: anInteger
 ]
 
 { #category : #'t - menu item bar container - adding/removing' }
-TToMenuItemBarContainer >> addSeparatorBeforeIndex: anInteger [
+TToMenuItemFiniteListContainer >> addSeparatorBeforeIndex: anInteger [
 
 	self addItem: ToSeparatorMenuItem new beforeIndex: anInteger
 ]
 
 { #category : #initialization }
-TToMenuItemBarContainer >> initializeAsMenuItemBarContainer [
+TToMenuItemFiniteListContainer >> initializeAsMenuItemBarContainer [
 
 	self itemBar menuBarOwner: self
 ]
 
 { #category : #'t - menu item bar container - double dispatch' }
-TToMenuItemBarContainer >> onAddedCustomMenuItem: aMenuItem [
+TToMenuItemFiniteListContainer >> onAddedCustomMenuItem: aMenuItem [
 
 	self onAddedMenuItem: aMenuItem.
 	aMenuItem isSelectable ifTrue: [ ^ self ].
@@ -36,24 +36,24 @@ TToMenuItemBarContainer >> onAddedCustomMenuItem: aMenuItem [
 ]
 
 { #category : #'t - menu item bar container - double dispatch' }
-TToMenuItemBarContainer >> onAddedFillerMenuItem: aFiller [
+TToMenuItemFiniteListContainer >> onAddedFillerMenuItem: aFiller [
 
 	self onAddedMenuItem: aFiller.
 	aFiller unselectable: true
 ]
 
 { #category : #'t - menu item bar container - double dispatch' }
-TToMenuItemBarContainer >> onAddedMenu: aMenu [
+TToMenuItemFiniteListContainer >> onAddedMenu: aMenu [
 
 
 ]
 
 { #category : #'t - menu item bar container - double dispatch' }
-TToMenuItemBarContainer >> onAddedMenuItem: aMenuItem [
+TToMenuItemFiniteListContainer >> onAddedMenuItem: aMenuItem [
 ]
 
 { #category : #'t - menu item bar container - double dispatch' }
-TToMenuItemBarContainer >> onAddedMenuPane: aMenuPane [
+TToMenuItemFiniteListContainer >> onAddedMenuPane: aMenuPane [
 
 	self onAddedMenuItem: aMenuPane.
 	aMenuPane isSubPane: true.
@@ -63,14 +63,14 @@ TToMenuItemBarContainer >> onAddedMenuPane: aMenuPane [
 ]
 
 { #category : #'t - menu item bar container - double dispatch' }
-TToMenuItemBarContainer >> onAddedSeparatorMenuItem: aMenuItem [
+TToMenuItemFiniteListContainer >> onAddedSeparatorMenuItem: aMenuItem [
 
 	self onAddedMenuItem: aMenuItem.
 	aMenuItem unselectable: true
 ]
 
 { #category : #'t - menu item bar container - double dispatch' }
-TToMenuItemBarContainer >> onRemovedCustomMenuItem: aMenuItem [
+TToMenuItemFiniteListContainer >> onRemovedCustomMenuItem: aMenuItem [
 
 	aMenuItem isSelectable ifTrue: [ ^ self ].
 	self itemBar unselectableSelecter deselectIndex:
@@ -79,7 +79,7 @@ TToMenuItemBarContainer >> onRemovedCustomMenuItem: aMenuItem [
 ]
 
 { #category : #'t - menu item bar container - double dispatch' }
-TToMenuItemBarContainer >> onRemovedFillerMenuItem: aFiller [
+TToMenuItemFiniteListContainer >> onRemovedFillerMenuItem: aFiller [
 
 	self itemList unselectableSelecter deselectIndex: aFiller positionInBar.
 	self onRemovedMenuItem: aFiller.
@@ -87,18 +87,18 @@ TToMenuItemBarContainer >> onRemovedFillerMenuItem: aFiller [
 ]
 
 { #category : #'t - menu item bar container - double dispatch' }
-TToMenuItemBarContainer >> onRemovedMenu: aMenu [
+TToMenuItemFiniteListContainer >> onRemovedMenu: aMenu [
 
 
 ]
 
 { #category : #'t - menu item bar container - double dispatch' }
-TToMenuItemBarContainer >> onRemovedMenuItem: aMenuItem [
+TToMenuItemFiniteListContainer >> onRemovedMenuItem: aMenuItem [
 
 ]
 
 { #category : #'t - menu item bar container - double dispatch' }
-TToMenuItemBarContainer >> onRemovedMenuPane: aMenuPane [
+TToMenuItemFiniteListContainer >> onRemovedMenuPane: aMenuPane [
 
 	self itemList unselectableSelecter deselectIndex:
 		aMenuPane positionInBar.
@@ -110,7 +110,7 @@ TToMenuItemBarContainer >> onRemovedMenuPane: aMenuPane [
 ]
 
 { #category : #'t - menu item bar container - double dispatch' }
-TToMenuItemBarContainer >> onRemovedSeparatorMenuItem: aMenuItem [
+TToMenuItemFiniteListContainer >> onRemovedSeparatorMenuItem: aMenuItem [
 
 	self itemBar unselectableSelecter deselectIndex:
 		aMenuItem positionInBar.

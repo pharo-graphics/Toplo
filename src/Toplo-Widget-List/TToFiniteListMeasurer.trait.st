@@ -3,13 +3,13 @@ Trait {
 	#category : #'Toplo-Widget-List-InnerFiniteList'
 }
 
-{ #category : #'t - bar measurer' }
+{ #category : #'t - finite list measurer' }
 TToFiniteListMeasurer >> barNodes [
 
 	^ self shouldBeImplemented 
 ]
 
-{ #category : #'t - bar measurer' }
+{ #category : #'t - finite list measurer' }
 TToFiniteListMeasurer >> barUniformMeasure [
 
 	self shouldCheckUniformSize ifFalse: [ ^ self ].
@@ -26,13 +26,13 @@ TToFiniteListMeasurer >> barUniformMeasure [
 						element measure: (BlExtentMeasurementSpec exact: w @ h) ] ] ]
 ]
 
-{ #category : #'t - bar measurer' }
+{ #category : #'t - finite list measurer' }
 TToFiniteListMeasurer >> elementsDo: aBlock [
 
 	self barNodes do: [ :aChild | aBlock value: aChild element ]
 ]
 
-{ #category : #'t - bar measurer' }
+{ #category : #'t - finite list measurer' }
 TToFiniteListMeasurer >> maxSizeDo: aBlock [
 
 	| width height |
@@ -48,13 +48,13 @@ TToFiniteListMeasurer >> maxSizeDo: aBlock [
 	aBlock value: width @ height
 ]
 
-{ #category : #'t - bar measurer' }
+{ #category : #'t - finite list measurer' }
 TToFiniteListMeasurer >> measuredSizeFor: anElement [
 
 	^ anElement measuredWidth @ anElement measuredHeight
 ]
 
-{ #category : #'t - bar measurer' }
+{ #category : #'t - finite list measurer' }
 TToFiniteListMeasurer >> shouldCheckUniformSize [
 
 	^ self layout uniformNodeWidth or: [ self layout uniformNodeHeight ]

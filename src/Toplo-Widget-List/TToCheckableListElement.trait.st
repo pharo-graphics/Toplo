@@ -10,7 +10,7 @@ TToCheckableListElement >> initializeAsCheckableListElement [
 		addEventHandlerOn: ToCheckableGroupChangedEvent
 		do: [ :event | self dispatchEvent: event copy ].
 
-	self addEventHandler: ToCheckableBarElementEventHandler new.
+	self addEventHandler: ToCheckableListElementEventHandler new.
 	self primarySelectionMode selectionOption withEmbeddedRepresentation.
 	
 	self contextMenuSelectionMode selectionOption

@@ -6,7 +6,7 @@ Class {
 	#category : #'Toplo-Widget-List-InnerFiniteList'
 }
 
-{ #category : #'t - bar measurer' }
+{ #category : #'t - finite list measurer' }
 ToFiniteListLinearLayoutVerticalMeasurer >> barNodes [
 
 	^ nodes

@@ -63,7 +63,8 @@ ToMultiSelectFiniteListElement >> checkMaxSelectedCount [
 								(selectElement selectionModel containsIndex: originalIndex)
 									ifFalse: [ disabledSM selectIndex: localIndex ] ] ] ].
 
-	prevDisabledSM = disabledSM ifTrue: [ ^ self ].
+	self sieve pattern isEmpty and: [
+		prevDisabledSM = disabledSM ifTrue: [ ^ self ] ].
 	self popupListElement notifyDataSourceChanged
 ]
 

@@ -201,12 +201,6 @@ ToSelectElement >> newMiddleContainer [
 	^ container
 ]
 
-{ #category : #'instance creation' }
-ToSelectElement >> newPopupWindowManager [
-
-	^ ToSelectPopupManager new
-]
-
 { #category : #skin }
 ToSelectElement >> newRawSkin [ 
 

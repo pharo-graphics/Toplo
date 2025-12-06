@@ -39,8 +39,8 @@ ToSelectListElementEventHandler >> mouseUpEvent: anEvent [
 ToSelectListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
 
 	| listElement selectElement |
-	"'sieveSelectionChangedEvent:' traceCr."
 	listElement := anEvent currentTarget.
 	selectElement := listElement selectElement.
+	selectElement popupListElement updateAllSelections.
 	selectElement refreshHeaderFromPopupListSelection
 ]

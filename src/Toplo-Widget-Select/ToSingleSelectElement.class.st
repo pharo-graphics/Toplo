@@ -55,3 +55,15 @@ ToSingleSelectElement >> innerElementClass [
 
 	^ ToSingleSelectInnerContainerElement
 ]
+
+{ #category : #'instance creation' }
+ToSingleSelectElement >> newPopupWindowManager [
+
+	^ ToSingleSelectPopupManager new
+]
+
+{ #category : #accessing }
+ToSingleSelectElement >> selectedDataItem [
+
+	^ self selectedDataItems ifEmpty: [ ] ifNotEmpty: [ :s | s first ]
+]

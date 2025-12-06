@@ -31,6 +31,7 @@ ToMultiSelectListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
 	listElement := anEvent currentTarget.
 	selectElement := listElement selectElement.
 	selectElement checkMaxSelectedCountInPopupList.
+	
 	changedEvent := ToSelectChangedEvent new.
 	changedEvent selectedDataItems: selectElement selectedDataItems.
 	changedEvent selectedIndexes:

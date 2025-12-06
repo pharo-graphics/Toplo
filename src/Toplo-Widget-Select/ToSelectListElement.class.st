@@ -7,18 +7,6 @@ Class {
 	#category : #'Toplo-Widget-Select-PopupList'
 }
 
-{ #category : #initialization }
-ToSelectListElement >> defaultEventHandler [
-
-	^ ToSelectListElementEventHandler new
-]
-
-{ #category : #initialization }
-ToSelectListElement >> defaultNodeManagerClass [
-
-	^ ToSelectListNodeManager  
-]
-
 { #category : #accessing }
 ToSelectListElement >> groupSelecter [
 
@@ -46,12 +34,6 @@ ToSelectListElement >> initialize [
 	self newGroupSelectionMode onInstalledIn: self.
 	self primarySelectionMode deselectOnPressed: true.
 	self primarySelectionMode makeDisabledUnselectable: true
-]
-
-{ #category : #initialization }
-ToSelectListElement >> listNodeClass [
-
-	^ ToSelectListNode
 ]
 
 { #category : #accessing }

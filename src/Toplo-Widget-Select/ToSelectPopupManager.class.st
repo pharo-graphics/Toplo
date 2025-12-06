@@ -55,7 +55,7 @@ ToSelectPopupManager >> listElement [
 { #category : #initialization }
 ToSelectPopupManager >> listElementClass [
 
-	^ ToSelectListElement
+	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }

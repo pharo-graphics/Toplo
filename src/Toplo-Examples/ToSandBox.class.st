@@ -4002,7 +4002,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	| select innerWindow tagBuilder |
 	select := ToMultiSelectElement new.
 	select filtrable: true.
-	select isFlowable: true.
+	select isFlowable: false.
 	select keepPickOrder: true.
 
 	select popupListElement selectionOption grouped: false.
@@ -4047,6 +4047,12 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	select hMatchParent.
 	select selecter selectIndex: 2.
 	innerWindow pane addChild: select.
+
+	innerWindow inUIProcessDo: [
+			select selecter selectIndex: 3.
+			select selecter selectIndex: 5.
+			select selecter selectIndex: 4
+			"select selecter selectIndex: 6." ].
 	innerWindow openInSpace.
 	^ select
 ]
@@ -4273,16 +4279,16 @@ ToSandBox class >> example_SelectMultiFiltrableWithMatchParentMaxHeight [
 { #category : #select }
 ToSandBox class >> example_SelectMultiFiltrableWithMax [
 
-	| select  |
+	| select |
 	select := self example_SelectMultiFiltrable.
 	"select inspect."
 	"self halt."
 	select maxSelectedCount: 3.
-	select selecter selectIndex: 3.
-	select selecter selectIndex: 5.
-	select selecter selectIndex: 4.
-	select selecter selectIndex: 6.
-
+	select inUIProcessDo: [
+			select selecter selectIndex: 3.
+			select selecter selectIndex: 5.
+			select selecter selectIndex: 4.
+			select selecter selectIndex: 6 ]
 ]
 
 { #category : #select }
@@ -4290,7 +4296,6 @@ ToSandBox class >> example_SelectMultiNotFiltrable [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
-	select inspect.
 	select maxSelectedCount: 4.
 	select filtrable: false.
 	select isFlowable: true.

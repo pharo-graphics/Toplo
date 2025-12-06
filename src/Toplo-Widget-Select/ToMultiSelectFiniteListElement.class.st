@@ -39,7 +39,7 @@ ToMultiSelectFiniteListElement >> assertMaxSelectedCount: aNumber [
 ToMultiSelectFiniteListElement >> checkHideSelectionFromListElement [
 
 	selectElement hideSelected ifFalse: [ ^ self ].
-	"self popupListElement inUIProcessDo: [ self popupListElement hideSelection ]"
+	self popupListElement inUIProcessDo: [ self popupListElement hideSelection ]
 ]
 
 { #category : #'accessing - selection' }
@@ -53,20 +53,15 @@ ToMultiSelectFiniteListElement >> checkMaxSelectedCount [
 	sM := self popupListElement selectionModel.
 
 	selectedCount := selectElement selectionModel selectedIndexesCount.
-
 	prevDisabledSM := disabledSM copy.
+
 	self sieve withLocalAndOriginalIndexDo: [ :d :localIndex :originalIndex |
 			(groupeSM containsIndex: localIndex) ifFalse: [
 					selectedCount < maxSelectedCount
 						ifTrue: [ disabledSM deselectIndex: localIndex ]
 						ifFalse: [
 								(selectElement selectionModel containsIndex: originalIndex)
-									ifFalse: [ disabledSM selectIndex: localIndex ] ].
-					" to transfer the selection to the sieve selection model "
-					sM
-						transferSelectionFromIndex: localIndex
-						toIndex: originalIndex
-						in: selectElement selectionModel ] ].
+									ifFalse: [ disabledSM selectIndex: localIndex ] ] ] ].
 
 	prevDisabledSM = disabledSM ifTrue: [ ^ self ].
 	self popupListElement notifyDataSourceChanged

@@ -10,7 +10,7 @@ Class {
 { #category : #'api - accessing' }
 ToSievedListElementEventHandler >> eventsToHandle [
 
-	^ { "ToListSelectionCommandAppliedEvent"
+	^ { "ToListSelectionCommandAppliedEvent."
 		  ToListPrimarySelectionChangedEvent.
 		  ToInfiniteDataSourceEmptinessChangedEvent }
 ]
@@ -24,7 +24,7 @@ ToSievedListElementEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEv
 	anEvent isEmpty ifFalse: [ ^ self ].
 	" empty the selection because nothing is in the listElement "
 	listElement selecter deselectAll.
-	listElement updateAllSelections 
+	listElement updateAllSelections
 ]
 
 { #category : #'element handlers' }

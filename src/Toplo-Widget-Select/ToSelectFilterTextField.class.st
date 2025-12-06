@@ -59,8 +59,8 @@ ToSelectFilterTextField >> on: aSelectElement [
 	windowPopupHandler := BlEventHandler
 		                      on: BlTextInputEvent
 		                      do: [ :event |
-			                      event text ifNotEmpty: [
-				                      event text asString first isAlphaNumeric
+			                      event text ifNotEmpty: [ :t |
+				                      t asString first isAlphaNumeric
 					                      ifTrue: [
 					                      aSelectElement manager popupEvent: event ] ] ].
 	self infinite addEventHandler: windowPopupHandler

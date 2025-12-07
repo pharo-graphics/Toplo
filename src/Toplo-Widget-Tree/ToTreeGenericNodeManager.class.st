@@ -4,7 +4,7 @@ I am a ToGenericTreeNodeManager
 I hold the logic of building and destroying NodeHolders and TreeNodes whenever the DataSource is updated
 "
 Class {
-	#name : #ToGenericTreeNodeManager,
+	#name : #ToTreeGenericNodeManager,
 	#superclass : #ToTreeNodeManager,
 	#traits : 'TToGenericNodeManager + TToGenericTreeNodeManager',
 	#classTraits : 'TToGenericNodeManager classTrait + TToGenericTreeNodeManager classTrait',
@@ -12,7 +12,7 @@ Class {
 }
 
 { #category : #'node building' }
-ToGenericTreeNodeManager >> buildNode: aTreeNode [
+ToTreeGenericNodeManager >> buildNode: aTreeNode [
 	
 	nodeBuilder
 		cull: aTreeNode 
@@ -22,20 +22,20 @@ ToGenericTreeNodeManager >> buildNode: aTreeNode [
 ]
 
 { #category : #'t - generic node manager' }
-ToGenericTreeNodeManager >> defaultNodeFactory [
+ToTreeGenericNodeManager >> defaultNodeFactory [
 
 	^ [ :holder |
 	  ToTreeNode new ]
 ]
 
 { #category : #'t - generic node manager' }
-ToGenericTreeNodeManager >> defaultNodeHolderFactory [
+ToTreeGenericNodeManager >> defaultNodeHolderFactory [
 
 	^ [ ToTreeNodeHolder new ]
 ]
 
 { #category : #initialization }
-ToGenericTreeNodeManager >> initialize [ 
+ToTreeGenericNodeManager >> initialize [ 
 
 	super initialize.
 	self initializeAsGenericNodeManager.

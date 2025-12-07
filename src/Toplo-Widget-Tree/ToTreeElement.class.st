@@ -15,5 +15,5 @@ ToTreeElement >> childrenGetter: aValuable [
 { #category : #initialization }
 ToTreeElement >> defaultNodeManagerClass [ 
 
-	^ ToGenericTreeNodeManager
+	^ ToTreeGenericNodeManager
 ]

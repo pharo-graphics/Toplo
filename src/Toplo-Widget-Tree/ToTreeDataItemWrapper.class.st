@@ -5,11 +5,9 @@ My purpose is to wrap an Object (called dataItem) when it is added to a ToTreeDa
 "
 Class {
 	#name : #ToTreeDataItemWrapper,
-	#superclass : #Object,
+	#superclass : #ToListDataItemWrapper,
 	#instVars : [
 		'parentWrapper',
-		'treeElement',
-		'dataItem',
 		'isExpanded'
 	],
 	#category : #'Toplo-Widget-Tree-Core'
@@ -50,7 +48,7 @@ ToTreeDataItemWrapper >> childWrappers [
 ToTreeDataItemWrapper >> childWrappersDo: aBlock [
 
 	self childrenInterval do: [ :p |
-		aBlock value: (treeElement dataSource at: p) ]
+		aBlock value: (listElement dataSource at: p) ]
 ]
 
 { #category : #'private - accessing' }
@@ -59,7 +57,7 @@ ToTreeDataItemWrapper >> childWrappersReverseDo: aBlock [
 	| interval |
 	interval := self childrenInterval.
 	interval last to: interval first by: -1 do: [ :p |
-	    aBlock value: (treeElement dataSource at: p) ]
+	    aBlock value: (listElement dataSource at: p) ]
 ]
 
 { #category : #'private - accessing' }
@@ -75,8 +73,8 @@ ToTreeDataItemWrapper >> childrenIntervalFromPosition: aPosition [
 	first := aPosition.
 	nb := 1.
 	[
-	first + nb <= treeElement dataSource size and: [
-		(treeElement dataSource at: first + nb) hasParentWrapper: self ] ]
+	first + nb <= listElement dataSource size and: [
+		(listElement dataSource at: first + nb) hasParentWrapper: self ] ]
 		whileTrue: [ nb := nb + 1 ].
 	
 	^ first + 1 to: first + nb - 1
@@ -91,7 +89,7 @@ ToTreeDataItemWrapper >> collapse [
 	pos := self position.
 	childrenInterval := self childrenIntervalFromPosition: pos.
 	childrenInterval ifEmpty: [ ^ self ].
-	treeElement dataSource
+	listElement dataSource
 		removeFrom: childrenInterval first
 		to: childrenInterval last.
 
@@ -99,21 +97,9 @@ ToTreeDataItemWrapper >> collapse [
 ]
 
 { #category : #accessing }
-ToTreeDataItemWrapper >> dataItem [ 
-
-	^ dataItem 
-]
-
-{ #category : #accessing }
-ToTreeDataItemWrapper >> dataItem: aDataItem [ 
-
-	dataItem := aDataItem 
-]
-
-{ #category : #accessing }
 ToTreeDataItemWrapper >> dataItemChildren [
 
-	^ treeElement nodeManager childrenFromDataItem: self unwrappedDataItem
+	^ listElement nodeManager childrenFromDataItem: self unwrappedDataItem
 ]
 
 { #category : #'expanding-collapsing' }
@@ -128,9 +114,9 @@ ToTreeDataItemWrapper >> expand [
 	children := self dataItemChildren.
 	pos := self position.
 
-	treeElement dataAccessor
+	listElement dataAccessor
 		useParentWrapper: self
-		while: [ treeElement dataAccessor addAll: children afterIndex: pos ].
+		while: [ listElement dataAccessor addAll: children afterIndex: pos ].
 
 	self notifyExpandedAtPosition: pos
 ]
@@ -142,7 +128,7 @@ ToTreeDataItemWrapper >> expandAll [
 	self collapse.
 	pos := self position.
 	c := self expandDeeplyIn: OrderedCollection new.
-	treeElement dataSource addAll: c afterIndex: pos.
+	listElement dataSource addAll: c afterIndex: pos.
 	self notifyExpandedAllAtPosition: pos
 ]
 
@@ -155,22 +141,22 @@ ToTreeDataItemWrapper >> expandDeeplyIn: aCollection [
 	children := self dataItemChildren.
 	children do: [ :child |
 			| wrapper |
-			treeElement dataAccessor
+			listElement dataAccessor
 				useParentWrapper: self
 				while: [
-						wrapper := treeElement dataAccessor newWrapperForDataItem: child.
+						wrapper := listElement dataAccessor newWrapperForDataItem: child.
 						aCollection add: wrapper.
 						wrapper expandDeeplyIn: aCollection ] ].
 	^ aCollection
 ]
 
-{ #category : #'private - accessing' }
+{ #category : #testing }
 ToTreeDataItemWrapper >> hasChildWrappers [
 
 	| first |
 	first := self position.
-	(first + 1 <= treeElement dataSource size and: [
-		 (treeElement dataSource at: first + 1) hasParentWrapper: self ])
+	(first + 1 <= listElement dataSource size and: [
+		 (listElement dataSource at: first + 1) hasParentWrapper: self ])
 		ifTrue: [ ^ true ].
 
 	^ false
@@ -247,9 +233,9 @@ ToTreeDataItemWrapper >> notifyCollapsedAtPosition: aPosition [
 			They are to be applied now, before the pattern is changed 
 			(and then, before the list is changed)"
 
-	treeElement consumeFinalStepCommands.
-	self updateTreeAtPosition: aPosition.	
-	treeElement dispatchEvent: (ToTreeDataItemWrapperCollapsedEvent new
+	listElement consumeFinalStepCommands.
+	self updateListAtPosition: aPosition.	
+	listElement dispatchEvent: (ToTreeDataItemWrapperCollapsedEvent new
 			 wrapper: self;
 			 yourself)
 ]
@@ -262,9 +248,9 @@ ToTreeDataItemWrapper >> notifyExpandedAllAtPosition: aPosition [
 			They are to be applied now, before the pattern is changed 
 			(and then, before the list is changed)"
 
-	treeElement consumeFinalStepCommands.
-	self updateTreeAtPosition: aPosition.
-	treeElement dispatchEvent: (ToTreeDataItemWrapperExpandedEvent new
+	listElement consumeFinalStepCommands.
+	self updateListAtPosition: aPosition.
+	listElement dispatchEvent: (ToTreeDataItemWrapperExpandedEvent new
 			 wrapper: self;
 			 deeply: true;
 			 yourself)
@@ -278,9 +264,9 @@ ToTreeDataItemWrapper >> notifyExpandedAtPosition: aPosition [
 			They are to be applied now, before the pattern is changed 
 			(and then, before the list is changed)"
 
-	treeElement consumeFinalStepCommands.
-	self updateTreeAtPosition: aPosition.	
-	treeElement dispatchEvent: (ToTreeDataItemWrapperExpandedEvent new
+	listElement consumeFinalStepCommands.
+	self updateListAtPosition: aPosition.	
+	listElement dispatchEvent: (ToTreeDataItemWrapperExpandedEvent new
 			 wrapper: self;
 			 yourself)
 ]
@@ -297,21 +283,6 @@ ToTreeDataItemWrapper >> parentWrapper: aDataItemWrapper [
 	parentWrapper := aDataItemWrapper 
 ]
 
-{ #category : #accessing }
-ToTreeDataItemWrapper >> position [ 
-
-	^ treeElement dataSource indexOf: self 
-]
-
-{ #category : #printing }
-ToTreeDataItemWrapper >> printOn: aStream [
-
-	super printOn: aStream.
-	aStream << '('.
-	dataItem printOn: aStream.
-	aStream << ')'
-]
-
 { #category : #'expanding-collapsing' }
 ToTreeDataItemWrapper >> toggle [
 
@@ -323,40 +294,5 @@ ToTreeDataItemWrapper >> toggle [
 { #category : #accessing }
 ToTreeDataItemWrapper >> treeElement: aTreeElement [
 
-	treeElement := aTreeElement 
-]
-
-{ #category : #'private - accessing' }
-ToTreeDataItemWrapper >> treeNodeContainerAtPosition: aPositionInDataSource [
-
-	^ treeElement nodeContainersDetect: [ :container | container holder dataWrapper = self ]
-]
-
-{ #category : #'private - accessing' }
-ToTreeDataItemWrapper >> treeNodeContainerAtPosition: aPositionInDataSource do: aValuable [
-
-	(self treeNodeContainerAtPosition: aPositionInDataSource) ifNotNil: [ :tn |
-		aValuable value: tn ]
-]
-
-{ #category : #accessing }
-ToTreeDataItemWrapper >> unwrappedDataItem [ 
-
-	^ dataItem
-]
-
-{ #category : #'private - accessing' }
-ToTreeDataItemWrapper >> updateTreeAtPosition: aPositionInDataSource [
-
-	self treeNodeContainerAtPosition: aPositionInDataSource do: [ :container |
-			container requestNewSkin.
-			treeElement postponeAction: [ :t |
-					container holder allowSelectionNotification: true.
-					container holder notifySelectedWithOption: t selectionOption ] ]
-]
-
-{ #category : #accessing }
-ToTreeDataItemWrapper >> wrapped: aDataItem [
-
-	self dataItem: aDataItem
+	self listElement: aTreeElement
 ]

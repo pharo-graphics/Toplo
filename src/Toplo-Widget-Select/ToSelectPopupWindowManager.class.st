@@ -1,34 +1,34 @@
 Class {
-	#name : #ToSelectPopupManager,
+	#name : #ToSelectPopupWindowManager,
 	#superclass : #ToPopupWindowManager,
 	#instVars : [
 		'listElement',
 		'sieve',
 		'maxHeightPolicy'
 	],
-	#category : #'Toplo-Widget-Select-manager'
+	#category : #'Toplo-Widget-Select-PopupWindow'
 }
 
 { #category : #initialization }
-ToSelectPopupManager >> defaultMaxHeight [
+ToSelectPopupWindowManager >> defaultMaxHeight [
 
 	^ 300
 ]
 
 { #category : #initialization }
-ToSelectPopupManager >> defaultMeasurement [
+ToSelectPopupWindowManager >> defaultMeasurement [
 
 	^ ToAnchoredSameWidthMeasurement new
 ]
 
 { #category : #initialization }
-ToSelectPopupManager >> defaultMinHeight [
+ToSelectPopupWindowManager >> defaultMinHeight [
 
 	^ 80
 ]
 
 { #category : #initialization }
-ToSelectPopupManager >> defaultPlacement [
+ToSelectPopupWindowManager >> defaultPlacement [
 
 	^ ToActionPlacement new
 		  action: [ :theWin :evt :aBoundsUpdater |
@@ -41,25 +41,25 @@ ToSelectPopupManager >> defaultPlacement [
 ]
 
 { #category : #accessing }
-ToSelectPopupManager >> defaultWindowClass [
+ToSelectPopupWindowManager >> defaultWindowClass [
 
 	^ ToSelectPopupWindow 
 ]
 
 { #category : #accessing }
-ToSelectPopupManager >> listElement [
+ToSelectPopupWindowManager >> listElement [
 
 	^ listElement 
 ]
 
 { #category : #initialization }
-ToSelectPopupManager >> listElementClass [
+ToSelectPopupWindowManager >> listElementClass [
 
 	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }
-ToSelectPopupManager >> maxHeight: aNumber [
+ToSelectPopupWindowManager >> maxHeight: aNumber [
 
 	self maxHeightPolicy: (ToSelectPopupExactMaxHeightPolicy new
 	maxHeight: aNumber;
@@ -67,32 +67,32 @@ ToSelectPopupManager >> maxHeight: aNumber [
 ]
 
 { #category : #accessing }
-ToSelectPopupManager >> maxHeightPolicy [
+ToSelectPopupWindowManager >> maxHeightPolicy [
 
 	^ maxHeightPolicy 
 ]
 
 { #category : #accessing }
-ToSelectPopupManager >> maxHeightPolicy: aPopupMaxHeightPolicy [
+ToSelectPopupWindowManager >> maxHeightPolicy: aPopupMaxHeightPolicy [
 
 	maxHeightPolicy := aPopupMaxHeightPolicy.
 	self anchorElement requestLayout
 ]
 
 { #category : #accessing }
-ToSelectPopupManager >> minHeight [
+ToSelectPopupWindowManager >> minHeight [
 
 	^ listElement minHeight
 ]
 
 { #category : #accessing }
-ToSelectPopupManager >> minHeight: aNumber [
+ToSelectPopupWindowManager >> minHeight: aNumber [
 
 	listElement minHeight: aNumber
 ]
 
 { #category : #initialization }
-ToSelectPopupManager >> newListElement [
+ToSelectPopupWindowManager >> newListElement [
 
 	| newListElement |
 	newListElement := self listElementClass new.
@@ -107,7 +107,7 @@ ToSelectPopupManager >> newListElement [
 ]
 
 { #category : #'api - hooks' }
-ToSelectPopupManager >> onInstalledIn: anElement [
+ToSelectPopupWindowManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	listElement := self newListElement.
@@ -122,7 +122,7 @@ ToSelectPopupManager >> onInstalledIn: anElement [
 ]
 
 { #category : #'api - hooks' }
-ToSelectPopupManager >> onUninstalledIn: anElement [
+ToSelectPopupWindowManager >> onUninstalledIn: anElement [
 
 	super onUninstalledIn: anElement.
 	sieve onInstalledIn: listElement.
@@ -132,7 +132,7 @@ ToSelectPopupManager >> onUninstalledIn: anElement [
 ]
 
 { #category : #'window handling' }
-ToSelectPopupManager >> onWindowClosedOnEvent: anEvent [
+ToSelectPopupWindowManager >> onWindowClosedOnEvent: anEvent [
 
 	super onWindowClosedOnEvent: anEvent.
 	" if case one of my children has focus "
@@ -140,14 +140,14 @@ ToSelectPopupManager >> onWindowClosedOnEvent: anEvent [
 ]
 
 { #category : #'window handling' }
-ToSelectPopupManager >> onWindowOpenedOnEvent: anEvent [
+ToSelectPopupWindowManager >> onWindowOpenedOnEvent: anEvent [
 
 	super onWindowOpenedOnEvent: anEvent.
 	self anchorElement onPopupWindowOpened
 ]
 
 { #category : #'window handling' }
-ToSelectPopupManager >> requestCloseWindowOnEvent: anEvent [
+ToSelectPopupWindowManager >> requestCloseWindowOnEvent: anEvent [
 	" don't autoclose if mouse up on a filter textfield "
 
 	| target |
@@ -158,13 +158,13 @@ ToSelectPopupManager >> requestCloseWindowOnEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToSelectPopupManager >> sieve [ 
+ToSelectPopupWindowManager >> sieve [ 
 
 	^ sieve
 ]
 
 { #category : #accessing }
-ToSelectPopupManager >> withMatchParentMaxHeight [
+ToSelectPopupWindowManager >> withMatchParentMaxHeight [
 
 	self maxHeightPolicy: ToSelectPopupMatchParentMaxHeightPolicy new
 ]

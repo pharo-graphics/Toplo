@@ -16,5 +16,5 @@ ToSpecificFiniteListElementForTest >> defaultNodeManagerClass [
 ToSpecificFiniteListElementForTest >> initialize [ 
 
 	super initialize.
-	self initializeAsBarElement 
+	self initializeAsFiniteListElement 
 ]

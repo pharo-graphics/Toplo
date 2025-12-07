@@ -47,19 +47,19 @@ ToSingleSelectElement >> defaultDataViewBuilder [
 { #category : #initialization }
 ToSingleSelectElement >> defaultDataViewFactory [
 
-	^ [ :container | ToSingleSelectDataItemView new ]
+	^ [ :container | ToSingleSelectHeaderDataItemView new ]
 ]
 
 { #category : #'instance creation' }
 ToSingleSelectElement >> innerElementClass [
 
-	^ ToSingleSelectInnerContainerElement
+	^ ToSingleSelectHeaderElement
 ]
 
 { #category : #'instance creation' }
 ToSingleSelectElement >> newPopupWindowManager [
 
-	^ ToSingleSelectPopupManager new
+	^ ToSingleSelectPopupWindowManager new
 ]
 
 { #category : #accessing }

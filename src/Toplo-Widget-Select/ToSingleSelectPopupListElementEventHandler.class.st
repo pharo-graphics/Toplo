@@ -1,11 +1,11 @@
 Class {
-	#name : #ToSingleSelectListElementEventHandler,
-	#superclass : #ToSelectListElementEventHandler,
+	#name : #ToSingleSelectPopupListElementEventHandler,
+	#superclass : #ToSelectPopupListElementEventHandler,
 	#category : #'Toplo-Widget-Select-PopupList'
 }
 
 { #category : #'event handling' }
-ToSingleSelectListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
+ToSingleSelectPopupListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
 
 	| listElement selectElement changedEvent selectedIndex |
 	super sieveSelectionChangedEvent: anEvent.

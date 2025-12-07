@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSelectPopupWindow,
 	#superclass : #ToAnchoredWindow,
-	#category : #'Toplo-Widget-Select-manager'
+	#category : #'Toplo-Widget-Select-PopupWindow'
 }
 
 { #category : #'t - inline window element - accessing' }

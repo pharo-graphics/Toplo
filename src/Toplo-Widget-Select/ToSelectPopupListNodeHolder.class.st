@@ -1,11 +1,11 @@
 Class {
-	#name : #ToSelectListNodeHolder,
+	#name : #ToSelectPopupListNodeHolder,
 	#superclass : #ToNodeHolder,
 	#category : #'Toplo-Widget-Select-PopupList'
 }
 
 { #category : #testing }
-ToSelectListNodeHolder >> selectElement [
+ToSelectPopupListNodeHolder >> selectElement [
 
 	^ self listElement selectElement
 ]

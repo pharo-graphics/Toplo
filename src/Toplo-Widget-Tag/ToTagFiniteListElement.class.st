@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTagFiniteListElement,
-	#superclass : #ToGenericFiniteListElement,
+	#superclass : #AnObsoleteToGenericFiniteListElement,
 	#category : #'Toplo-Widget-Tag-Tag'
 }
 

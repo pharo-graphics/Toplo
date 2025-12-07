@@ -1,11 +1,11 @@
 Class {
-	#name : #ToMultiSelectPopupManager,
-	#superclass : #ToSelectPopupManager,
-	#category : #'Toplo-Widget-Select-manager'
+	#name : #ToMultiSelectPopupWindowManager,
+	#superclass : #ToSelectPopupWindowManager,
+	#category : #'Toplo-Widget-Select-PopupWindow'
 }
 
 { #category : #'event handling' }
-ToMultiSelectPopupManager >> isOpeningOrClosingEvent: anEvent [
+ToMultiSelectPopupWindowManager >> isOpeningOrClosingEvent: anEvent [
 
 	| target |
 	target := anEvent target.
@@ -16,20 +16,20 @@ ToMultiSelectPopupManager >> isOpeningOrClosingEvent: anEvent [
 ]
 
 { #category : #initialization }
-ToMultiSelectPopupManager >> listElementClass [
+ToMultiSelectPopupWindowManager >> listElementClass [
 
-	^ ToMultiSelectListElement
+	^ ToMultiSelectPopupListElement
 ]
 
 { #category : #'event handling' }
-ToMultiSelectPopupManager >> mouseUpEvent: anEvent [
+ToMultiSelectPopupWindowManager >> mouseUpEvent: anEvent [
 
 	(self isOpeningOrClosingEvent: anEvent) ifFalse: [ ^ self ].
 	super mouseUpEvent: anEvent
 ]
 
 { #category : #initialization }
-ToMultiSelectPopupManager >> newListElement [
+ToMultiSelectPopupWindowManager >> newListElement [
 
 	| newListElement |
 	newListElement := super newListElement.
@@ -38,7 +38,7 @@ ToMultiSelectPopupManager >> newListElement [
 ]
 
 { #category : #'window handling' }
-ToMultiSelectPopupManager >> popupEvent: anEvent [
+ToMultiSelectPopupWindowManager >> popupEvent: anEvent [
 
 	anEvent ifNotNil: [
 		(self isOpeningOrClosingEvent: anEvent) ifFalse: [ ^ self ] ].
@@ -46,7 +46,7 @@ ToMultiSelectPopupManager >> popupEvent: anEvent [
 ]
 
 { #category : #'window handling' }
-ToMultiSelectPopupManager >> requestCloseWindowOnEvent: anEvent [
+ToMultiSelectPopupWindowManager >> requestCloseWindowOnEvent: anEvent [
 	" don't autoclose if mouse up on a select bar item "
 
 	| target |

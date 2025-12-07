@@ -1,11 +1,11 @@
 Class {
-	#name : #ToMultiSelectListNodeHolder,
-	#superclass : #ToSelectListNodeHolder,
+	#name : #ToMultiSelectPopupListNodeHolder,
+	#superclass : #ToSelectPopupListNodeHolder,
 	#category : #'Toplo-Widget-Select-PopupList'
 }
 
 { #category : #testing }
-ToMultiSelectListNodeHolder >> isGroup [
+ToMultiSelectPopupListNodeHolder >> isGroup [
 
 	^ self listElement groupSelectionModel containsIndex: self position
 ]

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToGenericFiniteListNodeManager,
-	#superclass : #ToAbstractFiniteNodeManager,
-	#traits : 'TToGenericNodeManager',
-	#classTraits : 'TToGenericNodeManager classTrait',
+	#superclass : #ToAbstractNodeManager,
+	#traits : 'TToFiniteNodeManager + TToGenericNodeManager',
+	#classTraits : 'TToFiniteNodeManager classTrait + TToGenericNodeManager classTrait',
 	#category : #'Toplo-Widget-List-Core-FiniteListElement'
 }
 
@@ -16,5 +16,6 @@ ToGenericFiniteListNodeManager >> defaultNodeFactory [
 ToGenericFiniteListNodeManager >> initialize [ 
 
 	super initialize.
+	self initializeAsFiniteNodeManager.
 	self initializeAsGenericNodeManager 
 ]

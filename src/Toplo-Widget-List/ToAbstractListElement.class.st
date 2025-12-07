@@ -6,6 +6,7 @@ Class {
 	#instVars : [
 		'next',
 		'dataSource',
+		'dataAccessor',
 		'nodeManager',
 		'selectionModeMap',
 		'mouseMoveReplayRequested'
@@ -123,9 +124,9 @@ ToAbstractListElement >> data [
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> dataAccessor [
+ToAbstractListElement >> dataAccessor [ 
 
-	^ self dataSource dataAccessor
+	^ dataAccessor
 ]
 
 { #category : #accessing }
@@ -318,6 +319,7 @@ ToAbstractListElement >> initialize [
 	selectionModeMap := IdentityDictionary new.
 
 	self initializeDataSource.
+	self initializeDataAccessor.
 	self initializeInnerElement.
 
 	self layout: self defaultLayout.
@@ -331,6 +333,12 @@ ToAbstractListElement >> initialize [
 	self newDisabledSelectionMode onInstalledIn: self.
 
 	self matchParent 
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> initializeDataAccessor [
+
+	dataAccessor := self dataSource
 ]
 
 { #category : #initialization }

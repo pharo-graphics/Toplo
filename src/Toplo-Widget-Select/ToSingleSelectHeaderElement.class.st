@@ -1,8 +1,8 @@
 Class {
-	#name : #ToSingleSelectInnerContainerElement,
+	#name : #ToSingleSelectHeaderElement,
 	#superclass : #ToElement,
-	#traits : 'TToSelectInnerContainerElement + TToElementWithPlaceholder',
-	#classTraits : 'TToSelectInnerContainerElement classTrait + TToElementWithPlaceholder classTrait',
+	#traits : 'TToSelectHeaderElement + TToElementWithPlaceholder',
+	#classTraits : 'TToSelectHeaderElement classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [
 		'selectElement',
 		'fakeDataView',
@@ -17,7 +17,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-ToSingleSelectInnerContainerElement class >> onSelectElement: aSelectElement [
+ToSingleSelectHeaderElement class >> onSelectElement: aSelectElement [
 
 	^ self basicNew
 		  selectElement: aSelectElement;
@@ -25,14 +25,14 @@ ToSingleSelectInnerContainerElement class >> onSelectElement: aSelectElement [
 ]
 
 { #category : #accessing }
-ToSingleSelectInnerContainerElement >> dataView [
+ToSingleSelectHeaderElement >> dataView [
 	" return the element containing the selection result "
 
 	^ dataView
 ]
 
 { #category : #accessing }
-ToSingleSelectInnerContainerElement >> dataViewBuilder: aValuable [
+ToSingleSelectHeaderElement >> dataViewBuilder: aValuable [
 	" aValuable takes 2 args: the dataItemView and the selected dataItem "
 
 	dataViewBuilder := aValuable.
@@ -42,38 +42,38 @@ ToSingleSelectInnerContainerElement >> dataViewBuilder: aValuable [
 ]
 
 { #category : #accessing }
-ToSingleSelectInnerContainerElement >> dataViewFactory [
+ToSingleSelectHeaderElement >> dataViewFactory [
 
 	^ dataViewFactory
 ]
 
 { #category : #initialization }
-ToSingleSelectInnerContainerElement >> defaultLayout [ 
+ToSingleSelectHeaderElement >> defaultLayout [ 
 
 	^ BlLinearLayout horizontal
 ]
 
 { #category : #accessing }
-ToSingleSelectInnerContainerElement >> fakeDataItem: aData [
+ToSingleSelectHeaderElement >> fakeDataItem: aData [
 
 	fakeDataItem := aData.
 	self reinstallFakeDataView
 ]
 
 { #category : #'t - select inner container' }
-ToSingleSelectInnerContainerElement >> filterTextField [
+ToSingleSelectHeaderElement >> filterTextField [
 
 	^ filterTextField 
 ]
 
 { #category : #'t - select inner container' }
-ToSingleSelectInnerContainerElement >> filterTextField: aTextField [
+ToSingleSelectHeaderElement >> filterTextField: aTextField [
 
 	filterTextField := aTextField
 ]
 
 { #category : #initialization }
-ToSingleSelectInnerContainerElement >> initialize [
+ToSingleSelectHeaderElement >> initialize [
 
 	super initialize.
 	self
@@ -91,7 +91,7 @@ ToSingleSelectInnerContainerElement >> initialize [
 ]
 
 { #category : #initialization }
-ToSingleSelectInnerContainerElement >> installDataView [
+ToSingleSelectHeaderElement >> installDataView [
 		
 	" add the unique view for the selected data item "
 	dataView := self newDataView.
@@ -100,7 +100,7 @@ ToSingleSelectInnerContainerElement >> installDataView [
 ]
 
 { #category : #initialization }
-ToSingleSelectInnerContainerElement >> installFakeDataView [
+ToSingleSelectHeaderElement >> installFakeDataView [
 	" add the fake node (to keep a constant minimum height )"
 
 	fakeDataView := self newDataView.
@@ -111,7 +111,7 @@ ToSingleSelectInnerContainerElement >> installFakeDataView [
 ]
 
 { #category : #skin }
-ToSingleSelectInnerContainerElement >> installRawStyle [
+ToSingleSelectHeaderElement >> installRawStyle [
 
 	super installRawStyle.
 	self padding: (BlInsets all: 5)
@@ -119,19 +119,19 @@ ToSingleSelectInnerContainerElement >> installRawStyle [
 ]
 
 { #category : #testing }
-ToSingleSelectInnerContainerElement >> isMultipleSelection [ 
+ToSingleSelectHeaderElement >> isMultipleSelection [ 
 
 	^ false
 ]
 
 { #category : #initialization }
-ToSingleSelectInnerContainerElement >> newDataView [
+ToSingleSelectHeaderElement >> newDataView [
 
 	^ dataViewFactory cull: self
 ]
 
 { #category : #initialization }
-ToSingleSelectInnerContainerElement >> reinstallFakeDataView [
+ToSingleSelectHeaderElement >> reinstallFakeDataView [
 		
 	self uninstallFakeDataView.
 	self installFakeDataView 
@@ -139,32 +139,32 @@ ToSingleSelectInnerContainerElement >> reinstallFakeDataView [
 ]
 
 { #category : #accessing }
-ToSingleSelectInnerContainerElement >> sample: aDataItem [
+ToSingleSelectHeaderElement >> sample: aDataItem [
 
 	self fakeDataItem: aDataItem
 ]
 
 { #category : #'t - select inner container' }
-ToSingleSelectInnerContainerElement >> selectElement [
+ToSingleSelectHeaderElement >> selectElement [
 
 	^ selectElement
 ]
 
 { #category : #'t - select inner container' }
-ToSingleSelectInnerContainerElement >> selectElement: aSelectElement [
+ToSingleSelectHeaderElement >> selectElement: aSelectElement [
 
 	selectElement := aSelectElement
 ]
 
 { #category : #initialization }
-ToSingleSelectInnerContainerElement >> uninstallFakeDataView [
+ToSingleSelectHeaderElement >> uninstallFakeDataView [
 		
 	self removeChild: fakeDataView
 
 ]
 
 { #category : #'t - select inner container' }
-ToSingleSelectInnerContainerElement >> updateFromPopupListSelection [
+ToSingleSelectHeaderElement >> updateFromPopupListSelection [
 
 	| selectedIndex  selectionModel selectedDataItems |
 	selectElement showHidePlaceholder.

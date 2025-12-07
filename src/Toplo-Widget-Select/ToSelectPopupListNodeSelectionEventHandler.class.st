@@ -1,23 +1,23 @@
 Class {
-	#name : #ToSelectListNodeSelectionEventHandler,
+	#name : #ToSelectPopupListNodeSelectionEventHandler,
 	#superclass : #ToListNodeSelectionEventHandler,
 	#category : #'Toplo-Widget-Select-PopupList'
 }
 
 { #category : #'mouse handlers' }
-ToSelectListNodeSelectionEventHandler >> clickEvent: anEvent [
+ToSelectPopupListNodeSelectionEventHandler >> clickEvent: anEvent [
 
 	
 ]
 
 { #category : #'api - accessing' }
-ToSelectListNodeSelectionEventHandler >> eventsToHandle [
+ToSelectPopupListNodeSelectionEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , { BlMouseUpEvent }
 ]
 
 { #category : #'mouse handlers' }
-ToSelectListNodeSelectionEventHandler >> mouseUpEvent: anEvent [
+ToSelectPopupListNodeSelectionEventHandler >> mouseUpEvent: anEvent [
 
 	anEvent
 		  ifPrimary: [ self pickEvent: anEvent ]

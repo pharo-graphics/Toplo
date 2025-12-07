@@ -24,7 +24,7 @@ TToFiniteListElement >> fakeNodeContainer [
 ]
 
 { #category : #'t - finite list element' }
-TToFiniteListElement >> initializeAsBarElement [
+TToFiniteListElement >> initializeAsFiniteListElement [
 
 	self installFakeNodeContainer
 ]

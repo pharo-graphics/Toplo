@@ -1,22 +1,22 @@
 Trait {
-	#name : #TToSelectInnerContainerElement,
+	#name : #TToSelectHeaderElement,
 	#category : #'Toplo-Widget-Select-Core'
 }
 
 { #category : #'t - select inner container' }
-TToSelectInnerContainerElement >> filterTextField [
+TToSelectHeaderElement >> filterTextField [
 
 	self explicitRequirement 
 ]
 
 { #category : #'t - select inner container' }
-TToSelectInnerContainerElement >> filterTextField: aTextField [
+TToSelectHeaderElement >> filterTextField: aTextField [
 
 	self explicitRequirement 
 ]
 
 { #category : #'t - select inner container' }
-TToSelectInnerContainerElement >> installFilterTextField [ 
+TToSelectHeaderElement >> installFilterTextField [ 
 
 	self filterTextField: self newFilterTextField.
 	self filterTextField constraintsDo: [ :c |
@@ -26,43 +26,43 @@ TToSelectInnerContainerElement >> installFilterTextField [
 ]
 
 { #category : #'t - select inner container' }
-TToSelectInnerContainerElement >> isFiltrable [
+TToSelectHeaderElement >> isFiltrable [
 
 	^ self selectElement isFiltrable
 ]
 
 { #category : #'t - select inner container' }
-TToSelectInnerContainerElement >> manager [
+TToSelectHeaderElement >> manager [
 
 	^ self selectElement manager
 ]
 
 { #category : #'t - select inner container' }
-TToSelectInnerContainerElement >> newFilterTextField [
+TToSelectHeaderElement >> newFilterTextField [
 
 	^ ToSelectFilterTextField new on: self selectElement
 ]
 
 { #category : #'t - select inner container' }
-TToSelectInnerContainerElement >> selectElement [
+TToSelectHeaderElement >> selectElement [
 
 	^ self explicitRequirement 
 ]
 
 { #category : #'t - select inner container' }
-TToSelectInnerContainerElement >> selectElement: aSelectElement [
+TToSelectHeaderElement >> selectElement: aSelectElement [
 
 	self explicitRequirement 
 ]
 
 { #category : #'t - select inner container' }
-TToSelectInnerContainerElement >> updateFromPopupListSelection [
+TToSelectHeaderElement >> updateFromPopupListSelection [
 
 	^ self subclassResponsibility 
 ]
 
 { #category : #'t - select inner container' }
-TToSelectInnerContainerElement >> windowManager [
+TToSelectHeaderElement >> windowManager [
 
 	self
 		deprecated: 'Use #manager instead'

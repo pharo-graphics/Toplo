@@ -1,11 +1,11 @@
 Class {
-	#name : #ToSelectListElementEventHandler,
+	#name : #ToSelectPopupListElementEventHandler,
 	#superclass : #ToListElementEventHandler,
 	#category : #'Toplo-Widget-Select-PopupList'
 }
 
 { #category : #'api - accessing' }
-ToSelectListElementEventHandler >> eventsToHandle [
+ToSelectPopupListElementEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , {
 		  ToSieveSelectionChangedEvent.
@@ -13,7 +13,7 @@ ToSelectListElementEventHandler >> eventsToHandle [
 ]
 
 { #category : #'infinite event handling' }
-ToSelectListElementEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEvent [
+ToSelectPopupListElementEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEvent [
 	" have to refresh the select bar here (see issue #252, https://github.com/pharo-graphics/Toplo/issues/252) "
 
 	| listElement |
@@ -24,7 +24,7 @@ ToSelectListElementEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEv
 ]
 
 { #category : #'mouse handlers' }
-ToSelectListElementEventHandler >> mouseUpEvent: anEvent [
+ToSelectPopupListElementEventHandler >> mouseUpEvent: anEvent [
 
 	| listElement selectElement |
 	super mouseUpEvent: anEvent.
@@ -36,7 +36,7 @@ ToSelectListElementEventHandler >> mouseUpEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToSelectListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
+ToSelectPopupListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
 
 	| listElement selectElement |
 	listElement := anEvent currentTarget.

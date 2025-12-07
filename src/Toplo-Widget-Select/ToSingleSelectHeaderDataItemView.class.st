@@ -1,17 +1,17 @@
 Class {
-	#name : #ToSingleSelectDataItemView,
+	#name : #ToSingleSelectHeaderDataItemView,
 	#superclass : #ToElement,
 	#category : #'Toplo-Widget-Select-Single'
 }
 
 { #category : #initialization }
-ToSingleSelectDataItemView >> defaultLayout [ 
+ToSingleSelectHeaderDataItemView >> defaultLayout [ 
 
 	^ BlLinearLayout horizontal
 ]
 
 { #category : #initialization }
-ToSingleSelectDataItemView >> initialize [
+ToSingleSelectHeaderDataItemView >> initialize [
 
 	super initialize.
 	self constraintsDo: [ :c |
@@ -21,21 +21,21 @@ ToSingleSelectDataItemView >> initialize [
 ]
 
 { #category : #skin }
-ToSingleSelectDataItemView >> installRawStyle [
+ToSingleSelectHeaderDataItemView >> installRawStyle [
 
 	super installRawStyle.
 	self background: Color transparent
 ]
 
 { #category : #accessing }
-ToSingleSelectDataItemView >> selectedDataTextField [
+ToSingleSelectHeaderDataItemView >> selectedDataTextField [
 
 	self deprecated: 'No more implemented. Please, add a ToLabel child in the data item view'.
 	^ self
 ]
 
 { #category : #accessing }
-ToSingleSelectDataItemView >> text: aText [
+ToSingleSelectHeaderDataItemView >> text: aText [
 
 	self deprecated: 'No more implemented. Please, add a ToLabel child in the data item view'.
 	self addChild: (ToLabel text: aText)

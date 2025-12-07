@@ -131,7 +131,7 @@ ToMultiSelectElement >> initializeListSelectionChecker [
 { #category : #'instance creation' }
 ToMultiSelectElement >> innerElementClass [
 
-	^ ToMultiSelectPopupListElement
+	^ ToMultiSelectHeaderListElement
 ]
 
 { #category : #accessing }
@@ -176,7 +176,7 @@ ToMultiSelectElement >> newEndContainer [
 { #category : #'instance creation' }
 ToMultiSelectElement >> newPopupWindowManager [
 
-	^ ToMultiSelectPopupManager new
+	^ ToMultiSelectPopupWindowManager new
 ]
 
 { #category : #skin }

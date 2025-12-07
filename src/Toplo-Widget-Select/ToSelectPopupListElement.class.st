@@ -1,5 +1,5 @@
 Class {
-	#name : #ToSelectListElement,
+	#name : #ToSelectPopupListElement,
 	#superclass : #ToListElement,
 	#instVars : [
 		'selectElement'
@@ -8,25 +8,25 @@ Class {
 }
 
 { #category : #accessing }
-ToSelectListElement >> groupSelecter [
+ToSelectPopupListElement >> groupSelecter [
 
 	^ self groupSelectionMode selecter
 ]
 
 { #category : #accessing }
-ToSelectListElement >> groupSelectionMode [
+ToSelectPopupListElement >> groupSelectionMode [
 
 	^ self selectionModeWithEventClass: ToSelectGroupSelectionChangedEvent
 ]
 
 { #category : #accessing }
-ToSelectListElement >> groupSelectionModel [
+ToSelectPopupListElement >> groupSelectionModel [
 
 	^ self groupSelecter selectionModel
 ]
 
 { #category : #initialization }
-ToSelectListElement >> initialize [
+ToSelectPopupListElement >> initialize [
 
 	super initialize.
 	
@@ -36,32 +36,38 @@ ToSelectListElement >> initialize [
 	self primarySelectionMode makeDisabledUnselectable: true
 ]
 
-{ #category : #accessing }
-ToSelectListElement >> newGroupSelectionMode [
+{ #category : #initialization }
+ToSelectPopupListElement >> listNodeClass [
 
-	^ ToSelectListGroupSelectionMode parentMode: self primarySelectionMode
+	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
+ToSelectPopupListElement >> newGroupSelectionMode [
+
+	^ ToSelectPopupListGroupSelectionMode parentMode: self primarySelectionMode
 ]
 
 { #category : #skin }
-ToSelectListElement >> newRawSkin [ 
+ToSelectPopupListElement >> newRawSkin [ 
 
 	^ ToBasicListElementSkin new
 ]
 
 { #category : #accessing }
-ToSelectListElement >> selectElement [
+ToSelectPopupListElement >> selectElement [
 
 	^ selectElement 
 ]
 
 { #category : #accessing }
-ToSelectListElement >> selectElement: aSelectElement [
+ToSelectPopupListElement >> selectElement: aSelectElement [
 
 	selectElement := aSelectElement
 ]
 
 { #category : #accessing }
-ToSelectListElement >> sieve [
+ToSelectPopupListElement >> sieve [
 
 	^ selectElement sieve
 ]

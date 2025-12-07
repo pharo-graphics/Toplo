@@ -1270,6 +1270,33 @@ ToSandBox class >> example_BasicListWithAllClasses3 [
 	l openInInnerWindow
 ]
 
+{ #category : #'wrapped list' }
+ToSandBox class >> example_BasicWrappedListWithAllClasses3 [
+
+	| l |
+	l := ToWrappedListElement new nodeBuilder: [ :node :dataItem :holder |
+		     | icn lab |
+		     icn :=  dataItem hasComment
+			            ifTrue: [ #class ]
+			            ifFalse: [ #uncommentedClass ].
+		     lab := ToLabel new
+			            text: dataItem name;
+			            beEditable;
+			            yourself.
+		     node addChild: (ToLabeledIcon new
+				      label: lab;
+				      icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
+				      startInterspace: 10;
+				      hMatchParent) ].
+	l withRowNumbers.
+	l dataAccessor addAll:
+		(Smalltalk globals allClasses sorted: [ :a :b | a name < b name ]).
+	l selecter selectIndexes: #(10 12 3).
+
+	l requestFocus.
+	l openInInnerWindow
+]
+
 { #category : #transitions }
 ToSandBox class >> example_BoundsAndBackgroundTransition [
 

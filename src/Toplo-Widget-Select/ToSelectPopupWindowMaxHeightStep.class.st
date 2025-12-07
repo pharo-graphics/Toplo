@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'maxHeightPolicy'
 	],
-	#category : #'Toplo-Widget-Select-manager'
+	#category : #'Toplo-Widget-Select-PopupWindow'
 }
 
 { #category : #accessing }

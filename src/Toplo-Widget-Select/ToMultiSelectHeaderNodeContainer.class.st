@@ -1,11 +1,11 @@
 Class {
-	#name : #ToMultiSelectPopupNodeContainer,
+	#name : #ToMultiSelectHeaderNodeContainer,
 	#superclass : #ToFiniteListNodeContainer,
 	#category : #'Toplo-Widget-Select-Multi'
 }
 
 { #category : #accessing }
-ToMultiSelectPopupNodeContainer >> nodeContainersCount [
+ToMultiSelectHeaderNodeContainer >> nodeContainersCount [
 
 	^ 1
 ]

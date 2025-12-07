@@ -26,7 +26,7 @@ ToItemFiniteListElement >> defaultNodeManagerClass [
 ToItemFiniteListElement >> initialize [
 
 	super initialize.
-	self initializeAsBarElement.
+	self initializeAsFiniteListElement.
 	self initializeAsItemListElement
 ]
 

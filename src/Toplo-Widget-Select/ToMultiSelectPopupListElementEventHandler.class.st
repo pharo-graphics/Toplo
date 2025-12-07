@@ -1,17 +1,17 @@
 Class {
-	#name : #ToMultiSelectListElementEventHandler,
-	#superclass : #ToSelectListElementEventHandler,
+	#name : #ToMultiSelectPopupListElementEventHandler,
+	#superclass : #ToSelectPopupListElementEventHandler,
 	#category : #'Toplo-Widget-Select-PopupList'
 }
 
 { #category : #'api - accessing' }
-ToMultiSelectListElementEventHandler >> eventsToHandle [
+ToMultiSelectPopupListElementEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , { ToSelectGroupSelectionChangedEvent }
 ]
 
 { #category : #'event handling' }
-ToMultiSelectListElementEventHandler >> selectGroupSelectionChangedEvent: anEvent [
+ToMultiSelectPopupListElementEventHandler >> selectGroupSelectionChangedEvent: anEvent [
 
 	| touchedIntervals listElement |
 	touchedIntervals := anEvent touchedIntervals.
@@ -24,7 +24,7 @@ ToMultiSelectListElementEventHandler >> selectGroupSelectionChangedEvent: anEven
 ]
 
 { #category : #'event handling' }
-ToMultiSelectListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
+ToMultiSelectPopupListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
 
 	| listElement selectElement changedEvent |
 	super sieveSelectionChangedEvent: anEvent.

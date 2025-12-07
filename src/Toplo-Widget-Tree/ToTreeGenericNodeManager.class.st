@@ -16,7 +16,7 @@ ToTreeGenericNodeManager >> buildNode: aTreeNode [
 	
 	nodeBuilder
 		cull: aTreeNode 
-		cull: aTreeNode holder treeDataItem
+		cull: aTreeNode holder dataItem
 		cull: aTreeNode holder.
 
 ]

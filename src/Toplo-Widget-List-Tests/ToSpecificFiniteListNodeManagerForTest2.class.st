@@ -1,6 +1,8 @@
 Class {
 	#name : #ToSpecificFiniteListNodeManagerForTest2,
-	#superclass : #ToAbstractFiniteNodeManager,
+	#superclass : #ToAbstractNodeManager,
+	#traits : 'TToFiniteNodeManager',
+	#classTraits : 'TToFiniteNodeManager classTrait',
 	#instVars : [
 		'counter'
 	],
@@ -20,9 +22,10 @@ ToSpecificFiniteListNodeManagerForTest2 >> defaultFakeDataItem [
 ]
 
 { #category : #initialization }
-ToSpecificFiniteListNodeManagerForTest2 >> initialize [ 
+ToSpecificFiniteListNodeManagerForTest2 >> initialize [
 
 	super initialize.
+	self initializeAsFiniteNodeManager.
 	counter := 0
 ]
 

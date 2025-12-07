@@ -1,11 +1,11 @@
 Class {
-	#name : #ToSelectListGroupSelectionMode,
+	#name : #ToSelectPopupListGroupSelectionMode,
 	#superclass : #ToListSubSelectionMode,
 	#category : #'Toplo-Widget-Select-PopupList'
 }
 
 { #category : #'instance creation' }
-ToSelectListGroupSelectionMode >> selectionChangedEventClass [ 
+ToSelectPopupListGroupSelectionMode >> selectionChangedEventClass [ 
 
 	^ ToSelectGroupSelectionChangedEvent
 ]

@@ -40,12 +40,6 @@ ToTreeDataAccessor >> treeElement [
 	^ self listElement
 ]
 
-{ #category : #accessing }
-ToTreeDataAccessor >> treeElement: aTreeElement [
-
-	self listElement: aTreeElement
-]
-
 { #category : #'accessing - dataSource' }
 ToTreeDataAccessor >> useParentWrapper: aWrapper while: aBlock [
 

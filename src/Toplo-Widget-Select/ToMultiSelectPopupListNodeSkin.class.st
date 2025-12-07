@@ -1,11 +1,11 @@
 Class {
-	#name : #ToMultiSelectListNodeSkin,
+	#name : #ToMultiSelectPopupListNodeSkin,
 	#superclass : #ToListNodeSkin,
 	#category : #'Toplo-Widget-Select-PopupList'
 }
 
 { #category : #'event handling' }
-ToMultiSelectListNodeSkin >> installSkinEvent: anEvent [
+ToMultiSelectPopupListNodeSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |

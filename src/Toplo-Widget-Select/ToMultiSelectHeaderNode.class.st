@@ -1,5 +1,5 @@
 Class {
-	#name : #ToMultiSelectNode,
+	#name : #ToMultiSelectHeaderNode,
 	#superclass : #ToTagElement,
 	#traits : 'TToListNode + TToFiniteListNode',
 	#classTraits : 'TToListNode classTrait + TToFiniteListNode classTrait',
@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : #configuration }
-ToMultiSelectNode >> applyConfiguration [
+ToMultiSelectHeaderNode >> applyConfiguration [
 
 	super applyConfiguration.
 	self holderDo: [ :h |
@@ -15,10 +15,16 @@ ToMultiSelectNode >> applyConfiguration [
 ]
 
 { #category : #initialization }
-ToMultiSelectNode >> initialize [ 
+ToMultiSelectHeaderNode >> initialize [ 
 
 	super initialize.
 	self constraintsDo: [ :c | c linear vertical alignCenter ].
 
 	self initializeAsBarNode 
+]
+
+{ #category : #skin }
+ToMultiSelectHeaderNode >> newRawSkin [ 
+
+	^ ToMultiSelectHeaderNodeSkin new
 ]

@@ -19,13 +19,13 @@ ToMultiSelectHeaderNodeManager >> defaultNodeBuilder [
 { #category : #'t - generic node manager' }
 ToMultiSelectHeaderNodeManager >> defaultNodeFactory [
 
-	^ [ :holder | ToMultiSelectNode new ]
+	^ [ :holder | ToMultiSelectHeaderNode new ]
 ]
 
 { #category : #'t - generic node manager' }
 ToMultiSelectHeaderNodeManager >> defaultNodeHolderFactory [
 
-	^ [ ToMultiSelectHolder new ]
+	^ [ ToMultiSelectHeaderHolder new ]
 ]
 
 { #category : #initialization }

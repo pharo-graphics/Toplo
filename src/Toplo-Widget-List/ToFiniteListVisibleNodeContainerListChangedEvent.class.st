@@ -23,7 +23,7 @@ ToFiniteListVisibleNodeContainerListChangedEvent >> invisibleNodeContainers: anA
 { #category : #sending }
 ToFiniteListVisibleNodeContainerListChangedEvent >> sendTo: anObject [
 
-	anObject barVisibleNodeContainerListChangedEvent: self
+	anObject finiteListVisibleNodeContainerListChangedEvent: self
 ]
 
 { #category : #accessing }

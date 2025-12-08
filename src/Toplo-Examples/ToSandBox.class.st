@@ -4026,9 +4026,13 @@ ToSandBox class >> example_SelectMultiFiltrable [
 
 	| select innerWindow tagBuilder |
 	select := ToMultiSelectElement new.
+
 	select filtrable: true.
 	select isFlowable: false.
 	select keepPickOrder: true.
+	select hideSelected: false.
+	select popupMaxHeight: 200.
+	select placeholderString: 'Select a state'.
 
 	select popupListElement selectionOption grouped: false.
 	select popupListElement selectionOption beneath: false.
@@ -4061,12 +4065,9 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	select sieve filter: [ :stateAssoc :pattern |
 		stateAssoc key beginsWith: pattern caseSensitive: false ].
 
-	select hideSelected: false.
 	select popupListElement dataAccessor addAll:
 		self statesOfAmericaWithColor.
 
-	select popupMaxHeight: 200.
-	select placeholderString: 'Select a state'.
 	innerWindow := ToInnerWindow new.
 	select anchorRoot: innerWindow root.
 	select hMatchParent.

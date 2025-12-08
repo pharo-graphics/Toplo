@@ -8,14 +8,6 @@ Class {
 }
 
 { #category : #'events handling' }
-ToTabFiniteListnGroupElementEventHandler >> barVisibleNodeContainerListChangedEvent: anEvent [
-
-	tabGroup
-		onInvisibleNodeContainers: anEvent invisibleNodeContainers
-		visibleNodeContainers: anEvent visibleNodeContainers
-]
-
-{ #category : #'events handling' }
 ToTabFiniteListnGroupElementEventHandler >> checkableGroupChangedEvent: anEvent [
 
 	tabGroup dispatchEvent: anEvent copy
@@ -29,6 +21,14 @@ ToTabFiniteListnGroupElementEventHandler >> eventsToHandle [
 		  ToCheckableGroupChangedEvent.
 		  ToFiniteListItemEvent.
 		  ToListPrimarySelectionChangedEvent }
+]
+
+{ #category : #'events handling' }
+ToTabFiniteListnGroupElementEventHandler >> finiteListVisibleNodeContainerListChangedEvent: anEvent [
+
+	tabGroup
+		onInvisibleNodeContainers: anEvent invisibleNodeContainers
+		visibleNodeContainers: anEvent visibleNodeContainers
 ]
 
 { #category : #'events handling' }

@@ -71,7 +71,7 @@ ToInnerFiniteListElement >> checkFullyVisibleNodeContainers [
 		ifFalse: [
 				invisibles := self nodeContainersReject: #isFullyVisibleInListElement.
 				visibles := self nodeContainers difference: invisibles ].
-	previousInvisibleNodeContainers = invisibles ifTrue: [ ^ self ].
+	"previousInvisibleNodeContainers = invisibles ifTrue: [ ^ self ]."
 	previousInvisibleNodeContainers := invisibles.
 	self dispatchEvent: (ToFiniteListVisibleNodeContainerListChangedEvent new
 			 visibleNodeContainers: visibles;

@@ -20,7 +20,7 @@ ToSelectPopupListElementEventHandler >> infiniteDataSourceEmptinessChangedEvent:
 	super infiniteDataSourceEmptinessChangedEvent: anEvent.
 	listElement := anEvent currentTarget.
 	listElement postponeAction: [ :l |
-		l selectElement refreshHeaderFromPopupListSelection ]
+		l selectElement updateHeaderFromPopupListSelection ]
 ]
 
 { #category : #'mouse handlers' }
@@ -42,5 +42,5 @@ ToSelectPopupListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
 	listElement := anEvent currentTarget.
 	selectElement := listElement selectElement.
 	selectElement popupListElement updateAllSelections.
-	selectElement refreshHeaderFromPopupListSelection
+	selectElement updateHeaderFromPopupListSelection
 ]

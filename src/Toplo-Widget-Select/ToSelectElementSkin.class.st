@@ -15,9 +15,10 @@ ToSelectElementSkin >> closedSkinEvent: anEvent [
 ToSelectElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
-	anEvent elementDo: [ :e | e padding: (BlInsets
-						 horizontal: (e valueOfTokenNamed: #'padding-XS')
-						 vertical: (e valueOfTokenNamed: #'padding-content-VS')) ]
+	anEvent elementDo: [ :e |
+			e padding: (BlInsets
+					 horizontal: (e valueOfTokenNamed: #'padding-XS')
+					 vertical: (e valueOfTokenNamed: #'padding-content-VS')) ]
 ]
 
 { #category : #'event handling' }

@@ -7,7 +7,7 @@ Class {
 { #category : #'event handling' }
 ToSelectEventHandler >> addedToSpaceEvent: anEvent [
 
-	anEvent currentTarget refreshHeaderFromPopupListSelection 
+	anEvent currentTarget updateHeaderFromPopupListSelection 
 ]
 
 { #category : #'api - accessing' }

@@ -100,12 +100,6 @@ ToSelectElement >> filterTextField [
 ]
 
 { #category : #accessing }
-ToSelectElement >> filtrable [
-
-	^ filtrable
-]
-
-{ #category : #accessing }
 ToSelectElement >> filtrable: aBoolean [
 
 	filtrable := aBoolean.
@@ -270,12 +264,6 @@ ToSelectElement >> popupWindowPlacement: aPlacement [
 	self manager placement: aPlacement
 ]
 
-{ #category : #private }
-ToSelectElement >> refreshHeaderFromPopupListSelection [
-
-	self header updateFromPopupListSelection 
-]
-
 { #category : #accessing }
 ToSelectElement >> sample: aDataItem [
 
@@ -317,4 +305,10 @@ ToSelectElement >> showHidePlaceholder [
 ToSelectElement >> sieve [
 
 	^ self manager sieve
+]
+
+{ #category : #private }
+ToSelectElement >> updateHeaderFromPopupListSelection [
+
+	self header updateFromPopupListSelection 
 ]

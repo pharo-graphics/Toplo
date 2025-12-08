@@ -7,28 +7,19 @@ Class {
 { #category : #'t - bar element' }
 ToMultiSelectHeaderInnerListElement >> onInvisibleNodeContainers: theInvisibleContainers visibleNodeContainers: theVisibleContainers [
 
-	| theVisibles theInvisibles summary finalCount |
+	| nbInvisible |
 	listElement isFlowable ifTrue: [ ^ self ].
 	listElement isScrollable ifTrue: [ ^ self ].
-	theInvisibleContainers ifEmpty: [ ^ self ].
-	" in case of composite node at first it means that 
-	there is no more visible node to cumulate in a composite node"
+	nbInvisible := self selectedDataItems size
+	               - theVisibleContainers size.
+	nbInvisible isZero ifTrue: [
+			listElement invisibleNodesLabel text: ''.
+			^ self ].
 	self nodeContainers size = 1 ifTrue: [ ^ self ].
-	theVisibles := theVisibleContainers copy.
-	theInvisibles := theInvisibleContainers copy.
-	theVisibles ifNotEmpty: [
-		"theInvisibles := theInvisibleContainers copyWith: theVisibles last.
-		theVisibles := theVisibles copyWithout: theVisibles last" ].
-	" now cover the last visible node with a summary of invisible nodes  "
-	"summary := ToMultiSelectSummaryTagElement new.
-	summary invisibleItems: (Array streamContents: [ :stream |
-			 invisibleNodes do: [ :n |
-				 stream nextPutAll: n holder dataItem items ] ])."
-"	finalCount := listElement nodesCount - theInvisibles size."
-	"composite content: '+ ' , finalCount asString , ' ...'."
-	theInvisibles reverseDo: [ :container |
+	theInvisibleContainers reverseDo: [ :container |
 		listElement dataAccessor removeAt: container holder position ].
-	"listElement dataAccessor add: composite"
+	listElement invisibleNodesLabel text:
+		'+ ' , nbInvisible asString , ' ...'
 ]
 
 { #category : #'hooks - layout' }
@@ -36,4 +27,16 @@ ToMultiSelectHeaderInnerListElement >> onLayoutDone [
 
 	super onLayoutDone.
 	listElement selectElement checkMaxSelectedCountInHeader
+]
+
+{ #category : #'t - select inner container' }
+ToMultiSelectHeaderInnerListElement >> selectElement [
+
+	^ listElement selectElement
+]
+
+{ #category : #'t - select inner container' }
+ToMultiSelectHeaderInnerListElement >> selectedDataItems [
+
+	^ self  selectElement selectedDataItems
 ]

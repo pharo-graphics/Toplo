@@ -8,7 +8,8 @@ Class {
 		'maxSelectedCount',
 		'keepPickOrder',
 		'pickCount',
-		'filterTextField'
+		'filterTextField',
+		'invisibleNodesLabel'
 	],
 	#category : #'Toplo-Widget-Select-Multi'
 }
@@ -65,36 +66,6 @@ ToMultiSelectHeaderListElement >> checkMaxSelectedCount [
 
 	self sieve pattern isEmpty and: [
 		prevDisabledSM = disabledSM ifTrue: [ ^ self ] ].
-	self popupListElement notifyDataSourceChanged
-]
-
-{ #category : #'accessing - selection' }
-ToMultiSelectHeaderListElement >> checkMaxSelectedCountOld [
-
-	| sM disabledSM groupeSM selectedCount |
-	maxSelectedCount isZero ifTrue: [ ^ self ].
-
-	disabledSM := self popupListElement disabledSelectionModel.
-	groupeSM := self popupListElement groupSelectionModel.
-	sM := self popupListElement selectionModel.
-
-	selectElement updateSelectedCountLabel.
-	selectedCount := selectElement selectionModel selectedIndexesCount.
-
-	"self assertMaxSelectedCount: selectedIndexCount."
-	self sieve withLocalAndOriginalIndexDo: [ :d :localIndex :originalIndex |
-		(groupeSM containsIndex: localIndex) ifFalse: [
-			selectedCount < maxSelectedCount
-				ifTrue: [ disabledSM deselectIndex: localIndex ]
-				ifFalse: [
-					(selectElement selectionModel containsIndex: originalIndex)
-						ifFalse: [ disabledSM selectIndex: localIndex ] ].
-			" to transfer the selection to the sieve selection model "
-			sM
-				transferSelectionFromIndex: localIndex
-				toIndex: originalIndex
-				in: selectElement selectionModel ] ].
-
 	self popupListElement notifyDataSourceChanged
 ]
 
@@ -155,7 +126,40 @@ ToMultiSelectHeaderListElement >> initialize [
 	keepPickOrder := false.
 	pickCount := 0.
 
-	self installFilterTextField
+	self installFilterTextField.
+	self installInvisibleNodesLabel
+]
+
+{ #category : #'accessing - selection' }
+ToMultiSelectHeaderListElement >> installInvisibleNodesLabel [
+
+	| pane |
+	self invisibleNodesLabel: ToLabel new.
+	self invisibleNodesLabel constraintsDo: [ :c |
+		c linear vertical alignCenter ].
+	pane := ToPane new
+		        fitContent;
+		        yourself.
+	pane margin: (BlInsets right: 4).
+	pane elevation: (BlRelativeElevation elevation: 16).
+	pane constraintsDo: [ :c |
+			c linear vertical alignCenter.
+			c flow vertical alignCenter ].
+	pane addChild: self invisibleNodesLabel.
+	self addChild: pane before: self filterTextField
+]
+
+{ #category : #'accessing - selection' }
+ToMultiSelectHeaderListElement >> invisibleNodesLabel [
+
+	^ invisibleNodesLabel
+]
+
+{ #category : #'accessing - selection' }
+ToMultiSelectHeaderListElement >> invisibleNodesLabel: aLabel [ 
+
+	invisibleNodesLabel ifNotNil: [ (BlImmutableObjectChangeError object: self) signal  ].
+	invisibleNodesLabel := aLabel
 ]
 
 { #category : #accessing }
@@ -194,52 +198,6 @@ ToMultiSelectHeaderListElement >> popupListElement [
 	^ selectElement popupListElement
 ]
 
-{ #category : #'t - select inner container' }
-ToMultiSelectHeaderListElement >> refreshFromPopupListSelection [
-	" rebuild the current bar nodes according to the selection in the popup list "
-
-	| previousTagModels newTagModels |
-	selectElement showHidePlaceholder.
-	" copy the previous tag models "
-	previousTagModels := self dataAccessor asOrderedCollection.
-	newTagModels := OrderedCollection new.
-	" take care of a possible composite tag models that represents a list of items "
-	previousTagModels ifNotEmpty: [
-		| last |
-		last := previousTagModels last.
-		last isComposite ifTrue: [
-			previousTagModels removeLast.
-			previousTagModels addAll: last items ] ].
-	" reconstruct the item list. ensure the reuse of pre-existing items"
-	selectElement selectionModel selectedIndexesDo: [ :idx |
-		| new previous data |
-		data := selectElement sieve originalData at: idx.
-		previous := previousTagModels
-			            detect: [ :item | item data = data ]
-			            ifNone: [  ].
-		previous
-			ifNotNil: [
-				new := previous.
-				previousTagModels remove: previous ]
-			ifNil: [
-				new := ToPickedTag new
-					       data: data;
-					       yourself.
-				pickCount := pickCount + 1.
-				new pickOrder: pickCount ].
-		newTagModels add: new ].
-
-	keepPickOrder ifTrue: [
-		newTagModels sort: [ :a :b | a pickOrder < b pickOrder ] ].
-
-	" if the list has changed then replace all in one datasource command "
-	self dataAccessor asOrderedCollection = newTagModels ifTrue: [ ^ self ].
-	self dataAccessor removeAll.
-	self dataAccessor addAll: newTagModels.
-	self checkHideSelectionFromListElement.
-	self checkMaxSelectedCount
-]
-
 { #category : #'accessing - selection' }
 ToMultiSelectHeaderListElement >> removeMaxSelectedCount [
 
@@ -266,19 +224,11 @@ ToMultiSelectHeaderListElement >> sieve [
 
 { #category : #'t - select inner container' }
 ToMultiSelectHeaderListElement >> updateFromPopupListSelection [
-	" rebuild the current bar nodes according to the selection in the popup list "
+	" rebuild the current nodes according to the selection in the popup list "
 
-	| previousDataItems newDataItems |
+	| newDataItems |
 	selectElement showHidePlaceholder.
-	" copy the previous tag models "
-	previousDataItems := self dataAccessor asOrderedCollection.
 	newDataItems := selectElement selectedDataItems.
-
-	"keepPickOrder ifTrue: [
-		newTagModels sort: [ :a :b | a pickOrder < b pickOrder ] ]."
-
-	" if the list has changed then replace all in one datasource command "
-	"self dataAccessor asOrderedCollection = newDataItems ifTrue: [ ^ self ]."
 	self dataAccessor updateAllWith: newDataItems.
 	self checkHideSelectionFromListElement
 ]

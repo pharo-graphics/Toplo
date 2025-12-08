@@ -117,7 +117,7 @@ ToMultiSelectElement >> initializeListSelectionChecker [
 
 	" add the checked to check the selection command "
 	self addEventHandler:
-		ToMultiSelectSelectionChecker new.
+		ToMultiSelectHeaderSelectionChecker new.
 	" add the handler in my sieve so that I can receive the selecter command application event  "
 	self sieve
 		addEventHandlerOn: ToListSelecterCommandApplicationRequestEvent
@@ -167,10 +167,10 @@ ToMultiSelectElement >> maxSelectedCount: aNumber [
 	self requestConfiguration
 ]
 
-{ #category : #'instance creation' }
+{ #category : #'t - triplet container - instance creation' }
 ToMultiSelectElement >> newEndContainer [
 
-	^ ToMultiSelectEndContainer new
+	^ ToMultiSelectHeaderEndContainer new
 ]
 
 { #category : #'instance creation' }

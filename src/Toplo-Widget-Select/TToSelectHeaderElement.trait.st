@@ -19,6 +19,7 @@ TToSelectHeaderElement >> filterTextField: aTextField [
 TToSelectHeaderElement >> installFilterTextField [ 
 
 	self filterTextField: self newFilterTextField.
+	self filterTextField elevation: (BlRelativeElevation elevation: 16).
 	self filterTextField constraintsDo: [ :c |
 		c linear vertical alignCenter.
 		c flow vertical alignCenter ].

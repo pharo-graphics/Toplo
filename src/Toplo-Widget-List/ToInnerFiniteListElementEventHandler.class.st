@@ -4,8 +4,14 @@ Class {
 	#category : #'Toplo-Widget-List-InnerFiniteList'
 }
 
+{ #category : #'api - accessing' }
+ToInnerFiniteListElementEventHandler >> eventsToHandle [
+
+	^ super eventsToHandle , { ToFiniteListVisibleNodeContainerListChangedEvent }
+]
+
 { #category : #'element events handling' }
-ToInnerFiniteListElementEventHandler >> barVisibleNodeContainerListChangedEvent: anEvent [
+ToInnerFiniteListElementEventHandler >> finiteListVisibleNodeContainerListChangedEvent: anEvent [
 
 	| innerBar |
 	innerBar := anEvent currentTarget.
@@ -13,10 +19,4 @@ ToInnerFiniteListElementEventHandler >> barVisibleNodeContainerListChangedEvent:
 		onInvisibleNodeContainers: anEvent invisibleNodeContainers
 		visibleNodeContainers: anEvent visibleNodeContainers.
 	innerBar listElement dispatchEvent: anEvent copy
-]
-
-{ #category : #'api - accessing' }
-ToInnerFiniteListElementEventHandler >> eventsToHandle [
-
-	^ super eventsToHandle , { ToFiniteListVisibleNodeContainerListChangedEvent }
 ]

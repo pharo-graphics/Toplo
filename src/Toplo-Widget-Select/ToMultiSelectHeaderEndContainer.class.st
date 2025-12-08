@@ -1,5 +1,5 @@
 Class {
-	#name : #ToMultiSelectEndContainer,
+	#name : #ToMultiSelectHeaderEndContainer,
 	#superclass : #ToSelectEndContainer,
 	#instVars : [
 		'maxSelectedCount',
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #initialization }
-ToMultiSelectEndContainer >> initialize [
+ToMultiSelectHeaderEndContainer >> initialize [
 
 	| selectedCountLabel |
 	super initialize.
@@ -19,19 +19,19 @@ ToMultiSelectEndContainer >> initialize [
 ]
 
 { #category : #accessing }
-ToMultiSelectEndContainer >> maxSelectedCount: aNumber [
+ToMultiSelectHeaderEndContainer >> maxSelectedCount: aNumber [
 
 	maxSelectedCount := aNumber
 ]
 
 { #category : #accessing }
-ToMultiSelectEndContainer >> selectedCountLabel [
+ToMultiSelectHeaderEndContainer >> selectedCountLabel [
 
 	^ self startElement
 ]
 
 { #category : #accessing }
-ToMultiSelectEndContainer >> updateSelectedCountLabelWith: aNumber [
+ToMultiSelectHeaderEndContainer >> updateSelectedCountLabelWith: aNumber [
 
 	maxSelectedCount = -1 ifTrue: [ ^ self ].
 	currentSelectCount = aNumber ifTrue: [ ^ self ].

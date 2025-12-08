@@ -65,5 +65,5 @@ ToAbstractTreeElement >> initializeDataSource [
 { #category : #'instance creation' }
 ToAbstractTreeElement >> sieveClass [
 
-	^ ToTreeElementSieve
+	^ ToWrappedListElementSieve
 ]

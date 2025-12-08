@@ -1,11 +1,11 @@
 Class {
-	#name : #ToTreeElementSieve,
+	#name : #ToWrappedListElementSieve,
 	#superclass : #ToListElementSieve,
-	#category : #'Toplo-Widget-Tree-Sieve'
+	#category : #'Toplo-Widget-List-WrappedList'
 }
 
 { #category : #accessing }
-ToTreeElementSieve >> filter: aValuable [
+ToWrappedListElementSieve >> filter: aValuable [
 	" filter takes a wrapped data and a pattern as argument "
 
 	super filter: [ :item :pattern |
@@ -13,7 +13,7 @@ ToTreeElementSieve >> filter: aValuable [
 ]
 
 { #category : #accessing }
-ToTreeElementSieve >> pattern: aPattern [
+ToWrappedListElementSieve >> pattern: aPattern [
 
 	" simple collapse all roots because by default, 
 	this implementation don't manage a filter result with expanded nodes "

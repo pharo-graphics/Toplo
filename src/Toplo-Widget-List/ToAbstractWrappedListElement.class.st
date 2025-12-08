@@ -30,3 +30,9 @@ ToAbstractWrappedListElement >> initializeDataSource [
 		addEventHandlerOn: ToAbstractCollectionChangedEvent
 		do: [ :event | self dataAccessor dispatchEvent: event copy ]
 ]
+
+{ #category : #'instance creation' }
+ToAbstractWrappedListElement >> sieveClass [
+
+	^ ToWrappedListElementSieve
+]

@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-Select-PopupList'
 }
 
-{ #category : #'instance creation' }
+{ #category : #'t - generic node manager' }
 ToSelectPopupListNodeManager >> newHolder [ 
 
 	^ ToSelectPopupListNodeHolder new

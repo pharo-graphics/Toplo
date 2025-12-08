@@ -3,9 +3,9 @@ I'm a list whose node contents is a BlElement
 "
 Class {
 	#name : #ToItemFiniteListElement,
-	#superclass : #ToAbstractListElement,
-	#traits : 'TToConfigurableFiniteListElement + TToFiniteListElement + TToItemList',
-	#classTraits : 'TToConfigurableFiniteListElement classTrait + TToFiniteListElement classTrait + TToItemList classTrait',
+	#superclass : #ToAbstractFiniteListElement,
+	#traits : 'TToItemListElement',
+	#classTraits : 'TToItemListElement classTrait',
 	#category : #'Toplo-Widget-List-ItemFiniteList'
 }
 
@@ -14,6 +14,12 @@ ToItemFiniteListElement >> applyConfiguration [
 
 	super applyConfiguration.
 	self applyItemListConfiguration
+]
+
+{ #category : #'t - finite list element - fake container' }
+ToItemFiniteListElement >> defaultFakeDataItem [
+
+	^ ToFiniteListItem new
 ]
 
 { #category : #initialization }
@@ -26,7 +32,6 @@ ToItemFiniteListElement >> defaultNodeManagerClass [
 ToItemFiniteListElement >> initialize [
 
 	super initialize.
-	self initializeAsFiniteListElement.
 	self initializeAsItemListElement
 ]
 

@@ -1,116 +1,116 @@
 Trait {
-	#name : #TToItemList,
+	#name : #TToItemListElement,
 	#category : #'Toplo-Widget-List-Core'
 }
 
 { #category : #'t - item list - adding/removing' }
-TToItemList >> addAllItems: aCollection [
+TToItemListElement >> addAllItems: aCollection [
 
 	aCollection do: [ :item | self addItem: item ]
 ]
 
 { #category : #'t - item list - adding/removing' }
-TToItemList >> addItem: anItem [
+TToItemListElement >> addItem: anItem [
 
 	self items add: anItem.
 	self onAddedItem: anItem
 ]
 
 { #category : #'t - item list - adding/removing' }
-TToItemList >> addItem: anItem after: anotherItem [
+TToItemListElement >> addItem: anItem after: anotherItem [
 
 	self items add: anItem after: anotherItem.
 	self onAddedItem: anItem
 ]
 
 { #category : #'t - item list - adding/removing' }
-TToItemList >> addItem: anItem afterIndex: anInteger [
+TToItemListElement >> addItem: anItem afterIndex: anInteger [
 
 	self items add: anItem afterIndex: anInteger.
 	self onAddedItem: anItem
 ]
 
 { #category : #'t - item list - adding/removing' }
-TToItemList >> addItem: anItem before: anotherItem [
+TToItemListElement >> addItem: anItem before: anotherItem [
 
 	self items add: anItem before: anotherItem.
 	self onAddedItem: anItem
 ]
 
 { #category : #'t - item list - adding/removing' }
-TToItemList >> addItem: anItem beforeIndex: anInteger [
+TToItemListElement >> addItem: anItem beforeIndex: anInteger [
 
 	self items add: anItem beforeIndex: anInteger.
 	self onAddedItem: anItem
 ]
 
 { #category : #'t - item list - configuration' }
-TToItemList >> applyItemListConfiguration [
+TToItemListElement >> applyItemListConfiguration [
 
 	self nodeContainersDo: [ :container | container applyConfiguration ]
 ]
 
 { #category : #'t - item list - hidden/visible' }
-TToItemList >> deselectedItem: anItem [
+TToItemListElement >> deselectedItem: anItem [
 
 	self deselectedAtPosition: anItem positionInBar
 ]
 
 { #category : #'t - item list - disabled/enabled' }
-TToItemList >> disabledItem: anItem [
+TToItemListElement >> disabledItem: anItem [
 
 	self disabledAtPosition: anItem positionInList
 ]
 
 { #category : #'t - item list - disabled/enabled' }
-TToItemList >> enabledItem: anItem [
+TToItemListElement >> enabledItem: anItem [
 
 	self enabledAtPosition: anItem positionInList
 ]
 
 { #category : #'t - item list - hidden/visible' }
-TToItemList >> hiddenItem: anItem [
+TToItemListElement >> hiddenItem: anItem [
 
 	self hiddenAtPosition: anItem positionInBar
 ]
 
 { #category : #'t - item list - accessing' }
-TToItemList >> initializeAsItemListElement [ 
+TToItemListElement >> initializeAsItemListElement [ 
 
 	self primarySelectionMode makeDisabledUnselectable: true
 ]
 
 { #category : #'t - item list - hidden/visible' }
-TToItemList >> isSelectedItem: anItem [
+TToItemListElement >> isSelectedItem: anItem [
 
 	^ self isSelectedAtPosition: anItem positionInList
 ]
 
 { #category : #'t - item list - accessing' }
-TToItemList >> items [ 
+TToItemListElement >> items [ 
 
 	^ self dataAccessor
 ]
 
 { #category : #'t - item list - adding/removing' }
-TToItemList >> notifyItemAdded: anItem [
+TToItemListElement >> notifyItemAdded: anItem [
 
 ]
 
 { #category : #'t - item list - adding/removing' }
-TToItemList >> notifyItemRemoved: anItem wasSelected: aBoolean [
+TToItemListElement >> notifyItemRemoved: anItem wasSelected: aBoolean [
 
 ]
 
 { #category : #'t - item list - adding/removing' }
-TToItemList >> onAddedItem: anItem [
+TToItemListElement >> onAddedItem: anItem [
 
 	anItem listElement: self.
 	self notifyItemAdded: anItem
 ]
 
 { #category : #'t - item list - adding/removing' }
-TToItemList >> onRemovedItem: anItem wasSelected: aBoolean [
+TToItemListElement >> onRemovedItem: anItem wasSelected: aBoolean [
 
 	self notifyItemRemoved: anItem wasSelected: aBoolean.
 	anItem listElement: nil.
@@ -118,19 +118,19 @@ TToItemList >> onRemovedItem: anItem wasSelected: aBoolean [
 ]
 
 { #category : #'t - item list - adding/removing' }
-TToItemList >> removeAllItems [
+TToItemListElement >> removeAllItems [
 
 	self removeAllItems: self items asArray
 ]
 
 { #category : #'t - item list - adding/removing' }
-TToItemList >> removeAllItems: aCollection [
+TToItemListElement >> removeAllItems: aCollection [
 
 	aCollection do: [ :item | self removeItem: item ]
 ]
 
 { #category : #'t - item list - adding/removing' }
-TToItemList >> removeItem: anItem [
+TToItemListElement >> removeItem: anItem [
 
 	| wasSelected |
 	wasSelected := self isSelectedAtPosition: anItem holder position.
@@ -141,25 +141,25 @@ TToItemList >> removeItem: anItem [
 ]
 
 { #category : #'t - item list - unselectable/selectable' }
-TToItemList >> selectableItem: anItem [
+TToItemListElement >> selectableItem: anItem [
 
 	self selectableAtPosition: anItem positionInBar
 ]
 
 { #category : #'t - item list - hidden/visible' }
-TToItemList >> selectedItem: anItem [
+TToItemListElement >> selectedItem: anItem [
 
 	self selectedAtPosition: anItem positionInBar
 ]
 
 { #category : #'t - item list - unselectable/selectable' }
-TToItemList >> unselectableItem: anItem [
+TToItemListElement >> unselectableItem: anItem [
 
 	self unselectableAtPosition: anItem positionInList
 ]
 
 { #category : #'t - item list - hidden/visible' }
-TToItemList >> visibleItem: anItem [
+TToItemListElement >> visibleItem: anItem [
 
 	self visibleAtPosition: anItem positionInBar
 ]

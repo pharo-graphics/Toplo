@@ -1,5 +1,12 @@
+"
+My fakeData item is an item that is used to define the size when the list has no element.
+This avoids flickering or changing size when inappropriate.
+"
 Trait {
 	#name : #TToFiniteListElement,
+	#instVars : [
+		'fakeDataItem'
+	],
 	#category : #'Toplo-Widget-List-Core-FiniteListElement'
 }
 
@@ -9,10 +16,28 @@ TToFiniteListElement >> addFakeNodeContainer: aNodeContainer [
 	self addChild: aNodeContainer at: 1
 ]
 
+{ #category : #'t - finite list element - fake container' }
+TToFiniteListElement >> defaultFakeDataItem [
+
+	^ nil
+]
+
 { #category : #'t - finite list element' }
 TToFiniteListElement >> defaultInnerElementClass [
 
 	^ ToInnerFiniteListElement 
+]
+
+{ #category : #'t - finite list element - fake container' }
+TToFiniteListElement >> fakeDataItem [
+
+	^ fakeDataItem
+]
+
+{ #category : #'t - finite list element - fake container' }
+TToFiniteListElement >> fakeDataItem: anObject [
+
+	fakeDataItem := anObject
 ]
 
 { #category : #'t - finite list element - fake container' }
@@ -26,6 +51,7 @@ TToFiniteListElement >> fakeNodeContainer [
 { #category : #'t - finite list element' }
 TToFiniteListElement >> initializeAsFiniteListElement [
 
+	fakeDataItem := self defaultFakeDataItem.
 	self installFakeNodeContainer
 ]
 
@@ -35,14 +61,26 @@ TToFiniteListElement >> installFakeNodeContainer [
 	suitable minimum height according to the node class, the node builder 
 	and the data kind."
 
-	| fakeContainer |
-	fakeContainer := self nodeManager newFakeNodeContainerIn: self.
-
+	| fakeContainer holder |
+	holder := self nodeManager newHolder.
+	holder infiniteElement: self innerElement.
+	holder dataItem: self fakeDataItem.
+	holder bindAtPosition: 0.
+	fakeContainer := self newFakeNodeContainer.
+	fakeContainer holder: holder.
+	fakeContainer id: #fakeNodeContainer.
+	holder setupNodeContainerWith: fakeContainer.
 	" add the fake node (to keep a constant minimum size ).
 	Pay attention to add the fake node ** before ** the fake node building "
 	self addFakeNodeContainer: fakeContainer.
 	self nodeManager buildNode: fakeContainer node.
 	self requestConfiguration
+]
+
+{ #category : #'t - finite list element - fake container' }
+TToFiniteListElement >> newFakeNodeContainer [ 
+
+	^ ToFiniteListFakeNodeContainer new
 ]
 
 { #category : #'t - finite list element - fake container' }
@@ -62,13 +100,13 @@ TToFiniteListElement >> removeFakeNodeContainer [
 { #category : #'t - finite list element - fake container' }
 TToFiniteListElement >> sample [
 
-	^ self nodeManager fakeDataItem
+	^ self fakeDataItem
 ]
 
 { #category : #'t - finite list element - fake container' }
 TToFiniteListElement >> sample: aDataItem [
 
-	self nodeManager fakeDataItem: aDataItem.
+	self fakeDataItem: aDataItem.
 	self reinstallFakeNodeContainer.
 	self requestLayout
 	

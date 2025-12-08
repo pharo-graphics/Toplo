@@ -1,8 +1,6 @@
 Class {
 	#name : #ToItemFiniteListNodeManager,
-	#superclass : #ToAbstractNodeManager,
-	#traits : 'TToFiniteNodeManager',
-	#classTraits : 'TToFiniteNodeManager classTrait',
+	#superclass : #ToAbstractFiniteNodeManager,
 	#category : #'Toplo-Widget-List-ItemFiniteList'
 }
 
@@ -12,19 +10,6 @@ ToItemFiniteListNodeManager >> buildNode: aNode [
 	| holder |
 	holder := aNode holder.
 	aNode item: holder dataItem
-]
-
-{ #category : #initialization }
-ToItemFiniteListNodeManager >> defaultFakeDataItem [
-
-	^ ToFiniteListItem new
-]
-
-{ #category : #initialization }
-ToItemFiniteListNodeManager >> initialize [ 
-
-	super initialize.
-	self initializeAsFiniteNodeManager
 ]
 
 { #category : #'instance creation' }

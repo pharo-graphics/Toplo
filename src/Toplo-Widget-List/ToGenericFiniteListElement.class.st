@@ -3,9 +3,9 @@ I'm a generic list
 "
 Class {
 	#name : #ToGenericFiniteListElement,
-	#superclass : #ToAbstractListElement,
-	#traits : 'TToGenericListElement + TToFiniteListElement + TToConfigurableFiniteListElement',
-	#classTraits : 'TToGenericListElement classTrait + TToFiniteListElement classTrait + TToConfigurableFiniteListElement classTrait',
+	#superclass : #ToAbstractFiniteListElement,
+	#traits : 'TToGenericListElement',
+	#classTraits : 'TToGenericListElement classTrait',
 	#category : #'Toplo-Widget-List-Core-FiniteListElement'
 }
 
@@ -19,7 +19,6 @@ ToGenericFiniteListElement >> defaultNodeManagerClass [
 ToGenericFiniteListElement >> initialize [
 
 	super initialize.
-	self initializeAsFiniteListElement.
 	self primarySelectionMode selectionOption
 		grouped: false;
 		beneath: true;
@@ -41,7 +40,6 @@ ToGenericFiniteListElement >> nodeBuilder: aValuable [
 	"aValuable takes 3 optional args: first, the node to build, second, the dataItem and third, the holder in the list element "
 
 	self nodeManager nodeBuilder: aValuable.
-	self nodeManager fakeDataItem: nil.
 	self reinstallFakeNodeContainer.
 	self notifyDataSourceChanged
 ]

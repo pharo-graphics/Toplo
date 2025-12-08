@@ -15,14 +15,6 @@ ToCheckableFiniteListNodeManager >> buildNode: aNode [
 	checkableElement registerInGroup: holder listElement group
 ]
 
-{ #category : #initialization }
-ToCheckableFiniteListNodeManager >> defaultFakeDataItem [
-
-	^ ToToggleButton new
-		  labelText: 'X';
-		  yourself
-]
-
 { #category : #'instance creation' }
 ToCheckableFiniteListNodeManager >> newNodeForHolder: aNodeHolder [
 

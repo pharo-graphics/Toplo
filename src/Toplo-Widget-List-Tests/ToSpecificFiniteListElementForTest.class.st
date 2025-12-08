@@ -1,20 +1,17 @@
 Class {
 	#name : #ToSpecificFiniteListElementForTest,
-	#superclass : #ToAbstractListElement,
-	#traits : 'TToConfigurableFiniteListElement + TToFiniteListElement',
-	#classTraits : 'TToConfigurableFiniteListElement classTrait + TToFiniteListElement classTrait',
+	#superclass : #ToAbstractFiniteListElement,
 	#category : #'Toplo-Widget-List-Tests-Core-FiniteListElement'
 }
+
+{ #category : #'t - finite list element - fake container' }
+ToSpecificFiniteListElementForTest >> defaultFakeDataItem [
+
+	^ 'Fake'
+]
 
 { #category : #initialization }
 ToSpecificFiniteListElementForTest >> defaultNodeManagerClass [
 
 	^ ToSpecificFiniteListNodeManagerForTest
-]
-
-{ #category : #initialization }
-ToSpecificFiniteListElementForTest >> initialize [ 
-
-	super initialize.
-	self initializeAsFiniteListElement 
 ]

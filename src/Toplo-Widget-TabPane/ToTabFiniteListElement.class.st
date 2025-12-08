@@ -31,6 +31,14 @@ ToTabFiniteListElement >> atStartSide: aBoolean [
 	self requestConfiguration
 ]
 
+{ #category : #'t - finite list element - fake container' }
+ToTabFiniteListElement >> defaultFakeDataItem [
+
+	^ ToTabItemElement new
+		  labelText: 'X';
+		  yourself
+]
+
 { #category : #'t - item list - accessing' }
 ToTabFiniteListElement >> defaultNodeManagerClass [
 

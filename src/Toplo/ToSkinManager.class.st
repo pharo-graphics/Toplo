@@ -2,11 +2,13 @@ Class {
 	#name : #ToSkinManager,
 	#superclass : #Object,
 	#instVars : [
+		'styleStore',
 		'styleSheet',
 		'skinStateQueue',
 		'newSkinRequested',
 		'installedSkin',
-		'isInstallingSkin'
+		'isInstallingSkin',
+		'preventedSkinEventClasses'
 	],
 	#category : #'Toplo-Core-Skin'
 }
@@ -54,6 +56,13 @@ ToSkinManager >> enqueueTransientState: aSkinState for: anElement [
 	skinStateQueue enqueueTransientState: aSkinState for: anElement
 ]
 
+{ #category : #accessing }
+ToSkinManager >> ensuredPreventedSkinEventClasses [
+
+	^ preventedSkinEventClasses ifNil: [
+		  preventedSkinEventClasses := IdentitySet new ]
+]
+
 { #category : #'accessing - styleSheet' }
 ToSkinManager >> ensuredStyleSheetIn: anElement [
 
@@ -61,6 +70,15 @@ ToSkinManager >> ensuredStyleSheetIn: anElement [
 	styleSheet := ToStyleSheet new.
 	styleSheet onInstalledIn: anElement.
 	^ styleSheet 
+]
+
+{ #category : #'accessing - styleStore' }
+ToSkinManager >> ensuredStyleStoreIn: anElement [
+
+	^ styleStore ifNil: [
+			  styleStore := ToStyleStore new
+				                onInstalledIn: anElement;
+				                yourself ]
 ]
 
 { #category : #'skin state generation' }
@@ -150,6 +168,12 @@ ToSkinManager >> newSkinRequested [
 	^ newSkinRequested
 ]
 
+{ #category : #accessing }
+ToSkinManager >> preventedSkinEventClasses [
+
+	^ preventedSkinEventClasses 
+]
+
 { #category : #'skin - install / uninstall request' }
 ToSkinManager >> requestNewSkinIn: anElement [
 
@@ -221,6 +245,12 @@ ToSkinManager >> styleSheet [
 ToSkinManager >> styleSheet: anObject [
 
 	styleSheet := anObject
+]
+
+{ #category : #'accessing - styleStore' }
+ToSkinManager >> styleStore [ 
+
+	^ styleStore 
 ]
 
 { #category : #'skin - installing / uninstalling' }

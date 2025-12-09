@@ -68,7 +68,8 @@ BlElement >> allowSelectionSkinEvents [
 { #category : #'*Toplo' }
 BlElement >> allowSkinEventClass: aSkinEventClass [
 
-	self preventedSkinEventClasses remove: aSkinEventClass ifAbsent: [  ]
+	self preventedSkinEventClasses ifNotNil: [ :p |
+		p remove: aSkinEventClass ifAbsent: [ ] ]
 ]
 
 { #category : #'*Toplo' }
@@ -223,6 +224,12 @@ BlElement >> ensureHaveSkinManager [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> ensuredPreventedSkinEventClasses [
+
+	^ self ensuredSkinManager ensuredPreventedSkinEventClasses
+]
+
+{ #category : #'*Toplo' }
 BlElement >> ensuredShortcutsStore [
 
 	^ self userData at: #shortcutsStore ifAbsentPut: [ self newShortcutsStore ]
@@ -244,7 +251,7 @@ BlElement >> ensuredStyleSheet [
 { #category : #'*Toplo' }
 BlElement >> ensuredToStyleStore [
 
-	^ self userData at: #toStyleStore ifAbsentPut: [ ToStyleStore new onInstalledIn: self; yourself]
+	^ self ensuredSkinManager ensuredStyleStoreIn: self
 ]
 
 { #category : #'*Toplo' }
@@ -435,7 +442,9 @@ BlElement >> isPreventedSkinEvent: aSkinEvent [
 { #category : #'*Toplo' }
 BlElement >> isPreventedSkinEventClass: aSkinEventClass [
 
-	^ self preventedSkinEventClasses includes: aSkinEventClass
+	^ self preventedSkinEventClasses
+		  ifNil: [ false ]
+		  ifNotNil: [ :p | p includes: aSkinEventClass ]
 ]
 
 { #category : #'*Toplo' }
@@ -590,16 +599,13 @@ BlElement >> preventSelectionSkinEvents [
 { #category : #'*Toplo' }
 BlElement >> preventSkinEventClass: aSkinEventClass [
 
-	self preventedSkinEventClasses add: aSkinEventClass
+	self ensuredPreventedSkinEventClasses add: aSkinEventClass
 ]
 
 { #category : #'*Toplo' }
 BlElement >> preventedSkinEventClasses [
 
-	self userData
-		at: #preventedSkinEventClasses
-		ifAbsentPut: IdentitySet new.
-	^ self userData at: #preventedSkinEventClasses
+	^ self skinManager ifNotNil: [:sm | sm preventedSkinEventClasses ]
 ]
 
 { #category : #'*Toplo' }
@@ -793,7 +799,7 @@ BlElement >> toConfiguration: anElementConfiguration [
 { #category : #'*Toplo' }
 BlElement >> toStyleStore [
 
-	^ self userData at: #toStyleStore ifAbsent: [ ]
+	^ self skinManager ifNotNil: [ :sm | sm styleStore ]
 ]
 
 { #category : #'*Toplo' }

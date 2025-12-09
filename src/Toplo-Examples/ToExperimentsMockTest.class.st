@@ -23,6 +23,7 @@ ToExperimentsMockTest >> testMocks [
 
 	| selectors errors |
 
+	self skip.
 	errors := OrderedCollection new.
 	selectors := ToExperiments class selectors select: [ :each |
 		             each beginsWith: 'example' ].

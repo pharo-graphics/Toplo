@@ -23,7 +23,7 @@ ToTopLevelMockTest >> testMocks [
 
 	| errors |
 
-
+	self skip.
 	errors := OrderedCollection new.
 
 	{

@@ -786,7 +786,7 @@ ToExperiments class >> example_collapse1 [
 
 	collapsedChild := BlElement new
 		                  background: Color purple;
-		                  size: 50 @ 100;
+		                  extent: 50 @ 100;
 		                  position: 50 asPoint;
 		                  yourself.
 	collapsed addChild: collapsedChild.
@@ -1029,7 +1029,7 @@ ToExperiments class >> example_mouseEvent_descending_bubbling [
 		        yourself.
 	gray := ToInnerWindow new
 		        in: [ :w | w root background: Color gray ];
-		        size: 100 @ 100;
+		        extent: 100 @ 100;
 		        position: 50 @ 50.
 	world := BlSpace new.
 
@@ -1295,7 +1295,7 @@ ToExperiments class >> example_toggle_sliding [
 		       geometry: BlCircleGeometry new;
 		       background: Color green.
 	right := BlElement new
-		         size: 17 @ 14;
+		         extent: 17 @ 14;
 		         background: Color gray;
 		         margin: (BlInsets left: 5 right: 5).
 	track addChildren: {
@@ -1458,7 +1458,7 @@ ToExperiments class >> example_twoChildrenInPolygon [
 			 background: Color yellow;
 			 extent: 40 @ 40).
 
-	child2 := BlElement new size: 250 @ 100.
+	child2 := BlElement new extent: 250 @ 100.
 	child2 layout: BlFrameLayout new.
 	child2 background: (Color blue alpha: 0.3).
 	child2 margin: (BlInsets all: 3).
@@ -1467,7 +1467,7 @@ ToExperiments class >> example_twoChildrenInPolygon [
 	child2 outskirts: BlOutskirts inside.
 	child2 addChild: (BlElement new
 			 background: Color yellow;
-			 size: 40 @ 40).
+			 extent: 40 @ 40).
 
 	parent addChild: child.
 	parent addChild: child2.

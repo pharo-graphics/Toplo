@@ -65,7 +65,7 @@ ToMultiSelectElement >> checkHideSelectionFromListElement [
 ToMultiSelectElement >> checkMaxSelectedCountInHeader [
 
 	self endContainer updateSelectedCountLabelWith:
-		self header dataSource size
+		self header selectedDataItems size
 ]
 
 { #category : #'accessing - selection' }

@@ -9,7 +9,7 @@ Class {
 		'keepPickOrder',
 		'pickCount',
 		'filterTextField',
-		'invisibleNodesLabel'
+		'invisibleNodesComment'
 	],
 	#category : #'Toplo-Widget-Select-Multi'
 }
@@ -127,39 +127,27 @@ ToMultiSelectHeaderListElement >> initialize [
 	pickCount := 0.
 
 	self installFilterTextField.
-	self installInvisibleNodesLabel
+	self installInvisibleNodesComment
 ]
 
 { #category : #'accessing - selection' }
-ToMultiSelectHeaderListElement >> installInvisibleNodesLabel [
+ToMultiSelectHeaderListElement >> installInvisibleNodesComment [
 
-	| pane |
-	self invisibleNodesLabel: ToLabel new.
-	self invisibleNodesLabel constraintsDo: [ :c |
-		c linear vertical alignCenter ].
-	pane := ToPane new
-		        fitContent;
-		        yourself.
-	pane margin: (BlInsets right: 4).
-	pane elevation: (BlRelativeElevation elevation: 16).
-	pane constraintsDo: [ :c |
-			c linear vertical alignCenter.
-			c flow vertical alignCenter ].
-	pane addChild: self invisibleNodesLabel.
-	self addChild: pane before: self filterTextField
+	self invisibleNodesComment: ToMultiSelectHeaderInvisibleNodesCommentElement new.
+	self addChild: self invisibleNodesComment before: self filterTextField
 ]
 
 { #category : #'accessing - selection' }
-ToMultiSelectHeaderListElement >> invisibleNodesLabel [
+ToMultiSelectHeaderListElement >> invisibleNodesComment [
 
-	^ invisibleNodesLabel
+	^ invisibleNodesComment
 ]
 
 { #category : #'accessing - selection' }
-ToMultiSelectHeaderListElement >> invisibleNodesLabel: aLabel [ 
+ToMultiSelectHeaderListElement >> invisibleNodesComment: aCommentElement [ 
 
-	invisibleNodesLabel ifNotNil: [ (BlImmutableObjectChangeError object: self) signal  ].
-	invisibleNodesLabel := aLabel
+	invisibleNodesComment ifNotNil: [ (BlImmutableObjectChangeError object: self) signal  ].
+	invisibleNodesComment := aCommentElement
 ]
 
 { #category : #accessing }
@@ -214,6 +202,12 @@ ToMultiSelectHeaderListElement >> selectElement [
 ToMultiSelectHeaderListElement >> selectElement: aSelectElement [
 
 	selectElement := aSelectElement
+]
+
+{ #category : #accessing }
+ToMultiSelectHeaderListElement >> selectedDataItems [
+
+	^ self innerElement selectedDataItems
 ]
 
 { #category : #accessing }

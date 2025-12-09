@@ -7,19 +7,24 @@ Class {
 { #category : #'t - bar element' }
 ToMultiSelectHeaderInnerListElement >> onInvisibleNodeContainers: theInvisibleContainers visibleNodeContainers: theVisibleContainers [
 
-	| nbInvisible |
+	| nbInvisible first last |
+	super
+		onInvisibleNodeContainers: theInvisibleContainers
+		visibleNodeContainers: theVisibleContainers.
 	listElement isFlowable ifTrue: [ ^ self ].
 	listElement isScrollable ifTrue: [ ^ self ].
 	nbInvisible := self selectedDataItems size
 	               - theVisibleContainers size.
 	nbInvisible isZero ifTrue: [
-			listElement invisibleNodesLabel text: ''.
+			listElement invisibleNodesComment text: ''.
 			^ self ].
 	self nodeContainers size = 1 ifTrue: [ ^ self ].
-	theInvisibleContainers reverseDo: [ :container |
-		listElement dataAccessor removeAt: container holder position ].
-	listElement invisibleNodesLabel text:
-		'+ ' , nbInvisible asString , ' ...'
+	theInvisibleContainers ifEmpty: [ ^ self ].
+	first := theInvisibleContainers first holder position.
+	last := theInvisibleContainers last holder position.
+	listElement dataAccessor removeFrom: first to: last.
+	listElement invisibleNodesComment text:
+		'+' , nbInvisible asString
 ]
 
 { #category : #'hooks - layout' }

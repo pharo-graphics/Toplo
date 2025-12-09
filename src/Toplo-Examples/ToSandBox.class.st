@@ -4071,14 +4071,8 @@ ToSandBox class >> example_SelectMultiFiltrable [
 	innerWindow := ToInnerWindow new.
 	select anchorRoot: innerWindow root.
 	select hMatchParent.
-	select selecter selectIndex: 2.
 	innerWindow pane addChild: select.
 
-	innerWindow inUIProcessDo: [
-			select selecter selectIndex: 3.
-			select selecter selectIndex: 5.
-			select selecter selectIndex: 4
-			"select selecter selectIndex: 6." ].
 	innerWindow openInSpace.
 	^ select
 ]
@@ -4307,8 +4301,6 @@ ToSandBox class >> example_SelectMultiFiltrableWithMax [
 
 	| select |
 	select := self example_SelectMultiFiltrable.
-	"select inspect."
-	"self halt."
 	select maxSelectedCount: 3.
 	select inUIProcessDo: [
 			select selecter selectIndex: 3.
@@ -4830,6 +4822,17 @@ ToSandBox class >> example_SimpleTabPaneWithRemoveButtons [
 	^ tabPane
 ]
 
+{ #category : #tag }
+ToSandBox class >> example_SimpleTagsInPane [
+
+	| tag pane |
+	pane := ToPane horizontal.
+	#('Green' 'Yellow' 'Black') do: [ :colorName |
+		tag := ToTagElement new labelText: colorName.
+		pane addChild: tag ].
+	pane openInSpace
+]
+
 { #category : #'skin event' }
 ToSandBox class >> example_SkinEventTrace [
 
@@ -5184,15 +5187,7 @@ ToSandBox class >> example_TagFiniteList [
 	tb tagBuilder: [ :tagElement :aStateName :holder |
 		tagElement labelText: aStateName , ' ' , holder position asString.
 		tagElement removable: true ].
-	dashBoard := self finiteListConfigurationBoardFor: tb.
-	rootPane := ToPane horizontal.
-	rootPane padding: (BlInsets all: 5).
-	rootPane matchParent.
-
-	rootPane addChild: dashBoard.
-	rootPane addChild: tb.
-	rootPane addDividers.
-	rootPane openInSpace
+	tb openInSpace 
 ]
 
 { #category : #select }

@@ -533,6 +533,30 @@ ToSelectorInterpreterTest >> testVisitParentSatisfyingSelector4 [
 ]
 
 { #category : #tests }
+ToSelectorInterpreterTest >> testVisitParentSatisfyingSelector5 [
+
+	| engine selector element label |
+	selector := ToUniversalSelector new
+		            withParent: ToLabeledIcon asTypeSelector
+		            satisfying:
+		            [ :p | p hasStamp: #'big-button' ] asActionSelector.
+
+	element := ToLabeledIcon new.
+	label := ToLabel new.
+	engine := ToSelectorInterpreter new.
+	engine check: selector on: label.
+	self deny: engine result.
+	element label: label.
+	element applyConfiguration.
+
+	engine check: selector on: label.
+	self deny: engine result.
+	element addStamp: #'big-button'.
+	engine check: selector on: label.
+	self assert: engine result
+]
+
+{ #category : #tests }
 ToSelectorInterpreterTest >> testVisitParentSelector [
 	" selector: an element with a parent of type Object "
 

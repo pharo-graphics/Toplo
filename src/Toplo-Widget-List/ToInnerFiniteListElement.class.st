@@ -8,8 +8,7 @@ Class {
 		'dataSourceManager',
 		'listElement',
 		'dataSourceObserver',
-		'trackElement',
-		'previousInvisibleNodeContainers'
+		'trackElement'
 	],
 	#category : #'Toplo-Widget-List-InnerFiniteList'
 }
@@ -58,25 +57,6 @@ ToInnerFiniteListElement >> applyConfiguration [
 		ifFalse: [ self vMatchParent ].
 
 	self childrenDo: [ :container | container applyConfiguration ]
-]
-
-{ #category : #layout }
-ToInnerFiniteListElement >> checkFullyVisibleNodeContainers [
-
-	| invisibles visibles |
-	(listElement isFlowable or: [ listElement autoDistribute ])
-		ifTrue: [
-				invisibles := #(  ).
-				visibles := self nodeContainers asArray ]
-		ifFalse: [
-				invisibles := self nodeContainersReject: #isFullyVisibleInListElement.
-				visibles := self nodeContainers difference: invisibles ].
-	"previousInvisibleNodeContainers = invisibles ifTrue: [ ^ self ]."
-	previousInvisibleNodeContainers := invisibles.
-	self dispatchEvent: (ToFiniteListVisibleNodeContainerListChangedEvent new
-			 visibleNodeContainers: visibles;
-			 invisibleNodeContainers: invisibles;
-			 yourself) 
 ]
 
 { #category : #'private - commands' }
@@ -298,16 +278,6 @@ ToInnerFiniteListElement >> onListElement: aListElement [
 
 	listElement ifNotNil: [ BlImmutableObjectChangeError signal ].
 	listElement := aListElement
-]
-
-{ #category : #'hooks - scrolling' }
-ToInnerFiniteListElement >> onScrolled: aPoint [
-	"Sent when the scroll position of this InfiniteElement changes. Subclasses should use
-	this method to respond to scrolling within the datasource's data set instead of an explicit event handler.
-	I will always be invoked before event handlers. If a subclass needs to perform any additional upkeep
-	or bookkeeping after scrolling but before events fired, this is a good place to do so"
-
-	self checkFullyVisibleNodeContainers
 ]
 
 { #category : #'t - list inner element' }

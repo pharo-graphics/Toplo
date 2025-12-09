@@ -112,6 +112,7 @@ ToStyleSheetTest >> testOutskirts [
 		              inherits: false;
 		              yourself.
 
+	styleSheet addWritableProperty: (ToFeatureProperty name: #outskirts).
 	theme := ToStyleSheetTheme new.
 
 	styleSheet select: styleSheet any style: [ :sr |

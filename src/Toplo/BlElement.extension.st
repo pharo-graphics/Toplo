@@ -28,10 +28,26 @@ BlElement >> addStamp: aSymbol withValue: anObject [
 	self ensuredToStyleStore addStamp: aSymbol withValue: anObject
 ]
 
+{ #category : #'*Toplo-LookAndFeel' }
+BlElement >> addStyleSheetProperty: aWriteableProperty [
+
+	self ensuredStyleSheet addWritableProperty: aWriteableProperty
+]
+
 { #category : #'*Toplo' }
 BlElement >> addTokenNamed: aSymbol withValue: anObject [
 
 	self ensuredToStyleStore addTokenProperty: (aSymbol -> anObject) asTokenProperty 
+]
+
+{ #category : #'*Toplo-LookAndFeel' }
+BlElement >> addWritableProperty: aWriteableProperty [
+
+	self
+		deprecated: 'Use #addStyleSheetProperty:'
+		transformWith: '`@rcvr addWritableProperty: `@arg'
+			-> '`@rcvr addStyleSheetProperty: `@arg'.
+	^ self addStyleSheetProperty: aWriteableProperty
 ]
 
 { #category : #'*Toplo' }
@@ -217,6 +233,12 @@ BlElement >> ensuredSkinManager [
 
 	self ensureHaveSkinManager.
 	^ self userData at: #skinManager
+]
+
+{ #category : #'*Toplo-LookAndFeel' }
+BlElement >> ensuredStyleSheet [
+
+	^ self ensuredSkinManager ensuredStyleSheetIn: self
 ]
 
 { #category : #'*Toplo' }
@@ -725,6 +747,12 @@ BlElement >> styleSheetChain [
 	self withAllParentsDo: [ :p |
 		p skinManagerDo: [ :sm | ^ sm computedStyleSheetChainIn: p ] ].
 	^ #(  )
+]
+
+{ #category : #'*Toplo' }
+BlElement >> styleSheetProperty: aName [
+
+	^ self lookupWritablePropertyNamed: aName
 ]
 
 { #category : #'*Toplo' }

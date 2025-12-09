@@ -54,6 +54,15 @@ ToSkinManager >> enqueueTransientState: aSkinState for: anElement [
 	skinStateQueue enqueueTransientState: aSkinState for: anElement
 ]
 
+{ #category : #'accessing - styleSheet' }
+ToSkinManager >> ensuredStyleSheetIn: anElement [
+
+	self styleSheet ifNotNil: [ :curr | ^ curr].
+	styleSheet := ToStyleSheet new.
+	styleSheet onInstalledIn: anElement.
+	^ styleSheet 
+]
+
 { #category : #'skin state generation' }
 ToSkinManager >> focusState: isFocused in: anElement [
 

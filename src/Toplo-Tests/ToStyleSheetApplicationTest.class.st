@@ -17,8 +17,9 @@ ToStyleSheetApplicationTest >> setUp [
 	super setUp.
 	styleSheet := ToStyleSheet new
 		              inherits: false;
+		              local: false;
 		              yourself.
-	theme := ToStyleSheetTheme new.
+	theme := ToStyleSheetTheme new
 ]
 
 { #category : #tests }

@@ -9,7 +9,8 @@ Class {
 		'keepPickOrder',
 		'pickCount',
 		'filterTextField',
-		'invisibleNodesComment'
+		'selectedItemIndex',
+		'invisibleNodesCommentElement'
 	],
 	#category : #'Toplo-Widget-Select-Multi'
 }
@@ -122,6 +123,7 @@ ToMultiSelectHeaderListElement >> initialize [
 	self selectionMode makeDisabledUnselectable: true.
 	self secondarySelectionOption masked: true.
 	self focusability: BlFocusability ignore.
+	selectedItemIndex := IdentityDictionary new.
 	maxSelectedCount := -1.
 	keepPickOrder := false.
 	pickCount := 0.
@@ -133,21 +135,21 @@ ToMultiSelectHeaderListElement >> initialize [
 { #category : #'accessing - selection' }
 ToMultiSelectHeaderListElement >> installInvisibleNodesComment [
 
-	self invisibleNodesComment: ToMultiSelectHeaderInvisibleNodesCommentElement new.
-	self addChild: self invisibleNodesComment before: self filterTextField
+	self invisibleNodesCommentElement: ToMultiSelectHeaderInvisibleNodesCommentElement new.
+	self addChild: self invisibleNodesCommentElement before: self filterTextField
 ]
 
 { #category : #'accessing - selection' }
-ToMultiSelectHeaderListElement >> invisibleNodesComment [
+ToMultiSelectHeaderListElement >> invisibleNodesCommentElement [
 
-	^ invisibleNodesComment
+	^ invisibleNodesCommentElement
 ]
 
 { #category : #'accessing - selection' }
-ToMultiSelectHeaderListElement >> invisibleNodesComment: aCommentElement [ 
+ToMultiSelectHeaderListElement >> invisibleNodesCommentElement: aCommentElement [ 
 
-	invisibleNodesComment ifNotNil: [ (BlImmutableObjectChangeError object: self) signal  ].
-	invisibleNodesComment := aCommentElement
+	invisibleNodesCommentElement ifNotNil: [ (BlImmutableObjectChangeError object: self) signal  ].
+	invisibleNodesCommentElement := aCommentElement
 ]
 
 { #category : #accessing }
@@ -220,9 +222,27 @@ ToMultiSelectHeaderListElement >> sieve [
 ToMultiSelectHeaderListElement >> updateFromPopupListSelection [
 	" rebuild the current nodes according to the selection in the popup list "
 
-	| newDataItems |
+	| currentItems |
 	selectElement showHidePlaceholder.
-	newDataItems := selectElement selectedDataItems.
-	self dataAccessor updateAllWith: newDataItems.
+	currentItems := selectElement selectedDataItems.
+
+	keepPickOrder ifTrue: [ " sort the selected items according to pickCount "
+			| reselected newlySelected previousItems deselected assocs |
+			previousItems := selectedItemIndex keys.
+			reselected := previousItems select: [ :item |
+				              currentItems includes: item ].
+			deselected := previousItems reject: [ :item |
+				              currentItems includes: item ].
+			newlySelected := currentItems difference: reselected.
+			newlySelected do: [ :item |
+					pickCount := pickCount + 1.
+					selectedItemIndex at: item put: pickCount ].
+			deselected do: [ :item | selectedItemIndex removeKey: item ].
+			assocs := selectedItemIndex associations.
+			assocs sort: [ :a :b |
+				(selectedItemIndex at: a key) < (selectedItemIndex at: b key) ].
+			currentItems := assocs collect: [ :a | a key ] ].
+
+	self dataAccessor updateAllWith: currentItems.
 	self checkHideSelectionFromListElement
 ]

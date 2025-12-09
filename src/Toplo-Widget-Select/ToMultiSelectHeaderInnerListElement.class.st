@@ -16,14 +16,14 @@ ToMultiSelectHeaderInnerListElement >> onInvisibleNodeContainers: theInvisibleCo
 	nbInvisible := self selectedDataItems size
 	               - theVisibleContainers size.
 	nbInvisible isZero ifTrue: [
-			listElement invisibleNodesComment invisibleCount: 0.
+			listElement invisibleNodesCommentElement invisibleCount: 0.
 			^ self ].
 	self nodeContainers size = 1 ifTrue: [ ^ self ].
 	theInvisibleContainers ifEmpty: [ ^ self ].
 	first := theInvisibleContainers first holder position.
 	last := theInvisibleContainers last holder position.
 	listElement dataAccessor removeFrom: first to: last.
-	listElement invisibleNodesComment invisibleCount: nbInvisible
+	listElement invisibleNodesCommentElement invisibleCount: nbInvisible
 ]
 
 { #category : #'hooks - layout' }

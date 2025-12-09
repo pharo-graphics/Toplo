@@ -4029,7 +4029,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 
 	select filtrable: true.
 	select isFlowable: false.
-	select keepPickOrder: true.
+	select keepPickOrder: false.
 	select hideSelected: false.
 	select popupMaxHeight: 200.
 	select placeholderString: 'Select a state'.

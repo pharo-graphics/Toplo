@@ -2210,26 +2210,6 @@ ToSandBox class >> example_FilterOnList2WithStatesOfAmerica [
 	pane openInSpace
 ]
 
-{ #category : #tag }
-ToSandBox class >> example_FiniteList2 [
-
-	| tb dashBoard rootPane |
-	tb := ToItemFiniteListElement new.
-	tb horizontal: true.
-	tb dataAccessor addAll:
-		(ToSandBox statesOfAmerica collect: [ :s | ToTagElement new labelText: s; yourself ]).
-	tb openInSpace 
-	"dashBoard := self barConfigurationBoardFor: tb.
-	rootPane := ToPane horizontal.
-	rootPane padding: (BlInsets all: 5).
-	rootPane matchParent.
-
-	rootPane addChild: dashBoard.
-	rootPane addChild: tb.
-	rootPane addDividers.
-	rootPane openInSpace"
-]
-
 { #category : #float }
 ToSandBox class >> example_FloatArrowsAraoundACircle [
 
@@ -3904,7 +3884,7 @@ ToSandBox class >> example_SelectAntDesignIconMultiFiltrable [
 
 	select filtrable: true.
 
-	select tagBuilder: [ :tag :iconDesc :holder |
+	select nodeBuilder: [ :tag :iconDesc :holder |
 			tag icon: (iconDesc icon extent: 48 asPoint).
 			tag removable: true ].
 	select sample: select popupListElement dataAccessor first.
@@ -3950,8 +3930,7 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 	| select |
 	select := ToMultiSelectElement new.
 
-	select isFlowable: false.
-	select keepPickOrder: true.
+	select isFlowable: true.
 	select filtrable: true.
 	select nodeBuilder: [ :node :iconDesc :holder |
 			node icon: (iconDesc icon extent: 48 asPoint).
@@ -5179,15 +5158,18 @@ ToSandBox class >> example_TabPaneWithCompactHeaderLayoutMode [
 { #category : #tag }
 ToSandBox class >> example_TagFiniteList [
 
-	| tb dashBoard rootPane |
-	tb := ToTagFiniteListElement new.
+	self finiteTagListWithData: ToSandBox statesOfAmerica
+]
+
+{ #category : #tag }
+ToSandBox class >> example_TagFiniteList2 [
+
+	| tb |
+	tb := ToItemFiniteListElement new.
 	tb horizontal: true.
 	tb dataAccessor addAll:
-		(ToSandBox statesOfAmerica collect: [ :s | ToSingleTag new data: s ]).
-	tb tagBuilder: [ :tagElement :aStateName :holder |
-		tagElement labelText: aStateName , ' ' , holder position asString.
-		tagElement removable: true ].
-	tb openInSpace 
+		(ToSandBox statesOfAmerica collect: [ :s | ToTagElement new labelText: s; yourself ]).
+	tb openInSpace
 ]
 
 { #category : #select }
@@ -9284,6 +9266,106 @@ ToSandBox class >> finiteListWithData: aCollection [
 	confBoard addChild: selectionModeBoard.
 
 	bar dataAccessor addAll: aCollection.
+	bar isFlowable: true.
+	bar uniformNodeWidth: true.
+	rootPane := ToPane horizontal.
+	rootPane padding: (BlInsets all: 5).
+	rootPane matchParent.
+	barPane := ToPane horizontal.
+	barPane padding: (BlInsets all: 5).
+	barPane matchParent.
+	barPane addChild: bar.
+
+	rootPane addChild: confBoard.
+	rootPane addChild: barPane.
+	rootPane addDividers first weight: 0.5.
+	rootPane openInSpace
+]
+
+{ #category : #tag }
+ToSandBox class >> finiteTagListWithData: aCollection [
+
+	| bar confBoard barPane rootPane selectionModeBoard rand tags |
+	rand := Random new.
+	bar := ToItemFiniteListElement new.
+	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
+	tags := aCollection collect: [ :s |
+			        ToTagElement new
+				        labelText: s;
+				        yourself ].
+	bar addAllItems: tags.
+
+	bar contextMenuBuilder: [ :menu :request |
+			| idxes target |
+			target := request currentTarget.
+			idxes := request selectedIndexes.
+			menu addItem: (ToMenuItem new
+					 labelText: 'Inspect list';
+					 clickAction: [ target inspect ];
+					 yourself).
+			menu addItem: (ToMenuItem new
+					 labelText: 'Remove all';
+					 clickAction: [ target dataAccessor removeAll ];
+					 yourself).
+
+			idxes ifNotEmpty: [
+					menu addItem: (ToMenu new
+							 labelText: 'Selected node';
+							 in: [ :m |
+									 m addItem: (ToMenuItem new
+												  labelText: 'Inspect';
+												  clickAction: [
+														  Array withAll:
+																  (idxes collect: [ :idx |
+																		   target nodeContainerAt: idx ]) inspect ];
+												  yourself).
+									 m addItem: (ToMenuItem new
+											  labelText: 'Remove';
+											  clickAction: [
+												  idxes reverseDo: [ :idx |
+														  bar dataAccessor removeAt: idx ] ];
+											  yourself).
+									 m addItem: (ToMenuItem new
+											  labelText: 'Unable/disable';
+											  clickAction: [
+													  idxes do: [ :idx |
+																  (bar nodeContainerAt: idx) disabled:
+																		  (bar nodeContainerAt: idx) isEnabled ] ];
+											  yourself).
+									 m addItem: (ToMenuItem new
+											  labelText: 'Unselectable';
+											  clickAction: [
+												  idxes do: [ :idx |
+														  bar unselectableSelecter selectIndex: idx ] ];
+											  yourself).
+									 m addItem: (ToMenuItem new
+											  labelText: 'Insert before';
+											  clickAction: [
+													  | idx |
+													  idx := idxes first.
+													  target dataAccessor
+														  add: (ToTagElement new labelText:
+																	   String loremIpsum substrings first
+																	   , ' (inserted before)')
+														  beforeIndex: idx ];
+											  yourself).
+									 m addItem: (ToMenuItem new
+											  labelText: 'Insert after';
+											  clickAction: [
+													  | idx |
+													  idx := idxes last.
+													  target dataAccessor
+														  add: (ToTagElement new labelText:
+																	   String loremIpsum substrings first
+																	   , ' (inserted before)')
+														  afterIndex: idx ];
+											  yourself) ];
+							 yourself) ] ].
+
+	confBoard := self finiteListConfigurationBoardFor: bar.
+	selectionModeBoard := self selectionModeChooserFor: bar.
+	confBoard addChild: selectionModeBoard.
+
 	bar isFlowable: true.
 	bar uniformNodeWidth: true.
 	rootPane := ToPane horizontal.

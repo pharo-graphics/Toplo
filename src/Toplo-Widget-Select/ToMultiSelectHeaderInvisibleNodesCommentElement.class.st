@@ -19,7 +19,7 @@ ToMultiSelectHeaderInvisibleNodesCommentElement class >> initializeToRawTheme: a
 				when: ToInstallSkinEvent
 				write: (aTheme property: #margin)
 				with: [ :e |
-					BlInsets horizontal: (e valueOfTokenNamed: #'bar-node-padding-H') ].
+					BlInsets horizontal: (e valueOfTokenNamed: #'padding-XXS') ].
 			aTheme
 				when: ToInstallSkinEvent
 				write: #commentText asWritableProperty 

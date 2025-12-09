@@ -55,17 +55,18 @@ ToTagElementSkin >> installSkinEvent: anEvent [
 
 	anEvent elementDo: [ :e |
 			| leftPad rightPad topPad bottomPad |
-			leftPad := rightPad := e valueOfTokenNamed: #'bar-node-padding-H'.
-			topPad := bottomPad := e valueOfTokenNamed: #'bar-node-padding-V'.
+			leftPad := rightPad := e valueOfTokenNamed: #'padding-XXS'.
+			topPad := bottomPad := e valueOfTokenNamed: #'padding-XXS'.
 			e removeButtonDo: [ :rb |
 					rb constraintsDo: [ :c |
 							leftPad := leftPad + 15.
 							c ignored horizontal alignLeft.
 							c ignored vertical alignCenter ] ].
+
 			e holderDo: [ :h |
 					e margin:
 						(BlInsets horizontal:
-							 (e valueOfTokenNamed: #'bar-node-padding-H')) ].
+							 (e valueOfTokenNamed: #'padding-XXS')) ].
 
 			e padding: (BlInsets
 					 top: topPad

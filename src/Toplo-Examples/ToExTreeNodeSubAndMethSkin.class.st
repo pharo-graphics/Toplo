@@ -17,7 +17,7 @@ ToExTreeNodeSubAndMethSkin >> installSkinEvent: anEvent [
 ToExTreeNodeSubAndMethSkin >> newIconForNode: aNode [
 
 	| icon item interspace |
-	item := aNode holder treeDataItem.
+	item := aNode holder dataItem.
 	icon := ToImage new
 		        id: #itemIcon;
 		        yourself.

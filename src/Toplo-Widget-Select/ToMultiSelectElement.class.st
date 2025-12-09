@@ -27,10 +27,8 @@ ToMultiSelectElement >> applyConfiguration [
 	super applyConfiguration.
 	self innerElement isFlowable: isFlowable.
 	self innerElement keepPickOrder: keepPickOrder.
-
-	self iconContainer maxSelectedCount: maxSelectedCount .
+	self endContainer maxSelectedCount: maxSelectedCount .
 	self innerElement maxSelectedCount: maxSelectedCount.
-
 ]
 
 { #category : #accessing }
@@ -64,15 +62,29 @@ ToMultiSelectElement >> checkHideSelectionFromListElement [
 ]
 
 { #category : #'accessing - selection' }
-ToMultiSelectElement >> checkMaxSelectedCount [
+ToMultiSelectElement >> checkMaxSelectedCountInHeader [
 
-	self innerElement checkMaxSelectedCount
+	self endContainer updateSelectedCountLabelWith:
+		self header selectedDataItems size
+]
+
+{ #category : #'accessing - selection' }
+ToMultiSelectElement >> checkMaxSelectedCountInPopupList [
+
+	self popupListElement postponeAction: [
+		self innerElement checkMaxSelectedCount ]
 ]
 
 { #category : #'accessing - window' }
 ToMultiSelectElement >> closeOnItemPicking [
 
 	^ false
+]
+
+{ #category : #'accessing - selection' }
+ToMultiSelectElement >> haveMaxSelectedCount [
+
+	^ maxSelectedCount ~= -1
 ]
 
 { #category : #accessing }
@@ -88,31 +100,38 @@ ToMultiSelectElement >> hideSelected: aBoolean [
 	self requestConfiguration
 ]
 
-{ #category : #accessing }
-ToMultiSelectElement >> iconContainer: anIconContainer [
-
-	self iconContainer = anIconContainer ifTrue: [ ^ self ].
-	self iconContainer ifNotNil: [
-		self iconContainer onUninstalledIn: self ].
-	super iconContainer: anIconContainer.
-	anIconContainer selectionModel: self selectionModel
-]
-
 { #category : #initialization }
 ToMultiSelectElement >> initialize [
 
 	super initialize.
+	self initializeListSelectionChecker.
 	hideSelected := false.
 	withGroups := false.
 	isFlowable := false.
 	keepPickOrder := false.
-	maxSelectedCount := 0
+	maxSelectedCount := -1
+]
+
+{ #category : #initialization }
+ToMultiSelectElement >> initializeListSelectionChecker [
+
+	" add the checked to check the selection command "
+	self addEventHandler:
+		ToMultiSelectHeaderSelectionChecker new.
+	" add the handler in my sieve so that I can receive the selecter command application event  "
+	self sieve
+		addEventHandlerOn: ToListSelecterCommandApplicationRequestEvent
+		do: [ :event | | copiedEvent |
+			copiedEvent := event copy.
+			self dispatchEvent: copiedEvent.
+			event authorized: copiedEvent authorized ].
+
 ]
 
 { #category : #'instance creation' }
 ToMultiSelectElement >> innerElementClass [
 
-	^ ToMultiSelectFiniteListElement
+	^ ToMultiSelectHeaderListElement
 ]
 
 { #category : #accessing }
@@ -136,22 +155,28 @@ ToMultiSelectElement >> keepPickOrder: aBoolean [
 ]
 
 { #category : #accessing }
+ToMultiSelectElement >> maxSelectedCount [
+
+	^ maxSelectedCount 
+]
+
+{ #category : #accessing }
 ToMultiSelectElement >> maxSelectedCount: aNumber [
 
 	maxSelectedCount := aNumber.
 	self requestConfiguration
 ]
 
-{ #category : #'instance creation' }
-ToMultiSelectElement >> newIconContainer [
+{ #category : #'t - triplet container - instance creation' }
+ToMultiSelectElement >> newEndContainer [
 
-	^ ToMultiSelectIconContainer new
+	^ ToMultiSelectHeaderEndContainer new
 ]
 
 { #category : #'instance creation' }
 ToMultiSelectElement >> newPopupWindowManager [
 
-	^ ToMultiSelectPopupManager new
+	^ ToMultiSelectPopupWindowManager new
 ]
 
 { #category : #skin }
@@ -164,39 +189,26 @@ ToMultiSelectElement >> newRawSkin [
 ToMultiSelectElement >> nodeBuilder: aValuable [
 	"aValuable takes 3 optional args: first, the node to build, second, the dataItem and third, the holder in the list element "
 
-	self innerElement nodeBuilder: aValuable
+	self nodeManager nodeBuilder: aValuable
 ]
 
-{ #category : #'accessing - selection' }
-ToMultiSelectElement >> onSelectionChangedInPopupListElement: anEvent [
+{ #category : #accessing }
+ToMultiSelectElement >> nodeManager [
 
-	| selectedDataItems changedEvent |
-	super onSelectionChangedInPopupListElement: anEvent.
-	selectedDataItems := self selectionModel selectedIndexesCollect: [
-		                     :idx | self sieve originalData at: idx ].
-	changedEvent := ToSelectChangedEvent new.
-	changedEvent selectedDataItems: selectedDataItems.
-	changedEvent selectedIndexes: self selectionModel selectedIndexes.
-	self dispatchEvent: changedEvent
+	^ self innerElement nodeManager
+]
+
+{ #category : #window }
+ToMultiSelectElement >> onPopupWindowOpened [
+
+	super onPopupWindowOpened.
+	self checkMaxSelectedCountInPopupList 
 ]
 
 { #category : #'accessing - list' }
 ToMultiSelectElement >> setGroupIndex: anIndex [
 
 	self popupListElement groupSelecter selectIndex: anIndex
-]
-
-{ #category : #accessing }
-ToMultiSelectElement >> tagBuilder: aValuable [
-	"aValuable takes 3 optional args: first, the node to build, second, the dataItem and third, the holder in the list element "
-
-	self innerElement tagBuilder: aValuable
-]
-
-{ #category : #private }
-ToMultiSelectElement >> updateSelectedCountLabel [
-
-	self iconContainer updateSelectedCountLabel
 ]
 
 { #category : #accessing }

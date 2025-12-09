@@ -17,7 +17,10 @@ ToInfiniteDataSourceDataEventHandler >> collectionAddEvent: anEvent [
 { #category : #'data events handling' }
 ToInfiniteDataSourceDataEventHandler >> collectionEmptinessEvent: anEvent [
 
-	infinite dispatchEvent: (ToInfiniteDataSourceEmptinessChangedEvent new)
+	infinite dispatchEvent:
+		(ToInfiniteDataSourceEmptinessChangedEvent new
+			 isEmpty: anEvent isEmpty;
+			 yourself)
 ]
 
 { #category : #'data events handling' }

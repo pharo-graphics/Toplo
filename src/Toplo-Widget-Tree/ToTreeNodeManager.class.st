@@ -1,15 +1,8 @@
 Class {
 	#name : #ToTreeNodeManager,
-	#superclass : #ToAbstractNodeManager,
+	#superclass : #ToWrappedListNodeManager,
 	#category : #'Toplo-Widget-Tree-Core'
 }
-
-{ #category : #'node building' }
-ToTreeNodeManager >> buildNode: aTreeNode [
-
-	aTreeNode addChild:
-		(ToLabel text: aTreeNode holder treeDataItem asString)
-]
 
 { #category : #initialization }
 ToTreeNodeManager >> buildNodeContainer: aTreeNodeContainer [
@@ -55,14 +48,6 @@ ToTreeNodeManager >> newArrowIconInNodeContainer: aNodeContainer [
 ToTreeNodeManager >> newHolder [
 
 	^ ToTreeNodeHolder new
-]
-
-{ #category : #'instance creation' }
-ToTreeNodeManager >> newIndentFiller [
-
-	^ self newFiller
-		  id: #indentFiller;
-		  background: Color red
 ]
 
 { #category : #'instance creation' }

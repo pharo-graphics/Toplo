@@ -310,24 +310,24 @@ ToThemeExamples class >> example_ToLabelWithHeadingSkin [
 
 { #category : #'examples - labels' }
 ToThemeExamples class >> example_WithLateBoundPropertyWriter [
+	"  create a ToLateBoundWritableProperty for writing #'text-attributes-with-builder' "
 
 	| styleSheet1 styleSheet2 lab |
 	lab := ToLabel new.
 	lab addTokenNamed: #'my-foreground' withValue: Color green.
 
 	styleSheet1 := ToStyleSheet new.
-	styleSheet2 := ToStyleSheet new.
-
 	styleSheet1 select: ToLabel asTypeSelector style: [ :sr |
 			sr
 				when: ToEnabledSkinEvent
 				write: #'text-attributes-with-builder' asWritableProperty
 				with: [ :e |
-						'ToEnabledSkinEvent' traceCr.
 						e textAttributesBuilder foreground:
 							(e valueOfTokenNamed: #'my-foreground').
 						e textAttributesBuilder defaultFontSize: 32.
 						e textAttributesBuilder ] ].
+
+	styleSheet2 := ToStyleSheet new.
 
 	lab styleSheet: styleSheet1.
 	lab text: 'Click on me to change my stylesheet'.

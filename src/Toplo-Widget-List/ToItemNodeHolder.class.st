@@ -18,7 +18,7 @@ ToItemNodeHolder >> initializeNode [
 		ic constraintItem: self dataItem.
 		self disabled: self dataItem isDisabled.
 		self node flagAsDisabled: self dataItem isDisabled.
-		self isHidden ifTrue: [ self node height: 0 ] ]
+		self isHidden ifTrue: [ self nodeContainer height: 0 ] ]
 
 ]
 

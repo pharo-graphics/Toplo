@@ -6,6 +6,7 @@ Class {
 	#instVars : [
 		'styleScript',
 		'inherits',
+		'local',
 		'writablePropertyIndex'
 	],
 	#category : #'Toplo-Core-StyleSheet'
@@ -134,6 +135,7 @@ ToStyleSheet >> initialize [
 	super initialize.
 	styleScript := self defaultScript.
 	inherits := true.
+	local := true.
 	self initializeStyleRules.
 ]
 
@@ -141,14 +143,26 @@ ToStyleSheet >> initialize [
 ToStyleSheet >> initializeStyleRules [
 ]
 
-{ #category : #initialization }
+{ #category : #accessing }
+ToStyleSheet >> local [
+
+	^ local
+]
+
+{ #category : #accessing }
+ToStyleSheet >> local: aBoolean [
+
+	local := aBoolean
+]
+
+{ #category : #'api - hooks' }
 ToStyleSheet >> onInstalledIn: anElement [
 
 	anElement withAllChildrenBreadthFirstDo: [ :child |
 		child requestNewSkin ]
 ]
 
-{ #category : #initialization }
+{ #category : #'api - hooks' }
 ToStyleSheet >> onUninstalledIn: anElement [
 
 	
@@ -194,9 +208,11 @@ ToStyleSheet >> styleRules [
 ToStyleSheet >> writablePropertyIndex [
 
 	^ self rawWritablePropertyIndex ifNil: [
-		  self rawWritablePropertyIndex: ToPropertyIndex new.
-		  self rawWritablePropertyIndex addAllProperties: self defaultWritablePropertyList.
-		  self rawWritablePropertyIndex ]
+			  self rawWritablePropertyIndex: ToPropertyIndex new.
+			  local ifFalse: [
+					  self rawWritablePropertyIndex addAllProperties:
+						  self defaultWritablePropertyList ].
+			  self rawWritablePropertyIndex ]
 ]
 
 { #category : #'accessing - writable properties' }

@@ -1,3 +1,6 @@
+"
+I'm dispatched when the selection is changed so that a client can respond to a change in the selection.
+"
 Class {
 	#name : #ToSelectChangedEvent,
 	#superclass : #BlEvent,

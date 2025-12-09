@@ -11,12 +11,12 @@ Class {
 { #category : #'data source events handling' }
 ToSievedListDataSourceEventHandler >> buildOriginalIndexMap [
 
+	sieve pattern ifNotEmpty: [ ^ self ].
 	sieve originalIndexMap removeAll.
 	sieve selectionModel deselectAll.
-	listElement postponeAction: [ :l |
-		l dataSource withIndexDo: [ :aData :idx |
-			sieve originalIndexMap at: aData put: idx ].
-		sieve selectionModel copySelectionFrom: l selectionModel ]
+	listElement dataSource withIndexDo: [ :aData :idx |
+		sieve originalIndexMap at: aData put: idx ].
+	sieve selectionModel copySelectionFrom: listElement selectionModel
 ]
 
 { #category : #'api - accessing' }
@@ -32,28 +32,24 @@ ToSievedListDataSourceEventHandler >> eventsToHandle [
 { #category : #'data source events handling' }
 ToSievedListDataSourceEventHandler >> infiniteDataSourceChanged: anEvent [
 
-	sieve pattern ifNotEmpty: [ ^ self ].
 	self buildOriginalIndexMap
 ]
 
 { #category : #'data source events handling' }
 ToSievedListDataSourceEventHandler >> infiniteDataSourceItemRangeChanged: anEvent [
 
-	sieve pattern ifNotEmpty: [ ^ self ].
 	self buildOriginalIndexMap
 ]
 
 { #category : #'data source events handling' }
 ToSievedListDataSourceEventHandler >> infiniteDataSourceItemRangeInserted: anEvent [
 
-	sieve pattern ifNotEmpty: [ ^ self ].
 	self buildOriginalIndexMap
 ]
 
 { #category : #'data source events handling' }
 ToSievedListDataSourceEventHandler >> infiniteDataSourceItemRangeRemoved: anEvent [
 
-	sieve pattern ifNotEmpty: [ ^ self ].
 	self buildOriginalIndexMap
 ]
 

@@ -10,9 +10,6 @@ Class {
 	#superclass : #ToAbstractListElement,
 	#traits : 'TToListElementWithDecoration',
 	#classTraits : 'TToListElementWithDecoration classTrait',
-	#instVars : [
-		'dataAccessor'
-	],
 	#category : #'Toplo-Widget-Tree-Core'
 }
 
@@ -22,12 +19,6 @@ ToAbstractTreeElement >> collapseAll [
 	| rootWrappers |
 	rootWrappers := self dataSource select: [ :each | each nodeDepth = 0 ].
 	rootWrappers reverseDo: [ :w | w collapse ]
-]
-
-{ #category : #accessing }
-ToAbstractTreeElement >> dataAccessor [ 
-
-	^ dataAccessor
 ]
 
 { #category : #initialization }
@@ -57,16 +48,9 @@ ToAbstractTreeElement >> expandRoots [
 ]
 
 { #category : #initialization }
-ToAbstractTreeElement >> initialize [ 
-
-	super initialize.
-	self initializeDataAccessor.
-]
-
-{ #category : #initialization }
 ToAbstractTreeElement >> initializeDataAccessor [
 
-	dataAccessor := self defaultDataAccessor treeElement: self
+	dataAccessor := self defaultDataAccessor listElement: self
 ]
 
 { #category : #initialization }
@@ -81,5 +65,5 @@ ToAbstractTreeElement >> initializeDataSource [
 { #category : #'instance creation' }
 ToAbstractTreeElement >> sieveClass [
 
-	^ ToTreeElementSieve
+	^ ToWrappedListElementSieve
 ]

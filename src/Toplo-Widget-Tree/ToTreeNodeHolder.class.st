@@ -11,40 +11,12 @@ This also explains why my API mainly refers to the dataWrapper API.
 "
 Class {
 	#name : #ToTreeNodeHolder,
-	#superclass : #ToNodeHolder,
-	#instVars : [
-		'dataWrapper'
-	],
+	#superclass : #ToWrappedListNodeHolder,
 	#category : #'Toplo-Widget-Tree-Core'
 }
-
-{ #category : #accessing }
-ToTreeNodeHolder >> bindDataItem: aDataItem [
-
-	dataWrapper := aDataItem.
-	super bindDataItem: aDataItem
-]
-
-{ #category : #accessing }
-ToTreeNodeHolder >> dataWrapper [
-
-	^ dataWrapper
-]
 
 { #category : #accessing }
 ToTreeNodeHolder >> nodeDepth [
 
 	^ dataWrapper nodeDepth
-]
-
-{ #category : #accessing }
-ToTreeNodeHolder >> treeDataItem [ 
-
-	^ dataItem 
-]
-
-{ #category : #accessing }
-ToTreeNodeHolder >> unwrappedDataItemFrom: aDataItem [
-
-	^ aDataItem unwrappedDataItem 
 ]

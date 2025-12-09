@@ -89,7 +89,9 @@ TToStyleSheetTheme >> applicableWritersFor: anElement [
 { #category : #'t - style sheet theme' }
 TToStyleSheetTheme >> initializeAsStyleSheetTheme [
 
-	styleSheet := ToStyleSheet new.
+	styleSheet := ToStyleSheet new
+		              local: false;
+		              yourself.
 	self initializeStyleRules
 ]
 

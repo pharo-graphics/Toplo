@@ -109,7 +109,7 @@ ToNodeHolder >> initializeNode [
 
 	notifiedSelected := false.
 	self node disabled: self isDisabled.
-	self isHidden ifTrue: [ self node height: 0 ]
+	self isHidden ifTrue: [ self nodeContainer height: 0 ]
 ]
 
 { #category : #accessing }

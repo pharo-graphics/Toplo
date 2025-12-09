@@ -7,8 +7,8 @@ I'm using `ToObservableCollectionFilterApplier`.
 Class {
 	#name : #ToListElementSieve,
 	#superclass : #Object,
-	#traits : 'TBlEventTarget + TToAuthorisationRequestTarget',
-	#classTraits : 'TBlEventTarget classTrait + TToAuthorisationRequestTarget classTrait',
+	#traits : 'TBlEventTarget + TToRequestTarget',
+	#classTraits : 'TBlEventTarget classTrait + TToRequestTarget classTrait',
 	#instVars : [
 		'originalData',
 		'currentData',
@@ -58,27 +58,21 @@ ToListElementSieve >> initialize [
 
 { #category : #'api - hooks' }
 ToListElementSieve >> installFilterApplierIn: aListElement [
-	" the query is applied on the original data.
-	As a data source mirror, it works as follow:
-		- when data are added/removed in/from the data source, 
-			then the mirror is updated accordingly.
-		- when data is filtered, the data source is initialized 
-			with the filtered data but the mirror stays untouched 
-			(see TToObservableCollection>>onSievedWith:"
+	" install the filter apply to tigger currentData update from the selected indexes (by the filter) "
 
 	originalData := aListElement dataSource newMirror.
 	currentData := originalData.
 	filterApplier onInstalledIn: originalData.
-	" When a query has occured (because the query pattern has changed), update the list element accordingly then
-	 ask the list to process the appropiate data source command and to update the selection model.
-	A task must be used to avoid that the list update occurs during the BlSpaceFrameEventPhase  
-	 which can cause an issue because the layout must be launched each time a sieve result occurs "
+	" When a query has occured (because the query pattern has changed), update the current data accordingly.
+	Because currentData can be a mirror on the data source, updating its contents leads to a layout of the 
+	list element.
+	The handler ask the list to process the data source command and to update the selection model.
+	A postponed action is used to ensure that the action occurs after the layout is done in the listElement "
 	originalData
 		addEventHandlerOn: ToObservableCollectionFilterApplierEvent
 		do: [ :event |
 				self observableCollectionFilterAppliedEvent: event.
-				aListElement enqueueTask:
-					(BlTaskAction new action: [ aListElement onSievedWith: self ]) ]
+				aListElement postponeAction: [ :l | l onSievedWith: self ] ]
 ]
 
 { #category : #accessing }
@@ -99,13 +93,13 @@ ToListElementSieve >> newFilterApplier [
 	^ ToObservableCollectionFilterApplier new
 ]
 
-{ #category : #'api - hooks' }
+{ #category : #'instance creation' }
 ToListElementSieve >> newSievedListDataSourceEventHandler [
 
 	^ ToSievedListDataSourceEventHandler new
 ]
 
-{ #category : #'api - hooks' }
+{ #category : #'instance creation' }
 ToListElementSieve >> newSievedListElementEventHandler [
 
 	^ ToSievedListElementEventHandler new

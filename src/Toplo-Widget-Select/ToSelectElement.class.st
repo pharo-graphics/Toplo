@@ -14,13 +14,11 @@ See https://ant.design/components/select for a functional reference.
 "
 Class {
 	#name : #ToSelectElement,
-	#superclass : #ToElement,
+	#superclass : #ToTripletContainer,
 	#traits : 'TToPlaceholderUser',
 	#classTraits : 'TToPlaceholderUser classTrait',
 	#instVars : [
 		'filtrable',
-		'iconContainer',
-		'innerElement',
 		'windowManager',
 		'sample'
 	],
@@ -65,17 +63,6 @@ ToSelectElement >> currentPopupWindowDo: aValuable [
 	^ self manager currentWindowDo: aValuable 
 ]
 
-{ #category : #'accessing - list' }
-ToSelectElement >> dataAccessor [
-
-	self
-		deprecated: 'Use #popupListDataAccessor'
-		transformWith:
-		'`@rcvr dataAccessor' -> '`@rcvr popupListDataAccessor'.
-
-	^ self popupListElement dataAccessor
-]
-
 { #category : #initialization }
 ToSelectElement >> defaultEventHandler [
 
@@ -109,13 +96,7 @@ ToSelectElement >> filterStringChanged [
 { #category : #accessing }
 ToSelectElement >> filterTextField [ 
 
-	^ self innerElement filterTextField
-]
-
-{ #category : #accessing }
-ToSelectElement >> filtrable [
-
-	^ filtrable
+	^ self header filterTextField
 ]
 
 { #category : #accessing }
@@ -126,16 +107,15 @@ ToSelectElement >> filtrable: aBoolean [
 ]
 
 { #category : #accessing }
-ToSelectElement >> iconContainer [
+ToSelectElement >> header [ 
 
-	^ iconContainer
+	^ self innerElement 
 ]
 
 { #category : #accessing }
-ToSelectElement >> iconContainer: anIconContainer [
+ToSelectElement >> iconContainer [
 
-	iconContainer := anIconContainer.
-	iconContainer constraintsDo: [ :c | c linear vertical alignCenter ]
+	^ self endContainer
 ]
 
 { #category : #initialization }
@@ -147,13 +127,9 @@ ToSelectElement >> initialize [
 	" for the popup "
 	windowManager := self newPopupWindowManager.
 	self addEventHandler: windowManager.
-
-	self iconContainer: self newIconContainer.
-	self innerElement: self newInnerElement.
-	self addChildren: {
-			self innerElement.
-			self iconContainer }.
-			
+	self ensureMiddleContainer.
+	self ensureEndContainer.
+				
 	self addEventHandler: self defaultEventHandler.
 
 	" a select is made to be horizontal. the following constraints 
@@ -165,17 +141,7 @@ ToSelectElement >> initialize [
 { #category : #accessing }
 ToSelectElement >> innerElement [
 
-	^ innerElement
-]
-
-{ #category : #accessing }
-ToSelectElement >> innerElement: anInnerContainerElement [
-
-	innerElement := anInnerContainerElement.
-	innerElement constraintsDo: [ :c |
-		c linear vertical alignCenter.
-		c horizontal matchParent.
-		c vertical fitContent ]
+	^ self middleContainer 
 ]
 
 { #category : #'instance creation' }
@@ -204,41 +170,29 @@ ToSelectElement >> isOutsideEvent: anEvent [
 	^ super isOutsideEvent: anEvent
 ]
 
-{ #category : #'accessing - list' }
-ToSelectElement >> listElement [
-
-	self
-		deprecated: 'Use #popupListElement'
-		transformWith: '`@rcvr listElement' -> '`@rcvr popupListElement'.
-
-	^ self popupListElement
-]
-
 { #category : #accessing }
 ToSelectElement >> manager [
 
 	^ windowManager 
 ]
 
-{ #category : #'instance creation' }
-ToSelectElement >> newIconContainer [
+{ #category : #'t - triplet container - instance creation' }
+ToSelectElement >> newEndContainer [
 
-	^ ToSelectIconContainer new
+	^ ToSelectEndContainer new
 ]
 
-{ #category : #'instance creation' }
-ToSelectElement >> newInnerElement [
+{ #category : #'t - triplet container - instance creation' }
+ToSelectElement >> newMiddleContainer [ 
 
 	| container |
 	container := self innerElementClass onSelectElement: self.
+	container constraintsDo: [ :c |
+		c linear vertical alignCenter.
+		c horizontal matchParent.
+		c vertical fitContent ].
 	container id: #innerElement.
 	^ container
-]
-
-{ #category : #'instance creation' }
-ToSelectElement >> newPopupWindowManager [
-
-	^ ToSelectPopupManager new
 ]
 
 { #category : #skin }
@@ -274,12 +228,6 @@ ToSelectElement >> onPopupWindowOpened [
 		ifFalse: [ self requestFocus ]
 ]
 
-{ #category : #'accessing - selection' }
-ToSelectElement >> onSelectionChangedInPopupListElement: anEvent [
-
-	self innerElement onSelectionChangedInPopupListElement: anEvent
-]
-
 { #category : #accessing }
 ToSelectElement >> pattern: aPattern [
 
@@ -293,30 +241,9 @@ ToSelectElement >> popupDataAccessor [
 ]
 
 { #category : #'accessing - list' }
-ToSelectElement >> popupListDataAccessor [
-
-	self
-		deprecated: 'Use #popupListElement dataAccessor'
-		transformWith: '`@rcvr popupListDataAccessor' -> '`@rcvr popupListElement dataAccessor'.
-
-	^ self popupListElement dataAccessor
-]
-
-{ #category : #'accessing - list' }
 ToSelectElement >> popupListElement [
 
 	^ self manager listElement
-]
-
-{ #category : #'accessing - selection' }
-ToSelectElement >> popupListSelectionModel [
-
-
-	self
-		deprecated: 'Use #selectionModel'
-		transformWith: '`@rcvr popupListSelectionModel' -> '`@rcvr selectionModel'.
-
-	^ self selectionModel
 ]
 
 { #category : #'accessing - list' }
@@ -338,16 +265,17 @@ ToSelectElement >> popupWindowPlacement: aPlacement [
 ]
 
 { #category : #accessing }
-ToSelectElement >> refresh [
-
-	self innerElement refreshFromPopupListSelection
-]
-
-{ #category : #accessing }
 ToSelectElement >> sample: aDataItem [
 
 	sample := aDataItem.
 	self requestConfiguration
+]
+
+{ #category : #'accessing - selection' }
+ToSelectElement >> selectedDataItems [
+
+	^ self selectionModel selectedIndexesCollect: [ :idx |
+		  self sieve originalData at: idx ]
 ]
 
 { #category : #accessing }
@@ -379,11 +307,8 @@ ToSelectElement >> sieve [
 	^ self manager sieve
 ]
 
-{ #category : #accessing }
-ToSelectElement >> windowManager [
+{ #category : #private }
+ToSelectElement >> updateHeaderFromPopupListSelection [
 
-	self
-		deprecated: 'Use #manager instead'
-		transformWith: '`@rcvr windowManager' -> '`@rcvr manager'.
-	^ self manager
+	self header updateFromPopupListSelection 
 ]

@@ -12,12 +12,6 @@ ToItemFiniteListNodeManager >> buildNode: aNode [
 	aNode item: holder dataItem
 ]
 
-{ #category : #initialization }
-ToItemFiniteListNodeManager >> defaultFakeDataItem [
-
-	^ ToFiniteListItem new
-]
-
 { #category : #'instance creation' }
 ToItemFiniteListNodeManager >> newHolder [
 

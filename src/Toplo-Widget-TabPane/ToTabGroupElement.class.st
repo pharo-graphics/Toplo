@@ -300,11 +300,11 @@ ToTabGroupElement >> newToConfiguration [
 ]
 
 { #category : #'t - bar element' }
-ToTabGroupElement >> onInvisibleNodeContainers: theInvisibleNodes visibleNodeContainers: theVisibleNodes [
+ToTabGroupElement >> onInvisibleNodeContainers: theInvisibleContainers visibleNodeContainers: theVisibleContainers [
 
 	| startIdx endIdx |
-	invisibleNodeContainers := theInvisibleNodes copy.
-	visibleNodeContainers := theVisibleNodes copy.
+	invisibleNodeContainers := theInvisibleContainers copy.
+	visibleNodeContainers := theVisibleContainers copy.
 
 	startIdx := visibleNodeContainers
 		            ifEmpty: [ 0 ]

@@ -9,6 +9,14 @@ Class {
 	#category : #'Toplo-Widget-List-ItemFiniteList'
 }
 
+{ #category : #'t - finite list element - fake container' }
+ToCheckableFiniteListElement >> defaultFakeDataItem [
+
+	^ ToToggleButton new
+		  labelText: 'X';
+		  yourself
+]
+
 { #category : #'t - item list - accessing' }
 ToCheckableFiniteListElement >> defaultNodeManagerClass [ 
 

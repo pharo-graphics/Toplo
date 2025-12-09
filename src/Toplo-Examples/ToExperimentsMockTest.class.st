@@ -7,22 +7,22 @@ Class {
 { #category : #tests }
 ToExperimentsMockTest >> closeWindows [
 
-	BlOSWindowSDL2Host universe closeSpaces.
-	BlOSWindowSDL2Host
-		stop;
-		start.
-	BlMorphicWindowHost universe closeSpaces.
-	BlMorphicWindowHost
-		stop;
-		start.
+	{
+		BlOSWindowSDL2Host.
+		BlMorphicWindowHost } do: [ :host |
+			host universe closeSpaces.
+			host
+				stop;
+				start ].
 	BlSpace allInstances do: [ :each | each close ].
-	BlParallelUniverse all do: [ :each | each closeSpaces ].
+	BlParallelUniverse all do: [ :each | each closeSpaces ]
 ]
 
 { #category : #tests }
 ToExperimentsMockTest >> testMocks [
 
 	| selectors errors |
+
 	self skip.
 	errors := OrderedCollection new.
 	selectors := ToExperiments class selectors select: [ :each |

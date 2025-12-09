@@ -4,14 +4,6 @@ Class {
 	#category : #'Toplo-Widget-TabPane-TabFiniteList'
 }
 
-{ #category : #initialization }
-ToTabNodeManager >> defaultFakeDataItem [
-
-	^ ToTabItemElement new
-		  labelText: 'X';
-		  yourself
-]
-
 { #category : #'instance creation' }
 ToTabNodeManager >> newHolder [ 
 

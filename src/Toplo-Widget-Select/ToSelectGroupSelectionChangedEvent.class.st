@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSelectGroupSelectionChangedEvent,
 	#superclass : #ToListSelectionChangedEvent,
-	#category : #'Toplo-Widget-Select-List'
+	#category : #'Toplo-Widget-Select-PopupList'
 }
 
 { #category : #sending }

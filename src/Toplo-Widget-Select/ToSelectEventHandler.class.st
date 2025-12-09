@@ -7,16 +7,10 @@ Class {
 { #category : #'event handling' }
 ToSelectEventHandler >> addedToSpaceEvent: anEvent [
 
-	anEvent currentTarget refresh 
+	anEvent currentTarget updateHeaderFromPopupListSelection 
 ]
 
 { #category : #'api - accessing' }
 ToSelectEventHandler >> eventsToHandle [
-	^ { ToAddedToSpaceEvent. ToPlaceholderShownEvent }
-]
-
-{ #category : #'event handling' }
-ToSelectEventHandler >> placeHolderShownEvent: anEvent [
-
-	anEvent placeholder layout alignCenterLeft
+	^ { ToAddedToSpaceEvent }
 ]

@@ -47,11 +47,23 @@ ToSingleSelectElement >> defaultDataViewBuilder [
 { #category : #initialization }
 ToSingleSelectElement >> defaultDataViewFactory [
 
-	^ [ :container | ToSingleSelectDataItemView new ]
+	^ [ :container | ToSingleSelectHeaderDataItemView new ]
 ]
 
 { #category : #'instance creation' }
 ToSingleSelectElement >> innerElementClass [
 
-	^ ToSingleSelectInnerContainerElement
+	^ ToSingleSelectHeaderElement
+]
+
+{ #category : #'instance creation' }
+ToSingleSelectElement >> newPopupWindowManager [
+
+	^ ToSingleSelectPopupWindowManager new
+]
+
+{ #category : #accessing }
+ToSingleSelectElement >> selectedDataItem [
+
+	^ self selectedDataItems ifEmpty: [ ] ifNotEmpty: [ :s | s first ]
 ]

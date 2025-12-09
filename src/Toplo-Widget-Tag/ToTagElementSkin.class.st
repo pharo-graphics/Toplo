@@ -54,29 +54,34 @@ ToTagElementSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 
 	anEvent elementDo: [ :e |
-		| leftPad rightPad topPad bottomPad |
-		leftPad := rightPad := e valueOfTokenNamed: #'bar-node-padding-H'.
-		topPad := bottomPad := e valueOfTokenNamed: #'bar-node-padding-V'.
-		e removeButtonDo: [ :rb |
-			rb constraintsDo: [ :c |
-				leftPad := leftPad + 15.
-				c ignored horizontal alignLeft.
-				c ignored vertical alignCenter ] ].
+			| leftPad rightPad topPad bottomPad |
+			leftPad := rightPad := e valueOfTokenNamed: #'padding-XXS'.
+			topPad := bottomPad := e valueOfTokenNamed: #'padding-XXS'.
+			e removeButtonDo: [ :rb |
+					rb constraintsDo: [ :c |
+							leftPad := leftPad + 15.
+							c ignored horizontal alignLeft.
+							c ignored vertical alignCenter ] ].
 
-		e padding: (BlInsets
-				 top: topPad
-				 left: leftPad
-				 bottom: bottomPad
-				 right: rightPad).
-				
-		e geometry: (BlRoundedRectangleGeometry cornerRadius:
-				 (e valueOfTokenNamed: 'border-radius')).
-		(e hasIcon and: [ e hasLabel ])
-			ifTrue: [
-			e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
-			ifFalse: [ e startInterspace: 0 ].
-		(e hasEndElement and: [ e hasLabel ])
-			ifTrue: [
-			e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
-			ifFalse: [ e endInterspace: 0 ] ]
+			e holderDo: [ :h |
+					e margin:
+						(BlInsets horizontal:
+							 (e valueOfTokenNamed: #'padding-XXS')) ].
+
+			e padding: (BlInsets
+					 top: topPad
+					 left: leftPad
+					 bottom: bottomPad
+					 right: rightPad).
+
+			e geometry: (BlRoundedRectangleGeometry cornerRadius:
+					 (e valueOfTokenNamed: 'border-radius')).
+			(e hasIcon and: [ e hasLabel ])
+				ifTrue: [
+				e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
+				ifFalse: [ e startInterspace: 0 ].
+			(e hasEndElement and: [ e hasLabel ])
+				ifTrue: [
+				e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
+				ifFalse: [ e endInterspace: 0 ] ]
 ]

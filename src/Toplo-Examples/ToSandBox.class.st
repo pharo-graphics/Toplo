@@ -634,8 +634,7 @@ ToSandBox class >> example_AllClassesWithCheckbox [
 
 	| l |
 	l := self example_AllClasses.
-	l useCheckbox: true.
-	l inspect
+	l useCheckbox: true
 ]
 
 { #category : #window }
@@ -1262,6 +1261,33 @@ ToSandBox class >> example_BasicListWithAllClasses3 [
 				      startInterspace: 10;
 				      hMatchParent) ].
 
+	l withRowNumbers.
+	l dataAccessor addAll:
+		(Smalltalk globals allClasses sorted: [ :a :b | a name < b name ]).
+	l selecter selectIndexes: #(10 12 3).
+
+	l requestFocus.
+	l openInInnerWindow
+]
+
+{ #category : #'wrapped list' }
+ToSandBox class >> example_BasicWrappedListWithAllClasses3 [
+
+	| l |
+	l := ToWrappedListElement new nodeBuilder: [ :node :dataItem :holder |
+		     | icn lab |
+		     icn :=  dataItem hasComment
+			            ifTrue: [ #class ]
+			            ifFalse: [ #uncommentedClass ].
+		     lab := ToLabel new
+			            text: dataItem name;
+			            beEditable;
+			            yourself.
+		     node addChild: (ToLabeledIcon new
+				      label: lab;
+				      icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
+				      startInterspace: 10;
+				      hMatchParent) ].
 	l withRowNumbers.
 	l dataAccessor addAll:
 		(Smalltalk globals allClasses sorted: [ :a :b | a name < b name ]).
@@ -2184,26 +2210,6 @@ ToSandBox class >> example_FilterOnList2WithStatesOfAmerica [
 	pane openInSpace
 ]
 
-{ #category : #tag }
-ToSandBox class >> example_FiniteList2 [
-
-	| tb dashBoard rootPane |
-	tb := ToItemFiniteListElement new.
-	tb horizontal: true.
-	tb dataAccessor addAll:
-		(ToSandBox statesOfAmerica collect: [ :s | ToTagElement new labelText: s; yourself ]).
-	tb openInSpace 
-	"dashBoard := self barConfigurationBoardFor: tb.
-	rootPane := ToPane horizontal.
-	rootPane padding: (BlInsets all: 5).
-	rootPane matchParent.
-
-	rootPane addChild: dashBoard.
-	rootPane addChild: tb.
-	rootPane addDividers.
-	rootPane openInSpace"
-]
-
 { #category : #float }
 ToSandBox class >> example_FloatArrowsAraoundACircle [
 
@@ -3112,8 +3118,7 @@ ToSandBox class >> example_Menu3 [
 			item addItem: sub.
 			menu addItem: item ].
 
-	container openInSpace.
-	container inspect
+	container openInSpace
 	
 ]
 
@@ -3879,7 +3884,7 @@ ToSandBox class >> example_SelectAntDesignIconMultiFiltrable [
 
 	select filtrable: true.
 
-	select tagBuilder: [ :tag :iconDesc :holder |
+	select nodeBuilder: [ :tag :iconDesc :holder |
 			tag icon: (iconDesc icon extent: 48 asPoint).
 			tag removable: true ].
 	select sample: select popupListElement dataAccessor first.
@@ -3924,19 +3929,18 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 
 	| select |
 	select := ToMultiSelectElement new.
+
 	select isFlowable: true.
-	select keepPickOrder: true.
 	select filtrable: true.
+	select nodeBuilder: [ :node :iconDesc :holder |
+			node icon: (iconDesc icon extent: 48 asPoint).
+			node removable: true ].
+
 	self
 		buildSelectListElementIn: select
 		withIconProvider: ToMaterialDesignIconProvider.
-
-
-	select tagBuilder: [ :tag :iconDesc :holder |
-			tag removable: true.
-			tag borderless: false.
-			tag icon: (iconDesc icon extent: 48 asPoint) ].
 	select sample: select popupListElement dataAccessor first.
+
 
 	select hMatchParent.
 	select placeholderString: 'Select icons'.
@@ -3999,60 +4003,55 @@ ToSandBox class >> example_SelectMonoNotFiltrable [
 { #category : #select }
 ToSandBox class >> example_SelectMultiFiltrable [
 
-	| select innerWindow newTagFactory |
+	| select innerWindow tagBuilder |
 	select := ToMultiSelectElement new.
+
 	select filtrable: true.
-	"select manager popupDelay: 400 milliSeconds."
-
-	select
-		addEventHandlerOn: ToSelectChangedEvent
-		do: [ :event | event selectedIndexes traceCr ].
-
-	select isFlowable: true.
-	select keepPickOrder: true.
+	select isFlowable: false.
+	select keepPickOrder: false.
+	select hideSelected: false.
+	select popupMaxHeight: 200.
+	select placeholderString: 'Select a state'.
 
 	select popupListElement selectionOption grouped: false.
 	select popupListElement selectionOption beneath: false.
 	select popupListElement selectionOption elementFactory: [
-		ToListSelectionElement new defaultSkin:
-			ToMultiSelectElementCheckSkin new ].
-
-	newTagFactory := [ :stateColorAssoc |
-	                 | tag |
-	                 tag := ToTagElement new
-		                        labelText: stateColorAssoc key asString;
-		                        yourself.
-	                 tag borderless: true.
-	                 tag foregroundColor: stateColorAssoc value.
-	                 tag backgroundColor:
-		                 (stateColorAssoc value veryMuchLighter alpha: 0.5).
-	                 tag ].
+			ToListSelectionElement new defaultSkin:
+				ToMultiSelectElementCheckSkin new ].
 
 	select sample: 'X' -> Color white.
-	select nodeBuilder: [ :node :stateColorAssoc :holder |
-		| tag |
-		tag := newTagFactory value: stateColorAssoc.
-		tag borderless: false.
-		tag removable: true.
-		node addChild: tag ].
+	tagBuilder := [ :tag :stateColorAssoc |
+		              stateColorAssoc ifNotNil: [
+				              tag labelText: stateColorAssoc key asString.
+				              tag borderless: true.
+				              tag foregroundColor: stateColorAssoc value.
+				              tag backgroundColor:
+					              (stateColorAssoc value veryMuchLighter alpha: 0.5) ] ].
+
+	select header nodeBuilder: [ :node :stateColorAssoc :holder |
+			tagBuilder value: node value: stateColorAssoc.
+			node borderless: false.
+			node removable: true ].
 
 	select popupListElement nodeBuilder: [ :node :stateColorAssoc :holder |
-		node addChild: (newTagFactory value: stateColorAssoc) hMatchParent; yourself].
+			| tag |
+			tag := ToTagElement new
+				       hMatchParent;
+				       yourself.
+			tagBuilder value: tag value: stateColorAssoc.
+			node addChild: tag ].
 
 	select sieve filter: [ :stateAssoc :pattern |
 		stateAssoc key beginsWith: pattern caseSensitive: false ].
 
-	select hideSelected: false.
 	select popupListElement dataAccessor addAll:
 		self statesOfAmericaWithColor.
 
-	select popupMaxHeight: 200.
-	select placeholderString: 'Select a state'.
 	innerWindow := ToInnerWindow new.
 	select anchorRoot: innerWindow root.
 	select hMatchParent.
-	select selecter selectIndex: 2.
 	innerWindow pane addChild: select.
+
 	innerWindow openInSpace.
 	^ select
 ]
@@ -4104,7 +4103,7 @@ ToSandBox class >> example_SelectMultiFiltrableNoWrapping [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
-	select maxSelectedCount: 6.
+	"select maxSelectedCount: 6."
 	select isFlowable: false.
 	select hideSelected: false.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
@@ -4231,9 +4230,6 @@ ToSandBox class >> example_SelectMultiFiltrableWithHideSelected [
 	| select innerWindow |
 	select := ToMultiSelectElement new.
 	select isFlowable: true.
-	select tagBuilder: [ :tag :stateName | 
-		tag labelText: stateName.
-		tag removable: true ].
 	select hideSelected: true.
 	select popupListElement dataAccessor updateAllWith:
 		self statesOfAmerica.
@@ -4282,10 +4278,14 @@ ToSandBox class >> example_SelectMultiFiltrableWithMatchParentMaxHeight [
 { #category : #select }
 ToSandBox class >> example_SelectMultiFiltrableWithMax [
 
-	| select  |
+	| select |
 	select := self example_SelectMultiFiltrable.
-	select width: 300.
-	select maxSelectedCount: 4
+	select maxSelectedCount: 3.
+	select inUIProcessDo: [
+			select selecter selectIndex: 3.
+			select selecter selectIndex: 5.
+			select selecter selectIndex: 4.
+			select selecter selectIndex: 6 ]
 ]
 
 { #category : #select }
@@ -4801,6 +4801,17 @@ ToSandBox class >> example_SimpleTabPaneWithRemoveButtons [
 	^ tabPane
 ]
 
+{ #category : #tag }
+ToSandBox class >> example_SimpleTagsInPane [
+
+	| tag pane |
+	pane := ToPane horizontal.
+	#('Green' 'Yellow' 'Black') do: [ :colorName |
+		tag := ToTagElement new labelText: colorName.
+		pane addChild: tag ].
+	pane openInSpace
+]
+
 { #category : #'skin event' }
 ToSandBox class >> example_SkinEventTrace [
 
@@ -5147,23 +5158,18 @@ ToSandBox class >> example_TabPaneWithCompactHeaderLayoutMode [
 { #category : #tag }
 ToSandBox class >> example_TagFiniteList [
 
-	| tb dashBoard rootPane |
-	tb := ToTagFiniteListElement new.
+	self finiteTagListWithData: ToSandBox statesOfAmerica
+]
+
+{ #category : #tag }
+ToSandBox class >> example_TagFiniteList2 [
+
+	| tb |
+	tb := ToItemFiniteListElement new.
 	tb horizontal: true.
 	tb dataAccessor addAll:
-		(ToSandBox statesOfAmerica collect: [ :s | ToSingleTag new data: s ]).
-	tb tagBuilder: [ :tagElement :aStateName :holder |
-		tagElement labelText: aStateName , ' ' , holder position asString.
-		tagElement removable: true ].
-	dashBoard := self finiteListConfigurationBoardFor: tb.
-	rootPane := ToPane horizontal.
-	rootPane padding: (BlInsets all: 5).
-	rootPane matchParent.
-
-	rootPane addChild: dashBoard.
-	rootPane addChild: tb.
-	rootPane addDividers.
-	rootPane openInSpace
+		(ToSandBox statesOfAmerica collect: [ :s | ToTagElement new labelText: s; yourself ]).
+	tb openInSpace
 ]
 
 { #category : #select }
@@ -6240,7 +6246,7 @@ ToSandBox class >> example_hugePane [
 	space show.
 
 	space root inUIProcessDo: [
-			1 to: 1000 do: [ :i | 
+			1 to: 100 do: [ :i | 
 					| label button |
 					label := 'Button ' , i asString.
 					button := ToButton labelText: label.
@@ -6817,7 +6823,6 @@ ToSandBox class >> example_menuPaneVertical [
 	bar vFitContent.
 	frame pane addChild: bar.
 	frame openInSpace
-	"frame inspect"
 ]
 
 { #category : #menu }
@@ -6925,7 +6930,6 @@ ToSandBox class >> example_menuPaneVertical2 [
 	bar vMatchParent.
 	frame pane addChild: bar.
 	frame openInSpace
-	"frame inspect"
 ]
 
 { #category : #menu }
@@ -6995,7 +6999,6 @@ ToSandBox class >> example_menuPaneVerticalScrollable [
 
 	frame pane addChild: bar.
 	frame openInSpace
-	"frame inspect"
 ]
 
 { #category : #window }
@@ -9279,6 +9282,106 @@ ToSandBox class >> finiteListWithData: aCollection [
 	rootPane openInSpace
 ]
 
+{ #category : #tag }
+ToSandBox class >> finiteTagListWithData: aCollection [
+
+	| bar confBoard barPane rootPane selectionModeBoard rand tags |
+	rand := Random new.
+	bar := ToItemFiniteListElement new.
+	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
+	tags := aCollection collect: [ :s |
+			        ToTagElement new
+				        labelText: s;
+				        yourself ].
+	bar addAllItems: tags.
+
+	bar contextMenuBuilder: [ :menu :request |
+			| idxes target |
+			target := request currentTarget.
+			idxes := request selectedIndexes.
+			menu addItem: (ToMenuItem new
+					 labelText: 'Inspect list';
+					 clickAction: [ target inspect ];
+					 yourself).
+			menu addItem: (ToMenuItem new
+					 labelText: 'Remove all';
+					 clickAction: [ target dataAccessor removeAll ];
+					 yourself).
+
+			idxes ifNotEmpty: [
+					menu addItem: (ToMenu new
+							 labelText: 'Selected node';
+							 in: [ :m |
+									 m addItem: (ToMenuItem new
+												  labelText: 'Inspect';
+												  clickAction: [
+														  Array withAll:
+																  (idxes collect: [ :idx |
+																		   target nodeContainerAt: idx ]) inspect ];
+												  yourself).
+									 m addItem: (ToMenuItem new
+											  labelText: 'Remove';
+											  clickAction: [
+												  idxes reverseDo: [ :idx |
+														  bar dataAccessor removeAt: idx ] ];
+											  yourself).
+									 m addItem: (ToMenuItem new
+											  labelText: 'Unable/disable';
+											  clickAction: [
+													  idxes do: [ :idx |
+																  (bar nodeContainerAt: idx) disabled:
+																		  (bar nodeContainerAt: idx) isEnabled ] ];
+											  yourself).
+									 m addItem: (ToMenuItem new
+											  labelText: 'Unselectable';
+											  clickAction: [
+												  idxes do: [ :idx |
+														  bar unselectableSelecter selectIndex: idx ] ];
+											  yourself).
+									 m addItem: (ToMenuItem new
+											  labelText: 'Insert before';
+											  clickAction: [
+													  | idx |
+													  idx := idxes first.
+													  target dataAccessor
+														  add: (ToTagElement new labelText:
+																	   String loremIpsum substrings first
+																	   , ' (inserted before)')
+														  beforeIndex: idx ];
+											  yourself).
+									 m addItem: (ToMenuItem new
+											  labelText: 'Insert after';
+											  clickAction: [
+													  | idx |
+													  idx := idxes last.
+													  target dataAccessor
+														  add: (ToTagElement new labelText:
+																	   String loremIpsum substrings first
+																	   , ' (inserted before)')
+														  afterIndex: idx ];
+											  yourself) ];
+							 yourself) ] ].
+
+	confBoard := self finiteListConfigurationBoardFor: bar.
+	selectionModeBoard := self selectionModeChooserFor: bar.
+	confBoard addChild: selectionModeBoard.
+
+	bar isFlowable: true.
+	bar uniformNodeWidth: true.
+	rootPane := ToPane horizontal.
+	rootPane padding: (BlInsets all: 5).
+	rootPane matchParent.
+	barPane := ToPane horizontal.
+	barPane padding: (BlInsets all: 5).
+	barPane matchParent.
+	barPane addChild: bar.
+
+	rootPane addChild: confBoard.
+	rootPane addChild: barPane.
+	rootPane addDividers first weight: 0.5.
+	rootPane openInSpace
+]
+
 { #category : #'labeled icon' }
 ToSandBox class >> labeledIconlWithIconAndText [
 
@@ -9795,7 +9898,6 @@ ToSandBox class >> selectableLabeledIconlWithIconAndText [
 				  extent: 60 @ 60;
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
-	but inspect.
 	^ but
 ]
 

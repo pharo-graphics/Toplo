@@ -1,20 +1,16 @@
 Class {
 	#name : #ToTreeDataAccessor,
-	#superclass : #Object,
-	#traits : 'TToDataSourceWrapper + TBlEventTarget + TBlDebug',
-	#classTraits : 'TToDataSourceWrapper classTrait + TBlEventTarget classTrait + TBlDebug classTrait',
+	#superclass : #ToWrappedListDataAccessor,
 	#instVars : [
-		'treeElement',
-		'parentWrapper',
-		'eventDispatcher'
+		'parentWrapper'
 	],
 	#category : #'Toplo-Widget-Tree-Core'
 }
 
 { #category : #'t - data source wrapper - accessing dataSource' }
-ToTreeDataAccessor >> dataSource [
+ToTreeDataAccessor >> dataItemWrapperClass [
 
-	^ treeElement dataSource
+	^ ToTreeDataItemWrapper 
 ]
 
 { #category : #private }
@@ -22,21 +18,6 @@ ToTreeDataAccessor >> errorSizeMismatch [
 	"Signal a SizeMismatch exception"
 
 	SizeMismatch signal
-]
-
-{ #category : #'event management accessing' }
-ToTreeDataAccessor >> eventDispatcher [
-	"Return an object responsible for event dispatching"
-	<return: #BlDirectEventDispatcher>
-
-	^ eventDispatcher 
-]
-
-{ #category : #initialization }
-ToTreeDataAccessor >> initialize [
-
-	super initialize.
-	eventDispatcher := BlDirectEventDispatcher on: self
 ]
 
 { #category : #private }
@@ -48,34 +29,15 @@ ToTreeDataAccessor >> invalidOperation [
 { #category : #'t - data source wrapper - accessing dataSource' }
 ToTreeDataAccessor >> newWrapperForDataItem: anObject [
 
-	^ ToTreeDataItemWrapper new
-		  treeElement: treeElement;
+	^ (super newWrapperForDataItem: anObject)
 		  parentWrapper: parentWrapper;
-		  dataItem: anObject
-]
-
-{ #category : #private }
-ToTreeDataAccessor >> species [ 
-
-	^ OrderedCollection 
+		  yourself
 ]
 
 { #category : #accessing }
 ToTreeDataAccessor >> treeElement [
 
-	^ treeElement
-]
-
-{ #category : #accessing }
-ToTreeDataAccessor >> treeElement: aTreeElement [
-
-	treeElement := aTreeElement
-]
-
-{ #category : #'t - data source wrapper - accessing dataSource' }
-ToTreeDataAccessor >> unwrappedDataItemAt: anInteger [ 
-
-	^ (self dataSource at: anInteger) unwrappedDataItem
+	^ self listElement
 ]
 
 { #category : #'accessing - dataSource' }

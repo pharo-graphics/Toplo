@@ -3,9 +3,9 @@ I'm a generic list
 "
 Class {
 	#name : #ToGenericFiniteListElement,
-	#superclass : #ToGenericListElement,
-	#traits : 'TToConfigurableFiniteListElement + TToFiniteListElement',
-	#classTraits : 'TToConfigurableFiniteListElement classTrait + TToFiniteListElement classTrait',
+	#superclass : #ToAbstractFiniteListElement,
+	#traits : 'TToGenericListElement',
+	#classTraits : 'TToGenericListElement classTrait',
 	#category : #'Toplo-Widget-List-Core-FiniteListElement'
 }
 
@@ -19,7 +19,6 @@ ToGenericFiniteListElement >> defaultNodeManagerClass [
 ToGenericFiniteListElement >> initialize [
 
 	super initialize.
-	self initializeAsBarElement.
 	self primarySelectionMode selectionOption
 		grouped: false;
 		beneath: true;
@@ -36,20 +35,11 @@ ToGenericFiniteListElement >> newRawSkin [
 	^ ToFiniteListElementSkin new
 ]
 
-{ #category : #accessing }
+{ #category : #'t - generic list element' }
 ToGenericFiniteListElement >> nodeBuilder: aValuable [
 	"aValuable takes 3 optional args: first, the node to build, second, the dataItem and third, the holder in the list element "
 
-	super nodeBuilder: aValuable.
-	self nodeManager fakeDataItem: nil.
+	self nodeManager nodeBuilder: aValuable.
 	self reinstallFakeNodeContainer.
-	self notifyDataSourceChanged
-]
-
-{ #category : #accessing }
-ToGenericFiniteListElement >> nodeFactory: aValuable [
-	" aValuable that takes a node holder as unique argument and which running results in a new node "
-
-	super nodeFactory: aValuable.
 	self notifyDataSourceChanged
 ]

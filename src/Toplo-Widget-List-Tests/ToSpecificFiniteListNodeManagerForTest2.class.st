@@ -20,7 +20,7 @@ ToSpecificFiniteListNodeManagerForTest2 >> defaultFakeDataItem [
 ]
 
 { #category : #initialization }
-ToSpecificFiniteListNodeManagerForTest2 >> initialize [ 
+ToSpecificFiniteListNodeManagerForTest2 >> initialize [
 
 	super initialize.
 	counter := 0

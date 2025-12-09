@@ -8,8 +8,7 @@ Class {
 		'dataSourceManager',
 		'listElement',
 		'dataSourceObserver',
-		'trackElement',
-		'previousInvisibleNodeContainers'
+		'trackElement'
 	],
 	#category : #'Toplo-Widget-List-InnerFiniteList'
 }
@@ -27,6 +26,12 @@ ToInnerFiniteListElement >> addAllHolders: anArray at: aPosition [
 
 	anArray reverseDo: [ :h | self addHolder: h at: aPosition].
 	anArray do: [ :h | self notifyChildAttached: h nodeContainer  ]
+]
+
+{ #category : #'accessing - nodes' }
+ToInnerFiniteListElement >> addHolder: anHolder [
+
+	trackElement addChild: anHolder nodeContainer
 ]
 
 { #category : #'accessing - nodes' }
@@ -52,25 +57,6 @@ ToInnerFiniteListElement >> applyConfiguration [
 		ifFalse: [ self vMatchParent ].
 
 	self childrenDo: [ :container | container applyConfiguration ]
-]
-
-{ #category : #layout }
-ToInnerFiniteListElement >> checkFullyVisibleNodeContainers [
-
-	| invisibles visibles |
-	(listElement isFlowable or: [ listElement autoDistribute ])
-		ifTrue: [
-				invisibles := #(  ).
-				visibles := self nodeContainers asArray ]
-		ifFalse: [
-				invisibles := self nodeContainersReject: #isFullyVisibleInListElement.
-				visibles := self nodeContainers difference: invisibles ].
-	previousInvisibleNodeContainers = invisibles ifTrue: [ ^ self ].
-	previousInvisibleNodeContainers := invisibles.
-	self dispatchEvent: (ToFiniteListVisibleNodeContainerListChangedEvent new
-			 visibleNodeContainers: visibles;
-			 invisibleNodeContainers: invisibles;
-			 yourself) 
 ]
 
 { #category : #'private - commands' }
@@ -117,7 +103,7 @@ ToInnerFiniteListElement >> defaultScrollFlinger [
 	^ ToInfiniteScrollFlinger
 ]
 
-{ #category : #'t - list node holder' }
+{ #category : #'t - list inner element' }
 ToInnerFiniteListElement >> findElementHolderForDataSourcePosition: aPosition [
 	"Return the holder for the node in the given position of the data set"
 
@@ -173,37 +159,37 @@ ToInnerFiniteListElement >> newNodeHolderFromDataSource: aDataSource [
 	^ listElement nodeManager newHolder
 ]
 
-{ #category : #'t - list node holder' }
+{ #category : #'t - list inner element' }
 ToInnerFiniteListElement >> nodeContainers [
 
 	^ trackElement nodeContainers
 ]
 
-{ #category : #'t - list node holder' }
+{ #category : #'t - list inner element' }
 ToInnerFiniteListElement >> nodeContainersDetect: aBlock [
 
 	^ trackElement nodeContainersDetect: aBlock 
 ]
 
-{ #category : #'t - list node holder' }
+{ #category : #'t - list inner element' }
 ToInnerFiniteListElement >> nodeContainersDo: aBlock [
 
 	trackElement nodeContainersDo: aBlock
 ]
 
-{ #category : #'t - list node holder' }
+{ #category : #'t - list inner element' }
 ToInnerFiniteListElement >> nodeContainersReject: aBlock [
 
 	^ trackElement nodeContainersReject: aBlock 
 ]
 
-{ #category : #'t - list node holder' }
+{ #category : #'t - list inner element' }
 ToInnerFiniteListElement >> nodeContainersSelect: aBlock [
 
 	^ trackElement nodeContainersSelect: aBlock 
 ]
 
-{ #category : #'t - list node holder' }
+{ #category : #'t - list inner element' }
 ToInnerFiniteListElement >> nodeContainersWithIndexDo: aBlock [
 
 	trackElement nodeContainersWithIndexDo: aBlock
@@ -226,7 +212,7 @@ ToInnerFiniteListElement >> onExitLayoutOrScroll [
 ]
 
 { #category : #'t - bar element' }
-ToInnerFiniteListElement >> onInvisibleNodeContainers: theInvisibleNodes visibleNodeContainers: theVisibleNodes [
+ToInnerFiniteListElement >> onInvisibleNodeContainers: theInvisibleContainers visibleNodeContainers: theVisibleContainers [
 ]
 
 { #category : #'data source updates' }
@@ -294,17 +280,7 @@ ToInnerFiniteListElement >> onListElement: aListElement [
 	listElement := aListElement
 ]
 
-{ #category : #'hooks - scrolling' }
-ToInnerFiniteListElement >> onScrolled: aPoint [
-	"Sent when the scroll position of this InfiniteElement changes. Subclasses should use
-	this method to respond to scrolling within the datasource's data set instead of an explicit event handler.
-	I will always be invoked before event handlers. If a subclass needs to perform any additional upkeep
-	or bookkeeping after scrolling but before events fired, this is a good place to do so"
-
-	self checkFullyVisibleNodeContainers
-]
-
-{ #category : #'t - list node holder' }
+{ #category : #'t - list inner element' }
 ToInnerFiniteListElement >> partlyVisibleNodesDo: aBlock [
 
 	trackElement partlyVisibleNodesDo: aBlock

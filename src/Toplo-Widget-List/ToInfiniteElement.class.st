@@ -122,7 +122,7 @@ ToInfiniteElement >> dispatchLayoutFinalStep [
 
 ]
 
-{ #category : #'t - list node holder' }
+{ #category : #'t - list inner element' }
 ToInfiniteElement >> findElementHolderForDataSourcePosition: aPosition [
 
 	^ super findElementHolderForDataSourcePosition: aPosition
@@ -153,39 +153,39 @@ ToInfiniteElement >> newNodeHolderFromDataSource: aDataSource [
 	^ listElement nodeManager newHolder
 ]
 
-{ #category : #'t - list node holder' }
+{ #category : #'t - list inner element' }
 ToInfiniteElement >> nodeContainerAt: aPosition [
 
 	^ (self findElementHolderForDataSourcePosition: aPosition) ifNotNil: [
 		  :holder | holder node ]
 ]
 
-{ #category : #'t - list node holder' }
+{ #category : #'t - list inner element' }
 ToInfiniteElement >> nodeContainers [
 
 	^ self children
 ]
 
-{ #category : #'t - list node holder' }
+{ #category : #'t - list inner element' }
 ToInfiniteElement >> nodeContainersDetect: aBlock [
 
 	self nodeContainersDo: [ :container | (aBlock value: container) ifTrue: [ ^ container ] ].
 	^ nil
 ]
 
-{ #category : #'t - list node holder' }
+{ #category : #'t - list inner element' }
 ToInfiniteElement >> nodeContainersDo: aBlock [
 
 	self childrenDo: [ :node | aBlock value: node ]
 ]
 
-{ #category : #'t - list node holder' }
+{ #category : #'t - list inner element' }
 ToInfiniteElement >> nodeContainersReject: aBlock [
 
 	^ self nodeContainersSelect: [ :container | (aBlock value: container) not ]
 ]
 
-{ #category : #'t - list node holder' }
+{ #category : #'t - list inner element' }
 ToInfiniteElement >> nodeContainersSelect: aBlock [
 
 	^ Array streamContents: [ :stream |
@@ -193,7 +193,7 @@ ToInfiniteElement >> nodeContainersSelect: aBlock [
 			  (aBlock value: container) ifTrue: [ stream nextPut: container ] ] ]
 ]
 
-{ #category : #'t - list node holder' }
+{ #category : #'t - list inner element' }
 ToInfiniteElement >> nodeContainersWithIndexDo: aBlock [
 
 	self nodeContainersDo: [ :container |
@@ -214,7 +214,7 @@ ToInfiniteElement >> onListElement: aListElement [
 	listElement := aListElement
 ]
 
-{ #category : #'t - list node holder' }
+{ #category : #'t - list inner element' }
 ToInfiniteElement >> partlyVisibleNodesDo: aBlock [
 
 	self nodeContainersDo: aBlock

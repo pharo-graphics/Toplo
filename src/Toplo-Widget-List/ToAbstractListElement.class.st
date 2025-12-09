@@ -6,6 +6,7 @@ Class {
 	#instVars : [
 		'next',
 		'dataSource',
+		'dataAccessor',
 		'nodeManager',
 		'selectionModeMap',
 		'mouseMoveReplayRequested'
@@ -47,18 +48,18 @@ ToAbstractListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 	sieve := aDataSourceCommand sieve.
 	sieve pattern
 		ifNotEmpty: [
-			| start count |
-			self selectionModel resetAll.
-			start := aDataSourceCommand positionStart.
-			count := aDataSourceCommand itemCount.
-			start to: start + count - 1 do: [ :localIndex |
-				| d originalIndex |
-				d := self dataSource at: localIndex.
-				originalIndex := sieve originalIndexOf: d.
-				sieve selectionModel
-					transferSelectionFromIndex: originalIndex
-					toIndex: localIndex
-					in: self selectionModel ] ]
+				| start count |
+				self selectionModel resetAll.
+				start := aDataSourceCommand positionStart.
+				count := aDataSourceCommand itemCount.
+				start to: start + count - 1 do: [ :localIndex |
+						| d originalIndex |
+						d := self dataSource at: localIndex.
+						originalIndex := sieve originalIndexOf: d.
+						sieve selectionModel
+							transferSelectionFromIndex: originalIndex
+							toIndex: localIndex
+							in: self selectionModel ] ]
 		ifEmpty: [
 		self selectionModel copySelectionFrom: sieve selectionModel ]
 ]
@@ -123,9 +124,9 @@ ToAbstractListElement >> data [
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> dataAccessor [
+ToAbstractListElement >> dataAccessor [ 
 
-	^ self dataSource dataAccessor
+	^ dataAccessor
 ]
 
 { #category : #accessing }
@@ -318,6 +319,7 @@ ToAbstractListElement >> initialize [
 	selectionModeMap := IdentityDictionary new.
 
 	self initializeDataSource.
+	self initializeDataAccessor.
 	self initializeInnerElement.
 
 	self layout: self defaultLayout.
@@ -331,6 +333,12 @@ ToAbstractListElement >> initialize [
 	self newDisabledSelectionMode onInstalledIn: self.
 
 	self matchParent 
+]
+
+{ #category : #initialization }
+ToAbstractListElement >> initializeDataAccessor [
+
+	dataAccessor := self dataSource
 ]
 
 { #category : #initialization }
@@ -444,7 +452,7 @@ ToAbstractListElement >> notifyClickOnNode: aNode fromEvent: anEvent [
 						        yourself) ];
 		       yourself.
 
-	aNode dispatchAuthorisationRequest: req
+	aNode dispatchRequest: req
 ]
 
 { #category : #notifications }
@@ -500,7 +508,7 @@ ToAbstractListElement >> placeholderClass [
 { #category : #layout }
 ToAbstractListElement >> postponeAction: aValuable [
 
-	self dataSourceManager postponeAction: aValuable for: self
+	self innerElement postponeAction: aValuable for: self
 ]
 
 { #category : #accessing }

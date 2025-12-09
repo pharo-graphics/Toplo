@@ -27,7 +27,9 @@ TToCollectionChangedNotifier >> notifyEmptinessChangeAfter: aBlock [
 	aBlock value.
 	self notificationAllowed ifFalse: [ ^ self ].
 	wasEmpty = self collection isEmpty ifFalse: [
-		self dispatchEvent: ToCollectionEmptinessEvent new ]
+			self dispatchEvent: (ToCollectionEmptinessEvent new
+					 isEmpty: self collection isEmpty;
+					 yourself) ]
 ]
 
 { #category : #'t - collection changed notifier' }

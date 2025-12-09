@@ -8,23 +8,24 @@ Class {
 ToSelectElementSkin >> closedSkinEvent: anEvent [
 
 	super closedSkinEvent: anEvent.
-	anEvent elementDo: [ :e | e iconContainer dispatchEvent: anEvent copy ]
+	anEvent elementDo: [ :e | e endContainer dispatchEvent: anEvent copy ]
 ]
 
 { #category : #'event handling' }
 ToSelectElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
-	anEvent elementDo: [ :e | e padding: (BlInsets
-			 horizontal: (e valueOfTokenNamed: #'list-node-padding-H')
-			 vertical: (e valueOfTokenNamed: #'list-node-padding-V')) ]
+	anEvent elementDo: [ :e |
+			e padding: (BlInsets
+					 horizontal: (e valueOfTokenNamed: #'padding-XS')
+					 vertical: (e valueOfTokenNamed: #'padding-content-VS')) ]
 ]
 
 { #category : #'event handling' }
 ToSelectElementSkin >> openedSkinEvent: anEvent [
 
 	super openedSkinEvent: anEvent.
-	anEvent elementDo: [ :e | e iconContainer dispatchEvent: anEvent copy ]
+	anEvent elementDo: [ :e | e endContainer dispatchEvent: anEvent copy ]
 ]
 
 { #category : #'accessing - shortcuts' }

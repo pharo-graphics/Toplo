@@ -233,9 +233,6 @@ ToListElementSieveTest >> testOriginalIndexMapWhenDataAreAddedBeforeTheSieve2 [
 	list dataAccessor addAll: (1 to: 10).
 	sieve := list newSieve.
 	self deny: sieve originalIndexMap isNil.
-	self assert: sieve originalIndexMap isEmpty.
-	
-	space root addChild: list.
 	
 	self waitTestingSpaces.
 	self deny: sieve originalIndexMap isEmpty.

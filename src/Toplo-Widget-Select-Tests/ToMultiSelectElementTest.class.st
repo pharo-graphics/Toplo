@@ -23,7 +23,7 @@ ToMultiSelectElementTest >> testAddDataAndSelectIndex [
 	self assert: cb popupDataAccessor size equals: 3.
 	self assert: cb selecter selectedIndex equals: 1.
 	self
-		assert: cb innerElement nodes first firstChild label text asString
+		assert: cb innerElement nodes first middleElement text asString
 		equals: d1
 ]
 
@@ -164,10 +164,9 @@ ToMultiSelectElementTest >> testRemove4 [
 			d1.
 			d2.
 			d3 }.
-	cb selecter selectOneMoreIndex: 1.
+	cb selecter selectIndex: 1.
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement nodes size equals: 1.
-
 	cb popupDataAccessor removeFrom: 1 to: 3.
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement nodes isEmpty
@@ -203,6 +202,7 @@ ToMultiSelectElementTest >> testRemoveAll [
 
 	| cb d1 d2 d3 |
 	cb := ToMultiSelectElement new.
+	space root addChild: cb.
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
@@ -210,13 +210,13 @@ ToMultiSelectElementTest >> testRemoveAll [
 			d1.
 			d2.
 			d3 }.
-	cb selecter selectOneMoreIndex: 1.
+	cb selecter selectIndex: 1.
 	self assert: cb selecter selectedIndex equals: 1.
-	self assert: cb innerElement nodes size equals: 1.
+	self assert: cb header nodes size equals: 1.
 
 	cb popupDataAccessor removeAll.
 	self assert: cb selecter selectedIndexes equals: {  }.
-	self assert: cb innerElement nodes isEmpty
+	self assert: cb header nodes isEmpty
 ]
 
 { #category : #tests }
@@ -243,9 +243,9 @@ ToMultiSelectElementTest >> testWithStructuredData [
 	cb := ToMultiSelectElement new.
 	space root addChild: cb.
 	cb popupListElement nodeBuilder: [ :node :assoc :holder |
-		node addChild: (ToLabel text: assoc key) ].
+		node label: (ToLabel text: assoc key) ].
 	cb nodeBuilder: [ :node :assoc |
-		node addChild: (ToLabel text: assoc key) ].
+		node label: (ToLabel text: assoc key) ].
 	cb popupListElement dataAccessor addAll: (d := {
 			      ('Bee Theme' -> ToBeeTheme).
 			      ('Raw Theme' -> ToRawTheme) }).
@@ -255,7 +255,7 @@ ToMultiSelectElementTest >> testWithStructuredData [
 	selectedData := cb popupListElement dataAccessor at: idx.
 	self assert: selectedData value identicalTo: ToBeeTheme.
 	self
-		assert: cb innerElement nodes first firstChild text asString
+		assert: cb innerElement nodes first label text asString
 		equals: d first key.
 	cb selecter deselectAll.
 	self waitTestingSpaces.

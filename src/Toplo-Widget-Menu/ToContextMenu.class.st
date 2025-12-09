@@ -1,8 +1,8 @@
 Class {
 	#name : #ToContextMenu,
 	#superclass : #ToMenuWindow,
-	#traits : 'TToOrientable + TToMenuItemBarContainer + TToMenuWindowModel + TToItemFiniteListContainer',
-	#classTraits : 'TToOrientable classTrait + TToMenuItemBarContainer classTrait + TToMenuWindowModel classTrait + TToItemFiniteListContainer classTrait',
+	#traits : 'TToOrientable + TToMenuItemFiniteListContainer + TToMenuWindowModel + TToItemFiniteListContainer',
+	#classTraits : 'TToOrientable classTrait + TToMenuItemFiniteListContainer classTrait + TToMenuWindowModel classTrait + TToItemFiniteListContainer classTrait',
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 

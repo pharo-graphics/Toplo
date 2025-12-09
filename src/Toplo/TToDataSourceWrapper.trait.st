@@ -176,9 +176,15 @@ TToDataSourceWrapper >> copyReplaceFrom: start to: stop with: replacementCollect
 ]
 
 { #category : #'t - data source wrapper - accessing dataSource' }
-TToDataSourceWrapper >> dataSource [
+TToDataSourceWrapper >> dataItemWrapperClass [
 
 	^ self subclassResponsibility 
+]
+
+{ #category : #'t - data source wrapper - accessing dataSource' }
+TToDataSourceWrapper >> dataSource [
+
+	^ self listElement dataSource
 ]
 
 { #category : #'t - data source wrapper - enumerating' }
@@ -415,6 +421,18 @@ TToDataSourceWrapper >> lastIndexOf: anElement startingAt: lastIndex ifAbsent: e
 ]
 
 { #category : #'t - data source wrapper - accessing' }
+TToDataSourceWrapper >> listElement [ 
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #'t - data source wrapper - accessing' }
+TToDataSourceWrapper >> listElement: aListElement [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #'t - data source wrapper - accessing' }
 TToDataSourceWrapper >> newMirror [
 
 	^ ToCollectionMirror new
@@ -425,7 +443,10 @@ TToDataSourceWrapper >> newMirror [
 { #category : #'t - data source wrapper - accessing dataSource' }
 TToDataSourceWrapper >> newWrapperForDataItem: anObject [
 
-	^ self subclassResponsibility 
+	^ self dataItemWrapperClass new
+		  listElement: self listElement;
+		  dataItem: anObject;
+		  yourself
 ]
 
 { #category : #'t - data source wrapper - enumerating' }
@@ -582,6 +603,12 @@ TToDataSourceWrapper >> select: aBlock [
 TToDataSourceWrapper >> size [
 
 	^ self dataSource size
+]
+
+{ #category : #'t - data source wrapper - private' }
+TToDataSourceWrapper >> species [ 
+
+	^ OrderedCollection 
 ]
 
 { #category : #'t - data source wrapper - accessing' }

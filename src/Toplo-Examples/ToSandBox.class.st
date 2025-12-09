@@ -6246,7 +6246,7 @@ ToSandBox class >> example_hugePane [
 	space show.
 
 	space root inUIProcessDo: [
-			1 to: 1000 do: [ :i | 
+			1 to: 100 do: [ :i | 
 					| label button |
 					label := 'Button ' , i asString.
 					button := ToButton labelText: label.

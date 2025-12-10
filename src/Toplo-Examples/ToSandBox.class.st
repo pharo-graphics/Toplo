@@ -344,8 +344,6 @@ ToSandBox class >> exampleAccordionListWithClassComments [
 			yourself ].
 
 	list dataAccessor addAll: Smalltalk globals allClasses. 
-	"reject: [ :cls | cls comment isEmpty ]"
-	"list selectionOption masked: true."
 	list matchParent.
 
 	pane addChild: list.

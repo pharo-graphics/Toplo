@@ -422,13 +422,6 @@ ToTheme class >> label [
 ]
 
 { #category : #accessing }
-ToTheme class >> technicalTokenProperties [
-	" toplo need a list of unique stamps for widget technical parameters. "
-
-	^ {  }
-]
-
-{ #category : #accessing }
 ToTheme >> addTokenNamed: aSymbol withValue: anObject [
 
 	self addTokenProperty: (aSymbol -> anObject) asTokenProperty 
@@ -474,7 +467,7 @@ ToTheme >> icons: aThemeIcons [
 ToTheme >> initialize [
 
 	super initialize.
-	tokenProperties := self technicalTokenProperties asOrderedCollection.
+	tokenProperties := OrderedCollection new.
 	tokenProperties addAll: self defaultTokenProperties.
 
 	self initializeAsStyleSheetTheme 
@@ -535,12 +528,6 @@ ToTheme >> printOn: aStream [
 ToTheme >> skinEventListenerHolder [ 
 
 	^ self styleSheet script
-]
-
-{ #category : #accessing }
-ToTheme >> technicalTokenProperties [
-
-	^ self class technicalTokenProperties
 ]
 
 { #category : #accessing }

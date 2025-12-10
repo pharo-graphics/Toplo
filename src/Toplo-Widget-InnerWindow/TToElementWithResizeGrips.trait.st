@@ -1,18 +1,21 @@
 Trait {
 	#name : #TToElementWithResizeGrips,
+	#instVars : [
+		'grips'
+	],
 	#category : #'Toplo-Widget-InnerWindow-Support'
 }
 
 { #category : #'t - element with resize grips - accessing' }
 TToElementWithResizeGrips >> grips [
 
-	^ self userData at: #grips ifAbsent: [  ]
+	^ grips 
 ]
 
 { #category : #'t - element with resize grips - accessing' }
 TToElementWithResizeGrips >> grips: resizeGripList [
 
-	self userData at: #grips put: resizeGripList
+	grips := resizeGripList
 ]
 
 { #category : #'t - element with resize grips -  initializing' }

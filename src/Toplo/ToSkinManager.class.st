@@ -2,13 +2,14 @@ Class {
 	#name : #ToSkinManager,
 	#superclass : #Object,
 	#instVars : [
-		'styleStore',
 		'styleSheet',
 		'skinStateQueue',
 		'newSkinRequested',
 		'installedSkin',
 		'isInstallingSkin',
-		'preventedSkinEventClasses'
+		'preventedSkinEventClasses',
+		'tokenPropertyMap',
+		'stampMap'
 	],
 	#category : #'Toplo-Core-Skin'
 }
@@ -26,22 +27,6 @@ ToSkinManager >> applyEnqueuedStatesFor: anElement [
 ToSkinManager >> checkState: isChecked in: anElement [
 
 	skinStateQueue checked: isChecked for: anElement
-]
-
-{ #category : #accessing }
-ToSkinManager >> computedStyleSheetChainIn: anElement [
-	" return an array with all my inherited stylesheets "
-
-	^ Array new: 20 streamContents: [ :str |
-		  | current inherits |
-		  current := anElement.
-		  inherits := true.
-		  [ current notNil and: [ inherits ] ] whileTrue: [
-			  current skinManagerDo: [ :sm |
-				  sm styleSheet ifNotNil: [ :ss |
-					  str nextPut: ss.
-					  inherits := ss inherits ] ].
-			  current := current parent ] ]
 ]
 
 { #category : #'skin state generation' }
@@ -63,6 +48,13 @@ ToSkinManager >> ensuredPreventedSkinEventClasses [
 		  preventedSkinEventClasses := IdentitySet new ]
 ]
 
+{ #category : #'accessing - stamps' }
+ToSkinManager >> ensuredStampMapIn: anElement [
+
+	^ stampMap ifNil: [
+		  stampMap := self newStampMapIn: anElement ]
+]
+
 { #category : #'accessing - styleSheet' }
 ToSkinManager >> ensuredStyleSheetIn: anElement [
 
@@ -72,13 +64,11 @@ ToSkinManager >> ensuredStyleSheetIn: anElement [
 	^ styleSheet 
 ]
 
-{ #category : #'accessing - styleStore' }
-ToSkinManager >> ensuredStyleStoreIn: anElement [
+{ #category : #'accessing - token properties' }
+ToSkinManager >> ensuredTokenPropertyMapIn: anElement [
 
-	^ styleStore ifNil: [
-			  styleStore := ToStyleStore new
-				                onInstalledIn: anElement;
-				                yourself ]
+	^ tokenPropertyMap ifNil: [
+		  tokenPropertyMap := self newTokenPropertyMapIn: anElement ]
 ]
 
 { #category : #'skin state generation' }
@@ -168,6 +158,26 @@ ToSkinManager >> newSkinRequested [
 	^ newSkinRequested
 ]
 
+{ #category : #'accessing - stamps' }
+ToSkinManager >> newStampMapIn: anElement [
+
+	^ ToPropertyIndexWithChangedAction new
+		  changedAction: [
+				  self requestNewSkinRecursivelyFrom: anElement.
+				  anElement requestSkinApplication ];
+		  yourself
+]
+
+{ #category : #'accessing - token properties' }
+ToSkinManager >> newTokenPropertyMapIn: anElement [
+
+	^ ToPropertyIndexWithChangedAction new
+		  changedAction: [
+				  self requestNewSkinRecursivelyFrom: anElement.
+				  anElement requestSkinApplication ];
+		  yourself
+]
+
 { #category : #accessing }
 ToSkinManager >> preventedSkinEventClasses [
 
@@ -194,6 +204,13 @@ ToSkinManager >> requestNewSkinIn: anElement [
 	"skinUninstaller ifNotNil: [ :u | u applyOn: anElement ]."
 	" finally install the skin"
 	self installNewSkinIn: anElement
+]
+
+{ #category : #'api - hooks' }
+ToSkinManager >> requestNewSkinRecursivelyFrom: anElement [
+
+	anElement withAllChildrenBreadthFirstDo: [ :child |
+		child requestNewSkin ]
 ]
 
 { #category : #'skin state generation' }
@@ -235,6 +252,12 @@ ToSkinManager >> skinToInstallIn: anElement [
 	^ skin
 ]
 
+{ #category : #'accessing - stamps' }
+ToSkinManager >> stampMap [
+
+	^ stampMap
+]
+
 { #category : #'accessing - styleSheet' }
 ToSkinManager >> styleSheet [
 
@@ -247,10 +270,10 @@ ToSkinManager >> styleSheet: anObject [
 	styleSheet := anObject
 ]
 
-{ #category : #'accessing - styleStore' }
-ToSkinManager >> styleStore [ 
+{ #category : #'accessing - token properties' }
+ToSkinManager >> tokenPropertyMap [
 
-	^ styleStore 
+	^ tokenPropertyMap
 ]
 
 { #category : #'skin - installing / uninstalling' }

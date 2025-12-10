@@ -270,8 +270,8 @@ ToAbstractListElement >> extentChanged [
 ToAbstractListElement >> flagAsDisabled: aBoolean [
 
 	aBoolean ifTrue: [
-		self selecter deselectAll.
-		self secondarySelecter deselectAll ].
+			self selecter deselectAll.
+			self secondarySelecter deselectAll ].
 	super flagAsDisabled: aBoolean
 ]
 

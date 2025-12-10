@@ -121,8 +121,8 @@ TToStyleSheetTheme >> rawStyleRules: aStyleRuleCollection [
 TToStyleSheetTheme >> rootRulesFor: anElement [
 
 	^ Array streamContents: [ :str |
-		  anElement styleSheetChain reverseDo: [ :ss |
-			  str nextPutAll: ss styleRules ] ]
+			  anElement topDownStyleSheetChainDo: [ :ss |
+				  str nextPutAll: ss styleRules ] ]
 ]
 
 { #category : #'t - style sheet theme' }

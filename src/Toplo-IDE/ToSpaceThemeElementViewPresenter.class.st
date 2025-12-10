@@ -85,13 +85,13 @@ ToSpaceThemeElementViewPresenter >> updatePresenter [
 	self notebook addPage: self skinPage.
 	self notebook selectPage: self skinPage.
 	self element ifNil: [ ^ self ].
-	self element toStyleStore ifNil: [ ^ self ].
-	self element toStyleStore stampIndex size > 0 ifTrue: [
+	self element stampMap ifNil: [ ^ self ].
+	self element stampMap size > 0 ifTrue: [
 		self stampsPage presenterProvider: [ self element inspectionStamps ].
 		self notebook addPage: self stampsPage.
 		selectedPage = self stampsPage ifTrue: [
 			self notebook selectPage: self stampsPage ] ].
-	self element toStyleStore tokenPropertyIndex size > 0 ifTrue: [
+	self element tokenPropertyMap size > 0 ifTrue: [
 		self tokensPage presenterProvider: [ self element inspectionTokens ].
 		self notebook addPage: self tokensPage.
 		selectedPage = self tokensPage ifTrue: [

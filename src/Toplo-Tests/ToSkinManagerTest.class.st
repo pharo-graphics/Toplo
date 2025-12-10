@@ -64,36 +64,36 @@ ToSkinManagerTest >> testComputedStyleSheetChainIn [
 	" e is not attached -> # ( )"
 	self
 		assert:
-		(childchildchild skinManager computedStyleSheetChainIn: childchildchild)
+		(childchildchild bottomUpStyleSheetChain)
 		equals: #(  ).
 	space root addChild: e.
 	" no styleSheet theme by default but any skin has a styleSheet"
 	self assert:
-		(childchildchild skinManager computedStyleSheetChainIn: childchildchild)
+		(childchildchild bottomUpStyleSheetChain )
 			size equals: 1.
 	space toTheme: ToStyleSheetTheme new.
 	self waitTestingSpaces.
 
 	" one style sheet in theme by default "
 	self assert:
-		(childchildchild skinManager computedStyleSheetChainIn: childchildchild)
+		(childchildchild bottomUpStyleSheetChain )
 			size equals: 1.
 	childchild styleSheet: ToStyleSheet new.
 	self
 		assert:
-		(childchildchild skinManager computedStyleSheetChainIn: childchildchild)
+		(childchildchild bottomUpStyleSheetChain)
 			size
 		equals: 2.
 	e styleSheet: ToStyleSheet new.
 	self
 		assert:
-		(childchildchild skinManager computedStyleSheetChainIn: childchildchild)
+		(childchildchild bottomUpStyleSheetChain )
 			size
 		equals: 3.
 	childchild skinManager styleSheet inherits: false.
 	self
 		assert:
-		(childchildchild skinManager computedStyleSheetChainIn: childchildchild)
+		(childchildchild bottomUpStyleSheetChain )
 			size
 		equals: 1
 ]
@@ -364,7 +364,7 @@ ToSkinManagerTest >> testOnInstalledIn [
 	| e |
 	e := ToElement new.
 	self deny: e skinManager newSkinRequested.
-	e ensuredToStyleStore tokenPropertyIndex changedAction value.
+	e ensuredTokenPropertyMap changedAction value.
 	self assert: e skinManager newSkinRequested
 ]
 

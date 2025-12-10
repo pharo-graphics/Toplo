@@ -655,11 +655,10 @@ ToSandBox class >> exampleLocalThemeChangesChildrenLookup [
 	parent addChild: child.
 
 	changeButton := ToButton new
-		                size: 200 @ 50;
+		                extent: 200 @ 50;
 		                position: 300 @ 50;
 		                clickAction: [
-				                (parent localTheme isNil or:
-						                 parent localTheme class = ToRawTheme)
+				                (parent localTheme isNil or: parent localTheme class = ToRawTheme)
 					                ifTrue: [ parent localTheme: ToRawDarkTheme new ]
 					                ifFalse: [ parent localTheme: ToRawTheme new ] ];
 		                label: (ToLabel text: 'Change parent local theme');
@@ -778,43 +777,33 @@ ToSandBox class >> example_AllClasses [
 	| l |
 	l := ToTreeElement new.
 	l nodeManager childrenGetter: [ :dataItem |
-		dataItem isClass
-			ifTrue: [
-				Array streamContents: [ :stream |
-					stream nextPutAll: dataItem subclasses.
-					stream nextPutAll:
-						(dataItem methods collect: [ :each | each selector ]) sorted ] ]
-			ifFalse: [ #(  ) ] ].
+			dataItem isClass
+				ifTrue: [
+						Array streamContents: [ :stream |
+								stream nextPutAll: dataItem subclasses.
+								stream nextPutAll: (dataItem methods collect: [ :each | each selector ]) sorted ] ]
+				ifFalse: [ #(  ) ] ].
 	l nodeManager nodeFactory: [ :holder | ToExTreeSubAndMethNode new ].
 	l withRowNumbers.
-	l contextMenu: [ :menu :request |
-		| selectionModel indexes target |
-		target := request currentTarget.
-		selectionModel := request selectionModel.
-		indexes := request selectedIndexes.
-		indexes traceCr.
-		menu addItem: (ToMenuItem new
-				 labelText: 'Expand all';
-				 clickAction: [
-					 indexes
-						 ifEmpty: [ target expandAll ]
-						 ifNotEmpty: [
-							 indexes reverseDo: [ :idx |
-									 (target dataSource at: idx) expandAll ] ] ];
-				 yourself).
-		menu addItem: (ToMenuItem new
-				 labelText: 'Collapse all';
-				 clickAction: [
-					 indexes
-						 ifEmpty: [ target collapseAll ]
-						 ifNotEmpty: [
-							 indexes reverseDo: [ :idx |
-									 (target dataSource at: idx) collapse ] ] ];
-				 yourself) ].
+	l contextMenuBuilder: [ :menu :request |
+			| selectionModel indexes target |
+			target := request currentTarget.
+			selectionModel := request selectionModel.
+			indexes := request selectedIndexes.
+			indexes traceCr.
+			menu addItem: (ToMenuItem new
+					 labelText: 'Expand all';
+					 clickAction: [
+						 indexes ifEmpty: [ target expandAll ] ifNotEmpty: [ indexes reverseDo: [ :idx | (target dataSource at: idx) expandAll ] ] ];
+					 yourself).
+			menu addItem: (ToMenuItem new
+					 labelText: 'Collapse all';
+					 clickAction: [
+						 indexes ifEmpty: [ target collapseAll ] ifNotEmpty: [ indexes reverseDo: [ :idx | (target dataSource at: idx) collapse ] ] ];
+					 yourself) ].
 
 	l dataAccessor addAll:
-		((Smalltalk globals allClasses select: [ :cls |
-			  cls subclasses notEmpty ]) sorted: [ :a :b | a name < b name ]).
+		((Smalltalk globals allClasses select: [ :cls | cls subclasses notEmpty ]) sorted: [ :a :b | a name < b name ]).
 
 	l openInSpace
 ]
@@ -1600,7 +1589,7 @@ ToSandBox class >> example_CheckBoxAndButtonWithDefaultStyleSheetDarkTheme [
 	btn label addStamp: #H3.
 	btn addStamp: #primary.
 	btn addStamp: #danger.
-	btn size: 500 @ 100.
+	btn extent: 500 @ 100.
 	space := BlSpace new toTheme: ToBeeDarkTheme new.
 	space root layout: BlLinearLayout vertical.
 	space root addChildren: {
@@ -1627,27 +1616,24 @@ ToSandBox class >> example_CheckBoxWithDefaultStyleSheetDarkTheme [
 { #category : #bar }
 ToSandBox class >> example_CheckableBarElement [
 
-| bar space container |
-
+	| bar space container |
 	container := ToPane new.
 	container matchParent.
-	container contextMenu: [ :menu :request | 
-		menu addItem: (ToMenuItem new labelText: 'Inspect'; clickAction: [container inspect];yourself) ].
-	
+	container contextMenuBuilder: [ :menu :request |
+			menu addItem: (ToMenuItem new
+					 labelText: 'Inspect';
+					 clickAction: [ container inspect ];
+					 yourself) ].
+
 	bar := ToCheckableBarElement new.
 	space := BlSpace new.
 	bar matchParent.
-	{ #Alabama. #Alaska. #Arizona. #Arkansas. #California. #Colorado.
-		#Connecticut. #Delaware. #Florida. #Georgia. #Hawaii. #Idaho. #Illinois. #Indiana.
-		#Iowa. #Kansas. #Kentucky. #Louisiana. #Maine. #Maryland. #Massachusetts.
-		#Michigan. #Minnesota. #Mississippi. #Missouri. #Montana. #Nebraska.
-		#Nevada. #'New Hampshire'. #'New Jersey'. #'New Mexico'.
-		#'New York'. #'North Carolina'. #'North Dakota'. #Ohio. #Oklahoma.
-		#Oregon. #'Pennsylvania Rhode Island'. #'South Carolina'.
-		#'South Dakota'. #Tennessee. #Texas. #Utah. #Vermont. #Virginia.
-		#Washington. #'West Virginia'. #Wisconsin. #Wyoming } do: [ :l | bar addItem: (ToRadioButton new labelText: l) ].
-
-	"bar selecter selectIndex: 3."
+	{ #Alabama. #Alaska. #Arizona. #Arkansas. #California. #Colorado. #Connecticut. #Delaware. #Florida. #Georgia. #Hawaii. #Idaho.
+	#Illinois. #Indiana. #Iowa. #Kansas. #Kentucky. #Louisiana. #Maine. #Maryland. #Massachusetts. #Michigan. #Minnesota. #Mississippi.
+	#Missouri. #Montana. #Nebraska. #Nevada. #'New Hampshire'. #'New Jersey'. #'New Mexico'. #'New York'. #'North Carolina'.
+	#'North Dakota'. #Ohio. #Oklahoma. #Oregon. #'Pennsylvania Rhode Island'. #'South Carolina'. #'South Dakota'. #Tennessee.
+	#Texas. #Utah. #Vermont. #Virginia. #Washington. #'West Virginia'. #Wisconsin. #Wyoming } do: [ :l |
+		bar addItem: (ToRadioButton new labelText: l) ]. "bar selecter selectIndex: 3."
 	bar uniformNodeWidth: true.
 	container addChild: bar.
 	bar items third checked: true.
@@ -1932,7 +1918,7 @@ ToSandBox class >> example_ClassHierarchiesWithMethods [
 	| treeElement |
 	treeElement := ToTreeElement new.
 	treeElement withRowNumbers.
-	treeElement contextMenu: [ :menu :request |
+	treeElement contextMenuBuilder: [ :menu :request |
 			| selectionModel indexes target |
 			target := request currentTarget.
 			selectionModel := request selectionModel.
@@ -1941,38 +1927,26 @@ ToSandBox class >> example_ClassHierarchiesWithMethods [
 			menu addItem: (ToMenuItem new
 					 labelText: 'Expand all';
 					 clickAction: [
-							 indexes
-								 ifEmpty: [ target expandAll ]
-								 ifNotEmpty: [
-									 indexes reverseDo: [ :idx |
-											 (target dataSource at: idx) expandAll ] ] ];
+						 indexes ifEmpty: [ target expandAll ] ifNotEmpty: [ indexes reverseDo: [ :idx | (target dataSource at: idx) expandAll ] ] ];
 					 yourself).
 			menu addItem: (ToMenuItem new
 					 labelText: 'Collapse all';
 					 clickAction: [
-							 indexes
-								 ifEmpty: [ target collapseAll ]
-								 ifNotEmpty: [
-									 indexes reverseDo: [ :idx |
-											 (target dataSource at: idx) collapse ] ] ];
+						 indexes ifEmpty: [ target collapseAll ] ifNotEmpty: [ indexes reverseDo: [ :idx | (target dataSource at: idx) collapse ] ] ];
 					 yourself) ].
 	treeElement nodeManager childrenGetter: [ :dataItem |
 			dataItem isClass
 				ifTrue: [
 						Array streamContents: [ :stream |
 								stream nextPutAll: dataItem subclasses.
-								stream nextPutAll:
-									(dataItem methods collect: [ :each | each selector ]) sorted ] ]
+								stream nextPutAll: (dataItem methods collect: [ :each | each selector ]) sorted ] ]
 				ifFalse: [ #(  ) ] ].
-	treeElement nodeManager nodeFactory: [ :holder |
-		ToExTreeSubAndMethNode new ].
+	treeElement nodeManager nodeFactory: [ :holder | ToExTreeSubAndMethNode new ].
 	treeElement dataAccessor add: ProtoObject.
 	treeElement dataAccessor add: BlElement.
 	treeElement dataAccessor add: Collection.
 	treeElement dataAccessor add: String.
-	treeElement
-		addEventHandlerOn: ToListPrimarySelectionChangedEvent
-		do: [ :evt | self selectionChangedEvent: evt ].
+	treeElement addEventHandlerOn: ToListPrimarySelectionChangedEvent do: [ :evt | self selectionChangedEvent: evt ].
 
 	treeElement openInSpace
 ]
@@ -2520,7 +2494,7 @@ ToSandBox class >> example_Inline1 [
 		        background: Color transparent;
 		        id: #'red-button';
 		        border: Color red;
-		        size: 100 @ 100;
+		        extent: 100 @ 100;
 		        position: 50 @ 50.
 
 	popupWindowHandler := ToPopupWindowManager new.
@@ -2528,17 +2502,17 @@ ToSandBox class >> example_Inline1 [
 
 	popupWindowHandler beInline.
 	popupWindowHandler windowBuilder: [ :popup :element |
-		| item |
-		popup size: 80 asPoint.
-		popup border: Color black.
-		item := ToElement new
-			        height: 50;
-			        hMatchParent.
-		item background: Color yellow.
-		item addEventHandler: (BlEventHandler
-				 on: BlPrimaryClickEvent
-				 do: [ self inform: 'Click' ]).
-		popup root addChild: item ].
+			| item |
+			popup size: 80 asPoint.
+			popup border: Color black.
+			item := ToElement new
+				        height: 50;
+				        hMatchParent.
+			item background: Color yellow.
+			item addEventHandler: (BlEventHandler
+					 on: BlPrimaryClickEvent
+					 do: [ self inform: 'Click' ]).
+			popup root addChild: item ].
 	menu openInSpace
 ]
 
@@ -2737,27 +2711,24 @@ ToSandBox class >> example_List12Classes [
 
 	| l menuFactory |
 	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
-		     node addChild: (ToLabel new
-				      text: dataItem name;
-				      hMatchParent) ].
-	l dataAccessor addAll:
-		(Smalltalk globals allClasses copyFrom: 1 to: 12).
+			     node addChild: (ToLabel new
+					      text: dataItem name;
+					      hMatchParent) ].
+	l dataAccessor addAll: (Smalltalk globals allClasses copyFrom: 1 to: 12).
 	menuFactory := [ :menu :request |
-	               | selectionModel indexes target |
-	               target := request currentTarget.
-	               selectionModel := request selectionModel.
-	               indexes := request selectedIndexes.
-	               menu addItem: (ToMenuItem new
-			                labelText: 'Remove';
-			                clickAction: [
-				                indexes sort reverseDo: [ :idx |
-						                target dataAccessor removeAt: idx ] ];
-			                yourself).
-	               menu addItem: (ToMenuItem new
-			                labelText: 'Inspect list';
-			                clickAction: [ target inspect ];
-			                yourself) ].
-	l contextMenu: menuFactory.
+		               | selectionModel indexes target |
+		               target := request currentTarget.
+		               selectionModel := request selectionModel.
+		               indexes := request selectedIndexes.
+		               menu addItem: (ToMenuItem new
+				                labelText: 'Remove';
+				                clickAction: [ indexes sort reverseDo: [ :idx | target dataAccessor removeAt: idx ] ];
+				                yourself).
+		               menu addItem: (ToMenuItem new
+				                labelText: 'Inspect list';
+				                clickAction: [ target inspect ];
+				                yourself) ].
+	l contextMenuBuilder: menuFactory.
 	l openInSpace
 ]
 
@@ -2791,13 +2762,12 @@ ToSandBox class >> example_ListTwoClasses [
 
 	| l |
 	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
-		     node
-			     addChild: (ToLabeledIcon new labelText: dataItem asString);
-			     hMatchParent ].
+			     node
+				     addChild: (ToLabeledIcon new labelText: dataItem asString);
+				     hMatchParent ].
 	l withRowNumbers.
-	l contextMenu: self listMenuFenuFactory.
-	l dataAccessor addAll:
-		(Smalltalk globals allClasses copyFrom: 1 to: 12).
+	l contextMenuBuilder: self listMenuFenuFactory.
+	l dataAccessor addAll: (Smalltalk globals allClasses copyFrom: 1 to: 12).
 	l openInSpace
 ]
 
@@ -3195,7 +3165,7 @@ ToSandBox class >> example_Menu0 [
 	| menu container |
 	container := ToInnerWindow new
 		             position: 10 @ 10;
-		             size: 400 @ 200;
+		             extent: 400 @ 200;
 		             yourself.
 	menu := ToMenu new.
 	menu tooltipString: 'tooltip content'.
@@ -3845,33 +3815,25 @@ ToSandBox class >> example_PreviousIntegers [
 	| l |
 	l := ToTreeElement new.
 	l nodeManager childrenGetter: [ :dataItem |
-		dataItem = 1
-			ifTrue: [ {  } ]
-			ifFalse: [ { (dataItem - 1) } ] ].
-	l contextMenu: [ :menu :request |
-		| selectionModel indexes target |
-		target := request currentTarget.
-		selectionModel := request selectionModel.
-		indexes := request selectedIndexes.
-		indexes traceCr.
-		menu addItem: (ToMenuItem new
-				 labelText: 'Expand all';
-				 clickAction: [
-					 indexes
-						 ifEmpty: [ target expandAll ]
-						 ifNotEmpty: [
-							 indexes reverseDo: [ :idx |
-									 (target dataSource at: idx) expandAll ] ] ];
-				 yourself).
-		menu addItem: (ToMenuItem new
-				 labelText: 'Collapse all';
-				 clickAction: [
-					 indexes
-						 ifEmpty: [ target collapseAll ]
-						 ifNotEmpty: [
-							 indexes reverseDo: [ :idx |
-									 (target dataSource at: idx) collapse ] ] ];
-				 yourself) ].
+			dataItem = 1
+				ifTrue: [ {  } ]
+				ifFalse: [ { (dataItem - 1) } ] ].
+	l contextMenuBuilder: [ :menu :request |
+			| selectionModel indexes target |
+			target := request currentTarget.
+			selectionModel := request selectionModel.
+			indexes := request selectedIndexes.
+			indexes traceCr.
+			menu addItem: (ToMenuItem new
+					 labelText: 'Expand all';
+					 clickAction: [
+						 indexes ifEmpty: [ target expandAll ] ifNotEmpty: [ indexes reverseDo: [ :idx | (target dataSource at: idx) expandAll ] ] ];
+					 yourself).
+			menu addItem: (ToMenuItem new
+					 labelText: 'Collapse all';
+					 clickAction: [
+						 indexes ifEmpty: [ target collapseAll ] ifNotEmpty: [ indexes reverseDo: [ :idx | (target dataSource at: idx) collapse ] ] ];
+					 yourself) ].
 	l dataAccessor addAll: (1 to: 10).
 	l openInSpace
 ]
@@ -3882,9 +3844,9 @@ ToSandBox class >> example_ProtoObjectSubclasses [
 
 	| l |
 	l := ToTreeElement new.
-	l nodeManager childrenGetter: [ :dataItem | dataItem subclasses sorted: [ :a :b | a name < b name ]].
+	l nodeManager childrenGetter: [ :dataItem | dataItem subclasses sorted: [ :a :b | a name < b name ] ].
 	l withRowNumbers.
-	l contextMenu: [ :menu :request |
+	l contextMenuBuilder: [ :menu :request |
 			| selectionModel indexes target |
 			target := request currentTarget.
 			selectionModel := request selectionModel.
@@ -3894,16 +3856,12 @@ ToSandBox class >> example_ProtoObjectSubclasses [
 					 clickAction: [ "[ target expandAll] millisecondsToRun traceCr"
 							 indexes
 								 ifEmpty: [ [ target expandAll ] timeToRun traceCr ]
-								 ifNotEmpty: [
-									 indexes do: [ :idx | (target dataSource at: idx) expandAll ] ] ];
+								 ifNotEmpty: [ indexes do: [ :idx | (target dataSource at: idx) expandAll ] ] ];
 					 yourself).
 			menu addItem: (ToMenuItem new
 					 labelText: 'Collapse all';
 					 clickAction: [
-							 indexes
-								 ifEmpty: [ target collapseAll ]
-								 ifNotEmpty: [
-									 indexes do: [ :idx | (target dataSource at: idx) collapse ] ] ];
+						 indexes ifEmpty: [ target collapseAll ] ifNotEmpty: [ indexes do: [ :idx | (target dataSource at: idx) collapse ] ] ];
 					 yourself) ].
 	l dataAccessor add: ProtoObject.
 	l openInSpace
@@ -4707,15 +4665,12 @@ ToSandBox class >> example_SieveOnTree [
 		        matchParent.
 
 	treeElement := ToTreeElement new.
-	treeElement childrenGetter: [ :dataItem |
-			Array streamContents: [ :stream |
-				dataItem do: [ :c | stream nextPut: c asSymbol ] ] ].
-	treeElement placeholderBuilder: [ :placeholder :e |
-		placeholder empty ].
+	treeElement childrenGetter: [ :dataItem | Array streamContents: [ :stream | dataItem do: [ :c | stream nextPut: c asSymbol ] ] ].
+	treeElement placeholderBuilder: [ :placeholder :e | placeholder empty ].
 	treeElement addEventHandlerOn: ToListPrimarySelectionChangedEvent do: [ :evt | evt selectedIndexes traceCr ].
 
 	data := SystemNavigation default allMethods.
-	treeElement contextMenu: [ :menu :request |
+	treeElement contextMenuBuilder: [ :menu :request |
 			| selectionModel indexes target |
 			target := request currentTarget.
 			selectionModel := request selectionModel.
@@ -4725,30 +4680,23 @@ ToSandBox class >> example_SieveOnTree [
 					 clickAction: [ "[ target expandAll] millisecondsToRun traceCr"
 							 indexes
 								 ifEmpty: [ [ target expandAll ] timeToRun traceCr ]
-								 ifNotEmpty: [
-									 indexes do: [ :idx | (target dataSource at: idx) expandAll ] ] ];
+								 ifNotEmpty: [ indexes do: [ :idx | (target dataSource at: idx) expandAll ] ] ];
 					 yourself).
 			menu addItem: (ToMenuItem new
 					 labelText: 'Collapse all';
 					 clickAction: [
-							 indexes
-								 ifEmpty: [ target collapseAll ]
-								 ifNotEmpty: [
-									 indexes reverseDo: [ :idx | (target dataSource at: idx) collapse ] ] ];
+						 indexes ifEmpty: [ target collapseAll ] ifNotEmpty: [ indexes reverseDo: [ :idx | (target dataSource at: idx) collapse ] ] ];
 					 yourself) ].
 	treeElement withRowNumbers.
 	sieve := treeElement newSieve.
 	filterField := sieve newTextField.
 	filterField placeholderString: 'Method name filter'.
-	treeElement dataAccessor addAll:
-		{ #AAA. #BBB. #CCC. #ABB. #ACC. #BAA. #BCC }.
+	treeElement dataAccessor addAll: { #AAA. #BBB. #CCC. #ABB. #ACC. #BAA. #BCC }.
 
-	sieve filter: [ :aString :aPattern |
-		aString includesSubstring: aPattern caseSensitive: false ].
+	sieve filter: [ :aString :aPattern | aString includesSubstring: aPattern caseSensitive: false ].
 
-	treeElement nodeBuilder: [ :node :dataItem :holder |
-		node addChild: (ToLabel new text: dataItem printString) ].
-	
+	treeElement nodeBuilder: [ :node :dataItem :holder | node addChild: (ToLabel new text: dataItem printString) ].
+
 	treeElement addEventHandlerOn: ToListPrimarySelectionChangedEvent do: [ :evt | self selectionChangedEvent: evt ].
 
 	pane addChild: treeElement.
@@ -6181,11 +6129,11 @@ ToSandBox class >> example_contextMenu [
 
 	| container |
 	container := ToElement new matchParent.
-	container contextMenu: [ :win :request |
-		win addItem: (ToMenuItem new
-				 labelText: 'Open';
-				 clickAction: [ self inform: 'Open' ];
-				 yourself) ].
+	container contextMenuBuilder: [ :win :request |
+			win addItem: (ToMenuItem new
+					 labelText: 'Open';
+					 clickAction: [ self inform: 'Open' ];
+					 yourself) ].
 
 	container openInSpace
 ]
@@ -6196,14 +6144,14 @@ ToSandBox class >> example_elementWithEditor [
 	| e editorWindowManager |
 	e := ToElementWithEditor new
 		     background: Color blue;
-		     size: 100 asPoint;
+		     extent: 100 asPoint;
 		     position: 20 asPoint;
 		     yourself.
 	editorWindowManager := ToContentEditorManager new.
 	e addEventHandler: editorWindowManager.
-	e addEventHandlerOn: BlClickEvent do: [ :event |
-		(editorWindowManager createNewWindowOnEvent: event) ifNotNil: [ :win |
-			win popupEvent: event ] ].
+	e
+		addEventHandlerOn: BlClickEvent
+		do: [ :event | (editorWindowManager createNewWindowOnEvent: event) ifNotNil: [ :win | win popupEvent: event ] ].
 	e openInSpace
 ]
 
@@ -7310,22 +7258,20 @@ ToSandBox class >> example_rootFrameWithContextMenu_menuPaneVertical [
 	win := ToInnerWindow new title: 'Context menu Example'.
 
 
-	win pane contextMenu: [ :contextMenu :request |
-		contextMenu addItem: (ToMenuItem new
-				 labelText: 'Open file';
-				 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
-		contextMenu addItem: (ToMenuItem new labelText: 'Export').
-		contextMenu addSeparator.
-		sub := ToMenu new labelText: 'Save All'.
-		sub addItem: (ToMenuItem new labelText: 'Locally').
-		subsub := ToMenu new
-			          labelText: 'Externally';
-			          icon:
-				          (ToImage inner:
-						           (Smalltalk ui icons iconNamed: #solidMenu)).
-		subsub addItem: (ToMenuItem new labelText: 'Here').
-		sub addItem: subsub.
-		contextMenu addItem: sub ].
+	win pane contextMenuBuilder: [ :contextMenu :request |
+			contextMenu addItem: (ToMenuItem new
+					 labelText: 'Open file';
+					 icon: (ToImage inner: (Smalltalk ui icons iconNamed: #config))).
+			contextMenu addItem: (ToMenuItem new labelText: 'Export').
+			contextMenu addSeparator.
+			sub := ToMenu new labelText: 'Save All'.
+			sub addItem: (ToMenuItem new labelText: 'Locally').
+			subsub := ToMenu new
+				          labelText: 'Externally';
+				          icon: (ToImage inner: (Smalltalk ui icons iconNamed: #solidMenu)).
+			subsub addItem: (ToMenuItem new labelText: 'Here').
+			sub addItem: subsub.
+			contextMenu addItem: sub ].
 
 	bar := ToMenuPane new
 		       hMatchParent;
@@ -7764,37 +7710,22 @@ ToSandBox class >> example_stylesheet [
 
 	| theme elem space verticalElem horizontalElem biggerElem |
 	theme := ToStyleSheetTheme new.
-	theme styleSheet addWritableProperty:
-		(ToFeatureProperty name: #background).
+	theme styleSheet addWritableProperty: (ToFeatureProperty name: #background).
 	theme styleSheet select: ToElement asTypeSelector style: [ :sr |
-			sr
-				when: ToInstallSkinEvent
-				write: (theme property: #background)
-				with: [ :e | Color red ].
+			sr when: ToInstallSkinEvent write: (theme property: #background) with: [ :e | Color red ].
 			sr
 				select:
-					(ToActionSelector new action: [ :e | "e halt." e width = 50 ])
-					|| (ToActionSelector new action: [ :e | e height = 50 ])
+				(ToActionSelector new action: [ :e | "e halt." e width = 50 ]) || (ToActionSelector new action: [ :e | e height = 50 ])
 				style: [ :squared |
-						squared
-							when: ToInstallSkinEvent
-							write: (theme property: #background)
-							with: [ :e | Color green ].
+						squared when: ToInstallSkinEvent write: (theme property: #background) with: [ :e | Color green ].
 
 						squared
 							select: [ :e | e width = 50 ] asActionSelector not
-							style: [ :vertical |
-									vertical
-										when: ToInstallSkinEvent
-										write: (theme property: #background)
-										with: [ :e | Color blue ] ].
+							style: [ :vertical | vertical when: ToInstallSkinEvent write: (theme property: #background) with: [ :e | Color blue ] ].
 						squared
 							select: [ :e | e height = 50 ] asActionSelector not
 							style: [ :horizontal |
-									horizontal
-										when: ToInstallSkinEvent
-										write: (theme property: #background)
-										with: [ :e | Color yellow ] ] ] ].
+							horizontal when: ToInstallSkinEvent write: (theme property: #background) with: [ :e | Color yellow ] ] ] ].
 
 	elem := ToElement new
 		        extent: 50 asPoint;
@@ -7806,7 +7737,7 @@ ToSandBox class >> example_stylesheet [
 		                  extent: 100 @ 50;
 		                  position: 150 @ 50.
 	biggerElem := ToElement new
-		              size: 100 asPoint;
+		              extent: 100 asPoint;
 		              position: 150 asPoint.
 
 	space := BlSpace new.
@@ -8160,14 +8091,10 @@ ToSandBox class >> example_textFieldsInListElement [
 ToSandBox class >> example_toAlbumAsButton [
 
 	| but |
-	but := ToAlbum new
-		       text: 'Hello world'";
-		       preventChildrenMouseEvents".
-	but
-		addEventHandlerOn: BlPrimaryClickEvent
-		do: [ self inform: 'Click' ].
-"	but background: Color blue."
-	but size: 300 @ 100.
+	but := ToAlbum new text: 'Hello world'. ";
+		       preventChildrenMouseEvents"
+	but addEventHandlerOn: BlPrimaryClickEvent do: [ self inform: 'Click' ]. "	but background: Color blue."
+	but extent: 300 @ 100.
 	but openInSpace
 ]
 
@@ -8186,7 +8113,7 @@ ToSandBox class >> example_toBasicButton1 [
 	| but |
 	but := ToGeneralButton new.
 	but addChild: (BlElement new
-			 size: 30 @ 30;
+			 extent: 30 @ 30;
 			 yourself).
 	but clickAction: [ self inform: 'clicked' ].
 	but background: (Color blue alpha: 0.3).
@@ -8256,15 +8183,15 @@ ToSandBox class >> example_toButtonOrientationChanger [
 	but := ToButton new.
 	but label: (ToLabel text: 'Button' asRopedText bold).
 	iconImage := BlElement new
-		             size: 20 @ 20;
+		             extent: 20 @ 20;
 		             background: Color lightGray;
 		             yourself.
 	but iconImage: iconImage.
 	count := 0.
-	but clickAction: [ :evt :b | 
-		count := count + 1.
-		count traceCr.
-		b orientation: b orientation inverted ].
+	but clickAction: [ :evt :b |
+			count := count + 1.
+			count traceCr.
+			b orientation: b orientation inverted ].
 	space := BlSpace new.
 	space root addChild: but.
 	space show.
@@ -8316,7 +8243,7 @@ ToSandBox class >> example_toButtonWithIconAndTextAndExtra [
 	but label: (ToLabel text: 'Button').
 	but iconImage: ToThemeIcons searchOutlined16x16.
 	but endElement: (BlElement new
-			 size: 8 @ 9;
+			 extent: 8 @ 9;
 			 background: ToThemeIcons plainTriangle5x9;
 			 yourself).
 	space := BlSpace new.
@@ -8328,22 +8255,17 @@ ToSandBox class >> example_toButtonWithIconAndTextAndExtra [
 ToSandBox class >> example_toButtonWithIconOnly [
 
 	| but space container |
-	container := BlElement new size: 200@200; border: (BlBorder paint: Color gray); background: (Color gray alpha: 0.1).
-	but := ToButton new.
-	"but addLook: ToButtonLinkLook new."
-	"but addLook: ToButtonDashedLook new."
-	"but addLook: ToButtonFixedSizeLook new."
-	"but addLook: ToButtonPrimaryLook new."
-	"but addLook: ToButtonDangerLook new."
-	"but addLook: ToButtonLinkLook new."
+	container := BlElement new
+		             extent: 200 @ 200;
+		             border: (BlBorder paint: Color gray);
+		             background: (Color gray alpha: 0.1).
+	but := ToButton new. "but addLook: ToButtonLinkLook new." "but addLook: ToButtonDashedLook new." "but addLook: ToButtonFixedSizeLook new." "but addLook: ToButtonPrimaryLook new." "but addLook: ToButtonDangerLook new." "but addLook: ToButtonLinkLook new."
 
-	but icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)).
-	"but icon addLook: ToImagePrimaryLook new."
-	"but icon addLook: ToImageDangerLook new."
+	but icon: (ToImage new innerImage: (Smalltalk ui icons iconNamed: #solidMenu)). "but icon addLook: ToImagePrimaryLook new." "but icon addLook: ToImageDangerLook new."
 	container addChild: but.
 	space := BlSpace new.
 	space root addChild: container.
-	space show 
+	space show
 ]
 
 { #category : #'button-dep' }
@@ -8353,34 +8275,38 @@ ToSandBox class >> example_toButtonWithTextAndIconHorizontal [
 	but := ToButton new.
 	but label: (ToLabel text: 'Button').
 	but iconImage: (BlElement new
-			 size: 60 @ 20;
+			 extent: 60 @ 20;
 			 background: (Color blue alpha: 0.2);
 			 yourself).
 	but beRightToLeft.
 	but layout cellSpacing: 10.
 	count := 0.
-	but addEventHandlerOn: BlClickEvent do: [ :event | count := count + 1. count traceCr ].
+	but addEventHandlerOn: BlClickEvent do: [ :event |
+			count := count + 1.
+			count traceCr ].
 	but clickAction: [ but icon background: Color random ].
 	space := BlSpace new.
 	space root addChild: but.
-	space show 
+	space show
 ]
 
 { #category : #'button-dep' }
 ToSandBox class >> example_toButtonWithTextAndIconVertical [
 
 	| but space |
-	but := ToButton new padding: (BlInsets all: 4); beVertical.
+	but := ToButton new
+		       padding: (BlInsets all: 4);
+		       beVertical.
 	but label: (ToLabel text: 'Button').
 	but iconImage: (BlElement new
-			 size: 60 @ 20;
+			 extent: 60 @ 20;
 			 background: (Color blue alpha: 0.2);
 			 yourself).
 	but layout cellSpacing: 10.
 	but clickAction: [ but icon background: Color random ].
 	space := BlSpace new.
 	space root addChild: but.
-	space show 
+	space show
 ]
 
 { #category : #'button-dep' }
@@ -8593,12 +8519,10 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 				whenEditorOpenedDo: [ :editorEvent |
 						window checkOutsideEvent: false.
 						editorEvent editorElement addStamp: #preformatted.
-						editorEvent editorElement whenCancelRequestedDo: [
-									:cancelRequest |
+						editorEvent editorElement whenCancelRequestedDo: [ :cancelRequest |
 									text := origString asRopedText.
 									editorEvent target text: text ].
-						editorEvent editorElement whenSaveRequestedDo: [ :saveRequest |
-								saveRequest accepted: true ].
+						editorEvent editorElement whenSaveRequestedDo: [ :saveRequest | saveRequest accepted: true ].
 						editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
 									editorEvent target text: acceptedEvent target text.
 									text := acceptedEvent target text ] ];
@@ -8616,7 +8540,7 @@ ToSandBox class >> example_toKeepTooltipWindowOnMouseLeaveWithEditableLabel [
 
 	but clickAction: [ 'Button clicked' traceCr ].
 	win := but openInInnerWindow.
-	but tooltipWindowManager anchorRoot: win
+	but ensuredTooltipManager anchorRoot: win
 ]
 
 { #category : #label }
@@ -9915,12 +9839,12 @@ ToSandBox class >> tripletWith2IconsAnd1Label [
 	| but |
 	but := ToTripletElement new.
 	but startElement: (BlElement new
-			 size: 25 asPoint;
+			 extent: 25 asPoint;
 			 background: Color red;
 			 yourself).
 	but middleElement: (ToLabel text: 'Middle').
 	but endElement: (BlElement new
-			 size: 25 asPoint;
+			 extent: 25 asPoint;
 			 background: Color red;
 			 yourself).
 	^ but

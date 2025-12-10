@@ -3,6 +3,7 @@ Class {
 	#superclass : #Object,
 	#classVars : [
 		'DefaultThemeClass',
+		'LastInstalledTheme',
 		'ToploAnnouncer'
 	],
 	#category : #'Toplo-Core'
@@ -39,6 +40,18 @@ Toplo class >> defaultThemeClass: aClass [
 	DefaultThemeClass = aClass ifTrue: [ ^ self ].
 	DefaultThemeClass := aClass.
 	self announcer announce: ToThemeSettingChangedEvent
+]
+
+{ #category : #accessing }
+Toplo class >> getTokenPropertyValueNamed: aSymbol [
+
+	^ nil
+]
+
+{ #category : #accessing }
+Toplo class >> lastInstalledTheme: aTheme [
+
+	LastInstalledTheme := aTheme
 ]
 
 { #category : #settings }

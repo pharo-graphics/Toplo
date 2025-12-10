@@ -495,6 +495,21 @@ BlElement >> lookupTheme [
 			  ifNotNil: [ :p | p lookupTheme ] ]
 ]
 
+{ #category : #'*Toplo' }
+BlElement >> lookupTokenPropertyValueNamed: aSymbol [
+	" look-up following child-parent association 
+	for each parent, if the style store exists, then ask the style store to lookup the token property value.
+	I signal an error if the token is not found.
+	"
+
+	self withAllParentsDo: [ :p |
+			p toStyleStore ifNotNil: [ :tst |
+				(tst getTokenPropertyNamed: aSymbol) ifNotNil: [ :t |
+				^ t value ] ] ].
+	" let try with the last installed theme "
+	^ Toplo getTokenPropertyValueNamed: aSymbol
+]
+
 { #category : #'*Toplo-LookAndFeel' }
 BlElement >> lookupWritablePropertyNamed: aSymbol [
 
@@ -823,18 +838,6 @@ BlElement >> toThemeUninstalled: aTheme [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> tokenPropertyValue: aSymbol [
-	" look-up following child-parent association 
-	for each element, try first to get the property from the local styleStampIndex 
-	"
-
-	self withAllParentsDo: [ :p |
-			p toStyleStore ifNotNil: [ :tst |
-				^ tst tokenPropertyValue: aSymbol from: p ] ].
-	^ nil
-]
-
-{ #category : #'*Toplo' }
 BlElement >> tokenValueNamed: aSymbol [
 
 	self
@@ -875,10 +878,8 @@ BlElement >> valueOfStamp: aSymbol [
 { #category : #'*Toplo' }
 BlElement >> valueOfTokenNamed: aSymbol [
 
-	| found |
-	found := self tokenPropertyValue: aSymbol.
-	found ifNil: [ (ToElementPropertyNotFound name: aSymbol) signal ].
-	^ found
+	^ (self lookupTokenPropertyValueNamed: aSymbol) ifNil: [
+		  (ToElementPropertyNotFound name: aSymbol) signal ]
 ]
 
 { #category : #'*Toplo' }

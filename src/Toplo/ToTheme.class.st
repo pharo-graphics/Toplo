@@ -502,7 +502,8 @@ ToTheme >> onInstalledIn: anElement [
 	anElement addAllTokenProperties: self tokenProperties.
 	anElement styleSheet: self styleSheet.
 
-	anElement toThemeInstalled
+	anElement toThemeInstalled.
+	Toplo lastInstalledTheme: self
 ]
 
 { #category : #'api - hooks' }

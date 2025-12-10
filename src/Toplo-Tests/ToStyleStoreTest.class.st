@@ -36,9 +36,9 @@ ToStyleStoreTest >> testAddAllTokenProperties [
 			(#color1 -> Color blue) asTokenProperty.
 			(#color2 -> Color red) asTokenProperty }.
 	self assert:
-		(s := e toStyleStore localTokenPropertyNamed: #color1) notNil.
+		(s := e toStyleStore getTokenPropertyNamed: #color1) notNil.
 	self assert:
-		(s := e toStyleStore localTokenPropertyNamed: #color2) notNil.
+		(s := e toStyleStore getTokenPropertyNamed: #color2) notNil.
 	self assert: e toStyleStore tokenPropertyIndex size equals: 2.
 	e toStyleStore addAllTokenProperties: {
 			(#color1 -> Color white) asTokenProperty.
@@ -75,13 +75,13 @@ ToStyleStoreTest >> testAddTokenProperty [
 	| e s s2 |
 	e := BlElement new.
 	e ensuredToStyleStore addTokenProperty: (#color -> Color blue) asTokenProperty.
-	self assert: (s := e toStyleStore localTokenPropertyNamed: #color) notNil.
+	self assert: (s := e toStyleStore getTokenPropertyNamed: #color) notNil.
 	self assert: (s isKindOf: ToTokenProperty).
 	self assert: s name equals: #color.
 	self assert: s value equals: Color blue.
 	self assert: e toStyleStore tokenPropertyIndex size equals: 1.
 	e toStyleStore addTokenProperty: (#color -> Color red) asTokenProperty.
-	self assert: (s2 := e toStyleStore localTokenPropertyNamed: #color) notNil.
+	self assert: (s2 := e toStyleStore getTokenPropertyNamed: #color) notNil.
 	self assert: s2 name equals: #color.
 	self assert: s2 value equals: Color red.
 	self assert: s ~~ s2.
@@ -158,37 +158,14 @@ ToStyleStoreTest >> testLocalTokenPropertyNamed [
 
 	| e s |
 	e := BlElement new.
-	self assert: (e ensuredToStyleStore localTokenPropertyNamed: #color) isNil.
+	self assert: (e ensuredToStyleStore getTokenPropertyNamed: #color) isNil.
 	(e toStyleStore tokenPropertyIndex)
 		addProperty: #color asTokenProperty.
-	s := e toStyleStore localTokenPropertyNamed: #color.
+	s := e toStyleStore getTokenPropertyNamed: #color.
 	self assert: s notNil.
 	self assert: (s isKindOf: ToTokenProperty).
 	self assert: s name equals: #color.
 	self assert: s value
-]
-
-{ #category : #'token properties' }
-ToStyleStoreTest >> testLookUpTokenPropertyNamedFrom [
-
-	| e child |
-	e := BlElement new.
-	child := BlElement new.
-	e ensuredToStyleStore addTokenProperty: (#color -> Color blue) asTokenProperty.
-	self assert: e toStyleStore tokenPropertyIndex size equals: 1.
-	self
-		assert: (e toStyleStore lookUpTokenPropertyNamed: #color from: e)
-		identicalTo: (e toStyleStore localTokenPropertyNamed: #color).
-	e addChild: child.
-	self
-		assert: (child ensuredToStyleStore  lookUpTokenPropertyNamed: #color from: child)
-		identicalTo: (e toStyleStore localTokenPropertyNamed: #color).
-	child toStyleStore addTokenProperty: (#color -> Color red) asTokenProperty.
-	self
-		assert: (child toStyleStore lookUpTokenPropertyNamed: #color from: child)
-		identicalTo: (child toStyleStore localTokenPropertyNamed: #color).
-	self
-		assert: (child toStyleStore lookUpTokenPropertyNamed: #something from: child) isNil
 ]
 
 { #category : #stamps }
@@ -343,32 +320,6 @@ ToStyleStoreTest >> testTokenPropertyNamed [
 ]
 
 { #category : #'token properties' }
-ToStyleStoreTest >> testTokenPropertyNamedFrom [
-
-	| e child space |
-	e := BlElement new.
-	child := BlElement new.
-	e ensuredToStyleStore addTokenProperty: (#color -> Color blue) asTokenProperty.
-	e addChild: child.
-	self
-		assert: (child ensuredToStyleStore tokenPropertyNamed: #color from: child)
-		identicalTo: (e toStyleStore localTokenPropertyNamed: #color).
-	child toStyleStore addTokenProperty: (#color -> Color red) asTokenProperty.
-	self
-		assert: (child toStyleStore tokenPropertyNamed: #color from:  child)
-		identicalTo: (child toStyleStore localTokenPropertyNamed: #color).
-	self
-		should: [(child toStyleStore tokenPropertyNamed: #something from: child)] raise: Error.
-		
-	space := BlSpace new.
-	space root addChild: e.
-	self
-		should: [(child toStyleStore tokenPropertyNamed: #something from: child)] raise: ToElementPropertyNotFound.
-
-	
-]
-
-{ #category : #'token properties' }
 ToStyleStoreTest >> testTokenPropertyNamedFromBeforeSpaceShown [
 
 	| e space |	
@@ -421,20 +372,4 @@ ToStyleStoreTest >> testTokenPropertyNamedRequiresSpaceSkinPhasesStarted [
 	space root addChild: e.
 	self deny: e background isTransparent.
 	self assert: goneHere
-]
-
-{ #category : #'token properties' }
-ToStyleStoreTest >> testTokenPropertyValueFrom [
-
-	| e p |
-	e := BlElement new.
-	self assert: (e ensuredToStyleStore localTokenPropertyNamed: #color) isNil.
-	e toStyleStore addTokenProperty: (p := (#color -> Color blue) asTokenProperty).
-	self assert: (e toStyleStore tokenPropertyValue: #color from: e) equals: p value.
-	self assert: (e toStyleStore tokenPropertyValue: #color from: e) equals: Color blue.
-	e toStyleStore addTokenProperty: (#background -> Color blue) asTokenProperty.
-	e toStyleStore addTokenProperty: (#layout -> BlLinearLayout horizontal) asTokenProperty.
-	e toStyleStore addTokenProperty: (#something -> #something) asTokenProperty.
-	self assert: (e toStyleStore tokenPropertyValue: #something from: e) equals: #something.
-
 ]

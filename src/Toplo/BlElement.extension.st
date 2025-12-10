@@ -5,27 +5,27 @@ BlElement >> actionPoolDo: aValuable [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> addAllStamps: aCollectionOfSymbol [
+BlElement >> addAllStamps: aSymbolCollection [
 
-	self ensuredToStyleStore addAllStamps: aCollectionOfSymbol
+	self ensuredStampIndex addAllProperties: (aSymbolCollection collect: [ :s | (s-> true) asStampProperty ])
 ]
 
 { #category : #'*Toplo' }
 BlElement >> addAllTokenProperties: aTokenPropertyCollection [
 
-	self ensuredToStyleStore addAllTokenProperties: aTokenPropertyCollection
+	self ensuredTokenPropertyIndex addAllProperties: aTokenPropertyCollection
 ]
 
 { #category : #'*Toplo' }
 BlElement >> addStamp: aSymbol [
 
-	self ensuredToStyleStore addStamp: aSymbol
+	self ensuredStampIndex addProperty: (aSymbol -> true) asStampProperty
 ]
 
 { #category : #'*Toplo' }
 BlElement >> addStamp: aSymbol withValue: anObject [
 
-	self ensuredToStyleStore addStamp: aSymbol withValue: anObject
+	self ensuredStampIndex addProperty: (aSymbol -> anObject) asStampProperty
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
@@ -37,7 +37,7 @@ BlElement >> addStyleSheetProperty: aWriteableProperty [
 { #category : #'*Toplo' }
 BlElement >> addTokenNamed: aSymbol withValue: anObject [
 
-	self ensuredToStyleStore addTokenProperty: (aSymbol -> anObject) asTokenProperty 
+	self ensuredTokenPropertyIndex addProperty: (aSymbol -> anObject) asTokenProperty 
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
@@ -53,9 +53,7 @@ BlElement >> addWritableProperty: aWriteableProperty [
 { #category : #'*Toplo' }
 BlElement >> allStamps [
 
-	^ self toStyleStore
-		  ifNil: [ #(  ) ]
-		  ifNotNil: [ :tst | tst allStamps ]
+	^ self stampIndex allPropertyNames 
 ]
 
 { #category : #'*Toplo' }
@@ -122,6 +120,25 @@ BlElement >> borderBuilder [
 	^ self userData
 		  at: #borderBuilder
 		  ifAbsentPut: [ BlBorderBuilder new ]
+]
+
+{ #category : #'*Toplo-LookAndFeel' }
+BlElement >> bottomUpStyleSheetChain [
+	" return an array with all my inherited stylesheets "
+
+	^ Array new: 10 streamContents: [ :stream |
+		  self bottomUpStyleSheetChainDo: [ :ss | stream nextPut: ss ] ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> bottomUpStyleSheetChainDo: aBlock [
+	" evaluate a block with all my inherited stylesheets "
+
+	self skinManagerDo: [ :sm |
+			sm styleSheet ifNotNil: [ :ss |
+					aBlock value: ss.
+					ss inherits ifFalse: [ ^ self ] ] ].
+	self parentDo: [ :p | p bottomUpStyleSheetChainDo: aBlock ]
 ]
 
 { #category : #'*Toplo' }
@@ -242,6 +259,12 @@ BlElement >> ensuredSkinManager [
 	^ self userData at: #skinManager
 ]
 
+{ #category : #'*Toplo' }
+BlElement >> ensuredStampIndex [
+
+	^ self ensuredSkinManager ensuredStampIndexIn: self
+]
+
 { #category : #'*Toplo-LookAndFeel' }
 BlElement >> ensuredStyleSheet [
 
@@ -252,6 +275,12 @@ BlElement >> ensuredStyleSheet [
 BlElement >> ensuredToStyleStore [
 
 	^ self ensuredSkinManager ensuredStyleStoreIn: self
+]
+
+{ #category : #'*Toplo' }
+BlElement >> ensuredTokenPropertyIndex [
+
+	^ self ensuredSkinManager ensuredTokenPropertyIndexIn: self
 ]
 
 { #category : #'*Toplo' }
@@ -290,6 +319,12 @@ BlElement >> floatOverlay [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> hasAllStamps: aSymbolCollection [
+
+	^ aSymbolCollection allSatisfy: [ :s | self hasStamp: s ]
+]
+
+{ #category : #'*Toplo' }
 BlElement >> hasEnablementFlag [
 
 	^ self userData includesKey: #enabled
@@ -305,15 +340,15 @@ BlElement >> hasHolder [
 BlElement >> hasStamp [
 	"Return true if the BlElement has stamp (one or more), false if not"
 
-	^ self allStamps notEmpty
+	^ self stampIndex notNil and: [self stampIndex isNotEmpty ]
 ]
 
 { #category : #'*Toplo' }
 BlElement >> hasStamp: aSymbol [
 
-	^ self toStyleStore
+	^ self stampIndex
 		  ifNil: [ false ]
-		  ifNotNil: [ :tst | tst hasStamp: aSymbol ]
+		  ifNotNil: [ :map | map hasPropertyNamed: aSymbol ]
 ]
 
 { #category : #'*Toplo' }
@@ -503,8 +538,8 @@ BlElement >> lookupTokenPropertyValueNamed: aSymbol [
 	"
 
 	self withAllParentsDo: [ :p |
-			p toStyleStore ifNotNil: [ :tst |
-				(tst getTokenPropertyNamed: aSymbol) ifNotNil: [ :t |
+			p tokenPropertyIndex ifNotNil: [ :map |
+				(map propertyNamed: aSymbol) ifNotNil: [ :t |
 				^ t value ] ] ].
 	" let try with the last installed theme "
 	^ Toplo getTokenPropertyValueNamed: aSymbol
@@ -513,7 +548,7 @@ BlElement >> lookupTokenPropertyValueNamed: aSymbol [
 { #category : #'*Toplo-LookAndFeel' }
 BlElement >> lookupWritablePropertyNamed: aSymbol [
 
-	self styleSheetChain do: [ :ss |
+	self bottomUpStyleSheetChainDo: [ :ss |
 		(ss property: aSymbol) ifNotNil: [ :wp | ^ wp ] ].
 	^ nil
 ]
@@ -626,26 +661,32 @@ BlElement >> preventedSkinEventClasses [
 { #category : #'*Toplo' }
 BlElement >> removeAllStamps [
 
-	self toStyleStoreDo: [ :tst | tst removeAllStamps ]
+	self stampIndexDo: [ :map | map removeAllProperties ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> removeAllStamps: aSymbolCollection [
+
+	self stampIndex removeAllPropertiesFromNames: aSymbolCollection
 ]
 
 { #category : #'*Toplo' }
 BlElement >> removeAllTokenPropertiesFromNames: aCollection [
 
-	self toStyleStoreDo: [ :tst |
-		tst removeAllTokenPropertiesFromNames: aCollection ]
+	self tokenPropertyIndexDo: [ :map |
+		map removeAllPropertiesFromNames: aCollection ]
 ]
 
 { #category : #'*Toplo' }
 BlElement >> removeStamp: aSymbol [
 
-	self toStyleStoreDo: [ :tst | tst removeStamp: aSymbol ]
+	self stampIndexDo: [ :map | map removePropertyNamed: aSymbol ]
 ]
 
 { #category : #'*Toplo' }
 BlElement >> removeTokenNamed: aSymbol [
 
-	self toStyleStoreDo: [ :tst | tst removeTokenPropertyNamed: aSymbol ]
+	self tokenPropertyIndexDo: [ :map | map removeTokenPropertyNamed: aSymbol ]
 ]
 
 { #category : #'*Toplo' }
@@ -724,7 +765,8 @@ BlElement >> skinManager [
 { #category : #'*Toplo' }
 BlElement >> skinManagerDo: aBlock [
 
-	self skinManager ifNotNil: [ :sm | aBlock value: sm ]
+	self skinManager ifNotNil: [ :sm | ^ aBlock value: sm ].
+	^ nil
 ]
 
 { #category : #'*Toplo' }
@@ -749,6 +791,33 @@ BlElement >> skinToInstall [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> stampIndex [
+
+	^ self skinManagerDo: [ :sm | sm stampIndex ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> stampIndexDo: aBlock [
+
+	^ self stampIndex ifNotNil: [ :map | aBlock value: map ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> stampPropertyNamed: aSymbol [
+
+	^ self stampIndex
+		  propertyNamed: aSymbol
+		  ifAbsent: [
+		  Error signal: 'Trying to get an undeclared stamp property' ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> stampValue: aSymbol [
+
+	^ (self stampPropertyNamed: aSymbol) value
+]
+
+{ #category : #'*Toplo' }
 BlElement >> styleSheet [
 
 	self skinManagerDo: [ :sm | ^ sm styleSheet  ].
@@ -760,14 +829,6 @@ BlElement >> styleSheet: aStyleSheet [
 
 	self ensuredSkinManager setStyleSheet: aStyleSheet in: self.
 	self requestNewSkin
-]
-
-{ #category : #'*Toplo-LookAndFeel' }
-BlElement >> styleSheetChain [
-	" return an array with all my inherited stylesheets "
-	self withAllParentsDo: [ :p |
-		p skinManagerDo: [ :sm | ^ sm computedStyleSheetChainIn: p ] ].
-	^ #(  )
 ]
 
 { #category : #'*Toplo' }
@@ -811,18 +872,6 @@ BlElement >> toConfiguration: anElementConfiguration [
 	anElementConfiguration onInstalledIn: self
 ]
 
-{ #category : #'*Toplo' }
-BlElement >> toStyleStore [
-
-	^ self skinManager ifNotNil: [ :sm | sm styleStore ]
-]
-
-{ #category : #'*Toplo' }
-BlElement >> toStyleStoreDo: aBlock [
-
-	self toStyleStore ifNotNil: [ :tst | aBlock value: tst ]
-]
-
 { #category : #'*Toplo-LookAndFeel' }
 BlElement >> toThemeInstalled [
 
@@ -838,6 +887,18 @@ BlElement >> toThemeUninstalled: aTheme [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> tokenPropertyIndex [
+
+	^ self skinManagerDo: [ :sm | sm tokenPropertyIndex ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> tokenPropertyIndexDo: aBlock [
+
+	^ self tokenPropertyIndex ifNotNil: aBlock
+]
+
+{ #category : #'*Toplo' }
 BlElement >> tokenValueNamed: aSymbol [
 
 	self
@@ -845,6 +906,16 @@ BlElement >> tokenValueNamed: aSymbol [
 		transformWith: '`@receiver tokenValueNamed: `@arg' -> '`@receiver valueOfTokenNamed: `@arg'.
 
 	^ self valueOfTokenNamed: aSymbol
+]
+
+{ #category : #'*Toplo' }
+BlElement >> topDownStyleSheetChainDo: aBlock [
+	" evaluate a block with all my inherited stylesheets in reverse order (top-down)"
+
+	| chain |
+	chain := Array new: 10 streamContents: [ :stream |
+		         self bottomUpStyleSheetChainDo: [ :ss | stream nextPut: ss ] ].
+	chain reverseDo: aBlock
 ]
 
 { #category : #'*Toplo' }
@@ -869,10 +940,15 @@ BlElement >> updateLocalThemeWith: aTheme [
 { #category : #'*Toplo' }
 BlElement >> valueOfStamp: aSymbol [
 
-	^ self toStyleStore
+	^ self stampIndex
 		  ifNil: [
 		  Error signal: 'Trying to get an undeclared stamp property' ]
-		  ifNotNil: [ :tst | tst stampValue: aSymbol ]
+		  ifNotNil: [ :map |
+				  (map
+					   propertyNamed: aSymbol
+					   ifAbsent: [
+					   Error signal: 'Trying to get an undeclared stamp property' ])
+					  value ]
 ]
 
 { #category : #'*Toplo' }

@@ -498,7 +498,7 @@ ToTheme >> onInstalledIn: anElement [
 						each methodClass soleInstance
 							perform: each methodSelector
 							with: self ] ] ].
-
+				
 	anElement addAllTokenProperties: self tokenProperties.
 	anElement styleSheet: self styleSheet.
 

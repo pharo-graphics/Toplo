@@ -19,9 +19,9 @@ BlElement >> inspectionStamps: aBuilder [
 	<inspectorPresentationOrder: 30 title: 'Stamps'>
 	| table |
 	table := SpTablePresenter new
-		  items: (self toStyleStore
+		  items: (self stampIndex
 				   ifNil: [ #(  ) ]
-				   ifNotNil: [ :tst | tst stampIndex allProperties ]);
+				   ifNotNil: [ :map | map stampIndex allProperties ]);
 		  sortingBlock: [ :a :b | a key < b key ];
 		  addColumn:
 			  (SpStringTableColumn
@@ -52,9 +52,9 @@ BlElement >> inspectionTokens: aBuilder [
 	<inspectorPresentationOrder: 31 title: 'Tokens'>
 	| table |
 	table := SpTablePresenter new
-		  items: (self toStyleStore
+		  items: (self tokenPropertyIndex
 				   ifNil: [ #(  ) ]
-				   ifNotNil: [ :tst | tst tokenPropertyIndex allProperties ]);
+				   ifNotNil: [ :idx | idx allProperties ]);
 		  sortingBlock: [ :a :b | a key < b key ];
 		  addColumn:
 			  (SpStringTableColumn

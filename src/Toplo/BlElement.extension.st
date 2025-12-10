@@ -7,25 +7,25 @@ BlElement >> actionPoolDo: aValuable [
 { #category : #'*Toplo' }
 BlElement >> addAllStamps: aSymbolCollection [
 
-	self ensuredStampIndex addAllProperties: (aSymbolCollection collect: [ :s | (s-> true) asStampProperty ])
+	self ensuredStampMap addAllProperties: (aSymbolCollection collect: [ :s | (s-> true) asStampProperty ])
 ]
 
 { #category : #'*Toplo' }
 BlElement >> addAllTokenProperties: aTokenPropertyCollection [
 
-	self ensuredTokenPropertyIndex addAllProperties: aTokenPropertyCollection
+	self ensuredTokenPropertyMap addAllProperties: aTokenPropertyCollection
 ]
 
 { #category : #'*Toplo' }
 BlElement >> addStamp: aSymbol [
 
-	self ensuredStampIndex addProperty: (aSymbol -> true) asStampProperty
+	self ensuredStampMap addProperty: (aSymbol -> true) asStampProperty
 ]
 
 { #category : #'*Toplo' }
 BlElement >> addStamp: aSymbol withValue: anObject [
 
-	self ensuredStampIndex addProperty: (aSymbol -> anObject) asStampProperty
+	self ensuredStampMap addProperty: (aSymbol -> anObject) asStampProperty
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
@@ -37,7 +37,7 @@ BlElement >> addStyleSheetProperty: aWriteableProperty [
 { #category : #'*Toplo' }
 BlElement >> addTokenNamed: aSymbol withValue: anObject [
 
-	self ensuredTokenPropertyIndex addProperty: (aSymbol -> anObject) asTokenProperty 
+	self ensuredTokenPropertyMap addProperty: (aSymbol -> anObject) asTokenProperty 
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
@@ -53,7 +53,7 @@ BlElement >> addWritableProperty: aWriteableProperty [
 { #category : #'*Toplo' }
 BlElement >> allStamps [
 
-	^ self stampIndex allPropertyNames 
+	^ self stampMap allPropertyNames 
 ]
 
 { #category : #'*Toplo' }
@@ -260,9 +260,9 @@ BlElement >> ensuredSkinManager [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> ensuredStampIndex [
+BlElement >> ensuredStampMap [
 
-	^ self ensuredSkinManager ensuredStampIndexIn: self
+	^ self ensuredSkinManager ensuredStampMapIn: self
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
@@ -272,15 +272,9 @@ BlElement >> ensuredStyleSheet [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> ensuredToStyleStore [
+BlElement >> ensuredTokenPropertyMap [
 
-	^ self ensuredSkinManager ensuredStyleStoreIn: self
-]
-
-{ #category : #'*Toplo' }
-BlElement >> ensuredTokenPropertyIndex [
-
-	^ self ensuredSkinManager ensuredTokenPropertyIndexIn: self
+	^ self ensuredSkinManager ensuredTokenPropertyMapIn: self
 ]
 
 { #category : #'*Toplo' }
@@ -340,13 +334,13 @@ BlElement >> hasHolder [
 BlElement >> hasStamp [
 	"Return true if the BlElement has stamp (one or more), false if not"
 
-	^ self stampIndex notNil and: [self stampIndex isNotEmpty ]
+	^ self stampMap notNil and: [self stampMap isNotEmpty ]
 ]
 
 { #category : #'*Toplo' }
 BlElement >> hasStamp: aSymbol [
 
-	^ self stampIndex
+	^ self stampMap
 		  ifNil: [ false ]
 		  ifNotNil: [ :map | map hasPropertyNamed: aSymbol ]
 ]
@@ -538,7 +532,7 @@ BlElement >> lookupTokenPropertyValueNamed: aSymbol [
 	"
 
 	self withAllParentsDo: [ :p |
-			p tokenPropertyIndex ifNotNil: [ :map |
+			p tokenPropertyMap ifNotNil: [ :map |
 				(map propertyNamed: aSymbol) ifNotNil: [ :t |
 				^ t value ] ] ].
 	" let try with the last installed theme "
@@ -661,32 +655,32 @@ BlElement >> preventedSkinEventClasses [
 { #category : #'*Toplo' }
 BlElement >> removeAllStamps [
 
-	self stampIndexDo: [ :map | map removeAllProperties ]
+	self stampMapDo: [ :map | map removeAllProperties ]
 ]
 
 { #category : #'*Toplo' }
 BlElement >> removeAllStamps: aSymbolCollection [
 
-	self stampIndex removeAllPropertiesFromNames: aSymbolCollection
+	self stampMap removeAllPropertiesFromNames: aSymbolCollection
 ]
 
 { #category : #'*Toplo' }
 BlElement >> removeAllTokenPropertiesFromNames: aCollection [
 
-	self tokenPropertyIndexDo: [ :map |
+	self tokenPropertyMapDo: [ :map |
 		map removeAllPropertiesFromNames: aCollection ]
 ]
 
 { #category : #'*Toplo' }
 BlElement >> removeStamp: aSymbol [
 
-	self stampIndexDo: [ :map | map removePropertyNamed: aSymbol ]
+	self stampMapDo: [ :map | map removePropertyNamed: aSymbol ]
 ]
 
 { #category : #'*Toplo' }
 BlElement >> removeTokenNamed: aSymbol [
 
-	self tokenPropertyIndexDo: [ :map | map removeTokenPropertyNamed: aSymbol ]
+	self tokenPropertyMapDo: [ :map | map removeTokenPropertyNamed: aSymbol ]
 ]
 
 { #category : #'*Toplo' }
@@ -791,21 +785,21 @@ BlElement >> skinToInstall [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> stampIndex [
+BlElement >> stampMap [
 
-	^ self skinManagerDo: [ :sm | sm stampIndex ]
+	^ self skinManagerDo: [ :sm | sm stampMap ]
 ]
 
 { #category : #'*Toplo' }
-BlElement >> stampIndexDo: aBlock [
+BlElement >> stampMapDo: aBlock [
 
-	^ self stampIndex ifNotNil: [ :map | aBlock value: map ]
+	^ self stampMap ifNotNil: [ :map | aBlock value: map ]
 ]
 
 { #category : #'*Toplo' }
 BlElement >> stampPropertyNamed: aSymbol [
 
-	^ self stampIndex
+	^ self stampMap
 		  propertyNamed: aSymbol
 		  ifAbsent: [
 		  Error signal: 'Trying to get an undeclared stamp property' ]
@@ -887,15 +881,15 @@ BlElement >> toThemeUninstalled: aTheme [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> tokenPropertyIndex [
+BlElement >> tokenPropertyMap [
 
-	^ self skinManagerDo: [ :sm | sm tokenPropertyIndex ]
+	^ self skinManagerDo: [ :sm | sm tokenPropertyMap ]
 ]
 
 { #category : #'*Toplo' }
-BlElement >> tokenPropertyIndexDo: aBlock [
+BlElement >> tokenPropertyMapDo: aBlock [
 
-	^ self tokenPropertyIndex ifNotNil: aBlock
+	^ self tokenPropertyMap ifNotNil: aBlock
 ]
 
 { #category : #'*Toplo' }
@@ -940,7 +934,7 @@ BlElement >> updateLocalThemeWith: aTheme [
 { #category : #'*Toplo' }
 BlElement >> valueOfStamp: aSymbol [
 
-	^ self stampIndex
+	^ self stampMap
 		  ifNil: [
 		  Error signal: 'Trying to get an undeclared stamp property' ]
 		  ifNotNil: [ :map |

@@ -8,8 +8,8 @@ Class {
 		'installedSkin',
 		'isInstallingSkin',
 		'preventedSkinEventClasses',
-		'stampIndex',
-		'tokenPropertyIndex'
+		'tokenPropertyMap',
+		'stampMap'
 	],
 	#category : #'Toplo-Core-Skin'
 }
@@ -49,10 +49,10 @@ ToSkinManager >> ensuredPreventedSkinEventClasses [
 ]
 
 { #category : #'accessing - stamps' }
-ToSkinManager >> ensuredStampIndexIn: anElement [
+ToSkinManager >> ensuredStampMapIn: anElement [
 
-	^ stampIndex ifNil: [
-		  stampIndex := self newStampIndexIn: anElement ]
+	^ stampMap ifNil: [
+		  stampMap := self newStampMapIn: anElement ]
 ]
 
 { #category : #'accessing - styleSheet' }
@@ -65,10 +65,10 @@ ToSkinManager >> ensuredStyleSheetIn: anElement [
 ]
 
 { #category : #'accessing - token properties' }
-ToSkinManager >> ensuredTokenPropertyIndexIn: anElement [
+ToSkinManager >> ensuredTokenPropertyMapIn: anElement [
 
-	^ tokenPropertyIndex ifNil: [
-		  tokenPropertyIndex := self newTokenPropertyIndexIn: anElement ]
+	^ tokenPropertyMap ifNil: [
+		  tokenPropertyMap := self newTokenPropertyMapIn: anElement ]
 ]
 
 { #category : #'skin state generation' }
@@ -159,7 +159,7 @@ ToSkinManager >> newSkinRequested [
 ]
 
 { #category : #'accessing - stamps' }
-ToSkinManager >> newStampIndexIn: anElement [
+ToSkinManager >> newStampMapIn: anElement [
 
 	^ ToPropertyIndexWithChangedAction new
 		  changedAction: [
@@ -169,7 +169,7 @@ ToSkinManager >> newStampIndexIn: anElement [
 ]
 
 { #category : #'accessing - token properties' }
-ToSkinManager >> newTokenPropertyIndexIn: anElement [
+ToSkinManager >> newTokenPropertyMapIn: anElement [
 
 	^ ToPropertyIndexWithChangedAction new
 		  changedAction: [
@@ -182,18 +182,6 @@ ToSkinManager >> newTokenPropertyIndexIn: anElement [
 ToSkinManager >> preventedSkinEventClasses [
 
 	^ preventedSkinEventClasses 
-]
-
-{ #category : #'t - token property index holder' }
-ToSkinManager >> rawTokenPropertyIndex [
-
-	^ tokenPropertyIndex
-]
-
-{ #category : #'t - token property index holder' }
-ToSkinManager >> rawTokenPropertyIndex: aPropertyIndex [
-
-	tokenPropertyIndex := aPropertyIndex
 ]
 
 { #category : #'skin - install / uninstall request' }
@@ -265,9 +253,9 @@ ToSkinManager >> skinToInstallIn: anElement [
 ]
 
 { #category : #'accessing - stamps' }
-ToSkinManager >> stampIndex [
+ToSkinManager >> stampMap [
 
-	^ stampIndex
+	^ stampMap
 ]
 
 { #category : #'accessing - styleSheet' }
@@ -283,9 +271,9 @@ ToSkinManager >> styleSheet: anObject [
 ]
 
 { #category : #'accessing - token properties' }
-ToSkinManager >> tokenPropertyIndex [
+ToSkinManager >> tokenPropertyMap [
 
-	^ tokenPropertyIndex
+	^ tokenPropertyMap
 ]
 
 { #category : #'skin - installing / uninstalling' }

@@ -36,16 +36,16 @@ ToStyleStoreTest >> testAddAllTokenProperties [
 			(#color1 -> Color blue) asTokenProperty.
 			(#color2 -> Color red) asTokenProperty }.
 	self assert:
-		(s := e tokenPropertyIndex propertyNamed: #color1) notNil.
+		(s := e tokenPropertyMap propertyNamed: #color1) notNil.
 	self assert:
-		(s := e tokenPropertyIndex propertyNamed: #color2) notNil.
-	self assert: e tokenPropertyIndex size equals: 2.
-	e tokenPropertyIndex addAllProperties: {
+		(s := e tokenPropertyMap propertyNamed: #color2) notNil.
+	self assert: e tokenPropertyMap size equals: 2.
+	e tokenPropertyMap addAllProperties: {
 			(#color1 -> Color white) asTokenProperty.
 			(#color2 -> Color yellow) asTokenProperty }.
-	self assert: e  tokenPropertyIndex size equals: 2.
-	self assert: (e tokenPropertyIndex propertyNamed: #color1) value equals: Color white.
-	self assert: (e tokenPropertyIndex propertyNamed: #color2) value equals: Color yellow.
+	self assert: e  tokenPropertyMap size equals: 2.
+	self assert: (e tokenPropertyMap propertyNamed: #color1) value equals: Color white.
+	self assert: (e tokenPropertyMap propertyNamed: #color2) value equals: Color yellow.
 
 ]
 
@@ -74,18 +74,18 @@ ToStyleStoreTest >> testAddTokenProperty [
 
 	| e s s2 |
 	e := BlElement new.
-	e ensuredTokenPropertyIndex addProperty: (#color -> Color blue) asTokenProperty.
-	self assert: (s := e tokenPropertyIndex propertyNamed: #color) notNil.
+	e ensuredTokenPropertyMap addProperty: (#color -> Color blue) asTokenProperty.
+	self assert: (s := e tokenPropertyMap propertyNamed: #color) notNil.
 	self assert: (s isKindOf: ToTokenProperty).
 	self assert: s name equals: #color.
 	self assert: s value equals: Color blue.
-	self assert: e tokenPropertyIndex size equals: 1.
-	e tokenPropertyIndex addProperty: (#color -> Color red) asTokenProperty.
-	self assert: (s2 := e tokenPropertyIndex propertyNamed: #color) notNil.
+	self assert: e tokenPropertyMap size equals: 1.
+	e tokenPropertyMap addProperty: (#color -> Color red) asTokenProperty.
+	self assert: (s2 := e tokenPropertyMap propertyNamed: #color) notNil.
 	self assert: s2 name equals: #color.
 	self assert: s2 value equals: Color red.
 	self assert: s ~~ s2.
-	self assert: e tokenPropertyIndex size equals: 1
+	self assert: e tokenPropertyMap size equals: 1
 ]
 
 { #category : #stamps }
@@ -102,14 +102,14 @@ ToStyleStoreTest >> testAllStamps [
 ]
 
 { #category : #'token properties' }
-ToStyleStoreTest >> testEnsuredToStyleStore [
+ToStyleStoreTest >> testEnsuredStampMap [
 
 	| e map |
 	e := BlElement new.
-	self assert: e stampIndex  isNil.
-	map := e ensuredStampIndex.
+	self assert: e stampMap  isNil.
+	map := e ensuredStampMap.
 	self assert: map notNil.
-	self assert: map identicalTo: e stampIndex
+	self assert: map identicalTo: e stampMap
 ]
 
 { #category : #'token properties' }
@@ -117,10 +117,10 @@ ToStyleStoreTest >> testEnsuredTokenPropertyMap [
 
 	| e map |
 	e := BlElement new.
-	self assert: e tokenPropertyIndex isNil.
-	map := e ensuredTokenPropertyIndex.
+	self assert: e tokenPropertyMap isNil.
+	map := e ensuredTokenPropertyMap.
 	self assert: map notNil.
-	self assert: map identicalTo: e tokenPropertyIndex
+	self assert: map identicalTo: e tokenPropertyMap
 ]
 
 { #category : #stamps }
@@ -154,14 +154,14 @@ ToStyleStoreTest >> testHasTokenPropertyNamed [
 
 	| e |
 	e := BlElement new.
-	self deny: (e ensuredTokenPropertyIndex hasPropertyNamed: #color).
-	e tokenPropertyIndex addProperty: (#color -> Color blue) asTokenProperty.
-	self assert: (e tokenPropertyIndex hasPropertyNamed: #color).
-	e tokenPropertyIndex addProperty: (#background -> Color blue) asTokenProperty.
-	e tokenPropertyIndex addProperty: (#layout -> BlLinearLayout horizontal) asTokenProperty.
-	e tokenPropertyIndex addProperty: (#something -> #something) asTokenProperty.
-	self assert: (e tokenPropertyIndex hasPropertyNamed: #something).
-	self assert: (e tokenPropertyIndex hasPropertyNamed: #color)
+	self deny: (e ensuredTokenPropertyMap hasPropertyNamed: #color).
+	e tokenPropertyMap addProperty: (#color -> Color blue) asTokenProperty.
+	self assert: (e tokenPropertyMap hasPropertyNamed: #color).
+	e tokenPropertyMap addProperty: (#background -> Color blue) asTokenProperty.
+	e tokenPropertyMap addProperty: (#layout -> BlLinearLayout horizontal) asTokenProperty.
+	e tokenPropertyMap addProperty: (#something -> #something) asTokenProperty.
+	self assert: (e tokenPropertyMap hasPropertyNamed: #something).
+	self assert: (e tokenPropertyMap hasPropertyNamed: #color)
 ]
 
 { #category : #'token properties' }
@@ -169,10 +169,10 @@ ToStyleStoreTest >> testLocalTokenPropertyNamed [
 
 	| e s |
 	e := BlElement new.
-	self assert: (e ensuredTokenPropertyIndex propertyNamed: #color) isNil.
-	(e ensuredTokenPropertyIndex)
+	self assert: (e ensuredTokenPropertyMap propertyNamed: #color) isNil.
+	(e ensuredTokenPropertyMap)
 		addProperty: #color asTokenProperty.
-	s := e tokenPropertyIndex propertyNamed: #color.
+	s := e tokenPropertyMap propertyNamed: #color.
 	self assert: s notNil.
 	self assert: (s isKindOf: ToTokenProperty).
 	self assert: s name equals: #color.
@@ -230,15 +230,15 @@ ToStyleStoreTest >> testRemoveTokenPropertyNamed [
 
 	| e |
 	e := BlElement new.
-	e ensuredTokenPropertyIndex addProperty:
+	e ensuredTokenPropertyMap addProperty:
 		(#color1 -> Color blue) asTokenProperty.
-	e tokenPropertyIndex addProperty:
+	e tokenPropertyMap addProperty:
 		(#color2 -> Color blue) asTokenProperty.
-	self assert: e tokenPropertyIndex size equals: 2.
-	e tokenPropertyIndex removePropertyNamed: #color1.
-	self assert: e tokenPropertyIndex size equals: 1.
-	e tokenPropertyIndex removePropertyNamed: #color2.
-	self assert: e tokenPropertyIndex isEmpty
+	self assert: e tokenPropertyMap size equals: 2.
+	e tokenPropertyMap removePropertyNamed: #color1.
+	self assert: e tokenPropertyMap size equals: 1.
+	e tokenPropertyMap removePropertyNamed: #color2.
+	self assert: e tokenPropertyMap isEmpty
 ]
 
 { #category : #'token properties' }
@@ -246,12 +246,12 @@ ToStyleStoreTest >> testRemoveTokenPropertyNamed2 [
 
 	| e |
 	e := BlElement new.
-	e ensuredTokenPropertyIndex addProperty: (#color -> Color blue) asTokenProperty.
-	self assert: e tokenPropertyIndex size equals: 1.
-	e tokenPropertyIndex removePropertyNamed: #color.
-	self assert: e tokenPropertyIndex isEmpty.
-	e tokenPropertyIndex removePropertyNamed: #color.
-	self assert: e tokenPropertyIndex isEmpty
+	e ensuredTokenPropertyMap addProperty: (#color -> Color blue) asTokenProperty.
+	self assert: e tokenPropertyMap size equals: 1.
+	e tokenPropertyMap removePropertyNamed: #color.
+	self assert: e tokenPropertyMap isEmpty.
+	e tokenPropertyMap removePropertyNamed: #color.
+	self assert: e tokenPropertyMap isEmpty
 ]
 
 { #category : #'token properties' }
@@ -259,27 +259,27 @@ ToStyleStoreTest >> testRemoveTokenPropertyNamed4 [
 
 	| e |
 	e := BlElement new.
-	e ensuredTokenPropertyIndex addProperty: (#color -> Color blue) asTokenProperty.
-	self assert: e tokenPropertyIndex size equals: 1.
-	e tokenPropertyIndex removePropertyNamed: #color.
-	self assert: e tokenPropertyIndex isEmpty.
-	e tokenPropertyIndex removePropertyNamed: #color.
-	e tokenPropertyIndex addProperty: (#color -> Color red) asTokenProperty.
-	self assert: e tokenPropertyIndex size equals: 1.
-	e tokenPropertyIndex removePropertyNamed: #blob .
-	self assert: e tokenPropertyIndex size equals: 1.
-	e tokenPropertyIndex removePropertyNamed: #color.
-	self assert: e tokenPropertyIndex isEmpty.
+	e ensuredTokenPropertyMap addProperty: (#color -> Color blue) asTokenProperty.
+	self assert: e tokenPropertyMap size equals: 1.
+	e tokenPropertyMap removePropertyNamed: #color.
+	self assert: e tokenPropertyMap isEmpty.
+	e tokenPropertyMap removePropertyNamed: #color.
+	e tokenPropertyMap addProperty: (#color -> Color red) asTokenProperty.
+	self assert: e tokenPropertyMap size equals: 1.
+	e tokenPropertyMap removePropertyNamed: #blob .
+	self assert: e tokenPropertyMap size equals: 1.
+	e tokenPropertyMap removePropertyNamed: #color.
+	self assert: e tokenPropertyMap isEmpty.
 
 
 ]
 
 { #category : #'token properties' }
-ToStyleStoreTest >> testStampIndex [
+ToStyleStoreTest >> testStampMap [
 
 	| e |
 	e := BlElement new.
-	self assert: e stampIndex  isNil
+	self assert: e stampMap  isNil
 ]
 
 { #category : #stamps }
@@ -289,8 +289,8 @@ ToStyleStoreTest >> testStampPropertyNamed [
 	e := BlElement new.
 	e addStamp: #color.
 	e  addStamp: #background.
-	self assert: ((e stampIndex propertyNamed: #color) isKindOf: ToStampProperty).
-	self should: [ e stampIndex propertyNamed: #something ifAbsent: [ Error new signal ]] raise: Error
+	self assert: ((e stampMap propertyNamed: #color) isKindOf: ToStampProperty).
+	self should: [ e stampMap propertyNamed: #something ifAbsent: [ Error new signal ]] raise: Error
 ]
 
 { #category : #stamps }
@@ -308,11 +308,11 @@ ToStyleStoreTest >> testStampValue [
 ]
 
 { #category : #'token properties' }
-ToStyleStoreTest >> testTokenPropertyIndex [
+ToStyleStoreTest >> testTokenPropertyMap [
 
 	| e dict |
 	e := BlElement new.
-	dict := e tokenPropertyIndex.
+	dict := e tokenPropertyMap.
 	self assert: dict isNil.
 
 ]
@@ -322,14 +322,14 @@ ToStyleStoreTest >> testTokenPropertyNamed [
 
 	| e p |
 	e := BlElement new.
-	self assert: (e tokenPropertyIndex) isNil.
-	e ensuredTokenPropertyIndex addProperty: (p := (#color -> Color blue) asTokenProperty).
-	self assert: (e tokenPropertyIndex propertyNamed: #color) equals: p.
-	e tokenPropertyIndex addProperty: (#background -> Color blue) asTokenProperty.
-	e tokenPropertyIndex addProperty: (#layout -> BlLinearLayout horizontal) asTokenProperty.
-	e tokenPropertyIndex addProperty: (p := (#something -> #something) asTokenProperty).
-	self assert: (e tokenPropertyIndex propertyNamed: #something) equals: p.
-	self assert: (e tokenPropertyIndex propertyNamed: #color) notNil
+	self assert: (e tokenPropertyMap) isNil.
+	e ensuredTokenPropertyMap addProperty: (p := (#color -> Color blue) asTokenProperty).
+	self assert: (e tokenPropertyMap propertyNamed: #color) equals: p.
+	e tokenPropertyMap addProperty: (#background -> Color blue) asTokenProperty.
+	e tokenPropertyMap addProperty: (#layout -> BlLinearLayout horizontal) asTokenProperty.
+	e tokenPropertyMap addProperty: (p := (#something -> #something) asTokenProperty).
+	self assert: (e tokenPropertyMap propertyNamed: #something) equals: p.
+	self assert: (e tokenPropertyMap propertyNamed: #color) notNil
 ]
 
 { #category : #'token properties' }

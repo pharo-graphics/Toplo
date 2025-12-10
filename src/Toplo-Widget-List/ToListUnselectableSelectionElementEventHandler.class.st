@@ -16,7 +16,8 @@ ToListUnselectableSelectionElementEventHandler >> listUnselectableSelectionChang
 	| target |
 	target := anEvent currentTarget.
 	self updateSelectionFromEvent: anEvent.
-	anEvent touchedIntervals do: [ :int |
-		target selecter deselectIndex: int first to: int last ].
+	" have to postpone to avoid having a datasource change during the layout "
+	target postponeAction: [ 
+		anEvent touchedIntervals do: [ :int | target dataSource notifyItemsChanged: int ] ].
 	target secondarySelecter deselectAll
 ]

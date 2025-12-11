@@ -21,9 +21,9 @@ ToTableHeaderElement class >> initializeToRawTheme: aTheme [
 				when: ToInstallSkinEvent
 				write: (aTheme property: #padding)
 				with: [ :e |
-						BlInsets
-							horizontal: (e valueOfTokenNamed: #'list-padding-H')
-							vertical: (e valueOfTokenNamed: #'list-padding-V') ] ]
+						BlInsets empty
+							"horizontal: (e valueOfTokenNamed: #'list-padding-H')
+							vertical: (e valueOfTokenNamed: #'list-padding-V') "] ]
 ]
 
 { #category : #accessing }
@@ -51,7 +51,9 @@ ToTableHeaderElement >> columns [
 { #category : #accessing }
 ToTableHeaderElement >> columns: aTableColumnArray [
 
+	parentTable removeColumnContainers.
 	self removeCellContainers.
+	
 	aTableColumnArray do: [ :column |
 			| cellContainer |
 			cellContainer := self newCellContainerInColumn: column.

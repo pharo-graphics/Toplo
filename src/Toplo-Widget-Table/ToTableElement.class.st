@@ -21,7 +21,14 @@ ToTableElement >> addDivider: aDivider atIndex: anIndex [
 
 	aDivider cellIndex: anIndex.
 	self addChild: aDivider.
+	aDivider elevation: (BlRelativeElevation elevation: 20 + anIndex).
 	aDivider setPositionInTable
+]
+
+{ #category : #accessing }
+ToTableElement >> columnContainers [
+
+	^ self selectChildrenWithId: #columnContainer
 ]
 
 { #category : #accessing }
@@ -114,6 +121,7 @@ ToTableElement >> initializeHeader [
 
 	header := self newHeaderElement
 		          id: #header;
+		          elevation: (BlRelativeElevation elevation: 10);
 		          parentTable: self;
 		          yourself
 ]
@@ -124,6 +132,8 @@ ToTableElement >> initializeList [
 	list := self newListElement
 		        id: #list;
 		        parentTable: self;
+		        elevation: (BlRelativeElevation elevation: 10);
+		        addStamp: #background withValue: Color transparent;
 		        yourself
 ]
 
@@ -222,6 +232,12 @@ ToTableElement >> recordCellsWidth [
 
 	header recordCellsWidth.
 	list recordCellsWidth
+]
+
+{ #category : #initialization }
+ToTableElement >> removeColumnContainers [
+
+	self columnContainers do: [ :c | c removeFromParent ]
 ]
 
 { #category : #initialization }

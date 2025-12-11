@@ -20,15 +20,39 @@ Class {
 		'headerCellFactory',
 		'cellBuilder',
 		'headerCellBuilder',
-		'sorterContainerBuilder'
+		'sorterContainerBuilder',
+		'containerBuilder'
 	],
 	#category : #'Toplo-Widget-Table-Core'
 }
 
 { #category : #rendering }
+ToTableColumn >> buildColumnContainerForHeaderCellContainer: anHeaderCellContainer inTableElement: aTableElement [
+
+	| columnContainer |
+	columnContainer := ToTableColumnContainer new
+		                   column: self;
+		                   id: #columnContainer;
+		                   yourself.
+	columnContainer constraintsDo: [ :c |
+			c vertical matchParent.
+			c ignoreByLayout.
+			c anchors add:
+				(c anchors topAnchor on: anHeaderCellContainer bottomAnchor).
+			c anchors add: (c anchors heightAnchor on:
+					 c anchors parent heightAnchor - anHeaderCellContainer height).
+			c anchors add:
+				(c anchors leftAnchor on: anHeaderCellContainer leftAnchor).
+			c anchors add:
+				(c anchors widthAnchor on: anHeaderCellContainer widthAnchor) ].
+	containerBuilder cull: columnContainer cull: self cull: aTableElement.
+	aTableElement addChild: columnContainer
+]
+
+{ #category : #rendering }
 ToTableColumn >> buildHeaderCellInContainer: anHeaderCellContainer inTableElement: aTableElement [
 
-	width ifNotNil: [ anHeaderCellContainer updateWidthWith: width ].	
+	width ifNotNil: [ anHeaderCellContainer updateWidthWith: width ].
 
 	anHeaderCellContainer cell constraintsDo: [ :c |
 		c horizontal matchParent ].
@@ -36,7 +60,11 @@ ToTableColumn >> buildHeaderCellInContainer: anHeaderCellContainer inTableElemen
 	headerCellBuilder
 		cull: anHeaderCellContainer cell
 		cull: self
-		cull: aTableElement
+		cull: aTableElement.
+
+	self
+		buildColumnContainerForHeaderCellContainer: anHeaderCellContainer
+		inTableElement: aTableElement
 ]
 
 { #category : #rendering }
@@ -79,6 +107,18 @@ ToTableColumn >> cellFactory: anObject [
 	cellFactory := anObject
 ]
 
+{ #category : #initialization }
+ToTableColumn >> containerBuilder [
+
+	^ containerBuilder
+]
+
+{ #category : #initialization }
+ToTableColumn >> containerBuilder: aValuable [
+
+	containerBuilder := aValuable 
+]
+
 { #category : #accessing }
 ToTableColumn >> dataIndex [
 
@@ -105,9 +145,15 @@ ToTableColumn >> defaultCellFactory [
 ]
 
 { #category : #initialization }
+ToTableColumn >> defaultContainerBuilder [
+
+	^ [ :element :column :table |  ]
+]
+
+{ #category : #initialization }
 ToTableColumn >> defaultHeaderCellBuilder [
 
-	^ [ :element :column |
+	^ [ :element :column :table |
 	  element addChild: (ToLabel text: column title asString) ]
 ]
 
@@ -183,6 +229,7 @@ ToTableColumn >> initialize [
 
 	super initialize.
 	headerCellBuilder := self defaultHeaderCellBuilder.
+	containerBuilder := self defaultContainerBuilder.
 	cellBuilder := self defaultCellBuilder.
 	sorterContainerBuilder := self defaultSorterContainerBuilder.
 	sortDirections := self defaultSortDirection.

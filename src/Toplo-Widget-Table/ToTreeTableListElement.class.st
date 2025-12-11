@@ -14,6 +14,10 @@ ToTreeTableListElement class >> initializeToRawTheme: aTheme [
 	aTheme select: (self asTypeSelector exact: false) style: [
 			aTheme
 				when: ToInstallSkinEvent
+				write: (aTheme property: #padding)
+				with: [ :e | BlInsets empty ].
+			aTheme
+				when: ToInstallSkinEvent
 				write: (aTheme property: #geometry)
 				with: [ :header | BlRectangleGeometry new ] ]
 ]

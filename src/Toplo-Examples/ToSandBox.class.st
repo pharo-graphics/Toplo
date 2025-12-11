@@ -8681,6 +8681,8 @@ ToSandBox class >> example_toTable1 [
 				 key: 'name';
 				 dataIndex: 'name';
 				 sorterBlock: #name descending;
+				 containerBuilder: [ :container :column |
+					 container background: (Color veryLightGray alpha: 0.2) ];
 				 minWidth: 50;
 				 yourself).
 			(ToTableColumn new
@@ -8693,6 +8695,8 @@ ToSandBox class >> example_toTable1 [
 				 title: 'Space used';
 				 key: 'space';
 				 dataIndex: 'spaceUsed';
+				 containerBuilder: [ :container :column |
+					 container background: (Color veryLightGray alpha: 0.2) ];
 				 minWidth: 50;
 				 yourself).
 			(ToTableColumn new
@@ -8787,6 +8791,8 @@ ToSandBox class >> example_toTreeTable1 [
 				 title: 'Number of methods';
 				 key: 'methods';
 				 dataIndex: #numberOfMethods;
+				 containerBuilder: [ :container |
+					 container background: (Color veryLightGray alpha: 0.2) ];
 				 yourself).
 			(ToTableColumn new
 				 title: 'Space used';
@@ -8797,6 +8803,8 @@ ToSandBox class >> example_toTreeTable1 [
 				 title: 'Package';
 				 key: 'package';
 				 dataIndex: [ :cls | cls packageName ];
+				 containerBuilder: [ :container :column |
+					 container background: (Color veryLightGray alpha: 0.2) ];
 				 yourself) }.
 	table dataAccessor add: ProtoObject.
 	table dataAccessor add: BlElement.

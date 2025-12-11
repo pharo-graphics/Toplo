@@ -16,7 +16,7 @@ ToTreeTableHeaderElement class >> initializeToRawTheme: aTheme [
 				with: [ :header |
 						| interspace arrowWidth nodeHPadding |
 						" the filler width = list node interspace + list node arrow width
-					+ the padding of the header and of the inner table list element "
+						+ the padding of the header and of the inner table list element "
 						interspace := header valueOfTokenNamed: #'node-interspace'.
 						arrowWidth := header valueOfTokenNamed: #'iconic-arrow-breadth'.
 						nodeHPadding := header valueOfTokenNamed: #'list-node-padding-H'.

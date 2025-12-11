@@ -129,7 +129,7 @@ ToSpaceThemeSpec >> updatePresenter [
 { #category : #accessing }
 ToSpaceThemeSpec >> updateSpace [
 
-	self space userData at: #toTheme ifPresent: [ :theme |
+	self space toTheme ifNotNil: [ :theme |
 		self themeLabel label: 'I have a ' , theme name , ' installed.'.
 		self browseClassButton enabled: true.
 		self browseClassButton action: [ theme browse ].

@@ -551,9 +551,6 @@ ToSkinManagerTest >> testUninstallSkinIn2 [
 	e ensureHaveSkinManager.
 	eventHandlerCount := e eventDispatcher handlers size.
 	space root addChild: e.
-	" initialize the theme to avoid the indirect instalation 
-	of a new skin which would make the test fail"
-	space toTheme.
 	self assert: e skinManager notNil.
 	skin := ToRawSkin new.
 	e skinManager uninstallSkinIn: e.

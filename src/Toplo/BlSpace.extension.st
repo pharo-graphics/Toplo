@@ -109,20 +109,19 @@ BlSpace >> stopToploPhases [
 { #category : #'*Toplo-LookAndFeel' }
 BlSpace >> toTheme [
 
-	^ self userData at: #toTheme ifAbsent: [
-		  Toplo announcer weak
-			  when: ToThemeSettingChangedEvent
-			  send: #resetToTheme
-			  to: self.
-		  self resetToTheme.
-		  self userData at: #toTheme ]
+	^ self root localTheme ifNil: [
+			  Toplo announcer weak
+				  when: ToThemeSettingChangedEvent
+				  send: #resetToTheme
+				  to: self.
+			  self resetToTheme.
+			  self root localTheme ]
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
 BlSpace >> toTheme: aTheme [
 
-	self userData at: #toTheme ifPresent: [ :th | th = aTheme ifTrue: [ ^ self ] ].
-	self userData at: #toTheme put: aTheme.
+	self root localTheme = aTheme ifTrue: [ ^ self ].
 	self root ensureCanManageSkin.
 	self root localTheme: aTheme
 ]

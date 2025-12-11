@@ -140,6 +140,12 @@ ToListSelecter >> deselectIndexes: anArray [
 			 operation: ToRemoveSelectionOperation new)
 ]
 
+{ #category : #operations }
+ToListSelecter >> deselectInterval: anInterval [
+
+	self deselectIndex: anInterval first to: anInterval last
+]
+
 { #category : #protocol }
 ToListSelecter >> disable [
 
@@ -471,6 +477,12 @@ ToListSelecter >> selectIndexes: anArray [
 	self addCommand: (ToIndexesSelectionCommand new
 			 indexes: anArray;
 			 operation: ToAddSelectionOperation new)
+]
+
+{ #category : #operations }
+ToListSelecter >> selectInterval: anInterval [
+
+	self selectIndex: anInterval first to: anInterval last
 ]
 
 { #category : #operations }

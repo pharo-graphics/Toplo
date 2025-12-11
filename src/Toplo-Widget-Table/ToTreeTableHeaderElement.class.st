@@ -14,11 +14,11 @@ ToTreeTableHeaderElement class >> initializeToRawTheme: aTheme [
 				when: ToInstallSkinEvent
 				write: (aTheme property: #startInterspace)
 				with: [ :header |
-						| interspace arrowWidth nodeHPadding |
+						| interspace arrowWidth |
 						" the filler width = list node interspace + list node arrow width
 						+ the padding of the header and of the inner table list element "
 						interspace := header valueOfTokenNamed: #'node-interspace'.
 						arrowWidth := header valueOfTokenNamed: #'iconic-arrow-breadth'.
-						nodeHPadding := header valueOfTokenNamed: #'list-node-padding-H'.
-						interspace + arrowWidth + nodeHPadding ] ]
+						"nodeHPadding := header valueOfTokenNamed: #'list-node-padding-H'."
+						interspace + arrowWidth "+ nodeHPadding "] ]
 ]

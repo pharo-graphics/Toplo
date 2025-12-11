@@ -2,6 +2,7 @@ Class {
 	#name : #ToSkinManager,
 	#superclass : #Object,
 	#instVars : [
+		'installedTheme',
 		'styleSheet',
 		'skinStateQueue',
 		'newSkinRequested',
@@ -139,6 +140,18 @@ ToSkinManager >> installedSkinDo: aBlock [
 
 	installedSkin isUnknownSkin ifTrue: [ ^ self ].
 	aBlock value: installedSkin
+]
+
+{ #category : #accessing }
+ToSkinManager >> installedTheme [ 
+
+	^ installedTheme 
+]
+
+{ #category : #accessing }
+ToSkinManager >> installedTheme: aTheme [ 
+
+	installedTheme := aTheme
 ]
 
 { #category : #'skin - installing / uninstalling' }

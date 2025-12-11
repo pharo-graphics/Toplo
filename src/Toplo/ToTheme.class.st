@@ -499,10 +499,9 @@ ToTheme >> onInstalledIn: anElement [
 							perform: each methodSelector
 							with: self ] ] ].
 				
-	anElement addAllTokenProperties: self tokenProperties.
-	anElement styleSheet: self styleSheet.
-
+	anElement onThemeInstalled: self.
 	anElement toThemeInstalled.
+	anElement isSpaceRoot ifFalse: [ ^ self ].
 	Toplo lastInstalledTheme: self
 ]
 

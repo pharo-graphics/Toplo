@@ -12,9 +12,12 @@ ToRawThemeForTest class >> canBeDefault [
 
 { #category : #accessing }
 ToRawThemeForTest class >> defaultTokenProperties [
-	" skin managing need a list of unique stamps . "
+	" the #'background-color' token is mandatory because of the RawTheme space root initialization.
+	(see ToRawTheme class>>initializeToRawTheme:) "
 
-	^ { (ToTokenProperty name: #'test-background-color' value: Color white) }
+	^ {
+		  (ToTokenProperty name: #'background-color' value: Color green).
+		  (ToTokenProperty name: #'test-background-color' value: Color white) }
 ]
 
 { #category : #'skin creation' }

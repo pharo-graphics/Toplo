@@ -157,3 +157,22 @@ ToBlElementTest >> testUnsortedApplicableListenersFor [
 
 	
 ]
+
+{ #category : #'tests - stamp' }
+ToBlElementTest >> testValueOfTokenNamed [
+
+	| e theme |
+	e := BlElement new.
+	e ensureCanManageSkin.
+	theme := ToRawThemeForTest new.
+	theme addTokenNamed: #testToken withValue: Color blue.
+	space toTheme: theme.
+	" normally, the token should not be found because the element is not added in the space root. 
+	The fallback procedure is applied. see BlElement>>valueOfTokenNamed:"
+	self assert: (e valueOfTokenNamed: #testToken) equals: Color blue.
+	e addTokenNamed: #testToken withValue: Color yellow.
+	space root addChild: e.
+	self assert: (e valueOfTokenNamed: #testToken) equals: Color yellow.
+	e removeFromParent.
+	self assert: (e valueOfTokenNamed: #testToken) equals: Color yellow
+]

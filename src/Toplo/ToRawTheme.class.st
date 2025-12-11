@@ -12,13 +12,14 @@ ToRawTheme class >> canBeDefault [
 
 { #category : #initialization }
 ToRawTheme class >> initializeToRawTheme: aTheme [
+	" for the space root element "
 
 	<toploThemeInstallerFor: #ToRawTheme>
-	" for the space root element "
 	aTheme select: (aTheme id: BlSpace defaultRootLabel) style: [
-			aTheme
-				write: (aTheme property: #background)
-				with: [ :e | e valueOfTokenNamed: #'background-color' ] ]
+			aTheme write: (aTheme property: #background) with: [ :e |
+					(e valueOfTokenNamed: #'background-color')
+						ifNotNil: [ :bgc | bgc ]
+						ifNil: [ Color red ] ] ]
 ]
 
 { #category : #accessing }

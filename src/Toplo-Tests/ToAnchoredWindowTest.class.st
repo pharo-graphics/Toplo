@@ -409,10 +409,10 @@ ToAnchoredWindowTest >> testValueOfTokenNamedInWindow [
 	e localTheme: ToRawThemeForTest new.
 	space root addChild: e.
 	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
-		                 :anchWin
-		                 :requestEvent |
-		                 lab := ToLabel new text: 'H'.
-		                 anchWin root addChild: lab ].
+			                 :anchWin
+			                 :requestEvent |
+			                 lab := ToLabel new text: 'H'.
+			                 anchWin root addChild: lab ].
 	e addEventHandler: windowManager.
 	win := windowManager createNewWindowOnEvent: nil.
 	win popupEvent: nil.
@@ -421,7 +421,6 @@ ToAnchoredWindowTest >> testValueOfTokenNamedInWindow [
 		assert: (e valueOfTokenNamed: #'test-background-color')
 		equals: Color white.
 	self assert: lab notNil.
-	"self assert: win localTheme identicalTo: e lookupTheme."
 	self assert: lab lookupTheme identicalTo: win lookupTheme.
 	self
 		assert: (lab valueOfTokenNamed: #'test-background-color')
@@ -431,9 +430,11 @@ ToAnchoredWindowTest >> testValueOfTokenNamedInWindow [
 	self
 		assert: (e valueOfTokenNamed: #'test-background-color')
 		equals: Color white.
+	" here the lab is no more attached. the last installed theme is used 
+	(see BlElement>>valueOfTokenNamed:)"
 	self
-		should: [ lab valueOfTokenNamed: #'test-background-color' ]
-		raise: Error
+		assert: (lab valueOfTokenNamed: #'background-color')
+		equals: (space root valueOfTokenNamed: #'background-color')
 ]
 
 { #category : #tests }

@@ -82,7 +82,7 @@ ToSpaceThemeElementSelectorPresenter class >> themeColumn [
 	columnMain addColumn: columnTheme.
 	columnMain width: 150.
 	
-	columnTheme displayBold: [ :element | element userData includesKey: #localTheme ].
+	columnTheme displayBold: [ :element | element localTheme notNil ].
 
 	^ columnMain
 ]

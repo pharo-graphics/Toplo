@@ -121,6 +121,7 @@ BlSpace >> toTheme [
 { #category : #'*Toplo-LookAndFeel' }
 BlSpace >> toTheme: aTheme [
 
+	self userData at: #toTheme ifPresent: [ :th | th = aTheme ifTrue: [ ^ self ] ].
 	self userData at: #toTheme put: aTheme.
 	self root ensureCanManageSkin.
 	self root localTheme: aTheme

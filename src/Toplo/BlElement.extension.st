@@ -123,6 +123,24 @@ BlElement >> borderBuilder [
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
+BlElement >> bottomUpLocalThemeChain [
+	" return an array with all my local theme "
+
+	^ Array new: 10 streamContents: [ :stream |
+		  self bottomUpLocalThemeDo: [ :ss | stream nextPut: ss ] ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> bottomUpLocalThemeDo: aBlock [
+	" evaluate a block with all my inherited stylesheets "
+
+	self skinManagerDo: [ :sm |
+			sm installedTheme ifNotNil: [ :th |
+					aBlock value: th ] ].
+	self parentDo: [ :p | p bottomUpLocalThemeDo: aBlock ]
+]
+
+{ #category : #'*Toplo-LookAndFeel' }
 BlElement >> bottomUpStyleSheetChain [
 	" return an array with all my inherited stylesheets "
 
@@ -275,6 +293,19 @@ BlElement >> ensuredStyleSheet [
 BlElement >> ensuredTokenPropertyMap [
 
 	^ self ensuredSkinManager ensuredTokenPropertyMapIn: self
+]
+
+{ #category : #'*Toplo' }
+BlElement >> fallBackValueOfTokenNamed: aSymbol [
+
+	('Warning: *** To be fixed: The token #''' , aSymbol
+	 , ''' lookup failed. Trying the last installed theme.') traceCr.
+	Toplo lastInstalledTheme ifNotNil: [ :th | self onThemeInstalled: th ].
+	self topDownLocalThemeDo: [ :th |
+		th ~= Toplo lastInstalledTheme ifTrue: [ self onThemeInstalled: th ] ].
+	^ (self lookupTokenPropertyValueNamed: aSymbol) ifNil: [
+			  (ToElementPropertyNotFound name: aSymbol) signal.
+			  nil ]
 ]
 
 { #category : #'*Toplo' }
@@ -500,16 +531,12 @@ BlElement >> isSpaceRoot [
 { #category : #'*Toplo' }
 BlElement >> localTheme [
 
-	^ self userData at: #localTheme ifAbsent: [ ]
+	^ self skinManagerDo: [ :sm | sm installedTheme ]
 ]
 
 { #category : #'*Toplo' }
 BlElement >> localTheme: aTheme [
 
-	(self parent isNil and: [
-		 self space notNil and: [ self space toTheme ~= aTheme ] ]) ifTrue: [
-		Error signal:
-			'The space root local theme can''t be changed directly, use the space API (#toTheme:)' ].
 	self localTheme ifNil: [ ^ self updateLocalThemeWith: aTheme ].
 	self enqueueTask:
 		(BlTaskAction new action: [ self updateLocalThemeWith: aTheme ])
@@ -518,25 +545,20 @@ BlElement >> localTheme: aTheme [
 { #category : #'*Toplo' }
 BlElement >> lookupTheme [
 
-	^ self localTheme ifNil: [
-		  self parent
-			  ifNil: [ self space toTheme ]
-			  ifNotNil: [ :p | p lookupTheme ] ]
+	self bottomUpLocalThemeDo: [ :th | ^ th ].
+	^ self space toTheme
 ]
 
 { #category : #'*Toplo' }
 BlElement >> lookupTokenPropertyValueNamed: aSymbol [
 	" look-up following child-parent association 
-	for each parent, if the style store exists, then ask the style store to lookup the token property value.
-	I signal an error if the token is not found.
-	"
+	for each parent, if the skin manager exists, then ask the skin manager token map for the token property value. "
 
 	self withAllParentsDo: [ :p |
 			p tokenPropertyMap ifNotNil: [ :map |
 				(map propertyNamed: aSymbol) ifNotNil: [ :t |
 				^ t value ] ] ].
-	" let try with the last installed theme "
-	^ Toplo getTokenPropertyValueNamed: aSymbol
+	^ nil
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
@@ -618,6 +640,16 @@ BlElement >> onRemovedFromItemBarOwner: anItemBar [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> onThemeInstalled: aTheme [
+
+	" Normally, I'm sent on the space root only.
+	I can be sent on another element in case of a lookup error "
+	aTheme ifNil: [ ^ self ].
+	self addAllTokenProperties: aTheme tokenProperties.
+	self styleSheet: aTheme styleSheet
+]
+
+{ #category : #'*Toplo' }
 BlElement >> openInInnerWindow [
 
 	| frame |
@@ -653,6 +685,12 @@ BlElement >> preventedSkinEventClasses [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> recoverLastInstalledTheme [
+
+	Toplo lastInstalledTheme ifNotNil: [ :th | self onThemeInstalled: th ]
+]
+
+{ #category : #'*Toplo' }
 BlElement >> removeAllStamps [
 
 	self stampMapDo: [ :map | map removeAllProperties ]
@@ -680,7 +718,7 @@ BlElement >> removeStamp: aSymbol [
 { #category : #'*Toplo' }
 BlElement >> removeTokenNamed: aSymbol [
 
-	self tokenPropertyMapDo: [ :map | map removeTokenPropertyNamed: aSymbol ]
+	self tokenPropertyMapDo: [ :map | map removePropertyNamed: aSymbol ]
 ]
 
 { #category : #'*Toplo' }
@@ -903,12 +941,20 @@ BlElement >> tokenValueNamed: aSymbol [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> topDownLocalThemeDo: aBlock [
+	" evaluate a block with all my local theme in reverse order (top-down)"
+
+	| chain |
+	chain := self bottomUpLocalThemeChain.
+	chain reverseDo: aBlock
+]
+
+{ #category : #'*Toplo' }
 BlElement >> topDownStyleSheetChainDo: aBlock [
 	" evaluate a block with all my inherited stylesheets in reverse order (top-down)"
 
 	| chain |
-	chain := Array new: 10 streamContents: [ :stream |
-		         self bottomUpStyleSheetChainDo: [ :ss | stream nextPut: ss ] ].
+	chain := self bottomUpStyleSheetChain.
 	chain reverseDo: aBlock
 ]
 
@@ -927,7 +973,7 @@ BlElement >> uninstallShortcuts [
 BlElement >> updateLocalThemeWith: aTheme [
 
 	self localTheme ifNotNil: [ :th | th onUninstalledIn: self ].
-	self userData at: #localTheme put: aTheme.
+	self ensuredSkinManager installedTheme: aTheme.
 	self localTheme ifNotNil: [ :th | th onInstalledIn: self ]
 ]
 
@@ -949,7 +995,7 @@ BlElement >> valueOfStamp: aSymbol [
 BlElement >> valueOfTokenNamed: aSymbol [
 
 	^ (self lookupTokenPropertyValueNamed: aSymbol) ifNil: [
-		  (ToElementPropertyNotFound name: aSymbol) signal ]
+		  self fallBackValueOfTokenNamed: aSymbol ]
 ]
 
 { #category : #'*Toplo' }

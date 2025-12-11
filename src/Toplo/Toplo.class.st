@@ -43,9 +43,10 @@ Toplo class >> defaultThemeClass: aClass [
 ]
 
 { #category : #accessing }
-Toplo class >> getTokenPropertyValueNamed: aSymbol [
-
-	^ nil
+Toplo class >> lastInstalledTheme [
+	" can serve as a fallback skin in case of error. 
+	For example, to try to not break the UI when fetching a stamp or a token value "
+	^ LastInstalledTheme 
 ]
 
 { #category : #accessing }

@@ -210,6 +210,14 @@ ToTableElement >> onLayoutDone [
 ]
 
 { #category : #initialization }
+ToTableElement >> otherDividersUpdate: aDivider [
+
+	| dividers |
+	dividers := self selectChildrenWithId: #columnDivider.
+	dividers do: [ :div | div ~= aDivider ifTrue: [div setPositionInTable ] ]
+]
+
+{ #category : #initialization }
 ToTableElement >> recordCellsWidth [
 
 	header recordCellsWidth.

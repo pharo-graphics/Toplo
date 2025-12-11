@@ -148,7 +148,7 @@ ToLabel >> fontSize: aNumber [
 { #category : #'api - text style' }
 ToLabel >> foreground: aBlPaint [
 
-	"self text asString = '2: BB' ifTrue: [ 'foreground. ' trace. aBlPaint traceCr ]."
+	"self text asString = '3: Arizona' ifTrue: [ 'foreground. ' trace. aBlPaint traceCr ]."
 	self attributesBuilder attribute: (BlTextForegroundAttribute paint: aBlPaint)
 ]
 

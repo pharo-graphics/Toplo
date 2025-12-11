@@ -15,6 +15,7 @@ Class {
 		'sortOrder',
 		'width',
 		'resizable',
+		'minWidth',
 		'cellFactory',
 		'headerCellFactory',
 		'cellBuilder',
@@ -185,7 +186,8 @@ ToTableColumn >> initialize [
 	cellBuilder := self defaultCellBuilder.
 	sorterContainerBuilder := self defaultSorterContainerBuilder.
 	sortDirections := self defaultSortDirection.
-	resizable := true
+	resizable := true.
+	minWidth := 10.
 ]
 
 { #category : #accessing }
@@ -198,6 +200,18 @@ ToTableColumn >> key [
 ToTableColumn >> key: anObject [
 
 	key := anObject
+]
+
+{ #category : #accessing }
+ToTableColumn >> minWidth [
+
+	^ minWidth
+]
+
+{ #category : #accessing }
+ToTableColumn >> minWidth: anInteger [
+
+	minWidth := anInteger
 ]
 
 { #category : #sorting }

@@ -8681,21 +8681,25 @@ ToSandBox class >> example_toTable1 [
 				 key: 'name';
 				 dataIndex: 'name';
 				 sorterBlock: #name descending;
+				 minWidth: 50;
 				 yourself).
 			(ToTableColumn new
 				 title: 'Number of methods';
 				 key: 'methods';
 				 dataIndex: 'numberOfMethods';
+				 minWidth: 50;
 				 yourself).
 			(ToTableColumn new
 				 title: 'Space used';
 				 key: 'space';
 				 dataIndex: 'spaceUsed';
+				 minWidth: 50;
 				 yourself).
 			(ToTableColumn new
 				 title: 'Package';
 				 key: 'package';
 				 dataIndex: [ :cls | cls packageName ];
+				 minWidth: 50;
 				 yourself) }.
 	table dataAccessor addAll:
 		(Smalltalk globals allClasses copyFrom: 1 to: 30).

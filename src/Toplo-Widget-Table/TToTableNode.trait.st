@@ -24,11 +24,13 @@ TToTableNode >> columns [
 { #category : #'t - table node' }
 TToTableNode >> divider: aDivider movedBy: aDistance from: aStartLocation [
 
-	| container listElement state |
+	| container listElement state minWidth column |
 	listElement := self holder listElement.
 	state := listElement columnStateAt: aDivider cellIndex.
 	container := self cellContainers at: aDivider cellIndex.
-	container updateWidthWith: state startDragWidth + aDistance
+	column := listElement columns at: aDivider cellIndex.
+	minWidth := column minWidth.
+	container updateWidthWith: ((state startDragWidth + aDistance) max: minWidth)
 ]
 
 { #category : #'t - table node' }

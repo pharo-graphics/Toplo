@@ -19,6 +19,18 @@ ToDividerEventHandler >> dragDeltaFromEvent: anEvent [
 ]
 
 { #category : #'dnd handlers' }
+ToDividerEventHandler >> dragEndEvent: anEvent [
+	" consume before super send to ensure dragged state "
+
+	| divider |
+	divider := anEvent currentTarget.
+
+	divider dispatchEvent: (ToDividerEndDragEvent new
+			 sourceEvent: anEvent;
+			 yourself)
+]
+
+{ #category : #'dnd handlers' }
 ToDividerEventHandler >> dragEvent: anEvent [
 
 	| dragDelta divider orientedDragDelta req |
@@ -71,7 +83,8 @@ ToDividerEventHandler >> eventsToHandle [
 
 	^ {
 		  BlDragEvent.
-		  BlDragStartEvent }
+		  BlDragStartEvent.
+		  BlDragEndEvent }
 ]
 
 { #category : #accessing }

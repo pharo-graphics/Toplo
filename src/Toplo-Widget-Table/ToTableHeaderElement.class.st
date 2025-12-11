@@ -43,6 +43,12 @@ ToTableHeaderElement >> cellContainers [
 ]
 
 { #category : #accessing }
+ToTableHeaderElement >> columns [ 
+
+	^ parentTable columns
+]
+
+{ #category : #accessing }
 ToTableHeaderElement >> columns: aTableColumnArray [
 
 	self removeCellContainers.
@@ -55,9 +61,11 @@ ToTableHeaderElement >> columns: aTableColumnArray [
 { #category : #accessing }
 ToTableHeaderElement >> divider: aDivider movedBy: aDistance from: aStartLocation [
 
-	|  cont |
+	|  cont minWidth column |
 	cont := self cellContainers at: aDivider cellIndex.
-	cont updateWidthWith: cont state startDragWidth + aDistance
+	column := parentTable columns at: aDivider cellIndex.
+	minWidth := column minWidth.
+	cont updateWidthWith: ((cont state startDragWidth + aDistance) max: minWidth)
 ]
 
 { #category : #accessing }

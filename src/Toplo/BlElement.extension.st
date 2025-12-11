@@ -300,11 +300,14 @@ BlElement >> fallBackValueOfTokenNamed: aSymbol [
 
 	('Warning: *** To be fixed: The token #''' , aSymbol
 	 , ''' lookup failed. Trying the last installed theme.') traceCr.
+	self dispatchEvent: (ToTokenPropertyNotFoundEvent new
+			 name: aSymbol;
+			 yourself).
 	Toplo lastInstalledTheme ifNotNil: [ :th | self onThemeInstalled: th ].
 	self topDownLocalThemeDo: [ :th |
 		th ~= Toplo lastInstalledTheme ifTrue: [ self onThemeInstalled: th ] ].
 	^ (self lookupTokenPropertyValueNamed: aSymbol) ifNil: [
-			  (ToElementPropertyNotFound name: aSymbol) signal.
+			  (ToTokenPropertyNotFoundError name: aSymbol) signal.
 			  nil ]
 ]
 
@@ -646,7 +649,8 @@ BlElement >> onThemeInstalled: aTheme [
 	I can be sent on another element in case of a lookup error "
 	aTheme ifNil: [ ^ self ].
 	self addAllTokenProperties: aTheme tokenProperties.
-	self styleSheet: aTheme styleSheet
+	self styleSheet: aTheme styleSheet.
+	self toThemeInstalled.
 ]
 
 { #category : #'*Toplo' }

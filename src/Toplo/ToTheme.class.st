@@ -500,7 +500,6 @@ ToTheme >> onInstalledIn: anElement [
 							with: self ] ] ].
 				
 	anElement onThemeInstalled: self.
-	anElement toThemeInstalled.
 	anElement isSpaceRoot ifFalse: [ ^ self ].
 	Toplo lastInstalledTheme: self
 ]

@@ -1,5 +1,5 @@
 Class {
-	#name : #ToElementPropertyNotFound,
+	#name : #ToTokenPropertyNotFoundError,
 	#superclass : #Error,
 	#instVars : [
 		'stampName'
@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #'instance creation' }
-ToElementPropertyNotFound class >> name: anObject [
+ToTokenPropertyNotFoundError class >> name: anObject [
 
 	^ self new stampName: anObject
 ]
 
 { #category : #accessing }
-ToElementPropertyNotFound >> messageText [
+ToTokenPropertyNotFoundError >> messageText [
 
 	^ self stampName
 		  ifNil: [ super messageText ]
@@ -22,13 +22,13 @@ ToElementPropertyNotFound >> messageText [
 ]
 
 { #category : #accessing }
-ToElementPropertyNotFound >> stampName [
+ToTokenPropertyNotFoundError >> stampName [
 
 	^ stampName
 ]
 
 { #category : #accessing }
-ToElementPropertyNotFound >> stampName: anObject [
+ToTokenPropertyNotFoundError >> stampName: anObject [
 
 	stampName := anObject
 ]

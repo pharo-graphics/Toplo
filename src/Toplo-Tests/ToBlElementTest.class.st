@@ -165,10 +165,44 @@ ToBlElementTest >> testValueOfTokenNamed [
 	e := BlElement new.
 	e ensureCanManageSkin.
 	theme := ToRawThemeForTest new.
-	theme addTokenNamed: #testToken withValue: Color blue.
 	space toTheme: theme.
+	space root addTokenNamed: #testToken withValue: Color blue.
+	space root addChild: e.
+	self assert: (e valueOfTokenNamed: #testToken) equals: Color blue
+]
+
+{ #category : #'tests - stamp' }
+ToBlElementTest >> testValueOfTokenNamed2 [
+
+	| e theme |
+	e := BlElement new.
+	e ensureCanManageSkin.
+	theme := ToRawThemeForTest new.
+	space root addTokenNamed: #testToken withValue: Color blue.
+	space toTheme: theme.
+	space root addChild: e.
+	self assert: (e valueOfTokenNamed: #testToken) equals: Color blue
+]
+
+{ #category : #'tests - stamp' }
+ToBlElementTest >> testValueOfTokenNamedWithNotFoundToken [
+
+	| e theme notFoundDispatched |
+	e := BlElement new.
+	e ensureCanManageSkin.
+	theme := ToRawThemeForTest new.
+	space root addTokenNamed: #testToken withValue: Color blue.
 	" normally, the token should not be found because the element is not added in the space root. 
 	The fallback procedure is applied. see BlElement>>valueOfTokenNamed:"
+	notFoundDispatched := false.
+	e
+		addEventHandlerOn: ToTokenPropertyNotFoundEvent
+		do: [ notFoundDispatched := true ].
+	self
+		should: [ e valueOfTokenNamed: #testToken ]
+		raise: ToTokenPropertyNotFoundError.
+	self assert: notFoundDispatched.
+	e addTokenNamed: #testToken withValue: Color blue.
 	self assert: (e valueOfTokenNamed: #testToken) equals: Color blue.
 	e addTokenNamed: #testToken withValue: Color yellow.
 	space root addChild: e.

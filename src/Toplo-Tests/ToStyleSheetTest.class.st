@@ -77,9 +77,9 @@ ToStyleSheetTest >> testOnInstalledIn [
 	space root addChild: e.
 	space applyAllSkinInstallers.
 	self deny: e skinManager newSkinRequested.
-	self assert: e skinManager installedSkin isKnownSkin.
+	self assert: e skinManager installedSkin isThemeSkin.
 	self deny: child skinManager newSkinRequested.
-	self assert: child skinManager installedSkin isKnownSkin.
+	self assert: child skinManager installedSkin isThemeSkin.
 	e styleSheet: sheet.
 	self assert: e skinManager newSkinRequested.
 	self assert: child skinManager newSkinRequested.

@@ -9,7 +9,7 @@ ToTableElementEventHandler >> addedToSpaceEvent: anEvent [
 
 	| table |
 	table := anEvent currentTarget.
-	table whenLayoutedDoOnce: [ table recordCellsWidth ]
+	table header whenLayoutedDoOnce: [ table recordCellsWidth ]
 ]
 
 { #category : #'api - accessing' }

@@ -25,19 +25,25 @@ ToSkin >> handleEvent: anEvent [
 ]
 
 { #category : #testing }
-ToSkin >> isKnownSkin [
-
-	^ self isUnknownSkin not
-]
-
-{ #category : #testing }
 ToSkin >> isNullSkin [
 
 	^ false
 ]
 
 { #category : #testing }
+ToSkin >> isThemeSkin [
+
+	^ true
+]
+
+{ #category : #testing }
 ToSkin >> isUnknownSkin [
+
+	^ false
+]
+
+{ #category : #testing }
+ToSkin >> isUnresolvedSkin [
 
 	^ false
 ]

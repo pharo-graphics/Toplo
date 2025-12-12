@@ -548,8 +548,14 @@ BlElement >> localTheme: aTheme [
 { #category : #'*Toplo' }
 BlElement >> lookupTheme [
 
-	self bottomUpLocalThemeDo: [ :th | ^ th ].
-	^ self space toTheme
+	| found |
+	self bottomUpLocalThemeDo: [ :th | found := th ].
+	found ifNil: [
+			found := self space
+				         ifNil: [ ToSpaceNotFoundError signal ]
+				         ifNotNil: [ :sp | sp toTheme ] ].
+	found ifNil: [ ToThemeNotFoundError signal ].
+	^ found
 ]
 
 { #category : #'*Toplo' }

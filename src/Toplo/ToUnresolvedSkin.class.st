@@ -1,5 +1,5 @@
 Class {
-	#name : #ToUnknownSkin,
+	#name : #ToUnresolvedSkin,
 	#superclass : #ToSkin,
 	#classVars : [
 		'Instance'
@@ -8,19 +8,19 @@ Class {
 }
 
 { #category : #accessing }
-ToUnknownSkin class >> instance [ 
+ToUnresolvedSkin class >> instance [ 
 
 	^ Instance ifNil: [ Instance := self new ]
 ]
 
 { #category : #testing }
-ToUnknownSkin >> isThemeSkin [
+ToUnresolvedSkin >> isThemeSkin [
 
 	^ false
 ]
 
 { #category : #testing }
-ToUnknownSkin >> isUnknownSkin [ 
+ToUnresolvedSkin >> isUnresolvedSkin [
 
 	^ true
 ]

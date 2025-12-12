@@ -1,11 +1,11 @@
 Class {
-	#name : #ToTreeTableHeaderElement,
-	#superclass : #ToTableHeaderElement,
+	#name : #ToTreeTableHeaderNodeContainer,
+	#superclass : #ToTableHeaderNodeContainer,
 	#category : #'Toplo-Widget-Table-Header'
 }
 
 { #category : #initialization }
-ToTreeTableHeaderElement class >> initializeToRawTheme: aTheme [
+ToTreeTableHeaderNodeContainer class >> initializeToRawTheme: aTheme [
 	" Now setup the default label weight and the header padding "
 
 	<toploThemeInstallerFor: #ToRawTheme>

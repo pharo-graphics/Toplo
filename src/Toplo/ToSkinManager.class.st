@@ -7,7 +7,6 @@ Class {
 		'skinStateQueue',
 		'newSkinRequested',
 		'installedSkin',
-		'isInstallingSkin',
 		'preventedSkinEventClasses',
 		'tokenPropertyMap',
 		'stampMap'
@@ -85,6 +84,7 @@ ToSkinManager >> forceNewSkinRequested: aBoolean in: anElement [
 	
 	newSkinRequested := aBoolean.
 	newSkinRequested ifFalse: [ ^ self ].
+	anElement space ifNil: [ ToSpaceNotFoundError signal ].
 	anElement space needSkinInstallPass: true
 ]
 
@@ -93,7 +93,6 @@ ToSkinManager >> initialize [
 
 	super initialize.
 
-	isInstallingSkin := false.
 	newSkinRequested := false.
 	installedSkin := ToUnknownSkin instance.
 	skinStateQueue := ToSkinStateQueue new
@@ -104,25 +103,31 @@ ToSkinManager >> installNewSkinIn: anElement [
 	" actually install the skin if requested "
 
 	newSkinRequested ifFalse: [ ^ self ].
-	isInstallingSkin ifTrue: [ ^ self ].
-	self installingWhile: [
-			self uninstallSkinIn: anElement.
-			(self skinToInstallIn: anElement) ifNotNil: [ :skin |
-				self installSkin: skin in: anElement ].
-			" check skin installation "
-			installedSkin isUnknownSkin ifTrue: [
-				Error signal: 'The skin remains unknown' ].
-			" apply style here directly to benefit from the installer recursion protection
-					because  requestNewSkin may be sent during skin installation 
-					(in that case it it ignored) "
-			self applyEnqueuedStatesFor: anElement.
-			newSkinRequested := false ]
+	" if my skin is unresolved here it means that I am in a recursive send of myself "
+	installedSkin isUnresolvedSkin ifTrue: [ ^ self ].
+
+	self uninstallSkinIn: anElement.
+
+	installedSkin := ToUnresolvedSkin instance.
+	(self skinToInstallIn: anElement) ifNotNil: [ :skin |
+		self installSkin: skin in: anElement ].
+
+	" if my skin is still unresolved here it means that it is impossible to find the new skin "
+	installedSkin isUnresolvedSkin ifTrue: [ ToUnresolvedSkinError signal ].
+
+	" apply style here directly to benefit from the installer recursion protection
+	because  requestNewSkin may be sent during skin installation 
+	(in that case it it ignored) "
+	self applyEnqueuedStatesFor: anElement.
+
+	newSkinRequested := false
 ]
 
 { #category : #'skin - installing / uninstalling' }
 ToSkinManager >> installSkin: aSkin in: anElement [
 
 	" store the skin "
+	aSkin isThemeSkin ifFalse: [ ToUnresolvedSkinError signal ].
 	installedSkin := aSkin.
 	anElement addEventHandler: installedSkin.
 	self skinStateQueue enqueueInstallStateFor: anElement
@@ -152,17 +157,6 @@ ToSkinManager >> installedTheme [
 ToSkinManager >> installedTheme: aTheme [ 
 
 	installedTheme := aTheme
-]
-
-{ #category : #'skin - installing / uninstalling' }
-ToSkinManager >> installingWhile: aBlock [
-
-	isInstallingSkin ifTrue: [
-			'Asking to install a skin while a skin is currently under installation'
-				traceCr.
-			^ self ].
-	isInstallingSkin := true.
-	aBlock ensure: [ isInstallingSkin := false ]
 ]
 
 { #category : #accessing }
@@ -258,11 +252,11 @@ ToSkinManager >> skinStateQueue [
 { #category : #'skin - installing / uninstalling' }
 ToSkinManager >> skinToInstallIn: anElement [
 
-	| theme skin |
-	theme := anElement lookupTheme.
-	skin := theme defaultSkinFor: anElement.
-	skin setUpforElement: anElement inTheme: theme.
-	^ skin
+	^ anElement lookupTheme ifNotNil: [ :theme |
+			  | skin |
+			  skin := theme defaultSkinFor: anElement.
+			  skin setUpforElement: anElement inTheme: theme.
+			  skin ]
 ]
 
 { #category : #'accessing - stamps' }
@@ -294,7 +288,8 @@ ToSkinManager >> uninstallSkinIn: anElement [
 	" uninstall the skin "
 
 	installedSkin isUnknownSkin ifTrue: [ ^ self ].
-	self skinStateQueue enqueueUninstallStateFor: anElement.
-	anElement removeEventHandler: installedSkin.
+	installedSkin isUnresolvedSkin ifFalse: [
+			self skinStateQueue enqueueUninstallStateFor: anElement.
+			anElement removeEventHandler: installedSkin ].
 	installedSkin := ToUnknownSkin instance
 ]

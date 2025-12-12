@@ -60,13 +60,13 @@ ToThemeTest >> testThemeChangedWithStyleSheetTheme3 [
 	space root addChild: e.
 	e addStamp: #primary.
 	e labelText: 'Default button'.
-	self assert: e skinManager installedSkin isKnownSkin.
+	self assert: e skinManager installedSkin isThemeSkin.
 	" because of the token properties installation -> have a skin installer/uninstaller "
 	self assert: e skinManager newSkinRequested.
 	self applyAllEnqueuedStates.
 	self waitTestingSpaces.
 	self deny: e skinManager newSkinRequested.
-	self assert: e skinManager installedSkin isKnownSkin.
+	self assert: e skinManager installedSkin isThemeSkin.
 	self applyAllEnqueuedStates.
 	self waitTestingSpaces.
 	self deny: e skinManager newSkinRequested

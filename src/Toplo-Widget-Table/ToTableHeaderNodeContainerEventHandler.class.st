@@ -1,11 +1,11 @@
 Class {
-	#name : #ToTableHeaderElementEventHandler,
+	#name : #ToTableHeaderNodeContainerEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#category : #'Toplo-Widget-Table-Header'
 }
 
 { #category : #sorting }
-ToTableHeaderElementEventHandler >> columnSortRequestEvent: anEvent [
+ToTableHeaderNodeContainerEventHandler >> columnSortRequestEvent: anEvent [
 
 	| sortFunctions columns table header |
 	"I sort the data based on the information in the column configuration.
@@ -31,6 +31,6 @@ ToTableHeaderElementEventHandler >> columnSortRequestEvent: anEvent [
 ]
 
 { #category : #'api - accessing' }
-ToTableHeaderElementEventHandler >> eventsToHandle [
+ToTableHeaderNodeContainerEventHandler >> eventsToHandle [
 	^  { ToTableSortRequestEvent }
 ]

@@ -85,7 +85,7 @@ ToBlElementTest >> testEnsureCanManageSkin [
 	space root addChild: e.
 	self applyAllEnqueuedStates.
 	self waitTestingSpaces.
-	self assert: e skinManager installedSkin isKnownSkin 
+	self assert: e skinManager installedSkin isThemeSkin 
 ]
 
 { #category : #'tests - stamp' }
@@ -118,7 +118,7 @@ ToBlElementTest >> testRequestSkin [
 	self assert: e skinManager installedSkin isUnknownSkin.
 	space applyAllSkinInstallers.
 	self deny: e skinManager newSkinRequested.
-	self assert: e skinManager installedSkin isKnownSkin 
+	self assert: e skinManager installedSkin isThemeSkin 
 	
 ]
 
@@ -135,11 +135,11 @@ ToBlElementTest >> testRequestSkin2 [
 	e ensuredSkinManager requestNewSkinIn: e.
 	self assert: e skinManager notNil.
 	self deny: e skinManager newSkinRequested.
-	self assert: e skinManager installedSkin isKnownSkin.
+	self assert: e skinManager installedSkin isThemeSkin.
 	" apply skin installer from space has no effect on e since it has no skinInstaller "
 	space applyAllSkinInstallers.
 	self deny: e skinManager newSkinRequested.
-	self assert: e skinManager installedSkin isKnownSkin
+	self assert: e skinManager installedSkin isThemeSkin
 ]
 
 { #category : #tests }

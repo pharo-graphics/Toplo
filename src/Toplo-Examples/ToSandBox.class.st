@@ -8675,6 +8675,7 @@ ToSandBox class >> example_toTable1 [
 
 	| table |
 	table := ToTableElement new.
+	table inspect.
 	table columns: {
 			(ToTableColumn new
 				 title: 'Name';

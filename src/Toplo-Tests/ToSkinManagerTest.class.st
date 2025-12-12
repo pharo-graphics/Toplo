@@ -15,7 +15,7 @@ ToSkinManagerTest >> testApplySkinInstallerIn [
 	space root addChild: e.
 	e skinManager uninstallSkinIn: e.
 	e defaultSkin: (sk := ToRawSkin new).
-	self assert: e skinManager installedSkin isKnownSkin.
+	self assert: e skinManager installedSkin isThemeSkin.
 	self deny: e skinManager newSkinRequested.
 	e skinManager installNewSkinIn: e.
 	self assert: e skinManager installedSkin identicalTo: sk.
@@ -30,7 +30,7 @@ ToSkinManagerTest >> testApplySkinInstallerIn2 [
 	" no skinInstaller -> no installed skin  "
 	self waitTestingSpaces.
 	e ensuredSkinManager installNewSkinIn: e.
-	self deny: e skinManager installedSkin isKnownSkin.
+	self deny: e skinManager installedSkin isThemeSkin.
 	e skinManager requestNewSkinIn: e.
 	self assert: e skinManager newSkinRequested.
 
@@ -118,7 +118,7 @@ ToSkinManagerTest >> testDefaultRawSkinIn [
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
 	self assert: e defaultRawSkin identicalTo: sk.
 	self assert:
-		(e skinManager installedSkin) isKnownSkin.
+		(e skinManager installedSkin) isThemeSkin.
 	self
 		assert:
 			(e eventDispatcher handlers select: [ :h | h isKindOf: ToRawSkin ])
@@ -135,7 +135,7 @@ ToSkinManagerTest >> testDefaultSkin [
 	e defaultSkin: (sk := ToRawSkin new).
 	self assert: e defaultSkin identicalTo: sk.
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
-	self assert: e skinManager installedSkin isKnownSkin.
+	self assert: e skinManager installedSkin isThemeSkin.
 	self waitTestingSpaces.
 	self
 		assert:
@@ -208,7 +208,7 @@ ToSkinManagerTest >> testForceDefaultSkinIn [
 	self assert: e defaultSkin identicalTo: sk.
 	self should: [ e skinManager skinToInstallIn: e ] raise: Error.
 	self deny:
-		(e skinManager installedSkin) isKnownSkin.
+		(e skinManager installedSkin) isThemeSkin.
 	self assert: e skinManager newSkinRequested
 ]
 
@@ -247,14 +247,14 @@ ToSkinManagerTest >> testInstallSkinIn2 [
 	| e |
 	e := ToElement new.
 	self deny:
-		(e skinManager installedSkin) isKnownSkin.
+		(e skinManager installedSkin) isThemeSkin.
 	" if not theme is found in its parent chain, then an element must be attached to a space. 
 	If not, skin installation raises an Error because during skin installation the element theme is lookup "
 	space root addChild: e.
 	e skinManager uninstallSkinIn: e.
 	e skinManager installSkin: (e skinManager skinToInstallIn: e) in: e.
 	self assert:
-		(e skinManager installedSkin) isKnownSkin.
+		(e skinManager installedSkin) isThemeSkin.
 	self
 		assert: (e skinManager installedSkin) class
 		equals: (e lookupTheme newSkinFor: e) class
@@ -293,7 +293,7 @@ ToSkinManagerTest >> testInstallSkinInError [
 	e skinManager installSkin: skin in: e.
 	e skinManager uninstallSkinIn: e.
 	e skinManager installSkin: skin in: e.
-	self assert: e skinManager installedSkin isKnownSkin.
+	self assert: e skinManager installedSkin isThemeSkin.
 	Bloc debugModeEnabled: debugWasEnabled.
 ]
 
@@ -306,7 +306,7 @@ ToSkinManagerTest >> testInstalledSkin [
 	e defaultSkin: (sk := ToRawSkin new).
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
-	self assert: e skinManager installedSkin isKnownSkin.
+	self assert: e skinManager installedSkin isThemeSkin.
 	e skinManager uninstallSkinIn: e.
 	e skinManager installSkin: sk in: e.
 	self assert: (e skinManager installedSkin) identicalTo: sk.
@@ -320,7 +320,7 @@ ToSkinManagerTest >> testInstalledSkin [
 	e skinManager uninstallSkinIn: e.
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
-	self deny: e skinManager installedSkin isKnownSkin.
+	self deny: e skinManager installedSkin isThemeSkin.
 	self
 		assert:
 			(e eventDispatcher handlers select: [ :h | h isKindOf: ToRawSkin ])
@@ -387,7 +387,7 @@ ToSkinManagerTest >> testRequestInstallSkinInWhenInSpace [
 	e := ToElement new.
 	space root addChild: e.
 	self deny: e skinManager newSkinRequested.
-	self assert: e skinManager installedSkin isKnownSkin
+	self assert: e skinManager installedSkin isThemeSkin
 ]
 
 { #category : #tests }
@@ -416,14 +416,14 @@ ToSkinManagerTest >> testRequestSkinInWithChildrenWhenInSpace [
 	self deny: e skinManager newSkinRequested.
 	self deny: child skinManager newSkinRequested.
 	self deny: childchild skinManager newSkinRequested.
-	self assert: child skinManager installedSkin isKnownSkin.
-	self assert: childchild skinManager installedSkin isKnownSkin.
+	self assert: child skinManager installedSkin isThemeSkin.
+	self assert: childchild skinManager installedSkin isThemeSkin.
 	self waitTestingSpaces.
 	self deny: child skinManager newSkinRequested.
 	self deny: childchild skinManager newSkinRequested.
-	self assert: e skinManager installedSkin isKnownSkin.
-	self assert: child skinManager installedSkin isKnownSkin.
-	self assert: childchild skinManager installedSkin isKnownSkin 
+	self assert: e skinManager installedSkin isThemeSkin.
+	self assert: child skinManager installedSkin isThemeSkin.
+	self assert: childchild skinManager installedSkin isThemeSkin 
 
 	
 
@@ -440,7 +440,7 @@ ToSkinManagerTest >> testSetDefaultRawSkinIn [
 	self should: [ e skinManager skinToInstallIn: e ] raise: Error.
 	space root addChild: e.
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
-	self assert: e skinManager installedSkin isKnownSkin.
+	self assert: e skinManager installedSkin isThemeSkin.
 	self deny: e skinManager newSkinRequested.
 	self waitTestingSpaces.
 	self deny: e skinManager newSkinRequested.
@@ -457,7 +457,7 @@ ToSkinManagerTest >> testSetDefaultSkinIn [
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
 	self assert: e defaultSkin identicalTo: sk.
-	self assert: e skinManager installedSkin isKnownSkin.
+	self assert: e skinManager installedSkin isThemeSkin.
 	self waitTestingSpaces.
 	self
 		assert:
@@ -536,11 +536,11 @@ ToSkinManagerTest >> testUninstallSkinIn [
 	space root addChild: e.
 	skin := ToRawSkin new.
 	e skinManager uninstallSkinIn: e.
-	self deny: e skinManager installedSkin isKnownSkin.
+	self deny: e skinManager installedSkin isThemeSkin.
 	e skinManager installSkin: skin in: e.
-	self assert: e skinManager installedSkin isKnownSkin.
+	self assert: e skinManager installedSkin isThemeSkin.
 	e skinManager uninstallSkinIn: e.
-	self deny: e skinManager installedSkin isKnownSkin
+	self deny: e skinManager installedSkin isThemeSkin
 ]
 
 { #category : #tests }

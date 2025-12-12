@@ -120,7 +120,6 @@ ToTableElement >> initializeDividers [
 ToTableElement >> initializeHeader [
 
 	header := self newHeaderElement
-		          id: #header;
 		          elevation: (BlRelativeElevation elevation: 10);
 		          parentTable: self;
 		          yourself
@@ -197,7 +196,7 @@ ToTableElement >> newHeaderCheckbox [
 { #category : #initialization }
 ToTableElement >> newHeaderElement [
 
-	^ ToTableHeaderElement new
+	^ ToTableHeaderNodeContainer new
 ]
 
 { #category : #initialization }

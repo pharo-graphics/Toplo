@@ -7,7 +7,7 @@ Class {
 { #category : #initialization }
 ToTreeTableElement >> newHeaderElement [
 
-	^ ToTreeTableHeaderElement new
+	^ ToTreeTableHeaderNodeContainer new
 ]
 
 { #category : #initialization }

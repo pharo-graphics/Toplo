@@ -4,6 +4,18 @@ Class {
 	#category : #'Toplo-Widget-Table-Header'
 }
 
+{ #category : #'t - table node' }
+ToTableHeaderNode >> cellContainerAt: anIndex [ 
+
+	^ self childAt: anIndex
+]
+
+{ #category : #'t - table node' }
+ToTableHeaderNode >> cellContainers [ 
+
+	^ self children asArray
+]
+
 { #category : #initialization }
 ToTableHeaderNode >> defaultLayout [ 
 

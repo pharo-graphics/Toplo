@@ -8780,6 +8780,7 @@ ToSandBox class >> example_toTreeTable1 [
 
 	| table |
 	table := ToTreeTableElement new.
+	table inspect.
 	table nodeManager childrenGetter: [ :dataItem |
 		dataItem subclasses sorted: [ :a :b | a name < b name ] ].
 	table columns: {

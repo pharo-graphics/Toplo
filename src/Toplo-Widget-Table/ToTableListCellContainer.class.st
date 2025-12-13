@@ -46,7 +46,7 @@ ToTableListCellContainer >> holder: aTableNodeHolder [
 ToTableListCellContainer >> holder: aTableNodeHolder column: aColumn [
 
 	self holder: aTableNodeHolder.
-	self column: aColumn
+	self initializeWithColumn: aColumn
 ]
 
 { #category : #'t - triplet container - instance creation' }

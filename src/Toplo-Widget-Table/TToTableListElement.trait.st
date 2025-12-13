@@ -9,7 +9,7 @@ Trait {
 { #category : #'t - table list element' }
 TToTableListElement >> columnStateAt: anIndex [
 
-	^ (self headerCellContainerAt: anIndex) state
+	^ parentTable columnStateAt: anIndex
 ]
 
 { #category : #'t - table list element' }

@@ -37,9 +37,23 @@ ToTableHeaderNodeContainer >> addCheckbox [
 ]
 
 { #category : #accessing }
+ToTableHeaderNodeContainer >> cellContainerAt: anIndex [
+
+	^ self node cellContainerAt: anIndex
+]
+
+{ #category : #accessing }
 ToTableHeaderNodeContainer >> cellContainers [
 
-	^ self selectChildrenWithId: #headerCellContainer
+	^ self node cellContainers
+]
+
+{ #category : #initialization }
+ToTableHeaderNodeContainer >> cleanUp [ 
+
+	self removeCheckbox.
+	self middleContainer removeChildren
+	
 ]
 
 { #category : #accessing }
@@ -49,25 +63,14 @@ ToTableHeaderNodeContainer >> columns [
 ]
 
 { #category : #accessing }
-ToTableHeaderNodeContainer >> columns: aTableColumnArray [
-
-	parentTable removeColumnContainers.
-	self removeCellContainers.
-	
-	aTableColumnArray do: [ :column |
-			| cellContainer |
-			cellContainer := self newCellContainerInColumn: column.
-			self middleContainer addChild: cellContainer ]
-]
-
-{ #category : #accessing }
 ToTableHeaderNodeContainer >> divider: aDivider movedBy: aDistance from: aStartLocation [
 
-	|  cont minWidth column |
+	|  cont minWidth column colElement |
+	colElement := self rulerCells at: aDivider cellIndex.
 	cont := self cellContainers at: aDivider cellIndex.
-	column := parentTable columns at: aDivider cellIndex.
+	column := colElement column.
 	minWidth := column minWidth.
-	cont updateWidthWith: ((cont state startDragWidth + aDistance) max: minWidth)
+	cont updateWidthWith: ((colElement state startDragWidth + aDistance) max: minWidth)
 ]
 
 { #category : #accessing }
@@ -84,8 +87,16 @@ ToTableHeaderNodeContainer >> initialize [
 	super initialize.
 	self createMiddleContainer.
 	self vFitContent.
-	self hMatchParent.
-	self addEventHandler: ToTableHeaderNodeContainerEventHandler new
+	self hMatchParent
+]
+
+{ #category : #accessing }
+ToTableHeaderNodeContainer >> initializeWithColumns: aTableColumnArray [
+	
+	aTableColumnArray do: [ :column |
+			| cellContainer |
+			cellContainer := self newCellContainerInColumn: column.
+			self middleContainer addChild: cellContainer ]
 ]
 
 { #category : #initialization }
@@ -107,6 +118,12 @@ ToTableHeaderNodeContainer >> newMiddleContainer [
 ToTableHeaderNodeContainer >> newRawSkin [ 
 
 	^ ToTableHeaderElementSkin new
+]
+
+{ #category : #accessing }
+ToTableHeaderNodeContainer >> node [
+
+	^ self middleContainer 
 ]
 
 { #category : #accessing }
@@ -142,6 +159,12 @@ ToTableHeaderNodeContainer >> removeCheckbox [
 
 	checkbox ifNil: [ ^ self ].
 	checkbox removeFromParent
+]
+
+{ #category : #accessing }
+ToTableHeaderNodeContainer >> rulerCells [
+
+	^ parentTable header rulerCells
 ]
 
 { #category : #accessing }

@@ -2,7 +2,8 @@ Class {
 	#name : #ToTableCellContainer,
 	#superclass : #ToTripletContainer,
 	#instVars : [
-		'column'
+		'column',
+		'parentTable'
 	],
 	#category : #'Toplo-Widget-Table-Core'
 }
@@ -20,18 +21,12 @@ ToTableCellContainer >> column [
 ]
 
 { #category : #accessing }
-ToTableCellContainer >> column: aTableColumn [
+ToTableCellContainer >> initializeWithColumn: aTableColumn [
 
 	column ifNotNil: [ (BlImmutableObjectChangeError object: self) signal  ].
 	column := aTableColumn.
 	self createMiddleContainer
 
-]
-
-{ #category : #initialization }
-ToTableCellContainer >> newColumnState [
-
-	^ ToTableColumnState new
 ]
 
 { #category : #'t - triplet container - instance creation' }

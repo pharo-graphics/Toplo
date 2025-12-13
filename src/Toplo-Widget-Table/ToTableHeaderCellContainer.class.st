@@ -1,9 +1,6 @@
 Class {
 	#name : #ToTableHeaderCellContainer,
 	#superclass : #ToTableCellContainer,
-	#instVars : [
-		'state'
-	],
 	#category : #'Toplo-Widget-Table-Header'
 }
 
@@ -11,7 +8,7 @@ Class {
 ToTableHeaderCellContainer class >> column: aColumn [
 
 	^ self new
-		  column: aColumn;
+		  initializeWithColumn: aColumn;
 		  yourself
 ]
 
@@ -37,27 +34,10 @@ ToTableHeaderCellContainer class >> initializeToRawTheme: aTheme [
 							(cont valueOfTokenNamed: #'table-header-cell-padding-V') ] ]
 ]
 
-{ #category : #accessing }
-ToTableHeaderCellContainer >> column: aTableColumn [
-
-	super column: aTableColumn.
-	self initializeState
-]
-
-{ #category : #initialization }
-ToTableHeaderCellContainer >> initialize [
-
-	super initialize.
-	self id: #headerCellContainer
-]
-
 { #category : #updating }
 ToTableHeaderCellContainer >> initializeFromColumnInTableElement: aTableElement [
 
 	column buildHeaderCellInContainer: self inTableElement: aTableElement.
-	column width
-		ifNotNil: [ :w | self width: w ]
-		ifNil: [ self hMatchParent ].
 	column sorterBlock ifNotNil: [
 			| sorterContainer |
 			sorterContainer := self newSorterContainer.
@@ -67,12 +47,6 @@ ToTableHeaderCellContainer >> initializeFromColumnInTableElement: aTableElement 
 				cull: sorterContainer
 				cull: column
 				cull: aTableElement ]
-]
-
-{ #category : #initialization }
-ToTableHeaderCellContainer >> initializeState [
-
-	self state initializeFromColumn: column
 ]
 
 { #category : #'t - triplet container - instance creation' }
@@ -92,18 +66,4 @@ ToTableHeaderCellContainer >> newSorterContainer [
 	sorterContainer fitContent.
 	sorterContainer constraintsDo: [ :c | c linear vertical alignCenter ].
 	^ sorterContainer
-]
-
-{ #category : #accessing }
-ToTableHeaderCellContainer >> state [
-
-	^ state ifNil: [ state := self newColumnState ]
-]
-
-{ #category : #accessing }
-ToTableHeaderCellContainer >> updateWidthWith: aNumber [
-
-	state width: aNumber.
-	super updateWidthWith: aNumber.
-
 ]

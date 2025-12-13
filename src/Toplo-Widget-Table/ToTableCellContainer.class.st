@@ -25,7 +25,9 @@ ToTableCellContainer >> initializeWithColumn: aTableColumn [
 
 	column ifNotNil: [ (BlImmutableObjectChangeError object: self) signal  ].
 	column := aTableColumn.
-	self createMiddleContainer
+	self createMiddleContainer.
+	self hMatchParent.
+	self vFitContent
 
 ]
 

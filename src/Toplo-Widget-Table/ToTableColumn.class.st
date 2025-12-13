@@ -49,6 +49,7 @@ ToTableColumn >> buildListCellInContainer: aCellContainer atIndex: aColumnIndex 
 	state := aTableNode holder listElement columnStateAt: aColumnIndex.
 	cellData := self fetchedCellDataFromDataIndex:
 		            aTableNode holder dataItem.
+	aCellContainer hMatchParent.
 	aCellContainer cell constraintsDo: [ :c | c horizontal matchParent ].
 
 	cellBuilder

@@ -11,21 +11,6 @@ Class {
 	#category : #'Toplo-Widget-Table-Header'
 }
 
-{ #category : #initialization }
-ToTableHeaderNodeContainer class >> initializeToRawTheme: aTheme [
-	" Now setup the default label weight and the header padding "
-
-	<toploThemeInstallerFor: #ToRawTheme>
-	aTheme select: (self asTypeSelector exact: false) style: [
-			aTheme
-				when: ToInstallSkinEvent
-				write: (aTheme property: #padding)
-				with: [ :e |
-						BlInsets empty
-							"horizontal: (e valueOfTokenNamed: #'list-padding-H')
-							vertical: (e valueOfTokenNamed: #'list-padding-V') "] ]
-]
-
 { #category : #accessing }
 ToTableHeaderNodeContainer >> addCheckbox [
 
@@ -99,6 +84,14 @@ ToTableHeaderNodeContainer >> initializeWithColumns: aTableColumnArray [
 			self middleContainer addChild: cellContainer ]
 ]
 
+{ #category : #skin }
+ToTableHeaderNodeContainer >> installRawStyle [ 
+
+	super installRawStyle.
+	self padding: (BlInsets horizontal: (self valueOfTokenNamed: #'list-padding-H'))
+	
+]
+
 { #category : #initialization }
 ToTableHeaderNodeContainer >> newCellContainerInColumn: aColumn [
 
@@ -112,12 +105,6 @@ ToTableHeaderNodeContainer >> newCellContainerInColumn: aColumn [
 ToTableHeaderNodeContainer >> newMiddleContainer [
 
 	^ ToTableHeaderNode new
-]
-
-{ #category : #'instance creation' }
-ToTableHeaderNodeContainer >> newRawSkin [ 
-
-	^ ToTableHeaderElementSkin new
 ]
 
 { #category : #accessing }

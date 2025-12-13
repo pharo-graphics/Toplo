@@ -116,22 +116,22 @@ ToTableElement >> initializeColumnContainers [
 	columnContainers ifNotNil: [ self removeChildren: columnContainers ].
 	columnContainers := OrderedCollection new.
 	self columns withIndexDo: [ :column :idx |
-			| colContainer cellContainer |
+			| colContainer rulerCell |
 			colContainer := ToTableColumnContainer new
 				                column: column;
 				                yourself.
-			cellContainer := header cellContainerAt: idx.
+			rulerCell := header rulerCellAt: idx.
 			colContainer constraintsDo: [ :c |
 					c vertical matchParent.
 					c ignoreByLayout.
 					c anchors add:
-						(c anchors topAnchor on: cellContainer bottomAnchor).
+						(c anchors topAnchor on: list topAnchor).
 					c anchors add: (c anchors heightAnchor on:
-							 c anchors parent heightAnchor - cellContainer height).
+							 list heightAnchor).
 					c anchors add:
-						(c anchors leftAnchor on: cellContainer leftAnchor).
+						(c anchors leftAnchor on: rulerCell leftAnchor).
 					c anchors add:
-						(c anchors widthAnchor on: cellContainer widthAnchor) ].
+						(c anchors widthAnchor on: rulerCell widthAnchor) ].
 			column containerBuilder cull: colContainer cull: self cull: self.
 			columnContainers add: colContainer ]
 ]

@@ -488,7 +488,7 @@ ToTheme >> newSkinFor: anElement [
 { #category : #'api - hooks' }
 ToTheme >> onInstalledIn: anElement [
 
-	anElement isSpaceRoot ifTrue: [
+	"anElement isSpaceRoot ifTrue: [
 			(Pragma allNamed: #toploThemeInstallerFor:) do: [ :each |
 					| themeClassName themeClass |
 					themeClassName := each arguments first asSymbol.
@@ -497,7 +497,7 @@ ToTheme >> onInstalledIn: anElement [
 						 self class inheritsFrom: themeClass ]) ifTrue: [
 						each methodClass soleInstance
 							perform: each methodSelector
-							with: self ] ] ].
+							with: self ] ] ]."
 				
 	anElement onThemeInstalled: self.
 	anElement isSpaceRoot ifFalse: [ ^ self ].

@@ -10,30 +10,6 @@ Class {
 }
 
 { #category : #initialization }
-ToTableListElement class >> initializeToRawTheme: aTheme [
-	" Now setup the default label weight and the header padding "
-
-	<toploThemeInstallerFor: #ToRawTheme>
-	aTheme select: (self asTypeSelector exact: false) style: [
-			aTheme
-				when: ToInstallSkinEvent
-				write: (aTheme property: #geometry)
-				with: [ :header | BlRectangleGeometry new ].
-			aTheme
-				when: ToInstallSkinEvent
-				write: (aTheme property: #padding)
-				with: [ :e |
-						BlInsets empty ] ].
-
-	aTheme select: #cellCheckbox asIdSelector style: [
-			aTheme
-				when: ToInstallSkinEvent
-				write: (aTheme property: #padding)
-				with: [ :cbox |
-					BlInsets horizontal: (cbox valueOfTokenNamed: #'padding-XS') ] ]
-]
-
-{ #category : #initialization }
 ToTableListElement >> defaultNodeManagerClass [
 
 	^ ToTableNodeManager
@@ -43,6 +19,7 @@ ToTableListElement >> defaultNodeManagerClass [
 ToTableListElement >> initialize [
 
 	super initialize.
+	self addStamp: #geometry withValue: BlRectangleGeometry new.
 	self initializeScrollBar
 ]
 

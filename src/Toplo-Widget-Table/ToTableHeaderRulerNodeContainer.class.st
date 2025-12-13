@@ -12,21 +12,6 @@ Class {
 }
 
 { #category : #initialization }
-ToTableHeaderRulerNodeContainer class >> initializeToRawTheme: aTheme [
-	" Now setup the default label weight and the header padding "
-
-	<toploThemeInstallerFor: #ToRawTheme>
-	aTheme select: (self asTypeSelector exact: false) style: [
-			aTheme
-				when: ToInstallSkinEvent
-				write: (aTheme property: #padding)
-				with: [ :e |
-						BlInsets empty
-							"horizontal: (e valueOfTokenNamed: #'list-padding-H')
-							vertical: (e valueOfTokenNamed: #'list-padding-V') "] ]
-]
-
-{ #category : #initialization }
 ToTableHeaderRulerNodeContainer >> addCheckbox [
 
 	checkbox ifNotNil: [ ^ self ].
@@ -46,7 +31,7 @@ ToTableHeaderRulerNodeContainer >> cleanUp [
 { #category : #accessing }
 ToTableHeaderRulerNodeContainer >> columnStateAt: anIndex [
 
-	^ (self rulerCells at: anIndex) state
+	^ (self rulerCellAt: anIndex) state
 ]
 
 { #category : #initialization }
@@ -79,6 +64,7 @@ ToTableHeaderRulerNodeContainer >> initialize [
 	super initialize.
 	self createMiddleContainer.
 	self height: 0.
+	self visibility: (BlVisibility hidden).
 	self hMatchParent
 ]
 
@@ -107,6 +93,14 @@ ToTableHeaderRulerNodeContainer >> initializeWithColumns: aTableColumnArray [
 				                 initializeFromColumn: column;
 				                 yourself.
 			self middleContainer addChild: columnElement ]
+]
+
+{ #category : #skin }
+ToTableHeaderRulerNodeContainer >> installRawStyle [ 
+
+	super installRawStyle.
+	self padding: (BlInsets horizontal: (self valueOfTokenNamed: #'list-padding-H'))
+	
 ]
 
 { #category : #'t - triplet container - instance creation' }
@@ -142,6 +136,12 @@ ToTableHeaderRulerNodeContainer >> removeCheckbox [
 
 	checkbox ifNil: [ ^ self ].
 	checkbox removeFromParent
+]
+
+{ #category : #accessing }
+ToTableHeaderRulerNodeContainer >> rulerCellAt: anIndex [
+
+	^ self rulerCells at: anIndex
 ]
 
 { #category : #accessing }

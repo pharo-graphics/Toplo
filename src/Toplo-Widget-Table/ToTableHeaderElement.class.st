@@ -100,11 +100,12 @@ ToTableHeaderElement >> parentTable: aTableElement [
 	ruler := self newHeaderColumnsRuler
 		                parentTable: parentTable;
 		                yourself.
-	self addChild: ruler.
 	nodeContainer := self newHeaderNodeContainer
 		                 parentTable: parentTable;
 		                 yourself.
-	self addChild: nodeContainer 
+	self addChild: ruler.
+	self addChild: nodeContainer.
+
 
 ]
 
@@ -113,6 +114,12 @@ ToTableHeaderElement >> recordCellsWidth [
 
 	ruler recordCellsWidth.
 	nodeContainer recordCellsWidth
+]
+
+{ #category : #accessing }
+ToTableHeaderElement >> rulerCellAt: anIndex [
+
+	^ ruler rulerCellAt: anIndex
 ]
 
 { #category : #accessing }

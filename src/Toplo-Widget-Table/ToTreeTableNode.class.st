@@ -43,5 +43,6 @@ ToTreeTableNode >> divider: aDivider movedBy: aDistance from: aStartLocation [
 { #category : #skin }
 ToTreeTableNode >> newRawSkin [ 
 	
+	" have to define a new skin to not use the inherited one "
 	^ ToTreeTableNodeSkin new
 ]

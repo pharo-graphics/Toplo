@@ -15,21 +15,6 @@ ToTableListCellContainer class >> holder: aTableNodeHolder column: aColumn [
 		  yourself
 ]
 
-{ #category : #initialization }
-ToTableListCellContainer class >> initializeToRawTheme: aTheme [
-	" Now setup the default label weight and the header padding "
-
-	<toploThemeInstallerFor: #ToRawTheme>
-	aTheme select: (self asTypeSelector exact: false) style: [
-			aTheme
-				when: ToInstallSkinEvent
-				write: (aTheme property: #padding)
-				with: [ :cont |
-						BlInsets
-							horizontal: (cont valueOfTokenNamed: #'table-cell-padding-H')
-							vertical: (cont valueOfTokenNamed: #'table-cell-padding-V') ] ]
-]
-
 { #category : #accessing }
 ToTableListCellContainer >> columnIndex [
 

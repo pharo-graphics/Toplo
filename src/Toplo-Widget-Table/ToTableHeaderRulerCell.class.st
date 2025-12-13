@@ -19,7 +19,7 @@ ToTableHeaderRulerCell >> initialize [
 
 	super initialize.
 	self hMatchParent.
-	self height: 5.
+	self height: 0.
 	self background: Color random
 ]
 
@@ -32,6 +32,15 @@ ToTableHeaderRulerCell >> initializeFromColumn: aColumn [
 	column width
 		ifNotNil: [ :w | self width: w ]
 		ifNil: [ self hMatchParent ]
+]
+
+{ #category : #skin }
+ToTableHeaderRulerCell >> installRawStyle [ 
+
+	super installRawStyle.
+	self padding: (BlInsets
+				 horizontal: (self valueOfTokenNamed: #'list-node-padding-H') 
+				 vertical: (self valueOfTokenNamed: #'list-node-padding-V'))
 ]
 
 { #category : #accessing }

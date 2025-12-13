@@ -8,8 +8,5 @@ Class {
 ToTableNodeSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		"e padding: (BlInsets
-				 horizontal: (e valueOfTokenNamed: #'list-node-padding-H') 
-				 vertical: (e valueOfTokenNamed: #'list-node-padding-V'))" ]
+	anEvent elementDo: [ :e | ]
 ]

@@ -12,28 +12,6 @@ ToTableHeaderCellContainer class >> column: aColumn [
 		  yourself
 ]
 
-{ #category : #initialization }
-ToTableHeaderCellContainer class >> initializeToRawTheme: aTheme [
-	" Now setup the default label weight and the header padding "
-
-	<toploThemeInstallerFor: #ToRawTheme>
-	aTheme select: (self asTypeSelector exact: false) style: [
-			aTheme
-				when: ToInstallSkinEvent
-				do: [ :cont | "cont background: Color red."
-						cont
-							addTokenNamed: #'font-weight-attribute'
-							withValue: BlFontWeightAttribute bold ].
-			aTheme
-				when: ToInstallSkinEvent
-				write: (aTheme property: #padding)
-				with: [ :cont |
-						BlInsets
-							horizontal: (cont valueOfTokenNamed: #'table-cell-padding-H')
-							vertical:
-							(cont valueOfTokenNamed: #'table-header-cell-padding-V') ] ]
-]
-
 { #category : #updating }
 ToTableHeaderCellContainer >> initializeFromColumnInTableElement: aTableElement [
 
@@ -47,6 +25,15 @@ ToTableHeaderCellContainer >> initializeFromColumnInTableElement: aTableElement 
 				cull: sorterContainer
 				cull: column
 				cull: aTableElement ]
+]
+
+{ #category : #skin }
+ToTableHeaderCellContainer >> installRawStyle [ 
+
+	super installRawStyle.
+	self padding: (BlInsets
+				 horizontal: (self valueOfTokenNamed: #'list-node-padding-H') 
+				 vertical: (self valueOfTokenNamed: #'list-node-padding-V'))
 ]
 
 { #category : #'t - triplet container - instance creation' }

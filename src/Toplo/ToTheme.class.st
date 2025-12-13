@@ -282,7 +282,7 @@ ToTheme class >> defaultTokenProperties [
 		  (ToTokenProperty name: #'padding-XXS' value: 3).
 
 		  (ToTokenProperty name: #'button-interspace' value: 8).
-		  (ToTokenProperty name: #'list-padding-H' value: 6).
+		  (ToTokenProperty name: #'list-padding-H' value: 12).
 		  (ToTokenProperty name: #'list-padding-V' value: 6).
 		  (ToTokenProperty name: #'list-node-padding-H' value: 2).
 		  (ToTokenProperty name: #'list-node-padding-V' value: 5).

@@ -3744,6 +3744,11 @@ ToSandBox class >> example_ProtoObjectSubclasses [
 								 ifEmpty: [ target collapseAll ]
 								 ifNotEmpty: [
 									 indexes do: [ :idx | (target dataSource at: idx) collapse ] ] ];
+					 yourself).
+			menu addSeparator.
+			menu addItem: (ToMenuItem new
+					 labelText: 'inspect';
+					 clickAction: [ target inspect ];
 					 yourself) ].
 	l dataAccessor add: ProtoObject.
 	l openInSpace

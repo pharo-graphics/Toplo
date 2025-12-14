@@ -27,15 +27,6 @@ ToTableHeaderCellContainer >> initializeFromColumnInTableElement: aTableElement 
 				cull: aTableElement ]
 ]
 
-{ #category : #skin }
-ToTableHeaderCellContainer >> installRawStyle [ 
-
-	super installRawStyle.
-	self padding: (BlInsets
-				 horizontal: (self valueOfTokenNamed: #'list-node-padding-H') 
-				 vertical: (self valueOfTokenNamed: #'list-node-padding-V'))
-]
-
 { #category : #'t - triplet container - instance creation' }
 ToTableHeaderCellContainer >> newMiddleContainer [ 
 

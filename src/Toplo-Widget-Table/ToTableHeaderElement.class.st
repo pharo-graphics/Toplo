@@ -78,7 +78,7 @@ ToTableHeaderElement >> newHeaderColumnsRuler [
 { #category : #accessing }
 ToTableHeaderElement >> newHeaderNodeContainer [
 
-	^ ToTableHeaderNodeContainer new
+	^ ToTableHeaderRowNodeContainer new
 ]
 
 { #category : #accessing }

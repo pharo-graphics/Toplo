@@ -1,8 +1,8 @@
 Class {
 	#name : #ToTableRowNode,
 	#superclass : #ToListNode,
-	#traits : 'TToTableNode',
-	#classTraits : 'TToTableNode classTrait',
+	#traits : 'TToTableRowNode',
+	#classTraits : 'TToTableRowNode classTrait',
 	#category : #'Toplo-Widget-Table-List'
 }
 

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToTableRowNodeManager,
 	#superclass : #ToAbstractNodeManager,
-	#traits : 'TToTableNodeManager',
-	#classTraits : 'TToTableNodeManager classTrait',
+	#traits : 'TToTableRowNodeManager',
+	#classTraits : 'TToTableRowNodeManager classTrait',
 	#category : #'Toplo-Widget-Table-List'
 }
 

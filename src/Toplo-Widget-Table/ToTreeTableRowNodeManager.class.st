@@ -1,8 +1,8 @@
 Class {
 	#name : #ToTreeTableRowNodeManager,
 	#superclass : #ToTreeNodeManager,
-	#traits : 'TToGenericTreeNodeManager + TToTableNodeManager',
-	#classTraits : 'TToGenericTreeNodeManager classTrait + TToTableNodeManager classTrait',
+	#traits : 'TToGenericTreeNodeManager + TToTableRowNodeManager',
+	#classTraits : 'TToGenericTreeNodeManager classTrait + TToTableRowNodeManager classTrait',
 	#category : #'Toplo-Widget-Table-List'
 }
 

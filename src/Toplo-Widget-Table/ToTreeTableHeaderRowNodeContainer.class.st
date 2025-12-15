@@ -1,11 +1,11 @@
 Class {
-	#name : #ToTreeTableHeaderNodeContainer,
-	#superclass : #ToTableHeaderNodeContainer,
+	#name : #ToTreeTableHeaderRowNodeContainer,
+	#superclass : #ToTableHeaderRowNodeContainer,
 	#category : #'Toplo-Widget-Table-Header'
 }
 
 { #category : #skin }
-ToTreeTableHeaderNodeContainer >> installRawStyle [
+ToTreeTableHeaderRowNodeContainer >> installRawStyle [
 
 	| interspace arrowWidth |
 	super installRawStyle.

@@ -2,7 +2,7 @@
 I represent how header should be render. The disposition should be similar to what List have (for the size of the columns)
 "
 Class {
-	#name : #ToTableHeaderNodeContainer,
+	#name : #ToTableHeaderRowNodeContainer,
 	#superclass : #ToTripletContainer,
 	#instVars : [
 		'parentTable',
@@ -12,7 +12,7 @@ Class {
 }
 
 { #category : #accessing }
-ToTableHeaderNodeContainer >> addCheckbox [
+ToTableHeaderRowNodeContainer >> addCheckbox [
 
 	checkbox ifNotNil: [ ^ self ].
 	checkbox := parentTable newHeaderCheckbox.
@@ -22,19 +22,19 @@ ToTableHeaderNodeContainer >> addCheckbox [
 ]
 
 { #category : #accessing }
-ToTableHeaderNodeContainer >> cellContainerAt: anIndex [
+ToTableHeaderRowNodeContainer >> cellContainerAt: anIndex [
 
 	^ self node cellContainerAt: anIndex
 ]
 
 { #category : #accessing }
-ToTableHeaderNodeContainer >> cellContainers [
+ToTableHeaderRowNodeContainer >> cellContainers [
 
 	^ self node cellContainers
 ]
 
 { #category : #initialization }
-ToTableHeaderNodeContainer >> cleanUp [ 
+ToTableHeaderRowNodeContainer >> cleanUp [ 
 
 	self removeCheckbox.
 	self middleContainer removeChildren
@@ -42,13 +42,13 @@ ToTableHeaderNodeContainer >> cleanUp [
 ]
 
 { #category : #accessing }
-ToTableHeaderNodeContainer >> columns [ 
+ToTableHeaderRowNodeContainer >> columns [ 
 
 	^ parentTable columns
 ]
 
 { #category : #accessing }
-ToTableHeaderNodeContainer >> divider: aDivider movedBy: aDistance from: aStartLocation [
+ToTableHeaderRowNodeContainer >> divider: aDivider movedBy: aDistance from: aStartLocation [
 
 	|  cont minWidth column colElement |
 	colElement := self rulerCells at: aDivider cellIndex.
@@ -59,7 +59,7 @@ ToTableHeaderNodeContainer >> divider: aDivider movedBy: aDistance from: aStartL
 ]
 
 { #category : #accessing }
-ToTableHeaderNodeContainer >> divider: aDivider startDragAt: aDistance [
+ToTableHeaderRowNodeContainer >> divider: aDivider startDragAt: aDistance [
 
 	|  cont |
 	cont := self cellContainers at: aDivider cellIndex.
@@ -67,7 +67,7 @@ ToTableHeaderNodeContainer >> divider: aDivider startDragAt: aDistance [
 ]
 
 { #category : #initialization }
-ToTableHeaderNodeContainer >> initialize [
+ToTableHeaderRowNodeContainer >> initialize [
 
 	super initialize.
 	self createMiddleContainer.
@@ -76,7 +76,7 @@ ToTableHeaderNodeContainer >> initialize [
 ]
 
 { #category : #accessing }
-ToTableHeaderNodeContainer >> initializeWithColumns: aTableColumnArray [
+ToTableHeaderRowNodeContainer >> initializeWithColumns: aTableColumnArray [
 	
 	aTableColumnArray do: [ :column |
 			| cellContainer |
@@ -85,7 +85,7 @@ ToTableHeaderNodeContainer >> initializeWithColumns: aTableColumnArray [
 ]
 
 { #category : #skin }
-ToTableHeaderNodeContainer >> installRawStyle [ 
+ToTableHeaderRowNodeContainer >> installRawStyle [ 
 
 	super installRawStyle.
 	self padding: (BlInsets horizontal: (self valueOfTokenNamed: #'list-padding-H'))
@@ -93,7 +93,7 @@ ToTableHeaderNodeContainer >> installRawStyle [
 ]
 
 { #category : #initialization }
-ToTableHeaderNodeContainer >> newCellContainerInColumn: aColumn [
+ToTableHeaderRowNodeContainer >> newCellContainerInColumn: aColumn [
 
 	^ (ToTableHeaderCellContainer column: aColumn)
 		  constraintsDo: [ :c | c linear vertical alignCenter ];
@@ -102,31 +102,31 @@ ToTableHeaderNodeContainer >> newCellContainerInColumn: aColumn [
 ]
 
 { #category : #'t - triplet container - instance creation' }
-ToTableHeaderNodeContainer >> newMiddleContainer [
+ToTableHeaderRowNodeContainer >> newMiddleContainer [
 
-	^ ToTableHeaderNode new
+	^ ToTableHeaderRowNode new
 ]
 
 { #category : #accessing }
-ToTableHeaderNodeContainer >> node [
+ToTableHeaderRowNodeContainer >> node [
 
 	^ self middleContainer 
 ]
 
 { #category : #accessing }
-ToTableHeaderNodeContainer >> parentTable [
+ToTableHeaderRowNodeContainer >> parentTable [
 
 	^ parentTable
 ]
 
 { #category : #accessing }
-ToTableHeaderNodeContainer >> parentTable: aTableElement [
+ToTableHeaderRowNodeContainer >> parentTable: aTableElement [
 
 	parentTable := aTableElement
 ]
 
 { #category : #initialization }
-ToTableHeaderNodeContainer >> recordCellsWidth [
+ToTableHeaderRowNodeContainer >> recordCellsWidth [
 
 	| last |
 	self cellContainers allButLastDo: [ :e | e updateWidthWith: e width ].
@@ -136,26 +136,26 @@ ToTableHeaderNodeContainer >> recordCellsWidth [
 ]
 
 { #category : #accessing }
-ToTableHeaderNodeContainer >> removeCellContainers [
+ToTableHeaderRowNodeContainer >> removeCellContainers [
 
 	self cellContainers do: [ :c | c removeFromParent ]
 ]
 
 { #category : #accessing }
-ToTableHeaderNodeContainer >> removeCheckbox [
+ToTableHeaderRowNodeContainer >> removeCheckbox [
 
 	checkbox ifNil: [ ^ self ].
 	checkbox removeFromParent
 ]
 
 { #category : #accessing }
-ToTableHeaderNodeContainer >> rulerCells [
+ToTableHeaderRowNodeContainer >> rulerCells [
 
 	^ parentTable header rulerCells
 ]
 
 { #category : #accessing }
-ToTableHeaderNodeContainer >> useCheckbox: aBoolean [
+ToTableHeaderRowNodeContainer >> useCheckbox: aBoolean [
 
 	aBoolean
 		ifTrue: [ self addCheckbox ]

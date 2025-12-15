@@ -1,29 +1,29 @@
 Class {
-	#name : #ToTableHeaderNode,
+	#name : #ToTableHeaderRowNode,
 	#superclass : #ToElement,
 	#category : #'Toplo-Widget-Table-Header'
 }
 
 { #category : #'t - table node' }
-ToTableHeaderNode >> cellContainerAt: anIndex [ 
+ToTableHeaderRowNode >> cellContainerAt: anIndex [ 
 
 	^ self childAt: anIndex
 ]
 
 { #category : #'t - table node' }
-ToTableHeaderNode >> cellContainers [ 
+ToTableHeaderRowNode >> cellContainers [ 
 
 	^ self children asArray
 ]
 
 { #category : #initialization }
-ToTableHeaderNode >> defaultLayout [ 
+ToTableHeaderRowNode >> defaultLayout [ 
 
 	^ BlLinearLayout horizontal
 ]
 
 { #category : #initialization }
-ToTableHeaderNode >> initialize [
+ToTableHeaderRowNode >> initialize [
 
 	super initialize.
 	self hMatchParent.

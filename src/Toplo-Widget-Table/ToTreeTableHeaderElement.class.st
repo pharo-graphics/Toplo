@@ -32,5 +32,5 @@ ToTreeTableHeaderElement >> newHeaderColumnsRuler [
 { #category : #accessing }
 ToTreeTableHeaderElement >> newHeaderNodeContainer [
 
-	^ ToTreeTableHeaderNodeContainer new
+	^ ToTreeTableHeaderRowNodeContainer new
 ]

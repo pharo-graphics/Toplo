@@ -27,6 +27,18 @@ ToTableHeaderCellContainer >> initializeFromColumnInTableElement: aTableElement 
 				cull: aTableElement ]
 ]
 
+{ #category : #skin }
+ToTableHeaderCellContainer >> installRawStyle [
+
+	super installRawStyle.
+	self
+		addTokenNamed: #'font-weight-attribute'
+		withValue: BlFontWeightAttribute bold.
+	self padding: (BlInsets
+			 horizontal: (self valueOfTokenNamed: #'table-cell-padding-H')
+			 vertical: (self valueOfTokenNamed: #'table-cell-padding-V'))
+]
+
 { #category : #'t - triplet container - instance creation' }
 ToTableHeaderCellContainer >> newMiddleContainer [ 
 

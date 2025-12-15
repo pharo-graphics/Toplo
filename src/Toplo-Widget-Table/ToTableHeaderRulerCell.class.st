@@ -39,8 +39,8 @@ ToTableHeaderRulerCell >> installRawStyle [
 
 	super installRawStyle.
 	self padding: (BlInsets
-				 horizontal: (self valueOfTokenNamed: #'list-node-padding-H') 
-				 vertical: (self valueOfTokenNamed: #'list-node-padding-V'))
+					 horizontal: (self valueOfTokenNamed: #'table-cell-padding-H')
+					 vertical: (self valueOfTokenNamed: #'table-cell-padding-V'))
 ]
 
 { #category : #accessing }

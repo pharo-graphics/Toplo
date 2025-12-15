@@ -7,12 +7,6 @@ Trait {
 }
 
 { #category : #'t - table node manager' }
-TToTableRowNodeManager >> addContainer: aCellContainer inNode: aNode [
-
-	aNode addCellContainer: aCellContainer
-]
-
-{ #category : #'t - table node manager' }
 TToTableRowNodeManager >> buildColumnsInNode: aNode [
 	" a table node is built as a linear row with one container for each column"
 
@@ -24,7 +18,7 @@ TToTableRowNodeManager >> buildColumnsInNode: aNode [
 						              holder: aNode holder)
 						             id: column key;
 						             yourself.
-					self addContainer: container inNode: aNode.
+					aNode addCellContainer: container.
 					column
 						buildListCellInContainer: container
 						atIndex: idx

@@ -22,7 +22,6 @@ ToSandBoxMockTest >> closeWindows [
 ToSandBoxMockTest >> testMocks [
 
 	| selectors errors sortedSelectors exceptions |
-	self skip.
 	self timeLimit: 120 seconds.
 	errors := OrderedCollection new.
 	exceptions := OrderedCollection new.

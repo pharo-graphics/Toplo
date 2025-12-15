@@ -9,7 +9,7 @@ Class {
 { #category : #initialization }
 ToTreeTableListElement >> defaultNodeManagerClass [
 
-	^ ToTreeTableNodeManager
+	^ ToTreeTableRowNodeManager
 ]
 
 { #category : #initialization }

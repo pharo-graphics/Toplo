@@ -1,5 +1,5 @@
 Class {
-	#name : #ToTreeTableNode,
+	#name : #ToTreeTableRowNode,
 	#superclass : #ToTreeNode,
 	#traits : 'TToTableNode',
 	#classTraits : 'TToTableNode classTrait',
@@ -7,25 +7,25 @@ Class {
 }
 
 { #category : #accessing }
-ToTreeTableNode >> addCellContainer: aCellContainer [
+ToTreeTableRowNode >> addCellContainer: aCellContainer [
 
 	self addChild: aCellContainer
 ]
 
 { #category : #'t - table node' }
-ToTreeTableNode >> cellContainers [ 
+ToTreeTableRowNode >> cellContainers [ 
 
 	^ self children asArray
 ]
 
 { #category : #accessing }
-ToTreeTableNode >> containerIndentWidth [
+ToTreeTableRowNode >> containerIndentWidth [
 
 	^ self holder nodeContainer indentWidth
 ]
 
 { #category : #'t - table node' }
-ToTreeTableNode >> divider: aDivider movedBy: aDistance from: aStartLocation [
+ToTreeTableRowNode >> divider: aDivider movedBy: aDistance from: aStartLocation [
 
 	| container listElement state indent column minWidth |
 	listElement := self holder listElement.
@@ -41,8 +41,8 @@ ToTreeTableNode >> divider: aDivider movedBy: aDistance from: aStartLocation [
 ]
 
 { #category : #skin }
-ToTreeTableNode >> newRawSkin [ 
+ToTreeTableRowNode >> newRawSkin [ 
 	
 	" have to define a new skin to not use the inherited one "
-	^ ToTreeTableNodeSkin new
+	^ ToTreeTableRowNodeSkin new
 ]

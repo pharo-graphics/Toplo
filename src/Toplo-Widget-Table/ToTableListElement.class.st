@@ -12,7 +12,7 @@ Class {
 { #category : #initialization }
 ToTableListElement >> defaultNodeManagerClass [
 
-	^ ToTableNodeManager
+	^ ToTableRowNodeManager
 ]
 
 { #category : #initialization }

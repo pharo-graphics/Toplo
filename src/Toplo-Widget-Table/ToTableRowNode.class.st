@@ -1,5 +1,5 @@
 Class {
-	#name : #ToTableNode,
+	#name : #ToTableRowNode,
 	#superclass : #ToListNode,
 	#traits : 'TToTableNode',
 	#classTraits : 'TToTableNode classTrait',
@@ -7,13 +7,13 @@ Class {
 }
 
 { #category : #skin }
-ToTableNode >> addCellContainer: aCellContainer [
+ToTableRowNode >> addCellContainer: aCellContainer [
 
 	self addChild: aCellContainer
 ]
 
 { #category : #skin }
-ToTableNode >> newRawSkin [ 
+ToTableRowNode >> newRawSkin [ 
 
-	^ ToTableNodeSkin new
+	^ ToTableRowNodeSkin new
 ]

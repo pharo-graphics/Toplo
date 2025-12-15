@@ -1,5 +1,5 @@
 Class {
-	#name : #ToTreeTableNodeManager,
+	#name : #ToTreeTableRowNodeManager,
 	#superclass : #ToTreeNodeManager,
 	#traits : 'TToGenericTreeNodeManager + TToTableNodeManager',
 	#classTraits : 'TToGenericTreeNodeManager classTrait + TToTableNodeManager classTrait',
@@ -7,20 +7,20 @@ Class {
 }
 
 { #category : #'node building' }
-ToTreeTableNodeManager >> buildNode: aNode [
+ToTreeTableRowNodeManager >> buildNode: aNode [
 
 	self buildColumnsInNode: aNode
 ]
 
 { #category : #initialization }
-ToTreeTableNodeManager >> initialize [ 
+ToTreeTableRowNodeManager >> initialize [ 
 
 	super initialize.
 	self initializeAsGenericTreeNodeManager 
 ]
 
 { #category : #'t - generic node manager' }
-ToTreeTableNodeManager >> newNodeForHolder: aNodeHolder [
+ToTreeTableRowNodeManager >> newNodeForHolder: aNodeHolder [
 
-	^ ToTreeTableNode new
+	^ ToTreeTableRowNode new
 ]

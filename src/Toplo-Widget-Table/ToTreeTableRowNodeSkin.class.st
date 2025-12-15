@@ -1,11 +1,11 @@
 Class {
-	#name : #ToTreeTableNodeSkin,
+	#name : #ToTreeTableRowNodeSkin,
 	#superclass : #ToRawSkin,
 	#category : #'Toplo-Widget-Table-List'
 }
 
 { #category : #'event handling' }
-ToTreeTableNodeSkin >> installSkinEvent: anEvent [
+ToTreeTableRowNodeSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e | 

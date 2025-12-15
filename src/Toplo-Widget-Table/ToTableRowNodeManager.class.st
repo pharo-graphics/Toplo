@@ -1,5 +1,5 @@
 Class {
-	#name : #ToTableNodeManager,
+	#name : #ToTableRowNodeManager,
 	#superclass : #ToAbstractNodeManager,
 	#traits : 'TToTableNodeManager',
 	#classTraits : 'TToTableNodeManager classTrait',
@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : #initialization }
-ToTableNodeManager >> buildNode: aNode [
+ToTableRowNodeManager >> buildNode: aNode [
 
 	aNode removeChildren.
 	" a table node is built as a linear row with one container for each column"
@@ -15,15 +15,15 @@ ToTableNodeManager >> buildNode: aNode [
 ]
 
 { #category : #'instance creation' }
-ToTableNodeManager >> newHolder [
+ToTableRowNodeManager >> newHolder [
 
-	^ ToTableNodeHolder new
+	^ ToTableRowNodeHolder new
 ]
 
 { #category : #'instance creation' }
-ToTableNodeManager >> newNodeForHolder: aNodeHolder [
+ToTableRowNodeManager >> newNodeForHolder: aNodeHolder [
 
-	^ ToTableNode new
+	^ ToTableRowNode new
 		  id: #row;
 		  yourself
 ]

@@ -10,8 +10,6 @@ ToGradientShrinkFeedbackLayerSkin >> deselectedSkinEvent: anEvent [
 	super deselectedSkinEvent: anEvent.
 	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
 	anEvent selectionMode selectionOption isMasked ifTrue: [ ^ self ].
-	anEvent selectionMode selectionOption hasEmbeddedRepresentation
-		ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e |
 		| bg |
 		bg := e valueOfTokenNamed: #'color-bg-container'.
@@ -45,8 +43,6 @@ ToGradientShrinkFeedbackLayerSkin >> selectedSkinEvent: anEvent [
 	super selectedSkinEvent: anEvent.
 	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
 	anEvent selectionMode selectionOption isMasked ifTrue: [ ^ self ].
-	anEvent selectionMode selectionOption hasEmbeddedRepresentation
-		ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e |
 		| bg |
 		bg := e valueOfTokenNamed: #'color-list-primary-selection-focused'.

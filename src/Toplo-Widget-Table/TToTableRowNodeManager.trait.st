@@ -1,5 +1,5 @@
 Trait {
-	#name : #TToTableNodeManager,
+	#name : #TToTableRowNodeManager,
 	#instVars : [
 		'columns'
 	],
@@ -7,24 +7,18 @@ Trait {
 }
 
 { #category : #'t - table node manager' }
-TToTableNodeManager >> addContainer: aCellContainer inNode: aNode [
-
-	aNode addCellContainer: aCellContainer
-]
-
-{ #category : #'t - table node manager' }
-TToTableNodeManager >> buildColumnsInNode: aNode [
-
+TToTableRowNodeManager >> buildColumnsInNode: aNode [
 	" a table node is built as a linear row with one container for each column"
+
 	self columns ifNotNil: [ :cols |
 			cols withIndexDo: [ :column :idx |
 					| container |
 					container := (ToTableListCellContainer
-						              holder: aNode holder
-						              column: column)
+						              column: column
+						              holder: aNode holder)
 						             id: column key;
 						             yourself.
-					self addContainer: container inNode: aNode.
+					aNode addCellContainer: container.
 					column
 						buildListCellInContainer: container
 						atIndex: idx
@@ -32,13 +26,13 @@ TToTableNodeManager >> buildColumnsInNode: aNode [
 ]
 
 { #category : #'t - table node manager' }
-TToTableNodeManager >> columns [
+TToTableRowNodeManager >> columns [
 
 	^ columns
 ]
 
 { #category : #'t - table node manager' }
-TToTableNodeManager >> columns: aTableColumnArray [
+TToTableRowNodeManager >> columns: aTableColumnArray [
 
 	columns := aTableColumnArray
 ]

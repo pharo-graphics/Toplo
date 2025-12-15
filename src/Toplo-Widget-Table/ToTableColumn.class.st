@@ -27,32 +27,11 @@ Class {
 }
 
 { #category : #rendering }
-ToTableColumn >> buildColumnContainerForHeaderCellContainer: anHeaderCellContainer inTableElement: aTableElement [
-
-	| columnContainer |
-	columnContainer := ToTableColumnContainer new
-		                   column: self;
-		                   id: #columnContainer;
-		                   yourself.
-	columnContainer constraintsDo: [ :c |
-			c vertical matchParent.
-			c ignoreByLayout.
-			c anchors add:
-				(c anchors topAnchor on: anHeaderCellContainer bottomAnchor).
-			c anchors add: (c anchors heightAnchor on:
-					 c anchors parent heightAnchor - anHeaderCellContainer height).
-			c anchors add:
-				(c anchors leftAnchor on: anHeaderCellContainer leftAnchor).
-			c anchors add:
-				(c anchors widthAnchor on: anHeaderCellContainer widthAnchor) ].
-	containerBuilder cull: columnContainer cull: self cull: aTableElement.
-	aTableElement addChild: columnContainer
-]
-
-{ #category : #rendering }
 ToTableColumn >> buildHeaderCellInContainer: anHeaderCellContainer inTableElement: aTableElement [
 
-	width ifNotNil: [ anHeaderCellContainer updateWidthWith: width ].
+	width
+		ifNil: [ anHeaderCellContainer hMatchParent ]
+		ifNotNil: [ anHeaderCellContainer updateWidthWith: width ].
 
 	anHeaderCellContainer cell constraintsDo: [ :c |
 		c horizontal matchParent ].
@@ -60,11 +39,7 @@ ToTableColumn >> buildHeaderCellInContainer: anHeaderCellContainer inTableElemen
 	headerCellBuilder
 		cull: anHeaderCellContainer cell
 		cull: self
-		cull: aTableElement.
-
-	self
-		buildColumnContainerForHeaderCellContainer: anHeaderCellContainer
-		inTableElement: aTableElement
+		cull: aTableElement
 ]
 
 { #category : #rendering }
@@ -74,6 +49,7 @@ ToTableColumn >> buildListCellInContainer: aCellContainer atIndex: aColumnIndex 
 	state := aTableNode holder listElement columnStateAt: aColumnIndex.
 	cellData := self fetchedCellDataFromDataIndex:
 		            aTableNode holder dataItem.
+	aCellContainer hMatchParent.
 	aCellContainer cell constraintsDo: [ :c | c horizontal matchParent ].
 
 	cellBuilder
@@ -181,8 +157,8 @@ ToTableColumn >> defaultSorterContainerBuilder [
 		  arrow clickAction: [
 				  column nextSort.
 				  column updateArrowOrientation: arrow.
-				  table header dispatchEvent:
-					  (ToTableSortRequestEvent column: column) ] ]
+				  table dispatchEvent:
+					  (ToTableColumnSortRequestEvent column: column) ] ]
 ]
 
 { #category : #rendering }

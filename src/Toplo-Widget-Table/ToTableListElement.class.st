@@ -10,31 +10,36 @@ Class {
 }
 
 { #category : #initialization }
-ToTableListElement class >> initializeToRawTheme: aTheme [
-	" Now setup the default label weight and the header padding "
+ToTableListElement >> defaultNodeManagerClass [
 
-	<toploThemeInstallerFor: #ToRawTheme>
-	aTheme select: (self asTypeSelector exact: false) style: [
-			aTheme
-				when: ToInstallSkinEvent
-				write: (aTheme property: #geometry)
-				with: [ :header | BlRectangleGeometry new ].
-			aTheme
-				when: ToInstallSkinEvent
-				write: (aTheme property: #padding)
-				with: [ :e |
-						BlInsets empty ] ].
-
-	aTheme select: #cellCheckbox asIdSelector style: [
-			aTheme
-				when: ToInstallSkinEvent
-				write: (aTheme property: #padding)
-				with: [ :cbox |
-					BlInsets horizontal: (cbox valueOfTokenNamed: #'padding-XS') ] ]
+	^ ToTableRowNodeManager
 ]
 
 { #category : #initialization }
-ToTableListElement >> defaultNodeManagerClass [
+ToTableListElement >> initialize [
 
-	^ ToTableNodeManager
+	super initialize.
+	self addStamp: #geometry withValue: BlRectangleGeometry new.
+	self initializeScrollBar
+]
+
+{ #category : #initialization }
+ToTableListElement >> initializeScrollBar [
+
+	| vscrollBar |
+	vscrollBar := BlVerticalScrollbarElement new.
+	vscrollBar constraintsDo: [ :c |
+			c ignoreByLayout.
+			c margin: (BlInsets left: 10).
+			c ignored horizontal alignRight.
+			c ignored vertical alignBottom ].
+	vscrollBar attachTo: self innerElement.
+	vscrollBar elevation: (BlRelativeElevation elevation: 20).
+	self addChild: vscrollBar
+]
+
+{ #category : #skin }
+ToTableListElement >> newRawSkin [ 
+
+	^ ToTableListElementSkin new
 ]

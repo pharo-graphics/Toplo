@@ -1,33 +1,22 @@
 Class {
 	#name : #ToTableListCellContainer,
 	#superclass : #ToTableCellContainer,
-	#instVars : [
-		'tableNodeHolder'
-	],
 	#category : #'Toplo-Widget-Table-List'
 }
 
 { #category : #'instance creation' }
-ToTableListCellContainer class >> holder: aTableNodeHolder column: aColumn [
+ToTableListCellContainer class >> column: aColumn holder: aTableNodeHolder [ 
 
 	^ self new
-		  holder: aTableNodeHolder column: aColumn;
+		  column: aColumn holder: aTableNodeHolder;
 		  yourself
 ]
 
 { #category : #initialization }
-ToTableListCellContainer class >> initializeToRawTheme: aTheme [
-	" Now setup the default label weight and the header padding "
+ToTableListCellContainer >> column: aColumn holder: aTableNodeHolder [ 
 
-	<toploThemeInstallerFor: #ToRawTheme>
-	aTheme select: (self asTypeSelector exact: false) style: [
-			aTheme
-				when: ToInstallSkinEvent
-				write: (aTheme property: #padding)
-				with: [ :cont |
-						BlInsets
-							horizontal: (cont valueOfTokenNamed: #'table-cell-padding-H')
-							vertical: (cont valueOfTokenNamed: #'table-cell-padding-V') ] ]
+	self holder: aTableNodeHolder.
+	self initializeWithColumn: aColumn
 ]
 
 { #category : #accessing }
@@ -36,26 +25,13 @@ ToTableListCellContainer >> columnIndex [
 	^ self parentTable indexOfColumn: column
 ]
 
-{ #category : #accessing }
-ToTableListCellContainer >> holder: aTableNodeHolder [
-
-	tableNodeHolder := aTableNodeHolder 
-]
-
-{ #category : #accessing }
-ToTableListCellContainer >> holder: aTableNodeHolder column: aColumn [
-
-	self holder: aTableNodeHolder.
-	self column: aColumn
-]
-
 { #category : #'t - triplet container - instance creation' }
 ToTableListCellContainer >> newMiddleContainer [ 
 
-	^ column cellFactory cull: tableNodeHolder
+	^ column cellFactory cull: self holder
 ]
 
-{ #category : #'instance creation' }
+{ #category : #skin }
 ToTableListCellContainer >> newRawSkin [ 
 
 	^ ToTableListCellContainerSkin new
@@ -64,7 +40,7 @@ ToTableListCellContainer >> newRawSkin [
 { #category : #accessing }
 ToTableListCellContainer >> nodeDepth [
 
-	^ tableNodeHolder nodeDepth
+	^ self holder nodeDepth
 ]
 
 { #category : #accessing }
@@ -76,11 +52,5 @@ ToTableListCellContainer >> parentTable [
 { #category : #accessing }
 ToTableListCellContainer >> tableListEement [
 
-	^ tableNodeHolder listElement 
-]
-
-{ #category : #accessing }
-ToTableListCellContainer >> tableNodeHolder [
-
-	^ tableNodeHolder
+	^ self holder listElement 
 ]

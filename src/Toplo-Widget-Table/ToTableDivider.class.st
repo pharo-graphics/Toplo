@@ -23,7 +23,7 @@ ToTableDivider >> cellIndex: anIndex [
 { #category : #initialization }
 ToTableDivider >> dragTarget [
 	| containers |
-	containers := parentTable header rulerCells.
+	containers := parentTable header cellContainers.
 	^ containers at: cellIndex
 ]
 

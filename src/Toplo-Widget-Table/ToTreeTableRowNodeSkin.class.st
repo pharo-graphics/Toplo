@@ -8,6 +8,5 @@ Class {
 ToTreeTableRowNodeSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
-	anEvent elementDo: [ :e | 
-		e hMatchParent ]
+	anEvent elementDo: [ :e |  ]
 ]

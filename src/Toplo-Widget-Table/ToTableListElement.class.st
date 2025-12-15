@@ -37,3 +37,9 @@ ToTableListElement >> initializeScrollBar [
 	vscrollBar elevation: (BlRelativeElevation elevation: 20).
 	self addChild: vscrollBar
 ]
+
+{ #category : #skin }
+ToTableListElement >> newRawSkin [ 
+
+	^ ToTableListElementSkin new
+]

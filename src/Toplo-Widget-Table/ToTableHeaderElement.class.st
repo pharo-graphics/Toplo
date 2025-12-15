@@ -3,8 +3,7 @@ Class {
 	#superclass : #ToElement,
 	#instVars : [
 		'parentTable',
-		'nodeContainer',
-		'ruler'
+		'nodeContainer'
 	],
 	#category : #'Toplo-Widget-Table-Header'
 }
@@ -15,17 +14,22 @@ ToTableHeaderElement >> cellContainerAt: anIndex [
 	^ nodeContainer cellContainerAt: anIndex
 ]
 
+{ #category : #accessing }
+ToTableHeaderElement >> cellContainers [
+
+	^ self nodeContainer cellContainers
+]
+
 { #category : #initialization }
 ToTableHeaderElement >> cleanUp [ 
 
-	ruler cleanUp.
 	nodeContainer cleanUp
 ]
 
 { #category : #accessing }
 ToTableHeaderElement >> columnStateAt: anIndex [
 
-	^ ruler columnStateAt: anIndex
+	^ (self cellContainerAt: anIndex) state
 ]
 
 { #category : #initialization }
@@ -37,14 +41,13 @@ ToTableHeaderElement >> defaultLayout [
 { #category : #'t - table list element' }
 ToTableHeaderElement >> divider: aDivider movedBy: aDistance from: aStartLocation [
 
-	ruler divider: aDivider movedBy: aDistance from: aStartLocation.
 	nodeContainer divider: aDivider movedBy: aDistance from: aStartLocation.
 ]
 
 { #category : #accessing }
 ToTableHeaderElement >> divider: aDivider startDragAt: aPosition [
 
-	ruler divider: aDivider startDragAt: aPosition
+	nodeContainer divider: aDivider startDragAt: aPosition
 ]
 
 { #category : #initialization }
@@ -58,21 +61,24 @@ ToTableHeaderElement >> initialize [
 { #category : #initialization }
 ToTableHeaderElement >> initializeDividers [
 
-	ruler initializeDividers
+	| containers index |
+	parentTable removeDividers.
+	containers := self cellContainers.
+	index := 0.
+	containers overlappingPairsDo: [ :first :second |
+			| col |
+			index := index + 1.
+			col := first column.
+			col resizable ifTrue: [
+				parentTable addDivider: parentTable newDivider atIndex: index ] ].
+	parentTable requestDividersUpdate
 ]
 
 { #category : #accessing }
 ToTableHeaderElement >> initializeWithColumns: aTableColumnArray [
 
 	self cleanUp.
-	ruler initializeWithColumns: aTableColumnArray.
 	nodeContainer initializeWithColumns: aTableColumnArray
-]
-
-{ #category : #accessing }
-ToTableHeaderElement >> newHeaderColumnsRuler [
-
-	^ ToTableHeaderRulerNodeContainer new
 ]
 
 { #category : #accessing }
@@ -97,13 +103,9 @@ ToTableHeaderElement >> parentTable [
 ToTableHeaderElement >> parentTable: aTableElement [
 
 	parentTable := aTableElement.
-	ruler := self newHeaderColumnsRuler
-		                parentTable: parentTable;
-		                yourself.
 	nodeContainer := self newHeaderNodeContainer
 		                 parentTable: parentTable;
 		                 yourself.
-	self addChild: ruler.
 	self addChild: nodeContainer.
 
 
@@ -112,25 +114,11 @@ ToTableHeaderElement >> parentTable: aTableElement [
 { #category : #'t - table list element' }
 ToTableHeaderElement >> recordCellsWidth [ 
 
-	ruler recordCellsWidth.
 	nodeContainer recordCellsWidth
-]
-
-{ #category : #accessing }
-ToTableHeaderElement >> rulerCellAt: anIndex [
-
-	^ ruler rulerCellAt: anIndex
-]
-
-{ #category : #accessing }
-ToTableHeaderElement >> rulerCells [ 
-
-	^ ruler rulerCells
 ]
 
 { #category : #accessing }
 ToTableHeaderElement >> useCheckbox: aBoolean [
 
-	ruler useCheckbox: aBoolean.
 	nodeContainer useCheckbox: aBoolean
 ]

@@ -10,10 +10,7 @@ ToTableListCellContainerSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 			| columnState listElement |
-			listElement := e tableNodeHolder listElement.
-			e padding: (BlInsets
-					 horizontal: (e valueOfTokenNamed: #'table-cell-padding-H')
-					 vertical: (e valueOfTokenNamed: #'table-cell-padding-V')).
+			listElement := e holder listElement.
 			columnState := listElement columnStateAt: e columnIndex.
 			columnState width ifNotNil: [ :w |
 					e columnIndex = 1

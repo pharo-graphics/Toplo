@@ -14,14 +14,14 @@ TToTableRowNodeManager >> addContainer: aCellContainer inNode: aNode [
 
 { #category : #'t - table node manager' }
 TToTableRowNodeManager >> buildColumnsInNode: aNode [
-
 	" a table node is built as a linear row with one container for each column"
+
 	self columns ifNotNil: [ :cols |
 			cols withIndexDo: [ :column :idx |
 					| container |
 					container := (ToTableListCellContainer
-						              holder: aNode holder
-						              column: column)
+						              column: column
+						              holder: aNode holder)
 						             id: column key;
 						             yourself.
 					self addContainer: container inNode: aNode.

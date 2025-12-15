@@ -50,12 +50,11 @@ ToTableHeaderRowNodeContainer >> columns [
 { #category : #accessing }
 ToTableHeaderRowNodeContainer >> divider: aDivider movedBy: aDistance from: aStartLocation [
 
-	|  cont minWidth column colElement |
-	colElement := self rulerCells at: aDivider cellIndex.
+	|  cont minWidth column |
 	cont := self cellContainers at: aDivider cellIndex.
-	column := colElement column.
+	column := cont column.
 	minWidth := column minWidth.
-	cont updateWidthWith: ((colElement state startDragWidth + aDistance) max: minWidth)
+	cont updateWidthWith: ((cont state startDragWidth + aDistance) max: minWidth)
 ]
 
 { #category : #accessing }
@@ -84,20 +83,11 @@ ToTableHeaderRowNodeContainer >> initializeWithColumns: aTableColumnArray [
 			self middleContainer addChild: cellContainer ]
 ]
 
-{ #category : #skin }
-ToTableHeaderRowNodeContainer >> installRawStyle [ 
-
-	super installRawStyle.
-	self padding: (BlInsets horizontal: (self valueOfTokenNamed: #'list-padding-H'))
-	
-]
-
 { #category : #initialization }
 ToTableHeaderRowNodeContainer >> newCellContainerInColumn: aColumn [
 
 	^ (ToTableHeaderCellContainer column: aColumn)
 		  constraintsDo: [ :c | c linear vertical alignCenter ];
-		  initializeFromColumnInTableElement: parentTable;
 		  yourself
 ]
 
@@ -146,12 +136,6 @@ ToTableHeaderRowNodeContainer >> removeCheckbox [
 
 	checkbox ifNil: [ ^ self ].
 	checkbox removeFromParent
-]
-
-{ #category : #accessing }
-ToTableHeaderRowNodeContainer >> rulerCells [
-
-	^ parentTable header rulerCells
 ]
 
 { #category : #accessing }

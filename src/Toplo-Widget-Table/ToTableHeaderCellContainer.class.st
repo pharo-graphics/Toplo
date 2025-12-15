@@ -1,6 +1,9 @@
 Class {
 	#name : #ToTableHeaderCellContainer,
 	#superclass : #ToTableCellContainer,
+	#instVars : [
+		'state'
+	],
 	#category : #'Toplo-Widget-Table-Header'
 }
 
@@ -12,10 +15,16 @@ ToTableHeaderCellContainer class >> column: aColumn [
 		  yourself
 ]
 
-{ #category : #updating }
-ToTableHeaderCellContainer >> initializeFromColumnInTableElement: aTableElement [
+{ #category : #initialization }
+ToTableHeaderCellContainer >> initializeWithColumn: aColumn [
 
-	column buildHeaderCellInContainer: self inTableElement: aTableElement.
+	super initializeWithColumn: aColumn.
+	state := ToTableColumnState new.
+	state initializeWithColumn: aColumn.
+	column width
+		ifNotNil: [ :w | self width: w ]
+		ifNil: [ self hMatchParent ].
+	column buildHeaderCellInContainer: self inTableElement: parentTable.
 	column sorterBlock ifNotNil: [
 			| sorterContainer |
 			sorterContainer := self newSorterContainer.
@@ -24,7 +33,7 @@ ToTableHeaderCellContainer >> initializeFromColumnInTableElement: aTableElement 
 			column sorterContainerBuilder
 				cull: sorterContainer
 				cull: column
-				cull: aTableElement ]
+				cull: parentTable ]
 ]
 
 { #category : #skin }
@@ -33,10 +42,7 @@ ToTableHeaderCellContainer >> installRawStyle [
 	super installRawStyle.
 	self
 		addTokenNamed: #'font-weight-attribute'
-		withValue: BlFontWeightAttribute bold.
-	self padding: (BlInsets
-			 horizontal: (self valueOfTokenNamed: #'table-cell-padding-H')
-			 vertical: (self valueOfTokenNamed: #'table-cell-padding-V'))
+		withValue: BlFontWeightAttribute bold
 ]
 
 { #category : #'t - triplet container - instance creation' }
@@ -45,7 +51,7 @@ ToTableHeaderCellContainer >> newMiddleContainer [
 	^ column headerCellFactory value
 ]
 
-{ #category : #updating }
+{ #category : #initialization }
 ToTableHeaderCellContainer >> newSorterContainer [
 
 	| sorterContainer |
@@ -56,4 +62,17 @@ ToTableHeaderCellContainer >> newSorterContainer [
 	sorterContainer fitContent.
 	sorterContainer constraintsDo: [ :c | c linear vertical alignCenter ].
 	^ sorterContainer
+]
+
+{ #category : #accessing }
+ToTableHeaderCellContainer >> state [
+
+	^ state
+]
+
+{ #category : #updating }
+ToTableHeaderCellContainer >> updateWidthWith: aNumber [
+
+	super updateWidthWith: aNumber.
+	state width: aNumber
 ]

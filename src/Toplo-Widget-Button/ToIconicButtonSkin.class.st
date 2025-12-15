@@ -13,8 +13,6 @@ ToIconicButtonSkin >> deselectedSkinEvent: anEvent [
 	super deselectedSkinEvent: anEvent.
 	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
 	anEvent selectionMode selectionOption isMasked ifTrue: [ ^ self ].
-	anEvent selectionMode selectionOption hasEmbeddedRepresentation
-		ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e | e innerImageColor: color ]
 ]
 
@@ -72,8 +70,6 @@ ToIconicButtonSkin >> selectedSkinEvent: anEvent [
 	super selectedSkinEvent: anEvent.
 	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
 	anEvent selectionMode selectionOption isMasked ifTrue: [ ^ self ].
-	anEvent selectionMode selectionOption hasEmbeddedRepresentation
-		ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e |
 		| foreground |
 		foreground := anEvent focused

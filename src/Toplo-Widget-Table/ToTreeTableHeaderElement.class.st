@@ -24,12 +24,6 @@ ToTreeTableHeaderElement class >> initializeToRawTheme: aTheme [
 ]
 
 { #category : #accessing }
-ToTreeTableHeaderElement >> newHeaderColumnsRuler [
-
-	^ ToTreeTableHeaderRulerNodeContainer new
-]
-
-{ #category : #accessing }
 ToTreeTableHeaderElement >> newHeaderNodeContainer [
 
 	^ ToTreeTableHeaderRowNodeContainer new

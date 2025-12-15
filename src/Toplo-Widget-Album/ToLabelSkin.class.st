@@ -13,7 +13,6 @@ ToLabelSkin >> deselectedSkinEvent: anEvent [
 	super deselectedSkinEvent: anEvent.
 	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
 	anEvent selectionMode selectionOption isMasked ifTrue: [ ^ self ].
-	anEvent selectionMode selectionOption hasEmbeddedRepresentation ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e |
 			"e text asString = '2: BB' ifTrue: [ anEvent traceCr ]."
 			e foreground: foreground ]
@@ -57,8 +56,6 @@ ToLabelSkin >> selectedSkinEvent: anEvent [
 	super selectedSkinEvent: anEvent.
 	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
 	anEvent selectionMode selectionOption isMasked ifTrue: [ ^ self ].
-	anEvent selectionMode selectionOption hasEmbeddedRepresentation
-		ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e |
 			| f |
 			"e text asString = '2: BB' ifTrue: [ anEvent traceCr ]."

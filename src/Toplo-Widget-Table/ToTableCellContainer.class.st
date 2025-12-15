@@ -20,7 +20,7 @@ ToTableCellContainer >> column [
 	^ column
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 ToTableCellContainer >> initializeWithColumn: aTableColumn [
 
 	column ifNotNil: [ (BlImmutableObjectChangeError object: self) signal  ].
@@ -29,6 +29,16 @@ ToTableCellContainer >> initializeWithColumn: aTableColumn [
 	self hMatchParent.
 	self vFitContent
 
+]
+
+{ #category : #skin }
+ToTableCellContainer >> installRawStyle [
+
+	super installRawStyle.
+
+	self padding: (BlInsets
+			 horizontal: (self valueOfTokenNamed: #'table-cell-padding-H')
+			 vertical: (self valueOfTokenNamed: #'table-cell-padding-V'))
 ]
 
 { #category : #'t - triplet container - instance creation' }
@@ -49,7 +59,7 @@ ToTableCellContainer >> newStartContainer [
 	^ self newLinearContainer
 ]
 
-{ #category : #accessing }
+{ #category : #updating }
 ToTableCellContainer >> updateWidthWith: aNumber [
 
 	self constraintsDo: [ :c | c horizontal exact: aNumber ]

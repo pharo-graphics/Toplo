@@ -5,11 +5,11 @@ Class {
 		'width',
 		'startDragWidth'
 	],
-	#category : #'Toplo-Widget-Table-HeaderRuler'
+	#category : #'Toplo-Widget-Table-Header'
 }
 
 { #category : #accessing }
-ToTableColumnState >> initializeFromColumn: aTableColumn [
+ToTableColumnState >> initializeWithColumn: aTableColumn [
 
 	width := aTableColumn width
 ]

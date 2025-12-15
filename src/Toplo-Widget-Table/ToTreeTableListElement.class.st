@@ -18,3 +18,9 @@ ToTreeTableListElement >> initialize [
 	super initialize.
 	self addStamp: #geometry withValue: BlRectangleGeometry new.
 ]
+
+{ #category : #skin }
+ToTreeTableListElement >> newRawSkin [ 
+
+	^ ToTableListElementSkin new
+]

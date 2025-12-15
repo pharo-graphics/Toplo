@@ -4284,11 +4284,11 @@ ToSandBox class >> example_SelectMultiFiltrableWithMax [
 	| select |
 	select := self example_SelectMultiFiltrable.
 	select maxSelectedCount: 3.
-	select inUIProcessDo: [
-			select selecter selectIndex: 3.
-			select selecter selectIndex: 5.
-			select selecter selectIndex: 4.
-			select selecter selectIndex: 6 ]
+	select selecter selectIndex: 3.
+	select selecter selectIndex: 5.
+	select selecter selectIndex: 4.
+	select selecter selectIndex: 6.
+
 ]
 
 { #category : #select }
@@ -8680,7 +8680,6 @@ ToSandBox class >> example_toTable1 [
 
 	| table |
 	table := ToTableElement new.
-	table inspect.
 	table columns: {
 			(ToTableColumn new
 				 title: 'Name';
@@ -8785,7 +8784,6 @@ ToSandBox class >> example_toTreeTable1 [
 
 	| table |
 	table := ToTreeTableElement new.
-
 	table nodeManager childrenGetter: [ :dataItem |
 		dataItem subclasses sorted: [ :a :b | a name < b name ] ].
 	table columns: {

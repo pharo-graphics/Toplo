@@ -21,8 +21,6 @@ ToCheckboxSkin >> deselectedSkinEvent: anEvent [
 
 	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
 	anEvent selectionMode selectionOption isMasked ifTrue: [ ^ self ].
-	anEvent selectionMode selectionOption hasEmbeddedRepresentation
-		ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e |
 			e removeTokenNamed: #'checkbox-color' ]
 ]
@@ -134,8 +132,6 @@ ToCheckboxSkin >> selectedSkinEvent: anEvent [
 
 	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
 	anEvent selectionMode selectionOption isMasked ifTrue: [ ^ self ].
-	anEvent selectionMode selectionOption hasEmbeddedRepresentation
-		ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e |
 			| f |
 			f := anEvent focused

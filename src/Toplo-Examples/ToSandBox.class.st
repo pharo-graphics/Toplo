@@ -8680,6 +8680,11 @@ ToSandBox class >> example_toTable1 [
 
 	| table |
 	table := ToTableElement new.
+	table list contextMenuBuilder: [ :menu :request |
+			menu addItem: (ToMenuItem new
+					 labelText: 'Inspect';
+					 clickAction: [ table inspect ];
+					 yourself) ].
 	table columns: {
 			(ToTableColumn new
 				 title: 'Name';
@@ -8823,7 +8828,13 @@ ToSandBox class >> example_toTreeTable1 [
 { #category : #table }
 ToSandBox class >> example_toTreeTable1WithCheckbox [
 
-	self example_toTreeTable1 useCheckbox: true
+	| table |
+	table := self example_toTreeTable1 useCheckbox: true.
+	table list contextMenuBuilder: [ :menu :request |
+			menu addItem: (ToMenuItem new
+					 labelText: 'Inspect';
+					 clickAction: [ table inspect ];
+					 yourself) ]
 ]
 
 { #category : #table }

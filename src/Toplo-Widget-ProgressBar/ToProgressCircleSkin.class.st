@@ -1,13 +1,13 @@
 Class {
 	#name : #ToProgressCircleSkin,
-	#superclass : #ToBasicSkin,
-	#category : #'Toplo-Widget-ProgressBar'
+	#superclass : #ToRawSkin,
+	#category : #'Toplo-Widget-ProgressBar-ProgressCircle'
 }
 
 { #category : #'event handling' }
-ToProgressCircleSkin >> installLookEvent: anEvent [
+ToProgressCircleSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e hasLabel ifTrue: [
 			e label text attributes: { (BlTextForegroundAttribute paint:

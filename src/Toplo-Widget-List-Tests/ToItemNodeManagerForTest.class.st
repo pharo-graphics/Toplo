@@ -4,14 +4,14 @@ Class {
 	#category : #'Toplo-Widget-List-Tests-ItemFiniteList'
 }
 
-{ #category : #'instance creation' }
-ToItemNodeManagerForTest >> newHolder [
+{ #category : #initialization }
+ToItemNodeManagerForTest >> defaultNodeFactory [
 
-	^ ToFiniteListNodeHolderForTest new
+	^ [ :holder | ToFiniteListNodeHolderForTest new ]
 ]
 
-{ #category : #'instance creation' }
-ToItemNodeManagerForTest >> newNodeForHolder: aNodeHolder [
+{ #category : #initialization }
+ToItemNodeManagerForTest >> defaultNodeHolderFactory [ 
 
-	^ ToItemNodeForTest new
+	^ [ ToFiniteListNodeHolderForTest new ] 
 ]

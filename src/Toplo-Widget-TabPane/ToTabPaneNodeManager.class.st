@@ -4,8 +4,8 @@ Class {
 	#category : #'Toplo-Widget-TabPane-TabPane'
 }
 
-{ #category : #'instance creation' }
-ToTabPaneNodeManager >> newHolder [ 
+{ #category : #initialization }
+ToTabPaneNodeManager >> defaultNodeHolderFactory [ 
 
-	^ ToTabPaneNodeHolder new
+	^ [  ToTabPaneNodeHolder new ]
 ]

@@ -20,24 +20,25 @@ ToSpecificFiniteListNodeManagerForTest2 >> defaultFakeDataItem [
 ]
 
 { #category : #initialization }
+ToSpecificFiniteListNodeManagerForTest2 >> defaultNodeFactory [
+
+	^ [ :holder | ToSpecificFiniteListNodeForTest2 new ]
+]
+
+{ #category : #initialization }
+ToSpecificFiniteListNodeManagerForTest2 >> defaultNodeHolderFactory [
+
+	^ [
+		  ToSpecificFiniteListNodeHolderForTest2 new
+			  num: self nextCount;
+			  yourself ]
+]
+
+{ #category : #initialization }
 ToSpecificFiniteListNodeManagerForTest2 >> initialize [
 
 	super initialize.
 	counter := 0
-]
-
-{ #category : #'instance creation' }
-ToSpecificFiniteListNodeManagerForTest2 >> newHolder [
-
-	^ ToSpecificFiniteListNodeHolderForTest2 new
-		  num: self nextCount;
-		  yourself
-]
-
-{ #category : #'instance creation' }
-ToSpecificFiniteListNodeManagerForTest2 >> newNodeForHolder: aNodeHolder [
-
-	^ ToSpecificFiniteListNodeForTest2 new 
 ]
 
 { #category : #accessing }

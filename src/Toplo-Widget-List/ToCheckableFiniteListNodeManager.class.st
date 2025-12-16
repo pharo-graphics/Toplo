@@ -15,10 +15,10 @@ ToCheckableFiniteListNodeManager >> buildNode: aNode [
 	checkableElement registerInGroup: holder listElement group
 ]
 
-{ #category : #'instance creation' }
-ToCheckableFiniteListNodeManager >> newNodeForHolder: aNodeHolder [
+{ #category : #initialization }
+ToCheckableFiniteListNodeManager >> defaultNodeFactory [
 
-	^ ToFiniteListCheckableNode new
+	^ [ :holder | ToFiniteListCheckableNode new ]
 ]
 
 { #category : #initialization }

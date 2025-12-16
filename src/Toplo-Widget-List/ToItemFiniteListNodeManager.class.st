@@ -12,16 +12,16 @@ ToItemFiniteListNodeManager >> buildNode: aNode [
 	aNode item: holder dataItem
 ]
 
-{ #category : #'instance creation' }
-ToItemFiniteListNodeManager >> newHolder [
+{ #category : #initialization }
+ToItemFiniteListNodeManager >> defaultNodeFactory [
 
-	^ ToItemNodeHolder new
+	^ [ :holder | ToFiniteListItemNode new ]
 ]
 
-{ #category : #'instance creation' }
-ToItemFiniteListNodeManager >> newNodeForHolder: aNodeHolder [
+{ #category : #initialization }
+ToItemFiniteListNodeManager >> defaultNodeHolderFactory [ 
 
-	^ ToFiniteListItemNode new
+	^ [ ToItemNodeHolder new ]
 ]
 
 { #category : #initialization }

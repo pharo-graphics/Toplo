@@ -4,8 +4,8 @@ Class {
 	#category : #'Toplo-Widget-Menu-ItemBar'
 }
 
-{ #category : #'instance creation' }
-ToMenuItemNodeManager >> newNodeForHolder: aNodeHolder [
+{ #category : #initialization }
+ToMenuItemNodeManager >> defaultNodeFactory [ 
 
-	^ ToMenuItemNode new
+	^ [ :holder | ToMenuItemNode new ]
 ]

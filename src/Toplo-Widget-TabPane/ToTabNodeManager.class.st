@@ -4,14 +4,14 @@ Class {
 	#category : #'Toplo-Widget-TabPane-TabFiniteList'
 }
 
-{ #category : #'instance creation' }
-ToTabNodeManager >> newHolder [ 
+{ #category : #initialization }
+ToTabNodeManager >> defaultNodeFactory [ 
 
-	^ ToTabNodeHolder new
+	^ [ :holder | ToTabNode new ]
 ]
 
-{ #category : #'instance creation' }
-ToTabNodeManager >> newNodeForHolder: aNodeHolder [
+{ #category : #initialization }
+ToTabNodeManager >> defaultNodeHolderFactory [ 
 
-	^ ToTabNode new
+	^ [  ToTabNodeHolder new ]
 ]

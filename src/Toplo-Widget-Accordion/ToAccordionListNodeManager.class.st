@@ -33,6 +33,23 @@ ToAccordionListNodeManager >> defaultItemFactory [
 ]
 
 { #category : #initialization }
+ToAccordionListNodeManager >> defaultNodeFactory [
+
+	^ [ :holder |
+		  | node |
+		  node := ToAccordionListNode new.
+		  node hMatchParent.
+		  node vFitContent.
+		  node ]
+]
+
+{ #category : #initialization }
+ToAccordionListNodeManager >> defaultNodeHolderFactory [ 
+
+	^ [ ToAccordionListNodeHolder new ]
+]
+
+{ #category : #initialization }
 ToAccordionListNodeManager >> initialize [ 
 
 	super initialize.
@@ -55,23 +72,7 @@ ToAccordionListNodeManager >> itemFactory: aValuable [
 ]
 
 { #category : #'instance creation' }
-ToAccordionListNodeManager >> newHolder [
-
-	^ ToAccordionListNodeHolder new
-]
-
-{ #category : #'instance creation' }
 ToAccordionListNodeManager >> newItemForNode: aNode [
 
 	^ itemFactory value: aNode
-]
-
-{ #category : #'instance creation' }
-ToAccordionListNodeManager >> newNodeForHolder: aNodeHolder [
-
-	| node |
-	node := ToAccordionListNode new.
-	node hMatchParent.
-	node vFitContent.
-	^ node
 ]

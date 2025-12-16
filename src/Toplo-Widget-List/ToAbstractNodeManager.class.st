@@ -6,7 +6,9 @@ Class {
 	#name : #ToAbstractNodeManager,
 	#superclass : #Object,
 	#instVars : [
-		'checkableNode'
+		'checkableNode',
+		'nodeHolderFactory',
+		'nodeFactory'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -41,16 +43,30 @@ ToAbstractNodeManager >> checkableNode: aBoolean [
 ]
 
 { #category : #initialization }
+ToAbstractNodeManager >> defaultNodeFactory [
+
+	^ [ :holder | ToListNode new ]
+]
+
+{ #category : #initialization }
+ToAbstractNodeManager >> defaultNodeHolderFactory [
+
+	^ [ ToNodeHolder new ]
+]
+
+{ #category : #initialization }
 ToAbstractNodeManager >> initialize [ 
 
 	super initialize.
-	checkableNode := false
+	checkableNode := false.
+	nodeFactory := self defaultNodeFactory.
+	nodeHolderFactory := self defaultNodeHolderFactory
 ]
 
 { #category : #'instance creation' }
 ToAbstractNodeManager >> newHolder [
 
-	^ self subclassResponsibility 
+	^ nodeHolderFactory value
 ]
 
 { #category : #'instance creation' }
@@ -62,7 +78,21 @@ ToAbstractNodeManager >> newNodeContainer [
 { #category : #'instance creation' }
 ToAbstractNodeManager >> newNodeForHolder: aNodeHolder [
 
-	^ self subclassResponsibility 
+	^ nodeFactory cull: aNodeHolder
+]
+
+{ #category : #'instance creation' }
+ToAbstractNodeManager >> nodeFactory: aValuable [
+	" aValuable that takes a node holder as unique argument and which running results in a new node "
+
+	nodeFactory := aValuable
+]
+
+{ #category : #'instance creation' }
+ToAbstractNodeManager >> nodeHolderFactory: aValuable [
+	" aValuable that takes no argument an return a new holder "
+
+	nodeHolderFactory := aValuable
 ]
 
 { #category : #initialization }

@@ -19,12 +19,6 @@ ToGenericListNodeManager >> newNodeContainer [
 	^ ToListNodeContainer new
 ]
 
-{ #category : #'instance creation' }
-ToGenericListNodeManager >> newNodeForHolder: aNodeHolder [
-
-	^ nodeFactory cull: aNodeHolder
-]
-
 { #category : #'t - generic node manager' }
 ToGenericListNodeManager >> unbuildNode: aNode [
 

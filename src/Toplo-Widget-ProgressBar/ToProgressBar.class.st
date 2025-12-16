@@ -152,6 +152,6 @@ ToProgressBar >> resizeProgressBar [
 
 	| w |
 	self valueInPercentage ifNil: [ ^ self ].
-	w := remainingBar size x * self valueInPercentage.
+	w := remainingBar extent x * self valueInPercentage.
 	progressBar width: w
 ]

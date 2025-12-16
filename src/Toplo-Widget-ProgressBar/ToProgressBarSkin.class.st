@@ -1,13 +1,13 @@
 Class {
 	#name : #ToProgressBarSkin,
-	#superclass : #ToBasicSkin,
-	#category : #'Toplo-Widget-ProgressBar'
+	#superclass : #ToRawSkin,
+	#category : #'Toplo-Widget-ProgressBar-ProgressBar'
 }
 
 { #category : #'event handling' }
-ToProgressBarSkin >> installLookEvent: anEvent [
+ToProgressBarSkin >> installSkinEvent: anEvent [
 
-	super installLookEvent: anEvent.
+	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e hasLabel ifTrue: [
 			e label text attributes:

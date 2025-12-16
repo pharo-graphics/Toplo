@@ -9,11 +9,15 @@ ToProgressCircleSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e hasLabel ifTrue: [
-			e label text attributes: { (BlTextForegroundAttribute paint:
-					 (e valueOfTokenNamed: #'color-text')) }.
-			e label textChanged ].
+			e hasLabel ifTrue: [
+					e label text attributes: { (BlTextForegroundAttribute paint:
+							 (e valueOfTokenNamed: #'color-text')) }.
+					e label textChanged ].
 
-		e remainingBar border:(BlBorder paint:
-			(e valueOfTokenNamed: #'color-bg-container-disabled')width: 4)]
+			e
+				addTokenNamed: #progressCircleRemainingBarBackground
+				withValue: (e valueOfTokenNamed: #'color-bg-container-disabled').
+			e
+				addTokenNamed: #progressCircleProgressBarBackground
+				withValue: (e valueOfTokenNamed: #'color-primary') ]
 ]

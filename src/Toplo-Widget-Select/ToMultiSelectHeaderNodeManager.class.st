@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMultiSelectHeaderNodeManager,
-	#superclass : #ToAbstractFiniteNodeManager,
+	#superclass : #ToFiniteListNodeManager,
 	#traits : 'TToGenericNodeManager',
 	#classTraits : 'TToGenericNodeManager classTrait',
 	#category : #'Toplo-Widget-Select-Multi'
@@ -16,13 +16,13 @@ ToMultiSelectHeaderNodeManager >> defaultNodeBuilder [
 			  hMatchParent ]
 ]
 
-{ #category : #'t - generic node manager' }
+{ #category : #initialization }
 ToMultiSelectHeaderNodeManager >> defaultNodeFactory [
 
 	^ [ :holder | ToMultiSelectHeaderNode new ]
 ]
 
-{ #category : #'t - generic node manager' }
+{ #category : #initialization }
 ToMultiSelectHeaderNodeManager >> defaultNodeHolderFactory [
 
 	^ [ ToMultiSelectHeaderHolder new ]

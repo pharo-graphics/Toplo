@@ -11,8 +11,8 @@ ToExClassHierachyTreeNodeManager >> childrenFromDataItem: aClass [
 		  a name < b name ]
 ]
 
-{ #category : #'children accessing' }
-ToExClassHierachyTreeNodeManager >> newNodeForHolder: aNodeHolder [
+{ #category : #initialization }
+ToExClassHierachyTreeNodeManager >> defaultNodeFactory [ 
 
-	^ ToExTreeSubAndMethNode new
+	^ [ :holder | ToExTreeSubAndMethNode new ]
 ]

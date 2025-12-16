@@ -1,6 +1,6 @@
 Class {
 	#name : #ToItemListNodeManager,
-	#superclass : #ToAbstractNodeManager,
+	#superclass : #ToListNodeManager,
 	#category : #'Toplo-Widget-List-ItemList'
 }
 
@@ -12,14 +12,14 @@ ToItemListNodeManager >> buildNode: aNode [
 	aNode item: holder dataItem
 ]
 
-{ #category : #'instance creation' }
-ToItemListNodeManager >> newHolder [
+{ #category : #initialization }
+ToItemListNodeManager >> defaultNodeFactory [ 
 
-	^ ToItemNodeHolder new
+	^ [ :holder | ToListItemNode new ]
 ]
 
-{ #category : #'instance creation' }
-ToItemListNodeManager >> newNodeForHolder: aNodeHolder [
+{ #category : #initialization }
+ToItemListNodeManager >> defaultNodeHolderFactory [ 
 
-	^ ToListItemNode new
+	^ [ ToItemNodeHolder new ]
 ]

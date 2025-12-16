@@ -16,10 +16,10 @@ ToCheckableListNodeManager >> buildNode: aNode [
 	checkableElement registerInGroup: holder listElement group
 ]
 
-{ #category : #'instance creation' }
-ToCheckableListNodeManager >> newNodeForHolder: aNodeHolder [
+{ #category : #initialization }
+ToCheckableListNodeManager >> defaultNodeFactory [ 
 
-	^ ToListCheckableNode new
+	^ [ :holder | ToListCheckableNode new ]
 ]
 
 { #category : #initialization }

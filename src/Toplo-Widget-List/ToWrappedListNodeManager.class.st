@@ -1,23 +1,11 @@
 Class {
 	#name : #ToWrappedListNodeManager,
-	#superclass : #ToAbstractNodeManager,
+	#superclass : #ToListNodeManager,
 	#category : #'Toplo-Widget-List-WrappedList'
 }
 
-{ #category : #'node building' }
-ToWrappedListNodeManager >> buildNode: aNode [
+{ #category : #initialization }
+ToWrappedListNodeManager >> defaultNodeHolderFactory [ 
 
-	aNode addChild: (ToLabel text: aNode holder dataItem asString)
-]
-
-{ #category : #'instance creation' }
-ToWrappedListNodeManager >> newHolder [
-
-	^ ToWrappedListNodeHolder new
-]
-
-{ #category : #'instance creation' }
-ToWrappedListNodeManager >> newNodeForHolder: aNodeHolder [
-
-	^ ToListNode new
+	^ [ ToWrappedListNodeHolder new ]
 ]

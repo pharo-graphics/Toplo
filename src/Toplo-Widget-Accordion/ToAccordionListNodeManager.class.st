@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAccordionListNodeManager,
-	#superclass : #ToAbstractNodeManager,
+	#superclass : #ToListNodeManager,
 	#instVars : [
 		'itemBuilder',
 		'itemFactory'

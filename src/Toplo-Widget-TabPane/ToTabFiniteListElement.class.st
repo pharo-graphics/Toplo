@@ -39,10 +39,13 @@ ToTabFiniteListElement >> defaultFakeDataItem [
 		  yourself
 ]
 
-{ #category : #'t - item list - accessing' }
-ToTabFiniteListElement >> defaultNodeManagerClass [
+{ #category : #initialization }
+ToTabFiniteListElement >> defaultNodeManager [
 
-	^ ToTabNodeManager
+	^ super defaultNodeManager
+		  nodeHolderFactory: [ ToTabNodeHolder new ];
+		  nodeFactory: [ :holder | ToTabNode new ];
+		  yourself
 ]
 
 { #category : #initialization }

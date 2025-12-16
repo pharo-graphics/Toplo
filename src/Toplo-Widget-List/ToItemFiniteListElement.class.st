@@ -3,7 +3,7 @@ I'm a list whose node contents is a BlElement
 "
 Class {
 	#name : #ToItemFiniteListElement,
-	#superclass : #ToAbstractFiniteListElement,
+	#superclass : #ToBasicFiniteListElement,
 	#traits : 'TToItemListElement',
 	#classTraits : 'TToItemListElement classTrait',
 	#category : #'Toplo-Widget-List-ItemFiniteList'

@@ -12,8 +12,10 @@ ToTabPaneFiniteListElement >> defaultFakeDataItem [
 		  yourself
 ]
 
-{ #category : #'t - item list - accessing' }
-ToTabPaneFiniteListElement >> defaultNodeManagerClass [
+{ #category : #initialization }
+ToTabPaneFiniteListElement >> defaultNodeManager [
 
-	^ ToTabPaneNodeManager
+	^ super defaultNodeManager
+		  nodeHolderFactory: [ ToTabPaneNodeHolder new ];
+		  yourself
 ]

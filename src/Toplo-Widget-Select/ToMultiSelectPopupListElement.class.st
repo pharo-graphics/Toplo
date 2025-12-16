@@ -20,9 +20,11 @@ ToMultiSelectPopupListElement >> defaultEventHandler [
 ]
 
 { #category : #initialization }
-ToMultiSelectPopupListElement >> defaultNodeManagerClass [ 
+ToMultiSelectPopupListElement >> defaultNodeManager [
 
-	^ ToMultiSelectPopupListNodeManager 
+	^ self defaultNodeManagerClass new
+		  nodeHolderFactory: [ ToMultiSelectPopupListNodeHolder new ];
+		  yourself
 ]
 
 { #category : #'accessing - selection' }

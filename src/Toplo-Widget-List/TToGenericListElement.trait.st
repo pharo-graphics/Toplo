@@ -11,14 +11,6 @@ TToGenericListElement >> nodeBuilder: aValuable [
 ]
 
 { #category : #'t - generic list element' }
-TToGenericListElement >> nodeFactory: aValuable [
-	" aValuable that takes a node holder as unique argument and which running results in a new node "
-
-	self nodeManager nodeFactory: aValuable.
-	self notifyDataSourceChanged
-]
-
-{ #category : #'t - generic list element' }
 TToGenericListElement >> nodeUnbuilder: aValuable [
 
 	"aValuable takes 3 args: first, the node to build and second, its holder in the list element and the data item"

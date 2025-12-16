@@ -3,7 +3,7 @@ I have the responsibility to build the nodeContainers, the nodeHolders and the n
 For each data item I create a nodeContainer, its node and the holder that relates the data, the list, and the nodeContainer.  
 "
 Class {
-	#name : #ToAbstractNodeManager,
+	#name : #ToListNodeManager,
 	#superclass : #Object,
 	#instVars : [
 		'checkableNode',
@@ -14,12 +14,13 @@ Class {
 }
 
 { #category : #initialization }
-ToAbstractNodeManager >> buildNode: aNode [ 
+ToListNodeManager >> buildNode: aNode [ 
 
+	aNode addChild: (ToLabel text: aNode holder dataItem asString)
 ]
 
 { #category : #initialization }
-ToAbstractNodeManager >> buildNodeContainer: aNodeContainer [
+ToListNodeManager >> buildNodeContainer: aNodeContainer [
 
 	| listElement cbox |
 	checkableNode ifFalse: [ ^ self ].
@@ -31,31 +32,31 @@ ToAbstractNodeManager >> buildNodeContainer: aNodeContainer [
 ]
 
 { #category : #accessing }
-ToAbstractNodeManager >> checkableNode [
+ToListNodeManager >> checkableNode [
 
 	^ checkableNode
 ]
 
 { #category : #accessing }
-ToAbstractNodeManager >> checkableNode: aBoolean [
+ToListNodeManager >> checkableNode: aBoolean [
 
 	checkableNode := aBoolean 
 ]
 
 { #category : #initialization }
-ToAbstractNodeManager >> defaultNodeFactory [
+ToListNodeManager >> defaultNodeFactory [
 
 	^ [ :holder | ToListNode new ]
 ]
 
 { #category : #initialization }
-ToAbstractNodeManager >> defaultNodeHolderFactory [
+ToListNodeManager >> defaultNodeHolderFactory [
 
 	^ [ ToNodeHolder new ]
 ]
 
 { #category : #initialization }
-ToAbstractNodeManager >> initialize [ 
+ToListNodeManager >> initialize [ 
 
 	super initialize.
 	checkableNode := false.
@@ -64,39 +65,39 @@ ToAbstractNodeManager >> initialize [
 ]
 
 { #category : #'instance creation' }
-ToAbstractNodeManager >> newHolder [
+ToListNodeManager >> newHolder [
 
 	^ nodeHolderFactory value
 ]
 
 { #category : #'instance creation' }
-ToAbstractNodeManager >> newNodeContainer [ 
+ToListNodeManager >> newNodeContainer [ 
 
 	^ ToNodeContainer new
 ]
 
 { #category : #'instance creation' }
-ToAbstractNodeManager >> newNodeForHolder: aNodeHolder [
+ToListNodeManager >> newNodeForHolder: aNodeHolder [
 
 	^ nodeFactory cull: aNodeHolder
 ]
 
 { #category : #'instance creation' }
-ToAbstractNodeManager >> nodeFactory: aValuable [
+ToListNodeManager >> nodeFactory: aValuable [
 	" aValuable that takes a node holder as unique argument and which running results in a new node "
 
 	nodeFactory := aValuable
 ]
 
 { #category : #'instance creation' }
-ToAbstractNodeManager >> nodeHolderFactory: aValuable [
+ToListNodeManager >> nodeHolderFactory: aValuable [
 	" aValuable that takes no argument an return a new holder "
 
 	nodeHolderFactory := aValuable
 ]
 
 { #category : #initialization }
-ToAbstractNodeManager >> unbuildNode: aNode [
+ToListNodeManager >> unbuildNode: aNode [
 
 
 ]

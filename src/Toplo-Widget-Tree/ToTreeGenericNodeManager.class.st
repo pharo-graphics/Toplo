@@ -21,19 +21,6 @@ ToTreeGenericNodeManager >> buildNode: aTreeNode [
 
 ]
 
-{ #category : #'t - generic node manager' }
-ToTreeGenericNodeManager >> defaultNodeFactory [
-
-	^ [ :holder |
-	  ToTreeNode new ]
-]
-
-{ #category : #'t - generic node manager' }
-ToTreeGenericNodeManager >> defaultNodeHolderFactory [
-
-	^ [ ToTreeNodeHolder new ]
-]
-
 { #category : #initialization }
 ToTreeGenericNodeManager >> initialize [ 
 

@@ -3,7 +3,7 @@ I'm a generic list
 "
 Class {
 	#name : #ToGenericFiniteListElement,
-	#superclass : #ToAbstractFiniteListElement,
+	#superclass : #ToBasicFiniteListElement,
 	#traits : 'TToGenericListElement',
 	#classTraits : 'TToGenericListElement classTrait',
 	#category : #'Toplo-Widget-List-Core-FiniteListElement'

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAccordionListElement,
-	#superclass : #ToAbstractListElement,
+	#superclass : #ToBasicListElement,
 	#traits : 'TToListElementWithDecoration',
 	#classTraits : 'TToListElementWithDecoration classTrait',
 	#category : #'Toplo-Widget-Accordion-List'

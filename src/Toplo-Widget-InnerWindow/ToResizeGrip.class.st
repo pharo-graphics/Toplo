@@ -4,36 +4,62 @@ Class {
 	#instVars : [
 		'thickness',
 		'initialDragPosition',
-		'initialBorder',
-		'initialBackground',
 		'initialPosition',
 		'initialExtent'
 	],
 	#category : #'Toplo-Widget-InnerWindow-Support'
 }
 
+{ #category : #initialization }
+ToResizeGrip class >> initializeToRawTheme: aTheme [
+
+	<toploThemeInstallerFor: #ToRawTheme>
+	aTheme addWritableProperty: (ToFeatureProperty name: #thickness).
+	aTheme addTokenNamed: #'window-corner-grips-size' withValue: 12.
+
+	aTheme select: (self asTypeSelector exact: false) style: [
+			aTheme
+				when: ToInstallSkinEvent
+				write: (aTheme property: #geometry)
+				with: [ :e |
+						BlRoundedRectangleGeometry cornerRadius:
+							(e valueOfTokenNamed: #'window-corner-grips-size') ].
+			aTheme
+				when: ToHoveredSkinEvent 
+				write: (aTheme property: #border)
+				with: [ :e | BlBorder paint: (Color lightGray alpha: 0.2)].
+			aTheme
+				when: ToHoveredSkinEvent 
+				write: (aTheme property: #background)
+				with: [ :e | Color lightGray alpha: 0.1 ].
+			aTheme
+				when: ToHoveredSkinEvent
+				write: (aTheme property: #mouseCursor)
+				with: [ :e | e resizeCursor ].
+
+			aTheme
+				when: ToLeftSkinEvent 
+				write: (aTheme property: #border)
+				with: [ :e | BlBorder empty].
+			aTheme
+				when: ToLeftSkinEvent 
+				write: (aTheme property: #mouseCursor)
+				with: [ :e | Cursor normal ].
+			aTheme
+				when: ToLeftSkinEvent 
+				write: (aTheme property: #background)
+				with: [ :e | Color transparent].
+				
+			aTheme
+				when: ToInstallSkinEvent
+				write: (aTheme property: #thickness)
+				with: [ :e | e valueOfTokenNamed: #'window-corner-grips-size' ] ]
+]
+
 { #category : #accessing }
 ToResizeGrip >> cursorSelector [
 
 	^ self subclassResponsibility 
-]
-
-{ #category : #initialization }
-ToResizeGrip >> defaultBackground [ 
-
-	^ Color transparent
-]
-
-{ #category : #initialization }
-ToResizeGrip >> defaultBorder [
-
-	^ BlBorder empty
-]
-
-{ #category : #initialization }
-ToResizeGrip >> defaultGeometry [
-
-	^ BlRoundedRectangleGeometry cornerRadius: self defaultThickness 
 ]
 
 { #category : #initialization }
@@ -46,30 +72,6 @@ ToResizeGrip >> defaultThickness [
 ToResizeGrip >> drag: anElement by: deltaFromInitialPosition [
 
 	self subclassResponsibility 
-]
-
-{ #category : #initialization }
-ToResizeGrip >> hoveredBackground [
-
-	^ Color lightGray alpha: 0.1 
-]
-
-{ #category : #initialization }
-ToResizeGrip >> hoveredBorder [
-
-	^ BlBorder paint: (Color lightGray alpha: 0.2)
-]
-
-{ #category : #accessing }
-ToResizeGrip >> initialBackground [
-
-	^ initialBackground 
-]
-
-{ #category : #accessing }
-ToResizeGrip >> initialBorder [
-
-	^ initialBorder 
 ]
 
 { #category : #accessing }
@@ -113,15 +115,8 @@ ToResizeGrip >> initialize [
 
 	super initialize.
 	
-	self layout: BlFrameLayout new.
-	initialBorder := self defaultBorder.
-	initialBackground := self defaultBackground.
 	self thickness: self defaultThickness.
-	self geometry: self defaultGeometry.
-	self constraintsDo: [ :c | c ignoreByLayout ].
-
-	self border: initialBorder.
-	self background: initialBackground
+	self constraintsDo: [ :c | c ignoreByLayout ]
 
 ]
 

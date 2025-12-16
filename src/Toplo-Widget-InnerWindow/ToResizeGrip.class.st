@@ -14,46 +14,50 @@ Class {
 ToResizeGrip class >> initializeToRawTheme: aTheme [
 
 	<toploThemeInstallerFor: #ToRawTheme>
-	aTheme addWritableProperty: (ToFeatureProperty name: #thickness).
 	aTheme addTokenNamed: #'window-corner-grips-size' withValue: 12.
 
 	aTheme select: (self asTypeSelector exact: false) style: [
 			aTheme
 				when: ToInstallSkinEvent
-				write: (aTheme property: #geometry)
+				do: [ :e |
+				e addStyleSheetProperty: (ToFeatureProperty name: #thickness) ].
+			
+			aTheme
+				when: ToInstallSkinEvent
+				write: #thickness asWritableProperty
+				with: [ :e | e valueOfTokenNamed: #'window-corner-grips-size' ].
+
+			aTheme
+				when: ToInstallSkinEvent
+				write: #geometry asWritableProperty
 				with: [ :e |
 						BlRoundedRectangleGeometry cornerRadius:
 							(e valueOfTokenNamed: #'window-corner-grips-size') ].
 			aTheme
-				when: ToHoveredSkinEvent 
-				write: (aTheme property: #border)
-				with: [ :e | BlBorder paint: (Color lightGray alpha: 0.2)].
+				when: ToHoveredSkinEvent
+				write: #border asWritableProperty
+				with: [ :e | BlBorder paint: (Color lightGray alpha: 0.2) ].
 			aTheme
-				when: ToHoveredSkinEvent 
-				write: (aTheme property: #background)
+				when: ToHoveredSkinEvent
+				write: #background asWritableProperty
 				with: [ :e | Color lightGray alpha: 0.1 ].
 			aTheme
 				when: ToHoveredSkinEvent
-				write: (aTheme property: #mouseCursor)
+				write: #mouseCursor asWritableProperty
 				with: [ :e | e resizeCursor ].
 
 			aTheme
-				when: ToLeftSkinEvent 
-				write: (aTheme property: #border)
-				with: [ :e | BlBorder empty].
+				when: ToLeftSkinEvent
+				write: #border asWritableProperty
+				with: [ :e | BlBorder empty ].
 			aTheme
-				when: ToLeftSkinEvent 
-				write: (aTheme property: #mouseCursor)
+				when: ToLeftSkinEvent
+				write: #mouseCursor asWritableProperty
 				with: [ :e | Cursor normal ].
 			aTheme
-				when: ToLeftSkinEvent 
-				write: (aTheme property: #background)
-				with: [ :e | Color transparent].
-				
-			aTheme
-				when: ToInstallSkinEvent
-				write: (aTheme property: #thickness)
-				with: [ :e | e valueOfTokenNamed: #'window-corner-grips-size' ] ]
+				when: ToLeftSkinEvent
+				write: #background asWritableProperty
+				with: [ :e | Color transparent ] ]
 ]
 
 { #category : #accessing }

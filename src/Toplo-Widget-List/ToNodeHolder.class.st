@@ -247,7 +247,7 @@ ToNodeHolder >> release [
 ]
 
 { #category : #removing }
-ToNodeHolder >> removeNodeFromBar [
+ToNodeHolder >> removeNodeFromList [
 
 	self dataSource removeAt: self position
 ]

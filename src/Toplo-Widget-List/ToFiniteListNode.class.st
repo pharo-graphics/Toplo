@@ -21,7 +21,7 @@ ToFiniteListNode >> applyConfiguration [
 ToFiniteListNode >> initialize [
 
 	super initialize.
-	self initializeAsBarNode 
+	self initializeAsFiniteListNode 
 
 ]
 

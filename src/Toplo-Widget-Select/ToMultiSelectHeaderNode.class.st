@@ -20,7 +20,7 @@ ToMultiSelectHeaderNode >> initialize [
 	super initialize.
 	self constraintsDo: [ :c | c linear vertical alignCenter ].
 
-	self initializeAsBarNode 
+	self initializeAsFiniteListNode 
 ]
 
 { #category : #skin }

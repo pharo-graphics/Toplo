@@ -8716,7 +8716,7 @@ ToSandBox class >> example_toTable1 [
 				 minWidth: 50;
 				 yourself) }.
 	table dataAccessor addAll:
-		(Smalltalk globals allClasses copyFrom: 1 to: 30).
+		(Smalltalk globals allClasses "copyFrom: 1 to: 30").
 	table openInSpace.
 	^ table
 ]

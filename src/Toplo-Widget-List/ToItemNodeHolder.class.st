@@ -23,7 +23,7 @@ ToItemNodeHolder >> initializeNode [
 ]
 
 { #category : #removing }
-ToItemNodeHolder >> removeNodeFromBar [
+ToItemNodeHolder >> removeNodeFromList [
 
 	" redefined to use the item bar API "
 	self listElement removeItem: self node item

@@ -11,7 +11,7 @@ Trait {
 }
 
 { #category : #'t - finite list node' }
-TToFiniteListNode >> initializeAsBarNode [
+TToFiniteListNode >> initializeAsFiniteListNode [
 
 	self matchParent.
 	self addEventHandlerOn: ToRemoveButtonClickedEvent do: [ :event |
@@ -20,13 +20,13 @@ TToFiniteListNode >> initializeAsBarNode [
 			event consume.
 			target := event currentTarget.
 			listElement := target holder listElement.
-			target removeFromBar.
+			target removeFromList.
 			" Now the mouse move should be replayed because the mouse can be over the same remove button after the removal. It is postponed to let the node be re-built and configured before replaying "
 			listElement postponeAction: [ :l | l requestMouseMoveReplay ] ]
 ]
 
 { #category : #'t - finite list node' }
-TToFiniteListNode >> removeFromBar [
+TToFiniteListNode >> removeFromList [
 
-	self holder removeNodeFromBar 
+	self holder removeNodeFromList 
 ]

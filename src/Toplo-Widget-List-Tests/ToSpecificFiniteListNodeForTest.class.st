@@ -10,7 +10,7 @@ Class {
 ToSpecificFiniteListNodeForTest >> initialize [ 
 
 	super initialize.
-	self initializeAsBarNode.
+	self initializeAsFiniteListNode.
 	self constraintsDo: [ :c |
 		c horizontal fitContent.
 		c vertical fitContent ]

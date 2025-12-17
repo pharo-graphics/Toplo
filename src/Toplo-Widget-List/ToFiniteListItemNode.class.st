@@ -12,9 +12,3 @@ ToFiniteListItemNode >> initialize [
 	super initialize.
 	self initializeAsItemNode 
 ]
-
-{ #category : #skin }
-ToFiniteListItemNode >> newRawSkin [ 
-
-	^ ToItemNodeSkin new
-]

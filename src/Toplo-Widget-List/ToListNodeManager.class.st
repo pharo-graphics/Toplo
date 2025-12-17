@@ -7,6 +7,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'checkableNode',
+		'nodeContainerFactory',
 		'nodeHolderFactory',
 		'nodeFactory'
 	],
@@ -44,6 +45,12 @@ ToListNodeManager >> checkableNode: aBoolean [
 ]
 
 { #category : #initialization }
+ToListNodeManager >> defaultNodeContainerFactory [
+
+	^ [ ToNodeContainer new ]
+]
+
+{ #category : #initialization }
 ToListNodeManager >> defaultNodeFactory [
 
 	^ [ :holder | ToListNode new ]
@@ -60,6 +67,7 @@ ToListNodeManager >> initialize [
 
 	super initialize.
 	checkableNode := false.
+	nodeContainerFactory := self defaultNodeContainerFactory.
 	nodeFactory := self defaultNodeFactory.
 	nodeHolderFactory := self defaultNodeHolderFactory
 ]
@@ -73,13 +81,20 @@ ToListNodeManager >> newHolder [
 { #category : #'instance creation' }
 ToListNodeManager >> newNodeContainer [ 
 
-	^ ToNodeContainer new
+	^ nodeContainerFactory value
 ]
 
 { #category : #'instance creation' }
 ToListNodeManager >> newNodeForHolder: aNodeHolder [
 
 	^ nodeFactory cull: aNodeHolder
+]
+
+{ #category : #'instance creation' }
+ToListNodeManager >> nodeContainerFactory: aValuable [
+	" aValuable that takes no argument an return a new node container "
+
+	nodeContainerFactory := aValuable
 ]
 
 { #category : #'instance creation' }

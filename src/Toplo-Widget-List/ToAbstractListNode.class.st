@@ -20,6 +20,12 @@ Class {
 	#category : #'Toplo-Widget-List-Node'
 }
 
+{ #category : #'t - list node' }
+ToAbstractListNode >> clickEventHandlerClass [
+
+	^  ToListNodeSelectionEventHandler
+]
+
 { #category : #initialization }
 ToAbstractListNode >> defaultLayout [ 
 

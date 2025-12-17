@@ -17,12 +17,6 @@ ToFiniteListNode >> applyConfiguration [
 	self holder initializeNode
 ]
 
-{ #category : #'t - list node' }
-ToFiniteListNode >> clickEventHandlerClass [
-
-	^  ToListNodeSelectionEventHandler
-]
-
 { #category : #initialization }
 ToFiniteListNode >> initialize [
 

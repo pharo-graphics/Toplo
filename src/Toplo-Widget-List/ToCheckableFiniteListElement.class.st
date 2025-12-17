@@ -17,10 +17,10 @@ ToCheckableFiniteListElement >> defaultFakeDataItem [
 		  yourself
 ]
 
-{ #category : #'t - item list - accessing' }
+{ #category : #initialization }
 ToCheckableFiniteListElement >> defaultNodeManagerClass [ 
 
-	^ ToCheckableFiniteListNodeManager 
+	^ ToCheckableListNodeManager 
 ]
 
 { #category : #initialization }

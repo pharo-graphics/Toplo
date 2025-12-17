@@ -103,22 +103,6 @@ TToItemFiniteListContainer >> enabledItem: anItem [
 	self itemBar enabledItem: anItem
 ]
 
-{ #category : #'t - item bar container - configuration' }
-TToItemFiniteListContainer >> exactNodeHeight: aNumberOrNil [
-
-	self itemBar exactNodeHeight = aNumberOrNil ifTrue: [ ^ self ].
-	self itemBar exactNodeHeight: aNumberOrNil.
-	self requestConfiguration
-]
-
-{ #category : #'t - item bar container - configuration' }
-TToItemFiniteListContainer >> exactNodeWidth: aNumberOrNil [
-
-	self itemBar exactNodeWidth = aNumberOrNil ifTrue: [ ^ self ].
-	self itemBar exactNodeWidth: aNumberOrNil.
-	self requestConfiguration
-]
-
 { #category : #'t - item bar container - testing' }
 TToItemFiniteListContainer >> hasItems [ 
 

@@ -25,7 +25,7 @@ ToItemFiniteListElement >> defaultFakeDataItem [
 { #category : #initialization }
 ToItemFiniteListElement >> defaultNodeManagerClass [
 
-	^ ToItemFiniteListNodeManager
+	^ ToItemListNodeManager
 ]
 
 { #category : #initialization }

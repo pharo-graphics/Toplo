@@ -23,3 +23,9 @@ ToItemListNodeManager >> defaultNodeHolderFactory [
 
 	^ [ ToItemNodeHolder new ]
 ]
+
+{ #category : #initialization }
+ToItemListNodeManager >> unbuildNode: aNode [
+
+	aNode item removeFromParent
+]

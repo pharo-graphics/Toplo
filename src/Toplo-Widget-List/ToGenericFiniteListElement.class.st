@@ -10,9 +10,17 @@ Class {
 }
 
 { #category : #initialization }
+ToGenericFiniteListElement >> defaultNodeManager [
+
+	^ super defaultNodeManager
+		  nodeFactory: [ :holder | ToFiniteListNode new ];
+		  yourself
+]
+
+{ #category : #initialization }
 ToGenericFiniteListElement >> defaultNodeManagerClass [
 
-	^ ToGenericFiniteListNodeManager 
+	^ ToGenericListNodeManager 
 ]
 
 { #category : #initialization }

@@ -13,12 +13,6 @@ ToListNode >> applyConfiguration [
 	self holder initializeNode
 ]
 
-{ #category : #'t - list node' }
-ToListNode >> clickEventHandlerClass [
-
-	^  ToListNodeSelectionEventHandler
-]
-
 { #category : #skin }
 ToListNode >> newRawSkin [ 
 

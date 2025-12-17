@@ -7,9 +7,11 @@ Class {
 }
 
 { #category : #initialization }
-ToBasicFiniteListElement >> defaultNodeManagerClass [ 
+ToBasicFiniteListElement >> defaultNodeManager [
 
-	^ ToFiniteListNodeManager
+	^ super defaultNodeManager
+		  nodeContainerFactory: [ ToFiniteListNodeContainer new ];
+		  yourself
 ]
 
 { #category : #initialization }

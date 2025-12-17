@@ -3525,9 +3525,9 @@ ToSandBox class >> example_NodeContainerWithStatesOfAmerica [
 
 	| l |
 	l := ToGenericFiniteListElement new.
-	l exactNodeWidth: 100.
 	l horizontal: true.
 	l dataAccessor addAll: self statesOfAmerica.
+	l nodes do: [ :n | n width: 100 ].
 	l openInSpace
 ]
 

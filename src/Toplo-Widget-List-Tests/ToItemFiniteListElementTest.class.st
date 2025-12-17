@@ -24,7 +24,7 @@ ToItemFiniteListElementTest >> test [
 
 	| n |
 	self assert: l nodeContainers size equals: l dataAccessor size.
-	self assert: (l nodeManager isKindOf: ToItemFiniteListNodeManager).
+	self assert: (l nodeManager isKindOf: ToItemListNodeManager).
 	l addAllItems:
 		((1 to: 10) collect: [ :i | ToItemElementForTest new text: i asString ]).
 	n := l nodes first.

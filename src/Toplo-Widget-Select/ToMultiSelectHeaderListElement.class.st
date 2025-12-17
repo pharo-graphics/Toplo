@@ -83,6 +83,14 @@ ToMultiSelectHeaderListElement >> defaultLayout [
 ]
 
 { #category : #initialization }
+ToMultiSelectHeaderListElement >> defaultNodeManager [
+
+	^ super defaultNodeManager
+		  nodeFactory: [ :holder | ToMultiSelectHeaderNode new ];
+		  yourself
+]
+
+{ #category : #initialization }
 ToMultiSelectHeaderListElement >> defaultNodeManagerClass [ 
 
 	^ ToMultiSelectHeaderNodeManager

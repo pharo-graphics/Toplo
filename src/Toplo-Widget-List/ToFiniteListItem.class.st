@@ -15,7 +15,6 @@ Class {
 ToFiniteListItem >> applyConfiguration [ 
 
 	super applyConfiguration.
-	self applyItemConfiguration 
 ]
 
 { #category : #initialization }

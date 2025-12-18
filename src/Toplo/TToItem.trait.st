@@ -4,17 +4,6 @@ Trait {
 }
 
 { #category : #'t - item' }
-TToItem >> applyItemConfiguration [
-
-	self isHExact ifFalse: [
-			self holderDo: [ :h |
-					h listElement isHorizontal
-						ifTrue: [ self hFitContent ]
-						ifFalse: [ self hMatchParent ] ] ].
-	self isVExact ifFalse: [ self vFitContent ]
-]
-
-{ #category : #'t - item' }
 TToItem >> barElement [ 
 
 	self

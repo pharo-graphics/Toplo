@@ -11,13 +11,6 @@ Class {
 	#category : #'Toplo-Widget-List-ItemFiniteList'
 }
 
-{ #category : #configuration }
-ToFiniteListItem >> applyConfiguration [ 
-
-	super applyConfiguration.
-	self applyItemConfiguration 
-]
-
 { #category : #initialization }
 ToFiniteListItem >> defaultLayout [
 

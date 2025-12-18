@@ -19,3 +19,9 @@ ToTabPaneFiniteListElement >> defaultNodeManager [
 		  nodeHolderFactory: [ ToTabPaneNodeHolder new ];
 		  yourself
 ]
+
+{ #category : #skin }
+ToTabPaneFiniteListElement >> newRawSkin [ 
+
+	^ ToTabPaneFiniteListElementSkin new
+]

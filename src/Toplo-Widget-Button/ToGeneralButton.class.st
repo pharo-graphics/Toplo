@@ -10,10 +10,15 @@ Class {
 }
 
 { #category : #configuration }
-ToGeneralButton >> applyConfiguration [ 
+ToGeneralButton >> applyConfiguration [
 
 	super applyConfiguration.
-	self applyItemConfiguration 
+	self isHExact ifFalse: [
+			self holderDo: [ :h |
+					h listElement isHorizontal
+						ifTrue: [ self hFitContent ]
+						ifFalse: [ self hMatchParent ] ] ].
+	self vFitContent
 ]
 
 { #category : #initialization }

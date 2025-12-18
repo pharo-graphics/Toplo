@@ -13,6 +13,12 @@ ToItemListNodeManager >> buildNode: aNode [
 ]
 
 { #category : #initialization }
+ToItemListNodeManager >> defaultNodeContainerFactory [
+
+	^ [ ToFiniteListItemNodeContainer new ]
+]
+
+{ #category : #initialization }
 ToItemListNodeManager >> defaultNodeFactory [ 
 
 	^ [ :holder | ToListItemNode new ]

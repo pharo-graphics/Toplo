@@ -23,6 +23,14 @@ ToItemFiniteListElement >> defaultFakeDataItem [
 ]
 
 { #category : #initialization }
+ToItemFiniteListElement >> defaultNodeManager [
+
+	^ super defaultNodeManager
+		  nodeContainerFactory: [ ToFiniteListItemNodeContainer new ];
+		  yourself
+]
+
+{ #category : #initialization }
 ToItemFiniteListElement >> defaultNodeManagerClass [
 
 	^ ToItemListNodeManager

@@ -11,16 +11,28 @@ Class {
 }
 
 { #category : #configuration }
-ToNodeContainer >> applyConfiguration [ 
+ToNodeContainer >> applyConfiguration [
+
+	super applyConfiguration.
+	self aroundNodeConfiguration: [ self node applyConfiguration ]
+]
+
+{ #category : #configuration }
+ToNodeContainer >> applyResizerConfiguration [
 
 	| list |
-	super applyConfiguration.
-	self node applyConfiguration.
 	list := self holder listElement.
-	list isHorizontal
+	list isHFitContent
 		ifTrue: [ self hFitContent ]
 		ifFalse: [ self hMatchParent ].
 	self vFitContent
+]
+
+{ #category : #configuration }
+ToNodeContainer >> aroundNodeConfiguration: aNodeConfigurationBlock [
+
+	self applyResizerConfiguration.
+	aNodeConfigurationBlock value
 ]
 
 { #category : #accessing }

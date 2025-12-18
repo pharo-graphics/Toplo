@@ -25,6 +25,12 @@ ToTreeNodeManager >> childrenFromDataItem: aDataItem [
 ]
 
 { #category : #initialization }
+ToTreeNodeManager >> defaultNodeContainerFactory [
+
+	^ [ ToTreeNodeContainer new ]
+]
+
+{ #category : #initialization }
 ToTreeNodeManager >> defaultNodeFactory [ 
 
 	^ [ :holder | ToTreeNode new ]
@@ -54,10 +60,4 @@ ToTreeNodeManager >> newArrowIconInNodeContainer: aNodeContainer [
 			c linear horizontal alignLeft.
 			c linear vertical alignCenter ].
 	^ arrowIcon
-]
-
-{ #category : #'instance creation' }
-ToTreeNodeManager >> newNodeContainer [ 
-
-	^ ToTreeNodeContainer new
 ]

@@ -1,8 +1,6 @@
 Class {
 	#name : #ToMultiSelectHeaderNodeManager,
-	#superclass : #ToListNodeManager,
-	#traits : 'TToGenericNodeManager',
-	#classTraits : 'TToGenericNodeManager classTrait',
+	#superclass : #ToGenericListNodeManager,
 	#category : #'Toplo-Widget-Select-Multi'
 }
 
@@ -14,6 +12,12 @@ ToMultiSelectHeaderNodeManager >> defaultNodeBuilder [
 			  labelText: dataItem asString;
 			  removable: true;
 			  hMatchParent ]
+]
+
+{ #category : #initialization }
+ToMultiSelectHeaderNodeManager >> defaultNodeContainerFactory [
+
+	^ [ ToFiniteListNodeContainer new ]
 ]
 
 { #category : #initialization }

@@ -12,7 +12,7 @@ ToItemNodeHolder >> dataItem: aDataItem [
 ]
 
 { #category : #accessing }
-ToItemNodeHolder >> initializeNode [
+ToItemNodeHolder >> initializeNodeSelections [
 
 	self dataItem itemConstraintsDo: [ :ic |
 		ic constraintItem: self dataItem.

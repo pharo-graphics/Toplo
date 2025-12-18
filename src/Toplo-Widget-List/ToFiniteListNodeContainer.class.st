@@ -9,10 +9,9 @@ Class {
 }
 
 { #category : #configuration }
-ToFiniteListNodeContainer >> applyConfiguration [
+ToFiniteListNodeContainer >> applyResizerConfiguration [
 
 	| finiteList |
-	super applyConfiguration.
 	finiteList := self holder listElement.
 	finiteList isFlowable
 		ifTrue: [ self fitContent ]

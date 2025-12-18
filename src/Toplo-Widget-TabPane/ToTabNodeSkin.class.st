@@ -23,13 +23,6 @@ ToTabNodeSkin >> configureSelectionTokensIn: anItemElement [
 ]
 
 { #category : #'event handling' }
-ToTabNodeSkin >> enabledSkinEvent: anEvent [
-
-	super enabledSkinEvent: anEvent.
-	anEvent elementDo: [ :e | self configureSelectionTokensIn: e ]
-]
-
-{ #category : #'event handling' }
 ToTabNodeSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
@@ -49,6 +42,7 @@ ToTabNodeSkin >> installSkinEvent: anEvent [
 		listElement := e holder listElement.
 		leftPad := rightPad := e valueOfTokenNamed: #'padding-content-H'.
 		topPad := bottomPad := e valueOfTokenNamed: #'padding-content-V'.
+		self configureSelectionTokensIn: e.
 		e removeButtonDo: [ :rb |
 			rb visibility: BlVisibility hidden.
 			rb constraintsDo: [ :c |
@@ -66,15 +60,6 @@ ToTabNodeSkin >> installSkinEvent: anEvent [
 				 left: leftPad
 				 bottom: bottomPad
 				 right: rightPad) ]
-]
-
-{ #category : #'event handling' }
-ToTabNodeSkin >> leavedSkinEvent: anEvent [
-
-	super leavedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e removeButtonDo: [ :rb | rb visibility: BlVisibility hidden ].
-		e mouseCursor: Cursor normal ]
 ]
 
 { #category : #'event handling' }

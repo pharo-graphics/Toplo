@@ -10,7 +10,7 @@ ToListNode >> applyConfiguration [
 
 	super applyConfiguration.
 	self hMatchParent.
-	self holder initializeNode
+	self holder initializeNodeSelections
 ]
 
 { #category : #skin }

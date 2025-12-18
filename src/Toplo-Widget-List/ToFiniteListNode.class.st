@@ -14,7 +14,21 @@ Class {
 ToFiniteListNode >> applyConfiguration [
 
 	super applyConfiguration.
-	self holder initializeNode
+	"self applyResizerConfiguration."
+	self holder initializeNodeSelections
+]
+
+{ #category : #configuration }
+ToFiniteListNode >> applyResizerConfiguration [
+
+	| container |
+	container := self holder nodeContainer.
+	container isHFitContent
+		ifTrue: [ self hFitContent ]
+		ifFalse: [ self hMatchParent ].
+	container isVFitContent
+		ifTrue: [ self vFitContent ]
+		ifFalse: [ self vMatchParent ]
 ]
 
 { #category : #initialization }

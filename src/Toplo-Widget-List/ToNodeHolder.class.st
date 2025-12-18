@@ -105,7 +105,7 @@ ToNodeHolder >> initialize [
 ]
 
 { #category : #accessing }
-ToNodeHolder >> initializeNode [
+ToNodeHolder >> initializeNodeSelections [
 
 	notifiedSelected := false.
 	self node disabled: self isDisabled.

@@ -48,3 +48,15 @@ ToAbstractListNode >> initialize [
 	self hMatchParent.
 	self vFitContent
 ]
+
+{ #category : #accessing }
+ToAbstractListNode >> listElement [ 
+
+	^ self holder listElement
+]
+
+{ #category : #accessing }
+ToAbstractListNode >> nodeManager [ 
+
+	^ self listElement nodeManager
+]

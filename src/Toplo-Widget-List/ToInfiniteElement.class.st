@@ -26,6 +26,7 @@ ToInfiniteElement >> addedDataSourceCommand: aCommand [
 { #category : #configuration }
 ToInfiniteElement >> applyConfiguration [
 
+	| nodeManager |
 	super applyConfiguration.
 	self layout beHorizontal: self listElement isHorizontal.
 	self constraintsDo: [ :c |
@@ -34,7 +35,11 @@ ToInfiniteElement >> applyConfiguration [
 				ifFalse: [ c horizontal fitContent ].
 			self listElement isVMatchParent
 				ifTrue: [ c vertical matchParent ]
-				ifFalse: [ c vertical fitContent ] ]
+				ifFalse: [ c vertical fitContent ] ].
+
+	nodeManager := listElement nodeManager.
+	self nodeContainersDo: [ :nodeContainer |
+		nodeManager configureNodeContainer: nodeContainer ]
 ]
 
 { #category : #'private - commands' }

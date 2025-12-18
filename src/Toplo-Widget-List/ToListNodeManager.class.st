@@ -9,7 +9,9 @@ Class {
 		'checkableNode',
 		'nodeContainerFactory',
 		'nodeHolderFactory',
-		'nodeFactory'
+		'nodeFactory',
+		'nodeContainerConfigurator',
+		'nodeConfigurator'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -44,6 +46,30 @@ ToListNodeManager >> checkableNode: aBoolean [
 	checkableNode := aBoolean 
 ]
 
+{ #category : #'node configuration' }
+ToListNodeManager >> configureNode: aNode [
+
+	nodeConfigurator value: aNode
+]
+
+{ #category : #'node configuration' }
+ToListNodeManager >> configureNodeContainer: aNodeContainer [
+
+	nodeContainerConfigurator value: aNodeContainer 
+]
+
+{ #category : #initialization }
+ToListNodeManager >> defaultNodeConfigurator [
+
+	^ [ :node | ]
+]
+
+{ #category : #initialization }
+ToListNodeManager >> defaultNodeContainerConfigurator [
+
+	^ [ :nodeContainer | ]
+]
+
 { #category : #initialization }
 ToListNodeManager >> defaultNodeContainerFactory [
 
@@ -69,7 +95,9 @@ ToListNodeManager >> initialize [
 	checkableNode := false.
 	nodeContainerFactory := self defaultNodeContainerFactory.
 	nodeFactory := self defaultNodeFactory.
-	nodeHolderFactory := self defaultNodeHolderFactory
+	nodeHolderFactory := self defaultNodeHolderFactory.
+	nodeContainerConfigurator := self defaultNodeContainerConfigurator.
+	nodeConfigurator := self defaultNodeConfigurator 
 ]
 
 { #category : #'instance creation' }
@@ -88,6 +116,30 @@ ToListNodeManager >> newNodeContainer [
 ToListNodeManager >> newNodeForHolder: aNodeHolder [
 
 	^ nodeFactory cull: aNodeHolder
+]
+
+{ #category : #accessing }
+ToListNodeManager >> nodeConfigurator [
+
+	^ nodeConfigurator
+]
+
+{ #category : #accessing }
+ToListNodeManager >> nodeConfigurator: aValuable [
+
+	nodeConfigurator := aValuable
+]
+
+{ #category : #accessing }
+ToListNodeManager >> nodeContainerConfigurator [
+
+	^ nodeContainerConfigurator
+]
+
+{ #category : #accessing }
+ToListNodeManager >> nodeContainerConfigurator: aValuable [
+
+	nodeContainerConfigurator := aValuable
 ]
 
 { #category : #'instance creation' }

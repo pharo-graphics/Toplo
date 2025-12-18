@@ -47,6 +47,7 @@ ToInnerFiniteListElement >> addedDataSourceCommand: aCommand [
 { #category : #'t - list node holder' }
 ToInnerFiniteListElement >> applyConfiguration [
 
+	| nodeManager |
 	super applyConfiguration.
 	listElement isHFitContent
 		ifTrue: [ self hFitContent ]
@@ -56,7 +57,10 @@ ToInnerFiniteListElement >> applyConfiguration [
 		ifTrue: [ self vFitContent ]
 		ifFalse: [ self vMatchParent ].
 
-	self childrenDo: [ :container | container applyConfiguration ]
+	self childrenDo: [ :container | container applyConfiguration ].
+	nodeManager := listElement nodeManager.
+	self nodeContainersDo: [ :nodeContainer |
+		nodeManager configureNodeContainer: nodeContainer ]
 ]
 
 { #category : #'private - commands' }

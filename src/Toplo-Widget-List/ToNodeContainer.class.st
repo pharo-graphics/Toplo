@@ -13,8 +13,11 @@ Class {
 { #category : #configuration }
 ToNodeContainer >> applyConfiguration [
 
+	| nodeManager |
 	super applyConfiguration.
-	self aroundNodeConfiguration: [ self node applyConfiguration ]
+	self aroundNodeConfiguration: [ self node applyConfiguration ].
+	nodeManager := self holder listElement nodeManager.
+	nodeManager configureNode: self node
 ]
 
 { #category : #configuration }
@@ -76,6 +79,12 @@ ToNodeContainer >> item [
 	^ self node item
 ]
 
+{ #category : #accessing }
+ToNodeContainer >> listElement [ 
+
+	^ self holder listElement
+]
+
 { #category : #testing }
 ToNodeContainer >> listElementReferenceBoundsInSpace [
 
@@ -108,5 +117,5 @@ ToNodeContainer >> node [
 { #category : #accessing }
 ToNodeContainer >> nodeManager [ 
 
-	^ self holder listElement nodeManager
+	^ self listElement nodeManager
 ]

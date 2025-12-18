@@ -7,6 +7,6 @@ Class {
 { #category : #'look event sending' }
 ToIntrinsicStateBase >> dispatchSkinEvent: anEvent on: anElement fromQueue: aQueue [
 
-	anEvent fillFromTime: anElement space time.
+	anElement spaceDo: [ :sp | anEvent fillFromTime: sp time ].
 	anElement dispatchEvent: anEvent
 ]

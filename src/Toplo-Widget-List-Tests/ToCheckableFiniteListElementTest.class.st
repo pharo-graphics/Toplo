@@ -53,6 +53,27 @@ ToCheckableFiniteListElementTest >> testItemChecked [
 ]
 
 { #category : #tests }
+ToCheckableFiniteListElementTest >> testItemHResizer [
+
+	self waitTestingSpaces.
+	bar items do: [ :item | self assert: item isHMatchParent ]
+]
+
+{ #category : #tests }
+ToCheckableFiniteListElementTest >> testItemHeight [
+
+	bar removeAllItems.
+	self assert: bar items size equals: 0.
+	self statesOfAmerica do: [ :l |
+			bar addItem: (ToToggleButton new
+					 labelText: l;
+					 height: 100;
+					 yourself) ].
+	self waitTestingSpaces.
+	bar items do: [ :item | self assert: item height equals: 100 ]
+]
+
+{ #category : #tests }
 ToCheckableFiniteListElementTest >> testItemSelected [
 
 	bar selecter selectIndex: 1.
@@ -60,4 +81,25 @@ ToCheckableFiniteListElementTest >> testItemSelected [
 	self assert: bar items first isChecked.
 	self waitTestingSpaces.
 	self assert: bar selectionModel selectedIndexes equals: #( 1 )
+]
+
+{ #category : #tests }
+ToCheckableFiniteListElementTest >> testItemVResizer [
+
+	self waitTestingSpaces.
+	bar items do: [ :item | self assert: item isVFitContent ]
+]
+
+{ #category : #tests }
+ToCheckableFiniteListElementTest >> testItemWidth [
+
+	bar removeAllItems.
+	self assert: bar items size equals: 0.
+	self statesOfAmerica do: [ :l |
+			bar addItem: (ToToggleButton new
+					 labelText: l;
+					 width: 1000;
+					 yourself) ].
+	self waitTestingSpaces.
+	bar items do: [ :item | self assert: item width equals: 1000 ]
 ]

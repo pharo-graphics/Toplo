@@ -10,27 +10,6 @@ Class {
 	#category : #'Toplo-Widget-List-Node'
 }
 
-{ #category : #configuration }
-ToFiniteListNode >> applyConfiguration [
-
-	super applyConfiguration.
-	"self applyResizerConfiguration."
-	self holder initializeNodeSelections
-]
-
-{ #category : #configuration }
-ToFiniteListNode >> applyResizerConfiguration [
-
-	| container |
-	container := self holder nodeContainer.
-	container isHFitContent
-		ifTrue: [ self hFitContent ]
-		ifFalse: [ self hMatchParent ].
-	container isVFitContent
-		ifTrue: [ self vFitContent ]
-		ifFalse: [ self vMatchParent ]
-]
-
 { #category : #initialization }
 ToFiniteListNode >> initialize [
 

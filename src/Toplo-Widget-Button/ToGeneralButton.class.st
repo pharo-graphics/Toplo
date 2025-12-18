@@ -18,7 +18,7 @@ ToGeneralButton >> applyConfiguration [
 					h listElement isHorizontal
 						ifTrue: [ self hFitContent ]
 						ifFalse: [ self hMatchParent ] ] ].
-	self vFitContent
+	self isVExact ifFalse: [ self vFitContent ].
 ]
 
 { #category : #initialization }

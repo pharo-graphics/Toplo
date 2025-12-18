@@ -1468,39 +1468,21 @@ ToSandBox class >> example_CheckBoxWithDefaultStyleSheetDarkTheme [
 { #category : #'finite list' }
 ToSandBox class >> example_CheckableFiniteListElement [
 
-	| bar space container |
-	container := ToPane new.
-	container matchParent.
-	container contextMenuBuilder: [ :menu :request |
-			menu addItem: (ToMenuItem new
-					 labelText: 'Inspect';
-					 clickAction: [ container inspect ];
-					 yourself) ].
-
-	bar := ToCheckableFiniteListElement new.
+	| space bar |
 	space := BlSpace new.
+	bar := ToCheckableFiniteListElement new.
+	bar vMatchParent.
+	bar isFlowable: true.
+	space root addChild: bar.
 	bar matchParent.
-	{ #Alabama. #Alaska. #Arizona. #Arkansas. #California. #Colorado.
-	#Connecticut. #Delaware. #Florida. #Georgia. #Hawaii. #Idaho. #Illinois.
-	#Indiana. #Iowa. #Kansas. #Kentucky. #Louisiana. #Maine. #Maryland.
-	#Massachusetts. #Michigan. #Minnesota. #Mississippi. #Missouri.
-	#Montana. #Nebraska. #Nevada. #'New Hampshire'. #'New Jersey'.
-	#'New Mexico'. #'New York'. #'North Carolina'. #'North Dakota'.
-	#Ohio. #Oklahoma. #Oregon. #'Pennsylvania Rhode Island'.
-	#'South Carolina'. #'South Dakota'. #Tennessee. #Texas. #Utah. #Vermont.
-	#Virginia. #Washington. #'West Virginia'. #Wisconsin. #Wyoming } do: [
-			:l |
-			bar addItem: (ToToggleButton new
-					 labelText: l;
-					 hMatchParent;
-					 yourself) ].
-
-	"bar selecter selectIndex: 3."
-	bar uniformNodeWidth: true.
-	container addChild: bar.
-	bar items third checked: true.
-	space root addChild: container.
-	space show
+	self statesOfAmerica do: [ :l | | item |
+			item := ToToggleButton new labelText: l.
+			"item fitContent."
+			item width: 150.
+			"item hMatchParent."
+			bar addItem: item ].
+	space show.
+	bar
 ]
 
 { #category : #checkables }
@@ -4915,6 +4897,26 @@ ToSandBox class >> example_TabBarElement [
 
 	board := self tabBarElementDashBoardFor: tabs.
 	board openInSpace
+]
+
+{ #category : #'finite list' }
+ToSandBox class >> example_TabFiniteListElement [
+
+	| tabs |
+	tabs := ToTabFiniteListElement new.
+	tabs horizontal: true.
+	tabs matchParent.
+
+	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
+			| item |
+			item := ToTabItemElement new
+				        removable: true;
+				        middleElement: (ToLabel text: l);
+				        yourself.
+			item width: 100.
+			item height: 100.
+			tabs addItem: item ].
+	tabs openInInnerWindow
 ]
 
 { #category : #tabPane }

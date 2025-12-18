@@ -22,10 +22,10 @@ ToNodeContainer >> applyResizerConfiguration [
 
 	| list |
 	list := self holder listElement.
-	list isHFitContent
+"	list isHFitContent
 		ifTrue: [ self hFitContent ]
 		ifFalse: [ self hMatchParent ].
-	self vFitContent
+	self vFitContent"
 ]
 
 { #category : #configuration }

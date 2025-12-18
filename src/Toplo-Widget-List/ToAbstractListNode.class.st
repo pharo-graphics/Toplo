@@ -20,6 +20,13 @@ Class {
 	#category : #'Toplo-Widget-List-Node'
 }
 
+{ #category : #configuration }
+ToAbstractListNode >> applyConfiguration [
+
+	super applyConfiguration.
+	self holder initializeNodeSelections
+]
+
 { #category : #'t - list node' }
 ToAbstractListNode >> clickEventHandlerClass [
 

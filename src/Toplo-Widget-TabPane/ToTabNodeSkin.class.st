@@ -5,24 +5,6 @@ Class {
 }
 
 { #category : #'event handling' }
-ToTabNodeSkin >> configureSelectionTokensIn: anItemElement [
-
-	anItemElement holder listElement isFlowable
-		ifTrue: [
-			anItemElement removeTokenNamed: #'selected-focused-foreground'.
-			anItemElement removeTokenNamed: #'selected-unfocused-foreground' ]
-		ifFalse: [
-			anItemElement
-				addTokenNamed: #'selected-focused-foreground'
-				withValue:
-				(anItemElement valueOfTokenNamed: #'color-primary-checked').
-			anItemElement
-				addTokenNamed: #'selected-unfocused-foreground'
-				withValue:
-				(anItemElement valueOfTokenNamed: #'color-primary-checked') ]
-]
-
-{ #category : #'event handling' }
 ToTabNodeSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
@@ -42,7 +24,6 @@ ToTabNodeSkin >> installSkinEvent: anEvent [
 		listElement := e holder listElement.
 		leftPad := rightPad := e valueOfTokenNamed: #'padding-content-H'.
 		topPad := bottomPad := e valueOfTokenNamed: #'padding-content-V'.
-		self configureSelectionTokensIn: e.
 		e removeButtonDo: [ :rb |
 			rb visibility: BlVisibility hidden.
 			rb constraintsDo: [ :c |

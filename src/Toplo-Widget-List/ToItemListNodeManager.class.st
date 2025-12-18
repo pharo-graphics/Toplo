@@ -15,7 +15,7 @@ ToItemListNodeManager >> buildNode: aNode [
 { #category : #initialization }
 ToItemListNodeManager >> defaultNodeContainerFactory [
 
-	^ [ ToFiniteListItemNodeContainer new ]
+	^ [ ToItemNodeContainer new ]
 ]
 
 { #category : #initialization }

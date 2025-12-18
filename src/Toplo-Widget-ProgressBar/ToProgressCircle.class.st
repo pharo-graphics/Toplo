@@ -16,12 +16,11 @@ ToProgressCircle class >> example_CircleProgressBarFinite [
 
 	| p |
 	p := ToProgressCircle new.
-	p size: 125 asPoint.
+	p extent: 125 asPoint.
 	p valueInPercentage: 0.75.
 	p openInSpace.
-	
+
 	^ p
-	
 ]
 
 { #category : #example }
@@ -29,12 +28,11 @@ ToProgressCircle class >> example_CircleProgressBarFiniteWithIcon [
 
 	| p |
 	p := ToProgressCircle new.
-	p size: 200 asPoint.
+	p extent: 200 asPoint.
 	p icon: (ToImage new innerImage: (self iconNamed: #glamorousAccept)).
 	p valueInPercentage: 0.75.
 	p openInSpace.
 	^ p
-	
 ]
 
 { #category : #example }
@@ -42,7 +40,7 @@ ToProgressCircle class >> example_CircleProgressBarFiniteWithLabel [
 
 	| p |
 	p := ToProgressCircle new.
-	p size: 500 asPoint.
+	p extent: 500 asPoint.
 	p label: (ToLabel text: '75%').
 	p valueInPercentage: 0.75.
 	p openInSpace.
@@ -54,13 +52,12 @@ ToProgressCircle class >> example_CircleProgressBarInfinite [
 
 	| p |
 	p := ToProgressCircle new.
-	p size: 125 asPoint.
+	p extent: 125 asPoint.
 	p valueInPercentage: 0.6.
 	p isInfinite: true.
 	p openInSpace.
-	
+
 	^ p
-	
 ]
 
 { #category : #initialization }
@@ -186,17 +183,26 @@ ToProgressCircle >> resizeProgressBar [
 	| lineWidth circleWidth perimeter dashLength |
 	self valueInPercentage ifNil: [ ^ self ].
 	lineWidth := 4.
-	circleWidth := remainingBar size x.
+	circleWidth := remainingBar extent x.
 	circleWidth = 0 ifTrue: [ ^ self ].
-	
+
 	perimeter := circleWidth * Float pi.
 	dashLength := perimeter * self valueInPercentage.
+	
+	remainingBar border: (BlBorder builder
+		 width: lineWidth;
+		 paint: (self valueOfTokenNamed: #progressCircleRemainingBarBackground);
+		 build).
+
 
 	progressBar geometry: BlCircleGeometry new.
 	progressBar border: (BlBorder builder
-				dashArray: {dashLength. perimeter};
-				paint: (self valueOfTokenNamed: #'color-primary');
-				width: lineWidth;
-				capRound;
-				build)
+			 dashArray: {
+					 dashLength.
+					 perimeter };
+			 paint: (self valueOfTokenNamed: #'color-primary');
+			 width: lineWidth;
+			 capRound;
+			 paint: (self valueOfTokenNamed: #progressCircleProgressBarBackground);
+			 build) 
 ]

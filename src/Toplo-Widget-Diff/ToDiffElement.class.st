@@ -29,6 +29,7 @@ ToDiffElement >> applyHighlights [
 	| modifications |
 	self calculateDifference.
 	self calculateJoinMappings.
+
 	modifications := self joinMappings reject: [ :el | el type = #match ].
 	self
 		applyHighlightTo: self srcAlbum
@@ -43,6 +44,7 @@ ToDiffElement >> applyHighlights [
 ToDiffElement >> calculateDifference [
 	"Calculate the difference of the src and dst.
 	Use src/dest morphs text, because we may want to compare the pretty printed text"
+
 	self difference: (TextDiffBuilder
 			 from: self srcAlbum text
 			 to: self targetAlbum text) buildPatchSequence
@@ -259,12 +261,15 @@ ToDiffElement >> newJoinSection [
 ToDiffElement >> newJoinSectionFrom: srcRange to: dstRange [
 	"Answer a new join section."
 
-	| sourceParagraphLines destinationParagraphLines sourceTopPixelPosition sourceBottomPixelPosition destinationTopPixelPosition destinationBottomPixelPosition type rectangleColor |
+	| sourceParagraphLines destinationParagraphLines type rectangleColor |
 	sourceParagraphLines := self srcAlbum text rope asString lines.
 	destinationParagraphLines := self targetAlbum text rope asString
 		                             lines.
 	type := #modification.
-
+	srcRange first > sourceParagraphLines size ifTrue: [
+		type := #addition ].
+	dstRange first > destinationParagraphLines size ifTrue: [
+		type := #removal ].
 	rectangleColor := self colorForType: type.
 	^ self newJoinSection
 		  type: type;

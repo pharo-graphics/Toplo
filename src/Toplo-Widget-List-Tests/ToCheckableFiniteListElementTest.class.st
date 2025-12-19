@@ -55,6 +55,12 @@ ToCheckableFiniteListElementTest >> testItemChecked [
 { #category : #tests }
 ToCheckableFiniteListElementTest >> testItemHResizer [
 
+	bar removeAllItems.
+	self statesOfAmerica do: [ :l |
+			bar addItem: (ToToggleButton new
+					 labelText: l;
+					 hMatchParent;
+					 yourself) ].
 	self waitTestingSpaces.
 	bar items do: [ :item | self assert: item isHMatchParent ]
 ]

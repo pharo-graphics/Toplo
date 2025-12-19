@@ -511,15 +511,6 @@ BlElement >> isPreventedSkinEventClass: aSkinEventClass [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> isSelectableElement [
-
-	^ self
-		  withAllParentsDetect: [ :p | p isKindOf: ToAbstractListNode ]
-		  ifFound: [ :p | true ]
-		  ifNone: [ false ]
-]
-
-{ #category : #'*Toplo' }
 BlElement >> isSelected [
 
 	^ false

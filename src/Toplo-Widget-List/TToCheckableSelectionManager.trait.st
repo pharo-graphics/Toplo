@@ -25,7 +25,6 @@ TToCheckableSelectionManager >> newCheckbox [
 
 	|  cbox |
 	cbox := ToCheckbox new.
-	cbox addStamp: #iconic.
 	cbox id: #cellCheckbox.
 	cbox focusability: BlFocusability none.
 	^ cbox

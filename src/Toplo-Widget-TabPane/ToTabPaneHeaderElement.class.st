@@ -147,6 +147,12 @@ ToTabPaneHeaderElement >> newMiddleContainer [
 	^ self newTabGroupElement
 ]
 
+{ #category : #'instance creation' }
+ToTabPaneHeaderElement >> newRawSkin [ 
+
+	^ ToTabPaneHeaderElementSkin new
+]
+
 { #category : #'t - triplet container - instance creation' }
 ToTabPaneHeaderElement >> newStartContainer [ 
 

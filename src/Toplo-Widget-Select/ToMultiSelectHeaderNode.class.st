@@ -11,7 +11,9 @@ ToMultiSelectHeaderNode >> applyConfiguration [
 
 	super applyConfiguration.
 	self holderDo: [ :h |
-		h listElement autoDistribute ifTrue: [ self hMatchParent ] ]
+			h listElement autoDistribute
+				ifTrue: [ self hMatchParent ]
+				ifFalse: [ self hFitContent ] ]
 ]
 
 { #category : #initialization }
@@ -20,7 +22,7 @@ ToMultiSelectHeaderNode >> initialize [
 	super initialize.
 	self constraintsDo: [ :c | c linear vertical alignCenter ].
 
-	self initializeAsBarNode 
+	self initializeAsFiniteListNode 
 ]
 
 { #category : #skin }

@@ -1,5 +1,5 @@
 Class {
-	#name : #ToAbstractListElement,
+	#name : #ToBasicListElement,
 	#superclass : #ToElement,
 	#traits : 'TToCheckableSelectionManager + TToListElementDecorator + TToElementWithPlaceholder + TToOrientable',
 	#classTraits : 'TToCheckableSelectionManager classTrait + TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait + TToOrientable classTrait',
@@ -15,7 +15,7 @@ Class {
 }
 
 { #category : #accessing }
-ToAbstractListElement >> addSelectionMode: aSelectionMode [
+ToBasicListElement >> addSelectionMode: aSelectionMode [
 
 	selectionModeMap
 		at: aSelectionMode selectionChangedEventClass
@@ -24,24 +24,24 @@ ToAbstractListElement >> addSelectionMode: aSelectionMode [
 ]
 
 { #category : #'private - commands' }
-ToAbstractListElement >> addedDataSourceCommand: aCommand [
+ToBasicListElement >> addedDataSourceCommand: aCommand [
 
 	self innerElementDo: [ :inner | inner addedDataSourceCommand: aCommand ]
 ]
 
 { #category : #configuration }
-ToAbstractListElement >> applyConfiguration [
+ToBasicListElement >> applyConfiguration [
 
 	super applyConfiguration.
 	self childrenDo: #applyConfiguration
 ]
 
 { #category : #'private - commands' }
-ToAbstractListElement >> applyDataSourceFilterCommand: aDataSourceCommand [
+ToBasicListElement >> applyDataSourceFilterCommand: aDataSourceCommand [
 ]
 
 { #category : #'private - commands' }
-ToAbstractListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
+ToBasicListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 	" update the selection according to the sieve selection model"
 
 	| sieve |
@@ -65,7 +65,7 @@ ToAbstractListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 ]
 
 { #category : #layout }
-ToAbstractListElement >> checkMouseMoveReplayRequest [
+ToBasicListElement >> checkMouseMoveReplayRequest [
 
 	mouseMoveReplayRequested ifFalse: [ ^ self ].
 	self spaceDo: [ :sp |
@@ -74,46 +74,46 @@ ToAbstractListElement >> checkMouseMoveReplayRequest [
 ]
 
 { #category : #layout }
-ToAbstractListElement >> consumeFinalStepCommands [
+ToBasicListElement >> consumeFinalStepCommands [
 
 	self innerElement consumeFinalStepCommands
 
 	
 ]
 
-{ #category : #initialization }
-ToAbstractListElement >> contextMenuManagerClass [
+{ #category : #'t - element with context menu' }
+ToBasicListElement >> contextMenuManagerClass [
 
 	^ ToListElementContextMenuManager
 ]
 
 { #category : #'accessing selecters' }
-ToAbstractListElement >> contextMenuSelecter [ 
+ToBasicListElement >> contextMenuSelecter [ 
 
 	^ self contextMenuSelectionMode selecter
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> contextMenuSelectionMode [
+ToBasicListElement >> contextMenuSelectionMode [
 
 	^ 	self selectionModeWithEventClass: ToListContextMenuSelectionChangedEvent
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> contextMenuSelectionMode: aSelectionMode [
+ToBasicListElement >> contextMenuSelectionMode: aSelectionMode [
 
 	self contextMenuSelectionMode ifNotNil: [ :m | m onUninstalledIn: self ].
 	aSelectionMode ifNotNil: [ aSelectionMode onInstalledIn: self ]
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> contextMenuSelectionModel [
+ToBasicListElement >> contextMenuSelectionModel [
 
 	^ self	 contextMenuSelectionMode selectionModel
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> data [
+ToBasicListElement >> data [
 
 	self
 		deprecated: 'Please use dataAccessor instead.'
@@ -124,32 +124,32 @@ ToAbstractListElement >> data [
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> dataAccessor [ 
+ToBasicListElement >> dataAccessor [ 
 
 	^ dataAccessor
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> dataSource [
+ToBasicListElement >> dataSource [
 
 	^ dataSource
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> dataSource: aDataSource [
+ToBasicListElement >> dataSource: aDataSource [
 
 	dataSource ifNotNil: [ BlImmutableObjectChangeError signal ].
 	dataSource := aDataSource
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> dataSourceManager [
+ToBasicListElement >> dataSourceManager [
 
 	^ self innerElement dataSourceManager 
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> dataUpdater [
+ToBasicListElement >> dataUpdater [
 
 	self
 		deprecated: 'Please use dataAccessor instead.'
@@ -160,114 +160,114 @@ ToAbstractListElement >> dataUpdater [
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultContextMenuSelectionMode [
+ToBasicListElement >> defaultContextMenuSelectionMode [
 
 	^ ToListContextMenuSelectionMode new
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultDataSource [
+ToBasicListElement >> defaultDataSource [
 
 	^ ToSortableInfiniteCollectionDataSource new
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultEventHandler [
+ToBasicListElement >> defaultEventHandler [
 
 	^ ToListElementEventHandler new
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultInnerElement [
+ToBasicListElement >> defaultInnerElement [
 
 	^ self defaultInnerElementClass onListElement: self
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultInnerElementClass [
+ToBasicListElement >> defaultInnerElementClass [
 
 	^ ToInfiniteElement
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultLayout [
+ToBasicListElement >> defaultLayout [
 
 	^ BlLinearLayout vertical
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultNodeManager [
+ToBasicListElement >> defaultNodeManager [
 
 	^ self defaultNodeManagerClass new
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultNodeManagerClass [
+ToBasicListElement >> defaultNodeManagerClass [
 
-	^ self subclassResponsibility   
+	^ ToListNodeManager 
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultPrimarySelectionMode [
+ToBasicListElement >> defaultPrimarySelectionMode [
 
 	^ self defaultPrimarySelectionModeClass new
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultPrimarySelectionModeClass [
+ToBasicListElement >> defaultPrimarySelectionModeClass [
 
 	^ ToListPrimarySelectionMode
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> defaultSecondarySelectionMode [
+ToBasicListElement >> defaultSecondarySelectionMode [
 
 	^ ToListSecondarySelectionMode new.
 
 ]
 
 { #category : #'accessing selecters' }
-ToAbstractListElement >> deselectedAtPosition: anInteger [
+ToBasicListElement >> deselectedAtPosition: anInteger [
 
 	self selecter deselectIndex: anInteger
 ]
 
 { #category : #'accessing selecters' }
-ToAbstractListElement >> disabledAtPosition: anInteger [
+ToBasicListElement >> disabledAtPosition: anInteger [
 
 	self disabledSelecter selectOneMoreIndex: anInteger
 ]
 
 { #category : #'accessing selecters' }
-ToAbstractListElement >> disabledSelecter [ 
+ToBasicListElement >> disabledSelecter [ 
 
 	^ self disabledSelectionMode selecter
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> disabledSelectionMode [
+ToBasicListElement >> disabledSelectionMode [
 
 	^ self selectionModeWithEventClass: ToListDisabledSelectionChangedEvent
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> disabledSelectionModel [
+ToBasicListElement >> disabledSelectionModel [
 
 	^ self selectionModel disabledSelectionModel
 ]
 
 { #category : #'accessing selecters' }
-ToAbstractListElement >> enabledAtPosition: anInteger [
+ToBasicListElement >> enabledAtPosition: anInteger [
 
 	self disabledSelecter deselectIndex: anInteger
 ]
 
 { #category : #layout }
-ToAbstractListElement >> extentChanged [
+ToBasicListElement >> extentChanged [
 ]
 
 { #category : #'t - item' }
-ToAbstractListElement >> flagAsDisabled: aBoolean [
+ToBasicListElement >> flagAsDisabled: aBoolean [
 
 	aBoolean ifTrue: [
 			self selecter deselectAll.
@@ -276,7 +276,7 @@ ToAbstractListElement >> flagAsDisabled: aBoolean [
 ]
 
 { #category : #'selection updating' }
-ToAbstractListElement >> forceUpdateAllSelections [
+ToBasicListElement >> forceUpdateAllSelections [
 
 	self whenLayoutedDoOnce: [
 			self selectionModes do: [ :mode |
@@ -286,36 +286,35 @@ ToAbstractListElement >> forceUpdateAllSelections [
 ]
 
 { #category : #'accessing selecters' }
-ToAbstractListElement >> hiddenAtPosition: anInteger [
+ToBasicListElement >> hiddenAtPosition: anInteger [
 
 	self hiddenSelecter selectIndex: anInteger
 ]
 
 { #category : #'accessing selecters' }
-ToAbstractListElement >> hiddenSelecter [ 
+ToBasicListElement >> hiddenSelecter [ 
 
 	^ self hiddenSelectionMode selecter 
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> hiddenSelectionMode [
+ToBasicListElement >> hiddenSelectionMode [
 
 	^ self selectionModeWithEventClass: ToListHiddenSelectionChangedEvent 
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> hiddenSelectionModel [  
+ToBasicListElement >> hiddenSelectionModel [  
 
 	^ self selectionModel hiddenSelectionModel 
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> initialize [
+ToBasicListElement >> initialize [
 
 	super initialize.
 	
 	mouseMoveReplayRequested := false.
-	nodeManager := self defaultNodeManager.
 	selectionModeMap := IdentityDictionary new.
 
 	self initializeDataSource.
@@ -336,19 +335,19 @@ ToAbstractListElement >> initialize [
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> initializeDataAccessor [
+ToBasicListElement >> initializeDataAccessor [
 
 	dataAccessor := self dataSource
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> initializeDataSource [ 
+ToBasicListElement >> initializeDataSource [ 
 
 	self dataSource: self defaultDataSource
 ]
 
 { #category : #initialization }
-ToAbstractListElement >> initializeInnerElement [
+ToBasicListElement >> initializeInnerElement [
 
 	next := self defaultInnerElement.
 	self next elevation: (BlRelativeElevation elevation: 10).
@@ -356,50 +355,50 @@ ToAbstractListElement >> initializeInnerElement [
 ]
 
 { #category : #'t - list element decorator - infinite accessing' }
-ToAbstractListElement >> innerElementDo: aValuable [
+ToBasicListElement >> innerElementDo: aValuable [
 
 	aValuable value: self innerElement
 ]
 
 { #category : #testing }
-ToAbstractListElement >> isMultipleSelection [
+ToBasicListElement >> isMultipleSelection [
 
 	^ self primarySelectionMode isMultipleSelection
 ]
 
 { #category : #'accessing selecters' }
-ToAbstractListElement >> isSelectedAtPosition: anInteger [
+ToBasicListElement >> isSelectedAtPosition: anInteger [
 
 	^ self selectionModel containsIndex: anInteger
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> itemCount [
+ToBasicListElement >> itemCount [
 
 	^ self dataSource itemCount
 ]
 
 { #category : #'instance creation' }
-ToAbstractListElement >> newDisabledSelectionMode [
+ToBasicListElement >> newDisabledSelectionMode [
 	" note that a disabled mode need an event handler to force the building of disabled nodes "
 
 	^ ToListDisabledSelectionMode parentMode: self primarySelectionMode
 ]
 
 { #category : #'instance creation' }
-ToAbstractListElement >> newHiddenSelectionMode [
+ToBasicListElement >> newHiddenSelectionMode [
 
 	^ ToListHiddenSelectionMode parentMode: self primarySelectionMode
 ]
 
 { #category : #skin }
-ToAbstractListElement >> newRawSkin [ 
+ToBasicListElement >> newRawSkin [ 
 
 	^ ToBasicListElementSkin new
 ]
 
 { #category : #'instance creation' }
-ToAbstractListElement >> newSieve [
+ToBasicListElement >> newSieve [
 
 	^ self sieveClass new
 		  onInstalledIn: self;
@@ -407,26 +406,34 @@ ToAbstractListElement >> newSieve [
 ]
 
 { #category : #'instance creation' }
-ToAbstractListElement >> newUnselectableSelectionMode [
+ToBasicListElement >> newUnselectableSelectionMode [
 
 
 	^ ToListUnselectableSelectionMode parentMode: self primarySelectionMode
 ]
 
 { #category : #'t - list element decorator - infinite accessing' }
-ToAbstractListElement >> next [
+ToBasicListElement >> next [
 
 	^ next
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> nodeManager [ 
+ToBasicListElement >> nodeFactory: aValuable [
+	" aValuable that takes a node holder as unique argument and which running results in a new node "
 
-	^ nodeManager
+	self nodeManager nodeFactory: aValuable.
+	self notifyDataSourceChanged
+]
+
+{ #category : #accessing }
+ToBasicListElement >> nodeManager [ 
+
+	^ nodeManager ifNil: [ nodeManager := self defaultNodeManager ]
 ]
 
 { #category : #'selection updating' }
-ToAbstractListElement >> notifyClickOnNode: aNode fromEvent: anEvent [
+ToBasicListElement >> notifyClickOnNode: aNode fromEvent: anEvent [
 
 	| req min |
 	aNode isAttachedToSceneGraph ifFalse: [ ^ self ].
@@ -456,21 +463,21 @@ ToAbstractListElement >> notifyClickOnNode: aNode fromEvent: anEvent [
 ]
 
 { #category : #notifications }
-ToAbstractListElement >> notifyDataSourceChanged [
+ToBasicListElement >> notifyDataSourceChanged [
 
 	
 	self dataSource notifyChanged
 ]
 
 { #category : #notifications }
-ToAbstractListElement >> notifyDataSourceItemsFiltered: aDataSourceEvent [
+ToBasicListElement >> notifyDataSourceItemsFiltered: aDataSourceEvent [
 
 	
 	self dispatchEvent: aDataSourceEvent
 ]
 
 { #category : #'private - commands' }
-ToAbstractListElement >> offsetPositionRecordsForFilter: aStartPosition itemCount: anItemCount fromSieve: aSieve [
+ToBasicListElement >> offsetPositionRecordsForFilter: aStartPosition itemCount: anItemCount fromSieve: aSieve [
 
 	aSieve pattern
 		ifNotEmpty: [
@@ -486,39 +493,39 @@ ToAbstractListElement >> offsetPositionRecordsForFilter: aStartPosition itemCoun
 ]
 
 { #category : #'hooks - layout' }
-ToAbstractListElement >> onLayoutDone [
+ToBasicListElement >> onLayoutDone [
 
 	super onLayoutDone.
 	self checkMouseMoveReplayRequest 
 ]
 
 { #category : #'private - commands' }
-ToAbstractListElement >> onSievedWith: aSieve [
+ToBasicListElement >> onSievedWith: aSieve [
 
 	self dataSource onSievedWith: aSieve.
 	self requestLayout
 ]
 
 { #category : #'t - element with placeholder' }
-ToAbstractListElement >> placeholderClass [
+ToBasicListElement >> placeholderClass [
 
 	^ ToEmptyPlaceholderLayer
 ]
 
 { #category : #layout }
-ToAbstractListElement >> postponeAction: aValuable [
+ToBasicListElement >> postponeAction: aValuable [
 
 	self innerElement postponeAction: aValuable for: self
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> primarySelectionMode [
+ToBasicListElement >> primarySelectionMode [
 
 	^ self selectionModeWithEventClass: ToListPrimarySelectionChangedEvent 
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> primarySelectionMode: aSelectionMode [
+ToBasicListElement >> primarySelectionMode: aSelectionMode [
 
 	self primarySelectionMode ifNotNil: [ :m | m onUninstalledIn: self ].
 	aSelectionMode ifNotNil: [ aSelectionMode onInstalledIn: self ].
@@ -527,7 +534,7 @@ ToAbstractListElement >> primarySelectionMode: aSelectionMode [
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> removeSelectionMode: aSelectionMode [
+ToBasicListElement >> removeSelectionMode: aSelectionMode [
 
 	selectionModeMap
 		at: aSelectionMode selectionChangedEventClass
@@ -536,7 +543,7 @@ ToAbstractListElement >> removeSelectionMode: aSelectionMode [
 ]
 
 { #category : #layout }
-ToAbstractListElement >> requestLayout: aSourceElement [
+ToBasicListElement >> requestLayout: aSourceElement [
 
 	super requestLayout: aSourceElement.
 	(aSourceElement = self next or: [ aSourceElement parent = self next ])
@@ -544,25 +551,25 @@ ToAbstractListElement >> requestLayout: aSourceElement [
 ]
 
 { #category : #layout }
-ToAbstractListElement >> requestMouseMoveReplay [
+ToBasicListElement >> requestMouseMoveReplay [
 
 	mouseMoveReplayRequested := true
 ]
 
 { #category : #'accessing selecters' }
-ToAbstractListElement >> secondarySelecter [ 
+ToBasicListElement >> secondarySelecter [ 
 
 	^ self secondarySelectionMode selecter
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> secondarySelectionMode [
+ToBasicListElement >> secondarySelectionMode [
 
 	^ self selectionModeWithEventClass: ToListSecondarySelectionChangedEvent
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> secondarySelectionMode: aSelectionMode [
+ToBasicListElement >> secondarySelectionMode: aSelectionMode [
 
 	self secondarySelectionMode ifNotNil: [ :m | m onUninstalledIn: self ].
 	aSelectionMode ifNotNil: [ aSelectionMode onInstalledIn: self ].
@@ -572,50 +579,50 @@ ToAbstractListElement >> secondarySelectionMode: aSelectionMode [
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> secondarySelectionModel [
+ToBasicListElement >> secondarySelectionModel [
 
 	^ self secondarySelectionMode selectionModel
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> secondarySelectionOption [
+ToBasicListElement >> secondarySelectionOption [
 
 	^ self secondarySelectionMode selectionOption
 ]
 
 { #category : #'accessing selecters' }
-ToAbstractListElement >> selectableAtPosition: anInteger [
+ToBasicListElement >> selectableAtPosition: anInteger [
 
 	self unselectableSelecter deselectIndex: anInteger
 ]
 
 { #category : #'accessing selecters' }
-ToAbstractListElement >> selectedAtPosition: anInteger [
+ToBasicListElement >> selectedAtPosition: anInteger [
 
 	self selecter selectIndex: anInteger
 ]
 
 { #category : #'accessing selecters' }
-ToAbstractListElement >> selecter [
+ToBasicListElement >> selecter [
 
 	^ self primarySelectionMode selecter
 ]
 
 { #category : #'accessing selecters' }
-ToAbstractListElement >> selectionElementsDo: aBlock [
+ToBasicListElement >> selectionElementsDo: aBlock [
 
 	selectionModeMap valuesDo: [ :mode |
 		mode selectionOptionDo: [ :opt | opt selectionElements do: [ :se | aBlock value: se ] ] ]
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> selectionMode [
+ToBasicListElement >> selectionMode [
 
 	^ self primarySelectionMode
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> selectionMode: aSelectionMode [
+ToBasicListElement >> selectionMode: aSelectionMode [
 
 	self
 		deprecated: 'use #primarySelectionMode:'
@@ -627,67 +634,75 @@ ToAbstractListElement >> selectionMode: aSelectionMode [
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> selectionModeWithEventClass: aSelectionChangedEventClass [
+ToBasicListElement >> selectionModeWithEventClass: aSelectionChangedEventClass [
 
 	^ selectionModeMap at: aSelectionChangedEventClass ifAbsent: [  ]
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> selectionModel [
+ToBasicListElement >> selectionModel [
 
 	^ self primarySelectionMode selectionModel
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> selectionModes [
+ToBasicListElement >> selectionModes [
 
 	^ selectionModeMap values
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> selectionOption [
+ToBasicListElement >> selectionOption [
 
 	^ self primarySelectionMode selectionOption
 ]
 
 { #category : #'instance creation' }
-ToAbstractListElement >> sieveClass [
+ToBasicListElement >> sieveClass [
 
 	^ ToListElementSieve
 ]
 
+{ #category : #sorting }
+ToBasicListElement >> sort: aSortBlock [
+
+	self selecter
+		updateSelectionAfter: [ self dataAccessor sort: aSortBlock ]
+		withDataAccessor: self dataAccessor
+]
+
 { #category : #'accessing selecters' }
-ToAbstractListElement >> unselectableAtPosition: anInteger [
+ToBasicListElement >> unselectableAtPosition: anInteger [
 
 	self unselectableSelecter selectOneMoreIndex: anInteger
 ]
 
 { #category : #'accessing selecters' }
-ToAbstractListElement >> unselectableSelecter [
+ToBasicListElement >> unselectableSelecter [
 
 	^ self unselectableSelectionMode selecter
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> unselectableSelectionMode [
+ToBasicListElement >> unselectableSelectionMode [
 
 	^ self selectionModeWithEventClass: ToListUnselectableSelectionChangedEvent 
 ]
 
 { #category : #accessing }
-ToAbstractListElement >> unselectableSelectionModel [
+ToBasicListElement >> unselectableSelectionModel [
 
 	^ self selectionModel unselectableSelectionModel
 ]
 
 { #category : #'selection updating' }
-ToAbstractListElement >> updateAllSelections [
+ToBasicListElement >> updateAllSelections [
 
 	self selectionModes do: [ :mode | self updateModeSelectionFrom: mode ]
 ]
 
 { #category : #'selection updating' }
-ToAbstractListElement >> updateModeSelectionFrom: aMode [
+ToBasicListElement >> updateModeSelectionFrom: aMode [
 
 	aMode selectionOption ifNotNil: [ :option |
 		option
@@ -696,19 +711,19 @@ ToAbstractListElement >> updateModeSelectionFrom: aMode [
 ]
 
 { #category : #'selection updating' }
-ToAbstractListElement >> updatePrimarySelection [
+ToBasicListElement >> updatePrimarySelection [
 
 	self updateModeSelectionFrom: self selectionMode
 ]
 
 { #category : #'selection updating' }
-ToAbstractListElement >> updateSecondarySelection [
+ToBasicListElement >> updateSecondarySelection [
 
 	self updateModeSelectionFrom: self secondarySelectionMode
 ]
 
 { #category : #'selection updating' }
-ToAbstractListElement >> updateSelectionAfter: aValuable [
+ToBasicListElement >> updateSelectionAfter: aValuable [
 
 	self selecter
 		updateSelectionAfter: aValuable
@@ -717,20 +732,20 @@ ToAbstractListElement >> updateSelectionAfter: aValuable [
 ]
 
 { #category : #configuration }
-ToAbstractListElement >> useCheckbox [
+ToBasicListElement >> useCheckbox [
 
 	^ self nodeManager checkableNode
 ]
 
 { #category : #configuration }
-ToAbstractListElement >> useCheckbox: aBoolean [
+ToBasicListElement >> useCheckbox: aBoolean [
 
 	self nodeManager checkableNode: aBoolean.
 	self onUseCheckboxChangedWith: aBoolean
 ]
 
 { #category : #'accessing selecters' }
-ToAbstractListElement >> visibleAtPosition: anInteger [
+ToBasicListElement >> visibleAtPosition: anInteger [
 
 	self hiddenSelecter deselectIndex: anInteger
 ]

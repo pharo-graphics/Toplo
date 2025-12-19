@@ -3,16 +3,24 @@ I'm a generic list
 "
 Class {
 	#name : #ToGenericFiniteListElement,
-	#superclass : #ToAbstractFiniteListElement,
+	#superclass : #ToBasicFiniteListElement,
 	#traits : 'TToGenericListElement',
 	#classTraits : 'TToGenericListElement classTrait',
 	#category : #'Toplo-Widget-List-Core-FiniteListElement'
 }
 
 { #category : #initialization }
+ToGenericFiniteListElement >> defaultNodeManager [
+
+	^ super defaultNodeManager
+		  nodeFactory: [ :holder | ToFiniteListNode new ];
+		  yourself
+]
+
+{ #category : #initialization }
 ToGenericFiniteListElement >> defaultNodeManagerClass [
 
-	^ ToGenericFiniteListNodeManager 
+	^ ToGenericListNodeManager 
 ]
 
 { #category : #initialization }

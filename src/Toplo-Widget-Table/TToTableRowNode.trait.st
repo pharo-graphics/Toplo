@@ -4,6 +4,12 @@ Trait {
 }
 
 { #category : #'t - table node' }
+TToTableRowNode >> addCellContainer: aCellContainer [
+
+	self addChild: aCellContainer
+]
+
+{ #category : #'t - table node' }
 TToTableRowNode >> cellContainers [
 
 	^ self children asArray 

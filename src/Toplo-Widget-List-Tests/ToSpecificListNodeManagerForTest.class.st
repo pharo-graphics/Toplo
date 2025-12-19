@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSpecificListNodeManagerForTest,
-	#superclass : #ToAbstractNodeManager,
+	#superclass : #ToListNodeManager,
 	#instVars : [
 		'counter'
 	],
@@ -14,24 +14,24 @@ ToSpecificListNodeManagerForTest >> buildNode: aNode [
 ]
 
 { #category : #initialization }
+ToSpecificListNodeManagerForTest >> defaultNodeFactory [ 
+
+	^ [ :holder |ToSpecificListNodeForTest new ]
+]
+
+{ #category : #initialization }
+ToSpecificListNodeManagerForTest >> defaultNodeHolderFactory [ 
+
+	^ [ ToSpecificListNodeHolderForTest new
+		  num: self nextCount;
+		  yourself ]
+]
+
+{ #category : #initialization }
 ToSpecificListNodeManagerForTest >> initialize [ 
 
 	super initialize.
 	counter := 0
-]
-
-{ #category : #'instance creation' }
-ToSpecificListNodeManagerForTest >> newHolder [
-
-	^ ToSpecificListNodeHolderForTest new
-		  num: self nextCount;
-		  yourself
-]
-
-{ #category : #'instance creation' }
-ToSpecificListNodeManagerForTest >> newNodeForHolder: aNodeHolder [
-
-	^ ToSpecificListNodeForTest new 
 ]
 
 { #category : #accessing }

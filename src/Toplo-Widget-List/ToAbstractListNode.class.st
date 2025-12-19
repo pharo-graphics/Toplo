@@ -20,6 +20,19 @@ Class {
 	#category : #'Toplo-Widget-List-Node'
 }
 
+{ #category : #configuration }
+ToAbstractListNode >> applyConfiguration [
+
+	super applyConfiguration.
+	self holder initializeNodeSelections
+]
+
+{ #category : #'t - list node' }
+ToAbstractListNode >> clickEventHandlerClass [
+
+	^  ToListNodeSelectionEventHandler
+]
+
 { #category : #initialization }
 ToAbstractListNode >> defaultLayout [ 
 
@@ -34,4 +47,16 @@ ToAbstractListNode >> initialize [
 	self layout: self defaultLayout.
 	self hMatchParent.
 	self vFitContent
+]
+
+{ #category : #accessing }
+ToAbstractListNode >> listElement [ 
+
+	^ self holder listElement
+]
+
+{ #category : #accessing }
+ToAbstractListNode >> nodeManager [ 
+
+	^ self listElement nodeManager
 ]

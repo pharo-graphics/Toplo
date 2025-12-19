@@ -1,29 +1,29 @@
 Class {
-	#name : #ToAbstractWrappedListElement,
-	#superclass : #ToAbstractListElement,
+	#name : #ToBasicWrappedListElement,
+	#superclass : #ToBasicListElement,
 	#category : #'Toplo-Widget-List-WrappedList'
 }
 
 { #category : #initialization }
-ToAbstractWrappedListElement >> defaultDataAccessor [
+ToBasicWrappedListElement >> defaultDataAccessor [
 
 	^ ToWrappedListDataAccessor new 
 ]
 
 { #category : #initialization }
-ToAbstractWrappedListElement >> defaultNodeManagerClass [
+ToBasicWrappedListElement >> defaultNodeManagerClass [
 
 	^ ToWrappedListNodeManager
 ]
 
 { #category : #initialization }
-ToAbstractWrappedListElement >> initializeDataAccessor [
+ToBasicWrappedListElement >> initializeDataAccessor [
 
 	dataAccessor := self defaultDataAccessor listElement: self
 ]
 
 { #category : #initialization }
-ToAbstractWrappedListElement >> initializeDataSource [
+ToBasicWrappedListElement >> initializeDataSource [
 
 	super initializeDataSource.
 	dataSource
@@ -32,7 +32,7 @@ ToAbstractWrappedListElement >> initializeDataSource [
 ]
 
 { #category : #'instance creation' }
-ToAbstractWrappedListElement >> sieveClass [
+ToBasicWrappedListElement >> sieveClass [
 
 	^ ToWrappedListElementSieve
 ]

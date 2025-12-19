@@ -1,6 +1,6 @@
 Class {
 	#name : #ToItemListElement,
-	#superclass : #ToAbstractListElement,
+	#superclass : #ToBasicListElement,
 	#traits : 'TToItemListElement + TToListElementWithDecoration',
 	#classTraits : 'TToItemListElement classTrait + TToListElementWithDecoration classTrait',
 	#category : #'Toplo-Widget-List-ItemList'

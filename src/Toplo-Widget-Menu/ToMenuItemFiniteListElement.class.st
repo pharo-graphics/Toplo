@@ -9,16 +9,18 @@ Class {
 	#category : #'Toplo-Widget-Menu-ItemBar'
 }
 
-{ #category : #'t - bar element' }
+{ #category : #'t - finite list element' }
 ToMenuItemFiniteListElement >> defaultInnerElementClass [
 
 	^ ToMenuInnerFiniteListElement
 ]
 
-{ #category : #'t - item bar element - accessing' }
-ToMenuItemFiniteListElement >> defaultNodeManagerClass [
+{ #category : #initialization }
+ToMenuItemFiniteListElement >> defaultNodeManager [
 
-	^ ToMenuItemNodeManager
+	^ super defaultNodeManager
+		  nodeFactory: [ :holder | ToMenuItemNode new ];
+		  yourself
 ]
 
 { #category : #initialization }

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToWrappedGenericListElement,
-	#superclass : #ToAbstractWrappedListElement,
+	#superclass : #ToBasicWrappedListElement,
 	#traits : 'TToGenericListElement',
 	#classTraits : 'TToGenericListElement classTrait',
 	#category : #'Toplo-Widget-List-WrappedList'

@@ -1,8 +1,6 @@
 Trait {
 	#name : #TToConfigurableFiniteListElement,
 	#instVars : [
-		'exactNodeWidth',
-		'exactNodeHeight',
 		'uniformNodeWidth',
 		'uniformNodeHeight',
 		'autoDistribute',
@@ -24,36 +22,6 @@ TToConfigurableFiniteListElement >> autoDistribute: aBoolean [
 	autoDistribute = aBoolean ifTrue: [ ^ self ].
 	autoDistribute := aBoolean.
 	self requestConfiguration
-]
-
-{ #category : #'t - configurable bar element' }
-TToConfigurableFiniteListElement >> exactNodeHeight [
-
-	^ exactNodeHeight
-]
-
-{ #category : #'t - configurable bar element' }
-TToConfigurableFiniteListElement >> exactNodeHeight: aNumberOrNil [
-
-	exactNodeHeight = aNumberOrNil ifTrue:[ ^ self ].
-	exactNodeHeight := aNumberOrNil.
-	self requestConfiguration.
-	self requestLayout
-]
-
-{ #category : #'t - configurable bar element' }
-TToConfigurableFiniteListElement >> exactNodeWidth [
-
-	^ exactNodeWidth
-]
-
-{ #category : #'t - configurable bar element' }
-TToConfigurableFiniteListElement >> exactNodeWidth: aNumberOrNil [
-
-	exactNodeWidth = aNumberOrNil ifTrue:[ ^ self ].
-	exactNodeWidth := aNumberOrNil.
-	self requestConfiguration.
-	self requestLayout
 ]
 
 { #category : #'t - configurable bar element' }

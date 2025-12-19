@@ -12,8 +12,17 @@ ToTabPaneFiniteListElement >> defaultFakeDataItem [
 		  yourself
 ]
 
-{ #category : #'t - item list - accessing' }
-ToTabPaneFiniteListElement >> defaultNodeManagerClass [
+{ #category : #initialization }
+ToTabPaneFiniteListElement >> defaultNodeManager [
 
-	^ ToTabPaneNodeManager
+	^ super defaultNodeManager
+		  nodeHolderFactory: [ ToTabPaneNodeHolder new ];
+		  nodeFactory: [ :holder | ToTabPaneNode new ];
+		  yourself
+]
+
+{ #category : #skin }
+ToTabPaneFiniteListElement >> newRawSkin [ 
+
+	^ ToTabPaneFiniteListElementSkin new
 ]

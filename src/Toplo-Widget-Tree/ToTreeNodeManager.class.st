@@ -21,7 +21,25 @@ ToTreeNodeManager >> buildNodeContainer: aTreeNodeContainer [
 { #category : #'children accessing' }
 ToTreeNodeManager >> childrenFromDataItem: aDataItem [
 
-	^ self subclassResponsibility 
+	^ #(  )
+]
+
+{ #category : #initialization }
+ToTreeNodeManager >> defaultNodeContainerFactory [
+
+	^ [ ToTreeNodeContainer new ]
+]
+
+{ #category : #initialization }
+ToTreeNodeManager >> defaultNodeFactory [ 
+
+	^ [ :holder | ToTreeNode new ]
+]
+
+{ #category : #initialization }
+ToTreeNodeManager >> defaultNodeHolderFactory [ 
+
+	^ [ ToTreeNodeHolder new ]
 ]
 
 { #category : #'instance creation' }
@@ -42,22 +60,4 @@ ToTreeNodeManager >> newArrowIconInNodeContainer: aNodeContainer [
 			c linear horizontal alignLeft.
 			c linear vertical alignCenter ].
 	^ arrowIcon
-]
-
-{ #category : #'instance creation' }
-ToTreeNodeManager >> newHolder [
-
-	^ ToTreeNodeHolder new
-]
-
-{ #category : #'instance creation' }
-ToTreeNodeManager >> newNodeContainer [ 
-
-	^ ToTreeNodeContainer new
-]
-
-{ #category : #'instance creation' }
-ToTreeNodeManager >> newNodeForHolder: aNodeHolder [
-
-	^ ToTreeNode new
 ]

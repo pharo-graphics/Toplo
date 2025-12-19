@@ -1468,39 +1468,19 @@ ToSandBox class >> example_CheckBoxWithDefaultStyleSheetDarkTheme [
 { #category : #'finite list' }
 ToSandBox class >> example_CheckableFiniteListElement [
 
-	| bar space container |
-	container := ToPane new.
-	container matchParent.
-	container contextMenuBuilder: [ :menu :request |
-			menu addItem: (ToMenuItem new
-					 labelText: 'Inspect';
-					 clickAction: [ container inspect ];
-					 yourself) ].
-
-	bar := ToCheckableFiniteListElement new.
+	| space bar |
 	space := BlSpace new.
+	bar := ToCheckableFiniteListElement new.
+	bar vMatchParent.
+	bar isFlowable: true.
+	space root addChild: bar.
 	bar matchParent.
-	{ #Alabama. #Alaska. #Arizona. #Arkansas. #California. #Colorado.
-	#Connecticut. #Delaware. #Florida. #Georgia. #Hawaii. #Idaho. #Illinois.
-	#Indiana. #Iowa. #Kansas. #Kentucky. #Louisiana. #Maine. #Maryland.
-	#Massachusetts. #Michigan. #Minnesota. #Mississippi. #Missouri.
-	#Montana. #Nebraska. #Nevada. #'New Hampshire'. #'New Jersey'.
-	#'New Mexico'. #'New York'. #'North Carolina'. #'North Dakota'.
-	#Ohio. #Oklahoma. #Oregon. #'Pennsylvania Rhode Island'.
-	#'South Carolina'. #'South Dakota'. #Tennessee. #Texas. #Utah. #Vermont.
-	#Virginia. #Washington. #'West Virginia'. #Wisconsin. #Wyoming } do: [
-			:l |
-			bar addItem: (ToToggleButton new
-					 labelText: l;
-					 hMatchParent;
-					 yourself) ].
-
-	"bar selecter selectIndex: 3."
-	bar uniformNodeWidth: true.
-	container addChild: bar.
-	bar items third checked: true.
-	space root addChild: container.
-	space show
+	self statesOfAmerica do: [ :l | | item |
+			item := ToToggleButton new labelText: l.
+			item width: 150.
+			bar addItem: item ].
+	space show.
+	bar
 ]
 
 { #category : #checkables }
@@ -2724,10 +2704,7 @@ ToSandBox class >> example_ListWithAllClasses4 [
 ToSandBox class >> example_ListWithAllClasses4Bis [
 
 	| l |
-	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
-			     node addChild: (ToLabel text: dataItem name).
-			     node childrenDo: [ :child |
-				     child constraints linear vertical alignCenter ] ].
+	l := ToListElement new.
 	l useCheckbox: true.
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l openInSpace
@@ -3525,9 +3502,9 @@ ToSandBox class >> example_NodeContainerWithStatesOfAmerica [
 
 	| l |
 	l := ToGenericFiniteListElement new.
-	l exactNodeWidth: 100.
 	l horizontal: true.
 	l dataAccessor addAll: self statesOfAmerica.
+	l nodes do: [ :n | n width: 100 ].
 	l openInSpace
 ]
 
@@ -4917,6 +4894,26 @@ ToSandBox class >> example_TabBarElement [
 	board openInSpace
 ]
 
+{ #category : #'finite list' }
+ToSandBox class >> example_TabFiniteListElement [
+
+	| tabs |
+	tabs := ToTabFiniteListElement new.
+	tabs horizontal: true.
+	tabs matchParent.
+
+	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
+			| item |
+			item := ToTabItemElement new
+				        removable: true;
+				        middleElement: (ToLabel text: l);
+				        yourself.
+			item width: 100.
+			item height: 100.
+			tabs addItem: item ].
+	tabs openInInnerWindow
+]
+
 { #category : #tabPane }
 ToSandBox class >> example_TabGroupElement [
 
@@ -5706,6 +5703,28 @@ ToSandBox class >> example_badgeOnAnElement [
 	badged constraintsDo: [ :c |
 			c frame horizontal alignCenter.
 			c frame vertical alignCenter ].
+	badged border: Color red.
+	badge attachToElement: badged.
+	pane addChild: badged.
+	space show
+]
+
+{ #category : #badge }
+ToSandBox class >> example_badgeOnAnIgnoredElement [
+
+	| badge pane space badged |
+	badge := ToNumericalBadge new count: 2222.
+	pane := BlElement new.
+	pane layout: BlFrameLayout new.
+	space := BlSpace new.
+	space root addChild: pane.
+	pane extent: 150 asPoint.
+	pane position: 100 asPoint.
+	pane border: Color black.
+	badged := BlElement new.
+	badged constraintsDo: [ :c | c ignoredByLayout ].
+	badged extent: 40 asPoint.
+	badged position: 50@50.
 	badged border: Color red.
 	badge attachToElement: badged.
 	pane addChild: badged.
@@ -8765,7 +8784,7 @@ ToSandBox class >> example_toTable1 [
 				 minWidth: 50;
 				 yourself) }.
 	table dataAccessor addAll:
-		(Smalltalk globals allClasses copyFrom: 1 to: 30).
+		(Smalltalk globals allClasses "copyFrom: 1 to: 30").
 	table openInSpace.
 	^ table
 ]

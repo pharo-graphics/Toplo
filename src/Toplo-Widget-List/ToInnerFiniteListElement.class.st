@@ -44,10 +44,11 @@ ToInnerFiniteListElement >> addHolder: anHolder at: aPosition [
 ToInnerFiniteListElement >> addedDataSourceCommand: aCommand [
 ]
 
-{ #category : #'t - list node holder' }
+{ #category : #configuration }
 ToInnerFiniteListElement >> applyConfiguration [
 
 	super applyConfiguration.
+	
 	listElement isHFitContent
 		ifTrue: [ self hFitContent ]
 		ifFalse: [ self hMatchParent ].

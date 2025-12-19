@@ -3,7 +3,7 @@ I represent the list part of the table
 "
 Class {
 	#name : #ToTableListElement,
-	#superclass : #ToAbstractListElement,
+	#superclass : #ToBasicListElement,
 	#traits : 'TToTableListElement',
 	#classTraits : 'TToTableListElement classTrait',
 	#category : #'Toplo-Widget-Table-List'

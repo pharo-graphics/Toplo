@@ -20,7 +20,7 @@ ToMultiSelectHeaderHolder >> popupListElement [
 ]
 
 { #category : #removing }
-ToMultiSelectHeaderHolder >> removeNodeFromBar [
+ToMultiSelectHeaderHolder >> removeNodeFromList [
 	" 
 	since a select node is created by selecting and item in the list element, 
 	removing the node is done by deselecting the corresponding list item in the select popup list "

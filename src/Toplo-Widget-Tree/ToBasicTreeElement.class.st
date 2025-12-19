@@ -6,15 +6,15 @@ I display data in a tree structure by holding Tree Nodes.
 My model relies on a DataSource holding the data displayed and a TreeNodeManager dealing with the TreeNodes
 "
 Class {
-	#name : #ToAbstractTreeElement,
-	#superclass : #ToAbstractListElement,
+	#name : #ToBasicTreeElement,
+	#superclass : #ToBasicListElement,
 	#traits : 'TToListElementWithDecoration',
 	#classTraits : 'TToListElementWithDecoration classTrait',
 	#category : #'Toplo-Widget-Tree-Core'
 }
 
 { #category : #'expanding-collapsing' }
-ToAbstractTreeElement >> collapseAll [
+ToBasicTreeElement >> collapseAll [
 
 	| rootWrappers |
 	rootWrappers := self dataSource select: [ :each | each nodeDepth = 0 ].
@@ -22,19 +22,25 @@ ToAbstractTreeElement >> collapseAll [
 ]
 
 { #category : #initialization }
-ToAbstractTreeElement >> defaultDataAccessor [
+ToBasicTreeElement >> defaultDataAccessor [
 
 	^ ToTreeDataAccessor new 
 ]
 
 { #category : #initialization }
-ToAbstractTreeElement >> defaultDataSource [
+ToBasicTreeElement >> defaultDataSource [
 
 	^ ToTreeDataSource new
 ]
 
+{ #category : #initialization }
+ToBasicTreeElement >> defaultNodeManagerClass [ 
+
+	^ ToTreeNodeManager
+]
+
 { #category : #'expanding-collapsing' }
-ToAbstractTreeElement >> expandAll [
+ToBasicTreeElement >> expandAll [
 
 	| rootWrappers |
 	rootWrappers := self dataSource select: [ :each | each isRoot ].
@@ -42,19 +48,19 @@ ToAbstractTreeElement >> expandAll [
 ]
 
 { #category : #'expanding-collapsing' }
-ToAbstractTreeElement >> expandRoots [
+ToBasicTreeElement >> expandRoots [
 
 	self dataSource roots do: [ :each | each expand ]
 ]
 
 { #category : #initialization }
-ToAbstractTreeElement >> initializeDataAccessor [
+ToBasicTreeElement >> initializeDataAccessor [
 
 	dataAccessor := self defaultDataAccessor listElement: self
 ]
 
 { #category : #initialization }
-ToAbstractTreeElement >> initializeDataSource [
+ToBasicTreeElement >> initializeDataSource [
 
 	super initializeDataSource.
 	dataSource
@@ -63,7 +69,7 @@ ToAbstractTreeElement >> initializeDataSource [
 ]
 
 { #category : #'instance creation' }
-ToAbstractTreeElement >> sieveClass [
+ToBasicTreeElement >> sieveClass [
 
 	^ ToWrappedListElementSieve
 ]

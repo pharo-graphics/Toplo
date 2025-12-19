@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTooltipWindowSkin,
-	#superclass : #ToRawSkin,
+	#superclass : #ToBasicWindowElementSkin,
 	#category : #'Toplo-Core-Tooltip'
 }
 

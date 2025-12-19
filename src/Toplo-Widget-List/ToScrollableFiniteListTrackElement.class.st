@@ -21,7 +21,6 @@ ToScrollableFiniteListTrackElement >> applyConfiguration [
 	super applyConfiguration.
 	self configureLayout.
 	self configureResizer.
-	self configureChildrenDistribution.
 	self childrenDo: [ :child | child applyConfiguration ]
 ]
 
@@ -29,23 +28,6 @@ ToScrollableFiniteListTrackElement >> applyConfiguration [
 ToScrollableFiniteListTrackElement >> autoDistribute [
 
 	^ listElement autoDistribute
-]
-
-{ #category : #configuration }
-ToScrollableFiniteListTrackElement >> configureChildrenDistribution [
-
-	self autoDistribute
-		ifTrue: [
-				self isHorizontal
-					ifTrue: [
-					listElement isHFitContent ifFalse: [ self hMatchParent ] ]
-					ifFalse: [
-					listElement isVFitContent ifFalse: [ self vMatchParent ] ] ]
-		ifFalse: [
-				(self isFlowable not and: [ self isScrollable ]) ifTrue: [
-						self isHorizontal
-							ifTrue: [ self hFitContent ]
-							ifFalse: [ self vFitContent ] ] ]
 ]
 
 { #category : #configuration }
@@ -61,13 +43,26 @@ ToScrollableFiniteListTrackElement >> configureLayout [
 { #category : #configuration }
 ToScrollableFiniteListTrackElement >> configureResizer [
 
-	listElement isHFitContent
-		ifTrue: [ self hFitContent ]
-		ifFalse: [ self hMatchParent ].
-
-	listElement isVFitContent
-		ifTrue: [ self vFitContent ]
-		ifFalse: [ self vMatchParent ]
+	self autoDistribute
+		ifTrue: [
+				self isHorizontal
+					ifTrue: [
+					listElement isHFitContent ifFalse: [ self hMatchParent ] ]
+					ifFalse: [
+					listElement isVFitContent ifFalse: [ self vMatchParent ] ] ]
+		ifFalse: [
+				(self isFlowable not and: [ self isScrollable ])
+					ifTrue: [
+							self isHorizontal
+								ifTrue: [ self hFitContent ]
+								ifFalse: [ self vFitContent ] ]
+					ifFalse: [
+							listElement isHFitContent
+								ifTrue: [ self hFitContent ]
+								ifFalse: [ self hMatchParent ].
+							listElement isVFitContent
+								ifTrue: [ self vFitContent ]
+								ifFalse: [ self vMatchParent ] ] ]
 ]
 
 { #category : #layout }

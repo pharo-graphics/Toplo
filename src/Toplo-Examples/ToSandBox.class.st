@@ -1477,9 +1477,7 @@ ToSandBox class >> example_CheckableFiniteListElement [
 	bar matchParent.
 	self statesOfAmerica do: [ :l | | item |
 			item := ToToggleButton new labelText: l.
-			"item fitContent."
 			item width: 150.
-			"item hMatchParent."
 			bar addItem: item ].
 	space show.
 	bar
@@ -2706,10 +2704,7 @@ ToSandBox class >> example_ListWithAllClasses4 [
 ToSandBox class >> example_ListWithAllClasses4Bis [
 
 	| l |
-	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
-			     node addChild: (ToLabel text: dataItem name).
-			     node childrenDo: [ :child |
-				     child constraints linear vertical alignCenter ] ].
+	l := ToListElement new.
 	l useCheckbox: true.
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l openInSpace
@@ -5708,6 +5703,28 @@ ToSandBox class >> example_badgeOnAnElement [
 	badged constraintsDo: [ :c |
 			c frame horizontal alignCenter.
 			c frame vertical alignCenter ].
+	badged border: Color red.
+	badge attachToElement: badged.
+	pane addChild: badged.
+	space show
+]
+
+{ #category : #badge }
+ToSandBox class >> example_badgeOnAnIgnoredElement [
+
+	| badge pane space badged |
+	badge := ToNumericalBadge new count: 2222.
+	pane := BlElement new.
+	pane layout: BlFrameLayout new.
+	space := BlSpace new.
+	space root addChild: pane.
+	pane extent: 150 asPoint.
+	pane position: 100 asPoint.
+	pane border: Color black.
+	badged := BlElement new.
+	badged constraintsDo: [ :c | c ignoredByLayout ].
+	badged extent: 40 asPoint.
+	badged position: 50@50.
 	badged border: Color red.
 	badge attachToElement: badged.
 	pane addChild: badged.

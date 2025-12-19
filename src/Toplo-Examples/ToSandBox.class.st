@@ -6018,6 +6018,20 @@ ToSandBox class >> example_contextMenu [
 	container openInSpace
 ]
 
+{ #category : #diff }
+ToSandBox class >> example_diff [
+
+	| diff |
+	diff := ToDiffElement new.
+	diff
+		from: 'hello world
+coucou le monde'
+		to: 'hello world
+salut le monde'.
+	diff openInSpace.
+	^ diff
+]
+
 { #category : #window }
 ToSandBox class >> example_elementWithEditor [
 
@@ -6070,6 +6084,15 @@ ToSandBox class >> example_emptyBoxWithCustomLabel [
 		             yourself.
 	box labelText: labelText.
 	box openInSpace
+]
+
+{ #category : #diff }
+ToSandBox class >> example_emptyDiff [
+
+	| diff |
+	diff := ToDiffElement new.
+	diff openInSpace.
+	^ diff
 ]
 
 { #category : #'finite list' }

@@ -17,19 +17,23 @@ ToBasicListElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e shortcuts: (self shortcutsToInstallIn: e).
-		e installShortcuts.
-		e border: (e valueOfTokenNamed: #'color-border').
-		e
-			withStamp: #background
-			do: [ :v | e background: v ]
-			ifNone: [
-			e background: (e valueOfTokenNamed: #'color-bg-container') ].
-		e padding: (BlInsets
-				 horizontal: (e valueOfTokenNamed: #'list-padding-H')
-				 vertical: (e valueOfTokenNamed: #'list-padding-V')).
-		e geometry: (BlRoundedRectangleGeometry cornerRadius:
-				 (e valueOfTokenNamed: 'border-radius')) ]
+			e shortcuts: (self shortcutsToInstallIn: e).
+			e installShortcuts.
+			e border: (e valueOfTokenNamed: #'color-border').
+			e
+				withStamp: #background
+				do: [ :v | e background: v ]
+				ifNone: [
+				e background: (e valueOfTokenNamed: #'color-bg-container') ].
+			e padding: (BlInsets
+					 horizontal: (e valueOfTokenNamed: #'list-padding-H')
+					 vertical: (e valueOfTokenNamed: #'list-padding-V')).
+			e
+				withStamp: #geometry
+				do: [ :v | e geometry: v ]
+				ifNone: [
+						e geometry: (BlRoundedRectangleGeometry cornerRadius:
+								 (e valueOfTokenNamed: 'border-radius')) ] ]
 ]
 
 { #category : #'accessing - shortcuts' }

@@ -11,7 +11,8 @@ Class {
 		'#showHeader => ObservableSlot',
 		'#header',
 		'#list',
-		'#dividersUpdateRequested'
+		'#dividersUpdateRequested',
+		'#columnContainers'
 	],
 	#category : #'Toplo-Widget-Table-Core'
 }
@@ -29,6 +30,12 @@ ToTableElement >> addDivider: aDivider atIndex: anIndex [
 ToTableElement >> columnContainers [
 
 	^ self selectChildrenWithId: #columnContainer
+]
+
+{ #category : #accessing }
+ToTableElement >> columnStateAt: anIndex [
+
+	^ header columnStateAt: anIndex
 ]
 
 { #category : #accessing }
@@ -82,22 +89,51 @@ ToTableElement >> initialize [
 	dividersUpdateRequested := false.
 	self matchParent.
 	self padding: (BlInsets all: 1).
-	self initializeList.
 	self initializeHeader.
-	self addChildren: {
-			header.
-			list }.
-	self initializeScrollBar.
+	self addChild: header.
+	self initializeList.
+	self addChild: list.
+
 	self property: #columns whenChangedDo: [
 			list columns: self columns.
-			header columns: self columns.
-			self initializeDividers.
+			header initializeWithColumns: self columns.
+			self initializeColumnContainers.
+			self addChildren: columnContainers.
+			header initializeDividers.
 			list notifyDataSourceChanged ].
+
 	self property: #showHeader whenChangedDo: [
 			showHeader
 				ifTrue: [ header constraintsDo: [ :c | c vertical fitContent ] ]
 				ifFalse: [ header constraintsDo: [ :c | c vertical exact: 0.0 ] ] ].
+
 	self addEventHandler: ToTableElementEventHandler new
+]
+
+{ #category : #initialization }
+ToTableElement >> initializeColumnContainers [
+
+	columnContainers ifNotNil: [ self removeChildren: columnContainers ].
+	columnContainers := OrderedCollection new.
+	self columns withIndexDo: [ :column :idx |
+			| colContainer headerCell |
+			colContainer := ToTableColumnContainer new
+				                column: column;
+				                yourself.
+			headerCell := header cellContainerAt: idx.
+			colContainer constraintsDo: [ :c |
+					c vertical matchParent.
+					c ignoreByLayout.
+					c anchors add:
+						(c anchors topAnchor on: list topAnchor).
+					c anchors add: (c anchors heightAnchor on:
+							 list heightAnchor).
+					c anchors add:
+						(c anchors leftAnchor on: headerCell leftAnchor).
+					c anchors add:
+						(c anchors widthAnchor on: headerCell widthAnchor) ].
+			column containerBuilder cull: colContainer cull: self cull: self.
+			columnContainers add: colContainer ]
 ]
 
 { #category : #initialization }
@@ -120,7 +156,6 @@ ToTableElement >> initializeDividers [
 ToTableElement >> initializeHeader [
 
 	header := self newHeaderElement
-		          id: #header;
 		          elevation: (BlRelativeElevation elevation: 10);
 		          parentTable: self;
 		          yourself
@@ -135,21 +170,6 @@ ToTableElement >> initializeList [
 		        elevation: (BlRelativeElevation elevation: 10);
 		        addStamp: #background withValue: Color transparent;
 		        yourself
-]
-
-{ #category : #initialization }
-ToTableElement >> initializeScrollBar [
-
-	| vscrollBar |
-	vscrollBar := BlVerticalScrollbarElement new.
-	vscrollBar constraintsDo: [ :c |
-			c ignoreByLayout.
-			c margin: (BlInsets left: 10).
-			c ignored horizontal alignRight.
-			c ignored vertical alignBottom ].
-	vscrollBar attachTo: self list innerElement.
-	vscrollBar elevation: (BlRelativeElevation elevation: 20).
-	self list addChild: vscrollBar
 ]
 
 { #category : #accessing }

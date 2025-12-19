@@ -3744,6 +3744,11 @@ ToSandBox class >> example_ProtoObjectSubclasses [
 								 ifEmpty: [ target collapseAll ]
 								 ifNotEmpty: [
 									 indexes do: [ :idx | (target dataSource at: idx) collapse ] ] ];
+					 yourself).
+			menu addSeparator.
+			menu addItem: (ToMenuItem new
+					 labelText: 'inspect';
+					 clickAction: [ target inspect ];
 					 yourself) ].
 	l dataAccessor add: ProtoObject.
 	l openInSpace
@@ -4279,11 +4284,11 @@ ToSandBox class >> example_SelectMultiFiltrableWithMax [
 	| select |
 	select := self example_SelectMultiFiltrable.
 	select maxSelectedCount: 3.
-	select inUIProcessDo: [
-			select selecter selectIndex: 3.
-			select selecter selectIndex: 5.
-			select selecter selectIndex: 4.
-			select selecter selectIndex: 6 ]
+	select selecter selectIndex: 3.
+	select selecter selectIndex: 5.
+	select selecter selectIndex: 4.
+	select selecter selectIndex: 6.
+
 ]
 
 { #category : #select }
@@ -8698,6 +8703,11 @@ ToSandBox class >> example_toTable1 [
 
 	| table |
 	table := ToTableElement new.
+	table list contextMenuBuilder: [ :menu :request |
+			menu addItem: (ToMenuItem new
+					 labelText: 'Inspect';
+					 clickAction: [ table inspect ];
+					 yourself) ].
 	table columns: {
 			(ToTableColumn new
 				 title: 'Name';
@@ -8841,7 +8851,13 @@ ToSandBox class >> example_toTreeTable1 [
 { #category : #table }
 ToSandBox class >> example_toTreeTable1WithCheckbox [
 
-	self example_toTreeTable1 useCheckbox: true
+	| table |
+	table := self example_toTreeTable1 useCheckbox: true.
+	table list contextMenuBuilder: [ :menu :request |
+			menu addItem: (ToMenuItem new
+					 labelText: 'Inspect';
+					 clickAction: [ table inspect ];
+					 yourself) ]
 ]
 
 { #category : #table }

@@ -25,7 +25,7 @@ ToNullSkinTest >> testWithASkinInstalledBefore [
 	| w installedSkin nsk |
 	w := ToElement new.
 	self deny: w skinManager newSkinRequested.
-	self deny: w skinManager installedSkin isKnownSkin.
+	self deny: w skinManager installedSkin isThemeSkin.
 	w defaultSkin: ToRawSkin new.
 	w ensuredSkinManager requestNewSkinIn: w.
 	BlSpace new root addChild: w.
@@ -33,7 +33,7 @@ ToNullSkinTest >> testWithASkinInstalledBefore [
 	" reinstalling has no effect here "
 	w skinManager installNewSkinIn: w.
 	installedSkin := w skinManager installedSkin.
-	self assert: installedSkin isKnownSkin.
+	self assert: installedSkin isThemeSkin.
 	self assert: w skinManager skinStateQueue nextStates isEmpty.
 	w defaultSkin: (nsk := ToNullSkin new).
 	w skinManager installNewSkinIn: w.

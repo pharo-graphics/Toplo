@@ -14,10 +14,10 @@ ToElementTest >> testApplySkinInstallerOnFirstRequest [
 	e := ToElement new.
 	space root addChild: e.
 	self deny: e skinManager newSkinRequested.
-	self assert: e skinManager installedSkin isKnownSkin.
+	self assert: e skinManager installedSkin isThemeSkin.
 	space applyAllSkinInstallers.
 	self deny: e skinManager newSkinRequested.
-	self assert: e skinManager installedSkin isKnownSkin
+	self assert: e skinManager installedSkin isThemeSkin
 ]
 
 { #category : #'test initialize' }
@@ -30,10 +30,10 @@ ToElementTest >> testApplySkinInstallerOnFirstRequestButWithNoEffect [
 	" no skin installer anymore "
 	self deny: e skinManager newSkinRequested.
 	" and to not have an installed skin -> illustrates no effect of applySkinInstallerOnFirstRequest: "
-	self assert: e skinManager installedSkin isKnownSkin.
+	self assert: e skinManager installedSkin isThemeSkin.
 	e ensuredSkinManager requestNewSkinIn: e.
 	self assert: e skinManager newSkinRequested.
-	self assert: e skinManager installedSkin isKnownSkin
+	self assert: e skinManager installedSkin isThemeSkin
 ]
 
 { #category : #tests }
@@ -53,11 +53,11 @@ ToElementTest >> testDefaultSkin [
 	space root addChild: e.
 	e defaultSkin: (sk := ToRawSkinForTest new).
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
-	self assert: e skinManager installedSkin isKnownSkin.
+	self assert: e skinManager installedSkin isThemeSkin.
 	e ensuredSkinManager requestNewSkinIn: e.
 	" no change "
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
-	self assert: e skinManager installedSkin isKnownSkin.
+	self assert: e skinManager installedSkin isThemeSkin.
 	self assert: (sk receivedCountForClass: ToInstallSkinEvent) equals: 0.
 	e skinManager installNewSkinIn: e.
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
@@ -114,11 +114,11 @@ ToElementTest >> testInstallNewSkinNow [
 	space root addChild: e.
 	self deny: e skinManager newSkinRequested.
 	self assert:
-		e skinManager installedSkin isKnownSkin.
+		e skinManager installedSkin isThemeSkin.
 	space applyAllSkinInstallers.
 	self deny: e skinManager newSkinRequested.
 	self assert:
-		e skinManager installedSkin isKnownSkin.
+		e skinManager installedSkin isThemeSkin.
 	skin := e skinManager installedSkin .
 	" now request a skin installation "
 	e ensuredSkinManager requestNewSkinIn: e.
@@ -127,7 +127,7 @@ ToElementTest >> testInstallNewSkinNow [
 	space applyAllSkinInstallers.
 	" but the installation has no effect because there is already one skin installed "
 	self
-		assert: e skinManager installedSkin isKnownSkin.
+		assert: e skinManager installedSkin isThemeSkin.
 	" now force a new skin installation "
 	self installNewSkinNowIn: e.
 	self
@@ -181,7 +181,7 @@ ToElementTest >> testOnAddedToSceneGraph [
 	self deny: e skinManager newSkinRequested.
 	space root addChild: e.
 	self deny: e skinManager newSkinRequested.
-	self assert: e skinManager installedSkin isKnownSkin
+	self assert: e skinManager installedSkin isThemeSkin
 ]
 
 { #category : #'test initialize' }
@@ -199,11 +199,11 @@ ToElementTest >> testRequestSkin [
 	space root addChild: e.
 	self deny: e skinManager newSkinRequested.
 	self assert:
-		e skinManager installedSkin isKnownSkin.
+		e skinManager installedSkin isThemeSkin.
 	space applyAllSkinInstallers.
 	self deny: e skinManager newSkinRequested.
 	self assert:
-		e skinManager installedSkin isKnownSkin
+		e skinManager installedSkin isThemeSkin
 ]
 
 { #category : #'test initialize' }
@@ -213,16 +213,16 @@ ToElementTest >> testRequestSkin2 [
 	e := ToElement new.
 	self deny: e skinManager newSkinRequested.
 	self deny:
-		e skinManager installedSkin isKnownSkin.
+		e skinManager installedSkin isThemeSkin.
 	space root addChild: e.
 	e ensuredSkinManager requestNewSkinIn: e.
 	self assert: e skinManager newSkinRequested.
 	self assert:
-		e skinManager installedSkin isKnownSkin.
+		e skinManager installedSkin isThemeSkin.
 	space applyAllSkinInstallers.
 	self deny: e skinManager newSkinRequested.
 	self assert:
-		e skinManager installedSkin isKnownSkin
+		e skinManager installedSkin isThemeSkin
 ]
 
 { #category : #'test initialize' }
@@ -234,11 +234,11 @@ ToElementTest >> testSetSkin [
 	space root addChild: e.
 	e defaultSkin: (sk := ToRawSkinForTest new).
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
-	self assert: e skinManager installedSkin isKnownSkin.
+	self assert: e skinManager installedSkin isThemeSkin.
 	e ensuredSkinManager requestNewSkinIn: e.
 	" no change "
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
-	self assert: e skinManager installedSkin isKnownSkin.
+	self assert: e skinManager installedSkin isThemeSkin.
 	self assert: (sk receivedCountForClass: ToInstallSkinEvent) equals: 0.
 	e skinManager installNewSkinIn: e.
 	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
@@ -376,15 +376,15 @@ ToElementTest >> testWithoutSkinNonContamination2 [
 	e withNullSkin.
 	e ensuredSkinManager requestNewSkinIn: e.
 	self assert: (e skinManager skinToInstallIn: e) isNullSkin.
-	self assert: e skinManager installedSkin isKnownSkin.
-	self deny: childchild skinManager installedSkin isKnownSkin.
+	self assert: e skinManager installedSkin isThemeSkin.
+	self deny: childchild skinManager installedSkin isThemeSkin.
 	e skinManager installNewSkinIn: e.
 	self deny: e skinManager newSkinRequested.
 	self assert: e skinManager installedSkin isNullSkin.
 	e addChild: child.
 	e space applyAllSkinInstallers.
 	self deny: child skinManager newSkinRequested.
-	self assert: child skinManager installedSkin isKnownSkin.
+	self assert: child skinManager installedSkin isThemeSkin.
 	self deny: childchild skinManager newSkinRequested.
-	self assert: childchild skinManager installedSkin isKnownSkin
+	self assert: childchild skinManager installedSkin isThemeSkin
 ]

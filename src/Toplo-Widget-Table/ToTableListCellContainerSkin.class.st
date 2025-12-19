@@ -10,7 +10,7 @@ ToTableListCellContainerSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 			| columnState listElement |
-			listElement := e tableNodeHolder listElement.
+			listElement := e holder listElement.
 			columnState := listElement columnStateAt: e columnIndex.
 			columnState width ifNotNil: [ :w |
 					e columnIndex = 1

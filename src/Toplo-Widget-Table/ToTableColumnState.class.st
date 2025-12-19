@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #accessing }
-ToTableColumnState >> initializeFromColumn: aTableColumn [
+ToTableColumnState >> initializeWithColumn: aTableColumn [
 
 	width := aTableColumn width
 ]

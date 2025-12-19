@@ -1,5 +1,5 @@
 Class {
 	#name : #ToTableListCell,
 	#superclass : #ToTableCell,
-	#category : #'Toplo-Widget-Table-Header'
+	#category : #'Toplo-Widget-Table-List'
 }

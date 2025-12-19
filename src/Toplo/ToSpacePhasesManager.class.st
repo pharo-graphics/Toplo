@@ -198,14 +198,10 @@ ToSpacePhasesManager >> startPhasesIn: aSpace [
 		startSkinStateApplicationPhaseIn: aSpace;
 		startConfigurationPhaseIn: aSpace.
 	phasesInstallationDone := true.
-	" If no theme has been already set, now I can set the root default theme
-	( *** before skinPhasesInstalled: true *** it would start an endless loop )"
 
-	" reading the theme will install the default "
-	aSpace toTheme.
 	aSpace
 		addEventHandlerOn: BlSpaceRootChangeEvent
-		do: [ aSpace toTheme ].
+		do: [ aSpace resetToTheme ].
 
 	aSpace dispatchEvent: ToSpacePhasesStarted new.
 	aSpace

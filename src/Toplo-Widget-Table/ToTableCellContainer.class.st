@@ -2,7 +2,8 @@ Class {
 	#name : #ToTableCellContainer,
 	#superclass : #ToTripletContainer,
 	#instVars : [
-		'column'
+		'column',
+		'parentTable'
 	],
 	#category : #'Toplo-Widget-Table-Core'
 }
@@ -19,19 +20,25 @@ ToTableCellContainer >> column [
 	^ column
 ]
 
-{ #category : #accessing }
-ToTableCellContainer >> column: aTableColumn [
+{ #category : #initialization }
+ToTableCellContainer >> initializeWithColumn: aTableColumn [
 
 	column ifNotNil: [ (BlImmutableObjectChangeError object: self) signal  ].
 	column := aTableColumn.
-	self createMiddleContainer
+	self createMiddleContainer.
+	self hMatchParent.
+	self vFitContent
 
 ]
 
-{ #category : #initialization }
-ToTableCellContainer >> newColumnState [
+{ #category : #skin }
+ToTableCellContainer >> installRawStyle [
 
-	^ ToTableColumnState new
+	super installRawStyle.
+
+	self padding: (BlInsets
+			 horizontal: (self valueOfTokenNamed: #'table-cell-padding-H')
+			 vertical: (self valueOfTokenNamed: #'table-cell-padding-V'))
 ]
 
 { #category : #'t - triplet container - instance creation' }
@@ -52,7 +59,7 @@ ToTableCellContainer >> newStartContainer [
 	^ self newLinearContainer
 ]
 
-{ #category : #accessing }
+{ #category : #updating }
 ToTableCellContainer >> updateWidthWith: aNumber [
 
 	self constraintsDo: [ :c | c horizontal exact: aNumber ]

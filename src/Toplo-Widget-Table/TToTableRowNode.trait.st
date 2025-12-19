@@ -1,28 +1,28 @@
 Trait {
-	#name : #TToTableNode,
+	#name : #TToTableRowNode,
 	#category : #'Toplo-Widget-Table-List'
 }
 
 { #category : #'t - table node' }
-TToTableNode >> cellContainers [
+TToTableRowNode >> cellContainers [
 
 	^ self children asArray 
 ]
 
 { #category : #'t - table node' }
-TToTableNode >> cells [ 
+TToTableRowNode >> cells [ 
 
 	^ self cellContainers collect: [ :cont | cont cell ]
 ]
 
 { #category : #'t - table node' }
-TToTableNode >> columns [
+TToTableRowNode >> columns [
 
 	^ self holder listElement columns
 ]
 
 { #category : #'t - table node' }
-TToTableNode >> divider: aDivider movedBy: aDistance from: aStartLocation [
+TToTableRowNode >> divider: aDivider movedBy: aDistance from: aStartLocation [
 
 	| container listElement state minWidth column |
 	listElement := self holder listElement.
@@ -34,7 +34,7 @@ TToTableNode >> divider: aDivider movedBy: aDistance from: aStartLocation [
 ]
 
 { #category : #'t - table node' }
-TToTableNode >> recordCellsWidth [
+TToTableRowNode >> recordCellsWidth [
 
 	| columns index containers last state |
 	columns := self holder listElement columns.

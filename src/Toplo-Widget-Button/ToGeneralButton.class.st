@@ -13,7 +13,6 @@ Class {
 ToGeneralButton >> applyConfiguration [ 
 
 	super applyConfiguration.
-	self applyItemConfiguration 
 ]
 
 { #category : #initialization }

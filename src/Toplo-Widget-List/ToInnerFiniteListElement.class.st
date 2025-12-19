@@ -148,12 +148,6 @@ ToInnerFiniteListElement >> listElement [
 	^ listElement
 ]
 
-{ #category : #accessing }
-ToInnerFiniteListElement >> maxMeasuredNodeSize [
-
-	^ trackElement maxMeasuredNodeSize
-]
-
 { #category : #'instance creation' }
 ToInnerFiniteListElement >> newNodeHolderFromDataSource: aDataSource [
 

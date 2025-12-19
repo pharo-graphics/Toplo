@@ -108,12 +108,6 @@ ToScrollableFiniteListTrackElement >> listElement [
 	^ listElement 
 ]
 
-{ #category : #accessing }
-ToScrollableFiniteListTrackElement >> maxMeasuredNodeSize [
-
-	^ self layout maxMeasuredNodeSize
-]
-
 { #category : #layout }
 ToScrollableFiniteListTrackElement >> newFlowLayout [
 

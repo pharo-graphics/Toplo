@@ -54,12 +54,6 @@ TToConfigurableFiniteListElement >> isScrollable: aBoolean [
 ]
 
 { #category : #'t - configurable bar element' }
-TToConfigurableFiniteListElement >> maxMeasuredNodeSize [
-
-	^ self innerElement maxMeasuredNodeSize
-]
-
-{ #category : #'t - configurable bar element' }
 TToConfigurableFiniteListElement >> uniformNodeHeight [
 
 	^ uniformNodeHeight ifNil: [ uniformNodeHeight := false ]

@@ -14,7 +14,7 @@ Class {
 	#category : #'Toplo-Widget-List-Core'
 }
 
-{ #category : #accessing }
+{ #category : #'accessing - selection modes' }
 ToBasicListElement >> addSelectionMode: aSelectionMode [
 
 	selectionModeMap
@@ -93,34 +93,23 @@ ToBasicListElement >> contextMenuSelecter [
 	^ self contextMenuSelectionMode selecter
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - selection modes' }
 ToBasicListElement >> contextMenuSelectionMode [
 
 	^ 	self selectionModeWithEventClass: ToListContextMenuSelectionChangedEvent
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - selection modes' }
 ToBasicListElement >> contextMenuSelectionMode: aSelectionMode [
 
 	self contextMenuSelectionMode ifNotNil: [ :m | m onUninstalledIn: self ].
 	aSelectionMode ifNotNil: [ aSelectionMode onInstalledIn: self ]
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - selection models' }
 ToBasicListElement >> contextMenuSelectionModel [
 
 	^ self	 contextMenuSelectionMode selectionModel
-]
-
-{ #category : #accessing }
-ToBasicListElement >> data [
-
-	self
-		deprecated: 'Please use dataAccessor instead.'
-		transformWith:
-			'`@receiver data'
-				-> '`@receiver dataAccessor'.
-	^ self dataAccessor
 ]
 
 { #category : #accessing }
@@ -146,17 +135,6 @@ ToBasicListElement >> dataSource: aDataSource [
 ToBasicListElement >> dataSourceManager [
 
 	^ self innerElement dataSourceManager 
-]
-
-{ #category : #accessing }
-ToBasicListElement >> dataUpdater [
-
-	self
-		deprecated: 'Please use dataAccessor instead.'
-		transformWith:
-			'`@receiver dataUpdater'
-				-> '`@receiver dataAccessor'.
-	^ self dataAccessor
 ]
 
 { #category : #initialization }
@@ -244,13 +222,13 @@ ToBasicListElement >> disabledSelecter [
 	^ self disabledSelectionMode selecter
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - selection modes' }
 ToBasicListElement >> disabledSelectionMode [
 
 	^ self selectionModeWithEventClass: ToListDisabledSelectionChangedEvent
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - selection models' }
 ToBasicListElement >> disabledSelectionModel [
 
 	^ self selectionModel disabledSelectionModel
@@ -297,13 +275,13 @@ ToBasicListElement >> hiddenSelecter [
 	^ self hiddenSelectionMode selecter 
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - selection modes' }
 ToBasicListElement >> hiddenSelectionMode [
 
 	^ self selectionModeWithEventClass: ToListHiddenSelectionChangedEvent 
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - selection models' }
 ToBasicListElement >> hiddenSelectionModel [  
 
 	^ self selectionModel hiddenSelectionModel 
@@ -403,6 +381,12 @@ ToBasicListElement >> newSieve [
 	^ self sieveClass new
 		  onInstalledIn: self;
 		  yourself
+]
+
+{ #category : #configuration }
+ToBasicListElement >> newToConfiguration [ 
+
+	^ ToBasicListElementConfiguration new
 ]
 
 { #category : #'instance creation' }
@@ -518,13 +502,13 @@ ToBasicListElement >> postponeAction: aValuable [
 	self innerElement postponeAction: aValuable for: self
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - selection modes' }
 ToBasicListElement >> primarySelectionMode [
 
 	^ self selectionModeWithEventClass: ToListPrimarySelectionChangedEvent 
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - selection modes' }
 ToBasicListElement >> primarySelectionMode: aSelectionMode [
 
 	self primarySelectionMode ifNotNil: [ :m | m onUninstalledIn: self ].
@@ -533,7 +517,7 @@ ToBasicListElement >> primarySelectionMode: aSelectionMode [
 	self requestNewSkin
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - selection modes' }
 ToBasicListElement >> removeSelectionMode: aSelectionMode [
 
 	selectionModeMap
@@ -562,13 +546,13 @@ ToBasicListElement >> secondarySelecter [
 	^ self secondarySelectionMode selecter
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - selection modes' }
 ToBasicListElement >> secondarySelectionMode [
 
 	^ self selectionModeWithEventClass: ToListSecondarySelectionChangedEvent
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - selection modes' }
 ToBasicListElement >> secondarySelectionMode: aSelectionMode [
 
 	self secondarySelectionMode ifNotNil: [ :m | m onUninstalledIn: self ].
@@ -578,7 +562,7 @@ ToBasicListElement >> secondarySelectionMode: aSelectionMode [
 
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - selection models' }
 ToBasicListElement >> secondarySelectionModel [
 
 	^ self secondarySelectionMode selectionModel
@@ -615,37 +599,25 @@ ToBasicListElement >> selectionElementsDo: aBlock [
 		mode selectionOptionDo: [ :opt | opt selectionElements do: [ :se | aBlock value: se ] ] ]
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - selection modes' }
 ToBasicListElement >> selectionMode [
 
 	^ self primarySelectionMode
 ]
 
-{ #category : #accessing }
-ToBasicListElement >> selectionMode: aSelectionMode [
-
-	self
-		deprecated: 'use #primarySelectionMode:'
-		transformWith:
-		'`@rcvr selectionMode: `@arg'
-		-> '`@rcvr primarySelectionMode: `@arg'.
-
-	self primarySelectionMode: aSelectionMode
-]
-
-{ #category : #accessing }
+{ #category : #'accessing - selection modes' }
 ToBasicListElement >> selectionModeWithEventClass: aSelectionChangedEventClass [
 
 	^ selectionModeMap at: aSelectionChangedEventClass ifAbsent: [  ]
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - selection models' }
 ToBasicListElement >> selectionModel [
 
 	^ self primarySelectionMode selectionModel
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - selection modes' }
 ToBasicListElement >> selectionModes [
 
 	^ selectionModeMap values
@@ -683,13 +655,13 @@ ToBasicListElement >> unselectableSelecter [
 	^ self unselectableSelectionMode selecter
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - selection modes' }
 ToBasicListElement >> unselectableSelectionMode [
 
 	^ self selectionModeWithEventClass: ToListUnselectableSelectionChangedEvent 
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - selection models' }
 ToBasicListElement >> unselectableSelectionModel [
 
 	^ self selectionModel unselectableSelectionModel
@@ -729,19 +701,6 @@ ToBasicListElement >> updateSelectionAfter: aValuable [
 		updateSelectionAfter: aValuable
 		withDataAccessor: self dataAccessor.
 	self postponeAction: [ self notifyDataSourceChanged ]
-]
-
-{ #category : #configuration }
-ToBasicListElement >> useCheckbox [
-
-	^ self nodeManager checkableNode
-]
-
-{ #category : #configuration }
-ToBasicListElement >> useCheckbox: aBoolean [
-
-	self nodeManager checkableNode: aBoolean.
-	self onUseCheckboxChangedWith: aBoolean
 ]
 
 { #category : #'accessing selecters' }

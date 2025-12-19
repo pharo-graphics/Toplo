@@ -563,7 +563,7 @@ ToSandBox class >> example_2ListsWithEditableAndContextMenu [
 	| win1 win2 l1 l2 space |
 	l1 := self listWithEditableAndContextMenu.
 	l2 := self listWithEditableAndContextMenu.
-	l2 useCheckbox: true.
+	l2 toConfiguration useCheckbox: true.
 	
 	win1 := ToInnerWindow new.
 	win1 pane addChild: l1.
@@ -632,7 +632,7 @@ ToSandBox class >> example_AllClassesWithCheckbox [
 
 	| l |
 	l := self example_AllClasses.
-	l useCheckbox: true
+	l toConfiguration useCheckbox: true
 ]
 
 { #category : #window }
@@ -2705,7 +2705,7 @@ ToSandBox class >> example_ListWithAllClasses4Bis [
 
 	| l |
 	l := ToListElement new.
-	l useCheckbox: true.
+	l toConfiguration useCheckbox: true.
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l openInSpace
 ]
@@ -4191,7 +4191,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithCheckboxesBis [
 
 	| select |
 	select := ToMultiSelectElement new.
-	select popupListElement useCheckbox: true.
+	select popupListElement toConfiguration  useCheckbox: true.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select popupListElement nodeBuilder: [ :node :aState :holder |
 			| label |

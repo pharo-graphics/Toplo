@@ -325,7 +325,7 @@ ToTableElement >> updateSelectionAfter: aValuable [
 { #category : #accessing }
 ToTableElement >> useCheckbox: aBoolean [
 
-	list useCheckbox: aBoolean.
+	list toConfiguration useCheckbox: aBoolean.
 	header useCheckbox: aBoolean
 	
 ]

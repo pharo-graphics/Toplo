@@ -20,7 +20,15 @@ ToDiffElement >> applyHighlightTo: src fromModifications: modifications [
 
 	modifications do: [ :join |
 			join lineRange do: [ :idx |
-				(src next editor segmentCollector segments at: idx) text background: join color ] ]
+					| deco segment |
+					segment := src next editor segmentCollector segments at: idx.
+					deco := (AlbSubtextElement editorElement: src next)
+						        interval: (segment textStart to: segment textEnd);
+						        yourself.
+					deco addEventHandler: AlbSubtextElementEventHandler new.
+					deco background: join color.
+					deco border: BlBorder empty.
+					src next frontLayer addChild: deco ] ]
 ]
 
 { #category : #highlighting }

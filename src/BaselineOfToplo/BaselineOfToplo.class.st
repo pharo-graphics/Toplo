@@ -17,18 +17,7 @@ BaselineOfToplo >> baseline: spec [
 
 			spec
 				package: 'Toplo'
-				with: [ spec requires: #(
-					'Bloc'
-					'Toplo-Examples'
-					'Toplo-Imported-Icons-MaterialDesign'
-					'Toplo-Widget-Album'
-					'Toplo-Widget-Button'
-					'Toplo-Widget-Float'
-					'Toplo-Widget-Image'
-					'Toplo-Widget-InnerWindow'
-					'Toplo-Widget-List'
-					'Toplo-Widget-Menu'
-					'Toplo-Widget-Pane') ].
+				with: [ spec requires: #('Bloc') ].
 
 			spec
 				package: 'Toplo-Demo'
@@ -94,8 +83,7 @@ BaselineOfToplo >> baseline: spec [
 					'Toplo-Widget-Menu'
 					'Toplo-Widget-Pane') ].
 
-			spec
-				package: 'Toplo-Theme'.
+			spec package: 'Toplo-Theme'.
 
 			spec
 				package: 'Toplo-Theme-Bee'
@@ -126,8 +114,7 @@ BaselineOfToplo >> baseline: spec [
 					'Toplo-Widget-List'
 					'Toplo-Widget-Menu') ].
 
-			spec
-				package: 'Toplo-Theme-Tests'.
+			spec package: 'Toplo-Theme-Tests'.
 
 			spec
 				package: 'Toplo-Widget-Accordion'
@@ -140,7 +127,7 @@ BaselineOfToplo >> baseline: spec [
 
 			spec
 				package: 'Toplo-Widget-Album'
-				with: [ spec requires: #('Album' 'Bloc' 'Toplo' 'Toplo-Widget-List' 'Toplo-Widget-Pane') ].
+				with: [ spec requires: #('Album' 'Bloc' 'Toplo' 'Toplo-Widget-Pane') ].
 
 			spec
 				package: 'Toplo-Widget-Album-Tests'
@@ -158,7 +145,6 @@ BaselineOfToplo >> baseline: spec [
 					'Toplo'
 					'Toplo-Imported-Icons-MaterialDesign'
 					'Toplo-Widget-Image'
-					'Toplo-Widget-List'
 					'Toplo-Widget-Pane') ].
 
 			spec
@@ -180,15 +166,13 @@ BaselineOfToplo >> baseline: spec [
 				package: 'Toplo-Widget-Empty'
 				with: [ spec requires: #('Bloc' 'Toplo' 'Toplo-Widget-Album' 'Toplo-Widget-Image') ].
 
-			spec
-				package: 'Toplo-Widget-Empty-Tests'.
+			spec package: 'Toplo-Widget-Empty-Tests'.
 
 			spec
 				package: 'Toplo-Widget-Float'
 				with: [ spec requires: #('Bloc' 'Toplo' 'Toplo-Widget-Album') ].
 
-			spec
-				package: 'Toplo-Widget-Float-Tests'.
+			spec package: 'Toplo-Widget-Float-Tests'.
 
 			spec
 				package: 'Toplo-Widget-Image'
@@ -215,7 +199,6 @@ BaselineOfToplo >> baseline: spec [
 					'Toplo'
 					'Toplo-Widget-Album'
 					'Toplo-Widget-Button'
-					'Toplo-Widget-Menu'
 					'Toplo-Widget-Pane') ].
 
 			spec
@@ -311,8 +294,7 @@ BaselineOfToplo >> baseline: spec [
 
 			spec
 				package: 'Toplo-Widget-Tree-Tests'
-				with: [ spec requires: #('Toplo-Tests' 'Toplo-Widget-List' 'Toplo-Widget-Tree') ]
-			]
+				with: [ spec requires: #('Toplo-Tests' 'Toplo-Widget-List' 'Toplo-Widget-Tree') ] ]
 ]
 
 { #category : #'external projects' }

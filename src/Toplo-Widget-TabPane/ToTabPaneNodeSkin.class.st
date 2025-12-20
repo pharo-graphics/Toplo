@@ -7,19 +7,19 @@ Class {
 { #category : #'event handling' }
 ToTabPaneNodeSkin >> configureSelectionTokensIn: anItemElement [
 
-	anItemElement holder listElement isFlowable
+	anItemElement holder listElement toConfiguration isFlowable
 		ifTrue: [
-			anItemElement removeTokenNamed: #'selected-focused-foreground'.
-			anItemElement removeTokenNamed: #'selected-unfocused-foreground' ]
+				anItemElement removeTokenNamed: #'selected-focused-foreground'.
+				anItemElement removeTokenNamed: #'selected-unfocused-foreground' ]
 		ifFalse: [
-			anItemElement
-				addTokenNamed: #'selected-focused-foreground'
-				withValue:
-				(anItemElement valueOfTokenNamed: #'color-primary-checked').
-			anItemElement
-				addTokenNamed: #'selected-unfocused-foreground'
-				withValue:
-				(anItemElement valueOfTokenNamed: #'color-primary-checked') ]
+				anItemElement
+					addTokenNamed: #'selected-focused-foreground'
+					withValue:
+					(anItemElement valueOfTokenNamed: #'color-primary-checked').
+				anItemElement
+					addTokenNamed: #'selected-unfocused-foreground'
+					withValue:
+					(anItemElement valueOfTokenNamed: #'color-primary-checked') ]
 ]
 
 { #category : #'event handling' }

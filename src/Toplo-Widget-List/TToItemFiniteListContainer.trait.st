@@ -50,7 +50,7 @@ TToItemFiniteListContainer >> addItem: anItem beforeIndex: anInteger [
 { #category : #'t - item bar container - configuration' }
 TToItemFiniteListContainer >> autoDistribute [
 
-	^ self itemBar autoDistribute
+	^ self itemBar toConfiguration autoDistribute
 ]
 
 { #category : #'t - item bar container - configuration' }
@@ -136,13 +136,13 @@ TToItemFiniteListContainer >> innerElement [
 { #category : #'t - item bar container - configuration' }
 TToItemFiniteListContainer >> isFlowable [
 
-	^ self itemBar isFlowable
+	^ self itemBar toConfiguration isFlowable
 ]
 
 { #category : #'t - item bar container - configuration' }
 TToItemFiniteListContainer >> isFlowable: aBoolean [
 
-	self itemBar isFlowable = aBoolean ifTrue: [ ^ self ].
+	self itemBar toConfiguration isFlowable = aBoolean ifTrue: [ ^ self ].
 	self itemBar isFlowable: aBoolean.
 	self requestConfiguration
 ]
@@ -156,13 +156,14 @@ TToItemFiniteListContainer >> isItemContainer [
 { #category : #'t - item bar container - configuration' }
 TToItemFiniteListContainer >> isScrollable [
 
-	^ self itemBar isScrollable
+	^ self itemBar toConfiguration isScrollable
 ]
 
 { #category : #'t - item bar container - configuration' }
 TToItemFiniteListContainer >> isScrollable: aBoolean [
 
-	self itemBar isScrollable = aBoolean ifTrue: [ ^ self ].
+	self itemBar toConfiguration isScrollable = aBoolean ifTrue: [
+		^ self ].
 	self itemBar isScrollable: aBoolean.
 	self requestConfiguration
 ]
@@ -331,13 +332,13 @@ TToItemFiniteListContainer >> setItemBar: anItemBar [
 { #category : #'t - item bar container - configuration' }
 TToItemFiniteListContainer >> uniformNodeHeight [
 
-	^ self itemBar uniformNodeHeight
+	^ self itemBar toConfiguration uniformNodeHeight
 ]
 
 { #category : #'t - item bar container - configuration' }
 TToItemFiniteListContainer >> uniformNodeHeight: aBoolean [
 
-	self itemBar uniformNodeHeight: aBoolean
+	self itemBar toConfiguration uniformNodeHeight: aBoolean
 ]
 
 { #category : #'t - item bar container - configuration' }
@@ -349,7 +350,7 @@ TToItemFiniteListContainer >> uniformNodeWidth [
 { #category : #'t - item bar container - configuration' }
 TToItemFiniteListContainer >> uniformNodeWidth: aBoolean [
 
-	self itemBar uniformNodeWidth: aBoolean
+	self itemBar toConfiguration uniformNodeWidth: aBoolean
 ]
 
 { #category : #'t - item bar container - unselectable/selectable' }

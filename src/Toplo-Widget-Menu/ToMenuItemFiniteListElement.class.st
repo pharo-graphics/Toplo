@@ -9,12 +9,6 @@ Class {
 	#category : #'Toplo-Widget-Menu-ItemBar'
 }
 
-{ #category : #'t - finite list element' }
-ToMenuItemFiniteListElement >> defaultInnerElementClass [
-
-	^ ToMenuInnerFiniteListElement
-]
-
 { #category : #initialization }
 ToMenuItemFiniteListElement >> defaultNodeManager [
 
@@ -27,13 +21,14 @@ ToMenuItemFiniteListElement >> defaultNodeManager [
 ToMenuItemFiniteListElement >> initialize [
 
 	super initialize.
-	
-	self flag: 'no focusability until focus management is understood and working '.
+
+	self flag:
+		'no focusability until focus management is understood and working '.
 	self focusability: BlFocusability none.
-	self vertical: true.	
-	self isFlowable: false.
+	self vertical: true.
+	self toConfiguration isFlowable: false.
 	self fitContent.
-	self uniformNodeWidth: true.
+	self toConfiguration uniformNodeWidth: true.
 	"No visible primary selection"
 	self selectionOption masked: true
 ]
@@ -42,4 +37,10 @@ ToMenuItemFiniteListElement >> initialize [
 ToMenuItemFiniteListElement >> newRawSkin [ 
 
 	^ ToMenuItemFiniteListElementSkin new
+]
+
+{ #category : #configuration }
+ToMenuItemFiniteListElement >> newToConfiguration [ 
+
+	^ ToMenuItemFiniteListElementConfiguration new
 ]

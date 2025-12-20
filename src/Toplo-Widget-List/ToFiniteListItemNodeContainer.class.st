@@ -10,7 +10,7 @@ ToFiniteListItemNodeContainer >> aroundNodeConfiguration: aNodeConfigurationBloc
 	| finiteList |
 	super aroundNodeConfiguration: aNodeConfigurationBlock.
 	finiteList := self holder listElement.
-	finiteList isFlowable ifTrue: [ ^ self ].
+	finiteList toConfiguration isFlowable ifTrue: [ ^ self ].
 	self isHExact ifFalse: [
 			self node item isHExact
 				ifTrue: [ self hFitContent ]

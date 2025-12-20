@@ -13,7 +13,7 @@ ToFiniteListNodeContainer >> applyResizerConfiguration [
 
 	| finiteList |
 	finiteList := self holder listElement.
-	finiteList isFlowable
+	finiteList toConfiguration isFlowable
 		ifTrue: [ self fitContent ]
 		ifFalse: [
 				finiteList isVertical
@@ -21,14 +21,14 @@ ToFiniteListNodeContainer >> applyResizerConfiguration [
 							finiteList isHMatchParent
 								ifTrue: [ self hMatchParent ]
 								ifFalse: [ self hFitContent ].
-							finiteList autoDistribute
+							finiteList toConfiguration autoDistribute
 								ifTrue: [ self vMatchParent ]
 								ifFalse: [ self vFitContent ] ]
 					ifFalse: [
 							finiteList isVMatchParent
 								ifTrue: [ self vMatchParent ]
 								ifFalse: [ self vFitContent ].
-							finiteList autoDistribute
+							finiteList toConfiguration autoDistribute
 								ifTrue: [ self hMatchParent ]
 								ifFalse: [ self hFitContent ] ] ]
 ]

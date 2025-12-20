@@ -16,7 +16,7 @@ ToItemFiniteListElement >> applyConfiguration [
 	self applyItemListConfiguration
 ]
 
-{ #category : #'t - finite list element - fake container' }
+{ #category : #accessing }
 ToItemFiniteListElement >> defaultFakeDataItem [
 
 	^ ToFiniteListItem new

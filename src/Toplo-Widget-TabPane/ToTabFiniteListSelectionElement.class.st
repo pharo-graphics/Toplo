@@ -30,7 +30,7 @@ ToTabFiniteListSelectionElement >> initialize [
 ToTabFiniteListSelectionElement >> positionFrom: aPoint in: aListElement [
 
 	| x y nodeContainer nodeBounds insets |
-	aListElement isFlowable ifTrue: [
+	aListElement toConfiguration isFlowable ifTrue: [
 		^ super positionFrom: aPoint in: aListElement ].
 	" compute the selection element to be over the parent track element "
 	nodeContainer := self nodeContainer.
@@ -60,7 +60,7 @@ ToTabFiniteListSelectionElement >> positionFrom: aPoint in: aListElement [
 { #category : #private }
 ToTabFiniteListSelectionElement >> sizeFrom: aPoint in: aListElement [
 
-	aListElement isFlowable ifTrue: [ ^ aPoint ].
+	aListElement toConfiguration isFlowable ifTrue: [ ^ aPoint ].
 	^ aListElement isHorizontal
 		  ifTrue: [ aPoint x @ breadth ]
 		  ifFalse: [ breadth @ aPoint y ]

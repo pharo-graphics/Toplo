@@ -1472,10 +1472,11 @@ ToSandBox class >> example_CheckableFiniteListElement [
 	space := BlSpace new.
 	bar := ToCheckableFiniteListElement new.
 	bar vMatchParent.
-	bar isFlowable: true.
+	bar toConfiguration isFlowable: true.
 	space root addChild: bar.
 	bar matchParent.
-	self statesOfAmerica do: [ :l | | item |
+	self statesOfAmerica do: [ :l |
+			| item |
 			item := ToToggleButton new labelText: l.
 			item width: 150.
 			bar addItem: item ].
@@ -9138,12 +9139,21 @@ ToSandBox class >> finiteListConfigurationBoardFor: aBar [
 	confPane addChild: menu.
 
 	{
-		(#isVertical -> #isVertical: -> 'Vertical').
-		(#isFlowable -> #isFlowable: -> 'Flowable').
-		(#uniformNodeWidth -> #uniformNodeWidth: -> 'Uniform width').
-		(#uniformNodeHeight -> #uniformNodeHeight: -> 'Uniform height').
-		(#isScrollable -> #isScrollable: -> 'Scrollable').
-		(#autoDistribute -> #autoDistribute: -> 'Auto-distribute').
+		([ aBar isVertical ] -> [ :v | aBar isVertical: v ]
+		 -> 'Vertical').
+		([ aBar toConfiguration isFlowable ]
+		 -> [ :v | aBar toConfiguration isFlowable: v ] -> 'Flowable').
+		([ aBar toConfiguration uniformNodeWidth ]
+		 -> [ :v | aBar toConfiguration uniformNodeWidth: v ]
+		 -> 'Uniform width').
+		([ aBar toConfiguration uniformNodeHeight ]
+		 -> [ :v | aBar toConfiguration uniformNodeHeight: v ]
+		 -> 'Uniform height').
+		([ aBar toConfiguration isScrollable ]
+		 -> [ :v | aBar toConfiguration isScrollable: v ] -> 'Scrollable').
+		([ aBar toConfiguration autoDistribute ]
+		 -> [ :v | aBar toConfiguration autoDistribute: v ]
+		 -> 'Auto-distribute').
 		([ aBar selectionMode selectOnPressed ]
 		 -> [ :v | aBar selectionMode selectOnPressed: v ]
 		 -> 'Select on pressed').
@@ -9155,21 +9165,19 @@ ToSandBox class >> finiteListConfigurationBoardFor: aBar [
 		 -> 'Disabled items are unselectable') } do: [ :assoc |
 			| switch |
 			switch := ToSwitchButton new labelText: assoc value value.
-			switch checkAction: [ :evt  |
-					assoc key value isSymbol
-						ifTrue: [ aBar perform: assoc key value with: evt target isChecked ]
-						ifFalse: [ assoc key value value: evt target isChecked ] ].
+			switch checkAction: [ :evt |
+				assoc key value value: evt target isChecked ].
 
 			switch startFlexible: true.
 			switch hMatchParent.
 			confPane addChild: switch.
 
 			aBar whenConfigurationAppliedDo: [
-					assoc key key isSymbol ifTrue: [
-						switch checked: (aBar perform: assoc key key) ] ] ].
+				switch checked:
+					(assoc key key value) ] ].
 
 	animSwitch := ToSwitchButton new labelText: 'Animate transition'.
-	animSwitch checkAction: [ :evt  |
+	animSwitch checkAction: [ :evt |
 			| d |
 			d := evt target isChecked
 				     ifTrue: [ 200 milliSeconds ]
@@ -9259,9 +9267,9 @@ ToSandBox class >> finiteListWithData: aCollection [
 									 m addItem: (ToMenuItem new
 												  labelText: 'Inspect';
 												  clickAction: [
-													  Array withAll:
-															  (idxes collect: [ :idx | target nodeContainerAt: idx ])
-																  inspect ];
+														  Array withAll:
+																  (idxes collect: [ :idx |
+																		   target nodeContainerAt: idx ]) inspect ];
 												  yourself).
 									 m addItem: (ToMenuItem new
 											  labelText: 'Remove';
@@ -9273,8 +9281,8 @@ ToSandBox class >> finiteListWithData: aCollection [
 											  labelText: 'Unable/disable';
 											  clickAction: [
 													  idxes do: [ :idx |
-															  (bar nodeContainerAt: idx) disabled:
-																	  (bar nodeContainerAt: idx) isEnabled ] ];
+																  (bar nodeContainerAt: idx) disabled:
+																		  (bar nodeContainerAt: idx) isEnabled ] ];
 											  yourself).
 									 m addItem: (ToMenuItem new
 											  labelText: 'Unselectable';
@@ -9311,8 +9319,8 @@ ToSandBox class >> finiteListWithData: aCollection [
 	confBoard addChild: selectionModeBoard.
 
 	bar dataAccessor addAll: aCollection.
-	bar isFlowable: true.
-	bar uniformNodeWidth: true.
+	bar toConfiguration isFlowable: true.
+	bar toConfiguration uniformNodeWidth: true.
 	rootPane := ToPane horizontal.
 	rootPane padding: (BlInsets all: 5).
 	rootPane matchParent.

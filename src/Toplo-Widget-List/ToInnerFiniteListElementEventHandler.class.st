@@ -13,7 +13,7 @@ ToInnerFiniteListElementEventHandler >> checkFullyVisibleNodeContainersOnEvent: 
 	| invisibles visibles innerListElement listElement |
 	innerListElement := anEvent currentTarget.
 	listElement := innerListElement listElement.
-	(listElement isFlowable or: [ listElement autoDistribute ])
+	(listElement toConfiguration isFlowable or: [ listElement toConfiguration autoDistribute ])
 		ifTrue: [
 				invisibles := #(  ).
 				visibles := listElement nodeContainers asArray ]

@@ -19,7 +19,7 @@ ToTabGroupElementConfiguration >> applyOn: aTabGroupElement [
 
 	aTabGroupElement uniformNodeWidth: aTabGroupElement isVertical.
 	aTabGroupElement uniformNodeHeight: aTabGroupElement isHorizontal.
-	aTabGroupElement itemBar autoDistribute:
+	aTabGroupElement itemBar toConfiguration autoDistribute:
 		aTabGroupElement autoDistribute.
 	aTabGroupElement itemBar matchParent.
 

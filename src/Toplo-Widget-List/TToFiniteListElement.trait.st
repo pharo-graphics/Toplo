@@ -22,12 +22,6 @@ TToFiniteListElement >> defaultFakeDataItem [
 	^ nil
 ]
 
-{ #category : #'t - finite list element' }
-TToFiniteListElement >> defaultInnerElementClass [
-
-	^ ToInnerFiniteListElement 
-]
-
 { #category : #'t - finite list element - fake container' }
 TToFiniteListElement >> fakeDataItem [
 
@@ -46,6 +40,12 @@ TToFiniteListElement >> fakeNodeContainer [
 	^ (self hasChildren and: [ self firstChild isFake ])
 		  ifTrue: [ self firstChild ]
 		  ifFalse: [ ]
+]
+
+{ #category : #'t - finite list element - fake container' }
+TToFiniteListElement >> fakeNodeContainer: aNodeContainer [
+
+	self addChild: aNodeContainer at: 1
 ]
 
 { #category : #'t - finite list element' }
@@ -85,16 +85,18 @@ TToFiniteListElement >> newFakeNodeContainer [
 
 { #category : #'t - finite list element - fake container' }
 TToFiniteListElement >> reinstallFakeNodeContainer [
+	" the fake node is added in case of an empty data source to ensure a 
+	suitable minimum height according to the node class, the node builder 
+	and the data kind."
 
-	self uninstallFakeNodeContainer.
-	self installFakeNodeContainer
-]
-
-{ #category : #'t - finite list element - fake container' }
-TToFiniteListElement >> removeFakeNodeContainer [
-
-	self fakeNodeContainer ifNil: [ Error signal: 'Fake node container not present' ].
-	self fakeNodeContainer removeFromParent
+	| fakeContainer holder |
+	fakeContainer := self fakeNodeContainer.
+	holder := fakeContainer holder.
+	holder dataItem: self fakeDataItem.
+	" add the fake node (to keep a constant minimum size ).
+	Pay attention to add the fake node ** before ** the fake node building "
+	self nodeManager buildNode: fakeContainer node.
+	self requestConfiguration
 ]
 
 { #category : #'t - finite list element - fake container' }
@@ -116,14 +118,4 @@ TToFiniteListElement >> sample: aDataItem [
 TToFiniteListElement >> trackElement [
 
 	^ self innerElement trackElement
-]
-
-{ #category : #'t - finite list element - fake container' }
-TToFiniteListElement >> uninstallFakeNodeContainer [
-	" the fake node is added in case of an empty data source to ensure a 
-	suitable minimum height according to the node class, the node builder 
-	and the data kind."
-
-	" remove the fake node (to keep a constant minimum size ) "
-	self removeFakeNodeContainer
 ]

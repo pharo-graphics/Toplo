@@ -22,13 +22,13 @@ ToMultiSelectElement >> addGroup: anObject withData: aCollection [
 ]
 
 { #category : #configuration }
-ToMultiSelectElement >> applyConfiguration [ 
+ToMultiSelectElement >> applyConfiguration [
 
 	super applyConfiguration.
-	self innerElement isFlowable: isFlowable.
+	self innerElement toConfiguration isFlowable: isFlowable.
 	self innerElement keepPickOrder: keepPickOrder.
-	self endContainer maxSelectedCount: maxSelectedCount .
-	self innerElement maxSelectedCount: maxSelectedCount.
+	self endContainer maxSelectedCount: maxSelectedCount.
+	self innerElement maxSelectedCount: maxSelectedCount
 ]
 
 { #category : #accessing }

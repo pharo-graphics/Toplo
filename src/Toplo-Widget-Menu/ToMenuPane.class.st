@@ -52,8 +52,8 @@ ToMenuPane >> applyConfiguration [
 	self itemBar constraintsDo: [ :c |
 			c linear vertical alignCenter.
 			c linear horizontal alignCenter ].
-	self itemBar isScrollable: self isScrollable.
-	self itemBar isFlowable: self isFlowable.
+	self itemBar toConfiguration isScrollable: self isScrollable.
+	self itemBar toConfiguration isFlowable: self isFlowable.
 	self isHFitContent
 		ifTrue: [ self itemBar hFitContent ]
 		ifFalse: [ self itemBar hMatchParent ].

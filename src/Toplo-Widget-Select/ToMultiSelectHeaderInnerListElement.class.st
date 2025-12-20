@@ -11,8 +11,8 @@ ToMultiSelectHeaderInnerListElement >> onInvisibleNodeContainers: theInvisibleCo
 	super
 		onInvisibleNodeContainers: theInvisibleContainers
 		visibleNodeContainers: theVisibleContainers.
-	listElement isFlowable ifTrue: [ ^ self ].
-	listElement isScrollable ifTrue: [ ^ self ].
+	listElement toConfiguration isFlowable ifTrue: [ ^ self ].
+	listElement toConfiguration isScrollable ifTrue: [ ^ self ].
 	nbInvisible := self selectedDataItems size
 	               - theVisibleContainers size.
 	nbInvisible isZero ifTrue: [

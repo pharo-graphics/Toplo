@@ -887,11 +887,13 @@ BlElement >> textAttributesBuilderDo: aBlock [
 { #category : #'*Toplo' }
 BlElement >> toConfiguration [
 
-	^ self userData at: #toConfiguration ifAbsentPut: [
-		  | conf |
-		  conf := self newToConfiguration.
-		  conf ifNotNil: [ conf onInstalledIn: self ].
-		  conf ]
+	| newConfig |
+	self userData
+		at: #toConfiguration
+		ifPresent: [ :conf | ^ conf ]
+		ifAbsentPut: [ newConfig := self newToConfiguration ].
+	newConfig ifNotNil: [ newConfig onInstalledIn: self ].
+	^ newConfig
 ]
 
 { #category : #'*Toplo' }

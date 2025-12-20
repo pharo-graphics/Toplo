@@ -70,12 +70,6 @@ ToMultiSelectHeaderListElement >> checkMaxSelectedCount [
 	self popupListElement notifyDataSourceChanged
 ]
 
-{ #category : #'t - bar element' }
-ToMultiSelectHeaderListElement >> defaultInnerElementClass [
-
-	^ ToMultiSelectHeaderInnerListElement
-]
-
 { #category : #initialization }
 ToMultiSelectHeaderListElement >> defaultLayout [
 
@@ -185,6 +179,12 @@ ToMultiSelectHeaderListElement >> listElement [
 ToMultiSelectHeaderListElement >> maxSelectedCount: aNumber [
 
 	maxSelectedCount := aNumber
+]
+
+{ #category : #configuration }
+ToMultiSelectHeaderListElement >> newToConfiguration [ 
+
+	^ ToMultiSelectHeaderListElementConfiguration new
 ]
 
 { #category : #accessing }

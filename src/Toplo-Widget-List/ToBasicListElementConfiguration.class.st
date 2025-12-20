@@ -9,6 +9,12 @@ Class {
 	#category : #'Toplo-Widget-List-Core'
 }
 
+{ #category : #accessing }
+ToBasicListElementConfiguration >> defaultInnerElementClass [
+
+	^ ToInfiniteElement
+]
+
 { #category : #initialization }
 ToBasicListElementConfiguration >> initialize [
 

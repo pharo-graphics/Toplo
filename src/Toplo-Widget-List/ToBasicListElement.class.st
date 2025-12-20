@@ -164,7 +164,7 @@ ToBasicListElement >> defaultInnerElement [
 { #category : #initialization }
 ToBasicListElement >> defaultInnerElementClass [
 
-	^ ToInfiniteElement
+	^ self toConfiguration defaultInnerElementClass
 ]
 
 { #category : #initialization }
@@ -297,7 +297,6 @@ ToBasicListElement >> initialize [
 
 	self initializeDataSource.
 	self initializeDataAccessor.
-	self initializeInnerElement.
 
 	self layout: self defaultLayout.
 
@@ -308,6 +307,8 @@ ToBasicListElement >> initialize [
 	self newUnselectableSelectionMode onInstalledIn: self.
 	self newHiddenSelectionMode onInstalledIn: self.
 	self newDisabledSelectionMode onInstalledIn: self.
+
+	self initializeInnerElement.
 
 	self matchParent 
 ]

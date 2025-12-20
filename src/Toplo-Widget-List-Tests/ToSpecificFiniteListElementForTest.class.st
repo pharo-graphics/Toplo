@@ -15,3 +15,10 @@ ToSpecificFiniteListElementForTest >> defaultNodeManagerClass [
 
 	^ ToSpecificFiniteListNodeManagerForTest
 ]
+
+{ #category : #initialization }
+ToSpecificFiniteListElementForTest >> initialize [ 
+
+	super initialize.
+	self fakeDataItem: 'Fake'
+]

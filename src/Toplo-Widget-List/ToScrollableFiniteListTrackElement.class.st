@@ -27,7 +27,7 @@ ToScrollableFiniteListTrackElement >> applyConfiguration [
 { #category : #testing }
 ToScrollableFiniteListTrackElement >> autoDistribute [
 
-	^ listElement autoDistribute
+	^ listElement toConfiguration autoDistribute
 ]
 
 { #category : #configuration }
@@ -81,7 +81,7 @@ ToScrollableFiniteListTrackElement >> initialize [
 { #category : #testing }
 ToScrollableFiniteListTrackElement >> isFlowable [
 
-	^ listElement isFlowable
+	^ listElement toConfiguration isFlowable
 ]
 
 { #category : #testing }
@@ -93,7 +93,7 @@ ToScrollableFiniteListTrackElement >> isHorizontal [
 { #category : #testing }
 ToScrollableFiniteListTrackElement >> isScrollable [
 
-	^ listElement isScrollable
+	^ listElement toConfiguration isScrollable
 ]
 
 { #category : #layout }
@@ -211,11 +211,11 @@ ToScrollableFiniteListTrackElement >> removeNodeContainer: container [
 { #category : #configuration }
 ToScrollableFiniteListTrackElement >> uniformNodeHeight [
 
-	^ listElement uniformNodeHeight
+	^ listElement toConfiguration uniformNodeHeight
 ]
 
 { #category : #configuration }
 ToScrollableFiniteListTrackElement >> uniformNodeWidth [
 
-	^ listElement uniformNodeWidth
+	^ listElement toConfiguration uniformNodeWidth
 ]

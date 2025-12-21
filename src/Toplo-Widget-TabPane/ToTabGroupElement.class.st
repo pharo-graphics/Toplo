@@ -379,7 +379,7 @@ ToTabGroupElement >> startExtraBuilder: aValuable [
 { #category : #accessing }
 ToTabGroupElement >> trackElement [
 
-	^ self itemBar trackElement
+	^ self itemBar innerElement trackElement
 ]
 
 { #category : #accessing }

@@ -3,25 +3,9 @@ I'm a generic list
 "
 Class {
 	#name : #ToGenericFiniteListElement,
-	#superclass : #ToBasicFiniteListElement,
-	#traits : 'TToGenericListElement',
-	#classTraits : 'TToGenericListElement classTrait',
+	#superclass : #ToGenericListElement,
 	#category : #'Toplo-Widget-List-Core-FiniteListElement'
 }
-
-{ #category : #initialization }
-ToGenericFiniteListElement >> defaultNodeManager [
-
-	^ super defaultNodeManager
-		  nodeFactory: [ :holder | ToFiniteListNode new ];
-		  yourself
-]
-
-{ #category : #initialization }
-ToGenericFiniteListElement >> defaultNodeManagerClass [
-
-	^ ToGenericListNodeManager 
-]
 
 { #category : #initialization }
 ToGenericFiniteListElement >> initialize [
@@ -37,17 +21,8 @@ ToGenericFiniteListElement >> initialize [
 	self matchParent
 ]
 
-{ #category : #skin }
-ToGenericFiniteListElement >> newRawSkin [ 
+{ #category : #configuration }
+ToGenericFiniteListElement >> newToConfiguration [ 
 
-	^ ToFiniteListElementSkin new
-]
-
-{ #category : #'t - generic list element' }
-ToGenericFiniteListElement >> nodeBuilder: aValuable [
-	"aValuable takes 3 optional args: first, the node to build, second, the dataItem and third, the holder in the list element "
-
-	self nodeManager nodeBuilder: aValuable.
-	"self reinstallFakeNodeContainer."
-	self notifyDataSourceChanged
+	^ ToBasicFiniteListElementConfiguration new
 ]

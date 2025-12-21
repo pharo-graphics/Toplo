@@ -25,10 +25,8 @@ ToNodeContainer >> applyResizerConfiguration [
 
 	| list |
 	list := self holder listElement.
-"	list isHFitContent
-		ifTrue: [ self hFitContent ]
-		ifFalse: [ self hMatchParent ].
-	self vFitContent"
+	list toConfigurationDo: [ :conf |
+		conf configureNodeContainer: self inLisElement: list ]
 ]
 
 { #category : #configuration }

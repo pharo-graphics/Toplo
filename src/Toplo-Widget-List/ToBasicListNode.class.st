@@ -13,7 +13,7 @@ The element children of an infinite list are `ToListNode`, the other are `ToBarN
 
 "
 Class {
-	#name : #ToAbstractListNode,
+	#name : #ToBasicListNode,
 	#superclass : #ToElement,
 	#traits : 'TToListNode',
 	#classTraits : 'TToListNode classTrait',
@@ -21,42 +21,41 @@ Class {
 }
 
 { #category : #configuration }
-ToAbstractListNode >> applyConfiguration [
+ToBasicListNode >> applyConfiguration [
 
 	super applyConfiguration.
 	self holder initializeNodeSelections
 ]
 
 { #category : #'t - list node' }
-ToAbstractListNode >> clickEventHandlerClass [
+ToBasicListNode >> clickEventHandlerClass [
 
 	^  ToListNodeSelectionEventHandler
 ]
 
 { #category : #initialization }
-ToAbstractListNode >> defaultLayout [ 
+ToBasicListNode >> defaultLayout [ 
 
 	" don't use vertical or horizontal to allow vertical centering of children "
 	^ BlLinearLayout new
 ]
 
 { #category : #initialization }
-ToAbstractListNode >> initialize [
+ToBasicListNode >> initialize [
 
 	super initialize.
 	self layout: self defaultLayout.
-	self hMatchParent.
-	self vFitContent
+	self initializeAsListNode 
 ]
 
 { #category : #accessing }
-ToAbstractListNode >> listElement [ 
+ToBasicListNode >> listElement [ 
 
 	^ self holder listElement
 ]
 
 { #category : #accessing }
-ToAbstractListNode >> nodeManager [ 
+ToBasicListNode >> nodeManager [ 
 
 	^ self listElement nodeManager
 ]

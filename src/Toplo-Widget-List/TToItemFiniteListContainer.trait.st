@@ -143,7 +143,7 @@ TToItemFiniteListContainer >> isFlowable [
 TToItemFiniteListContainer >> isFlowable: aBoolean [
 
 	self itemBar toConfiguration isFlowable = aBoolean ifTrue: [ ^ self ].
-	self itemBar isFlowable: aBoolean.
+	self itemBar toConfiguration isFlowable: aBoolean.
 	self requestConfiguration
 ]
 
@@ -164,7 +164,7 @@ TToItemFiniteListContainer >> isScrollable: aBoolean [
 
 	self itemBar toConfiguration isScrollable = aBoolean ifTrue: [
 		^ self ].
-	self itemBar isScrollable: aBoolean.
+	self itemBar toConfiguration isScrollable: aBoolean.
 	self requestConfiguration
 ]
 

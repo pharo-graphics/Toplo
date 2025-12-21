@@ -23,7 +23,31 @@ ToBasicFiniteListElementConfiguration >> autoDistribute: aBoolean [
 	autoDistribute := aBoolean 
 ]
 
-{ #category : #hook }
+{ #category : #configuration }
+ToBasicFiniteListElementConfiguration >> configureNodeContainer: aNodeContainer inLisElement: aListElement [
+
+	aNodeContainer fitContent.
+	self isFlowable
+		ifTrue: [ aNodeContainer fitContent ]
+		ifFalse: [
+				aListElement isVertical
+					ifTrue: [
+							aListElement isHMatchParent
+								ifTrue: [ aNodeContainer hMatchParent ]
+								ifFalse: [ aNodeContainer hFitContent ].
+							self autoDistribute
+								ifTrue: [ aNodeContainer vMatchParent ]
+								ifFalse: [ aNodeContainer vFitContent ] ]
+					ifFalse: [
+							aListElement isVMatchParent
+								ifTrue: [ aNodeContainer vMatchParent ]
+								ifFalse: [ aNodeContainer vFitContent ].
+							self autoDistribute
+								ifTrue: [ aNodeContainer hMatchParent ]
+								ifFalse: [ aNodeContainer hFitContent ] ] ]
+]
+
+{ #category : #accessing }
 ToBasicFiniteListElementConfiguration >> defaultInnerElementClass [
 
 	^ ToInnerFiniteListElement  

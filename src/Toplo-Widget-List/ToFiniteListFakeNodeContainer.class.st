@@ -4,7 +4,7 @@ I'm a sibling of the inner element of a list.
 "
 Class {
 	#name : #ToFiniteListFakeNodeContainer,
-	#superclass : #ToFiniteListNodeContainer,
+	#superclass : #ToNodeContainer,
 	#category : #'Toplo-Widget-List-Node'
 }
 

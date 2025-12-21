@@ -13,6 +13,12 @@ ToItemListElement >> applyConfiguration [
 	self applyItemListConfiguration
 ]
 
+{ #category : #'t - finite list element - fake container' }
+ToItemListElement >> defaultFakeDataItem [
+
+	^ ToFiniteListItem new
+]
+
 { #category : #'t - item list - accessing' }
 ToItemListElement >> defaultNodeManagerClass [
 

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMultiSelectHeaderNode,
 	#superclass : #ToTagElement,
-	#traits : 'TToListNode + TToFiniteListNode',
-	#classTraits : 'TToListNode classTrait + TToFiniteListNode classTrait',
+	#traits : 'TToListNode',
+	#classTraits : 'TToListNode classTrait',
 	#category : #'Toplo-Widget-Select-Multi'
 }
 
@@ -21,8 +21,7 @@ ToMultiSelectHeaderNode >> initialize [
 
 	super initialize.
 	self constraintsDo: [ :c | c linear vertical alignCenter ].
-
-	self initializeAsFiniteListNode 
+	self initializeAsListNode 
 ]
 
 { #category : #skin }

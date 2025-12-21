@@ -211,5 +211,5 @@ ToTabPaneHeaderElement >> tabGroup [
 { #category : #accessing }
 ToTabPaneHeaderElement >> trackElement [
 
-	^ self tabGroup trackElement
+	^ self tabGroup innerElement trackElement
 ]

@@ -907,6 +907,12 @@ BlElement >> toConfiguration: anElementConfiguration [
 	anElementConfiguration onInstalledIn: self
 ]
 
+{ #category : #'*Toplo' }
+BlElement >> toConfigurationDo: aBlock [
+
+	^ self toConfiguration ifNotNil: [ :conf | aBlock cull: conf]
+]
+
 { #category : #'*Toplo-LookAndFeel' }
 BlElement >> toThemeInstalled [
 

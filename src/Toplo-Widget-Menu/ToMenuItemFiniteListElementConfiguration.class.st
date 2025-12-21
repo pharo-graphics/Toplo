@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-Menu-ItemBar'
 }
 
-{ #category : #hook }
+{ #category : #accessing }
 ToMenuItemFiniteListElementConfiguration >> defaultInnerElementClass [
 
 	^ ToMenuInnerFiniteListElement

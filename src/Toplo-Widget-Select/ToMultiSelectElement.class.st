@@ -52,7 +52,7 @@ ToMultiSelectElement >> barInnerElement [
 { #category : #accessing }
 ToMultiSelectElement >> barTrackElement [ 
 
-	^ self barElement trackElement
+	^ self barElement innerElement trackElement
 ]
 
 { #category : #'accessing - selection' }

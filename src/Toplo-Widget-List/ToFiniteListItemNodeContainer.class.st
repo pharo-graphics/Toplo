@@ -1,6 +1,6 @@
 Class {
 	#name : #ToFiniteListItemNodeContainer,
-	#superclass : #ToFiniteListNodeContainer,
+	#superclass : #ToNodeContainer,
 	#category : #'Toplo-Widget-List-ItemList'
 }
 

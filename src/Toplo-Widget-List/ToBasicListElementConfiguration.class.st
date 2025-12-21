@@ -10,6 +10,16 @@ Class {
 }
 
 { #category : #accessing }
+ToBasicListElementConfiguration >> autoDistribute [
+
+	^ false
+]
+
+{ #category : #configuration }
+ToBasicListElementConfiguration >> configureNodeContainer: aNodeContainer inLisElement: aListElement [
+]
+
+{ #category : #accessing }
 ToBasicListElementConfiguration >> defaultInnerElementClass [
 
 	^ ToInfiniteElement
@@ -21,6 +31,12 @@ ToBasicListElementConfiguration >> initialize [
 	super initialize.
 	self class initializeSlots: self.
 	useCheckbox := false
+]
+
+{ #category : #accessing }
+ToBasicListElementConfiguration >> isFlowable [
+
+	^ false
 ]
 
 { #category : #hook }

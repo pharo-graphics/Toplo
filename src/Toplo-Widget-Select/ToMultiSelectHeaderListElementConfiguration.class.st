@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-Select-Multi'
 }
 
-{ #category : #hook }
+{ #category : #accessing }
 ToMultiSelectHeaderListElementConfiguration >> defaultInnerElementClass [
 
 	^ ToMultiSelectHeaderInnerListElement

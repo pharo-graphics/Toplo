@@ -14,12 +14,6 @@ ToSpecificFiniteListNodeManagerForTest >> buildNode: aNode [
 ]
 
 { #category : #initialization }
-ToSpecificFiniteListNodeManagerForTest >> defaultFakeDataItem [
-
-	^ 'Fake'
-]
-
-{ #category : #initialization }
 ToSpecificFiniteListNodeManagerForTest >> defaultNodeFactory [
 
 	^ [ :holder | ToSpecificFiniteListNodeForTest new ]

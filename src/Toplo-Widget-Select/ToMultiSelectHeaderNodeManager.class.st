@@ -15,12 +15,6 @@ ToMultiSelectHeaderNodeManager >> defaultNodeBuilder [
 ]
 
 { #category : #initialization }
-ToMultiSelectHeaderNodeManager >> defaultNodeContainerFactory [
-
-	^ [ ToFiniteListNodeContainer new ]
-]
-
-{ #category : #initialization }
 ToMultiSelectHeaderNodeManager >> defaultNodeFactory [
 
 	^ [ :holder | ToMultiSelectHeaderNode new ]

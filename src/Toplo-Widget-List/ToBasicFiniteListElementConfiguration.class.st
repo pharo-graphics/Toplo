@@ -1,36 +1,18 @@
 Class {
 	#name : #ToBasicFiniteListElementConfiguration,
 	#superclass : #ToBasicListElementConfiguration,
-	#instVars : [
-		'#autoDistribute => ObservableSlot',
-		'#isFlowable => ObservableSlot',
-		'#isScrollable => ObservableSlot',
-		'#uniformNodeWidth => ObservableSlot',
-		'#uniformNodeHeight => ObservableSlot'
-	],
+	#traits : 'TToBasicFiniteListElementConfiguration',
+	#classTraits : 'TToBasicFiniteListElementConfiguration classTrait',
 	#category : #'Toplo-Widget-List-Core-FiniteListElement'
 }
-
-{ #category : #accessing }
-ToBasicFiniteListElementConfiguration >> autoDistribute [
-
-	^ autoDistribute 
-]
-
-{ #category : #accessing }
-ToBasicFiniteListElementConfiguration >> autoDistribute: aBoolean [
-
-	autoDistribute := aBoolean 
-]
 
 { #category : #configuration }
 ToBasicFiniteListElementConfiguration >> configureNodeContainer: aNodeContainer inLisElement: aListElement [
 
-	aNodeContainer fitContent.
 	self isFlowable
 		ifTrue: [ aNodeContainer fitContent ]
 		ifFalse: [
-				aListElement isVertical
+				aListElement isVertical 
 					ifTrue: [
 							aListElement isHMatchParent
 								ifTrue: [ aNodeContainer hMatchParent ]
@@ -53,34 +35,11 @@ ToBasicFiniteListElementConfiguration >> defaultInnerElementClass [
 	^ ToInnerFiniteListElement  
 ]
 
-{ #category : #accessing }
-ToBasicFiniteListElementConfiguration >> isFlowable [
+{ #category : #initialization }
+ToBasicFiniteListElementConfiguration >> initialize [
 
-	^ isFlowable ifNil: [ isFlowable := true ] 
-]
-
-{ #category : #accessing }
-ToBasicFiniteListElementConfiguration >> isFlowable: aBoolean [
-
-	isFlowable := aBoolean 
-]
-
-{ #category : #accessing }
-ToBasicFiniteListElementConfiguration >> isScrollable [
-
-	^ isScrollable ifNil: [ isScrollable := false ] 
-]
-
-{ #category : #accessing }
-ToBasicFiniteListElementConfiguration >> isScrollable: aBoolean [
-
-	isScrollable := aBoolean 
-]
-
-{ #category : #'accessing - fake container' }
-ToBasicFiniteListElementConfiguration >> newFakeNodeContainer [ 
-
-	^ ToFiniteListFakeNodeContainer new 
+	super initialize.
+	self class initializeSlots: self
 ]
 
 { #category : #hook }
@@ -92,53 +51,10 @@ ToBasicFiniteListElementConfiguration >> onInstalledIn: aListElement [
 			self
 				property: flag
 				whenChangedDo: [ aListElement requestConfiguration ] ].
-
 	uniformNodeWidth := false.
 	uniformNodeHeight := false.
 	autoDistribute := false.
 	isFlowable := true.
 	isScrollable := false
-]
 
-{ #category : #'accessing - fake container' }
-ToBasicFiniteListElementConfiguration >> reinstallFakeNodeContainerIn: aListElement [
-
-	(aListElement hasChildren and: [ aListElement firstChild isFake ])
-		  ifTrue: [ aListElement firstChild removeFromParent].
-	self installFakeNodeContainerIn: aListElement
-]
-
-{ #category : #'accessing - fake container' }
-ToBasicFiniteListElementConfiguration >> removeFakeNodeContainerFrom: aListElement [
-	" the fake node is added in case of an empty data source to ensure a 
-	suitable minimum height according to the node class, the node builder 
-	and the data kind."
-
-	(aListElement hasChildren and: [ aListElement firstChild isFake ])
-		  ifTrue: [ aListElement firstChild removeFromParent].
-
-]
-
-{ #category : #accessing }
-ToBasicFiniteListElementConfiguration >> uniformNodeHeight [
-
-	^ uniformNodeHeight ifNil: [ uniformNodeHeight := false ] 
-]
-
-{ #category : #accessing }
-ToBasicFiniteListElementConfiguration >> uniformNodeHeight: aBoolean [
-
-	uniformNodeHeight := aBoolean
-]
-
-{ #category : #accessing }
-ToBasicFiniteListElementConfiguration >> uniformNodeWidth [
-
-	^ uniformNodeWidth ifNil: [ uniformNodeWidth := false ] 
-]
-
-{ #category : #accessing }
-ToBasicFiniteListElementConfiguration >> uniformNodeWidth: aBoolean [
-
-	uniformNodeWidth := aBoolean
 ]

@@ -4,8 +4,8 @@ I'm list whose contents is a checkable element (i.e. a list of toggle elements)
 Class {
 	#name : #ToCheckableFiniteListElement,
 	#superclass : #ToItemFiniteListElement,
-	#traits : 'TToCheckableGroupOwner + TToCheckableListElement',
-	#classTraits : 'TToCheckableGroupOwner classTrait + TToCheckableListElement classTrait',
+	#traits : 'TToCheckableGroupUser + TToCheckableListElement',
+	#classTraits : 'TToCheckableGroupUser classTrait + TToCheckableListElement classTrait',
 	#category : #'Toplo-Widget-List-ItemFiniteList'
 }
 

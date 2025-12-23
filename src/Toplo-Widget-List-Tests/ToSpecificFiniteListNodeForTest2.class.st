@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSpecificFiniteListNodeForTest2,
-	#superclass : #ToListNode,
+	#superclass : #ToBasicListNode,
 	#category : #'Toplo-Widget-List-Tests-Core-FiniteListElement'
 }
 

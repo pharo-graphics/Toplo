@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTabButtonSkin,
 	#superclass : #ToTabItemElementSkin,
-	#category : #'Toplo-Widget-TabPane-TabFiniteList'
+	#category : #'Toplo-Widget-TabPane-TabList'
 }
 
 { #category : #'event handling' }

@@ -3,7 +3,7 @@ I have the responsibility to build the nodeContainers, the nodeHolders and the n
 For each data item I create a nodeContainer, its node and the holder that relates the data, the list, and the nodeContainer.  
 "
 Class {
-	#name : #ToListNodeManager,
+	#name : #ToBasicListNodeManager,
 	#superclass : #Object,
 	#instVars : [
 		'checkableNode',
@@ -17,13 +17,13 @@ Class {
 }
 
 { #category : #initialization }
-ToListNodeManager >> buildNode: aNode [ 
+ToBasicListNodeManager >> buildNode: aNode [ 
 
 	aNode addChild: (ToLabel text: aNode holder dataItem asString)
 ]
 
 { #category : #initialization }
-ToListNodeManager >> buildNodeContainer: aNodeContainer [
+ToBasicListNodeManager >> buildNodeContainer: aNodeContainer [
 
 	| listElement cbox |
 	checkableNode ifFalse: [ ^ self ].
@@ -35,61 +35,61 @@ ToListNodeManager >> buildNodeContainer: aNodeContainer [
 ]
 
 { #category : #accessing }
-ToListNodeManager >> checkableNode [
+ToBasicListNodeManager >> checkableNode [
 
 	^ checkableNode
 ]
 
 { #category : #accessing }
-ToListNodeManager >> checkableNode: aBoolean [
+ToBasicListNodeManager >> checkableNode: aBoolean [
 
 	checkableNode := aBoolean 
 ]
 
 { #category : #'node configuration' }
-ToListNodeManager >> configureNode: aNode [
+ToBasicListNodeManager >> configureNode: aNode [
 
 	nodeConfigurator value: aNode
 ]
 
 { #category : #'node configuration' }
-ToListNodeManager >> configureNodeContainer: aNodeContainer [
+ToBasicListNodeManager >> configureNodeContainer: aNodeContainer [
 
 	nodeContainerConfigurator value: aNodeContainer 
 ]
 
 { #category : #initialization }
-ToListNodeManager >> defaultNodeConfigurator [
+ToBasicListNodeManager >> defaultNodeConfigurator [
 
 	^ [ :node | ]
 ]
 
 { #category : #initialization }
-ToListNodeManager >> defaultNodeContainerConfigurator [
+ToBasicListNodeManager >> defaultNodeContainerConfigurator [
 
 	^ [ :nodeContainer | ]
 ]
 
 { #category : #initialization }
-ToListNodeManager >> defaultNodeContainerFactory [
+ToBasicListNodeManager >> defaultNodeContainerFactory [
 
 	^ [ ToNodeContainer new ]
 ]
 
 { #category : #initialization }
-ToListNodeManager >> defaultNodeFactory [
+ToBasicListNodeManager >> defaultNodeFactory [
 
-	^ [ :holder | ToListNode new ]
+	^ [ :holder | ToBasicListNode new ]
 ]
 
 { #category : #initialization }
-ToListNodeManager >> defaultNodeHolderFactory [
+ToBasicListNodeManager >> defaultNodeHolderFactory [
 
 	^ [ ToNodeHolder new ]
 ]
 
 { #category : #initialization }
-ToListNodeManager >> initialize [ 
+ToBasicListNodeManager >> initialize [ 
 
 	super initialize.
 	checkableNode := false.
@@ -101,70 +101,70 @@ ToListNodeManager >> initialize [
 ]
 
 { #category : #'instance creation' }
-ToListNodeManager >> newHolder [
+ToBasicListNodeManager >> newHolder [
 
 	^ nodeHolderFactory value
 ]
 
 { #category : #'instance creation' }
-ToListNodeManager >> newNodeContainer [ 
+ToBasicListNodeManager >> newNodeContainer [ 
 
 	^ nodeContainerFactory value
 ]
 
 { #category : #'instance creation' }
-ToListNodeManager >> newNodeForHolder: aNodeHolder [
+ToBasicListNodeManager >> newNodeForHolder: aNodeHolder [
 
 	^ nodeFactory cull: aNodeHolder
 ]
 
 { #category : #accessing }
-ToListNodeManager >> nodeConfigurator [
+ToBasicListNodeManager >> nodeConfigurator [
 
 	^ nodeConfigurator
 ]
 
 { #category : #accessing }
-ToListNodeManager >> nodeConfigurator: aValuable [
+ToBasicListNodeManager >> nodeConfigurator: aValuable [
 
 	nodeConfigurator := aValuable
 ]
 
 { #category : #accessing }
-ToListNodeManager >> nodeContainerConfigurator [
+ToBasicListNodeManager >> nodeContainerConfigurator [
 
 	^ nodeContainerConfigurator
 ]
 
 { #category : #accessing }
-ToListNodeManager >> nodeContainerConfigurator: aValuable [
+ToBasicListNodeManager >> nodeContainerConfigurator: aValuable [
 
 	nodeContainerConfigurator := aValuable
 ]
 
 { #category : #'instance creation' }
-ToListNodeManager >> nodeContainerFactory: aValuable [
+ToBasicListNodeManager >> nodeContainerFactory: aValuable [
 	" aValuable that takes no argument an return a new node container "
 
 	nodeContainerFactory := aValuable
 ]
 
 { #category : #'instance creation' }
-ToListNodeManager >> nodeFactory: aValuable [
+ToBasicListNodeManager >> nodeFactory: aValuable [
 	" aValuable that takes a node holder as unique argument and which running results in a new node "
 
 	nodeFactory := aValuable
 ]
 
 { #category : #'instance creation' }
-ToListNodeManager >> nodeHolderFactory: aValuable [
+ToBasicListNodeManager >> nodeHolderFactory: aValuable [
 	" aValuable that takes no argument an return a new holder "
 
 	nodeHolderFactory := aValuable
 ]
 
 { #category : #initialization }
-ToListNodeManager >> unbuildNode: aNode [
+ToBasicListNodeManager >> unbuildNode: aNode [
 
 
 ]

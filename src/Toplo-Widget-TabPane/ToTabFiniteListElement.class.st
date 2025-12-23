@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'atStartSide'
 	],
-	#category : #'Toplo-Widget-TabPane-TabFiniteList'
+	#category : #'Toplo-Widget-TabPane-TabList'
 }
 
 { #category : #configuration }
@@ -12,7 +12,7 @@ ToTabFiniteListElement >> applyConfiguration [
 
 	super applyConfiguration.
 	self nodeContainersDo: [ :container |
-		container node item requestConfiguration.
+		container node item applyConfiguration.
 		container node requestNewSkin ].
 	self requestLayout
 ]
@@ -43,7 +43,6 @@ ToTabFiniteListElement >> defaultFakeDataItem [
 ToTabFiniteListElement >> defaultNodeManager [
 
 	^ super defaultNodeManager
-		  nodeHolderFactory: [ ToTabNodeHolder new ];
 		  nodeFactory: [ :holder | ToTabNode new ];
 		  yourself
 ]

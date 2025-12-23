@@ -1,8 +1,8 @@
 Class {
 	#name : #ToContextMenu,
 	#superclass : #ToMenuWindow,
-	#traits : 'TToOrientable + TToMenuItemFiniteListContainer + TToMenuWindowModel + TToItemFiniteListContainer',
-	#classTraits : 'TToOrientable classTrait + TToMenuItemFiniteListContainer classTrait + TToMenuWindowModel classTrait + TToItemFiniteListContainer classTrait',
+	#traits : 'TToOrientable + TToMenuItemFiniteListContainer + TToMenuWindowModel + TToItemFiniteListUser',
+	#classTraits : 'TToOrientable classTrait + TToMenuItemFiniteListContainer classTrait + TToMenuWindowModel classTrait + TToItemFiniteListUser classTrait',
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
@@ -117,7 +117,7 @@ ToContextMenu >> menuWindow [
 	^ self 
 ]
 
-{ #category : #'t - item bar container - initializing' }
+{ #category : #'t - item finite list user - initializing' }
 ToContextMenu >> newItemBar [
 
 	^ ToMenuItemFiniteListElement new

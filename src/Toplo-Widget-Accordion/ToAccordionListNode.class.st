@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAccordionListNode,
-	#superclass : #ToListNode,
+	#superclass : #ToBasicListNode,
 	#instVars : [
 		'item'
 	],

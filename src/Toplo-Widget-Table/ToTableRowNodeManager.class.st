@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTableRowNodeManager,
-	#superclass : #ToListNodeManager,
+	#superclass : #ToBasicListNodeManager,
 	#traits : 'TToTableRowNodeManager',
 	#classTraits : 'TToTableRowNodeManager classTrait',
 	#category : #'Toplo-Widget-Table-List'

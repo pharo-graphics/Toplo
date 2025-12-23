@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSpecificFiniteListNodeManagerForTest,
-	#superclass : #ToListNodeManager,
+	#superclass : #ToBasicListNodeManager,
 	#instVars : [
 		'counter'
 	],

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToTabGroupElement,
 	#superclass : #ToTripletContainer,
-	#traits : 'TToItemFiniteListContainer',
-	#classTraits : 'TToItemFiniteListContainer classTrait',
+	#traits : 'TToItemFiniteListUser',
+	#classTraits : 'TToItemFiniteListUser classTrait',
 	#instVars : [
 		'invisibleNodesMenu',
 		'endExtraContainer',
@@ -39,6 +39,13 @@ ToTabGroupElement >> addTabItemData: aData [
 	itemBuilder cull: newTabItem cull: aData cull: self.
 	newTabItem holder node requestConfiguration
 
+]
+
+{ #category : #configuration }
+ToTabGroupElement >> applyConfiguration [ 
+
+	super applyConfiguration.
+	self itemBar applyConfiguration
 ]
 
 { #category : #accessing }
@@ -269,7 +276,7 @@ ToTabGroupElement >> newEndContainer [
 	^ self newLinearContainer
 ]
 
-{ #category : #'t - item bar container - initializing' }
+{ #category : #'t - item finite list user - initializing' }
 ToTabGroupElement >> newItemBar [
 
 	^ self barElementClass new

@@ -12,34 +12,24 @@ ToTabGroupElementConfiguration >> applyOn: aTabGroupElement [
 
 	super applyOn: aTabGroupElement.
 
-	aTabGroupElement checkAddNewTabItemButton.
-
 	aTabGroupElement itemBar horizontal: aTabGroupElement isHorizontal.
+
+	aTabGroupElement checkAddNewTabItemButton.
 	aTabGroupElement itemBar atStartSide: atStartSide.
 
-	aTabGroupElement uniformNodeWidth: aTabGroupElement isVertical.
-	aTabGroupElement uniformNodeHeight: aTabGroupElement isHorizontal.
-	aTabGroupElement itemBar toConfiguration autoDistribute:
-		aTabGroupElement autoDistribute.
-	aTabGroupElement itemBar matchParent.
+	aTabGroupElement itemBar toConfiguration uniformNodeWidth: aTabGroupElement isVertical.
+	aTabGroupElement itemBar toConfiguration uniformNodeHeight: aTabGroupElement isHorizontal.
 
-	aTabGroupElement isHFitContent
-		ifTrue: [ aTabGroupElement itemBar hFitContent ]
-		ifFalse: [ aTabGroupElement itemBar hMatchParent ].
+	aTabGroupElement itemBar constraintsDo: [ :c |
+			c horizontal resizer:
+				aTabGroupElement constraints horizontal resizer copy.
+			c vertical resizer:
+				aTabGroupElement constraints vertical resizer copy ].
 
-	aTabGroupElement isVFitContent
-		ifTrue: [ aTabGroupElement itemBar vFitContent ]
-		ifFalse: [ aTabGroupElement itemBar vMatchParent ].
-
-	aTabGroupElement isHorizontal
-		ifTrue: [
-				aTabGroupElement endContainer layout beHorizontal.
-				aTabGroupElement endContainer childrenDo: [ :child |
-					child layout beHorizontal ] ]
-		ifFalse: [
-				aTabGroupElement endContainer layout beVertical.
-				aTabGroupElement endContainer childrenDo: [ :child |
-					child layout beVertical ] ].
+	aTabGroupElement endContainer layout beHorizontal:
+		aTabGroupElement isHorizontal.
+	aTabGroupElement endContainer childrenDo: [ :child |
+		child layout beHorizontal: aTabGroupElement isHorizontal ].
 
 	aTabGroupElement itemBar updateAllSelections.
 
@@ -60,9 +50,10 @@ ToTabGroupElementConfiguration >> atStartSide: aBoolean [
 ]
 
 { #category : #initialization }
-ToTabGroupElementConfiguration >> initialize [ 
+ToTabGroupElementConfiguration >> initialize [
 
 	super initialize.
+	self class initializeSlots: self.
 	atStartSide := true.
 
 ]

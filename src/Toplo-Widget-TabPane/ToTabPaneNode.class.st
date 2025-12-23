@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTabPaneNode,
 	#superclass : #ToTabNode,
-	#category : #'Toplo-Widget-TabPane-TabFiniteList'
+	#category : #'Toplo-Widget-TabPane-TabList'
 }
 
 { #category : #'t - item node' }

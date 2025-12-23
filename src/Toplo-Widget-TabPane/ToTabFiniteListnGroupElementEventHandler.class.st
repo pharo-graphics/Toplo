@@ -40,12 +40,16 @@ ToTabFiniteListnGroupElementEventHandler >> itemAddedInBarEvent: anEvent [
 { #category : #'events handling' }
 ToTabFiniteListnGroupElementEventHandler >> itemRemovedFromBarEvent: anEvent [
 
-	| tabItemHolder |
+	| tabItemHolder dataAccessor nextChecked |
 	tabGroup dispatchEvent: anEvent copy.
 	anEvent wasSelected ifFalse: [ ^ self ].
 	tabItemHolder := anEvent item holder.
-	tabItemHolder checkNextAfterRemovalAtPosition: tabItemHolder position.
-
+	dataAccessor := tabGroup dataAccessor.
+	dataAccessor ifEmpty: [ ^ self ].
+	nextChecked := dataAccessor size < tabItemHolder position
+		               ifTrue: [ dataAccessor last ]
+		               ifFalse: [ dataAccessor at: tabItemHolder position ].
+	nextChecked checked: true
 ]
 
 { #category : #'events handling' }

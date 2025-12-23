@@ -195,7 +195,7 @@ ToBasicListElement >> defaultNodeManager [
 { #category : #initialization }
 ToBasicListElement >> defaultNodeManagerClass [
 
-	^ ToListNodeManager 
+	^ ToBasicListNodeManager 
 ]
 
 { #category : #initialization }

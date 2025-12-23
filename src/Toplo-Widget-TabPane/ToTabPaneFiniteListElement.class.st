@@ -16,7 +16,6 @@ ToTabPaneFiniteListElement >> defaultFakeDataItem [
 ToTabPaneFiniteListElement >> defaultNodeManager [
 
 	^ super defaultNodeManager
-		  nodeHolderFactory: [ ToTabPaneNodeHolder new ];
 		  nodeFactory: [ :holder | ToTabPaneNode new ];
 		  yourself
 ]

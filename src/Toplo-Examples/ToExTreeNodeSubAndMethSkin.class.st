@@ -1,6 +1,6 @@
 Class {
 	#name : #ToExTreeNodeSubAndMethSkin,
-	#superclass : #ToListNodeSkin,
+	#superclass : #ToBasicListNodeSkin,
 	#category : #'Toplo-Examples-TopLevel-Trees'
 }
 

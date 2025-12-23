@@ -1,6 +1,6 @@
 Class {
 	#name : #ToListItemNode,
-	#superclass : #ToListNode,
+	#superclass : #ToBasicListNode,
 	#traits : 'TToItemNode',
 	#classTraits : 'TToItemNode classTrait',
 	#category : #'Toplo-Widget-List-ItemList'

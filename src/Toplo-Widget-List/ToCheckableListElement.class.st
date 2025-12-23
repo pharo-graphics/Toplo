@@ -1,8 +1,8 @@
 Class {
 	#name : #ToCheckableListElement,
 	#superclass : #ToItemListElement,
-	#traits : 'TToCheckableGroupOwner + TToCheckableListElement',
-	#classTraits : 'TToCheckableGroupOwner classTrait + TToCheckableListElement classTrait',
+	#traits : 'TToCheckableGroupUser + TToCheckableListElement',
+	#classTraits : 'TToCheckableGroupUser classTrait + TToCheckableListElement classTrait',
 	#category : #'Toplo-Widget-List-ItemList'
 }
 

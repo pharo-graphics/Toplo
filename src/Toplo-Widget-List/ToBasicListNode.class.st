@@ -54,6 +54,12 @@ ToBasicListNode >> listElement [
 	^ self holder listElement
 ]
 
+{ #category : #skin }
+ToBasicListNode >> newRawSkin [ 
+
+	^ ToBasicListNodeSkin new
+]
+
 { #category : #accessing }
 ToBasicListNode >> nodeManager [ 
 

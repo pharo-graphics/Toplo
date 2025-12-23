@@ -1,6 +1,6 @@
 Class {
 	#name : #ToWrappedListNodeManager,
-	#superclass : #ToListNodeManager,
+	#superclass : #ToBasicListNodeManager,
 	#category : #'Toplo-Widget-List-WrappedList'
 }
 

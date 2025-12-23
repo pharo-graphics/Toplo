@@ -4920,10 +4920,6 @@ ToSandBox class >> example_TabGroupElement [
 
 	| tabs dashBoard |
 	tabs := ToTabGroupElement new.
-	tabs isFlowable: false.
-	tabs isScrollable: true.
-	tabs hMatchParent.
-	tabs showAddTabItemButton: true.
 	tabs itemBuilder: [ :tabItem :data  |
 		tabItem labelText: data asString.
 		tabItem removable: true ].
@@ -10072,36 +10068,124 @@ ToSandBox class >> tabBarElementDashBoardFor: aTabBarElement [
 { #category : #tabPane }
 ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 
-	| mainPane barPane confPane startToEndSwitch addTabItemButtonSwicth |
+	| mainPane barPane confPane startToEndSwitch addTabItemButtonSwicth menu animSwitch itemList |
+	itemList := aTabGroupElement itemBar.
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
 
-	confPane := self finiteListConfigurationBoardFor: aTabGroupElement.
+	confPane := ToPane vertical.
+	confPane id: #configurationPane.
+	confPane matchParent.
+	confPane padding: (BlInsets all: 5).
+
+	menu := ToMenu new.
+	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	menu addItem: (ToRadioMenuItem new
+			 label: (ToLabel text: 'Dark theme');
+			 checkAction: [ :evt |
+					 evt currentTarget space toTheme: (evt target isChecked
+								  ifTrue: [ ToRawDarkTheme new ]
+								  ifFalse: [ ToRawTheme new ]) ];
+			 in: [ :rad |
+				 rad checked: Toplo defaultThemeClass = ToRawDarkTheme ];
+			 yourself).
+	menu addItem: (ToMenuItem new
+			 label: (ToLabel text: 'Space statistics');
+			 clickAction: [ aTabGroupElement space showStatisticsWindow ];
+			 yourself).
+	menu addItem: (ToMenuItem new
+			 label: (ToLabel text: 'Inspect');
+			 clickAction: [ aTabGroupElement space root inspect ];
+			 yourself).
+	menu addItem: (ToRadioMenuItem new
+			 label: (ToLabel text: 'Disabled bar');
+			 checkAction: [ :evt |
+				 aTabGroupElement disabled: evt target isChecked ];
+			 yourself).
+	confPane addChild: menu.
+
+	{
+		([ aTabGroupElement isVertical ]
+		 -> [ :v | aTabGroupElement isVertical: v ] -> 'Vertical').
+		([ itemList toConfiguration isFlowable ]
+		 -> [ :v | itemList toConfiguration isFlowable: v ] -> 'Flowable').
+		([ itemList toConfiguration uniformNodeWidth ]
+		 -> [ :v | itemList toConfiguration uniformNodeWidth: v ]
+		 -> 'Uniform width').
+		([ itemList toConfiguration uniformNodeHeight ]
+		 -> [ :v | itemList toConfiguration uniformNodeHeight: v ]
+		 -> 'Uniform height').
+		([ itemList toConfiguration isScrollable ]
+		 -> [ :v | itemList toConfiguration isScrollable: v ]
+		 -> 'Scrollable').
+		([ itemList toConfiguration autoDistribute ]
+		 -> [ :v | itemList toConfiguration autoDistribute: v ]
+		 -> 'Auto-distribute').
+		([ aTabGroupElement selectionMode selectOnPressed ]
+		 -> [ :v | aTabGroupElement selectionMode selectOnPressed: v ]
+		 -> 'Select on pressed').
+		([ aTabGroupElement selectionMode deselectOnPressed ]
+		 -> [ :v | aTabGroupElement selectionMode deselectOnPressed: v ]
+		 -> 'Deselect on pressed').
+		([ aTabGroupElement selectionMode makeDisabledUnselectable ]
+		 -> [ :v |
+		 aTabGroupElement selectionMode makeDisabledUnselectable: v ]
+		 -> 'Disabled items are unselectable') } do: [ :assoc |
+			| switch |
+			switch := ToSwitchButton new labelText: assoc value value.
+			switch checkAction: [ :evt |
+				assoc key value value: evt target isChecked ].
+
+			switch startFlexible: true.
+			switch hMatchParent.
+			confPane addChild: switch.
+
+			aTabGroupElement whenConfigurationAppliedDo: [
+				switch checked: assoc key key value ] ].
+
+	animSwitch := ToSwitchButton new labelText: 'Animate transition'.
+	animSwitch checkAction: [ :evt |
+			| d |
+			d := evt target isChecked
+				     ifTrue: [ 200 milliSeconds ]
+				     ifFalse: [ 0 milliSeconds ].
+			aTabGroupElement selectionOption animationDuration: d.
+			aTabGroupElement secondarySelectionOption animationDuration: d ].
+
+	animSwitch startFlexible: true.
+	animSwitch hMatchParent.
+	confPane addChild: animSwitch.
+	confPane addChild: (self resizerBoardFor: aTabGroupElement).
 	startToEndSwitch := ToSwitchButton new labelText: 'At start'.
-	startToEndSwitch checkAction: [ :evt | aTabGroupElement atStartSide: evt target isChecked ].
+	startToEndSwitch checkAction: [ :evt |
+		aTabGroupElement atStartSide: evt target isChecked ].
 
 	startToEndSwitch startFlexible: true.
 	startToEndSwitch hMatchParent.
 	confPane addChild: startToEndSwitch.
 
-	addTabItemButtonSwicth := ToSwitchButton new labelText: 'Show new tab button'.
-	addTabItemButtonSwicth checkAction: [ :evt | aTabGroupElement showAddTabItemButton: evt target isChecked ].
+	addTabItemButtonSwicth := ToSwitchButton new labelText:
+		                          'Show new tab button'.
+	addTabItemButtonSwicth checkAction: [ :evt |
+		aTabGroupElement showAddTabItemButton: evt target isChecked ].
 
 	addTabItemButtonSwicth startFlexible: true.
 	addTabItemButtonSwicth hMatchParent.
 	confPane addChild: addTabItemButtonSwicth.
 
-	aTabGroupElement whenConfigurationAppliedDo: [ 
-		startToEndSwitch checked: aTabGroupElement atStartSide.
-		addTabItemButtonSwicth checked: aTabGroupElement showAddTabItemButton ].
+	aTabGroupElement whenConfigurationAppliedDo: [
+			startToEndSwitch checked: aTabGroupElement atStartSide.
+			addTabItemButtonSwicth checked:
+				aTabGroupElement showAddTabItemButton ].
 
 	confPane padding: (BlInsets all: 5).
-	
+
 	barPane := ToPane vertical.
 	barPane matchParent.
 	barPane addChild: aTabGroupElement.
 
-	confPane addChild: (self checkingStrategyChooserFor: aTabGroupElement).
+	confPane addChild:
+		(self checkingStrategyChooserFor: aTabGroupElement).
 
 	mainPane addChildren: {
 			confPane.
@@ -10184,23 +10268,29 @@ ToSandBox class >> tabPaneElementWithUSStates [
 							editorEvent target text: acceptedEvent target text.
 							tabGroup selecter scrollTowardEndToDataSourcePosition:
 								tabButton holder position ] ].
+			tabButton destroyPaneWhenDeselected: true.
 			tabButton
 				label: lab;
 				tooltipString: aData asString;
 				removable: true;
-				paneBuilder: [ :pane |
-						| emptyPh c |
+				paneFactory: [
+						| c |
 						c := Color random.
-						pane withNullSkin.
-						pane border: c.
-						pane background: (c alpha: 0.1).
+						BlElement new
+							border: c;
+							background: (c alpha: 0.1);
+							yourself ];
+				paneBuilder: [ :pane :button :holder |
+						| emptyPh |
 						emptyPh := ToEmptyPlaceholderLayer new attachToParent: pane.
 						pane userData at: #placeholder put: emptyPh ];
-				paneDestroyer: [ :pane |
+				paneDestroyer: [ :pane :button :holder |
 						| emptyPh |
 						emptyPh := pane userData at: #placeholder.
-						emptyPh detachFromParent ] ].
-	(self statesOfAmerica copyFrom: 1 to: 20) do: [ :l | tpane addTabItemData: l ].
+						emptyPh removeFromParent ];
+				yourself ].
+	(self statesOfAmerica copyFrom: 1 to: 20) do: [ :l |
+		tpane addTabItemData: l ].
 	tpane isFlowable: false.
 	tpane isScrollable: true.
 	^ tpane

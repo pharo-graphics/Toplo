@@ -308,8 +308,8 @@ ToTabPaneElementTest >> testPaneBuilderIsValuedOnSelect2 [
 	self withTwoTabButtons.
 	firstButton := tabPane items first.
 	secondButton := tabPane items second.
-	firstButton destroyPaneWhenDeselected.
-	secondButton destroyPaneWhenDeselected.
+	firstButton destroyPaneWhenDeselected: true.
+	secondButton destroyPaneWhenDeselected: true.
 	
 	self waitTestingSpaces.
 	
@@ -360,7 +360,7 @@ ToTabPaneElementTest >> withTwoTabButtons [
 	tabPane addItem: (ToTabButton new
 			 id: #first;
 			 labelText: 'First';
-			 paneBuilder: [ :body :btn :node :holder |
+			 paneBuilder: [ :body :btn :holder |
 					 firstTabBuildCount := firstTabBuildCount + 1.
 					 body addChild: (ToElement new
 								  background: Color red;
@@ -371,7 +371,7 @@ ToTabPaneElementTest >> withTwoTabButtons [
 	tabPane addItem: (ToTabButton new
 			 id: #second;
 			 labelText: 'Second';
-			 paneBuilder: [ :body :btn :node :holder |
+			 paneBuilder: [ :body :btn :holder |
 					 secondTabBuildCount := secondTabBuildCount + 1.
 					 body addChild: (ToElement new
 								  background: Color green;

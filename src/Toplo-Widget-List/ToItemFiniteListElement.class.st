@@ -3,7 +3,7 @@ I'm a list whose node contents is a BlElement
 "
 Class {
 	#name : #ToItemFiniteListElement,
-	#superclass : #ToBasicFiniteListElement,
+	#superclass : #ToBasicListElement,
 	#traits : 'TToItemListElement',
 	#classTraits : 'TToItemListElement classTrait',
 	#category : #'Toplo-Widget-List-ItemFiniteList'
@@ -47,6 +47,12 @@ ToItemFiniteListElement >> initialize [
 ToItemFiniteListElement >> newRawSkin [ 
 
 	^ ToItemFiniteListElementSkin new
+]
+
+{ #category : #configuration }
+ToItemFiniteListElement >> newToConfiguration [ 
+
+	^ ToBasicFiniteListElementConfiguration new
 ]
 
 { #category : #'t - item list - adding/removing' }

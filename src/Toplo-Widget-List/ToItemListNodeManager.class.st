@@ -1,6 +1,6 @@
 Class {
 	#name : #ToItemListNodeManager,
-	#superclass : #ToListNodeManager,
+	#superclass : #ToBasicListNodeManager,
 	#instVars : [
 		'itemConfigurator'
 	],

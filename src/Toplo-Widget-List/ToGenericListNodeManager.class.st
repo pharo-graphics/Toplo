@@ -1,6 +1,6 @@
 Class {
 	#name : #ToGenericListNodeManager,
-	#superclass : #ToListNodeManager,
+	#superclass : #ToBasicListNodeManager,
 	#traits : 'TToGenericNodeManager',
 	#classTraits : 'TToGenericNodeManager classTrait',
 	#category : #'Toplo-Widget-List-Core'

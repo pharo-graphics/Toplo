@@ -2,15 +2,15 @@
 I'm a list whose node contents is a menu item element.
 "
 Class {
-	#name : #ToMenuItemFiniteListElement,
+	#name : #ToMenuItemListElement,
 	#superclass : #ToItemFiniteListElement,
-	#traits : 'TToMenuItemBar',
-	#classTraits : 'TToMenuItemBar classTrait',
+	#traits : 'TToMenuItemList',
+	#classTraits : 'TToMenuItemList classTrait',
 	#category : #'Toplo-Widget-Menu-ItemBar'
 }
 
 { #category : #initialization }
-ToMenuItemFiniteListElement >> defaultNodeManager [
+ToMenuItemListElement >> defaultNodeManager [
 
 	^ super defaultNodeManager
 		  nodeFactory: [ :holder | ToMenuItemNode new ];
@@ -18,7 +18,7 @@ ToMenuItemFiniteListElement >> defaultNodeManager [
 ]
 
 { #category : #initialization }
-ToMenuItemFiniteListElement >> initialize [
+ToMenuItemListElement >> initialize [
 
 	super initialize.
 
@@ -34,13 +34,13 @@ ToMenuItemFiniteListElement >> initialize [
 ]
 
 { #category : #skin }
-ToMenuItemFiniteListElement >> newRawSkin [ 
+ToMenuItemListElement >> newRawSkin [ 
 
-	^ ToMenuItemFiniteListElementSkin new
+	^ ToMenuItemListElementSkin new
 ]
 
 { #category : #configuration }
-ToMenuItemFiniteListElement >> newToConfiguration [ 
+ToMenuItemListElement >> newToConfiguration [ 
 
-	^ ToMenuItemFiniteListElementConfiguration new
+	^ ToMenuItemListElementConfiguration new
 ]

@@ -1,11 +1,11 @@
 Class {
-	#name : #ToMenuScrollableBarTrackElement,
+	#name : #ToMenuScrollableTrackElement,
 	#superclass : #ToScrollableFiniteListTrackElement,
 	#category : #'Toplo-Widget-Menu-ItemBar'
 }
 
 { #category : #configuration }
-ToMenuScrollableBarTrackElement >> applyConfiguration [
+ToMenuScrollableTrackElement >> applyConfiguration [
 
 	super applyConfiguration.
 	self childrenDo: [ :child |
@@ -20,7 +20,7 @@ ToMenuScrollableBarTrackElement >> applyConfiguration [
 ]
 
 { #category : #layout }
-ToMenuScrollableBarTrackElement >> flowLayoutClass [
+ToMenuScrollableTrackElement >> flowLayoutClass [
 
-	^ ToMenuFiniteListFlowLayout 
+	^ ToMenuListFlowLayout 
 ]

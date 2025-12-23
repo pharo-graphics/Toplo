@@ -1,11 +1,11 @@
 Class {
-	#name : #ToTabFiniteListSecondarySelectionElementSkin,
+	#name : #ToTabListSecondarySelectionElementSkin,
 	#superclass : #ToListSecondarySelectionElementSkin,
 	#category : #'Toplo-Widget-TabPane-TabList'
 }
 
 { #category : #'event handling' }
-ToTabFiniteListSecondarySelectionElementSkin >> installSkinEvent: anEvent [
+ToTabListSecondarySelectionElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |

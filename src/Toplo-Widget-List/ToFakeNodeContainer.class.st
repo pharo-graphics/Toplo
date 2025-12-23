@@ -3,13 +3,13 @@ I'm a special node container. My role is to ensure a given size when no element 
 I'm a sibling of the inner element of a list.  
 "
 Class {
-	#name : #ToFiniteListFakeNodeContainer,
+	#name : #ToFakeNodeContainer,
 	#superclass : #ToNodeContainer,
 	#category : #'Toplo-Widget-List-Node'
 }
 
 { #category : #configuration }
-ToFiniteListFakeNodeContainer >> applyConfiguration [
+ToFakeNodeContainer >> applyConfiguration [
 	"in case my orientation changes the original size must be stored.
 	The original size has to be stored before setting the height or the width to zero.
 	see also addFakeNode:"
@@ -25,14 +25,14 @@ ToFiniteListFakeNodeContainer >> applyConfiguration [
 ]
 
 { #category : #initialization }
-ToFiniteListFakeNodeContainer >> initialize [
+ToFakeNodeContainer >> initialize [
 
 	super initialize.
 	self visibility: BlVisibility hidden
 ]
 
 { #category : #testing }
-ToFiniteListFakeNodeContainer >> isFake [
+ToFakeNodeContainer >> isFake [
 
 	^ true
 ]

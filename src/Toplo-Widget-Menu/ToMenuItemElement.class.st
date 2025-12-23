@@ -3,7 +3,7 @@ I'm a data item for menu item list.
 "
 Class {
 	#name : #ToMenuItemElement,
-	#superclass : #ToFiniteListItem,
+	#superclass : #ToListItem,
 	#traits : 'TToMenuItem',
 	#classTraits : 'TToMenuItem classTrait',
 	#instVars : [
@@ -158,11 +158,11 @@ ToMenuItemElement >> popupEvent: anEvent [
 { #category : #'t - menu window model' }
 ToMenuItemElement >> rootMenu [
 
-	(self menuBarOwner isNil or: [ self menuBarOwner isMenuPane ]) ifTrue: [
+	(self menuListOwner isNil or: [ self menuListOwner isMenuPane ]) ifTrue: [
 		^ self isMenu
 			  ifTrue: [ self ]
 			  ifFalse: [  ] ].
-	^ self menuBarOwner rootMenu
+	^ self menuListOwner rootMenu
 ]
 
 { #category : #'t - menu window model' }

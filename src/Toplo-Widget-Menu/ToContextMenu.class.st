@@ -1,8 +1,8 @@
 Class {
 	#name : #ToContextMenu,
 	#superclass : #ToMenuWindow,
-	#traits : 'TToOrientable + TToMenuItemFiniteListContainer + TToMenuWindowModel + TToItemFiniteListUser',
-	#classTraits : 'TToOrientable classTrait + TToMenuItemFiniteListContainer classTrait + TToMenuWindowModel classTrait + TToItemFiniteListUser classTrait',
+	#traits : 'TToOrientable + TToMenuItemListUser + TToMenuWindowModel + TToItemListUser',
+	#classTraits : 'TToOrientable classTrait + TToMenuItemListUser classTrait + TToMenuWindowModel classTrait + TToItemListUser classTrait',
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
@@ -117,19 +117,19 @@ ToContextMenu >> menuWindow [
 	^ self 
 ]
 
-{ #category : #'t - item finite list user - initializing' }
+{ #category : #'t - item list user - initializing' }
 ToContextMenu >> newItemBar [
 
-	^ ToMenuItemFiniteListElement new
+	^ ToMenuItemListElement new
 ]
 
-{ #category : #'t - menu item bar container - double dispatch' }
+{ #category : #'t - menu item list user - double dispatch' }
 ToContextMenu >> onAddedMenu: aMenu [
 
 	aMenu isSubmenu: true
 ]
 
-{ #category : #'t - menu item bar container - double dispatch' }
+{ #category : #'t - menu item list user - double dispatch' }
 ToContextMenu >> onRemovedMenu: aMenu [
 
 	aMenu isSubmenu: false

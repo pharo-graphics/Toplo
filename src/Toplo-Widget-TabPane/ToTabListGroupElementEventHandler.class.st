@@ -1,5 +1,5 @@
 Class {
-	#name : #ToTabFiniteListnGroupElementEventHandler,
+	#name : #ToTabListGroupElementEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'tabGroup'
@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #'events handling' }
-ToTabFiniteListnGroupElementEventHandler >> checkableGroupChangedEvent: anEvent [
+ToTabListGroupElementEventHandler >> checkableGroupChangedEvent: anEvent [
 
 	tabGroup dispatchEvent: anEvent copy
 ]
 
 { #category : #'api - accessing' }
-ToTabFiniteListnGroupElementEventHandler >> eventsToHandle [
+ToTabListGroupElementEventHandler >> eventsToHandle [
 
 	^ {
 		  ToFiniteListVisibleNodeContainerListChangedEvent.
@@ -24,7 +24,7 @@ ToTabFiniteListnGroupElementEventHandler >> eventsToHandle [
 ]
 
 { #category : #'events handling' }
-ToTabFiniteListnGroupElementEventHandler >> finiteListVisibleNodeContainerListChangedEvent: anEvent [
+ToTabListGroupElementEventHandler >> finiteListVisibleNodeContainerListChangedEvent: anEvent [
 
 	tabGroup
 		onInvisibleNodeContainers: anEvent invisibleNodeContainers
@@ -32,13 +32,13 @@ ToTabFiniteListnGroupElementEventHandler >> finiteListVisibleNodeContainerListCh
 ]
 
 { #category : #'events handling' }
-ToTabFiniteListnGroupElementEventHandler >> itemAddedInBarEvent: anEvent [
+ToTabListGroupElementEventHandler >> itemAddedInBarEvent: anEvent [
 
 	tabGroup dispatchEvent: anEvent copy
 ]
 
 { #category : #'events handling' }
-ToTabFiniteListnGroupElementEventHandler >> itemRemovedFromBarEvent: anEvent [
+ToTabListGroupElementEventHandler >> itemRemovedFromBarEvent: anEvent [
 
 	| tabItemHolder dataAccessor nextChecked |
 	tabGroup dispatchEvent: anEvent copy.
@@ -53,14 +53,14 @@ ToTabFiniteListnGroupElementEventHandler >> itemRemovedFromBarEvent: anEvent [
 ]
 
 { #category : #'events handling' }
-ToTabFiniteListnGroupElementEventHandler >> listPrimarySelectionChangedEvent: anEvent [
+ToTabListGroupElementEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 
 	anEvent selectedIndexes do: [ :idx |
 		anEvent currentTarget selecter scrollTowardStartToDataSourcePosition: idx ]
 ]
 
 { #category : #accessing }
-ToTabFiniteListnGroupElementEventHandler >> tabGroup: aTabGroupElement [
+ToTabListGroupElementEventHandler >> tabGroup: aTabGroupElement [
 
 	tabGroup := aTabGroupElement
 ]

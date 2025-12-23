@@ -1,6 +1,6 @@
 Class {
-	#name : #ToTabPaneFiniteListElementSkin,
-	#superclass : #ToTabFiniteListElementSkin,
+	#name : #ToTabPaneListElementSkin,
+	#superclass : #ToTabListElementSkin,
 	#instVars : [
 		'previousSelectionFactory',
 		'previousSecondarySelectionFactory'
@@ -9,7 +9,7 @@ Class {
 }
 
 { #category : #'event handling' }
-ToTabPaneFiniteListElementSkin >> installSelectionFactoriesIn: aTabBar [
+ToTabPaneListElementSkin >> installSelectionFactoriesIn: aTabBar [
 	" keep the element factory to set them again on skin uninstalling "
 
 	previousSelectionFactory := aTabBar selectionOption elementFactory.
@@ -17,13 +17,13 @@ ToTabPaneFiniteListElementSkin >> installSelectionFactoriesIn: aTabBar [
 		                                     elementFactory.
 	" change the element factory with a specific placement and measurement "
 	aTabBar selectionOption elementFactory: [
-		ToTabFiniteListPrimarySelectionElement new ].
+		ToTabListPrimarySelectionElement new ].
 	aTabBar secondarySelectionOption elementFactory: [
-		ToTabFiniteListSecondarySelectionElement new ]
+		ToTabListSecondarySelectionElement new ]
 ]
 
 { #category : #'event handling' }
-ToTabPaneFiniteListElementSkin >> installSkinEvent: anEvent [
+ToTabPaneListElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -33,7 +33,7 @@ ToTabPaneFiniteListElementSkin >> installSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToTabPaneFiniteListElementSkin >> uninstallSelectionFactoriesIn: aTabBar [
+ToTabPaneListElementSkin >> uninstallSelectionFactoriesIn: aTabBar [
 	" change the element factory with the original one "
 
 	aTabBar selectionOption elementFactory: previousSelectionFactory.

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuPane,
 	#superclass : #ToElement,
-	#traits : 'TToItem + TToMenuItem + TToItemFiniteListUser + TToMenuItemFiniteListContainer + TToOrientable',
-	#classTraits : 'TToItem classTrait + TToMenuItem classTrait + TToItemFiniteListUser classTrait + TToMenuItemFiniteListContainer classTrait + TToOrientable classTrait',
+	#traits : 'TToItem + TToMenuItem + TToItemListUser + TToMenuItemListUser + TToOrientable',
+	#classTraits : 'TToItem classTrait + TToMenuItem classTrait + TToItemListUser classTrait + TToMenuItemListUser classTrait + TToOrientable classTrait',
 	#instVars : [
 		'autoOpen',
 		'isSubPane'
@@ -142,7 +142,7 @@ ToMenuPane >> menuWindowDo: aValuable [
 { #category : #'t - item list holder - initializing' }
 ToMenuPane >> newItemBar [
 
-	^ ToMenuItemFiniteListElement new
+	^ ToMenuItemListElement new
 ]
 
 { #category : #skin }
@@ -157,7 +157,7 @@ ToMenuPane >> onAddedInItemBarOwner: aMenuItemBar [
 	aMenuItemBar onAddedMenuPane: self
 ]
 
-{ #category : #'t - menu item bar container - double dispatch' }
+{ #category : #'t - menu item list user - double dispatch' }
 ToMenuPane >> onAddedMenu: aMenu [
 
 	aMenu isMenuPaneMenu: true.
@@ -181,7 +181,7 @@ ToMenuPane >> removeMenu: aMenu [
 { #category : #accessing }
 ToMenuPane >> rootMenuPane [
 
-	^ self menuBarOwner ifNotNil: [ :bo | bo rootMenuPane ] ifNil: [ self ]
+	^ self menuListOwner ifNotNil: [ :bo | bo rootMenuPane ] ifNil: [ self ]
 ]
 
 { #category : #'auto opening' }

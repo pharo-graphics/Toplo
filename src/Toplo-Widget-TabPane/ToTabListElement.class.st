@@ -1,5 +1,5 @@
 Class {
-	#name : #ToTabFiniteListElement,
+	#name : #ToTabListElement,
 	#superclass : #ToCheckableFiniteListElement,
 	#instVars : [
 		'atStartSide'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #configuration }
-ToTabFiniteListElement >> applyConfiguration [
+ToTabListElement >> applyConfiguration [
 
 	super applyConfiguration.
 	self nodeContainersDo: [ :container |
@@ -18,21 +18,21 @@ ToTabFiniteListElement >> applyConfiguration [
 ]
 
 { #category : #accessing }
-ToTabFiniteListElement >> atStartSide [
+ToTabListElement >> atStartSide [
 
 	^ atStartSide
 ]
 
 { #category : #accessing }
-ToTabFiniteListElement >> atStartSide: aBoolean [
+ToTabListElement >> atStartSide: aBoolean [
 
 	atStartSide = aBoolean ifTrue: [ ^ self ].
 	atStartSide := aBoolean.
 	self requestConfiguration
 ]
 
-{ #category : #'t - finite list element - fake container' }
-ToTabFiniteListElement >> defaultFakeDataItem [
+{ #category : #accessing }
+ToTabListElement >> defaultFakeDataItem [
 
 	^ ToTabItemElement new
 		  labelText: 'X';
@@ -40,7 +40,7 @@ ToTabFiniteListElement >> defaultFakeDataItem [
 ]
 
 { #category : #initialization }
-ToTabFiniteListElement >> defaultNodeManager [
+ToTabListElement >> defaultNodeManager [
 
 	^ super defaultNodeManager
 		  nodeFactory: [ :holder | ToTabNode new ];
@@ -48,7 +48,7 @@ ToTabFiniteListElement >> defaultNodeManager [
 ]
 
 { #category : #initialization }
-ToTabFiniteListElement >> initialize [ 
+ToTabListElement >> initialize [ 
 
 	super initialize.
 	self primarySelectionMode selectionOption
@@ -58,19 +58,19 @@ ToTabFiniteListElement >> initialize [
 ]
 
 { #category : #testing }
-ToTabFiniteListElement >> isAtEndSide [ 
+ToTabListElement >> isAtEndSide [ 
 
 	^ self isAtStartSide not
 ]
 
 { #category : #testing }
-ToTabFiniteListElement >> isAtStartSide [
+ToTabListElement >> isAtStartSide [
 
 	^ atStartSide
 ]
 
 { #category : #skin }
-ToTabFiniteListElement >> newRawSkin [ 
+ToTabListElement >> newRawSkin [ 
 
-	^ ToTabFiniteListElementSkin new
+	^ ToTabListElementSkin new
 ]

@@ -1,5 +1,5 @@
 Class {
-	#name : #ToTabFiniteListSelectionElement,
+	#name : #ToTabListSelectionElement,
 	#superclass : #ToListSelectionElement,
 	#instVars : [
 		'breadth'
@@ -8,26 +8,26 @@ Class {
 }
 
 { #category : #accessing }
-ToTabFiniteListSelectionElement >> breadth [
+ToTabListSelectionElement >> breadth [
 
 	^ breadth
 ]
 
 { #category : #accessing }
-ToTabFiniteListSelectionElement >> breadth: aNumber [
+ToTabListSelectionElement >> breadth: aNumber [
 
 	breadth := aNumber
 ]
 
 { #category : #initialization }
-ToTabFiniteListSelectionElement >> initialize [ 
+ToTabListSelectionElement >> initialize [ 
 
 	super initialize.
 	breadth := 8
 ]
 
 { #category : #private }
-ToTabFiniteListSelectionElement >> positionFrom: aPoint in: aListElement [
+ToTabListSelectionElement >> positionFrom: aPoint in: aListElement [
 
 	| x y nodeContainer nodeBounds insets |
 	aListElement toConfiguration isFlowable ifTrue: [
@@ -58,7 +58,7 @@ ToTabFiniteListSelectionElement >> positionFrom: aPoint in: aListElement [
 ]
 
 { #category : #private }
-ToTabFiniteListSelectionElement >> sizeFrom: aPoint in: aListElement [
+ToTabListSelectionElement >> sizeFrom: aPoint in: aListElement [
 
 	aListElement toConfiguration isFlowable ifTrue: [ ^ aPoint ].
 	^ aListElement isHorizontal

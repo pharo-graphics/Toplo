@@ -4,7 +4,7 @@ My parent list old refers to the element that contains the list that contains me
 
 "
 Class {
-	#name : #ToFiniteListItem,
+	#name : #ToListItem,
 	#superclass : #ToElement,
 	#traits : 'TToItem',
 	#classTraits : 'TToItem classTrait',
@@ -12,7 +12,7 @@ Class {
 }
 
 { #category : #initialization }
-ToFiniteListItem >> defaultLayout [
+ToListItem >> defaultLayout [
 
 	^ BlLinearLayout vertical
 ]

@@ -1,11 +1,11 @@
 Class {
-	#name : #ToTabFiniteListElementSkin,
-	#superclass : #ToItemFiniteListElementSkin,
+	#name : #ToTabListElementSkin,
+	#superclass : #ToItemListElementSkin,
 	#category : #'Toplo-Widget-TabPane-TabList'
 }
 
 { #category : #'event handling' }
-ToTabFiniteListElementSkin >> installSkinEvent: anEvent [
+ToTabListElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -14,7 +14,7 @@ ToTabFiniteListElementSkin >> installSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToTabFiniteListElementSkin >> leavedSkinEvent: anEvent [
+ToTabListElementSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -22,7 +22,7 @@ ToTabFiniteListElementSkin >> leavedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToTabFiniteListElementSkin >> leftSkinEvent: anEvent [
+ToTabListElementSkin >> leftSkinEvent: anEvent [
 
 	super leftSkinEvent: anEvent.
 	anEvent elementDo: [ :e |

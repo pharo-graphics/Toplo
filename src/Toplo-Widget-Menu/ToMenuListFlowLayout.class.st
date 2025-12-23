@@ -1,14 +1,14 @@
 Class {
-	#name : #ToMenuFiniteListFlowLayout,
+	#name : #ToMenuListFlowLayout,
 	#superclass : #ToFiniteListFlowLayout,
 	#category : #'Toplo-Widget-Menu-ItemBar'
 }
 
 { #category : #measure }
-ToMenuFiniteListFlowLayout >> measure: anElement with: anExtentSpec [
+ToMenuListFlowLayout >> measure: anElement with: anExtentSpec [
 
 	| menuBarOwner |
-	menuBarOwner := anElement listElement menuBarOwner.
+	menuBarOwner := anElement listElement menuListOwner.
 	" in case of an inline menu, the item minWidth is forced to be its menuBarOwner width"
 	menuBarOwner hasInlineWindow ifTrue: [
 		self minNodeWidth: menuBarOwner measuredWidth ].

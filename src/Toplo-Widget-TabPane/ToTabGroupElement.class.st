@@ -1,8 +1,8 @@
 Class {
 	#name : #ToTabGroupElement,
 	#superclass : #ToTripletContainer,
-	#traits : 'TToItemFiniteListUser',
-	#classTraits : 'TToItemFiniteListUser classTrait',
+	#traits : 'TToItemListUser',
+	#classTraits : 'TToItemListUser classTrait',
 	#instVars : [
 		'invisibleNodesMenu',
 		'endExtraContainer',
@@ -65,7 +65,7 @@ ToTabGroupElement >> atStartSide: aBoolean [
 { #category : #initialization }
 ToTabGroupElement >> barElementClass [
 
-	^ ToTabFiniteListElement 
+	^ ToTabListElement 
 ]
 
 { #category : #configuration }
@@ -157,7 +157,7 @@ ToTabGroupElement >> initialize [
 	self initializeParts.
 	self setItemBar: self middleContainer.
 	self itemBar addEventHandler:
-		(ToTabFiniteListnGroupElementEventHandler new
+		(ToTabListGroupElementEventHandler new
 			 tabGroup: self;
 			 yourself).
 	self addEventHandler: self defaultEventHandler.
@@ -276,7 +276,7 @@ ToTabGroupElement >> newEndContainer [
 	^ self newLinearContainer
 ]
 
-{ #category : #'t - item finite list user - initializing' }
+{ #category : #'t - item list user - initializing' }
 ToTabGroupElement >> newItemBar [
 
 	^ self barElementClass new

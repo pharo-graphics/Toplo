@@ -4883,7 +4883,7 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 ToSandBox class >> example_TabBarElement [
 
 	| tabs board |
-	tabs := ToTabFiniteListElement new.
+	tabs := ToTabListElement new.
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		tabs addItem: (ToTabItemElement new
@@ -4899,7 +4899,7 @@ ToSandBox class >> example_TabBarElement [
 ToSandBox class >> example_TabFiniteListElement [
 
 	| tabs |
-	tabs := ToTabFiniteListElement new.
+	tabs := ToTabListElement new.
 	tabs horizontal: true.
 	tabs matchParent.
 

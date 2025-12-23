@@ -16,10 +16,10 @@ ToItemFiniteListElement >> applyConfiguration [
 	self applyItemListConfiguration
 ]
 
-{ #category : #accessing }
+{ #category : #'t - finite list element - fake container' }
 ToItemFiniteListElement >> defaultFakeDataItem [
 
-	^ ToFiniteListItem new
+	^ ToListItem new
 ]
 
 { #category : #initialization }
@@ -46,7 +46,7 @@ ToItemFiniteListElement >> initialize [
 { #category : #skin }
 ToItemFiniteListElement >> newRawSkin [ 
 
-	^ ToItemFiniteListElementSkin new
+	^ ToItemListElementSkin new
 ]
 
 { #category : #configuration }

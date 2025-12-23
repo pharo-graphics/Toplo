@@ -432,7 +432,7 @@ ToBasicListElement >> newDisabledSelectionMode [
 { #category : #'t - finite list element - fake container' }
 ToBasicListElement >> newFakeNodeContainer [ 
 
-	^ ToFiniteListFakeNodeContainer new
+	^ ToFakeNodeContainer new
 ]
 
 { #category : #'instance creation' }

@@ -7,14 +7,6 @@ Class {
 	#category : #'Toplo-Widget-Table-Header'
 }
 
-{ #category : #'instance creation' }
-ToTableHeaderCellContainer class >> column: aColumn [
-
-	^ self new
-		  initializeWithColumn: aColumn;
-		  yourself
-]
-
 { #category : #initialization }
 ToTableHeaderCellContainer >> initializeWithColumn: aColumn [
 

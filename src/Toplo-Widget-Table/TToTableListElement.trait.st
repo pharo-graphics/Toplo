@@ -6,6 +6,15 @@ Trait {
 	#category : #'Toplo-Widget-Table-List'
 }
 
+{ #category : #accessing }
+TToTableListElement classSide >> parentTable: aTableElement [
+
+	^ self basicNew
+		  parentTable: aTableElement;
+		  initialize;
+		  yourself
+]
+
 { #category : #'t - table list element' }
 TToTableListElement >> columnStateAt: anIndex [
 

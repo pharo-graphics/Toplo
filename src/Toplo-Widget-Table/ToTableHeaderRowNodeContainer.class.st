@@ -12,6 +12,15 @@ Class {
 }
 
 { #category : #accessing }
+ToTableHeaderRowNodeContainer class >> parentTable: aTableElement [
+
+	^ self basicNew
+		  parentTable: aTableElement;
+		  initialize;
+		  yourself
+]
+
+{ #category : #accessing }
 ToTableHeaderRowNodeContainer >> addCheckbox [
 
 	checkbox ifNotNil: [ ^ self ].
@@ -86,7 +95,8 @@ ToTableHeaderRowNodeContainer >> initializeWithColumns: aTableColumnArray [
 { #category : #initialization }
 ToTableHeaderRowNodeContainer >> newCellContainerInColumn: aColumn [
 
-	^ (ToTableHeaderCellContainer column: aColumn)
+	^ (ToTableHeaderCellContainer parentTable: parentTable)
+		  initializeWithColumn: aColumn;
 		  constraintsDo: [ :c | c linear vertical alignCenter ];
 		  yourself
 ]

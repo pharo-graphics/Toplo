@@ -157,7 +157,6 @@ ToTableElement >> initializeHeader [
 
 	header := self newHeaderElement
 		          elevation: (BlRelativeElevation elevation: 10);
-		          parentTable: self;
 		          yourself
 ]
 
@@ -166,7 +165,6 @@ ToTableElement >> initializeList [
 
 	list := self newListElement
 		        id: #list;
-		        parentTable: self;
 		        elevation: (BlRelativeElevation elevation: 10);
 		        addStamp: #background withValue: Color transparent;
 		        yourself
@@ -187,9 +185,8 @@ ToTableElement >> list: anObject [
 { #category : #initialization }
 ToTableElement >> newDivider [
 
-	^ ToTableDivider new
+	^ (ToTableDivider parentTable: self)
 		  id: #columnDivider;
-		  parentTable: self;
 		  yourself
 ]
 
@@ -217,13 +214,13 @@ ToTableElement >> newHeaderCheckbox [
 { #category : #initialization }
 ToTableElement >> newHeaderElement [
 
-	^ ToTableHeaderElement new
+	^ ToTableHeaderElement parentTable: self
 ]
 
 { #category : #initialization }
 ToTableElement >> newListElement [
 
-	^ ToTableListElement new
+	^ ToTableListElement parentTable: self
 ]
 
 { #category : #accessing }

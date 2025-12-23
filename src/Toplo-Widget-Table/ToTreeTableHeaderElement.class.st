@@ -26,5 +26,5 @@ ToTreeTableHeaderElement class >> initializeToRawTheme: aTheme [
 { #category : #accessing }
 ToTreeTableHeaderElement >> newHeaderNodeContainer [
 
-	^ ToTreeTableHeaderRowNodeContainer new
+	^ ToTreeTableHeaderRowNodeContainer parentTable: parentTable
 ]

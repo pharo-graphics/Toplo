@@ -223,6 +223,12 @@ ToTableElement >> newListElement [
 	^ ToTableListElement parentTable: self
 ]
 
+{ #category : #'instance creation' }
+ToTableElement >> newRawSkin [ 
+
+	^ ToTableElementSkin new
+]
+
 { #category : #accessing }
 ToTableElement >> nodeManager [
 

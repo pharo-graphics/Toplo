@@ -47,6 +47,29 @@ TToTableListElement >> headerCellContainerAt: anIndex [
 ]
 
 { #category : #'t - table list element' }
+TToTableListElement >> initializeAsTableListElement [
+
+	self addStamp: #geometry withValue: BlRectangleGeometry new.
+	self initializeScrollBar
+]
+
+{ #category : #'t - table list element' }
+TToTableListElement >> initializeScrollBar [
+
+	| vscrollBar |
+	vscrollBar := BlVerticalScrollbarElement new.
+	vscrollBar constraintsDo: [ :c |
+			c ignoreByLayout.
+			c margin: (BlInsets left: 10).
+			c anchors add: (c anchors topAnchor on: self topAnchor).
+			c anchors add: (c anchors leftAnchor on: self rightAnchor - 3).
+			c anchors add: (c anchors heightAnchor on: self heightAnchor) ].
+	vscrollBar attachTo: self innerElement.
+	vscrollBar elevation: (BlRelativeElevation elevation: 20).
+	parentTable addChild: vscrollBar
+]
+
+{ #category : #'t - table list element' }
 TToTableListElement >> parentTable [
 
 	^ parentTable

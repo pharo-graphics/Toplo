@@ -806,6 +806,12 @@ ToBasicListElement >> updateSelectionAfter: aValuable [
 	self postponeAction: [ self notifyDataSourceChanged ]
 ]
 
+{ #category : #accessing }
+ToBasicListElement >> useCheckbox: aBoolean [
+
+	self toConfiguration useCheckbox: aBoolean
+]
+
 { #category : #'accessing selecters' }
 ToBasicListElement >> visibleAtPosition: anInteger [
 

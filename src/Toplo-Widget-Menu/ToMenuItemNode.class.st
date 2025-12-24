@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMenuItemNode,
-	#superclass : #ToFiniteListItemNode,
+	#superclass : #ToListItemNode,
 	#category : #'Toplo-Widget-Menu-ItemBar'
 }
 

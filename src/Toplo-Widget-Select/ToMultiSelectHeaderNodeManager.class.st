@@ -23,7 +23,7 @@ ToMultiSelectHeaderNodeManager >> defaultNodeFactory [
 { #category : #initialization }
 ToMultiSelectHeaderNodeManager >> defaultNodeHolderFactory [
 
-	^ [ ToMultiSelectHeaderHolder new ]
+	^ [ ToMultiSelectHeaderListHolder new ]
 ]
 
 { #category : #initialization }

@@ -84,7 +84,7 @@ ToMenu >> initialize [
 			                 builder ifNotNil: [
 					                 self removeAllItems.
 					                 self builder cull: self cull: request ].
-			                 window root addChild: self itemBar ];
+			                 window root addChild: self itemList ];
 		                 yourself.
 	self addEventHandler: windowManager
 ]
@@ -164,7 +164,7 @@ ToMenu >> menuWindow [
 ]
 
 { #category : #'t - item list user - initializing' }
-ToMenu >> newItemBar [
+ToMenu >> newItemList [
 
 	^ ToMenuItemListElement new
 ]

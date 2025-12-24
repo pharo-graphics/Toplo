@@ -6,16 +6,6 @@ Class {
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
-{ #category : #accessing }
-ToContextMenu >> bar [
-
-	self
-		deprecated: 'Use #itemList instead'
-		transformWith: '`@rcvr bar' -> '`@rcvr itemList'.
-
-	^ self itemList
-]
-
 { #category : #'t - menu window model' }
 ToContextMenu >> close [
 
@@ -52,7 +42,7 @@ ToContextMenu >> initialize [
 	self fitContent.
 	self initializeAsItemBarContainer.
 	self initializeAsMenuItemBarContainer.
-	self root addChild: self itemBar
+	self root addChild: self itemList
 ]
 
 { #category : #'t - menu window model' }
@@ -118,7 +108,7 @@ ToContextMenu >> menuWindow [
 ]
 
 { #category : #'t - item list user - initializing' }
-ToContextMenu >> newItemBar [
+ToContextMenu >> newItemList [
 
 	^ ToMenuItemListElement new
 ]

@@ -1,11 +1,11 @@
 Class {
-	#name : #ToMultiSelectHeaderHolder,
+	#name : #ToMultiSelectHeaderListHolder,
 	#superclass : #ToNodeHolder,
 	#category : #'Toplo-Widget-Select-Multi'
 }
 
 { #category : #accessing }
-ToMultiSelectHeaderHolder >> indexOfDataItem [
+ToMultiSelectHeaderListHolder >> indexOfDataItem [
 	" 
 	since a select node is created by selecting and item in the list element, 
 	removing the node is done by deselecting the corresponding list item in the select popup list "
@@ -14,13 +14,13 @@ ToMultiSelectHeaderHolder >> indexOfDataItem [
 ]
 
 { #category : #'accessing - list' }
-ToMultiSelectHeaderHolder >> popupListElement [
+ToMultiSelectHeaderListHolder >> popupListElement [
 
 	^ self selectElement popupListElement
 ]
 
 { #category : #removing }
-ToMultiSelectHeaderHolder >> removeNodeFromList [
+ToMultiSelectHeaderListHolder >> removeNodeFromList [
 	" 
 	since a select node is created by selecting and item in the list element, 
 	removing the node is done by deselecting the corresponding list item in the select popup list "
@@ -29,13 +29,13 @@ ToMultiSelectHeaderHolder >> removeNodeFromList [
 ]
 
 { #category : #'t - select inner container' }
-ToMultiSelectHeaderHolder >> selectElement [
+ToMultiSelectHeaderListHolder >> selectElement [
 
 	^  self listElement selectElement
 ]
 
 { #category : #accessing }
-ToMultiSelectHeaderHolder >> selecter [
+ToMultiSelectHeaderListHolder >> selecter [
 
 	^ self selectElement selecter
 ]

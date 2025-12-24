@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSpecificFiniteListElementForTest,
-	#superclass : #ToBasicFiniteListElement,
+	#superclass : #ToBasicListElement,
 	#category : #'Toplo-Widget-List-Tests-Core-FiniteListElement'
 }
 
@@ -21,4 +21,10 @@ ToSpecificFiniteListElementForTest >> initialize [
 
 	super initialize.
 	self fakeDataItem: 'Fake'
+]
+
+{ #category : #configuration }
+ToSpecificFiniteListElementForTest >> newToConfiguration [ 
+
+	^ ToBasicFiniteListElementConfiguration new
 ]

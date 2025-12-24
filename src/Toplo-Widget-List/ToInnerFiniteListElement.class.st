@@ -206,7 +206,7 @@ ToInnerFiniteListElement >> onExitLayoutOrScroll [
 
 ]
 
-{ #category : #'t - bar element' }
+{ #category : #'hooks - layout' }
 ToInnerFiniteListElement >> onInvisibleNodeContainers: theInvisibleContainers visibleNodeContainers: theVisibleContainers [
 ]
 

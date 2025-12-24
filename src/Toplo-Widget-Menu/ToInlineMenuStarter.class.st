@@ -14,7 +14,7 @@ ToInlineMenuStarter >> isForInlineWindow [
 ToInlineMenuStarter >> startWindow: aWindow fromManager: aManager onEvent: anEvent [
 
 	" an inline window works correctly only with wrapping (need for the flow layout)"
-	aWindow itemBar isFlowable: true.
+	aWindow itemList isFlowable: true.
 	aManager anchorElement menuListOwner
 		addItem: aWindow
 		afterIndex: aManager anchorElement positionInList.

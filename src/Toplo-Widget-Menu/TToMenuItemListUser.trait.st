@@ -24,7 +24,7 @@ TToMenuItemListUser >> addSeparatorBeforeIndex: anInteger [
 { #category : #initialization }
 TToMenuItemListUser >> initializeAsMenuItemBarContainer [
 
-	self itemBar menuListOwner: self
+	self itemList menuListOwner: self
 ]
 
 { #category : #'t - menu item list user - double dispatch' }
@@ -73,7 +73,7 @@ TToMenuItemListUser >> onAddedSeparatorMenuItem: aMenuItem [
 TToMenuItemListUser >> onRemovedCustomMenuItem: aMenuItem [
 
 	aMenuItem isSelectable ifTrue: [ ^ self ].
-	self itemBar unselectableSelecter deselectIndex:
+	self itemList unselectableSelecter deselectIndex:
 		aMenuItem positionInList.
 	self onRemovedMenuItem: aMenuItem
 ]
@@ -112,7 +112,7 @@ TToMenuItemListUser >> onRemovedMenuPane: aMenuPane [
 { #category : #'t - menu item list user - double dispatch' }
 TToMenuItemListUser >> onRemovedSeparatorMenuItem: aMenuItem [
 
-	self itemBar unselectableSelecter deselectIndex:
+	self itemList unselectableSelecter deselectIndex:
 		aMenuItem positionInBar.
 	self onRemovedMenuItem: aMenuItem
 ]

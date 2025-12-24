@@ -48,18 +48,18 @@ ToMenuPane >> applyConfiguration [
 
 	super applyConfiguration.
 	self uniformNodeWidth: self isVertical.
-	self itemBar horizontal: self isHorizontal.
-	self itemBar constraintsDo: [ :c |
+	self itemList horizontal: self isHorizontal.
+	self itemList constraintsDo: [ :c |
 			c linear vertical alignCenter.
 			c linear horizontal alignCenter ].
-	self itemBar toConfiguration isScrollable: self isScrollable.
-	self itemBar toConfiguration isFlowable: self isFlowable.
+	self itemList toConfiguration isScrollable: self isScrollable.
+	self itemList toConfiguration isFlowable: self isFlowable.
 	self isHFitContent
-		ifTrue: [ self itemBar hFitContent ]
-		ifFalse: [ self itemBar hMatchParent ].
+		ifTrue: [ self itemList hFitContent ]
+		ifFalse: [ self itemList hMatchParent ].
 	self isVFitContent
-		ifTrue: [ self itemBar vFitContent ]
-		ifFalse: [ self itemBar vMatchParent ]
+		ifTrue: [ self itemList vFitContent ]
+		ifFalse: [ self itemList vMatchParent ]
 ]
 
 { #category : #'auto opening' }
@@ -92,7 +92,7 @@ ToMenuPane >> initialize [
 	self layout: BlLinearLayout horizontal.
 	self layout alignCenter.
 	self addEventHandler: ToMenuPaneEventHandler new.
-	self addChild: self itemBar.
+	self addChild: self itemList.
 	self isFlowable: false.
 	self isScrollable: false.
 	self beHorizontal.
@@ -140,7 +140,7 @@ ToMenuPane >> menuWindowDo: aValuable [
 ]
 
 { #category : #'t - item list holder - initializing' }
-ToMenuPane >> newItemBar [
+ToMenuPane >> newItemList [
 
 	^ ToMenuItemListElement new
 ]

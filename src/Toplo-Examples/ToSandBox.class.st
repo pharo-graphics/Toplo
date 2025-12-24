@@ -7122,7 +7122,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 		       hMatchParent;
 		       vFitContent.
 	bar isFlowable: false.
-	bar itemBar hMatchParent.
+	bar itemList hMatchParent.
 
 	bar addItem: (ToCustomMenuItem new in: [ :e |
 			 e addChild: (ToSelectableLabel new text: 'File') ]).
@@ -10069,7 +10069,7 @@ ToSandBox class >> tabBarElementDashBoardFor: aTabBarElement [
 ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 
 	| mainPane barPane confPane startToEndSwitch addTabItemButtonSwicth menu animSwitch itemList |
-	itemList := aTabGroupElement itemBar.
+	itemList := aTabGroupElement itemList.
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
 

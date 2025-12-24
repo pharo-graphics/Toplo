@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-Select-Multi'
 }
 
-{ #category : #'t - bar element' }
+{ #category : #'hooks - layout' }
 ToMultiSelectHeaderInnerListElement >> onInvisibleNodeContainers: theInvisibleContainers visibleNodeContainers: theVisibleContainers [
 
 	| nbInvisible first last |

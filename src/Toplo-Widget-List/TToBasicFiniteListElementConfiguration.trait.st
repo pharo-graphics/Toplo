@@ -7,7 +7,7 @@ Trait {
 		'#uniformNodeWidth => ObservableSlot',
 		'#uniformNodeHeight => ObservableSlot'
 	],
-	#category : #'Toplo-Widget-List-Core-FiniteListElement'
+	#category : #'Toplo-Widget-List-Core'
 }
 
 { #category : #'t - basic finite list element configuration - accessing' }

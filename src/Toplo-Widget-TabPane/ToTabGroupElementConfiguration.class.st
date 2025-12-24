@@ -12,15 +12,15 @@ ToTabGroupElementConfiguration >> applyOn: aTabGroupElement [
 
 	super applyOn: aTabGroupElement.
 
-	aTabGroupElement itemBar horizontal: aTabGroupElement isHorizontal.
+	aTabGroupElement itemList horizontal: aTabGroupElement isHorizontal.
 
 	aTabGroupElement checkAddNewTabItemButton.
-	aTabGroupElement itemBar atStartSide: atStartSide.
+	aTabGroupElement itemList atStartSide: atStartSide.
 
-	aTabGroupElement itemBar toConfiguration uniformNodeWidth: aTabGroupElement isVertical.
-	aTabGroupElement itemBar toConfiguration uniformNodeHeight: aTabGroupElement isHorizontal.
+	aTabGroupElement itemList toConfiguration uniformNodeWidth: aTabGroupElement isVertical.
+	aTabGroupElement itemList toConfiguration uniformNodeHeight: aTabGroupElement isHorizontal.
 
-	aTabGroupElement itemBar constraintsDo: [ :c |
+	aTabGroupElement itemList constraintsDo: [ :c |
 			c horizontal resizer:
 				aTabGroupElement constraints horizontal resizer copy.
 			c vertical resizer:
@@ -31,7 +31,7 @@ ToTabGroupElementConfiguration >> applyOn: aTabGroupElement [
 	aTabGroupElement endContainer childrenDo: [ :child |
 		child layout beHorizontal: aTabGroupElement isHorizontal ].
 
-	aTabGroupElement itemBar updateAllSelections.
+	aTabGroupElement itemList updateAllSelections.
 
 	aTabGroupElement requestNewSkin.
 	aTabGroupElement invisibleNodesMenu requestNewSkin

@@ -3,7 +3,7 @@ Class {
 	#superclass : #ToBasicListElementConfiguration,
 	#traits : 'TToBasicFiniteListElementConfiguration',
 	#classTraits : 'TToBasicFiniteListElementConfiguration classTrait',
-	#category : #'Toplo-Widget-List-Core-FiniteListElement'
+	#category : #'Toplo-Widget-List-Core'
 }
 
 { #category : #configuration }
@@ -46,6 +46,13 @@ ToBasicFiniteListElementConfiguration >> initialize [
 ToBasicFiniteListElementConfiguration >> onInstalledIn: aListElement [
 
 	super onInstalledIn: aListElement.
+	aListElement primarySelectionMode selectionOption
+		grouped: false;
+		beneath: true;
+		triggerSelectionState: true.
+	aListElement contextMenuSelectionMode selectionOption
+		grouped: false;
+		beneath: false.
 	#( #uniformNodeWidth #uniformNodeHeight #autoDistribute
 	   #isFlowable #isScrollable ) do: [ :flag |
 			self

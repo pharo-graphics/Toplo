@@ -21,9 +21,3 @@ ToTableRowNodeManager >> defaultNodeFactory [
 		  id: #row;
 		  yourself ]
 ]
-
-{ #category : #initialization }
-ToTableRowNodeManager >> defaultNodeHolderFactory [ 
-
-	^ [ ToTableRowNodeHolder new ]
-]

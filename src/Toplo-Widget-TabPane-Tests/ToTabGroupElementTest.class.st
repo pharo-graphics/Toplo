@@ -58,10 +58,10 @@ ToTabGroupElementTest >> testRemoveAllItems [
 	tabGroup removeAllItems.
 	self waitTestingSpaces.
 	self assert: tabGroup items size equals: 0.
-	self assert: tabGroup itemBar items size equals: 0.
-	self assert: tabGroup itemBar innerElement nodeContainers size equals: 0.
+	self assert: tabGroup itemList items size equals: 0.
+	self assert: tabGroup itemList innerElement nodeContainers size equals: 0.
 	" the fake node remains "
-	self assert: tabGroup itemBar innerElement trackElement children size equals: 0
+	self assert: tabGroup itemList innerElement trackElement children size equals: 0
 
 ]
 
@@ -233,10 +233,10 @@ ToTabGroupElementTest >> testRemoveItem6 [
 	BlSpace simulateClickOn: firstItem removeButton.
 	self waitTestingSpaces.
 	self assert: tabGroup items size equals: 0.
-	self assert: tabGroup itemBar items size equals: 0.
-	self assert: tabGroup itemBar innerElement nodeContainers size equals: 0.
+	self assert: tabGroup itemList items size equals: 0.
+	self assert: tabGroup itemList innerElement nodeContainers size equals: 0.
 	" the fake node remains "
-	self assert: tabGroup itemBar innerElement trackElement children size equals: 0
+	self assert: tabGroup itemList innerElement trackElement children size equals: 0
 
 ]
 

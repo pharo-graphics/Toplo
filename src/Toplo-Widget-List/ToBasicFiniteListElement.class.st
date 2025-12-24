@@ -1,11 +1,5 @@
 Class {
 	#name : #ToBasicFiniteListElement,
 	#superclass : #ToBasicListElement,
-	#category : #'Toplo-Widget-List-Core-FiniteListElement'
+	#category : #'Toplo-Widget-List-Core'
 }
-
-{ #category : #configuration }
-ToBasicFiniteListElement >> newToConfiguration [ 
-
-	^ ToBasicFiniteListElementConfiguration new
-]

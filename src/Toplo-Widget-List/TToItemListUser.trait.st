@@ -1,7 +1,7 @@
 Trait {
 	#name : #TToItemListUser,
 	#instVars : [
-		'itemBar'
+		'itemList'
 	],
 	#category : #'Toplo-Widget-List-ItemFiniteList'
 }
@@ -9,96 +9,96 @@ Trait {
 { #category : #'t - item list user - adding/removing' }
 TToItemListUser >> addAllItems: aCollection [
 
-	self itemBar addAllItems: aCollection
+	self itemList addAllItems: aCollection
 ]
 
 { #category : #'t - item list user - adding/removing' }
 TToItemListUser >> addItem: anItem [
 
-	self itemBar addItem: anItem.
+	self itemList addItem: anItem.
 	self onAddedItem: anItem
 ]
 
 { #category : #'t - item list user - adding/removing' }
 TToItemListUser >> addItem: anItem after: anotherItem [
 
-	self itemBar addItem: anItem after: anotherItem.
+	self itemList addItem: anItem after: anotherItem.
 	self onAddedItem: anItem
 ]
 
 { #category : #'t - item list user - adding/removing' }
 TToItemListUser >> addItem: anItem afterIndex: anInteger [
 
-	self itemBar addItem: anItem afterIndex: anInteger.
+	self itemList addItem: anItem afterIndex: anInteger.
 	self onAddedItem: anItem
 ]
 
 { #category : #'t - item list user - adding/removing' }
 TToItemListUser >> addItem: anItem before: anotherItem [
 
-	self itemBar addItem: anItem before: anotherItem.
+	self itemList addItem: anItem before: anotherItem.
 	self onAddedItem: anItem
 ]
 
 { #category : #'t - item list user - adding/removing' }
 TToItemListUser >> addItem: anItem beforeIndex: anInteger [
 
-	self itemBar addItem: anItem beforeIndex: anInteger.
+	self itemList addItem: anItem beforeIndex: anInteger.
 	self onAddedItem: anItem
 ]
 
 { #category : #'t - item list user - configuration' }
 TToItemListUser >> autoDistribute [
 
-	^ self itemBar toConfiguration autoDistribute
+	^ self itemList toConfiguration autoDistribute
 ]
 
 { #category : #'t - item list user - configuration' }
 TToItemListUser >> autoDistribute: aBoolean [
 
-	self itemBar toConfiguration autoDistribute: aBoolean
+	self itemList toConfiguration autoDistribute: aBoolean
 ]
 
 { #category : #'t - item list user - accessing' }
 TToItemListUser >> dataAccessor [
 
-	^ self itemBar dataAccessor
+	^ self itemList dataAccessor
 ]
 
 { #category : #'t - item list user - accessing' }
 TToItemListUser >> dataSource [
 
-	^ self itemBar dataSource
+	^ self itemList dataSource
 ]
 
 { #category : #'t - item list user - hidden/visible' }
 TToItemListUser >> deselectedAtPosition: anInteger [
 
-	self itemBar deselectedAtPosition: anInteger
+	self itemList deselectedAtPosition: anInteger
 ]
 
 { #category : #'t - item list user - disable/ enable' }
 TToItemListUser >> disabledAtPosition: anInteger [
 
-	self itemBar disabledAtPosition: anInteger
+	self itemList disabledAtPosition: anInteger
 ]
 
 { #category : #'t - item list user - disable/ enable' }
 TToItemListUser >> disabledItem: anItem [
 
-	self itemBar disabledItem: anItem
+	self itemList disabledItem: anItem
 ]
 
 { #category : #'t - item list user - disable/ enable' }
 TToItemListUser >> enabledAtPosition: anInteger [
 
-	self itemBar enabledAtPosition: anInteger
+	self itemList enabledAtPosition: anInteger
 ]
 
 { #category : #'t - item list user - disable/ enable' }
 TToItemListUser >> enabledItem: anItem [
 
-	self itemBar enabledItem: anItem
+	self itemList enabledItem: anItem
 ]
 
 { #category : #'t - item list user - testing' }
@@ -110,37 +110,37 @@ TToItemListUser >> hasItems [
 { #category : #'t - item list user - hidden/visible' }
 TToItemListUser >> hiddenAtPosition: anInteger [
 
-	self itemBar hiddenAtPosition: anInteger
+	self itemList hiddenAtPosition: anInteger
 ]
 
 { #category : #'t - item list user - hidden/visible' }
 TToItemListUser >> hiddenItem: anItem [
 
-	self itemBar hiddenItem: anItem
+	self itemList hiddenItem: anItem
 ]
 
 { #category : #'t - item list user - initializing' }
 TToItemListUser >> initializeAsItemBarContainer [
 
-	self setItemBar: self newItemBar
+	self setItemList: self newItemList
 ]
 
 { #category : #'t - item list user - accessing' }
 TToItemListUser >> innerElement [
 
-	^ self itemBar innerElement
+	^ self itemList innerElement
 ]
 
 { #category : #'t - item list user - configuration' }
 TToItemListUser >> isFlowable [
 
-	^ self itemBar toConfiguration isFlowable
+	^ self itemList toConfiguration isFlowable
 ]
 
 { #category : #'t - item list user - configuration' }
 TToItemListUser >> isFlowable: aBoolean [
 
-	self itemBar toConfiguration isFlowable: aBoolean
+	self itemList toConfiguration isFlowable: aBoolean
 ]
 
 { #category : #'t - item list user - testing' }
@@ -152,29 +152,29 @@ TToItemListUser >> isItemContainer [
 { #category : #'t - item list user - configuration' }
 TToItemListUser >> isScrollable [
 
-	^ self itemBar toConfiguration isScrollable
+	^ self itemList toConfiguration isScrollable
 ]
 
 { #category : #'t - item list user - configuration' }
 TToItemListUser >> isScrollable: aBoolean [
 
-	self itemBar toConfiguration isScrollable: aBoolean
+	self itemList toConfiguration isScrollable: aBoolean
 ]
 
 { #category : #'t - item list user - accessing' }
-TToItemListUser >> itemBar [
+TToItemListUser >> itemList [
 
-	^ itemBar
+	^ itemList
 ]
 
 { #category : #'t - item list user - accessing' }
 TToItemListUser >> items [
 
-	^ self itemBar dataAccessor
+	^ self itemList dataAccessor
 ]
 
 { #category : #'t - item list user - initializing' }
-TToItemListUser >> newItemBar [
+TToItemListUser >> newItemList [
 
 	^ ToItemFiniteListElement new
 ]
@@ -182,7 +182,7 @@ TToItemListUser >> newItemBar [
 { #category : #'t - item list user - accessing' }
 TToItemListUser >> nodeContainersDo: aValuable [
 
-	self itemBar nodeContainersDo: aValuable
+	self itemList nodeContainersDo: aValuable
 ]
 
 { #category : #'t - item list user - double dispatch' }
@@ -227,38 +227,38 @@ TToItemListUser >> onRemovedUnknownItemKind: anItem [
 { #category : #'t - item list user - accessing' }
 TToItemListUser >> primarySelectionMode [
 
-	^ self itemBar primarySelectionMode
+	^ self itemList primarySelectionMode
 ]
 
 { #category : #'t - item list user - adding/removing' }
 TToItemListUser >> removeAllItems [
 
-	self itemBar removeAllItems
+	self itemList removeAllItems
 ]
 
 { #category : #'t - item list user - adding/removing' }
 TToItemListUser >> removeAllItems: aCollection [
 
-	self itemBar removeAllItems: aCollection
+	self itemList removeAllItems: aCollection
 ]
 
 { #category : #'t - item list user - adding/removing' }
 TToItemListUser >> removeItem: anItem [
 
 	self onRemovedItem: anItem.
-	self itemBar removeItem: anItem
+	self itemList removeItem: anItem
 ]
 
 { #category : #'t - item list user - accessing' }
 TToItemListUser >> secondarySelecter [
 
-	^ self itemBar secondarySelecter
+	^ self itemList secondarySelecter
 ]
 
 { #category : #'t - item list user - accessing' }
 TToItemListUser >> secondarySelectionMode [
 
-	^ self itemBar secondarySelectionMode
+	^ self itemList secondarySelectionMode
 ]
 
 { #category : #'t - item list user - accessing' }
@@ -270,102 +270,102 @@ TToItemListUser >> secondarySelectionModel [
 { #category : #'t - item list user - accessing' }
 TToItemListUser >> secondarySelectionOption [
 
-	^ self itemBar secondarySelectionOption
+	^ self itemList secondarySelectionOption
 ]
 
 { #category : #'t - item list user - unselectable/selectable' }
 TToItemListUser >> selectableAtPosition: anInteger [
 
-	self itemBar selectableAtPosition: anInteger
+	self itemList selectableAtPosition: anInteger
 ]
 
 { #category : #'t - item list user - unselectable/selectable' }
 TToItemListUser >> selectableItem: anItem [
 
-	self itemBar selectableItem: anItem
+	self itemList selectableItem: anItem
 ]
 
 { #category : #'t - item list user - hidden/visible' }
 TToItemListUser >> selectedAtPosition: anInteger [
 
-	self itemBar selectedAtPosition: anInteger
+	self itemList selectedAtPosition: anInteger
 ]
 
 { #category : #'t - item list user - accessing' }
 TToItemListUser >> selecter [
 
-	^ self itemBar selecter
+	^ self itemList selecter
 ]
 
 { #category : #'t - item list user - accessing' }
 TToItemListUser >> selectionMode [
 
-	^ self itemBar selectionMode
+	^ self itemList selectionMode
 ]
 
 { #category : #'t - item list user - accessing' }
 TToItemListUser >> selectionModel [
 
-	^ self itemBar selectionModel
+	^ self itemList selectionModel
 ]
 
 { #category : #'t - item list user - accessing' }
 TToItemListUser >> selectionOption [
 
-	^ self itemBar selectionOption
+	^ self itemList selectionOption
 ]
 
 { #category : #'t - item list user - accessing' }
-TToItemListUser >> setItemBar: anItemBar [
+TToItemListUser >> setItemList: anItemList [
 
-	itemBar ifNotNil: [ BlImmutableObjectChangeError signal ].
-	itemBar := anItemBar
+	itemList ifNotNil: [ BlImmutableObjectChangeError signal ].
+	itemList := anItemList
 ]
 
 { #category : #'t - item list user - configuration' }
 TToItemListUser >> uniformNodeHeight [
 
-	^ self itemBar toConfiguration uniformNodeHeight
+	^ self itemList toConfiguration uniformNodeHeight
 ]
 
 { #category : #'t - item list user - configuration' }
 TToItemListUser >> uniformNodeHeight: aBoolean [
 
-	self itemBar toConfiguration uniformNodeHeight: aBoolean
+	self itemList toConfiguration uniformNodeHeight: aBoolean
 ]
 
 { #category : #'t - item list user - configuration' }
 TToItemListUser >> uniformNodeWidth [
 
-	^ self itemBar uniformNodeWidth
+	^ self itemList uniformNodeWidth
 ]
 
 { #category : #'t - item list user - configuration' }
 TToItemListUser >> uniformNodeWidth: aBoolean [
 
-	self itemBar toConfiguration uniformNodeWidth: aBoolean
+	self itemList toConfiguration uniformNodeWidth: aBoolean
 ]
 
 { #category : #'t - item list user - unselectable/selectable' }
 TToItemListUser >> unselectableAtPosition: anInteger [
 
-	self itemBar unselectableAtPosition: anInteger
+	self itemList unselectableAtPosition: anInteger
 ]
 
 { #category : #'t - item list user - unselectable/selectable' }
 TToItemListUser >> unselectableItem: anItem [
 
-	self itemBar unselectableItem: anItem
+	self itemList unselectableItem: anItem
 ]
 
 { #category : #'t - item list user - hidden/visible' }
 TToItemListUser >> visibleAtPosition: anInteger [
 
-	self itemBar visibleAtPosition: anInteger
+	self itemList visibleAtPosition: anInteger
 ]
 
 { #category : #'t - item list user - hidden/visible' }
 TToItemListUser >> visibleItem: anItem [
 
-	self itemBar visibleItem: anItem
+	self itemList visibleItem: anItem
 ]

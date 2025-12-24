@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMultiSelectHeaderListElement,
-	#superclass : #ToGenericFiniteListElement,
+	#superclass : #ToGenericListElement,
 	#traits : 'TToSelectHeaderElement + TToElementWithPlaceholder',
 	#classTraits : 'TToSelectHeaderElement classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [
@@ -184,7 +184,7 @@ ToMultiSelectHeaderListElement >> maxSelectedCount: aNumber [
 { #category : #configuration }
 ToMultiSelectHeaderListElement >> newToConfiguration [ 
 
-	^ ToMultiSelectHeaderListElementConfiguration new
+	^ ToBasicFiniteListElementConfiguration new
 ]
 
 { #category : #accessing }

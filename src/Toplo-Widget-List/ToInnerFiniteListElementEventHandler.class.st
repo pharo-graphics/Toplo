@@ -48,8 +48,5 @@ ToInnerFiniteListElementEventHandler >> finiteListVisibleNodeContainerListChange
 
 	| innerListElement |
 	innerListElement := anEvent currentTarget.
-	innerListElement
-		onInvisibleNodeContainers: anEvent invisibleNodeContainers
-		visibleNodeContainers: anEvent visibleNodeContainers.
 	innerListElement listElement dispatchEvent: anEvent copy
 ]

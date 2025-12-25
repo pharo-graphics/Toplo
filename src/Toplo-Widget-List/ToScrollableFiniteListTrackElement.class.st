@@ -182,6 +182,13 @@ ToScrollableFiniteListTrackElement >> onListElement: aListElement [
 	listElement := aListElement 
 ]
 
+{ #category : #layout }
+ToScrollableFiniteListTrackElement >> onMeasure: anExtentMeasurementSpec [
+
+	self layout minNodeWidth: listElement minNodeWidth.
+	super onMeasure: anExtentMeasurementSpec
+]
+
 { #category : #'accessing - children' }
 ToScrollableFiniteListTrackElement >> partlyVisibleNodesDo: aBlock [
 

@@ -3989,6 +3989,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 
 	select filtrable: true.
 	select isFlowable: false.
+	select isScrollable: false.
 	select keepPickOrder: false.
 	select hideSelected: false.
 	select popupMaxHeight: 200.

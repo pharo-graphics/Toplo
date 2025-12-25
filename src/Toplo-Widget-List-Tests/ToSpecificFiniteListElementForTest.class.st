@@ -11,6 +11,12 @@ ToSpecificFiniteListElementForTest >> defaultFakeDataItem [
 ]
 
 { #category : #initialization }
+ToSpecificFiniteListElementForTest >> defaultInnerElementClass [ 
+
+	^ ToInnerFiniteListElement
+]
+
+{ #category : #initialization }
 ToSpecificFiniteListElementForTest >> defaultNodeManagerClass [
 
 	^ ToSpecificFiniteListNodeManagerForTest
@@ -20,11 +26,6 @@ ToSpecificFiniteListElementForTest >> defaultNodeManagerClass [
 ToSpecificFiniteListElementForTest >> initialize [ 
 
 	super initialize.
+	useInfiniteLayout := false.
 	self fakeDataItem: 'Fake'
-]
-
-{ #category : #configuration }
-ToSpecificFiniteListElementForTest >> newToConfiguration [ 
-
-	^ ToBasicFiniteListElementConfiguration new
 ]

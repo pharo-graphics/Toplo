@@ -19,7 +19,7 @@ ToItemListElement >> defaultFakeDataItem [
 	^ ToListItem new
 ]
 
-{ #category : #'t - item list - accessing' }
+{ #category : #initialization }
 ToItemListElement >> defaultNodeManagerClass [
 
 	^ ToItemListNodeManager

@@ -7,8 +7,16 @@ Class {
 	#category : #'Toplo-Widget-List-Core'
 }
 
-{ #category : #configuration }
-ToGenericFiniteListElement >> newToConfiguration [ 
+{ #category : #initialization }
+ToGenericFiniteListElement >> defaultInnerElementClass [ 
 
-	^ ToBasicFiniteListElementConfiguration new
+	^ ToInnerFiniteListElement
+]
+
+{ #category : #initialization }
+ToGenericFiniteListElement >> initialize [ 
+
+	super initialize.
+	useInfiniteLayout := false.
+
 ]

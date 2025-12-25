@@ -1,11 +1,5 @@
 Class {
 	#name : #ToMenuItemListElementConfiguration,
-	#superclass : #ToBasicFiniteListElementConfiguration,
-	#category : #'Toplo-Widget-Menu-ItemBar'
+	#superclass : #ToBasicListElementConfiguration,
+	#category : #'Toplo-Widget-Menu-ItemList'
 }
-
-{ #category : #accessing }
-ToMenuItemListElementConfiguration >> defaultInnerElementClass [
-
-	^ ToMenuInnerListElement
-]

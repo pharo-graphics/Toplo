@@ -1,11 +1,5 @@
 Class {
 	#name : #ToMultiSelectHeaderListElementConfiguration,
-	#superclass : #ToBasicFiniteListElementConfiguration,
+	#superclass : #ToBasicListElementConfiguration,
 	#category : #'Toplo-Widget-Select-Multi'
 }
-
-{ #category : #accessing }
-ToMultiSelectHeaderListElementConfiguration >> defaultInnerElementClass [
-
-	^ ToMultiSelectHeaderInnerListElement
-]

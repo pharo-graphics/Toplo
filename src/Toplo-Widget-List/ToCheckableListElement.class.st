@@ -14,7 +14,7 @@ ToCheckableListElement >> defaultFakeDataItem [
 		  yourself
 ]
 
-{ #category : #'t - item bar element - accessing' }
+{ #category : #initialization }
 ToCheckableListElement >> defaultNodeManagerClass [ 
 
 	^ ToCheckableListNodeManager

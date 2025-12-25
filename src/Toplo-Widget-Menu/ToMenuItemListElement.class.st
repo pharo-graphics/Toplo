@@ -6,7 +6,7 @@ Class {
 	#superclass : #ToItemFiniteListElement,
 	#traits : 'TToMenuItemList',
 	#classTraits : 'TToMenuItemList classTrait',
-	#category : #'Toplo-Widget-Menu-ItemBar'
+	#category : #'Toplo-Widget-Menu-ItemList'
 }
 
 { #category : #initialization }
@@ -31,6 +31,15 @@ ToMenuItemListElement >> initialize [
 	self toConfiguration uniformNodeWidth: true.
 	"No visible primary selection"
 	self selectionOption masked: true
+]
+
+{ #category : #layout }
+ToMenuItemListElement >> minNodeWidth [
+	" in case of an inline menu, the item minWidth is forced to be its menuListOwner width"
+
+	self menuListOwner ifNotNil: [ :menuOwner |
+		menuOwner hasInlineWindow ifTrue: [ ^ menuOwner measuredWidth ] ].
+	^ super minNodeWidth
 ]
 
 { #category : #skin }

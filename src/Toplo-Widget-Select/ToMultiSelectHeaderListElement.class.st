@@ -71,15 +71,21 @@ ToMultiSelectHeaderListElement >> checkMaxSelectedCount [
 ]
 
 { #category : #initialization }
-ToMultiSelectHeaderListElement >> defaultLayout [
+ToMultiSelectHeaderListElement >> defaultEventHandler [ 
 
-	^ BlLinearLayout horizontal
+	^ ToMultiSelectHeaderListElementEventHandler new
 ]
 
 { #category : #initialization }
-ToMultiSelectHeaderListElement >> defaultNodeManager [
+ToMultiSelectHeaderListElement >> defaultInnerElementClass [
 
-	^ self defaultNodeManagerClass new
+	^ ToInnerFiniteListElement
+]
+
+{ #category : #initialization }
+ToMultiSelectHeaderListElement >> defaultLayout [
+
+	^ BlLinearLayout horizontal
 ]
 
 { #category : #initialization }
@@ -117,7 +123,7 @@ ToMultiSelectHeaderListElement >> haveMaxSelectedCount [
 ToMultiSelectHeaderListElement >> initialize [
 
 	super initialize.
-
+	useInfiniteLayout := false.
 	" no visible primary and secondary selection elements "
 	self selectionOption masked: true.
 	self selectionMode makeDisabledUnselectable: true.
@@ -181,10 +187,12 @@ ToMultiSelectHeaderListElement >> maxSelectedCount: aNumber [
 	maxSelectedCount := aNumber
 ]
 
-{ #category : #configuration }
-ToMultiSelectHeaderListElement >> newToConfiguration [ 
+{ #category : #'hooks - layout' }
+ToMultiSelectHeaderListElement >> onLayoutDone [ 
 
-	^ ToBasicFiniteListElementConfiguration new
+
+	selectElement checkMaxSelectedCountInHeader.
+	super onLayoutDone.
 ]
 
 { #category : #accessing }
@@ -215,7 +223,7 @@ ToMultiSelectHeaderListElement >> selectElement: aSelectElement [
 { #category : #accessing }
 ToMultiSelectHeaderListElement >> selectedDataItems [
 
-	^ self innerElement selectedDataItems
+	^ selectElement selectedDataItems
 ]
 
 { #category : #accessing }

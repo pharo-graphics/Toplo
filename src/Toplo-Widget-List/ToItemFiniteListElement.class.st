@@ -23,6 +23,12 @@ ToItemFiniteListElement >> defaultFakeDataItem [
 ]
 
 { #category : #initialization }
+ToItemFiniteListElement >> defaultInnerElementClass [ 
+
+	^ ToInnerFiniteListElement
+]
+
+{ #category : #initialization }
 ToItemFiniteListElement >> defaultNodeManagerClass [
 
 	^ ToItemListNodeManager
@@ -32,19 +38,15 @@ ToItemFiniteListElement >> defaultNodeManagerClass [
 ToItemFiniteListElement >> initialize [
 
 	super initialize.
-	self initializeAsItemListElement
+	self initializeAsItemListElement.
+	useInfiniteLayout := false
+
 ]
 
 { #category : #skin }
 ToItemFiniteListElement >> newRawSkin [ 
 
 	^ ToItemListElementSkin new
-]
-
-{ #category : #configuration }
-ToItemFiniteListElement >> newToConfiguration [ 
-
-	^ ToBasicFiniteListElementConfiguration new
 ]
 
 { #category : #'t - item list - adding/removing' }

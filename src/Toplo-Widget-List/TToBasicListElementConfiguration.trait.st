@@ -1,6 +1,7 @@
 Trait {
-	#name : #TToBasicFiniteListElementConfiguration,
+	#name : #TToBasicListElementConfiguration,
 	#instVars : [
+		'#useCheckbox => ObservableSlot',
 		'#autoDistribute => ObservableSlot',
 		'#isFlowable => ObservableSlot',
 		'#isScrollable => ObservableSlot',
@@ -11,61 +12,73 @@ Trait {
 }
 
 { #category : #'t - basic finite list element configuration - accessing' }
-TToBasicFiniteListElementConfiguration >> autoDistribute [
+TToBasicListElementConfiguration >> autoDistribute [
 
 	^ autoDistribute 
 ]
 
 { #category : #'t - basic finite list element configuration - accessing' }
-TToBasicFiniteListElementConfiguration >> autoDistribute: aBoolean [
+TToBasicListElementConfiguration >> autoDistribute: aBoolean [
 
 	autoDistribute := aBoolean 
 ]
 
 { #category : #'t - basic finite list element configuration - accessing' }
-TToBasicFiniteListElementConfiguration >> isFlowable [
+TToBasicListElementConfiguration >> isFlowable [
 
 	^ isFlowable ifNil: [ isFlowable := true ] 
 ]
 
 { #category : #'t - basic finite list element configuration - accessing' }
-TToBasicFiniteListElementConfiguration >> isFlowable: aBoolean [
+TToBasicListElementConfiguration >> isFlowable: aBoolean [
 
 	isFlowable := aBoolean 
 ]
 
 { #category : #'t - basic finite list element configuration - accessing' }
-TToBasicFiniteListElementConfiguration >> isScrollable [
+TToBasicListElementConfiguration >> isScrollable [
 
 	^ isScrollable ifNil: [ isScrollable := false ] 
 ]
 
 { #category : #'t - basic finite list element configuration - accessing' }
-TToBasicFiniteListElementConfiguration >> isScrollable: aBoolean [
+TToBasicListElementConfiguration >> isScrollable: aBoolean [
 
 	isScrollable := aBoolean 
 ]
 
 { #category : #'t - basic finite list element configuration - accessing' }
-TToBasicFiniteListElementConfiguration >> uniformNodeHeight [
+TToBasicListElementConfiguration >> uniformNodeHeight [
 
 	^ uniformNodeHeight ifNil: [ uniformNodeHeight := false ] 
 ]
 
 { #category : #'t - basic finite list element configuration - accessing' }
-TToBasicFiniteListElementConfiguration >> uniformNodeHeight: aBoolean [
+TToBasicListElementConfiguration >> uniformNodeHeight: aBoolean [
 
 	uniformNodeHeight := aBoolean
 ]
 
 { #category : #'t - basic finite list element configuration - accessing' }
-TToBasicFiniteListElementConfiguration >> uniformNodeWidth [
+TToBasicListElementConfiguration >> uniformNodeWidth [
 
 	^ uniformNodeWidth ifNil: [ uniformNodeWidth := false ] 
 ]
 
 { #category : #'t - basic finite list element configuration - accessing' }
-TToBasicFiniteListElementConfiguration >> uniformNodeWidth: aBoolean [
+TToBasicListElementConfiguration >> uniformNodeWidth: aBoolean [
 
 	uniformNodeWidth := aBoolean
+]
+
+{ #category : #accessing }
+TToBasicListElementConfiguration >> useCheckbox [ 
+
+	^ useCheckbox 
+]
+
+{ #category : #accessing }
+TToBasicListElementConfiguration >> useCheckbox: aBoolean [
+
+	useCheckbox := aBoolean
 ]

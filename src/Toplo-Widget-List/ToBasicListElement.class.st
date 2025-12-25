@@ -10,7 +10,8 @@ Class {
 		'nodeManager',
 		'selectionModeMap',
 		'mouseMoveReplayRequested',
-		'fakeDataItem'
+		'fakeDataItem',
+		'useInfiniteLayout'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -177,7 +178,7 @@ ToBasicListElement >> defaultInnerElement [
 { #category : #initialization }
 ToBasicListElement >> defaultInnerElementClass [
 
-	^ self toConfiguration defaultInnerElementClass
+	^ ToInfiniteElement
 ]
 
 { #category : #initialization }
@@ -331,6 +332,7 @@ ToBasicListElement >> initialize [
 
 	super initialize.
 	
+	useInfiniteLayout := true.
 	mouseMoveReplayRequested := false.
 	selectionModeMap := IdentityDictionary new.
 
@@ -420,6 +422,12 @@ ToBasicListElement >> isSelectedAtPosition: anInteger [
 ToBasicListElement >> itemCount [
 
 	^ self dataSource itemCount
+]
+
+{ #category : #layout }
+ToBasicListElement >> minNodeWidth [
+
+	^ 0
 ]
 
 { #category : #'instance creation' }
@@ -810,6 +818,12 @@ ToBasicListElement >> updateSelectionAfter: aValuable [
 ToBasicListElement >> useCheckbox: aBoolean [
 
 	self toConfiguration useCheckbox: aBoolean
+]
+
+{ #category : #'accessing - selection models' }
+ToBasicListElement >> useInfiniteLayout [ 
+
+	^ useInfiniteLayout 
 ]
 
 { #category : #'accessing selecters' }

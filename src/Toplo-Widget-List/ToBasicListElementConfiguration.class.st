@@ -1,29 +1,10 @@
 Class {
 	#name : #ToBasicListElementConfiguration,
 	#superclass : #ToWidgetConfiguration,
-	#traits : 'TObservable',
-	#classTraits : 'TObservable classTrait',
-	#instVars : [
-		'#useCheckbox => ObservableSlot'
-	],
+	#traits : 'TObservable + TToBasicListElementConfiguration',
+	#classTraits : 'TObservable classTrait + TToBasicListElementConfiguration classTrait',
 	#category : #'Toplo-Widget-List-Core'
 }
-
-{ #category : #accessing }
-ToBasicListElementConfiguration >> autoDistribute [
-
-	^ false
-]
-
-{ #category : #configuration }
-ToBasicListElementConfiguration >> configureNodeContainer: aNodeContainer inLisElement: aListElement [
-]
-
-{ #category : #accessing }
-ToBasicListElementConfiguration >> defaultInnerElementClass [
-
-	^ ToInfiniteElement
-]
 
 { #category : #initialization }
 ToBasicListElementConfiguration >> initialize [
@@ -33,29 +14,23 @@ ToBasicListElementConfiguration >> initialize [
 	useCheckbox := false
 ]
 
-{ #category : #accessing }
-ToBasicListElementConfiguration >> isFlowable [
-
-	^ false
-]
-
 { #category : #hook }
 ToBasicListElementConfiguration >> onInstalledIn: aListElement [
 
 	super onInstalledIn: aListElement.
 	self property: #useCheckbox whenChangedDo: [
 			aListElement nodeManager checkableNode: useCheckbox.
-			aListElement onUseCheckboxChangedWith: useCheckbox ]
-]
+			aListElement onUseCheckboxChangedWith: useCheckbox ].
 
-{ #category : #accessing }
-ToBasicListElementConfiguration >> useCheckbox [ 
+	#( #uniformNodeWidth #uniformNodeHeight #autoDistribute
+	   #isFlowable #isScrollable ) do: [ :flag |
+			self
+				property: flag
+				whenChangedDo: [ aListElement requestConfiguration ] ].
 
-	^ useCheckbox 
-]
-
-{ #category : #accessing }
-ToBasicListElementConfiguration >> useCheckbox: aBoolean [
-
-	useCheckbox := aBoolean
+	uniformNodeWidth := false.
+	uniformNodeHeight := false.
+	autoDistribute := false.
+	isFlowable := false.
+	isScrollable := true
 ]

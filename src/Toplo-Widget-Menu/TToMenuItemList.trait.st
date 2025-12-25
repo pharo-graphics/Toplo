@@ -3,7 +3,7 @@ Trait {
 	#instVars : [
 		'menuListOwner'
 	],
-	#category : #'Toplo-Widget-Menu-ItemBar'
+	#category : #'Toplo-Widget-Menu-ItemList'
 }
 
 { #category : #'t - menu item list  - accessing' }

@@ -60,6 +60,30 @@ ToInnerFiniteListElement >> applyConfiguration [
 	self childrenDo: [ :container | container applyConfiguration ]
 ]
 
+{ #category : #configuration }
+ToInnerFiniteListElement >> configureNodeContainer: aNodeContainer [
+
+	listElement toConfigurationDo: [ :conf |
+			conf isFlowable
+				ifTrue: [ aNodeContainer fitContent ]
+				ifFalse: [
+						listElement isVertical
+							ifTrue: [
+									listElement isHMatchParent
+										ifTrue: [ aNodeContainer hMatchParent ]
+										ifFalse: [ aNodeContainer hFitContent ].
+									conf autoDistribute
+										ifTrue: [ aNodeContainer vMatchParent ]
+										ifFalse: [ aNodeContainer vFitContent ] ]
+							ifFalse: [
+									listElement isVMatchParent
+										ifTrue: [ aNodeContainer vMatchParent ]
+										ifFalse: [ aNodeContainer vFitContent ].
+									conf autoDistribute
+										ifTrue: [ aNodeContainer hMatchParent ]
+										ifFalse: [ aNodeContainer hFitContent ] ] ] ]
+]
+
 { #category : #'private - commands' }
 ToInnerFiniteListElement >> consumePendingDataSourceCommands [
 ]
@@ -123,7 +147,14 @@ ToInnerFiniteListElement >> initialize [
 	self addEventHandler: ToInnerFiniteListElementEventHandler new.
 	self trackElement: self scrollableFiniteListTrackElementClass new.
 	self matchParent.
-	self focusability: BlFocusability ignore
+	self focusability: BlFocusability ignore.
+	listElement primarySelectionMode selectionOption
+		grouped: false;
+		beneath: true;
+		triggerSelectionState: true.
+	listElement contextMenuSelectionMode selectionOption
+		grouped: false;
+		beneath: false.
 ]
 
 { #category : #initialization }
@@ -204,10 +235,6 @@ ToInnerFiniteListElement >> onEnterLayoutOrScroll [
 ToInnerFiniteListElement >> onExitLayoutOrScroll [
 
 
-]
-
-{ #category : #'hooks - layout' }
-ToInnerFiniteListElement >> onInvisibleNodeContainers: theInvisibleContainers visibleNodeContainers: theVisibleContainers [
 ]
 
 { #category : #'data source updates' }

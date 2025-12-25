@@ -1,7 +1,7 @@
 Class {
 	#name : #ToMenuItemNode,
 	#superclass : #ToListItemNode,
-	#category : #'Toplo-Widget-Menu-ItemBar'
+	#category : #'Toplo-Widget-Menu-ItemList'
 }
 
 { #category : #configuration }

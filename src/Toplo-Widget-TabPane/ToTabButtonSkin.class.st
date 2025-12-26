@@ -17,7 +17,7 @@ ToTabButtonSkin >> installSkinEvent: anEvent [
 	super installSkinEvent: anEvent.
 
 	anEvent elementDo: [ :e | "setup the selection color for the ShrinkFeedbackLayer of the TabButton "
-			e holder listElement toConfiguration isFlowable ifFalse: [
+			e holder listElement isFlowable ifFalse: [
 					e
 						addTokenNamed: #'color-list-primary-selection-focused'
 						withValue: (e valueOfTokenNamed: #'color-bg-container') ] ]

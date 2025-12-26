@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMultiSelectHeaderListElement,
 	#superclass : #ToGenericListElement,
-	#traits : 'TToSelectHeaderElement + TToElementWithPlaceholder',
-	#classTraits : 'TToSelectHeaderElement classTrait + TToElementWithPlaceholder classTrait',
+	#traits : 'TToFiniteListElement + TToSelectHeaderElement + TToElementWithPlaceholder',
+	#classTraits : 'TToFiniteListElement classTrait + TToSelectHeaderElement classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [
 		'selectElement',
 		'maxSelectedCount',
@@ -77,12 +77,6 @@ ToMultiSelectHeaderListElement >> defaultEventHandler [
 ]
 
 { #category : #initialization }
-ToMultiSelectHeaderListElement >> defaultInnerElementClass [
-
-	^ ToInnerFiniteListElement
-]
-
-{ #category : #initialization }
 ToMultiSelectHeaderListElement >> defaultLayout [
 
 	^ BlLinearLayout horizontal
@@ -92,6 +86,12 @@ ToMultiSelectHeaderListElement >> defaultLayout [
 ToMultiSelectHeaderListElement >> defaultNodeManagerClass [ 
 
 	^ ToMultiSelectHeaderNodeManager
+]
+
+{ #category : #initialization }
+ToMultiSelectHeaderListElement >> defaultUseInfiniteLayout [ 
+
+	^ false
 ]
 
 { #category : #layout }
@@ -123,7 +123,6 @@ ToMultiSelectHeaderListElement >> haveMaxSelectedCount [
 ToMultiSelectHeaderListElement >> initialize [
 
 	super initialize.
-	useInfiniteLayout := false.
 	" no visible primary and secondary selection elements "
 	self selectionOption masked: true.
 	self selectionMode makeDisabledUnselectable: true.

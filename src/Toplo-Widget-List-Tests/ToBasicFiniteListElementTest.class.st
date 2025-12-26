@@ -11,7 +11,7 @@ Class {
 ToBasicFiniteListElementTest >> setUp [ 
 
 	super setUp.
-	l := ToBasicFiniteListElement new.
+	l := ToBasicListElement finite.
 ]
 
 { #category : #accessing }

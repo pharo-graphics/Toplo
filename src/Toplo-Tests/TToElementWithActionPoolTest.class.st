@@ -188,7 +188,7 @@ TToElementWithActionPoolTest >> testNewGroupCheckAction [
 			theList := evt checkedList ].
 
 	group width: 150.
-	group toConfiguration uniformNodeWidth: true.
+	group uniformNodeWidth: true.
 	space root addChild: group.
 	group items second checked: true.
 	self waitTestingSpaces.

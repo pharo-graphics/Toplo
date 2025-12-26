@@ -1,8 +1,11 @@
 Class {
 	#name : #ToBasicListElementConfiguration,
 	#superclass : #ToWidgetConfiguration,
-	#traits : 'TObservable + TToBasicListElementConfiguration',
-	#classTraits : 'TObservable classTrait + TToBasicListElementConfiguration classTrait',
+	#traits : 'TObservable',
+	#classTraits : 'TObservable classTrait',
+	#instVars : [
+		'#useCheckbox => ObservableSlot'
+	],
 	#category : #'Toplo-Widget-List-Core'
 }
 
@@ -11,7 +14,6 @@ ToBasicListElementConfiguration >> initialize [
 
 	super initialize.
 	self class initializeSlots: self.
-	useCheckbox := false
 ]
 
 { #category : #hook }
@@ -20,17 +22,17 @@ ToBasicListElementConfiguration >> onInstalledIn: aListElement [
 	super onInstalledIn: aListElement.
 	self property: #useCheckbox whenChangedDo: [
 			aListElement nodeManager checkableNode: useCheckbox.
-			aListElement onUseCheckboxChangedWith: useCheckbox ].
+			aListElement onUseCheckboxChangedWith: useCheckbox ] 
+]
 
-	#( #uniformNodeWidth #uniformNodeHeight #autoDistribute
-	   #isFlowable #isScrollable ) do: [ :flag |
-			self
-				property: flag
-				whenChangedDo: [ aListElement requestConfiguration ] ].
+{ #category : #'t - basic list element configuration' }
+ToBasicListElementConfiguration >> useCheckbox [ 
 
-	uniformNodeWidth := false.
-	uniformNodeHeight := false.
-	autoDistribute := false.
-	isFlowable := false.
-	isScrollable := true
+	^ useCheckbox
+]
+
+{ #category : #'t - basic list element configuration' }
+ToBasicListElementConfiguration >> useCheckbox: aBoolean [
+
+	useCheckbox := aBoolean
 ]

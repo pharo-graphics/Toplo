@@ -4,8 +4,8 @@ I'm a list whose node contents is a BlElement
 Class {
 	#name : #ToItemFiniteListElement,
 	#superclass : #ToBasicListElement,
-	#traits : 'TToItemListElement',
-	#classTraits : 'TToItemListElement classTrait',
+	#traits : 'TToFiniteListElement + TToItemListElement',
+	#classTraits : 'TToFiniteListElement classTrait + TToItemListElement classTrait',
 	#category : #'Toplo-Widget-List-ItemFiniteList'
 }
 
@@ -23,24 +23,22 @@ ToItemFiniteListElement >> defaultFakeDataItem [
 ]
 
 { #category : #initialization }
-ToItemFiniteListElement >> defaultInnerElementClass [ 
-
-	^ ToInnerFiniteListElement
-]
-
-{ #category : #initialization }
 ToItemFiniteListElement >> defaultNodeManagerClass [
 
 	^ ToItemListNodeManager
 ]
 
 { #category : #initialization }
+ToItemFiniteListElement >> defaultUseInfiniteLayout [ 
+
+	^ false
+]
+
+{ #category : #initialization }
 ToItemFiniteListElement >> initialize [
 
 	super initialize.
-	self initializeAsItemListElement.
-	useInfiniteLayout := false
-
+	self initializeAsItemListElement
 ]
 
 { #category : #skin }

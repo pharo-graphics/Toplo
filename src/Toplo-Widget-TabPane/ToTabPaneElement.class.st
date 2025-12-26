@@ -1,8 +1,8 @@
 Class {
 	#name : #ToTabPaneElement,
 	#superclass : #ToPane,
-	#traits : 'TToItemListUser',
-	#classTraits : 'TToItemListUser classTrait',
+	#traits : 'TToFiniteItemListUser',
+	#classTraits : 'TToFiniteItemListUser classTrait',
 	#instVars : [
 		'bodyContainer',
 		'headerContainer'

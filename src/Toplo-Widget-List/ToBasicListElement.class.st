@@ -4,17 +4,32 @@ Class {
 	#traits : 'TToCheckableSelectionManager + TToListElementDecorator + TToElementWithPlaceholder + TToOrientable',
 	#classTraits : 'TToCheckableSelectionManager classTrait + TToListElementDecorator classTrait + TToElementWithPlaceholder classTrait + TToOrientable classTrait',
 	#instVars : [
-		'next',
 		'dataSource',
 		'dataAccessor',
 		'nodeManager',
 		'selectionModeMap',
 		'mouseMoveReplayRequested',
 		'fakeDataItem',
-		'useInfiniteLayout'
+		'useInfiniteLayout',
+		'innerElement'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
+
+{ #category : #'instance creation' }
+ToBasicListElement class >> finite [
+
+	^ self basicNew
+		  useInfiniteLayout: false;
+		  initialize;
+		  yourself
+]
+
+{ #category : #'instance creation' }
+ToBasicListElement class >> infinite [
+
+	^ self new
+]
 
 { #category : #'t - finite list element - fake container' }
 ToBasicListElement >> addFakeNodeContainer: aNodeContainer [
@@ -70,6 +85,12 @@ ToBasicListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 							in: self selectionModel ] ]
 		ifEmpty: [
 		self selectionModel copySelectionFrom: sieve selectionModel ]
+]
+
+{ #category : #testing }
+ToBasicListElement >> autoDistribute [
+
+	^ false
 ]
 
 { #category : #layout }
@@ -178,7 +199,9 @@ ToBasicListElement >> defaultInnerElement [
 { #category : #initialization }
 ToBasicListElement >> defaultInnerElementClass [
 
-	^ ToInfiniteElement
+	^ self useInfiniteLayout
+		  ifTrue: [ ToInfiniteElement ]
+		  ifFalse: [ ToInnerFiniteListElement ]
 ]
 
 { #category : #initialization }
@@ -216,6 +239,12 @@ ToBasicListElement >> defaultSecondarySelectionMode [
 
 	^ ToListSecondarySelectionMode new.
 
+]
+
+{ #category : #initialization }
+ToBasicListElement >> defaultUseInfiniteLayout [
+
+	^ true
 ]
 
 { #category : #'accessing selecters' }
@@ -332,7 +361,6 @@ ToBasicListElement >> initialize [
 
 	super initialize.
 	
-	useInfiniteLayout := true.
 	mouseMoveReplayRequested := false.
 	selectionModeMap := IdentityDictionary new.
 
@@ -371,15 +399,32 @@ ToBasicListElement >> initializeDataSource [
 { #category : #initialization }
 ToBasicListElement >> initializeInnerElement [
 
-	next := self defaultInnerElement.
-	self next elevation: (BlRelativeElevation elevation: 10).
-	self addChild: self next
+	innerElement := self defaultInnerElement.
+	innerElement elevation: (BlRelativeElevation elevation: 10).
+	self addChild: innerElement
+]
+
+{ #category : #configuration }
+ToBasicListElement >> innerConfiguration [ 
+
+	^ self innerElement toConfiguration
+]
+
+{ #category : #configuration }
+ToBasicListElement >> innerConfigurationDo: aBlock [
+
+	^ aBlock value: self innerConfiguration
 ]
 
 { #category : #'t - list element decorator - infinite accessing' }
-ToBasicListElement >> innerElementDo: aValuable [
+ToBasicListElement >> innerElement [
 
-	aValuable value: self innerElement
+	"innerElement ifNil: [
+			self initializeInnerElement.
+			fakeDataItem := self defaultFakeDataItem.
+			self installFakeNodeContainer.
+			self notifyDataSourceChanged ]."
+	^ innerElement innerElement
 ]
 
 { #category : #'t - finite list element - fake container' }
@@ -404,6 +449,12 @@ ToBasicListElement >> installFakeNodeContainer [
 	self addFakeNodeContainer: fakeContainer.
 	self nodeManager buildNode: fakeContainer node.
 	self requestConfiguration
+]
+
+{ #category : #testing }
+ToBasicListElement >> isFlowable [
+
+	^ false
 ]
 
 { #category : #testing }
@@ -479,7 +530,7 @@ ToBasicListElement >> newUnselectableSelectionMode [
 { #category : #'t - list element decorator - infinite accessing' }
 ToBasicListElement >> next [
 
-	^ next
+	^ self innerElement
 ]
 
 { #category : #accessing }
@@ -626,7 +677,7 @@ ToBasicListElement >> removeSelectionMode: aSelectionMode [
 ToBasicListElement >> requestLayout: aSourceElement [
 
 	super requestLayout: aSourceElement.
-	(aSourceElement = self next or: [ aSourceElement parent = self next ])
+	(aSourceElement = innerElement or: [ aSourceElement parent = innerElement ])
 		ifTrue: [ self requestMouseMoveReplay ]
 ]
 
@@ -814,16 +865,30 @@ ToBasicListElement >> updateSelectionAfter: aValuable [
 	self postponeAction: [ self notifyDataSourceChanged ]
 ]
 
-{ #category : #accessing }
-ToBasicListElement >> useCheckbox: aBoolean [
+{ #category : #configuration }
+ToBasicListElement >> useCheckbox [
 
-	self toConfiguration useCheckbox: aBoolean
+	^ self toConfigurationDo: [ :conf | conf useCheckbox ]
 ]
 
-{ #category : #'accessing - selection models' }
-ToBasicListElement >> useInfiniteLayout [ 
+{ #category : #configuration }
+ToBasicListElement >> useCheckbox: aBoolean [
 
-	^ useInfiniteLayout 
+	self toConfigurationDo: [ :conf | conf useCheckbox: aBoolean ]
+]
+
+{ #category : #accessing }
+ToBasicListElement >> useInfiniteLayout [
+
+	^ useInfiniteLayout ifNil: [
+		  useInfiniteLayout := self defaultUseInfiniteLayout ]
+]
+
+{ #category : #accessing }
+ToBasicListElement >> useInfiniteLayout: aBoolean [ 
+
+	useInfiniteLayout = aBoolean ifTrue: [ ^ self ].
+	useInfiniteLayout := aBoolean
 ]
 
 { #category : #'accessing selecters' }

@@ -48,7 +48,6 @@ ToInnerFiniteListElement >> addedDataSourceCommand: aCommand [
 ToInnerFiniteListElement >> applyConfiguration [
 
 	super applyConfiguration.
-	
 	listElement isHFitContent
 		ifTrue: [ self hFitContent ]
 		ifFalse: [ self hMatchParent ].
@@ -60,10 +59,14 @@ ToInnerFiniteListElement >> applyConfiguration [
 	self childrenDo: [ :container | container applyConfiguration ]
 ]
 
+{ #category : #accessing }
+ToInnerFiniteListElement >> cleanUpRecyclerAt: anIndex [
+]
+
 { #category : #configuration }
 ToInnerFiniteListElement >> configureNodeContainer: aNodeContainer [
 
-	listElement toConfigurationDo: [ :conf |
+	self toConfigurationDo: [ :conf |
 			conf isFlowable
 				ifTrue: [ aNodeContainer fitContent ]
 				ifFalse: [
@@ -82,6 +85,10 @@ ToInnerFiniteListElement >> configureNodeContainer: aNodeContainer [
 									conf autoDistribute
 										ifTrue: [ aNodeContainer hMatchParent ]
 										ifFalse: [ aNodeContainer hFitContent ] ] ] ]
+]
+
+{ #category : #layout }
+ToInnerFiniteListElement >> consumeFinalStepCommands [
 ]
 
 { #category : #'private - commands' }
@@ -183,6 +190,12 @@ ToInnerFiniteListElement >> listElement [
 ToInnerFiniteListElement >> newNodeHolderFromDataSource: aDataSource [
 
 	^ listElement nodeManager newHolder
+]
+
+{ #category : #configuration }
+ToInnerFiniteListElement >> newToConfiguration [
+
+	^ ToInnerFiniteListElementConfiguration new
 ]
 
 { #category : #'t - list inner element' }

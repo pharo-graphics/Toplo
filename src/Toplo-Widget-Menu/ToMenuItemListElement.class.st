@@ -4,8 +4,8 @@ I'm a list whose node contents is a menu item element.
 Class {
 	#name : #ToMenuItemListElement,
 	#superclass : #ToItemFiniteListElement,
-	#traits : 'TToMenuItemList',
-	#classTraits : 'TToMenuItemList classTrait',
+	#traits : 'TToFiniteListElement + TToMenuItemList',
+	#classTraits : 'TToFiniteListElement classTrait + TToMenuItemList classTrait',
 	#category : #'Toplo-Widget-Menu-ItemList'
 }
 
@@ -26,9 +26,6 @@ ToMenuItemListElement >> initialize [
 		'no focusability until focus management is understood and working '.
 	self focusability: BlFocusability none.
 	self vertical: true.
-	self toConfiguration isFlowable: false.
-	self fitContent.
-	self toConfiguration uniformNodeWidth: true.
 	"No visible primary selection"
 	self selectionOption masked: true
 ]
@@ -46,10 +43,4 @@ ToMenuItemListElement >> minNodeWidth [
 ToMenuItemListElement >> newRawSkin [ 
 
 	^ ToMenuItemListElementSkin new
-]
-
-{ #category : #configuration }
-ToMenuItemListElement >> newToConfiguration [ 
-
-	^ ToMenuItemListElementConfiguration new
 ]

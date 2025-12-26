@@ -7,7 +7,7 @@ Class {
 { #category : #'event handling' }
 ToTabPaneNodeSkin >> configureSelectionTokensIn: anItemElement [
 
-	anItemElement holder listElement toConfiguration isFlowable
+	anItemElement holder listElement isFlowable
 		ifTrue: [
 				anItemElement removeTokenNamed: #'selected-focused-foreground'.
 				anItemElement removeTokenNamed: #'selected-unfocused-foreground' ]

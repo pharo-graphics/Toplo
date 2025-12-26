@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuPane,
 	#superclass : #ToElement,
-	#traits : 'TToItem + TToMenuItem + TToItemListUser + TToMenuItemListUser + TToOrientable',
-	#classTraits : 'TToItem classTrait + TToMenuItem classTrait + TToItemListUser classTrait + TToMenuItemListUser classTrait + TToOrientable classTrait',
+	#traits : 'TToItem + TToMenuItem + TToFiniteItemListUser + TToMenuItemListUser + TToOrientable',
+	#classTraits : 'TToItem classTrait + TToMenuItem classTrait + TToFiniteItemListUser classTrait + TToMenuItemListUser classTrait + TToOrientable classTrait',
 	#instVars : [
 		'autoOpen',
 		'isSubPane'
@@ -52,8 +52,8 @@ ToMenuPane >> applyConfiguration [
 	self itemList constraintsDo: [ :c |
 			c linear vertical alignCenter.
 			c linear horizontal alignCenter ].
-	self itemList toConfiguration isScrollable: self isScrollable.
-	self itemList toConfiguration isFlowable: self isFlowable.
+	self itemList innerConfiguration isScrollable: self isScrollable.
+	self itemList innerConfiguration isFlowable: self isFlowable.
 	self isHFitContent
 		ifTrue: [ self itemList hFitContent ]
 		ifFalse: [ self itemList hMatchParent ].
@@ -78,6 +78,12 @@ ToMenuPane >> autoOpen: anObject [
 ToMenuPane >> cancelAutoOpen [
 
 	self rootMenuPane autoOpen: false
+]
+
+{ #category : #testing }
+ToMenuPane >> hasInlineWindow [
+
+	^ self items anySatisfy: [ :it | it hasInlineWindow ]
 ]
 
 { #category : #initialization }

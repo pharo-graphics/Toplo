@@ -17,8 +17,8 @@ ToTabGroupElementConfiguration >> applyOn: aTabGroupElement [
 	aTabGroupElement checkAddNewTabItemButton.
 	aTabGroupElement itemList atStartSide: atStartSide.
 
-	aTabGroupElement itemList toConfiguration uniformNodeWidth: aTabGroupElement isVertical.
-	aTabGroupElement itemList toConfiguration uniformNodeHeight: aTabGroupElement isHorizontal.
+	aTabGroupElement uniformNodeWidth: aTabGroupElement isVertical.
+	aTabGroupElement uniformNodeHeight: aTabGroupElement isHorizontal.
 
 	aTabGroupElement itemList constraintsDo: [ :c |
 			c horizontal resizer:

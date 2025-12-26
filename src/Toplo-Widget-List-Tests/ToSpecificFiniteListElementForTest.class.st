@@ -1,6 +1,8 @@
 Class {
 	#name : #ToSpecificFiniteListElementForTest,
 	#superclass : #ToBasicListElement,
+	#traits : 'TToFiniteListElement',
+	#classTraits : 'TToFiniteListElement classTrait',
 	#category : #'Toplo-Widget-List-Tests-Core-FiniteListElement'
 }
 
@@ -11,21 +13,20 @@ ToSpecificFiniteListElementForTest >> defaultFakeDataItem [
 ]
 
 { #category : #initialization }
-ToSpecificFiniteListElementForTest >> defaultInnerElementClass [ 
-
-	^ ToInnerFiniteListElement
-]
-
-{ #category : #initialization }
 ToSpecificFiniteListElementForTest >> defaultNodeManagerClass [
 
 	^ ToSpecificFiniteListNodeManagerForTest
 ]
 
 { #category : #initialization }
+ToSpecificFiniteListElementForTest >> defaultUseInfiniteLayout [ 
+
+	^ false
+]
+
+{ #category : #initialization }
 ToSpecificFiniteListElementForTest >> initialize [ 
 
 	super initialize.
-	useInfiniteLayout := false.
 	self fakeDataItem: 'Fake'
 ]

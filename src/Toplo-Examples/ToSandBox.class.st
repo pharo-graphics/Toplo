@@ -1471,8 +1471,6 @@ ToSandBox class >> example_CheckableFiniteListElement [
 	| space bar |
 	space := BlSpace new.
 	bar := ToCheckableFiniteListElement new.
-	bar vMatchParent.
-	bar toConfiguration isFlowable: true.
 	space root addChild: bar.
 	bar matchParent.
 	self statesOfAmerica do: [ :l |
@@ -3502,8 +3500,9 @@ ToSandBox class >> example_MixedEventGenerator [
 ToSandBox class >> example_NodeContainerWithStatesOfAmerica [
 
 	| l |
-	l := ToGenericFiniteListElement new.
-	l horizontal: true.
+	l := ToGenericListElement finite.
+	l innerConfigurationDo: [ :conf | conf isFlowable: true ].
+	l matchParent.
 	l dataAccessor addAll: self statesOfAmerica.
 	l nodes do: [ :n | n width: 100 ].
 	l openInSpace
@@ -4759,7 +4758,7 @@ ToSandBox class >> example_SimpleTabPane [
 			tabItem
 				id: data asSymbol;
 				labelText: data asString;
-				paneBuilder: [ :body :btn :node :holder |
+				paneBuilder: [ :body :btn :holder |
 						body addChild: (ToElement new
 									 background: Color random;
 									 matchParent;
@@ -9135,43 +9134,38 @@ ToSandBox class >> finiteListConfigurationBoardFor: aBar [
 			 yourself).
 	confPane addChild: menu.
 
-	{
-		([ aBar isVertical ] -> [ :v | aBar isVertical: v ]
-		 -> 'Vertical').
-		([ aBar toConfiguration isFlowable ]
-		 -> [ :v | aBar toConfiguration isFlowable: v ] -> 'Flowable').
-		([ aBar toConfiguration uniformNodeWidth ]
-		 -> [ :v | aBar toConfiguration uniformNodeWidth: v ]
-		 -> 'Uniform width').
-		([ aBar toConfiguration uniformNodeHeight ]
-		 -> [ :v | aBar toConfiguration uniformNodeHeight: v ]
-		 -> 'Uniform height').
-		([ aBar toConfiguration isScrollable ]
-		 -> [ :v | aBar toConfiguration isScrollable: v ] -> 'Scrollable').
-		([ aBar toConfiguration autoDistribute ]
-		 -> [ :v | aBar toConfiguration autoDistribute: v ]
-		 -> 'Auto-distribute').
-		([ aBar selectionMode selectOnPressed ]
-		 -> [ :v | aBar selectionMode selectOnPressed: v ]
-		 -> 'Select on pressed').
-		([ aBar selectionMode deselectOnPressed ]
-		 -> [ :v | aBar selectionMode deselectOnPressed: v ]
-		 -> 'Deselect on pressed').
-		([ aBar selectionMode makeDisabledUnselectable ]
-		 -> [ :v | aBar selectionMode makeDisabledUnselectable: v ]
-		 -> 'Disabled items are unselectable') } do: [ :assoc |
-			| switch |
-			switch := ToSwitchButton new labelText: assoc value value.
-			switch checkAction: [ :evt |
-				assoc key value value: evt target isChecked ].
+	aBar innerConfigurationDo: [ :conf |
+			{
+				([ aBar isVertical ] -> [ :v | aBar isVertical: v ] -> 'Vertical').
+				([ conf isFlowable ] -> [ :v | conf isFlowable: v ] -> 'Flowable').
+				([ conf uniformNodeWidth ] -> [ :v | conf uniformNodeWidth: v ]
+				 -> 'Uniform width').
+				([ conf uniformNodeHeight ] -> [ :v | conf uniformNodeHeight: v ]
+				 -> 'Uniform height').
+				([ conf isScrollable ] -> [ :v | conf isScrollable: v ]
+				 -> 'Scrollable').
+				([ conf autoDistribute ] -> [ :v | conf autoDistribute: v ]
+				 -> 'Auto-distribute').
+				([ aBar selectionMode selectOnPressed ]
+				 -> [ :v | aBar selectionMode selectOnPressed: v ]
+				 -> 'Select on pressed').
+				([ aBar selectionMode deselectOnPressed ]
+				 -> [ :v | aBar selectionMode deselectOnPressed: v ]
+				 -> 'Deselect on pressed').
+				([ aBar selectionMode makeDisabledUnselectable ]
+				 -> [ :v | aBar selectionMode makeDisabledUnselectable: v ]
+				 -> 'Disabled items are unselectable') } do: [ :assoc |
+					| switch |
+					switch := ToSwitchButton new labelText: assoc value value.
+					switch checkAction: [ :evt |
+						assoc key value value: evt target isChecked ].
 
-			switch startFlexible: true.
-			switch hMatchParent.
-			confPane addChild: switch.
+					switch startFlexible: true.
+					switch hMatchParent.
+					confPane addChild: switch.
 
-			aBar whenConfigurationAppliedDo: [
-				switch checked:
-					(assoc key key value) ] ].
+					aBar whenConfigurationAppliedDo: [
+						switch checked: assoc key key value ] ] ].
 
 	animSwitch := ToSwitchButton new labelText: 'Animate transition'.
 	animSwitch checkAction: [ :evt |
@@ -9212,7 +9206,7 @@ ToSandBox class >> finiteListWithData: aCollection [
 
 	| bar confBoard barPane rootPane selectionModeBoard rand |
 	rand := Random new.
-	bar := ToGenericFiniteListElement new.
+	bar := ToGenericListElement finite.
 	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
 	bar nodeBuilder: [ :node :dataItem :holder |
 			| fontSize triplet label |
@@ -9316,8 +9310,6 @@ ToSandBox class >> finiteListWithData: aCollection [
 	confBoard addChild: selectionModeBoard.
 
 	bar dataAccessor addAll: aCollection.
-	bar toConfiguration isFlowable: true.
-	bar toConfiguration uniformNodeWidth: true.
 	rootPane := ToPane horizontal.
 	rootPane padding: (BlInsets all: 5).
 	rootPane matchParent.
@@ -10108,19 +10100,19 @@ ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 	{
 		([ aTabGroupElement isVertical ]
 		 -> [ :v | aTabGroupElement isVertical: v ] -> 'Vertical').
-		([ itemList toConfiguration isFlowable ]
-		 -> [ :v | itemList toConfiguration isFlowable: v ] -> 'Flowable').
-		([ itemList toConfiguration uniformNodeWidth ]
-		 -> [ :v | itemList toConfiguration uniformNodeWidth: v ]
+		([ itemList isFlowable ]
+		 -> [ :v | itemList isFlowable: v ] -> 'Flowable').
+		([ itemList uniformNodeWidth ]
+		 -> [ :v | itemList uniformNodeWidth: v ]
 		 -> 'Uniform width').
-		([ itemList toConfiguration uniformNodeHeight ]
-		 -> [ :v | itemList toConfiguration uniformNodeHeight: v ]
+		([ itemList uniformNodeHeight ]
+		 -> [ :v | itemList uniformNodeHeight: v ]
 		 -> 'Uniform height').
-		([ itemList toConfiguration isScrollable ]
-		 -> [ :v | itemList toConfiguration isScrollable: v ]
+		([ itemList isScrollable ]
+		 -> [ :v | itemList isScrollable: v ]
 		 -> 'Scrollable').
-		([ itemList toConfiguration autoDistribute ]
-		 -> [ :v | itemList toConfiguration autoDistribute: v ]
+		([ itemList autoDistribute ]
+		 -> [ :v | itemList autoDistribute: v ]
 		 -> 'Auto-distribute').
 		([ aTabGroupElement selectionMode selectOnPressed ]
 		 -> [ :v | aTabGroupElement selectionMode selectOnPressed: v ]

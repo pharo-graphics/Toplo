@@ -160,6 +160,12 @@ ToInfiniteElement >> newNodeHolderFromDataSource: aDataSource [
 	^ listElement nodeManager newHolder
 ]
 
+{ #category : #configuration }
+ToInfiniteElement >> newToConfiguration [ 
+
+	^ ToInfiniteElementConfiguration new
+]
+
 { #category : #'t - list inner element' }
 ToInfiniteElement >> nodeContainerAt: aPosition [
 
@@ -289,6 +295,12 @@ ToInfiniteElement >> smoothScrollToDataSourcePosition: anIndex [
 	which can, for example, be a data source position or child index"
 
 	self smoothScrollToPosition: anIndex
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> trackElement [
+
+	^ self
 ]
 
 { #category : #'view - configuration' }

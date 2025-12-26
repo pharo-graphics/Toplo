@@ -17,8 +17,8 @@ ToMultiSelectHeaderListElementEventHandler >> finiteListVisibleNodeContainerList
 	| nbInvisible first last listElement |
 	listElement := anEvent currentTarget.
 
-	listElement toConfiguration isFlowable ifTrue: [ ^ self ].
-	listElement toConfiguration isScrollable ifTrue: [ ^ self ].
+	listElement innerElement toConfiguration isFlowable ifTrue: [ ^ self ].
+	listElement innerElement toConfiguration isScrollable ifTrue: [ ^ self ].
 	nbInvisible := listElement selectedDataItems size
 	               - anEvent visibleNodeContainers size.
 	nbInvisible isZero ifTrue: [

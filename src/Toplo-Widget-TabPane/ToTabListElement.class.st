@@ -1,6 +1,8 @@
 Class {
 	#name : #ToTabListElement,
 	#superclass : #ToCheckableFiniteListElement,
+	#traits : 'TToFiniteListElement',
+	#classTraits : 'TToFiniteListElement classTrait',
 	#instVars : [
 		'atStartSide'
 	],

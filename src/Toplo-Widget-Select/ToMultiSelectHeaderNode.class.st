@@ -11,7 +11,7 @@ ToMultiSelectHeaderNode >> applyConfiguration [
 
 	super applyConfiguration.
 	self holderDo: [ :h |
-			h listElement toConfiguration autoDistribute
+			h listElement autoDistribute
 				ifTrue: [ self hMatchParent ]
 				ifFalse: [ self hFitContent ] ]
 ]

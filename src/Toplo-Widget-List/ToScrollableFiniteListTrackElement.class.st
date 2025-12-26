@@ -24,10 +24,10 @@ ToScrollableFiniteListTrackElement >> applyConfiguration [
 	self childrenDo: [ :child | child applyConfiguration ]
 ]
 
-{ #category : #testing }
+{ #category : #configuration }
 ToScrollableFiniteListTrackElement >> autoDistribute [
 
-	^ listElement toConfiguration autoDistribute
+	^ listElement innerConfiguration autoDistribute
 ]
 
 { #category : #configuration }
@@ -71,22 +71,22 @@ ToScrollableFiniteListTrackElement >> initialize [
 	self focusability: BlFocusability ignore
 ]
 
-{ #category : #testing }
+{ #category : #configuration }
 ToScrollableFiniteListTrackElement >> isFlowable [
 
-	^ listElement toConfiguration isFlowable
+	^ listElement innerConfiguration isFlowable
 ]
 
-{ #category : #testing }
+{ #category : #configuration }
 ToScrollableFiniteListTrackElement >> isHorizontal [
 
 	^ listElement isHorizontal
 ]
 
-{ #category : #testing }
+{ #category : #configuration }
 ToScrollableFiniteListTrackElement >> isScrollable [
 
-	^ listElement toConfiguration isScrollable
+	^ listElement innerConfiguration isScrollable
 ]
 
 { #category : #layout }
@@ -211,11 +211,11 @@ ToScrollableFiniteListTrackElement >> removeNodeContainer: container [
 { #category : #configuration }
 ToScrollableFiniteListTrackElement >> uniformNodeHeight [
 
-	^ listElement toConfiguration uniformNodeHeight
+	^ listElement innerConfiguration uniformNodeHeight
 ]
 
 { #category : #configuration }
 ToScrollableFiniteListTrackElement >> uniformNodeWidth [
 
-	^ listElement toConfiguration uniformNodeWidth
+	^ listElement innerConfiguration uniformNodeWidth
 ]

@@ -4,7 +4,7 @@ See `ToSandBox class>>#example_PicsumPhotosGallery`
 "
 Class {
 	#name : #ToExPicsumNode,
-	#superclass : #ToListNode,
+	#superclass : #ToBasicListNode,
 	#instVars : [
 		'label'
 	],

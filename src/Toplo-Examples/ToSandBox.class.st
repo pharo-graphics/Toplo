@@ -563,7 +563,7 @@ ToSandBox class >> example_2ListsWithEditableAndContextMenu [
 	| win1 win2 l1 l2 space |
 	l1 := self listWithEditableAndContextMenu.
 	l2 := self listWithEditableAndContextMenu.
-	l2 useCheckbox: true.
+	l2 toConfiguration useCheckbox: true.
 	
 	win1 := ToInnerWindow new.
 	win1 pane addChild: l1.
@@ -632,7 +632,7 @@ ToSandBox class >> example_AllClassesWithCheckbox [
 
 	| l |
 	l := self example_AllClasses.
-	l useCheckbox: true
+	l toConfiguration useCheckbox: true
 ]
 
 { #category : #window }
@@ -1468,39 +1468,18 @@ ToSandBox class >> example_CheckBoxWithDefaultStyleSheetDarkTheme [
 { #category : #'finite list' }
 ToSandBox class >> example_CheckableFiniteListElement [
 
-	| bar space container |
-	container := ToPane new.
-	container matchParent.
-	container contextMenuBuilder: [ :menu :request |
-			menu addItem: (ToMenuItem new
-					 labelText: 'Inspect';
-					 clickAction: [ container inspect ];
-					 yourself) ].
-
-	bar := ToCheckableFiniteListElement new.
+	| space bar |
 	space := BlSpace new.
+	bar := ToCheckableFiniteListElement new.
+	space root addChild: bar.
 	bar matchParent.
-	{ #Alabama. #Alaska. #Arizona. #Arkansas. #California. #Colorado.
-	#Connecticut. #Delaware. #Florida. #Georgia. #Hawaii. #Idaho. #Illinois.
-	#Indiana. #Iowa. #Kansas. #Kentucky. #Louisiana. #Maine. #Maryland.
-	#Massachusetts. #Michigan. #Minnesota. #Mississippi. #Missouri.
-	#Montana. #Nebraska. #Nevada. #'New Hampshire'. #'New Jersey'.
-	#'New Mexico'. #'New York'. #'North Carolina'. #'North Dakota'.
-	#Ohio. #Oklahoma. #Oregon. #'Pennsylvania Rhode Island'.
-	#'South Carolina'. #'South Dakota'. #Tennessee. #Texas. #Utah. #Vermont.
-	#Virginia. #Washington. #'West Virginia'. #Wisconsin. #Wyoming } do: [
-			:l |
-			bar addItem: (ToToggleButton new
-					 labelText: l;
-					 hMatchParent;
-					 yourself) ].
-
-	"bar selecter selectIndex: 3."
-	bar uniformNodeWidth: true.
-	container addChild: bar.
-	bar items third checked: true.
-	space root addChild: container.
-	space show
+	self statesOfAmerica do: [ :l |
+			| item |
+			item := ToToggleButton new labelText: l.
+			item width: 150.
+			bar addItem: item ].
+	space show.
+	bar
 ]
 
 { #category : #checkables }
@@ -2724,11 +2703,8 @@ ToSandBox class >> example_ListWithAllClasses4 [
 ToSandBox class >> example_ListWithAllClasses4Bis [
 
 	| l |
-	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
-			     node addChild: (ToLabel text: dataItem name).
-			     node childrenDo: [ :child |
-				     child constraints linear vertical alignCenter ] ].
-	l useCheckbox: true.
+	l := ToListElement new.
+	l toConfiguration useCheckbox: true.
 	l dataAccessor addAll: Smalltalk globals allClasses.
 	l openInSpace
 ]
@@ -3524,10 +3500,11 @@ ToSandBox class >> example_MixedEventGenerator [
 ToSandBox class >> example_NodeContainerWithStatesOfAmerica [
 
 	| l |
-	l := ToGenericFiniteListElement new.
-	l exactNodeWidth: 100.
-	l horizontal: true.
+	l := ToGenericListElement finite.
+	l innerConfigurationDo: [ :conf | conf isFlowable: true ].
+	l matchParent.
 	l dataAccessor addAll: self statesOfAmerica.
+	l nodes do: [ :n | n width: 100 ].
 	l openInSpace
 ]
 
@@ -4011,6 +3988,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 
 	select filtrable: true.
 	select isFlowable: false.
+	select isScrollable: false.
 	select keepPickOrder: false.
 	select hideSelected: false.
 	select popupMaxHeight: 200.
@@ -4214,7 +4192,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithCheckboxesBis [
 
 	| select |
 	select := ToMultiSelectElement new.
-	select popupListElement useCheckbox: true.
+	select popupListElement toConfiguration  useCheckbox: true.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select popupListElement nodeBuilder: [ :node :aState :holder |
 			| label |
@@ -4780,7 +4758,7 @@ ToSandBox class >> example_SimpleTabPane [
 			tabItem
 				id: data asSymbol;
 				labelText: data asString;
-				paneBuilder: [ :body :btn :node :holder |
+				paneBuilder: [ :body :btn :holder |
 						body addChild: (ToElement new
 									 background: Color random;
 									 matchParent;
@@ -4905,7 +4883,7 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 ToSandBox class >> example_TabBarElement [
 
 	| tabs board |
-	tabs := ToTabFiniteListElement new.
+	tabs := ToTabListElement new.
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		tabs addItem: (ToTabItemElement new
@@ -4917,15 +4895,31 @@ ToSandBox class >> example_TabBarElement [
 	board openInSpace
 ]
 
+{ #category : #'finite list' }
+ToSandBox class >> example_TabFiniteListElement [
+
+	| tabs |
+	tabs := ToTabListElement new.
+	tabs horizontal: true.
+	tabs matchParent.
+
+	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
+			| item |
+			item := ToTabItemElement new
+				        removable: true;
+				        middleElement: (ToLabel text: l);
+				        yourself.
+			item width: 100.
+			item height: 100.
+			tabs addItem: item ].
+	tabs openInInnerWindow
+]
+
 { #category : #tabPane }
 ToSandBox class >> example_TabGroupElement [
 
 	| tabs dashBoard |
 	tabs := ToTabGroupElement new.
-	tabs isFlowable: false.
-	tabs isScrollable: true.
-	tabs hMatchParent.
-	tabs showAddTabItemButton: true.
 	tabs itemBuilder: [ :tabItem :data  |
 		tabItem labelText: data asString.
 		tabItem removable: true ].
@@ -5706,6 +5700,28 @@ ToSandBox class >> example_badgeOnAnElement [
 	badged constraintsDo: [ :c |
 			c frame horizontal alignCenter.
 			c frame vertical alignCenter ].
+	badged border: Color red.
+	badge attachToElement: badged.
+	pane addChild: badged.
+	space show
+]
+
+{ #category : #badge }
+ToSandBox class >> example_badgeOnAnIgnoredElement [
+
+	| badge pane space badged |
+	badge := ToNumericalBadge new count: 2222.
+	pane := BlElement new.
+	pane layout: BlFrameLayout new.
+	space := BlSpace new.
+	space root addChild: pane.
+	pane extent: 150 asPoint.
+	pane position: 100 asPoint.
+	pane border: Color black.
+	badged := BlElement new.
+	badged constraintsDo: [ :c | c ignoredByLayout ].
+	badged extent: 40 asPoint.
+	badged position: 50@50.
 	badged border: Color red.
 	badge attachToElement: badged.
 	pane addChild: badged.
@@ -7155,7 +7171,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 		       hMatchParent;
 		       vFitContent.
 	bar isFlowable: false.
-	bar itemBar hMatchParent.
+	bar itemList hMatchParent.
 
 	bar addItem: (ToCustomMenuItem new in: [ :e |
 			 e addChild: (ToSelectableLabel new text: 'File') ]).
@@ -8765,7 +8781,7 @@ ToSandBox class >> example_toTable1 [
 				 minWidth: 50;
 				 yourself) }.
 	table dataAccessor addAll:
-		(Smalltalk globals allClasses copyFrom: 1 to: 30).
+		(Smalltalk globals allClasses "copyFrom: 1 to: 30").
 	table openInSpace.
 	^ table
 ]
@@ -9167,39 +9183,41 @@ ToSandBox class >> finiteListConfigurationBoardFor: aBar [
 			 yourself).
 	confPane addChild: menu.
 
-	{
-		(#isVertical -> #isVertical: -> 'Vertical').
-		(#isFlowable -> #isFlowable: -> 'Flowable').
-		(#uniformNodeWidth -> #uniformNodeWidth: -> 'Uniform width').
-		(#uniformNodeHeight -> #uniformNodeHeight: -> 'Uniform height').
-		(#isScrollable -> #isScrollable: -> 'Scrollable').
-		(#autoDistribute -> #autoDistribute: -> 'Auto-distribute').
-		([ aBar selectionMode selectOnPressed ]
-		 -> [ :v | aBar selectionMode selectOnPressed: v ]
-		 -> 'Select on pressed').
-		([ aBar selectionMode deselectOnPressed ]
-		 -> [ :v | aBar selectionMode deselectOnPressed: v ]
-		 -> 'Deselect on pressed').
-		([ aBar selectionMode makeDisabledUnselectable ]
-		 -> [ :v | aBar selectionMode makeDisabledUnselectable: v ]
-		 -> 'Disabled items are unselectable') } do: [ :assoc |
-			| switch |
-			switch := ToSwitchButton new labelText: assoc value value.
-			switch checkAction: [ :evt  |
-					assoc key value isSymbol
-						ifTrue: [ aBar perform: assoc key value with: evt target isChecked ]
-						ifFalse: [ assoc key value value: evt target isChecked ] ].
+	aBar innerConfigurationDo: [ :conf |
+			{
+				([ aBar isVertical ] -> [ :v | aBar isVertical: v ] -> 'Vertical').
+				([ conf isFlowable ] -> [ :v | conf isFlowable: v ] -> 'Flowable').
+				([ conf uniformNodeWidth ] -> [ :v | conf uniformNodeWidth: v ]
+				 -> 'Uniform width').
+				([ conf uniformNodeHeight ] -> [ :v | conf uniformNodeHeight: v ]
+				 -> 'Uniform height').
+				([ conf isScrollable ] -> [ :v | conf isScrollable: v ]
+				 -> 'Scrollable').
+				([ conf autoDistribute ] -> [ :v | conf autoDistribute: v ]
+				 -> 'Auto-distribute').
+				([ aBar selectionMode selectOnPressed ]
+				 -> [ :v | aBar selectionMode selectOnPressed: v ]
+				 -> 'Select on pressed').
+				([ aBar selectionMode deselectOnPressed ]
+				 -> [ :v | aBar selectionMode deselectOnPressed: v ]
+				 -> 'Deselect on pressed').
+				([ aBar selectionMode makeDisabledUnselectable ]
+				 -> [ :v | aBar selectionMode makeDisabledUnselectable: v ]
+				 -> 'Disabled items are unselectable') } do: [ :assoc |
+					| switch |
+					switch := ToSwitchButton new labelText: assoc value value.
+					switch checkAction: [ :evt |
+						assoc key value value: evt target isChecked ].
 
-			switch startFlexible: true.
-			switch hMatchParent.
-			confPane addChild: switch.
+					switch startFlexible: true.
+					switch hMatchParent.
+					confPane addChild: switch.
 
-			aBar whenConfigurationAppliedDo: [
-					assoc key key isSymbol ifTrue: [
-						switch checked: (aBar perform: assoc key key) ] ] ].
+					aBar whenConfigurationAppliedDo: [
+						switch checked: assoc key key value ] ] ].
 
 	animSwitch := ToSwitchButton new labelText: 'Animate transition'.
-	animSwitch checkAction: [ :evt  |
+	animSwitch checkAction: [ :evt |
 			| d |
 			d := evt target isChecked
 				     ifTrue: [ 200 milliSeconds ]
@@ -9237,7 +9255,7 @@ ToSandBox class >> finiteListWithData: aCollection [
 
 	| bar confBoard barPane rootPane selectionModeBoard rand |
 	rand := Random new.
-	bar := ToGenericFiniteListElement new.
+	bar := ToGenericListElement finite.
 	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
 	bar nodeBuilder: [ :node :dataItem :holder |
 			| fontSize triplet label |
@@ -9289,9 +9307,9 @@ ToSandBox class >> finiteListWithData: aCollection [
 									 m addItem: (ToMenuItem new
 												  labelText: 'Inspect';
 												  clickAction: [
-													  Array withAll:
-															  (idxes collect: [ :idx | target nodeContainerAt: idx ])
-																  inspect ];
+														  Array withAll:
+																  (idxes collect: [ :idx |
+																		   target nodeContainerAt: idx ]) inspect ];
 												  yourself).
 									 m addItem: (ToMenuItem new
 											  labelText: 'Remove';
@@ -9303,8 +9321,8 @@ ToSandBox class >> finiteListWithData: aCollection [
 											  labelText: 'Unable/disable';
 											  clickAction: [
 													  idxes do: [ :idx |
-															  (bar nodeContainerAt: idx) disabled:
-																	  (bar nodeContainerAt: idx) isEnabled ] ];
+																  (bar nodeContainerAt: idx) disabled:
+																		  (bar nodeContainerAt: idx) isEnabled ] ];
 											  yourself).
 									 m addItem: (ToMenuItem new
 											  labelText: 'Unselectable';
@@ -9341,8 +9359,6 @@ ToSandBox class >> finiteListWithData: aCollection [
 	confBoard addChild: selectionModeBoard.
 
 	bar dataAccessor addAll: aCollection.
-	bar isFlowable: true.
-	bar uniformNodeWidth: true.
 	rootPane := ToPane horizontal.
 	rootPane padding: (BlInsets all: 5).
 	rootPane matchParent.
@@ -10094,36 +10110,124 @@ ToSandBox class >> tabBarElementDashBoardFor: aTabBarElement [
 { #category : #tabPane }
 ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 
-	| mainPane barPane confPane startToEndSwitch addTabItemButtonSwicth |
+	| mainPane barPane confPane startToEndSwitch addTabItemButtonSwicth menu animSwitch itemList |
+	itemList := aTabGroupElement itemList.
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
 
-	confPane := self finiteListConfigurationBoardFor: aTabGroupElement.
+	confPane := ToPane vertical.
+	confPane id: #configurationPane.
+	confPane matchParent.
+	confPane padding: (BlInsets all: 5).
+
+	menu := ToMenu new.
+	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	menu addItem: (ToRadioMenuItem new
+			 label: (ToLabel text: 'Dark theme');
+			 checkAction: [ :evt |
+					 evt currentTarget space toTheme: (evt target isChecked
+								  ifTrue: [ ToRawDarkTheme new ]
+								  ifFalse: [ ToRawTheme new ]) ];
+			 in: [ :rad |
+				 rad checked: Toplo defaultThemeClass = ToRawDarkTheme ];
+			 yourself).
+	menu addItem: (ToMenuItem new
+			 label: (ToLabel text: 'Space statistics');
+			 clickAction: [ aTabGroupElement space showStatisticsWindow ];
+			 yourself).
+	menu addItem: (ToMenuItem new
+			 label: (ToLabel text: 'Inspect');
+			 clickAction: [ aTabGroupElement space root inspect ];
+			 yourself).
+	menu addItem: (ToRadioMenuItem new
+			 label: (ToLabel text: 'Disabled bar');
+			 checkAction: [ :evt |
+				 aTabGroupElement disabled: evt target isChecked ];
+			 yourself).
+	confPane addChild: menu.
+
+	{
+		([ aTabGroupElement isVertical ]
+		 -> [ :v | aTabGroupElement isVertical: v ] -> 'Vertical').
+		([ itemList isFlowable ]
+		 -> [ :v | itemList isFlowable: v ] -> 'Flowable').
+		([ itemList uniformNodeWidth ]
+		 -> [ :v | itemList uniformNodeWidth: v ]
+		 -> 'Uniform width').
+		([ itemList uniformNodeHeight ]
+		 -> [ :v | itemList uniformNodeHeight: v ]
+		 -> 'Uniform height').
+		([ itemList isScrollable ]
+		 -> [ :v | itemList isScrollable: v ]
+		 -> 'Scrollable').
+		([ itemList autoDistribute ]
+		 -> [ :v | itemList autoDistribute: v ]
+		 -> 'Auto-distribute').
+		([ aTabGroupElement selectionMode selectOnPressed ]
+		 -> [ :v | aTabGroupElement selectionMode selectOnPressed: v ]
+		 -> 'Select on pressed').
+		([ aTabGroupElement selectionMode deselectOnPressed ]
+		 -> [ :v | aTabGroupElement selectionMode deselectOnPressed: v ]
+		 -> 'Deselect on pressed').
+		([ aTabGroupElement selectionMode makeDisabledUnselectable ]
+		 -> [ :v |
+		 aTabGroupElement selectionMode makeDisabledUnselectable: v ]
+		 -> 'Disabled items are unselectable') } do: [ :assoc |
+			| switch |
+			switch := ToSwitchButton new labelText: assoc value value.
+			switch checkAction: [ :evt |
+				assoc key value value: evt target isChecked ].
+
+			switch startFlexible: true.
+			switch hMatchParent.
+			confPane addChild: switch.
+
+			aTabGroupElement whenConfigurationAppliedDo: [
+				switch checked: assoc key key value ] ].
+
+	animSwitch := ToSwitchButton new labelText: 'Animate transition'.
+	animSwitch checkAction: [ :evt |
+			| d |
+			d := evt target isChecked
+				     ifTrue: [ 200 milliSeconds ]
+				     ifFalse: [ 0 milliSeconds ].
+			aTabGroupElement selectionOption animationDuration: d.
+			aTabGroupElement secondarySelectionOption animationDuration: d ].
+
+	animSwitch startFlexible: true.
+	animSwitch hMatchParent.
+	confPane addChild: animSwitch.
+	confPane addChild: (self resizerBoardFor: aTabGroupElement).
 	startToEndSwitch := ToSwitchButton new labelText: 'At start'.
-	startToEndSwitch checkAction: [ :evt | aTabGroupElement atStartSide: evt target isChecked ].
+	startToEndSwitch checkAction: [ :evt |
+		aTabGroupElement atStartSide: evt target isChecked ].
 
 	startToEndSwitch startFlexible: true.
 	startToEndSwitch hMatchParent.
 	confPane addChild: startToEndSwitch.
 
-	addTabItemButtonSwicth := ToSwitchButton new labelText: 'Show new tab button'.
-	addTabItemButtonSwicth checkAction: [ :evt | aTabGroupElement showAddTabItemButton: evt target isChecked ].
+	addTabItemButtonSwicth := ToSwitchButton new labelText:
+		                          'Show new tab button'.
+	addTabItemButtonSwicth checkAction: [ :evt |
+		aTabGroupElement showAddTabItemButton: evt target isChecked ].
 
 	addTabItemButtonSwicth startFlexible: true.
 	addTabItemButtonSwicth hMatchParent.
 	confPane addChild: addTabItemButtonSwicth.
 
-	aTabGroupElement whenConfigurationAppliedDo: [ 
-		startToEndSwitch checked: aTabGroupElement atStartSide.
-		addTabItemButtonSwicth checked: aTabGroupElement showAddTabItemButton ].
+	aTabGroupElement whenConfigurationAppliedDo: [
+			startToEndSwitch checked: aTabGroupElement atStartSide.
+			addTabItemButtonSwicth checked:
+				aTabGroupElement showAddTabItemButton ].
 
 	confPane padding: (BlInsets all: 5).
-	
+
 	barPane := ToPane vertical.
 	barPane matchParent.
 	barPane addChild: aTabGroupElement.
 
-	confPane addChild: (self checkingStrategyChooserFor: aTabGroupElement).
+	confPane addChild:
+		(self checkingStrategyChooserFor: aTabGroupElement).
 
 	mainPane addChildren: {
 			confPane.
@@ -10206,23 +10310,29 @@ ToSandBox class >> tabPaneElementWithUSStates [
 							editorEvent target text: acceptedEvent target text.
 							tabGroup selecter scrollTowardEndToDataSourcePosition:
 								tabButton holder position ] ].
+			tabButton destroyPaneWhenDeselected: true.
 			tabButton
 				label: lab;
 				tooltipString: aData asString;
 				removable: true;
-				paneBuilder: [ :pane |
-						| emptyPh c |
+				paneFactory: [
+						| c |
 						c := Color random.
-						pane withNullSkin.
-						pane border: c.
-						pane background: (c alpha: 0.1).
+						BlElement new
+							border: c;
+							background: (c alpha: 0.1);
+							yourself ];
+				paneBuilder: [ :pane :button :holder |
+						| emptyPh |
 						emptyPh := ToEmptyPlaceholderLayer new attachToParent: pane.
 						pane userData at: #placeholder put: emptyPh ];
-				paneDestroyer: [ :pane |
+				paneDestroyer: [ :pane :button :holder |
 						| emptyPh |
 						emptyPh := pane userData at: #placeholder.
-						emptyPh detachFromParent ] ].
-	(self statesOfAmerica copyFrom: 1 to: 20) do: [ :l | tpane addTabItemData: l ].
+						emptyPh removeFromParent ];
+				yourself ].
+	(self statesOfAmerica copyFrom: 1 to: 20) do: [ :l |
+		tpane addTabItemData: l ].
 	tpane isFlowable: false.
 	tpane isScrollable: true.
 	^ tpane

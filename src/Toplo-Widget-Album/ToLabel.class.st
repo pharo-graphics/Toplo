@@ -170,7 +170,6 @@ ToLabel >> hasText [
 ToLabel >> initialize [
 
 	super initialize.
-	self class initializeSlots: self.
 	self fitContent.
 	self focusability: BlFocusability none.
 

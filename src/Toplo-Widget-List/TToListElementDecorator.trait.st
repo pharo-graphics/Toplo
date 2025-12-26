@@ -41,6 +41,12 @@ TToListElementDecorator >> innerElement [
 ]
 
 { #category : #'t - list element decorator - infinite accessing' }
+TToListElementDecorator >> innerElementDo: aBlock [
+
+	^ aBlock value: self innerElement
+]
+
+{ #category : #'t - list element decorator - infinite accessing' }
 TToListElementDecorator >> layoutPositionsRange [
 
 	^ self next layoutPositionsRange
@@ -85,7 +91,7 @@ TToListElementDecorator >> nodeContainersDetect: aValuable [
 { #category : #'t - list element decorator - children - accessing' }
 TToListElementDecorator >> nodeContainersDo: aValuable [
 
-	self next nodeContainersDo: aValuable
+	self innerElementDo: [ :inner | inner nodeContainersDo: aValuable ]
 ]
 
 { #category : #'t - list element decorator - children - accessing' }

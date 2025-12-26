@@ -511,15 +511,6 @@ BlElement >> isPreventedSkinEventClass: aSkinEventClass [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> isSelectableElement [
-
-	^ self
-		  withAllParentsDetect: [ :p | p isKindOf: ToAbstractListNode ]
-		  ifFound: [ :p | true ]
-		  ifNone: [ false ]
-]
-
-{ #category : #'*Toplo' }
 BlElement >> isSelected [
 
 	^ false
@@ -896,11 +887,13 @@ BlElement >> textAttributesBuilderDo: aBlock [
 { #category : #'*Toplo' }
 BlElement >> toConfiguration [
 
-	^ self userData at: #toConfiguration ifAbsentPut: [
-		  | conf |
-		  conf := self newToConfiguration.
-		  conf ifNotNil: [ conf onInstalledIn: self ].
-		  conf ]
+	| newConfig |
+	self userData
+		at: #toConfiguration
+		ifPresent: [ :conf | ^ conf ]
+		ifAbsentPut: [ newConfig := self newToConfiguration ].
+	newConfig ifNotNil: [ newConfig onInstalledIn: self ].
+	^ newConfig
 ]
 
 { #category : #'*Toplo' }
@@ -912,6 +905,12 @@ BlElement >> toConfiguration: anElementConfiguration [
 	anElementConfiguration ifNil: [ ^ self ].
 	self userData at: #toConfiguration put: anElementConfiguration.
 	anElementConfiguration onInstalledIn: self
+]
+
+{ #category : #'*Toplo' }
+BlElement >> toConfigurationDo: aBlock [
+
+	^ self toConfiguration ifNotNil: [ :conf | aBlock cull: conf]
 ]
 
 { #category : #'*Toplo-LookAndFeel' }

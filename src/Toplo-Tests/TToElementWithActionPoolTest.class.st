@@ -182,11 +182,10 @@ TToElementWithActionPoolTest >> testNewGroupCheckAction [
 					 labelText: day;
 					 yourself) ].
 
-	group
-		newGroupCheckAction: [ :evt  |
-				received := evt.
-				theGroup := evt target.
-				theList := evt checkedList ].
+	group newGroupCheckAction: [ :evt |
+			received := evt.
+			theGroup := evt target.
+			theList := evt checkedList ].
 
 	group width: 150.
 	group uniformNodeWidth: true.
@@ -196,9 +195,7 @@ TToElementWithActionPoolTest >> testNewGroupCheckAction [
 	self assert: received notNil.
 	self assert: theGroup identicalTo: group.
 	self assert: theList size equals: 1.
-	self
-		assert: theList first
-		identicalTo: group items second
+	self assert: theList first identicalTo: group items second
 ]
 
 { #category : #tests }

@@ -9,7 +9,7 @@ ToMenuPaneSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e itemBar background: BlBackground transparent.
+		e itemList background: BlBackground transparent.
 		e listElementDo: [ :l |
 			e background: (Color veryLightGray alpha: 0.1) ] ]
 ]
@@ -24,7 +24,7 @@ ToMenuPaneSkin >> installSkinEvent: anEvent [
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e valueOfTokenNamed: 'border-radius')).
 		e background: (e valueOfTokenNamed: #'background-color').
-		e itemBar background: BlBackground transparent.
+		e itemList background: BlBackground transparent.
 		e isSubPane ifFalse: [ e padding: (BlInsets all: 4) ].
 		e border: (e valueOfTokenNamed: #'border-paint') ]
 ]
@@ -34,7 +34,7 @@ ToMenuPaneSkin >> leavedSkinEvent: anEvent [
 
 	super leavedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e itemBar background: BlBackground transparent.
+		e itemList background: BlBackground transparent.
 		e listElementDo: [ :l | e background: BlBackground transparent ] ]
 ]
 
@@ -43,6 +43,6 @@ ToMenuPaneSkin >> leftSkinEvent: anEvent [
 
 	super leftSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e itemBar background: BlBackground transparent.
+		e itemList background: BlBackground transparent.
 		e listElementDo: [ :l | e background: BlBackground transparent ] ]
 ]

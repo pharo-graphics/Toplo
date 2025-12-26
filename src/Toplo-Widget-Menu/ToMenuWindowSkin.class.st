@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMenuWindowSkin,
-	#superclass : #ToRawSkin,
+	#superclass : #ToBasicWindowElementSkin,
 	#category : #'Toplo-Widget-Menu-Window'
 }
 

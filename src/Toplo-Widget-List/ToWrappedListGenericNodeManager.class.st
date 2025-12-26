@@ -6,12 +6,6 @@ Class {
 	#category : #'Toplo-Widget-List-WrappedList'
 }
 
-{ #category : #'t - generic node manager' }
-ToWrappedListGenericNodeManager >> defaultNodeHolderFactory [
-
-	^ [ ToWrappedListNodeHolder new ]
-]
-
 { #category : #initialization }
 ToWrappedListGenericNodeManager >> initialize [ 
 

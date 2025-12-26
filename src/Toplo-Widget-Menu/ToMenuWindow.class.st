@@ -18,15 +18,15 @@ ToMenuWindow >> applyConfiguration [
 	super applyConfiguration.
 	self isScrollable 
 		ifTrue: [
-			self itemBar isVertical
+			self itemList isVertical
 				ifTrue: [
-					self itemBar vMatchParent.
-					self itemBar hFitContent ]
+					self itemList vMatchParent.
+					self itemList hFitContent ]
 				ifFalse: [
-					self itemBar hMatchParent.
-					self itemBar vFitContent ] ]
+					self itemList hMatchParent.
+					self itemList vFitContent ] ]
 		ifFalse: [
-			self itemBar fitContent ]
+			self itemList fitContent ]
 ]
 
 { #category : #'t - relayoutable window element - accessing' }
@@ -80,22 +80,16 @@ ToMenuWindow >> isInline [
 ]
 
 { #category : #testing }
-ToMenuWindow >> isScrollable [ 
+ToMenuWindow >> isScrollable [
 
-	^ self itemBar isScrollable
+	^ self itemList isScrollable
 ]
 
 { #category : #accessing }
 ToMenuWindow >> isScrollable: aBoolean [
 
-	self itemBar isScrollable: aBoolean.
+	self itemList isScrollable: aBoolean.
 	self requestConfiguration
-]
-
-{ #category : #accessing }
-ToMenuWindow >> itemBar [ 
-
-	^ self anchorElement itemBar
 ]
 
 { #category : #'t - anchored window element - accessing' }
@@ -104,15 +98,10 @@ ToMenuWindow >> itemContainer [
 	^ self anchorElement
 ]
 
-{ #category : #'t - anchored window element - accessing' }
-ToMenuWindow >> itemList [
+{ #category : #accessing }
+ToMenuWindow >> itemList [ 
 
-
-	self
-		deprecated: 'Use itemBar instead'
-		transformWith: '`@rcvr itemList' -> '`@rcvr itemBar'.
-
-	^ self itemBar
+	^ self anchorElement itemList
 ]
 
 { #category : #'t - anchored window element - accessing' }

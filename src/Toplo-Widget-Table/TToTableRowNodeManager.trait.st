@@ -12,10 +12,10 @@ TToTableRowNodeManager >> buildColumnsInNode: aNode [
 
 	self columns ifNotNil: [ :cols |
 			cols withIndexDo: [ :column :idx |
-					| container |
-					container := (ToTableListCellContainer
-						              column: column
-						              holder: aNode holder)
+					| container table |
+					table := aNode holder listElement parentTable.
+					container := (ToTableListCellContainer parentTable: table)
+						             column: column holder: aNode holder;
 						             id: column key;
 						             yourself.
 					aNode addCellContainer: container.

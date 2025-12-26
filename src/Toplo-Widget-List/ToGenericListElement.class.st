@@ -3,7 +3,7 @@ I'm a list managed by a generic node manager (this manager is based of blocks fo
 "
 Class {
 	#name : #ToGenericListElement,
-	#superclass : #ToAbstractListElement,
+	#superclass : #ToBasicListElement,
 	#traits : 'TToGenericListElement',
 	#classTraits : 'TToGenericListElement classTrait',
 	#category : #'Toplo-Widget-List-Core'
@@ -13,12 +13,4 @@ Class {
 ToGenericListElement >> defaultNodeManagerClass [
 
 	^ ToGenericListNodeManager  
-]
-
-{ #category : #sorting }
-ToGenericListElement >> sort: aSortBlock [
-
-	self selecter
-		updateSelectionAfter: [ self dataAccessor sort: aSortBlock ]
-		withDataAccessor: self dataAccessor
 ]

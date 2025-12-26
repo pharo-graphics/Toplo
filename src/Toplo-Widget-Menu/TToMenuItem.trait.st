@@ -15,7 +15,7 @@ TToMenuItem >> allOtherMenuWindowsDo: aValuable [
 { #category : #'t - menu item' }
 TToMenuItem >> barOwnerDo: aValuable [
 
-	self menuBarOwner ifNotNil: [ :bo | aValuable value: bo ]
+	self menuListOwner ifNotNil: [ :bo | aValuable value: bo ]
 ]
 
 { #category : #'t - menu item' }
@@ -45,9 +45,9 @@ TToMenuItem >> isSubmenu [
 ]
 
 { #category : #'t - menu item' }
-TToMenuItem >> menuBarOwner [
+TToMenuItem >> menuListOwner [
 
-	^ self listElement ifNotNil: [ :be | be menuBarOwner ]
+	^ self listElement ifNotNil: [ :be | be menuListOwner ]
 ]
 
 { #category : #'t - menu item' }
@@ -62,7 +62,7 @@ TToMenuItem >> menuPane [
 TToMenuItem >> parentMenu [
 
 	self flag: #ToBeChecked.
-	^ self menuBarOwner 
+	^ self menuListOwner 
 	ifNotNil: [ :bo |
 		  bo isMenuPane
 			  ifTrue: [  ]

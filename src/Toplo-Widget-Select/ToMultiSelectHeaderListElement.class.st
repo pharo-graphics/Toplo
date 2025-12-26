@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMultiSelectHeaderListElement,
-	#superclass : #ToGenericFiniteListElement,
-	#traits : 'TToSelectHeaderElement + TToElementWithPlaceholder',
-	#classTraits : 'TToSelectHeaderElement classTrait + TToElementWithPlaceholder classTrait',
+	#superclass : #ToGenericListElement,
+	#traits : 'TToFiniteListElement + TToSelectHeaderElement + TToElementWithPlaceholder',
+	#classTraits : 'TToFiniteListElement classTrait + TToSelectHeaderElement classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [
 		'selectElement',
 		'maxSelectedCount',
@@ -70,10 +70,10 @@ ToMultiSelectHeaderListElement >> checkMaxSelectedCount [
 	self popupListElement notifyDataSourceChanged
 ]
 
-{ #category : #'t - bar element' }
-ToMultiSelectHeaderListElement >> defaultInnerElementClass [
+{ #category : #initialization }
+ToMultiSelectHeaderListElement >> defaultEventHandler [ 
 
-	^ ToMultiSelectHeaderInnerListElement
+	^ ToMultiSelectHeaderListElementEventHandler new
 ]
 
 { #category : #initialization }
@@ -86,6 +86,12 @@ ToMultiSelectHeaderListElement >> defaultLayout [
 ToMultiSelectHeaderListElement >> defaultNodeManagerClass [ 
 
 	^ ToMultiSelectHeaderNodeManager
+]
+
+{ #category : #initialization }
+ToMultiSelectHeaderListElement >> defaultUseInfiniteLayout [ 
+
+	^ false
 ]
 
 { #category : #layout }
@@ -117,7 +123,6 @@ ToMultiSelectHeaderListElement >> haveMaxSelectedCount [
 ToMultiSelectHeaderListElement >> initialize [
 
 	super initialize.
-
 	" no visible primary and secondary selection elements "
 	self selectionOption masked: true.
 	self selectionMode makeDisabledUnselectable: true.
@@ -181,6 +186,14 @@ ToMultiSelectHeaderListElement >> maxSelectedCount: aNumber [
 	maxSelectedCount := aNumber
 ]
 
+{ #category : #'hooks - layout' }
+ToMultiSelectHeaderListElement >> onLayoutDone [ 
+
+
+	selectElement checkMaxSelectedCountInHeader.
+	super onLayoutDone.
+]
+
 { #category : #accessing }
 ToMultiSelectHeaderListElement >> popupListElement [
 
@@ -209,7 +222,7 @@ ToMultiSelectHeaderListElement >> selectElement: aSelectElement [
 { #category : #accessing }
 ToMultiSelectHeaderListElement >> selectedDataItems [
 
-	^ self innerElement selectedDataItems
+	^ selectElement selectedDataItems
 ]
 
 { #category : #accessing }

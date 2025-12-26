@@ -14,7 +14,7 @@ Class {
 ToMenuItemFiniteListElementTest >> setUp [
 
 	super setUp.
-	l := ToMenuItemFiniteListElement new.
+	l := ToMenuItemListElement new.
 	l vMatchParent.
 	space root addChild: l
 ]
@@ -24,7 +24,7 @@ ToMenuItemFiniteListElementTest >> test [
 
 	| n |
 	self assert: l nodeContainers size equals: l dataAccessor size.
-	self assert: (l nodeManager isKindOf: ToMenuItemNodeManager).
+	self assert: (l nodeManager isKindOf: ToItemListNodeManager).
 	l addAllItems:
 		((1 to: 10) collect: [ :i | ToMenuItem new labelText: i asString ]).
 	n := l nodeContainers first.

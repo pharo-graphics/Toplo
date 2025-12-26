@@ -1,6 +1,6 @@
 Class {
 	#name : #ToListEmbeddedNodeExampleSkin,
-	#superclass : #ToListNodeSkin,
+	#superclass : #ToBasicListNodeSkin,
 	#category : #'Toplo-Examples-Parts'
 }
 

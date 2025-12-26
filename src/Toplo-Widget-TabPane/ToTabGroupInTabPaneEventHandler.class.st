@@ -10,44 +10,43 @@ Class {
 { #category : #'events handling' }
 ToTabGroupInTabPaneEventHandler >> applyPaneDestroyerOfTabButton: aTabButton [
 
-	| innerPane |
-	innerPane := aTabButton holder innerPane.
-	innerPane ifNil: [ ^ self ].
-	aTabButton paneDestroyer ifNotNil: [ :destroyer |
-			destroyer
-				cull: innerPane
-				cull: aTabButton
-				cull: aTabButton holder node
-				cull: aTabButton holder.
-			aTabButton holder innerPane: nil ]
+	| bodyPane |
+	aTabButton destroyPaneWhenDeselected ifFalse: [ ^ self ].
+	bodyPane := aTabButton bodyPane.
+	bodyPane ifNil: [ ^ self ].
+	aTabButton paneDestroyer
+		cull: bodyPane
+		cull: aTabButton
+		cull: aTabButton holder.
+	aTabButton bodyPane: nil
 ]
 
 { #category : #'events handling' }
 ToTabGroupInTabPaneEventHandler >> checkableGroupChangedEvent: anEvent [
 
-	| body button innerPane |
+	| body button bodyPane |
 	body := tabPane body.
 	body removeChildren.
 	anEvent checkedList size = 1 ifFalse: [ ^ self ].
 	button := anEvent checkedList anyOne.
-	innerPane := button holder innerPane.
-	innerPane ifNotNil: [
-			body addChild: innerPane.
-			^ self ].
-	innerPane := ToElement new
-		             matchParent;
-		             yourself.
-	button paneDestroyer ifNotNil: [ :destroyer |
-			innerPane
-				addEventHandlerOn: BlElementRemovedFromParentEvent
-				doOnce: [ self applyPaneDestroyerOfTabButton: button ] ].
+	bodyPane := button bodyPane.
+	(bodyPane notNil and: [ button destroyPaneWhenDeselected not ])
+		ifTrue: [
+				body addChild: bodyPane.
+				^ self ].
+	bodyPane ifNil: [ bodyPane := button paneFactory value ].
+	bodyPane constraintsDo: [ :c |
+			c horizontal matchParent.
+			c vertical matchParent ].
+	bodyPane
+		addEventHandlerOn: BlElementRemovedFromSceneGraphEvent
+		do: [ self applyPaneDestroyerOfTabButton: button ].
+	button bodyPane: bodyPane.
 	button paneBuilder
-		cull: innerPane
+		cull: bodyPane
 		cull: button
-		cull: button holder node
 		cull: button holder.
-	button holder innerPane: innerPane.
-	body addChild: innerPane.
+	body addChild: bodyPane.
 	tabPane dispatchEvent: anEvent copy
 ]
 
@@ -75,7 +74,6 @@ ToTabGroupInTabPaneEventHandler >> itemRemovedFromBarEvent: anEvent [
 			| body |
 			body := tabPane body.
 			body removeChildren ].
-		
 	tabPane requestLayoutModeCheck.
 	tabPane dispatchEvent: anEvent copy
 ]

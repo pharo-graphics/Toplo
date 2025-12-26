@@ -11,7 +11,10 @@ ToItemFiniteListElementForTest >> defaultFakeDataItem [
 ]
 
 { #category : #initialization }
-ToItemFiniteListElementForTest >> defaultNodeManagerClass [
+ToItemFiniteListElementForTest >> defaultNodeManager [
 
-	^ ToItemNodeManagerForTest
+	^ super defaultNodeManager
+		  nodeHolderFactory: [ ToFiniteListNodeHolderForTest new ];
+		  nodeFactory: [ :holder | ToItemNodeForTest new ];
+		  yourself
 ]

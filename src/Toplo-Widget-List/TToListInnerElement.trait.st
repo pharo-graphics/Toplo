@@ -120,3 +120,7 @@ TToListInnerElement >> selectableNodeContainingGlobalPosition: aPoint [
 			ifTrue: [ ^ container ] ].
 	^ nil
 ]
+
+{ #category : #'t - list inner element' }
+TToListInnerElement >> withRowNumbers [
+]

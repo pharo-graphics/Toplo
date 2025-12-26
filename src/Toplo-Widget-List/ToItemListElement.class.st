@@ -1,6 +1,6 @@
 Class {
 	#name : #ToItemListElement,
-	#superclass : #ToAbstractListElement,
+	#superclass : #ToBasicListElement,
 	#traits : 'TToItemListElement + TToListElementWithDecoration',
 	#classTraits : 'TToItemListElement classTrait + TToListElementWithDecoration classTrait',
 	#category : #'Toplo-Widget-List-ItemList'
@@ -13,7 +13,13 @@ ToItemListElement >> applyConfiguration [
 	self applyItemListConfiguration
 ]
 
-{ #category : #'t - item list - accessing' }
+{ #category : #'t - finite list element - fake container' }
+ToItemListElement >> defaultFakeDataItem [
+
+	^ ToListItem new
+]
+
+{ #category : #initialization }
 ToItemListElement >> defaultNodeManagerClass [
 
 	^ ToItemListNodeManager

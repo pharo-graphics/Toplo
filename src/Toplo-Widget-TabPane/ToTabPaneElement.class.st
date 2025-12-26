@@ -1,8 +1,8 @@
 Class {
 	#name : #ToTabPaneElement,
 	#superclass : #ToPane,
-	#traits : 'TToItemFiniteListContainer',
-	#classTraits : 'TToItemFiniteListContainer classTrait',
+	#traits : 'TToFiniteItemListUser',
+	#classTraits : 'TToFiniteItemListUser classTrait',
 	#instVars : [
 		'bodyContainer',
 		'headerContainer'
@@ -118,7 +118,7 @@ ToTabPaneElement >> initialize [
 	bodyContainer constraintsDo: [ :c |
 			c vertical matchParent.
 			c horizontal matchParent ].
-	self setItemBar: self tabGroup itemBar.
+	self setItemList: self tabGroup itemList.
 	self addChildren: {
 			headerContainer.
 			bodyContainer }.

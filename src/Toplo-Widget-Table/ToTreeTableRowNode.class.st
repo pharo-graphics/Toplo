@@ -7,18 +7,6 @@ Class {
 }
 
 { #category : #accessing }
-ToTreeTableRowNode >> addCellContainer: aCellContainer [
-
-	self addChild: aCellContainer
-]
-
-{ #category : #'t - table node' }
-ToTreeTableRowNode >> cellContainers [ 
-
-	^ self children asArray
-]
-
-{ #category : #accessing }
 ToTreeTableRowNode >> containerIndentWidth [
 
 	^ self holder nodeContainer indentWidth

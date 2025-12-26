@@ -9,6 +9,15 @@ Class {
 }
 
 { #category : #accessing }
+ToTableCellContainer class >> parentTable: aTableElement [
+
+	^ self basicNew
+		  parentTable: aTableElement;
+		  initialize;
+		  yourself
+]
+
+{ #category : #accessing }
 ToTableCellContainer >> cell [ 
 
 	^ self middleContainer
@@ -57,6 +66,12 @@ ToTableCellContainer >> newMiddleContainer [
 ToTableCellContainer >> newStartContainer [
 
 	^ self newLinearContainer
+]
+
+{ #category : #accessing }
+ToTableCellContainer >> parentTable: aTableElement [
+
+	parentTable := aTableElement
 ]
 
 { #category : #updating }

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSpecificListElementForTest,
-	#superclass : #ToAbstractListElement,
+	#superclass : #ToBasicListElement,
 	#category : #'Toplo-Widget-List-Tests-Core-ListElement'
 }
 

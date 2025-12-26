@@ -1,8 +1,8 @@
 Class {
 	#name : #ToCheckableGroupPane,
 	#superclass : #ToPane,
-	#traits : 'TToCheckableGroupOwner',
-	#classTraits : 'TToCheckableGroupOwner classTrait',
+	#traits : 'TToCheckableGroupUser',
+	#classTraits : 'TToCheckableGroupUser classTrait',
 	#category : #'Toplo-Widget-Button-Checkable'
 }
 

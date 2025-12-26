@@ -4,12 +4,12 @@ I'm list whose contents is a checkable element (i.e. a list of toggle elements)
 Class {
 	#name : #ToCheckableFiniteListElement,
 	#superclass : #ToItemFiniteListElement,
-	#traits : 'TToCheckableGroupOwner + TToCheckableListElement',
-	#classTraits : 'TToCheckableGroupOwner classTrait + TToCheckableListElement classTrait',
+	#traits : 'TToCheckableGroupUser + TToCheckableListElement',
+	#classTraits : 'TToCheckableGroupUser classTrait + TToCheckableListElement classTrait',
 	#category : #'Toplo-Widget-List-ItemFiniteList'
 }
 
-{ #category : #'t - finite list element - fake container' }
+{ #category : #accessing }
 ToCheckableFiniteListElement >> defaultFakeDataItem [
 
 	^ ToToggleButton new
@@ -17,10 +17,10 @@ ToCheckableFiniteListElement >> defaultFakeDataItem [
 		  yourself
 ]
 
-{ #category : #'t - item list - accessing' }
+{ #category : #initialization }
 ToCheckableFiniteListElement >> defaultNodeManagerClass [ 
 
-	^ ToCheckableFiniteListNodeManager 
+	^ ToCheckableListNodeManager 
 ]
 
 { #category : #initialization }

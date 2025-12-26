@@ -44,7 +44,7 @@ ToInnerFiniteListElement >> addHolder: anHolder at: aPosition [
 ToInnerFiniteListElement >> addedDataSourceCommand: aCommand [
 ]
 
-{ #category : #'t - list node holder' }
+{ #category : #configuration }
 ToInnerFiniteListElement >> applyConfiguration [
 
 	super applyConfiguration.
@@ -57,6 +57,38 @@ ToInnerFiniteListElement >> applyConfiguration [
 		ifFalse: [ self vMatchParent ].
 
 	self childrenDo: [ :container | container applyConfiguration ]
+]
+
+{ #category : #accessing }
+ToInnerFiniteListElement >> cleanUpRecyclerAt: anIndex [
+]
+
+{ #category : #configuration }
+ToInnerFiniteListElement >> configureNodeContainer: aNodeContainer [
+
+	self toConfigurationDo: [ :conf |
+			conf isFlowable
+				ifTrue: [ aNodeContainer fitContent ]
+				ifFalse: [
+						listElement isVertical
+							ifTrue: [
+									listElement isHMatchParent
+										ifTrue: [ aNodeContainer hMatchParent ]
+										ifFalse: [ aNodeContainer hFitContent ].
+									conf autoDistribute
+										ifTrue: [ aNodeContainer vMatchParent ]
+										ifFalse: [ aNodeContainer vFitContent ] ]
+							ifFalse: [
+									listElement isVMatchParent
+										ifTrue: [ aNodeContainer vMatchParent ]
+										ifFalse: [ aNodeContainer vFitContent ].
+									conf autoDistribute
+										ifTrue: [ aNodeContainer hMatchParent ]
+										ifFalse: [ aNodeContainer hFitContent ] ] ] ]
+]
+
+{ #category : #layout }
+ToInnerFiniteListElement >> consumeFinalStepCommands [
 ]
 
 { #category : #'private - commands' }
@@ -122,7 +154,14 @@ ToInnerFiniteListElement >> initialize [
 	self addEventHandler: ToInnerFiniteListElementEventHandler new.
 	self trackElement: self scrollableFiniteListTrackElementClass new.
 	self matchParent.
-	self focusability: BlFocusability ignore
+	self focusability: BlFocusability ignore.
+	listElement primarySelectionMode selectionOption
+		grouped: false;
+		beneath: true;
+		triggerSelectionState: true.
+	listElement contextMenuSelectionMode selectionOption
+		grouped: false;
+		beneath: false.
 ]
 
 { #category : #initialization }
@@ -147,16 +186,16 @@ ToInnerFiniteListElement >> listElement [
 	^ listElement
 ]
 
-{ #category : #accessing }
-ToInnerFiniteListElement >> maxMeasuredNodeSize [
-
-	^ trackElement maxMeasuredNodeSize
-]
-
 { #category : #'instance creation' }
 ToInnerFiniteListElement >> newNodeHolderFromDataSource: aDataSource [
 
 	^ listElement nodeManager newHolder
+]
+
+{ #category : #configuration }
+ToInnerFiniteListElement >> newToConfiguration [
+
+	^ ToInnerFiniteListElementConfiguration new
 ]
 
 { #category : #'t - list inner element' }
@@ -209,10 +248,6 @@ ToInnerFiniteListElement >> onEnterLayoutOrScroll [
 ToInnerFiniteListElement >> onExitLayoutOrScroll [
 
 
-]
-
-{ #category : #'t - bar element' }
-ToInnerFiniteListElement >> onInvisibleNodeContainers: theInvisibleContainers visibleNodeContainers: theVisibleContainers [
 ]
 
 { #category : #'data source updates' }

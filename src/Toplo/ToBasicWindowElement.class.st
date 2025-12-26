@@ -37,17 +37,6 @@ ToBasicWindowElement >> initialize [
 	self constraintsDo: [ :c | c ignoreByLayout ]
 ]
 
-{ #category : #skin }
-ToBasicWindowElement >> installRawStyle [
-
-	super installRawStyle.
-	self geometry: (BlRoundedRectangleGeometry cornerRadius:
-			 (self valueOfTokenNamed: #'border-radius-SM')).
-	self border: (self valueOfTokenNamed: #'color-border').
-	self background: (self valueOfTokenNamed: #'color-bg-container').
-	self outskirts: BlOutskirts outside 
-]
-
 { #category : #'api - displaying' }
 ToBasicWindowElement >> isClosed [
 
@@ -58,6 +47,12 @@ ToBasicWindowElement >> isClosed [
 ToBasicWindowElement >> isOpened [
 
 	^ self hasParent
+]
+
+{ #category : #skin }
+ToBasicWindowElement >> newRawSkin [
+
+	^ ToBasicWindowElementSkin new
 ]
 
 { #category : #accessing }

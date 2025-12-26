@@ -28,13 +28,16 @@ ToInfiniteElement >> applyConfiguration [
 
 	super applyConfiguration.
 	self layout beHorizontal: self listElement isHorizontal.
+	
 	self constraintsDo: [ :c |
-			self listElement isHMatchParent
+			listElement isHMatchParent
 				ifTrue: [ c horizontal matchParent ]
 				ifFalse: [ c horizontal fitContent ].
-			self listElement isVMatchParent
+			listElement isVMatchParent
 				ifTrue: [ c vertical matchParent ]
-				ifFalse: [ c vertical fitContent ] ]
+				ifFalse: [ c vertical fitContent ] ].
+
+	self childrenDo: [ :container | container applyConfiguration ]
 ]
 
 { #category : #'private - commands' }
@@ -53,6 +56,10 @@ ToInfiniteElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 ToInfiniteElement >> cleanUpRecyclerAt: anIndex [
 
 	self customRecycler removeNodeAt: anIndex in: self
+]
+
+{ #category : #configuration }
+ToInfiniteElement >> configureNodeContainer: aNodeContainer [
 ]
 
 { #category : #layout }
@@ -151,6 +158,12 @@ ToInfiniteElement >> listElement [
 ToInfiniteElement >> newNodeHolderFromDataSource: aDataSource [
 
 	^ listElement nodeManager newHolder
+]
+
+{ #category : #configuration }
+ToInfiniteElement >> newToConfiguration [ 
+
+	^ ToInfiniteElementConfiguration new
 ]
 
 { #category : #'t - list inner element' }
@@ -282,6 +295,12 @@ ToInfiniteElement >> smoothScrollToDataSourcePosition: anIndex [
 	which can, for example, be a data source position or child index"
 
 	self smoothScrollToPosition: anIndex
+]
+
+{ #category : #accessing }
+ToInfiniteElement >> trackElement [
+
+	^ self
 ]
 
 { #category : #'view - configuration' }

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSpecificFiniteListNodeManagerForTest,
-	#superclass : #ToAbstractFiniteNodeManager,
+	#superclass : #ToBasicListNodeManager,
 	#instVars : [
 		'counter'
 	],
@@ -14,9 +14,18 @@ ToSpecificFiniteListNodeManagerForTest >> buildNode: aNode [
 ]
 
 { #category : #initialization }
-ToSpecificFiniteListNodeManagerForTest >> defaultFakeDataItem [
+ToSpecificFiniteListNodeManagerForTest >> defaultNodeFactory [
 
-	^ 'Fake'
+	^ [ :holder | ToSpecificFiniteListNodeForTest new ]
+]
+
+{ #category : #initialization }
+ToSpecificFiniteListNodeManagerForTest >> defaultNodeHolderFactory [
+
+	^ [
+		  ToSpecificFiniteListNodeHolderForTest new
+			  num: self nextCount;
+			  yourself ]
 ]
 
 { #category : #initialization }
@@ -24,20 +33,6 @@ ToSpecificFiniteListNodeManagerForTest >> initialize [
 
 	super initialize.
 	counter := 0
-]
-
-{ #category : #'instance creation' }
-ToSpecificFiniteListNodeManagerForTest >> newHolder [
-
-	^ ToSpecificFiniteListNodeHolderForTest new
-		  num: self nextCount;
-		  yourself
-]
-
-{ #category : #'instance creation' }
-ToSpecificFiniteListNodeManagerForTest >> newNodeForHolder: aNodeHolder [
-
-	^ ToSpecificFiniteListNodeForTest new 
 ]
 
 { #category : #accessing }

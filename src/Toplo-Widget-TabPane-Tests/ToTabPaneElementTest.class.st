@@ -19,11 +19,13 @@ ToTabPaneElementTest >> setUp [
 	firstTabBuildCount := 0.
 	secondTabBuildCount := 0.
 	tabPane := ToTabPaneElement new.
+	tabPane horizontal: true.
 	tabPane matchParent.
 	space root addChild: tabPane.
 	tabPane forceLayout.
+	self waitTestingSpaces.
 	BlSpace simulateMouseMoveInside: tabPane.
-	self waitTestingSpaces 
+
 ]
 
 { #category : #tests }
@@ -90,16 +92,23 @@ ToTabPaneElementTest >> testCloseSelectedPage2 [
 	firstButton removable: true.
 	secondButton removable: true.
 	firstButton holder node addRemoveButton. 
-	secondButton holder node  addRemoveButton. 
+	secondButton holder node addRemoveButton. 
 	self waitTestingSpaces.
+	BlSpace simulateMouseMoveInside: firstButton.
+	self waitTestingSpaces.
+	tabPane forceLayout.
 	BlSpace simulateClickOn: firstButton.
 	self waitTestingSpaces.
 	self assert: firstButton isSelected.
 	" after the click, the remove button should be visible "
+	self waitTestingSpaces.
+	tabPane forceLayout.
 	BlSpace simulateMouseMoveInside: firstButton removeButton.
 	self waitTestingSpaces.
+	tabPane forceLayout.
 	BlSpace simulateClickOn: firstButton removeButton.
 	self waitTestingSpaces.
+	tabPane forceLayout.
 	self assert: tabPane items size equals: 1.
 	self assert: tabPane items first identicalTo: secondButton.
 	self assert: secondButton isSelected.
@@ -377,5 +386,6 @@ ToTabPaneElementTest >> withTwoTabButtons [
 								  background: Color green;
 								  matchParent;
 								  yourself) ];
-			 yourself)
+			 yourself).
+	self waitTestingSpaces 
 ]

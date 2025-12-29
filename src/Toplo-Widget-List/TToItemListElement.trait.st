@@ -95,6 +95,9 @@ TToItemListElement >> items [
 { #category : #'t - item list - adding/removing' }
 TToItemListElement >> notifyItemAdded: anItem [
 
+	self dispatchEvent: (ToItemAddedInFiniteListEvent new
+			 item: anItem;
+			 yourself)
 ]
 
 { #category : #'t - item list - adding/removing' }

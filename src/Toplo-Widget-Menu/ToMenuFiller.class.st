@@ -10,16 +10,20 @@ ToMenuFiller >> applyConfiguration [
 
 	super applyConfiguration.
 	self holderDo: [ :h |
-		h nodeContainer matchParent ]
+		h listElement isHorizontal
+			ifTrue: [
+				self hMatchParent.
+				self vFitContent ]
+			ifFalse: [
+				self vMatchParent.
+				self hFitContent ] ]
 ]
 
 { #category : #initialization }
 ToMenuFiller >> initialize [
 
 	super initialize.
-	self
-		id: #filler;
-		matchParent
+	self id: #filler
 ]
 
 { #category : #'adding-removing' }

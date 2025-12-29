@@ -175,7 +175,7 @@ TToElementWithActionPoolTest >> testNewClickAction [
 TToElementWithActionPoolTest >> testNewGroupCheckAction [
 
 	| group received theGroup theList |
-	group := ToCheckableFiniteListElement new.
+	group := ToCheckableListElement new.
 	group withStrictCheckingStrategy.
 	{ 'Monday'. 'Tuesday'. 'Wednesday'. 'Thursday'. 'Friday' } do: [ :day |
 			group addItem: (ToToggleButton new
@@ -186,43 +186,12 @@ TToElementWithActionPoolTest >> testNewGroupCheckAction [
 			received := evt.
 			theGroup := evt target.
 			theList := evt checkedList ].
-
 	group width: 150.
-	group uniformNodeWidth: true.
-	space root addChild: group.
-	group items second checked: true.
-	self waitTestingSpaces.
-	self assert: received notNil.
-	self assert: theGroup identicalTo: group.
-	self assert: theList size equals: 1.
-	self assert: theList first identicalTo: group items second
-]
-
-{ #category : #tests }
-TToElementWithActionPoolTest >> testNewGroupCheckAction2 [
-
-	| group received theGroup theList |
-	group := ToCheckableListElement new.
-	group withStrictCheckingStrategy.
-	group addAllItems:
-		({ 'Monday'. 'Tuesday'. 'Wednesday'. 'Thursday'. 'Friday' }
-			 collect: [ :day |
-					 ToToggleButton new
-						 labelText: day;
-						 yourself ]).
-
-	group matchParent.
-	self waitTestingSpaces.
-	group newGroupCheckAction: [ :evt |
-			received := evt.
-			theGroup := evt target.
-			theList := evt checkedList ].
-
+	group innerConfiguration uniformNodeWidth: true.
 	space root addChild: group.
 	" wait to update the data source "
 	self waitTestingSpaces.
 	group items second checked: true.
-	" wait to let the space run the task that dispatch a ToCheckableGroupChangedEvent "
 	self waitTestingSpaces.
 	self assert: received notNil.
 	self assert: theGroup identicalTo: group.

@@ -50,13 +50,13 @@ TToFiniteItemListUser >> addItem: anItem beforeIndex: anInteger [
 { #category : #'t - item list user - configuration' }
 TToFiniteItemListUser >> autoDistribute [
 
-	^ self itemList autoDistribute
+	^ self itemList innerConfiguration autoDistribute
 ]
 
 { #category : #'t - item list user - configuration' }
 TToFiniteItemListUser >> autoDistribute: aBoolean [
 
-	self itemList autoDistribute: aBoolean
+	self itemList innerConfiguration autoDistribute: aBoolean
 ]
 
 { #category : #'t - item list user - accessing' }
@@ -134,13 +134,13 @@ TToFiniteItemListUser >> innerElement [
 { #category : #'t - item list user - configuration' }
 TToFiniteItemListUser >> isFlowable [
 
-	^ self itemList isFlowable
+	^ self itemList innerConfiguration isFlowable
 ]
 
 { #category : #'t - item list user - configuration' }
 TToFiniteItemListUser >> isFlowable: aBoolean [
 
-	self itemList isFlowable: aBoolean
+	self itemList innerConfiguration isFlowable: aBoolean
 ]
 
 { #category : #'t - item list user - testing' }
@@ -152,13 +152,13 @@ TToFiniteItemListUser >> isItemContainer [
 { #category : #'t - item list user - configuration' }
 TToFiniteItemListUser >> isScrollable [
 
-	^ self itemList isScrollable
+	^ self itemList innerConfiguration isScrollable
 ]
 
 { #category : #'t - item list user - configuration' }
 TToFiniteItemListUser >> isScrollable: aBoolean [
 
-	self itemList isScrollable: aBoolean
+	self itemList innerConfiguration isScrollable: aBoolean
 ]
 
 { #category : #'t - item list user - accessing' }
@@ -325,25 +325,25 @@ TToFiniteItemListUser >> setItemList: anItemList [
 { #category : #'t - item list user - configuration' }
 TToFiniteItemListUser >> uniformNodeHeight [
 
-	^ self itemList uniformNodeHeight
+	^ self itemList innerConfiguration uniformNodeHeight
 ]
 
 { #category : #'t - item list user - configuration' }
 TToFiniteItemListUser >> uniformNodeHeight: aBoolean [
 
-	self itemList uniformNodeHeight: aBoolean
+	self itemList innerConfiguration uniformNodeHeight: aBoolean
 ]
 
 { #category : #'t - item list user - configuration' }
 TToFiniteItemListUser >> uniformNodeWidth [
 
-	^ self itemList uniformNodeWidth
+	^ self itemList innerConfiguration uniformNodeWidth
 ]
 
 { #category : #'t - item list user - configuration' }
 TToFiniteItemListUser >> uniformNodeWidth: aBoolean [
 
-	self itemList uniformNodeWidth: aBoolean
+	self itemList innerConfiguration uniformNodeWidth: aBoolean
 ]
 
 { #category : #'t - item list user - unselectable/selectable' }

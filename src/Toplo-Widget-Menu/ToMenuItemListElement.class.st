@@ -3,7 +3,7 @@ I'm a list whose node contents is a menu item element.
 "
 Class {
 	#name : #ToMenuItemListElement,
-	#superclass : #ToItemFiniteListElement,
+	#superclass : #ToItemListElement,
 	#traits : 'TToMenuItemList',
 	#classTraits : 'TToMenuItemList classTrait',
 	#category : #'Toplo-Widget-Menu-ItemList'
@@ -18,6 +18,12 @@ ToMenuItemListElement >> defaultNodeManager [
 ]
 
 { #category : #initialization }
+ToMenuItemListElement >> defaultUseInfiniteLayout [ 
+
+	^ false
+]
+
+{ #category : #initialization }
 ToMenuItemListElement >> initialize [
 
 	super initialize.
@@ -26,6 +32,10 @@ ToMenuItemListElement >> initialize [
 		'no focusability until focus management is understood and working '.
 	self focusability: BlFocusability none.
 	self vertical: true.
+	self innerConfigurationDo: [ :conf |
+			conf isFlowable: false.
+			conf uniformNodeWidth: true ].
+	self fitContent.
 	"No visible primary selection"
 	self selectionOption masked: true
 ]

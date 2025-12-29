@@ -87,12 +87,6 @@ ToBasicListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 		self selectionModel copySelectionFrom: sieve selectionModel ]
 ]
 
-{ #category : #testing }
-ToBasicListElement >> autoDistribute [
-
-	^ false
-]
-
 { #category : #layout }
 ToBasicListElement >> checkMouseMoveReplayRequest [
 
@@ -449,12 +443,6 @@ ToBasicListElement >> installFakeNodeContainer [
 	self addFakeNodeContainer: fakeContainer.
 	self nodeManager buildNode: fakeContainer node.
 	self requestConfiguration
-]
-
-{ #category : #testing }
-ToBasicListElement >> isFlowable [
-
-	^ false
 ]
 
 { #category : #testing }

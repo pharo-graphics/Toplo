@@ -82,13 +82,14 @@ ToMenuWindow >> isInline [
 { #category : #testing }
 ToMenuWindow >> isScrollable [
 
-	^ self itemList isScrollable
+	^ self itemList innerConfiguration isScrollable
 ]
 
 { #category : #accessing }
 ToMenuWindow >> isScrollable: aBoolean [
 
-	self itemList isScrollable: aBoolean.
+	self itemList innerConfiguration isScrollable = aBoolean ifTrue: [ ^ self ].
+	self itemList innerConfiguration isScrollable: aBoolean.
 	self requestConfiguration
 ]
 

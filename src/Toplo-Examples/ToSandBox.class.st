@@ -1470,7 +1470,7 @@ ToSandBox class >> example_CheckableFiniteListElement [
 
 	| space bar |
 	space := BlSpace new.
-	bar := ToCheckableFiniteListElement new.
+	bar := ToCheckableListElement new.
 	space root addChild: bar.
 	bar matchParent.
 	self statesOfAmerica do: [ :l |
@@ -6281,6 +6281,10 @@ ToSandBox class >> example_inline1 [
 	space := BlSpace new.
 	menu labelText: 'File'.
 
+	menu addItem: (ToMenuItem new
+			 labelText: 'Inspect';
+			 clickAction: [ space root inspect ];
+			 yourself).
 	sub := ToMenu new
 		       labelText: 'Save All';
 		       icon: (ToImage inner: (self iconNamed: #solidMenu));
@@ -7240,7 +7244,7 @@ ToSandBox class >> example_scaledImage [
 ToSandBox class >> example_segmentedWithCheckboxes [
 
 	| seg dashBoard |
-	seg := ToCheckableFiniteListElement new.
+	seg := ToCheckableListElement new.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		seg addItem: (ToCheckbox new
 				 labelText: l;
@@ -7255,7 +7259,7 @@ ToSandBox class >> example_segmentedWithCheckboxes [
 ToSandBox class >> example_segmentedWithLabels [
 
 	| seg dashBoard rootPane feedbackPane maj |
-	seg := ToCheckableFiniteListElement new.
+	seg := ToCheckableListElement new.
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		seg addItem: (ToToggleButton new
@@ -7306,7 +7310,7 @@ ToSandBox class >> example_segmentedWithLabels [
 ToSandBox class >> example_segmentedWithLabelsAndIcons [
 
 	| seg dashBoard rootPane feedbackPane maj |
-	seg := ToCheckableFiniteListElement new.
+	seg := ToCheckableListElement new.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		seg addItem: (ToToggleButton new
 				 iconImage: ToThemeIcons searchOutlined16x16;
@@ -7354,7 +7358,7 @@ ToSandBox class >> example_segmentedWithLabelsAndIcons [
 ToSandBox class >> example_segmentedWithRadioButtons [
 
 	| seg dashBoard |
-	seg := ToCheckableFiniteListElement new.
+	seg := ToCheckableListElement new.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		seg addItem: (ToRadioButton new
 				 labelText: l;

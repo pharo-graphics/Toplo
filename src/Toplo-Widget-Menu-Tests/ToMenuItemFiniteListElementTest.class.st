@@ -27,6 +27,7 @@ ToMenuItemFiniteListElementTest >> test [
 	self assert: (l nodeManager isKindOf: ToItemListNodeManager).
 	l addAllItems:
 		((1 to: 10) collect: [ :i | ToMenuItem new labelText: i asString ]).
+	self waitTestingSpaces.
 	n := l nodeContainers first.
 	self assert: (n node isKindOf: ToMenuItemNode).
 	self assert: (n holder isKindOf: ToItemNodeHolder).

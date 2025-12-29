@@ -14,7 +14,7 @@ Class {
 ToCheckableFiniteListElementTest >> setUp [ 
 
 	super setUp.
-	bar := ToCheckableFiniteListElement new.
+	bar := ToCheckableListElement new.
 	space root addChild: bar.
 	bar matchParent.
 	bar height: 10000.

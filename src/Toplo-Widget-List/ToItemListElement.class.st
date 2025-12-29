@@ -31,3 +31,9 @@ ToItemListElement >> initialize [
 	super initialize.
 	self initializeAsItemListElement 
 ]
+
+{ #category : #skin }
+ToItemListElement >> newRawSkin [ 
+
+	^ ToItemListElementSkin new
+]

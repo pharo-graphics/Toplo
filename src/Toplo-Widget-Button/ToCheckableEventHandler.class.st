@@ -9,7 +9,10 @@ ToCheckableEventHandler >> checkableChangedEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	target group ifNotNil: [ :grp | grp notifyChanged ]
+	target group ifNotNil: [ :grp | "A task is enqueued to ensure 
+		that the group notification occurs *** after *** 
+		other possible CheckableChangedEvent handler actions "
+		target enqueueTask: (BlTaskAction new action: [ grp notifyChanged ]) ]
 ]
 
 { #category : #'event handling' }

@@ -10101,44 +10101,40 @@ ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 			 yourself).
 	confPane addChild: menu.
 
-	{
-		([ aTabGroupElement isVertical ]
-		 -> [ :v | aTabGroupElement isVertical: v ] -> 'Vertical').
-		([ itemList isFlowable ]
-		 -> [ :v | itemList isFlowable: v ] -> 'Flowable').
-		([ itemList uniformNodeWidth ]
-		 -> [ :v | itemList uniformNodeWidth: v ]
-		 -> 'Uniform width').
-		([ itemList uniformNodeHeight ]
-		 -> [ :v | itemList uniformNodeHeight: v ]
-		 -> 'Uniform height').
-		([ itemList isScrollable ]
-		 -> [ :v | itemList isScrollable: v ]
-		 -> 'Scrollable').
-		([ itemList autoDistribute ]
-		 -> [ :v | itemList autoDistribute: v ]
-		 -> 'Auto-distribute').
-		([ aTabGroupElement selectionMode selectOnPressed ]
-		 -> [ :v | aTabGroupElement selectionMode selectOnPressed: v ]
-		 -> 'Select on pressed').
-		([ aTabGroupElement selectionMode deselectOnPressed ]
-		 -> [ :v | aTabGroupElement selectionMode deselectOnPressed: v ]
-		 -> 'Deselect on pressed').
-		([ aTabGroupElement selectionMode makeDisabledUnselectable ]
-		 -> [ :v |
-		 aTabGroupElement selectionMode makeDisabledUnselectable: v ]
-		 -> 'Disabled items are unselectable') } do: [ :assoc |
-			| switch |
-			switch := ToSwitchButton new labelText: assoc value value.
-			switch checkAction: [ :evt |
-				assoc key value value: evt target isChecked ].
+	itemList innerConfigurationDo: [ :conf |
+			{
+				([ aTabGroupElement isVertical ]
+				 -> [ :v | aTabGroupElement isVertical: v ] -> 'Vertical').
+				([ conf isFlowable ] -> [ :v | conf isFlowable: v ] -> 'Flowable').
+				([ conf uniformNodeWidth ] -> [ :v | conf uniformNodeWidth: v ]
+				 -> 'Uniform width').
+				([ conf uniformNodeHeight ] -> [ :v | conf uniformNodeHeight: v ]
+				 -> 'Uniform height').
+				([ conf isScrollable ] -> [ :v | conf isScrollable: v ]
+				 -> 'Scrollable').
+				([ conf autoDistribute ] -> [ :v | conf autoDistribute: v ]
+				 -> 'Auto-distribute').
+				([ aTabGroupElement selectionMode selectOnPressed ]
+				 -> [ :v | aTabGroupElement selectionMode selectOnPressed: v ]
+				 -> 'Select on pressed').
+				([ aTabGroupElement selectionMode deselectOnPressed ]
+				 -> [ :v | aTabGroupElement selectionMode deselectOnPressed: v ]
+				 -> 'Deselect on pressed').
+				([ aTabGroupElement selectionMode makeDisabledUnselectable ]
+				 -> [ :v |
+				 aTabGroupElement selectionMode makeDisabledUnselectable: v ]
+				 -> 'Disabled items are unselectable') } do: [ :assoc |
+					| switch |
+					switch := ToSwitchButton new labelText: assoc value value.
+					switch checkAction: [ :evt |
+						assoc key value value: evt target isChecked ].
 
-			switch startFlexible: true.
-			switch hMatchParent.
-			confPane addChild: switch.
+					switch startFlexible: true.
+					switch hMatchParent.
+					confPane addChild: switch.
 
-			aTabGroupElement whenConfigurationAppliedDo: [
-				switch checked: assoc key key value ] ].
+					aTabGroupElement whenConfigurationAppliedDo: [
+						switch checked: assoc key key value ] ] ].
 
 	animSwitch := ToSwitchButton new labelText: 'Animate transition'.
 	animSwitch checkAction: [ :evt |

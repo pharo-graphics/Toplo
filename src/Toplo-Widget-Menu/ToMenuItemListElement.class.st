@@ -4,8 +4,8 @@ I'm a list whose node contents is a menu item element.
 Class {
 	#name : #ToMenuItemListElement,
 	#superclass : #ToItemFiniteListElement,
-	#traits : 'TToFiniteListElement + TToMenuItemList',
-	#classTraits : 'TToFiniteListElement classTrait + TToMenuItemList classTrait',
+	#traits : 'TToMenuItemList',
+	#classTraits : 'TToMenuItemList classTrait',
 	#category : #'Toplo-Widget-Menu-ItemList'
 }
 

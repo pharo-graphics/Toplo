@@ -115,7 +115,7 @@ ToTabGroupElementTest >> testRemoveItem2 [
 	BlSpace simulateMouseMoveInside: secondItem removeButton.
 	self waitTestingSpaces.
 	BlSpace simulateClickOn: secondItem removeButton.
-	self waitTestingSpaces.
+	self waitTestingSpacesTimeout: 600 milliSeconds.
 	self assert: tabGroup items size equals: 1.
 	self assert: tabGroup items first identicalTo: firstItem.
 	self assert: firstItem isSelected

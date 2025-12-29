@@ -142,6 +142,7 @@ ToCheckableFiniteListElementTest >> testItemSelected [
 		bar addItem: (ToToggleButton new labelText: l) ].
 	bar selecter selectIndex: 1.
 	self waitTestingSpaces.
+	bar forceLayout.
 	self assert: bar items first isChecked.
 	self waitTestingSpaces.
 	self assert: bar selectionModel selectedIndexes equals: #( 1 )

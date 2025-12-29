@@ -37,7 +37,7 @@ ToTabGroupElement >> addTabItemData: aData [
 	" add the new item before building it to allow the builder to use the item holder "
 	self addItem: newTabItem.
 	itemBuilder cull: newTabItem cull: aData cull: self.
-	newTabItem holder node requestConfiguration
+	self itemList postponeAction: [ newTabItem holder node requestConfiguration ]
 
 ]
 

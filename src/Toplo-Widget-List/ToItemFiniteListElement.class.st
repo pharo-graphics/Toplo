@@ -3,9 +3,9 @@ I'm a list whose node contents is a BlElement
 "
 Class {
 	#name : #ToItemFiniteListElement,
-	#superclass : #ToBasicListElement,
-	#traits : 'TToFiniteListElement + TToItemListElement',
-	#classTraits : 'TToFiniteListElement classTrait + TToItemListElement classTrait',
+	#superclass : #ToItemListElement,
+	#traits : 'TToFiniteListElement',
+	#classTraits : 'TToFiniteListElement classTrait',
 	#category : #'Toplo-Widget-List-ItemFiniteList'
 }
 

@@ -1,8 +1,6 @@
 Class {
 	#name : #ToTabListElement,
 	#superclass : #ToCheckableFiniteListElement,
-	#traits : 'TToFiniteListElement',
-	#classTraits : 'TToFiniteListElement classTrait',
 	#instVars : [
 		'atStartSide'
 	],
@@ -47,6 +45,12 @@ ToTabListElement >> defaultNodeManager [
 	^ super defaultNodeManager
 		  nodeFactory: [ :holder | ToTabNode new ];
 		  yourself
+]
+
+{ #category : #initialization }
+ToTabListElement >> defaultUseInfiniteLayout [ 
+
+	^ false
 ]
 
 { #category : #initialization }

@@ -49,7 +49,7 @@ ToTabListGroupElementEventHandler >> itemRemovedFromBarEvent: anEvent [
 	nextChecked := dataAccessor size < tabItemHolder position
 		               ifTrue: [ dataAccessor last ]
 		               ifFalse: [ dataAccessor at: tabItemHolder position ].
-	nextChecked checked: true
+	tabGroup itemList postponeAction: [ nextChecked checked: true ]
 ]
 
 { #category : #'events handling' }

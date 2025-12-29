@@ -1,6 +1,6 @@
 Class {
 	#name : #ToItemFiniteListElementForTest,
-	#superclass : #ToItemFiniteListElement,
+	#superclass : #ToItemListElement,
 	#category : #'Toplo-Widget-List-Tests-ItemFiniteList'
 }
 
@@ -17,4 +17,10 @@ ToItemFiniteListElementForTest >> defaultNodeManager [
 		  nodeHolderFactory: [ ToFiniteListNodeHolderForTest new ];
 		  nodeFactory: [ :holder | ToItemNodeForTest new ];
 		  yourself
+]
+
+{ #category : #initialization }
+ToItemFiniteListElementForTest >> defaultUseInfiniteLayout [ 
+
+	^ false
 ]

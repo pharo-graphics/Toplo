@@ -100,6 +100,11 @@ TToItemListElement >> notifyItemAdded: anItem [
 { #category : #'t - item list - adding/removing' }
 TToItemListElement >> notifyItemRemoved: anItem wasSelected: aBoolean [
 
+	self dispatchEvent: (ToItemRemovedFromFiniteListEvent new
+			 item: anItem;
+			 wasSelected: aBoolean;
+			 yourself)
+
 ]
 
 { #category : #'t - item list - adding/removing' }
@@ -126,7 +131,7 @@ TToItemListElement >> removeAllItems [
 { #category : #'t - item list - adding/removing' }
 TToItemListElement >> removeAllItems: aCollection [
 
-	aCollection do: [ :item | self removeItem: item ]
+	aCollection reverseDo: [ :item | self removeItem: item ]
 ]
 
 { #category : #'t - item list - adding/removing' }

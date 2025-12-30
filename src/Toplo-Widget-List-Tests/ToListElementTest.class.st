@@ -54,9 +54,9 @@ ToListElementTest >> testDataRemovedWhenNodeRemoved [
 	list dataAccessor addAll: (1 to: 2).
 	self waitTestingSpaces.
 	self assert: list dataAccessor size equals: 2.
-	fillers := (list allChildrenBreadthFirstSelect: [ :child |
+	fillers := (list innerElement allChildrenBreadthFirstSelect: [ :child |
 		            child id asString = 'filler' ]) asOrderedCollection.
-	remButtons := (list allChildrenBreadthFirstSelect: [ :child |
+	remButtons := (list innerElement allChildrenBreadthFirstSelect: [ :child |
 		               child id asString beginsWith: 'remove-button' ])
 		              asOrderedCollection.
 	" first click on the list to set the focus "
@@ -463,7 +463,7 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved [
 	space root forceLayout.
 	self waitTestingSpaces.
 	self assert: list dataAccessor size equals: 2.
-	remButtons := (list allChildrenBreadthFirstSelect: [ :child |
+	remButtons := (list innerElement allChildrenBreadthFirstSelect: [ :child |
 		               child id asString beginsWith: 'remove-button' ])
 		              asOrderedCollection.
 	fillers := (list selectChildrenWithId: #filler) asOrderedCollection.

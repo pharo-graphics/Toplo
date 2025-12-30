@@ -139,7 +139,8 @@ ToInfiniteElement >> findElementHolderForDataSourcePosition: aPosition [
 ToInfiniteElement >> initialize [
 
 	super initialize.
-	self addEventHandler: ToListInnerElementEventHandler new
+	self addEventHandler: ToListInnerElementEventHandler new.
+	self elevation: (BlRelativeElevation elevation: 10).
 ]
 
 { #category : #'t - infinite accessing' }
@@ -163,7 +164,7 @@ ToInfiniteElement >> newNodeHolderFromDataSource: aDataSource [
 { #category : #configuration }
 ToInfiniteElement >> newToConfiguration [ 
 
-	^ ToInfiniteElementConfiguration new
+	^ ToListInnerElementConfiguration new
 ]
 
 { #category : #'t - list inner element' }
@@ -307,6 +308,16 @@ ToInfiniteElement >> trackElement [
 ToInfiniteElement >> withRowNumbers [
 
 	self withDecoration: ToInfiniteRowNumberDecoration
+]
+
+{ #category : #'view - configuration' }
+ToInfiniteElement >> withRowNumbers: aBoolean [
+
+	aBoolean = self haveRowNumbers ifTrue: [ ^ self ].
+	aBoolean
+		ifTrue: [ self withRowNumbers ]
+		ifFalse: [ self withoutRowNumbers ].
+	listElement updateAllSelections
 ]
 
 { #category : #'view - configuration' }

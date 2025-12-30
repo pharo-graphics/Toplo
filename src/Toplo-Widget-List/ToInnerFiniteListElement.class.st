@@ -154,6 +154,7 @@ ToInnerFiniteListElement >> findElementHolderForDataSourcePosition: aPosition [
 ToInnerFiniteListElement >> initialize [
 
 	super initialize.
+	self elevation: (BlRelativeElevation elevation: 10).
 	self initializeDataSource.
 	self addEventHandler: ToInnerFiniteListElementEventHandler new.
 	self trackElement: self scrollableFiniteListTrackElementClass new.
@@ -199,7 +200,7 @@ ToInnerFiniteListElement >> newNodeHolderFromDataSource: aDataSource [
 { #category : #configuration }
 ToInnerFiniteListElement >> newToConfiguration [
 
-	^ ToInnerFiniteListElementConfiguration new
+	^ ToListInnerElementConfiguration new
 ]
 
 { #category : #'t - list inner element' }

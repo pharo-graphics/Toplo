@@ -46,6 +46,6 @@ ToFiniteListLinearLayoutVerticalMeasurer >> preMeasure [
 
 	super preMeasure.
 	self maxSizeDo: [ :maxSize | self layout maxMeasuredNodeSize: maxSize ].
-	self layout uniformNodeWidth ifFalse: [ ^ self ].
+	self shouldCheckUniformSize ifFalse: [ ^ self ].
 	self barUniformMeasure
 ]

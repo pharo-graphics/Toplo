@@ -16,10 +16,12 @@ ToListElementSelectionSkinEventTest >> setUp [
 
 	super setUp.
 	listElement := ToListElement new.
+	listElement innerElement.
+	listElement fitContent.
+
 	listElement nodeManager nodeHolderFactory: [
 		ToNodeHolderForSkinEventTest new ].
 	space root addChild: listElement.
-	listElement fitContent.
 	receivedSelectedEvents := OrderedCollection new.
 	receivedDeselectedEvents := OrderedCollection new.
 	selectionCounts := IdentityDictionary new.
@@ -63,7 +65,6 @@ ToListElementSelectionSkinEventTest >> testSelectedSkinEventCountAfterRemove [
 	listElement dataAccessor add: self statesOfAmerica first.
 	listElement dataAccessor add: self statesOfAmerica second.
 	listElement selecter selectOneMoreIndex: 2.
-
 	self waitTestingSpaces.
 	space applyAllSkinPhases.
 
@@ -76,6 +77,7 @@ ToListElementSelectionSkinEventTest >> testSelectedSkinEventCountAfterRemove [
 	" the second node is selected then the first node is removed 
 	-> the first node become selected "
 	self assert: (selectionCounts includesKey: 2) not.
+	self assert: (selectionCounts includesKey: 1).
 	self assert: (selectionCounts at: 1) equals: 1.
 
 	self waitTestingSpaces.

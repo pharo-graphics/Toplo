@@ -95,6 +95,12 @@ ToNodeHolder >> disabled: aBoolean [
 		self isEnabled ifFalse: [ selecter deselectIndex: self position ] ]
 ]
 
+{ #category : #accessing }
+ToNodeHolder >> fakeDataItem: aData [ 
+
+	self dataItem: aData
+]
+
 { #category : #initialization }
 ToNodeHolder >> initialize [ 
 

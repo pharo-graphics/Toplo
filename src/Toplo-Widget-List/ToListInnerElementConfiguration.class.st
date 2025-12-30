@@ -1,5 +1,5 @@
 Class {
-	#name : #ToInnerFiniteListElementConfiguration,
+	#name : #ToListInnerElementConfiguration,
 	#superclass : #ToWidgetConfiguration,
 	#traits : 'TObservable',
 	#classTraits : 'TObservable classTrait',
@@ -8,25 +8,34 @@ Class {
 		'#isFlowable => ObservableSlot',
 		'#isScrollable => ObservableSlot',
 		'#uniformNodeWidth => ObservableSlot',
-		'#uniformNodeHeight => ObservableSlot'
+		'#uniformNodeHeight => ObservableSlot',
+		'#rowNumbers => ObservableSlot'
 	],
-	#category : #'Toplo-Widget-List-InnerFiniteList'
+	#category : #'Toplo-Widget-List-Core'
 }
 
+{ #category : #hook }
+ToListInnerElementConfiguration >> applyOn: aListInneElement [ 
+
+	super applyOn: aListInneElement.
+	aListInneElement withRowNumbers: rowNumbers
+	
+]
+
 { #category : #'t - inner finite list element configuration' }
-ToInnerFiniteListElementConfiguration >> autoDistribute [
+ToListInnerElementConfiguration >> autoDistribute [
 
 	^ autoDistribute 
 ]
 
 { #category : #'t - inner finite list element configuration' }
-ToInnerFiniteListElementConfiguration >> autoDistribute: anObject [
+ToListInnerElementConfiguration >> autoDistribute: anObject [
 
 	autoDistribute := anObject 
 ]
 
 { #category : #initialization }
-ToInnerFiniteListElementConfiguration >> initialize [
+ToListInnerElementConfiguration >> initialize [
 
 	super initialize.
 	self class initializeSlots: self
@@ -34,40 +43,41 @@ ToInnerFiniteListElementConfiguration >> initialize [
 ]
 
 { #category : #'t - inner finite list element configuration' }
-ToInnerFiniteListElementConfiguration >> isFlowable [
+ToListInnerElementConfiguration >> isFlowable [
 
 	^ isFlowable 
 ]
 
 { #category : #'t - inner finite list element configuration' }
-ToInnerFiniteListElementConfiguration >> isFlowable: anObject [
+ToListInnerElementConfiguration >> isFlowable: anObject [
 
 	isFlowable := anObject 
 ]
 
 { #category : #'t - inner finite list element configuration' }
-ToInnerFiniteListElementConfiguration >> isScrollable [
+ToListInnerElementConfiguration >> isScrollable [
 
 	^ isScrollable 
 ]
 
 { #category : #'t - inner finite list element configuration' }
-ToInnerFiniteListElementConfiguration >> isScrollable: anObject [
+ToListInnerElementConfiguration >> isScrollable: anObject [
 
 	isScrollable := anObject 
 ]
 
 { #category : #hook }
-ToInnerFiniteListElementConfiguration >> onInstalledIn: anInnerListElement [
+ToListInnerElementConfiguration >> onInstalledIn: anInnerListElement [
 
 	super onInstalledIn: anInnerListElement.
 
 	#( #uniformNodeWidth #uniformNodeHeight #autoDistribute
-	   #isFlowable #isScrollable ) do: [ :flag |
+	   #isFlowable #isScrollable #rowNumbers ) do: [ :flag |
 			self
 				property: flag
 				whenChangedDo: [ anInnerListElement requestConfiguration ] ].
 
+	rowNumbers := false.
 	uniformNodeWidth := false.
 	uniformNodeHeight := false.
 	autoDistribute := false.
@@ -75,26 +85,38 @@ ToInnerFiniteListElementConfiguration >> onInstalledIn: anInnerListElement [
 	isScrollable := true
 ]
 
+{ #category : #accessing }
+ToListInnerElementConfiguration >> rowNumbers [
+
+	^ rowNumbers
+]
+
+{ #category : #accessing }
+ToListInnerElementConfiguration >> rowNumbers: aBoolean [
+
+	rowNumbers := aBoolean
+]
+
 { #category : #'t - inner finite list element configuration' }
-ToInnerFiniteListElementConfiguration >> uniformNodeHeight [
+ToListInnerElementConfiguration >> uniformNodeHeight [
 
 	^ uniformNodeHeight 
 ]
 
 { #category : #'t - inner finite list element configuration' }
-ToInnerFiniteListElementConfiguration >> uniformNodeHeight: anObject [
+ToListInnerElementConfiguration >> uniformNodeHeight: anObject [
 
 	uniformNodeHeight := anObject 
 ]
 
 { #category : #'t - inner finite list element configuration' }
-ToInnerFiniteListElementConfiguration >> uniformNodeWidth [
+ToListInnerElementConfiguration >> uniformNodeWidth [
 
 	^ uniformNodeWidth 
 ]
 
 { #category : #'t - inner finite list element configuration' }
-ToInnerFiniteListElementConfiguration >> uniformNodeWidth: anObject [
+ToListInnerElementConfiguration >> uniformNodeWidth: anObject [
 
 	uniformNodeWidth := anObject 
 ]

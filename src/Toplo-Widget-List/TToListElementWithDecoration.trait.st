@@ -12,6 +12,11 @@ TToListElementWithDecoration >> withDecoration: aDecorationClass [
 { #category : #'t - infinite accessing' }
 TToListElementWithDecoration >> withRowNumbers [
 
-	self next withRowNumbers.
-	self updateAllSelections
+	self innerConfiguration rowNumbers: true
+]
+
+{ #category : #'t - infinite accessing' }
+TToListElementWithDecoration >> withoutRowNumbers [
+
+	self innerConfiguration rowNumbers: false
 ]

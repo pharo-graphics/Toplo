@@ -1244,7 +1244,8 @@ ToSandBox class >> example_AnyEventFilter [
 ToSandBox class >> example_BasicListWithAllClasses3 [
 
 	| l |
-	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
+	l := ToListElement new.
+	l nodeBuilder: [ :node :dataItem :holder |
 		     | icn lab |
 		     icn :=  dataItem hasComment
 			            ifTrue: [ #class ]
@@ -1258,12 +1259,13 @@ ToSandBox class >> example_BasicListWithAllClasses3 [
 				      icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
 				      startInterspace: 10;
 				      hMatchParent) ].
-
-	l withRowNumbers.
+			
 	l dataAccessor addAll:
 		(Smalltalk globals allClasses sorted: [ :a :b | a name < b name ]).
 	l selecter selectIndexes: #(10 12 3).
-
+	l withRowNumbers.
+	l fakeDataItem: Object.
+	l inspect.
 	l requestFocus.
 	l openInInnerWindow
 ]
@@ -3985,7 +3987,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 
 	| select innerWindow tagBuilder |
 	select := ToMultiSelectElement new.
-
+select inspect.
 	select filtrable: true.
 	select isFlowable: false.
 	select isScrollable: false.
@@ -4542,6 +4544,7 @@ ToSandBox class >> example_SieveOnTree [
 		        matchParent.
 
 	treeElement := ToTreeElement new.
+	treeElement sample: #A.
 	treeElement childrenGetter: [ :dataItem |
 			Array streamContents: [ :stream |
 				dataItem do: [ :c | stream nextPut: c asSymbol ] ] ].

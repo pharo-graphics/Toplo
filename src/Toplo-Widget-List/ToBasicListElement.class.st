@@ -11,7 +11,8 @@ Class {
 		'mouseMoveReplayRequested',
 		'fakeDataItem',
 		'useInfiniteLayout',
-		'innerElement'
+		'innerElement',
+		'fakeNodeContainer'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -29,12 +30,6 @@ ToBasicListElement class >> finite [
 ToBasicListElement class >> infinite [
 
 	^ self new
-]
-
-{ #category : #'t - finite list element - fake container' }
-ToBasicListElement >> addFakeNodeContainer: aNodeContainer [
-
-	self addChild: aNodeContainer at: 1
 ]
 
 { #category : #'accessing - selection modes' }
@@ -85,6 +80,14 @@ ToBasicListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 							in: self selectionModel ] ]
 		ifEmpty: [
 		self selectionModel copySelectionFrom: sieve selectionModel ]
+]
+
+{ #category : #accessing }
+ToBasicListElement >> checkFakeNodeContainer [
+
+	fakeNodeContainer
+		ifNil: [ self installFakeNodeContainer ]
+		ifNotNil: [ self reinstallFakeNodeContainer ]
 ]
 
 { #category : #layout }
@@ -178,7 +181,7 @@ ToBasicListElement >> defaultEventHandler [
 	^ ToListElementEventHandler new
 ]
 
-{ #category : #'t - finite list element - fake container' }
+{ #category : #'fake container' }
 ToBasicListElement >> defaultFakeDataItem [
 
 	^ nil
@@ -281,29 +284,32 @@ ToBasicListElement >> enabledAtPosition: anInteger [
 ToBasicListElement >> extentChanged [
 ]
 
-{ #category : #'t - finite list element - fake container' }
+{ #category : #'fake container' }
 ToBasicListElement >> fakeDataItem [
 
-	^ fakeDataItem
+	^ fakeDataItem ifNil: [ fakeDataItem := self defaultFakeDataItem ]
 ]
 
-{ #category : #'t - finite list element - fake container' }
+{ #category : #'fake container' }
 ToBasicListElement >> fakeDataItem: anObject [
 
-	fakeDataItem := anObject
+	anObject = fakeDataItem ifTrue: [ ^ self ].
+	fakeDataItem := anObject.
+	self checkFakeNodeContainer 
 ]
 
-{ #category : #'t - finite list element - fake container' }
+{ #category : #'fake container' }
 ToBasicListElement >> fakeNodeContainer [
 
-	^ (self hasChildren and: [ self firstChild isFake ])
-		  ifTrue: [ self firstChild ]
-		  ifFalse: [ ]
+	^ fakeNodeContainer 
 ]
 
-{ #category : #'t - finite list element - fake container' }
+{ #category : #'fake container' }
 ToBasicListElement >> fakeNodeContainer: aNodeContainer [
 
+	fakeNodeContainer ifNotNil: [
+		fakeNodeContainer removeFromParent ].
+	fakeNodeContainer := aNodeContainer.
 	self addChild: aNodeContainer at: 1
 ]
 
@@ -371,11 +377,7 @@ ToBasicListElement >> initialize [
 	self newHiddenSelectionMode onInstalledIn: self.
 	self newDisabledSelectionMode onInstalledIn: self.
 
-	self initializeInnerElement.
-	fakeDataItem := self defaultFakeDataItem.
-	self installFakeNodeContainer.
-
-	self matchParent 
+	self matchParent
 ]
 
 { #category : #initialization }
@@ -393,9 +395,7 @@ ToBasicListElement >> initializeDataSource [
 { #category : #initialization }
 ToBasicListElement >> initializeInnerElement [
 
-	innerElement := self defaultInnerElement.
-	innerElement elevation: (BlRelativeElevation elevation: 10).
-	self addChild: innerElement
+	self innerElement: self defaultInnerElement
 ]
 
 { #category : #configuration }
@@ -413,15 +413,23 @@ ToBasicListElement >> innerConfigurationDo: aBlock [
 { #category : #'t - list element decorator - infinite accessing' }
 ToBasicListElement >> innerElement [
 
-	"innerElement ifNil: [
-			self initializeInnerElement.
-			fakeDataItem := self defaultFakeDataItem.
-			self installFakeNodeContainer.
-			self notifyDataSourceChanged ]."
+	innerElement ifNil: [ self initializeInnerElement ].
 	^ innerElement innerElement
 ]
 
-{ #category : #'t - finite list element - fake container' }
+{ #category : #accessing }
+ToBasicListElement >> innerElement: anInnerElement [
+
+	innerElement = anInnerElement ifTrue: [ ^ self ].
+	innerElement ifNotNil: [ :inner | inner removeFromParent ].
+	innerElement := anInnerElement.
+	self checkFakeNodeContainer.
+	innerElement ifNotNil: [ :inner |
+			self addChild: innerElement.
+			self notifyDataSourceChanged ]
+]
+
+{ #category : #'fake container' }
 ToBasicListElement >> installFakeNodeContainer [
 	" the fake node is added in case of an empty data source to ensure a 
 	suitable minimum height according to the node class, the node builder 
@@ -430,9 +438,11 @@ ToBasicListElement >> installFakeNodeContainer [
 	| fakeContainer holder |
 	holder := self nodeManager newHolder.
 	holder infiniteElement: self innerElement.
-	holder dataItem: self fakeDataItem.
+	holder fakeDataItem: self fakeDataItem.
 	holder bindAtPosition: 0.
-	fakeContainer := self newFakeNodeContainer.
+	fakeContainer := ToFakeNodeContainer new
+		                 nodeContainer: self nodeManager newNodeContainer;
+		                 yourself.
 	" assigning the holder builds the middleContainer (which is the node of the fake node container) "
 	fakeContainer holder: holder.
 	fakeContainer id: #fakeNodeContainer.
@@ -440,8 +450,17 @@ ToBasicListElement >> installFakeNodeContainer [
 	holder setupNodeContainerWith: fakeContainer.
 	" add the fake node (to keep a constant minimum size ).
 	Pay attention to add the fake node ** before ** the fake node building "
-	self addFakeNodeContainer: fakeContainer.
-	self nodeManager buildNode: fakeContainer node.
+	self fakeNodeContainer: fakeContainer.
+	[ self nodeManager buildNodeContainer: fakeContainer nodeContainer]
+		on: Error
+		do: [ :error | 
+				'*** Warning: can''t build fake node container: ' trace.
+				error traceCr ].
+	[ self nodeManager buildNode: fakeContainer node ]
+		on: Error
+		do: [ :error |
+				'*** Warning: can''t build fake node: ' trace.
+				error traceCr ].
 	self requestConfiguration
 ]
 
@@ -474,12 +493,6 @@ ToBasicListElement >> newDisabledSelectionMode [
 	" note that a disabled mode need an event handler to force the building of disabled nodes "
 
 	^ ToListDisabledSelectionMode parentMode: self primarySelectionMode
-]
-
-{ #category : #'t - finite list element - fake container' }
-ToBasicListElement >> newFakeNodeContainer [ 
-
-	^ ToFakeNodeContainer new
 ]
 
 { #category : #'instance creation' }
@@ -636,7 +649,7 @@ ToBasicListElement >> primarySelectionMode: aSelectionMode [
 	self requestNewSkin
 ]
 
-{ #category : #'t - finite list element - fake container' }
+{ #category : #'fake container' }
 ToBasicListElement >> reinstallFakeNodeContainer [
 	" the fake node is added in case of an empty data source to ensure a 
 	suitable minimum height according to the node class, the node builder 
@@ -648,7 +661,11 @@ ToBasicListElement >> reinstallFakeNodeContainer [
 	holder dataItem: self fakeDataItem.
 	" add the fake node (to keep a constant minimum size ).
 	Pay attention to add the fake node ** before ** the fake node building "
-	self nodeManager buildNode: fakeContainer node.
+	[ self nodeManager buildNode: fakeContainer node ]
+		on: Error
+		do: [ :error |
+				'*** Warning: can''t build fake node: ' trace.
+				error traceCr ].
 	self requestConfiguration
 ]
 
@@ -675,19 +692,17 @@ ToBasicListElement >> requestMouseMoveReplay [
 	mouseMoveReplayRequested := true
 ]
 
-{ #category : #'t - finite list element - fake container' }
+{ #category : #'fake container' }
 ToBasicListElement >> sample [
 
 	^ self fakeDataItem
 ]
 
-{ #category : #'t - finite list element - fake container' }
+{ #category : #'fake container' }
 ToBasicListElement >> sample: aDataItem [
 
 	self fakeDataItem: aDataItem.
-	self reinstallFakeNodeContainer.
-	self requestLayout
-	
+	self checkFakeNodeContainer
 ]
 
 { #category : #'accessing selecters' }

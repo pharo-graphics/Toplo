@@ -1,38 +1,56 @@
-"
-I'm a special node container. My role is to ensure a given size when no element are added the list. 
-I'm a sibling of the inner element of a list.  
-"
 Class {
 	#name : #ToFakeNodeContainer,
-	#superclass : #ToNodeContainer,
+	#superclass : #ToElement,
+	#instVars : [
+		'nodeContainer'
+	],
 	#category : #'Toplo-Widget-List-Node'
 }
 
 { #category : #configuration }
 ToFakeNodeContainer >> applyConfiguration [
-	"in case my orientation changes the original size must be stored.
-	The original size has to be stored before setting the height or the width to zero.
-	see also addFakeNode:"
-	
-	super applyConfiguration.
 
+	super applyConfiguration.
+	[ nodeContainer applyConfiguration ]
+		on: Error
+		do: [ :error |
+				'*** Warning: can''t apply configuration on fake node container: '
+					trace.
+				error traceCr ].
 	self holder listElement isHorizontal
-		ifTrue: [
-				self width: 0 ]
-		ifFalse: [
-				self height: 0 ].
-	
+		ifTrue: [ self width: 0 ]
+		ifFalse: [ self height: 0 ]
 ]
 
-{ #category : #initialization }
-ToFakeNodeContainer >> initialize [
+{ #category : #accessing }
+ToFakeNodeContainer >> holder: anHolder [
 
-	super initialize.
-	self visibility: BlVisibility hidden
+	super holder: anHolder.
+	nodeContainer holder: anHolder.
+	nodeContainer node holder: anHolder
 ]
 
 { #category : #testing }
-ToFakeNodeContainer >> isFake [
+ToFakeNodeContainer >> isFake [ 
 
 	^ true
+]
+
+{ #category : #accessing }
+ToFakeNodeContainer >> node [ 
+
+	^ nodeContainer node
+]
+
+{ #category : #accessing }
+ToFakeNodeContainer >> nodeContainer [
+
+	^ nodeContainer
+]
+
+{ #category : #accessing }
+ToFakeNodeContainer >> nodeContainer: aNodeContainer [
+
+	nodeContainer := aNodeContainer.
+	self addChild: aNodeContainer
 ]

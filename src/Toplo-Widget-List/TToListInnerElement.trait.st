@@ -122,5 +122,7 @@ TToListInnerElement >> selectableNodeContainingGlobalPosition: aPoint [
 ]
 
 { #category : #'t - list inner element' }
-TToListInnerElement >> withRowNumbers [
+TToListInnerElement >> withRowNumbers: aBoolean [
+
+
 ]

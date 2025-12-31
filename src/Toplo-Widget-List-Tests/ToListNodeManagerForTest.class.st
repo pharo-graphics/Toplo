@@ -1,5 +1,5 @@
 Class {
-	#name : #ToSpecificFiniteListNodeManagerForTest,
+	#name : #ToListNodeManagerForTest,
 	#superclass : #ToBasicListNodeManager,
 	#instVars : [
 		'counter'
@@ -8,42 +8,42 @@ Class {
 }
 
 { #category : #initialization }
-ToSpecificFiniteListNodeManagerForTest >> buildNode: aNode [
+ToListNodeManagerForTest >> buildNode: aNode [
 
 	aNode addChild: (ToLabel text: aNode labelText)
 ]
 
 { #category : #initialization }
-ToSpecificFiniteListNodeManagerForTest >> defaultNodeFactory [
+ToListNodeManagerForTest >> defaultNodeFactory [
 
-	^ [ :holder | ToSpecificFiniteListNodeForTest new ]
+	^ [ :holder | ToListNodeForTest new ]
 ]
 
 { #category : #initialization }
-ToSpecificFiniteListNodeManagerForTest >> defaultNodeHolderFactory [
+ToListNodeManagerForTest >> defaultNodeHolderFactory [
 
 	^ [
-		  ToSpecificFiniteListNodeHolderForTest new
+		  ToListNodeHolderForTest new
 			  num: self nextCount;
 			  yourself ]
 ]
 
 { #category : #initialization }
-ToSpecificFiniteListNodeManagerForTest >> initialize [ 
+ToListNodeManagerForTest >> initialize [ 
 
 	super initialize.
 	counter := 0
 ]
 
 { #category : #accessing }
-ToSpecificFiniteListNodeManagerForTest >> nextCount [ 
+ToListNodeManagerForTest >> nextCount [ 
 
 	counter := counter + 1.
 	^ counter
 ]
 
 { #category : #initialization }
-ToSpecificFiniteListNodeManagerForTest >> unbuildNode: aNode [
+ToListNodeManagerForTest >> unbuildNode: aNode [
 
 	aNode holder num: 0
 

@@ -82,12 +82,12 @@ ToBasicListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 		self selectionModel copySelectionFrom: sieve selectionModel ]
 ]
 
-{ #category : #accessing }
+{ #category : #'fake container' }
 ToBasicListElement >> checkFakeNodeContainer [
 
-	fakeNodeContainer
-		ifNil: [ self installFakeNodeContainer ]
-		ifNotNil: [ self reinstallFakeNodeContainer ]
+	fakeNodeContainer ifNil: [ ^ self installFakeNodeContainer ].
+	fakeNodeContainer nodeContainer ifNil: [ ^ self ].
+	self reinstallFakeNodeContainer
 ]
 
 { #category : #layout }
@@ -435,32 +435,35 @@ ToBasicListElement >> installFakeNodeContainer [
 	suitable minimum height according to the node class, the node builder 
 	and the data kind."
 
-	| fakeContainer holder |
+	| holder |
+	fakeNodeContainer := ToFakeNodeContainer new.
 	holder := self nodeManager newHolder.
 	holder infiniteElement: self innerElement.
 	holder fakeDataItem: self fakeDataItem.
 	holder bindAtPosition: 0.
-	fakeContainer := ToFakeNodeContainer new
-		                 nodeContainer: self nodeManager newNodeContainer;
-		                 yourself.
 	" assigning the holder builds the middleContainer (which is the node of the fake node container) "
-	fakeContainer holder: holder.
-	fakeContainer id: #fakeNodeContainer.
-	fakeContainer node id: #fakeNode.
-	holder setupNodeContainerWith: fakeContainer.
+	fakeNodeContainer holder: holder.
+	fakeNodeContainer id: #fakeNodeContainerOwner.
+	fakeNodeContainer nodeContainer: self nodeManager newNodeContainer.
+	fakeNodeContainer nodeContainer id: #fakeNodeContainer.
+	fakeNodeContainer nodeContainer holder: holder.
+	fakeNodeContainer node holder: holder.
+	fakeNodeContainer node id: #fakeNode.
+	holder setupNodeContainerWith: fakeNodeContainer.
 	" add the fake node (to keep a constant minimum size ).
 	Pay attention to add the fake node ** before ** the fake node building "
-	self fakeNodeContainer: fakeContainer.
-	[ self nodeManager buildNodeContainer: fakeContainer nodeContainer]
+	[
+	self nodeManager buildNodeContainer: fakeNodeContainer nodeContainer ]
 		on: Error
 		do: [ :error | 
-				'*** Warning: can''t build fake node container: ' trace.
+				'*** Warning: can''t build the fake node container: ' trace.
 				error traceCr ].
-	[ self nodeManager buildNode: fakeContainer node ]
+	[ self nodeManager buildNode: fakeNodeContainer node ]
 		on: Error
-		do: [ :error |
-				'*** Warning: can''t build fake node: ' trace.
+		do: [ :error | 
+				'*** Warning: can''t build the fake node: ' trace.
 				error traceCr ].
+	self addChild: fakeNodeContainer at: 1.
 	self requestConfiguration
 ]
 
@@ -655,16 +658,20 @@ ToBasicListElement >> reinstallFakeNodeContainer [
 	suitable minimum height according to the node class, the node builder 
 	and the data kind."
 
-	| fakeContainer holder |
-	fakeContainer := self fakeNodeContainer.
-	holder := fakeContainer holder.
+	| holder |
+	[ self nodeManager unbuildNode: fakeNodeContainer node ]
+		on: Error
+		do: [ :error |
+				'*** Warning: can''t unbuild the fake node: ' trace.
+				error traceCr ].
+	holder := fakeNodeContainer holder.
 	holder dataItem: self fakeDataItem.
 	" add the fake node (to keep a constant minimum size ).
 	Pay attention to add the fake node ** before ** the fake node building "
-	[ self nodeManager buildNode: fakeContainer node ]
+	[ self nodeManager buildNode: fakeNodeContainer node ]
 		on: Error
 		do: [ :error |
-				'*** Warning: can''t build fake node: ' trace.
+				'*** Warning: can''t rebuild the fake node: ' trace.
 				error traceCr ].
 	self requestConfiguration
 ]
@@ -701,8 +708,7 @@ ToBasicListElement >> sample [
 { #category : #'fake container' }
 ToBasicListElement >> sample: aDataItem [
 
-	self fakeDataItem: aDataItem.
-	self checkFakeNodeContainer
+	self fakeDataItem: aDataItem
 ]
 
 { #category : #'accessing selecters' }

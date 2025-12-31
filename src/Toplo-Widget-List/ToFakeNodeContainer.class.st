@@ -22,14 +22,6 @@ ToFakeNodeContainer >> applyConfiguration [
 		ifFalse: [ self height: 0 ]
 ]
 
-{ #category : #accessing }
-ToFakeNodeContainer >> holder: anHolder [
-
-	super holder: anHolder.
-	nodeContainer holder: anHolder.
-	nodeContainer node holder: anHolder
-]
-
 { #category : #testing }
 ToFakeNodeContainer >> isFake [ 
 

@@ -1,5 +1,5 @@
 Class {
-	#name : #ToSpecificFiniteListNodeHolderForTest,
+	#name : #ToListNodeHolderForTest2,
 	#superclass : #ToNodeHolder,
 	#instVars : [
 		'num'
@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #accessing }
-ToSpecificFiniteListNodeHolderForTest >> num [
+ToListNodeHolderForTest2 >> num [
 
 	^ num
 ]
 
 { #category : #accessing }
-ToSpecificFiniteListNodeHolderForTest >> num: anInteger [
+ToListNodeHolderForTest2 >> num: anInteger [
 
 	num := anInteger
 ]

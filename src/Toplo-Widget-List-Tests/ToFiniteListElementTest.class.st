@@ -2,7 +2,7 @@
 A ToAbstractListElementTest is a test class for testing the behavior of ToAbstractListElement
 "
 Class {
-	#name : #ToSpecificFiniteListElementTest,
+	#name : #ToFiniteListElementTest,
 	#superclass : #ToParameterizedHostTest,
 	#instVars : [
 		'l'
@@ -11,14 +11,14 @@ Class {
 }
 
 { #category : #running }
-ToSpecificFiniteListElementTest >> setUp [ 
+ToFiniteListElementTest >> setUp [ 
 
 	super setUp.
-	l := ToSpecificFiniteListElementForTest new
+	l := ToFiniteListElementForTest new
 ]
 
 { #category : #tests }
-ToSpecificFiniteListElementTest >> testDisabledWithFiveNodes [
+ToFiniteListElementTest >> testDisabledWithFiveNodes [
 
 	l dataAccessor removeAll.
 	l removeFromParent.
@@ -43,7 +43,7 @@ ToSpecificFiniteListElementTest >> testDisabledWithFiveNodes [
 ]
 
 { #category : #tests }
-ToSpecificFiniteListElementTest >> testDisabledWithFiveNodesLateAddToSpace [
+ToFiniteListElementTest >> testDisabledWithFiveNodesLateAddToSpace [
 
 	l dataAccessor add: 'first'.
 	l disabledSelecter selectOneMoreIndex: 1.
@@ -62,7 +62,7 @@ ToSpecificFiniteListElementTest >> testDisabledWithFiveNodesLateAddToSpace [
 ]
 
 { #category : #tests }
-ToSpecificFiniteListElementTest >> testDisabledWithFourNodes [
+ToFiniteListElementTest >> testDisabledWithFourNodes [
 
 	l dataAccessor add: 'first'.
 	space root addChild: l.
@@ -84,7 +84,7 @@ ToSpecificFiniteListElementTest >> testDisabledWithFourNodes [
 ]
 
 { #category : #tests }
-ToSpecificFiniteListElementTest >> testDisabledWithFourNodes2 [
+ToFiniteListElementTest >> testDisabledWithFourNodes2 [
 
 	space root addChild: l.
 	l dataAccessor add: 'first'.
@@ -102,7 +102,7 @@ ToSpecificFiniteListElementTest >> testDisabledWithFourNodes2 [
 ]
 
 { #category : #tests }
-ToSpecificFiniteListElementTest >> testDisabledWithFourNodesLateAddToSpace [
+ToFiniteListElementTest >> testDisabledWithFourNodesLateAddToSpace [
 
 	l dataAccessor add: 'first'.
 	l disabledSelecter selectOneMoreIndex: 1.
@@ -119,7 +119,7 @@ ToSpecificFiniteListElementTest >> testDisabledWithFourNodesLateAddToSpace [
 ]
 
 { #category : #tests }
-ToSpecificFiniteListElementTest >> testDisabledWithFourNodesLateAddToSpace2 [
+ToFiniteListElementTest >> testDisabledWithFourNodesLateAddToSpace2 [
 
 	l dataAccessor add: 'first'.
 	l dataAccessor add: 'second'.
@@ -136,7 +136,7 @@ ToSpecificFiniteListElementTest >> testDisabledWithFourNodesLateAddToSpace2 [
 ]
 
 { #category : #tests }
-ToSpecificFiniteListElementTest >> testDisabledWithOneNode [
+ToFiniteListElementTest >> testDisabledWithOneNode [
 
 	l dataAccessor add: 'first'.
 	space root addChild: l.
@@ -150,7 +150,7 @@ ToSpecificFiniteListElementTest >> testDisabledWithOneNode [
 ]
 
 { #category : #tests }
-ToSpecificFiniteListElementTest >> testDisabledWithThreeNodes [
+ToFiniteListElementTest >> testDisabledWithThreeNodes [
 
 	l dataAccessor add: 'first'.
 	space root addChild: l.
@@ -173,7 +173,7 @@ ToSpecificFiniteListElementTest >> testDisabledWithThreeNodes [
 ]
 
 { #category : #tests }
-ToSpecificFiniteListElementTest >> testDisabledWithThreeNodesLateAddToSpace [
+ToFiniteListElementTest >> testDisabledWithThreeNodesLateAddToSpace [
 
 	l dataAccessor add: 'first'.
 	l disabledSelecter selectOneMoreIndex: 1.
@@ -188,7 +188,7 @@ ToSpecificFiniteListElementTest >> testDisabledWithThreeNodesLateAddToSpace [
 ]
 
 { #category : #tests }
-ToSpecificFiniteListElementTest >> testDisabledWithTwoNodes [
+ToFiniteListElementTest >> testDisabledWithTwoNodes [
 
 	l dataAccessor add: 'first'.
 	space root addChild: l.
@@ -207,7 +207,7 @@ ToSpecificFiniteListElementTest >> testDisabledWithTwoNodes [
 ]
 
 { #category : #tests }
-ToSpecificFiniteListElementTest >> testDisabledWithTwoNodes2 [
+ToFiniteListElementTest >> testDisabledWithTwoNodes2 [
 
 	l dataAccessor add: 'first'.
 	space root addChild: l.
@@ -226,7 +226,7 @@ ToSpecificFiniteListElementTest >> testDisabledWithTwoNodes2 [
 ]
 
 { #category : #tests }
-ToSpecificFiniteListElementTest >> testDisabledWithTwoNodesLateAddToSpace [
+ToFiniteListElementTest >> testDisabledWithTwoNodesLateAddToSpace [
 
 	l dataAccessor add: 'first'.
 	l disabledSelecter selectOneMoreIndex: 1.
@@ -240,7 +240,7 @@ ToSpecificFiniteListElementTest >> testDisabledWithTwoNodesLateAddToSpace [
 ]
 
 { #category : #tests }
-ToSpecificFiniteListElementTest >> testDisabledWithTwoNodesLateAddToSpace2 [
+ToFiniteListElementTest >> testDisabledWithTwoNodesLateAddToSpace2 [
 
 	l dataAccessor add: 'first'.
 	l disabledSelecter selectOneMoreIndex: 1.
@@ -254,7 +254,7 @@ ToSpecificFiniteListElementTest >> testDisabledWithTwoNodesLateAddToSpace2 [
 ]
 
 { #category : #tests }
-ToSpecificFiniteListElementTest >> testEmptyList [
+ToFiniteListElementTest >> testEmptyList [
 
 	self assert: l selecter selectedIndexes isEmpty.
 	self assert: l selectionModel underlyingModel isEmpty.
@@ -267,26 +267,26 @@ ToSpecificFiniteListElementTest >> testEmptyList [
 ]
 
 { #category : #tests }
-ToSpecificFiniteListElementTest >> testOneNode [
+ToFiniteListElementTest >> testOneNode [
 
 	space root addChild: l.
 	l dataAccessor add: 'first'.
 	self waitTestingSpaces.
 	self assert: l dataSource first equals: 'first'.
 	self assert: l nodes  size equals: 1.
-	self assert: l nodes first class identicalTo: ToSpecificFiniteListNodeForTest.	
-	self assert: l nodes first  holder class identicalTo: ToSpecificFiniteListNodeHolderForTest.	
+	self assert: l nodes first class identicalTo: ToListNodeForTest.	
+	self assert: l nodes first  holder class identicalTo: ToListNodeHolderForTest.	
 	self assert: l nodes first  children size equals: 1.	
 	self assert: l nodes first  firstChild class identicalTo: ToLabel.
-	" 3 because the fake node container has been added first then reinstalled because of the fakeDataItem: send in ToSpecificFiniteListNodeHolderForTest>>initialize   "
-	self assert: l nodes first  firstChild text asString equals: '3:first'.	
-	self assert: l nodes first  holder num equals: 3.	
+	" 3 because the fake node container has been added first  "
+	self assert: l nodes first  firstChild text asString equals: '2:first'.	
+	self assert: l nodes first  holder num equals: 2.	
 	self assert: l nodes first  holder dataItem equals: 'first'.
 	self assert: l nodes first isEnabled
 ]
 
 { #category : #tests }
-ToSpecificFiniteListElementTest >> testSelectionWithOneNode [
+ToFiniteListElementTest >> testSelectionWithOneNode [
 
 	l dataAccessor add: 'first'.
 	space root addChild: l.
@@ -300,7 +300,7 @@ ToSpecificFiniteListElementTest >> testSelectionWithOneNode [
 ]
 
 { #category : #tests }
-ToSpecificFiniteListElementTest >> testSelectionWithTwoNodes [
+ToFiniteListElementTest >> testSelectionWithTwoNodes [
 
 	l dataAccessor add: 'first'.
 	space root addChild: l.

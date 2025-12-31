@@ -1,11 +1,11 @@
 Class {
-	#name : #ToSpecificFiniteListNodeForTest2,
+	#name : #ToListNodeForTest2,
 	#superclass : #ToBasicListNode,
 	#category : #'Toplo-Widget-List-Tests-Core-FiniteListElement'
 }
 
 { #category : #initialization }
-ToSpecificFiniteListNodeForTest2 >> initialize [ 
+ToListNodeForTest2 >> initialize [ 
 
 	super initialize.
 	self constraintsDo: [ :c |

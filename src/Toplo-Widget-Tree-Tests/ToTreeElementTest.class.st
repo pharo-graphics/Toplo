@@ -12,6 +12,7 @@ ToTreeElementTest >> setUp [
 
 	super setUp.
 	tree := ToTreeElement new.
+	tree sample: #A.
 	tree childrenGetter: [ :dataItem |
 			Array streamContents: [ :stream |
 				dataItem do: [ :c | stream nextPut: c asSymbol ] ] ].

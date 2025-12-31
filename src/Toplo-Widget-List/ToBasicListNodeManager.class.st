@@ -11,7 +11,8 @@ Class {
 		'nodeHolderFactory',
 		'nodeFactory',
 		'nodeContainerConfigurator',
-		'nodeConfigurator'
+		'nodeConfigurator',
+		'isBuildingFakeNodeContainer'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -58,6 +59,38 @@ ToBasicListNodeManager >> configureNodeContainer: aNodeContainer [
 	nodeContainerConfigurator value: aNodeContainer 
 ]
 
+{ #category : #'fake node container' }
+ToBasicListNodeManager >> createFakeNodeContainerIn: aListElement [
+
+	| fakeNodeContainer holder |
+	fakeNodeContainer := ToFakeNodeContainerWrapper new.
+	holder := self newHolder.
+	holder infiniteElement: aListElement innerElement.
+	holder fakeDataItem: aListElement fakeDataItem.
+	holder bindAtPosition: 0.
+	" assigning the holder builds the middleContainer (which is the node of the fake node container) "
+	fakeNodeContainer holder: holder.
+	fakeNodeContainer nodeContainer: self newNodeContainer.
+	fakeNodeContainer nodeContainer id: #fakeNodeContainerWrapper.
+	fakeNodeContainer nodeContainer holder: holder.
+	fakeNodeContainer node holder: holder.
+	fakeNodeContainer node id: #fakeNode.
+	holder setupNodeContainerWith: fakeNodeContainer.
+	" add the fake node (to keep a constant minimum size ).
+	Pay attention to add the fake node ** before ** the fake node building "
+	[ self buildNodeContainer: fakeNodeContainer nodeContainer ]
+		on: Error
+		do: [ :error |
+				'*** Warning: can''t build the fake node container: ' trace.
+				error traceCr ].
+	[ self buildNode: fakeNodeContainer node ]
+		on: Error
+		do: [ :error |
+				'*** Warning: can''t build the fake node: ' trace.
+				error traceCr ].
+	^ fakeNodeContainer
+]
+
 { #category : #initialization }
 ToBasicListNodeManager >> defaultNodeConfigurator [
 
@@ -88,6 +121,13 @@ ToBasicListNodeManager >> defaultNodeHolderFactory [
 	^ [ ToNodeHolder new ]
 ]
 
+{ #category : #'fake node container' }
+ToBasicListNodeManager >> flagAsBuildingFakeNodeContainerWhile: aBlock [
+
+	isBuildingFakeNodeContainer := true.
+	aBlock ensure: [ isBuildingFakeNodeContainer := false ]
+]
+
 { #category : #initialization }
 ToBasicListNodeManager >> initialize [ 
 
@@ -98,6 +138,20 @@ ToBasicListNodeManager >> initialize [
 	nodeHolderFactory := self defaultNodeHolderFactory.
 	nodeContainerConfigurator := self defaultNodeContainerConfigurator.
 	nodeConfigurator := self defaultNodeConfigurator 
+]
+
+{ #category : #'fake node container' }
+ToBasicListNodeManager >> isBuildingFakeNodeContainer [
+
+	^ isBuildingFakeNodeContainer ifNil: [
+		  isBuildingFakeNodeContainer := false ]
+]
+
+{ #category : #'fake node container' }
+ToBasicListNodeManager >> newFakeNodeContainerIn: aListElement [
+
+	self flagAsBuildingFakeNodeContainerWhile: [
+		^ self createFakeNodeContainerIn: aListElement ]
 ]
 
 { #category : #'instance creation' }
@@ -161,6 +215,26 @@ ToBasicListNodeManager >> nodeHolderFactory: aValuable [
 	" aValuable that takes no argument an return a new holder "
 
 	nodeHolderFactory := aValuable
+]
+
+{ #category : #'fake node container' }
+ToBasicListNodeManager >> refreshFakeNodeContainer: aFakeNodeContainerWrapper [
+
+	| holder |
+	[ self unbuildNode: aFakeNodeContainerWrapper node ]
+		on: Error
+		do: [ :error |
+				'*** Warning: can''t unbuild the fake node: ' trace.
+				error traceCr ].
+	holder := aFakeNodeContainerWrapper holder.
+	holder dataItem: holder listElement fakeDataItem.
+	" add the fake node (to keep a constant minimum size ).
+	Pay attention to add the fake node ** before ** the fake node building "
+	[ self buildNode: aFakeNodeContainerWrapper node ]
+		on: Error
+		do: [ :error |
+				'*** Warning: can''t rebuild the fake node: ' trace.
+				error traceCr ]
 ]
 
 { #category : #initialization }

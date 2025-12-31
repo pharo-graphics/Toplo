@@ -610,8 +610,8 @@ ToListElementTest >> testOneSpecifcNode [
 	self assert: l nodeContainers first holder class identicalTo: ToSpecificListNodeHolderForTest.	
 	self assert: l nodeContainers first node children size equals: 1.	
 	self assert: l nodeContainers first node firstChild class identicalTo: ToLabel.	
-	self assert: l fakeNodeContainer node holder num equals: 1.
-	self assert: l fakeNodeContainer node holder dataItem equals: nil.
+	self assert: l fakeNodeContainerWrapper node holder num equals: 1.
+	self assert: l fakeNodeContainerWrapper node holder dataItem equals: nil.
 	self assert: l nodeContainers first node firstChild text asString equals: '2:first'.	
 	self assert: l nodeContainers first holder num equals: 2.	
 	self assert: l nodeContainers first holder dataItem equals: 'first'

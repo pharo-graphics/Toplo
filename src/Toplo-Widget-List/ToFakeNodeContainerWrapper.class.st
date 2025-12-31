@@ -1,14 +1,14 @@
 Class {
-	#name : #ToFakeNodeContainer,
+	#name : #ToFakeNodeContainerWrapper,
 	#superclass : #ToElement,
 	#instVars : [
 		'nodeContainer'
 	],
-	#category : #'Toplo-Widget-List-Node'
+	#category : #'Toplo-Widget-List-Core'
 }
 
 { #category : #configuration }
-ToFakeNodeContainer >> applyConfiguration [
+ToFakeNodeContainerWrapper >> applyConfiguration [
 
 	super applyConfiguration.
 	[ nodeContainer applyConfiguration ]
@@ -22,26 +22,33 @@ ToFakeNodeContainer >> applyConfiguration [
 		ifFalse: [ self height: 0 ]
 ]
 
+{ #category : #initialization }
+ToFakeNodeContainerWrapper >> initialize [
+
+	super initialize.
+	self id: #fakeNodeContainerWrapper
+]
+
 { #category : #testing }
-ToFakeNodeContainer >> isFake [ 
+ToFakeNodeContainerWrapper >> isFake [ 
 
 	^ true
 ]
 
 { #category : #accessing }
-ToFakeNodeContainer >> node [ 
+ToFakeNodeContainerWrapper >> node [ 
 
 	^ nodeContainer node
 ]
 
 { #category : #accessing }
-ToFakeNodeContainer >> nodeContainer [
+ToFakeNodeContainerWrapper >> nodeContainer [
 
 	^ nodeContainer
 ]
 
 { #category : #accessing }
-ToFakeNodeContainer >> nodeContainer: aNodeContainer [
+ToFakeNodeContainerWrapper >> nodeContainer: aNodeContainer [
 
 	nodeContainer := aNodeContainer.
 	self addChild: aNodeContainer

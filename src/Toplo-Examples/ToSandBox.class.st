@@ -5161,17 +5161,6 @@ ToSandBox class >> example_TagFiniteList [
 	self finiteTagListWithData: ToSandBox statesOfAmerica
 ]
 
-{ #category : #tag }
-ToSandBox class >> example_TagFiniteList2 [
-
-	| tb |
-	tb := ToItemFiniteListElement new.
-	tb horizontal: true.
-	tb dataAccessor addAll:
-		(ToSandBox statesOfAmerica collect: [ :s | ToTagElement new labelText: s; yourself ]).
-	tb openInSpace
-]
-
 { #category : #select }
 ToSandBox class >> example_ThemeSelectNoDeselection [
 
@@ -9336,7 +9325,7 @@ ToSandBox class >> finiteTagListWithData: aCollection [
 
 	| bar confBoard barPane rootPane selectionModeBoard rand tags |
 	rand := Random new.
-	bar := ToItemFiniteListElement new.
+	bar := ToItemListElement finite.
 	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
 	tags := aCollection collect: [ :s |
 			        ToTagElement new
@@ -9415,8 +9404,8 @@ ToSandBox class >> finiteTagListWithData: aCollection [
 	selectionModeBoard := self selectionModeChooserFor: bar.
 	confBoard addChild: selectionModeBoard.
 
-	bar isFlowable: true.
-	bar uniformNodeWidth: true.
+	bar innerConfiguration isFlowable: true.
+	bar innerConfiguration uniformNodeWidth: true.
 	rootPane := ToPane horizontal.
 	rootPane padding: (BlInsets all: 5).
 	rootPane matchParent.

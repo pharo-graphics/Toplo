@@ -144,7 +144,7 @@ ToMultiSelectElement >> isFlowable: aBoolean [
 { #category : #accessing }
 ToMultiSelectElement >> isScrollable: aBoolean [
 
-	self innerElement isScrollable: aBoolean
+	self innerElement innerConfiguration isScrollable: aBoolean
 ]
 
 { #category : #accessing }

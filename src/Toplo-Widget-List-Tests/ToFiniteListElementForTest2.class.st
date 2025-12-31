@@ -30,6 +30,5 @@ ToFiniteListElementForTest2 >> initialize [
 	| lab |
 	super initialize.
 	lab := ToLabel text: 'Fake'.
-	"lab addEventHandlerOn: BlElementAddedToParentEvent do:  [ self halt ]. "
 	self fakeDataItem: lab
 ]

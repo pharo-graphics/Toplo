@@ -593,7 +593,7 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved4 [
 ToListElementTest >> testOneSpecifcNode [
 
 	| l |
-	l := ToSpecificListElementForTest new.
+	l := ToListElementForTest new.
 	l dataAccessor add: 'first'.
 	self waitTestingSpaces.
 	self assert: l dataSource first equals: 'first'.
@@ -605,9 +605,9 @@ ToListElementTest >> testOneSpecifcNode [
 	space root addChild: l.
 	self waitTestingSpaces.
 	self assert: l innerElement children size equals: 1.
-	self assert: l innerElement firstChild node class identicalTo: ToSpecificListNodeForTest.	
-	self assert: l nodeContainers first node class identicalTo: ToSpecificListNodeForTest.	
-	self assert: l nodeContainers first holder class identicalTo: ToSpecificListNodeHolderForTest.	
+	self assert: l innerElement firstChild node class identicalTo: ToListNodeForTest.	
+	self assert: l nodeContainers first node class identicalTo: ToListNodeForTest.	
+	self assert: l nodeContainers first holder class identicalTo: ToListNodeHolderForTest.	
 	self assert: l nodeContainers first node children size equals: 1.	
 	self assert: l nodeContainers first node firstChild class identicalTo: ToLabel.	
 	self assert: l fakeNodeContainerWrapper node holder num equals: 1.

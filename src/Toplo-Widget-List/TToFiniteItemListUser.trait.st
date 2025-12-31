@@ -176,7 +176,7 @@ TToFiniteItemListUser >> items [
 { #category : #'t - item list user - initializing' }
 TToFiniteItemListUser >> newItemList [
 
-	^ ToItemFiniteListElement new
+	^ ToItemListElement finite
 ]
 
 { #category : #'t - item list user - accessing' }

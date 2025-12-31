@@ -14,7 +14,7 @@ Class {
 ToFiniteListElementTest >> setUp [ 
 
 	super setUp.
-	l := ToFiniteListElementForTest new
+	l := ToListElementForTest finite
 ]
 
 { #category : #tests }

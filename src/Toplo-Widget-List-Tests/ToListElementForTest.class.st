@@ -1,11 +1,11 @@
 Class {
-	#name : #ToSpecificListElementForTest,
+	#name : #ToListElementForTest,
 	#superclass : #ToBasicListElement,
 	#category : #'Toplo-Widget-List-Tests-Core-ListElement'
 }
 
 { #category : #initialization }
-ToSpecificListElementForTest >> defaultNodeManagerClass [
+ToListElementForTest >> defaultNodeManagerClass [
 
-	^ ToSpecificListNodeManagerForTest
+	^ ToListNodeManagerForTest
 ]

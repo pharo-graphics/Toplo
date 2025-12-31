@@ -1559,46 +1559,46 @@ ToExperiments class >> newTreeElement [
 	tree withRowNumbers.
 
 	tree nodeBuilder: [ :node :anExWrapper :holder |
-		| align triplet arrowIcon arrowButton iconContainer hasChildren |
-		align := anExWrapper level * 25.
-		triplet := ToTripletElement new.
-		triplet horizontal: true.
-		triplet middleElement:
-			(ToLabel new text: anExWrapper wrapped asString).
-		arrowIcon := ToImage new.
-		hasChildren := anExWrapper hasChildren.
-		hasChildren ifTrue: [
-			| arrowTk |
-			arrowTk := anExWrapper isExpanded
-				           ifTrue: [ #'iconic-arrow-down' ]
-				           ifFalse: [ #'iconic-arrow-right' ].
-			arrowIcon innerImage: (tree valueOfTokenNamed: arrowTk) ].
-		arrowIcon
-			size: 18 asPoint;
-			id: #arrow.
-		iconContainer := ToElement new
-			                 fitContent;
-			                 yourself.
-		iconContainer layout: BlLinearLayout horizontal.
-		iconContainer addChild: (ToElement new size: align @ 0).
-		arrowButton := ToButton new
-			       icon: arrowIcon;
-			       yourself.
-		arrowButton addAllStamps: #( #iconic #borderless ).
-		iconContainer addChild: arrowButton.
-		triplet startInterspace: 10.
-		triplet startElement: iconContainer.
-		hasChildren ifTrue: [
-			arrowButton clickAction: [ 
-				| newArrowTk |
-				anExWrapper toggle.
-				newArrowTk := anExWrapper isExpanded
-					              ifTrue: [ #'iconic-arrow-down' ]
-					              ifFalse: [ #'iconic-arrow-right' ].
-				arrowIcon innerImage: (tree valueOfTokenNamed: newArrowTk) ] ].
-		triplet hMatchParent.
-		node addChild: triplet ].
-	
+			| align triplet arrowIcon arrowButton iconContainer hasChildren |
+			align := anExWrapper level * 25.
+			triplet := ToTripletElement new.
+			triplet horizontal: true.
+			triplet middleElement:
+				(ToLabel new text: anExWrapper wrapped asString).
+			arrowIcon := ToImage new.
+			hasChildren := anExWrapper hasChildren.
+			hasChildren ifTrue: [
+					| arrowTk |
+					arrowTk := anExWrapper isExpanded
+						           ifTrue: [ #'iconic-arrow-down' ]
+						           ifFalse: [ #'iconic-arrow-right' ].
+					arrowIcon innerImage: (tree valueOfTokenNamed: arrowTk) ].
+			arrowIcon
+				extent: 18 asPoint;
+				id: #arrow.
+			iconContainer := ToElement new
+				                 fitContent;
+				                 yourself.
+			iconContainer layout: BlLinearLayout horizontal.
+			iconContainer addChild: (ToElement new extent: align @ 0).
+			arrowButton := ToButton new
+				               icon: arrowIcon;
+				               yourself.
+			arrowButton addAllStamps: #( #iconic #borderless ).
+			iconContainer addChild: arrowButton.
+			triplet startInterspace: 10.
+			triplet startElement: iconContainer.
+			hasChildren ifTrue: [
+					arrowButton clickAction: [
+							| newArrowTk |
+							anExWrapper toggle.
+							newArrowTk := anExWrapper isExpanded
+								              ifTrue: [ #'iconic-arrow-down' ]
+								              ifFalse: [ #'iconic-arrow-right' ].
+							arrowIcon innerImage: (tree valueOfTokenNamed: newArrowTk) ] ].
+			triplet hMatchParent.
+			node addChild: triplet ].
+
 	^ tree
 ]
 

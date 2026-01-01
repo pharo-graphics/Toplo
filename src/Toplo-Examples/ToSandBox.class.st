@@ -5,34 +5,6 @@ Class {
 }
 
 { #category : #accordion }
-ToSandBox class >> accordionItemWithLabel [
-
-	^ self accordionItemWithLabelText: 'Header'
-]
-
-{ #category : #accordion }
-ToSandBox class >> accordionItemWithLabelText: aString [
-
-	| inst |
-	inst := ToAccordionItemElement new.
-	inst headerBuilder: [ :header |
-		header padding: (BlInsets all: 4).
-		header addChild: (ToLabel text: aString) ].
-	inst bodyBuilder: [ :body |
-		body addChild:
-			(ToLabel new text: 'Body with random background color').
-		body
-			hMatchParent;
-			height: 100;
-			background: Color random ].
-	inst
-		vFitContent;
-		hMatchParent.
-
-	^ inst
-]
-
-{ #category : #accordion }
 ToSandBox class >> accordionWithLabel [
 
 	^ self accordionWithLabelText: 'Header'
@@ -260,19 +232,6 @@ ToSandBox class >> checkingStrategyChooserFor: aCheckableBar [
 ]
 
 { #category : #accordion }
-ToSandBox class >> exampleAccordionItemWithLabel [
-
-	<script>
-	| inst |
-	inst := self accordionItemWithLabel.
-	inst
-		addEventHandlerOn: BlClickEvent
-		do: [ :evt | inst privateSwitchExpanded ].
-	inst openInSpace.
-	^ inst
-]
-
-{ #category : #accordion }
 ToSandBox class >> exampleAccordionWithLabel [
 
 	<script>
@@ -357,7 +316,7 @@ ToSandBox class >> exampleCheckableListWithAccordions [
 	| list |
 	list := ToCheckableListElement infinite.
 	list group withNoneCheckingStrategy.
-	(1 to: 50) do: [ :i |
+	(1 to: 1000) do: [ :i |
 		list addItem: (self accordionWithLabelText: 'Header ' , i asString) ].
 	list openInSpace.
 	^ list

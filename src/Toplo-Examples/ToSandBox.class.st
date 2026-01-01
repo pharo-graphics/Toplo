@@ -475,7 +475,7 @@ ToSandBox class >> example_AllClasses [
 	"For this example we created a new wrapper dealing with classes and methods at the same time, a new Node was also created (ToTreeSubAndMethNode) to apply a new skin (ToTreeNodeSubAndMethSkin) with new icons and a different background color for methods "
 
 	| l |
-	l := ToTreeElement new.
+	l := ToTreeElement infinite.
 	l nodeManager childrenGetter: [ :dataItem |
 			dataItem isClass
 				ifTrue: [
@@ -3554,7 +3554,7 @@ ToSandBox class >> example_PreviousIntegers [
 	tree logic is not implemented at this time of writing the example"
 
 	| l |
-	l := ToTreeElement new.
+	l := ToTreeElement finite.
 	l nodeManager childrenGetter: [ :dataItem |
 			dataItem = 1
 				ifTrue: [ {  } ]

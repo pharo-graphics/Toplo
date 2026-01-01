@@ -12,3 +12,9 @@ Object class >> asTypeSelector [
 
 	^ ToTypeSelector new type: self
 ]
+
+{ #category : #'*Toplo' }
+Object >> unwrappedDataItem [
+
+	^ self
+]

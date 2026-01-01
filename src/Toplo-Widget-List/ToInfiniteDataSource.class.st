@@ -4,12 +4,6 @@ Class {
 	#category : #'Toplo-Widget-List-InnerInfinite'
 }
 
-{ #category : #accessing }
-ToInfiniteDataSource >> dataAccessor [
-
-	^ self subclassResponsibility 
-]
-
 { #category : #notifications }
 ToInfiniteDataSource >> notifyChangedAllDataItems: aDataItemArray [
 
@@ -65,4 +59,8 @@ ToInfiniteDataSource >> notifyItemsSievedWith: aSieve [
 ToInfiniteDataSource >> onCreateHolder: anInfiniteElement [ 
 
 	^ anInfiniteElement newNodeHolderFromDataSource: self
+]
+
+{ #category : #'as yet unclassified' }
+ToInfiniteDataSource >> onInstalledInListElement: aListElement [
 ]

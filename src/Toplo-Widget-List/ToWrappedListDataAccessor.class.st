@@ -1,10 +1,9 @@
 Class {
 	#name : #ToWrappedListDataAccessor,
-	#superclass : #Object,
-	#traits : 'TToDataSourceWrapper + TBlEventTarget + TBlDebug',
-	#classTraits : 'TToDataSourceWrapper classTrait + TBlEventTarget classTrait + TBlDebug classTrait',
+	#superclass : #ToBasicListDataAccessor,
+	#traits : 'TBlEventTarget + TBlDebug',
+	#classTraits : 'TBlEventTarget classTrait + TBlDebug classTrait',
 	#instVars : [
-		'listElement',
 		'eventDispatcher'
 	],
 	#category : #'Toplo-Widget-List-WrappedList'
@@ -31,14 +30,20 @@ ToWrappedListDataAccessor >> initialize [
 	eventDispatcher := BlDirectEventDispatcher on: self
 ]
 
-{ #category : #'t - data source wrapper - accessing' }
-ToWrappedListDataAccessor >> listElement [ 
+{ #category : #'t - data source wrapper - accessing dataSource' }
+ToWrappedListDataAccessor >> newWrapperForDataItem: anObject [
 
-	^ listElement
+	^ self dataItemWrapperClass new
+		  listElement: self listElement;
+		  dataItem: anObject;
+		  yourself
 ]
 
-{ #category : #'t - data source wrapper - accessing' }
-ToWrappedListDataAccessor >> listElement: aListElement [
+{ #category : #'api - hooks' }
+ToWrappedListDataAccessor >> onInstalledInListElement: aListElement [
 
-	listElement := aListElement
+	super onInstalledInListElement: aListElement.
+	listElement dataSource 
+		  addEventHandlerOn: ToAbstractCollectionChangedEvent
+		  do: [ :event | self dispatchEvent: event copy ]
 ]

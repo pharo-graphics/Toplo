@@ -17,12 +17,6 @@ ToInfiniteCollectionDataSource >> collection [
 
 ]
 
-{ #category : #accessing }
-ToInfiniteCollectionDataSource >> dataAccessor [
-
-	^ self
-]
-
 { #category : #initialization }
 ToInfiniteCollectionDataSource >> initialize [ 
 

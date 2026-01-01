@@ -1,5 +1,13 @@
 Class {
 	#name : #ToWrappedListElement,
-	#superclass : #ToWrappedGenericListElement,
+	#superclass : #ToBasicWrappedListElement,
+	#traits : 'TToGenericListElement',
+	#classTraits : 'TToGenericListElement classTrait',
 	#category : #'Toplo-Widget-List-WrappedList'
 }
+
+{ #category : #initialization }
+ToWrappedListElement >> defaultNodeManagerClass [ 
+
+	^ ToWrappedListGenericNodeManager 
+]

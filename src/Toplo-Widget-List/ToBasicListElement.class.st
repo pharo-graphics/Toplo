@@ -141,12 +141,22 @@ ToBasicListElement >> contextMenuSelectionModel [
 { #category : #accessing }
 ToBasicListElement >> dataAccessor [ 
 
-	^ dataAccessor
+	dataAccessor ifNil: [ self dataAccessor: self defaultDataAccessor ].
+	^ dataAccessor 
+]
+
+{ #category : #accessing }
+ToBasicListElement >> dataAccessor: aDataAccessor [
+
+	dataAccessor ifNotNil: [ BlImmutableObjectChangeError signal ].
+	dataAccessor := aDataAccessor.
+	dataAccessor onInstalledInListElement: self.
 ]
 
 { #category : #accessing }
 ToBasicListElement >> dataSource [
 
+	dataSource ifNil: [ self dataSource: self defaultDataSource ].
 	^ dataSource
 ]
 
@@ -154,7 +164,8 @@ ToBasicListElement >> dataSource [
 ToBasicListElement >> dataSource: aDataSource [
 
 	dataSource ifNotNil: [ BlImmutableObjectChangeError signal ].
-	dataSource := aDataSource
+	dataSource := aDataSource.
+	dataSource onInstalledInListElement: self
 ]
 
 { #category : #accessing }
@@ -167,6 +178,12 @@ ToBasicListElement >> dataSourceManager [
 ToBasicListElement >> defaultContextMenuSelectionMode [
 
 	^ ToListContextMenuSelectionMode new
+]
+
+{ #category : #initialization }
+ToBasicListElement >> defaultDataAccessor [
+
+	^ ToBasicListDataAccessor new
 ]
 
 { #category : #initialization }
@@ -355,8 +372,8 @@ ToBasicListElement >> initialize [
 	mouseMoveReplayRequested := false.
 	selectionModeMap := IdentityDictionary new.
 
-	self initializeDataSource.
-	self initializeDataAccessor.
+	"self initializeDataSource."
+	"self initializeDataAccessor."
 
 	self layout: self defaultLayout.
 
@@ -369,18 +386,6 @@ ToBasicListElement >> initialize [
 	self newDisabledSelectionMode onInstalledIn: self.
 
 	self matchParent
-]
-
-{ #category : #initialization }
-ToBasicListElement >> initializeDataAccessor [
-
-	dataAccessor := self dataSource
-]
-
-{ #category : #initialization }
-ToBasicListElement >> initializeDataSource [ 
-
-	self dataSource: self defaultDataSource
 ]
 
 { #category : #initialization }

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'wasSelected'
 	],
-	#category : #'Toplo-Widget-List-ItemFiniteList'
+	#category : #'Toplo-Widget-List-ItemList'
 }
 
 { #category : #sending }

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToItemListElementSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Widget-List-ItemFiniteList'
+	#category : #'Toplo-Widget-List-ItemList'
 }
 
 { #category : #'event handling' }

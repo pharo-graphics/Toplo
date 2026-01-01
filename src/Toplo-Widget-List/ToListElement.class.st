@@ -3,7 +3,7 @@ Class {
 	#superclass : #ToBasicListElement,
 	#traits : 'TToGenericListElement',
 	#classTraits : 'TToGenericListElement classTrait',
-	#category : #'Toplo-Widget-List-Core-ListElement'
+	#category : #'Toplo-Widget-List-Core'
 }
 
 { #category : #initialization }

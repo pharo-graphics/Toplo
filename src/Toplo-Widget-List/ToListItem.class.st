@@ -8,7 +8,7 @@ Class {
 	#superclass : #ToElement,
 	#traits : 'TToListItem',
 	#classTraits : 'TToListItem classTrait',
-	#category : #'Toplo-Widget-List-ItemFiniteList'
+	#category : #'Toplo-Widget-List-ItemList'
 }
 
 { #category : #initialization }

@@ -1,198 +1,198 @@
 Trait {
-	#name : #TToFiniteItemListUser,
+	#name : #TToItemListUser,
 	#instVars : [
 		'itemList'
 	],
-	#category : #'Toplo-Widget-List-ItemFiniteList'
+	#category : #'Toplo-Widget-List-ItemList'
 }
 
 { #category : #'t - item list user - adding/removing' }
-TToFiniteItemListUser >> addAllItems: aCollection [
+TToItemListUser >> addAllItems: aCollection [
 
 	self itemList addAllItems: aCollection
 ]
 
 { #category : #'t - item list user - adding/removing' }
-TToFiniteItemListUser >> addItem: anItem [
+TToItemListUser >> addItem: anItem [
 
 	self itemList addItem: anItem.
 	self onAddedItem: anItem
 ]
 
 { #category : #'t - item list user - adding/removing' }
-TToFiniteItemListUser >> addItem: anItem after: anotherItem [
+TToItemListUser >> addItem: anItem after: anotherItem [
 
 	self itemList addItem: anItem after: anotherItem.
 	self onAddedItem: anItem
 ]
 
 { #category : #'t - item list user - adding/removing' }
-TToFiniteItemListUser >> addItem: anItem afterIndex: anInteger [
+TToItemListUser >> addItem: anItem afterIndex: anInteger [
 
 	self itemList addItem: anItem afterIndex: anInteger.
 	self onAddedItem: anItem
 ]
 
 { #category : #'t - item list user - adding/removing' }
-TToFiniteItemListUser >> addItem: anItem before: anotherItem [
+TToItemListUser >> addItem: anItem before: anotherItem [
 
 	self itemList addItem: anItem before: anotherItem.
 	self onAddedItem: anItem
 ]
 
 { #category : #'t - item list user - adding/removing' }
-TToFiniteItemListUser >> addItem: anItem beforeIndex: anInteger [
+TToItemListUser >> addItem: anItem beforeIndex: anInteger [
 
 	self itemList addItem: anItem beforeIndex: anInteger.
 	self onAddedItem: anItem
 ]
 
 { #category : #'t - item list user - configuration' }
-TToFiniteItemListUser >> autoDistribute [
+TToItemListUser >> autoDistribute [
 
 	^ self itemList innerConfiguration autoDistribute
 ]
 
 { #category : #'t - item list user - configuration' }
-TToFiniteItemListUser >> autoDistribute: aBoolean [
+TToItemListUser >> autoDistribute: aBoolean [
 
 	self itemList innerConfiguration autoDistribute: aBoolean
 ]
 
 { #category : #'t - item list user - accessing' }
-TToFiniteItemListUser >> dataAccessor [
+TToItemListUser >> dataAccessor [
 
 	^ self itemList dataAccessor
 ]
 
 { #category : #'t - item list user - accessing' }
-TToFiniteItemListUser >> dataSource [
+TToItemListUser >> dataSource [
 
 	^ self itemList dataSource
 ]
 
 { #category : #'t - item list user - hidden/visible' }
-TToFiniteItemListUser >> deselectedAtPosition: anInteger [
+TToItemListUser >> deselectedAtPosition: anInteger [
 
 	self itemList deselectedAtPosition: anInteger
 ]
 
 { #category : #'t - item list user - disable/ enable' }
-TToFiniteItemListUser >> disabledAtPosition: anInteger [
+TToItemListUser >> disabledAtPosition: anInteger [
 
 	self itemList disabledAtPosition: anInteger
 ]
 
 { #category : #'t - item list user - disable/ enable' }
-TToFiniteItemListUser >> disabledItem: anItem [
+TToItemListUser >> disabledItem: anItem [
 
 	self itemList disabledItem: anItem
 ]
 
 { #category : #'t - item list user - disable/ enable' }
-TToFiniteItemListUser >> enabledAtPosition: anInteger [
+TToItemListUser >> enabledAtPosition: anInteger [
 
 	self itemList enabledAtPosition: anInteger
 ]
 
 { #category : #'t - item list user - disable/ enable' }
-TToFiniteItemListUser >> enabledItem: anItem [
+TToItemListUser >> enabledItem: anItem [
 
 	self itemList enabledItem: anItem
 ]
 
 { #category : #'t - item list user - testing' }
-TToFiniteItemListUser >> hasItems [ 
+TToItemListUser >> hasItems [ 
 
 	^ self items notEmpty
 ]
 
 { #category : #'t - item list user - hidden/visible' }
-TToFiniteItemListUser >> hiddenAtPosition: anInteger [
+TToItemListUser >> hiddenAtPosition: anInteger [
 
 	self itemList hiddenAtPosition: anInteger
 ]
 
 { #category : #'t - item list user - hidden/visible' }
-TToFiniteItemListUser >> hiddenItem: anItem [
+TToItemListUser >> hiddenItem: anItem [
 
 	self itemList hiddenItem: anItem
 ]
 
 { #category : #'t - item list user - initializing' }
-TToFiniteItemListUser >> initializeAsItemBarContainer [
+TToItemListUser >> initializeAsItemBarContainer [
 
 	self setItemList: self newItemList
 ]
 
 { #category : #'t - item list user - accessing' }
-TToFiniteItemListUser >> innerElement [
+TToItemListUser >> innerElement [
 
 	^ self itemList innerElement
 ]
 
 { #category : #'t - item list user - configuration' }
-TToFiniteItemListUser >> isFlowable [
+TToItemListUser >> isFlowable [
 
 	^ self itemList innerConfiguration isFlowable
 ]
 
 { #category : #'t - item list user - configuration' }
-TToFiniteItemListUser >> isFlowable: aBoolean [
+TToItemListUser >> isFlowable: aBoolean [
 
 	self itemList innerConfiguration isFlowable: aBoolean
 ]
 
 { #category : #'t - item list user - testing' }
-TToFiniteItemListUser >> isItemContainer [
+TToItemListUser >> isItemContainer [
 
 	^ true
 ]
 
 { #category : #'t - item list user - configuration' }
-TToFiniteItemListUser >> isScrollable [
+TToItemListUser >> isScrollable [
 
 	^ self itemList innerConfiguration isScrollable
 ]
 
 { #category : #'t - item list user - configuration' }
-TToFiniteItemListUser >> isScrollable: aBoolean [
+TToItemListUser >> isScrollable: aBoolean [
 
 	self itemList innerConfiguration isScrollable: aBoolean
 ]
 
 { #category : #'t - item list user - accessing' }
-TToFiniteItemListUser >> itemList [
+TToItemListUser >> itemList [
 
 	^ itemList
 ]
 
 { #category : #'t - item list user - accessing' }
-TToFiniteItemListUser >> items [
+TToItemListUser >> items [
 
 	^ self itemList dataAccessor
 ]
 
 { #category : #'t - item list user - initializing' }
-TToFiniteItemListUser >> newItemList [
+TToItemListUser >> newItemList [
 
 	^ ToItemListElement finite
 ]
 
 { #category : #'t - item list user - accessing' }
-TToFiniteItemListUser >> nodeContainersDo: aValuable [
+TToItemListUser >> nodeContainersDo: aValuable [
 
 	self itemList nodeContainersDo: aValuable
 ]
 
 { #category : #'t - item list user - double dispatch' }
-TToFiniteItemListUser >> onAddedAnyItemKind: anItem [
+TToItemListUser >> onAddedAnyItemKind: anItem [
 
 
 ]
 
 { #category : #'t - item list user - adding/removing' }
-TToFiniteItemListUser >> onAddedItem: anItem [
+TToItemListUser >> onAddedItem: anItem [
 
 	self onAddedAnyItemKind: anItem.
 	anItem onAddedInItemBarOwner: self.
@@ -200,172 +200,172 @@ TToFiniteItemListUser >> onAddedItem: anItem [
 ]
 
 { #category : #'t - item list user - double dispatch' }
-TToFiniteItemListUser >> onAddedUnknownItemKind: anItem [
+TToItemListUser >> onAddedUnknownItemKind: anItem [
 
 
 ]
 
 { #category : #'t - item list user - double dispatch' }
-TToFiniteItemListUser >> onRemovedAnyItemKind: anItem [
+TToItemListUser >> onRemovedAnyItemKind: anItem [
 
 
 ]
 
 { #category : #'t - item list user - adding/removing' }
-TToFiniteItemListUser >> onRemovedItem: anItem [
+TToItemListUser >> onRemovedItem: anItem [
 
 	self onRemovedAnyItemKind: anItem.
 	anItem onRemovedFromItemBarOwner: self
 ]
 
 { #category : #'t - item list user - double dispatch' }
-TToFiniteItemListUser >> onRemovedUnknownItemKind: anItem [
+TToItemListUser >> onRemovedUnknownItemKind: anItem [
 
 
 ]
 
 { #category : #'t - item list user - accessing' }
-TToFiniteItemListUser >> primarySelectionMode [
+TToItemListUser >> primarySelectionMode [
 
 	^ self itemList primarySelectionMode
 ]
 
 { #category : #'t - item list user - adding/removing' }
-TToFiniteItemListUser >> removeAllItems [
+TToItemListUser >> removeAllItems [
 
 	self itemList removeAllItems
 ]
 
 { #category : #'t - item list user - adding/removing' }
-TToFiniteItemListUser >> removeAllItems: aCollection [
+TToItemListUser >> removeAllItems: aCollection [
 
 	self itemList removeAllItems: aCollection
 ]
 
 { #category : #'t - item list user - adding/removing' }
-TToFiniteItemListUser >> removeItem: anItem [
+TToItemListUser >> removeItem: anItem [
 
 	self onRemovedItem: anItem.
 	self itemList removeItem: anItem
 ]
 
 { #category : #'t - item list user - accessing' }
-TToFiniteItemListUser >> secondarySelecter [
+TToItemListUser >> secondarySelecter [
 
 	^ self itemList secondarySelecter
 ]
 
 { #category : #'t - item list user - accessing' }
-TToFiniteItemListUser >> secondarySelectionMode [
+TToItemListUser >> secondarySelectionMode [
 
 	^ self itemList secondarySelectionMode
 ]
 
 { #category : #'t - item list user - accessing' }
-TToFiniteItemListUser >> secondarySelectionModel [
+TToItemListUser >> secondarySelectionModel [
 
 	^ self itemList secondarySelectionModel
 ]
 
 { #category : #'t - item list user - accessing' }
-TToFiniteItemListUser >> secondarySelectionOption [
+TToItemListUser >> secondarySelectionOption [
 
 	^ self itemList secondarySelectionOption
 ]
 
 { #category : #'t - item list user - unselectable/selectable' }
-TToFiniteItemListUser >> selectableAtPosition: anInteger [
+TToItemListUser >> selectableAtPosition: anInteger [
 
 	self itemList selectableAtPosition: anInteger
 ]
 
 { #category : #'t - item list user - unselectable/selectable' }
-TToFiniteItemListUser >> selectableItem: anItem [
+TToItemListUser >> selectableItem: anItem [
 
 	self itemList selectableItem: anItem
 ]
 
 { #category : #'t - item list user - hidden/visible' }
-TToFiniteItemListUser >> selectedAtPosition: anInteger [
+TToItemListUser >> selectedAtPosition: anInteger [
 
 	self itemList selectedAtPosition: anInteger
 ]
 
 { #category : #'t - item list user - accessing' }
-TToFiniteItemListUser >> selecter [
+TToItemListUser >> selecter [
 
 	^ self itemList selecter
 ]
 
 { #category : #'t - item list user - accessing' }
-TToFiniteItemListUser >> selectionMode [
+TToItemListUser >> selectionMode [
 
 	^ self itemList selectionMode
 ]
 
 { #category : #'t - item list user - accessing' }
-TToFiniteItemListUser >> selectionModel [
+TToItemListUser >> selectionModel [
 
 	^ self itemList selectionModel
 ]
 
 { #category : #'t - item list user - accessing' }
-TToFiniteItemListUser >> selectionOption [
+TToItemListUser >> selectionOption [
 
 	^ self itemList selectionOption
 ]
 
 { #category : #'t - item list user - accessing' }
-TToFiniteItemListUser >> setItemList: anItemList [
+TToItemListUser >> setItemList: anItemList [
 
 	itemList ifNotNil: [ BlImmutableObjectChangeError signal ].
 	itemList := anItemList
 ]
 
 { #category : #'t - item list user - configuration' }
-TToFiniteItemListUser >> uniformNodeHeight [
+TToItemListUser >> uniformNodeHeight [
 
 	^ self itemList innerConfiguration uniformNodeHeight
 ]
 
 { #category : #'t - item list user - configuration' }
-TToFiniteItemListUser >> uniformNodeHeight: aBoolean [
+TToItemListUser >> uniformNodeHeight: aBoolean [
 
 	self itemList innerConfiguration uniformNodeHeight: aBoolean
 ]
 
 { #category : #'t - item list user - configuration' }
-TToFiniteItemListUser >> uniformNodeWidth [
+TToItemListUser >> uniformNodeWidth [
 
 	^ self itemList innerConfiguration uniformNodeWidth
 ]
 
 { #category : #'t - item list user - configuration' }
-TToFiniteItemListUser >> uniformNodeWidth: aBoolean [
+TToItemListUser >> uniformNodeWidth: aBoolean [
 
 	self itemList innerConfiguration uniformNodeWidth: aBoolean
 ]
 
 { #category : #'t - item list user - unselectable/selectable' }
-TToFiniteItemListUser >> unselectableAtPosition: anInteger [
+TToItemListUser >> unselectableAtPosition: anInteger [
 
 	self itemList unselectableAtPosition: anInteger
 ]
 
 { #category : #'t - item list user - unselectable/selectable' }
-TToFiniteItemListUser >> unselectableItem: anItem [
+TToItemListUser >> unselectableItem: anItem [
 
 	self itemList unselectableItem: anItem
 ]
 
 { #category : #'t - item list user - hidden/visible' }
-TToFiniteItemListUser >> visibleAtPosition: anInteger [
+TToItemListUser >> visibleAtPosition: anInteger [
 
 	self itemList visibleAtPosition: anInteger
 ]
 
 { #category : #'t - item list user - hidden/visible' }
-TToFiniteItemListUser >> visibleItem: anItem [
+TToItemListUser >> visibleItem: anItem [
 
 	self itemList visibleItem: anItem
 ]

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'item'
 	],
-	#category : #'Toplo-Widget-List-ItemFiniteList'
+	#category : #'Toplo-Widget-List-ItemList'
 }
 
 { #category : #accessing }

@@ -16,7 +16,7 @@ Class {
 ToMenuItemElement >> applyConfiguration [ 
 
 	super applyConfiguration.
-	self holderDo: [ :h |
+	self listHolderDo: [ :h |
 		h listElement isHorizontal
 			ifTrue: [
 				self hFitContent ]

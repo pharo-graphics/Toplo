@@ -95,7 +95,7 @@ TToItemListElement >> items [
 { #category : #'t - item list - adding/removing' }
 TToItemListElement >> notifyItemAdded: anItem [
 
-	self dispatchEvent: (ToItemAddedInFiniteListEvent new
+	self dispatchEvent: (ToItemAddedInListEvent new
 			 item: anItem;
 			 yourself)
 ]
@@ -103,7 +103,7 @@ TToItemListElement >> notifyItemAdded: anItem [
 { #category : #'t - item list - adding/removing' }
 TToItemListElement >> notifyItemRemoved: anItem wasSelected: aBoolean [
 
-	self dispatchEvent: (ToItemRemovedFromFiniteListEvent new
+	self dispatchEvent: (ToItemRemovedFromListEvent new
 			 item: anItem;
 			 wasSelected: aBoolean;
 			 yourself)
@@ -113,16 +113,13 @@ TToItemListElement >> notifyItemRemoved: anItem wasSelected: aBoolean [
 { #category : #'t - item list - adding/removing' }
 TToItemListElement >> onAddedItem: anItem [
 
-	anItem listElement: self.
 	self notifyItemAdded: anItem
 ]
 
 { #category : #'t - item list - adding/removing' }
 TToItemListElement >> onRemovedItem: anItem wasSelected: aBoolean [
 
-	self notifyItemRemoved: anItem wasSelected: aBoolean.
-	anItem listElement: nil.
-
+	self notifyItemRemoved: anItem wasSelected: aBoolean
 ]
 
 { #category : #'t - item list - adding/removing' }

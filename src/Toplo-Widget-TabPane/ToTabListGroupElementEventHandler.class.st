@@ -19,7 +19,7 @@ ToTabListGroupElementEventHandler >> eventsToHandle [
 	^ {
 		  ToFiniteListVisibleNodeContainerListChangedEvent.
 		  ToCheckableGroupChangedEvent.
-		  ToFiniteListItemEvent.
+		  ToListItemEvent.
 		  ToListPrimarySelectionChangedEvent }
 ]
 
@@ -32,13 +32,13 @@ ToTabListGroupElementEventHandler >> finiteListVisibleNodeContainerListChangedEv
 ]
 
 { #category : #'events handling' }
-ToTabListGroupElementEventHandler >> itemAddedInBarEvent: anEvent [
+ToTabListGroupElementEventHandler >> itemAddedInListEvent: anEvent [
 
 	tabGroup dispatchEvent: anEvent copy
 ]
 
 { #category : #'events handling' }
-ToTabListGroupElementEventHandler >> itemRemovedFromBarEvent: anEvent [
+ToTabListGroupElementEventHandler >> itemRemovedFromListEvent: anEvent [
 
 	| tabItemHolder dataAccessor nextChecked |
 	tabGroup dispatchEvent: anEvent copy.

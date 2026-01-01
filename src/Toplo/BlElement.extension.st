@@ -359,9 +359,9 @@ BlElement >> hasEnablementFlag [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> hasHolder [
+BlElement >> hasListHolder [
 
-	^ self constraints hasHolder
+	^ self constraints hasListHolder
 ]
 
 { #category : #'*Toplo' }
@@ -391,12 +391,6 @@ BlElement >> holder: aNodeHolder [
 	| infiniteConstraints |
 	infiniteConstraints := self constraints infinite.
 	infiniteConstraints holder: aNodeHolder
-]
-
-{ #category : #'*Toplo' }
-BlElement >> holderDo: aValuable [
-
-	self constraints holderDo: aValuable
 ]
 
 { #category : #'*Toplo' }
@@ -520,6 +514,12 @@ BlElement >> isSelected [
 BlElement >> isSpaceRoot [
 
 	^ self id = BlSpace defaultRootLabel
+]
+
+{ #category : #'*Toplo' }
+BlElement >> listHolderDo: aValuable [
+
+	^ self constraints listHolderDo: aValuable
 ]
 
 { #category : #'*Toplo' }

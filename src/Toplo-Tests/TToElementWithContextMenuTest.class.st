@@ -8,11 +8,11 @@ Class {
 TToElementWithContextMenuTest >> testContextMenu [
 
 	| tt e ttwin |
-	tt := ToMenuItem new.
 	e := ToElement new.
 	space root addChild: e.
 	self deny: e hasContextMenu.
-	e contextMenuBuilder: [ :win :theElement | win addItem: tt ].
+	e contextMenuBuilder: [ :win :theElement |
+		win addItem: (tt := ToMenuItem new) ].
 	self deny: e hasContextMenu.
 	self assert: e rawContextMenuManager notNil.
 	ttwin := e newContextMenuOnEvent: nil.

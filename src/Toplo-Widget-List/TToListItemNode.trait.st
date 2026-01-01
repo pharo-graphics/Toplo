@@ -1,5 +1,5 @@
 Trait {
-	#name : #TToItemNode,
+	#name : #TToListItemNode,
 	#instVars : [
 		'item'
 	],
@@ -7,7 +7,7 @@ Trait {
 }
 
 { #category : #'t - item node' }
-TToItemNode >> initializeAsItemNode [
+TToListItemNode >> initializeAsItemNode [
 
 	self layout: BlLinearLayout horizontal.
 	self hMatchParent.
@@ -15,25 +15,24 @@ TToItemNode >> initializeAsItemNode [
 ]
 
 { #category : #'t - item node' }
-TToItemNode >> item [
+TToListItemNode >> item [
 
 	^ item
 ]
 
 { #category : #'t - item node' }
-TToItemNode >> item: anElement [
+TToListItemNode >> item: anElement [
 
 	item = anElement ifTrue: [ ^ self ].
 	item ifNotNil: [ item removeFromParent ].
 	item := anElement.
 	item ifNil: [ ^ self ].
-	item removeFromParent.
 	self addChild: item at: 1.
 	self requestNewSkin
 ]
 
 { #category : #'t - item node' }
-TToItemNode >> newRawSkin [ 
+TToListItemNode >> newRawSkin [ 
 
 	^ ToItemNodeSkin new
 ]

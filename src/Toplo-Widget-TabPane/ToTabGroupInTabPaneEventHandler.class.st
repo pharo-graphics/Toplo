@@ -55,18 +55,18 @@ ToTabGroupInTabPaneEventHandler >> eventsToHandle [
 
 	^ {
 		  ToCheckableGroupChangedEvent.
-		  ToFiniteListItemEvent }
+		  ToListItemEvent }
 ]
 
 { #category : #'events handling' }
-ToTabGroupInTabPaneEventHandler >> itemAddedInBarEvent: anEvent [
+ToTabGroupInTabPaneEventHandler >> itemAddedInListEvent: anEvent [
 
 	tabPane requestLayoutModeCheck.
 	tabPane dispatchEvent: anEvent copy
 ]
 
 { #category : #'events handling' }
-ToTabGroupInTabPaneEventHandler >> itemRemovedFromBarEvent: anEvent [
+ToTabGroupInTabPaneEventHandler >> itemRemovedFromListEvent: anEvent [
 
 	anEvent wasSelected ifTrue: [
 		self applyPaneDestroyerOfTabButton: anEvent item ].

@@ -6,8 +6,8 @@ My parent list old refers to the element that contains the list that contains me
 Class {
 	#name : #ToListItem,
 	#superclass : #ToElement,
-	#traits : 'TToItem',
-	#classTraits : 'TToItem classTrait',
+	#traits : 'TToListItem',
+	#classTraits : 'TToListItem classTrait',
 	#category : #'Toplo-Widget-List-ItemFiniteList'
 }
 

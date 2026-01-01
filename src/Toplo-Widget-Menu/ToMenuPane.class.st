@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuPane,
 	#superclass : #ToElement,
-	#traits : 'TToItem + TToMenuItem + TToFiniteItemListUser + TToMenuItemListUser + TToOrientable',
-	#classTraits : 'TToItem classTrait + TToMenuItem classTrait + TToFiniteItemListUser classTrait + TToMenuItemListUser classTrait + TToOrientable classTrait',
+	#traits : 'TToListItem + TToMenuItem + TToFiniteItemListUser + TToMenuItemListUser + TToOrientable',
+	#classTraits : 'TToListItem classTrait + TToMenuItem classTrait + TToFiniteItemListUser classTrait + TToMenuItemListUser classTrait + TToOrientable classTrait',
 	#instVars : [
 		'autoOpen',
 		'isSubPane'

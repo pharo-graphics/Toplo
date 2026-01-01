@@ -1,48 +1,20 @@
 Trait {
-	#name : #TToItem,
+	#name : #TToListItem,
+	#instVars : [
+		'listItemConstraints'
+	],
 	#category : #'Toplo-Core'
 }
 
 { #category : #'t - item' }
-TToItem >> barElement [ 
+TToListItem >> ensuredItemConstraints [
 
-	self
-		deprecated: 'Use #listElement instead'
-		transformWith:
-		'`@rcvr barElement' -> '`@rcvr listElement'.
-	^ self listElement
+	^ listItemConstraints ifNil: [
+		  listItemConstraints := self newItemConstraints ]
 ]
 
 { #category : #'t - item' }
-TToItem >> barElement: anItemBarElement [
-
-	self
-		deprecated: 'Use #listElement: instead'
-		transformWith:
-		'`@rcvr barElement: `@arg1' -> '`@rcvr listElement: `@arg1'.
-		
-	self listElement: anItemBarElement
-]
-
-{ #category : #'t - item' }
-TToItem >> barElementDo: aBlock [
-	self
-		deprecated: 'Use #listElementDo: instead'
-		transformWith:
-		'`@rcvr barElementDo: `@arg1' -> '`@rcvr listElementDo: `@arg1'.
-	self listElementDo: aBlock
-]
-
-{ #category : #'t - item' }
-TToItem >> ensuredItemConstraints [
-
-	^ self userData
-		at: #itemConstraints
-		ifAbsentPut: [self newItemConstraints ]
-]
-
-{ #category : #'t - item' }
-TToItem >> flagAsDisabled: aBoolean [
+TToListItem >> flagAsDisabled: aBoolean [
 
 	self storeDisabled: aBoolean.
 	self listElementDo: [ :be |
@@ -53,7 +25,7 @@ TToItem >> flagAsDisabled: aBoolean [
 ]
 
 { #category : #'t - item' }
-TToItem >> hidden: aBoolean [
+TToListItem >> hidden: aBoolean [
 
 	self storeHidden: aBoolean.
 	self barElementDo: [ :l |
@@ -63,57 +35,51 @@ TToItem >> hidden: aBoolean [
 ]
 
 { #category : #'t - item' }
-TToItem >> isSelected [
+TToListItem >> isSelected [
 
 	self listElementDo: [ :l | ^ l isSelectedItem: self ].
 	^ super isSelected
 ]
 
 { #category : #'t - item' }
-TToItem >> itemConstraints [
+TToListItem >> itemConstraints [
 
-	^ self userData at: #itemConstraints ifAbsent: [  ]
+	^ listItemConstraints 
 ]
 
 { #category : #'t - item' }
-TToItem >> itemConstraintsClass [
+TToListItem >> itemConstraintsClass [
 
 	^ ToItemConstraints 
 ]
 
 { #category : #'t - item' }
-TToItem >> itemConstraintsDo: aValuable [
+TToListItem >> itemConstraintsDo: aValuable [
 
 	self itemConstraints ifNil: [ ^ self ].
 	aValuable value: self itemConstraints
 ]
 
 { #category : #'t - item' }
-TToItem >> listElement [ 
+TToListItem >> listElement [ 
 
-	^ self userData at: #listElement ifAbsent: [  ]
+	^ self listHolderDo: [ :h | h listElement ] 
 ]
 
 { #category : #'t - item' }
-TToItem >> listElement: anItemListElement [ 
+TToListItem >> listElementDo: aBlock [
 
-	self userData at: #listElement put: anItemListElement
+	^ self listElement ifNotNil: [ :be | aBlock value: be ]
 ]
 
 { #category : #'t - item' }
-TToItem >> listElementDo: aBlock [
-
-	self listElement ifNotNil: [ :be | aBlock value: be ]
-]
-
-{ #category : #'t - item' }
-TToItem >> newItemConstraints [
+TToListItem >> newItemConstraints [
 
 	^ self itemConstraintsClass new
 ]
 
 { #category : #'t - item' }
-TToItem >> positionInBar [
+TToListItem >> positionInBar [
 	self
 		deprecated: 'Use #positionInList instead'
 		transformWith:
@@ -123,13 +89,13 @@ TToItem >> positionInBar [
 ]
 
 { #category : #'t - item' }
-TToItem >> positionInList [
+TToListItem >> positionInList [
 
 	^ self holder position
 ]
 
 { #category : #'t - item' }
-TToItem >> selected: aBoolean [
+TToListItem >> selected: aBoolean [
 
 	self storeSelected: aBoolean.
 	self listElementDo: [ :l |
@@ -139,31 +105,31 @@ TToItem >> selected: aBoolean [
 ]
 
 { #category : #'t - item' }
-TToItem >> storeDisabled: aBoolean [
+TToListItem >> storeDisabled: aBoolean [
 
 	self ensuredItemConstraints disabled: aBoolean
 ]
 
 { #category : #'t - item' }
-TToItem >> storeHidden: aBoolean [
+TToListItem >> storeHidden: aBoolean [
 
 	self ensuredItemConstraints hidden: aBoolean
 ]
 
 { #category : #'t - item' }
-TToItem >> storeSelected: aBoolean [
+TToListItem >> storeSelected: aBoolean [
 
 	self ensuredItemConstraints selected: aBoolean
 ]
 
 { #category : #'t - item' }
-TToItem >> storeUnselectable: aBoolean [
+TToListItem >> storeUnselectable: aBoolean [
 
 	self ensuredItemConstraints unselectable: aBoolean
 ]
 
 { #category : #'t - item' }
-TToItem >> unselectable: aBoolean [
+TToListItem >> unselectable: aBoolean [
 
 	self storeUnselectable: aBoolean.
 	self listElementDo: [ :l |

@@ -1,5 +1,5 @@
 Class {
-	#name : #ToFiniteListItemEvent,
+	#name : #ToListItemEvent,
 	#superclass : #BlEvent,
 	#instVars : [
 		'item'
@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #accessing }
-ToFiniteListItemEvent >> item [
+ToListItemEvent >> item [
 
 	^ item
 ]
 
 { #category : #accessing }
-ToFiniteListItemEvent >> item: anItem [
+ToListItemEvent >> item: anItem [
 
 	item := anItem
 ]

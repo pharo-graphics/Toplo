@@ -1,26 +1,26 @@
 Extension { #name : #BlLayoutCommonConstraints }
 
 { #category : #'*Toplo' }
-BlLayoutCommonConstraints >> hasHolder [
-
-	^ self hasInfinite and: [ self infinite hasHolder ]
-]
-
-{ #category : #'*Toplo' }
 BlLayoutCommonConstraints >> hasInfinite [
 
 	^ self hasConstraintsForLayout: BlInfiniteLayout
 ]
 
 { #category : #'*Toplo' }
-BlLayoutCommonConstraints >> holderDo: aValuable [
+BlLayoutCommonConstraints >> hasListHolder [
 
-	self infiniteDo: [ :i | i holderDo: aValuable ]
+	^ self hasInfinite and: [ self infinite hasListHolder ]
 ]
 
 { #category : #'*Toplo' }
 BlLayoutCommonConstraints >> infiniteDo: aValuable [
 
-	self hasInfinite ifFalse: [ ^ self ].
-	aValuable value: self infinite
+	self hasInfinite ifFalse: [ ^ nil ].
+	^ aValuable value: self infinite
+]
+
+{ #category : #'*Toplo' }
+BlLayoutCommonConstraints >> listHolderDo: aValuable [
+
+	^ self infiniteDo: [ :i | i listHolderDo: aValuable ]
 ]

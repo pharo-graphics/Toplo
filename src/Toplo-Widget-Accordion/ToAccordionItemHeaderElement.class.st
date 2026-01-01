@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'isExpanded'
 	],
-	#category : #'Toplo-Widget-Accordion-Core'
+	#category : #'Toplo-Widget-Accordion'
 }
 
 { #category : #initialization }

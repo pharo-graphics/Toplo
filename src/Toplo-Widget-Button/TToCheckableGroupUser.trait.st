@@ -64,6 +64,12 @@ TToCheckableGroupUser >> unregisterAll [
 ]
 
 { #category : #'t - checkable group user' }
+TToCheckableGroupUser >> withNoneCheckingStrategy [
+
+	self  checkingStrategy: ToCheckableGroupNoneStrategy new
+]
+
+{ #category : #'t - checkable group user' }
 TToCheckableGroupUser >> withStrictCheckingStrategy [
 
 	self  checkingStrategy: ToCheckableGroupStrictStrategy new
@@ -73,10 +79,4 @@ TToCheckableGroupUser >> withStrictCheckingStrategy [
 TToCheckableGroupUser >> withWeakCheckingStrategy [
 
 	self  checkingStrategy: ToCheckableGroupWeakStrategy new
-]
-
-{ #category : #'t - checkable group user' }
-TToCheckableGroupUser >> withoutCheckingStrategy [
-
-	self  checkingStrategy: ToCheckableGroupNoneStrategy new
 ]

@@ -3,7 +3,7 @@ Class {
 	#superclass : #ToAccordionHeaderElement,
 	#traits : 'TToCheckable',
 	#classTraits : 'TToCheckable classTrait',
-	#category : #'Toplo-Widget-Accordion-Core'
+	#category : #'Toplo-Widget-Accordion'
 }
 
 { #category : #initialization }

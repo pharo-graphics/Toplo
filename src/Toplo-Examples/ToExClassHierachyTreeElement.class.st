@@ -1,8 +1,6 @@
 Class {
 	#name : #ToExClassHierachyTreeElement,
 	#superclass : #ToBasicTreeElement,
-	#traits : 'TToListElementWithDecoration',
-	#classTraits : 'TToListElementWithDecoration classTrait',
 	#category : #'Toplo-Examples-TopLevel-Trees'
 }
 

@@ -201,6 +201,13 @@ ToTabPaneElement >> tabGroupDynamicLayoutMode: aBoolean [
 ]
 
 { #category : #'t - checkable group owner' }
+ToTabPaneElement >> withNoneCheckingStrategy [ 
+
+	self tabGroup withNoneCheckingStrategy.
+	self selectionMode multiple: true
+]
+
+{ #category : #'t - checkable group owner' }
 ToTabPaneElement >> withStrictCheckingStrategy [ 
 
 	self tabGroup withStrictCheckingStrategy.
@@ -212,11 +219,4 @@ ToTabPaneElement >> withWeakCheckingStrategy [
 
 	self tabGroup withWeakCheckingStrategy.
 	self selectionMode multiple: false
-]
-
-{ #category : #'t - checkable group owner' }
-ToTabPaneElement >> withoutCheckingStrategy [ 
-
-	self tabGroup withoutCheckingStrategy.
-	self selectionMode multiple: true
 ]

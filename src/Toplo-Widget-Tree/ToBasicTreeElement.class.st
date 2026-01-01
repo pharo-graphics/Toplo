@@ -8,8 +8,6 @@ My model relies on a DataSource holding the data displayed and a TreeNodeManager
 Class {
 	#name : #ToBasicTreeElement,
 	#superclass : #ToBasicWrappedListElement,
-	#traits : 'TToListElementWithDecoration',
-	#classTraits : 'TToListElementWithDecoration classTrait',
 	#category : #'Toplo-Widget-Tree-Core'
 }
 

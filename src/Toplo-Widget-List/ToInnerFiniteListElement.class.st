@@ -506,3 +506,7 @@ ToInnerFiniteListElement >> updatePositions [
 		pos := pos + 1.
 		container holder bindAtPosition: pos ]
 ]
+
+{ #category : #configuration }
+ToInnerFiniteListElement >> withDecoration: aDecorationClass [
+]

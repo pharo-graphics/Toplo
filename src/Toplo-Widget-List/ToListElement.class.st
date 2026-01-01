@@ -1,10 +1,16 @@
 Class {
 	#name : #ToListElement,
-	#superclass : #ToGenericListElement,
-	#traits : 'TToListElementWithDecoration',
-	#classTraits : 'TToListElementWithDecoration classTrait',
+	#superclass : #ToBasicListElement,
+	#traits : 'TToGenericListElement',
+	#classTraits : 'TToGenericListElement classTrait',
 	#category : #'Toplo-Widget-List-Core-ListElement'
 }
+
+{ #category : #initialization }
+ToListElement >> defaultNodeManagerClass [
+
+	^ ToGenericListNodeManager  
+]
 
 { #category : #skin }
 ToListElement >> newRawSkin [ 

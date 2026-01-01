@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMultiSelectHeaderListElement,
-	#superclass : #ToGenericListElement,
+	#superclass : #ToListElement,
 	#traits : 'TToFiniteListElement + TToSelectHeaderElement + TToElementWithPlaceholder',
 	#classTraits : 'TToFiniteListElement classTrait + TToSelectHeaderElement classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [

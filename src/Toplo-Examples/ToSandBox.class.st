@@ -235,7 +235,7 @@ ToSandBox class >> checkingStrategyChooserFor: aCheckableBar [
 	{
 		(#Strict -> #withStrictCheckingStrategy).
 		(#Weak -> #withWeakCheckingStrategy).
-		(#None -> #withoutCheckingStrategy) } do: [ :modeAssoc |
+		(#None -> #withNoneCheckingStrategy) } do: [ :modeAssoc |
 		| chb |
 		chb := ToRadioButton new
 			       labelText: modeAssoc key asString;
@@ -270,85 +270,6 @@ ToSandBox class >> exampleAccordionItemWithLabel [
 		do: [ :evt | inst privateSwitchExpanded ].
 	inst openInSpace.
 	^ inst
-]
-
-{ #category : #accordion }
-ToSandBox class >> exampleAccordionListElement [
-
-	<script>
-	| list |
-	list := ToAccordionListElement new.
-	list itemBuilder: [ :item :anInteger :holder |
-			item
-				headerBuilder: [ :header |
-						header addChild: (ToLabel text: 'Header ' , anInteger asString)
-									preventSelectionSkinEvents ];
-				bodyBuilder: [ :body |
-						body addChild: (BlElement new
-									 background: (Color random alpha: 0.4);
-									 extent: 50 @ 30).
-						body addChild: (ToLabel text: 'body ' , anInteger asString) ] ].
-	list dataAccessor addAll: (1 to: 100).
-	list withRowNumbers.
-	list matchParent.
-	list openInSpace
-]
-
-{ #category : #accordion }
-ToSandBox class >> exampleAccordionListWithClassComments [
-
-	<script>
-	| list pane filterField sieve |
-	pane := ToPane new
-		        beVertical;
-		        matchParent.
-	list := ToAccordionListElement new.
-	list withRowNumbers.
-	list selectionMode multiple: true.
-	sieve := list newSieve.
-	sieve filter: [ :item :aPattern |
-		item name beginsWith: aPattern caseSensitive: false ].
-	filterField := sieve newTextField.
-	filterField placeholderString:  'Class name filter'.
-
-	list placeholderBuilder: [ :ph :e |
-		ph empty labelText: 'No class'].
-
-	list itemBuilder: [ :item :cls :holder |
-		item addAllStamps: { #borderless. #ghost }.
-		item
-			headerBuilder: [ :header |
-				header addChild:
-						(ToLabel text: cls name) ];
-			bodyBuilder: [ :body |
-				| album |
-				body margin: (BlInsets all: 5).
-				album := ToAlbum new
-					         withSaveCapability;
-					         whenSaveRequestedDo: [ :saveRequested |
-						         saveRequested accepted: true ];
-					         whenCancelRequestedDo: [ :cancelRequested |
-						         cancelRequested editorElement text: cls comment ];
-					         yourself.
-				album hMatchParent.
-				album vFitContent.
-				album next constraintsDo: [ :c |
-					c vertical fitContent.
-					c horizontal matchParent ].
-				album infinite constraintsDo: [ :c |
-					c vertical fitContent.
-					c horizontal matchParent ].
-				album minHeight: 50.
-				album text: cls comment.
-				body addChild: album ];
-			yourself ].
-
-	list dataAccessor addAll: Smalltalk globals allClasses. 
-	list matchParent.
-
-	pane addChild: list.
-	pane addChild: filterField.
-	pane openInSpace
 ]
 
 { #category : #accordion }
@@ -427,6 +348,19 @@ ToSandBox class >> exampleBorderlessAccordionWithLabel [
 	inst openInSpace.
 
 	^ inst
+]
+
+{ #category : #accordion }
+ToSandBox class >> exampleCheckableListWithAccordions [
+
+	<script>
+	| list |
+	list := ToCheckableListElement infinite.
+	list group withNoneCheckingStrategy.
+	(1 to: 50) do: [ :i |
+		list addItem: (self accordionWithLabelText: 'Header ' , i asString) ].
+	list openInSpace.
+	^ list
 ]
 
 { #category : #accordion }
@@ -1567,7 +1501,7 @@ ToSandBox class >> example_CheckboxGroupAndNoneStrategy [
 
 	| group container buttons |
 	group := ToCheckableGroup new.
-	group withoutCheckingStrategy.
+	group withNoneCheckingStrategy.
 	buttons := OrderedCollection new.
 	1 to: 4 do: [ :idx |
 			| chb |
@@ -2758,7 +2692,7 @@ ToSandBox class >> example_ListWithAllClassesAsCheckbox [
 
 	| l |
 	l := ToCheckableListElement new.
-	l group withoutCheckingStrategy.
+	l group withNoneCheckingStrategy.
 	l addAllItems: ((Smalltalk globals allClasses) collect: [ :cls |
 			 ToCheckbox new
 				 label: (ToLabel new text: cls name);
@@ -2771,7 +2705,7 @@ ToSandBox class >> example_ListWithAllClassesAsToggleButton [
 
 	| l |
 	l := ToCheckableListElement new.
-	l group withoutCheckingStrategy.
+	l group withNoneCheckingStrategy.
 	l addAllItems: ((Smalltalk globals allClasses ) collect: [ :cls |
 			 ToToggleButton new
 				 label: (ToLabel new text: cls name);
@@ -3502,7 +3436,7 @@ ToSandBox class >> example_MixedEventGenerator [
 ToSandBox class >> example_NodeContainerWithStatesOfAmerica [
 
 	| l |
-	l := ToGenericListElement finite.
+	l := ToListElement finite.
 	l innerConfigurationDo: [ :conf | conf isFlowable: true ].
 	l matchParent.
 	l dataAccessor addAll: self statesOfAmerica.
@@ -9251,7 +9185,7 @@ ToSandBox class >> finiteListWithData: aCollection [
 
 	| bar confBoard barPane rootPane selectionModeBoard rand |
 	rand := Random new.
-	bar := ToGenericListElement finite.
+	bar := ToListElement finite.
 	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
 	bar nodeBuilder: [ :node :dataItem :holder |
 			| fontSize triplet label |

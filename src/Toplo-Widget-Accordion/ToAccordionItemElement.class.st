@@ -1,7 +1,7 @@
 Class {
 	#name : #ToAccordionItemElement,
 	#superclass : #ToAccordionAbstractElement,
-	#category : #'Toplo-Widget-Accordion-Core'
+	#category : #'Toplo-Widget-Accordion'
 }
 
 { #category : #testing }

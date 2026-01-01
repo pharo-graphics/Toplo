@@ -8,7 +8,7 @@ Class {
 		'triplet',
 		'extraContainer'
 	],
-	#category : #'Toplo-Widget-Accordion-Core'
+	#category : #'Toplo-Widget-Accordion'
 }
 
 { #category : #examples }

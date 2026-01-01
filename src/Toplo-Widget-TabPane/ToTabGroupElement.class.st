@@ -403,6 +403,12 @@ ToTabGroupElement >> visibleNodes [
 ]
 
 { #category : #'t - checkable group owner' }
+ToTabGroupElement >> withNoneCheckingStrategy [
+
+	self itemList withNoneCheckingStrategy
+]
+
+{ #category : #'t - checkable group owner' }
 ToTabGroupElement >> withStrictCheckingStrategy [
 
 	self itemList withStrictCheckingStrategy
@@ -412,10 +418,4 @@ ToTabGroupElement >> withStrictCheckingStrategy [
 ToTabGroupElement >> withWeakCheckingStrategy [
 
 	self itemList withWeakCheckingStrategy
-]
-
-{ #category : #'t - checkable group owner' }
-ToTabGroupElement >> withoutCheckingStrategy [
-
-	self itemList withoutCheckingStrategy
 ]

@@ -7,7 +7,7 @@ My model relies on a DataSource holding the data displayed and a TreeNodeManager
 "
 Class {
 	#name : #ToBasicTreeElement,
-	#superclass : #ToBasicListElement,
+	#superclass : #ToBasicWrappedListElement,
 	#traits : 'TToListElementWithDecoration',
 	#classTraits : 'TToListElementWithDecoration classTrait',
 	#category : #'Toplo-Widget-Tree-Core'
@@ -51,21 +51,6 @@ ToBasicTreeElement >> expandAll [
 ToBasicTreeElement >> expandRoots [
 
 	self dataSource roots do: [ :each | each expand ]
-]
-
-{ #category : #initialization }
-ToBasicTreeElement >> initializeDataAccessor [
-
-	dataAccessor := self defaultDataAccessor listElement: self
-]
-
-{ #category : #initialization }
-ToBasicTreeElement >> initializeDataSource [
-
-	super initializeDataSource.
-	dataSource
-		addEventHandlerOn: ToAbstractCollectionChangedEvent
-		do: [ :event | self dataAccessor dispatchEvent: event copy ]
 ]
 
 { #category : #'instance creation' }

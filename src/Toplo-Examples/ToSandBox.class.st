@@ -1134,7 +1134,7 @@ ToSandBox class >> example_AnyEventFilter [
 ]
 
 { #category : #list }
-ToSandBox class >> example_BasicListWithAllClasses3 [
+ToSandBox class >> example_BasicListWithAllClasses [
 
 	| l |
 	l := ToListElement new.
@@ -1160,7 +1160,16 @@ ToSandBox class >> example_BasicListWithAllClasses3 [
 	l fakeDataItem: Object.
 	l inspect.
 	l requestFocus.
-	l openInInnerWindow
+	l openInInnerWindow.
+	^ l
+]
+
+{ #category : #list }
+ToSandBox class >> example_BasicListWithAllClassesWithCheckboxes [
+
+	| l |
+	l := self example_BasicListWithAllClasses.
+	l toConfiguration useCheckbox: true
 ]
 
 { #category : #'wrapped list' }
@@ -5431,12 +5440,12 @@ ToSandBox class >> example_TwoCoordinateLists [
 				 list2 selectionModel deselectAll.
 				 e currentTarget selectionModel selectedIndexesDo: [ :idx |
 					 list2 selectionModel selectIndex: idx ].
-				 list2 updateAllSelections ]).
+				 list2 requestUpdateAllSelections ]).
 	list2 addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :e |
 				 list1 selectionModel deselectAll.
-				 list1 updateAllSelections ]).
+				 list1 requestUpdateAllSelections ]).
 	panel addChild: list1.
 	panel addChild: list2.
 	list1 selecter selectIndex: 1.
@@ -6038,6 +6047,16 @@ ToSandBox class >> example_finiteList [
 ToSandBox class >> example_finiteList2 [
 
 	self finiteListWithData: { 'B'. 'BB'. 'BB'}
+
+]
+
+{ #category : #'finite list' }
+ToSandBox class >> example_finiteListWithAllClasses [
+
+	| l |
+	l := self finiteListWithData: 
+		((Smalltalk globals allClasses sorted: [ :a :b | a name < b name ]) copyFrom: 1 to: 500).
+	l toConfiguration useCheckbox: true
 
 ]
 
@@ -9259,7 +9278,9 @@ ToSandBox class >> finiteListWithData: aCollection [
 	rootPane addChild: confBoard.
 	rootPane addChild: barPane.
 	rootPane addDividers first weight: 0.5.
-	rootPane openInSpace
+	"bar toConfiguration useCheckbox: true."
+	rootPane openInSpace.
+	^ bar
 ]
 
 { #category : #tag }

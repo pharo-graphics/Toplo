@@ -31,7 +31,7 @@ ToTabGroupElementConfiguration >> applyOn: aTabGroupElement [
 	aTabGroupElement endContainer childrenDo: [ :child |
 		child layout beHorizontal: aTabGroupElement isHorizontal ].
 
-	aTabGroupElement itemList updateAllSelections.
+	aTabGroupElement itemList requestUpdateAllSelections.
 
 	aTabGroupElement requestNewSkin.
 	aTabGroupElement invisibleNodesMenu requestNewSkin

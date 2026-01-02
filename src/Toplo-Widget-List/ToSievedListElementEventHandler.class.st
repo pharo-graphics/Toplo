@@ -24,7 +24,7 @@ ToSievedListElementEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEv
 	anEvent isEmpty ifFalse: [ ^ self ].
 	" empty the selection because nothing is in the listElement "
 	listElement selecter deselectAll.
-	listElement updateAllSelections
+	listElement requestUpdateAllSelections
 ]
 
 { #category : #'element handlers' }

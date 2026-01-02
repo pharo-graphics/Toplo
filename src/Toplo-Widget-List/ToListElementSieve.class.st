@@ -204,6 +204,10 @@ ToListElementSieve >> pattern: aPattern [
 			 yourself)
 ]
 
+{ #category : #'selection updating' }
+ToListElementSieve >> requestUpdateAllSelections [
+]
+
 { #category : #accessing }
 ToListElementSieve >> selectedIndexes [
 
@@ -231,10 +235,6 @@ ToListElementSieve >> uninstallFilterApplierIn: aListElement [
 	originalData unmirrored.
 	originalData := nil.
 
-]
-
-{ #category : #'selection updating' }
-ToListElementSieve >> updateAllSelections [
 ]
 
 { #category : #enumerating }

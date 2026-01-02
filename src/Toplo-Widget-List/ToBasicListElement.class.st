@@ -267,6 +267,12 @@ ToBasicListElement >> deselectedAtPosition: anInteger [
 	self selecter deselectIndex: anInteger
 ]
 
+{ #category : #'accessing - selection modes' }
+ToBasicListElement >> dirtySelectionModes [
+
+	^ self selectionModes select: [ :m | m dirty ]
+]
+
 { #category : #'accessing selecters' }
 ToBasicListElement >> disabledAtPosition: anInteger [
 
@@ -328,16 +334,6 @@ ToBasicListElement >> flagAsDisabled: aBoolean [
 			self selecter deselectAll.
 			self secondarySelecter deselectAll ].
 	super flagAsDisabled: aBoolean
-]
-
-{ #category : #'selection updating' }
-ToBasicListElement >> forceUpdateAllSelections [
-
-	self whenLayoutedDoOnce: [
-			self selectionModes do: [ :mode |
-					mode requestNewRepresentation.
-					self updateModeSelectionFrom: mode ] ].
-	self requestLayout
 ]
 
 { #category : #'accessing selecters' }
@@ -584,7 +580,8 @@ ToBasicListElement >> offsetPositionRecordsForFilter: aStartPosition itemCount: 
 ToBasicListElement >> onLayoutDone [
 
 	super onLayoutDone.
-	self checkMouseMoveReplayRequest 
+	self dirtySelectionModes do: [ :mode | mode updateSelectionIn: self ].
+	self checkMouseMoveReplayRequest
 ]
 
 { #category : #'private - commands' }
@@ -640,6 +637,14 @@ ToBasicListElement >> removeSelectionMode: aSelectionMode [
 	selectionModeMap removeKey: aSelectionMode selectionChangedEventClass
 ]
 
+{ #category : #'selection updating' }
+ToBasicListElement >> requestForceUpdateAllSelections [
+
+	self selectionModes do: [ :mode |
+			mode requestNewRepresentation.
+			self requestUpdateSelectionMode: mode ]
+]
+
 { #category : #layout }
 ToBasicListElement >> requestLayout: aSourceElement [
 
@@ -652,6 +657,32 @@ ToBasicListElement >> requestLayout: aSourceElement [
 ToBasicListElement >> requestMouseMoveReplay [
 
 	mouseMoveReplayRequested := true
+]
+
+{ #category : #'selection updating' }
+ToBasicListElement >> requestUpdateAllSelections [
+
+	self selectionModes do: [ :mode | self requestUpdateSelectionMode: mode ]
+]
+
+{ #category : #'selection updating' }
+ToBasicListElement >> requestUpdatePrimarySelection [
+
+	self requestUpdateSelectionMode: self selectionMode
+]
+
+{ #category : #'selection updating' }
+ToBasicListElement >> requestUpdateSecondarySelection [
+
+	self requestUpdateSelectionMode: self secondarySelectionMode
+]
+
+{ #category : #'selection updating' }
+ToBasicListElement >> requestUpdateSelectionMode: aMode [
+
+	self
+		inUIProcessDo: [ aMode updateSelectionIn: self ]
+		elseDo: [ aMode dirty: true ]
 ]
 
 { #category : #'fake container' }
@@ -791,33 +822,6 @@ ToBasicListElement >> unselectableSelectionMode [
 ToBasicListElement >> unselectableSelectionModel [
 
 	^ self selectionModel unselectableSelectionModel
-]
-
-{ #category : #'selection updating' }
-ToBasicListElement >> updateAllSelections [
-
-	self selectionModes do: [ :mode | self updateModeSelectionFrom: mode ]
-]
-
-{ #category : #'selection updating' }
-ToBasicListElement >> updateModeSelectionFrom: aMode [
-
-	aMode selectionOption ifNotNil: [ :option |
-		option
-			updateSelectionIn: self
-			withSelectionModel: aMode selectionModel ]
-]
-
-{ #category : #'selection updating' }
-ToBasicListElement >> updatePrimarySelection [
-
-	self updateModeSelectionFrom: self selectionMode
-]
-
-{ #category : #'selection updating' }
-ToBasicListElement >> updateSecondarySelection [
-
-	self updateModeSelectionFrom: self secondarySelectionMode
 ]
 
 { #category : #'selection updating' }

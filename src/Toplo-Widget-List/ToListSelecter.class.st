@@ -615,7 +615,7 @@ ToListSelecter >> updateSelection [
 
 	self selectionModel deselectAll.
 	element ifNil: [ ^ self ].
-	element updateAllSelections
+	element requestUpdateAllSelections
 ]
 
 { #category : #operations }

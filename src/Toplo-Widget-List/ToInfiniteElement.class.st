@@ -125,7 +125,7 @@ ToInfiniteElement >> dispatchLayoutFinalStep [
 	self assert: dataSourceManager hasCommands not.
 	self consumeFinalStepCommands.
 	"If an element bounds change then the selection bounds may be obsolete"
-	self boundsUpdaterHasChanges ifTrue: [ listElement updateAllSelections ].
+	self boundsUpdaterHasChanges ifTrue: [ listElement requestUpdateAllSelections ].
 
 ]
 
@@ -220,6 +220,14 @@ ToInfiniteElement >> nodeContainingGlobalPosition: aPoint [
 	self nodeContainersDo: [ :container |
 		(container containsGlobalPoint: aPoint) ifTrue: [ ^ container ] ].
 	^ nil
+]
+
+{ #category : #layout }
+ToInfiniteElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
+
+	super onLayout: aBounds context: aBlElementBoundsUpdateContext
+	
+
 ]
 
 { #category : #initialization }
@@ -317,7 +325,7 @@ ToInfiniteElement >> withRowNumbers: aBoolean [
 	aBoolean
 		ifTrue: [ self withRowNumbers ]
 		ifFalse: [ self withoutRowNumbers ].
-	listElement updateAllSelections
+	listElement requestUpdateAllSelections
 ]
 
 { #category : #'view - configuration' }

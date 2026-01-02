@@ -1,8 +1,8 @@
 Class {
 	#name : #ToTabGroupElement,
 	#superclass : #ToTripletContainer,
-	#traits : 'TToFiniteItemListUser',
-	#classTraits : 'TToFiniteItemListUser classTrait',
+	#traits : 'TToItemListUser',
+	#classTraits : 'TToItemListUser classTrait',
 	#instVars : [
 		'invisibleNodesMenu',
 		'endExtraContainer',

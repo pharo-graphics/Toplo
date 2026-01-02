@@ -174,10 +174,12 @@ ToFiniteListElementTest2 >> testDisabledWithFourNodes2 [
 	space root addChild: l.
 	l dataAccessor add: (ToLabel text: 'first').
 	l dataAccessor add: (ToLabel text: 'second').
+	l innerElement forceLayout.
 	self waitTestingSpaces.
 	l disabledSelecter selectOneMoreIndex: 2.
 	l dataAccessor add: (ToLabel text: 'third').
 	l dataAccessor add: (ToLabel text: 'fourth').
+	l innerElement forceLayout.
 	self waitTestingSpaces.
 	self assert: l disabledSelecter selectedIndexes equals: { 2 }.
 	self assert: l nodes first isEnabled.

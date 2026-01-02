@@ -193,7 +193,10 @@ ToListSelectionOption >> triggerSelectionState: aBoolean [
 { #category : #'private - selection updating' }
 ToListSelectionOption >> updateSelectionIn: aListElement withSelectionModel: aSelectionModel [
 
-	representationOption updateSelectionIn: aListElement withSelectionModel: aSelectionModel
+	representationOption
+		updateSelectionIn: aListElement
+		withSelectionModel: aSelectionModel.
+	selectionMode dirty: false
 ]
 
 { #category : #accessing }

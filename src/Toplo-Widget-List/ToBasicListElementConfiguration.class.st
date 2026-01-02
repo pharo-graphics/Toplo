@@ -21,8 +21,9 @@ ToBasicListElementConfiguration >> onInstalledIn: aListElement [
 
 	super onInstalledIn: aListElement.
 	self property: #useCheckbox whenChangedDo: [
-			aListElement nodeManager checkableNode: useCheckbox.
-			aListElement onUseCheckboxChangedWith: useCheckbox ] 
+			aListElement inUIProcessDo: [
+					aListElement nodeManager checkableNode: useCheckbox.
+					aListElement onUseCheckboxChangedWith: useCheckbox ] ]
 ]
 
 { #category : #'t - basic list element configuration' }

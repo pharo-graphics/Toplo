@@ -335,8 +335,9 @@ ToInnerFiniteListElement >> prefetchingAllowed [
 { #category : #'accessing - nodes' }
 ToInnerFiniteListElement >> removeAllNodeContainers: anArray [
 
-	trackElement removeAllNodeContainers: anArray.
-	anArray do: [ :container | self notifyChildDetached: container  ]
+	anArray reverseDo: [ :container | 
+		trackElement removeNodeContainer: container.
+		self notifyChildDetached: container  ]
 ]
 
 { #category : #'accessing - nodes' }

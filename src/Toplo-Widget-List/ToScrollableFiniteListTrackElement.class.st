@@ -197,12 +197,6 @@ ToScrollableFiniteListTrackElement >> partlyVisibleNodesDo: aBlock [
 ]
 
 { #category : #'accessing - children' }
-ToScrollableFiniteListTrackElement >> removeAllNodeContainers: anArray [
-
-	anArray reverseDo: [ :container | self removeNodeContainer: container ]
-]
-
-{ #category : #'accessing - children' }
 ToScrollableFiniteListTrackElement >> removeNodeContainer: container [
 
 	container removeFromParent

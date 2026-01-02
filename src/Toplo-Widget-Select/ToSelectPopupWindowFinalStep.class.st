@@ -9,7 +9,7 @@ ToSelectPopupWindowFinalStep >> nextStepFor: aWindow onEvent: anEvent onLayout: 
 	" if there is not enough place then turn as a scrollable menu container "
 
 	"it may be required to update the selection"
-	aWindow manager listElement updateAllSelections.
+	aWindow manager listElement requestUpdateAllSelections.
 	^ nil
 ]
 

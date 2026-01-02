@@ -16,7 +16,7 @@ ToListInnerElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent 
 { #category : #'infinite event handling' }
 ToListInnerElementEventHandler >> elementPositionChangedEvent: anEvent [
 
-	anEvent currentTarget listElement updateAllSelections
+	anEvent currentTarget listElement requestUpdateAllSelections
 ]
 
 { #category : #'infinite event handling' }

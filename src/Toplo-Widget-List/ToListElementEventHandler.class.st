@@ -23,7 +23,7 @@ ToListElementEventHandler >> blurEvent: anEvent [
 ToListElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
 
 	self flag: #ToBeChecked.
-	anEvent currentTarget updateAllSelections
+	anEvent currentTarget requestUpdateAllSelections
 ]
 
 { #category : #'event handling' }
@@ -57,7 +57,7 @@ ToListElementEventHandler >> elementExtentChangedEvent: anEvent [
 	listElement selectionModes do: [ :mode |
 		mode requestNewRepresentation ].
 	listElement
-		updateAllSelections;
+		requestUpdateAllSelections;
 		extentChanged
 ]
 
@@ -66,7 +66,7 @@ ToListElementEventHandler >> elementScrolledEvent: anEvent [
 
 	| listElement |
 	listElement := anEvent currentTarget.
-	listElement updateAllSelections.
+	listElement requestUpdateAllSelections.
 	listElement requestMouseMoveReplay
 ]
 

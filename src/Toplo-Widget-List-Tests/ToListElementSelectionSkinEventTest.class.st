@@ -21,6 +21,7 @@ ToListElementSelectionSkinEventTest >> setUp [
 
 	listElement nodeManager nodeHolderFactory: [
 		ToNodeHolderForSkinEventTest new ].
+	
 	space root addChild: listElement.
 	receivedSelectedEvents := OrderedCollection new.
 	receivedDeselectedEvents := OrderedCollection new.
@@ -62,14 +63,18 @@ ToListElementSelectionSkinEventTest >> statesOfAmerica [
 ToListElementSelectionSkinEventTest >> testSelectedSkinEventCountAfterRemove [
 	" check that the skin select event is sent to the right node "
 
+	listElement selecter deselectAll.
+	self waitTestingSpaces.
+	space applyAllSkinPhases.
 	listElement dataAccessor add: self statesOfAmerica first.
 	listElement dataAccessor add: self statesOfAmerica second.
-	listElement selecter selectOneMoreIndex: 2.
+	listElement selecter selectIndex: 2.
 	listElement innerElement forceLayout.
 	self waitTestingSpaces.
 	space applyAllSkinPhases.
 
 	self assert: listElement nodeContainers size equals: 2.
+	self assert: listElement selectionModel selectedIndexes equals: #( 2 ).
 
 	receivedSelectedEvents := OrderedCollection new.
 	receivedDeselectedEvents := OrderedCollection new.
@@ -77,17 +82,25 @@ ToListElementSelectionSkinEventTest >> testSelectedSkinEventCountAfterRemove [
 
 	listElement dataAccessor removeAt: 1.
 	listElement innerElement forceLayout.
+	listElement forceLayout.
+	space applyAllSkinPhases.
 	self waitTestingSpaces.
+
 	self assert: listElement nodeContainers size equals: 1.
+	self assert: listElement selectionModel selectedIndexes equals: #( 1 ).
+
 	" the second node is selected then the first node is removed 
-	-> the first node become selected "
+	-> the first node become selected but without selection changed event dispatching because of a shift selection command (the second nodeContainer is shift at the position 1)"
 	self assert: (selectionCounts includesKey: 2) not.
-	self assert: (selectionCounts includesKey: 1).
-	self assert: (selectionCounts at: 1) equals: 1.
-	self assert: receivedSelectedEvents size equals: 1.
-	receivedSelectedEvents do: [ :evt |
-		self assert: evt currentTarget holder position equals: 1 ].
-	self assert: receivedDeselectedEvents size equals: 0
+	self assert: (selectionCounts includesKey: 1) not.
+	
+	self assert: receivedSelectedEvents size equals: 0.
+	self assert: receivedDeselectedEvents size equals: 0.
+	self assert: listElement selectionMode selectionContainer children size equals: 1.
+	self assert: listElement selectionMode selectionContainer children first nodeContainers size equals: 1.
+	self assert: listElement selectionMode selectionContainer children first nodeContainers first holder position equals: 1.
+
+	
 ]
 
 { #category : #'test selection - skin' }
@@ -100,7 +113,7 @@ ToListElementSelectionSkinEventTest >> testSelectedSkinEventCountAfterSelect [
 
 	listElement dataAccessor add: self statesOfAmerica first.
 	listElement dataAccessor add: self statesOfAmerica second.
-	listElement selecter selectOneMoreIndex: 2.
+	listElement selecter selectIndex: 2.
 
 	self waitTestingSpaces.
 	self assert: listElement nodeContainers size equals: 2.
@@ -120,5 +133,9 @@ ToListElementSelectionSkinEventTest >> testSelectedSkinEventCountAfterSelect [
 
 	self assert: receivedDeselectedEvents size equals: 1.
 	receivedDeselectedEvents do: [ :evt |
-		self assert: evt currentTarget holder position equals: 2 ]
+		self assert: evt currentTarget holder position equals: 2 ].
+	self assert: listElement selectionMode selectionContainer children size equals: 1.
+	self assert: listElement selectionMode selectionContainer children first nodeContainers size equals: 1.
+	self assert: listElement selectionMode selectionContainer children first nodeContainers first holder position equals: 1.
+
 ]

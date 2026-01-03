@@ -14,8 +14,8 @@ ToInlineMenuStarter >> isForInlineWindow [
 ToInlineMenuStarter >> startWindow: aWindow fromManager: aManager onEvent: anEvent [
 
 	" an inline window works correctly only with wrapping (need for the flow layout)"
-	aWindow itemBar isFlowable: true.
-	aManager anchorElement menuBarOwner
+	aWindow itemList innerConfiguration isFlowable: true.
+	aManager anchorElement menuListOwner
 		addItem: aWindow
 		afterIndex: aManager anchorElement positionInList.
 	" need to install a new skin to change the icon (from closed to opened) "
@@ -25,7 +25,7 @@ ToInlineMenuStarter >> startWindow: aWindow fromManager: aManager onEvent: anEve
 { #category : #'starting-stopping' }
 ToInlineMenuStarter >> stopWindow: aWindow fromManager: aManager [
 
-	aManager anchorElement menuBarOwner removeItem: aWindow.
+	aManager anchorElement menuListOwner removeItem: aWindow.
 	" need to install a new skin to change the icon (from closed to opened) "
 	aManager anchorElement requestNewSkin
 ]

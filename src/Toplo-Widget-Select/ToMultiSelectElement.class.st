@@ -22,13 +22,13 @@ ToMultiSelectElement >> addGroup: anObject withData: aCollection [
 ]
 
 { #category : #configuration }
-ToMultiSelectElement >> applyConfiguration [ 
+ToMultiSelectElement >> applyConfiguration [
 
 	super applyConfiguration.
-	self innerElement isFlowable: isFlowable.
+	self innerElement innerElement toConfiguration isFlowable: isFlowable.
 	self innerElement keepPickOrder: keepPickOrder.
-	self endContainer maxSelectedCount: maxSelectedCount .
-	self innerElement maxSelectedCount: maxSelectedCount.
+	self endContainer maxSelectedCount: maxSelectedCount.
+	self innerElement maxSelectedCount: maxSelectedCount
 ]
 
 { #category : #accessing }
@@ -52,7 +52,7 @@ ToMultiSelectElement >> barInnerElement [
 { #category : #accessing }
 ToMultiSelectElement >> barTrackElement [ 
 
-	^ self barElement trackElement
+	^ self barElement innerElement trackElement
 ]
 
 { #category : #'accessing - selection' }
@@ -144,7 +144,7 @@ ToMultiSelectElement >> isFlowable: aBoolean [
 { #category : #accessing }
 ToMultiSelectElement >> isScrollable: aBoolean [
 
-	self innerElement isScrollable: aBoolean
+	self innerElement innerConfiguration isScrollable: aBoolean
 ]
 
 { #category : #accessing }

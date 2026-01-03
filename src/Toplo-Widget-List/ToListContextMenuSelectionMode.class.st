@@ -1,6 +1,6 @@
 Class {
 	#name : #ToListContextMenuSelectionMode,
-	#superclass : #ToAbstractListSelectionMode,
+	#superclass : #ToListRootSelectionMode,
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 

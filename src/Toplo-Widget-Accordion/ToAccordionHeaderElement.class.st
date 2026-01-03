@@ -1,6 +1,8 @@
 Class {
 	#name : #ToAccordionHeaderElement,
 	#superclass : #ToElement,
+	#traits : 'TToCheckable',
+	#classTraits : 'TToCheckable classTrait',
 	#instVars : [
 		'iconContainer',
 		'content',
@@ -8,7 +10,7 @@ Class {
 		'triplet',
 		'extraContainer'
 	],
-	#category : #'Toplo-Widget-Accordion-Core'
+	#category : #'Toplo-Widget-Accordion'
 }
 
 { #category : #examples }
@@ -83,6 +85,7 @@ ToAccordionHeaderElement >> icon: aToImage [
 ToAccordionHeaderElement >> initialize [
 
 	super initialize.
+	self initializeAsCheckable.
 	self layout: BlLinearLayout horizontal.
 	self hMatchParent.
 	self vFitContent.
@@ -109,9 +112,9 @@ ToAccordionHeaderElement >> initialize [
 ]
 
 { #category : #testing }
-ToAccordionHeaderElement >> isExpanded [
+ToAccordionHeaderElement >> isExpanded [ 
 
-	^ self subclassResponsibility 
+	^ self isChecked
 ]
 
 { #category : #initialization }

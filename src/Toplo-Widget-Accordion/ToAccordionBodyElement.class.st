@@ -7,7 +7,7 @@ Class {
 		'preservedContent',
 		'isBuilt'
 	],
-	#category : #'Toplo-Widget-Accordion-Core'
+	#category : #'Toplo-Widget-Accordion'
 }
 
 { #category : #accessing }

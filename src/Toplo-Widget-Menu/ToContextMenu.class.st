@@ -1,20 +1,10 @@
 Class {
 	#name : #ToContextMenu,
 	#superclass : #ToMenuWindow,
-	#traits : 'TToOrientable + TToMenuItemFiniteListContainer + TToMenuWindowModel + TToItemFiniteListContainer',
-	#classTraits : 'TToOrientable classTrait + TToMenuItemFiniteListContainer classTrait + TToMenuWindowModel classTrait + TToItemFiniteListContainer classTrait',
+	#traits : 'TToOrientable + TToMenuItemListUser + TToMenuWindowModel + TToItemListUser',
+	#classTraits : 'TToOrientable classTrait + TToMenuItemListUser classTrait + TToMenuWindowModel classTrait + TToItemListUser classTrait',
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
-
-{ #category : #accessing }
-ToContextMenu >> bar [
-
-	self
-		deprecated: 'Use #itemList instead'
-		transformWith: '`@rcvr bar' -> '`@rcvr itemList'.
-
-	^ self itemList
-]
 
 { #category : #'t - menu window model' }
 ToContextMenu >> close [
@@ -52,7 +42,7 @@ ToContextMenu >> initialize [
 	self fitContent.
 	self initializeAsItemBarContainer.
 	self initializeAsMenuItemBarContainer.
-	self root addChild: self itemBar
+	self root addChild: self itemList
 ]
 
 { #category : #'t - menu window model' }
@@ -117,19 +107,19 @@ ToContextMenu >> menuWindow [
 	^ self 
 ]
 
-{ #category : #'t - item bar container - initializing' }
-ToContextMenu >> newItemBar [
+{ #category : #'t - item list user - initializing' }
+ToContextMenu >> newItemList [
 
-	^ ToMenuItemFiniteListElement new
+	^ ToMenuItemListElement new
 ]
 
-{ #category : #'t - menu item bar container - double dispatch' }
+{ #category : #'t - menu item list user - double dispatch' }
 ToContextMenu >> onAddedMenu: aMenu [
 
 	aMenu isSubmenu: true
 ]
 
-{ #category : #'t - menu item bar container - double dispatch' }
+{ #category : #'t - menu item list user - double dispatch' }
 ToContextMenu >> onRemovedMenu: aMenu [
 
 	aMenu isSubmenu: false

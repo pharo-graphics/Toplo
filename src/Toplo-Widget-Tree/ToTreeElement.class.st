@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTreeElement,
-	#superclass : #ToAbstractTreeElement,
+	#superclass : #ToBasicTreeElement,
 	#traits : 'TToGenericListElement',
 	#classTraits : 'TToGenericListElement classTrait',
 	#category : #'Toplo-Widget-Tree-Core'

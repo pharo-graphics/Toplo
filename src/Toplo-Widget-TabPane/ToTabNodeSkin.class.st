@@ -1,33 +1,8 @@
 Class {
 	#name : #ToTabNodeSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Widget-TabPane-TabFiniteList'
+	#category : #'Toplo-Widget-TabPane-TabList'
 }
-
-{ #category : #'event handling' }
-ToTabNodeSkin >> configureSelectionTokensIn: anItemElement [
-
-	anItemElement holder listElement isFlowable
-		ifTrue: [
-			anItemElement removeTokenNamed: #'selected-focused-foreground'.
-			anItemElement removeTokenNamed: #'selected-unfocused-foreground' ]
-		ifFalse: [
-			anItemElement
-				addTokenNamed: #'selected-focused-foreground'
-				withValue:
-				(anItemElement valueOfTokenNamed: #'color-primary-checked').
-			anItemElement
-				addTokenNamed: #'selected-unfocused-foreground'
-				withValue:
-				(anItemElement valueOfTokenNamed: #'color-primary-checked') ]
-]
-
-{ #category : #'event handling' }
-ToTabNodeSkin >> enabledSkinEvent: anEvent [
-
-	super enabledSkinEvent: anEvent.
-	anEvent elementDo: [ :e | self configureSelectionTokensIn: e ]
-]
 
 { #category : #'event handling' }
 ToTabNodeSkin >> hoveredSkinEvent: anEvent [
@@ -66,15 +41,6 @@ ToTabNodeSkin >> installSkinEvent: anEvent [
 				 left: leftPad
 				 bottom: bottomPad
 				 right: rightPad) ]
-]
-
-{ #category : #'event handling' }
-ToTabNodeSkin >> leavedSkinEvent: anEvent [
-
-	super leavedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e removeButtonDo: [ :rb | rb visibility: BlVisibility hidden ].
-		e mouseCursor: Cursor normal ]
 ]
 
 { #category : #'event handling' }

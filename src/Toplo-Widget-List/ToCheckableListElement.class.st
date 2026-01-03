@@ -1,12 +1,20 @@
 Class {
 	#name : #ToCheckableListElement,
 	#superclass : #ToItemListElement,
-	#traits : 'TToCheckableGroupOwner + TToCheckableListElement',
-	#classTraits : 'TToCheckableGroupOwner classTrait + TToCheckableListElement classTrait',
+	#traits : 'TToCheckableGroupUser + TToCheckableListElement',
+	#classTraits : 'TToCheckableGroupUser classTrait + TToCheckableListElement classTrait',
 	#category : #'Toplo-Widget-List-ItemList'
 }
 
-{ #category : #'t - item bar element - accessing' }
+{ #category : #'t - finite list element - fake container' }
+ToCheckableListElement >> defaultFakeDataItem [
+
+	^ ToToggleButton new
+		  labelText: 'X';
+		  yourself
+]
+
+{ #category : #initialization }
 ToCheckableListElement >> defaultNodeManagerClass [ 
 
 	^ ToCheckableListNodeManager

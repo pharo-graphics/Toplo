@@ -3,7 +3,7 @@ I'm a data item for menu item list.
 "
 Class {
 	#name : #ToMenuItemElement,
-	#superclass : #ToFiniteListItem,
+	#superclass : #ToListItem,
 	#traits : 'TToMenuItem',
 	#classTraits : 'TToMenuItem classTrait',
 	#instVars : [
@@ -11,6 +11,19 @@ Class {
 	],
 	#category : #'Toplo-Widget-Menu-Items'
 }
+
+{ #category : #configuration }
+ToMenuItemElement >> applyConfiguration [ 
+
+	super applyConfiguration.
+	self listHolderDo: [ :h |
+		h listElement isHorizontal
+			ifTrue: [
+				self hFitContent ]
+			ifFalse: [
+				self hMatchParent ] ].
+	self vFitContent
+]
 
 { #category : #'t - menu item' }
 ToMenuItemElement >> closeOnPicking [ 
@@ -145,11 +158,11 @@ ToMenuItemElement >> popupEvent: anEvent [
 { #category : #'t - menu window model' }
 ToMenuItemElement >> rootMenu [
 
-	(self menuBarOwner isNil or: [ self menuBarOwner isMenuPane ]) ifTrue: [
+	(self menuListOwner isNil or: [ self menuListOwner isMenuPane ]) ifTrue: [
 		^ self isMenu
 			  ifTrue: [ self ]
 			  ifFalse: [  ] ].
-	^ self menuBarOwner rootMenu
+	^ self menuListOwner rootMenu
 ]
 
 { #category : #'t - menu window model' }

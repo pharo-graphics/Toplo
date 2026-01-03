@@ -19,11 +19,13 @@ ToTabPaneElementTest >> setUp [
 	firstTabBuildCount := 0.
 	secondTabBuildCount := 0.
 	tabPane := ToTabPaneElement new.
+	tabPane horizontal: true.
 	tabPane matchParent.
 	space root addChild: tabPane.
 	tabPane forceLayout.
+	self waitTestingSpaces.
 	BlSpace simulateMouseMoveInside: tabPane.
-	self waitTestingSpaces 
+
 ]
 
 { #category : #tests }
@@ -90,16 +92,23 @@ ToTabPaneElementTest >> testCloseSelectedPage2 [
 	firstButton removable: true.
 	secondButton removable: true.
 	firstButton holder node addRemoveButton. 
-	secondButton holder node  addRemoveButton. 
+	secondButton holder node addRemoveButton. 
 	self waitTestingSpaces.
+	BlSpace simulateMouseMoveInside: firstButton.
+	self waitTestingSpaces.
+	tabPane forceLayout.
 	BlSpace simulateClickOn: firstButton.
 	self waitTestingSpaces.
 	self assert: firstButton isSelected.
 	" after the click, the remove button should be visible "
+	self waitTestingSpaces.
+	tabPane forceLayout.
 	BlSpace simulateMouseMoveInside: firstButton removeButton.
 	self waitTestingSpaces.
+	tabPane forceLayout.
 	BlSpace simulateClickOn: firstButton removeButton.
 	self waitTestingSpaces.
+	tabPane forceLayout.
 	self assert: tabPane items size equals: 1.
 	self assert: tabPane items first identicalTo: secondButton.
 	self assert: secondButton isSelected.
@@ -308,8 +317,8 @@ ToTabPaneElementTest >> testPaneBuilderIsValuedOnSelect2 [
 	self withTwoTabButtons.
 	firstButton := tabPane items first.
 	secondButton := tabPane items second.
-	firstButton destroyPaneWhenDeselected.
-	secondButton destroyPaneWhenDeselected.
+	firstButton destroyPaneWhenDeselected: true.
+	secondButton destroyPaneWhenDeselected: true.
 	
 	self waitTestingSpaces.
 	
@@ -360,7 +369,7 @@ ToTabPaneElementTest >> withTwoTabButtons [
 	tabPane addItem: (ToTabButton new
 			 id: #first;
 			 labelText: 'First';
-			 paneBuilder: [ :body :btn :node :holder |
+			 paneBuilder: [ :body :btn :holder |
 					 firstTabBuildCount := firstTabBuildCount + 1.
 					 body addChild: (ToElement new
 								  background: Color red;
@@ -371,11 +380,12 @@ ToTabPaneElementTest >> withTwoTabButtons [
 	tabPane addItem: (ToTabButton new
 			 id: #second;
 			 labelText: 'Second';
-			 paneBuilder: [ :body :btn :node :holder |
+			 paneBuilder: [ :body :btn :holder |
 					 secondTabBuildCount := secondTabBuildCount + 1.
 					 body addChild: (ToElement new
 								  background: Color green;
 								  matchParent;
 								  yourself) ];
-			 yourself)
+			 yourself).
+	self waitTestingSpaces 
 ]

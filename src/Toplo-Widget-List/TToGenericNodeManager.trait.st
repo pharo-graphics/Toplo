@@ -1,8 +1,6 @@
 Trait {
 	#name : #TToGenericNodeManager,
 	#instVars : [
-		'nodeHolderFactory',
-		'nodeFactory',
 		'nodeBuilder',
 		'nodeUnbuilder',
 		'nodeContainerBuilder'
@@ -44,18 +42,6 @@ TToGenericNodeManager >> defaultNodeContainerBuilder [
 ]
 
 { #category : #'t - generic node manager' }
-TToGenericNodeManager >> defaultNodeFactory [
-
-	^ [ :holder | ToListNode new ]
-]
-
-{ #category : #'t - generic node manager' }
-TToGenericNodeManager >> defaultNodeHolderFactory [
-
-	^ [ ToNodeHolder new ]
-]
-
-{ #category : #'t - generic node manager' }
 TToGenericNodeManager >> defaultNodeUnbuilder [
 
 	^ [ :node :dataItem :holder |  ]
@@ -67,20 +53,7 @@ TToGenericNodeManager >> initializeAsGenericNodeManager [
 	nodeContainerBuilder := self defaultNodeContainerBuilder.
 	nodeBuilder := self defaultNodeBuilder.
 	nodeUnbuilder := self defaultNodeUnbuilder.
-	nodeFactory := self defaultNodeFactory.
-	nodeHolderFactory := self defaultNodeHolderFactory
-]
 
-{ #category : #'t - generic node manager' }
-TToGenericNodeManager >> newHolder [
-
-	^ nodeHolderFactory value
-]
-
-{ #category : #'t - generic node manager' }
-TToGenericNodeManager >> newNodeForHolder: aNodeHolder [
-
-	^ nodeFactory cull: aNodeHolder
 ]
 
 { #category : #'t - generic node manager' }
@@ -109,20 +82,6 @@ TToGenericNodeManager >> nodeContainerBuilder: aValuable [
 	"aValuable takes 3 optional args: first, the nodeContainer to build, second, the dataItem and third, the holder in the list element "
 
 	nodeContainerBuilder := aValuable
-]
-
-{ #category : #'t - generic node manager' }
-TToGenericNodeManager >> nodeFactory: aValuable [
-	" aValuable that takes a node holder as unique argument and which running results in a new node "
-
-	nodeFactory := aValuable
-]
-
-{ #category : #'t - generic node manager' }
-TToGenericNodeManager >> nodeHolderFactory: aValuable [
-	" aValuable that takes no argument an return a new holder "
-
-	nodeHolderFactory := aValuable
 ]
 
 { #category : #'t - generic node manager' }

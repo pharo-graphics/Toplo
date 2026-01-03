@@ -10,17 +10,18 @@ Class {
 { #category : #'element events handling' }
 ToInnerFiniteListElementEventHandler >> checkFullyVisibleNodeContainersOnEvent: anEvent [
 
-	| invisibles visibles innerListElement listElement |
+	| invisibles visibles innerListElement |
 	innerListElement := anEvent currentTarget.
-	listElement := innerListElement listElement.
-	(listElement isFlowable or: [ listElement autoDistribute ])
-		ifTrue: [
-				invisibles := #(  ).
-				visibles := listElement nodeContainers asArray ]
-		ifFalse: [
-				invisibles := listElement nodeContainersReject:
-					              #isFullyVisibleInListElement.
-				visibles := listElement nodeContainers difference: invisibles ].
+	innerListElement toConfigurationDo: [ :conf |
+			(conf isFlowable or: [ conf autoDistribute ])
+				ifTrue: [
+						invisibles := #(  ).
+						visibles := innerListElement nodeContainers asArray ]
+				ifFalse: [
+						invisibles := innerListElement nodeContainersReject:
+							              #isFullyVisibleInListElement.
+						visibles := innerListElement nodeContainers difference:
+							            invisibles ] ].
 	previousVisibleNodeContainers = visibles ifTrue: [ ^ self ].
 	previousVisibleNodeContainers := visibles.
 	innerListElement dispatchEvent:
@@ -48,8 +49,5 @@ ToInnerFiniteListElementEventHandler >> finiteListVisibleNodeContainerListChange
 
 	| innerListElement |
 	innerListElement := anEvent currentTarget.
-	innerListElement
-		onInvisibleNodeContainers: anEvent invisibleNodeContainers
-		visibleNodeContainers: anEvent visibleNodeContainers.
 	innerListElement listElement dispatchEvent: anEvent copy
 ]

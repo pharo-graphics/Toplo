@@ -21,31 +21,13 @@ ToScrollableFiniteListTrackElement >> applyConfiguration [
 	super applyConfiguration.
 	self configureLayout.
 	self configureResizer.
-	self configureChildrenDistribution.
 	self childrenDo: [ :child | child applyConfiguration ]
 ]
 
-{ #category : #testing }
+{ #category : #configuration }
 ToScrollableFiniteListTrackElement >> autoDistribute [
 
-	^ listElement autoDistribute
-]
-
-{ #category : #configuration }
-ToScrollableFiniteListTrackElement >> configureChildrenDistribution [
-
-	self autoDistribute
-		ifTrue: [
-				self isHorizontal
-					ifTrue: [
-					listElement isHFitContent ifFalse: [ self hMatchParent ] ]
-					ifFalse: [
-					listElement isVFitContent ifFalse: [ self vMatchParent ] ] ]
-		ifFalse: [
-				(self isFlowable not and: [ self isScrollable ]) ifTrue: [
-						self isHorizontal
-							ifTrue: [ self hFitContent ]
-							ifFalse: [ self vFitContent ] ] ]
+	^ listElement innerConfiguration autoDistribute
 ]
 
 { #category : #configuration }
@@ -61,13 +43,19 @@ ToScrollableFiniteListTrackElement >> configureLayout [
 { #category : #configuration }
 ToScrollableFiniteListTrackElement >> configureResizer [
 
-	listElement isHFitContent
-		ifTrue: [ self hFitContent ]
-		ifFalse: [ self hMatchParent ].
-
-	listElement isVFitContent
-		ifTrue: [ self vFitContent ]
-		ifFalse: [ self vMatchParent ]
+	(self isFlowable not and: [
+		 self isScrollable and: [ self autoDistribute not ] ])
+		ifTrue: [
+				self isHorizontal
+					ifTrue: [ self hFitContent ]
+					ifFalse: [ self vFitContent ] ]
+		ifFalse: [
+				listElement isHFitContent
+					ifTrue: [ self hFitContent ]
+					ifFalse: [ self hMatchParent ].
+				listElement isVFitContent
+					ifTrue: [ self vFitContent ]
+					ifFalse: [ self vMatchParent ] ]
 ]
 
 { #category : #layout }
@@ -83,22 +71,22 @@ ToScrollableFiniteListTrackElement >> initialize [
 	self focusability: BlFocusability ignore
 ]
 
-{ #category : #testing }
+{ #category : #configuration }
 ToScrollableFiniteListTrackElement >> isFlowable [
 
-	^ listElement isFlowable
+	^ listElement innerConfiguration isFlowable
 ]
 
-{ #category : #testing }
+{ #category : #configuration }
 ToScrollableFiniteListTrackElement >> isHorizontal [
 
 	^ listElement isHorizontal
 ]
 
-{ #category : #testing }
+{ #category : #configuration }
 ToScrollableFiniteListTrackElement >> isScrollable [
 
-	^ listElement isScrollable
+	^ listElement innerConfiguration isScrollable
 ]
 
 { #category : #layout }
@@ -111,12 +99,6 @@ ToScrollableFiniteListTrackElement >> linearLayoutClass [
 ToScrollableFiniteListTrackElement >> listElement [ 
 
 	^ listElement 
-]
-
-{ #category : #accessing }
-ToScrollableFiniteListTrackElement >> maxMeasuredNodeSize [
-
-	^ self layout maxMeasuredNodeSize
 ]
 
 { #category : #layout }
@@ -200,17 +182,18 @@ ToScrollableFiniteListTrackElement >> onListElement: aListElement [
 	listElement := aListElement 
 ]
 
+{ #category : #layout }
+ToScrollableFiniteListTrackElement >> onMeasure: anExtentMeasurementSpec [
+
+	self layout minNodeWidth: listElement minNodeWidth.
+	super onMeasure: anExtentMeasurementSpec
+]
+
 { #category : #'accessing - children' }
 ToScrollableFiniteListTrackElement >> partlyVisibleNodesDo: aBlock [
 
 	self nodeContainersDo: [ :container |
 		container isPartlyVisibleInListElement ifTrue: [ aBlock value: container ] ]
-]
-
-{ #category : #'accessing - children' }
-ToScrollableFiniteListTrackElement >> removeAllNodeContainers: anArray [
-
-	anArray reverseDo: [ :container | self removeNodeContainer: container ]
 ]
 
 { #category : #'accessing - children' }
@@ -222,11 +205,11 @@ ToScrollableFiniteListTrackElement >> removeNodeContainer: container [
 { #category : #configuration }
 ToScrollableFiniteListTrackElement >> uniformNodeHeight [
 
-	^ listElement uniformNodeHeight
+	^ listElement innerConfiguration uniformNodeHeight
 ]
 
 { #category : #configuration }
 ToScrollableFiniteListTrackElement >> uniformNodeWidth [
 
-	^ listElement uniformNodeWidth
+	^ listElement innerConfiguration uniformNodeWidth
 ]

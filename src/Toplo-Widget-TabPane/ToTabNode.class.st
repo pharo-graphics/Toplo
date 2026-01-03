@@ -1,9 +1,9 @@
 Class {
 	#name : #ToTabNode,
-	#superclass : #ToFiniteListCheckableNode,
+	#superclass : #ToListCheckableNode,
 	#traits : 'TToRemovableNode',
 	#classTraits : 'TToRemovableNode classTrait',
-	#category : #'Toplo-Widget-TabPane-TabFiniteList'
+	#category : #'Toplo-Widget-TabPane-TabList'
 }
 
 { #category : #configuration }

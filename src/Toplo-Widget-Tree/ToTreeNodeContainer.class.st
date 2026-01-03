@@ -1,8 +1,47 @@
 Class {
 	#name : #ToTreeNodeContainer,
 	#superclass : #ToNodeContainer,
+	#instVars : [
+		'arrowButton',
+		'indentFiller'
+	],
 	#category : #'Toplo-Widget-Tree-Core'
 }
+
+{ #category : #accessing }
+ToTreeNodeContainer >> arrowButton [
+
+	^ arrowButton
+]
+
+{ #category : #accessing }
+ToTreeNodeContainer >> arrowButton: anObject [
+
+	arrowButton ifNotNil: [
+		(BlImmutableObjectChangeError object: self) signal ].
+	arrowButton := anObject.
+	arrowButton id: #arrowButton.
+	self startContainer addChild: arrowButton
+]
+
+{ #category : #'instance creation' }
+ToTreeNodeContainer >> createArrowButton [
+
+	| aWrapper btn |
+	self indentFiller: self newFiller.
+	aWrapper := self holder dataWrapper.
+	btn := ToIconicArrowButton none.
+	aWrapper hasLeafDataItem ifFalse: [
+			btn := aWrapper isExpanded
+				       ifFalse: [ ToIconicArrowButton right ]
+				       ifTrue: [ ToIconicArrowButton down ].
+			btn clickAction: [
+				self dispatchEvent: ToArrowButtonClickedEvent new ] ].
+	btn constraintsDo: [ :c |
+			c linear horizontal alignLeft.
+			c linear vertical alignCenter ].
+	self arrowButton: btn
+]
 
 { #category : #testing }
 ToTreeNodeContainer >> hasLeafDataItem [
@@ -13,7 +52,17 @@ ToTreeNodeContainer >> hasLeafDataItem [
 { #category : #'instance creation' }
 ToTreeNodeContainer >> indentFiller [
 
-	^ self startContainer childWithId: #indentFiller ifNone: [  ]
+	^ indentFiller
+]
+
+{ #category : #'instance creation' }
+ToTreeNodeContainer >> indentFiller: anElement [
+
+	indentFiller ifNotNil: [
+		(BlImmutableObjectChangeError object: self) signal ].
+	indentFiller := anElement.
+	indentFiller id: #indentFiller.
+	self startContainer addChild: indentFiller
 ]
 
 { #category : #accessing }
@@ -45,8 +94,11 @@ ToTreeNodeContainer >> newRawSkin [
 
 { #category : #accessing }
 ToTreeNodeContainer >> nodeDepth [
+	" in case I am the node container of the fake node container, my data wrapper is nil"
 
-	^ self holder dataWrapper nodeDepth
+	^ self holder dataWrapper
+		  ifNil: [ 0 ]
+		  ifNotNil: [ :dw | dw nodeDepth ]
 ]
 
 { #category : #testing }

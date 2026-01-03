@@ -9,6 +9,15 @@ Class {
 }
 
 { #category : #accessing }
+ToTableHeaderElement class >> parentTable: aTableElement [
+
+	^ self basicNew
+		  parentTable: aTableElement;
+		  initialize;
+		  yourself
+]
+
+{ #category : #accessing }
 ToTableHeaderElement >> cellContainerAt: anIndex [
 
 	^ nodeContainer cellContainerAt: anIndex
@@ -54,6 +63,8 @@ ToTableHeaderElement >> divider: aDivider startDragAt: aPosition [
 ToTableHeaderElement >> initialize [ 
 
 	super initialize.
+	nodeContainer := self newHeaderNodeContainer.
+	self addChild: nodeContainer.
 	self hMatchParent.
 	self vFitContent
 ]
@@ -84,7 +95,7 @@ ToTableHeaderElement >> initializeWithColumns: aTableColumnArray [
 { #category : #accessing }
 ToTableHeaderElement >> newHeaderNodeContainer [
 
-	^ ToTableHeaderRowNodeContainer new
+	^ ToTableHeaderRowNodeContainer parentTable: parentTable
 ]
 
 { #category : #accessing }
@@ -102,13 +113,7 @@ ToTableHeaderElement >> parentTable [
 { #category : #accessing }
 ToTableHeaderElement >> parentTable: aTableElement [
 
-	parentTable := aTableElement.
-	nodeContainer := self newHeaderNodeContainer
-		                 parentTable: parentTable;
-		                 yourself.
-	self addChild: nodeContainer.
-
-
+	parentTable := aTableElement
 ]
 
 { #category : #'t - table list element' }

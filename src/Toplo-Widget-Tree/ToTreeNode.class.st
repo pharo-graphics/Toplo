@@ -5,6 +5,13 @@ I visually represent a line of data from a tree structure
 "
 Class {
 	#name : #ToTreeNode,
-	#superclass : #ToListNode,
+	#superclass : #ToBasicListNode,
 	#category : #'Toplo-Widget-Tree-Core'
 }
+
+{ #category : #initialization }
+ToTreeNode >> initialize [
+
+	super initialize.
+	self vFitContent
+]

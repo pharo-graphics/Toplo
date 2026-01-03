@@ -1,14 +1,14 @@
 Extension { #name : #BlInfiniteLayoutConstraints }
 
 { #category : #'*Toplo' }
-BlInfiniteLayoutConstraints >> hasHolder [
+BlInfiniteLayoutConstraints >> hasListHolder [
 
 	^ holder notNil
 ]
 
 { #category : #'*Toplo' }
-BlInfiniteLayoutConstraints >> holderDo: aValuable [
+BlInfiniteLayoutConstraints >> listHolderDo: aValuable [
 
-	holder ifNil: [ ^ self ].
-	aValuable value: holder
+	self hasListHolder ifFalse: [ ^ nil ].
+	^ aValuable value: holder
 ]

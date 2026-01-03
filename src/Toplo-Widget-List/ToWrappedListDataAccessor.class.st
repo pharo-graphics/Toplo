@@ -1,10 +1,9 @@
 Class {
 	#name : #ToWrappedListDataAccessor,
-	#superclass : #Object,
-	#traits : 'TToDataSourceWrapper + TBlEventTarget + TBlDebug',
-	#classTraits : 'TToDataSourceWrapper classTrait + TBlEventTarget classTrait + TBlDebug classTrait',
+	#superclass : #ToBasicListDataAccessor,
+	#traits : 'TBlEventTarget + TBlDebug',
+	#classTraits : 'TBlEventTarget classTrait + TBlDebug classTrait',
 	#instVars : [
-		'listElement',
 		'eventDispatcher'
 	],
 	#category : #'Toplo-Widget-List-WrappedList'
@@ -31,14 +30,33 @@ ToWrappedListDataAccessor >> initialize [
 	eventDispatcher := BlDirectEventDispatcher on: self
 ]
 
-{ #category : #'t - data source wrapper - accessing' }
-ToWrappedListDataAccessor >> listElement [ 
+{ #category : #'instance creation' }
+ToWrappedListDataAccessor >> newSieve [
 
-	^ listElement
+	| sieve |
+	sieve := super newSieve.
+	" simply collapse all roots when the pattern changes because for now, 
+	this implementation don't manage a filter result with expanded nodes "
+	sieve
+		addEventHandlerOn: ToSievePatternChangedEvent
+		do: [ listElement dataSource roots reverseDo: [ :w | w collapse ] ].
+	^ sieve
 ]
 
-{ #category : #'t - data source wrapper - accessing' }
-ToWrappedListDataAccessor >> listElement: aListElement [
+{ #category : #'t - data source wrapper - accessing dataSource' }
+ToWrappedListDataAccessor >> newWrapperForDataItem: anObject [
 
-	listElement := aListElement
+	^ self dataItemWrapperClass new
+		  listElement: self listElement;
+		  dataItem: anObject;
+		  yourself
+]
+
+{ #category : #'api - hooks' }
+ToWrappedListDataAccessor >> onInstalledInListElement: aListElement [
+
+	super onInstalledInListElement: aListElement.
+	listElement dataSource 
+		  addEventHandlerOn: ToAbstractCollectionChangedEvent
+		  do: [ :event | self dispatchEvent: event copy ]
 ]

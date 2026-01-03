@@ -13,14 +13,14 @@ ToTreeTableRowNodeManager >> buildNode: aNode [
 ]
 
 { #category : #initialization }
+ToTreeTableRowNodeManager >> defaultNodeFactory [ 
+
+	^ [ :holder | ToTreeTableRowNode new ]
+]
+
+{ #category : #initialization }
 ToTreeTableRowNodeManager >> initialize [ 
 
 	super initialize.
 	self initializeAsGenericTreeNodeManager 
-]
-
-{ #category : #'t - generic node manager' }
-ToTreeTableRowNodeManager >> newNodeForHolder: aNodeHolder [
-
-	^ ToTreeTableRowNode new
 ]

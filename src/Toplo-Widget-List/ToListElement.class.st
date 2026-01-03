@@ -1,9 +1,9 @@
 Class {
 	#name : #ToListElement,
-	#superclass : #ToAbstractListElement,
-	#traits : 'TToGenericListElement + TToListElementWithDecoration',
-	#classTraits : 'TToGenericListElement classTrait + TToListElementWithDecoration classTrait',
-	#category : #'Toplo-Widget-List-Core-ListElement'
+	#superclass : #ToBasicListElement,
+	#traits : 'TToGenericListElement',
+	#classTraits : 'TToGenericListElement classTrait',
+	#category : #'Toplo-Widget-List-Core'
 }
 
 { #category : #initialization }

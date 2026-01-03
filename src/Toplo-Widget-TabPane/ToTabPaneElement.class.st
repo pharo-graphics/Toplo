@@ -1,8 +1,8 @@
 Class {
 	#name : #ToTabPaneElement,
 	#superclass : #ToPane,
-	#traits : 'TToItemFiniteListContainer',
-	#classTraits : 'TToItemFiniteListContainer classTrait',
+	#traits : 'TToItemListUser',
+	#classTraits : 'TToItemListUser classTrait',
 	#instVars : [
 		'bodyContainer',
 		'headerContainer'
@@ -118,7 +118,7 @@ ToTabPaneElement >> initialize [
 	bodyContainer constraintsDo: [ :c |
 			c vertical matchParent.
 			c horizontal matchParent ].
-	self setItemBar: self tabGroup itemBar.
+	self setItemList: self tabGroup itemList.
 	self addChildren: {
 			headerContainer.
 			bodyContainer }.
@@ -201,6 +201,13 @@ ToTabPaneElement >> tabGroupDynamicLayoutMode: aBoolean [
 ]
 
 { #category : #'t - checkable group owner' }
+ToTabPaneElement >> withNoneCheckingStrategy [ 
+
+	self tabGroup withNoneCheckingStrategy.
+	self selectionMode multiple: true
+]
+
+{ #category : #'t - checkable group owner' }
 ToTabPaneElement >> withStrictCheckingStrategy [ 
 
 	self tabGroup withStrictCheckingStrategy.
@@ -212,11 +219,4 @@ ToTabPaneElement >> withWeakCheckingStrategy [
 
 	self tabGroup withWeakCheckingStrategy.
 	self selectionMode multiple: false
-]
-
-{ #category : #'t - checkable group owner' }
-ToTabPaneElement >> withoutCheckingStrategy [ 
-
-	self tabGroup withoutCheckingStrategy.
-	self selectionMode multiple: true
 ]

@@ -4,17 +4,8 @@ Class {
 	#category : #'Toplo-Widget-Table-List'
 }
 
-{ #category : #'instance creation' }
-ToTableListCellContainer class >> column: aColumn holder: aTableNodeHolder [ 
-
-	^ self new
-		  column: aColumn holder: aTableNodeHolder;
-		  yourself
-]
-
 { #category : #initialization }
 ToTableListCellContainer >> column: aColumn holder: aTableNodeHolder [ 
-
 	self holder: aTableNodeHolder.
 	self initializeWithColumn: aColumn
 ]
@@ -46,11 +37,11 @@ ToTableListCellContainer >> nodeDepth [
 { #category : #accessing }
 ToTableListCellContainer >> parentTable [
 
-	^ self tableListEement parentTable
+	^ parentTable
 ]
 
 { #category : #accessing }
 ToTableListCellContainer >> tableListEement [
 
-	^ self holder listElement 
+	^ parentTable list
 ]

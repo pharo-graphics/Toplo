@@ -63,7 +63,7 @@ ToTagElementSkin >> installSkinEvent: anEvent [
 							c ignored horizontal alignLeft.
 							c ignored vertical alignCenter ] ].
 
-			e holderDo: [ :h |
+			e listHolderDo: [ :h |
 					e margin:
 						(BlInsets horizontal:
 							 (e valueOfTokenNamed: #'padding-XXS')) ].

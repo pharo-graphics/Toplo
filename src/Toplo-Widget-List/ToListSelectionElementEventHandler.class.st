@@ -22,7 +22,7 @@ ToListSelectionElementEventHandler >> updateNodesIn: aListElement [
 		| holder |
 		holder := container holder.
 		holder shouldIgnore ifFalse: [
-			holder initializeNode ] ].
+			holder initializeNodeSelections ] ].
 ]
 
 { #category : #'selection managing' }

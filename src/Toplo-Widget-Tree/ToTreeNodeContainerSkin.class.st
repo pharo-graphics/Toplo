@@ -9,20 +9,19 @@ ToTreeNodeContainerSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-			| w arrowIcon interspace indent |
+			| w interspace indent |
 			interspace := e valueOfTokenNamed: #'node-interspace'.
 			indent := e valueOfTokenNamed: #'node-indent'.
 			w := e nodeDepth * indent.
-			arrowIcon := e startContainer childWithId: #arrowIcon ifNone: [ ].
-			arrowIcon ifNotNil: [
+			e arrowButton ifNotNil: [ :arrowButton |
 					| wrapper |
 					wrapper := e holder dataWrapper.
 					wrapper hasLeafDataItem
-						ifTrue: [ arrowIcon beNone ]
+						ifTrue: [ arrowButton beNone ]
 						ifFalse: [
 								wrapper isExpanded
-									ifFalse: [ arrowIcon beRight ]
-									ifTrue: [ arrowIcon beDown ] ] ].
-			e indentWidth: w.
-			e startInterspace: interspace ]
+									ifFalse: [ arrowButton beRight ]
+									ifTrue: [ arrowButton beDown ] ].
+					e indentWidth: w.
+					e startInterspace: interspace ] ]
 ]

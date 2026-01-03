@@ -52,11 +52,13 @@ ToListElementTest >> testDataRemovedWhenNodeRemoved [
 	| list but remButtons fillers |
 	list := self listWithRemoveRowButtons.
 	list dataAccessor addAll: (1 to: 2).
+	list innerElement forceLayout.
 	self waitTestingSpaces.
 	self assert: list dataAccessor size equals: 2.
-	fillers := (list allChildrenBreadthFirstSelect: [ :child |
+	self assert: list nodeContainers size equals: 2.
+	fillers := (list innerElement allChildrenBreadthFirstSelect: [ :child |
 		            child id asString = 'filler' ]) asOrderedCollection.
-	remButtons := (list allChildrenBreadthFirstSelect: [ :child |
+	remButtons := (list innerElement allChildrenBreadthFirstSelect: [ :child |
 		               child id asString beginsWith: 'remove-button' ])
 		              asOrderedCollection.
 	" first click on the list to set the focus "
@@ -132,7 +134,9 @@ ToListElementTest >> testDisabledWithFiveNodes [
 	l := ToListElement new.
 	l dataAccessor add: 'first'.
 	space root addChild: l.
+	l innerElement forceLayout.
 	self waitTestingSpaces.
+	self assert: l nodeContainers size equals: 1.
 	l innerElement firstChild holder disabled: true.
 	l dataAccessor addFirst: 'second'.
 	l dataAccessor add: 'third'.
@@ -149,7 +153,9 @@ ToListElementTest >> testDisabledWithFourNodes [
 	l := ToListElement new.
 	l dataAccessor add: 'first'.
 	space root addChild: l.
+	l innerElement forceLayout.
 	self waitTestingSpaces.
+	self assert: l nodeContainers size equals: 1.
 	l innerElement firstChild disabled: true.
 	l dataAccessor addFirst: 'second'.
 	l dataAccessor add: 'third'.
@@ -167,6 +173,9 @@ ToListElementTest >> testDisabledWithFourNodes2 [
 	l dataAccessor add: 'first'.
 	l dataAccessor add: 'second'.
 	self waitTestingSpaces.
+	l requestLayout.
+	l innerElement forceLayout.
+	self assert: l nodeContainers size equals: 2.
 	l nodeContainers second disabled: true.
 	l dataAccessor add: 'third'.
 	l dataAccessor add: 'fourth'.
@@ -181,6 +190,7 @@ ToListElementTest >> testDisabledWithOneNode [
 	l := ToListElement new.
 	space root addChild: l.
 	l dataAccessor add: 'first'.
+	l innerElement forceLayout.
 	self waitTestingSpaces.
 	self assert: l nodeContainers size equals: 1.
 	self assert: l disabledSelectionModel isEmpty.
@@ -196,6 +206,7 @@ ToListElementTest >> testDisabledWithThreeNodes [
 	l := ToListElement new.
 	l dataAccessor add: 'first'.
 	space root addChild: l.
+	l innerElement forceLayout.
 	self waitTestingSpaces.
 	self assert: l innerElement children size equals: 1.
 	self assert: l disabledSelectionModel isEmpty.
@@ -218,6 +229,7 @@ ToListElementTest >> testDisabledWithTwoNodes [
 	l := ToListElement new.
 	l dataAccessor add: 'first'.
 	space root addChild: l.
+	l innerElement forceLayout.
 	self waitTestingSpaces.
 	self assert: l innerElement children size equals: 1.
 	self assert: l disabledSelectionModel isEmpty.
@@ -237,6 +249,7 @@ ToListElementTest >> testDisabledWithTwoNodes2 [
 	l := ToListElement new.
 	l dataAccessor add: 'first'.
 	space root addChild: l.
+	l innerElement forceLayout.
 	self waitTestingSpaces.
 	self assert: l nodeContainers size equals: 1.
 	self assert: l disabledSelectionModel isEmpty.
@@ -256,6 +269,7 @@ ToListElementTest >> testDisabledWithTwoNodes3 [
 	l := ToListElement new.
 	l dataAccessor add: 'first'.
 	space root addChild: l.
+	l innerElement forceLayout.
 	self waitTestingSpaces.
 	self assert: l nodeContainers size equals: 1.
 	self assert: l disabledSelectionModel isEmpty.
@@ -281,8 +295,12 @@ ToListElementTest >> testDoubleListsSelectionEvents [
 	list2 := ToListElement new.
 	1 to: tabSize do: [ :i |
 	list1 dataAccessor add: 'Hello ' , i asString ].
+	list1 innerElement forceLayout.
+	self waitTestingSpaces.
+	self assert: list1 nodeContainers size equals: tabSize.
 	1 to: tabSize do: [ :i |
 	list2 dataAccessor add: 'Goodbye ' , i asString ].
+
 	list1 addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :e |
@@ -463,7 +481,7 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved [
 	space root forceLayout.
 	self waitTestingSpaces.
 	self assert: list dataAccessor size equals: 2.
-	remButtons := (list allChildrenBreadthFirstSelect: [ :child |
+	remButtons := (list innerElement allChildrenBreadthFirstSelect: [ :child |
 		               child id asString beginsWith: 'remove-button' ])
 		              asOrderedCollection.
 	fillers := (list selectChildrenWithId: #filler) asOrderedCollection.
@@ -593,7 +611,7 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved4 [
 ToListElementTest >> testOneSpecifcNode [
 
 	| l |
-	l := ToSpecificListElementForTest new.
+	l := ToListElementForTest new.
 	l dataAccessor add: 'first'.
 	self waitTestingSpaces.
 	self assert: l dataSource first equals: 'first'.
@@ -605,13 +623,15 @@ ToListElementTest >> testOneSpecifcNode [
 	space root addChild: l.
 	self waitTestingSpaces.
 	self assert: l innerElement children size equals: 1.
-	self assert: l innerElement firstChild node class identicalTo: ToSpecificListNodeForTest.	
-	self assert: l nodeContainers first node class identicalTo: ToSpecificListNodeForTest.	
-	self assert: l nodeContainers first holder class identicalTo: ToSpecificListNodeHolderForTest.	
+	self assert: l innerElement firstChild node class identicalTo: ToListNodeForTest.	
+	self assert: l nodeContainers first node class identicalTo: ToListNodeForTest.	
+	self assert: l nodeContainers first holder class identicalTo: ToListNodeHolderForTest.	
 	self assert: l nodeContainers first node children size equals: 1.	
 	self assert: l nodeContainers first node firstChild class identicalTo: ToLabel.	
-	self assert: l nodeContainers first node firstChild text asString equals: '1:first'.	
-	self assert: l nodeContainers first holder num equals: 1.	
+	self assert: l fakeNodeContainerWrapper node holder num equals: 1.
+	self assert: l fakeNodeContainerWrapper node holder dataItem equals: nil.
+	self assert: l nodeContainers first node firstChild text asString equals: '2:first'.	
+	self assert: l nodeContainers first holder num equals: 2.	
 	self assert: l nodeContainers first holder dataItem equals: 'first'
 ]
 
@@ -994,6 +1014,7 @@ ToListElementTest >> testSelectionWithOneNode [
 	l dataAccessor removeAll.
 	l dataAccessor add: 'first'.
 	space root addChild: l.
+	l innerElement forceLayout.
 	self waitTestingSpaces.
 	self assert: l innerElement children size equals: 1.
 	self assert: l selectionModel isEmpty.
@@ -1010,7 +1031,7 @@ ToListElementTest >> testSelectionWithTwoNodes [
 	l := ToListElement new.
 	l dataAccessor add: 'first'.
 	space root addChild: l.
-	self waitTestingSpaces.
+	l innerElement forceLayout.	self waitTestingSpaces.
 	self assert: l innerElement children size equals: 1.
 	self assert: l selectionModel isEmpty.
 	l selecter selectOneMoreIndex: 1.

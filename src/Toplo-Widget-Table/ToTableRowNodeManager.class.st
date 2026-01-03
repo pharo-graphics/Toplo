@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTableRowNodeManager,
-	#superclass : #ToAbstractNodeManager,
+	#superclass : #ToBasicListNodeManager,
 	#traits : 'TToTableRowNodeManager',
 	#classTraits : 'TToTableRowNodeManager classTrait',
 	#category : #'Toplo-Widget-Table-List'
@@ -14,16 +14,10 @@ ToTableRowNodeManager >> buildNode: aNode [
 	self buildColumnsInNode: aNode
 ]
 
-{ #category : #'instance creation' }
-ToTableRowNodeManager >> newHolder [
+{ #category : #initialization }
+ToTableRowNodeManager >> defaultNodeFactory [ 
 
-	^ ToTableRowNodeHolder new
-]
-
-{ #category : #'instance creation' }
-ToTableRowNodeManager >> newNodeForHolder: aNodeHolder [
-
-	^ ToTableRowNode new
+	^ [ :holder | ToTableRowNode new
 		  id: #row;
-		  yourself
+		  yourself ]
 ]

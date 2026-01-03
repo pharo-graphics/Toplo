@@ -12,7 +12,7 @@ ToListPrimarySelectionElementEventHandler >> differUpdateSelectionFrom: anElemen
 
 	differedUpdateTask ifNotNil: [ ^ self ].
 	differedUpdateTask := BlTaskAction new action: [
-		                      anElement updateAllSelections.
+		                      anElement requestUpdateAllSelections.
 		                      differedUpdateTask := nil ].
 	anElement enqueueTask: differedUpdateTask
 ]

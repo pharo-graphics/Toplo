@@ -1,6 +1,6 @@
 Class {
 	#name : #ToListPrimarySelectionMode,
-	#superclass : #ToAbstractListSelectionMode,
+	#superclass : #ToListRootSelectionMode,
 	#instVars : [
 		'selectOnPressed',
 		'selectOnClick',

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToItemElementForTest,
 	#superclass : #ToElement,
-	#traits : 'TToItem',
-	#classTraits : 'TToItem classTrait',
+	#traits : 'TToListItem',
+	#classTraits : 'TToListItem classTrait',
 	#instVars : [
 		'label'
 	],

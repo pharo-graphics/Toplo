@@ -1,6 +1,6 @@
 Class {
 	#name : #ToExClassHierachyWithMethodsTreeElement,
-	#superclass : #ToAbstractTreeElement,
+	#superclass : #ToBasicTreeElement,
 	#category : #'Toplo-Examples-TopLevel-Trees'
 }
 

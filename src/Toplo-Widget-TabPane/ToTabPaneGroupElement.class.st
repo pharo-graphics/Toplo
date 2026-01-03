@@ -5,13 +5,13 @@ Class {
 }
 
 { #category : #initialization }
-ToTabPaneGroupElement >> barElementClass [
-
-	^ ToTabPaneFiniteListElement 
-]
-
-{ #category : #initialization }
 ToTabPaneGroupElement >> defaultTabItemFactory [
 
 	^ [ ToTabButton new ]
+]
+
+{ #category : #initialization }
+ToTabPaneGroupElement >> listElementClass [
+
+	^ ToTabPaneListElement 
 ]

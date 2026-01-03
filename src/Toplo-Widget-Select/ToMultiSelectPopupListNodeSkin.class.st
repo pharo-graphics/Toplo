@@ -1,6 +1,6 @@
 Class {
 	#name : #ToMultiSelectPopupListNodeSkin,
-	#superclass : #ToListNodeSkin,
+	#superclass : #ToBasicListNodeSkin,
 	#category : #'Toplo-Widget-Select-PopupList'
 }
 

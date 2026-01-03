@@ -41,6 +41,6 @@ ToSelectPopupListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
 	| listElement selectElement |
 	listElement := anEvent currentTarget.
 	selectElement := listElement selectElement.
-	selectElement popupListElement updateAllSelections.
+	selectElement popupListElement requestUpdateAllSelections.
 	selectElement updateHeaderFromPopupListSelection
 ]

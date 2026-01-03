@@ -69,7 +69,6 @@ ToListElementSelectionSkinEventTest >> testSelectedSkinEventCountAfterRemove [
 	listElement dataAccessor add: self statesOfAmerica first.
 	listElement dataAccessor add: self statesOfAmerica second.
 	listElement selecter selectIndex: 2.
-	listElement innerElement forceLayout.
 	self waitTestingSpaces.
 	space applyAllSkinPhases.
 
@@ -81,8 +80,6 @@ ToListElementSelectionSkinEventTest >> testSelectedSkinEventCountAfterRemove [
 	selectionCounts := IdentityDictionary new.
 
 	listElement dataAccessor removeAt: 1.
-	listElement innerElement forceLayout.
-	listElement forceLayout.
 	space applyAllSkinPhases.
 	self waitTestingSpaces.
 
@@ -91,16 +88,14 @@ ToListElementSelectionSkinEventTest >> testSelectedSkinEventCountAfterRemove [
 
 	" the second node is selected then the first node is removed 
 	-> the first node become selected but without selection changed event dispatching because of a shift selection command (the second nodeContainer is shift at the position 1)"
-	self assert: (selectionCounts includesKey: 2) not.
-	self assert: (selectionCounts includesKey: 1) not.
-	
+	self deny: (selectionCounts includesKey: 2).
+	self deny: (selectionCounts includesKey: 1).
 	self assert: receivedSelectedEvents size equals: 0.
 	self assert: receivedDeselectedEvents size equals: 0.
+	
 	self assert: listElement selectionMode selectionContainer children size equals: 1.
 	self assert: listElement selectionMode selectionContainer children first nodeContainers size equals: 1.
-	self assert: listElement selectionMode selectionContainer children first nodeContainers first holder position equals: 1.
-
-	
+	self assert: listElement selectionMode selectionContainer children first nodeContainers first holder position equals: 1. 
 ]
 
 { #category : #'test selection - skin' }

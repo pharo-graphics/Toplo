@@ -5,14 +5,6 @@ Class {
 }
 
 { #category : #accessing }
-ToWrappedListElementSieve >> filter: aValuable [
-	" filter takes a wrapped data and a pattern as argument "
-
-	super filter: [ :item :pattern |
-		aValuable value: item unwrappedDataItem value: pattern ]
-]
-
-{ #category : #accessing }
 ToWrappedListElementSieve >> pattern: aPattern [
 
 	" simple collapse all roots because by default, 

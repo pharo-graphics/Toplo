@@ -680,9 +680,8 @@ ToBasicListElement >> requestUpdateSecondarySelection [
 { #category : #'selection updating' }
 ToBasicListElement >> requestUpdateSelectionMode: aMode [
 
-	self
-		inUIProcessDo: [ aMode updateSelectionIn: self ]
-		elseDo: [ aMode dirty: true ]
+	aMode dirty: true.
+	self requestLayout
 ]
 
 { #category : #'fake container' }

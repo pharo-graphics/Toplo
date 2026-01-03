@@ -4273,7 +4273,7 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 	listElement margin: (BlInsets all: 2).
 	listElement withRowNumbers.
 
-	sieve := listElement newSieve.
+	sieve := listElement dataAccessor newSieve.
 	listElement dataAccessor addAll: data.
 	filterField := sieve newTextField.
 
@@ -4314,7 +4314,7 @@ ToSandBox class >> example_SieveOnList2With_175000_Items [
 
 	listElement margin: (BlInsets all: 2).
 	listElement withRowNumbers.
-	sieve := listElement newSieve.
+	sieve := listElement dataAccessor newSieve.
 	listElement dataAccessor addAll: data.
 	filterField := sieve newTextField.
 
@@ -4346,7 +4346,7 @@ ToSandBox class >> example_SieveOnList2With_AllClassNames [
 	listElement dataAccessor addAll:
 		(Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
 
-	sieve := listElement newSieve.
+	sieve := listElement dataAccessor newSieve.
 
 	filterField := sieve newTextField.
 	filterField placeholderString: 'Method name filter'.
@@ -4374,7 +4374,7 @@ ToSandBox class >> example_SieveOnList2With_AllMethods [
 	listElement := ToListElement new.
 	data := SystemNavigation default allMethods.
 	listElement withRowNumbers.
-	sieve := listElement newSieve.
+	sieve := listElement dataAccessor newSieve.
 	filterField := sieve newTextField.
 	filterField placeholderString: 'Method name filter'.
 	listElement dataAccessor addAll: data.
@@ -4414,7 +4414,7 @@ ToSandBox class >> example_SieveOnList2With_AllMethods_OnCR [
 	data := SystemNavigation default allMethods.
 	listElement withRowNumbers.
 
-	sieve := listElement newSieve.
+	sieve := listElement dataAccessor newSieve.
 	filterField := sieve newTextField.
 	listElement dataAccessor addAll: data.
 
@@ -4480,7 +4480,7 @@ ToSandBox class >> example_SieveOnTree [
 											 (target dataSource at: idx) collapse ] ] ];
 					 yourself) ].
 	treeElement withRowNumbers.
-	sieve := treeElement newSieve.
+	sieve := treeElement dataAccessor newSieve.
 	filterField := sieve newTextField.
 	filterField placeholderString: 'Method name filter'.
 	treeElement dataAccessor addAll:
@@ -4513,7 +4513,7 @@ ToSandBox class >> example_SieveOnTreeWithClasses [
 	treeElement childrenGetter: [ :dataItem | dataItem subclasses ].
 	data := SystemNavigation default allMethods.
 	treeElement withRowNumbers.
-	sieve := treeElement newSieve.
+	sieve := treeElement dataAccessor newSieve.
 	filterField := sieve newTextField.
 	filterField placeholderString: 'Class name filter'.
 	treeElement dataAccessor addAll:

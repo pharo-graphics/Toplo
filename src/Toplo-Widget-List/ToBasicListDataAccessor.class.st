@@ -21,8 +21,22 @@ ToBasicListDataAccessor >> listElement: aListElement [
 	listElement := aListElement 
 ]
 
+{ #category : #'instance creation' }
+ToBasicListDataAccessor >> newSieve [
+
+	^ self sieveClass new
+		  onInstalledIn: listElement ;
+		  yourself
+]
+
 { #category : #'api - hooks' }
 ToBasicListDataAccessor >> onInstalledInListElement: aListElement [
 
 	self listElement: aListElement 
+]
+
+{ #category : #'instance creation' }
+ToBasicListDataAccessor >> sieveClass [
+
+	^ ToListElementSieve
 ]

@@ -46,7 +46,7 @@ ToListElementSieve >> filter: aValuable [
 	" filter takes a data and a pattern as argument "
 
 	filterApplier filter: [ :item :pattern |
-		aValuable value: item value: pattern ]
+		aValuable value: item unwrappedDataItem value: pattern ]
 ]
 
 { #category : #initialization }

@@ -161,7 +161,7 @@ ToExMiniBrowser >> newPackagePane [
 	packages placeholderBuilder: [ :placeholder :e |
 		placeholder empty labelText: 'No package ' ].
 
-	pkgSieve := packages newSieve.
+	pkgSieve := packages dataAccessor newSieve.
 	" the package selection is lost in case of a new filter "
 	pkgSieve
 		addEventHandlerOn: ToSievePatternChangedEvent

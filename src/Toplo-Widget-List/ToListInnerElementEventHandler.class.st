@@ -22,7 +22,9 @@ ToListInnerElementEventHandler >> elementPositionChangedEvent: anEvent [
 { #category : #'infinite event handling' }
 ToListInnerElementEventHandler >> elementScrolledEvent: anEvent [
 
-	anEvent delta = (0 @ 0) ifTrue: [ ^ self ].
+	anEvent delta = (0 @ 0) ifTrue: [
+			anEvent consume.
+			^ self ].
 	anEvent currentTarget listElement dispatchEvent: anEvent copy
 ]
 

@@ -336,6 +336,14 @@ ToBasicListElement >> flagAsDisabled: aBoolean [
 	super flagAsDisabled: aBoolean
 ]
 
+{ #category : #'selection updating' }
+ToBasicListElement >> forceUpdateAllSelectionsNow [
+
+	self selectionModes do: [ :mode |
+			mode requestNewRepresentation.
+			mode updateSelectionIn: self ]
+]
+
 { #category : #'accessing selecters' }
 ToBasicListElement >> hiddenAtPosition: anInteger [
 
@@ -473,14 +481,6 @@ ToBasicListElement >> newHiddenSelectionMode [
 ToBasicListElement >> newRawSkin [ 
 
 	^ ToBasicListElementSkin new
-]
-
-{ #category : #'instance creation' }
-ToBasicListElement >> newSieve [
-
-	^ self sieveClass new
-		  onInstalledIn: self;
-		  yourself
 ]
 
 { #category : #configuration }
@@ -635,14 +635,6 @@ ToBasicListElement >> removeSelectionMode: aSelectionMode [
 		at: aSelectionMode selectionChangedEventClass
 		ifAbsent: [ Error signal: 'Selection mode not found' ].
 	selectionModeMap removeKey: aSelectionMode selectionChangedEventClass
-]
-
-{ #category : #'selection updating' }
-ToBasicListElement >> requestForceUpdateAllSelections [
-
-	self selectionModes do: [ :mode |
-			mode requestNewRepresentation.
-			self requestUpdateSelectionMode: mode ]
 ]
 
 { #category : #layout }

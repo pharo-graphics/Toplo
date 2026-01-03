@@ -15,9 +15,3 @@ ToBasicWrappedListElement >> defaultNodeManagerClass [
 
 	^ ToWrappedListNodeManager
 ]
-
-{ #category : #'instance creation' }
-ToBasicWrappedListElement >> sieveClass [
-
-	^ ToWrappedListElementSieve
-]

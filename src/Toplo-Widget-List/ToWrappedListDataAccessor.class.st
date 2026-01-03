@@ -30,6 +30,19 @@ ToWrappedListDataAccessor >> initialize [
 	eventDispatcher := BlDirectEventDispatcher on: self
 ]
 
+{ #category : #'instance creation' }
+ToWrappedListDataAccessor >> newSieve [
+
+	| sieve |
+	sieve := super newSieve.
+	" simply collapse all roots when the pattern changes because for now, 
+	this implementation don't manage a filter result with expanded nodes "
+	sieve
+		addEventHandlerOn: ToSievePatternChangedEvent
+		do: [ listElement dataSource roots reverseDo: [ :w | w collapse ] ].
+	^ sieve
+]
+
 { #category : #'t - data source wrapper - accessing dataSource' }
 ToWrappedListDataAccessor >> newWrapperForDataItem: anObject [
 

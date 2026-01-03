@@ -198,10 +198,8 @@ ToListElementSieve >> pattern [
 { #category : #accessing }
 ToListElementSieve >> pattern: aPattern [
 
-	filterApplier pattern: aPattern.
-	self dispatchEvent: (ToSievePatternChangedEvent new
-			 sieve: self;
-			 yourself)
+	self dispatchEvent: ToSievePatternChangedEvent new.
+	filterApplier pattern: aPattern
 ]
 
 { #category : #'selection updating' }

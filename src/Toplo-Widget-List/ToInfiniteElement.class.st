@@ -135,6 +135,12 @@ ToInfiniteElement >> findElementHolderForDataSourcePosition: aPosition [
 	^ super findElementHolderForDataSourcePosition: aPosition
 ]
 
+{ #category : #'accessing - decoration' }
+ToInfiniteElement >> haveDecoration: aDecorationClass [
+
+	^ self itemDecorations anySatisfy: [ :d | d isKindOf: aDecorationClass ]
+]
+
 { #category : #'view - configuration' }
 ToInfiniteElement >> haveRowNumbers [
 

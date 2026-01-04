@@ -135,6 +135,12 @@ ToInfiniteElement >> findElementHolderForDataSourcePosition: aPosition [
 	^ super findElementHolderForDataSourcePosition: aPosition
 ]
 
+{ #category : #'view - configuration' }
+ToInfiniteElement >> haveRowNumbers [
+
+	^ self haveDecoration: BlRowNumberDecoration
+]
+
 { #category : #initialization }
 ToInfiniteElement >> initialize [
 

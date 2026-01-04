@@ -25,7 +25,7 @@ ToMultiSelectElement >> addGroup: anObject withData: aCollection [
 ToMultiSelectElement >> applyConfiguration [
 
 	super applyConfiguration.
-	self innerElement innerElement toConfiguration isFlowable: isFlowable.
+	self innerElement innerConfiguration isFlowable: isFlowable.
 	self innerElement keepPickOrder: keepPickOrder.
 	self endContainer maxSelectedCount: maxSelectedCount.
 	self innerElement maxSelectedCount: maxSelectedCount
@@ -34,7 +34,7 @@ ToMultiSelectElement >> applyConfiguration [
 { #category : #accessing }
 ToMultiSelectElement >> autoDistribute: aBoolean [
 
-	self innerElement autoDistribute: aBoolean
+	self innerElement innerConfiguration autoDistribute: aBoolean
 ]
 
 { #category : #accessing }

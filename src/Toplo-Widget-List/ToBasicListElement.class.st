@@ -303,10 +303,6 @@ ToBasicListElement >> enabledAtPosition: anInteger [
 	self disabledSelecter deselectIndex: anInteger
 ]
 
-{ #category : #layout }
-ToBasicListElement >> extentChanged [
-]
-
 { #category : #'fake container' }
 ToBasicListElement >> fakeDataItem [
 

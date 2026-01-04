@@ -3889,7 +3889,7 @@ ToSandBox class >> example_SelectMultiFiltrable [
 
 	| select innerWindow tagBuilder |
 	select := ToMultiSelectElement new.
-select inspect.
+
 	select filtrable: true.
 	select isFlowable: false.
 	select isScrollable: false.

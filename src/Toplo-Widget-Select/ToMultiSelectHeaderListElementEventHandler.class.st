@@ -4,6 +4,13 @@ Class {
 	#category : #'Toplo-Widget-Select-Multi'
 }
 
+{ #category : #'element events handling' }
+ToMultiSelectHeaderListElementEventHandler >> elementExtentChangedEvent: anEvent [
+
+	super elementExtentChangedEvent: anEvent.
+	anEvent currentTarget updateFromPopupListSelection
+]
+
 { #category : #'api - accessing' }
 ToMultiSelectHeaderListElementEventHandler >> eventsToHandle [
 

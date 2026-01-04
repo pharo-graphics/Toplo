@@ -129,7 +129,6 @@ ToSelectElement >> initialize [
 	self addEventHandler: windowManager.
 	self ensureMiddleContainer.
 	self ensureEndContainer.
-				
 	self addEventHandler: self defaultEventHandler.
 
 	" a select is made to be horizontal. the following constraints 
@@ -193,6 +192,12 @@ ToSelectElement >> newMiddleContainer [
 		c vertical fitContent ].
 	container id: #innerElement.
 	^ container
+]
+
+{ #category : #'instance creation' }
+ToSelectElement >> newPopupWindowManager [
+
+	^ self subclassResponsibility 
 ]
 
 { #category : #skin }

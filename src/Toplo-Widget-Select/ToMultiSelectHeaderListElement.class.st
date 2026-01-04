@@ -23,6 +23,12 @@ ToMultiSelectHeaderListElement class >> onSelectElement: aSelectElement [
 		  initialize
 ]
 
+{ #category : #'t - select inner container' }
+ToMultiSelectHeaderListElement >> addFilterTextField: aFilterTextField [
+
+	^ self addChild: aFilterTextField after: self innerElement
+]
+
 { #category : #'accessing - selection' }
 ToMultiSelectHeaderListElement >> allowSelectedCount: aNumber [
 
@@ -92,13 +98,6 @@ ToMultiSelectHeaderListElement >> defaultNodeManagerClass [
 ToMultiSelectHeaderListElement >> defaultUseInfiniteLayout [ 
 
 	^ false
-]
-
-{ #category : #layout }
-ToMultiSelectHeaderListElement >> extentChanged [
-
-	super extentChanged.
-	self updateFromPopupListSelection
 ]
 
 { #category : #'t - select inner container' }

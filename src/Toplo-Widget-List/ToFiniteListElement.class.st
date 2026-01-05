@@ -156,6 +156,7 @@ ToFiniteListElement >> findElementHolderForDataSourcePosition: aPosition [
 ToFiniteListElement >> initialize [
 
 	super initialize.
+	
 	self elevation: (BlRelativeElevation elevation: 10).
 	self initializeDataSource.
 	self addEventHandler: ToFiniteListElementEventHandler new.
@@ -323,7 +324,7 @@ ToFiniteListElement >> onItemsChanged [
 ToFiniteListElement >> onLayoutDone [ 
 
 	super onLayoutDone.
-	self 	consumeFinalStepCommands.
+	self dataSourceManager consumeCommandsIn: self.
 ]
 
 { #category : #initialization }

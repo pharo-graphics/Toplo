@@ -17,7 +17,8 @@ ToFiniteListDataSourceObserver class >> on: anInnerLinearBarElement [
 { #category : #'event handling' }
 ToFiniteListDataSourceObserver >> infiniteDataSourceChanged: anEvent [
 
-	innerListElement dataSourceManager onItemsChanged
+	innerListElement dataSourceManager hasPendingCommands ifFalse: [
+		innerListElement onItemsChanged ]
 ]
 
 { #category : #'event handling' }
@@ -25,7 +26,8 @@ ToFiniteListDataSourceObserver >> infiniteDataSourceItemRangeChanged: anEvent [
 
 	innerListElement dataSourceManager
 		onItemRangeChanged: anEvent position
-		itemCount: anEvent itemCount
+		itemCount: anEvent itemCount.
+	innerListElement requestLayout
 ]
 
 { #category : #'event handling' }
@@ -46,9 +48,7 @@ ToFiniteListDataSourceObserver >> infiniteDataSourceItemRangeInserted: anEvent [
 	innerListElement dataSourceManager
 		onItemRangeInserted: anEvent position
 		itemCount: anEvent itemCount.
-	innerListElement listElement selecter
-		shiftSelection: anEvent itemCount
-		from: anEvent position
+	innerListElement requestLayout
 ]
 
 { #category : #'event handling' }
@@ -57,16 +57,8 @@ ToFiniteListDataSourceObserver >> infiniteDataSourceItemRangeRemoved: anEvent [
 	innerListElement dataSourceManager
 		onItemRangeRemoved: anEvent position
 		itemCount: anEvent itemCount.
-	" update the secondary selection because it can be on the removed nodes "
-	innerListElement listElement secondarySelecter
-		deselectIndex: anEvent position
-		to: anEvent position + anEvent itemCount - 1.
-	innerListElement listElement selecter
-		shiftSelection: anEvent itemCount negated
-		from: anEvent position.
-	"innerBarElement spaceDo: [ :sp |
-		sp enqueueTask:
-			(BlTaskAction new action: [ sp mouseProcessor handleLastMouseMove ]) ]"
+	innerListElement requestLayout
+
 ]
 
 { #category : #'event handling' }

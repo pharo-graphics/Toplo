@@ -4,10 +4,22 @@ Class {
 	#traits : 'TToPostponedCommandManager',
 	#classTraits : 'TToPostponedCommandManager classTrait',
 	#instVars : [
-		'innerListElement'
+		'pendingCommands'
 	],
 	#category : #'Toplo-Widget-List-InnerList-Finite'
 }
+
+{ #category : #'commands processing' }
+ToFiniteListDataSourceManager >> consumeCommandsIn: aFiniteElement [
+
+	[ pendingCommands isEmpty ] whileFalse: [
+		| cmd |
+		cmd := pendingCommands removeFirst.
+		self dispatchCommand: cmd to: aFiniteElement.
+		self onCommandProcessed: cmd in: aFiniteElement.
+		self recycleCommand: cmd ].
+	self consumeFinalStepCommandsIn: aFiniteElement
+]
 
 { #category : #'commands processing' }
 ToFiniteListDataSourceManager >> dispatchCommand: aCommand to: anInfiniteElement [
@@ -18,10 +30,25 @@ ToFiniteListDataSourceManager >> dispatchCommand: aCommand to: anInfiniteElement
 	aCommand dispatchToLayout: anInfiniteElement layout
 ]
 
+{ #category : #testing }
+ToFiniteListDataSourceManager >> hasPendingCommands [
+	"Return true if there are pending commands,
+	false otherwise"
+
+	^ pendingCommands isNotEmpty
+]
+
+{ #category : #initialization }
+ToFiniteListDataSourceManager >> initialize [
+	super initialize.
+	
+	pendingCommands := OrderedCollection new
+]
+
 { #category : #accessing }
 ToFiniteListDataSourceManager >> innerListElement: anInnerBarElement [
 
-	innerListElement := anInnerBarElement
+	
 ]
 
 { #category : #'commands processing' }
@@ -33,25 +60,73 @@ ToFiniteListDataSourceManager >> onCommandProcessed: aCommand in: anInfiniteElem
 { #category : #'data source updates' }
 ToFiniteListDataSourceManager >> onItemRangeChanged: aPositionStart itemCount: anItemCount [
 
-	innerListElement onItemRangeChanged: aPositionStart itemCount: anItemCount
+	"Enqueues a new update pending command.
+	I am a part of public API and should be triggered by data source (directly or indirectly)
+	when items are changed/updated (item's value, content, or value was replaced in-place).
+	Return true if pending commands need to be processed, otherwise false."
+
+	"If no items where updated we do nothing"
+	"innerListElement onItemRangeChanged: aPositionStart itemCount: anItemCount"
+
+	anItemCount < 1 ifTrue: [ ^ false ].
+
+	"Register update command"
+	pendingCommands add: (BlInfiniteDataSourceUpdateCommand new
+			 positionStart: aPositionStart;
+			 itemCount: anItemCount;
+			 yourself).
+
+	^ pendingCommands notEmpty
+
+	
 ]
 
 { #category : #'data source updates' }
 ToFiniteListDataSourceManager >> onItemRangeInserted: aPositionStart itemCount: anItemCount [
 
-	innerListElement onItemRangeInserted: aPositionStart itemCount: anItemCount
+	"innerListElement onItemRangeInserted: aPositionStart itemCount: anItemCount.
+	innerListElement listElement selecter
+		shiftSelection: anItemCount
+		from: aPositionStart"
+		
+	"Return true if pending commands should be processed,
+	otherwise false"
+
+	"If no items where updated we do nothing"
+
+	anItemCount < 1
+		ifTrue: [ ^ false ].
+	"Register add command"
+	pendingCommands add: (BlInfiniteDataSourceAddCommand new
+			positionStart: aPositionStart;
+			itemCount: anItemCount).
+
+	^ pendingCommands notEmpty
 ]
 
 { #category : #'data source updates' }
 ToFiniteListDataSourceManager >> onItemRangeRemoved: aPositionStart itemCount: anItemCount [
 
-	innerListElement onItemRangeRemoved: aPositionStart itemCount: anItemCount
-]
+	"innerListElement onItemRangeRemoved: aPositionStart itemCount: anItemCount.
+	"" update the secondary selection because it can be on the removed nodes ""
+	innerListElement listElement secondarySelecter
+		deselectIndex: aPositionStart
+		to: aPositionStart + anItemCount - 1.
+	innerListElement listElement selecter
+		shiftSelection: anItemCount negated
+		from: aPositionStart"
+	"If no items where updated we do nothing"
 
-{ #category : #'data source updates' }
-ToFiniteListDataSourceManager >> onItemsChanged [
+	anItemCount < 1
+		ifTrue: [ ^ false ].
 
-	innerListElement onItemsChanged
+	"Register remove command"
+	pendingCommands add: (BlInfiniteDataSourceRemoveCommand new
+		positionStart: aPositionStart;
+		itemCount: anItemCount;
+		yourself).
+		
+	^ pendingCommands notEmpty
 ]
 
 { #category : #'data source updates' }

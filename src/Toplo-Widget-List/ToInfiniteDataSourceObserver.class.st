@@ -11,6 +11,7 @@ ToInfiniteDataSourceObserver >> infiniteDataSourceChanged: anEvent [
 	super infiniteDataSourceChanged: anEvent.
 	listElement := infiniteElement listElement.
 	listElement requestUpdateAllSelections
+
 ]
 
 { #category : #'event handling' }

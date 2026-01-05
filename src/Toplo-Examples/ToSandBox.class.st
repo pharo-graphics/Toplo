@@ -6056,7 +6056,7 @@ ToSandBox class >> example_emptyDiff [
 { #category : #'finite list' }
 ToSandBox class >> example_finiteList [
 
-	self finiteListWithData: ToSandBox statesOfAmerica. "copyFrom: 1 to: 20"
+	self finiteListWithData: ToSandBox statesOfAmerica
 
 ]
 

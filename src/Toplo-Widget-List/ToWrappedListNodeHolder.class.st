@@ -42,6 +42,12 @@ ToWrappedListNodeHolder >> fakeDataItem: aDataItem [
 ]
 
 { #category : #accessing }
+ToWrappedListNodeHolder >> nodeDepth [
+
+	^ dataWrapper nodeDepth
+]
+
+{ #category : #accessing }
 ToWrappedListNodeHolder >> unwrappedDataItemFrom: aDataItem [
 
 	^ aDataItem unwrappedDataItem 

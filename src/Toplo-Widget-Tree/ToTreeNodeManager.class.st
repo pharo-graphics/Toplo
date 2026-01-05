@@ -29,9 +29,3 @@ ToTreeNodeManager >> defaultNodeFactory [
 
 	^ [ :holder | ToTreeNode new ]
 ]
-
-{ #category : #initialization }
-ToTreeNodeManager >> defaultNodeHolderFactory [ 
-
-	^ [ ToTreeNodeHolder new ]
-]

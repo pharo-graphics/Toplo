@@ -23,7 +23,7 @@ ToListNodeManagerForTest2 >> defaultNodeFactory [
 ToListNodeManagerForTest2 >> defaultNodeHolderFactory [
 
 	^ [
-		  ToListNodeHolderForTest2 new
+		  ToListNodeHolderForTest new
 			  num: self nextCount;
 			  yourself ]
 ]

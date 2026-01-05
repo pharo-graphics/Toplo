@@ -11,14 +11,6 @@ ToSingleSelectPopupListElement >> defaultEventHandler [
 ]
 
 { #category : #initialization }
-ToSingleSelectPopupListElement >> defaultNodeManager [
-
-	^ self defaultNodeManagerClass new
-		  nodeHolderFactory: [ ToSelectPopupListNodeHolder new ];
-		  yourself
-]
-
-{ #category : #initialization }
 ToSingleSelectPopupListElement >> listNodeClass [
 
 	^ ToSelectPopupListNode

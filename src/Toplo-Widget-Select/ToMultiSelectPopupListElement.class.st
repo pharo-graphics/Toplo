@@ -19,14 +19,6 @@ ToMultiSelectPopupListElement >> defaultEventHandler [
 	^ ToMultiSelectPopupListElementEventHandler new
 ]
 
-{ #category : #initialization }
-ToMultiSelectPopupListElement >> defaultNodeManager [
-
-	^ self defaultNodeManagerClass new
-		  nodeHolderFactory: [ ToMultiSelectPopupListNodeHolder new ];
-		  yourself
-]
-
 { #category : #'accessing - selection' }
 ToMultiSelectPopupListElement >> hideSelection [
 	" Hiding is implemented with the list hidden selection model.

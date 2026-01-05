@@ -185,6 +185,12 @@ ToMultiSelectHeaderListElement >> maxSelectedCount: aNumber [
 	maxSelectedCount := aNumber
 ]
 
+{ #category : #skin }
+ToMultiSelectHeaderListElement >> newRawSkin [ 
+
+	^ ToMultiSelectHeaderListElementSkin new
+]
+
 { #category : #'hooks - layout' }
 ToMultiSelectHeaderListElement >> onLayoutDone [ 
 

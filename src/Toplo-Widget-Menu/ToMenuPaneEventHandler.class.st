@@ -23,7 +23,7 @@ ToMenuPaneEventHandler >> layoutResizerChangedEvent: anEvent [
 { #category : #'event handling' }
 ToMenuPaneEventHandler >> mouseLeaveEvent: anEvent [
 
-	anEvent currentTarget itemBar secondarySelecter deselectAll
+	anEvent currentTarget itemList secondarySelecter deselectAll
 ]
 
 { #category : #'event handling' }

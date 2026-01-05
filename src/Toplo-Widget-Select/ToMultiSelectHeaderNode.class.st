@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMultiSelectHeaderNode,
 	#superclass : #ToTagElement,
-	#traits : 'TToListNode + TToFiniteListNode',
-	#classTraits : 'TToListNode classTrait + TToFiniteListNode classTrait',
+	#traits : 'TToListNode',
+	#classTraits : 'TToListNode classTrait',
 	#category : #'Toplo-Widget-Select-Multi'
 }
 
@@ -10,8 +10,10 @@ Class {
 ToMultiSelectHeaderNode >> applyConfiguration [
 
 	super applyConfiguration.
-	self holderDo: [ :h |
-		h listElement autoDistribute ifTrue: [ self hMatchParent ] ]
+	self listHolderDo: [ :h |
+			h listElement innerConfiguration autoDistribute
+				ifTrue: [ self hMatchParent ]
+				ifFalse: [ self hFitContent ] ]
 ]
 
 { #category : #initialization }
@@ -19,8 +21,7 @@ ToMultiSelectHeaderNode >> initialize [
 
 	super initialize.
 	self constraintsDo: [ :c | c linear vertical alignCenter ].
-
-	self initializeAsBarNode 
+	self initializeAsListNode 
 ]
 
 { #category : #skin }

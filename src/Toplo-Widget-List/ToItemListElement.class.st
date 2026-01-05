@@ -1,8 +1,8 @@
 Class {
 	#name : #ToItemListElement,
-	#superclass : #ToAbstractListElement,
-	#traits : 'TToItemListElement + TToListElementWithDecoration',
-	#classTraits : 'TToItemListElement classTrait + TToListElementWithDecoration classTrait',
+	#superclass : #ToBasicListElement,
+	#traits : 'TToItemListElement',
+	#classTraits : 'TToItemListElement classTrait',
 	#category : #'Toplo-Widget-List-ItemList'
 }
 
@@ -13,7 +13,13 @@ ToItemListElement >> applyConfiguration [
 	self applyItemListConfiguration
 ]
 
-{ #category : #'t - item list - accessing' }
+{ #category : #'t - finite list element - fake container' }
+ToItemListElement >> defaultFakeDataItem [
+
+	^ ToListItem new
+]
+
+{ #category : #initialization }
 ToItemListElement >> defaultNodeManagerClass [
 
 	^ ToItemListNodeManager
@@ -24,4 +30,10 @@ ToItemListElement >> initialize [
 
 	super initialize.
 	self initializeAsItemListElement 
+]
+
+{ #category : #skin }
+ToItemListElement >> newRawSkin [ 
+
+	^ ToItemListElementSkin new
 ]

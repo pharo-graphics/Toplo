@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'sieve'
 	],
-	#category : #'Toplo-Widget-List-InnerInfinite'
+	#category : #'Toplo-Widget-List-InnerInfiniteList'
 }
 
 { #category : #'instance creation' }

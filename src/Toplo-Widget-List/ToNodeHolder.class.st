@@ -95,6 +95,12 @@ ToNodeHolder >> disabled: aBoolean [
 		self isEnabled ifFalse: [ selecter deselectIndex: self position ] ]
 ]
 
+{ #category : #accessing }
+ToNodeHolder >> fakeDataItem: aData [ 
+
+	self dataItem: aData
+]
+
 { #category : #initialization }
 ToNodeHolder >> initialize [ 
 
@@ -105,7 +111,7 @@ ToNodeHolder >> initialize [
 ]
 
 { #category : #accessing }
-ToNodeHolder >> initializeNode [
+ToNodeHolder >> initializeNodeSelections [
 
 	notifiedSelected := false.
 	self node disabled: self isDisabled.
@@ -247,7 +253,7 @@ ToNodeHolder >> release [
 ]
 
 { #category : #removing }
-ToNodeHolder >> removeNodeFromBar [
+ToNodeHolder >> removeNodeFromList [
 
 	self dataSource removeAt: self position
 ]

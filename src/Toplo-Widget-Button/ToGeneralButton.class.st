@@ -1,8 +1,8 @@
 Class {
 	#name : #ToGeneralButton,
 	#superclass : #ToElement,
-	#traits : 'TToItem + TToClickable',
-	#classTraits : 'TToItem classTrait + TToClickable classTrait',
+	#traits : 'TToListItem + TToClickable',
+	#classTraits : 'TToListItem classTrait + TToClickable classTrait',
 	#instVars : [
 		'takeFocusOnClick'
 	],
@@ -10,9 +10,15 @@ Class {
 }
 
 { #category : #configuration }
-ToGeneralButton >> applyConfiguration [ 
+ToGeneralButton >> applyConfiguration [
 
 	super applyConfiguration.
+	self isHExact ifFalse: [
+			self listHolderDo: [ :h |
+					h listElement isHorizontal
+						ifTrue: [ self hFitContent ]
+						ifFalse: [ self hMatchParent ] ] ].
+	self isVExact ifFalse: [ self vFitContent ].
 ]
 
 { #category : #initialization }

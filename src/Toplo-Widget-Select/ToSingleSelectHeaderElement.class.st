@@ -24,6 +24,12 @@ ToSingleSelectHeaderElement class >> onSelectElement: aSelectElement [
 		  initialize
 ]
 
+{ #category : #'t - select inner container' }
+ToSingleSelectHeaderElement >> addFilterTextField: aFilterTextField [
+
+	self addChild: aFilterTextField
+]
+
 { #category : #accessing }
 ToSingleSelectHeaderElement >> dataView [
 	" return the element containing the selection result "

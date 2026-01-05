@@ -1,8 +1,8 @@
 Class {
 	#name : #ToTabGroupElement,
 	#superclass : #ToTripletContainer,
-	#traits : 'TToItemFiniteListContainer',
-	#classTraits : 'TToItemFiniteListContainer classTrait',
+	#traits : 'TToItemListUser',
+	#classTraits : 'TToItemListUser classTrait',
 	#instVars : [
 		'invisibleNodesMenu',
 		'endExtraContainer',
@@ -22,10 +22,10 @@ Class {
 { #category : #adding }
 ToTabGroupElement >> addNewTabItem [
 
-	self itemBar
+	self itemList
 		addEventHandlerOn: ToListNodeAddedEvent
 		doOnce: [ :event |
-			self itemBar whenLayoutedDoOnce: [ event node item checked: true ] ].
+			self itemList whenLayoutedDoOnce: [ event node item checked: true ] ].
 	self addTabItemData: 'New Tab'
 ]
 
@@ -37,8 +37,15 @@ ToTabGroupElement >> addTabItemData: aData [
 	" add the new item before building it to allow the builder to use the item holder "
 	self addItem: newTabItem.
 	itemBuilder cull: newTabItem cull: aData cull: self.
-	newTabItem holder node requestConfiguration
+	self itemList postponeAction: [ newTabItem holder node requestConfiguration ]
 
+]
+
+{ #category : #configuration }
+ToTabGroupElement >> applyConfiguration [ 
+
+	super applyConfiguration.
+	self itemList applyConfiguration
 ]
 
 { #category : #accessing }
@@ -53,12 +60,6 @@ ToTabGroupElement >> atStartSide: aBoolean [
 	self atStartSide = aBoolean ifTrue: [ ^ self ].
 	self toConfiguration atStartSide: aBoolean.
 	self requestConfiguration
-]
-
-{ #category : #initialization }
-ToTabGroupElement >> barElementClass [
-
-	^ ToTabFiniteListElement 
 ]
 
 { #category : #configuration }
@@ -126,13 +127,13 @@ ToTabGroupElement >> endExtraBuilder: aValuable [
 { #category : #'focus requesting' }
 ToTabGroupElement >> focusHolder [
 
-	^ self itemBar
+	^ self itemList
 ]
 
 { #category : #accessing }
 ToTabGroupElement >> group [
 
-	^ self itemBar group
+	^ self itemList group
 ]
 
 { #category : #accessing }
@@ -148,9 +149,9 @@ ToTabGroupElement >> initialize [
 	self resetInvisibleNodeContainers.
 	self createMiddleContainer.
 	self initializeParts.
-	self setItemBar: self middleContainer.
-	self itemBar addEventHandler:
-		(ToTabFiniteListnGroupElementEventHandler new
+	self setItemList: self middleContainer.
+	self itemList addEventHandler:
+		(ToTabListGroupElementEventHandler new
 			 tabGroup: self;
 			 yourself).
 	self addEventHandler: self defaultEventHandler.
@@ -257,6 +258,12 @@ ToTabGroupElement >> itemBuilder: aValuable [
 	itemBuilder := aValuable
 ]
 
+{ #category : #initialization }
+ToTabGroupElement >> listElementClass [
+
+	^ ToTabListElement 
+]
+
 { #category : #accessing }
 ToTabGroupElement >> menusContainer [
 
@@ -269,16 +276,16 @@ ToTabGroupElement >> newEndContainer [
 	^ self newLinearContainer
 ]
 
-{ #category : #'t - item bar container - initializing' }
-ToTabGroupElement >> newItemBar [
+{ #category : #'t - item list user - initializing' }
+ToTabGroupElement >> newItemList [
 
-	^ self barElementClass new
+	^ self listElementClass new
 ]
 
 { #category : #'t - triplet container - instance creation' }
 ToTabGroupElement >> newMiddleContainer [ 
 
-	^ self newItemBar
+	^ self newItemList
 ]
 
 { #category : #skin }
@@ -299,7 +306,7 @@ ToTabGroupElement >> newToConfiguration [
 	^ ToTabGroupElementConfiguration new
 ]
 
-{ #category : #'t - bar element' }
+{ #category : #'hooks - layout' }
 ToTabGroupElement >> onInvisibleNodeContainers: theInvisibleContainers visibleNodeContainers: theVisibleContainers [
 
 	| startIdx endIdx |
@@ -327,7 +334,7 @@ ToTabGroupElement >> onInvisibleNodeContainers: theInvisibleContainers visibleNo
 		ifTrue: [ self showInvisibleNodesMenu: true ]
 		ifFalse: [ self showInvisibleNodesMenu: false ].
 	hidePartlyVisibleNodes ifTrue: [
-			self itemBar selectionElementsDo: [ :se |
+			self itemList selectionElementsDo: [ :se |
 				se visibility: se node visibility ] ]
 ]
 
@@ -379,7 +386,7 @@ ToTabGroupElement >> startExtraBuilder: aValuable [
 { #category : #accessing }
 ToTabGroupElement >> trackElement [
 
-	^ self itemBar trackElement
+	^ self itemList innerElement trackElement
 ]
 
 { #category : #accessing }
@@ -396,19 +403,19 @@ ToTabGroupElement >> visibleNodes [
 ]
 
 { #category : #'t - checkable group owner' }
+ToTabGroupElement >> withNoneCheckingStrategy [
+
+	self itemList withNoneCheckingStrategy
+]
+
+{ #category : #'t - checkable group owner' }
 ToTabGroupElement >> withStrictCheckingStrategy [
 
-	self itemBar withStrictCheckingStrategy
+	self itemList withStrictCheckingStrategy
 ]
 
 { #category : #'t - checkable group owner' }
 ToTabGroupElement >> withWeakCheckingStrategy [
 
-	self itemBar withWeakCheckingStrategy
-]
-
-{ #category : #'t - checkable group owner' }
-ToTabGroupElement >> withoutCheckingStrategy [
-
-	self itemBar withoutCheckingStrategy
+	self itemList withWeakCheckingStrategy
 ]

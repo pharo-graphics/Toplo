@@ -37,8 +37,7 @@ ToTabPaneHeaderConfiguration >> configureAlignmentIn: anElement [
 			anElement startFlexible: true.
 			anElement endFlexible: true  ].
 
-	self configureTabGroupIn: anElement".
-	anElement alignCenter: true."
+	self configureTabGroupIn: anElement
 ]
 
 { #category : #hook }

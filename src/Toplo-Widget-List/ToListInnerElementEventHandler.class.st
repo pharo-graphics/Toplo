@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'previousDecorationSize'
 	],
-	#category : #'Toplo-Widget-List-InnerInfinite'
+	#category : #'Toplo-Widget-List-InnerInfiniteList'
 }
 
 { #category : #'infinite event handling' }
@@ -16,13 +16,15 @@ ToListInnerElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent 
 { #category : #'infinite event handling' }
 ToListInnerElementEventHandler >> elementPositionChangedEvent: anEvent [
 
-	anEvent currentTarget listElement updateAllSelections
+	anEvent currentTarget listElement requestUpdateAllSelections
 ]
 
 { #category : #'infinite event handling' }
 ToListInnerElementEventHandler >> elementScrolledEvent: anEvent [
 
-	anEvent delta = (0 @ 0) ifTrue: [ ^ self ].
+	anEvent delta = (0 @ 0) ifTrue: [
+			anEvent consume.
+			^ self ].
 	anEvent currentTarget listElement dispatchEvent: anEvent copy
 ]
 

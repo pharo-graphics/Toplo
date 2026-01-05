@@ -1,7 +1,7 @@
 Class {
 	#name : #ToInfiniteDataSourceFilterCommand,
 	#superclass : #BlInfiniteDataSourceCommand,
-	#category : #'Toplo-Widget-List-InnerInfinite'
+	#category : #'Toplo-Widget-List-InnerInfiniteList'
 }
 
 { #category : #commands }

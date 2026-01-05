@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'listElement'
 	],
-	#category : #'Toplo-Widget-List-InnerInfinite'
+	#category : #'Toplo-Widget-List-InnerInfiniteList'
 }
 
 { #category : #'instance creation' }
@@ -28,13 +28,16 @@ ToInfiniteElement >> applyConfiguration [
 
 	super applyConfiguration.
 	self layout beHorizontal: self listElement isHorizontal.
+	
 	self constraintsDo: [ :c |
-			self listElement isHMatchParent
+			listElement isHMatchParent
 				ifTrue: [ c horizontal matchParent ]
 				ifFalse: [ c horizontal fitContent ].
-			self listElement isVMatchParent
+			listElement isVMatchParent
 				ifTrue: [ c vertical matchParent ]
-				ifFalse: [ c vertical fitContent ] ]
+				ifFalse: [ c vertical fitContent ] ].
+
+	self childrenDo: [ :container | container applyConfiguration ]
 ]
 
 { #category : #'private - commands' }
@@ -53,6 +56,10 @@ ToInfiniteElement >> applyDataSourceSieveCommand: aDataSourceCommand [
 ToInfiniteElement >> cleanUpRecyclerAt: anIndex [
 
 	self customRecycler removeNodeAt: anIndex in: self
+]
+
+{ #category : #configuration }
+ToInfiniteElement >> configureNodeContainer: aNodeContainer [
 ]
 
 { #category : #layout }
@@ -118,7 +125,7 @@ ToInfiniteElement >> dispatchLayoutFinalStep [
 	self assert: dataSourceManager hasCommands not.
 	self consumeFinalStepCommands.
 	"If an element bounds change then the selection bounds may be obsolete"
-	self boundsUpdaterHasChanges ifTrue: [ listElement updateAllSelections ].
+	self boundsUpdaterHasChanges ifTrue: [ listElement requestUpdateAllSelections ].
 
 ]
 
@@ -128,11 +135,34 @@ ToInfiniteElement >> findElementHolderForDataSourcePosition: aPosition [
 	^ super findElementHolderForDataSourcePosition: aPosition
 ]
 
+{ #category : #'accessing - decoration' }
+ToInfiniteElement >> haveDecoration: aDecorationClass [
+
+	^ self itemDecorations anySatisfy: [ :d | d isKindOf: aDecorationClass ]
+]
+
+{ #category : #'view - configuration' }
+ToInfiniteElement >> haveRowNumbers [
+
+	^ self haveDecoration: BlRowNumberDecoration
+]
+
 { #category : #initialization }
 ToInfiniteElement >> initialize [
 
 	super initialize.
-	self addEventHandler: ToListInnerElementEventHandler new
+	self addEventHandler: ToListInnerElementEventHandler new.
+	self elevation: (BlRelativeElevation elevation: 10).
+]
+
+{ #category : #initialization }
+ToInfiniteElement >> initializeDataSource [
+
+	super initializeDataSource.
+	self addEventHandlerOn: BlElementRemovedFromParentEvent doOnce: [
+			dataSource onDetached: self.
+			dataSource removeEventHandler: dataSourceObserver.
+			dataSourceManager := nil ]
 ]
 
 { #category : #'t - infinite accessing' }
@@ -151,6 +181,12 @@ ToInfiniteElement >> listElement [
 ToInfiniteElement >> newNodeHolderFromDataSource: aDataSource [
 
 	^ listElement nodeManager newHolder
+]
+
+{ #category : #configuration }
+ToInfiniteElement >> newToConfiguration [ 
+
+	^ ToListInnerElementConfiguration new
 ]
 
 { #category : #'t - list inner element' }
@@ -206,6 +242,14 @@ ToInfiniteElement >> nodeContainingGlobalPosition: aPoint [
 	self nodeContainersDo: [ :container |
 		(container containsGlobalPoint: aPoint) ifTrue: [ ^ container ] ].
 	^ nil
+]
+
+{ #category : #layout }
+ToInfiniteElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
+
+	super onLayout: aBounds context: aBlElementBoundsUpdateContext
+	
+
 ]
 
 { #category : #initialization }
@@ -284,10 +328,26 @@ ToInfiniteElement >> smoothScrollToDataSourcePosition: anIndex [
 	self smoothScrollToPosition: anIndex
 ]
 
+{ #category : #accessing }
+ToInfiniteElement >> trackElement [
+
+	^ self
+]
+
 { #category : #'view - configuration' }
 ToInfiniteElement >> withRowNumbers [
 
 	self withDecoration: ToInfiniteRowNumberDecoration
+]
+
+{ #category : #'view - configuration' }
+ToInfiniteElement >> withRowNumbers: aBoolean [
+
+	aBoolean = self haveRowNumbers ifTrue: [ ^ self ].
+	aBoolean
+		ifTrue: [ self withRowNumbers ]
+		ifFalse: [ self withoutRowNumbers ].
+	listElement requestUpdateAllSelections
 ]
 
 { #category : #'view - configuration' }

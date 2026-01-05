@@ -1,14 +1,8 @@
 Class {
 	#name : #ToInfiniteDataSource,
 	#superclass : #BlInfiniteDataSource,
-	#category : #'Toplo-Widget-List-InnerInfinite'
+	#category : #'Toplo-Widget-List-InnerInfiniteList'
 }
-
-{ #category : #accessing }
-ToInfiniteDataSource >> dataAccessor [
-
-	^ self subclassResponsibility 
-]
 
 { #category : #notifications }
 ToInfiniteDataSource >> notifyChangedAllDataItems: aDataItemArray [

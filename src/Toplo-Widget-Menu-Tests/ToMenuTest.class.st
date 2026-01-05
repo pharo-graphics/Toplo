@@ -26,12 +26,12 @@ ToMenuTest >> testAddItem [
 	m addItem: item.
 	m popupEvent: nil.
 	self waitTestingSpaces.
-	self assert: m menuWindow itemBar nodes size equals: 1.
-	n := m manager currentWindow itemBar nodes first.
+	self assert: m menuWindow itemList nodes size equals: 1.
+	n := m manager currentWindow itemList nodes first.
 	self assert: (n isKindOf: ToMenuItemNode).
 	self assert: (n holder isKindOf: ToItemNodeHolder).
 	self assert: (n holder dataItem isKindOf: ToMenuItem).
-	self assert: item listElement identicalTo: m menuWindow itemBar.
+	self assert: item listElement identicalTo: m menuWindow itemList.
 	self assert: item positionInList equals: 1
 ]
 
@@ -45,10 +45,10 @@ ToMenuTest >> testBuilderDisableItemAfterAdding [
 		item disable ].
 	m popupEvent: nil.
 	self waitTestingSpaces.
-	self assert: m menuWindow itemBar nodes size equals: 1.
-	n := m menuWindow itemBar nodes first.
+	self assert: m menuWindow itemList nodes size equals: 1.
+	n := m menuWindow itemList nodes first.
 	self assert:
-		(m menuWindow itemBar disabledSelectionModel containsIndex:
+		(m menuWindow itemList disabledSelectionModel containsIndex:
 			 item positionInList).
 	self assert: item isDisabled.
 	self assert: n isDisabled
@@ -64,10 +64,10 @@ ToMenuTest >> testBuilderDisableItemBeforeAdding [
 		theMenu addItem: item ].
 	m popupEvent: nil.
 	self waitTestingSpaces.
-	self assert: m menuWindow itemBar nodes size equals: 1.
-	n := m menuWindow itemBar nodes first.
+	self assert: m menuWindow itemList nodes size equals: 1.
+	n := m menuWindow itemList nodes first.
 	self assert:
-		(m menuWindow itemBar disabledSelectionModel containsIndex:
+		(m menuWindow itemList disabledSelectionModel containsIndex:
 			 item positionInList).
 	self assert: item isDisabled.
 	self assert: n isDisabled
@@ -82,10 +82,10 @@ ToMenuTest >> testDisableItemAfterAdding [
 	item disable.
 	m popupEvent: nil.
 	self waitTestingSpaces.
-	self assert: m menuWindow itemBar nodes size equals: 1.
-	n := m menuWindow itemBar nodes first.
+	self assert: m menuWindow itemList nodes size equals: 1.
+	n := m menuWindow itemList nodes first.
 	self assert:
-		(m menuWindow itemBar disabledSelectionModel containsIndex:
+		(m menuWindow itemList disabledSelectionModel containsIndex:
 			 item positionInList).
 	self assert: item isDisabled.
 	self assert: n isDisabled
@@ -100,10 +100,10 @@ ToMenuTest >> testDisableItemBeforeAdding [
 	m addItem: item.
 	m popupEvent: nil.
 	self waitTestingSpaces.
-	self assert: m menuWindow itemBar nodes size equals: 1.
-	n := m menuWindow itemBar nodes first.
+	self assert: m menuWindow itemList nodes size equals: 1.
+	n := m menuWindow itemList nodes first.
 	self assert:
-		(m menuWindow itemBar disabledSelectionModel containsIndex:
+		(m menuWindow itemList disabledSelectionModel containsIndex:
 			 item positionInList).
 	self assert: item isDisabled.
 	self assert: n isDisabled

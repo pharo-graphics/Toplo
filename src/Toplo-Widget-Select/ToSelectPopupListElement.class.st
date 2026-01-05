@@ -7,6 +7,14 @@ Class {
 	#category : #'Toplo-Widget-Select-PopupList'
 }
 
+{ #category : #initialization }
+ToSelectPopupListElement >> defaultNodeManager [
+
+	^ self defaultNodeManagerClass new
+		  nodeHolderFactory: [ ToSelectPopupListNodeHolder new ];
+		  yourself
+]
+
 { #category : #accessing }
 ToSelectPopupListElement >> groupSelecter [
 

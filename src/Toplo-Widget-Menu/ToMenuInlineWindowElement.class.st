@@ -28,7 +28,7 @@ ToMenuInlineWindowElement >> isInline [
 { #category : #testing }
 ToMenuInlineWindowElement >> isScrollable: aBoolean [
 
-	self itemBar isScrollable: aBoolean
+	self itemList isScrollable: aBoolean
 ]
 
 { #category : #'t - menu window model' }
@@ -44,12 +44,6 @@ ToMenuInlineWindowElement >> isTopMenu [
 ]
 
 { #category : #accessing }
-ToMenuInlineWindowElement >> itemBar [
-
-	^ self anchorElement itemBar
-]
-
-{ #category : #accessing }
 ToMenuInlineWindowElement >> itemContainer [
 
 	^ self element
@@ -58,11 +52,7 @@ ToMenuInlineWindowElement >> itemContainer [
 { #category : #accessing }
 ToMenuInlineWindowElement >> itemList [
 
-	self
-		deprecated: 'Use itemBar instead'
-		transformWith: '`@rcvr itemList' -> '`@rcvr itemBar'.
-
-	^ self itemBar
+	^ self anchorElement itemList
 ]
 
 { #category : #accessing }

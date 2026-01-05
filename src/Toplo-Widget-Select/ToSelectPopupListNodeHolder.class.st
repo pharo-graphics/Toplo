@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #testing }
+ToSelectPopupListNodeHolder >> isGroup [
+
+	^ self listElement groupSelectionModel containsIndex: self position
+]
+
+{ #category : #testing }
 ToSelectPopupListNodeHolder >> selectElement [
 
 	^ self listElement selectElement

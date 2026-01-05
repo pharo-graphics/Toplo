@@ -1,7 +1,7 @@
 Class {
 	#name : #ToInfiniteDataSourceObserver,
 	#superclass : #BlInfiniteElementDataSourceObserver,
-	#category : #'Toplo-Widget-List-InnerInfinite'
+	#category : #'Toplo-Widget-List-InnerInfiniteList'
 }
 
 { #category : #'event handling' }
@@ -10,7 +10,7 @@ ToInfiniteDataSourceObserver >> infiniteDataSourceChanged: anEvent [
 	| listElement |
 	super infiniteDataSourceChanged: anEvent.
 	listElement := infiniteElement listElement.
-	listElement postponeAction: [ :l | l updateAllSelections ]
+	listElement requestUpdateAllSelections
 ]
 
 { #category : #'event handling' }
@@ -19,7 +19,7 @@ ToInfiniteDataSourceObserver >> infiniteDataSourceItemRangeChanged: anEvent [
 	| listElement |
 	super infiniteDataSourceItemRangeChanged: anEvent.
 	listElement := infiniteElement listElement.
-	listElement postponeAction: [ :l | l updateAllSelections ]
+	listElement requestUpdateAllSelections
 ]
 
 { #category : #'event handling' }

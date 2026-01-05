@@ -16,7 +16,7 @@ ToTreeTableListElement >> defaultNodeManagerClass [
 ToTreeTableListElement >> initialize [
 
 	super initialize.
-	self addStamp: #geometry withValue: BlRectangleGeometry new.
+	self initializeAsTableListElement 
 ]
 
 { #category : #skin }

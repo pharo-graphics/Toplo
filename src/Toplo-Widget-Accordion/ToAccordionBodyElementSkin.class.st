@@ -1,7 +1,7 @@
 Class {
 	#name : #ToAccordionBodyElementSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Widget-Accordion-Core'
+	#category : #'Toplo-Widget-Accordion'
 }
 
 { #category : #'event handling' }

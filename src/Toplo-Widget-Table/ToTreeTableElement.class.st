@@ -7,11 +7,11 @@ Class {
 { #category : #initialization }
 ToTreeTableElement >> newHeaderElement [
 
-	^ ToTreeTableHeaderElement new
+	^ ToTreeTableHeaderElement parentTable: self
 ]
 
 { #category : #initialization }
 ToTreeTableElement >> newListElement [
 
-	^ ToTreeTableListElement new
+	^ ToTreeTableListElement parentTable: self
 ]

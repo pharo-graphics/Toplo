@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSelectPopupListNode,
-	#superclass : #ToListNode,
+	#superclass : #ToBasicListNode,
 	#category : #'Toplo-Widget-Select-PopupList'
 }
 

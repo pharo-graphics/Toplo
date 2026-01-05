@@ -7,14 +7,7 @@ Trait {
 TToGenericListElement >> nodeBuilder: aValuable [
 	"aValuable takes 3 optional args: first, the node to build, second, the dataItem and third, the holder in the list element "
 
-	self nodeManager nodeBuilder: aValuable
-]
-
-{ #category : #'t - generic list element' }
-TToGenericListElement >> nodeFactory: aValuable [
-	" aValuable that takes a node holder as unique argument and which running results in a new node "
-
-	self nodeManager nodeFactory: aValuable.
+	self nodeManager nodeBuilder: aValuable.
 	self notifyDataSourceChanged
 ]
 

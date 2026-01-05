@@ -118,7 +118,7 @@ ToSelectPopupWindowManager >> onInstalledIn: anElement [
 	self windowBuilder: [ :selectWin :request |
 		selectWin root addChild: self listElement ].
 
-	sieve := listElement newSieve
+	sieve := listElement dataAccessor newSieve
 ]
 
 { #category : #'api - hooks' }

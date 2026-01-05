@@ -68,7 +68,7 @@ ToImportedIconProvider class >> listElementWithAllIcons [
 							          stream nextPutAll:
 								          (iconNames collect: [ :n | n -> style ]) ] ] ].
 
-	styleSieve := l newSieve.
+	styleSieve := l dataAccessor newSieve.
 	styleSieve filter: [ :iconAssoc :aPattern |
 			iconAssoc value prefix
 				includesSubstring: aPattern

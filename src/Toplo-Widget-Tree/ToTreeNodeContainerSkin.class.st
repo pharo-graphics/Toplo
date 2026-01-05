@@ -16,7 +16,8 @@ ToTreeNodeContainerSkin >> installSkinEvent: anEvent [
 			e arrowButton ifNotNil: [ :arrowButton |
 					| wrapper |
 					wrapper := e holder dataWrapper.
-					wrapper hasLeafDataItem
+					"Avoid styling on fake data that can execute code for nothing"
+					(e holder itemElement isFake not and: [ wrapper hasLeafDataItem ])
 						ifTrue: [ arrowButton beNone ]
 						ifFalse: [
 								wrapper isExpanded

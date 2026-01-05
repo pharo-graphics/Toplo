@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'maxMeasuredNodeSize'
 	],
-	#category : #'Toplo-Widget-List-InnerFiniteList'
+	#category : #'Toplo-Widget-List-InnerList-Finite'
 }
 
 { #category : #accessing }

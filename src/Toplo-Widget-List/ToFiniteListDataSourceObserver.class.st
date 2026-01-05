@@ -1,27 +1,27 @@
 Class {
-	#name : #ToInnerFiniteListDataSourceObserver,
+	#name : #ToFiniteListDataSourceObserver,
 	#superclass : #BlInfiniteDataSourceObserver,
 	#instVars : [
 		'innerBarElement'
 	],
-	#category : #'Toplo-Widget-List-InnerFiniteList'
+	#category : #'Toplo-Widget-List-InnerList-Finite'
 }
 
 { #category : #'instance creation' }
-ToInnerFiniteListDataSourceObserver class >> on: anInnerLinearBarElement [
+ToFiniteListDataSourceObserver class >> on: anInnerLinearBarElement [
 	^ self new
 		initializeWith: anInnerLinearBarElement;
 		yourself
 ]
 
 { #category : #'event handling' }
-ToInnerFiniteListDataSourceObserver >> infiniteDataSourceChanged: anEvent [
+ToFiniteListDataSourceObserver >> infiniteDataSourceChanged: anEvent [
 
 	innerBarElement dataSourceManager onItemsChanged
 ]
 
 { #category : #'event handling' }
-ToInnerFiniteListDataSourceObserver >> infiniteDataSourceItemRangeChanged: anEvent [
+ToFiniteListDataSourceObserver >> infiniteDataSourceItemRangeChanged: anEvent [
 
 	innerBarElement dataSourceManager
 		onItemRangeChanged: anEvent position
@@ -29,7 +29,7 @@ ToInnerFiniteListDataSourceObserver >> infiniteDataSourceItemRangeChanged: anEve
 ]
 
 { #category : #'event handling' }
-ToInnerFiniteListDataSourceObserver >> infiniteDataSourceItemRangeEvent: anEvent [
+ToFiniteListDataSourceObserver >> infiniteDataSourceItemRangeEvent: anEvent [
 
 	anEvent position to: anEvent position + anEvent itemCount - 1 do: [
 		:anIndex |
@@ -41,7 +41,7 @@ ToInnerFiniteListDataSourceObserver >> infiniteDataSourceItemRangeEvent: anEvent
 ]
 
 { #category : #'event handling' }
-ToInnerFiniteListDataSourceObserver >> infiniteDataSourceItemRangeInserted: anEvent [
+ToFiniteListDataSourceObserver >> infiniteDataSourceItemRangeInserted: anEvent [
 
 	innerBarElement dataSourceManager
 		onItemRangeInserted: anEvent position
@@ -52,7 +52,7 @@ ToInnerFiniteListDataSourceObserver >> infiniteDataSourceItemRangeInserted: anEv
 ]
 
 { #category : #'event handling' }
-ToInnerFiniteListDataSourceObserver >> infiniteDataSourceItemRangeRemoved: anEvent [
+ToFiniteListDataSourceObserver >> infiniteDataSourceItemRangeRemoved: anEvent [
 
 	innerBarElement dataSourceManager
 		onItemRangeRemoved: anEvent position
@@ -70,7 +70,7 @@ ToInnerFiniteListDataSourceObserver >> infiniteDataSourceItemRangeRemoved: anEve
 ]
 
 { #category : #'event handling' }
-ToInnerFiniteListDataSourceObserver >> infiniteDataSourceItemsFilteredEvent: anEvent [
+ToFiniteListDataSourceObserver >> infiniteDataSourceItemsFilteredEvent: anEvent [
 
 	innerBarElement dataSourceManager
 		onItemsFiltered: anEvent position
@@ -79,7 +79,7 @@ ToInnerFiniteListDataSourceObserver >> infiniteDataSourceItemsFilteredEvent: anE
 ]
 
 { #category : #initialization }
-ToInnerFiniteListDataSourceObserver >> initializeWith: anInnerLinearBarElement [
+ToFiniteListDataSourceObserver >> initializeWith: anInnerLinearBarElement [
 	
 	self
 		assert: [ innerBarElement isNil ]
@@ -89,7 +89,7 @@ ToInnerFiniteListDataSourceObserver >> initializeWith: anInnerLinearBarElement [
 ]
 
 { #category : #'event handling' }
-ToInnerFiniteListDataSourceObserver >> listDataSourceItemsSievedEvent: anEvent [
+ToFiniteListDataSourceObserver >> listDataSourceItemsSievedEvent: anEvent [
 	
 	innerBarElement dataSourceManager
 		onItemsSieved: anEvent position

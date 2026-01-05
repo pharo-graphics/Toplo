@@ -1,51 +1,51 @@
 Class {
-	#name : #ToInnerFiniteListDataSourceManager,
+	#name : #ToFiniteListDataSourceManager,
 	#superclass : #Object,
 	#instVars : [
 		'innerBarElement'
 	],
-	#category : #'Toplo-Widget-List-InnerFiniteList'
+	#category : #'Toplo-Widget-List-InnerList-Finite'
 }
 
 { #category : #accessing }
-ToInnerFiniteListDataSourceManager >> innerBarElement: anInnerBarElement [
+ToFiniteListDataSourceManager >> innerBarElement: anInnerBarElement [
 
 	innerBarElement := anInnerBarElement
 ]
 
 { #category : #'data source updates' }
-ToInnerFiniteListDataSourceManager >> onItemRangeChanged: aPositionStart itemCount: anItemCount [
+ToFiniteListDataSourceManager >> onItemRangeChanged: aPositionStart itemCount: anItemCount [
 
 	innerBarElement onItemRangeChanged: aPositionStart itemCount: anItemCount
 ]
 
 { #category : #'data source updates' }
-ToInnerFiniteListDataSourceManager >> onItemRangeInserted: aPositionStart itemCount: anItemCount [
+ToFiniteListDataSourceManager >> onItemRangeInserted: aPositionStart itemCount: anItemCount [
 
 	innerBarElement onItemRangeInserted: aPositionStart itemCount: anItemCount
 ]
 
 { #category : #'data source updates' }
-ToInnerFiniteListDataSourceManager >> onItemRangeRemoved: aPositionStart itemCount: anItemCount [
+ToFiniteListDataSourceManager >> onItemRangeRemoved: aPositionStart itemCount: anItemCount [
 
 	innerBarElement onItemRangeRemoved: aPositionStart itemCount: anItemCount
 ]
 
 { #category : #'data source updates' }
-ToInnerFiniteListDataSourceManager >> onItemsChanged [
+ToFiniteListDataSourceManager >> onItemsChanged [
 
 	innerBarElement onItemsChanged
 ]
 
 { #category : #'data source updates' }
-ToInnerFiniteListDataSourceManager >> postponeAction: aValuable for: aTarget [
+ToFiniteListDataSourceManager >> postponeAction: aValuable for: aTarget [
 
 	innerBarElement enqueueTask:
 		(BlTaskAction new action: [ aValuable cull: aTarget ])
 ]
 
 { #category : #'data source updates' }
-ToInnerFiniteListDataSourceManager >> postponeCommand: aCommand [
+ToFiniteListDataSourceManager >> postponeCommand: aCommand [
 
 	aCommand action value
 ]

@@ -1,5 +1,5 @@
 Class {
-	#name : #ToInnerFiniteListElement,
+	#name : #ToFiniteListElement,
 	#superclass : #ToScrollableElement,
 	#traits : 'TToListInnerElement',
 	#classTraits : 'TToListInnerElement classTrait',
@@ -10,11 +10,11 @@ Class {
 		'dataSourceObserver',
 		'trackElement'
 	],
-	#category : #'Toplo-Widget-List-InnerFiniteList'
+	#category : #'Toplo-Widget-List-InnerList-Finite'
 }
 
 { #category : #'instance creation' }
-ToInnerFiniteListElement class >> onListElement: aListElement [
+ToFiniteListElement class >> onListElement: aListElement [
 
 	^ self basicNew
 		  onListElement: aListElement;
@@ -22,30 +22,30 @@ ToInnerFiniteListElement class >> onListElement: aListElement [
 ]
 
 { #category : #'accessing - nodes' }
-ToInnerFiniteListElement >> addAllHolders: anArray at: aPosition [
+ToFiniteListElement >> addAllHolders: anArray at: aPosition [
 
 	anArray reverseDo: [ :h | self addHolder: h at: aPosition].
 	anArray do: [ :h | self notifyChildAttached: h nodeContainer  ]
 ]
 
 { #category : #'accessing - nodes' }
-ToInnerFiniteListElement >> addHolder: anHolder [
+ToFiniteListElement >> addHolder: anHolder [
 
 	trackElement addChild: anHolder nodeContainer
 ]
 
 { #category : #'accessing - nodes' }
-ToInnerFiniteListElement >> addHolder: anHolder at: aPosition [
+ToFiniteListElement >> addHolder: anHolder at: aPosition [
 
 	trackElement addChild: anHolder nodeContainer at: aPosition
 ]
 
 { #category : #'private - commands' }
-ToInnerFiniteListElement >> addedDataSourceCommand: aCommand [
+ToFiniteListElement >> addedDataSourceCommand: aCommand [
 ]
 
 { #category : #configuration }
-ToInnerFiniteListElement >> applyConfiguration [
+ToFiniteListElement >> applyConfiguration [
 
 	super applyConfiguration.
 	listElement isHFitContent
@@ -60,11 +60,11 @@ ToInnerFiniteListElement >> applyConfiguration [
 ]
 
 { #category : #accessing }
-ToInnerFiniteListElement >> cleanUpRecyclerAt: anIndex [
+ToFiniteListElement >> cleanUpRecyclerAt: anIndex [
 ]
 
 { #category : #configuration }
-ToInnerFiniteListElement >> configureNodeContainer: aNodeContainer [
+ToFiniteListElement >> configureNodeContainer: aNodeContainer [
 
 	self toConfigurationDo: [ :conf |
 			conf isFlowable
@@ -92,55 +92,55 @@ ToInnerFiniteListElement >> configureNodeContainer: aNodeContainer [
 ]
 
 { #category : #layout }
-ToInnerFiniteListElement >> consumeFinalStepCommands [
+ToFiniteListElement >> consumeFinalStepCommands [
 ]
 
 { #category : #'private - commands' }
-ToInnerFiniteListElement >> consumePendingDataSourceCommands [
+ToFiniteListElement >> consumePendingDataSourceCommands [
 ]
 
 { #category : #accessing }
-ToInnerFiniteListElement >> dataSource [
+ToFiniteListElement >> dataSource [
 
 	^ dataSource
 ]
 
 { #category : #accessing }
-ToInnerFiniteListElement >> dataSourceManager [
+ToFiniteListElement >> dataSourceManager [
 
 	^ dataSourceManager 
 ]
 
 { #category : #initialization }
-ToInnerFiniteListElement >> defaultDataSource [ 
+ToFiniteListElement >> defaultDataSource [ 
 
 	^ listElement dataSource.
 ]
 
 { #category : #initialization }
-ToInnerFiniteListElement >> defaultDataSourceManager [
+ToFiniteListElement >> defaultDataSourceManager [
 
-	^ ToInnerFiniteListDataSourceManager new
+	^ ToFiniteListDataSourceManager new
 		  innerBarElement: self;
 		  yourself
 ]
 
 { #category : #initialization }
-ToInnerFiniteListElement >> defaultDataSourceObserver [
+ToFiniteListElement >> defaultDataSourceObserver [
 	"Return class, actuall instantiation happens in initialize"
 
-	^ ToInnerFiniteListDataSourceObserver
+	^ ToFiniteListDataSourceObserver
 ]
 
 { #category : #initialization }
-ToInnerFiniteListElement >> defaultScrollFlinger [
+ToFiniteListElement >> defaultScrollFlinger [
 
 	"Return class, actuall instantiation happens in initialize"
 	^ ToListScrollFlinger
 ]
 
 { #category : #'t - list inner element' }
-ToInnerFiniteListElement >> findElementHolderForDataSourcePosition: aPosition [
+ToFiniteListElement >> findElementHolderForDataSourcePosition: aPosition [
 	"Return the holder for the node in the given position of the data set"
 
 	self nodeContainersDo: [ :container |
@@ -151,12 +151,12 @@ ToInnerFiniteListElement >> findElementHolderForDataSourcePosition: aPosition [
 ]
 
 { #category : #initialization }
-ToInnerFiniteListElement >> initialize [
+ToFiniteListElement >> initialize [
 
 	super initialize.
 	self elevation: (BlRelativeElevation elevation: 10).
 	self initializeDataSource.
-	self addEventHandler: ToInnerFiniteListElementEventHandler new.
+	self addEventHandler: ToFiniteListElementEventHandler new.
 	self trackElement: self scrollableFiniteListTrackElementClass new.
 	self matchParent.
 	self focusability: BlFocusability ignore.
@@ -170,7 +170,7 @@ ToInnerFiniteListElement >> initialize [
 ]
 
 { #category : #initialization }
-ToInnerFiniteListElement >> initializeDataSource [
+ToFiniteListElement >> initializeDataSource [
 
 	dataSource := self defaultDataSource.
 	dataSource onAttached: self.
@@ -184,83 +184,83 @@ ToInnerFiniteListElement >> initializeDataSource [
 ]
 
 { #category : #accessing }
-ToInnerFiniteListElement >> innerElement [
+ToFiniteListElement >> innerElement [
 
 	^ self
 ]
 
 { #category : #accessing }
-ToInnerFiniteListElement >> listElement [
+ToFiniteListElement >> listElement [
 
 	^ listElement
 ]
 
 { #category : #'instance creation' }
-ToInnerFiniteListElement >> newNodeHolderFromDataSource: aDataSource [
+ToFiniteListElement >> newNodeHolderFromDataSource: aDataSource [
 
 	^ listElement nodeManager newHolder
 ]
 
 { #category : #configuration }
-ToInnerFiniteListElement >> newToConfiguration [
+ToFiniteListElement >> newToConfiguration [
 
 	^ ToListInnerElementConfiguration new
 ]
 
 { #category : #'t - list inner element' }
-ToInnerFiniteListElement >> nodeContainers [
+ToFiniteListElement >> nodeContainers [
 
 	^ trackElement nodeContainers
 ]
 
 { #category : #'t - list inner element' }
-ToInnerFiniteListElement >> nodeContainersDetect: aBlock [
+ToFiniteListElement >> nodeContainersDetect: aBlock [
 
 	^ trackElement nodeContainersDetect: aBlock 
 ]
 
 { #category : #'t - list inner element' }
-ToInnerFiniteListElement >> nodeContainersDo: aBlock [
+ToFiniteListElement >> nodeContainersDo: aBlock [
 
 	trackElement nodeContainersDo: aBlock
 ]
 
 { #category : #'t - list inner element' }
-ToInnerFiniteListElement >> nodeContainersReject: aBlock [
+ToFiniteListElement >> nodeContainersReject: aBlock [
 
 	^ trackElement nodeContainersReject: aBlock 
 ]
 
 { #category : #'t - list inner element' }
-ToInnerFiniteListElement >> nodeContainersSelect: aBlock [
+ToFiniteListElement >> nodeContainersSelect: aBlock [
 
 	^ trackElement nodeContainersSelect: aBlock 
 ]
 
 { #category : #'t - list inner element' }
-ToInnerFiniteListElement >> nodeContainersWithIndexDo: aBlock [
+ToFiniteListElement >> nodeContainersWithIndexDo: aBlock [
 
 	trackElement nodeContainersWithIndexDo: aBlock
 ]
 
 { #category : #accessing }
-ToInnerFiniteListElement >> nodeManager [
+ToFiniteListElement >> nodeManager [
 
 	^ self listElement nodeManager
 ]
 
 { #category : #'hooks - layout' }
-ToInnerFiniteListElement >> onEnterLayoutOrScroll [
+ToFiniteListElement >> onEnterLayoutOrScroll [
 ]
 
 { #category : #'hooks - layout' }
-ToInnerFiniteListElement >> onExitLayoutOrScroll [
+ToFiniteListElement >> onExitLayoutOrScroll [
 
 
 ]
 
 { #category : #'data source updates' }
-ToInnerFiniteListElement >> onItemRangeChanged: aPositionStart itemCount: anItemCount [
+ToFiniteListElement >> onItemRangeChanged: aPositionStart itemCount: anItemCount [
 
 	self nodeContainersDo: [ :container |
 		| pos |
@@ -271,7 +271,7 @@ ToInnerFiniteListElement >> onItemRangeChanged: aPositionStart itemCount: anItem
 ]
 
 { #category : #'data source updates' }
-ToInnerFiniteListElement >> onItemRangeInserted: aPositionStart itemCount: anItemCount [
+ToFiniteListElement >> onItemRangeInserted: aPositionStart itemCount: anItemCount [
 
 	| holder offsetPosition holders |
 	holders := Array streamContents: [ :stream |
@@ -287,7 +287,7 @@ ToInnerFiniteListElement >> onItemRangeInserted: aPositionStart itemCount: anIte
 ]
 
 { #category : #'data source updates' }
-ToInnerFiniteListElement >> onItemRangeRemoved: aPositionStart itemCount: anItemCount [
+ToFiniteListElement >> onItemRangeRemoved: aPositionStart itemCount: anItemCount [
 
 	| allContainers |
 	allContainers := self nodeContainersSelect: [ :container |
@@ -300,7 +300,7 @@ ToInnerFiniteListElement >> onItemRangeRemoved: aPositionStart itemCount: anItem
 ]
 
 { #category : #'data source updates' }
-ToInnerFiniteListElement >> onItemsChanged [
+ToFiniteListElement >> onItemsChanged [
 
 	| holders |
 
@@ -318,26 +318,26 @@ ToInnerFiniteListElement >> onItemsChanged [
 ]
 
 { #category : #initialization }
-ToInnerFiniteListElement >> onListElement: aListElement [
+ToFiniteListElement >> onListElement: aListElement [
 
 	listElement ifNotNil: [ BlImmutableObjectChangeError signal ].
 	listElement := aListElement
 ]
 
 { #category : #'t - list inner element' }
-ToInnerFiniteListElement >> partlyVisibleNodesDo: aBlock [
+ToFiniteListElement >> partlyVisibleNodesDo: aBlock [
 
 	trackElement partlyVisibleNodesDo: aBlock
 ]
 
 { #category : #'hooks - layout' }
-ToInnerFiniteListElement >> prefetchingAllowed [
+ToFiniteListElement >> prefetchingAllowed [
 
 	^ false
 ]
 
 { #category : #'accessing - nodes' }
-ToInnerFiniteListElement >> removeAllNodeContainers: anArray [
+ToFiniteListElement >> removeAllNodeContainers: anArray [
 
 	anArray reverseDo: [ :container | 
 		trackElement removeNodeContainer: container.
@@ -345,13 +345,13 @@ ToInnerFiniteListElement >> removeAllNodeContainers: anArray [
 ]
 
 { #category : #'accessing - nodes' }
-ToInnerFiniteListElement >> removeNodeContainer: aNode [
+ToFiniteListElement >> removeNodeContainer: aNode [
 
 	trackElement removeNodeContainer: aNode 
 ]
 
 { #category : #scrolling }
-ToInnerFiniteListElement >> scrollDeltaFromDataSourcePosition: anIndex [
+ToFiniteListElement >> scrollDeltaFromDataSourcePosition: anIndex [
 
 	| node bnds pad |
 	node := self nodeContainerAt: anIndex.
@@ -365,7 +365,7 @@ ToInnerFiniteListElement >> scrollDeltaFromDataSourcePosition: anIndex [
 ]
 
 { #category : #scrolling }
-ToInnerFiniteListElement >> scrollDeltaTowardEndFromDataSourcePosition: anIndex [
+ToFiniteListElement >> scrollDeltaTowardEndFromDataSourcePosition: anIndex [
 
 	| node bnds offset padding |
 	node := self nodeContainerAt: anIndex.
@@ -381,7 +381,7 @@ ToInnerFiniteListElement >> scrollDeltaTowardEndFromDataSourcePosition: anIndex 
 ]
 
 { #category : #scrolling }
-ToInnerFiniteListElement >> scrollDeltaTowardStartFromDataSourcePosition: anIndex [
+ToFiniteListElement >> scrollDeltaTowardStartFromDataSourcePosition: anIndex [
 
 	| node bnds pad |
 	node := self nodeContainerAt: anIndex.
@@ -395,34 +395,34 @@ ToInnerFiniteListElement >> scrollDeltaTowardStartFromDataSourcePosition: anInde
 ]
 
 { #category : #scrolling }
-ToInnerFiniteListElement >> scrollToDataSourcePosition: anIndex [
+ToFiniteListElement >> scrollToDataSourcePosition: anIndex [
 
 	(self scrollDeltaTowardEndFromDataSourcePosition: anIndex) ifNotNil: [ :p |
 		self scrollBy: p x negated @ p y ]
 ]
 
 { #category : #scrolling }
-ToInnerFiniteListElement >> scrollTowardEndToDataSourcePosition: anIndex [
+ToFiniteListElement >> scrollTowardEndToDataSourcePosition: anIndex [
 
 	(self scrollDeltaTowardEndFromDataSourcePosition: anIndex) ifNotNil: [ :p |
 		self scrollBy: p x negated @ p y ]
 ]
 
 { #category : #scrolling }
-ToInnerFiniteListElement >> scrollTowardStartToDataSourcePosition: anIndex [
+ToFiniteListElement >> scrollTowardStartToDataSourcePosition: anIndex [
 
 	(self scrollDeltaTowardStartFromDataSourcePosition: anIndex) ifNotNil: [ :p |
 		self scrollBy: p x negated @ p y ]
 ]
 
 { #category : #initialization }
-ToInnerFiniteListElement >> scrollableFiniteListTrackElementClass [
+ToFiniteListElement >> scrollableFiniteListTrackElementClass [
 
-	^ ToScrollableFiniteListTrackElement 
+	^ ToFiniteListTrackElement 
 ]
 
 { #category : #scrolling }
-ToInnerFiniteListElement >> smoothScrollBy: aPoint [
+ToFiniteListElement >> smoothScrollBy: aPoint [
 	"Animate a scroll by the given amount of pixels along either axis"
 	| dX dY aContent |
 
@@ -462,14 +462,14 @@ ToInnerFiniteListElement >> smoothScrollBy: aPoint [
 ]
 
 { #category : #scrolling }
-ToInnerFiniteListElement >> smoothScrollToDataSourcePosition: anIndex [
+ToFiniteListElement >> smoothScrollToDataSourcePosition: anIndex [
 
 	(self scrollDeltaFromDataSourcePosition: anIndex) ifNotNil: [ :p |
 		self smoothScrollBy: p x negated @ p y ]
 ]
 
 { #category : #scrolling }
-ToInnerFiniteListElement >> stopScroll [
+ToFiniteListElement >> stopScroll [
 	"Stop any current scroll in progress, such as one started by
 		- #smoothScrollBy:
 		- #fling:
@@ -481,19 +481,19 @@ ToInnerFiniteListElement >> stopScroll [
 ]
 
 { #category : #scrolling }
-ToInnerFiniteListElement >> stopScrollersInternal [ 
+ToFiniteListElement >> stopScrollersInternal [ 
 
 	scrollFlinger stop
 ]
 
 { #category : #accessing }
-ToInnerFiniteListElement >> trackElement [
+ToFiniteListElement >> trackElement [
 	" introduced for tests, should be used privately "
 	^ trackElement 
 ]
 
 { #category : #accessing }
-ToInnerFiniteListElement >> trackElement: anElement [
+ToFiniteListElement >> trackElement: anElement [
 
 	trackElement ifNotNil: [ (BlImmutableObjectChangeError object: self) signal ].
 	trackElement := anElement.
@@ -503,7 +503,7 @@ ToInnerFiniteListElement >> trackElement: anElement [
 ]
 
 { #category : #'data source updates' }
-ToInnerFiniteListElement >> updatePositions [
+ToFiniteListElement >> updatePositions [
 
 	| pos |
 	pos := 0.
@@ -513,5 +513,5 @@ ToInnerFiniteListElement >> updatePositions [
 ]
 
 { #category : #configuration }
-ToInnerFiniteListElement >> withDecoration: aDecorationClass [
+ToFiniteListElement >> withDecoration: aDecorationClass [
 ]

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToInfiniteDataSourceObserver,
 	#superclass : #BlInfiniteElementDataSourceObserver,
-	#category : #'Toplo-Widget-List-InnerInfiniteList'
+	#category : #'Toplo-Widget-List-InnerList-Infinite'
 }
 
 { #category : #'event handling' }

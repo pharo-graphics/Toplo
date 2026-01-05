@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'listElement'
 	],
-	#category : #'Toplo-Widget-List-InnerInfiniteList'
+	#category : #'Toplo-Widget-List-InnerList-Infinite'
 }
 
 { #category : #'instance creation' }

@@ -15,11 +15,11 @@ ToMultiSelectHeaderListElementEventHandler >> elementExtentChangedEvent: anEvent
 ToMultiSelectHeaderListElementEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle
-	  , { ToFiniteListVisibleNodeContainerListChangedEvent }
+	  , { ToFiniteListVisibleNodeContainersChangedEvent }
 ]
 
 { #category : #'event handling' }
-ToMultiSelectHeaderListElementEventHandler >> finiteListVisibleNodeContainerListChangedEvent: anEvent [
+ToMultiSelectHeaderListElementEventHandler >> finiteListVisibleNodeContainersChangedEvent: anEvent [
 
 	| nbInvisible first last listElement |
 	listElement := anEvent currentTarget.

@@ -6,7 +6,7 @@ Trait {
 		'minNodeHeight',
 		'minNodeWidth'
 	],
-	#category : #'Toplo-Widget-List-InnerFiniteList'
+	#category : #'Toplo-Widget-List-InnerList-Finite'
 }
 
 { #category : #'t - bar layout' }

@@ -17,14 +17,14 @@ ToTabListGroupElementEventHandler >> checkableGroupChangedEvent: anEvent [
 ToTabListGroupElementEventHandler >> eventsToHandle [
 
 	^ {
-		  ToFiniteListVisibleNodeContainerListChangedEvent.
+		  ToFiniteListVisibleNodeContainersChangedEvent.
 		  ToCheckableGroupChangedEvent.
 		  ToListItemEvent.
 		  ToListPrimarySelectionChangedEvent }
 ]
 
 { #category : #'events handling' }
-ToTabListGroupElementEventHandler >> finiteListVisibleNodeContainerListChangedEvent: anEvent [
+ToTabListGroupElementEventHandler >> finiteListVisibleNodeContainersChangedEvent: anEvent [
 
 	tabGroup
 		onInvisibleNodeContainers: anEvent invisibleNodeContainers

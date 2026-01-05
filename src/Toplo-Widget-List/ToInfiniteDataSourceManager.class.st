@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'finalStepCommands'
 	],
-	#category : #'Toplo-Widget-List-InnerInfiniteList'
+	#category : #'Toplo-Widget-List-InnerList-Infinite'
 }
 
 { #category : #'t - postponed command holder' }

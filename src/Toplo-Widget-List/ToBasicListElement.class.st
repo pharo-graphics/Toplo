@@ -214,7 +214,7 @@ ToBasicListElement >> defaultInnerElementClass [
 
 	^ self useInfiniteLayout
 		  ifTrue: [ ToInfiniteElement ]
-		  ifFalse: [ ToInnerFiniteListElement ]
+		  ifFalse: [ ToFiniteListElement ]
 ]
 
 { #category : #initialization }

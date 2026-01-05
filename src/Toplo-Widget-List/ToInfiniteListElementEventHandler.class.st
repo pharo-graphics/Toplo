@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'previousDecorationSize'
 	],
-	#category : #'Toplo-Widget-List-InnerInfiniteList'
+	#category : #'Toplo-Widget-List-InnerList-Infinite'
 }
 
 { #category : #'infinite event handling' }

@@ -4268,6 +4268,7 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 		        beVertical;
 		        matchParent.
 	listElement := ToListElement new.
+	listElement inspect.
 	data := self statesOfAmerica. "copyFrom: 1 to: 8"
 
 	listElement margin: (BlInsets all: 2).

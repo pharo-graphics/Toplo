@@ -3,7 +3,7 @@ Class {
 	#superclass : #BlLinearLayoutVerticalMeasurer,
 	#traits : 'TToFiniteListMeasurer',
 	#classTraits : 'TToFiniteListMeasurer classTrait',
-	#category : #'Toplo-Widget-List-InnerFiniteList'
+	#category : #'Toplo-Widget-List-InnerList-Finite'
 }
 
 { #category : #'t - finite list measurer' }

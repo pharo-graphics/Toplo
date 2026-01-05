@@ -1,7 +1,7 @@
 Class {
 	#name : #ToInfiniteRowNumberDecoration,
 	#superclass : #BlRowNumberDecoration,
-	#category : #'Toplo-Widget-List-InnerInfiniteList'
+	#category : #'Toplo-Widget-List-InnerList-Infinite'
 }
 
 { #category : #accessing }

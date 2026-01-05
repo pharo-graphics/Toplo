@@ -46,7 +46,7 @@ ToBoundsSandBox class >> sandBox [
 	child2 padding: (BlInsets all: 20).
 	child2 layout: BlLinearLayout horizontal.
 	childchild11 := ToElement new
-		                size: 50 asPoint;
+		                extent: 50 asPoint;
 		                id: #childchild11;
 		                yourself.
 	childchild11 layout: BlLinearLayout horizontal.

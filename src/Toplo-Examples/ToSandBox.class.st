@@ -6063,6 +6063,22 @@ coucou le monde'
 	^ diff
 ]
 
+{ #category : #diff }
+ToSandBox class >> example_diffWithlabel [
+
+	| diff |
+	diff := ToDiffElement new.
+	diff
+		from: 'hello world
+coucou le monde'
+		to: 'hello world
+salut le monde'.
+	diff leftLabel: 'source'.
+	diff rightLabel: 'target'.
+	diff openInSpace.
+	^ diff
+]
+
 { #category : #window }
 ToSandBox class >> example_elementWithEditor [
 

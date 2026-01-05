@@ -11,14 +11,15 @@ Class {
 		'#uniformNodeHeight => ObservableSlot',
 		'#rowNumbers => ObservableSlot'
 	],
-	#category : #'Toplo-Widget-List-Core'
+	#category : #'Toplo-Widget-List-InnerList'
 }
 
 { #category : #hook }
-ToListInnerElementConfiguration >> applyOn: aListInneElement [ 
+ToListInnerElementConfiguration >> applyOn: aListInnerElement [ 
 
-	super applyOn: aListInneElement.
-	aListInneElement withRowNumbers: rowNumbers
+	super applyOn: aListInnerElement.
+	aListInnerElement withRowNumbers: rowNumbers.
+	aListInnerElement listElement forceUpdateAllSelectionsNow 
 	
 ]
 

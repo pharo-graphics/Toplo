@@ -8,10 +8,25 @@ Class {
 		'representationOption',
 		'animationDuration',
 		'beneath',
-		'elementFactory'
+		'elementFactory',
+		'selectionContainer'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
+
+{ #category : #'selection container managing' }
+ToListSelectionOption >> addAllSelectionElements: aSelectionElementArray [
+
+	self isMasked ifTrue: [ ^ self ].
+	selectionContainer addChildren: aSelectionElementArray
+]
+
+{ #category : #'selection container managing' }
+ToListSelectionOption >> addSelectionElement: aSelectionElement [
+
+	self isMasked ifTrue: [ ^ self ].
+	selectionContainer addChild: aSelectionElement
+]
 
 { #category : #accessing }
 ToListSelectionOption >> animationDuration [
@@ -29,7 +44,15 @@ ToListSelectionOption >> animationDuration: aDuration [
 ToListSelectionOption >> beneath: aBoolean [
 
 	beneath := aBoolean.
-	representationOption removeSelectionContainer 
+	self removeSelectionContainer 
+]
+
+{ #category : #'selection container managing' }
+ToListSelectionOption >> checkSelectionContainerIn: aListElement [
+
+	selectionContainer ifNil: [
+		selectionContainer := self newSelectionContainerIn: aListElement.
+		aListElement addChild: selectionContainer ]
 ]
 
 { #category : #accessing }
@@ -43,7 +66,7 @@ ToListSelectionOption >> elementFactory: aSelectionElementFactoryValuable [
 
 	elementFactory := aSelectionElementFactoryValuable.
 	aSelectionElementFactoryValuable ifNil: [
-		representationOption removeSelectionContainer ]
+		self removeSelectionContainer ]
 ]
 
 { #category : #accessing }
@@ -110,6 +133,20 @@ ToListSelectionOption >> masked: aBoolean [
 ]
 
 { #category : #'instance creation' }
+ToListSelectionOption >> newSelectionContainerIn: aListElement [
+
+	| container elevation |
+	container := ToOverlayElement new.
+	container clipChildren: true.
+	container attachTo: aListElement.
+	elevation := self isBeneath 
+		             ifTrue: [ BlRelativeElevation elevation: 5 ]
+		             ifFalse: [ BlRelativeElevation elevation: 15 ].
+	container elevation: elevation.
+	^ container
+]
+
+{ #category : #'instance creation' }
 ToListSelectionOption >> newSelectionElementIn: aListElement [
 
 	^ representationOption newSelectionElementIn: aListElement
@@ -136,7 +173,15 @@ ToListSelectionOption >> onInstalledIn: aListElement [
 { #category : #'api - hooks' }
 ToListSelectionOption >> onUninstalledIn: aListElement [
 
-	representationOption removeSelectionContainer 
+	self removeSelectionContainer 
+]
+
+{ #category : #'selection container managing' }
+ToListSelectionOption >> removeSelectionContainer [
+
+	selectionContainer ifNotNil: [
+		selectionContainer removeFromParent.
+		selectionContainer := nil ]
 ]
 
 { #category : #accessing }
@@ -144,7 +189,7 @@ ToListSelectionOption >> representation: aRepresentationOption [
 
 	representationOption := aRepresentationOption.
 	aRepresentationOption selectionOption: self.
-	representationOption removeSelectionContainer 
+	self removeSelectionContainer 
 ]
 
 { #category : #accessing }
@@ -156,8 +201,7 @@ ToListSelectionOption >> requestNewRepresentation [
 { #category : #accessing }
 ToListSelectionOption >> selectionContainer [
 
-
-	^ representationOption selectionContainer
+	^ selectionContainer
 ]
 
 { #category : #accessing }

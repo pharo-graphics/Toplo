@@ -2,25 +2,10 @@ Class {
 	#name : #ToListSelectionWithElementOption,
 	#superclass : #ToListSelectionRepresentationOption,
 	#instVars : [
-		'previousSelectionBounds',
-		'selectionContainer'
+		'previousSelectionBounds'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
-
-{ #category : #'private - selection updating' }
-ToListSelectionWithElementOption >> addAllSelectionElements: aSelectionElementArray [
-
-	selectionOption isMasked ifTrue: [ ^ self ].
-	selectionContainer addChildren: aSelectionElementArray
-]
-
-{ #category : #'private - selection updating' }
-ToListSelectionWithElementOption >> addSelectionElement: aSelectionElement [
-
-	selectionOption isMasked ifTrue: [ ^ self ].
-	selectionContainer addChild: aSelectionElement
-]
 
 { #category : #accessing }
 ToListSelectionWithElementOption >> addSelectionElementsIn: aListElement startingAt: aPosition [
@@ -29,7 +14,7 @@ ToListSelectionWithElementOption >> addSelectionElementsIn: aListElement startin
 	elements := representation selectionElements.
 	aPosition > 1 ifTrue: [
 		elements := elements copyFrom: aPosition to: elements size ].
-	self addAllSelectionElements: elements
+	selectionOption addAllSelectionElements: elements
 ]
 
 { #category : #adding }
@@ -40,7 +25,7 @@ ToListSelectionWithElementOption >> addSelectionIn: aListElement [
 	sent just after the selection is added "
 
 	| finalBounds startBounds |
-	self checkSelectionContainerIn: aListElement.
+	selectionOption checkSelectionContainerIn: aListElement.
 
 	representation isEmpty ifTrue: [ ^ self ].
 	representation
@@ -73,7 +58,7 @@ ToListSelectionWithElementOption >> boundsAnimationFrom: startBounds to: finalBo
 	theSelectionElement := aRepresentation selectionElement.
 	theSelectionElement extent: startBounds extent.
 	theSelectionElement position: startBounds origin.
-	self addSelectionElement: theSelectionElement.
+	selectionOption addSelectionElement: theSelectionElement.
 	anim := ToBoundsTransition new
 		        from: startBounds;
 		        to: finalBounds;
@@ -95,14 +80,6 @@ ToListSelectionWithElementOption >> canAnimateSelectionUpdate [
 	^ self isAnimated and: [
 		  representation isComposite not and: [
 			  previousSelectionBounds notNil ] ]
-]
-
-{ #category : #accessing }
-ToListSelectionWithElementOption >> checkSelectionContainerIn: aListElement [
-
-	selectionContainer ifNil: [
-		selectionContainer := self newSelectionContainerIn: aListElement.
-		aListElement addChild: selectionContainer ]
 ]
 
 { #category : #testing }
@@ -137,20 +114,6 @@ ToListSelectionWithElementOption >> rememberSelectionBoundsIn: aListElement [
 
 	previousSelectionBounds := representation
 		                           selectionBounds
-]
-
-{ #category : #removing }
-ToListSelectionWithElementOption >> removeSelectionContainer [
-
-	selectionContainer ifNotNil: [
-		selectionContainer removeFromParent.
-		selectionContainer := nil ]
-]
-
-{ #category : #accessing }
-ToListSelectionWithElementOption >> selectionContainer [
-
-	^ selectionContainer
 ]
 
 { #category : #accessing }

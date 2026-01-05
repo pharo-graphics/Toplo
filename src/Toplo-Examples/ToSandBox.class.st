@@ -9075,7 +9075,7 @@ ToSandBox class >> experiment_intervalCollection [
 ]
 
 { #category : #'finite list' }
-ToSandBox class >> finiteListConfigurationBoardFor: aBar [
+ToSandBox class >> finiteListConfigurationBoardFor: aList [
 
 	| menu confPane animSwitch |
 	confPane := ToPane vertical.
@@ -9096,50 +9096,53 @@ ToSandBox class >> finiteListConfigurationBoardFor: aBar [
 			 yourself).
 	menu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Space statistics');
-			 clickAction: [ aBar space showStatisticsWindow ];
+			 clickAction: [ aList space showStatisticsWindow ];
 			 yourself).
 	menu addItem: (ToMenuItem new
 			 label: (ToLabel text: 'Inspect');
-			 clickAction: [ aBar space root inspect ];
+			 clickAction: [ aList space root inspect ];
 			 yourself).
 	menu addItem: (ToRadioMenuItem new
 			 label: (ToLabel text: 'Disabled bar');
-			 checkAction: [ :evt | aBar disabled: evt target isChecked ];
+			 checkAction: [ :evt | aList disabled: evt target isChecked ];
 			 yourself).
 	confPane addChild: menu.
 
-	aBar innerConfigurationDo: [ :conf |
-			{
-				([ aBar isVertical ] -> [ :v | aBar isVertical: v ] -> 'Vertical').
-				([ conf isFlowable ] -> [ :v | conf isFlowable: v ] -> 'Flowable').
-				([ conf uniformNodeWidth ] -> [ :v | conf uniformNodeWidth: v ]
-				 -> 'Uniform width').
-				([ conf uniformNodeHeight ] -> [ :v | conf uniformNodeHeight: v ]
-				 -> 'Uniform height').
-				([ conf isScrollable ] -> [ :v | conf isScrollable: v ]
-				 -> 'Scrollable').
-				([ conf autoDistribute ] -> [ :v | conf autoDistribute: v ]
-				 -> 'Auto-distribute').
-				([ aBar selectionMode selectOnPressed ]
-				 -> [ :v | aBar selectionMode selectOnPressed: v ]
-				 -> 'Select on pressed').
-				([ aBar selectionMode deselectOnPressed ]
-				 -> [ :v | aBar selectionMode deselectOnPressed: v ]
-				 -> 'Deselect on pressed').
-				([ aBar selectionMode makeDisabledUnselectable ]
-				 -> [ :v | aBar selectionMode makeDisabledUnselectable: v ]
-				 -> 'Disabled items are unselectable') } do: [ :assoc |
-					| switch |
-					switch := ToSwitchButton new labelText: assoc value value.
-					switch checkAction: [ :evt |
-						assoc key value value: evt target isChecked ].
+	{
+		([ aList isVertical ] -> [ :v | aList isVertical: v ] -> 'Vertical').
+		([ aList innerConfiguration isFlowable ]
+		 -> [ :v | aList innerConfiguration isFlowable: v ] -> 'Flowable').
+		([ aList innerConfiguration uniformNodeWidth ]
+		 -> [ :v | aList innerConfiguration uniformNodeWidth: v ]
+		 -> 'Uniform width').
+		([ aList innerConfiguration uniformNodeHeight ]
+		 -> [ :v | aList innerConfiguration uniformNodeHeight: v ]
+		 -> 'Uniform height').
+		([ aList innerConfiguration isScrollable ] -> [ :v | aList innerConfiguration isScrollable: v ]
+		 -> 'Scrollable').
+		([ aList innerConfiguration autoDistribute ]
+		 -> [ :v | aList innerConfiguration autoDistribute: v ]
+		 -> 'Auto-distribute').
+		([ aList selectionMode selectOnPressed ]
+		 -> [ :v | aList selectionMode selectOnPressed: v ]
+		 -> 'Select on pressed').
+		([ aList selectionMode deselectOnPressed ]
+		 -> [ :v | aList selectionMode deselectOnPressed: v ]
+		 -> 'Deselect on pressed').
+		([ aList selectionMode makeDisabledUnselectable ]
+		 -> [ :v | aList selectionMode makeDisabledUnselectable: v ]
+		 -> 'Disabled items are unselectable') } do: [ :assoc |
+			| switch |
+			switch := ToSwitchButton new labelText: assoc value value.
+			switch checkAction: [ :evt |
+				assoc key value value: evt target isChecked ].
 
-					switch startFlexible: true.
-					switch hMatchParent.
-					confPane addChild: switch.
+			switch startFlexible: true.
+			switch hMatchParent.
+			confPane addChild: switch.
 
-					aBar whenConfigurationAppliedDo: [
-						switch checked: assoc key key value ] ] ].
+			aList whenConfigurationAppliedDo: [
+				switch checked: assoc key key value ] ].
 
 	animSwitch := ToSwitchButton new labelText: 'Animate transition'.
 	animSwitch checkAction: [ :evt |
@@ -9147,13 +9150,13 @@ ToSandBox class >> finiteListConfigurationBoardFor: aBar [
 			d := evt target isChecked
 				     ifTrue: [ 200 milliSeconds ]
 				     ifFalse: [ 0 milliSeconds ].
-			aBar selectionOption animationDuration: d.
-			aBar secondarySelectionOption animationDuration: d ].
+			aList selectionOption animationDuration: d.
+			aList secondarySelectionOption animationDuration: d ].
 
 	animSwitch startFlexible: true.
 	animSwitch hMatchParent.
 	confPane addChild: animSwitch.
-	confPane addChild: (self resizerBoardFor: aBar).
+	confPane addChild: (self resizerBoardFor: aList).
 	^ confPane
 ]
 

@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToItemListElement,
-	#category : #'Toplo-Widget-List-Core'
+	#category : #'Toplo-Widget-List-ItemList'
 }
 
 { #category : #'t - item list - adding/removing' }

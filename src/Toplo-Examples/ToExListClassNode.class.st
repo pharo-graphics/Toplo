@@ -4,7 +4,7 @@ I'm part of a larger example. I'm not expected to be opened as a standalone.
 Check `ToSandBox`
 "
 Class {
-	#name : #ToListClassNodeExamplePart,
+	#name : #ToExListClassNode,
 	#superclass : #ToBasicListNode,
 	#instVars : [
 		'label'
@@ -13,7 +13,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-ToListClassNodeExamplePart >> forClassNameAssoc: aClassNameAssoc [
+ToExListClassNode >> forClassNameAssoc: aClassNameAssoc [
 
 	| icon isel |
 	isel := aClassNameAssoc key hasComment
@@ -47,7 +47,7 @@ ToListClassNodeExamplePart >> forClassNameAssoc: aClassNameAssoc [
 ]
 
 { #category : #accessing }
-ToListClassNodeExamplePart >> label [
+ToExListClassNode >> label [
 
 	^ label
 ]

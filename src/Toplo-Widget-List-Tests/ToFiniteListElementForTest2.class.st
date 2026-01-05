@@ -1,8 +1,6 @@
 Class {
 	#name : #ToFiniteListElementForTest2,
 	#superclass : #ToBasicListElement,
-	#traits : 'TToFiniteListElement',
-	#classTraits : 'TToFiniteListElement classTrait',
 	#category : #'Toplo-Widget-List-Tests-Core-FiniteListElement'
 }
 

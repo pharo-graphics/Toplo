@@ -1952,7 +1952,7 @@ ToSandBox class >> example_EditableList2WithAllClassesNames [
 	l := ToListElement new.
 	l beVertical.
 	l
-		nodeFactory: [ ToListClassNodeExamplePart new ];
+		nodeFactory: [ ToExListClassNode new ];
 		nodeBuilder: [ :node :dataItem :holder |
 			node forClassNameAssoc: dataItem ];
 		addEventHandler: (BlEventHandler

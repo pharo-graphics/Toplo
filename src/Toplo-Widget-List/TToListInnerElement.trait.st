@@ -1,6 +1,6 @@
 Trait {
 	#name : #TToListInnerElement,
-	#category : #'Toplo-Widget-List-Core'
+	#category : #'Toplo-Widget-List-InnerList'
 }
 
 { #category : #'t - list inner element' }

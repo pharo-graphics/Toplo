@@ -1,7 +1,7 @@
 Class {
 	#name : #ToInfiniteDataSource,
 	#superclass : #BlInfiniteDataSource,
-	#category : #'Toplo-Widget-List-InnerInfinite'
+	#category : #'Toplo-Widget-List-InnerInfiniteList'
 }
 
 { #category : #notifications }
@@ -59,8 +59,4 @@ ToInfiniteDataSource >> notifyItemsSievedWith: aSieve [
 ToInfiniteDataSource >> onCreateHolder: anInfiniteElement [ 
 
 	^ anInfiniteElement newNodeHolderFromDataSource: self
-]
-
-{ #category : #'as yet unclassified' }
-ToInfiniteDataSource >> onInstalledInListElement: aListElement [
 ]

@@ -3,5 +3,5 @@ Class {
 	#superclass : #ToInfiniteCollectionDataSource,
 	#traits : 'TToSortableObservableCollection',
 	#classTraits : 'TToSortableObservableCollection classTrait',
-	#category : #'Toplo-Widget-List-InnerInfinite'
+	#category : #'Toplo-Widget-List-InnerInfiniteList'
 }

@@ -28,3 +28,9 @@ ToItemNodeContainer >> aroundNodeConfiguration: aNodeConfigurationBlock [
 							ifTrue: [ self vMatchParent ]
 							ifFalse: [ self vFitContent ] ] ]
 ]
+
+{ #category : #initialization }
+ToItemNodeContainer >> initialize [
+
+	super initialize
+]

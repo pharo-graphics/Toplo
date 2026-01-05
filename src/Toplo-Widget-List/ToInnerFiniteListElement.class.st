@@ -176,7 +176,11 @@ ToInnerFiniteListElement >> initializeDataSource [
 	dataSource onAttached: self.
 	dataSourceObserver := self defaultDataSourceObserver on: self.
 	dataSource addEventHandler: dataSourceObserver.
-	dataSourceManager := self defaultDataSourceManager
+	dataSourceManager := self defaultDataSourceManager.
+	self addEventHandlerOn: BlElementRemovedFromParentEvent doOnce: [
+			dataSource onDetached: self.
+			dataSource removeEventHandler: dataSourceObserver.
+			dataSourceManager := nil ]
 ]
 
 { #category : #accessing }

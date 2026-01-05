@@ -7,7 +7,7 @@ Class {
 		'dataEventHandler',
 		'data'
 	],
-	#category : #'Toplo-Widget-List-InnerInfinite'
+	#category : #'Toplo-Widget-List-InnerInfiniteList'
 }
 
 { #category : #accessing }

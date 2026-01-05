@@ -1,7 +1,7 @@
 Class {
 	#name : #ToInfiniteDataSourceItemsFiltered,
 	#superclass : #BlInfiniteDataSourceRangeChanged,
-	#category : #'Toplo-Widget-List-InnerInfinite'
+	#category : #'Toplo-Widget-List-InnerInfiniteList'
 }
 
 { #category : #'instance creation' }

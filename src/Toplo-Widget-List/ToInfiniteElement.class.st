@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'listElement'
 	],
-	#category : #'Toplo-Widget-List-InnerInfinite'
+	#category : #'Toplo-Widget-List-InnerInfiniteList'
 }
 
 { #category : #'instance creation' }
@@ -153,6 +153,16 @@ ToInfiniteElement >> initialize [
 	super initialize.
 	self addEventHandler: ToListInnerElementEventHandler new.
 	self elevation: (BlRelativeElevation elevation: 10).
+]
+
+{ #category : #initialization }
+ToInfiniteElement >> initializeDataSource [
+
+	super initializeDataSource.
+	self addEventHandlerOn: BlElementRemovedFromParentEvent doOnce: [
+			dataSource onDetached: self.
+			dataSource removeEventHandler: dataSourceObserver.
+			dataSourceManager := nil ]
 ]
 
 { #category : #'t - infinite accessing' }

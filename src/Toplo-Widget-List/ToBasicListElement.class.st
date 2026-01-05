@@ -164,8 +164,7 @@ ToBasicListElement >> dataSource [
 ToBasicListElement >> dataSource: aDataSource [
 
 	dataSource ifNotNil: [ BlImmutableObjectChangeError signal ].
-	dataSource := aDataSource.
-	dataSource onInstalledInListElement: self
+	dataSource := aDataSource
 ]
 
 { #category : #accessing }
@@ -417,7 +416,8 @@ ToBasicListElement >> innerElement [
 ToBasicListElement >> innerElement: anInnerElement [
 
 	innerElement = anInnerElement ifTrue: [ ^ self ].
-	innerElement ifNotNil: [ :inner | inner removeFromParent ].
+	innerElement ifNotNil: [ :inner | 
+		inner removeFromParent ].
 	innerElement := anInnerElement.
 	self checkFakeNodeContainer.
 	innerElement ifNotNil: [ :inner |
@@ -840,10 +840,14 @@ ToBasicListElement >> useInfiniteLayout [
 ]
 
 { #category : #accessing }
-ToBasicListElement >> useInfiniteLayout: aBoolean [ 
+ToBasicListElement >> useInfiniteLayout: aBoolean [
 
 	useInfiniteLayout = aBoolean ifTrue: [ ^ self ].
-	useInfiniteLayout := aBoolean
+	useInfiniteLayout := aBoolean.
+	innerElement ifNotNil: [
+			innerElement removeFromParent.
+			innerElement := nil.
+			self notifyDataSourceChanged ]
 ]
 
 { #category : #'accessing selecters' }

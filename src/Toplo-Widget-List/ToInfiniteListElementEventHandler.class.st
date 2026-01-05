@@ -1,26 +1,26 @@
 Class {
-	#name : #ToListInnerElementEventHandler,
+	#name : #ToInfiniteListElementEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'previousDecorationSize'
 	],
-	#category : #'Toplo-Widget-List-InnerList'
+	#category : #'Toplo-Widget-List-InnerInfiniteList'
 }
 
 { #category : #'infinite event handling' }
-ToListInnerElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
+ToInfiniteListElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
 
 	anEvent currentTarget listElement dispatchEvent: anEvent copy
 ]
 
 { #category : #'infinite event handling' }
-ToListInnerElementEventHandler >> elementPositionChangedEvent: anEvent [
+ToInfiniteListElementEventHandler >> elementPositionChangedEvent: anEvent [
 
 	anEvent currentTarget listElement requestUpdateAllSelections
 ]
 
 { #category : #'infinite event handling' }
-ToListInnerElementEventHandler >> elementScrolledEvent: anEvent [
+ToInfiniteListElementEventHandler >> elementScrolledEvent: anEvent [
 
 	anEvent delta = (0 @ 0) ifTrue: [
 			anEvent consume.
@@ -29,7 +29,7 @@ ToListInnerElementEventHandler >> elementScrolledEvent: anEvent [
 ]
 
 { #category : #'api - accessing' }
-ToListInnerElementEventHandler >> eventsToHandle [
+ToInfiniteListElementEventHandler >> eventsToHandle [
 
 	^ {
 		  ToListScrollFinishedEvent.
@@ -42,7 +42,7 @@ ToListInnerElementEventHandler >> eventsToHandle [
 ]
 
 { #category : #'infinite event handling' }
-ToListInnerElementEventHandler >> infiniteDecorationBoundsChangedEvent: anEvent [
+ToInfiniteListElementEventHandler >> infiniteDecorationBoundsChangedEvent: anEvent [
 	" not used here but kept for the record "
 
 	| s decoration insets |
@@ -64,7 +64,7 @@ ToListInnerElementEventHandler >> infiniteDecorationBoundsChangedEvent: anEvent 
 ]
 
 { #category : #'infinite event handling' }
-ToListInnerElementEventHandler >> infiniteElementAttachedEvent: anEvent [
+ToInfiniteListElementEventHandler >> infiniteElementAttachedEvent: anEvent [
 
 	anEvent currentTarget listElement dispatchEvent:
 		(ToListNodeAddedEvent new
@@ -73,7 +73,7 @@ ToListInnerElementEventHandler >> infiniteElementAttachedEvent: anEvent [
 ]
 
 { #category : #'infinite event handling' }
-ToListInnerElementEventHandler >> infiniteElementDetachedEvent: anEvent [
+ToInfiniteListElementEventHandler >> infiniteElementDetachedEvent: anEvent [
 
 	anEvent currentTarget listElement dispatchEvent:
 		(ToListNodeRemovedEvent new
@@ -82,13 +82,13 @@ ToListInnerElementEventHandler >> infiniteElementDetachedEvent: anEvent [
 ]
 
 { #category : #'infinite event handling' }
-ToListInnerElementEventHandler >> listDataSourceEmptinessChangedEvent: anEvent [
+ToInfiniteListElementEventHandler >> listDataSourceEmptinessChangedEvent: anEvent [
 
 	anEvent currentTarget listElement dispatchEvent: anEvent copy
 ]
 
 { #category : #'infinite event handling' }
-ToListInnerElementEventHandler >> listScrollFinishedEvent: anEvent [
+ToInfiniteListElementEventHandler >> listScrollFinishedEvent: anEvent [
 
 	anEvent currentTarget listElement dispatchEvent: anEvent copy
 ]

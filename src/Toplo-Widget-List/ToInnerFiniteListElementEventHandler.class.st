@@ -1,6 +1,6 @@
 Class {
 	#name : #ToInnerFiniteListElementEventHandler,
-	#superclass : #ToListInnerElementEventHandler,
+	#superclass : #ToInfiniteListElementEventHandler,
 	#instVars : [
 		'previousVisibleNodeContainers'
 	],

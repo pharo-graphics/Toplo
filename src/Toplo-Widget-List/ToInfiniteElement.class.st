@@ -151,7 +151,7 @@ ToInfiniteElement >> haveRowNumbers [
 ToInfiniteElement >> initialize [
 
 	super initialize.
-	self addEventHandler: ToListInnerElementEventHandler new.
+	self addEventHandler: ToInfiniteListElementEventHandler new.
 	self elevation: (BlRelativeElevation elevation: 10).
 ]
 

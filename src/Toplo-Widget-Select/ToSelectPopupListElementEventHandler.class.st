@@ -9,15 +9,15 @@ ToSelectPopupListElementEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , {
 		  ToSieveSelectionChangedEvent.
-		  ToInfiniteDataSourceEmptinessChangedEvent }
+		  ToListDataSourceEmptinessChangedEvent }
 ]
 
 { #category : #'infinite event handling' }
-ToSelectPopupListElementEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEvent [
+ToSelectPopupListElementEventHandler >> listDataSourceEmptinessChangedEvent: anEvent [
 	" have to refresh the select bar here (see issue #252, https://github.com/pharo-graphics/Toplo/issues/252) "
 
 	| listElement |
-	super infiniteDataSourceEmptinessChangedEvent: anEvent.
+	super listDataSourceEmptinessChangedEvent: anEvent.
 	listElement := anEvent currentTarget.
 	listElement postponeAction: [ :l |
 		l selectElement updateHeaderFromPopupListSelection ]
@@ -41,6 +41,6 @@ ToSelectPopupListElementEventHandler >> sieveSelectionChangedEvent: anEvent [
 	| listElement selectElement |
 	listElement := anEvent currentTarget.
 	selectElement := listElement selectElement.
-	selectElement popupListElement updateAllSelections.
+	selectElement popupListElement requestUpdateAllSelections.
 	selectElement updateHeaderFromPopupListSelection
 ]

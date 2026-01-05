@@ -4,6 +4,12 @@ Trait {
 }
 
 { #category : #'t - select inner container' }
+TToSelectHeaderElement >> addFilterTextField: aFilterTextField [
+
+	^ self explicitRequirement 
+]
+
+{ #category : #'t - select inner container' }
 TToSelectHeaderElement >> filterTextField [
 
 	self explicitRequirement 
@@ -23,7 +29,7 @@ TToSelectHeaderElement >> installFilterTextField [
 	self filterTextField constraintsDo: [ :c |
 		c linear vertical alignCenter.
 		c flow vertical alignCenter ].
-	self addChild: self filterTextField
+	self addFilterTextField: self filterTextField
 ]
 
 { #category : #'t - select inner container' }

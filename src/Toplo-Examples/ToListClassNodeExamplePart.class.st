@@ -5,7 +5,7 @@ Check `ToSandBox`
 "
 Class {
 	#name : #ToListClassNodeExamplePart,
-	#superclass : #ToListNode,
+	#superclass : #ToBasicListNode,
 	#instVars : [
 		'label'
 	],

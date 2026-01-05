@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'previousDecorationSize'
 	],
-	#category : #'Toplo-Widget-List-InnerInfinite'
+	#category : #'Toplo-Widget-List-InnerList'
 }
 
 { #category : #'infinite event handling' }
@@ -16,13 +16,15 @@ ToListInnerElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent 
 { #category : #'infinite event handling' }
 ToListInnerElementEventHandler >> elementPositionChangedEvent: anEvent [
 
-	anEvent currentTarget listElement updateAllSelections
+	anEvent currentTarget listElement requestUpdateAllSelections
 ]
 
 { #category : #'infinite event handling' }
 ToListInnerElementEventHandler >> elementScrolledEvent: anEvent [
 
-	anEvent delta = (0 @ 0) ifTrue: [ ^ self ].
+	anEvent delta = (0 @ 0) ifTrue: [
+			anEvent consume.
+			^ self ].
 	anEvent currentTarget listElement dispatchEvent: anEvent copy
 ]
 
@@ -30,19 +32,13 @@ ToListInnerElementEventHandler >> elementScrolledEvent: anEvent [
 ToListInnerElementEventHandler >> eventsToHandle [
 
 	^ {
-		  ToInfiniteScrollFinishedEvent.
-		  ToInfiniteDataSourceEmptinessChangedEvent.
+		  ToListScrollFinishedEvent.
+		  ToListDataSourceEmptinessChangedEvent.
 		  BlInfiniteElementAttachedEvent.
 		  BlInfiniteElementDetachedEvent.
 		  BlElementScrolledEvent.
 		  BlElementPositionChangedEvent.
 		  BlBoundsHasChangedDuringScrollingEvent }
-]
-
-{ #category : #'infinite event handling' }
-ToListInnerElementEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEvent [
-
-	anEvent currentTarget listElement dispatchEvent: anEvent copy
 ]
 
 { #category : #'infinite event handling' }
@@ -86,7 +82,13 @@ ToListInnerElementEventHandler >> infiniteElementDetachedEvent: anEvent [
 ]
 
 { #category : #'infinite event handling' }
-ToListInnerElementEventHandler >> infiniteScrollFinishedEvent: anEvent [
+ToListInnerElementEventHandler >> listDataSourceEmptinessChangedEvent: anEvent [
+
+	anEvent currentTarget listElement dispatchEvent: anEvent copy
+]
+
+{ #category : #'infinite event handling' }
+ToListInnerElementEventHandler >> listScrollFinishedEvent: anEvent [
 
 	anEvent currentTarget listElement dispatchEvent: anEvent copy
 ]

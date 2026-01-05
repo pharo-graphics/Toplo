@@ -4,12 +4,15 @@ See `ToSandBox class>>#example_PicsumPhotosGallery`
 "
 Class {
 	#name : #ToExPicsumListElement,
-	#superclass : #ToAbstractListElement,
+	#superclass : #ToBasicListElement,
 	#category : #'Toplo-Examples-PhotoGalleryParts'
 }
 
 { #category : #initialization }
-ToExPicsumListElement >> defaultNodeManagerClass [
+ToExPicsumListElement >> defaultNodeManager [
 
-	^ ToExPicsumNodeManager
+	^ super defaultNodeManager
+		  nodeHolderFactory: [ ToExPicsumHolder new ];
+		  nodeFactory: [ :holder | ToExPicsumNode new ];
+		  yourself
 ]

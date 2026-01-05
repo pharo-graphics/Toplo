@@ -1,7 +1,7 @@
 Class {
 	#name : #ToCheckableListElementEventHandler,
 	#superclass : #BlCustomEventHandler,
-	#category : #'Toplo-Widget-List-ItemFiniteList'
+	#category : #'Toplo-Widget-List-ItemList'
 }
 
 { #category : #'event handling' }

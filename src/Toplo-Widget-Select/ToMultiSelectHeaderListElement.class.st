@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMultiSelectHeaderListElement,
-	#superclass : #ToGenericFiniteListElement,
-	#traits : 'TToSelectHeaderElement + TToElementWithPlaceholder',
-	#classTraits : 'TToSelectHeaderElement classTrait + TToElementWithPlaceholder classTrait',
+	#superclass : #ToListElement,
+	#traits : 'TToFiniteListElement + TToSelectHeaderElement + TToElementWithPlaceholder',
+	#classTraits : 'TToFiniteListElement classTrait + TToSelectHeaderElement classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [
 		'selectElement',
 		'maxSelectedCount',
@@ -21,6 +21,12 @@ ToMultiSelectHeaderListElement class >> onSelectElement: aSelectElement [
 	^ self basicNew
 		  selectElement: aSelectElement;
 		  initialize
+]
+
+{ #category : #'t - select inner container' }
+ToMultiSelectHeaderListElement >> addFilterTextField: aFilterTextField [
+
+	^ self addChild: aFilterTextField after: self innerElement
 ]
 
 { #category : #'accessing - selection' }
@@ -70,10 +76,10 @@ ToMultiSelectHeaderListElement >> checkMaxSelectedCount [
 	self popupListElement notifyDataSourceChanged
 ]
 
-{ #category : #'t - bar element' }
-ToMultiSelectHeaderListElement >> defaultInnerElementClass [
+{ #category : #initialization }
+ToMultiSelectHeaderListElement >> defaultEventHandler [ 
 
-	^ ToMultiSelectHeaderInnerListElement
+	^ ToMultiSelectHeaderListElementEventHandler new
 ]
 
 { #category : #initialization }
@@ -88,11 +94,10 @@ ToMultiSelectHeaderListElement >> defaultNodeManagerClass [
 	^ ToMultiSelectHeaderNodeManager
 ]
 
-{ #category : #layout }
-ToMultiSelectHeaderListElement >> extentChanged [
+{ #category : #initialization }
+ToMultiSelectHeaderListElement >> defaultUseInfiniteLayout [ 
 
-	super extentChanged.
-	self updateFromPopupListSelection
+	^ false
 ]
 
 { #category : #'t - select inner container' }
@@ -117,7 +122,6 @@ ToMultiSelectHeaderListElement >> haveMaxSelectedCount [
 ToMultiSelectHeaderListElement >> initialize [
 
 	super initialize.
-
 	" no visible primary and secondary selection elements "
 	self selectionOption masked: true.
 	self selectionMode makeDisabledUnselectable: true.
@@ -181,6 +185,20 @@ ToMultiSelectHeaderListElement >> maxSelectedCount: aNumber [
 	maxSelectedCount := aNumber
 ]
 
+{ #category : #skin }
+ToMultiSelectHeaderListElement >> newRawSkin [ 
+
+	^ ToMultiSelectHeaderListElementSkin new
+]
+
+{ #category : #'hooks - layout' }
+ToMultiSelectHeaderListElement >> onLayoutDone [ 
+
+
+	selectElement checkMaxSelectedCountInHeader.
+	super onLayoutDone.
+]
+
 { #category : #accessing }
 ToMultiSelectHeaderListElement >> popupListElement [
 
@@ -209,7 +227,7 @@ ToMultiSelectHeaderListElement >> selectElement: aSelectElement [
 { #category : #accessing }
 ToMultiSelectHeaderListElement >> selectedDataItems [
 
-	^ self innerElement selectedDataItems
+	^ selectElement selectedDataItems
 ]
 
 { #category : #accessing }

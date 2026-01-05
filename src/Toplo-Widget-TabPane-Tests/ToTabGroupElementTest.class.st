@@ -17,7 +17,7 @@ ToTabGroupElementTest >> setUp [
 	tabGroup := ToTabGroupElement new.
 	tabGroup matchParent.
 	space root addChild: tabGroup.
-	tabGroup forceLayout.
+	space root forceLayout.
 	self waitTestingSpaces 
 
 ]
@@ -58,10 +58,10 @@ ToTabGroupElementTest >> testRemoveAllItems [
 	tabGroup removeAllItems.
 	self waitTestingSpaces.
 	self assert: tabGroup items size equals: 0.
-	self assert: tabGroup itemBar items size equals: 0.
-	self assert: tabGroup itemBar innerElement nodeContainers size equals: 0.
+	self assert: tabGroup itemList items size equals: 0.
+	self assert: tabGroup itemList innerElement nodeContainers size equals: 0.
 	" the fake node remains "
-	self assert: tabGroup itemBar innerElement trackElement children size equals: 0
+	self assert: tabGroup itemList innerElement trackElement children size equals: 0
 
 ]
 
@@ -115,7 +115,7 @@ ToTabGroupElementTest >> testRemoveItem2 [
 	BlSpace simulateMouseMoveInside: secondItem removeButton.
 	self waitTestingSpaces.
 	BlSpace simulateClickOn: secondItem removeButton.
-	self waitTestingSpaces.
+	self waitTestingSpacesTimeout: 600 milliSeconds.
 	self assert: tabGroup items size equals: 1.
 	self assert: tabGroup items first identicalTo: firstItem.
 	self assert: firstItem isSelected
@@ -233,10 +233,10 @@ ToTabGroupElementTest >> testRemoveItem6 [
 	BlSpace simulateClickOn: firstItem removeButton.
 	self waitTestingSpaces.
 	self assert: tabGroup items size equals: 0.
-	self assert: tabGroup itemBar items size equals: 0.
-	self assert: tabGroup itemBar innerElement nodeContainers size equals: 0.
+	self assert: tabGroup itemList items size equals: 0.
+	self assert: tabGroup itemList innerElement nodeContainers size equals: 0.
 	" the fake node remains "
-	self assert: tabGroup itemBar innerElement trackElement children size equals: 0
+	self assert: tabGroup itemList innerElement trackElement children size equals: 0
 
 ]
 

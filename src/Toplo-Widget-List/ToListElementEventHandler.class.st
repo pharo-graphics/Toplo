@@ -19,11 +19,13 @@ ToListElementEventHandler >> blurEvent: anEvent [
 	self syncNodesSelectionIn: anEvent currentTarget
 ]
 
-{ #category : #'selection managing' }
+{ #category : #'element events handling' }
 ToListElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
 
-	self flag: #ToBeChecked.
-	anEvent currentTarget updateAllSelections
+	| listElement |
+	listElement := anEvent currentTarget.
+	listElement forceUpdateAllSelectionsNow.
+	listElement requestMouseMoveReplay
 ]
 
 { #category : #'event handling' }
@@ -54,11 +56,7 @@ ToListElementEventHandler >> elementExtentChangedEvent: anEvent [
 
 	| listElement |
 	listElement := anEvent currentTarget.
-	listElement selectionModes do: [ :mode |
-		mode requestNewRepresentation ].
-	listElement
-		updateAllSelections;
-		extentChanged
+	listElement forceUpdateAllSelectionsNow
 ]
 
 { #category : #'element events handling' }
@@ -66,7 +64,7 @@ ToListElementEventHandler >> elementScrolledEvent: anEvent [
 
 	| listElement |
 	listElement := anEvent currentTarget.
-	listElement updateAllSelections.
+	listElement forceUpdateAllSelectionsNow.
 	listElement requestMouseMoveReplay
 ]
 
@@ -91,7 +89,7 @@ ToListElementEventHandler >> eventsToHandle [
 		  BlElementScrolledEvent.
 
 		  " data source "
-		  ToInfiniteDataSourceEmptinessChangedEvent.
+		  ToListDataSourceEmptinessChangedEvent.
 
 		  BlLayoutResizerChangedEvent.
 
@@ -107,20 +105,20 @@ ToListElementEventHandler >> focusEvent: anEvent [
 	self syncNodesSelectionIn: anEvent currentTarget 
 ]
 
-{ #category : #'infinite event handling' }
-ToListElementEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEvent [
-
-	self showHidePlaceholderIn: anEvent currentTarget
-]
-
 { #category : #'list element handling' }
-ToListElementEventHandler >> infiniteDataSourceItemsFiltered: anEvent [
+ToListElementEventHandler >> infiniteDataSourceItemsFilteredEvent: anEvent [
 ]
 
 { #category : #'element events handling' }
 ToListElementEventHandler >> layoutResizerChangedEvent: anEvent [
 
 	anEvent currentTarget requestConfiguration
+]
+
+{ #category : #'infinite event handling' }
+ToListElementEventHandler >> listDataSourceEmptinessChangedEvent: anEvent [
+
+	self showHidePlaceholderIn: anEvent currentTarget
 ]
 
 { #category : #'infinite event handling' }

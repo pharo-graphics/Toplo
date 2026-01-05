@@ -4,8 +4,8 @@ I'm a composite of Menu items. I can behave as a menu item (this is why I inheri
 Class {
 	#name : #ToMenu,
 	#superclass : #ToMenuItem,
-	#traits : 'TToItemFiniteListContainer + TToMenuItemFiniteListContainer + TToMenuWindowModel',
-	#classTraits : 'TToItemFiniteListContainer classTrait + TToMenuItemFiniteListContainer classTrait + TToMenuWindowModel classTrait',
+	#traits : 'TToItemListUser + TToMenuItemListUser + TToMenuWindowModel',
+	#classTraits : 'TToItemListUser classTrait + TToMenuItemListUser classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
 		'isSubmenu',
 		'builder',
@@ -84,7 +84,7 @@ ToMenu >> initialize [
 			                 builder ifNotNil: [
 					                 self removeAllItems.
 					                 self builder cull: self cull: request ].
-			                 window root addChild: self itemBar ];
+			                 window root addChild: self itemList ];
 		                 yourself.
 	self addEventHandler: windowManager
 ]
@@ -163,10 +163,10 @@ ToMenu >> menuWindow [
 	^ self manager currentWindow
 ]
 
-{ #category : #'t - item bar container - initializing' }
-ToMenu >> newItemBar [
+{ #category : #'t - item list user - initializing' }
+ToMenu >> newItemList [
 
-	^ ToMenuItemFiniteListElement new
+	^ ToMenuItemListElement new
 ]
 
 { #category : #skin }
@@ -181,7 +181,7 @@ ToMenu >> onAddedInItemBarOwner: aMenu [
 	aMenu onAddedMenu: self
 ]
 
-{ #category : #'t - menu item bar container - double dispatch' }
+{ #category : #'t - menu item list user - double dispatch' }
 ToMenu >> onAddedMenu: aMenu [
 
 	aMenu isSubmenu: true.
@@ -195,7 +195,7 @@ ToMenu >> onRemovedFromItemBarOwner: aMenu [
 	aMenu onRemovedMenu: self
 ]
 
-{ #category : #'t - menu item bar container - double dispatch' }
+{ #category : #'t - menu item list user - double dispatch' }
 ToMenu >> onRemovedMenu: aMenu [
 
 	aMenu isSubmenu: false

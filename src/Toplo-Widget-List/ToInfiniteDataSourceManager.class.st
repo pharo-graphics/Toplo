@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'finalStepCommands'
 	],
-	#category : #'Toplo-Widget-List-InnerInfinite'
+	#category : #'Toplo-Widget-List-InnerInfiniteList'
 }
 
 { #category : #'t - postponed command holder' }
@@ -58,7 +58,7 @@ ToInfiniteDataSourceManager >> onItemsFiltered: aPositionStart itemCount: anItem
 	otherwise false"
 
 	"Register add command"
-	self postponeCommand: (ToInfiniteDataSourceFilterCommand new
+	self postponeCommand: (ToListDataSourceFilterCommand new
 			 positionStart: aPositionStart;
 			 itemCount: anItemCount;
 			 yourself).
@@ -71,7 +71,7 @@ ToInfiniteDataSourceManager >> onItemsSieved: aPositionStart itemCount: anItemCo
 	otherwise false"
 
 	"Register the sieve command"
-	self postponeCommand: (ToInfiniteDataSourceSieveCommand new
+	self postponeCommand: (ToListDataSourceSieveCommand new
 			 positionStart: aPositionStart;
 			 itemCount: anItemCount;
 			 sieve: aSieve;
@@ -82,7 +82,7 @@ ToInfiniteDataSourceManager >> onItemsSieved: aPositionStart itemCount: anItemCo
 { #category : #'t - postponed command holder' }
 ToInfiniteDataSourceManager >> postponeAction: aValuable for: aTarget [
 
-	self postponeCommand: (ToInfiniteDataSourceActionCommand new
+	self postponeCommand: (ToListDataSourceActionCommand new
 			 action: [ aValuable cull: aTarget ];
 			 yourself)
 ]

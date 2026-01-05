@@ -12,7 +12,7 @@ ToItemNodeHolder >> dataItem: aDataItem [
 ]
 
 { #category : #accessing }
-ToItemNodeHolder >> initializeNode [
+ToItemNodeHolder >> initializeNodeSelections [
 
 	self dataItem itemConstraintsDo: [ :ic |
 		ic constraintItem: self dataItem.
@@ -23,7 +23,7 @@ ToItemNodeHolder >> initializeNode [
 ]
 
 { #category : #removing }
-ToItemNodeHolder >> removeNodeFromBar [
+ToItemNodeHolder >> removeNodeFromList [
 
 	" redefined to use the item bar API "
 	self listElement removeItem: self node item

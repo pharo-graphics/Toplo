@@ -1,129 +1,114 @@
-"
-My fakeData item is an item that is used to define the size when the list has no element.
-This avoids flickering or changing size when inappropriate.
-"
 Trait {
 	#name : #TToFiniteListElement,
-	#instVars : [
-		'fakeDataItem'
-	],
-	#category : #'Toplo-Widget-List-Core-FiniteListElement'
+	#category : #'Toplo-Widget-List-Core'
 }
 
-{ #category : #'t - finite list element - fake container' }
-TToFiniteListElement >> addFakeNodeContainer: aNodeContainer [
+{ #category : #'t - finite list element - configuration' }
+TToFiniteListElement >> autoDistribute [
 
-	self addChild: aNodeContainer at: 1
+	self
+		deprecated: 'Use #innerConfiguration'
+		transformWith:
+		'`@rcvr autoDistribute'
+		-> '`@rcvr innerConfiguration autoDistribute'.
+	^ self innerConfiguration autoDistribute
 ]
 
-{ #category : #'t - finite list element - fake container' }
-TToFiniteListElement >> defaultFakeDataItem [
+{ #category : #'t - finite list element - configuration' }
+TToFiniteListElement >> autoDistribute: aBoolean [
 
-	^ nil
+	self
+		deprecated: 'Use #innerConfiguration'
+		transformWith:
+		'`@rcvr autoDistribute: `@arg'
+		-> '`@rcvr innerConfiguration autoDistribute: `@arg'.
+	self innerConfiguration autoDistribute: aBoolean
 ]
 
-{ #category : #'t - finite list element' }
-TToFiniteListElement >> defaultInnerElementClass [
+{ #category : #'t - finite list element - configuration' }
+TToFiniteListElement >> isFlowable [
 
-	^ ToInnerFiniteListElement 
+	self
+		deprecated: 'Use #innerConfiguration'
+		transformWith:
+		'`@rcvr isFlowable'
+		-> '`@rcvr innerConfiguration isFlowable'.
+	^ self innerConfiguration isFlowable
 ]
 
-{ #category : #'t - finite list element - fake container' }
-TToFiniteListElement >> fakeDataItem [
+{ #category : #'t - finite list element - configuration' }
+TToFiniteListElement >> isFlowable: aBoolean [
 
-	^ fakeDataItem
+	self
+		deprecated: 'Use #innerConfiguration'
+		transformWith:
+		'`@rcvr isFlowable: `@arg'
+		-> '`@rcvr innerConfiguration isFlowable: `@arg'.
+	self innerConfiguration isFlowable: aBoolean
 ]
 
-{ #category : #'t - finite list element - fake container' }
-TToFiniteListElement >> fakeDataItem: anObject [
+{ #category : #'t - finite list element - configuration' }
+TToFiniteListElement >> isScrollable [
 
-	fakeDataItem := anObject
+	self
+		deprecated: 'Use #innerConfiguration'
+		transformWith:
+		'`@rcvr isScrollable'
+		-> '`@rcvr innerConfiguration isScrollable'.
+	^ self innerConfiguration isScrollable
 ]
 
-{ #category : #'t - finite list element - fake container' }
-TToFiniteListElement >> fakeNodeContainer [
+{ #category : #'t - finite list element - configuration' }
+TToFiniteListElement >> isScrollable: aBoolean [
 
-	^ (self hasChildren and: [ self firstChild isFake ])
-		  ifTrue: [ self firstChild ]
-		  ifFalse: [ ]
+	self
+		deprecated: 'Use #innerConfiguration'
+		transformWith:
+		'`@rcvr isScrollable: `@arg'
+		-> '`@rcvr innerConfiguration isScrollable: `@arg'.
+	self innerConfiguration isScrollable: aBoolean
 ]
 
-{ #category : #'t - finite list element' }
-TToFiniteListElement >> initializeAsFiniteListElement [
+{ #category : #'t - finite list element - configuration' }
+TToFiniteListElement >> uniformNodeHeight [
 
-	fakeDataItem := self defaultFakeDataItem.
-	self installFakeNodeContainer
+	self
+		deprecated: 'Use #innerConfiguration'
+		transformWith:
+		'`@rcvr uniformNodeHeight'
+		-> '`@rcvr innerConfiguration uniformNodeHeight'.
+	^ self innerConfiguration uniformNodeHeight
 ]
 
-{ #category : #'t - finite list element - fake container' }
-TToFiniteListElement >> installFakeNodeContainer [
-	" the fake node is added in case of an empty data source to ensure a 
-	suitable minimum height according to the node class, the node builder 
-	and the data kind."
+{ #category : #'t - finite list element - configuration' }
+TToFiniteListElement >> uniformNodeHeight: aBoolean [
 
-	| fakeContainer holder |
-	holder := self nodeManager newHolder.
-	holder infiniteElement: self innerElement.
-	holder dataItem: self fakeDataItem.
-	holder bindAtPosition: 0.
-	fakeContainer := self newFakeNodeContainer.
-	fakeContainer holder: holder.
-	fakeContainer id: #fakeNodeContainer.
-	holder setupNodeContainerWith: fakeContainer.
-	" add the fake node (to keep a constant minimum size ).
-	Pay attention to add the fake node ** before ** the fake node building "
-	self addFakeNodeContainer: fakeContainer.
-	self nodeManager buildNode: fakeContainer node.
-	self requestConfiguration
+	self
+		deprecated: 'Use #innerConfiguration'
+		transformWith:
+		'`@rcvr uniformNodeHeight: `@arg'
+		-> '`@rcvr innerConfiguration uniformNodeHeight: `@arg'.
+	self innerConfiguration uniformNodeHeight: aBoolean
 ]
 
-{ #category : #'t - finite list element - fake container' }
-TToFiniteListElement >> newFakeNodeContainer [ 
+{ #category : #'t - finite list element - configuration' }
+TToFiniteListElement >> uniformNodeWidth [
 
-	^ ToFiniteListFakeNodeContainer new
+	self
+		deprecated: 'Use #innerConfiguration'
+		transformWith:
+		'`@rcvr uniformNodeWidth'
+		-> '`@rcvr innerConfiguration uniformNodeWidth'.
+	^ self innerConfiguration uniformNodeWidth
 ]
 
-{ #category : #'t - finite list element - fake container' }
-TToFiniteListElement >> reinstallFakeNodeContainer [
+{ #category : #'t - finite list element - configuration' }
+TToFiniteListElement >> uniformNodeWidth: aBoolean [
 
-	self uninstallFakeNodeContainer.
-	self installFakeNodeContainer
-]
-
-{ #category : #'t - finite list element - fake container' }
-TToFiniteListElement >> removeFakeNodeContainer [
-
-	self fakeNodeContainer ifNil: [ Error signal: 'Fake node container not present' ].
-	self fakeNodeContainer removeFromParent
-]
-
-{ #category : #'t - finite list element - fake container' }
-TToFiniteListElement >> sample [
-
-	^ self fakeDataItem
-]
-
-{ #category : #'t - finite list element - fake container' }
-TToFiniteListElement >> sample: aDataItem [
-
-	self fakeDataItem: aDataItem.
-	self reinstallFakeNodeContainer.
-	self requestLayout
-	
-]
-
-{ #category : #'t - finite list element' }
-TToFiniteListElement >> trackElement [
-
-	^ self innerElement trackElement
-]
-
-{ #category : #'t - finite list element - fake container' }
-TToFiniteListElement >> uninstallFakeNodeContainer [
-	" the fake node is added in case of an empty data source to ensure a 
-	suitable minimum height according to the node class, the node builder 
-	and the data kind."
-
-	" remove the fake node (to keep a constant minimum size ) "
-	self removeFakeNodeContainer
+	self
+		deprecated: 'Use #innerConfiguration'
+		transformWith:
+		'`@rcvr uniformNodeWidth: `@arg'
+		-> '`@rcvr innerConfiguration uniformNodeWidth: `@arg'.
+	self innerConfiguration uniformNodeWidth: aBoolean
 ]

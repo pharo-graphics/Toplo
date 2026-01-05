@@ -7,8 +7,7 @@ Trait {
 TToTripletElementConfiguration >> applyTripletElementConfigurationOn: anElement [
 
 	self configureStartElementIn: anElement.
-	self configureEndElementIn: anElement.
-	self applyTripletContainerConfigurationOn: anElement
+	self configureEndElementIn: anElement
 ]
 
 { #category : #'t - triplet element configuration' }

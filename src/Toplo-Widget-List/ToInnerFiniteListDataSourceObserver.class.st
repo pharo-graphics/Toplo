@@ -70,21 +70,11 @@ ToInnerFiniteListDataSourceObserver >> infiniteDataSourceItemRangeRemoved: anEve
 ]
 
 { #category : #'event handling' }
-ToInnerFiniteListDataSourceObserver >> infiniteDataSourceItemsFiltered: anEvent [
+ToInnerFiniteListDataSourceObserver >> infiniteDataSourceItemsFilteredEvent: anEvent [
 
 	innerBarElement dataSourceManager
 		onItemsFiltered: anEvent position
 		itemCount: anEvent itemCount.
-	innerBarElement listElement dispatchEvent: anEvent copy
-]
-
-{ #category : #'event handling' }
-ToInnerFiniteListDataSourceObserver >> infiniteDataSourceItemsSieved: anEvent [
-	
-	innerBarElement dataSourceManager
-		onItemsSieved: anEvent position
-		itemCount: anEvent itemCount
-		with: anEvent sieve.
 	innerBarElement listElement dispatchEvent: anEvent copy
 ]
 
@@ -96,4 +86,14 @@ ToInnerFiniteListDataSourceObserver >> initializeWith: anInnerLinearBarElement [
 		description: [ 'I can be initialized only once!' ].
 	
 	innerBarElement := anInnerLinearBarElement
+]
+
+{ #category : #'event handling' }
+ToInnerFiniteListDataSourceObserver >> listDataSourceItemsSievedEvent: anEvent [
+	
+	innerBarElement dataSourceManager
+		onItemsSieved: anEvent position
+		itemCount: anEvent itemCount
+		with: anEvent sieve.
+	innerBarElement listElement dispatchEvent: anEvent copy
 ]

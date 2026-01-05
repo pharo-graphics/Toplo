@@ -176,12 +176,6 @@ TToDataSourceWrapper >> copyReplaceFrom: start to: stop with: replacementCollect
 ]
 
 { #category : #'t - data source wrapper - accessing dataSource' }
-TToDataSourceWrapper >> dataItemWrapperClass [
-
-	^ self subclassResponsibility 
-]
-
-{ #category : #'t - data source wrapper - accessing dataSource' }
 TToDataSourceWrapper >> dataSource [
 
 	^ self listElement dataSource
@@ -443,10 +437,7 @@ TToDataSourceWrapper >> newMirror [
 { #category : #'t - data source wrapper - accessing dataSource' }
 TToDataSourceWrapper >> newWrapperForDataItem: anObject [
 
-	^ self dataItemWrapperClass new
-		  listElement: self listElement;
-		  dataItem: anObject;
-		  yourself
+	^ anObject
 ]
 
 { #category : #'t - data source wrapper - enumerating' }

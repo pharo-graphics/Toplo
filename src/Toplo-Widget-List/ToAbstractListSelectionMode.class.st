@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'enabled',
 		'selecter',
-		'selectionOption'
+		'selectionOption',
+		'dirty'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
@@ -26,6 +27,18 @@ ToAbstractListSelectionMode >> changeSelectionOptionWith: aSelectionOption [
 ToAbstractListSelectionMode >> defaultSelectionOption [
 
 	^ nil
+]
+
+{ #category : #accessing }
+ToAbstractListSelectionMode >> dirty [
+
+	^ dirty
+]
+
+{ #category : #accessing }
+ToAbstractListSelectionMode >> dirty: aBoolean [
+
+	dirty := aBoolean
 ]
 
 { #category : #accessing }
@@ -65,7 +78,8 @@ ToAbstractListSelectionMode >> enabled: aBoolean [
 ToAbstractListSelectionMode >> initialize [
 
 	super initialize.
-	enabled := true
+	enabled := true.
+	dirty := true
 ]
 
 { #category : #testing }
@@ -292,4 +306,14 @@ ToAbstractListSelectionMode >> selectionOptionDo: aBlock [
 
 	selectionOption ifNil: [ ^ self ].
 	aBlock value: selectionOption
+]
+
+{ #category : #'selection updating' }
+ToAbstractListSelectionMode >> updateSelectionIn: aListElement [
+
+	self selectionOption ifNotNil: [ :option |
+			option
+				updateSelectionIn: aListElement
+				withSelectionModel: self selectionModel ].
+	self dirty: false
 ]

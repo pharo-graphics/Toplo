@@ -32,6 +32,22 @@ ToWrappedListNodeHolder >> dataWrapper [
 ]
 
 { #category : #accessing }
+ToWrappedListNodeHolder >> fakeDataItem: aDataItem [
+	"Notice that for wrapped list node, the arguments is the actual data (and not the wrapper as it is in #bindDataItem: ) "
+
+	| dataAccessor |
+	dataAccessor := self listElement dataAccessor.
+	dataWrapper := dataAccessor newWrapperForDataItem: aDataItem.
+	super fakeDataItem: dataWrapper
+]
+
+{ #category : #accessing }
+ToWrappedListNodeHolder >> nodeDepth [
+
+	^ dataWrapper nodeDepth
+]
+
+{ #category : #accessing }
 ToWrappedListNodeHolder >> unwrappedDataItemFrom: aDataItem [
 
 	^ aDataItem unwrappedDataItem 

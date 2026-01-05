@@ -1,6 +1,6 @@
 Class {
 	#name : #ToListSecondarySelectionMode,
-	#superclass : #ToAbstractListSelectionMode,
+	#superclass : #ToListRootSelectionMode,
 	#instVars : [
 		'multiple'
 	],

@@ -9,6 +9,15 @@ Class {
 }
 
 { #category : #accessing }
+ToTableDivider class >> parentTable: aTableElement [
+
+	^ self basicNew
+		  parentTable: aTableElement;
+		  initialize;
+		  yourself
+]
+
+{ #category : #accessing }
 ToTableDivider >> cellIndex [
 
 	^ cellIndex

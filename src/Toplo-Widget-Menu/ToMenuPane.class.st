@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuPane,
 	#superclass : #ToElement,
-	#traits : 'TToItem + TToMenuItem + TToItemFiniteListContainer + TToMenuItemFiniteListContainer + TToOrientable',
-	#classTraits : 'TToItem classTrait + TToMenuItem classTrait + TToItemFiniteListContainer classTrait + TToMenuItemFiniteListContainer classTrait + TToOrientable classTrait',
+	#traits : 'TToListItem + TToMenuItem + TToItemListUser + TToMenuItemListUser + TToOrientable',
+	#classTraits : 'TToListItem classTrait + TToMenuItem classTrait + TToItemListUser classTrait + TToMenuItemListUser classTrait + TToOrientable classTrait',
 	#instVars : [
 		'autoOpen',
 		'isSubPane'
@@ -48,18 +48,18 @@ ToMenuPane >> applyConfiguration [
 
 	super applyConfiguration.
 	self uniformNodeWidth: self isVertical.
-	self itemBar horizontal: self isHorizontal.
-	self itemBar constraintsDo: [ :c |
+	self itemList horizontal: self isHorizontal.
+	self itemList constraintsDo: [ :c |
 			c linear vertical alignCenter.
 			c linear horizontal alignCenter ].
-	self itemBar isScrollable: self isScrollable.
-	self itemBar isFlowable: self isFlowable.
+	self itemList innerConfiguration isScrollable: self isScrollable.
+	self itemList innerConfiguration isFlowable: self isFlowable.
 	self isHFitContent
-		ifTrue: [ self itemBar hFitContent ]
-		ifFalse: [ self itemBar hMatchParent ].
+		ifTrue: [ self itemList hFitContent ]
+		ifFalse: [ self itemList hMatchParent ].
 	self isVFitContent
-		ifTrue: [ self itemBar vFitContent ]
-		ifFalse: [ self itemBar vMatchParent ]
+		ifTrue: [ self itemList vFitContent ]
+		ifFalse: [ self itemList vMatchParent ]
 ]
 
 { #category : #'auto opening' }
@@ -80,6 +80,12 @@ ToMenuPane >> cancelAutoOpen [
 	self rootMenuPane autoOpen: false
 ]
 
+{ #category : #testing }
+ToMenuPane >> hasInlineWindow [
+
+	^ self items anySatisfy: [ :it | it hasInlineWindow ]
+]
+
 { #category : #initialization }
 ToMenuPane >> initialize [
 
@@ -92,7 +98,7 @@ ToMenuPane >> initialize [
 	self layout: BlLinearLayout horizontal.
 	self layout alignCenter.
 	self addEventHandler: ToMenuPaneEventHandler new.
-	self addChild: self itemBar.
+	self addChild: self itemList.
 	self isFlowable: false.
 	self isScrollable: false.
 	self beHorizontal.
@@ -140,9 +146,9 @@ ToMenuPane >> menuWindowDo: aValuable [
 ]
 
 { #category : #'t - item list holder - initializing' }
-ToMenuPane >> newItemBar [
+ToMenuPane >> newItemList [
 
-	^ ToMenuItemFiniteListElement new
+	^ ToMenuItemListElement new
 ]
 
 { #category : #skin }
@@ -157,7 +163,7 @@ ToMenuPane >> onAddedInItemBarOwner: aMenuItemBar [
 	aMenuItemBar onAddedMenuPane: self
 ]
 
-{ #category : #'t - menu item bar container - double dispatch' }
+{ #category : #'t - menu item list user - double dispatch' }
 ToMenuPane >> onAddedMenu: aMenu [
 
 	aMenu isMenuPaneMenu: true.
@@ -181,7 +187,7 @@ ToMenuPane >> removeMenu: aMenu [
 { #category : #accessing }
 ToMenuPane >> rootMenuPane [
 
-	^ self menuBarOwner ifNotNil: [ :bo | bo rootMenuPane ] ifNil: [ self ]
+	^ self menuListOwner ifNotNil: [ :bo | bo rootMenuPane ] ifNil: [ self ]
 ]
 
 { #category : #'auto opening' }

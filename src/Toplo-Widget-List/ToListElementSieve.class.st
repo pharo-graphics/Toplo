@@ -46,7 +46,7 @@ ToListElementSieve >> filter: aValuable [
 	" filter takes a data and a pattern as argument "
 
 	filterApplier filter: [ :item :pattern |
-		aValuable value: item value: pattern ]
+		aValuable value: item unwrappedDataItem value: pattern ]
 ]
 
 { #category : #initialization }
@@ -198,10 +198,12 @@ ToListElementSieve >> pattern [
 { #category : #accessing }
 ToListElementSieve >> pattern: aPattern [
 
-	filterApplier pattern: aPattern.
-	self dispatchEvent: (ToSievePatternChangedEvent new
-			 sieve: self;
-			 yourself)
+	self dispatchEvent: ToSievePatternChangedEvent new.
+	filterApplier pattern: aPattern
+]
+
+{ #category : #'selection updating' }
+ToListElementSieve >> requestUpdateAllSelections [
 ]
 
 { #category : #accessing }
@@ -231,10 +233,6 @@ ToListElementSieve >> uninstallFilterApplierIn: aListElement [
 	originalData unmirrored.
 	originalData := nil.
 
-]
-
-{ #category : #'selection updating' }
-ToListElementSieve >> updateAllSelections [
 ]
 
 { #category : #enumerating }

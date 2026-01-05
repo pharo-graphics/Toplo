@@ -15,7 +15,7 @@ Class {
 ToListElementSieveTest >> setUp [
 	super setUp.
 	list := ToListElement new.
-	sieve := list newSieve.
+	sieve := list dataAccessor newSieve.
 	space root addChild: list
 ]
 
@@ -209,7 +209,7 @@ ToListElementSieveTest >> testOriginalIndexMapWhenDataAreAddedBeforeTheSieve [
 	list := ToListElement new.
 	space root addChild: list.
 	list dataAccessor addAll: (1 to: 10).
-	sieve := list newSieve.
+	sieve := list dataAccessor newSieve.
 	self waitTestingSpaces.
 	self deny: sieve originalIndexMap isNil.
 	self deny: sieve originalIndexMap isEmpty.
@@ -231,7 +231,7 @@ ToListElementSieveTest >> testOriginalIndexMapWhenDataAreAddedBeforeTheSieve2 [
 
 	list := ToListElement new.
 	list dataAccessor addAll: (1 to: 10).
-	sieve := list newSieve.
+	sieve := list dataAccessor newSieve.
 	self deny: sieve originalIndexMap isNil.
 	
 	self waitTestingSpaces.

@@ -11,6 +11,8 @@ Class {
 ToTreeDataItemWrapperTest >> setUp [
 	super setUp.
 	tree := ToTreeElement new.
+	tree sample: 1.
+	
 ]
 
 { #category : #'expanding-collapsing tests' }

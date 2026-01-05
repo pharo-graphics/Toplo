@@ -1,7 +1,7 @@
 Class {
 	#name : #ToInfiniteDataSourceObserver,
 	#superclass : #BlInfiniteElementDataSourceObserver,
-	#category : #'Toplo-Widget-List-InnerInfinite'
+	#category : #'Toplo-Widget-List-InnerInfiniteList'
 }
 
 { #category : #'event handling' }
@@ -10,7 +10,7 @@ ToInfiniteDataSourceObserver >> infiniteDataSourceChanged: anEvent [
 	| listElement |
 	super infiniteDataSourceChanged: anEvent.
 	listElement := infiniteElement listElement.
-	listElement postponeAction: [ :l | l updateAllSelections ]
+	listElement requestUpdateAllSelections
 ]
 
 { #category : #'event handling' }
@@ -19,7 +19,7 @@ ToInfiniteDataSourceObserver >> infiniteDataSourceItemRangeChanged: anEvent [
 	| listElement |
 	super infiniteDataSourceItemRangeChanged: anEvent.
 	listElement := infiniteElement listElement.
-	listElement postponeAction: [ :l | l updateAllSelections ]
+	listElement requestUpdateAllSelections
 ]
 
 { #category : #'event handling' }
@@ -50,7 +50,7 @@ ToInfiniteDataSourceObserver >> infiniteDataSourceItemRangeRemoved: anEvent [
 ]
 
 { #category : #'event handling' }
-ToInfiniteDataSourceObserver >> infiniteDataSourceItemsFiltered: anEvent [
+ToInfiniteDataSourceObserver >> infiniteDataSourceItemsFilteredEvent: anEvent [
 
 	self assertNotInLayoutOrScroll.
 	
@@ -62,7 +62,7 @@ ToInfiniteDataSourceObserver >> infiniteDataSourceItemsFiltered: anEvent [
 ]
 
 { #category : #'event handling' }
-ToInfiniteDataSourceObserver >> infiniteDataSourceItemsSieved: anEvent [
+ToInfiniteDataSourceObserver >> listDataSourceItemsSievedEvent: anEvent [
 	self assertNotInLayoutOrScroll.
 	
 	infiniteElement dataSourceManager

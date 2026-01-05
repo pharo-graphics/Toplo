@@ -205,6 +205,12 @@ ToCheckableGroup >> unregisterAll [
 ]
 
 { #category : #'checking protocol' }
+ToCheckableGroup >> withNoneCheckingStrategy [
+
+	self checkingStrategy: ToCheckableGroupNoneStrategy new
+]
+
+{ #category : #'checking protocol' }
 ToCheckableGroup >> withStrictCheckingStrategy [
 
 	self checkingStrategy: ToCheckableGroupStrictStrategy new
@@ -214,10 +220,4 @@ ToCheckableGroup >> withStrictCheckingStrategy [
 ToCheckableGroup >> withWeakCheckingStrategy [
 
 	self checkingStrategy: ToCheckableGroupWeakStrategy new
-]
-
-{ #category : #'checking protocol' }
-ToCheckableGroup >> withoutCheckingStrategy [
-
-	self checkingStrategy: ToCheckableGroupNoneStrategy new
 ]

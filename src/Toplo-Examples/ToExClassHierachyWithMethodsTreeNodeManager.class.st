@@ -16,8 +16,8 @@ ToExClassHierachyWithMethodsTreeNodeManager >> childrenFromDataItem: aClassOrMet
 			ifFalse: [ #(  ) ]
 ]
 
-{ #category : #'instance creation' }
-ToExClassHierachyWithMethodsTreeNodeManager >> newNodeForHolder: aNodeHolder [
+{ #category : #initialization }
+ToExClassHierachyWithMethodsTreeNodeManager >> defaultNodeFactory [ 
 
-	^  ToExTreeSubAndMethNode new
+	^ [ :holder | ToExTreeSubAndMethNode new ]
 ]

@@ -7,13 +7,6 @@ Class {
 	#category : #'Toplo-Widget-Float'
 }
 
-{ #category : #'event handling' }
-ToBadgedElementEventHandler >> addedToSpaceEvent: anEvent [
-
-	badge isAttachedToSceneGraph ifFalse: [
-		anEvent currentTarget space root addChild: badge ]
-]
-
 { #category : #accessing }
 ToBadgedElementEventHandler >> badge: aBadge [
 
@@ -30,12 +23,40 @@ ToBadgedElementEventHandler >> badgeDetachedEvent: anEvent [
 	badge := nil
 ]
 
+{ #category : #'event handling' }
+ToBadgedElementEventHandler >> elementAddedToSceneGraphEvent: anEvent [
+
+	badge isAttachedToSceneGraph ifFalse: [
+		anEvent currentTarget space root addChild: badge ]
+]
+
+{ #category : #'event handling' }
+ToBadgedElementEventHandler >> elementExtentChangedEvent: anEvent [
+
+	badge requestLayout
+]
+
+{ #category : #'event handling' }
+ToBadgedElementEventHandler >> elementPositionChangedEvent: anEvent [
+
+	badge requestLayout
+]
+
+{ #category : #'event handling' }
+ToBadgedElementEventHandler >> elementRemovedFromSceneGraphEvent: anEvent [
+
+	badge isAttachedToSceneGraph ifFalse: [ ^ self ].
+	badge removeFromParent
+]
+
 { #category : #'api - accessing' }
 ToBadgedElementEventHandler >> eventsToHandle [
 
 	^ {
-		  ToAddedToSpaceEvent.
-		  ToRemovedFromSpaceEvent.
+		  BlElementPositionChangedEvent.
+		  BlElementExtentChangedEvent.
+		  BlElementAddedToSceneGraphEvent.
+		  BlElementRemovedFromSceneGraphEvent.
 		  ToBadgeDetachedEvent }
 ]
 
@@ -46,11 +67,4 @@ ToBadgedElementEventHandler >> onInstalledIn: anElement [
 	badge referenceElement: anElement.
 	anElement isAttachedToSceneGraph ifTrue: [
 		anElement space root addChild: badge ]
-]
-
-{ #category : #'event handling' }
-ToBadgedElementEventHandler >> removedFromSpaceEvent: anEvent [
-
-	badge isAttachedToSceneGraph ifFalse: [ ^ self ].
-	badge removeFromParent
 ]

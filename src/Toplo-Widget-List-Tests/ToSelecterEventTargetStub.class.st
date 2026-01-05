@@ -26,6 +26,10 @@ ToSelecterEventTargetStub >> postponeAction: aValuable [
 	aValuable cull: nil
 ]
 
+{ #category : #'event firing' }
+ToSelecterEventTargetStub >> requestUpdateAllSelections [
+]
+
 { #category : #accessing }
 ToSelecterEventTargetStub >> scrollIndex [ 
 
@@ -56,8 +60,4 @@ ToSelecterEventTargetStub >> selectionModel: aSelectionModel [
 	selectionModel := aSelectionModel
 		                  on: self;
 		                  yourself
-]
-
-{ #category : #'event firing' }
-ToSelecterEventTargetStub >> updateAllSelections [
 ]

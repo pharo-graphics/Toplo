@@ -1,6 +1,9 @@
 Class {
 	#name : #ToItemListNodeManager,
-	#superclass : #ToAbstractNodeManager,
+	#superclass : #ToBasicListNodeManager,
+	#instVars : [
+		'itemConfigurator'
+	],
 	#category : #'Toplo-Widget-List-ItemList'
 }
 
@@ -12,14 +15,51 @@ ToItemListNodeManager >> buildNode: aNode [
 	aNode item: holder dataItem
 ]
 
-{ #category : #'instance creation' }
-ToItemListNodeManager >> newHolder [
+{ #category : #'node configuration' }
+ToItemListNodeManager >> configureItem: anItem [
 
-	^ ToItemNodeHolder new
+	itemConfigurator value: anItem
 ]
 
-{ #category : #'instance creation' }
-ToItemListNodeManager >> newNodeForHolder: aNodeHolder [
+{ #category : #initialization }
+ToItemListNodeManager >> defaultItemConfigurator [
 
-	^ ToListItemNode new
+	^ [ :item | ]
+]
+
+{ #category : #initialization }
+ToItemListNodeManager >> defaultNodeContainerFactory [
+
+	^ [ ToItemNodeContainer new ]
+]
+
+{ #category : #initialization }
+ToItemListNodeManager >> defaultNodeFactory [ 
+
+	^ [ :holder | ToListItemNode new ]
+]
+
+{ #category : #initialization }
+ToItemListNodeManager >> defaultNodeHolderFactory [ 
+
+	^ [ ToItemNodeHolder new ]
+]
+
+{ #category : #initialization }
+ToItemListNodeManager >> initialize [ 
+
+	super initialize.
+	itemConfigurator := self defaultItemConfigurator 
+]
+
+{ #category : #accessing }
+ToItemListNodeManager >> itemConfigurator: aValuable [
+
+	itemConfigurator := aValuable 
+]
+
+{ #category : #initialization }
+ToItemListNodeManager >> unbuildNode: aNode [
+
+	aNode item removeFromParent
 ]

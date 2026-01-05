@@ -2,7 +2,7 @@ Class {
 	#name : #ToFiniteListDataSourceObserver,
 	#superclass : #BlInfiniteDataSourceObserver,
 	#instVars : [
-		'innerBarElement'
+		'innerListElement'
 	],
 	#category : #'Toplo-Widget-List-InnerList-Finite'
 }
@@ -17,13 +17,13 @@ ToFiniteListDataSourceObserver class >> on: anInnerLinearBarElement [
 { #category : #'event handling' }
 ToFiniteListDataSourceObserver >> infiniteDataSourceChanged: anEvent [
 
-	innerBarElement dataSourceManager onItemsChanged
+	innerListElement dataSourceManager onItemsChanged
 ]
 
 { #category : #'event handling' }
 ToFiniteListDataSourceObserver >> infiniteDataSourceItemRangeChanged: anEvent [
 
-	innerBarElement dataSourceManager
+	innerListElement dataSourceManager
 		onItemRangeChanged: anEvent position
 		itemCount: anEvent itemCount
 ]
@@ -34,19 +34,19 @@ ToFiniteListDataSourceObserver >> infiniteDataSourceItemRangeEvent: anEvent [
 	anEvent position to: anEvent position + anEvent itemCount - 1 do: [
 		:anIndex |
 		| anElementHolder |
-		anElementHolder := innerBarElement
+		anElementHolder := innerListElement
 			                   findElementHolderForDataSourcePosition: anIndex.
 		anElementHolder ifNotNil: [ anEvent event sendTo: anElementHolder ] ].
-	innerBarElement listElement dispatchEvent: anEvent copy
+	innerListElement listElement dispatchEvent: anEvent copy
 ]
 
 { #category : #'event handling' }
 ToFiniteListDataSourceObserver >> infiniteDataSourceItemRangeInserted: anEvent [
 
-	innerBarElement dataSourceManager
+	innerListElement dataSourceManager
 		onItemRangeInserted: anEvent position
 		itemCount: anEvent itemCount.
-	innerBarElement listElement selecter
+	innerListElement listElement selecter
 		shiftSelection: anEvent itemCount
 		from: anEvent position
 ]
@@ -54,14 +54,14 @@ ToFiniteListDataSourceObserver >> infiniteDataSourceItemRangeInserted: anEvent [
 { #category : #'event handling' }
 ToFiniteListDataSourceObserver >> infiniteDataSourceItemRangeRemoved: anEvent [
 
-	innerBarElement dataSourceManager
+	innerListElement dataSourceManager
 		onItemRangeRemoved: anEvent position
 		itemCount: anEvent itemCount.
 	" update the secondary selection because it can be on the removed nodes "
-	innerBarElement listElement secondarySelecter
+	innerListElement listElement secondarySelecter
 		deselectIndex: anEvent position
 		to: anEvent position + anEvent itemCount - 1.
-	innerBarElement listElement selecter
+	innerListElement listElement selecter
 		shiftSelection: anEvent itemCount negated
 		from: anEvent position.
 	"innerBarElement spaceDo: [ :sp |
@@ -72,28 +72,28 @@ ToFiniteListDataSourceObserver >> infiniteDataSourceItemRangeRemoved: anEvent [
 { #category : #'event handling' }
 ToFiniteListDataSourceObserver >> infiniteDataSourceItemsFilteredEvent: anEvent [
 
-	innerBarElement dataSourceManager
+	innerListElement dataSourceManager
 		onItemsFiltered: anEvent position
 		itemCount: anEvent itemCount.
-	innerBarElement listElement dispatchEvent: anEvent copy
+	innerListElement listElement dispatchEvent: anEvent copy
 ]
 
 { #category : #initialization }
-ToFiniteListDataSourceObserver >> initializeWith: anInnerLinearBarElement [
+ToFiniteListDataSourceObserver >> initializeWith: anInnerListElement [
 	
 	self
-		assert: [ innerBarElement isNil ]
+		assert: [ innerListElement isNil ]
 		description: [ 'I can be initialized only once!' ].
 	
-	innerBarElement := anInnerLinearBarElement
+	innerListElement := anInnerListElement
 ]
 
 { #category : #'event handling' }
 ToFiniteListDataSourceObserver >> listDataSourceItemsSievedEvent: anEvent [
 	
-	innerBarElement dataSourceManager
+	innerListElement dataSourceManager
 		onItemsSieved: anEvent position
 		itemCount: anEvent itemCount
 		with: anEvent sieve.
-	innerBarElement listElement dispatchEvent: anEvent copy
+	innerListElement listElement dispatchEvent: anEvent copy
 ]

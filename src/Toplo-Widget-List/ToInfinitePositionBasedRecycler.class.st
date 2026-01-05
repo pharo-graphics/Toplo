@@ -24,12 +24,6 @@ ToInfinitePositionBasedRecycler >> initialize [
 	pool := IdentityDictionary new.
 ]
 
-{ #category : #'element fetching' }
-ToInfinitePositionBasedRecycler >> nodeAt: aPosition in: anInfiniteElement [
-
-	^ pool at: aPosition ifAbsent: []
-]
-
 { #category : #initialization }
 ToInfinitePositionBasedRecycler >> poolSize [
 

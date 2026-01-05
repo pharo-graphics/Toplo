@@ -93,6 +93,8 @@ ToFiniteListElement >> configureNodeContainer: aNodeContainer [
 
 { #category : #layout }
 ToFiniteListElement >> consumeFinalStepCommands [
+
+	dataSourceManager consumeFinalStepCommandsIn: self
 ]
 
 { #category : #'private - commands' }
@@ -121,7 +123,7 @@ ToFiniteListElement >> defaultDataSource [
 ToFiniteListElement >> defaultDataSourceManager [
 
 	^ ToFiniteListDataSourceManager new
-		  innerBarElement: self;
+		  innerListElement: self;
 		  yourself
 ]
 
@@ -315,6 +317,13 @@ ToFiniteListElement >> onItemsChanged [
 	self addAllHolders: holders at: 1.
 	self updatePositions
 
+]
+
+{ #category : #'hooks - layout' }
+ToFiniteListElement >> onLayoutDone [ 
+
+	super onLayoutDone.
+	self 	consumeFinalStepCommands.
 ]
 
 { #category : #initialization }

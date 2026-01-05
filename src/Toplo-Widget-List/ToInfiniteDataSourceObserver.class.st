@@ -50,7 +50,7 @@ ToInfiniteDataSourceObserver >> infiniteDataSourceItemRangeRemoved: anEvent [
 ]
 
 { #category : #'event handling' }
-ToInfiniteDataSourceObserver >> infiniteDataSourceItemsFiltered: anEvent [
+ToInfiniteDataSourceObserver >> infiniteDataSourceItemsFilteredEvent: anEvent [
 
 	self assertNotInLayoutOrScroll.
 	
@@ -62,7 +62,7 @@ ToInfiniteDataSourceObserver >> infiniteDataSourceItemsFiltered: anEvent [
 ]
 
 { #category : #'event handling' }
-ToInfiniteDataSourceObserver >> infiniteDataSourceItemsSieved: anEvent [
+ToInfiniteDataSourceObserver >> listDataSourceItemsSievedEvent: anEvent [
 	self assertNotInLayoutOrScroll.
 	
 	infiniteElement dataSourceManager

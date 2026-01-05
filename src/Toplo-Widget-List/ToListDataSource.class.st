@@ -1,62 +1,62 @@
 Class {
-	#name : #ToInfiniteDataSource,
+	#name : #ToListDataSource,
 	#superclass : #BlInfiniteDataSource,
-	#category : #'Toplo-Widget-List-InnerInfiniteList'
+	#category : #'Toplo-Widget-List-InnerList'
 }
 
 { #category : #notifications }
-ToInfiniteDataSource >> notifyChangedAllDataItems: aDataItemArray [
+ToListDataSource >> notifyChangedAllDataItems: aDataItemArray [
 
 	self subclassResponsibility 
 ]
 
 { #category : #notifications }
-ToInfiniteDataSource >> notifyChangedDataItem: aDataItem [
+ToListDataSource >> notifyChangedDataItem: aDataItem [
 
 	self subclassResponsibility 
 ]
 
 { #category : #notifications }
-ToInfiniteDataSource >> notifyDataItemChangeIndex: anInteger [
+ToListDataSource >> notifyDataItemChangeIndex: anInteger [
 	
 	self notifyDataItemChangeInterval: (anInteger to: anInteger)
 ]
 
 { #category : #notifications }
-ToInfiniteDataSource >> notifyDataItemChangeIndexes: anIntegerArray [
+ToListDataSource >> notifyDataItemChangeIndexes: anIntegerArray [
 
 	anIntegerArray do: [ :idx | self notifyDataItemChangeIndex: idx ]
 ]
 
 { #category : #notifications }
-ToInfiniteDataSource >> notifyDataItemChangeInterval: anInterval [
+ToListDataSource >> notifyDataItemChangeInterval: anInterval [
 	
 	self notifyItemsChanged: anInterval
 ]
 
 { #category : #'event firing' }
-ToInfiniteDataSource >> notifyItemsFiltered [
+ToListDataSource >> notifyItemsFiltered [
 	"Notify any registered observers that data source have been newly filtered.
 	This is a structural change event"
 
-	self notifyWithEvent: (ToInfiniteDataSourceItemsFiltered
+	self notifyWithEvent: (ToListDataSourceItemsFilteredEvent
 			 position: 1
 			 itemCount: self itemCount)
 ]
 
 { #category : #'event firing' }
-ToInfiniteDataSource >> notifyItemsSievedWith: aSieve [
+ToListDataSource >> notifyItemsSievedWith: aSieve [
 	"Notify any registered observers that data source have been newly filtered.
 	This is a structural change event"
 
-	self notifyWithEvent: (ToInfiniteDataSourceItemsSieved
+	self notifyWithEvent: (ToListDataSourceItemsSievedEvent
 		position: 1
 		itemCount: self itemCount
 		sieve: aSieve )
 ]
 
 { #category : #'instance creation' }
-ToInfiniteDataSource >> onCreateHolder: anInfiniteElement [ 
+ToListDataSource >> onCreateHolder: anInfiniteElement [ 
 
 	^ anInfiniteElement newNodeHolderFromDataSource: self
 ]

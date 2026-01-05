@@ -89,7 +89,7 @@ ToListElementEventHandler >> eventsToHandle [
 		  BlElementScrolledEvent.
 
 		  " data source "
-		  ToInfiniteDataSourceEmptinessChangedEvent.
+		  ToListDataSourceEmptinessChangedEvent.
 
 		  BlLayoutResizerChangedEvent.
 
@@ -105,20 +105,20 @@ ToListElementEventHandler >> focusEvent: anEvent [
 	self syncNodesSelectionIn: anEvent currentTarget 
 ]
 
-{ #category : #'infinite event handling' }
-ToListElementEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEvent [
-
-	self showHidePlaceholderIn: anEvent currentTarget
-]
-
 { #category : #'list element handling' }
-ToListElementEventHandler >> infiniteDataSourceItemsFiltered: anEvent [
+ToListElementEventHandler >> infiniteDataSourceItemsFilteredEvent: anEvent [
 ]
 
 { #category : #'element events handling' }
 ToListElementEventHandler >> layoutResizerChangedEvent: anEvent [
 
 	anEvent currentTarget requestConfiguration
+]
+
+{ #category : #'infinite event handling' }
+ToListElementEventHandler >> listDataSourceEmptinessChangedEvent: anEvent [
+
+	self showHidePlaceholderIn: anEvent currentTarget
 ]
 
 { #category : #'infinite event handling' }

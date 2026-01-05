@@ -188,7 +188,7 @@ ToBasicListElement >> defaultDataAccessor [
 { #category : #initialization }
 ToBasicListElement >> defaultDataSource [
 
-	^ ToSortableInfiniteCollectionDataSource new
+	^ ToListSortableCollectionDataSource new
 ]
 
 { #category : #initialization }

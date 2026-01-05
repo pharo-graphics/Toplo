@@ -115,7 +115,7 @@ ToInfiniteElement >> defaultRecycler [
 { #category : #initialization }
 ToInfiniteElement >> defaultScrollFlinger [
 	"Return class, actuall instantiation happens in initialize"
-	^ ToInfiniteScrollFlinger
+	^ ToListScrollFlinger
 ]
 
 { #category : #layout }

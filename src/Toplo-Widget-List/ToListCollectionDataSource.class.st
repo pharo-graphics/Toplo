@@ -1,31 +1,31 @@
 Class {
-	#name : #ToInfiniteCollectionDataSource,
-	#superclass : #ToInfiniteDataSource,
+	#name : #ToListCollectionDataSource,
+	#superclass : #ToListDataSource,
 	#traits : 'TToObservableCollection + TToCollectionChangedNotifier',
 	#classTraits : 'TToObservableCollection classTrait + TToCollectionChangedNotifier classTrait',
 	#instVars : [
 		'dataEventHandler',
 		'data'
 	],
-	#category : #'Toplo-Widget-List-InnerInfiniteList'
+	#category : #'Toplo-Widget-List-InnerList'
 }
 
 { #category : #accessing }
-ToInfiniteCollectionDataSource >> collection [
+ToListCollectionDataSource >> collection [
 
 	^ data
 
 ]
 
 { #category : #initialization }
-ToInfiniteCollectionDataSource >> initialize [ 
+ToListCollectionDataSource >> initialize [ 
 
 	super initialize.
 	data := OrderedCollection new
 ]
 
 { #category : #accessing }
-ToInfiniteCollectionDataSource >> itemCount [
+ToListCollectionDataSource >> itemCount [
 	"Return the total number of items in the data set"
 	<return: #Number>
 
@@ -33,7 +33,7 @@ ToInfiniteCollectionDataSource >> itemCount [
 ]
 
 { #category : #notifications }
-ToInfiniteCollectionDataSource >> notifyChangedAllDataItems: aDataItemArray [
+ToListCollectionDataSource >> notifyChangedAllDataItems: aDataItemArray [
 
 	| idxes |
 	idxes := aDataItemArray collect: [ :d |
@@ -45,7 +45,7 @@ ToInfiniteCollectionDataSource >> notifyChangedAllDataItems: aDataItemArray [
 ]
 
 { #category : #notifications }
-ToInfiniteCollectionDataSource >> notifyChangedDataItem: aDataItem [
+ToListCollectionDataSource >> notifyChangedDataItem: aDataItem [
 
 	| idx |
 	idx := self indexOf: aDataItem.
@@ -54,23 +54,23 @@ ToInfiniteCollectionDataSource >> notifyChangedDataItem: aDataItem [
 ]
 
 { #category : #hooks }
-ToInfiniteCollectionDataSource >> onAttached: anInfiniteElement [
+ToListCollectionDataSource >> onAttached: anInfiniteElement [
 
 	super onAttached: anInfiniteElement.
-	dataEventHandler := ToInfiniteDataSourceDataEventHandler new.
+	dataEventHandler := ToListDataSourceDataEventHandler new.
 	dataEventHandler infinite: anInfiniteElement.
 	self addEventHandler: dataEventHandler
 ]
 
 { #category : #'instance creation' }
-ToInfiniteCollectionDataSource >> onBindHolder: anElementHolder at: aPosition [
+ToListCollectionDataSource >> onBindHolder: anElementHolder at: aPosition [
 	"Update holder's model"
 
 	anElementHolder bindDataItem: (self at: aPosition)
 ]
 
 { #category : #hooks }
-ToInfiniteCollectionDataSource >> onDetached: anInfiniteElement [
+ToListCollectionDataSource >> onDetached: anInfiniteElement [
 
 	self removeEventHandler: dataEventHandler.
 	dataEventHandler := nil.

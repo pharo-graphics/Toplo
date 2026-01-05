@@ -136,7 +136,7 @@ ToInnerFiniteListElement >> defaultDataSourceObserver [
 ToInnerFiniteListElement >> defaultScrollFlinger [
 
 	"Return class, actuall instantiation happens in initialize"
-	^ ToInfiniteScrollFlinger
+	^ ToListScrollFlinger
 ]
 
 { #category : #'t - list inner element' }

@@ -1,17 +1,17 @@
 Class {
-	#name : #ToInfiniteDataSourceFilterCommand,
+	#name : #ToListDataSourceFilterCommand,
 	#superclass : #BlInfiniteDataSourceCommand,
-	#category : #'Toplo-Widget-List-InnerInfiniteList'
+	#category : #'Toplo-Widget-List-InnerList'
 }
 
 { #category : #commands }
-ToInfiniteDataSourceFilterCommand >> applyFilterIn: anInfiniteElement [
+ToListDataSourceFilterCommand >> applyFilterIn: anInfiniteElement [
 
 	anInfiniteElement applyDataSourceFilterCommand: self
 ]
 
 { #category : #commands }
-ToInfiniteDataSourceFilterCommand >> applyOnPosition: aPosition [
+ToListDataSourceFilterCommand >> applyOnPosition: aPosition [
 	"When the position of an ElementHolder is required.
 	Determine how provided position will change. Return the position after command is processed"
 	
@@ -19,25 +19,25 @@ ToInfiniteDataSourceFilterCommand >> applyOnPosition: aPosition [
 ]
 
 { #category : #commands }
-ToInfiniteDataSourceFilterCommand >> dispatchToLayout: aLayout [
+ToListDataSourceFilterCommand >> dispatchToLayout: aLayout [
 
 	aLayout onItemsAddedAt: self positionStart count: self itemCount
 ]
 
 { #category : #testing }
-ToInfiniteDataSourceFilterCommand >> isFilter [
+ToListDataSourceFilterCommand >> isFilter [
 
 	^ true
 ]
 
 { #category : #testing }
-ToInfiniteDataSourceFilterCommand >> isUpdate [
+ToListDataSourceFilterCommand >> isUpdate [
 
 	^ true
 ]
 
 { #category : #commands }
-ToInfiniteDataSourceFilterCommand >> offsetPositionsIn: anInfiniteElement [
+ToListDataSourceFilterCommand >> offsetPositionsIn: anInfiniteElement [
 
 	self applyFilterIn: anInfiniteElement.
 	anInfiniteElement

@@ -12,11 +12,11 @@ ToSievedListElementEventHandler >> eventsToHandle [
 
 	^ { "ToListSelectionCommandAppliedEvent."
 		  ToListPrimarySelectionChangedEvent.
-		  ToInfiniteDataSourceEmptinessChangedEvent }
+		  ToListDataSourceEmptinessChangedEvent }
 ]
 
 { #category : #'element handlers' }
-ToSievedListElementEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEvent [
+ToSievedListElementEventHandler >> listDataSourceEmptinessChangedEvent: anEvent [
 
 	| listElement |
 	listElement := anEvent currentTarget.

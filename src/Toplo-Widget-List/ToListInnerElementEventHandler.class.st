@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'previousDecorationSize'
 	],
-	#category : #'Toplo-Widget-List-InnerInfiniteList'
+	#category : #'Toplo-Widget-List-InnerList'
 }
 
 { #category : #'infinite event handling' }
@@ -32,19 +32,13 @@ ToListInnerElementEventHandler >> elementScrolledEvent: anEvent [
 ToListInnerElementEventHandler >> eventsToHandle [
 
 	^ {
-		  ToInfiniteScrollFinishedEvent.
-		  ToInfiniteDataSourceEmptinessChangedEvent.
+		  ToListScrollFinishedEvent.
+		  ToListDataSourceEmptinessChangedEvent.
 		  BlInfiniteElementAttachedEvent.
 		  BlInfiniteElementDetachedEvent.
 		  BlElementScrolledEvent.
 		  BlElementPositionChangedEvent.
 		  BlBoundsHasChangedDuringScrollingEvent }
-]
-
-{ #category : #'infinite event handling' }
-ToListInnerElementEventHandler >> infiniteDataSourceEmptinessChangedEvent: anEvent [
-
-	anEvent currentTarget listElement dispatchEvent: anEvent copy
 ]
 
 { #category : #'infinite event handling' }
@@ -88,7 +82,13 @@ ToListInnerElementEventHandler >> infiniteElementDetachedEvent: anEvent [
 ]
 
 { #category : #'infinite event handling' }
-ToListInnerElementEventHandler >> infiniteScrollFinishedEvent: anEvent [
+ToListInnerElementEventHandler >> listDataSourceEmptinessChangedEvent: anEvent [
+
+	anEvent currentTarget listElement dispatchEvent: anEvent copy
+]
+
+{ #category : #'infinite event handling' }
+ToListInnerElementEventHandler >> listScrollFinishedEvent: anEvent [
 
 	anEvent currentTarget listElement dispatchEvent: anEvent copy
 ]

@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTreeDataSource,
-	#superclass : #ToInfiniteCollectionDataSource,
+	#superclass : #ToListCollectionDataSource,
 	#category : #'Toplo-Widget-Tree-Core'
 }
 

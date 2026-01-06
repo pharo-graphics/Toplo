@@ -46,8 +46,10 @@ ToFiniteListElementTest2 >> testDisabledWithFiveNodes2 [
 	space root addChild: l.
 	l dataAccessor add: (ToLabel text: 'first').
 	l dataAccessor add: (ToLabel text: 'second').
+	self waitTestingSpaces.
 	l disabledSelecter selectOneMoreIndex: 2.
 	self waitTestingSpaces.
+	l forceLayout.
 	self assert: l disabledSelecter selectedIndexes equals: { 2 }.
 	l dataAccessor add: (ToLabel text: 'third').
 	self waitTestingSpaces.
@@ -71,7 +73,8 @@ ToFiniteListElementTest2 >> testDisabledWithFiveNodes4 [
 	space root addChild: l.
 	l dataAccessor add: (ToLabel text: 'first').
 	l dataAccessor add: (ToLabel text: 'second').
-	l disabledSelecter selectOneMoreIndex: 2.
+	self waitTestingSpaces.
+	l disabledSelecter selectIndex: 2.
 	self waitTestingSpaces.
 	self assert: l disabledSelecter selectedIndexes equals: { 2 }.
 	l dataAccessor add: (ToLabel text: 'third').

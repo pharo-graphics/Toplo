@@ -82,9 +82,9 @@ ToItemListElementTest >> disableItemAfterAdding [
 	self assert: l nodeContainers size equals: 0.
 	item := ToItemElementForTest new text: 'A'.
 	l addItem: item.
-	self waitTestingSpaces.
 	item disable.
 	self waitTestingSpaces.
+	l forceLayout.
 
 	n := l nodes first.
 	self assert: n holder dataItem identicalTo: item.

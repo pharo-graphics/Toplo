@@ -4,7 +4,8 @@ Class {
 	#traits : 'TToPostponedCommandManager',
 	#classTraits : 'TToPostponedCommandManager classTrait',
 	#instVars : [
-		'commandApplicationStrategy'
+		'commandApplicationStrategy',
+		'finiteListElement'
 	],
 	#category : #'Toplo-Widget-List-InnerList-Finite'
 }
@@ -16,9 +17,9 @@ ToFiniteListDataSourceManager >> addCommand: aCommand [
 ]
 
 { #category : #'command application' }
-ToFiniteListDataSourceManager >> applyCommand: aCommand in: anApplier [
+ToFiniteListDataSourceManager >> applyCommand: aCommand [
 
-	aCommand offsetPositionsIn: anApplier
+	aCommand offsetPositionsIn: finiteListElement
 ]
 
 { #category : #initialization }
@@ -47,9 +48,11 @@ ToFiniteListDataSourceManager >> initialize [
 { #category : #accessing }
 ToFiniteListDataSourceManager >> innerListElement: anInnerListElement [
 
-		commandApplicationStrategy := self defaultCommandApplicationStrategy
+	finiteListElement := anInnerListElement.
+	commandApplicationStrategy := self defaultCommandApplicationStrategy
 		                              element: anInnerListElement;
-		                              yourself
+		                              yourself.
+		
 ]
 
 { #category : #'commands processing' }
@@ -60,14 +63,6 @@ ToFiniteListDataSourceManager >> onCommandProcessed: aCommand in: anInfiniteElem
 
 { #category : #'data source updates' }
 ToFiniteListDataSourceManager >> onItemRangeChanged: aPositionStart itemCount: anItemCount [
-
-	"Enqueues a new update pending command.
-	I am a part of public API and should be triggered by data source (directly or indirectly)
-	when items are changed/updated (item's value, content, or value was replaced in-place).
-	Return true if pending commands need to be processed, otherwise false."
-
-	"If no items where updated we do nothing"
-	"innerListElement onItemRangeChanged: aPositionStart itemCount: anItemCount"
 
 	anItemCount < 1 ifTrue: [ ^ self ].
 
@@ -81,16 +76,6 @@ ToFiniteListDataSourceManager >> onItemRangeChanged: aPositionStart itemCount: a
 { #category : #'data source updates' }
 ToFiniteListDataSourceManager >> onItemRangeInserted: aPositionStart itemCount: anItemCount [
 
-	"innerListElement onItemRangeInserted: aPositionStart itemCount: anItemCount.
-	innerListElement listElement selecter
-		shiftSelection: anItemCount
-		from: aPositionStart"
-		
-	"Return true if pending commands should be processed,
-	otherwise false"
-
-	"If no items where updated we do nothing"
-
 	anItemCount < 1
 		ifTrue: [ ^ self ].
 	"Register add command"
@@ -102,19 +87,9 @@ ToFiniteListDataSourceManager >> onItemRangeInserted: aPositionStart itemCount: 
 { #category : #'data source updates' }
 ToFiniteListDataSourceManager >> onItemRangeRemoved: aPositionStart itemCount: anItemCount [
 
-	"innerListElement onItemRangeRemoved: aPositionStart itemCount: anItemCount.
-	"" update the secondary selection because it can be on the removed nodes ""
-	innerListElement listElement secondarySelecter
-		deselectIndex: aPositionStart
-		to: aPositionStart + anItemCount - 1.
-	innerListElement listElement selecter
-		shiftSelection: anItemCount negated
-		from: aPositionStart"
-	"If no items where updated we do nothing"
-
 	anItemCount < 1
 		ifTrue: [ ^ self ].
-
+		
 	"Register remove command"
 	self addCommand: (ToFiniteDataSourceRemoveCommand new
 		positionStart: aPositionStart;

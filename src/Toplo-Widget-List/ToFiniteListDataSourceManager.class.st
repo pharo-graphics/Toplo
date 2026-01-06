@@ -37,6 +37,12 @@ ToFiniteListDataSourceManager >> dispatchCommand: aCommand to: anInfiniteElement
 	aCommand dispatchToLayout: anInfiniteElement layout
 ]
 
+{ #category : #testing }
+ToFiniteListDataSourceManager >> hasPendingCommands [
+
+	^ commandApplicationStrategy hasPendingCommands
+]
+
 { #category : #initialization }
 ToFiniteListDataSourceManager >> initialize [
 

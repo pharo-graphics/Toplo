@@ -10,7 +10,13 @@ ToDataSourceCommandApplicationStrategy >> addCommand: aCommand from: aCommandApp
 	element isAttachedToSceneGraph ifFalse: [
 			aCommandApplier applyCommand: aCommand.
 			^ self ].
-	"aCommand isComposite ifTrue: ['composite ' trace. (aCommand commands do: [ :cmd | cmd trace ]). '' traceCr ]."
+
 	element postponeAction: [ aCommandApplier applyCommand: aCommand ].
 	element addedDataSourceCommand: aCommand
+]
+
+{ #category : #testing }
+ToDataSourceCommandApplicationStrategy >> hasPendingCommands [
+
+	^ element innerElement dataSourceManager hasFinalStepCommand
 ]

@@ -152,6 +152,12 @@ ToFiniteListElement >> findElementHolderForDataSourcePosition: aPosition [
 	^ nil
 ]
 
+{ #category : #testing }
+ToFiniteListElement >> hasPendingCommands [
+
+	^ dataSourceManager hasPendingCommands
+]
+
 { #category : #initialization }
 ToFiniteListElement >> initialize [
 

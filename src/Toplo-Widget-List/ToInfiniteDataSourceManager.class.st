@@ -6,6 +6,12 @@ Class {
 	#category : #'Toplo-Widget-List-InnerList-Infinite'
 }
 
+{ #category : #adding }
+ToInfiniteDataSourceManager >> addPendingCommand: aCommand [
+
+	pendingCommands add: aCommand
+]
+
 { #category : #'data source updates' }
 ToInfiniteDataSourceManager >> onItemsFiltered: aPositionStart itemCount: anItemCount [
 	"Return true if pending commands should be processed,

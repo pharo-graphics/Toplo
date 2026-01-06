@@ -4,10 +4,17 @@ Class {
 	#traits : 'TToPostponedCommandManager',
 	#classTraits : 'TToPostponedCommandManager classTrait',
 	#instVars : [
-		'pendingCommands'
+		'pendingCommands',
+		'commandApplicationStrategy'
 	],
 	#category : #'Toplo-Widget-List-InnerList-Finite'
 }
+
+{ #category : #'data source updates' }
+ToFiniteListDataSourceManager >> addCommand: aCommand [
+
+	commandApplicationStrategy addCommand: aCommand from: self
+]
 
 { #category : #'commands processing' }
 ToFiniteListDataSourceManager >> consumeCommandsIn: aFiniteElement [
@@ -19,6 +26,12 @@ ToFiniteListDataSourceManager >> consumeCommandsIn: aFiniteElement [
 		self onCommandProcessed: cmd in: aFiniteElement.
 		self recycleCommand: cmd ].
 	self consumeFinalStepCommandsIn: aFiniteElement
+]
+
+{ #category : #initialization }
+ToFiniteListDataSourceManager >> defaultCommandApplicationStrategy [ 
+
+	^ BlQueueBasedCommandApplicationStrategy
 ]
 
 { #category : #'commands processing' }
@@ -42,7 +55,8 @@ ToFiniteListDataSourceManager >> hasPendingCommands [
 ToFiniteListDataSourceManager >> initialize [
 	super initialize.
 	
-	pendingCommands := OrderedCollection new
+	pendingCommands := OrderedCollection new.
+	commandApplicationStrategy := self defaultCommandApplicationStrategy 
 ]
 
 { #category : #accessing }
@@ -68,17 +82,13 @@ ToFiniteListDataSourceManager >> onItemRangeChanged: aPositionStart itemCount: a
 	"If no items where updated we do nothing"
 	"innerListElement onItemRangeChanged: aPositionStart itemCount: anItemCount"
 
-	anItemCount < 1 ifTrue: [ ^ false ].
+	anItemCount < 1 ifTrue: [ ^ self ].
 
 	"Register update command"
-	pendingCommands add: (BlInfiniteDataSourceUpdateCommand new
+	self addCommand: (ToFiniteDataSourceUpdateCommand new
 			 positionStart: aPositionStart;
 			 itemCount: anItemCount;
-			 yourself).
-
-	^ pendingCommands notEmpty
-
-	
+			 yourself)
 ]
 
 { #category : #'data source updates' }
@@ -95,13 +105,11 @@ ToFiniteListDataSourceManager >> onItemRangeInserted: aPositionStart itemCount: 
 	"If no items where updated we do nothing"
 
 	anItemCount < 1
-		ifTrue: [ ^ false ].
+		ifTrue: [ ^ self ].
 	"Register add command"
-	pendingCommands add: (BlInfiniteDataSourceAddCommand new
+	self addCommand: (ToFiniteDataSourceAddCommand new
 			positionStart: aPositionStart;
-			itemCount: anItemCount).
-
-	^ pendingCommands notEmpty
+			itemCount: anItemCount)
 ]
 
 { #category : #'data source updates' }
@@ -118,15 +126,13 @@ ToFiniteListDataSourceManager >> onItemRangeRemoved: aPositionStart itemCount: a
 	"If no items where updated we do nothing"
 
 	anItemCount < 1
-		ifTrue: [ ^ false ].
+		ifTrue: [ ^ self ].
 
 	"Register remove command"
-	pendingCommands add: (BlInfiniteDataSourceRemoveCommand new
+	self addCommand: (ToFiniteDataSourceRemoveCommand new
 		positionStart: aPositionStart;
 		itemCount: anItemCount;
-		yourself).
-		
-	^ pendingCommands notEmpty
+		yourself)
 ]
 
 { #category : #'data source updates' }

@@ -26,8 +26,7 @@ ToFiniteListDataSourceObserver >> infiniteDataSourceItemRangeChanged: anEvent [
 
 	innerListElement dataSourceManager
 		onItemRangeChanged: anEvent position
-		itemCount: anEvent itemCount.
-	innerListElement requestLayout
+		itemCount: anEvent itemCount
 ]
 
 { #category : #'event handling' }
@@ -47,8 +46,7 @@ ToFiniteListDataSourceObserver >> infiniteDataSourceItemRangeInserted: anEvent [
 
 	innerListElement dataSourceManager
 		onItemRangeInserted: anEvent position
-		itemCount: anEvent itemCount.
-	innerListElement requestLayout
+		itemCount: anEvent itemCount
 ]
 
 { #category : #'event handling' }
@@ -56,9 +54,7 @@ ToFiniteListDataSourceObserver >> infiniteDataSourceItemRangeRemoved: anEvent [
 
 	innerListElement dataSourceManager
 		onItemRangeRemoved: anEvent position
-		itemCount: anEvent itemCount.
-	innerListElement requestLayout
-
+		itemCount: anEvent itemCount
 ]
 
 { #category : #'event handling' }

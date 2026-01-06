@@ -5,5 +5,5 @@ Class {
 		'positionStart',
 		'itemCount'
 	],
-	#category : #'Toplo-Widget-List-InnerList'
+	#category : #'Toplo-Widget-List-InnerList-Finite'
 }

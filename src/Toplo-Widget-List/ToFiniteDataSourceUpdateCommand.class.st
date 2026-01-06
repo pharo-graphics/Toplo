@@ -1,5 +1,5 @@
 Class {
 	#name : #ToFiniteDataSourceUpdateCommand,
 	#superclass : #ToFiniteDataSourceCommand,
-	#category : #'Toplo-Widget-List-InnerList'
+	#category : #'Toplo-Widget-List-InnerList-Finite'
 }

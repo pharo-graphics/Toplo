@@ -105,10 +105,6 @@ ToListElementEventHandler >> focusEvent: anEvent [
 	self syncNodesSelectionIn: anEvent currentTarget 
 ]
 
-{ #category : #'list element handling' }
-ToListElementEventHandler >> infiniteDataSourceItemsFilteredEvent: anEvent [
-]
-
 { #category : #'element events handling' }
 ToListElementEventHandler >> layoutResizerChangedEvent: anEvent [
 

@@ -4,6 +4,18 @@ Trait {
 }
 
 { #category : #'t - list inner element' }
+TToListInnerElement >> applyDataSourceFilterCommand: aDataSourceCommand [
+
+	self listElement applyDataSourceFilterCommand: aDataSourceCommand
+]
+
+{ #category : #'t - list inner element' }
+TToListInnerElement >> applyDataSourceSieveCommand: aDataSourceCommand [
+
+	self listElement applyDataSourceSieveCommand: aDataSourceCommand
+]
+
+{ #category : #'t - list inner element' }
 TToListInnerElement >> disableScrolledEvent [
 
 	self eventDispatcher disableScrolledEvent 

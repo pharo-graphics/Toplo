@@ -26,18 +26,6 @@ ToIndexesSelectionCommand class >> remove: indexes [
 ]
 
 { #category : #'private - hook' }
-ToIndexesSelectionCommand >> applyOn: anOperator [
-
-	" ask the operator passed as argument to actually apply the command. "
-
-	self
-		deprecated: 'Use applyOnOperator: instead'
-		transformWith: '`@receiver applyOn: `@argument'
-			-> '`@receiver applyOnOperator: `@argument'.
-	self applyWithOperator: anOperator
-]
-
-{ #category : #'private - hook' }
 ToIndexesSelectionCommand >> applyWithOperator: anOperator [ 
 
 	self operation applyIndexesSelection: self on: anOperator.

@@ -105,11 +105,17 @@ TToAnchoredWindowElement >> manager: aWindowHandler [
 ]
 
 { #category : #'t - anchored window element - displaying' }
-TToAnchoredWindowElement >> openOnEvent: anEvent [
+TToAnchoredWindowElement >> onAddedToSceneGraph [
 
-	self startOnEvent: anEvent.
+	super onAddedToSceneGraph.
 	popupTimestamp := self space time now.
 	self dispatchOpenedEvent
+]
+
+{ #category : #'t - anchored window element - displaying' }
+TToAnchoredWindowElement >> openOnEvent: anEvent [
+
+	self startOnEvent: anEvent
 ]
 
 { #category : #'t - anchored window element - accessing' }

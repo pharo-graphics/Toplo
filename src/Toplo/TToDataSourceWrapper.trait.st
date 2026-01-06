@@ -231,6 +231,12 @@ TToDataSourceWrapper >> do: aBlock [
 	self dataSource do: [ :w | aBlock value: w unwrappedDataItem ]
 ]
 
+{ #category : #'t - data source wrapper - enumerating' }
+TToDataSourceWrapper >> doWithIndex: aBlock [
+
+	self dataSource doWithIndex: [ :w :idx | aBlock value: w unwrappedDataItem value: idx ]
+]
+
 { #category : #'t - data source wrapper - accessing' }
 TToDataSourceWrapper >> fifth [
 

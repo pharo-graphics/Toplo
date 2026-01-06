@@ -75,6 +75,7 @@ ToTabGroupElementTest >> testRemoveItem [
 	firstItem removable: true.
 	secondItem removable: true.
 	tabGroup forceLayout.
+	self waitTestingSpaces.
 	clicked := false.
 	firstItem holder node addRemoveButton. 
 	secondItem holder node  addRemoveButton. 
@@ -252,6 +253,7 @@ ToTabGroupElementTest >> withTwoTabItems [
 			 id: #second;
 			 labelText: 'Second';
 			 yourself).
-	tabGroup forceLayout
+	self waitTestingSpaces.
+	tabGroup forceLayout.
 
 ]

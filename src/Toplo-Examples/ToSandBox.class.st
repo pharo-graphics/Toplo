@@ -4267,8 +4267,7 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 	pane := ToPane new
 		        beVertical;
 		        matchParent.
-	listElement := ToListElement new.
-	listElement inspect.
+	listElement := ToListElement finite.
 	data := self statesOfAmerica. "copyFrom: 1 to: 8"
 
 	listElement margin: (BlInsets all: 2).
@@ -5795,8 +5794,6 @@ ToSandBox class >> example_compositeBadgeOnAButton [
 ToSandBox class >> example_contactList [
 
 	| panel updateButton addPredefinedButton addPredefinedAction dataBlock list contact nameTxtF phoneTxtF addressTxtF inputPane data |
-	self flag:
-		'issue when clicking on the last row remove button in case the last row is selected: the selection element is not correctly updated '.
 
 	panel := ToPane vertical.
 	panel constraints horizontal matchParent.
@@ -6056,7 +6053,7 @@ ToSandBox class >> example_emptyDiff [
 { #category : #'finite list' }
 ToSandBox class >> example_finiteList [
 
-	self finiteListWithData: ToSandBox statesOfAmerica. "copyFrom: 1 to: 20"
+	self finiteListWithData: ToSandBox statesOfAmerica
 
 ]
 

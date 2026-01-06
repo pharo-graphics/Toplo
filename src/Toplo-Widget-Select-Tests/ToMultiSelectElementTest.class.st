@@ -78,6 +78,7 @@ ToMultiSelectElementTest >> testRemove [
 			d2.
 			d3 }.
 	cb selecter selectOneMoreIndex: 1.
+	self waitTestingSpaces.
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement nodes size equals: 1.
 	cb popupDataAccessor removeFirst.
@@ -100,6 +101,7 @@ ToMultiSelectElementTest >> testRemove1 [
 			d2.
 			d3 }.
 	cb selecter selectOneMoreIndex: 1.
+	self waitTestingSpaces.
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement nodes size equals: 1.
 	cb popupDataAccessor removeAt: 1.
@@ -122,6 +124,7 @@ ToMultiSelectElementTest >> testRemove2 [
 			d2.
 			d3 }.
 	cb selecter selectOneMoreIndex: 1.
+	self waitTestingSpaces.
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement nodes size equals: 1.
 	cb popupDataAccessor removeFrom: 1 to: 1.
@@ -144,6 +147,7 @@ ToMultiSelectElementTest >> testRemove3 [
 			d2.
 			d3 }.
 	cb selecter selectOneMoreIndex: 1.
+	self waitTestingSpaces.
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement nodes size equals: 1.
 	cb popupDataAccessor removeFrom: 1 to: 2.
@@ -165,6 +169,7 @@ ToMultiSelectElementTest >> testRemove4 [
 			d2.
 			d3 }.
 	cb selecter selectIndex: 1.
+	self waitTestingSpaces.
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement nodes size equals: 1.
 	cb popupDataAccessor removeFrom: 1 to: 3.
@@ -188,6 +193,7 @@ ToMultiSelectElementTest >> testRemove5 [
 			d3.
 			d4 }.
 	cb selecter selectOneMoreIndex: 1.
+	self waitTestingSpaces.
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement nodes size equals: 1.
 
@@ -211,10 +217,12 @@ ToMultiSelectElementTest >> testRemoveAll [
 			d2.
 			d3 }.
 	cb selecter selectIndex: 1.
+	self waitTestingSpaces.
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb header nodes size equals: 1.
 
 	cb popupDataAccessor removeAll.
+	self waitTestingSpaces.
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb header nodes isEmpty
 ]

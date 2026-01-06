@@ -152,10 +152,17 @@ ToFiniteListElement >> findElementHolderForDataSourcePosition: aPosition [
 	^ nil
 ]
 
+{ #category : #testing }
+ToFiniteListElement >> hasPendingCommands [
+
+	^ dataSourceManager hasPendingCommands
+]
+
 { #category : #initialization }
 ToFiniteListElement >> initialize [
 
 	super initialize.
+	
 	self elevation: (BlRelativeElevation elevation: 10).
 	self initializeDataSource.
 	self addEventHandler: ToFiniteListElementEventHandler new.
@@ -323,7 +330,7 @@ ToFiniteListElement >> onItemsChanged [
 ToFiniteListElement >> onLayoutDone [ 
 
 	super onLayoutDone.
-	self 	consumeFinalStepCommands.
+	self dataSourceManager consumeFinalStepCommandsIn: self
 ]
 
 { #category : #initialization }

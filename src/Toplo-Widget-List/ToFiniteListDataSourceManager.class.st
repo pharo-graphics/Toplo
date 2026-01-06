@@ -4,10 +4,29 @@ Class {
 	#traits : 'TToPostponedCommandManager',
 	#classTraits : 'TToPostponedCommandManager classTrait',
 	#instVars : [
-		'innerListElement'
+		'commandApplicationStrategy',
+		'finiteListElement'
 	],
 	#category : #'Toplo-Widget-List-InnerList-Finite'
 }
+
+{ #category : #'data source updates' }
+ToFiniteListDataSourceManager >> addCommand: aCommand [
+
+	commandApplicationStrategy addCommand: aCommand from: self
+]
+
+{ #category : #'command application' }
+ToFiniteListDataSourceManager >> applyCommand: aCommand [
+
+	aCommand applyIn: finiteListElement
+]
+
+{ #category : #initialization }
+ToFiniteListDataSourceManager >> defaultCommandApplicationStrategy [ 
+
+	^ BlQueueBasedCommandApplicationStrategy new
+]
 
 { #category : #'commands processing' }
 ToFiniteListDataSourceManager >> dispatchCommand: aCommand to: anInfiniteElement [
@@ -18,10 +37,28 @@ ToFiniteListDataSourceManager >> dispatchCommand: aCommand to: anInfiniteElement
 	aCommand dispatchToLayout: anInfiniteElement layout
 ]
 
-{ #category : #accessing }
-ToFiniteListDataSourceManager >> innerListElement: anInnerBarElement [
+{ #category : #testing }
+ToFiniteListDataSourceManager >> hasPendingCommands [
 
-	innerListElement := anInnerBarElement
+	^ commandApplicationStrategy hasPendingCommands
+]
+
+{ #category : #initialization }
+ToFiniteListDataSourceManager >> initialize [
+
+	super initialize.
+
+
+]
+
+{ #category : #accessing }
+ToFiniteListDataSourceManager >> innerListElement: anInnerListElement [
+
+	finiteListElement := anInnerListElement.
+	commandApplicationStrategy := self defaultCommandApplicationStrategy
+		                              element: anInnerListElement;
+		                              yourself.
+		
 ]
 
 { #category : #'commands processing' }
@@ -33,25 +70,37 @@ ToFiniteListDataSourceManager >> onCommandProcessed: aCommand in: anInfiniteElem
 { #category : #'data source updates' }
 ToFiniteListDataSourceManager >> onItemRangeChanged: aPositionStart itemCount: anItemCount [
 
-	innerListElement onItemRangeChanged: aPositionStart itemCount: anItemCount
+	anItemCount < 1 ifTrue: [ ^ self ].
+
+	"Register update command"
+	self addCommand: (ToListDataSourceUpdateCommand new
+			 positionStart: aPositionStart;
+			 itemCount: anItemCount;
+			 yourself)
 ]
 
 { #category : #'data source updates' }
 ToFiniteListDataSourceManager >> onItemRangeInserted: aPositionStart itemCount: anItemCount [
 
-	innerListElement onItemRangeInserted: aPositionStart itemCount: anItemCount
+	anItemCount < 1
+		ifTrue: [ ^ self ].
+	"Register add command"
+	self addCommand: (ToListDataSourceAddCommand new
+			positionStart: aPositionStart;
+			itemCount: anItemCount)
 ]
 
 { #category : #'data source updates' }
 ToFiniteListDataSourceManager >> onItemRangeRemoved: aPositionStart itemCount: anItemCount [
 
-	innerListElement onItemRangeRemoved: aPositionStart itemCount: anItemCount
-]
-
-{ #category : #'data source updates' }
-ToFiniteListDataSourceManager >> onItemsChanged [
-
-	innerListElement onItemsChanged
+	anItemCount < 1
+		ifTrue: [ ^ self ].
+		
+	"Register remove command"
+	self addCommand: (ToListDataSourceRemoveCommand new
+		positionStart: aPositionStart;
+		itemCount: anItemCount;
+		yourself)
 ]
 
 { #category : #'data source updates' }

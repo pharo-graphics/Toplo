@@ -17,8 +17,7 @@ ToFiniteListDataSourceObserver class >> on: anInnerLinearBarElement [
 { #category : #'event handling' }
 ToFiniteListDataSourceObserver >> infiniteDataSourceChanged: anEvent [
 
-	innerListElement dataSourceManager hasPendingCommands ifFalse: [
-		innerListElement onItemsChanged ]
+	innerListElement onItemsChanged
 ]
 
 { #category : #'event handling' }

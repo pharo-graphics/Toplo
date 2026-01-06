@@ -4,7 +4,6 @@ Class {
 	#traits : 'TToPostponedCommandManager',
 	#classTraits : 'TToPostponedCommandManager classTrait',
 	#instVars : [
-		'pendingCommands',
 		'commandApplicationStrategy'
 	],
 	#category : #'Toplo-Widget-List-InnerList-Finite'
@@ -14,18 +13,6 @@ Class {
 ToFiniteListDataSourceManager >> addCommand: aCommand [
 
 	commandApplicationStrategy addCommand: aCommand from: self
-]
-
-{ #category : #'commands processing' }
-ToFiniteListDataSourceManager >> consumeCommandsIn: aFiniteElement [
-
-	[ pendingCommands isEmpty ] whileFalse: [
-		| cmd |
-		cmd := pendingCommands removeFirst.
-		self dispatchCommand: cmd to: aFiniteElement.
-		self onCommandProcessed: cmd in: aFiniteElement.
-		self recycleCommand: cmd ].
-	self consumeFinalStepCommandsIn: aFiniteElement
 ]
 
 { #category : #initialization }
@@ -43,19 +30,10 @@ ToFiniteListDataSourceManager >> dispatchCommand: aCommand to: anInfiniteElement
 	aCommand dispatchToLayout: anInfiniteElement layout
 ]
 
-{ #category : #testing }
-ToFiniteListDataSourceManager >> hasPendingCommands [
-	"Return true if there are pending commands,
-	false otherwise"
-
-	^ pendingCommands isNotEmpty
-]
-
 { #category : #initialization }
 ToFiniteListDataSourceManager >> initialize [
 	super initialize.
 	
-	pendingCommands := OrderedCollection new.
 	commandApplicationStrategy := self defaultCommandApplicationStrategy 
 ]
 

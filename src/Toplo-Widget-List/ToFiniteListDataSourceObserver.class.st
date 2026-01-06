@@ -59,6 +59,7 @@ ToFiniteListDataSourceObserver >> infiniteDataSourceItemRangeRemoved: anEvent [
 { #category : #'event handling' }
 ToFiniteListDataSourceObserver >> infiniteDataSourceItemsFilteredEvent: anEvent [
 
+	innerListElement onItemsChanged.
 	innerListElement dataSourceManager
 		onItemsFiltered: anEvent position
 		itemCount: anEvent itemCount.
@@ -77,7 +78,8 @@ ToFiniteListDataSourceObserver >> initializeWith: anInnerListElement [
 
 { #category : #'event handling' }
 ToFiniteListDataSourceObserver >> listDataSourceItemsSievedEvent: anEvent [
-	
+
+	innerListElement onItemsChanged.
 	innerListElement dataSourceManager
 		onItemsSieved: anEvent position
 		itemCount: anEvent itemCount

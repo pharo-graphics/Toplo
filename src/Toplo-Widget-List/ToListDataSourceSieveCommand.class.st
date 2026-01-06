@@ -7,8 +7,8 @@ Class {
 	#category : #'Toplo-Widget-List-InnerList'
 }
 
-{ #category : #commands }
-ToListDataSourceSieveCommand >> applyFilterIn: anInfiniteElement [
+{ #category : #application }
+ToListDataSourceSieveCommand >> applyIn: anInfiniteElement [
 
 	anInfiniteElement applyDataSourceSieveCommand: self
 ]

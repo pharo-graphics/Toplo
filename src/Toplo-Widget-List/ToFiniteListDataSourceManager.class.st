@@ -19,7 +19,7 @@ ToFiniteListDataSourceManager >> addCommand: aCommand [
 { #category : #'command application' }
 ToFiniteListDataSourceManager >> applyCommand: aCommand [
 
-	aCommand offsetPositionsIn: finiteListElement
+	aCommand applyIn: finiteListElement
 ]
 
 { #category : #initialization }
@@ -67,7 +67,7 @@ ToFiniteListDataSourceManager >> onItemRangeChanged: aPositionStart itemCount: a
 	anItemCount < 1 ifTrue: [ ^ self ].
 
 	"Register update command"
-	self addCommand: (ToFiniteDataSourceUpdateCommand new
+	self addCommand: (ToListDataSourceUpdateCommand new
 			 positionStart: aPositionStart;
 			 itemCount: anItemCount;
 			 yourself)
@@ -79,7 +79,7 @@ ToFiniteListDataSourceManager >> onItemRangeInserted: aPositionStart itemCount: 
 	anItemCount < 1
 		ifTrue: [ ^ self ].
 	"Register add command"
-	self addCommand: (ToFiniteDataSourceAddCommand new
+	self addCommand: (ToListDataSourceAddCommand new
 			positionStart: aPositionStart;
 			itemCount: anItemCount)
 ]
@@ -91,7 +91,7 @@ ToFiniteListDataSourceManager >> onItemRangeRemoved: aPositionStart itemCount: a
 		ifTrue: [ ^ self ].
 		
 	"Register remove command"
-	self addCommand: (ToFiniteDataSourceRemoveCommand new
+	self addCommand: (ToListDataSourceRemoveCommand new
 		positionStart: aPositionStart;
 		itemCount: anItemCount;
 		yourself)

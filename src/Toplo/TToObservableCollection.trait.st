@@ -241,6 +241,12 @@ TToObservableCollection >> do: aBlock [
 	self collection do: aBlock
 ]
 
+{ #category : #'t - observable collection - enumerating' }
+TToObservableCollection >> doWithIndex: aBlock [
+
+	self collection doWithIndex: aBlock
+]
+
 { #category : #'t - observable collection - accessing' }
 TToObservableCollection >> fifth [
 

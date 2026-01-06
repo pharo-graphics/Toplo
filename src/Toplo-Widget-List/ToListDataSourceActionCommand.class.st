@@ -1,6 +1,6 @@
 Class {
 	#name : #ToListDataSourceActionCommand,
-	#superclass : #BlInfiniteDataSourceCommand,
+	#superclass : #ToListDataSourceCommand,
 	#instVars : [
 		'action'
 	],
@@ -19,14 +19,20 @@ ToListDataSourceActionCommand >> action: aValuable [
 	action := aValuable
 ]
 
-{ #category : #commands }
+{ #category : #application }
+ToListDataSourceActionCommand >> applyIn: anInfiniteElement [
+
+	action value
+]
+
+{ #category : #'infinite compatibility' }
 ToListDataSourceActionCommand >> dispatchToLayout: aLayout [
 
 
 ]
 
-{ #category : #commands }
+{ #category : #'infinite compatibility' }
 ToListDataSourceActionCommand >> offsetPositionsIn: anInfiniteElement [
 
-	action value
+	self applyIn: anInfiniteElement
 ]

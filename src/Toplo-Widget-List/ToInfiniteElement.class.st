@@ -40,18 +40,6 @@ ToInfiniteElement >> applyConfiguration [
 	self childrenDo: [ :container | container applyConfiguration ]
 ]
 
-{ #category : #'private - commands' }
-ToInfiniteElement >> applyDataSourceFilterCommand: aDataSourceCommand [
-
-	listElement applyDataSourceFilterCommand: aDataSourceCommand
-]
-
-{ #category : #'private - commands' }
-ToInfiniteElement >> applyDataSourceSieveCommand: aDataSourceCommand [
-
-	listElement applyDataSourceSieveCommand: aDataSourceCommand
-]
-
 { #category : #'t - infinite accessing' }
 ToInfiniteElement >> cleanUpRecyclerAt: anIndex [
 

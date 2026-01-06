@@ -15,10 +15,16 @@ ToFiniteListDataSourceManager >> addCommand: aCommand [
 	commandApplicationStrategy addCommand: aCommand from: self
 ]
 
+{ #category : #'command application' }
+ToFiniteListDataSourceManager >> applyCommand: aCommand in: anApplier [
+
+	aCommand offsetPositionsIn: anApplier
+]
+
 { #category : #initialization }
 ToFiniteListDataSourceManager >> defaultCommandApplicationStrategy [ 
 
-	^ BlQueueBasedCommandApplicationStrategy
+	^ BlQueueBasedCommandApplicationStrategy new
 ]
 
 { #category : #'commands processing' }
@@ -32,15 +38,18 @@ ToFiniteListDataSourceManager >> dispatchCommand: aCommand to: anInfiniteElement
 
 { #category : #initialization }
 ToFiniteListDataSourceManager >> initialize [
+
 	super initialize.
-	
-	commandApplicationStrategy := self defaultCommandApplicationStrategy 
+
+
 ]
 
 { #category : #accessing }
-ToFiniteListDataSourceManager >> innerListElement: anInnerBarElement [
+ToFiniteListDataSourceManager >> innerListElement: anInnerListElement [
 
-	
+		commandApplicationStrategy := self defaultCommandApplicationStrategy
+		                              element: anInnerListElement;
+		                              yourself
 ]
 
 { #category : #'commands processing' }

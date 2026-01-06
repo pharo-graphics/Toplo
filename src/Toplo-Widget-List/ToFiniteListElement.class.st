@@ -320,6 +320,13 @@ ToFiniteListElement >> onItemsChanged [
 
 ]
 
+{ #category : #'hooks - layout' }
+ToFiniteListElement >> onLayoutDone [ 
+
+	super onLayoutDone.
+	self dataSourceManager consumeFinalStepCommandsIn: self
+]
+
 { #category : #initialization }
 ToFiniteListElement >> onListElement: aListElement [
 

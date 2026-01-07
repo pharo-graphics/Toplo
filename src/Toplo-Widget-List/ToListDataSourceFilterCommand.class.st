@@ -21,7 +21,7 @@ ToListDataSourceFilterCommand >> applyOnPosition: aPosition [
 { #category : #'infinite compatibility' }
 ToListDataSourceFilterCommand >> dispatchToLayout: aLayout [
 
-	"aLayout onItemsAddedAt: self positionStart count: self itemCount"
+
 ]
 
 { #category : #'infinite compatibility' }
@@ -40,7 +40,7 @@ ToListDataSourceFilterCommand >> isUpdate [
 ToListDataSourceFilterCommand >> offsetPositionsIn: anInfiniteElement [
 
 	self applyIn: anInfiniteElement.
-	"anInfiniteElement
+	anInfiniteElement
 		offsetPositionRecordsForInsert: self positionStart
-		itemCount: self itemCount"
+		itemCount: self itemCount
 ]

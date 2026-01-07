@@ -63,34 +63,6 @@ ToFiniteListElement >> applyConfiguration [
 ToFiniteListElement >> cleanUpRecyclerAt: anIndex [
 ]
 
-{ #category : #configuration }
-ToFiniteListElement >> configureNodeContainer: aNodeContainer [
-
-	self toConfigurationDo: [ :conf |
-			conf isFlowable
-				ifTrue: [
-						aNodeContainer isHExact ifFalse: [ aNodeContainer hFitContent ].
-						aNodeContainer isVExact ifFalse: [ aNodeContainer vFitContent ] ]
-				ifFalse: [
-						listElement isVertical
-							ifTrue: [
-									aNodeContainer isHExact ifFalse: [
-											listElement isHMatchParent
-												ifTrue: [ aNodeContainer hMatchParent ]
-												ifFalse: [ aNodeContainer hFitContent ] ].
-									conf autoDistribute
-										ifTrue: [ aNodeContainer vMatchParent ]
-										ifFalse: [ aNodeContainer vFitContent ] ]
-							ifFalse: [
-									aNodeContainer isVExact ifFalse: [
-											listElement isVMatchParent
-												ifTrue: [ aNodeContainer vMatchParent ]
-												ifFalse: [ aNodeContainer vFitContent ] ].
-									conf autoDistribute
-										ifTrue: [ aNodeContainer hMatchParent ]
-										ifFalse: [ aNodeContainer hFitContent ] ] ] ]
-]
-
 { #category : #layout }
 ToFiniteListElement >> consumeFinalStepCommands [
 
@@ -256,6 +228,10 @@ ToFiniteListElement >> nodeContainersWithIndexDo: aBlock [
 ToFiniteListElement >> nodeManager [
 
 	^ self listElement nodeManager
+]
+
+{ #category : #'data source updates' }
+ToFiniteListElement >> offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount [
 ]
 
 { #category : #'hooks - layout' }

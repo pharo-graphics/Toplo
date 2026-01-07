@@ -82,7 +82,7 @@ ToPaneNodeExampleSkin >> installSkinEvent: anEvent [
 			badge constraintsDo: [ :c |
 					c ignoreByLayout.
 					c anchors add:
-						(badge centerAnchor on: e topRightAnchor + (-5 @ 5)) ].
+						(badge centerAnchor on: e bottomRightAnchor + (-5 @ -5)) ].
 			e addChild: badge.
 			e height: 60.
 			e hMatchParent ]

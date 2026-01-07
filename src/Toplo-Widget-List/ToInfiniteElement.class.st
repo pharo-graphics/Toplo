@@ -46,10 +46,6 @@ ToInfiniteElement >> cleanUpRecyclerAt: anIndex [
 	self customRecycler removeNodeAt: anIndex in: self
 ]
 
-{ #category : #configuration }
-ToInfiniteElement >> configureNodeContainer: aNodeContainer [
-]
-
 { #category : #layout }
 ToInfiniteElement >> consumeFinalStepCommands [
 

@@ -22,7 +22,7 @@ ToNodeContainer >> applyResizerConfiguration [
 
 	| list |
 	list := self holder listElement.
-	list innerElementDo: [:inner | inner configureNodeContainer: self ]
+	list nodeManager configureNodeContainer: self
 ]
 
 { #category : #configuration }

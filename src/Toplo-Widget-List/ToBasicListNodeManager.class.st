@@ -105,18 +105,20 @@ ToBasicListNodeManager >> defaultNodeContainerConfigurator [
 		  | listElement |
 		  listElement := nodeContainer holder listElement.
 		  listElement innerConfigurationDo: [ :conf |
-				  conf isFlowable
+				  (listElement useInfiniteLayout not and: [ conf isFlowable ])
 					  ifTrue: [ nodeContainer exactOrFitContent ]
 					  ifFalse: [
 							  listElement isVertical
 								  ifTrue: [
 										  nodeContainer hFitParent: listElement.
-										  conf autoDistribute
+										  (listElement useInfiniteLayout not and: [
+											   conf autoDistribute ])
 											  ifTrue: [ nodeContainer vMatchParent ]
 											  ifFalse: [ nodeContainer vExactOrFitContent ] ]
 								  ifFalse: [
 										  nodeContainer vFitParent: listElement.
-										  conf autoDistribute
+										  (listElement useInfiniteLayout not and: [
+											   conf autoDistribute ])
 											  ifTrue: [ nodeContainer hMatchParent ]
 											  ifFalse: [ nodeContainer hExactOrFitContent ] ] ] ] ]
 ]

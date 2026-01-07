@@ -17,7 +17,7 @@ ToTraceListPrimarySelectionElementSkin >> installSkinEvent: anEvent [
 			                       #traceSelectionModel.
 		" since the selection option is separate, e nodes size is always 1 "
 		color := (traceSelectionModel containsIndex:
-			          e nodes anyOne holder position)
+			          e nodeContainers anyOne holder position)
 			         ifTrue: [ Color red ]
 			         ifFalse: [
 			         e valueOfTokenNamed: #'color-list-primary-selection-focused' ].

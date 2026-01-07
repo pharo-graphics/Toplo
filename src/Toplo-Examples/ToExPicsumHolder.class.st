@@ -26,6 +26,7 @@ ToExPicsumHolder >> loadImage [
 
 	| form |
 	self terminateLoader.
+	self dataItem ifNil: [ ^ self ].
 	form := self dataItem loadedForm.
 	(form notNil and: [
 		 form extent = self node measuredExtent asIntegerPoint ]) ifTrue: [

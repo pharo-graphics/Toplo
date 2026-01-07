@@ -90,6 +90,7 @@ ToExPicsumImageData >> id [
 
 { #category : #accessing }
 ToExPicsumImageData >> id: anObject [
+
 	id := anObject
 ]
 

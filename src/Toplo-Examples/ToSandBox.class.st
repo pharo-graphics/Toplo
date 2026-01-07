@@ -1158,7 +1158,6 @@ ToSandBox class >> example_BasicListWithAllClasses [
 	l selecter selectIndexes: #(10 12 3).
 	l withRowNumbers.
 	l fakeDataItem: Object.
-	l inspect.
 	l requestFocus.
 	l openInInnerWindow.
 	^ l
@@ -2217,10 +2216,11 @@ ToSandBox class >> example_HorizontalListWithIndexedColors [
 			     node fitContent.
 			     node addChild: (ToElement new
 					      extent: 70 @ 50;
-					      background: dataItem) ].
+					      background: (dataItem ifNil: [ Color white ])) ].
 	l background: Color yellow.
 	l beHorizontal.
 	l hMatchParent.
+	l vFitContent.
 	l dataAccessor addAll: Color indexedColors.
 	space := BlSpace new.
 	space root addChild: l.
@@ -2660,6 +2660,7 @@ ToSandBox class >> example_ListWithAllClassesAsCheckbox [
 
 	| l |
 	l := ToCheckableListElement new.
+	l selectionOption masked: true.
 	l group withNoneCheckingStrategy.
 	l addAllItems: ((Smalltalk globals allClasses) collect: [ :cls |
 			 ToCheckbox new
@@ -2673,6 +2674,8 @@ ToSandBox class >> example_ListWithAllClassesAsToggleButton [
 
 	| l |
 	l := ToCheckableListElement new.
+	"l selectionOption masked: true."
+	"l selectionOption withEmbeddedRepresentation."
 	l group withNoneCheckingStrategy.
 	l addAllItems: ((Smalltalk globals allClasses ) collect: [ :cls |
 			 ToToggleButton new
@@ -2943,7 +2946,6 @@ ToSandBox class >> example_Menu2 [
 { #category : #menu }
 ToSandBox class >> example_Menu3 [
 	<demo>
-	<sampleInstance>
 	
 	| container |
 	container := ToElement new matchParent.
@@ -4268,8 +4270,7 @@ ToSandBox class >> example_SieveOnList2WithStatesOfAmerica [
 		        beVertical;
 		        matchParent.
 	listElement := ToListElement finite.
-	data := self statesOfAmerica. "copyFrom: 1 to: 8"
-
+	data := self statesOfAmerica.
 	listElement margin: (BlInsets all: 2).
 	listElement withRowNumbers.
 
@@ -7211,7 +7212,7 @@ ToSandBox class >> example_scaledImage [
 ToSandBox class >> example_segmentedWithCheckboxes [
 
 	| seg dashBoard |
-	seg := ToCheckableListElement new.
+	seg := ToCheckableListElement finite.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		seg addItem: (ToCheckbox new
 				 labelText: l;
@@ -7226,7 +7227,7 @@ ToSandBox class >> example_segmentedWithCheckboxes [
 ToSandBox class >> example_segmentedWithLabels [
 
 	| seg dashBoard rootPane feedbackPane maj |
-	seg := ToCheckableListElement new.
+	seg := ToCheckableListElement finite.
 
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		seg addItem: (ToToggleButton new
@@ -7277,7 +7278,7 @@ ToSandBox class >> example_segmentedWithLabels [
 ToSandBox class >> example_segmentedWithLabelsAndIcons [
 
 	| seg dashBoard rootPane feedbackPane maj |
-	seg := ToCheckableListElement new.
+	seg := ToCheckableListElement finite.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		seg addItem: (ToToggleButton new
 				 iconImage: ToThemeIcons searchOutlined16x16;
@@ -7325,7 +7326,7 @@ ToSandBox class >> example_segmentedWithLabelsAndIcons [
 ToSandBox class >> example_segmentedWithRadioButtons [
 
 	| seg dashBoard |
-	seg := ToCheckableListElement new.
+	seg := ToCheckableListElement finite.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		seg addItem: (ToRadioButton new
 				 labelText: l;

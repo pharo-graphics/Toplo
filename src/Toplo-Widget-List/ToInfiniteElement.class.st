@@ -28,26 +28,16 @@ ToInfiniteElement >> applyConfiguration [
 
 	super applyConfiguration.
 	self layout beHorizontal: self listElement isHorizontal.
-	
-	self constraintsDo: [ :c |
-			listElement isHMatchParent
-				ifTrue: [ c horizontal matchParent ]
-				ifFalse: [ c horizontal fitContent ].
-			listElement isVMatchParent
-				ifTrue: [ c vertical matchParent ]
-				ifFalse: [ c vertical fitContent ] ].
-
-	self childrenDo: [ :container | container applyConfiguration ]
+	self fitParent: listElement.
+	self childrenDo: [ :container | container applyConfiguration ].
+	listElement forceUpdateAllSelectionsNow.
+	self requestLayout
 ]
 
 { #category : #'t - infinite accessing' }
 ToInfiniteElement >> cleanUpRecyclerAt: anIndex [
 
 	self customRecycler removeNodeAt: anIndex in: self
-]
-
-{ #category : #configuration }
-ToInfiniteElement >> configureNodeContainer: aNodeContainer [
 ]
 
 { #category : #layout }

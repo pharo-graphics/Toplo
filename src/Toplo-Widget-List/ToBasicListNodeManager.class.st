@@ -20,7 +20,7 @@ Class {
 { #category : #initialization }
 ToBasicListNodeManager >> buildNode: aNode [ 
 
-	aNode addChild: (ToLabel text: aNode holder dataItem asString)
+	
 ]
 
 { #category : #initialization }
@@ -56,7 +56,8 @@ ToBasicListNodeManager >> configureNode: aNode [
 { #category : #'node configuration' }
 ToBasicListNodeManager >> configureNodeContainer: aNodeContainer [
 
-	nodeContainerConfigurator value: aNodeContainer 
+	nodeContainerConfigurator
+		value: aNodeContainer
 ]
 
 { #category : #'fake node container' }
@@ -94,13 +95,30 @@ ToBasicListNodeManager >> createFakeNodeContainerIn: aListElement [
 { #category : #initialization }
 ToBasicListNodeManager >> defaultNodeConfigurator [
 
-	^ [ :node | ]
+	^ [ :node | node matchParent ]
 ]
 
 { #category : #initialization }
 ToBasicListNodeManager >> defaultNodeContainerConfigurator [
 
-	^ [ :nodeContainer | ]
+	^ [ :nodeContainer |
+		  | listElement |
+		  listElement := nodeContainer holder listElement.
+		  listElement innerConfigurationDo: [ :conf |
+				  conf isFlowable
+					  ifTrue: [ nodeContainer exactOrFitContent ]
+					  ifFalse: [
+							  listElement isVertical
+								  ifTrue: [
+										  nodeContainer hFitParent: listElement.
+										  conf autoDistribute
+											  ifTrue: [ nodeContainer vMatchParent ]
+											  ifFalse: [ nodeContainer vExactOrFitContent ] ]
+								  ifFalse: [
+										  nodeContainer vFitParent: listElement.
+										  conf autoDistribute
+											  ifTrue: [ nodeContainer hMatchParent ]
+											  ifFalse: [ nodeContainer hExactOrFitContent ] ] ] ] ]
 ]
 
 { #category : #initialization }

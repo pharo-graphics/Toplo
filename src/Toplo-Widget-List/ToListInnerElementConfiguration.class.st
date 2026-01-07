@@ -18,9 +18,7 @@ Class {
 ToListInnerElementConfiguration >> applyOn: aListInnerElement [ 
 
 	super applyOn: aListInnerElement.
-	aListInnerElement withRowNumbers: rowNumbers.
-	aListInnerElement listElement forceUpdateAllSelectionsNow 
-	
+	aListInnerElement withRowNumbers: rowNumbers
 ]
 
 { #category : #'t - inner finite list element configuration' }

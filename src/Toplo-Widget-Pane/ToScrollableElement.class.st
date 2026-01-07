@@ -1,8 +1,8 @@
 Class {
 	#name : #ToScrollableElement,
 	#superclass : #BlScrollableElement,
-	#traits : 'TToElement + TBlLayoutResizable',
-	#classTraits : 'TToElement classTrait + TBlLayoutResizable classTrait',
+	#traits : 'TToElement',
+	#classTraits : 'TToElement classTrait',
 	#category : #'Toplo-Widget-Pane-Core'
 }
 

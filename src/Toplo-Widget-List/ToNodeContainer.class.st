@@ -13,23 +13,11 @@ Class {
 { #category : #configuration }
 ToNodeContainer >> applyConfiguration [
 
-	super applyConfiguration.
-	self aroundNodeConfiguration: [ self node applyConfiguration ]
-]
-
-{ #category : #configuration }
-ToNodeContainer >> applyResizerConfiguration [
-
 	| list |
+	super applyConfiguration.
 	list := self holder listElement.
-	list innerElementDo: [:inner | inner configureNodeContainer: self ]
-]
-
-{ #category : #configuration }
-ToNodeContainer >> aroundNodeConfiguration: aNodeConfigurationBlock [
-
-	self applyResizerConfiguration.
-	aNodeConfigurationBlock value
+	list nodeManager configureNodeContainer: self.
+	self node applyConfiguration
 ]
 
 { #category : #accessing }

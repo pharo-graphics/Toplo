@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Examples-TopLevel-Trees'
 }
 
+{ #category : #initialization }
+ToExClassHierachyTreeNodeManager >> buildNode: aNode [ 
+
+	aNode addChild: (ToLabel text: aNode holder dataItem asString)
+]
+
 { #category : #'children accessing' }
 ToExClassHierachyTreeNodeManager >> childrenFromDataItem: aClass [
 

@@ -43,19 +43,13 @@ ToFiniteListTrackElement >> configureLayout [
 { #category : #configuration }
 ToFiniteListTrackElement >> configureResizer [
 
+	self fitElement: listElement.
 	(self isFlowable not and: [
-		 self isScrollable and: [ self autoDistribute not ] ])
-		ifTrue: [
-				self isHorizontal
-					ifTrue: [ self hFitContent ]
-					ifFalse: [ self vFitContent ] ]
-		ifFalse: [
-				listElement isHFitContent
-					ifTrue: [ self hFitContent ]
-					ifFalse: [ self hMatchParent ].
-				listElement isVFitContent
-					ifTrue: [ self vFitContent ]
-					ifFalse: [ self vMatchParent ] ]
+		 self isScrollable and: [ self autoDistribute not ] ]) ifFalse: [
+		^ self ].
+	self isHorizontal
+		ifTrue: [ self hFitContent ]
+		ifFalse: [ self vFitContent ]
 ]
 
 { #category : #layout }

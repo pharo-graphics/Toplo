@@ -24,6 +24,7 @@ Class {
 ToBasicListNode >> applyConfiguration [
 
 	super applyConfiguration.
+	self matchParent.
 	self nodeManager configureNode: self.
 	self holder initializeNodeSelections
 ]

@@ -48,14 +48,7 @@ ToFiniteListElement >> addedDataSourceCommand: aCommand [
 ToFiniteListElement >> applyConfiguration [
 
 	super applyConfiguration.
-	listElement isHFitContent
-		ifTrue: [ self hFitContent ]
-		ifFalse: [ self hMatchParent ].
-
-	listElement isVFitContent
-		ifTrue: [ self vFitContent ]
-		ifFalse: [ self vMatchParent ].
-
+	self fitElement: listElement.
 	self childrenDo: [ :container | container applyConfiguration ]
 ]
 

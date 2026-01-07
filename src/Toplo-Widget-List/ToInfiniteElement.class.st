@@ -28,16 +28,9 @@ ToInfiniteElement >> applyConfiguration [
 
 	super applyConfiguration.
 	self layout beHorizontal: self listElement isHorizontal.
-	
-	self constraintsDo: [ :c |
-			listElement isHMatchParent
-				ifTrue: [ c horizontal matchParent ]
-				ifFalse: [ c horizontal fitContent ].
-			listElement isVMatchParent
-				ifTrue: [ c vertical matchParent ]
-				ifFalse: [ c vertical fitContent ] ].
-
-	self childrenDo: [ :container | container applyConfiguration ]
+	self fitElement: listElement.
+	self childrenDo: [ :container | container applyConfiguration ].
+	self requestLayout
 ]
 
 { #category : #'t - infinite accessing' }

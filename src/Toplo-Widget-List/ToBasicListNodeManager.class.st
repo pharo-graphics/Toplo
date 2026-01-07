@@ -20,7 +20,7 @@ Class {
 { #category : #initialization }
 ToBasicListNodeManager >> buildNode: aNode [ 
 
-	aNode addChild: (ToLabel text: aNode holder dataItem asString)
+	
 ]
 
 { #category : #initialization }
@@ -113,20 +113,20 @@ ToBasicListNodeManager >> defaultNodeContainerConfigurator [
 							  listElement isVertical
 								  ifTrue: [
 										  nodeContainer isHExact ifFalse: [
-												  listElement isHMatchParent
-													  ifTrue: [ nodeContainer hMatchParent ]
-													  ifFalse: [ nodeContainer hFitContent ] ].
+											  nodeContainer hFitElement: listElement ].
 										  conf autoDistribute
 											  ifTrue: [ nodeContainer vMatchParent ]
-											  ifFalse: [ nodeContainer vFitContent ] ]
+											  ifFalse: [
+											  nodeContainer isVExact ifFalse: [
+												  nodeContainer vFitContent ] ] ]
 								  ifFalse: [
 										  nodeContainer isVExact ifFalse: [
-												  listElement isVMatchParent
-													  ifTrue: [ nodeContainer vMatchParent ]
-													  ifFalse: [ nodeContainer vFitContent ] ].
+											  nodeContainer vFitElement: listElement ].
 										  conf autoDistribute
 											  ifTrue: [ nodeContainer hMatchParent ]
-											  ifFalse: [ nodeContainer hFitContent ] ] ] ] ]
+											  ifFalse: [
+											  nodeContainer isHExact ifFalse: [
+												  nodeContainer hFitContent ] ] ] ] ] ]
 ]
 
 { #category : #initialization }

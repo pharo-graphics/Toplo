@@ -2216,10 +2216,11 @@ ToSandBox class >> example_HorizontalListWithIndexedColors [
 			     node fitContent.
 			     node addChild: (ToElement new
 					      extent: 70 @ 50;
-					      background: dataItem) ].
+					      background: (dataItem ifNil: [ Color white ])) ].
 	l background: Color yellow.
 	l beHorizontal.
 	l hMatchParent.
+	l vFitContent.
 	l dataAccessor addAll: Color indexedColors.
 	space := BlSpace new.
 	space root addChild: l.

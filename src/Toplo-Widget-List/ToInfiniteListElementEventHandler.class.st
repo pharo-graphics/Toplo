@@ -14,6 +14,12 @@ ToInfiniteListElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEve
 ]
 
 { #category : #'infinite event handling' }
+ToInfiniteListElementEventHandler >> elementExtentChangedEvent: anEvent [
+
+	anEvent currentTarget requestLayout
+]
+
+{ #category : #'infinite event handling' }
 ToInfiniteListElementEventHandler >> elementPositionChangedEvent: anEvent [
 
 	anEvent currentTarget listElement requestUpdateAllSelections
@@ -38,7 +44,9 @@ ToInfiniteListElementEventHandler >> eventsToHandle [
 		  BlInfiniteElementDetachedEvent.
 		  BlElementScrolledEvent.
 		  BlElementPositionChangedEvent.
-		  BlBoundsHasChangedDuringScrollingEvent }
+		  BlBoundsHasChangedDuringScrollingEvent.
+		  BlLayoutResizerChangedEvent.
+		  BlElementExtentChangedEvent }
 ]
 
 { #category : #'infinite event handling' }
@@ -79,6 +87,12 @@ ToInfiniteListElementEventHandler >> infiniteElementDetachedEvent: anEvent [
 		(ToListNodeRemovedEvent new
 			 node: anEvent element node;
 			 yourself)
+]
+
+{ #category : #'infinite event handling' }
+ToInfiniteListElementEventHandler >> layoutResizerChangedEvent: anEvent [
+
+	anEvent currentTarget requestLayout
 ]
 
 { #category : #'infinite event handling' }

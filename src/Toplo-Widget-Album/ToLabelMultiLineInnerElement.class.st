@@ -57,9 +57,7 @@ ToLabelMultiLineInnerElement >> initialize [
 	super initialize.
 
 	lines := #(  ).
-	self constraintsDo: [ :c |
-		c vertical fitContent.
-		c horizontal fitContent ].
+	self fitContent.
 	self layout: BlLinearLayout vertical.
 	self preventMouseEvents
 ]
@@ -87,9 +85,7 @@ ToLabelMultiLineInnerElement >> newLineElement [
 
 	^ AlbTextEditorSegmentElement new
 		  layout: BlFlowLayout new;
-		  constraintsDo: [ :c | 
-			  c horizontal fitContent.
-			  c vertical fitContent ];
+		  fitContent;
 		  yourself
 ]
 

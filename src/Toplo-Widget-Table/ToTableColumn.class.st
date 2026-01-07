@@ -33,8 +33,7 @@ ToTableColumn >> buildHeaderCellInContainer: anHeaderCellContainer inTableElemen
 		ifNil: [ anHeaderCellContainer hMatchParent ]
 		ifNotNil: [ anHeaderCellContainer updateWidthWith: width ].
 
-	anHeaderCellContainer cell constraintsDo: [ :c |
-		c horizontal matchParent ].
+	anHeaderCellContainer cell hMatchParent.
 
 	headerCellBuilder
 		cull: anHeaderCellContainer cell
@@ -50,7 +49,7 @@ ToTableColumn >> buildListCellInContainer: aCellContainer atIndex: aColumnIndex 
 	cellData := self fetchedCellDataFromDataIndex:
 		            aTableNode holder dataItem.
 	aCellContainer hMatchParent.
-	aCellContainer cell constraintsDo: [ :c | c horizontal matchParent ].
+	aCellContainer cell hMatchParent.
 
 	cellBuilder
 		cull: aCellContainer cell

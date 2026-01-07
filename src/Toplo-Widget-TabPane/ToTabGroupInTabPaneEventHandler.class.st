@@ -35,9 +35,7 @@ ToTabGroupInTabPaneEventHandler >> checkableGroupChangedEvent: anEvent [
 				body addChild: bodyPane.
 				^ self ].
 	bodyPane ifNil: [ bodyPane := button paneFactory value ].
-	bodyPane constraintsDo: [ :c |
-			c horizontal matchParent.
-			c vertical matchParent ].
+	bodyPane  matchParent.
 	bodyPane
 		addEventHandlerOn: BlElementRemovedFromSceneGraphEvent
 		do: [ self applyPaneDestroyerOfTabButton: button ].

@@ -221,16 +221,13 @@ ToImage >> innerImage: anImage [
 	self removeChildren.
 	innerImage := element.
 	self addChild: element.
-	
+
 	innerImage constraintsDo: [ :c |
 			c frame horizontal alignCenter.
 			c frame vertical alignCenter ].
 
 	element id ifNotNil: [ :id |
-		id asSymbol = self svgInnerImageId ifTrue: [
-			element constraintsDo: [ :c |
-				c horizontal matchParent.
-				c vertical matchParent ] ] ]
+		id asSymbol = self svgInnerImageId ifTrue: [ element matchParent ] ]
 ]
 
 { #category : #'inner accessing' }

@@ -14,7 +14,8 @@ TToRemovableNode >> addRemoveButton [
 	removeButton clickAction: [
 			removeButton fireEvent: ToRemoveButtonClickedEvent new ].
 	removeButton constraintsDo: [ :c | c ignoreByLayout ].
-	self addChild: removeButton
+	self addChild: removeButton.
+	self requestNewSkin
 ]
 
 { #category : #'t - removable node' }
@@ -41,5 +42,6 @@ TToRemovableNode >> removeRemoveButton [
 
 	removeButton ifNil: [ ^ self ].
 	removeButton removeFromParent.
-	removeButton := nil
+	removeButton := nil.
+	self requestNewSkin
 ]

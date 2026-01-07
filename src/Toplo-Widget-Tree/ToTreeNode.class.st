@@ -8,10 +8,3 @@ Class {
 	#superclass : #ToBasicListNode,
 	#category : #'Toplo-Widget-Tree-Core'
 }
-
-{ #category : #initialization }
-ToTreeNode >> initialize [
-
-	super initialize.
-	self vFitContent
-]

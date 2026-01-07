@@ -10,10 +10,9 @@ Class {
 ToTagElement >> applyConfiguration [ 
 
 	super applyConfiguration.
-	self removeRemoveButton.
 	self isRemovable
-		ifTrue: [ self addRemoveButton ].
-	self requestNewSkin 
+		ifTrue: [ self addRemoveButton ]
+		ifFalse: [ self removeRemoveButton ]
 ]
 
 { #category : #initialization }

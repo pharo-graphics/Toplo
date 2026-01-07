@@ -22,5 +22,5 @@ ToListDisabledSelectionElementEventHandler >> listDisabledSelectionChangedEvent:
 					target selectionMode makeDisabledUnselectable ifTrue: [
 						target selecter deselectInterval: int ].
 					target dataSource notifyItemsChanged: int ] ].
-	target selectionOption notifyNodesSelectedIn: target
+	"target selectionOption notifyNodesSelectedIn: target"
 ]

@@ -14,6 +14,7 @@ ToMenuItemListElement >> defaultNodeManager [
 
 	^ super defaultNodeManager
 		  nodeFactory: [ :holder | ToMenuItemNode new ];
+		  itemConfigurator: [ :item | item applyConfiguration ];
 		  yourself
 ]
 

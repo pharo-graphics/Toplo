@@ -22,7 +22,7 @@ TToListNode >> initializeAsListNode [
 	self matchParent.
 	self addEventHandlerOn: ToRemoveButtonClickedEvent do: [ :event |
 			| target listElement |
-			" since the event is fired, on should stop it dispatching here "
+			" since the event is fired, on should stop it's dispatching here "
 			event consume.
 			target := event currentTarget.
 			listElement := target holder listElement.

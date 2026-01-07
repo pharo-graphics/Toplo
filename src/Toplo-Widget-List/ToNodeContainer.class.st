@@ -13,11 +13,8 @@ Class {
 { #category : #configuration }
 ToNodeContainer >> applyConfiguration [
 
-	| nodeManager |
 	super applyConfiguration.
-	self aroundNodeConfiguration: [ self node applyConfiguration ].
-	nodeManager := self holder listElement nodeManager.
-	nodeManager configureNode: self node
+	self aroundNodeConfiguration: [ self node applyConfiguration ]
 ]
 
 { #category : #configuration }

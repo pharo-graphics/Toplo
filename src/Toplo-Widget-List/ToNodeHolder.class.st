@@ -163,6 +163,12 @@ ToNodeHolder >> listElement [
 ]
 
 { #category : #accessing }
+ToNodeHolder >> listInnerElement [
+
+	^ self infiniteElement
+]
+
+{ #category : #accessing }
 ToNodeHolder >> node [
 
 	^ self nodeContainer node 

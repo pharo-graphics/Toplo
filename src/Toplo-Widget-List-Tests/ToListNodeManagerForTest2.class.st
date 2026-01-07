@@ -10,13 +10,14 @@ Class {
 { #category : #initialization }
 ToListNodeManagerForTest2 >> buildNode: aNode [
 
+	aNode holder dataItem removeFromParent.
 	aNode addChild: aNode holder dataItem
 ]
 
 { #category : #initialization }
 ToListNodeManagerForTest2 >> defaultNodeFactory [
 
-	^ [ :holder | ToListNodeForTest2 new ]
+	^ [ :holder | ToListNodeForTest new ]
 ]
 
 { #category : #initialization }

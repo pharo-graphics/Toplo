@@ -14,6 +14,7 @@ ToItemNodeHolder >> dataItem: aDataItem [
 { #category : #accessing }
 ToItemNodeHolder >> initializeNodeSelections [
 
+	notifiedSelected := false.
 	self dataItem itemConstraintsDo: [ :ic |
 		ic constraintItem: self dataItem.
 		self disabled: self dataItem isDisabled.

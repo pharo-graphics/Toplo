@@ -43,7 +43,7 @@ ToFiniteListTrackElement >> configureLayout [
 { #category : #configuration }
 ToFiniteListTrackElement >> configureResizer [
 
-	self fitElement: listElement.
+	self fitParent: listElement.
 	(self isFlowable not and: [
 		 self isScrollable and: [ self autoDistribute not ] ]) ifFalse: [
 		^ self ].

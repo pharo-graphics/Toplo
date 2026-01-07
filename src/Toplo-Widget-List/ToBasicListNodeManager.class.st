@@ -95,7 +95,7 @@ ToBasicListNodeManager >> createFakeNodeContainerIn: aListElement [
 { #category : #initialization }
 ToBasicListNodeManager >> defaultNodeConfigurator [
 
-	^ [ :node | ]
+	^ [ :node | node matchParent ]
 ]
 
 { #category : #initialization }
@@ -106,27 +106,19 @@ ToBasicListNodeManager >> defaultNodeContainerConfigurator [
 		  listElement := nodeContainer holder listElement.
 		  listElement innerConfigurationDo: [ :conf |
 				  conf isFlowable
-					  ifTrue: [
-							  nodeContainer isHExact ifFalse: [ nodeContainer hFitContent ].
-							  nodeContainer isVExact ifFalse: [ nodeContainer vFitContent ] ]
+					  ifTrue: [ nodeContainer exactOrFitContent ]
 					  ifFalse: [
 							  listElement isVertical
 								  ifTrue: [
-										  nodeContainer isHExact ifFalse: [
-											  nodeContainer hFitElement: listElement ].
+										  nodeContainer hFitParent: listElement.
 										  conf autoDistribute
 											  ifTrue: [ nodeContainer vMatchParent ]
-											  ifFalse: [
-											  nodeContainer isVExact ifFalse: [
-												  nodeContainer vFitContent ] ] ]
+											  ifFalse: [ nodeContainer vExactOrFitContent ] ]
 								  ifFalse: [
-										  nodeContainer isVExact ifFalse: [
-											  nodeContainer vFitElement: listElement ].
+										  nodeContainer vFitParent: listElement.
 										  conf autoDistribute
 											  ifTrue: [ nodeContainer hMatchParent ]
-											  ifFalse: [
-											  nodeContainer isHExact ifFalse: [
-												  nodeContainer hFitContent ] ] ] ] ] ]
+											  ifFalse: [ nodeContainer hExactOrFitContent ] ] ] ] ]
 ]
 
 { #category : #initialization }

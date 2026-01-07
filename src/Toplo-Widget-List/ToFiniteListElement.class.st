@@ -48,7 +48,7 @@ ToFiniteListElement >> addedDataSourceCommand: aCommand [
 ToFiniteListElement >> applyConfiguration [
 
 	super applyConfiguration.
-	self fitElement: listElement.
+	self fitParent: listElement.
 	self childrenDo: [ :container | container applyConfiguration ]
 ]
 

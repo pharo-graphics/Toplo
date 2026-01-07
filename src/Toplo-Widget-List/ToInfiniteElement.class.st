@@ -28,7 +28,7 @@ ToInfiniteElement >> applyConfiguration [
 
 	super applyConfiguration.
 	self layout beHorizontal: self listElement isHorizontal.
-	self fitElement: listElement.
+	self fitParent: listElement.
 	self childrenDo: [ :container | container applyConfiguration ].
 	self requestLayout
 ]

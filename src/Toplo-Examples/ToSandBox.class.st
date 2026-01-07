@@ -2946,7 +2946,6 @@ ToSandBox class >> example_Menu2 [
 { #category : #menu }
 ToSandBox class >> example_Menu3 [
 	<demo>
-	<sampleInstance>
 	
 	| container |
 	container := ToElement new matchParent.

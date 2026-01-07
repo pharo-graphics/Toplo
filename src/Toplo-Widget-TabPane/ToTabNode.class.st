@@ -12,7 +12,8 @@ ToTabNode >> applyConfiguration [
 	super applyConfiguration.
 	self isRemovable
 		ifTrue: [ self addRemoveButton ]
-		ifFalse: [ self removeRemoveButton ]
+		ifFalse: [ self removeRemoveButton ].
+	self requestNewSkin
 ]
 
 { #category : #'t - item node' }

@@ -42,15 +42,17 @@ ToNodeHolder >> bindDataItem: aDataItem [
 ]
 
 { #category : #selection }
-ToNodeHolder >> canNotifyDeselection [ 
-	
-	^ notifiedSelected or: [ wasFocused ~= self listElement focused ]
+ToNodeHolder >> canNotifyDeselection [
+
+	^ notifiedSelected isNil or: [
+		  notifiedSelected or: [ wasFocused ~= self listElement focused ] ]
 ]
 
 { #category : #selection }
-ToNodeHolder >> canNotifySelection [ 
-	
-	^ notifiedSelected not or: [ wasFocused ~= self listElement focused ]
+ToNodeHolder >> canNotifySelection [
+
+	^ notifiedSelected isNil or: [
+		  notifiedSelected not or: [ wasFocused ~= self listElement focused ] ]
 ]
 
 { #category : #accessing }
@@ -106,14 +108,12 @@ ToNodeHolder >> initialize [
 
 	super initialize.
 	recyclingRequested := false.
-	notifiedSelected := false.
 	wasFocused := false
 ]
 
 { #category : #accessing }
 ToNodeHolder >> initializeNodeSelections [
 
-	notifiedSelected := false.
 	self node disabled: self isDisabled.
 	self isHidden ifTrue: [ self nodeContainer height: 0 ]
 ]
@@ -262,6 +262,12 @@ ToNodeHolder >> release [
 ToNodeHolder >> removeNodeFromList [
 
 	self dataSource removeAt: self position
+]
+
+{ #category : #selection }
+ToNodeHolder >> resetSelectionState [
+
+	notifiedSelected := nil
 ]
 
 { #category : #accessing }

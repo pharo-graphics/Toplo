@@ -30,6 +30,7 @@ ToInfiniteElement >> applyConfiguration [
 	self layout beHorizontal: self listElement isHorizontal.
 	self fitParent: listElement.
 	self childrenDo: [ :container | container applyConfiguration ].
+	listElement forceUpdateAllSelectionsNow.
 	self requestLayout
 ]
 

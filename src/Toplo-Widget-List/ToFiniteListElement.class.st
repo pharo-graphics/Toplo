@@ -49,7 +49,9 @@ ToFiniteListElement >> applyConfiguration [
 
 	super applyConfiguration.
 	self fitParent: listElement.
-	self childrenDo: [ :container | container applyConfiguration ]
+	self childrenDo: [ :container | container applyConfiguration ].
+	listElement forceUpdateAllSelectionsNow 
+	
 ]
 
 { #category : #accessing }

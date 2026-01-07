@@ -14,7 +14,7 @@ ToLabelSkin >> deselectedSkinEvent: anEvent [
 	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
 	anEvent selectionMode selectionOption isMasked ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e |
-			"e text asString = '2: BB' ifTrue: [ anEvent traceCr ]."
+			"e text asString = 'Alaska' ifTrue: [ anEvent traceCr ]."
 			e foreground: foreground ]
 ]
 

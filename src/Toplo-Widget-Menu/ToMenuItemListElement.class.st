@@ -33,9 +33,7 @@ ToMenuItemListElement >> initialize [
 		'no focusability until focus management is understood and working '.
 	self focusability: BlFocusability none.
 	self vertical: true.
-	self toConfigurationDo: [ :conf |
-			conf isFlowable: false.
-			conf uniformNodeWidth: true ].
+	self toConfigurationDo: [ :conf | conf isFlowable: false ].
 	self fitContent.
 	"No visible primary selection"
 	self selectionOption masked: true

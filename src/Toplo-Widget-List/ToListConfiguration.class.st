@@ -8,8 +8,6 @@ Class {
 		'#autoDistribute => ObservableSlot',
 		'#isFlowable => ObservableSlot',
 		'#isScrollable => ObservableSlot',
-		'#uniformNodeWidth => ObservableSlot',
-		'#uniformNodeHeight => ObservableSlot',
 		'#exactNodeWidth => ObservableSlot',
 		'#exactNodeHeight => ObservableSlot',
 		'#rowNumbers => ObservableSlot'
@@ -56,14 +54,14 @@ ToListConfiguration >> configureNodeContainer: aNodeContainer [
 		^ aNodeContainer exactOrFitContent ].
 
 	listElement isVertical ifTrue: [
-			aNodeContainer hFitParent: listElement.
+			aNodeContainer hMatchParent.
 			(listElement useInfiniteLayout not and: [ autoDistribute ])
 				ifTrue: [ aNodeContainer vMatchParent ]
 				ifFalse: [ aNodeContainer vExactOrFitContent ].
 			^ self ].
 
 	" horizontal case "
-	aNodeContainer vFitParent: listElement.
+	aNodeContainer vMatchParent.
 	(listElement useInfiniteLayout not and: [ autoDistribute ])
 		ifTrue: [ aNodeContainer hMatchParent ]
 		ifFalse: [ aNodeContainer hExactOrFitContent ]
@@ -134,21 +132,18 @@ ToListConfiguration >> onInstalledIn: aListElement [
 			aListElement inUIProcessDo: [
 					aListElement nodeManager checkableNode: useCheckbox.
 					aListElement onUseCheckboxChangedWith: useCheckbox ] ].
-			
-	#( #uniformNodeWidth #uniformNodeHeight #autoDistribute
-	   #isFlowable #isScrollable #rowNumbers ) do: [ :flag |
+
+	#( #autoDistribute #isFlowable #isScrollable #rowNumbers ) do: [
+			:flag |
 			self
 				property: flag
 				whenChangedDo: [ aListElement requestConfiguration ] ].
 	#( #exactNodeWidth #exactNodeHeight ) do: [ :flag |
-			self
-				property: flag
-				whenChangedDo: [
-				aListElement postponeAction: [ aListElement notifyDataSourceChanged ] ] ].
+			self property: flag whenChangedDo: [
+				aListElement postponeAction: [
+					aListElement notifyDataSourceChanged ] ] ].
 
 	rowNumbers := false.
-	uniformNodeWidth := false.
-	uniformNodeHeight := false.
 	autoDistribute := false.
 	isFlowable := false.
 	isScrollable := true
@@ -164,30 +159,6 @@ ToListConfiguration >> rowNumbers [
 ToListConfiguration >> rowNumbers: aBoolean [
 
 	rowNumbers := aBoolean
-]
-
-{ #category : #accessing }
-ToListConfiguration >> uniformNodeHeight [
-
-	^ uniformNodeHeight 
-]
-
-{ #category : #accessing }
-ToListConfiguration >> uniformNodeHeight: anObject [
-
-	uniformNodeHeight := anObject 
-]
-
-{ #category : #accessing }
-ToListConfiguration >> uniformNodeWidth [
-
-	^ uniformNodeWidth 
-]
-
-{ #category : #accessing }
-ToListConfiguration >> uniformNodeWidth: anObject [
-
-	uniformNodeWidth := anObject 
 ]
 
 { #category : #accessing }

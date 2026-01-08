@@ -13,15 +13,13 @@ Class {
 }
 
 { #category : #configuration }
-ToMenuItemElement >> applyConfiguration [ 
+ToMenuItemElement >> applyConfiguration [
 
 	super applyConfiguration.
 	self listHolderDo: [ :h |
-		h listElement isHorizontal
-			ifTrue: [
-				self hFitContent ]
-			ifFalse: [
-				self hMatchParent ] ].
+			h listElement isHorizontal
+				ifTrue: [ self hFitContent ]
+				ifFalse: [ self hMatchParent ] ].
 	self vFitContent
 ]
 

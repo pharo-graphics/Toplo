@@ -7,5 +7,6 @@ Class {
 { #category : #'node configuration' }
 ToMenuItemListConfiguration >> configureNode: aNode [
 
-	aNode vFitContent
+	super configureNode: aNode.
+	aNode isVExact ifFalse: [ aNode vFitContent ]
 ]

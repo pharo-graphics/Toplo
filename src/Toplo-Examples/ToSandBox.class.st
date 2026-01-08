@@ -6486,33 +6486,6 @@ ToSandBox class >> example_inline6 [
 ]
 
 { #category : #menu }
-ToSandBox class >> example_inline7 [
-
-	| menu sub  frame  |
-	menu := ToMenu new.
-	menu labelText: 'File'.
-	menu addItem: (ToMenuItem new
-			 labelText: 'Inspect';
-			 clickAction: [ menu space root inspect ];
-			 yourself).
-	sub := ToMenu new labelText: 'Save All'.
-	sub beInline.
-	sub addItem: (ToMenuItem new
-			 labelText: 'Locally';
-			 yourself).
-	sub addItem: (ToMenuItem new
-			 labelText: 'Externally';
-			 yourself).
-	menu addItem: sub.
-	menu addSeparator.
-
-	menu position: 10 @ 10.
-	frame := ToInnerWindow new.
-	frame pane addChild: menu.
-	frame openInSpace
-]
-
-{ #category : #menu }
 ToSandBox class >> example_inlineInMenuPane [
 
 	| menu sub subsub frame subsubsub |
@@ -9110,12 +9083,6 @@ ToSandBox class >> finiteListConfigurationBoardFor: aList [
 		([ aList isVertical ] -> [ :v | aList isVertical: v ] -> 'Vertical').
 		([ aList toConfiguration isFlowable ]
 		 -> [ :v | aList toConfiguration isFlowable: v ] -> 'Flowable').
-		([ aList toConfiguration uniformNodeWidth ]
-		 -> [ :v | aList toConfiguration uniformNodeWidth: v ]
-		 -> 'Uniform width').
-		([ aList toConfiguration uniformNodeHeight ]
-		 -> [ :v | aList toConfiguration uniformNodeHeight: v ]
-		 -> 'Uniform height').
 		([ aList toConfiguration isScrollable ] -> [ :v | aList toConfiguration isScrollable: v ]
 		 -> 'Scrollable').
 		([ aList toConfiguration autoDistribute ]
@@ -9386,7 +9353,6 @@ ToSandBox class >> finiteTagListWithData: aCollection [
 	confBoard addChild: selectionModeBoard.
 
 	bar toConfiguration isFlowable: true.
-	bar toConfiguration uniformNodeWidth: true.
 	rootPane := ToPane horizontal.
 	rootPane padding: (BlInsets all: 5).
 	rootPane matchParent.
@@ -10079,10 +10045,6 @@ ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 				([ aTabGroupElement isVertical ]
 				 -> [ :v | aTabGroupElement isVertical: v ] -> 'Vertical').
 				([ conf isFlowable ] -> [ :v | conf isFlowable: v ] -> 'Flowable').
-				([ conf uniformNodeWidth ] -> [ :v | conf uniformNodeWidth: v ]
-				 -> 'Uniform width').
-				([ conf uniformNodeHeight ] -> [ :v | conf uniformNodeHeight: v ]
-				 -> 'Uniform height').
 				([ conf isScrollable ] -> [ :v | conf isScrollable: v ]
 				 -> 'Scrollable').
 				([ conf autoDistribute ] -> [ :v | conf autoDistribute: v ]

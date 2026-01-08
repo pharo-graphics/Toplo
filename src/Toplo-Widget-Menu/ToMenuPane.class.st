@@ -47,7 +47,6 @@ ToMenuPane >> applyConfiguration [
 	( vertical direction in case of an horizontal bar )"
 
 	super applyConfiguration.
-	self uniformNodeWidth: self isVertical.
 	self itemList horizontal: self isHorizontal.
 	self itemList constraintsDo: [ :c |
 			c linear vertical alignCenter.

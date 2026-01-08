@@ -322,30 +322,6 @@ TToItemListUser >> setItemList: anItemList [
 	itemList := anItemList
 ]
 
-{ #category : #'t - item list user - configuration' }
-TToItemListUser >> uniformNodeHeight [
-
-	^ self itemList toConfiguration uniformNodeHeight
-]
-
-{ #category : #'t - item list user - configuration' }
-TToItemListUser >> uniformNodeHeight: aBoolean [
-
-	self itemList toConfiguration uniformNodeHeight: aBoolean
-]
-
-{ #category : #'t - item list user - configuration' }
-TToItemListUser >> uniformNodeWidth [
-
-	^ self itemList toConfiguration uniformNodeWidth
-]
-
-{ #category : #'t - item list user - configuration' }
-TToItemListUser >> uniformNodeWidth: aBoolean [
-
-	self itemList toConfiguration uniformNodeWidth: aBoolean
-]
-
 { #category : #'t - item list user - unselectable/selectable' }
 TToItemListUser >> unselectableAtPosition: anInteger [
 

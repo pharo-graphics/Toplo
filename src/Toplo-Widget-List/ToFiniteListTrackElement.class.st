@@ -35,17 +35,15 @@ ToFiniteListTrackElement >> configureLayout [
 
 	(self layout class = self newLayoutStrategyClass and: [
 		 self layout orientation isHorizontal = self isHorizontal ])
-		ifFalse: [ self layout: self newLayoutStrategy ].
-	self layout uniformNodeWidth: self uniformNodeWidth.
-	self layout uniformNodeHeight: self uniformNodeHeight.
+		ifFalse: [ self layout: self newLayoutStrategy ]
 ]
 
 { #category : #configuration }
 ToFiniteListTrackElement >> configureResizer [
 
 	self fitParent: listElement.
-	(self isFlowable not and: [
-		 self isScrollable and: [ self autoDistribute not ] ]) ifFalse: [
+	self isFlowable ifTrue: [ ^ self ].
+	(self isScrollable and: [ self autoDistribute not ]) ifFalse: [
 		^ self ].
 	self isHorizontal
 		ifTrue: [ self hFitContent ]
@@ -194,16 +192,4 @@ ToFiniteListTrackElement >> partlyVisibleNodesDo: aBlock [
 ToFiniteListTrackElement >> removeNodeContainer: container [
 
 	container removeFromParent
-]
-
-{ #category : #configuration }
-ToFiniteListTrackElement >> uniformNodeHeight [
-
-	^ listElement toConfiguration uniformNodeHeight
-]
-
-{ #category : #configuration }
-ToFiniteListTrackElement >> uniformNodeWidth [
-
-	^ listElement toConfiguration uniformNodeWidth
 ]

@@ -15,7 +15,6 @@ ToMenuItemListElement >> defaultNodeManager [
 	^ super defaultNodeManager
 		  nodeFactory: [ :holder | ToMenuItemNode new ];
 		  itemConfigurator: [ :item | item applyConfiguration ];
-		  nodeConfigurator: [ :node | node vFitContent ];
 		  yourself
 ]
 
@@ -34,7 +33,7 @@ ToMenuItemListElement >> initialize [
 		'no focusability until focus management is understood and working '.
 	self focusability: BlFocusability none.
 	self vertical: true.
-	self innerConfigurationDo: [ :conf |
+	self toConfigurationDo: [ :conf |
 			conf isFlowable: false.
 			conf uniformNodeWidth: true ].
 	self fitContent.
@@ -55,4 +54,10 @@ ToMenuItemListElement >> minNodeWidth [
 ToMenuItemListElement >> newRawSkin [ 
 
 	^ ToMenuItemListElementSkin new
+]
+
+{ #category : #configuration }
+ToMenuItemListElement >> newToConfiguration [ 
+
+	^ ToMenuItemListConfiguration new
 ]

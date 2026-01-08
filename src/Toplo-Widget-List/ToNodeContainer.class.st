@@ -16,7 +16,7 @@ ToNodeContainer >> applyConfiguration [
 	| list |
 	super applyConfiguration.
 	list := self holder listElement.
-	list nodeManager configureNodeContainer: self.
+	list toConfiguration configureNodeContainer: self.
 	self node applyConfiguration
 ]
 

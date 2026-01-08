@@ -187,7 +187,7 @@ TToElementWithActionPoolTest >> testNewGroupCheckAction [
 			theGroup := evt target.
 			theList := evt checkedList ].
 	group width: 150.
-	group innerConfiguration uniformNodeWidth: true.
+	group toConfiguration uniformNodeWidth: true.
 	space root addChild: group.
 	" wait to update the data source "
 	self waitTestingSpaces.

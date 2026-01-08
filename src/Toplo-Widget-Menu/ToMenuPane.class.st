@@ -52,8 +52,8 @@ ToMenuPane >> applyConfiguration [
 	self itemList constraintsDo: [ :c |
 			c linear vertical alignCenter.
 			c linear horizontal alignCenter ].
-	self itemList innerConfiguration isScrollable: self isScrollable.
-	self itemList innerConfiguration isFlowable: self isFlowable.
+	self itemList toConfiguration isScrollable: self isScrollable.
+	self itemList toConfiguration isFlowable: self isFlowable.
 	self isHFitContent
 		ifTrue: [ self itemList hFitContent ]
 		ifFalse: [ self itemList hMatchParent ].

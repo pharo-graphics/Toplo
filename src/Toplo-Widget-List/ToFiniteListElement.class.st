@@ -178,12 +178,6 @@ ToFiniteListElement >> newNodeHolderFromDataSource: aDataSource [
 	^ listElement nodeManager newHolder
 ]
 
-{ #category : #configuration }
-ToFiniteListElement >> newToConfiguration [
-
-	^ ToListInnerElementConfiguration new
-]
-
 { #category : #'t - list inner element' }
 ToFiniteListElement >> nodeContainers [
 

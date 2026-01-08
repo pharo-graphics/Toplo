@@ -3407,7 +3407,7 @@ ToSandBox class >> example_NodeContainerWithStatesOfAmerica [
 
 	| l |
 	l := ToListElement finite.
-	l innerConfigurationDo: [ :conf | conf isFlowable: true ].
+	l toConfigurationDo: [ :conf | conf isFlowable: true ].
 	l matchParent.
 	l dataAccessor addAll: self statesOfAmerica.
 	l nodes do: [ :n | n width: 100 ].
@@ -9108,18 +9108,18 @@ ToSandBox class >> finiteListConfigurationBoardFor: aList [
 
 	{
 		([ aList isVertical ] -> [ :v | aList isVertical: v ] -> 'Vertical').
-		([ aList innerConfiguration isFlowable ]
-		 -> [ :v | aList innerConfiguration isFlowable: v ] -> 'Flowable').
-		([ aList innerConfiguration uniformNodeWidth ]
-		 -> [ :v | aList innerConfiguration uniformNodeWidth: v ]
+		([ aList toConfiguration isFlowable ]
+		 -> [ :v | aList toConfiguration isFlowable: v ] -> 'Flowable').
+		([ aList toConfiguration uniformNodeWidth ]
+		 -> [ :v | aList toConfiguration uniformNodeWidth: v ]
 		 -> 'Uniform width').
-		([ aList innerConfiguration uniformNodeHeight ]
-		 -> [ :v | aList innerConfiguration uniformNodeHeight: v ]
+		([ aList toConfiguration uniformNodeHeight ]
+		 -> [ :v | aList toConfiguration uniformNodeHeight: v ]
 		 -> 'Uniform height').
-		([ aList innerConfiguration isScrollable ] -> [ :v | aList innerConfiguration isScrollable: v ]
+		([ aList toConfiguration isScrollable ] -> [ :v | aList toConfiguration isScrollable: v ]
 		 -> 'Scrollable').
-		([ aList innerConfiguration autoDistribute ]
-		 -> [ :v | aList innerConfiguration autoDistribute: v ]
+		([ aList toConfiguration autoDistribute ]
+		 -> [ :v | aList toConfiguration autoDistribute: v ]
 		 -> 'Auto-distribute').
 		([ aList selectionMode selectOnPressed ]
 		 -> [ :v | aList selectionMode selectOnPressed: v ]
@@ -9385,8 +9385,8 @@ ToSandBox class >> finiteTagListWithData: aCollection [
 	selectionModeBoard := self selectionModeChooserFor: bar.
 	confBoard addChild: selectionModeBoard.
 
-	bar innerConfiguration isFlowable: true.
-	bar innerConfiguration uniformNodeWidth: true.
+	bar toConfiguration isFlowable: true.
+	bar toConfiguration uniformNodeWidth: true.
 	rootPane := ToPane horizontal.
 	rootPane padding: (BlInsets all: 5).
 	rootPane matchParent.
@@ -10074,7 +10074,7 @@ ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 			 yourself).
 	confPane addChild: menu.
 
-	itemList innerConfigurationDo: [ :conf |
+	itemList toConfigurationDo: [ :conf |
 			{
 				([ aTabGroupElement isVertical ]
 				 -> [ :v | aTabGroupElement isVertical: v ] -> 'Vertical').

@@ -27,7 +27,7 @@ ToFiniteListTrackElement >> applyConfiguration [
 { #category : #configuration }
 ToFiniteListTrackElement >> autoDistribute [
 
-	^ listElement innerConfiguration autoDistribute
+	^ listElement toConfiguration autoDistribute
 ]
 
 { #category : #configuration }
@@ -68,7 +68,7 @@ ToFiniteListTrackElement >> initialize [
 { #category : #configuration }
 ToFiniteListTrackElement >> isFlowable [
 
-	^ listElement innerConfiguration isFlowable
+	^ listElement toConfiguration isFlowable
 ]
 
 { #category : #configuration }
@@ -80,7 +80,7 @@ ToFiniteListTrackElement >> isHorizontal [
 { #category : #configuration }
 ToFiniteListTrackElement >> isScrollable [
 
-	^ listElement innerConfiguration isScrollable
+	^ listElement toConfiguration isScrollable
 ]
 
 { #category : #layout }
@@ -199,11 +199,11 @@ ToFiniteListTrackElement >> removeNodeContainer: container [
 { #category : #configuration }
 ToFiniteListTrackElement >> uniformNodeHeight [
 
-	^ listElement innerConfiguration uniformNodeHeight
+	^ listElement toConfiguration uniformNodeHeight
 ]
 
 { #category : #configuration }
 ToFiniteListTrackElement >> uniformNodeWidth [
 
-	^ listElement innerConfiguration uniformNodeWidth
+	^ listElement toConfiguration uniformNodeWidth
 ]

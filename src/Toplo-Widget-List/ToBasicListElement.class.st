@@ -393,18 +393,6 @@ ToBasicListElement >> initializeInnerElement [
 	self innerElement: self defaultInnerElement
 ]
 
-{ #category : #configuration }
-ToBasicListElement >> innerConfiguration [ 
-
-	^ self innerElement toConfiguration
-]
-
-{ #category : #configuration }
-ToBasicListElement >> innerConfigurationDo: aBlock [
-
-	^ aBlock value: self innerConfiguration
-]
-
 { #category : #'t - list element decorator - infinite accessing' }
 ToBasicListElement >> innerElement [
 
@@ -482,7 +470,7 @@ ToBasicListElement >> newRawSkin [
 { #category : #configuration }
 ToBasicListElement >> newToConfiguration [ 
 
-	^ ToBasicListElementConfiguration new
+	^ ToListConfiguration new
 ]
 
 { #category : #'instance creation' }

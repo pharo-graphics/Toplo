@@ -161,12 +161,6 @@ ToInfiniteElement >> newNodeHolderFromDataSource: aDataSource [
 	^ listElement nodeManager newHolder
 ]
 
-{ #category : #configuration }
-ToInfiniteElement >> newToConfiguration [ 
-
-	^ ToListInnerElementConfiguration new
-]
-
 { #category : #'t - list inner element' }
 ToInfiniteElement >> nodeContainerAt: aPosition [
 

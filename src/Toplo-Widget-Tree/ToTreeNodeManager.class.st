@@ -19,12 +19,6 @@ ToTreeNodeManager >> childrenFromDataItem: aDataItem [
 ]
 
 { #category : #initialization }
-ToTreeNodeManager >> defaultNodeConfigurator [
-
-	^ [ :node | node vFitContent ]
-]
-
-{ #category : #initialization }
 ToTreeNodeManager >> defaultNodeContainerFactory [
 
 	^ [ ToTreeNodeContainer new ]

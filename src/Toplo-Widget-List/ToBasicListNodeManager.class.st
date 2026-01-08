@@ -10,8 +10,6 @@ Class {
 		'nodeContainerFactory',
 		'nodeHolderFactory',
 		'nodeFactory',
-		'nodeContainerConfigurator',
-		'nodeConfigurator',
 		'isBuildingFakeNodeContainer'
 	],
 	#category : #'Toplo-Widget-List-Core'
@@ -26,12 +24,8 @@ ToBasicListNodeManager >> buildNode: aNode [
 { #category : #initialization }
 ToBasicListNodeManager >> buildNodeContainer: aNodeContainer [
 
-	| listElement cbox node |
+	| listElement cbox |
 	listElement := aNodeContainer holder listElement.
-	node := aNodeContainer node.
-	listElement innerConfigurationDo: [ :conf |
-			conf exactNodeWidth ifNotNil: [ :w | node hExact: w ].
-			conf exactNodeHeight ifNotNil: [ :h | node vExact: h ] ].
 	checkableNode ifFalse: [ ^ self ].
 	cbox := listElement newCheckboxInNodeContainer: aNodeContainer.
 	cbox constraintsDo: [ :c | c linear vertical alignCenter ].
@@ -49,19 +43,6 @@ ToBasicListNodeManager >> checkableNode [
 ToBasicListNodeManager >> checkableNode: aBoolean [
 
 	checkableNode := aBoolean 
-]
-
-{ #category : #'node configuration' }
-ToBasicListNodeManager >> configureNode: aNode [
-
-	nodeConfigurator value: aNode
-]
-
-{ #category : #'node configuration' }
-ToBasicListNodeManager >> configureNodeContainer: aNodeContainer [
-
-	nodeContainerConfigurator
-		value: aNodeContainer
 ]
 
 { #category : #'fake node container' }
@@ -97,39 +78,6 @@ ToBasicListNodeManager >> createFakeNodeContainerIn: aListElement [
 ]
 
 { #category : #initialization }
-ToBasicListNodeManager >> defaultNodeConfigurator [
-
-	^ [ :node |
-		  node isHExact ifFalse: [ node hMatchParent ].
-		  node isVExact ifFalse: [ node vMatchParent ] ]
-]
-
-{ #category : #initialization }
-ToBasicListNodeManager >> defaultNodeContainerConfigurator [
-
-	^ [ :nodeContainer |
-		  | listElement |
-		  listElement := nodeContainer holder listElement.
-		  listElement innerConfigurationDo: [ :conf |
-				  (listElement useInfiniteLayout not and: [ conf isFlowable ])
-					  ifTrue: [ nodeContainer exactOrFitContent ]
-					  ifFalse: [
-							  listElement isVertical
-								  ifTrue: [
-										  nodeContainer hFitParent: listElement.
-										  (listElement useInfiniteLayout not and: [
-											   conf autoDistribute ])
-											  ifTrue: [ nodeContainer vMatchParent ]
-											  ifFalse: [ nodeContainer vExactOrFitContent ] ]
-								  ifFalse: [
-										  nodeContainer vFitParent: listElement.
-										  (listElement useInfiniteLayout not and: [
-											   conf autoDistribute ])
-											  ifTrue: [ nodeContainer hMatchParent ]
-											  ifFalse: [ nodeContainer hExactOrFitContent ] ] ] ] ]
-]
-
-{ #category : #initialization }
 ToBasicListNodeManager >> defaultNodeContainerFactory [
 
 	^ [ ToNodeContainer new ]
@@ -161,9 +109,7 @@ ToBasicListNodeManager >> initialize [
 	checkableNode := false.
 	nodeContainerFactory := self defaultNodeContainerFactory.
 	nodeFactory := self defaultNodeFactory.
-	nodeHolderFactory := self defaultNodeHolderFactory.
-	nodeContainerConfigurator := self defaultNodeContainerConfigurator.
-	nodeConfigurator := self defaultNodeConfigurator 
+	nodeHolderFactory := self defaultNodeHolderFactory
 ]
 
 { #category : #'fake node container' }
@@ -196,30 +142,6 @@ ToBasicListNodeManager >> newNodeContainer [
 ToBasicListNodeManager >> newNodeForHolder: aNodeHolder [
 
 	^ nodeFactory cull: aNodeHolder
-]
-
-{ #category : #accessing }
-ToBasicListNodeManager >> nodeConfigurator [
-
-	^ nodeConfigurator
-]
-
-{ #category : #accessing }
-ToBasicListNodeManager >> nodeConfigurator: aValuable [
-
-	nodeConfigurator := aValuable
-]
-
-{ #category : #accessing }
-ToBasicListNodeManager >> nodeContainerConfigurator [
-
-	^ nodeContainerConfigurator
-]
-
-{ #category : #accessing }
-ToBasicListNodeManager >> nodeContainerConfigurator: aValuable [
-
-	nodeContainerConfigurator := aValuable
 ]
 
 { #category : #'instance creation' }

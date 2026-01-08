@@ -10,17 +10,18 @@ Class {
 { #category : #'element events handling' }
 ToFiniteListElementEventHandler >> checkFullyVisibleNodeContainersOnEvent: anEvent [
 
-	| invisibles visibles innerListElement |
+	| invisibles visibles innerListElement listElement |
 	innerListElement := anEvent currentTarget.
-	innerListElement toConfigurationDo: [ :conf |
+	listElement := innerListElement listElement.
+	listElement toConfigurationDo: [ :conf |
 			(conf isFlowable or: [ conf autoDistribute ])
 				ifTrue: [
 						invisibles := #(  ).
-						visibles := innerListElement nodeContainers asArray ]
+						visibles := listElement nodeContainers asArray ]
 				ifFalse: [
-						invisibles := innerListElement nodeContainersReject:
+						invisibles := listElement nodeContainersReject:
 							              #isFullyVisibleInListElement.
-						visibles := innerListElement nodeContainers difference:
+						visibles := listElement nodeContainers difference:
 							            invisibles ] ].
 	previousVisibleNodeContainers = visibles ifTrue: [ ^ self ].
 	previousVisibleNodeContainers := visibles.

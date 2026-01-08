@@ -144,7 +144,7 @@ ToListConfiguration >> onInstalledIn: aListElement [
 			self
 				property: flag
 				whenChangedDo: [
-				aListElement postponeAction: [ aListElement listElement notifyDataSourceChanged ] ] ].
+				aListElement postponeAction: [ aListElement notifyDataSourceChanged ] ] ].
 
 	rowNumbers := false.
 	uniformNodeWidth := false.

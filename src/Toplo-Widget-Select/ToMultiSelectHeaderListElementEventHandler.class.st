@@ -24,9 +24,8 @@ ToMultiSelectHeaderListElementEventHandler >> finiteListVisibleNodeContainersCha
 	| nbInvisible first last listElement |
 	listElement := anEvent currentTarget.
 
-	listElement innerElement toConfiguration isFlowable ifTrue: [ ^ self ].
-	listElement innerElement toConfiguration isScrollable ifTrue: [
-		^ self ].
+	listElement toConfiguration isFlowable ifTrue: [ ^ self ].
+	listElement toConfiguration isScrollable ifTrue: [ ^ self ].
 	" it is important to check if some datasource command are pending 
 	to avoid bad interaction between command "
 	listElement innerElement hasPendingCommands ifTrue: [ ^ self ].

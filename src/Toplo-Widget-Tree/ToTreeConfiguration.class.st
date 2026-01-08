@@ -7,5 +7,6 @@ Class {
 { #category : #'node configuration' }
 ToTreeConfiguration >> configureNode: aNode [
 
-	aNode vFitContent
+	super configureNode: aNode.
+	aNode isVExact ifFalse: [ aNode vFitContent ]
 ]

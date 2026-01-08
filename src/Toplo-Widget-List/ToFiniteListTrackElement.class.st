@@ -53,7 +53,7 @@ ToFiniteListTrackElement >> configureResizer [
 { #category : #layout }
 ToFiniteListTrackElement >> flowLayoutClass [
 
-	^ ToFiniteListFlowLayout
+	^ BlFlowLayout
 ]
 
 { #category : #initialization }
@@ -84,7 +84,7 @@ ToFiniteListTrackElement >> isScrollable [
 { #category : #layout }
 ToFiniteListTrackElement >> linearLayoutClass [
 
-	^ ToFiniteListLinearLayout
+	^ BlLinearLayout
 ]
 
 { #category : #accessing }
@@ -172,13 +172,6 @@ ToFiniteListTrackElement >> nodeContainersWithIndexDo: aBlock [
 ToFiniteListTrackElement >> onListElement: aListElement [
 
 	listElement := aListElement 
-]
-
-{ #category : #layout }
-ToFiniteListTrackElement >> onMeasure: anExtentMeasurementSpec [
-
-	self layout minNodeWidth: listElement minNodeWidth.
-	super onMeasure: anExtentMeasurementSpec
 ]
 
 { #category : #'accessing - children' }

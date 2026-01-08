@@ -26,9 +26,13 @@ ToBasicListNodeManager >> buildNode: aNode [
 { #category : #initialization }
 ToBasicListNodeManager >> buildNodeContainer: aNodeContainer [
 
-	| listElement cbox |
-	checkableNode ifFalse: [ ^ self ].
+	| listElement cbox node |
 	listElement := aNodeContainer holder listElement.
+	node := aNodeContainer node.
+	listElement innerConfigurationDo: [ :conf |
+			conf exactNodeWidth ifNotNil: [ :w | node hExact: w ].
+			conf exactNodeHeight ifNotNil: [ :h | node vExact: h ] ].
+	checkableNode ifFalse: [ ^ self ].
 	cbox := listElement newCheckboxInNodeContainer: aNodeContainer.
 	cbox constraintsDo: [ :c | c linear vertical alignCenter ].
 	aNodeContainer ensureStartContainer.
@@ -95,7 +99,9 @@ ToBasicListNodeManager >> createFakeNodeContainerIn: aListElement [
 { #category : #initialization }
 ToBasicListNodeManager >> defaultNodeConfigurator [
 
-	^ [ :node | node matchParent ]
+	^ [ :node |
+		  node isHExact ifFalse: [ node hMatchParent ].
+		  node isVExact ifFalse: [ node vMatchParent ] ]
 ]
 
 { #category : #initialization }

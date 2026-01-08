@@ -9,6 +9,8 @@ Class {
 		'#isScrollable => ObservableSlot',
 		'#uniformNodeWidth => ObservableSlot',
 		'#uniformNodeHeight => ObservableSlot',
+		'#exactNodeWidth => ObservableSlot',
+		'#exactNodeHeight => ObservableSlot',
 		'#rowNumbers => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-List-InnerList'
@@ -31,6 +33,30 @@ ToListInnerElementConfiguration >> autoDistribute [
 ToListInnerElementConfiguration >> autoDistribute: anObject [
 
 	autoDistribute := anObject 
+]
+
+{ #category : #'t - inner finite list element configuration' }
+ToListInnerElementConfiguration >> exactNodeHeight [
+
+	^ exactNodeHeight 
+]
+
+{ #category : #'t - inner finite list element configuration' }
+ToListInnerElementConfiguration >> exactNodeHeight: aNumber [
+
+	exactNodeHeight := aNumber
+]
+
+{ #category : #'t - inner finite list element configuration' }
+ToListInnerElementConfiguration >> exactNodeWidth [
+
+	^ exactNodeWidth
+]
+
+{ #category : #'t - inner finite list element configuration' }
+ToListInnerElementConfiguration >> exactNodeWidth: aNumber [
+
+	exactNodeWidth := aNumber
 ]
 
 { #category : #initialization }
@@ -75,6 +101,11 @@ ToListInnerElementConfiguration >> onInstalledIn: anInnerListElement [
 			self
 				property: flag
 				whenChangedDo: [ anInnerListElement requestConfiguration ] ].
+	#( #exactNodeWidth #exactNodeHeight ) do: [ :flag |
+			self
+				property: flag
+				whenChangedDo: [
+				anInnerListElement listElement postponeAction: [ anInnerListElement listElement notifyDataSourceChanged ] ] ].
 
 	rowNumbers := false.
 	uniformNodeWidth := false.

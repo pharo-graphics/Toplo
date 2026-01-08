@@ -50,7 +50,8 @@ ToFiniteListElement >> applyConfiguration [
 	super applyConfiguration.
 	self fitParent: listElement.
 	self childrenDo: [ :container | container applyConfiguration ].
-	listElement forceUpdateAllSelectionsNow 
+	listElement forceUpdateAllSelectionsNow.
+	self requestLayout
 	
 ]
 

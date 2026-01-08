@@ -29,45 +29,6 @@ ToWorldMenu class >> menuExamples: aBuilder [
 		iconName: #go
 ]
 
-{ #category : #'menu - toplo - examples' }
-ToWorldMenu class >> menuExamplesLoginPage: aBuilder [
-	<worldMenu>
-
-	(aBuilder item: #ToploExamplesLoginPage)
-		parent: #ToploExamples;
-		order: 1;
-		label: 'Login page';
-		help: 'Open a login page';
-		iconName: #go;
-		action:[ ToExLoginPage open ]
-]
-
-{ #category : #'menu - toplo - examples' }
-ToWorldMenu class >> menuExamplesSandBox: aBuilder [
-	<worldMenu>
-
-	(aBuilder item: #ToploExamplesSandBox)
-		parent: #ToploExamples;
-		order: 1;
-		label: 'Sand box examples';
-		help: 'Browse Toplo sand box examples';
-		iconName: #go;
-		action:[ ToSandBox class browse ]
-]
-
-{ #category : #'menu - toplo - examples' }
-ToWorldMenu class >> menuExamplesSourceCodeBrowser: aBuilder [
-	<worldMenu>
-
-	(aBuilder item: #ToploExamplesMiniBrowser)
-		parent: #ToploExamples;
-		order: 1;
-		label: 'Source code Browser';
-		help: 'Open a source code mini browser';
-		iconName: #go;
-		action: [ ToExMiniBrowser open ]
-]
-
 { #category : #'menu - toplo' }
 ToWorldMenu class >> menuGithubOn: aBuilder [
 	<worldMenu>

@@ -4,15 +4,6 @@ Class {
 	#category : #'Toplo-Widget-Select-PopupList'
 }
 
-{ #category : #'private - commands' }
-ToMultiSelectPopupListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
-	" update the selection and the select list according to the sieve selection model"
-
-	super applyDataSourceSieveCommand: aDataSourceCommand.
-	selectElement checkHideSelectionFromListElement.
-	selectElement checkMaxSelectedCountInPopupList
-]
-
 { #category : #initialization }
 ToMultiSelectPopupListElement >> defaultEventHandler [
 
@@ -40,4 +31,13 @@ ToMultiSelectPopupListElement >> hideSelection [
 ToMultiSelectPopupListElement >> listNodeClass [
 
 	^ ToMultiSelectPopupListNode
+]
+
+{ #category : #'private - commands' }
+ToMultiSelectPopupListElement >> onAppliedDataSourceSieveCommand: aDataSourceCommand [
+	" update the selection and the select list according to the sieve selection model"
+
+	super onAppliedDataSourceSieveCommand: aDataSourceCommand.
+	selectElement checkHideSelectionFromListElement.
+	selectElement checkMaxSelectedCountInPopupList
 ]

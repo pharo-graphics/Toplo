@@ -1,11 +1,20 @@
 Class {
 	#name : #ToFiniteListElementEventHandler,
-	#superclass : #ToInfiniteListElementEventHandler,
+	#superclass : #ToListInnerElementEventHandler,
 	#instVars : [
 		'previousVisibleNodeContainers'
 	],
 	#category : #'Toplo-Widget-List-InnerList-Finite'
 }
+
+{ #category : #'infinite event handling' }
+ToFiniteListElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
+
+	| listElement |
+	listElement := anEvent currentTarget listElement.
+	listElement forceUpdateAllSelectionsNow.
+	listElement requestMouseMoveReplay
+]
 
 { #category : #'element events handling' }
 ToFiniteListElementEventHandler >> checkFullyVisibleNodeContainersOnEvent: anEvent [
@@ -35,14 +44,16 @@ ToFiniteListElementEventHandler >> checkFullyVisibleNodeContainersOnEvent: anEve
 { #category : #'infinite event handling' }
 ToFiniteListElementEventHandler >> elementScrolledEvent: anEvent [
 
-	super elementScrolledEvent: anEvent.
 	self checkFullyVisibleNodeContainersOnEvent: anEvent
 ]
 
 { #category : #'api - accessing' }
 ToFiniteListElementEventHandler >> eventsToHandle [
 
-	^ super eventsToHandle , { ToFiniteListVisibleNodeContainersChangedEvent }
+	^ super eventsToHandle , {
+		  BlElementScrolledEvent.
+		  BlBoundsHasChangedDuringScrollingEvent.
+		  ToFiniteListVisibleNodeContainersChangedEvent }
 ]
 
 { #category : #'element events handling' }

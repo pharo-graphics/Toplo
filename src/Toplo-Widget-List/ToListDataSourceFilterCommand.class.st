@@ -7,7 +7,7 @@ Class {
 { #category : #application }
 ToListDataSourceFilterCommand >> applyIn: anInfiniteElement [
 
-	anInfiniteElement applyDataSourceFilterCommand: self
+	anInfiniteElement onAppliedDataSourceFilterCommand: self
 ]
 
 { #category : #'infinite compatibility' }

@@ -56,34 +56,6 @@ ToBasicListElement >> applyConfiguration [
 
 ]
 
-{ #category : #'private - commands' }
-ToBasicListElement >> applyDataSourceFilterCommand: aDataSourceCommand [
-]
-
-{ #category : #'private - commands' }
-ToBasicListElement >> applyDataSourceSieveCommand: aDataSourceCommand [
-	" update the selection according to the sieve selection model"
-
-	| sieve |
-	sieve := aDataSourceCommand sieve.
-	sieve pattern
-		ifNotEmpty: [
-				| start count |
-				self selectionModel resetAll.
-				start := aDataSourceCommand positionStart.
-				count := aDataSourceCommand itemCount.
-				start to: start + count - 1 do: [ :localIndex |
-						| d originalIndex |
-						d := self dataSource at: localIndex.
-						originalIndex := sieve originalIndexOf: d.
-						sieve selectionModel
-							transferSelectionFromIndex: originalIndex
-							toIndex: localIndex
-							in: self selectionModel ] ]
-		ifEmpty: [
-		self selectionModel copySelectionFrom: sieve selectionModel ]
-]
-
 { #category : #'fake container' }
 ToBasicListElement >> checkFakeNodeContainer [
 
@@ -560,6 +532,34 @@ ToBasicListElement >> offsetPositionRecordsForFilter: aStartPosition itemCount: 
 					in: self selectionModel ] ]
 		ifEmpty: [
 		self selectionModel copySelectionFrom: aSieve selectionModel ]
+]
+
+{ #category : #'private - commands' }
+ToBasicListElement >> onAppliedDataSourceFilterCommand: aDataSourceCommand [
+]
+
+{ #category : #'private - commands' }
+ToBasicListElement >> onAppliedDataSourceSieveCommand: aDataSourceCommand [
+	" update the selection according to the sieve selection model"
+
+	| sieve |
+	sieve := aDataSourceCommand sieve.
+	sieve pattern
+		ifNotEmpty: [
+				| start count |
+				self selectionModel resetAll.
+				start := aDataSourceCommand positionStart.
+				count := aDataSourceCommand itemCount.
+				start to: start + count - 1 do: [ :localIndex |
+						| d originalIndex |
+						d := self dataSource at: localIndex.
+						originalIndex := sieve originalIndexOf: d.
+						sieve selectionModel
+							transferSelectionFromIndex: originalIndex
+							toIndex: localIndex
+							in: self selectionModel ] ]
+		ifEmpty: [
+		self selectionModel copySelectionFrom: sieve selectionModel ]
 ]
 
 { #category : #'hooks - layout' }

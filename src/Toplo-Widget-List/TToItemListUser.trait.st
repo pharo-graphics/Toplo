@@ -224,6 +224,12 @@ TToItemListUser >> onRemovedUnknownItemKind: anItem [
 
 ]
 
+{ #category : #'t - item list user - layout' }
+TToItemListUser >> postponeAction: aBlock [
+
+	self itemList postponeAction: aBlock
+]
+
 { #category : #'t - item list user - accessing' }
 TToItemListUser >> primarySelectionMode [
 

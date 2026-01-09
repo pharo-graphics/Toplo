@@ -25,7 +25,7 @@ ToTabGroupElement >> addNewTabItem [
 	self itemList
 		addEventHandlerOn: ToListNodeAddedEvent
 		doOnce: [ :event |
-			self itemList whenLayoutedDoOnce: [ event node item checked: true ] ].
+			event node item checked: true ].
 	self addTabItemData: 'New Tab'
 ]
 
@@ -37,8 +37,9 @@ ToTabGroupElement >> addTabItemData: aData [
 	" add the new item before building it to allow the builder to use the item holder "
 	self addItem: newTabItem.
 	itemBuilder cull: newTabItem cull: aData cull: self.
-	self itemList postponeAction: [ newTabItem holder node requestConfiguration ]
-
+	self
+		addEventHandlerOn: ToDataSourceUpdatedEvent
+		doOnce: [ newTabItem holder node requestConfiguration ]
 ]
 
 { #category : #configuration }

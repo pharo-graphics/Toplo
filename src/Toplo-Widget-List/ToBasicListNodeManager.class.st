@@ -48,33 +48,33 @@ ToBasicListNodeManager >> checkableNode: aBoolean [
 { #category : #'fake node container' }
 ToBasicListNodeManager >> createFakeNodeContainerIn: aListElement [
 
-	| fakeNodeContainer holder |
-	fakeNodeContainer := ToFakeNodeContainerWrapper new.
+	| wrapper holder |
+	wrapper := ToFakeNodeContainerWrapper new.
 	holder := self newHolder.
 	holder infiniteElement: aListElement innerElement.
 	holder fakeDataItem: aListElement fakeDataItem.
 	holder bindAtPosition: 0.
 	" assigning the holder builds the middleContainer (which is the node of the fake node container) "
-	fakeNodeContainer holder: holder.
-	fakeNodeContainer nodeContainer: self newNodeContainer.
-	fakeNodeContainer nodeContainer id: #fakeNodeContainerWrapper.
-	fakeNodeContainer nodeContainer holder: holder.
-	fakeNodeContainer node holder: holder.
-	fakeNodeContainer node id: #fakeNode.
-	holder setupNodeContainerWith: fakeNodeContainer.
+	wrapper holder: holder.
+	wrapper nodeContainer: self newNodeContainer.
+	wrapper nodeContainer id: #fakeNodeContainerWrapper.
+	wrapper nodeContainer holder: holder.
+	wrapper node holder: holder.
+	wrapper node id: #fakeNode.
+	holder setupNodeContainerWith: wrapper.
 	" add the fake node (to keep a constant minimum size ).
 	Pay attention to add the fake node ** before ** the fake node building "
-	[ self buildNodeContainer: fakeNodeContainer nodeContainer ]
+	[ self buildNodeContainer: wrapper nodeContainer ]
 		on: Error
 		do: [ :error |
 				'*** Warning: can''t build the fake node container: ' trace.
 				error traceCr ].
-	[ self buildNode: fakeNodeContainer node ]
+	[ self buildNode: wrapper node ]
 		on: Error
 		do: [ :error |
 				'*** Warning: can''t build the fake node: ' trace.
 				error traceCr ].
-	^ fakeNodeContainer
+	^ wrapper
 ]
 
 { #category : #initialization }

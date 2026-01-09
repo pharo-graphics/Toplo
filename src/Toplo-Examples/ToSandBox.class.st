@@ -9071,6 +9071,9 @@ ToSandBox class >> listConfigurationBoardFor: aList [
 		([ aList toConfiguration autoDistribute ]
 		 -> [ :v | aList toConfiguration autoDistribute: v ]
 		 -> 'Auto-distribute').
+		([ aList useCheckbox ]
+		 -> [ :v | aList useCheckbox: v ]
+		 -> 'Use checkbox selection').
 		([ aList selectionMode selectOnPressed ]
 		 -> [ :v | aList selectionMode selectOnPressed: v ]
 		 -> 'Select on pressed').

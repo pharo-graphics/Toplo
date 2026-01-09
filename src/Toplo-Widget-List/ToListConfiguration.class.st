@@ -128,6 +128,12 @@ ToListConfiguration >> onInstalledIn: aListElement [
 
 	super onInstalledIn: aListElement.
 
+	useCheckbox := false.
+	rowNumbers := false.
+	autoDistribute := false.
+	isFlowable := false.
+	isScrollable := true.
+	
 	self property: #useCheckbox whenChangedDo: [
 			aListElement inUIProcessDo: [
 					aListElement nodeManager checkableNode: useCheckbox.
@@ -143,10 +149,6 @@ ToListConfiguration >> onInstalledIn: aListElement [
 				aListElement postponeAction: [
 					aListElement notifyDataSourceChanged ] ] ].
 
-	rowNumbers := false.
-	autoDistribute := false.
-	isFlowable := false.
-	isScrollable := true
 ]
 
 { #category : #accessing }

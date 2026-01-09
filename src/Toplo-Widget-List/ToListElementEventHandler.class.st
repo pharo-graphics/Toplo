@@ -19,15 +19,6 @@ ToListElementEventHandler >> blurEvent: anEvent [
 	self syncNodesSelectionIn: anEvent currentTarget
 ]
 
-{ #category : #'element events handling' }
-ToListElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
-
-	| listElement |
-	listElement := anEvent currentTarget.
-	listElement requestUpdateAllSelections.
-	listElement requestMouseMoveReplay
-]
-
 { #category : #'event handling' }
 ToListElementEventHandler >> clickEvent: anEvent [
 
@@ -59,15 +50,6 @@ ToListElementEventHandler >> elementExtentChangedEvent: anEvent [
 	listElement forceUpdateAllSelectionsNow
 ]
 
-{ #category : #'element events handling' }
-ToListElementEventHandler >> elementScrolledEvent: anEvent [
-
-	| listElement |
-	listElement := anEvent currentTarget.
-	listElement forceUpdateAllSelectionsNow.
-	listElement requestMouseMoveReplay
-]
-
 { #category : #'api - accessing' }
 ToListElementEventHandler >> eventsToHandle [
 
@@ -84,9 +66,7 @@ ToListElementEventHandler >> eventsToHandle [
 		  ToListNodeAddedEvent.
 		  ToListNodeRemovedEvent.
 
-		  BlBoundsHasChangedDuringScrollingEvent.
 		  BlElementExtentChangedEvent.
-		  BlElementScrolledEvent.
 
 		  " data source "
 		  ToListDataSourceEmptinessChangedEvent.

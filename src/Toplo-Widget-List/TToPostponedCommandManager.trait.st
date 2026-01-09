@@ -29,7 +29,9 @@ TToPostponedCommandManager >> consumeFinalStepCommandsIn: anElement [
 	[ self hasFinalStepCommand ] whileTrue: [
 		| cmd |
 		cmd := self nextFinalStepCommand.
-		self consumeFinalStepCommand: cmd in: anElement ] 
+		self consumeFinalStepCommand: cmd in: anElement ].
+
+	anElement dispatchEvent: ToDataSourceUpdatedEvent new
 ]
 
 { #category : #'t - postponed command manager' }

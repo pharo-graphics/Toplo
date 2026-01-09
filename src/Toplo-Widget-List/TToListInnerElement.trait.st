@@ -4,18 +4,6 @@ Trait {
 }
 
 { #category : #'t - list inner element' }
-TToListInnerElement >> applyDataSourceFilterCommand: aDataSourceCommand [
-
-	self listElement applyDataSourceFilterCommand: aDataSourceCommand
-]
-
-{ #category : #'t - list inner element' }
-TToListInnerElement >> applyDataSourceSieveCommand: aDataSourceCommand [
-
-	self listElement applyDataSourceSieveCommand: aDataSourceCommand
-]
-
-{ #category : #'t - list inner element' }
 TToListInnerElement >> disableScrolledEvent [
 
 	self eventDispatcher disableScrolledEvent 
@@ -108,6 +96,18 @@ TToListInnerElement >> notifyChildDetached: anElement [
 	"Notify all event handlers that element ( a node) is detached "
 
 	self dispatchEvent: (BlInfiniteElementDetachedEvent element: anElement)
+]
+
+{ #category : #'t - list inner element' }
+TToListInnerElement >> onAppliedDataSourceFilterCommand: aDataSourceCommand [
+
+	self listElement onAppliedDataSourceFilterCommand: aDataSourceCommand
+]
+
+{ #category : #'t - list inner element' }
+TToListInnerElement >> onAppliedDataSourceSieveCommand: aDataSourceCommand [
+
+	self listElement onAppliedDataSourceSieveCommand: aDataSourceCommand
 ]
 
 { #category : #'t - list inner element' }

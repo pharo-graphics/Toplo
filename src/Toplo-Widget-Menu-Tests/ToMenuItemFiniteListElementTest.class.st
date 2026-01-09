@@ -28,6 +28,7 @@ ToMenuItemFiniteListElementTest >> test [
 	l addAllItems:
 		((1 to: 10) collect: [ :i | ToMenuItem new labelText: i asString ]).
 	self waitTestingSpaces.
+	self assert: l nodeContainers size equals: 10.
 	n := l nodeContainers first.
 	self assert: (n node isKindOf: ToMenuItemNode).
 	self assert: (n holder isKindOf: ToItemNodeHolder).
@@ -60,7 +61,7 @@ ToMenuItemFiniteListElementTest >> testDisableItemAfterAdding [
 	l addItem: item.
 	item disable.
 	self waitTestingSpaces.
-
+	self assert: l nodeContainers size equals: 1.
 	n := l nodeContainers first node.
 	self assert: n holder dataItem identicalTo: item.
 	self assert: item positionInList equals: 1.

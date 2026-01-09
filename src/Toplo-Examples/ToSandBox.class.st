@@ -1368,23 +1368,6 @@ ToSandBox class >> example_CheckBoxWithDefaultStyleSheetDarkTheme [
 	space show
 ]
 
-{ #category : #'finite list' }
-ToSandBox class >> example_CheckableFiniteListElement [
-
-	| space bar |
-	space := BlSpace new.
-	bar := ToCheckableListElement new.
-	space root addChild: bar.
-	bar matchParent.
-	self statesOfAmerica do: [ :l |
-			| item |
-			item := ToToggleButton new labelText: l.
-			item width: 150.
-			bar addItem: item ].
-	space show.
-	bar
-]
-
 { #category : #checkables }
 ToSandBox class >> example_CheckableGroup [
 
@@ -3407,7 +3390,7 @@ ToSandBox class >> example_NodeContainerWithStatesOfAmerica [
 
 	| l |
 	l := ToListElement finite.
-	l innerConfigurationDo: [ :conf | conf isFlowable: true ].
+	l toConfigurationDo: [ :conf | conf isFlowable: true ].
 	l matchParent.
 	l dataAccessor addAll: self statesOfAmerica.
 	l nodes do: [ :n | n width: 100 ].
@@ -4801,26 +4784,6 @@ ToSandBox class >> example_TabBarElement [
 	board openInSpace
 ]
 
-{ #category : #'finite list' }
-ToSandBox class >> example_TabFiniteListElement [
-
-	| tabs |
-	tabs := ToTabListElement new.
-	tabs horizontal: true.
-	tabs matchParent.
-
-	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-			| item |
-			item := ToTabItemElement new
-				        removable: true;
-				        middleElement: (ToLabel text: l);
-				        yourself.
-			item width: 100.
-			item height: 100.
-			tabs addItem: item ].
-	tabs openInInnerWindow
-]
-
 { #category : #tabPane }
 ToSandBox class >> example_TabGroupElement [
 
@@ -4843,7 +4806,7 @@ ToSandBox class >> example_TabGroupElementWithDaily [
 
 	| tabs dashBoard |
 	tabs := ToTabGroupElement new.
-	tabs itemBuilder: [ :tabItem :data :tabGroup |
+	tabs itemBuilder: [ :tabItem :data :holder |
 			tabItem labelText: data asString.
 			tabItem removable: true ].
 
@@ -4885,7 +4848,7 @@ ToSandBox class >> example_TabGroupElementWithUSStates [
 
 	| tabs dashBoard |
 	tabs := ToTabGroupElement new.
-	tabs itemBuilder: [ :tabItem :data :tabGroup |
+	tabs itemBuilder: [ :tabItem :data :holder |
 			tabItem labelText: data asString.
 			tabItem removable: true ].
 
@@ -4947,7 +4910,7 @@ ToSandBox class >> example_TabPaneWithAlignment [
 	tabPane alignMiddle.
 	tabPane isFlowable: false.
 
-	tabPane itemBuilder: [ :tabButton :aData :tabGroup |
+	tabPane itemBuilder: [ :tabButton :aData :holder |
 			tabButton removable: true.
 			tabButton label: (ToLabel text: aData asString).
 			tabButton paneBuilder: [ :pane |
@@ -5016,7 +4979,7 @@ ToSandBox class >> example_TabPaneWithCompactHeaderLayoutMode [
 	tabPane atStartSide: true.
 	tabPane vertical: true.
 
-	tabPane itemBuilder: [ :tabButton :aData :tabGroup |
+	tabPane itemBuilder: [ :tabButton :aData :holder |
 			tabButton removable: true.
 			tabButton label: (ToLabel text: aData asString).
 			tabButton paneBuilder: [ :pane |
@@ -5758,6 +5721,23 @@ ToSandBox class >> example_buttonWithLabel [
 	^ but
 ]
 
+{ #category : #'finite list' }
+ToSandBox class >> example_checkableListElement [
+
+	| space bar |
+	space := BlSpace new.
+	bar := ToCheckableListElement new.
+	space root addChild: bar.
+	bar matchParent.
+	self statesOfAmerica do: [ :l |
+			| item |
+			item := ToToggleButton new labelText: l.
+			item width: 150.
+			bar addItem: item ].
+	space show.
+	bar
+]
+
 { #category : #button }
 ToSandBox class >> example_clickAction [
 
@@ -6051,30 +6031,6 @@ ToSandBox class >> example_emptyDiff [
 	^ diff
 ]
 
-{ #category : #'finite list' }
-ToSandBox class >> example_finiteList [
-
-	self finiteListWithData: ToSandBox statesOfAmerica
-
-]
-
-{ #category : #'finite list' }
-ToSandBox class >> example_finiteList2 [
-
-	self finiteListWithData: { 'B'. 'BB'. 'BB'}
-
-]
-
-{ #category : #'finite list' }
-ToSandBox class >> example_finiteListWithAllClasses [
-
-	| l |
-	l := self finiteListWithData: 
-		((Smalltalk globals allClasses sorted: [ :a :b | a name < b name ]) copyFrom: 1 to: 500).
-	l toConfiguration useCheckbox: true
-
-]
-
 { #category : #checkables }
 ToSandBox class >> example_group [
 
@@ -6247,28 +6203,28 @@ ToSandBox class >> example_inline1 [
 	| menu sub subsub space |
 	menu := ToMenu new.
 	space := BlSpace new.
-	menu labelText: 'File'.
+	menu labelText: 'Menu with inline items'.
 
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
 			 clickAction: [ space root inspect ];
 			 yourself).
 	sub := ToMenu new
-		       labelText: 'Save All';
+		       labelText: 'Inline menu';
 		       icon: (ToImage inner: (self iconNamed: #solidMenu));
 		       yourself.
 	sub beInline.
 	subsub := ToMenuItem new
-		          labelText: 'X';
+		          labelText: 'A';
 		          yourself.
 
 	sub addItem: subsub.
 	subsub := ToMenuItem new
-		          labelText: 'Y';
+		          labelText: 'B';
 		          yourself.
 	sub addItem: subsub.
 	subsub := ToMenuItem new
-		          labelText: 'Zm';
+		          labelText: 'C';
 		          yourself.
 	sub addItem: subsub.
 
@@ -6282,30 +6238,30 @@ ToSandBox class >> example_inline2 [
 
 	| menu sub subsub frame subsubsub |
 	menu := ToMenu new.
-	menu labelText: 'File'.
+	menu labelText: 'Menu with inline'.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
 			 clickAction: [ menu space root inspect ];
 			 yourself).
-	sub := ToMenu new labelText: 'Save All'.
+	sub := ToMenu new labelText: 'Inline menu'.
 	sub beInline.
 	sub addItem: (ToMenuItem new
-			 labelText: 'Locally';
+			 labelText: 'Item';
 			 yourself).
 
 	subsub := ToMenu new
-		          labelText: 'Externally';
+		          labelText: 'Sub inline menu';
 		          icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	subsub beInline.
 	subsubsub := ToMenu new
-		             labelText: 'When';
+		             labelText: 'sub sub inline menu';
 		             icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	subsubsub beInline.
 	subsubsub addItem: (ToMenuItem new
-			 labelText: 'now';
+			 labelText: 'A';
 			 yourself).
 	subsubsub addItem: (ToMenuItem new
-			 labelText: 'later';
+			 labelText: 'B';
 			 yourself).
 
 	subsub addItem: subsubsub.
@@ -6324,185 +6280,34 @@ ToSandBox class >> example_inline3 [
 
 	| menu sub subsub frame subsubsub |
 	menu := ToMenu new.
-	menu labelText: 'File'.
+	menu labelText: 'Menu with inline'.
 	menu addItem: (ToMenuItem new
 			 labelText: 'Inspect';
 			 clickAction: [ menu space root inspect ];
 			 yourself).
-	sub := ToMenu new labelText: 'Save All'.
+	sub := ToMenu new labelText: 'Inline menu'.
 	sub beInline.
 	sub addItem: (ToMenuItem new
-			 labelText: 'Locally';
+			 labelText: 'Item with long label';
 			 yourself).
 
 	subsub := ToMenu new
-		          labelText: 'E';
-		          icon: (ToImage inner: (self iconNamed: #solidMenu)).
-	"subsub beInline."
-	subsubsub := ToMenu new
-		             labelText: 'When';
-		             icon: (ToImage inner: (self iconNamed: #solidMenu)).
-	subsubsub beInline.
-	subsubsub addItem: (ToMenuItem new
-			 labelText: 'now';
-			 yourself).
-	subsubsub addItem: (ToMenuItem new
-			 labelText: 'later';
-			 yourself).
-
-	subsub addItem: subsubsub.
-	sub addItem: subsub.
-	menu addItem: sub.
-	menu addSeparator.
-
-	menu position: 10 @ 10.
-	frame := ToInnerWindow new.
-	frame pane addChild: menu.
-	frame openInSpace
-]
-
-{ #category : #menu }
-ToSandBox class >> example_inline4 [
-
-	| menu sub subsub frame subsubsub |
-	menu := ToMenu new.
-	menu labelText: 'File'.
-	menu addItem: (ToMenuItem new
-			 labelText: 'Inspect';
-			 clickAction: [ menu space root inspect ];
-			 yourself).
-	sub := ToMenu new labelText: 'Save All'.
-	sub beInline.
-	sub addItem: (ToMenuItem new
-			 labelText: 'Locally';
-			 yourself).
-
-	subsub := ToMenu new
-		          labelText: 'E';
+		          labelText: 'Sub inline menu';
 		          icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	subsub beInline.
 	subsubsub := ToMenu new
-		             labelText: 'When';
+		             labelText: 'sub sub inline menu';
 		             icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	subsubsub beInline.
 	subsubsub addItem: (ToMenuItem new
-			 labelText: 'now';
+			 labelText: 'A';
 			 yourself).
 	subsubsub addItem: (ToMenuItem new
-			 labelText: 'later';
+			 labelText: 'B';
 			 yourself).
 
 	subsub addItem: subsubsub.
 	sub addItem: subsub.
-	menu addItem: sub.
-	menu addSeparator.
-
-	menu position: 10 @ 10.
-	frame := ToInnerWindow new.
-	frame pane addChild: menu.
-	frame openInSpace
-]
-
-{ #category : #menu }
-ToSandBox class >> example_inline5 [
-
-	| menu sub subsub frame subsubsub |
-	menu := ToMenu new.
-	menu labelText: 'File'.
-	menu addItem: (ToMenuItem new
-			 labelText: 'Inspect';
-			 clickAction: [ menu space root inspect ];
-			 yourself).
-	sub := ToMenu new labelText: 'Save All'.
-	sub beInline.
-	sub addItem: (ToMenuItem new
-			 labelText: 'L';
-			 yourself).
-
-	subsub := ToMenu new
-		          labelText: 'Ext.';
-		          icon: (ToImage inner: (self iconNamed: #solidMenu)).
-	subsub beInline.
-	subsubsub := ToMenu new
-		             labelText: 'Whenn';
-		             icon: (ToImage inner: (self iconNamed: #solidMenu)).
-	subsubsub beInline.
-	subsubsub addItem: (ToMenuItem new
-			 labelText: 'now';
-			 yourself).
-	subsubsub addItem: (ToMenuItem new
-			 labelText: 'later';
-			 yourself).
-
-	subsub addItem: subsubsub.
-	sub addItem: subsub.
-	menu addItem: sub.
-	menu addSeparator.
-
-	menu position: 10 @ 10.
-	frame := ToInnerWindow new.
-	frame pane addChild: menu.
-	frame openInSpace
-]
-
-{ #category : #menu }
-ToSandBox class >> example_inline6 [
-
-	| menu sub subsub frame subsubsub |
-	menu := ToMenu new.
-	menu labelText: 'File'.
-	menu addItem: (ToMenuItem new
-			 labelText: 'Inspect';
-			 clickAction: [ menu space root inspect ];
-			 yourself).
-	sub := ToMenu new labelText: 'Save All'.
-	sub beInline.
-	sub addItem: (ToMenuItem new
-			 labelText: 'Locallyyyyyyyyyyyyyyyyyyy';
-			 yourself).
-
-	subsub := ToMenu new
-		          labelText: 'Externally'.
-	subsub beInline.
-	subsubsub := ToMenu new
-		             labelText: 'When'.
-	subsubsub beInline.
-	subsubsub addItem: (ToMenuItem new
-			 labelText: 'now';
-			 yourself).
-	subsubsub addItem: (ToMenuItem new
-			 labelText: 'later';
-			 yourself).
-
-	subsub addItem: subsubsub.
-	sub addItem: subsub.
-	menu addItem: sub.
-	menu addSeparator.
-
-	menu position: 10 @ 10.
-	frame := ToInnerWindow new.
-	frame pane addChild: menu.
-	frame openInSpace
-]
-
-{ #category : #menu }
-ToSandBox class >> example_inline7 [
-
-	| menu sub  frame  |
-	menu := ToMenu new.
-	menu labelText: 'File'.
-	menu addItem: (ToMenuItem new
-			 labelText: 'Inspect';
-			 clickAction: [ menu space root inspect ];
-			 yourself).
-	sub := ToMenu new labelText: 'Save All'.
-	sub beInline.
-	sub addItem: (ToMenuItem new
-			 labelText: 'Locally';
-			 yourself).
-	sub addItem: (ToMenuItem new
-			 labelText: 'Externally';
-			 yourself).
 	menu addItem: sub.
 	menu addSeparator.
 
@@ -6567,6 +6372,23 @@ ToSandBox class >> example_labelFieldWithShrinkFeedback [
 			editorEvent target text: acceptedEvent target text ] ].
 	t matchParent.
 	innerWindow := t openInInnerWindow.
+
+]
+
+{ #category : #'finite list' }
+ToSandBox class >> example_listInDashBoard [
+
+	self listWithData: ToSandBox statesOfAmerica
+
+]
+
+{ #category : #'finite list' }
+ToSandBox class >> example_listWithAllClasses [
+
+	| l |
+	l := self listWithData: 
+		((Smalltalk globals allClasses sorted: [ :a :b | a name < b name ]) copyFrom: 1 to: 500).
+	l toConfiguration useCheckbox: true
 
 ]
 
@@ -7785,6 +7607,26 @@ ToSandBox class >> example_switchButtonWithSize [
 	th wishedTrackExtent: 100@30.
 	th checked: true.
 	th openInSpace
+]
+
+{ #category : #'finite list' }
+ToSandBox class >> example_tabListElement [
+
+	| tabs |
+	tabs := ToTabListElement new.
+	tabs horizontal: true.
+	tabs matchParent.
+
+	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
+			| item |
+			item := ToTabItemElement new
+				        removable: true;
+				        middleElement: (ToLabel text: l);
+				        yourself.
+			item width: 100.
+			item height: 100.
+			tabs addItem: item ].
+	tabs openInInnerWindow
 ]
 
 { #category : #'text field' }
@@ -9072,235 +8914,6 @@ ToSandBox class >> experiment_intervalCollection [
 	^ t
 ]
 
-{ #category : #'finite list' }
-ToSandBox class >> finiteListConfigurationBoardFor: aList [
-
-	| menu confPane animSwitch |
-	confPane := ToPane vertical.
-	confPane id: #configurationPane.
-	confPane matchParent.
-	confPane padding: (BlInsets all: 5).
-
-	menu := ToMenu new.
-	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
-	menu addItem: (ToRadioMenuItem new
-			 label: (ToLabel text: 'Dark theme');
-			 checkAction: [ :evt |
-					 evt currentTarget space toTheme: (evt target isChecked
-								  ifTrue: [ ToRawDarkTheme new ]
-								  ifFalse: [ ToRawTheme new ]) ];
-			 in: [ :rad |
-				 rad checked: Toplo defaultThemeClass = ToRawDarkTheme ];
-			 yourself).
-	menu addItem: (ToMenuItem new
-			 label: (ToLabel text: 'Space statistics');
-			 clickAction: [ aList space showStatisticsWindow ];
-			 yourself).
-	menu addItem: (ToMenuItem new
-			 label: (ToLabel text: 'Inspect');
-			 clickAction: [ aList space root inspect ];
-			 yourself).
-	menu addItem: (ToRadioMenuItem new
-			 label: (ToLabel text: 'Disabled bar');
-			 checkAction: [ :evt | aList disabled: evt target isChecked ];
-			 yourself).
-	confPane addChild: menu.
-
-	{
-		([ aList isVertical ] -> [ :v | aList isVertical: v ] -> 'Vertical').
-		([ aList innerConfiguration isFlowable ]
-		 -> [ :v | aList innerConfiguration isFlowable: v ] -> 'Flowable').
-		([ aList innerConfiguration uniformNodeWidth ]
-		 -> [ :v | aList innerConfiguration uniformNodeWidth: v ]
-		 -> 'Uniform width').
-		([ aList innerConfiguration uniformNodeHeight ]
-		 -> [ :v | aList innerConfiguration uniformNodeHeight: v ]
-		 -> 'Uniform height').
-		([ aList innerConfiguration isScrollable ] -> [ :v | aList innerConfiguration isScrollable: v ]
-		 -> 'Scrollable').
-		([ aList innerConfiguration autoDistribute ]
-		 -> [ :v | aList innerConfiguration autoDistribute: v ]
-		 -> 'Auto-distribute').
-		([ aList selectionMode selectOnPressed ]
-		 -> [ :v | aList selectionMode selectOnPressed: v ]
-		 -> 'Select on pressed').
-		([ aList selectionMode deselectOnPressed ]
-		 -> [ :v | aList selectionMode deselectOnPressed: v ]
-		 -> 'Deselect on pressed').
-		([ aList selectionMode makeDisabledUnselectable ]
-		 -> [ :v | aList selectionMode makeDisabledUnselectable: v ]
-		 -> 'Disabled items are unselectable') } do: [ :assoc |
-			| switch |
-			switch := ToSwitchButton new labelText: assoc value value.
-			switch checkAction: [ :evt |
-				assoc key value value: evt target isChecked ].
-
-			switch startFlexible: true.
-			switch hMatchParent.
-			confPane addChild: switch.
-
-			aList whenConfigurationAppliedDo: [
-				switch checked: assoc key key value ] ].
-
-	animSwitch := ToSwitchButton new labelText: 'Animate transition'.
-	animSwitch checkAction: [ :evt |
-			| d |
-			d := evt target isChecked
-				     ifTrue: [ 200 milliSeconds ]
-				     ifFalse: [ 0 milliSeconds ].
-			aList selectionOption animationDuration: d.
-			aList secondarySelectionOption animationDuration: d ].
-
-	animSwitch startFlexible: true.
-	animSwitch hMatchParent.
-	confPane addChild: animSwitch.
-	confPane addChild: (self resizerBoardFor: aList).
-	^ confPane
-]
-
-{ #category : #'finite list' }
-ToSandBox class >> finiteListDashBoardFor: aBar [
-
-	| mainPane barPane confPane |
-	mainPane := ToPane horizontal.
-	mainPane matchParent.
-	barPane := ToPane horizontal.
-	barPane matchParent.
-	barPane addChild: aBar.
-
-	confPane := self finiteListConfigurationBoardFor: aBar.
-	confPane padding: (BlInsets all: 5).
-	mainPane addChildren: {
-			confPane.
-			barPane }.
-	^ mainPane
-]
-
-{ #category : #'finite list' }
-ToSandBox class >> finiteListWithData: aCollection [
-
-	| bar confBoard barPane rootPane selectionModeBoard rand |
-	rand := Random new.
-	bar := ToListElement finite.
-	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
-	bar nodeBuilder: [ :node :dataItem :holder |
-			| fontSize triplet label |
-			triplet := ToTripletElement new.
-			triplet
-				hMatchParent;
-				vFitContent.
-			fontSize := rand nextIntegerBetween: 10 and: 16.
-			label := (ToLabel text:
-					          holder position asString , ': ' , dataItem asString)
-				         fontSize: fontSize;
-				         yourself.
-			triplet startElement: ToIconicRemoveButton new.
-			triplet startElement clickAction: [
-				triplet startElement fireEvent: ToRemoveButtonClickedEvent new ].
-			triplet middleElement: label.
-			triplet startInterspace: 10.
-			triplet constraintsDo: [ :c | c linear vertical alignCenter ].
-			node addChild: triplet ].
-
-	bar contextMenuBuilder: [ :menu :request |
-			| idxes target |
-			target := request currentTarget.
-			idxes := request selectedIndexes.
-			menu addItem: (ToMenuItem new
-					 labelText: 'Inspect list';
-					 clickAction: [ target inspect ];
-					 yourself).
-			menu addItem: (ToMenuItem new
-					 labelText: 'Remove all';
-					 clickAction: [ target dataAccessor removeAll ];
-					 yourself).
-			menu addItem: (ToMenuItem new
-					 labelText: 'Add first a new item';
-					 clickAction: [
-							 target dataAccessor addFirst:
-									 String loremIpsum substrings first , ' (added first)' ];
-					 yourself).
-			menu addItem: (ToMenuItem new
-					 labelText: 'Add last a new item';
-					 clickAction: [
-							 target dataAccessor add:
-									 String loremIpsum substrings first , ' (added last)' ];
-					 yourself).
-			idxes ifNotEmpty: [
-					menu addItem: (ToMenu new
-							 labelText: 'Selected node';
-							 in: [ :m |
-									 m addItem: (ToMenuItem new
-												  labelText: 'Inspect';
-												  clickAction: [
-														  Array withAll:
-																  (idxes collect: [ :idx |
-																		   target nodeContainerAt: idx ]) inspect ];
-												  yourself).
-									 m addItem: (ToMenuItem new
-											  labelText: 'Remove';
-											  clickAction: [
-												  idxes reverseDo: [ :idx |
-														  bar dataAccessor removeAt: idx ] ];
-											  yourself).
-									 m addItem: (ToMenuItem new
-											  labelText: 'Unable/disable';
-											  clickAction: [
-													  idxes do: [ :idx |
-																  (bar nodeContainerAt: idx) disabled:
-																		  (bar nodeContainerAt: idx) isEnabled ] ];
-											  yourself).
-									 m addItem: (ToMenuItem new
-											  labelText: 'Unselectable';
-											  clickAction: [
-												  idxes do: [ :idx |
-														  bar unselectableSelecter selectIndex: idx ] ];
-											  yourself).
-									 m addItem: (ToMenuItem new
-											  labelText: 'Insert before';
-											  clickAction: [
-													  | idx |
-													  idx := idxes first.
-													  target dataAccessor
-														  add:
-															  String loremIpsum substrings first
-															  , ' (inserted before)'
-														  beforeIndex: idx ];
-											  yourself).
-									 m addItem: (ToMenuItem new
-											  labelText: 'Insert after';
-											  clickAction: [
-													  | idx |
-													  idx := idxes last.
-													  target dataAccessor
-														  add:
-															  String loremIpsum substrings first
-															  , ' (inserted after)'
-														  afterIndex: idx ];
-											  yourself) ];
-							 yourself) ] ].
-
-	confBoard := self finiteListConfigurationBoardFor: bar.
-	selectionModeBoard := self selectionModeChooserFor: bar.
-	confBoard addChild: selectionModeBoard.
-
-	bar dataAccessor addAll: aCollection.
-	rootPane := ToPane horizontal.
-	rootPane padding: (BlInsets all: 5).
-	rootPane matchParent.
-	barPane := ToPane horizontal.
-	barPane padding: (BlInsets all: 5).
-	barPane matchParent.
-	barPane addChild: bar.
-
-	rootPane addChild: confBoard.
-	rootPane addChild: barPane.
-	rootPane addDividers first weight: 0.5.
-	"bar toConfiguration useCheckbox: true."
-	rootPane openInSpace.
-	^ bar
-]
-
 { #category : #tag }
 ToSandBox class >> finiteTagListWithData: aCollection [
 
@@ -9381,12 +8994,11 @@ ToSandBox class >> finiteTagListWithData: aCollection [
 											  yourself) ];
 							 yourself) ] ].
 
-	confBoard := self finiteListConfigurationBoardFor: bar.
+	confBoard := self listConfigurationBoardFor: bar.
 	selectionModeBoard := self selectionModeChooserFor: bar.
 	confBoard addChild: selectionModeBoard.
 
-	bar innerConfiguration isFlowable: true.
-	bar innerConfiguration uniformNodeWidth: true.
+	bar toConfiguration isFlowable: true.
 	rootPane := ToPane horizontal.
 	rootPane padding: (BlInsets all: 5).
 	rootPane matchParent.
@@ -9412,6 +9024,109 @@ ToSandBox class >> labeledIconlWithIconAndText [
 				  background: (Color blue alpha: 0.2);
 				  yourself)).
 	^ but
+]
+
+{ #category : #'finite list' }
+ToSandBox class >> listConfigurationBoardFor: aList [
+
+	| menu confPane animSwitch |
+	confPane := ToPane vertical.
+	confPane id: #configurationPane.
+	confPane matchParent.
+	confPane padding: (BlInsets all: 5).
+
+	menu := ToMenu new.
+	menu icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	menu addItem: (ToRadioMenuItem new
+			 label: (ToLabel text: 'Dark theme');
+			 checkAction: [ :evt |
+					 evt currentTarget space toTheme: (evt target isChecked
+								  ifTrue: [ ToRawDarkTheme new ]
+								  ifFalse: [ ToRawTheme new ]) ];
+			 in: [ :rad |
+				 rad checked: Toplo defaultThemeClass = ToRawDarkTheme ];
+			 yourself).
+	menu addItem: (ToMenuItem new
+			 label: (ToLabel text: 'Space statistics');
+			 clickAction: [ aList space showStatisticsWindow ];
+			 yourself).
+	menu addItem: (ToMenuItem new
+			 label: (ToLabel text: 'Inspect');
+			 clickAction: [ aList space root inspect ];
+			 yourself).
+	menu addItem: (ToRadioMenuItem new
+			 label: (ToLabel text: 'Disabled bar');
+			 checkAction: [ :evt | aList disabled: evt target isChecked ];
+			 yourself).
+	confPane addChild: menu.
+
+	{
+		([ aList useInfiniteLayout ] -> [ :v | aList useInfiniteLayout: v ]
+		 -> 'Use infinite layout').
+		([ aList isVertical ] -> [ :v | aList isVertical: v ] -> 'Vertical').
+		([ aList toConfiguration isFlowable ]
+		 -> [ :v | aList toConfiguration isFlowable: v ] -> 'Flowable').
+		([ aList toConfiguration isScrollable ]
+		 -> [ :v | aList toConfiguration isScrollable: v ] -> 'Scrollable').
+		([ aList toConfiguration autoDistribute ]
+		 -> [ :v | aList toConfiguration autoDistribute: v ]
+		 -> 'Auto-distribute').
+		([ aList useCheckbox ]
+		 -> [ :v | aList useCheckbox: v ]
+		 -> 'Use checkbox selection').
+		([ aList selectionMode selectOnPressed ]
+		 -> [ :v | aList selectionMode selectOnPressed: v ]
+		 -> 'Select on pressed').
+		([ aList selectionMode deselectOnPressed ]
+		 -> [ :v | aList selectionMode deselectOnPressed: v ]
+		 -> 'Deselect on pressed').
+		([ aList selectionMode makeDisabledUnselectable ]
+		 -> [ :v | aList selectionMode makeDisabledUnselectable: v ]
+		 -> 'Disabled items are unselectable') } do: [ :assoc |
+			| switch |
+			switch := ToSwitchButton new labelText: assoc value value.
+			switch checkAction: [ :evt |
+				assoc key value value: evt target isChecked ].
+
+			switch startFlexible: true.
+			switch hMatchParent.
+			confPane addChild: switch.
+
+			aList whenConfigurationAppliedDo: [
+				switch checked: assoc key key value ] ].
+
+	animSwitch := ToSwitchButton new labelText: 'Animate transition'.
+	animSwitch checkAction: [ :evt |
+			| d |
+			d := evt target isChecked
+				     ifTrue: [ 200 milliSeconds ]
+				     ifFalse: [ 0 milliSeconds ].
+			aList selectionOption animationDuration: d.
+			aList secondarySelectionOption animationDuration: d ].
+
+	animSwitch startFlexible: true.
+	animSwitch hMatchParent.
+	confPane addChild: animSwitch.
+	confPane addChild: (self resizerBoardFor: aList).
+	^ confPane
+]
+
+{ #category : #'finite list' }
+ToSandBox class >> listDashBoardFor: aBar [
+
+	| mainPane barPane confPane |
+	mainPane := ToPane horizontal.
+	mainPane matchParent.
+	barPane := ToPane horizontal.
+	barPane matchParent.
+	barPane addChild: aBar.
+
+	confPane := self listConfigurationBoardFor: aBar.
+	confPane padding: (BlInsets all: 5).
+	mainPane addChildren: {
+			confPane.
+			barPane }.
+	^ mainPane
 ]
 
 { #category : #list }
@@ -9552,6 +9267,131 @@ ToSandBox class >> listMenuFenuFactory [
 				   yourself).
 		  menu addSeparator.
 		  menu addItem: selectionMenu ] ]
+]
+
+{ #category : #'finite list' }
+ToSandBox class >> listWithData: aCollection [
+
+	| bar confBoard barPane rootPane selectionModeBoard rand |
+	rand := Random new.
+	bar := ToListElement finite.
+	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
+	bar nodeBuilder: [ :node :dataItem :holder |
+			| fontSize triplet label |
+			triplet := ToTripletElement new.
+			triplet
+				hMatchParent;
+				vFitContent.
+			fontSize := rand nextIntegerBetween: 10 and: 16.
+			label := (ToLabel text:
+					          holder position asString , ': ' , dataItem asString)
+				         fontSize: fontSize;
+				         yourself.
+			triplet startElement: ToIconicRemoveButton new.
+			triplet startElement clickAction: [
+				triplet startElement fireEvent: ToRemoveButtonClickedEvent new ].
+			triplet middleElement: label.
+			triplet startInterspace: 10.
+			triplet constraintsDo: [ :c | c linear vertical alignCenter ].
+			node addChild: triplet ].
+
+	bar contextMenuBuilder: [ :menu :request |
+			| idxes target |
+			target := request currentTarget.
+			idxes := request selectedIndexes.
+			menu addItem: (ToMenuItem new
+					 labelText: 'Inspect list';
+					 clickAction: [ target inspect ];
+					 yourself).
+			menu addItem: (ToMenuItem new
+					 labelText: 'Remove all';
+					 clickAction: [ target dataAccessor removeAll ];
+					 yourself).
+			menu addItem: (ToMenuItem new
+					 labelText: 'Add first a new item';
+					 clickAction: [
+							 target dataAccessor addFirst:
+									 String loremIpsum substrings first , ' (added first)' ];
+					 yourself).
+			menu addItem: (ToMenuItem new
+					 labelText: 'Add last a new item';
+					 clickAction: [
+							 target dataAccessor add:
+									 String loremIpsum substrings first , ' (added last)' ];
+					 yourself).
+			idxes ifNotEmpty: [
+					menu addItem: (ToMenu new
+							 labelText: 'Selected node';
+							 in: [ :m |
+									 m addItem: (ToMenuItem new
+												  labelText: 'Inspect';
+												  clickAction: [
+														  Array withAll:
+																  (idxes collect: [ :idx |
+																		   target nodeContainerAt: idx ]) inspect ];
+												  yourself).
+									 m addItem: (ToMenuItem new
+											  labelText: 'Remove';
+											  clickAction: [
+												  idxes reverseDo: [ :idx |
+														  bar dataAccessor removeAt: idx ] ];
+											  yourself).
+									 m addItem: (ToMenuItem new
+											  labelText: 'Unable/disable';
+											  clickAction: [
+													  idxes do: [ :idx |
+																  (bar nodeContainerAt: idx) disabled:
+																		  (bar nodeContainerAt: idx) isEnabled ] ];
+											  yourself).
+									 m addItem: (ToMenuItem new
+											  labelText: 'Unselectable';
+											  clickAction: [
+												  idxes do: [ :idx |
+														  bar unselectableSelecter selectIndex: idx ] ];
+											  yourself).
+									 m addItem: (ToMenuItem new
+											  labelText: 'Insert before';
+											  clickAction: [
+													  | idx |
+													  idx := idxes first.
+													  target dataAccessor
+														  add:
+															  String loremIpsum substrings first
+															  , ' (inserted before)'
+														  beforeIndex: idx ];
+											  yourself).
+									 m addItem: (ToMenuItem new
+											  labelText: 'Insert after';
+											  clickAction: [
+													  | idx |
+													  idx := idxes last.
+													  target dataAccessor
+														  add:
+															  String loremIpsum substrings first
+															  , ' (inserted after)'
+														  afterIndex: idx ];
+											  yourself) ];
+							 yourself) ] ].
+
+	confBoard := self listConfigurationBoardFor: bar.
+	selectionModeBoard := self selectionModeChooserFor: bar.
+	confBoard addChild: selectionModeBoard.
+
+	bar dataAccessor addAll: aCollection.
+	rootPane := ToPane horizontal.
+	rootPane padding: (BlInsets all: 5).
+	rootPane matchParent.
+	barPane := ToPane horizontal.
+	barPane padding: (BlInsets all: 5).
+	barPane matchParent.
+	barPane addChild: bar.
+
+	rootPane addChild: confBoard.
+	rootPane addChild: barPane.
+	rootPane addDividers first weight: 0.5.
+	"bar toConfiguration useCheckbox: true."
+	rootPane openInSpace.
+	^ bar
 ]
 
 { #category : #list }
@@ -9850,7 +9690,7 @@ ToSandBox class >> segmentedDashBoardFor: aSegmentedElement [
 	mainPane := ToPane horizontal.
 	mainPane matchParent.
 
-	confPane := self finiteListConfigurationBoardFor: aSegmentedElement.
+	confPane := self listConfigurationBoardFor: aSegmentedElement.
 	(confPane childWithId: #selectOnPressedSwitch ifFound: [:child | child disable]).
 	(confPane childWithId: #deselectOnPressedSwitch ifFound: [:child | child disable]).
 	confPane padding: (BlInsets all: 5).
@@ -10022,7 +9862,7 @@ ToSandBox class >> statesOfAmericaWithGroups [
 ToSandBox class >> tabBarElementDashBoardFor: aTabBarElement [
 
 	| confPane barPane mainPane |
-	confPane := self finiteListConfigurationBoardFor: aTabBarElement.
+	confPane := self listConfigurationBoardFor: aTabBarElement.
 	barPane := ToPane vertical.
 	barPane matchParent.
 	barPane addChild: aTabBarElement.
@@ -10074,15 +9914,11 @@ ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 			 yourself).
 	confPane addChild: menu.
 
-	itemList innerConfigurationDo: [ :conf |
+	itemList toConfigurationDo: [ :conf |
 			{
 				([ aTabGroupElement isVertical ]
 				 -> [ :v | aTabGroupElement isVertical: v ] -> 'Vertical').
 				([ conf isFlowable ] -> [ :v | conf isFlowable: v ] -> 'Flowable').
-				([ conf uniformNodeWidth ] -> [ :v | conf uniformNodeWidth: v ]
-				 -> 'Uniform width').
-				([ conf uniformNodeHeight ] -> [ :v | conf uniformNodeHeight: v ]
-				 -> 'Uniform height').
 				([ conf isScrollable ] -> [ :v | conf isScrollable: v ]
 				 -> 'Scrollable').
 				([ conf autoDistribute ] -> [ :v | conf autoDistribute: v ]
@@ -10219,7 +10055,7 @@ ToSandBox class >> tabPaneElementWithUSStates [
 
 	| tpane |
 	tpane := ToTabPaneElement new.
-	tpane itemBuilder: [ :tabButton :aData :tabGroup |
+	tpane itemBuilder: [ :tabButton :aData :holder |
 			| lab |
 			lab := ToLabel text: aData asString.
 			lab enableShrinkLayer: true.
@@ -10232,8 +10068,8 @@ ToSandBox class >> tabPaneElementWithUSStates [
 						request accepted: true ].
 					editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
 							editorEvent target text: acceptedEvent target text.
-							tabGroup selecter scrollTowardEndToDataSourcePosition:
-								tabButton holder position ] ].
+							holder listElement selecter scrollTowardEndToDataSourcePosition:
+								holder position ] ].
 			tabButton destroyPaneWhenDeselected: true.
 			tabButton
 				label: lab;
@@ -10246,11 +10082,11 @@ ToSandBox class >> tabPaneElementWithUSStates [
 							border: c;
 							background: (c alpha: 0.1);
 							yourself ];
-				paneBuilder: [ :pane :button :holder |
+				paneBuilder: [ :pane :button :bholder |
 						| emptyPh |
 						emptyPh := ToEmptyPlaceholderLayer new attachToParent: pane.
 						pane userData at: #placeholder put: emptyPh ];
-				paneDestroyer: [ :pane :button :holder |
+				paneDestroyer: [ :pane :button :bholder |
 						| emptyPh |
 						emptyPh := pane userData at: #placeholder.
 						emptyPh removeFromParent ];

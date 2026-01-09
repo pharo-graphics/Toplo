@@ -10,7 +10,7 @@ Class {
 { #category : #application }
 ToListDataSourceSieveCommand >> applyIn: anInfiniteElement [
 
-	anInfiniteElement applyDataSourceSieveCommand: self
+	anInfiniteElement onAppliedDataSourceSieveCommand: self
 ]
 
 { #category : #accessing }

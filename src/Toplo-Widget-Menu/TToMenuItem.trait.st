@@ -63,10 +63,10 @@ TToMenuItem >> parentMenu [
 
 	self flag: #ToBeChecked.
 	^ self menuListOwner 
-	ifNotNil: [ :bo |
-		  bo isMenuPane
+	ifNotNil: [ :mlo |
+		  mlo isMenuPane
 			  ifTrue: [  ]
-			  ifFalse: [ bo ] ]
+			  ifFalse: [ mlo ] ]
 ]
 
 { #category : #'t - menu item' }

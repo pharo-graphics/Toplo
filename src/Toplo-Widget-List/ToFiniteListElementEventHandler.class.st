@@ -1,26 +1,36 @@
 Class {
 	#name : #ToFiniteListElementEventHandler,
-	#superclass : #ToInfiniteListElementEventHandler,
+	#superclass : #ToListInnerElementEventHandler,
 	#instVars : [
 		'previousVisibleNodeContainers'
 	],
 	#category : #'Toplo-Widget-List-InnerList-Finite'
 }
 
+{ #category : #'infinite event handling' }
+ToFiniteListElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
+
+	| listElement |
+	listElement := anEvent currentTarget listElement.
+	listElement forceUpdateAllSelectionsNow.
+	listElement requestMouseMoveReplay
+]
+
 { #category : #'element events handling' }
 ToFiniteListElementEventHandler >> checkFullyVisibleNodeContainersOnEvent: anEvent [
 
-	| invisibles visibles innerListElement |
+	| invisibles visibles innerListElement listElement |
 	innerListElement := anEvent currentTarget.
-	innerListElement toConfigurationDo: [ :conf |
+	listElement := innerListElement listElement.
+	listElement toConfigurationDo: [ :conf |
 			(conf isFlowable or: [ conf autoDistribute ])
 				ifTrue: [
 						invisibles := #(  ).
-						visibles := innerListElement nodeContainers asArray ]
+						visibles := listElement nodeContainers asArray ]
 				ifFalse: [
-						invisibles := innerListElement nodeContainersReject:
+						invisibles := listElement nodeContainersReject:
 							              #isFullyVisibleInListElement.
-						visibles := innerListElement nodeContainers difference:
+						visibles := listElement nodeContainers difference:
 							            invisibles ] ].
 	previousVisibleNodeContainers = visibles ifTrue: [ ^ self ].
 	previousVisibleNodeContainers := visibles.
@@ -34,14 +44,16 @@ ToFiniteListElementEventHandler >> checkFullyVisibleNodeContainersOnEvent: anEve
 { #category : #'infinite event handling' }
 ToFiniteListElementEventHandler >> elementScrolledEvent: anEvent [
 
-	super elementScrolledEvent: anEvent.
 	self checkFullyVisibleNodeContainersOnEvent: anEvent
 ]
 
 { #category : #'api - accessing' }
 ToFiniteListElementEventHandler >> eventsToHandle [
 
-	^ super eventsToHandle , { ToFiniteListVisibleNodeContainersChangedEvent }
+	^ super eventsToHandle , {
+		  BlElementScrolledEvent.
+		  BlBoundsHasChangedDuringScrollingEvent.
+		  ToFiniteListVisibleNodeContainersChangedEvent }
 ]
 
 { #category : #'element events handling' }

@@ -43,14 +43,6 @@ ToFiniteListDataSourceManager >> hasPendingCommands [
 	^ commandApplicationStrategy hasPendingCommands
 ]
 
-{ #category : #initialization }
-ToFiniteListDataSourceManager >> initialize [
-
-	super initialize.
-
-
-]
-
 { #category : #accessing }
 ToFiniteListDataSourceManager >> innerListElement: anInnerListElement [
 

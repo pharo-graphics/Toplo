@@ -32,11 +32,10 @@ ToItemListElementTest >> addAllItems [
 	| bar |
 	bar := l.
 	bar addAllItems:
-		((self statesOfAmerica "copyFrom: 1 to: 2") collect: [ :v |
+		((self statesOfAmerica ) collect: [ :v |
 			 ToToggleButton new labelText: v ]).
 	bar forceLayout.
 	self waitTestingSpaces.
-	"self assert: bar items size equals: self statesOfAmerica size."
 	bar nodeContainers withIndexDo: [ :it :idx |
 		self assert: it holder position equals: idx ].
 	bar nodeContainers withIndexDo: [ :it :idx |

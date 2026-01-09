@@ -30,7 +30,6 @@ ToInfiniteElement >> applyConfiguration [
 	self layout beHorizontal: self listElement isHorizontal.
 	self fitParent: listElement.
 	self childrenDo: [ :container | container applyConfiguration ].
-	listElement forceUpdateAllSelectionsNow.
 	self requestLayout
 ]
 
@@ -159,12 +158,6 @@ ToInfiniteElement >> listElement [
 ToInfiniteElement >> newNodeHolderFromDataSource: aDataSource [
 
 	^ listElement nodeManager newHolder
-]
-
-{ #category : #configuration }
-ToInfiniteElement >> newToConfiguration [ 
-
-	^ ToListInnerElementConfiguration new
 ]
 
 { #category : #'t - list inner element' }

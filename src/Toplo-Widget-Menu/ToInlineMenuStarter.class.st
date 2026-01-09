@@ -12,12 +12,15 @@ ToInlineMenuStarter >> isForInlineWindow [
 
 { #category : #'starting-stopping' }
 ToInlineMenuStarter >> startWindow: aWindow fromManager: aManager onEvent: anEvent [
+	" need to compute the largest node size to adapt the inline window "
 
-	" an inline window works correctly only with wrapping (need for the flow layout)"
-	aWindow itemList innerConfiguration isFlowable: true.
+	aWindow whenLayoutedDoOnce: [
+		aWindow bottomUpUdateWidthWith: aManager anchorElement measuredWidth ].
+
 	aManager anchorElement menuListOwner
 		addItem: aWindow
 		afterIndex: aManager anchorElement positionInList.
+
 	" need to install a new skin to change the icon (from closed to opened) "
 	aManager anchorElement requestNewSkin
 ]

@@ -14,8 +14,6 @@ ToMenuItemListElement >> defaultNodeManager [
 
 	^ super defaultNodeManager
 		  nodeFactory: [ :holder | ToMenuItemNode new ];
-		  itemConfigurator: [ :item | item applyConfiguration ];
-		  nodeConfigurator: [ :node | node vFitContent ];
 		  yourself
 ]
 
@@ -34,9 +32,7 @@ ToMenuItemListElement >> initialize [
 		'no focusability until focus management is understood and working '.
 	self focusability: BlFocusability none.
 	self vertical: true.
-	self innerConfigurationDo: [ :conf |
-			conf isFlowable: false.
-			conf uniformNodeWidth: true ].
+	self toConfigurationDo: [ :conf | conf isFlowable: false ].
 	self fitContent.
 	"No visible primary selection"
 	self selectionOption masked: true
@@ -55,4 +51,10 @@ ToMenuItemListElement >> minNodeWidth [
 ToMenuItemListElement >> newRawSkin [ 
 
 	^ ToMenuItemListElementSkin new
+]
+
+{ #category : #configuration }
+ToMenuItemListElement >> newToConfiguration [ 
+
+	^ ToMenuItemListConfiguration new
 ]

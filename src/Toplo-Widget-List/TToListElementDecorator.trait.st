@@ -171,11 +171,11 @@ TToListElementDecorator >> withDecoration: aDecorationClass [
 { #category : #'t - infinite accessing' }
 TToListElementDecorator >> withRowNumbers [
 
-	self innerConfiguration rowNumbers: true
+	self toConfiguration rowNumbers: true
 ]
 
 { #category : #'t - infinite accessing' }
 TToListElementDecorator >> withoutRowNumbers [
 
-	self innerConfiguration rowNumbers: false
+	self toConfiguration rowNumbers: false
 ]

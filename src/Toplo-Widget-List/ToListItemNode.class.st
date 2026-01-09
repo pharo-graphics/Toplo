@@ -10,7 +10,7 @@ Class {
 ToListItemNode >> applyConfiguration [ 
 
 	super applyConfiguration.
-	self nodeManager configureItem: self item
+	self item applyConfiguration 
 ]
 
 { #category : #initialization }

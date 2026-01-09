@@ -7,16 +7,6 @@ Class {
 	#category : #'Toplo-Widget-TabPane-TabList'
 }
 
-{ #category : #configuration }
-ToTabListElement >> applyConfiguration [
-
-	super applyConfiguration.
-	self nodeContainersDo: [ :container |
-		container node item applyConfiguration.
-		container node requestNewSkin ].
-	self requestLayout
-]
-
 { #category : #accessing }
 ToTabListElement >> atStartSide [
 

@@ -21,13 +21,13 @@ ToFiniteListTrackElement >> applyConfiguration [
 	super applyConfiguration.
 	self configureLayout.
 	self configureResizer.
-	self childrenDo: [ :child | child applyConfiguration ]
+	self childrenDo: [ :child | child requestConfiguration ]
 ]
 
 { #category : #configuration }
 ToFiniteListTrackElement >> autoDistribute [
 
-	^ listElement innerConfiguration autoDistribute
+	^ listElement toConfiguration autoDistribute
 ]
 
 { #category : #configuration }
@@ -35,17 +35,15 @@ ToFiniteListTrackElement >> configureLayout [
 
 	(self layout class = self newLayoutStrategyClass and: [
 		 self layout orientation isHorizontal = self isHorizontal ])
-		ifFalse: [ self layout: self newLayoutStrategy ].
-	self layout uniformNodeWidth: self uniformNodeWidth.
-	self layout uniformNodeHeight: self uniformNodeHeight.
+		ifFalse: [ self layout: self newLayoutStrategy ]
 ]
 
 { #category : #configuration }
 ToFiniteListTrackElement >> configureResizer [
 
 	self fitParent: listElement.
-	(self isFlowable not and: [
-		 self isScrollable and: [ self autoDistribute not ] ]) ifFalse: [
+	self isFlowable ifTrue: [ ^ self ].
+	(self isScrollable and: [ self autoDistribute not ]) ifFalse: [
 		^ self ].
 	self isHorizontal
 		ifTrue: [ self hFitContent ]
@@ -55,7 +53,7 @@ ToFiniteListTrackElement >> configureResizer [
 { #category : #layout }
 ToFiniteListTrackElement >> flowLayoutClass [
 
-	^ ToFiniteListFlowLayout
+	^ BlFlowLayout
 ]
 
 { #category : #initialization }
@@ -68,7 +66,7 @@ ToFiniteListTrackElement >> initialize [
 { #category : #configuration }
 ToFiniteListTrackElement >> isFlowable [
 
-	^ listElement innerConfiguration isFlowable
+	^ listElement toConfiguration isFlowable
 ]
 
 { #category : #configuration }
@@ -80,13 +78,13 @@ ToFiniteListTrackElement >> isHorizontal [
 { #category : #configuration }
 ToFiniteListTrackElement >> isScrollable [
 
-	^ listElement innerConfiguration isScrollable
+	^ listElement toConfiguration isScrollable
 ]
 
 { #category : #layout }
 ToFiniteListTrackElement >> linearLayoutClass [
 
-	^ ToFiniteListLinearLayout
+	^ BlLinearLayout
 ]
 
 { #category : #accessing }
@@ -176,13 +174,6 @@ ToFiniteListTrackElement >> onListElement: aListElement [
 	listElement := aListElement 
 ]
 
-{ #category : #layout }
-ToFiniteListTrackElement >> onMeasure: anExtentMeasurementSpec [
-
-	self layout minNodeWidth: listElement minNodeWidth.
-	super onMeasure: anExtentMeasurementSpec
-]
-
 { #category : #'accessing - children' }
 ToFiniteListTrackElement >> partlyVisibleNodesDo: aBlock [
 
@@ -194,16 +185,4 @@ ToFiniteListTrackElement >> partlyVisibleNodesDo: aBlock [
 ToFiniteListTrackElement >> removeNodeContainer: container [
 
 	container removeFromParent
-]
-
-{ #category : #configuration }
-ToFiniteListTrackElement >> uniformNodeHeight [
-
-	^ listElement innerConfiguration uniformNodeHeight
-]
-
-{ #category : #configuration }
-ToFiniteListTrackElement >> uniformNodeWidth [
-
-	^ listElement innerConfiguration uniformNodeWidth
 ]

@@ -71,7 +71,7 @@ TToCheckableSelectionManager >> onUseCheckboxChangedWith: aBoolean [
 	aBoolean
 		ifTrue: [ self addCheckboxSelectionManagement ]
 		ifFalse: [ self removeCheckboxSelectionManagement ].
-	self notifyDataSourceChanged
+	self postponeAction: [  self notifyDataSourceChanged ]
 ]
 
 { #category : #'t - checkable selection manager' }

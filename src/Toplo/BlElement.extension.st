@@ -17,6 +17,24 @@ BlElement >> addAllTokenProperties: aTokenPropertyCollection [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> addEventHandlerOn: anEventClass doUntil: aBlock [
+	"Add an event handler that will be removed as soon as the untilBlock is true.
+	Answer the new `BlEventHandler`."
+
+	| anEventHandler |
+	anEventHandler := BlEventHandler new.
+	anEventHandler
+		eventClass: anEventClass;
+		action: [ :anEvent |
+				(aBlock cull: anEvent) ifTrue: [
+						self removeEventHandler: anEventHandler ] ].
+
+	self addEventHandler: anEventHandler.
+
+	^ anEventHandler
+]
+
+{ #category : #'*Toplo' }
 BlElement >> addStamp: aSymbol [
 
 	self ensuredStampMap addProperty: (aSymbol -> true) asStampProperty

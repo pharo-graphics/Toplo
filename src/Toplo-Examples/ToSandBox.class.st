@@ -4806,7 +4806,7 @@ ToSandBox class >> example_TabGroupElementWithDaily [
 
 	| tabs dashBoard |
 	tabs := ToTabGroupElement new.
-	tabs itemBuilder: [ :tabItem :data :tabGroup |
+	tabs itemBuilder: [ :tabItem :data :holder |
 			tabItem labelText: data asString.
 			tabItem removable: true ].
 
@@ -4848,7 +4848,7 @@ ToSandBox class >> example_TabGroupElementWithUSStates [
 
 	| tabs dashBoard |
 	tabs := ToTabGroupElement new.
-	tabs itemBuilder: [ :tabItem :data :tabGroup |
+	tabs itemBuilder: [ :tabItem :data :holder |
 			tabItem labelText: data asString.
 			tabItem removable: true ].
 
@@ -4910,7 +4910,7 @@ ToSandBox class >> example_TabPaneWithAlignment [
 	tabPane alignMiddle.
 	tabPane isFlowable: false.
 
-	tabPane itemBuilder: [ :tabButton :aData :tabGroup |
+	tabPane itemBuilder: [ :tabButton :aData :holder |
 			tabButton removable: true.
 			tabButton label: (ToLabel text: aData asString).
 			tabButton paneBuilder: [ :pane |
@@ -4979,7 +4979,7 @@ ToSandBox class >> example_TabPaneWithCompactHeaderLayoutMode [
 	tabPane atStartSide: true.
 	tabPane vertical: true.
 
-	tabPane itemBuilder: [ :tabButton :aData :tabGroup |
+	tabPane itemBuilder: [ :tabButton :aData :holder |
 			tabButton removable: true.
 			tabButton label: (ToLabel text: aData asString).
 			tabButton paneBuilder: [ :pane |
@@ -10055,7 +10055,7 @@ ToSandBox class >> tabPaneElementWithUSStates [
 
 	| tpane |
 	tpane := ToTabPaneElement new.
-	tpane itemBuilder: [ :tabButton :aData :tabGroup |
+	tpane itemBuilder: [ :tabButton :aData :holder |
 			| lab |
 			lab := ToLabel text: aData asString.
 			lab enableShrinkLayer: true.
@@ -10068,8 +10068,8 @@ ToSandBox class >> tabPaneElementWithUSStates [
 						request accepted: true ].
 					editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
 							editorEvent target text: acceptedEvent target text.
-							tabGroup selecter scrollTowardEndToDataSourcePosition:
-								tabButton holder position ] ].
+							holder listElement selecter scrollTowardEndToDataSourcePosition:
+								holder position ] ].
 			tabButton destroyPaneWhenDeselected: true.
 			tabButton
 				label: lab;
@@ -10082,11 +10082,11 @@ ToSandBox class >> tabPaneElementWithUSStates [
 							border: c;
 							background: (c alpha: 0.1);
 							yourself ];
-				paneBuilder: [ :pane :button :holder |
+				paneBuilder: [ :pane :button :bholder |
 						| emptyPh |
 						emptyPh := ToEmptyPlaceholderLayer new attachToParent: pane.
 						pane userData at: #placeholder put: emptyPh ];
-				paneDestroyer: [ :pane :button :holder |
+				paneDestroyer: [ :pane :button :bholder |
 						| emptyPh |
 						emptyPh := pane userData at: #placeholder.
 						emptyPh removeFromParent ];

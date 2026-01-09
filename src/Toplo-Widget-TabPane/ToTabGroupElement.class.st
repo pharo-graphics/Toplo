@@ -22,10 +22,6 @@ Class {
 { #category : #adding }
 ToTabGroupElement >> addNewTabItem [
 
-	self itemList
-		addEventHandlerOn: ToListNodeAddedEvent
-		doOnce: [ :event |
-			event node item checked: true ].
 	self addTabItemData: 'New Tab'
 ]
 
@@ -35,11 +31,17 @@ ToTabGroupElement >> addTabItemData: aData [
 	| newTabItem |
 	newTabItem := tabItemFactory value.
 	" add the new item before building it to allow the builder to use the item holder "
-	self addItem: newTabItem.
-	itemBuilder cull: newTabItem cull: aData cull: self.
-	self
-		addEventHandlerOn: ToDataSourceUpdatedEvent
-		doOnce: [ newTabItem holder node requestConfiguration ]
+	self itemList
+		addEventHandlerOn: ToListNodeAddedEvent
+		doUntil: [ :event |
+				| value |
+				(value := event node item = newTabItem) ifTrue: [
+						itemBuilder cull: newTabItem cull: aData cull: newTabItem holder.
+						newTabItem checked: true.
+						newTabItem holder node requestConfiguration ].
+				value ].
+
+	self addItem: newTabItem
 ]
 
 { #category : #configuration }
@@ -254,7 +256,7 @@ ToTabGroupElement >> isAtStartSide [
 
 { #category : #accessing }
 ToTabGroupElement >> itemBuilder: aValuable [
-	" aValuable takes the new TabItemElement, the data and the TabGroupElement as arguments "
+	" aValuable takes the new TabItemElement, the data and its holder as arguments "
 
 	itemBuilder := aValuable
 ]

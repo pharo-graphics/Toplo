@@ -69,6 +69,7 @@ ToFiniteListElementTest >> testDisabledWithFourNodes [
 	self waitTestingSpaces.
 	l disabledSelecter selectOneMoreIndex: 1.
 	self waitTestingSpaces.
+	self assert: l disabledSelecter selectedIndexes equals: { 1 }.
 	self assert: l nodes first isDisabled.
 	l dataAccessor addFirst: 'second'.
 	self waitTestingSpaces.
@@ -143,7 +144,7 @@ ToFiniteListElementTest >> testDisabledWithOneNode [
 	self waitTestingSpaces.
 	self assert: l nodeContainers size equals: 1.
 	self assert: l disabledSelectionModel isEmpty.
-	l disabledSelecter selectOneMoreIndex: 1.
+	l disabledSelecter selectIndex: 1.
 	self waitTestingSpaces.
 	self assert: l disabledSelecter selectedIndex equals: 1.
 	self assert: l nodes first isDisabled

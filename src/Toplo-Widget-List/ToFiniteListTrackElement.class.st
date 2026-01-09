@@ -21,7 +21,7 @@ ToFiniteListTrackElement >> applyConfiguration [
 	super applyConfiguration.
 	self configureLayout.
 	self configureResizer.
-	self childrenDo: [ :child | child applyConfiguration ]
+	self childrenDo: [ :child | child requestConfiguration ]
 ]
 
 { #category : #configuration }

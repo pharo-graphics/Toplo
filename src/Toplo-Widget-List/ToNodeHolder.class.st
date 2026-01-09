@@ -108,6 +108,8 @@ ToNodeHolder >> initialize [
 
 	super initialize.
 	recyclingRequested := false.
+	" don't initialize notifiedSelected to false 
+	to force correct update of selection at start"
 	wasFocused := false
 ]
 

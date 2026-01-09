@@ -51,7 +51,9 @@ ToBasicListElement >> addedDataSourceCommand: aCommand [
 ToBasicListElement >> applyConfiguration [
 
 	super applyConfiguration.
-	self childrenDo: #applyConfiguration
+	self childrenDo: #applyConfiguration.
+	self forceUpdateAllSelectionsNow.
+
 ]
 
 { #category : #'private - commands' }

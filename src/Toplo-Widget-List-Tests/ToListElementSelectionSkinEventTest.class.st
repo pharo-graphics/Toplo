@@ -90,7 +90,7 @@ ToListElementSelectionSkinEventTest >> testSelectedSkinEventCountAfterRemove [
 	" the second node is selected then the first node is removed 
 	-> the first node become selected but without selection changed event dispatching because of a shift selection command (the second nodeContainer is shift at the position 1)"
 	self deny: (selectionCounts includesKey: 2).
-	self assert: (selectionCounts includesKey: 1).
+	self deny: (selectionCounts includesKey: 1).
 	self assert: receivedSelectedEvents size equals: 0.
 	self assert: receivedDeselectedEvents size equals: 0.
 	

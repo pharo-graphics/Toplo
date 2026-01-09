@@ -49,8 +49,7 @@ ToFiniteListElement >> applyConfiguration [
 
 	super applyConfiguration.
 	self fitParent: listElement.
-	self childrenDo: [ :container | container applyConfiguration ].
-	listElement forceUpdateAllSelectionsNow.
+	self childrenDo: [ :child | child applyConfiguration ].
 	self requestLayout
 	
 ]
@@ -134,7 +133,7 @@ ToFiniteListElement >> initialize [
 	self elevation: (BlRelativeElevation elevation: 10).
 	self initializeDataSource.
 	self addEventHandler: ToFiniteListElementEventHandler new.
-	self trackElement: self scrollableFiniteListTrackElementClass new.
+	self trackElement: self trackElementClass new.
 	self matchParent.
 	self focusability: BlFocusability ignore.
 	listElement primarySelectionMode selectionOption
@@ -242,7 +241,7 @@ ToFiniteListElement >> onItemRangeChanged: aPositionStart itemCount: anItemCount
 		pos := container holder position.
 		(pos >= aPositionStart and: [ pos < (aPositionStart + anItemCount) ])
 			ifTrue: [
-				container applyConfiguration ] ]
+				container requestConfiguration ] ]
 ]
 
 { #category : #'data source updates' }
@@ -397,12 +396,6 @@ ToFiniteListElement >> scrollTowardStartToDataSourcePosition: anIndex [
 		self scrollBy: p x negated @ p y ]
 ]
 
-{ #category : #initialization }
-ToFiniteListElement >> scrollableFiniteListTrackElementClass [
-
-	^ ToFiniteListTrackElement 
-]
-
 { #category : #scrolling }
 ToFiniteListElement >> smoothScrollBy: aPoint [
 	"Animate a scroll by the given amount of pixels along either axis"
@@ -482,6 +475,12 @@ ToFiniteListElement >> trackElement: anElement [
 	trackElement id: #track.
 	trackElement onListElement: listElement .
 	self addChild: trackElement 
+]
+
+{ #category : #initialization }
+ToFiniteListElement >> trackElementClass [
+
+	^ ToFiniteListTrackElement 
 ]
 
 { #category : #'data source updates' }

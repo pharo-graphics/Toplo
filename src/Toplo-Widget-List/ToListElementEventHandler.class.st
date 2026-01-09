@@ -24,7 +24,7 @@ ToListElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
 
 	| listElement |
 	listElement := anEvent currentTarget.
-	listElement forceUpdateAllSelectionsNow.
+	listElement requestUpdateAllSelections.
 	listElement requestMouseMoveReplay
 ]
 

@@ -2055,12 +2055,12 @@ ToSandBox class >> example_FilterOnList2WithStatesOfAmerica [
 	filterField margin: (BlInsets all: 2).
 
 	selector := ToObservableCollectionFilterApplier new.
-	listElement dataAccessor
+	listElement dataSource
 		addEventHandlerOn: ToObservableCollectionFilterApplierEvent
 		do: [ :event |
 			listElement selecter selectOnlyIndexes: event selectedIndexes ].
 	listElement dataAccessor addAll: data.
-	selector onInstalledIn: listElement dataAccessor.
+	selector onInstalledIn: listElement dataSource.
 
 	filterField whenTextEditedDo: [
 			| pattern |

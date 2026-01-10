@@ -14,7 +14,7 @@ ToTabGroupElementConfiguration >> applyOn: aTabGroupElement [
 
 	aTabGroupElement itemList horizontal: aTabGroupElement isHorizontal.
 
-	aTabGroupElement checkAddNewTabItemButton.
+	aTabGroupElement checkAddTabButton.
 	aTabGroupElement itemList atStartSide: atStartSide.
 
 	aTabGroupElement itemList constraintsDo: [ :c |

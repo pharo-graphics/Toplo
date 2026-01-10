@@ -8,13 +8,14 @@ Class {
 		'endExtraContainer',
 		'menusContainer',
 		'invisibleNodeMenuItemBuilder',
-		'addTabItemButton',
 		'tabItemFactory',
 		'showAddTabItemButton',
 		'itemBuilder',
 		'hidePartlyVisibleNodes',
 		'invisibleNodeContainers',
-		'visibleNodeContainers'
+		'visibleNodeContainers',
+		'addTabButton',
+		'addTabItemDataFactory'
 	],
 	#category : #'Toplo-Widget-TabPane-TabGroup'
 }
@@ -22,11 +23,18 @@ Class {
 { #category : #adding }
 ToTabGroupElement >> addNewTabItem [
 
-	self addTabItemData: 'New Tab'
+	" i'm a callback for the addTabButton "
+	self addTabItemData: self addTabItemDataFactory value checked: true
 ]
 
 { #category : #adding }
 ToTabGroupElement >> addTabItemData: aData [
+
+	self addTabItemData: aData checked: false
+]
+
+{ #category : #adding }
+ToTabGroupElement >> addTabItemData: aData checked: aBoolean [
 
 	| newTabItem |
 	newTabItem := tabItemFactory value.
@@ -34,14 +42,24 @@ ToTabGroupElement >> addTabItemData: aData [
 	self itemList
 		addEventHandlerOn: ToListNodeAddedEvent
 		doUntil: [ :event |
-				| value |
-				(value := event node item = newTabItem) ifTrue: [
-						itemBuilder cull: newTabItem cull: aData cull: newTabItem holder.
-						newTabItem checked: true.
-						newTabItem holder node requestConfiguration ].
-				value ].
-
+				self
+					haveBuiltNewTabItem: newTabItem
+					withData: aData
+					checked: aBoolean
+					onAddedEvent: event ].
 	self addItem: newTabItem
+]
+
+{ #category : #accessing }
+ToTabGroupElement >> addTabItemDataFactory [
+
+	^ addTabItemDataFactory ifNil: [ addTabItemDataFactory := self defaultAddTabItemDataFactory ]
+]
+
+{ #category : #accessing }
+ToTabGroupElement >> addTabItemDataFactory: aValuable [
+
+	addTabItemDataFactory := aValuable
 ]
 
 { #category : #configuration }
@@ -72,11 +90,17 @@ ToTabGroupElement >> canShowInvisibleNodesMenu [
 ]
 
 { #category : #configuration }
-ToTabGroupElement >> checkAddNewTabItemButton [
+ToTabGroupElement >> checkAddTabButton [
 
 	showAddTabItemButton 
-		ifTrue: [ addTabItemButton visibility: BlVisibility visible ]
-		ifFalse: [ addTabItemButton visibility: BlVisibility gone ]
+		ifTrue: [ addTabButton visibility: BlVisibility visible ]
+		ifFalse: [ addTabButton visibility: BlVisibility gone ]
+]
+
+{ #category : #initialization }
+ToTabGroupElement >> defaultAddTabItemDataFactory [
+
+	^ [ 'New tab' ]
 ]
 
 { #category : #initialization }
@@ -139,6 +163,16 @@ ToTabGroupElement >> group [
 	^ self itemList group
 ]
 
+{ #category : #'private - adding' }
+ToTabGroupElement >> haveBuiltNewTabItem: aTabItem withData: aData checked: aBoolean onAddedEvent: anItemAddedEvent [
+
+	anItemAddedEvent node item = aTabItem ifFalse: [ ^ false ].
+	itemBuilder cull: aTabItem cull: aData cull: aTabItem holder.
+	aTabItem checked: aBoolean.
+	aTabItem holder node requestConfiguration.
+	^ true
+]
+
 { #category : #accessing }
 ToTabGroupElement >> hidePartlyVisibleNodes: aBoolean [
 
@@ -165,13 +199,13 @@ ToTabGroupElement >> initialize [
 ]
 
 { #category : #initialization }
-ToTabGroupElement >> initializeAddTabItemButton [
+ToTabGroupElement >> initializeAddTabButton [
 
-	addTabItemButton := ToAddTabButton new.
-	addTabItemButton clickAction: [
-		addTabItemButton fireEvent: ToAddButtonClickedEvent new ].
-	addTabItemButton visibility: BlVisibility gone.
-	addTabItemButton constraintsDo: [ :c |
+	addTabButton := ToAddTabButton new.
+	addTabButton clickAction: [
+		addTabButton fireEvent: ToAddButtonClickedEvent new ].
+	addTabButton visibility: BlVisibility gone.
+	addTabButton constraintsDo: [ :c |
 		c linear horizontal alignCenter.
 		c linear vertical alignCenter ]
 ]
@@ -192,7 +226,7 @@ ToTabGroupElement >> initializeInvisibleNodesMenu [
 ToTabGroupElement >> initializeParts [
 
 	self initializeInvisibleNodesMenu.
-	self initializeAddTabItemButton.
+	self initializeAddTabButton.
 	self createStartContainer.
 	self createEndContainer.
 	endExtraContainer := self newLinearContainer.
@@ -200,8 +234,8 @@ ToTabGroupElement >> initializeParts [
 	menusContainer := self newLinearContainer.
 	menusContainer id: #'menus-container'.
 	invisibleNodeMenuItemBuilder := self defaultInvisibleNodeMenuItemBuilder.
-	menusContainer addChild: addTabItemButton.
-	addTabItemButton id: #'add-tab-button'.
+	menusContainer addChild: addTabButton.
+	addTabButton id: #'add-tab-button'.
 	menusContainer addChild: invisibleNodesMenu.
 	invisibleNodesMenu id: #'invisible-nodes-menu'.
 	self endContainer addChild: menusContainer.

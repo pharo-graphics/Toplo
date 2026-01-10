@@ -4789,11 +4789,10 @@ ToSandBox class >> example_TabGroupElement [
 
 	| tabs dashBoard |
 	tabs := ToTabGroupElement new.
-	tabs itemBuilder: [ :tabItem :data  |
-		tabItem labelText: data asString.
-		tabItem removable: true ].
-	50 to: 70 do: [ :i |
-		tabs addTabItemData: i ].
+	tabs itemBuilder: [ :tabItem :data |
+			tabItem labelText: data asString.
+			tabItem removable: true ].
+	50 to: 70 do: [ :i | tabs addTabItemData: i ].
 	tabs selecter selectIndex: 5.
 	tabs requestFocus.
 	dashBoard := self tabGroupElementDashBoardFor: tabs.

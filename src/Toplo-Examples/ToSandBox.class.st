@@ -3491,6 +3491,51 @@ ToSandBox class >> example_PicsumPhotosGallery [
 	space show
 ]
 
+{ #category : #list }
+ToSandBox class >> example_PicsumPhotosGallery_crashing [
+	" cool example adapted from the feenk Glamorous Toolkit version BlInfiniteExample>>exampleGallery"
+
+	" Images loaded from https://picsum.photos "
+
+	| space list vscrollBar |
+	list := ToExPicsumListElement finite
+		        matchParent;
+		        yourself.
+
+	list selectionOption
+		grouped: false;
+		beneath: false;
+		elementFactory: [
+			ToListSelectionElement new defaultSkin:
+					ToExPicsumSelectionSkin new ].
+
+	[
+	| allImagesData |
+	allImagesData := (STONJSON fromString:
+		                  'https://picsum.photos/list' asUrl
+			                  retrieveContents) collect: [ :aDictionary |
+		                 ToExPicsumImageData fromDictionary:
+			                 aDictionary ].
+	allImagesData sort: [ :a :b | a id > b id ].
+	list dataAccessor addAll: allImagesData ] fork.
+
+	vscrollBar := BlVerticalScrollbarElement new.
+	vscrollBar constraintsDo: [ :c |
+		c ignoreByLayout.
+		c margin: (BlInsets left: 10).
+		c ignored horizontal alignRight.
+		c ignored vertical alignBottom ].
+	vscrollBar attachTo: list innerElement.
+
+	space := BlSpace new
+		         extent: 200 @ 600;
+		         title: 'picsum.photos Gallery'.
+
+	space root addChild: list.
+	space root addChild: vscrollBar.
+	space show
+]
+
 { #category : #transitions }
 ToSandBox class >> example_PointTransition [
 
@@ -9274,21 +9319,20 @@ ToSandBox class >> listWithData: aCollection [
 	| bar confBoard barPane rootPane selectionModeBoard rand |
 	rand := Random new.
 	bar := ToListElement finite.
+	bar nodeManager nodeHolderFactory: [ ToExNodeWithFontSizeHolder new ].
 	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
 	bar nodeBuilder: [ :node :dataItem :holder |
-			| fontSize triplet label |
+			| triplet label |
 			triplet := ToTripletElement new.
 			triplet
 				hMatchParent;
 				vFitContent.
-			fontSize := rand nextIntegerBetween: 10 and: 16.
-			label := (ToLabel text:
-					          holder position asString , ': ' , dataItem asString)
-				         fontSize: fontSize;
+			holder fontSize ifNil: [ holder fontSize: (rand nextIntegerBetween: 10 and: 16) ].
+			label := (ToLabel text: holder position asString , ': ' , dataItem asString)
+				         fontSize: holder fontSize;
 				         yourself.
 			triplet startElement: ToIconicRemoveButton new.
-			triplet startElement clickAction: [
-				triplet startElement fireEvent: ToRemoveButtonClickedEvent new ].
+			triplet startElement clickAction: [ triplet startElement fireEvent: ToRemoveButtonClickedEvent new ].
 			triplet middleElement: label.
 			triplet startInterspace: 10.
 			triplet constraintsDo: [ :c | c linear vertical alignCenter ].
@@ -9308,15 +9352,11 @@ ToSandBox class >> listWithData: aCollection [
 					 yourself).
 			menu addItem: (ToMenuItem new
 					 labelText: 'Add first a new item';
-					 clickAction: [
-							 target dataAccessor addFirst:
-									 String loremIpsum substrings first , ' (added first)' ];
+					 clickAction: [ target dataAccessor addFirst: String loremIpsum substrings first , ' (added first)' ];
 					 yourself).
 			menu addItem: (ToMenuItem new
 					 labelText: 'Add last a new item';
-					 clickAction: [
-							 target dataAccessor add:
-									 String loremIpsum substrings first , ' (added last)' ];
+					 clickAction: [ target dataAccessor add: String loremIpsum substrings first , ' (added last)' ];
 					 yourself).
 			idxes ifNotEmpty: [
 					menu addItem: (ToMenu new
@@ -9324,51 +9364,33 @@ ToSandBox class >> listWithData: aCollection [
 							 in: [ :m |
 									 m addItem: (ToMenuItem new
 												  labelText: 'Inspect';
-												  clickAction: [
-														  Array withAll:
-																  (idxes collect: [ :idx |
-																		   target nodeContainerAt: idx ]) inspect ];
+												  clickAction: [ Array withAll: (idxes collect: [ :idx | target nodeContainerAt: idx ]) inspect ];
 												  yourself).
 									 m addItem: (ToMenuItem new
 											  labelText: 'Remove';
-											  clickAction: [
-												  idxes reverseDo: [ :idx |
-														  bar dataAccessor removeAt: idx ] ];
+											  clickAction: [ idxes reverseDo: [ :idx | bar dataAccessor removeAt: idx ] ];
 											  yourself).
 									 m addItem: (ToMenuItem new
 											  labelText: 'Unable/disable';
-											  clickAction: [
-													  idxes do: [ :idx |
-																  (bar nodeContainerAt: idx) disabled:
-																		  (bar nodeContainerAt: idx) isEnabled ] ];
+											  clickAction: [ idxes do: [ :idx | (bar nodeContainerAt: idx) disabled: (bar nodeContainerAt: idx) isEnabled ] ];
 											  yourself).
 									 m addItem: (ToMenuItem new
 											  labelText: 'Unselectable';
-											  clickAction: [
-												  idxes do: [ :idx |
-														  bar unselectableSelecter selectIndex: idx ] ];
+											  clickAction: [ idxes do: [ :idx | bar unselectableSelecter selectIndex: idx ] ];
 											  yourself).
 									 m addItem: (ToMenuItem new
 											  labelText: 'Insert before';
 											  clickAction: [
 													  | idx |
 													  idx := idxes first.
-													  target dataAccessor
-														  add:
-															  String loremIpsum substrings first
-															  , ' (inserted before)'
-														  beforeIndex: idx ];
+													  target dataAccessor add: String loremIpsum substrings first , ' (inserted before)' beforeIndex: idx ];
 											  yourself).
 									 m addItem: (ToMenuItem new
 											  labelText: 'Insert after';
 											  clickAction: [
 													  | idx |
 													  idx := idxes last.
-													  target dataAccessor
-														  add:
-															  String loremIpsum substrings first
-															  , ' (inserted after)'
-														  afterIndex: idx ];
+													  target dataAccessor add: String loremIpsum substrings first , ' (inserted after)' afterIndex: idx ];
 											  yourself) ];
 							 yourself) ] ].
 
@@ -9387,8 +9409,7 @@ ToSandBox class >> listWithData: aCollection [
 
 	rootPane addChild: confBoard.
 	rootPane addChild: barPane.
-	rootPane addDividers first weight: 0.5.
-	"bar toConfiguration useCheckbox: true."
+	rootPane addDividers first weight: 0.5. "bar toConfiguration useCheckbox: true."
 	rootPane openInSpace.
 	^ bar
 ]

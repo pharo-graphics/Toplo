@@ -17,6 +17,12 @@ ToTabPaneElement >> addTabItemData: aData [
 ]
 
 { #category : #accessing }
+ToTabPaneElement >> addTabItemDataFactory: aValuable [
+
+	self tabGroup addTabItemDataFactory: aValuable
+]
+
+{ #category : #accessing }
 ToTabPaneElement >> alignEnd [
 
 	headerContainer alignEnd

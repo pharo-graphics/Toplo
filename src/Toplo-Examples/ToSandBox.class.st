@@ -10054,6 +10054,7 @@ ToSandBox class >> tabPaneElementWithUSStates [
 
 	| tpane |
 	tpane := ToTabPaneElement new.
+	tpane addTabItemDataFactory: [ 'My new tab'].
 	tpane itemBuilder: [ :tabButton :aData :holder |
 			| lab |
 			lab := ToLabel text: aData asString.

@@ -17,18 +17,10 @@ ToTabListGroupElementEventHandler >> checkableGroupChangedEvent: anEvent [
 ToTabListGroupElementEventHandler >> eventsToHandle [
 
 	^ {
-		  ToFiniteListVisibleNodeContainersChangedEvent.
+		  ToListVisibleNodeContainersChangedEvent.
 		  ToCheckableGroupChangedEvent.
 		  ToListItemEvent.
 		  ToListPrimarySelectionChangedEvent }
-]
-
-{ #category : #'events handling' }
-ToTabListGroupElementEventHandler >> finiteListVisibleNodeContainersChangedEvent: anEvent [
-
-	tabGroup
-		onInvisibleNodeContainers: anEvent invisibleNodeContainers
-		visibleNodeContainers: anEvent visibleNodeContainers
 ]
 
 { #category : #'events handling' }
@@ -57,6 +49,14 @@ ToTabListGroupElementEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 
 	anEvent selectedIndexes do: [ :idx |
 		anEvent currentTarget selecter scrollTowardStartToDataSourcePosition: idx ]
+]
+
+{ #category : #'events handling' }
+ToTabListGroupElementEventHandler >> listVisibleNodeContainersChangedEvent: anEvent [
+
+	tabGroup
+		onInvisibleNodeContainers: anEvent invisibleNodeContainers
+		visibleNodeContainers: anEvent visibleNodeContainers
 ]
 
 { #category : #accessing }

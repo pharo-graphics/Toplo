@@ -26,7 +26,7 @@ ToFiniteListElementEventHandler >> checkFullyVisibleNodeContainersOnEvent: anEve
 			(conf isFlowable or: [ conf autoDistribute ])
 				ifTrue: [
 						invisibles := #(  ).
-						visibles := listElement nodeContainers asArray ]
+						visibles := listElement nodeContainers asArray ] 
 				ifFalse: [
 						invisibles := listElement nodeContainersReject:
 							              #isFullyVisibleInListElement.
@@ -34,8 +34,9 @@ ToFiniteListElementEventHandler >> checkFullyVisibleNodeContainersOnEvent: anEve
 							            invisibles ] ].
 	previousVisibleNodeContainers = visibles ifTrue: [ ^ self ].
 	previousVisibleNodeContainers := visibles.
+
 	innerListElement dispatchEvent:
-		(ToFiniteListVisibleNodeContainersChangedEvent new
+		(ToListVisibleNodeContainersChangedEvent new
 			 visibleNodeContainers: visibles;
 			 invisibleNodeContainers: invisibles;
 			 yourself)
@@ -53,11 +54,11 @@ ToFiniteListElementEventHandler >> eventsToHandle [
 	^ super eventsToHandle , {
 		  BlElementScrolledEvent.
 		  BlBoundsHasChangedDuringScrollingEvent.
-		  ToFiniteListVisibleNodeContainersChangedEvent }
+		  ToListVisibleNodeContainersChangedEvent }
 ]
 
 { #category : #'element events handling' }
-ToFiniteListElementEventHandler >> finiteListVisibleNodeContainersChangedEvent: anEvent [
+ToFiniteListElementEventHandler >> listVisibleNodeContainersChangedEvent: anEvent [
 
 	| innerListElement |
 	innerListElement := anEvent currentTarget.

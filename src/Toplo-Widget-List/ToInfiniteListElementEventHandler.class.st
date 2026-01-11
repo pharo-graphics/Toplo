@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-List-InnerList-Infinite'
 }
 
-{ #category : #'infinite event handling' }
+{ #category : #'element handlers' }
 ToInfiniteListElementEventHandler >> elementScrolledEvent: anEvent [
 
 	| listElement |
@@ -13,8 +13,7 @@ ToInfiniteListElementEventHandler >> elementScrolledEvent: anEvent [
 			^ self ].
 	listElement := anEvent currentTarget listElement.
 	listElement forceUpdateAllSelectionsNow.
-	listElement requestMouseMoveReplay.
-
+	listElement requestMouseMoveReplay
 ]
 
 { #category : #'api - accessing' }

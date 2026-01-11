@@ -22,9 +22,7 @@ ToExPicsumLoader >> loadImages [
 	| allImagesData |
 	allImagesData := (STONJSON fromString:
 		                  'https://picsum.photos/list' asUrl
-			                  retrieveContents) collect: [ :aDictionary |
-		                 ToExPicsumImageData fromDictionary: aDictionary ].
-	allImagesData sort: [ :a :b | a id > b id ].
+			                  retrieveContents).
 	loaded := Array new: allImagesData size.
 
 	[

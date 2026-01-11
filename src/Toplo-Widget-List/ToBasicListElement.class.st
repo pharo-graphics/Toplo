@@ -837,7 +837,8 @@ ToBasicListElement >> useInfiniteLayout: aBoolean [
 	innerElement ifNotNil: [
 			innerElement removeFromParent.
 			innerElement := nil.
-			self notifyDataSourceChanged ]
+			self postponeAction: [ self notifyDataSourceChanged ].
+			self requestLayout ]
 ]
 
 { #category : #'accessing selecters' }

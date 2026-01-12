@@ -837,7 +837,7 @@ ToBasicListElement >> useInfiniteLayout: aBoolean [
 	innerElement ifNotNil: [
 			innerElement removeFromParent.
 			innerElement := nil.
-			self postponeAction: [ self notifyDataSourceChanged ].
+			self requestConfiguration.
 			self requestLayout ]
 ]
 

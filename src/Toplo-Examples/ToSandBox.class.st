@@ -2819,33 +2819,6 @@ ToSandBox class >> example_ListWithIndexedColors [
 ]
 
 { #category : #list }
-ToSandBox class >> example_ListWithPanes [
-
-	| list |
-	list := ToListElement new
-		        withRowNumbers;
-		        nodeBuilder: [ :node :dataItem :holder |
-			        | title blContent |
-			        title := ToLabel new
-				                 id: #title;
-				                 text: dataItem;
-				                 margin: (BlInsets all: 1);
-				                 padding: (BlInsets all: 1);
-				                 yourself.
-			        blContent := ToExPaneNode new.
-			        blContent addChild: title at: 1.
-			        blContent margin: (BlInsets all: 4).
-			        blContent padding: (BlInsets all: 12).
-			        blContent geometry:
-				        (BlRoundedRectangleGeometry cornerRadius: 6).
-			        blContent border: (BlBorder paint: Color lightGray).
-			        node addChild: blContent ].
-	list primarySelectionMode selectionOption beneath: false.
-	list dataAccessor addAll: (1 to: 1000).
-	list openInSpace
-]
-
-{ #category : #list }
 ToSandBox class >> example_ListWithSelectionHistory [
 
 	| statesList historyList pane |

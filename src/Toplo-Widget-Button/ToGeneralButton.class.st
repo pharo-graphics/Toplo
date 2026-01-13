@@ -1,8 +1,8 @@
 Class {
 	#name : #ToGeneralButton,
 	#superclass : #ToElement,
-	#traits : 'TToListItem + TToClickable',
-	#classTraits : 'TToListItem classTrait + TToClickable classTrait',
+	#traits : 'TToClickable + TToListItem',
+	#classTraits : 'TToClickable classTrait + TToListItem classTrait',
 	#instVars : [
 		'takeFocusOnClick'
 	],

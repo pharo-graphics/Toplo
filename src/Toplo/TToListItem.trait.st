@@ -1,19 +1,15 @@
 Trait {
 	#name : #TToListItem,
-	#instVars : [
-		'listItemConstraints'
-	],
 	#category : #'Toplo-Core'
 }
 
-{ #category : #'t - item' }
+{ #category : #'t - list item' }
 TToListItem >> ensuredItemConstraints [
 
-	^ listItemConstraints ifNil: [
-		  listItemConstraints := self newItemConstraints ]
+	^ self ensuredToploExtension ensuredItemConstraints
 ]
 
-{ #category : #'t - item' }
+{ #category : #'t - list item' }
 TToListItem >> flagAsDisabled: aBoolean [
 
 	self storeDisabled: aBoolean.
@@ -24,7 +20,7 @@ TToListItem >> flagAsDisabled: aBoolean [
 	super flagAsDisabled: aBoolean
 ]
 
-{ #category : #'t - item' }
+{ #category : #'t - list item' }
 TToListItem >> hidden: aBoolean [
 
 	self storeHidden: aBoolean.
@@ -34,51 +30,38 @@ TToListItem >> hidden: aBoolean [
 			ifFalse: [ l visibleItem: self ] ]
 ]
 
-{ #category : #'t - item' }
+{ #category : #'t - list item' }
 TToListItem >> isSelected [
 
 	self listElementDo: [ :l | ^ l isSelectedItem: self ].
 	^ super isSelected
 ]
 
-{ #category : #'t - item' }
+{ #category : #'t - list item' }
 TToListItem >> itemConstraints [
 
-	^ listItemConstraints 
+	^ self toploExtensionDo: [ :te | te itemConstraints ]
 ]
 
-{ #category : #'t - item' }
-TToListItem >> itemConstraintsClass [
-
-	^ ToItemConstraints 
-]
-
-{ #category : #'t - item' }
+{ #category : #'t - list item' }
 TToListItem >> itemConstraintsDo: aValuable [
 
-	self itemConstraints ifNil: [ ^ self ].
-	aValuable value: self itemConstraints
+	^ self toploExtensionDo: [ :te | te itemConstraintsDo: aValuable ]
 ]
 
-{ #category : #'t - item' }
+{ #category : #'t - list item' }
 TToListItem >> listElement [ 
 
 	^ self listHolderDo: [ :h | h listElement ] 
 ]
 
-{ #category : #'t - item' }
+{ #category : #'t - list item' }
 TToListItem >> listElementDo: aBlock [
 
 	^ self listElement ifNotNil: [ :be | aBlock value: be ]
 ]
 
-{ #category : #'t - item' }
-TToListItem >> newItemConstraints [
-
-	^ self itemConstraintsClass new
-]
-
-{ #category : #'t - item' }
+{ #category : #'t - list item' }
 TToListItem >> positionInBar [
 	self
 		deprecated: 'Use #positionInList instead'
@@ -88,13 +71,13 @@ TToListItem >> positionInBar [
 	^ self positionInList
 ]
 
-{ #category : #'t - item' }
+{ #category : #'t - list item' }
 TToListItem >> positionInList [
 
 	^ self holder position
 ]
 
-{ #category : #'t - item' }
+{ #category : #'t - list item' }
 TToListItem >> selected: aBoolean [
 
 	self storeSelected: aBoolean.
@@ -104,31 +87,31 @@ TToListItem >> selected: aBoolean [
 			ifFalse: [ l deselectedItem: self ] ]
 ]
 
-{ #category : #'t - item' }
+{ #category : #'t - list item' }
 TToListItem >> storeDisabled: aBoolean [
 
 	self ensuredItemConstraints disabled: aBoolean
 ]
 
-{ #category : #'t - item' }
+{ #category : #'t - list item' }
 TToListItem >> storeHidden: aBoolean [
 
 	self ensuredItemConstraints hidden: aBoolean
 ]
 
-{ #category : #'t - item' }
+{ #category : #'t - list item' }
 TToListItem >> storeSelected: aBoolean [
 
 	self ensuredItemConstraints selected: aBoolean
 ]
 
-{ #category : #'t - item' }
+{ #category : #'t - list item' }
 TToListItem >> storeUnselectable: aBoolean [
 
 	self ensuredItemConstraints unselectable: aBoolean
 ]
 
-{ #category : #'t - item' }
+{ #category : #'t - list item' }
 TToListItem >> unselectable: aBoolean [
 
 	self storeUnselectable: aBoolean.

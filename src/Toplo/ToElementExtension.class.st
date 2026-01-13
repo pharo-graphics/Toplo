@@ -16,7 +16,8 @@ Class {
 		'enabled',
 		'floatOverlay',
 		'nextConfigurationPass',
-		'textAttributesBuilder'
+		'textAttributesBuilder',
+		'listItemConstraints'
 	],
 	#category : #'Toplo-Core'
 }
@@ -57,6 +58,13 @@ ToElementExtension >> enabled: aBoolean [
 ToElementExtension >> ensureHaveSkinManager [
 
 	skinManager ifNil: [ skinManager := self newSkinManager ]
+]
+
+{ #category : #'accessing - list item constraints' }
+ToElementExtension >> ensuredItemConstraints [
+
+	^ listItemConstraints ifNil: [
+		  listItemConstraints := self newItemConstraints ]
 ]
 
 { #category : #'accessing - shortcuts' }
@@ -120,6 +128,30 @@ ToElementExtension >> installedTheme: aTheme [
 ToElementExtension >> installedThemeDo: aBlock [ 
 
 	^ installedTheme ifNotNil: [ :it | aBlock cull: it ]
+]
+
+{ #category : #'accessing - list item constraints' }
+ToElementExtension >> itemConstraints [
+
+	^ listItemConstraints 
+]
+
+{ #category : #'accessing - list item constraints' }
+ToElementExtension >> itemConstraintsClass [
+
+	^ ToItemConstraints 
+]
+
+{ #category : #'accessing - list item constraints' }
+ToElementExtension >> itemConstraintsDo: aValuable [
+
+	^ listItemConstraints ifNotNil: [ :c | aValuable cull: c ]
+]
+
+{ #category : #'accessing - list item constraints' }
+ToElementExtension >> newItemConstraints [
+
+	^ self itemConstraintsClass new
 ]
 
 { #category : #'accessing - skin manager' }

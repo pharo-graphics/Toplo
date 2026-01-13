@@ -56,7 +56,7 @@ ToSkinDemo3Button >> initialize [
 	self initializeForToplo.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #skin }
 ToSkinDemo3Button >> initializeTokens [
 
 	self addAllTokenProperties: {
@@ -68,13 +68,13 @@ ToSkinDemo3Button >> initializeTokens [
 				asTokenProperty }
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #skin }
 ToSkinDemo3Button >> newRawSkin [
 
 	^ SkinDemo3ButtonSkin new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #skin }
 ToSkinDemo3Button >> newSkinDemoSkin [ 
 
 	^ SkinDemo3ButtonSkin new

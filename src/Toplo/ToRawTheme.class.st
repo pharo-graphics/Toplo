@@ -29,13 +29,6 @@ ToRawTheme class >> label [
 ]
 
 { #category : #'skin creation' }
-ToRawTheme >> defaultSkinFor: anElement [
-
-	^ anElement defaultRawSkin ifNil: [
-		  super defaultSkinFor: anElement ]
-]
-
-{ #category : #'skin creation' }
 ToRawTheme >> newSkinFor: anElement [
 
 	^ anElement newRawSkin

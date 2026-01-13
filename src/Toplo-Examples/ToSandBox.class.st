@@ -2706,9 +2706,7 @@ ToSandBox class >> example_ListWithAllClassesWithEmbeddedSelection [
 
 	| l |
 	l := ToListElement new.
-	l nodeBuilder: [ :node :dataItem :holder |
-		node defaultRawSkin: ToListEmbeddedNodeExampleSkin new.
-		node addChild: (ToLabel text: dataItem) ].
+	l nodeFactory: [ :holder | ToExListEmbeddedNode new ].
 	l selectionOption withEmbeddedRepresentation.
 	l dataAccessor addAll:
 		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
@@ -5220,12 +5218,10 @@ ToSandBox class >> example_ToggleButtonInListElement [
 			                 labelText: 'Inspect';
 			                 clickAction: [ node inspect ];
 			                 yourself.
-		inspectButton preventSelectionSkinEvents.
 		moveNumberLabel constraintsDo: [ :c | c linear vertical alignCenter ].
 
 		moveButtons do: [ :e |
-			group register: e.
-			e preventSelectionSkinEvents ].
+			group register: e ].
 		node addChild: moveElement.
 		node addChild: inspectButton ].
 	moveListElement matchParent.

@@ -59,12 +59,6 @@ ToElementWithSkinnablePropertiesForTest >> initialize [
 	skinStateQueueApplicationCount := 0
 ]
 
-{ #category : #'instance creation' }
-ToElementWithSkinnablePropertiesForTest >> newSkinManager [ 
-
-	^ ToSkinManagerForTest new
-]
-
 { #category : #accessing }
 ToElementWithSkinnablePropertiesForTest >> skinInstalledCount [
 
@@ -81,4 +75,10 @@ ToElementWithSkinnablePropertiesForTest >> skinStateQueueApplicationCount [
 ToElementWithSkinnablePropertiesForTest >> skinStateQueueApplied [
 
 	skinStateQueueApplicationCount := skinStateQueueApplicationCount + 1
+]
+
+{ #category : #'instance creation' }
+ToElementWithSkinnablePropertiesForTest >> toploExtensionClass [ 
+
+	^ ToElementExtensionForTest
 ]

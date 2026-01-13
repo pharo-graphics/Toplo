@@ -67,7 +67,6 @@ ToSkinStateQueue >> enqueueTransientState: aState for: anElement [
 	" all states kinds are enqueued here except the intrinsic states"
 
 	installState ifNil: [ ^ self ].
-	(anElement isPreventedSkinEvent: aState skinEvent) ifTrue: [ ^ self ].
 	self enqueueState: aState for: anElement
 ]
 

@@ -33,7 +33,7 @@ ToMenuItemListElement >> initialize [
 	self focusability: BlFocusability none.
 	self vertical: true.
 	self toConfigurationDo: [ :conf | conf isFlowable: false ].
-	self fitContent.
+	self hFitContent.
 	"No visible primary selection"
 	self selectionOption masked: true
 ]

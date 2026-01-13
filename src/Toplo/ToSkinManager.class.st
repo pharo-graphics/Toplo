@@ -2,14 +2,9 @@ Class {
 	#name : #ToSkinManager,
 	#superclass : #Object,
 	#instVars : [
-		'installedTheme',
-		'styleSheet',
 		'skinStateQueue',
 		'newSkinRequested',
-		'installedSkin',
-		'preventedSkinEventClasses',
-		'tokenPropertyMap',
-		'stampMap'
+		'installedSkin'
 	],
 	#category : #'Toplo-Core-Skin'
 }
@@ -39,36 +34,6 @@ ToSkinManager >> enablementState: isEnabled in: anElement [
 ToSkinManager >> enqueueTransientState: aSkinState for: anElement [
 
 	skinStateQueue enqueueTransientState: aSkinState for: anElement
-]
-
-{ #category : #accessing }
-ToSkinManager >> ensuredPreventedSkinEventClasses [
-
-	^ preventedSkinEventClasses ifNil: [
-		  preventedSkinEventClasses := IdentitySet new ]
-]
-
-{ #category : #'accessing - stamps' }
-ToSkinManager >> ensuredStampMapIn: anElement [
-
-	^ stampMap ifNil: [
-		  stampMap := self newStampMapIn: anElement ]
-]
-
-{ #category : #'accessing - styleSheet' }
-ToSkinManager >> ensuredStyleSheetIn: anElement [
-
-	self styleSheet ifNotNil: [ :curr | ^ curr].
-	styleSheet := ToStyleSheet new.
-	styleSheet onInstalledIn: anElement.
-	^ styleSheet 
-]
-
-{ #category : #'accessing - token properties' }
-ToSkinManager >> ensuredTokenPropertyMapIn: anElement [
-
-	^ tokenPropertyMap ifNil: [
-		  tokenPropertyMap := self newTokenPropertyMapIn: anElement ]
 ]
 
 { #category : #'skin state generation' }
@@ -148,47 +113,9 @@ ToSkinManager >> installedSkinDo: aBlock [
 ]
 
 { #category : #accessing }
-ToSkinManager >> installedTheme [ 
-
-	^ installedTheme 
-]
-
-{ #category : #accessing }
-ToSkinManager >> installedTheme: aTheme [ 
-
-	installedTheme := aTheme
-]
-
-{ #category : #accessing }
 ToSkinManager >> newSkinRequested [
 
 	^ newSkinRequested
-]
-
-{ #category : #'accessing - stamps' }
-ToSkinManager >> newStampMapIn: anElement [
-
-	^ ToPropertyIndexWithChangedAction new
-		  changedAction: [
-				  self requestNewSkinRecursivelyFrom: anElement.
-				  anElement requestSkinApplication ];
-		  yourself
-]
-
-{ #category : #'accessing - token properties' }
-ToSkinManager >> newTokenPropertyMapIn: anElement [
-
-	^ ToPropertyIndexWithChangedAction new
-		  changedAction: [
-				  self requestNewSkinRecursivelyFrom: anElement.
-				  anElement requestSkinApplication ];
-		  yourself
-]
-
-{ #category : #accessing }
-ToSkinManager >> preventedSkinEventClasses [
-
-	^ preventedSkinEventClasses 
 ]
 
 { #category : #'skin - install / uninstall request' }
@@ -213,13 +140,6 @@ ToSkinManager >> requestNewSkinIn: anElement [
 	self installNewSkinIn: anElement
 ]
 
-{ #category : #'api - hooks' }
-ToSkinManager >> requestNewSkinRecursivelyFrom: anElement [
-
-	anElement withAllChildrenBreadthFirstDo: [ :child |
-		child requestNewSkin ]
-]
-
 { #category : #'skin state generation' }
 ToSkinManager >> selectionState: isSelected selectionOption: aSelectionOption focused: isFocused in: anElement [
 
@@ -231,16 +151,13 @@ ToSkinManager >> selectionState: isSelected selectionOption: aSelectionOption fo
 							selectionOption: aSelectionOption
 							focused: isFocused
 							for: child ] ]
-		while: [ :child | child selectionSkinEventsPrevented not ]
 ]
 
-{ #category : #'accessing - styleSheet' }
-ToSkinManager >> setStyleSheet: aStyleSheet in: anElement [
+{ #category : #'skin - installing / uninstalling' }
+ToSkinManager >> setSkin: aSkin in: anElement [
 
-	self styleSheet ifNotNil: [ :prev | prev onUninstalledIn: anElement ].
-	styleSheet := aStyleSheet.
-	self styleSheet ifNotNil: [ :curr | curr onInstalledIn: anElement ].
-	anElement requestSkinApplication
+	self uninstallSkinIn: anElement.
+	self installSkin: aSkin in: anElement
 ]
 
 { #category : #accessing }
@@ -257,30 +174,6 @@ ToSkinManager >> skinToInstallIn: anElement [
 			  skin := theme defaultSkinFor: anElement.
 			  skin setUpforElement: anElement inTheme: theme.
 			  skin ]
-]
-
-{ #category : #'accessing - stamps' }
-ToSkinManager >> stampMap [
-
-	^ stampMap
-]
-
-{ #category : #'accessing - styleSheet' }
-ToSkinManager >> styleSheet [
-
-	^ styleSheet 
-]
-
-{ #category : #'accessing - styleSheet' }
-ToSkinManager >> styleSheet: anObject [
-
-	styleSheet := anObject
-]
-
-{ #category : #'accessing - token properties' }
-ToSkinManager >> tokenPropertyMap [
-
-	^ tokenPropertyMap
 ]
 
 { #category : #'skin - installing / uninstalling' }

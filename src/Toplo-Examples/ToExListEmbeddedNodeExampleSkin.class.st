@@ -1,11 +1,11 @@
 Class {
-	#name : #ToListEmbeddedNodeExampleSkin,
+	#name : #ToExListEmbeddedNodeExampleSkin,
 	#superclass : #ToBasicListNodeSkin,
 	#category : #'Toplo-Examples-Parts'
 }
 
 { #category : #'event handling' }
-ToListEmbeddedNodeExampleSkin >> deselectedSkinEvent: anEvent [
+ToExListEmbeddedNodeExampleSkin >> deselectedSkinEvent: anEvent [
 
 	super deselectedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -15,7 +15,7 @@ ToListEmbeddedNodeExampleSkin >> deselectedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToListEmbeddedNodeExampleSkin >> selectedSkinEvent: anEvent [
+ToExListEmbeddedNodeExampleSkin >> selectedSkinEvent: anEvent [
 
 	super selectedSkinEvent: anEvent.
 	anEvent elementDo: [ :e | 

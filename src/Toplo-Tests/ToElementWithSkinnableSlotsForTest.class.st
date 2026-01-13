@@ -42,12 +42,6 @@ ToElementWithSkinnableSlotsForTest >> initialize [
 	skinStateQueueApplicationCount := 0
 ]
 
-{ #category : #initialization }
-ToElementWithSkinnableSlotsForTest >> newSkinManager [ 
-
-	^ ToSkinManagerForTest new
-]
-
 { #category : #accessing }
 ToElementWithSkinnableSlotsForTest >> skinInstalledCount [
 
@@ -64,4 +58,10 @@ ToElementWithSkinnableSlotsForTest >> skinStateQueueApplicationCount [
 ToElementWithSkinnableSlotsForTest >> skinStateQueueApplied [
 
 	skinStateQueueApplicationCount := skinStateQueueApplicationCount + 1
+]
+
+{ #category : #initialization }
+ToElementWithSkinnableSlotsForTest >> toploExtensionClass [ 
+
+	^ ToElementExtensionForTest 
 ]

@@ -63,7 +63,7 @@ ToSkinDemo2Button >> clicked [
 	^ clicked
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToSkinDemo2Button >> clicked: aBoolean [
 
 	clicked := aBoolean.
@@ -83,7 +83,7 @@ ToSkinDemo2Button >> initialize [
 	self initializeForToplo
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #skin }
 ToSkinDemo2Button >> newRawSkin [ 
 
 	^ ToSkinDemo2ButtonSkin new

@@ -13,7 +13,6 @@ ToPaneNodeExampleSkin >> createNodeButton [
 	| label |
 	label := ToLabel text: 'Do something'.
 	" ensure that the button label skin will not receive selected skin event "
-	label preventSelectionSkinEvents.
 	nodeButton := ToButton new
 		              label: label;
 		              yourself.

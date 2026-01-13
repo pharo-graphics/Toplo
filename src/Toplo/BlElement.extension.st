@@ -71,21 +71,7 @@ BlElement >> addWritableProperty: aWriteableProperty [
 { #category : #'*Toplo' }
 BlElement >> allStamps [
 
-	^ self stampMap allPropertyNames 
-]
-
-{ #category : #'*Toplo' }
-BlElement >> allowSelectionSkinEvents [
-
-	self allowSkinEventClass: ToSelectedSkinEvent.
-	self allowSkinEventClass: ToDeselectedSkinEvent.
-]
-
-{ #category : #'*Toplo' }
-BlElement >> allowSkinEventClass: aSkinEventClass [
-
-	self preventedSkinEventClasses ifNotNil: [ :p |
-		p remove: aSkinEventClass ifAbsent: [ ] ]
+	^ self stampMap ifNil: [ #(  ) ] ifNotNil: [ :sm | sm allPropertyNames ]
 ]
 
 { #category : #'*Toplo' }
@@ -135,9 +121,7 @@ BlElement >> applyUpwardConfiguration [
 { #category : #'*Toplo' }
 BlElement >> borderBuilder [
 
-	^ self userData
-		  at: #borderBuilder
-		  ifAbsentPut: [ BlBorderBuilder new ]
+	^ self ensuredToploExtension borderBuilder
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
@@ -152,8 +136,8 @@ BlElement >> bottomUpLocalThemeChain [
 BlElement >> bottomUpLocalThemeDo: aBlock [
 	" evaluate a block with all my inherited stylesheets "
 
-	self skinManagerDo: [ :sm |
-			sm installedTheme ifNotNil: [ :th |
+	self toploExtensionDo: [ :te |
+			te installedThemeDo: [ :th |
 					aBlock value: th ] ].
 	self parentDo: [ :p | p bottomUpLocalThemeDo: aBlock ]
 ]
@@ -170,7 +154,7 @@ BlElement >> bottomUpStyleSheetChain [
 BlElement >> bottomUpStyleSheetChainDo: aBlock [
 	" evaluate a block with all my inherited stylesheets "
 
-	self skinManagerDo: [ :sm |
+	self toploExtensionDo: [ :sm |
 			sm styleSheet ifNotNil: [ :ss |
 					aBlock value: ss.
 					ss inherits ifFalse: [ ^ self ] ] ].
@@ -195,31 +179,15 @@ BlElement >> closedEventClass [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> defaultRawSkin [
-
-	^ self userData at: #defaultRawSkin ifAbsent: [  ]
-]
-
-{ #category : #'*Toplo' }
-BlElement >> defaultRawSkin: aSkin [
-
-	self defaultRawSkin = aSkin ifTrue: [ ^ self ].
-	self userData at: #defaultRawSkin put: aSkin.
-	self requestNewSkin 
-]
-
-{ #category : #'*Toplo' }
 BlElement >> defaultSkin [
 
-	^ self userData at: #defaultSkin ifAbsent: [  ]
+	^ self ensuredToploExtension defaultSkin
 ]
 
 { #category : #'*Toplo' }
 BlElement >> defaultSkin: aSkin [
 
-	self defaultSkin = aSkin ifTrue: [ ^ self ].
-	self userData at: #defaultSkin put: aSkin.
-	self requestNewSkin
+	self ensuredToploExtension defaultSkin: aSkin in: self
 ]
 
 { #category : #'*Toplo' }
@@ -273,44 +241,51 @@ BlElement >> ensureCanManageSkin [
 { #category : #'*Toplo' }
 BlElement >> ensureHaveSkinManager [
 
-	self userData at: #skinManager ifAbsentPut: [ self newSkinManager ]
+	self ensureHaveToploExtension.
+	self toploExtension ensureHaveSkinManager
 ]
 
 { #category : #'*Toplo' }
-BlElement >> ensuredPreventedSkinEventClasses [
+BlElement >> ensureHaveToploExtension [
 
-	^ self ensuredSkinManager ensuredPreventedSkinEventClasses
+	self userData at: #toploExtension ifAbsentPut: [ self newToploExtension ]
 ]
 
 { #category : #'*Toplo' }
 BlElement >> ensuredShortcutsStore [
 
-	^ self userData at: #shortcutsStore ifAbsentPut: [ self newShortcutsStore ]
+	^ self ensuredToploExtension ensuredShortcutsStoreIn: self
 ]
 
 { #category : #'*Toplo' }
 BlElement >> ensuredSkinManager [
 
-	self ensureHaveSkinManager.
-	^ self userData at: #skinManager
+	^ self ensuredToploExtension ensuredSkinManager
 ]
 
 { #category : #'*Toplo' }
 BlElement >> ensuredStampMap [
 
-	^ self ensuredSkinManager ensuredStampMapIn: self
+	^ self ensuredToploExtension ensuredStampMapIn: self
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
 BlElement >> ensuredStyleSheet [
 
-	^ self ensuredSkinManager ensuredStyleSheetIn: self
+	^ self ensuredToploExtension ensuredStyleSheetIn: self
 ]
 
 { #category : #'*Toplo' }
 BlElement >> ensuredTokenPropertyMap [
 
-	^ self ensuredSkinManager ensuredTokenPropertyMapIn: self
+	^ self ensuredToploExtension ensuredTokenPropertyMapIn: self
+]
+
+{ #category : #'*Toplo' }
+BlElement >> ensuredToploExtension [
+
+	self ensureHaveToploExtension.
+	^ self toploExtension
 ]
 
 { #category : #'*Toplo' }
@@ -332,7 +307,7 @@ BlElement >> fallBackValueOfTokenNamed: aSymbol [
 { #category : #'*Toplo' }
 BlElement >> flagAsDisabled [
 
-	self userData at: #enabled put: false
+	self ensuredToploExtension enabled: false
 ]
 
 { #category : #'*Toplo' }
@@ -351,29 +326,19 @@ BlElement >> flagAsDisabled: aBoolean [
 { #category : #'*Toplo' }
 BlElement >> flagAsEnabled [
 
-	self userData at: #enabled put: true
+	self ensuredToploExtension enabled: true
 ]
 
 { #category : #'*Toplo' }
 BlElement >> floatOverlay [
 
-	^ self userData at: #floatOverlay ifAbsentPut: [
-			  | overlay |
-			  overlay := ToFloatOverlay new.
-			  overlay attachToParent: self.
-			  overlay ]
+	^ self ensuredToploExtension floatOverlayIn: self
 ]
 
 { #category : #'*Toplo' }
 BlElement >> hasAllStamps: aSymbolCollection [
 
 	^ aSymbolCollection allSatisfy: [ :s | self hasStamp: s ]
-]
-
-{ #category : #'*Toplo' }
-BlElement >> hasEnablementFlag [
-
-	^ self userData includesKey: #enabled
 ]
 
 { #category : #'*Toplo' }
@@ -452,7 +417,7 @@ BlElement >> isDisabled: aBoolean [
 { #category : #'*Toplo' }
 BlElement >> isEnabled [
 
-	^ self userData at: #enabled ifAbsentPut: [ true ]
+	^ self ensuredToploExtension enabled
 ]
 
 { #category : #'*Toplo' }
@@ -509,20 +474,6 @@ BlElement >> isOutsideEvent: anEvent [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> isPreventedSkinEvent: aSkinEvent [
-
-	^ self isPreventedSkinEventClass: aSkinEvent class
-]
-
-{ #category : #'*Toplo' }
-BlElement >> isPreventedSkinEventClass: aSkinEventClass [
-
-	^ self preventedSkinEventClasses
-		  ifNil: [ false ]
-		  ifNotNil: [ :p | p includes: aSkinEventClass ]
-]
-
-{ #category : #'*Toplo' }
 BlElement >> isSelected [
 
 	^ false
@@ -543,7 +494,7 @@ BlElement >> listHolderDo: aValuable [
 { #category : #'*Toplo' }
 BlElement >> localTheme [
 
-	^ self skinManagerDo: [ :sm | sm installedTheme ]
+	^ self toploExtensionDo: [ :te | te installedTheme ]
 ]
 
 { #category : #'*Toplo' }
@@ -616,12 +567,6 @@ BlElement >> newShortcutsStore [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> newSkinManager [
-
-	^ ToSkinManager new
-]
-
-{ #category : #'*Toplo' }
 BlElement >> newTextAttributesBuilder [
 
 	^ BlTextAttributesBuilder new
@@ -634,15 +579,21 @@ BlElement >> newToConfiguration [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> newToploExtension [
+
+	^ self toploExtensionClass new
+]
+
+{ #category : #'*Toplo' }
 BlElement >> nextConfigurationPass [
 
-	^ self userData at: #nextConfigurationPass ifAbsent: [ 0 ]
+	^ self ensuredToploExtension nextConfigurationPass
 ]
 
 { #category : #'*Toplo' }
 BlElement >> nextConfigurationPass: aNumber [
 
-	self userData at: #nextConfigurationPass put: aNumber
+	self ensuredToploExtension nextConfigurationPass: aNumber
 ]
 
 { #category : #'*Toplo' }
@@ -685,25 +636,6 @@ BlElement >> openedEventClass [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> preventSelectionSkinEvents [
-
-	self preventSkinEventClass: ToSelectedSkinEvent.
-	self preventSkinEventClass: ToDeselectedSkinEvent.
-]
-
-{ #category : #'*Toplo' }
-BlElement >> preventSkinEventClass: aSkinEventClass [
-
-	self ensuredPreventedSkinEventClasses add: aSkinEventClass
-]
-
-{ #category : #'*Toplo' }
-BlElement >> preventedSkinEventClasses [
-
-	^ self skinManager ifNotNil: [:sm | sm preventedSkinEventClasses ]
-]
-
-{ #category : #'*Toplo' }
 BlElement >> recoverLastInstalledTheme [
 
 	Toplo lastInstalledTheme ifNotNil: [ :th | self onThemeInstalled: th ]
@@ -718,7 +650,7 @@ BlElement >> removeAllStamps [
 { #category : #'*Toplo' }
 BlElement >> removeAllStamps: aSymbolCollection [
 
-	self stampMap removeAllPropertiesFromNames: aSymbolCollection
+	self stampMapDo: [ :sm | sm removeAllPropertiesFromNames: aSymbolCollection ]
 ]
 
 { #category : #'*Toplo' }
@@ -753,16 +685,6 @@ BlElement >> requestConfiguration [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> requestNewConfigurationPass [
-
-	self
-		deprecated: 'Use #requestNewConfiguration'
-		transformWith: '`@rcvr requestNewConfigurationPass'
-			-> '`@rcvr requestNewConfiguration'.
-	self requestConfiguration
-]
-
-{ #category : #'*Toplo' }
 BlElement >> requestNewSkin [
 
 	self skinManagerDo: [ :sm | sm requestNewSkinIn: self ]
@@ -781,13 +703,6 @@ BlElement >> selected: aBoolean [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> selectionSkinEventsPrevented [
-
-	^ (self isPreventedSkinEventClass: ToSelectedSkinEvent) or: [
-		  self isPreventedSkinEventClass: ToDeselectedSkinEvent ]
-]
-
-{ #category : #'*Toplo' }
 BlElement >> shortcut: aShortcut [
 
 	self ensuredShortcutsStore shortcut: aShortcut in: self
@@ -803,63 +718,42 @@ BlElement >> shortcuts: aShortcutCollection [
 { #category : #'*Toplo' }
 BlElement >> shortcutsStoreDo: aValuable [
 
-	self userData at: #shortcutsStore ifPresent: [ :store | aValuable value: store ].
+	self ensuredToploExtension shortcutsStoreDo: aValuable
 	
 ]
 
 { #category : #'*Toplo' }
 BlElement >> skinManager [
 
-	^ self userData at: #skinManager ifAbsent: [  ]
+	^ self toploExtension ifNotNil: [ :te | te skinManager ]
 ]
 
 { #category : #'*Toplo' }
 BlElement >> skinManagerDo: aBlock [
 
-	self skinManager ifNotNil: [ :sm | ^ aBlock value: sm ].
-	^ nil
-]
-
-{ #category : #'*Toplo' }
-BlElement >> skinStateQueue [
-
-	self
-		deprecated: 'Please delegate to the skinManager instead'
-		transformWith: '`@receiver skinStateQueue' -> '`@receiver skinManager skinStateQueue'.
-
-	^ self skinManager skinStateQueue
-]
-
-{ #category : #'*Toplo' }
-BlElement >> skinToInstall [
-
-	self
-		deprecated: 'Please delegate to the skinManager instead'
-		transformWith: '`@receiver skinToInstall' -> '`@receiver skinManager skinToInstallIn: `@receiver'.
-
-	^ self skinManager skinToInstallIn: self
-
+	^ self toploExtension ifNotNil: [ :te | te skinManagerDo: aBlock ]
 ]
 
 { #category : #'*Toplo' }
 BlElement >> stampMap [
 
-	^ self skinManagerDo: [ :sm | sm stampMap ]
+	^ self toploExtensionDo: [ :sm | sm stampMap ]
 ]
 
 { #category : #'*Toplo' }
 BlElement >> stampMapDo: aBlock [
 
-	^ self stampMap ifNotNil: [ :map | aBlock value: map ]
+	^ self toploExtensionDo: [ :te | te stampMapDo: aBlock ]
 ]
 
 { #category : #'*Toplo' }
 BlElement >> stampPropertyNamed: aSymbol [
 
-	^ self stampMap
-		  propertyNamed: aSymbol
-		  ifAbsent: [
-		  Error signal: 'Trying to get an undeclared stamp property' ]
+	^ self stampMapDo: [ :sm |
+			  sm
+				  propertyNamed: aSymbol
+				  ifAbsent: [
+				  Error signal: 'Trying to get an undeclared stamp property' ] ]
 ]
 
 { #category : #'*Toplo' }
@@ -871,14 +765,13 @@ BlElement >> stampValue: aSymbol [
 { #category : #'*Toplo' }
 BlElement >> styleSheet [
 
-	self skinManagerDo: [ :sm | ^ sm styleSheet  ].
-	^ nil
+	^ self toploExtensionDo: [ :sm | sm styleSheet  ]
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
 BlElement >> styleSheet: aStyleSheet [
 
-	self ensuredSkinManager setStyleSheet: aStyleSheet in: self.
+	self ensuredToploExtension setStyleSheet: aStyleSheet in: self.
 	self requestNewSkin
 ]
 
@@ -891,9 +784,7 @@ BlElement >> styleSheetProperty: aName [
 { #category : #'*Toplo' }
 BlElement >> textAttributesBuilder [
 
-	^ self userData
-		  at: #textAttributesBuilder
-		  ifAbsentPut: [ self newTextAttributesBuilder ]
+	^ self ensuredToploExtension textAttributesBuilderIn: self
 ]
 
 { #category : #'*Toplo' }
@@ -905,6 +796,7 @@ BlElement >> textAttributesBuilderDo: aBlock [
 { #category : #'*Toplo' }
 BlElement >> toConfiguration [
 
+	" kept here instead of in the toplo extension because one need to know if the userData have a #toConfiguration key "
 	| newConfig |
 	self userData
 		at: #toConfiguration
@@ -948,23 +840,13 @@ BlElement >> toThemeUninstalled: aTheme [
 { #category : #'*Toplo' }
 BlElement >> tokenPropertyMap [
 
-	^ self skinManagerDo: [ :sm | sm tokenPropertyMap ]
+	^ self toploExtensionDo: [ :te | te tokenPropertyMap ]
 ]
 
 { #category : #'*Toplo' }
 BlElement >> tokenPropertyMapDo: aBlock [
 
-	^ self tokenPropertyMap ifNotNil: aBlock
-]
-
-{ #category : #'*Toplo' }
-BlElement >> tokenValueNamed: aSymbol [
-
-	self
-		deprecated: 'Please use valueOfTokenNamed: instead'
-		transformWith: '`@receiver tokenValueNamed: `@arg' -> '`@receiver valueOfTokenNamed: `@arg'.
-
-	^ self valueOfTokenNamed: aSymbol
+	^ self toploExtensionDo: [ :te | te tokenPropertyMapDo: aBlock ]
 ]
 
 { #category : #'*Toplo' }
@@ -986,6 +868,24 @@ BlElement >> topDownStyleSheetChainDo: aBlock [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> toploExtension [
+
+	^ self userData at: #toploExtension ifAbsent: [  ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> toploExtensionClass [
+
+	^ ToElementExtension
+]
+
+{ #category : #'*Toplo' }
+BlElement >> toploExtensionDo: aBlock [
+
+	^ self toploExtension ifNotNil: [ :te | aBlock cull: te  ]
+]
+
+{ #category : #'*Toplo' }
 BlElement >> uninstallRawStyle [
 
 ]
@@ -1000,7 +900,7 @@ BlElement >> uninstallShortcuts [
 BlElement >> updateLocalThemeWith: aTheme [
 
 	self localTheme ifNotNil: [ :th | th onUninstalledIn: self ].
-	self ensuredSkinManager installedTheme: aTheme.
+	self ensuredToploExtension installedTheme: aTheme.
 	self localTheme ifNotNil: [ :th | th onInstalledIn: self ]
 ]
 

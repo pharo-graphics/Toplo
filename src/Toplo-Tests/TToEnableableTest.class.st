@@ -73,34 +73,13 @@ TToEnableableTest >> testFlagAsDisabled [
 	| element child |
 	element := ToElement new.
 	element flagAsDisabled.
-	self assert: (element userData includesKey: #enabled).
-	self assert: (element userData at: #enabled) equals: false.
+	self deny: (element  toploExtension enabled).
 	self assert: element isDisabled.
 	element flagAsEnabled.
-	self assert: (element userData includesKey: #enabled).
-	self assert: (element userData at: #enabled) equals: true.
+	self assert: element  toploExtension enabled.
 	child := ToElement new.
-	self assert: (child userData includesKey: #enabled) not.
 	self assert: child isEnabled.
-	self assert: (child userData includesKey: #enabled)
-]
 
-{ #category : #tests }
-TToEnableableTest >> testFlagAsEnabled [
-
-	| element child |
-	element := ToElement new.
-	element flagAsEnabled.
-	self assert: (element userData includesKey: #enabled).
-	self assert: (element userData at: #enabled) equals: true.
-	self assert: element isEnabled.
-	element flagAsDisabled.
-	self assert: (element userData includesKey: #enabled).
-	self assert: (element userData at: #enabled) equals: false.
-	child := ToElement new.
-	self assert: (child userData includesKey: #enabled) not.
-	self assert: child isDisabled not.
-	self assert: (child userData includesKey: #enabled)
 ]
 
 { #category : #tests }
@@ -121,7 +100,7 @@ TToEnableableTest >> testOnAddedToParent [
 	parent := ToElement new.
 	child := ToElement new.
 	parent enabled: false.
-	self assert: child hasEnablementFlag not.
+	self assert: child isEnabled.
 	parent addChild: child.
 	self assert: child isDisabled
 ]

@@ -55,7 +55,7 @@ SkinDemo3Menu >> initializeTokens [
 				asTokenProperty }
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #skin }
 SkinDemo3Menu >> newRawSkin [  
 
 	^ SkinDemo3MenuSkin new

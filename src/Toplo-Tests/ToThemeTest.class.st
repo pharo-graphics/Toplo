@@ -24,7 +24,7 @@ ToThemeTest >> testThemeChangedWithStyleSheetTheme [
 
 	| e |
 	e := ToElement new.
-	e defaultRawSkin: ToRawSkinForThemeTest new.
+	e defaultSkin: ToRawSkinForThemeTest new.
 	space root addChild: e.
 	self waitTestingSpaces.
 	self deny: e skinManager newSkinRequested.
@@ -32,7 +32,8 @@ ToThemeTest >> testThemeChangedWithStyleSheetTheme [
 	space toTheme: ToBeeDarkTheme new.
 	self waitTestingSpaces.
 	self deny: e skinManager newSkinRequested.
-	self assert: (e skinManager installedSkin isKindOf: ToBeeSkin)
+	self deny: (e skinManager installedSkin isKindOf: ToBeeSkin).
+	self assert: e skinManager installedSkin identicalTo: e defaultSkin
 ]
 
 { #category : #tests }

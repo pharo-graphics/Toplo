@@ -48,7 +48,6 @@ ToIntrinsicState >> dispatchCheckEventOn: anElement fromQueue: aQueue [
 				              checked
 					              ifTrue: [ ToCheckedSkinEvent ]
 					              ifFalse: [ ToUncheckedSkinEvent ] ].
-	(anElement isPreventedSkinEvent: skinEvtCls) ifTrue: [ ^ self ].
 	self dispatchSkinEvent: skinEvtCls new on: anElement fromQueue: aQueue
 ]
 
@@ -60,7 +59,6 @@ ToIntrinsicState >> dispatchEnablementEventOn: anElement fromQueue: aQueue [
 	skinEvtCls := enabled
 		              ifTrue: [ ToEnabledSkinEvent ]
 		              ifFalse: [ ToDisabledSkinEvent ].
-	(anElement isPreventedSkinEvent: skinEvtCls) ifTrue: [ ^ self ].
 	self dispatchSkinEvent: skinEvtCls new on: anElement fromQueue: aQueue
 ]
 
@@ -72,7 +70,6 @@ ToIntrinsicState >> dispatchFocusEventOn: anElement fromQueue: aQueue [
 	skinEvtCls := focused
 		              ifTrue: [ ToFocusedSkinEvent ]
 		              ifFalse: [ ToUnfocusedSkinEvent ].
-	(anElement isPreventedSkinEvent: skinEvtCls) ifTrue: [ ^ self ].
 	self dispatchSkinEvent: skinEvtCls new on: anElement fromQueue: aQueue
 ]
 

@@ -7,18 +7,18 @@ Class {
 	#category : #'Toplo-Demo-Skin Demo - 1'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #examples }
 ToSkinDemo1Button class >> exampleSimpleElementAsButton [
 
 	self new position: 50 asPoint; openInSpace 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #examples }
 ToSkinDemo1Button class >> exampleToElementWithSkinApplied [
 
 	| button |
 	button := ToElement new position: 50 asPoint.
-button defaultRawSkin: ToSkinDemo1ButtonSkin new.
+button defaultSkin: ToSkinDemo1ButtonSkin new.
 button openInSpace
 ]
 

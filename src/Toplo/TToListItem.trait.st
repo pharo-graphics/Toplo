@@ -28,7 +28,7 @@ TToListItem >> flagAsDisabled: aBoolean [
 TToListItem >> hidden: aBoolean [
 
 	self storeHidden: aBoolean.
-	self barElementDo: [ :l |
+	self listElementDo: [ :l |
 		aBoolean
 			ifTrue: [ l hiddenItem: self ]
 			ifFalse: [ l visibleItem: self ] ]

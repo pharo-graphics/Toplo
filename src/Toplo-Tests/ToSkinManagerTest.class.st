@@ -90,39 +90,11 @@ ToSkinManagerTest >> testComputedStyleSheetChainIn [
 		(childchildchild bottomUpStyleSheetChain )
 			size
 		equals: 3.
-	childchild skinManager styleSheet inherits: false.
+	childchild styleSheet inherits: false.
 	self
 		assert:
 		(childchildchild bottomUpStyleSheetChain )
 			size
-		equals: 1
-]
-
-{ #category : #tests }
-ToSkinManagerTest >> testDefaultRawSkin [
-
-	| e sk |
-	e := ToElement new. 
-	e defaultRawSkin: (sk := ToRawSkin new).
-	self assert: e defaultRawSkin identicalTo: sk
-]
-
-{ #category : #tests }
-ToSkinManagerTest >> testDefaultRawSkinIn [
-
-	| e sk |
-	e := ToElement new.
-	space root addChild: e.
-	e skinManager uninstallSkinIn: e.
-	e defaultRawSkin: (sk := ToRawSkin new).
-	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
-	self assert: e defaultRawSkin identicalTo: sk.
-	self assert:
-		(e skinManager installedSkin) isThemeSkin.
-	self
-		assert:
-			(e eventDispatcher handlers select: [ :h | h isKindOf: ToRawSkin ])
-				size
 		equals: 1
 ]
 
@@ -195,8 +167,8 @@ ToSkinManagerTest >> testExpectedDefaultSkin [
 
 	| e sk |
 	e := ToElement new. 
-	e defaultRawSkin: (sk := ToRawSkin new).
-	self assert: e defaultRawSkin identicalTo: sk
+	e defaultSkin: (sk := ToRawSkin new).
+	self assert: e defaultSkin identicalTo: sk
 ]
 
 { #category : #tests }
@@ -430,24 +402,6 @@ ToSkinManagerTest >> testRequestSkinInWithChildrenWhenInSpace [
 ]
 
 { #category : #tests }
-ToSkinManagerTest >> testSetDefaultRawSkinIn [
-
-	| e sk |
-	e := ToElement new.
-	e defaultRawSkin: (sk := ToRawSkin new).
-	self assert: e defaultRawSkin identicalTo: sk.
-	self assert: e defaultSkin isNil.
-	self should: [ e skinManager skinToInstallIn: e ] raise: Error.
-	space root addChild: e.
-	self assert: (e skinManager skinToInstallIn: e) identicalTo: sk.
-	self assert: e skinManager installedSkin isThemeSkin.
-	self deny: e skinManager newSkinRequested.
-	self waitTestingSpaces.
-	self deny: e skinManager newSkinRequested.
-
-]
-
-{ #category : #tests }
 ToSkinManagerTest >> testSetDefaultSkinIn [
 
 	| e sk |
@@ -464,15 +418,6 @@ ToSkinManagerTest >> testSetDefaultSkinIn [
 			(e eventDispatcher handlers select: [ :h | h isKindOf: ToRawSkin ])
 				size
 		equals: 1
-]
-
-{ #category : #tests }
-ToSkinManagerTest >> testSetStyleSheetIn [
-
-	| e |
-	e := ToElement new.
-	e skinManager setStyleSheet: ToStyleSheet new in: e.
-	self assert: e skinManager styleSheet notNil
 ]
 
 { #category : #tests }
@@ -520,12 +465,6 @@ ToSkinManagerTest >> testSkinStateQueue [
 	| e |
 	e := ToElement new.
 	self assert: e skinManager skinStateQueue notNil
-]
-
-{ #category : #tests }
-ToSkinManagerTest >> testStyleSheet [
-
-	self testSetStyleSheetIn 
 ]
 
 { #category : #tests }

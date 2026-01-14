@@ -292,7 +292,7 @@ ToFiniteListElement >> onItemsChanged [
 ]
 
 { #category : #'hooks - layout' }
-ToFiniteListElement >> onLayoutDone [ 
+ToFiniteListElement >> onLayoutDone [
 
 	super onLayoutDone.
 	self dataSourceManager consumeFinalStepCommandsIn: self

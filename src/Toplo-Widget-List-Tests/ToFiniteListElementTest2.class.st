@@ -195,6 +195,7 @@ ToFiniteListElementTest2 >> testDisabledWithFourNodes2 [
 ToFiniteListElementTest2 >> testDisabledWithFourNodes3 [
 
 	space root addChild: l.
+	l forceLayout.
 	l dataAccessor add: (ToLabel text: 'first').
 	self waitTestingSpaces.
 	l dataAccessor add: (ToLabel text: 'second').
@@ -204,6 +205,7 @@ ToFiniteListElementTest2 >> testDisabledWithFourNodes3 [
 	l dataAccessor addFirst: (ToLabel text: 'third').
 	self waitTestingSpaces.
 	l dataAccessor add: (ToLabel text: 'fourth').
+	l forceLayout.
 	self waitTestingSpaces.
 	self assert: l disabledSelecter selectedIndexes equals: { 3 }.
 	self assert: l nodes first isEnabled.
@@ -318,6 +320,7 @@ ToFiniteListElementTest2 >> testDisabledWithTwoNodes [
 
 	l dataAccessor add: (ToLabel text: 'first').
 	space root addChild: l.
+	l forceLayout.
 	self waitTestingSpaces.
 	self assert: l nodeContainers size equals: 1.
 	self assert: l disabledSelectionModel isEmpty.
@@ -325,6 +328,7 @@ ToFiniteListElementTest2 >> testDisabledWithTwoNodes [
 	self waitTestingSpaces.
 	self assert: l disabledSelecter selectedIndex equals: 1.
 	l dataAccessor addFirst: (ToLabel text: 'second').
+	l forceLayout.
 	self waitTestingSpaces.
 	self assert: l disabledSelecter selectedIndexes equals: { 2 }.
 	self assert: l nodes first isEnabled.

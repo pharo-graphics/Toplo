@@ -2963,7 +2963,7 @@ ToSandBox class >> example_MenuPaneScrollableWithCustomItems [
 	menuPane := ToMenuPane new.
 	menuPane vertical: true.
 	menuPane vMatchParent.
-	menuPane width: 300.
+	menuPane hMatchParent.
 	menuPane isScrollable: true.
 	menuPane addItem: (ToMenuItem new
 			 labelText: 'Open file';
@@ -3082,6 +3082,54 @@ ToSandBox class >> example_MenuPaneScrollableWithCustomItems [
 	sub addItem: (ToMenuItem new labelText: 'Locally').
 	menuPane addItem: sub.
 	menuPane openInSpace
+]
+
+{ #category : #menu }
+ToSandBox class >> example_MenuPaneWithAccordeon3 [
+
+	| menu item sub subsub subsubsub |
+	menu := ToMenuPane new.
+	menu vertical: true.
+	menu width: 300.
+	menu vMatchParent.
+	menu isScrollable: true.
+	menu addItem: (ToMenuItem new
+			 labelText: 'Inspect';
+			 clickAction: [ :evt | evt target space root inspect ];
+			 yourself).
+	(1 to: 5) collect: [ :i |
+		item := ToCustomMenuItem new in: [ :e |
+			        e addChild:
+				        (self accordionWithLabelText: 'Header ' , i asString) ].
+		menu addItem: item ].
+	menu addItem: item.
+
+	sub := ToMenu new labelText: 'Save All'.
+	sub beInline.
+	sub addItem: (ToMenuItem new
+			 labelText: 'Locally';
+			 yourself).
+
+	subsub := ToMenu new
+		          labelText: 'Externally';
+		          icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	subsub beInline.
+	subsubsub := ToMenu new
+		             labelText: 'When';
+		             icon: (ToImage inner: (self iconNamed: #solidMenu)).
+	subsubsub beInline.
+	subsubsub addItem: (ToMenuItem new
+			 labelText: 'now';
+			 yourself).
+	subsubsub addItem: (ToMenuItem new
+			 labelText: 'later';
+			 yourself).
+
+	subsub addItem: subsubsub.
+	sub addItem: subsub.
+	menu addItem: sub.
+
+	menu openInSpace
 ]
 
 { #category : #menu }
@@ -6400,7 +6448,7 @@ ToSandBox class >> example_listWithAllClasses [
 
 	| l |
 	l := self listWithData: 
-		((Smalltalk globals allClasses sorted: [ :a :b | a name < b name ]) copyFrom: 1 to: 500).
+		((Smalltalk globals allClasses sorted: [ :a :b | a name < b name ]) copyFrom: 1 to: 2000).
 	l toConfiguration useCheckbox: true
 
 ]
@@ -7545,7 +7593,7 @@ ToSandBox class >> example_subMenuPaneVertical [
 
 	topMenuBar vMatchParent.
 
-	topMenuBar openInInnerWindow 
+	topMenuBar openInSpace
 ]
 
 { #category : #'switch button' }

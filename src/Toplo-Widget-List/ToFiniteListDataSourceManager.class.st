@@ -26,6 +26,8 @@ ToFiniteListDataSourceManager >> applyCommand: aCommand [
 ToFiniteListDataSourceManager >> defaultCommandApplicationStrategy [ 
 
 	^ BlQueueBasedCommandApplicationStrategy new
+	"^ BlTaskBasedCommandApplicationStrategy new"
+	"^ BlImmediateCommandApplicationStrategy new"
 ]
 
 { #category : #'commands processing' }

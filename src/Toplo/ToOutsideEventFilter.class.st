@@ -2,10 +2,10 @@ Class {
 	#name : #ToOutsideEventFilter,
 	#superclass : #BlBasicEventHandler,
 	#instVars : [
-		'element',
-		'elementToCheck',
+		'elementStack',
 		'eventsToHandle',
-		'oneShot'
+		'oneShot',
+		'elementsToCheck'
 	],
 	#category : #'Toplo-Support-EventGenerator'
 }
@@ -19,6 +19,16 @@ ToOutsideEventFilter class >> newOneShotInstance [
 ]
 
 { #category : #'api - event managing' }
+ToOutsideEventFilter >> checkElementStackOnEvent: anEvent [
+
+	elementStack ifEmpty: [ ^ self discardOnEvent: anEvent ].
+	[ elementStack top isAttachedToSceneGraph ] whileFalse: [
+			elementStack pop.
+			elementStack ifEmpty: [ ^ self discardOnEvent: anEvent ] ].
+	elementStack ifEmpty: [ ^ self discardOnEvent: anEvent ]
+]
+
+{ #category : #'api - event managing' }
 ToOutsideEventFilter >> discardOnEvent: anEvent [
 
 	anEvent currentTarget removeEventFilter: self
@@ -27,7 +37,7 @@ ToOutsideEventFilter >> discardOnEvent: anEvent [
 { #category : #'mouse handlers' }
 ToOutsideEventFilter >> dispatchOutsideEventOn: anEvent [
 
-	element dispatchEvent: (anEvent asOutsideEvent
+	elementStack top dispatchEvent: (anEvent asOutsideEvent
 			 sourceEvent: anEvent;
 			 emitter: self;
 			 yourself)
@@ -36,19 +46,19 @@ ToOutsideEventFilter >> dispatchOutsideEventOn: anEvent [
 { #category : #accessing }
 ToOutsideEventFilter >> element: anElement [
 
-	element := anElement
-]
-
-{ #category : #accessing }
-ToOutsideEventFilter >> elementToCheck [
-
-	^ elementToCheck ifNil: [ elementToCheck := element ]
+	self pushElement: anElement
 ]
 
 { #category : #accessing }
 ToOutsideEventFilter >> elementToCheck: anElement [
+ 
+	elementsToCheck := Array with: anElement
+]
 
-	elementToCheck := anElement
+{ #category : #accessing }
+ToOutsideEventFilter >> elementsToCheck [
+
+	^ elementsToCheck ifNil: [ elementStack asArray ]
 ]
 
 { #category : #'api - accessing' }
@@ -69,8 +79,8 @@ ToOutsideEventFilter >> handleEvent: anEvent [
 	do nothing if the original event target is inside my target 
 	"
 
-	(element isNil or: [ element isAttachedToSceneGraph not ]) ifTrue: [
-		^ self discardOnEvent: anEvent ].
+	self checkElementStackOnEvent: anEvent.
+	elementStack ifEmpty: [ ^ self ].
 	(self isOutsideEvent: anEvent) ifTrue: [ " ok, the event is outside. Consuming should be done outside "
 		self dispatchOutsideEventOn: anEvent ].
 	oneShot ifFalse: [ ^ self ].
@@ -81,20 +91,33 @@ ToOutsideEventFilter >> handleEvent: anEvent [
 ToOutsideEventFilter >> initialize [ 
 
 	super initialize.
-	oneShot := false
+	oneShot := false.
+	elementStack := Stack new
 ]
 
 { #category : #'mouse handlers' }
 ToOutsideEventFilter >> isOutsideEvent: anEvent [
 	" does the event occurs on the element itsef ?"
-	
-	^ self elementToCheck isOutsideEvent: anEvent
+
+	^ self elementsToCheck allSatisfy: [ :e | e isOutsideEvent: anEvent ]
 ]
 
 { #category : #accessing }
 ToOutsideEventFilter >> oneShot: aBoolean [
 
 	oneShot := aBoolean
+]
+
+{ #category : #accessing }
+ToOutsideEventFilter >> popElement [
+
+	elementStack pop
+]
+
+{ #category : #accessing }
+ToOutsideEventFilter >> pushElement: anElement [
+
+	elementStack push: anElement
 ]
 
 { #category : #'api - event managing' }

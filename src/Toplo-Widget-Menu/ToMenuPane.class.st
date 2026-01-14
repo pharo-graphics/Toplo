@@ -53,12 +53,7 @@ ToMenuPane >> applyConfiguration [
 			c linear horizontal alignCenter ].
 	self itemList toConfiguration isScrollable: self isScrollable.
 	self itemList toConfiguration isFlowable: self isFlowable.
-	self isHFitContent
-		ifTrue: [ self itemList hFitContent ]
-		ifFalse: [ self itemList hMatchParent ].
-	self isVFitContent
-		ifTrue: [ self itemList vFitContent ]
-		ifFalse: [ self itemList vMatchParent ]
+	self itemList fitParent: self
 ]
 
 { #category : #'auto opening' }

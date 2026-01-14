@@ -26,6 +26,12 @@ TToMenuItem >> closeAllSiblingMenuWindows [
 ]
 
 { #category : #'t - menu item' }
+TToMenuItem >> hasIcon [ 
+
+	^ false
+]
+
+{ #category : #'t - menu item' }
 TToMenuItem >> isInInlineWindow [
 
 	self parentMenuDo: [ :m | ^ m hasInlineWindow ].
@@ -73,6 +79,18 @@ TToMenuItem >> parentMenu [
 TToMenuItem >> parentMenuDo: aBlock [
 
 	self parentMenu ifNotNil: [ :p | aBlock value: p ]
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> parentMenuOrMenuPane [
+
+	^ self menuListOwner 
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> parentMenuOrMenuPaneDo: aBlock [
+
+	self parentMenuOrMenuPane ifNotNil: [ :p | aBlock value: p ]
 ]
 
 { #category : #'t - menu item' }

@@ -12,7 +12,7 @@ ToCheckMenuItemSkin >> installSkinEvent: anEvent [
 			e icon extent: (e valueOfTokenNamed: #'menu-icon-size').
 			e startAlignment:
 				(e valueOfTokenNamed: #'menu-item-start-alignment').
-			e parentMenu ifNotNil: [
+			e parentMenuOrMenuPane ifNotNil: [ :pmp |
 					e isStartToEnd
 						ifTrue: [
 								e endInterspace:

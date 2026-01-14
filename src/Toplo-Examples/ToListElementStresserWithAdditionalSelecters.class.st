@@ -151,7 +151,7 @@ ToListElementStresserWithAdditionalSelecters >> initialize [
 ToListElementStresserWithAdditionalSelecters >> newListElement [
 
 	| l |
-	l := ToListElement new
+	l := ToListElement infinite
 		     nodeBuilder: [ :node :dataItem :holder |
 			     | lab |
 			     lab := ToLabel text: dataItem.

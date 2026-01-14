@@ -195,13 +195,16 @@ ToFiniteListElementTest >> testDisabledWithTwoNodes [
 
 	l dataAccessor add: 'first'.
 	space root addChild: l.
+	l forceLayout.
 	self waitTestingSpaces.
 	self assert: l nodeContainers size equals: 1.
 	self assert: l disabledSelectionModel isEmpty.
 	l disabledSelecter selectOneMoreIndex: 1.
+	l forceLayout.
 	self waitTestingSpaces.
 	self assert: l disabledSelecter selectedIndex equals: 1.
 	l dataAccessor addFirst: 'second'.
+	l forceLayout.
 	self waitTestingSpaces.
 	self assert: l disabledSelecter selectedIndex equals: 2.
 	self assert: l disabledSelecter selectedIndexes equals: { 2 }.

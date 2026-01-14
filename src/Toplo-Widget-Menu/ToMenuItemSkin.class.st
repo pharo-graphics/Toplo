@@ -53,18 +53,19 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		(e hasStamp: #iconic) ifFalse: [
-				e padding: (BlInsets
-						 horizontal: (e valueOfTokenNamed: #'menu-item-padding-H')
-						 vertical: (e valueOfTokenNamed: #'menu-item-padding-V')) ].
+			(e hasStamp: #iconic) ifFalse: [
+					e padding: (BlInsets
+							 horizontal: (e valueOfTokenNamed: #'menu-item-padding-H')
+							 vertical: (e valueOfTokenNamed: #'menu-item-padding-V')) ].
 			e iconDo: [ :ic |
 				ic extent: (e valueOfTokenNamed: #'menu-icon-size') ].
 			(e isTopMenu not or: [ e showExpandIcon ]) ifTrue: [
-					| anyHaveIcon anyIsMenu |
+					| anyHaveIcon anyIsMenu flow |
 					anyHaveIcon := false.
 					anyIsMenu := false.
-
-					e parentMenuDo: [ :pm |
+					flow := false.
+					e parentMenuOrMenuPaneDo: [ :pm |
+							flow := pm isFlowable.
 							pm items do: [ :item |
 									item hasIcon ifTrue: [ anyHaveIcon := true ].
 									item isMenu ifTrue: [ anyIsMenu := true ] ] ].
@@ -74,10 +75,14 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 							align := e valueOfTokenNamed: #'menu-item-start-alignment'.
 							e startAlignment: align ].
 
-					(anyIsMenu or: [ e showExpandIcon ]) ifTrue: [
-							e isHorizontal ifTrue: [
-									e endInterspace: (e valueOfTokenNamed: #'button-interspace').
-									e endFlexible: true ] ] ] ]
+					(flow not and: [ anyIsMenu or: [ e showExpandIcon ] ]) ifTrue: [
+							e isHorizontal
+								ifTrue: [
+										e endInterspace: (e valueOfTokenNamed: #'button-interspace').
+										e endFlexible: true ]
+								ifFalse: [
+										e endInterspace: 0.
+										e endFlexible: false ] ] ] ]
 ]
 
 { #category : #'event handling' }

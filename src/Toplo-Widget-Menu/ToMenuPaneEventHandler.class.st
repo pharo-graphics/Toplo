@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-Menu-Pane'
 }
 
+{ #category : #'event handling' }
+ToMenuPaneEventHandler >> elementExtentChangedEvent: anEvent [
+
+	anEvent currentTarget requestConfiguration
+]
+
 { #category : #'api - accessing' }
 ToMenuPaneEventHandler >> eventsToHandle [
 
@@ -11,7 +17,8 @@ ToMenuPaneEventHandler >> eventsToHandle [
 		  BlMouseLeaveEvent.
 		  BlMouseOverEvent.
 		  BlMouseUpEvent.
-		  BlLayoutResizerChangedEvent }
+		  BlLayoutResizerChangedEvent.
+		  BlElementExtentChangedEvent }
 ]
 
 { #category : #'event handling' }

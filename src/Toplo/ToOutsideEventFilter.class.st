@@ -5,7 +5,8 @@ Class {
 		'elementStack',
 		'eventsToHandle',
 		'oneShot',
-		'elementsToCheck'
+		'checkTopElementOnly',
+		'elementToCheck'
 	],
 	#category : #'Toplo-Support-EventGenerator'
 }
@@ -26,6 +27,12 @@ ToOutsideEventFilter >> checkElementStackOnEvent: anEvent [
 			elementStack pop.
 			elementStack ifEmpty: [ ^ self discardOnEvent: anEvent ] ].
 	elementStack ifEmpty: [ ^ self discardOnEvent: anEvent ]
+]
+
+{ #category : #accessing }
+ToOutsideEventFilter >> checkTopElementOnly: aBoolean [
+
+	checkTopElementOnly := aBoolean
 ]
 
 { #category : #'api - event managing' }
@@ -52,13 +59,7 @@ ToOutsideEventFilter >> element: anElement [
 { #category : #accessing }
 ToOutsideEventFilter >> elementToCheck: anElement [
  
-	elementsToCheck := Array with: anElement
-]
-
-{ #category : #accessing }
-ToOutsideEventFilter >> elementsToCheck [
-
-	^ elementsToCheck ifNil: [ elementStack asArray ]
+	elementToCheck := anElement
 ]
 
 { #category : #'api - accessing' }
@@ -92,6 +93,7 @@ ToOutsideEventFilter >> initialize [
 
 	super initialize.
 	oneShot := false.
+	checkTopElementOnly := true.
 	elementStack := Stack new
 ]
 
@@ -99,7 +101,13 @@ ToOutsideEventFilter >> initialize [
 ToOutsideEventFilter >> isOutsideEvent: anEvent [
 	" does the event occurs on the element itsef ?"
 
-	^ self elementsToCheck allSatisfy: [ :e | e isOutsideEvent: anEvent ]
+	^ elementToCheck
+		  ifNotNil: [ elementToCheck isOutsideEvent: anEvent ]
+		  ifNil: [
+				  checkTopElementOnly
+					  ifTrue: [ elementStack top isOutsideEvent: anEvent ]
+					  ifFalse: [
+					  elementStack allSatisfy: [ :e | e isOutsideEvent: anEvent ] ] ]
 ]
 
 { #category : #accessing }

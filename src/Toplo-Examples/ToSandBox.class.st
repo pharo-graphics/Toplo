@@ -3778,6 +3778,53 @@ ToSandBox class >> example_RawParallelTransition [
 	e openInSpace
 ]
 
+{ #category : #filters }
+ToSandBox class >> example_RootFilterAnd2StackedPanes [
+
+	| menuPane subMenuPane filter main |
+	main := ToPane horizontal.
+	main matchParent.
+
+	menuPane := ToMenuPane new.
+	menuPane addChild: (ToLabel text: 'Menu').
+	menuPane width: 200.
+	menuPane vMatchParent.
+
+	filter := ToOutsideEventFilter new
+		          eventsToHandle: { BlMouseUpEvent };
+		          element: menuPane;
+		          checkTopElementOnly: false;
+		          yourself.
+
+	menuPane
+		addEventHandlerOn: ToAddedToSpaceEvent
+		do: [ :evt | menuPane space root addEventFilter: filter ].
+
+	menuPane
+		addEventHandlerOn: ToMouseUpOutsideEvent
+		do: [ :evt | evt currentTarget removeFromParent ].
+
+	subMenuPane := ToMenuPane new.
+	subMenuPane addChild: (ToLabel text: 'Sub Menu').
+	subMenuPane
+		addEventHandlerOn: ToMouseUpOutsideEvent
+		do: [ :evt | evt currentTarget removeFromParent ].
+
+	filter pushElement: subMenuPane.
+	subMenuPane width: 100.
+	subMenuPane vMatchParent.
+
+	menuPane withNullSkin.
+	menuPane background: Color red.
+	subMenuPane withNullSkin.
+	subMenuPane background: Color blue.
+
+	main addChild: subMenuPane.
+	main addChild: menuPane.
+
+	main openInSpace
+]
+
 { #category : #select }
 ToSandBox class >> example_SelectAntDesignIconMonoFiltrable [
 

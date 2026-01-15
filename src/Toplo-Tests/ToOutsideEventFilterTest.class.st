@@ -90,6 +90,27 @@ ToOutsideEventFilterTest >> setUp [
 ]
 
 { #category : #running }
+ToOutsideEventFilterTest >> testOutsideEventWithOnePane [
+
+	| pane outsidePane outsideEvent |
+	self addPane.
+	pane := main childWithId: #pane.
+	outsidePane := main childWithId: #outsidePane.
+
+	pane addEventHandlerOn: ToMouseUpOutsideEvent do: [ :event | outsideEvent := event ].
+
+	BlSpace simulateClickOn: pane.
+	self assert: outsideEvent isNil.
+	
+	BlSpace simulateClickOn: outsidePane.
+	self assert: outsideEvent notNil.
+	self assert: outsideEvent currentTarget equals: pane.
+	self assert: outsideEvent sourceEvent currentTarget equals: space root.
+	self assert: outsideEvent sourceEvent target equals: outsidePane.
+	self assert: outsideEvent emitter equals: filter
+]
+
+{ #category : #running }
 ToOutsideEventFilterTest >> testWithOnePane [
 
 	| pane outsidePane |
@@ -111,10 +132,11 @@ ToOutsideEventFilterTest >> testWithOnePane [
 ]
 
 { #category : #running }
-ToOutsideEventFilterTest >> testWithPaneAndSubPane [
+ToOutsideEventFilterTest >> testWithPaneAndSubPaneCheckAll [
 
 	| pane subPane outsidePane |
 	self addPaneAndSubPane.
+	filter checkTopElementOnly: false.
 	pane := main childWithId: #pane.
 	subPane := main childWithId: #subPane.
 	outsidePane := main childWithId: #outsidePane.
@@ -131,6 +153,67 @@ ToOutsideEventFilterTest >> testWithPaneAndSubPane [
 	self assert: pane isAttachedToSceneGraph.
 	self deny: subPane isAttachedToSceneGraph.
 
+	BlSpace simulateClickOn: outsidePane.
+	self deny: pane isAttachedToSceneGraph.
+	self deny: subPane isAttachedToSceneGraph.
+
+	self assert: (space root eventDispatcher filters includes: filter).
+	BlSpace simulateClickOn: outsidePane.
+	self deny: (space root eventDispatcher filters includes: filter).
+	
+
+]
+
+{ #category : #running }
+ToOutsideEventFilterTest >> testWithPaneAndSubPaneCheckAllClickingOnSpaceRoot [
+
+	| pane subPane outsidePane |
+	self addPaneAndSubPane.
+	filter checkTopElementOnly: false.
+	pane := main childWithId: #pane.
+	subPane := main childWithId: #subPane.
+	outsidePane := main childWithId: #outsidePane.
+
+	BlSpace simulateClickOn: pane.
+	self assert: pane isAttachedToSceneGraph.
+	self assert: subPane isAttachedToSceneGraph.
+
+	BlSpace simulateClickOn: subPane.
+	self assert: pane isAttachedToSceneGraph.
+	self assert: subPane isAttachedToSceneGraph.
+	
+	BlSpace simulateClickOn: space root.
+	self assert: pane isAttachedToSceneGraph.
+	self deny: subPane isAttachedToSceneGraph.
+
+	BlSpace simulateClickOn: space root.
+	self deny: pane isAttachedToSceneGraph.
+	self deny: subPane isAttachedToSceneGraph.
+
+	self assert: (space root eventDispatcher filters includes: filter).
+	BlSpace simulateClickOn: space root.
+	self deny: (space root eventDispatcher filters includes: filter).
+	
+
+]
+
+{ #category : #running }
+ToOutsideEventFilterTest >> testWithPaneAndSubPaneCheckTopOnly [
+
+	| pane subPane outsidePane |
+	self addPaneAndSubPane.
+	pane := main childWithId: #pane.
+	subPane := main childWithId: #subPane.
+	outsidePane := main childWithId: #outsidePane.
+
+	BlSpace simulateClickOn: pane.
+	self assert: pane isAttachedToSceneGraph.
+	self deny: subPane isAttachedToSceneGraph.
+
+	BlSpace simulateClickOn: subPane.
+	self assert: pane isAttachedToSceneGraph.
+	self deny: subPane isAttachedToSceneGraph.
+	
 	BlSpace simulateClickOn: outsidePane.
 	self deny: pane isAttachedToSceneGraph.
 	self deny: subPane isAttachedToSceneGraph.

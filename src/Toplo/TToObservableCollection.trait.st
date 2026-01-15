@@ -365,7 +365,7 @@ TToObservableCollection >> indexOf: anElement startingAt: start ifAbsent: except
 { #category : #'t - observable collection - initialization' }
 TToObservableCollection >> initializeWith: aCollection [
 
-	self collection reset.
+	self reset.
 	self collection addAll: aCollection
 ]
 
@@ -486,7 +486,7 @@ TToObservableCollection >> removeAll [
 	interval := 1 to: s.
 	self notifyEmptinessChangeAfter: [ 
 			self collection removeAll.
-			self notifyRemoved: removed interval: interval ]
+			self notifyRemovedInterval: interval ]
 ]
 
 { #category : #'t - observable collection - removing' }
@@ -512,11 +512,11 @@ TToObservableCollection >> removeAt: removedIndex [
 
 	| interval removed |
 	interval := removedIndex to: removedIndex.
-	removed := Array with: (self collection at: removedIndex).
+	removed := self collection at: removedIndex.
 	self notifyEmptinessChangeAfter: [ 
 			self collection removeAt: removedIndex.
-			self notifyRemoved: removed interval: interval ].
-	^ removed first
+			self notifyRemovedInterval: interval ].
+	^ removed
 ]
 
 { #category : #'t - observable collection - removing' }
@@ -524,37 +524,39 @@ TToObservableCollection >> removeFirst [
 
 	| interval removed |
 	interval := 1 to: 1.
-	removed := Array with: self collection first.
+	removed := self collection first.
 	self notifyEmptinessChangeAfter: [ 
 			self collection removeFirst.
-			self notifyRemoved: removed interval: interval ]
+			self notifyRemovedInterval: interval ].
+	^ removed
 ]
 
 { #category : #'t - observable collection - removing' }
 TToObservableCollection >> removeFirst: n [
 
-	| interval removed |
+	| interval |
 	interval := 1 to: n.
-	removed := Array withAll: (self collection copyFrom: 1 to: n).
 	self notifyEmptinessChangeAfter: [ 
 			self collection removeFirst: n.
-			self notifyRemoved: removed interval: interval ]
+			self notifyRemovedInterval: interval ]
 ]
 
 { #category : #'t - observable collection - removing' }
 TToObservableCollection >> removeFrom: start to: stop [
 
-	| interval removed |
+	| interval |
+	(start between: 1 and: self size) ifFalse: [
+		self errorSubscriptBounds: start ].
+	(stop between: 1 and: self size) ifFalse: [
+		self errorSubscriptBounds: stop ].
 	interval := start to: stop.
-	removed := Array withAll: (self collection copyFrom: start to: stop).
-	removed ifEmpty: [ ^ self ].
 	self notifyEmptinessChangeAfter: [
 			| newCollection |
 			newCollection := self collection copyFrom: 1 to: start - 1.
 			newCollection addAll:
 				(self collection copyFrom: stop + 1 to: self collection size).
 			self initializeWith: newCollection.
-			self notifyRemoved: removed interval: interval ]
+			self notifyRemovedInterval: interval ]
 ]
 
 { #category : #'t - observable collection - removing' }
@@ -562,24 +564,24 @@ TToObservableCollection >> removeLast [
 
 	| interval removed |
 	interval := self size + 1 to: self size + 1.
-	removed := Array with: self collection last.
+	removed := self collection last.
 	self notifyEmptinessChangeAfter: [ 
 			self collection removeLast.
-			self notifyRemoved: removed interval: interval ]
+			self notifyRemovedInterval: interval ].
+	^ removed
 ]
 
 { #category : #'t - observable collection - removing' }
 TToObservableCollection >> removeLast: n [
 
-	| s interval removed |
+	| s interval |
 	s := self size.
 	s isZero ifTrue: [ ^ self ].
 
 	interval := s - n + 1 to: s.
-	removed := Array withAll: (self collection copyFrom: s - n + 1 to: s).
 	self notifyEmptinessChangeAfter: [ 
 			self collection removeLast: n.
-			self notifyRemoved: removed interval: interval ]
+			self notifyRemovedInterval: interval ]
 ]
 
 { #category : #'t - observable collection - accessing' }
@@ -606,7 +608,7 @@ TToObservableCollection >> replaceFrom: start to: stop with: replacement startin
 { #category : #'t - observable collection - initialization' }
 TToObservableCollection >> reset [
 
-		self collection reset
+	self collection reset
 ]
 
 { #category : #'t - observable collection - enumerating' }

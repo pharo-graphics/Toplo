@@ -212,13 +212,6 @@ ToSelectElement >> newShortcutsStore [
 	^ ToSelectShortcutsStore new
 ]
 
-{ #category : #layout }
-ToSelectElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
-
-	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
-	"self class name trace. ' ' trace. 'onLayout: context:' traceCr"
-]
-
 { #category : #window }
 ToSelectElement >> onPopupWindowClosed [
 

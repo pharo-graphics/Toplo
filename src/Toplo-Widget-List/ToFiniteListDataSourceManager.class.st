@@ -16,6 +16,13 @@ ToFiniteListDataSourceManager >> addCommand: aCommand [
 	commandApplicationStrategy addCommand: aCommand from: self
 ]
 
+{ #category : #'t - postponed command manager' }
+ToFiniteListDataSourceManager >> addFinalStepCommand: aCommand [
+
+	"self finalStepCommands add: aCommand"
+	self addCommand: aCommand
+]
+
 { #category : #'command application' }
 ToFiniteListDataSourceManager >> applyCommand: aCommand [
 

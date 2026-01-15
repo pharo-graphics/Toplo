@@ -227,6 +227,7 @@ ToFiniteListElementTest >> testDisabledWithTwoNodes2 [
 	self waitTestingSpaces.
 	self assert: l disabledSelecter selectedIndex equals: 2.
 	self assert: l disabledSelecter selectedIndexes equals: { 2 }.
+	self waitTestingSpaces.
 	self assert: l nodes first isEnabled.
 	self assert: l nodes second isDisabled
 ]

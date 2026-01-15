@@ -470,7 +470,7 @@ ToListElementStresser >> nextSizeForListNumber: aNumber [
 		  ifTrue: [ rand nextIntegerBetween: 1 and: self minListSize ]
 		  ifFalse: [
 		  rand nextIntegerBetween: self minListSize and: self maxListSize ]"
-	^ 2000
+	^ self maxListSize
 ]
 
 { #category : #running }

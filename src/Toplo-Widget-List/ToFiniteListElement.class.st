@@ -24,8 +24,12 @@ ToFiniteListElement class >> onListElement: aListElement [
 { #category : #'accessing - nodes' }
 ToFiniteListElement >> addAllHolders: anArray at: aPosition [
 
-	anArray reverseDo: [ :h | self addHolder: h at: aPosition].
-	anArray do: [ :h | self notifyChildAttached: h nodeContainer  ]
+	| pos |
+	pos := aPosition.
+	anArray do: [ :h |
+			self addHolder: h at: pos.
+			pos := pos + 1 ].
+	anArray do: [ :h | self notifyChildAttached: h nodeContainer ]
 ]
 
 { #category : #'accessing - nodes' }
@@ -291,11 +295,19 @@ ToFiniteListElement >> onItemsChanged [
 
 ]
 
+{ #category : #layout }
+ToFiniteListElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
+
+	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
+	self dataSourceManager consumeFinalStepCommandsIn: self
+	
+
+]
+
 { #category : #'hooks - layout' }
 ToFiniteListElement >> onLayoutDone [
 
-	super onLayoutDone.
-	self dataSourceManager consumeFinalStepCommandsIn: self
+	super onLayoutDone
 ]
 
 { #category : #initialization }

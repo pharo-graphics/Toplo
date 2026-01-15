@@ -349,6 +349,7 @@ ToFiniteListElementTest2 >> testDisabledWithTwoNodes2 [
 	l dataAccessor addFirst: (ToLabel text: 'second').
 	self waitTestingSpaces.
 	self assert: l disabledSelecter selectedIndexes equals: { 2 }.
+	self waitTestingSpaces.
 	self assert: l nodes first isEnabled.
 	self assert: l nodes second isDisabled
 ]

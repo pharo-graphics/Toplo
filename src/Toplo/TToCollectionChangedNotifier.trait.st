@@ -41,12 +41,11 @@ TToCollectionChangedNotifier >> notifyFilteredInterval: anInterval [
 ]
 
 { #category : #'t - collection changed notifier' }
-TToCollectionChangedNotifier >> notifyRemoved: aCollection interval: anInterval [
+TToCollectionChangedNotifier >> notifyRemovedInterval: anInterval [
 
 	self notificationAllowed ifFalse: [ ^ self ].
 	self dispatchEvent: (ToCollectionRemoveEvent new
 			 interval: anInterval;
-			 removed: aCollection;
 			 yourself)
 ]
 

@@ -479,10 +479,9 @@ TToObservableCollection >> remove: anObject [
 { #category : #'t - observable collection - removing' }
 TToObservableCollection >> removeAll [
 
-	| s interval removed |
+	| s interval  |
 	s := self collection size.
 	s isZero ifTrue: [ ^ self ].
-	removed := self collection asArray.
 	interval := 1 to: s.
 	self notifyEmptinessChangeAfter: [ 
 			self collection removeAll.

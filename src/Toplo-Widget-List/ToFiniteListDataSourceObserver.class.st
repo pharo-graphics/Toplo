@@ -17,7 +17,7 @@ ToFiniteListDataSourceObserver class >> on: anInnerLinearBarElement [
 { #category : #'event handling' }
 ToFiniteListDataSourceObserver >> infiniteDataSourceChanged: anEvent [
 
-	innerListElement onItemsChanged
+	innerListElement dataSourceManager onItemsChanged
 ]
 
 { #category : #'event handling' }
@@ -59,7 +59,7 @@ ToFiniteListDataSourceObserver >> infiniteDataSourceItemRangeRemoved: anEvent [
 { #category : #'event handling' }
 ToFiniteListDataSourceObserver >> infiniteDataSourceItemsFilteredEvent: anEvent [
 
-	innerListElement onItemsChanged.
+	innerListElement dataSourceManager onItemsChanged.
 	innerListElement dataSourceManager
 		onItemsFiltered: anEvent position
 		itemCount: anEvent itemCount.
@@ -79,7 +79,7 @@ ToFiniteListDataSourceObserver >> initializeWith: anInnerListElement [
 { #category : #'event handling' }
 ToFiniteListDataSourceObserver >> listDataSourceItemsSievedEvent: anEvent [
 
-	innerListElement onItemsChanged.
+	innerListElement dataSourceManager onItemsChanged.
 	innerListElement dataSourceManager
 		onItemsSieved: anEvent position
 		itemCount: anEvent itemCount

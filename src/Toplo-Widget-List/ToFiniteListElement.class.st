@@ -299,7 +299,7 @@ ToFiniteListElement >> onItemsChanged [
 ToFiniteListElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
 	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
-	self dataSourceManager consumeFinalStepCommandsIn: self
+	self consumeFinalStepCommands
 	
 
 ]

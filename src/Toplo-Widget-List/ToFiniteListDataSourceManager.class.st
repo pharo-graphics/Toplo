@@ -16,13 +16,6 @@ ToFiniteListDataSourceManager >> addCommand: aCommand [
 	commandApplicationStrategy addCommand: aCommand from: self
 ]
 
-{ #category : #'t - postponed command manager' }
-ToFiniteListDataSourceManager >> addFinalStepCommand: aCommand [
-
-	"self finalStepCommands add: aCommand"
-	self addCommand: aCommand
-]
-
 { #category : #'command application' }
 ToFiniteListDataSourceManager >> applyCommand: aCommand [
 
@@ -32,9 +25,9 @@ ToFiniteListDataSourceManager >> applyCommand: aCommand [
 { #category : #initialization }
 ToFiniteListDataSourceManager >> defaultCommandApplicationStrategy [ 
 
-	^ BlQueueBasedCommandApplicationStrategy new
+	"^ ToFinitListCommandApplicationStrategy new"
 	"^ BlTaskBasedCommandApplicationStrategy new"
-	"^ BlImmediateCommandApplicationStrategy new"
+	^ BlImmediateCommandApplicationStrategy new
 ]
 
 { #category : #'commands processing' }
@@ -102,6 +95,12 @@ ToFiniteListDataSourceManager >> onItemRangeRemoved: aPositionStart itemCount: a
 		positionStart: aPositionStart;
 		itemCount: anItemCount;
 		yourself)
+]
+
+{ #category : #'data source updates' }
+ToFiniteListDataSourceManager >> onItemsChanged [ 
+
+	self addCommand: ToListDataSourceChangedCommand new
 ]
 
 { #category : #'data source updates' }

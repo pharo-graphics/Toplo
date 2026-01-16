@@ -472,7 +472,7 @@ TToDataSourceWrapper >> remove: anObject [
 { #category : #'t - data source wrapper - removing' }
 TToDataSourceWrapper >> removeAll [
 
-	^ self dataSource removeAll
+	self dataSource removeAll
 ]
 
 { #category : #'t - data source wrapper - removing' }

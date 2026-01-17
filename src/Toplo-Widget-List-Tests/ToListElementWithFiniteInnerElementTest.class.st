@@ -2,16 +2,16 @@
 A ToListElementTest is a test class for testing the behavior of ToListElement
 "
 Class {
-	#name : #ToListElementTest,
+	#name : #ToListElementWithFiniteInnerElementTest,
 	#superclass : #ToParameterizedHostTest,
 	#category : #'Toplo-Widget-List-Tests-Core-ListElement'
 }
 
 { #category : #'test node - enablement' }
-ToListElementTest >> listWithRemoveRowButtons [
+ToListElementWithFiniteInnerElementTest >> listWithRemoveRowButtons [
 
 	| list |
-	list := ToListElement new.
+	list := ToListElement finite.
 	space root addChild: list.
 	list nodeBuilder: [ :node :dataItem :holder |
 		| line remBut filler |
@@ -33,7 +33,7 @@ ToListElementTest >> listWithRemoveRowButtons [
 ]
 
 { #category : #accessing }
-ToListElementTest >> statesOfAmerica [
+ToListElementWithFiniteInnerElementTest >> statesOfAmerica [
 
 	^ { #Alabama. #Alaska. #Arizona. #Arkansas. #California. #Colorado.
 		#Connecticut. #Delaware. #Florida. #Georgia. #Hawaii. #Idaho. #'Illinois Indiana'.
@@ -47,10 +47,10 @@ ToListElementTest >> statesOfAmerica [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListElementTest >> testCheckboxSelectionUpdatedAfterInsert [
+ToListElementWithFiniteInnerElementTest >> testCheckboxSelectionUpdatedAfterInsert [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	l useCheckbox: true.
 	space root addChild: l.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
@@ -67,10 +67,10 @@ ToListElementTest >> testCheckboxSelectionUpdatedAfterInsert [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListElementTest >> testCheckboxSelectionUpdatedAfterInsert1 [
+ToListElementWithFiniteInnerElementTest >> testCheckboxSelectionUpdatedAfterInsert1 [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	l matchParent.
 	l useCheckbox: true.
 	space root addChild: l.
@@ -86,6 +86,7 @@ ToListElementTest >> testCheckboxSelectionUpdatedAfterInsert1 [
 	l forceLayout.
 	self waitTestingSpaces.
 	self assert: l dataAccessor size equals: 10.
+	self waitTestingSpaces.
 	self assert: (l selectionModel selectedIndexes) equals: { 8 }.
 	self deny: (l nodeContainers at: 3) checkbox isChecked.
 	self assert: (l nodeContainers at: 8) checkbox isChecked.
@@ -93,10 +94,10 @@ ToListElementTest >> testCheckboxSelectionUpdatedAfterInsert1 [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListElementTest >> testCheckboxSelectionUpdatedAfterInsert2 [
+ToListElementWithFiniteInnerElementTest >> testCheckboxSelectionUpdatedAfterInsert2 [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	l matchParent.
 	l useCheckbox: true.
 	space root addChild: l.
@@ -120,32 +121,37 @@ ToListElementTest >> testCheckboxSelectionUpdatedAfterInsert2 [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListElementTest >> testCheckboxSelectionUpdatedAfterInsert3 [
+ToListElementWithFiniteInnerElementTest >> testCheckboxSelectionUpdatedAfterInsert3 [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	space root addChild: l.
-	l fitContent.
+	l matchParent.
 	l useCheckbox: true.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	l forceLayout.
 	self assert: l selectionModel isEmpty.
-	l selecter selectIndexes: #( 3 4 ).
+	l selecter selectIndexes: #( 1 2 3 4 ).
 	self waitTestingSpaces.
-	self assert: l selectionModel selectedIndexes equals: #( 3 4 ).
+	l forceLayout.
+	self assert: l selectionModel selectedIndexes equals: #( 1 2 3 4 ).
+	self assert: (l nodeContainers at: 1) checkbox isChecked.
+	self assert: (l nodeContainers at: 2) checkbox isChecked.
 	self assert: (l nodeContainers at: 3) checkbox isChecked.
 	self assert: (l nodeContainers at: 4) checkbox isChecked.
 	l dataAccessor add: (self statesOfAmerica at: 6) afterIndex: 1.
+	l forceLayout.
 	self waitTestingSpaces.
-	self assert: l selectionModel selectedIndexes equals: #( 4 5 ).
-	self deny: (l nodeContainers at: 3) checkbox isChecked.
+	self assert: l selectionModel selectedIndexes equals: #( 2 3 4 5).
+	self deny: (l nodeContainers at: 1) checkbox isChecked.
+	self assert: (l nodeContainers at: 2) checkbox isChecked.
+	self assert: (l nodeContainers at: 3) checkbox isChecked.
 	self assert: (l nodeContainers at: 4) checkbox isChecked.
-	self assert: (l nodeContainers at: 5) checkbox isChecked.
-
+	self assert: (l nodeContainers at: 5) checkbox isChecked
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListElementTest >> testDataRemovedWhenNodeRemoved [
+ToListElementWithFiniteInnerElementTest >> testDataRemovedWhenNodeRemoved [
 
 	| list but remButtons fillers |
 	list := self listWithRemoveRowButtons.
@@ -172,10 +178,10 @@ ToListElementTest >> testDataRemovedWhenNodeRemoved [
 ]
 
 { #category : #'test selection - mode' }
-ToListElementTest >> testDisable [
+ToListElementWithFiniteInnerElementTest >> testDisable [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	space root addChild: l.
 	l matchParent.
 	l dataAccessor addAll: { #A. #B. #C }.
@@ -193,10 +199,10 @@ ToListElementTest >> testDisable [
 ]
 
 { #category : #'test selection - mode' }
-ToListElementTest >> testDisabledSelectionModel [
+ToListElementWithFiniteInnerElementTest >> testDisabledSelectionModel [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	self assert: (l disabledSelectionMode selectionModel isKindOf:
 			 ToSubSelectionModel).
 	self
@@ -208,10 +214,10 @@ ToListElementTest >> testDisabledSelectionModel [
 ]
 
 { #category : #'test selection - mode' }
-ToListElementTest >> testDisabledSelectionModel2 [
+ToListElementWithFiniteInnerElementTest >> testDisabledSelectionModel2 [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	space root addChild: l.
 	l dataAccessor addAll: { #A. #B. #C }.
 	l selecter selectOneMoreIndex: 2.
@@ -226,10 +232,10 @@ ToListElementTest >> testDisabledSelectionModel2 [
 ]
 
 { #category : #'test node - enablement' }
-ToListElementTest >> testDisabledWithFiveNodes [
+ToListElementWithFiniteInnerElementTest >> testDisabledWithFiveNodes [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	l dataAccessor add: 'first'.
 	space root addChild: l.
 	l innerElement forceLayout.
@@ -245,10 +251,10 @@ ToListElementTest >> testDisabledWithFiveNodes [
 ]
 
 { #category : #'test node - enablement' }
-ToListElementTest >> testDisabledWithFourNodes [
+ToListElementWithFiniteInnerElementTest >> testDisabledWithFourNodes [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	l dataAccessor add: 'first'.
 	space root addChild: l.
 	l innerElement forceLayout.
@@ -263,10 +269,10 @@ ToListElementTest >> testDisabledWithFourNodes [
 ]
 
 { #category : #'test node - enablement' }
-ToListElementTest >> testDisabledWithFourNodes2 [
+ToListElementWithFiniteInnerElementTest >> testDisabledWithFourNodes2 [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	space root addChild: l.
 	l dataAccessor add: 'first'.
 	l dataAccessor add: 'second'.
@@ -282,10 +288,10 @@ ToListElementTest >> testDisabledWithFourNodes2 [
 ]
 
 { #category : #'test node - enablement' }
-ToListElementTest >> testDisabledWithOneNode [
+ToListElementWithFiniteInnerElementTest >> testDisabledWithOneNode [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	space root addChild: l.
 	l dataAccessor add: 'first'.
 	l innerElement forceLayout.
@@ -298,10 +304,10 @@ ToListElementTest >> testDisabledWithOneNode [
 ]
 
 { #category : #'test node - enablement' }
-ToListElementTest >> testDisabledWithThreeNodes [
+ToListElementWithFiniteInnerElementTest >> testDisabledWithThreeNodes [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	l dataAccessor add: 'first'.
 	space root addChild: l.
 	l innerElement forceLayout.
@@ -321,10 +327,10 @@ ToListElementTest >> testDisabledWithThreeNodes [
 ]
 
 { #category : #'test node - enablement' }
-ToListElementTest >> testDisabledWithTwoNodes [
+ToListElementWithFiniteInnerElementTest >> testDisabledWithTwoNodes [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	l dataAccessor add: 'first'.
 	space root addChild: l.
 	l innerElement forceLayout.
@@ -341,10 +347,10 @@ ToListElementTest >> testDisabledWithTwoNodes [
 ]
 
 { #category : #'test node - enablement' }
-ToListElementTest >> testDisabledWithTwoNodes2 [
+ToListElementWithFiniteInnerElementTest >> testDisabledWithTwoNodes2 [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	l dataAccessor add: 'first'.
 	space root addChild: l.
 	l innerElement forceLayout.
@@ -361,10 +367,10 @@ ToListElementTest >> testDisabledWithTwoNodes2 [
 ]
 
 { #category : #'test node - enablement' }
-ToListElementTest >> testDisabledWithTwoNodes3 [
+ToListElementWithFiniteInnerElementTest >> testDisabledWithTwoNodes3 [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	l dataAccessor add: 'first'.
 	space root addChild: l.
 	l innerElement forceLayout.
@@ -382,15 +388,15 @@ ToListElementTest >> testDisabledWithTwoNodes3 [
 ]
 
 { #category : #'test selection - event' }
-ToListElementTest >> testDoubleListsSelectionEvents [
+ToListElementWithFiniteInnerElementTest >> testDoubleListsSelectionEvents [
 
 	| panel list1 list2 tabSize |
 	panel := ToPane new.
 	space root addChild: panel.
 	panel matchParent.
 	tabSize := 2.
-	list1 := ToListElement new.
-	list2 := ToListElement new.
+	list1 := ToListElement finite.
+	list2 := ToListElement finite.
 	1 to: tabSize do: [ :i |
 	list1 dataAccessor add: 'Hello ' , i asString ].
 	list1 innerElement forceLayout.
@@ -419,10 +425,10 @@ ToListElementTest >> testDoubleListsSelectionEvents [
 ]
 
 { #category : #tests }
-ToListElementTest >> testEmptyList [
+ToListElementWithFiniteInnerElementTest >> testEmptyList [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	l fitContent.
 	self assert: l selecter selectedIndexes isEmpty.
 	self assert: l selectionModel underlyingModel isEmpty.
@@ -435,10 +441,10 @@ ToListElementTest >> testEmptyList [
 ]
 
 { #category : #'test selection - select next/previous' }
-ToListElementTest >> testEmptyListAddOrRemoveNextInSelection [
+ToListElementWithFiniteInnerElementTest >> testEmptyListAddOrRemoveNextInSelection [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 
 	l fitContent.
 	self assert: l dataAccessor isEmpty.
@@ -449,10 +455,10 @@ ToListElementTest >> testEmptyListAddOrRemoveNextInSelection [
 ]
 
 { #category : #'test selection - select next/previous' }
-ToListElementTest >> testEmptyListAddOrRemovePreviousInSelection [
+ToListElementWithFiniteInnerElementTest >> testEmptyListAddOrRemovePreviousInSelection [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	l fitContent.
 	self assert: l dataAccessor isEmpty.
 	l forceLayout.
@@ -463,10 +469,10 @@ ToListElementTest >> testEmptyListAddOrRemovePreviousInSelection [
 ]
 
 { #category : #'test selection - select next/previous' }
-ToListElementTest >> testEmptyListSelectNextInSelection [
+ToListElementWithFiniteInnerElementTest >> testEmptyListSelectNextInSelection [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 
 	l fitContent.
 	self assert: l dataAccessor isEmpty.
@@ -481,10 +487,10 @@ ToListElementTest >> testEmptyListSelectNextInSelection [
 ]
 
 { #category : #'test selection - select next/previous' }
-ToListElementTest >> testEmptyListSelectPreviousInSelection [
+ToListElementWithFiniteInnerElementTest >> testEmptyListSelectPreviousInSelection [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 
 	l fitContent.
 	self assert: l dataAccessor isEmpty.
@@ -497,10 +503,10 @@ ToListElementTest >> testEmptyListSelectPreviousInSelection [
 ]
 
 { #category : #'test selection - mode' }
-ToListElementTest >> testEnable [
+ToListElementWithFiniteInnerElementTest >> testEnable [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	space root addChild: l.
 
 	l matchParent.
@@ -521,10 +527,10 @@ ToListElementTest >> testEnable [
 ]
 
 { #category : #'test selection - mode' }
-ToListElementTest >> testHiddenSelectionModel [
+ToListElementWithFiniteInnerElementTest >> testHiddenSelectionModel [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	self assert: (l hiddenSelectionMode selectionModel isKindOf:
 			 ToSubSelectionModel).
 	self
@@ -536,20 +542,20 @@ ToListElementTest >> testHiddenSelectionModel [
 ]
 
 { #category : #'test selection - mode' }
-ToListElementTest >> testListElementWithFiveDefaultSelectionMode [
+ToListElementWithFiniteInnerElementTest >> testListElementWithFiveDefaultSelectionMode [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l dataAccessor size equals: 5
 ]
 
 { #category : #'test node - enablement' }
-ToListElementTest >> testMakeDisabledUnselectable [
+ToListElementWithFiniteInnerElementTest >> testMakeDisabledUnselectable [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	l selectionMode makeDisabledUnselectable: true.
 	space root addChild: l.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
@@ -569,7 +575,7 @@ ToListElementTest >> testMakeDisabledUnselectable [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListElementTest >> testNodeDeselectedWhenNodeRemoved [
+ToListElementWithFiniteInnerElementTest >> testNodeDeselectedWhenNodeRemoved [
 
 	| list fillers remButtons but |
 	list := self listWithRemoveRowButtons.
@@ -603,7 +609,7 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListElementTest >> testNodeDeselectedWhenNodeRemoved2 [
+ToListElementWithFiniteInnerElementTest >> testNodeDeselectedWhenNodeRemoved2 [
 
 	| list fillers but |
 	list := self listWithRemoveRowButtons.
@@ -633,7 +639,7 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved2 [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListElementTest >> testNodeDeselectedWhenNodeRemoved3 [
+ToListElementWithFiniteInnerElementTest >> testNodeDeselectedWhenNodeRemoved3 [
 
 	| list fillers but |
 	list := self listWithRemoveRowButtons.
@@ -669,7 +675,7 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved3 [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListElementTest >> testNodeDeselectedWhenNodeRemoved4 [
+ToListElementWithFiniteInnerElementTest >> testNodeDeselectedWhenNodeRemoved4 [
 
 	| list fillers but |
 	list := self listWithRemoveRowButtons.
@@ -705,10 +711,10 @@ ToListElementTest >> testNodeDeselectedWhenNodeRemoved4 [
 ]
 
 { #category : #tests }
-ToListElementTest >> testOneSpecifcNode [
+ToListElementWithFiniteInnerElementTest >> testOneSpecifcNode [
 
 	| l |
-	l := ToListElementForTest new.
+	l := ToListElementForTest finite.
 	l dataAccessor add: 'first'.
 	self waitTestingSpaces.
 	self assert: l dataSource first equals: 'first'.
@@ -728,11 +734,11 @@ ToListElementTest >> testOneSpecifcNode [
 ]
 
 { #category : #'test - selection changed event' }
-ToListElementTest >> testPrimarySelectionChangedEventDispatch [
+ToListElementWithFiniteInnerElementTest >> testPrimarySelectionChangedEventDispatch [
 	" event dispateched when a selected node is removed "
 
 	| l dispatchedEvent |
-	l := ToListElement new.
+	l := ToListElement finite.
 	space root addChild: l.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
@@ -757,11 +763,11 @@ ToListElementTest >> testPrimarySelectionChangedEventDispatch [
 ]
 
 { #category : #'test - selection changed event' }
-ToListElementTest >> testPrimarySelectionChangedEventDispatch1 [
+ToListElementWithFiniteInnerElementTest >> testPrimarySelectionChangedEventDispatch1 [
 	" event dispateched when a selected node is removed "
 
 	| l dispatchedEvent |
-	l := ToListElement new.
+	l := ToListElement finite.
 	space root addChild: l.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
@@ -781,11 +787,11 @@ ToListElementTest >> testPrimarySelectionChangedEventDispatch1 [
 ]
 
 { #category : #'test - selection changed event' }
-ToListElementTest >> testPrimarySelectionChangedEventDispatchAfterRemoveAll [
+ToListElementWithFiniteInnerElementTest >> testPrimarySelectionChangedEventDispatchAfterRemoveAll [
 	" event dispateched when a selected node is removed "
 
 	| l dispatchedEvent |
-	l := ToListElement new.
+	l := ToListElement finite.
 	space root addChild: l.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
@@ -811,10 +817,10 @@ ToListElementTest >> testPrimarySelectionChangedEventDispatchAfterRemoveAll [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListElementTest >> testRemoveAll [
+ToListElementWithFiniteInnerElementTest >> testRemoveAll [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	space root addChild: l.
 	l innerElement extent: 800 @ 600.
 	l fitContent.
@@ -831,10 +837,10 @@ ToListElementTest >> testRemoveAll [
 ]
 
 { #category : #'test selection - select next/previous' }
-ToListElementTest >> testSelectAndScrollToNext [
+ToListElementWithFiniteInnerElementTest >> testSelectAndScrollToNext [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	space root addChild: l.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
@@ -864,10 +870,10 @@ ToListElementTest >> testSelectAndScrollToNext [
 ]
 
 { #category : #'test selection - select next/previous' }
-ToListElementTest >> testSelectAndScrollToPrevious [
+ToListElementWithFiniteInnerElementTest >> testSelectAndScrollToPrevious [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	space root addChild: l.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
@@ -894,10 +900,10 @@ ToListElementTest >> testSelectAndScrollToPrevious [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListElementTest >> testSelectionAfterLastRemoval [
+ToListElementWithFiniteInnerElementTest >> testSelectionAfterLastRemoval [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	l secondarySelectionMode enabled: false.
 	space root addChild: l.
 	l fitContent.
@@ -913,10 +919,10 @@ ToListElementTest >> testSelectionAfterLastRemoval [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListElementTest >> testSelectionUpdatedAfterInsert [
+ToListElementWithFiniteInnerElementTest >> testSelectionUpdatedAfterInsert [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	space root addChild: l.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	l selecter selectOnlyIndex: 3.
@@ -930,10 +936,10 @@ ToListElementTest >> testSelectionUpdatedAfterInsert [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListElementTest >> testSelectionUpdatedAfterInsert1 [
+ToListElementWithFiniteInnerElementTest >> testSelectionUpdatedAfterInsert1 [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	space root addChild: l.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l dataAccessor size equals: 5.
@@ -951,10 +957,10 @@ ToListElementTest >> testSelectionUpdatedAfterInsert1 [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListElementTest >> testSelectionUpdatedAfterInsert3 [
+ToListElementWithFiniteInnerElementTest >> testSelectionUpdatedAfterInsert3 [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	space root addChild: l.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
@@ -972,10 +978,10 @@ ToListElementTest >> testSelectionUpdatedAfterInsert3 [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListElementTest >> testSelectionUpdatedAfterRemove [
+ToListElementWithFiniteInnerElementTest >> testSelectionUpdatedAfterRemove [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	space root addChild: l.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
@@ -988,10 +994,10 @@ ToListElementTest >> testSelectionUpdatedAfterRemove [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListElementTest >> testSelectionUpdatedAfterRemove1 [
+ToListElementWithFiniteInnerElementTest >> testSelectionUpdatedAfterRemove1 [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	space root addChild: l.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
@@ -1006,10 +1012,10 @@ ToListElementTest >> testSelectionUpdatedAfterRemove1 [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListElementTest >> testSelectionUpdatedAfterRemove2 [
+ToListElementWithFiniteInnerElementTest >> testSelectionUpdatedAfterRemove2 [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	space root addChild: l.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self assert: l dataAccessor size equals: 5.
@@ -1024,10 +1030,10 @@ ToListElementTest >> testSelectionUpdatedAfterRemove2 [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListElementTest >> testSelectionUpdatedAfterRemove3 [
+ToListElementWithFiniteInnerElementTest >> testSelectionUpdatedAfterRemove3 [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	space root addChild: l.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
@@ -1042,10 +1048,10 @@ ToListElementTest >> testSelectionUpdatedAfterRemove3 [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListElementTest >> testSelectionUpdatedAfterRemove4 [
+ToListElementWithFiniteInnerElementTest >> testSelectionUpdatedAfterRemove4 [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	space root addChild: l.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
@@ -1062,10 +1068,10 @@ ToListElementTest >> testSelectionUpdatedAfterRemove4 [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListElementTest >> testSelectionUpdatedAfterRemove5 [
+ToListElementWithFiniteInnerElementTest >> testSelectionUpdatedAfterRemove5 [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	space root addChild: l.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
@@ -1080,10 +1086,10 @@ ToListElementTest >> testSelectionUpdatedAfterRemove5 [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListElementTest >> testSelectionUpdatedAfterRemove6 [
+ToListElementWithFiniteInnerElementTest >> testSelectionUpdatedAfterRemove6 [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	space root addChild: l.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
@@ -1099,10 +1105,10 @@ ToListElementTest >> testSelectionUpdatedAfterRemove6 [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListElementTest >> testSelectionWithOneNode [
+ToListElementWithFiniteInnerElementTest >> testSelectionWithOneNode [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	l dataAccessor removeAll.
 	l dataAccessor add: 'first'.
 	space root addChild: l.
@@ -1117,10 +1123,10 @@ ToListElementTest >> testSelectionWithOneNode [
 ]
 
 { #category : #'test selection - adding/removing' }
-ToListElementTest >> testSelectionWithTwoNodes [
+ToListElementWithFiniteInnerElementTest >> testSelectionWithTwoNodes [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	l dataAccessor add: 'first'.
 	space root addChild: l.
 	l innerElement forceLayout.	self waitTestingSpaces.
@@ -1136,10 +1142,10 @@ ToListElementTest >> testSelectionWithTwoNodes [
 ]
 
 { #category : #'test selection - mode' }
-ToListElementTest >> testUnselectableSelectionModel [
+ToListElementWithFiniteInnerElementTest >> testUnselectableSelectionModel [
 
 	| l |
-	l := ToListElement new.
+	l := ToListElement finite.
 	self assert: (l unselectableSelectionMode selectionModel isKindOf:
 			 ToSubSelectionModel).
 	self

@@ -31,7 +31,9 @@ ToInfiniteDataSourceObserver >> infiniteDataSourceItemRangeInserted: anEvent [
 	listElement := infiniteElement listElement.
 	listElement selecter
 		shiftSelection: anEvent itemCount
-		from: anEvent position
+		from: anEvent position.
+	listElement nodeManager checkableNode ifFalse: [ ^ self ].
+	listElement postponeAction: [ infiniteElement requestUpdateCheckboxes ]
 ]
 
 { #category : #'event handling' }

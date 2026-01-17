@@ -296,10 +296,7 @@ ToNodeHolder >> selectionModel [
 ToNodeHolder >> setupNodeContainerWith: aNodeContainer [
 
 	self nodeContainer: aNodeContainer.
-	aNodeContainer holder: self.
-	aNodeContainer
-		hMatchParent;
-		vFitContent
+	aNodeContainer holder: self
 ]
 
 { #category : #accessing }

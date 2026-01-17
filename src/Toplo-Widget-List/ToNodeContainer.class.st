@@ -21,6 +21,12 @@ ToNodeContainer >> applyConfiguration [
 ]
 
 { #category : #accessing }
+ToNodeContainer >> checkbox [
+
+	^ self startContainer ifNotNil: [:sc | sc childWithId: #checkbox ifNone: [  ] ]
+]
+
+{ #category : #accessing }
 ToNodeContainer >> holder: aNodeHolder [
 
 	super holder: aNodeHolder.

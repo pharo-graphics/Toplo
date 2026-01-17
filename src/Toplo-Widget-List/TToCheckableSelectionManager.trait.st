@@ -10,13 +10,13 @@ Trait {
 TToCheckableSelectionManager >> addCheckboxSelectionManagement [
 
 	checkBoxSelectionHandler ifNotNil: [ ^ self ].
-	self selectionMode selectOnClick: false.
 	checkBoxSelectionHandler := BlEventHandler
 		                            on: ToListPrimarySelectionChangedEvent
 		                            do: [ :event |
-		                            self
-			                            updateCheckboxesOnSelectionChangedEvent:
-			                            event ].
+				                            self postponeAction: [
+					                            self
+						                            updateCheckboxesOnSelectionChangedEvent:
+						                            event ] ].
 	self addEventHandler: checkBoxSelectionHandler
 ]
 
@@ -25,7 +25,8 @@ TToCheckableSelectionManager >> newCheckbox [
 
 	|  cbox |
 	cbox := ToCheckbox new.
-	cbox id: #cellCheckbox.
+	cbox id: #checkbox.
+	cbox switchToNextCheckStateOnClick: false.
 	cbox focusability: BlFocusability none.
 	^ cbox
 ]
@@ -34,6 +35,7 @@ TToCheckableSelectionManager >> newCheckbox [
 TToCheckableSelectionManager >> newCheckboxInNodeContainer: aNode [
 
 	| cbox |
+	self selectionMode selectOnClick: false.
 	cbox := self newCheckbox.
 	" add a guard to prevent checking if it not desired.
 	Here, it is not possible to take the check into account 
@@ -41,28 +43,23 @@ TToCheckableSelectionManager >> newCheckboxInNodeContainer: aNode [
 	cbox addEventHandlerOn: ToCheckableCheckRequestEvent do: [ :event |
 			(self hasFocus not and: [ self isFocusable ]) ifTrue: [
 					(self selectionModel isNotEmpty and: [
-						 self selectionModel selectedIndexesCount > 1 ]) ifTrue: [ event deny ] ] ].
+						 self selectionModel selectedIndexesCount > 1 ]) ifTrue: [
+						event deny ] ] ].
 
-	cbox ensureChecked: aNode holder isSelected.
+	cbox checked: aNode holder isSelected.
 
 	" In case the checkbox has been checked, update the list selection "
-	cbox addEventHandlerOn: ToCheckableCheckEvent do: [ :event |
-			| req |
-			req := ToListClickOnNodeRequestEvent new
-				       requestedAction: [
-					       self onCheckableCheckEvent: event onNodeContainer: aNode ];
-				       yourself.
-			aNode dispatchRequest: req ].
+	cbox
+		addEventHandlerOn: BlPrimaryClickEvent
+		do: [ :event |
+		self onCheckableCheckEvent: event onNodeContainer: aNode ].
 	^ cbox
 ]
 
 { #category : #'t - checkable selection manager' }
-TToCheckableSelectionManager >> onCheckableCheckEvent: anEvent onNodeContainer: aNode [
+TToCheckableSelectionManager >> onCheckableCheckEvent: anEvent onNodeContainer: aNodeContainer [
 
-	anEvent checked ifFalse: [ ^ aNode holder selected: false ].
-	self spaceDo: [ :sp |
-		anEvent sourceEvent: sp mouseProcessor lastMouseDownEvent ].
-	self notifyClickOnNode: aNode node fromEvent: anEvent
+	self notifyClickOnNode: aNodeContainer node fromEvent: anEvent
 ]
 
 { #category : #'t - checkable selection manager' }
@@ -87,5 +84,11 @@ TToCheckableSelectionManager >> removeCheckboxSelectionManagement [
 TToCheckableSelectionManager >> updateCheckboxesOnSelectionChangedEvent: anEvent [
 
 	anEvent touchedIntervals do: [ :int |
-		self dataSource notifyItemsChanged: int ]
+			int do: [ :pos |
+					self nodeContainers do: [ :container |
+							(container checkbox notNil and: [ container holder position = pos ])
+								ifTrue: [
+										container checkbox checked:
+											(self selectionModel containsIndex:
+												 container holder position) ] ] ] ]
 ]

@@ -63,3 +63,9 @@ TToPostponedCommandManager >> postponeCommand: aCommand [
 
 	self addFinalStepCommand: aCommand 
 ]
+
+{ #category : #'t - postponed command manager' }
+TToPostponedCommandManager >> resetFinalStepCommands [
+
+	self finalStepCommands reset
+]

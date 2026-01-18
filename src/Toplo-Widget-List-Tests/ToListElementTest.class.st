@@ -125,13 +125,13 @@ ToListElementTest >> testCheckboxSelectionUpdatedAfterInsert3 [
 	| l |
 	l := ToListElement new.
 	space root addChild: l.
-	l fitContent.
+	l matchParent.
 	l useCheckbox: true.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
-	l forceLayout.
 	self assert: l selectionModel isEmpty.
 	l selecter selectIndexes: #( 3 4 ).
 	self waitTestingSpaces.
+	l forceLayout.
 	self assert: l selectionModel selectedIndexes equals: #( 3 4 ).
 	self assert: (l nodeContainers at: 3) checkbox isChecked.
 	self assert: (l nodeContainers at: 4) checkbox isChecked.

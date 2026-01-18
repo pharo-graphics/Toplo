@@ -1,7 +1,8 @@
 Trait {
 	#name : #TToCheckableSelectionManager,
 	#instVars : [
-		'checkBoxSelectionHandler'
+		'checkBoxSelectionHandler',
+		'checkboxUpdateRequested'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -13,10 +14,7 @@ TToCheckableSelectionManager >> addCheckboxSelectionManagement [
 	checkBoxSelectionHandler := BlEventHandler
 		                            on: ToListPrimarySelectionChangedEvent
 		                            do: [ :event |
-				                            self postponeAction: [
-					                            self
-						                            updateCheckboxesOnSelectionChangedEvent:
-						                            event ] ].
+		                            self requestUpdateCheckboxes ].
 	self addEventHandler: checkBoxSelectionHandler
 ]
 
@@ -46,7 +44,7 @@ TToCheckableSelectionManager >> newCheckboxInNodeContainer: aNode [
 						 self selectionModel selectedIndexesCount > 1 ]) ifTrue: [
 						event deny ] ] ].
 
-	cbox checked: aNode holder isSelected.
+	cbox privateChecked: aNode holder isSelected.
 
 	" In case the checkbox has been checked, update the list selection "
 	cbox
@@ -81,14 +79,18 @@ TToCheckableSelectionManager >> removeCheckboxSelectionManagement [
 ]
 
 { #category : #'t - checkable selection manager' }
-TToCheckableSelectionManager >> updateCheckboxesOnSelectionChangedEvent: anEvent [
+TToCheckableSelectionManager >> requestUpdateCheckboxes [
 
-	anEvent touchedIntervals do: [ :int |
-			int do: [ :pos |
-					self nodeContainers do: [ :container |
-							(container checkbox notNil and: [ container holder position = pos ])
-								ifTrue: [
-										container checkbox checked:
-											(self selectionModel containsIndex:
-												 container holder position) ] ] ] ]
+	checkboxUpdateRequested := true.
+	self requestLayout
+]
+
+{ #category : #'t - checkable selection manager' }
+TToCheckableSelectionManager >> updateCheckboxes [
+
+	checkboxUpdateRequested := false.
+	self nodeManager checkableNode ifFalse: [ ^ self ].
+	self nodeContainersDo: [ :nc |
+			nc checkbox ifNotNil: [ :cbox |
+				cbox privateChecked: nc holder isSelected ] ]
 ]

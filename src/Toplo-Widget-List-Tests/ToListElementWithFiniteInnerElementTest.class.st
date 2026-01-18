@@ -126,28 +126,23 @@ ToListElementWithFiniteInnerElementTest >> testCheckboxSelectionUpdatedAfterInse
 	| l |
 	l := ToListElement finite.
 	space root addChild: l.
-	l matchParent.
+	l fitContent.
 	l useCheckbox: true.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
-	l forceLayout.
 	self assert: l selectionModel isEmpty.
-	l selecter selectIndexes: #( 1 2 3 4 ).
+	l selecter selectIndexes: #( 3 4 ).
 	self waitTestingSpaces.
 	l forceLayout.
-	self assert: l selectionModel selectedIndexes equals: #( 1 2 3 4 ).
-	self assert: (l nodeContainers at: 1) checkbox isChecked.
-	self assert: (l nodeContainers at: 2) checkbox isChecked.
+	self assert: l selectionModel selectedIndexes equals: #( 3 4 ).
 	self assert: (l nodeContainers at: 3) checkbox isChecked.
 	self assert: (l nodeContainers at: 4) checkbox isChecked.
 	l dataAccessor add: (self statesOfAmerica at: 6) afterIndex: 1.
-	l forceLayout.
 	self waitTestingSpaces.
-	self assert: l selectionModel selectedIndexes equals: #( 2 3 4 5).
-	self deny: (l nodeContainers at: 1) checkbox isChecked.
-	self assert: (l nodeContainers at: 2) checkbox isChecked.
-	self assert: (l nodeContainers at: 3) checkbox isChecked.
+	self assert: l selectionModel selectedIndexes equals: #( 4 5 ).
+	self deny: (l nodeContainers at: 3) checkbox isChecked.
 	self assert: (l nodeContainers at: 4) checkbox isChecked.
-	self assert: (l nodeContainers at: 5) checkbox isChecked
+	self assert: (l nodeContainers at: 5) checkbox isChecked.
+
 ]
 
 { #category : #'test selection - adding/removing' }

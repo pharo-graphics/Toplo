@@ -344,10 +344,8 @@ ToBasicListElement >> initialize [
 	
 	mouseMoveReplayRequested := false.
 	selectionModeMap := IdentityDictionary new.
-
-	"self initializeDataSource."
-	"self initializeDataAccessor."
-
+	checkboxUpdateRequested := false.
+	
 	self layout: self defaultLayout.
 
 	self addEventHandler: self defaultEventHandler.
@@ -567,7 +565,14 @@ ToBasicListElement >> onLayoutDone [
 
 	super onLayoutDone.
 	self dirtySelectionModes do: [ :mode | mode updateSelectionIn: self ].
-	self checkMouseMoveReplayRequest
+	self checkMouseMoveReplayRequest.
+	" in case of a list with checkboxes, the checkboxes have 
+	to be up synchronized with ne updated selection model "
+	checkboxUpdateRequested ifFalse: [ ^ self ].
+	self updateCheckboxes
+	
+	
+
 ]
 
 { #category : #'private - commands' }

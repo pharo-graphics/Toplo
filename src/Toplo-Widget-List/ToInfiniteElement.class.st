@@ -4,8 +4,7 @@ Class {
 	#traits : 'TToListInnerElement',
 	#classTraits : 'TToListInnerElement classTrait',
 	#instVars : [
-		'listElement',
-		'checkboxUpdateRequested'
+		'listElement'
 	],
 	#category : #'Toplo-Widget-List-InnerList-Infinite'
 }
@@ -130,8 +129,7 @@ ToInfiniteElement >> initialize [
 
 	super initialize.
 	self addEventHandler: ToInfiniteListElementEventHandler new.
-	self elevation: (BlRelativeElevation elevation: 10).
-	checkboxUpdateRequested := false.
+	self elevation: (BlRelativeElevation elevation: 10)
 ]
 
 { #category : #initialization }
@@ -217,26 +215,6 @@ ToInfiniteElement >> nodeContainingGlobalPosition: aPoint [
 	^ nil
 ]
 
-{ #category : #layout }
-ToInfiniteElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
-
-	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
-
-]
-
-{ #category : #'hooks - layout' }
-ToInfiniteElement >> onLayoutDone [ 
-
-	super onLayoutDone.
-	" in case of a list with checkboxes, the checkboxes have 
-	to be up synchronized with ne updated selection model "
-	checkboxUpdateRequested ifFalse: [ ^ self ].
-	self updateCheckboxes
-	
-	
-
-]
-
 { #category : #initialization }
 ToInfiniteElement >> onListElement: aListElement [
 
@@ -247,13 +225,6 @@ ToInfiniteElement >> onListElement: aListElement [
 ToInfiniteElement >> partlyVisibleNodesDo: aBlock [
 
 	self nodeContainersDo: aBlock
-]
-
-{ #category : #private }
-ToInfiniteElement >> requestUpdateCheckboxes [
-
-	checkboxUpdateRequested := true.
-	self requestLayout
 ]
 
 { #category : #private }
@@ -324,16 +295,6 @@ ToInfiniteElement >> smoothScrollToDataSourcePosition: anIndex [
 ToInfiniteElement >> trackElement [
 
 	^ self
-]
-
-{ #category : #private }
-ToInfiniteElement >> updateCheckboxes [
-
-	checkboxUpdateRequested := false.
-	listElement nodeManager checkableNode ifFalse: [ ^ self ].
-	self nodeContainers do: [ :nc |
-			nc checkbox ifNotNil: [ :cbox |
-				cbox privateChecked: nc holder isSelected ] ]
 ]
 
 { #category : #'view - configuration' }

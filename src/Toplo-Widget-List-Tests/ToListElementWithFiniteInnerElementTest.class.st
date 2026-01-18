@@ -56,6 +56,7 @@ ToListElementWithFiniteInnerElementTest >> testCheckboxSelectionUpdatedAfterInse
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	l selecter selectOnlyIndex: 3.
 	self waitTestingSpaces.
+	l forceLayout.
 	self assert: l selectionModel selectedIndexes equals: { 3 }.
 	self assert: (l nodeContainers at: 3) checkbox isChecked.
 	l dataAccessor add: (self statesOfAmerica at: 6) afterIndex: 1.

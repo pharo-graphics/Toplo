@@ -6496,7 +6496,7 @@ ToSandBox class >> example_listWithAllClasses [
 	| l |
 	l := self listWithData: 
 		((Smalltalk globals allClasses sorted: [ :a :b | a name < b name ]) copyFrom: 1 to: 2000).
-	l toConfiguration useCheckbox: true
+	"l toConfiguration useCheckbox: true"
 
 ]
 

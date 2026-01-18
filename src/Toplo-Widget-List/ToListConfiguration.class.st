@@ -133,11 +133,11 @@ ToListConfiguration >> onInstalledIn: aListElement [
 	autoDistribute := false.
 	isFlowable := false.
 	isScrollable := true.
-	
-	self property: #useCheckbox whenChangedDo: [
-			aListElement inUIProcessDo: [
-					aListElement nodeManager checkableNode: useCheckbox.
-					aListElement onUseCheckboxChangedWith: useCheckbox ] ].
+
+	self
+		property: #useCheckbox
+		whenChangedDo: [
+		aListElement dispatchEvent: ToListCheckableNodeUseChanged new ].
 
 	#( #autoDistribute #isFlowable #isScrollable #rowNumbers ) do: [
 			:flag |
@@ -147,8 +147,7 @@ ToListConfiguration >> onInstalledIn: aListElement [
 	#( #exactNodeWidth #exactNodeHeight ) do: [ :flag |
 			self property: flag whenChangedDo: [
 				aListElement postponeAction: [
-					aListElement notifyDataSourceChanged ] ] ].
-
+					aListElement notifyDataSourceChanged ] ] ]
 ]
 
 { #category : #accessing }

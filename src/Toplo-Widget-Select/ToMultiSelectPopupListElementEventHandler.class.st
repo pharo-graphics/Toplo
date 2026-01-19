@@ -13,10 +13,9 @@ ToMultiSelectPopupListElementEventHandler >> eventsToHandle [
 { #category : #'event handling' }
 ToMultiSelectPopupListElementEventHandler >> selectGroupSelectionChangedEvent: anEvent [
 
-	| touchedIntervals listElement |
-	touchedIntervals := anEvent touchedIntervals.
+	|  listElement |
 	listElement := anEvent currentTarget.
-	touchedIntervals do: [ :int |
+	listElement selectedIndexesIntervalsDo: [ :int |
 		listElement disabledSelecter selectIndex: int first to: int last.
 		self flag: 'Given that the list is initialized with #makeDisabledUnselectable: true, having to unselect here is not desired. It is necessary here because instead, the secondary selection can be on a group index.'.
 		listElement unselectableSelecter selectIndex: int first to: int last.

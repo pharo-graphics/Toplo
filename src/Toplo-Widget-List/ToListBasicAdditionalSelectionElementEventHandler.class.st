@@ -26,8 +26,7 @@ ToListBasicAdditionalSelectionElementEventHandler >> handleEvent: anEvent [
 { #category : #'element handlers' }
 ToListBasicAdditionalSelectionElementEventHandler >> listAdditionalSelectionChangedEvent: anEvent [
 
-	| touchedIntervals target |
-	touchedIntervals := anEvent touchedIntervals.
+	|  target |
 	target := anEvent currentTarget.
 
 	self updateSelectionFromEvent: anEvent.

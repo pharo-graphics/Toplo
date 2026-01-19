@@ -57,6 +57,7 @@ ToListElementTest >> testCheckboxSelectionUpdatedAfterInsert [
 	l selecter selectOnlyIndex: 3.
 	self waitTestingSpaces.
 	l forceLayout.
+	self applyAllEnqueuedStates.
 	self assert: l selectionModel selectedIndexes equals: { 3 }.
 	self assert: (l nodeContainers at: 3) checkbox isChecked.
 	l dataAccessor add: (self statesOfAmerica at: 6) afterIndex: 1.
@@ -133,6 +134,7 @@ ToListElementTest >> testCheckboxSelectionUpdatedAfterInsert3 [
 	l selecter selectIndexes: #( 3 4 ).
 	self waitTestingSpaces.
 	l forceLayout.
+	self applyAllEnqueuedStates.
 	self assert: l selectionModel selectedIndexes equals: #( 3 4 ).
 	self assert: (l nodeContainers at: 3) checkbox isChecked.
 	self assert: (l nodeContainers at: 4) checkbox isChecked.
@@ -142,6 +144,30 @@ ToListElementTest >> testCheckboxSelectionUpdatedAfterInsert3 [
 	self deny: (l nodeContainers at: 3) checkbox isChecked.
 	self assert: (l nodeContainers at: 4) checkbox isChecked.
 	self assert: (l nodeContainers at: 5) checkbox isChecked.
+
+]
+
+{ #category : #'test selection - adding/removing' }
+ToListElementTest >> testCheckboxSelectionUpdatedAfterInsert4 [
+
+	| l |
+	l := ToListElement new.
+	l useCheckbox: true.
+	space root addChild: l.
+	l matchParent.
+	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 1).
+	self waitTestingSpaces.
+	l forceLayout.
+	l selecter selectIndex: 1.
+	self waitTestingSpaces.
+	space applyAllEnqueuedStates.
+	self assert: l selectionModel selectedIndexes equals: { 1 }.
+	self assert: (l nodeContainers at: 1) checkbox isChecked.
+	l dataAccessor addFirst: (self statesOfAmerica at: 6).
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: { 2 }.
+	self deny: (l nodeContainers at: 1) checkbox isChecked.
+	self assert: (l nodeContainers at: 2) checkbox isChecked.
 
 ]
 

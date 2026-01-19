@@ -52,6 +52,7 @@ ToFiniteListElementTest >> testDisabledWithFiveNodesLateAddToSpace [
 	l dataAccessor add: 'fourth' afterIndex: 2.
 	l dataAccessor addFirst: 'fifth'.
 	space root addChild: l.
+	l forceLayout.
 	self waitTestingSpaces.
 	self assert: l disabledSelecter selectedIndexes equals: { 3 }.
 	self assert: l nodes first isEnabled.

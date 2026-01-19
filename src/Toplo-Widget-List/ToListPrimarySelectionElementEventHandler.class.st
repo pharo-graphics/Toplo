@@ -30,7 +30,7 @@ ToListPrimarySelectionElementEventHandler >> elementLayoutComputedEvent: anEvent
 	listElement checkboxesUpdateDone.
 	listElement nodeContainersDo: [ :nc |
 			nc checkbox ifNotNil: [ :cbox |
-				cbox privateChecked: nc holder isSelected ] ]
+				cbox checked: nc holder isSelected ] ]
 ]
 
 { #category : #'api - accessing' }

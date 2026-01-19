@@ -129,6 +129,7 @@ ToListSelectionRepresentationOption >> triggerSelectionState [
 ToListSelectionRepresentationOption >> updateSelectionIn: aListElement withSelectionModel: aSelectionModel [
 
 	| rep |
+
 	rep := self
 		       nextSelectionRepresentationFrom: aListElement
 		       withSelectionModel: aSelectionModel.

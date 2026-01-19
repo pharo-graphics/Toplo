@@ -298,7 +298,6 @@ ToListSelecter >> onBasicCommandApplied: aCommand [
 
 	element dispatchEvent: (selectionChangedEventClass new
 			 selectionModel: aCommand selectionModel;
-			 touchedIntervals: aCommand intervals;
 			 selectionOption: self selectionOption;
 			 yourself)
 ]

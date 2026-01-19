@@ -28,18 +28,6 @@ ToSelectionShiftCommand >> fromIndex: anIndex [
 ]
 
 { #category : #accessing }
-ToSelectionShiftCommand >> indexes [ 
-
-	^ fromIndex to: fromIndex + itemCount - 1
-]
-
-{ #category : #accessing }
-ToSelectionShiftCommand >> intervals [ 
-
-	^ Array with: (fromIndex to: fromIndex + itemCount - 1)
-]
-
-{ #category : #accessing }
 ToSelectionShiftCommand >> itemCount [
 
 	^ itemCount

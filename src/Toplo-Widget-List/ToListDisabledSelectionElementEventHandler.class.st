@@ -18,9 +18,8 @@ ToListDisabledSelectionElementEventHandler >> listDisabledSelectionChangedEvent:
 	self updateSelectionFromEvent: anEvent.
 	" have to postpone to avoid having a datasource change during the layout "
 	target postponeAction: [
-			anEvent touchedIntervals do: [ :int |
+			anEvent selectionModel selectedIndexesIntervalsDo: [ :int |
 					target selectionMode makeDisabledUnselectable ifTrue: [
 						target selecter deselectInterval: int ].
-					target dataSource notifyItemsChanged: int ] ].
-	"target selectionOption notifyNodesSelectedIn: target"
+					target dataSource notifyItemsChanged: int ] ]
 ]

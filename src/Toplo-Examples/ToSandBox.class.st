@@ -2706,6 +2706,7 @@ ToSandBox class >> example_ListWithAllClassesWithEmbeddedSelection [
 
 	| l |
 	l := ToListElement new.
+	"l useCheckbox: true."
 	l nodeFactory: [ :holder | ToExListEmbeddedNode new ].
 	l selectionOption withEmbeddedRepresentation.
 	l dataAccessor addAll:
@@ -6486,7 +6487,7 @@ ToSandBox class >> example_labelFieldWithShrinkFeedback [
 { #category : #'finite list' }
 ToSandBox class >> example_listInDashBoard [
 
-	self listWithData: ToSandBox statesOfAmerica
+	self listWithData: (ToSandBox statesOfAmerica copyFrom: 1 to: 1)
 
 ]
 

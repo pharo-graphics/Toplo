@@ -16,7 +16,6 @@ ToListUnselectableSelectionElementEventHandler >> listUnselectableSelectionChang
 	| target |
 	target := anEvent currentTarget.
 	self updateSelectionFromEvent: anEvent.
-	anEvent touchedIntervals do: [ :int |
-		target selecter deselectInterval: int ].
-	"target secondarySelecter deselectAll"
+	target unselectableSelectionModel selectedIndexesIntervalsDo: [ :int |
+		target selecter deselectInterval: int ]
 ]

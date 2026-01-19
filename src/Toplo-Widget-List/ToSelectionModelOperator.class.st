@@ -10,16 +10,16 @@ Class {
 { #category : #'command operations' }
 ToSelectionModelOperator >> addIndexesSelectionCommand: aCommand [
 
-	| intervals |
-	aCommand indexes ifEmpty: [
+	| indexes |
+	indexes := aCommand indexes.
+	indexes ifEmpty: [
 		self changeCurrentIndexWith: 0.
 		^ self ].
 	aCommand operation deselectAllBefore ifTrue: [
 		aCommand selectionModel deselectAll ].
-	intervals := aCommand intervals.
-	intervals do: [ :i |
-		aCommand selectionModel selectIndex: i first to: i last ].
-	self changeCurrentIndexWith: intervals last last
+	indexes do: [ :i |
+		aCommand selectionModel selectIndex: i ].
+	self changeCurrentIndexWith: indexes last
 ]
 
 { #category : #'command operations' }
@@ -90,11 +90,11 @@ ToSelectionModelOperator >> intervalsIn: aCollection [
 { #category : #'command operations' }
 ToSelectionModelOperator >> removeIndexesSelectionCommand: aCommand [
 
-	| intervals |
+	| indexes |
 	self changeCurrentIndexWith: 0.
-	aCommand indexes ifEmpty: [ ^ self ].
-	intervals := aCommand intervals.
-	intervals do: [ :i | aCommand selectionModel deselectIndex: i first to: i last ]
+	indexes := aCommand indexes.
+	indexes ifEmpty: [ ^ self ].
+	indexes do: [ :i | aCommand selectionModel deselectIndex: i ]
 ]
 
 { #category : #'command operations' }

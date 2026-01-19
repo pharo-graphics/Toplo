@@ -20,12 +20,6 @@ ToSelectionCopyFromCommand >> indexes [
 	^ 1 to: sourceSelectionModel itemCount
 ]
 
-{ #category : #accessing }
-ToSelectionCopyFromCommand >> intervals [ 
-
-	^ Array with: (1 to: sourceSelectionModel itemCount)
-]
-
 { #category : #application }
 ToSelectionCopyFromCommand >> onAppliedOn: aCommandApplier [
 

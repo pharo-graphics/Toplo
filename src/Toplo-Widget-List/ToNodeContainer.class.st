@@ -23,7 +23,7 @@ ToNodeContainer >> applyConfiguration [
 { #category : #accessing }
 ToNodeContainer >> checkbox [
 
-	^ self startContainer ifNotNil: [:sc | sc childWithId: #checkbox ifNone: [  ] ]
+	^ self startContainer ifNotNil: [:sc | sc childWithId: #'list-selection-checkbox' ifNone: [  ] ]
 ]
 
 { #category : #accessing }

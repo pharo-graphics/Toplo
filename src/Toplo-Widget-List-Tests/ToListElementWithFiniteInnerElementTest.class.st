@@ -56,11 +56,13 @@ ToListElementWithFiniteInnerElementTest >> testCheckboxSelectionUpdatedAfterInse
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	l selecter selectOnlyIndex: 3.
 	self waitTestingSpaces.
+	self applyAllEnqueuedStates.
 	l forceLayout.
 	self assert: l selectionModel selectedIndexes equals: { 3 }.
 	self assert: (l nodeContainers at: 3) checkbox isChecked.
 	l dataAccessor add: (self statesOfAmerica at: 6) afterIndex: 1.
 	self waitTestingSpaces.
+	self applyAllEnqueuedStates.
 	self assert: l selectionModel selectedIndexes equals: { 4 }.
 	self deny: (l nodeContainers at: 3) checkbox isChecked.
 	self assert: (l nodeContainers at: 4) checkbox isChecked.
@@ -134,15 +136,43 @@ ToListElementWithFiniteInnerElementTest >> testCheckboxSelectionUpdatedAfterInse
 	l selecter selectIndexes: #( 3 4 ).
 	self waitTestingSpaces.
 	l forceLayout.
+	self applyAllEnqueuedStates.
+
 	self assert: l selectionModel selectedIndexes equals: #( 3 4 ).
 	self assert: (l nodeContainers at: 3) checkbox isChecked.
 	self assert: (l nodeContainers at: 4) checkbox isChecked.
 	l dataAccessor add: (self statesOfAmerica at: 6) afterIndex: 1.
 	self waitTestingSpaces.
+	self applyAllEnqueuedStates.
 	self assert: l selectionModel selectedIndexes equals: #( 4 5 ).
 	self deny: (l nodeContainers at: 3) checkbox isChecked.
 	self assert: (l nodeContainers at: 4) checkbox isChecked.
 	self assert: (l nodeContainers at: 5) checkbox isChecked.
+
+]
+
+{ #category : #'test selection - adding/removing' }
+ToListElementWithFiniteInnerElementTest >> testCheckboxSelectionUpdatedAfterInsert4 [
+
+	| l |
+	l := ToListElement finite.
+	l useCheckbox: true.
+	space root addChild: l.
+	l matchParent.
+	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 1).
+	self waitTestingSpaces.
+	l forceLayout.
+	l selecter selectIndex: 1.
+	self waitTestingSpaces.
+	self applyAllEnqueuedStates.
+	self assert: l selectionModel selectedIndexes equals: { 1 }.
+	self assert: (l nodeContainers at: 1) checkbox isChecked.
+	l dataAccessor addFirst: (self statesOfAmerica at: 6).
+	self waitTestingSpaces.
+	self applyAllEnqueuedStates.
+	self assert: l selectionModel selectedIndexes equals: { 2 }.
+	self deny: (l nodeContainers at: 1) checkbox isChecked.
+	self assert: (l nodeContainers at: 2) checkbox isChecked.
 
 ]
 

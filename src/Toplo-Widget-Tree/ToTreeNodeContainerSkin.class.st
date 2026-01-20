@@ -1,6 +1,6 @@
 Class {
 	#name : #ToTreeNodeContainerSkin,
-	#superclass : #ToRawSkin,
+	#superclass : #ToNodeContainerSkin,
 	#category : #'Toplo-Widget-Tree-Core'
 }
 

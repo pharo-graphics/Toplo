@@ -37,7 +37,7 @@ TToCheckableSelectionManager >> newCheckboxInNodeContainer: aNodeContainer [
 
 	| cbox |
 	cbox := self newCheckbox.
-	cbox privateChecked: aNodeContainer holder isSelected.
+	cbox checked: aNodeContainer holder isSelected.
 	" In case the checkbox has been checked, update the list selection "
 	cbox addEventHandlerOn: BlPrimaryClickEvent do: [ :event |
 		self notifyClickOnNode: aNodeContainer node fromEvent: event ].

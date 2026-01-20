@@ -30,7 +30,7 @@ ToListPrimarySelectionElementEventHandler >> elementLayoutComputedEvent: anEvent
 	listElement checkboxesUpdateDone.
 	listElement nodeContainersDo: [ :nc |
 			nc checkbox ifNotNil: [ :cbox |
-				cbox privateChecked: nc holder isSelected ] ]
+				cbox checked: nc holder isSelected ] ]
 ]
 
 { #category : #'api - accessing' }
@@ -47,6 +47,7 @@ ToListPrimarySelectionElementEventHandler >> listCheckableNodeUseChanged: anEven
 
 	| listElement |
 	listElement := anEvent currentTarget.
+
 	listElement nodeManager checkableNode: listElement useCheckbox.
 	listElement useCheckbox
 		ifTrue: [
@@ -54,7 +55,7 @@ ToListPrimarySelectionElementEventHandler >> listCheckableNodeUseChanged: anEven
 				listElement selectionMode selectOnClick: false ]
 		ifFalse: [
 		listElement selectionMode selectOnClick: wasSelectingOnClick ].
-	listElement notifyDataSourceChanged
+	listElement inUIProcessDo: [ listElement notifyDataSourceChanged ]
 ]
 
 { #category : #'element handlers' }

@@ -2643,7 +2643,8 @@ ToSandBox class >> example_ListWithAllClassesAsCheckbox [
 
 	| l |
 	l := ToCheckableListElement new.
-	l selectionOption masked: true.
+	"l selectionOption masked: true."
+	l selectionOption withEmbeddedRepresentation.
 	l group withNoneCheckingStrategy.
 	l addAllItems: ((Smalltalk globals allClasses) collect: [ :cls |
 			 ToCheckbox new
@@ -2657,7 +2658,6 @@ ToSandBox class >> example_ListWithAllClassesAsToggleButton [
 
 	| l |
 	l := ToCheckableListElement new.
-	"l selectionOption masked: true."
 	l selectionOption withEmbeddedRepresentation.
 	l group withNoneCheckingStrategy.
 	l addAllItems: ((Smalltalk globals allClasses ) collect: [ :cls |
@@ -6455,7 +6455,7 @@ ToSandBox class >> example_listWithAllClasses [
 	| l |
 	l := self listWithData: 
 		((Smalltalk globals allClasses sorted: [ :a :b | a name < b name ]) copyFrom: 1 to: 2000).
-	"l toConfiguration useCheckbox: true"
+	l  useCheckbox: true
 
 ]
 

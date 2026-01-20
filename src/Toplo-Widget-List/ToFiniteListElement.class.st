@@ -316,8 +316,6 @@ ToFiniteListElement >> onLayoutDone [
 
 	super onLayoutDone.
 	self consumeFinalStepCommands
-	
-
 ]
 
 { #category : #initialization }

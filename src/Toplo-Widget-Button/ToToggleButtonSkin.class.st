@@ -9,22 +9,21 @@ ToToggleButtonSkin >> checkedSkinEvent: anEvent [
 
 	super checkedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e background: (e valueOfTokenNamed: #'color-primary-checked').
-		e iconDo: [ :ic |
-			ic adaptToColor:
-				(e valueOfTokenNamed: #'text-color-primary-checked') ].
-		e labelDo: [ :lab | 
-			lab foreground:  
-					 (e valueOfTokenNamed: #'text-color-primary-checked') ] ]
+			e background: (e valueOfTokenNamed: #'color-primary-checked').
+			e iconDo: [ :ic |
+				ic adaptToColor:
+					(e valueOfTokenNamed: #'text-color-primary-checked') ].
+			e labelDo: [ :lab |
+					lab
+						addTokenNamed: #'color-text'
+						withValue: (e valueOfTokenNamed: #'text-color-primary-checked') ] ]
 ]
 
 { #category : #'event handling' }
 ToToggleButtonSkin >> deselectedSkinEvent: anEvent [
 
 	super deselectedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e labelDo: [ :lab |
-			lab foreground: (e valueOfTokenNamed: #'color-text') ] ]
+	anEvent elementDo: [ :e | e labelDo: [ :lab | lab requestNewSkin ] ]
 ]
 
 { #category : #'event handling' }
@@ -97,10 +96,7 @@ ToToggleButtonSkin >> installSkinEvent: anEvent [
 ToToggleButtonSkin >> selectedSkinEvent: anEvent [
 
 	super selectedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e labelDo: [ :lab | 
-			lab foreground:  
-					 (e valueOfTokenNamed: #'text-color-primary-checked') ] ]
+	anEvent elementDo: [ :e | e labelDo: [ :lab | lab requestNewSkin ] ]
 ]
 
 { #category : #'event handling' }
@@ -108,12 +104,12 @@ ToToggleButtonSkin >> uncheckedSkinEvent: anEvent [
 
 	super uncheckedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e isMenuButton
-			ifTrue: [ e background: BlBackground transparent ]
-			ifFalse: [
-			e background: (e valueOfTokenNamed: #'color-primary-unchecked') ].
-		e iconDo: [ :ic |
-			ic adaptToColor: (e valueOfTokenNamed: #'color-text') ].
-		e labelDo: [ :lab |
-			lab foreground: (e valueOfTokenNamed: #'color-text') ] ]
+			e isMenuButton
+				ifTrue: [ e background: BlBackground transparent ]
+				ifFalse: [
+				e background: (e valueOfTokenNamed: #'color-primary-unchecked') ].
+			e iconDo: [ :ic |
+				ic adaptToColor: (e valueOfTokenNamed: #'color-text') ].
+			e labelDo: [ :lab |
+					lab removeTokenNamed: #'color-text' ] ]
 ]

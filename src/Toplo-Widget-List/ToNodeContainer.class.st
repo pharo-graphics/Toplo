@@ -90,6 +90,12 @@ ToNodeContainer >> newMiddleContainer [
 	^ node
 ]
 
+{ #category : #'instance creation' }
+ToNodeContainer >> newRawSkin [
+
+	^ ToNodeContainerSkin new
+]
+
 { #category : #'t - triplet container - instance creation' }
 ToNodeContainer >> newStartContainer [
 

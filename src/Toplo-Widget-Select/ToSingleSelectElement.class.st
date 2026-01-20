@@ -67,3 +67,12 @@ ToSingleSelectElement >> selectedDataItem [
 
 	^ self selectedDataItems ifEmpty: [ ] ifNotEmpty: [ :s | s first ]
 ]
+
+{ #category : #private }
+ToSingleSelectElement >> showHidePlaceholder [
+	" show the placeholder in case no item is selected  "
+
+	self selectedDataItem ifNil: [
+		^ self header showPlaceholder ].
+	self header hidePlaceholder
+]

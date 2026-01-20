@@ -25,6 +25,7 @@ TToElementWithPlaceholder >> placeholderBuilder: aValuable [
 			ph detachFromParent ].
 	aValuable ifNil: [ ^ self ].
 	ph := self newPlaceholder.
+	self userData at: #placeholder put: ph.
 	ph id: #toploPlaceholder.
 	ph addEventHandlerOn: ToAddedToSpaceEvent do: [ :event |
 			ph padding: self padding.
@@ -50,7 +51,7 @@ TToElementWithPlaceholder >> placeholderElevation [
 { #category : #'t - element with placeholder' }
 TToElementWithPlaceholder >> placeholderLayer [
 
-	^ self childWithId: #toploPlaceholder ifNone: [  ]
+	^ self userData at: #placeholder ifAbsent: [  ]
 ]
 
 { #category : #'t - element with placeholder' }

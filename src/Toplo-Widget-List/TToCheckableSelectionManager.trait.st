@@ -51,3 +51,14 @@ TToCheckableSelectionManager >> requestUpdateCheckboxes [
 	" the checkboxes are updated after the layout is done "
 	self requestLayout
 ]
+
+{ #category : #'t - checkable selection manager' }
+TToCheckableSelectionManager >> updateCheckboxes [
+
+	self nodeManager checkableNode ifFalse: [ ^ self ].
+	self checkboxesUpdateRequested ifFalse: [ ^ self ].
+	self checkboxesUpdateDone.
+	self nodeContainersDo: [ :nc |
+			nc checkbox ifNotNil: [ :cbox |
+				cbox checked: nc holder isSelected ] ]
+]

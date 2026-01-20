@@ -4193,7 +4193,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithCheckboxesBis [
 
 	| select |
 	select := ToMultiSelectElement new.
-	select popupListElement toConfiguration  useCheckbox: true.
+	select popupListElement useCheckbox: true.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
 	select popupListElement nodeBuilder: [ :node :aState :holder |
 			| label |

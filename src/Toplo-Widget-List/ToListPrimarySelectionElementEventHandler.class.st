@@ -25,12 +25,7 @@ ToListPrimarySelectionElementEventHandler >> elementLayoutComputedEvent: anEvent
 
 	| listElement |
 	listElement := anEvent currentTarget.
-	listElement nodeManager checkableNode ifFalse: [ ^ self ].
-	listElement checkboxesUpdateRequested ifFalse: [ ^ self ].
-	listElement checkboxesUpdateDone.
-	listElement nodeContainersDo: [ :nc |
-			nc checkbox ifNotNil: [ :cbox |
-				cbox checked: nc holder isSelected ] ]
+	listElement updateCheckboxes 
 ]
 
 { #category : #'api - accessing' }

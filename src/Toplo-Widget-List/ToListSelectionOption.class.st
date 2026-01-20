@@ -135,15 +135,7 @@ ToListSelectionOption >> masked: aBoolean [
 { #category : #'instance creation' }
 ToListSelectionOption >> newSelectionContainerIn: aListElement [
 
-	| container elevation |
-	container := ToOverlayElement new.
-	container clipChildren: true.
-	container attachTo: aListElement.
-	elevation := self isBeneath 
-		             ifTrue: [ BlRelativeElevation elevation: 5 ]
-		             ifFalse: [ BlRelativeElevation elevation: 15 ].
-	container elevation: elevation.
-	^ container
+	^ selectionMode newSelectionContainerIn: aListElement
 ]
 
 { #category : #'instance creation' }

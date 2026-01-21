@@ -4195,6 +4195,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithCheckboxesBis [
 	select := ToMultiSelectElement new.
 	select popupListElement useCheckbox: true.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
+	select filtrable: false.
 	select popupListElement nodeBuilder: [ :node :aState :holder |
 			| label |
 			label := ToLabeledIcon new
@@ -4203,6 +4204,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithCheckboxesBis [
 				       hMatchParent;
 				       yourself.
 			node addChild: label ].
+	select sample: 'X'.
 	select openInSpace
 ]
 

@@ -1,9 +1,6 @@
 Class {
 	#name : #ToListClickOnNodeEvent,
-	#superclass : #ToListElementEvent,
-	#instVars : [
-		'sourceEvent'
-	],
+	#superclass : #ToListClickEvent,
 	#category : #'Toplo-Widget-List-Selection-Events'
 }
 
@@ -13,16 +10,4 @@ ToListClickOnNodeEvent >> sendTo: anObject [
 	anObject listClickOnNodeEvent: self
 
 	
-]
-
-{ #category : #accessing }
-ToListClickOnNodeEvent >> sourceEvent [
-
-	^ sourceEvent
-]
-
-{ #category : #accessing }
-ToListClickOnNodeEvent >> sourceEvent: anEvent [
-
-	sourceEvent := anEvent
 ]

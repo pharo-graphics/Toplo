@@ -4883,22 +4883,6 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 ]
 
 { #category : #tabPane }
-ToSandBox class >> example_TabBarElement [
-
-	| tabs board |
-	tabs := ToTabListElement new.
-
-	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		tabs addItem: (ToTabItemElement new
-				 removable: true;
-				 middleElement: (ToLabel text: l);
-				 yourself) ].
-
-	board := self tabBarElementDashBoardFor: tabs.
-	board openInSpace
-]
-
-{ #category : #tabPane }
 ToSandBox class >> example_TabGroupElement [
 
 	| tabs dashBoard |
@@ -4975,13 +4959,32 @@ ToSandBox class >> example_TabGroupElementWithUSStates [
 ]
 
 { #category : #tabPane }
+ToSandBox class >> example_TabListElement [
+
+	| tabs board |
+	tabs := ToTabListElement new.
+	tabs horizontal: false.
+	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
+			tabs addItem: (ToTabItemElement new
+					 removable: true;
+					 middleElement: (ToLabel text: l);
+					 yourself) ].
+	tabs sample: (ToTabItemElement new
+			 width: 100;
+			 removable: true;
+			 yourself).
+	board := self tabBarElementDashBoardFor: tabs.
+	board openInSpace
+]
+
+{ #category : #tabPane }
 ToSandBox class >> example_TabPaneElementWithUSStates [
 
 	| tpane dashBoard |
 	tpane := self tabPaneElementWithUSStates.
 	tpane matchParent.
 	"tpane items third checked: true."
-	tpane selecter selectOnlyIndex: 3.
+	tpane selecter selectOnlyIndex: 2.
 
 	dashBoard := self tabPaneElementDashBoardFor: tpane.
 	dashBoard openInSpace.

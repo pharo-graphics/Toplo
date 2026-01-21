@@ -37,7 +37,8 @@ ToListNodeSelectionEventHandler >> eventsToHandle [
 		  BlPrimaryMouseDownEvent.
 		  BlPrimaryClickEvent.
 		  ToListClickOnNodeRequestEvent.
-		  ToListClickOnNodeEvent }
+		  ToListClickOnNodeEvent.
+		  ToListClickOnNodeCheckboxEvent }
 ]
 
 { #category : #'multiple selection' }
@@ -85,6 +86,12 @@ ToListNodeSelectionEventHandler >> launchClick: aBlock event: anEvent [
 			 self clickLauncher: nil ]
 			 forkAt: Processor lowIOPriority
 			 named: self class name)
+]
+
+{ #category : #'multiple selection' }
+ToListNodeSelectionEventHandler >> listClickOnNodeCheckboxEvent: anEvent [
+
+	self onClickOnNodeEvent: anEvent
 ]
 
 { #category : #'events handling' }

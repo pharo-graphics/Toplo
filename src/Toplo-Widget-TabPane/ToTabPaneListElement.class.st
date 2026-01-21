@@ -25,3 +25,9 @@ ToTabPaneListElement >> newRawSkin [
 
 	^ ToTabPaneListElementSkin new
 ]
+
+{ #category : #configuration }
+ToTabPaneListElement >> newToConfiguration [ 
+
+	^ ToTabPaneListConfiguration new
+]

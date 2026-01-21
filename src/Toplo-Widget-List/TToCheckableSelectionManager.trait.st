@@ -40,8 +40,20 @@ TToCheckableSelectionManager >> newCheckboxInNodeContainer: aNodeContainer [
 	cbox checked: aNodeContainer holder isSelected.
 	" In case the checkbox has been checked, update the list selection "
 	cbox addEventHandlerOn: BlPrimaryClickEvent do: [ :event |
-		self notifyClickOnNode: aNodeContainer node fromEvent: event ].
+		self notifyCheckboxClickOnNode: aNodeContainer node fromEvent: event ].
 	^ cbox
+]
+
+{ #category : #'t - checkable selection manager' }
+TToCheckableSelectionManager >> notifyCheckboxClickOnNode: aNode fromEvent: anEvent [
+
+	aNode isAttachedToSceneGraph ifFalse: [ ^ self ].
+	self isDisabled ifTrue: [ ^ self ].
+
+	aNode dispatchEvent: (ToListClickOnNodeCheckboxEvent new
+			 fillFromTime: aNode space time;
+			 sourceEvent: anEvent;
+			 yourself)
 ]
 
 { #category : #'t - checkable selection manager' }

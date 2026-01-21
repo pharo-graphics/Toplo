@@ -19,7 +19,10 @@ Class {
 ToListConfiguration >> applyOn: aListElement [ 
 
 	super applyOn: aListElement.
-	aListElement innerElement withRowNumbers: rowNumbers
+	aListElement innerElement withRowNumbers: rowNumbers.
+	aListElement innerElement constraintsDo: [ :c |
+			c linear vertical alignCenter.
+			c linear horizontal alignCenter ]
 ]
 
 { #category : #accessing }

@@ -32,8 +32,10 @@ ToListSelectionElement >> boundsInListElement: aListElement [
 		ifFalse: [ corner := endBnds corner ].
 
 	^ Rectangle
-		  origin: (self positionFrom: startBnds origin in: aListElement)
-			  + listElement padding topLeft
+		  origin: (self
+				   positionFrom:
+				   startBnds origin + aListElement innerElement position
+				   in: aListElement)
 		  extent:
 		  (self sizeFrom: corner - startBnds origin in: aListElement)
 ]

@@ -23,8 +23,7 @@ ToFakeNodeContainerWrapper >> applyConfiguration [
 ToFakeNodeContainerWrapper >> initialize [
 
 	super initialize.
-	self id: #fakeNodeContainerWrapper.
-	"self border: Color red"
+	self id: #fakeNodeContainerWrapper
 ]
 
 { #category : #testing }

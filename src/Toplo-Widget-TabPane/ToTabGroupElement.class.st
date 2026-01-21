@@ -50,13 +50,13 @@ ToTabGroupElement >> addTabItemData: aData checked: aBoolean [
 	self addItem: newTabItem
 ]
 
-{ #category : #accessing }
+{ #category : #adding }
 ToTabGroupElement >> addTabItemDataFactory [
 
 	^ addTabItemDataFactory ifNil: [ addTabItemDataFactory := self defaultAddTabItemDataFactory ]
 ]
 
-{ #category : #accessing }
+{ #category : #adding }
 ToTabGroupElement >> addTabItemDataFactory: aValuable [
 
 	addTabItemDataFactory := aValuable
@@ -83,6 +83,14 @@ ToTabGroupElement >> atStartSide: aBoolean [
 	self requestConfiguration
 ]
 
+{ #category : #'private - adding' }
+ToTabGroupElement >> buildNewTabItem: aTabItem withData: aData checked: aBoolean [ 
+
+	itemBuilder cull: aTabItem cull: aData cull: aTabItem holder.
+	aTabItem checked: aBoolean.
+	aTabItem holder node requestConfiguration
+]
+
 { #category : #configuration }
 ToTabGroupElement >> canShowInvisibleNodesMenu [
 
@@ -97,7 +105,7 @@ ToTabGroupElement >> checkAddTabButton [
 		ifFalse: [ addTabButton visibility: BlVisibility gone ]
 ]
 
-{ #category : #initialization }
+{ #category : #adding }
 ToTabGroupElement >> defaultAddTabItemDataFactory [
 
 	^ [ 'New tab' ]
@@ -167,9 +175,7 @@ ToTabGroupElement >> group [
 ToTabGroupElement >> haveBuiltNewTabItem: aTabItem withData: aData checked: aBoolean onAddedEvent: anItemAddedEvent [
 
 	anItemAddedEvent node item = aTabItem ifFalse: [ ^ false ].
-	itemBuilder cull: aTabItem cull: aData cull: aTabItem holder.
-	aTabItem checked: aBoolean.
-	aTabItem holder node requestConfiguration.
+	self buildNewTabItem: aTabItem withData: aData checked: aBoolean.
 	^ true
 ]
 

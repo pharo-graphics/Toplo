@@ -21,7 +21,7 @@ ToTabListElement >> atStartSide: aBoolean [
 	self requestConfiguration
 ]
 
-{ #category : #accessing }
+{ #category : #'t - finite list element - fake container' }
 ToTabListElement >> defaultFakeDataItem [
 
 	^ ToTabItemElement new
@@ -69,4 +69,10 @@ ToTabListElement >> isAtStartSide [
 ToTabListElement >> newRawSkin [ 
 
 	^ ToTabListElementSkin new
+]
+
+{ #category : #configuration }
+ToTabListElement >> newToConfiguration [ 
+
+	^ ToTabListConfiguration new
 ]

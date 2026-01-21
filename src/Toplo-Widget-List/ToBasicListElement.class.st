@@ -299,7 +299,7 @@ ToBasicListElement >> fakeNode [
 { #category : #'fake container' }
 ToBasicListElement >> fakeNodeContainer [
 
-	^ fakeNodeContainerWrapper nodeContainer
+	^ fakeNodeContainerWrapper ifNotNil: [ :w | w nodeContainer ]
 ]
 
 { #category : #'fake container' }

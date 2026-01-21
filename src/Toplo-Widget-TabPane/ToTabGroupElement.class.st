@@ -358,7 +358,8 @@ ToTabGroupElement >> onInvisibleNodeContainers: theInvisibleContainers visibleNo
 
 	startIdx := visibleNodeContainers
 		            ifEmpty: [ 0 ]
-		            ifNotEmpty: [ visibleNodeContainers first holder position ].
+		            ifNotEmpty: [
+		            visibleNodeContainers first holder position ].
 	endIdx := visibleNodeContainers
 		          ifEmpty: [ 0 ]
 		          ifNotEmpty: [ visibleNodeContainers last holder position ].
@@ -373,12 +374,13 @@ ToTabGroupElement >> onInvisibleNodeContainers: theInvisibleContainers visibleNo
 			visibleNodeContainers do: [ :n |
 				n isVisible ifFalse: [ n visibility: BlVisibility visible ] ] ].
 
-	(self canShowInvisibleNodesMenu and: [ invisibleNodeContainers notEmpty ])
+	(self canShowInvisibleNodesMenu and: [
+		 invisibleNodeContainers notEmpty ])
 		ifTrue: [ self showInvisibleNodesMenu: true ]
 		ifFalse: [ self showInvisibleNodesMenu: false ].
 	hidePartlyVisibleNodes ifTrue: [
 			self itemList selectionElementsDo: [ :se |
-				se visibility: se node visibility ] ]
+				se visibility: se nodeContainer visibility ] ]
 ]
 
 { #category : #initialization }

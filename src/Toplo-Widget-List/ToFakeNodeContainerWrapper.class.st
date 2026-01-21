@@ -16,17 +16,15 @@ ToFakeNodeContainerWrapper >> applyConfiguration [
 		do: [ :error |
 				'*** Warning: can''t apply configuration on fake node container: '
 					trace.
-				error traceCr ].
-	self holder listElement isHorizontal
-		ifTrue: [ self width: 0 ]
-		ifFalse: [ self height: 0 ]
+				error traceCr ]
 ]
 
 { #category : #initialization }
 ToFakeNodeContainerWrapper >> initialize [
 
 	super initialize.
-	self id: #fakeNodeContainerWrapper
+	self id: #fakeNodeContainerWrapper.
+	"self border: Color red"
 ]
 
 { #category : #testing }

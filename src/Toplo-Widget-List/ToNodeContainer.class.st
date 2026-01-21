@@ -16,7 +16,10 @@ ToNodeContainer >> applyConfiguration [
 	| list |
 	super applyConfiguration.
 	list := self holder listElement.
-	list toConfiguration configureNodeContainer: self.
+	list toConfigurationDo: [ :conf |
+			self isFake
+				ifTrue: [ conf configureFakeNodeContainer: self ]
+				ifFalse: [ conf configureNodeContainer: self ] ].
 	self node applyConfiguration
 ]
 
@@ -42,6 +45,14 @@ ToNodeContainer >> intersectionRectangleWithListElement [
 	pbnds := self listElementReferenceBoundsInSpace asRectangle.
 	intersection := bnds intersect: pbnds.
 	^ intersection
+]
+
+{ #category : #testing }
+ToNodeContainer >> isFake [
+
+	| list |
+	list := self holder listElement.
+	^ list fakeNodeContainer = self 
 ]
 
 { #category : #testing }

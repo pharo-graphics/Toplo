@@ -291,6 +291,18 @@ ToBasicListElement >> fakeDataItem: anObject [
 ]
 
 { #category : #'fake container' }
+ToBasicListElement >> fakeNode [
+
+	^ self fakeNodeContainer node
+]
+
+{ #category : #'fake container' }
+ToBasicListElement >> fakeNodeContainer [
+
+	^ fakeNodeContainerWrapper nodeContainer
+]
+
+{ #category : #'fake container' }
 ToBasicListElement >> fakeNodeContainerWrapper [
 
 	^ fakeNodeContainerWrapper 

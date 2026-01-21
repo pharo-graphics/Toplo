@@ -35,7 +35,28 @@ ToListConfiguration >> autoDistribute: anObject [
 ]
 
 { #category : #'node configuration' }
+ToListConfiguration >> configureFakeNodeContainer: aNodeContainer [
+
+	self configureNodeContainer: aNodeContainer.
+
+	aNodeContainer holder listElement isHorizontal
+		ifTrue: [
+				aNodeContainer vFitContent.
+				aNodeContainer width: 0.
+				aNodeContainer margin: ((aNodeContainer margin withLeft: 0)
+						 withRight: 0;
+						 yourself) ]
+		ifFalse: [
+				aNodeContainer hFitContent.
+				aNodeContainer height: 0.
+				aNodeContainer margin: ((aNodeContainer margin withTop: 0)
+						 withBottom: 0;
+						 yourself) ]
+]
+
+{ #category : #'node configuration' }
 ToListConfiguration >> configureNode: aNode [
+
 
 	exactNodeWidth ifNotNil: [ :w | aNode hExact: w ].
 	exactNodeHeight ifNotNil: [ :h | aNode vExact: h ].

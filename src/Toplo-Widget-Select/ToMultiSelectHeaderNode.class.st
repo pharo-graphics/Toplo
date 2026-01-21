@@ -13,7 +13,8 @@ ToMultiSelectHeaderNode >> applyConfiguration [
 	self listHolderDo: [ :h |
 			h listElement toConfiguration autoDistribute
 				ifTrue: [ self hMatchParent ]
-				ifFalse: [ self hFitContent ] ]
+				ifFalse: [ self hFitContent ] ].
+
 ]
 
 { #category : #initialization }

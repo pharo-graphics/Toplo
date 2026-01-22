@@ -112,8 +112,7 @@ ToListSelectionWithElementOption >> newSelectionElementIn: aListElement [
 { #category : #'nodes collecting' }
 ToListSelectionWithElementOption >> rememberSelectionBoundsIn: aListElement [
 
-	previousSelectionBounds := representation
-		                           selectionBounds
+	previousSelectionBounds := representation selectionBounds
 ]
 
 { #category : #accessing }

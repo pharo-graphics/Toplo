@@ -41,7 +41,7 @@ ToTheme class >> defaultTokenProperties [
 	^ {
 		  (ToTokenProperty
 			   name: #'sh-style-table'
-			   value: SHRBTextStyler defaultStyleTable).
+			   value: SHRBTextStyler styleTable).
 		  (ToTokenProperty name: #'background-color' value: Color white).
 		  (ToTokenProperty
 			   name: #empty_box

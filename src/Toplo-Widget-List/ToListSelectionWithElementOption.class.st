@@ -25,7 +25,6 @@ ToListSelectionWithElementOption >> addSelectionIn: aListElement [
 	sent just after the selection is added "
 
 	| finalBounds startBounds |
-	selectionOption checkSelectionContainerIn: aListElement.
 
 	representation isEmpty ifTrue: [ ^ self ].
 	representation
@@ -92,12 +91,6 @@ ToListSelectionWithElementOption >> isAnimated [
 ToListSelectionWithElementOption >> isBeneath [
 
 	^ selectionOption isBeneath 
-]
-
-{ #category : #'instance creation' }
-ToListSelectionWithElementOption >> newSelectionContainerIn: aListElement [
-
-	^ selectionOption selectionMode newSelectionContainerIn: aListElement
 ]
 
 { #category : #'private - selection updating' }

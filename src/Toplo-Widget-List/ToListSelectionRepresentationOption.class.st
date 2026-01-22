@@ -125,7 +125,6 @@ ToListSelectionRepresentationOption >> triggerSelectionState [
 ToListSelectionRepresentationOption >> updateSelectionIn: aListElement withSelectionModel: aSelectionModel [
 
 	| rep |
-	selectionOption checkSelectionContainerIn: aListElement.
 	rep := self
 		       nextRepresentationIn: aListElement
 		       withSelectionModel: aSelectionModel.

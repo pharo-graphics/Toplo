@@ -14,14 +14,14 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
-{ #category : #'selection container managing' }
+{ #category : #'private - selection updating' }
 ToListSelectionOption >> addAllSelectionElements: aSelectionElementArray [
 
 	self isMasked ifTrue: [ ^ self ].
 	selectionContainer addChildren: aSelectionElementArray
 ]
 
-{ #category : #'selection container managing' }
+{ #category : #'private - selection updating' }
 ToListSelectionOption >> addSelectionElement: aSelectionElement [
 
 	self isMasked ifTrue: [ ^ self ].
@@ -44,15 +44,8 @@ ToListSelectionOption >> animationDuration: aDuration [
 ToListSelectionOption >> beneath: aBoolean [
 
 	beneath := aBoolean.
-	self removeSelectionContainer 
-]
-
-{ #category : #'selection container managing' }
-ToListSelectionOption >> checkSelectionContainerIn: aListElement [
-
-	selectionContainer ifNil: [
-		selectionContainer := self newSelectionContainerIn: aListElement.
-		aListElement addChild: selectionContainer ]
+	selectionContainer ifNil: [ ^ self ].
+	selectionContainer beneath: aBoolean
 ]
 
 { #category : #accessing }
@@ -64,9 +57,7 @@ ToListSelectionOption >> elementFactory [
 { #category : #accessing }
 ToListSelectionOption >> elementFactory: aSelectionElementFactoryValuable [
 
-	elementFactory := aSelectionElementFactoryValuable.
-	aSelectionElementFactoryValuable ifNil: [
-		self removeSelectionContainer ]
+	elementFactory := aSelectionElementFactoryValuable
 ]
 
 { #category : #accessing }
@@ -159,29 +150,23 @@ ToListSelectionOption >> notifyNodesSelectedIn: aListElement [
 { #category : #'api - hooks' }
 ToListSelectionOption >> onInstalledIn: aListElement [
 
-
+	selectionContainer := self newSelectionContainerIn: aListElement.
+	selectionContainer beneath: beneath.
+	aListElement addChild: selectionContainer
 ]
 
 { #category : #'api - hooks' }
 ToListSelectionOption >> onUninstalledIn: aListElement [
 
-	self removeSelectionContainer 
-]
-
-{ #category : #'selection container managing' }
-ToListSelectionOption >> removeSelectionContainer [
-
-	selectionContainer ifNotNil: [
-		selectionContainer removeFromParent.
-		selectionContainer := nil ]
+	selectionContainer removeFromParent.
+	
 ]
 
 { #category : #accessing }
 ToListSelectionOption >> representation: aRepresentationOption [
 
 	representationOption := aRepresentationOption.
-	aRepresentationOption selectionOption: self.
-	self removeSelectionContainer 
+	aRepresentationOption selectionOption: self
 ]
 
 { #category : #accessing }

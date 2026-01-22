@@ -51,9 +51,7 @@ ToBasicListElement >> addedDataSourceCommand: aCommand [
 ToBasicListElement >> applyConfiguration [
 
 	super applyConfiguration.
-	self childrenDo: #applyConfiguration.
-	self forceUpdateAllSelectionsNow.
-
+	self childrenDo: #applyConfiguration
 ]
 
 { #category : #'fake container' }

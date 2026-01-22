@@ -16,11 +16,6 @@ ToEmptySelectionRepresentation >> nodeContainers [
 	^ #(  )
 ]
 
-{ #category : #removing }
-ToEmptySelectionRepresentation >> onRemovedFromListElement: aListElement [
-
-]
-
 { #category : #'private - selection element' }
 ToEmptySelectionRepresentation >> refreshSelectionElementIn: aListElement option: aListSelectionRepresentationOption [
 

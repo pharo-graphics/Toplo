@@ -8,17 +8,14 @@ Class {
 }
 
 { #category : #comparing }
-ToNeighboringSelection >> = other [
+ToNeighboringSelection >> equivalentTo: other [
 
-	super = other ifFalse: [ ^ false ].
-	^ nodes = other nodeContainers and: [
-				  preComputedBounds = other preComputedBounds ]
-]
-
-{ #category : #comparing }
-ToNeighboringSelection >> hash [
-
-	^ super hash bitXor: nodes hash
+	(super equivalentTo: other) ifFalse: [ ^ false ].
+	nodes size = other nodeContainers size ifFalse: [ ^ false ].
+	nodes
+		with: other nodeContainers
+		do: [ :c1 :c2 | (c1 equals: c2) ifFalse: [ ^ false ] ].
+	^ true
 ]
 
 { #category : #accessing }

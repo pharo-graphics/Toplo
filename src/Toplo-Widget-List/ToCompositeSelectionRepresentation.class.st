@@ -8,16 +8,14 @@ Class {
 }
 
 { #category : #comparing }
-ToCompositeSelectionRepresentation >> = other [
+ToCompositeSelectionRepresentation >> equivalentTo: other [
 
-	super = other ifFalse: [ ^ false ].
-	^ representations = other representations
-]
-
-{ #category : #comparing }
-ToCompositeSelectionRepresentation >> hash [
-
-	^ super hash bitXor: representations hash
+	(super equivalentTo: other) ifFalse: [ ^ false ].
+	representations size = other representations size ifFalse: [ ^ false ].
+	representations
+		with: other representations
+		do: [ :r1 :r2 | (r1 equivalentTo: r2) ifFalse: [ ^ false ] ].
+	^ true
 ]
 
 { #category : #initialization }
@@ -38,13 +36,6 @@ ToCompositeSelectionRepresentation >> nodeContainers [
 
 	^ Array streamContents: [ :stream |
 		  representations do: [ :r | stream nextPutAll: r nodeContainers ] ]
-]
-
-{ #category : #removing }
-ToCompositeSelectionRepresentation >> onRemovedFromListElement: aListElement [
-
-	representations do: [ :rep |
-		rep onRemovedFromListElement: aListElement ]
 ]
 
 { #category : #'private - selection element' }

@@ -66,19 +66,19 @@ ToListSelectionRepresentationOption >> newSelectionRepresentationArrayFrom: aLis
 ]
 
 { #category : #'nodes collecting' }
-ToListSelectionRepresentationOption >> nextSelectionRepresentationFrom: aListElement withSelectionModel: aSelectionModel [
+ToListSelectionRepresentationOption >> nextRepresentationIn: aListElement withSelectionModel: aSelectionModel [
 
 	| arr |
 	arr := self
 		       newSelectionRepresentationArrayFrom: aListElement
 		       withSelectionModel: aSelectionModel.
 	^ arr ifEmpty: [ ToEmptySelectionRepresentation new ] ifNotEmpty: [
-		  arr size > 1
-			  ifTrue: [
-				  ToCompositeSelectionRepresentation new
-					  representations: arr;
-					  yourself ]
-			  ifFalse: [ arr first ] ]
+			  arr size > 1
+				  ifTrue: [
+						  ToCompositeSelectionRepresentation new
+							  representations: arr;
+							  yourself ]
+				  ifFalse: [ arr first ] ]
 ]
 
 { #category : #'private - selection notification' }
@@ -95,10 +95,6 @@ ToListSelectionRepresentationOption >> notifyNodesSelectedIn: aListElement [
 	self triggerSelectionState ifFalse: [ ^ self ].
 	aListElement nodeContainersDo: [ :container |
 		container holder notifySelectedWithOption: selectionOption ]
-]
-
-{ #category : #removing }
-ToListSelectionRepresentationOption >> removeSelectionContainer [
 ]
 
 { #category : #accessing }
@@ -129,15 +125,15 @@ ToListSelectionRepresentationOption >> triggerSelectionState [
 ToListSelectionRepresentationOption >> updateSelectionIn: aListElement withSelectionModel: aSelectionModel [
 
 	| rep |
-
+	selectionOption checkSelectionContainerIn: aListElement.
 	rep := self
-		       nextSelectionRepresentationFrom: aListElement
+		       nextRepresentationIn: aListElement
 		       withSelectionModel: aSelectionModel.
 	newRepresentationRequested ifFalse: [
-		rep = representation ifTrue: [ ^ false ] ].
-	representation onRemovedFromListElement: aListElement.
+		(rep equivalentTo: representation) ifTrue: [ ^ false ] ].
 	" send deselected when selection element are removed to send DeselectedSkinEvent to nodes "
 	self notifyNodesDeselectedIn: aListElement.
+	selectionOption selectionContainer removeChildren.
 	representation := rep.
 	newRepresentationRequested := false.
 	^ true

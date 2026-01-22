@@ -29,6 +29,12 @@ ToNodeContainer >> checkbox [
 	^ self startContainer ifNotNil: [:sc | sc childWithId: #'list-selection-checkbox' ifNone: [  ] ]
 ]
 
+{ #category : #comparing }
+ToNodeContainer >> equals: other [
+
+	^ self = other
+]
+
 { #category : #accessing }
 ToNodeContainer >> holder: aNodeHolder [
 

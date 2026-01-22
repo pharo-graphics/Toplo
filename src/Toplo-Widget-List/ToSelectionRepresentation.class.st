@@ -1,19 +1,16 @@
 Class {
 	#name : #ToSelectionRepresentation,
 	#superclass : #Object,
+	#instVars : [
+		'selectionOption'
+	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
 { #category : #comparing }
-ToSelectionRepresentation >> = other [
+ToSelectionRepresentation >> equivalentTo:  other [
 
 	^ self class = other class
-]
-
-{ #category : #comparing }
-ToSelectionRepresentation >> hash [
-
-	^ self class hash
 ]
 
 { #category : #testing }
@@ -33,12 +30,6 @@ ToSelectionRepresentation >> nodeContainers [
 	^ self subclassResponsibility
 ]
 
-{ #category : #removing }
-ToSelectionRepresentation >> onRemovedFromListElement: aListElement [
-
-	self subclassResponsibility 
-]
-
 { #category : #'private - selection element' }
 ToSelectionRepresentation >> refreshSelectionElementIn: aListElement option: aListSelectionRepresentationOption [
 
@@ -55,4 +46,16 @@ ToSelectionRepresentation >> selectionBounds [
 ToSelectionRepresentation >> selectionElements [
 
 	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
+ToSelectionRepresentation >> selectionOption [
+
+	^ selectionOption
+]
+
+{ #category : #accessing }
+ToSelectionRepresentation >> selectionOption: aListSelectionOption [
+
+	selectionOption := aListSelectionOption
 ]

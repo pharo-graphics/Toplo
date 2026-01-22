@@ -17,15 +17,6 @@ ToSelectionWithElement >> createSelectionElementIn: aListElement option: aSelect
 	self refreshSelectionElementIn: aListElement option: aSelectionRepresentationOption
 ]
 
-{ #category : #removing }
-ToSelectionWithElement >> onRemovedFromListElement: aListElement [
-
-	cachedSelectionElement ifNil: [  ^ self ].
-	cachedSelectionElement removeFromParent.
-	cachedSelectionElement := nil.
-	preComputedBounds := nil
-]
-
 { #category : #accessing }
 ToSelectionWithElement >> preComputedBounds [
 

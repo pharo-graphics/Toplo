@@ -17,6 +17,86 @@ ToTheme class >> canBeDefault [
 ]
 
 { #category : #accessing }
+ToTheme class >> darkStyleTable [
+
+			"(symbol color [emphasisSymbolOrArray [textStyleName [pixelHeight]]])"
+ ^ #(
+			(default 								white)
+			(invalid 								'FF8A80') 
+
+			(comment 								'7D8C93')
+
+			(character 							('E38C1E' lighter))
+			(number 								('FFE54B'))
+			(symbol 								('E38C1E'))
+			(string 								('E38C1E'))
+
+			(selector 								white)
+
+			(#true 								('00CC6E' darker))
+			(#false 								('00CC6E' darker))
+			(#nil 									('00CC6E' darker))
+
+			(#self 								'00CC6E')
+			(#super								'00CC6E')
+			(#thisContext 						'00CC6E')
+			(#return 								'00CC6E' bold)
+
+			(patternArg 							'03a9f4' bold)
+			(argument 							'03a9f4')
+										
+			(instVar 								'ffa000')										
+
+			(patternTempVar 					'00acc1')
+			(tempVar 								'00acc1')
+																					
+			(blockPatternArg 					'0091ea' italic)
+			(blockArg 							'0091ea' italic)
+
+			(blockPatternTempVar 				'00838f' italic)
+			(blockTempVar 						'00838f' italic)
+
+			(poolConstant 						'A7E2ED' bold)
+			(classVar 							'A7E2ED' bold)
+			(globalVar 							white bold)
+
+
+			(incompleteIdentifier 			'E8E2B7' italic)
+			(incompleteSelector				'E8E2B7' italic)
+
+			(undefinedIdentifier 				'FF8A80')
+			(undefinedSelector 					'FF8A80')
+
+			(patternSelector 						white bold)
+			(blockArgColon 						white)
+			(parenthesis 					white)
+			(parenthesis1 					(green muchLighter))
+			(parenthesis2 					(magenta muchLighter))
+			(parenthesis3 					('FF8A80' muchLighter))
+			(parenthesis4 					(green lighter))
+			(parenthesis5 					(orange lighter))
+			(parenthesis6 					(magenta lighter))
+			(parenthesis7 					blue)
+			(block 							white)
+			(block1 						(green muchLighter))
+			(block2 						(magenta muchLighter))
+			(block3 						(red muchLighter))
+			(block4 						(green lighter))
+			(block5 						(orange lighter))
+			(block6 						(magenta lighter))
+			(block7 						blue)
+			(brace 							white)
+			(cascadeSeparator 					white bold)
+			(statementSeparator 				white bold)
+			(methodTempBar 						white)
+			(blockTempBar 						white)
+			(blockArgsBar 						white)
+
+			
+			(pragma 									'B4DD6E'))
+]
+
+{ #category : #accessing }
 ToTheme class >> defaultCheckboxHeight [
 
 	^ 18
@@ -41,7 +121,7 @@ ToTheme class >> defaultTokenProperties [
 	^ {
 		  (ToTokenProperty
 			   name: #'sh-style-table'
-			   value: SHRBTextStyler defaultToploStyleTable).
+			   value: self lightStyleTable ).
 		  (ToTokenProperty name: #'background-color' value: Color white).
 		  (ToTokenProperty
 			   name: #empty_box
@@ -419,6 +499,92 @@ ToTheme class >> defaultTokenProperties [
 ToTheme class >> label [
 
 	^ 'Unsupported abstract theme'
+]
+
+{ #category : #accessing }
+ToTheme class >> lightStyleTable [
+	"color can be a valid argument to Color class>>colorFrom: , or nil to
+	use the editor text color.
+	Multiple emphases can be specified using an array e.g. #(bold italic).
+	If emphasis is not specified, #normal will be used.
+	if pixel height is not specified , then the editor font size will be used.
+	"
+
+			"(symbol color [emphasisSymbolOrArray [textStyleName [pixelHeight]]])"
+ ^ #(
+			(default 								black)
+			(invalid 									red)
+
+			(comment 								(gray darker))
+
+			(character 								(red muchDarker))
+			(number 								(red muchDarker))
+			(symbol 								(magenta muchDarker))
+			(string 									(magenta muchDarker) normal)
+
+			(selector 								(black))
+
+			(#self 									(cyan muchDarker ))
+			(#super 								(cyan muchDarker ))
+			(#true 									(red muchDarker))
+			(#false 									(red muchDarker))
+			(#nil 									(red muchDarker))
+			(#thisContext 							(cyan muchDarker ))
+			(#thisProcess 							(cyan muchDarker ))
+			(#return 								(cyan muchDarker ) bold)
+			(patternArg 							(blue muchDarker))
+			(blockPatternArg 						(blue muchDarker))
+			(blockArg 								(blue muchDarker))
+			(argument 								(blue muchDarker))
+			(blockTempVar 						(blue muchDarker))
+			(blockPatternTempVar 					(blue muchDarker))
+			(instVar 								(cyan muchDarker))
+
+			(tempVar 								(blue muchDarker))
+			(patternTempVar 						(blue muchDarker))
+			(poolConstant 							(cyan muchDarker))
+			(classVar 								(cyan muchDarker))
+			(globalVar 								(purple muchDarker))
+
+			(incompleteIdentifier 					blue italic)
+			(incompleteSelector 					nil  italic)
+
+			(undefinedIdentifier 					red)
+			(undefinedSelector 					red)
+
+			(patternSelector 						nil bold)
+			(blockArgColon 						black)
+			(parenthesis 						black)
+			(parenthesis1 						(green muchDarker))
+			(parenthesis2 						(magenta muchDarker))
+			(parenthesis3 						(red muchDarker))
+			(parenthesis4 						(green darker))
+			(parenthesis5 						(orange darker))
+			(parenthesis6 						(magenta darker))
+			(parenthesis7 						blue)
+			(block 								black)
+			(block1 							(green muchDarker))
+			(block2 							(magenta muchDarker))
+			(block3 							(red muchDarker))
+			(block4 							(green darker))
+			(block5 							(orange darker))
+			(block6 							(magenta darker))
+			(block7 							blue)
+			(brace 								black)
+			(brace1 								(green muchDarker))
+			(brace2 								(magenta muchDarker))
+			(brace3 								(red muchDarker))
+			(brace4 								(green darker))
+			(brace5 								(orange darker))
+			(brace6 								(magenta darker))
+			(brace7 								blue)
+			(cascadeSeparator 					black)
+			(statementSeparator 					black)
+			(methodTempBar 						(black))
+			(blockTempBar 						(black))
+			(blockArgsBar 							(black))
+
+			(pragma 						(green muchDarker)))
 ]
 
 { #category : #accessing }

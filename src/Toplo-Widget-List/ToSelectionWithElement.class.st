@@ -1,57 +1,13 @@
 Class {
 	#name : #ToSelectionWithElement,
 	#superclass : #ToSelectionRepresentation,
-	#instVars : [
-		'cachedSelectionElement',
-		'preComputedBounds'
-	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
-{ #category : #'private - selection element' }
-ToSelectionWithElement >> createSelectionElementIn: aListElement option: aSelectionRepresentationOption [
+{ #category : #'private - selection updating' }
+ToSelectionWithElement >> newSelectionElementIn: aListElement option: aSelectionRepresentationOption [
 
-	cachedSelectionElement := aSelectionRepresentationOption newSelectionElementIn: aListElement.
-	cachedSelectionElement nodeContainers: self nodeContainers.
-	preComputedBounds := cachedSelectionElement boundsInListElement: aListElement.
-	self refreshSelectionElementIn: aListElement option: aSelectionRepresentationOption
-]
-
-{ #category : #accessing }
-ToSelectionWithElement >> preComputedBounds [
-
-	^ preComputedBounds  
-]
-
-{ #category : #'private - selection element' }
-ToSelectionWithElement >> refreshSelectionElementIn: aListElement option: aSelectionRepresentationOption [
-
-	cachedSelectionElement position: preComputedBounds origin.
-	cachedSelectionElement extent: preComputedBounds extent
-]
-
-{ #category : #accessing }
-ToSelectionWithElement >> selectionBounds [
-
-	^ self preComputedBounds  
-]
-
-{ #category : #accessing }
-ToSelectionWithElement >> selectionElement [
-
-	^ cachedSelectionElement 
-]
-
-{ #category : #accessing }
-ToSelectionWithElement >> selectionElements [
-
-	^ Array with: cachedSelectionElement 
-]
-
-{ #category : #accessing }
-ToSelectionWithElement >> updatedSelectionElementIn: aListElement [
-
-	cachedSelectionElement position: preComputedBounds origin.
-	cachedSelectionElement size: preComputedBounds extent.
-	^ cachedSelectionElement
+	^ Array with: (aSelectionRepresentationOption
+			   newSelectionElementIn: aListElement
+			   forNodeContainers: self nodeContainers)
 ]

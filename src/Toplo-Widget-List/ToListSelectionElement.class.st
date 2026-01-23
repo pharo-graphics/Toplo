@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'listElement',
 		'selectionOption',
-		'nodeContainers'
+		'nodeContainers',
+		'precomputedBounds'
 	],
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
@@ -40,6 +41,17 @@ ToListSelectionElement >> boundsInListElement: aListElement [
 		  (self sizeFrom: corner - startBnds origin in: aListElement)
 ]
 
+{ #category : #comparing }
+ToListSelectionElement >> equals: other [
+
+	self class = other class ifFalse: [ ^ false ].
+	listElement = other listElement ifFalse: [ ^ false ].
+	selectionOption = other selectionOption ifFalse: [ ^ false ].
+	nodeContainers = other nodeContainers ifFalse: [ ^ false ].
+	precomputedBounds = other precomputedBounds ifFalse: [ ^ false ].
+	^ true
+]
+
 { #category : #initialization }
 ToListSelectionElement >> initialize [
 
@@ -71,20 +83,6 @@ ToListSelectionElement >> listElement [
 ]
 
 { #category : #accessing }
-ToListSelectionElement >> listElement: aListElement [
-
-	listElement := aListElement
-]
-
-{ #category : #accessing }
-ToListSelectionElement >> node [
-
-	self deprecated: 'Use #nodeContainer' transformWith: '`@r node'->'`@r nodeContainer'.
-
-	^ self nodeContainer
-]
-
-{ #category : #accessing }
 ToListSelectionElement >> nodeContainer [
 
 	^ nodeContainers first
@@ -97,15 +95,33 @@ ToListSelectionElement >> nodeContainers [
 ]
 
 { #category : #accessing }
-ToListSelectionElement >> nodeContainers: anArray [
+ToListSelectionElement >> nodeContainers: aNodeContainerArray listElement: aListElement [
 
-	nodeContainers := anArray
+	| bnds |
+	nodeContainers := aNodeContainerArray.
+	listElement := aListElement.
+	bnds := self precomputedBoundsIn: aListElement.
+	self position: bnds origin.
+	self extent: bnds extent
 ]
 
 { #category : #private }
 ToListSelectionElement >> positionFrom: aPoint in: aListElement [
 
 	^ aPoint 
+]
+
+{ #category : #accessing }
+ToListSelectionElement >> precomputedBounds [
+
+	^ precomputedBounds
+]
+
+{ #category : #accessing }
+ToListSelectionElement >> precomputedBoundsIn: aListElement [
+
+	^ precomputedBounds ifNil: [
+		  precomputedBounds := self boundsInListElement: aListElement ]
 ]
 
 { #category : #accessing }

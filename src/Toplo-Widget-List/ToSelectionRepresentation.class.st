@@ -1,9 +1,6 @@
 Class {
 	#name : #ToSelectionRepresentation,
 	#superclass : #Object,
-	#instVars : [
-		'selectionOption'
-	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
@@ -25,37 +22,13 @@ ToSelectionRepresentation >> isEmpty [
 	^ false
 ]
 
+{ #category : #'private - selection updating' }
+ToSelectionRepresentation >> newSelectionElementIn: aListElement option: aSelectionRepresentationOption [
+
+	^ self subclassResponsibility
+]
+
 { #category : #accessing }
 ToSelectionRepresentation >> nodeContainers [
 	^ self subclassResponsibility
-]
-
-{ #category : #'private - selection element' }
-ToSelectionRepresentation >> refreshSelectionElementIn: aListElement option: aListSelectionRepresentationOption [
-
-	self subclassResponsibility 
-]
-
-{ #category : #accessing }
-ToSelectionRepresentation >> selectionBounds [
-
-	^ self subclassResponsibility
-]
-
-{ #category : #accessing }
-ToSelectionRepresentation >> selectionElements [
-
-	^ self subclassResponsibility 
-]
-
-{ #category : #accessing }
-ToSelectionRepresentation >> selectionOption [
-
-	^ selectionOption
-]
-
-{ #category : #accessing }
-ToSelectionRepresentation >> selectionOption: aListSelectionOption [
-
-	selectionOption := aListSelectionOption
 ]

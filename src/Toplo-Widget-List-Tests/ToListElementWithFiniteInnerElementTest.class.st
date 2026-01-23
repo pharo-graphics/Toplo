@@ -787,6 +787,7 @@ ToListElementWithFiniteInnerElementTest >> testPrimarySelectionChangedEventDispa
 	" have to pulse to get an updated datasource plus oupdated selection model "
 	self waitTestingSpaces.
 	self assert: l selectionModel selectedIndexes equals: {  }.
+	self waitTestingSpaces.
 	self assert: l selectionMode selectionContainer children isEmpty.
 	self assert: dispatchedEvent notNil
 ]
@@ -811,6 +812,7 @@ ToListElementWithFiniteInnerElementTest >> testPrimarySelectionChangedEventDispa
 	" have to pulse to get an updated datasource plus oupdated selection model "
 	self waitTestingSpaces.
 	self assert: l selectionModel selectedIndexes equals: {  }.
+	self waitTestingSpaces.
 	self assert: l selectionMode selectionContainer children isEmpty.
 	self assert: dispatchedEvent notNil
 ]

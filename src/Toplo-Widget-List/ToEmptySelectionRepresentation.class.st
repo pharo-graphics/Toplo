@@ -10,26 +10,14 @@ ToEmptySelectionRepresentation >> isEmpty [
 	^ true
 ]
 
+{ #category : #'private - selection updating' }
+ToEmptySelectionRepresentation >> newSelectionElementIn: aListElement option: aSelectionRepresentationOption [
+
+	^ #( )
+]
+
 { #category : #accessing }
 ToEmptySelectionRepresentation >> nodeContainers [
-
-	^ #(  )
-]
-
-{ #category : #'private - selection element' }
-ToEmptySelectionRepresentation >> refreshSelectionElementIn: aListElement option: aListSelectionRepresentationOption [
-
-	
-]
-
-{ #category : #accessing }
-ToEmptySelectionRepresentation >> selectionBounds [
-
-	^ nil
-]
-
-{ #category : #accessing }
-ToEmptySelectionRepresentation >> selectionElements [
 
 	^ #(  )
 ]

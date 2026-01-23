@@ -4,6 +4,11 @@ Class {
 	#category : #'Toplo-Widget-Table-Core'
 }
 
+{ #category : #'expanding-collapsing' }
+ToTreeTableElement >> expandRoots [
+	self list expandRoots
+]
+
 { #category : #initialization }
 ToTreeTableElement >> newHeaderElement [
 

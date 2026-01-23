@@ -157,6 +157,7 @@ ToCheckableState >> privateChecked: aBooleanOrIndeterminate [
 { #category : #'checking protocol' }
 ToCheckableState >> privateNotifyChecked: aBooleanOrIndeterminate [
 
+	checked = aBooleanOrIndeterminate ifTrue: [ ^ self ].
 	self privateChecked: aBooleanOrIndeterminate.
 	self notifyChanged 
 ]

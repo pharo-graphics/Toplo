@@ -1,23 +1,21 @@
 Trait {
 	#name : #TToCheckableSelectionManager,
 	#instVars : [
-		'checkBoxSelectionHandler'
+		'checkboxesUpdateRequested'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
 
 { #category : #'t - checkable selection manager' }
-TToCheckableSelectionManager >> addCheckboxSelectionManagement [
+TToCheckableSelectionManager >> checkboxesUpdateDone [
 
-	checkBoxSelectionHandler ifNotNil: [ ^ self ].
-	self selectionMode selectOnClick: false.
-	checkBoxSelectionHandler := BlEventHandler
-		                            on: ToListPrimarySelectionChangedEvent
-		                            do: [ :event |
-		                            self
-			                            updateCheckboxesOnSelectionChangedEvent:
-			                            event ].
-	self addEventHandler: checkBoxSelectionHandler
+	checkboxesUpdateRequested := false
+]
+
+{ #category : #'t - checkable selection manager' }
+TToCheckableSelectionManager >> checkboxesUpdateRequested [
+
+	^ checkboxesUpdateRequested ifNil: [ checkboxesUpdateRequested := false ]
 ]
 
 { #category : #'t - checkable selection manager' }
@@ -25,67 +23,54 @@ TToCheckableSelectionManager >> newCheckbox [
 
 	|  cbox |
 	cbox := ToCheckbox new.
-	cbox id: #cellCheckbox.
+	cbox id: #'list-selection-checkbox'.
+	" the checkbox is not responsible for its skin update (to render the check state).
+	The update is done by the list element primary selection event handler 
+	as a consequence of the primary selection change "
+	cbox switchToNextCheckStateOnClick: false.
 	cbox focusability: BlFocusability none.
 	^ cbox
 ]
 
 { #category : #'t - checkable selection manager' }
-TToCheckableSelectionManager >> newCheckboxInNodeContainer: aNode [
+TToCheckableSelectionManager >> newCheckboxInNodeContainer: aNodeContainer [
 
 	| cbox |
 	cbox := self newCheckbox.
-	" add a guard to prevent checking if it not desired.
-	Here, it is not possible to take the check into account 
-	if the list is not focused"
-	cbox addEventHandlerOn: ToCheckableCheckRequestEvent do: [ :event |
-			(self hasFocus not and: [ self isFocusable ]) ifTrue: [
-					(self selectionModel isNotEmpty and: [
-						 self selectionModel selectedIndexesCount > 1 ]) ifTrue: [ event deny ] ] ].
-
-	cbox ensureChecked: aNode holder isSelected.
-
+	cbox checked: aNodeContainer holder isSelected.
 	" In case the checkbox has been checked, update the list selection "
-	cbox addEventHandlerOn: ToCheckableCheckEvent do: [ :event |
-			| req |
-			req := ToListClickOnNodeRequestEvent new
-				       requestedAction: [
-					       self onCheckableCheckEvent: event onNodeContainer: aNode ];
-				       yourself.
-			aNode dispatchRequest: req ].
+	cbox addEventHandlerOn: BlPrimaryClickEvent do: [ :event |
+		self notifyClickOnCheckbox: cbox onNode: aNodeContainer node onEvent: event ].
 	^ cbox
 ]
 
 { #category : #'t - checkable selection manager' }
-TToCheckableSelectionManager >> onCheckableCheckEvent: anEvent onNodeContainer: aNode [
+TToCheckableSelectionManager >> notifyClickOnCheckbox: aCheckbox onNode: aNode onEvent: anEvent [
 
-	anEvent checked ifFalse: [ ^ aNode holder selected: false ].
-	self spaceDo: [ :sp |
-		anEvent sourceEvent: sp mouseProcessor lastMouseDownEvent ].
-	self notifyClickOnNode: aNode node fromEvent: anEvent
+	aNode isAttachedToSceneGraph ifFalse: [ ^ self ].
+	self isDisabled ifTrue: [ ^ self ].
+
+	aNode dispatchEvent: (ToListClickOnNodeCheckboxEvent new
+			 fillFromTime: aNode space time;
+			 sourceEvent: anEvent;
+			 yourself)
 ]
 
 { #category : #'t - checkable selection manager' }
-TToCheckableSelectionManager >> onUseCheckboxChangedWith: aBoolean [
+TToCheckableSelectionManager >> requestUpdateCheckboxes [
 
-	aBoolean
-		ifTrue: [ self addCheckboxSelectionManagement ]
-		ifFalse: [ self removeCheckboxSelectionManagement ].
-	self postponeAction: [  self notifyDataSourceChanged ]
+	checkboxesUpdateRequested := true.
+	" the checkboxes are updated after the layout is done "
+	self requestLayout
 ]
 
 { #category : #'t - checkable selection manager' }
-TToCheckableSelectionManager >> removeCheckboxSelectionManagement [
+TToCheckableSelectionManager >> updateCheckboxes [
 
-	checkBoxSelectionHandler ifNil: [ ^ self ].
-	self selectionMode selectOnClick: true.
-	self removeEventHandler: checkBoxSelectionHandler.
-	checkBoxSelectionHandler := nil
-]
-
-{ #category : #'t - checkable selection manager' }
-TToCheckableSelectionManager >> updateCheckboxesOnSelectionChangedEvent: anEvent [
-
-	anEvent touchedIntervals do: [ :int |
-		self dataSource notifyItemsChanged: int ]
+	self nodeManager checkableNode ifFalse: [ ^ self ].
+	self checkboxesUpdateRequested ifFalse: [ ^ self ].
+	self checkboxesUpdateDone.
+	self nodeContainersDo: [ :nc |
+			nc checkbox ifNotNil: [ :cbox |
+				cbox checked: nc holder isSelected ] ]
 ]

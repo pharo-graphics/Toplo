@@ -22,13 +22,6 @@ ToListElementCompositeCommand >> indexes [
 ]
 
 { #category : #accessing }
-ToListElementCompositeCommand >> intervals [
-
-	^ Array streamContents: [ :stream |
-		  commands do: [ :c | stream nextPutAll: c intervals ] ]
-]
-
-{ #category : #accessing }
 ToListElementCompositeCommand >> selectionModel [
 
 	^ selectionModel

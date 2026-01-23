@@ -51,9 +51,7 @@ ToBasicListElement >> addedDataSourceCommand: aCommand [
 ToBasicListElement >> applyConfiguration [
 
 	super applyConfiguration.
-	self childrenDo: #applyConfiguration.
-	self forceUpdateAllSelectionsNow.
-
+	self childrenDo: #applyConfiguration
 ]
 
 { #category : #'fake container' }
@@ -291,6 +289,18 @@ ToBasicListElement >> fakeDataItem: anObject [
 ]
 
 { #category : #'fake container' }
+ToBasicListElement >> fakeNode [
+
+	^ self fakeNodeContainer node
+]
+
+{ #category : #'fake container' }
+ToBasicListElement >> fakeNodeContainer [
+
+	^ fakeNodeContainerWrapper ifNotNil: [ :w | w nodeContainer ]
+]
+
+{ #category : #'fake container' }
 ToBasicListElement >> fakeNodeContainerWrapper [
 
 	^ fakeNodeContainerWrapper 
@@ -344,10 +354,7 @@ ToBasicListElement >> initialize [
 	
 	mouseMoveReplayRequested := false.
 	selectionModeMap := IdentityDictionary new.
-
-	"self initializeDataSource."
-	"self initializeDataAccessor."
-
+	
 	self layout: self defaultLayout.
 
 	self addEventHandler: self defaultEventHandler.

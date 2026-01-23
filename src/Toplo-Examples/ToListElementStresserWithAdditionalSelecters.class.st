@@ -178,20 +178,17 @@ ToListElementStresserWithAdditionalSelecters >> selectionResultsTextOn: aListEle
 
 	| nb t |
 	t := super selectionResultsTextOn: aListElement.
-	nb := aListElement unselectableSelectionModel underlyingModel
-		      intervals size.
+	nb := aListElement unselectableSelectionModel selectedIndexesIntervals size.
 	maxUnselectableIntervals := nb max: maxUnselectableIntervals.
 	t := t , ' < unselectable ' , nb asString , '/'
 	  , maxUnselectableIntervals asString , ' >'.
 	
-	nb := aListElement hiddenSelectionModel underlyingModel
-		      intervals size.
+	nb := aListElement hiddenSelectionModel selectedIndexesIntervals size.
 	maxHiddenIntervals := nb max: maxHiddenIntervals.
 	t := t , ' < hidden ' , nb asString , '/'
 	  , maxHiddenIntervals asString , ' >'.
 	
-	nb := aListElement disabledSelectionModel underlyingModel
-		      intervals size.
+	nb := aListElement disabledSelectionModel selectedIndexesIntervals size.
 	maxDisabledIntervals := nb max: maxDisabledIntervals.
 	t := t , ' < disabled ' , nb asString , '/'
 	  , maxDisabledIntervals asString , ' >'.

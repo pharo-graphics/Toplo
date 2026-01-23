@@ -19,18 +19,7 @@ ToPlaceholderLayer >> initialize [
 ]
 
 { #category : #skin }
-ToPlaceholderLayer >> installRawStyle [
+ToPlaceholderLayer >> newRawSkin [ 
 
-	super installRawStyle.
-	self
-		addTokenNamed: #'color-text'
-		withValue: (self valueOfTokenNamed: #'color-text-placeholder')
-]
-
-{ #category : #skin }
-ToPlaceholderLayer >> uninstallRawStyle [
-
-	self removeTokenNamed: #'color-text'.
-	super uninstallRawStyle.
-
+	^ ToPlaceholderLayerSkin new
 ]

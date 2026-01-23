@@ -291,6 +291,14 @@ ToAlbum >> textChanged [
 		requestLayout
 ]
 
+{ #category : #'api - displaying' }
+ToAlbum >> toThemeInstalled [
+
+	self editor restoreText: self text.
+	super toThemeInstalled.
+
+]
+
 { #category : #'transaction hook' }
 ToAlbum >> whenCancelRequestedDo: aBlock [
 

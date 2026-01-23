@@ -7,14 +7,6 @@ Class {
 	#category : #'Toplo-Widget-List-InnerList-Finite'
 }
 
-{ #category : #'accessing - children' }
-ToFiniteListTrackElement >> addHolder: anHolder at: aPosition [
-
-	| container |
-	container := anHolder nodeContainer.
-	self addChild: container at: aPosition
-]
-
 { #category : #configuration }
 ToFiniteListTrackElement >> applyConfiguration [
 

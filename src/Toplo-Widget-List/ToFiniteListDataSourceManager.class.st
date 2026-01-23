@@ -25,7 +25,8 @@ ToFiniteListDataSourceManager >> applyCommand: aCommand [
 { #category : #initialization }
 ToFiniteListDataSourceManager >> defaultCommandApplicationStrategy [ 
 
-	"^ ToFinitListCommandApplicationStrategy new"
+	" The immediate strategy is mandatory, the other will not work "
+	"^ BlQueueBasedCommandApplicationStrategy new"
 	"^ BlTaskBasedCommandApplicationStrategy new"
 	^ BlImmediateCommandApplicationStrategy new
 ]

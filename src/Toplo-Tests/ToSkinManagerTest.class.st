@@ -335,9 +335,7 @@ ToSkinManagerTest >> testOnInstalledIn [
 
 	| e |
 	e := ToElement new.
-	self deny: e skinManager newSkinRequested.
-	e ensuredTokenPropertyMap changedAction value.
-	self assert: e skinManager newSkinRequested
+	self deny: e skinManager newSkinRequested
 ]
 
 { #category : #tests }

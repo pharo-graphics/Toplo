@@ -47,12 +47,6 @@ ToIntervalSelectionCommand >> indexes [
 ]
 
 { #category : #accessing }
-ToIntervalSelectionCommand >> intervals [ 
-
-	^ Array with: (from to: to)
-]
-
-{ #category : #accessing }
 ToIntervalSelectionCommand >> to [
 
 	^ to

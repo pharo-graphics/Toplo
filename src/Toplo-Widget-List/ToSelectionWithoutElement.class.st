@@ -8,17 +8,10 @@ Class {
 }
 
 { #category : #comparing }
-ToSelectionWithoutElement >> = other [
+ToSelectionWithoutElement >> equivalentTo: other [
 
-	^ super = other
-		  ifFalse: [ false ]
-		  ifTrue: [ node = other node ]
-]
-
-{ #category : #comparing }
-ToSelectionWithoutElement >> hash [
-
-	^ super hash bitXor: node hash
+	(super equivalentTo: other) ifFalse: [ ^ false ].
+	^ node equals: other node
 ]
 
 { #category : #accessing }

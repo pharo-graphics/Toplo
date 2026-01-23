@@ -9,7 +9,6 @@ ToItemNodeContainer >> applyConfiguration [
 
 	| list |
 	super applyConfiguration.
-	self isFake ifTrue: [ ^ self ].
 	self node item ifNil: [ ^ self ].
 	list := self holder listElement.
 	list toConfiguration isFlowable ifTrue: [ ^ self ].

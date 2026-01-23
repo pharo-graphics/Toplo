@@ -2643,7 +2643,8 @@ ToSandBox class >> example_ListWithAllClassesAsCheckbox [
 
 	| l |
 	l := ToCheckableListElement new.
-	l selectionOption masked: true.
+	"l selectionOption masked: true."
+	l selectionOption withEmbeddedRepresentation.
 	l group withNoneCheckingStrategy.
 	l addAllItems: ((Smalltalk globals allClasses) collect: [ :cls |
 			 ToCheckbox new
@@ -2657,8 +2658,7 @@ ToSandBox class >> example_ListWithAllClassesAsToggleButton [
 
 	| l |
 	l := ToCheckableListElement new.
-	"l selectionOption masked: true."
-	"l selectionOption withEmbeddedRepresentation."
+	l selectionOption withEmbeddedRepresentation.
 	l group withNoneCheckingStrategy.
 	l addAllItems: ((Smalltalk globals allClasses ) collect: [ :cls |
 			 ToToggleButton new
@@ -2706,6 +2706,7 @@ ToSandBox class >> example_ListWithAllClassesWithEmbeddedSelection [
 
 	| l |
 	l := ToListElement new.
+	"l useCheckbox: true."
 	l nodeFactory: [ :holder | ToExListEmbeddedNode new ].
 	l selectionOption withEmbeddedRepresentation.
 	l dataAccessor addAll:
@@ -4192,8 +4193,9 @@ ToSandBox class >> example_SelectMultiFiltrableWithCheckboxesBis [
 
 	| select |
 	select := ToMultiSelectElement new.
-	select popupListElement toConfiguration  useCheckbox: true.
+	select popupListElement useCheckbox: true.
 	select popupListElement dataAccessor addAll: self statesOfAmerica.
+	select filtrable: false.
 	select popupListElement nodeBuilder: [ :node :aState :holder |
 			| label |
 			label := ToLabeledIcon new
@@ -4202,6 +4204,7 @@ ToSandBox class >> example_SelectMultiFiltrableWithCheckboxesBis [
 				       hMatchParent;
 				       yourself.
 			node addChild: label ].
+	select sample: 'X'.
 	select openInSpace
 ]
 
@@ -4880,22 +4883,6 @@ ToSandBox class >> example_Smalltalk_ui_icons [
 ]
 
 { #category : #tabPane }
-ToSandBox class >> example_TabBarElement [
-
-	| tabs board |
-	tabs := ToTabListElement new.
-
-	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		tabs addItem: (ToTabItemElement new
-				 removable: true;
-				 middleElement: (ToLabel text: l);
-				 yourself) ].
-
-	board := self tabBarElementDashBoardFor: tabs.
-	board openInSpace
-]
-
-{ #category : #tabPane }
 ToSandBox class >> example_TabGroupElement [
 
 	| tabs dashBoard |
@@ -4972,13 +4959,32 @@ ToSandBox class >> example_TabGroupElementWithUSStates [
 ]
 
 { #category : #tabPane }
+ToSandBox class >> example_TabListElement [
+
+	| tabs board |
+	tabs := ToTabListElement new.
+	tabs horizontal: false.
+	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
+			tabs addItem: (ToTabItemElement new
+					 removable: true;
+					 middleElement: (ToLabel text: l);
+					 yourself) ].
+	tabs sample: (ToTabItemElement new
+			 width: 100;
+			 removable: true;
+			 yourself).
+	board := self tabBarElementDashBoardFor: tabs.
+	board openInSpace
+]
+
+{ #category : #tabPane }
 ToSandBox class >> example_TabPaneElementWithUSStates [
 
 	| tpane dashBoard |
 	tpane := self tabPaneElementWithUSStates.
 	tpane matchParent.
 	"tpane items third checked: true."
-	tpane selecter selectOnlyIndex: 3.
+	tpane selecter selectOnlyIndex: 2.
 
 	dashBoard := self tabPaneElementDashBoardFor: tpane.
 	dashBoard openInSpace.
@@ -5200,11 +5206,6 @@ ToSandBox class >> example_ToggleButtonChecked [
 	ToTheme cleanUp.
 	toggle := ToToggleButton new label: (ToLabel text: 'Toggle button').
 	toggle icon: (ToImage new innerImage: (self iconNamed: #solidMenu)).
-	toggle addEventHandler: (BlEventHandler
-			 on: ToSkinEvent
-			 do: [ :evt | evt target = toggle ifTrue: [ evt traceCr ] ]).
-	toggle checkAction: [ :evt |
-		evt target isChecked traceCr ].
 	toggle checked: true.
 	toggle openInInnerWindow
 ]
@@ -5255,83 +5256,46 @@ ToSandBox class >> example_ToggleButtonInListElement [
 	moveListElement := ToListElement new.
 	moveListElement primarySelectionMode selectOnPressed: false.
 	moveListElement nodeBuilder: [ :node :move :holder |
-		| moveElement moveNumberLabel whiteMoveLabel moveButtons blackMoveLabel inspectButton |
-		moveButtons := OrderedCollection new.
-		moveElement := BlElement new.
-		moveElement layout: BlLinearLayout horizontal.
-		moveElement margin: (BlInsets all: 5).
-		moveElement constraintsDo: [ :c |
-			c vertical fitContent.
-			c horizontal fitContent ].
+			| moveElement moveNumberLabel whiteMoveLabel moveButtons blackMoveLabel inspectButton |
+			moveButtons := OrderedCollection new.
+			moveElement := BlElement new.
+			moveElement layout: BlLinearLayout horizontal.
+			moveElement margin: (BlInsets all: 5).
+			moveElement constraintsDo: [ :c |
+					c vertical fitContent.
+					c horizontal fitContent ].
 
-		moveNumberLabel := BlTextElement new.
-		moveNumberLabel text: move first asString asRopedText.
-		moveNumberLabel constraintsDo: [ :c |
-			c linear vertical alignCenter.
-			c horizontal exact: 30 ].
+			moveNumberLabel := BlTextElement new.
+			moveNumberLabel text: move first asString asRopedText.
+			moveNumberLabel constraintsDo: [ :c |
+					c linear vertical alignCenter.
+					c horizontal exact: 30 ].
 
-		whiteMoveLabel := ToToggleButton new.
-		whiteMoveLabel labelText: move second asString asRopedText.
-		moveButtons add: whiteMoveLabel.
+			whiteMoveLabel := ToToggleButton new.
+			whiteMoveLabel labelText: move second asString asRopedText.
+			moveButtons add: whiteMoveLabel.
 
-		blackMoveLabel := ToToggleButton new.
-		blackMoveLabel labelText: move third asString asRopedText.
-		moveButtons add: blackMoveLabel.
-		blackMoveLabel addStamp: #link.
+			blackMoveLabel := ToToggleButton new.
+			blackMoveLabel labelText: move third asString asRopedText.
+			moveButtons add: blackMoveLabel.
+			blackMoveLabel addStamp: #link.
 
-		moveElement addChild: moveNumberLabel.
-		moveElement addChild: whiteMoveLabel.
-		moveElement addChild: blackMoveLabel.
-		inspectButton := ToButton new
-			                 labelText: 'Inspect';
-			                 clickAction: [ node inspect ];
-			                 yourself.
-		moveNumberLabel constraintsDo: [ :c | c linear vertical alignCenter ].
+			moveElement addChild: moveNumberLabel.
+			moveElement addChild: whiteMoveLabel.
+			moveElement addChild: blackMoveLabel.
+			inspectButton := ToButton new
+				                 labelText: 'Inspect';
+				                 clickAction: [ node inspect ];
+				                 yourself.
+			moveNumberLabel constraintsDo: [ :c |
+				c linear vertical alignCenter ].
 
-		moveButtons do: [ :e |
-			group register: e ].
-		node addChild: moveElement.
-		node addChild: inspectButton ].
+			moveButtons do: [ :e | group register: e ].
+			node addChild: moveElement.
+			node addChild: inspectButton ].
 	moveListElement matchParent.
 	moveListElement dataAccessor addAll: {
-			{ 1. 'e4'. 'e5' }.
-			{ 2. nil. nil }.
-			{ 1. 'e4'. 'e5' }.
-			{ 2. nil. nil }.
-			{ 1. 'e4'. 'e5' }.
-			{ 2. nil. nil }.
-			{ 1. 'e4'. 'e5' }.
-			{ 2. nil. nil }.
-			{ 1. 'e4'. 'e5' }.
-			{ 2. nil. nil }.
-			{ 1. 'e4'. 'e5' }.
-			{ 2. nil. nil }.
-			{ 1. 'e4'. 'e5' }.
-			{ 2. nil. nil }.
-			{ 1. 'e4'. 'e5' }.
-			{ 2. nil. nil }.
-			{ 1. 'e4'. 'e5' }.
-			{ 2. nil. nil }.
-			{ 1. 'e4'. 'e5' }.
-			{ 2. nil. nil }.
-			{ 1. 'e4'. 'e5' }.
-			{ 2. nil. nil }.
-			{ 1. 'e4'. 'e5' }.
-			{ 2. nil. nil }.
-			{ 1. 'e4'. 'e5' }.
-			{ 2. nil. nil }.
-			{ 1. 'e4'. 'e5' }.
-			{ 2. nil. nil }.
-			{ 1. 'e4'. 'e5' }.
-			{ 2. nil. nil }.
-			{ 1. 'e4'. 'e5' }.
-			{ 2. nil. nil }.
-			{ 1. 'e4'. 'e5' }.
-			{ 2. nil. nil }.
-			
-			
-			
-			 }.
+			{ 1. 'e4'. 'e5' } }.
 
 	space := BlSpace new.
 	space root addChild: moveListElement.
@@ -6486,7 +6450,7 @@ ToSandBox class >> example_labelFieldWithShrinkFeedback [
 { #category : #'finite list' }
 ToSandBox class >> example_listInDashBoard [
 
-	self listWithData: ToSandBox statesOfAmerica
+	self listWithData: (ToSandBox statesOfAmerica "copyFrom: 1 to: 1")
 
 ]
 
@@ -6496,7 +6460,7 @@ ToSandBox class >> example_listWithAllClasses [
 	| l |
 	l := self listWithData: 
 		((Smalltalk globals allClasses sorted: [ :a :b | a name < b name ]) copyFrom: 1 to: 2000).
-	l toConfiguration useCheckbox: true
+	l  useCheckbox: true
 
 ]
 

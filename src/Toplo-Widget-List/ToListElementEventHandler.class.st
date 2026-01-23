@@ -100,7 +100,9 @@ ToListElementEventHandler >> listDataSourceEmptinessChangedEvent: anEvent [
 { #category : #'infinite event handling' }
 ToListElementEventHandler >> listHiddenSelectionChangedEvent: anEvent [
 
-	anEvent touchedIntervals do: [ :int |
+	| target |
+	target := anEvent currentTarget.
+	target hiddenSelectionModel selectedIndexesIntervalsDo: [ :int |
 		anEvent currentTarget dataSource notifyItemsChanged: int ]
 ]
 

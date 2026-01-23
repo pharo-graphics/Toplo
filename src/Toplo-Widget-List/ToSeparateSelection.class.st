@@ -8,19 +8,10 @@ Class {
 }
 
 { #category : #comparing }
-ToSeparateSelection >> = other [
+ToSeparateSelection >> equivalentTo: other [
 
-	^ super = other
-		  ifFalse: [ false ]
-		  ifTrue: [
-			  node = other node and: [
-				  preComputedBounds = other preComputedBounds ] ]
-]
-
-{ #category : #comparing }
-ToSeparateSelection >> hash [
-
-	^ super hash bitXor: node hash
+	(super equivalentTo: other) ifFalse: [ ^ false ].
+	^ (node equals: other node)
 ]
 
 { #category : #accessing }

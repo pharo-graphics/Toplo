@@ -5,28 +5,14 @@ Class {
 		'selectionMode',
 		'masked',
 		'triggerSelectionState',
-		'representationOption',
 		'animationDuration',
 		'beneath',
 		'elementFactory',
-		'selectionContainer'
+		'selectionContainer',
+		'representationVariant'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
-
-{ #category : #'selection container managing' }
-ToListSelectionOption >> addAllSelectionElements: aSelectionElementArray [
-
-	self isMasked ifTrue: [ ^ self ].
-	selectionContainer addChildren: aSelectionElementArray
-]
-
-{ #category : #'selection container managing' }
-ToListSelectionOption >> addSelectionElement: aSelectionElement [
-
-	self isMasked ifTrue: [ ^ self ].
-	selectionContainer addChild: aSelectionElement
-]
 
 { #category : #accessing }
 ToListSelectionOption >> animationDuration [
@@ -44,15 +30,8 @@ ToListSelectionOption >> animationDuration: aDuration [
 ToListSelectionOption >> beneath: aBoolean [
 
 	beneath := aBoolean.
-	self removeSelectionContainer 
-]
-
-{ #category : #'selection container managing' }
-ToListSelectionOption >> checkSelectionContainerIn: aListElement [
-
-	selectionContainer ifNil: [
-		selectionContainer := self newSelectionContainerIn: aListElement.
-		aListElement addChild: selectionContainer ]
+	selectionContainer ifNil: [ ^ self ].
+	selectionContainer beneath: aBoolean
 ]
 
 { #category : #accessing }
@@ -64,9 +43,7 @@ ToListSelectionOption >> elementFactory [
 { #category : #accessing }
 ToListSelectionOption >> elementFactory: aSelectionElementFactoryValuable [
 
-	elementFactory := aSelectionElementFactoryValuable.
-	aSelectionElementFactoryValuable ifNil: [
-		self removeSelectionContainer ]
+	elementFactory := aSelectionElementFactoryValuable
 ]
 
 { #category : #accessing }
@@ -74,15 +51,15 @@ ToListSelectionOption >> grouped: aBoolean [
 
 	| opt |
 	opt := aBoolean
-		       ifTrue: [ ToListSelectionRepresentationOption neighbouring ]
-		       ifFalse: [ ToListSelectionRepresentationOption separate ].
-	self representation: opt
+		       ifTrue: [ ToListSelectionRepresentationVariant neighbouring ]
+		       ifFalse: [ ToListSelectionRepresentationVariant separate ].
+	self representationVariant: opt
 ]
 
 { #category : #testing }
 ToListSelectionOption >> hasEmbeddedRepresentation [
 
-	^ representationOption isEmbedded 
+	^ representationVariant isEmbedded 
 ]
 
 { #category : #initialization }
@@ -93,7 +70,7 @@ ToListSelectionOption >> initialize [
 	triggerSelectionState := false.
 	animationDuration := 0 milliSecond.
 	beneath := true.
-	self representation: ToListSelectionRepresentationOption separate
+	self representationVariant: ToListSelectionRepresentationVariant separate
 ]
 
 { #category : #accessing }
@@ -111,7 +88,7 @@ ToListSelectionOption >> isBeneath [
 { #category : #testing }
 ToListSelectionOption >> isGrouped [
 
-	^ representationOption isGrouped
+	^ representationVariant isGrouped
 ]
 
 { #category : #testing }
@@ -135,67 +112,47 @@ ToListSelectionOption >> masked: aBoolean [
 { #category : #'instance creation' }
 ToListSelectionOption >> newSelectionContainerIn: aListElement [
 
-	| container elevation |
-	container := ToOverlayElement new.
-	container clipChildren: true.
-	container attachTo: aListElement.
-	elevation := self isBeneath 
-		             ifTrue: [ BlRelativeElevation elevation: 5 ]
-		             ifFalse: [ BlRelativeElevation elevation: 15 ].
-	container elevation: elevation.
-	^ container
-]
-
-{ #category : #'instance creation' }
-ToListSelectionOption >> newSelectionElementIn: aListElement [
-
-	^ representationOption newSelectionElementIn: aListElement
+	^ selectionMode newSelectionContainerIn: aListElement
 ]
 
 { #category : #'private - selection updating' }
 ToListSelectionOption >> notifyNodesDeselectedIn: aListElement [
 
-	representationOption notifyNodesDeselectedIn: aListElement
+	representationVariant notifyNodesDeselectedIn: aListElement
 ]
 
 { #category : #'private - selection updating' }
 ToListSelectionOption >> notifyNodesSelectedIn: aListElement [
 
-	representationOption notifyNodesSelectedIn: aListElement
+	representationVariant notifyNodesSelectedIn: aListElement
 ]
 
 { #category : #'api - hooks' }
 ToListSelectionOption >> onInstalledIn: aListElement [
 
-
+	selectionContainer := self newSelectionContainerIn: aListElement.
+	selectionContainer beneath: beneath.
+	aListElement addChild: selectionContainer
 ]
 
 { #category : #'api - hooks' }
 ToListSelectionOption >> onUninstalledIn: aListElement [
 
-	self removeSelectionContainer 
-]
-
-{ #category : #'selection container managing' }
-ToListSelectionOption >> removeSelectionContainer [
-
-	selectionContainer ifNotNil: [
-		selectionContainer removeFromParent.
-		selectionContainer := nil ]
+	selectionContainer removeFromParent.
+	
 ]
 
 { #category : #accessing }
-ToListSelectionOption >> representation: aRepresentationOption [
+ToListSelectionOption >> representationVariant: aRepresentationVariant [
 
-	representationOption := aRepresentationOption.
-	aRepresentationOption selectionOption: self.
-	self removeSelectionContainer 
+	representationVariant := aRepresentationVariant.
+	aRepresentationVariant selectionOption: self
 ]
 
-{ #category : #accessing }
+{ #category : #'private - selection updating' }
 ToListSelectionOption >> requestNewRepresentation [
 
-	representationOption requestNewRepresentation
+	representationVariant requestNewRepresentation
 ]
 
 { #category : #accessing }
@@ -207,7 +164,7 @@ ToListSelectionOption >> selectionContainer [
 { #category : #accessing }
 ToListSelectionOption >> selectionElements [
 
-	^ representationOption selectionElements
+	^ selectionContainer children asArray
 ]
 
 { #category : #accessing }
@@ -237,7 +194,7 @@ ToListSelectionOption >> triggerSelectionState: aBoolean [
 { #category : #'private - selection updating' }
 ToListSelectionOption >> updateSelectionIn: aListElement withSelectionModel: aSelectionModel [
 
-	representationOption
+	representationVariant
 		updateSelectionIn: aListElement
 		withSelectionModel: aSelectionModel.
 	selectionMode dirty: false
@@ -246,5 +203,5 @@ ToListSelectionOption >> updateSelectionIn: aListElement withSelectionModel: aSe
 { #category : #accessing }
 ToListSelectionOption >> withEmbeddedRepresentation [
 
-	self representation: ToListSelectionRepresentationOption embedded
+	self representationVariant: ToListSelectionRepresentationVariant embedded
 ]

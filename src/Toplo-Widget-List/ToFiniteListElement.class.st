@@ -225,6 +225,14 @@ ToFiniteListElement >> nodeManager [
 
 { #category : #'data source updates' }
 ToFiniteListElement >> offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount [
+
+	"self nodeContainersDo: [ :anElement |
+		| anElementHolder |
+		anElementHolder := self elementHolderOf: anElement.
+		(anElementHolder shouldIgnore not and: [
+			 anElementHolder position >= aStartPosition ]) ifTrue: [
+			anElementHolder offsetPositionBy: anItemCount ] ].
+	self requestLayout"
 ]
 
 { #category : #'hooks - layout' }
@@ -252,16 +260,19 @@ ToFiniteListElement >> onItemRangeChanged: aPositionStart itemCount: anItemCount
 ToFiniteListElement >> onItemRangeInserted: aPositionStart itemCount: anItemCount [
 
 	| holder offsetPosition holders |
+	" consume the comands that can contain a selection shift command "
+	self consumeFinalStepCommands.
+	self
+		shiftPositionsFrom: aPositionStart + anItemCount - 1
+		by: anItemCount.
 	holders := Array streamContents: [ :stream |
-		           1 to: anItemCount do: [ :idx |
-			           holder := self dataSource createHolder: self.
-			           offsetPosition := aPositionStart + idx - 1.
-			           holder infiniteElement: self.
-			           self dataSource bindHolder: holder at: offsetPosition.
-			           stream nextPut: holder ] ].
-	self addAllHolders: holders at: aPositionStart.
-	self updatePositions
-
+			           1 to: anItemCount do: [ :idx |
+					           holder := self dataSource createHolder: self.
+					           offsetPosition := aPositionStart + idx - 1.
+					           holder infiniteElement: self.
+					           self dataSource bindHolder: holder at: offsetPosition.
+					           stream nextPut: holder ] ].
+	self addAllHolders: holders at: aPositionStart
 ]
 
 { #category : #'data source updates' }
@@ -281,33 +292,30 @@ ToFiniteListElement >> onItemRangeRemoved: aPositionStart itemCount: anItemCount
 ToFiniteListElement >> onItemsChanged [
 
 	| holders |
-
+	self dataSourceManager resetFinalStepCommands.
 	self removeAllNodeContainers: self nodeContainers.
 	holders := Array streamContents: [ :stream |
-		           | holder |
-		           1 to: self dataSource itemCount do: [ :idx |
-			           holder := self dataSource createHolder: self.
-			           holder infiniteElement: self.
-			           self dataSource bindHolder: holder at: idx.
-			           stream nextPut: holder ] ].
+			           | holder |
+			           1 to: self dataSource itemCount do: [ :idx |
+					           holder := self dataSource createHolder: self.
+					           holder infiniteElement: self.
+					           self dataSource bindHolder: holder at: idx.
+					           stream nextPut: holder ] ].
 	self addAllHolders: holders at: 1.
 	self updatePositions
-
 ]
 
 { #category : #layout }
 ToFiniteListElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 
-	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
-	self consumeFinalStepCommands
-	
-
+	super onLayout: aBounds context: aBlElementBoundsUpdateContext
 ]
 
 { #category : #'hooks - layout' }
 ToFiniteListElement >> onLayoutDone [
 
-	super onLayoutDone
+	super onLayoutDone.
+	self consumeFinalStepCommands
 ]
 
 { #category : #initialization }
@@ -406,6 +414,15 @@ ToFiniteListElement >> scrollTowardStartToDataSourcePosition: anIndex [
 
 	(self scrollDeltaTowardStartFromDataSourcePosition: anIndex) ifNotNil: [ :p |
 		self scrollBy: p x negated @ p y ]
+]
+
+{ #category : #'data source updates' }
+ToFiniteListElement >> shiftPositionsFrom: aStartPosition by: aDelta [
+
+	aStartPosition to: self nodeContainers size do: [ :p |
+			| container |
+			container := self nodeContainers at: p.
+			container holder bindAtPosition: p + aDelta ]
 ]
 
 { #category : #scrolling }

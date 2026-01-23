@@ -16,8 +16,23 @@ ToNodeContainer >> applyConfiguration [
 	| list |
 	super applyConfiguration.
 	list := self holder listElement.
-	list toConfiguration configureNodeContainer: self.
+	list toConfigurationDo: [ :conf |
+			self isFake
+				ifTrue: [ conf configureFakeNodeContainer: self ]
+				ifFalse: [ conf configureNodeContainer: self ] ].
 	self node applyConfiguration
+]
+
+{ #category : #accessing }
+ToNodeContainer >> checkbox [
+
+	^ self startContainer ifNotNil: [:sc | sc childWithId: #'list-selection-checkbox' ifNone: [  ] ]
+]
+
+{ #category : #comparing }
+ToNodeContainer >> equals: other [
+
+	^ self = other
 ]
 
 { #category : #accessing }
@@ -36,6 +51,14 @@ ToNodeContainer >> intersectionRectangleWithListElement [
 	pbnds := self listElementReferenceBoundsInSpace asRectangle.
 	intersection := bnds intersect: pbnds.
 	^ intersection
+]
+
+{ #category : #testing }
+ToNodeContainer >> isFake [
+
+	| list |
+	list := self holder listElement.
+	^ list fakeNodeContainer = self 
 ]
 
 { #category : #testing }
@@ -82,6 +105,12 @@ ToNodeContainer >> newMiddleContainer [
 	node := self nodeManager newNodeForHolder: self holder.
 	node holder: self holder.
 	^ node
+]
+
+{ #category : #'instance creation' }
+ToNodeContainer >> newRawSkin [
+
+	^ ToNodeContainerSkin new
 ]
 
 { #category : #'t - triplet container - instance creation' }

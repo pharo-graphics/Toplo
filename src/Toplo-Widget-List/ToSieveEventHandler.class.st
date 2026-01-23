@@ -37,6 +37,7 @@ ToSieveEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 									toIndex: localIndex
 									in: listElement selectionModel ] ] ].
 
+	listElement requestUpdateCheckboxes.
 	" dispatch a specific, different from the primary selection change event.
 	It is useful for sieve list user that relies on the sieve internal selection to adapt themeself 
 	according to the sieve selection "

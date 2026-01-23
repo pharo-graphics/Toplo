@@ -5,15 +5,9 @@ Class {
 }
 
 { #category : #comparing }
-ToSelectionRepresentation >> = other [
+ToSelectionRepresentation >> equivalentTo:  other [
 
 	^ self class = other class
-]
-
-{ #category : #comparing }
-ToSelectionRepresentation >> hash [
-
-	^ self class hash
 ]
 
 { #category : #testing }
@@ -28,31 +22,13 @@ ToSelectionRepresentation >> isEmpty [
 	^ false
 ]
 
+{ #category : #'private - selection updating' }
+ToSelectionRepresentation >> newSelectionElementIn: aListElement option: aSelectionRepresentationOption [
+
+	^ self subclassResponsibility
+]
+
 { #category : #accessing }
 ToSelectionRepresentation >> nodeContainers [
 	^ self subclassResponsibility
-]
-
-{ #category : #removing }
-ToSelectionRepresentation >> onRemovedFromListElement: aListElement [
-
-	self subclassResponsibility 
-]
-
-{ #category : #'private - selection element' }
-ToSelectionRepresentation >> refreshSelectionElementIn: aListElement option: aListSelectionRepresentationOption [
-
-	self subclassResponsibility 
-]
-
-{ #category : #accessing }
-ToSelectionRepresentation >> selectionBounds [
-
-	^ self subclassResponsibility
-]
-
-{ #category : #accessing }
-ToSelectionRepresentation >> selectionElements [
-
-	^ self subclassResponsibility 
 ]

@@ -28,23 +28,11 @@ ToScrollCommand >> index: anIndex [
 	index := anIndex
 ]
 
-{ #category : #accessing }
-ToScrollCommand >> indexes [ 
-
-	^ Array with: index
-]
-
 { #category : #initialization }
 ToScrollCommand >> initialize [ 
 
 	super initialize.
 	towardEnd := true
-]
-
-{ #category : #accessing }
-ToScrollCommand >> intervals [
-
-	^ Array with: (index to: index)
 ]
 
 { #category : #accessing }

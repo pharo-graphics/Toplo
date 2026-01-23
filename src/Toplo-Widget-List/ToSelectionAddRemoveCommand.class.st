@@ -8,6 +8,12 @@ Class {
 }
 
 { #category : #accessing }
+ToSelectionAddRemoveCommand >> indexes [
+
+	^ self subclassResponsibility 
+]
+
+{ #category : #accessing }
 ToSelectionAddRemoveCommand >> operation [
 
 	^ operation

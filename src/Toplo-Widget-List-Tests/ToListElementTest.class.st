@@ -47,6 +47,131 @@ ToListElementTest >> statesOfAmerica [
 ]
 
 { #category : #'test selection - adding/removing' }
+ToListElementTest >> testCheckboxSelectionUpdatedAfterInsert [
+
+	| l |
+	l := ToListElement new.
+	l useCheckbox: true.
+	space root addChild: l.
+	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	l selecter selectOnlyIndex: 3.
+	self waitTestingSpaces.
+	l forceLayout.
+	self applyAllEnqueuedStates.
+	self assert: l selectionModel selectedIndexes equals: { 3 }.
+	self assert: (l nodeContainers at: 3) checkbox isChecked.
+	l dataAccessor add: (self statesOfAmerica at: 6) afterIndex: 1.
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: { 4 }.
+	self deny: (l nodeContainers at: 3) checkbox isChecked.
+	self assert: (l nodeContainers at: 4) checkbox isChecked.
+
+]
+
+{ #category : #'test selection - adding/removing' }
+ToListElementTest >> testCheckboxSelectionUpdatedAfterInsert1 [
+
+	| l |
+	l := ToListElement new.
+	l matchParent.
+	l useCheckbox: true.
+	space root addChild: l.
+	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self assert: l dataAccessor size equals: 5.
+	l selecter selectOnlyIndex: 3.
+	l forceLayout.
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: { 3 }.
+	self assert: l nodeContainers third checkbox isChecked.
+	self assert: l nodeContainers size equals: 5.
+	l dataAccessor addAllFirst: (self statesOfAmerica copyFrom: 6 to: 10).
+	l forceLayout.
+	self waitTestingSpaces.
+	self assert: l dataAccessor size equals: 10.
+	self assert: (l selectionModel selectedIndexes) equals: { 8 }.
+	self deny: (l nodeContainers at: 3) checkbox isChecked.
+	self assert: (l nodeContainers at: 8) checkbox isChecked.
+
+]
+
+{ #category : #'test selection - adding/removing' }
+ToListElementTest >> testCheckboxSelectionUpdatedAfterInsert2 [
+
+	| l |
+	l := ToListElement new.
+	l matchParent.
+	l useCheckbox: true.
+	space root addChild: l.
+	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self assert: l dataAccessor size equals: 5.
+	l selecter selectOnlyIndex: 3.
+	l forceLayout.
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: { 3 }.
+	self assert: l nodeContainers third checkbox isChecked.
+	self assert: l nodeContainers size equals: 5.
+	l dataAccessor addAllFirst: (self statesOfAmerica copyFrom: 6 to: 6).
+	l forceLayout.
+	self waitTestingSpaces.
+	self assert: l dataAccessor size equals: 6.
+	self waitTestingSpaces.
+	self assert: (l selectionModel selectedIndexes) equals: { 4 }.
+	self deny: (l nodeContainers at: 3) checkbox isChecked.
+	self assert: (l nodeContainers at: 4) checkbox isChecked.
+
+]
+
+{ #category : #'test selection - adding/removing' }
+ToListElementTest >> testCheckboxSelectionUpdatedAfterInsert3 [
+
+	| l |
+	l := ToListElement new.
+	space root addChild: l.
+	l matchParent.
+	l useCheckbox: true.
+	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self assert: l selectionModel isEmpty.
+	l selecter selectIndexes: #( 3 4 ).
+	self waitTestingSpaces.
+	l forceLayout.
+	self applyAllEnqueuedStates.
+	self assert: l selectionModel selectedIndexes equals: #( 3 4 ).
+	self assert: (l nodeContainers at: 3) checkbox isChecked.
+	self assert: (l nodeContainers at: 4) checkbox isChecked.
+	l dataAccessor add: (self statesOfAmerica at: 6) afterIndex: 1.
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: #( 4 5 ).
+	self deny: (l nodeContainers at: 3) checkbox isChecked.
+	self assert: (l nodeContainers at: 4) checkbox isChecked.
+	self assert: (l nodeContainers at: 5) checkbox isChecked.
+
+]
+
+{ #category : #'test selection - adding/removing' }
+ToListElementTest >> testCheckboxSelectionUpdatedAfterInsert4 [
+
+	| l |
+	l := ToListElement new.
+	l useCheckbox: true.
+	space root addChild: l.
+	l matchParent.
+	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 1).
+	self waitTestingSpaces.
+	l forceLayout.
+	l selecter selectIndex: 1.
+	self waitTestingSpaces.
+	space applyAllEnqueuedStates.
+	self assert: l selectionModel selectedIndexes equals: { 1 }.
+	self assert: (l nodeContainers at: 1) checkbox isChecked.
+	l dataAccessor addFirst: (self statesOfAmerica at: 6).
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: { 2 }.
+	self deny: (l nodeContainers at: 1) checkbox isChecked.
+	self assert: (l nodeContainers at: 2) checkbox isChecked.
+
+]
+
+{ #category : #'test selection - adding/removing' }
 ToListElementTest >> testDataRemovedWhenNodeRemoved [
 
 	| list but remButtons fillers |
@@ -137,7 +262,7 @@ ToListElementTest >> testDisabledWithFiveNodes [
 	l innerElement forceLayout.
 	self waitTestingSpaces.
 	self assert: l nodeContainers size equals: 1.
-	l innerElement firstChild holder disabled: true.
+	l innerElement nodeContainers first holder disabled: true.
 	l dataAccessor addFirst: 'second'.
 	l dataAccessor add: 'third'.
 	l dataAccessor add: 'fourth' afterIndex: 2.
@@ -156,7 +281,7 @@ ToListElementTest >> testDisabledWithFourNodes [
 	l innerElement forceLayout.
 	self waitTestingSpaces.
 	self assert: l nodeContainers size equals: 1.
-	l innerElement firstChild disabled: true.
+	l nodeContainers first disabled: true.
 	l dataAccessor addFirst: 'second'.
 	l dataAccessor add: 'third'.
 	l dataAccessor add: 'fourth' afterIndex: 2.
@@ -208,9 +333,9 @@ ToListElementTest >> testDisabledWithThreeNodes [
 	space root addChild: l.
 	l innerElement forceLayout.
 	self waitTestingSpaces.
-	self assert: l innerElement children size equals: 1.
+	self assert: l nodeContainers size equals: 1.
 	self assert: l disabledSelectionModel isEmpty.
-	l innerElement firstChild holder disabled: true.
+	l nodeContainers first holder disabled: true.
 	self waitTestingSpaces.
 	self assert: l disabledSelecter selectedIndex equals: 1.
 	l dataAccessor addFirst: 'second'.
@@ -326,7 +451,6 @@ ToListElementTest >> testEmptyList [
 	| l |
 	l := ToListElement new.
 	l fitContent.
-	self assert: l nodeContainers identicalTo: l innerElement children.
 	self assert: l selecter selectedIndexes isEmpty.
 	self assert: l selectionModel underlyingModel isEmpty.
 	self assert: l secondarySelectionModel underlyingModel isEmpty.	
@@ -615,15 +739,10 @@ ToListElementTest >> testOneSpecifcNode [
 	l dataAccessor add: 'first'.
 	self waitTestingSpaces.
 	self assert: l dataSource first equals: 'first'.
-	" no node since the list is not added in a space "
-	self assert: l innerElement children size equals: 0.
-	self assert: l nodeContainers identicalTo: l innerElement children.
-	self assert: l nodeContainers size equals: 0.
 	" adding the list in the space consequence is a layout computing which update the list nodes"
 	space root addChild: l.
 	self waitTestingSpaces.
-	self assert: l innerElement children size equals: 1.
-	self assert: l innerElement firstChild node class identicalTo: ToListNodeForTest.	
+	self assert: l nodeContainers size equals: 1.
 	self assert: l nodeContainers first node class identicalTo: ToListNodeForTest.	
 	self assert: l nodeContainers first holder class identicalTo: ToListNodeHolderForTest.	
 	self assert: l nodeContainers first node children size equals: 1.	
@@ -728,13 +847,13 @@ ToListElementTest >> testRemoveAll [
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	self waitTestingSpaces.
-	self assert: l innerElement children size equals: 5.
+	self assert: l nodeContainers size equals: 5.
 	l selecter selectOnlyIndex: 2.
 	self waitTestingSpaces.
 	self assert: l selectionModel selectedIndexes equals: #( 2 ).
 	l dataAccessor removeAll.
 	self waitTestingSpaces.
-	self assert: l innerElement children size equals: 0.
+	self assert: l nodeContainers size equals: 0.
 	self assert: l selectionModel selectedIndexes isEmpty
 ]
 
@@ -850,11 +969,11 @@ ToListElementTest >> testSelectionUpdatedAfterInsert1 [
 	self assert: l selectionModel selectedIndexes equals: { 3 }.
 	self assert: l selecter currentIndex equals: 3.
 	l forceLayout.
-	self assert: l innerElement children size equals: 5.
+	self assert: l nodeContainers size equals: 5.
 	l dataAccessor addAllFirst: (self statesOfAmerica copyFrom: 6 to: 10).
 	self assert: l dataAccessor size equals: 10.
-	self assert: l innerElement children size equals: 5.
 	self waitTestingSpaces.
+	self assert: l nodeContainers size equals: 10.
 	self assert: l selectionModel lastIndex equals: 8
 ]
 

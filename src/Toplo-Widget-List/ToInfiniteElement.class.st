@@ -129,7 +129,7 @@ ToInfiniteElement >> initialize [
 
 	super initialize.
 	self addEventHandler: ToInfiniteListElementEventHandler new.
-	self elevation: (BlRelativeElevation elevation: 10).
+	self elevation: (BlRelativeElevation elevation: 10)
 ]
 
 { #category : #initialization }
@@ -213,14 +213,6 @@ ToInfiniteElement >> nodeContainingGlobalPosition: aPoint [
 	self nodeContainersDo: [ :container |
 		(container containsGlobalPoint: aPoint) ifTrue: [ ^ container ] ].
 	^ nil
-]
-
-{ #category : #layout }
-ToInfiniteElement >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
-
-	super onLayout: aBounds context: aBlElementBoundsUpdateContext
-	
-
 ]
 
 { #category : #initialization }

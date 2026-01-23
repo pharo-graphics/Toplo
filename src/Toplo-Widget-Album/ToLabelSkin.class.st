@@ -1,9 +1,6 @@
 Class {
 	#name : #ToLabelSkin,
 	#superclass : #ToRawSkin,
-	#instVars : [
-		'foreground'
-	],
 	#category : #'Toplo-Widget-Album-Label'
 }
 
@@ -15,7 +12,7 @@ ToLabelSkin >> deselectedSkinEvent: anEvent [
 	anEvent selectionMode selectionOption isMasked ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e |
 			"e text asString = 'Alaska' ifTrue: [ anEvent traceCr ]."
-			e foreground: foreground ]
+			e foreground: (e valueOfTokenNamed: #'color-text') ]
 ]
 
 { #category : #'event handling' }
@@ -33,7 +30,7 @@ ToLabelSkin >> enabledSkinEvent: anEvent [
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 			"e text asString = '2: BB' ifTrue: [ anEvent traceCr ]."
-			e foreground: foreground ]
+			e foreground: (e valueOfTokenNamed: #'color-text') ]
 ]
 
 { #category : #'event handling' }
@@ -41,12 +38,11 @@ ToLabelSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-			foreground := e valueOfTokenNamed: #'color-text'.
 			e textAttributesBuilder
 				defaultFontSize: (e valueOfTokenNamed: #'font-size');
 				lineSpacing: (e valueOfTokenNamed: #'line-height');
 				attribute: (e valueOfTokenNamed: #'font-weight-attribute');
-				foreground: foreground.
+				foreground: (e valueOfTokenNamed: #'color-text').
 			e applyStyle ]
 ]
 
@@ -58,7 +54,6 @@ ToLabelSkin >> selectedSkinEvent: anEvent [
 	anEvent selectionMode selectionOption isMasked ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e |
 			| f |
-			"e text asString = '2: BB' ifTrue: [ anEvent traceCr ]."
 			f := anEvent focused
 				     ifTrue: [
 				     e valueOfTokenNamed: #'selected-focused-foreground' ]

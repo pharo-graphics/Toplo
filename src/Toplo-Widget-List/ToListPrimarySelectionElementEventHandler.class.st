@@ -2,7 +2,8 @@ Class {
 	#name : #ToListPrimarySelectionElementEventHandler,
 	#superclass : #ToListSelectionElementEventHandler,
 	#instVars : [
-		'differedUpdateTask'
+		'differedUpdateTask',
+		'wasSelectingOnClick'
 	],
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
@@ -17,14 +18,47 @@ ToListPrimarySelectionElementEventHandler >> differUpdateSelectionFrom: anElemen
 	anElement enqueueTask: differedUpdateTask
 ]
 
+{ #category : #'selection managing' }
+ToListPrimarySelectionElementEventHandler >> elementLayoutComputedEvent: anEvent [
+	" in case of a list with checkboxes, the checkboxes have 
+	to be up synchronized with ne updated selection model "
+
+	| listElement |
+	listElement := anEvent currentTarget.
+	listElement updateCheckboxes 
+]
+
 { #category : #'api - accessing' }
 ToListPrimarySelectionElementEventHandler >> eventsToHandle [
 
-	^ super eventsToHandle , { ToListPrimarySelectionChangedEvent }
+	^ super eventsToHandle , {
+		  ToListCheckableNodeUseChanged.
+		  ToListPrimarySelectionChangedEvent.
+		  BlElementLayoutComputedEvent }
+]
+
+{ #category : #'selection managing' }
+ToListPrimarySelectionElementEventHandler >> listCheckableNodeUseChanged: anEvent [
+
+	| listElement |
+	listElement := anEvent currentTarget.
+
+	listElement nodeManager checkableNode: listElement useCheckbox.
+	listElement useCheckbox
+		ifTrue: [
+				wasSelectingOnClick := listElement selectionMode selectOnClick.
+				listElement selectionMode selectOnClick: false ]
+		ifFalse: [
+		listElement selectionMode selectOnClick: wasSelectingOnClick ].
+	listElement inUIProcessDo: [ listElement notifyDataSourceChanged ]
 ]
 
 { #category : #'element handlers' }
 ToListPrimarySelectionElementEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 
+	| listElement |
+	listElement := anEvent currentTarget.
+	listElement useCheckbox ifTrue: [
+		listElement requestUpdateCheckboxes ].
 	self updateSelectionFromEvent: anEvent
 ]

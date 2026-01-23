@@ -15,17 +15,6 @@ ToCheckboxSkin >> checkedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToCheckboxSkin >> deselectedSkinEvent: anEvent [
-
-	super deselectedSkinEvent: anEvent.
-
-	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
-	anEvent selectionMode selectionOption isMasked ifTrue: [ ^ self ].
-	anEvent elementDo: [ :e |
-			e removeTokenNamed: #'checkbox-color' ]
-]
-
-{ #category : #'event handling' }
 ToCheckboxSkin >> disabledSkinEvent: anEvent [
 
 	super disabledSkinEvent: anEvent.
@@ -123,23 +112,6 @@ ToCheckboxSkin >> leftSkinEvent: anEvent [
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text') ].
 		e border: BlBorder empty ]
-]
-
-{ #category : #'event handling' }
-ToCheckboxSkin >> selectedSkinEvent: anEvent [
-
-	super selectedSkinEvent: anEvent.
-
-	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
-	anEvent selectionMode selectionOption isMasked ifTrue: [ ^ self ].
-	anEvent elementDo: [ :e |
-			| f |
-			f := anEvent focused
-				     ifTrue: [
-				     e valueOfTokenNamed: #'selected-focused-foreground' ]
-				     ifFalse: [
-				     e valueOfTokenNamed: #'selected-unfocused-foreground' ].
-			e addTokenNamed: #'checkbox-color' withValue: f ]
 ]
 
 { #category : #'event handling' }

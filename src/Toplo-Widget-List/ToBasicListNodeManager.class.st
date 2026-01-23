@@ -30,7 +30,8 @@ ToBasicListNodeManager >> buildNodeContainer: aNodeContainer [
 	cbox := listElement newCheckboxInNodeContainer: aNodeContainer.
 	cbox constraintsDo: [ :c | c linear vertical alignCenter ].
 	aNodeContainer ensureStartContainer.
-	aNodeContainer startContainer addChild: cbox
+	aNodeContainer startContainer addChild: cbox.
+	
 ]
 
 { #category : #accessing }
@@ -57,7 +58,7 @@ ToBasicListNodeManager >> createFakeNodeContainerIn: aListElement [
 	" assigning the holder builds the middleContainer (which is the node of the fake node container) "
 	wrapper holder: holder.
 	wrapper nodeContainer: self newNodeContainer.
-	wrapper nodeContainer id: #fakeNodeContainerWrapper.
+	wrapper nodeContainer id: #fakeNodeContainer.
 	wrapper nodeContainer holder: holder.
 	wrapper node holder: holder.
 	wrapper node id: #fakeNode.

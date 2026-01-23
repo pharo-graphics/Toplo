@@ -56,6 +56,7 @@ ToToggleMenuItemSkin >> uncheckedSkinEvent: anEvent [
 	super uncheckedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e removeTokenNamed: #'color-text'.
+		e labelDo: [ :lab | lab requestNewSkin ].
 		e background: BlBackground transparent.
 		e iconDo: [ :ic |
 			ic adaptToColor: (e valueOfTokenNamed: #'color-text') ].]

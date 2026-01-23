@@ -211,6 +211,15 @@ ToMultiSelectElement >> setGroupIndex: anIndex [
 	self popupListElement groupSelecter selectIndex: anIndex
 ]
 
+{ #category : #private }
+ToMultiSelectElement >> showHidePlaceholder [
+	" show the placeholder in case no item is selected  "
+
+	self selectionModel ifEmpty: [
+		^ self showPlaceholder ].
+	self hidePlaceholder
+]
+
 { #category : #accessing }
 ToMultiSelectElement >> withGroups [
 

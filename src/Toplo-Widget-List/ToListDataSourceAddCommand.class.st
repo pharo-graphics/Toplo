@@ -7,8 +7,9 @@ Class {
 { #category : #application }
 ToListDataSourceAddCommand >> applyIn: aFiniteListElement [ 
 
-	aFiniteListElement onItemRangeInserted: positionStart itemCount: itemCount.
 	aFiniteListElement listElement selecter
 		shiftSelection: itemCount
-		from: positionStart
+		from: positionStart.
+	aFiniteListElement onItemRangeInserted: positionStart itemCount: itemCount.
+
 ]

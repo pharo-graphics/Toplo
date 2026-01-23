@@ -37,5 +37,5 @@ ToExTreeNodeSubAndMethSkin >> uninstallSkinEvent: anEvent [
 
 	super uninstallSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e removeChild: (e childWithId: #itemIcon e) ]
+		e removeChild: (e childWithId: #itemIcon) ]
 ]

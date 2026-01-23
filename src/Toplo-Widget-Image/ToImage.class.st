@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'innerImage',
 		'loader',
-		'innerImageColor'
+		'innerImageColor',
+		'sourceImage'
 	],
 	#classVars : [
 		'AllowFormColorChange'
@@ -213,21 +214,22 @@ ToImage >> innerImage [
 { #category : #accessing }
 ToImage >> innerImage: anImage [
 
-	| element |
-	anImage = innerImage ifTrue: [ ^ self ].
+	sourceImage = anImage ifTrue: [ ^ self ].
+	sourceImage := anImage.
 	innerImageColor := nil.
-	element := anImage ifNil: [ self defaultInnerImage ].
-	element := self convertedAsInnerImage: element.
+	innerImage := sourceImage
+		              ifNotNil: [ :srcIm |
+		              self convertedAsInnerImage: srcIm ]
+		              ifNil: [ self defaultInnerImage ].
 	self removeChildren.
-	innerImage := element.
-	self addChild: element.
+	self addChild: innerImage.
 
 	innerImage constraintsDo: [ :c |
 			c frame horizontal alignCenter.
 			c frame vertical alignCenter ].
 
-	element id ifNotNil: [ :id |
-		id asSymbol = self svgInnerImageId ifTrue: [ element matchParent ] ]
+	innerImage id ifNotNil: [ :id |
+		id asSymbol = self svgInnerImageId ifTrue: [ innerImage matchParent ] ]
 ]
 
 { #category : #'inner accessing' }

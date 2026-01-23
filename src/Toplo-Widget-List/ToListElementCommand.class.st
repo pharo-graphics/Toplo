@@ -14,18 +14,6 @@ ToListElementCommand >> addedIn: aCommandApplier [
 ]
 
 { #category : #accessing }
-ToListElementCommand >> indexes [
-
-	^ self subclassResponsibility 
-]
-
-{ #category : #accessing }
-ToListElementCommand >> intervals [
-
-	^ self subclassResponsibility 
-]
-
-{ #category : #accessing }
 ToListElementCommand >> intervalsIn: aCollection [
 	" return an array of intervals #( 2 3 4 6 7 8 ) -> { 2 to: 4. 6 to: 8 } "
 

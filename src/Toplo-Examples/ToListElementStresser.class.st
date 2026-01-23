@@ -379,7 +379,7 @@ ToListElementStresser >> newSelectionBoardOn: aListElement [
 		addEventHandlerOn: ToListSelectionChangedEvent
 		do: [ :event |
 			| nb |
-			nb := aListElement selectionModel underlyingModel intervals size.
+			nb := aListElement selectionModel selectedIndexesIntervals size.
 			lab text: (self selectionResultsTextOn: aListElement) ].
 	"pane childrenDo: [ :child | child constraintsDo: [ :c | c linear vertical alignCenter ] ]."
 	^ pane
@@ -545,7 +545,7 @@ ToListElementStresser >> selectionResultsTextOn: aListElement [
 	self tabsPanel space ifNil: [ ^ self ].
 	nbTasks := self tabsPanel space taskQueue size.
 	maxNbTasks := maxNbTasks max: nbTasks.
-	nb := aListElement selectionModel underlyingModel intervals size.
+	nb := aListElement selectionModel selectedIndexesIntervals size.
 	maxPrimaryIntervals := nb max: maxPrimaryIntervals.
 	^ 'Tasks: ', nbTasks asString, '/', maxNbTasks asString, ' -  Intervals: < primary ' , nb asString , '/'
 	  , maxPrimaryIntervals asString , ' >'

@@ -39,6 +39,18 @@ ToListSelectionContainer >> beneath: aBoolean [
 	self requestConfiguration 
 ]
 
+{ #category : #'private - updating' }
+ToListSelectionContainer >> flushRemovedChildren [
+	" do not remove the children now. wait the next layout to avoid flashing effect. 
+	selection remove followed selection adding leads to a flashing visual effect 
+	whereas adding followed by removing don't.
+	See #onLayoutDone "
+
+	removedChildren ifNotEmpty: [
+			self removeChildren: removedChildren.
+			removedChildren := #(  ) ]
+]
+
 { #category : #initialization }
 ToListSelectionContainer >> initialize [
 
@@ -50,21 +62,17 @@ ToListSelectionContainer >> initialize [
 { #category : #'hooks - layout' }
 ToListSelectionContainer >> onLayoutDone [
 
-	removedChildren ifNotEmpty: [
-			self removeChildren: removedChildren.
-			removedChildren := #(  ) ].
+	self flushRemovedChildren.
 	super onLayoutDone
 ]
 
 { #category : #'private - updating' }
 ToListSelectionContainer >> removeAllSelectionElements [
-
 	" do not remove the children now. wait the next layout to avoid flashing effect. 
 	selection remove followed selection adding leads to a flashing visual effect 
 	whereas adding followed by removing don't.
 	See #onLayoutDone "
-	removedChildren := Array streamContents: [ :stream |
-			                   stream
-				                   nextPutAll: removedChildren;
-				                   nextPutAll: self children ]
+
+	self flushRemovedChildren.
+	removedChildren := self children asArray
 ]

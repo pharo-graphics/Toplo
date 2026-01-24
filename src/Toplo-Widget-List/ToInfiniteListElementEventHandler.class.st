@@ -4,6 +4,16 @@ Class {
 	#category : #'Toplo-Widget-List-InnerList-Infinite'
 }
 
+{ #category : #'as yet unclassified' }
+ToInfiniteListElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
+
+	| listElement |
+
+	listElement := anEvent currentTarget listElement.
+	listElement forceUpdateAllSelectionsNow.
+	listElement requestMouseMoveReplay
+]
+
 { #category : #'element handlers' }
 ToInfiniteListElementEventHandler >> elementScrolledEvent: anEvent [
 
@@ -19,7 +29,7 @@ ToInfiniteListElementEventHandler >> elementScrolledEvent: anEvent [
 { #category : #'api - accessing' }
 ToInfiniteListElementEventHandler >> eventsToHandle [
 
-	^ super eventsToHandle , { BlElementScrolledEvent }
+	^ super eventsToHandle , { BlBoundsHasChangedDuringScrollingEvent. BlElementScrolledEvent }
 ]
 
 { #category : #'infinite event handling' }

@@ -13,7 +13,7 @@ ToEmptySelectionRepresentation >> isEmpty [
 { #category : #'private - selection updating' }
 ToEmptySelectionRepresentation >> newSelectionElementIn: aListElement option: aSelectionRepresentationOption [
 
-	^ #( )
+	^ #(  )
 ]
 
 { #category : #accessing }

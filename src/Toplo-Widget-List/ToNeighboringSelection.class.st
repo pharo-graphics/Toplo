@@ -18,6 +18,14 @@ ToNeighboringSelection >> equivalentTo: other [
 	^ true
 ]
 
+{ #category : #'private - selection updating' }
+ToNeighboringSelection >> newSelectionElementIn: aListElement option: aSelectionRepresentationOption [
+
+	^ Array with: (aSelectionRepresentationOption
+			   newSelectionElementIn: aListElement
+			   forNodeContainers: self nodeContainers)
+]
+
 { #category : #accessing }
 ToNeighboringSelection >> nodeContainers [
 

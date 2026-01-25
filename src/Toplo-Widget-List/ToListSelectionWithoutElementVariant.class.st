@@ -13,12 +13,20 @@ ToListSelectionWithoutElementVariant >> isEmbedded [
 { #category : #'private - selection updating' }
 ToListSelectionWithoutElementVariant >> newSelectionRepresentationArrayFrom: aListElement withSelectionModel: aSelectionModel [
 
-	^ (aListElement nodeContainersSelect: [ :container |
-		   | idx |
-		   idx := container holder position.
-		   (aSelectionModel containsIndex: idx) and: [
-			   aSelectionModel isVisibleIndex: idx ] ]) collect: [ :container |
+	^ (self
+		   selectedNodeContainersFrom: aListElement
+		   withSelectionModel: aSelectionModel) collect: [ :container |
 		  ToSelectionWithoutElement new node: container ]
+]
+
+{ #category : #'private - selection updating' }
+ToListSelectionWithoutElementVariant >> selectedNodeContainersFrom: aListElement withSelectionModel: aSelectionModel [
+
+	^ aListElement nodeContainersSelect: [ :container |
+			  | idx |
+			  idx := container holder position.
+			  (aSelectionModel containsIndex: idx) and: [
+				  aSelectionModel isVisibleIndex: idx ] ]
 ]
 
 { #category : #'private - selection updating' }
@@ -27,5 +35,6 @@ ToListSelectionWithoutElementVariant >> updateSelectionIn: aListElement withSele
 	super
 		updateSelectionIn: aListElement
 		withSelectionModel: aSelectionModel.
+	representationChanged ifFalse: [ ^ self ].
 	self notifyNodesSelectedIn: aListElement
 ]

@@ -6,8 +6,6 @@ Class {
 
 { #category : #'private - selection updating' }
 ToListSelectionWithElementVariant >> addSelectionElementsIn: aListElement [
-	" add new selection with animation if possible. 
-	Pay attention, an animation can be used. In case of animation, the SelectedSkinEvent is sent only when the animation ends to have a nice visual effect. If no animation is used, then SelectedSkinEvent is sent just after the selection is added "
 
 	| selectionElements |
 	self isMasked ifTrue: [ ^ self ].
@@ -39,23 +37,6 @@ ToListSelectionWithElementVariant >> newSelectionElementIn: aListElement forNode
 		  yourself
 ]
 
-{ #category : #'nodes collecting' }
-ToListSelectionWithElementVariant >> newSelectionElements: newSelectionElements checkedWithPrevious: currSelectionElements [
-
-	newSelectionElements size = currSelectionElements size ifFalse: [
-		self selectionContainer removeChildren.
-		^ newSelectionElements ].
-	^ Array streamContents: [ :stream |
-			  newSelectionElements
-				  with: currSelectionElements
-				  do: [ :newS :currS |
-						  (currS equals: newS)
-							  ifTrue: [ stream nextPut: currS ]
-							  ifFalse: [
-									  currS removeFromParent.
-									  stream nextPut: newS ] ] ]
-]
-
 { #category : #'private - selection updating' }
 ToListSelectionWithElementVariant >> updateSelectionContainerWith: anArray in: aListElement [
 	" add new selection with animation if possible. 
@@ -73,6 +54,5 @@ ToListSelectionWithElementVariant >> updateSelectionIn: aListElement withSelecti
 		updateSelectionIn: aListElement
 		withSelectionModel: aSelectionModel.
 	representationChanged ifFalse: [ ^ self ].
-	self addSelectionElementsIn: aListElement.
-	representationChanged := false
+	self addSelectionElementsIn: aListElement
 ]

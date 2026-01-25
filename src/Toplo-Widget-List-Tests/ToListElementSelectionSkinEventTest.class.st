@@ -11,6 +11,125 @@ Class {
 	#category : #'Toplo-Widget-List-Tests-Core-ListElement'
 }
 
+{ #category : #'test selection - skin' }
+ToListElementSelectionSkinEventTest >> selectedSkinEventCountAfterRemove [
+	" check that the skin select event is sent to the right node "
+
+	listElement selecter deselectAll.
+	self waitTestingSpaces.
+	space applyAllSkinPhases.
+	listElement dataAccessor add: self statesOfAmerica first.
+	listElement dataAccessor add: self statesOfAmerica second.
+	listElement selecter selectIndex: 2.
+	self waitTestingSpaces.
+	space applyAllSkinPhases.
+
+	self assert: listElement nodeContainers size equals: 2.
+	self assert: listElement selectionModel selectedIndexes equals: #( 2 ).
+
+	receivedSelectedEvents := OrderedCollection new.
+	receivedDeselectedEvents := OrderedCollection new.
+	selectionCounts := IdentityDictionary new.
+
+	listElement dataAccessor removeAt: 1.
+	space applyAllSkinPhases.
+	self waitTestingSpaces.
+ 	listElement forceLayout.
+	self assert: listElement nodeContainers size equals: 1.
+	self assert: listElement selectionModel selectedIndexes equals: #( 1 ).
+
+	" the second node is selected then the first node is removed 
+	-> the first node become selected but without selection changed event dispatching because of a shift selection command (the second nodeContainer is shift at the position 1)"
+	self deny: (selectionCounts includesKey: 2).
+	self deny: (selectionCounts includesKey: 1).
+	self assert: receivedSelectedEvents size equals: 0.
+	self assert: receivedDeselectedEvents size equals: 0.
+	
+	self assert: listElement selectionMode selectionContainer children size equals: 1.
+	self assert: listElement selectionMode selectionContainer children first nodeContainers size equals: 1.
+	self assert: listElement selectionMode selectionContainer children first nodeContainers first holder position equals: 1. 
+]
+
+{ #category : #'test selection - skin' }
+ToListElementSelectionSkinEventTest >> selectedSkinEventCountAfterSelect [
+	" check that the skin select event is sent to the right node "
+
+	receivedSelectedEvents := OrderedCollection new.
+	receivedDeselectedEvents := OrderedCollection new.
+	selectionCounts := IdentityDictionary new.
+
+	listElement dataAccessor add: self statesOfAmerica first.
+	listElement dataAccessor add: self statesOfAmerica second.
+	listElement selecter selectIndex: 2.
+
+	self waitTestingSpaces.
+	self assert: listElement nodeContainers size equals: 2.
+	space applyAllSkinPhases.
+	self deny: listElement isFocused.
+	self assert: (selectionCounts includesKey: 2).
+	self assert: (selectionCounts includesKey: 1).
+	self assert: (selectionCounts at: 2) equals: 1.
+
+	self assert: receivedSelectedEvents size equals: 1.
+	receivedSelectedEvents do: [ :evt |
+		self assert: evt currentTarget holder position equals: 2 ].
+	self assert: receivedDeselectedEvents size equals: 1.
+	listElement selecter selectOnlyIndex: 1.
+	self waitTestingSpaces.
+	space applyAllSkinPhases.
+	 listElement forceLayout.
+
+	self assert: receivedDeselectedEvents size equals: 2.
+	receivedDeselectedEvents withIndexDo: [ :evt :idx |
+		self assert: evt currentTarget holder position equals: idx ].
+	listElement forceLayout.
+	self assert: listElement selectionMode selectionContainer children size equals: 1.
+	self assert: listElement selectionMode selectionContainer children first nodeContainers size equals: 1.
+	self assert: listElement selectionMode selectionContainer children first nodeContainers first holder position equals: 1.
+
+]
+
+{ #category : #'test selection - skin' }
+ToListElementSelectionSkinEventTest >> selectedSkinEventCountAfterSelect2 [
+	" check that the skin select event is sent to the right node.
+	After running testSelectedSkinEventCountAfterSelect, the holders selection flags are up-to-date 
+	(the holder>>notifiedSelected flag is not nil). So the result is that the deselection is only applied once
+	on the selected node "
+
+	self selectedSkinEventCountAfterSelect.
+	receivedSelectedEvents := OrderedCollection new.
+	receivedDeselectedEvents := OrderedCollection new.
+	selectionCounts := IdentityDictionary new.
+
+	" here, the selected index is 1 because of #testSelectedSkinEventCountAfterSelect invocation"
+	listElement selecter selectIndex: 2.
+	self waitTestingSpaces.
+	space applyAllSkinPhases.
+	listElement forceLayout.
+	
+	self assert: (selectionCounts includesKey: 2).
+	" since the holder>>notifiedSelected has been initialize by the previous #testSelectedSkinEventCountAfterSelect invocation "
+	self deny: (selectionCounts includesKey: 1).
+	self assert: (selectionCounts at: 2) equals: 1.
+
+	self assert: receivedSelectedEvents size equals: 1.
+	receivedSelectedEvents do: [ :evt |
+		self assert: evt currentTarget holder position equals: 2 ].
+	self assert: receivedDeselectedEvents size equals: 0.
+	listElement selecter selectOnlyIndex: 1.
+	self waitTestingSpaces.
+	space applyAllSkinPhases.
+	
+	self assert: receivedDeselectedEvents size equals: 1.
+	receivedDeselectedEvents withIndexDo: [ :evt :idx |
+		self assert: evt currentTarget holder position equals: 2 ].
+	listElement forceLayout.
+	self assert: listElement selectionMode selectionContainer children size equals: 1.
+	self assert: listElement selectionMode selectionContainer children first nodeContainers size equals: 1.
+	self assert: listElement selectionMode selectionContainer children first nodeContainers first holder position equals: 1.
+
+]
+
 { #category : #running }
 ToListElementSelectionSkinEventTest >> setUp [
 
@@ -43,7 +162,9 @@ ToListElementSelectionSkinEventTest >> setUp [
 				do: [ :event | receivedSelectedEvents add: event ].
 			node
 				addEventHandlerOn: ToDeselectedSkinEvent
-				do: [ :event | receivedDeselectedEvents add: event ] ]
+				do: [ :event | receivedDeselectedEvents add: event ] ].
+	self waitTestingSpaces.
+	listElement forceLayout 
 ]
 
 { #category : #accessing }
@@ -61,116 +182,56 @@ ToListElementSelectionSkinEventTest >> statesOfAmerica [
 ]
 
 { #category : #'test selection - skin' }
-ToListElementSelectionSkinEventTest >> testSelectedSkinEventCountAfterRemove [
+ToListElementSelectionSkinEventTest >> testFiniteSelectedSkinEventCountAfterRemove [
 	" check that the skin select event is sent to the right node "
 
-	listElement selecter deselectAll.
+	listElement useInfiniteLayout: false.
 	self waitTestingSpaces.
-	space applyAllSkinPhases.
-	listElement dataAccessor add: self statesOfAmerica first.
-	listElement dataAccessor add: self statesOfAmerica second.
-	listElement selecter selectIndex: 2.
-	self waitTestingSpaces.
-	space applyAllSkinPhases.
-
-	self assert: listElement nodeContainers size equals: 2.
-	self assert: listElement selectionModel selectedIndexes equals: #( 2 ).
-
-	receivedSelectedEvents := OrderedCollection new.
-	receivedDeselectedEvents := OrderedCollection new.
-	selectionCounts := IdentityDictionary new.
-
-	listElement dataAccessor removeAt: 1.
-	space applyAllSkinPhases.
-	self waitTestingSpaces.
-
-	self assert: listElement nodeContainers size equals: 1.
-	self assert: listElement selectionModel selectedIndexes equals: #( 1 ).
-
-	" the second node is selected then the first node is removed 
-	-> the first node become selected but without selection changed event dispatching because of a shift selection command (the second nodeContainer is shift at the position 1)"
-	self deny: (selectionCounts includesKey: 2).
-	self deny: (selectionCounts includesKey: 1).
-	self assert: receivedSelectedEvents size equals: 0.
-	self assert: receivedDeselectedEvents size equals: 0.
-	
-	self assert: listElement selectionMode selectionContainer children size equals: 1.
-	self assert: listElement selectionMode selectionContainer children first nodeContainers size equals: 1.
-	self assert: listElement selectionMode selectionContainer children first nodeContainers first holder position equals: 1. 
+	self selectedSkinEventCountAfterRemove
 ]
 
 { #category : #'test selection - skin' }
-ToListElementSelectionSkinEventTest >> testSelectedSkinEventCountAfterSelect [
+ToListElementSelectionSkinEventTest >> testFiniteSelectedSkinEventCountAfterSelect [
 	" check that the skin select event is sent to the right node "
 
-	receivedSelectedEvents := OrderedCollection new.
-	receivedDeselectedEvents := OrderedCollection new.
-	selectionCounts := IdentityDictionary new.
-
-	listElement dataAccessor add: self statesOfAmerica first.
-	listElement dataAccessor add: self statesOfAmerica second.
-	listElement selecter selectIndex: 2.
-
+	listElement useInfiniteLayout: false.
 	self waitTestingSpaces.
-	self assert: listElement nodeContainers size equals: 2.
-	space applyAllSkinPhases.
-	self deny: listElement isFocused.
-	self assert: (selectionCounts includesKey: 2).
-	self assert: (selectionCounts includesKey: 1).
-	self assert: (selectionCounts at: 2) equals: 1.
 
-	self assert: receivedSelectedEvents size equals: 1.
-	receivedSelectedEvents do: [ :evt |
-		self assert: evt currentTarget holder position equals: 2 ].
-	self assert: receivedDeselectedEvents size equals: 1.
-	listElement selecter selectOnlyIndex: 1.
-	self waitTestingSpaces.
-	space applyAllSkinPhases.
-
-	self assert: receivedDeselectedEvents size equals: 2.
-	receivedDeselectedEvents withIndexDo: [ :evt :idx |
-		self assert: evt currentTarget holder position equals: idx ].
-	self assert: listElement selectionMode selectionContainer children size equals: 1.
-	self assert: listElement selectionMode selectionContainer children first nodeContainers size equals: 1.
-	self assert: listElement selectionMode selectionContainer children first nodeContainers first holder position equals: 1.
-
+	self selectedSkinEventCountAfterSelect
 ]
 
 { #category : #'test selection - skin' }
-ToListElementSelectionSkinEventTest >> testSelectedSkinEventCountAfterSelect2 [
+ToListElementSelectionSkinEventTest >> testFiniteSelectedSkinEventCountAfterSelect2 [
 	" check that the skin select event is sent to the right node.
 	After running testSelectedSkinEventCountAfterSelect, the holders selection flags are up-to-date 
 	(the holder>>notifiedSelected flag is not nil). So the result is that the deselection is only applied once
 	on the selected node "
 
-	self testSelectedSkinEventCountAfterSelect.
-	receivedSelectedEvents := OrderedCollection new.
-	receivedDeselectedEvents := OrderedCollection new.
-	selectionCounts := IdentityDictionary new.
-
-	" here, the selected index is 1 because of #testSelectedSkinEventCountAfterSelect invocation"
-	listElement selecter selectIndex: 2.
+	listElement useInfiniteLayout: false.
 	self waitTestingSpaces.
-	space applyAllSkinPhases.
-	
-	self assert: (selectionCounts includesKey: 2).
-	" since the holder>>notifiedSelected has been initialize by the previous #testSelectedSkinEventCountAfterSelect invocation "
-	self deny: (selectionCounts includesKey: 1).
-	self assert: (selectionCounts at: 2) equals: 1.
+	self selectedSkinEventCountAfterSelect2
+]
 
-	self assert: receivedSelectedEvents size equals: 1.
-	receivedSelectedEvents do: [ :evt |
-		self assert: evt currentTarget holder position equals: 2 ].
-	self assert: receivedDeselectedEvents size equals: 0.
-	listElement selecter selectOnlyIndex: 1.
-	self waitTestingSpaces.
-	space applyAllSkinPhases.
+{ #category : #'test selection - skin' }
+ToListElementSelectionSkinEventTest >> testInfiniteSelectedSkinEventCountAfterRemove [
+	" check that the skin select event is sent to the right node "
 
-	self assert: receivedDeselectedEvents size equals: 1.
-	receivedDeselectedEvents withIndexDo: [ :evt :idx |
-		self assert: evt currentTarget holder position equals: 2 ].
-	self assert: listElement selectionMode selectionContainer children size equals: 1.
-	self assert: listElement selectionMode selectionContainer children first nodeContainers size equals: 1.
-	self assert: listElement selectionMode selectionContainer children first nodeContainers first holder position equals: 1.
+	self selectedSkinEventCountAfterRemove
+]
 
+{ #category : #'test selection - skin' }
+ToListElementSelectionSkinEventTest >> testInfiniteSelectedSkinEventCountAfterSelect [
+	" check that the skin select event is sent to the right node "
+
+	self selectedSkinEventCountAfterSelect
+]
+
+{ #category : #'test selection - skin' }
+ToListElementSelectionSkinEventTest >> testInfiniteSelectedSkinEventCountAfterSelect2 [
+	" check that the skin select event is sent to the right node.
+	After running testSelectedSkinEventCountAfterSelect, the holders selection flags are up-to-date 
+	(the holder>>notifiedSelected flag is not nil). So the result is that the deselection is only applied once
+	on the selected node "
+
+	self selectedSkinEventCountAfterSelect2
 ]

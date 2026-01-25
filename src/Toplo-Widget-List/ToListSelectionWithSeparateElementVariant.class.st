@@ -76,14 +76,22 @@ ToListSelectionWithSeparateElementVariant >> isSeparate [
 { #category : #'private - selection updating' }
 ToListSelectionWithSeparateElementVariant >> newSelectionRepresentationArrayFrom: aListElement withSelectionModel: aSelectionModel [
 
-	^ (aListElement nodeContainersSelect: [ :container |
-		   | idx |
-		   idx := container holder position.
-		   (aSelectionModel containsIndex: idx) and: [
-			   aSelectionModel isVisibleIndex: idx ] ]) collect: [ :container |
-		  ToSeparateSelection new
-			  node: container;
-			  yourself ]
+	^ (self
+		   selectedNodeContainersFrom: aListElement
+		   withSelectionModel: aSelectionModel) collect: [ :container |
+			  ToSeparateSelection new
+				  node: container;
+				  yourself ]
+]
+
+{ #category : #'private - selection updating' }
+ToListSelectionWithSeparateElementVariant >> selectedNodeContainersFrom: aListElement withSelectionModel: aSelectionModel [
+
+	^ aListElement nodeContainersSelect: [ :container |
+			  | idx |
+			  idx := container holder position.
+			  (aSelectionModel containsIndex: idx) and: [
+				  aSelectionModel isVisibleIndex: idx ] ]
 ]
 
 { #category : #'private - selection updating' }

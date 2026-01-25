@@ -71,17 +71,18 @@ TToListInnerElement >> nodeContainersWithIndexDo: aBlock [
 TToListInnerElement >> nodeGroupsSatisfying: aBlock [
 	" return an array of collection. Each collection contains a list of adjacent selected nodes "
 
-	^ Array streamContents: [ :stream |
-		  | g |
-		  g := OrderedCollection new.
-		  self partlyVisibleNodesDo: [ :container |
-			  (aBlock value: container)
-				  ifTrue: [ g add: container ]
-				  ifFalse: [
-					  g ifNotEmpty: [
-						  stream nextPut: g.
-						  g := OrderedCollection new ] ] ].
-		  g ifNotEmpty: [ stream nextPut: g ] ]
+	^ Array new: 10 streamContents: [ :stream |
+			  | g |
+			  g := Array new: 5 streamContents: [ :subStream |
+					       self partlyVisibleNodesDo: [ :container |
+							       (aBlock value: container)
+								       ifTrue: [ subStream nextPut: container ]
+								       ifFalse: [
+										       subStream size > 0 ifTrue: [
+												       stream nextPut: subStream contents.
+												       subStream resetContents ] ] ].
+					       subStream size > 0 ifTrue: [
+						       stream nextPut: subStream contents ] ] ]
 ]
 
 { #category : #'t - list inner element' }

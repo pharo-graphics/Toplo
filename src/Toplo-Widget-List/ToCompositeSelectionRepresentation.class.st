@@ -45,7 +45,7 @@ ToCompositeSelectionRepresentation >> newSelectionElementIn: aListElement option
 ToCompositeSelectionRepresentation >> nodeContainers [
 
 	^ Array streamContents: [ :stream |
-		  representations do: [ :r | stream nextPutAll: r nodeContainers ] ]
+		  representations do: [ :r | stream nextPut: r nodeContainers ] ]
 ]
 
 { #category : #accessing }

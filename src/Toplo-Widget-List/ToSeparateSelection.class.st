@@ -14,6 +14,14 @@ ToSeparateSelection >> equivalentTo: other [
 	^ (node equals: other node)
 ]
 
+{ #category : #'private - selection updating' }
+ToSeparateSelection >> newSelectionElementIn: aListElement option: aSelectionRepresentationOption [
+
+	^ Array with: (aSelectionRepresentationOption
+			   newSelectionElementIn: aListElement
+			   forNodeContainers: (Array with: self node))
+]
+
 { #category : #accessing }
 ToSeparateSelection >> node [
 
@@ -29,5 +37,5 @@ ToSeparateSelection >> node: anObject [
 { #category : #accessing }
 ToSeparateSelection >> nodeContainers [
 
-	^ Array with: node
+	^ node
 ]

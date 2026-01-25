@@ -3,9 +3,9 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'selectionOption',
-		'representation',
 		'representationChanged',
-		'newRepresentationRequested'
+		'newRepresentationRequested',
+		'representation'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
@@ -112,17 +112,17 @@ ToListSelectionRepresentationVariant >> requestNewRepresentation [
 	newRepresentationRequested := true
 ]
 
+{ #category : #'private - selection updating' }
+ToListSelectionRepresentationVariant >> selectedNodeContainersFrom: aListElement withSelectionModel: aSelectionModel [
+
+	^ self subclassResponsibility 
+]
+
 { #category : #accessing }
 ToListSelectionRepresentationVariant >> selectionContainer [
 
 	^ selectionOption selectionContainer
 
-]
-
-{ #category : #accessing }
-ToListSelectionRepresentationVariant >> selectionElements [
-
-	^ #(  )
 ]
 
 { #category : #accessing }
@@ -146,21 +146,20 @@ ToListSelectionRepresentationVariant >> updateSelectionIn: aListElement withSele
 { #category : #'private - selection updating' }
 ToListSelectionRepresentationVariant >> updateSelectionRepresentationIn: aListElement withSelectionModel: aSelectionModel [
 
-	| rep |
-	rep := self
+	| nextRepresentation |
+	nextRepresentation := self
 		       nextRepresentationIn: aListElement
 		       withSelectionModel: aSelectionModel.
-
 	" in case of scrolling, one have to force a selection representation 
 	change even the selection is not changed "
 	newRepresentationRequested ifFalse: [
-		(rep equivalentTo: representation) ifTrue: [
-			representationChanged := false.
-			^ self ] ].
+			(nextRepresentation equivalentTo: representation) ifTrue: [
+					representationChanged := false.
+					^ self ] ].
 	" send deselected when selection element are removed to send DeselectedSkinEvent to nodes "
 	self notifyNodesDeselectedIn: aListElement.
 	self removeAllSelectionElements.
-	representation := rep.
+	representation := nextRepresentation.
 	representationChanged := true.
-	newRepresentationRequested := false.
+	newRepresentationRequested := false
 ]

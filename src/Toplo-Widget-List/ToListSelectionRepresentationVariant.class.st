@@ -138,13 +138,7 @@ ToListSelectionRepresentationVariant >> triggerSelectionState [
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionRepresentationVariant >> updateSelectionIn: aListElement withSelectionModel: aSelectionModel [
-
-	self updateSelectionRepresentationIn: aListElement withSelectionModel: aSelectionModel
-]
-
-{ #category : #'private - selection updating' }
-ToListSelectionRepresentationVariant >> updateSelectionRepresentationIn: aListElement withSelectionModel: aSelectionModel [
+ToListSelectionRepresentationVariant >> updateRepresentationIn: aListElement withSelectionModel: aSelectionModel [
 
 	| nextRepresentation |
 	nextRepresentation := self
@@ -162,4 +156,10 @@ ToListSelectionRepresentationVariant >> updateSelectionRepresentationIn: aListEl
 	representation := nextRepresentation.
 	representationChanged := true.
 	newRepresentationRequested := false
+]
+
+{ #category : #'private - selection updating' }
+ToListSelectionRepresentationVariant >> updateSelectionIn: aListElement withSelectionModel: aSelectionModel [
+
+	self updateRepresentationIn: aListElement withSelectionModel: aSelectionModel
 ]

@@ -16,6 +16,14 @@ ToListSubSelectionMode class >> parentMode: aParentMode [
 		  yourself
 ]
 
+{ #category : #initialization }
+ToListSubSelectionMode >> defaultSelectionOption [
+
+	^ ToListSelectionOption new
+		  withEmbeddedRepresentation;
+		  yourself
+]
+
 { #category : #'instance creation' }
 ToListSubSelectionMode >> newSelecter [
 

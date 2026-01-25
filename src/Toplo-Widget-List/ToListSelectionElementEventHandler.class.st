@@ -34,11 +34,10 @@ ToListSelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
 	target := anEvent currentTarget.
 
 	target isAttachedToSceneGraph ifFalse: [
-		self differUpdateSelectionFrom: target.
-		^ self ].
+			self differUpdateSelectionFrom: target.
+			^ self ].
 
-	anEvent selectionOption ifNotNil: [ :option |
-		option
-			updateSelectionIn: target
-			withSelectionModel: anEvent selectionModel ]
+	anEvent selectionOption
+		updateSelectionIn: target
+		withSelectionModel: anEvent selectionModel
 ]

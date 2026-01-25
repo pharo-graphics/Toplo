@@ -26,7 +26,7 @@ ToAbstractListSelectionMode >> changeSelectionOptionWith: aSelectionOption [
 { #category : #initialization }
 ToAbstractListSelectionMode >> defaultSelectionOption [
 
-	^ nil
+	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }
@@ -198,7 +198,6 @@ ToAbstractListSelectionMode >> onInstalledIn: aListElement [
 	selecter multiple: self isMultipleSelection.
 	selecter onInstalledIn: aListElement.
 	selectionOption := self defaultSelectionOption.
-	selectionOption ifNil: [ ^ self ].
 	selectionOption selectionMode: self.
 	selectionOption onInstalledIn: aListElement
 ]

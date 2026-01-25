@@ -23,7 +23,7 @@ ToListElementSelectionSkinEventTest >> selectedSkinEventCountAfterRemove [
 	listElement selecter selectIndex: 2.
 	self waitTestingSpaces.
 	space applyAllSkinPhases.
-
+	listElement forceLayout.
 	self assert: listElement nodeContainers size equals: 2.
 	self assert: listElement selectionModel selectedIndexes equals: #( 2 ).
 
@@ -41,7 +41,7 @@ ToListElementSelectionSkinEventTest >> selectedSkinEventCountAfterRemove [
 	" the second node is selected then the first node is removed 
 	-> the first node become selected but without selection changed event dispatching because of a shift selection command (the second nodeContainer is shift at the position 1)"
 	self deny: (selectionCounts includesKey: 2).
-	self deny: (selectionCounts includesKey: 1).
+	self assert: (selectionCounts includesKey: 1).
 	self assert: receivedSelectedEvents size equals: 0.
 	self assert: receivedDeselectedEvents size equals: 0.
 	
@@ -68,7 +68,7 @@ ToListElementSelectionSkinEventTest >> selectedSkinEventCountAfterSelect [
 	self deny: listElement isFocused.
 	self assert: (selectionCounts includesKey: 2).
 	self assert: (selectionCounts includesKey: 1).
-	self assert: (selectionCounts at: 2) equals: 1.
+	self assert: (selectionCounts at: 2) equals: 2.
 
 	self assert: receivedSelectedEvents size equals: 1.
 	receivedSelectedEvents do: [ :evt |

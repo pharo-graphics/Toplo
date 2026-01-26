@@ -30,17 +30,17 @@ ToTabListElement >> defaultFakeDataItem [
 ]
 
 { #category : #initialization }
+ToTabListElement >> defaultInnerElementClass [
+
+	^ ToFiniteListElement
+]
+
+{ #category : #initialization }
 ToTabListElement >> defaultNodeManager [
 
 	^ super defaultNodeManager
 		  nodeFactory: [ :holder | ToTabNode new ];
 		  yourself
-]
-
-{ #category : #initialization }
-ToTabListElement >> defaultUseInfiniteLayout [ 
-
-	^ false
 ]
 
 { #category : #initialization }

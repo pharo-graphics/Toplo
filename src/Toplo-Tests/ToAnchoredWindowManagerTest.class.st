@@ -280,7 +280,7 @@ ToAnchoredWindowManagerTest >> testPopupWindowClass [
 	windowManager := ToAnchoredWindowManager new windowBuilder: [
 		                 :anchWin
 		                 :element |  ].
-	self assert: windowManager defaultWindowClass identicalTo: ToAnchoredWindow
+	self assert: windowManager defaultWindowFactory value identicalTo: ToAnchoredWindow
 ]
 
 { #category : #tests }

@@ -9,9 +9,11 @@ ToListSelectionWithElementVariant >> addSelectionElementsIn: aListElement [
 
 	| selectionElements |
 	self isMasked ifTrue: [ ^ self ].
-	selectionElements := representation
-		                     newSelectionElementIn: aListElement
-		                     option: self.
+	selectionElements := Array new: 50 streamContents: [ :stream |
+			                     representation
+				                     stream: stream
+				                     withNewSelectionElementIn: aListElement
+				                     option: self ].
 	selectionElements isEmpty ifTrue: [ ^ self ].
 	self updateSelectionContainerWith: selectionElements in: aListElement
 ]

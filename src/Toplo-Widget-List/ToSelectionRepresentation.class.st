@@ -22,13 +22,13 @@ ToSelectionRepresentation >> isEmpty [
 	^ false
 ]
 
-{ #category : #'private - selection updating' }
-ToSelectionRepresentation >> newSelectionElementIn: aListElement option: aSelectionRepresentationOption [
-
+{ #category : #accessing }
+ToSelectionRepresentation >> nodeContainers [
 	^ self subclassResponsibility
 ]
 
-{ #category : #accessing }
-ToSelectionRepresentation >> nodeContainers [
+{ #category : #'private - selection updating' }
+ToSelectionRepresentation >> stream: aStream withNewSelectionElementIn: aListElement option: aSelectionOption [
+
 	^ self subclassResponsibility
 ]

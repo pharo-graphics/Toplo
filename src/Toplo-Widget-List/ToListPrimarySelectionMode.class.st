@@ -28,7 +28,6 @@ ToListPrimarySelectionMode >> defaultSelectionOption [
 	^ ToListSelectionOption new
 		  grouped: true;
 		  beneath: true;
-		  triggerSelectionState: true;
 		  elementFactory: [
 			  ToListPrimarySelectionElement new ]
 ]

@@ -12,10 +12,10 @@ ToLabelEditorManager >> defaultPlacement [
 		  yourself
 ]
 
-{ #category : #accessing }
-ToLabelEditorManager >> defaultWindowClass [
+{ #category : #initialization }
+ToLabelEditorManager >> defaultWindowFactory [
 
-	^ ToLabelEditorWindow 
+	^ [ ToLabelEditorWindow ]
 ]
 
 { #category : #accessing }

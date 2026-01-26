@@ -18,14 +18,6 @@ ToNeighboringSelection >> equivalentTo: other [
 	^ true
 ]
 
-{ #category : #'private - selection updating' }
-ToNeighboringSelection >> newSelectionElementIn: aListElement option: aSelectionRepresentationOption [
-
-	^ Array with: (aSelectionRepresentationOption
-			   newSelectionElementIn: aListElement
-			   forNodeContainers: self nodeContainers)
-]
-
 { #category : #accessing }
 ToNeighboringSelection >> nodeContainers [
 
@@ -36,4 +28,12 @@ ToNeighboringSelection >> nodeContainers [
 ToNeighboringSelection >> nodes: anObject [
 
 	nodes := anObject
+]
+
+{ #category : #'private - selection updating' }
+ToNeighboringSelection >> stream: aStream withNewSelectionElementIn: aListElement option: aSelectionOption [
+
+	aStream nextPut: (aSelectionOption
+			 newSelectionElementIn: aListElement
+			 forNodeContainers: self nodeContainers)
 ]

@@ -14,14 +14,6 @@ ToSeparateSelection >> equivalentTo: other [
 	^ (node equals: other node)
 ]
 
-{ #category : #'private - selection updating' }
-ToSeparateSelection >> newSelectionElementIn: aListElement option: aSelectionRepresentationOption [
-
-	^ Array with: (aSelectionRepresentationOption
-			   newSelectionElementIn: aListElement
-			   forNodeContainers: (Array with: self node))
-]
-
 { #category : #accessing }
 ToSeparateSelection >> node [
 
@@ -38,4 +30,12 @@ ToSeparateSelection >> node: anObject [
 ToSeparateSelection >> nodeContainers [
 
 	^ node
+]
+
+{ #category : #'private - selection updating' }
+ToSeparateSelection >> stream: aStream withNewSelectionElementIn: aListElement option: aSelectionOption [
+
+	aStream nextPut: (aSelectionOption
+			 newSelectionElementIn: aListElement
+			 forNodeContainers: (Array with: node))
 ]

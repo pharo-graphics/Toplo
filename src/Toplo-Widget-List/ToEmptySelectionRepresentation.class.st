@@ -10,14 +10,14 @@ ToEmptySelectionRepresentation >> isEmpty [
 	^ true
 ]
 
-{ #category : #'private - selection updating' }
-ToEmptySelectionRepresentation >> newSelectionElementIn: aListElement option: aSelectionRepresentationOption [
-
-	^ #(  )
-]
-
 { #category : #accessing }
 ToEmptySelectionRepresentation >> nodeContainers [
 
 	^ #(  )
+]
+
+{ #category : #'private - selection updating' }
+ToEmptySelectionRepresentation >> stream: aStream withNewSelectionElementIn: aListElement option: aSelectionOption [
+
+	
 ]

@@ -14,7 +14,7 @@ Class {
 ToToggleMenuItem >> initialize [
 
 	super initialize.
-	closeOnPicking := false.
+	self closeOnPicking: false.
 	self initializeAsCheckable 
 ]
 

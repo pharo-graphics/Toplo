@@ -99,38 +99,6 @@ ToSandBox class >> alignmentChooserFor: aCheckableBar [
 	^ alignContainer
 ]
 
-{ #category : #window }
-ToSandBox class >> broken_example_Inline1 [
-
-	| menu popupWindowHandler |
-	self flag: 'not working when trying to popup 2 times'.
-	menu := ToElement new
-		        layout: BlLinearLayout vertical;
-		        background: Color transparent;
-		        id: #'red-button';
-		        border: Color red;
-		        extent: 100 @ 100;
-		        position: 50 @ 50.
-
-	popupWindowHandler := ToPopupWindowManager new.
-	menu addEventHandler: popupWindowHandler.
-
-	popupWindowHandler beInline.
-	popupWindowHandler windowBuilder: [ :popup :element |
-			| item |
-			popup size: 80 asPoint.
-			popup border: Color black.
-			item := ToElement new
-				        height: 50;
-				        hMatchParent.
-			item background: Color yellow.
-			item addEventHandler: (BlEventHandler
-					 on: BlPrimaryClickEvent
-					 do: [ self inform: 'Click' ]).
-			popup root addChild: item ].
-	menu openInSpace
-]
-
 { #category : #select }
 ToSandBox class >> buildSelectListElementIn: aSelectElement withIconProvider: anIconProviderClass [
 
@@ -2236,6 +2204,38 @@ ToSandBox class >> example_HugeIntegerList [
 	space root addChild: l.
 	space root addChild: vscrollBar.
 	space show
+]
+
+{ #category : #window }
+ToSandBox class >> example_Inline1 [
+
+	| menu popupWindowHandler |
+
+	menu := ToElement new
+		        layout: BlLinearLayout vertical;
+		        background: Color transparent;
+		        id: #'red-button';
+		        border: Color red;
+		        extent: 100 @ 100;
+		        position: 50 @ 50.
+
+	popupWindowHandler := ToPopupWindowManager new.
+	menu addEventHandler: popupWindowHandler.
+
+	popupWindowHandler windowBuilder: [ :popup :element |
+			| item |
+			popup extent: 80 asPoint.
+			popup border: Color black.
+			item := ToElement new
+				        height: 50;
+				        hMatchParent.
+			item background: Color yellow.
+			item addEventHandler: (BlEventHandler
+					 on: BlPrimaryClickEvent
+					 do: [ self inform: 'Click' ]).
+			popup root addChild: item ].
+
+	menu openInSpace
 ]
 
 { #category : #list }

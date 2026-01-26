@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'selectionMode',
 		'masked',
-		'triggerSelectionState',
 		'animationDuration',
 		'beneath',
 		'elementFactory',
@@ -67,7 +66,6 @@ ToListSelectionOption >> initialize [
 
 	super initialize.
 	masked := false.
-	triggerSelectionState := false.
 	animationDuration := 0 milliSecond.
 	beneath := true.
 	self representationVariant: ToListSelectionRepresentationVariant separate
@@ -177,18 +175,6 @@ ToListSelectionOption >> selectionMode [
 ToListSelectionOption >> selectionMode: aListSelectionMode [
 
 	selectionMode := aListSelectionMode
-]
-
-{ #category : #accessing }
-ToListSelectionOption >> triggerSelectionState [
-
-	^ triggerSelectionState
-]
-
-{ #category : #accessing }
-ToListSelectionOption >> triggerSelectionState: aBoolean [
-
-	triggerSelectionState := aBoolean
 ]
 
 { #category : #'private - selection updating' }

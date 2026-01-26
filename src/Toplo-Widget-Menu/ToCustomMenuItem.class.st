@@ -8,7 +8,7 @@ Class {
 ToCustomMenuItem >> initialize [ 
 
 	super initialize.
-	closeOnPicking := false
+	self closeOnPicking: false
 ]
 
 { #category : #testing }

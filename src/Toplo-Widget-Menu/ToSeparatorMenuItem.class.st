@@ -26,7 +26,7 @@ ToSeparatorMenuItem >> applyConfiguration [
 ToSeparatorMenuItem >> initialize [
 
 	super initialize.
-	closeOnPicking := false.
+	self closeOnPicking: false.
 	self addChild: (ToElement new
 			 layout: BlLinearLayout new;
 			 yourself).

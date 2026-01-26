@@ -86,7 +86,6 @@ ToListSelectionRepresentationVariant >> nextRepresentationIn: aListElement withS
 { #category : #'private - selection notification' }
 ToListSelectionRepresentationVariant >> notifyNodesDeselectedIn: aListElement [
 
-	self triggerSelectionState ifFalse: [ ^ self ].
 	aListElement nodeContainersDo: [ :container |
 		container holder notifyDeselectedWithOption: selectionOption ]
 ]
@@ -94,7 +93,6 @@ ToListSelectionRepresentationVariant >> notifyNodesDeselectedIn: aListElement [
 { #category : #'private - selection notification' }
 ToListSelectionRepresentationVariant >> notifyNodesSelectedIn: aListElement [
 
-	self triggerSelectionState ifFalse: [ ^ self ].
 	aListElement nodeContainersDo: [ :container |
 		container holder notifySelectedWithOption: selectionOption ]
 ]
@@ -129,12 +127,6 @@ ToListSelectionRepresentationVariant >> selectionContainer [
 ToListSelectionRepresentationVariant >> selectionOption: aSelectionOption [
 
 	selectionOption := aSelectionOption 
-]
-
-{ #category : #accessing }
-ToListSelectionRepresentationVariant >> triggerSelectionState [
-
-	^ selectionOption triggerSelectionState
 ]
 
 { #category : #'private - selection updating' }

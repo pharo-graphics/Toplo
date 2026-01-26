@@ -10,7 +10,7 @@ Class {
 		'selectionModeMap',
 		'mouseMoveReplayRequested',
 		'fakeDataItem',
-		'useInfiniteLayout',
+		'innerElementClass',
 		'innerElement',
 		'fakeNodeContainerWrapper'
 	],
@@ -184,9 +184,7 @@ ToBasicListElement >> defaultInnerElement [
 { #category : #initialization }
 ToBasicListElement >> defaultInnerElementClass [
 
-	^ self useInfiniteLayout
-		  ifTrue: [ ToInfiniteElement ]
-		  ifFalse: [ ToFiniteListElement ]
+	^ ToInfiniteElement
 ]
 
 { #category : #initialization }
@@ -224,12 +222,6 @@ ToBasicListElement >> defaultSecondarySelectionMode [
 
 	^ ToListSecondarySelectionMode new.
 
-]
-
-{ #category : #initialization }
-ToBasicListElement >> defaultUseInfiniteLayout [
-
-	^ true
 ]
 
 { #category : #'accessing selecters' }
@@ -392,6 +384,25 @@ ToBasicListElement >> innerElement: anInnerElement [
 	innerElement ifNotNil: [ :inner |
 			self addChild: innerElement.
 			self notifyDataSourceChanged ]
+]
+
+{ #category : #accessing }
+ToBasicListElement >> innerElementClass [
+
+	^ innerElementClass ifNil: [
+		  innerElementClass := self defaultInnerElementClass ]
+]
+
+{ #category : #accessing }
+ToBasicListElement >> innerElementClass: anInnerElementClass [
+
+	innerElementClass = anInnerElementClass ifTrue: [ ^ self ].
+	innerElementClass := anInnerElementClass.
+	innerElement ifNotNil: [
+			innerElement removeFromParent.
+			innerElement := nil.
+			self requestConfiguration.
+			self requestLayout ]
 ]
 
 { #category : #'fake container' }
@@ -832,20 +843,18 @@ ToBasicListElement >> useCheckbox: aBoolean [
 { #category : #accessing }
 ToBasicListElement >> useInfiniteLayout [
 
-	^ useInfiniteLayout ifNil: [
-		  useInfiniteLayout := self defaultUseInfiniteLayout ]
+	^ self innerElementClass = ToInfiniteElement 
 ]
 
 { #category : #accessing }
 ToBasicListElement >> useInfiniteLayout: aBoolean [
 
-	useInfiniteLayout = aBoolean ifTrue: [ ^ self ].
-	useInfiniteLayout := aBoolean.
-	innerElement ifNotNil: [
-			innerElement removeFromParent.
-			innerElement := nil.
-			self requestConfiguration.
-			self requestLayout ]
+	| requiredClass |
+	requiredClass := aBoolean
+		                 ifTrue: [ ToInfiniteElement ]
+		                 ifFalse: [ ToFiniteListElement ].
+	innerElementClass = requiredClass ifTrue: [ ^ self ].
+	self innerElementClass: requiredClass
 ]
 
 { #category : #'accessing selecters' }

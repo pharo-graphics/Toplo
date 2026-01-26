@@ -6,9 +6,6 @@ Class {
 	#superclass : #ToListItem,
 	#traits : 'TToMenuItem',
 	#classTraits : 'TToMenuItem classTrait',
-	#instVars : [
-		'closeOnPicking'
-	],
 	#category : #'Toplo-Widget-Menu-Items'
 }
 
@@ -21,18 +18,6 @@ ToMenuItemElement >> applyConfiguration [
 				ifTrue: [ self hFitContent ]
 				ifFalse: [ self hMatchParent ] ].
 	self vFitContent
-]
-
-{ #category : #'t - menu item' }
-ToMenuItemElement >> closeOnPicking [ 
-
-	^ closeOnPicking 
-]
-
-{ #category : #testing }
-ToMenuItemElement >> closeOnPicking: aBoolean [
-
-	closeOnPicking := aBoolean
 ]
 
 { #category : #'t - menu window model' }
@@ -82,7 +67,7 @@ ToMenuItemElement >> includes: anElement [
 ToMenuItemElement >> initialize [
 
 	super initialize.
-	closeOnPicking := true.
+	self closeOnPicking: true.
 	self addEventHandler: self defaultEventHandler.
 	self constraintsDo: [ :c | c linear vertical alignCenter ]
 ]
@@ -141,6 +126,13 @@ ToMenuItemElement >> newRawSkin [
 ToMenuItemElement >> onAddedInItemBarOwner: aMenu [
 
 	aMenu onAddedMenuItem: self
+]
+
+{ #category : #'event handling' }
+ToMenuItemElement >> onOutsideEvent: anEvent [
+
+	self isInline ifTrue: [ ^ self ].
+	self menuPaneDo: [ :mb | mb cancelAutoOpen ]
 ]
 
 { #category : #'adding-removing' }

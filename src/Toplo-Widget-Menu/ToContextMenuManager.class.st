@@ -16,10 +16,10 @@ ToContextMenuManager >> defaultPlacement [
 	^ ToAnchoredPickedPlacement new
 ]
 
-{ #category : #accessing }
-ToContextMenuManager >> defaultWindowClass [
+{ #category : #initialization }
+ToContextMenuManager >> defaultWindowFactory [
 
-	^ ToContextMenu 
+	^ [ ToContextMenu ]
 ]
 
 { #category : #'event handling' }

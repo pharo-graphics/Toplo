@@ -179,7 +179,7 @@ TToElementWithContextMenuTest >> testCurrentContextMenu2 [
 	self assert: e currentContextMenu notNil.
 	self
 		assert: e currentContextMenu class
-		equals: e ensuredContextMenuManager defaultWindowClass.
+		equals: e ensuredContextMenuManager defaultWindowFactory value.
 	^ e
 ]
 
@@ -232,7 +232,7 @@ TToElementWithContextMenuTest >> testNewContextMenu [
 	self assert: e currentContextMenu notNil.
 	self
 		assert: e currentContextMenu class
-		equals: e ensuredContextMenuManager defaultWindowClass.
+		equals: e ensuredContextMenuManager defaultWindowFactory value.
 	^ e
 ]
 

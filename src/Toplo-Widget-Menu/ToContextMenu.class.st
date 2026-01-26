@@ -12,12 +12,6 @@ ToContextMenu >> close [
 	super close
 ]
 
-{ #category : #testing }
-ToContextMenu >> closeOnPicking [
-
-	^ true
-]
-
 { #category : #'t - menu window model' }
 ToContextMenu >> closeWindow [
 
@@ -40,6 +34,7 @@ ToContextMenu >> initialize [
 
 	super initialize.
 	self fitContent.
+	self closeOnPicking: true.
 	self initializeAsItemBarContainer.
 	self initializeAsMenuItemBarContainer.
 	self root addChild: self itemList
@@ -75,12 +70,6 @@ ToContextMenu >> isOutsideEvent: anEvent [
 	(self items allSatisfy: [ :it | it isOutsideEvent: anEvent ])
 		ifFalse: [ ^ false ].
 	^ super isOutsideEvent: anEvent
-]
-
-{ #category : #'t - menu window model' }
-ToContextMenu >> isSubmenu [
-
-	^ false
 ]
 
 { #category : #'t - menu window model' }

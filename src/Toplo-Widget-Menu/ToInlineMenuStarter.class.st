@@ -32,9 +32,3 @@ ToInlineMenuStarter >> stopWindow: aWindow fromManager: aManager [
 	" need to install a new skin to change the icon (from closed to opened) "
 	aManager anchorElement requestNewSkin
 ]
-
-{ #category : #accessing }
-ToInlineMenuStarter >> windowClassFromManager: aManager [
-
-	^ aManager inlineWindowClass 
-]

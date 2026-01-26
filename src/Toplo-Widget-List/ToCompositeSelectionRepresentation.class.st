@@ -31,16 +31,6 @@ ToCompositeSelectionRepresentation >> isComposite [
 	^ true
 ]
 
-{ #category : #'private - selection updating' }
-ToCompositeSelectionRepresentation >> newSelectionElementIn: aListElement option: aSelectionRepresentationOption [
-
-	^ Array streamContents: [ :stream |
-			  representations do: [ :rep |
-					  stream nextPutAll: (rep
-							   newSelectionElementIn: aListElement
-							   option: aSelectionRepresentationOption) ] ]
-]
-
 { #category : #accessing }
 ToCompositeSelectionRepresentation >> nodeContainers [
 
@@ -58,4 +48,14 @@ ToCompositeSelectionRepresentation >> representations [
 ToCompositeSelectionRepresentation >> representations: anArray [
 
 	representations := anArray
+]
+
+{ #category : #'private - selection updating' }
+ToCompositeSelectionRepresentation >> stream: aStream withNewSelectionElementIn: aListElement option: aSelectionOption [
+
+	representations do: [ :rep |
+			rep
+				stream: aStream
+				withNewSelectionElementIn: aListElement
+				option: aSelectionOption ]
 ]

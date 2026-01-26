@@ -173,6 +173,18 @@ BlElement >> checkConfigurationPassDeeply [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> closeOnPicking [
+
+	^ self userData at: #closeOnPicking ifAbsent: [ false ]
+]
+
+{ #category : #'*Toplo' }
+BlElement >> closeOnPicking: aBoolean [ 
+
+	self userData at: #closeOnPicking put: aBoolean 
+]
+
+{ #category : #'*Toplo' }
 BlElement >> closedEventClass [
 
 	^ ToClosedEvent 
@@ -483,6 +495,12 @@ BlElement >> isSelected [
 BlElement >> isSpaceRoot [
 
 	^ self id = BlSpace defaultRootLabel
+]
+
+{ #category : #'*Toplo' }
+BlElement >> isSubmenu [
+
+	^ false
 ]
 
 { #category : #'*Toplo' }

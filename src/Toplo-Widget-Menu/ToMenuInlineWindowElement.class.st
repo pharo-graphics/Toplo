@@ -52,12 +52,6 @@ ToMenuInlineWindowElement >> isScrollable: aBoolean [
 ]
 
 { #category : #'t - menu window model' }
-ToMenuInlineWindowElement >> isSubmenu [
-
-	^ super isSubmenu
-]
-
-{ #category : #'t - menu window model' }
 ToMenuInlineWindowElement >> isTopMenu [
 
 	^ false

@@ -33,9 +33,3 @@ ToWindowStarter >> stopWindow: aWindow fromManager: aManager [
 
 	self subclassResponsibility 
 ]
-
-{ #category : #accessing }
-ToWindowStarter >> windowClassFromManager: aManager [
-
-	^ aManager defaultWindowClass 
-]

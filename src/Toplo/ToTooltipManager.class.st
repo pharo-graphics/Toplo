@@ -23,10 +23,10 @@ ToTooltipManager >> defaultPopupDelay [
 	^ 700 milliSeconds
 ]
 
-{ #category : #accessing }
-ToTooltipManager >> defaultWindowClass [
+{ #category : #initialization }
+ToTooltipManager >> defaultWindowFactory [
 
-	^ ToTooltipWindow 
+	^ [ ToTooltipWindow ]
 ]
 
 { #category : #initialization }

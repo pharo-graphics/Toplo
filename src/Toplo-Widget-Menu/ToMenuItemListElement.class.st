@@ -10,17 +10,17 @@ Class {
 }
 
 { #category : #initialization }
+ToMenuItemListElement >> defaultInnerElementClass [
+
+	^ ToFiniteListElement
+]
+
+{ #category : #initialization }
 ToMenuItemListElement >> defaultNodeManager [
 
 	^ super defaultNodeManager
 		  nodeFactory: [ :holder | ToMenuItemNode new ];
 		  yourself
-]
-
-{ #category : #initialization }
-ToMenuItemListElement >> defaultUseInfiniteLayout [ 
-
-	^ false
 ]
 
 { #category : #initialization }

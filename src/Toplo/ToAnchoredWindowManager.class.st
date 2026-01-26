@@ -3,6 +3,7 @@ Class {
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'currentWindow',
+		'windowFactory',
 		'windowBuilder',
 		'anchorElement',
 		'anchorRoot',
@@ -126,10 +127,13 @@ ToAnchoredWindowManager >> defaultWindowBuilder [
 	
 ]
 
-{ #category : #accessing }
-ToAnchoredWindowManager >> defaultWindowClass [
+{ #category : #initialization }
+ToAnchoredWindowManager >> defaultWindowFactory [
+	" return a valuable used to build the window. The window is passed as first argument and the argument is request event "
 
-	^ ToAnchoredWindow 
+	^ [ ToAnchoredWindow ]
+
+	
 ]
 
 { #category : #initialization }
@@ -200,6 +204,7 @@ ToAnchoredWindowManager >> initialize [
 	super initialize.
 	minDelayBeforeClosing := 300 milliSeconds.
 	minDelayBeforeActionRunning := 300 milliSeconds.
+	windowFactory := self defaultWindowFactory.
 	windowBuilder := self defaultWindowBuilder.
 	windowStarter := self defaultWindowStarter
 ]
@@ -223,6 +228,7 @@ ToAnchoredWindowManager >> isMinimumDelayBeforeClosingExceededAfter: aTimeStamp 
 	aTimeStamp ifNil: [ ^ true ].
 	" check a minimum delay between opening and closing - 
 	useful to not close immediately context menu on mouse up"
+	currentWindow popupTimestamp ifNil: [ ^ true ].
 	delay := aTimeStamp - currentWindow popupTimestamp.
 	^ delay > minDelayBeforeClosing
 ]
@@ -377,7 +383,14 @@ ToAnchoredWindowManager >> windowBuilder: aWindowBuilderValuable [
 { #category : #'window handling' }
 ToAnchoredWindowManager >> windowClass [ 
 
-	^ windowStarter windowClassFromManager: self
+	^ windowFactory value
+]
+
+{ #category : #accessing }
+ToAnchoredWindowManager >> windowFactory: aValuable [
+	" return the window class to usedf "
+
+	windowFactory := aValuable
 ]
 
 { #category : #'event handling' }

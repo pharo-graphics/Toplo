@@ -40,10 +40,10 @@ ToSelectPopupWindowManager >> defaultPlacement [
 		  yourself
 ]
 
-{ #category : #accessing }
-ToSelectPopupWindowManager >> defaultWindowClass [
+{ #category : #initialization }
+ToSelectPopupWindowManager >> defaultWindowFactory [
 
-	^ ToSelectPopupWindow 
+	^ [ ToSelectPopupWindow ]
 ]
 
 { #category : #accessing }

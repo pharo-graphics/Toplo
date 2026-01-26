@@ -11,15 +11,15 @@ ToFiniteListElementForTest2 >> defaultFakeDataItem [
 ]
 
 { #category : #initialization }
-ToFiniteListElementForTest2 >> defaultNodeManagerClass [
+ToFiniteListElementForTest2 >> defaultInnerElementClass [
 
-	^ ToListNodeManagerForTest2
+	^ ToFiniteListElement
 ]
 
 { #category : #initialization }
-ToFiniteListElementForTest2 >> defaultUseInfiniteLayout [ 
+ToFiniteListElementForTest2 >> defaultNodeManagerClass [
 
-	^ false
+	^ ToListNodeManagerForTest2
 ]
 
 { #category : #initialization }

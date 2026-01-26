@@ -83,6 +83,12 @@ ToMultiSelectHeaderListElement >> defaultEventHandler [
 ]
 
 { #category : #initialization }
+ToMultiSelectHeaderListElement >> defaultInnerElementClass [
+
+	^ ToFiniteListElement
+]
+
+{ #category : #initialization }
 ToMultiSelectHeaderListElement >> defaultLayout [
 
 	^ BlLinearLayout horizontal
@@ -92,12 +98,6 @@ ToMultiSelectHeaderListElement >> defaultLayout [
 ToMultiSelectHeaderListElement >> defaultNodeManagerClass [ 
 
 	^ ToMultiSelectHeaderNodeManager
-]
-
-{ #category : #initialization }
-ToMultiSelectHeaderListElement >> defaultUseInfiniteLayout [ 
-
-	^ false
 ]
 
 { #category : #'t - select inner container' }

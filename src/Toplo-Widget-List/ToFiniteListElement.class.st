@@ -142,8 +142,7 @@ ToFiniteListElement >> initialize [
 	self focusability: BlFocusability ignore.
 	listElement primarySelectionMode selectionOption
 		grouped: false;
-		beneath: true;
-		triggerSelectionState: true.
+		beneath: true.
 	listElement contextMenuSelectionMode selectionOption
 		grouped: false;
 		beneath: false.

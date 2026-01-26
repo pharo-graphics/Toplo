@@ -16,12 +16,6 @@ TToMenuWindowModel >> hasInlineWindow [
 ]
 
 { #category : #'t - menu window model' }
-TToMenuWindowModel >> isSubmenu [
-
-	^ self explicitRequirement 
-]
-
-{ #category : #'t - menu window model' }
 TToMenuWindowModel >> isTopMenu [
 
 	^ self explicitRequirement 

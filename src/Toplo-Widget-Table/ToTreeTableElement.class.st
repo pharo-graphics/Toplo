@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-Table-Core'
 }
 
+{ #category : #accessing }
+ToTreeTableElement >> dataSource [
+
+	^ self list dataSource
+]
+
 { #category : #'expanding-collapsing' }
 ToTreeTableElement >> expandRoots [
 	self list expandRoots

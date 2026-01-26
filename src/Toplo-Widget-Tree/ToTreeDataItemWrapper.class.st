@@ -165,7 +165,7 @@ ToTreeDataItemWrapper >> hasChildWrappers [
 { #category : #testing }
 ToTreeDataItemWrapper >> hasLeafDataItem [
 
-	^ self dataItemChildren isEmpty
+	^ self dataItem isNotNil and: [ self dataItemChildren isEmpty ]
 ]
 
 { #category : #testing }

@@ -22,12 +22,6 @@ Class {
 }
 
 { #category : #accessing }
-ToNodeHolder >> allowSelectionNotification: aBoolean [
-
-	notifiedSelected := aBoolean not
-]
-
-{ #category : #accessing }
 ToNodeHolder >> bindDataItem: aDataItem [
 	" associate the data item and then build the node "
 
@@ -267,12 +261,6 @@ ToNodeHolder >> release [
 ToNodeHolder >> removeNodeFromList [
 
 	self dataSource removeAt: self position
-]
-
-{ #category : #selection }
-ToNodeHolder >> resetSelectionState [
-
-	notifiedSelected := nil
 ]
 
 { #category : #accessing }

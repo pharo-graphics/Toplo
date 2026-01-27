@@ -129,17 +129,10 @@ ToSkinStateQueue >> resetStates [
 { #category : #'instinsic state accessing' }
 ToSkinStateQueue >> selected: isSelected selectionOption: aSelectionOption focused: isFocused for: anElement [
 
-	| ses |
-	ses := intrinsicState selectionState.
-	ses ifNotNil: [
-			(ses selected = isSelected and: [
-				 ses selectionOption = aSelectionOption and: [
-					 ses focused = isFocused ] ]) ifTrue: [ ^ self ] ].
-
-	ses := ToSelectionState new.
-	ses selected: isSelected.
-	ses selectionOption: aSelectionOption.
-	ses focused: isFocused.
-	intrinsicState selectionState: ses.
+	intrinsicState selectionState in: [ :selS |
+			selS
+				selected: isSelected;
+				selectionOption: aSelectionOption;
+				focused: isFocused ].
 	self enqueueIntrinsicStateFor: anElement
 ]

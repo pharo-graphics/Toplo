@@ -72,7 +72,6 @@ ToListDataItemWrapper >> updateListAtPosition: aPositionInDataSource [
 	self nodeContainerAtPosition: aPositionInDataSource do: [ :container |
 			container requestNewSkin.
 			listElement postponeAction: [ :t |
-					container holder allowSelectionNotification: true.
 					container holder notifySelectedWithOption: t selectionOption ] ]
 ]
 

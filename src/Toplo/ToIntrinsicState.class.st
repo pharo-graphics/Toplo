@@ -112,7 +112,7 @@ ToIntrinsicState >> focused: aBoolean [
 { #category : #accessing }
 ToIntrinsicState >> selectionState [
 
-	^ selectionState
+	^ selectionState ifNil: [ selectionState := ToSelectionState new ]
 ]
 
 { #category : #accessing }

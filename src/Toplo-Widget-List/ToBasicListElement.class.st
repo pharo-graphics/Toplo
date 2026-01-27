@@ -176,12 +176,6 @@ ToBasicListElement >> defaultFakeDataItem [
 ]
 
 { #category : #initialization }
-ToBasicListElement >> defaultInnerElement [
-
-	^ self defaultInnerElementClass onListElement: self
-]
-
-{ #category : #initialization }
 ToBasicListElement >> defaultInnerElementClass [
 
 	^ ToInfiniteElement
@@ -363,7 +357,7 @@ ToBasicListElement >> initialize [
 { #category : #initialization }
 ToBasicListElement >> initializeInnerElement [
 
-	self innerElement: self defaultInnerElement
+	self innerElement: self newtInnerElement
 ]
 
 { #category : #'t - list element decorator - infinite accessing' }
@@ -470,6 +464,12 @@ ToBasicListElement >> newUnselectableSelectionMode [
 
 
 	^ ToListUnselectableSelectionMode parentMode: self primarySelectionMode
+]
+
+{ #category : #'instance creation' }
+ToBasicListElement >> newtInnerElement [
+
+	^ self innerElementClass onListElement: self
 ]
 
 { #category : #'t - list element decorator - infinite accessing' }

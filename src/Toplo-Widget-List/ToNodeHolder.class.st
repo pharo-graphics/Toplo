@@ -208,36 +208,39 @@ ToNodeHolder >> notifiedSelected [
 
 { #category : #selection }
 ToNodeHolder >> notifyDeselectedWithOption: aSelectionElementOption [
-
 	" am i in the selection ?"
+
 	self isSelected ifTrue: [ ^ self ].
 	" have I already notified a deselection ? "
 	self canNotifyDeselection ifFalse: [ ^ self ].
-	self notifyNodeSelectedEvent: (ToListNodeSelectedEvent new
-			 listElement: self listElement;
-			 selectionOption: aSelectionElementOption;
-			 selected: false)
+	self
+		notifyNodeSelectedEvent: (ToListNodeSelectedEvent new
+				 listElement: self listElement;
+				 selectionOption: aSelectionElementOption;
+				 selected: false)
 ]
 
 { #category : #selection }
 ToNodeHolder >> notifyNodeSelectedEvent: anEvent [ 
 
-	notifiedSelected := anEvent selected.
+	anEvent selectionOption selectionMode isPrimary ifTrue: [
+		notifiedSelected := anEvent selected ].
 	wasFocused := self listElement focused.
 	self nodeContainer dispatchEvent: anEvent
 ]
 
 { #category : #selection }
 ToNodeHolder >> notifySelectedWithOption: aSelectionElementOption [
-
 	" am i in the selection ?"
+
 	self isSelected ifFalse: [ ^ self ].
 	" have I already notified a selection ? "
 	self canNotifySelection ifFalse: [ ^ self ].
-	self notifyNodeSelectedEvent: (ToListNodeSelectedEvent new
-			 listElement: self listElement;
-			 selectionOption: aSelectionElementOption;
-			 selected: true)
+	self
+		notifyNodeSelectedEvent: (ToListNodeSelectedEvent new
+				 listElement: self listElement;
+				 selectionOption: aSelectionElementOption;
+				 selected: true)
 ]
 
 { #category : #accessing }

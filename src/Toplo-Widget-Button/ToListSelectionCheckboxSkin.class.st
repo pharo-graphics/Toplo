@@ -8,8 +8,6 @@ Class {
 ToListSelectionCheckboxSkin >> deselectedSkinEvent: anEvent [
 
 	super deselectedSkinEvent: anEvent.
-	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
-	anEvent selectionMode selectionOption isMasked ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e | e checked: false ]
 ]
 
@@ -38,7 +36,5 @@ ToListSelectionCheckboxSkin >> installSkinEvent: anEvent [
 ToListSelectionCheckboxSkin >> selectedSkinEvent: anEvent [
 
 	super selectedSkinEvent: anEvent.
-	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
-	anEvent selectionMode selectionOption isMasked ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e | e checked: true ]
 ]

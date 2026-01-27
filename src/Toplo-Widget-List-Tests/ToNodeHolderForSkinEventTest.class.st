@@ -7,7 +7,6 @@ Class {
 { #category : #selection }
 ToNodeHolderForSkinEventTest >> notifyNodeSelectedEvent: anEvent [
 
-	anEvent selectionOption selectionMode isPrimary ifTrue: [
-		self node userData at: #testAction ifPresent: [ :v | v value ] ].
+	self node userData at: #testAction ifPresent: [ :v | v value ].
 	super notifyNodeSelectedEvent: anEvent
 ]

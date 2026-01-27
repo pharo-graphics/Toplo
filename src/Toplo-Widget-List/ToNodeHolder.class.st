@@ -215,10 +215,9 @@ ToNodeHolder >> notifyDeselectedWithOption: aSelectionElementOption [
 ]
 
 { #category : #selection }
-ToNodeHolder >> notifyNodeSelectedEvent: anEvent [ 
+ToNodeHolder >> notifyNodeSelectedEvent: anEvent [
 
-	anEvent selectionOption selectionMode isPrimary ifTrue: [
-		notifiedSelected := anEvent selected ].
+	notifiedSelected := anEvent selected.
 	wasFocused := self listElement focused.
 	self nodeContainer dispatchEvent: anEvent
 ]
@@ -226,7 +225,6 @@ ToNodeHolder >> notifyNodeSelectedEvent: anEvent [
 { #category : #selection }
 ToNodeHolder >> notifySelectedWithOption: aSelectionElementOption [
 	" am i in the selection ?"
-
 	self isSelected ifFalse: [ ^ self ].
 	" have I already notified a selection ? "
 	self canNotifySelection ifFalse: [ ^ self ].

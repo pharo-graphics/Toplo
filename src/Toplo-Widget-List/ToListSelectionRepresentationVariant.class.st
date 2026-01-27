@@ -71,12 +71,6 @@ ToListSelectionRepresentationVariant >> isMasked [
 	^ selectionOption isMasked
 ]
 
-{ #category : #testing }
-ToListSelectionRepresentationVariant >> isSeparate [
-
-	^ false
-]
-
 { #category : #'private - selection updating' }
 ToListSelectionRepresentationVariant >> newSelectionRepresentationArrayFrom: aListElement withSelectionModel: aSelectionModel [
 
@@ -102,6 +96,7 @@ ToListSelectionRepresentationVariant >> nextRepresentationIn: aListElement withS
 { #category : #'private - selection notification' }
 ToListSelectionRepresentationVariant >> notifyNodesDeselectedIn: aListElement [
 
+	self selectionMode isPrimary ifFalse: [ ^ self ].
 	aListElement nodeContainersDo: [ :container |
 		container holder notifyDeselectedWithOption: selectionOption ]
 ]
@@ -109,6 +104,7 @@ ToListSelectionRepresentationVariant >> notifyNodesDeselectedIn: aListElement [
 { #category : #'private - selection notification' }
 ToListSelectionRepresentationVariant >> notifyNodesSelectedIn: aListElement [
 
+	self selectionMode isPrimary ifFalse: [ ^ self ].
 	aListElement nodeContainersDo: [ :container |
 		container holder notifySelectedWithOption: selectionOption ]
 ]
@@ -131,6 +127,12 @@ ToListSelectionRepresentationVariant >> selectionContainer [
 
 	^ selectionOption selectionContainer
 
+]
+
+{ #category : #accessing }
+ToListSelectionRepresentationVariant >> selectionMode [ 
+
+	^ selectionOption selectionMode
 ]
 
 { #category : #accessing }

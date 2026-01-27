@@ -67,12 +67,6 @@ ToListSelectionWithSeparateElementVariant >> checkPreviousSelectionBoundsWith: a
 					                            g precomputedBoundsIn: aListElement ]) ]
 ]
 
-{ #category : #testing }
-ToListSelectionWithSeparateElementVariant >> isSeparate [
-
-	^ true
-]
-
 { #category : #'private - selection updating' }
 ToListSelectionWithSeparateElementVariant >> newSelectionRepresentationArrayFrom: aListElement withSelectionModel: aSelectionModel [
 

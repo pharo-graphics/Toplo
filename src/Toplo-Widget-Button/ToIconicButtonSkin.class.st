@@ -11,8 +11,6 @@ Class {
 ToIconicButtonSkin >> deselectedSkinEvent: anEvent [
 
 	super deselectedSkinEvent: anEvent.
-	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
-	anEvent selectionMode selectionOption isMasked ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e | e innerImageColor: color ]
 ]
 
@@ -68,8 +66,6 @@ ToIconicButtonSkin >> leftSkinEvent: anEvent [
 ToIconicButtonSkin >> selectedSkinEvent: anEvent [
 
 	super selectedSkinEvent: anEvent.
-	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
-	anEvent selectionMode selectionOption isMasked ifTrue: [ ^ self ].
 	anEvent elementDo: [ :e |
 		| foreground |
 		foreground := anEvent focused

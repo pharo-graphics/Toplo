@@ -119,12 +119,6 @@ ToListSelectionOption >> isMasked [
 	^ masked 
 ]
 
-{ #category : #testing }
-ToListSelectionOption >> isSeparate [
-
-	^ self isGrouped not
-]
-
 { #category : #accessing }
 ToListSelectionOption >> masked: aBoolean [
 

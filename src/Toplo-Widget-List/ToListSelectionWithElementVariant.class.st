@@ -55,7 +55,6 @@ ToListSelectionWithElementVariant >> updateSelectionContainerWith: anArray in: a
 	" add new selection with animation if possible. 
 	Pay attention, an animation can be used. In case of animation, the SelectedSkinEvent is sent only when the animation ends to have a nice visual effect. If no animation is used, then SelectedSkinEvent is sent just after the selection is added "
 
-	self notifyNodesSelectedIn: aListElement.
-	self selectionContainer addAllSelectionElements: anArray.
-
+	self isAnimated ifFalse: [ self notifyNodesSelectedIn: aListElement ].
+	self selectionContainer addAllSelectionElements: anArray
 ]

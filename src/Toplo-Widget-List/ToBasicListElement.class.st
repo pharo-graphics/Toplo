@@ -356,7 +356,7 @@ ToBasicListElement >> initialize [
 { #category : #initialization }
 ToBasicListElement >> initializeInnerElement [
 
-	self innerElement: self newInnerElement
+	self innerElement: self newtInnerElement
 ]
 
 { #category : #'t - list element decorator - infinite accessing' }

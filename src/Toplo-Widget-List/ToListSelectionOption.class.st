@@ -161,7 +161,7 @@ ToListSelectionOption >> onInstalledIn: aListElement [
 { #category : #'api - hooks' }
 ToListSelectionOption >> onUninstalledIn: aListElement [
 
-	selectionContainer removeFromParent.
+	selectionContainer ifNotNil: [ :sc | sc removeFromParent ].
 	
 ]
 

@@ -9452,6 +9452,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 	option := ToListSelectionOption new.
 	option grouped: false.
 	option beneath: false.
+	option masked: false.
 	option elementFactory: [
 			ToListSelectionElement new defaultSkin:
 				ToListDisabledSelectionElementExampleSkin new ].
@@ -9461,6 +9462,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 	option := ToListSelectionOption new.
 	option grouped: false.
 	option beneath: false.
+	option masked: false.
 	option elementFactory: [
 			ToListSelectionElement new defaultSkin:
 				ToListUnselectableSelectionElementExampleSkin new ].

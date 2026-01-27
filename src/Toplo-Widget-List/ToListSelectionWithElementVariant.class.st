@@ -18,6 +18,17 @@ ToListSelectionWithElementVariant >> addSelectionElementsIn: aListElement [
 	self updateSelectionContainerWith: selectionElements in: aListElement
 ]
 
+{ #category : #'private - selection updating' }
+ToListSelectionWithElementVariant >> checkRepresentationIn: aListElement withSelectionModel: aSelectionModel forceUpdate: aBoolean [
+
+	super
+		checkRepresentationIn: aListElement
+		withSelectionModel: aSelectionModel
+		forceUpdate: aBoolean.
+	representationChanged ifFalse: [ ^ self ].
+	self addSelectionElementsIn: aListElement
+]
+
 { #category : #testing }
 ToListSelectionWithElementVariant >> isAnimated [
 
@@ -47,14 +58,4 @@ ToListSelectionWithElementVariant >> updateSelectionContainerWith: anArray in: a
 	self notifyNodesSelectedIn: aListElement.
 	self selectionContainer addAllSelectionElements: anArray.
 
-]
-
-{ #category : #'private - selection updating' }
-ToListSelectionWithElementVariant >> updateSelectionIn: aListElement withSelectionModel: aSelectionModel [
-
-	super
-		updateSelectionIn: aListElement
-		withSelectionModel: aSelectionModel.
-	representationChanged ifFalse: [ ^ self ].
-	self addSelectionElementsIn: aListElement
 ]

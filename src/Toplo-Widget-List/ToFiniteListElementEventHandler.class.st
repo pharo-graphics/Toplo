@@ -11,7 +11,6 @@ Class {
 ToFiniteListElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
 
 	| listElement |
-
 	listElement := anEvent currentTarget listElement.
 	listElement forceUpdateAllSelectionsNow.
 	listElement requestMouseMoveReplay

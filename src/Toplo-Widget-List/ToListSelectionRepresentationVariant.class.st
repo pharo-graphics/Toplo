@@ -4,7 +4,6 @@ Class {
 	#instVars : [
 		'selectionOption',
 		'representationChanged',
-		'newRepresentationRequested',
 		'representation'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
@@ -28,13 +27,30 @@ ToListSelectionRepresentationVariant class >> separate [
 	^ ToListSelectionWithSeparateElementVariant new
 ]
 
+{ #category : #'private - selection updating' }
+ToListSelectionRepresentationVariant >> checkRepresentationIn: aListElement withSelectionModel: aSelectionModel forceUpdate: aBoolean [
+
+	| nextRepresentation |
+	nextRepresentation := self
+		                      nextRepresentationIn: aListElement
+		                      withSelectionModel: aSelectionModel.
+	representationChanged := aBoolean
+		                         ifTrue: [ true ]
+		                         ifFalse: [
+		                         (nextRepresentation equivalentTo:
+			                          representation) not ].
+	representationChanged ifFalse: [ ^ self ].
+	representation := nextRepresentation.
+	self notifyNodesDeselectedIn: aListElement.
+	self removeAllSelectionElements
+]
+
 { #category : #initialization }
 ToListSelectionRepresentationVariant >> initialize [ 
 
 	super initialize.
 	representationChanged := true.
-	representation := ToEmptySelectionRepresentation new.
-	newRepresentationRequested := true.
+	representation := ToEmptySelectionRepresentation new
 ]
 
 { #category : #testing }
@@ -100,14 +116,8 @@ ToListSelectionRepresentationVariant >> notifyNodesSelectedIn: aListElement [
 { #category : #'private - selection updating' }
 ToListSelectionRepresentationVariant >> removeAllSelectionElements [
 
-	self selectionContainer removeAllSelectionElements
-
-]
-
-{ #category : #'private - selection notification' }
-ToListSelectionRepresentationVariant >> requestNewRepresentation [ 
-
-	newRepresentationRequested := true
+	self selectionContainer ifNotNil: [ :sc |
+		sc removeAllSelectionElements ]
 ]
 
 { #category : #'private - selection updating' }
@@ -127,31 +137,4 @@ ToListSelectionRepresentationVariant >> selectionContainer [
 ToListSelectionRepresentationVariant >> selectionOption: aSelectionOption [
 
 	selectionOption := aSelectionOption 
-]
-
-{ #category : #'private - selection updating' }
-ToListSelectionRepresentationVariant >> updateRepresentationIn: aListElement withSelectionModel: aSelectionModel [
-
-	| nextRepresentation |
-	nextRepresentation := self
-		       nextRepresentationIn: aListElement
-		       withSelectionModel: aSelectionModel.
-	" in case of scrolling, one have to force a selection representation 
-	change even the selection is not changed "
-	newRepresentationRequested ifFalse: [
-			(nextRepresentation equivalentTo: representation) ifTrue: [
-					representationChanged := false.
-					^ self ] ].
-	" send deselected when selection element are removed to send DeselectedSkinEvent to nodes "
-	self notifyNodesDeselectedIn: aListElement.
-	self removeAllSelectionElements.
-	representation := nextRepresentation.
-	representationChanged := true.
-	newRepresentationRequested := false
-]
-
-{ #category : #'private - selection updating' }
-ToListSelectionRepresentationVariant >> updateSelectionIn: aListElement withSelectionModel: aSelectionModel [
-
-	self updateRepresentationIn: aListElement withSelectionModel: aSelectionModel
 ]

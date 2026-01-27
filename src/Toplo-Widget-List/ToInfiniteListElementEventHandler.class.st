@@ -4,11 +4,10 @@ Class {
 	#category : #'Toplo-Widget-List-InnerList-Infinite'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'element handlers' }
 ToInfiniteListElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
 
 	| listElement |
-
 	listElement := anEvent currentTarget listElement.
 	listElement forceUpdateAllSelectionsNow.
 	listElement requestMouseMoveReplay

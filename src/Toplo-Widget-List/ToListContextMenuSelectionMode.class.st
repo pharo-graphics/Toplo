@@ -10,6 +10,7 @@ ToListContextMenuSelectionMode >> defaultSelectionOption [
 	^ ToListSelectionOption new
 		  grouped: true;
 		  beneath: false;
+		  masked: false;
 		  elementFactory: [ ToListContextMenuSelectionElement new ]
 ]
 

@@ -1,14 +1,16 @@
 Class {
 	#name : #ToListSelectionOption,
 	#superclass : #Object,
+	#traits : 'TObservable',
+	#classTraits : 'TObservable classTrait',
 	#instVars : [
-		'selectionMode',
-		'masked',
-		'animationDuration',
-		'beneath',
-		'elementFactory',
-		'selectionContainer',
-		'representationVariant'
+		'#selectionMode',
+		'#masked => ObservableSlot',
+		'#animationDuration',
+		'#beneath',
+		'#elementFactory',
+		'#selectionContainer',
+		'#representationVariant'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
@@ -31,6 +33,27 @@ ToListSelectionOption >> beneath: aBoolean [
 	beneath := aBoolean.
 	selectionContainer ifNil: [ ^ self ].
 	selectionContainer beneath: aBoolean
+]
+
+{ #category : #'private - selection updating' }
+ToListSelectionOption >> checkRepresentationIn: aListElement withSelectionModel: aSelectionModel forceUpdate: aBoolean [
+
+	representationVariant
+		checkRepresentationIn: aListElement withSelectionModel: aSelectionModel forceUpdate: aBoolean.
+	selectionMode dirty: false
+]
+
+{ #category : #'private - selection updating' }
+ToListSelectionOption >> checkSelectionContainerIn: aListElement [
+
+	masked ifTrue: [
+			^ selectionContainer ifNotNil: [
+					  selectionContainer removeFromParent.
+					  selectionContainer := nil ] ].
+	selectionContainer ifNotNil: [ ^ self ].
+	selectionContainer := self newSelectionContainerIn: aListElement.
+	selectionContainer beneath: beneath.
+	aListElement addChild: selectionContainer
 ]
 
 { #category : #accessing }
@@ -65,7 +88,8 @@ ToListSelectionOption >> hasEmbeddedRepresentation [
 ToListSelectionOption >> initialize [ 
 
 	super initialize.
-	masked := false.
+	self class initializeSlots: self.
+	masked := true.
 	animationDuration := 0 milliSecond.
 	beneath := true.
 	self representationVariant: ToListSelectionRepresentationVariant separate
@@ -128,9 +152,10 @@ ToListSelectionOption >> notifyNodesSelectedIn: aListElement [
 { #category : #'api - hooks' }
 ToListSelectionOption >> onInstalledIn: aListElement [
 
-	selectionContainer := self newSelectionContainerIn: aListElement.
-	selectionContainer beneath: beneath.
-	aListElement addChild: selectionContainer
+	self
+		property: #masked
+		whenChangedDo: [ self checkSelectionContainerIn: aListElement ].
+	self checkSelectionContainerIn: aListElement
 ]
 
 { #category : #'api - hooks' }
@@ -147,12 +172,6 @@ ToListSelectionOption >> representationVariant: aRepresentationVariant [
 	aRepresentationVariant selectionOption: self
 ]
 
-{ #category : #'private - selection updating' }
-ToListSelectionOption >> requestNewRepresentation [
-
-	representationVariant requestNewRepresentation
-]
-
 { #category : #accessing }
 ToListSelectionOption >> selectionContainer [
 
@@ -162,7 +181,9 @@ ToListSelectionOption >> selectionContainer [
 { #category : #accessing }
 ToListSelectionOption >> selectionElements [
 
-	^ selectionContainer children asArray
+	^ selectionContainer
+		  ifNil: [ #(  ) ]
+		  ifNotNil: [ :sc | sc children asArray ]
 ]
 
 { #category : #accessing }
@@ -175,15 +196,6 @@ ToListSelectionOption >> selectionMode [
 ToListSelectionOption >> selectionMode: aListSelectionMode [
 
 	selectionMode := aListSelectionMode
-]
-
-{ #category : #'private - selection updating' }
-ToListSelectionOption >> updateSelectionIn: aListElement withSelectionModel: aSelectionModel [
-
-	representationVariant
-		updateSelectionIn: aListElement
-		withSelectionModel: aSelectionModel.
-	selectionMode dirty: false
 ]
 
 { #category : #accessing }

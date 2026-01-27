@@ -4,6 +4,17 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
+{ #category : #'private - selection updating' }
+ToListSelectionWithoutElementVariant >> checkRepresentationIn: aListElement withSelectionModel: aSelectionModel forceUpdate: aBoolean [
+
+	super
+		checkRepresentationIn: aListElement
+		withSelectionModel: aSelectionModel
+		forceUpdate: aBoolean.
+	representationChanged ifFalse: [ ^ self ].
+	self notifyNodesSelectedIn: aListElement
+]
+
 { #category : #testing }
 ToListSelectionWithoutElementVariant >> isEmbedded [ 
 
@@ -27,14 +38,4 @@ ToListSelectionWithoutElementVariant >> selectedNodeContainersFrom: aListElement
 			  idx := container holder position.
 			  (aSelectionModel containsIndex: idx) and: [
 				  aSelectionModel isVisibleIndex: idx ] ]
-]
-
-{ #category : #'private - selection updating' }
-ToListSelectionWithoutElementVariant >> updateSelectionIn: aListElement withSelectionModel: aSelectionModel [
-
-	super
-		updateSelectionIn: aListElement
-		withSelectionModel: aSelectionModel.
-	representationChanged ifFalse: [ ^ self ].
-	self notifyNodesSelectedIn: aListElement
 ]

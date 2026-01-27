@@ -176,12 +176,6 @@ ToBasicListElement >> defaultFakeDataItem [
 ]
 
 { #category : #initialization }
-ToBasicListElement >> defaultInnerElement [
-
-	^ self defaultInnerElementClass onListElement: self
-]
-
-{ #category : #initialization }
 ToBasicListElement >> defaultInnerElementClass [
 
 	^ ToInfiniteElement
@@ -311,8 +305,7 @@ ToBasicListElement >> flagAsDisabled: aBoolean [
 ToBasicListElement >> forceUpdateAllSelectionsNow [
 
 	self selectionModes do: [ :mode |
-			mode requestNewRepresentation.
-			mode updateSelectionIn: self ]
+			mode forceUpdateSelectionIn: self ]
 ]
 
 { #category : #'accessing selecters' }
@@ -363,7 +356,7 @@ ToBasicListElement >> initialize [
 { #category : #initialization }
 ToBasicListElement >> initializeInnerElement [
 
-	self innerElement: self defaultInnerElement
+	self innerElement: self newInnerElement
 ]
 
 { #category : #'t - list element decorator - infinite accessing' }
@@ -451,6 +444,12 @@ ToBasicListElement >> newDisabledSelectionMode [
 ToBasicListElement >> newHiddenSelectionMode [
 
 	^ ToListHiddenSelectionMode parentMode: self primarySelectionMode
+]
+
+{ #category : #'instance creation' }
+ToBasicListElement >> newInnerElement [
+
+	^ self innerElementClass onListElement: self
 ]
 
 { #category : #skin }
@@ -584,7 +583,7 @@ ToBasicListElement >> onAppliedDataSourceSieveCommand: aDataSourceCommand [
 ToBasicListElement >> onLayoutDone [
 
 	super onLayoutDone.
-	self dirtySelectionModes do: [ :mode | mode updateSelectionIn: self ].
+	self selectionModes do: [ :mode | mode checkSelectionIn: self ].
 	self checkMouseMoveReplayRequest
 ]
 

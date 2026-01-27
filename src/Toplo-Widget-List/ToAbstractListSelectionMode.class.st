@@ -23,6 +23,18 @@ ToAbstractListSelectionMode >> changeSelectionOptionWith: aSelectionOption [
 	selectionOption onInstalledIn: listElement
 ]
 
+{ #category : #'selection updating' }
+ToAbstractListSelectionMode >> checkSelectionIn: aListElement [
+
+	self dirty ifFalse: [ ^ self ].
+	self selectionOption ifNotNil: [ :option |
+			option
+				checkRepresentationIn: aListElement
+				withSelectionModel: self selectionModel
+				forceUpdate: false ].
+	self dirty: false
+]
+
 { #category : #initialization }
 ToAbstractListSelectionMode >> defaultSelectionOption [
 
@@ -72,6 +84,17 @@ ToAbstractListSelectionMode >> enabled: aBoolean [
 	enabled := aBoolean.
 	selecter ifNil: [ ^ self ].
 	selecter enabled: aBoolean
+]
+
+{ #category : #'selection updating' }
+ToAbstractListSelectionMode >> forceUpdateSelectionIn: aListElement [
+
+	self selectionOption ifNotNil: [ :option |
+			option
+				checkRepresentationIn: aListElement
+				withSelectionModel: self selectionModel
+				forceUpdate: true ].
+	self dirty: false
 ]
 
 { #category : #initialization }
@@ -231,12 +254,6 @@ ToAbstractListSelectionMode >> option [
 ]
 
 { #category : #accessing }
-ToAbstractListSelectionMode >> requestNewRepresentation [
-
-	self selectionOptionDo: [ :rep | rep requestNewRepresentation ]
-]
-
-{ #category : #accessing }
 ToAbstractListSelectionMode >> selectedIndexes [
 
 	^ self selectionModel indexes
@@ -298,16 +315,5 @@ ToAbstractListSelectionMode >> selectionOption [
 { #category : #accessing }
 ToAbstractListSelectionMode >> selectionOptionDo: aBlock [
 
-	selectionOption ifNil: [ ^ self ].
 	aBlock value: selectionOption
-]
-
-{ #category : #'selection updating' }
-ToAbstractListSelectionMode >> updateSelectionIn: aListElement [
-
-	self selectionOption ifNotNil: [ :option |
-			option
-				updateSelectionIn: aListElement
-				withSelectionModel: self selectionModel ].
-	self dirty: false
 ]

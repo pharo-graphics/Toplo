@@ -28,8 +28,8 @@ ToListPrimarySelectionMode >> defaultSelectionOption [
 	^ ToListSelectionOption new
 		  grouped: true;
 		  beneath: true;
-		  elementFactory: [
-			  ToListPrimarySelectionElement new ]
+		  masked: false;
+		  elementFactory: [ ToListPrimarySelectionElement new ]
 ]
 
 { #category : #accessing }

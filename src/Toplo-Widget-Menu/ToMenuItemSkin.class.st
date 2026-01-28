@@ -59,16 +59,22 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 							 vertical: (e valueOfTokenNamed: #'menu-item-padding-V')) ].
 			e iconDo: [ :ic |
 				ic extent: (e valueOfTokenNamed: #'menu-icon-size') ].
+
 			(e isTopMenu not or: [ e showExpandIcon ]) ifTrue: [
-					| anyHaveIcon anyIsMenu flow |
+					| anyHaveIcon anyIsMenu flow horizontalParent |
 					anyHaveIcon := false.
 					anyIsMenu := false.
 					flow := false.
+					horizontalParent := true.
 					e parentMenuOrMenuPaneDo: [ :pm |
+							horizontalParent := true.
+							pm menuWindowDo: [ :mw |
+								horizontalParent := mw itemList isHorizontal ].
 							flow := pm isFlowable.
-							pm items do: [ :item |
-									item hasIcon ifTrue: [ anyHaveIcon := true ].
-									item isMenu ifTrue: [ anyIsMenu := true ] ] ].
+							horizontalParent ifFalse: [
+									pm items do: [ :item |
+											item hasIcon ifTrue: [ anyHaveIcon := true ].
+											item isMenu ifTrue: [ anyIsMenu := true ] ] ] ].
 
 					anyHaveIcon ifTrue: [
 							| align |

@@ -13,7 +13,7 @@ ToFiniteListElementForTest2 >> defaultFakeDataItem [
 { #category : #initialization }
 ToFiniteListElementForTest2 >> defaultInnerElementClass [
 
-	^ ToFiniteListElement
+	^ ToScrollableFiniteListElement
 ]
 
 { #category : #initialization }

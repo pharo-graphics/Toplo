@@ -12,7 +12,7 @@ Class {
 { #category : #initialization }
 ToMenuItemListElement >> defaultInnerElementClass [
 
-	^ ToFiniteListElement
+	^ ToScrollableFiniteListElement
 ]
 
 { #category : #initialization }

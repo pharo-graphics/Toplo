@@ -85,7 +85,7 @@ ToMultiSelectHeaderListElement >> defaultEventHandler [
 { #category : #initialization }
 ToMultiSelectHeaderListElement >> defaultInnerElementClass [
 
-	^ ToFiniteListElement
+	^ ToScrollableFiniteListElement
 ]
 
 { #category : #initialization }

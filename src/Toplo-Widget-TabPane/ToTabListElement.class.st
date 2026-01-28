@@ -32,7 +32,7 @@ ToTabListElement >> defaultFakeDataItem [
 { #category : #initialization }
 ToTabListElement >> defaultInnerElementClass [
 
-	^ ToFiniteListElement
+	^ ToScrollableFiniteListElement
 ]
 
 { #category : #initialization }

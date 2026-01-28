@@ -1,5 +1,5 @@
 Class {
-	#name : #ToFiniteListTrackElement,
+	#name : #ToScrollableFiniteListTrackElement,
 	#superclass : #ToElement,
 	#instVars : [
 		'listElement'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #configuration }
-ToFiniteListTrackElement >> applyConfiguration [
+ToScrollableFiniteListTrackElement >> applyConfiguration [
 
 	super applyConfiguration.
 	self configureLayout.
@@ -17,13 +17,13 @@ ToFiniteListTrackElement >> applyConfiguration [
 ]
 
 { #category : #configuration }
-ToFiniteListTrackElement >> autoDistribute [
+ToScrollableFiniteListTrackElement >> autoDistribute [
 
 	^ listElement toConfiguration autoDistribute
 ]
 
 { #category : #configuration }
-ToFiniteListTrackElement >> configureLayout [
+ToScrollableFiniteListTrackElement >> configureLayout [
 
 	(self layout class = self newLayoutStrategyClass and: [
 		 self layout orientation isHorizontal = self isHorizontal ])
@@ -31,7 +31,7 @@ ToFiniteListTrackElement >> configureLayout [
 ]
 
 { #category : #configuration }
-ToFiniteListTrackElement >> configureResizer [
+ToScrollableFiniteListTrackElement >> configureResizer [
 
 	self fitParent: listElement.
 	self isFlowable ifTrue: [ ^ self ].
@@ -43,50 +43,50 @@ ToFiniteListTrackElement >> configureResizer [
 ]
 
 { #category : #layout }
-ToFiniteListTrackElement >> flowLayoutClass [
+ToScrollableFiniteListTrackElement >> flowLayoutClass [
 
 	^ BlFlowLayout
 ]
 
 { #category : #initialization }
-ToFiniteListTrackElement >> initialize [
+ToScrollableFiniteListTrackElement >> initialize [
 
 	super initialize.
 	self focusability: BlFocusability ignore
 ]
 
 { #category : #configuration }
-ToFiniteListTrackElement >> isFlowable [
+ToScrollableFiniteListTrackElement >> isFlowable [
 
 	^ listElement toConfiguration isFlowable
 ]
 
 { #category : #configuration }
-ToFiniteListTrackElement >> isHorizontal [
+ToScrollableFiniteListTrackElement >> isHorizontal [
 
 	^ listElement isHorizontal
 ]
 
 { #category : #configuration }
-ToFiniteListTrackElement >> isScrollable [
+ToScrollableFiniteListTrackElement >> isScrollable [
 
 	^ listElement toConfiguration isScrollable
 ]
 
 { #category : #layout }
-ToFiniteListTrackElement >> linearLayoutClass [
+ToScrollableFiniteListTrackElement >> linearLayoutClass [
 
 	^ BlLinearLayout
 ]
 
 { #category : #accessing }
-ToFiniteListTrackElement >> listElement [ 
+ToScrollableFiniteListTrackElement >> listElement [ 
 
 	^ listElement 
 ]
 
 { #category : #layout }
-ToFiniteListTrackElement >> newFlowLayout [
+ToScrollableFiniteListTrackElement >> newFlowLayout [
 
 	^ self isHorizontal
 		  ifTrue: [ self flowLayoutClass horizontal ]
@@ -94,7 +94,7 @@ ToFiniteListTrackElement >> newFlowLayout [
 ]
 
 { #category : #layout }
-ToFiniteListTrackElement >> newLayoutStrategy [
+ToScrollableFiniteListTrackElement >> newLayoutStrategy [
 
 	^ self isFlowable
 		  ifTrue: [ self newFlowLayout ]
@@ -102,7 +102,7 @@ ToFiniteListTrackElement >> newLayoutStrategy [
 ]
 
 { #category : #layout }
-ToFiniteListTrackElement >> newLayoutStrategyClass [
+ToScrollableFiniteListTrackElement >> newLayoutStrategyClass [
 
 	^ self isFlowable
 		  ifTrue: [ self flowLayoutClass ]
@@ -110,7 +110,7 @@ ToFiniteListTrackElement >> newLayoutStrategyClass [
 ]
 
 { #category : #layout }
-ToFiniteListTrackElement >> newLinearLayout [
+ToScrollableFiniteListTrackElement >> newLinearLayout [
 
 	^ self isHorizontal
 		  ifTrue: [ self linearLayoutClass horizontal ]
@@ -118,63 +118,32 @@ ToFiniteListTrackElement >> newLinearLayout [
 ]
 
 { #category : #'accessing - children' }
-ToFiniteListTrackElement >> nodeContainers [
+ToScrollableFiniteListTrackElement >> nodeContainers [
 
 	^ self children
 ]
 
 { #category : #'accessing - children' }
-ToFiniteListTrackElement >> nodeContainersDetect: aBlock [
-
-	self nodeContainersDo: [ :container | (aBlock value: container) ifTrue: [ ^ container ] ].
-	^ nil
-]
-
-{ #category : #'accessing - children' }
-ToFiniteListTrackElement >> nodeContainersDo: aBlock [
+ToScrollableFiniteListTrackElement >> nodeContainersDo: aBlock [
 
 	self childrenDo: [ :container | aBlock value: container ]
 ]
 
-{ #category : #'accessing - children' }
-ToFiniteListTrackElement >> nodeContainersReject: aBlock [
-
-	^ self nodeContainersSelect: [ :container | (aBlock value: container) not ]
-]
-
-{ #category : #'accessing - children' }
-ToFiniteListTrackElement >> nodeContainersSelect: aBlock [
-
-	^ Array streamContents: [ :stream |
-		  self nodeContainersDo: [ :container |
-			  (aBlock value: container) ifTrue: [ stream nextPut: container ] ] ]
-]
-
-{ #category : #'accessing - children' }
-ToFiniteListTrackElement >> nodeContainersWithIndexDo: aBlock [
-
-	| idx |
-	idx := 1.
-	self nodeContainersDo: [ :container |
-			aBlock value: container value: idx.
-			idx := idx + 1 ]
-]
-
 { #category : #initialization }
-ToFiniteListTrackElement >> onListElement: aListElement [
+ToScrollableFiniteListTrackElement >> onListElement: aListElement [
 
 	listElement := aListElement 
 ]
 
 { #category : #'accessing - children' }
-ToFiniteListTrackElement >> partlyVisibleNodesDo: aBlock [
+ToScrollableFiniteListTrackElement >> partlyVisibleNodesDo: aBlock [
 
 	self nodeContainersDo: [ :container |
 		container isPartlyVisibleInListElement ifTrue: [ aBlock value: container ] ]
 ]
 
 { #category : #'accessing - children' }
-ToFiniteListTrackElement >> removeNodeContainer: container [
+ToScrollableFiniteListTrackElement >> removeNodeContainer: container [
 
 	container removeFromParent
 ]

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToInfiniteElement,
 	#superclass : #BlInfiniteElement,
-	#traits : 'TToListInnerElement',
-	#classTraits : 'TToListInnerElement classTrait',
+	#traits : 'TToInnerListElement',
+	#classTraits : 'TToInnerListElement classTrait',
 	#instVars : [
 		'listElement'
 	],
@@ -106,7 +106,7 @@ ToInfiniteElement >> dispatchLayoutFinalStep [
 
 ]
 
-{ #category : #'t - list inner element' }
+{ #category : #'t - inner list element' }
 ToInfiniteElement >> findElementHolderForDataSourcePosition: aPosition [
 
 	^ super findElementHolderForDataSourcePosition: aPosition
@@ -160,59 +160,16 @@ ToInfiniteElement >> newNodeHolderFromDataSource: aDataSource [
 	^ listElement nodeManager newHolder
 ]
 
-{ #category : #'t - list inner element' }
-ToInfiniteElement >> nodeContainerAt: aPosition [
-
-	^ (self findElementHolderForDataSourcePosition: aPosition) ifNotNil: [
-		  :holder | holder node ]
-]
-
-{ #category : #'t - list inner element' }
+{ #category : #'t - inner list element - requirements' }
 ToInfiniteElement >> nodeContainers [
 
 	^ self children
 ]
 
-{ #category : #'t - list inner element' }
-ToInfiniteElement >> nodeContainersDetect: aBlock [
-
-	self nodeContainersDo: [ :container | (aBlock value: container) ifTrue: [ ^ container ] ].
-	^ nil
-]
-
-{ #category : #'t - list inner element' }
+{ #category : #'t - inner list element - requirements' }
 ToInfiniteElement >> nodeContainersDo: aBlock [
 
 	self childrenDo: [ :node | aBlock value: node ]
-]
-
-{ #category : #'t - list inner element' }
-ToInfiniteElement >> nodeContainersReject: aBlock [
-
-	^ self nodeContainersSelect: [ :container | (aBlock value: container) not ]
-]
-
-{ #category : #'t - list inner element' }
-ToInfiniteElement >> nodeContainersSelect: aBlock [
-
-	^ Array streamContents: [ :stream |
-		  self nodeContainersDo: [ :container |
-			  (aBlock value: container) ifTrue: [ stream nextPut: container ] ] ]
-]
-
-{ #category : #'t - list inner element' }
-ToInfiniteElement >> nodeContainersWithIndexDo: aBlock [
-
-	self nodeContainersDo: [ :container |
-		aBlock value: container value: container holder position ]
-]
-
-{ #category : #'accessing - children' }
-ToInfiniteElement >> nodeContainingGlobalPosition: aPoint [
-
-	self nodeContainersDo: [ :container |
-		(container containsGlobalPoint: aPoint) ifTrue: [ ^ container ] ].
-	^ nil
 ]
 
 { #category : #initialization }
@@ -221,7 +178,7 @@ ToInfiniteElement >> onListElement: aListElement [
 	listElement := aListElement
 ]
 
-{ #category : #'t - list inner element' }
+{ #category : #'t - inner list element - requirements' }
 ToInfiniteElement >> partlyVisibleNodesDo: aBlock [
 
 	self nodeContainersDo: aBlock

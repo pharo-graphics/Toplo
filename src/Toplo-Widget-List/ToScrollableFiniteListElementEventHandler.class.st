@@ -1,5 +1,5 @@
 Class {
-	#name : #ToFiniteListElementEventHandler,
+	#name : #ToScrollableFiniteListElementEventHandler,
 	#superclass : #ToListInnerElementEventHandler,
 	#instVars : [
 		'previousVisibleNodeContainers'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #'infinite event handling' }
-ToFiniteListElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
+ToScrollableFiniteListElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
 
 	| listElement |
 	listElement := anEvent currentTarget listElement.
@@ -17,16 +17,15 @@ ToFiniteListElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent
 ]
 
 { #category : #'element events handling' }
-ToFiniteListElementEventHandler >> checkFullyVisibleNodeContainersOnEvent: anEvent [
+ToScrollableFiniteListElementEventHandler >> checkFullyVisibleNodeContainersOnEvent: anEvent [
 
 	| invisibles visibles innerListElement listElement |
 	innerListElement := anEvent currentTarget.
 	listElement := innerListElement listElement.
+	invisibles := #(  ).
+	visibles := listElement nodeContainers asArray.
 	listElement toConfigurationDo: [ :conf |
 			(conf isFlowable or: [ conf autoDistribute ])
-				ifTrue: [
-						invisibles := #(  ).
-						visibles := listElement nodeContainers asArray ] 
 				ifFalse: [
 						invisibles := listElement nodeContainersReject:
 							              #isFullyVisibleInListElement.
@@ -43,13 +42,13 @@ ToFiniteListElementEventHandler >> checkFullyVisibleNodeContainersOnEvent: anEve
 ]
 
 { #category : #'infinite event handling' }
-ToFiniteListElementEventHandler >> elementScrolledEvent: anEvent [
+ToScrollableFiniteListElementEventHandler >> elementScrolledEvent: anEvent [
 
 	self checkFullyVisibleNodeContainersOnEvent: anEvent
 ]
 
 { #category : #'api - accessing' }
-ToFiniteListElementEventHandler >> eventsToHandle [
+ToScrollableFiniteListElementEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , {
 		  BlElementScrolledEvent.
@@ -58,7 +57,7 @@ ToFiniteListElementEventHandler >> eventsToHandle [
 ]
 
 { #category : #'element events handling' }
-ToFiniteListElementEventHandler >> listVisibleNodeContainersChangedEvent: anEvent [
+ToScrollableFiniteListElementEventHandler >> listVisibleNodeContainersChangedEvent: anEvent [
 
 	| innerListElement |
 	innerListElement := anEvent currentTarget.

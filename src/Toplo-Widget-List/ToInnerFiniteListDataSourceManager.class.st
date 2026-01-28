@@ -1,5 +1,5 @@
 Class {
-	#name : #ToFiniteListDataSourceManager,
+	#name : #ToInnerFiniteListDataSourceManager,
 	#superclass : #Object,
 	#traits : 'TToPostponedCommandManager',
 	#classTraits : 'TToPostponedCommandManager classTrait',
@@ -11,19 +11,19 @@ Class {
 }
 
 { #category : #'data source updates' }
-ToFiniteListDataSourceManager >> addCommand: aCommand [
+ToInnerFiniteListDataSourceManager >> addCommand: aCommand [
 
 	commandApplicationStrategy addCommand: aCommand from: self
 ]
 
 { #category : #'command application' }
-ToFiniteListDataSourceManager >> applyCommand: aCommand [
+ToInnerFiniteListDataSourceManager >> applyCommand: aCommand [
 
 	aCommand applyIn: finiteListElement
 ]
 
 { #category : #initialization }
-ToFiniteListDataSourceManager >> defaultCommandApplicationStrategy [ 
+ToInnerFiniteListDataSourceManager >> defaultCommandApplicationStrategy [ 
 
 	" The immediate strategy is mandatory, the other will not work "
 	"^ BlQueueBasedCommandApplicationStrategy new"
@@ -32,7 +32,7 @@ ToFiniteListDataSourceManager >> defaultCommandApplicationStrategy [
 ]
 
 { #category : #'commands processing' }
-ToFiniteListDataSourceManager >> dispatchCommand: aCommand to: anInfiniteElement [
+ToInnerFiniteListDataSourceManager >> dispatchCommand: aCommand to: anInfiniteElement [
 	"Dispatch data source update command to all interested objects,
 	in this case to infinite element's layout.
 	aCommand must not be nil"
@@ -41,13 +41,13 @@ ToFiniteListDataSourceManager >> dispatchCommand: aCommand to: anInfiniteElement
 ]
 
 { #category : #testing }
-ToFiniteListDataSourceManager >> hasPendingCommands [
+ToInnerFiniteListDataSourceManager >> hasPendingCommands [
 
 	^ commandApplicationStrategy hasPendingCommands
 ]
 
 { #category : #accessing }
-ToFiniteListDataSourceManager >> innerListElement: anInnerListElement [
+ToInnerFiniteListDataSourceManager >> innerListElement: anInnerListElement [
 
 	finiteListElement := anInnerListElement.
 	commandApplicationStrategy := self defaultCommandApplicationStrategy
@@ -57,13 +57,13 @@ ToFiniteListDataSourceManager >> innerListElement: anInnerListElement [
 ]
 
 { #category : #'commands processing' }
-ToFiniteListDataSourceManager >> onCommandProcessed: aCommand in: anInfiniteElement [
+ToInnerFiniteListDataSourceManager >> onCommandProcessed: aCommand in: anInfiniteElement [
 
 	aCommand offsetPositionsIn: anInfiniteElement.
 ]
 
 { #category : #'data source updates' }
-ToFiniteListDataSourceManager >> onItemRangeChanged: aPositionStart itemCount: anItemCount [
+ToInnerFiniteListDataSourceManager >> onItemRangeChanged: aPositionStart itemCount: anItemCount [
 
 	anItemCount < 1 ifTrue: [ ^ self ].
 
@@ -75,7 +75,7 @@ ToFiniteListDataSourceManager >> onItemRangeChanged: aPositionStart itemCount: a
 ]
 
 { #category : #'data source updates' }
-ToFiniteListDataSourceManager >> onItemRangeInserted: aPositionStart itemCount: anItemCount [
+ToInnerFiniteListDataSourceManager >> onItemRangeInserted: aPositionStart itemCount: anItemCount [
 
 	anItemCount < 1
 		ifTrue: [ ^ self ].
@@ -86,7 +86,7 @@ ToFiniteListDataSourceManager >> onItemRangeInserted: aPositionStart itemCount: 
 ]
 
 { #category : #'data source updates' }
-ToFiniteListDataSourceManager >> onItemRangeRemoved: aPositionStart itemCount: anItemCount [
+ToInnerFiniteListDataSourceManager >> onItemRangeRemoved: aPositionStart itemCount: anItemCount [
 
 	anItemCount < 1
 		ifTrue: [ ^ self ].
@@ -99,13 +99,13 @@ ToFiniteListDataSourceManager >> onItemRangeRemoved: aPositionStart itemCount: a
 ]
 
 { #category : #'data source updates' }
-ToFiniteListDataSourceManager >> onItemsChanged [ 
+ToInnerFiniteListDataSourceManager >> onItemsChanged [ 
 
 	self addCommand: ToListDataSourceChangedCommand new
 ]
 
 { #category : #'data source updates' }
-ToFiniteListDataSourceManager >> onItemsFiltered: aPositionStart itemCount: anItemCount [
+ToInnerFiniteListDataSourceManager >> onItemsFiltered: aPositionStart itemCount: anItemCount [
 	"Return true if pending commands should be processed,
 	otherwise false"
 
@@ -118,7 +118,7 @@ ToFiniteListDataSourceManager >> onItemsFiltered: aPositionStart itemCount: anIt
 ]
 
 { #category : #'data source updates' }
-ToFiniteListDataSourceManager >> onItemsSieved: aPositionStart itemCount: anItemCount with: aSieve [
+ToInnerFiniteListDataSourceManager >> onItemsSieved: aPositionStart itemCount: anItemCount with: aSieve [
 	"Return true if pending commands should be processed,
 	otherwise false"
 
@@ -132,7 +132,7 @@ ToFiniteListDataSourceManager >> onItemsSieved: aPositionStart itemCount: anItem
 ]
 
 { #category : #'commands processing' }
-ToFiniteListDataSourceManager >> recycleCommand: aCommand [
+ToInnerFiniteListDataSourceManager >> recycleCommand: aCommand [
 	"Recycle aCommand if recycling enabled"
 
 ]

@@ -857,7 +857,7 @@ ToBasicListElement >> useInfiniteLayout: aBoolean [
 	| requiredClass |
 	requiredClass := aBoolean
 		                 ifTrue: [ ToInfiniteElement ]
-		                 ifFalse: [ ToFiniteListElement ].
+		                 ifFalse: [ ToScrollableFiniteListElement ].
 	innerElementClass = requiredClass ifTrue: [ ^ self ].
 	self innerElementClass: requiredClass
 ]

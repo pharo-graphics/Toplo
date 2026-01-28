@@ -510,6 +510,102 @@ ToExperiments class >> example_LinearLayoutWithLabels [
 	frame openInNewSpace
 ]
 
+{ #category : #menu }
+ToExperiments class >> example_MenuAroundCircle [
+
+	| pane innerCircle outerCircle nb gap circleSize |
+	circleSize := 400.
+	pane := ToElement new
+		        id: #pane;
+		        yourself.
+	pane constraintsDo: [ :c |
+			c horizontal matchParent.
+			c vertical matchParent ].
+	pane border: Color red.
+	pane layout: BlAnchorLayout new.
+	pane geometry: BlCircleGeometry new.
+	pane extent: (circleSize + 10) asPoint.
+	pane border: Color red.
+	innerCircle := ToElement new
+		          id: #blue;
+		          yourself.
+	innerCircle geometry: BlCircleGeometry new.
+	
+	innerCircle extent: circleSize asPoint.
+	innerCircle margin: (BlInsets all: (circleSize / 2) negated).
+	innerCircle constraintsDo: [ :c |
+			c ignoreByLayout.
+			c anchors add:
+				(c anchors centerAnchor on: c anchors parent centerAnchor) ].
+	pane addChild: innerCircle.
+	outerCircle := ToElement new
+		          id: #blue;
+		          yourself.
+	innerCircle background: Color blue.
+	outerCircle geometry: BlCircleGeometry new.
+	outerCircle margin: (BlInsets all: (circleSize / 8) negated).
+	outerCircle extent: circleSize asPoint.
+	outerCircle constraintsDo: [ :c |
+			c ignoreByLayout.
+			c anchors add:
+				(c anchors centerAnchor on: c anchors parent centerAnchor) ].
+	pane addChild: outerCircle.
+
+	nb := 6.
+	gap := (360 / nb) asInteger.
+	1 to: nb do: [ :n |
+			| degrees subMenu sector |
+			degrees := n * gap.
+			subMenu := ToMenu new.
+			subMenu builder: [ :sm |
+					1 to: 2 do: [ :index |
+							| stream iconImage color |
+							stream := String streamContents: [ :out |
+									          out
+										          nextPutAll: 'Level ';
+										          space;
+										          print: index ].
+							color := Color random.
+							iconImage := BlElement new
+								             padding: (BlInsets all: 2);
+								             geometry:
+									             (BlRoundedRectangleGeometry cornerRadius: 3);
+								             background: color;
+								             extent: 16 asPoint;
+								             yourself.
+							sm addItem: ((ToMenuItem new
+									  labelText: stream;
+									  iconImage: iconImage)
+									 clickAction: [ pane background: color ];
+									 yourself) ] ].
+			sector := (BlAnnulusSectorGeometry new
+				           startAngle: degrees - gap;
+				           endAngle: degrees;
+				           yourself) asElement.
+			sector
+				extent: circleSize asPoint;
+				yourself.
+			sector border: Color veryLightGray.
+			sector addEventHandlerOn: BlMouseEnterEvent do: [ sector border: Color red ].
+			sector addEventHandlerOn: BlMouseLeaveEvent do: [ sector border: Color veryLightGray ].
+			subMenu labelText: degrees asString , '°'.
+
+			subMenu constraintsDo: [ :c |
+					c ignoreByLayout.
+					c anchors add: (c anchors centerAnchor on:
+							 (outerCircle perimeterAnchor degrees: degrees)) ].
+			sector constraintsDo: [ :c |
+					c ignoreByLayout.
+					c anchors add: (c anchors horizontalCenterAnchor on:
+							 (innerCircle perimeterAnchor degrees: degrees + gap) ) ].
+			pane addChild: sector.
+			subMenu elevation: (BlRelativeElevation elevation: 10).
+			pane addChild: subMenu ].
+
+	pane openInSpace.
+	^ innerCircle
+]
+
 { #category : #'drag and drop' }
 ToExperiments class >> example_PasteUpPane [
 

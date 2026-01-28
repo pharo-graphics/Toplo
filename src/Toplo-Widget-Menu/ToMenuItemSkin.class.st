@@ -67,7 +67,7 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 					flow := false.
 					horizontalParent := true.
 					e parentMenuOrMenuPaneDo: [ :pm |
-							horizontalParent := true.
+							horizontalParent := pm isHorizontal.
 							pm menuWindowDo: [ :mw |
 								horizontalParent := mw itemList isHorizontal ].
 							flow := pm isFlowable.

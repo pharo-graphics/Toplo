@@ -3173,7 +3173,7 @@ ToSandBox class >> example_MenuPaneScrollableWithCustomItems [
 
 	sub addItem: (ToMenuItem new labelText: 'Locally').
 	menuPane addItem: sub.
-	menuPane openInSpace
+	menuPane openInInnerWindow 
 ]
 
 { #category : #menu }

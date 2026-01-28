@@ -33,10 +33,7 @@ ToMenuSkin >> installSkinEvent: anEvent [
 					arrowIm extent:
 						(e valueOfTokenNamed: #'iconic-arrow-breadth') asPoint.
 					e endElement addChild: arrowIm ].
-			(e hasIcon and: [ e hasLabel ])
-				ifTrue: [
-				e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
-				ifFalse: [ e startInterspace: 0 ] ]
+			(e hasIcon and: [ e hasLabel ]) ifFalse: [ e startInterspace: 0 ] ]
 ]
 
 { #category : #'event handling' }

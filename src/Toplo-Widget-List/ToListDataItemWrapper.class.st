@@ -69,10 +69,9 @@ ToListDataItemWrapper >> unwrappedDataItem [
 { #category : #'private - accessing' }
 ToListDataItemWrapper >> updateListAtPosition: aPositionInDataSource [
 
-	self nodeContainerAtPosition: aPositionInDataSource do: [ :container |
-			container requestNewSkin.
-			listElement postponeAction: [ :t |
-					container holder notifySelectedWithOption: t selectionOption ] ]
+	self
+		nodeContainerAtPosition: aPositionInDataSource
+		do: [ :container | container requestNewSkin ]
 ]
 
 { #category : #accessing }

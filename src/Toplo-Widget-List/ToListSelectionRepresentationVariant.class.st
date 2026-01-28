@@ -94,11 +94,41 @@ ToListSelectionRepresentationVariant >> nextRepresentationIn: aListElement withS
 ]
 
 { #category : #'private - selection notification' }
+ToListSelectionRepresentationVariant >> notifyNodeContainer: aNodeContainer deselectedIn: aListElement [
+
+	| holder |
+	holder := aNodeContainer holder.
+	" am i in the selection ?"
+	holder isSelected ifTrue: [ ^ self ].
+	" have I already notified a deselection ? "
+	holder canNotifyDeselection ifFalse: [ ^ self ].
+	holder notifyNodeSelectedEvent: (ToListNodeSelectedEvent new
+			 listElement: aListElement;
+			 selectionOption: selectionOption;
+			 selected: false)
+]
+
+{ #category : #'private - selection notification' }
+ToListSelectionRepresentationVariant >> notifyNodeContainer: aNodeContainer selectedIn: aListElement [
+
+	| holder |
+	holder := aNodeContainer holder.
+	" am i in the selection ?"
+	holder isSelected ifFalse: [ ^ self ].
+	" have I already notified a deselection ? "
+	holder canNotifySelection ifFalse: [ ^ self ].
+	holder notifyNodeSelectedEvent: (ToListNodeSelectedEvent new
+			 listElement: aListElement;
+			 selectionOption: selectionOption;
+			 selected: true)
+]
+
+{ #category : #'private - selection notification' }
 ToListSelectionRepresentationVariant >> notifyNodesDeselectedIn: aListElement [
 
 	self selectionMode isPrimary ifFalse: [ ^ self ].
 	aListElement nodeContainersDo: [ :container |
-		container holder notifyDeselectedWithOption: selectionOption ]
+		self notifyNodeContainer: container deselectedIn: aListElement ]
 ]
 
 { #category : #'private - selection notification' }
@@ -106,7 +136,7 @@ ToListSelectionRepresentationVariant >> notifyNodesSelectedIn: aListElement [
 
 	self selectionMode isPrimary ifFalse: [ ^ self ].
 	aListElement nodeContainersDo: [ :container |
-		container holder notifySelectedWithOption: selectionOption ]
+		self notifyNodeContainer: container selectedIn: aListElement ]
 ]
 
 { #category : #'private - selection updating' }

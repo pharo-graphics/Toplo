@@ -6,12 +6,6 @@ Class {
 	#category : #'Toplo-Widget-List-ItemList'
 }
 
-{ #category : #'t - finite list element - fake container' }
-ToItemListElement >> defaultFakeDataItem [
-
-	^ ToListItem new
-]
-
 { #category : #initialization }
 ToItemListElement >> defaultNodeManagerClass [
 

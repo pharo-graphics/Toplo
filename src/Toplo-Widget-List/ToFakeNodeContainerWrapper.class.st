@@ -26,12 +26,6 @@ ToFakeNodeContainerWrapper >> initialize [
 	self id: #fakeNodeContainerWrapper
 ]
 
-{ #category : #testing }
-ToFakeNodeContainerWrapper >> isFake [ 
-
-	^ true
-]
-
 { #category : #accessing }
 ToFakeNodeContainerWrapper >> node [ 
 

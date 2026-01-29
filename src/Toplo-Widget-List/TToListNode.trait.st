@@ -32,14 +32,6 @@ TToListNode >> initializeAsListNode [
 ]
 
 { #category : #'t - list node' }
-TToListNode >> isFake [
-
-	| list |
-	list := self holder listElement.
-	^ list fakeNode = self
-]
-
-{ #category : #'t - list node' }
 TToListNode >> isFirst [
 
 	^ self holder position = 1

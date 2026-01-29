@@ -9,10 +9,8 @@ Class {
 		'nodeManager',
 		'selectionModeMap',
 		'mouseMoveReplayRequested',
-		'fakeDataItem',
 		'innerElementClass',
-		'innerElement',
-		'fakeNodeContainerWrapper'
+		'innerElement'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -52,14 +50,6 @@ ToBasicListElement >> applyConfiguration [
 
 	super applyConfiguration.
 	self childrenDo: #applyConfiguration
-]
-
-{ #category : #'fake container' }
-ToBasicListElement >> checkFakeNodeContainer [
-
-	self nodeManager isBuildingFakeNodeContainer ifTrue: [ ^ self ].
-	fakeNodeContainerWrapper ifNil: [ ^ self installFakeNodeContainer ].
-	self reinstallFakeNodeContainer
 ]
 
 { #category : #layout }
@@ -169,12 +159,6 @@ ToBasicListElement >> defaultEventHandler [
 	^ ToListElementEventHandler new
 ]
 
-{ #category : #'fake container' }
-ToBasicListElement >> defaultFakeDataItem [
-
-	^ nil
-]
-
 { #category : #initialization }
 ToBasicListElement >> defaultInnerElementClass [
 
@@ -260,38 +244,6 @@ ToBasicListElement >> enabledAtPosition: anInteger [
 	self disabledSelecter deselectIndex: anInteger
 ]
 
-{ #category : #'fake container' }
-ToBasicListElement >> fakeDataItem [
-
-	^ fakeDataItem ifNil: [ fakeDataItem := self defaultFakeDataItem ]
-]
-
-{ #category : #'fake container' }
-ToBasicListElement >> fakeDataItem: anObject [
-
-	anObject = fakeDataItem ifTrue: [ ^ self ].
-	fakeDataItem := anObject.
-	self checkFakeNodeContainer 
-]
-
-{ #category : #'fake container' }
-ToBasicListElement >> fakeNode [
-
-	^ self fakeNodeContainer node
-]
-
-{ #category : #'fake container' }
-ToBasicListElement >> fakeNodeContainer [
-
-	^ fakeNodeContainerWrapper ifNotNil: [ :w | w nodeContainer ]
-]
-
-{ #category : #'fake container' }
-ToBasicListElement >> fakeNodeContainerWrapper [
-
-	^ fakeNodeContainerWrapper 
-]
-
 { #category : #'t - item' }
 ToBasicListElement >> flagAsDisabled: aBoolean [
 
@@ -373,10 +325,10 @@ ToBasicListElement >> innerElement: anInnerElement [
 	innerElement ifNotNil: [ :inner | 
 		inner removeFromParent ].
 	innerElement := anInnerElement.
-	self checkFakeNodeContainer.
 	innerElement ifNotNil: [ :inner |
 			self addChild: innerElement.
-			self notifyDataSourceChanged ]
+			self notifyDataSourceChanged ].
+	self onInnerElementChanged
 ]
 
 { #category : #accessing }
@@ -399,14 +351,9 @@ ToBasicListElement >> innerElementClass: anInnerElementClass [
 ]
 
 { #category : #'fake container' }
-ToBasicListElement >> installFakeNodeContainer [
-	" the fake node is added in case of an empty data source to ensure a 
-	suitable minimum height according to the node class, the node builder 
-	and the data kind."
+ToBasicListElement >> isFakeNodeContainer: aNodeContainer [ 
 
-	fakeNodeContainerWrapper := self nodeManager newFakeNodeContainerIn: self.
-	self addChild: fakeNodeContainerWrapper at: 1.
-	self requestConfiguration
+	^ false
 ]
 
 { #category : #testing }
@@ -585,6 +532,10 @@ ToBasicListElement >> onAppliedDataSourceSieveCommand: aDataSourceCommand [
 		self selectionModel copySelectionFrom: sieve selectionModel ]
 ]
 
+{ #category : #accessing }
+ToBasicListElement >> onInnerElementChanged [
+]
+
 { #category : #'hooks - layout' }
 ToBasicListElement >> onLayoutDone [
 
@@ -625,16 +576,6 @@ ToBasicListElement >> primarySelectionMode: aSelectionMode [
 	aSelectionMode ifNotNil: [ aSelectionMode onInstalledIn: self ].
 	self dispatchEvent: ToListPrimarySelectionModeChangedEvent new.
 	self requestNewSkin
-]
-
-{ #category : #'fake container' }
-ToBasicListElement >> reinstallFakeNodeContainer [
-	" the fake node is added in case of an empty data source to ensure a 
-	suitable minimum height according to the node class, the node builder 
-	and the data kind."
-
-	self nodeManager refreshFakeNodeContainer: fakeNodeContainerWrapper.
-	self requestConfiguration
 ]
 
 { #category : #'accessing - selection modes' }
@@ -683,18 +624,6 @@ ToBasicListElement >> requestUpdateSelectionMode: aMode [
 
 	aMode dirty: true.
 	self requestLayout
-]
-
-{ #category : #'fake container' }
-ToBasicListElement >> sample [
-
-	^ self fakeDataItem
-]
-
-{ #category : #'fake container' }
-ToBasicListElement >> sample: aDataItem [
-
-	self fakeDataItem: aDataItem
 ]
 
 { #category : #'accessing selecters' }

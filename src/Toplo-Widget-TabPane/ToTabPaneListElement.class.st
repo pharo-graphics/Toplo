@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-TabPane-TabPane'
 }
 
-{ #category : #accessing }
+{ #category : #'t - list fake node user' }
 ToTabPaneListElement >> defaultFakeDataItem [
 
 	^ ToTabButton new

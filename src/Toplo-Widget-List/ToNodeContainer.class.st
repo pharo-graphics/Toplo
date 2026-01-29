@@ -58,7 +58,7 @@ ToNodeContainer >> isFake [
 
 	| list |
 	list := self holder listElement.
-	^ list fakeNodeContainer = self 
+	^ list isFakeNodeContainer: self
 ]
 
 { #category : #testing }

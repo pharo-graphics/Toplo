@@ -1125,7 +1125,6 @@ ToSandBox class >> example_BasicListWithAllClasses [
 		(Smalltalk globals allClasses sorted: [ :a :b | a name < b name ]).
 	l selecter selectIndexes: #(10 12 3).
 	l withRowNumbers.
-	l fakeDataItem: Object.
 	l requestFocus.
 	l openInInnerWindow.
 	^ l
@@ -3925,7 +3924,6 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 
 	select hMatchParent.
 	select placeholderString: 'Select icons'.
-
 	select openInSpace
 ]
 

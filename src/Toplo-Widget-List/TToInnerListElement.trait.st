@@ -1,7 +1,18 @@
 Trait {
 	#name : #TToInnerListElement,
+	#instVars : [
+		'listElement'
+	],
 	#category : #'Toplo-Widget-List-InnerList'
 }
+
+{ #category : #'t - inner list element' }
+TToInnerListElement classSide >> onListElement: aListElement [
+
+	^ self basicNew
+		  onListElement: aListElement;
+		  initialize
+]
 
 { #category : #'t - inner list element' }
 TToInnerListElement >> disableScrolledEvent [
@@ -121,6 +132,13 @@ TToInnerListElement >> onAppliedDataSourceFilterCommand: aDataSourceCommand [
 TToInnerListElement >> onAppliedDataSourceSieveCommand: aDataSourceCommand [
 
 	self listElement onAppliedDataSourceSieveCommand: aDataSourceCommand
+]
+
+{ #category : #'t - inner list element' }
+TToInnerListElement >> onListElement: aListElement [
+
+	listElement ifNotNil: [ BlImmutableObjectChangeError signal ].
+	listElement := aListElement
 ]
 
 { #category : #'t - inner list element - requirements' }

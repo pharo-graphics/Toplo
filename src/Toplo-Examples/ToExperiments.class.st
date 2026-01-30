@@ -578,6 +578,7 @@ ToExperiments class >> example_MenuAroundCircle [
 									  iconImage: iconImage)
 									 clickAction: [ pane background: color ];
 									 yourself) ] ].
+			degrees traceCr.
 			sector := (BlAnnulusSectorGeometry new
 				           startAngle: degrees - gap;
 				           endAngle: degrees;

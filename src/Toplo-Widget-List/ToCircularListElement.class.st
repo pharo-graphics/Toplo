@@ -7,9 +7,23 @@ Class {
 }
 
 { #category : #'t - inner finite list element - requirements' }
-ToCircularListElement >> addHolder: anHolder at: aPosition [
+ToCircularListElement >> addNodeContainer: aNodeContainer at: aPosition [
 
-	self addChild: anHolder nodeContainer at: aPosition
+	self addChild: aNodeContainer at: aPosition
+]
+
+{ #category : #configuration }
+ToCircularListElement >> applyConfiguration [
+
+	super applyConfiguration.
+	self applyInnerFiniteListElementConfiguration 
+]
+
+{ #category : #initialization }
+ToCircularListElement >> initialize [ 
+
+	super initialize.
+	self geometry: BlCircleGeometry new
 ]
 
 { #category : #'t - inner list element - requirements' }

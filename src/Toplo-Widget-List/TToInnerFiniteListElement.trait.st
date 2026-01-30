@@ -10,18 +10,18 @@ Trait {
 }
 
 { #category : #'t - inner finite list element - accessing nodes' }
-TToInnerFiniteListElement >> addAllHolders: anArray at: aPosition [
+TToInnerFiniteListElement >> addAllNodeContainers: anArray at: aPosition [
 
 	| pos |
 	pos := aPosition.
-	anArray do: [ :h |
-			self addHolder: h at: pos.
-			pos := pos + 1 ].
-	anArray do: [ :h | self notifyChildAttached: h nodeContainer ]
+	anArray do: [ :container |
+			self addNodeContainer: container at: pos.
+			self notifyChildAttached: container.
+			pos := pos + 1 ]
 ]
 
 { #category : #'t - inner finite list element - requirements' }
-TToInnerFiniteListElement >> addHolder: anHolder at: aPosition [
+TToInnerFiniteListElement >> addNodeContainer: aNodeContainer at: aPosition [
 
 	self shouldBeImplemented 
 ]
@@ -166,20 +166,20 @@ TToInnerFiniteListElement >> onItemRangeChanged: aPositionStart itemCount: anIte
 { #category : #'t - inner finite list element - data source updates' }
 TToInnerFiniteListElement >> onItemRangeInserted: aPositionStart itemCount: anItemCount [
 
-	| holder offsetPosition holders |
+	| holder offsetPosition containers |
 	" consume the comands that can contain a selection shift command "
 	self consumeFinalStepCommands.
 	self
 		shiftPositionsFrom: aPositionStart + anItemCount - 1
 		by: anItemCount.
-	holders := Array streamContents: [ :stream |
+	containers := Array streamContents: [ :stream |
 			           1 to: anItemCount do: [ :idx |
 					           holder := self dataSource createHolder: self.
 					           offsetPosition := aPositionStart + idx - 1.
 					           holder infiniteElement: self.
 					           self dataSource bindHolder: holder at: offsetPosition.
-					           stream nextPut: holder ] ].
-	self addAllHolders: holders at: aPositionStart
+					           stream nextPut: holder nodeContainer] ].
+	self addAllNodeContainers: containers at: aPositionStart
 ]
 
 { #category : #'t - inner finite list element - data source updates' }
@@ -198,25 +198,18 @@ TToInnerFiniteListElement >> onItemRangeRemoved: aPositionStart itemCount: anIte
 { #category : #'t - inner finite list element - data source updates' }
 TToInnerFiniteListElement >> onItemsChanged [
 
-	| holders |
+	| containers |
 	self dataSourceManager resetFinalStepCommands.
 	self removeAllNodeContainers: self nodeContainers.
-	holders := Array streamContents: [ :stream |
-			           | holder |
-			           1 to: self dataSource itemCount do: [ :idx |
-					           holder := self dataSource createHolder: self.
-					           holder infiniteElement: self.
-					           self dataSource bindHolder: holder at: idx.
-					           stream nextPut: holder ] ].
-	self addAllHolders: holders at: 1.
+	containers := Array streamContents: [ :stream |
+			              1 to: self dataSource itemCount do: [ :idx |
+					              | holder |
+					              holder := self dataSource createHolder: self.
+					              holder infiniteElement: self.
+					              self dataSource bindHolder: holder at: idx.
+					              stream nextPut: holder nodeContainer ] ].
+	self addAllNodeContainers: containers at: 1.
 	self updatePositions
-]
-
-{ #category : #'t - inner finite list element - initialization' }
-TToInnerFiniteListElement >> onListElement: aListElement [
-
-	listElement ifNotNil: [ BlImmutableObjectChangeError signal ].
-	listElement := aListElement
 ]
 
 { #category : #'t - inner finite list element - accessing nodes' }

@@ -5,7 +5,7 @@ Trait {
 		'fakeDataItem',
 		'isBuildingFakeNodeContainer'
 	],
-	#category : #'Toplo-Widget-List-ItemList'
+	#category : #'Toplo-Widget-List-Node'
 }
 
 { #category : #'t - list fake node user' }

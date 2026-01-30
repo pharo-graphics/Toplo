@@ -3,19 +3,8 @@ Class {
 	#superclass : #BlInfiniteElement,
 	#traits : 'TToInnerListElement',
 	#classTraits : 'TToInnerListElement classTrait',
-	#instVars : [
-		'listElement'
-	],
 	#category : #'Toplo-Widget-List-InnerList-Infinite'
 }
-
-{ #category : #'instance creation' }
-ToInfiniteElement class >> onListElement: aListElement [
-
-	^ self basicNew
-		  onListElement: aListElement;
-		  initialize
-]
 
 { #category : #'private - commands' }
 ToInfiniteElement >> addedDataSourceCommand: aCommand [
@@ -170,12 +159,6 @@ ToInfiniteElement >> nodeContainers [
 ToInfiniteElement >> nodeContainersDo: aBlock [
 
 	self childrenDo: [ :node | aBlock value: node ]
-]
-
-{ #category : #initialization }
-ToInfiniteElement >> onListElement: aListElement [
-
-	listElement := aListElement
 ]
 
 { #category : #'t - inner list element - requirements' }

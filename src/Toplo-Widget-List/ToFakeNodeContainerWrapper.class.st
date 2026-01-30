@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'nodeContainer'
 	],
-	#category : #'Toplo-Widget-List-Core'
+	#category : #'Toplo-Widget-List-Node'
 }
 
 { #category : #configuration }

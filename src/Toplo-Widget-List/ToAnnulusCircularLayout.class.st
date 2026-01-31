@@ -81,42 +81,40 @@ ToAnnulusCircularLayout >> innerRadius: anObject [
 { #category : #layout }
 ToAnnulusCircularLayout >> layout: anElement in: aBounds context: aBlElementBoundsUpdateContext [
 
-	|  radius angleGap angleDeg |
+	| radius angleGap angleDeg |
 	anElement children isEmpty ifTrue: [ ^ self ].
 
 	radius := innerRadius + outerRadius / 2.
-	uniformSectors ifTrue: [ angleGap := 360 / anElement children size ].
+	angleGap := 360 / anElement children size.
 	angleDeg := startAngle + startAngleOffset.
 
 	anElement childrenDo: [ :each |
+			| centroid edgePoint pointFromCenter |
+			centroid := self centroidOf: each in: anElement.
+			edgePoint := self
+				             pointOnPeripheryFromCenter:
+				             anElement measuredBounds center
+				             through: centroid
+				             in: anElement.
+
+			each constraints annulusSector centroid: centroid.
+			each constraints annulusSector edgePoint: edgePoint.
+			each extent: anElement measuredExtent.
+
 			uniformSectors ifFalse: [
 				angleGap := each constraints annulus expliciteAngleGap ].
-			each geometry
+			each
 				innerRadius: innerRadius;
 				outerRadius: outerRadius;
 				startAngle: angleDeg;
 				endAngle: angleDeg + angleGap.
-			each constraints annulusSector centroid: (self centroidOf: each in: anElement).
-			each extent: anElement measuredExtent.
-			each childrenDo: [ :subChild |
-					| centroid edgePoint pointFromCenter |
-					centroid := self centroidOf: each in: anElement.
-					edgePoint := self
-						             pointOnPeripheryFromCenter:
-						             anElement measuredBounds center
-						             through: centroid
-						             in: anElement.
-					pointFromCenter := self
-						                   pointFromCenter:
-						                   anElement measuredBounds center
-						                   through: centroid
-						                   atDistance: 100.
-					"triPoints := self trianglePointsIn: anElement startAngle: angleDeg endAngle: angleDeg + arcDeg.
-				subChild geometry vertices: triPoints."
-				"subChild id trace. ' ' trace. centroid traceCr."
-					subChild position: centroid - (subChild measuredExtent // 2)
-						"pointFromCenter - (subChild measuredExtent // 2)" ].
-			angleDeg := angleDeg + angleGap ].
+			angleDeg := angleDeg + angleGap.
+
+			pointFromCenter := self
+				                   pointFromCenter:
+				                   anElement measuredBounds center
+				                   through: centroid
+				                   atDistance: 100 ].
 	super
 		layout: anElement
 		in: aBounds

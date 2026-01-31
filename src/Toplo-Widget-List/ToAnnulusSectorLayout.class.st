@@ -28,6 +28,16 @@ ToAnnulusSectorLayout >> endAngle: anObject [
 	endAngle := anObject
 ]
 
+{ #category : #initialization }
+ToAnnulusSectorLayout >> initialize [ 
+
+	super initialize.
+	innerRadius := 0.
+	outerRadius := 1.
+	startAngle := 0.
+	endAngle := 0.
+]
+
 { #category : #accessing }
 ToAnnulusSectorLayout >> innerRadius [
 
@@ -43,11 +53,11 @@ ToAnnulusSectorLayout >> innerRadius: anObject [
 { #category : #layout }
 ToAnnulusSectorLayout >> layout: anElement in: aBounds context: aBlElementBoundsUpdateContext [
 
-	"anElement geometry
+	anElement geometry
 		innerRadius: innerRadius;
 		outerRadius: outerRadius;
 		startAngle: startAngle;
-		endAngle: endAngle."
+		endAngle: endAngle.
 	super
 		layout: anElement
 		in: aBounds

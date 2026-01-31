@@ -1619,6 +1619,36 @@ ToSandBox class >> example_CheckboxWithIndeterminate [
 	but openInSpace
 ]
 
+{ #category : #'circular list' }
+ToSandBox class >> example_CircularListElementWithAnnulusSectors [
+
+	| container scrollSensitivity |
+	container := ToAnnulusCircularListElement new.
+	container matchParent.
+	container innerRadius: 0.25.
+	container outerRadius: 1.0.
+
+	scrollSensitivity := 1.
+	container addEventHandlerOn: BlMouseWheelEvent do: [ :evt |
+			container startAngle:
+				container startAngle + (evt vector y * scrollSensitivity) ].
+			
+	(self statesOfAmerica copyFrom: 1 to: 12) do: [ :stateName |
+			| sector check |
+			sector := ToAnnulusSectorElement new.
+			sector border: Color gray.
+			check := ToCheckbox new labelText: stateName.
+			check beVertical.
+			sector addChild: check.
+			check constraintsDo: [ :c |
+					c ignoreByLayout.
+					c anchors add:
+						(c anchors centerAnchor on: c anchors parent centroidAnchor) ].
+			container addChild: sector ].
+
+	container openInSpace
+]
+
 { #category : #tree }
 ToSandBox class >> example_ClassHierarchiesWithMethods [
 	"For this example we created a new wrapper dealing with classes and methods at the same time, a new Node was also created (ToTreeSubAndMethNode) to apply a new skin (ToTreeNodeSubAndMethSkin) with new icons and a different background color for methods "

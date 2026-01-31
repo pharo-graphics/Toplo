@@ -2,7 +2,8 @@ Class {
 	#name : #ToAnnulusSectorLayoutConstraints,
 	#superclass : #BlBasicLayout,
 	#instVars : [
-		'centroid'
+		'centroid',
+		'edgePoint'
 	],
 	#category : #'Toplo-Widget-List-InnerList-Finite'
 }
@@ -10,11 +11,23 @@ Class {
 { #category : #accessing }
 ToAnnulusSectorLayoutConstraints >> centroid [
 
-	^ centroid
+	^ centroid ifNil: [ 0 @ 0 ]
 ]
 
 { #category : #accessing }
 ToAnnulusSectorLayoutConstraints >> centroid: anObject [
  
 	centroid := anObject
+]
+
+{ #category : #accessing }
+ToAnnulusSectorLayoutConstraints >> edgePoint [
+
+	^ edgePoint ifNil: [ 0 @ 0 ]
+]
+
+{ #category : #accessing }
+ToAnnulusSectorLayoutConstraints >> edgePoint: anObject [
+
+	edgePoint := anObject
 ]

@@ -5,21 +5,28 @@ Class {
 		'innerRadius',
 		'outerRadius',
 		'startAngle',
-		'angularOffset'
+		'startAngleOffset',
+		'uniformSectors'
 	],
 	#category : #'Toplo-Widget-List-InnerList-Finite'
 }
 
+{ #category : #constraints }
+ToAnnulusCircularLayout class >> constraints [
+
+	^ ToAnnulusCircularLayoutConstraints new
+]
+
 { #category : #accessing }
 ToAnnulusCircularLayout >> angularOffset [
 
-	^ angularOffset
+	^ startAngleOffset
 ]
 
 { #category : #accessing }
 ToAnnulusCircularLayout >> angularOffset: anObject [
 
-	angularOffset := anObject
+	startAngleOffset := anObject
 ]
 
 { #category : #private }
@@ -52,10 +59,11 @@ ToAnnulusCircularLayout >> centroidOf: anElement in: aContainer [
 ToAnnulusCircularLayout >> initialize [
 
 	super initialize.
-   innerRadius := 0.
-   outerRadius := 1.
-   startAngle := 0.
-   angularOffset := 10.
+	innerRadius := 0.
+	outerRadius := 1.
+	startAngle := 0.
+	startAngleOffset := 0.
+	uniformSectors := true
 ]
 
 { #category : #accessing }
@@ -73,20 +81,23 @@ ToAnnulusCircularLayout >> innerRadius: anObject [
 { #category : #layout }
 ToAnnulusCircularLayout >> layout: anElement in: aBounds context: aBlElementBoundsUpdateContext [
 
-	| center radius arcDeg angleDeg |
+	|  radius angleGap angleDeg |
 	anElement children isEmpty ifTrue: [ ^ self ].
 
-	center := anElement measuredBounds center.
 	radius := innerRadius + outerRadius / 2.
-	arcDeg := 360 / anElement children size.
-	angleDeg := startAngle + angularOffset.
+	uniformSectors ifTrue: [ angleGap := 360 / anElement children size ].
+	angleDeg := startAngle + startAngleOffset.
+
 	anElement childrenDo: [ :each |
+			uniformSectors ifFalse: [
+				angleGap := each constraints annulus expliciteAngleGap ].
 			each geometry
 				innerRadius: innerRadius;
 				outerRadius: outerRadius;
 				startAngle: angleDeg;
-				endAngle: angleDeg + arcDeg.
-			each measuredExtent: anElement measuredExtent.
+				endAngle: angleDeg + angleGap.
+			each constraints annulusSector centroid: (self centroidOf: each in: anElement).
+			each extent: anElement measuredExtent.
 			each childrenDo: [ :subChild |
 					| centroid edgePoint pointFromCenter |
 					centroid := self centroidOf: each in: anElement.
@@ -99,15 +110,13 @@ ToAnnulusCircularLayout >> layout: anElement in: aBounds context: aBlElementBoun
 						                   pointFromCenter:
 						                   anElement measuredBounds center
 						                   through: centroid
-						                   atDistance: 130.
-
+						                   atDistance: 100.
 					"triPoints := self trianglePointsIn: anElement startAngle: angleDeg endAngle: angleDeg + arcDeg.
 				subChild geometry vertices: triPoints."
-					subChild position:
-						pointFromCenter - (subChild measuredExtent // 2)
-					"subChild position: ((self centroidOf: each in: anElement)
-						- (subChild measuredExtent // 2))" ].
-			angleDeg := angleDeg + arcDeg ].
+				"subChild id trace. ' ' trace. centroid traceCr."
+					subChild position: centroid - (subChild measuredExtent // 2)
+						"pointFromCenter - (subChild measuredExtent // 2)" ].
+			angleDeg := angleDeg + angleGap ].
 	super
 		layout: anElement
 		in: aBounds

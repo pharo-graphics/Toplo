@@ -44,6 +44,12 @@ TToInnerListElement >> isOrientable [
 ]
 
 { #category : #'t - inner list element' }
+TToInnerListElement >> listElement [ 
+
+	^ listElement
+]
+
+{ #category : #'t - inner list element' }
 TToInnerListElement >> nodeContainerAt: anIndex [
 
 	" return the holder for the data at anIndex according to currently viewed data range. 

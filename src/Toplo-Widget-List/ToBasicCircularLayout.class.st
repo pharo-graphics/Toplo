@@ -3,7 +3,8 @@ Class {
 	#superclass : #BlBasicLayout,
 	#instVars : [
 		'startAngle',
-		'inset'
+		'inset',
+		'startAngleOffset'
 	],
 	#category : #'Toplo-Widget-List-InnerList-Finite'
 }
@@ -36,6 +37,7 @@ ToBasicCircularLayout >> initialize [
 
 	super initialize.
 	startAngle := 0.
+	startAngleOffset := 0.
 	inset := 0.
 ]
 
@@ -72,7 +74,7 @@ ToBasicCircularLayout >> layout: anElement in: aBounds context: aBlElementBounds
 	anElement children asArray withIndexDo: [ :child :i |
 			| angle pos offset width height mid distance |
 			child userData at: #id ifAbsentPut: [ i ].
-			angle := startAngle + (step * (i - 1)).
+			angle := startAngle + startAngleOffset + (step * (i - 1)).
 			mid := angle + (step / 2).
 			pos := center + (radiusX * angle cos @ (radiusY * angle sin)).
 			offset := child extent / 2.
@@ -100,4 +102,16 @@ ToBasicCircularLayout >> startAngle [
 ToBasicCircularLayout >> startAngle: aDegrees [
 
 	startAngle := aDegrees
+]
+
+{ #category : #accessing }
+ToBasicCircularLayout >> startAngleOffset [
+
+	^ startAngleOffset
+]
+
+{ #category : #accessing }
+ToBasicCircularLayout >> startAngleOffset: anObject [
+
+	startAngleOffset := anObject
 ]

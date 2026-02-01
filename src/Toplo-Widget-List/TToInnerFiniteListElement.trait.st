@@ -3,7 +3,6 @@ Trait {
 	#instVars : [
 		'dataSource',
 		'dataSourceManager',
-		'listElement',
 		'dataSourceObserver'
 	],
 	#category : #'Toplo-Widget-List-InnerList-Finite'
@@ -33,8 +32,8 @@ TToInnerFiniteListElement >> addedDataSourceCommand: aCommand [
 { #category : #'t - inner finite list element - configuration' }
 TToInnerFiniteListElement >> applyInnerFiniteListElementConfiguration [
 
-	listElement ifNil: [ ^ self ].
-	self fitParent: listElement.
+	self listElement ifNil: [ ^ self ].
+	self fitParent: self listElement.
 	self childrenDo: [ :child | child applyConfiguration ]
 ]
 
@@ -64,7 +63,7 @@ TToInnerFiniteListElement >> dataSourceManager [
 { #category : #'t - inner finite list element - initialization' }
 TToInnerFiniteListElement >> defaultDataSource [ 
 
-	^ listElement ifNotNil: [ :l | l dataSource ].
+	^ self listElement ifNotNil: [ :l | l dataSource ].
 ]
 
 { #category : #'t - inner finite list element - initialization' }
@@ -96,11 +95,11 @@ TToInnerFiniteListElement >> initializeAsToInnerFiniteElement [
 	self addEventHandler: ToScrollableFiniteListElementEventHandler new.
 	self matchParent.
 	self focusability: BlFocusability ignore.
-	listElement ifNil: [ ^ self ].
-	listElement primarySelectionMode selectionOption
+	self listElement ifNil: [ ^ self ].
+	self listElement primarySelectionMode selectionOption
 		grouped: false;
 		beneath: true.
-	listElement contextMenuSelectionMode selectionOption
+	self listElement contextMenuSelectionMode selectionOption
 		grouped: false;
 		beneath: false.
 ]
@@ -126,16 +125,10 @@ TToInnerFiniteListElement >> innerElement [
 	^ self
 ]
 
-{ #category : #'t - inner finite list element - accessing' }
-TToInnerFiniteListElement >> listElement [
-
-	^ listElement
-]
-
 { #category : #'t - inner finite list element - initialization' }
 TToInnerFiniteListElement >> newNodeHolderFromDataSource: aDataSource [
 
-	^ listElement nodeManager newHolder
+	^ self listElement nodeManager newHolder
 ]
 
 { #category : #'t - inner finite list element - accessing' }

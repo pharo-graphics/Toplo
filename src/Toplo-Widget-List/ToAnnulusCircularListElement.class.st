@@ -1,6 +1,6 @@
 Class {
 	#name : #ToAnnulusCircularListElement,
-	#superclass : #ToElement,
+	#superclass : #ToBasicCircularListElement,
 	#category : #'Toplo-Widget-List-InnerList-Finite'
 }
 
@@ -35,34 +35,6 @@ ToAnnulusCircularListElement >> outerRadius: aFloat [
 
 	(self outerRadius closeTo: aFloat) ifTrue: [ ^ self ].
 	layout outerRadius: aFloat.
-	self requestLayout
-]
-
-{ #category : #accessing }
-ToAnnulusCircularListElement >> startAngle [
-
-	^ layout startAngle
-]
-
-{ #category : #accessing }
-ToAnnulusCircularListElement >> startAngle: anAngleInDegrees [
-
-	(self startAngle closeTo: anAngleInDegrees) ifTrue: [ ^ self ].
-	layout startAngle: anAngleInDegrees.
-	self requestLayout
-]
-
-{ #category : #accessing }
-ToAnnulusCircularListElement >> startAngleOffset [
-
-	^ layout startAngleOffset
-]
-
-{ #category : #accessing }
-ToAnnulusCircularListElement >> startAngleOffset: anAngleInDegrees [
-
-	(self startAngleOffset closeTo: anAngleInDegrees) ifTrue: [ ^ self ].
-	layout startAngleOffset: anAngleInDegrees.
 	self requestLayout
 ]
 

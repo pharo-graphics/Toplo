@@ -1623,11 +1623,19 @@ ToSandBox class >> example_CheckboxWithIndeterminate [
 ToSandBox class >> example_CircularListElement [
 
 	| container |
-	container := ToCircularListElement new
+	container := ToBasicCircularListElement new
 		             background: Color veryLightGray;
 		             yourself.
+	container geometry: BlCircleGeometry new.
 
 	container inset: 60.
+	container startAngleOffset: (360/4) negated.
+	container addEventHandlerOn: BlMouseWheelEvent do: [ :evt |
+			container startAngle:
+				container startAngle
+				+ (evt vector y * container scrollSensitivity) ].
+
+
 	1 to: 20 do: [ :i |
 			| child lab |
 			child := BlElement new
@@ -1644,7 +1652,7 @@ ToSandBox class >> example_CircularListElement [
 			child addChild: lab.
 			container addChild: child ].
 
-	container matchParent.
+	container extent: 450 asPoint.
 	container border: Color red.
 	container openInSpace
 ]
@@ -1652,12 +1660,17 @@ ToSandBox class >> example_CircularListElement [
 { #category : #'circular list' }
 ToSandBox class >> example_CircularListElementWithAnnulusSectors [
 
-	| container |
+	| container scrollSensitivity |
 	container := ToAnnulusCircularListElement new.
 	container matchParent.
 	container innerRadius: 0.25.
 	container outerRadius: 1.0.
 
+	scrollSensitivity := 1.
+	container addEventHandlerOn: BlMouseWheelEvent do: [ :evt |
+			container startAngle:
+				container startAngle + (evt vector y * scrollSensitivity) ].
+			
 	(self statesOfAmericaWithColor copyFrom: 1 to: 12) do: [ :stateColorAssoc |
 			| sector check |
 			sector := ToAnnulusSectorElement new.
@@ -2511,11 +2524,10 @@ ToSandBox class >> example_List12Classes [
 { #category : #'circular list' }
 ToSandBox class >> example_ListElementWithCircularListElement [
 
-	| container list |
+	| list |
 	list := ToListElement new.
 	list innerElementClass: ToCircularListElement.
-	container := list innerElement.
-	container inset: 30.
+	list innerElement inset: 30.
 
 	list dataAccessor addAll: (1 to: 20).
 	list openInSpace

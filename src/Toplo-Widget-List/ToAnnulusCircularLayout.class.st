@@ -31,18 +31,6 @@ ToAnnulusCircularLayout >> angleDegFrom: center to: point [
     ^ angleDeg
 ]
 
-{ #category : #accessing }
-ToAnnulusCircularLayout >> angularOffset [
-
-	^ startAngleOffset
-]
-
-{ #category : #accessing }
-ToAnnulusCircularLayout >> angularOffset: anObject [
-
-	startAngleOffset := anObject
-]
-
 { #category : #private }
 ToAnnulusCircularLayout >> boundingBoxAroundCentroidOf: anElement in: aContainer withSize: aSize [
     | centroid |
@@ -222,6 +210,18 @@ ToAnnulusCircularLayout >> startAngle [
 ToAnnulusCircularLayout >> startAngle: anObject [
 
 	startAngle := anObject
+]
+
+{ #category : #accessing }
+ToAnnulusCircularLayout >> startAngleOffset [
+
+	^ startAngleOffset
+]
+
+{ #category : #accessing }
+ToAnnulusCircularLayout >> startAngleOffset: anObject [
+
+	startAngleOffset := anObject
 ]
 
 { #category : #private }

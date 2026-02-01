@@ -33,6 +33,7 @@ TToInnerFiniteListElement >> addedDataSourceCommand: aCommand [
 { #category : #'t - inner finite list element - configuration' }
 TToInnerFiniteListElement >> applyInnerFiniteListElementConfiguration [
 
+	listElement ifNil: [ ^ self ].
 	self fitParent: listElement.
 	self childrenDo: [ :child | child applyConfiguration ]
 ]
@@ -62,7 +63,7 @@ TToInnerFiniteListElement >> dataSourceManager [
 { #category : #'t - inner finite list element - initialization' }
 TToInnerFiniteListElement >> defaultDataSource [ 
 
-	^ listElement dataSource.
+	^ listElement ifNotNil: [ :l | l dataSource ].
 ]
 
 { #category : #'t - inner finite list element - initialization' }
@@ -94,6 +95,7 @@ TToInnerFiniteListElement >> initializeAsToInnerFiniteElement [
 	self addEventHandler: ToScrollableFiniteListElementEventHandler new.
 	self matchParent.
 	self focusability: BlFocusability ignore.
+	listElement ifNil: [ ^ self ].
 	listElement primarySelectionMode selectionOption
 		grouped: false;
 		beneath: true.
@@ -106,6 +108,7 @@ TToInnerFiniteListElement >> initializeAsToInnerFiniteElement [
 TToInnerFiniteListElement >> initializeDataSource [
 
 	dataSource := self defaultDataSource.
+	dataSource ifNil: [ ^ self ].
 	dataSource onAttached: self.
 	dataSourceObserver := self defaultDataSourceObserver on: self.
 	dataSource addEventHandler: dataSourceObserver.

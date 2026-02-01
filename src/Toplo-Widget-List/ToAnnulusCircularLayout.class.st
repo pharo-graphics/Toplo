@@ -17,6 +17,20 @@ ToAnnulusCircularLayout class >> constraints [
 	^ ToAnnulusCircularLayoutConstraints new
 ]
 
+{ #category : #private }
+ToAnnulusCircularLayout >> angleDegFrom: center to: point [
+    | v angleRad angleDeg |
+
+    v := point - center.
+    v isZero ifTrue: [ ^ 0 ].
+
+    angleRad := v y arcTan: v x.
+    angleDeg := angleRad radiansToDegrees.
+
+    angleDeg < 0 ifTrue: [ angleDeg := angleDeg + 360 ].
+    ^ angleDeg
+]
+
 { #category : #accessing }
 ToAnnulusCircularLayout >> angularOffset [
 
@@ -185,6 +199,17 @@ ToAnnulusCircularLayout >> positionAroundCentroidOf: aChild in: anElement [
 
     centroid := self centroidOf: aChild in: anElement.
     ^ (centroid - (aChild measuredPosition / 2))
+]
+
+{ #category : #private }
+ToAnnulusCircularLayout >> readableTextRotationForAngle: angleDeg [
+    | a |
+
+    a := angleDeg \\ 360.
+
+    (a > 90 and: [ a < 270 ])
+        ifTrue: [ ^ angleDeg + 180 ]
+        ifFalse: [ ^ angleDeg ]
 ]
 
 { #category : #accessing }

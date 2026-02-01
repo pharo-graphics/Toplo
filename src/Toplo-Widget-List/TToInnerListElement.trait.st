@@ -38,6 +38,12 @@ TToInnerListElement >> findElementHolderForDataSourcePosition: aPosition [
 ]
 
 { #category : #'t - inner list element' }
+TToInnerListElement >> isOrientable [
+
+	^ self layout isOrientable
+]
+
+{ #category : #'t - inner list element' }
 TToInnerListElement >> nodeContainerAt: anIndex [
 
 	" return the holder for the data at anIndex according to currently viewed data range. 

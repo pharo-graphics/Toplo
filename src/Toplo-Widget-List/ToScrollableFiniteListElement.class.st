@@ -42,6 +42,12 @@ ToScrollableFiniteListElement >> initialize [
 
 ]
 
+{ #category : #'t - inner list element' }
+ToScrollableFiniteListElement >> isOrientable [
+
+	^ true
+]
+
 { #category : #'t - inner list element - requirements' }
 ToScrollableFiniteListElement >> nodeContainers [
 

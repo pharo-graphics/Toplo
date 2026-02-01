@@ -362,6 +362,12 @@ ToBasicListElement >> isMultipleSelection [
 	^ self primarySelectionMode isMultipleSelection
 ]
 
+{ #category : #testing }
+ToBasicListElement >> isOrientable [
+
+	^ self innerElement isOrientable
+]
+
 { #category : #'accessing selecters' }
 ToBasicListElement >> isSelectedAtPosition: anInteger [
 

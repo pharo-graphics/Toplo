@@ -7,7 +7,11 @@ Class {
 { #category : #'node configuration' }
 ToItemListConfiguration >> configureItem: anItem [
 
-
+	anItem isHExact ifTrue: [ ^ self ].
+	anItem listHolderDo: [ :h |
+			h listElement isHorizontal
+				ifTrue: [ anItem hFitContent ]
+				ifFalse: [ anItem hMatchParent ] ]
 ]
 
 { #category : #'node configuration' }

@@ -1620,6 +1620,42 @@ ToSandBox class >> example_CheckboxWithIndeterminate [
 ]
 
 { #category : #'circular list' }
+ToSandBox class >> example_CircularListElement [
+
+	| container |
+	container := ToCircularListElement new
+		             background: Color veryLightGray;
+		             yourself.
+
+	container inset: 60.
+	container addEventHandlerOn: BlMouseWheelEvent do: [ :evt |
+			container startAngle:
+				container startAngle
+				+ (evt vector y * container scrollSensitivity) ].
+
+
+	1 to: 20 do: [ :i |
+			| child lab |
+			child := BlElement new
+				         extent: 60 @ 60;
+				         background: Color white;
+				         border: Color gray;
+				         yourself.
+			child layout: BlFrameLayout new.
+			lab := ToLabel text: i asString.
+			lab fontSize: 24.
+			lab constraintsDo: [ :c |
+					c frame horizontal alignCenter.
+					c frame vertical alignCenter ].
+			child addChild: lab.
+			container addChild: child ].
+
+	container matchParent.
+	container border: Color red.
+	container openInSpace
+]
+
+{ #category : #'circular list' }
 ToSandBox class >> example_CircularListElementWithAnnulusSectors [
 
 	| container scrollSensitivity |
@@ -1633,11 +1669,11 @@ ToSandBox class >> example_CircularListElementWithAnnulusSectors [
 			container startAngle:
 				container startAngle + (evt vector y * scrollSensitivity) ].
 			
-	(self statesOfAmerica copyFrom: 1 to: 12) do: [ :stateName |
+	(self statesOfAmericaWithColor copyFrom: 1 to: 12) do: [ :stateColorAssoc |
 			| sector check |
 			sector := ToAnnulusSectorElement new.
-			sector border: Color gray.
-			check := ToCheckbox new labelText: stateName.
+			sector background: stateColorAssoc value.
+			check := ToCheckbox new labelText: stateColorAssoc key.
 			check beVertical.
 			sector addChild: check.
 			check constraintsDo: [ :c |
@@ -2481,6 +2517,23 @@ ToSandBox class >> example_List12Classes [
 				                yourself) ].
 	l contextMenuBuilder: menuFactory.
 	l openInSpace
+]
+
+{ #category : #'circular list' }
+ToSandBox class >> example_ListElementWithCircularListElement [
+
+	| container list |
+	list := ToListElement new.
+	list innerElementClass: ToCircularListElement.
+	container := list innerElement.
+	container inset: 30.
+	"container addEventHandlerOn: BlMouseWheelEvent do: [ :evt |
+			container startAngle:
+				container startAngle
+				+ (evt vector y * container scrollSensitivity) ]."
+list inspect.
+	list dataAccessor addAll: (1 to: 20).
+	list openInSpace
 ]
 
 { #category : #list }

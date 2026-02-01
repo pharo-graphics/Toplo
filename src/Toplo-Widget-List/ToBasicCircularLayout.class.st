@@ -3,7 +3,6 @@ Class {
 	#superclass : #BlBasicLayout,
 	#instVars : [
 		'startAngle',
-		'scrollSensitivity',
 		'inset'
 	],
 	#category : #'Toplo-Widget-List-InnerList-Finite'
@@ -20,17 +19,16 @@ ToBasicCircularLayout >> angularDistanceToRightAxis: angle [
 
 { #category : #layout }
 ToBasicCircularLayout >> applyZIndexFrom: infos [
-    | top |
 
-    top := (infos
-        sort: [:a :b | a second < b second ]) first.
+	| top |
+	top := (infos sort: [ :a :b | a second < b second ]) first.
 
-    infos do: [:info |
-        | el |
-        el := info first.
-        el zIndex: (info == top ifTrue: [ 100 ] ifFalse: [ 2 ]).
-		  el background: (info == top ifTrue: [ Color red ] ifFalse: [ Color white ])
-    ].
+	infos do: [ :info |
+			| el |
+			el := info first.
+			el zIndex: (info == top
+					 ifTrue: [ 100 ]
+					 ifFalse: [ 2 ]) ]
 ]
 
 { #category : #initialization }
@@ -38,7 +36,6 @@ ToBasicCircularLayout >> initialize [
 
 	super initialize.
 	startAngle := 0.
-	scrollSensitivity := 0.02.
 	inset := 0.
 ]
 
@@ -75,11 +72,8 @@ ToBasicCircularLayout >> layout: anElement in: aBounds context: aBlElementBounds
 	anElement children asArray withIndexDo: [ :child :i |
 			| angle pos offset width height mid distance |
 			child userData at: #id ifAbsentPut: [ i ].
-
 			angle := startAngle + (step * (i - 1)).
-
 			mid := angle + (step / 2).
-
 			pos := center + (radiusX * angle cos @ (radiusY * angle sin)).
 			offset := child extent / 2.
 			width := child measuredWidth.
@@ -97,25 +91,13 @@ ToBasicCircularLayout >> layout: anElement in: aBounds context: aBlElementBounds
 ]
 
 { #category : #accessing }
-ToBasicCircularLayout >> scrollSensitivity [
-
-	^ scrollSensitivity
-]
-
-{ #category : #accessing }
-ToBasicCircularLayout >> scrollSensitivity: anObject [
-
-	scrollSensitivity := anObject
-]
-
-{ #category : #accessing }
 ToBasicCircularLayout >> startAngle [
 
 	^ startAngle
 ]
 
 { #category : #accessing }
-ToBasicCircularLayout >> startAngle: anObject [
+ToBasicCircularLayout >> startAngle: aDegrees [
 
-	startAngle := anObject
+	startAngle := aDegrees
 ]

@@ -128,5 +128,5 @@ ToCheckboxSkin >> uncheckedSkinEvent: anEvent [
 ToCheckboxSkin >> uninstallSkinEvent: anEvent [
 
 	super uninstallSkinEvent: anEvent.
-	anEvent elementDo: [ :e |  ]
+	anEvent elementDo: [ :e | e icon: nil ]
 ]

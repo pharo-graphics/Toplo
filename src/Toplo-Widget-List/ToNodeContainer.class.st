@@ -13,14 +13,79 @@ Class {
 { #category : #configuration }
 ToNodeContainer >> applyConfiguration [
 
-	| list |
+	| list conf |
 	super applyConfiguration.
 	list := self holder listElement.
-	list toConfigurationDo: [ :conf |
-			self isFake
-				ifTrue: [ conf configureFakeNodeContainer: self ]
-				ifFalse: [ conf configureNodeContainer: self ] ].
+	conf := list toConfiguration.
+
+	(list useInfiniteLayout not and: [
+		 conf isFlowable or: [ list isOrientable not ] ])
+		ifTrue: [ self exactOrFitContent ]
+		ifFalse: [
+		list isOrientable ifTrue: [ self applyOrientableConfiguration ] ].
+
+	self isFake ifTrue: [ self applyFakeConfiguration ].
 	self node applyConfiguration
+]
+
+{ #category : #configuration }
+ToNodeContainer >> applyFakeConfiguration [
+
+	| list |
+	list := self holder listElement.
+	list isOrientable ifFalse: [
+			self extent: 0 @ 0.
+			self margin: (BlInsets all: 0).
+			^ self ].
+	list isHorizontal
+		ifTrue: [
+				self width: 0.
+				self margin: ((self margin withLeft: 0)
+						 withRight: 0;
+						 yourself) ]
+		ifFalse: [
+				self height: 0.
+				self margin: ((self margin withTop: 0)
+						 withBottom: 0;
+						 yourself) ]
+]
+
+{ #category : #configuration }
+ToNodeContainer >> applyHorizontalConfiguration [
+
+	| list conf |
+	list := self holder listElement.
+	conf := list toConfiguration.
+
+	self vMatchParent.
+	(list useInfiniteLayout not and: [ conf autoDistribute ])
+		ifTrue: [ self hMatchParent ]
+		ifFalse: [ self hExactOrFitContent ]
+]
+
+{ #category : #configuration }
+ToNodeContainer >> applyOrientableConfiguration [
+
+	| list conf |
+	list := self holder listElement.
+	conf := list toConfiguration.
+
+	list isVertical
+		ifTrue: [ self applyVerticalConfiguration ]
+		ifFalse: [ self applyHorizontalConfiguration ]
+]
+
+{ #category : #configuration }
+ToNodeContainer >> applyVerticalConfiguration [
+
+	| list conf |
+	list := self holder listElement.
+	conf := list toConfiguration.
+
+	self hMatchParent.
+	(list useInfiniteLayout not and: [ conf autoDistribute ])
+		ifTrue: [ self vMatchParent ]
+		ifFalse: [ self vExactOrFitContent ]
 ]
 
 { #category : #accessing }
@@ -76,12 +141,6 @@ ToNodeContainer >> isPartlyVisibleInListElement [
 	^ self intersectionRectangleWithListElement
 		  ifNotNil: [ :i | i isZero not ]
 		  ifNil: [ false ]
-]
-
-{ #category : #accessing }
-ToNodeContainer >> item [
-
-	^ self node item
 ]
 
 { #category : #accessing }

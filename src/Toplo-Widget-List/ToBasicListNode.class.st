@@ -24,7 +24,7 @@ Class {
 ToBasicListNode >> applyConfiguration [
 
 	super applyConfiguration.
-	self listElement toConfiguration configureNode: self.
+	self applyConfigurationAsListNode.
 	self holder initializeNodeSelections
 ]
 

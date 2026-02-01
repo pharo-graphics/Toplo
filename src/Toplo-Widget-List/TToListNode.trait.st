@@ -4,6 +4,18 @@ Trait {
 }
 
 { #category : #'t - list node' }
+TToListNode >> applyConfigurationAsListNode [
+
+	| conf |
+	conf := self listElement toConfiguration.
+	conf exactNodeWidth ifNotNil: [ :w | self hExact: w ].
+	conf exactNodeHeight ifNotNil: [ :h | self vExact: h ].
+
+	self isHExact ifFalse: [ self hMatchParent ].
+	self isVExact ifFalse: [ self vMatchParent ]
+]
+
+{ #category : #'t - list node' }
 TToListNode >> clickEventHandlerClass [
 
 	^ nil

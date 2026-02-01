@@ -4,6 +4,13 @@ Class {
 	#category : #'Toplo-Widget-Menu-ItemList'
 }
 
+{ #category : #configuration }
+ToMenuItemNode >> applyConfiguration [ 
+
+	super applyConfiguration.
+	self isVExact ifFalse: [ self vFitContent ]
+]
+
 { #category : #'t - item node' }
 ToMenuItemNode >> newRawSkin [ 
 

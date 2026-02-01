@@ -34,17 +34,6 @@ ToListConfiguration >> autoDistribute: anObject [
 	autoDistribute := anObject 
 ]
 
-{ #category : #'node configuration' }
-ToListConfiguration >> configureNode: aNode [
-
-
-	exactNodeWidth ifNotNil: [ :w | aNode hExact: w ].
-	exactNodeHeight ifNotNil: [ :h | aNode vExact: h ].
-
-	aNode isHExact ifFalse: [ aNode hMatchParent ].
-	aNode isVExact ifFalse: [ aNode vMatchParent ]
-]
-
 { #category : #accessing }
 ToListConfiguration >> exactNodeHeight [
 

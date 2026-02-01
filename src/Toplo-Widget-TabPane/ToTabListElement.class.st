@@ -72,9 +72,3 @@ ToTabListElement >> newRawSkin [
 
 	^ ToTabListElementSkin new
 ]
-
-{ #category : #configuration }
-ToTabListElement >> newToConfiguration [ 
-
-	^ ToTabListConfiguration new
-]

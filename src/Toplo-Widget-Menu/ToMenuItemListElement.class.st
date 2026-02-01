@@ -52,9 +52,3 @@ ToMenuItemListElement >> newRawSkin [
 
 	^ ToMenuItemListElementSkin new
 ]
-
-{ #category : #configuration }
-ToMenuItemListElement >> newToConfiguration [ 
-
-	^ ToMenuItemListConfiguration new
-]

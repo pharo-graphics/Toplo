@@ -14,6 +14,7 @@ ToGeneralButton >> applyConfiguration [
 
 	super applyConfiguration.
 	self isVExact ifFalse: [ self vFitContent ].
+	self applyConfigurationAsListItem
 ]
 
 { #category : #initialization }

@@ -4,6 +4,16 @@ Trait {
 }
 
 { #category : #'t - list item' }
+TToListItem >> applyConfigurationAsListItem [
+
+	self isHExact ifTrue: [ ^ self ].
+	self listHolderDo: [ :h |
+			h listElement isHorizontal
+				ifTrue: [ self hFitContent ]
+				ifFalse: [ self hMatchParent ] ]
+]
+
+{ #category : #'t - list item' }
 TToListItem >> ensuredItemConstraints [
 
 	^ self ensuredToploExtension ensuredItemConstraints

@@ -24,9 +24,3 @@ ToItemListElement >> newRawSkin [
 
 	^ ToItemListElementSkin new
 ]
-
-{ #category : #configuration }
-ToItemListElement >> newToConfiguration [ 
-
-	^ ToItemListConfiguration new
-]

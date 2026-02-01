@@ -9,6 +9,13 @@ Class {
 	#category : #'Toplo-Widget-List-Tests-ItemFiniteList'
 }
 
+{ #category : #configuration }
+ToItemElementForTest >> applyConfiguration [ 
+
+	super applyConfiguration.
+	self applyConfigurationAsListItem
+]
+
 { #category : #initialization }
 ToItemElementForTest >> initialize [
 

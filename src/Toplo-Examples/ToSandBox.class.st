@@ -1628,12 +1628,6 @@ ToSandBox class >> example_CircularListElement [
 		             yourself.
 
 	container inset: 60.
-	container addEventHandlerOn: BlMouseWheelEvent do: [ :evt |
-			container startAngle:
-				container startAngle
-				+ (evt vector y * container scrollSensitivity) ].
-
-
 	1 to: 20 do: [ :i |
 			| child lab |
 			child := BlElement new
@@ -1658,17 +1652,12 @@ ToSandBox class >> example_CircularListElement [
 { #category : #'circular list' }
 ToSandBox class >> example_CircularListElementWithAnnulusSectors [
 
-	| container scrollSensitivity |
+	| container |
 	container := ToAnnulusCircularListElement new.
 	container matchParent.
 	container innerRadius: 0.25.
 	container outerRadius: 1.0.
 
-	scrollSensitivity := 1.
-	container addEventHandlerOn: BlMouseWheelEvent do: [ :evt |
-			container startAngle:
-				container startAngle + (evt vector y * scrollSensitivity) ].
-			
 	(self statesOfAmericaWithColor copyFrom: 1 to: 12) do: [ :stateColorAssoc |
 			| sector check |
 			sector := ToAnnulusSectorElement new.
@@ -2527,11 +2516,7 @@ ToSandBox class >> example_ListElementWithCircularListElement [
 	list innerElementClass: ToCircularListElement.
 	container := list innerElement.
 	container inset: 30.
-	"container addEventHandlerOn: BlMouseWheelEvent do: [ :evt |
-			container startAngle:
-				container startAngle
-				+ (evt vector y * container scrollSensitivity) ]."
-list inspect.
+
 	list dataAccessor addAll: (1 to: 20).
 	list openInSpace
 ]

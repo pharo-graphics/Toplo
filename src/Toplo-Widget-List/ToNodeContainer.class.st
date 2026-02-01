@@ -24,7 +24,7 @@ ToNodeContainer >> applyConfiguration [
 		ifFalse: [
 		list isOrientable ifTrue: [ self applyOrientableConfiguration ] ].
 
-	self isFake ifTrue: [ self applyFakeConfiguration ].
+	self isFake ifTrue: [ ^ self applyFakeConfiguration ].
 	self node applyConfiguration
 ]
 

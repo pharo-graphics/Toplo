@@ -33,7 +33,8 @@ ToCircularListElement >> initialize [
 
 	super initialize.
 	scrollSensitivity := 0.02.
-	self initializeAsToInnerFiniteElement
+	self initializeAsToInnerFiniteElement.
+	self addEventHandler: BlScrollableElementEventHandler new
 
 ]
 
@@ -63,6 +64,13 @@ ToCircularListElement >> nodeContainersDo: aBlock [
 	self childrenDo: aBlock
 ]
 
+{ #category : #'hooks - layout' }
+ToCircularListElement >> onLayoutDone [
+
+	super onLayoutDone.
+	self consumeFinalStepCommands
+]
+
 { #category : #'t - inner list element - requirements' }
 ToCircularListElement >> partlyVisibleNodesDo: aBlock [
 
@@ -73,6 +81,18 @@ ToCircularListElement >> partlyVisibleNodesDo: aBlock [
 ToCircularListElement >> removeNodeContainer: aNodeContainer [
 
 	aNodeContainer removeFromParent
+]
+
+{ #category : #scrolling }
+ToCircularListElement >> scrollBy: aPoint [
+
+	self startAngle:
+		self startAngle + (aPoint y * self scrollSensitivity).
+	listElement ifNil: [ ^ true ].
+	listElement postponeAction: [
+			listElement forceUpdateAllSelectionsNow.
+			listElement requestMouseMoveReplay ].
+	^ true
 ]
 
 { #category : #accessing }

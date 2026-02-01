@@ -41,6 +41,7 @@ TToInnerFiniteListElement >> applyInnerFiniteListElementConfiguration [
 { #category : #'t - inner finite list element - private - commands' }
 TToInnerFiniteListElement >> consumeFinalStepCommands [
 
+	dataSourceManager ifNil: [ ^ self ].
 	dataSourceManager consumeFinalStepCommandsIn: self
 ]
 

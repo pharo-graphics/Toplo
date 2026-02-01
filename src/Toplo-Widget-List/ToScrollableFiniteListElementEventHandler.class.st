@@ -44,7 +44,10 @@ ToScrollableFiniteListElementEventHandler >> checkFullyVisibleNodeContainersOnEv
 { #category : #'infinite event handling' }
 ToScrollableFiniteListElementEventHandler >> elementScrolledEvent: anEvent [
 
-	self checkFullyVisibleNodeContainersOnEvent: anEvent
+	| listElement |
+	listElement := anEvent currentTarget listElement.
+	self checkFullyVisibleNodeContainersOnEvent: anEvent.
+	listElement forceUpdateAllSelectionsNow.
 ]
 
 { #category : #'api - accessing' }

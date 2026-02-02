@@ -3,13 +3,39 @@ Class {
 	#superclass : #ToBasicCircularListElement,
 	#traits : 'TToInnerListElement + TToInnerFiniteListElement',
 	#classTraits : 'TToInnerListElement classTrait + TToInnerFiniteListElement classTrait',
-	#category : #'Toplo-Widget-List-InnerList-Finite'
+	#instVars : [
+		'selectionUpdateRequested'
+	],
+	#category : #'Toplo-Widget-List-InnerList-Finite-Circular'
 }
 
 { #category : #'t - inner finite list element - requirements' }
 ToCircularListElement >> addNodeContainer: aNodeContainer at: aPosition [
 
-	self addChild: aNodeContainer at: aPosition
+	self addChild: aNodeContainer at: aPosition.
+	self requestUpdateSelections
+]
+
+{ #category : #'private - scrolling' }
+ToCircularListElement >> angularDeltaFromWheelEvent: evt [ 
+    | inSpacecenter radial cross wheel  |
+
+    inSpacecenter := self bounds inSpace center.
+
+    "Screen → math coordinates (Y inverted)"
+    radial := evt position - inSpacecenter.
+    radial := radial x @ radial y negated.
+    radial isZero ifTrue: [ ^ 0 ].
+    radial := radial normalized.
+
+    wheel := evt vector x @ evt vector y negated.
+
+    "2D vector * "
+    cross :=
+        (radial x * wheel y)
+        - (radial y * wheel x).
+
+    ^ cross * scrollSensitivity 
 ]
 
 { #category : #configuration }
@@ -19,13 +45,34 @@ ToCircularListElement >> applyConfiguration [
 	self applyInnerFiniteListElementConfiguration 
 ]
 
+{ #category : #'selection updating' }
+ToCircularListElement >> forceUpdateAllSelections [
+
+	listElement ifNil: [ ^ true ].
+	listElement forceUpdateAllSelectionsNow.
+	listElement requestMouseMoveReplay
+]
+
 { #category : #initialization }
 ToCircularListElement >> initialize [ 
 
 	super initialize.
 	self initializeAsToInnerFiniteElement.
-	self addEventHandler: BlScrollableElementEventHandler new
+	self addEventHandler: ToScrollableElementEventHandler new.
+	selectionUpdateRequested := false
 
+]
+
+{ #category : #scrolling }
+ToCircularListElement >> mouseWheelEvent: anEvent [
+	"Instant scroll by the given amount of pixels along either axis.
+	Return true if a scroll happens."
+	<return: #Boolean>
+
+	self startAngle:
+		self startAngle + (self angularDeltaFromWheelEvent: anEvent).
+	self requestUpdateSelections.
+	^ true
 ]
 
 { #category : #'t - inner list element - requirements' }
@@ -44,7 +91,10 @@ ToCircularListElement >> nodeContainersDo: aBlock [
 ToCircularListElement >> onLayoutDone [
 
 	super onLayoutDone.
-	self consumeFinalStepCommands
+	self consumeFinalStepCommands.
+	selectionUpdateRequested ifFalse: [ ^ self ].
+	self forceUpdateAllSelections.
+	selectionUpdateRequested := false
 ]
 
 { #category : #'t - inner list element - requirements' }
@@ -56,17 +106,21 @@ ToCircularListElement >> partlyVisibleNodesDo: aBlock [
 { #category : #'t - inner finite list element - requirements' }
 ToCircularListElement >> removeNodeContainer: aNodeContainer [
 
-	aNodeContainer removeFromParent
+	aNodeContainer removeFromParent.
+	self requestUpdateSelections
+]
+
+{ #category : #'selection updating' }
+ToCircularListElement >> requestUpdateSelections [
+
+	selectionUpdateRequested := true
 ]
 
 { #category : #scrolling }
 ToCircularListElement >> scrollBy: aPoint [
-
-	self startAngle:
-		self startAngle + (aPoint y * self scrollSensitivity).
-	listElement ifNil: [ ^ true ].
-	listElement postponeAction: [
-			listElement forceUpdateAllSelectionsNow.
-			listElement requestMouseMoveReplay ].
+	"Instant scroll by the given amount of pixels along either axis.
+	Return true if a scroll happens."
+	<return: #Boolean>
+	" nothing to do here, see `mouseWheelEvent:`"
 	^ true
 ]

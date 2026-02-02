@@ -6,7 +6,7 @@ Class {
 		'inset',
 		'startAngleOffset'
 	],
-	#category : #'Toplo-Widget-List-InnerList-Finite'
+	#category : #'Toplo-Widget-List-InnerList-Finite-Circular'
 }
 
 { #category : #layout }

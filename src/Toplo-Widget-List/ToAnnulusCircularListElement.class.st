@@ -1,7 +1,7 @@
 Class {
 	#name : #ToAnnulusCircularListElement,
 	#superclass : #ToBasicCircularListElement,
-	#category : #'Toplo-Widget-List-InnerList-Finite'
+	#category : #'Toplo-Widget-List-InnerList-Finite-Circular'
 }
 
 { #category : #initialization }

@@ -8,7 +8,7 @@ Class {
 		'startAngleOffset',
 		'uniformSectors'
 	],
-	#category : #'Toplo-Widget-List-InnerList-Finite'
+	#category : #'Toplo-Widget-List-InnerList-Finite-Circular'
 }
 
 { #category : #constraints }

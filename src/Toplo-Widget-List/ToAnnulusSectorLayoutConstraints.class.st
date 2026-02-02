@@ -5,7 +5,7 @@ Class {
 		'centroid',
 		'edgePoint'
 	],
-	#category : #'Toplo-Widget-List-InnerList-Finite'
+	#category : #'Toplo-Widget-List-InnerList-Finite-Circular'
 }
 
 { #category : #accessing }

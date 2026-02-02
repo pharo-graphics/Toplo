@@ -1,7 +1,7 @@
 Class {
 	#name : #ToAnnulusSectorElement,
 	#superclass : #ToElement,
-	#category : #'Toplo-Widget-List-InnerList-Finite'
+	#category : #'Toplo-Widget-List-InnerList-Finite-Circular'
 }
 
 { #category : #accessing }

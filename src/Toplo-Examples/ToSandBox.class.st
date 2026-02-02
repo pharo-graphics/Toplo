@@ -2527,9 +2527,18 @@ ToSandBox class >> example_ListElementWithCircularListElement [
 	| list |
 	list := ToListElement new.
 	list innerElementClass: ToCircularListElement.
-	list innerElement inset: 30.
+	list innerElement inset: 60.
+	list nodeBuilder: [ :node :dataItem :holder |
+			| triplet label |
+			triplet := ToTripletElement new.
+			label := (ToLabel text: holder position asString , ': ' , dataItem asString).
+			triplet startElement: ToIconicRemoveButton new.
+			triplet startElement clickAction: [ triplet startElement fireEvent: ToRemoveButtonClickedEvent new ].
+			triplet middleElement: label.
+			triplet startInterspace: 10.
+			node addChild: triplet ].
 
-	list dataAccessor addAll: (1 to: 20).
+	list dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 12).
 	list openInSpace
 ]
 

@@ -31,7 +31,7 @@ ToMenuItemListElement >> initialize [
 	self flag:
 		'no focusability until focus management is understood and working '.
 	self focusability: BlFocusability none.
-	self vertical: true.
+	self isOrientable ifTrue: [ self vertical: true ].
 	self toConfigurationDo: [ :conf | conf isFlowable: false ].
 	self hFitContent.
 	"No visible primary selection"

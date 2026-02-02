@@ -1082,11 +1082,11 @@ ToSandBox class >> example_AnchorWithPointTransition [
 	pane openInSpace
 ]
 
-{ #category : #'circular list' }
+{ #category : #circular }
 ToSandBox class >> example_AnimatedAnnulus [
 
 	| container animation colors |
-	container := ToAnnulusCircularListElement new.
+	container := ToAnnulusCircularElement new.
 	container geometry: BlCircleGeometry new.
 	container extent: 24 asPoint.
 	container innerRadius: 0.20.
@@ -1661,11 +1661,11 @@ ToSandBox class >> example_CheckboxWithIndeterminate [
 	but openInSpace
 ]
 
-{ #category : #'circular list' }
-ToSandBox class >> example_CircularListElement [
+{ #category : #circular }
+ToSandBox class >> example_CircularElement [
 
 	| container |
-	container := ToBasicCircularListElement new
+	container := ToBasicCircularElement new
 		             background: Color veryLightGray;
 		             yourself.
 	container geometry: BlCircleGeometry new.
@@ -1699,11 +1699,11 @@ ToSandBox class >> example_CircularListElement [
 	container openInSpace
 ]
 
-{ #category : #'circular list' }
+{ #category : #circular }
 ToSandBox class >> example_CircularListElementWithAnnulusSectors [
 
 	| container scrollSensitivity |
-	container := ToAnnulusCircularListElement new.
+	container := ToAnnulusCircularElement new.
 	container matchParent.
 	container innerRadius: 0.25.
 	container outerRadius: 1.0.
@@ -2563,7 +2563,7 @@ ToSandBox class >> example_List12Classes [
 	l openInSpace
 ]
 
-{ #category : #'circular list' }
+{ #category : #circular }
 ToSandBox class >> example_ListElementWithCircularListElement [
 
 	| list |

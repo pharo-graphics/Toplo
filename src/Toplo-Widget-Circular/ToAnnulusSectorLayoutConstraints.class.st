@@ -3,9 +3,10 @@ Class {
 	#superclass : #BlBasicLayout,
 	#instVars : [
 		'centroid',
-		'edgePoint'
+		'edgePoint',
+		'middleAngle'
 	],
-	#category : #'Toplo-Widget-List-InnerList-Finite-Circular'
+	#category : #'Toplo-Widget-Circular-Annulus'
 }
 
 { #category : #accessing }
@@ -30,4 +31,16 @@ ToAnnulusSectorLayoutConstraints >> edgePoint [
 ToAnnulusSectorLayoutConstraints >> edgePoint: anObject [
 
 	edgePoint := anObject
+]
+
+{ #category : #accessing }
+ToAnnulusSectorLayoutConstraints >> middleAngle [
+
+	^ middleAngle 
+]
+
+{ #category : #accessing }
+ToAnnulusSectorLayoutConstraints >> middleAngle: anAngleInDegrees [
+
+	middleAngle := anAngleInDegrees
 ]

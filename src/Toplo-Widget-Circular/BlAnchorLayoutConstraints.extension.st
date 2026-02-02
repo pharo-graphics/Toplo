@@ -1,6 +1,6 @@
 Extension { #name : #BlAnchorLayoutConstraints }
 
-{ #category : #'*Toplo-Widget-List' }
+{ #category : #'*Toplo-Widget-Circular' }
 BlAnchorLayoutConstraints >> centroidAnchor [
 
 	^ BlAnchorChildReceiver new centroidAnchor

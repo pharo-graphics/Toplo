@@ -1,23 +1,23 @@
 Class {
-	#name : #ToAnnulusCircularListElement,
-	#superclass : #ToBasicCircularListElement,
-	#category : #'Toplo-Widget-List-InnerList-Finite-Circular'
+	#name : #ToAnnulusCircularElement,
+	#superclass : #ToBasicCircularElement,
+	#category : #'Toplo-Widget-Circular-Annulus'
 }
 
 { #category : #initialization }
-ToAnnulusCircularListElement >> defaultLayout [ 
+ToAnnulusCircularElement >> defaultLayout [ 
 
 	^ ToAnnulusCircularLayout new
 ]
 
 { #category : #accessing }
-ToAnnulusCircularListElement >> innerRadius [
+ToAnnulusCircularElement >> innerRadius [
 
 	^ layout innerRadius
 ]
 
 { #category : #accessing }
-ToAnnulusCircularListElement >> innerRadius: aFloat [
+ToAnnulusCircularElement >> innerRadius: aFloat [
 
 	(self innerRadius closeTo: aFloat) ifTrue: [ ^ self ].
 	layout innerRadius: aFloat.
@@ -25,13 +25,13 @@ ToAnnulusCircularListElement >> innerRadius: aFloat [
 ]
 
 { #category : #accessing }
-ToAnnulusCircularListElement >> outerRadius [
+ToAnnulusCircularElement >> outerRadius [
 
 	^ layout outerRadius
 ]
 
 { #category : #accessing }
-ToAnnulusCircularListElement >> outerRadius: aFloat [
+ToAnnulusCircularElement >> outerRadius: aFloat [
 
 	(self outerRadius closeTo: aFloat) ifTrue: [ ^ self ].
 	layout outerRadius: aFloat.
@@ -39,13 +39,13 @@ ToAnnulusCircularListElement >> outerRadius: aFloat [
 ]
 
 { #category : #accessing }
-ToAnnulusCircularListElement >> uniformSectors [
+ToAnnulusCircularElement >> uniformSectors [
 
 	^ layout uniformSectors
 ]
 
 { #category : #accessing }
-ToAnnulusCircularListElement >> uniformSectors: aBoolean [
+ToAnnulusCircularElement >> uniformSectors: aBoolean [
 
 	self uniformSectors = aBoolean ifTrue: [ ^ self ].
 	layout uniformSectors: aBoolean.

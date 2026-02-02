@@ -1,11 +1,11 @@
 Class {
-	#name : #ToElementCentroidAnchor,
+	#name : #ToAnnulusSectorCentroidAnchor,
 	#superclass : #BlElementLocationAnchor,
-	#category : #'Toplo-Widget-List-InnerList-Finite-Circular'
+	#category : #'Toplo-Widget-Circular-Annulus'
 }
 
 { #category : #applying }
-ToElementCentroidAnchor >> appliedOnRectangle: aRectangle withValue: aValue [
+ToAnnulusSectorCentroidAnchor >> appliedOnRectangle: aRectangle withValue: aValue [
 
 	| pt |
 	pt := aValue - (aRectangle extent / 2).
@@ -13,7 +13,7 @@ ToElementCentroidAnchor >> appliedOnRectangle: aRectangle withValue: aValue [
 ]
 
 { #category : #applying }
-ToElementCentroidAnchor >> valueInBounds: aBounds [
+ToAnnulusSectorCentroidAnchor >> valueInBounds: aBounds [
 
 	^ self element centroid
 ]

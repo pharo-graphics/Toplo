@@ -1,9 +1,9 @@
 Extension { #name : #BlAnchorReceiver }
 
-{ #category : #'*Toplo-Widget-List' }
+{ #category : #'*Toplo-Widget-Circular' }
 BlAnchorReceiver >> centroidAnchor [
 
-	^ ToElementCentroidAnchor new
+	^ ToAnnulusSectorCentroidAnchor new
 		  receiver: self;
 		  yourself
 ]

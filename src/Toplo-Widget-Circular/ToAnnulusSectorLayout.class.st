@@ -7,7 +7,7 @@ Class {
 		'startAngle',
 		'endAngle'
 	],
-	#category : #'Toplo-Widget-List-InnerList-Finite-Circular'
+	#category : #'Toplo-Widget-Circular-Annulus'
 }
 
 { #category : #constraints }
@@ -62,12 +62,6 @@ ToAnnulusSectorLayout >> layout: anElement in: aBounds context: aBlElementBounds
 		layout: anElement
 		in: aBounds
 		context: aBlElementBoundsUpdateContext
-]
-
-{ #category : #measure }
-ToAnnulusSectorLayout >> measure: anElement with: anExtentSpec [
-
-	super measure: anElement with: anExtentSpec
 ]
 
 { #category : #accessing }

@@ -1,12 +1,12 @@
 Class {
 	#name : #ToCircularListElement,
-	#superclass : #ToBasicCircularListElement,
+	#superclass : #ToBasicCircularElement,
 	#traits : 'TToInnerListElement + TToInnerFiniteListElement',
 	#classTraits : 'TToInnerListElement classTrait + TToInnerFiniteListElement classTrait',
 	#instVars : [
 		'selectionUpdateRequested'
 	],
-	#category : #'Toplo-Widget-List-InnerList-Finite-Circular'
+	#category : #'Toplo-Widget-Circular-BasicElement'
 }
 
 { #category : #'t - inner finite list element - requirements' }
@@ -48,7 +48,7 @@ ToCircularListElement >> applyConfiguration [
 { #category : #'selection updating' }
 ToCircularListElement >> forceUpdateAllSelections [
 
-	listElement ifNil: [ ^ true ].
+	listElement ifNil: [ ^ self ].
 	listElement forceUpdateAllSelectionsNow.
 	listElement requestMouseMoveReplay
 ]

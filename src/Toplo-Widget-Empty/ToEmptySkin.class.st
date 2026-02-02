@@ -24,7 +24,7 @@ ToEmptySkin >> installSkinEvent: anEvent [
 { #category : #accessing }
 ToEmptySkin >> refresh: aStadium inSector: anAnnulusSector [
 
-	| midAngle startAngle endAngle containerRadius inner outer length radius |
+	| midAngle startAngle endAngle containerRadius inner outer length |
 	startAngle := anAnnulusSector startAngle.
 	endAngle := anAnnulusSector endAngle.
 
@@ -36,9 +36,8 @@ ToEmptySkin >> refresh: aStadium inSector: anAnnulusSector [
 	outer := anAnnulusSector outerRadius * containerRadius.
 
 	length := outer - inner.
-	radius := inner + outer / 2.
 
-	aStadium extent: length @ aStadium extent y.
+	aStadium width: length.
 	aStadium transformDo: [ :t | t rotateBy: midAngle ]
 ]
 
@@ -46,7 +45,7 @@ ToEmptySkin >> refresh: aStadium inSector: anAnnulusSector [
 ToEmptySkin >> waitingAnimationIn: anEmpty [
 
 	| container animation |
-	container := ToAnnulusCircularListElement new.
+	container := ToAnnulusCircularElement new.
 	container geometry: BlCircleGeometry new.
 	container extent:
 		(anEmpty valueOfTokenNamed: #'empty-image-size') asPoint.

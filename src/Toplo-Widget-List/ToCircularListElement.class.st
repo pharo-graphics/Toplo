@@ -13,7 +13,7 @@ Class {
 ToCircularListElement >> addNodeContainer: aNodeContainer at: aPosition [
 
 	self addChild: aNodeContainer at: aPosition.
-	self requestUpdateSelections
+	self requestUpdateAllSelections
 ]
 
 { #category : #'private - scrolling' }
@@ -71,7 +71,7 @@ ToCircularListElement >> mouseWheelEvent: anEvent [
 
 	self startAngle:
 		self startAngle + (self angularDeltaFromWheelEvent: anEvent).
-	self requestUpdateSelections.
+	self requestUpdateAllSelections.
 	^ true
 ]
 
@@ -107,11 +107,11 @@ ToCircularListElement >> partlyVisibleNodesDo: aBlock [
 ToCircularListElement >> removeNodeContainer: aNodeContainer [
 
 	aNodeContainer removeFromParent.
-	self requestUpdateSelections
+	self requestUpdateAllSelections
 ]
 
 { #category : #'selection updating' }
-ToCircularListElement >> requestUpdateSelections [
+ToCircularListElement >> requestUpdateAllSelections [
 
 	selectionUpdateRequested := true
 ]

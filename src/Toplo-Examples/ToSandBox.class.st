@@ -1082,6 +1082,33 @@ ToSandBox class >> example_AnchorWithPointTransition [
 	pane openInSpace
 ]
 
+{ #category : #'circular list' }
+ToSandBox class >> example_AnimatedAnnulus [
+
+	| container animation colors |
+	container := ToAnnulusCircularListElement new.
+	container geometry: BlCircleGeometry new.
+	container extent: 24 asPoint.
+	container innerRadius: 0.20.
+	container outerRadius: 1.0.
+
+	colors := Color wheel: 8.
+	1 to: colors size do: [ :n |
+			| sector |
+			sector := ToAnnulusSectorElement new.
+			sector background: (colors at: n).
+			container addChild: sector ].
+
+	animation := BlNumberTransition new
+		             beInfinite;
+		             from: 0;
+		             to: 360;
+		             onStepDo: [ :number :anElement |
+			             anElement startAngle: number ].
+	container addAnimation: animation.
+	container openInSpace
+]
+
 { #category : #filters }
 ToSandBox class >> example_AnyEventFilter [
 
@@ -1106,24 +1133,39 @@ ToSandBox class >> example_BasicListWithAllClasses [
 
 	| l |
 	l := ToListElement new.
+	"l nodeFactory: [
+			| node |
+			node := ToBasicListNode new.
+			node addEventHandlerOn: BlSecondaryClickEvent do: [ :evt |
+					| t |
+					t := evt currentTarget.
+					t holder listElement
+						notifyClickOnNode: evt currentTarget
+						fromEvent: evt ].
+			node ]."
+	l contextMenuBuilder: [ :menu :request |
+			menu addItem: (ToMenuItem new
+					 labelText: 'Inspect';
+					 clickAction: [ l inspect ];
+					 yourself) ].
 	l nodeBuilder: [ :node :dataItem :holder |
-		     | icn lab |
-		     icn :=  dataItem hasComment
-			            ifTrue: [ #class ]
-			            ifFalse: [ #uncommentedClass ].
-		     lab := ToLabel new
-			            text: dataItem name;
-			            beEditable;
-			            yourself.
-		     node addChild: (ToLabeledIcon new
-				      label: lab;
-				      icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
-				      startInterspace: 10;
-				      hMatchParent) ].
-			
+			| icn lab |
+			icn := dataItem hasComment
+				       ifTrue: [ #class ]
+				       ifFalse: [ #uncommentedClass ].
+			lab := ToLabel new
+				       text: dataItem name;
+				       beEditable;
+				       yourself.
+			node addChild: (ToLabeledIcon new
+					 label: lab;
+					 icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
+					 startInterspace: 10;
+					 hMatchParent) ].
+
 	l dataAccessor addAll:
 		(Smalltalk globals allClasses sorted: [ :a :b | a name < b name ]).
-	l selecter selectIndexes: #(10 12 3).
+	l selecter selectIndexes: #( 10 12 3 ).
 	l withRowNumbers.
 	l requestFocus.
 	l openInInnerWindow.
@@ -6190,6 +6232,14 @@ ToSandBox class >> example_emptyDiff [
 	^ diff
 ]
 
+{ #category : #empty }
+ToSandBox class >> example_emptyWithWaitingAnimation [
+
+	| empty |
+	empty := ToEmpty waiting.
+	empty openInSpace
+]
+
 { #category : #checkables }
 ToSandBox class >> example_group [
 
@@ -8674,6 +8724,18 @@ ToSandBox class >> example_toTable1 [
 					 labelText: 'Inspect';
 					 clickAction: [ table inspect ];
 					 yourself) ].
+	"table nodeManager nodeFactory: [
+			| node |
+			node := ToTableRowNode new.
+			node addEventHandlerOn: BlSecondaryClickEvent 
+				do: [ :evt |
+					| t |
+					t := evt currentTarget.
+					t holder listElement
+						notifyClickOnNode: evt currentTarget
+						fromEvent: evt ].
+			node ]."
+
 	table columns: {
 			(ToTableColumn new
 				 title: 'Name';
@@ -10192,7 +10254,7 @@ ToSandBox class >> tabPaneElementWithUSStates [
 
 	| tpane |
 	tpane := ToTabPaneElement new.
-	tpane addTabItemDataFactory: [ 'My new tab'].
+	tpane addTabItemDataFactory: [ 'My new tab' ].
 	tpane itemBuilder: [ :tabButton :aData :holder |
 			| lab |
 			lab := ToLabel text: aData asString.
@@ -10206,8 +10268,8 @@ ToSandBox class >> tabPaneElementWithUSStates [
 						request accepted: true ].
 					editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
 							editorEvent target text: acceptedEvent target text.
-							holder listElement selecter scrollTowardEndToDataSourcePosition:
-								holder position ] ].
+							holder listElement selecter
+								scrollTowardEndToDataSourcePosition: holder position ] ].
 			tabButton destroyPaneWhenDeselected: true.
 			tabButton
 				label: lab;
@@ -10222,7 +10284,9 @@ ToSandBox class >> tabPaneElementWithUSStates [
 							yourself ];
 				paneBuilder: [ :pane :button :bholder |
 						| emptyPh |
-						emptyPh := ToEmptyPlaceholderLayer new attachToParent: pane.
+						emptyPh := (ToEmptyPlaceholderLayer withEmpty:
+							            (ToEmpty waiting labelText: 'waiting...'))
+							           attachToParent: pane.
 						pane userData at: #placeholder put: emptyPh ];
 				paneDestroyer: [ :pane :button :bholder |
 						| emptyPh |

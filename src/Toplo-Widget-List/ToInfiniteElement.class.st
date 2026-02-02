@@ -3,6 +3,9 @@ Class {
 	#superclass : #BlInfiniteElement,
 	#traits : 'TToInnerListElement',
 	#classTraits : 'TToInnerListElement classTrait',
+	#instVars : [
+		'listElement'
+	],
 	#category : #'Toplo-Widget-List-InnerList-Infinite'
 }
 

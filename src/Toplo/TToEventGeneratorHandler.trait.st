@@ -13,6 +13,17 @@ Trait {
 }
 
 { #category : #'t - event generator handler' }
+TToEventGeneratorHandler >> cleanUpCheckerIn: aTarget [
+
+	checker ifNotNil: [
+		checker stop.
+		aTarget dequeueTask: checker.
+		checker := nil ].
+	startEvent ifNil: [ ^ self ].
+	startEvent := nil
+]
+
+{ #category : #'t - event generator handler' }
 TToEventGeneratorHandler >> delay: aDuration [
 
 	delay := aDuration
@@ -89,15 +100,13 @@ TToEventGeneratorHandler >> stopEvent: anEvent [
 { #category : #'t - event generator handler' }
 TToEventGeneratorHandler >> stopTaskFromEvent: anEvent in: aTarget [
 
-	checker ifNotNil: [
-		checker stop.
-		aTarget dequeueTask: checker.
-		checker := nil ].
-	startEvent ifNil: [ ^ self ].
-	startEvent := nil.
-	aTarget dispatchEvent: (self newStopEvent
-			 sourceEvent: anEvent;
-			 yourself)
+	" check the checker to avoid infinite loop in case a cleanUp already occured"
+	checker ifNil: [ ^ self ].
+	self newStopEvent ifNotNil: [ :stopEvent |
+			self cleanUpCheckerIn: aTarget.
+			aTarget dispatchEvent: (stopEvent
+					 sourceEvent: anEvent;
+					 yourself) ]
 ]
 
 { #category : #'t - event generator handler' }

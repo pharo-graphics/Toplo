@@ -9499,6 +9499,7 @@ ToSandBox class >> listWithData: aCollection [
 	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
 	bar nodeBuilder: [ :node :dataItem :holder |
 			| triplet label |
+			node tooltipString: dataItem asString.
 			triplet := ToTripletElement new.
 			triplet
 				hMatchParent;

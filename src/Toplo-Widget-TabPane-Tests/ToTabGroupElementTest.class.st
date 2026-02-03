@@ -19,6 +19,12 @@ ToTabGroupElementTest >> itemCheckedBeforeAddedInSpace [
 			 labelText: 'First';
 			 yourself).
 
+	" in case of infinite element, the layout must be done, 
+	so it means that an item can't be selected before 
+	the tabGroup is added in a space "
+	self flag: 'Check if it is possible to avoid the layout '.
+	tabGroup itemList useInfiniteLayout ifTrue: [ tabGroup forceLayout ].
+
 	firstItem := tabGroup items first.
 	self assert: firstItem group notNil.
 	self deny: firstItem isSelected.
@@ -39,6 +45,12 @@ ToTabGroupElementTest >> itemSelectedBeforeAddedInSpace [
 			 id: #first;
 			 labelText: 'First';
 			 yourself).
+
+	" in case of infinite element, the layout must be done, 
+	so it means that an item can't be selected before 
+	the tabGroup is added in a space "
+	self flag: 'Check if it is possible to avoid the layout '.
+	tabGroup itemList useInfiniteLayout ifTrue: [ tabGroup forceLayout ].
 
 	firstItem := tabGroup items first.
 	self assert: firstItem group notNil.
@@ -84,9 +96,8 @@ ToTabGroupElementTest >> testFiniteItemSelectedBeforeAddedInSpace [
 { #category : #tests }
 ToTabGroupElementTest >> testInfiniteItemCheckedBeforeAddedInSpace [
 
-	" skipped because a tabgroup is not made to be used in an infinite.
+	" Notice that a tabgroup is not made to be used in an infinite.
 	To be checked/fixed later if possible "
-	self skip.
 	tabGroup := ToTabGroupElement new.
 	tabGroup itemList useInfiniteLayout: true.
 	self itemCheckedBeforeAddedInSpace 
@@ -95,9 +106,8 @@ ToTabGroupElementTest >> testInfiniteItemCheckedBeforeAddedInSpace [
 { #category : #tests }
 ToTabGroupElementTest >> testInfiniteItemSelectedBeforeAddedInSpace [
 
-	" skipped because a tabgroup is not made to be used in an infinite.
+	" Notice that a tabgroup is not made to be used in an infinite.
 	To be checked/fixed later if possible "
-	self skip.
 	tabGroup := ToTabGroupElement new.
 	tabGroup itemList useInfiniteLayout: true.
 	self itemSelectedBeforeAddedInSpace 

@@ -1671,7 +1671,7 @@ ToSandBox class >> example_CircularElement [
 	container geometry: BlCircleGeometry new.
 
 	container inset: 60.
-	container startAngleOffset: (360/4) negated.
+	"container startAngleOffset: (360/4) negated."
 	container addEventHandlerOn: BlMouseWheelEvent do: [ :evt |
 			container startAngle:
 				container startAngle
@@ -5112,9 +5112,11 @@ ToSandBox class >> example_TabPaneElementWithUSStates [
 	| tpane dashBoard |
 	tpane := self tabPaneElementWithUSStates.
 	tpane matchParent.
-	"tpane items third checked: true."
-	tpane selecter selectOnlyIndex: 2.
 
+	tpane inUIProcessDo: [ 
+		"tpane selecter selectOnlyIndex: 2."
+		tpane items third checked: true ].
+	
 	dashBoard := self tabPaneElementDashBoardFor: tpane.
 	dashBoard openInSpace.
 	tpane tabGroup requestFocus.

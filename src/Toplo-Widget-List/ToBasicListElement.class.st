@@ -308,7 +308,7 @@ ToBasicListElement >> initialize [
 { #category : #initialization }
 ToBasicListElement >> initializeInnerElement [
 
-	self innerElement: self newtInnerElement
+	self innerElement: self newInnerElement
 ]
 
 { #category : #'t - list element decorator - infinite accessing' }
@@ -422,12 +422,6 @@ ToBasicListElement >> newUnselectableSelectionMode [
 
 
 	^ ToListUnselectableSelectionMode parentMode: self primarySelectionMode
-]
-
-{ #category : #'instance creation' }
-ToBasicListElement >> newtInnerElement [
-
-	^ self innerElementClass onListElement: self
 ]
 
 { #category : #'t - list element decorator - infinite accessing' }

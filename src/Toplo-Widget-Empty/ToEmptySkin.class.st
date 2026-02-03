@@ -4,6 +4,24 @@ Class {
 	#category : #'Toplo-Widget-Empty'
 }
 
+{ #category : #accessing }
+ToEmptySkin >> installSector: aSector in: anElement withGap: anHorizontalGap [
+
+	| startAngle radius width idx angleGap |
+	idx := anElement children indexOf: aSector.
+	angleGap := 360 / anElement children size.
+	startAngle := idx * angleGap.
+
+	radius := anElement extent min / 2.
+	width := radius - anHorizontalGap.
+
+	aSector width: width.
+	aSector transformDo: [ :t |
+			t origin: (BlAffineTransformationPositionOrigin position:
+					 anHorizontalGap negated @ (aSector height / 2)).
+			t rotateBy: startAngle ]
+]
+
 { #category : #'event handling' }
 ToEmptySkin >> installSkinEvent: anEvent [
 
@@ -11,8 +29,7 @@ ToEmptySkin >> installSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 			e layout alignCenter.
 			(e hasStamp: #waiting) ifTrue: [
-					e installInnerImage: (self waitingAnimationIn: e).
-					e image extent: (e valueOfTokenNamed: #'empty-image-size') asPoint].
+				e installInnerImage: (self waitingAnimatedImageIn: e) ].
 			(e hasStamp: #box) ifTrue: [
 					e installInnerImage: (e valueOfTokenNamed: #empty_box).
 					e image
@@ -22,62 +39,53 @@ ToEmptySkin >> installSkinEvent: anEvent [
 ]
 
 { #category : #accessing }
-ToEmptySkin >> refresh: aStadium inSector: anAnnulusSector [
+ToEmptySkin >> waitingAnimatedImageIn: anEmpty [
 
-	| midAngle startAngle endAngle containerRadius inner outer length |
-	startAngle := anAnnulusSector startAngle.
-	endAngle := anAnnulusSector endAngle.
-
-	midAngle := startAngle + endAngle / 2.
-
-	containerRadius := anAnnulusSector bounds extent min / 2.
-
-	inner := anAnnulusSector innerRadius * containerRadius.
-	outer := anAnnulusSector outerRadius * containerRadius.
-
-	length := outer - inner.
-
-	aStadium width: length.
-	aStadium transformDo: [ :t | t rotateBy: midAngle ]
-]
-
-{ #category : #accessing }
-ToEmptySkin >> waitingAnimationIn: anEmpty [
-
-	| container animation |
-	container := ToAnnulusCircularElement new.
-	container geometry: BlCircleGeometry new.
-	container extent:
-		(anEmpty valueOfTokenNamed: #'empty-image-size') asPoint.
-	container innerRadius: 0.28.
-	container outerRadius: 1.0.
+	| container animation extent background center sectorHeight sectorGap |
+	extent := (anEmpty valueOfTokenNamed: #'empty-image-size') asPoint.
+	center := extent / 2.
+	sectorHeight := 6.
+	sectorGap := 6.
+	background := anEmpty valueOfTokenNamed: #'color-text-placeholder'.
+	container := BlElement new.
+	container extent: extent.
 
 	8 timesRepeat: [
-			| sector stadium |
-			sector := ToAnnulusSectorElement new.
-			stadium := BlElement new
-				           geometry: BlStadiumGeometry new;
-				           background:
-					           (anEmpty valueOfTokenNamed: #'color-text-placeholder');
-				           height: 5;
-				           yourself.
-			sector addChild: stadium.
-			stadium constraintsDo: [ :c |
+			| sector |
+			sector := BlElement new
+				          geometry: BlStadiumGeometry new;
+				          background: background;
+				          height: sectorHeight;
+				          width: 0;
+				          yourself.
+			sector visibility: BlVisibility hidden.
+			container addChild: sector.
+			" position the sector at center "
+			sector constraintsDo: [ :c |
 					c ignoreByLayout.
-					c anchors add:
-						(c anchors centerAnchor on: c anchors parent centroidAnchor) ].
-			container addChild: sector ].
+					c anchors add: (c anchors verticalCenterAnchor on:
+							 c anchors parent verticalCenterAnchor).
+					c anchors add: (c anchors leftAnchor on:
+							 c anchors parent horizontalCenterAnchor + sectorGap) ] ].
 
+	" the element rotation animation animation "
 	animation := BlNumberTransition new
 		             beInfinite;
 		             from: 0;
 		             to: 360;
-		             duration: 3 seconds;
-		             onStepDo: [ :number :anElement |
-			             anElement startAngle: number ].
-	container addAnimation: animation.
-	container whenLayoutedDo: [
+		             duration: 2 seconds;
+		             yourself.
+	animation onStepDo: [ :number :anElement |
+			container transformDo: [ :t |
+					t origin: (BlAffineTransformationPositionOrigin position: center).
+					t rotateBy: number ] ].
+
+	" terminate the sectors installation: calculate their width and their rotation transformation "
+	container whenLayoutedDoOnce: [
+			container addAnimation: animation.
 			container childrenDo: [ :sector |
-				self refresh: sector firstChild inSector: sector ] ].
+				self installSector: sector in: container withGap: sectorGap.
+				sector visibility: BlVisibility visible. ] ].
+
 	^ container
 ]

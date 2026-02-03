@@ -214,6 +214,12 @@ ToBasicListElement >> dirtySelectionModes [
 	^ self selectionModes select: [ :m | m dirty ]
 ]
 
+{ #category : #'accessing - selection modes' }
+ToBasicListElement >> dirtySelectionModesDo: aBlock [
+
+	^ self dirtySelectionModes do: aBlock
+]
+
 { #category : #'accessing selecters' }
 ToBasicListElement >> disabledAtPosition: anInteger [
 
@@ -254,10 +260,9 @@ ToBasicListElement >> flagAsDisabled: aBoolean [
 ]
 
 { #category : #'selection updating' }
-ToBasicListElement >> forceUpdateAllSelectionsNow [
+ToBasicListElement >> forceUpdateAllSelections [
 
-	self selectionModes do: [ :mode |
-			mode forceUpdateSelectionIn: self ]
+	self selectionModes do: [ :mode | mode forceUpdateSelectionIn: self ]
 ]
 
 { #category : #'accessing selecters' }

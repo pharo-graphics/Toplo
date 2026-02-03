@@ -12,7 +12,8 @@ ToScrollableFiniteListElementEventHandler >> boundsHasChangedDuringScrollingEven
 
 	| listElement |
 	listElement := anEvent currentTarget listElement.
-	listElement forceUpdateAllSelectionsNow.
+
+	listElement forceUpdateAllSelections.
 	listElement requestMouseMoveReplay
 ]
 
@@ -44,10 +45,9 @@ ToScrollableFiniteListElementEventHandler >> checkFullyVisibleNodeContainersOnEv
 { #category : #'infinite event handling' }
 ToScrollableFiniteListElementEventHandler >> elementScrolledEvent: anEvent [
 
-	| listElement |
-	listElement := anEvent currentTarget listElement.
-	self checkFullyVisibleNodeContainersOnEvent: anEvent.
-	listElement forceUpdateAllSelectionsNow.
+	" dont update selections here with #forceUpdateAllSelections. 
+	It would lead to a layout recursion "
+	self checkFullyVisibleNodeContainersOnEvent: anEvent
 ]
 
 { #category : #'api - accessing' }

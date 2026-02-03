@@ -49,7 +49,7 @@ ToCircularListElement >> applyConfiguration [
 ToCircularListElement >> forceUpdateAllSelections [
 
 	listElement ifNil: [ ^ self ].
-	listElement forceUpdateAllSelectionsNow.
+	listElement forceUpdateAllSelections.
 	listElement requestMouseMoveReplay
 ]
 

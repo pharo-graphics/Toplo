@@ -58,15 +58,16 @@ ToEmptySkin >> waitingAnimatedImageIn: anEmpty [
 	background := anEmpty valueOfTokenNamed: #'color-text-placeholder'.
 	container := BlElement new.
 	container extent: extent.
+	container visibility: BlVisibility hidden.
+
 
 	8 timesRepeat: [
 			| sector |
 			sector := BlElement new
-				          geometry: BlStadiumGeometry new;
+				          geometry: BlEllipseGeometry new;
 				          background: background;
 				          height: sectorHeight;
 				          yourself.
-			sector visibility: BlVisibility hidden.
 			container addChild: sector ].
 
 	" the element rotation animation animation "
@@ -84,9 +85,9 @@ ToEmptySkin >> waitingAnimatedImageIn: anEmpty [
 	" terminate the sectors installation: calculate their width and their rotation transformation "
 	container whenLayoutedDoOnce: [
 			container addAnimation: animation.
-			container childrenDo: [ :sector |
-					self installSector: sector.
-					sector visibility: BlVisibility visible ] ].
+			container childrenDo: [ :sector | self installSector: sector ].
+			container whenLayoutedDoOnce: [
+				container visibility: BlVisibility visible ] ].
 
 	^ container
 ]

@@ -5,6 +5,25 @@ Class {
 }
 
 { #category : #'event handling' }
+ToInfiniteDataSourceObserver >> infiniteDataSourceChanged: anEvent [ 
+
+	| listElement |
+	super infiniteDataSourceChanged: anEvent.
+	listElement := infiniteElement listElement.
+	listElement requestUpdateAllSelections
+
+]
+
+{ #category : #'event handling' }
+ToInfiniteDataSourceObserver >> infiniteDataSourceItemRangeChanged: anEvent [
+
+	| listElement |
+	super infiniteDataSourceItemRangeChanged: anEvent.
+	listElement := infiniteElement listElement.
+	listElement requestUpdateAllSelections
+]
+
+{ #category : #'event handling' }
 ToInfiniteDataSourceObserver >> infiniteDataSourceItemRangeInserted: anEvent [
 
 	| listElement |

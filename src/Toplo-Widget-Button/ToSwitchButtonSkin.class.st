@@ -41,25 +41,24 @@ ToSwitchButtonSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e vFitContent.
-		e mouseCursor: Cursor normal.
-		e geometry: (BlRoundedRectangleGeometry cornerRadius:
-				 (e valueOfTokenNamed: 'border-radius')).
-		e border: BlBorder empty.
-		e hasLabel
-			ifTrue: [
-			e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
-			ifFalse: [ e startInterspace: 0 ].
-		(e hasEndElement and: [ e hasLabel ])
-			ifTrue: [
-			e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
-			ifFalse: [ e endInterspace: 0 ].
-		(e anyInParentsSatisfy: [ :p | p isMenuItem ]) ifFalse: [
-			e padding: (BlInsets
-					 top: (e valueOfTokenNamed: #'padding-content-VXS')
-					 left: (e valueOfTokenNamed: #'padding-XS')
-					 bottom: (e valueOfTokenNamed: #'padding-content-VXS')
-					 right: (e valueOfTokenNamed: #'padding-XS')) ] ]
+			e vFitContent.
+			e mouseCursor: Cursor normal.
+			e geometry: BlStadiumGeometry new.
+			e border: BlBorder empty.
+			e hasLabel
+				ifTrue: [
+				e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
+				ifFalse: [ e startInterspace: 0 ].
+			(e hasEndElement and: [ e hasLabel ])
+				ifTrue: [
+				e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
+				ifFalse: [ e endInterspace: 0 ].
+			(e anyInParentsSatisfy: [ :p | p isMenuItem ]) ifFalse: [
+					e padding: (BlInsets
+							 top: (e valueOfTokenNamed: #'padding-content-VXS')
+							 left: (e valueOfTokenNamed: #'padding-XS')
+							 bottom: (e valueOfTokenNamed: #'padding-content-VXS')
+							 right: (e valueOfTokenNamed: #'padding-XS')) ] ]
 ]
 
 { #category : #'event handling' }

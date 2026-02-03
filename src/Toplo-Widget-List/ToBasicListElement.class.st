@@ -302,7 +302,10 @@ ToBasicListElement >> initialize [
 	self newHiddenSelectionMode onInstalledIn: self.
 	self newDisabledSelectionMode onInstalledIn: self.
 
-	self matchParent
+	self matchParent.
+	" get the innerElement to build it and allow selection 
+	of items to be done *** before *** it is added in a space"
+	self innerElement
 ]
 
 { #category : #initialization }

@@ -4898,7 +4898,8 @@ ToSandBox class >> example_SimpleTabPane [
 
 	tabPane addTabItemData: 'First'.
 	tabPane addTabItemData: 'Second'.
-
+	tabPane items second checked: true.
+	"tabPane selecter selectOnlyIndex: 2."
 	space show.
 	^ tabPane
 ]
@@ -5112,11 +5113,7 @@ ToSandBox class >> example_TabPaneElementWithUSStates [
 	| tpane dashBoard |
 	tpane := self tabPaneElementWithUSStates.
 	tpane matchParent.
-
-	tpane inUIProcessDo: [ 
-		"tpane selecter selectOnlyIndex: 2."
-		tpane items third checked: true ].
-	
+	tpane selecter selectOnlyIndex: 2.
 	dashBoard := self tabPaneElementDashBoardFor: tpane.
 	dashBoard openInSpace.
 	tpane tabGroup requestFocus.

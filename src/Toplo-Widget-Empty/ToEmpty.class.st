@@ -20,7 +20,8 @@ ToEmpty class >> box [
 ToEmpty class >> initializeToRawTheme: aTheme [
 
 	<toploThemeInstallerFor: #ToRawTheme>
-	aTheme addTokenNamed: #'empty-image-size' withValue: 50
+	aTheme addTokenNamed: #'empty-image-size' withValue: 40.
+	aTheme addTokenNamed: #'empty-sector-height' withValue: 6.
 ]
 
 { #category : #'instance creation' }

@@ -5,20 +5,30 @@ Class {
 }
 
 { #category : #accessing }
-ToEmptySkin >> installSector: aSector in: anElement withGap: anHorizontalGap [
+ToEmptySkin >> installSector: aSector [ 
 
-	| startAngle radius width idx angleGap |
-	idx := anElement children indexOf: aSector.
-	angleGap := 360 / anElement children size.
+	| startAngle radius width idx angleGap sectorHGap |
+	idx := aSector parent childIndexOf: aSector.
+	sectorHGap := aSector height.
+	angleGap := 360 / aSector parent  children size.
 	startAngle := idx * angleGap.
 
-	radius := anElement extent min / 2.
-	width := radius - anHorizontalGap.
+	radius := aSector parent extent min / 2.
+	width := radius - sectorHGap.
 
 	aSector width: width.
+
+	" position the sector at center "
+	aSector constraintsDo: [ :c |
+			c ignoreByLayout.
+			c anchors add: (c anchors verticalCenterAnchor on:
+					 c anchors parent verticalCenterAnchor).
+			c anchors add: (c anchors leftAnchor on:
+					 c anchors parent horizontalCenterAnchor + sectorHGap) ].
+
 	aSector transformDo: [ :t |
 			t origin: (BlAffineTransformationPositionOrigin position:
-					 anHorizontalGap negated @ (aSector height / 2)).
+					 sectorHGap negated @ (aSector height / 2)).
 			t rotateBy: startAngle ]
 ]
 
@@ -41,11 +51,10 @@ ToEmptySkin >> installSkinEvent: anEvent [
 { #category : #accessing }
 ToEmptySkin >> waitingAnimatedImageIn: anEmpty [
 
-	| container animation extent background center sectorHeight sectorGap |
+	| container animation extent background center sectorHeight |
 	extent := (anEmpty valueOfTokenNamed: #'empty-image-size') asPoint.
 	center := extent / 2.
-	sectorHeight := 6.
-	sectorGap := 6.
+	sectorHeight := anEmpty valueOfTokenNamed: #'empty-sector-height'.
 	background := anEmpty valueOfTokenNamed: #'color-text-placeholder'.
 	container := BlElement new.
 	container extent: extent.
@@ -56,17 +65,10 @@ ToEmptySkin >> waitingAnimatedImageIn: anEmpty [
 				          geometry: BlStadiumGeometry new;
 				          background: background;
 				          height: sectorHeight;
-				          width: 0;
 				          yourself.
 			sector visibility: BlVisibility hidden.
 			container addChild: sector.
-			" position the sector at center "
-			sector constraintsDo: [ :c |
-					c ignoreByLayout.
-					c anchors add: (c anchors verticalCenterAnchor on:
-							 c anchors parent verticalCenterAnchor).
-					c anchors add: (c anchors leftAnchor on:
-							 c anchors parent horizontalCenterAnchor + sectorGap) ] ].
+			].
 
 	" the element rotation animation animation "
 	animation := BlNumberTransition new
@@ -84,7 +86,7 @@ ToEmptySkin >> waitingAnimatedImageIn: anEmpty [
 	container whenLayoutedDoOnce: [
 			container addAnimation: animation.
 			container childrenDo: [ :sector |
-				self installSector: sector in: container withGap: sectorGap.
+				self installSector: sector.
 				sector visibility: BlVisibility visible. ] ].
 
 	^ container

@@ -39,7 +39,11 @@ ToEmptySkin >> installSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 			e layout alignCenter.
 			(e hasStamp: #waiting) ifTrue: [
-				e installInnerImage: (self waitingAnimatedImageIn: e) ].
+					e userData at: #waitingImage ifAbsent: [
+							e userData
+								at: #waitingImage
+								put: (self waitingAnimatedImageIn: e).
+							e installInnerImage: (e userData at: #waitingImage) ] ].
 			(e hasStamp: #box) ifTrue: [
 					e installInnerImage: (e valueOfTokenNamed: #empty_box).
 					e image
@@ -60,11 +64,10 @@ ToEmptySkin >> waitingAnimatedImageIn: anEmpty [
 	container extent: extent.
 	container visibility: BlVisibility hidden.
 
-
 	8 timesRepeat: [
 			| sector |
 			sector := BlElement new
-				          geometry: BlEllipseGeometry new;
+				          geometry: BlStadiumGeometry new;
 				          background: background;
 				          height: sectorHeight;
 				          yourself.
@@ -72,7 +75,8 @@ ToEmptySkin >> waitingAnimatedImageIn: anEmpty [
 
 	" the element rotation animation animation "
 	animation := BlNumberTransition new
-		             beInfinite;
+		             "beInfinite;"
+		             loops: 10;
 		             from: 0;
 		             to: 360;
 		             duration: 2 seconds;

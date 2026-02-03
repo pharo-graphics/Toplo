@@ -174,19 +174,34 @@ ToAnnulusCircularLayout >> pointOnPeripheryFromCenter: center through: centroid 
 ]
 
 { #category : #private }
-ToAnnulusCircularLayout >> position: aPoint aroundCentroidOf: aChild in: anElement [ 
-    | centroid |
+ToAnnulusCircularLayout >> radialInnerIntersectionPointAtAngle: anAngleInDegrees in: anAnnulus [
 
-    centroid := self centroidOf: aChild in: anElement.
-    ^ (centroid - aPoint)
+	^ (self radialIntersectionPointsAtAngle: anAngleInDegrees in: anAnnulus) first
 ]
 
 { #category : #private }
-ToAnnulusCircularLayout >> positionAroundCentroidOf: aChild in: anElement [ 
-    | centroid |
+ToAnnulusCircularLayout >> radialIntersectionPointsAtAngle: anAngleInDegrees in: anAnnulus [
 
-    centroid := self centroidOf: aChild in: anElement.
-    ^ (centroid - (aChild measuredPosition / 2))
+	| center direction containerRadius inner outer |
+	center := anAnnulus measuredBounds center.
+
+	direction := anAngleInDegrees degreesToRadians cos
+	             @ anAngleInDegrees degreesToRadians sin.
+
+	containerRadius := anAnnulus measuredBounds extent min / 2.
+
+	inner := innerRadius * containerRadius.
+	outer := outerRadius * containerRadius.
+
+	^ {
+		  (center + (direction * inner)).
+		  (center + (direction * outer)) }
+]
+
+{ #category : #private }
+ToAnnulusCircularLayout >> radialOuterIntersectionPointAtAngle: anAngleInDegrees in: anAnnulus [
+
+	^ (self radialIntersectionPointsAtAngle: anAngleInDegrees in: anAnnulus) second
 ]
 
 { #category : #private }

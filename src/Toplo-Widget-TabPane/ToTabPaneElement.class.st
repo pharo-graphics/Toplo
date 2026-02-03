@@ -89,6 +89,13 @@ ToTabPaneElement >> compactHeaderLayoutMode: aBoolean [
 ]
 
 { #category : #accessing }
+ToTabPaneElement >> destroyPaneWhenDeselected: aBoolean [
+
+	self items do: [ :tabButton |
+		tabButton destroyPaneWhenDeselected: aBoolean ]
+]
+
+{ #category : #accessing }
 ToTabPaneElement >> header [ 
 
 	^ headerContainer 

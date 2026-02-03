@@ -1088,8 +1088,8 @@ ToSandBox class >> example_AnimatedAnnulus [
 	| container animation colors |
 	container := ToAnnulusCircularElement new.
 	container geometry: BlCircleGeometry new.
-	container extent: 24 asPoint.
-	container innerRadius: 0.20.
+	container matchParent.
+	container innerRadius: 0.05.
 	container outerRadius: 1.0.
 
 	colors := Color wheel: 8.
@@ -1103,6 +1103,7 @@ ToSandBox class >> example_AnimatedAnnulus [
 		             beInfinite;
 		             from: 0;
 		             to: 360;
+		             duration: 3 seconds;
 		             onStepDo: [ :number :anElement |
 			             anElement startAngle: number ].
 	container addAnimation: animation.
@@ -10200,9 +10201,16 @@ ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 { #category : #tabPane }
 ToSandBox class >> tabPaneElementDashBoardFor: aTabPaneElement [
 
-	| mainPane confPane hideParlyVisibleNodesSwitch layoutModeSwitch alignmentGroup |
+	| mainPane confPane hideParlyVisibleNodesSwitch layoutModeSwitch alignmentGroup paneDestroySwith |
 	mainPane := self tabGroupElementDashBoardFor: aTabPaneElement.
 	confPane := mainPane childWithId: #configurationPane.
+
+	paneDestroySwith := ToSwitchButton new labelText: 'Destroy pane when deselected'.
+	paneDestroySwith checkAction: [ :evt |
+			aTabPaneElement destroyPaneWhenDeselected: evt target isChecked ].
+	paneDestroySwith startFlexible: true.
+	paneDestroySwith hMatchParent.
+	confPane addChild: paneDestroySwith.
 
 	confPane addChild: (ToLabel new text: 'Alignment').
 	alignmentGroup := ToCheckableGroupPane vertical.
@@ -10270,7 +10278,7 @@ ToSandBox class >> tabPaneElementWithUSStates [
 							editorEvent target text: acceptedEvent target text.
 							holder listElement selecter
 								scrollTowardEndToDataSourcePosition: holder position ] ].
-			tabButton destroyPaneWhenDeselected: true.
+			tabButton destroyPaneWhenDeselected: false.
 			tabButton
 				label: lab;
 				tooltipString: aData asString;
@@ -10283,15 +10291,13 @@ ToSandBox class >> tabPaneElementWithUSStates [
 							background: (c alpha: 0.1);
 							yourself ];
 				paneBuilder: [ :pane :button :bholder |
-						| emptyPh |
-						emptyPh := (ToEmptyPlaceholderLayer withEmpty:
-							            (ToEmpty waiting labelText: 'waiting...'))
-							           attachToParent: pane.
-						pane userData at: #placeholder put: emptyPh ];
-				paneDestroyer: [ :pane :button :bholder |
-						| emptyPh |
-						emptyPh := pane userData at: #placeholder.
-						emptyPh removeFromParent ];
+						pane userData at: #placeholder ifAbsent: [
+								| emptyPh |
+								emptyPh := (ToEmptyPlaceholderLayer withEmpty:
+									            (ToEmpty waiting labelText: 'waiting...'))
+									           attachToParent: pane.
+								pane userData at: #placeholder put: emptyPh ] ];
+				paneDestroyer: [ :pane :button :bholder |  ];
 				yourself ].
 	(self statesOfAmerica copyFrom: 1 to: 20) do: [ :l |
 		tpane addTabItemData: l ].

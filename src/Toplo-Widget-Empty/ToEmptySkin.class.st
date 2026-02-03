@@ -67,8 +67,7 @@ ToEmptySkin >> waitingAnimatedImageIn: anEmpty [
 				          height: sectorHeight;
 				          yourself.
 			sector visibility: BlVisibility hidden.
-			container addChild: sector.
-			].
+			container addChild: sector ].
 
 	" the element rotation animation animation "
 	animation := BlNumberTransition new
@@ -86,8 +85,8 @@ ToEmptySkin >> waitingAnimatedImageIn: anEmpty [
 	container whenLayoutedDoOnce: [
 			container addAnimation: animation.
 			container childrenDo: [ :sector |
-				self installSector: sector.
-				sector visibility: BlVisibility visible. ] ].
+					self installSector: sector.
+					sector visibility: BlVisibility visible ] ].
 
 	^ container
 ]

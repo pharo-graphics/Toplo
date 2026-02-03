@@ -304,7 +304,8 @@ ToBasicListElement >> initialize [
 
 	self matchParent.
 	" get the innerElement to build it and allow selection 
-	of items to be done *** before *** it is added in a space"
+	of items to be done *** before *** it is added in a space 
+	(at least in case of a finite one)"
 	self innerElement
 ]
 

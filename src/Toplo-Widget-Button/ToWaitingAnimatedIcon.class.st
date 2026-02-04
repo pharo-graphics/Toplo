@@ -1,9 +1,11 @@
 Class {
 	#name : #ToWaitingAnimatedIcon,
 	#superclass : #ToIconicButton,
+	#traits : 'TObservable',
+	#classTraits : 'TObservable classTrait',
 	#instVars : [
-		'sectorBackground',
-		'sectorHeight'
+		'#sectorBackground => ObservableSlot',
+		'#sectorHeight => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-Button-Iconic'
 }
@@ -26,7 +28,7 @@ ToWaitingAnimatedIcon >> defaultSize [
 	^ 40 
 ]
 
-{ #category : #'instance creation' }
+{ #category : #accessing }
 ToWaitingAnimatedIcon >> duration [
 		^ 2 seconds
 ]
@@ -35,16 +37,20 @@ ToWaitingAnimatedIcon >> duration [
 ToWaitingAnimatedIcon >> initialize [
 
 	super initialize.
+	self class initializeSlots: self.
+
 	sectorBackground := self defaultSectorBackground.
 	sectorHeight := self defaultSectorHeight.
 	self
 		addEventHandlerOn: BlElementExtentChangedEvent
-		do: [ self innerImage: self newAnimatedImage ].
+		do: [ self renewInnerImage ].
 	self extent: self defaultSize asPoint.
 
+	#( #sectorBackground #sectorHeight ) do: [ :prop |
+		self property: prop whenChangedDo: [ self renewInnerImage ] ]
 ]
 
-{ #category : #'instance creation' }
+{ #category : #private }
 ToWaitingAnimatedIcon >> installSector: aSector [ 
 
 	| startAngle radius width idx angleGap sectorHGap |
@@ -72,7 +78,7 @@ ToWaitingAnimatedIcon >> installSector: aSector [
 			t rotateBy: startAngle ]
 ]
 
-{ #category : #'instance creation' }
+{ #category : #accessing }
 ToWaitingAnimatedIcon >> loops [
 
 	^ 10
@@ -81,21 +87,32 @@ ToWaitingAnimatedIcon >> loops [
 { #category : #'instance creation' }
 ToWaitingAnimatedIcon >> newAnimatedImage [
 
-	| innerImage animation |
+	| sectors innerImage |
 	innerImage := BlElement new.
 	innerImage matchParent.
 	innerImage visibility: BlVisibility hidden.
 
-	self numberOfSectors timesRepeat: [
-			| sector |
-			sector := BlElement new
-				          geometry: self newSectorGeometry;
-				          background: sectorBackground;
-				          height: sectorHeight;
-				          yourself.
-			innerImage addChild: sector ].
+	sectors := Array
+		           new: self numberOfSectors
+		           streamContents: [ :stream |
+			           self numberOfSectors timesRepeat: [
+				           stream nextPut: self newSector ] ].
+	innerImage addChildren: sectors.
 
-	" the element rotation animation animation "
+	" terminate the sectors installation: calculate their width and their rotation transformation "
+	innerImage whenLayoutedDoOnce: [
+			innerImage childrenDo: [ :sector | self installSector: sector ].
+			innerImage addAnimation: self newAnimation.
+			innerImage whenLayoutedDoOnce: [
+				innerImage visibility: BlVisibility visible ] ].
+
+	^ innerImage
+]
+
+{ #category : #'instance creation' }
+ToWaitingAnimatedIcon >> newAnimation [
+
+	| animation |
 	animation := BlNumberTransition new
 		             loops: self loops;
 		             from: 0;
@@ -104,31 +121,33 @@ ToWaitingAnimatedIcon >> newAnimatedImage [
 		             yourself.
 	"beInfinite;"
 	animation onStepDo: [ :number :anElement |
-			innerImage transformDo: [ :t |
+			self image transformDo: [ :t |
 					t origin:
 						(BlAffineTransformationPositionOrigin position: self extent / 2).
 					t rotateBy: number ] ].
-
-	" terminate the sectors installation: calculate their width and their rotation transformation "
-	innerImage whenLayoutedDoOnce: [
-			innerImage addAnimation: animation.
-			innerImage childrenDo: [ :sector | self installSector: sector ].
-			innerImage whenLayoutedDoOnce: [
-				innerImage visibility: BlVisibility visible ] ].
-
-	^ innerImage
+	^ animation
 ]
 
 { #category : #'instance creation' }
-ToWaitingAnimatedIcon >> newSectorGeometry [
+ToWaitingAnimatedIcon >> newSector [
 
-	^ BlStadiumGeometry new
+	^ BlElement new
+		  geometry: self sectorGeometry;
+		  background: sectorBackground;
+		  height: sectorHeight;
+		  yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : #accessing }
 ToWaitingAnimatedIcon >> numberOfSectors [
 
 	^ 8 
+]
+
+{ #category : #private }
+ToWaitingAnimatedIcon >> renewInnerImage [
+
+	self innerImage: self newAnimatedImage
 ]
 
 { #category : #accessing }
@@ -140,9 +159,14 @@ ToWaitingAnimatedIcon >> sectorBackground [
 { #category : #accessing }
 ToWaitingAnimatedIcon >> sectorBackground: aBackground [
 
-	sectorBackground := aBackground.
-	self image ifNil: [ ^ self ].
-	self image childrenDo: [ :child | child background: aBackground ]
+	sectorBackground = aBackground ifTrue: [ ^ self ].
+	sectorBackground := aBackground
+]
+
+{ #category : #accessing }
+ToWaitingAnimatedIcon >> sectorGeometry [
+
+	^ BlStadiumGeometry new
 ]
 
 { #category : #accessing }
@@ -154,7 +178,6 @@ ToWaitingAnimatedIcon >> sectorHeight [
 { #category : #accessing }
 ToWaitingAnimatedIcon >> sectorHeight: aNumber [
 
-	sectorHeight := aNumber.
-	self image ifNil: [ ^ self ].
-	self image childrenDo: [ :child | child height: aNumber ]
+	sectorHeight = aNumber ifTrue: [ ^ self ].
+	sectorHeight := aNumber
 ]

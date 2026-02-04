@@ -29,7 +29,7 @@ ToEmptySkin >> waitingAnimatedImageIn: anEmpty [
 
 	| image |
 	image := ToWaitingAnimatedIcon new.
-	image sectorHeight: 
+	image sectorThickness: 
 		(anEmpty valueOfTokenNamed: #'empty-sector-height').
 	image extent:
 		(anEmpty valueOfTokenNamed: #'empty-image-size') asPoint.

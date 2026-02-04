@@ -4,34 +4,6 @@ Class {
 	#category : #'Toplo-Widget-Empty'
 }
 
-{ #category : #accessing }
-ToEmptySkin >> installSector: aSector [ 
-
-	| startAngle radius width idx angleGap sectorHGap |
-	idx := aSector parent childIndexOf: aSector.
-	sectorHGap := aSector height.
-	angleGap := 360 / aSector parent  children size.
-	startAngle := idx * angleGap.
-
-	radius := aSector parent extent min / 2.
-	width := radius - sectorHGap.
-
-	aSector width: width.
-
-	" position the sector at center "
-	aSector constraintsDo: [ :c |
-			c ignoreByLayout.
-			c anchors add: (c anchors verticalCenterAnchor on:
-					 c anchors parent verticalCenterAnchor).
-			c anchors add: (c anchors leftAnchor on:
-					 c anchors parent horizontalCenterAnchor + sectorHGap) ].
-
-	aSector transformDo: [ :t |
-			t origin: (BlAffineTransformationPositionOrigin position:
-					 sectorHGap negated @ (aSector height / 2)).
-			t rotateBy: startAngle ]
-]
-
 { #category : #'event handling' }
 ToEmptySkin >> installSkinEvent: anEvent [
 
@@ -55,43 +27,13 @@ ToEmptySkin >> installSkinEvent: anEvent [
 { #category : #accessing }
 ToEmptySkin >> waitingAnimatedImageIn: anEmpty [
 
-	| container animation extent background center sectorHeight |
-	extent := (anEmpty valueOfTokenNamed: #'empty-image-size') asPoint.
-	center := extent / 2.
-	sectorHeight := anEmpty valueOfTokenNamed: #'empty-sector-height'.
-	background := anEmpty valueOfTokenNamed: #'color-text-placeholder'.
-	container := BlElement new.
-	container extent: extent.
-	container visibility: BlVisibility hidden.
-
-	8 timesRepeat: [
-			| sector |
-			sector := BlElement new
-				          geometry: BlStadiumGeometry new;
-				          background: background;
-				          height: sectorHeight;
-				          yourself.
-			container addChild: sector ].
-
-	" the element rotation animation animation "
-	animation := BlNumberTransition new
-		             "beInfinite;"
-		             loops: 10;
-		             from: 0;
-		             to: 360;
-		             duration: 2 seconds;
-		             yourself.
-	animation onStepDo: [ :number :anElement |
-			container transformDo: [ :t |
-					t origin: (BlAffineTransformationPositionOrigin position: center).
-					t rotateBy: number ] ].
-
-	" terminate the sectors installation: calculate their width and their rotation transformation "
-	container whenLayoutedDoOnce: [
-			container addAnimation: animation.
-			container childrenDo: [ :sector | self installSector: sector ].
-			container whenLayoutedDoOnce: [
-				container visibility: BlVisibility visible ] ].
-
-	^ container
+	| image |
+	image := ToWaitingAnimatedIcon new.
+	image sectorHeight: 
+		(anEmpty valueOfTokenNamed: #'empty-sector-height').
+	image extent:
+		(anEmpty valueOfTokenNamed: #'empty-image-size') asPoint.
+	image sectorBackground:
+		(anEmpty valueOfTokenNamed: #'color-text-placeholder').
+	^ image
 ]

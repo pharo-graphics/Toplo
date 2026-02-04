@@ -3497,6 +3497,7 @@ ToSandBox class >> example_MixedEventGenerator [
 		     id: #'my-element';
 		     yourself.
 	e addEventHandler: (ToMixedEventGeneratorHandler new
+			 needRepeatedEvent: true;
 			 startDelay: 500 milliSeconds;
 			 delay: 200 milliSeconds;
 			 yourself).
@@ -7497,6 +7498,7 @@ ToSandBox class >> example_stillHoveredEventWithMixedHandler [
 			 background: Color gray;
 			 yourself).
 	e addEventHandler: (ToMixedEventGeneratorHandler new
+			 needRepeatedEvent: true;
 			 startDelay: 500 milliSeconds;
 			 activateOnPressed: false;
 			 yourself).
@@ -7581,6 +7583,7 @@ ToSandBox class >> example_stillPressedEventWithMixedHandler [
 		     id: #'my-element';
 		     yourself.
 	e addEventHandler: (ToMixedEventGeneratorHandler new
+			 needRepeatedEvent: true;
 			 startDelay: 500 milliSeconds;
 			 delay: 200 milliSeconds;
 			 activateOnHovered: false;

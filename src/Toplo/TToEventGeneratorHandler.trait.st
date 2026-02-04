@@ -3,6 +3,7 @@ Trait {
 	#instVars : [
 		'checker',
 		'delay',
+		'needRepeatedEvent',
 		'time',
 		'startDelay',
 		'startTime',
@@ -32,6 +33,7 @@ TToEventGeneratorHandler >> delay: aDuration [
 { #category : #'t - event generator handler' }
 TToEventGeneratorHandler >> initializeAsEventGeneratorHandler [
 
+	needRepeatedEvent := false.
 	delay := 0 milliSeconds.
 	startDelay := 0 milliSeconds.
 	time := BlTime real.
@@ -42,6 +44,12 @@ TToEventGeneratorHandler >> initializeAsEventGeneratorHandler [
 TToEventGeneratorHandler >> mouseUpOutsideEvent: anEvent [
 
 	self stopEvent: anEvent
+]
+
+{ #category : #'t - event generator handler' }
+TToEventGeneratorHandler >> needRepeatedEvent: aBoolean [
+
+	needRepeatedEvent := aBoolean
 ]
 
 { #category : #'t - event generator handler' }
@@ -117,13 +125,14 @@ TToEventGeneratorHandler >> taskActionFromEvent: anEvent in: aTarget [
 	now >= (startTime + startDelay) ifFalse: [ ^ self ].
 	evt := startEvent
 		       ifNil: [
-			       startEvent := self newStartEvent
-				                     sourceEvent: anEvent copy;
-				                     yourself ]
+				       startEvent := self newStartEvent
+					                     sourceEvent: anEvent copy;
+					                     yourself ]
 		       ifNotNil: [
-			       self newRepeatedEvent 
-				       sourceEvent: anEvent copy;
-				       yourself ].
+				       needRepeatedEvent ifFalse: [ ^ self ].
+				       self newRepeatedEvent
+					       sourceEvent: anEvent copy;
+					       yourself ].
 	aTarget dispatchEvent: evt.
 	evt isConsumed ifTrue: [ self stopTaskFromEvent: anEvent in: aTarget ]
 ]

@@ -9,15 +9,39 @@ Class {
 }
 
 { #category : #initialization }
-ToWaitingAnimatedIcon >> initialize [ 
+ToWaitingAnimatedIcon >> defaultSectorBackground [ 
+
+	^ Color lightGray
+]
+
+{ #category : #initialization }
+ToWaitingAnimatedIcon >> defaultSectorHeight [
+
+	^ 6 
+]
+
+{ #category : #initialization }
+ToWaitingAnimatedIcon >> defaultSize [
+
+	^ 40 
+]
+
+{ #category : #'instance creation' }
+ToWaitingAnimatedIcon >> duration [
+		^ 2 seconds
+]
+
+{ #category : #initialization }
+ToWaitingAnimatedIcon >> initialize [
 
 	super initialize.
-	self addEventHandlerOn: BlElementExtentChangedEvent do: [ self innerImage: self newAnimatedImage ].
-	sectorBackground := Color lightGray.
-	sectorHeight := 6.
-	self extent: 40 asPoint.
-	self innerImage: self newAnimatedImage 
-	
+	sectorBackground := self defaultSectorBackground.
+	sectorHeight := self defaultSectorHeight.
+	self
+		addEventHandlerOn: BlElementExtentChangedEvent
+		do: [ self innerImage: self newAnimatedImage ].
+	self extent: self defaultSize asPoint.
+
 ]
 
 { #category : #'instance creation' }
@@ -26,7 +50,7 @@ ToWaitingAnimatedIcon >> installSector: aSector [
 	| startAngle radius width idx angleGap sectorHGap |
 	idx := aSector parent childIndexOf: aSector.
 	sectorHGap := aSector height.
-	angleGap := 360 / aSector parent  children size.
+	angleGap := 360 / aSector parent children size.
 	startAngle := idx * angleGap.
 
 	radius := aSector parent extent min / 2.
@@ -49,6 +73,12 @@ ToWaitingAnimatedIcon >> installSector: aSector [
 ]
 
 { #category : #'instance creation' }
+ToWaitingAnimatedIcon >> loops [
+
+	^ 10
+]
+
+{ #category : #'instance creation' }
 ToWaitingAnimatedIcon >> newAnimatedImage [
 
 	| innerImage animation |
@@ -56,10 +86,10 @@ ToWaitingAnimatedIcon >> newAnimatedImage [
 	innerImage matchParent.
 	innerImage visibility: BlVisibility hidden.
 
-	8 timesRepeat: [
+	self numberOfSectors timesRepeat: [
 			| sector |
 			sector := BlElement new
-				          geometry: BlStadiumGeometry new;
+				          geometry: self newSectorGeometry;
 				          background: sectorBackground;
 				          height: sectorHeight;
 				          yourself.
@@ -67,10 +97,10 @@ ToWaitingAnimatedIcon >> newAnimatedImage [
 
 	" the element rotation animation animation "
 	animation := BlNumberTransition new
-		             loops: 10;
+		             loops: self loops;
 		             from: 0;
 		             to: 360;
-		             duration: 2 seconds;
+		             duration: self duration;
 		             yourself.
 	"beInfinite;"
 	animation onStepDo: [ :number :anElement |
@@ -87,6 +117,18 @@ ToWaitingAnimatedIcon >> newAnimatedImage [
 				innerImage visibility: BlVisibility visible ] ].
 
 	^ innerImage
+]
+
+{ #category : #'instance creation' }
+ToWaitingAnimatedIcon >> newSectorGeometry [
+
+	^ BlStadiumGeometry new
+]
+
+{ #category : #'instance creation' }
+ToWaitingAnimatedIcon >> numberOfSectors [
+
+	^ 8 
 ]
 
 { #category : #accessing }

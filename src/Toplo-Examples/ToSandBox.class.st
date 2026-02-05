@@ -1379,7 +1379,7 @@ ToSandBox class >> example_CheckBoxWithDefaultStyleSheetDarkTheme [
 ]
 
 { #category : #checkables }
-ToSandBox class >> example_CheckableGroup [
+ToSandBox class >> example_CheckableGroupPane [
 
 	| cgroup |
 	cgroup := ToCheckableGroupPane new.
@@ -1576,7 +1576,7 @@ ToSandBox class >> example_CheckboxStartFlexible [
 ]
 
 { #category : #checkables }
-ToSandBox class >> example_CheckboxStartFlexibleWithGroup [
+ToSandBox class >> example_CheckboxStartFlexibleWithGroupPane [
 
 	| group |
 	group := ToCheckableGroupPane vertical.
@@ -5341,22 +5341,6 @@ ToSandBox class >> example_ToggleButtonChecked [
 ]
 
 { #category : #'toggle button' }
-ToSandBox class >> example_ToggleButtonGroupAndStrictStrategy [
-
-	| group |
-	group := ToCheckableGroupPane vertical.
-	{ 'Monday'. 'Tuesday'. 'Wednesday'. 'Thursday'. 'Friday' } do: [ :day |
-		group addChild: (ToToggleButton new
-				 labelText: day;
-				 hMatchParent;
-				 yourself) ].
-	group
-		groupCheckAction: [ :evt | evt checkedList traceCr ].
-	group openInSpace.
-	group registeredCheckables second checked: true.
-]
-
-{ #category : #'toggle button' }
 ToSandBox class >> example_ToggleButtonGroupAndWeakStrategy [
 
 	| group groupContainer |
@@ -5376,6 +5360,22 @@ ToSandBox class >> example_ToggleButtonGroupAndWeakStrategy [
 	groupContainer width: 150.
 	groupContainer addChildren: group registeredCheckables.
 	groupContainer openInSpace
+]
+
+{ #category : #'toggle button' }
+ToSandBox class >> example_ToggleButtonGroupPaneAndStrictStrategy [
+
+	| group |
+	group := ToCheckableGroupPane vertical.
+	{ 'Monday'. 'Tuesday'. 'Wednesday'. 'Thursday'. 'Friday' } do: [ :day |
+		group addChild: (ToToggleButton new
+				 labelText: day;
+				 hMatchParent;
+				 yourself) ].
+	group
+		groupCheckAction: [ :evt | evt checkedList traceCr ].
+	group openInSpace.
+	group registeredCheckables second checked: true.
 ]
 
 { #category : #'toggle button' }
@@ -5935,6 +5935,7 @@ ToSandBox class >> example_checkableListElement [
 			| item |
 			item := ToToggleButton new labelText: l.
 			item width: 150.
+			item height: 50.
 			bar addItem: item ].
 	space show.
 	bar

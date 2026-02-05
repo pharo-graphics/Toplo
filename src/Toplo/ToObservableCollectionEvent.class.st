@@ -1,5 +1,5 @@
 Class {
-	#name : #ToAbstractCollectionChangedEvent,
+	#name : #ToObservableCollectionEvent,
 	#superclass : #BlEvent,
 	#instVars : [
 		'interval'
@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #accessing }
-ToAbstractCollectionChangedEvent >> interval [
+ToObservableCollectionEvent >> interval [
 
 	^ interval
 ]
 
 { #category : #accessing }
-ToAbstractCollectionChangedEvent >> interval: anInterval [
+ToObservableCollectionEvent >> interval: anInterval [
 
 	interval := anInterval
 ]

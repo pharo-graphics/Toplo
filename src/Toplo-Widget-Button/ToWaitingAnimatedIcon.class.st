@@ -1,77 +1,21 @@
 Class {
 	#name : #ToWaitingAnimatedIcon,
-	#superclass : #ToIconicButton,
-	#traits : 'TObservable',
-	#classTraits : 'TObservable classTrait',
+	#superclass : #ToAnimatedIcon,
 	#instVars : [
 		'#sectorGeometryClass => ObservableSlot',
 		'#sectorBackground => ObservableSlot',
 		'#outerRadius => ObservableSlot',
 		'#innerRadius => ObservableSlot',
 		'#sectorThickness => ObservableSlot',
-		'#numberOfSectors => ObservableSlot',
-		'#loops => ObservableSlot',
-		'#duration => ObservableSlot',
-		'#animationFactory => ObservableSlot',
-		'#currentAnimation'
+		'#numberOfSectors => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-Button-Iconic'
 }
-
-{ #category : #accessing }
-ToWaitingAnimatedIcon >> animationFactory [
-
-	^ animationFactory
-]
-
-{ #category : #accessing }
-ToWaitingAnimatedIcon >> animationFactory: aValuable [
-
-	" nil means no animation "
-	animationFactory := aValuable
-]
-
-{ #category : #accessing }
-ToWaitingAnimatedIcon >> beInfinite [
-
-	"nil min an infinite animation"
-	self loops: nil
-]
-
-{ #category : #initialization }
-ToWaitingAnimatedIcon >> defaultAnimationFactory [
-
-	^ [
-		  | default |
-		  default := BlNumberTransition new
-			             from: 0;
-			             to: 360;
-			             yourself.
-		  default onStepDo: [ :number :anElement |
-				  self image transformDo: [ :t |
-						  t origin:
-							  (BlAffineTransformationPositionOrigin position:
-								   self extent / 2).
-						  t rotateBy: number ] ].
-		  default ]
-]
-
-{ #category : #initialization }
-ToWaitingAnimatedIcon >> defaultDuration [
-
-	^ 2 seconds
-]
 
 { #category : #initialization }
 ToWaitingAnimatedIcon >> defaultInnerRadius [
 
 	^ 0.30
-]
-
-{ #category : #initialization }
-ToWaitingAnimatedIcon >> defaultLoops [
-
-	^ 10
 ]
 
 { #category : #initialization }
@@ -105,28 +49,9 @@ ToWaitingAnimatedIcon >> defaultSectorThickness [
 ]
 
 { #category : #initialization }
-ToWaitingAnimatedIcon >> defaultSize [
-
-	^ 40 
-]
-
-{ #category : #accessing }
-ToWaitingAnimatedIcon >> duration [
-
-	^ duration
-]
-
-{ #category : #accessing }
-ToWaitingAnimatedIcon >> duration: anObject [
-
-	duration := anObject
-]
-
-{ #category : #initialization }
 ToWaitingAnimatedIcon >> initialize [
 
 	super initialize.
-	self class initializeSlots: self.
 
 	innerRadius := self defaultInnerRadius.
 	outerRadius := self defaultOuterRadius.
@@ -134,17 +59,9 @@ ToWaitingAnimatedIcon >> initialize [
 	sectorThickness := self defaultSectorThickness.
 	numberOfSectors := self defaultNumberOfSectors.
 	sectorGeometryClass := self defaultSectorGeometryClass.
-	loops := self defaultLoops.
-	duration := self defaultDuration.
-	animationFactory := self defaultAnimationFactory.
-	
-	self
-		addEventHandlerOn: BlElementExtentChangedEvent
-		do: [ self renewInnerImage ].
-	self extent: self defaultSize asPoint.
 
 	#( #sectorBackground #sectorThickness #innerRadius #outerRadius
-	   #numberOfSectors #sectorGeometryClass #loops #duration #animationFactory) do: [ :prop |
+	   #numberOfSectors #sectorGeometryClass ) do: [ :prop |
 		self property: prop whenChangedDo: [ self renewInnerImage ] ]
 ]
 
@@ -187,19 +104,6 @@ ToWaitingAnimatedIcon >> installSector: aSector [
 			t origin: (BlAffineTransformationPositionOrigin position:
 					 inner negated @ (aSector height / 2)).
 			t rotateBy: startAngle ]
-]
-
-{ #category : #accessing }
-ToWaitingAnimatedIcon >> loops [
-
-	^ loops
-]
-
-{ #category : #accessing }
-ToWaitingAnimatedIcon >> loops: anInteger [
-
-	"nil min an infinite animation"
-	loops := anInteger 
 ]
 
 { #category : #'instance creation' }
@@ -264,17 +168,6 @@ ToWaitingAnimatedIcon >> outerRadius [
 ToWaitingAnimatedIcon >> outerRadius: anObject [
 
 	outerRadius := anObject
-]
-
-{ #category : #private }
-ToWaitingAnimatedIcon >> renewInnerImage [
-
-	currentAnimation ifNotNil: [ :ca |
-			ca stop.
-			self image transformDo: [ :t |
-				t origin: (BlAffineTransformationPositionOrigin position: 0 @ 0) ] ].
-	currentAnimation := nil.
-	self innerImage: self newAnimatedImage
 ]
 
 { #category : #accessing }

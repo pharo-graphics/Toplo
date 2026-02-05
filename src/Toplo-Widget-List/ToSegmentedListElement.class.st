@@ -11,6 +11,12 @@ ToSegmentedListElement >> defaultInnerElementClass [
 ]
 
 { #category : #initialization }
+ToSegmentedListElement >> defaultNodeManagerClass [
+
+	^ ToSegmentedListNodeManager
+]
+
+{ #category : #initialization }
 ToSegmentedListElement >> initialize [ 
 
 	super initialize.

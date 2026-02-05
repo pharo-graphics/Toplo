@@ -7258,44 +7258,38 @@ ToSandBox class >> example_segmentedWithCheckboxes [
 { #category : #segmented }
 ToSandBox class >> example_segmentedWithLabels [
 
-	| seg dashBoard rootPane feedbackPane maj |
+	| seg dashBoard rootPane feedbackPane maj feedbackLabel |
 	seg := ToSegmentedListElement new.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		seg addItem: (ToToggleButton new
-				 labelText: l;
-				 yourself) ].
+			seg addItem: (ToToggleButton new
+					 labelText: l;
+					 yourself) ].
 
 	(seg items at: 2) disable.
 	dashBoard := self segmentedDashBoardFor: seg.
 
 	feedbackPane := ToPane horizontal.
 	feedbackPane layout alignCenter.
+	feedbackPane addChild: (feedbackLabel := ToLabel new).
 	maj := [
-	       | t |
-	       feedbackPane removeChildren.
-	       t := String streamContents: [ :stream |
-		            seg dataAccessor withIndexDo: [ :e :idx |
-			            stream
-				            nextPutAll: e label text asString;
-				            nextPutAll: ': '.
-			            (seg selectionModel containsIndex: idx)
-				            ifTrue: [ stream nextPutAll: 'V ' ]
-				            ifFalse: [ stream nextPutAll: 'X ' ].
-			            stream nextPutAll: e checked asString.
-			            stream nextPutAll: ' '.
-			            idx < seg dataAccessor itemCount ifTrue: [
-				            stream nextPutAll: '- ' ] ] ].
-	       feedbackPane addChild: (ToLabel text: t) ].
+		       | t |
+		       t := String streamContents: [ :stream |
+				            seg dataAccessor withIndexDo: [ :e :idx |
+						            stream
+							            nextPutAll: e label text asString;
+							            nextPutAll: ': '.
+						            (seg selectionModel containsIndex: idx)
+							            ifTrue: [ stream nextPutAll: 'X    ' ]
+							            ifFalse: [ stream nextPutAll: '     ' ] ] ].
+		       feedbackLabel text: t ].
 
 	seg addEventHandler: (BlEventHandler
 			 on: ToListStrongSelectionEvent
 			 do: [ :event |
-				 ' double click ' trace.
-				 event indexes traceCr ]).
+					 ' double click ' trace.
+					 event indexes traceCr ]).
 
-	seg 
-		addEventHandlerOn: ToListPrimarySelectionChangedEvent
-		do: maj.
+	seg addEventHandlerOn: ToListPrimarySelectionChangedEvent do: maj.
 	seg addEventHandlerOn: ToAddedToSpaceEvent do: maj.
 	rootPane := ToPane vertical.
 	rootPane matchParent.

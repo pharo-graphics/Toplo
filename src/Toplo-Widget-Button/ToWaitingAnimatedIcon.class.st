@@ -12,6 +12,41 @@ Class {
 	#category : #'Toplo-Widget-Button-Iconic'
 }
 
+{ #category : #accessing }
+ToWaitingAnimatedIcon >> animatedImage [ 
+
+	^ self image firstChild
+]
+
+{ #category : #initialization }
+ToWaitingAnimatedIcon >> defaultAnimationFactory [
+
+	^ [
+		  | colors gap |
+		  " alpha increment "
+		  gap := 1 / numberOfSectors asFloat.
+		  " build a color ramp "
+		  colors := (self sectors asArray copyWithoutFirst withIndexCollect:
+			            [ :sec :idx | sectorBackground alpha: gap * idx ])
+			            , { sectorBackground }.
+		  BlTransition new
+			  onStepDo: [ :number :anElement |
+					  | pos |
+					  pos := (number * 100) asInteger \\ numberOfSectors + 1.
+					  " apply the ramp on sectors "
+					  self sectors withIndexDo: [ :child :idx |
+								  | bg |
+								  bg := colors at: idx - pos \\ numberOfSectors + 1.
+								  child background: bg ] ];
+			  yourself ]
+]
+
+{ #category : #initialization }
+ToWaitingAnimatedIcon >> defaultDuration [
+
+	^ 12 seconds
+]
+
 { #category : #initialization }
 ToWaitingAnimatedIcon >> defaultInnerRadius [
 
@@ -45,7 +80,7 @@ ToWaitingAnimatedIcon >> defaultSectorGeometryClass [
 { #category : #initialization }
 ToWaitingAnimatedIcon >> defaultSectorThickness [
 
-	^ 6 
+	^ 5
 ]
 
 { #category : #initialization }
@@ -212,4 +247,10 @@ ToWaitingAnimatedIcon >> sectorThickness: aNumber [
 
 	sectorThickness = aNumber ifTrue: [ ^ self ].
 	sectorThickness := aNumber
+]
+
+{ #category : #accessing }
+ToWaitingAnimatedIcon >> sectors [ 
+
+	^ self animatedImage children
 ]

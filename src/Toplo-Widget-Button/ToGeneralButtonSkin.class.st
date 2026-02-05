@@ -54,8 +54,7 @@ ToGeneralButtonSkin >> installSkinEvent: anEvent [
 		(e hasStamp: #circle)
 			ifTrue: [ e geometry: BlCircleGeometry new ]
 			ifFalse: [
-				e geometry: (BlRoundedRectangleGeometry cornerRadius:
-						 (e valueOfTokenNamed: 'border-radius')) ].
+				e geometry: BlStadiumGeometry new ].
 		(e hasStamp: #iconic) ifFalse: [
 				e padding: (BlInsets
 						 horizontal: (e valueOfTokenNamed: #'padding-XS')

@@ -41,6 +41,15 @@ TToListItem >> hidden: aBoolean [
 ]
 
 { #category : #'t - list item' }
+TToListItem >> isSegmentedItem [
+
+	^ self
+		  withAllParentsDetect: [ :p | p isKindOf: ToSegmentedListElement ]
+		  ifFound: [ :p | true ]
+		  ifNone: [ false ]
+]
+
+{ #category : #'t - list item' }
 TToListItem >> isSelected [
 
 	self listElementDo: [ :l | ^ l isSelectedItem: self ].

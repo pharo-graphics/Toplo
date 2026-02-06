@@ -241,6 +241,16 @@ BlElement >> enabled: aBoolean [
 { #category : #'*Toplo' }
 BlElement >> ensureCanManageSkin [
 
+	self
+		deprecated: 'Use #ensureCanManageToploSkin'
+		transformWith:
+		'`@rcvr ensureCanManageSkin' -> '`@rcvr ensureCanManageToploSkin'.
+	self ensureCanManageToploSkin
+]
+
+{ #category : #'*Toplo' }
+BlElement >> ensureCanManageToploSkin [
+
 	self ensureHaveSkinManager.
 	(self eventDispatcher hasEventHandlerSuchThat: [ :h |
 		 h isKindOf: ToSkinStateGenerator ]) ifFalse: [

@@ -2732,7 +2732,7 @@ ToSandBox class >> example_ListWithAllClassesAndTraitsSorted [
 
 	| l vscrollBar space |
 	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
-			node ensureCanManageSkin.
+			node ensureCanManageToploSkin.
 		     node addChild: (ToClassNameViewExamplePart new
 				      class: dataItem position: holder position;
 				      yourself) ].
@@ -6072,7 +6072,7 @@ ToSandBox class >> example_contactList [
 
 	list nodeBuilder: [ :node :dataItem :holder |
 			| line remBut |
-			node ensureCanManageSkin.
+			node ensureCanManageToploSkin.
 			line := ToElement new
 				        layout: BlLinearLayout horizontal; hMatchParent;
 		        vFitContent.

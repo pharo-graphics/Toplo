@@ -26,9 +26,10 @@ ToWaitingAnimatedIcon >> defaultAnimationFactory [
 		  " alpha increment "
 		  gap := 1 / numberOfSectors asFloat.
 		  " build a color ramp "
-		  colors := (self sectors asArray copyWithoutFirst withIndexCollect:
-			            [ :sec :idx | sectorBackground alpha: gap * idx ])
-			            , { sectorBackground }.
+		  colors := (self sectors asArray copyWithoutFirst
+			             withIndexCollect: [ :sec :idx |
+			             sectorBackground alpha: gap * idx ])
+		            , { sectorBackground }.
 		  BlTransition new
 			  onStepDo: [ :number :anElement |
 					  | pos |
@@ -38,6 +39,9 @@ ToWaitingAnimatedIcon >> defaultAnimationFactory [
 								  | bg |
 								  bg := colors at: idx - pos \\ numberOfSectors + 1.
 								  child background: bg ] ];
+			  onFinishedDo: [
+					  colors := nil.
+					  currentAnimation := nil ];
 			  yourself ]
 ]
 

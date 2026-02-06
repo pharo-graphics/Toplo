@@ -539,6 +539,12 @@ ToListSelecter >> selectedIndexes [
 ]
 
 { #category : #accessing }
+ToListSelecter >> selectedIndexesIntervalsDo: aBlock [
+
+	^ self selectionModel selectedIndexesIntervalsDo: aBlock
+]
+
+{ #category : #accessing }
 ToListSelecter >> selectionChangedEventClass [
 
 	^ selectionChangedEventClass

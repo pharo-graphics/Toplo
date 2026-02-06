@@ -57,7 +57,7 @@ ToNodeContainer >> applyHorizontalConfiguration [
 	list := self holder listElement.
 	conf := list toConfiguration.
 
-	self vMatchParent.
+	self vFitElement: self node.
 	(list useInfiniteLayout not and: [ conf autoDistribute ])
 		ifTrue: [ self hMatchParent ]
 		ifFalse: [ self hExactOrFitContent ]
@@ -82,7 +82,7 @@ ToNodeContainer >> applyVerticalConfiguration [
 	list := self holder listElement.
 	conf := list toConfiguration.
 
-	self hMatchParent.
+	self hFitElement: self node.
 	(list useInfiniteLayout not and: [ conf autoDistribute ])
 		ifTrue: [ self vMatchParent ]
 		ifFalse: [ self vExactOrFitContent ]

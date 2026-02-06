@@ -4174,7 +4174,6 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistribution [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
-	"select maxSelectedCount: 6."
 	select isFlowable: false.
 	select autoDistribute: true.
 	select hideSelected: false.

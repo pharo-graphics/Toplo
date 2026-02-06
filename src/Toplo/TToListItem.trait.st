@@ -8,6 +8,13 @@ TToListItem >> applyConfigurationAsListItem [
 
 	self isHExact ifTrue: [ ^ self ].
 	self listHolderDo: [ :h |
+			| conf |
+			conf := self listElement toConfiguration.
+			(self listElement useInfiniteLayout not and: [ conf autoDistribute ])
+				ifTrue: [
+						^ self listElement isHorizontal
+							  ifTrue: [ self hMatchParent ]
+							  ifFalse: [ self vMatchParent ] ].
 			h listElement isHorizontal
 				ifTrue: [ self hFitContent ]
 				ifFalse: [ self hMatchParent ] ]

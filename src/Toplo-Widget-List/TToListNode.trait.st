@@ -8,9 +8,13 @@ TToListNode >> applyConfigurationAsListNode [
 
 	| conf |
 	conf := self listElement toConfiguration.
+	(self listElement useInfiniteLayout not and: [ conf autoDistribute ])
+		ifTrue: [
+				self listElement isHorizontal
+					ifTrue: [ self hMatchParent ]
+					ifFalse: [ self vMatchParent ] ].
 	conf exactNodeWidth ifNotNil: [ :w | self hExact: w ].
 	conf exactNodeHeight ifNotNil: [ :h | self vExact: h ].
-
 	self isHExact ifFalse: [ self hMatchParent ].
 	self isVExact ifFalse: [ self vMatchParent ]
 ]

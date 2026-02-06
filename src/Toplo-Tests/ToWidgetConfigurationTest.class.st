@@ -24,7 +24,7 @@ ToWidgetConfigurationTest >> testElementAddedInSpace [
 	space := BlSpace new.
 	space root addChild: element.
 	self assert: element configurationCount equals: 1.
-	space root checkConfigurationPassDeeply.
+	space root checkConfigurationPassDeeplyInSpace: space.
 	" the configuration should not be runned again "
 	self assert: element configurationCount equals: 1.
 
@@ -40,9 +40,9 @@ ToWidgetConfigurationTest >> testElementApplyConfigurationProgrammaticallyAfterI
 	| space |
 	space := BlSpace new.
 	space root addChild: element.
-	element checkConfigurationPassDeeply.
+	element checkConfigurationPassDeeplyInSpace: space.
 	self assert: element configurationCount equals: 1.
-	space root checkConfigurationPassDeeply.
+	space root checkConfigurationPassDeeplyInSpace: space.
 	" the configuration should not be runned again "
 	self assert: element configurationCount equals: 1
 ]
@@ -60,7 +60,7 @@ ToWidgetConfigurationTest >> testElementApplyConfigurationProgrammaticallyBefore
 	space root addChild: element.
 	" the configuration is applied even it has been applied programmatically before"
 	self assert: element configurationCount equals: 2.
-	space root checkConfigurationPassDeeply.
+	space root checkConfigurationPassDeeplyInSpace: space.
 	" the configuration should not be runned again "
 	self assert: element configurationCount equals: 2
 ]

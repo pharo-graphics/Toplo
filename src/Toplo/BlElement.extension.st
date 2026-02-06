@@ -110,11 +110,11 @@ BlElement >> applySkinInstallersDeeply [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> applyUpwardConfiguration [
+BlElement >> applyUpwardConfigurationInSpace: aSpace [
 	" now consume the request for configuration to avoid 
 	a useless application during next pass if I'm send programmatically "
-	self spaceDo: [ :sp |
-		self nextConfigurationPass: sp runningConfigurationPass ].
+
+	self nextConfigurationPass: aSpace runningConfigurationPass.
 	self dispatchEvent: ToConfigurationAppliedEvent new
 ]
 
@@ -162,14 +162,15 @@ BlElement >> bottomUpStyleSheetChainDo: aBlock [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> checkConfigurationPassDeeply [
+BlElement >> checkConfigurationPassDeeplyInSpace: aSpace [
 
 	| requested |
-	requested := self isConfigurationRequested.
+	requested := self isConfigurationRequestedInSpace: aSpace.
 	requested ifTrue: [ self applyConfiguration ].
-	self childrenDo: [ :child | child checkConfigurationPassDeeply ].
+	self childrenDo: [ :child |
+		child checkConfigurationPassDeeplyInSpace: aSpace ].
 	requested ifFalse: [ ^ self ].
-	self applyUpwardConfiguration
+	self applyUpwardConfigurationInSpace: aSpace
 ]
 
 { #category : #'*Toplo' }
@@ -418,10 +419,9 @@ BlElement >> isActionRunnableAfter: aTimeStamp [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> isConfigurationRequested [
+BlElement >> isConfigurationRequestedInSpace: aSpace [
 
-	^ self isAttachedToSceneGraph and: [
-		  self nextConfigurationPass = self space runningConfigurationPass ]
+	^ self nextConfigurationPass = aSpace runningConfigurationPass
 ]
 
 { #category : #'*Toplo' }

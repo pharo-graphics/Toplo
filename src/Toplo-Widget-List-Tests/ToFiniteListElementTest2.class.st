@@ -394,7 +394,7 @@ ToFiniteListElementTest2 >> testOneNode [
 	self assert: l nodes first  firstChild class identicalTo: ToLabel.
 	" 2 because the fake node container has been added first "
 	self assert: l nodes first  firstChild text asString equals: 'first'.	
-	self assert: l nodes first  holder num equals: 2.	
+	self assert: l nodes first  holder num equals: 1.	
 	self assert: l nodes first  holder dataItem text asString equals: 'first'
 ]
 

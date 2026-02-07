@@ -119,6 +119,12 @@ ToListSelectionOption >> isMasked [
 	^ masked 
 ]
 
+{ #category : #testing }
+ToListSelectionOption >> isPrimary [
+
+	^ selectionMode isPrimary
+]
+
 { #category : #accessing }
 ToListSelectionOption >> masked: aBoolean [
 
@@ -190,6 +196,15 @@ ToListSelectionOption >> selectionMode [
 ToListSelectionOption >> selectionMode: aListSelectionMode [
 
 	selectionMode := aListSelectionMode
+]
+
+{ #category : #'private - selection updating' }
+ToListSelectionOption >> updateRepresentationIn: aListElement withSelectionModel: aSelectionModel [
+
+	representationVariant
+		updateRepresentationIn: aListElement
+		withSelectionModel: aSelectionModel.
+	selectionMode dirty: false
 ]
 
 { #category : #accessing }

@@ -157,7 +157,7 @@ ToThemeExamples class >> example_BlElementWithTheme [
 	pn2 addChild: pn.
 
 	pn background: Color white.
-	pn2 ensureCanManageSkin.
+	pn2 ensureCanManageToploSkin.
 	pn2 localTheme: ToBeeTheme new.
 
 	themeSwitcher := ToCheckbox new
@@ -242,7 +242,7 @@ ToThemeExamples class >> example_BlElementWithTheme2 [
 		c vertical matchParent.
 		c horizontal matchParent ].
 	
-	pn2 ensureCanManageSkin.
+	pn2 ensureCanManageToploSkin.
 	pn2 localTheme: ToBeeTheme new.
 	
 	space root addChild: pn2.

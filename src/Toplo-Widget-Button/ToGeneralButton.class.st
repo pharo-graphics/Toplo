@@ -13,12 +13,8 @@ Class {
 ToGeneralButton >> applyConfiguration [
 
 	super applyConfiguration.
-	self isHExact ifFalse: [
-			self listHolderDo: [ :h |
-					h listElement isHorizontal
-						ifTrue: [ self hFitContent ]
-						ifFalse: [ self hMatchParent ] ] ].
 	self isVExact ifFalse: [ self vFitContent ].
+	self applyConfigurationAsListItem
 ]
 
 { #category : #initialization }

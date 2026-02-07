@@ -4,12 +4,6 @@ Class {
 	#category : #'Toplo-Widget-List-Tests-ItemFiniteList'
 }
 
-{ #category : #'t - finite list element - fake container' }
-ToItemListElementForTest >> defaultFakeDataItem [
-
-	^ ToItemElementForTest new text: 'X'
-]
-
 { #category : #initialization }
 ToItemListElementForTest >> defaultNodeManager [
 

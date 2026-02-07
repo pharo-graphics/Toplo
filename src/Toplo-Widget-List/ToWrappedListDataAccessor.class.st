@@ -57,6 +57,6 @@ ToWrappedListDataAccessor >> onInstalledInListElement: aListElement [
 
 	super onInstalledInListElement: aListElement.
 	listElement dataSource 
-		  addEventHandlerOn: ToAbstractCollectionChangedEvent
+		  addEventHandlerOn: ToObservableCollectionEvent
 		  do: [ :event | self dispatchEvent: event copy ]
 ]

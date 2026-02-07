@@ -1,6 +1,6 @@
 Class {
 	#name : #ToCollectionFilteredEvent,
-	#superclass : #ToAbstractCollectionChangedEvent,
+	#superclass : #ToObservableCollectionEvent,
 	#category : #'Toplo-Core-Collection'
 }
 

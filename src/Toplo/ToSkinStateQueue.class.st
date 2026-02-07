@@ -3,7 +3,6 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'nextStates',
-		'installStateApplied',
 		'intrinsicState',
 		'installState'
 	],
@@ -21,7 +20,6 @@ ToSkinStateQueue >> applyEnqueuedStatesFor: anElement [
 { #category : #'instinsic state accessing' }
 ToSkinStateQueue >> checked: aBoolean for: anElement [
 
-	intrinsicState checked = aBoolean ifTrue: [^ self ].
 	intrinsicState checked: aBoolean.
 	self enqueueIntrinsicStateFor: anElement
 ]
@@ -29,28 +27,27 @@ ToSkinStateQueue >> checked: aBoolean for: anElement [
 { #category : #'instinsic state accessing' }
 ToSkinStateQueue >> enabled: aBoolean for: anElement [
 
-	intrinsicState enabled = aBoolean ifTrue: [^ self ].
 	intrinsicState enabled: aBoolean.
 	self enqueueIntrinsicStateFor: anElement
 ]
 
 { #category : #adding }
 ToSkinStateQueue >> enqueueInstallStateFor: anElement [
-	
-	installState ifNotNil: [ ^ self ].
+
+	installState ifNotNil: [ ^ ToInstallStateAlreadyQueuedError signal ].
 	installState := ToInstallState instance.
 	self enqueueState: installState for: anElement.
 	intrinsicState enabled: anElement isEnabled.
-	self enqueueState: intrinsicState for: anElement.
-	intrinsicState enqueued: true
+	self enqueueIntrinsicStateFor: anElement
 ]
 
 { #category : #adding }
 ToSkinStateQueue >> enqueueIntrinsicStateFor: anElement [
+	" if an install state is not applied then don't enqueue it now,
+	it will be enqueued properly on the next install state enqueuing "
 
-	(anElement isAttachedToSceneGraph not or: [ installStateApplied not ])
-		ifTrue: [ ^ anElement requestNewSkin ].
 	intrinsicState enqueued ifTrue: [ ^ self ].
+	installState ifNil: [ ^ self ].
 	self enqueueState: intrinsicState for: anElement.
 	intrinsicState enqueued: true
 ]
@@ -64,7 +61,7 @@ ToSkinStateQueue >> enqueueState: aState for: anElement [
 
 { #category : #adding }
 ToSkinStateQueue >> enqueueTransientState: aState for: anElement [
-	" all states kinds are enqueued here except the intrinsic states"
+	" if an install state is not applied then just ignore a transient state "
 
 	installState ifNil: [ ^ self ].
 	self enqueueState: aState for: anElement
@@ -74,9 +71,11 @@ ToSkinStateQueue >> enqueueTransientState: aState for: anElement [
 ToSkinStateQueue >> enqueueUninstallStateFor: anElement [
 	" uninstall state required  "
 
+	installState ifNil: [ ^ ToInstallStateNotQueuedError signal ].
 	" have to ignore previous skin events to avoid to apply them to the new skin"
 	nextStates reset.
 	installState := nil.
+	intrinsicState enqueued: false.
 	" store the uninstall state "
 	self enqueueState: ToUninstallState instance for: anElement.
 	" do not wait the next pulse to ensure the uninstallation is done here.
@@ -88,30 +87,16 @@ ToSkinStateQueue >> enqueueUninstallStateFor: anElement [
 { #category : #'instinsic state accessing' }
 ToSkinStateQueue >> focused: aBoolean for: anElement [
 
-	intrinsicState focused = aBoolean ifTrue: [^ self ].
 	intrinsicState focused: aBoolean.
 	self enqueueIntrinsicStateFor: anElement
 ]
 
-{ #category : #testing }
-ToSkinStateQueue >> hasInstallStateEnqueued [
-
-	^ installState notNil
-]
-
 { #category : #initialization }
-ToSkinStateQueue >> initialize [ 
+ToSkinStateQueue >> initialize [
 
 	super initialize.
-	installStateApplied := false.
 	nextStates := OrderedCollection new.
 	intrinsicState := ToIntrinsicState new
-]
-
-{ #category : #'state application' }
-ToSkinStateQueue >> installStateApplied: aBoolean [
-
-	installStateApplied := aBoolean
 ]
 
 { #category : #accessing }

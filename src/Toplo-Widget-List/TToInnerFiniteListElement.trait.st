@@ -3,25 +3,24 @@ Trait {
 	#instVars : [
 		'dataSource',
 		'dataSourceManager',
-		'listElement',
 		'dataSourceObserver'
 	],
 	#category : #'Toplo-Widget-List-InnerList-Finite'
 }
 
 { #category : #'t - inner finite list element - accessing nodes' }
-TToInnerFiniteListElement >> addAllHolders: anArray at: aPosition [
+TToInnerFiniteListElement >> addAllNodeContainers: anArray at: aPosition [
 
 	| pos |
 	pos := aPosition.
-	anArray do: [ :h |
-			self addHolder: h at: pos.
-			pos := pos + 1 ].
-	anArray do: [ :h | self notifyChildAttached: h nodeContainer ]
+	anArray do: [ :container |
+			self addNodeContainer: container at: pos.
+			self notifyChildAttached: container.
+			pos := pos + 1 ]
 ]
 
 { #category : #'t - inner finite list element - requirements' }
-TToInnerFiniteListElement >> addHolder: anHolder at: aPosition [
+TToInnerFiniteListElement >> addNodeContainer: aNodeContainer at: aPosition [
 
 	self shouldBeImplemented 
 ]
@@ -33,13 +32,15 @@ TToInnerFiniteListElement >> addedDataSourceCommand: aCommand [
 { #category : #'t - inner finite list element - configuration' }
 TToInnerFiniteListElement >> applyInnerFiniteListElementConfiguration [
 
-	self fitParent: listElement.
+	self listElement ifNil: [ ^ self ].
+	self fitParent: self listElement.
 	self childrenDo: [ :child | child applyConfiguration ]
 ]
 
 { #category : #'t - inner finite list element - private - commands' }
 TToInnerFiniteListElement >> consumeFinalStepCommands [
 
+	dataSourceManager ifNil: [ ^ self ].
 	dataSourceManager consumeFinalStepCommandsIn: self
 ]
 
@@ -62,7 +63,7 @@ TToInnerFiniteListElement >> dataSourceManager [
 { #category : #'t - inner finite list element - initialization' }
 TToInnerFiniteListElement >> defaultDataSource [ 
 
-	^ listElement dataSource.
+	^ self listElement ifNotNil: [ :l | l dataSource ].
 ]
 
 { #category : #'t - inner finite list element - initialization' }
@@ -94,10 +95,11 @@ TToInnerFiniteListElement >> initializeAsToInnerFiniteElement [
 	self addEventHandler: ToScrollableFiniteListElementEventHandler new.
 	self matchParent.
 	self focusability: BlFocusability ignore.
-	listElement primarySelectionMode selectionOption
+	self listElement ifNil: [ ^ self ].
+	self listElement primarySelectionMode selectionOption
 		grouped: false;
 		beneath: true.
-	listElement contextMenuSelectionMode selectionOption
+	self listElement contextMenuSelectionMode selectionOption
 		grouped: false;
 		beneath: false.
 ]
@@ -106,6 +108,7 @@ TToInnerFiniteListElement >> initializeAsToInnerFiniteElement [
 TToInnerFiniteListElement >> initializeDataSource [
 
 	dataSource := self defaultDataSource.
+	dataSource ifNil: [ ^ self ].
 	dataSource onAttached: self.
 	dataSourceObserver := self defaultDataSourceObserver on: self.
 	dataSource addEventHandler: dataSourceObserver.
@@ -122,16 +125,10 @@ TToInnerFiniteListElement >> innerElement [
 	^ self
 ]
 
-{ #category : #'t - inner finite list element - accessing' }
-TToInnerFiniteListElement >> listElement [
-
-	^ listElement
-]
-
 { #category : #'t - inner finite list element - initialization' }
 TToInnerFiniteListElement >> newNodeHolderFromDataSource: aDataSource [
 
-	^ listElement nodeManager newHolder
+	^ self listElement nodeManager newHolder
 ]
 
 { #category : #'t - inner finite list element - accessing' }
@@ -166,20 +163,20 @@ TToInnerFiniteListElement >> onItemRangeChanged: aPositionStart itemCount: anIte
 { #category : #'t - inner finite list element - data source updates' }
 TToInnerFiniteListElement >> onItemRangeInserted: aPositionStart itemCount: anItemCount [
 
-	| holder offsetPosition holders |
+	| holder offsetPosition containers |
 	" consume the comands that can contain a selection shift command "
 	self consumeFinalStepCommands.
 	self
 		shiftPositionsFrom: aPositionStart + anItemCount - 1
 		by: anItemCount.
-	holders := Array streamContents: [ :stream |
+	containers := Array streamContents: [ :stream |
 			           1 to: anItemCount do: [ :idx |
 					           holder := self dataSource createHolder: self.
 					           offsetPosition := aPositionStart + idx - 1.
 					           holder infiniteElement: self.
 					           self dataSource bindHolder: holder at: offsetPosition.
-					           stream nextPut: holder ] ].
-	self addAllHolders: holders at: aPositionStart
+					           stream nextPut: holder nodeContainer] ].
+	self addAllNodeContainers: containers at: aPositionStart
 ]
 
 { #category : #'t - inner finite list element - data source updates' }
@@ -198,25 +195,18 @@ TToInnerFiniteListElement >> onItemRangeRemoved: aPositionStart itemCount: anIte
 { #category : #'t - inner finite list element - data source updates' }
 TToInnerFiniteListElement >> onItemsChanged [
 
-	| holders |
+	| containers |
 	self dataSourceManager resetFinalStepCommands.
 	self removeAllNodeContainers: self nodeContainers.
-	holders := Array streamContents: [ :stream |
-			           | holder |
-			           1 to: self dataSource itemCount do: [ :idx |
-					           holder := self dataSource createHolder: self.
-					           holder infiniteElement: self.
-					           self dataSource bindHolder: holder at: idx.
-					           stream nextPut: holder ] ].
-	self addAllHolders: holders at: 1.
+	containers := Array streamContents: [ :stream |
+			              1 to: self dataSource itemCount do: [ :idx |
+					              | holder |
+					              holder := self dataSource createHolder: self.
+					              holder infiniteElement: self.
+					              self dataSource bindHolder: holder at: idx.
+					              stream nextPut: holder nodeContainer ] ].
+	self addAllNodeContainers: containers at: 1.
 	self updatePositions
-]
-
-{ #category : #'t - inner finite list element - initialization' }
-TToInnerFiniteListElement >> onListElement: aListElement [
-
-	listElement ifNotNil: [ BlImmutableObjectChangeError signal ].
-	listElement := aListElement
 ]
 
 { #category : #'t - inner finite list element - accessing nodes' }

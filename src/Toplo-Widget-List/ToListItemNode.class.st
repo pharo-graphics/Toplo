@@ -10,6 +10,7 @@ Class {
 ToListItemNode >> applyConfiguration [ 
 
 	super applyConfiguration.
+	self item ifNil: [ ^ self ].
 	self item applyConfiguration 
 ]
 
@@ -17,5 +18,5 @@ ToListItemNode >> applyConfiguration [
 ToListItemNode >> initialize [
 
 	super initialize.
-	self initializeAsItemNode 
+	self initializeAsListItemNode 
 ]

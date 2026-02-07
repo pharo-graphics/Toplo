@@ -194,7 +194,7 @@ ToTabGroupElement >> initialize [
 	self initializeParts.
 	self setItemList: self middleContainer.
 	self itemList addEventHandler:
-		(ToTabListGroupElementEventHandler new
+		(ToTabListInTabGroupEventHandler new
 			 tabGroup: self;
 			 yourself).
 	self addEventHandler: self defaultEventHandler.

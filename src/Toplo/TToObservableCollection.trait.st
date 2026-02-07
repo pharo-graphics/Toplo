@@ -80,11 +80,11 @@ TToObservableCollection >> addAll: aCollection afterIndex: index [
 	(index between: 0 and: self size) ifFalse: [
 		^ self errorSubscriptBounds: index ].
 	idx := index + 1.
-	interval := idx to: idx + aCollection size -1.
+	interval := idx to: idx + aCollection size - 1.
 	self notifyEmptinessChangeAfter: [
-		aCollection size to: 1 by: -1 do: [ :p |
-		self collection add: (aCollection at: p) afterIndex: index ].
-		self notifyAddedInterval: interval ]
+			aCollection size to: 1 by: -1 do: [ :p |
+			self collection add: (aCollection at: p) afterIndex: index ].
+			self notifyAddedInterval: interval ]
 ]
 
 { #category : #'t - observable collection - adding' }

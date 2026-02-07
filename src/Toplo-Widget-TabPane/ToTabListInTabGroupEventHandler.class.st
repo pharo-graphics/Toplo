@@ -1,5 +1,5 @@
 Class {
-	#name : #ToTabListGroupElementEventHandler,
+	#name : #ToTabListInTabGroupEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'tabGroup'
@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #'events handling' }
-ToTabListGroupElementEventHandler >> checkableGroupChangedEvent: anEvent [
+ToTabListInTabGroupEventHandler >> checkableGroupChangedEvent: anEvent [
 
 	tabGroup dispatchEvent: anEvent copy
 ]
 
 { #category : #'api - accessing' }
-ToTabListGroupElementEventHandler >> eventsToHandle [
+ToTabListInTabGroupEventHandler >> eventsToHandle [
 
 	^ {
 		  ToListVisibleNodeContainersChangedEvent.
@@ -24,13 +24,13 @@ ToTabListGroupElementEventHandler >> eventsToHandle [
 ]
 
 { #category : #'events handling' }
-ToTabListGroupElementEventHandler >> itemAddedInListEvent: anEvent [
+ToTabListInTabGroupEventHandler >> itemAddedInListEvent: anEvent [
 
 	tabGroup dispatchEvent: anEvent copy
 ]
 
 { #category : #'events handling' }
-ToTabListGroupElementEventHandler >> itemRemovedFromListEvent: anEvent [
+ToTabListInTabGroupEventHandler >> itemRemovedFromListEvent: anEvent [
 
 	| tabItemHolder dataAccessor nextChecked |
 	tabGroup dispatchEvent: anEvent copy.
@@ -45,14 +45,14 @@ ToTabListGroupElementEventHandler >> itemRemovedFromListEvent: anEvent [
 ]
 
 { #category : #'events handling' }
-ToTabListGroupElementEventHandler >> listPrimarySelectionChangedEvent: anEvent [
+ToTabListInTabGroupEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 
 	anEvent selectedIndexes do: [ :idx |
 		anEvent currentTarget selecter scrollTowardStartToDataSourcePosition: idx ]
 ]
 
 { #category : #'events handling' }
-ToTabListGroupElementEventHandler >> listVisibleNodeContainersChangedEvent: anEvent [
+ToTabListInTabGroupEventHandler >> listVisibleNodeContainersChangedEvent: anEvent [
 
 	tabGroup
 		onInvisibleNodeContainers: anEvent invisibleNodeContainers
@@ -60,7 +60,7 @@ ToTabListGroupElementEventHandler >> listVisibleNodeContainersChangedEvent: anEv
 ]
 
 { #category : #accessing }
-ToTabListGroupElementEventHandler >> tabGroup: aTabGroupElement [
+ToTabListInTabGroupEventHandler >> tabGroup: aTabGroupElement [
 
 	tabGroup := aTabGroupElement
 ]

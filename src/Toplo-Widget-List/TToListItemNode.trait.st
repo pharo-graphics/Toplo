@@ -7,7 +7,7 @@ Trait {
 }
 
 { #category : #'t - item node' }
-TToListItemNode >> initializeAsItemNode [
+TToListItemNode >> initializeAsListItemNode [
 
 	self layout: BlLinearLayout horizontal.
 	self hMatchParent.

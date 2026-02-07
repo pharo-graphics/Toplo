@@ -50,9 +50,3 @@ ToBasicTreeElement >> expandRoots [
 
 	self dataSource roots do: [ :each | each expand ]
 ]
-
-{ #category : #configuration }
-ToBasicTreeElement >> newToConfiguration [ 
-
-	^ ToTreeConfiguration new
-]

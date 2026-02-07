@@ -42,9 +42,7 @@ ToElement >> initialize [
 	super initialize.
 	self layout: self defaultLayout.
 	self initializeForToplo.
-	self constraints horizontal fitContent.	
-	self constraints vertical fitContent.
-
+	self fitContent 
 ]
 
 { #category : #converting }

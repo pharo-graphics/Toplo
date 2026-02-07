@@ -9,9 +9,16 @@ ToItemNodeContainer >> applyConfiguration [
 
 	| list |
 	super applyConfiguration.
-	self node item ifNil: [ ^ self ].
+	self item ifNil: [ ^ self ].
 	list := self holder listElement.
+	list isOrientable ifFalse: [ ^ self ].
 	list toConfiguration isFlowable ifTrue: [ ^ self ].
-	self isHExact ifFalse: [ self hFitElement: self node item ].
-	self isVExact ifFalse: [ self vFitElement: self node item ]
+	self isHExact ifFalse: [ self hFitElement: self item ].
+	self isVExact ifFalse: [ self vFitElement: self item ]
+]
+
+{ #category : #accessing }
+ToItemNodeContainer >> item [ 
+
+	^ self node item
 ]

@@ -167,9 +167,9 @@ ToBlElementTest >> testElementRemovedFromSceneGraph [
 ]
 
 { #category : #tests }
-ToBlElementTest >> testEnsureCanManageSkin [
+ToBlElementTest >> testEnsureCanManageToploSkin [
 
-	element ensureCanManageSkin.
+	element ensureCanManageToploSkin.
 	space root addChild: element.
 	self applyAllEnqueuedStates.
 	self waitTestingSpaces.
@@ -532,7 +532,7 @@ ToBlElementTest >> testUnsortedApplicableListenersFor [
 ToBlElementTest >> testValueOfTokenNamed [
 
 	| theme |
-	element ensureCanManageSkin.
+	element ensureCanManageToploSkin.
 	theme := ToRawThemeForTest new.
 	space toTheme: theme.
 	space root addTokenNamed: #testToken withValue: Color blue.
@@ -544,7 +544,7 @@ ToBlElementTest >> testValueOfTokenNamed [
 ToBlElementTest >> testValueOfTokenNamed2 [
 
 	| theme |
-	element ensureCanManageSkin.
+	element ensureCanManageToploSkin.
 	theme := ToRawThemeForTest new.
 	space root addTokenNamed: #testToken withValue: Color blue.
 	space toTheme: theme.
@@ -556,7 +556,7 @@ ToBlElementTest >> testValueOfTokenNamed2 [
 ToBlElementTest >> testValueOfTokenNamedWithNotFoundToken [
 
 	| theme notFoundDispatched |
-	element ensureCanManageSkin.
+	element ensureCanManageToploSkin.
 	theme := ToRawThemeForTest new.
 	space root addTokenNamed: #testToken withValue: Color blue.
 	" normally, the token should not be found because the element is not added in the space root. 

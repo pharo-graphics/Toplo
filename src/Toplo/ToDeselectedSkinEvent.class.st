@@ -20,14 +20,6 @@ ToDeselectedSkinEvent >> focused: aBoolean [
 	focused := aBoolean
 ]
 
-{ #category : #'instance creation' }
-ToDeselectedSkinEvent >> fromState: aState [
-
-	super fromState: aState.
-	self focused: aState focused.
-	self selectionOption: aState selectionOption
-]
-
 { #category : #accessing }
 ToDeselectedSkinEvent >> selectionMode [
 

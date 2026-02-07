@@ -10,6 +10,61 @@ Class {
 	#category : #'Toplo-Widget-TabPane-Tests-TabGroup'
 }
 
+{ #category : #tests }
+ToTabGroupElementTest >> itemCheckedBeforeAddedInSpace [
+
+	| firstItem |
+	tabGroup addItem: (ToTabItemElement new
+			 id: #first;
+			 labelText: 'First';
+			 yourself).
+
+	" in case of infinite element, the layout must be done, 
+	so it means that an item can't be selected before 
+	the tabGroup is added in a space "
+	self flag: 'Check if it is possible to avoid the layout '.
+	tabGroup itemList useInfiniteLayout ifTrue: [ tabGroup forceLayout ].
+
+	firstItem := tabGroup items first.
+	self assert: firstItem group notNil.
+	self deny: firstItem isSelected.
+	firstItem checked: true.
+	self assert: firstItem isChecked.
+	self deny: firstItem isSelected.
+
+	space root addChild: tabGroup.
+	self waitTestingSpaces.
+	self assert: firstItem isSelected
+]
+
+{ #category : #tests }
+ToTabGroupElementTest >> itemSelectedBeforeAddedInSpace [
+
+	| firstItem |
+	tabGroup addItem: (ToTabItemElement new
+			 id: #first;
+			 labelText: 'First';
+			 yourself).
+
+	" in case of infinite element, the layout must be done, 
+	so it means that an item can't be selected before 
+	the tabGroup is added in a space "
+	self flag: 'Check if it is possible to avoid the layout '.
+	tabGroup itemList useInfiniteLayout ifTrue: [ tabGroup forceLayout ].
+
+	firstItem := tabGroup items first.
+	self assert: firstItem group notNil.
+	self deny: firstItem isSelected.
+	tabGroup selecter selectIndex: 1.
+	self assert: firstItem isChecked.
+	self assert: firstItem isSelected.
+
+	space root addChild: tabGroup.
+	self waitTestingSpaces.
+	self assert: firstItem isChecked.
+	self assert: firstItem isSelected
+]
+
 { #category : #running }
 ToTabGroupElementTest >> setUp [
 
@@ -20,6 +75,42 @@ ToTabGroupElementTest >> setUp [
 	space root forceLayout.
 	self waitTestingSpaces 
 
+]
+
+{ #category : #tests }
+ToTabGroupElementTest >> testFiniteItemCheckedBeforeAddedInSpace [
+
+	tabGroup := ToTabGroupElement new.
+	tabGroup itemList useInfiniteLayout: false.
+	self itemCheckedBeforeAddedInSpace 
+]
+
+{ #category : #tests }
+ToTabGroupElementTest >> testFiniteItemSelectedBeforeAddedInSpace [
+
+	tabGroup := ToTabGroupElement new.
+	tabGroup itemList useInfiniteLayout: false.
+	self itemSelectedBeforeAddedInSpace 
+]
+
+{ #category : #tests }
+ToTabGroupElementTest >> testInfiniteItemCheckedBeforeAddedInSpace [
+
+	" Notice that a tabgroup is not made to be used in an infinite.
+	To be checked/fixed later if possible "
+	tabGroup := ToTabGroupElement new.
+	tabGroup itemList useInfiniteLayout: true.
+	self itemCheckedBeforeAddedInSpace 
+]
+
+{ #category : #tests }
+ToTabGroupElementTest >> testInfiniteItemSelectedBeforeAddedInSpace [
+
+	" Notice that a tabgroup is not made to be used in an infinite.
+	To be checked/fixed later if possible "
+	tabGroup := ToTabGroupElement new.
+	tabGroup itemList useInfiniteLayout: true.
+	self itemSelectedBeforeAddedInSpace 
 ]
 
 { #category : #tests }

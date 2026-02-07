@@ -1082,6 +1082,34 @@ ToSandBox class >> example_AnchorWithPointTransition [
 	pane openInSpace
 ]
 
+{ #category : #circular }
+ToSandBox class >> example_AnimatedAnnulus [
+
+	| container animation colors |
+	container := ToAnnulusCircularElement new.
+	container geometry: BlCircleGeometry new.
+	container matchParent.
+	container innerRadius: 0.05.
+	container outerRadius: 1.0.
+
+	colors := Color wheel: 8.
+	1 to: colors size do: [ :n |
+			| sector |
+			sector := ToAnnulusSectorElement new.
+			sector background: (colors at: n).
+			container addChild: sector ].
+
+	animation := BlNumberTransition new
+		             beInfinite;
+		             from: 0;
+		             to: 360;
+		             duration: 3 seconds;
+		             onStepDo: [ :number :anElement |
+			             anElement startAngle: number ].
+	container addAnimation: animation.
+	container openInSpace
+]
+
 { #category : #filters }
 ToSandBox class >> example_AnyEventFilter [
 
@@ -1106,26 +1134,40 @@ ToSandBox class >> example_BasicListWithAllClasses [
 
 	| l |
 	l := ToListElement new.
+	"l nodeFactory: [
+			| node |
+			node := ToBasicListNode new.
+			node addEventHandlerOn: BlSecondaryClickEvent do: [ :evt |
+					| t |
+					t := evt currentTarget.
+					t holder listElement
+						notifyClickOnNode: evt currentTarget
+						fromEvent: evt ].
+			node ]."
+	l contextMenuBuilder: [ :menu :request |
+			menu addItem: (ToMenuItem new
+					 labelText: 'Inspect';
+					 clickAction: [ l inspect ];
+					 yourself) ].
 	l nodeBuilder: [ :node :dataItem :holder |
-		     | icn lab |
-		     icn :=  dataItem hasComment
-			            ifTrue: [ #class ]
-			            ifFalse: [ #uncommentedClass ].
-		     lab := ToLabel new
-			            text: dataItem name;
-			            beEditable;
-			            yourself.
-		     node addChild: (ToLabeledIcon new
-				      label: lab;
-				      icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
-				      startInterspace: 10;
-				      hMatchParent) ].
-			
+			| icn lab |
+			icn := dataItem hasComment
+				       ifTrue: [ #class ]
+				       ifFalse: [ #uncommentedClass ].
+			lab := ToLabel new
+				       text: dataItem name;
+				       beEditable;
+				       yourself.
+			node addChild: (ToLabeledIcon new
+					 label: lab;
+					 icon: (ToImage inner: (Smalltalk ui icons iconNamed: icn));
+					 startInterspace: 10;
+					 hMatchParent) ].
+
 	l dataAccessor addAll:
 		(Smalltalk globals allClasses sorted: [ :a :b | a name < b name ]).
-	l selecter selectIndexes: #(10 12 3).
+	l selecter selectIndexes: #( 10 12 3 ).
 	l withRowNumbers.
-	l fakeDataItem: Object.
 	l requestFocus.
 	l openInInnerWindow.
 	^ l
@@ -1337,7 +1379,7 @@ ToSandBox class >> example_CheckBoxWithDefaultStyleSheetDarkTheme [
 ]
 
 { #category : #checkables }
-ToSandBox class >> example_CheckableGroup [
+ToSandBox class >> example_CheckableGroupPane [
 
 	| cgroup |
 	cgroup := ToCheckableGroupPane new.
@@ -1534,7 +1576,7 @@ ToSandBox class >> example_CheckboxStartFlexible [
 ]
 
 { #category : #checkables }
-ToSandBox class >> example_CheckboxStartFlexibleWithGroup [
+ToSandBox class >> example_CheckboxStartFlexibleWithGroupPane [
 
 	| group |
 	group := ToCheckableGroupPane vertical.
@@ -1618,6 +1660,74 @@ ToSandBox class >> example_CheckboxWithIndeterminate [
 	but := ToCheckbox new labelText: 'Checkbox'.
 	but allowIndeterminate: true.
 	but openInSpace
+]
+
+{ #category : #circular }
+ToSandBox class >> example_CircularElement [
+
+	| container |
+	container := ToBasicCircularElement new
+		             background: Color veryLightGray;
+		             yourself.
+	container geometry: BlCircleGeometry new.
+
+	container inset: 60.
+	"container startAngleOffset: (360/4) negated."
+	container addEventHandlerOn: BlMouseWheelEvent do: [ :evt |
+			container startAngle:
+				container startAngle
+				+ (evt vector y * container scrollSensitivity) ].
+
+
+	1 to: 20 do: [ :i |
+			| child lab |
+			child := BlElement new
+				         extent: 60 @ 60;
+				         background: Color white;
+				         border: Color gray;
+				         yourself.
+			child layout: BlFrameLayout new.
+			lab := ToLabel text: i asString.
+			lab fontSize: 24.
+			lab constraintsDo: [ :c |
+					c frame horizontal alignCenter.
+					c frame vertical alignCenter ].
+			child addChild: lab.
+			container addChild: child ].
+
+	container extent: 450 asPoint.
+	container border: Color red.
+	container openInSpace
+]
+
+{ #category : #circular }
+ToSandBox class >> example_CircularListElementWithAnnulusSectors [
+
+	| container scrollSensitivity |
+	container := ToAnnulusCircularElement new.
+	container matchParent.
+	container innerRadius: 0.25.
+	container outerRadius: 1.0.
+
+	scrollSensitivity := 1.
+	container addEventHandlerOn: BlMouseWheelEvent do: [ :evt |
+			container startAngle:
+				container startAngle + (evt vector y * scrollSensitivity) ].
+			
+	(self statesOfAmericaWithColor copyFrom: 1 to: 12) do: [ :stateColorAssoc |
+			| sector check |
+			sector := ToAnnulusSectorElement new.
+			sector background: stateColorAssoc value.
+			check := ToCheckbox new labelText: stateColorAssoc key.
+			check beVertical.
+			sector addChild: check.
+			check constraintsDo: [ :c |
+					c ignoreByLayout.
+					c anchors add:
+						(c anchors centerAnchor on: c anchors parent centroidAnchor) ].
+			container addChild: sector ].
+
+	container openInSpace
 ]
 
 { #category : #tree }
@@ -2454,6 +2564,27 @@ ToSandBox class >> example_List12Classes [
 	l openInSpace
 ]
 
+{ #category : #circular }
+ToSandBox class >> example_ListElementWithCircularListElement [
+
+	| list |
+	list := ToListElement new.
+	list innerElementClass: ToCircularListElement.
+	list innerElement inset: 60.
+	list nodeBuilder: [ :node :dataItem :holder |
+			| triplet label |
+			triplet := ToTripletElement new.
+			label := (ToLabel text: holder position asString , ': ' , dataItem asString).
+			triplet startElement: ToIconicRemoveButton new.
+			triplet startElement clickAction: [ triplet startElement fireEvent: ToRemoveButtonClickedEvent new ].
+			triplet middleElement: label.
+			triplet startInterspace: 10.
+			node addChild: triplet ].
+
+	list dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 12).
+	list openInSpace
+]
+
 { #category : #list }
 ToSandBox class >> example_ListOneClass [
 
@@ -2601,7 +2732,7 @@ ToSandBox class >> example_ListWithAllClassesAndTraitsSorted [
 
 	| l vscrollBar space |
 	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
-			node ensureCanManageSkin.
+			node ensureCanManageToploSkin.
 		     node addChild: (ToClassNameViewExamplePart new
 				      class: dataItem position: holder position;
 				      yourself) ].
@@ -2955,97 +3086,6 @@ ToSandBox class >> example_Menu3 [
 
 	container openInSpace
 	
-]
-
-{ #category : #menu }
-ToSandBox class >> example_MenuAroundCircle [
-
-	| pane innerCircle outerCircle nb gap circleSize |
-	circleSize := 400.
-	pane := ToElement new
-		        id: #pane;
-		        yourself.
-	pane constraintsDo: [ :c |
-			c horizontal matchParent.
-			c vertical matchParent ].
-	pane border: Color red.
-	pane layout: BlAnchorLayout new.
-	innerCircle := ToElement new
-		          id: #blue;
-		          yourself.
-	innerCircle geometry: BlCircleGeometry new.
-	innerCircle extent: circleSize asPoint.
-	innerCircle margin: (BlInsets all: (circleSize / 2) negated).
-	innerCircle constraintsDo: [ :c |
-			c ignoreByLayout.
-			c anchors add:
-				(c anchors centerAnchor on: c anchors parent centerAnchor) ].
-	pane addChild: innerCircle.
-	outerCircle := ToElement new
-		          id: #blue;
-		          yourself.
-	outerCircle geometry: BlCircleGeometry new.
-	outerCircle margin: (BlInsets all: (circleSize / 8) negated).
-	outerCircle extent: circleSize asPoint.
-	outerCircle constraintsDo: [ :c |
-			c ignoreByLayout.
-			c anchors add:
-				(c anchors centerAnchor on: c anchors parent centerAnchor) ].
-	pane addChild: outerCircle.
-
-	nb := 6.
-	gap := (360 / nb) asInteger.
-	1 to: nb do: [ :n |
-			| degrees subMenu sector |
-			degrees := n * gap.
-			subMenu := ToMenu new.
-			subMenu builder: [ :sm |
-					1 to: 2 do: [ :index |
-							| stream iconImage color |
-							stream := String streamContents: [ :out |
-									          out
-										          nextPutAll: 'Level ';
-										          space;
-										          print: index ].
-							color := Color random.
-							iconImage := BlElement new
-								             padding: (BlInsets all: 2);
-								             geometry:
-									             (BlRoundedRectangleGeometry cornerRadius: 3);
-								             background: color;
-								             extent: 16 asPoint;
-								             yourself.
-							sm addItem: ((ToMenuItem new
-									  labelText: stream;
-									  iconImage: iconImage)
-									 clickAction: [ pane background: color ];
-									 yourself) ] ].
-			sector := (BlAnnulusSectorGeometry new
-				           startAngle: degrees - gap;
-				           endAngle: degrees;
-				           yourself) asElement.
-			sector
-				extent: circleSize asPoint;
-				yourself.
-			sector border: Color veryLightGray.
-			sector addEventHandlerOn: BlMouseEnterEvent do: [ sector border: Color red ].
-			sector addEventHandlerOn: BlMouseLeaveEvent do: [ sector border: Color veryLightGray ].
-			subMenu labelText: degrees asString , '°'.
-
-			subMenu constraintsDo: [ :c |
-					c ignoreByLayout.
-					c anchors add: (c anchors centerAnchor on:
-							 (outerCircle perimeterAnchor degrees: degrees)) ].
-			sector constraintsDo: [ :c |
-					c ignoreByLayout.
-					c anchors add: (c anchors horizontalCenterAnchor on:
-							 (innerCircle perimeterAnchor degrees: degrees + gap) ) ].
-			pane addChild: sector.
-			subMenu elevation: (BlRelativeElevation elevation: 10).
-			pane addChild: subMenu ].
-
-	pane openInSpace.
-	^ innerCircle
 ]
 
 { #category : #menu }
@@ -3457,6 +3497,7 @@ ToSandBox class >> example_MixedEventGenerator [
 		     id: #'my-element';
 		     yourself.
 	e addEventHandler: (ToMixedEventGeneratorHandler new
+			 needRepeatedEvent: true;
 			 startDelay: 500 milliSeconds;
 			 delay: 200 milliSeconds;
 			 yourself).
@@ -4016,7 +4057,6 @@ ToSandBox class >> example_SelectMaterialDesignIconMultiFiltrable [
 
 	select hMatchParent.
 	select placeholderString: 'Select icons'.
-
 	select openInSpace
 ]
 
@@ -4134,7 +4174,6 @@ ToSandBox class >> example_SelectMultiFiltrableAutoDistribution [
 
 	| select innerWindow |
 	select := ToMultiSelectElement new.
-	"select maxSelectedCount: 6."
 	select isFlowable: false.
 	select autoDistribute: true.
 	select hideSelected: false.
@@ -4860,7 +4899,8 @@ ToSandBox class >> example_SimpleTabPane [
 
 	tabPane addTabItemData: 'First'.
 	tabPane addTabItemData: 'Second'.
-
+	tabPane items second checked: true.
+	"tabPane selecter selectOnlyIndex: 2."
 	space show.
 	^ tabPane
 ]
@@ -5074,9 +5114,7 @@ ToSandBox class >> example_TabPaneElementWithUSStates [
 	| tpane dashBoard |
 	tpane := self tabPaneElementWithUSStates.
 	tpane matchParent.
-	"tpane items third checked: true."
 	tpane selecter selectOnlyIndex: 2.
-
 	dashBoard := self tabPaneElementDashBoardFor: tpane.
 	dashBoard openInSpace.
 	tpane tabGroup requestFocus.
@@ -5302,22 +5340,6 @@ ToSandBox class >> example_ToggleButtonChecked [
 ]
 
 { #category : #'toggle button' }
-ToSandBox class >> example_ToggleButtonGroupAndStrictStrategy [
-
-	| group |
-	group := ToCheckableGroupPane vertical.
-	{ 'Monday'. 'Tuesday'. 'Wednesday'. 'Thursday'. 'Friday' } do: [ :day |
-		group addChild: (ToToggleButton new
-				 labelText: day;
-				 hMatchParent;
-				 yourself) ].
-	group
-		groupCheckAction: [ :evt | evt checkedList traceCr ].
-	group openInSpace.
-	group registeredCheckables second checked: true.
-]
-
-{ #category : #'toggle button' }
 ToSandBox class >> example_ToggleButtonGroupAndWeakStrategy [
 
 	| group groupContainer |
@@ -5337,6 +5359,22 @@ ToSandBox class >> example_ToggleButtonGroupAndWeakStrategy [
 	groupContainer width: 150.
 	groupContainer addChildren: group registeredCheckables.
 	groupContainer openInSpace
+]
+
+{ #category : #'toggle button' }
+ToSandBox class >> example_ToggleButtonGroupPaneAndStrictStrategy [
+
+	| group |
+	group := ToCheckableGroupPane vertical.
+	{ 'Monday'. 'Tuesday'. 'Wednesday'. 'Thursday'. 'Friday' } do: [ :day |
+		group addChild: (ToToggleButton new
+				 labelText: day;
+				 hMatchParent;
+				 yourself) ].
+	group
+		groupCheckAction: [ :evt | evt checkedList traceCr ].
+	group openInSpace.
+	group registeredCheckables second checked: true.
 ]
 
 { #category : #'toggle button' }
@@ -5896,6 +5934,7 @@ ToSandBox class >> example_checkableListElement [
 			| item |
 			item := ToToggleButton new labelText: l.
 			item width: 150.
+			item height: 50.
 			bar addItem: item ].
 	space show.
 	bar
@@ -5938,7 +5977,6 @@ ToSandBox class >> example_compositeBadgeOnAButton [
 ToSandBox class >> example_contactList [
 
 	| panel updateButton addPredefinedButton addPredefinedAction dataBlock list contact nameTxtF phoneTxtF addressTxtF inputPane data |
-
 	panel := ToPane vertical.
 	panel constraints horizontal matchParent.
 	panel layout cellSpacing: 10.
@@ -6030,12 +6068,29 @@ ToSandBox class >> example_contactList [
 	inputPane childrenDo: [ :child |
 		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
 
+	list contextMenuBuilder: [ :menu :request |
+			| selectionModel indexes target |
+			target := request currentTarget.
+			selectionModel := request selectionModel.
+			indexes := request selectedIndexes.
+			menu addItem: (ToMenuItem new
+					 labelText: 'Remove';
+					 clickAction: [
+						 indexes sort reverseDo: [ :idx |
+								 target dataAccessor removeAt: idx ] ];
+					 yourself).
+			menu addItem: (ToMenuItem new
+					 labelText: 'Inspect';
+					 clickAction: [ target inspect ];
+					 yourself) ].
+
 	list nodeBuilder: [ :node :dataItem :holder |
 			| line remBut |
-			node ensureCanManageSkin.
+			node ensureCanManageToploSkin.
 			line := ToElement new
-				        layout: BlLinearLayout horizontal; hMatchParent;
-		        vFitContent.
+				        layout: BlLinearLayout horizontal;
+				        hMatchParent;
+				        vFitContent.
 			line addChild: (ToLabel new
 					 text: dataItem name;
 					 width: 100;
@@ -6051,7 +6106,7 @@ ToSandBox class >> example_contactList [
 			line addChild: ToElement new matchParent.
 			remBut := ToIconicRemoveButton new.
 			remBut constraintsDo: [ :c | c linear vertical alignCenter ].
-			remBut clickAction: [ :event | "event consume."
+			remBut clickAction: [ :event |
 				holder listElement dataAccessor removeAt: holder position ].
 			line addChild: remBut.
 			node addChild: line ].
@@ -6192,6 +6247,14 @@ ToSandBox class >> example_emptyDiff [
 	diff := ToDiffElement new.
 	diff openInSpace.
 	^ diff
+]
+
+{ #category : #empty }
+ToSandBox class >> example_emptyWithWaitingAnimation [
+
+	| empty |
+	empty := ToEmpty waiting.
+	empty openInSpace
 ]
 
 { #category : #checkables }
@@ -7197,13 +7260,12 @@ ToSandBox class >> example_scaledImage [
 ToSandBox class >> example_segmentedWithCheckboxes [
 
 	| seg dashBoard |
-	seg := ToCheckableListElement finite.
+	seg := ToSegmentedListElement new.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		seg addItem: (ToCheckbox new
 				 labelText: l;
 				 yourself) ].
 	(seg items at: 2) disable.
-	seg selectionOption masked: true.
 	dashBoard := self segmentedDashBoardFor: seg.
 	dashBoard openInSpace
 ]
@@ -7211,45 +7273,38 @@ ToSandBox class >> example_segmentedWithCheckboxes [
 { #category : #segmented }
 ToSandBox class >> example_segmentedWithLabels [
 
-	| seg dashBoard rootPane feedbackPane maj |
-	seg := ToCheckableListElement finite.
-
+	| seg dashBoard rootPane feedbackPane maj feedbackLabel |
+	seg := ToSegmentedListElement new.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
-		seg addItem: (ToToggleButton new
-				 labelText: l;
-				 yourself) ].
+			seg addItem: (ToToggleButton new
+					 labelText: l;
+					 yourself) ].
 
 	(seg items at: 2) disable.
 	dashBoard := self segmentedDashBoardFor: seg.
 
 	feedbackPane := ToPane horizontal.
 	feedbackPane layout alignCenter.
+	feedbackPane addChild: (feedbackLabel := ToLabel new).
 	maj := [
-	       | t |
-	       feedbackPane removeChildren.
-	       t := String streamContents: [ :stream |
-		            seg dataAccessor withIndexDo: [ :e :idx |
-			            stream
-				            nextPutAll: e label text asString;
-				            nextPutAll: ': '.
-			            (seg selectionModel containsIndex: idx)
-				            ifTrue: [ stream nextPutAll: 'V ' ]
-				            ifFalse: [ stream nextPutAll: 'X ' ].
-			            stream nextPutAll: e checked asString.
-			            stream nextPutAll: ' '.
-			            idx < seg dataAccessor itemCount ifTrue: [
-				            stream nextPutAll: '- ' ] ] ].
-	       feedbackPane addChild: (ToLabel text: t) ].
+		       | t |
+		       t := String streamContents: [ :stream |
+				            seg dataAccessor withIndexDo: [ :e :idx |
+						            stream
+							            nextPutAll: e label text asString;
+							            nextPutAll: ': '.
+						            (seg selectionModel containsIndex: idx)
+							            ifTrue: [ stream nextPutAll: 'X    ' ]
+							            ifFalse: [ stream nextPutAll: '     ' ] ] ].
+		       feedbackLabel text: t ].
 
 	seg addEventHandler: (BlEventHandler
 			 on: ToListStrongSelectionEvent
 			 do: [ :event |
-				 ' double click ' trace.
-				 event indexes traceCr ]).
+					 ' double click ' trace.
+					 event indexes traceCr ]).
 
-	seg 
-		addEventHandlerOn: ToListPrimarySelectionChangedEvent
-		do: maj.
+	seg addEventHandlerOn: ToListPrimarySelectionChangedEvent do: maj.
 	seg addEventHandlerOn: ToAddedToSpaceEvent do: maj.
 	rootPane := ToPane vertical.
 	rootPane matchParent.
@@ -7263,7 +7318,8 @@ ToSandBox class >> example_segmentedWithLabels [
 ToSandBox class >> example_segmentedWithLabelsAndIcons [
 
 	| seg dashBoard rootPane feedbackPane maj |
-	seg := ToCheckableListElement finite.
+	seg := ToSegmentedListElement new.
+	seg horizontal: true.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		seg addItem: (ToToggleButton new
 				 iconImage: ToThemeIcons searchOutlined16x16;
@@ -7311,13 +7367,12 @@ ToSandBox class >> example_segmentedWithLabelsAndIcons [
 ToSandBox class >> example_segmentedWithRadioButtons [
 
 	| seg dashBoard |
-	seg := ToCheckableListElement finite.
+	seg := ToSegmentedListElement new.
 	{ 'Daily'. 'Weekly'. 'Monthly'. 'Quaterly'. 'Yearly' } do: [ :l |
 		seg addItem: (ToRadioButton new
 				 labelText: l;
 				 yourself) ].
 	(seg items at: 2) disable.
-	seg selectionOption masked: true.
 	dashBoard := self segmentedDashBoardFor: seg.
 	dashBoard openInSpace
 ]
@@ -7451,6 +7506,7 @@ ToSandBox class >> example_stillHoveredEventWithMixedHandler [
 			 background: Color gray;
 			 yourself).
 	e addEventHandler: (ToMixedEventGeneratorHandler new
+			 needRepeatedEvent: true;
 			 startDelay: 500 milliSeconds;
 			 activateOnPressed: false;
 			 yourself).
@@ -7535,6 +7591,7 @@ ToSandBox class >> example_stillPressedEventWithMixedHandler [
 		     id: #'my-element';
 		     yourself.
 	e addEventHandler: (ToMixedEventGeneratorHandler new
+			 needRepeatedEvent: true;
 			 startDelay: 500 milliSeconds;
 			 delay: 200 milliSeconds;
 			 activateOnHovered: false;
@@ -8678,6 +8735,18 @@ ToSandBox class >> example_toTable1 [
 					 labelText: 'Inspect';
 					 clickAction: [ table inspect ];
 					 yourself) ].
+	"table nodeManager nodeFactory: [
+			| node |
+			node := ToTableRowNode new.
+			node addEventHandlerOn: BlSecondaryClickEvent 
+				do: [ :evt |
+					| t |
+					t := evt currentTarget.
+					t holder listElement
+						notifyClickOnNode: evt currentTarget
+						fromEvent: evt ].
+			node ]."
+
 	table columns: {
 			(ToTableColumn new
 				 title: 'Name';
@@ -9442,6 +9511,7 @@ ToSandBox class >> listWithData: aCollection [
 	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
 	bar nodeBuilder: [ :node :dataItem :holder |
 			| triplet label |
+			node tooltipString: dataItem asString.
 			triplet := ToTripletElement new.
 			triplet
 				hMatchParent;
@@ -10142,9 +10212,16 @@ ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 { #category : #tabPane }
 ToSandBox class >> tabPaneElementDashBoardFor: aTabPaneElement [
 
-	| mainPane confPane hideParlyVisibleNodesSwitch layoutModeSwitch alignmentGroup |
+	| mainPane confPane hideParlyVisibleNodesSwitch layoutModeSwitch alignmentGroup paneDestroySwith |
 	mainPane := self tabGroupElementDashBoardFor: aTabPaneElement.
 	confPane := mainPane childWithId: #configurationPane.
+
+	paneDestroySwith := ToSwitchButton new labelText: 'Destroy pane when deselected'.
+	paneDestroySwith checkAction: [ :evt |
+			aTabPaneElement destroyPaneWhenDeselected: evt target isChecked ].
+	paneDestroySwith startFlexible: true.
+	paneDestroySwith hMatchParent.
+	confPane addChild: paneDestroySwith.
 
 	confPane addChild: (ToLabel new text: 'Alignment').
 	alignmentGroup := ToCheckableGroupPane vertical.
@@ -10196,7 +10273,7 @@ ToSandBox class >> tabPaneElementWithUSStates [
 
 	| tpane |
 	tpane := ToTabPaneElement new.
-	tpane addTabItemDataFactory: [ 'My new tab'].
+	tpane addTabItemDataFactory: [ 'My new tab' ].
 	tpane itemBuilder: [ :tabButton :aData :holder |
 			| lab |
 			lab := ToLabel text: aData asString.
@@ -10210,9 +10287,9 @@ ToSandBox class >> tabPaneElementWithUSStates [
 						request accepted: true ].
 					editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
 							editorEvent target text: acceptedEvent target text.
-							holder listElement selecter scrollTowardEndToDataSourcePosition:
-								holder position ] ].
-			tabButton destroyPaneWhenDeselected: true.
+							holder listElement selecter
+								scrollTowardEndToDataSourcePosition: holder position ] ].
+			tabButton destroyPaneWhenDeselected: false.
 			tabButton
 				label: lab;
 				tooltipString: aData asString;
@@ -10225,13 +10302,13 @@ ToSandBox class >> tabPaneElementWithUSStates [
 							background: (c alpha: 0.1);
 							yourself ];
 				paneBuilder: [ :pane :button :bholder |
-						| emptyPh |
-						emptyPh := ToEmptyPlaceholderLayer new attachToParent: pane.
-						pane userData at: #placeholder put: emptyPh ];
-				paneDestroyer: [ :pane :button :bholder |
-						| emptyPh |
-						emptyPh := pane userData at: #placeholder.
-						emptyPh removeFromParent ];
+						pane userData at: #placeholder ifAbsent: [
+								| emptyPh |
+								emptyPh := (ToEmptyPlaceholderLayer withEmpty:
+									            (ToEmpty waiting labelText: 'waiting...'))
+									           attachToParent: pane.
+								pane userData at: #placeholder put: emptyPh ] ];
+				paneDestroyer: [ :pane :button :bholder |  ];
 				yourself ].
 	(self statesOfAmerica copyFrom: 1 to: 20) do: [ :l |
 		tpane addTabItemData: l ].

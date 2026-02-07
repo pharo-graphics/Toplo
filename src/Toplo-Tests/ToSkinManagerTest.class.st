@@ -207,7 +207,6 @@ ToSkinManagerTest >> testInstallSkinIn [
 
 	skin := ToRawSkin new.
 	" the element has an installed skin that must be uninstalled before "
-	e skinManager installSkin: skin in: e.
 	e skinManager uninstallSkinIn: e.
 	e skinManager installSkin: skin in: e.
 	self assert: e skinManager installedSkin identicalTo: skin

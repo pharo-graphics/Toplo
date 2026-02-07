@@ -20,6 +20,13 @@ BlSpace >> applyAllSkinPhases [
 ]
 
 { #category : #'*Toplo' }
+BlSpace >> applyAllToploPhases [
+
+	self applyAllWidgetConfigurations.
+	self applyAllSkinPhases 
+]
+
+{ #category : #'*Toplo' }
 BlSpace >> applyAllWidgetConfigurations [
 
 	self phasesManager applyAllConfigurationsIn: self
@@ -122,6 +129,6 @@ BlSpace >> toTheme [
 BlSpace >> toTheme: aTheme [
 
 	self root localTheme = aTheme ifTrue: [ ^ self ].
-	self root ensureCanManageSkin.
+	self root ensureCanManageToploSkin.
 	self root localTheme: aTheme
 ]

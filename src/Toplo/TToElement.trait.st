@@ -15,5 +15,5 @@ TToElement >> asFloatElement [
 { #category : #'t - toElement' }
 TToElement >> initializeForToplo [
 
-	self ensureCanManageSkin
+	self ensureCanManageToploSkin
 ]

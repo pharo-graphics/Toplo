@@ -29,6 +29,27 @@ ToTabPaneElementTest >> setUp [
 ]
 
 { #category : #tests }
+ToTabPaneElementTest >> testCheckTabButton [
+
+	tabPane := ToTabPaneElement new.
+	tabPane itemBuilder: [ :tabItem :data |
+			tabItem
+				id: data asSymbol;
+				labelText: data asString;
+				paneBuilder: [ :body :btn :holder |
+						body addChild: (ToElement new
+									 background: Color random;
+									 matchParent;
+									 yourself) ] ].
+
+	tabPane addTabItemData: 'First'.
+	self assert: tabPane items first group notNil.
+	self deny: tabPane items first isChecked.
+	tabPane items first checked: true.
+	self assert: tabPane items first isChecked
+]
+
+{ #category : #tests }
 ToTabPaneElementTest >> testCloseLastPage [
 
 	| firstButton secondButton clicked |
@@ -361,6 +382,27 @@ ToTabPaneElementTest >> testRemoveAllItems [
 	self assert: tabPane body children isEmpty.
 
 
+]
+
+{ #category : #tests }
+ToTabPaneElementTest >> testSelectTabButton [
+
+	tabPane := ToTabPaneElement new.
+	tabPane itemBuilder: [ :tabItem :data |
+			tabItem
+				id: data asSymbol;
+				labelText: data asString;
+				paneBuilder: [ :body :btn :holder |
+						body addChild: (ToElement new
+									 background: Color random;
+									 matchParent;
+									 yourself) ] ].
+
+	tabPane addTabItemData: 'First'.
+	self assert: tabPane items first group notNil.
+	self deny: tabPane items first isChecked.
+	tabPane selecter selectIndex: 1.
+	self assert: tabPane items first isChecked
 ]
 
 { #category : #tests }

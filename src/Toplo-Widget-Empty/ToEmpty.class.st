@@ -16,6 +16,22 @@ ToEmpty class >> box [
 		  yourself
 ]
 
+{ #category : #initialization }
+ToEmpty class >> initializeToRawTheme: aTheme [
+
+	<toploThemeInstallerFor: #ToRawTheme>
+	aTheme addTokenNamed: #'empty-image-size' withValue: 50.
+	aTheme addTokenNamed: #'empty-sector-height' withValue: 4.
+]
+
+{ #category : #'instance creation' }
+ToEmpty class >> waiting [
+
+	^ self new
+		  addStamp: #waiting;
+		  yourself
+]
+
 { #category : #accessing }
 ToEmpty >> builder: aValuable [
 

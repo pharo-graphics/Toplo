@@ -56,8 +56,8 @@ ToBasicListElement >> applyConfiguration [
 ToBasicListElement >> checkMouseMoveReplayRequest [
 
 	mouseMoveReplayRequested ifFalse: [ ^ self ].
-	[ self spaceDo: [ :sp | sp mouseProcessor handleLastMouseMove ] ]
-		ensure: [ mouseMoveReplayRequested := false ]
+	self spaceDo: [ :sp | sp mouseProcessor handleLastMouseMove ].
+	mouseMoveReplayRequested := false
 ]
 
 { #category : #layout }

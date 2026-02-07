@@ -90,7 +90,8 @@ ToAbstractListSelectionMode >> enabled: aBoolean [
 ToAbstractListSelectionMode >> ensureCleanAfter: aBlock [
 
 	" ensure not dirty after to avoid multiple useless recursions "
-	aBlock ensure: [ self dirty: false ]
+	aBlock value.
+	self dirty: false
 ]
 
 { #category : #'selection updating' }

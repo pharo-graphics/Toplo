@@ -119,6 +119,12 @@ ToListSelectionOption >> isMasked [
 	^ masked 
 ]
 
+{ #category : #testing }
+ToListSelectionOption >> isPrimary [
+
+	^ selectionMode isPrimary
+]
+
 { #category : #accessing }
 ToListSelectionOption >> masked: aBoolean [
 

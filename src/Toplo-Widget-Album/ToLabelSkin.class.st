@@ -8,6 +8,7 @@ Class {
 ToLabelSkin >> deselectedSkinEvent: anEvent [
 
 	super deselectedSkinEvent: anEvent.
+	anEvent selectionOption isPrimary ifFalse: [ ^ self ].
 	anEvent elementDo: [ :e |
 			"e text asString = 'Alaska' ifTrue: [ anEvent traceCr ]."
 			e foreground: (e valueOfTokenNamed: #'color-text') ]
@@ -48,6 +49,7 @@ ToLabelSkin >> installSkinEvent: anEvent [
 ToLabelSkin >> selectedSkinEvent: anEvent [
 
 	super selectedSkinEvent: anEvent.
+	anEvent selectionOption isPrimary ifFalse: [ ^ self ].
 	anEvent elementDo: [ :e |
 			| f |
 			f := anEvent focused

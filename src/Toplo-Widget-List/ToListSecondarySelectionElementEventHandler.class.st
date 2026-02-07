@@ -21,13 +21,13 @@ ToListSecondarySelectionElementEventHandler >> listSecondarySelectionChangedEven
 { #category : #'mouse handlers' }
 ToListSecondarySelectionElementEventHandler >> mouseMoveEvent: anEvent [
 
-	| target nodeContainer globalPosition childNode |
+	| target innerElement globalPosition childNode |
 	target := anEvent currentTarget.
 	target isEnabled ifFalse: [ ^ self ].
-	nodeContainer := target innerElement.
+	innerElement := target innerElement.
 	globalPosition := anEvent position.
 
-	childNode := nodeContainer selectableNodeContainingGlobalPosition: globalPosition.
+	childNode := innerElement selectableNodeContainingGlobalPosition: globalPosition.
 	childNode ifNil: [
 		target secondarySelecter deselectAll.
 		^ self ].

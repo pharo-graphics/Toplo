@@ -47,7 +47,7 @@ ToListElementEventHandler >> elementExtentChangedEvent: anEvent [
 
 	| listElement |
 	listElement := anEvent currentTarget.
-	listElement forceUpdateAllSelections
+	listElement updateAllSelections
 ]
 
 { #category : #'api - accessing' }

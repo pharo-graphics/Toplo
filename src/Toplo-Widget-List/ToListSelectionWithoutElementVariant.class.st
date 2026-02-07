@@ -39,3 +39,12 @@ ToListSelectionWithoutElementVariant >> selectedNodeContainersFrom: aListElement
 			  (aSelectionModel containsIndex: idx) and: [
 				  aSelectionModel isVisibleIndex: idx ] ]
 ]
+
+{ #category : #'private - selection updating' }
+ToListSelectionWithoutElementVariant >> updateRepresentationIn: aListElement withSelectionModel: aSelectionModel [
+
+	super
+		updateRepresentationIn: aListElement
+		withSelectionModel: aSelectionModel.
+	self notifyNodesSelectedIn: aListElement
+]

@@ -51,6 +51,15 @@ ToListSelectionWithElementVariant >> newSelectionElementIn: aListElement forNode
 ]
 
 { #category : #'private - selection updating' }
+ToListSelectionWithElementVariant >> updateRepresentationIn: aListElement withSelectionModel: aSelectionModel [
+
+	super
+		updateRepresentationIn: aListElement
+		withSelectionModel: aSelectionModel.
+	self addSelectionElementsIn: aListElement
+]
+
+{ #category : #'private - selection updating' }
 ToListSelectionWithElementVariant >> updateSelectionContainerWith: anArray in: aListElement [
 	" add new selection with animation if possible. 
 	Pay attention, an animation can be used. In case of animation, the SelectedSkinEvent is sent only when the animation ends to have a nice visual effect. If no animation is used, then SelectedSkinEvent is sent just after the selection is added "

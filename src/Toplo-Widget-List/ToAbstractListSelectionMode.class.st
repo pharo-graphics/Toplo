@@ -30,9 +30,8 @@ ToAbstractListSelectionMode >> checkSelectionIn: aListElement [
 	self ensureCleanAfter: [
 			self selectionOption ifNotNil: [ :option |
 					option
-						checkRepresentationIn: aListElement
-						withSelectionModel: self selectionModel
-						forceUpdate: false ] ]
+						updateRepresentationIn: aListElement
+						withSelectionModel: self selectionModel ] ]
 ]
 
 { #category : #initialization }
@@ -92,18 +91,6 @@ ToAbstractListSelectionMode >> ensureCleanAfter: aBlock [
 	" ensure not dirty after to avoid multiple useless recursions "
 	aBlock value.
 	self dirty: false
-]
-
-{ #category : #'selection updating' }
-ToAbstractListSelectionMode >> forceUpdateSelectionIn: aListElement [
-	" ensure not dirty after to avoid multiple useless recursions "
-
-	self ensureCleanAfter: [
-			self selectionOption ifNotNil: [ :option |
-					option
-						checkRepresentationIn: aListElement
-						withSelectionModel: self selectionModel
-						forceUpdate: true ] ]
 ]
 
 { #category : #initialization }
@@ -325,4 +312,14 @@ ToAbstractListSelectionMode >> selectionOption [
 ToAbstractListSelectionMode >> selectionOptionDo: aBlock [
 
 	aBlock value: selectionOption
+]
+
+{ #category : #'selection updating' }
+ToAbstractListSelectionMode >> updateSelectionIn: aListElement [
+
+	self ensureCleanAfter: [
+			self selectionOption ifNotNil: [ :option |
+					option
+						updateRepresentationIn: aListElement
+						withSelectionModel: self selectionModel ] ]
 ]

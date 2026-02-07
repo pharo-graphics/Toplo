@@ -170,3 +170,14 @@ ToListSelectionRepresentationVariant >> selectionOption: aSelectionOption [
 
 	selectionOption := aSelectionOption 
 ]
+
+{ #category : #'private - selection updating' }
+ToListSelectionRepresentationVariant >> updateRepresentationIn: aListElement withSelectionModel: aSelectionModel [
+
+	representation := self
+		                  nextRepresentationIn: aListElement
+		                  withSelectionModel: aSelectionModel.
+	representationChanged := true.
+	self notifyNodesDeselectedIn: aListElement.
+	self removeAllSelectionElements
+]

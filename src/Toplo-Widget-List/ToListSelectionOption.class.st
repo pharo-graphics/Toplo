@@ -192,6 +192,15 @@ ToListSelectionOption >> selectionMode: aListSelectionMode [
 	selectionMode := aListSelectionMode
 ]
 
+{ #category : #'private - selection updating' }
+ToListSelectionOption >> updateRepresentationIn: aListElement withSelectionModel: aSelectionModel [
+
+	representationVariant
+		updateRepresentationIn: aListElement
+		withSelectionModel: aSelectionModel.
+	selectionMode dirty: false
+]
+
 { #category : #accessing }
 ToListSelectionOption >> withEmbeddedRepresentation [
 

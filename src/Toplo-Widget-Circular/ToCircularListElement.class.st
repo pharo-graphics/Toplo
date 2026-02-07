@@ -45,14 +45,6 @@ ToCircularListElement >> applyConfiguration [
 	self applyInnerFiniteListElementConfiguration 
 ]
 
-{ #category : #'selection updating' }
-ToCircularListElement >> forceUpdateAllSelections [
-
-	listElement ifNil: [ ^ self ].
-	listElement forceUpdateAllSelections.
-	listElement requestMouseMoveReplay
-]
-
 { #category : #initialization }
 ToCircularListElement >> initialize [ 
 
@@ -93,7 +85,7 @@ ToCircularListElement >> onLayoutDone [
 	super onLayoutDone.
 	self consumeFinalStepCommands.
 	selectionUpdateRequested ifFalse: [ ^ self ].
-	self forceUpdateAllSelections.
+	self updateAllSelections.
 	selectionUpdateRequested := false
 ]
 
@@ -123,4 +115,12 @@ ToCircularListElement >> scrollBy: aPoint [
 	<return: #Boolean>
 	" nothing to do here, see `mouseWheelEvent:`"
 	^ true
+]
+
+{ #category : #'selection updating' }
+ToCircularListElement >> updateAllSelections [
+
+	listElement ifNil: [ ^ self ].
+	listElement updateAllSelections.
+	listElement requestMouseMoveReplay
 ]

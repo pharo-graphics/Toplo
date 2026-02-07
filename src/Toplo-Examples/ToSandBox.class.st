@@ -5977,7 +5977,6 @@ ToSandBox class >> example_compositeBadgeOnAButton [
 ToSandBox class >> example_contactList [
 
 	| panel updateButton addPredefinedButton addPredefinedAction dataBlock list contact nameTxtF phoneTxtF addressTxtF inputPane data |
-
 	panel := ToPane vertical.
 	panel constraints horizontal matchParent.
 	panel layout cellSpacing: 10.
@@ -6069,12 +6068,29 @@ ToSandBox class >> example_contactList [
 	inputPane childrenDo: [ :child |
 		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
 
+	list contextMenuBuilder: [ :menu :request |
+			| selectionModel indexes target |
+			target := request currentTarget.
+			selectionModel := request selectionModel.
+			indexes := request selectedIndexes.
+			menu addItem: (ToMenuItem new
+					 labelText: 'Remove';
+					 clickAction: [
+						 indexes sort reverseDo: [ :idx |
+								 target dataAccessor removeAt: idx ] ];
+					 yourself).
+			menu addItem: (ToMenuItem new
+					 labelText: 'Inspect';
+					 clickAction: [ target inspect ];
+					 yourself) ].
+
 	list nodeBuilder: [ :node :dataItem :holder |
 			| line remBut |
 			node ensureCanManageToploSkin.
 			line := ToElement new
-				        layout: BlLinearLayout horizontal; hMatchParent;
-		        vFitContent.
+				        layout: BlLinearLayout horizontal;
+				        hMatchParent;
+				        vFitContent.
 			line addChild: (ToLabel new
 					 text: dataItem name;
 					 width: 100;
@@ -6090,7 +6106,7 @@ ToSandBox class >> example_contactList [
 			line addChild: ToElement new matchParent.
 			remBut := ToIconicRemoveButton new.
 			remBut constraintsDo: [ :c | c linear vertical alignCenter ].
-			remBut clickAction: [ :event | "event consume."
+			remBut clickAction: [ :event |
 				holder listElement dataAccessor removeAt: holder position ].
 			line addChild: remBut.
 			node addChild: line ].

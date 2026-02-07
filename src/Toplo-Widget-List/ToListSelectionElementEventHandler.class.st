@@ -37,11 +37,7 @@ ToListSelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
 			self differUpdateSelectionFrom: target.
 			^ self ].
 
-	self flag: 'force update here is needed - why excatly ?. 
-	check with #example_contactList select the last node and 
-	then remove another node with the node remove button'.
 	anEvent selectionOption
-		checkRepresentationIn: target
+		updateRepresentationIn: target
 		withSelectionModel: anEvent selectionModel
-		forceUpdate: true
 ]

@@ -258,12 +258,6 @@ ToBasicListElement >> flagAsDisabled: aBoolean [
 	super flagAsDisabled: aBoolean
 ]
 
-{ #category : #'selection updating' }
-ToBasicListElement >> forceUpdateAllSelections [
-
-	self selectionModes do: [ :mode | mode forceUpdateSelectionIn: self ]
-]
-
 { #category : #'accessing selecters' }
 ToBasicListElement >> hiddenAtPosition: anInteger [
 
@@ -759,6 +753,12 @@ ToBasicListElement >> unselectableSelectionMode [
 ToBasicListElement >> unselectableSelectionModel [
 
 	^ self selectionModel unselectableSelectionModel
+]
+
+{ #category : #'selection updating' }
+ToBasicListElement >> updateAllSelections [
+
+	self selectionModes do: [ :mode | mode updateSelectionIn: self ]
 ]
 
 { #category : #'selection updating' }

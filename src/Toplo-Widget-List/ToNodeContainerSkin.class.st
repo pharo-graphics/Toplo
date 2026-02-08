@@ -8,8 +8,6 @@ Class {
 ToNodeContainerSkin >> deselectedSkinEvent: anEvent [
 
 	super deselectedSkinEvent: anEvent.
-
-	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
 	anEvent elementDo: [ :e |
 			e holder listElement nodeManager checkableNode ifTrue: [
 				e removeTokenNamed: #'checkbox-color' ] ]
@@ -19,8 +17,6 @@ ToNodeContainerSkin >> deselectedSkinEvent: anEvent [
 ToNodeContainerSkin >> selectedSkinEvent: anEvent [
 
 	super selectedSkinEvent: anEvent.
-
-	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
 	anEvent elementDo: [ :e |
 			e holder listElement nodeManager checkableNode ifTrue: [
 					| f |

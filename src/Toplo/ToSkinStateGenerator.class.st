@@ -142,6 +142,7 @@ ToSkinStateGenerator >> handleEvent: anEvent [
 { #category : #'list selection' }
 ToSkinStateGenerator >> listNodeSelectedEvent: anEvent [
 
+	"target isEnabled ifFalse: [ ^ self ]."
 	target skinManagerDo: [ :sm |
 			sm
 				selectionState: anEvent selected

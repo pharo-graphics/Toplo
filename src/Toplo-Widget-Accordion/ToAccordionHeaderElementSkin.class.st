@@ -21,6 +21,7 @@ ToAccordionHeaderElementSkin >> collapseHeader: anHeader [
 ToAccordionHeaderElementSkin >> deselectedSkinEvent: anEvent [
 
 	super deselectedSkinEvent: anEvent.
+	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
 	anEvent elementDo: [ :e | self collapseHeader: e ]
 ]
 
@@ -55,6 +56,7 @@ ToAccordionHeaderElementSkin >> installSkinEvent: anEvent [
 ToAccordionHeaderElementSkin >> selectedSkinEvent: anEvent [
 
 	super selectedSkinEvent: anEvent.
+	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
 	anEvent elementDo: [ :e | self expandHeader: e ]
 ]
 

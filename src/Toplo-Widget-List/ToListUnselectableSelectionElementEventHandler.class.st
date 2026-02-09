@@ -13,9 +13,9 @@ ToListUnselectableSelectionElementEventHandler >> eventsToHandle [
 { #category : #'element handlers' }
 ToListUnselectableSelectionElementEventHandler >> listUnselectableSelectionChangedEvent: anEvent [
 
-	| target |
-	target := anEvent currentTarget.
+	| listElement |
+	listElement := anEvent currentTarget.
 	self updateSelectionFromEvent: anEvent.
-	target unselectableSelectionModel selectedIndexesIntervalsDo: [ :int |
-		target selecter deselectInterval: int ]
+	listElement unselectableSelectionModel selectedIndexesIntervalsDo: [ :int |
+		listElement selecter deselectInterval: int ]
 ]

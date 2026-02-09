@@ -24,10 +24,6 @@ TToCheckableSelectionManager >> newCheckbox [
 	|  cbox |
 	cbox := ToCheckbox new.
 	cbox id: #'list-selection-checkbox'.
-	" the checkbox is not responsible for its skin update (to render the check state).
-	The update is done by the list element primary selection event handler 
-	as a consequence of the primary selection change "
-	cbox switchToNextCheckStateOnClick: false.
 	cbox focusability: BlFocusability none.
 	^ cbox
 ]
@@ -37,10 +33,18 @@ TToCheckableSelectionManager >> newCheckboxInNodeContainer: aNodeContainer [
 
 	| cbox |
 	cbox := self newCheckbox.
+
+	cbox
+		addEventHandlerOn: ToCheckableCheckRequestEvent
+		do: [ :event | event authorized: aNodeContainer holder isSelectable ].
+
 	cbox checked: aNodeContainer holder isSelected.
 	" In case the checkbox has been checked, update the list selection "
 	cbox addEventHandlerOn: BlPrimaryClickEvent do: [ :event |
-		self notifyClickOnCheckbox: cbox onNode: aNodeContainer node onEvent: event ].
+			self
+				notifyClickOnCheckbox: cbox
+				onNode: aNodeContainer node
+				onEvent: event ].
 	^ cbox
 ]
 
@@ -72,5 +76,6 @@ TToCheckableSelectionManager >> updateCheckboxes [
 	self checkboxesUpdateDone.
 	self nodeContainersDo: [ :nc |
 			nc checkbox ifNotNil: [ :cbox |
-				cbox checked: nc holder isSelected ] ]
+				cbox enabled: true.
+				cbox privateChecked: (nc holder isSelected and: [ nc holder isSelectable ] ) ] ]
 ]

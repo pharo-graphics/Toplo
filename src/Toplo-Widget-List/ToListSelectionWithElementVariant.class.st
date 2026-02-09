@@ -19,11 +19,10 @@ ToListSelectionWithElementVariant >> addSelectionElementsIn: aListElement [
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionWithElementVariant >> checkRepresentationIn: aListElement withSelectionModel: aSelectionModel forceUpdate: aBoolean [
+ToListSelectionWithElementVariant >> checkRepresentationIn: aListElement forceUpdate: aBoolean [
 
 	super
 		checkRepresentationIn: aListElement
-		withSelectionModel: aSelectionModel
 		forceUpdate: aBoolean.
 	representationChanged ifFalse: [ ^ self ].
 	self addSelectionElementsIn: aListElement
@@ -51,11 +50,9 @@ ToListSelectionWithElementVariant >> newSelectionElementIn: aListElement forNode
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionWithElementVariant >> updateRepresentationIn: aListElement withSelectionModel: aSelectionModel [
+ToListSelectionWithElementVariant >> updateRepresentationIn: aListElement [
 
-	super
-		updateRepresentationIn: aListElement
-		withSelectionModel: aSelectionModel.
+	super updateRepresentationIn: aListElement.
 	self addSelectionElementsIn: aListElement
 ]
 

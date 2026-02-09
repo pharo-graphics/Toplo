@@ -36,14 +36,6 @@ ToListSelectionOption >> beneath: aBoolean [
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionOption >> checkRepresentationIn: aListElement withSelectionModel: aSelectionModel forceUpdate: aBoolean [
-
-	representationVariant
-		checkRepresentationIn: aListElement withSelectionModel: aSelectionModel forceUpdate: aBoolean.
-	selectionMode dirty: false
-]
-
-{ #category : #'private - selection updating' }
 ToListSelectionOption >> checkSelectionContainerIn: aListElement [
 
 	masked ifTrue: [
@@ -199,11 +191,9 @@ ToListSelectionOption >> selectionMode: aListSelectionMode [
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionOption >> updateRepresentationIn: aListElement withSelectionModel: aSelectionModel [
+ToListSelectionOption >> updateRepresentationIn: aListElement [
 
-	representationVariant
-		updateRepresentationIn: aListElement
-		withSelectionModel: aSelectionModel.
+	representationVariant updateRepresentationIn: aListElement.
 	selectionMode dirty: false
 ]
 

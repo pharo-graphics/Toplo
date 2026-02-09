@@ -9,9 +9,21 @@ ToCheckboxSkin >> checkedSkinEvent: anEvent [
 
 	super checkedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e icon
-			innerImage: (e valueOfTokenNamed: #'checkbox-checked-image');
-			innerImageColor: (e valueOfTokenNamed: #'checkbox-color'). ]
+			e icon
+				innerImage: (e valueOfTokenNamed: #'checkbox-checked-image');
+				innerImageColor: (e valueOfTokenNamed: #'checkbox-color') ]
+]
+
+{ #category : #'event handling' }
+ToCheckboxSkin >> deselectedSkinEvent: anEvent [
+
+	super deselectedSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+			e listHolderDo: [ :h |
+					h isSelectable ifFalse: [
+						'red' traceCr.
+							e icon innerImageColor: Color red.
+							e valueOfTokenNamed: #'checkbox-color' ] ] ]
 ]
 
 { #category : #'event handling' }
@@ -112,6 +124,17 @@ ToCheckboxSkin >> leftSkinEvent: anEvent [
 		e labelDo: [ :lab |
 			lab foreground: (e valueOfTokenNamed: #'color-text') ].
 		e border: BlBorder empty ]
+]
+
+{ #category : #'event handling' }
+ToCheckboxSkin >> selectedSkinEvent: anEvent [
+
+	super selectedSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+			e listHolderDo: [ :h |
+					h isSelectable ifFalse: [
+							e icon innerImageColor: Color red.
+							e valueOfTokenNamed: #'checkbox-color' ] ] ]
 ]
 
 { #category : #'event handling' }

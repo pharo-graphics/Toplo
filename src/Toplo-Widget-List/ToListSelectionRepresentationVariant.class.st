@@ -28,12 +28,10 @@ ToListSelectionRepresentationVariant class >> separate [
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionRepresentationVariant >> checkRepresentationIn: aListElement withSelectionModel: aSelectionModel forceUpdate: aBoolean [
+ToListSelectionRepresentationVariant >> checkRepresentationIn: aListElement forceUpdate: aBoolean [
 
 	| nextRepresentation |
-	nextRepresentation := self
-		                      nextRepresentationIn: aListElement
-		                      withSelectionModel: aSelectionModel.
+	nextRepresentation := self nextRepresentationIn: aListElement.
 	representationChanged := aBoolean
 		                         ifTrue: [ true ]
 		                         ifFalse: [
@@ -72,18 +70,17 @@ ToListSelectionRepresentationVariant >> isMasked [
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionRepresentationVariant >> newSelectionRepresentationArrayFrom: aListElement withSelectionModel: aSelectionModel [
+ToListSelectionRepresentationVariant >> newSelectionRepresentationArrayFrom: aListElement [ 
 
 	^ self subclassResponsibility 
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionRepresentationVariant >> nextRepresentationIn: aListElement withSelectionModel: aSelectionModel [
+ToListSelectionRepresentationVariant >> nextRepresentationIn: aListElement [
 
 	| arr |
 	arr := self
-		       newSelectionRepresentationArrayFrom: aListElement
-		       withSelectionModel: aSelectionModel.
+		       newSelectionRepresentationArrayFrom: aListElement.
 	^ arr ifEmpty: [ ToEmptySelectionRepresentation new ] ifNotEmpty: [
 			  arr size > 1
 				  ifTrue: [
@@ -135,6 +132,7 @@ ToListSelectionRepresentationVariant >> notifyNodesDeselectedIn: aListElement [
 ToListSelectionRepresentationVariant >> notifyNodesSelectedIn: aListElement [
 
 	self selectionMode isPrimary ifFalse: [ ^ self ].
+	"selectionOption = aListElement unselectableSelectionMode selectionOption ifTrue: [ self haltOnce ]."
 	aListElement nodeContainersDo: [ :container |
 		self notifyNodeContainer: container selectedIn: aListElement ]
 ]
@@ -147,7 +145,7 @@ ToListSelectionRepresentationVariant >> removeAllSelectionElements [
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionRepresentationVariant >> selectedNodeContainersFrom: aListElement withSelectionModel: aSelectionModel [
+ToListSelectionRepresentationVariant >> selectedNodeContainersFrom: aListElement [ 
 
 	^ self subclassResponsibility 
 ]
@@ -166,17 +164,21 @@ ToListSelectionRepresentationVariant >> selectionMode [
 ]
 
 { #category : #accessing }
+ToListSelectionRepresentationVariant >> selectionModel [
+
+	^ self selectionMode selectionModel
+]
+
+{ #category : #accessing }
 ToListSelectionRepresentationVariant >> selectionOption: aSelectionOption [
 
 	selectionOption := aSelectionOption 
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionRepresentationVariant >> updateRepresentationIn: aListElement withSelectionModel: aSelectionModel [
+ToListSelectionRepresentationVariant >> updateRepresentationIn: aListElement [
 
-	representation := self
-		                  nextRepresentationIn: aListElement
-		                  withSelectionModel: aSelectionModel.
+	representation := self nextRepresentationIn: aListElement.
 	representationChanged := true.
 	self notifyNodesDeselectedIn: aListElement.
 	self removeAllSelectionElements

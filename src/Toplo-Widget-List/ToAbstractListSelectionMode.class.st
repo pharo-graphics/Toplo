@@ -29,9 +29,7 @@ ToAbstractListSelectionMode >> checkSelectionIn: aListElement [
 	self dirty ifFalse: [ ^ self ].
 	self ensureCleanAfter: [
 			self selectionOption ifNotNil: [ :option |
-					option
-						updateRepresentationIn: aListElement
-						withSelectionModel: self selectionModel ] ]
+				option updateRepresentationIn: aListElement ] ]
 ]
 
 { #category : #initialization }
@@ -319,7 +317,5 @@ ToAbstractListSelectionMode >> updateSelectionIn: aListElement [
 
 	self ensureCleanAfter: [
 			self selectionOption ifNotNil: [ :option |
-					option
-						updateRepresentationIn: aListElement
-						withSelectionModel: self selectionModel ] ]
+				option updateRepresentationIn: aListElement ] ]
 ]

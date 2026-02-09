@@ -37,7 +37,5 @@ ToListSelectionElementEventHandler >> updateSelectionFromEvent: anEvent [
 			self differUpdateSelectionFrom: target.
 			^ self ].
 
-	anEvent selectionOption
-		updateRepresentationIn: target
-		withSelectionModel: anEvent selectionModel
+	anEvent selectionOption updateRepresentationIn: target
 ]

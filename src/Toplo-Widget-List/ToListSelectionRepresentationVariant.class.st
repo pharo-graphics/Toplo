@@ -3,7 +3,6 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'selectionOption',
-		'representationChanged',
 		'representation'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
@@ -27,27 +26,10 @@ ToListSelectionRepresentationVariant class >> separate [
 	^ ToListSelectionWithSeparateElementVariant new
 ]
 
-{ #category : #'private - selection updating' }
-ToListSelectionRepresentationVariant >> checkRepresentationIn: aListElement forceUpdate: aBoolean [
-
-	| nextRepresentation |
-	nextRepresentation := self nextRepresentationIn: aListElement.
-	representationChanged := aBoolean
-		                         ifTrue: [ true ]
-		                         ifFalse: [
-		                         (nextRepresentation equivalentTo:
-			                          representation) not ].
-	representationChanged ifFalse: [ ^ self ].
-	representation := nextRepresentation.
-	self notifyNodesDeselectedIn: aListElement.
-	self removeAllSelectionElements
-]
-
 { #category : #initialization }
 ToListSelectionRepresentationVariant >> initialize [ 
 
 	super initialize.
-	representationChanged := true.
 	representation := ToEmptySelectionRepresentation new
 ]
 
@@ -99,10 +81,7 @@ ToListSelectionRepresentationVariant >> notifyNodeContainer: aNodeContainer dese
 	holder isSelected ifTrue: [ ^ self ].
 	" have I already notified a deselection ? "
 	holder canNotifyDeselection ifFalse: [ ^ self ].
-	holder notifyNodeSelectedEvent: (ToListNodeSelectedEvent new
-			 listElement: aListElement;
-			 selectionOption: selectionOption;
-			 selected: false)
+	holder notifyNodeSelected: false selectionOption: selectionOption
 ]
 
 { #category : #'private - selection notification' }
@@ -114,10 +93,7 @@ ToListSelectionRepresentationVariant >> notifyNodeContainer: aNodeContainer sele
 	holder isSelected ifFalse: [ ^ self ].
 	" have I already notified a deselection ? "
 	holder canNotifySelection ifFalse: [ ^ self ].
-	holder notifyNodeSelectedEvent: (ToListNodeSelectedEvent new
-			 listElement: aListElement;
-			 selectionOption: selectionOption;
-			 selected: true)
+	holder notifyNodeSelected: true selectionOption: selectionOption
 ]
 
 { #category : #'private - selection notification' }
@@ -179,7 +155,6 @@ ToListSelectionRepresentationVariant >> selectionOption: aSelectionOption [
 ToListSelectionRepresentationVariant >> updateRepresentationIn: aListElement [
 
 	representation := self nextRepresentationIn: aListElement.
-	representationChanged := true.
 	self notifyNodesDeselectedIn: aListElement.
 	self removeAllSelectionElements
 ]

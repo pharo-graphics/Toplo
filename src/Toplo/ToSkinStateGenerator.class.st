@@ -122,7 +122,6 @@ ToSkinStateGenerator >> eventsToHandle [
 		  BlMouseEnterEvent.
 		  BlMouseLeaveEvent.
 		  ToCheckableCheckEvent.
-		  ToListNodeSelectedEvent.
 		  ToMouseUpOutsideEvent }
 ]
 
@@ -137,17 +136,6 @@ ToSkinStateGenerator >> focusEvent: anEvent [
 ToSkinStateGenerator >> handleEvent: anEvent [
 
 	anEvent sendToSkinStateGenerator: self
-]
-
-{ #category : #'list selection' }
-ToSkinStateGenerator >> listNodeSelectedEvent: anEvent [
-
-	target skinManagerDo: [ :sm |
-			sm
-				selectionState: anEvent selected
-				selectionOption: anEvent selectionOption
-				focused: anEvent listElement isFocused
-				in: target ]
 ]
 
 { #category : #'mouse handlers' }

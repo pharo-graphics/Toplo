@@ -5,8 +5,8 @@ Class {
 }
 
 { #category : #selection }
-ToNodeHolderForSkinEventTest >> notifyNodeSelectedEvent: anEvent [
+ToNodeHolderForSkinEventTest >> notifyNodeSelected: isSelected selectionOption: aSelectionOption [
 
 	self node userData at: #testAction ifPresent: [ :v | v value ].
-	super notifyNodeSelectedEvent: anEvent
+	super notifyNodeSelected: isSelected selectionOption: aSelectionOption
 ]

@@ -4,16 +4,6 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
-{ #category : #'private - selection updating' }
-ToListSelectionWithoutElementVariant >> checkRepresentationIn: aListElement forceUpdate: aBoolean [
-
-	super
-		checkRepresentationIn: aListElement
-		forceUpdate: aBoolean.
-	representationChanged ifFalse: [ ^ self ].
-	self notifyNodesSelectedIn: aListElement
-]
-
 { #category : #testing }
 ToListSelectionWithoutElementVariant >> isEmbedded [ 
 

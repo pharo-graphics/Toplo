@@ -18,16 +18,6 @@ ToListSelectionWithElementVariant >> addSelectionElementsIn: aListElement [
 	self updateSelectionContainerWith: selectionElements in: aListElement
 ]
 
-{ #category : #'private - selection updating' }
-ToListSelectionWithElementVariant >> checkRepresentationIn: aListElement forceUpdate: aBoolean [
-
-	super
-		checkRepresentationIn: aListElement
-		forceUpdate: aBoolean.
-	representationChanged ifFalse: [ ^ self ].
-	self addSelectionElementsIn: aListElement
-]
-
 { #category : #testing }
 ToListSelectionWithElementVariant >> isAnimated [
 

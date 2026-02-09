@@ -36,8 +36,8 @@ ToSkinStateQueue >> enqueueInstallStateFor: anElement [
 
 	installState ifNotNil: [ ^ ToInstallStateAlreadyQueuedError signal ].
 	installState := ToInstallState instance.
-	self enqueueState: installState for: anElement.
 	intrinsicState enabledSkinEvent: anElement newEnabledSkinEvent.
+	nextStates add: installState.
 	self enqueueIntrinsicStateFor: anElement
 ]
 

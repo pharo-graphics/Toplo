@@ -9507,6 +9507,7 @@ ToSandBox class >> listWithData: aCollection [
 	| bar confBoard barPane rootPane selectionModeBoard rand |
 	rand := Random new.
 	bar := ToListElement finite.
+	bar matchParent.
 	bar nodeManager nodeHolderFactory: [ ToExNodeWithFontSizeHolder new ].
 	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
 	bar nodeBuilder: [ :node :dataItem :holder |

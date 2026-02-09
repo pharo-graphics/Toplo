@@ -112,8 +112,8 @@ ToSkinStateQueue >> resetStates [
 ]
 
 { #category : #'instinsic state accessing' }
-ToSkinStateQueue >> selectionSkinEvent: aSelectionEvent in: anElement [
+ToSkinStateQueue >> selectedSkinEvent: aSelectionEvent in: anElement [
 
-	intrinsicState selectionSkinEvent: aSelectionEvent.
+	intrinsicState selectedSkinEvent: aSelectionEvent.
 	self enqueueIntrinsicStateFor: anElement
 ]

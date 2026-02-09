@@ -84,7 +84,7 @@ ToListSelectionRepresentationVariant >> notifyNodeContainer: aNodeContainer dese
 	evt := ToDeselectedSkinEvent new.
 	evt focused: aListElement focused.
 	evt selectionOption: selectionOption.
-	holder notifySelectionSkinEvent: evt
+	holder notifySelectedSkinEvent: evt
 ]
 
 { #category : #'private - selection notification' }
@@ -99,7 +99,7 @@ ToListSelectionRepresentationVariant >> notifyNodeContainer: aNodeContainer sele
 	evt := ToSelectedSkinEvent new.
 	evt focused: aListElement focused.
 	evt selectionOption: selectionOption.
-	holder notifySelectionSkinEvent: evt
+	holder notifySelectedSkinEvent: evt
 ]
 
 { #category : #'private - selection notification' }

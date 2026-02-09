@@ -4,9 +4,9 @@ Class {
 	#instVars : [
 		'enqueued',
 		'focusedSkinEvent',
-		'selectionSkinEvent',
 		'checkedSkinEvent',
-		'enabledSkinEvent'
+		'enabledSkinEvent',
+		'selectedSkinEvent'
 	],
 	#category : #'Toplo-Core-States'
 }
@@ -16,9 +16,9 @@ ToIntrinsicState >> applyOn: anElement fromQueue: aQueue [
 
 	" enabled can be nil, in that case no event dispatching is required"
 	enabledSkinEvent enabled ifTrue: [  self dispatchEnabledSkinEventOn: anElement fromQueue: aQueue ].
-	self dispatchSelectionSkinEventOn: anElement fromQueue: aQueue.
-	self dispatchCheckedSkinEventOn: anElement fromQueue: aQueue.
 	self dispatchFocusedSkinEventOn: anElement fromQueue: aQueue.
+	self dispatchCheckedSkinEventOn: anElement fromQueue: aQueue.
+	self dispatchSelectedSkinEventOn: anElement fromQueue: aQueue.
 	enabledSkinEvent enabled ifFalse: [  self dispatchEnabledSkinEventOn: anElement fromQueue: aQueue ].
 	enqueued := false
 ]
@@ -60,10 +60,10 @@ ToIntrinsicState >> dispatchFocusedSkinEventOn: anElement fromQueue: aQueue [
 ]
 
 { #category : #'skin dispatching' }
-ToIntrinsicState >> dispatchSelectionSkinEventOn: anElement fromQueue: aQueue [
+ToIntrinsicState >> dispatchSelectedSkinEventOn: anElement fromQueue: aQueue [
 
-	selectionSkinEvent ifNil: [ ^ self ].
-	self dispatchSkinEvent: selectionSkinEvent on: anElement fromQueue: aQueue
+	selectedSkinEvent ifNil: [ ^ self ].
+	self dispatchSkinEvent: selectedSkinEvent on: anElement fromQueue: aQueue
 ]
 
 { #category : #'skin dispatching' }
@@ -117,13 +117,13 @@ ToIntrinsicState >> initialize [
 ]
 
 { #category : #accessing }
-ToIntrinsicState >> selectionSkinEvent [
+ToIntrinsicState >> selectedSkinEvent [
 
-	^ selectionSkinEvent
+	^ selectedSkinEvent
 ]
 
 { #category : #accessing }
-ToIntrinsicState >> selectionSkinEvent: aSelectionEvent [
+ToIntrinsicState >> selectedSkinEvent: aSelectionEvent [
 
-	selectionSkinEvent := aSelectionEvent
+	selectedSkinEvent := aSelectionEvent
 ]

@@ -141,11 +141,14 @@ ToSkinManager >> requestNewSkinIn: anElement [
 ]
 
 { #category : #'skin state generation' }
-ToSkinManager >> selectionSkinEvent: aSelectionEvent in: anElement [
+ToSkinManager >> selectedSkinEvent: aSelectedSkinEvent in: anElement [
 
-	anElement withAllChildrenBreadthFirstDo: [ :child |
+	skinStateQueue selectedSkinEvent: aSelectedSkinEvent in: anElement.
+	anElement allChildrenBreadthFirstDo: [ :child |
 			child skinManagerDo: [ :sm |
-				sm skinStateQueue selectionSkinEvent: aSelectionEvent in: child ] ]
+				sm skinStateQueue
+					selectedSkinEvent: aSelectedSkinEvent copy
+					in: child ] ]
 ]
 
 { #category : #'skin - installing / uninstalling' }

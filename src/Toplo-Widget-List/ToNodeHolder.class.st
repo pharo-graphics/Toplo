@@ -201,13 +201,13 @@ ToNodeHolder >> notifiedSelected [
 ]
 
 { #category : #selection }
-ToNodeHolder >> notifySelectionSkinEvent: aSelectionEvent [
+ToNodeHolder >> notifySelectedSkinEvent: aSelectionEvent [
 
 	notifiedSelected := aSelectionEvent selected.
 	wasFocused := aSelectionEvent focused.
 
 	self nodeContainer skinManagerDo: [ :sm |
-		sm selectionSkinEvent: aSelectionEvent in: self nodeContainer ]
+		sm selectedSkinEvent: aSelectionEvent in: self nodeContainer ]
 ]
 
 { #category : #accessing }

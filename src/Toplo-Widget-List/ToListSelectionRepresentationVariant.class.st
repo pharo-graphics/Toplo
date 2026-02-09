@@ -75,25 +75,31 @@ ToListSelectionRepresentationVariant >> nextRepresentationIn: aListElement [
 { #category : #'private - selection notification' }
 ToListSelectionRepresentationVariant >> notifyNodeContainer: aNodeContainer deselectedIn: aListElement [
 
-	| holder |
+	| holder evt |
 	holder := aNodeContainer holder.
 	" am i in the selection ?"
 	holder isSelected ifTrue: [ ^ self ].
 	" have I already notified a deselection ? "
 	holder canNotifyDeselection ifFalse: [ ^ self ].
-	holder notifyNodeSelected: false selectionOption: selectionOption
+	evt := ToDeselectedSkinEvent new.
+	evt focused: aListElement focused.
+	evt selectionOption: selectionOption.
+	holder notifySelectionSkinEvent: evt
 ]
 
 { #category : #'private - selection notification' }
 ToListSelectionRepresentationVariant >> notifyNodeContainer: aNodeContainer selectedIn: aListElement [
 
-	| holder |
+	| holder evt |
 	holder := aNodeContainer holder.
 	" am i in the selection ?"
 	holder isSelected ifFalse: [ ^ self ].
 	" have I already notified a deselection ? "
 	holder canNotifySelection ifFalse: [ ^ self ].
-	holder notifyNodeSelected: true selectionOption: selectionOption
+	evt := ToSelectedSkinEvent new.
+	evt focused: aListElement focused.
+	evt selectionOption: selectionOption.
+	holder notifySelectionSkinEvent: evt
 ]
 
 { #category : #'private - selection notification' }
@@ -108,7 +114,6 @@ ToListSelectionRepresentationVariant >> notifyNodesDeselectedIn: aListElement [
 ToListSelectionRepresentationVariant >> notifyNodesSelectedIn: aListElement [
 
 	self selectionMode isPrimary ifFalse: [ ^ self ].
-	"selectionOption = aListElement unselectableSelectionMode selectionOption ifTrue: [ self haltOnce ]."
 	aListElement nodeContainersDo: [ :container |
 		self notifyNodeContainer: container selectedIn: aListElement ]
 ]

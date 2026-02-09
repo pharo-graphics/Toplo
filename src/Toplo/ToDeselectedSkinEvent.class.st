@@ -21,6 +21,12 @@ ToDeselectedSkinEvent >> focused: aBoolean [
 ]
 
 { #category : #accessing }
+ToDeselectedSkinEvent >> selected [ 
+
+	^ false
+]
+
+{ #category : #accessing }
 ToDeselectedSkinEvent >> selectionMode [
 
 	^ self selectionOption selectionMode

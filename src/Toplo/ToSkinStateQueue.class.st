@@ -18,16 +18,16 @@ ToSkinStateQueue >> applyEnqueuedStatesFor: anElement [
 ]
 
 { #category : #'instinsic state accessing' }
-ToSkinStateQueue >> checked: aBoolean for: anElement [
+ToSkinStateQueue >> checkedSkinEvent: aCheckedSkinEvent in: anElement [
 
-	intrinsicState checked: aBoolean.
+	intrinsicState checkedSkinEvent: aCheckedSkinEvent.
 	self enqueueIntrinsicStateFor: anElement
 ]
 
 { #category : #'instinsic state accessing' }
-ToSkinStateQueue >> enabled: aBoolean for: anElement [
+ToSkinStateQueue >> enabledSkinEvent: aSkinEvent in: anElement [
 
-	intrinsicState enabled: aBoolean.
+	intrinsicState enabledSkinEvent: aSkinEvent.
 	self enqueueIntrinsicStateFor: anElement
 ]
 
@@ -37,7 +37,7 @@ ToSkinStateQueue >> enqueueInstallStateFor: anElement [
 	installState ifNotNil: [ ^ ToInstallStateAlreadyQueuedError signal ].
 	installState := ToInstallState instance.
 	self enqueueState: installState for: anElement.
-	intrinsicState enabled: anElement isEnabled.
+	intrinsicState enabledSkinEvent: anElement newEnabledSkinEvent.
 	self enqueueIntrinsicStateFor: anElement
 ]
 
@@ -85,9 +85,9 @@ ToSkinStateQueue >> enqueueUninstallStateFor: anElement [
 ]
 
 { #category : #'instinsic state accessing' }
-ToSkinStateQueue >> focused: aBoolean for: anElement [
+ToSkinStateQueue >> focusedSkinEvent: aSkinEvent in: anElement [
 
-	intrinsicState focused: aBoolean.
+	intrinsicState focusedSkinEvent: aSkinEvent.
 	self enqueueIntrinsicStateFor: anElement
 ]
 
@@ -112,12 +112,8 @@ ToSkinStateQueue >> resetStates [
 ]
 
 { #category : #'instinsic state accessing' }
-ToSkinStateQueue >> selected: isSelected selectionOption: aSelectionOption focused: isFocused for: anElement [
+ToSkinStateQueue >> selectionSkinEvent: aSelectionEvent in: anElement [
 
-	intrinsicState selectionState in: [ :selS |
-			selS
-				selected: isSelected;
-				selectionOption: aSelectionOption;
-				focused: isFocused ].
+	intrinsicState selectionSkinEvent: aSelectionEvent.
 	self enqueueIntrinsicStateFor: anElement
 ]

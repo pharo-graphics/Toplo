@@ -13,14 +13,22 @@ Class {
 { #category : #'focus events handling' }
 ToSkinStateGenerator >> blurEvent: anEvent [
 
-	target skinManagerDo: [ :sm | sm focusState: false in: target ]
+	target skinManagerDo: [ :sm |
+		sm focusedSkinEvent: ToUnfocusedSkinEvent new in: target ]
 ]
 
 { #category : #'checkable event handling' }
 ToSkinStateGenerator >> checkableCheckEvent: anEvent [
 	"ToCheclableCheckEvent can be send either because of a click or because the checkable as been checked programmatically"
 
-	target skinManagerDo: [ :sm | sm checkState: anEvent checked in: target ]
+	target skinManagerDo: [ :sm | | evtCls |
+		evtCls := anEvent checked isSymbol
+		              ifTrue: [ ToIndeterminateSkinEvent ]
+		              ifFalse: [
+				              anEvent checked
+					              ifTrue: [ ToCheckedSkinEvent ]
+					              ifFalse: [ ToUncheckedSkinEvent ] ].
+		sm checkedSkinEvent: evtCls new in: target ]
 ]
 
 { #category : #'mouse handlers' }
@@ -129,7 +137,8 @@ ToSkinStateGenerator >> eventsToHandle [
 ToSkinStateGenerator >> focusEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
-	target skinManagerDo: [ :sm | sm focusState: true in: target ]
+	target skinManagerDo: [ :sm |
+		sm focusedSkinEvent: ToFocusedSkinEvent new in: target ]
 ]
 
 { #category : #'api - event managing' }

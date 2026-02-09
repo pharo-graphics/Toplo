@@ -343,7 +343,8 @@ BlElement >> flagAsDisabled: aBoolean [
 				self flagAsDisabled ]
 		ifFalse: [ self flagAsEnabled ].
 	self dispatchEvent: ToEnablementChangedEvent new.
-	self skinManagerDo: [ :sm | sm enablementState: aBoolean not in: self ]
+	self skinManagerDo: [ :sm |
+		sm enabledSkinEvent: self newEnabledSkinEvent in: self ]
 ]
 
 { #category : #'*Toplo' }
@@ -572,6 +573,16 @@ BlElement >> newClosedEvent [
 	^ self closedEventClass new
 		  window: self;
 		  yourself
+]
+
+{ #category : #'*Toplo' }
+BlElement >> newEnabledSkinEvent [
+
+	| cls |
+	cls := self isEnabled
+		       ifTrue: [ ToEnabledSkinEvent ]
+		       ifFalse: [ ToDisabledSkinEvent ].
+	^ cls new
 ]
 
 { #category : #'*Toplo' }

@@ -1,88 +1,88 @@
 Class {
 	#name : #ToIntrinsicState,
-	#superclass : #ToIntrinsicStateBase,
+	#superclass : #ToElementState,
 	#instVars : [
 		'enqueued',
-		'enabled',
-		'checked',
-		'focused',
-		'selectionState'
+		'focusedSkinEvent',
+		'selectionSkinEvent',
+		'checkedSkinEvent',
+		'enabledSkinEvent'
 	],
 	#category : #'Toplo-Core-States'
 }
 
-{ #category : #'look event sending' }
+{ #category : #'skin dispatching' }
 ToIntrinsicState >> applyOn: anElement fromQueue: aQueue [
 
 	" enabled can be nil, in that case no event dispatching is required"
-	enabled = true ifTrue: [  self dispatchEnablementEventOn: anElement fromQueue: aQueue ].
-	selectionState ifNotNil: [ :ses | ses applyOn: anElement fromQueue: aQueue ].
-	self dispatchCheckEventOn: anElement fromQueue: aQueue.
-	self dispatchFocusEventOn: anElement fromQueue: aQueue.
-	enabled = false ifTrue: [  self dispatchEnablementEventOn: anElement fromQueue: aQueue ].
+	enabledSkinEvent enabled ifTrue: [  self dispatchEnabledSkinEventOn: anElement fromQueue: aQueue ].
+	self dispatchSelectionSkinEventOn: anElement fromQueue: aQueue.
+	self dispatchCheckedSkinEventOn: anElement fromQueue: aQueue.
+	self dispatchFocusedSkinEventOn: anElement fromQueue: aQueue.
+	enabledSkinEvent enabled ifFalse: [  self dispatchEnabledSkinEventOn: anElement fromQueue: aQueue ].
 	enqueued := false
-
 ]
 
 { #category : #accessing }
-ToIntrinsicState >> checked [
+ToIntrinsicState >> checkedSkinEvent [
 
-	^ checked
+	^ checkedSkinEvent
 ]
 
 { #category : #accessing }
-ToIntrinsicState >> checked: aBoolean [
+ToIntrinsicState >> checkedSkinEvent: aSkinEvent [
 
-	checked := aBoolean
+	checkedSkinEvent := aSkinEvent
 ]
 
-{ #category : #'look event sending' }
-ToIntrinsicState >> dispatchCheckEventOn: anElement fromQueue: aQueue [
+{ #category : #'skin dispatching' }
+ToIntrinsicState >> dispatchCheckedSkinEventOn: anElement fromQueue: aQueue [
 
-	| skinEvtCls |
-	checked ifNil: [ ^ self ].
-
-	skinEvtCls := checked isSymbol
-		              ifTrue: [ ToIndeterminateSkinEvent ]
-		              ifFalse: [
-				              checked
-					              ifTrue: [ ToCheckedSkinEvent ]
-					              ifFalse: [ ToUncheckedSkinEvent ] ].
-	self dispatchSkinEvent: skinEvtCls new on: anElement fromQueue: aQueue
+	checkedSkinEvent ifNil: [ ^ self ].
+	self dispatchSkinEvent: checkedSkinEvent on: anElement fromQueue: aQueue
 ]
 
-{ #category : #'look event sending' }
-ToIntrinsicState >> dispatchEnablementEventOn: anElement fromQueue: aQueue [
+{ #category : #'skin dispatching' }
+ToIntrinsicState >> dispatchEnabledSkinEventOn: anElement fromQueue: aQueue [
 
-	| skinEvtCls |
-	enabled ifNil: [ ^ self ].
-	skinEvtCls := enabled
-		              ifTrue: [ ToEnabledSkinEvent ]
-		              ifFalse: [ ToDisabledSkinEvent ].
-	self dispatchSkinEvent: skinEvtCls new on: anElement fromQueue: aQueue
+	enabledSkinEvent ifNil: [ ^ self ].
+	self
+		dispatchSkinEvent: enabledSkinEvent
+		on: anElement
+		fromQueue: aQueue
 ]
 
-{ #category : #'look event sending' }
-ToIntrinsicState >> dispatchFocusEventOn: anElement fromQueue: aQueue [
+{ #category : #'skin dispatching' }
+ToIntrinsicState >> dispatchFocusedSkinEventOn: anElement fromQueue: aQueue [
 
-	| skinEvtCls |
-	focused ifNil: [ ^ self ].
-	skinEvtCls := focused
-		              ifTrue: [ ToFocusedSkinEvent ]
-		              ifFalse: [ ToUnfocusedSkinEvent ].
-	self dispatchSkinEvent: skinEvtCls new on: anElement fromQueue: aQueue
+	focusedSkinEvent ifNil: [ ^ self ].
+	self dispatchSkinEvent: focusedSkinEvent on: anElement fromQueue: aQueue
 ]
 
-{ #category : #accessing }
-ToIntrinsicState >> enabled [
+{ #category : #'skin dispatching' }
+ToIntrinsicState >> dispatchSelectionSkinEventOn: anElement fromQueue: aQueue [
 
-	^ enabled
+	selectionSkinEvent ifNil: [ ^ self ].
+	self dispatchSkinEvent: selectionSkinEvent on: anElement fromQueue: aQueue
+]
+
+{ #category : #'skin dispatching' }
+ToIntrinsicState >> dispatchSkinEvent: anEvent on: anElement fromQueue: aQueue [
+
+	anElement spaceDo: [ :sp | anEvent fillFromTime: sp time ].
+	anElement dispatchEvent: anEvent
 ]
 
 { #category : #accessing }
-ToIntrinsicState >> enabled: aBoolean [
+ToIntrinsicState >> enabledSkinEvent [
 
-	enabled := aBoolean
+	^ enabledSkinEvent
+]
+
+{ #category : #accessing }
+ToIntrinsicState >> enabledSkinEvent: aSkinEvent [
+
+	enabledSkinEvent := aSkinEvent
 ]
 
 { #category : #accessing }
@@ -98,25 +98,32 @@ ToIntrinsicState >> enqueued: aBoolean [
 ]
 
 { #category : #accessing }
-ToIntrinsicState >> focused [
+ToIntrinsicState >> focusedSkinEvent [
 
-	^ focused
+	^ focusedSkinEvent
 ]
 
 { #category : #accessing }
-ToIntrinsicState >> focused: aBoolean [
+ToIntrinsicState >> focusedSkinEvent: aSkinEvent [
 
-	focused := aBoolean
+	focusedSkinEvent := aSkinEvent
+]
+
+{ #category : #initialization }
+ToIntrinsicState >> initialize [ 
+
+	super initialize.
+	enabledSkinEvent := ToEnabledSkinEvent new
 ]
 
 { #category : #accessing }
-ToIntrinsicState >> selectionState [
+ToIntrinsicState >> selectionSkinEvent [
 
-	^ selectionState ifNil: [ selectionState := ToSelectionState new ]
+	^ selectionSkinEvent
 ]
 
 { #category : #accessing }
-ToIntrinsicState >> selectionState: aSelectionState [
+ToIntrinsicState >> selectionSkinEvent: aSelectionEvent [
 
-	selectionState := aSelectionState
+	selectionSkinEvent := aSelectionEvent
 ]

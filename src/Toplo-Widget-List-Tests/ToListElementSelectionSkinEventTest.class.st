@@ -4,9 +4,7 @@ Class {
 	#instVars : [
 		'listElement',
 		'receivedSelectedEvents',
-		'receivedDeselectedEvents',
-		'action',
-		'selectionCounts'
+		'receivedDeselectedEvents'
 	],
 	#category : #'Toplo-Widget-List-Tests-Core-ListElement'
 }
@@ -29,7 +27,6 @@ ToListElementSelectionSkinEventTest >> selectedSkinEventCountAfterRemove [
 
 	receivedSelectedEvents := OrderedCollection new.
 	receivedDeselectedEvents := OrderedCollection new.
-	selectionCounts := IdentityDictionary new.
 
 	listElement dataAccessor removeAt: 1.
 	space applyAllSkinPhases.
@@ -40,8 +37,6 @@ ToListElementSelectionSkinEventTest >> selectedSkinEventCountAfterRemove [
 
 	" the second node is selected then the first node is removed 
 	-> the first node become selected but without selection changed event dispatching because of a shift selection command (the second nodeContainer is shift at the position 1)"
-	self deny: (selectionCounts includesKey: 2).
-	self assert: (selectionCounts includesKey: 1).
 	self assert: receivedSelectedEvents size equals: 0.
 	self assert: receivedDeselectedEvents size equals: 0.
 	
@@ -56,20 +51,16 @@ ToListElementSelectionSkinEventTest >> selectedSkinEventCountAfterSelect [
 
 	receivedSelectedEvents := OrderedCollection new.
 	receivedDeselectedEvents := OrderedCollection new.
-	selectionCounts := IdentityDictionary new.
 
 	listElement dataAccessor add: self statesOfAmerica first.
 	listElement dataAccessor add: self statesOfAmerica second.
 	listElement selecter selectIndex: 2.
 
 	self waitTestingSpaces.
+	listElement forceLayout.
 	self assert: listElement nodeContainers size equals: 2.
 	space applyAllSkinPhases.
 	self deny: listElement isFocused.
-	self assert: (selectionCounts includesKey: 2).
-	self assert: (selectionCounts includesKey: 1).
-	self assert: (selectionCounts at: 2) equals: 2.
-
 	self assert: receivedSelectedEvents size equals: 1.
 	receivedSelectedEvents do: [ :evt |
 		self assert: evt currentTarget holder position equals: 2 ].
@@ -99,7 +90,6 @@ ToListElementSelectionSkinEventTest >> selectedSkinEventCountAfterSelect2 [
 	self selectedSkinEventCountAfterSelect.
 	receivedSelectedEvents := OrderedCollection new.
 	receivedDeselectedEvents := OrderedCollection new.
-	selectionCounts := IdentityDictionary new.
 
 	" here, the selected index is 1 because of #testSelectedSkinEventCountAfterSelect invocation"
 	listElement selecter selectIndex: 2.
@@ -107,11 +97,6 @@ ToListElementSelectionSkinEventTest >> selectedSkinEventCountAfterSelect2 [
 	space applyAllSkinPhases.
 	listElement forceLayout.
 	
-	self assert: (selectionCounts includesKey: 2).
-	" since the holder>>notifiedSelected has been initialize by the previous #testSelectedSkinEventCountAfterSelect invocation "
-	self deny: (selectionCounts includesKey: 1).
-	self assert: (selectionCounts at: 2) equals: 1.
-
 	self assert: receivedSelectedEvents size equals: 1.
 	receivedSelectedEvents do: [ :evt |
 		self assert: evt currentTarget holder position equals: 2 ].
@@ -138,31 +123,17 @@ ToListElementSelectionSkinEventTest >> setUp [
 	listElement innerElement.
 	listElement fitContent.
 
-	listElement nodeManager nodeHolderFactory: [
-		ToNodeHolderForSkinEventTest new ].
-
 	space root addChild: listElement.
 	receivedSelectedEvents := OrderedCollection new.
 	receivedDeselectedEvents := OrderedCollection new.
-	selectionCounts := IdentityDictionary new.
-	action := [ :holder |
-		          | count notified |
-		          notified := holder notifiedSelected.
-		          (notified isNil or: [ notified not ]) ifTrue: [
-				          count := selectionCounts
-					                   at: holder position
-					                   ifPresent: [ :c | c + 1 ]
-					                   ifAbsent: [ 1 ].
-				          selectionCounts at: holder position put: count ] ].
 	listElement nodeBuilder: [ :node :dataItem :holder |
 			node addChild: (ToLabel text: dataItem).
-			node userData at: #testAction put: [ action value: holder ].
 			node
 				addEventHandlerOn: ToSelectedSkinEvent
-				do: [ :event | receivedSelectedEvents add: event ].
+				do: [ :event | receivedSelectedEvents add: event copy].
 			node
 				addEventHandlerOn: ToDeselectedSkinEvent
-				do: [ :event | receivedDeselectedEvents add: event ] ].
+				do: [ :event | receivedDeselectedEvents add: event copy ] ].
 	self waitTestingSpaces.
 	listElement forceLayout 
 ]

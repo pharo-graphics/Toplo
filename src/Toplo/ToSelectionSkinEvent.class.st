@@ -32,6 +32,11 @@ ToSelectionSkinEvent >> isPrimary [
 	^ false
 ]
 
+{ #category : #'as yet unclassified' }
+ToSelectionSkinEvent >> selected [
+	^ self subclassResponsibility
+]
+
 { #category : #accessing }
 ToSelectionSkinEvent >> selectionMode [
 

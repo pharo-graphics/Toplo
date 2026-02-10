@@ -13,20 +13,29 @@ Class {
 
 { #category : #'skin dispatching' }
 ToIntrinsicState >> applyOn: anElement fromQueue: aQueue [
+	" dispatch intrinsic state event in the right order "
 
-	" enabled can be nil, in that case no event dispatching is required"
-	enabledSkinEvent enabled ifTrue: [  self dispatchEnabledSkinEventOn: anElement fromQueue: aQueue ].
-	self dispatchFocusedSkinEventOn: anElement fromQueue: aQueue.
-	self dispatchCheckedSkinEventOn: anElement fromQueue: aQueue.
-	self dispatchSelectedSkinEventOn: anElement fromQueue: aQueue.
-	enabledSkinEvent enabled ifFalse: [  self dispatchEnabledSkinEventOn: anElement fromQueue: aQueue ].
+	self prepareSkinEventsForDispatchingOn: anElement.
+
+	enabledSkinEvent enabled ifTrue: [
+			self
+				dispatchSkinEvent: enabledSkinEvent
+				on: anElement
+				fromQueue: aQueue ].
+			
+	{
+		focusedSkinEvent.
+		checkedSkinEvent.
+		selectedSkinEvent } do: [ :evt |
+		self dispatchSkinEvent: evt on: anElement fromQueue: aQueue ].
+
+	enabledSkinEvent enabled ifFalse: [
+			self
+				dispatchSkinEvent: enabledSkinEvent
+				on: anElement
+				fromQueue: aQueue ].
+
 	enqueued := false
-]
-
-{ #category : #accessing }
-ToIntrinsicState >> checkedSkinEvent [
-
-	^ checkedSkinEvent
 ]
 
 { #category : #accessing }
@@ -36,47 +45,10 @@ ToIntrinsicState >> checkedSkinEvent: aSkinEvent [
 ]
 
 { #category : #'skin dispatching' }
-ToIntrinsicState >> dispatchCheckedSkinEventOn: anElement fromQueue: aQueue [
-
-	checkedSkinEvent ifNil: [ ^ self ].
-	self dispatchSkinEvent: checkedSkinEvent on: anElement fromQueue: aQueue
-]
-
-{ #category : #'skin dispatching' }
-ToIntrinsicState >> dispatchEnabledSkinEventOn: anElement fromQueue: aQueue [
-
-	enabledSkinEvent ifNil: [ ^ self ].
-	self
-		dispatchSkinEvent: enabledSkinEvent
-		on: anElement
-		fromQueue: aQueue
-]
-
-{ #category : #'skin dispatching' }
-ToIntrinsicState >> dispatchFocusedSkinEventOn: anElement fromQueue: aQueue [
-
-	focusedSkinEvent ifNil: [ ^ self ].
-	self dispatchSkinEvent: focusedSkinEvent on: anElement fromQueue: aQueue
-]
-
-{ #category : #'skin dispatching' }
-ToIntrinsicState >> dispatchSelectedSkinEventOn: anElement fromQueue: aQueue [
-
-	selectedSkinEvent ifNil: [ ^ self ].
-	self dispatchSkinEvent: selectedSkinEvent on: anElement fromQueue: aQueue
-]
-
-{ #category : #'skin dispatching' }
 ToIntrinsicState >> dispatchSkinEvent: anEvent on: anElement fromQueue: aQueue [
 
-	anElement spaceDo: [ :sp | anEvent fillFromTime: sp time ].
+	anEvent ifNil: [ ^ self ].
 	anElement dispatchEvent: anEvent
-]
-
-{ #category : #accessing }
-ToIntrinsicState >> enabledSkinEvent [
-
-	^ enabledSkinEvent
 ]
 
 { #category : #accessing }
@@ -98,12 +70,6 @@ ToIntrinsicState >> enqueued: aBoolean [
 ]
 
 { #category : #accessing }
-ToIntrinsicState >> focusedSkinEvent [
-
-	^ focusedSkinEvent
-]
-
-{ #category : #accessing }
 ToIntrinsicState >> focusedSkinEvent: aSkinEvent [
 
 	focusedSkinEvent := aSkinEvent
@@ -116,10 +82,16 @@ ToIntrinsicState >> initialize [
 	enabledSkinEvent := ToEnabledSkinEvent new
 ]
 
-{ #category : #accessing }
-ToIntrinsicState >> selectedSkinEvent [
+{ #category : #'skin dispatching' }
+ToIntrinsicState >> prepareSkinEventsForDispatchingOn: anElement [
 
-	^ selectedSkinEvent
+	anElement spaceDo: [ :space |
+			{
+				enabledSkinEvent.
+				focusedSkinEvent.
+				checkedSkinEvent.
+				selectedSkinEvent } do: [ :evt |
+				evt ifNotNil: [ evt fillFromTime: space time ] ] ]
 ]
 
 { #category : #accessing }

@@ -72,8 +72,7 @@ ToSkinStateQueue >> enqueueUninstallStateFor: anElement [
 	" uninstall state required  "
 
 	installState ifNil: [ ^ ToInstallStateNotQueuedError signal ].
-	" have to ignore previous skin events to avoid to apply them to the new skin"
-	nextStates reset.
+	self applyEnqueuedStatesFor: anElement.
 	installState := nil.
 	intrinsicState enqueued: false.
 	" store the uninstall state "

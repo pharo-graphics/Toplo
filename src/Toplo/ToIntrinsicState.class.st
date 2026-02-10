@@ -3,37 +3,25 @@ Class {
 	#superclass : #ToElementState,
 	#instVars : [
 		'enqueued',
-		'focusedSkinEvent',
-		'checkedSkinEvent',
-		'enabledSkinEvent',
-		'selectedSkinEvent'
+		'skinEvents'
 	],
 	#category : #'Toplo-Core-States'
 }
 
 { #category : #'skin dispatching' }
 ToIntrinsicState >> applyOn: anElement fromQueue: aQueue [
-	" dispatch intrinsic state event in the right order "
+	" dispatch intrinsic state events in the right order "
 
 	self prepareSkinEventsForDispatchingOn: anElement.
 
-	enabledSkinEvent enabled ifTrue: [
-			self
-				dispatchSkinEvent: enabledSkinEvent
-				on: anElement
-				fromQueue: aQueue ].
-			
-	{
-		focusedSkinEvent.
-		checkedSkinEvent.
-		selectedSkinEvent } do: [ :evt |
-		self dispatchSkinEvent: evt on: anElement fromQueue: aQueue ].
+	self enabledSkinEvent enabled ifTrue: [
+		self dispatchSkinEvent: self enabledSkinEvent on: anElement ].
 
-	enabledSkinEvent enabled ifFalse: [
-			self
-				dispatchSkinEvent: enabledSkinEvent
-				on: anElement
-				fromQueue: aQueue ].
+	2 to: skinEvents size do: [ :p |
+	self dispatchSkinEvent: (skinEvents at: p) on: anElement ].
+
+	self enabledSkinEvent enabled ifFalse: [
+		self dispatchSkinEvent: self enabledSkinEvent on: anElement ].
 
 	enqueued := false
 ]
@@ -41,20 +29,26 @@ ToIntrinsicState >> applyOn: anElement fromQueue: aQueue [
 { #category : #accessing }
 ToIntrinsicState >> checkedSkinEvent: aSkinEvent [
 
-	checkedSkinEvent := aSkinEvent
+	skinEvents at: 3 put: aSkinEvent
 ]
 
 { #category : #'skin dispatching' }
-ToIntrinsicState >> dispatchSkinEvent: anEvent on: anElement fromQueue: aQueue [
+ToIntrinsicState >> dispatchSkinEvent: anEvent on: anElement [
 
 	anEvent ifNil: [ ^ self ].
 	anElement dispatchEvent: anEvent
 ]
 
 { #category : #accessing }
+ToIntrinsicState >> enabledSkinEvent [
+
+	^ skinEvents first
+]
+
+{ #category : #accessing }
 ToIntrinsicState >> enabledSkinEvent: aSkinEvent [
 
-	enabledSkinEvent := aSkinEvent
+	skinEvents at: 1 put: aSkinEvent
 ]
 
 { #category : #accessing }
@@ -72,30 +66,27 @@ ToIntrinsicState >> enqueued: aBoolean [
 { #category : #accessing }
 ToIntrinsicState >> focusedSkinEvent: aSkinEvent [
 
-	focusedSkinEvent := aSkinEvent
+	skinEvents at: 2 put: aSkinEvent
 ]
 
 { #category : #initialization }
 ToIntrinsicState >> initialize [ 
 
 	super initialize.
-	enabledSkinEvent := ToEnabledSkinEvent new
+	skinEvents := Array new: 4.
+	self enabledSkinEvent: ToEnabledSkinEvent new.
 ]
 
 { #category : #'skin dispatching' }
 ToIntrinsicState >> prepareSkinEventsForDispatchingOn: anElement [
 
 	anElement spaceDo: [ :space |
-			{
-				enabledSkinEvent.
-				focusedSkinEvent.
-				checkedSkinEvent.
-				selectedSkinEvent } do: [ :evt |
+			skinEvents do: [ :evt |
 				evt ifNotNil: [ evt fillFromTime: space time ] ] ]
 ]
 
 { #category : #accessing }
-ToIntrinsicState >> selectedSkinEvent: aSelectionEvent [
+ToIntrinsicState >> selectedSkinEvent: aSkinEvent [
 
-	selectedSkinEvent := aSelectionEvent
+	skinEvents at: 4 put: aSkinEvent
 ]

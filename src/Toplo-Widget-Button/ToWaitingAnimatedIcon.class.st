@@ -24,7 +24,7 @@ ToWaitingAnimatedIcon >> defaultAnimationFactory [
 	^ [
 		  | colors gap |
 		  " alpha increment "
-		  gap := 1 / numberOfSectors asFloat.
+		  gap := ((1 / numberOfSectors) ) asFloat.
 		  " build a color ramp "
 		  colors := (self sectors asArray copyWithoutFirst
 			             withIndexCollect: [ :sec :idx |

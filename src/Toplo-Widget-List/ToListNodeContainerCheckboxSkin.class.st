@@ -15,3 +15,19 @@ ToListNodeContainerCheckboxSkin >> installSkinEvent: anEvent [
 					e icon innerImageColor: Color red.
 					e valueOfTokenNamed: #'checkbox-color' ]" ]
 ]
+
+{ #category : #'event handling' }
+ToListNodeContainerCheckboxSkin >> selectableSkinEvent: anEvent [
+
+	super selectableSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+			e icon visibility: BlVisibility visible ]
+]
+
+{ #category : #'event handling' }
+ToListNodeContainerCheckboxSkin >> unselectableSkinEvent: anEvent [
+
+	super unselectableSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+			e icon visibility: BlVisibility hidden ]
+]

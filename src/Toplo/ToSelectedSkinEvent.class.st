@@ -1,47 +1,13 @@
 Class {
 	#name : #ToSelectedSkinEvent,
-	#superclass : #ToIntrasicSkinEvent,
-	#instVars : [
-		'focused',
-		'selectionOption'
-	],
+	#superclass : #ToStandardSelectionSkinEvent,
 	#category : #'Toplo-Core-SkinEvents'
 }
-
-{ #category : #accessing }
-ToSelectedSkinEvent >> focused [
-
-	^ focused
-]
-
-{ #category : #accessing }
-ToSelectedSkinEvent >> focused: aBoolean [
-
-	focused := aBoolean
-]
 
 { #category : #accessing }
 ToSelectedSkinEvent >> selected [ 
 
 	^ true
-]
-
-{ #category : #accessing }
-ToSelectedSkinEvent >> selectionMode [
-
-	^ self selectionOption selectionMode
-]
-
-{ #category : #accessing }
-ToSelectedSkinEvent >> selectionOption [
-
-	^ selectionOption
-]
-
-{ #category : #accessing }
-ToSelectedSkinEvent >> selectionOption: aSelectionOption [
-
-	selectionOption := aSelectionOption
 ]
 
 { #category : #sending }

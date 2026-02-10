@@ -91,7 +91,7 @@ ToListSelectionRepresentationVariant >> notifyNodeContainer: aNodeContainer dese
 	(holder canNotifyDeselectionForOption: selectionOption) ifFalse: [
 		^ self ].
 	evt := self deselectionSkinEventClass new.
-	evt focused: aListElement focused.
+	evt holder: holder.
 	evt selectionOption: selectionOption.
 	holder notifySelectedSkinEvent: evt
 ]
@@ -109,7 +109,7 @@ ToListSelectionRepresentationVariant >> notifyNodeContainer: aNodeContainer sele
 	(holder canNotifySelectionForOption: selectionOption) ifFalse: [
 		^ self ].
 	evt := self selectionSkinEventClass new.
-	evt focused: aListElement focused.
+	evt holder: holder.
 	evt selectionOption: selectionOption.
 	holder notifySelectedSkinEvent: evt
 ]

@@ -4,9 +4,10 @@ Class {
 	#instVars : [
 		'enqueued',
 		'enabledSkinEvent',
-		'selectionSkinEventMap',
 		'checkedSkinEvent',
-		'focusedSkinEvent'
+		'focusedSkinEvent',
+		'selectedSkinEvent',
+		'otherSelectionSkinEventMap'
 	],
 	#category : #'Toplo-Core-States'
 }
@@ -25,7 +26,9 @@ ToIntrinsicState >> applyOn: anElement fromQueue: aQueue [
 		self dispatchSkinEvent: evt on: anElement ].
 	checkedSkinEvent ifNotNil: [ :evt |
 		self dispatchSkinEvent: evt on: anElement ].
-	selectionSkinEventMap valuesDo: [ :skinEvent |
+	selectedSkinEvent ifNotNil: [ :evt |
+		self dispatchSkinEvent: evt on: anElement ].
+	otherSelectionSkinEventMap valuesDo: [ :skinEvent |
 		self dispatchSkinEvent: skinEvent on: anElement ].
 
 	enabledSkinEvent enabled ifFalse: [
@@ -75,7 +78,7 @@ ToIntrinsicState >> focusedSkinEvent: aSkinEvent [
 ToIntrinsicState >> initialize [ 
 
 	super initialize.
-	selectionSkinEventMap := SmallIdentityDictionary new.
+	otherSelectionSkinEventMap := SmallIdentityDictionary new.
 	enabledSkinEvent := ToEnabledSkinEvent new.
 ]
 
@@ -86,12 +89,18 @@ ToIntrinsicState >> prepareSkinEventsForDispatchingOn: anElement [
 			enabledSkinEvent fillFromTime: space time.
 			checkedSkinEvent ifNotNil: [ :evt | evt fillFromTime: space time ].
 			focusedSkinEvent ifNotNil: [ :evt | evt fillFromTime: space time ].
-			selectionSkinEventMap valuesDo: [ :evt |
+			selectedSkinEvent ifNotNil: [ :evt | evt fillFromTime: space time ].
+			otherSelectionSkinEventMap valuesDo: [ :evt |
 				evt fillFromTime: space time ] ]
 ]
 
 { #category : #accessing }
 ToIntrinsicState >> selectedSkinEvent: aSkinEvent [
 
-	selectionSkinEventMap at: aSkinEvent selectionOption put: aSkinEvent
+	aSkinEvent isPrimary ifTrue: [
+			selectedSkinEvent := aSkinEvent.
+			^ self ].
+	otherSelectionSkinEventMap
+		at: aSkinEvent selectionOption
+		put: aSkinEvent
 ]

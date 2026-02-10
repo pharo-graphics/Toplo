@@ -202,6 +202,14 @@ ToRawSkinForTest >> releasedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToRawSkinForTest >> selectableSkinEvent: anEvent [
+
+	super selectableSkinEvent: anEvent.
+	self addReceivedEvent: anEvent
+
+]
+
+{ #category : #'event handling' }
 ToRawSkinForTest >> selectedSkinEvent: anEvent [
 
 	super selectedSkinEvent: anEvent.
@@ -271,4 +279,12 @@ ToRawSkinForTest >> uninstallSkinEvent: anEvent [
 
 	super uninstallSkinEvent: anEvent.
 	self addReceivedEvent: anEvent
+]
+
+{ #category : #'event handling' }
+ToRawSkinForTest >> unselectableSkinEvent: anEvent [
+
+	super unselectableSkinEvent: anEvent.
+	self addReceivedEvent: anEvent
+
 ]

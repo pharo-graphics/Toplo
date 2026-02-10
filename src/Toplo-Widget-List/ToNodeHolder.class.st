@@ -15,8 +15,8 @@ Class {
 	#instVars : [
 		'dataItem',
 		'recyclingRequested',
-		'notifiedSelected',
-		'wasFocused'
+		'wasFocused',
+		'selectionNotificationMap'
 	],
 	#category : #'Toplo-Widget-List-Node'
 }
@@ -36,17 +36,23 @@ ToNodeHolder >> bindDataItem: aDataItem [
 ]
 
 { #category : #selection }
-ToNodeHolder >> canNotifyDeselection [
+ToNodeHolder >> canNotifyDeselectionForOption: aSelectionOption [
+	" true if the focus changed or if it was selected previously. 
+	true by default if not selected/deselected yet "
 
-	^ notifiedSelected isNil or: [
-		  notifiedSelected or: [ wasFocused ~= self listElement focused ] ]
+	^ wasFocused ~= self listElement focused or: [
+		  selectionNotificationMap at: aSelectionOption ifAbsent: [ true ] ]
 ]
 
 { #category : #selection }
-ToNodeHolder >> canNotifySelection [
+ToNodeHolder >> canNotifySelectionForOption: aSelectionOption [
+	" true if the focus changed or if it was not selected previously. 
+	true by default if not selected/deselected yet "
 
-	^ notifiedSelected isNil or: [
-		  notifiedSelected not or: [ wasFocused ~= self listElement focused ] ]
+	^ wasFocused ~= self listElement focused or: [
+			  (selectionNotificationMap
+				   at: aSelectionOption
+				   ifAbsent: [ false ]) not ]
 ]
 
 { #category : #accessing }
@@ -101,6 +107,7 @@ ToNodeHolder >> fakeDataItem: aData [
 ToNodeHolder >> initialize [ 
 
 	super initialize.
+	selectionNotificationMap := SmallIdentityDictionary new.
 	recyclingRequested := false.
 	" don't initialize notifiedSelected to false 
 	to force correct update of selection at start"
@@ -194,16 +201,10 @@ ToNodeHolder >> nodeManager [
 	^ self listElement nodeManager
 ]
 
-{ #category : #initialization }
-ToNodeHolder >> notifiedSelected [
-
-	^ notifiedSelected 
-]
-
 { #category : #selection }
 ToNodeHolder >> notifySelectedSkinEvent: aSelectionEvent [
 
-	notifiedSelected := aSelectionEvent selected.
+	selectionNotificationMap at: aSelectionEvent selectionOption put: aSelectionEvent selected.
 	wasFocused := aSelectionEvent focused.
 
 	self nodeContainer skinManagerDo: [ :sm |

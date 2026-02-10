@@ -6,6 +6,8 @@ Class {
 	#instVars : [
 		'#selectionMode',
 		'#masked => ObservableSlot',
+		'#selectionSkinEventClass => ObservableSlot',
+		'#deselectionSkinEventClass => ObservableSlot',
 		'#animationDuration',
 		'#beneath',
 		'#elementFactory',
@@ -46,6 +48,18 @@ ToListSelectionOption >> checkSelectionContainerIn: aListElement [
 	selectionContainer := self newSelectionContainerIn: aListElement.
 	selectionContainer beneath: beneath.
 	aListElement addChild: selectionContainer
+]
+
+{ #category : #accessing }
+ToListSelectionOption >> deselectionSkinEventClass [
+
+	^ deselectionSkinEventClass
+]
+
+{ #category : #accessing }
+ToListSelectionOption >> deselectionSkinEventClass: aSkinEventClass [
+
+	deselectionSkinEventClass := aSkinEventClass
 ]
 
 { #category : #accessing }
@@ -146,7 +160,14 @@ ToListSelectionOption >> onInstalledIn: aListElement [
 
 	self
 		property: #masked
-		whenChangedDo: [ self checkSelectionContainerIn: aListElement ].
+		whenChangedDo: [ self updateRepresentationIn: aListElement ].
+	self
+		property: #selectionSkinEventClass
+		whenChangedDo: [ self updateRepresentationIn: aListElement ].
+	self
+		property: #deselectionSkinEventClass
+		whenChangedDo: [ self updateRepresentationIn: aListElement ].
+
 	self checkSelectionContainerIn: aListElement
 ]
 
@@ -188,6 +209,18 @@ ToListSelectionOption >> selectionMode [
 ToListSelectionOption >> selectionMode: aListSelectionMode [
 
 	selectionMode := aListSelectionMode
+]
+
+{ #category : #accessing }
+ToListSelectionOption >> selectionSkinEventClass [
+
+	^ selectionSkinEventClass
+]
+
+{ #category : #accessing }
+ToListSelectionOption >> selectionSkinEventClass: aSkinEventClass [
+
+	selectionSkinEventClass := aSkinEventClass
 ]
 
 { #category : #'private - selection updating' }

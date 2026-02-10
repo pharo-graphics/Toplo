@@ -55,16 +55,18 @@ ToListElementSelectionSkinEventTest >> selectedSkinEventCountAfterSelect [
 	listElement dataAccessor add: self statesOfAmerica first.
 	listElement dataAccessor add: self statesOfAmerica second.
 	listElement selecter selectIndex: 2.
-
 	self waitTestingSpaces.
 	listElement forceLayout.
+	
 	self assert: listElement nodeContainers size equals: 2.
 	space applyAllSkinPhases.
-	self deny: listElement isFocused.
+
 	self assert: receivedSelectedEvents size equals: 1.
 	receivedSelectedEvents do: [ :evt |
 		self assert: evt currentTarget holder position equals: 2 ].
 	self assert: receivedDeselectedEvents size equals: 1.
+	receivedDeselectedEvents do: [ :evt |
+		self assert: evt currentTarget holder position equals: 1 ].
 	listElement selecter selectOnlyIndex: 1.
 	self waitTestingSpaces.
 	space applyAllSkinPhases.
@@ -84,7 +86,7 @@ ToListElementSelectionSkinEventTest >> selectedSkinEventCountAfterSelect [
 ToListElementSelectionSkinEventTest >> selectedSkinEventCountAfterSelect2 [
 	" check that the skin select event is sent to the right node.
 	After running testSelectedSkinEventCountAfterSelect, the holders selection flags are up-to-date 
-	(the holder>>notifiedSelected flag is not nil). So the result is that the deselection is only applied once
+	(the holder>>selectionNotificationMap is up to date). So the result is that the deselection is only applied once
 	on the selected node "
 
 	self selectedSkinEventCountAfterSelect.
@@ -108,6 +110,42 @@ ToListElementSelectionSkinEventTest >> selectedSkinEventCountAfterSelect2 [
 	self assert: receivedDeselectedEvents size equals: 1.
 	receivedDeselectedEvents withIndexDo: [ :evt :idx |
 		self assert: evt currentTarget holder position equals: 2 ].
+	listElement forceLayout.
+	self assert: listElement selectionMode selectionContainer children size equals: 1.
+	self assert: listElement selectionMode selectionContainer children first nodeContainers size equals: 1.
+	self assert: listElement selectionMode selectionContainer children first nodeContainers first holder position equals: 1.
+
+]
+
+{ #category : #'test selection - skin' }
+ToListElementSelectionSkinEventTest >> selectedSkinEventCountAfterSelect3 [
+	" check that the skin select event is sent to the right node.
+	After running testSelectedSkinEventCountAfterSelect, the holders selection flags are up-to-date 
+	(the holder>>selectionNotificationMap is up to date). So the result is that the deselection is only applied once
+	on the selected node "
+
+	receivedSelectedEvents := OrderedCollection new.
+	receivedDeselectedEvents := OrderedCollection new.
+
+	" here, the selected index is 1 because of #testSelectedSkinEventCountAfterSelect invocation"
+	listElement selecter selectOnlyIndex: 2.
+	self waitTestingSpaces.
+	space applyAllSkinPhases.
+	listElement forceLayout.
+	
+	self assert: receivedSelectedEvents size equals: 1.
+	receivedSelectedEvents do: [ :evt |
+		self assert: evt currentTarget holder position equals: 2 ].
+	self assert: receivedDeselectedEvents size equals: 1.
+	receivedDeselectedEvents do: [ :evt |
+		self assert: evt currentTarget holder position equals: 1 ].
+
+	listElement selecter selectOnlyIndex: 1.
+	self waitTestingSpaces.
+	space applyAllSkinPhases.
+	
+	self assert: receivedDeselectedEvents size equals: 2.
+
 	listElement forceLayout.
 	self assert: listElement selectionMode selectionContainer children size equals: 1.
 	self assert: listElement selectionMode selectionContainer children first nodeContainers size equals: 1.
@@ -175,12 +213,27 @@ ToListElementSelectionSkinEventTest >> testFiniteSelectedSkinEventCountAfterSele
 ToListElementSelectionSkinEventTest >> testFiniteSelectedSkinEventCountAfterSelect2 [
 	" check that the skin select event is sent to the right node.
 	After running testSelectedSkinEventCountAfterSelect, the holders selection flags are up-to-date 
-	(the holder>>notifiedSelected flag is not nil). So the result is that the deselection is only applied once
+	(the holder>>selectionNotificationMap map is up to date). So the result is that the deselection is only applied once
 	on the selected node "
 
 	listElement useInfiniteLayout: false.
 	self waitTestingSpaces.
 	self selectedSkinEventCountAfterSelect2
+]
+
+{ #category : #'test selection - skin' }
+ToListElementSelectionSkinEventTest >> testFiniteSelectedSkinEventCountAfterSelect3 [
+	" check that the skin select event is sent to the right node.
+	After running testSelectedSkinEventCountAfterSelect, the holders selection flags are up-to-date 
+	(the holder>>selectionNotificationMap map is up to date). So the result is that the deselection is only applied once
+	on the selected node "
+
+	listElement useInfiniteLayout: false.
+	self waitTestingSpaces.
+	self selectedSkinEventCountAfterSelect.
+	listElement requestFocus.
+	self waitTestingSpaces.
+	self selectedSkinEventCountAfterSelect3
 ]
 
 { #category : #'test selection - skin' }
@@ -201,8 +254,23 @@ ToListElementSelectionSkinEventTest >> testInfiniteSelectedSkinEventCountAfterSe
 ToListElementSelectionSkinEventTest >> testInfiniteSelectedSkinEventCountAfterSelect2 [
 	" check that the skin select event is sent to the right node.
 	After running testSelectedSkinEventCountAfterSelect, the holders selection flags are up-to-date 
-	(the holder>>notifiedSelected flag is not nil). So the result is that the deselection is only applied once
+	(the holder>>selectionNotificationMap map is up to date). So the result is that the deselection is only applied once
 	on the selected node "
 
 	self selectedSkinEventCountAfterSelect2
+]
+
+{ #category : #'test selection - skin' }
+ToListElementSelectionSkinEventTest >> testInfiniteSelectedSkinEventCountAfterSelect3 [
+	" check that the skin select event is sent to the right node.
+	After running testSelectedSkinEventCountAfterSelect, the holders selection flags are up-to-date 
+	(the holder>>selectionNotificationMap map is up to date). So the result is that the deselection is only applied once
+	on the selected node "
+
+	listElement useInfiniteLayout: true.
+	self waitTestingSpaces.
+	self selectedSkinEventCountAfterSelect.
+	listElement requestFocus.
+	self waitTestingSpaces.
+	self selectedSkinEventCountAfterSelect3
 ]

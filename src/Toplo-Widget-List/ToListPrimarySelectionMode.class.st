@@ -230,3 +230,11 @@ ToListPrimarySelectionMode >> single: aBoolean [
 
 	self multiple: aBoolean not
 ]
+
+{ #category : #initialization }
+ToListPrimarySelectionMode >> withDefaultSelectionSkinEvents [
+
+	selectionOption
+		selectionSkinEventClass: ToSelectedSkinEvent;
+		deselectionSkinEventClass: ToDeselectedSkinEvent
+]

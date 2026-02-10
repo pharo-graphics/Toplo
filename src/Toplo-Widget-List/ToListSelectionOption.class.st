@@ -4,7 +4,6 @@ Class {
 	#traits : 'TObservable',
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
-		'#selectionMode',
 		'#masked => ObservableSlot',
 		'#selectionSkinEventClass => ObservableSlot',
 		'#deselectionSkinEventClass => ObservableSlot',
@@ -12,6 +11,7 @@ Class {
 		'#beneath',
 		'#elementFactory',
 		'#selectionContainer',
+		'#selectionMode',
 		'#representationVariant'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
@@ -158,9 +158,9 @@ ToListSelectionOption >> notifyNodesSelectedIn: aListElement [
 { #category : #'api - hooks' }
 ToListSelectionOption >> onInstalledIn: aListElement [
 
-	self
-		property: #masked
-		whenChangedDo: [ self updateRepresentationIn: aListElement ].
+	self property: #masked whenChangedDo: [
+			self checkSelectionContainerIn: aListElement.
+			self updateRepresentationIn: aListElement ].
 	self
 		property: #selectionSkinEventClass
 		whenChangedDo: [ self updateRepresentationIn: aListElement ].

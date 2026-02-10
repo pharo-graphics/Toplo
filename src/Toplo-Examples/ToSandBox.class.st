@@ -9507,6 +9507,7 @@ ToSandBox class >> listWithData: aCollection [
 	| bar confBoard barPane rootPane selectionModeBoard rand |
 	rand := Random new.
 	bar := ToListElement finite.
+	bar unselectableSelectionMode withDefaultSelectionSkinEvents.
 	bar matchParent.
 	bar nodeManager nodeHolderFactory: [ ToExNodeWithFontSizeHolder new ].
 	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
@@ -9607,28 +9608,27 @@ ToSandBox class >> listWithData: aCollection [
 { #category : #list }
 ToSandBox class >> listWithEditableAndContextMenu [
 
-	| l menuFactory disabledMode unselectableMode option |
+	| l menuFactory option |
 	l := ToListElement new.
-	disabledMode := l disabledSelectionMode.
 
-	option := ToListSelectionOption new.
+	option := l disabledSelectionMode selectionOption.
 	option grouped: false.
 	option beneath: false.
 	option masked: false.
 	option elementFactory: [
 			ToListSelectionElement new defaultSkin:
 				ToListDisabledSelectionElementExampleSkin new ].
-	disabledMode changeSelectionOptionWith: option.
 
-	unselectableMode := l unselectableSelectionMode.
-	option := ToListSelectionOption new.
+	l unselectableSelectionMode withDefaultSelectionSkinEvents.
+	option := l unselectableSelectionMode selectionOption.
+	option selectionSkinEventClass: ToUnselectableSkinEvent.
+	option deselectionSkinEventClass: ToSelectableSkinEvent.
 	option grouped: false.
 	option beneath: false.
 	option masked: false.
 	option elementFactory: [
 			ToListSelectionElement new defaultSkin:
 				ToListUnselectableSelectionElementExampleSkin new ].
-	unselectableMode changeSelectionOptionWith: option.
 
 	l placeholderBuilder: [ :placeholder :e |
 			placeholder empty labelText:

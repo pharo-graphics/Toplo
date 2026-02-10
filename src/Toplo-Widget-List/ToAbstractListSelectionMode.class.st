@@ -319,3 +319,17 @@ ToAbstractListSelectionMode >> updateSelectionIn: aListElement [
 			self selectionOption ifNotNil: [ :option |
 				option updateRepresentationIn: aListElement ] ]
 ]
+
+{ #category : #initialization }
+ToAbstractListSelectionMode >> withDefaultSelectionSkinEvents [
+
+
+]
+
+{ #category : #initialization }
+ToAbstractListSelectionMode >> withoutSelectionSkinEvents [
+
+	^ selectionOption
+		  selectionSkinEventClass: nil;
+		  deselectionSkinEventClass: nil
+]

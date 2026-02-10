@@ -258,6 +258,12 @@ ToBasicListElement >> flagAsDisabled: aBoolean [
 	super flagAsDisabled: aBoolean
 ]
 
+{ #category : #testing }
+ToBasicListElement >> haveInnerElement [
+
+	^ innerElement notNil
+]
+
 { #category : #'accessing selecters' }
 ToBasicListElement >> hiddenAtPosition: anInteger [
 

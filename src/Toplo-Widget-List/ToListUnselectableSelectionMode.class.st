@@ -4,15 +4,6 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
-{ #category : #initialization }
-ToListUnselectableSelectionMode >> defaultSelectionOption [
-
-	^ super defaultSelectionOption
-		  selectionSkinEventClass: ToUnselectableSkinEvent;
-		  deselectionSkinEventClass: ToSelectableSkinEvent;
-		  yourself
-]
-
 { #category : #testing }
 ToListUnselectableSelectionMode >> isUnselectable [ 
 
@@ -29,4 +20,12 @@ ToListUnselectableSelectionMode >> newSelectionChangedEventHandler [
 ToListUnselectableSelectionMode >> selectionChangedEventClass [ 
 
 	^ ToListUnselectableSelectionChangedEvent
+]
+
+{ #category : #initialization }
+ToListUnselectableSelectionMode >> withDefaultSelectionSkinEvents [
+
+	selectionOption
+		  selectionSkinEventClass: ToUnselectableSkinEvent;
+		  deselectionSkinEventClass: ToSelectableSkinEvent
 ]

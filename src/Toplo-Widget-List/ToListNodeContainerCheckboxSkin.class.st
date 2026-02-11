@@ -5,10 +5,31 @@ Class {
 }
 
 { #category : #'event handling' }
+ToListNodeContainerCheckboxSkin >> deselectedSkinEvent: anEvent [
+
+	super deselectedSkinEvent: anEvent.
+	anEvent elementDo: [ :e | e removeTokenNamed: #'checkbox-color' ]
+]
+
+{ #category : #'event handling' }
 ToListNodeContainerCheckboxSkin >> selectableSkinEvent: anEvent [
 
 	super selectableSkinEvent: anEvent.
 	anEvent elementDo: [ :e | e enabled: true ]
+]
+
+{ #category : #'event handling' }
+ToListNodeContainerCheckboxSkin >> selectedSkinEvent: anEvent [
+
+	super selectedSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+			| f |
+			f := anEvent focused
+				     ifTrue: [
+				     e valueOfTokenNamed: #'selected-focused-foreground' ]
+				     ifFalse: [
+				     e valueOfTokenNamed: #'selected-unfocused-foreground' ].
+			e addTokenNamed: #'checkbox-color' withValue: f ]
 ]
 
 { #category : #'event handling' }

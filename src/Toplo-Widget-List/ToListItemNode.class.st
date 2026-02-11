@@ -11,7 +11,8 @@ ToListItemNode >> applyConfiguration [
 
 	super applyConfiguration.
 	self item ifNil: [ ^ self ].
-	self item applyConfiguration 
+	self item applyConfiguration.
+	self vFitContent 
 ]
 
 { #category : #initialization }

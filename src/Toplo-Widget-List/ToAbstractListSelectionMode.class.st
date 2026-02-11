@@ -38,6 +38,18 @@ ToAbstractListSelectionMode >> defaultSelectionOption [
 	^ self subclassResponsibility 
 ]
 
+{ #category : #'selection updating' }
+ToAbstractListSelectionMode >> deselectionSkinEventClass [ 
+
+	^ selectionOption deselectionSkinEventClass
+]
+
+{ #category : #'selection updating' }
+ToAbstractListSelectionMode >> deselectionSkinEventClass: aSkinEventClass [ 
+
+	selectionOption deselectionSkinEventClass: aSkinEventClass
+]
+
 { #category : #accessing }
 ToAbstractListSelectionMode >> dirty [
 
@@ -310,6 +322,18 @@ ToAbstractListSelectionMode >> selectionOption [
 ToAbstractListSelectionMode >> selectionOptionDo: aBlock [
 
 	aBlock value: selectionOption
+]
+
+{ #category : #'selection updating' }
+ToAbstractListSelectionMode >> selectionSkinEventClass [ 
+
+	^ selectionOption selectionSkinEventClass
+]
+
+{ #category : #'selection updating' }
+ToAbstractListSelectionMode >> selectionSkinEventClass: aSkinEventClass [ 
+
+	selectionOption selectionSkinEventClass: aSkinEventClass
 ]
 
 { #category : #'selection updating' }

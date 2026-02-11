@@ -284,7 +284,7 @@ ToSandBox class >> exampleCheckableListWithAccordions [
 	| list |
 	list := ToCheckableListElement infinite.
 	list group withNoneCheckingStrategy.
-	(1 to: 1000) do: [ :i |
+	(1 to: 500) do: [ :i |
 		list addItem: (self accordionWithLabelText: 'Header ' , i asString) ].
 	list openInSpace.
 	^ list
@@ -9507,7 +9507,6 @@ ToSandBox class >> listWithData: aCollection [
 	| bar confBoard barPane rootPane selectionModeBoard rand |
 	rand := Random new.
 	bar := ToListElement finite.
-	bar unselectableSelectionMode withDefaultSelectionSkinEvents.
 	bar matchParent.
 	bar nodeManager nodeHolderFactory: [ ToExNodeWithFontSizeHolder new ].
 	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
@@ -9619,7 +9618,6 @@ ToSandBox class >> listWithEditableAndContextMenu [
 			ToListSelectionElement new defaultSkin:
 				ToListDisabledSelectionElementExampleSkin new ].
 
-	l unselectableSelectionMode withDefaultSelectionSkinEvents.
 	option := l unselectableSelectionMode selectionOption.
 	option selectionSkinEventClass: ToUnselectableSkinEvent.
 	option deselectionSkinEventClass: ToSelectableSkinEvent.

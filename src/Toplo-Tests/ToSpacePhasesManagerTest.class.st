@@ -123,11 +123,10 @@ ToSpacePhasesManagerTest >> testNeedSkinInstallPass [
 	" all skin installers should have been applied "
 	self deny: space phasesManager needSkinInstallPass.
 	e addStamp: #stamp.
-	self assert: space phasesManager needSkinInstallPass.
-	space applyAllSkinInstallers.
-	" all skin installers should have been applied "
+	self assert: space phasesManager needSkinStateApplicationPass.
+	space applyAllEnqueuedStates.
 	self deny: space phasesManager needSkinInstallPass.
-
+	self deny: space phasesManager needSkinStateApplicationPass.
 	
 
 
@@ -157,8 +156,8 @@ ToSpacePhasesManagerTest >> testNeedSkinStateApplicationPass [
 	self deny: space phasesManager needSkinStateApplicationPass.
 	self deny: space phasesManager needSkinInstallPass.
 	e addStamp: #stamp.
-	self assert: space phasesManager needSkinInstallPass.
-	self deny: space phasesManager needSkinStateApplicationPass.
+	self deny: space phasesManager needSkinInstallPass.
+	self assert: space phasesManager needSkinStateApplicationPass.
 
 
 

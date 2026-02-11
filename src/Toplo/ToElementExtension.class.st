@@ -165,7 +165,7 @@ ToElementExtension >> newStampMapIn: anElement [
 
 	^ ToPropertyIndexWithChangedAction new
 		  changedAction: [
-				  self requestNewSkinRecursivelyFrom: anElement.
+				  self requestReapplySkinStatesRecursivelyFrom: anElement.
 				  anElement requestSkinApplication ];
 		  yourself
 ]
@@ -174,8 +174,8 @@ ToElementExtension >> newStampMapIn: anElement [
 ToElementExtension >> newTokenPropertyMapIn: anElement [
 
 	^ ToPropertyIndexWithChangedAction new
-		  changedAction: [
-				  self requestNewSkinRecursivelyFrom: anElement.
+		  changedAction: [ :propMap |
+				  self requestReapplySkinStatesRecursivelyFrom: anElement.
 				  anElement requestSkinApplication ];
 		  yourself
 ]
@@ -197,6 +197,13 @@ ToElementExtension >> requestNewSkinRecursivelyFrom: anElement [
 
 	anElement withAllChildrenBreadthFirstDo: [ :child |
 		child requestNewSkin ]
+]
+
+{ #category : #'skin managing' }
+ToElementExtension >> requestReapplySkinStatesRecursivelyFrom: anElement [
+
+	anElement withAllChildrenBreadthFirstDo: [ :child |
+		child requestReapplySkinStates ]
 ]
 
 { #category : #'accessing - stylesheet' }

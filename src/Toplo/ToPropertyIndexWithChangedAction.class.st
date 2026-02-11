@@ -17,7 +17,7 @@ ToPropertyIndexWithChangedAction >> addAllProperties: aCollectionOfProperties [
 		(self hasProperty: p) ifFalse: [
 			done := true.
 			index at: p name asSymbol put: p ] ].
-	done ifTrue: [ changedAction value ]
+	done ifTrue: [ changedAction cull: self ]
 ]
 
 { #category : #adding }
@@ -25,7 +25,7 @@ ToPropertyIndexWithChangedAction >> addProperty: anElementProperty [
 
 	(self hasProperty: anElementProperty) ifTrue: [ ^ false ].
 	super addProperty: anElementProperty.
-	changedAction value.
+	changedAction cull: self.
 	^ true
 ]
 
@@ -36,9 +36,9 @@ ToPropertyIndexWithChangedAction >> changedAction [
 ]
 
 { #category : #accessing }
-ToPropertyIndexWithChangedAction >> changedAction: aBlockNoArg [
+ToPropertyIndexWithChangedAction >> changedAction: aBlockOneArgOpt [
 
-	changedAction := aBlockNoArg
+	changedAction := aBlockOneArgOpt
 ]
 
 { #category : #testing }
@@ -58,7 +58,7 @@ ToPropertyIndexWithChangedAction >> hasProperty: anElementProperty [
 ToPropertyIndexWithChangedAction >> initialize [ 
 
 	super initialize.
-	changedAction := [  ]
+	changedAction := [ :myself | ]
 ]
 
 { #category : #removing }
@@ -66,7 +66,7 @@ ToPropertyIndexWithChangedAction >> removeAllProperties [
 
 	self isEmpty ifTrue: [ ^ self ].
 	super removeAllProperties.
-	changedAction value
+	changedAction cull: self
 ]
 
 { #category : #removing }
@@ -79,12 +79,12 @@ ToPropertyIndexWithChangedAction >> removeAllPropertiesFromNames: aCollectionOfS
 		index at: symb asSymbol ifPresent: [ :prop |
 			done := true.
 			index removeKey: symb ] ].
-	done ifTrue: [ changedAction value ]
+	done ifTrue: [ changedAction cull: self ]
 ]
 
 { #category : #removing }
 ToPropertyIndexWithChangedAction >> removePropertyNamed: aSymbol [
 
 	index removeKey: aSymbol ifAbsent: [ ^ self ].
-	changedAction value
+	changedAction cull: self
 ]

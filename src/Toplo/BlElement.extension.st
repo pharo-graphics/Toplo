@@ -730,6 +730,12 @@ BlElement >> requestNewSkin [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> requestReapplySkinStates [
+
+	self skinManagerDo: [ :sm | sm requestReapplySkinStatesIn: self ]
+]
+
+{ #category : #'*Toplo' }
 BlElement >> requestSkinApplication [
 
 	self spaceDo: [ :sp | sp requestNextPulse ]

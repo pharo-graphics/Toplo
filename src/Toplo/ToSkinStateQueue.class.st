@@ -12,7 +12,7 @@ Class {
 { #category : #'state application' }
 ToSkinStateQueue >> applyEnqueuedStatesFor: anElement [
 
-	nextStates do: [ :nextInQueue | 
+	nextStates do: [ :nextInQueue |
 		nextInQueue applyOn: anElement fromQueue: self ].
 	nextStates reset
 ]

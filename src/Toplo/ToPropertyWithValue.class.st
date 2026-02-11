@@ -29,16 +29,6 @@ ToPropertyWithValue >> = anObject [
 	^ self name = anObject name and: [ self value = anObject value ]
 ]
 
-{ #category : #printing }
-ToPropertyWithValue >> printOn: aStream [
-
-	aStream << '['.
-	super printOn: aStream.
-	aStream << ','.
-	self value printOn: aStream.
-	aStream << ']'
-]
-
 { #category : #accessing }
 ToPropertyWithValue >> value [
 

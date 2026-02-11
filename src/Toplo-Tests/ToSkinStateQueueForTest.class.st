@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Tests-Core-Slots'
 }
 
-{ #category : #'state application' }
+{ #category : #hook }
 ToSkinStateQueueForTest >> applyEnqueuedStatesFor: anElement [
 
 	| atLeastOne |

@@ -140,17 +140,6 @@ ToSkinManager >> requestNewSkinIn: anElement [
 	self installNewSkinIn: anElement
 ]
 
-{ #category : #'skin - install / uninstall request' }
-ToSkinManager >> requestReapplySkinStatesIn: anElement [
-
-	(installedSkin isUnknownSkin or: [
-		 anElement isAttachedToSceneGraph not ]) ifTrue: [
-		^ self requestNewSkinIn: anElement ].
-
-	skinStateQueue enqueueIntrinsicStateFor: anElement.
-	anElement spaceDo: [ :sp | sp requestSkinStateApplicationPass ]
-]
-
 { #category : #'skin state generation' }
 ToSkinManager >> selectedSkinEvent: aSelectedSkinEvent in: anElement [
 

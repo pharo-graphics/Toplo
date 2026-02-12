@@ -177,6 +177,14 @@ TToInnerListElement >> selectableNodeContainingGlobalPosition: aPoint [
 ]
 
 { #category : #'t - inner list element' }
+TToInnerListElement >> selectableNodeContainingGlobalPosition: aPoint do: aValuable ifNone: altValuable [
+
+	(self selectableNodeContainingGlobalPosition: aPoint)
+		ifNotNil: [ :nodeContainer | aValuable value: nodeContainer ]
+		ifNil: [ altValuable value ]
+]
+
+{ #category : #'t - inner list element' }
 TToInnerListElement >> withRowNumbers: aBoolean [
 
 

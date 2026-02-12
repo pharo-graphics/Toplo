@@ -1,15 +1,19 @@
 Class {
-	#name : #ToPropertyIndexWithChangedActionTest,
+	#name : #ToElementPropertyIndexTest,
 	#superclass : #TestCase,
 	#category : #'Toplo-Tests-Core-Properties'
 }
 
 { #category : #tests }
-ToPropertyIndexWithChangedActionTest >> testAddAllProperties [
+ToElementPropertyIndexTest >> testAddAllProperties [
 
 	| idx count |
 	count := 0.
-	idx := ToPropertyIndexWithChangedAction new changedAction: [ count := count + 1 ].
+	idx := (ToElementPropertyIndex on: ToElement new )
+			  addEventHandler: (BlEventHandler
+				   on: ToPropertyIndexChangedEvent
+				   do: [count := count + 1 ]);
+		  yourself.
 	idx addAllProperties: { (ToTokenProperty new name: #color). (ToTokenProperty new name: #background) } .
 	self assert: idx size equals: 2.
 	self assert: count equals: 1.
@@ -23,11 +27,16 @@ ToPropertyIndexWithChangedActionTest >> testAddAllProperties [
 ]
 
 { #category : #tests }
-ToPropertyIndexWithChangedActionTest >> testAddProperty [
+ToElementPropertyIndexTest >> testAddProperty [
 
 	| idx count |
 	count := 0.
-	idx := ToPropertyIndexWithChangedAction new changedAction: [ count := count + 1 ].
+	idx := (ToElementPropertyIndex on: ToElement new )
+			  addEventHandler: (BlEventHandler
+				   on: ToPropertyIndexChangedEvent
+				   do: [count := count + 1 ]);
+		  yourself.
+
 	idx addProperty: (ToTokenProperty new name: #color).
 	self assert: count equals: 1.
 	self assert: idx size equals: 1.
@@ -43,11 +52,16 @@ ToPropertyIndexWithChangedActionTest >> testAddProperty [
 ]
 
 { #category : #tests }
-ToPropertyIndexWithChangedActionTest >> testAddPropertyWithBlockClosure [
+ToElementPropertyIndexTest >> testAddPropertyWithBlockClosure [
 
 	| idx count |
 	count := 0.
-	idx := ToPropertyIndexWithChangedAction new changedAction: [ count := count + 1 ].
+	idx := (ToElementPropertyIndex on: ToElement new )
+			  addEventHandler: (BlEventHandler
+				   on: ToPropertyIndexChangedEvent
+				   do: [count := count + 1 ]);
+		  yourself.
+
 	idx addProperty: (ToTokenProperty new name: #color; value: [:e | e defaultColor ] ).
 	self assert: count equals: 1.
 	self assert: idx size equals: 1.
@@ -63,25 +77,10 @@ ToPropertyIndexWithChangedActionTest >> testAddPropertyWithBlockClosure [
 ]
 
 { #category : #tests }
-ToPropertyIndexWithChangedActionTest >> testChangedAction [
-
-	| idx action |
-	idx := ToPropertyIndexWithChangedAction new.
-	self assert: idx changedAction notNil.
-	self assert: idx changedAction isClosure.
-	action := [ ].
-	idx changedAction: action.
-	self assert: idx changedAction identicalTo: action.
-
-
-		
-]
-
-{ #category : #tests }
-ToPropertyIndexWithChangedActionTest >> testHasProperty [
+ToElementPropertyIndexTest >> testHasProperty [
 
 	| idx  |
-	idx := ToPropertyIndexWithChangedAction new .
+	idx := (ToElementPropertyIndex on: ToElement new ).
 	idx addProperty: (ToTokenProperty new name: #color1; value: Color blue ).
 	idx addProperty: (ToTokenProperty new name: #color2; value: [:e | e defaultColor ] ).
 	self assert: (idx hasProperty: (ToTokenProperty  new name: #color1; value: Color blue)).
@@ -96,21 +95,22 @@ ToPropertyIndexWithChangedActionTest >> testHasProperty [
 ]
 
 { #category : #tests }
-ToPropertyIndexWithChangedActionTest >> testInitialize [
+ToElementPropertyIndexTest >> testInitialize [
 
 	| idx  |
-	idx := ToPropertyIndexWithChangedAction new.
-	self assert: idx changedAction notNil.
-	self assert: idx changedAction isClosure.
-		
+	idx := ToElementPropertyIndex on: ToElement new		
 ]
 
 { #category : #tests }
-ToPropertyIndexWithChangedActionTest >> testRemoveAllProperties [
+ToElementPropertyIndexTest >> testRemoveAllProperties [
 
 	| idx count |
 	count := 0.
-	idx := ToPropertyIndexWithChangedAction new changedAction: [ count := count + 1 ].
+	idx := (ToElementPropertyIndex on: ToElement new )
+			  addEventHandler: (BlEventHandler
+				   on: ToPropertyIndexChangedEvent
+				   do: [count := count + 1 ]);
+		  yourself.
 	idx removeAllProperties.
 	self assert: count equals: 0.
 	idx addAllProperties: {
@@ -125,12 +125,15 @@ ToPropertyIndexWithChangedActionTest >> testRemoveAllProperties [
 ]
 
 { #category : #tests }
-ToPropertyIndexWithChangedActionTest >> testRemoveAllPropertiesFromNames [
+ToElementPropertyIndexTest >> testRemoveAllPropertiesFromNames [
 
 	| idx count |
 	count := 0.
-	idx := ToPropertyIndexWithChangedAction new changedAction: [
-		       count := count + 1 ].
+	idx := (ToElementPropertyIndex on: ToElement new )
+			  addEventHandler: (BlEventHandler
+				   on: ToPropertyIndexChangedEvent
+				   do: [count := count + 1 ]);
+		  yourself.
 	idx addAllProperties: {
 			(ToTokenProperty new name: #color).
 			(ToTokenProperty new name: #background) }.
@@ -144,11 +147,15 @@ ToPropertyIndexWithChangedActionTest >> testRemoveAllPropertiesFromNames [
 ]
 
 { #category : #tests }
-ToPropertyIndexWithChangedActionTest >> testRemovePropertyNamed [
+ToElementPropertyIndexTest >> testRemovePropertyNamed [
 
 	| idx count |
 	count := 0.
-	idx := ToPropertyIndexWithChangedAction new changedAction: [ count := count + 1 ].
+	idx := (ToElementPropertyIndex on: ToElement new )
+			  addEventHandler: (BlEventHandler
+				   on: ToPropertyIndexChangedEvent
+				   do: [count := count + 1 ]);
+		  yourself.
 	idx addAllProperties: { (ToTokenProperty new name: #color). (ToTokenProperty new name: #background) } .
 	self assert: count equals: 1.
 	idx removePropertyNamed: #color.

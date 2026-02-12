@@ -944,6 +944,18 @@ BlElement >> updateLocalThemeWith: aTheme [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> updateStamp: aSymbol withValue: anObject [
+
+	self ensuredStampMap updateProperty: (aSymbol -> anObject) asStampProperty
+]
+
+{ #category : #'*Toplo' }
+BlElement >> updateTokenNamed: aSymbol withValue: anObject [
+
+	self ensuredTokenPropertyMap updateProperty: (aSymbol -> anObject) asTokenProperty 
+]
+
+{ #category : #'*Toplo' }
 BlElement >> valueOfStamp: aSymbol [
 
 	^ self stampMap

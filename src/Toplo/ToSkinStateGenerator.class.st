@@ -119,6 +119,7 @@ ToSkinStateGenerator >> enqueueTransientState: aState for: anElement [
 ToSkinStateGenerator >> eventsToHandle [
 
 	^ {
+		  ToPropertyIndexChangedEvent.
 		  ToOpenedClosedEvent.
 		  ToGeneratorEvent.
 		  BlBaseDragEvent.
@@ -261,6 +262,14 @@ ToSkinStateGenerator >> primaryMouseUpEvent: anEvent [
 	pressed := false.
 	self enqueueTransientState:
 		(ToReleasedSkinEvent sourceEvent: anEvent)
+]
+
+{ #category : #'property change handling' }
+ToSkinStateGenerator >> propertyIndexChangedEvent: anEvent [
+
+	target toploExtensionDo: [ :extension |
+			extension requestNewSkinRecursivelyFrom: target.
+			target requestSkinApplication ]
 ]
 
 { #category : #'still pressed - hovered' }

@@ -267,9 +267,7 @@ ToSkinStateGenerator >> primaryMouseUpEvent: anEvent [
 { #category : #'property change handling' }
 ToSkinStateGenerator >> propertyIndexChangedEvent: anEvent [
 
-	target toploExtensionDo: [ :extension |
-			extension requestNewSkinRecursivelyFrom: target.
-			target requestSkinApplication ]
+	target requestNewSkin
 ]
 
 { #category : #'still pressed - hovered' }

@@ -80,7 +80,6 @@ ToEmpty >> label: aLabel [
 		label := nil ].
 	aLabel ifNil: [ ^ self ].
 	label := aLabel.
-	label addStamp: #placeholder.
 	label constraintsDo: [ :c |
 		c linear horizontal alignCenter.
 		c linear vertical alignCenter ].

@@ -4945,28 +4945,26 @@ ToSandBox class >> example_SkinIsRenewWhenLableTextChange [
 
 	| labelToChange buttonToChange button space |
 	labelToChange := ToLabel new
-		                 text: 'hello world';
+		                 text: '#danger';
 		                 addStamp: #danger;
-		                 position: 0 @ 50;
 		                 yourself.
 	buttonToChange := ToButton new
-		                  labelText: 'hello world';
+		                  labelText: '#primary';
 		                  addStamp: #primary;
-		                  position: 100 @ 50;
 		                  yourself.
 	button := ToButton new
 		          labelText: 'Change the label';
 		          addEventHandlerOn: BlClickEvent do: [
-				          labelToChange
-					          text: 'goodbye sky';
-					          requestNewSkin.
-				          buttonToChange
-					          labelText: 'goodbye sky';
-					          requestNewSkin ];
+				          labelToChange text:
+						          labelToChange text asString , '- remains #danger'.
+				          buttonToChange labelText:
+						          buttonToChange labelText asString
+						          , '- remains #primary' ];
 		          yourself.
 
 
 	space := BlSpace new.
+	space root layout: BlLinearLayout horizontal.
 	space root addChild: button.
 	space root addChild: labelToChange.
 	space root addChild: buttonToChange.

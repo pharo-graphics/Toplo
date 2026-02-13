@@ -73,7 +73,7 @@ ToMenu >> initialize [
 
 	super initialize.
 	self initializeAsItemBarContainer.
-	self initializeAsMenuItemBarContainer.
+	self initializeAsMenuItemListUser.
 
 	isSubmenu := false.
 	isMenuPaneMenu := false.

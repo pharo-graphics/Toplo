@@ -86,7 +86,7 @@ ToMenuPane >> initialize [
 
 	super initialize.
 	self initializeAsItemBarContainer.
-	self initializeAsMenuItemBarContainer.
+	self initializeAsMenuItemListUser.
 
 	autoOpen := false.
 	isSubPane := false.

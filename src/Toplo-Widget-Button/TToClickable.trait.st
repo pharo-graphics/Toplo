@@ -25,22 +25,6 @@ TToClickable >> initializeAsClickable [
 ]
 
 { #category : #'t - clickable' }
-TToClickable >> removeClickAction [
-	"remove the click action"
-
-	self
-		deprecated: 'Use the action link #unlink feature instead'
-]
-
-{ #category : #'t - clickable' }
-TToClickable >> removeClickHandler [
-	"remove the click action"
-
-	self
-		deprecated: 'Use the action link #unlink feature instead'
-]
-
-{ #category : #'t - clickable' }
 TToClickable >> takeFocusOnClick [
 
 	^ false

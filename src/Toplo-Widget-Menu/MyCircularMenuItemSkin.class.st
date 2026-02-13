@@ -1,11 +1,11 @@
 Class {
-	#name : #ToCircularMenuItemSkin,
+	#name : #MyCircularMenuItemSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Widget-Menu-Circular'
+	#category : #'Toplo-Widget-Menu-NotUsed'
 }
 
 { #category : #'event handling' }
-ToCircularMenuItemSkin >> hoveredSkinEvent: anEvent [
+MyCircularMenuItemSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
 	anEvent traceCr.
@@ -15,7 +15,7 @@ ToCircularMenuItemSkin >> hoveredSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToCircularMenuItemSkin >> installSkinEvent: anEvent [
+MyCircularMenuItemSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent traceCr.
@@ -38,7 +38,7 @@ ToCircularMenuItemSkin >> installSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToCircularMenuItemSkin >> leftSkinEvent: anEvent [
+MyCircularMenuItemSkin >> leftSkinEvent: anEvent [
 
 	super leftSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -49,7 +49,7 @@ ToCircularMenuItemSkin >> leftSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToCircularMenuItemSkin >> pressedSkinEvent: anEvent [
+MyCircularMenuItemSkin >> pressedSkinEvent: anEvent [
 
 	super pressedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -58,7 +58,7 @@ ToCircularMenuItemSkin >> pressedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToCircularMenuItemSkin >> releasedSkinEvent: anEvent [
+MyCircularMenuItemSkin >> releasedSkinEvent: anEvent [
 
 	super releasedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
@@ -67,7 +67,7 @@ ToCircularMenuItemSkin >> releasedSkinEvent: anEvent [
 ]
 
 { #category : #private }
-ToCircularMenuItemSkin >> resizeImage: anImage innerImageTo: aSize [
+MyCircularMenuItemSkin >> resizeImage: anImage innerImageTo: aSize [
 
 	anImage
 		withInnerFormDo: [ :f |

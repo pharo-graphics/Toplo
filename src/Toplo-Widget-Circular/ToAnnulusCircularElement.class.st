@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Widget-Circular-Annulus'
 }
 
-{ #category : #initialization }
+{ #category : #'t - circular element' }
 ToAnnulusCircularElement >> defaultLayout [ 
 
 	^ ToAnnulusCircularLayout new

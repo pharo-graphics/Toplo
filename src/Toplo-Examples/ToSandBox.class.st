@@ -1730,6 +1730,75 @@ ToSandBox class >> example_CircularListElementWithAnnulusSectors [
 	container openInSpace
 ]
 
+{ #category : #menu }
+ToSandBox class >> example_CircularMenu [
+
+	| rootMenu space |
+	space := BlSpace new.
+	space root layout: BlFrameLayout new.
+	
+	rootMenu := ToCircularMenuItemList new.
+	rootMenu uniformSectors: true.
+	rootMenu addItem: (ToMenuItem new
+			 labelText: 'X1';
+			 yourself).
+	rootMenu addItem: (ToMenuItem new
+			 labelText: 'X2';
+			 yourself).
+	rootMenu addItem: (ToMenuItem new
+			 labelText: 'X3';
+			 yourself).
+	rootMenu constraintsDo: [ :c |
+			c frame horizontal alignCenter.
+			c frame vertical alignCenter ].
+	rootMenu extent: 200 asPoint.
+	space root addChild: rootMenu.
+	space show
+]
+
+{ #category : #menu }
+ToSandBox class >> example_CircularMenuWithSubmenu [
+
+	| rootMenu subMenu  space |
+	space := BlSpace new.
+	space root layout: BlFrameLayout new.
+	
+	rootMenu := ToCircularMenuItemList new.
+	rootMenu uniformSectors: true.
+	rootMenu addItem: (ToMenuItem new
+			 labelText: 'X1';
+			 yourself).
+	rootMenu addItem: (ToMenuItem new
+			 labelText: 'X2';
+			 yourself).
+	rootMenu addItem: (ToMenuItem new
+			 labelText: 'X3';
+			 yourself).
+	rootMenu constraintsDo: [ :c |
+			c frame horizontal alignCenter.
+			c frame vertical alignCenter ].
+	rootMenu extent: 200 asPoint.
+	rootMenu background: Color red.
+	
+	subMenu := ToCircularMenuItemList new.
+	subMenu innerRadius: 0.5.
+	subMenu uniformSectors: false.
+	subMenu addItem: (ToMenuItem new
+			 labelText: 'XX1';
+			 yourself).
+	subMenu addItem: (ToMenuItem new
+			 labelText: 'XX2';
+			 yourself).
+	subMenu extent: 400 asPoint.
+	subMenu constraintsDo: [ :c |
+		c frame horizontal alignCenter.
+		c frame vertical alignCenter ].
+	space root addChild: subMenu.
+	space root addChild: rootMenu.
+	
+	space show
+]
+
 { #category : #tree }
 ToSandBox class >> example_ClassHierarchiesWithMethods [
 	"For this example we created a new wrapper dealing with classes and methods at the same time, a new Node was also created (ToTreeSubAndMethNode) to apply a new skin (ToTreeNodeSubAndMethSkin) with new icons and a different background color for methods "
@@ -2019,7 +2088,7 @@ ToSandBox class >> example_EditableList2WithAllClassesNames [
 				 on: ToListStrongSelectionEvent
 				 do: [ :event |
 					 event indexes size == 1 ifTrue: [
-							 (l nodeContainerAt: event indexes first) label popupEditorEvent: event ] ]).
+							 (l nodeContainerAt: event indexes first) node label popupEditorEvent: event ] ]).
 	l	withRowNumbers.
 
 	l dataAccessor addAll:

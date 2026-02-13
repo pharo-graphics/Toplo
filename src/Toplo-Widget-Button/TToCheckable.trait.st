@@ -123,19 +123,19 @@ TToCheckable >> isCheckable [
 { #category : #'t - checkable - testing' }
 TToCheckable >> isChecked [
 
-	^ self checkableState isChecked
+	^ self isCheckable and: [ self checkableState isChecked ]
 ]
 
 { #category : #'t - checkable - testing' }
 TToCheckable >> isIndeterminate [
 
-	^ self checkableState isIndeterminate
+	^ self isCheckable and: [ self checkableState isIndeterminate ]
 ]
 
 { #category : #'t - checkable - testing' }
 TToCheckable >> isUnchecked [
 
-	^ self checkableState  isUnchecked
+	^ self isCheckable and: [ self checkableState isUnchecked ]
 ]
 
 { #category : #'t - checkable  - protocol' }

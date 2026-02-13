@@ -260,3 +260,15 @@ ToAnnulusCircularLayout >> trianglePointsIn: container startAngle: aStartAngle e
 		  pStart.
 		  pEnd }
 ]
+
+{ #category : #accessing }
+ToAnnulusCircularLayout >> uniformSectors [
+
+	^ uniformSectors
+]
+
+{ #category : #accessing }
+ToAnnulusCircularLayout >> uniformSectors: aBoolean [
+
+	uniformSectors := aBoolean
+]

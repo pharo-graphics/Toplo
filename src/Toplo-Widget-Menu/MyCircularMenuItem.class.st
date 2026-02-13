@@ -1,7 +1,7 @@
 Class {
 	#name : #MyCircularMenuItem,
 	#superclass : #ToButton,
-	#category : #'Toplo-Widget-Menu-Circular'
+	#category : #'Toplo-Widget-Menu-NotUsed'
 }
 
 { #category : #ressources }
@@ -23,5 +23,5 @@ MyCircularMenuItem >> initialize [
 { #category : #skin }
 MyCircularMenuItem >> newRawSkin [ 
 
-	^ ToCircularMenuItemSkin new
+	^ MyCircularMenuItemSkin new
 ]

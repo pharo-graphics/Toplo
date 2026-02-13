@@ -19,5 +19,13 @@ ToListItemNode >> applyConfiguration [
 ToListItemNode >> initialize [
 
 	super initialize.
-	self initializeAsListItemNode 
+	self layout: BlLinearLayout horizontal.
+	self hMatchParent.
+	self vFitContent 
+]
+
+{ #category : #skin }
+ToListItemNode >> newRawSkin [ 
+
+	^ ToItemNodeSkin new 
 ]

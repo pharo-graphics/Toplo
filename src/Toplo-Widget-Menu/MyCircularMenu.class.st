@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'menuItems'
 	],
-	#category : #'Toplo-Widget-Menu-Circular'
+	#category : #'Toplo-Widget-Menu-NotUsed'
 }
 
 { #category : #example }

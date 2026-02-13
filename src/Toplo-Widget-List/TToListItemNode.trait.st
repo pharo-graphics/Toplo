@@ -7,14 +7,6 @@ Trait {
 }
 
 { #category : #'t - item node' }
-TToListItemNode >> initializeAsListItemNode [
-
-	self layout: BlLinearLayout horizontal.
-	self hMatchParent.
-	self vFitContent
-]
-
-{ #category : #'t - item node' }
 TToListItemNode >> item [
 
 	^ item
@@ -32,10 +24,4 @@ TToListItemNode >> item: anElement [
 	item removeFromParent.
 	self addChild: item at: 1.
 	self requestNewSkin
-]
-
-{ #category : #'t - item node' }
-TToListItemNode >> newRawSkin [ 
-
-	^ ToItemNodeSkin new
 ]

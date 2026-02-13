@@ -36,7 +36,7 @@ ToContextMenu >> initialize [
 	self fitContent.
 	self closeOnPicking: true.
 	self initializeAsItemBarContainer.
-	self initializeAsMenuItemBarContainer.
+	self initializeAsMenuItemListUser.
 	self root addChild: self itemList
 ]
 

@@ -6,6 +6,12 @@ Class {
 	#category : #'Toplo-Widget-Circular-BasicElement'
 }
 
+{ #category : #'t - circular element' }
+ToBasicCircularElement >> defaultLayout [ 
+
+	^ ToBasicCircularLayout new
+]
+
 { #category : #initialization }
 ToBasicCircularElement >> initialize [ 
 

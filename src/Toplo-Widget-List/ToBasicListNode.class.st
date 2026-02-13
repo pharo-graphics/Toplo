@@ -46,6 +46,7 @@ ToBasicListNode >> initialize [
 
 	super initialize.
 	self layout: self defaultLayout.
+	self matchParent.
 	self initializeAsListNode 
 ]
 

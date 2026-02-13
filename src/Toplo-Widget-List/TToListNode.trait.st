@@ -35,7 +35,6 @@ TToListNode >> flagAsDisabled: aBoolean [
 { #category : #'t - list node' }
 TToListNode >> initializeAsListNode [
 
-	self matchParent.
 	self addEventHandlerOn: ToRemoveButtonClickedEvent do: [ :event |
 			| target listElement |
 			" since the event is fired, on should stop it's dispatching here "

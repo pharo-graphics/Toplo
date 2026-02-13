@@ -130,6 +130,12 @@ ToMenuPane >> isSubPane: aBoolean [
 	isSubPane := aBoolean
 ]
 
+{ #category : #'t - item list user - accessing' }
+ToMenuPane >> itemList [
+
+	^ itemList
+]
+
 { #category : #'t - menu window model' }
 ToMenuPane >> menuPane [
 

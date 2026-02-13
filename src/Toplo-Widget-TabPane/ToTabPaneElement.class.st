@@ -131,7 +131,7 @@ ToTabPaneElement >> initialize [
 	bodyContainer constraintsDo: [ :c |
 			c vertical matchParent.
 			c horizontal matchParent ].
-	self setItemList: self tabGroup itemList.
+
 	self addChildren: {
 			headerContainer.
 			bodyContainer }.
@@ -164,6 +164,12 @@ ToTabPaneElement >> itemBuilder: aValuable [
 	" aValuable takes the new TabItemElement, the data and the TabGroupElement as arguments "
 	
 	self tabGroup itemBuilder: aValuable
+]
+
+{ #category : #'t - item list user - accessing' }
+ToTabPaneElement >> itemList [
+
+	^ self tabGroup itemList
 ]
 
 { #category : #accessing }

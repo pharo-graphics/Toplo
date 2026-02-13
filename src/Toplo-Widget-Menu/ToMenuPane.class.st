@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuPane,
 	#superclass : #ToElement,
-	#traits : 'TToListItem + TToMenuItem + TToItemListUser + TToMenuItemListUser + TToOrientable',
-	#classTraits : 'TToListItem classTrait + TToMenuItem classTrait + TToItemListUser classTrait + TToMenuItemListUser classTrait + TToOrientable classTrait',
+	#traits : 'TToListItem + TToMenuItem + TToItemListOwner + TToItemListUser + TToMenuItemListUser + TToOrientable',
+	#classTraits : 'TToListItem classTrait + TToMenuItem classTrait + TToItemListOwner classTrait + TToItemListUser classTrait + TToMenuItemListUser classTrait + TToOrientable classTrait',
 	#instVars : [
 		'autoOpen',
 		'isSubPane'
@@ -85,7 +85,7 @@ ToMenuPane >> hasInlineWindow [
 ToMenuPane >> initialize [
 
 	super initialize.
-	self initializeAsItemBarContainer.
+	self initializeAsItemListOwner.
 	self initializeAsMenuItemListUser.
 
 	autoOpen := false.
@@ -140,7 +140,7 @@ ToMenuPane >> menuPane [
 ToMenuPane >> menuWindowDo: aValuable [
 ]
 
-{ #category : #'t - item list holder - initializing' }
+{ #category : #'t - item list owner - initializing' }
 ToMenuPane >> newItemList [
 
 	^ ToMenuItemListElement new

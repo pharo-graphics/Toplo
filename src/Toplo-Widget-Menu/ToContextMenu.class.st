@@ -1,8 +1,8 @@
 Class {
 	#name : #ToContextMenu,
 	#superclass : #ToMenuWindow,
-	#traits : 'TToOrientable + TToMenuItemListUser + TToMenuWindowModel + TToItemListUser',
-	#classTraits : 'TToOrientable classTrait + TToMenuItemListUser classTrait + TToMenuWindowModel classTrait + TToItemListUser classTrait',
+	#traits : 'TToOrientable + TToItemListOwner + TToMenuItemListUser + TToMenuWindowModel + TToItemListUser',
+	#classTraits : 'TToOrientable classTrait + TToItemListOwner classTrait + TToMenuItemListUser classTrait + TToMenuWindowModel classTrait + TToItemListUser classTrait',
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
@@ -35,7 +35,7 @@ ToContextMenu >> initialize [
 	super initialize.
 	self fitContent.
 	self closeOnPicking: true.
-	self initializeAsItemBarContainer.
+	self initializeAsItemListOwner.
 	self initializeAsMenuItemListUser.
 	self root addChild: self itemList
 ]
@@ -84,6 +84,12 @@ ToContextMenu >> itemContainer [
 	^ self 
 ]
 
+{ #category : #'t - item list user - accessing' }
+ToContextMenu >> itemList [
+
+	^ itemList
+]
+
 { #category : #accessing }
 ToContextMenu >> menuPane [ 
 	" a context menu can't be in a menupane "
@@ -96,7 +102,7 @@ ToContextMenu >> menuWindow [
 	^ self 
 ]
 
-{ #category : #'t - item list user - initializing' }
+{ #category : #'t - item list owner - initializing' }
 ToContextMenu >> newItemList [
 
 	^ ToMenuItemListElement new

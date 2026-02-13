@@ -192,7 +192,7 @@ ToTabGroupElement >> initialize [
 	self resetInvisibleNodeContainers.
 	self createMiddleContainer.
 	self initializeParts.
-	self setItemList: self middleContainer.
+	
 	self itemList addEventHandler:
 		(ToTabListInTabGroupEventHandler new
 			 tabGroup: self;
@@ -301,6 +301,12 @@ ToTabGroupElement >> itemBuilder: aValuable [
 	itemBuilder := aValuable
 ]
 
+{ #category : #'t - item list user - accessing' }
+ToTabGroupElement >> itemList [
+
+	^ self middleContainer.
+]
+
 { #category : #initialization }
 ToTabGroupElement >> listElementClass [
 
@@ -319,16 +325,10 @@ ToTabGroupElement >> newEndContainer [
 	^ self newLinearContainer
 ]
 
-{ #category : #'t - item list user - initializing' }
-ToTabGroupElement >> newItemList [
-
-	^ self listElementClass new
-]
-
 { #category : #'t - triplet container - instance creation' }
 ToTabGroupElement >> newMiddleContainer [ 
 
-	^ self newItemList
+	^ self listElementClass new
 ]
 
 { #category : #skin }

@@ -4,8 +4,8 @@ I'm a composite of Menu items. I can behave as a menu item (this is why I inheri
 Class {
 	#name : #ToMenu,
 	#superclass : #ToMenuItem,
-	#traits : 'TToItemListUser + TToMenuItemListUser + TToMenuWindowModel',
-	#classTraits : 'TToItemListUser classTrait + TToMenuItemListUser classTrait + TToMenuWindowModel classTrait',
+	#traits : 'TToItemListOwner + TToItemListUser + TToMenuItemListUser + TToMenuWindowModel',
+	#classTraits : 'TToItemListOwner classTrait + TToItemListUser classTrait + TToMenuItemListUser classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
 		'isSubmenu',
 		'builder',
@@ -72,7 +72,7 @@ ToMenu >> includes: anElement [
 ToMenu >> initialize [
 
 	super initialize.
-	self initializeAsItemBarContainer.
+	self initializeAsItemListOwner.
 	self initializeAsMenuItemListUser.
 
 	isSubmenu := false.
@@ -151,6 +151,12 @@ ToMenu >> isTopMenu [
 	^ self isSubmenu not or: [ self isMenuPaneMenu ]
 ]
 
+{ #category : #'t - item list user - accessing' }
+ToMenu >> itemList [
+
+	^ itemList
+]
+
 { #category : #accessing }
 ToMenu >> manager [ 
 
@@ -163,7 +169,7 @@ ToMenu >> menuWindow [
 	^ self manager currentWindow
 ]
 
-{ #category : #'t - item list user - initializing' }
+{ #category : #'t - item list owner - initializing' }
 ToMenu >> newItemList [
 
 	^ ToMenuItemListElement new

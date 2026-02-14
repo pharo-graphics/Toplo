@@ -30,15 +30,6 @@ ToMenuPaneSkin >> installSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToMenuPaneSkin >> leavedSkinEvent: anEvent [
-
-	super leavedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e itemList background: BlBackground transparent.
-		e listElementDo: [ :l | e background: BlBackground transparent ] ]
-]
-
-{ #category : #'event handling' }
 ToMenuPaneSkin >> leftSkinEvent: anEvent [
 
 	super leftSkinEvent: anEvent.

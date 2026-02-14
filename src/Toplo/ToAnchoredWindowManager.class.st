@@ -3,15 +3,13 @@ Class {
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'currentWindow',
-		'windowFactory',
 		'windowBuilder',
 		'anchorElement',
 		'anchorRoot',
-		'placement',
 		'measurement',
-		'windowStarter',
 		'minDelayBeforeClosing',
-		'minDelayBeforeActionRunning'
+		'minDelayBeforeActionRunning',
+		'placement'
 	],
 	#category : #'Toplo-Core-Window'
 }
@@ -128,15 +126,6 @@ ToAnchoredWindowManager >> defaultWindowBuilder [
 ]
 
 { #category : #initialization }
-ToAnchoredWindowManager >> defaultWindowFactory [
-	" return a valuable used to build the window. The window is passed as first argument and the argument is request event "
-
-	^ [ ToAnchoredWindow ]
-
-	
-]
-
-{ #category : #initialization }
 ToAnchoredWindowManager >> defaultWindowStarter [
 
 	^ ToStandardWindowStarter new
@@ -152,13 +141,13 @@ ToAnchoredWindowManager >> element [
 { #category : #'event handling' }
 ToAnchoredWindowManager >> elementExtentChangedEvent: anEvent [
 
-	windowStarter anchorElementExtentChangedEvent: anEvent fromManager: self
+	self windowStarter anchorElementExtentChangedEvent: anEvent fromManager: self
 ]
 
 { #category : #'event handling' }
 ToAnchoredWindowManager >> elementPositionInSpaceChangedEvent: anEvent [
 
-	windowStarter anchorElementPositionChangedEvent: anEvent fromManager: self
+	self windowStarter anchorElementPositionChangedEvent: anEvent fromManager: self
 ]
 
 { #category : #'event handling' }
@@ -189,7 +178,7 @@ ToAnchoredWindowManager >> handleEvent: anEvent [
 { #category : #testing }
 ToAnchoredWindowManager >> hasInlineWindow [
 
-	^ windowStarter isForInlineWindow
+	^ self windowStarter isForInlineWindow
 ]
 
 { #category : #testing }
@@ -204,9 +193,7 @@ ToAnchoredWindowManager >> initialize [
 	super initialize.
 	minDelayBeforeClosing := 300 milliSeconds.
 	minDelayBeforeActionRunning := 300 milliSeconds.
-	windowFactory := self defaultWindowFactory.
-	windowBuilder := self defaultWindowBuilder.
-	windowStarter := self defaultWindowStarter
+	windowBuilder := self defaultWindowBuilder
 ]
 
 { #category : #testing }
@@ -327,7 +314,7 @@ ToAnchoredWindowManager >> placement [
 { #category : #accessing }
 ToAnchoredWindowManager >> placement: aPlacement [
 
-	placement := aPlacement
+	placement := aPlacement 
 ]
 
 { #category : #'window handling' }
@@ -349,14 +336,14 @@ ToAnchoredWindowManager >> removedFromSpaceEvent: anEvent [
 { #category : #'window handling' }
 ToAnchoredWindowManager >> startWindow: aWindow onEvent: anEvent [
 
-	windowStarter startWindow: aWindow fromManager: self onEvent: anEvent
+	self windowStarter startWindow: aWindow fromManager: self onEvent: anEvent
 ]
 
 { #category : #'window handling' }
 ToAnchoredWindowManager >> stopWindow: aWindow [
 
 	aWindow root removeChildren.
-	windowStarter stopWindow: aWindow fromManager: self
+	self windowStarter stopWindow: aWindow fromManager: self
 ]
 
 { #category : #'event handling' }
@@ -383,14 +370,7 @@ ToAnchoredWindowManager >> windowBuilder: aWindowBuilderValuable [
 { #category : #'window handling' }
 ToAnchoredWindowManager >> windowClass [ 
 
-	^ windowFactory value
-]
-
-{ #category : #accessing }
-ToAnchoredWindowManager >> windowFactory: aValuable [
-	" return the window class to usedf "
-
-	windowFactory := aValuable
+	^ ToAnchoredWindow 
 ]
 
 { #category : #'event handling' }
@@ -401,4 +381,10 @@ ToAnchoredWindowManager >> windowRequest: anEvent [
 ToAnchoredWindowManager >> windowRequestClass [
 
 	^ ToWindowRequest 
+]
+
+{ #category : #initialization }
+ToAnchoredWindowManager >> windowStarter [
+
+	^ ToStandardWindowStarter new
 ]

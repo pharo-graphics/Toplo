@@ -400,3 +400,9 @@ ToPopupWindowManager >> useSecondaryMouseButton [
 
 	mouseButton := BlMouseButton secondary
 ]
+
+{ #category : #initialization }
+ToPopupWindowManager >> windowStarter [
+
+	^ ToStandardPopupStarter new
+]

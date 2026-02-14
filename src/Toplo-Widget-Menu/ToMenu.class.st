@@ -7,6 +7,7 @@ Class {
 	#traits : 'TToItemListOwner + TToItemListUser + TToMenuItemListUser + TToMenuWindowModel',
 	#classTraits : 'TToItemListOwner classTrait + TToItemListUser classTrait + TToMenuItemListUser classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
+		'isInline',
 		'isSubmenu',
 		'builder',
 		'windowManager',
@@ -35,7 +36,7 @@ ToMenu >> bar [
 { #category : #testing }
 ToMenu >> beInline [
 
-	self manager beInline
+	self isInline: true
 ]
 
 { #category : #'window handling' }
@@ -66,6 +67,18 @@ ToMenu >> closeWindow [
 ]
 
 { #category : #accessing }
+ToMenu >> defaultWindowMeasurement [
+
+	^ ToMenuMeasurement new
+]
+
+{ #category : #accessing }
+ToMenu >> defaultWindowPlacement [
+
+	^ ToMenuPlacement new
+]
+
+{ #category : #accessing }
 ToMenu >> includes: anElement [
 
 	self menuWindow = anElement ifTrue: [ ^ true ].
@@ -81,6 +94,7 @@ ToMenu >> initialize [
 	self initializeAsItemListOwner.
 	self initializeAsMenuItemListUser.
 
+	isInline := false.
 	isSubmenu := false.
 	isMenuPaneMenu := false.
 	self closeOnPicking: false.
@@ -95,10 +109,16 @@ ToMenu >> initialize [
 	self addEventHandler: windowManager
 ]
 
-{ #category : #testing }
+{ #category : #accessing }
 ToMenu >> isInline [
 
-	^ self hasInlineWindow 
+	^ isInline
+]
+
+{ #category : #accessing }
+ToMenu >> isInline: aBoolean [
+
+	isInline := aBoolean
 ]
 
 { #category : #accessing }
@@ -240,10 +260,28 @@ ToMenu >> showExpandIcon: aBoolean [
 ]
 
 { #category : #accessing }
+ToMenu >> windowClass [
+
+	^ self isInline
+		  ifTrue: [ ToMenuInlineWindowElement ]
+		  ifFalse: [
+				  self isSubmenu
+					  ifTrue: [ ToSubmenuWindow ]
+					  ifFalse: [ ToMenuWindow ] ]
+]
+
+{ #category : #accessing }
 ToMenu >> windowManager [
 
 	self
 		deprecated: 'Use #manager instead'
 		transformWith: '`@rcvr windowManager' -> '`@rcvr manager'.
 	^ self manager
+]
+
+{ #category : #accessing }
+ToMenu >> windowStarter [
+
+	self isInline ifTrue: [ ^ ToInlineMenuStarter new ].
+	^ ToStandardPopupStarter new
 ]

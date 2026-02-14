@@ -14,20 +14,6 @@ ToPopupMenuWindowManager >> anchorRoot [
 ]
 
 { #category : #'window handling' }
-ToPopupMenuWindowManager >> beInline [ 
-	" for inline windows/ menus"
-	self beInlineWithWindowClass: ToMenuInlineWindowElement
-]
-
-{ #category : #'window handling' }
-ToPopupMenuWindowManager >> beInlineWithWindowClass: aWindowClass [
-	" for inline windows/ menus"
-	windowFactory := [ aWindowClass ].
-	windowStarter := self newInlineWindowStarter.
-	checkOutsideEvent := false
-]
-
-{ #category : #'window handling' }
 ToPopupMenuWindowManager >> bottomUpCloseWindowRequestOnEvent: anEvent [ 
 	" requestto actually manage the window closing "
 
@@ -41,28 +27,13 @@ ToPopupMenuWindowManager >> bottomUpCloseWindowRequestOnEvent: anEvent [
 { #category : #initialization }
 ToPopupMenuWindowManager >> defaultMeasurement [
 
-	^ ToMenuMeasurement new
+	^ anchorElement defaultWindowMeasurement
 ]
 
 { #category : #initialization }
 ToPopupMenuWindowManager >> defaultPlacement [
 
-	^ ToMenuPlacement new
-]
-
-{ #category : #initialization }
-ToPopupMenuWindowManager >> defaultWindowFactory [
-
-	^ [
-		  anchorElement isSubmenu
-			  ifTrue: [ ToSubmenuWindow ]
-			  ifFalse: [ ToMenuWindow ] ]
-]
-
-{ #category : #accessing }
-ToPopupMenuWindowManager >> inlineWindowClass [
-
-	^ ToMenuInlineWindowElement
+	^ anchorElement defaultWindowPlacement
 ]
 
 { #category : #'window handling' }
@@ -84,4 +55,16 @@ ToPopupMenuWindowManager >> onWindowOpenedOnEvent: anEvent [
 	super onWindowOpenedOnEvent: anEvent.
 	anchorElement isInline ifTrue: [ ^ self ].
 	anchorElement menuPaneDo: [ :mb | mb startAutoOpen ]
+]
+
+{ #category : #'window handling' }
+ToPopupMenuWindowManager >> windowClass [ 
+
+	^ anchorElement windowClass
+]
+
+{ #category : #accessing }
+ToPopupMenuWindowManager >> windowStarter [
+
+	^ anchorElement windowStarter
 ]

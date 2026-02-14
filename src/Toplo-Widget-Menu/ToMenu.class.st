@@ -38,6 +38,12 @@ ToMenu >> beInline [
 	self manager beInline
 ]
 
+{ #category : #'window handling' }
+ToMenu >> bottomUpCloseWindowRequestOnEvent: anEvent [
+
+	self manager bottomUpCloseWindowRequestOnEvent: anEvent
+]
+
 { #category : #accessing }
 ToMenu >> builder [ 
 
@@ -79,7 +85,7 @@ ToMenu >> initialize [
 	isMenuPaneMenu := false.
 	self closeOnPicking: false.
 
-	windowManager := ToPopupMenuWindowManager new
+	windowManager := self newWindowManager 
 		                 windowBuilder: [ :window :request |
 			                 builder ifNotNil: [
 					                 self removeAllItems.
@@ -89,7 +95,7 @@ ToMenu >> initialize [
 	self addEventHandler: windowManager
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : #testing }
 ToMenu >> isInline [
 
 	^ self hasInlineWindow 
@@ -113,7 +119,7 @@ ToMenu >> isMenuPaneMenu: aBoolean [
 	isMenuPaneMenu := aBoolean
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : #testing }
 ToMenu >> isOpened [ 
 
 	^ self menuWindow notNil and: [ self menuWindow isOpened ]
@@ -133,7 +139,7 @@ ToMenu >> isOutsideEvent: anEvent [
 	^ super isOutsideEvent: anEvent
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : #'t - menu item' }
 ToMenu >> isSubmenu [
 
 	^ isSubmenu ifNil: [ false ]
@@ -179,6 +185,12 @@ ToMenu >> newItemList [
 ToMenu >> newRawSkin [ 
 
 	^ ToMenuSkin new
+]
+
+{ #category : #'instance creation' }
+ToMenu >> newWindowManager [
+
+ 	^ ToPopupMenuWindowManager new
 ]
 
 { #category : #'adding-removing' }

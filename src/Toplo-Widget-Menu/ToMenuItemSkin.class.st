@@ -49,6 +49,47 @@ ToMenuItemSkin >> hoveredSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToMenuItemSkin >> installRegularMenuItem: aMenuItem [
+
+	| anyHaveIcon anyIsMenu flow horizontalParent |
+	(aMenuItem isTopMenu not or: [ aMenuItem showExpandIcon ]) ifFalse: [
+		^ self ].
+
+	anyHaveIcon := false.
+	anyIsMenu := false.
+	flow := false.
+	horizontalParent := true.
+
+	aMenuItem parentMenuOrMenuPaneDo: [ :pm |
+			horizontalParent := pm isHorizontal.
+			pm menuWindowDo: [ :mw |
+				horizontalParent := mw itemList isHorizontal ].
+			flow := pm isFlowable.
+			horizontalParent ifFalse: [
+					pm items do: [ :item |
+							item hasIcon ifTrue: [ anyHaveIcon := true ].
+							item isMenu ifTrue: [ anyIsMenu := true ] ] ] ].
+
+	anyHaveIcon ifTrue: [
+			| align |
+			(aMenuItem hasIcon and: [ aMenuItem hasLabel ]) ifTrue: [
+				aMenuItem startInterspace: 0 ].
+			align := aMenuItem valueOfTokenNamed: #'menu-item-start-alignment'.
+			aMenuItem startAlignment: align ].
+
+	(flow not and: [ anyIsMenu or: [ aMenuItem showExpandIcon ] ])
+		ifTrue: [
+				aMenuItem isHorizontal
+					ifTrue: [
+							aMenuItem endInterspace:
+								(aMenuItem valueOfTokenNamed: #'button-interspace').
+							aMenuItem endFlexible: true ]
+					ifFalse: [
+							aMenuItem endInterspace: 0.
+							aMenuItem endFlexible: false ] ]
+]
+
+{ #category : #'event handling' }
 ToMenuItemSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
@@ -59,36 +100,11 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 							 vertical: (e valueOfTokenNamed: #'menu-item-padding-V')) ].
 			e iconDo: [ :ic |
 				ic extent: (e valueOfTokenNamed: #'menu-icon-size') ].
-
-			(e isTopMenu not or: [ e showExpandIcon ]) ifTrue: [
-					| anyHaveIcon anyIsMenu flow horizontalParent |
-					anyHaveIcon := false.
-					anyIsMenu := false.
-					flow := false.
-					horizontalParent := true.
-					e parentMenuOrMenuPaneDo: [ :pm |
-							horizontalParent := pm isHorizontal.
-							pm menuWindowDo: [ :mw |
-								horizontalParent := mw itemList isHorizontal ].
-							flow := pm isFlowable.
-							horizontalParent ifFalse: [
-									pm items do: [ :item |
-											item hasIcon ifTrue: [ anyHaveIcon := true ].
-											item isMenu ifTrue: [ anyIsMenu := true ] ] ] ].
-
-					anyHaveIcon ifTrue: [
-							| align |
-							align := e valueOfTokenNamed: #'menu-item-start-alignment'.
-							e startAlignment: align ].
-
-					(flow not and: [ anyIsMenu or: [ e showExpandIcon ] ]) ifTrue: [
-							e isHorizontal
-								ifTrue: [
-										e endInterspace: (e valueOfTokenNamed: #'button-interspace').
-										e endFlexible: true ]
-								ifFalse: [
-										e endInterspace: 0.
-										e endFlexible: false ] ] ] ]
+			(e hasIcon and: [ e hasLabel ]) ifTrue: [ e startInterspace: (e valueOfTokenNamed: #'button-interspace') ].
+			e parentMenuOrMenuPaneDo: [ :pm |
+					pm itemList isOrientable ifFalse: [
+							^ self ] ].
+			self installRegularMenuItem: e ]
 ]
 
 { #category : #'event handling' }

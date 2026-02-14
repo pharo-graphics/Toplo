@@ -1731,7 +1731,7 @@ ToSandBox class >> example_CircularListElementWithAnnulusSectors [
 ]
 
 { #category : #menu }
-ToSandBox class >> example_CircularMenu [
+ToSandBox class >> example_CircularMenuItemList [
 
 	| rootMenu space |
 	space := BlSpace new.
@@ -1757,7 +1757,7 @@ ToSandBox class >> example_CircularMenu [
 ]
 
 { #category : #menu }
-ToSandBox class >> example_CircularMenuWithSubmenu [
+ToSandBox class >> example_CircularMenuItemListWithSubmenu [
 
 	| rootMenu subMenu  space |
 	space := BlSpace new.
@@ -1797,6 +1797,38 @@ ToSandBox class >> example_CircularMenuWithSubmenu [
 	space root addChild: rootMenu.
 	
 	space show
+]
+
+{ #category : #menu }
+ToSandBox class >> example_CircularMenuPane [
+
+	| circularMenu iconProvider |
+	iconProvider := ToMaterialDesignIconProvider.
+	circularMenu := ToCircularMenuPane new.
+	circularMenu in: [ :menu |
+			| item |
+			item := ToMenuItem new labelText: 'MenuItem1'.
+			item icon: (iconProvider iconNamed: #outlined_cropfree).
+			menu addItem: item.
+			
+			item := ToMenuItem new labelText: 'MenuItem2'.
+			item icon: (iconProvider iconNamed: #outlined_callsplit).
+			menu addItem: item.
+			
+			item := ToMenuItem new labelText: 'MenuItem3'.
+			item icon: (iconProvider iconNamed: #outlined_delete).
+			menu addItem: item.
+			
+			item := ToMenuItem new labelText: 'MenuItem4'.
+			item icon: (iconProvider iconNamed: #outlined_sms).
+			menu addItem: item.
+			
+			item := ToMenuItem new labelText: 'MenuItem5'.
+			menu addItem: item ].
+
+	circularMenu openInSpace.
+
+	^ circularMenu
 ]
 
 { #category : #tree }

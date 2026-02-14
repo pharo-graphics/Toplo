@@ -86,7 +86,7 @@ ToMenuItemElement >> isMenuPaneMenu [
 	^ false
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : #testing }
 ToMenuItemElement >> isOpened [
 
 	^ false

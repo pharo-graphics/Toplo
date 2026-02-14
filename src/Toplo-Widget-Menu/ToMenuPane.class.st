@@ -32,15 +32,6 @@ ToMenuPane >> addFiller [
 	self addItem: ToMenuFiller new
 ]
 
-{ #category : #adding }
-ToMenuPane >> addMenu: aMenu [
-
-	self
-		deprecated: '#use addItem: instead'
-		transformWith: '`@rcvr addMenu: `@arg' -> '`@rcvr addItem: `@arg'.
-	self addItem: aMenu
-]
-
 { #category : #configuration }
 ToMenuPane >> applyConfiguration [
 	" just force the resizer of the secondary direction 
@@ -174,15 +165,6 @@ ToMenuPane >> onAddedMenu: aMenu [
 ToMenuPane >> onRemovedFromItemBarOwner: aMenuItemBar [
 
 	aMenuItemBar onRemovedMenuPane: self
-]
-
-{ #category : #adding }
-ToMenuPane >> removeMenu: aMenu [
-
-	self
-		deprecated: '#use removeItem: instead'
-		transformWith: '`@rcvr removeMenu: `@arg' -> '`@rcvr removeItem: `@arg'.
-	self removeItem: aMenu
 ]
 
 { #category : #accessing }

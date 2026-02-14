@@ -11,22 +11,21 @@ ToListSelectionWithNeighboringElementVariant >> isGrouped [
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionWithNeighboringElementVariant >> newSelectionRepresentationArrayFrom: aListElement withSelectionModel: aSelectionModel [
+ToListSelectionWithNeighboringElementVariant >> newSelectionRepresentationArrayFrom: aListElement [ 
 
 	^ (self
-		   selectedNodeContainersFrom: aListElement
-		   withSelectionModel: aSelectionModel) collect: [ :arr |
+		   selectedNodeContainersFrom: aListElement) collect: [ :arr |
 			  ToNeighboringSelection new
 				  nodes: arr asArray;
 				  yourself ]
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionWithNeighboringElementVariant >> selectedNodeContainersFrom: aListElement withSelectionModel: aSelectionModel [
+ToListSelectionWithNeighboringElementVariant >> selectedNodeContainersFrom: aListElement [ 
 
 	^ aListElement innerElement nodeGroupsSatisfying: [ :node |
 			  | idx |
 			  idx := node holder position.
-			  (aSelectionModel containsIndex: idx) and: [
-				  aSelectionModel isVisibleIndex: idx ] ]
+			  (self selectionModel containsIndex: idx) and: [
+				  self selectionModel isVisibleIndex: idx ] ]
 ]

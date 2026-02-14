@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMenuPane,
 	#superclass : #ToElement,
-	#traits : 'TToListItem + TToMenuItem + TToItemListUser + TToMenuItemListUser + TToOrientable',
-	#classTraits : 'TToListItem classTrait + TToMenuItem classTrait + TToItemListUser classTrait + TToMenuItemListUser classTrait + TToOrientable classTrait',
+	#traits : 'TToListItem + TToMenuItem + TToItemListOwner + TToItemListUser + TToMenuItemListUser + TToOrientable',
+	#classTraits : 'TToListItem classTrait + TToMenuItem classTrait + TToItemListOwner classTrait + TToItemListUser classTrait + TToMenuItemListUser classTrait + TToOrientable classTrait',
 	#instVars : [
 		'autoOpen',
 		'isSubPane'
@@ -32,28 +32,21 @@ ToMenuPane >> addFiller [
 	self addItem: ToMenuFiller new
 ]
 
-{ #category : #adding }
-ToMenuPane >> addMenu: aMenu [
-
-	self
-		deprecated: '#use addItem: instead'
-		transformWith: '`@rcvr addMenu: `@arg' -> '`@rcvr addItem: `@arg'.
-	self addItem: aMenu
-]
-
 { #category : #configuration }
 ToMenuPane >> applyConfiguration [
 	" just force the resizer of the secondary direction 
 	( vertical direction in case of an horizontal bar )"
 
 	super applyConfiguration.
-	self itemList horizontal: self isHorizontal.
+	self itemList horizontal:
+		(self itemList isOrientable and: [ self isHorizontal ]).
 	self itemList constraintsDo: [ :c |
 			c linear vertical alignCenter.
 			c linear horizontal alignCenter ].
 	self itemList toConfiguration isScrollable: self isScrollable.
 	self itemList toConfiguration isFlowable: self isFlowable.
-	self itemList fitParent: self
+	self itemList fitParent: self.
+	self applyConfigurationAsListItem
 ]
 
 { #category : #'auto opening' }
@@ -84,8 +77,8 @@ ToMenuPane >> hasInlineWindow [
 ToMenuPane >> initialize [
 
 	super initialize.
-	self initializeAsItemBarContainer.
-	self initializeAsMenuItemBarContainer.
+	self initializeAsItemListOwner.
+	self initializeAsMenuItemListUser.
 
 	autoOpen := false.
 	isSubPane := false.
@@ -129,6 +122,12 @@ ToMenuPane >> isSubPane: aBoolean [
 	isSubPane := aBoolean
 ]
 
+{ #category : #'t - item list user - accessing' }
+ToMenuPane >> itemList [
+
+	^ itemList
+]
+
 { #category : #'t - menu window model' }
 ToMenuPane >> menuPane [
 
@@ -139,7 +138,7 @@ ToMenuPane >> menuPane [
 ToMenuPane >> menuWindowDo: aValuable [
 ]
 
-{ #category : #'t - item list holder - initializing' }
+{ #category : #'t - item list owner - initializing' }
 ToMenuPane >> newItemList [
 
 	^ ToMenuItemListElement new
@@ -167,15 +166,6 @@ ToMenuPane >> onAddedMenu: aMenu [
 ToMenuPane >> onRemovedFromItemBarOwner: aMenuItemBar [
 
 	aMenuItemBar onRemovedMenuPane: self
-]
-
-{ #category : #adding }
-ToMenuPane >> removeMenu: aMenu [
-
-	self
-		deprecated: '#use removeItem: instead'
-		transformWith: '`@rcvr removeMenu: `@arg' -> '`@rcvr removeItem: `@arg'.
-	self removeItem: aMenu
 ]
 
 { #category : #accessing }

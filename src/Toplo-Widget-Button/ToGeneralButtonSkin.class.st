@@ -50,16 +50,22 @@ ToGeneralButtonSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e mouseCursor: Cursor normal.
-		(e hasStamp: #circle)
-			ifTrue: [ e geometry: BlCircleGeometry new ]
-			ifFalse: [
-				e geometry: (BlRoundedRectangleGeometry cornerRadius:
-						 (e valueOfTokenNamed: 'border-radius')) ].
-		(e hasStamp: #iconic) ifFalse: [
-				e padding: (BlInsets
-						 horizontal: (e valueOfTokenNamed: #'padding-XS')
-						 vertical: (e valueOfTokenNamed: #'padding-content-VS')) ] ]
+			e mouseCursor: Cursor normal.
+			e isSegmentedItem ifTrue: [
+					(e isKindOf: ToCheckbox) ifTrue: [
+							e
+								addTokenNamed: #'selected-focused-foreground'
+								withValue: (e valueOfTokenNamed: #'color-primary-checked').
+							e
+								addTokenNamed: #'selected-unfocused-foreground'
+								withValue: (e valueOfTokenNamed: #'color-primary-checked') ] ].
+			(e hasStamp: #circle)
+				ifTrue: [ e geometry: BlCircleGeometry new ]
+				ifFalse: [ e geometry: BlStadiumGeometry new ].
+			(e hasStamp: #iconic) ifFalse: [
+					e padding: (BlInsets
+							 horizontal: (e valueOfTokenNamed: #'padding-XS')
+							 vertical: (e valueOfTokenNamed: #'padding-content-VS')) ] ]
 ]
 
 { #category : #'event handling' }

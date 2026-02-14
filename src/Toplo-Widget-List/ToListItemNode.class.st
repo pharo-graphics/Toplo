@@ -10,12 +10,22 @@ Class {
 ToListItemNode >> applyConfiguration [ 
 
 	super applyConfiguration.
-	self item applyConfiguration 
+	self item ifNil: [ ^ self ].
+	self item applyConfiguration.
+	self vFitContent 
 ]
 
 { #category : #initialization }
 ToListItemNode >> initialize [
 
 	super initialize.
-	self initializeAsItemNode 
+	self layout: BlLinearLayout horizontal.
+	self hMatchParent.
+	self vFitContent 
+]
+
+{ #category : #skin }
+ToListItemNode >> newRawSkin [ 
+
+	^ ToItemNodeSkin new 
 ]

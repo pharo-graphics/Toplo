@@ -13,20 +13,23 @@ ToMenuWindow >> allSubwindowsDo: aBlock [
 ]
 
 { #category : #configuration }
-ToMenuWindow >> applyConfiguration [ 
+ToMenuWindow >> applyConfiguration [
 
 	super applyConfiguration.
-	self isScrollable 
-		ifTrue: [
-			self itemList isVertical
+	self itemList isOrientable ifTrue: [
+			self isScrollable
 				ifTrue: [
-					self itemList vMatchParent.
-					self itemList hFitContent ]
-				ifFalse: [
-					self itemList hMatchParent.
-					self itemList vFitContent ] ]
-		ifFalse: [
-			self itemList fitContent ]
+						self itemList isVertical
+							ifTrue: [
+									self itemList vMatchParent.
+									self itemList hFitContent ]
+							ifFalse: [
+									self itemList hMatchParent.
+									self itemList vFitContent ] ]
+				ifFalse: [ self itemList fitContent ].
+			^ self ].
+	self itemList matchParent.
+	self extent: 300 asPoint
 ]
 
 { #category : #'t - relayoutable window element - accessing' }

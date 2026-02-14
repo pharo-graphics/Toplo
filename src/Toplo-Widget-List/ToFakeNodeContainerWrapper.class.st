@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'nodeContainer'
 	],
-	#category : #'Toplo-Widget-List-Core'
+	#category : #'Toplo-Widget-List-Node'
 }
 
 { #category : #configuration }
@@ -24,12 +24,6 @@ ToFakeNodeContainerWrapper >> initialize [
 
 	super initialize.
 	self id: #fakeNodeContainerWrapper
-]
-
-{ #category : #testing }
-ToFakeNodeContainerWrapper >> isFake [ 
-
-	^ true
 ]
 
 { #category : #accessing }

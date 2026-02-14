@@ -23,8 +23,7 @@ Class {
 ToSwitchIcon >> applyExtent: aPoint [
 	" given my expected size, adapt the size of my handle and of onSide and offSide "
 
-	self geometry:
-		(BlRoundedRectangleGeometry cornerRadius: aPoint y / 2).
+	self geometry: BlStadiumGeometry new.
 	handleWidth := aPoint y - (self defaultHandleMarginWidth * 2).
 	self handle extent: handleWidth asPoint
 ]

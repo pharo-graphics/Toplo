@@ -15,7 +15,7 @@ ToMenuPlacement >> positionElement: aWindow onEvent: anEvent context: aBlElement
 
 	pos := (element isSubmenu or: [
 		        rootMenuOrMenuPane notNil and: [
-			        rootMenuOrMenuPane isVertical ] ])
+			        rootMenuOrMenuPane itemList isOrientable and: [rootMenuOrMenuPane isVertical ] ] ])
 		       ifTrue: [
 		       (element measuredBounds inParent: root) topRight ]
 		       ifFalse: [

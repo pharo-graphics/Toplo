@@ -27,18 +27,27 @@ ToAbstractListSelectionMode >> changeSelectionOptionWith: aSelectionOption [
 ToAbstractListSelectionMode >> checkSelectionIn: aListElement [
 
 	self dirty ifFalse: [ ^ self ].
-	self selectionOption ifNotNil: [ :option |
-			option
-				checkRepresentationIn: aListElement
-				withSelectionModel: self selectionModel
-				forceUpdate: false ].
-	self dirty: false
+	self ensureCleanAfter: [
+			self selectionOption ifNotNil: [ :option |
+				option updateRepresentationIn: aListElement ] ]
 ]
 
 { #category : #initialization }
 ToAbstractListSelectionMode >> defaultSelectionOption [
 
 	^ self subclassResponsibility 
+]
+
+{ #category : #'selection updating' }
+ToAbstractListSelectionMode >> deselectionSkinEventClass [ 
+
+	^ selectionOption deselectionSkinEventClass
+]
+
+{ #category : #'selection updating' }
+ToAbstractListSelectionMode >> deselectionSkinEventClass: aSkinEventClass [ 
+
+	selectionOption deselectionSkinEventClass: aSkinEventClass
 ]
 
 { #category : #accessing }
@@ -87,13 +96,10 @@ ToAbstractListSelectionMode >> enabled: aBoolean [
 ]
 
 { #category : #'selection updating' }
-ToAbstractListSelectionMode >> forceUpdateSelectionIn: aListElement [
+ToAbstractListSelectionMode >> ensureCleanAfter: aBlock [
 
-	self selectionOption ifNotNil: [ :option |
-			option
-				checkRepresentationIn: aListElement
-				withSelectionModel: self selectionModel
-				forceUpdate: true ].
+	" ensure not dirty after to avoid multiple useless recursions "
+	aBlock value.
 	self dirty: false
 ]
 
@@ -316,4 +322,38 @@ ToAbstractListSelectionMode >> selectionOption [
 ToAbstractListSelectionMode >> selectionOptionDo: aBlock [
 
 	aBlock value: selectionOption
+]
+
+{ #category : #'selection updating' }
+ToAbstractListSelectionMode >> selectionSkinEventClass [ 
+
+	^ selectionOption selectionSkinEventClass
+]
+
+{ #category : #'selection updating' }
+ToAbstractListSelectionMode >> selectionSkinEventClass: aSkinEventClass [ 
+
+	selectionOption selectionSkinEventClass: aSkinEventClass
+]
+
+{ #category : #'selection updating' }
+ToAbstractListSelectionMode >> updateSelectionIn: aListElement [
+
+	self ensureCleanAfter: [
+			self selectionOption ifNotNil: [ :option |
+				option updateRepresentationIn: aListElement ] ]
+]
+
+{ #category : #initialization }
+ToAbstractListSelectionMode >> withDefaultSelectionSkinEvents [
+
+
+]
+
+{ #category : #initialization }
+ToAbstractListSelectionMode >> withoutSelectionSkinEvents [
+
+	^ selectionOption
+		  selectionSkinEventClass: nil;
+		  deselectionSkinEventClass: nil
 ]

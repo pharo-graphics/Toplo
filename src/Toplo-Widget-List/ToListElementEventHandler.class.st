@@ -47,7 +47,7 @@ ToListElementEventHandler >> elementExtentChangedEvent: anEvent [
 
 	| listElement |
 	listElement := anEvent currentTarget.
-	listElement forceUpdateAllSelectionsNow
+	listElement updateAllSelections
 ]
 
 { #category : #'api - accessing' }
@@ -58,6 +58,7 @@ ToListElementEventHandler >> eventsToHandle [
 		  BlBlurEvent.
 		  ToAddedToSpaceEvent.
 
+		  BlMouseLeaveEvent.
 		  BlMouseDownEvent.
 		  BlMouseUpEvent.
 		  BlClickEvent.
@@ -147,6 +148,14 @@ ToListElementEventHandler >> mouseDownEvent: anEvent [
 	| listElement |
 	listElement := anEvent currentTarget.
 	listElement stopScroll
+]
+
+{ #category : #'mouse handlers' }
+ToListElementEventHandler >> mouseLeaveEvent: anEvent [
+
+	anEvent currentTarget secondarySelecter deselectAll.
+	anEvent currentTarget requestLayout
+
 ]
 
 { #category : #'mouse handlers' }

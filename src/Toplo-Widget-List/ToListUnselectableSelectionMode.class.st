@@ -21,3 +21,11 @@ ToListUnselectableSelectionMode >> selectionChangedEventClass [
 
 	^ ToListUnselectableSelectionChangedEvent
 ]
+
+{ #category : #initialization }
+ToListUnselectableSelectionMode >> withDefaultSelectionSkinEvents [
+
+	selectionOption
+		  selectionSkinEventClass: ToUnselectableSkinEvent;
+		  deselectionSkinEventClass: ToSelectableSkinEvent
+]

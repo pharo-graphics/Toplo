@@ -5,9 +5,5 @@ Class {
 }
 
 { #category : #sending }
-ToIntrinsicSkinEventStub >> fromState: aState [
-]
-
-{ #category : #sending }
 ToIntrinsicSkinEventStub >> sendTo: anElement [
 ]

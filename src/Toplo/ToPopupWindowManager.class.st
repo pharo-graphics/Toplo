@@ -305,6 +305,9 @@ ToPopupWindowManager >> popupEvent: anEvent [
 
 	currentWindow ifNotNil: [ ^ self ].
 	anchorElement isEnabled ifFalse: [ ^ self ].
+	" in case the anchor element is part of an infinite list node, 
+	one have to check if it is still in space"
+	anchorElement isAttachedToSceneGraph ifFalse: [ ^ self ].
 	self createNewWindowOnEvent: anEvent.
 	currentWindow popupEvent: anEvent.
 	anEvent ifNotNil: [ :evt | evt consume ]
@@ -316,6 +319,13 @@ ToPopupWindowManager >> popupOnPressed: aBoolean [
 
 	popupOnPressed := aBoolean.
 	delayedPopupHandler activateOnPressed: popupOnPressed
+]
+
+{ #category : #'event handling' }
+ToPopupWindowManager >> removedFromSpaceEvent: anEvent [
+
+	super removedFromSpaceEvent: anEvent.
+	delayedPopupHandler cleanUpCheckerIn: anchorElement 
 ]
 
 { #category : #'window handling' }
@@ -389,4 +399,10 @@ ToPopupWindowManager >> usePrimaryMouseButton [
 ToPopupWindowManager >> useSecondaryMouseButton [
 
 	mouseButton := BlMouseButton secondary
+]
+
+{ #category : #initialization }
+ToPopupWindowManager >> windowStarter [
+
+	^ ToStandardPopupStarter new
 ]

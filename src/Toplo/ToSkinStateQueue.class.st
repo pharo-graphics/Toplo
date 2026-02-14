@@ -3,7 +3,6 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'nextStates',
-		'installStateApplied',
 		'intrinsicState',
 		'installState'
 	],
@@ -15,42 +14,40 @@ ToSkinStateQueue >> applyEnqueuedStatesFor: anElement [
 
 	nextStates do: [ :nextInQueue | 
 		nextInQueue applyOn: anElement fromQueue: self ].
-	nextStates reset
+	self resetStates 
 ]
 
 { #category : #'instinsic state accessing' }
-ToSkinStateQueue >> checked: aBoolean for: anElement [
+ToSkinStateQueue >> checkedSkinEvent: aCheckedSkinEvent in: anElement [
 
-	intrinsicState checked = aBoolean ifTrue: [^ self ].
-	intrinsicState checked: aBoolean.
+	intrinsicState checkedSkinEvent: aCheckedSkinEvent.
 	self enqueueIntrinsicStateFor: anElement
 ]
 
 { #category : #'instinsic state accessing' }
-ToSkinStateQueue >> enabled: aBoolean for: anElement [
+ToSkinStateQueue >> enabledSkinEvent: aSkinEvent in: anElement [
 
-	intrinsicState enabled = aBoolean ifTrue: [^ self ].
-	intrinsicState enabled: aBoolean.
+	intrinsicState enabledSkinEvent: aSkinEvent.
 	self enqueueIntrinsicStateFor: anElement
 ]
 
 { #category : #adding }
 ToSkinStateQueue >> enqueueInstallStateFor: anElement [
-	
-	installState ifNotNil: [ ^ self ].
+
+	installState ifNotNil: [ ^ ToInstallStateAlreadyQueuedError signal ].
 	installState := ToInstallState instance.
-	self enqueueState: installState for: anElement.
-	intrinsicState enabled: anElement isEnabled.
-	self enqueueState: intrinsicState for: anElement.
-	intrinsicState enqueued: true
+	intrinsicState enabledSkinEvent: anElement newEnabledSkinEvent.
+	nextStates add: installState.
+	self enqueueIntrinsicStateFor: anElement
 ]
 
 { #category : #adding }
 ToSkinStateQueue >> enqueueIntrinsicStateFor: anElement [
+	" if an install state is not applied then don't enqueue it now,
+	it will be enqueued properly on the next install state enqueuing "
 
-	(anElement isAttachedToSceneGraph not or: [ installStateApplied not ])
-		ifTrue: [ ^ anElement requestNewSkin ].
 	intrinsicState enqueued ifTrue: [ ^ self ].
+	installState ifNil: [ ^ self ].
 	self enqueueState: intrinsicState for: anElement.
 	intrinsicState enqueued: true
 ]
@@ -64,7 +61,7 @@ ToSkinStateQueue >> enqueueState: aState for: anElement [
 
 { #category : #adding }
 ToSkinStateQueue >> enqueueTransientState: aState for: anElement [
-	" all states kinds are enqueued here except the intrinsic states"
+	" if an install state is not applied then just ignore a transient state "
 
 	installState ifNil: [ ^ self ].
 	self enqueueState: aState for: anElement
@@ -74,9 +71,10 @@ ToSkinStateQueue >> enqueueTransientState: aState for: anElement [
 ToSkinStateQueue >> enqueueUninstallStateFor: anElement [
 	" uninstall state required  "
 
-	" have to ignore previous skin events to avoid to apply them to the new skin"
-	nextStates reset.
+	installState ifNil: [ ^ ToInstallStateNotQueuedError signal ].
+	"self applyEnqueuedStatesFor: anElement."
 	installState := nil.
+	self resetStates.
 	" store the uninstall state "
 	self enqueueState: ToUninstallState instance for: anElement.
 	" do not wait the next pulse to ensure the uninstallation is done here.
@@ -86,32 +84,18 @@ ToSkinStateQueue >> enqueueUninstallStateFor: anElement [
 ]
 
 { #category : #'instinsic state accessing' }
-ToSkinStateQueue >> focused: aBoolean for: anElement [
+ToSkinStateQueue >> focusedSkinEvent: aSkinEvent in: anElement [
 
-	intrinsicState focused = aBoolean ifTrue: [^ self ].
-	intrinsicState focused: aBoolean.
+	intrinsicState focusedSkinEvent: aSkinEvent.
 	self enqueueIntrinsicStateFor: anElement
 ]
 
-{ #category : #testing }
-ToSkinStateQueue >> hasInstallStateEnqueued [
-
-	^ installState notNil
-]
-
 { #category : #initialization }
-ToSkinStateQueue >> initialize [ 
+ToSkinStateQueue >> initialize [
 
 	super initialize.
-	installStateApplied := false.
 	nextStates := OrderedCollection new.
 	intrinsicState := ToIntrinsicState new
-]
-
-{ #category : #'state application' }
-ToSkinStateQueue >> installStateApplied: aBoolean [
-
-	installStateApplied := aBoolean
 ]
 
 { #category : #accessing }
@@ -123,16 +107,13 @@ ToSkinStateQueue >> nextStates [
 { #category : #accessing }
 ToSkinStateQueue >> resetStates [
 
-	nextStates reset
+	nextStates reset.
+	intrinsicState enqueued: false
 ]
 
 { #category : #'instinsic state accessing' }
-ToSkinStateQueue >> selected: isSelected selectionOption: aSelectionOption focused: isFocused for: anElement [
+ToSkinStateQueue >> selectedSkinEvent: aSelectionEvent in: anElement [
 
-	intrinsicState selectionState in: [ :selS |
-			selS
-				selected: isSelected;
-				selectionOption: aSelectionOption;
-				focused: isFocused ].
+	intrinsicState selectedSkinEvent: aSelectionEvent.
 	self enqueueIntrinsicStateFor: anElement
 ]

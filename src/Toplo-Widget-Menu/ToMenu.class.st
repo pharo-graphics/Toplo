@@ -4,9 +4,10 @@ I'm a composite of Menu items. I can behave as a menu item (this is why I inheri
 Class {
 	#name : #ToMenu,
 	#superclass : #ToMenuItem,
-	#traits : 'TToItemListUser + TToMenuItemListUser + TToMenuWindowModel',
-	#classTraits : 'TToItemListUser classTrait + TToMenuItemListUser classTrait + TToMenuWindowModel classTrait',
+	#traits : 'TToItemListOwner + TToItemListUser + TToMenuItemListUser + TToMenuWindowModel',
+	#classTraits : 'TToItemListOwner classTrait + TToItemListUser classTrait + TToMenuItemListUser classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
+		'isInline',
 		'isSubmenu',
 		'builder',
 		'windowManager',
@@ -35,7 +36,13 @@ ToMenu >> bar [
 { #category : #testing }
 ToMenu >> beInline [
 
-	self manager beInline
+	self isInline: true
+]
+
+{ #category : #'window handling' }
+ToMenu >> bottomUpCloseWindowRequestOnEvent: anEvent [
+
+	self manager bottomUpCloseWindowRequestOnEvent: anEvent
 ]
 
 { #category : #accessing }
@@ -60,6 +67,18 @@ ToMenu >> closeWindow [
 ]
 
 { #category : #accessing }
+ToMenu >> defaultWindowMeasurement [
+
+	^ ToMenuMeasurement new
+]
+
+{ #category : #accessing }
+ToMenu >> defaultWindowPlacement [
+
+	^ ToMenuPlacement new
+]
+
+{ #category : #accessing }
 ToMenu >> includes: anElement [
 
 	self menuWindow = anElement ifTrue: [ ^ true ].
@@ -72,14 +91,15 @@ ToMenu >> includes: anElement [
 ToMenu >> initialize [
 
 	super initialize.
-	self initializeAsItemBarContainer.
-	self initializeAsMenuItemBarContainer.
+	self initializeAsItemListOwner.
+	self initializeAsMenuItemListUser.
 
+	isInline := false.
 	isSubmenu := false.
 	isMenuPaneMenu := false.
 	self closeOnPicking: false.
 
-	windowManager := ToPopupMenuWindowManager new
+	windowManager := self newWindowManager 
 		                 windowBuilder: [ :window :request |
 			                 builder ifNotNil: [
 					                 self removeAllItems.
@@ -89,10 +109,16 @@ ToMenu >> initialize [
 	self addEventHandler: windowManager
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : #accessing }
 ToMenu >> isInline [
 
-	^ self hasInlineWindow 
+	^ isInline
+]
+
+{ #category : #accessing }
+ToMenu >> isInline: aBoolean [
+
+	isInline := aBoolean
 ]
 
 { #category : #accessing }
@@ -113,7 +139,7 @@ ToMenu >> isMenuPaneMenu: aBoolean [
 	isMenuPaneMenu := aBoolean
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : #testing }
 ToMenu >> isOpened [ 
 
 	^ self menuWindow notNil and: [ self menuWindow isOpened ]
@@ -133,7 +159,7 @@ ToMenu >> isOutsideEvent: anEvent [
 	^ super isOutsideEvent: anEvent
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : #'t - menu item' }
 ToMenu >> isSubmenu [
 
 	^ isSubmenu ifNil: [ false ]
@@ -151,6 +177,12 @@ ToMenu >> isTopMenu [
 	^ self isSubmenu not or: [ self isMenuPaneMenu ]
 ]
 
+{ #category : #'t - item list user - accessing' }
+ToMenu >> itemList [
+
+	^ itemList
+]
+
 { #category : #accessing }
 ToMenu >> manager [ 
 
@@ -163,7 +195,7 @@ ToMenu >> menuWindow [
 	^ self manager currentWindow
 ]
 
-{ #category : #'t - item list user - initializing' }
+{ #category : #'t - item list owner - initializing' }
 ToMenu >> newItemList [
 
 	^ ToMenuItemListElement new
@@ -173,6 +205,12 @@ ToMenu >> newItemList [
 ToMenu >> newRawSkin [ 
 
 	^ ToMenuSkin new
+]
+
+{ #category : #'instance creation' }
+ToMenu >> newWindowManager [
+
+ 	^ ToPopupMenuWindowManager new
 ]
 
 { #category : #'adding-removing' }
@@ -222,10 +260,28 @@ ToMenu >> showExpandIcon: aBoolean [
 ]
 
 { #category : #accessing }
+ToMenu >> windowClass [
+
+	^ self isInline
+		  ifTrue: [ ToMenuInlineWindowElement ]
+		  ifFalse: [
+				  self isSubmenu
+					  ifTrue: [ ToSubmenuWindow ]
+					  ifFalse: [ ToMenuWindow ] ]
+]
+
+{ #category : #accessing }
 ToMenu >> windowManager [
 
 	self
 		deprecated: 'Use #manager instead'
 		transformWith: '`@rcvr windowManager' -> '`@rcvr manager'.
 	^ self manager
+]
+
+{ #category : #accessing }
+ToMenu >> windowStarter [
+
+	self isInline ifTrue: [ ^ ToInlineMenuStarter new ].
+	^ ToStandardPopupStarter new
 ]

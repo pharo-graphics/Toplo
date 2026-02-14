@@ -47,21 +47,22 @@ ToToggleButtonSkin >> enabledSkinEvent: anEvent [
 
 	super enabledSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e iconDo: [ :ic |
-			ic adaptToColor: (e valueOfTokenNamed: #'color-text') ].
-		e endElementDo: [ :ic |
-			(ic respondsTo: #adaptToColor:) ifTrue: [
-				ic adaptToColor: (e valueOfTokenNamed: #'color-text') ] ].
-		e isMenuButton
-			ifTrue: [ e background: BlBackground transparent ]
-			ifFalse: [
-				e background: (e valueOfTokenNamed: #'color-primary-unchecked').
-				e border: (BlBorder
-						 paint: (e valueOfTokenNamed: #'color-border')
-						 width: (e valueOfTokenNamed: #'line-width')) ].
-		e labelDo: [ :lab |
-			lab foreground: (e valueOfTokenNamed: #'color-text').
-			lab applyStyle ] ]
+			e iconDo: [ :ic |
+				ic adaptToColor: (e valueOfTokenNamed: #'color-text') ].
+			e endElementDo: [ :ic |
+					(ic respondsTo: #adaptToColor:) ifTrue: [
+						ic adaptToColor: (e valueOfTokenNamed: #'color-text') ] ].
+			e isMenuButton
+				ifTrue: [ e background: BlBackground transparent ]
+				ifFalse: [
+						e background: (e valueOfTokenNamed: #'color-primary-unchecked').
+						(e hasStamp: #borderless) ifFalse: [
+								e border: (BlBorder
+										 paint: (e valueOfTokenNamed: #'color-border')
+										 width: (e valueOfTokenNamed: #'line-width')) ] ].
+			e labelDo: [ :lab |
+					lab foreground: (e valueOfTokenNamed: #'color-text').
+					lab applyStyle ] ]
 ]
 
 { #category : #'event handling' }
@@ -82,14 +83,14 @@ ToToggleButtonSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		(e hasIcon and: [ e hasLabel ])
-			ifTrue: [
-			e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
-			ifFalse: [ e startInterspace: 0 ].
-		(e hasEndElement and: [ e hasLabel ])
-			ifTrue: [
-			e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
-			ifFalse: [ e endInterspace: 0 ] ]
+			(e hasIcon and: [ e hasLabel ])
+				ifTrue: [
+				e startInterspace: (e valueOfTokenNamed: #'button-interspace') ]
+				ifFalse: [ e startInterspace: 0 ].
+			(e hasEndElement and: [ e hasLabel ])
+				ifTrue: [
+				e endInterspace: (e valueOfTokenNamed: #'button-interspace') ]
+				ifFalse: [ e endInterspace: 0 ] ]
 ]
 
 { #category : #'event handling' }

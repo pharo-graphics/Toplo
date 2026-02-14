@@ -1,8 +1,5 @@
 Trait {
 	#name : #TToItemListUser,
-	#instVars : [
-		'itemList'
-	],
 	#category : #'Toplo-Widget-List-ItemList'
 }
 
@@ -120,9 +117,8 @@ TToItemListUser >> hiddenItem: anItem [
 ]
 
 { #category : #'t - item list user - initializing' }
-TToItemListUser >> initializeAsItemBarContainer [
+TToItemListUser >> initializeAsItemListUser [
 
-	self setItemList: self newItemList
 ]
 
 { #category : #'t - item list user - accessing' }
@@ -164,19 +160,13 @@ TToItemListUser >> isScrollable: aBoolean [
 { #category : #'t - item list user - accessing' }
 TToItemListUser >> itemList [
 
-	^ itemList
+	^ self shouldBeImplemented 
 ]
 
 { #category : #'t - item list user - accessing' }
 TToItemListUser >> items [
 
 	^ self itemList dataAccessor
-]
-
-{ #category : #'t - item list user - initializing' }
-TToItemListUser >> newItemList [
-
-	^ ToItemListElement finite
 ]
 
 { #category : #'t - item list user - accessing' }
@@ -319,13 +309,6 @@ TToItemListUser >> selectionModel [
 TToItemListUser >> selectionOption [
 
 	^ self itemList selectionOption
-]
-
-{ #category : #'t - item list user - accessing' }
-TToItemListUser >> setItemList: anItemList [
-
-	itemList ifNotNil: [ BlImmutableObjectChangeError signal ].
-	itemList := anItemList
 ]
 
 { #category : #'t - item list user - unselectable/selectable' }

@@ -19,15 +19,15 @@ ToSkinManager >> applyEnqueuedStatesFor: anElement [
 ]
 
 { #category : #'skin state generation' }
-ToSkinManager >> checkState: isChecked in: anElement [
+ToSkinManager >> checkedSkinEvent: aCheckedSkinEvent in: anElement [
 
-	skinStateQueue checked: isChecked for: anElement
+	skinStateQueue checkedSkinEvent: aCheckedSkinEvent in: anElement
 ]
 
 { #category : #'skin state generation' }
-ToSkinManager >> enablementState: isEnabled in: anElement [
+ToSkinManager >> enabledSkinEvent: aSkinEvent in: anElement [
 
-	skinStateQueue enabled: isEnabled for: anElement
+	skinStateQueue enabledSkinEvent: aSkinEvent in: anElement
 ]
 
 { #category : #'skin state generation' }
@@ -37,9 +37,9 @@ ToSkinManager >> enqueueTransientState: aSkinState for: anElement [
 ]
 
 { #category : #'skin state generation' }
-ToSkinManager >> focusState: isFocused in: anElement [
+ToSkinManager >> focusedSkinEvent: aSkinEvent in: anElement [
 
-	skinStateQueue focused: isFocused for: anElement
+	skinStateQueue focusedSkinEvent: aSkinEvent in: anElement
 ]
 
 { #category : #private }
@@ -141,16 +141,14 @@ ToSkinManager >> requestNewSkinIn: anElement [
 ]
 
 { #category : #'skin state generation' }
-ToSkinManager >> selectionState: isSelected selectionOption: aSelectionOption focused: isFocused in: anElement [
+ToSkinManager >> selectedSkinEvent: aSelectedSkinEvent in: anElement [
 
-	anElement
-		withAllChildrenBreadthFirstDo: [ :child |
-				child skinManagerDo: [ :sm |
-						sm skinStateQueue
-							selected: isSelected
-							selectionOption: aSelectionOption
-							focused: isFocused
-							for: child ] ]
+	skinStateQueue selectedSkinEvent: aSelectedSkinEvent in: anElement.
+	anElement allChildrenBreadthFirstDo: [ :child |
+			child skinManagerDo: [ :sm |
+				sm skinStateQueue
+					selectedSkinEvent: aSelectedSkinEvent copy
+					in: child ] ]
 ]
 
 { #category : #'skin - installing / uninstalling' }

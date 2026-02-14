@@ -10,10 +10,3 @@ ToCheckbox >> newRawSkin [
 
 	^ ToCheckboxSkin new
 ]
-
-{ #category : #skin }
-ToCheckbox >> uninstallRawStyle [
-
-	super uninstallRawStyle.
-	self icon: nil
-]

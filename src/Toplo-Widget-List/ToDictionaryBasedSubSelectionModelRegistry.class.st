@@ -14,7 +14,7 @@ ToDictionaryBasedSubSelectionModelRegistry >> copySelectionFrom: otherRegistry [
 { #category : #initialization }
 ToDictionaryBasedSubSelectionModelRegistry >> newSubSelectionModelRegistry [
 
-	^ IdentityDictionary new
+	^ SmallIdentityDictionary new
 ]
 
 { #category : #copying }

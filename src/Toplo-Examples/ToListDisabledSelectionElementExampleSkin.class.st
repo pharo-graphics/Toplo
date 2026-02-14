@@ -13,7 +13,7 @@ ToListDisabledSelectionElementExampleSkin >> installSkinEvent: anEvent [
 		e geometry: (BlRoundedRectangleGeometry cornerRadius:
 				 (e valueOfTokenNamed: #'border-radius-SM')).
 		border := BlBorderBuilder new
-			          paint: (e valueOfTokenNamed: #'color-border-disabled');
+			          paint: (e valueOfTokenNamed: #'color-text');
 			          width:
 				          (e valueOfTokenNamed: #'border-width-primary-selection');
 			          dashArray: (e valueOfTokenNamed: #'dash-array');

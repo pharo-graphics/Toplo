@@ -9,9 +9,9 @@ ToCheckboxSkin >> checkedSkinEvent: anEvent [
 
 	super checkedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e icon
-			innerImage: (e valueOfTokenNamed: #'checkbox-checked-image');
-			innerImageColor: (e valueOfTokenNamed: #'checkbox-color'). ]
+			e icon
+				innerImage: (e valueOfTokenNamed: #'checkbox-checked-image');
+				innerImageColor: (e valueOfTokenNamed: #'checkbox-color') ]
 ]
 
 { #category : #'event handling' }
@@ -128,5 +128,5 @@ ToCheckboxSkin >> uncheckedSkinEvent: anEvent [
 ToCheckboxSkin >> uninstallSkinEvent: anEvent [
 
 	super uninstallSkinEvent: anEvent.
-	anEvent elementDo: [ :e |  ]
+	anEvent elementDo: [ :e | e icon: nil ]
 ]

@@ -8,3 +8,10 @@ Class {
 	#superclass : #ToBasicListNode,
 	#category : #'Toplo-Widget-Tree-Core'
 }
+
+{ #category : #configuration }
+ToTreeNode >> applyConfiguration [ 
+
+	super applyConfiguration.
+	self isVExact ifFalse: [ self vFitContent ]
+]

@@ -13,10 +13,6 @@ Class {
 ToMenuItemElement >> applyConfiguration [
 
 	super applyConfiguration.
-	self listHolderDo: [ :h |
-			h listElement isHorizontal
-				ifTrue: [ self hFitContent ]
-				ifFalse: [ self hMatchParent ] ].
 	self vFitContent
 ]
 
@@ -90,7 +86,7 @@ ToMenuItemElement >> isMenuPaneMenu [
 	^ false
 ]
 
-{ #category : #'t - menu window model' }
+{ #category : #testing }
 ToMenuItemElement >> isOpened [
 
 	^ false

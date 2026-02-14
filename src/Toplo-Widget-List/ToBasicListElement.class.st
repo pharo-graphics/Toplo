@@ -9,10 +9,8 @@ Class {
 		'nodeManager',
 		'selectionModeMap',
 		'mouseMoveReplayRequested',
-		'fakeDataItem',
 		'innerElementClass',
-		'innerElement',
-		'fakeNodeContainerWrapper'
+		'innerElement'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -54,20 +52,11 @@ ToBasicListElement >> applyConfiguration [
 	self childrenDo: #applyConfiguration
 ]
 
-{ #category : #'fake container' }
-ToBasicListElement >> checkFakeNodeContainer [
-
-	self nodeManager isBuildingFakeNodeContainer ifTrue: [ ^ self ].
-	fakeNodeContainerWrapper ifNil: [ ^ self installFakeNodeContainer ].
-	self reinstallFakeNodeContainer
-]
-
 { #category : #layout }
 ToBasicListElement >> checkMouseMoveReplayRequest [
 
 	mouseMoveReplayRequested ifFalse: [ ^ self ].
-	self spaceDo: [ :sp |
-		sp mouseProcessor handleLastMouseMove ].
+	self spaceDo: [ :sp | sp mouseProcessor handleLastMouseMove ].
 	mouseMoveReplayRequested := false
 ]
 
@@ -169,12 +158,6 @@ ToBasicListElement >> defaultEventHandler [
 	^ ToListElementEventHandler new
 ]
 
-{ #category : #'fake container' }
-ToBasicListElement >> defaultFakeDataItem [
-
-	^ nil
-]
-
 { #category : #initialization }
 ToBasicListElement >> defaultInnerElementClass [
 
@@ -230,6 +213,12 @@ ToBasicListElement >> dirtySelectionModes [
 	^ self selectionModes select: [ :m | m dirty ]
 ]
 
+{ #category : #'accessing - selection modes' }
+ToBasicListElement >> dirtySelectionModesDo: aBlock [
+
+	^ self dirtySelectionModes do: aBlock
+]
+
 { #category : #'accessing selecters' }
 ToBasicListElement >> disabledAtPosition: anInteger [
 
@@ -260,38 +249,6 @@ ToBasicListElement >> enabledAtPosition: anInteger [
 	self disabledSelecter deselectIndex: anInteger
 ]
 
-{ #category : #'fake container' }
-ToBasicListElement >> fakeDataItem [
-
-	^ fakeDataItem ifNil: [ fakeDataItem := self defaultFakeDataItem ]
-]
-
-{ #category : #'fake container' }
-ToBasicListElement >> fakeDataItem: anObject [
-
-	anObject = fakeDataItem ifTrue: [ ^ self ].
-	fakeDataItem := anObject.
-	self checkFakeNodeContainer 
-]
-
-{ #category : #'fake container' }
-ToBasicListElement >> fakeNode [
-
-	^ self fakeNodeContainer node
-]
-
-{ #category : #'fake container' }
-ToBasicListElement >> fakeNodeContainer [
-
-	^ fakeNodeContainerWrapper ifNotNil: [ :w | w nodeContainer ]
-]
-
-{ #category : #'fake container' }
-ToBasicListElement >> fakeNodeContainerWrapper [
-
-	^ fakeNodeContainerWrapper 
-]
-
 { #category : #'t - item' }
 ToBasicListElement >> flagAsDisabled: aBoolean [
 
@@ -301,11 +258,10 @@ ToBasicListElement >> flagAsDisabled: aBoolean [
 	super flagAsDisabled: aBoolean
 ]
 
-{ #category : #'selection updating' }
-ToBasicListElement >> forceUpdateAllSelectionsNow [
+{ #category : #testing }
+ToBasicListElement >> haveInnerElement [
 
-	self selectionModes do: [ :mode |
-			mode forceUpdateSelectionIn: self ]
+	^ innerElement notNil
 ]
 
 { #category : #'accessing selecters' }
@@ -350,13 +306,17 @@ ToBasicListElement >> initialize [
 	self newHiddenSelectionMode onInstalledIn: self.
 	self newDisabledSelectionMode onInstalledIn: self.
 
-	self matchParent
+	self matchParent.
+	" get the innerElement to build it and allow selection 
+	of items to be done *** before *** it is added in a space 
+	(at least in case of a finite one)"
+	self innerElement
 ]
 
 { #category : #initialization }
 ToBasicListElement >> initializeInnerElement [
 
-	self innerElement: self newtInnerElement
+	self innerElement: self newInnerElement
 ]
 
 { #category : #'t - list element decorator - infinite accessing' }
@@ -373,10 +333,10 @@ ToBasicListElement >> innerElement: anInnerElement [
 	innerElement ifNotNil: [ :inner | 
 		inner removeFromParent ].
 	innerElement := anInnerElement.
-	self checkFakeNodeContainer.
 	innerElement ifNotNil: [ :inner |
 			self addChild: innerElement.
-			self notifyDataSourceChanged ]
+			self notifyDataSourceChanged ].
+	self onInnerElementChanged
 ]
 
 { #category : #accessing }
@@ -399,20 +359,21 @@ ToBasicListElement >> innerElementClass: anInnerElementClass [
 ]
 
 { #category : #'fake container' }
-ToBasicListElement >> installFakeNodeContainer [
-	" the fake node is added in case of an empty data source to ensure a 
-	suitable minimum height according to the node class, the node builder 
-	and the data kind."
+ToBasicListElement >> isFakeNodeContainer: aNodeContainer [ 
 
-	fakeNodeContainerWrapper := self nodeManager newFakeNodeContainerIn: self.
-	self addChild: fakeNodeContainerWrapper at: 1.
-	self requestConfiguration
+	^ false
 ]
 
 { #category : #testing }
 ToBasicListElement >> isMultipleSelection [
 
 	^ self primarySelectionMode isMultipleSelection
+]
+
+{ #category : #testing }
+ToBasicListElement >> isOrientable [
+
+	^ self innerElement isOrientable
 ]
 
 { #category : #'accessing selecters' }
@@ -469,12 +430,6 @@ ToBasicListElement >> newUnselectableSelectionMode [
 
 
 	^ ToListUnselectableSelectionMode parentMode: self primarySelectionMode
-]
-
-{ #category : #'instance creation' }
-ToBasicListElement >> newtInnerElement [
-
-	^ self innerElementClass onListElement: self
 ]
 
 { #category : #'t - list element decorator - infinite accessing' }
@@ -585,6 +540,10 @@ ToBasicListElement >> onAppliedDataSourceSieveCommand: aDataSourceCommand [
 		self selectionModel copySelectionFrom: sieve selectionModel ]
 ]
 
+{ #category : #accessing }
+ToBasicListElement >> onInnerElementChanged [
+]
+
 { #category : #'hooks - layout' }
 ToBasicListElement >> onLayoutDone [
 
@@ -625,16 +584,6 @@ ToBasicListElement >> primarySelectionMode: aSelectionMode [
 	aSelectionMode ifNotNil: [ aSelectionMode onInstalledIn: self ].
 	self dispatchEvent: ToListPrimarySelectionModeChangedEvent new.
 	self requestNewSkin
-]
-
-{ #category : #'fake container' }
-ToBasicListElement >> reinstallFakeNodeContainer [
-	" the fake node is added in case of an empty data source to ensure a 
-	suitable minimum height according to the node class, the node builder 
-	and the data kind."
-
-	self nodeManager refreshFakeNodeContainer: fakeNodeContainerWrapper.
-	self requestConfiguration
 ]
 
 { #category : #'accessing - selection modes' }
@@ -683,18 +632,6 @@ ToBasicListElement >> requestUpdateSelectionMode: aMode [
 
 	aMode dirty: true.
 	self requestLayout
-]
-
-{ #category : #'fake container' }
-ToBasicListElement >> sample [
-
-	^ self fakeDataItem
-]
-
-{ #category : #'fake container' }
-ToBasicListElement >> sample: aDataItem [
-
-	self fakeDataItem: aDataItem
 ]
 
 { #category : #'accessing selecters' }
@@ -822,6 +759,12 @@ ToBasicListElement >> unselectableSelectionMode [
 ToBasicListElement >> unselectableSelectionModel [
 
 	^ self selectionModel unselectableSelectionModel
+]
+
+{ #category : #'selection updating' }
+ToBasicListElement >> updateAllSelections [
+
+	self selectionModes do: [ :mode | mode updateSelectionIn: self ]
 ]
 
 { #category : #'selection updating' }

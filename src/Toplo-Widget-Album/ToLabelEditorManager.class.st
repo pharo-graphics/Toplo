@@ -12,12 +12,6 @@ ToLabelEditorManager >> defaultPlacement [
 		  yourself
 ]
 
-{ #category : #initialization }
-ToLabelEditorManager >> defaultWindowFactory [
-
-	^ [ ToLabelEditorWindow ]
-]
-
 { #category : #accessing }
 ToLabelEditorManager >> editorClosedEventClass [
 
@@ -45,4 +39,10 @@ ToLabelEditorManager >> newEditorForLabel: aLabel [
 		all;
 		apply.
 	^ ed
+]
+
+{ #category : #initialization }
+ToLabelEditorManager >> windowClass [
+
+	^ ToLabelEditorWindow
 ]

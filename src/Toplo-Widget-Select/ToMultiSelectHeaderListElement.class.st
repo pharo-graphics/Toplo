@@ -1,8 +1,8 @@
 Class {
 	#name : #ToMultiSelectHeaderListElement,
 	#superclass : #ToListElement,
-	#traits : 'TToSelectHeaderElement + TToElementWithPlaceholder',
-	#classTraits : 'TToSelectHeaderElement classTrait + TToElementWithPlaceholder classTrait',
+	#traits : 'TToListFakeNodeUser + TToSelectHeaderElement + TToElementWithPlaceholder',
+	#classTraits : 'TToListFakeNodeUser classTrait + TToSelectHeaderElement classTrait + TToElementWithPlaceholder classTrait',
 	#instVars : [
 		'selectElement',
 		'maxSelectedCount',

@@ -22,7 +22,7 @@ ToExMiniBrowserClassNodeContent >> class: aClass [
 		icon: (self iconFor: aClass);
 		label: (ToLabel text: aClass name).
 	aClass hasComment ifTrue: [ ^ self ].
-	self endElement: (ToImage inner: (self iconNamed: #uncommentedClass))
+	self endElement: (ToImage inner: (self iconFormSetNamed: #uncommentedClass))
 ]
 
 { #category : #private }
@@ -37,9 +37,9 @@ ToExMiniBrowserClassNodeContent >> iconImageFor: aClass [
 	((aClass includesBehavior:
 		  (Smalltalk globals at: #TestCase ifAbsent: [ false ])) and: [
 		 aClass isAbstract not ]) ifTrue: [
-		aClass hasPassedTest ifTrue: [ ^ self iconNamed: #testGreen ].
-		aClass hasFailedTest ifTrue: [ ^ self iconNamed: #testYellow ].
-		aClass hasErrorTest ifTrue: [ ^ self iconNamed: #testRed ].
-		^ self iconNamed: #testNotRun ].
-	^ self iconNamed: aClass systemIconName
+		aClass hasPassedTest ifTrue: [ ^ self iconFormSetNamed: #testGreen ].
+		aClass hasFailedTest ifTrue: [ ^ self iconFormSetNamed: #testYellow ].
+		aClass hasErrorTest ifTrue: [ ^ self iconFormSetNamed: #testRed ].
+		^ self iconFormSetNamed: #testNotRun ].
+	^ self iconFormSetNamed: aClass systemIconName
 ]

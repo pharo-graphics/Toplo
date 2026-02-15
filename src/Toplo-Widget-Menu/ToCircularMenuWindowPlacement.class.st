@@ -11,6 +11,9 @@ ToCircularMenuWindowPlacement >> positionElement: aWindow onEvent: anEvent conte
 	| root menuItem pos |
 	root := aWindow anchorRoot.
 	menuItem := aWindow menuItem.
+	
+	" if encompassing, the the submenu is place at the center 
+	of the parent menu or menu pane "
 	menuItem encompassing ifTrue: [
 			menuItem isSubmenu ifTrue: [
 					menuItem parentMenuDo: [ :pm |
@@ -24,6 +27,7 @@ ToCircularMenuWindowPlacement >> positionElement: aWindow onEvent: anEvent conte
 							center := mp measuredBounds center.
 							aWindow position: center - (aWindow measuredExtent // 2).
 							^ self ] ] ].
+
 	pos := (menuItem measuredBounds inParent: root) bottomLeft.
 	aWindow position: pos
 ]

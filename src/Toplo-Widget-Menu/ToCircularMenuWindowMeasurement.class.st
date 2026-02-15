@@ -10,6 +10,10 @@ ToCircularMenuWindowMeasurement >> onMeasure: anExtentMeasurementSpec element: a
 	| menuItem radius |
 	menuItem := anElement anchorElement.
 	radius := menuItem radius.
+	
+	" if encompassing, then the inner radius ratio 
+	and the radius ((which is greater that the parent menu radius) 
+	depend on the parent menu radius "
 	menuItem encompassing ifTrue: [
 			(menuItem isSubmenu or: [ menuItem isMenuPaneMenu ]) ifTrue: [
 					| ratio |

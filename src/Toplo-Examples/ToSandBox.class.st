@@ -1733,48 +1733,56 @@ ToSandBox class >> example_CircularListElementWithAnnulusSectors [
 { #category : #menu }
 ToSandBox class >> example_CircularMenu [
 
-	| circularMenu iconProvider item sub |
+	| circularMenu iconProvider item sub space |
+	space := BlSpace new.
 	iconProvider := ToMaterialDesignIconProvider.
 	circularMenu := ToCircularMenu new.
+	circularMenu radius: 80.
 	circularMenu labelText: 'Circular menu'.
 
-	item := ToMenu new labelText: 'Menu1'.
-	sub := ToMenuItem new labelText: 'SubMenu1'.
+	item := ToCircularMenu new icon:
+		        (iconProvider iconNamed: 'filled_checklist').
+	item radius: 70.
+	sub := ToMenuItem new labelText: 'SubMenu 1'.
 	item addItem: sub.
-	sub := ToMenuItem new labelText: 'SubMenu2'.
-	item addItem: sub.
-	circularMenu addItem: item.
-
-	item := ToMenu new labelText: 'Menu2'.
-	sub := ToMenuItem new labelText: 'SubMenu1'.
-	item addItem: sub.
-	sub := ToMenuItem new labelText: 'SubMenu2'.
-	item addItem: sub.
-	sub := ToMenuItem new labelText: 'SubMenu3'.
+	sub := ToMenuItem new labelText: 'SubMenu 2'.
 	item addItem: sub.
 	circularMenu addItem: item.
 
-	item := ToMenuItem new labelText: 'MenuItem1'.
+	item := ToCircularMenu new icon:
+		        (iconProvider iconNamed: 'outlined_morehoriz').
+	item radius: 70.
+	sub := ToMenuItem new labelText: 'SubMenu 1'.
+	item addItem: sub.
+	sub := ToMenuItem new labelText: 'SubMenu 2'.
+	item addItem: sub.
+	sub := ToMenuItem new labelText: 'SubMenu 3'.
+	item addItem: sub.
+	circularMenu addItem: item.
+
+	item := ToMenuItem new.
 	item icon: (iconProvider iconNamed: #outlined_cropfree).
 	circularMenu addItem: item.
 
-	item := ToMenuItem new labelText: 'MenuItem2'.
+	item := ToMenuItem new.
 	item icon: (iconProvider iconNamed: #outlined_callsplit).
 	circularMenu addItem: item.
 
-	item := ToMenuItem new labelText: 'MenuItem3'.
+	item := ToMenuItem new.
 	item icon: (iconProvider iconNamed: #outlined_delete).
 	circularMenu addItem: item.
 
-	item := ToMenuItem new labelText: 'MenuItem4'.
+	item := ToMenuItem new.
 	item icon: (iconProvider iconNamed: #outlined_sms).
 	circularMenu addItem: item.
 
-	item := ToMenuItem new labelText: 'MenuItem5'.
+	item := ToMenuItem new labelText: 'Inspect'.
+	item clickAction: [ space inspect ].
 	circularMenu addItem: item.
 
-	circularMenu openInSpace.
-
+	circularMenu position: 150 asPoint.
+	space root addChild: circularMenu.
+	space show.
 	^ circularMenu
 ]
 
@@ -1785,7 +1793,7 @@ ToSandBox class >> example_CircularMenuItemList [
 	space := BlSpace new.
 	space root layout: BlFrameLayout new.
 	
-	rootMenu := ToCircularMenuItemList new.
+	rootMenu := ToCircularMenuList new.
 	rootMenu uniformSectors: true.
 	rootMenu addItem: (ToMenuItem new
 			 labelText: 'X1';
@@ -1811,7 +1819,7 @@ ToSandBox class >> example_CircularMenuItemListWithSubmenu [
 	space := BlSpace new.
 	space root layout: BlFrameLayout new.
 	
-	rootMenu := ToCircularMenuItemList new.
+	rootMenu := ToCircularMenuList new.
 	rootMenu uniformSectors: true.
 	rootMenu addItem: (ToMenuItem new
 			 labelText: 'X1';
@@ -1828,7 +1836,7 @@ ToSandBox class >> example_CircularMenuItemListWithSubmenu [
 	rootMenu extent: 200 asPoint.
 	rootMenu background: Color red.
 	
-	subMenu := ToCircularMenuItemList new.
+	subMenu := ToCircularMenuList new.
 	subMenu innerRadius: 0.5.
 	subMenu uniformSectors: false.
 	subMenu addItem: (ToMenuItem new
@@ -1850,47 +1858,55 @@ ToSandBox class >> example_CircularMenuItemListWithSubmenu [
 { #category : #menu }
 ToSandBox class >> example_CircularMenuPane [
 
-	| circularMenu iconProvider item sub |
+	| circularMenu iconProvider item sub space |
+	space := BlSpace new.
 	iconProvider := ToMaterialDesignIconProvider.
 	circularMenu := ToCircularMenuPane new.
-	item := ToMenu new labelText: 'Menu1'.
-	sub := ToMenuItem new labelText: 'SubMenu1'.
+	circularMenu radius: 80.
+
+	item := ToCircularMenu new icon:
+		        (iconProvider iconNamed: 'filled_checklist').
+	item radius: 70.
+	sub := ToMenuItem new labelText: 'SubMenu 1'.
 	item addItem: sub.
-	sub := ToMenuItem new labelText: 'SubMenu2'.
+	sub := ToMenuItem new labelText: 'SubMenu 2'.
 	item addItem: sub.
 	circularMenu addItem: item.
 
-	item := ToMenu new labelText: 'Menu2'.
-	sub := ToMenuItem new labelText: 'SubMenu1'.
+	item := ToCircularMenu new icon:
+		        (iconProvider iconNamed: 'outlined_morehoriz').
+	item radius: 70.
+	sub := ToMenuItem new labelText: 'SubMenu 1'.
 	item addItem: sub.
-	sub := ToMenuItem new labelText: 'SubMenu2'.
+	sub := ToMenuItem new labelText: 'SubMenu 2'.
 	item addItem: sub.
-	sub := ToMenuItem new labelText: 'SubMenu3'.
+	sub := ToMenuItem new labelText: 'SubMenu 3'.
 	item addItem: sub.
 	circularMenu addItem: item.
 
-	item := ToMenuItem new labelText: 'MenuItem1'.
+	item := ToMenuItem new.
 	item icon: (iconProvider iconNamed: #outlined_cropfree).
 	circularMenu addItem: item.
 
-	item := ToMenuItem new labelText: 'MenuItem2'.
+	item := ToMenuItem new.
 	item icon: (iconProvider iconNamed: #outlined_callsplit).
 	circularMenu addItem: item.
 
-	item := ToMenuItem new labelText: 'MenuItem3'.
+	item := ToMenuItem new.
 	item icon: (iconProvider iconNamed: #outlined_delete).
 	circularMenu addItem: item.
 
-	item := ToMenuItem new labelText: 'MenuItem4'.
+	item := ToMenuItem new.
 	item icon: (iconProvider iconNamed: #outlined_sms).
 	circularMenu addItem: item.
 
-	item := ToMenuItem new labelText: 'MenuItem5'.
+	item := ToMenuItem new labelText: 'Inspect'.
+	item clickAction: [ space inspect ].
 	circularMenu addItem: item.
 
-	circularMenu extent: 400 asPoint.
-	circularMenu openInSpace.
-
+	circularMenu position: 150 asPoint.
+	space root addChild: circularMenu.
+	space show.
 	^ circularMenu
 ]
 

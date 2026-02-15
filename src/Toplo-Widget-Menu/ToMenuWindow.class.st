@@ -28,8 +28,7 @@ ToMenuWindow >> applyConfiguration [
 									self itemList vFitContent ] ]
 				ifFalse: [ self itemList fitContent ].
 			^ self ].
-	self itemList matchParent.
-	self extent: 300 asPoint
+	self itemList matchParent
 ]
 
 { #category : #'t - relayoutable window element - accessing' }
@@ -130,12 +129,6 @@ ToMenuWindow >> menuWindow [
 ToMenuWindow >> newRawSkin [ 
 
 	^ ToMenuWindowSkin new
-]
-
-{ #category : #'t - anchored window element - private layout' }
-ToMenuWindow >> newStartLayoutStep [ 
-
-	^ ToMenuContainerOpeningStartStep new
 ]
 
 { #category : #'t - anchored window element - accessing' }

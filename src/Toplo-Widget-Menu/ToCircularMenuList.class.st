@@ -1,17 +1,17 @@
 Class {
-	#name : #ToCircularMenuItemList,
+	#name : #ToCircularMenuList,
 	#superclass : #ToMenuItemListElement,
 	#category : #'Toplo-Widget-Menu-Circular'
 }
 
 { #category : #initialization }
-ToCircularMenuItemList >> defaultInnerElementClass [ 
+ToCircularMenuList >> defaultInnerElementClass [ 
 
 	^ ToCircularMenuInnerElement 
 ]
 
 { #category : #initialization }
-ToCircularMenuItemList >> defaultNodeManager [
+ToCircularMenuList >> defaultNodeManager [
 
 	^ super defaultNodeManager
 		  nodeContainerFactory: [ ToCircularMenuNodeContainer new ];
@@ -20,30 +20,30 @@ ToCircularMenuItemList >> defaultNodeManager [
 ]
 
 { #category : #initialization }
-ToCircularMenuItemList >> initialize [
+ToCircularMenuList >> initialize [
 
 	super initialize.
 	self geometry: BlCircleGeometry new.
 	self secondarySelectionOption elementFactory: [
-		ToCircularMenuItemListSecondarySelectionElement new ].
+		ToCircularMenuListSecondarySelectionElement new ].
 	self matchParent.
 	self preventMouseEvents 
 ]
 
 { #category : #accessing }
-ToCircularMenuItemList >> innerRadius: aFloat [
+ToCircularMenuList >> innerRadius: aFloat [
 
 	self innerElement innerRadius: aFloat
 ]
 
 { #category : #accessing }
-ToCircularMenuItemList >> outerRadius: aFloat [
+ToCircularMenuList >> outerRadius: aFloat [
 
 	self innerElement outerRadius: aFloat
 ]
 
 { #category : #accessing }
-ToCircularMenuItemList >> uniformSectors: aBoolean [
+ToCircularMenuList >> uniformSectors: aBoolean [
 
 	self innerElement uniformSectors: aBoolean
 ]

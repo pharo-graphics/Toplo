@@ -13,9 +13,11 @@ TToMenuItem >> allOtherMenuWindowsDo: aValuable [
 ]
 
 { #category : #'t - menu item' }
-TToMenuItem >> barOwnerDo: aValuable [
+TToMenuItem >> allParentMenusOrMenuPaneDo: aBlock [
 
-	self menuListOwner ifNotNil: [ :bo | aValuable value: bo ]
+	self menuListOwner ifNotNil: [ :mlo |
+			aBlock value: mlo.
+			mlo allParentMenusOrMenuPaneDo: aBlock ]
 ]
 
 { #category : #'t - menu item' }
@@ -57,6 +59,12 @@ TToMenuItem >> menuListOwner [
 ]
 
 { #category : #'t - menu item' }
+TToMenuItem >> menuListOwnerDo: aValuable [
+
+	self menuListOwner ifNotNil: [ :bo | aValuable value: bo ]
+]
+
+{ #category : #'t - menu item' }
 TToMenuItem >> menuPane [
 
 	self withAllParentsReverseDo: [ :e |
@@ -68,11 +76,10 @@ TToMenuItem >> menuPane [
 TToMenuItem >> parentMenu [
 
 	self flag: #ToBeChecked.
-	^ self menuListOwner 
-	ifNotNil: [ :mlo |
-		  mlo isMenuPane
-			  ifTrue: [  ]
-			  ifFalse: [ mlo ] ]
+	^ self menuListOwner ifNotNil: [ :mlo |
+			  mlo isMenuPane
+				  ifTrue: [ ]
+				  ifFalse: [ mlo ] ]
 ]
 
 { #category : #'t - menu item' }

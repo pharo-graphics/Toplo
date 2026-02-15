@@ -1,5 +1,5 @@
 Class {
-	#name : #ToCircularMenuItemListSecondarySelectionElement,
+	#name : #ToCircularMenuListSecondarySelectionElement,
 	#superclass : #ToAnnulusSectorElement,
 	#traits : 'TToListSelectionElement',
 	#classTraits : 'TToListSelectionElement classTrait',
@@ -7,7 +7,7 @@ Class {
 }
 
 { #category : #'t - list selection element - private' }
-ToCircularMenuItemListSecondarySelectionElement >> boundsInListElement: aListElement [
+ToCircularMenuListSecondarySelectionElement >> boundsInListElement: aListElement [
 
 	| first last startBnds endBnds corner containers |
 	containers := self nodeContainers.
@@ -32,14 +32,14 @@ ToCircularMenuItemListSecondarySelectionElement >> boundsInListElement: aListEle
 ]
 
 { #category : #initialization }
-ToCircularMenuItemListSecondarySelectionElement >> initialize [ 
+ToCircularMenuListSecondarySelectionElement >> initialize [ 
 
 	super initialize.
 	self initializeAsListSelectionElement
 ]
 
 { #category : #'instance creation' }
-ToCircularMenuItemListSecondarySelectionElement >> newRawSkin [
+ToCircularMenuListSecondarySelectionElement >> newRawSkin [
 
 	^ ToScriptableSkin new
 		  onInstallSkinEvent: [ :e :evt |
@@ -48,7 +48,7 @@ ToCircularMenuItemListSecondarySelectionElement >> newRawSkin [
 ]
 
 { #category : #'t - list selection element - accessing' }
-ToCircularMenuItemListSecondarySelectionElement >> nodeContainers: aNodeContainerArray listElement: aListElement [
+ToCircularMenuListSecondarySelectionElement >> nodeContainers: aNodeContainerArray listElement: aListElement [
 
 	| bnds |
 	nodeContainers := aNodeContainerArray.

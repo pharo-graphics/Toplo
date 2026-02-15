@@ -264,10 +264,7 @@ ToMenu >> windowClass [
 
 	^ self isInline
 		  ifTrue: [ ToMenuInlineWindowElement ]
-		  ifFalse: [
-				  self isSubmenu
-					  ifTrue: [ ToSubmenuWindow ]
-					  ifFalse: [ ToMenuWindow ] ]
+		  ifFalse: [ ToMenuWindow ]
 ]
 
 { #category : #accessing }

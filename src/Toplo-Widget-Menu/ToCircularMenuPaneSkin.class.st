@@ -10,5 +10,7 @@ ToCircularMenuPaneSkin >> installSkinEvent: anEvent [
 	(because in this case, the opened menu window will be closed)."
 
 	super installSkinEvent: anEvent.
-	anEvent elementDo: [ :e | e geometry: BlCircleGeometry new ]
+	anEvent elementDo: [ :e |
+			e geometry: BlCircleGeometry new.
+			e padding: BlInsets empty ]
 ]

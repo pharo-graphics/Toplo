@@ -24,12 +24,13 @@ ToCircularMenuNodeContainer >> holder: anHolder [
 ToCircularMenuNodeContainer >> initialize [
 
 	super initialize.
-	self border: Color lightGray.
-	self background: (Color random alpha: 0.1).
-	self constraintsDo: [ :c | c annulus angleGap: 30 ].
-	self addEventHandlerOn: BlMouseLeaveEvent do: [
-			self holder listElement secondarySelecter deselectAll.
-			self holder listElement requestLayout ]
+	self constraintsDo: [ :c | c annulus angleGap: 30 ]
+]
+
+{ #category : #'instance creation' }
+ToCircularMenuNodeContainer >> newRawSkin [ 
+
+	^ ToCircularMenuNodeContainerSkin new
 ]
 
 { #category : #accessing }

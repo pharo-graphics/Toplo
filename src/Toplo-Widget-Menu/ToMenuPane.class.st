@@ -5,7 +5,8 @@ Class {
 	#classTraits : 'TToListItem classTrait + TToMenuItem classTrait + TToItemListOwner classTrait + TToItemListUser classTrait + TToMenuItemListUser classTrait + TToOrientable classTrait',
 	#instVars : [
 		'autoOpen',
-		'isSubPane'
+		'isSubPane',
+		'allowAutoOpenManagement'
 	],
 	#category : #'Toplo-Widget-Menu-Pane'
 }
@@ -32,6 +33,18 @@ ToMenuPane >> addFiller [
 	self addItem: ToMenuFiller new
 ]
 
+{ #category : #'auto opening' }
+ToMenuPane >> allowAutoOpenManagement [
+
+	^ allowAutoOpenManagement ifNil: [ allowAutoOpenManagement := true ]
+]
+
+{ #category : #'auto opening' }
+ToMenuPane >> allowAutoOpenManagement: aBoolean [
+
+	allowAutoOpenManagement := aBoolean
+]
+
 { #category : #configuration }
 ToMenuPane >> applyConfiguration [
 	" just force the resizer of the secondary direction 
@@ -56,15 +69,21 @@ ToMenuPane >> autoOpen [
 ]
 
 { #category : #'auto opening' }
-ToMenuPane >> autoOpen: anObject [
+ToMenuPane >> autoOpen: aBoolean [
 
-	autoOpen := anObject
+	autoOpen := aBoolean
 ]
 
 { #category : #'auto opening' }
 ToMenuPane >> cancelAutoOpen [
 
 	self rootMenuPane autoOpen: false
+]
+
+{ #category : #initialization }
+ToMenuPane >> defaultElevation [
+
+	^ BlRelativeElevation elevation: (SmallInteger maxVal - 400)
 ]
 
 { #category : #testing }
@@ -85,6 +104,7 @@ ToMenuPane >> initialize [
 	self layout: BlLinearLayout horizontal.
 	self layout alignCenter.
 	self addEventHandler: ToMenuPaneEventHandler new.
+	self elevation: self defaultElevation.
 	self addChild: self itemList.
 	self isFlowable: false.
 	self isScrollable: false.
@@ -96,6 +116,18 @@ ToMenuPane >> initialize [
 ToMenuPane >> isAutoOpen [
 
 	^ self rootMenuPane autoOpen
+]
+
+{ #category : #'auto opening' }
+ToMenuPane >> isAutoOpenManagementAllowed [ 
+
+	^ self rootMenuPane allowAutoOpenManagement
+]
+
+{ #category : #'auto opening' }
+ToMenuPane >> isAutoOpenManagementAllowed: aBoolean [
+
+	^ self rootMenuPane allowAutoOpenManagement: aBoolean
 ]
 
 { #category : #'t - menu item' }
@@ -177,6 +209,7 @@ ToMenuPane >> rootMenuPane [
 { #category : #'auto opening' }
 ToMenuPane >> startAutoOpen [
 
+	self isAutoOpenManagementAllowed ifFalse: [ ^ self ].
 	self rootMenuPane autoOpen: true
 ]
 

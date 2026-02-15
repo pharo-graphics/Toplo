@@ -11,18 +11,19 @@ ToCircularMenuWindowPlacement >> positionElement: aWindow onEvent: anEvent conte
 	| root menuItem pos |
 	root := aWindow anchorRoot.
 	menuItem := aWindow menuItem.
-	menuItem isSubmenu ifTrue: [
-			menuItem parentMenuDo: [ :pm |
-					| center |
-					center := pm menuWindow measuredBounds center.
-					aWindow position: center - (aWindow measuredExtent // 2).
-					^ self ] ].
-	menuItem isMenuPaneMenu ifTrue: [
-			menuItem menuPaneDo: [ :mp |
-					| center |
-					center := mp measuredBounds center.
-					aWindow position: center - (aWindow measuredExtent // 2).
-					^ self ] ].
+	menuItem encompassing ifTrue: [
+			menuItem isSubmenu ifTrue: [
+					menuItem parentMenuDo: [ :pm |
+							| center |
+							center := pm menuWindow measuredBounds center.
+							aWindow position: center - (aWindow measuredExtent // 2).
+							^ self ] ].
+			menuItem isMenuPaneMenu ifTrue: [
+					menuItem menuPaneDo: [ :mp |
+							| center |
+							center := mp measuredBounds center.
+							aWindow position: center - (aWindow measuredExtent // 2).
+							^ self ] ] ].
 	pos := (menuItem measuredBounds inParent: root) bottomLeft.
 	aWindow position: pos
 ]

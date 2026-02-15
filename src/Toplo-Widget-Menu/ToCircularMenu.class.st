@@ -3,6 +3,9 @@ Class {
 	#superclass : #ToMenu,
 	#traits : 'TToCircularMenuListUser',
 	#classTraits : 'TToCircularMenuListUser classTrait',
+	#instVars : [
+		'encompassing'
+	],
 	#category : #'Toplo-Widget-Menu-Items'
 }
 
@@ -16,6 +19,18 @@ ToCircularMenu >> defaultWindowMeasurement [
 ToCircularMenu >> defaultWindowPlacement [
 
 	^ ToCircularMenuWindowPlacement new
+]
+
+{ #category : #accessing }
+ToCircularMenu >> encompassing [
+
+	^ encompassing ifNil: [ encompassing := true ]
+]
+
+{ #category : #accessing }
+ToCircularMenu >> encompassing: aBoolean [
+
+	encompassing := aBoolean
 ]
 
 { #category : #accessing }

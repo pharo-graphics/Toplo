@@ -1866,6 +1866,7 @@ ToSandBox class >> example_CircularMenuPane [
 
 	item := ToCircularMenu new icon:
 		        (iconProvider iconNamed: 'filled_checklist').
+	item encompassing: false.
 	item radius: 70.
 	sub := ToMenuItem new labelText: 'SubMenu 1'.
 	item addItem: sub.

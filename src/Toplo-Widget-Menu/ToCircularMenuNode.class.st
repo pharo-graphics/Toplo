@@ -1,6 +1,9 @@
 Class {
 	#name : #ToCircularMenuNode,
 	#superclass : #ToMenuItemNode,
+	#instVars : [
+		'eventDelegator'
+	],
 	#category : #'Toplo-Widget-Menu-Circular'
 }
 
@@ -8,12 +11,24 @@ Class {
 ToCircularMenuNode >> applyConfiguration [ 
 
 	super applyConfiguration.
+	self installEventDelegatorOnItem.
 	self fitContent
 ]
 
-{ #category : #initialization }
-ToCircularMenuNode >> initialize [
+{ #category : #configuration }
+ToCircularMenuNode >> installEventDelegatorOnItem [
 
-	super initialize.
-	self fitContent
+	| nodeContainer |
+	nodeContainer := self holder nodeContainer.
+	eventDelegator ifNotNil: [
+		nodeContainer removeEventHandler: eventDelegator.
+		eventDelegator := nil ].
+	item ifNil: [ ^ self ].
+	eventDelegator := BlEventDelegator delegate: BlUIEvent to: item.
+	nodeContainer addEventHandler: eventDelegator.
+	nodeContainer
+		addEventFilterOn: BlUIEvent
+		do: [ :evt | evt source: self holder nodeContainer ].
+	item installedSkinStateGenerator authorizedSource:
+		self holder nodeContainer
 ]

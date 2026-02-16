@@ -17,3 +17,11 @@ TToElement >> initializeForToplo [
 
 	self ensureCanManageToploSkin
 ]
+
+{ #category : #'t - toElement' }
+TToElement >> installedSkinStateGenerator [
+
+	^ self eventDispatcher handlers
+		  detect: [ :h | h isKindOf: ToSkinStateGenerator ]
+		  ifNone: [ ]
+]

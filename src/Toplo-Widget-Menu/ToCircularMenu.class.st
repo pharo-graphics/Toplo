@@ -34,15 +34,28 @@ ToCircularMenu >> encompassing: aBoolean [
 ]
 
 { #category : #accessing }
-ToCircularMenu >> innerRadius: aFloat [ 
+ToCircularMenu >> innerRadius [
 
-	self itemList innerRadius: aFloat 
+	^ self itemList innerRadius
+]
+
+{ #category : #accessing }
+ToCircularMenu >> innerRadius: aFloat [
+
+	(self innerRadius closeTo: aFloat) ifTrue: [ ^ self ].
+	self itemList innerRadius: aFloat
 ]
 
 { #category : #'t - item list owner - initializing' }
 ToCircularMenu >> newItemList [ 
 
 	^ ToCircularMenuList new
+]
+
+{ #category : #accessing }
+ToCircularMenu >> uniformSectors: aBoolean [
+
+	self itemList uniformSectors: aBoolean
 ]
 
 { #category : #accessing }

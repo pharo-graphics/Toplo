@@ -23,5 +23,6 @@ TToListItemNode >> item: anElement [
 	" in case of a rebinding, the argument is already a child of a node "
 	item removeFromParent.
 	self addChild: item at: 1.
+	self requestConfiguration.
 	self requestNewSkin
 ]

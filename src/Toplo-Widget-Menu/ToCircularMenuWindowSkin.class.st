@@ -1,6 +1,6 @@
 Class {
 	#name : #ToCircularMenuWindowSkin,
-	#superclass : #ToMenuWindowSkin,
+	#superclass : #ToBasicWindowElementSkin,
 	#category : #'Toplo-Widget-Menu-Circular'
 }
 
@@ -9,6 +9,7 @@ ToCircularMenuWindowSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
+			e border: BlBorder empty.
 			e padding: BlInsets empty.
 			e geometry: BlCircleGeometry new ]
 ]

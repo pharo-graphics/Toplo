@@ -5,10 +5,17 @@ Class {
 		'target',
 		'leaved',
 		'dragged',
-		'pressed'
+		'pressed',
+		'authorizedSource'
 	],
 	#category : #'Toplo-Core-States'
 }
+
+{ #category : #accessing }
+ToSkinStateGenerator >> authorizedSource: aSource [
+
+	authorizedSource := aSource
+]
 
 { #category : #'focus events handling' }
 ToSkinStateGenerator >> blurEvent: anEvent [
@@ -145,6 +152,8 @@ ToSkinStateGenerator >> focusEvent: anEvent [
 { #category : #'api - event managing' }
 ToSkinStateGenerator >> handleEvent: anEvent [
 
+	(anEvent isUIEvent and: [ authorizedSource notNil ]) ifTrue: [
+		anEvent source = authorizedSource ifFalse: [ ^ self ] ].
 	anEvent sendToSkinStateGenerator: self
 ]
 

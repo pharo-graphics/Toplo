@@ -277,6 +277,12 @@ ToMenu >> windowManager [
 ]
 
 { #category : #accessing }
+ToMenu >> windowPlacement: anElementCustomPlacement [
+
+	self manager placement: anElementCustomPlacement
+]
+
+{ #category : #accessing }
 ToMenu >> windowStarter [
 
 	self isInline ifTrue: [ ^ ToInlineMenuStarter new ].

@@ -31,8 +31,15 @@ ToCircularMenuList >> initialize [
 ]
 
 { #category : #accessing }
+ToCircularMenuList >> innerRadius [
+
+	^ self innerElement innerRadius
+]
+
+{ #category : #accessing }
 ToCircularMenuList >> innerRadius: aFloat [
 
+	(self innerRadius closeTo: aFloat) ifTrue: [ ^ self ].
 	self innerElement innerRadius: aFloat
 ]
 

@@ -25,5 +25,5 @@ ToActionMeasurement >> initialize [
 { #category : #api }
 ToActionMeasurement >> onMeasure: anExtentMeasurementSpec element: anElement onEvent: anEvent [
 
-	action value: anExtentMeasurementSpec value: anElement value: anEvent 
+	action cull: anExtentMeasurementSpec cull: anElement cull: anEvent 
 ]

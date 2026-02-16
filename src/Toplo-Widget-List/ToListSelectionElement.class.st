@@ -1,12 +1,8 @@
 Class {
 	#name : #ToListSelectionElement,
 	#superclass : #ToElement,
-	#instVars : [
-		'listElement',
-		'selectionOption',
-		'nodeContainers',
-		'precomputedBounds'
-	],
+	#traits : 'TToListSelectionElement',
+	#classTraits : 'TToListSelectionElement classTrait',
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
@@ -41,103 +37,9 @@ ToListSelectionElement >> boundsInListElement: aListElement [
 		  (self sizeFrom: corner - startBnds origin in: aListElement)
 ]
 
-{ #category : #comparing }
-ToListSelectionElement >> equals: other [
-
-	self class = other class ifFalse: [ ^ false ].
-	listElement = other listElement ifFalse: [ ^ false ].
-	selectionOption = other selectionOption ifFalse: [ ^ false ].
-	nodeContainers = other nodeContainers ifFalse: [ ^ false ].
-	precomputedBounds = other precomputedBounds ifFalse: [ ^ false ].
-	^ true
-]
-
 { #category : #initialization }
 ToListSelectionElement >> initialize [
 
 	super initialize.
-	self constraintsDo: [ :c | c ignoreByLayout ].
-	self focusability: BlFocusability ignore.
-	" must prevent mouse events for the scrolling events "
-	self preventMouseEvents.
-	self outskirts: BlOutskirts inside
-]
-
-{ #category : #accessing }
-ToListSelectionElement >> isBeneath [
-
-	^ selectionOption isBeneath
-]
-
-{ #category : #'focus testing' }
-ToListSelectionElement >> isFocusable [
-	" a selection element can't have the focus "
-
-	^ false
-]
-
-{ #category : #accessing }
-ToListSelectionElement >> listElement [
-
-	^ listElement
-]
-
-{ #category : #accessing }
-ToListSelectionElement >> nodeContainer [
-
-	^ nodeContainers first
-]
-
-{ #category : #accessing }
-ToListSelectionElement >> nodeContainers [
-
-	^ nodeContainers
-]
-
-{ #category : #accessing }
-ToListSelectionElement >> nodeContainers: aNodeContainerArray listElement: aListElement [
-
-	| bnds |
-	nodeContainers := aNodeContainerArray.
-	listElement := aListElement.
-	bnds := self precomputedBoundsIn: aListElement.
-	self position: bnds origin.
-	self extent: bnds extent
-]
-
-{ #category : #private }
-ToListSelectionElement >> positionFrom: aPoint in: aListElement [
-
-	^ aPoint 
-]
-
-{ #category : #accessing }
-ToListSelectionElement >> precomputedBounds [
-
-	^ precomputedBounds
-]
-
-{ #category : #accessing }
-ToListSelectionElement >> precomputedBoundsIn: aListElement [
-
-	^ precomputedBounds ifNil: [
-		  precomputedBounds := self boundsInListElement: aListElement ]
-]
-
-{ #category : #accessing }
-ToListSelectionElement >> selectionOption [
-
-	^ selectionOption
-]
-
-{ #category : #accessing }
-ToListSelectionElement >> selectionOption: aSelectionOption [
-
-	selectionOption := aSelectionOption
-]
-
-{ #category : #private }
-ToListSelectionElement >> sizeFrom: aPoint in: aListElement [
-
-	^ aPoint
+	self initializeAsListSelectionElement 
 ]

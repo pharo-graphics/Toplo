@@ -108,7 +108,7 @@ ToIntrinsicStateTest >> testApplyOnChecked [
 	e addEventHandler: (BlEventHandler
 			 on: ToUncheckedSkinEvent
 			 do: [ :event | uncheckedEvt := event ]).
-	state := ToIntrinsicState new checked: true.
+	state := ToIntrinsicState new checkedSkinEvent: ToCheckedSkinEvent new.
 	state applyOn: e fromQueue: nil.
 	self assert: (checkedEvt isKindOf: ToCheckedSkinEvent)
 ]
@@ -129,10 +129,10 @@ ToIntrinsicStateTest >> testApplyOnCheckedWhenDisabled [
 	e addEventHandler: (BlEventHandler
 			 on: ToUncheckedSkinEvent
 			 do: [ :event | uncheckedEvt := event ]).
-	state := ToIntrinsicState new checked: true.
+	state := ToIntrinsicState new checkedSkinEvent: ToCheckedSkinEvent new.
 	state applyOn: e fromQueue: nil.
 	self assert: (checkedEvt isKindOf: ToCheckedSkinEvent).
-	state := ToIntrinsicState new checked: false.
+	state := ToIntrinsicState new checkedSkinEvent: ToUncheckedSkinEvent new.
 	state applyOn: e fromQueue: nil.
 	self assert: (uncheckedEvt isKindOf: ToUncheckedSkinEvent)
 ]
@@ -149,7 +149,7 @@ ToIntrinsicStateTest >> testApplyOnFocused [
 	e addEventHandler: (BlEventHandler
 			 on: ToUnfocusedSkinEvent
 			 do: [ :event | unfocusedEvt := event ]).
-	state := ToIntrinsicState new focused: true.
+	state := ToIntrinsicState new focusedSkinEvent: ToFocusedSkinEvent new.
 	state applyOn: e fromQueue: nil.
 	self assert: (focusedEvt isKindOf: ToFocusedSkinEvent).
 	self assert: unfocusedEvt isNil
@@ -171,10 +171,10 @@ ToIntrinsicStateTest >> testApplyOnFocusedWhenDisabled [
 	e addEventHandler: (BlEventHandler
 			 on: ToUnfocusedSkinEvent
 			 do: [ :event | unfocusedEvt := event ]).
-	state := ToIntrinsicState new focused: true.
+	state := ToIntrinsicState new focusedSkinEvent: ToFocusedSkinEvent new.
 	state applyOn: e fromQueue: nil.
 	self assert: (focusedEvt isKindOf: ToFocusedSkinEvent).
-	state := ToIntrinsicState new focused: false.
+	state := ToIntrinsicState new focusedSkinEvent: ToUnfocusedSkinEvent new.
 	state applyOn: e fromQueue: nil.
 	self assert: (unfocusedEvt isKindOf: ToUnfocusedSkinEvent)
 ]
@@ -191,7 +191,7 @@ ToIntrinsicStateTest >> testApplyOnUnchecked [
 	e addEventHandler: (BlEventHandler
 			 on: ToUncheckedSkinEvent
 			 do: [ :event | uncheckedEvt := event ]).
-	state := ToIntrinsicState new checked: false.
+	state := ToIntrinsicState new checkedSkinEvent: ToUncheckedSkinEvent new.
 	state applyOn: e fromQueue: nil.
 	self assert: (uncheckedEvt isKindOf: ToUncheckedSkinEvent)
 ]
@@ -208,7 +208,7 @@ ToIntrinsicStateTest >> testApplyOnUnfocused [
 	e addEventHandler: (BlEventHandler
 			 on: ToUnfocusedSkinEvent
 			 do: [ :event | unfocusedEvt := event ]).
-	state := ToIntrinsicState new focused: false.
+	state := ToIntrinsicState new focusedSkinEvent: ToUnfocusedSkinEvent new.
 	state applyOn: e fromQueue: nil.
 	self assert: (unfocusedEvt isKindOf: ToUnfocusedSkinEvent).
 	self assert: focusedEvt isNil

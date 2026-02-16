@@ -105,9 +105,10 @@ ToMixedEventGeneratorHandler >> newStartEvent [
 { #category : #'event handling' }
 ToMixedEventGeneratorHandler >> newStopEvent [
 
-	^ stopEventClass new
-		  emitter: self;
-		  yourself
+	^ stopEventClass ifNotNil: [ :cls |
+			  cls new
+				  emitter: self;
+				  yourself ]
 ]
 
 { #category : #'event handling' }

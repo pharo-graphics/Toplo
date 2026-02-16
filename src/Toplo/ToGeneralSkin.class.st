@@ -118,6 +118,10 @@ ToGeneralSkin >> releasedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToGeneralSkin >> selectableSkinEvent: anEvent [
+]
+
+{ #category : #'event handling' }
 ToGeneralSkin >> selectedSkinEvent: anEvent [
 
 ]
@@ -164,4 +168,8 @@ ToGeneralSkin >> unfocusedSkinEvent: anEvent [
 
 { #category : #'event handling' }
 ToGeneralSkin >> uninstallSkinEvent: anEvent [
+]
+
+{ #category : #'event handling' }
+ToGeneralSkin >> unselectableSkinEvent: anEvent [
 ]

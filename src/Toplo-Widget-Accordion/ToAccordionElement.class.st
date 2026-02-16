@@ -10,6 +10,13 @@ Class {
 	#category : #'Toplo-Widget-Accordion'
 }
 
+{ #category : #configuration }
+ToAccordionElement >> applyConfiguration [ 
+
+	super applyConfiguration.
+	self applyConfigurationAsListItem
+]
+
 { #category : #accessing }
 ToAccordionElement >> bodyBuilder: aValuable [
 	"With a body content as argument"

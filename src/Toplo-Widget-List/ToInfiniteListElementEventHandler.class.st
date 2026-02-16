@@ -9,7 +9,7 @@ ToInfiniteListElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEve
 
 	| listElement |
 	listElement := anEvent currentTarget listElement.
-	listElement forceUpdateAllSelectionsNow.
+	listElement updateAllSelections.
 	listElement requestMouseMoveReplay
 ]
 
@@ -21,7 +21,7 @@ ToInfiniteListElementEventHandler >> elementScrolledEvent: anEvent [
 			anEvent consume.
 			^ self ].
 	listElement := anEvent currentTarget listElement.
-	listElement forceUpdateAllSelectionsNow.
+	listElement updateAllSelections.
 	listElement requestMouseMoveReplay
 ]
 

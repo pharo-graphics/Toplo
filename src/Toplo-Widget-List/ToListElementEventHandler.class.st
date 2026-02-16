@@ -33,9 +33,6 @@ ToListElementEventHandler >> doubleClickEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
-	" first, inform the node that a double click is received "
-	target innerElement nodeContainersDo: [ :container |
-		container dispatchEvent: anEvent copy ].
 	target dispatchEvent: (ToListStrongSelectionEvent new
 			 indexes: target selectionModel selectedIndexes;
 			 yourself).
@@ -47,7 +44,7 @@ ToListElementEventHandler >> elementExtentChangedEvent: anEvent [
 
 	| listElement |
 	listElement := anEvent currentTarget.
-	listElement forceUpdateAllSelectionsNow
+	listElement updateAllSelections
 ]
 
 { #category : #'api - accessing' }
@@ -58,6 +55,7 @@ ToListElementEventHandler >> eventsToHandle [
 		  BlBlurEvent.
 		  ToAddedToSpaceEvent.
 
+		  BlMouseLeaveEvent.
 		  BlMouseDownEvent.
 		  BlMouseUpEvent.
 		  BlClickEvent.
@@ -147,6 +145,14 @@ ToListElementEventHandler >> mouseDownEvent: anEvent [
 	| listElement |
 	listElement := anEvent currentTarget.
 	listElement stopScroll
+]
+
+{ #category : #'mouse handlers' }
+ToListElementEventHandler >> mouseLeaveEvent: anEvent [
+
+	anEvent currentTarget secondarySelecter deselectAll.
+	anEvent currentTarget requestLayout
+
 ]
 
 { #category : #'mouse handlers' }

@@ -3,7 +3,6 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'selectionOption',
-		'representationChanged',
 		'representation'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
@@ -27,29 +26,16 @@ ToListSelectionRepresentationVariant class >> separate [
 	^ ToListSelectionWithSeparateElementVariant new
 ]
 
-{ #category : #'private - selection updating' }
-ToListSelectionRepresentationVariant >> checkRepresentationIn: aListElement withSelectionModel: aSelectionModel forceUpdate: aBoolean [
+{ #category : #accessing }
+ToListSelectionRepresentationVariant >> deselectionSkinEventClass [
 
-	| nextRepresentation |
-	nextRepresentation := self
-		                      nextRepresentationIn: aListElement
-		                      withSelectionModel: aSelectionModel.
-	representationChanged := aBoolean
-		                         ifTrue: [ true ]
-		                         ifFalse: [
-		                         (nextRepresentation equivalentTo:
-			                          representation) not ].
-	representationChanged ifFalse: [ ^ self ].
-	representation := nextRepresentation.
-	self notifyNodesDeselectedIn: aListElement.
-	self removeAllSelectionElements
+	^ selectionOption deselectionSkinEventClass
 ]
 
 { #category : #initialization }
 ToListSelectionRepresentationVariant >> initialize [ 
 
 	super initialize.
-	representationChanged := true.
 	representation := ToEmptySelectionRepresentation new
 ]
 
@@ -72,18 +58,17 @@ ToListSelectionRepresentationVariant >> isMasked [
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionRepresentationVariant >> newSelectionRepresentationArrayFrom: aListElement withSelectionModel: aSelectionModel [
+ToListSelectionRepresentationVariant >> newSelectionRepresentationArrayFrom: aListElement [ 
 
 	^ self subclassResponsibility 
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionRepresentationVariant >> nextRepresentationIn: aListElement withSelectionModel: aSelectionModel [
+ToListSelectionRepresentationVariant >> nextRepresentationIn: aListElement [
 
 	| arr |
 	arr := self
-		       newSelectionRepresentationArrayFrom: aListElement
-		       withSelectionModel: aSelectionModel.
+		       newSelectionRepresentationArrayFrom: aListElement.
 	^ arr ifEmpty: [ ToEmptySelectionRepresentation new ] ifNotEmpty: [
 			  arr size > 1
 				  ifTrue: [
@@ -96,37 +81,42 @@ ToListSelectionRepresentationVariant >> nextRepresentationIn: aListElement withS
 { #category : #'private - selection notification' }
 ToListSelectionRepresentationVariant >> notifyNodeContainer: aNodeContainer deselectedIn: aListElement [
 
-	| holder |
+	| holder evt |
+	self deselectionSkinEventClass ifNil: [ ^ self ].
 	holder := aNodeContainer holder.
 	" am i in the selection ?"
-	holder isSelected ifTrue: [ ^ self ].
+	(self selectionModel containsIndex: holder position) ifTrue: [
+		^ self ].
 	" have I already notified a deselection ? "
-	holder canNotifyDeselection ifFalse: [ ^ self ].
-	holder notifyNodeSelectedEvent: (ToListNodeSelectedEvent new
-			 listElement: aListElement;
-			 selectionOption: selectionOption;
-			 selected: false)
+	(holder canNotifyDeselectionForOption: selectionOption) ifFalse: [
+		^ self ].
+	evt := self deselectionSkinEventClass new.
+	evt holder: holder.
+	evt selectionOption: selectionOption.
+	holder notifySelectedSkinEvent: evt
 ]
 
 { #category : #'private - selection notification' }
 ToListSelectionRepresentationVariant >> notifyNodeContainer: aNodeContainer selectedIn: aListElement [
 
-	| holder |
+	| holder evt |
+	self selectionSkinEventClass ifNil: [ ^ self ].
 	holder := aNodeContainer holder.
 	" am i in the selection ?"
-	holder isSelected ifFalse: [ ^ self ].
+	(self selectionModel containsIndex: holder position) ifFalse: [
+		^ self ].
 	" have I already notified a deselection ? "
-	holder canNotifySelection ifFalse: [ ^ self ].
-	holder notifyNodeSelectedEvent: (ToListNodeSelectedEvent new
-			 listElement: aListElement;
-			 selectionOption: selectionOption;
-			 selected: true)
+	(holder canNotifySelectionForOption: selectionOption) ifFalse: [
+		^ self ].
+	evt := self selectionSkinEventClass new.
+	evt holder: holder.
+	evt selectionOption: selectionOption.
+	holder notifySelectedSkinEvent: evt
 ]
 
 { #category : #'private - selection notification' }
 ToListSelectionRepresentationVariant >> notifyNodesDeselectedIn: aListElement [
 
-	self selectionMode isPrimary ifFalse: [ ^ self ].
 	aListElement nodeContainersDo: [ :container |
 		self notifyNodeContainer: container deselectedIn: aListElement ]
 ]
@@ -134,7 +124,6 @@ ToListSelectionRepresentationVariant >> notifyNodesDeselectedIn: aListElement [
 { #category : #'private - selection notification' }
 ToListSelectionRepresentationVariant >> notifyNodesSelectedIn: aListElement [
 
-	self selectionMode isPrimary ifFalse: [ ^ self ].
 	aListElement nodeContainersDo: [ :container |
 		self notifyNodeContainer: container selectedIn: aListElement ]
 ]
@@ -147,7 +136,7 @@ ToListSelectionRepresentationVariant >> removeAllSelectionElements [
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionRepresentationVariant >> selectedNodeContainersFrom: aListElement withSelectionModel: aSelectionModel [
+ToListSelectionRepresentationVariant >> selectedNodeContainersFrom: aListElement [ 
 
 	^ self subclassResponsibility 
 ]
@@ -166,7 +155,27 @@ ToListSelectionRepresentationVariant >> selectionMode [
 ]
 
 { #category : #accessing }
+ToListSelectionRepresentationVariant >> selectionModel [
+
+	^ self selectionMode selectionModel
+]
+
+{ #category : #accessing }
 ToListSelectionRepresentationVariant >> selectionOption: aSelectionOption [
 
 	selectionOption := aSelectionOption 
+]
+
+{ #category : #accessing }
+ToListSelectionRepresentationVariant >> selectionSkinEventClass [
+
+	^ selectionOption selectionSkinEventClass
+]
+
+{ #category : #'private - selection updating' }
+ToListSelectionRepresentationVariant >> updateRepresentationIn: aListElement [
+
+	representation := self nextRepresentationIn: aListElement.
+	self notifyNodesDeselectedIn: aListElement.
+	self removeAllSelectionElements
 ]

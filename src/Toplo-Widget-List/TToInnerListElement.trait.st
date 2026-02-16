@@ -1,7 +1,18 @@
 Trait {
 	#name : #TToInnerListElement,
+	#instVars : [
+		'listElement'
+	],
 	#category : #'Toplo-Widget-List-InnerList'
 }
+
+{ #category : #'t - inner list element' }
+TToInnerListElement classSide >> onListElement: aListElement [
+
+	^ self basicNew
+		  onListElement: aListElement;
+		  initialize
+]
 
 { #category : #'t - inner list element' }
 TToInnerListElement >> disableScrolledEvent [
@@ -24,6 +35,18 @@ TToInnerListElement >> findElementHolderForDataSourcePosition: aPosition [
 		holder := container holder.
 		holder position = aPosition ifTrue: [ ^ holder ] ].
 	^ nil
+]
+
+{ #category : #'t - inner list element' }
+TToInnerListElement >> isOrientable [
+
+	^ self layout isOrientable
+]
+
+{ #category : #'t - inner list element' }
+TToInnerListElement >> listElement [ 
+
+	^ listElement
 ]
 
 { #category : #'t - inner list element' }
@@ -123,6 +146,13 @@ TToInnerListElement >> onAppliedDataSourceSieveCommand: aDataSourceCommand [
 	self listElement onAppliedDataSourceSieveCommand: aDataSourceCommand
 ]
 
+{ #category : #'t - inner list element' }
+TToInnerListElement >> onListElement: aListElement [
+
+	listElement ifNotNil: [ BlImmutableObjectChangeError signal ].
+	listElement := aListElement
+]
+
 { #category : #'t - inner list element - requirements' }
 TToInnerListElement >> partlyVisibleNodesDo: aBlock [
 
@@ -144,6 +174,14 @@ TToInnerListElement >> selectableNodeContainingGlobalPosition: aPoint [
 		((container containsGlobalPoint: aPoint) and: [ container holder isSelectable ])
 			ifTrue: [ ^ container ] ].
 	^ nil
+]
+
+{ #category : #'t - inner list element' }
+TToInnerListElement >> selectableNodeContainingGlobalPosition: aPoint do: aValuable ifNone: altValuable [
+
+	(self selectableNodeContainingGlobalPosition: aPoint)
+		ifNotNil: [ :nodeContainer | aValuable value: nodeContainer ]
+		ifNil: [ altValuable value ]
 ]
 
 { #category : #'t - inner list element' }

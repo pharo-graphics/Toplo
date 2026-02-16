@@ -34,60 +34,6 @@ ToListConfiguration >> autoDistribute: anObject [
 	autoDistribute := anObject 
 ]
 
-{ #category : #'node configuration' }
-ToListConfiguration >> configureFakeNodeContainer: aNodeContainer [
-
-	self configureNodeContainer: aNodeContainer.
-
-	aNodeContainer holder listElement isHorizontal
-		ifTrue: [
-				aNodeContainer vFitContent.
-				aNodeContainer width: 0.
-				aNodeContainer margin: ((aNodeContainer margin withLeft: 0)
-						 withRight: 0;
-						 yourself) ]
-		ifFalse: [
-				aNodeContainer hFitContent.
-				aNodeContainer height: 0.
-				aNodeContainer margin: ((aNodeContainer margin withTop: 0)
-						 withBottom: 0;
-						 yourself) ]
-]
-
-{ #category : #'node configuration' }
-ToListConfiguration >> configureNode: aNode [
-
-
-	exactNodeWidth ifNotNil: [ :w | aNode hExact: w ].
-	exactNodeHeight ifNotNil: [ :h | aNode vExact: h ].
-
-	aNode isHExact ifFalse: [ aNode hMatchParent ].
-	aNode isVExact ifFalse: [ aNode vMatchParent ]
-]
-
-{ #category : #'node configuration' }
-ToListConfiguration >> configureNodeContainer: aNodeContainer [
-
-	| listElement |
-	listElement := aNodeContainer holder listElement.
-
-	(listElement useInfiniteLayout not and: [ isFlowable ]) ifTrue: [
-		^ aNodeContainer exactOrFitContent ].
-
-	listElement isVertical ifTrue: [
-			aNodeContainer hMatchParent.
-			(listElement useInfiniteLayout not and: [ autoDistribute ])
-				ifTrue: [ aNodeContainer vMatchParent ]
-				ifFalse: [ aNodeContainer vExactOrFitContent ].
-			^ self ].
-
-	" horizontal case "
-	aNodeContainer vMatchParent.
-	(listElement useInfiniteLayout not and: [ autoDistribute ])
-		ifTrue: [ aNodeContainer hMatchParent ]
-		ifFalse: [ aNodeContainer hExactOrFitContent ]
-]
-
 { #category : #accessing }
 ToListConfiguration >> exactNodeHeight [
 

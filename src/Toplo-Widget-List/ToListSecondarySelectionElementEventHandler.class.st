@@ -7,7 +7,7 @@ Class {
 { #category : #'api - accessing' }
 ToListSecondarySelectionElementEventHandler >> eventsToHandle [
 
-	^ super eventsToHandle, {
+	^ super eventsToHandle , {
 		  ToListSecondarySelectionChangedEvent.
 		  BlMouseMoveEvent }
 ]
@@ -21,15 +21,13 @@ ToListSecondarySelectionElementEventHandler >> listSecondarySelectionChangedEven
 { #category : #'mouse handlers' }
 ToListSecondarySelectionElementEventHandler >> mouseMoveEvent: anEvent [
 
-	| target nodeContainer globalPosition childNode |
+	| target innerElement |
 	target := anEvent currentTarget.
 	target isEnabled ifFalse: [ ^ self ].
-	nodeContainer := target innerElement.
-	globalPosition := anEvent position.
+	innerElement := target innerElement.
 
-	childNode := nodeContainer selectableNodeContainingGlobalPosition: globalPosition.
-	childNode ifNil: [
-		target secondarySelecter deselectAll.
-		^ self ].
-	target secondarySelecter selectOnlyIndex: childNode holder position
+	innerElement
+		selectableNodeContainingGlobalPosition: anEvent position
+		do: [ :nodeContainer | target secondarySelecter selectOnlyIndex: nodeContainer holder position ]
+		ifNone: [ target secondarySelecter deselectAll ]
 ]

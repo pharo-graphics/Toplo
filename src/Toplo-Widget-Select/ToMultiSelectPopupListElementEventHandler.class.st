@@ -13,13 +13,15 @@ ToMultiSelectPopupListElementEventHandler >> eventsToHandle [
 { #category : #'event handling' }
 ToMultiSelectPopupListElementEventHandler >> selectGroupSelectionChangedEvent: anEvent [
 
-	|  listElement |
+	| listElement |
 	listElement := anEvent currentTarget.
-	listElement selectedIndexesIntervalsDo: [ :int |
-		listElement disabledSelecter selectIndex: int first to: int last.
-		self flag: 'Given that the list is initialized with #makeDisabledUnselectable: true, having to unselect here is not desired. It is necessary here because instead, the secondary selection can be on a group index.'.
-		listElement unselectableSelecter selectIndex: int first to: int last.
-		listElement dataSource notifyItemsChanged: int ]
+	listElement groupSelectionModel selectedIndexesIntervalsDo: [ :int |
+			listElement disabledSelecter selectIndex: int first to: int last.
+			self flag:
+				'Given that the list is initialized with #makeDisabledUnselectable: true, having to unselect here is not desired. It is necessary here because instead, the secondary selection can be on a group index.'.
+			"listElement unselectableSelecter selectIndex: int first to: int last"
+			self flag: 'Check why this notification is necessary'.
+			listElement dataSource notifyItemsChanged: int ]
 ]
 
 { #category : #'event handling' }

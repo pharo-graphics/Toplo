@@ -72,6 +72,7 @@ ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 			layoutWriter.
 			directionWriter }.
 
+	w skinManager skinStateQueue enqueueUninstallStateFor: w.
 	w skinManager skinStateQueue enqueueInstallStateFor: w.
 	w skinManagerDo: [ :sm | sm applyEnqueuedStatesFor: w ].
 	self assert: (w layout isKindOf: BlLinearLayout).

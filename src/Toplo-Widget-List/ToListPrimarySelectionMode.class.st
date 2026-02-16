@@ -29,6 +29,8 @@ ToListPrimarySelectionMode >> defaultSelectionOption [
 		  grouped: true;
 		  beneath: true;
 		  masked: false;
+		  selectionSkinEventClass: ToSelectedSkinEvent;
+		  deselectionSkinEventClass: ToDeselectedSkinEvent;
 		  elementFactory: [ ToListPrimarySelectionElement new ]
 ]
 
@@ -227,4 +229,12 @@ ToListPrimarySelectionMode >> selectionChangedEventClass [
 ToListPrimarySelectionMode >> single: aBoolean [
 
 	self multiple: aBoolean not
+]
+
+{ #category : #initialization }
+ToListPrimarySelectionMode >> withDefaultSelectionSkinEvents [
+
+	selectionOption
+		selectionSkinEventClass: ToSelectedSkinEvent;
+		deselectionSkinEventClass: ToDeselectedSkinEvent
 ]

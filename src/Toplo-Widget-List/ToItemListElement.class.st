@@ -6,12 +6,6 @@ Class {
 	#category : #'Toplo-Widget-List-ItemList'
 }
 
-{ #category : #'t - finite list element - fake container' }
-ToItemListElement >> defaultFakeDataItem [
-
-	^ ToListItem new
-]
-
 { #category : #initialization }
 ToItemListElement >> defaultNodeManagerClass [
 
@@ -29,10 +23,4 @@ ToItemListElement >> initialize [
 ToItemListElement >> newRawSkin [ 
 
 	^ ToItemListElementSkin new
-]
-
-{ #category : #configuration }
-ToItemListElement >> newToConfiguration [ 
-
-	^ ToItemListConfiguration new
 ]

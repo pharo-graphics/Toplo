@@ -6,17 +6,6 @@ Class {
 	#category : #'Toplo-Widget-Select-Multi'
 }
 
-{ #category : #configuration }
-ToMultiSelectHeaderNode >> applyConfiguration [
-
-	super applyConfiguration.
-	self listHolderDo: [ :h |
-			h listElement toConfiguration autoDistribute
-				ifTrue: [ self hMatchParent ]
-				ifFalse: [ self hFitContent ] ].
-
-]
-
 { #category : #initialization }
 ToMultiSelectHeaderNode >> initialize [ 
 

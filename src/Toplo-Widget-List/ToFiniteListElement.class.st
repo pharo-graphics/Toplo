@@ -6,25 +6,19 @@ Class {
 	#category : #'Toplo-Widget-List-InnerList-Finite'
 }
 
-{ #category : #'instance creation' }
-ToFiniteListElement class >> onListElement: aListElement [
-
-	^ self basicNew
-		  onListElement: aListElement;
-		  initialize
-]
-
 { #category : #'t - inner finite list element - requirements' }
-ToFiniteListElement >> addHolder: anHolder at: aPosition [
+ToFiniteListElement >> addNodeContainer: aNodeContainer at: aPosition [
 
-	self addChild: anHolder nodeContainer at: aPosition
+	self addChild: aNodeContainer at: aPosition
 ]
 
 { #category : #configuration }
 ToFiniteListElement >> applyConfiguration [
 
 	super applyConfiguration.
-	self horizontal: self listElement isHorizontal.
+	self listElement isHorizontal
+		ifTrue: [ self layout beHorizontal ]
+		ifFalse: [ self layout beVertical ].
 	self applyInnerFiniteListElementConfiguration 
 ]
 
@@ -32,14 +26,6 @@ ToFiniteListElement >> applyConfiguration [
 ToFiniteListElement >> defaultLayout [ 
 
 	^ BlLinearLayout vertical
-]
-
-{ #category : #configuration }
-ToFiniteListElement >> horizontal: aBoolean [
-
-	aBoolean
-		ifTrue: [ self layout beHorizontal ]
-		ifFalse: [ self layout beVertical ]
 ]
 
 { #category : #initialization }

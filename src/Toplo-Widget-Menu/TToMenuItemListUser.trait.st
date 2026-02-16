@@ -21,8 +21,8 @@ TToMenuItemListUser >> addSeparatorBeforeIndex: anInteger [
 	self addItem: ToSeparatorMenuItem new beforeIndex: anInteger
 ]
 
-{ #category : #initialization }
-TToMenuItemListUser >> initializeAsMenuItemBarContainer [
+{ #category : #'t - menu item list user - initializing' }
+TToMenuItemListUser >> initializeAsMenuItemListUser [
 
 	self itemList menuListOwner: self
 ]

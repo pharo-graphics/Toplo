@@ -68,24 +68,23 @@ ToListSelectionWithSeparateElementVariant >> checkPreviousSelectionBoundsWith: a
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionWithSeparateElementVariant >> newSelectionRepresentationArrayFrom: aListElement withSelectionModel: aSelectionModel [
+ToListSelectionWithSeparateElementVariant >> newSelectionRepresentationArrayFrom: aListElement [
 
-	^ (self
-		   selectedNodeContainersFrom: aListElement
-		   withSelectionModel: aSelectionModel) collect: [ :container |
+	^ (self selectedNodeContainersFrom: aListElement) collect: [
+			  :container |
 			  ToSeparateSelection new
 				  node: container;
 				  yourself ]
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionWithSeparateElementVariant >> selectedNodeContainersFrom: aListElement withSelectionModel: aSelectionModel [
+ToListSelectionWithSeparateElementVariant >> selectedNodeContainersFrom: aListElement [ 
 
 	^ aListElement nodeContainersSelect: [ :container |
 			  | idx |
 			  idx := container holder position.
-			  (aSelectionModel containsIndex: idx) and: [
-				  aSelectionModel isVisibleIndex: idx ] ]
+			  (self selectionModel containsIndex: idx) and: [
+				  self selectionModel isVisibleIndex: idx ] ]
 ]
 
 { #category : #'private - selection updating' }

@@ -1,6 +1,8 @@
 Class {
 	#name : #ToTabListElement,
 	#superclass : #ToCheckableListElement,
+	#traits : 'TToListFakeNodeUser',
+	#classTraits : 'TToListFakeNodeUser classTrait',
 	#instVars : [
 		'atStartSide'
 	],
@@ -21,7 +23,7 @@ ToTabListElement >> atStartSide: aBoolean [
 	self requestConfiguration
 ]
 
-{ #category : #'t - finite list element - fake container' }
+{ #category : #'t - list fake node user' }
 ToTabListElement >> defaultFakeDataItem [
 
 	^ ToTabItemElement new
@@ -69,10 +71,4 @@ ToTabListElement >> isAtStartSide [
 ToTabListElement >> newRawSkin [ 
 
 	^ ToTabListElementSkin new
-]
-
-{ #category : #configuration }
-ToTabListElement >> newToConfiguration [ 
-
-	^ ToTabListConfiguration new
 ]

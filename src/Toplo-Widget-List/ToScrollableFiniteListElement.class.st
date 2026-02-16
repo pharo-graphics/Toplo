@@ -9,18 +9,10 @@ Class {
 	#category : #'Toplo-Widget-List-InnerList-Finite'
 }
 
-{ #category : #'instance creation' }
-ToScrollableFiniteListElement class >> onListElement: aListElement [
-
-	^ self basicNew
-		  onListElement: aListElement;
-		  initialize
-]
-
 { #category : #'t - inner finite list element - requirements' }
-ToScrollableFiniteListElement >> addHolder: anHolder at: aPosition [
+ToScrollableFiniteListElement >> addNodeContainer: aNodeContainer at: aPosition [
 
-	trackElement addChild: anHolder nodeContainer at: aPosition
+	trackElement addChild: aNodeContainer at: aPosition
 ]
 
 { #category : #configuration }
@@ -48,6 +40,12 @@ ToScrollableFiniteListElement >> initialize [
 	self initializeAsToInnerFiniteElement.
 	self trackElement: self trackElementClass new.
 
+]
+
+{ #category : #'t - inner list element' }
+ToScrollableFiniteListElement >> isOrientable [
+
+	^ true
 ]
 
 { #category : #'t - inner list element - requirements' }

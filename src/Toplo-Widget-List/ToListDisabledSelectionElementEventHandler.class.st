@@ -13,13 +13,12 @@ ToListDisabledSelectionElementEventHandler >> eventsToHandle [
 { #category : #'element handlers' }
 ToListDisabledSelectionElementEventHandler >> listDisabledSelectionChangedEvent: anEvent [
 
-	| target |
-	target := anEvent currentTarget.
+	| listElement |
+	listElement := anEvent currentTarget.
 	self updateSelectionFromEvent: anEvent.
-	" have to postpone to avoid having a datasource change during the layout "
-	target postponeAction: [
-			anEvent selectionModel selectedIndexesIntervalsDo: [ :int |
-					target selectionMode makeDisabledUnselectable ifTrue: [
-						target selecter deselectInterval: int ].
-					target dataSource notifyItemsChanged: int ] ]
+	anEvent selectionModel selectedIndexesIntervalsDo: [ :int |
+			listElement selectionMode makeDisabledUnselectable ifTrue: [
+				listElement selecter deselectInterval: int ] ].
+	listElement useCheckbox ifFalse: [ ^ self ].
+	listElement requestUpdateCheckboxes
 ]

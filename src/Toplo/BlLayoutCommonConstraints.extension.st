@@ -1,6 +1,18 @@
 Extension { #name : #BlLayoutCommonConstraints }
 
 { #category : #'*Toplo' }
+BlLayoutCommonConstraints >> annulus [
+
+	^ self at: ToAnnulusCircularLayout 
+]
+
+{ #category : #'*Toplo' }
+BlLayoutCommonConstraints >> annulusSector [
+
+	^ self at: ToAnnulusSectorLayout 
+]
+
+{ #category : #'*Toplo' }
 BlLayoutCommonConstraints >> hasInfinite [
 
 	^ self hasConstraintsForLayout: BlInfiniteLayout

@@ -14,7 +14,6 @@ ToMenuPaneEventHandler >> elementExtentChangedEvent: anEvent [
 ToMenuPaneEventHandler >> eventsToHandle [
 
 	^ {
-		  BlMouseLeaveEvent.
 		  BlMouseOverEvent.
 		  BlMouseUpEvent.
 		  BlLayoutResizerChangedEvent.
@@ -25,12 +24,6 @@ ToMenuPaneEventHandler >> eventsToHandle [
 ToMenuPaneEventHandler >> layoutResizerChangedEvent: anEvent [
 
 	anEvent currentTarget requestConfiguration
-]
-
-{ #category : #'event handling' }
-ToMenuPaneEventHandler >> mouseLeaveEvent: anEvent [
-
-	anEvent currentTarget itemList secondarySelecter deselectAll
 ]
 
 { #category : #'event handling' }

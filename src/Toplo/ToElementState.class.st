@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Core-States'
 }
 
-{ #category : #'look event sending' }
+{ #category : #'skin dispatching' }
 ToElementState >> applyOn: anElement fromQueue: aQueue [
 
 	self subclassResponsibility 

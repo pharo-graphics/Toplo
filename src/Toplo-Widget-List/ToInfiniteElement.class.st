@@ -9,14 +9,6 @@ Class {
 	#category : #'Toplo-Widget-List-InnerList-Infinite'
 }
 
-{ #category : #'instance creation' }
-ToInfiniteElement class >> onListElement: aListElement [
-
-	^ self basicNew
-		  onListElement: aListElement;
-		  initialize
-]
-
 { #category : #'private - commands' }
 ToInfiniteElement >> addedDataSourceCommand: aCommand [
 
@@ -100,10 +92,7 @@ ToInfiniteElement >> dispatchLayoutFinalStep [
 
 	super dispatchLayoutFinalStep.
 	self assert: dataSourceManager hasCommands not.
-	self consumeFinalStepCommands.
-	"If an element bounds change then the selection bounds may be obsolete"
-	self boundsUpdaterHasChanges ifTrue: [ listElement requestUpdateAllSelections ].
-
+	self consumeFinalStepCommands
 ]
 
 { #category : #'t - inner list element' }
@@ -170,12 +159,6 @@ ToInfiniteElement >> nodeContainers [
 ToInfiniteElement >> nodeContainersDo: aBlock [
 
 	self childrenDo: [ :node | aBlock value: node ]
-]
-
-{ #category : #initialization }
-ToInfiniteElement >> onListElement: aListElement [
-
-	listElement := aListElement
 ]
 
 { #category : #'t - inner list element - requirements' }

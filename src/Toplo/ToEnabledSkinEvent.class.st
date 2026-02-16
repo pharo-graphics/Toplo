@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Core-SkinEvents'
 }
 
+{ #category : #accessing }
+ToEnabledSkinEvent >> enabled [ 
+
+	^ true
+]
+
 { #category : #sending }
 ToEnabledSkinEvent >> sendTo: anObject [
 

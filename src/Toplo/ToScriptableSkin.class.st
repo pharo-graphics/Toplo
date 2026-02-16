@@ -152,6 +152,12 @@ ToScriptableSkin >> onReleasedSkinEvent: aValuable [
 ]
 
 { #category : #'event handling' }
+ToScriptableSkin >> onSelectableSkinEvent: aValuable [
+
+	handlerMap at: ToSelectableSkinEvent put: aValuable
+]
+
+{ #category : #'event handling' }
 ToScriptableSkin >> onSelectedSkinEvent: aValuable [
 
 	handlerMap at: ToSelectedSkinEvent put: aValuable
@@ -185,4 +191,10 @@ ToScriptableSkin >> onUnfocusedSkinEvent: aValuable [
 ToScriptableSkin >> onUninstallSkinEvent: aValuable [
 
 	handlerMap at: ToUnfocusedSkinEvent put: aValuable
+]
+
+{ #category : #'event handling' }
+ToScriptableSkin >> onUnselectableSkinEvent: aValuable [
+
+	handlerMap at: ToUnselectableSkinEvent put: aValuable
 ]

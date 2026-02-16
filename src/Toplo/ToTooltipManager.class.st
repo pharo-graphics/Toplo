@@ -24,12 +24,6 @@ ToTooltipManager >> defaultPopupDelay [
 ]
 
 { #category : #initialization }
-ToTooltipManager >> defaultWindowFactory [
-
-	^ [ ToTooltipWindow ]
-]
-
-{ #category : #initialization }
 ToTooltipManager >> initialize [
 
 	super initialize.
@@ -56,4 +50,10 @@ ToTooltipManager >> mouseUpEvent: anEvent [
 	self resetPopupHandlerOnEvent: anEvent.
 	closeOnReleased ifFalse: [ ^ self ].
 	super mouseUpEvent: anEvent
+]
+
+{ #category : #initialization }
+ToTooltipManager >> windowClass [
+
+	^ ToTooltipWindow
 ]

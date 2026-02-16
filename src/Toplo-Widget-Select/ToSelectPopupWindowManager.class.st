@@ -40,12 +40,6 @@ ToSelectPopupWindowManager >> defaultPlacement [
 		  yourself
 ]
 
-{ #category : #initialization }
-ToSelectPopupWindowManager >> defaultWindowFactory [
-
-	^ [ ToSelectPopupWindow ]
-]
-
 { #category : #accessing }
 ToSelectPopupWindowManager >> listElement [
 
@@ -161,6 +155,12 @@ ToSelectPopupWindowManager >> requestCloseWindowOnEvent: anEvent [
 ToSelectPopupWindowManager >> sieve [ 
 
 	^ sieve
+]
+
+{ #category : #initialization }
+ToSelectPopupWindowManager >> windowClass [
+
+	^ ToSelectPopupWindow
 ]
 
 { #category : #accessing }

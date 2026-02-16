@@ -6,7 +6,7 @@ Trait {
 { #category : #'t - menu window model' }
 TToMenuWindowModel >> closeWindow [
 
-	^ self explicitRequirement 
+	^ self shouldBeImplemented 
 ]
 
 { #category : #'t - menu window model' }
@@ -18,13 +18,13 @@ TToMenuWindowModel >> hasInlineWindow [
 { #category : #'t - menu window model' }
 TToMenuWindowModel >> isTopMenu [
 
-	^ self explicitRequirement 
+	^ self shouldBeImplemented 
 ]
 
 { #category : #'t - menu window model' }
 TToMenuWindowModel >> menuWindow [
 
-	^ self explicitRequirement 
+	^ self shouldBeImplemented 
 ]
 
 { #category : #'t - menu window model' }

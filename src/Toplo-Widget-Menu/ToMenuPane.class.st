@@ -1,11 +1,12 @@
 Class {
 	#name : #ToMenuPane,
 	#superclass : #ToElement,
-	#traits : 'TToListItem + TToMenuItem + TToItemListUser + TToMenuItemListUser + TToOrientable',
-	#classTraits : 'TToListItem classTrait + TToMenuItem classTrait + TToItemListUser classTrait + TToMenuItemListUser classTrait + TToOrientable classTrait',
+	#traits : 'TToListItem + TToMenuItem + TToItemListOwner + TToItemListUser + TToMenuItemListUser + TToOrientable',
+	#classTraits : 'TToListItem classTrait + TToMenuItem classTrait + TToItemListOwner classTrait + TToItemListUser classTrait + TToMenuItemListUser classTrait + TToOrientable classTrait',
 	#instVars : [
 		'autoOpen',
-		'isSubPane'
+		'isSubPane',
+		'allowAutoOpenManagement'
 	],
 	#category : #'Toplo-Widget-Menu-Pane'
 }
@@ -32,13 +33,16 @@ ToMenuPane >> addFiller [
 	self addItem: ToMenuFiller new
 ]
 
-{ #category : #adding }
-ToMenuPane >> addMenu: aMenu [
+{ #category : #'auto opening' }
+ToMenuPane >> allowAutoOpenManagement [
 
-	self
-		deprecated: '#use addItem: instead'
-		transformWith: '`@rcvr addMenu: `@arg' -> '`@rcvr addItem: `@arg'.
-	self addItem: aMenu
+	^ allowAutoOpenManagement ifNil: [ allowAutoOpenManagement := true ]
+]
+
+{ #category : #'auto opening' }
+ToMenuPane >> allowAutoOpenManagement: aBoolean [
+
+	allowAutoOpenManagement := aBoolean
 ]
 
 { #category : #configuration }
@@ -47,13 +51,15 @@ ToMenuPane >> applyConfiguration [
 	( vertical direction in case of an horizontal bar )"
 
 	super applyConfiguration.
-	self itemList horizontal: self isHorizontal.
+	self itemList horizontal:
+		(self itemList isOrientable and: [ self isHorizontal ]).
 	self itemList constraintsDo: [ :c |
 			c linear vertical alignCenter.
 			c linear horizontal alignCenter ].
 	self itemList toConfiguration isScrollable: self isScrollable.
 	self itemList toConfiguration isFlowable: self isFlowable.
-	self itemList fitParent: self
+	self itemList fitParent: self.
+	self applyConfigurationAsListItem
 ]
 
 { #category : #'auto opening' }
@@ -63,15 +69,21 @@ ToMenuPane >> autoOpen [
 ]
 
 { #category : #'auto opening' }
-ToMenuPane >> autoOpen: anObject [
+ToMenuPane >> autoOpen: aBoolean [
 
-	autoOpen := anObject
+	autoOpen := aBoolean
 ]
 
 { #category : #'auto opening' }
 ToMenuPane >> cancelAutoOpen [
 
 	self rootMenuPane autoOpen: false
+]
+
+{ #category : #initialization }
+ToMenuPane >> defaultElevation [
+
+	^ BlRelativeElevation elevation: (SmallInteger maxVal - 400)
 ]
 
 { #category : #testing }
@@ -84,14 +96,15 @@ ToMenuPane >> hasInlineWindow [
 ToMenuPane >> initialize [
 
 	super initialize.
-	self initializeAsItemBarContainer.
-	self initializeAsMenuItemBarContainer.
+	self initializeAsItemListOwner.
+	self initializeAsMenuItemListUser.
 
 	autoOpen := false.
 	isSubPane := false.
 	self layout: BlLinearLayout horizontal.
 	self layout alignCenter.
 	self addEventHandler: ToMenuPaneEventHandler new.
+	self elevation: self defaultElevation.
 	self addChild: self itemList.
 	self isFlowable: false.
 	self isScrollable: false.
@@ -103,6 +116,18 @@ ToMenuPane >> initialize [
 ToMenuPane >> isAutoOpen [
 
 	^ self rootMenuPane autoOpen
+]
+
+{ #category : #'auto opening' }
+ToMenuPane >> isAutoOpenManagementAllowed [ 
+
+	^ self rootMenuPane allowAutoOpenManagement
+]
+
+{ #category : #'auto opening' }
+ToMenuPane >> isAutoOpenManagementAllowed: aBoolean [
+
+	^ self rootMenuPane allowAutoOpenManagement: aBoolean
 ]
 
 { #category : #'t - menu item' }
@@ -129,6 +154,12 @@ ToMenuPane >> isSubPane: aBoolean [
 	isSubPane := aBoolean
 ]
 
+{ #category : #'t - item list user - accessing' }
+ToMenuPane >> itemList [
+
+	^ itemList
+]
+
 { #category : #'t - menu window model' }
 ToMenuPane >> menuPane [
 
@@ -139,7 +170,7 @@ ToMenuPane >> menuPane [
 ToMenuPane >> menuWindowDo: aValuable [
 ]
 
-{ #category : #'t - item list holder - initializing' }
+{ #category : #'t - item list owner - initializing' }
 ToMenuPane >> newItemList [
 
 	^ ToMenuItemListElement new
@@ -169,15 +200,6 @@ ToMenuPane >> onRemovedFromItemBarOwner: aMenuItemBar [
 	aMenuItemBar onRemovedMenuPane: self
 ]
 
-{ #category : #adding }
-ToMenuPane >> removeMenu: aMenu [
-
-	self
-		deprecated: '#use removeItem: instead'
-		transformWith: '`@rcvr removeMenu: `@arg' -> '`@rcvr removeItem: `@arg'.
-	self removeItem: aMenu
-]
-
 { #category : #accessing }
 ToMenuPane >> rootMenuPane [
 
@@ -187,6 +209,7 @@ ToMenuPane >> rootMenuPane [
 { #category : #'auto opening' }
 ToMenuPane >> startAutoOpen [
 
+	self isAutoOpenManagementAllowed ifFalse: [ ^ self ].
 	self rootMenuPane autoOpen: true
 ]
 

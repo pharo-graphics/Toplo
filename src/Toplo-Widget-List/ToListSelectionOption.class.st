@@ -4,12 +4,14 @@ Class {
 	#traits : 'TObservable',
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
-		'#selectionMode',
 		'#masked => ObservableSlot',
+		'#selectionSkinEventClass => ObservableSlot',
+		'#deselectionSkinEventClass => ObservableSlot',
 		'#animationDuration',
 		'#beneath',
 		'#elementFactory',
 		'#selectionContainer',
+		'#selectionMode',
 		'#representationVariant'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
@@ -36,14 +38,6 @@ ToListSelectionOption >> beneath: aBoolean [
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionOption >> checkRepresentationIn: aListElement withSelectionModel: aSelectionModel forceUpdate: aBoolean [
-
-	representationVariant
-		checkRepresentationIn: aListElement withSelectionModel: aSelectionModel forceUpdate: aBoolean.
-	selectionMode dirty: false
-]
-
-{ #category : #'private - selection updating' }
 ToListSelectionOption >> checkSelectionContainerIn: aListElement [
 
 	masked ifTrue: [
@@ -54,6 +48,18 @@ ToListSelectionOption >> checkSelectionContainerIn: aListElement [
 	selectionContainer := self newSelectionContainerIn: aListElement.
 	selectionContainer beneath: beneath.
 	aListElement addChild: selectionContainer
+]
+
+{ #category : #accessing }
+ToListSelectionOption >> deselectionSkinEventClass [
+
+	^ deselectionSkinEventClass
+]
+
+{ #category : #accessing }
+ToListSelectionOption >> deselectionSkinEventClass: aSkinEventClass [
+
+	deselectionSkinEventClass := aSkinEventClass
 ]
 
 { #category : #accessing }
@@ -119,6 +125,12 @@ ToListSelectionOption >> isMasked [
 	^ masked 
 ]
 
+{ #category : #testing }
+ToListSelectionOption >> isPrimary [
+
+	^ selectionMode isPrimary
+]
+
 { #category : #accessing }
 ToListSelectionOption >> masked: aBoolean [
 
@@ -146,9 +158,16 @@ ToListSelectionOption >> notifyNodesSelectedIn: aListElement [
 { #category : #'api - hooks' }
 ToListSelectionOption >> onInstalledIn: aListElement [
 
+	self property: #masked whenChangedDo: [
+			self checkSelectionContainerIn: aListElement.
+			self updateRepresentationIn: aListElement ].
 	self
-		property: #masked
-		whenChangedDo: [ self checkSelectionContainerIn: aListElement ].
+		property: #selectionSkinEventClass
+		whenChangedDo: [ self updateRepresentationIn: aListElement ].
+	self
+		property: #deselectionSkinEventClass
+		whenChangedDo: [ self updateRepresentationIn: aListElement ].
+
 	self checkSelectionContainerIn: aListElement
 ]
 
@@ -190,6 +209,25 @@ ToListSelectionOption >> selectionMode [
 ToListSelectionOption >> selectionMode: aListSelectionMode [
 
 	selectionMode := aListSelectionMode
+]
+
+{ #category : #accessing }
+ToListSelectionOption >> selectionSkinEventClass [
+
+	^ selectionSkinEventClass
+]
+
+{ #category : #accessing }
+ToListSelectionOption >> selectionSkinEventClass: aSkinEventClass [
+
+	selectionSkinEventClass := aSkinEventClass
+]
+
+{ #category : #'private - selection updating' }
+ToListSelectionOption >> updateRepresentationIn: aListElement [
+
+	representationVariant updateRepresentationIn: aListElement.
+	selectionMode dirty: false
 ]
 
 { #category : #accessing }

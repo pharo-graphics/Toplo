@@ -163,21 +163,13 @@ ToElementExtension >> newSkinManager [
 { #category : #'accessing - stamp map' }
 ToElementExtension >> newStampMapIn: anElement [
 
-	^ ToPropertyIndexWithChangedAction new
-		  changedAction: [
-				  self requestNewSkinRecursivelyFrom: anElement.
-				  anElement requestSkinApplication ];
-		  yourself
+	^ ToElementPropertyIndex on: anElement
 ]
 
 { #category : #'accessing - token properties' }
 ToElementExtension >> newTokenPropertyMapIn: anElement [
 
-	^ ToPropertyIndexWithChangedAction new
-		  changedAction: [
-				  self requestNewSkinRecursivelyFrom: anElement.
-				  anElement requestSkinApplication ];
-		  yourself
+	^ ToElementPropertyIndex on: anElement
 ]
 
 { #category : #accessing }

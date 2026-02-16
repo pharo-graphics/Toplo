@@ -602,6 +602,12 @@ TToDataSourceWrapper >> size [
 	^ self dataSource size
 ]
 
+{ #category : #'t - data source wrapper - sorting' }
+TToDataSourceWrapper >> sort: aSortBlock [
+
+	self dataSource sort: aSortBlock
+]
+
 { #category : #'t - data source wrapper - private' }
 TToDataSourceWrapper >> species [ 
 

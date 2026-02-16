@@ -19,7 +19,7 @@ ToSpacePhasesManager >> applyAllConfigurationsIn: aSpace [
 	needConfigurationPass := false.
 	runningConfigurationPass := nextConfigurationPass.
 	nextConfigurationPass := nextConfigurationPass + 1.
-	aSpace root checkConfigurationPassDeeply.
+	aSpace root checkConfigurationPassDeeplyInSpace: aSpace.
 
 ]
 

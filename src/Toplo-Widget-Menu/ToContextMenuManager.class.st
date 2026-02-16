@@ -16,12 +16,6 @@ ToContextMenuManager >> defaultPlacement [
 	^ ToAnchoredPickedPlacement new
 ]
 
-{ #category : #initialization }
-ToContextMenuManager >> defaultWindowFactory [
-
-	^ [ ToContextMenu ]
-]
-
 { #category : #'event handling' }
 ToContextMenuManager >> elementPositionInSpaceChangedEvent: anEvent [
 
@@ -42,4 +36,10 @@ ToContextMenuManager >> newOutsideEventFilter [
 	^ super newOutsideEventFilter
 		  elementToCheck: currentWindow;
 		  yourself
+]
+
+{ #category : #'window handling' }
+ToContextMenuManager >> windowClass [ 
+
+	^ ToContextMenu
 ]

@@ -4,6 +4,22 @@ Trait {
 }
 
 { #category : #'t - list node' }
+TToListNode >> applyConfigurationAsListNode [
+
+	| conf |
+	conf := self listElement toConfiguration.
+	(self listElement useInfiniteLayout not and: [ conf autoDistribute ])
+		ifTrue: [
+				self listElement isHorizontal
+					ifTrue: [ self hMatchParent ]
+					ifFalse: [ self vMatchParent ] ].
+	conf exactNodeWidth ifNotNil: [ :w | self hExact: w ].
+	conf exactNodeHeight ifNotNil: [ :h | self vExact: h ].
+	self isHExact ifFalse: [ self hMatchParent ].
+	self isVExact ifFalse: [ self vMatchParent ]
+]
+
+{ #category : #'t - list node' }
 TToListNode >> clickEventHandlerClass [
 
 	^ nil
@@ -19,7 +35,6 @@ TToListNode >> flagAsDisabled: aBoolean [
 { #category : #'t - list node' }
 TToListNode >> initializeAsListNode [
 
-	self matchParent.
 	self addEventHandlerOn: ToRemoveButtonClickedEvent do: [ :event |
 			| target listElement |
 			" since the event is fired, on should stop it's dispatching here "
@@ -29,14 +44,6 @@ TToListNode >> initializeAsListNode [
 			target removeFromList.
 			" Now the mouse move should be replayed because the mouse can be over the same remove button after the removal. It is postponed to let the node be re-built and configured before replaying "
 			listElement postponeAction: [ :l | l requestMouseMoveReplay ] ]
-]
-
-{ #category : #'t - list node' }
-TToListNode >> isFake [
-
-	| list |
-	list := self holder listElement.
-	^ list fakeNode = self
 ]
 
 { #category : #'t - list node' }

@@ -4,17 +4,6 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
-{ #category : #'private - selection updating' }
-ToListSelectionWithoutElementVariant >> checkRepresentationIn: aListElement withSelectionModel: aSelectionModel forceUpdate: aBoolean [
-
-	super
-		checkRepresentationIn: aListElement
-		withSelectionModel: aSelectionModel
-		forceUpdate: aBoolean.
-	representationChanged ifFalse: [ ^ self ].
-	self notifyNodesSelectedIn: aListElement
-]
-
 { #category : #testing }
 ToListSelectionWithoutElementVariant >> isEmbedded [ 
 
@@ -22,20 +11,25 @@ ToListSelectionWithoutElementVariant >> isEmbedded [
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionWithoutElementVariant >> newSelectionRepresentationArrayFrom: aListElement withSelectionModel: aSelectionModel [
+ToListSelectionWithoutElementVariant >> newSelectionRepresentationArrayFrom: aListElement [
 
-	^ (self
-		   selectedNodeContainersFrom: aListElement
-		   withSelectionModel: aSelectionModel) collect: [ :container |
-		  ToSelectionWithoutElement new node: container ]
+	^ (self selectedNodeContainersFrom: aListElement) collect: [
+		  :container | ToSelectionWithoutElement new node: container ]
 ]
 
 { #category : #'private - selection updating' }
-ToListSelectionWithoutElementVariant >> selectedNodeContainersFrom: aListElement withSelectionModel: aSelectionModel [
+ToListSelectionWithoutElementVariant >> selectedNodeContainersFrom: aListElement [
 
 	^ aListElement nodeContainersSelect: [ :container |
 			  | idx |
 			  idx := container holder position.
-			  (aSelectionModel containsIndex: idx) and: [
-				  aSelectionModel isVisibleIndex: idx ] ]
+			  (self selectionModel containsIndex: idx) and: [
+				  self selectionModel isVisibleIndex: idx ] ]
+]
+
+{ #category : #'private - selection updating' }
+ToListSelectionWithoutElementVariant >> updateRepresentationIn: aListElement [
+
+	super updateRepresentationIn: aListElement.
+	self notifyNodesSelectedIn: aListElement
 ]

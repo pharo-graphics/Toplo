@@ -3,6 +3,7 @@ Trait {
 	#instVars : [
 		'checker',
 		'delay',
+		'needRepeatedEvent',
 		'time',
 		'startDelay',
 		'startTime',
@@ -13,6 +14,17 @@ Trait {
 }
 
 { #category : #'t - event generator handler' }
+TToEventGeneratorHandler >> cleanUpCheckerIn: aTarget [
+
+	checker ifNotNil: [
+		checker stop.
+		aTarget dequeueTask: checker.
+		checker := nil ].
+	startEvent ifNil: [ ^ self ].
+	startEvent := nil
+]
+
+{ #category : #'t - event generator handler' }
 TToEventGeneratorHandler >> delay: aDuration [
 
 	delay := aDuration
@@ -21,6 +33,7 @@ TToEventGeneratorHandler >> delay: aDuration [
 { #category : #'t - event generator handler' }
 TToEventGeneratorHandler >> initializeAsEventGeneratorHandler [
 
+	needRepeatedEvent := false.
 	delay := 0 milliSeconds.
 	startDelay := 0 milliSeconds.
 	time := BlTime real.
@@ -31,6 +44,12 @@ TToEventGeneratorHandler >> initializeAsEventGeneratorHandler [
 TToEventGeneratorHandler >> mouseUpOutsideEvent: anEvent [
 
 	self stopEvent: anEvent
+]
+
+{ #category : #'t - event generator handler' }
+TToEventGeneratorHandler >> needRepeatedEvent: aBoolean [
+
+	needRepeatedEvent := aBoolean
 ]
 
 { #category : #'t - event generator handler' }
@@ -89,15 +108,13 @@ TToEventGeneratorHandler >> stopEvent: anEvent [
 { #category : #'t - event generator handler' }
 TToEventGeneratorHandler >> stopTaskFromEvent: anEvent in: aTarget [
 
-	checker ifNotNil: [
-		checker stop.
-		aTarget dequeueTask: checker.
-		checker := nil ].
-	startEvent ifNil: [ ^ self ].
-	startEvent := nil.
-	aTarget dispatchEvent: (self newStopEvent
-			 sourceEvent: anEvent;
-			 yourself)
+	" check the checker to avoid infinite loop in case a cleanUp already occured"
+	checker ifNil: [ ^ self ].
+	self newStopEvent ifNotNil: [ :stopEvent |
+			self cleanUpCheckerIn: aTarget.
+			aTarget dispatchEvent: (stopEvent
+					 sourceEvent: anEvent;
+					 yourself) ]
 ]
 
 { #category : #'t - event generator handler' }
@@ -108,13 +125,14 @@ TToEventGeneratorHandler >> taskActionFromEvent: anEvent in: aTarget [
 	now >= (startTime + startDelay) ifFalse: [ ^ self ].
 	evt := startEvent
 		       ifNil: [
-			       startEvent := self newStartEvent
-				                     sourceEvent: anEvent copy;
-				                     yourself ]
+				       startEvent := self newStartEvent
+					                     sourceEvent: anEvent copy;
+					                     yourself ]
 		       ifNotNil: [
-			       self newRepeatedEvent 
-				       sourceEvent: anEvent copy;
-				       yourself ].
+				       needRepeatedEvent ifFalse: [ ^ self ].
+				       self newRepeatedEvent
+					       sourceEvent: anEvent copy;
+					       yourself ].
 	aTarget dispatchEvent: evt.
 	evt isConsumed ifTrue: [ self stopTaskFromEvent: anEvent in: aTarget ]
 ]

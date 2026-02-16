@@ -21,6 +21,7 @@ ToClickableEventHandler >> doubleClickEvent: anEvent [
 		other: [ ^ self ].
 	target := anEvent currentTarget.
 	click := target clickEventClass new copyFrom: anEvent.
+	target isCheckable ifTrue: [ click checked: target isChecked ].
 	target dispatchEvent: click
 ]
 

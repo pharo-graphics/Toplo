@@ -11,6 +11,13 @@ Class {
 	#category : #'Toplo-Widget-List-ItemList'
 }
 
+{ #category : #configuration }
+ToListItem >> applyConfiguration [ 
+
+	super applyConfiguration.
+	self applyConfigurationAsListItem
+]
+
 { #category : #initialization }
 ToListItem >> defaultLayout [
 

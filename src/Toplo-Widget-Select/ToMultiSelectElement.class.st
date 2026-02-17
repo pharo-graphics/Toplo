@@ -167,12 +167,6 @@ ToMultiSelectElement >> maxSelectedCount: aNumber [
 	self requestConfiguration
 ]
 
-{ #category : #enumerating }
-ToMultiSelectElement >> menuPaneDo: aBlock [
-
-	" added for compatibility with the popup window manager API"
-]
-
 { #category : #'t - triplet container - instance creation' }
 ToMultiSelectElement >> newEndContainer [
 

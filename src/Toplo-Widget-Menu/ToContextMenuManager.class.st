@@ -30,7 +30,7 @@ ToContextMenuManager >> initialize [
 	self useSecondaryMouseButton
 ]
 
-{ #category : #initialization }
+{ #category : #'api - hooks' }
 ToContextMenuManager >> newOutsideEventFilter [
 
 	^ super newOutsideEventFilter

@@ -17,7 +17,6 @@ ToCircularMenuPane >> applyConfiguration [
 ToCircularMenuPane >> initialize [
 
 	super initialize.
-	self allowAutoOpenManagement: false.
 	self layout: BlFrameLayout new.
 	self itemList constraintsDo: [ :c |
 			c frame vertical alignCenter.

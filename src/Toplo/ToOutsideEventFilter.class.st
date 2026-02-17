@@ -79,7 +79,6 @@ ToOutsideEventFilter >> handleEvent: anEvent [
 	" 
 	do nothing if the original event target is inside my target 
 	"
-
 	self checkElementStackOnEvent: anEvent.
 	elementStack ifEmpty: [ ^ self ].
 	(self isOutsideEvent: anEvent) ifTrue: [ " ok, the event is outside. Consuming should be done outside "

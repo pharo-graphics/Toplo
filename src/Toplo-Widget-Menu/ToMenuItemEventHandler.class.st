@@ -17,8 +17,8 @@ ToMenuItemEventHandler >> bottomUpCloseWindowRequestOnEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
+	target menuPaneDo: [ :mp | mp stopAutoOpen ].
 	target closeOnPicking ifFalse: [ ^ self ].
-	target menuPaneDo: [ :mp | mp cancelAutoOpen ].
 	target parentMenuDo: [ :m |
 		m manager bottomUpCloseWindowRequestOnEvent: anEvent ]
 ]
@@ -53,11 +53,12 @@ ToMenuItemEventHandler >> mouseUpEvent: anEvent [
 	target := anEvent currentTarget.
 	target isEnabled ifFalse: [ ^ self ].
 
+	target closeOnPicking ifFalse: [
+			^ self ].
 	" if the item has one or several linkActions, do nothing here. 
 	The window can't be closed before all actions are runned.
 	The window closing will occur on ToActionPoolRunnedEvent receiving
 	( see actionPoolRunnedEvent: )"
 	target actionPoolDo: [ :la | ^ self ].
-
 	self bottomUpCloseWindowRequestOnEvent: anEvent
 ]

@@ -74,12 +74,6 @@ ToMenuPane >> autoOpen: aBoolean [
 	autoOpen := aBoolean
 ]
 
-{ #category : #'auto opening' }
-ToMenuPane >> cancelAutoOpen [
-
-	self rootMenuPane autoOpen: false
-]
-
 { #category : #initialization }
 ToMenuPane >> defaultElevation [
 
@@ -214,9 +208,7 @@ ToMenuPane >> startAutoOpen [
 ]
 
 { #category : #'auto opening' }
-ToMenuPane >> switchAutoOpen [
+ToMenuPane >> stopAutoOpen [
 
-	self isAutoOpen
-		ifTrue: [ self cancelAutoOpen ]
-		ifFalse: [ self startAutoOpen ]
+	self rootMenuPane autoOpen: false
 ]

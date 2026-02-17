@@ -33,6 +33,13 @@ ToCircularMenu >> encompassing: aBoolean [
 	encompassing := aBoolean
 ]
 
+{ #category : #testing }
+ToCircularMenu >> isOutsideEvent: anEvent [
+
+	self listHolderDo: [ :h | ^ h nodeContainer isOutsideEvent: anEvent ].
+	^ super isOutsideEvent: anEvent
+]
+
 { #category : #'t - item list owner - initializing' }
 ToCircularMenu >> newItemList [ 
 

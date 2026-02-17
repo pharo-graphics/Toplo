@@ -6,7 +6,8 @@ Class {
 		'leaved',
 		'dragged',
 		'pressed',
-		'authorizedSource'
+		'authorizedSource',
+		'eventsToHandle'
 	],
 	#category : #'Toplo-Core-States'
 }
@@ -15,6 +16,20 @@ Class {
 ToSkinStateGenerator >> authorizedSource: aSource [
 
 	authorizedSource := aSource
+]
+
+{ #category : #'api - accessing' }
+ToSkinStateGenerator >> blocUIEvents [
+
+	^ {
+		  BlBaseDragEvent.
+		  BlBlurEvent.
+		  BlFocusEvent.
+		  BlClickEvent.
+		  BlMouseDownEvent.
+		  BlMouseUpEvent.
+		  BlMouseEnterEvent.
+		  BlMouseLeaveEvent }
 ]
 
 { #category : #'focus events handling' }
@@ -125,20 +140,8 @@ ToSkinStateGenerator >> enqueueTransientState: aState for: anElement [
 { #category : #'api - accessing' }
 ToSkinStateGenerator >> eventsToHandle [
 
-	^ {
-		  ToPropertyIndexChangedEvent.
-		  ToOpenedClosedEvent.
-		  ToGeneratorEvent.
-		  BlBaseDragEvent.
-		  BlBlurEvent.
-		  BlFocusEvent.
-		  BlClickEvent.
-		  BlMouseDownEvent.
-		  BlMouseUpEvent.
-		  BlMouseEnterEvent.
-		  BlMouseLeaveEvent.
-		  ToCheckableCheckEvent.
-		  ToMouseUpOutsideEvent }
+	^ eventsToHandle ifNil: [
+		  eventsToHandle := self blocUIEvents , self toploEvents ]
 ]
 
 { #category : #'focus events handling' }
@@ -152,14 +155,19 @@ ToSkinStateGenerator >> focusEvent: anEvent [
 { #category : #'api - event managing' }
 ToSkinStateGenerator >> handleEvent: anEvent [
 
-	(anEvent isUIEvent and: [ authorizedSource notNil ]) ifTrue: [
-		anEvent source = authorizedSource ifFalse: [ ^ self ] ].
+	((anEvent isUIEvent or: [
+		  self toploEvents anySatisfy: [ :evt | anEvent isKindOf: evt ] ])
+		 and: [ authorizedSource notNil ]) ifTrue: [
+			anEvent source = authorizedSource ifFalse: [
+					anEvent consume.
+					^ self ] ].
 	anEvent sendToSkinStateGenerator: self
 ]
 
 { #category : #'mouse handlers' }
 ToSkinStateGenerator >> mouseDownEvent: anEvent [
 
+	pressed ifTrue: [ ^ self ].
 	target isEnabled ifFalse: [ ^ self ].
 	anEvent
 		ifPrimary: [ self primaryMouseDownEvent: anEvent ]
@@ -190,6 +198,7 @@ ToSkinStateGenerator >> mouseLeaveEvent: anEvent [
 { #category : #'mouse handlers' }
 ToSkinStateGenerator >> mouseUpEvent: anEvent [
 
+	pressed ifFalse: [ ^ self ].
 	target isEnabled ifFalse: [ ^ self ].
 	anEvent
 		ifPrimary: [ self primaryMouseUpEvent: anEvent ]
@@ -255,11 +264,15 @@ ToSkinStateGenerator >> primaryMouseDownEvent: anEvent [
 
 	| mouseUpOutsideFilter |
 	pressed := true.
-	mouseUpOutsideFilter := ToOutsideEventFilter newOneShotInstance
-		                        eventsToHandle: { BlMouseUpEvent };
-		                        element: target;
-		                        yourself.
-	target space root addEventFilter: mouseUpOutsideFilter.
+	" in case an authorized source is set, don't add an outside event filter 
+	to prevent from unwanted outside events dispatch since it is already added 
+	for the authorized source "
+	authorizedSource ifNil: [
+			mouseUpOutsideFilter := ToOutsideEventFilter newOneShotInstance
+				                        eventsToHandle: { BlMouseUpEvent };
+				                        element: target;
+				                        yourself.
+			target space root addEventFilter: mouseUpOutsideFilter ].
 	self enqueueTransientState: (ToPressedSkinEvent sourceEvent: anEvent)
 ]
 
@@ -325,4 +338,15 @@ ToSkinStateGenerator >> stopStillPressedEvent: anEvent [
 ToSkinStateGenerator >> target [
 
 	^ target
+]
+
+{ #category : #'api - accessing' }
+ToSkinStateGenerator >> toploEvents [
+
+	^ {
+		  ToPropertyIndexChangedEvent.
+		  ToOpenedClosedEvent.
+		  ToGeneratorEvent.
+		  ToCheckableCheckEvent.
+		  ToMouseUpOutsideEvent }
 ]

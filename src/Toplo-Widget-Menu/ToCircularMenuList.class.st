@@ -32,6 +32,13 @@ ToCircularMenuList >> initialize [
 	self preventMouseEvents 
 ]
 
+{ #category : #testing }
+ToCircularMenuList >> isOutsideEvent: anEvent [
+
+	^ self nodeContainers allSatisfy: [ :container |
+		  container isOutsideEvent: anEvent ]
+]
+
 { #category : #'t - annulus sector layout user' }
 ToCircularMenuList >> stateHolder [
 

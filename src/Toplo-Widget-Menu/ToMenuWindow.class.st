@@ -31,6 +31,13 @@ ToMenuWindow >> applyConfiguration [
 	self itemList matchParent
 ]
 
+{ #category : #'t - anchored window element - displaying' }
+ToMenuWindow >> close [ 
+
+	self itemList secondarySelecter deselectAll.
+	super close
+]
+
 { #category : #'t - relayoutable window element - accessing' }
 ToMenuWindow >> correctedPositionAccordingToAnchorRoot [
 
@@ -131,7 +138,7 @@ ToMenuWindow >> newRawSkin [
 	^ ToMenuWindowSkin new
 ]
 
-{ #category : #'t - anchored window element - accessing' }
+{ #category : #'t - anchored window element - displaying' }
 ToMenuWindow >> withAllSubwindowsDo: aBlock [
 
 	self items do: [ :i |

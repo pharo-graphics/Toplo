@@ -19,9 +19,19 @@ ToPopupMenuWindowManager >> bottomUpCloseWindowRequestOnEvent: anEvent [
 
 	self closeWindowIfMinimumDelayExceededOnEvent: anEvent.
 	self hasInlineWindow ifTrue: [ ^ self ].
-	anchorElement menuPaneDo: [ :mb | mb cancelAutoOpen ].
+	anchorElement menuPaneDo: [ :mb | mb stopAutoOpen ].
 	anchorElement parentMenuDo: [ :rm |
 		rm manager bottomUpCloseWindowRequestOnEvent: anEvent ]
+]
+
+{ #category : #'event handling' }
+ToPopupMenuWindowManager >> closeWindowOnOutsideEvent: anEvent [
+
+	super closeWindowOnOutsideEvent: anEvent.
+	anchorElement isInline ifTrue: [ ^ self ].
+	anchorElement menuPaneDo: [ :mb | mb stopAutoOpen ].
+
+	
 ]
 
 { #category : #initialization }
@@ -40,13 +50,6 @@ ToPopupMenuWindowManager >> defaultPlacement [
 ToPopupMenuWindowManager >> newInlineWindowStarter [ 
 
 	^ ToInlineMenuStarter new
-]
-
-{ #category : #'event handling' }
-ToPopupMenuWindowManager >> onOutsideEvent: anEvent [
-
-	super onOutsideEvent: anEvent.
-	anchorElement onOutsideEvent: anEvent
 ]
 
 { #category : #'window handling' }

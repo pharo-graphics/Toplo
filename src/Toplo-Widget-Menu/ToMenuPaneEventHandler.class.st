@@ -14,7 +14,6 @@ ToMenuPaneEventHandler >> elementExtentChangedEvent: anEvent [
 ToMenuPaneEventHandler >> eventsToHandle [
 
 	^ {
-		  BlMouseOverEvent.
 		  BlMouseUpEvent.
 		  BlLayoutResizerChangedEvent.
 		  BlElementExtentChangedEvent }
@@ -27,27 +26,6 @@ ToMenuPaneEventHandler >> layoutResizerChangedEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToMenuPaneEventHandler >> mouseOverEvent: anEvent [
-
-	| menus target |
-	target := anEvent currentTarget.
-	target isAutoOpen ifFalse: [ ^ self ].
-
-	" auto-open action "
-	" get all menus "
-	menus := target items select: [ :m |
-		         m isItemContainer and: [ m isInline not and: [ m isMenuPane not ]] ].
-	" 
-	if over a child of a menu or over a menu itself, then
-	popup the menu window if it is closed.
-	if over another element of the bar, then close all menu windows"
-	menus do: [ :m |
-			(anEvent target withAllParentsInclude: m)
-				ifTrue: [ m menuWindow ifNil: [ m popupEvent: anEvent ] ]
-				ifFalse: [ m closeWindow ] ]
-]
-
-{ #category : #'event handling' }
 ToMenuPaneEventHandler >> mouseUpEvent: anEvent [
 
 	| target |
@@ -57,5 +35,5 @@ ToMenuPaneEventHandler >> mouseUpEvent: anEvent [
 	anEvent target
 		withAllParentsUpTo: target
 		do: [ :p | p isMenu ifTrue: [ ^ self ] ].
-	target cancelAutoOpen
+	target stopAutoOpen
 ]

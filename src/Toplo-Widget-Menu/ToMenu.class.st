@@ -222,9 +222,7 @@ ToMenu >> onAddedInItemBarOwner: aMenu [
 { #category : #'t - menu item list user - double dispatch' }
 ToMenu >> onAddedMenu: aMenu [
 
-	aMenu isSubmenu: true.
-	" don't close a menu item on picking (mouse up or mouse down) "
-	aMenu closeOnPicking: false
+	aMenu isSubmenu: true
 ]
 
 { #category : #'adding-removing' }

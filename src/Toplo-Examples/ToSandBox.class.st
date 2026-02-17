@@ -5851,25 +5851,25 @@ ToSandBox class >> example_WithCheckBox [
 
 	menu addSeparator.
 
-	sub := ToMenu new labelText: 'Save All'.
+	sub := ToMenu new labelText: 'Inline submenu'.
 	sub beInline.
 	sub addItem: (ToMenuItem new
-			 labelText: 'Locally';
+			 labelText: 'inline menu item';
 			 yourself).
 
 	subsub := ToMenu new
-		          labelText: 'Externally';
+		          labelText: 'inline subsubmenu';
 		          icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	subsub beInline.
 	subsubsub := ToMenu new
-		             labelText: 'When';
+		             labelText: 'inline subsubsubmenu';
 		             icon: (ToImage inner: (self iconNamed: #solidMenu)).
 	subsubsub beInline.
 	subsubsub addItem: (ToMenuItem new
-			 labelText: 'now';
+			 labelText: 'inline subsubsub item 1';
 			 yourself).
 	subsubsub addItem: (ToMenuItem new
-			 labelText: 'later';
+			 labelText: 'inline subsubsub item 2';
 			 yourself).
 
 	subsub addItem: subsubsub.

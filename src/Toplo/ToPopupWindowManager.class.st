@@ -105,6 +105,12 @@ ToPopupWindowManager >> closeWindowNowOnEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToPopupWindowManager >> closeWindowOnOutsideEvent: anEvent [
+
+	self closeWindowIfMinimumDelayExceededOnEvent: anEvent
+]
+
+{ #category : #'event handling' }
 ToPopupWindowManager >> consumeEventAfterForcedClosing [
 
 	^ true
@@ -167,12 +173,24 @@ ToPopupWindowManager >> initialize [
 
 ]
 
-{ #category : #initialization }
+{ #category : #'api - hooks' }
+ToPopupWindowManager >> installDelayedPopupHandler [
+
+	delayedPopupHandler ifNotNil: [ ^ self ].
+	delayedPopupHandler := self newDelayedPopupHandler.
+	delayedPopupHandler startDelay: self popupDelay.
+	delayedPopupHandler activateOnPressed: popupOnPressed.
+	delayedPopupHandler activateOnHovered: popover.
+	delayedPopupHandler standaloneMouseOutsideFilter: false.
+	anchorElement addEventHandler: delayedPopupHandler
+]
+
+{ #category : #'api - hooks' }
 ToPopupWindowManager >> installOutsideEventFilter [
 
 	outsideEventFilter ifNotNil: [ ^ self ].
 	outsideEventFilter := self newOutsideEventFilter.
-	anchorElement space root addEventFilter: outsideEventFilter.
+	anchorElement space root addEventFilter: outsideEventFilter
 ]
 
 { #category : #accessing }
@@ -197,6 +215,7 @@ ToPopupWindowManager >> mouseLeaveEvent: anEvent [
 { #category : #'event handling' }
 ToPopupWindowManager >> mouseOutsideEvent: anEvent [
 
+	self flag: 'Check how to refactor together with #mouseUpOutsideEvent: '. 
 	anEvent emitter = outsideEventFilter ifFalse: [ ^ self ].
 	checkOutsideEvent ifFalse: [ ^ self ].
 	popover ifFalse: [ closeOnLeaved ifFalse: [ ^ self ] ].
@@ -214,19 +233,20 @@ ToPopupWindowManager >> mouseUpEvent: anEvent [
 { #category : #'event handling' }
 ToPopupWindowManager >> mouseUpOutsideEvent: anEvent [
 
+	self flag: 'Check how to refactor together with #mouseOutsideEvent: '. 
 	anEvent emitter = outsideEventFilter ifFalse: [ ^ self ].
 	checkOutsideEvent ifFalse: [ ^ self ].
 	anEvent sourceEvent consume.
 	self onOutsideEvent: anEvent
 ]
 
-{ #category : #initialization }
+{ #category : #'api - hooks' }
 ToPopupWindowManager >> newDelayedPopupHandler [
 	
 	^ ToMixedEventGeneratorHandler new
 ]
 
-{ #category : #initialization }
+{ #category : #'api - hooks' }
 ToPopupWindowManager >> newOutsideEventFilter [
 
 	^ ToOutsideEventFilter new
@@ -244,19 +264,21 @@ ToPopupWindowManager >> newOutsideEventFilter [
 ToPopupWindowManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
-	
-	delayedPopupHandler := self newDelayedPopupHandler.
-	delayedPopupHandler startDelay: self popupDelay.
-	delayedPopupHandler activateOnPressed: popupOnPressed.
-	delayedPopupHandler activateOnHovered: popover.
-	delayedPopupHandler standaloneMouseOutsideFilter: false.
-	anchorElement addEventHandler: delayedPopupHandler
+	self installDelayedPopupHandler
 ]
 
 { #category : #'event handling' }
 ToPopupWindowManager >> onOutsideEvent: anEvent [
 
-	self closeWindowIfMinimumDelayExceededOnEvent: anEvent
+	anEvent emitter = outsideEventFilter ifFalse: [ ^ self ].
+	self closeWindowOnOutsideEvent: anEvent
+]
+
+{ #category : #'api - hooks' }
+ToPopupWindowManager >> onUninstalledIn: anElement [
+
+	self uninstallDelayedPopupHandler.
+	super onUninstalledIn: anElement.
 ]
 
 { #category : #'window handling' }
@@ -264,7 +286,7 @@ ToPopupWindowManager >> onWindowClosedOnEvent: anEvent [
 
 	super onWindowClosedOnEvent: anEvent.
 	self resetPopupHandlerOnEvent: anEvent.
-	self uninstallOutsideEventFilter.
+	self uninstallOutsideEventFilter
 ]
 
 { #category : #'window handling' }
@@ -356,7 +378,10 @@ ToPopupWindowManager >> startStillPressedEvent: anEvent [
 
 	anEvent emitter = delayedPopupHandler ifFalse: [ ^ self ].
 	anEvent sourceEvent button = mouseButton ifFalse: [ ^ self ].
-	currentWindow ifNotNil: [ ^ self ].
+	currentWindow ifNotNil: [ " use case: the mouse is on a menu button and the menu window is opened. 
+		clicking on this menu button must close the button and cancel the pane auto open"
+			anchorElement menuPaneDo: [ :mp | mp stopAutoOpen ].
+			^ self ].
 	self popupEvent: anEvent sourceEvent
 ]
 
@@ -374,7 +399,15 @@ ToPopupWindowManager >> stopStillPressedEvent: anEvent [
 	self requestCloseWindowOnEvent: anEvent sourceEvent
 ]
 
-{ #category : #initialization }
+{ #category : #'api - hooks' }
+ToPopupWindowManager >> uninstallDelayedPopupHandler [
+
+	delayedPopupHandler ifNil: [ ^ self ].
+	anchorElement removeEventHandler: delayedPopupHandler.
+	delayedPopupHandler := nil
+]
+
+{ #category : #'api - hooks' }
 ToPopupWindowManager >> uninstallOutsideEventFilter [
 
 	outsideEventFilter ifNil: [ ^ self ].

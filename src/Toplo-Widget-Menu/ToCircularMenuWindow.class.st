@@ -20,8 +20,20 @@ ToCircularMenuWindow >> correctedPositionAccordingToAnchorRoot [
 	^ self measuredPosition
 ]
 
+{ #category : #testing }
+ToCircularMenuWindow >> isOutsideEvent: anEvent [
+
+	^ self manager anchorElement itemList isOutsideEvent: anEvent
+]
+
 { #category : #skin }
 ToCircularMenuWindow >> newRawSkin [ 
 
 	^ ToCircularMenuWindowSkin new
+]
+
+{ #category : #'t - annulus sector layout user' }
+ToCircularMenuWindow >> stateHolder [ 
+
+	^ self itemList
 ]

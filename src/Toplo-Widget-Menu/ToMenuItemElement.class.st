@@ -128,7 +128,7 @@ ToMenuItemElement >> onAddedInItemBarOwner: aMenu [
 ToMenuItemElement >> onOutsideEvent: anEvent [
 
 	self isInline ifTrue: [ ^ self ].
-	self menuPaneDo: [ :mb | mb cancelAutoOpen ]
+	self menuPaneDo: [ :mb | mb stopAutoOpen ]
 ]
 
 { #category : #'adding-removing' }

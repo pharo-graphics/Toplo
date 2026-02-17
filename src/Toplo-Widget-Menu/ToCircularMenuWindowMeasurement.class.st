@@ -18,12 +18,11 @@ ToCircularMenuWindowMeasurement >> onMeasure: anExtentMeasurementSpec element: a
 			(menuItem isSubmenu or: [ menuItem isMenuPaneMenu ]) ifTrue: [
 					| ratio parentElement |
 					menuItem allParentMenusOrMenuPaneDo: [ :m |
-						radius := radius + (m layoutRadius * m outerRadialRatio) ].
+						radius := radius + m layoutRadius ].
 					parentElement := menuItem isSubmenu
 						                 ifTrue: [ menuItem parentMenu menuWindow ]
 						                 ifFalse: [ menuItem menuPane ].
-					ratio := parentElement measuredExtent x / 2
-					         / (radius * menuItem outerRadialRatio).
+					ratio := parentElement measuredExtent x / 2 / radius.
 					menuItem innerRadialRatio: ratio asFloat.
 					menuItem startAngle: menuItem holder nodeContainer startAngle ] ].
 	anExtentMeasurementSpec widthSpec beExact: radius * 2.

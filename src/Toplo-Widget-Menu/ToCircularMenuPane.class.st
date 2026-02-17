@@ -1,8 +1,8 @@
 Class {
 	#name : #ToCircularMenuPane,
 	#superclass : #ToMenuPane,
-	#traits : 'TToCircularMenuListUser',
-	#classTraits : 'TToCircularMenuListUser classTrait',
+	#traits : 'TToAnnulusSectorLayoutUser + TToAnnulusCircularLayoutUser',
+	#classTraits : 'TToAnnulusSectorLayoutUser classTrait + TToAnnulusCircularLayoutUser classTrait',
 	#category : #'Toplo-Widget-Menu-Pane'
 }
 
@@ -10,7 +10,7 @@ Class {
 ToCircularMenuPane >> applyConfiguration [
 
 	super applyConfiguration.
-	self extent: (self radius * 2) asPoint
+	self extent: (self layoutRadius * 2) asPoint
 ]
 
 { #category : #initialization }
@@ -35,4 +35,10 @@ ToCircularMenuPane >> newItemList [
 ToCircularMenuPane >> newRawSkin [ 
 
 	^ ToCircularMenuPaneSkin new
+]
+
+{ #category : #'t - annulus sector layout user' }
+ToCircularMenuPane >> stateHolder [
+
+	^ self itemList 
 ]

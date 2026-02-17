@@ -1,53 +1,19 @@
 Class {
 	#name : #ToAnnulusCircularElement,
 	#superclass : #ToBasicCircularElement,
+	#traits : 'TToAnnulusSectorLayoutUser + TToAnnulusCircularLayoutUser',
+	#classTraits : 'TToAnnulusSectorLayoutUser classTrait + TToAnnulusCircularLayoutUser classTrait',
 	#category : #'Toplo-Widget-Circular-Annulus'
 }
 
 { #category : #'t - circular element' }
 ToAnnulusCircularElement >> defaultLayout [ 
 
-	^ ToAnnulusCircularLayout new
+	^ ToAnnulusCircularLayout new 
 ]
 
-{ #category : #accessing }
-ToAnnulusCircularElement >> innerRadius [
+{ #category : #'t - annulus circular layout user' }
+ToAnnulusCircularElement >> stateHolder [
 
-	^ layout innerRadius
-]
-
-{ #category : #accessing }
-ToAnnulusCircularElement >> innerRadius: aFloat [
-
-	(self innerRadius closeTo: aFloat) ifTrue: [ ^ self ].
-	layout innerRadius: aFloat.
-	self requestLayout
-]
-
-{ #category : #accessing }
-ToAnnulusCircularElement >> outerRadius [
-
-	^ layout outerRadius
-]
-
-{ #category : #accessing }
-ToAnnulusCircularElement >> outerRadius: aFloat [
-
-	(self outerRadius closeTo: aFloat) ifTrue: [ ^ self ].
-	layout outerRadius: aFloat.
-	self requestLayout
-]
-
-{ #category : #accessing }
-ToAnnulusCircularElement >> uniformSectors [
-
-	^ layout uniformSectors
-]
-
-{ #category : #accessing }
-ToAnnulusCircularElement >> uniformSectors: aBoolean [
-
-	self uniformSectors = aBoolean ifTrue: [ ^ self ].
-	layout uniformSectors: aBoolean.
-	self requestLayout
+	^ self layout
 ]

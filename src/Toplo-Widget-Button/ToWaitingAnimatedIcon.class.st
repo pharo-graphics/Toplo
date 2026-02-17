@@ -4,10 +4,10 @@ Class {
 	#instVars : [
 		'#sectorGeometryClass => ObservableSlot',
 		'#sectorBackground => ObservableSlot',
-		'#outerRadius => ObservableSlot',
-		'#innerRadius => ObservableSlot',
 		'#sectorThickness => ObservableSlot',
-		'#numberOfSectors => ObservableSlot'
+		'#numberOfSectors => ObservableSlot',
+		'#outerRadialRatio => ObservableSlot',
+		'#innerRadialRatio => ObservableSlot'
 	],
 	#category : #'Toplo-Widget-Button-Iconic'
 }
@@ -52,7 +52,7 @@ ToWaitingAnimatedIcon >> defaultDuration [
 ]
 
 { #category : #initialization }
-ToWaitingAnimatedIcon >> defaultInnerRadius [
+ToWaitingAnimatedIcon >> defaultInnerRadialRatio [
 
 	^ 0.30
 ]
@@ -64,7 +64,7 @@ ToWaitingAnimatedIcon >> defaultNumberOfSectors [
 ]
 
 { #category : #initialization }
-ToWaitingAnimatedIcon >> defaultOuterRadius [
+ToWaitingAnimatedIcon >> defaultOuterRadialRatio [
 
 	^ 1.0
 ]
@@ -92,28 +92,45 @@ ToWaitingAnimatedIcon >> initialize [
 
 	super initialize.
 
-	innerRadius := self defaultInnerRadius.
-	outerRadius := self defaultOuterRadius.
+	innerRadialRatio := self defaultInnerRadialRatio.
+	outerRadialRatio := self defaultOuterRadialRatio.
 	sectorBackground := self defaultSectorBackground.
 	sectorThickness := self defaultSectorThickness.
 	numberOfSectors := self defaultNumberOfSectors.
 	sectorGeometryClass := self defaultSectorGeometryClass.
 
-	#( #sectorBackground #sectorThickness #innerRadius #outerRadius
+	#( #sectorBackground #sectorThickness #innerRadialRatio #outerRadialRatio
 	   #numberOfSectors #sectorGeometryClass ) do: [ :prop |
 		self property: prop whenChangedDo: [ self renewInnerImage ] ]
 ]
 
 { #category : #accessing }
+ToWaitingAnimatedIcon >> innerRadialRatio [
+
+	^ innerRadialRatio 
+]
+
+{ #category : #accessing }
+ToWaitingAnimatedIcon >> innerRadialRatio: aNormalizedRadius [
+
+	innerRadialRatio := aNormalizedRadius
+]
+
+{ #category : #accessing }
 ToWaitingAnimatedIcon >> innerRadius [
 
-	^ innerRadius
+	self deprecated: 'Use #innerRadialRatio' transformWith: '`@rcvr innerRadius'->'`@rcvr innerRadialRatio'.
+	^ self innerRadialRatio
 ]
 
 { #category : #accessing }
 ToWaitingAnimatedIcon >> innerRadius: anObject [
 
-	innerRadius := anObject
+	self
+		deprecated: 'Use #innerRadialRatio:'
+		transformWith:
+		'`@rcvr innerRadius: `@arg' -> '`@rcvr innerRadialRatio: `@arg'.
+	self innerRadialRatio: anObject
 ]
 
 { #category : #private }
@@ -125,8 +142,8 @@ ToWaitingAnimatedIcon >> installSector: aSector [
 	startAngle := idx * angleGap.
 
 	radius := aSector parent extent min / 2.
-	inner := innerRadius * radius.
-	outer := radius - (outerRadius * radius).
+	inner := innerRadialRatio * radius.
+	outer := radius - (outerRadialRatio * radius).
 	width := radius - inner - outer.
 	
 	aSector width: width.
@@ -198,15 +215,32 @@ ToWaitingAnimatedIcon >> numberOfSectors: aNumber [
 ]
 
 { #category : #accessing }
+ToWaitingAnimatedIcon >> outerRadialRatio [
+
+	^ outerRadialRatio 
+]
+
+{ #category : #accessing }
+ToWaitingAnimatedIcon >> outerRadialRatio: aNormalizedRadius [
+
+	outerRadialRatio := aNormalizedRadius
+]
+
+{ #category : #accessing }
 ToWaitingAnimatedIcon >> outerRadius [
 
-	^ outerRadius
+	self deprecated: 'Use #outerRadialRatio' transformWith: '`@rcvr outerRadius'->'`@rcvr outerRadialRatio'.
+	^ self outerRadialRatio
 ]
 
 { #category : #accessing }
 ToWaitingAnimatedIcon >> outerRadius: anObject [
 
-	outerRadius := anObject
+	self
+		deprecated: 'Use #outerRadialRatio:'
+		transformWith:
+		'`@rcvr outerRadius: `@arg' -> '`@rcvr outerRadialRatio: `@arg'.
+	self outerRadialRatio: anObject
 ]
 
 { #category : #accessing }

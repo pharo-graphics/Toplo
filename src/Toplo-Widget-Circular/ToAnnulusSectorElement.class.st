@@ -1,6 +1,8 @@
 Class {
 	#name : #ToAnnulusSectorElement,
 	#superclass : #ToElement,
+	#traits : 'TToAnnulusSectorLayoutUser',
+	#classTraits : 'TToAnnulusSectorLayoutUser classTrait',
 	#category : #'Toplo-Widget-Circular-Annulus'
 }
 
@@ -49,44 +51,8 @@ ToAnnulusSectorElement >> initialize [
 	self geometry: self defaultGeometry 
 ]
 
-{ #category : #accessing }
-ToAnnulusSectorElement >> innerRadius [
+{ #category : #'t - annulus circular layout user' }
+ToAnnulusSectorElement >> stateHolder [
 
-	^ layout innerRadius
-]
-
-{ #category : #accessing }
-ToAnnulusSectorElement >> innerRadius: aFloat [
-
-	(self innerRadius closeTo: aFloat) ifTrue: [ ^ self ].
-	layout innerRadius: aFloat.
-	self requestLayout
-]
-
-{ #category : #accessing }
-ToAnnulusSectorElement >> outerRadius [
-
-	^ layout outerRadius
-]
-
-{ #category : #accessing }
-ToAnnulusSectorElement >> outerRadius: aFloat [
-
-	(self outerRadius closeTo: aFloat) ifTrue: [ ^ self ].
-	layout outerRadius: aFloat.
-	self requestLayout
-]
-
-{ #category : #accessing }
-ToAnnulusSectorElement >> startAngle [
-
-	^ layout startAngle
-]
-
-{ #category : #accessing }
-ToAnnulusSectorElement >> startAngle: anAngleInDegrees [
-
-	(self startAngle closeTo: anAngleInDegrees) ifTrue: [ ^ self ].
-	layout startAngle: anAngleInDegrees.
-	self requestLayout
+	^ self layout
 ]

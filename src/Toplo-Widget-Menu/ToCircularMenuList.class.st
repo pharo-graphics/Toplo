@@ -1,6 +1,8 @@
 Class {
 	#name : #ToCircularMenuList,
 	#superclass : #ToMenuItemListElement,
+	#traits : 'TToAnnulusSectorLayoutUser + TToAnnulusCircularLayoutUser',
+	#classTraits : 'TToAnnulusSectorLayoutUser classTrait + TToAnnulusCircularLayoutUser classTrait',
 	#category : #'Toplo-Widget-Menu-Circular'
 }
 
@@ -30,27 +32,8 @@ ToCircularMenuList >> initialize [
 	self preventMouseEvents 
 ]
 
-{ #category : #accessing }
-ToCircularMenuList >> innerRadius [
+{ #category : #'t - annulus sector layout user' }
+ToCircularMenuList >> stateHolder [
 
-	^ self innerElement innerRadius
-]
-
-{ #category : #accessing }
-ToCircularMenuList >> innerRadius: aFloat [
-
-	(self innerRadius closeTo: aFloat) ifTrue: [ ^ self ].
-	self innerElement innerRadius: aFloat
-]
-
-{ #category : #accessing }
-ToCircularMenuList >> outerRadius: aFloat [
-
-	self innerElement outerRadius: aFloat
-]
-
-{ #category : #accessing }
-ToCircularMenuList >> uniformSectors: aBoolean [
-
-	self innerElement uniformSectors: aBoolean
+	^ self innerElement 
 ]

@@ -13,14 +13,14 @@ ToCircularMenuInnerElement >> addNodeContainer: aNodeContainer at: aPosition [
 ]
 
 { #category : #initialization }
-ToCircularMenuInnerElement >> initialize [ 
+ToCircularMenuInnerElement >> initialize [
 
 	super initialize.
 	self geometry: BlCircleGeometry new.
 	self initializeAsToInnerFiniteElement.
-	self preventMouseEvents. 
-	self innerRadius: 0.25.
-	self outerRadius: 1.0
+	self preventMouseEvents.
+	self innerRadialRatio: 0.25.
+	self outerRadialRatio: 1.0
 ]
 
 { #category : #'t - inner list element - requirements' }

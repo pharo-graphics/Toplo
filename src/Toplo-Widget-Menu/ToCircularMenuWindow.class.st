@@ -1,6 +1,8 @@
 Class {
 	#name : #ToCircularMenuWindow,
 	#superclass : #ToMenuWindow,
+	#traits : 'TToAnnulusCircularLayoutUser',
+	#classTraits : 'TToAnnulusCircularLayoutUser classTrait',
 	#category : #'Toplo-Widget-Menu-Circular'
 }
 
@@ -8,7 +10,7 @@ Class {
 ToCircularMenuWindow >> applyConfiguration [
 
 	super applyConfiguration.
-	self extent: (self radius * 2) asPoint
+	self extent: (self layoutRadius * 2) asPoint
 ]
 
 { #category : #'t - relayoutable window element - accessing' }
@@ -22,10 +24,4 @@ ToCircularMenuWindow >> correctedPositionAccordingToAnchorRoot [
 ToCircularMenuWindow >> newRawSkin [ 
 
 	^ ToCircularMenuWindowSkin new
-]
-
-{ #category : #accessing }
-ToCircularMenuWindow >> radius [
-
-	^ self menuItem radius
 ]

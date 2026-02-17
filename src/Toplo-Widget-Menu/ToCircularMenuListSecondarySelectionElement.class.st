@@ -58,6 +58,6 @@ ToCircularMenuListSecondarySelectionElement >> nodeContainers: aNodeContainerArr
 	self extent: bnds extent.
 	self startAngle: self nodeContainer startAngle.
 	self endAngle: self nodeContainer endAngle.
-	self innerRadius: self nodeContainer innerRadius.
-	self outerRadius: self nodeContainer outerRadius
+	self innerRadialRatio: self nodeContainer innerRadialRatio.
+	self outerRadialRatio: self nodeContainer outerRadialRatio
 ]

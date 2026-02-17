@@ -1,11 +1,9 @@
 Class {
 	#name : #ToAnnulusCircularLayout,
 	#superclass : #BlBasicLayout,
+	#traits : 'TToAnnulusSectorLayoutState',
+	#classTraits : 'TToAnnulusSectorLayoutState classTrait',
 	#instVars : [
-		'innerRadius',
-		'outerRadius',
-		'startAngle',
-		'startAngleOffset',
 		'uniformSectors'
 	],
 	#category : #'Toplo-Widget-Circular-Annulus'
@@ -41,43 +39,21 @@ ToAnnulusCircularLayout >> boundingBoxAroundCentroidOf: anElement in: aContainer
 
 { #category : #private }
 ToAnnulusCircularLayout >> centroidOf: anElement in: aContainer [
-    | geom center midAngle r angleRad realInner realOuter maxRadius |
 
-    geom := anElement geometry.
-    center := aContainer measuredBounds center.
+	| geom center midAngle r angleRad realInner realOuter maxRadius |
+	geom := anElement geometry.
+	center := aContainer measuredBounds center.
 
-    maxRadius := (aContainer measuredExtent x min: aContainer measuredExtent y) / 2.
-    realInner := self innerRadius * maxRadius.
-    realOuter := self outerRadius * maxRadius.
-    r := (realInner + realOuter) / 2.
+	maxRadius := (aContainer measuredExtent x min:
+		              aContainer measuredExtent y) / 2.
+	realInner := self innerRadialRatio * maxRadius.
+	realOuter := self outerRadialRatio * maxRadius.
+	r := realInner + realOuter / 2.
 
-    midAngle := (geom startAngle + geom endAngle) / 2.
-    angleRad := midAngle degreesToRadians.
+	midAngle := geom startAngle + geom endAngle / 2.
+	angleRad := midAngle degreesToRadians.
 
-    ^ center + ((r * angleRad cos) @ (r * angleRad sin))
-]
-
-{ #category : #initialization }
-ToAnnulusCircularLayout >> initialize [
-
-	super initialize.
-	innerRadius := 0.
-	outerRadius := 1.
-	startAngle := 0.
-	startAngleOffset := 0.
-	uniformSectors := true
-]
-
-{ #category : #accessing }
-ToAnnulusCircularLayout >> innerRadius [
-
-	^ innerRadius
-]
-
-{ #category : #accessing }
-ToAnnulusCircularLayout >> innerRadius: anObject [
-
-	innerRadius := anObject
+	^ center + (r * angleRad cos @ (r * angleRad sin))
 ]
 
 { #category : #layout }
@@ -86,9 +62,9 @@ ToAnnulusCircularLayout >> layout: anElement in: aBounds context: aBlElementBoun
 	| radius angleGap angleDeg |
 	anElement children isEmpty ifTrue: [ ^ self ].
 
-	radius := innerRadius + outerRadius / 2.
+	radius := self innerRadialRatio + self outerRadialRatio / 2.
 	angleGap := 360 / anElement children size.
-	angleDeg := startAngle + startAngleOffset.
+	angleDeg := self startAngle + self startAngleOffset.
 
 	anElement childrenDo: [ :each |
 			| centroid edgePoint pointFromCenter |
@@ -103,11 +79,11 @@ ToAnnulusCircularLayout >> layout: anElement in: aBounds context: aBlElementBoun
 			each constraints annulusSector edgePoint: edgePoint.
 			each extent: anElement measuredExtent.
 
-			uniformSectors ifFalse: [
+			self uniformSectors ifFalse: [
 				angleGap := each constraints annulus expliciteAngleGap ].
 			each
-				innerRadius: innerRadius;
-				outerRadius: outerRadius;
+				innerRadialRatio: self innerRadialRatio;
+				outerRadialRatio: self outerRadialRatio;
 				startAngle: angleDeg;
 				endAngle: angleDeg + angleGap.
 			angleDeg := angleDeg + angleGap.
@@ -122,18 +98,6 @@ ToAnnulusCircularLayout >> layout: anElement in: aBounds context: aBlElementBoun
 		in: aBounds
 		context: aBlElementBoundsUpdateContext.
 	anElement invalidate
-]
-
-{ #category : #accessing }
-ToAnnulusCircularLayout >> outerRadius [
-
-	^ outerRadius
-]
-
-{ #category : #accessing }
-ToAnnulusCircularLayout >> outerRadius: anObject [
-
-	outerRadius := anObject
 ]
 
 { #category : #private }
@@ -190,8 +154,8 @@ ToAnnulusCircularLayout >> radialIntersectionPointsAtAngle: anAngleInDegrees in:
 
 	containerRadius := anAnnulus measuredBounds extent min / 2.
 
-	inner := innerRadius * containerRadius.
-	outer := outerRadius * containerRadius.
+	inner := self innerRadialRatio * containerRadius.
+	outer := self outerRadialRatio * containerRadius.
 
 	^ {
 		  (center + (direction * inner)).
@@ -213,30 +177,6 @@ ToAnnulusCircularLayout >> readableTextRotationForAngle: angleDeg [
     (a > 90 and: [ a < 270 ])
         ifTrue: [ ^ angleDeg + 180 ]
         ifFalse: [ ^ angleDeg ]
-]
-
-{ #category : #accessing }
-ToAnnulusCircularLayout >> startAngle [
-
-	^ startAngle
-]
-
-{ #category : #accessing }
-ToAnnulusCircularLayout >> startAngle: anObject [
-
-	startAngle := anObject
-]
-
-{ #category : #accessing }
-ToAnnulusCircularLayout >> startAngleOffset [
-
-	^ startAngleOffset
-]
-
-{ #category : #accessing }
-ToAnnulusCircularLayout >> startAngleOffset: anObject [
-
-	startAngleOffset := anObject
 ]
 
 { #category : #private }
@@ -264,7 +204,7 @@ ToAnnulusCircularLayout >> trianglePointsIn: container startAngle: aStartAngle e
 { #category : #accessing }
 ToAnnulusCircularLayout >> uniformSectors [
 
-	^ uniformSectors
+	^ uniformSectors ifNil: [ uniformSectors := true ]
 ]
 
 { #category : #accessing }

@@ -1,12 +1,12 @@
 Class {
 	#name : #ToCircularMenu,
 	#superclass : #ToMenu,
-	#traits : 'TToCircularMenuListUser',
-	#classTraits : 'TToCircularMenuListUser classTrait',
+	#traits : 'TToAnnulusSectorLayoutUser + TToAnnulusCircularLayoutUser',
+	#classTraits : 'TToAnnulusSectorLayoutUser classTrait + TToAnnulusCircularLayoutUser classTrait',
 	#instVars : [
 		'encompassing'
 	],
-	#category : #'Toplo-Widget-Menu-Items'
+	#category : #'Toplo-Widget-Menu-Circular'
 }
 
 { #category : #accessing }
@@ -33,29 +33,16 @@ ToCircularMenu >> encompassing: aBoolean [
 	encompassing := aBoolean
 ]
 
-{ #category : #accessing }
-ToCircularMenu >> innerRadius [
-
-	^ self itemList innerRadius
-]
-
-{ #category : #accessing }
-ToCircularMenu >> innerRadius: aFloat [
-
-	(self innerRadius closeTo: aFloat) ifTrue: [ ^ self ].
-	self itemList innerRadius: aFloat
-]
-
 { #category : #'t - item list owner - initializing' }
 ToCircularMenu >> newItemList [ 
 
 	^ ToCircularMenuList new
 ]
 
-{ #category : #accessing }
-ToCircularMenu >> uniformSectors: aBoolean [
+{ #category : #'t - annulus sector layout user' }
+ToCircularMenu >> stateHolder [
 
-	self itemList uniformSectors: aBoolean
+	^ self itemList
 ]
 
 { #category : #accessing }

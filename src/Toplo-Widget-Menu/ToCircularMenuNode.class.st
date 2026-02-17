@@ -8,10 +8,12 @@ Class {
 }
 
 { #category : #configuration }
-ToCircularMenuNode >> applyConfiguration [ 
+ToCircularMenuNode >> applyConfiguration [
 
 	super applyConfiguration.
 	self installEventDelegatorOnItem.
+	item constraints annulus angleGap ifNotNil: [ :gap |
+		self holder nodeContainer constraints annulus angleGap: gap ].
 	self fitContent
 ]
 

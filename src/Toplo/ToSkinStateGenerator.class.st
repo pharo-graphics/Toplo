@@ -6,8 +6,7 @@ Class {
 		'leaved',
 		'dragged',
 		'pressed',
-		'authorizedSource',
-		'eventsToHandle'
+		'authorizedSource'
 	],
 	#category : #'Toplo-Core-States'
 }
@@ -140,8 +139,21 @@ ToSkinStateGenerator >> enqueueTransientState: aState for: anElement [
 { #category : #'api - accessing' }
 ToSkinStateGenerator >> eventsToHandle [
 
-	^ eventsToHandle ifNil: [
-		  eventsToHandle := self blocUIEvents , self toploEvents ]
+	^ {
+		  BlBaseDragEvent.
+		  BlBlurEvent.
+		  BlFocusEvent.
+		  BlClickEvent.
+		  BlMouseDownEvent.
+		  BlMouseUpEvent.
+		  BlMouseEnterEvent.
+		  BlMouseLeaveEvent.
+
+		  ToPropertyIndexChangedEvent.
+		  ToOpenedClosedEvent.
+		  ToGeneratorEvent.
+		  ToCheckableCheckEvent.
+		  ToMouseUpOutsideEvent }
 ]
 
 { #category : #'focus events handling' }
@@ -155,12 +167,11 @@ ToSkinStateGenerator >> focusEvent: anEvent [
 { #category : #'api - event managing' }
 ToSkinStateGenerator >> handleEvent: anEvent [
 
-	((anEvent isUIEvent or: [
-		  self toploEvents anySatisfy: [ :evt | anEvent isKindOf: evt ] ])
-		 and: [ authorizedSource notNil ]) ifTrue: [
-			anEvent source = authorizedSource ifFalse: [
-					anEvent consume.
-					^ self ] ].
+	authorizedSource ifNotNil: [
+			(anEvent isUIEvent or: [ self toploEvents anySatisfy: [ :evt | anEvent isKindOf: evt ] ]) ifTrue: [
+					anEvent source = authorizedSource ifFalse: [
+							anEvent consume.
+							^ self ] ] ].
 	anEvent sendToSkinStateGenerator: self
 ]
 

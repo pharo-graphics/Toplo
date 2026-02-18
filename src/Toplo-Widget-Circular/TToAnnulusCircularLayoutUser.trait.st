@@ -53,17 +53,3 @@ TToAnnulusCircularLayoutUser >> startAngleOffset: anAngleInDgrees [
 
 	self stateHolder startAngleOffset: anAngleInDgrees
 ]
-
-{ #category : #'t - annulus circular layout user' }
-TToAnnulusCircularLayoutUser >> uniformSectors [
-
-	^ self stateHolder uniformSectors
-]
-
-{ #category : #'t - annulus circular layout user' }
-TToAnnulusCircularLayoutUser >> uniformSectors: aBoolean [
-
-	self uniformSectors = aBoolean ifTrue: [ ^ self ].
-	self stateHolder uniformSectors: aBoolean.
-	self requestLayout
-]

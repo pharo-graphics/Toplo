@@ -20,13 +20,6 @@ ToCircularMenuNodeContainer >> holder: anHolder [
 	self addChild: node
 ]
 
-{ #category : #initialization }
-ToCircularMenuNodeContainer >> initialize [
-
-	super initialize.
-	self constraintsDo: [ :c | c annulus angleGap: 30 ]
-]
-
 { #category : #'instance creation' }
 ToCircularMenuNodeContainer >> newRawSkin [ 
 

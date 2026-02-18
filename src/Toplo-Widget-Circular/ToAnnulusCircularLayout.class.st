@@ -3,9 +3,6 @@ Class {
 	#superclass : #BlBasicLayout,
 	#traits : 'TToAnnulusSectorLayoutState',
 	#classTraits : 'TToAnnulusSectorLayoutState classTrait',
-	#instVars : [
-		'uniformSectors'
-	],
 	#category : #'Toplo-Widget-Circular-Annulus'
 }
 
@@ -59,19 +56,29 @@ ToAnnulusCircularLayout >> centroidOf: anElement in: aContainer [
 { #category : #layout }
 ToAnnulusCircularLayout >> layout: anElement in: aBounds context: aBlElementBoundsUpdateContext [
 
-	| radius angleGap angleDeg |
-	anElement children isEmpty ifTrue: [ ^ self ].
+	| radius defaultGap sectorStartAngle remainder sectors numberWithGap |
+	sectors := anElement children accountedByLayout.
+	sectors isEmpty ifTrue: [ ^ self ].
 
-	radius := self innerRadialRatio + self outerRadialRatio / 2.
-	angleGap := 360 / anElement children size.
-	angleDeg := self startAngle + self startAngleOffset.
+	radius := aBounds extent x / 2.
+	remainder := 360.
+	numberWithGap := 0.
+	sectors do: [ :each |
+			(each constraints annulus sectorAngleInDegreesWithRadius: radius)
+				ifNotNil: [ :gap |
+						remainder := remainder - gap min: 0.
+						numberWithGap := numberWithGap + 1 ] ].
 
-	anElement childrenDo: [ :each |
-			| centroid edgePoint pointFromCenter |
+	defaultGap := numberWithGap < sectors size
+		              ifTrue: [ remainder / (sectors size - numberWithGap) ]
+		              ifFalse: [ 0 ].
+	sectorStartAngle := self startAngle + self startAngleOffset.
+
+	sectors do: [ :each |
+			| centroid edgePoint pointFromCenter sectorGap |
 			centroid := self centroidOf: each in: anElement.
 			edgePoint := self
-				             pointOnPeripheryFromCenter:
-				             anElement measuredBounds center
+				             pointOnPeripheryFromCenter: aBounds center
 				             through: centroid
 				             in: anElement.
 
@@ -79,18 +86,20 @@ ToAnnulusCircularLayout >> layout: anElement in: aBounds context: aBlElementBoun
 			each constraints annulusSector edgePoint: edgePoint.
 			each extent: anElement measuredExtent.
 
-			self uniformSectors ifFalse: [
-				angleGap := each constraints annulus expliciteAngleGap ].
+			sectorGap := (each constraints annulus
+				              sectorAngleInDegreesWithRadius: radius)
+				             ifNotNil: [ :gap | gap ]
+				             ifNil: [ defaultGap ].
+
 			each
 				innerRadialRatio: self innerRadialRatio;
 				outerRadialRatio: self outerRadialRatio;
-				startAngle: angleDeg;
-				endAngle: angleDeg + angleGap.
-			angleDeg := angleDeg + angleGap.
+				startAngle: sectorStartAngle;
+				endAngle: sectorStartAngle + sectorGap.
+			sectorStartAngle := sectorStartAngle + sectorGap.
 
 			pointFromCenter := self
-				                   pointFromCenter:
-				                   anElement measuredBounds center
+				                   pointFromCenter: aBounds center
 				                   through: centroid
 				                   atDistance: 100 ].
 	super
@@ -199,16 +208,4 @@ ToAnnulusCircularLayout >> trianglePointsIn: container startAngle: aStartAngle e
 		  pCenter.
 		  pStart.
 		  pEnd }
-]
-
-{ #category : #accessing }
-ToAnnulusCircularLayout >> uniformSectors [
-
-	^ uniformSectors ifNil: [ uniformSectors := true ]
-]
-
-{ #category : #accessing }
-ToAnnulusCircularLayout >> uniformSectors: aBoolean [
-
-	uniformSectors := aBoolean
 ]

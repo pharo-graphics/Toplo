@@ -12,8 +12,12 @@ ToCircularMenuNode >> applyConfiguration [
 
 	super applyConfiguration.
 	self installEventDelegatorOnItem.
-	item constraints annulus angleGap ifNotNil: [ :gap |
-		self holder nodeContainer constraints annulus angleGap: gap ].
+	" The item is used to setup it annulus sector constraints. 
+	The item constraints measurer have to be transfered to the node container 
+	because the layout uses the node container constraints.
+	Notice trhat the measurer can be nil  "
+	self holder nodeContainer constraints annulus sectorMeasurer:
+		self item constraints annulus sectorMeasurer.
 	self fitContent
 ]
 

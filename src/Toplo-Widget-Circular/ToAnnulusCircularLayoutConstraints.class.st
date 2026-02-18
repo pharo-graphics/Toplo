@@ -2,39 +2,46 @@ Class {
 	#name : #ToAnnulusCircularLayoutConstraints,
 	#superclass : #BlLayoutConstraints,
 	#instVars : [
-		'angleGap',
-		'angleWeight'
+		'sectorMeasurer'
 	],
 	#category : #'Toplo-Widget-Circular-Annulus'
 }
 
 { #category : #accessing }
-ToAnnulusCircularLayoutConstraints >> angleGap [
+ToAnnulusCircularLayoutConstraints >> sectorAngleInDegrees: aNumber [
 
-	^ angleGap 
+	sectorMeasurer := ToAnnulusSectorAngleMeasurer withAngleInDegrees:
+		                  aNumber
 ]
 
 { #category : #accessing }
-ToAnnulusCircularLayoutConstraints >> angleGap: anObject [
+ToAnnulusCircularLayoutConstraints >> sectorAngleInDegreesWithRadius: r [
 
-	angleGap := anObject
+	^ sectorMeasurer ifNotNil: [ :m | m angleInDegreesWithRadius: r ]
 ]
 
 { #category : #accessing }
-ToAnnulusCircularLayoutConstraints >> angleWeight [
+ToAnnulusCircularLayoutConstraints >> sectorArcLength: aNumber [
 
-	^ angleWeight
+	sectorMeasurer := ToAnnulusSectorAngleMeasurer withArcLength:
+		                  aNumber
 ]
 
 { #category : #accessing }
-ToAnnulusCircularLayoutConstraints >> angleWeight: anObject [
+ToAnnulusCircularLayoutConstraints >> sectorChordLength: aNumber [
 
-	angleWeight := anObject
+	sectorMeasurer := ToAnnulusSectorAngleMeasurer withChordLength:
+		                  aNumber
 ]
 
 { #category : #accessing }
-ToAnnulusCircularLayoutConstraints >> expliciteAngleGap [
+ToAnnulusCircularLayoutConstraints >> sectorMeasurer [ 
 
-	^ angleGap ifNil: [
-		  angleWeight ifNotNil: [ :w | 360 * w ] ifNil: [ 0 ] ]
+	^ sectorMeasurer 
+]
+
+{ #category : #accessing }
+ToAnnulusCircularLayoutConstraints >> sectorMeasurer: aMeasurer [
+
+	sectorMeasurer := aMeasurer 
 ]

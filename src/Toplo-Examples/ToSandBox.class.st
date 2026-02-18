@@ -1808,7 +1808,6 @@ ToSandBox class >> example_CircularMenuItemList [
 	space root layout: BlFrameLayout new.
 	
 	rootMenu := ToCircularMenuList new.
-	rootMenu uniformSectors: true.
 	rootMenu addItem: (ToMenuItem new
 			 labelText: 'X1';
 			 yourself).
@@ -1834,7 +1833,6 @@ ToSandBox class >> example_CircularMenuItemListWithSubmenu [
 	space root layout: BlFrameLayout new.
 
 	rootMenu := ToCircularMenuList new.
-	rootMenu uniformSectors: true.
 	rootMenu addItem: (ToMenuItem new
 			 labelText: 'X1';
 			 yourself).
@@ -1852,7 +1850,7 @@ ToSandBox class >> example_CircularMenuItemListWithSubmenu [
 
 	subMenu := ToCircularMenuList new.
 	subMenu innerRadialRatio: 0.5.
-	subMenu uniformSectors: false.
+
 	subMenu addItem: (ToMenuItem new
 			 labelText: 'XX1';
 			 yourself).
@@ -1877,37 +1875,40 @@ ToSandBox class >> example_CircularMenuPane [
 	iconProvider := ToMaterialDesignIconProvider.
 	circularMenu := ToCircularMenuPane new.
 	circularMenu layoutRadius: 150.
-	"circularMenu startAngleOffset: 45."
+
 	circularMenu innerRadialRatio: 0.1.
 	circularMenu outerRadialRatio: 0.95.
 
 	item := ToCircularMenu new icon:
 		        (iconProvider iconNamed: 'filled_checklist').
-	item uniformSectors: false.
+
 	item encompassing: true.
 	item layoutRadius: 80.
+	
 	sub := ToMenuItem new labelText: 'Sub 1'.
 	item addItem: sub.
+	sub constraints annulus sectorAngleInDegrees: 40.
 
 	sub := ToCircularMenu new labelText: 'Sub 2'.
-	sub uniformSectors: false.
-	sub layoutRadius: 30.
+	sub layoutRadius: 40.
+	item addItem: sub.
+	sub constraints annulus sectorAngleInDegrees: 40.
+		
 	subsub := ToMenuItem new labelText: 'X1'.
-	subsub constraints annulus angleGap: 10.
+	subsub constraints annulus sectorAngleInDegrees: 10.
 	sub addItem: subsub.
 	subsub := ToMenuItem new labelText: 'X2'.
-	subsub constraints annulus angleGap: 10.
+	subsub constraints annulus sectorChordLength: 50.
 	sub addItem: subsub.
 	subsub := ToMenuItem new labelText: 'X3'.
-	subsub constraints annulus angleGap: 10.
+	subsub constraints annulus sectorArcLength: 100.
 	sub addItem: subsub.
 
-	item addItem: sub.
 	circularMenu addItem: item.
-
 	item := ToCircularMenu new icon:
 		        (iconProvider iconNamed: 'outlined_morehoriz').
 	item layoutRadius: 70.
+	
 	sub := ToMenuItem new labelText: 'SubMenu 1'.
 	item addItem: sub.
 	sub := ToMenuItem new labelText: 'SubMenu 2'.

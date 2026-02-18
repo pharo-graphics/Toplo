@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #measuring }
-ToAnnulusSectorChordMeasureStrategy >> angleInDegreesWithRadius: r [
+ToAnnulusSectorChordMeasureStrategy >> angleInDegreesWithRadius: r inSectorElement: aSectorElement [
 
 	| ratio angleRad |
 	(chordLength <= (2 * r)) ifFalse: [ self error: 'Chord out of range.' ].
@@ -18,10 +18,10 @@ ToAnnulusSectorChordMeasureStrategy >> angleInDegreesWithRadius: r [
 ]
 
 { #category : #measuring }
-ToAnnulusSectorChordMeasureStrategy >> arcLengthWithRadius: r [
+ToAnnulusSectorChordMeasureStrategy >> arcLengthWithRadius: r  inSectorElement: aSectorElement [
 
 	chordLength <= 2 * r ifFalse: [ self error: 'Chord out of range.' ].
-	^ r * (self angleInDegreesWithRadius: r) degreesToRadians
+	^ r * (self angleInDegreesWithRadius: r inSectorElement: aSectorElement) degreesToRadians
 ]
 
 { #category : #accessing }
@@ -39,7 +39,7 @@ ToAnnulusSectorChordMeasureStrategy >> chordLength: aNumber [
 ]
 
 { #category : #measuring }
-ToAnnulusSectorChordMeasureStrategy >> chordLengthWithRadius: r [
+ToAnnulusSectorChordMeasureStrategy >> chordLengthWithRadius: r  inSectorElement: aSectorElement [
 
 	^ chordLength
 ]

@@ -64,10 +64,11 @@ ToAnnulusCircularLayout >> layout: anElement in: aBounds context: aBlElementBoun
 	remainder := 360.
 	numberWithGap := 0.
 	sectors do: [ :each |
-			(each constraints annulus sectorAngleInDegreesWithRadius: radius)
-				ifNotNil: [ :gap |
-						remainder := remainder - gap min: 0.
-						numberWithGap := numberWithGap + 1 ] ].
+			(each constraints annulus
+				 sectorAngleInDegreesWithRadius: radius
+				 inSectorElement: each) ifNotNil: [ :gap |
+					remainder := remainder - gap.
+					numberWithGap := numberWithGap + 1 ] ].
 
 	defaultGap := numberWithGap < sectors size
 		              ifTrue: [ remainder / (sectors size - numberWithGap) ]
@@ -87,7 +88,8 @@ ToAnnulusCircularLayout >> layout: anElement in: aBounds context: aBlElementBoun
 			each extent: anElement measuredExtent.
 
 			sectorGap := (each constraints annulus
-				              sectorAngleInDegreesWithRadius: radius)
+				              sectorAngleInDegreesWithRadius: radius
+				              inSectorElement: each)
 				             ifNotNil: [ :gap | gap ]
 				             ifNil: [ defaultGap ].
 

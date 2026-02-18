@@ -13,10 +13,6 @@ ToCircularMenuNodeContainer >> holder: anHolder [
 	super holder: anHolder.
 	node := ToCircularMenuNode new.
 	node holder: anHolder.
-	node constraintsDo: [ :c |
-			c ignoreByLayout.
-			c anchors add:
-				(c anchors centerAnchor on: c anchors parent centroidAnchor) ].
 	self addChild: node
 ]
 

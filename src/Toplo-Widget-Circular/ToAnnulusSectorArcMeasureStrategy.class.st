@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #measuring }
-ToAnnulusSectorArcMeasureStrategy >> angleInDegreesWithRadius: r [
+ToAnnulusSectorArcMeasureStrategy >> angleInDegreesWithRadius: r inSectorElement: aSectorElement [
 
     ^ (arcLength / r) radiansToDegrees
 ]
@@ -27,13 +27,13 @@ ToAnnulusSectorArcMeasureStrategy >> arcLength: aNumber [
 ]
 
 { #category : #measuring }
-ToAnnulusSectorArcMeasureStrategy >> arcLengthWithRadius: r [
+ToAnnulusSectorArcMeasureStrategy >> arcLengthWithRadius: r  inSectorElement: aSectorElement [
 
 	^ arcLength
 ]
 
 { #category : #measuring }
-ToAnnulusSectorArcMeasureStrategy >> chordLengthWithRadius: r [
+ToAnnulusSectorArcMeasureStrategy >> chordLengthWithRadius: r  inSectorElement: aSectorElement [
 
 	| angleRad |
 	angleRad := arcLength / r.

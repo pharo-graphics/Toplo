@@ -5,19 +5,19 @@ Class {
 }
 
 { #category : #measuring }
-ToAnnulusSectorMeasureStrategy >> angleInDegreesWithRadius: r [
+ToAnnulusSectorMeasureStrategy >> angleInDegreesWithRadius: r inSectorElement: aSectorElement [
 
     ^ self subclassResponsibility
 ]
 
 { #category : #measuring }
-ToAnnulusSectorMeasureStrategy >> arcLengthWithRadius: r [
+ToAnnulusSectorMeasureStrategy >> arcLengthWithRadius: r  inSectorElement: aSectorElement [
 
     ^ self subclassResponsibility
 ]
 
 { #category : #measuring }
-ToAnnulusSectorMeasureStrategy >> chordLengthWithRadius: r [
+ToAnnulusSectorMeasureStrategy >> chordLengthWithRadius: r  inSectorElement: aSectorElement [
 
     ^ self subclassResponsibility
 ]

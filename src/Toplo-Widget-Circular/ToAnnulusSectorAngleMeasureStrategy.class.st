@@ -23,19 +23,19 @@ ToAnnulusSectorAngleMeasureStrategy >> angleInDegrees: anAngleInDegrees [
 ]
 
 { #category : #measuring }
-ToAnnulusSectorAngleMeasureStrategy >> angleInDegreesWithRadius: r [
+ToAnnulusSectorAngleMeasureStrategy >> angleInDegreesWithRadius: r inSectorElement: aSectorElement [
 
     ^ angleInDegrees 
 ]
 
 { #category : #measuring }
-ToAnnulusSectorAngleMeasureStrategy >> arcLengthWithRadius: r [
+ToAnnulusSectorAngleMeasureStrategy >> arcLengthWithRadius: r  inSectorElement: aSectorElement [
 
     ^ r * angleInDegrees degreesToRadians
 ]
 
 { #category : #measuring }
-ToAnnulusSectorAngleMeasureStrategy >> chordLengthWithRadius: r [
+ToAnnulusSectorAngleMeasureStrategy >> chordLengthWithRadius: r  inSectorElement: aSectorElement [
 
 	^ 2 * r * (angleInDegrees * 0.5) degreesToRadians sin
 ]

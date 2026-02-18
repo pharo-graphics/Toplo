@@ -31,6 +31,18 @@ ToAnnulusSectorElement >> defaultLayout [
 ]
 
 { #category : #accessing }
+ToAnnulusSectorElement >> edgePoint [ 
+
+	^ self constraints annulusSector edgePoint
+]
+
+{ #category : #accessing }
+ToAnnulusSectorElement >> edgePointAnchor [
+
+	^ (self constraints anchors newExplicitReceiverWith: self) edgePointAnchor
+]
+
+{ #category : #accessing }
 ToAnnulusSectorElement >> endAngle [
 
 	^ layout endAngle

@@ -2,7 +2,8 @@ Class {
 	#name : #ToAnnulusCircularLayoutConstraints,
 	#superclass : #BlLayoutConstraints,
 	#instVars : [
-		'sectorMeasurer'
+		'sectorMeasurer',
+		'centroidOffset'
 	],
 	#category : #'Toplo-Widget-Circular-Annulus'
 }
@@ -15,9 +16,16 @@ ToAnnulusCircularLayoutConstraints >> sectorAngleInDegrees: aNumber [
 ]
 
 { #category : #accessing }
-ToAnnulusCircularLayoutConstraints >> sectorAngleInDegreesWithRadius: r [
+ToAnnulusCircularLayoutConstraints >> sectorAngleInDegreesWithRadius: r inSectorElement: aSectorElement [
 
-	^ sectorMeasurer ifNotNil: [ :m | m angleInDegreesWithRadius: r ]
+	^ sectorMeasurer ifNotNil: [ :m |
+		  m angleInDegreesWithRadius: r inSectorElement: aSectorElement ]
+]
+
+{ #category : #accessing }
+ToAnnulusCircularLayoutConstraints >> sectorAngleWeight: aNumber [
+
+	sectorMeasurer := ToAnnulusSectorAngleMeasurer withWeight: aNumber
 ]
 
 { #category : #accessing }
@@ -25,6 +33,18 @@ ToAnnulusCircularLayoutConstraints >> sectorArcLength: aNumber [
 
 	sectorMeasurer := ToAnnulusSectorAngleMeasurer withArcLength:
 		                  aNumber
+]
+
+{ #category : #accessing }
+ToAnnulusCircularLayoutConstraints >> sectorCentroidOffset [
+
+	^ centroidOffset ifNil: [ centroidOffset := 0 ]
+]
+
+{ #category : #accessing }
+ToAnnulusCircularLayoutConstraints >> sectorCentroidOffset: aNumber [
+
+	centroidOffset := aNumber
 ]
 
 { #category : #accessing }

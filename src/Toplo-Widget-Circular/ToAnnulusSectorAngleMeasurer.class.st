@@ -29,22 +29,35 @@ ToAnnulusSectorAngleMeasurer class >> withChordLength: aNumber [
 		  (ToAnnulusSectorChordMeasureStrategy new chordLength: aNumber)
 ]
 
-{ #category : #measuring }
-ToAnnulusSectorAngleMeasurer >> angleInDegreesWithRadius: r [
+{ #category : #instance }
+ToAnnulusSectorAngleMeasurer class >> withWeight: aNumber [
 
-    ^ measureStrategy angleInDegreesWithRadius: r
+	^ self new measureStrategy:
+		  (ToAnnulusSectorProportionalMeasureStrategy new weight: aNumber)
 ]
 
 { #category : #measuring }
-ToAnnulusSectorAngleMeasurer >> arcLengthWithRadius: r [
+ToAnnulusSectorAngleMeasurer >> angleInDegreesWithRadius: r inSectorElement: aSectorElement [
 
-    ^ measureStrategy arcLengthWithRadius: r
+	^ measureStrategy
+		  angleInDegreesWithRadius: r
+		  inSectorElement: aSectorElement
 ]
 
 { #category : #measuring }
-ToAnnulusSectorAngleMeasurer >> chordLengthWithRadius: r [
+ToAnnulusSectorAngleMeasurer >> arcLengthWithRadius: r inSectorElement: aSectorElement [
 
-    ^ measureStrategy chordLengthWithRadius: r
+	^ measureStrategy
+		  arcLengthWithRadius: r
+		  inSectorElement: aSectorElement
+]
+
+{ #category : #measuring }
+ToAnnulusSectorAngleMeasurer >> chordLengthWithRadius: r inSectorElement: aSectorElement [
+
+	^ measureStrategy
+		  chordLengthWithRadius: r
+		  inSectorElement: aSectorElement
 ]
 
 { #category : #accessing }

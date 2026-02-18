@@ -10,14 +10,31 @@ Class {
 { #category : #configuration }
 ToCircularMenuNode >> applyConfiguration [
 
+	| nodeContainerConstraints itemConstraints |
 	super applyConfiguration.
+	
 	self installEventDelegatorOnItem.
+
+	nodeContainerConstraints := self holder nodeContainer constraints
+		                            annulus.
+	itemConstraints := self item constraints annulus.
+
+	self constraintsDo: [ :c |
+			c ignoreByLayout.
+			c anchors removeAll.
+			c anchors add:
+				(c anchors centerAnchor on:
+					 (c anchors parent centroidAnchor offset:
+						  itemConstraints sectorCentroidOffset)) ].
 	" The item is used to setup it annulus sector constraints. 
 	The item constraints measurer have to be transfered to the node container 
 	because the layout uses the node container constraints.
 	Notice trhat the measurer can be nil  "
-	self holder nodeContainer constraints annulus sectorMeasurer:
-		self item constraints annulus sectorMeasurer.
+
+	nodeContainerConstraints sectorMeasurer:
+		itemConstraints sectorMeasurer.
+	nodeContainerConstraints sectorCentroidOffset:
+		itemConstraints sectorCentroidOffset.
 	self fitContent
 ]
 

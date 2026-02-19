@@ -101,9 +101,16 @@ ToFrontSelectionModel >> previousSelectableIndexStartingAt: anIndex [
 { #category : #updating }
 ToFrontSelectionModel >> selectIndex: aFirstIndex to: aSecondIndex [
 
+	| from to |
+	self flag: 'To be optimized'.
 	super selectIndex: aFirstIndex to: aSecondIndex.
-	self unselectableSelectionModelDo: [ :usm |
-		usm selectedIndexesDo: [ :idx | self deselectIndex: idx ] ]
+
+	from := (aFirstIndex min: aSecondIndex) max: 1.
+	to := aFirstIndex max: aSecondIndex.
+
+	self unselectableSelectionModelDo: [ :sm |
+		from to: to do: [ :idx |
+			(self isUnselectableIndex: idx) ifTrue: [ self deselectIndex: idx ] ] ]
 ]
 
 { #category : #updating }

@@ -539,6 +539,18 @@ ToListSelecter >> selectedIndexes [
 ]
 
 { #category : #accessing }
+ToListSelecter >> selectedIndexesCollect: aBlock [
+
+	^ self selectionModel selectedIndexesCollect: aBlock
+]
+
+{ #category : #accessing }
+ToListSelecter >> selectedIndexesDo: aBlock [
+
+	^ self selectionModel selectedIndexesDo: aBlock
+]
+
+{ #category : #accessing }
 ToListSelecter >> selectedIndexesIntervalsDo: aBlock [
 
 	^ self selectionModel selectedIndexesIntervalsDo: aBlock
@@ -627,7 +639,7 @@ ToListSelecter >> updateSelection [
 ToListSelecter >> updateSelectionAfter: aValuable withDataAccessor: aDataAccessor [
 
 	| selection |
-	selection := self selectedIndexes collect: [ :idx |
+	selection := self selectedIndexesCollect: [ :idx |
 		             aDataAccessor at: idx ].
 	aValuable value.
 	self selectOnlyIndexes:

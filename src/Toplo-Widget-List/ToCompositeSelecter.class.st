@@ -65,7 +65,7 @@ ToCompositeSelecter >> updateSelectionAfter: aValuable withDataAccessor: aDataAc
 	" save selected data items for each sub-selecter "
 	subSelecterIndex valuesDo: [ :subselecter |
 			| selection |
-			selection := subselecter selectedIndexes collect: [ :idx |
+			selection := subselecter selectedIndexesCollect: [ :idx |
 				             aDataAccessor at: idx ].
 			selectionIndex at: subselecter put: selection ].
 

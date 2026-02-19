@@ -97,9 +97,10 @@ ToMixedEventGeneratorHandler >> newRepeatedEvent [
 { #category : #'event handling' }
 ToMixedEventGeneratorHandler >> newStartEvent [
 
-	^ startEventClass new
-		  emitter: self;
-		  yourself
+	^ startEventClass ifNotNil: [ :sec |
+			  sec new
+				  emitter: self;
+				  yourself ]
 ]
 
 { #category : #'event handling' }
@@ -120,7 +121,6 @@ ToMixedEventGeneratorHandler >> reset [
 { #category : #'event handling' }
 ToMixedEventGeneratorHandler >> resetEventClasses [
 
-	startEventClass := nil.
 	stopEventClass := nil.
 	repeatedEventClass := nil
 ]

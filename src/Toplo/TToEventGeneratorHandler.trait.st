@@ -125,6 +125,7 @@ TToEventGeneratorHandler >> taskActionFromEvent: anEvent in: aTarget [
 	now >= (startTime + startDelay) ifFalse: [ ^ self ].
 	evt := startEvent
 		       ifNil: [
+						 
 				       startEvent := self newStartEvent
 					                     sourceEvent: anEvent copy;
 					                     yourself ]

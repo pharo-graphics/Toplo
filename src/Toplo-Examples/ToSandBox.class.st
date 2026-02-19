@@ -1887,7 +1887,6 @@ ToSandBox class >> example_CircularMenuPane [
 	circularMenu addItem: item.
 
 	item := ToMenuItem new labelText: 'Inspect'.
-	"item addEventHandlerOn: ToSkinEvent do: [ :evt | evt traceCr ]."
 	item constraints annulus sectorAngleWeight: 0.40.
 	item clickAction: [ space inspect ].
 	circularMenu addItem: item.
@@ -1948,6 +1947,71 @@ ToSandBox class >> example_CircularMenuPaneWithSubmenus [
 	sub := ToMenuItem new labelText: 'SubMenu 2'.
 	item addItem: sub.
 	sub := ToMenuItem new labelText: 'SubMenu 3'.
+	item addItem: sub.
+	circularMenu addItem: item.
+
+	item := ToMenuItem new.
+	item icon: (iconProvider iconNamed: #outlined_cropfree).
+	circularMenu addItem: item.
+
+	item := ToMenuItem new.
+	item icon: (iconProvider iconNamed: #outlined_callsplit).
+	circularMenu addItem: item.
+
+	item := ToMenuItem new.
+	item icon: (iconProvider iconNamed: #outlined_delete).
+	item disabled: true.
+	circularMenu addItem: item.
+
+	item := ToMenuItem new.
+	item icon: (iconProvider iconNamed: #outlined_sms).
+	circularMenu addItem: item.
+
+	item := ToMenuItem new labelText: 'Inspect'.
+	item clickAction: [ space inspect ].
+	circularMenu addItem: item.
+
+	circularMenu position: 150 asPoint.
+	space root addChild: circularMenu.
+	space show.
+	^ circularMenu
+]
+
+{ #category : #'circular menu' }
+ToSandBox class >> example_CircularMenuPaneWithSubmenus2 [
+
+	| circularMenu iconProvider item sub space |
+	space := BlSpace new.
+	iconProvider := ToMaterialDesignIconProvider.
+	circularMenu := ToCircularMenuPane new.
+	circularMenu layoutRadius: 150.
+
+	circularMenu innerRadialRatio: 0.25.
+	circularMenu outerRadialRatio: 0.95.
+
+	item := ToCircularMenu new icon:
+		        (iconProvider iconNamed: 'filled_checklist').
+
+	item layoutRadius: 80.
+	
+	sub := ToMenuItem new labelText: 'Menu item 1'.
+	sub constraints annulus sectorAngleWeight: 0.5.
+	item addItem: sub.
+
+	sub := ToMenuItem new labelText: 'Menu item 2'.
+	sub constraints annulus sectorAngleWeight: 0.5.
+	item addItem: sub.
+
+	circularMenu addItem: item.
+	item := ToCircularMenu new icon:
+		        (iconProvider iconNamed: 'outlined_morehoriz').
+	item layoutRadius: 70.
+	
+	sub := ToMenuItem new labelText: 'Add'.
+	sub constraints annulus sectorAngleWeight: 0.5.
+	item addItem: sub.
+	sub := ToMenuItem new labelText: 'Delete'.
+	sub constraints annulus sectorAngleWeight: 0.5.
 	item addItem: sub.
 	circularMenu addItem: item.
 

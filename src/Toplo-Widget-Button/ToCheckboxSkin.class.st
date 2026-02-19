@@ -91,18 +91,6 @@ ToCheckboxSkin >> installSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToCheckboxSkin >> leavedSkinEvent: anEvent [
-
-	super leavedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e iconDo: [ :ic |
-					ic innerImageColor: (e valueOfTokenNamed: #'checkbox-color') ].
-		e labelDo: [ :lab |
-			lab foreground: (e valueOfTokenNamed: #'color-text') ].
-		e border: BlBorder empty ]
-]
-
-{ #category : #'event handling' }
 ToCheckboxSkin >> leftSkinEvent: anEvent [
 
 	super leftSkinEvent: anEvent.

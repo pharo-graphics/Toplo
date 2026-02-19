@@ -69,20 +69,6 @@ ToGeneralButtonSkin >> installSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToGeneralButtonSkin >> leavedSkinEvent: anEvent [
-
-	super leavedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e mouseCursor: Cursor normal.
-		e isEnabled ifTrue: [
-			e isMenuButton ifFalse: [
-				(e hasStamp: #borderless) ifFalse: [
-					e border: (BlBorder
-							 paint: (e valueOfTokenNamed: #'color-border')
-							 width: (e valueOfTokenNamed: #'line-width')) ] ] ] ]
-]
-
-{ #category : #'event handling' }
 ToGeneralButtonSkin >> leftSkinEvent: anEvent [
 
 	super leftSkinEvent: anEvent.

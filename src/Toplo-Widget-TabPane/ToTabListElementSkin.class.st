@@ -14,14 +14,6 @@ ToTabListElementSkin >> installSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToTabListElementSkin >> leavedSkinEvent: anEvent [
-
-	super leavedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e secondarySelecter deselectAll ]
-]
-
-{ #category : #'event handling' }
 ToTabListElementSkin >> leftSkinEvent: anEvent [
 
 	super leftSkinEvent: anEvent.

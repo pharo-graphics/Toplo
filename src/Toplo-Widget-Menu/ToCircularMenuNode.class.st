@@ -12,7 +12,7 @@ ToCircularMenuNode >> applyConfiguration [
 
 	| nodeContainerConstraints itemConstraints |
 	super applyConfiguration.
-	
+
 	self installEventDelegatorOnItem.
 
 	nodeContainerConstraints := self holder nodeContainer constraints
@@ -26,10 +26,11 @@ ToCircularMenuNode >> applyConfiguration [
 				(c anchors centerAnchor on:
 					 (c anchors parent centroidAnchor offset:
 						  itemConstraints sectorCentroidOffset)) ].
-	" The item is used to setup it annulus sector constraints. 
+	" When added in a menu, the item constraints annulus can be used to setup 
+	its annulus sector constraints. 
 	The item constraints measurer have to be transfered to the node container 
 	because the layout uses the node container constraints.
-	Notice trhat the measurer can be nil  "
+	Notice that the measurer can be nil  "
 
 	nodeContainerConstraints sectorMeasurer:
 		itemConstraints sectorMeasurer.
@@ -41,17 +42,20 @@ ToCircularMenuNode >> applyConfiguration [
 { #category : #configuration }
 ToCircularMenuNode >> installEventDelegatorOnItem [
 
-	| nodeContainer |
+	| nodeContainer uiEventsToDelegate |
 	nodeContainer := self holder nodeContainer.
 	eventDelegator ifNotNil: [
-		nodeContainer removeEventHandler: eventDelegator.
-		eventDelegator := nil ].
+			nodeContainer removeEventHandler: eventDelegator.
+			eventDelegator := nil ].
 	item ifNil: [ ^ self ].
-	eventDelegator := BlEventDelegator delegate: BlUIEvent to: item.
-	nodeContainer addEventHandler: eventDelegator.
-	nodeContainer
-		addEventFilterOn: BlUIEvent
-		do: [ :evt | evt source: self holder nodeContainer ].
-	item installedSkinStateGenerator authorizedSource:
-		self holder nodeContainer
+	uiEventsToDelegate := IdentitySet new.
+	uiEventsToDelegate addAll: ToSkinStateGenerator handledUIEvents.
+	" remove the BlClickEvent. Not sure to understand why. 
+	Maybe because it is not handled as other mouse events bythe mouse processor.
+	If not r emoved here, then the click event is dispatched twice "
+	uiEventsToDelegate remove: BlClickEvent.
+	eventDelegator := ToUIEventDelegator
+		                  delegate: uiEventsToDelegate asArray
+		                  to: item.
+	nodeContainer addEventHandler: eventDelegator
 ]

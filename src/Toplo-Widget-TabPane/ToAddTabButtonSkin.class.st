@@ -12,13 +12,6 @@ ToAddTabButtonSkin >> hoveredSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToAddTabButtonSkin >> leavedSkinEvent: anEvent [
-
-	super leavedSkinEvent: anEvent.
-	anEvent elementDo: [ :e | e border: Color transparent ]
-]
-
-{ #category : #'event handling' }
 ToAddTabButtonSkin >> leftSkinEvent: anEvent [
 
 	super leftSkinEvent: anEvent.

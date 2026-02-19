@@ -52,14 +52,6 @@ ToSelectEndContainerSkin >> installSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToSelectEndContainerSkin >> leavedSkinEvent: anEvent [
-
-	super leavedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e mouseCursor: Cursor normal  ].
-]
-
-{ #category : #'event handling' }
 ToSelectEndContainerSkin >> leftSkinEvent: anEvent [
 
 	super leftSkinEvent: anEvent.

@@ -148,14 +148,6 @@ ToRawSkinForTest >> installSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToRawSkinForTest >> leavedSkinEvent: anEvent [
-
-	super leavedSkinEvent: anEvent.
-	self addReceivedEvent: anEvent
-
-]
-
-{ #category : #'event handling' }
 ToRawSkinForTest >> leftSkinEvent: anEvent [
 
 	super leftSkinEvent: anEvent.

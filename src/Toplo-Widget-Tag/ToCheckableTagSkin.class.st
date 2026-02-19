@@ -13,13 +13,6 @@ ToCheckableTagSkin >> hoveredSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToCheckableTagSkin >> leavedSkinEvent: anEvent [
-
-	super leavedSkinEvent: anEvent.
-	anEvent elementDo: [ :e | e mouseCursor: Cursor normal ]
-]
-
-{ #category : #'event handling' }
 ToCheckableTagSkin >> leftSkinEvent: anEvent [
 
 	super leftSkinEvent: anEvent.

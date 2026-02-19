@@ -16,7 +16,7 @@ ToMenuItemElementSkin >> disabledSkinEvent: anEvent [
 ToMenuItemElementSkin >> hoveredSkinEvent: anEvent [
 
 	super hoveredSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
+	anEvent elementDo: [ :e | 
 		e mouseCursor: Cursor webLink ]
 ]
 
@@ -34,14 +34,6 @@ ToMenuItemElementSkin >> installSkinEvent: anEvent [
 ToMenuItemElementSkin >> isTogglable [
 
 	^ false
-]
-
-{ #category : #'event handling' }
-ToMenuItemElementSkin >> leavedSkinEvent: anEvent [
-
-	super leavedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e mouseCursor: Cursor normal ]
 ]
 
 { #category : #'event handling' }

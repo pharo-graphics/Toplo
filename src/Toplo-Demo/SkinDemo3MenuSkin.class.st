@@ -39,15 +39,6 @@ SkinDemo3MenuSkin >> installSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-SkinDemo3MenuSkin >> leavedSkinEvent: anEvent [
-
-	super leavedSkinEvent: anEvent.
-	anEvent elementDo: [ :elt |
-		elt background:
-			(elt valueOfTokenNamed: #'background-not-clicked') ]
-]
-
-{ #category : #'event handling' }
 SkinDemo3MenuSkin >> leftSkinEvent: anEvent [
 
 	super leftSkinEvent: anEvent.

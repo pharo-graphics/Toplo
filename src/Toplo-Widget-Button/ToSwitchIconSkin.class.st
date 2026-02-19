@@ -52,13 +52,6 @@ ToSwitchIconSkin >> installSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToSwitchIconSkin >> leavedSkinEvent: anEvent [
-
-	super leavedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |  ]
-]
-
-{ #category : #'event handling' }
 ToSwitchIconSkin >> leftSkinEvent: anEvent [
 
 	super leftSkinEvent: anEvent.

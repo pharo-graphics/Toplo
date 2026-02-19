@@ -88,13 +88,6 @@ ToAlbumSkin >> installSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToAlbumSkin >> leavedSkinEvent: anEvent [
-
-	super leavedSkinEvent: anEvent.
-	anEvent elementDo: [ :e | e mouseCursor: Cursor normal ]
-]
-
-{ #category : #'event handling' }
 ToAlbumSkin >> leftSkinEvent: anEvent [
 
 	super leftSkinEvent: anEvent.

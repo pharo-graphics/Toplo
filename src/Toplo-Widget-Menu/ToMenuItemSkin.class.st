@@ -108,20 +108,6 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToMenuItemSkin >> leavedSkinEvent: anEvent [
-
-	super leavedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e iconDo: [ :ic |
-			ic adaptToColor: (e valueOfTokenNamed: #'color-text') ].
-		e endElementDo: [ :ic |
-			(ic respondsTo: #adaptToColor:) ifTrue: [
-				ic adaptToColor: (e valueOfTokenNamed: #'color-text') ] ].
-		e labelDo: [ :lab |
-			lab foreground: (e valueOfTokenNamed: #'color-text') ] ]
-]
-
-{ #category : #'event handling' }
 ToMenuItemSkin >> leftSkinEvent: anEvent [
 
 	super leftSkinEvent: anEvent.

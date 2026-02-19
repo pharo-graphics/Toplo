@@ -74,20 +74,6 @@ ToButtonSkin >> installSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToButtonSkin >> leavedSkinEvent: anEvent [
-
-	super leavedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e iconDo: [ :ic |
-			ic adaptToColor: (e valueOfTokenNamed: #'color-text') ].
-		e endElementDo: [ :ic |
-			(ic respondsTo: #adaptToColor:) ifTrue: [
-				ic adaptToColor: (e valueOfTokenNamed: #'color-text') ] ].
-		e labelDo: [ :lab |
-			lab foreground: (e valueOfTokenNamed: #'color-text') ] ]
-]
-
-{ #category : #'event handling' }
 ToButtonSkin >> leftSkinEvent: anEvent [
 
 	super leftSkinEvent: anEvent.

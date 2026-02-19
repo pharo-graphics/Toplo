@@ -68,14 +68,6 @@ ToTabItemElementSkin >> installSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToTabItemElementSkin >> leavedSkinEvent: anEvent [
-
-	super leavedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e mouseCursor: Cursor normal ]
-]
-
-{ #category : #'event handling' }
 ToTabItemElementSkin >> leftSkinEvent: anEvent [
 
 	super leftSkinEvent: anEvent.

@@ -31,14 +31,6 @@ ToDemoButterflySkin2 >> installSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToDemoButterflySkin2 >> leavedSkinEvent: anEvent [
-
-	super leavedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e background: (e valueOfTokenNamed: #'color-primary') ]
-]
-
-{ #category : #'event handling' }
 ToDemoButterflySkin2 >> leftSkinEvent: anEvent [
 
 	super leftSkinEvent: anEvent.

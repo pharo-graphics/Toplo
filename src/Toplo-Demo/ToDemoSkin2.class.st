@@ -23,15 +23,6 @@ ToDemoSkin2 >> installSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToDemoSkin2 >> leavedSkinEvent: anEvent [
-
-	super leavedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e background: Color white.
-		e border: (BlBorder paint: Color red width: 1)  ]
-]
-
-{ #category : #'event handling' }
 ToDemoSkin2 >> leftSkinEvent: anEvent [
 
 	super leftSkinEvent: anEvent.

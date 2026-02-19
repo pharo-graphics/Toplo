@@ -13,8 +13,6 @@ ToCircularMenuNode >> applyConfiguration [
 	| nodeContainerConstraints itemConstraints |
 	super applyConfiguration.
 
-	self installEventDelegatorOnItem.
-
 	nodeContainerConstraints := self holder nodeContainer constraints
 		                            annulus.
 	itemConstraints := self item constraints annulus.
@@ -58,4 +56,11 @@ ToCircularMenuNode >> installEventDelegatorOnItem [
 		                  delegate: uiEventsToDelegate asArray
 		                  to: item.
 	nodeContainer addEventHandler: eventDelegator
+]
+
+{ #category : #configuration }
+ToCircularMenuNode >> item: anElement [
+
+	super item: anElement.
+	self installEventDelegatorOnItem
 ]

@@ -60,5 +60,5 @@ ToListPrimarySelectionElementEventHandler >> listPrimarySelectionChangedEvent: a
 	listElement := anEvent currentTarget.
 	self updateSelectionFromEvent: anEvent.
 	listElement useCheckbox ifFalse: [ ^ self ].
-	listElement requestUpdateCheckboxes
+	listElement postponeAction: [ listElement requestUpdateCheckboxes ]
 ]

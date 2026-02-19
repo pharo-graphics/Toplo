@@ -64,6 +64,8 @@ TToCheckableSelectionManager >> notifyClickOnCheckbox: aCheckbox onEvent: anEven
 { #category : #'t - checkable selection manager' }
 TToCheckableSelectionManager >> requestUpdateCheckboxes [
 
+	self useCheckbox ifFalse: [ ^ self ].
+	checkboxesUpdateRequested ifTrue: [ ^ self ].
 	checkboxesUpdateRequested := true.
 	" the checkboxes are updated after the layout is done "
 	self requestLayout

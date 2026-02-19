@@ -37,6 +37,22 @@ ToSkinStateGenerator class >> toploEvents [
 		  ToCheckableCheckEvent }
 ]
 
+{ #category : #'mouse handlers' }
+ToSkinStateGenerator >> addOutsideEventFilterOnEvent: anEvent [
+	" in case an authorized source is set, don't add an outside event filter 
+	to prevent from unwanted outside events dispatch since it is already added 
+	for the authorized source "
+
+	| filterTarget |
+	mouseUpOutsideFilter ifNotNil: [ ^ self ].
+	filterTarget := self authorizedSource ifNil: [ target ].
+	mouseUpOutsideFilter := ToOutsideEventFilter newOneShotInstance
+		                        eventsToHandle: { BlMouseUpEvent };
+		                        element: filterTarget;
+		                        yourself.
+	target space root addEventFilter: mouseUpOutsideFilter
+]
+
 { #category : #accessing }
 ToSkinStateGenerator >> authorizedSource [
 
@@ -125,7 +141,7 @@ ToSkinStateGenerator >> dragLeaveEvent: anEvent [
 
 { #category : #'dnd handlers' }
 ToSkinStateGenerator >> dragStartEvent: anEvent [
-
+	
 	target isEnabled ifFalse: [ ^ self ].
 	dragged ifTrue: [ ^ self ].
 	dragged := true.
@@ -185,9 +201,9 @@ ToSkinStateGenerator >> focusEvent: anEvent [
 ToSkinStateGenerator >> handleEvent: anEvent [
 
 	self authorizedSource ifNotNil: [
-			(self handledUIEvents anySatisfy: [ :evt | anEvent isKindOf: evt ]) ifTrue: [
+			(anEvent isUIEvent or: [self handledUIEvents anySatisfy: [ :evt | anEvent isKindOf: evt ] ]) ifTrue: [
 					anEvent source = self authorizedSource ifFalse: [
-							anEvent consume.
+							"anEvent consume."
 							^ self ] ] ].
 	anEvent sendToSkinStateGenerator: self
 ]
@@ -256,12 +272,11 @@ ToSkinStateGenerator >> mouseUpOutsideEvent: anEvent [
 
 	| wasPressed |
 	anEvent currentTarget = target ifFalse: [ ^ self ].
-	anEvent emitter = mouseUpOutsideFilter ifFalse: [ ^ self ].
+	self removeOutsideEventFilterOnEvent: anEvent.
 	target isEnabled ifFalse: [ ^ self ].
 	wasPressed := pressed.
 	pressed := false.
 	dragged := false.
-	
 	wasPressed ifTrue: [
 		self enqueueTransientState:
 			(ToReleasedSkinEvent sourceEvent: anEvent) ].
@@ -314,15 +329,7 @@ ToSkinStateGenerator >> primaryClickEvent: anEvent [
 ToSkinStateGenerator >> primaryMouseDownEvent: anEvent [
 
 	pressed := true.
-	" in case an authorized source is set, don't add an outside event filter 
-	to prevent from unwanted outside events dispatch since it is already added 
-	for the authorized source "
-	self authorizedSource ifNil: [
-			mouseUpOutsideFilter := ToOutsideEventFilter newOneShotInstance
-				                        eventsToHandle: { BlMouseUpEvent };
-				                        element: target;
-				                        yourself.
-			target space root addEventFilter: mouseUpOutsideFilter ].
+	self addOutsideEventFilterOnEvent: anEvent.
 	self enqueueTransientState: (ToPressedSkinEvent sourceEvent: anEvent)
 ]
 
@@ -332,6 +339,7 @@ ToSkinStateGenerator >> primaryMouseUpEvent: anEvent [
 	dragged := false.
 	leaved := false.
 	pressed := false.
+	self removeOutsideEventFilterOnEvent: anEvent.
 	self enqueueTransientState:
 		(ToReleasedSkinEvent sourceEvent: anEvent)
 ]
@@ -347,6 +355,14 @@ ToSkinStateGenerator >> pushAuthorizedSource: aSource [
 
 	"'pushAuthorizedSource' traceCr."
 	authorizedSourceStack push: aSource
+]
+
+{ #category : #'mouse handlers' }
+ToSkinStateGenerator >> removeOutsideEventFilterOnEvent: anEvent [
+
+	mouseUpOutsideFilter ifNil: [ ^ self ].
+	mouseUpOutsideFilter discardOnEvent: anEvent.
+	mouseUpOutsideFilter := nil
 ]
 
 { #category : #'still pressed - hovered' }

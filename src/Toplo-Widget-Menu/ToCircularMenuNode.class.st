@@ -37,7 +37,7 @@ ToCircularMenuNode >> applyConfiguration [
 	self fitContent
 ]
 
-{ #category : #configuration }
+{ #category : #'t - item node' }
 ToCircularMenuNode >> installEventDelegatorOnItem [
 
 	| nodeContainer uiEventsToDelegate |
@@ -58,7 +58,7 @@ ToCircularMenuNode >> installEventDelegatorOnItem [
 	nodeContainer addEventHandler: eventDelegator
 ]
 
-{ #category : #configuration }
+{ #category : #'t - item node' }
 ToCircularMenuNode >> item: anElement [
 
 	super item: anElement.

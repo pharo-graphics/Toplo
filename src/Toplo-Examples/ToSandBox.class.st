@@ -1968,7 +1968,7 @@ ToSandBox class >> example_CircularMenuPaneWithSubmenus [
 	circularMenu addItem: item.
 
 	item := ToMenuItem new labelText: 'Inspect'.
-	item clickAction: [ space inspect ].
+	"item clickAction: [ space inspect ]."
 	circularMenu addItem: item.
 
 	circularMenu position: 150 asPoint.

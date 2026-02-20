@@ -13,7 +13,6 @@ ToListSelectionWithSeparateElementVariant >> addSelectionElements: anArray withA
 	Pay attention, an animation can be used. In case of animation, the SelectedSkinEvent is sent only when the animation ends to have a nice visual effect. If no animation is used, then SelectedSkinEvent is sent just after the selection element is added "
 
 	| finalBounds startBounds anim |
-	self isMasked ifTrue: [ ^ self ].
 	anArray isEmpty ifTrue: [ ^ self ].
 	finalBounds := Rectangle merging: (anArray collect: [ :g |
 			                g precomputedBoundsIn: aListElement ]).

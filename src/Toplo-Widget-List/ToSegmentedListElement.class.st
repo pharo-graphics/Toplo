@@ -16,14 +16,6 @@ ToSegmentedListElement >> defaultNodeManagerClass [
 	^ ToSegmentedListNodeManager
 ]
 
-{ #category : #initialization }
-ToSegmentedListElement >> initialize [ 
-
-	super initialize.
-	self selectionOption masked: true.
-	self secondarySelectionOption masked: true
-]
-
 { #category : #skin }
 ToSegmentedListElement >> newRawSkin [ 
 

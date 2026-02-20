@@ -28,7 +28,6 @@ ToListPrimarySelectionMode >> defaultSelectionOption [
 	^ ToListSelectionOption new
 		  grouped: true;
 		  beneath: true;
-		  masked: false;
 		  selectionSkinEventClass: ToSelectedSkinEvent;
 		  deselectionSkinEventClass: ToDeselectedSkinEvent;
 		  elementFactory: [ ToListPrimarySelectionElement new ]
@@ -153,7 +152,6 @@ ToListPrimarySelectionMode >> onClickEvent: anEvent onMultpleSelectionListNode: 
 ToListPrimarySelectionMode >> onClickEvent: anEvent onNode: aNode [
 	" implement the default/standard selection/deselection protocol"
 
-	self isDisabled ifTrue: [ ^ self ].
 	self isMultipleSelection ifTrue: [
 		^ self onClickEvent: anEvent onMultpleSelectionListNode: aNode ].
 	self onClickEvent: anEvent onSingleSelectionListNode: aNode

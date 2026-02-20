@@ -196,8 +196,7 @@ TToAnchoredWindowElement >> startOnEvent: anEvent [
 TToAnchoredWindowElement >> stop [
 
 	self manager ifNil: [ ^ self ].
-	self manager stopWindow: self.
-
+	self manager stopWindow: self
 ]
 
 { #category : #'t - anchored window element - displaying' }

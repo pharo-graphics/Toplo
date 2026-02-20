@@ -2,7 +2,6 @@ Class {
 	#name : #ToAbstractListSelectionMode,
 	#superclass : #Object,
 	#instVars : [
-		'enabled',
 		'selecter',
 		'selectionOption',
 		'dirty'
@@ -63,36 +62,9 @@ ToAbstractListSelectionMode >> dirty: aBoolean [
 ]
 
 { #category : #accessing }
-ToAbstractListSelectionMode >> disable [
-
-	self enabled: false
-]
-
-{ #category : #accessing }
 ToAbstractListSelectionMode >> doubleClickTimeout [
 
 	^ 200 milliSeconds 
-]
-
-{ #category : #accessing }
-ToAbstractListSelectionMode >> enable [
-
-	self enabled: true
-]
-
-{ #category : #accessing }
-ToAbstractListSelectionMode >> enabled [
-
-	^ enabled
-]
-
-{ #category : #accessing }
-ToAbstractListSelectionMode >> enabled: aBoolean [
- 
-	enabled = aBoolean ifTrue: [ ^ self ].
-	enabled := aBoolean.
-	selecter ifNil: [ ^ self ].
-	selecter enabled: aBoolean
 ]
 
 { #category : #'selection updating' }
@@ -107,32 +79,7 @@ ToAbstractListSelectionMode >> ensureCleanAfter: aBlock [
 ToAbstractListSelectionMode >> initialize [
 
 	super initialize.
-	enabled := true.
 	dirty := true
-]
-
-{ #category : #testing }
-ToAbstractListSelectionMode >> isContextMenu [
-
-	^ false
-]
-
-{ #category : #testing }
-ToAbstractListSelectionMode >> isDisabled [
-
-	^ false
-]
-
-{ #category : #testing }
-ToAbstractListSelectionMode >> isEnabled [
-
-	^ self enabled
-]
-
-{ #category : #testing }
-ToAbstractListSelectionMode >> isHidden [
-
-	^ false
 ]
 
 { #category : #testing }
@@ -149,12 +96,6 @@ ToAbstractListSelectionMode >> isPrimary [
 
 { #category : #testing }
 ToAbstractListSelectionMode >> isSecondary [
-
-	^ false
-]
-
-{ #category : #testing }
-ToAbstractListSelectionMode >> isUnselectable [
 
 	^ false
 ]
@@ -194,6 +135,7 @@ ToAbstractListSelectionMode >> newSelectionContainerIn: aListElement [
 
 	| container |
 	container := ToListSelectionContainer new.
+	container id: self class name asSymbol.
 	container attachTo: aListElement.
 	^ container
 ]
@@ -202,15 +144,6 @@ ToAbstractListSelectionMode >> newSelectionContainerIn: aListElement [
 ToAbstractListSelectionMode >> newSelectionModelIn: aListElement [
 
 	^ self subclassResponsibility 
-]
-
-{ #category : #initialization }
-ToAbstractListSelectionMode >> on: aListElement [
-
-	self
-		deprecated: 'Use #onInstalledIn:'
-		transformWith: '`@rcvr on: `@arg' -> '`@rcvr onInstalledIn: `@arg'.
-	self onInstalledIn: aListElement
 ]
 
 { #category : #'api - hooks' }
@@ -223,7 +156,6 @@ ToAbstractListSelectionMode >> onInstalledIn: aListElement [
 	selecter selectionMode: self.
 	selecter selectionModel: (self newSelectionModelIn: aListElement).
 	selecter selectionChangedEventClass: self selectionChangedEventClass.
-	selecter enabled: self enabled.
 	selecter multiple: self isMultipleSelection.
 	selecter onInstalledIn: aListElement.
 	selectionOption := self defaultSelectionOption.
@@ -246,17 +178,6 @@ ToAbstractListSelectionMode >> onUninstalledIn: aListElement [
 ToAbstractListSelectionMode >> operator [
 
 	^ selecter operator
-]
-
-{ #category : #accessing }
-ToAbstractListSelectionMode >> option [
-
-	self
-		deprecated: 'Use #selectionOption'
-		transformWith:
-		'`@rcvr option' -> '`@rcvr selectionOption'.
-
-	^ self selectionOption
 ]
 
 { #category : #accessing }
@@ -293,17 +214,6 @@ ToAbstractListSelectionMode >> selectionChangedEventClass [
 ToAbstractListSelectionMode >> selectionContainer [
 
 	^ selectionOption selectionContainer
-]
-
-{ #category : #accessing }
-ToAbstractListSelectionMode >> selectionElementOption [
-
-	self
-		deprecated: 'Use #selectionOption'
-		transformWith:
-		'`@rcvr selectionElementOption' -> '`@rcvr selectionOption'.
-
-	^ self selectionOption
 ]
 
 { #category : #accessing }

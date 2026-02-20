@@ -616,7 +616,10 @@ ToListSelecter >> shiftSelection: anInteger from: anIndex [
 { #category : #private }
 ToListSelecter >> sideIdx: aGap [
 
-	^ enabled ifFalse: [ 0 ] ifTrue: [ selectionModel sideIdx: aGap startingAt: self currentIndex ]
+	^ enabled
+		  ifFalse: [ 0 ]
+		  ifTrue: [
+		  selectionModel sideIdx: aGap startingAt: self currentIndex ]
 ]
 
 { #category : #operations }

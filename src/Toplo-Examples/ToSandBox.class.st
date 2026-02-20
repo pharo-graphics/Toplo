@@ -3149,7 +3149,6 @@ ToSandBox class >> example_ListWithAllClassesAsButton [
 	l addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :evt | evt traceCr ]).
-	l selectionOption masked: true.
 	l openInSpace
 ]
 
@@ -7070,6 +7069,11 @@ ToSandBox class >> example_menuPane2 [
 		       hMatchParent;
 		       vFitContent.
 	frame := ToInnerWindow new.
+	bar addItem: (ToMenuItem new
+			 labelText: 'Inspect';
+			 clickAction: [ frame space root inspect ];
+			 yourself).
+	bar addFiller.
 
 	2 timesRepeat: [
 		menu := ToMenu new.
@@ -9778,30 +9782,19 @@ ToSandBox class >> listMenuFenuFactory [
 				   labelText: 'Show all';
 				   clickAction: [ target hiddenSelecter deselectAll ];
 				   yourself).
-		  target selectionOption isMasked
-			  ifTrue: [
-				  menu addItem: (ToMenuItem new
-						   labelText: 'stop primary selection masking';
-						   clickAction: [ target selectionOption masked: false ];
-						   yourself) ]
-			  ifFalse: [
-				  menu addItem: (ToMenuItem new
-						   labelText: 'start primary selection masking';
-						   clickAction: [ target selectionOption masked: true ];
-						   yourself) ].
 		  target selectionOption isAnimated
 			  ifTrue: [
 				  menu addItem: (ToMenuItem new
 						   labelText: 'stop selection transition animation';
 						   clickAction: [
-							   target selectionMode selectionElementOption
+							   target selectionOption
 								   animationDuration: 0 milliSeconds ];
 						   yourself) ]
 			  ifFalse: [
 				  menu addItem: (ToMenuItem new
 						   labelText: 'start selection transition animation';
 						   clickAction: [
-							   target primarySelectionMode selectionOption
+							   target selectionOption
 								   animationDuration: 200 milliSeconds ];
 						   yourself) ] ].
 	  indexes ifNotEmpty: [
@@ -9995,7 +9988,6 @@ ToSandBox class >> listWithEditableAndContextMenu [
 	option := l disabledSelectionMode selectionOption.
 	option grouped: false.
 	option beneath: false.
-	option masked: false.
 	option elementFactory: [
 			ToListSelectionElement new defaultSkin:
 				ToListDisabledSelectionElementExampleSkin new ].
@@ -10005,7 +9997,6 @@ ToSandBox class >> listWithEditableAndContextMenu [
 	option deselectionSkinEventClass: ToSelectableSkinEvent.
 	option grouped: false.
 	option beneath: false.
-	option masked: false.
 	option elementFactory: [
 			ToListSelectionElement new defaultSkin:
 				ToListUnselectableSelectionElementExampleSkin new ].
@@ -10379,7 +10370,7 @@ ToSandBox class >> selectionModeChooserFor: aBar [
 				value ifTrue: [ | chosen selMode |
 					chosen := modeAssoc key.
 					selMode := aBar primarySelectionMode.
-					selMode enabled: chosen ~= #Disabled.
+					selMode selecter enabled: chosen ~= #Disabled.
 					modeAssoc value ifNotNil: [ :message |
 						selMode perform: message asSymbol with: true ] ] ] ].
 

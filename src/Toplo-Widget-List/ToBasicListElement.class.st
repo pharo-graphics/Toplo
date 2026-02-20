@@ -10,7 +10,8 @@ Class {
 		'selectionModeMap',
 		'mouseMoveReplayRequested',
 		'innerElementClass',
-		'innerElement'
+		'innerElement',
+		'postponedActions'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -58,6 +59,22 @@ ToBasicListElement >> checkMouseMoveReplayRequest [
 	mouseMoveReplayRequested ifFalse: [ ^ self ].
 	self spaceDo: [ :sp | sp mouseProcessor handleLastMouseMove ].
 	mouseMoveReplayRequested := false
+]
+
+{ #category : #layout }
+ToBasicListElement >> checkPostponedActions [
+
+	postponedActions ifEmpty: [ ^ self ].
+	postponedActions do: [ :action |
+		self innerElement postponeAction: action for: self ].
+	postponedActions reset
+]
+
+{ #category : #layout }
+ToBasicListElement >> checkSelections [
+
+	self selectionModes do: [ :mode | mode checkSelectionIn: self ].
+
 ]
 
 { #category : #layout }
@@ -293,6 +310,7 @@ ToBasicListElement >> initialize [
 
 	super initialize.
 	
+	postponedActions := OrderedCollection new.
 	mouseMoveReplayRequested := false.
 	selectionModeMap := IdentityDictionary new.
 	
@@ -548,7 +566,8 @@ ToBasicListElement >> onInnerElementChanged [
 ToBasicListElement >> onLayoutDone [
 
 	super onLayoutDone.
-	self selectionModes do: [ :mode | mode checkSelectionIn: self ].
+	self checkSelections.
+	self checkPostponedActions.
 	self checkMouseMoveReplayRequest
 ]
 
@@ -568,7 +587,10 @@ ToBasicListElement >> placeholderClass [
 { #category : #layout }
 ToBasicListElement >> postponeAction: aValuable [
 
-	self innerElement postponeAction: aValuable for: self
+	innerElement ifNotNil: [ :inner |
+		^ inner postponeAction: aValuable for: self ].
+	postponedActions add: aValuable.
+	self requestLayout
 ]
 
 { #category : #'accessing - selection modes' }

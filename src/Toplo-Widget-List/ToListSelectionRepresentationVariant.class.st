@@ -26,6 +26,12 @@ ToListSelectionRepresentationVariant class >> separate [
 	^ ToListSelectionWithSeparateElementVariant new
 ]
 
+{ #category : #'private - selection updating' }
+ToListSelectionRepresentationVariant >> checkSelectionContainerIn: aListElement [
+
+	self subclassResponsibility 
+]
+
 { #category : #accessing }
 ToListSelectionRepresentationVariant >> deselectionSkinEventClass [
 
@@ -49,12 +55,6 @@ ToListSelectionRepresentationVariant >> isEmbedded [
 ToListSelectionRepresentationVariant >> isGrouped [ 
 
 	^ false
-]
-
-{ #category : #testing }
-ToListSelectionRepresentationVariant >> isMasked [
-
-	^ selectionOption isMasked
 ]
 
 { #category : #'private - selection updating' }

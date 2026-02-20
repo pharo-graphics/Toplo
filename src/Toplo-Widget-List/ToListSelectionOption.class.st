@@ -4,18 +4,26 @@ Class {
 	#traits : 'TObservable',
 	#classTraits : 'TObservable classTrait',
 	#instVars : [
-		'#masked => ObservableSlot',
 		'#selectionSkinEventClass => ObservableSlot',
 		'#deselectionSkinEventClass => ObservableSlot',
+		'#representationVariant => ObservableSlot',
 		'#animationDuration',
 		'#beneath',
 		'#elementFactory',
 		'#selectionContainer',
-		'#selectionMode',
-		'#representationVariant'
+		'#selectionMode'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
+
+{ #category : #'private - selection updating' }
+ToListSelectionOption >> addSelectionContainerIn: aListElement [
+
+	selectionContainer ifNotNil: [ ^ self ].
+	selectionContainer := self newSelectionContainerIn: aListElement.
+	selectionContainer beneath: beneath.
+	aListElement addChild: selectionContainer
+]
 
 { #category : #accessing }
 ToListSelectionOption >> animationDuration [
@@ -37,17 +45,19 @@ ToListSelectionOption >> beneath: aBoolean [
 	selectionContainer beneath: aBoolean
 ]
 
+{ #category : #accessing }
+ToListSelectionOption >> checkRepresentationVariantin: aListElement [
+
+	representationVariant selectionOption: self.
+	self checkSelectionContainerIn: aListElement.
+	aListElement postponeAction: [
+		self updateRepresentationIn: aListElement ]
+]
+
 { #category : #'private - selection updating' }
 ToListSelectionOption >> checkSelectionContainerIn: aListElement [
 
-	masked ifTrue: [
-			^ selectionContainer ifNotNil: [
-					  selectionContainer removeFromParent.
-					  selectionContainer := nil ] ].
-	selectionContainer ifNotNil: [ ^ self ].
-	selectionContainer := self newSelectionContainerIn: aListElement.
-	selectionContainer beneath: beneath.
-	aListElement addChild: selectionContainer
+	representationVariant checkSelectionContainerIn: aListElement
 ]
 
 { #category : #accessing }
@@ -95,7 +105,6 @@ ToListSelectionOption >> initialize [
 
 	super initialize.
 	self class initializeSlots: self.
-	masked := true.
 	animationDuration := 0 milliSecond.
 	beneath := true.
 	self representationVariant: ToListSelectionRepresentationVariant separate
@@ -120,21 +129,9 @@ ToListSelectionOption >> isGrouped [
 ]
 
 { #category : #testing }
-ToListSelectionOption >> isMasked [
-
-	^ masked 
-]
-
-{ #category : #testing }
 ToListSelectionOption >> isPrimary [
 
 	^ selectionMode isPrimary
-]
-
-{ #category : #accessing }
-ToListSelectionOption >> masked: aBoolean [
-
-	masked := aBoolean
 ]
 
 { #category : #'instance creation' }
@@ -158,15 +155,15 @@ ToListSelectionOption >> notifyNodesSelectedIn: aListElement [
 { #category : #'api - hooks' }
 ToListSelectionOption >> onInstalledIn: aListElement [
 
-	self property: #masked whenChangedDo: [
-			self checkSelectionContainerIn: aListElement.
-			self updateRepresentationIn: aListElement ].
 	self
 		property: #selectionSkinEventClass
 		whenChangedDo: [ self updateRepresentationIn: aListElement ].
 	self
 		property: #deselectionSkinEventClass
 		whenChangedDo: [ self updateRepresentationIn: aListElement ].
+	self
+		property: #representationVariant
+		whenChangedDo: [ self checkRepresentationVariantin: aListElement ].
 
 	self checkSelectionContainerIn: aListElement
 ]
@@ -176,6 +173,14 @@ ToListSelectionOption >> onUninstalledIn: aListElement [
 
 	selectionContainer ifNotNil: [ :sc | sc removeFromParent ].
 	
+]
+
+{ #category : #'private - selection updating' }
+ToListSelectionOption >> removeSelectionContainerIn: aListElement [
+
+	selectionContainer ifNil: [ ^ self ].
+	selectionContainer removeFromParent.
+	selectionContainer := nil
 ]
 
 { #category : #accessing }

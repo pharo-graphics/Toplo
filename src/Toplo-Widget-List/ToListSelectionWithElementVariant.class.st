@@ -8,7 +8,6 @@ Class {
 ToListSelectionWithElementVariant >> addSelectionElementsIn: aListElement [
 
 	| selectionElements |
-	self isMasked ifTrue: [ ^ self ].
 	selectionElements := Array new: 50 streamContents: [ :stream |
 			                     representation
 				                     stream: stream
@@ -16,6 +15,12 @@ ToListSelectionWithElementVariant >> addSelectionElementsIn: aListElement [
 				                     option: self ].
 	selectionElements isEmpty ifTrue: [ ^ self ].
 	self updateSelectionContainerWith: selectionElements in: aListElement
+]
+
+{ #category : #'private - selection updating' }
+ToListSelectionWithElementVariant >> checkSelectionContainerIn: aListElement [
+
+	selectionOption addSelectionContainerIn: aListElement
 ]
 
 { #category : #testing }

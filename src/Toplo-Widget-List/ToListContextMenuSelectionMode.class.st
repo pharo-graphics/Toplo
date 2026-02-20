@@ -10,14 +10,7 @@ ToListContextMenuSelectionMode >> defaultSelectionOption [
 	^ ToListSelectionOption new
 		  grouped: true;
 		  beneath: false;
-		  masked: false;
 		  elementFactory: [ ToListContextMenuSelectionElement new ]
-]
-
-{ #category : #testing }
-ToListContextMenuSelectionMode >> isContextMenu [
-
-	^ true
 ]
 
 { #category : #'instance creation' }

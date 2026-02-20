@@ -34,8 +34,10 @@ ToMenuItemListElement >> initialize [
 	self isOrientable ifTrue: [ self vertical: true ].
 	self toConfigurationDo: [ :conf | conf isFlowable: false ].
 	self hFitContent.
+	self selectionMode multiple: false.
+	self selectionMode selectOnPressed: true.
 	"No visible primary selection"
-	self selectionOption masked: true
+	self selectionOption withEmbeddedRepresentation.
 ]
 
 { #category : #layout }

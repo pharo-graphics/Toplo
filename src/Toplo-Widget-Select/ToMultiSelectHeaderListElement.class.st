@@ -122,10 +122,8 @@ ToMultiSelectHeaderListElement >> haveMaxSelectedCount [
 ToMultiSelectHeaderListElement >> initialize [
 
 	super initialize.
-	" no visible primary and secondary selection elements "
-	self selectionOption masked: true.
 	self selectionMode makeDisabledUnselectable: true.
-	self secondarySelectionOption masked: true.
+	self selectionOption withEmbeddedRepresentation.
 	self focusability: BlFocusability ignore.
 	selectedItemIndex := IdentityDictionary new.
 	maxSelectedCount := -1.

@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
 
+{ #category : #'private - selection updating' }
+ToListSelectionWithoutElementVariant >> checkSelectionContainerIn: aListElement [
+
+	selectionOption removeSelectionContainerIn: aListElement
+]
+
 { #category : #testing }
 ToListSelectionWithoutElementVariant >> isEmbedded [ 
 

@@ -166,7 +166,7 @@ ToNodeContainer >> newMiddleContainer [
 	^ node
 ]
 
-{ #category : #'instance creation' }
+{ #category : #skin }
 ToNodeContainer >> newRawSkin [
 
 	^ ToNodeContainerSkin new

@@ -912,7 +912,7 @@ ToListElementWithFiniteInnerElementTest >> testSelectionAfterLastRemoval [
 
 	| l |
 	l := ToListElement finite.
-	l secondarySelectionMode enabled: false.
+	l secondarySelectionMode selecter enabled: false.
 	space root addChild: l.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).

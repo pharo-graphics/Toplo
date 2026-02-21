@@ -42,7 +42,7 @@ ToInnerFiniteListDataSourceObserver >> infiniteDataSourceItemRangeEvent: anEvent
 
 { #category : #'event handling' }
 ToInnerFiniteListDataSourceObserver >> infiniteDataSourceItemRangeInserted: anEvent [
-
+"(innerListElement listElement isKindOf: ToMenuItemListElement) ifFalse: ['Observer>>infiniteDataSourceItemRangeInserted:' traceCr]."
 	innerListElement dataSourceManager
 		onItemRangeInserted: anEvent position
 		itemCount: anEvent itemCount

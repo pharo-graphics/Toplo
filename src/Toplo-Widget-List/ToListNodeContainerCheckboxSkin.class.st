@@ -8,7 +8,9 @@ Class {
 ToListNodeContainerCheckboxSkin >> deselectedSkinEvent: anEvent [
 
 	super deselectedSkinEvent: anEvent.
-	anEvent elementDo: [ :e | e removeTokenNamed: #'checkbox-color' ]
+	anEvent elementDo: [ :e |
+			e removeTokenNamed: #'checkbox-color'.
+			e privateChecked: false ]
 ]
 
 { #category : #'event handling' }
@@ -29,7 +31,8 @@ ToListNodeContainerCheckboxSkin >> selectedSkinEvent: anEvent [
 				     e valueOfTokenNamed: #'selected-focused-foreground' ]
 				     ifFalse: [
 				     e valueOfTokenNamed: #'selected-unfocused-foreground' ].
-			e addTokenNamed: #'checkbox-color' withValue: f ]
+			e addTokenNamed: #'checkbox-color' withValue: f.
+			e privateChecked: true]
 ]
 
 { #category : #'event handling' }

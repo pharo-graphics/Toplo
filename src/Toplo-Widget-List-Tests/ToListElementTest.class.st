@@ -168,6 +168,7 @@ ToListElementTest >> testCheckboxSelectionUpdatedAfterInsert4 [
 	self assert: l selectionModel selectedIndexes equals: { 1 }.
 	self assert: (l nodeContainers at: 1) checkbox isChecked.
 	l dataAccessor addFirst: (self statesOfAmerica at: 6).
+	l forceLayout.
 	self waitTestingSpaces.
 	self assert: l selectionModel selectedIndexes equals: { 2 }.
 	self deny: (l nodeContainers at: 1) checkbox isChecked.

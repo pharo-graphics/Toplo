@@ -11,8 +11,8 @@ ToNodeContainerSkin >> deselectedSkinEvent: anEvent [
 
 	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
 	anEvent elementDo: [ :e |
-			e holder listElement useCheckbox ifTrue: [
-				e removeTokenNamed: #'checkbox-color' ] ]
+			"e holder listElement useCheckbox ifTrue: [
+				e removeTokenNamed: #'checkbox-color' ]" ]
 ]
 
 { #category : #'event handling' }
@@ -22,12 +22,12 @@ ToNodeContainerSkin >> selectedSkinEvent: anEvent [
 
 	anEvent selectionMode isPrimary ifFalse: [ ^ self ].
 	anEvent elementDo: [ :e |
-			e holder listElement useCheckbox ifTrue: [
+			"e holder listElement useCheckbox ifTrue: [
 					| f |
 					f := anEvent focused
 						     ifTrue: [
 						     e valueOfTokenNamed: #'selected-focused-foreground' ]
 						     ifFalse: [
 						     e valueOfTokenNamed: #'selected-unfocused-foreground' ].
-					e addTokenNamed: #'checkbox-color' withValue: f ] ]
+					e addTokenNamed: #'checkbox-color' withValue: f ]" ]
 ]

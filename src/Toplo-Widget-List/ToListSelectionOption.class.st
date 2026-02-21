@@ -149,6 +149,10 @@ ToListSelectionOption >> notifyNodesDeselectedIn: aListElement [
 { #category : #'private - selection updating' }
 ToListSelectionOption >> notifyNodesSelectedIn: aListElement [
 
+   "	(aListElement isKindOf: ToMenuItemListElement) 
+		ifFalse: [self isPrimary 
+			ifTrue: ['Option>>notifyNodesSelectedIn: '  traceCr ] ]."
+
 	representationVariant notifyNodesSelectedIn: aListElement
 ]
 

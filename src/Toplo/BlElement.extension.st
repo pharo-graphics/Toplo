@@ -55,7 +55,7 @@ BlElement >> addStyleSheetProperty: aWriteableProperty [
 { #category : #'*Toplo' }
 BlElement >> addTokenNamed: aSymbol withValue: anObject [
 
-	self ensuredTokenPropertyMap addProperty: (aSymbol -> anObject) asTokenProperty 
+	^ self ensuredTokenPropertyMap addProperty: (aSymbol -> anObject) asTokenProperty 
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
@@ -708,7 +708,7 @@ BlElement >> removeStamp: aSymbol [
 { #category : #'*Toplo' }
 BlElement >> removeTokenNamed: aSymbol [
 
-	self tokenPropertyMapDo: [ :map | map removePropertyNamed: aSymbol ]
+	^ self tokenPropertyMapDo: [ :map | map removePropertyNamed: aSymbol ]
 ]
 
 { #category : #'*Toplo' }

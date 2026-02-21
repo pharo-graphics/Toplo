@@ -90,8 +90,9 @@ ToElementPropertyIndex >> removeAllPropertiesFromNames: aCollectionOfSymbol [
 { #category : #removing }
 ToElementPropertyIndex >> removePropertyNamed: aSymbol [
 
-	index removeKey: aSymbol ifAbsent: [ ^ self ].
-	self notifyIndexChanged
+	index removeKey: aSymbol ifAbsent: [ ^ false ].
+	self notifyIndexChanged.
+	^ true
 ]
 
 { #category : #adding }

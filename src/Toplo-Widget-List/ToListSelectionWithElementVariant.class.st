@@ -8,7 +8,7 @@ Class {
 ToListSelectionWithElementVariant >> addSelectionElementsIn: aListElement [
 
 	| selectionElements |
-	selectionElements := Array new: 50 streamContents: [ :stream |
+	selectionElements := Array new: 40 streamContents: [ :stream |
 			                     representation
 				                     stream: stream
 				                     withNewSelectionElementIn: aListElement

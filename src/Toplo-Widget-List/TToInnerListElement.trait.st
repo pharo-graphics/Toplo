@@ -59,6 +59,15 @@ TToInnerListElement >> nodeContainerAt: anIndex [
 		  ifNil: [  ]
 ]
 
+{ #category : #'t - inner list element' }
+TToInnerListElement >> nodeContainerAt: anIndex do: aValuable [
+	" evaluate the valuable with the container for the data at anIndex according to currently viewed data range. 
+	Returns nil if anIndex is not currently viewed in the infinite element"
+
+	^ (self nodeContainerAt: anIndex) ifNotNil: [ :holder |
+		  aValuable cull: holder itemElement ]
+]
+
 { #category : #'t - inner list element - requirements' }
 TToInnerListElement >> nodeContainers [
 

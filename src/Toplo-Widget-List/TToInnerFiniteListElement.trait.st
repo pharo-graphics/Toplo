@@ -16,7 +16,8 @@ TToInnerFiniteListElement >> addAllNodeContainers: anArray at: aPosition [
 	anArray do: [ :container |
 			self addNodeContainer: container at: pos.
 			self notifyChildAttached: container.
-			pos := pos + 1 ]
+			pos := pos + 1 ].
+	self updatePositions
 ]
 
 { #category : #'t - inner finite list element - requirements' }
@@ -165,10 +166,11 @@ TToInnerFiniteListElement >> onItemRangeInserted: aPositionStart itemCount: anIt
 
 	| holder offsetPosition containers |
 	" consume the comands that can contain a selection shift command "
-	self consumeFinalStepCommands.
+"	(self listElement isKindOf: ToMenuItemListElement) ifFalse: [ '1 ListElement>>onItemRangeInserted: itemCount:' traceCr]."
 	self
 		shiftPositionsFrom: aPositionStart + anItemCount - 1
 		by: anItemCount.
+"	(self listElement isKindOf: ToMenuItemListElement) ifFalse: ['2 ListElement>>onItemRangeInserted: itemCount:' traceCr]."
 	containers := Array streamContents: [ :stream |
 			           1 to: anItemCount do: [ :idx |
 					           holder := self dataSource createHolder: self.
@@ -176,7 +178,13 @@ TToInnerFiniteListElement >> onItemRangeInserted: aPositionStart itemCount: anIt
 					           holder infiniteElement: self.
 					           self dataSource bindHolder: holder at: offsetPosition.
 					           stream nextPut: holder nodeContainer] ].
-	self addAllNodeContainers: containers at: aPositionStart
+"	(self listElement isKindOf: ToMenuItemListElement) ifFalse: ['3 ListElement>>onItemRangeInserted: itemCount:' traceCr]."
+	self addAllNodeContainers: containers at: aPositionStart.
+"	(self listElement isKindOf: ToMenuItemListElement) ifFalse: ['5 ListElement>>onItemRangeInserted: itemCount:' traceCr]."
+	"self consumeFinalStepCommands."
+"	(self listElement isKindOf: ToMenuItemListElement) ifFalse: ['5 ListElement>>onItemRangeInserted: itemCount:' traceCr].
+"
+
 ]
 
 { #category : #'t - inner finite list element - data source updates' }
@@ -207,6 +215,7 @@ TToInnerFiniteListElement >> onItemsChanged [
 					              stream nextPut: holder nodeContainer ] ].
 	self addAllNodeContainers: containers at: 1.
 	self updatePositions
+
 ]
 
 { #category : #'t - inner finite list element - accessing nodes' }
@@ -244,6 +253,15 @@ TToInnerFiniteListElement >> updatePositions [
 	self nodeContainersDo: [ :container |
 		pos := pos + 1.
 		container holder bindAtPosition: pos ]
+]
+
+{ #category : #'t - inner finite list element - data source updates' }
+TToInnerFiniteListElement >> updatePositionsFrom: aStartPosition [
+
+	aStartPosition to: self nodeContainers size do: [ :pos |
+			| container |
+			container := self nodeContainerAt: pos.
+			container holder bindAtPosition: pos ]
 ]
 
 { #category : #'t - inner finite list element - configuration' }

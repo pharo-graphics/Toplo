@@ -116,7 +116,9 @@ ToListSelectionRepresentationVariant >> notifyNodeContainer: aNodeContainer sele
 
 { #category : #'private - selection notification' }
 ToListSelectionRepresentationVariant >> notifyNodesDeselectedIn: aListElement [
-
+	"(aListElement isKindOf: ToMenuItemListElement) 
+		ifFalse: [selectionOption isPrimary 
+			ifTrue: ['PresentationVariant>>notifyNodesDeselectedIn: '  traceCr ] ]."
 	aListElement nodeContainersDo: [ :container |
 		self notifyNodeContainer: container deselectedIn: aListElement ]
 ]
@@ -124,8 +126,9 @@ ToListSelectionRepresentationVariant >> notifyNodesDeselectedIn: aListElement [
 { #category : #'private - selection notification' }
 ToListSelectionRepresentationVariant >> notifyNodesSelectedIn: aListElement [
 
-	"(aListElement isKindOf: ToMenuItemListElement) ifFalse: [
-		selectionOption isPrimary ifTrue: [ 'notifyNodesSelectedIn: ' traceCr ] ]."
+	"(aListElement isKindOf: ToMenuItemListElement) 
+		ifFalse: [selectionOption isPrimary 
+			ifTrue: ['PresentationVariant>>notifyNodesSelectedIn: '  traceCr ] ]."
 	aListElement nodeContainersDo: [ :container |
 		self notifyNodeContainer: container selectedIn: aListElement ]
 ]
@@ -176,6 +179,10 @@ ToListSelectionRepresentationVariant >> selectionSkinEventClass [
 
 { #category : #'private - selection updating' }
 ToListSelectionRepresentationVariant >> updateRepresentationIn: aListElement [
+
+  	"(aListElement isKindOf: ToMenuItemListElement) 
+		ifFalse: [selectionOption isPrimary 
+			ifTrue: ['PresentationVariant>>updateRepresentationIn: '  traceCr ] ]."
 
 	representation := self nextRepresentationIn: aListElement.
 	self notifyNodesDeselectedIn: aListElement.

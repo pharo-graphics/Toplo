@@ -205,6 +205,7 @@ ToSandBox class >> classTree [
 
 	| l |
 	l := ToTreeElement new.
+	l inspect.
 	l nodeManager childrenGetter: [ :dataItem |
 			dataItem isClass
 				ifTrue: [
@@ -501,10 +502,9 @@ ToSandBox class >> example_AllClassesFiniteWithCheckbox [
 
 	| l |
 	l := self classTree.
-	l inspect.
 	l useInfiniteLayout: false.
 	l dataAccessor addAll:
-		(((Smalltalk globals allClasses copyFrom: 1 to: 100) select: [ :cls |
+		(((Smalltalk globals allClasses copyFrom: 1 to: 1000) select: [ :cls |
 			  cls subclasses notEmpty ]) sorted: [ :a :b | a name < b name ]).
 
 	l toConfiguration useCheckbox: true.
@@ -9922,12 +9922,16 @@ ToSandBox class >> listWithData: aCollection [
 			triplet
 				hMatchParent;
 				vFitContent.
-			holder fontSize ifNil: [ holder fontSize: (rand nextIntegerBetween: 10 and: 16) ].
-			label := (ToLabel text: holder position asString , ': ' , dataItem dataItem asString)
+			holder fontSize ifNil: [
+				holder fontSize: (rand nextIntegerBetween: 10 and: 16) ].
+			label := (ToLabel text:
+					          holder position asString , ': '
+					          , dataItem dataItem asString)
 				         fontSize: holder fontSize;
 				         yourself.
 			triplet startElement: ToIconicRemoveButton new.
-			triplet startElement clickAction: [ triplet startElement fireEvent: ToRemoveButtonClickedEvent new ].
+			triplet startElement clickAction: [
+				triplet startElement fireEvent: ToRemoveButtonClickedEvent new ].
 			triplet middleElement: label.
 			triplet startInterspace: 10.
 			triplet constraintsDo: [ :c | c linear vertical alignCenter ].
@@ -9947,11 +9951,15 @@ ToSandBox class >> listWithData: aCollection [
 					 yourself).
 			menu addItem: (ToMenuItem new
 					 labelText: 'Add first a new item';
-					 clickAction: [ target dataAccessor addFirst: String loremIpsum substrings first , ' (added first)' ];
+					 clickAction: [
+							 target dataAccessor addFirst:
+									 String loremIpsum substrings first , ' (added first)' ];
 					 yourself).
 			menu addItem: (ToMenuItem new
 					 labelText: 'Add last a new item';
-					 clickAction: [ target dataAccessor add: String loremIpsum substrings first , ' (added last)' ];
+					 clickAction: [
+							 target dataAccessor add:
+									 String loremIpsum substrings first , ' (added last)' ];
 					 yourself).
 			idxes ifNotEmpty: [
 					menu addItem: (ToMenu new
@@ -9959,33 +9967,60 @@ ToSandBox class >> listWithData: aCollection [
 							 in: [ :m |
 									 m addItem: (ToMenuItem new
 												  labelText: 'Inspect';
-												  clickAction: [ Array withAll: (idxes collect: [ :idx | target nodeContainerAt: idx ]) inspect ];
+												  clickAction: [
+														  Array withAll:
+																  (idxes collect: [ :idx |
+																		   target nodeContainerAt: idx ]) inspect ];
 												  yourself).
 									 m addItem: (ToMenuItem new
 											  labelText: 'Remove';
-											  clickAction: [ idxes reverseDo: [ :idx | bar dataAccessor removeAt: idx ] ];
+											  clickAction: [
+												  idxes reverseDo: [ :idx |
+														  bar dataAccessor removeAt: idx ] ];
 											  yourself).
 									 m addItem: (ToMenuItem new
 											  labelText: 'Unable/disable';
-											  clickAction: [ idxes do: [ :idx | (bar nodeContainerAt: idx) disabled: (bar nodeContainerAt: idx) isEnabled ] ];
+											  clickAction: [
+													  idxes do: [ :idx |
+																  (bar nodeContainerAt: idx) disabled:
+																		  (bar nodeContainerAt: idx) isEnabled ] ];
 											  yourself).
 									 m addItem: (ToMenuItem new
 											  labelText: 'Unselectable';
-											  clickAction: [ idxes do: [ :idx | bar unselectableSelecter selectIndex: idx ] ];
+											  clickAction: [
+												  idxes do: [ :idx |
+														  bar unselectableSelecter selectIndex: idx ] ];
 											  yourself).
 									 m addItem: (ToMenuItem new
 											  labelText: 'Insert before';
 											  clickAction: [
 													  | idx |
 													  idx := idxes first.
-													  target dataAccessor add: String loremIpsum substrings first , ' (inserted before)' beforeIndex: idx ];
+													  target dataAccessor
+														  add:
+															  String loremIpsum substrings first
+															  , ' (inserted before)'
+														  beforeIndex: idx ];
 											  yourself).
+									 m addItem: (ToMenuItem new
+											  labelText: 'Insert 10 items After';
+											  clickAction: [
+													  | idx added |
+													  idx := idxes first.
+													  added := (1 to: 10) collect: [ :n |
+															           (String loremIpsum substrings at: n)
+															           , ' (inserted after)' ].
+													  target dataAccessor addAll: added afterIndex: idx ]).
 									 m addItem: (ToMenuItem new
 											  labelText: 'Insert after';
 											  clickAction: [
 													  | idx |
 													  idx := idxes last.
-													  target dataAccessor add: String loremIpsum substrings first , ' (inserted after)' afterIndex: idx ];
+													  target dataAccessor
+														  add:
+															  String loremIpsum substrings first
+															  , ' (inserted after)'
+														  afterIndex: idx ];
 											  yourself) ];
 							 yourself) ] ].
 

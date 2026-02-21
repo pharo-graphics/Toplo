@@ -77,6 +77,12 @@ TToListElementDecorator >> nodeContainerAt: anIndex [
 ]
 
 { #category : #'t - list element decorator - children - accessing' }
+TToListElementDecorator >> nodeContainerAt: anIndex do: aValuable [
+
+	^ self next nodeContainerAt: anIndex do: aValuable
+]
+
+{ #category : #'t - list element decorator - children - accessing' }
 TToListElementDecorator >> nodeContainers [
 
 	^ self next nodeContainers

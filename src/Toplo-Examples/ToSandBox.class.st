@@ -199,6 +199,50 @@ ToSandBox class >> checkingStrategyChooserFor: aCheckableBar [
 	^ checkingStrategyContainer
 ]
 
+{ #category : #tree }
+ToSandBox class >> classTree [
+	"For this example we created a new wrapper dealing with classes and methods at the same time, a new Node was also created (ToTreeSubAndMethNode) to apply a new skin (ToTreeNodeSubAndMethSkin) with new icons and a different background color for methods "
+
+	| l |
+	l := ToTreeElement new.
+	l nodeManager childrenGetter: [ :dataItem |
+			dataItem isClass
+				ifTrue: [
+						Array streamContents: [ :stream |
+								stream nextPutAll: dataItem subclasses.
+								stream nextPutAll:
+									(dataItem methods collect: [ :each | each selector ]) sorted ] ]
+				ifFalse: [ #(  ) ] ].
+	l nodeManager nodeFactory: [ :holder | ToExTreeSubAndMethNode new ].
+	l withRowNumbers.
+	l contextMenuBuilder: [ :menu :request |
+			| selectionModel indexes target |
+			target := request currentTarget.
+			selectionModel := request selectionModel.
+			indexes := request selectedIndexes.
+			indexes traceCr.
+			menu addItem: (ToMenuItem new
+					 labelText: 'Expand all';
+					 clickAction: [
+							 indexes
+								 ifEmpty: [ target expandAll ]
+								 ifNotEmpty: [
+									 indexes reverseDo: [ :idx |
+											 (target dataSource at: idx) expandAll ] ] ];
+					 yourself).
+			menu addItem: (ToMenuItem new
+					 labelText: 'Collapse all';
+					 clickAction: [
+							 indexes
+								 ifEmpty: [ target collapseAll ]
+								 ifNotEmpty: [
+									 indexes reverseDo: [ :idx |
+											 (target dataSource at: idx) collapse ] ] ];
+					 yourself) ].
+
+	^ l
+]
+
 { #category : #accordion }
 ToSandBox class >> exampleAccordionWithLabel [
 
@@ -443,48 +487,28 @@ ToSandBox class >> example_AllClasses [
 	"For this example we created a new wrapper dealing with classes and methods at the same time, a new Node was also created (ToTreeSubAndMethNode) to apply a new skin (ToTreeNodeSubAndMethSkin) with new icons and a different background color for methods "
 
 	| l |
-	l := ToTreeElement new.
-	l nodeManager childrenGetter: [ :dataItem |
-			dataItem isClass
-				ifTrue: [
-						Array streamContents: [ :stream |
-								stream nextPutAll: dataItem subclasses.
-								stream nextPutAll:
-									(dataItem methods collect: [ :each | each selector ]) sorted ] ]
-				ifFalse: [ #(  ) ] ].
-	l nodeManager nodeFactory: [ :holder | ToExTreeSubAndMethNode new ].
-	l withRowNumbers.
-	l contextMenuBuilder: [ :menu :request |
-			| selectionModel indexes target |
-			target := request currentTarget.
-			selectionModel := request selectionModel.
-			indexes := request selectedIndexes.
-			indexes traceCr.
-			menu addItem: (ToMenuItem new
-					 labelText: 'Expand all';
-					 clickAction: [
-							 indexes
-								 ifEmpty: [ target expandAll ]
-								 ifNotEmpty: [
-									 indexes reverseDo: [ :idx |
-											 (target dataSource at: idx) expandAll ] ] ];
-					 yourself).
-			menu addItem: (ToMenuItem new
-					 labelText: 'Collapse all';
-					 clickAction: [
-							 indexes
-								 ifEmpty: [ target collapseAll ]
-								 ifNotEmpty: [
-									 indexes reverseDo: [ :idx |
-											 (target dataSource at: idx) collapse ] ] ];
-					 yourself) ].
-
+	l := self classTree.
 	l dataAccessor addAll:
-		((Smalltalk globals allClasses select: [ :cls |
+		(((Smalltalk globals allClasses copyFrom: 1 to: 50) select: [ :cls |
 			  cls subclasses notEmpty ]) sorted: [ :a :b | a name < b name ]).
-
 	l openInSpace.
 	^ l
+]
+
+{ #category : #tree }
+ToSandBox class >> example_AllClassesFiniteWithCheckbox [
+	"For this example we created a new wrapper dealing with classes and methods at the same time, a new Node was also created (ToTreeSubAndMethNode) to apply a new skin (ToTreeNodeSubAndMethSkin) with new icons and a different background color for methods "
+
+	| l |
+	l := self classTree.
+	l inspect.
+	l useInfiniteLayout: false.
+	l dataAccessor addAll:
+		(((Smalltalk globals allClasses copyFrom: 1 to: 100) select: [ :cls |
+			  cls subclasses notEmpty ]) sorted: [ :a :b | a name < b name ]).
+
+	l toConfiguration useCheckbox: true.
+	l openInSpace.
 ]
 
 { #category : #tree }
@@ -492,8 +516,13 @@ ToSandBox class >> example_AllClassesWithCheckbox [
 	"For this example we created a new wrapper dealing with classes and methods at the same time, a new Node was also created (ToTreeSubAndMethNode) to apply a new skin (ToTreeNodeSubAndMethSkin) with new icons and a different background color for methods "
 
 	| l |
-	l := self example_AllClasses.
-	l toConfiguration useCheckbox: true
+	l := self classTree.
+	l dataAccessor addAll:
+		(((Smalltalk globals allClasses "copyFrom: 1 to: 50") select: [ :cls |
+			  cls subclasses notEmpty ]) sorted: [ :a :b | a name < b name ]).
+
+	l toConfiguration useCheckbox: true.
+	l openInSpace.
 ]
 
 { #category : #window }
@@ -8727,8 +8756,9 @@ ToSandBox class >> example_toImageWithSVG [
 
 	| im |
 	im := ToImage inner: (self pathBugSVG).
-	im matchParent.
+	im extent: 30 asPoint.
 	im withNullSkin.
+	im inspect.
 	im openInSpace
 ]
 
@@ -9881,19 +9911,19 @@ ToSandBox class >> listWithData: aCollection [
 
 	| bar confBoard barPane rootPane selectionModeBoard rand |
 	rand := Random new.
-	bar := ToListElement finite.
+	bar := ToWrappedListElement finite.
 	bar matchParent.
 	bar nodeManager nodeHolderFactory: [ ToExNodeWithFontSizeHolder new ].
 	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
 	bar nodeBuilder: [ :node :dataItem :holder |
 			| triplet label |
-			node tooltipString: dataItem asString.
+			node tooltipString: dataItem dataItem asString.
 			triplet := ToTripletElement new.
 			triplet
 				hMatchParent;
 				vFitContent.
 			holder fontSize ifNil: [ holder fontSize: (rand nextIntegerBetween: 10 and: 16) ].
-			label := (ToLabel text: holder position asString , ': ' , dataItem asString)
+			label := (ToLabel text: holder position asString , ': ' , dataItem dataItem asString)
 				         fontSize: holder fontSize;
 				         yourself.
 			triplet startElement: ToIconicRemoveButton new.

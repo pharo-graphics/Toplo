@@ -54,6 +54,7 @@ ToListElementTest >> testCheckboxSelectionUpdatedAfterInsert [
 	l useCheckbox: true.
 	space root addChild: l.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self waitTestingSpaces.
 	l selecter selectOnlyIndex: 3.
 	self waitTestingSpaces.
 	l forceLayout.
@@ -77,6 +78,7 @@ ToListElementTest >> testCheckboxSelectionUpdatedAfterInsert1 [
 	l useCheckbox: true.
 	space root addChild: l.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self waitTestingSpaces.
 	self assert: l dataAccessor size equals: 5.
 	l selecter selectOnlyIndex: 3.
 	l forceLayout.
@@ -103,6 +105,7 @@ ToListElementTest >> testCheckboxSelectionUpdatedAfterInsert2 [
 	l useCheckbox: true.
 	space root addChild: l.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self waitTestingSpaces.
 	self assert: l dataAccessor size equals: 5.
 	l selecter selectOnlyIndex: 3.
 	l forceLayout.
@@ -130,6 +133,7 @@ ToListElementTest >> testCheckboxSelectionUpdatedAfterInsert3 [
 	l matchParent.
 	l useCheckbox: true.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self waitTestingSpaces.
 	self assert: l selectionModel isEmpty.
 	l selecter selectIndexes: #( 3 4 ).
 	self waitTestingSpaces.
@@ -206,6 +210,7 @@ ToListElementTest >> testDisable [
 	space root addChild: l.
 	l matchParent.
 	l dataAccessor addAll: { #A. #B. #C }.
+	self waitTestingSpaces.
 	l selecter selectOneMoreIndex: 2.
 	l secondarySelecter selectOneMoreIndex: 3.
 	self waitTestingSpaces.
@@ -241,6 +246,7 @@ ToListElementTest >> testDisabledSelectionModel2 [
 	l := ToListElement new.
 	space root addChild: l.
 	l dataAccessor addAll: { #A. #B. #C }.
+	self waitTestingSpaces.
 	l selecter selectOneMoreIndex: 2.
 	self waitTestingSpaces.
 	self assert: l selectionModel selectedIndexes equals: { 2 }.
@@ -420,12 +426,13 @@ ToListElementTest >> testDoubleListsSelectionEvents [
 	list2 := ToListElement new.
 	1 to: tabSize do: [ :i |
 	list1 dataAccessor add: 'Hello ' , i asString ].
+	self waitTestingSpaces.
 	list1 innerElement forceLayout.
 	self waitTestingSpaces.
 	self assert: list1 nodeContainers size equals: tabSize.
 	1 to: tabSize do: [ :i |
 	list2 dataAccessor add: 'Goodbye ' , i asString ].
-
+	self waitTestingSpaces.
 	list1 addEventHandler: (BlEventHandler
 			 on: ToListPrimarySelectionChangedEvent
 			 do: [ :e |
@@ -435,6 +442,7 @@ ToListElementTest >> testDoubleListsSelectionEvents [
 					 self waitTestingSpaces ]).
 	panel addChild: list1.
 	panel addChild: list2.
+	self waitTestingSpaces.
 	list1 selecter selectOneMoreIndex: 1.
 	self waitTestingSpaces.
 	self assert: (list1 selectionModel containsIndex: 1).
@@ -580,6 +588,7 @@ ToListElementTest >> testMakeDisabledUnselectable [
 	l selectionMode makeDisabledUnselectable: true.
 	space root addChild: l.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self waitTestingSpaces.
 	l disabledSelecter selectOneMoreIndex: 3.
 	self waitTestingSpaces.
 	self waitTestingSpaces.
@@ -875,6 +884,7 @@ ToListElementTest >> testSelectAndScrollToPrevious [
 	space root addChild: l.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self waitTestingSpaces.
 	self assert: l dataAccessor size equals: 5.
 	l selecter selectOneMoreIndex: 4.
 	self waitTestingSpaces.
@@ -906,6 +916,7 @@ ToListElementTest >> testSelectionAfterLastRemoval [
 	space root addChild: l.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self waitTestingSpaces.
 	self assert: l selectionModel selectedIndexes isEmpty.
 	l selecter selectIndexes: #( 5 ).
 	self waitTestingSpaces.
@@ -923,6 +934,7 @@ ToListElementTest >> testSelectionUpdatedAfterInsert [
 	l := ToListElement new.
 	space root addChild: l.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self waitTestingSpaces.
 	l selecter selectOnlyIndex: 3.
 	self waitTestingSpaces.
 	self assert: l selecter currentIndex equals: 3.
@@ -940,6 +952,7 @@ ToListElementTest >> testSelectionUpdatedAfterInsert1 [
 	l := ToListElement new.
 	space root addChild: l.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self waitTestingSpaces.
 	self assert: l dataAccessor size equals: 5.
 	l selecter selectOnlyIndex: 3.
 	self waitTestingSpaces.
@@ -983,6 +996,7 @@ ToListElementTest >> testSelectionUpdatedAfterRemove [
 	space root addChild: l.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self waitTestingSpaces.
 	l selecter selectOnlyIndex: 3.
 	self waitTestingSpaces.
 	l dataAccessor removeAt: 2.
@@ -1035,6 +1049,7 @@ ToListElementTest >> testSelectionUpdatedAfterRemove3 [
 	space root addChild: l.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self waitTestingSpaces.
 	self assert: l selectionModel selectedIndexes isEmpty.
 	l selecter selectIndexes: #( 3 4 ).
 	self waitTestingSpaces.
@@ -1073,6 +1088,7 @@ ToListElementTest >> testSelectionUpdatedAfterRemove5 [
 	space root addChild: l.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self waitTestingSpaces.
 	self assert: l selectionModel selectedIndexes isEmpty.
 	l selecter selectIndexes: #( 3 4 ).
 	self waitTestingSpaces.
@@ -1091,6 +1107,7 @@ ToListElementTest >> testSelectionUpdatedAfterRemove6 [
 	space root addChild: l.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self waitTestingSpaces.
 	self assert: l selectionModel selectedIndexes isEmpty.
 	l selecter selectIndexes: #( 3 4 ).
 	self waitTestingSpaces.

@@ -13,6 +13,26 @@ ToInfiniteDataSourceManager >> addPendingCommand: aCommand [
 ]
 
 { #category : #'data source updates' }
+ToInfiniteDataSourceManager >> onItemRangeInserted: aPositionStart itemCount: anItemCount [
+
+	super onItemRangeInserted: aPositionStart itemCount: anItemCount.
+	"self postponeCommand: (ToListSelectionShiftCommand new
+		positionStart: aPositionStart;
+		itemCount: anItemCount;
+		yourself)"
+]
+
+{ #category : #'data source updates' }
+ToInfiniteDataSourceManager >> onItemRangeRemoved: aPositionStart itemCount: anItemCount [
+
+	super onItemRangeRemoved: aPositionStart itemCount: anItemCount.
+	"self postponeCommand: (ToListSelectionShiftCommand new
+		positionStart: aPositionStart;
+		itemCount: anItemCount negated;
+		yourself)"
+]
+
+{ #category : #'data source updates' }
 ToInfiniteDataSourceManager >> onItemsFiltered: aPositionStart itemCount: anItemCount [
 	"Return true if pending commands should be processed,
 	otherwise false"

@@ -107,11 +107,11 @@ ToNodeHolder >> fakeDataItem: aData [
 ToNodeHolder >> initialize [ 
 
 	super initialize.
-	selectionNotificationMap := SmallIdentityDictionary new.
+	"selectionNotificationMap := SmallIdentityDictionary new."
 	recyclingRequested := false.
 	" don't initialize notifiedSelected to false 
 	to force correct update of selection at start"
-	wasFocused := false
+	"wasFocused := false"
 ]
 
 { #category : #accessing }
@@ -204,10 +204,10 @@ ToNodeHolder >> nodeManager [
 { #category : #selection }
 ToNodeHolder >> notifySelectedSkinEvent: aSelectionEvent [
 
-	selectionNotificationMap
+	"selectionNotificationMap
 		at: aSelectionEvent selectionOption
-		put: aSelectionEvent selected.
-	wasFocused := aSelectionEvent focused.
+		put: aSelectionEvent selected."
+	"wasFocused := aSelectionEvent focused."
 
 	self nodeContainer skinManagerDo: [ :sm |
 		sm selectedSkinEvent: aSelectionEvent in: self nodeContainer ]

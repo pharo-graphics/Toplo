@@ -192,6 +192,7 @@ ToMultiSelectElementTest >> testRemove5 [
 			d2.
 			d3.
 			d4 }.
+	self waitTestingSpaces.
 	cb selecter selectOneMoreIndex: 1.
 	self waitTestingSpaces.
 	self assert: cb selecter selectedIndex equals: 1.

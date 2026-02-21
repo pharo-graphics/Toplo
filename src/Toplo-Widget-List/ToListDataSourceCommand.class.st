@@ -14,6 +14,10 @@ ToListDataSourceCommand >> applyIn: aFiniteListElement [
 	self subclassResponsibility 
 ]
 
+{ #category : #commands }
+ToListDataSourceCommand >> dispatchToLayout: aLayout [
+]
+
 { #category : #accessing }
 ToListDataSourceCommand >> itemCount [
 

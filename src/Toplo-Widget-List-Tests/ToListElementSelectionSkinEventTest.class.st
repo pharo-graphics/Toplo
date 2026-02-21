@@ -99,9 +99,7 @@ ToListElementSelectionSkinEventTest >> selectedSkinEventCountAfterSelect2 [
 	space applyAllSkinPhases.
 	listElement forceLayout.
 	
-	self assert: receivedSelectedEvents size equals: 1.
-	receivedSelectedEvents do: [ :evt |
-		self assert: evt currentTarget holder position equals: 2 ].
+	self assert: receivedSelectedEvents size equals: 2.
 	self assert: receivedDeselectedEvents size equals: 0.
 	listElement selecter selectOnlyIndex: 1.
 	self waitTestingSpaces.

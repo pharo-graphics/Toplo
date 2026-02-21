@@ -73,6 +73,5 @@ ToListSelectionContainer >> removeAllSelectionElements [
 	whereas adding followed by removing don't.
 	See #onLayoutDone "
 
-	self flushRemovedChildren.
-	removedChildren := self children asArray
+	removedChildren := removedChildren copyWithAll: self children asArray
 ]

@@ -229,7 +229,11 @@ ToImage >> innerImage: anImage [
 			c frame vertical alignCenter ].
 
 	innerImage id ifNotNil: [ :id |
-		id asSymbol = self svgInnerImageId ifTrue: [ innerImage matchParent ] ]
+			id asSymbol = self svgInnerImageId ifTrue: [
+					innerImage matchParent.
+					innerImage withAllChildrenBreadthFirstDo: [ :child |
+						child clipChildren: false.
+						child constraints ignoreByLayout ] ] ]
 ]
 
 { #category : #'inner accessing' }

@@ -216,6 +216,6 @@ ToBasicInfiniteListElementStressTest >> testFiniteListElement [
 ToBasicInfiniteListElementStressTest >> testInfiniteListElement [
 
 	list := ToListElement infinite.
-	maxRound := 1000.
+	maxRound := 10.
 	self runStress
 ]

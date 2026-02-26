@@ -86,9 +86,9 @@ ToBasicListElement >> consumeFinalStepCommands [
 ]
 
 { #category : #'t - element with context menu' }
-ToBasicListElement >> contextMenuManagerClass [
+ToBasicListElement >> contextMenuManagerFactory [
 
-	^ ToListElementContextMenuManager
+	^ [:myself | ToListElementContextMenuManager new ]
 ]
 
 { #category : #'accessing selecters' }

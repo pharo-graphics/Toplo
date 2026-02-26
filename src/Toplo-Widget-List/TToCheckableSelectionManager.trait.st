@@ -83,8 +83,8 @@ TToCheckableSelectionManager >> updateCheckboxes [
 	self nodeManager checkableNode ifFalse: [ ^ self ].
 	self checkboxesUpdateRequested ifFalse: [ ^ self ].
 	self checkboxesUpdateDone.
-	"self nodeContainersDo: [ :nc |
+	self nodeContainersDo: [ :nc |
 			nc checkbox ifNotNil: [ :cbox |
 				cbox enabled: true.
-				cbox checked: (nc holder isSelected and: [ nc holder isSelectable ] ) ] ]"
+				cbox checked: (nc holder isSelected and: [ nc holder isSelectable ] ) ] ]
 ]

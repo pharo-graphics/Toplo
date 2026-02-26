@@ -1,7 +1,7 @@
 Class {
 	#name : #ToCircularMenuWindowMeasurement,
 	#superclass : #ToElementCustomMeasurement,
-	#category : #'Toplo-Widget-Menu-Circular'
+	#category : #'Toplo-Widget-Circular-Menu'
 }
 
 { #category : #api }

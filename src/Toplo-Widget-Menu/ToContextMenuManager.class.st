@@ -1,6 +1,9 @@
 Class {
 	#name : #ToContextMenuManager,
 	#superclass : #ToPopupWindowManager,
+	#instVars : [
+		'windowClass'
+	],
 	#category : #'Toplo-Widget-Menu-Context menu'
 }
 
@@ -41,5 +44,11 @@ ToContextMenuManager >> newOutsideEventFilter [
 { #category : #'window handling' }
 ToContextMenuManager >> windowClass [ 
 
-	^ ToContextMenu
+	^ windowClass ifNil: [ windowClass := ToContextMenu ]
+]
+
+{ #category : #'window handling' }
+ToContextMenuManager >> windowClass: aWindowClass [
+
+	windowClass := aWindowClass
 ]

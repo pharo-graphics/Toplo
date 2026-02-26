@@ -7,7 +7,7 @@ Class {
 	#category : #'Toplo-Widget-Circular-SectorMeasurer'
 }
 
-{ #category : #'instance ' }
+{ #category : #instance }
 ToAnnulusSectorAngleMeasurer class >> withAngleInDegrees: anAngleInDegrees [
 
 	^ self new measureStrategy:
@@ -15,14 +15,14 @@ ToAnnulusSectorAngleMeasurer class >> withAngleInDegrees: anAngleInDegrees [
 			   anAngleInDegrees)
 ]
 
-{ #category : #'instance ' }
+{ #category : #instance }
 ToAnnulusSectorAngleMeasurer class >> withArcLength: aNumber [
 
 	^ self new measureStrategy:
 		  (ToAnnulusSectorArcMeasureStrategy new arcLength: aNumber)
 ]
 
-{ #category : #'instance ' }
+{ #category : #instance }
 ToAnnulusSectorAngleMeasurer class >> withChordLength: aNumber [
 
 	^ self new measureStrategy:

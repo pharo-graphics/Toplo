@@ -3,7 +3,7 @@ Class {
 	#superclass : #ToMenuPane,
 	#traits : 'TToAnnulusSectorLayoutUser + TToAnnulusCircularLayoutUser',
 	#classTraits : 'TToAnnulusSectorLayoutUser classTrait + TToAnnulusCircularLayoutUser classTrait',
-	#category : #'Toplo-Widget-Menu-Pane'
+	#category : #'Toplo-Widget-Circular-Menu'
 }
 
 { #category : #configuration }

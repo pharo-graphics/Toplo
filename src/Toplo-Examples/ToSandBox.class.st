@@ -1702,11 +1702,7 @@ ToSandBox class >> example_CircularContextMenu [
 		        yourself.
 	space root addChild: pane.
 
-	pane contextMenuManagerFactory: [
-			ToContextMenuManager new
-				windowClass: ToCircularContextMenu;
-				placement: ToCircularMenuPickedPlacement new;
-				yourself ].
+	pane useCircularContextMenu.
 	pane contextMenuBuilder: [ :contextMenu :request |
 			contextMenu layoutRadius: 80.
 			item := ToMenuItem new.

@@ -1,7 +1,7 @@
 Class {
 	#name : #ToCircularMenuWindowSkin,
 	#superclass : #ToBasicWindowElementSkin,
-	#category : #'Toplo-Widget-Menu-Circular'
+	#category : #'Toplo-Widget-Circular-Menu'
 }
 
 { #category : #'event handling' }

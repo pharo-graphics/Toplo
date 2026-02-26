@@ -120,7 +120,7 @@ BaselineOfToplo >> registerPackages: spec [
 
 	spec package: #'Toplo-Widget-Circular' with: [
 			spec requires:
-				#( #Toplo #'Toplo-Widget-List'  ) ].
+				#( #Toplo #'Toplo-Widget-List' #'Toplo-Widget-Menu' ) ].
 
 	spec
 		package: #'Toplo-Widget-Tree'
@@ -139,7 +139,7 @@ BaselineOfToplo >> registerPackages: spec [
 
 	spec package: #'Toplo-Widget-Menu' with: [
 			spec requires:
-				#( #Toplo #'Toplo-Widget-Button' #'Toplo-Widget-List' #'Toplo-Widget-Circular'
+				#( #Toplo #'Toplo-Widget-Button' #'Toplo-Widget-List'
 				   #'Toplo-Theme' ) ].
 
 	spec

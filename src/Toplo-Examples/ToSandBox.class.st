@@ -1691,6 +1691,55 @@ ToSandBox class >> example_CheckboxWithIndeterminate [
 	but openInSpace
 ]
 
+{ #category : #'circular menu' }
+ToSandBox class >> example_CircularContextMenu [
+
+	| iconProvider item space pane |
+	iconProvider := ToMaterialDesignIconProvider.
+	space := BlSpace new.
+	pane := ToPane new
+		        matchParent;
+		        yourself.
+	space root addChild: pane.
+
+	pane contextMenuManagerFactory: [
+			ToContextMenuManager new
+				windowClass: ToCircularContextMenu;
+				placement: ToCircularMenuPickedPlacement new;
+				yourself ].
+	pane contextMenuBuilder: [ :contextMenu :request |
+			contextMenu layoutRadius: 80.
+			item := ToMenuItem new.
+			item icon: (iconProvider iconNamed: 'filled_checklist').
+			contextMenu addItem: item.
+
+			item := ToMenuItem new.
+			item icon: (iconProvider iconNamed: 'outlined_morehoriz').
+			contextMenu addItem: item.
+
+			item := ToMenuItem new.
+			item icon: (iconProvider iconNamed: #outlined_cropfree).
+			contextMenu addItem: item.
+
+			item := ToMenuItem new.
+			item icon: (iconProvider iconNamed: #outlined_callsplit).
+			contextMenu addItem: item.
+
+			item := ToMenuItem new.
+			item icon: (iconProvider iconNamed: #outlined_delete).
+			contextMenu addItem: item.
+
+			item := ToMenuItem new.
+			item icon: (iconProvider iconNamed: #outlined_sms).
+			contextMenu addItem: item.
+
+			item := ToMenuItem new labelText: 'Inspect'.
+			item constraints annulus sectorAngleWeight: 0.40.
+			item clickAction: [ space inspect ].
+			contextMenu addItem: item ].
+	space show
+]
+
 { #category : #circular }
 ToSandBox class >> example_CircularElement [
 
@@ -1962,7 +2011,7 @@ ToSandBox class >> example_CircularMenuPaneWithSubmenus [
 	subsub constraints annulus sectorArcLength: 100.
 	sub addItem: subsub.
 	subsub := ToMenuItem new labelText: 'X4'.
-	subsub constraints annulus sectorArcLength: 100.
+	subsub constraints annulus sectorChordLength: 100.
 	sub addItem: subsub.
 
 	circularMenu addItem: item.
@@ -9308,6 +9357,7 @@ ToSandBox class >> example_toTreeTable1WithCheckbox [
 
 	| table |
 	table := self example_toTreeTable1 useCheckbox: true.
+	table list useInfiniteLayout: false.
 	table list contextMenuBuilder: [ :menu :request |
 			menu addItem: (ToMenuItem new
 					 labelText: 'Inspect';

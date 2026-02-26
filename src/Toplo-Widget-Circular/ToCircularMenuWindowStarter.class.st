@@ -1,7 +1,7 @@
 Class {
 	#name : #ToCircularMenuWindowStarter,
 	#superclass : #ToWindowStarter,
-	#category : #'Toplo-Widget-Menu-Circular'
+	#category : #'Toplo-Widget-Circular-Menu'
 }
 
 { #category : #'starting-stopping' }

@@ -46,9 +46,18 @@ TToElementWithContextMenu >> contextMenuManager [
 ]
 
 { #category : #'t - element with context menu' }
-TToElementWithContextMenu >> contextMenuManagerClass [
+TToElementWithContextMenu >> contextMenuManagerFactory [
 
-	^ ToContextMenuManager
+	^ self userData
+		  at: #contextMenuManagerFactory
+		  ifAbsentPut: [ [ :myself | ToContextMenuManager new ] ]
+]
+
+{ #category : #'t - element with context menu' }
+TToElementWithContextMenu >> contextMenuManagerFactory: aValuable [
+	" aValuable takes the element as optional argument "
+
+	^ self userData at: #contextMenuManagerFactory put: aValuable
 ]
 
 { #category : #'t - element with context menu' }
@@ -75,9 +84,10 @@ TToElementWithContextMenu >> hasContextMenu [
 { #category : #'t - element with context menu' }
 TToElementWithContextMenu >> installedNewContextMenuManager [
 
-	| h |
-	self addEventHandler: (h := self contextMenuManagerClass new).
-	^ h
+	| manager |
+	manager := self contextMenuManagerFactory cull: self.
+	self addEventHandler: manager.
+	^ manager
 ]
 
 { #category : #'t - element with context menu' }
@@ -95,12 +105,6 @@ TToElementWithContextMenu >> newContextMenuEvent: anEvent [
 			-> '`@rcvr newContextMenuOnEvent: `@arg'.
 
 	^ self newContextMenuOnEvent: anEvent
-]
-
-{ #category : #'t - element with context menu' }
-TToElementWithContextMenu >> newContextMenuManager [
-
-	^ self contextMenuManagerClass new
 ]
 
 { #category : #'t - element with context menu' }

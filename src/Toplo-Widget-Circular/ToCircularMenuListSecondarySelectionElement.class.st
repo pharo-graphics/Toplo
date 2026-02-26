@@ -3,7 +3,7 @@ Class {
 	#superclass : #ToAnnulusSectorElement,
 	#traits : 'TToListSelectionElement',
 	#classTraits : 'TToListSelectionElement classTrait',
-	#category : #'Toplo-Widget-Menu-Circular'
+	#category : #'Toplo-Widget-Circular-Menu'
 }
 
 { #category : #'t - list selection element - private' }

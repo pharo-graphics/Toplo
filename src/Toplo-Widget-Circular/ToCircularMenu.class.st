@@ -6,7 +6,7 @@ Class {
 	#instVars : [
 		'encompassing'
 	],
-	#category : #'Toplo-Widget-Menu-Circular'
+	#category : #'Toplo-Widget-Circular-Menu'
 }
 
 { #category : #accessing }

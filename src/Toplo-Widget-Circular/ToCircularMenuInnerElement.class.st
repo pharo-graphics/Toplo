@@ -3,7 +3,7 @@ Class {
 	#superclass : #ToAnnulusCircularElement,
 	#traits : 'TToInnerListElement + TToInnerFiniteListElement',
 	#classTraits : 'TToInnerListElement classTrait + TToInnerFiniteListElement classTrait',
-	#category : #'Toplo-Widget-Menu-Circular'
+	#category : #'Toplo-Widget-Circular-Menu'
 }
 
 { #category : #'t - inner finite list element - requirements' }
@@ -18,7 +18,6 @@ ToCircularMenuInnerElement >> initialize [
 	super initialize.
 	self geometry: BlCircleGeometry new.
 	self initializeAsToInnerFiniteElement.
-	self preventMouseEvents.
 	self innerRadialRatio: 0.25.
 	self outerRadialRatio: 1.0
 ]

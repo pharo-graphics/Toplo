@@ -2,9 +2,10 @@ Class {
 	#name : #ToCircularMenuNode,
 	#superclass : #ToMenuItemNode,
 	#instVars : [
-		'eventDelegator'
+		'eventDelegator',
+		'centroidLayoutRule'
 	],
-	#category : #'Toplo-Widget-Menu-Circular'
+	#category : #'Toplo-Widget-Circular-Menu'
 }
 
 { #category : #configuration }
@@ -19,11 +20,11 @@ ToCircularMenuNode >> applyConfiguration [
 
 	self constraintsDo: [ :c |
 			c ignoreByLayout.
-			c anchors removeAll.
-			c anchors add:
-				(c anchors centerAnchor on:
-					 (c anchors parent centroidAnchor offset:
-						  itemConstraints sectorCentroidOffset)) ].
+			centroidLayoutRule ifNotNil: [ :rule | c anchors remove: rule ].
+			centroidLayoutRule := c anchors centerAnchor on:
+				                      (c anchors parent centroidAnchor offset:
+					                       itemConstraints sectorCentroidOffset).
+			c anchors add: centroidLayoutRule ].
 	" When added in a menu, the item constraints annulus can be used to setup 
 	its annulus sector constraints. 
 	The item constraints measurer have to be transfered to the node container 

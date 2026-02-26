@@ -3,7 +3,7 @@ Class {
 	#superclass : #ToMenuItemListElement,
 	#traits : 'TToAnnulusSectorLayoutUser + TToAnnulusCircularLayoutUser',
 	#classTraits : 'TToAnnulusSectorLayoutUser classTrait + TToAnnulusCircularLayoutUser classTrait',
-	#category : #'Toplo-Widget-Menu-Circular'
+	#category : #'Toplo-Widget-Circular-Menu'
 }
 
 { #category : #initialization }
@@ -28,8 +28,7 @@ ToCircularMenuList >> initialize [
 	self geometry: BlCircleGeometry new.
 	self secondarySelectionOption elementFactory: [
 		ToCircularMenuListSecondarySelectionElement new ].
-	self matchParent.
-	self preventMouseEvents 
+	self matchParent
 ]
 
 { #category : #testing }

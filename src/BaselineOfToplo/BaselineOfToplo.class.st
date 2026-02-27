@@ -96,6 +96,10 @@ BaselineOfToplo >> registerPackages: spec [
 				   #'Toplo-Theme' ) ].
 
 	spec
+		package: #'Toplo-Widget-ProgressBar'
+		with: [ spec requires: #( #Toplo #'Toplo-Theme' ) ].
+
+	spec
 		package: #'Toplo-Widget-Image'
 		with: [ spec requires: #( #Toplo #'Toplo-Theme' ) ].
 
@@ -112,15 +116,14 @@ BaselineOfToplo >> registerPackages: spec [
 			spec requires:
 				#( #Toplo #'Toplo-Widget-Pane' #'Toplo-Widget-Button'
 				   #'Toplo-Theme' ) ].
-			
+
 
 	spec
 		package: #'Toplo-Widget-List-Tests'
 		with: [ spec requires: #( #Toplo #'Toplo-Widget-List' ) ].
 
 	spec package: #'Toplo-Widget-Circular' with: [
-			spec requires:
-				#( #Toplo #'Toplo-Widget-List' #'Toplo-Widget-Menu' ) ].
+		spec requires: #( #Toplo #'Toplo-Widget-List' #'Toplo-Widget-Menu' ) ].
 
 	spec
 		package: #'Toplo-Widget-Tree'

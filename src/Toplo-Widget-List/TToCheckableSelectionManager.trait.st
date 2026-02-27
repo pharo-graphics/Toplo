@@ -29,15 +29,15 @@ TToCheckableSelectionManager >> newCheckboxInNodeContainer: aNodeContainer [
 
 	| cbox |
 	cbox := self newCheckbox.
-"	cbox nodeContainer: aNodeContainer."
+	cbox nodeContainer: aNodeContainer.
 	cbox
 		addEventHandlerOn: ToCheckableCheckRequestEvent
 		do: [ :event | event authorized: aNodeContainer holder isSelectable ].
 
-	cbox checked: aNodeContainer holder isSelected.
 	" In case the checkbox has been checked, update the list selection "
-	cbox addEventHandlerOn: BlPrimaryClickEvent do: [ :event |
-					self notifyClickOnCheckbox: cbox onNode: aNodeContainer node onEvent: event ].
+	cbox
+		addEventHandlerOn: BlPrimaryClickEvent
+		do: [ :event | self notifyClickOnCheckbox: cbox onEvent: event ].
 	^ cbox
 ]
 
@@ -51,18 +51,6 @@ TToCheckableSelectionManager >> notifyClickOnCheckbox: aCheckbox onEvent: anEven
 
 	node dispatchEvent: (ToListClickOnNodeCheckboxEvent new
 			 fillFromTime: aCheckbox space time;
-			 sourceEvent: anEvent;
-			 yourself)
-]
-
-{ #category : #'t - checkable selection manager' }
-TToCheckableSelectionManager >> notifyClickOnCheckbox: aCheckbox onNode: aNode onEvent: anEvent [
-
-	aNode isAttachedToSceneGraph ifFalse: [ ^ self ].
-	self isDisabled ifTrue: [ ^ self ].
-
-	aNode dispatchEvent: (ToListClickOnNodeCheckboxEvent new
-			 fillFromTime: aNode space time;
 			 sourceEvent: anEvent;
 			 yourself)
 ]
@@ -83,8 +71,8 @@ TToCheckableSelectionManager >> updateCheckboxes [
 	self nodeManager checkableNode ifFalse: [ ^ self ].
 	self checkboxesUpdateRequested ifFalse: [ ^ self ].
 	self checkboxesUpdateDone.
-	self nodeContainersDo: [ :nc |
+	"self nodeContainersDo: [ :nc |
 			nc checkbox ifNotNil: [ :cbox |
 				cbox enabled: true.
-				cbox checked: (nc holder isSelected and: [ nc holder isSelectable ] ) ] ]
+				cbox checked: (nc holder isSelected and: [ nc holder isSelectable ] ) ] ]"
 ]

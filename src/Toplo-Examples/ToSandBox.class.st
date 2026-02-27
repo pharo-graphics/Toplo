@@ -9353,7 +9353,7 @@ ToSandBox class >> example_toTreeTable1WithCheckbox [
 
 	| table |
 	table := self example_toTreeTable1 useCheckbox: true.
-	table list useInfiniteLayout: false.
+	table list useInfiniteLayout: true.
 	table list contextMenuBuilder: [ :menu :request |
 			menu addItem: (ToMenuItem new
 					 labelText: 'Inspect';

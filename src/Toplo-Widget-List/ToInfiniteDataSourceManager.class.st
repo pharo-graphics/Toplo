@@ -15,21 +15,13 @@ ToInfiniteDataSourceManager >> addPendingCommand: aCommand [
 { #category : #'data source updates' }
 ToInfiniteDataSourceManager >> onItemRangeInserted: aPositionStart itemCount: anItemCount [
 
-	super onItemRangeInserted: aPositionStart itemCount: anItemCount.
-	"self postponeCommand: (ToListSelectionShiftCommand new
-		positionStart: aPositionStart;
-		itemCount: anItemCount;
-		yourself)"
+	super onItemRangeInserted: aPositionStart itemCount: anItemCount
 ]
 
 { #category : #'data source updates' }
 ToInfiniteDataSourceManager >> onItemRangeRemoved: aPositionStart itemCount: anItemCount [
 
-	super onItemRangeRemoved: aPositionStart itemCount: anItemCount.
-	"self postponeCommand: (ToListSelectionShiftCommand new
-		positionStart: aPositionStart;
-		itemCount: anItemCount negated;
-		yourself)"
+	super onItemRangeRemoved: aPositionStart itemCount: anItemCount
 ]
 
 { #category : #'data source updates' }

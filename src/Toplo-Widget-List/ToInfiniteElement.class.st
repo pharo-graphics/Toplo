@@ -161,6 +161,18 @@ ToInfiniteElement >> nodeContainersDo: aBlock [
 	self childrenDo: [ :node | aBlock value: node ]
 ]
 
+{ #category : #'private - commands' }
+ToInfiniteElement >> offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount [
+
+	super offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount
+]
+
+{ #category : #'private - commands' }
+ToInfiniteElement >> offsetPositionRecordsForRemove: aPositionStart itemCount: anItemCount [
+
+	super offsetPositionRecordsForRemove: aPositionStart itemCount: anItemCount
+]
+
 { #category : #'t - inner list element - requirements' }
 ToInfiniteElement >> partlyVisibleNodesDo: aBlock [
 

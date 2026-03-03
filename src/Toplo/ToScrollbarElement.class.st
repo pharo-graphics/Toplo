@@ -10,10 +10,10 @@ Class {
 }
 
 { #category : #factory }
-ToScrollbarElement class >> horizontal [
+ToScrollbarElement class >> horizontal: aBoolean [
 
 	^ self new
-		  horizontal: true;
+		  horizontal: aBoolean;
 		  yourself
 ]
 
@@ -39,11 +39,9 @@ ToScrollbarElement class >> initializeToRawTheme: aTheme [
 ]
 
 { #category : #factory }
-ToScrollbarElement class >> vertical [
+ToScrollbarElement class >> vertical: aBoolean [
 
-	^ self new
-		  horizontal: false;
-		  yourself
+	^ self horizontal: aBoolean not
 ]
 
 { #category : #configuration }
@@ -52,14 +50,23 @@ ToScrollbarElement >> applyConfiguration [
 	super applyConfiguration.
 	self isHorizontal
 		ifTrue: [
+				self constraintsDo: [ :c |
+						c ignoreByLayout.
+						c ignored horizontal alignLeft.
+						c ignored vertical alignBottom ].
 				self hMatchParent.
 				self vFitContent ]
 		ifFalse: [
+				self constraintsDo: [ :c |
+						c ignoreByLayout.
+						c ignored horizontal alignRight.
+						c ignored vertical alignBottom ].
 				self vMatchParent.
 				self hFitContent ].
 	track horizontal: self isHorizontal.
 	thumb horizontal: self isHorizontal.
-	pullHandler horizontal: self isHorizontal
+	pullHandler horizontal: self isHorizontal.
+	self updateThumbPosition
 ]
 
 { #category : #initialization }
@@ -157,13 +164,15 @@ ToScrollbarElement >> updateThumbPositionHorizontally [
 
 	| contentLength scrollOffset scrollExtent thumbWeight thumbLeft |
 	contentLength := scrollable computeHorizontalScrollRange.
-	contentLength isZero ifTrue: [ ^ self ].
+
 	scrollOffset := scrollable computeHorizontalScrollOffset.
 	scrollExtent := scrollable computeHorizontalScrollExtent.
 	
 	self visibility: (contentLength <= scrollExtent 
 		ifTrue: [ BlVisibility hidden ]
 		ifFalse: [ BlVisibility visible ]).
+		
+	contentLength isZero ifTrue: [ ^ self ].
 	
 	thumbWeight := (scrollExtent / contentLength) asFloat.
 	thumbLeft := (scrollOffset / contentLength) asFloat.
@@ -180,14 +189,15 @@ ToScrollbarElement >> updateThumbPositionVertically [
 
 	| contentLength scrollOffset scrollExtent thumbWeight thumbTop |
 	contentLength := scrollable computeVerticalScrollRange.
-	contentLength isZero ifTrue: [ ^ self ].
+
 	scrollOffset := scrollable computeVerticalScrollOffset.
 	scrollExtent := scrollable computeVerticalScrollExtent.
 	
 	contentLength <= scrollExtent 
 		ifTrue: [ self visibility: BlVisibility hidden ]
 		ifFalse: [ self visibility: BlVisibility visible ].
-	
+		
+	contentLength isZero ifTrue: [ ^ self ].	
 	thumbWeight := (scrollExtent / contentLength) asFloat.
 	thumbTop := (scrollOffset / contentLength) asFloat.
 	

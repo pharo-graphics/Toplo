@@ -19,9 +19,7 @@ ToInfiniteListElementEventHandler >> elementScrolledEvent: anEvent [
 
 	| listElement |
 	"'elementScrolledEvent:' traceCr."
-	anEvent delta = (0 @ 0) ifTrue: [
-			anEvent consume.
-			^ self ].
+	anEvent delta = (0 @ 0) ifTrue: [ ^ self ].
 	listElement := anEvent currentTarget listElement.
 	listElement updateAllSelections.
 	listElement requestMouseMoveReplay

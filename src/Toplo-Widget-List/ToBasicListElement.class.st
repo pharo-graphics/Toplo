@@ -355,6 +355,7 @@ ToBasicListElement >> innerElement: anInnerElement [
 	innerElement ifNotNil: [ :inner |
 			self addChild: innerElement.
 			self notifyDataSourceChanged ].
+	self toConfiguration configureScrollbarIn: self.
 	self onInnerElementChanged
 ]
 
@@ -826,6 +827,18 @@ ToBasicListElement >> useInfiniteLayout: aBoolean [
 		                 ifFalse: [ ToScrollableFiniteListElement ].
 	innerElementClass = requiredClass ifTrue: [ ^ self ].
 	self innerElementClass: requiredClass
+]
+
+{ #category : #accessing }
+ToBasicListElement >> useScrollbar [
+
+	^ self toConfiguration useScrollbar
+]
+
+{ #category : #accessing }
+ToBasicListElement >> useScrollbar: aBoolean [
+
+	self toConfiguration useScrollbar: aBoolean
 ]
 
 { #category : #'accessing selecters' }

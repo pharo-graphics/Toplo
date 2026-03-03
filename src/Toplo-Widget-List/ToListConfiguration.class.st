@@ -10,7 +10,9 @@ Class {
 		'#isScrollable => ObservableSlot',
 		'#exactNodeWidth => ObservableSlot',
 		'#exactNodeHeight => ObservableSlot',
-		'#rowNumbers => ObservableSlot'
+		'#rowNumbers => ObservableSlot',
+		'#useScrollbar => ObservableSlot',
+		'#scrollbar'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -32,6 +34,22 @@ ToListConfiguration >> autoDistribute [
 ToListConfiguration >> autoDistribute: anObject [
 
 	autoDistribute := anObject 
+]
+
+{ #category : #initialization }
+ToListConfiguration >> configureScrollbarIn: aListElement [
+
+	scrollbar ifNotNil: [
+			scrollbar detach.
+			scrollbar removeFromParent.
+			scrollbar := nil ].
+	useScrollbar ifFalse: [ ^ self ].
+	aListElement haveInnerElement ifFalse: [ ^ self ].
+
+	scrollbar := ToScrollbarElement horizontal: aListElement isHorizontal.
+	scrollbar attachTo: aListElement innerElement.
+	scrollbar elevation: (BlRelativeElevation elevation: 20).
+	aListElement addChild: scrollbar 
 ]
 
 { #category : #accessing }
@@ -100,11 +118,15 @@ ToListConfiguration >> onInstalledIn: aListElement [
 	autoDistribute := false.
 	isFlowable := false.
 	isScrollable := true.
+	useScrollbar := false.
 
 	self
 		property: #useCheckbox
 		whenChangedDo: [
 		aListElement dispatchEvent: ToListCheckableNodeUseChanged new ].
+	self
+		property: #useScrollbar
+		whenChangedDo: [ self configureScrollbarIn: aListElement ].
 
 	#( #autoDistribute #isFlowable #isScrollable #rowNumbers ) do: [
 			:flag |
@@ -139,4 +161,16 @@ ToListConfiguration >> useCheckbox [
 ToListConfiguration >> useCheckbox: aBoolean [
 
 	useCheckbox := aBoolean
+]
+
+{ #category : #accessing }
+ToListConfiguration >> useScrollbar [
+
+	^ useScrollbar
+]
+
+{ #category : #accessing }
+ToListConfiguration >> useScrollbar: anObject [
+
+	useScrollbar := anObject
 ]

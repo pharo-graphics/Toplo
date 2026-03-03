@@ -36,8 +36,7 @@ ToScrollbarThumbElement >> applyConfiguration [
 
 	super applyConfiguration.
 	self isHorizontal
-		ifTrue: [
-		self constraintsDo: [ :c | c linear horizontal weight: 0.25 ] ]
+		ifTrue: [ self constraintsDo: [ :c | c minWidth: 20.0 ] ]
 		ifFalse: [ self constraintsDo: [ :c | c minHeight: 20.0 ] ]
 ]
 

@@ -18,6 +18,5 @@ ToListDisabledSelectionElementEventHandler >> listDisabledSelectionChangedEvent:
 	self updateSelectionFromEvent: anEvent.
 	anEvent selectionModel selectedIndexesIntervalsDo: [ :int |
 			listElement selectionMode makeDisabledUnselectable ifTrue: [
-				listElement selecter deselectInterval: int ] ].
-	listElement requestUpdateCheckboxes
+				listElement selecter deselectInterval: int ] ]
 ]

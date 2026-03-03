@@ -139,15 +139,11 @@ TToInnerFiniteListElement >> nodeManager [
 ]
 
 { #category : #'t - inner finite list element - data source updates' }
-TToInnerFiniteListElement >> offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount [
+TToInnerFiniteListElement >> offsetPositionRecordsForFilter: aStartPosition itemCount: anItemCount [
+]
 
-	"self nodeContainersDo: [ :anElement |
-		| anElementHolder |
-		anElementHolder := self elementHolderOf: anElement.
-		(anElementHolder shouldIgnore not and: [
-			 anElementHolder position >= aStartPosition ]) ifTrue: [
-			anElementHolder offsetPositionBy: anItemCount ] ].
-	self requestLayout"
+{ #category : #'t - inner finite list element - data source updates' }
+TToInnerFiniteListElement >> offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount [
 ]
 
 { #category : #'t - inner finite list element - data source updates' }

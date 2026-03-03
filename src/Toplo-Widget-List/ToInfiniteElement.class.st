@@ -161,6 +161,36 @@ ToInfiniteElement >> nodeContainersDo: aBlock [
 	self childrenDo: [ :node | aBlock value: node ]
 ]
 
+{ #category : #'private - commands' }
+ToInfiniteElement >> offsetPositionRecordsForFilter: aStartPosition itemCount: anItemCount [
+
+	self unfilteredChildrenDo: [ :anElement |
+			| anElementHolder |
+			anElementHolder := self elementHolderOf: anElement.
+			(anElementHolder shouldIgnore not and: [
+				 anElementHolder position >= aStartPosition ]) ifTrue: [
+				anElementHolder offsetPositionBy: anItemCount ] ].
+	self requestLayout
+]
+
+{ #category : #'private - commands' }
+ToInfiniteElement >> offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount [
+
+	super offsetPositionRecordsForInsert: aStartPosition itemCount: anItemCount.
+	listElement selecter
+		shiftSelection: anItemCount
+		from: aStartPosition
+]
+
+{ #category : #'private - commands' }
+ToInfiniteElement >> offsetPositionRecordsForRemove: aPositionStart itemCount: anItemCount [
+
+	super offsetPositionRecordsForRemove: aPositionStart itemCount: anItemCount.
+	listElement selecter
+		shiftSelection: anItemCount negated
+		from: aPositionStart
+]
+
 { #category : #'t - inner list element - requirements' }
 ToInfiniteElement >> partlyVisibleNodesDo: aBlock [
 

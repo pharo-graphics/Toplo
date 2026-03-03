@@ -8,6 +8,7 @@ Class {
 ToInfiniteListElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
 
 	| listElement |
+	"'boundsHasChangedDuringScrollingEvent:' traceCr."
 	listElement := anEvent currentTarget listElement.
 	listElement updateAllSelections.
 	listElement requestMouseMoveReplay
@@ -17,6 +18,7 @@ ToInfiniteListElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEve
 ToInfiniteListElementEventHandler >> elementScrolledEvent: anEvent [
 
 	| listElement |
+	"'elementScrolledEvent:' traceCr."
 	anEvent delta = (0 @ 0) ifTrue: [
 			anEvent consume.
 			^ self ].

@@ -43,7 +43,8 @@ ToBasicListElement >> addSelectionMode: aSelectionMode [
 { #category : #'private - commands' }
 ToBasicListElement >> addedDataSourceCommand: aCommand [
 
-	self innerElementDo: [ :inner | inner addedDataSourceCommand: aCommand ]
+	self haveInnerElement ifFalse: [ ^ self ].
+	self innerElement addedDataSourceCommand: aCommand
 ]
 
 { #category : #configuration }

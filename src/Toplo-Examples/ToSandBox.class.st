@@ -205,7 +205,6 @@ ToSandBox class >> classTree [
 
 	| l |
 	l := ToTreeElement new.
-	l inspect.
 	l nodeManager childrenGetter: [ :dataItem |
 			dataItem isClass
 				ifTrue: [
@@ -520,7 +519,6 @@ ToSandBox class >> example_AllClassesWithCheckbox [
 	l dataAccessor addAll:
 		(((Smalltalk globals allClasses "copyFrom: 1 to: 50") select: [ :cls |
 			  cls subclasses notEmpty ]) sorted: [ :a :b | a name < b name ]).
-
 	l toConfiguration useCheckbox: true.
 	l openInSpace.
 ]
@@ -9353,7 +9351,7 @@ ToSandBox class >> example_toTreeTable1WithCheckbox [
 
 	| table |
 	table := self example_toTreeTable1 useCheckbox: true.
-	table list useInfiniteLayout: false.
+	table list useInfiniteLayout: true.
 	table list contextMenuBuilder: [ :menu :request |
 			menu addItem: (ToMenuItem new
 					 labelText: 'Inspect';
@@ -9957,13 +9955,13 @@ ToSandBox class >> listWithData: aCollection [
 
 	| bar confBoard barPane rootPane selectionModeBoard rand |
 	rand := Random new.
-	bar := ToWrappedListElement finite.
+	bar := ToListElement finite.
 	bar matchParent.
 	bar nodeManager nodeHolderFactory: [ ToExNodeWithFontSizeHolder new ].
 	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
 	bar nodeBuilder: [ :node :dataItem :holder |
 			| triplet label |
-			node tooltipString: dataItem dataItem asString.
+			node tooltipString: dataItem asString.
 			triplet := ToTripletElement new.
 			triplet
 				hMatchParent;
@@ -9972,7 +9970,7 @@ ToSandBox class >> listWithData: aCollection [
 				holder fontSize: (rand nextIntegerBetween: 10 and: 16) ].
 			label := (ToLabel text:
 					          holder position asString , ': '
-					          , dataItem dataItem asString)
+					          , dataItem asString)
 				         fontSize: holder fontSize;
 				         yourself.
 			triplet startElement: ToIconicRemoveButton new.

@@ -41,6 +41,6 @@ ToListDataSourceFilterCommand >> offsetPositionsIn: anInfiniteElement [
 
 	self applyIn: anInfiniteElement.
 	anInfiniteElement
-		offsetPositionRecordsForInsert: self positionStart
+		offsetPositionRecordsForFilter: self positionStart
 		itemCount: self itemCount
 ]

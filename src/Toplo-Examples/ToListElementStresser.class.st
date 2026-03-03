@@ -12,7 +12,8 @@ Class {
 		'maxPrimaryIntervals',
 		'maxNbTasks',
 		'endTime',
-		'startTime'
+		'startTime',
+		'round'
 	],
 	#category : #'Toplo-Examples-Stressers'
 }
@@ -100,15 +101,6 @@ ToListElementStresser >> actionAddAfterIndexIn: aList [
 ]
 
 { #category : #actions }
-ToListElementStresser >> actionAddAllIn: aList [
-
-	| size |
-	size := self nextSizeForListNumber: 0.
-	aList dataAccessor addAll:
-		((1 to: size) collect: [ :i | 'Hello ' , i asString ])
-]
-
-{ #category : #actions }
 ToListElementStresser >> actionAtPutIn: aList [
 
 	| idx current |
@@ -142,12 +134,6 @@ ToListElementStresser >> actionDeselectIndexesIn: aList [
 	nb isZero ifTrue: [ ^ self ].
 	selected := (1 to: nb) collect: [ :i | self randIndexIn: aList ].
 	aList selecter deselectIndexes: selected
-]
-
-{ #category : #actions }
-ToListElementStresser >> actionRemoveAllIn: aList [
-
-	aList dataAccessor removeAll
 ]
 
 { #category : #actions }
@@ -233,8 +219,28 @@ ToListElementStresser >> applyCommand: aCommand [
 	s := ' [' asRopedText , aCommand round asString asRopedText bold
 	     , ('/' , self maxRound asString , ']') asRopedText.
 	tab endElement: (ToAttributedLabel text: s).
+
+	(round \\ 10) isZero ifTrue: [
+			self doRemoveAllIn: aCommand list.
+			self doAddAllIn: aCommand list ].
+
 	self selectActionsToRun shuffled do: [ :act |
 		self perform: act with: aCommand list ]
+]
+
+{ #category : #actions }
+ToListElementStresser >> doAddAllIn: aList [
+
+	| size |
+	size := self nextSizeForListNumber: 0.
+	aList dataAccessor addAll:
+		((1 to: size) collect: [ :i | 'Hello ' , i asString ])
+]
+
+{ #category : #actions }
+ToListElementStresser >> doRemoveAllIn: aList [
+
+	aList dataAccessor removeAll
 ]
 
 { #category : #running }
@@ -278,7 +284,6 @@ ToListElementStresser >> initialize [
 		tabsPanel addItem: tab ].
 
 	tabSelectionProcess := [
-	                       | round |
 	                       round := 0.
 	                       startTime := DateAndTime now.
 	                       [ self finishedInAllTabs ] whileFalse: [

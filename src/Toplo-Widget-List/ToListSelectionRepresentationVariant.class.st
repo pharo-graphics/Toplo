@@ -67,8 +67,7 @@ ToListSelectionRepresentationVariant >> newSelectionRepresentationArrayFrom: aLi
 ToListSelectionRepresentationVariant >> nextRepresentationIn: aListElement [
 
 	| arr |
-	arr := self
-		       newSelectionRepresentationArrayFrom: aListElement.
+	arr := self newSelectionRepresentationArrayFrom: aListElement.
 	^ arr ifEmpty: [ ToEmptySelectionRepresentation new ] ifNotEmpty: [
 			  arr size > 1
 				  ifTrue: [

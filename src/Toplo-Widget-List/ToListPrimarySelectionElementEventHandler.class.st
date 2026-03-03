@@ -18,23 +18,12 @@ ToListPrimarySelectionElementEventHandler >> differUpdateSelectionFrom: anElemen
 	anElement enqueueTask: differedUpdateTask
 ]
 
-{ #category : #'selection managing' }
-ToListPrimarySelectionElementEventHandler >> elementLayoutComputedEvent: anEvent [
-	" in case of a list with checkboxes, the checkboxes have 
-	to be up synchronized with ne updated selection model "
-
-	| listElement |
-	listElement := anEvent currentTarget.
-	listElement updateCheckboxes 
-]
-
 { #category : #'api - accessing' }
 ToListPrimarySelectionElementEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , {
 		  ToListCheckableNodeUseChanged.
-		  ToListPrimarySelectionChangedEvent.
-		  BlElementLayoutComputedEvent }
+		  ToListPrimarySelectionChangedEvent }
 ]
 
 { #category : #'selection managing' }
@@ -56,9 +45,5 @@ ToListPrimarySelectionElementEventHandler >> listCheckableNodeUseChanged: anEven
 { #category : #'element handlers' }
 ToListPrimarySelectionElementEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 
-	| listElement |
-	listElement := anEvent currentTarget.
-	self updateSelectionFromEvent: anEvent.
-	listElement useCheckbox ifFalse: [ ^ self ].
-	listElement postponeAction: [ listElement requestUpdateCheckboxes ]
+	self updateSelectionFromEvent: anEvent
 ]

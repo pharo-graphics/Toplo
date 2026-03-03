@@ -1,22 +1,7 @@
 Trait {
 	#name : #TToCheckableSelectionManager,
-	#instVars : [
-		'checkboxesUpdateRequested'
-	],
 	#category : #'Toplo-Widget-List-Core'
 }
-
-{ #category : #'t - checkable selection manager' }
-TToCheckableSelectionManager >> checkboxesUpdateDone [
-
-	checkboxesUpdateRequested := false
-]
-
-{ #category : #'t - checkable selection manager' }
-TToCheckableSelectionManager >> checkboxesUpdateRequested [
-
-	^ checkboxesUpdateRequested ifNil: [ checkboxesUpdateRequested := false ]
-]
 
 { #category : #'t - checkable selection manager' }
 TToCheckableSelectionManager >> newCheckbox [
@@ -53,26 +38,4 @@ TToCheckableSelectionManager >> notifyClickOnCheckbox: aCheckbox onEvent: anEven
 			 fillFromTime: aCheckbox space time;
 			 sourceEvent: anEvent;
 			 yourself)
-]
-
-{ #category : #'t - checkable selection manager' }
-TToCheckableSelectionManager >> requestUpdateCheckboxes [
-
-	self useCheckbox ifFalse: [ ^ self ].
-	self checkboxesUpdateRequested ifTrue: [ ^ self ].
-	checkboxesUpdateRequested := true.
-	" the checkboxes are updated after the layout is done "
-	self requestLayout
-]
-
-{ #category : #'t - checkable selection manager' }
-TToCheckableSelectionManager >> updateCheckboxes [
-
-	self nodeManager checkableNode ifFalse: [ ^ self ].
-	self checkboxesUpdateRequested ifFalse: [ ^ self ].
-	self checkboxesUpdateDone.
-	"self nodeContainersDo: [ :nc |
-			nc checkbox ifNotNil: [ :cbox |
-				cbox enabled: true.
-				cbox checked: (nc holder isSelected and: [ nc holder isSelectable ] ) ] ]"
 ]

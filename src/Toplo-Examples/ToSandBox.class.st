@@ -205,7 +205,6 @@ ToSandBox class >> classTree [
 
 	| l |
 	l := ToTreeElement new.
-	l inspect.
 	l nodeManager childrenGetter: [ :dataItem |
 			dataItem isClass
 				ifTrue: [
@@ -520,7 +519,6 @@ ToSandBox class >> example_AllClassesWithCheckbox [
 	l dataAccessor addAll:
 		(((Smalltalk globals allClasses "copyFrom: 1 to: 50") select: [ :cls |
 			  cls subclasses notEmpty ]) sorted: [ :a :b | a name < b name ]).
-
 	l toConfiguration useCheckbox: true.
 	l openInSpace.
 ]

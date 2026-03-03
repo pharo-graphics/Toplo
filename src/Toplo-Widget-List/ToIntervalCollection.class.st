@@ -276,6 +276,7 @@ ToIntervalCollection >> removeInterval: anInterval [
 				a < first ifTrue: [ newIntervals add: (a to: (first - 1)) ].
 				b > last ifTrue: [ newIntervals add: ((last + 1) to: b) ] ] ].
 	intervals := newIntervals.
+	self merge.
 	self checkIntervals.
 
 ]

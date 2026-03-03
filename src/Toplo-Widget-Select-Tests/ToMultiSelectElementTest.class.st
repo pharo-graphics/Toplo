@@ -77,11 +77,14 @@ ToMultiSelectElementTest >> testRemove [
 			d1.
 			d2.
 			d3 }.
+	cb popupListElement forceLayout.
+	self waitTestingSpaces.
 	cb selecter selectOneMoreIndex: 1.
 	self waitTestingSpaces.
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement nodes size equals: 1.
 	cb popupDataAccessor removeFirst.
+	cb popupListElement forceLayout.
 	self waitTestingSpaces.
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement nodes isEmpty
@@ -100,11 +103,13 @@ ToMultiSelectElementTest >> testRemove1 [
 			d1.
 			d2.
 			d3 }.
+	cb popupListElement forceLayout.
 	cb selecter selectOneMoreIndex: 1.
 	self waitTestingSpaces.
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement nodes size equals: 1.
 	cb popupDataAccessor removeAt: 1.
+	cb popupListElement forceLayout.
 	self waitTestingSpaces.
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement nodes isEmpty
@@ -123,11 +128,13 @@ ToMultiSelectElementTest >> testRemove2 [
 			d1.
 			d2.
 			d3 }.
+	cb popupListElement forceLayout.
 	cb selecter selectOneMoreIndex: 1.
 	self waitTestingSpaces.
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement nodes size equals: 1.
 	cb popupDataAccessor removeFrom: 1 to: 1.
+	cb popupListElement forceLayout.
 	self waitTestingSpaces.
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement nodes isEmpty
@@ -146,11 +153,13 @@ ToMultiSelectElementTest >> testRemove3 [
 			d1.
 			d2.
 			d3 }.
+	cb popupListElement forceLayout.
 	cb selecter selectOneMoreIndex: 1.
 	self waitTestingSpaces.
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement nodes size equals: 1.
 	cb popupDataAccessor removeFrom: 1 to: 2.
+	cb popupListElement forceLayout.
 	self waitTestingSpaces.
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement nodes isEmpty
@@ -192,6 +201,7 @@ ToMultiSelectElementTest >> testRemove5 [
 			d2.
 			d3.
 			d4 }.
+	cb popupListElement forceLayout.
 	self waitTestingSpaces.
 	cb selecter selectOneMoreIndex: 1.
 	self waitTestingSpaces.
@@ -199,6 +209,7 @@ ToMultiSelectElementTest >> testRemove5 [
 	self assert: cb innerElement nodes size equals: 1.
 
 	cb popupDataAccessor removeFrom: 1 to: 3.
+	cb popupListElement forceLayout.
 	self waitTestingSpaces.
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement nodes isEmpty
@@ -217,12 +228,14 @@ ToMultiSelectElementTest >> testRemoveAll [
 			d1.
 			d2.
 			d3 }.
+	cb popupListElement forceLayout.
 	cb selecter selectIndex: 1.
 	self waitTestingSpaces.
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb header nodes size equals: 1.
 
 	cb popupDataAccessor removeAll.
+	cb popupListElement forceLayout.
 	self waitTestingSpaces.
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb header nodes isEmpty

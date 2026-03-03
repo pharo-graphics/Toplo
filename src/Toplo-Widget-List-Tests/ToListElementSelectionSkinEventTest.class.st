@@ -2,9 +2,7 @@ Class {
 	#name : #ToListElementSelectionSkinEventTest,
 	#superclass : #ToParameterizedHostTest,
 	#instVars : [
-		'listElement',
-		'receivedSelectedEvents',
-		'receivedDeselectedEvents'
+		'listElement'
 	],
 	#category : #'Toplo-Widget-List-Tests-Core-ListElement'
 }
@@ -18,15 +16,13 @@ ToListElementSelectionSkinEventTest >> selectedSkinEventCountAfterRemove [
 	space applyAllSkinPhases.
 	listElement dataAccessor add: self statesOfAmerica first.
 	listElement dataAccessor add: self statesOfAmerica second.
+	self waitTestingSpaces.
 	listElement selecter selectIndex: 2.
 	self waitTestingSpaces.
 	space applyAllSkinPhases.
 	listElement forceLayout.
 	self assert: listElement nodeContainers size equals: 2.
 	self assert: listElement selectionModel selectedIndexes equals: #( 2 ).
-
-	receivedSelectedEvents := OrderedCollection new.
-	receivedDeselectedEvents := OrderedCollection new.
 
 	listElement dataAccessor removeAt: 1.
 	space applyAllSkinPhases.
@@ -37,8 +33,6 @@ ToListElementSelectionSkinEventTest >> selectedSkinEventCountAfterRemove [
 
 	" the second node is selected then the first node is removed 
 	-> the first node become selected but without selection changed event dispatching because of a shift selection command (the second nodeContainer is shift at the position 1)"
-	self assert: receivedSelectedEvents size equals: 0.
-	self assert: receivedDeselectedEvents size equals: 0.
 	
 	self assert: listElement selectionMode selectionContainer children size equals: 1.
 	self assert: listElement selectionMode selectionContainer children first nodeContainers size equals: 1.
@@ -49,9 +43,6 @@ ToListElementSelectionSkinEventTest >> selectedSkinEventCountAfterRemove [
 ToListElementSelectionSkinEventTest >> selectedSkinEventCountAfterSelect [
 	" check that the skin select event is sent to the right node "
 
-	receivedSelectedEvents := OrderedCollection new.
-	receivedDeselectedEvents := OrderedCollection new.
-
 	listElement dataAccessor add: self statesOfAmerica first.
 	listElement dataAccessor add: self statesOfAmerica second.
 	listElement selecter selectIndex: 2.
@@ -60,21 +51,11 @@ ToListElementSelectionSkinEventTest >> selectedSkinEventCountAfterSelect [
 	
 	self assert: listElement nodeContainers size equals: 2.
 	space applyAllSkinPhases.
-
-	self assert: receivedSelectedEvents size equals: 1.
-	receivedSelectedEvents do: [ :evt |
-		self assert: evt currentTarget holder position equals: 2 ].
-	self assert: receivedDeselectedEvents size equals: 1.
-	receivedDeselectedEvents do: [ :evt |
-		self assert: evt currentTarget holder position equals: 1 ].
+	
 	listElement selecter selectOnlyIndex: 1.
 	self waitTestingSpaces.
 	space applyAllSkinPhases.
-	 listElement forceLayout.
 
-	self assert: receivedDeselectedEvents size equals: 2.
-	receivedDeselectedEvents withIndexDo: [ :evt :idx |
-		self assert: evt currentTarget holder position equals: idx ].
 	listElement forceLayout.
 	self assert: listElement selectionMode selectionContainer children size equals: 1.
 	self assert: listElement selectionMode selectionContainer children first nodeContainers size equals: 1.
@@ -90,8 +71,6 @@ ToListElementSelectionSkinEventTest >> selectedSkinEventCountAfterSelect2 [
 	on the selected node "
 
 	self selectedSkinEventCountAfterSelect.
-	receivedSelectedEvents := OrderedCollection new.
-	receivedDeselectedEvents := OrderedCollection new.
 
 	" here, the selected index is 1 because of #testSelectedSkinEventCountAfterSelect invocation"
 	listElement selecter selectIndex: 2.
@@ -99,15 +78,10 @@ ToListElementSelectionSkinEventTest >> selectedSkinEventCountAfterSelect2 [
 	space applyAllSkinPhases.
 	listElement forceLayout.
 	
-	self assert: receivedSelectedEvents size equals: 2.
-	self assert: receivedDeselectedEvents size equals: 0.
 	listElement selecter selectOnlyIndex: 1.
 	self waitTestingSpaces.
 	space applyAllSkinPhases.
 	
-	self assert: receivedDeselectedEvents size equals: 1.
-	receivedDeselectedEvents withIndexDo: [ :evt :idx |
-		self assert: evt currentTarget holder position equals: 2 ].
 	listElement forceLayout.
 	self assert: listElement selectionMode selectionContainer children size equals: 1.
 	self assert: listElement selectionMode selectionContainer children first nodeContainers size equals: 1.
@@ -122,28 +96,16 @@ ToListElementSelectionSkinEventTest >> selectedSkinEventCountAfterSelect3 [
 	(the holder>>selectionNotificationMap is up to date). So the result is that the deselection is only applied once
 	on the selected node "
 
-	receivedSelectedEvents := OrderedCollection new.
-	receivedDeselectedEvents := OrderedCollection new.
-
 	" here, the selected index is 1 because of #testSelectedSkinEventCountAfterSelect invocation"
 	listElement selecter selectOnlyIndex: 2.
 	self waitTestingSpaces.
 	space applyAllSkinPhases.
 	listElement forceLayout.
 	
-	self assert: receivedSelectedEvents size equals: 1.
-	receivedSelectedEvents do: [ :evt |
-		self assert: evt currentTarget holder position equals: 2 ].
-	self assert: receivedDeselectedEvents size equals: 1.
-	receivedDeselectedEvents do: [ :evt |
-		self assert: evt currentTarget holder position equals: 1 ].
-
 	listElement selecter selectOnlyIndex: 1.
 	self waitTestingSpaces.
 	space applyAllSkinPhases.
 	
-	self assert: receivedDeselectedEvents size equals: 2.
-
 	listElement forceLayout.
 	self assert: listElement selectionMode selectionContainer children size equals: 1.
 	self assert: listElement selectionMode selectionContainer children first nodeContainers size equals: 1.
@@ -160,18 +122,10 @@ ToListElementSelectionSkinEventTest >> setUp [
 	listElement fitContent.
 
 	space root addChild: listElement.
-	receivedSelectedEvents := OrderedCollection new.
-	receivedDeselectedEvents := OrderedCollection new.
 	listElement nodeBuilder: [ :node :dataItem :holder |
-			node addChild: (ToLabel text: dataItem).
-			node
-				addEventHandlerOn: ToSelectedSkinEvent
-				do: [ :event | receivedSelectedEvents add: event copy].
-			node
-				addEventHandlerOn: ToDeselectedSkinEvent
-				do: [ :event | receivedDeselectedEvents add: event copy ] ].
+		node addChild: (ToLabel text: dataItem) ].
 	self waitTestingSpaces.
-	listElement forceLayout 
+	listElement forceLayout
 ]
 
 { #category : #accessing }

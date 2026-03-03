@@ -105,7 +105,9 @@ ToListSelecter >> currentIndex [
 { #category : #initialization }
 ToListSelecter >> defaultCommandApplicationStrategy [
 
+	"^ BlImmediateCommandApplicationStrategy new"
 	^ ToDataSourceCommandApplicationStrategy new
+	"^ BlQueueBasedCommandApplicationStrategy new"
 ]
 
 { #category : #operations }

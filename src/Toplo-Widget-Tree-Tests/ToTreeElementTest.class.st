@@ -51,6 +51,7 @@ ToTreeElementTest >> testCollapseWithDirectCollapsedWrapperChildrenSelected [
 	wrapper := tree dataSource at: 2.
 	"expand it, then no event should be dispateched"
 	wrapper expand.
+	self waitTestingSpaces.
 	" selection of the first expanded wrapper child "
 	self assert: tree selecter selectedIndexes equals: {  }.
 	selChangedEvent := nil.
@@ -87,11 +88,13 @@ ToTreeElementTest >> testCollapseWithSelectionAfterCollapsedWrapper [
 	"expand it, then no event should be dispateched"
 	size := tree dataSource size.
 	wrapper expand.
+	self waitTestingSpaces.
 	self assert: count equals: 1.
 	self assert: selChangedEvent notNil.
 	self assert: tree selecter selectedIndexes equals: { 6 }.
 	selChangedEvent := nil.
 	wrapper collapse.
+	self waitTestingSpaces.
 	self assert: wrapper isCollapsed.
 	self assert: count equals: 2.
 	self assert: selChangedEvent notNil.
@@ -144,6 +147,7 @@ ToTreeElementTest >> testCollapseWithSubSubCollapsedWrapperChildrenSelected [
 	subWrapper := tree dataSource at: 3.
 	self assert: subWrapper parentWrapper equals: wrapper.
 	subWrapper expand.
+	self waitTestingSpaces.
 	" selection of the first child wrapper of the subwrapper "
 	self assert: (tree dataSource at: 4) parentWrapper equals: subWrapper.
 	selChangedEvent := nil.
@@ -211,6 +215,7 @@ ToTreeElementTest >> testExpandWithSelectionAfterExpandedWrapper [
 	"expand it, then no event should be dispateched"
 	size := tree dataSource size.
 	wrapper expand.
+	self waitTestingSpaces.
 	self assert: wrapper isExpanded.
 	self assert: tree dataSource size equals: size + 3.
 	self assert: count equals: 1.

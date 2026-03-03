@@ -75,12 +75,14 @@ ToSingleSelectElementTest >> testRemove [
 			d1.
 			d2.
 			d3 }.
+	cb popupListElement forceLayout.
 	cb selecter selectIndex: 1.
 	self waitTestingSpaces.
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement dataView children size equals: 1.
 	cb popupDataAccessor removeFirst.
 	self waitTestingSpaces.
+	cb popupListElement forceLayout.
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement dataView children isEmpty
 ]
@@ -98,10 +100,12 @@ ToSingleSelectElementTest >> testRemove1 [
 			d1.
 			d2.
 			d3 }.
+	cb popupListElement forceLayout.
 	cb selecter selectIndex: 1.
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement dataView children size equals: 1.
 	cb popupDataAccessor removeAt: 1.
+	cb popupListElement forceLayout.
 	self waitTestingSpaces.
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement dataView children isEmpty
@@ -120,10 +124,12 @@ ToSingleSelectElementTest >> testRemove2 [
 			d1.
 			d2.
 			d3 }.
+	cb popupListElement forceLayout.
 	cb selecter selectIndex: 1.
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement dataView children size equals: 1.
 	cb popupDataAccessor removeFrom:1 to: 1.
+	cb popupListElement forceLayout.
 	self waitTestingSpaces.
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement dataView children isEmpty
@@ -142,10 +148,12 @@ ToSingleSelectElementTest >> testRemove3 [
 			d1.
 			d2.
 			d3 }.
+	cb popupListElement forceLayout.
 	cb selecter selectIndex: 1.
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement dataView children size equals: 1.
 	cb popupDataAccessor removeFrom:1 to: 2.
+	cb popupListElement forceLayout.
 	self waitTestingSpaces.
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement dataView children isEmpty
@@ -163,11 +171,13 @@ ToSingleSelectElementTest >> testRemove4 [
 			d1.
 			d2.
 			d3 }.
+	cb popupListElement forceLayout.
 	cb selecter selectIndex: 1.
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement dataView children size equals: 1.
 
 	cb popupDataAccessor removeFrom: 1 to: 3.
+	cb popupListElement forceLayout.
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement dataView children isEmpty
 ]
@@ -187,6 +197,7 @@ ToSingleSelectElementTest >> testRemove5 [
 			d2.
 			d3.
 			d4 }.
+	cb popupListElement forceLayout.
 	self waitTestingSpaces.
 	cb selecter selectIndex: 1.
 	self waitTestingSpaces.
@@ -194,6 +205,7 @@ ToSingleSelectElementTest >> testRemove5 [
 	self assert: cb innerElement dataView children size equals: 1.
 
 	cb popupDataAccessor removeFrom: 1 to: 3.
+	cb popupListElement forceLayout.
 	self waitTestingSpaces.
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement dataView children isEmpty
@@ -211,11 +223,13 @@ ToSingleSelectElementTest >> testRemoveAll [
 			d1.
 			d2.
 			d3 }.
+	cb popupListElement forceLayout.
 	cb selecter selectIndex: 1.
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement dataView children size equals: 1.
 
 	cb popupDataAccessor removeAll.
+	cb popupListElement forceLayout.
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement dataView children isEmpty
 ]

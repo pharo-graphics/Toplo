@@ -17,37 +17,27 @@ ToInfiniteDataSourceObserver >> infiniteDataSourceChanged: anEvent [
 { #category : #'event handling' }
 ToInfiniteDataSourceObserver >> infiniteDataSourceItemRangeChanged: anEvent [
 
-	| listElement |
-	super infiniteDataSourceItemRangeChanged: anEvent.
-	listElement := infiniteElement listElement.
-	"listElement requestUpdateAllSelections"
+	super infiniteDataSourceItemRangeChanged: anEvent
 ]
 
 { #category : #'event handling' }
 ToInfiniteDataSourceObserver >> infiniteDataSourceItemRangeInserted: anEvent [
 
-	| listElement |
-	super infiniteDataSourceItemRangeInserted: anEvent.
-	listElement := infiniteElement listElement.
-	listElement selecter
-		shiftSelection: anEvent itemCount
-		from: anEvent position
+	super infiniteDataSourceItemRangeInserted: anEvent
 ]
 
 { #category : #'event handling' }
 ToInfiniteDataSourceObserver >> infiniteDataSourceItemRangeRemoved: anEvent [
 
 	| listElement |
+
 	super infiniteDataSourceItemRangeRemoved: anEvent.
 
 	" update the secondary selection because it can be on the removed nodes "
 	listElement := infiniteElement listElement.
 	listElement secondarySelecter
 		deselectIndex: anEvent position
-		to: anEvent position + anEvent itemCount - 1.
-	listElement selecter
-		shiftSelection: anEvent itemCount negated
-		from: anEvent position
+		to: anEvent position + anEvent itemCount - 1
 ]
 
 { #category : #'event handling' }

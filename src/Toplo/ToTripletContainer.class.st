@@ -1,8 +1,8 @@
 Class {
 	#name : #ToTripletContainer,
 	#superclass : #ToElement,
-	#traits : 'TToOrientable + TToTripletContainer',
-	#classTraits : 'TToOrientable classTrait + TToTripletContainer classTrait',
+	#traits : 'TToOrientable + TToDirectional + TToTripletContainer',
+	#classTraits : 'TToOrientable classTrait + TToDirectional classTrait + TToTripletContainer classTrait',
 	#category : #'Toplo-Core'
 }
 

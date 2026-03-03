@@ -5,8 +5,8 @@ Basically I'm composed of three subelements a start, a middle and an end part.
 Class {
 	#name : #ToMenuItem,
 	#superclass : #ToGeneralButtonMenuItem,
-	#traits : 'TToOrientable + TToTripletContainer + TToTripletElement + TToLabeledIcon + TToCheckable',
-	#classTraits : 'TToOrientable classTrait + TToTripletContainer classTrait + TToTripletElement classTrait + TToLabeledIcon classTrait + TToCheckable classTrait',
+	#traits : 'TToOrientable + TToDirectional + TToTripletContainer + TToTripletElement + TToLabeledIcon + TToCheckable',
+	#classTraits : 'TToOrientable classTrait + TToDirectional classTrait + TToTripletContainer classTrait + TToTripletElement classTrait + TToLabeledIcon classTrait + TToCheckable classTrait',
 	#category : #'Toplo-Widget-Menu-Items'
 }
 

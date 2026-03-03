@@ -2750,12 +2750,13 @@ ToSandBox class >> example_HugeIntegerList [
 	| l nbItems vscrollBar space |
 	nbItems := 50000.
 	l := ToListElement new.
+	
 	l dataAccessor addAll: (1 to: nbItems).
 	l nodeBuilder: [ :node :anInteger |
 		node addChild:
 			(BlTextElement new text: anInteger asString asRopedText)
 				labelMeasurement ].
-	vscrollBar := BlVerticalScrollbarElement new.
+	vscrollBar := ToScrollbarElement vertical.
 	vscrollBar constraintsDo: [ :c |
 		c ignoreByLayout.
 		c margin: (BlInsets left: 10).
@@ -2769,6 +2770,7 @@ ToSandBox class >> example_HugeIntegerList [
 
 	space root addChild: l.
 	space root addChild: vscrollBar.
+
 	space show
 ]
 
@@ -8313,6 +8315,7 @@ ToSandBox class >> example_textField0 [
 	| t |
 	t := ToTextField new text: 'AAAA'.
 	t background: Color yellow.
+	t inspect.
 	t openInSpace
 ]
 
@@ -8396,10 +8399,10 @@ ToSandBox class >> example_textFieldWithLineWrappingWithSaveCapability [
 		     withLineWrapping;
 		     withSaveCapability.
 	t whenSaveRequestedDo: [ :saveRequested |
-		saveRequested accepted: true.
-		text := saveRequested client text copy ].
+			saveRequested accepted: true.
+			text := saveRequested editorElement text copy ].
 	t whenCancelRequestedDo: [ :cancelRequested |
-		cancelRequested client text: text copy ].
+		cancelRequested editorElement text: text copy ].
 
 	t openInInnerWindow
 ]
@@ -8415,10 +8418,10 @@ ToSandBox class >> example_textFieldWithPlaceholder [
 				 ('Enter to accept' asRopedText foreground: Color lightGray)) ].
 	t whenSaveRequestedDo: [ :saveRequested |
 		saveRequested editorElement text ifNotEmpty: [
-			saveRequested editorElement saveResult: true.
+			saveRequested accepted: true.
 			text := saveRequested editorElement text copy ] ].
 	t whenCancelRequestedDo: [ :cancelRequested |
-		cancelRequested client text: text copy ].
+		cancelRequested editorElement text: text copy ].
 	t showPlaceholder.
 	t openInSpace
 ]
@@ -8440,7 +8443,7 @@ ToSandBox class >> example_textFieldWithPlaceholder2 [
 	t whenSaveAcceptedDo: [ :saveAccepted |
 		text := saveAccepted editorElement text copy ].
 	t whenCancelRequestedDo: [ :cancelRequested |
-		cancelRequested client text: text copy ].
+		cancelRequested editorElement text: text copy ].
 	t showPlaceholder.
 	t openInSpace
 ]
@@ -8454,9 +8457,9 @@ ToSandBox class >> example_textFieldWithSaveCapability [
 	t text: text copy.
 	t whenSaveRequestedDo: [ :saveRequested | 
 		saveRequested accepted: true.
-		text := saveRequested client text copy].
+		text := saveRequested editorElement text copy].
 	t whenCancelRequestedDo: [ :cancelRequested | 
-		cancelRequested client text: text copy ].
+		cancelRequested editorElement text: text copy ].
 	t openInInnerWindow 
 ]
 

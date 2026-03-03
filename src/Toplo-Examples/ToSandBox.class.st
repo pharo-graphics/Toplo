@@ -9955,13 +9955,13 @@ ToSandBox class >> listWithData: aCollection [
 
 	| bar confBoard barPane rootPane selectionModeBoard rand |
 	rand := Random new.
-	bar := ToWrappedListElement finite.
+	bar := ToListElement finite.
 	bar matchParent.
 	bar nodeManager nodeHolderFactory: [ ToExNodeWithFontSizeHolder new ].
 	bar addStamp: #background withValue: (Color veryLightGray alpha: 0.1).
 	bar nodeBuilder: [ :node :dataItem :holder |
 			| triplet label |
-			node tooltipString: dataItem dataItem asString.
+			node tooltipString: dataItem asString.
 			triplet := ToTripletElement new.
 			triplet
 				hMatchParent;
@@ -9970,7 +9970,7 @@ ToSandBox class >> listWithData: aCollection [
 				holder fontSize: (rand nextIntegerBetween: 10 and: 16) ].
 			label := (ToLabel text:
 					          holder position asString , ': '
-					          , dataItem dataItem asString)
+					          , dataItem asString)
 				         fontSize: holder fontSize;
 				         yourself.
 			triplet startElement: ToIconicRemoveButton new.

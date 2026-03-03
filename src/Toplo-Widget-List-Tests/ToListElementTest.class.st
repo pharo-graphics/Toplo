@@ -177,6 +177,56 @@ ToListElementTest >> testCheckboxSelectionUpdatedAfterInsert4 [
 ]
 
 { #category : #'test selection - adding/removing' }
+ToListElementTest >> testCheckboxSelectionUpdatedAfterRemove [
+
+	| l selectionElement |
+	l := ToListElement new.
+	l useCheckbox: true.
+	space root addChild: l.
+	l matchParent.
+	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self waitTestingSpaces.
+	l selecter selectOnlyIndex: 3.
+	l forceLayout.
+	self waitTestingSpaces.
+	self assert: (l nodeContainers at: 3) checkbox isChecked.
+	l dataAccessor removeAt: 2.
+
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: { 2 }.
+	self assert: (l nodeContainers at: 2) checkbox isChecked.
+	self deny: (l nodeContainers at: 3) checkbox isChecked.
+	self assert: l selectionOption selectionContainer children size equals: 1.
+	selectionElement := l selectionOption selectionContainer firstChild.
+	self assert: selectionElement bounds asRectangle equals: (selectionElement boundsInListElement: l)
+]
+
+{ #category : #'test selection - adding/removing' }
+ToListElementTest >> testCheckboxSelectionUpdatedAfterRemove2 [
+
+	| l selectionElement |
+	l := ToWrappedListElement new.
+	l useCheckbox: true.
+	space root addChild: l.
+	l matchParent.
+	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	self waitTestingSpaces.
+	l selecter selectOnlyIndex: 3.
+	l forceLayout.
+	self waitTestingSpaces.
+	self assert: (l nodeContainers at: 3) checkbox isChecked.
+	l dataAccessor removeAt: 2.
+
+	self waitTestingSpaces.
+	self assert: l selectionModel selectedIndexes equals: { 2 }.
+	self assert: (l nodeContainers at: 2) checkbox isChecked.
+	self deny: (l nodeContainers at: 3) checkbox isChecked.
+	self assert: l selectionOption selectionContainer children size equals: 1.
+	selectionElement := l selectionOption selectionContainer firstChild.
+	self assert: selectionElement bounds asRectangle equals: (selectionElement boundsInListElement: l)
+]
+
+{ #category : #'test selection - adding/removing' }
 ToListElementTest >> testDataRemovedWhenNodeRemoved [
 
 	| list but remButtons fillers |

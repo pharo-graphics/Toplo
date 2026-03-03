@@ -105,6 +105,10 @@ ToListSelecter >> currentIndex [
 { #category : #initialization }
 ToListSelecter >> defaultCommandApplicationStrategy [
 
+	" *** Notice *** that the only working in all tested cases is the data source based strategy, in particular for infinites.
+	This is beacuse in infinite, the selection update is based on the application of datasource update commands and
+	that data source based strategy takes that implementation into account  "
+
 	"^ BlImmediateCommandApplicationStrategy new"
 	^ ToDataSourceCommandApplicationStrategy new
 	"^ BlQueueBasedCommandApplicationStrategy new"

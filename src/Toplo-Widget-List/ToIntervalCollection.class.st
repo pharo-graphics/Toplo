@@ -210,7 +210,7 @@ ToIntervalCollection >> merge [
 ToIntervalCollection >> mergeStartingAt: aPosition [
 
 	| first last interval1 interval2 |
-	" try to merge with previous interval "
+	" try to merge with next interval "
 	aPosition < intervals size ifFalse: [ ^ self ].
 	interval1 := intervals at: aPosition.
 	interval2 := intervals at: aPosition + 1.

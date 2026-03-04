@@ -139,7 +139,6 @@ ToScrollbarElement >> onDraggedThumbHorizontallyBy: aPoint [
 	scrollableDelta isZero ifTrue: [ ^ self ].
 
 	scrollable scrollBy: scrollableDelta negated @ 0.
-	
 	dragPosition := aPoint
 ]
 
@@ -155,7 +154,6 @@ ToScrollbarElement >> onDraggedThumbVerticallyBy: aPoint [
 	scrollableDelta isZero ifTrue: [ ^ self ].
 
 	scrollable scrollBy: 0 @ scrollableDelta.
-	
 	dragPosition := aPoint
 ]
 
@@ -172,7 +170,6 @@ ToScrollbarElement >> updateThumbPositionHorizontally [
 
 	| contentLength scrollOffset scrollExtent tw tl |
 	contentLength := scrollable computeHorizontalScrollRange.
-
 	scrollOffset := scrollable computeHorizontalScrollOffset.
 	scrollExtent := scrollable computeHorizontalScrollExtent.
 
@@ -187,7 +184,6 @@ ToScrollbarElement >> updateThumbPositionHorizontally [
 	(thumbWeight = tw and: [ thumbLeft = tl ]) ifTrue: [ ^ self ].
 	thumbWeight := tw.
 	thumbLeft := tl.
-
 	thumb constraintsDo: [ :c |
 			c horizontal matchParent.
 			c frame horizontal
@@ -200,15 +196,15 @@ ToScrollbarElement >> updateThumbPositionVertically [
 
 	| contentLength scrollOffset scrollExtent tw tt |
 	contentLength := scrollable computeVerticalScrollRange.
-
 	scrollOffset := scrollable computeVerticalScrollOffset.
 	scrollExtent := scrollable computeVerticalScrollExtent.
 
-	contentLength <= scrollExtent
-		ifTrue: [ self visibility: BlVisibility gone ]
-		ifFalse: [ self visibility: BlVisibility visible ].
+	self visibility: (contentLength <= scrollExtent
+			 ifTrue: [ BlVisibility gone ]
+			 ifFalse: [ BlVisibility visible ]).
 
 	contentLength isZero ifTrue: [ ^ self ].
+
 	tw := (scrollExtent / contentLength) asFloat.
 	tt := (scrollOffset / contentLength) asFloat.
 	(thumbWeight = tw and: [ thumbTop = tt ]) ifTrue: [ ^ self ].

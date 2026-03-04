@@ -282,6 +282,12 @@ ToBasicListElement >> haveInnerElement [
 	^ innerElement notNil
 ]
 
+{ #category : #testing }
+ToBasicListElement >> haveVisibleScrollbar [ 
+
+	^ self toConfiguration haveVisibleScrollbar
+]
+
 { #category : #'accessing selecters' }
 ToBasicListElement >> hiddenAtPosition: anInteger [
 
@@ -310,7 +316,6 @@ ToBasicListElement >> hiddenSelectionModel [
 ToBasicListElement >> initialize [
 
 	super initialize.
-	
 	postponedActions := OrderedCollection new.
 	mouseMoveReplayRequested := false.
 	selectionModeMap := IdentityDictionary new.
@@ -620,14 +625,6 @@ ToBasicListElement >> removeSelectionMode: aSelectionMode [
 ]
 
 { #category : #layout }
-ToBasicListElement >> requestLayout: aSourceElement [
-
-	super requestLayout: aSourceElement.
-	(aSourceElement = innerElement or: [ aSourceElement parent = innerElement ])
-		ifTrue: [ self requestMouseMoveReplay ]
-]
-
-{ #category : #layout }
 ToBasicListElement >> requestMouseMoveReplay [
 
 	mouseMoveReplayRequested := true
@@ -838,7 +835,9 @@ ToBasicListElement >> useScrollbar [
 { #category : #accessing }
 ToBasicListElement >> useScrollbar: aBoolean [
 
-	self toConfiguration useScrollbar: aBoolean
+	self useScrollbar = aBoolean ifTrue: [ ^ self ].
+	self toConfiguration useScrollbar: aBoolean.
+	self requestNewSkin
 ]
 
 { #category : #'accessing selecters' }

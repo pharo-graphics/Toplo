@@ -514,13 +514,17 @@ ToSandBox class >> example_AllClassesFiniteWithCheckbox [
 ToSandBox class >> example_AllClassesWithCheckbox [
 	"For this example we created a new wrapper dealing with classes and methods at the same time, a new Node was also created (ToTreeSubAndMethNode) to apply a new skin (ToTreeNodeSubAndMethSkin) with new icons and a different background color for methods "
 
-	| l |
+	| l pane |
+	pane := ToPane new.
+	pane matchParent.
 	l := self classTree.
+	l useScrollbar: true.
 	l dataAccessor addAll:
 		(((Smalltalk globals allClasses "copyFrom: 1 to: 50") select: [ :cls |
 			  cls subclasses notEmpty ]) sorted: [ :a :b | a name < b name ]).
-	l toConfiguration useCheckbox: true.
-	l openInSpace.
+	l useCheckbox: true.
+	pane addChild: l.
+	pane openInSpace.
 ]
 
 { #category : #window }
@@ -4203,6 +4207,7 @@ ToSandBox class >> example_PreviousIntegers [
 
 	| l |
 	l := ToTreeElement finite.
+	l useScrollbar: true.
 	l nodeManager childrenGetter: [ :dataItem |
 			dataItem = 1
 				ifTrue: [ {  } ]
@@ -9197,17 +9202,6 @@ ToSandBox class >> example_toTable1 [
 					 labelText: 'Inspect';
 					 clickAction: [ table inspect ];
 					 yourself) ].
-	"table nodeManager nodeFactory: [
-			| node |
-			node := ToTableRowNode new.
-			node addEventHandlerOn: BlSecondaryClickEvent 
-				do: [ :evt |
-					| t |
-					t := evt currentTarget.
-					t holder listElement
-						notifyClickOnNode: evt currentTarget
-						fromEvent: evt ].
-			node ]."
 
 	table columns: {
 			(ToTableColumn new
@@ -9353,7 +9347,9 @@ ToSandBox class >> example_toTreeTable1 [
 ToSandBox class >> example_toTreeTable1WithCheckbox [
 
 	| table |
-	table := self example_toTreeTable1 useCheckbox: true.
+	table := self example_toTreeTable1.
+	table useCheckbox: true.
+	table useScrollbar: true.
 	table list useInfiniteLayout: true.
 	table list contextMenuBuilder: [ :menu :request |
 			menu addItem: (ToMenuItem new
@@ -9769,6 +9765,9 @@ ToSandBox class >> listConfigurationBoardFor: aList [
 		([ aList useCheckbox ]
 		 -> [ :v | aList useCheckbox: v ]
 		 -> 'Use checkbox selection').
+		([ aList useScrollbar ]
+		 -> [ :v | aList useScrollbar: v ]
+		 -> 'Use a scrollbar').
 		([ aList selectionMode selectOnPressed ]
 		 -> [ :v | aList selectionMode selectOnPressed: v ]
 		 -> 'Select on pressed').

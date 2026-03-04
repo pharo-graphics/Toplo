@@ -17,23 +17,33 @@ ToBasicListElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
+			| pad |
+			e requestUpdateAllSelections.
 			e shortcuts: (self shortcutsToInstallIn: e).
 			e installShortcuts.
+			pad := BlInsets
+				       horizontal: (e valueOfTokenNamed: #'list-padding-H')
+				       vertical: (e valueOfTokenNamed: #'list-padding-V').
+			e haveVisibleScrollbar ifTrue: [
+					pad := e isVertical
+						       ifTrue: [
+								       pad withRight:
+									       pad right
+									       + (e valueOfTokenNamed: #'scrollbar-breadth') + 4 ]
+						       ifFalse: [
+								       pad withBottom:
+									       pad right
+									       + (e valueOfTokenNamed: #'scrollbar-breadth') + 4 ] ].
+			e padding: pad.
 			e border: (e valueOfTokenNamed: #'color-border').
 			e
 				withStamp: #background
 				do: [ :v | e background: v ]
 				ifNone: [
 				e background: (e valueOfTokenNamed: #'color-bg-container') ].
-			e padding: (BlInsets
-					 horizontal: (e valueOfTokenNamed: #'list-padding-H')
-					 vertical: (e valueOfTokenNamed: #'list-padding-V')).
-			e
-				withStamp: #geometry
-				do: [ :v | e geometry: v ]
-				ifNone: [
-						e geometry: (BlRoundedRectangleGeometry cornerRadius:
-								 (e valueOfTokenNamed: 'border-radius')) ] ]
+			e withStamp: #geometry do: [ :v | e geometry: v ] ifNone: [
+					e geometry: (BlRoundedRectangleGeometry cornerRadius:
+							 (e valueOfTokenNamed: 'border-radius')) ] ]
 ]
 
 { #category : #'accessing - shortcuts' }

@@ -21,7 +21,8 @@ Class {
 ToListConfiguration >> applyOn: aListElement [ 
 
 	super applyOn: aListElement.
-	aListElement innerElement withRowNumbers: rowNumbers
+	aListElement innerElement withRowNumbers: rowNumbers.
+	self configureScrollbarIn: aListElement
 ]
 
 { #category : #accessing }
@@ -39,17 +40,24 @@ ToListConfiguration >> autoDistribute: anObject [
 { #category : #initialization }
 ToListConfiguration >> configureScrollbarIn: aListElement [
 
+	aListElement haveInnerElement ifFalse: [
+			^ aListElement postponeAction: [
+				  self configureScrollbarIn: aListElement ] ].
 	scrollbar ifNotNil: [
 			scrollbar detach.
 			scrollbar removeFromParent.
-			scrollbar := nil ].
+			scrollbar := nil.
+			aListElement requestNewSkin ].
 	useScrollbar ifFalse: [ ^ self ].
-	aListElement haveInnerElement ifFalse: [ ^ self ].
 
 	scrollbar := ToScrollbarElement horizontal: aListElement isHorizontal.
+	scrollbar
+		addEventHandlerOn: BlElementVisibilityChangedEvent
+		do: [ :evt | aListElement requestNewSkin ].
 	scrollbar attachTo: aListElement innerElement.
 	scrollbar elevation: (BlRelativeElevation elevation: 20).
-	aListElement addChild: scrollbar 
+	aListElement addChild: scrollbar.
+	aListElement requestNewSkin
 ]
 
 { #category : #accessing }
@@ -74,6 +82,12 @@ ToListConfiguration >> exactNodeWidth [
 ToListConfiguration >> exactNodeWidth: aNumber [
 
 	exactNodeWidth := aNumber
+]
+
+{ #category : #testing }
+ToListConfiguration >> haveVisibleScrollbar [
+
+	^ scrollbar notNil and: [ scrollbar isVisible ]
 ]
 
 { #category : #initialization }

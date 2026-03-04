@@ -4,7 +4,10 @@ Class {
 	#traits : 'TToElement',
 	#classTraits : 'TToElement classTrait',
 	#instVars : [
-		'isHorizontal'
+		'isHorizontal',
+		'thumbWeight',
+		'thumbTop',
+		'thumbLeft'
 	],
 	#category : #'Toplo-Core-Scrollbar'
 }
@@ -22,7 +25,7 @@ ToScrollbarElement class >> initializeToRawTheme: aTheme [
 
 	<toploThemeInstallerFor: #ToRawTheme>
 	aTheme addTokenNamed: #'scrollbar-breadth' withValue: 12.
-	
+
 	aTheme
 		addTokenNamed: #'scrollbar-background'
 		withValue: (Color gray alpha: 0.1).
@@ -30,8 +33,28 @@ ToScrollbarElement class >> initializeToRawTheme: aTheme [
 	aTheme select: (self asTypeSelector exact: false) style: [
 			aTheme when: ToInstallSkinEvent do: [ :e |
 					e isHorizontal
-						ifTrue: [ e padding: (BlInsets vertical: 2) ]
-						ifFalse: [ e padding: (BlInsets horizontal: 2) ] ].
+						ifTrue: [
+								e constraintsDo: [ :c |
+										c ignoreByLayout.
+										c anchors add:
+											(c anchors bottomAnchor on: c anchors parent bottomAnchor).
+										c anchors add:
+											(c anchors leftAnchor on: c anchors parent leftAnchor).
+										c anchors add:
+											(c anchors widthAnchor on: c anchors parent widthAnchor) ].
+								e padding: (BlInsets vertical: 2).
+								e vFitContent ]
+						ifFalse: [
+								e constraintsDo: [ :c |
+										c ignoreByLayout.
+										c anchors add:
+											(c anchors topAnchor on: c anchors parent topAnchor).
+										c anchors add:
+											(c anchors rightAnchor on: c anchors parent rightAnchor).
+										c anchors add:
+											(c anchors heightAnchor on: c anchors parent heightAnchor) ].
+								e padding: (BlInsets horizontal: 2).
+								e hFitContent ] ].
 			aTheme
 				when: ToInstallSkinEvent
 				write: (aTheme property: #background)
@@ -48,21 +71,6 @@ ToScrollbarElement class >> vertical: aBoolean [
 ToScrollbarElement >> applyConfiguration [
 
 	super applyConfiguration.
-	self isHorizontal
-		ifTrue: [
-				self constraintsDo: [ :c |
-						c ignoreByLayout.
-						c ignored horizontal alignLeft.
-						c ignored vertical alignBottom ].
-				self hMatchParent.
-				self vFitContent ]
-		ifFalse: [
-				self constraintsDo: [ :c |
-						c ignoreByLayout.
-						c ignored horizontal alignRight.
-						c ignored vertical alignBottom ].
-				self vMatchParent.
-				self hFitContent ].
 	track horizontal: self isHorizontal.
 	thumb horizontal: self isHorizontal.
 	pullHandler horizontal: self isHorizontal.
@@ -162,48 +170,53 @@ ToScrollbarElement >> updateThumbPosition [
 { #category : #'private - scrolling' }
 ToScrollbarElement >> updateThumbPositionHorizontally [
 
-	| contentLength scrollOffset scrollExtent thumbWeight thumbLeft |
+	| contentLength scrollOffset scrollExtent tw tl |
 	contentLength := scrollable computeHorizontalScrollRange.
 
 	scrollOffset := scrollable computeHorizontalScrollOffset.
 	scrollExtent := scrollable computeHorizontalScrollExtent.
-	
-	self visibility: (contentLength <= scrollExtent 
-		ifTrue: [ BlVisibility hidden ]
-		ifFalse: [ BlVisibility visible ]).
-		
+
+	self visibility: (contentLength <= scrollExtent
+			 ifTrue: [ BlVisibility gone ]
+			 ifFalse: [ BlVisibility visible ]).
+
 	contentLength isZero ifTrue: [ ^ self ].
-	
-	thumbWeight := (scrollExtent / contentLength) asFloat.
-	thumbLeft := (scrollOffset / contentLength) asFloat.
-	
-	thumb constraintsDo: [ :c | 
-		c horizontal matchParent.
-		c frame horizontal
-			alignLeftAt: thumbLeft;
-			weight: thumbWeight ]
+
+	tw := (scrollExtent / contentLength) asFloat.
+	tl := (scrollOffset / contentLength) asFloat.
+	(thumbWeight = tw and: [ thumbLeft = tl ]) ifTrue: [ ^ self ].
+	thumbWeight := tw.
+	thumbLeft := tl.
+
+	thumb constraintsDo: [ :c |
+			c horizontal matchParent.
+			c frame horizontal
+				alignLeftAt: thumbLeft;
+				weight: thumbWeight ]
 ]
 
 { #category : #'private - scrolling' }
 ToScrollbarElement >> updateThumbPositionVertically [
 
-	| contentLength scrollOffset scrollExtent thumbWeight thumbTop |
+	| contentLength scrollOffset scrollExtent tw tt |
 	contentLength := scrollable computeVerticalScrollRange.
 
 	scrollOffset := scrollable computeVerticalScrollOffset.
 	scrollExtent := scrollable computeVerticalScrollExtent.
-	
-	contentLength <= scrollExtent 
-		ifTrue: [ self visibility: BlVisibility hidden ]
+
+	contentLength <= scrollExtent
+		ifTrue: [ self visibility: BlVisibility gone ]
 		ifFalse: [ self visibility: BlVisibility visible ].
-		
-	contentLength isZero ifTrue: [ ^ self ].	
-	thumbWeight := (scrollExtent / contentLength) asFloat.
-	thumbTop := (scrollOffset / contentLength) asFloat.
-	
-	thumb constraintsDo: [ :c | 
-		c vertical matchParent.
-		c frame vertical
-			alignTopAt: thumbTop;
-			weight: thumbWeight ]
+
+	contentLength isZero ifTrue: [ ^ self ].
+	tw := (scrollExtent / contentLength) asFloat.
+	tt := (scrollOffset / contentLength) asFloat.
+	(thumbWeight = tw and: [ thumbTop = tt ]) ifTrue: [ ^ self ].
+	thumbWeight := tw.
+	thumbTop := tt.
+	thumb constraintsDo: [ :c |
+			c vertical matchParent.
+			c frame vertical
+				alignTopAt: thumbTop;
+				weight: thumbWeight ]
 ]

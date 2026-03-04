@@ -332,3 +332,15 @@ ToTableElement >> useCheckbox: aBoolean [
 	header useCheckbox: aBoolean
 	
 ]
+
+{ #category : #accessing }
+ToTableElement >> useScrollbar [ 
+
+	^ self list useScrollbar
+]
+
+{ #category : #accessing }
+ToTableElement >> useScrollbar: aBoolean [
+
+	self list useScrollbar: aBoolean
+]

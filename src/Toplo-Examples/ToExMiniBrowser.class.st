@@ -62,6 +62,7 @@ ToExMiniBrowser >> newClassPane [
 
 	| classesPane classesButtonPane sideToggle |
 	classes := ToTreeElement new.
+	classes useScrollbar: true.
 	classes
 		id: #classes;
 		nodeBuilder: [ :node :dataItem :holder |
@@ -138,6 +139,7 @@ ToExMiniBrowser >> newPackagePane [
 		matchParent.
 
 	packages := ToTreeElement new.
+	packages useScrollbar: true.
 	packages
 		id: #packages;
 		nodeBuilder: [ :node :dataItem :holder |
@@ -219,6 +221,7 @@ ToExMiniBrowser >> newPackageToSelectorListPane [
 ToExMiniBrowser >> newProtocolPane [
 
 	^ ToListElement new
+		  useScrollbar: true;
 		  id: #protocols;
 		  nodeBuilder: [ :node :dataItem :holder |
 				  node addChild: (ToLabel new
@@ -234,6 +237,7 @@ ToExMiniBrowser >> newProtocolPane [
 ToExMiniBrowser >> newSelectorPane [
 
 	^ ToListElement new
+		  useScrollbar: true;
 		  id: #selectors;
 		  nodeBuilder: [ :node :dataItem :holder |
 				  node addChild: (ToLabel new

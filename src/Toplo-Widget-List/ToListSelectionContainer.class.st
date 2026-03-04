@@ -85,5 +85,6 @@ ToListSelectionContainer >> removeChildren: aListOfElements [
 	aListOfElements ifEmpty: [ ^ self ].
 	aListOfElements do: [ :anElement | anElement parent: nil ].
 	self children removeAll: aListOfElements.
-	self invalidate
+	self invalidate.
+	self requestLayout
 ]

@@ -749,6 +749,7 @@ ToListElementWithFiniteInnerElementTest >> testPrimarySelectionChangedEventDispa
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	l forceLayout.
+	self waitTestingSpaces.
 	l selecter selectOnlyIndex: 3.
 	" have to pulse space to get selection actually updated "
 	self waitTestingSpaces.

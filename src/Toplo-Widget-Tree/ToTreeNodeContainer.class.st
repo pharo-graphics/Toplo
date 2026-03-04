@@ -9,6 +9,18 @@ Class {
 }
 
 { #category : #accessing }
+ToTreeNodeContainer class >> indentGap [
+
+	^ 18
+]
+
+{ #category : #accessing }
+ToTreeNodeContainer class >> interspace [
+
+	^ 6
+]
+
+{ #category : #accessing }
 ToTreeNodeContainer >> arrowButton [
 
 	^ arrowButton
@@ -25,10 +37,19 @@ ToTreeNodeContainer >> arrowButton: anObject [
 ]
 
 { #category : #'instance creation' }
+ToTreeNodeContainer >> buildStartContainer [
+
+	self ensureStartContainer.
+	self indentFiller: (self newFillerOfWidth: self nodeDepth * self indentGap).
+	self startInterspace: self interspace.
+	self createArrowButton
+
+]
+
+{ #category : #'instance creation' }
 ToTreeNodeContainer >> createArrowButton [
 
 	| aWrapper btn |
-	self indentFiller: self newFiller.
 	aWrapper := self holder dataWrapper.
 	btn := ToIconicArrowButton none.
 	aWrapper hasLeafDataItem ifFalse: [
@@ -66,15 +87,15 @@ ToTreeNodeContainer >> indentFiller: anElement [
 ]
 
 { #category : #accessing }
-ToTreeNodeContainer >> indentWidth [
+ToTreeNodeContainer >> indentGap [ 
 
-	^ self indentFiller ifNotNil: [ :if | if width ] ifNil: [ 0 ]
+	^ self class indentGap
 ]
 
 { #category : #accessing }
-ToTreeNodeContainer >> indentWidth: aNumber [
+ToTreeNodeContainer >> indentWidth [
 
-	self indentFiller width: aNumber
+	^ self indentFiller ifNotNil: [ :if | if width ] ifNil: [ 0 ]
 ]
 
 { #category : #initialization }
@@ -84,6 +105,12 @@ ToTreeNodeContainer >> initialize [
 	self addEventHandlerOn: ToArrowButtonClickedEvent do: [ :event |
 			event consume.
 			self toggle ]
+]
+
+{ #category : #accessing }
+ToTreeNodeContainer >> interspace [ 
+
+	^ self class interspace
 ]
 
 { #category : #skin }

@@ -27,7 +27,6 @@ ToBasicListElementSkin >> installSkinEvent: anEvent [
 			e haveVisibleScrollbar ifTrue: [
 					| gap |
 					gap := (e valueOfTokenNamed: #'scrollbar-breadth')
-					       + (e valueOfTokenNamed: #'list-padding-H')
 					       +
 					       (2 * (e valueOfTokenNamed: #'scrollbar-padding-breadth')).
 					pad := e isVertical

@@ -8,8 +8,7 @@ Class {
 ToTreeNodeManager >> buildNodeContainer: aTreeNodeContainer [
 
 	super buildNodeContainer: aTreeNodeContainer.
-	aTreeNodeContainer ensureStartContainer.
-	aTreeNodeContainer createArrowButton
+	aTreeNodeContainer buildStartContainer
 ]
 
 { #category : #'children accessing' }

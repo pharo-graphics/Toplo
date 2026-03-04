@@ -25,7 +25,7 @@ ToScrollbarElement class >> initializeToRawTheme: aTheme [
 
 	<toploThemeInstallerFor: #ToRawTheme>
 	aTheme addTokenNamed: #'scrollbar-breadth' withValue: 8.
-	aTheme addTokenNamed: #'scrollbar-padding-breadth' withValue: 4.
+	aTheme addTokenNamed: #'scrollbar-padding-breadth' withValue: 2.
 
 	aTheme
 		addTokenNamed: #'scrollbar-background'

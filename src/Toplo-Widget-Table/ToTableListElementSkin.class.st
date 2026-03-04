@@ -11,14 +11,14 @@ ToTableListElementSkin >> installSkinEvent: anEvent [
 	anEvent elementDo: [ :e |
 			| pad |
 			" the padding should be empty if no scrollbar "
-			pad := e padding.
-			pad := pad withRight:
-				       pad right - (e valueOfTokenNamed: #'list-padding-H').
-			pad := pad withLeft:
-				       pad left - (e valueOfTokenNamed: #'list-padding-H').
-			pad := pad withTop:
-				       pad top - (e valueOfTokenNamed: #'list-padding-V').
-			pad := pad withBottom:
-				       pad bottom - (e valueOfTokenNamed: #'list-padding-V').
+			pad := BlInsets empty.
+			e haveVisibleScrollbar ifTrue: [
+					pad := e isVertical
+						       ifTrue: [
+						       pad withRight:
+							       (e valueOfTokenNamed: #'scrollbar-breadth') + 4 ]
+						       ifFalse: [
+						       pad withBottom:
+							       (e valueOfTokenNamed: #'scrollbar-breadth') + 4 ] ].
 			e padding: pad ]
 ]

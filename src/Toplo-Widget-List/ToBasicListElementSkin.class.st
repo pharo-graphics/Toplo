@@ -27,13 +27,11 @@ ToBasicListElementSkin >> installSkinEvent: anEvent [
 			e haveVisibleScrollbar ifTrue: [
 					pad := e isVertical
 						       ifTrue: [
-								       pad withRight:
-									       pad right
-									       + (e valueOfTokenNamed: #'scrollbar-breadth') + 4 ]
+						       pad withRight:
+							       (e valueOfTokenNamed: #'scrollbar-breadth') + 4 ]
 						       ifFalse: [
-								       pad withBottom:
-									       pad right
-									       + (e valueOfTokenNamed: #'scrollbar-breadth') + 4 ] ].
+						       pad withBottom:
+							       (e valueOfTokenNamed: #'scrollbar-breadth') + 4 ] ].
 			e padding: pad.
 			e border: (e valueOfTokenNamed: #'color-border').
 			e

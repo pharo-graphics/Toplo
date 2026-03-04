@@ -24,11 +24,12 @@ ToScrollbarElement class >> horizontal: aBoolean [
 ToScrollbarElement class >> initializeToRawTheme: aTheme [
 
 	<toploThemeInstallerFor: #ToRawTheme>
-	aTheme addTokenNamed: #'scrollbar-breadth' withValue: 12.
+	aTheme addTokenNamed: #'scrollbar-breadth' withValue: 8.
+	aTheme addTokenNamed: #'scrollbar-padding-breadth' withValue: 4.
 
 	aTheme
 		addTokenNamed: #'scrollbar-background'
-		withValue: (Color gray alpha: 0.1).
+		withValue: (Color gray alpha: 0.05).
 
 	aTheme select: (self asTypeSelector exact: false) style: [
 			aTheme when: ToInstallSkinEvent do: [ :e |
@@ -42,7 +43,7 @@ ToScrollbarElement class >> initializeToRawTheme: aTheme [
 											(c anchors leftAnchor on: c anchors parent leftAnchor).
 										c anchors add:
 											(c anchors widthAnchor on: c anchors parent widthAnchor) ].
-								e padding: (BlInsets vertical: 2).
+								e padding: (BlInsets vertical: (e valueOfTokenNamed: #'scrollbar-padding-breadth')).
 								e vFitContent ]
 						ifFalse: [
 								e constraintsDo: [ :c |
@@ -53,7 +54,7 @@ ToScrollbarElement class >> initializeToRawTheme: aTheme [
 											(c anchors rightAnchor on: c anchors parent rightAnchor).
 										c anchors add:
 											(c anchors heightAnchor on: c anchors parent heightAnchor) ].
-								e padding: (BlInsets horizontal: 2).
+								e padding: (BlInsets horizontal: (e valueOfTokenNamed: #'scrollbar-padding-breadth')).
 								e hFitContent ] ].
 			aTheme
 				when: ToInstallSkinEvent

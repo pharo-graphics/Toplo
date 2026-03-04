@@ -82,8 +82,8 @@ ToListSelectionWithSeparateElementVariant >> selectedNodeContainersFrom: aListEl
 	^ aListElement nodeContainersSelect: [ :container |
 			  | idx |
 			  idx := container holder position.
-			  (self selectionModel containsIndex: idx) and: [
-				  self selectionModel isVisibleIndex: idx ] ]
+			  (self selectionModel containsIndex: idx) "and: [
+				  self selectionModel isVisibleIndex: idx ]" ]
 ]
 
 { #category : #'private - selection updating' }

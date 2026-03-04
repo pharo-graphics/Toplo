@@ -12,7 +12,7 @@ ToScrollbarThumbElement class >> initializeToRawTheme: aTheme [
 	<toploThemeInstallerFor: #ToRawTheme>
 	aTheme
 		addTokenNamed: #'scrollbar-thumb-background'
-		withValue: Color gray.
+		withValue: (Color veryLightGray alpha: 0.8).
 
 	aTheme select: (self asTypeSelector exact: false) style: [
 			aTheme when: ToInstallSkinEvent do: [ :e |

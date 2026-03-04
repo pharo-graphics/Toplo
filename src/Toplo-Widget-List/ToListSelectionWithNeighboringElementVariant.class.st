@@ -25,6 +25,6 @@ ToListSelectionWithNeighboringElementVariant >> selectedNodeContainersFrom: aLis
 	^ aListElement innerElement nodeGroupsSatisfying: [ :node |
 			  | idx |
 			  idx := node holder position.
-			  (self selectionModel containsIndex: idx) and: [
-				  self selectionModel isVisibleIndex: idx ] ]
+			  (self selectionModel containsIndex: idx) "and: [
+				  self selectionModel isVisibleIndex: idx ]" ]
 ]

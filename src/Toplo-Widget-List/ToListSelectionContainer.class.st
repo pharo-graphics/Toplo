@@ -14,12 +14,6 @@ ToListSelectionContainer >> addAllSelectionElements: anArray [
 	self addChildren: anArray
 ]
 
-{ #category : #'private - updating' }
-ToListSelectionContainer >> addSelectionElement: aSelectionElement [
-
-	self addChild: aSelectionElement
-]
-
 { #category : #configuration }
 ToListSelectionContainer >> applyConfiguration [
 
@@ -37,6 +31,14 @@ ToListSelectionContainer >> beneath: aBoolean [
 	beneath = aBoolean ifTrue: [ ^ self ].
 	beneath := aBoolean.
 	self requestConfiguration 
+]
+
+{ #category : #'children dispatching' }
+ToListSelectionContainer >> dispatchChildAdded: anElement [
+	" optimized version "
+	self isAttachedToSceneGraph ifFalse: [ ^ self ].
+	anElement attachSpace.
+	anElement dispatchAddedToSceneGraph
 ]
 
 { #category : #'private - updating' }
@@ -74,4 +76,14 @@ ToListSelectionContainer >> removeAllSelectionElements [
 	See #onLayoutDone "
 
 	removedChildren := removedChildren copyWithAll: self children asArray
+]
+
+{ #category : #'children add/remove' }
+ToListSelectionContainer >> removeChildren: aListOfElements [
+	" optimized version "
+	
+	aListOfElements ifEmpty: [ ^ self ].
+	aListOfElements do: [ :anElement | anElement parent: nil ].
+	self children removeAll: aListOfElements.
+	self invalidate
 ]

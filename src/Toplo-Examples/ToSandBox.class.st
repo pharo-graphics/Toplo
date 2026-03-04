@@ -7880,6 +7880,7 @@ ToSandBox class >> example_selectWithEditingMultiSelectionWithAllClassNames [
 	select popupMinHeight: 100.
 	select filtrable: true.
 	select placeholderString: 'Choose a class'.
+	select popupListElement useScrollbar: true.
 	select popupListElement placeholderBuilder: [ :placeholder :e |
 			placeholder layout alignCenter.
 			placeholder empty label:

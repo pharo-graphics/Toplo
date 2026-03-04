@@ -1,6 +1,6 @@
 Class {
 	#name : #ToSelectElementSkin,
-	#superclass : #ToListElementSkin,
+	#superclass : #ToRawSkin,
 	#category : #'Toplo-Widget-Select-Core'
 }
 
@@ -12,13 +12,32 @@ ToSelectElementSkin >> closedSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToSelectElementSkin >> focusedSkinEvent: anEvent [
+
+	super focusedSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e border: (e valueOfTokenNamed: #'color-primary') ]
+]
+
+{ #category : #'event handling' }
 ToSelectElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
+			e shortcuts: (self shortcutsToInstallIn: e).
+			e installShortcuts.
 			e padding: (BlInsets
 					 horizontal: (e valueOfTokenNamed: #'padding-XS')
-					 vertical: (e valueOfTokenNamed: #'padding-content-VS')) ]
+					 vertical: (e valueOfTokenNamed: #'padding-content-VS')).
+			e border: (e valueOfTokenNamed: #'color-border').
+			e
+				withStamp: #background
+				do: [ :v | e background: v ]
+				ifNone: [
+				e background: (e valueOfTokenNamed: #'color-bg-container') ].
+			e withStamp: #geometry do: [ :v | e geometry: v ] ifNone: [
+					e geometry: (BlRoundedRectangleGeometry cornerRadius:
+							 (e valueOfTokenNamed: 'border-radius')) ] ]
 ]
 
 { #category : #'event handling' }
@@ -79,6 +98,14 @@ ToSelectElementSkin >> shortcutsToInstallIn: aSelect [
 							   cmd addCommand: (ToIndexesSelectionCommand remove: deselIdxes) ].
 					   cmd addCommand: (ToIndexesSelectionCommand add: selIdxes).
 					   listElement selecter addCommand: cmd ]) ]
+]
+
+{ #category : #'event handling' }
+ToSelectElementSkin >> unfocusedSkinEvent: anEvent [
+
+	super unfocusedSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e border: (e valueOfTokenNamed: #'color-border') ]
 ]
 
 { #category : #'event handling' }

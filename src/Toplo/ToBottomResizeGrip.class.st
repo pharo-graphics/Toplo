@@ -4,7 +4,7 @@ Class {
 	#category : #'Toplo-Layout-Support-Grips'
 }
 
-{ #category : #'mouse processing' }
+{ #category : #initialization }
 ToBottomResizeGrip >> attachTo: anElement [
 
 	super attachTo: anElement.

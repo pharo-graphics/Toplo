@@ -2387,6 +2387,7 @@ ToSandBox class >> example_CodeEditor [
 
 	text := self methodText asRopedText.
 	album := ToAlbum new.
+	album useScrollbar: true.
 	album styler: (BlPharoCodeStyler new
 			 classOrMetaClass: self class;
 			 yourself).
@@ -2474,7 +2475,7 @@ ToSandBox class >> example_CodeEditor [
 
 	pane addChild: menuPane.
 	pane addChild: album.
-	pane openInInnerWindow
+	pane openInInnerWindow 
 ]
 
 { #category : #grips }
@@ -5829,25 +5830,9 @@ ToSandBox class >> example_TextPaneWithGrip [
 	album position: 100 asPoint.
 	album width: 400.
 	album height: 100.
-	album text: text copy.
-	album withSaveCapability.
-
-	grip := ToCustomResizeGrip new.
-	grip cursorFactory: [ Cursor resizeBottom ].
-	grip extent: 15 asPoint.
-	grip border: Color red.
-	grip constraintsDo: [ :c |
-			c anchors add:
-				(c anchors bottomRightAnchor on:
-					 c anchors parent bottomRightAnchor) ].
-	grip dragger: [ :target :delta :initialPosition :initialExtent |
-		target height: initialExtent y + delta y ].
+	album text: text.
+	grip := ToTextPaneResizeGrip new.
 	grip attachToParent: album.
-
-	album whenSaveRequestedDo: [ :saveRequested |
-		saveRequested accepted: true ].
-	album whenCancelRequestedDo: [ :cancelRequested |
-		cancelRequested editorElement text: text copy ].
 	album openInSpace
 ]
 

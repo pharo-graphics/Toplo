@@ -69,6 +69,7 @@ ToAlbumSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
+			| pad |
 			(e hasStamp: #'code-editor')
 				ifTrue: [ e styleTable: (e valueOfTokenNamed: #'sh-style-table') ]
 				ifFalse: [
@@ -82,9 +83,16 @@ ToAlbumSkin >> installSkinEvent: anEvent [
 					 (e valueOfTokenNamed: #'border-radius')).
 			e margin: BlInsets empty.
 			e outskirts: BlOutskirts inside.
-			e padding: (BlInsets
-					 horizontal: (e valueOfTokenNamed: #'padding-content-HS')
-					 vertical: (e valueOfTokenNamed: #'padding-content-VS')) ]
+			pad := BlInsets
+				       horizontal: (e valueOfTokenNamed: #'padding-content-HS')
+				       vertical: (e valueOfTokenNamed: #'padding-content-VS').
+			e haveVisibleScrollbar ifTrue: [
+					| gap |
+					gap := (e valueOfTokenNamed: #'scrollbar-breadth')
+					       +
+					       (2 * (e valueOfTokenNamed: #'scrollbar-padding-breadth')).
+					pad := pad withRight: gap ].
+			e padding: pad ]
 ]
 
 { #category : #'event handling' }

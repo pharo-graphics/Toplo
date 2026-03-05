@@ -6,7 +6,9 @@ Class {
 	#instVars : [
 		'next',
 		'edited',
-		'autocompleteRule'
+		'autocompleteRule',
+		'useScrollbar',
+		'scrollbar'
 	],
 	#category : #'Toplo-Widget-Album-TextPane'
 }
@@ -19,6 +21,13 @@ ToAlbum >> addEditsFeedbackLayer [
 	layer := ToAlbumEditsFeedbackLayer new.
 	layer id: #editsFeedbackLayer.
 	layer attachToParent: self
+]
+
+{ #category : #configuration }
+ToAlbum >> applyConfiguration [ 
+
+	super applyConfiguration.
+	self configureScrollbar
 ]
 
 { #category : #initialization }
@@ -43,6 +52,26 @@ ToAlbum >> codeFontName [
 ToAlbum >> codeFontName: aFontName [
 
 	^ self userData at: #codeFontName put: aFontName
+]
+
+{ #category : #initialization }
+ToAlbum >> configureScrollbar [
+
+	scrollbar ifNotNil: [
+			scrollbar detach.
+			scrollbar removeFromParent.
+			scrollbar := nil.
+			self requestNewSkin ].
+	useScrollbar ifFalse: [ ^ self ].
+
+	scrollbar := ToScrollbarElement vertical: true.
+	scrollbar
+		addEventHandlerOn: BlElementVisibilityChangedEvent
+		do: [ :evt | self requestNewSkin ].
+	scrollbar attachTo: self infinite.
+	scrollbar elevation: (BlRelativeElevation elevation: 20).
+	self addChild: scrollbar.
+	self requestNewSkin
 ]
 
 { #category : #initialization }
@@ -101,12 +130,18 @@ ToAlbum >> focusHolder [
 	^ self infinite focusHolder
 ]
 
+{ #category : #testing }
+ToAlbum >> haveVisibleScrollbar [
+
+	^ scrollbar notNil and: [ scrollbar isVisible ]
+]
+
 { #category : #initialization }
 ToAlbum >> initialize [
 
 	| sharedDistributor |
 	super initialize.
-
+	useScrollbar := false.
 	self next: self defaultEditorElement.
 	self rootAlbumElement: self.
 	self next primarySelectionElementClass:
@@ -298,6 +333,20 @@ ToAlbum >> toThemeInstalled [
 	self editor restoreText: self text.
 	super toThemeInstalled.
 
+]
+
+{ #category : #accessing }
+ToAlbum >> useScrollbar [
+
+	^ useScrollbar
+]
+
+{ #category : #accessing }
+ToAlbum >> useScrollbar: aBoolean [
+
+	self useScrollbar = aBoolean ifTrue: [ ^ self ].
+	useScrollbar := aBoolean.
+	self requestConfiguration
 ]
 
 { #category : #'transaction hook' }

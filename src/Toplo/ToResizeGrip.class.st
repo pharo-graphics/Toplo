@@ -14,7 +14,7 @@ Class {
 ToResizeGrip class >> initializeToRawTheme: aTheme [
 
 	<toploThemeInstallerFor: #ToRawTheme>
-	aTheme addTokenNamed: #'window-corner-grips-size' withValue: 12.
+	aTheme addTokenNamed: #'window-corner-grips-size' withValue: 6.
 
 	aTheme select: (self asTypeSelector exact: false) style: [
 			aTheme
@@ -51,7 +51,7 @@ ToResizeGrip >> attachToParent: anElement [
 { #category : #initialization }
 ToResizeGrip >> defaultThickness [
 
-	^ 7
+	^ 6
 ]
 
 { #category : #'mouse processing' }
@@ -106,7 +106,7 @@ ToResizeGrip >> initialize [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 ToResizeGrip >> resizeCursor [
 
 	^ self subclassResponsibility

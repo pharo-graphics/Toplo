@@ -16,22 +16,24 @@ ToItemListElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		e shortcuts: (self shortcutsToInstallIn: e).
-		e installShortcuts.
-		e
-			withStamp: #background
-			do: [ :v | e background: v ]
-			ifNone: [
-			e background: ((e valueOfTokenNamed: #'color-bg-container')) ].
-		(e hasStamp: #borderless) ifFalse: [
-			e border: (BlBorder
-				 paint: (e valueOfTokenNamed: #'border-paint')
-				 width: (e valueOfTokenNamed: #'border-width'))].
-		e padding: (BlInsets
-				 horizontal: (e valueOfTokenNamed: #'padding-content-HS')
-				 vertical: (e valueOfTokenNamed: #'padding-content-VS')).
-		e geometry: (BlRoundedRectangleGeometry cornerRadius:
-				 (e valueOfTokenNamed: 'border-radius')) ]
+			e shortcuts: (self shortcutsToInstallIn: e).
+			e installShortcuts.
+			e
+				withStamp: #background
+				do: [ :v | e background: v ]
+				ifNone: [
+				e background: (e valueOfTokenNamed: #'color-bg-container') ].
+			(e hasStamp: #borderless)
+				ifTrue: [ e border: BlBorder empty ]
+				ifFalse: [
+						e border: (BlBorder
+								 paint: (e valueOfTokenNamed: #'border-paint')
+								 width: (e valueOfTokenNamed: #'border-width')) ].
+			e padding: (BlInsets
+					 horizontal: (e valueOfTokenNamed: #'padding-content-HS')
+					 vertical: (e valueOfTokenNamed: #'padding-content-VS')).
+			e geometry: (BlRoundedRectangleGeometry cornerRadius:
+					 (e valueOfTokenNamed: 'border-radius')) ]
 ]
 
 { #category : #'accessing - shortcuts' }

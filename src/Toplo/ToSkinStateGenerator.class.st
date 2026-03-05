@@ -347,6 +347,8 @@ ToSkinStateGenerator >> primaryMouseUpEvent: anEvent [
 { #category : #'property change handling' }
 ToSkinStateGenerator >> propertyIndexChangedEvent: anEvent [
 
+	"target requestNewSkin"
+
 	target toploExtensionDo: [ :ext |
 		ext requestNewSkinRecursivelyFrom: target ]
 ]

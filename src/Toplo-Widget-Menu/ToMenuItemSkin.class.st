@@ -94,16 +94,18 @@ ToMenuItemSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-			(e hasStamp: #iconic) ifFalse: [
-					e padding: (BlInsets
-							 horizontal: (e valueOfTokenNamed: #'menu-item-padding-H')
-							 vertical: (e valueOfTokenNamed: #'menu-item-padding-V')) ].
+			(e hasStamp: #iconic)
+				ifTrue: [ e padding: BlInsets empty ]
+				ifFalse: [
+						e padding: (BlInsets
+								 horizontal: (e valueOfTokenNamed: #'menu-item-padding-H')
+								 vertical: (e valueOfTokenNamed: #'menu-item-padding-V')) ].
 			e iconDo: [ :ic |
 				ic extent: (e valueOfTokenNamed: #'menu-icon-size') ].
-			(e hasIcon and: [ e hasLabel ]) ifTrue: [ e startInterspace: (e valueOfTokenNamed: #'button-interspace') ].
+			(e hasIcon and: [ e hasLabel ]) ifTrue: [
+				e startInterspace: (e valueOfTokenNamed: #'button-interspace') ].
 			e parentMenuOrMenuPaneDo: [ :pm |
-					pm itemList isOrientable ifFalse: [
-							^ self ] ].
+				pm itemList isOrientable ifFalse: [ ^ self ] ].
 			self installRegularMenuItem: e ]
 ]
 

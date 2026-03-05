@@ -9,8 +9,9 @@ ToAccordionElementSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-		(e hasStamp: #borderless) ifFalse: [
-			e border: ((e valueOfTokenNamed: #'border-paint')) ].
-		e geometry: (BlRoundedRectangleGeometry cornerRadius:
-				 (e valueOfTokenNamed: 'border-radius')) ]
+			(e hasStamp: #borderless)
+				ifTrue: [ e border: BlBorder empty ]
+				ifFalse: [ e border: (e valueOfTokenNamed: #'border-paint') ].
+			e geometry: (BlRoundedRectangleGeometry cornerRadius:
+					 (e valueOfTokenNamed: 'border-radius')) ]
 ]

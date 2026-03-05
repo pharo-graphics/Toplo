@@ -3,7 +3,6 @@ Class {
 	#superclass : #ToBasicWindowElement,
 	#instVars : [
 		'paneElement',
-		'grips',
 		'topBarElement'
 	],
 	#category : #'Toplo-Widget-InnerWindow'
@@ -117,19 +116,16 @@ ToInnerWindow >> initialize [
 { #category : #initialization }
 ToInnerWindow >> initializeGrips [
 
-	grips := {
-		         ToBottomRightResizeGrip.
-		         ToBottomLeftResizeGrip.
-		         ToTopRightResizeGrip.
-		         ToTopLeftResizeGrip.
-		         ToRightResizeGrip.
-		         ToLeftResizeGrip.
-		         ToBottomResizeGrip.
-		         ToTopResizeGrip } collect: [ :eachClass |
-			         eachClass new
-				         attachTo: self;
-				         yourself ].
-	self addChildren: grips
+	{
+		ToBottomRightResizeGrip.
+		ToBottomLeftResizeGrip.
+		ToTopRightResizeGrip.
+		ToTopLeftResizeGrip.
+		ToRightResizeGrip.
+		ToLeftResizeGrip.
+		ToBottomResizeGrip.
+		ToTopResizeGrip } do: [ :eachClass |
+		eachClass new attachToParent: self ]
 ]
 
 { #category : #initialization }

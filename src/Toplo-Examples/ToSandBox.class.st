@@ -5826,27 +5826,29 @@ ToSandBox class >> example_TextPaneWithGrip [
 	| text album grip |
 	text := self methodText asRopedText.
 	album := ToAlbum new.
-	album hMatchParent.
+	album position: 100 asPoint.
+	album width: 400.
 	album height: 100.
 	album text: text copy.
 	album withSaveCapability.
-	
+
 	grip := ToCustomResizeGrip new.
 	grip cursorFactory: [ Cursor resizeBottom ].
-	grip extent: 10 asPoint.
+	grip extent: 15 asPoint.
 	grip border: Color red.
 	grip constraintsDo: [ :c |
-			c anchors add: (c anchors bottomRightAnchor on:
-					 c anchors parent bottomRightAnchor - (10 @ 0)) ].
+			c anchors add:
+				(c anchors bottomRightAnchor on:
+					 c anchors parent bottomRightAnchor) ].
 	grip dragger: [ :target :delta :initialPosition :initialExtent |
 		target height: initialExtent y + delta y ].
 	grip attachToParent: album.
-	
+
 	album whenSaveRequestedDo: [ :saveRequested |
 		saveRequested accepted: true ].
 	album whenCancelRequestedDo: [ :cancelRequested |
 		cancelRequested editorElement text: text copy ].
-	album openInInnerWindow
+	album openInSpace
 ]
 
 { #category : #select }

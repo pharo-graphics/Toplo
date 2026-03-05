@@ -4,6 +4,15 @@ Class {
 	#category : #'Toplo-Layout-Support-Grips'
 }
 
+{ #category : #initialization }
+ToBottomLeftResizeGrip >> attachTo: anElement [
+
+	super attachTo: anElement.
+	self constraintsDo: [ :c |
+			c anchors add:
+				(c anchors bottomLeftAnchor on: anElement bottomLeftAnchor) ]
+]
+
 { #category : #accessing }
 ToBottomLeftResizeGrip >> cursorSelector [
 
@@ -19,11 +28,4 @@ ToBottomLeftResizeGrip >> drag: anElement by: deltaFromInitialPosition [
 	anElement extent:
 		initialExtent x - deltaFromInitialPosition x
 		@ (initialExtent y + deltaFromInitialPosition y)
-]
-
-{ #category : #'mouse processing' }
-ToBottomLeftResizeGrip >> layoutGripTarget: anElement [
-
-	super layoutGripTarget: anElement.
-	self position: 0 @ anElement height - (thickness @ thickness)
 ]

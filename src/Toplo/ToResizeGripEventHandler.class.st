@@ -2,8 +2,7 @@ Class {
 	#name : #ToResizeGripEventHandler,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
-		'gripTarget',
-		'gripTargetHandler'
+		'gripTarget'
 	],
 	#category : #'Toplo-Layout-Support-Grips'
 }
@@ -11,50 +10,39 @@ Class {
 { #category : #'event handling' }
 ToResizeGripEventHandler >> dragEndEvent: anEvent [
 
-	anEvent consume
+	" don't consume the event to let the skin manage it "
+	"anEvent consume"
 ]
 
 { #category : #'event handling' }
 ToResizeGripEventHandler >> dragEvent: anEvent [
 
-	anEvent currentTarget drag: gripTarget by: anEvent position - anEvent currentTarget initialDragPosition
+	anEvent consume.
+	anEvent currentTarget isEnabled ifFalse: [ ^ self ].
+	anEvent currentTarget
+		drag: gripTarget
+		by: anEvent position - anEvent currentTarget initialDragPosition.
+
 ]
 
 { #category : #'event handling' }
 ToResizeGripEventHandler >> dragStartEvent: anEvent [
 
 	anEvent consume.
+	anEvent currentTarget isEnabled ifFalse: [ ^ self ].
 	anEvent currentTarget initialDragPosition: anEvent position.
 	anEvent currentTarget initialPosition: gripTarget position.
 	anEvent currentTarget initialExtent: gripTarget extent
-]
-
-{ #category : #'event handling' }
-ToResizeGripEventHandler >> elementAddedToParentEvent: anEvent [
-
-	| grip |
-	grip := anEvent currentTarget.
-	gripTargetHandler := gripTarget
-		                     addEventHandlerOn: BlElementExtentChangedEvent
-		                     do: [ :evt | grip layoutGripTarget: gripTarget ]
-]
-
-{ #category : #'event handling' }
-ToResizeGripEventHandler >> elementRemovedFromParentEvent: anEvent [
-
-	gripTarget removeEventHandler: gripTargetHandler.
-	gripTargetHandler := nil
 ]
 
 { #category : #'api - accessing' }
 ToResizeGripEventHandler >> eventsToHandle [
 
 	^ {
-		  BlElementAddedToParentEvent.
-		  BlElementRemovedFromParentEvent.
 		  BlDragStartEvent.
 		  BlDragEndEvent.
-		  BlDragEvent }
+		  BlDragEvent.
+		  BlMouseDownEvent }
 ]
 
 { #category : #accessing }
@@ -67,4 +55,21 @@ ToResizeGripEventHandler >> gripTarget [
 ToResizeGripEventHandler >> gripTarget: anElement [
 
 	gripTarget := anElement.
+]
+
+{ #category : #'event handling' }
+ToResizeGripEventHandler >> mouseDownEvent: anEvent [
+
+	anEvent currentTarget isEnabled ifFalse: [ ^ self ].
+	anEvent
+		ifPrimary: [ self primaryMouseDownEvent: anEvent ]
+		secondary: [  ]
+		middle: [  ]
+		other: [  ]
+]
+
+{ #category : #'event handling' }
+ToResizeGripEventHandler >> primaryMouseDownEvent: anEvent [ 
+
+	anEvent consume
 ]

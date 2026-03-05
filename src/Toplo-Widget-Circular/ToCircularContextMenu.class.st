@@ -34,6 +34,6 @@ ToCircularContextMenu >> onLayout: aBounds context: aBlElementBoundsUpdateContex
 { #category : #layout }
 ToCircularContextMenu >> onMeasure: anExtentMeasurementSpec [
 
-	self onMeasure: anExtentMeasurementSpec onEvent: self lastPopupEvent.
+	self measureWithExtentMeasurementSpec: anExtentMeasurementSpec onEvent: self lastPopupEvent.
 	super onMeasure: anExtentMeasurementSpec
 ]

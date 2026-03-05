@@ -127,7 +127,7 @@ ToInnerWindow >> initializeGrips [
 		         ToBottomResizeGrip.
 		         ToTopResizeGrip } collect: [ :eachClass |
 			         eachClass new
-				         target: self;
+				         attachTo: self;
 				         yourself ].
 	self addChildren: grips
 ]

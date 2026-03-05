@@ -1,11 +1,13 @@
 Class {
 	#name : #ToCornerResizeGrip,
-	#superclass : #ToResizeGrip,
+	#superclass : #ToPredefinedResizeGrip,
 	#category : #'Toplo-Layout-Support-Grips'
 }
 
-{ #category : #'mouse processing' }
-ToCornerResizeGrip >> layoutGripTarget: anElement [
+{ #category : #initialization }
+ToCornerResizeGrip >> attachTo: anElement [
 
-	self extent: (thickness * 2) asPoint
+	super attachTo: anElement.
+	self extent: (thickness * 2) asPoint.
+
 ]

@@ -1,5 +1,5 @@
 Class {
 	#name : #ToBorderResizeGrip,
-	#superclass : #ToResizeGrip,
+	#superclass : #ToPredefinedResizeGrip,
 	#category : #'Toplo-Layout-Support-Grips'
 }

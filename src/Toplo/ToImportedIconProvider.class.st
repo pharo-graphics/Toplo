@@ -76,7 +76,7 @@ ToImportedIconProvider class >> listElementWithAllIcons [
 	styleFilterField := styleSieve newTextField.
 	styleFilterField placeholderString: 'style filter'.
 
-	iconNameSieve := l newSieve.
+	iconNameSieve := l dataAccessor newSieve.
 	iconNameSieve filter: [ :iconAssoc :aPattern |
 		iconAssoc key includesSubstring: aPattern caseSensitive: false ].
 	iconNameFilterField := iconNameSieve newTextField.

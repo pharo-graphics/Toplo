@@ -51,16 +51,16 @@ TToRelayoutableWindowElement >> layoutStep: aLayoutStep [
 ]
 
 { #category : #'t - relayoutable window element - private layout' }
-TToRelayoutableWindowElement >> newStartLayoutStep [ 
+TToRelayoutableWindowElement >> measureWithExtentMeasurementSpec: anExtentMeasurementSpec onEvent: anEvent [
 
-	^ ToAnchoredWindowOpeningStartStep new
+	self manager ifNil: [ ^ self ].
+	self manager measureWithExtentMeasurementSpec: anExtentMeasurementSpec onEvent: anEvent
 ]
 
 { #category : #'t - relayoutable window element - private layout' }
-TToRelayoutableWindowElement >> onMeasure: anExtentMeasurementSpec onEvent: anEvent [
+TToRelayoutableWindowElement >> newStartLayoutStep [ 
 
-	self manager ifNil: [ ^ self ].
-	self manager onMeasure: anExtentMeasurementSpec onEvent: anEvent
+	^ ToAnchoredWindowOpeningStartStep new
 ]
 
 { #category : #'t - relayoutable window element - private layout' }

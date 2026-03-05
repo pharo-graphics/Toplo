@@ -41,7 +41,7 @@ ToAnchoredWindow >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 { #category : #layout }
 ToAnchoredWindow >> onMeasure: anExtentMeasurementSpec [
 
-	self onMeasure: anExtentMeasurementSpec onEvent: self lastPopupEvent.
+	self measureWithExtentMeasurementSpec: anExtentMeasurementSpec onEvent: self lastPopupEvent.
 	super onMeasure: anExtentMeasurementSpec.
 
 

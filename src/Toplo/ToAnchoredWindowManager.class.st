@@ -226,6 +226,16 @@ ToAnchoredWindowManager >> isMinimumDelayBeforeClosingExceededOnEvent: anEvent [
 	^ self isMinimumDelayBeforeClosingExceededAfter: anEvent timestamp
 ]
 
+{ #category : #'window handling' }
+ToAnchoredWindowManager >> measureWithExtentMeasurementSpec: anExtentMeasurementSpec onEvent: anEvent [
+
+	currentWindow ifNil: [ ^ self ].
+	self measurement
+		onMeasure: anExtentMeasurementSpec
+		element: currentWindow
+		onEvent: anEvent
+]
+
 { #category : #accessing }
 ToAnchoredWindowManager >> measurement [
 
@@ -265,16 +275,6 @@ ToAnchoredWindowManager >> onInstalledIn: anElement [
 
 	super onInstalledIn: anElement.
 	anchorElement := anElement
-]
-
-{ #category : #'window handling' }
-ToAnchoredWindowManager >> onMeasure: anExtentMeasurementSpec onEvent: anEvent [
-
-	currentWindow ifNil: [ ^ self ].
-	self measurement
-		onMeasure: anExtentMeasurementSpec
-		element: currentWindow
-		onEvent: anEvent
 ]
 
 { #category : #'api - hooks' }

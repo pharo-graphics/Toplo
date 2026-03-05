@@ -1246,8 +1246,8 @@ ToSandBox class >> example_BottomRightGrip [
 	e := BlElement new
 		     extent: 100 asPoint;
 		     border: Color black.
-	e addChild: (ToBottomRightResizeGrip new target: e).
-	e inspect.
+	e addChild: (ToBottomRightResizeGrip new attachTo: e).
+	e addChild: (ToBottomResizeGrip new attachTo: e).
 	e openInSpace
 ]
 
@@ -2477,6 +2477,92 @@ ToSandBox class >> example_CodeEditor [
 	pane openInInnerWindow
 ]
 
+{ #category : #grips }
+ToSandBox class >> example_CustomResizeGrips [
+
+	| space rectangle gripSize bottomGrip rightGrip topGrip leftGrip |
+	space := BlSpace new.
+	gripSize := 10.
+	rectangle := BlElement new
+		     extent: 100 asPoint;
+		     position: 100 asPoint;
+		     border: Color black;
+		     yourself.
+
+	bottomGrip := ToCustomResizeGrip new.
+	bottomGrip cursorFactory: [ Cursor resizeBottom ].
+	bottomGrip extent: gripSize asPoint.
+	bottomGrip background: Color red.
+
+	bottomGrip whenLayoutedDoOnce: [
+			bottomGrip constraintsDo: [ :c |
+					c anchors add:
+						(c anchors bottomAnchor on:
+							 rectangle bottomAnchor + (bottomGrip height / 2)).
+					c anchors add:
+						(c anchors horizontalCenterAnchor on: rectangle horizontalCenterAnchor) ].
+			bottomGrip dragger: [ :target :delta :initialPosition :initialExtent |
+				target height: initialExtent y + delta y ].
+			bottomGrip attachTo: rectangle ].
+
+	rightGrip := ToCustomResizeGrip new.
+	rightGrip cursorFactory: [ Cursor resizeRight ].
+	rightGrip extent: 10 asPoint.
+	rightGrip background: Color red.
+
+	rightGrip whenLayoutedDoOnce: [
+			rightGrip constraintsDo: [ :c |
+					c anchors add:
+						(c anchors rightAnchor on: rectangle rightAnchor + (rightGrip width / 2)).
+					c anchors add:
+						(c anchors verticalCenterAnchor on: rectangle verticalCenterAnchor) ].
+			rightGrip dragger: [ :target :delta :initialPosition :initialExtent |
+				target width: initialExtent x + delta x ].
+			rightGrip attachTo: rectangle ].
+
+	topGrip := ToCustomResizeGrip new.
+	topGrip cursorFactory: [ Cursor resizeTop ].
+	topGrip extent: 10 asPoint.
+	topGrip background: Color red.
+
+	topGrip whenLayoutedDoOnce: [
+			topGrip constraintsDo: [ :c |
+					c anchors add:
+						(c anchors topAnchor on: rectangle topAnchor - (topGrip height / 2)).
+					c anchors add:
+						(c anchors horizontalCenterAnchor on: rectangle horizontalCenterAnchor) ].
+			topGrip dragger: [ :target :delta :initialPosition :initialExtent |
+					target position:
+						initialPosition x @ (initialPosition y + delta y).
+					target extent: initialExtent x @ (initialExtent y - delta y) ].
+			topGrip attachTo: rectangle ].
+
+	leftGrip := ToCustomResizeGrip new.
+	leftGrip cursorFactory: [ Cursor resizeLeft ].
+	leftGrip extent: 10 asPoint.
+	leftGrip background: Color red.
+
+	leftGrip whenLayoutedDoOnce: [
+			leftGrip constraintsDo: [ :c |
+					c anchors add:
+						(c anchors leftAnchor on: rectangle leftAnchor - (leftGrip width / 2)).
+					c anchors add:
+						(c anchors verticalCenterAnchor on: rectangle verticalCenterAnchor) ].
+			leftGrip dragger: [ :target :delta :initialPosition :initialExtent |
+					target position: initialPosition x + delta x @ initialPosition y.
+					target extent: initialExtent x - delta x @ initialExtent y ].
+			leftGrip attachTo: rectangle ].
+
+	space root addChild: rectangle.
+	
+	space root addChild: rightGrip.
+	space root addChild: bottomGrip.
+	space root addChild: leftGrip.
+	space root addChild: topGrip.
+
+	space show
+]
+
 { #category : #list }
 ToSandBox class >> example_EditableList2WithAllClassesNames [
 
@@ -2763,29 +2849,19 @@ ToSandBox class >> example_HorizontalListWithIndexedColors [
 { #category : #list }
 ToSandBox class >> example_HugeIntegerList [
 
-	| l nbItems vscrollBar space |
+	| l nbItems space |
 	nbItems := 50000.
 	l := ToListElement new.
-	
-	l dataAccessor addAll: (1 to: nbItems).
 	l nodeBuilder: [ :node :anInteger |
-		node addChild:
-			(BlTextElement new text: anInteger asString asRopedText)
-				labelMeasurement ].
-	vscrollBar := ToScrollbarElement vertical.
-	vscrollBar constraintsDo: [ :c |
-		c ignoreByLayout.
-		c margin: (BlInsets left: 10).
-		c ignored horizontal alignRight.
-		c ignored vertical alignBottom ].
-	vscrollBar attachTo: l innerElement.
+		node addChild: (BlTextElement text: anInteger asString asRopedText) ].
+	l dataAccessor addAll: (1 to: nbItems).
+	l useScrollbar: true.
 
 	space := BlSpace new
 		         extent: 100 @ 600;
 		         title: 'List with ' , nbItems asString , ' integers'.
 
 	space root addChild: l.
-	space root addChild: vscrollBar.
 
 	space show
 ]
@@ -5742,6 +5818,35 @@ ToSandBox class >> example_TabPaneWithCompactHeaderLayoutMode [
 ToSandBox class >> example_TagFiniteList [
 
 	self finiteTagListWithData: ToSandBox statesOfAmerica
+]
+
+{ #category : #album }
+ToSandBox class >> example_TextPaneWithGrip [
+
+	| text album grip |
+	text := self methodText asRopedText.
+	album := ToAlbum new.
+	album hMatchParent.
+	album height: 100.
+	album text: text copy.
+	album withSaveCapability.
+	
+	grip := ToCustomResizeGrip new.
+	grip cursorFactory: [ Cursor resizeBottom ].
+	grip extent: 10 asPoint.
+	grip border: Color red.
+	grip constraintsDo: [ :c |
+			c anchors add: (c anchors bottomRightAnchor on:
+					 c anchors parent bottomRightAnchor - (10 @ 0)) ].
+	grip dragger: [ :target :delta :initialPosition :initialExtent |
+		target height: initialExtent y + delta y ].
+	grip attachToParent: album.
+	
+	album whenSaveRequestedDo: [ :saveRequested |
+		saveRequested accepted: true ].
+	album whenCancelRequestedDo: [ :cancelRequested |
+		cancelRequested editorElement text: text copy ].
+	album openInInnerWindow
 ]
 
 { #category : #select }

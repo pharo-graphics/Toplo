@@ -21,49 +21,31 @@ ToResizeGrip class >> initializeToRawTheme: aTheme [
 				when: ToInstallSkinEvent
 				do: [ :e |
 				e addStyleSheetProperty: (ToFeatureProperty name: #thickness) ].
-			
 			aTheme
 				when: ToInstallSkinEvent
 				write: #thickness asWritableProperty
 				with: [ :e | e valueOfTokenNamed: #'window-corner-grips-size' ].
-
-			aTheme
-				when: ToInstallSkinEvent
-				write: #geometry asWritableProperty
-				with: [ :e |
-						BlRoundedRectangleGeometry cornerRadius:
-							(e valueOfTokenNamed: #'window-corner-grips-size') ].
-			aTheme
-				when: ToHoveredSkinEvent
-				write: #border asWritableProperty
-				with: [ :e | BlBorder paint: (Color lightGray alpha: 0.2) ].
-			aTheme
-				when: ToHoveredSkinEvent
-				write: #background asWritableProperty
-				with: [ :e | Color lightGray alpha: 0.1 ].
 			aTheme
 				when: ToHoveredSkinEvent
 				write: #mouseCursor asWritableProperty
 				with: [ :e | e resizeCursor ].
-
-			aTheme
-				when: ToLeftSkinEvent
-				write: #border asWritableProperty
-				with: [ :e | BlBorder empty ].
 			aTheme
 				when: ToLeftSkinEvent
 				write: #mouseCursor asWritableProperty
-				with: [ :e | Cursor normal ].
-			aTheme
-				when: ToLeftSkinEvent
-				write: #background asWritableProperty
-				with: [ :e | Color transparent ] ]
+				with: [ :e | Cursor normal ] ]
 ]
 
-{ #category : #accessing }
-ToResizeGrip >> cursorSelector [
+{ #category : #initialization }
+ToResizeGrip >> attachTo: anElement [
 
-	^ self subclassResponsibility 
+	self addEventHandler: (ToResizeGripEventHandler new gripTarget: anElement)
+]
+
+{ #category : #'api - attaching / detaching' }
+ToResizeGrip >> attachToParent: anElement [
+
+	self attachTo: anElement.
+	anElement addChild: self
 ]
 
 { #category : #initialization }
@@ -91,9 +73,21 @@ ToResizeGrip >> initialDragPosition: aPoint [
 ]
 
 { #category : #accessing }
+ToResizeGrip >> initialExtent [ 
+
+	^ initialExtent 
+]
+
+{ #category : #accessing }
 ToResizeGrip >> initialExtent: aPoint [
 
 	initialExtent := aPoint
+]
+
+{ #category : #accessing }
+ToResizeGrip >> initialPosition [ 
+
+	^ initialPosition 
 ]
 
 { #category : #accessing }
@@ -112,23 +106,10 @@ ToResizeGrip >> initialize [
 
 ]
 
-{ #category : #'mouse processing' }
-ToResizeGrip >> layoutGripTarget: anElement [
-
-	self subclassResponsibility 
-]
-
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 ToResizeGrip >> resizeCursor [
 
-	^ Cursor perform: self cursorSelector
-]
-
-{ #category : #initialization }
-ToResizeGrip >> target: anElement [
-
-	self layoutGripTarget: anElement.
-	self addEventHandler: (ToResizeGripEventHandler new gripTarget: anElement)
+	^ self subclassResponsibility
 ]
 
 { #category : #initialization }

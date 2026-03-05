@@ -1,7 +1,7 @@
 Class {
 	#name : #ToIconicExpandToFullScreenButton,
 	#superclass : #ToStandardIconicButton,
-	#category : #'Toplo-Widget-InnerWindow-Support'
+	#category : #'Toplo-Widget-InnerWindow'
 }
 
 { #category : #initialization }

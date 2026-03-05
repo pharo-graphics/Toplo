@@ -1,7 +1,7 @@
 Class {
 	#name : #ToTopLeftResizeGrip,
 	#superclass : #ToCornerResizeGrip,
-	#category : #'Toplo-Widget-InnerWindow-Support'
+	#category : #'Toplo-Layout-Support-Grips'
 }
 
 { #category : #accessing }
@@ -10,7 +10,7 @@ ToTopLeftResizeGrip >> cursorSelector [
 	^ #resizeTopLeft
 ]
 
-{ #category : #initialization }
+{ #category : #'mouse processing' }
 ToTopLeftResizeGrip >> drag: anElement by: deltaFromInitialPosition [
 
 	anElement position:
@@ -21,9 +21,9 @@ ToTopLeftResizeGrip >> drag: anElement by: deltaFromInitialPosition [
 		@ (initialExtent y - deltaFromInitialPosition y)
 ]
 
-{ #category : #initialization }
-ToTopLeftResizeGrip >> layoutIn: anElement [
+{ #category : #'mouse processing' }
+ToTopLeftResizeGrip >> layoutGripTarget: anElement [
 
-	super layoutIn: anElement.
+	super layoutGripTarget: anElement.
 	self position: (thickness @ thickness) negated
 ]

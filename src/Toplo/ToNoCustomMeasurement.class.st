@@ -1,7 +1,7 @@
 Class {
 	#name : #ToNoCustomMeasurement,
 	#superclass : #ToElementCustomMeasurement,
-	#category : #'Toplo-Core-Support'
+	#category : #'Toplo-Layout-Support'
 }
 
 { #category : #api }

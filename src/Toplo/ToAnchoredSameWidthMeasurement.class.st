@@ -1,7 +1,7 @@
 Class {
 	#name : #ToAnchoredSameWidthMeasurement,
 	#superclass : #ToElementCustomMeasurement,
-	#category : #'Toplo-Core-Support'
+	#category : #'Toplo-Layout-Support'
 }
 
 { #category : #api }

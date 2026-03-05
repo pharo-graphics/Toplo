@@ -1239,6 +1239,18 @@ ToSandBox class >> example_BasicWrappedListWithAllClasses3 [
 	l openInInnerWindow
 ]
 
+{ #category : #grips }
+ToSandBox class >> example_BottomRightGrip [
+
+	| e |
+	e := BlElement new
+		     extent: 100 asPoint;
+		     border: Color black.
+	e addChild: (ToBottomRightResizeGrip new target: e).
+	e inspect.
+	e openInSpace
+]
+
 { #category : #transitions }
 ToSandBox class >> example_BoundsAndBackgroundTransition [
 

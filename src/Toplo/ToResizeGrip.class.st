@@ -7,7 +7,7 @@ Class {
 		'initialPosition',
 		'initialExtent'
 	],
-	#category : #'Toplo-Widget-InnerWindow-Support'
+	#category : #'Toplo-Layout-Support-Grips'
 }
 
 { #category : #initialization }
@@ -102,18 +102,6 @@ ToResizeGrip >> initialPosition: aPoint [
 	initialPosition := aPoint
 ]
 
-{ #category : #accessing }
-ToResizeGrip >> initialSize: aPoint [
-
-	self
-		deprecated: 'Use initialExtent: instead'
-		transformWith:
-			'`@receiver initialSize: `@argument'
-			-> '`@receiver initialExtent: `@argument'.
-
-	self initialExtent: aPoint
-]
-
 { #category : #initialization }
 ToResizeGrip >> initialize [
 
@@ -125,7 +113,7 @@ ToResizeGrip >> initialize [
 ]
 
 { #category : #'mouse processing' }
-ToResizeGrip >> layoutIn: anElement [
+ToResizeGrip >> layoutGripTarget: anElement [
 
 	self subclassResponsibility 
 ]
@@ -139,7 +127,7 @@ ToResizeGrip >> resizeCursor [
 { #category : #initialization }
 ToResizeGrip >> target: anElement [
 
-	self layoutIn: anElement.
+	self layoutGripTarget: anElement.
 	self addEventHandler: (ToResizeGripEventHandler new gripTarget: anElement)
 ]
 

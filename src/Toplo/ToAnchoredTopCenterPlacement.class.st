@@ -1,7 +1,7 @@
 Class {
 	#name : #ToAnchoredTopCenterPlacement,
 	#superclass : #ToElementCustomPlacement,
-	#category : #'Toplo-Core-Support'
+	#category : #'Toplo-Layout-Support'
 }
 
 { #category : #'api - displaying' }

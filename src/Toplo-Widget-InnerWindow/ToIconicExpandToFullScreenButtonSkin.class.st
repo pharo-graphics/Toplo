@@ -1,7 +1,7 @@
 Class {
 	#name : #ToIconicExpandToFullScreenButtonSkin,
 	#superclass : #ToStandardIconicButtonSkin,
-	#category : #'Toplo-Widget-InnerWindow-Support'
+	#category : #'Toplo-Widget-InnerWindow'
 }
 
 { #category : #'event handling' }

@@ -4,7 +4,7 @@ Trait {
 		'horizontalResizerConfigurationRequest',
 		'verticalResizerConfigurationRequest'
 	],
-	#category : #'Toplo-Layouts-Support'
+	#category : #'Toplo-Layout-Support'
 }
 
 { #category : #'t - layout resizer configurator' }

@@ -244,6 +244,14 @@ TToTripletContainer >> newFiller [
 ]
 
 { #category : #'t - triplet container - instance creation' }
+TToTripletContainer >> newFillerOfHeight: aNumber [
+
+	^ self newFiller
+		  height: aNumber;
+		  yourself
+]
+
+{ #category : #'t - triplet container - instance creation' }
 TToTripletContainer >> newFillerOfWidth: aNumber [
 
 	^ self newFiller

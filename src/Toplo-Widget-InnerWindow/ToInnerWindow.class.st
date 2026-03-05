@@ -1,23 +1,50 @@
 Class {
 	#name : #ToInnerWindow,
 	#superclass : #ToBasicWindowElement,
-	#traits : 'TToElementWithResizeGrips',
-	#classTraits : 'TToElementWithResizeGrips classTrait',
 	#instVars : [
 		'paneElement',
-		'finiteListElement'
+		'grips',
+		'topBarElement'
 	],
-	#category : #'Toplo-Widget-InnerWindow-Core'
+	#category : #'Toplo-Widget-InnerWindow'
 }
 
 { #category : #accessing }
 ToInnerWindow >> closeButton [ 
 
-	^ finiteListElement childWithId: #'close-button' ifNone: [  ]
+	^ topBarElement childWithId: #'close-button' ifNone: [  ]
 ]
 
 { #category : #initialization }
-ToInnerWindow >> defaultBarElement [
+ToInnerWindow >> defaultExtent [
+
+	^ 400 @ 300
+]
+
+{ #category : #initialization }
+ToInnerWindow >> defaultPaneElement [
+
+	^ ToInnerWindowPane new
+		  id: #'innerWindow-pane';
+		  matchParent;
+		  layout: self defaultPaneLayout;
+		  yourself
+]
+
+{ #category : #initialization }
+ToInnerWindow >> defaultPaneLayout [
+
+	^ BlBasicLayout uniqueInstance 
+]
+
+{ #category : #initialization }
+ToInnerWindow >> defaultTitle [
+
+	^ ''
+]
+
+{ #category : #initialization }
+ToInnerWindow >> defaultTopBarElement [
 
 	| b fill1 fill2 fill3 fill4 closeButton expandButton titleLabel |
 	b := ToPane horizontal
@@ -70,52 +97,10 @@ ToInnerWindow >> defaultBarElement [
 	^ b
 ]
 
-{ #category : #initialization }
-ToInnerWindow >> defaultExtent [
-
-	^ 400 @ 300
-]
-
-{ #category : #initialization }
-ToInnerWindow >> defaultPaneElement [
-
-	^ ToInnerWindowPane new
-		  id: #'innerWindow-pane';
-		  matchParent;
-		  layout: self defaultPaneLayout;
-		  yourself
-]
-
-{ #category : #initialization }
-ToInnerWindow >> defaultPaneLayout [
-
-	^ BlBasicLayout uniqueInstance 
-]
-
-{ #category : #initialization }
-ToInnerWindow >> defaultSize [
-
-	self deprecated: 'Use #defaultExtent instead'.
-
-	^ self defaultExtent
-]
-
-{ #category : #initialization }
-ToInnerWindow >> defaultTitle [
-
-	^ ''
-]
-
 { #category : #accessing }
 ToInnerWindow >> expandButton [ 
 
-	^ finiteListElement childWithId: #'expand-button' ifNone: [  ]
-]
-
-{ #category : #accessing }
-ToInnerWindow >> finiteList [
-
-	^ finiteListElement 
+	^ topBarElement childWithId: #'expand-button' ifNone: [  ]
 ]
 
 { #category : #initialization }
@@ -124,24 +109,42 @@ ToInnerWindow >> initialize [
 	super initialize.
 	self layout: BlLinearLayout vertical.
 	self extent: self defaultExtent.
-	self initializeBarElement.
+	self initializeTopBarElement.
 	self initializePaneElement.
 	self initializeGrips
 ]
 
-{ #category : #accessing }
-ToInnerWindow >> initializeBarElement [
+{ #category : #initialization }
+ToInnerWindow >> initializeGrips [
 
-	finiteListElement := self defaultBarElement.
-	finiteListElement addEventHandler: self newBarPullHandler.
-	self root addChild: finiteListElement at: 1
+	grips := {
+		         ToBottomRightResizeGrip.
+		         ToBottomLeftResizeGrip.
+		         ToTopRightResizeGrip.
+		         ToTopLeftResizeGrip.
+		         ToRightResizeGrip.
+		         ToLeftResizeGrip.
+		         ToBottomResizeGrip.
+		         ToTopResizeGrip } collect: [ :eachClass |
+			         eachClass new
+				         target: self;
+				         yourself ].
+	self addChildren: grips
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 ToInnerWindow >> initializePaneElement [
 
 	paneElement := self defaultPaneElement.
-	self root addChild: paneElement after: finiteListElement
+	self root addChild: paneElement after: topBarElement
+]
+
+{ #category : #initialization }
+ToInnerWindow >> initializeTopBarElement [
+
+	topBarElement := self defaultTopBarElement.
+	topBarElement addEventHandler: self newTopBarPullHandler.
+	self root addChild: topBarElement at: 1
 ]
 
 { #category : #skin }
@@ -149,7 +152,7 @@ ToInnerWindow >> installRawStyle [
 
 	super installRawStyle.
 
-	self finiteList
+	self topBarElement
 		padding: (BlInsets top: 2 bottom: 1);
 		outskirts: BlOutskirts inside;
 		border: (	self valueOfTokenNamed: #'color-border')
@@ -164,7 +167,7 @@ ToInnerWindow >> maximize [
 ]
 
 { #category : #initialization }
-ToInnerWindow >> newBarPullHandler [
+ToInnerWindow >> newTopBarPullHandler [
 
 	^ BlPullHandler new
 		  target: self;
@@ -192,5 +195,11 @@ ToInnerWindow >> title: aString [
 { #category : #accessing }
 ToInnerWindow >> titleLabel [
 
-	^ finiteListElement childWithId: #'title-label' ifNone: [  ]
+	^ topBarElement childWithId: #'title-label' ifNone: [  ]
+]
+
+{ #category : #accessing }
+ToInnerWindow >> topBarElement [
+
+	^ topBarElement 
 ]

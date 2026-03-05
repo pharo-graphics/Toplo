@@ -43,7 +43,6 @@ ToTreeNodeContainer >> buildStartContainer [
 	self indentFiller: (self newFillerOfWidth: self nodeDepth * self indentGap).
 	self startInterspace: self interspace.
 	self createArrowButton
-
 ]
 
 { #category : #'instance creation' }

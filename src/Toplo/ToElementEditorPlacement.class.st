@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'innerElement'
 	],
-	#category : #'Toplo-Core-Support'
+	#category : #'Toplo-Layout-Support'
 }
 
 { #category : #accessing }

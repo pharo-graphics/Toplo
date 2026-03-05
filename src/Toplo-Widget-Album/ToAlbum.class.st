@@ -109,12 +109,13 @@ ToAlbum >> initialize [
 
 	self next: self defaultEditorElement.
 	self rootAlbumElement: self.
-	self next primarySelectionElementClass: self primarySelectionElementClass.
+	self next primarySelectionElementClass:
+		self primarySelectionElementClass.
 	self addChild: self next.
 	self matchParent.
 	self addEventHandler: (self defaultEventHandler
-	target: self;
-	yourself).
+			 target: self;
+			 yourself).
 	sharedDistributor := BlSharedEventDistributor new.
 	sharedDistributor
 		adjustMousePosition: false;
@@ -129,7 +130,7 @@ ToAlbum >> initialize [
 				BlBlurEvent }.
 	self addEventHandler: sharedDistributor.
 	" for the focus events "
-	self next addEventHandler: sharedDistributor.	
+	self next addEventHandler: sharedDistributor.
 	self infinite addEventHandler: sharedDistributor.
 	" for the styler "
 	self editor addEventHandler: sharedDistributor

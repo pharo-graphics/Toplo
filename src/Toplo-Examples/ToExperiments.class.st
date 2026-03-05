@@ -825,6 +825,25 @@ ToExperiments class >> example_TextFlowWithBlElements2 [
 	element openInNewSpace
 ]
 
+{ #category : #album }
+ToExperiments class >> example_TextPane [
+
+	| pane text album space scrollbar |
+	space := BlSpace new.
+	text := self methodText asRopedText.
+	album := ToAlbum new.
+	album text: text copy.
+	pane := album asScrollableElement.
+	scrollbar := ToScrollbarElement vertical: true.
+	scrollbar attachTo: pane.
+	space root addChild: pane.
+	space root addChild: scrollbar.
+	album infinite vFitContent.
+	album next vFitContent.
+	album vFitContent.
+	space show
+]
+
 { #category : #collapse }
 ToExperiments class >> example_collapse1 [
 

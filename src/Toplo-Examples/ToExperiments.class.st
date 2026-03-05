@@ -1667,6 +1667,11 @@ ToExperiments class >> labelWithForegroundWithGradient [
 	l openInSpace 
 ]
 
+{ #category : #album }
+ToExperiments class >> methodText [
+	^ self  class sourceCodeAt: #example_TextPane
+]
+
 { #category : #tree }
 ToExperiments class >> newTreeElement [
 

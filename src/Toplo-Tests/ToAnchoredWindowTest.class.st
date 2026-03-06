@@ -404,7 +404,7 @@ ToAnchoredWindowTest >> testPopupTimestamp [
 { #category : #tests }
 ToAnchoredWindowTest >> testValueOfTokenNamedInWindow [
 
-	| win e windowManager lab |
+	| win e windowManager lab notFoundDispatched |
 	e := ToElement new.
 	e localTheme: ToRawThemeForTest new.
 	space root addChild: e.
@@ -432,8 +432,22 @@ ToAnchoredWindowTest >> testValueOfTokenNamedInWindow [
 		equals: Color white.
 	" here the lab is no more attached. the last installed theme is used 
 	(see BlElement>>valueOfTokenNamed:)"
+	notFoundDispatched := false.
+	lab
+		addEventHandlerOn: ToTokenPropertyNotFoundEvent
+		do: [ notFoundDispatched := true ].
+	notFoundDispatched := false.
 	self
-		should: [ (lab valueOfTokenNamed: #'test-background-color') ] raise: ToTokenPropertyNotFoundError
+		assert: (lab valueOfTokenNamed: #'background-color')
+		equals: (space root valueOfTokenNamed: #'background-color').
+	self assert: notFoundDispatched.
+	" now the #'test-background-color' token is nbot accessible at all 
+	because it is not defined by the last installed theme "
+	notFoundDispatched := false.
+	self
+		should: [ lab valueOfTokenNamed: #'test-background-color' ]
+		raise: ToTokenPropertyNotFoundError.
+	self assert: notFoundDispatched
 ]
 
 { #category : #tests }

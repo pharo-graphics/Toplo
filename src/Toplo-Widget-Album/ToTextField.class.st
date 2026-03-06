@@ -33,11 +33,16 @@ ToTextField >> initialize [
 
 	super initialize.
 	self infinite vFitContent.
-	self next vFitContent.
+	self next
+		vFitContent;
+		hMatchParent.
+	self next next
+		vFitContent;
+		hMatchParent.
 	self vFitContent.
 	self next constraintsDo: [ :c |
-		c linear vertical alignCenter.
-		c frame vertical alignCenter ].
+			c linear vertical alignCenter.
+			c frame vertical alignCenter ].
 	self withoutLineWrapping
 ]
 
@@ -50,7 +55,7 @@ ToTextField >> placeholderClass [
 { #category : #initialization }
 ToTextField >> withLineWrapping [
 
-	self next hMatchParent.
+	self next next hMatchParent.
 	self infinite hMatchParent
 ]
 

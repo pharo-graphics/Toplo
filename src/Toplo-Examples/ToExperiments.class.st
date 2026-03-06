@@ -828,19 +828,17 @@ ToExperiments class >> example_TextFlowWithBlElements2 [
 { #category : #album }
 ToExperiments class >> example_TextPane [
 
-	| pane text album space scrollbar |
+	| text album space scrollbar |
 	space := BlSpace new.
 	text := self methodText asRopedText.
 	album := ToAlbum new.
 	album text: text copy.
-	pane := album asScrollableElement.
 	scrollbar := ToScrollbarElement vertical: true.
-	scrollbar attachTo: pane.
-	space root addChild: pane.
-	space root addChild: scrollbar.
+	scrollbar attachTo: album next.
+	album addChild: scrollbar.
+	space root addChild: album.
 	album infinite vFitContent.
-	album next vFitContent.
-	album vFitContent.
+	album next next vFitContent.
 	space show
 ]
 

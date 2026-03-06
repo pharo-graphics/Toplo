@@ -347,8 +347,7 @@ ToSkinStateGenerator >> primaryMouseUpEvent: anEvent [
 { #category : #'property change handling' }
 ToSkinStateGenerator >> propertyIndexChangedEvent: anEvent [
 
-	"target requestNewSkin"
-
+	" re-install skins of the element tree "
 	target toploExtensionDo: [ :ext |
 		ext requestNewSkinRecursivelyFrom: target ]
 ]

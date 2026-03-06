@@ -6,7 +6,6 @@ Class {
 	#instVars : [
 		'next',
 		'edited',
-		'autocompleteRule',
 		'useScrollbar',
 		'scrollbar'
 	],
@@ -28,18 +27,6 @@ ToAlbum >> applyConfiguration [
 
 	super applyConfiguration.
 	self configureScrollbar
-]
-
-{ #category : #initialization }
-ToAlbum >> autocompleteRule [
-
-	^ autocompleteRule 
-]
-
-{ #category : #initialization }
-ToAlbum >> autocompleteRule: anAutocompleteRule [
-
-	autocompleteRule := anAutocompleteRule
 ]
 
 { #category : #'styler configuration' }
@@ -142,8 +129,9 @@ ToAlbum >> initialize [
 	| sharedDistributor |
 	super initialize.
 	useScrollbar := false.
-	self next: self defaultEditorElement.
-	self rootAlbumElement: self.
+	self next: (ToAlbumInnerElement new next: self defaultEditorElement).
+	self next addChild: self next next.
+	self next rootAlbumElement: self.
 	self next primarySelectionElementClass:
 		self primarySelectionElementClass.
 	self addChild: self next.
@@ -165,10 +153,11 @@ ToAlbum >> initialize [
 				BlBlurEvent }.
 	self addEventHandler: sharedDistributor.
 	" for the focus events "
-	self next addEventHandler: sharedDistributor.
+	self next next addEventHandler: sharedDistributor.
+	self  next addEventHandler: sharedDistributor.
 	self infinite addEventHandler: sharedDistributor.
 	" for the styler "
-	self editor addEventHandler: sharedDistributor
+	self next editor addEventHandler: sharedDistributor
 ]
 
 { #category : #'t - element with placeholder' }
@@ -442,5 +431,5 @@ ToAlbum >> withSaveCapability [
 ToAlbum >> withoutLineWrapping [
 
 	self infinite hFitContent.
-	self next hFitContent
+	self next next hFitContent
 ]

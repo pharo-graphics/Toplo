@@ -41,7 +41,7 @@ ToAlbum >> codeFontName: aFontName [
 	^ self userData at: #codeFontName put: aFontName
 ]
 
-{ #category : #initialization }
+{ #category : #configuration }
 ToAlbum >> configureScrollbar [
 
 	scrollbar ifNotNil: [
@@ -55,7 +55,7 @@ ToAlbum >> configureScrollbar [
 	scrollbar
 		addEventHandlerOn: BlElementVisibilityChangedEvent
 		do: [ :evt | self requestNewSkin ].
-	scrollbar attachTo: self infinite.
+	scrollbar attachTo: self scrollbarTarget.
 	scrollbar elevation: (BlRelativeElevation elevation: 20).
 	self addChild: scrollbar.
 	self requestNewSkin
@@ -143,21 +143,22 @@ ToAlbum >> initialize [
 	sharedDistributor
 		adjustMousePosition: false;
 		shareEvents: {
-				BlDragStartEvent.
-				BlDragEvent.
+				"BlDragStartEvent.
+				BlDragEvent."
 				AlbTextDeletedEvent.
 				AlbTextInsertedEvent.
 				AlbTextEditedEvent.
 				AlbTextReplacedEvent.
 				BlFocusEvent.
 				BlBlurEvent }.
+
 	self addEventHandler: sharedDistributor.
 	" for the focus events "
-	self next next addEventHandler: sharedDistributor.
-	self  next addEventHandler: sharedDistributor.
+	"self next next addEventHandler: sharedDistributor."
+	"self next addEventHandler: sharedDistributor."
 	self infinite addEventHandler: sharedDistributor.
 	" for the styler "
-	self next editor addEventHandler: sharedDistributor
+	self editor addEventHandler: sharedDistributor
 ]
 
 { #category : #'t - element with placeholder' }
@@ -254,6 +255,12 @@ ToAlbum >> saveResult: aBoolean [
 	self dispatchEvent: (event
 			 editorElement: self;
 			 yourself)
+]
+
+{ #category : #configuration }
+ToAlbum >> scrollbarTarget [
+
+		^ self infinite
 ]
 
 { #category : #accessing }
@@ -425,11 +432,4 @@ ToAlbum >> withSaveCapability [
 			 action: [ :aShortcutEvent :aShortcut | self requestCancel ];
 			 name: 'Cancel';
 			 description: 'Cancel changes and rollback the previous accepted source code.')
-]
-
-{ #category : #initialization }
-ToAlbum >> withoutLineWrapping [
-
-	self infinite hFitContent.
-	self next next hFitContent
 ]

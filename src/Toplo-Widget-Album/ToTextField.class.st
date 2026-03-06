@@ -1,6 +1,9 @@
 Class {
 	#name : #ToTextField,
 	#superclass : #ToAlbum,
+	#instVars : [
+		'wrappingMode'
+	],
 	#category : #'Toplo-Widget-Album-TextField'
 }
 
@@ -22,16 +25,10 @@ ToTextField class >> text: aText [
 	^ self new text: aText
 ]
 
-{ #category : #initialization }
-ToTextField >> defaultEditorElement [
+{ #category : #configuration }
+ToTextField >> applyConfiguration [
 
-	^ AlbTextFieldElement new
-]
-
-{ #category : #initialization }
-ToTextField >> initialize [
-
-	super initialize.
+	super applyConfiguration.
 	self infinite vFitContent.
 	self next
 		vFitContent;
@@ -43,7 +40,26 @@ ToTextField >> initialize [
 	self next constraintsDo: [ :c |
 			c linear vertical alignCenter.
 			c frame vertical alignCenter ].
-	self withoutLineWrapping
+	wrappingMode
+		ifTrue: [
+				self next next hMatchParent.
+				self infinite hMatchParent ]
+		ifFalse: [
+				self next next hFitContent.
+				self infinite hFitContent ]
+]
+
+{ #category : #initialization }
+ToTextField >> defaultEditorElement [
+
+	^ AlbTextFieldElement new
+]
+
+{ #category : #initialization }
+ToTextField >> initialize [
+
+	super initialize.
+	wrappingMode := false
 ]
 
 { #category : #'t - element with placeholder' }
@@ -55,8 +71,11 @@ ToTextField >> placeholderClass [
 { #category : #initialization }
 ToTextField >> withLineWrapping [
 
-	self next next hMatchParent.
-	self infinite hMatchParent
+	self
+		deprecated: 'Use #wrappingMode: true '
+		transformWith:
+		'`@rcvr withLineWrapping' -> '`@rcvr wrappingMode: true'.
+	self wrappingMode: true
 ]
 
 { #category : #initialization }
@@ -81,4 +100,28 @@ ToTextField >> withSaveCapability [
 ToTextField >> withoutLineBreak [
 
 	self inputFilter: AlbTextEditorNoLineBreakInputFilter new
+]
+
+{ #category : #initialization }
+ToTextField >> withoutLineWrapping [
+
+	self
+		deprecated: 'Use #wrappingMode: false '
+		transformWith:
+		'`@rcvr withoutLineWrapping' -> '`@rcvr wrappingMode: false'.
+	self wrappingMode: false
+]
+
+{ #category : #accessing }
+ToTextField >> wrappingMode [
+
+	^ wrappingMode
+]
+
+{ #category : #accessing }
+ToTextField >> wrappingMode: aBoolean [
+
+	wrappingMode = aBoolean ifTrue: [ ^ self ].
+	wrappingMode := aBoolean.
+	self requestConfiguration
 ]

@@ -31,7 +31,6 @@ ToAlbumEventHandler >> checkTextIn: anEditorElement [
 { #category : #'mouse handlers' }
 ToAlbumEventHandler >> doubleClickEvent: anEvent [
 
-	anEvent target = target ifFalse: [ ^ self ].
 	anEvent currentTarget infinite dispatchEvent: anEvent copy
 ]
 
@@ -69,7 +68,8 @@ ToAlbumEventHandler >> focusEvent: anEvent [
 { #category : #'mouse handlers' }
 ToAlbumEventHandler >> mouseDownEvent: anEvent [
 
-	" copy the event, else the double click can't works in textfield in case of clicking outside the infinite bounds" 
+	" copy the event, else the double click can't works 
+	in textfield in case of clicking outside the infinite bounds" 
 	target infinite dispatchEvent: anEvent copy.
 	anEvent primaryButtonPressed ifFalse: [ ^ self ].
 	anEvent consume
@@ -78,9 +78,9 @@ ToAlbumEventHandler >> mouseDownEvent: anEvent [
 { #category : #'mouse handlers' }
 ToAlbumEventHandler >> mouseUpEvent: anEvent [
 
-	anEvent target = target ifFalse: [ ^ self ].
-	" copy the event, else the double click can't works in textfield in case of clicking outside the infinite bounds."
-	target infinite dispatchEvent: anEvent copy
+	" copy the event, else the double click can't works 
+	in textfield in case of clicking outside the infinite bounds."
+	target infinite dispatchEvent: anEvent copy.
 	"**** Pay attention to not consume anEvent to allow double click **** "
 ]
 

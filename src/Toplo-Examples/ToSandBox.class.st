@@ -243,6 +243,106 @@ ToSandBox class >> classTree [
 	^ l
 ]
 
+{ #category : #album }
+ToSandBox class >> codeEditorIn: anAlbum [
+
+	| pane menuPane text menuBuilder disabox inspectBtn showStatisticsBtn fileMenu win |
+	pane := ToPane vertical matchParent.
+
+	text := self methodText asRopedText.
+	anAlbum useScrollbar: true.
+	anAlbum styler: (BlPharoCodeStyler new
+			 classOrMetaClass: self class;
+			 yourself).
+	anAlbum text: text copy.
+	anAlbum withSaveCapability.
+	anAlbum withRowNumbers.
+	anAlbum whenSaveRequestedDo: [ :saveRequested |
+		saveRequested accepted: true ].
+	anAlbum whenCancelRequestedDo: [ :cancelRequested |
+		cancelRequested editorElement text: text copy ].
+
+	menuBuilder := [ :menu :request |
+		               menu addItem: (ToMenuItem new
+				                labelText: 'Select all';
+				                clickAction: [ :evt |
+						                anAlbum selecter
+							                all;
+							                apply ];
+				                yourself).
+		               menu addItem: (ToMenu new
+				                labelText: 'Edit';
+				                builder: [ :m |
+						                | item |
+						                item := ToMenuItem new
+							                        labelText: 'Copy';
+							                        clickAction: [ :evt |
+								                        anAlbum editor copySelected ];
+							                        yourself.
+						                anAlbum hasSelection ifFalse: [ item disable ].
+						                m addItem: item.
+						                m addItem: (ToMenuItem new
+								                 labelText: 'Cut';
+								                 clickAction: [ :evt |
+									                 anAlbum editor cutSelected ];
+								                 yourself).
+						                anAlbum hasSelection ifFalse: [
+							                m items last disable ].
+
+						                m addItem: (ToMenuItem new
+								                 labelText: 'Paste';
+								                 clickAction: [ :evt | anAlbum editor paste ];
+								                 yourself).
+						                anAlbum editor paster fromClipboard isEmpty
+							                ifTrue: [ m items last disable ].
+						                m addSeparator.
+
+						                m addItem: (ToMenuItem new
+								                 labelText: 'Accept';
+								                 clickAction: [ anAlbum requestSave ];
+								                 yourself).
+						                anAlbum edited ifFalse: [ m items last disable ].
+
+						                m addItem: (ToMenuItem new
+								                 labelText: 'Cancel';
+								                 clickAction: [ anAlbum requestCancel ];
+								                 yourself).
+						                anAlbum edited ifFalse: [ m items last disable ] ]) ].
+	anAlbum contextMenuBuilder: menuBuilder.
+
+	fileMenu := ToMenu new labelText: 'Edit'.
+	fileMenu builder: menuBuilder.
+	inspectBtn := ToMenuItem new
+		              labelText: 'Inspect';
+		              clickAction: [ anAlbum space root inspect ];
+		              yourself.
+	showStatisticsBtn := ToMenuItem new
+		                     labelText: 'Statistics';
+		                     clickAction: [
+			                     anAlbum space showStatisticsWindow ];
+		                     yourself.
+	disabox := ToCheckMenuItem new
+		           label: (ToLabel text: 'Disable');
+		           checkAction: [ :evt |
+			           anAlbum disabled: evt target isChecked ];
+		           yourself.
+	anAlbum whenConfigurationAppliedDo: [
+		disabox checked: anAlbum isDisabled ].
+
+	menuPane := ToMenuPane new.
+	menuPane hMatchParent.
+	menuPane addItem: fileMenu.
+	menuPane addItem: inspectBtn.
+	menuPane addItem: showStatisticsBtn.
+	menuPane addItem: disabox.
+
+	pane addChild: menuPane.
+	pane addChild: anAlbum.
+	win := pane openInInnerWindow.
+	win title: 'Code editor'.
+	^ anAlbum
+]
+
 { #category : #accordion }
 ToSandBox class >> exampleAccordionWithLabel [
 
@@ -2370,101 +2470,7 @@ ToSandBox class >> example_ClockWithAnchors [
 { #category : #album }
 ToSandBox class >> example_CodeEditor [
 
-	| pane menuPane text album menuBuilder disabox inspectBtn showStatisticsBtn fileMenu win |
-	pane := ToPane vertical matchParent.
-
-	text := self methodText asRopedText.
-	album := ToAlbum new.
-	album useScrollbar: true.
-	album styler: (BlPharoCodeStyler new
-			 classOrMetaClass: self class;
-			 yourself).
-	album text: text copy.
-	album withSaveCapability.
-	album withRowNumbers.
-	album whenSaveRequestedDo: [ :saveRequested |
-		saveRequested accepted: true ].
-	album whenCancelRequestedDo: [ :cancelRequested |
-		cancelRequested editorElement text: text copy ].
-
-	menuBuilder := [ :menu :request |
-		               menu addItem: (ToMenuItem new
-				                labelText: 'Select all';
-				                clickAction: [ :evt |
-						                album selecter
-							                all;
-							                apply ];
-				                yourself).
-		               menu addItem: (ToMenu new
-				                labelText: 'Edit';
-				                builder: [ :m |
-						                | item |
-						                item := ToMenuItem new
-							                        labelText: 'Copy';
-							                        clickAction: [ :evt |
-								                        album editor copySelected ];
-							                        yourself.
-						                album hasSelection ifFalse: [ item disable ].
-						                m addItem: item.
-						                m addItem: (ToMenuItem new
-								                 labelText: 'Cut';
-								                 clickAction: [ :evt |
-									                 album editor cutSelected ];
-								                 yourself).
-						                album hasSelection ifFalse: [
-							                m items last disable ].
-
-						                m addItem: (ToMenuItem new
-								                 labelText: 'Paste';
-								                 clickAction: [ :evt | album editor paste ];
-								                 yourself).
-						                album editor paster fromClipboard isEmpty
-							                ifTrue: [ m items last disable ].
-						                m addSeparator.
-
-						                m addItem: (ToMenuItem new
-								                 labelText: 'Accept';
-								                 clickAction: [ album requestSave ];
-								                 yourself).
-						                album edited ifFalse: [ m items last disable ].
-
-						                m addItem: (ToMenuItem new
-								                 labelText: 'Cancel';
-								                 clickAction: [ album requestCancel ];
-								                 yourself).
-						                album edited ifFalse: [ m items last disable ] ]) ].
-	album contextMenuBuilder: menuBuilder.
-
-	fileMenu := ToMenu new labelText: 'Edit'.
-	fileMenu builder: menuBuilder.
-	inspectBtn := ToMenuItem new
-		              labelText: 'Inspect';
-		              clickAction: [ album space root inspect ];
-		              yourself.
-	showStatisticsBtn := ToMenuItem new
-		                     labelText: 'Statistics';
-		                     clickAction: [
-			                     album space showStatisticsWindow ];
-		                     yourself.
-	disabox := ToCheckMenuItem new
-		           label: (ToLabel text: 'Disable');
-		           checkAction: [ :evt |
-			           album disabled: evt target isChecked ];
-		           yourself.
-	album whenConfigurationAppliedDo: [
-		disabox checked: album isDisabled ].
-
-	menuPane := ToMenuPane new.
-	menuPane hMatchParent.
-	menuPane addItem: fileMenu.
-	menuPane addItem: inspectBtn.
-	menuPane addItem: showStatisticsBtn.
-	menuPane addItem: disabox.
-
-	pane addChild: menuPane.
-	pane addChild: album.
-	win := pane openInInnerWindow.
-	win title: 'Code editor'
+	^ self codeEditorIn: ToAlbum new
 ]
 
 { #category : #handles }
@@ -2652,7 +2658,7 @@ ToSandBox class >> example_EditorWithPlaceholder [
 	placeholderString := ('Here is a placeholder text' , String cr
 	                    , 'visible only if the text is empty').
 
-	view := ToAlbum new
+	view := ToTextPane new
 		        placeholderString: placeholderString;
 		        withRowNumbers;
 		        withSaveCapability;
@@ -5847,12 +5853,18 @@ ToSandBox class >> example_TagFiniteList [
 ]
 
 { #category : #album }
+ToSandBox class >> example_TextPane [
+
+	^ self codeEditorIn: ToTextPane new
+]
+
+{ #category : #album }
 ToSandBox class >> example_TextPaneWithGrip [
 
 	| text album grip |
 	text := self methodText asRopedText.
-	album := ToAlbum new.
-	album useScrollbar: false.
+	album := ToTextPane new.
+	album useScrollbar: true.
 	album position: 100 asPoint.
 	album width: 400.
 	album height: 100.
@@ -8523,7 +8535,7 @@ ToSandBox class >> example_textFieldWithCRAction [
 ToSandBox class >> example_textFieldWithLineWrapping [
 
 	| t |
-	t := ToTextField new withLineWrapping.
+	t := ToTextField new wrappingMode: true.
 	t openInSpace
 ]
 
@@ -8603,8 +8615,7 @@ ToSandBox class >> example_textFieldWithSaveCapability [
 ToSandBox class >> example_textFieldWithoutLineWrapping [
 
 	| t |
-	t := ToTextField new
-		     withoutLineWrapping.
+	t := ToTextField new wrappingMode: false.
 	t openInSpace
 ]
 
@@ -10287,7 +10298,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 
 { #category : #accessing }
 ToSandBox class >> methodText [
-	^ self  class sourceCodeAt: #example_CodeEditor
+	^ self  class sourceCodeAt: #codeEditorIn:
 ]
 
 { #category : #empty }

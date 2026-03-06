@@ -83,6 +83,8 @@ ToElementTreeSkinUsingTokenPropertiesTest >> testRemovingTokenLeadsToError [
 	self should: [ self waitTestingSpaces ] raise: ToTokenPropertyNotFoundError.
 	" add the token back because #tearDown sends #waitTestingSpaces "
 	parent addTokenNamed: #'element-color' withValue: Color black.
+	self waitTestingSpaces.
+	self assert: parent background paint color equals: Color black
 ]
 
 { #category : #tests }

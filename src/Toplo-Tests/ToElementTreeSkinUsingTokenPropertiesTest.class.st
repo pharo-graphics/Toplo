@@ -83,3 +83,18 @@ ToElementTreeSkinUsingTokenPropertiesTest >> testSubChildSkinApplication [
 	self waitTestingSpaces.
 	self assert: subChild background paint color equals: Color white
 ]
+
+{ #category : #tests }
+ToElementTreeSkinUsingTokenPropertiesTest >> testSubChildWithLocalTokenSkinApplication [
+	" updating a token value in the parent should lead to the re-installation of children skins "
+
+	parent updateTokenNamed: #'element-color' withValue: Color white.
+	child addTokenNamed: #'element-color' withValue: Color gray.
+	self waitTestingSpaces.
+	self assert: parent background paint color equals: Color white.
+	self assert: child background paint color equals: Color gray.
+	self assert: subChild background paint color equals: Color gray.
+	child removeTokenNamed: #'element-color'.
+	self waitTestingSpaces.
+	self assert: subChild background paint color equals: Color white
+]

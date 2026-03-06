@@ -22,6 +22,14 @@ ToScrollbarThumbElement class >> initializeToRawTheme: aTheme [
 						ifTrue: [ e height: breadth ]
 						ifFalse: [ e width: breadth ] ].
 			aTheme
+				when: ToHoveredSkinEvent
+				write: #mouseCursor asWritableProperty
+				with: [ :e | Cursor webLink ].
+			aTheme
+				when: ToLeftSkinEvent
+				write: #mouseCursor asWritableProperty
+				with: [ :e | Cursor normal ].
+			aTheme
 				when: ToInstallSkinEvent
 				write: (aTheme property: #geometry)
 				with: [ :e | BlStadiumGeometry new ].

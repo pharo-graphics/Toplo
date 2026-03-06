@@ -433,8 +433,7 @@ ToAnchoredWindowTest >> testValueOfTokenNamedInWindow [
 	" here the lab is no more attached. the last installed theme is used 
 	(see BlElement>>valueOfTokenNamed:)"
 	self
-		assert: (lab valueOfTokenNamed: #'background-color')
-		equals: (space root valueOfTokenNamed: #'background-color')
+		should: [ (lab valueOfTokenNamed: #'test-background-color') ] raise: ToTokenPropertyNotFoundError
 ]
 
 { #category : #tests }

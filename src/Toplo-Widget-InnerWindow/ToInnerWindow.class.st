@@ -45,15 +45,17 @@ ToInnerWindow >> defaultTitle [
 { #category : #initialization }
 ToInnerWindow >> defaultTopBarElement [
 
-	| b fill1 fill2 fill3 fill4 closeButton expandButton titleLabel |
-	b := ToPane horizontal
-		     id: #'innerWindow-bar';
-		     vFitContent;
-		     yourself.
-	b addEventHandler: (BlEventHandler
+	| topBar fill1 fill2 fill3 fill4 closeButton expandButton titleLabel |
+	topBar := ToDragHandle new attachTo: self.
+	topBar layout: BlLinearLayout horizontal.
+	topBar
+		id: #'innerWindow-bar';
+		hMatchParent;
+		vFitContent.
+	topBar addEventHandler: (BlEventHandler
 			 on: BlDoubleClickEvent
 			 do: [ self maximize ]).
-	b addEventHandler: (BlEventHandler
+	topBar addEventHandler: (BlEventHandler
 			 on: BlMouseDownEvent
 			 do: [ self toFront ]).
 	closeButton := ToIconicRemoveButton new
@@ -66,24 +68,24 @@ ToInnerWindow >> defaultTopBarElement [
 	expandButton clickAction: [ self maximize ].
 
 	fill1 := BlElement new constraintsDo: [ :c |
-		         c vertical exact: 1.
-		         c horizontal exact: 6 ].
+			         c vertical exact: 1.
+			         c horizontal exact: 6 ].
 	fill2 := BlElement new constraintsDo: [ :c |
-		         c vertical exact: 1.
-		         c horizontal matchParent ].
+			         c vertical exact: 1.
+			         c horizontal matchParent ].
 	fill3 := BlElement new constraintsDo: [ :c |
-		         c vertical exact: 1.
-		         c horizontal matchParent ].
+			         c vertical exact: 1.
+			         c horizontal matchParent ].
 	fill4 := BlElement new constraintsDo: [ :c |
-		         c vertical exact: 1.
-		         c horizontal exact: 8 ].
+			         c vertical exact: 1.
+			         c horizontal exact: 8 ].
 	titleLabel := ToLabel new
 		              id: #'title-label';
 		              text: self defaultTitle;
 		              yourself.
 	titleLabel hMatchParent.
 
-	b addChildren: {
+	topBar addChildren: {
 			fill1.
 			closeButton.
 			fill2.
@@ -91,9 +93,9 @@ ToInnerWindow >> defaultTopBarElement [
 			fill3.
 			expandButton.
 			fill4 }.
-	b childrenDo: [ :child |
+	topBar childrenDo: [ :child |
 		child constraintsDo: [ :c | c linear vertical alignCenter ] ].
-	^ b
+	^ topBar
 ]
 
 { #category : #accessing }
@@ -110,21 +112,21 @@ ToInnerWindow >> initialize [
 	self extent: self defaultExtent.
 	self initializeTopBarElement.
 	self initializePaneElement.
-	self initializeGrips
+	self initializeHandles
 ]
 
 { #category : #initialization }
-ToInnerWindow >> initializeGrips [
+ToInnerWindow >> initializeHandles [
 
 	{
-		ToBottomRightResizeGrip.
-		ToBottomLeftResizeGrip.
-		ToTopRightResizeGrip.
-		ToTopLeftResizeGrip.
-		ToRightResizeGrip.
-		ToLeftResizeGrip.
-		ToBottomResizeGrip.
-		ToTopResizeGrip } do: [ :eachClass |
+		ToBottomRightResizeHandle.
+		ToBottomLeftResizeHandle.
+		ToTopRightResizeHandle.
+		ToTopLeftResizeHandle.
+		ToRightResizeHandle.
+		ToLeftResizeHandle.
+		ToBottomResizeHandle.
+		ToTopResizeHandle } do: [ :eachClass |
 		eachClass new attachToParent: self ]
 ]
 
@@ -139,7 +141,6 @@ ToInnerWindow >> initializePaneElement [
 ToInnerWindow >> initializeTopBarElement [
 
 	topBarElement := self defaultTopBarElement.
-	topBarElement addEventHandler: self newTopBarPullHandler.
 	self root addChild: topBarElement at: 1
 ]
 
@@ -160,14 +161,6 @@ ToInnerWindow >> maximize [
 	self
 		position: 0 @ 0;
 		extent: self parent extent
-]
-
-{ #category : #initialization }
-ToInnerWindow >> newTopBarPullHandler [
-
-	^ BlPullHandler new
-		  target: self;
-		  yourself
 ]
 
 { #category : #accessing }

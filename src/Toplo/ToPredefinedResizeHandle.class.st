@@ -1,20 +1,14 @@
 Class {
-	#name : #ToPredefinedResizeGrip,
-	#superclass : #ToResizeGrip,
-	#category : #'Toplo-Layout-Support-Grips'
+	#name : #ToPredefinedResizeHandle,
+	#superclass : #ToHandle,
+	#category : #'Toplo-Layout-Support-Handles'
 }
 
 { #category : #initialization }
-ToPredefinedResizeGrip class >> initializeToRawTheme: aTheme [
+ToPredefinedResizeHandle class >> initializeToRawTheme: aTheme [
 
 	<toploThemeInstallerFor: #ToRawTheme>
 	aTheme select: (self asTypeSelector exact: false) style: [
-			aTheme
-				when: ToInstallSkinEvent
-				write: #geometry asWritableProperty
-				with: [ :e |
-						BlRoundedRectangleGeometry cornerRadius:
-							(e valueOfTokenNamed: #'window-corner-grips-size') ].
 			aTheme
 				when: ToHoveredSkinEvent
 				write: #border asWritableProperty
@@ -42,13 +36,22 @@ ToPredefinedResizeGrip class >> initializeToRawTheme: aTheme [
 ]
 
 { #category : #accessing }
-ToPredefinedResizeGrip >> cursorSelector [
+ToPredefinedResizeHandle >> cursorSelector [
 
 	^ self subclassResponsibility 
 ]
 
 { #category : #accessing }
-ToPredefinedResizeGrip >> resizeCursor [
+ToPredefinedResizeHandle >> handleCursor [
 
 	^ Cursor perform: self cursorSelector
+]
+
+{ #category : #configuration }
+ToPredefinedResizeHandle >> prepareConfiguration [
+
+	super prepareConfiguration.
+	self constraintsDo: [ :c |
+			c ignoreByLayout.
+			c anchors removeAll ]
 ]

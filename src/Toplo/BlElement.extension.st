@@ -166,7 +166,9 @@ BlElement >> checkConfigurationPassDeeplyInSpace: aSpace [
 
 	| requested |
 	requested := self isConfigurationRequestedInSpace: aSpace.
-	requested ifTrue: [ self applyConfiguration ].
+	requested ifTrue: [ 
+		self prepareConfiguration.
+		self applyConfiguration ].
 	self childrenDo: [ :child |
 		child checkConfigurationPassDeeplyInSpace: aSpace ].
 	requested ifFalse: [ ^ self ].
@@ -312,10 +314,17 @@ BlElement >> ensuredToploExtension [
 ]
 
 { #category : #'*Toplo' }
-BlElement >> fallBackValueOfTokenNamed: aSymbol [
+BlElement >> fallBackValueOfTokenNamed: aSymbol inContext: aContext [
 
-	('Warning: *** To be fixed: The token #''' , aSymbol
-	 , ''' lookup failed. Trying the last installed theme.') traceCr.
+	(String streamContents: [ :str |
+			 str nextPutAll: '*** Warning: The token #'''.
+			 str nextPutAll: aSymbol asString.
+			 str nextPutAll:
+				 ''' lookup failed. Trying the last installed theme.'.
+			 str nextPutAll: String cr.
+			 str nextPutAll: '       '.
+			 str nextPutAll: 'Context: '.
+			 aContext sender printDebugOn: str ]) traceCr.
 	self dispatchEvent: (ToTokenPropertyNotFoundEvent new
 			 name: aSymbol;
 			 yourself).
@@ -675,6 +684,10 @@ BlElement >> openedEventClass [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> prepareConfiguration [
+]
+
+{ #category : #'*Toplo' }
 BlElement >> recoverLastInstalledTheme [
 
 	Toplo lastInstalledTheme ifNotNil: [ :th | self onThemeInstalled: th ]
@@ -972,8 +985,8 @@ BlElement >> valueOfStamp: aSymbol [
 { #category : #'*Toplo' }
 BlElement >> valueOfTokenNamed: aSymbol [
 
-	^ (self lookupTokenPropertyValueNamed: aSymbol) ifNil: [
-		  self fallBackValueOfTokenNamed: aSymbol ]
+	^ (self lookupTokenPropertyValueNamed: aSymbol) ifNil: [ 
+		  self fallBackValueOfTokenNamed: aSymbol inContext: thisContext]
 ]
 
 { #category : #'*Toplo' }

@@ -1239,18 +1239,6 @@ ToSandBox class >> example_BasicWrappedListWithAllClasses3 [
 	l openInInnerWindow
 ]
 
-{ #category : #grips }
-ToSandBox class >> example_BottomRightGrip [
-
-	| e |
-	e := BlElement new
-		     extent: 100 asPoint;
-		     border: Color black.
-	e addChild: (ToBottomRightResizeGrip new attachTo: e).
-	e addChild: (ToBottomResizeGrip new attachTo: e).
-	e openInSpace
-]
-
 { #category : #transitions }
 ToSandBox class >> example_BoundsAndBackgroundTransition [
 
@@ -2382,7 +2370,7 @@ ToSandBox class >> example_ClockWithAnchors [
 { #category : #album }
 ToSandBox class >> example_CodeEditor [
 
-	| pane menuPane text album menuBuilder disabox inspectBtn showStatisticsBtn fileMenu |
+	| pane menuPane text album menuBuilder disabox inspectBtn showStatisticsBtn fileMenu win |
 	pane := ToPane vertical matchParent.
 
 	text := self methodText asRopedText.
@@ -2475,91 +2463,106 @@ ToSandBox class >> example_CodeEditor [
 
 	pane addChild: menuPane.
 	pane addChild: album.
-	pane openInInnerWindow 
+	win := pane openInInnerWindow.
+	win title: 'Code editor'
 ]
 
-{ #category : #grips }
-ToSandBox class >> example_CustomResizeGrips [
+{ #category : #handles }
+ToSandBox class >> example_CustomHandles [
 
-	| space rectangle gripSize bottomGrip rightGrip topGrip leftGrip |
+	| space rectangle handleSize bottomHandle rightHandle topHandle leftHandle dragHandle |
 	space := BlSpace new.
-	gripSize := 10.
+	handleSize := 10.
 	rectangle := BlElement new
-		     extent: 100 asPoint;
-		     position: 100 asPoint;
-		     border: Color black;
-		     yourself.
+		             extent: 100 asPoint;
+		             position: 100 asPoint;
+		             border: Color black;
+		             yourself.
 
-	bottomGrip := ToCustomResizeGrip new.
-	bottomGrip cursorFactory: [ Cursor resizeBottom ].
-	bottomGrip extent: gripSize asPoint.
-	bottomGrip background: Color red.
+	dragHandle := ToCustomHandle new.
+	dragHandle cursorFactory: [ Cursor webLink ].
+	dragHandle extent: 20 asPoint.
+	dragHandle background: Color blue.
+	dragHandle constraintsDo: [ :c |
+			c ignoreByLayout.
+			c anchors add:
+				(c anchors centerAnchor on: c anchors parent centerAnchor) ].
+	dragHandle dragger: [ :target :delta :initialPosition :initialExtent |
+		target position: initialPosition + delta ].
+	dragHandle attachToParent: rectangle.
 
-	bottomGrip whenLayoutedDoOnce: [
-			bottomGrip constraintsDo: [ :c |
-					c anchors add:
-						(c anchors bottomAnchor on:
-							 rectangle bottomAnchor + (bottomGrip height / 2)).
-					c anchors add:
-						(c anchors horizontalCenterAnchor on: rectangle horizontalCenterAnchor) ].
-			bottomGrip dragger: [ :target :delta :initialPosition :initialExtent |
-				target height: initialExtent y + delta y ].
-			bottomGrip attachTo: rectangle ].
+	bottomHandle := ToCustomHandle new.
+	bottomHandle cursorFactory: [ Cursor resizeBottom ].
+	bottomHandle extent: handleSize asPoint.
+	bottomHandle background: Color red.
+	bottomHandle attachTo: rectangle.
 
-	rightGrip := ToCustomResizeGrip new.
-	rightGrip cursorFactory: [ Cursor resizeRight ].
-	rightGrip extent: 10 asPoint.
-	rightGrip background: Color red.
+	bottomHandle constraintsDo: [ :c |
+			c ignoreByLayout.
+			c anchors add:
+				(c anchors bottomAnchor on:
+					 rectangle bottomAnchor + (handleSize / 2)).
+			c anchors add:
+				(c anchors horizontalCenterAnchor on:
+					 rectangle horizontalCenterAnchor) ].
+	bottomHandle dragger: [ :target :delta :initialPosition :initialExtent |
+		target height: initialExtent y + delta y ].
 
-	rightGrip whenLayoutedDoOnce: [
-			rightGrip constraintsDo: [ :c |
-					c anchors add:
-						(c anchors rightAnchor on: rectangle rightAnchor + (rightGrip width / 2)).
-					c anchors add:
-						(c anchors verticalCenterAnchor on: rectangle verticalCenterAnchor) ].
-			rightGrip dragger: [ :target :delta :initialPosition :initialExtent |
-				target width: initialExtent x + delta x ].
-			rightGrip attachTo: rectangle ].
+	rightHandle := ToCustomHandle new.
+	rightHandle cursorFactory: [ Cursor resizeRight ].
+	rightHandle extent: handleSize asPoint.
+	rightHandle background: Color red.
+	rightHandle attachTo: rectangle.
 
-	topGrip := ToCustomResizeGrip new.
-	topGrip cursorFactory: [ Cursor resizeTop ].
-	topGrip extent: 10 asPoint.
-	topGrip background: Color red.
+	rightHandle constraintsDo: [ :c |
+			c ignoreByLayout.
+			c anchors add:
+				(c anchors rightAnchor on:
+					 rectangle rightAnchor + (handleSize / 2)).
+			c anchors add:
+				(c anchors verticalCenterAnchor on: rectangle verticalCenterAnchor) ].
+	rightHandle dragger: [ :target :delta :initialPosition :initialExtent |
+		target width: initialExtent x + delta x ].
 
-	topGrip whenLayoutedDoOnce: [
-			topGrip constraintsDo: [ :c |
-					c anchors add:
-						(c anchors topAnchor on: rectangle topAnchor - (topGrip height / 2)).
-					c anchors add:
-						(c anchors horizontalCenterAnchor on: rectangle horizontalCenterAnchor) ].
-			topGrip dragger: [ :target :delta :initialPosition :initialExtent |
-					target position:
-						initialPosition x @ (initialPosition y + delta y).
-					target extent: initialExtent x @ (initialExtent y - delta y) ].
-			topGrip attachTo: rectangle ].
+	topHandle := ToCustomHandle new.
+	topHandle cursorFactory: [ Cursor resizeTop ].
+	topHandle extent: handleSize asPoint.
+	topHandle background: Color red.
+	topHandle attachTo: rectangle.
 
-	leftGrip := ToCustomResizeGrip new.
-	leftGrip cursorFactory: [ Cursor resizeLeft ].
-	leftGrip extent: 10 asPoint.
-	leftGrip background: Color red.
+	topHandle constraintsDo: [ :c |
+			c ignoreByLayout.
+			c anchors add:
+				(c anchors topAnchor on: rectangle topAnchor - (handleSize / 2)).
+			c anchors add:
+				(c anchors horizontalCenterAnchor on:
+					 rectangle horizontalCenterAnchor) ].
+	topHandle dragger: [ :target :delta :initialPosition :initialExtent |
+			target position: initialPosition x @ (initialPosition y + delta y).
+			target extent: initialExtent x @ (initialExtent y - delta y) ].
 
-	leftGrip whenLayoutedDoOnce: [
-			leftGrip constraintsDo: [ :c |
-					c anchors add:
-						(c anchors leftAnchor on: rectangle leftAnchor - (leftGrip width / 2)).
-					c anchors add:
-						(c anchors verticalCenterAnchor on: rectangle verticalCenterAnchor) ].
-			leftGrip dragger: [ :target :delta :initialPosition :initialExtent |
-					target position: initialPosition x + delta x @ initialPosition y.
-					target extent: initialExtent x - delta x @ initialExtent y ].
-			leftGrip attachTo: rectangle ].
+	leftHandle := ToCustomHandle new.
+	leftHandle cursorFactory: [ Cursor resizeLeft ].
+	leftHandle extent: handleSize asPoint.
+	leftHandle background: Color red.
+	leftHandle attachTo: rectangle.
+
+	leftHandle constraintsDo: [ :c |
+			c ignoreByLayout.
+			c anchors add:
+				(c anchors leftAnchor on: rectangle leftAnchor - (handleSize / 2)).
+			c anchors add:
+				(c anchors verticalCenterAnchor on: rectangle verticalCenterAnchor) ].
+	leftHandle dragger: [ :target :delta :initialPosition :initialExtent |
+			target position: initialPosition x + delta x @ initialPosition y.
+			target extent: initialExtent x - delta x @ initialExtent y ].
 
 	space root addChild: rectangle.
-	
-	space root addChild: rightGrip.
-	space root addChild: bottomGrip.
-	space root addChild: leftGrip.
-	space root addChild: topGrip.
+
+	space root addChild: rightHandle.
+	space root addChild: bottomHandle.
+	space root addChild: leftHandle.
+	space root addChild: topHandle.
 
 	space show
 ]
@@ -4289,6 +4292,28 @@ ToSandBox class >> example_Popup1 [
 	container openInSpace
 ]
 
+{ #category : #handles }
+ToSandBox class >> example_PredefinedHandles [
+
+	| e |
+	e := ToPane new
+		     extent: 200 asPoint;
+		     border: Color black.
+	e placeholderString:
+		'You can move the pane' , String cr , 'with the blue handle.'
+		, String cr , 'You can resize the pane' , String cr
+		, 'with the bottom' , String cr , 'and the bottom right handles'.
+	e showPlaceholder.
+	ToDragHandle new
+		hMatchParent;
+		height: 20;
+		background: Color blue;
+		attachToParent: e.
+	ToBottomRightResizeHandle new attachToParent: e.
+	ToBottomResizeHandle new attachToParent: e.
+	e openInSpace
+]
+
 { #category : #tree }
 ToSandBox class >> example_PreviousIntegers [
 	"This example shows classes as a list but using TreeNodes, 
@@ -5827,11 +5852,12 @@ ToSandBox class >> example_TextPaneWithGrip [
 	| text album grip |
 	text := self methodText asRopedText.
 	album := ToAlbum new.
+	album useScrollbar: false.
 	album position: 100 asPoint.
 	album width: 400.
 	album height: 100.
 	album text: text.
-	grip := ToTextPaneResizeGrip new.
+	grip := ToTextPaneResizeHandle new.
 	grip attachToParent: album.
 	album openInSpace
 ]

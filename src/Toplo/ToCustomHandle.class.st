@@ -1,39 +1,39 @@
 Class {
-	#name : #ToCustomResizeGrip,
-	#superclass : #ToResizeGrip,
+	#name : #ToCustomHandle,
+	#superclass : #ToHandle,
 	#instVars : [
 		'dragger',
 		'cursorFactory'
 	],
-	#category : #'Toplo-Layout-Support-Grips'
+	#category : #'Toplo-Layout-Support-Handles'
 }
 
 { #category : #accessing }
-ToCustomResizeGrip >> cursorFactory: anObject [
+ToCustomHandle >> cursorFactory: anObject [
 
 	cursorFactory := anObject
 ]
 
 { #category : #'mouse processing' }
-ToCustomResizeGrip >> drag: anElement by: deltaFromInitialPosition [
+ToCustomHandle >> dragBy: deltaFromInitialPosition [
 
 	dragger ifNil: [ ^ self ].
 	dragger
-		value: anElement
+		value: gripTarget
 		value: deltaFromInitialPosition
 		value: initialPosition
 		value: initialExtent
 ]
 
 { #category : #accessing }
-ToCustomResizeGrip >> dragger: aValuable [
+ToCustomHandle >> dragger: aValuable [
 	" aValuable has 4 args: the target, the dragged delta; the initial dragging position and the initial dragging extent  "
 
 	dragger := aValuable
 ]
 
 { #category : #accessing }
-ToCustomResizeGrip >> resizeCursor [
+ToCustomHandle >> handleCursor [
 
 	^ cursorFactory ifNotNil: [ :factory | factory cull: self ]
 ]

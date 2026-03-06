@@ -76,6 +76,16 @@ ToElementTreeSkinUsingTokenPropertiesTest >> testParentSkinApplication [
 ]
 
 { #category : #tests }
+ToElementTreeSkinUsingTokenPropertiesTest >> testRemovingTokenLeadsToError [
+	" updating a token value in the parent should lead to the re-installation of children skins "
+
+	parent removeTokenNamed: #'element-color'.
+	self should: [ self waitTestingSpaces ] raise: ToTokenPropertyNotFoundError.
+	" add the token back because #tearDown sends #waitTestingSpaces "
+	parent addTokenNamed: #'element-color' withValue: Color black.
+]
+
+{ #category : #tests }
 ToElementTreeSkinUsingTokenPropertiesTest >> testSubChildSkinApplication [
 	" updating a token value in the parent should lead to the re-installation of children skins "
 

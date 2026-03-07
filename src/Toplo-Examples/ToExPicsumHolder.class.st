@@ -28,26 +28,20 @@ ToExPicsumHolder >> loadImage [
 	self terminateLoader.
 	self dataItem ifNil: [ ^ self ].
 	form := self dataItem loadedForm.
-	(form notNil and: [
-		 form extent = self node measuredExtent asIntegerPoint ]) ifTrue: [
-		^ self ].
+	(form notNil and: [ form extent = self node measuredExtent asIntegerPoint ]) ifTrue: [ ^ self ].
 
 	loader := [
-	          | timesRetry byteArray |
-	          timesRetry := 0.
-	          [
-	          (byteArray := [
-	                        self urlStringFromNodeSize asUrl
-		                        retrieveContents ]
-		                        on: Error
-		                        do: [  ]) isNil and: [ timesRetry < 5 ] ]
-		          whileTrue: [ timesRetry := timesRetry + 1 ].
-	          loader := nil.
-	          byteArray ifNotNil: [
-		          form := Form fromBinaryStream: byteArray readStream.
-		          self dataItem loadedForm: form.
-		          self node background: (BlBackground image: form) ] ]
-		          newProcess.
+		          | timesRetry byteArray |
+		          timesRetry := 0.
+		          [
+			          (byteArray := [ self urlStringFromNodeSize asZnUrl retrieveContents ]
+				                        on: Error
+				                        do: [ ]) isNil and: [ timesRetry < 5 ] ] whileTrue: [ timesRetry := timesRetry + 1 ].
+		          loader := nil.
+		          byteArray ifNotNil: [
+				          form := Form fromBinaryStream: byteArray readStream.
+				          self dataItem loadedForm: form.
+				          self node background: (BlBackground image: form) ] ] newProcess.
 	loader priority: Processor systemBackgroundPriority.
 	loader name: 'ToPicsum.photo Gallery element loader'.
 	loader resume

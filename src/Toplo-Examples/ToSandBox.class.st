@@ -3923,23 +3923,22 @@ ToSandBox class >> example_MenuWithCustomItems [
 	menu addItem: item.
 	item disable.
 
-	menu
-		addItem: (ToMenuItem new
-				 labelText: 'Inspect';
-				 clickAction: [ menu space root inspect ];
-				 yourself).
+	menu addItem: (ToMenuItem new
+			 labelText: 'Inspect';
+			 clickAction: [ menu space root inspect ];
+			 yourself).
 	menu addSeparator.
 	menu addItem: (ToToggleMenuItem new
 			 labelText: 'Toggle';
 			 yourself).
 	menu addItem: (ToCustomMenuItem new
 			 in: [ :e |
-				 e addChild: (ToSwitchButton new
-							  checked: true;
-							  startFlexible: true;
-							  hMatchParent;
-							  labelText: 'Switch';
-							  yourself) ];
+					 e addChild: (ToSwitchButton new
+								  checked: true;
+								  startFlexible: true;
+								  hMatchParent;
+								  labelText: 'Switch';
+								  yourself) ];
 			 yourself).
 
 	grp := ToCheckableGroup new.
@@ -3967,11 +3966,11 @@ ToSandBox class >> example_MenuWithCustomItems [
 		foreground: Color blue.
 
 	menu addItem: (ToCustomMenuItem new in: [ :e |
-			 e
-				 addChild: lbl;
-				 margin: (BlInsets
-						  top: 2;
-						  bottom: 4) ]).
+				 e
+					 addChild: lbl;
+					 margin: (BlInsets
+							  top: 2;
+							  bottom: 4) ]).
 	menu addAllItems: grp registeredCheckables.
 
 	grp := ToCheckableGroup new.
@@ -3995,30 +3994,26 @@ ToSandBox class >> example_MenuWithCustomItems [
 
 	menu addSeparator.
 
-	lbl := ToAttributedLabel new text:
-		       ('Radio button label first' asRopedText
+	lbl := ToAttributedLabel new text: ('Radio button label first' asRopedText
 			        italic;
 			        fontSize: 12;
 			        foreground: (Color blue alpha: 0.7)).
 	menu addItem: (ToCustomMenuItem new in: [ :e |
-			 e
-				 addChild: lbl;
-				 margin: (BlInsets
-						  top: 2;
-						  bottom: 4) ]).
+				 e
+					 addChild: lbl;
+					 margin: (BlInsets
+							  top: 2;
+							  bottom: 4) ]).
 	menu addAllItems: grp registeredCheckables.
 	menu addSeparator.
 	textField := ToTextField new
 		             placeholderBuilder: [ :thePlaceholder :theElement |
-			             thePlaceholder addChild:
-					             (ToAttributedLabel new text:
-							              ('Your name' asRopedText
-								               foreground: Color lightGray;
-								               yourself)) ];
-		             withLineWrapping;
+				             thePlaceholder addChild: (ToAttributedLabel new text: ('Your name' asRopedText
+									               foreground: Color lightGray;
+									               yourself)) ];
+		             wrappingMode: true;
 		             width: 200.
-	menu addItem:
-		(ToCustomMenuItem new in: [ :e | e addChild: textField ]).
+	menu addItem: (ToCustomMenuItem new in: [ :e | e addChild: textField ]).
 	menu addSeparator.
 	sub := ToMenu new labelText: 'Save All'.
 
@@ -4216,26 +4211,21 @@ ToSandBox class >> example_PicsumPhotosGallery_crashing [
 	list selectionOption
 		grouped: false;
 		beneath: false;
-		elementFactory: [
-			ToListSelectionElement new defaultSkin:
-					ToExPicsumSelectionSkin new ].
+		elementFactory: [ ToListSelectionElement new defaultSkin: ToExPicsumSelectionSkin new ].
 
 	[
-	| allImagesData |
-	allImagesData := (STONJSON fromString:
-		                  'https://picsum.photos/list' asUrl
-			                  retrieveContents) collect: [ :aDictionary |
-		                 ToExPicsumImageData fromDictionary:
-			                 aDictionary ].
-	allImagesData sort: [ :a :b | a id > b id ].
-	list dataAccessor addAll: allImagesData ] fork.
+		| allImagesData |
+		allImagesData := (STONJSON fromString: 'https://picsum.photos/list' asZnUrl retrieveContents) collect: [ :aDictionary |
+			                 ToExPicsumImageData fromDictionary: aDictionary ].
+		allImagesData sort: [ :a :b | a id > b id ].
+		list dataAccessor addAll: allImagesData ] fork.
 
 	vscrollBar := BlVerticalScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
-		c ignoreByLayout.
-		c margin: (BlInsets left: 10).
-		c ignored horizontal alignRight.
-		c ignored vertical alignBottom ].
+			c ignoreByLayout.
+			c margin: (BlInsets left: 10).
+			c ignored horizontal alignRight.
+			c ignored vertical alignBottom ].
 	vscrollBar attachTo: list innerElement.
 
 	space := BlSpace new

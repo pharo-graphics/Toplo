@@ -10268,10 +10268,6 @@ ToSandBox class >> listWithEditableAndContextMenu [
 					 label: lab;
 					 hMatchParent) ].
 
-	l addEventHandler: (BlEventHandler
-			 on: ToListStrongSelectionEvent
-			 do: [ :event | InformativeNotification signal: 'Double click on: ' , (event indexes asString contractTo: 150) ]).
-
 	menuFactory := self listMenuFenuFactory.
 	l contextMenuBuilder: menuFactory.
 	l withRowNumbers.

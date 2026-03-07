@@ -10241,22 +10241,17 @@ ToSandBox class >> listWithEditableAndContextMenu [
 	option := l disabledSelectionMode selectionOption.
 	option grouped: false.
 	option beneath: false.
-	option elementFactory: [
-			ToListSelectionElement new defaultSkin:
-				ToListDisabledSelectionElementExampleSkin new ].
+	option elementFactory: [ ToListSelectionElement new defaultSkin: ToListDisabledSelectionElementExampleSkin new ].
 
 	option := l unselectableSelectionMode selectionOption.
 	option selectionSkinEventClass: ToUnselectableSkinEvent.
 	option deselectionSkinEventClass: ToSelectableSkinEvent.
 	option grouped: false.
 	option beneath: false.
-	option elementFactory: [
-			ToListSelectionElement new defaultSkin:
-				ToListUnselectableSelectionElementExampleSkin new ].
+	option elementFactory: [ ToListSelectionElement new defaultSkin: ToListUnselectableSelectionElementExampleSkin new ].
 
 	l placeholderBuilder: [ :placeholder :e |
-			placeholder empty labelText:
-				'Invoke the context menu ' , String cr , 'to initialize the list' ].
+		placeholder empty labelText: 'Invoke the context menu ' , String cr , 'to initialize the list' ].
 
 	l nodeBuilder: [ :node :dataItem :holder |
 			| lab |
@@ -10273,8 +10268,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 									 lab popupEditorEvent: event ]).
 					lab whenEditorOpenedDo: [ :editorEvent |
 							l disableScrolledEvent.
-							editorEvent editorElement whenSaveRequestedDo: [ :request |
-								request accepted: true ].
+							editorEvent editorElement whenSaveRequestedDo: [ :request | request accepted: true ].
 							editorEvent editorElement whenSaveAcceptedDo: [ :acceptedEvent |
 									editorEvent target text: acceptedEvent target text.
 									l dataAccessor at: holder position put: lab text asString ] ] ].
@@ -10286,9 +10280,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 
 	l addEventHandler: (BlEventHandler
 			 on: ToListStrongSelectionEvent
-			 do: [ :event |
-					 self inform:
-						 'Double click on: ' , (event indexes asString contractTo: 150) ]).
+			 do: [ :event | InformativeNotification signal: 'Double click on: ' , (event indexes asString contractTo: 150) ]).
 
 	menuFactory := self listMenuFenuFactory.
 	l contextMenuBuilder: menuFactory.
@@ -10459,11 +10451,10 @@ ToSandBox class >> resizerBoardFor: aBar [
 			| sizeInputPane sizeInput |
 			sizeInputPane := ToPane horizontal.
 			sizeInputPane layout cellSpacing: 5.
-			sizeInputPane childrenDo: [ :child |
-				child constraints linear vertical alignCenter ].
+			sizeInputPane childrenDo: [ :child | child constraints linear vertical alignCenter ].
 			sizeInputPane addChild: (ToLabel text: 'Size:').
 			sizeInput := ToTextField new
-				             withoutLineWrapping;
+				             wrappingMode: false;
 				             withSaveCapability;
 				             yourself.
 
@@ -10482,8 +10473,7 @@ ToSandBox class >> resizerBoardFor: aBar [
 								ifFalse: [ aBar vExact: size ] ] ].
 
 			sizeInputPane addChild: sizeInput.
-			sizeInputPane childrenDo: [ :child |
-				child constraints linear vertical alignCenter ].
+			sizeInputPane childrenDo: [ :child | child constraints linear vertical alignCenter ].
 
 			group := ToCheckableGroupPane vertical.
 
@@ -10493,19 +10483,18 @@ ToSandBox class >> resizerBoardFor: aBar [
 						        labelText: mode asString;
 						        yourself.
 					group addChild: cbox.
-					cbox
-						checkAction: [ :evt  |
-								| policy value |
-								value := evt currentTarget isChecked.
-								value ifTrue: [
-										mode = #Exact
-											ifTrue: [ sizeInputPane enabled: true ]
-											ifFalse: [
-													sizeInputPane enabled: false.
-													policy := dir = #Horizontal
-														          ifTrue: [ ('h' , mode) asSymbol ]
-														          ifFalse: [ ('v' , mode) asSymbol ].
-													aBar perform: policy ] ] ] ].
+					cbox checkAction: [ :evt |
+							| policy value |
+							value := evt currentTarget isChecked.
+							value ifTrue: [
+									mode = #Exact
+										ifTrue: [ sizeInputPane enabled: true ]
+										ifFalse: [
+												sizeInputPane enabled: false.
+												policy := dir = #Horizontal
+													          ifTrue: [ ('h' , mode) asSymbol ]
+													          ifFalse: [ ('v' , mode) asSymbol ].
+												aBar perform: policy ] ] ] ].
 
 			group registeredCheckables second checked: true.
 			container := ToPane vertical.

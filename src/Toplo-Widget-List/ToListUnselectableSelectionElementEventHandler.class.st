@@ -39,9 +39,10 @@ ToListUnselectableSelectionElementEventHandler >> listUnselectableSelectionChang
 
 	| listElement |
 	listElement := anEvent currentTarget.
-
-	self updateSelectionFromEvent: anEvent.
+	
 	listElement unselectableSelectionModel selectedIndexesIntervalsDo: [ :int |
-			listElement selecter deselectInterval: int ].
-	listElement requestLayout
+			listElement selecter deselectInterval: int.
+			"listElement dataSource notifyDataItemChangeInterval: int" ].
+	self updateSelectionFromEvent: anEvent.
+
 ]

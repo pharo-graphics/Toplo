@@ -7,6 +7,14 @@ Class {
 	#category : #'Toplo-Widget-Select-Filter-TextField'
 }
 
+{ #category : #configuration }
+ToSelectFilterTextField >> applyConfiguration [
+
+	super applyConfiguration.
+	self fitContent.
+	self next hFitContent 
+]
+
 { #category : #initialization }
 ToSelectFilterTextField >> defaultEventHandler [ 
 
@@ -23,7 +31,6 @@ ToSelectFilterTextField >> initialize [
 		c frame vertical alignCenter.
 		c flow vertical alignCenter.
 		c linear vertical alignCenter ].
-	self fitContent.
 	self withSaveCapability.
 	self removeEditsFeedbackLayer.
 
@@ -46,23 +53,19 @@ ToSelectFilterTextField >> on: aSelectElement [
 
 	| windowPopupHandler |
 	selectElement := aSelectElement.
-	self withoutLineWrapping.
+	self wrappingMode: false.
 	self id: #filterTextField.
 	self selectFiltrable: aSelectElement isFiltrable.
 
-	self hFitContent.
-
-	" Window handler open the window on text input.
+	self hFitContent. " Window handler open the window on text input.
 	the window stays invisible until the sieve is applied to avoid inconfortable effect 
 	(the window is first opened with unsieved content then the content is changed with sieve result).
 	The window is set as visible in ToSelectListElement>>applyDataSourceSieveCommand: "
 	windowPopupHandler := BlEventHandler
 		                      on: BlTextInputEvent
 		                      do: [ :event |
-			                      event text ifNotEmpty: [ :t |
-				                      t asString first isAlphaNumeric
-					                      ifTrue: [
-					                      aSelectElement manager popupEvent: event ] ] ].
+		                      event text ifNotEmpty: [ :t |
+			                      t asString first isAlphaNumeric ifTrue: [ aSelectElement manager popupEvent: event ] ] ].
 	self infinite addEventHandler: windowPopupHandler
 ]
 

@@ -60,6 +60,7 @@ ToListSelectionWithSeparateElementVariant >> canAnimateSelectionUpdateIn: aListE
 { #category : #adding }
 ToListSelectionWithSeparateElementVariant >> checkPreviousSelectionBoundsWith: anArray in: aListElement [
 
+	anArray ifEmpty: [ ^ self ].
 	previousSelectionBounds ifNil: [
 			previousSelectionBounds := Rectangle merging:
 				                           (anArray collect: [ :g |

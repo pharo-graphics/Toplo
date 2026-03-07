@@ -4,11 +4,18 @@ Class {
 	#category : #'Toplo-Widget-Album-TextField'
 }
 
+{ #category : #configuration }
+ToSelectableLabel >> applyConfiguration [
+
+	super applyConfiguration.
+	self next hFitContent.
+	self fitContent
+]
+
 { #category : #initialization }
 ToSelectableLabel >> initialize [
 
 	super initialize.
-	self fitContent.
 	self focusability: BlFocusability none.
 	self beReadonlyWithSelection 
 ]

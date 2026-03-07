@@ -11,6 +11,7 @@ Class {
 { #category : #'private - updating' }
 ToListSelectionContainer >> addAllSelectionElements: anArray [
 
+	anArray ifEmpty: [ ^ self flushRemovedChildren ].
 	self addChildren: anArray
 ]
 

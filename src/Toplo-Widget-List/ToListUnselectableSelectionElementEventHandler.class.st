@@ -41,7 +41,7 @@ ToListUnselectableSelectionElementEventHandler >> listUnselectableSelectionChang
 	listElement := anEvent currentTarget.
 
 	self updateSelectionFromEvent: anEvent.
-	listElement postponeAction: [
-			listElement unselectableSelectionModel selectedIndexesIntervalsDo: [
-				:int | listElement selecter deselectInterval: int ] ]
+	listElement unselectableSelectionModel selectedIndexesIntervalsDo: [ :int |
+			listElement selecter deselectInterval: int ].
+	listElement requestLayout
 ]

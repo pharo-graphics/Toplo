@@ -13,7 +13,6 @@ ToListSelectionWithElementVariant >> addSelectionElementsIn: aListElement [
 				                     stream: stream
 				                     withNewSelectionElementIn: aListElement
 				                     option: self ].
-	selectionElements isEmpty ifTrue: [ ^ self ].
 	self updateSelectionContainerWith: selectionElements in: aListElement
 ]
 

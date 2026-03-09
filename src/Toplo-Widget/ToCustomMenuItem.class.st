@@ -1,0 +1,40 @@
+Class {
+	#name : #ToCustomMenuItem,
+	#superclass : #ToMenuItemElement,
+	#category : #'Toplo-Widget-Menu'
+}
+
+{ #category : #initialization }
+ToCustomMenuItem >> initialize [ 
+
+	super initialize.
+	self closeOnPicking: false
+]
+
+{ #category : #testing }
+ToCustomMenuItem >> isOutsideEvent: anEvent [
+
+	(self children allSatisfy: [ :child | child isOutsideEvent: anEvent ])
+		ifFalse: [ ^ false ].
+	^ super isOutsideEvent: anEvent
+]
+
+{ #category : #testing }
+ToCustomMenuItem >> isSelectable [
+
+	^ false
+]
+
+{ #category : #'adding-removing' }
+ToCustomMenuItem >> onAddedInItemBarOwner: aMenu [
+
+	aMenu onAddedCustomMenuItem: self
+
+]
+
+{ #category : #'adding-removing' }
+ToCustomMenuItem >> onRemovedFromItemBarOwner: aMenu [
+
+	aMenu onRemovedCustomMenuItem: self
+
+]

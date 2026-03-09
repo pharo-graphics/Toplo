@@ -1,0 +1,139 @@
+Trait {
+	#name : #TToMenuItem,
+	#category : #'Toplo-Widget-Menu'
+}
+
+{ #category : #'t - menu item' }
+TToMenuItem >> allOtherMenuWindowsDo: aValuable [
+
+	self rootMenuWindowOrMenuPaneDo: [ :rmc |
+			rmc allChildrenDepthFirstDo: [ :child |
+					(child ~= self and: [ child isKindOf: ToMenu ]) ifTrue: [
+						child menuWindowDo: aValuable ] ] ]
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> allParentMenusOrMenuPaneDo: aBlock [
+
+	self menuListOwner ifNotNil: [ :mlo |
+			aBlock value: mlo.
+			mlo allParentMenusOrMenuPaneDo: aBlock ]
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> closeAllSiblingMenuWindows [
+
+	self allOtherMenuWindowsDo: [ :mw |
+		mw isInline ifFalse: [ mw close ] ]
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> hasIcon [ 
+
+	^ false
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> isInInlineWindow [
+
+	self parentMenuDo: [ :m | ^ m hasInlineWindow ].
+	^ false
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> isMenuItem [ 
+
+	^ true
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> isSubmenu [ 
+
+	^ false
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> menuListOwner [
+
+	^ self listElement ifNotNil: [ :be | be menuListOwner ]
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> menuListOwnerDo: aValuable [
+
+	self menuListOwner ifNotNil: [ :bo | aValuable value: bo ]
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> menuPane [
+
+	self withAllParentsReverseDo: [ :e |
+		(e isKindOf: ToMenuPane) ifTrue: [ ^ e ] ].
+	^ nil
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> parentMenu [
+
+	self flag: #ToBeChecked.
+	^ self menuListOwner ifNotNil: [ :mlo |
+			  mlo isMenuPane
+				  ifTrue: [ ]
+				  ifFalse: [ mlo ] ]
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> parentMenuDo: aBlock [
+
+	self parentMenu ifNotNil: [ :p | aBlock value: p ]
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> parentMenuOrMenuPane [
+
+	^ self menuListOwner 
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> parentMenuOrMenuPaneDo: aBlock [
+
+	self parentMenuOrMenuPane ifNotNil: [ :p | aBlock value: p ]
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> rootMenuOrMenuPane [
+
+	^ self parentMenu
+		  ifNil: [
+		  self menuPane
+			  ifNil: [ self ]
+			  ifNotNil: [ :rmp | rmp rootMenuPane ] ]
+		  ifNotNil: [ :pm | pm rootMenuOrMenuPane ]
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> rootMenuOrMenuPaneDo: aBlock [
+
+	self rootMenuOrMenuPane ifNotNil: [ :p | aBlock value: p ]
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> rootMenuWindowOrMenuPane [
+
+	self withAllParentsReverseDo: [ :e |
+			((e isKindOf: ToMenuWindow) or: [ e isKindOf: ToMenuPane ])
+				ifTrue: [ ^ e ] ].
+	^ nil
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> rootMenuWindowOrMenuPaneDo: aValuable [
+
+	self rootMenuWindowOrMenuPane ifNotNil: [ :rmc | aValuable cull: rmc ]
+]
+
+{ #category : #'t - menu item' }
+TToMenuItem >> showExpandIcon [
+
+	^ false
+]

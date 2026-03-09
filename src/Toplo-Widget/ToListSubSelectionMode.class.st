@@ -1,0 +1,45 @@
+Class {
+	#name : #ToListSubSelectionMode,
+	#superclass : #ToAbstractListSelectionMode,
+	#instVars : [
+		'parentMode'
+	],
+	#category : #'Toplo-Widget-List'
+}
+
+{ #category : #accessing }
+ToListSubSelectionMode class >> parentMode: aParentMode [
+
+	^ self basicNew
+		  parentMode: aParentMode;
+		  initialize;
+		  yourself
+]
+
+{ #category : #initialization }
+ToListSubSelectionMode >> defaultSelectionOption [
+
+	^ ToListSelectionOption new
+		  withEmbeddedRepresentation;
+		  yourself
+]
+
+{ #category : #'instance creation' }
+ToListSubSelectionMode >> newSelecter [
+
+	^ ToSubSelecter new
+		  parentSelecter: parentMode selecter;
+		  yourself
+]
+
+{ #category : #'instance creation' }
+ToListSubSelectionMode >> newSelectionModelIn: aListElement [
+
+	^ ToSubSelectionModel new
+]
+
+{ #category : #accessing }
+ToListSubSelectionMode >> parentMode: aSelectionMode [
+
+	parentMode := aSelectionMode
+]

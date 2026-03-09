@@ -1,0 +1,18 @@
+Class {
+	#name : #ToSelectTextFieldBackspaceShortcut,
+	#superclass : #AlbEditorDeleteOneLetterBeforeCursorShortcut,
+	#category : #'Toplo-Widget-Select'
+}
+
+{ #category : #evaluation }
+ToSelectTextFieldBackspaceShortcut >> performOnEditor: aTextEditor element: anEditorElement dueTo: aShortcutEvent [
+
+	anEditorElement text ifEmpty: [
+		anEditorElement rootAlbumElement nodeBeforeDo: [ :node |
+			node removeFromList.
+			^ self ] ].
+	super
+		performOnEditor: aTextEditor
+		element: anEditorElement
+		dueTo: aShortcutEvent
+]

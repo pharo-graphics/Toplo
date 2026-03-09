@@ -1,0 +1,73 @@
+Class {
+	#name : #ToSievedListDataSourceEventHandler,
+	#superclass : #BlCustomEventHandler,
+	#instVars : [
+		'sieve',
+		'listElement'
+	],
+	#category : #'Toplo-Widget-List'
+}
+
+{ #category : #'data source events handling' }
+ToSievedListDataSourceEventHandler >> buildOriginalIndexMap [
+
+	sieve pattern ifNotEmpty: [ ^ self ].
+	sieve originalIndexMap removeAll.
+	sieve selectionModel deselectAll.
+	listElement dataSource withIndexDo: [ :aData :idx |
+		sieve originalIndexMap at: aData put: idx ].
+	sieve selectionModel copySelectionFrom: listElement selectionModel
+]
+
+{ #category : #'api - accessing' }
+ToSievedListDataSourceEventHandler >> eventsToHandle [
+
+	^ {
+		  BlInfiniteDataSourceChanged.
+		  BlInfiniteDataSourceItemRangeChanged.
+		  BlInfiniteDataSourceItemRangeInserted.
+		  BlInfiniteDataSourceItemRangeRemoved }
+]
+
+{ #category : #'data source events handling' }
+ToSievedListDataSourceEventHandler >> infiniteDataSourceChanged: anEvent [
+
+	self buildOriginalIndexMap
+]
+
+{ #category : #'data source events handling' }
+ToSievedListDataSourceEventHandler >> infiniteDataSourceItemRangeChanged: anEvent [
+
+	self buildOriginalIndexMap
+]
+
+{ #category : #'data source events handling' }
+ToSievedListDataSourceEventHandler >> infiniteDataSourceItemRangeInserted: anEvent [
+
+	self buildOriginalIndexMap
+]
+
+{ #category : #'data source events handling' }
+ToSievedListDataSourceEventHandler >> infiniteDataSourceItemRangeRemoved: anEvent [
+
+	self buildOriginalIndexMap
+]
+
+{ #category : #accessing }
+ToSievedListDataSourceEventHandler >> listElement: aListElement [
+
+	listElement := aListElement
+]
+
+{ #category : #'api - hooks' }
+ToSievedListDataSourceEventHandler >> onInstalledIn: aDataSource [
+
+	super onInstalledIn: aDataSource.
+	self buildOriginalIndexMap 
+]
+
+{ #category : #accessing }
+ToSievedListDataSourceEventHandler >> sieve: aListElementSieve [
+
+	sieve := aListElementSieve
+]

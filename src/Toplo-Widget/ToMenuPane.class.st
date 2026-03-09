@@ -1,0 +1,214 @@
+Class {
+	#name : #ToMenuPane,
+	#superclass : #ToElement,
+	#traits : 'TToListItem + TToMenuItem + TToItemListOwner + TToItemListUser + TToMenuItemListUser + TToOrientable',
+	#classTraits : 'TToListItem classTrait + TToMenuItem classTrait + TToItemListOwner classTrait + TToItemListUser classTrait + TToMenuItemListUser classTrait + TToOrientable classTrait',
+	#instVars : [
+		'autoOpen',
+		'isSubPane',
+		'allowAutoOpenManagement'
+	],
+	#category : #'Toplo-Widget-Menu'
+}
+
+{ #category : #factory }
+ToMenuPane class >> horizontal [
+
+	^ self new
+		  beHorizontal;
+		  yourself
+]
+
+{ #category : #factory }
+ToMenuPane class >> vertical [
+
+	^ self new
+		  beVertical;
+		  yourself
+]
+
+{ #category : #adding }
+ToMenuPane >> addFiller [
+
+	self addItem: ToMenuFiller new
+]
+
+{ #category : #'auto opening' }
+ToMenuPane >> allowAutoOpenManagement [
+
+	^ allowAutoOpenManagement ifNil: [ allowAutoOpenManagement := true ]
+]
+
+{ #category : #'auto opening' }
+ToMenuPane >> allowAutoOpenManagement: aBoolean [
+
+	allowAutoOpenManagement := aBoolean
+]
+
+{ #category : #configuration }
+ToMenuPane >> applyConfiguration [
+	" just force the resizer of the secondary direction 
+	( vertical direction in case of an horizontal bar )"
+
+	super applyConfiguration.
+	self itemList horizontal:
+		(self itemList isOrientable and: [ self isHorizontal ]).
+	self itemList constraintsDo: [ :c |
+			c linear vertical alignCenter.
+			c linear horizontal alignCenter ].
+	self itemList toConfiguration isScrollable: self isScrollable.
+	self itemList toConfiguration isFlowable: self isFlowable.
+	self itemList fitParent: self.
+	self applyConfigurationAsListItem
+]
+
+{ #category : #'auto opening' }
+ToMenuPane >> autoOpen [
+
+	^ autoOpen
+]
+
+{ #category : #'auto opening' }
+ToMenuPane >> autoOpen: aBoolean [
+
+	autoOpen := aBoolean
+]
+
+{ #category : #initialization }
+ToMenuPane >> defaultElevation [
+
+	^ BlRelativeElevation elevation: (SmallInteger maxVal - 400)
+]
+
+{ #category : #testing }
+ToMenuPane >> hasInlineWindow [
+
+	^ self items anySatisfy: [ :it | it hasInlineWindow ]
+]
+
+{ #category : #initialization }
+ToMenuPane >> initialize [
+
+	super initialize.
+	self initializeAsItemListOwner.
+	self initializeAsMenuItemListUser.
+
+	autoOpen := false.
+	isSubPane := false.
+	self layout: BlLinearLayout horizontal.
+	self layout alignCenter.
+	self addEventHandler: ToMenuPaneEventHandler new.
+	self elevation: self defaultElevation.
+	self addChild: self itemList.
+	self isFlowable: false.
+	self isScrollable: false.
+	self beHorizontal.
+	self fitContent
+]
+
+{ #category : #testing }
+ToMenuPane >> isAutoOpen [
+
+	^ self rootMenuPane autoOpen
+]
+
+{ #category : #'auto opening' }
+ToMenuPane >> isAutoOpenManagementAllowed [ 
+
+	^ self rootMenuPane allowAutoOpenManagement
+]
+
+{ #category : #'auto opening' }
+ToMenuPane >> isAutoOpenManagementAllowed: aBoolean [
+
+	^ self rootMenuPane allowAutoOpenManagement: aBoolean
+]
+
+{ #category : #'t - menu item' }
+ToMenuPane >> isInline [
+
+	^ false
+]
+
+{ #category : #testing }
+ToMenuPane >> isMenuPane [
+
+	^ true
+]
+
+{ #category : #testing }
+ToMenuPane >> isSubPane [ 
+
+	^ isSubPane
+]
+
+{ #category : #accessing }
+ToMenuPane >> isSubPane: aBoolean [
+
+	isSubPane := aBoolean
+]
+
+{ #category : #'t - item list user - accessing' }
+ToMenuPane >> itemList [
+
+	^ itemList
+]
+
+{ #category : #'t - menu window model' }
+ToMenuPane >> menuPane [
+
+	^ self
+]
+
+{ #category : #enumerating }
+ToMenuPane >> menuWindowDo: aValuable [
+]
+
+{ #category : #'t - item list owner - initializing' }
+ToMenuPane >> newItemList [
+
+	^ ToMenuItemListElement new
+]
+
+{ #category : #skin }
+ToMenuPane >> newRawSkin [
+
+	^ ToMenuPaneSkin new
+]
+
+{ #category : #'adding-removing' }
+ToMenuPane >> onAddedInItemBarOwner: aMenuItemBar [
+
+	aMenuItemBar onAddedMenuPane: self
+]
+
+{ #category : #'t - menu item list user - double dispatch' }
+ToMenuPane >> onAddedMenu: aMenu [
+
+	aMenu isMenuPaneMenu: true.
+]
+
+{ #category : #'adding-removing' }
+ToMenuPane >> onRemovedFromItemBarOwner: aMenuItemBar [
+
+	aMenuItemBar onRemovedMenuPane: self
+]
+
+{ #category : #accessing }
+ToMenuPane >> rootMenuPane [
+
+	^ self menuListOwner ifNotNil: [ :bo | bo rootMenuPane ] ifNil: [ self ]
+]
+
+{ #category : #'auto opening' }
+ToMenuPane >> startAutoOpen [
+
+	self isAutoOpenManagementAllowed ifFalse: [ ^ self ].
+	self rootMenuPane autoOpen: true
+]
+
+{ #category : #'auto opening' }
+ToMenuPane >> stopAutoOpen [
+
+	self rootMenuPane autoOpen: false
+]

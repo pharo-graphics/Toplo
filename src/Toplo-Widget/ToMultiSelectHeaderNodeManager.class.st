@@ -1,0 +1,34 @@
+Class {
+	#name : #ToMultiSelectHeaderNodeManager,
+	#superclass : #ToGenericListNodeManager,
+	#category : #'Toplo-Widget-Select'
+}
+
+{ #category : #'t - generic node manager' }
+ToMultiSelectHeaderNodeManager >> defaultNodeBuilder [
+
+	^ [ :node :dataItem :holder |
+		  node 
+			  labelText: dataItem asString;
+			  removable: true;
+			  hMatchParent ]
+]
+
+{ #category : #initialization }
+ToMultiSelectHeaderNodeManager >> defaultNodeFactory [
+
+	^ [ :holder | ToMultiSelectHeaderNode new ]
+]
+
+{ #category : #initialization }
+ToMultiSelectHeaderNodeManager >> defaultNodeHolderFactory [
+
+	^ [ ToMultiSelectHeaderListHolder new ]
+]
+
+{ #category : #initialization }
+ToMultiSelectHeaderNodeManager >> initialize [ 
+
+	super initialize.
+	self initializeAsGenericNodeManager
+]

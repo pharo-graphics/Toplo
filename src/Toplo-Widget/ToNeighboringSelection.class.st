@@ -1,0 +1,39 @@
+Class {
+	#name : #ToNeighboringSelection,
+	#superclass : #ToSelectionWithElement,
+	#instVars : [
+		'nodes'
+	],
+	#category : #'Toplo-Widget-List'
+}
+
+{ #category : #comparing }
+ToNeighboringSelection >> equivalentTo: other [
+
+	(super equivalentTo: other) ifFalse: [ ^ false ].
+	nodes size = other nodeContainers size ifFalse: [ ^ false ].
+	nodes
+		with: other nodeContainers
+		do: [ :c1 :c2 | (c1 equals: c2) ifFalse: [ ^ false ] ].
+	^ true
+]
+
+{ #category : #accessing }
+ToNeighboringSelection >> nodeContainers [
+
+	^ nodes
+]
+
+{ #category : #accessing }
+ToNeighboringSelection >> nodes: anObject [
+
+	nodes := anObject
+]
+
+{ #category : #'private - selection updating' }
+ToNeighboringSelection >> stream: aStream withNewSelectionElementIn: aListElement option: aSelectionOption [
+
+	aStream nextPut: (aSelectionOption
+			 newSelectionElementIn: aListElement
+			 forNodeContainers: self nodeContainers)
+]

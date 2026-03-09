@@ -1,0 +1,70 @@
+Class {
+	#name : #ToScrollableFiniteListElementEventHandler,
+	#superclass : #ToListInnerElementEventHandler,
+	#instVars : [
+		'previousVisibleNodeContainers'
+	],
+	#category : #'Toplo-Widget-List'
+}
+
+{ #category : #'infinite event handling' }
+ToScrollableFiniteListElementEventHandler >> boundsHasChangedDuringScrollingEvent: anEvent [
+
+	| listElement |
+	listElement := anEvent currentTarget listElement.
+	"(listElement isKindOf: ToMenuItemListElement) ifFalse: [
+		 'boundsHasChangedDuringScrollingEvent:' traceCr. ]."
+
+	listElement updateAllSelections.
+	listElement requestMouseMoveReplay
+]
+
+{ #category : #'element events handling' }
+ToScrollableFiniteListElementEventHandler >> checkFullyVisibleNodeContainersOnEvent: anEvent [
+
+	| invisibles visibles innerListElement listElement |
+	innerListElement := anEvent currentTarget.
+	listElement := innerListElement listElement.
+	invisibles := #(  ).
+	visibles := listElement nodeContainers asArray.
+	listElement toConfigurationDo: [ :conf |
+			(conf isFlowable or: [ conf autoDistribute ])
+				ifFalse: [
+						invisibles := listElement nodeContainersReject:
+							              #isFullyVisibleInListElement.
+						visibles := listElement nodeContainers difference:
+							            invisibles ] ].
+	previousVisibleNodeContainers = visibles ifTrue: [ ^ self ].
+	previousVisibleNodeContainers := visibles.
+
+	innerListElement dispatchEvent:
+		(ToListVisibleNodeContainersChangedEvent new
+			 visibleNodeContainers: visibles;
+			 invisibleNodeContainers: invisibles;
+			 yourself)
+]
+
+{ #category : #'infinite event handling' }
+ToScrollableFiniteListElementEventHandler >> elementScrolledEvent: anEvent [
+
+	" dont update selections here with #updateAllSelections or 
+	#requestUpdateAllSelections	because it leads to a layout recursion "
+	self checkFullyVisibleNodeContainersOnEvent: anEvent
+]
+
+{ #category : #'api - accessing' }
+ToScrollableFiniteListElementEventHandler >> eventsToHandle [
+
+	^ super eventsToHandle , {
+		  BlElementScrolledEvent.
+		  BlBoundsHasChangedDuringScrollingEvent.
+		  ToListVisibleNodeContainersChangedEvent }
+]
+
+{ #category : #'element events handling' }
+ToScrollableFiniteListElementEventHandler >> listVisibleNodeContainersChangedEvent: anEvent [
+
+	| innerListElement |
+	innerListElement := anEvent currentTarget.
+	innerListElement listElement dispatchEvent: anEvent copy
+]

@@ -1,0 +1,34 @@
+Class {
+	#name : #ToInlineMenuStarter,
+	#superclass : #ToWindowStarter,
+	#category : #'Toplo-Widget-Menu'
+}
+
+{ #category : #testing }
+ToInlineMenuStarter >> isForInlineWindow [
+
+	^ true
+]
+
+{ #category : #'starting-stopping' }
+ToInlineMenuStarter >> startWindow: aWindow fromManager: aManager onEvent: anEvent [
+	" need to compute the largest node size to adapt the inline window "
+
+	aWindow whenLayoutedDoOnce: [
+		aWindow bottomUpUdateWidthWith: aManager anchorElement measuredWidth ].
+
+	aManager anchorElement menuListOwner
+		addItem: aWindow
+		afterIndex: aManager anchorElement positionInList.
+
+	" need to install a new skin to change the icon (from closed to opened) "
+	aManager anchorElement requestNewSkin
+]
+
+{ #category : #'starting-stopping' }
+ToInlineMenuStarter >> stopWindow: aWindow fromManager: aManager [
+
+	aManager anchorElement menuListOwner removeItem: aWindow.
+	" need to install a new skin to change the icon (from closed to opened) "
+	aManager anchorElement requestNewSkin
+]

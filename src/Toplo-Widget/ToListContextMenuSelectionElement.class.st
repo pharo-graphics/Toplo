@@ -1,0 +1,33 @@
+Class {
+	#name : #ToListContextMenuSelectionElement,
+	#superclass : #ToListSelectionElement,
+	#instVars : [
+		'inner'
+	],
+	#category : #'Toplo-Widget-List'
+}
+
+{ #category : #initialization }
+ToListContextMenuSelectionElement >> initialize [
+
+	super initialize.
+	self outskirts: BlOutskirts outside.
+	inner := ToElement new
+		         id: #inner;
+		         yourself.
+	inner outskirts: BlOutskirts inside.
+	inner matchParent.
+	self addChild: inner
+]
+
+{ #category : #accessing }
+ToListContextMenuSelectionElement >> inner [
+
+	^ inner
+]
+
+{ #category : #skin }
+ToListContextMenuSelectionElement >> newRawSkin [ 
+
+	^ ToListContextMenuSelectionElementSkin new
+]

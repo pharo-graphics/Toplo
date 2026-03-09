@@ -1,0 +1,75 @@
+Class {
+	#name : #ToBasicListElementSkin,
+	#superclass : #ToRawSkin,
+	#category : #'Toplo-Widget-List'
+}
+
+{ #category : #'event handling' }
+ToBasicListElementSkin >> focusedSkinEvent: anEvent [
+
+	super focusedSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e border: (e valueOfTokenNamed: #'color-primary') ]
+]
+
+{ #category : #'event handling' }
+ToBasicListElementSkin >> installSkinEvent: anEvent [
+
+	super installSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+			| pad |
+			e requestUpdateAllSelections.
+			e shortcuts: (self shortcutsToInstallIn: e).
+			e installShortcuts.
+			pad := BlInsets
+				       horizontal: (e valueOfTokenNamed: #'list-padding-H')
+				       vertical: (e valueOfTokenNamed: #'list-padding-V').
+			e haveVisibleScrollbar ifTrue: [
+					| gap |
+					gap := (e valueOfTokenNamed: #'scrollbar-breadth')
+					       +
+					       (2 * (e valueOfTokenNamed: #'scrollbar-padding-breadth')).
+					pad := e isVertical
+						       ifTrue: [ pad withRight: gap ]
+						       ifFalse: [ pad withBottom: gap ] ].
+			e padding: pad.
+			e border: (e valueOfTokenNamed: #'color-border').
+			e
+				withStamp: #background
+				do: [ :v | e background: v ]
+				ifNone: [
+				e background: (e valueOfTokenNamed: #'color-bg-container') ].
+			e withStamp: #geometry do: [ :v | e geometry: v ] ifNone: [
+					e geometry: (BlRoundedRectangleGeometry cornerRadius:
+							 (e valueOfTokenNamed: 'border-radius')) ] ]
+]
+
+{ #category : #'accessing - shortcuts' }
+ToBasicListElementSkin >> shortcutsToInstallIn: aListElement [
+
+	^ Array streamContents: [ :stream |
+		  stream nextPut: (BlShortcutWithAction new
+				   combination: BlKeyCombination builder arrowDown build;
+				   action: [ :aShortcutEvent :aShortcut |
+					   | idx |
+					   idx := aListElement selecter nextSelectableIndexToScrollTo.
+					   aListElement selecter scrollTowardEndToDataSourcePosition: idx.
+					   aListElement selecter selectOnlyIndex: idx ]).
+
+		  stream nextPut: (BlShortcutWithAction new
+				   combination: BlKeyCombination builder arrowUp build;
+				   action: [ :aShortcutEvent :aShortcut |
+					   | idx |
+					   idx := aListElement selecter previousSelectableIndexToScrollTo.
+					   aListElement selecter scrollTowardStartToDataSourcePosition:
+							   idx.
+					   aListElement selecter selectOnlyIndex: idx ]) ]
+]
+
+{ #category : #'event handling' }
+ToBasicListElementSkin >> unfocusedSkinEvent: anEvent [
+
+	super unfocusedSkinEvent: anEvent.
+	anEvent elementDo: [ :e |
+		e border: (e valueOfTokenNamed: #'color-border') ]
+]

@@ -18,24 +18,6 @@ ToElement >> defaultLayout [
 	^ BlFrameLayout new
 ]
 
-{ #category : #utilities }
-ToElement >> inHorizontalPane [
-
-	| pane |
-	pane := ToPane horizontal.
-	pane addChild: self.
-	^ pane
-]
-
-{ #category : #utilities }
-ToElement >> inVerticalPane [
-
-	| pane |
-	pane := ToPane vertical.
-	pane addChild: self.
-	^ pane
-]
-
 { #category : #initialization }
 ToElement >> initialize [
 
@@ -43,10 +25,4 @@ ToElement >> initialize [
 	self layout: self defaultLayout.
 	self initializeForToplo.
 	self fitContent 
-]
-
-{ #category : #converting }
-ToElement >> newScrollable [
-
-	^ ToScrollableElement new
 ]

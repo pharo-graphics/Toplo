@@ -273,6 +273,7 @@ ToMultiSelectElementTest >> testWithStructuredData [
 			      ('Raw Theme' -> ToRawTheme) }).
 	cb selecter selectOneMoreIndex: 1.
 	self waitTestingSpaces.
+	self assert: cb selectionModel selectedIndexesCount equals: 1.
 	idx := cb selectionModel selectedIndexes first.
 	selectedData := cb popupListElement dataAccessor at: idx.
 	self assert: selectedData value identicalTo: ToBeeTheme.

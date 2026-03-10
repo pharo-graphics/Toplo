@@ -8065,6 +8065,7 @@ ToSandBox class >> example_stillHoveredEvent [
 			 background: Color gray;
 			 yourself).
 	e addEventHandler: (ToStillHoveredEventHandler new
+			 needRepeatedEvent: true;
 			 startDelay: 500 milliSeconds;
 			 yourself).
 
@@ -8142,6 +8143,7 @@ ToSandBox class >> example_stillPressedEvent [
 		     id: #'my-element';
 		     yourself.
 	e addEventHandler: (ToStillPressedEventHandler new
+			 needRepeatedEvent: true;
 			 startDelay: 500 milliSeconds;
 			 delay: 200 milliSeconds;
 			 yourself).

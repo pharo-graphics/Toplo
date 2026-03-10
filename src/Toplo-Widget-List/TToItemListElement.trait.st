@@ -148,7 +148,7 @@ TToItemListElement >> selectableItem: anItem [
 { #category : #'t - item list - hidden/visible' }
 TToItemListElement >> selectedItem: anItem [
 
-	self selectedAtPosition: anItem positionInBar
+	self selectedAtPosition: anItem positionInList
 ]
 
 { #category : #'t - item list - unselectable/selectable' }

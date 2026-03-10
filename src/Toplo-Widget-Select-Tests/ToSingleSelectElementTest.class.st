@@ -241,14 +241,15 @@ ToSingleSelectElementTest >> testWithStructuredData [
 	cb := ToSingleSelectElement new.
 	space root addChild: cb.
 	cb popupListElement nodeBuilder: [ :node :assoc :holder |
-		node addChild: (ToLabel text: assoc key)].
+		node addChild: (ToLabel text: assoc key) ].
 	cb dataViewBuilder: [ :dataItemView :assoc |
-		dataItemView addChild: (ToLabel text: assoc key)].
+		dataItemView addChild: (ToLabel text: assoc key) ].
 	cb popupListElement dataAccessor addAll: (d := {
 			      ('Bee Theme' -> ToBeeTheme).
 			      ('Raw Theme' -> ToRawTheme) }).
 	cb selecter selectIndex: 1.
 	self waitTestingSpaces.
+	self assert: cb selectionModel selectedIndexesCount equals: 1.
 	idx := cb selectionModel selectedIndexes first.
 	selectedData := cb popupListElement dataAccessor at: idx.
 	self assert: selectedData value identicalTo: ToBeeTheme.

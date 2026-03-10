@@ -15,30 +15,25 @@ BaselineOfToplo >> baseline: spec [
 				declareAlbumOn: spec;
 				declareBlocOn: spec.
 
-			"Cycles ignored ('Toplo-Examples' 'Toplo-Imported-Icons-MaterialDesign' 'Toplo-Widget')"
 			spec
 				package: 'Toplo'
 				with: [ spec requires: #('Bloc') ].
-
-			spec
-				package: 'Toplo-Imported-Icons-AntDesign'
-				with: [ spec requires: #('Toplo') ].
-
-			spec
-				package: 'Toplo-Imported-Icons-MaterialDesign'
-				with: [ spec requires: #('Toplo') ].
 
 			spec
 				package: 'Toplo-Incubator'
 				with: [ spec requires: #('Bloc' 'Toplo') ].
 
 			spec
+				package: 'Toplo-Theme'
+				with: [ spec requires: #('Bloc' 'Toplo') ].
+
+			spec
 				package: 'Toplo-Widget'
-				with: [ spec requires: #('Album' 'Bloc' 'Toplo' 'Toplo-Imported-Icons-MaterialDesign') ].
+				with: [ spec requires: #('Album' 'Bloc' 'Toplo' 'Toplo-Theme') ].
 
 			spec
 				package: 'Toplo-Theme-Bee'
-				with: [ spec requires: #('Bloc' 'Toplo' 'Toplo-Widget') ].
+				with: [ spec requires: #('Bloc' 'Toplo' 'Toplo-Theme' 'Toplo-Widget') ].
 
 			spec
 				package: 'Toplo-Examples'
@@ -46,31 +41,41 @@ BaselineOfToplo >> baseline: spec [
 					'Album'
 					'Bloc'
 					'Toplo'
-					'Toplo-Imported-Icons-AntDesign'
-					'Toplo-Imported-Icons-MaterialDesign'
 					'Toplo-Incubator'
+					'Toplo-Theme'
 					'Toplo-Theme-Bee'
 					'Toplo-Widget') ].
 
 			spec
 				package: 'Toplo-Tests'
-				with: [ spec requires: #('Bloc' 'Toplo' 'Toplo-Theme-Bee' 'Toplo-Widget') ].
+				with: [ spec requires: #('Bloc' 'Toplo' 'Toplo-Theme' 'Toplo-Theme-Bee' 'Toplo-Widget') ].
 
 			spec
 				package: 'Toplo-Demo'
-				with: [ spec requires: #('Bloc' 'Toplo' 'Toplo-Tests' 'Toplo-Widget') ].
+				with: [ spec requires: #('Bloc' 'Toplo' 'Toplo-Tests' 'Toplo-Theme' 'Toplo-Widget') ].
 
 			spec
 				package: 'Toplo-Theme-Bee-Tests'
-				with: [ spec requires: #('Toplo' 'Toplo-Tests' 'Toplo-Theme-Bee' 'Toplo-Widget') ].
+				with: [ spec requires: #(
+					'Toplo'
+					'Toplo-Tests'
+					'Toplo-Theme'
+					'Toplo-Theme-Bee'
+					'Toplo-Widget') ].
 
 			spec
 				package: 'Toplo-Theme-Examples'
-				with: [ spec requires: #('Bloc' 'Toplo' 'Toplo-Theme-Bee' 'Toplo-Widget') ].
+				with: [ spec requires: #('Bloc' 'Toplo' 'Toplo-Theme' 'Toplo-Theme-Bee' 'Toplo-Widget') ].
 
 			spec
 				package: 'Toplo-Widget-Tests'
-				with: [ spec requires: #('Bloc' 'Toplo' 'Toplo-Tests' 'Toplo-Theme-Bee' 'Toplo-Widget') ] ]
+				with: [ spec requires: #(
+					'Bloc'
+					'Toplo'
+					'Toplo-Tests'
+					'Toplo-Theme'
+					'Toplo-Theme-Bee'
+					'Toplo-Widget') ] ]
 ]
 
 { #category : #'external projects' }

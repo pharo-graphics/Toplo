@@ -103,15 +103,6 @@ ToElementExtension >> ensuredTokenPropertyMapIn: anElement [
 		  tokenPropertyMap := self newTokenPropertyMapIn: anElement ]
 ]
 
-{ #category : #accessing }
-ToElementExtension >> floatOverlayIn: anElement [
-
-	^ floatOverlay ifNil: [
-			  floatOverlay := ToFloatOverlay new
-				                  attachToParent: anElement;
-				                  yourself ]
-]
-
 { #category : #'accessing - theme' }
 ToElementExtension >> installedTheme [ 
 

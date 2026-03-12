@@ -5244,7 +5244,6 @@ ToSandBox class >> example_SieveOnTree [
 		        matchParent.
 
 	treeElement := ToTreeElement new.
-	treeElement sample: #A.
 	treeElement childrenGetter: [ :dataItem |
 			Array streamContents: [ :stream |
 				dataItem do: [ :c | stream nextPut: c asSymbol ] ] ].

@@ -19,7 +19,6 @@ ToTabListInTabGroupEventHandler >> eventsToHandle [
 { #category : #'events handling' }
 ToTabListInTabGroupEventHandler >> itemAddedInListEvent: anEvent [
 
-	| dataAccessor |
 	tabGroup dispatchEvent: anEvent copy.
 	"anEvent item isChecked ifTrue: [ ^ self ].
 	dataAccessor := tabGroup dataAccessor.

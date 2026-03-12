@@ -223,7 +223,6 @@ ToBasicListElement >> defaultSecondarySelectionMode [
 { #category : #'accessing selecters' }
 ToBasicListElement >> deselectedAtPosition: anInteger [
 
-	(self selectionModel containsIndex: anInteger) ifFalse: [ ^ self ].
 	self selecter deselectIndex: anInteger
 ]
 
@@ -709,7 +708,6 @@ ToBasicListElement >> selectableAtPosition: anInteger [
 { #category : #'accessing selecters' }
 ToBasicListElement >> selectedAtPosition: anInteger [
 
-	(self selectionModel containsIndex: anInteger) ifTrue: [ ^ self ].
 	self selecter selectIndex: anInteger
 ]
 

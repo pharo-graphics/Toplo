@@ -81,6 +81,7 @@ ToCheckableListElementTest >> itemChecked [
 		bar addItem: (ToToggleButton new labelText: l) ].
 	self waitTestingSpaces.
 	bar items first checked: true.
+	self waitTestingSpaces.
 	self assert: bar items first isChecked.
 	self waitTestingSpaces.
 	self assert: bar selectionModel selectedIndexes equals: #( 1 )

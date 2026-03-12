@@ -14,9 +14,7 @@ Class {
 	#superclass : #BlInfiniteHolder,
 	#instVars : [
 		'dataItem',
-		'recyclingRequested',
-		'wasFocused',
-		'selectionNotificationMap'
+		'recyclingRequested'
 	],
 	#category : #'Toplo-Widget-List-Node'
 }
@@ -33,26 +31,6 @@ ToNodeHolder >> bindDataItem: aDataItem [
 
 	self nodeManager buildNodeContainer: self nodeContainer.
 	self nodeManager buildNode: self node
-]
-
-{ #category : #selection }
-ToNodeHolder >> canNotifyDeselectionForOption: aSelectionOption [
-	" true if the focus changed or if it was selected previously. 
-	true by default if not selected/deselected yet "
-
-	^ wasFocused ~= self listElement focused or: [
-		  selectionNotificationMap at: aSelectionOption ifAbsent: [ true ] ]
-]
-
-{ #category : #selection }
-ToNodeHolder >> canNotifySelectionForOption: aSelectionOption [
-	" true if the focus changed or if it was not selected previously. 
-	true by default if not selected/deselected yet "
-
-	^ wasFocused ~= self listElement focused or: [
-			  (selectionNotificationMap
-				   at: aSelectionOption
-				   ifAbsent: [ false ]) not ]
 ]
 
 { #category : #accessing }
@@ -107,11 +85,7 @@ ToNodeHolder >> fakeDataItem: aData [
 ToNodeHolder >> initialize [ 
 
 	super initialize.
-	"selectionNotificationMap := SmallIdentityDictionary new."
-	recyclingRequested := false.
-	" don't initialize notifiedSelected to false 
-	to force correct update of selection at start"
-	"wasFocused := false"
+	recyclingRequested := false
 ]
 
 { #category : #accessing }

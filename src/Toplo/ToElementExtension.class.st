@@ -139,7 +139,7 @@ ToElementExtension >> itemConstraints [
 { #category : #'accessing - list item constraints' }
 ToElementExtension >> itemConstraintsClass [
 
-	^ ToItemConstraints 
+	^ ToListItemConstraints 
 ]
 
 { #category : #'accessing - list item constraints' }

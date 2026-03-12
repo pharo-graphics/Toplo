@@ -220,6 +220,12 @@ TToItemListUser >> postponeAction: aBlock [
 	self itemList postponeAction: aBlock
 ]
 
+{ #category : #'t - item list user - layout' }
+TToItemListUser >> postponeCommand: aCommand [
+
+	self itemList postponeCommand: aCommand
+]
+
 { #category : #'t - item list user - accessing' }
 TToItemListUser >> primarySelectionMode [
 

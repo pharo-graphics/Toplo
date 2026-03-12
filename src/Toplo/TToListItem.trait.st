@@ -88,6 +88,12 @@ TToListItem >> listElementDo: aBlock [
 ]
 
 { #category : #'t - list item' }
+TToListItem >> listElementDo: aBlock ifNone: noneBlock [
+
+	^ self listElement ifNotNil: [ :be | aBlock value: be ] ifNil: noneBlock
+]
+
+{ #category : #'t - list item' }
 TToListItem >> positionInBar [
 	self
 		deprecated: 'Use #positionInList instead'
@@ -106,11 +112,12 @@ TToListItem >> positionInList [
 { #category : #'t - list item' }
 TToListItem >> selected: aBoolean [
 
-	self storeSelected: aBoolean.
-	self listElementDo: [ :l |
-		aBoolean
-			ifTrue: [ l selectedItem: self ]
-			ifFalse: [ l deselectedItem: self ] ]
+	self
+		listElementDo: [ :l |
+				aBoolean
+					ifTrue: [ l selectedItem: self ]
+					ifFalse: [ l deselectedItem: self ] ]
+		ifNone: [ self storeSelected: aBoolean ]
 ]
 
 { #category : #'t - list item' }

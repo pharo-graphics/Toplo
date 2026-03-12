@@ -7,13 +7,13 @@ Class {
 { #category : #application }
 ToListSelectionShiftCommand >> applyIn: aFiniteListElement [
 
-
+	aFiniteListElement listElement selecter
+		shiftSelection: itemCount
+		from: positionStart.
 ]
 
 { #category : #commands }
 ToListSelectionShiftCommand >> offsetPositionsIn: anInfiniteElement [
 
-	anInfiniteElement listElement selecter
-		shiftSelection: itemCount
-		from: positionStart.
+	self applyIn: anInfiniteElement
 ]

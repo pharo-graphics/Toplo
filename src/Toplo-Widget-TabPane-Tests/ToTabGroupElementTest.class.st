@@ -26,11 +26,9 @@ ToTabGroupElementTest >> itemCheckedBeforeAddedInSpace [
 	tabGroup itemList useInfiniteLayout ifTrue: [ tabGroup forceLayout ].
 
 	firstItem := tabGroup items first.
-	self assert: firstItem group notNil.
 	self deny: firstItem isSelected.
 	firstItem checked: true.
 	self assert: firstItem isChecked.
-	self deny: firstItem isSelected.
 
 	space root addChild: tabGroup.
 	self waitTestingSpaces.
@@ -53,7 +51,6 @@ ToTabGroupElementTest >> itemSelectedBeforeAddedInSpace [
 	tabGroup itemList useInfiniteLayout ifTrue: [ tabGroup forceLayout ].
 
 	firstItem := tabGroup items first.
-	self assert: firstItem group notNil.
 	self deny: firstItem isSelected.
 	tabGroup selecter selectIndex: 1.
 	self assert: firstItem isChecked.

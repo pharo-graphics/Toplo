@@ -43,7 +43,6 @@ ToTabPaneElementTest >> testCheckTabButton [
 									 yourself) ] ].
 
 	tabPane addTabItemData: 'First'.
-	self assert: tabPane items first group notNil.
 	self deny: tabPane items first isChecked.
 	tabPane items first checked: true.
 	self assert: tabPane items first isChecked
@@ -399,7 +398,6 @@ ToTabPaneElementTest >> testSelectTabButton [
 									 yourself) ] ].
 
 	tabPane addTabItemData: 'First'.
-	self assert: tabPane items first group notNil.
 	self deny: tabPane items first isChecked.
 	tabPane selecter selectIndex: 1.
 	self assert: tabPane items first isChecked

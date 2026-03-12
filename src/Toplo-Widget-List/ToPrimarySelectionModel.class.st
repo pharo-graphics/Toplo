@@ -16,6 +16,12 @@ ToPrimarySelectionModel >> copySelectionFrom: anotherSelectionModel [
 
 ]
 
+{ #category : #updating }
+ToPrimarySelectionModel >> deselectAll [
+
+	super deselectAll.
+]
+
 { #category : #initialization }
 ToPrimarySelectionModel >> initialize [
 
@@ -58,6 +64,12 @@ ToPrimarySelectionModel >> postCopy [
 
 	super postCopy.
 	subSelectionModelIndex := subSelectionModelIndex copy
+]
+
+{ #category : #updating }
+ToPrimarySelectionModel >> selectIndex: anArray [
+
+	super selectIndex: anArray
 ]
 
 { #category : #accessing }

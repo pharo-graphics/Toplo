@@ -175,10 +175,10 @@ TToElementWithActionPoolTest >> testNewClickAction [
 TToElementWithActionPoolTest >> testNewGroupCheckAction [
 
 	| group received theGroup theList |
-	group := ToCheckableListElement new.
-	group withStrictCheckingStrategy.
+	group := ToCheckableGroupPane new.
+
 	{ 'Monday'. 'Tuesday'. 'Wednesday'. 'Thursday'. 'Friday' } do: [ :day |
-			group addItem: (ToToggleButton new
+			group addChild: (ToToggleButton new
 					 labelText: day;
 					 yourself) ].
 
@@ -186,6 +186,7 @@ TToElementWithActionPoolTest >> testNewGroupCheckAction [
 			received := evt.
 			theGroup := evt target.
 			theList := evt checkedList ].
+	
 	group width: 150.
 	space root addChild: group.
 	" wait to update the data source "

@@ -177,6 +177,14 @@ TToInnerListElement >> postponeAction: aValuable for: aTarget [
 ]
 
 { #category : #'t - inner list element' }
+TToInnerListElement >> postponeCommand: aCommand [
+
+	self dataSourceManager postponeCommand: aCommand.
+	" ensure a layout here to trigger the action running"
+	self requestLayout
+]
+
+{ #category : #'t - inner list element' }
 TToInnerListElement >> selectableNodeContainingGlobalPosition: aPoint [
 
 	self nodeContainersDo: [ :container |

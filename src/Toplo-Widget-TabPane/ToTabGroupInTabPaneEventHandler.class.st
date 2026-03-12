@@ -21,39 +21,10 @@ ToTabGroupInTabPaneEventHandler >> applyPaneDestroyerOfTabButton: aTabButton [
 	aTabButton bodyPane: nil
 ]
 
-{ #category : #'events handling' }
-ToTabGroupInTabPaneEventHandler >> checkableGroupChangedEvent: anEvent [
-
-	| body button bodyPane |
-	body := tabPane body.
-	body removeChildren.
-	anEvent checkedList size = 1 ifFalse: [ ^ self ].
-	button := anEvent checkedList anyOne.
-	bodyPane := button bodyPane.
-	(bodyPane notNil and: [ button destroyPaneWhenDeselected not ])
-		ifTrue: [
-				body addChild: bodyPane.
-				^ self ].
-	bodyPane ifNil: [ bodyPane := button paneFactory value ].
-	bodyPane  matchParent.
-	bodyPane
-		addEventHandlerOn: BlElementRemovedFromSceneGraphEvent
-		do: [ self applyPaneDestroyerOfTabButton: button ].
-	button bodyPane: bodyPane.
-	button paneBuilder
-		cull: bodyPane
-		cull: button
-		cull: button holder.
-	body addChild: bodyPane.
-	tabPane dispatchEvent: anEvent copy
-]
-
 { #category : #'api - accessing' }
 ToTabGroupInTabPaneEventHandler >> eventsToHandle [
 
-	^ {
-		  ToCheckableGroupChangedEvent.
-		  ToListItemEvent }
+	^ { ToListItemEvent. ToListPrimarySelectionChangedEvent }
 ]
 
 { #category : #'events handling' }
@@ -73,6 +44,34 @@ ToTabGroupInTabPaneEventHandler >> itemRemovedFromListEvent: anEvent [
 			body := tabPane body.
 			body removeChildren ].
 	tabPane requestLayoutModeCheck.
+	tabPane dispatchEvent: anEvent copy
+]
+
+{ #category : #'events handling' }
+ToTabGroupInTabPaneEventHandler >> listPrimarySelectionChangedEvent: anEvent [
+
+	| body button bodyPane tabGroup |
+	tabGroup := anEvent currentTarget.
+	body := tabPane body.
+	body removeChildren.
+	anEvent selectedIndexes size = 1 ifFalse: [ ^ self ].
+	button := tabGroup items at: anEvent selectedIndexes first.
+	bodyPane := button bodyPane.
+	(bodyPane notNil and: [ button destroyPaneWhenDeselected not ])
+		ifTrue: [
+				body addChild: bodyPane.
+				^ self ].
+	bodyPane ifNil: [ bodyPane := button paneFactory value ].
+	bodyPane  matchParent.
+	bodyPane
+		addEventHandlerOn: BlElementRemovedFromSceneGraphEvent
+		do: [ self applyPaneDestroyerOfTabButton: button ].
+	button bodyPane: bodyPane.
+	button paneBuilder
+		cull: bodyPane
+		cull: button
+		cull: button holder.
+	body addChild: bodyPane.
 	tabPane dispatchEvent: anEvent copy
 ]
 

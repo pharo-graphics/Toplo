@@ -1,8 +1,6 @@
 Class {
 	#name : #ToAccordionElement,
 	#superclass : #ToElement,
-	#traits : 'TToListItem',
-	#classTraits : 'TToListItem classTrait',
 	#instVars : [
 		'header',
 		'body'
@@ -15,6 +13,12 @@ ToAccordionElement >> applyConfiguration [
 
 	super applyConfiguration.
 	self applyConfigurationAsListItem
+]
+
+{ #category : #'t - list item' }
+ToAccordionElement >> applyConfigurationAsListItem [
+
+	header applyConfigurationAsListItem
 ]
 
 { #category : #accessing }
@@ -131,6 +135,13 @@ ToAccordionElement >> isExpanded [
 ToAccordionElement >> isExpanded: aBoolean [
 
 	header checked: aBoolean
+]
+
+{ #category : #enumerating }
+ToAccordionElement >> itemConstraintsDo: aBlock [
+
+	header itemConstraintsDo: aBlock
+
 ]
 
 { #category : #initialization }

@@ -36,8 +36,10 @@ ToTabListElementTest >> testAddOneItemAndSelect [
 	tab1 selected: true.
 
 	self waitTestingSpaces.
-	self assert: tab1 isChecked.
-	self assert: tabList selectionModel selectedIndexesCount equals: 1
+	self assert: tab1 isSelected.
+	self assert: tabList selectionModel selectedIndexesCount equals: 1.
+	self assert: tab1 isChecked
+
 ]
 
 { #category : #running }
@@ -45,10 +47,11 @@ ToTabListElementTest >> testAddOneItemAndSelectAndDeselectAll [
 
 	self testAddOneItemAndSelect.
 	tabList selecter deselectAll.
+
 	self waitTestingSpaces.
-	self deny: tab1 isChecked.
-	self deny: tab1 isSelected.
 	self assert: tabList selectionModel selectedIndexesCount equals: 0.
+	self deny: tab1 isSelected.
+	self deny: tab1 isChecked
 
 ]
 

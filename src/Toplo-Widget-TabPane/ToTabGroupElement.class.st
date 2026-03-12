@@ -192,16 +192,18 @@ ToTabGroupElement >> initialize [
 	self resetInvisibleNodeContainers.
 	self createMiddleContainer.
 	self initializeParts.
-	
-	self itemList addEventHandler:
-		(ToTabListInTabGroupEventHandler new
+
+	self itemList
+		addEventHandlerOn: ToListPrimarySelectionChangedEvent
+		do: [ :event | self dispatchEvent: event copy ].
+	self itemList addEventHandler: (ToTabListInTabGroupEventHandler new
 			 tabGroup: self;
 			 yourself).
 	self addEventHandler: self defaultEventHandler.
 	tabItemFactory := self defaultTabItemFactory.
 	itemBuilder := self defaultItemBuilder.
 	showAddTabItemButton := false.
-	hidePartlyVisibleNodes := false.
+	hidePartlyVisibleNodes := false
 ]
 
 { #category : #initialization }
@@ -445,22 +447,4 @@ ToTabGroupElement >> visibleNodes [
 
 	self deprecated: 'Use #visibleNodeContainers' transformWith: '`@r visibleNodes' -> '`@r visibleNodeContainers'.
 	^ self visibleNodeContainers
-]
-
-{ #category : #'t - checkable group owner' }
-ToTabGroupElement >> withNoneCheckingStrategy [
-
-	self itemList withNoneCheckingStrategy
-]
-
-{ #category : #'t - checkable group owner' }
-ToTabGroupElement >> withStrictCheckingStrategy [
-
-	self itemList withStrictCheckingStrategy
-]
-
-{ #category : #'t - checkable group owner' }
-ToTabGroupElement >> withWeakCheckingStrategy [
-
-	self itemList withWeakCheckingStrategy
 ]

@@ -11,7 +11,8 @@ Class {
 		'#beneath',
 		'#elementFactory',
 		'#selectionContainer',
-		'#selectionMode'
+		'#selectionMode',
+		'#updatePostponed'
 	],
 	#category : #'Toplo-Widget-List-Selection-Mode'
 }
@@ -50,7 +51,10 @@ ToListSelectionOption >> checkRepresentationVariantin: aListElement [
 
 	representationVariant selectionOption: self.
 	self checkSelectionContainerIn: aListElement.
+	updatePostponed ifTrue: [ ^ self ].
+	updatePostponed := true.
 	aListElement postponeAction: [
+		updatePostponed := false.
 		self updateRepresentationIn: aListElement ]
 ]
 
@@ -107,6 +111,7 @@ ToListSelectionOption >> initialize [
 	self class initializeSlots: self.
 	animationDuration := 0 milliSecond.
 	beneath := true.
+	updatePostponed := false.
 	self representationVariant: ToListSelectionRepresentationVariant separate
 ]
 

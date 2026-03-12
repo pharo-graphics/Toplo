@@ -28,9 +28,8 @@ ToCheckableNodeSelectionEventHandler >> primaryClickEvent: anEvent [
 	The item has its own handler to switch its check state.
 	A click event can bubble from the checkable item or directly from my checkableNode.
 	If the click event bubbles from the item, then do nothing.
-	Instread if the event comes directly from the node then it has to be dispatched down to its item "
+	Instead if the event comes directly from the node then it has to be dispatched down to its item "
 	anEvent target = anEvent currentTarget ifFalse: [ ^ self ].
 	node := anEvent currentTarget.
 	node item dispatchEvent: anEvent copy
-
 ]

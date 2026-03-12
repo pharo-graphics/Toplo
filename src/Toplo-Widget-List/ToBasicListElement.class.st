@@ -58,7 +58,8 @@ ToBasicListElement >> applyConfiguration [
 ToBasicListElement >> checkMouseMoveReplayRequest [
 
 	mouseMoveReplayRequested ifFalse: [ ^ self ].
-	self spaceDo: [ :sp | sp mouseProcessor handleLastMouseMove ].
+	self postponeAction: [
+		self spaceDo: [ :sp | sp mouseProcessor handleLastMouseMove ] ].
 	mouseMoveReplayRequested := false
 ]
 
@@ -222,6 +223,7 @@ ToBasicListElement >> defaultSecondarySelectionMode [
 { #category : #'accessing selecters' }
 ToBasicListElement >> deselectedAtPosition: anInteger [
 
+	(self selectionModel containsIndex: anInteger) ifFalse: [ ^ self ].
 	self selecter deselectIndex: anInteger
 ]
 
@@ -600,6 +602,15 @@ ToBasicListElement >> postponeAction: aValuable [
 	self requestLayout
 ]
 
+{ #category : #layout }
+ToBasicListElement >> postponeCommand: aCommand [
+
+	innerElement ifNotNil: [ :inner |
+		^ inner postponeCommand: aCommand ].
+	postponedActions add: [ self postponeCommand: aCommand  ].
+	self requestLayout
+]
+
 { #category : #'accessing - selection modes' }
 ToBasicListElement >> primarySelectionMode [
 
@@ -698,6 +709,7 @@ ToBasicListElement >> selectableAtPosition: anInteger [
 { #category : #'accessing selecters' }
 ToBasicListElement >> selectedAtPosition: anInteger [
 
+	(self selectionModel containsIndex: anInteger) ifTrue: [ ^ self ].
 	self selecter selectIndex: anInteger
 ]
 

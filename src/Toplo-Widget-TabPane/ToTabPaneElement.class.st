@@ -138,7 +138,6 @@ ToTabPaneElement >> initialize [
 	self tabGroup addEventHandler: (ToTabGroupInTabPaneEventHandler new
 			 tabPane: self;
 			 yourself).
-	self withStrictCheckingStrategy
 ]
 
 { #category : #accessing }
@@ -217,25 +216,4 @@ ToTabPaneElement >> tabGroupDynamicLayoutMode: aBoolean [
 		transformWith: '`@rcvr tabGroupDynamicLayoutMode: `@arg'
 			-> '`@rcvr compactHeaderLayoutMode: `@arg'.
 	self compactHeaderLayoutMode: aBoolean
-]
-
-{ #category : #'t - checkable group owner' }
-ToTabPaneElement >> withNoneCheckingStrategy [ 
-
-	self tabGroup withNoneCheckingStrategy.
-	self selectionMode multiple: true
-]
-
-{ #category : #'t - checkable group owner' }
-ToTabPaneElement >> withStrictCheckingStrategy [ 
-
-	self tabGroup withStrictCheckingStrategy.
-	self selectionMode multiple: false
-]
-
-{ #category : #'t - checkable group owner' }
-ToTabPaneElement >> withWeakCheckingStrategy [ 
-
-	self tabGroup withWeakCheckingStrategy.
-	self selectionMode multiple: false
 ]

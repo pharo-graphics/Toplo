@@ -17,7 +17,7 @@ AeFontStretch: condensed expanded extraCondensed extraExpanded normal semiConden
 	allChars := 'azertyuiopqsdfghjklmwxcvbn' , String cr , 'AZERTYUIOPQSDFGHJKLMWXCVBN' , String cr , '1234567890'
 	            , String cr , '@&é"''[(§è!çà)]-#°_¨*%£+/*.?' , String cr , '~^$`ù=:;,~|'.
 	"AeFontManager resetGlobalInstance."
-	aManager := AeFontManager globalInstance .
+	aManager := AeFontManager new scanEmbeddedFonts; yourself.
 	allSlants := { 
 		             BlFontSlant normal.
 		             BlFontSlant italic.

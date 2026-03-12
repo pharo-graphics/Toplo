@@ -30,7 +30,7 @@ ToDiffAlbumsElement >> applyHighlightTo: src fromModifications: modifications [
 					deco addEventHandler: AlbSubtextElementEventHandler new.
 					deco background: join color.
 					deco border: BlBorder empty.
-					src next frontLayer addChild: deco ] ]
+					src albumEditorElement frontLayer addChild: deco ] ]
 ]
 
 { #category : #highlighting }

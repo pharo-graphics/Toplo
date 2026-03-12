@@ -22,6 +22,14 @@ ToAlbum >> addEditsFeedbackLayer [
 	layer attachToParent: self
 ]
 
+{ #category : #accessing }
+ToAlbum >> albumEditorElement [ 
+
+	^ self next next
+
+	
+]
+
 { #category : #configuration }
 ToAlbum >> applyConfiguration [ 
 

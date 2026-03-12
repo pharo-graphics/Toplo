@@ -26,6 +26,12 @@ ToSelecterEventTargetStub >> postponeAction: aValuable [
 	aValuable cull: nil
 ]
 
+{ #category : #'data source updates' }
+ToSelecterEventTargetStub >> postponeCommand: aCommand [ 
+
+	aCommand applyIn: self
+]
+
 { #category : #'event firing' }
 ToSelecterEventTargetStub >> requestUpdateAllSelections [
 ]

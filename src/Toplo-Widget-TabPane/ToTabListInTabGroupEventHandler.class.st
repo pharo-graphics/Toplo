@@ -7,18 +7,11 @@ Class {
 	#category : #'Toplo-Widget-TabPane-TabGroup'
 }
 
-{ #category : #'events handling' }
-ToTabListInTabGroupEventHandler >> checkableGroupChangedEvent: anEvent [
-
-	tabGroup dispatchEvent: anEvent copy
-]
-
 { #category : #'api - accessing' }
 ToTabListInTabGroupEventHandler >> eventsToHandle [
 
 	^ {
 		  ToListVisibleNodeContainersChangedEvent.
-		  ToCheckableGroupChangedEvent.
 		  ToListItemEvent.
 		  ToListPrimarySelectionChangedEvent }
 ]
@@ -26,7 +19,12 @@ ToTabListInTabGroupEventHandler >> eventsToHandle [
 { #category : #'events handling' }
 ToTabListInTabGroupEventHandler >> itemAddedInListEvent: anEvent [
 
-	tabGroup dispatchEvent: anEvent copy
+	tabGroup dispatchEvent: anEvent copy.
+	"anEvent item isChecked ifTrue: [ ^ self ].
+	dataAccessor := tabGroup dataAccessor.
+	dataAccessor size > 1 ifTrue: [ ^ self ].
+	tabGroup selectionModel selectedIndexesCount > 1 ifTrue: [ ^ self ].
+	anEvent item checked: true"
 ]
 
 { #category : #'events handling' }

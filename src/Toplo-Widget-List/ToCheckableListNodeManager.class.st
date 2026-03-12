@@ -7,12 +7,7 @@ Class {
 { #category : #initialization }
 ToCheckableListNodeManager >> buildNode: aNode [
 
-	| checkableElement holder |
-	super buildNode: aNode.
-	holder := aNode holder.
-	checkableElement := holder dataItem.
-	"the TToCheckable must be registered in the checkable group managed by the segmented bar"
-	checkableElement registerInGroup: holder listElement group
+	super buildNode: aNode
 ]
 
 { #category : #initialization }
@@ -24,6 +19,5 @@ ToCheckableListNodeManager >> defaultNodeFactory [
 { #category : #initialization }
 ToCheckableListNodeManager >> unbuildNode: aNode [
 
-	aNode holder dataItem unregisterFromGroup.
 	super unbuildNode: aNode 
 ]

@@ -54,31 +54,22 @@ ToDemoPresenter class >> demo2 [
 ToDemoPresenter class >> demo3 [
 
 	<demo>
-	| containerElement checkableGroup lightThemeBtn darkThemeBtn |
-	(containerElement := ToPane vertical) padding: (BlInsets all: 10).
-	(checkableGroup := ToCheckableGroup new)
-		withStrictCheckingStrategy;
-		registerAll: {
-				(lightThemeBtn := ToRadioButton new
-					                  id: #r1;
-					                  labelText: 'Light theme';
-					                  yourself).
-				(darkThemeBtn := ToRadioButton new
-					                 id: #r2;
-					                 labelText: 'Dark theme';
-					                 yourself) }.
+	| containerElement |
+	containerElement := ToCheckableGroupPane vertical.
+	{
+		ToRawTheme.
+		ToRawDarkTheme } do: [ :themeClass |
+			containerElement addChild: (ToRadioButton new
+					 labelText: themeClass label;
+					 in: [ :rad | rad userData at: #themeClass put: themeClass ];
+					 yourself) ].
+				
+	containerElement groupCheckAction: [ :evt |
+			containerElement space toTheme:
+				(evt checkedList anyOne userData at: #themeClass) new ].
 
-	checkableGroup
-		addEventHandlerOn: ToCheckableGroupChangedEvent
-		do: [ :evt |
-				| list |
-				list := evt checkedList.
-				list first = lightThemeBtn
-					ifTrue: [ containerElement space toTheme: ToRawTheme new ]
-					ifFalse: [ containerElement space toTheme: ToRawDarkTheme new ] ].
+	containerElement children second checked: true.
 
-	checkableGroup registeredCheckables second checked: true.
-	containerElement addChildren: checkableGroup registeredCheckables.
 	^ containerElement
 ]
 

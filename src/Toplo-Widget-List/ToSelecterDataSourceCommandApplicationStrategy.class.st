@@ -1,22 +1,25 @@
 Class {
-	#name : #ToDataSourceCommandApplicationStrategy,
+	#name : #ToSelecterDataSourceCommandApplicationStrategy,
 	#superclass : #BlCommandApplicationStrategy,
 	#category : #'Toplo-Widget-List-Command-Support'
 }
 
 { #category : #accessing }
-ToDataSourceCommandApplicationStrategy >> addCommand: aCommand from: aCommandApplier [
+ToSelecterDataSourceCommandApplicationStrategy >> addCommand: aCommand from: aCommandApplier [
 
 	element isAttachedToSceneGraph ifFalse: [
 			aCommandApplier applyCommand: aCommand.
 			^ self ].
 
-	element postponeAction: [ aCommandApplier applyCommand: aCommand ].
+	element postponeCommand: (ToListSelectionCommand new
+			 applier: aCommandApplier;
+			 command: aCommand;
+			 yourself).
 	element addedDataSourceCommand: aCommand
 ]
 
 { #category : #testing }
-ToDataSourceCommandApplicationStrategy >> hasPendingCommands [
+ToSelecterDataSourceCommandApplicationStrategy >> hasPendingCommands [
 
 	^ element innerElement dataSourceManager hasFinalStepCommand
 ]

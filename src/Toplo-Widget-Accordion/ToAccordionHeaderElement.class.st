@@ -1,8 +1,8 @@
 Class {
 	#name : #ToAccordionHeaderElement,
 	#superclass : #ToElement,
-	#traits : 'TToCheckable',
-	#classTraits : 'TToCheckable classTrait',
+	#traits : 'TToCheckable + TToListItem',
+	#classTraits : 'TToCheckable classTrait + TToListItem classTrait',
 	#instVars : [
 		'iconContainer',
 		'content',

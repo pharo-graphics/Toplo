@@ -58,7 +58,8 @@ ToBasicListElement >> applyConfiguration [
 ToBasicListElement >> checkMouseMoveReplayRequest [
 
 	mouseMoveReplayRequested ifFalse: [ ^ self ].
-	self spaceDo: [ :sp | sp mouseProcessor handleLastMouseMove ].
+	self postponeAction: [
+		self spaceDo: [ :sp | sp mouseProcessor handleLastMouseMove ] ].
 	mouseMoveReplayRequested := false
 ]
 
@@ -597,6 +598,15 @@ ToBasicListElement >> postponeAction: aValuable [
 	innerElement ifNotNil: [ :inner |
 		^ inner postponeAction: aValuable for: self ].
 	postponedActions add: aValuable.
+	self requestLayout
+]
+
+{ #category : #layout }
+ToBasicListElement >> postponeCommand: aCommand [
+
+	innerElement ifNotNil: [ :inner |
+		^ inner postponeCommand: aCommand ].
+	postponedActions add: [ self postponeCommand: aCommand  ].
 	self requestLayout
 ]
 

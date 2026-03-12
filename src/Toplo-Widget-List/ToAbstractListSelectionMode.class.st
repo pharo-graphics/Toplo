@@ -100,6 +100,12 @@ ToAbstractListSelectionMode >> isSecondary [
 	^ false
 ]
 
+{ #category : #testing }
+ToAbstractListSelectionMode >> isSingleSelection [
+
+	^ self isMultipleSelection not
+]
+
 { #category : #accessing }
 ToAbstractListSelectionMode >> itemCount [
 

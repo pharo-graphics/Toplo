@@ -110,7 +110,7 @@ ToListSelecter >> defaultCommandApplicationStrategy [
 	that data source based strategy takes that implementation into account  "
 
 	"^ BlImmediateCommandApplicationStrategy new"
-	^ ToDataSourceCommandApplicationStrategy new
+	^ ToSelecterDataSourceCommandApplicationStrategy new
 	"^ BlQueueBasedCommandApplicationStrategy new"
 ]
 
@@ -358,6 +358,26 @@ ToListSelecter >> operator: aSelectionModelOperator [
 	operator := aSelectionModelOperator
 ]
 
+{ #category : #operations }
+ToListSelecter >> prev_shiftSelection: anInteger from: anIndex [
+
+	| cmd  count interval |
+	cmd := ToListElementCompositeCommand new.
+	(anInteger < 0 and: [ self itemCount >= anIndex ]) ifTrue: [
+			count := anInteger abs.
+			interval := anIndex to: anIndex + count - 1.
+			" run a remove selection command only if any of the removed interval is selected "
+			(self selectionModel containsAnyOfInterval: interval) ifTrue: [
+					cmd addCommand: (ToIntervalSelectionCommand new
+							 from: interval first to: interval last;
+							 operation: ToRemoveSelectionOperation new) ] ].
+	cmd addCommand: (ToSelectionShiftCommand new
+			 itemCount: anInteger;
+			 fromIndex: anIndex;
+			 yourself).
+	self addCommand: cmd
+]
+
 { #category : #private }
 ToListSelecter >> previousDeselectedIndex [
 
@@ -601,22 +621,10 @@ ToListSelecter >> selectionOption [
 { #category : #operations }
 ToListSelecter >> shiftSelection: anInteger from: anIndex [
 
-	| cmd  count interval |
-	cmd := ToListElementCompositeCommand new.
-	(anInteger < 0 and: [ self itemCount >= anIndex ]) ifTrue: [
-			
-			count := anInteger abs.
-			interval := anIndex to: anIndex + count - 1.
-			" run a remove selection command only if any of the removed interval is selected "
-			(self selectionModel containsAnyOfInterval: interval) ifTrue: [
-					cmd addCommand: (ToIntervalSelectionCommand new
-							 from: interval first to: interval last;
-							 operation: ToRemoveSelectionOperation new) ] ].
-	cmd addCommand: (ToSelectionShiftCommand new
+	self addCommand: (ToSelectionShiftCommand new
 			 itemCount: anInteger;
 			 fromIndex: anIndex;
-			 yourself).
-	self addCommand: cmd
+			 yourself)
 ]
 
 { #category : #private }

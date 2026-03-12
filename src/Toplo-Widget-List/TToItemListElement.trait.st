@@ -47,7 +47,7 @@ TToItemListElement >> addItem: anItem beforeIndex: anInteger [
 { #category : #'t - item list - hidden/visible' }
 TToItemListElement >> deselectedItem: anItem [
 
-	self deselectedAtPosition: anItem positionInBar
+	self deselectedAtPosition: anItem positionInList
 ]
 
 { #category : #'t - item list - disabled/enabled' }
@@ -148,7 +148,7 @@ TToItemListElement >> selectableItem: anItem [
 { #category : #'t - item list - hidden/visible' }
 TToItemListElement >> selectedItem: anItem [
 
-	self selectedAtPosition: anItem positionInBar
+	self selectedAtPosition: anItem positionInList
 ]
 
 { #category : #'t - item list - unselectable/selectable' }

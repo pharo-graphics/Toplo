@@ -46,6 +46,14 @@ ToCheckableState >> checked: aBooleanOrIndeterminate requestBefore: requestBefor
 			(grp allowChangeWith: aBooleanOrIndeterminate forCheckable: owner)
 				ifFalse: [ ^ self ] ].
 
+	owner listElementDo: [ :l |
+			(l selectionMode isSingleSelection and: [
+				 aBooleanOrIndeterminate = false and: [ owner holder isSelected ] ])
+				ifTrue: [ ^ self ].
+			^ aBooleanOrIndeterminate = true
+				ifTrue: [ l selectedItem: owner ]
+				ifFalse: [ l deselectedItem: owner ] ].
+
 	requestBefore ifTrue: [
 			req := ToCheckableCheckRequestEvent new
 				       requestedAction: [
@@ -143,6 +151,7 @@ ToCheckableState >> privateChecked: aBooleanOrIndeterminate [
 
 	checked = aBooleanOrIndeterminate ifTrue: [ ^ self ].
 	checked := aBooleanOrIndeterminate.
+
 	" finally dispatch the event used to generate the state for the skin.
 	implementation note: we need this additional event for the skin.
 	This event can be used if one need to handle the look change or a 

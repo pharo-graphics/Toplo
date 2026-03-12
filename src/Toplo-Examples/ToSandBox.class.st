@@ -427,7 +427,6 @@ ToSandBox class >> exampleCheckableListWithAccordions [
 	<script>
 	| list |
 	list := ToCheckableListElement infinite.
-	list group withNoneCheckingStrategy.
 	(1 to: 500) do: [ :i |
 		list addItem: (self accordionWithLabelText: 'Header ' , i asString) ].
 	list openInSpace.
@@ -3335,7 +3334,6 @@ ToSandBox class >> example_ListWithAllClassesAsCheckbox [
 	l := ToCheckableListElement new.
 	"l selectionOption masked: true."
 	l selectionOption withEmbeddedRepresentation.
-	l group withNoneCheckingStrategy.
 	l addAllItems: ((Smalltalk globals allClasses) collect: [ :cls |
 			 ToCheckbox new
 				 label: (ToLabel new text: cls name);
@@ -3348,12 +3346,12 @@ ToSandBox class >> example_ListWithAllClassesAsToggleButton [
 
 	| l |
 	l := ToCheckableListElement new.
-	l selectionOption withEmbeddedRepresentation.
-	l group withNoneCheckingStrategy.
+	l selectionMode multiple: true.
 	l addAllItems: ((Smalltalk globals allClasses ) collect: [ :cls |
 			 ToToggleButton new
 				 label: (ToLabel new text: cls name);
-				 hMatchParent ]).
+				 width: 400 ]).
+	l matchParent.
 	l openInSpace
 ]
 
@@ -5471,9 +5469,10 @@ ToSandBox class >> example_SimpleTabPane [
 
 	tabPane addTabItemData: 'First'.
 	tabPane addTabItemData: 'Second'.
-	tabPane items second checked: true.
+
 	"tabPane selecter selectOnlyIndex: 2."
 	space show.
+	tabPane items second checked: true.
 	^ tabPane
 ]
 
@@ -8065,6 +8064,7 @@ ToSandBox class >> example_stillHoveredEvent [
 			 background: Color gray;
 			 yourself).
 	e addEventHandler: (ToStillHoveredEventHandler new
+			 needRepeatedEvent: true;
 			 startDelay: 500 milliSeconds;
 			 yourself).
 
@@ -8142,6 +8142,7 @@ ToSandBox class >> example_stillPressedEvent [
 		     id: #'my-element';
 		     yourself.
 	e addEventHandler: (ToStillPressedEventHandler new
+			 needRepeatedEvent: true;
 			 startDelay: 500 milliSeconds;
 			 delay: 200 milliSeconds;
 			 yourself).
@@ -10510,8 +10511,8 @@ ToSandBox class >> segmentedDashBoardFor: aSegmentedElement [
 	barPane := ToPane vertical.
 	barPane matchParent.
 	
-	checkingStrategyPane := self checkingStrategyChooserFor: aSegmentedElement.
-	confPane addChild: checkingStrategyPane.
+	"checkingStrategyPane := self checkingStrategyChooserFor: aSegmentedElement.
+	confPane addChild: checkingStrategyPane."
 	
 	mainPane addChildren: {
 			confPane.
@@ -10796,9 +10797,6 @@ ToSandBox class >> tabGroupElementDashBoardFor: aTabGroupElement [
 	barPane := ToPane vertical.
 	barPane matchParent.
 	barPane addChild: aTabGroupElement.
-
-	confPane addChild:
-		(self checkingStrategyChooserFor: aTabGroupElement).
 
 	mainPane addChildren: {
 			confPane.

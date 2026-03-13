@@ -34,13 +34,14 @@ ToCheckableState >> checked [
 ToCheckableState >> checked: aBooleanOrIndeterminate requestBefore: requestBefore [
 
 	| current req |
+
 	aBooleanOrIndeterminate ifNil: [ Error signal: 'nil not allowed' ].
 	(aBooleanOrIndeterminate isSymbol and: [
 		 owner allowIndeterminate not ]) ifTrue: [
 			Error signal:
 				'a symbol not allowed except when indeterminate is explicitly allowed ' ].
 	current := checked.
-	aBooleanOrIndeterminate = current ifTrue: [ ^ self ].
+
 	owner isDisabled ifTrue: [ ^ self ].
 	owner group ifNotNil: [ :grp |
 			(grp allowChangeWith: aBooleanOrIndeterminate forCheckable: owner)

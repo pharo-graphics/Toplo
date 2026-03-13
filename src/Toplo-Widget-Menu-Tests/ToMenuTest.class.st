@@ -74,6 +74,23 @@ ToMenuTest >> testBuilderDisableItemBeforeAdding [
 ]
 
 { #category : #tests }
+ToMenuTest >> testCheckableItem [
+
+	| item |
+	item := ToRadioMenuItem new
+			 label: (ToLabel text: 'Dark theme');
+			 yourself.
+	m addItem: item.
+	m popupEvent: nil.
+	self waitTestingSpaces.
+	self assert: m menuWindow itemList nodes size equals: 1.
+	item checked: true.
+	self assert: item isChecked.
+	item checked: false.
+	self deny: item isChecked
+]
+
+{ #category : #tests }
 ToMenuTest >> testDisableItemAfterAdding [
 
 	| n item |

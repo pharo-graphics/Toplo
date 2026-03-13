@@ -65,12 +65,6 @@ TToListNode >> isSelected [
 ]
 
 { #category : #'t - list node' }
-TToListNode >> listElementDo: aValuable [
-
-	self holder listElement ifNotNil: [ :le | aValuable value: le ]
-]
-
-{ #category : #'t - list node' }
 TToListNode >> removeFromList [
 
 	self holder removeNodeFromList 

@@ -6,6 +6,12 @@ Class {
 	#category : #'Toplo-Widget-List-ItemList'
 }
 
+{ #category : #accessing }
+ToCheckableListElement >> checkableListElement [
+
+	^ self
+]
+
 { #category : #initialization }
 ToCheckableListElement >> defaultNodeManagerClass [ 
 

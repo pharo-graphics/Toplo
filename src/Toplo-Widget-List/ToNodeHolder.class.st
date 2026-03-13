@@ -34,6 +34,12 @@ ToNodeHolder >> bindDataItem: aDataItem [
 ]
 
 { #category : #accessing }
+ToNodeHolder >> checkableListElement [
+
+	^ self infiniteElement listElement checkableListElement
+]
+
+{ #category : #accessing }
 ToNodeHolder >> data [
 
 

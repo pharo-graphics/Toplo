@@ -79,6 +79,12 @@ ToBasicListElement >> checkSelections [
 
 ]
 
+{ #category : #accessing }
+ToBasicListElement >> checkableListElement [
+
+	^ nil
+]
+
 { #category : #layout }
 ToBasicListElement >> consumeFinalStepCommands [
 

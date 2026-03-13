@@ -9,7 +9,7 @@ Class {
 
 { #category : #'command handling' }
 ToCheckableListElementEventHandler >> addIndexesSelectionCommand: aCommand [
-	"'addIndexesSelectionCommand: ' trace. aCommand indexes traceCr"
+	"'addIndexesSelectionCommand: ' trace. aCommand indexes traceCr."
 
 	aCommand operation deselectAllBefore ifTrue: [
 			currentTarget dataAccessor do: [ :checkable |
@@ -20,7 +20,7 @@ ToCheckableListElementEventHandler >> addIndexesSelectionCommand: aCommand [
 
 { #category : #'command handling' }
 ToCheckableListElementEventHandler >> addIntervalSelectionCommand: aCommand [
-	"'addIntervalSelectionCommand: ' trace. (aCommand from to: aCommand to) traceCr"
+	"'addIntervalSelectionCommand: ' trace. (aCommand from to: aCommand to) traceCr."
 	
 	aCommand operation deselectAllBefore ifTrue: [
 			currentTarget dataAccessor do: [ :checkable |

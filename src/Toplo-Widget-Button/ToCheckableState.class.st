@@ -46,13 +46,15 @@ ToCheckableState >> checked: aBooleanOrIndeterminate requestBefore: requestBefor
 			(grp allowChangeWith: aBooleanOrIndeterminate forCheckable: owner)
 				ifFalse: [ ^ self ] ].
 
-	owner listElementDo: [ :l |
+	owner checkableListElementDo: [ :l |
 			(l selectionMode isSingleSelection and: [
-				 aBooleanOrIndeterminate = false and: [ owner holder isSelected ] ])
-				ifTrue: [ ^ self ].
+				 aBooleanOrIndeterminate = false and: [ checked = true] ]) ifTrue: [
+				^ self ].
 			^ aBooleanOrIndeterminate = true
-				ifTrue: [ l selectedItem: owner ]
-				ifFalse: [ l deselectedItem: owner ] ].
+				  ifTrue: [
+						  l selectedItem: owner ]
+				  ifFalse: [
+						  l deselectedItem: owner ] ].
 
 	requestBefore ifTrue: [
 			req := ToCheckableCheckRequestEvent new

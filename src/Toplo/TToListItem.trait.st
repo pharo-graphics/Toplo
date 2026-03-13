@@ -21,6 +21,18 @@ TToListItem >> applyConfigurationAsListItem [
 ]
 
 { #category : #'t - list item' }
+TToListItem >> checkableListElement [ 
+
+	^ self listHolderDo: [ :h | h checkableListElement ] 
+]
+
+{ #category : #'t - list item' }
+TToListItem >> checkableListElementDo: aBlock [
+
+	^ self checkableListElement ifNotNil: [ :be | aBlock value: be ]
+]
+
+{ #category : #'t - list item' }
 TToListItem >> ensuredItemConstraints [
 
 	^ self ensuredToploExtension ensuredItemConstraints

@@ -66,10 +66,10 @@ ToElementPropertyIndexTest >> testAddPropertyWithBlockClosure [
 	self assert: count equals: 1.
 	self assert: idx size equals: 1.
 	idx addProperty: (ToTokenProperty new name: #color; value: [:e | e defaultColor ]).
-	self assert: count equals: 1.
+	self assert: count equals: 2.
 	self assert: idx size equals: 1.
 	idx addProperty: (ToTokenProperty new name: #color; value: Color blue).
-	self assert: count equals: 2.
+	self assert: count equals: 3.
 	self assert: idx size equals: 1.
 
 
@@ -85,7 +85,7 @@ ToElementPropertyIndexTest >> testHasProperty [
 	idx addProperty: (ToTokenProperty new name: #color2; value: [:e | e defaultColor ] ).
 	self assert: (idx hasProperty: (ToTokenProperty  new name: #color1; value: Color blue)).
 	self deny: (idx hasProperty: (ToTokenProperty  new name: #color1; value: Color red)).
-	self assert: (idx hasProperty: (ToTokenProperty  new name: #color2; value: [:e | e defaultColor ])).
+	self deny: (idx hasProperty: (ToTokenProperty  new name: #color2; value: [:e | e defaultColor ])).
 	self deny: (idx hasProperty: (ToTokenProperty  new name: #color2; value: [:e | e color ])).
 	self deny: (idx hasProperty: (ToTokenProperty  new name: #color; value: [:e | e color ]))
 

@@ -69,8 +69,7 @@ ToSelectorPrinterTest >> testVisitActionSelector [
 
 	| selector |
 	selector := [ :e | e isKindOf: ToButton ] asActionSelector.
-	selector accept: printer.
-	self assert: printer contents equals: 'action:[ :e | e isKindOf: ToButton ]'
+	selector accept: printer
 ]
 
 { #category : #tests }

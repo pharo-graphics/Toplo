@@ -324,7 +324,7 @@ BlElement >> fallBackValueOfTokenNamed: aSymbol inContext: aContext [
 			 str nextPutAll: String cr.
 			 str nextPutAll: '       '.
 			 str nextPutAll: 'Context: '.
-			 aContext sender printDebugOn: str ]) traceCr.
+			 aContext sender printOn: str ]) traceCr.
 	self dispatchEvent: (ToTokenPropertyNotFoundEvent new
 			 name: aSymbol;
 			 yourself).

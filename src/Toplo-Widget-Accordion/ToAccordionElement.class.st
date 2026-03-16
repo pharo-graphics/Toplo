@@ -1,6 +1,8 @@
 Class {
 	#name : #ToAccordionElement,
 	#superclass : #ToElement,
+	#traits : 'TToCheckable + TToListItem',
+	#classTraits : 'TToCheckable classTrait + TToListItem classTrait',
 	#instVars : [
 		'header',
 		'body'
@@ -15,23 +17,11 @@ ToAccordionElement >> applyConfiguration [
 	self applyConfigurationAsListItem
 ]
 
-{ #category : #'t - list item' }
-ToAccordionElement >> applyConfigurationAsListItem [
-
-	header applyConfigurationAsListItem
-]
-
 { #category : #accessing }
 ToAccordionElement >> bodyBuilder: aValuable [
 	"With a body content as argument"
 	
 	body builder: aValuable
-]
-
-{ #category : #accessing }
-ToAccordionElement >> checked: aBoolean [
-
-	self isExpanded: aBoolean
 ]
 
 { #category : #'expanding-collapsing' }
@@ -50,12 +40,6 @@ ToAccordionElement >> expand [
 ToAccordionElement >> expandIconAtStart: aBoolean [
 
 	header expandIconAtStart: aBoolean
-]
-
-{ #category : #accessing }
-ToAccordionElement >> group: aCheckableGroup [
-
-	header group: aCheckableGroup
 ]
 
 { #category : #accessing }
@@ -84,8 +68,14 @@ ToAccordionElement >> initialize [
 	self layout: BlLinearLayout vertical.
 	self hMatchParent.
 	self vFitContent.
+
+	self initializeAsCheckable.
 	self initializeHeader.
-	self initializeBody
+	self initializeBody.
+
+	self
+		addEventHandlerOn: ToCheckableCheckEvent
+		do: [ self privateExpanded: self isChecked ]
 ]
 
 { #category : #initialization }
@@ -101,16 +91,7 @@ ToAccordionElement >> initializeBody [
 ToAccordionElement >> initializeHeader [
 
 	header := self newHeader.
-	self addChild: header.
-	header addEventHandlerOn: ToCheckableCheckEvent do: [
-		self privateExpanded: self isChecked ].
-
-]
-
-{ #category : #testing }
-ToAccordionElement >> isChecked [ 
-	
-	^ header isChecked
+	self addChild: header
 ]
 
 { #category : #testing }
@@ -134,14 +115,7 @@ ToAccordionElement >> isExpanded [
 { #category : #accessing }
 ToAccordionElement >> isExpanded: aBoolean [
 
-	header checked: aBoolean
-]
-
-{ #category : #enumerating }
-ToAccordionElement >> itemConstraintsDo: aBlock [
-
-	header itemConstraintsDo: aBlock
-
+	self checked: aBoolean
 ]
 
 { #category : #initialization }
@@ -162,22 +136,10 @@ ToAccordionElement >> newRawSkin [
 	^ ToAccordionElementSkin new
 ]
 
-{ #category : #initialization }
-ToAccordionElement >> notifyChanged [
-
-	self dispatchEvent: ToAccordionCheckedEvent new
-]
-
 { #category : #accessing }
 ToAccordionElement >> preserveBody: aBoolean [
 
 	body preservedContent: aBoolean
-]
-
-{ #category : #'t - checkable - group' }
-ToAccordionElement >> privateChecked: aBoolean [
-
-	header privateChecked: aBoolean
 ]
 
 { #category : #testing }
@@ -185,24 +147,11 @@ ToAccordionElement >> privateExpanded: aBoolean [
 
 	aBoolean
 		ifTrue: [ body switchExpanded ]
-		ifFalse: [ body switchCollapsed ].
-	self notifyChanged
+		ifFalse: [ body switchCollapsed ]
 ]
 
 { #category : #testing }
 ToAccordionElement >> privateSwitchExpanded [
 
 	self isExpanded: self isExpanded not
-]
-
-{ #category : #'t - checkable - group' }
-ToAccordionElement >> registerInGroup: aGroup [
-
-	header registerInGroup: aGroup
-]
-
-{ #category : #'t - checkable - group' }
-ToAccordionElement >> unregisterFromGroup [
-
-	header unregisterFromGroup
 ]

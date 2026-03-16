@@ -38,7 +38,7 @@ ToSwitchButton >> initialize [
 	self icon: ToSwitchIcon new.
 	self initializeAsCheckable.
 	self checked: false.
-	self clickEventClass: ToCheckableChangedEvent.
+	self clickEventClass: ToCheckableCheckEvent.
 
 ]
 

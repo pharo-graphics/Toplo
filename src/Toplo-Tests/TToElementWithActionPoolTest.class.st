@@ -26,13 +26,13 @@ TToElementWithActionPoolTest >> testCheckAction [
 	checkable := ToCheckbox new labelText: 'XXXXX'; yourself.
 	space root addChild: checkable.
 	checkable checkAction: [ :evt | received := evt ].
-	checkable dispatchEvent: (ToCheckableChangedEvent new
+	checkable dispatchEvent: (ToCheckableCheckEvent new
 			 checked: true;
 			 yourself).
-	self assert: (received isKindOf: ToCheckableChangedEvent).
+	self assert: (received isKindOf: ToCheckableCheckEvent).
 	received := nil.
 	BlSpace simulateClickOn: checkable.
-	self assert: (received isKindOf: ToCheckableChangedEvent).
+	self assert: (received isKindOf: ToCheckableCheckEvent).
 
 ]
 
@@ -50,13 +50,13 @@ TToElementWithActionPoolTest >> testCheckActionWith [
 		checkAction: [ :evt |
 				received := evt.
 				value := evt target isChecked ].
-	checkable dispatchEvent: ToCheckableChangedEvent new.
-	self assert: (received isKindOf: ToCheckableChangedEvent).
+	checkable dispatchEvent: (ToCheckableCheckEvent checked: true).
+	self assert: (received isKindOf: ToCheckableCheckEvent).
 	self deny: value.
 	received := nil.
 	value := nil.
 	checkable checked: true.
-	self assert: (received isKindOf: ToCheckableChangedEvent).
+	self assert: (received isKindOf: ToCheckableCheckEvent).
 	self assert: value
 ]
 

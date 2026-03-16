@@ -426,8 +426,9 @@ ToSandBox class >> exampleCheckableListWithAccordions [
 
 	<script>
 	| list |
-	list := ToCheckableListElement infinite.
-	(1 to: 500) do: [ :i |
+	list := ToCheckableListElement new.
+	list selectionMode multiple: true.
+	1 to: 500 do: [ :i |
 		list addItem: (self accordionWithLabelText: 'Header ' , i asString) ].
 	list openInSpace.
 	^ list

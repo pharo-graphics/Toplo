@@ -1,8 +1,6 @@
 Class {
 	#name : #ToAccordionHeaderElement,
 	#superclass : #ToElement,
-	#traits : 'TToCheckable + TToListItem',
-	#classTraits : 'TToCheckable classTrait + TToListItem classTrait',
 	#instVars : [
 		'iconContainer',
 		'content',
@@ -25,6 +23,32 @@ ToAccordionHeaderElement class >> exampleWithLabel [
 ]
 
 { #category : #accessing }
+ToAccordionHeaderElement >> applyConfiguration [
+
+	super applyConfiguration.
+	expandIconAtStart
+		ifTrue: [
+				triplet startElement = iconContainer ifFalse: [
+					triplet startElement: iconContainer ].
+				triplet endElement = extraContainer ifFalse: [
+					triplet endElement: extraContainer ] ]
+		ifFalse: [
+				| end |
+				triplet startElement: nil.
+				triplet endElement: nil.
+				extraContainer removeFromParent.
+				iconContainer removeFromParent.
+				end := ToElement new
+					       fitContent;
+					       layout: BlLinearLayout horizontal;
+					       yourself.
+				end addChild: extraContainer.
+				end addChild: iconContainer.
+				end layout cellSpacing: 5.
+				triplet endElement: end ]
+]
+
+{ #category : #accessing }
 ToAccordionHeaderElement >> builder: aValuable [
 	"With an header as argument"
 
@@ -43,22 +67,7 @@ ToAccordionHeaderElement >> expandIconAtStart: aBoolean [
 
 	expandIconAtStart = aBoolean ifTrue: [ ^ self ].
 	expandIconAtStart := aBoolean.
-	expandIconAtStart
-		ifTrue: [
-			triplet startElement: iconContainer.
-			triplet endElement: extraContainer ]
-		ifFalse: [
-			| end |
-			triplet startElement: nil.
-			triplet endElement: nil.
-			end := ToElement new
-				       fitContent;
-				       layout: BlLinearLayout horizontal;
-				       yourself.
-			end addChild: extraContainer.
-			end addChild: iconContainer.
-			end layout cellSpacing: 5.
-			triplet endElement: end ]
+	self requestConfiguration 
 ]
 
 { #category : #accessing }
@@ -85,7 +94,6 @@ ToAccordionHeaderElement >> icon: aToImage [
 ToAccordionHeaderElement >> initialize [
 
 	super initialize.
-	self initializeAsCheckable.
 	self layout: BlLinearLayout horizontal.
 	self hMatchParent.
 	self vFitContent.
@@ -109,12 +117,6 @@ ToAccordionHeaderElement >> initialize [
 	self constraintsDo: [ :c | c linear vertical alignCenter ].
 	self addChild: triplet.
 	self expandIconAtStart: true
-]
-
-{ #category : #testing }
-ToAccordionHeaderElement >> isExpanded [ 
-
-	^ self isChecked
 ]
 
 { #category : #initialization }

@@ -10,7 +10,7 @@ ToCheckableActionLink >> linkWith: aCheckable [
 	| handler |
 	super linkWith: aCheckable.
 	handler := aCheckable
-		           addEventHandlerOn: ToCheckableChangedEvent
+		           addEventHandlerOn: ToCheckableCheckEvent
 		           do: [ :event | self requestNextRunWithEvent: event ].
 	self addedHandler: handler in: aCheckable
 ]

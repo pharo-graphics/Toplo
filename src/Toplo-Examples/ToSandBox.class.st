@@ -2031,19 +2031,19 @@ ToSandBox class >> example_CircularMenuPane [
 	space := BlSpace new.
 	iconProvider := ToMaterialDesignIconProvider.
 	circularMenu := ToCircularMenuPane new.
-	circularMenu layoutRadius: 150.
+	circularMenu layoutRadius: 100.
 
-	circularMenu innerRadialRatio: 0.1.
-	circularMenu outerRadialRatio: 0.95.
+	circularMenu innerRadialRatio: 0.25.
+	circularMenu outerRadialRatio: 1.0.
 
 	item := ToMenuItem new.
 	item icon: (iconProvider iconNamed: 'filled_checklist').
-	item constraints annulus sectorCentroidOffset: 40.
+	"item constraints annulus sectorCentroidOffset: 40."
 	circularMenu addItem: item.
 
 	item := ToMenuItem new.
 	item icon: (iconProvider iconNamed: 'outlined_morehoriz').
-	item constraints annulus sectorCentroidOffset: 40.
+	"item constraints annulus sectorCentroidOffset: 40."
 	circularMenu addItem: item.
 
 	item := ToMenuItem new.
@@ -2063,7 +2063,7 @@ ToSandBox class >> example_CircularMenuPane [
 	circularMenu addItem: item.
 
 	item := ToMenuItem new labelText: 'Inspect'.
-	item constraints annulus sectorAngleWeight: 0.40.
+"	item constraints annulus sectorAngleWeight: 0.20."
 	item clickAction: [ space inspect ].
 	circularMenu addItem: item.
 

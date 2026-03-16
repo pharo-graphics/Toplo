@@ -98,12 +98,7 @@ ToAnnulusCircularLayout >> layout: anElement in: aBounds context: aBlElementBoun
 				outerRadialRatio: self outerRadialRatio;
 				startAngle: sectorStartAngle;
 				endAngle: sectorStartAngle + sectorGap.
-			sectorStartAngle := sectorStartAngle + sectorGap.
-
-			pointFromCenter := self
-				                   pointFromCenter: aBounds center
-				                   through: centroid
-				                   atDistance: 100 ].
+			sectorStartAngle := sectorStartAngle + sectorGap ].
 	super
 		layout: anElement
 		in: aBounds

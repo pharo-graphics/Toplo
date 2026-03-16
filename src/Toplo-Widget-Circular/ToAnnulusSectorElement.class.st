@@ -3,6 +3,9 @@ Class {
 	#superclass : #ToElement,
 	#traits : 'TToAnnulusSectorLayoutUser',
 	#classTraits : 'TToAnnulusSectorLayoutUser classTrait',
+	#instVars : [
+		'radialGap'
+	],
 	#category : #'Toplo-Widget-Circular-Annulus'
 }
 
@@ -21,7 +24,7 @@ ToAnnulusSectorElement >> centroidAnchor [
 { #category : #initialization }
 ToAnnulusSectorElement >> defaultGeometry [
 
-	^ BlAnnulusSectorGeometry new
+	^ ToAnnulusSectorGeometry new 
 ]
 
 { #category : #initialization }
@@ -60,7 +63,31 @@ ToAnnulusSectorElement >> endAngle: anAngleInDegrees [
 ToAnnulusSectorElement >> initialize [
 
 	super initialize.
+	radialGap := 0.
 	self geometry: self defaultGeometry 
+]
+
+{ #category : #initialization }
+ToAnnulusSectorElement >> newGeometry [
+
+	^ self defaultGeometry
+		  radialGap: radialGap;
+		  yourself
+]
+
+{ #category : #accessing }
+ToAnnulusSectorElement >> radialGap [
+
+	^ radialGap
+]
+
+{ #category : #accessing }
+ToAnnulusSectorElement >> radialGap: aNumber [
+
+	radialGap = aNumber ifTrue: [ ^ self ].
+	radialGap := aNumber.
+	self geometry: self newGeometry 
+	
 ]
 
 { #category : #'t - annulus circular layout user' }

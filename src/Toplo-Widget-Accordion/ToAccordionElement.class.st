@@ -75,7 +75,7 @@ ToAccordionElement >> initialize [
 
 	self
 		addEventHandlerOn: ToCheckableCheckEvent
-		do: [ self privateExpanded: self isChecked ]
+		do: [self privateExpanded: self isChecked ]
 ]
 
 { #category : #initialization }

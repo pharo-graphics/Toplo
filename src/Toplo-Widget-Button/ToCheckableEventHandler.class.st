@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'event handling' }
-ToCheckableEventHandler >> checkableCheckEvent: anEvent [
+ToCheckableEventHandler >> checkableChangedEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
@@ -27,7 +27,7 @@ ToCheckableEventHandler >> clickEvent: anEvent [
 ToCheckableEventHandler >> eventsToHandle [
 
 	^ {
-		  ToCheckableCheckEvent.
+		  ToCheckableChangedEvent.
 		  BlClickEvent }
 ]
 

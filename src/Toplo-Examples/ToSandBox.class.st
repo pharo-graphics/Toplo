@@ -5614,7 +5614,6 @@ ToSandBox class >> example_TabGroupElementWithDaily [
 	tabs selecter selectIndex: 3.
 	tabs requestFocus.
 	dashBoard := self tabGroupElementDashBoardFor: tabs.
-	tabs disabled: true.
 	dashBoard openInSpace.
 	^ tabs
 ]

@@ -5,10 +5,10 @@ Class {
 }
 
 { #category : #'event handling' }
-ToSwitchButtonEventHandler >> checkableCheckEvent: anEvent [
+ToSwitchButtonEventHandler >> checkableChangedEvent: anEvent [
 
 	| target |
 	target := anEvent currentTarget.
 	target icon checked: anEvent checked.
-	super checkableCheckEvent: anEvent
+	super checkableChangedEvent: anEvent
 ]

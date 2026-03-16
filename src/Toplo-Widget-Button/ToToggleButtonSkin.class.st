@@ -23,7 +23,8 @@ ToToggleButtonSkin >> checkedSkinEvent: anEvent [
 ToToggleButtonSkin >> deselectedSkinEvent: anEvent [
 
 	super deselectedSkinEvent: anEvent.
-	anEvent elementDo: [ :e | e labelDo: [ :lab | lab requestNewSkin ] ]
+	anEvent elementDo: [ :e |
+		e labelDo: [ :lab | lab removeTokenNamed: #'color-text' ] ]
 ]
 
 { #category : #'event handling' }
@@ -97,7 +98,11 @@ ToToggleButtonSkin >> installSkinEvent: anEvent [
 ToToggleButtonSkin >> selectedSkinEvent: anEvent [
 
 	super selectedSkinEvent: anEvent.
-	anEvent elementDo: [ :e | e labelDo: [ :lab | lab requestNewSkin ] ]
+	anEvent elementDo: [ :e |
+			e labelDo: [ :lab |
+					lab
+						addTokenNamed: #'color-text'
+						withValue: (e valueOfTokenNamed: #'text-color-primary-checked') ] ]
 ]
 
 { #category : #'event handling' }

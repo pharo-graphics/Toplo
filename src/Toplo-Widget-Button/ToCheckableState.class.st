@@ -60,10 +60,10 @@ ToCheckableState >> checked: aBooleanOrIndeterminate requestBefore: requestBefor
 	requestBefore ifTrue: [
 			req := ToCheckableCheckRequestEvent new
 				       requestedAction: [
-					       self privateChecked: aBooleanOrIndeterminate ];
+					       self privateNotifyChecked: aBooleanOrIndeterminate ];
 				       yourself.
 			^ owner dispatchRequest: req ].
-	self privateChecked: aBooleanOrIndeterminate
+	self privateNotifyChecked: aBooleanOrIndeterminate
 ]
 
 { #category : #'checking protocol' }
@@ -126,6 +126,12 @@ ToCheckableState >> nextCheckValue [
 	^ self checked not
 ]
 
+{ #category : #'checking protocol' }
+ToCheckableState >> notifyChanged [ 
+
+	owner dispatchEvent: (ToCheckableChangedEvent checked: self isChecked)
+]
+
 { #category : #accessing }
 ToCheckableState >> owner [
 
@@ -156,6 +162,14 @@ ToCheckableState >> privateChecked: aBooleanOrIndeterminate [
 	group item is checked, then one can use this event 
 	(example: ToAccordionElement)"
 	owner dispatchEvent: (ToCheckableCheckEvent checked: checked)
+]
+
+{ #category : #'checking protocol' }
+ToCheckableState >> privateNotifyChecked: aBooleanOrIndeterminate [
+
+	checked = aBooleanOrIndeterminate ifTrue: [ ^ self ].
+	self privateChecked: aBooleanOrIndeterminate.
+	self notifyChanged 
 ]
 
 { #category : #'checking protocol' }

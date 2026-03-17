@@ -11,11 +11,11 @@ Class {
 { #category : #configuration }
 ToCircularMenuNode >> applyConfiguration [
 
-	| nodeContainerConstraints itemConstraints |
+	| nodeContainerConstraints itemConstraints nodeContainer |
 	super applyConfiguration.
 
-	nodeContainerConstraints := self holder nodeContainer constraints
-		                            annulus.
+	nodeContainer := self holder nodeContainer.
+	nodeContainerConstraints := nodeContainer constraints annulus.
 	itemConstraints := self item constraints annulus.
 
 	self constraintsDo: [ :c |
@@ -35,6 +35,7 @@ ToCircularMenuNode >> applyConfiguration [
 		itemConstraints sectorMeasurer.
 	nodeContainerConstraints sectorCentroidOffset:
 		itemConstraints sectorCentroidOffset.
+
 	self fitContent
 ]
 

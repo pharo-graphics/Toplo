@@ -3,7 +3,8 @@ Class {
 	#superclass : #BlLayoutConstraints,
 	#instVars : [
 		'sectorMeasurer',
-		'centroidOffset'
+		'centroidOffset',
+		'sectorRadialGap'
 	],
 	#category : #'Toplo-Widget-Circular-Annulus'
 }
@@ -64,4 +65,16 @@ ToAnnulusCircularLayoutConstraints >> sectorMeasurer [
 ToAnnulusCircularLayoutConstraints >> sectorMeasurer: aMeasurer [
 
 	sectorMeasurer := aMeasurer 
+]
+
+{ #category : #accessing }
+ToAnnulusCircularLayoutConstraints >> sectorRadialGap [
+
+	^ sectorRadialGap
+]
+
+{ #category : #accessing }
+ToAnnulusCircularLayoutConstraints >> sectorRadialGap: aNumber [
+
+	sectorRadialGap := aNumber
 ]

@@ -10,7 +10,7 @@ Class {
 { #category : #drawing }
 ToAnnulusSectorGeometry >> aeApplyTo: aeCanvas element: anElement [
 
-	radialGap isZero ifTrue: [
+	self radialGap isZero ifTrue: [
 		^ super aeApplyTo: aeCanvas element: anElement ].
 	
 	aeCanvas pathFactory: [ :cairoContext |
@@ -27,7 +27,7 @@ ToAnnulusSectorGeometry >> aeApplyTo: aeCanvas element: anElement [
 ToAnnulusSectorGeometry >> initialize [ 
 
 	super initialize.
-	radialGap := 3
+	radialGap := 0
 ]
 
 { #category : #private }
@@ -44,7 +44,7 @@ ToAnnulusSectorGeometry >> pointFromCenter: center through: centroid atDistance:
 { #category : #accessing }
 ToAnnulusSectorGeometry >> radialGap [
 
-	^ radialGap
+	^ radialGap ifNil: [ 0 ]
 ]
 
 { #category : #accessing }

@@ -1,8 +1,8 @@
 Class {
 	#name : #ToCircularMenu,
 	#superclass : #ToMenu,
-	#traits : 'TToAnnulusSectorLayoutUser + TToAnnulusCircularLayoutUser',
-	#classTraits : 'TToAnnulusSectorLayoutUser classTrait + TToAnnulusCircularLayoutUser classTrait',
+	#traits : 'TToAnnulusSectorLayoutUser + TToAnnulusCircularLayoutUser + TToCircularMenuListUser',
+	#classTraits : 'TToAnnulusSectorLayoutUser classTrait + TToAnnulusCircularLayoutUser classTrait + TToCircularMenuListUser classTrait',
 	#instVars : [
 		'encompassing'
 	],

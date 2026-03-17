@@ -1,8 +1,8 @@
 Class {
 	#name : #ToCircularMenuPane,
 	#superclass : #ToMenuPane,
-	#traits : 'TToAnnulusSectorLayoutUser + TToAnnulusCircularLayoutUser',
-	#classTraits : 'TToAnnulusSectorLayoutUser classTrait + TToAnnulusCircularLayoutUser classTrait',
+	#traits : 'TToAnnulusSectorLayoutUser + TToAnnulusCircularLayoutUser + TToCircularMenuListUser',
+	#classTraits : 'TToAnnulusSectorLayoutUser classTrait + TToAnnulusCircularLayoutUser classTrait + TToCircularMenuListUser classTrait',
 	#category : #'Toplo-Widget-Circular-Menu'
 }
 

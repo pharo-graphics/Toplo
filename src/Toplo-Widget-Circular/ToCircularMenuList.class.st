@@ -1,10 +1,23 @@
 Class {
 	#name : #ToCircularMenuList,
 	#superclass : #ToMenuItemListElement,
-	#traits : 'TToAnnulusSectorLayoutUser + TToAnnulusCircularLayoutUser',
-	#classTraits : 'TToAnnulusSectorLayoutUser classTrait + TToAnnulusCircularLayoutUser classTrait',
+	#traits : 'TToAnnulusSectorLayoutUser + TToAnnulusCircularLayoutUser + TToCircularMenuList',
+	#classTraits : 'TToAnnulusSectorLayoutUser classTrait + TToAnnulusCircularLayoutUser classTrait + TToCircularMenuList classTrait',
 	#category : #'Toplo-Widget-Circular-Menu'
 }
+
+{ #category : #configuration }
+ToCircularMenuList >> applyConfiguration [
+
+	super applyConfiguration.
+	self nodeContainersDo: [ :container |
+			| item radGap |
+			item := container node item.
+			radGap := item constraints annulus sectorRadialGap ifNil: [
+				          self defaultSectorRadialGap ].
+			container constraints annulus sectorRadialGap: radGap.
+			container radialGap: radGap ]
+]
 
 { #category : #initialization }
 ToCircularMenuList >> defaultInnerElementClass [ 

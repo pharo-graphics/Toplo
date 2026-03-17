@@ -9,8 +9,11 @@ Class {
 { #category : #'t - list selection element - private' }
 ToCircularMenuListSecondarySelectionElement >> boundsInListElement: aListElement [
 
-	| first last startBnds endBnds corner containers |
+	| first last startBnds endBnds corner containers rgap |
 	containers := self nodeContainers.
+	rgap := containers first radialGap ifNil: [0].
+	rgap := rgap min: (containers last radialGap ifNil: [0]).
+	self radialGap: rgap.
 	first := containers first.
 	last := containers last.
 	startBnds := (first measuredBounds inSpace inChild:

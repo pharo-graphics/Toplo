@@ -27,7 +27,7 @@ ToAnnulusSectorGeometry >> aeApplyTo: aeCanvas element: anElement [
 ToAnnulusSectorGeometry >> initialize [ 
 
 	super initialize.
-	radialGap := 4
+	radialGap := 3
 ]
 
 { #category : #private }

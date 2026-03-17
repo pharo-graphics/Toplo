@@ -137,8 +137,7 @@ ToAlbum >> initialize [
 	| sharedDistributor |
 	super initialize.
 	useScrollbar := false.
-	self next: (ToAlbumInnerElement new next: self defaultEditorElement).
-	self next addChild: self next next.
+	self next: self defaultEditorElement.
 	self next rootAlbumElement: self.
 	self next primarySelectionElementClass:
 		self primarySelectionElementClass.

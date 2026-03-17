@@ -2663,7 +2663,7 @@ ToSandBox class >> example_EditorWithPlaceholder [
 	placeholderString := ('Here is a placeholder text' , String cr
 	                    , 'visible only if the text is empty').
 
-	view := ToTextPane new
+	view := ToAlbum new
 		        placeholderString: placeholderString;
 		        withRowNumbers;
 		        withSaveCapability;
@@ -5846,17 +5846,11 @@ ToSandBox class >> example_TagFiniteList [
 ]
 
 { #category : #album }
-ToSandBox class >> example_TextPane [
-
-	^ self codeEditorIn: ToTextPane new
-]
-
-{ #category : #album }
 ToSandBox class >> example_TextPaneWithGrip [
 
 	| text album grip |
 	text := self methodText asRopedText.
-	album := ToTextPane new.
+	album := ToAlbum new.
 	album useScrollbar: true.
 	album position: 100 asPoint.
 	album width: 400.
@@ -7832,6 +7826,19 @@ ToSandBox class >> example_rootFrameWithContextMenu_menuPaneVertical [
 
 { #category : #image }
 ToSandBox class >> example_rotateImage [
+
+	| im |
+	im := ToImage new innerImage: self pathBugSVG.
+	im position: 100 asPoint.
+	im extent: 30 asPoint.
+	im transformDo: [ :t | t rotateBy: 90 ].
+	"im rotateBy: 90."
+	im border: (BlBorder paint: Color black width: 1).
+	im openInSpace
+]
+
+{ #category : #image }
+ToSandBox class >> example_rotateImage2 [
 
 	| im  |
 	im := ToImage new innerImage: (Smalltalk ui icons iconNamed: #pharoBig).

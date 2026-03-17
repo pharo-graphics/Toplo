@@ -402,7 +402,9 @@ ToLabel >> rotateBy: aDegreesAngle [
 
 	self innerElement
 		constraintsDo: [ :c | c accountTransformation ];
-		transformDo: [ :t | t rotateBy: aDegreesAngle ]
+		transformDo: [ :t | 
+			t normalizedOrigin: 0.5 @ 0.5.
+			t rotateBy: aDegreesAngle ]
 ]
 
 { #category : #'api - text style' }

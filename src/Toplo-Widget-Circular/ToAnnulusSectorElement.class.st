@@ -10,6 +10,16 @@ Class {
 }
 
 { #category : #accessing }
+ToAnnulusSectorElement >> arcLength [
+
+	| delta radius arc |
+	delta := self endAngle - self startAngle \\ (2 * Float pi).
+	radius := self outerRadialRatio * (self width / 2).
+	arc := radius * delta.
+	^ arc
+]
+
+{ #category : #accessing }
 ToAnnulusSectorElement >> centroid [ 
 
 	^ self constraints annulusSector centroid
@@ -19,6 +29,16 @@ ToAnnulusSectorElement >> centroid [
 ToAnnulusSectorElement >> centroidAnchor [
 
 	^ (self constraints anchors newExplicitReceiverWith: self) centroidAnchor
+]
+
+{ #category : #accessing }
+ToAnnulusSectorElement >> chordLength [
+
+	| delta chord |
+	delta := self endAngle - self startAngle \\ (2 * Float pi).
+	chord := 2 * (self outerRadialRatio * self width / 2)
+	         * (delta / 2) sin.
+	^ chord
 ]
 
 { #category : #initialization }
@@ -65,6 +85,26 @@ ToAnnulusSectorElement >> initialize [
 	super initialize.
 	radialGap := 0.
 	self geometry: self defaultGeometry 
+]
+
+{ #category : #accessing }
+ToAnnulusSectorElement >> innerArcLength [
+
+	| delta radius arc |
+	delta := self endAngle - self startAngle \\ (2 * Float pi).
+	radius := self innerRadialRatio * (self width / 2).
+	arc := radius * delta.
+	^ arc
+]
+
+{ #category : #accessing }
+ToAnnulusSectorElement >> innerChordLength [
+
+	| delta chord |
+	delta := self endAngle - self startAngle \\ (2 * Float pi).
+	chord := 2 * (self innerRadialRatio * self width / 2)
+	         * (delta / 2) sin.
+	^ chord
 ]
 
 { #category : #accessing }

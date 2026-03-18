@@ -67,6 +67,12 @@ ToAnnulusSectorElement >> initialize [
 	self geometry: self defaultGeometry 
 ]
 
+{ #category : #accessing }
+ToAnnulusSectorElement >> innerEdgePoint [ 
+
+	^ self constraints annulusSector innerEdgePoint
+]
+
 { #category : #initialization }
 ToAnnulusSectorElement >> newGeometry [
 

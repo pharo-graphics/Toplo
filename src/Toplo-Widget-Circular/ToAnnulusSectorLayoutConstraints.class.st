@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'centroid',
 		'edgePoint',
-		'middleAngle'
+		'middleAngle',
+		'innerEdgePoint'
 	],
 	#category : #'Toplo-Widget-Circular-Annulus'
 }
@@ -31,6 +32,18 @@ ToAnnulusSectorLayoutConstraints >> edgePoint [
 ToAnnulusSectorLayoutConstraints >> edgePoint: anObject [
 
 	edgePoint := anObject
+]
+
+{ #category : #accessing }
+ToAnnulusSectorLayoutConstraints >> innerEdgePoint [
+
+	^ innerEdgePoint ifNil: [ 0 @ 0 ]
+]
+
+{ #category : #accessing }
+ToAnnulusSectorLayoutConstraints >> innerEdgePoint: anObject [
+
+	innerEdgePoint := anObject
 ]
 
 { #category : #accessing }

@@ -76,15 +76,20 @@ ToAnnulusCircularLayout >> layout: anElement in: aBounds context: aBlElementBoun
 	sectorStartAngle := self startAngle + self startAngleOffset.
 
 	sectors do: [ :each |
-			| centroid edgePoint pointFromCenter sectorGap |
+			| centroid edgePoint innerEdgePoint sectorGap |
 			centroid := self centroidOf: each in: anElement.
 			edgePoint := self
 				             pointOnPeripheryFromCenter: aBounds center
 				             through: centroid
 				             in: anElement.
+			innerEdgePoint := self
+				                  pointOnInnerPeripheryFromCenter: aBounds center
+				                  through: centroid
+				                  in: anElement.
 
 			each constraints annulusSector centroid: centroid.
 			each constraints annulusSector edgePoint: edgePoint.
+			each constraints annulusSector innerEdgePoint: innerEdgePoint.
 			each extent: anElement measuredExtent.
 
 			sectorGap := (each constraints annulus
@@ -129,6 +134,21 @@ ToAnnulusCircularLayout >> pointFromCentroid: centroid awayFromCenter: center at
 ]
 
 { #category : #private }
+ToAnnulusCircularLayout >> pointOnInnerPeripheryFromCenter: center through: centroid in: container [
+
+	| direction unit maxRadius |
+	direction := centroid - center.
+	direction isZero ifTrue: [ ^ center ].
+
+	unit := direction normalized.
+
+	maxRadius := (container bounds extent x min:
+		              container bounds extent y) / 2 * self innerRadialRatio.
+
+	^ center + (unit * maxRadius)
+]
+
+{ #category : #private }
 ToAnnulusCircularLayout >> pointOnPeripheryFromCenter: center through: centroid in: container [
 
 	| direction unit maxRadius |
@@ -138,7 +158,7 @@ ToAnnulusCircularLayout >> pointOnPeripheryFromCenter: center through: centroid 
 	unit := direction normalized.
 
 	maxRadius := (container bounds extent x min:
-		              container bounds extent y) / 2.
+		              container bounds extent y) / 2 * self outerRadialRatio.
 
 	^ center + (unit * maxRadius)
 ]

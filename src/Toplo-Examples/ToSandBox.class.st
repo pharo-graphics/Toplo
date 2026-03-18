@@ -2085,7 +2085,7 @@ ToSandBox class >> example_CircularMenuPaneWithSubmenus [
 	circularMenu defaultSectorRadialGap: 3.
 	circularMenu layoutRadius: 150.
 
-	circularMenu innerRadialRatio: 0.1.
+	circularMenu innerRadialRatio: 0.25.
 	circularMenu outerRadialRatio: 0.95.
 
 	item := ToCircularMenu new icon:

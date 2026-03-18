@@ -20,7 +20,7 @@ ToAnnulusSectorGeometry >> aeApplyTo: aeCanvas element: anElement [
 				to: self endAngle degreesToRadians
 				innerRadius: self absoluteInnerRadius
 				outerRadius: self absoluteOuterRadius
-				gap: radialGap ]
+				gap: self radialGap ]
 ]
 
 { #category : #initialization }

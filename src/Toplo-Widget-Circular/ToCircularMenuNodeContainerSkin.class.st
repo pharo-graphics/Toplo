@@ -21,9 +21,40 @@ ToCircularMenuNodeContainerSkin >> installSkinEvent: anEvent [
 ]
 
 { #category : #'event handling' }
+ToCircularMenuNodeContainerSkin >> installSkinEventExperimental2: anEvent [
+
+	anEvent elementDo: [ :e |
+			| bezierPoints |
+			e border: (BlBorder paint: Color blue width: 2).
+			e whenLayoutedDoOnce: [
+					| outerBezier innerBezier |
+					bezierPoints := e
+						                bezierControlPointsForRadius: e outerRadius - 4
+						                withStartRadialOffset: 8 withEndRadialOffset: 8.
+					outerBezier := (BlBezierCurveGeometry controlPoints: bezierPoints)
+						               asElement.
+					outerBezier border: (BlBorder paint: Color blue width: 6).
+					e addChild: outerBezier.
+
+					bezierPoints := e
+						                bezierControlPointsForRadius: e innerRadius + 4
+						                withStartRadialOffset: 0 withEndRadialOffset: (e innerArcLength / 2) - 2.
+					innerBezier := (BlBezierCurveGeometry controlPoints: bezierPoints)
+						               asElement.
+					innerBezier border: (BlBorder paint: Color blue width: 4).
+					e addChild: innerBezier.
+					bezierPoints := e
+						                bezierControlPointsForRadius: e innerRadius + 4
+						                withStartRadialOffset: (e innerArcLength / 2) - 2 withEndRadialOffset: 0.
+					innerBezier := (BlBezierCurveGeometry controlPoints: bezierPoints)
+						               asElement.
+					innerBezier border: (BlBorder paint: Color blue width: 4).
+					e addChild: innerBezier ] ]
+]
+
+{ #category : #'event handling' }
 ToCircularMenuNodeContainerSkin >> installSkinEventExperimental: anEvent [
 
-	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 			| rotation midAngle element |
 			e border: (e valueOfTokenNamed: #'color-border').

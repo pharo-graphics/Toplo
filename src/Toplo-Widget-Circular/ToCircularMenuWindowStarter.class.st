@@ -17,7 +17,9 @@ ToCircularMenuWindowStarter >> startWindow: aWindow fromManager: aManager onEven
 
 	" if encompassing, then a sub menu window must be added *** before *** the parent menu 
 	window or menu pane to not hide it (let it over the sub-menu) 
-	and allow user interactions with the parent."
+	and allow user interactions with the parent.
+	Morover, the parent of the sub-menu window must be the parent menu window parent 
+	(the menu and the sub-menu are siblings)"
 	menuItem encompassing ifTrue: [
 			| sibling parent |
 			sibling := menuItem isSubmenu

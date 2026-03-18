@@ -30,25 +30,20 @@ ToCircularMenuNodeContainerSkin >> installSkinEventExperimental2: anEvent [
 					| outerBezier innerBezier |
 					bezierPoints := e
 						                bezierControlPointsForRadius: e outerRadius - 4
-						                withStartRadialOffset: 8 withEndRadialOffset: 8.
+						                withStartRadialOffset: 8
+						                withEndRadialOffset: 8.
 					outerBezier := (BlBezierCurveGeometry controlPoints: bezierPoints)
 						               asElement.
 					outerBezier border: (BlBorder paint: Color blue width: 6).
 					e addChild: outerBezier.
 
 					bezierPoints := e
-						                bezierControlPointsForRadius: e innerRadius + 4
-						                withStartRadialOffset: 0 withEndRadialOffset: (e innerArcLength / 2) - 2.
+						                bezierControlPointsForRadius: e innerRadius + 3
+						                withStartRadialOffset: 0
+						                withEndRadialOffset: 0.
 					innerBezier := (BlBezierCurveGeometry controlPoints: bezierPoints)
 						               asElement.
-					innerBezier border: (BlBorder paint: Color blue width: 4).
-					e addChild: innerBezier.
-					bezierPoints := e
-						                bezierControlPointsForRadius: e innerRadius + 4
-						                withStartRadialOffset: (e innerArcLength / 2) - 2 withEndRadialOffset: 0.
-					innerBezier := (BlBezierCurveGeometry controlPoints: bezierPoints)
-						               asElement.
-					innerBezier border: (BlBorder paint: Color blue width: 4).
+					innerBezier border: (BlBorder paint: Color blue width: 3).
 					e addChild: innerBezier ] ]
 ]
 

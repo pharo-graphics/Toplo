@@ -10,7 +10,10 @@ Class {
 ToCircularMenuWindow >> applyConfiguration [
 
 	super applyConfiguration.
-	self extent: (self layoutRadius * 2) asPoint
+	self extent: (self layoutRadius * 2) asPoint.
+	" ***  notice that the background should be transparent. 
+	The background should be set in the node containers "
+	self background: Color transparent
 ]
 
 { #category : #'t - relayoutable window element - accessing' }

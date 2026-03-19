@@ -139,7 +139,7 @@ BlElement >> bottomUpLocalThemeDo: aBlock [
 	self toploExtensionDo: [ :te |
 			te installedThemeDo: [ :th |
 					aBlock value: th ] ].
-	self parentDo: [ :p | p bottomUpLocalThemeDo: aBlock ]
+	self inheritedThemeHolderDo: [ :p | p bottomUpLocalThemeDo: aBlock ]
 ]
 
 { #category : #'*Toplo-LookAndFeel' }
@@ -410,6 +410,13 @@ BlElement >> holder: aNodeHolder [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> inheritedThemeHolderDo: aBlock [
+	" evaluate a block the parent that can hold my inherited theme "
+
+	^ self parentDo: aBlock
+]
+
+{ #category : #'*Toplo' }
 BlElement >> installRawStyle [
 
 	
@@ -547,11 +554,10 @@ BlElement >> localTheme: aTheme [
 BlElement >> lookupTheme [
 
 	| found |
-	self bottomUpLocalThemeDo: [ :th | found := th ].
-	found ifNil: [
-			found := self space
-				         ifNil: [ ToSpaceNotFoundError signal ]
-				         ifNotNil: [ :sp | sp toTheme ] ].
+	self bottomUpLocalThemeDo: [ :th | ^ th ].
+	found := self space
+		         ifNil: [ ToSpaceNotFoundError signal ]
+		         ifNotNil: [ :sp | sp toTheme ].
 	found ifNil: [ ToThemeNotFoundError signal ].
 	^ found
 ]

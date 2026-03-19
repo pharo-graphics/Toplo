@@ -138,6 +138,21 @@ ToMenuWindow >> newRawSkin [
 	^ ToMenuWindowSkin new
 ]
 
+{ #category : #accessing }
+ToMenuWindow >> parentMenuWindow [
+
+	^ self menuItem parentMenu ifNotNil: [ :pm | pm menuWindow ]
+]
+
+{ #category : #accessing }
+ToMenuWindow >> parentMenuWindowOrMenuPane [
+
+	^ self menuItem parentMenuOrMenuPane ifNotNil: [ :pm |
+			  pm isMenuPane
+				  ifTrue: [ pm ]
+				  ifFalse: [ pm menuWindow ] ]
+]
+
 { #category : #'t - anchored window element - displaying' }
 ToMenuWindow >> withAllSubwindowsDo: aBlock [
 

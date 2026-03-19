@@ -2149,11 +2149,13 @@ ToSandBox class >> example_CircularMenuPaneWithSubmenus [
 	circularMenu addItem: item.
 
 	item := ToMenuItem new labelText: 'Inspect'.
-	"item clickAction: [ space inspect ]."
+	item clickAction: [ space root inspect ].
 	circularMenu addItem: item.
 
 	circularMenu position: 150 asPoint.
+	
 	space root addChild: circularMenu.
+	circularMenu localTheme: ToRawDarkTheme new.
 	space show.
 	^ circularMenu
 ]
@@ -2291,6 +2293,7 @@ ToSandBox class >> example_CircularMenuWithSubmenus [
 	circularMenu addItem: item.
 
 	space root addChild: circularMenu.
+	circularMenu localTheme: ToRawDarkTheme new.
 	space show.
 	^ circularMenu
 ]

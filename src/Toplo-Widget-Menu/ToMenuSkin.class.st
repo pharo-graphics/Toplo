@@ -27,6 +27,7 @@ ToMenuSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
+			e background: (e valueOfTokenNamed: #'color-bg-container').
 			(e isSubmenu or: [ e showExpandIcon ]) ifTrue: [
 					| arrowIm |
 					arrowIm := self arrowImageFor: e.

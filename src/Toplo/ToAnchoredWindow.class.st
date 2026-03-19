@@ -24,6 +24,14 @@ ToAnchoredWindow >> checkPickOutside: aBoolean [
 	self checkOutsideEvent: aBoolean
 ]
 
+{ #category : #enumerating }
+ToAnchoredWindow >> inheritedThemeHolderDo: aBlock [
+
+	^ self anchorElement localTheme
+		  ifNil: [ super inheritedThemeHolderDo: aBlock ]
+		  ifNotNil: [ aBlock value: self anchorElement ]
+]
+
 { #category : #testing }
 ToAnchoredWindow >> isActionRunnableAfter: aTimeStamp [
 

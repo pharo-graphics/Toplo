@@ -59,8 +59,9 @@ ToAnchoredWindow >> onMeasure: anExtentMeasurementSpec [
 ToAnchoredWindow >> toThemeInstalled [
 
 	| lt |
-	self anchorElement ifNotNil: [ :e |
-		lt := e lookupTheme.
-		self localTheme = lt ifFalse: [ self localTheme: lt ] ].
+	self localTheme ifNil: [
+			self anchorElement ifNotNil: [ :e |
+					lt := e lookupTheme.
+					self localTheme: lt ] ].
 	super toThemeInstalled
 ]

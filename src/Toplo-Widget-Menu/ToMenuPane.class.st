@@ -182,6 +182,14 @@ ToMenuPane >> onAddedInItemBarOwner: aMenuItemBar [
 	aMenuItemBar onAddedMenuPane: self
 ]
 
+{ #category : #'t - item list user - adding/removing' }
+ToMenuPane >> onAddedItem: anItem [
+
+	self onAddedAnyItemKind: anItem.
+	anItem onAddedInItemBarOwner: self.
+
+]
+
 { #category : #'t - menu item list user - double dispatch' }
 ToMenuPane >> onAddedMenu: aMenu [
 

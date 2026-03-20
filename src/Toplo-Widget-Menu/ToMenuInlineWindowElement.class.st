@@ -92,13 +92,3 @@ ToMenuInlineWindowElement >> root [
 
 	^ self
 ]
-
-{ #category : #'api - displaying' }
-ToMenuInlineWindowElement >> toThemeInstalled [
-
-	| lt |
-	self anchorElement ifNotNil: [ :e |
-		lt := e lookupTheme.
-		self localTheme = lt ifFalse: [ self localTheme: lt ] ].
-	super toThemeInstalled
-]

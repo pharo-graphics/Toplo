@@ -69,6 +69,15 @@ ToMenuItemElement >> initialize [
 ]
 
 { #category : #testing }
+ToMenuItemElement >> isCircularMenuItem [
+
+	^ self
+		  withAllParentsDetect: [ :p | p isKindOf: ToCircularMenuNodeContainer ]
+		  ifFound: [ :p | true ]
+		  ifNone: [ false ]
+]
+
+{ #category : #testing }
 ToMenuItemElement >> isInline [
 
 	^ false

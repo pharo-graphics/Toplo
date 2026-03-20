@@ -27,8 +27,12 @@ ToMenuSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-			e background: (e valueOfTokenNamed: #'color-bg-container').
-			(e isSubmenu or: [ e showExpandIcon ]) ifTrue: [
+			e isCircularMenuItem
+				ifTrue: [ e background: Color transparent ]
+				ifFalse: [
+						e parentMenuOrMenuPane ifNil: [
+							e background: (e valueOfTokenNamed: #'color-bg-container') ] ].
+			((e isSubmenu and: [ e isCircularMenuItem not ]) or: [ e showExpandIcon ]) ifTrue: [
 					| arrowIm |
 					arrowIm := self arrowImageFor: e.
 					arrowIm extent:

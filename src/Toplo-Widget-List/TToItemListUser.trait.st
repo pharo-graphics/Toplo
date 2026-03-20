@@ -6,7 +6,7 @@ Trait {
 { #category : #'t - item list user - adding/removing' }
 TToItemListUser >> addAllItems: aCollection [
 
-	self itemList addAllItems: aCollection
+	aCollection do: [ :item | self addItem: item ]
 ]
 
 { #category : #'t - item list user - adding/removing' }

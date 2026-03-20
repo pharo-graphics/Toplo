@@ -17,6 +17,7 @@ ToCircularMenuNodeContainerSkin >> installSkinEvent: anEvent [
 
 	super installSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
+		e background: (e valueOfTokenNamed: #'color-bg-container').
 		e border: (e valueOfTokenNamed: #'color-border') ]
 ]
 

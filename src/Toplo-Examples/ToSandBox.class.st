@@ -1838,6 +1838,43 @@ ToSandBox class >> example_CircularContextMenu [
 	space show
 ]
 
+{ #category : #'circular menu' }
+ToSandBox class >> example_CircularContextMenuWithSubmenus [
+
+	| vpane |
+	vpane := ToPane vertical matchParent.
+	vpane layout: BlBasicLayout new.
+	vpane useCircularContextMenu.
+
+	vpane contextMenuBuilder: [ :contextMenu :request |
+			| menuItems item subMenu |
+			menuItems := OrderedCollection new.
+			contextMenu layoutRadius: 80.
+			contextMenu localTheme: ToRawDarkTheme new.
+
+			1 to: 8 do: [ :i |
+					item := ToCircularMenu new.
+					item layoutRadius: 60.
+					item icon:
+						(ToMaterialDesignIconProvider iconNamed: 'outlined_settings').
+
+					subMenu := ToMenuItem new labelText: 'Sub 1.1'.
+					subMenu constraints annulus sectorAngleWeight: 0.5.
+					item addItem: subMenu.
+
+					subMenu := ToMenuItem new.
+					subMenu icon:
+						(ToMaterialDesignIconProvider iconNamed: 'outlined_info').
+					subMenu constraints annulus sectorAngleWeight: 0.5.
+					item addItem: subMenu.
+
+					menuItems add: item ].
+
+			contextMenu addAllItems: menuItems ].
+
+	vpane openInSpace
+]
+
 { #category : #circular }
 ToSandBox class >> example_CircularElement [
 
@@ -1915,6 +1952,7 @@ ToSandBox class >> example_CircularMenu [
 	space := BlSpace new.
 	iconProvider := ToMaterialDesignIconProvider.
 	circularMenu := ToCircularMenu new.
+	circularMenu localTheme: ToRawDarkTheme new.
 	circularMenu defaultSectorRadialGap: 3.
 	circularMenu windowPlacement: (ToActionPlacement new
 			 action: [ :theWin |

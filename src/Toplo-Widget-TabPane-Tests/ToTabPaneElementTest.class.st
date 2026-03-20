@@ -156,6 +156,7 @@ ToTabPaneElementTest >> testCloseUnselectedPage [
 	self deny: secondButton isSelected.
 	" after the click, the remove button should be visible "
 	BlSpace simulateMouseMoveInside: firstButton removeButton.
+	self waitTestingSpaces.
 	BlSpace simulateClickOn: firstButton removeButton.
 	self waitTestingSpacesTimeout: 400 milliSeconds.
 	self assert: clicked.
@@ -238,6 +239,7 @@ ToTabPaneElementTest >> testCloseUnselectedPage4 [
 	" one have first to ensure that the remove button is visible 
 	(with Raw skin, the remove button is only visible when the mouse is over its tab button) "
 	BlSpace simulateMouseMoveInside: firstButton removeButton.
+	self waitTestingSpaces.
 	BlSpace simulateClickOn: firstButton removeButton.
 	self waitTestingSpaces.
 	self assert: tabPane items size equals: 1.

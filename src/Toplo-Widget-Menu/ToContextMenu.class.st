@@ -108,18 +108,6 @@ ToContextMenu >> newItemList [
 	^ ToMenuItemListElement new
 ]
 
-{ #category : #'t - menu item list user - double dispatch' }
-ToContextMenu >> onAddedMenu: aMenu [
-
-	aMenu isSubmenu: true
-]
-
-{ #category : #'t - menu item list user - double dispatch' }
-ToContextMenu >> onRemovedMenu: aMenu [
-
-	aMenu isSubmenu: false
-]
-
 { #category : #'t - menu window model' }
 ToContextMenu >> rootMenu [
 

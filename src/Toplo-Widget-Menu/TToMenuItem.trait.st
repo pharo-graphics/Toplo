@@ -67,9 +67,11 @@ TToMenuItem >> menuListOwnerDo: aValuable [
 { #category : #'t - menu item' }
 TToMenuItem >> menuPane [
 
-	self withAllParentsReverseDo: [ :e |
-		(e isKindOf: ToMenuPane) ifTrue: [ ^ e ] ].
-	^ nil
+	self flag: #ToBeChecked.
+	^ self menuListOwner ifNotNil: [ :mlo |
+			  mlo isMenuPane
+				  ifTrue: [ mlo ]
+				  ifFalse: [ ] ]
 ]
 
 { #category : #'t - menu item' }
@@ -98,23 +100,6 @@ TToMenuItem >> parentMenuOrMenuPane [
 TToMenuItem >> parentMenuOrMenuPaneDo: aBlock [
 
 	self parentMenuOrMenuPane ifNotNil: [ :p | aBlock value: p ]
-]
-
-{ #category : #'t - menu item' }
-TToMenuItem >> rootMenuOrMenuPane [
-
-	^ self parentMenu
-		  ifNil: [
-		  self menuPane
-			  ifNil: [ self ]
-			  ifNotNil: [ :rmp | rmp rootMenuPane ] ]
-		  ifNotNil: [ :pm | pm rootMenuOrMenuPane ]
-]
-
-{ #category : #'t - menu item' }
-TToMenuItem >> rootMenuOrMenuPaneDo: aBlock [
-
-	self rootMenuOrMenuPane ifNotNil: [ :p | aBlock value: p ]
 ]
 
 { #category : #'t - menu item' }

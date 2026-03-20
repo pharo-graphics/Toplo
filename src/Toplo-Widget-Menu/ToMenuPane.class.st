@@ -94,7 +94,6 @@ ToMenuPane >> initialize [
 	self initializeAsMenuItemListUser.
 
 	autoOpen := false.
-	isSubPane := false.
 	self layout: BlLinearLayout horizontal.
 	self layout alignCenter.
 	self addEventHandler: ToMenuPaneEventHandler new.
@@ -137,15 +136,12 @@ ToMenuPane >> isMenuPane [
 ]
 
 { #category : #testing }
-ToMenuPane >> isSubPane [ 
+ToMenuPane >> isSubPane [
 
-	^ isSubPane
-]
-
-{ #category : #accessing }
-ToMenuPane >> isSubPane: aBoolean [
-
-	isSubPane := aBoolean
+	^ self
+		  allParentsDetect: [ :p | p isKindOf: ToMenuPane ]
+		  ifFound: [ :p | true ]
+		  ifNone: [ false ]
 ]
 
 { #category : #'t - item list user - accessing' }
@@ -179,27 +175,15 @@ ToMenuPane >> newRawSkin [
 { #category : #'adding-removing' }
 ToMenuPane >> onAddedInItemBarOwner: aMenuItemBar [
 
-	aMenuItemBar onAddedMenuPane: self
-]
-
-{ #category : #'t - item list user - adding/removing' }
-ToMenuPane >> onAddedItem: anItem [
-
-	self onAddedAnyItemKind: anItem.
-	anItem onAddedInItemBarOwner: self.
-
-]
-
-{ #category : #'t - menu item list user - double dispatch' }
-ToMenuPane >> onAddedMenu: aMenu [
-
-	aMenu isMenuPaneMenu: true.
+	self unselectable: true.
+	self requestConfiguration.
 ]
 
 { #category : #'adding-removing' }
 ToMenuPane >> onRemovedFromItemBarOwner: aMenuItemBar [
 
-	aMenuItemBar onRemovedMenuPane: self
+	self unselectable: false.
+	self requestConfiguration 
 ]
 
 { #category : #accessing }

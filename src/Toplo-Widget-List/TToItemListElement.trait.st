@@ -142,7 +142,7 @@ TToItemListElement >> removeItem: anItem [
 { #category : #'t - item list - unselectable/selectable' }
 TToItemListElement >> selectableItem: anItem [
 
-	self selectableAtPosition: anItem positionInBar
+	self selectableAtPosition: anItem positionInList
 ]
 
 { #category : #'t - item list - hidden/visible' }

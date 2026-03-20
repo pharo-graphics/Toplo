@@ -29,11 +29,11 @@ ToMenuFiller >> initialize [
 { #category : #'adding-removing' }
 ToMenuFiller >> onAddedInItemBarOwner: aMenu [
 
-	aMenu onAddedFillerMenuItem: self
+	self unselectable: true
 ]
 
 { #category : #'adding-removing' }
 ToMenuFiller >> onRemovedFromItemBarOwner: aMenu [
 
-	aMenu onRemovedFillerMenuItem: self
+	self unselectable: false
 ]

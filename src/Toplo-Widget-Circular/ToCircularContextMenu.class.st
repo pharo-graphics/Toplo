@@ -87,21 +87,6 @@ ToCircularContextMenu >> newRawSkin [
 	^ ToCircularMenuWindowSkin new
 ]
 
-{ #category : #'t - item list user - adding/removing' }
-ToCircularContextMenu >> onAddedItem: anItem [
-
-	self onAddedAnyItemKind: anItem.
-	anItem onAddedInItemBarOwner: self.
-
-]
-
-{ #category : #'t - menu item list user - double dispatch' }
-ToCircularContextMenu >> onAddedMenu: aMenu [
-
-	"super onAddedMenu: aMenu."
-	aMenu isSubmenu: true
-]
-
 { #category : #layout }
 ToCircularContextMenu >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
 

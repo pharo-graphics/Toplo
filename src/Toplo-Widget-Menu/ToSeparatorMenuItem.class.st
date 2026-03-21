@@ -42,11 +42,11 @@ ToSeparatorMenuItem >> newRawSkin [
 { #category : #'adding-removing' }
 ToSeparatorMenuItem >> onAddedInItemBarOwner: aMenu [
 
-	aMenu onAddedSeparatorMenuItem: self
+	self unselectable: true
 ]
 
 { #category : #'adding-removing' }
 ToSeparatorMenuItem >> onRemovedFromItemBarOwner: aMenu [
 
-	aMenu onRemovedSeparatorMenuItem: self
+	self unselectable: false
 ]

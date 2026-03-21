@@ -8,10 +8,8 @@ Class {
 	#classTraits : 'TToItemListOwner classTrait + TToItemListUser classTrait + TToMenuItemListUser classTrait + TToMenuWindowModel classTrait',
 	#instVars : [
 		'isInline',
-		'isSubmenu',
 		'builder',
 		'windowManager',
-		'isMenuPaneMenu',
 		'showExpandIcon'
 	],
 	#category : #'Toplo-Widget-Menu-Items'
@@ -95,8 +93,6 @@ ToMenu >> initialize [
 	self initializeAsMenuItemListUser.
 
 	isInline := false.
-	isSubmenu := false.
-	isMenuPaneMenu := false.
 	self closeOnPicking: false.
 
 	windowManager := self newWindowManager 
@@ -130,13 +126,7 @@ ToMenu >> isMenu [
 { #category : #testing }
 ToMenu >> isMenuPaneMenu [
 
-	^ isMenuPaneMenu
-]
-
-{ #category : #accessing }
-ToMenu >> isMenuPaneMenu: aBoolean [
-
-	isMenuPaneMenu := aBoolean
+	^ self menuPane notNil
 ]
 
 { #category : #testing }
@@ -162,13 +152,7 @@ ToMenu >> isOutsideEvent: anEvent [
 { #category : #'t - menu item' }
 ToMenu >> isSubmenu [
 
-	^ isSubmenu ifNil: [ false ]
-]
-
-{ #category : #accessing }
-ToMenu >> isSubmenu: aBoolean [
-
-	isSubmenu := aBoolean
+	^ self parentMenu notNil
 ]
 
 { #category : #'t - menu window model' }
@@ -211,30 +195,6 @@ ToMenu >> newRawSkin [
 ToMenu >> newWindowManager [
 
  	^ ToPopupMenuWindowManager new
-]
-
-{ #category : #'adding-removing' }
-ToMenu >> onAddedInItemBarOwner: aMenu [
-
-	aMenu onAddedMenu: self
-]
-
-{ #category : #'t - menu item list user - double dispatch' }
-ToMenu >> onAddedMenu: aMenu [
-
-	aMenu isSubmenu: true
-]
-
-{ #category : #'adding-removing' }
-ToMenu >> onRemovedFromItemBarOwner: aMenu [
-
-	aMenu onRemovedMenu: self
-]
-
-{ #category : #'t - menu item list user - double dispatch' }
-ToMenu >> onRemovedMenu: aMenu [
-
-	aMenu isSubmenu: false
 ]
 
 { #category : #'t - menu window model' }

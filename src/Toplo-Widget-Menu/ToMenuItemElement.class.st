@@ -127,23 +127,11 @@ ToMenuItemElement >> newRawSkin [
 	^ ToMenuItemElementSkin new
 ]
 
-{ #category : #'adding-removing' }
-ToMenuItemElement >> onAddedInItemBarOwner: aMenu [
-
-	aMenu onAddedMenuItem: self
-]
-
 { #category : #'event handling' }
 ToMenuItemElement >> onOutsideEvent: anEvent [
 
 	self isInline ifTrue: [ ^ self ].
 	self menuPaneDo: [ :mb | mb stopAutoOpen ]
-]
-
-{ #category : #'adding-removing' }
-ToMenuItemElement >> onRemovedFromItemBarOwner: aMenu [
-
-	aMenu onRemovedMenuItem: self
 ]
 
 { #category : #'t - anchored window element - displaying' }

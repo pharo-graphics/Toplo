@@ -4,20 +4,19 @@ Class {
 	#category : #'Toplo-Widget-Button-Checkable'
 }
 
-{ #category : #'event handling' }
-ToRadioButtonSkin >> checkedSkinEvent: anEvent [
-
-	super checkedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e icon
-			innerImage: (e valueOfTokenNamed: #'radio-checked-image');
-			innerImageColor: (e valueOfTokenNamed: #'checkbox-color') ]
-]
-
 { #category : #accessing }
 ToRadioButtonSkin >> iconGeometryIn: aCheckbox [
 
 	^ BlCircleGeometry new
+]
+
+{ #category : #'event handling' }
+ToRadioButtonSkin >> imageFor: aCheckable [
+
+	^ aCheckable isChecked
+		  ifTrue: [ aCheckable valueOfTokenNamed: #'radio-checked-image' ]
+		  ifFalse: [
+		  aCheckable valueOfTokenNamed: #'radio-unchecked-image' ]
 ]
 
 { #category : #'event handling' }
@@ -28,14 +27,4 @@ ToRadioButtonSkin >> installSkinEvent: anEvent [
 			e icon:
 				(ToImage inner: (e valueOfTokenNamed: #'radio-unchecked-image')).
 			e icon extent: (e valueOfTokenNamed: #'checkable-icon-size') ]
-]
-
-{ #category : #'event handling' }
-ToRadioButtonSkin >> uncheckedSkinEvent: anEvent [
-
-	super uncheckedSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-		e icon
-			innerImage: (e valueOfTokenNamed: #'radio-unchecked-image');
-			innerImageColor: (e valueOfTokenNamed: #'checkbox-color') ]
 ]

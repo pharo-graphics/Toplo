@@ -652,14 +652,10 @@ BlElement >> nextConfigurationPass: aNumber [
 
 { #category : #'*Toplo' }
 BlElement >> onAddedInItemBarOwner: anItemBar [
-
-	anItemBar onAddedUnknownItemKind: self
 ]
 
 { #category : #'*Toplo' }
 BlElement >> onRemovedFromItemBarOwner: anItemBar [
-
-	anItemBar onRemovedUnknownItemKind: self
 ]
 
 { #category : #'*Toplo' }

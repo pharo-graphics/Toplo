@@ -35,11 +35,12 @@ ToSwitchButton >> handleCheckedBuilder: aValuable [
 ToSwitchButton >> initialize [
 
 	super initialize.
-	self icon: ToSwitchIcon new.
+	self icon: (ToSwitchIcon new
+			 parentSwitchButton: self;
+			 yourself).
 	self initializeAsCheckable.
 	self checked: false.
-	self clickEventClass: ToCheckableChangedEvent.
-
+	self clickEventClass: ToCheckableChangedEvent
 ]
 
 { #category : #skin }

@@ -4088,6 +4088,27 @@ ToSandBox class >> example_MenuWithSelect [
 	menu openInSpace
 ]
 
+{ #category : #menu }
+ToSandBox class >> example_MenuWithSwitchButton [
+
+	| menu |
+	menu := ToMenu new.
+	menu labelText: 'File'.
+
+	menu addItem: (ToCustomMenuItem new
+			 in: [ :e |
+					 e addChild: (ToSwitchButton new
+								  checked: true;
+								  startFlexible: true;
+								  hMatchParent;
+								  labelText: 'Switch';
+								  yourself) ];
+			 yourself).
+
+	menu position: 10 @ 10.
+	menu openInInnerWindow
+]
+
 { #category : #'still pressed hovered event' }
 ToSandBox class >> example_MixedEventGenerator [
 
@@ -6328,6 +6349,24 @@ ToSandBox class >> example_WithCheckBox [
 	menu anchorRoot: frame pane.
 	frame pane addChild: menu.
 	frame openInSpace
+]
+
+{ #category : #menu }
+ToSandBox class >> example_WithOneRadio [
+
+	| menu space |
+	menu := ToMenu new.
+	menu labelText: 'File'.
+	
+	menu addItem: (ToRadioMenuItem new
+			 label: (ToLabel text: 'Check');
+			 checkAction: [ :evt | evt target isChecked traceCr ];
+			 yourself).
+			
+	menu position: 10 @ 10.
+	space := BlSpace new.
+	space root addChild: menu.
+	space show
 ]
 
 { #category : #menu }

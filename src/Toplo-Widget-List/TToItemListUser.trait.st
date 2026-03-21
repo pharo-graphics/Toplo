@@ -175,43 +175,17 @@ TToItemListUser >> nodeContainersDo: aValuable [
 	self itemList nodeContainersDo: aValuable
 ]
 
-{ #category : #'t - item list user - double dispatch' }
-TToItemListUser >> onAddedAnyItemKind: anItem [
-
-
-]
-
 { #category : #'t - item list user - adding/removing' }
 TToItemListUser >> onAddedItem: anItem [
 
-	self onAddedAnyItemKind: anItem.
 	anItem onAddedInItemBarOwner: self.
-
-]
-
-{ #category : #'t - item list user - double dispatch' }
-TToItemListUser >> onAddedUnknownItemKind: anItem [
-
-
-]
-
-{ #category : #'t - item list user - double dispatch' }
-TToItemListUser >> onRemovedAnyItemKind: anItem [
-
 
 ]
 
 { #category : #'t - item list user - adding/removing' }
 TToItemListUser >> onRemovedItem: anItem [
 
-	self onRemovedAnyItemKind: anItem.
 	anItem onRemovedFromItemBarOwner: self
-]
-
-{ #category : #'t - item list user - double dispatch' }
-TToItemListUser >> onRemovedUnknownItemKind: anItem [
-
-
 ]
 
 { #category : #'t - item list user - layout' }

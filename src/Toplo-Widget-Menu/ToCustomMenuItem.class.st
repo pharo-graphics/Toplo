@@ -28,13 +28,12 @@ ToCustomMenuItem >> isSelectable [
 { #category : #'adding-removing' }
 ToCustomMenuItem >> onAddedInItemBarOwner: aMenu [
 
-	aMenu onAddedCustomMenuItem: self
-
+	self unselectable: true
 ]
 
 { #category : #'adding-removing' }
 ToCustomMenuItem >> onRemovedFromItemBarOwner: aMenu [
 
-	aMenu onRemovedCustomMenuItem: self
+	self unselectable: false
 
 ]

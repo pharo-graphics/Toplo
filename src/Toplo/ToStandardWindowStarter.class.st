@@ -36,8 +36,6 @@ ToStandardWindowStarter >> anchorElementPositionChangedEvent: anEvent fromManage
 ToStandardWindowStarter >> startWindow: aWindow fromManager: aManager  onEvent: anEvent [
 
 	aWindow lastPopupEvent: anEvent.
-	aWindow localTheme ifNil: [
-		aWindow localTheme: aManager anchorElement lookupTheme ].
 	aWindow refreshLayout.
 	aManager anchorRoot addChild: aWindow
 ]

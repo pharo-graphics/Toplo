@@ -10211,6 +10211,7 @@ ToSandBox class >> listWithData: aCollection [
 			| idxes target |
 			target := request currentTarget.
 			idxes := request selectedIndexes.
+			menu localTheme: ToRawDarkTheme new.
 			menu addItem: (ToMenuItem new
 					 labelText: 'Inspect list';
 					 clickAction: [ target inspect ];

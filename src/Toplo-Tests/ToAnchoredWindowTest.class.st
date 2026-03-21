@@ -171,10 +171,10 @@ ToAnchoredWindowTest >> testLocalThemeSetOnPopupEvent [
 	self assert: win localTheme isNil.
 	win popupEvent: nil.
 	self waitTestingSpaces.
-	self assert: win localTheme identicalTo: e lookupTheme.
+	self assert: win lookupTheme identicalTo: e lookupTheme.
 	win close.
 	self waitTestingSpaces.
-	self assert: win localTheme identicalTo: e lookupTheme.
+	self assert: win lookupTheme identicalTo: e lookupTheme.
 ]
 
 { #category : #tests }
@@ -196,6 +196,7 @@ ToAnchoredWindowTest >> testLocalThemeSetOnPopupEvent2 [
 	win popupEvent: nil.
 	self waitTestingSpaces.
 	self assert: win localTheme identicalTo: localTheme.
+	self assert: win lookupTheme identicalTo: localTheme.
 	win close.
 	self waitTestingSpaces.
 	self assert: win localTheme identicalTo: localTheme.

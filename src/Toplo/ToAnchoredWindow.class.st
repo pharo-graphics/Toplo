@@ -27,7 +27,7 @@ ToAnchoredWindow >> checkPickOutside: aBoolean [
 { #category : #enumerating }
 ToAnchoredWindow >> inheritedThemeHolderDo: aBlock [
 
-	^ self anchorElement localTheme
+	^ self anchorElement
 		  ifNil: [ super inheritedThemeHolderDo: aBlock ]
 		  ifNotNil: [ aBlock value: self anchorElement ]
 ]
@@ -53,15 +53,4 @@ ToAnchoredWindow >> onMeasure: anExtentMeasurementSpec [
 	super onMeasure: anExtentMeasurementSpec.
 
 
-]
-
-{ #category : #'api - displaying' }
-ToAnchoredWindow >> toThemeInstalled [
-
-	| lt |
-	self localTheme ifNil: [
-			self anchorElement ifNotNil: [ :e |
-					lt := e lookupTheme.
-					self localTheme: lt ] ].
-	super toThemeInstalled
 ]

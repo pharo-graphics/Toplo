@@ -134,11 +134,10 @@ BlElement >> bottomUpLocalThemeChain [
 
 { #category : #'*Toplo' }
 BlElement >> bottomUpLocalThemeDo: aBlock [
-	" evaluate a block with all my inherited stylesheets "
+	" evaluate a block with all my inherited themes "
 
 	self toploExtensionDo: [ :te |
-			te installedThemeDo: [ :th |
-					aBlock value: th ] ].
+		te installedThemeDo: [ :th | aBlock value: th ] ].
 	self inheritedThemeHolderDo: [ :p | p bottomUpLocalThemeDo: aBlock ]
 ]
 
@@ -158,7 +157,8 @@ BlElement >> bottomUpStyleSheetChainDo: aBlock [
 			sm styleSheet ifNotNil: [ :ss |
 					aBlock value: ss.
 					ss inherits ifFalse: [ ^ self ] ] ].
-	self parentDo: [ :p | p bottomUpStyleSheetChainDo: aBlock ]
+	self inheritedThemeHolderDo: [ :p |
+		p bottomUpStyleSheetChainDo: aBlock ]
 ]
 
 { #category : #'*Toplo' }
@@ -567,10 +567,10 @@ BlElement >> lookupTokenPropertyValueNamed: aSymbol [
 	" look-up following child-parent association 
 	for each parent, if the skin manager exists, then ask the skin manager token map for the token property value. "
 
-	self withAllParentsDo: [ :p |
-			p tokenPropertyMap ifNotNil: [ :map |
-				(map propertyNamed: aSymbol) ifNotNil: [ :t |
-				^ t value ] ] ].
+	self tokenPropertyMapDo: [ :map |
+		(map propertyNamed: aSymbol) ifNotNil: [ :t | ^ t value ] ].
+	self inheritedThemeHolderDo: [ :p |
+		^ p lookupTokenPropertyValueNamed: aSymbol ].
 	^ nil
 ]
 
@@ -827,12 +827,6 @@ BlElement >> styleSheet: aStyleSheet [
 
 	self ensuredToploExtension setStyleSheet: aStyleSheet in: self.
 	self requestNewSkin
-]
-
-{ #category : #'*Toplo' }
-BlElement >> styleSheetProperty: aName [
-
-	^ self lookupWritablePropertyNamed: aName
 ]
 
 { #category : #'*Toplo' }

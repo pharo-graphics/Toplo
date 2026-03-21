@@ -2,6 +2,7 @@ Class {
 	#name : #ToSwitchIcon,
 	#superclass : #ToElement,
 	#instVars : [
+		'parentSwitchButton',
 		'track',
 		'handle',
 		'checked',
@@ -249,6 +250,18 @@ ToSwitchIcon >> onMeasure: anExtentMeasurementSpec [
 	firstMeasureDone ifTrue: [ ^ self ].
 	self switch: self isChecked.
 	firstMeasureDone := true
+]
+
+{ #category : #accessing }
+ToSwitchIcon >> parentSwitchButton [
+
+	^ parentSwitchButton
+]
+
+{ #category : #accessing }
+ToSwitchIcon >> parentSwitchButton: aSwitchButton [
+
+	parentSwitchButton := aSwitchButton
 ]
 
 { #category : #layout }

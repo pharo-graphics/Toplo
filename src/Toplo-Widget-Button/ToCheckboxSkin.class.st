@@ -10,7 +10,7 @@ ToCheckboxSkin >> checkedSkinEvent: anEvent [
 	super checkedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 			e icon
-				innerImage: (e valueOfTokenNamed: #'checkbox-checked-image');
+				innerImage: (self imageFor: e);
 				innerImageColor: (e valueOfTokenNamed: #'checkbox-color') ]
 ]
 
@@ -55,6 +55,15 @@ ToCheckboxSkin >> hoveredSkinEvent: anEvent [
 ToCheckboxSkin >> iconGeometryIn: aCheckbox [
 
 	^ BlRoundedRectangleGeometry cornerRadius: 4
+]
+
+{ #category : #'event handling' }
+ToCheckboxSkin >> imageFor: aCheckable [
+
+	^ aCheckable isChecked
+		  ifTrue: [ aCheckable valueOfTokenNamed: #'checkbox-checked-image' ]
+		  ifFalse: [
+		  aCheckable valueOfTokenNamed: #'checkbox-unchecked-image' ]
 ]
 
 { #category : #'event handling' }
@@ -108,7 +117,7 @@ ToCheckboxSkin >> uncheckedSkinEvent: anEvent [
 	super uncheckedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
 		e icon
-			innerImage: (e valueOfTokenNamed: #'checkbox-unchecked-image');
+			innerImage: (self imageFor: e);
 			innerImageColor: (e valueOfTokenNamed: #'checkbox-color') ]
 ]
 

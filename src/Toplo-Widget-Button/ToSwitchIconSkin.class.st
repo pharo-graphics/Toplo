@@ -1,6 +1,9 @@
 Class {
 	#name : #ToSwitchIconSkin,
 	#superclass : #ToRawSkin,
+	#instVars : [
+		'wasChecked'
+	],
 	#category : #'Toplo-Widget-Button-Switch'
 }
 
@@ -63,10 +66,13 @@ ToSwitchIconSkin >> switchWithAnimation: aSwitchButton [
 
 	| anim posAnim colorAnim color toPos |
 	color := aSwitchButton background paint color.
-	aSwitchButton showSide.
+	" check the check state to not run animation multiple times "
+	wasChecked = aSwitchButton isChecked ifTrue: [ ^ self ].
+	wasChecked := aSwitchButton isChecked.
 	toPos := aSwitchButton isChecked
 		         ifTrue: [ aSwitchButton trackOnExpectedPosition ]
 		         ifFalse: [ aSwitchButton trackOffExpectedPosition ].
+	aSwitchButton showSide.
 	posAnim := BlNumberTransition new
 		           duration: 200 milliSeconds;
 		           from: aSwitchButton track position x;
@@ -79,7 +85,8 @@ ToSwitchIconSkin >> switchWithAnimation: aSwitchButton [
 		             to: color;
 		             duration: 300 milliSeconds;
 		             onStepDo: [ :c :anElement | anElement background: c ].
-	colorAnim onFinishedDo: [ aSwitchButton background: aSwitchButton background ].
+	colorAnim onFinishedDo: [
+		aSwitchButton background: aSwitchButton background ].
 
 	anim := BlParallelAnimation new
 		        addAll: {

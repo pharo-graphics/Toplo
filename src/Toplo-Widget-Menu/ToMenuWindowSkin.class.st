@@ -12,8 +12,8 @@ ToMenuWindowSkin >> installSkinEvent: anEvent [
 			e padding: (BlInsets
 					 horizontal: (e valueOfTokenNamed: #'menu-window-padding-H')
 					 vertical: (e valueOfTokenNamed: #'menu-window-padding-V')).
-			e menuItem isSubmenu ifFalse: [
-				e effect: (e valueOfTokenNamed: #'effect-window') ] ]
+			e menuItem ifNotNil: [:mi | mi isSubmenu ifFalse: [
+				e effect: (e valueOfTokenNamed: #'effect-window') ] ] ]
 ]
 
 { #category : #'event handling' }

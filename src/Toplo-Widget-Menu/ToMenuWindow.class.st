@@ -75,6 +75,14 @@ ToMenuWindow >> includes: anElement [
 	^ false
 ]
 
+{ #category : #enumerating }
+ToMenuWindow >> inheritedThemeHolderDo: aBlock [
+
+	^ self parentMenuWindow 
+		  ifNil: [ super inheritedThemeHolderDo: aBlock ]
+		  ifNotNil: [ :pmw | aBlock value: pmw ]
+]
+
 { #category : #initialization }
 ToMenuWindow >> initialize [
 
@@ -123,7 +131,7 @@ ToMenuWindow >> items [
 { #category : #'t - anchored window element - accessing' }
 ToMenuWindow >> menuItem [
 
-	^ self manager anchorElement
+	^ self anchorElement
 ]
 
 { #category : #'t - anchored window element - accessing' }
@@ -141,7 +149,8 @@ ToMenuWindow >> newRawSkin [
 { #category : #accessing }
 ToMenuWindow >> parentMenuWindow [
 
-	^ self menuItem parentMenu ifNotNil: [ :pm | pm menuWindow ]
+	^ self menuItem ifNotNil: [ :mi |
+		  mi parentMenu ifNotNil: [ :pm | pm menuWindow ] ]
 ]
 
 { #category : #accessing }

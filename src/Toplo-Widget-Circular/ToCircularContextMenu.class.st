@@ -63,6 +63,12 @@ ToCircularContextMenu >> itemList [
 	^ itemList
 ]
 
+{ #category : #'t - anchored window element - accessing' }
+ToCircularContextMenu >> menuItem [
+
+	^ nil
+]
+
 { #category : #'t - menu item' }
 ToCircularContextMenu >> menuPane [ 
 

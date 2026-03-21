@@ -90,6 +90,12 @@ ToContextMenu >> itemList [
 	^ itemList
 ]
 
+{ #category : #'t - anchored window element - accessing' }
+ToContextMenu >> menuItem [
+	" a context menu can't be in a menupane "
+	^ nil
+]
+
 { #category : #accessing }
 ToContextMenu >> menuPane [ 
 	" a context menu can't be in a menupane "

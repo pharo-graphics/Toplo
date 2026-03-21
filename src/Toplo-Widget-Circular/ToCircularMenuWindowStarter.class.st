@@ -9,8 +9,6 @@ ToCircularMenuWindowStarter >> startWindow: aWindow fromManager: aManager onEven
 
 	| menuItem |
 	aWindow lastPopupEvent: anEvent.
-	aWindow localTheme ifNil: [
-		aWindow localTheme: aManager anchorElement lookupTheme ].
 	aWindow refreshLayout.
 
 	menuItem := aWindow menuItem.

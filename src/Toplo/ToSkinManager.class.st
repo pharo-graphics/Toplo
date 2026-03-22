@@ -140,6 +140,12 @@ ToSkinManager >> requestNewSkinIn: anElement [
 	self installNewSkinIn: anElement
 ]
 
+{ #category : #'accessing - skin state queue' }
+ToSkinManager >> resetIntrinsicState [
+
+	skinStateQueue resetIntrinsicState
+]
+
 { #category : #'skin state generation' }
 ToSkinManager >> selectedSkinEvent: aSelectedSkinEvent in: anElement [
 

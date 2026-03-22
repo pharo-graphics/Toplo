@@ -75,6 +75,7 @@ ToSkinStateQueue >> enqueueUninstallStateFor: anElement [
 	"self applyEnqueuedStatesFor: anElement."
 	installState := nil.
 	self resetStates.
+	self resetIntrinsicState.
 	" store the uninstall state "
 	self enqueueState: ToUninstallState instance for: anElement.
 	" do not wait the next pulse to ensure the uninstallation is done here.
@@ -104,11 +105,16 @@ ToSkinStateQueue >> nextStates [
 	^ nextStates
 ]
 
+{ #category : #'instinsic state accessing' }
+ToSkinStateQueue >> resetIntrinsicState [ 
+
+	intrinsicState reset
+]
+
 { #category : #accessing }
 ToSkinStateQueue >> resetStates [
 
-	nextStates reset.
-	intrinsicState enqueued: false
+	nextStates reset
 ]
 
 { #category : #'instinsic state accessing' }

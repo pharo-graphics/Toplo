@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Core-SkinEvents'
 }
 
+{ #category : #accessing }
+ToFocusedSkinEvent >> focused [ 
+
+	^ true
+]
+
 { #category : #sending }
 ToFocusedSkinEvent >> sendTo: anObject [
 

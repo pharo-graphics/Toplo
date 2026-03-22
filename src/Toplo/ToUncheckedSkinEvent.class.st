@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Core-SkinEvents'
 }
 
+{ #category : #accessing }
+ToUncheckedSkinEvent >> checked [ 
+
+	^ false
+]
+
 { #category : #sending }
 ToUncheckedSkinEvent >> sendTo: anObject [
 

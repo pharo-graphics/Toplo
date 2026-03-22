@@ -2,6 +2,7 @@ Class {
 	#name : #ToIntrinsicState,
 	#superclass : #ToElementState,
 	#instVars : [
+		'previousPattern',
 		'enqueued',
 		'enabledSkinEvent',
 		'checkedSkinEvent',
@@ -16,6 +17,13 @@ Class {
 ToIntrinsicState >> applyOn: anElement fromQueue: aQueue [
 	" dispatch intrinsic state events in the predefined order: 
 	[ enabled ] focused? checked? selected* [ disabled ] "
+
+	| newPattern |
+	newPattern := self currentPattern.
+	previousPattern = newPattern ifTrue: [
+			enqueued := false.
+			^ self ].
+	previousPattern := newPattern.
 
 	self prepareSkinEventsForDispatchingOn: anElement.
 
@@ -41,6 +49,17 @@ ToIntrinsicState >> applyOn: anElement fromQueue: aQueue [
 ToIntrinsicState >> checkedSkinEvent: aSkinEvent [
 
 	checkedSkinEvent := aSkinEvent
+]
+
+{ #category : #'skin dispatching' }
+ToIntrinsicState >> currentPattern [
+
+	^ Array new: 15 streamContents: [ :stream |
+			  stream nextPut: enabledSkinEvent enabled.
+			  stream nextPut: (focusedSkinEvent ifNotNil: [ :e | e focused ]).
+			  stream nextPut: (checkedSkinEvent ifNotNil: [ :e | e checked ]).
+			  stream nextPut: (selectedSkinEvent ifNotNil: [ :e | e selected ]).
+			  stream nextPut: otherSelectionSkinEventMap keys ]
 ]
 
 { #category : #'skin dispatching' }
@@ -78,7 +97,7 @@ ToIntrinsicState >> focusedSkinEvent: aSkinEvent [
 ToIntrinsicState >> initialize [ 
 
 	super initialize.
-	otherSelectionSkinEventMap := SmallIdentityDictionary new.
+	otherSelectionSkinEventMap := OrderedIdentityDictionary new.
 	enabledSkinEvent := ToEnabledSkinEvent new.
 ]
 
@@ -92,6 +111,13 @@ ToIntrinsicState >> prepareSkinEventsForDispatchingOn: anElement [
 			selectedSkinEvent ifNotNil: [ :evt | evt fillFromTime: space time ].
 			otherSelectionSkinEventMap valuesDo: [ :evt |
 				evt fillFromTime: space time ] ]
+]
+
+{ #category : #initialization }
+ToIntrinsicState >> reset [
+
+	enqueued := false.
+	previousPattern := nil
 ]
 
 { #category : #accessing }

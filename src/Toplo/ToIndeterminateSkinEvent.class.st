@@ -4,6 +4,12 @@ Class {
 	#category : #'Toplo-Core-SkinEvents'
 }
 
+{ #category : #accessing }
+ToIndeterminateSkinEvent >> checked [ 
+
+	^ nil
+]
+
 { #category : #sending }
 ToIndeterminateSkinEvent >> sendTo: anObject [
 

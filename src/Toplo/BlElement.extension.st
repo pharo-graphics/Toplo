@@ -375,6 +375,13 @@ BlElement >> hasAllStamps: aSymbolCollection [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> hasFocusedParent [
+
+	^ self isFocused or: [
+		  self parent notNil and: [ self parent hasFocusedParent ] ]
+]
+
+{ #category : #'*Toplo' }
 BlElement >> hasListHolder [
 
 	^ self constraints hasListHolder

@@ -18,10 +18,10 @@ ToIntrinsicState >> applyOn: anElement fromQueue: aQueue [
 	" dispatch intrinsic state events in the predefined order: 
 	[ enabled ] focused? checked? selected* [ disabled ] "
 
-	self isUnchanged ifTrue: [
+	(self isUnchangedOn: anElement) ifTrue: [
 			enqueued := false.
 			^ self ].
-	previousPattern := self currentPattern.
+	previousPattern := self currentPatternOn: anElement.
 
 	self prepareSkinEventsForDispatchingOn: anElement.
 
@@ -56,11 +56,11 @@ ToIntrinsicState >> checkedSkinEvent: aSkinEvent [
 ]
 
 { #category : #'private - accessing' }
-ToIntrinsicState >> currentPattern [
+ToIntrinsicState >> currentPatternOn: anElement [
 
 	^ Array new: 15 streamContents: [ :stream |
 			  stream nextPut: self enablementState.
-			  stream nextPut: self focusState.
+			  stream nextPut: (self focusStateOn: anElement).
 			  stream nextPut: self checkState.
 			  stream nextPut: self selectionState.
 			  stream nextPut: self otherSelectionsState ]
@@ -98,9 +98,9 @@ ToIntrinsicState >> enqueued: aBoolean [
 ]
 
 { #category : #'private - accessing' }
-ToIntrinsicState >> focusState [
+ToIntrinsicState >> focusStateOn: anElement [
 
-	^ focusedSkinEvent ifNotNil: [ :e | e focused ]
+	^ anElement hasFocusedParent
 ]
 
 { #category : #accessing }
@@ -118,11 +118,11 @@ ToIntrinsicState >> initialize [
 ]
 
 { #category : #'private - testing' }
-ToIntrinsicState >> isUnchanged [
+ToIntrinsicState >> isUnchangedOn: anElement [
 
 	^ previousPattern notNil and: [
 			  previousPattern first = self enablementState and: [
-					  (previousPattern at: 2) = self focusState and: [
+					  (previousPattern at: 2) = (self focusStateOn: anElement) and: [
 							  (previousPattern at: 3) = self checkState and: [
 									  (previousPattern at: 4) = self selectionState and: [
 										  (previousPattern at: 5) = self otherSelectionsState ] ] ] ] ]

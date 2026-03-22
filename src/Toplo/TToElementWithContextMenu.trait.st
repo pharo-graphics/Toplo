@@ -139,3 +139,13 @@ TToElementWithContextMenu >> removeContextMenuManager [
 		'`@rcvr removeContextMenuManager' -> '`@rcvr removeContextMenuBuilder'.	
 	self removeContextMenuBuilder 
 ]
+
+{ #category : #'t - element with context menu' }
+TToElementWithContextMenu >> useCircularContextMenu [
+
+	self contextMenuManagerFactory: [
+			ToContextMenuManager new
+				windowClass: ToCircularContextMenu;
+				placement: ToCircularMenuPickedPlacement new;
+				yourself ] 
+]

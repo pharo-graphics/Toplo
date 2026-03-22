@@ -1,7 +1,7 @@
 Class {
 	#name : #ToCircularMenuPickedPlacement,
 	#superclass : #ToElementCustomPlacement,
-	#category : #'Toplo-Widget-Circular-Menu'
+	#category : #'Toplo-Layout-Support'
 }
 
 { #category : #'api - displaying' }

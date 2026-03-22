@@ -131,7 +131,9 @@ ToIntrinsicState >> isUnchangedOn: anElement [
 { #category : #'private - accessing' }
 ToIntrinsicState >> otherSelectionsState [
 
-	^ otherSelectionSkinEventMap keys
+	^ Array new: 15 streamContents: [ :stream |
+			  otherSelectionSkinEventMap keysAndValuesDo: [ :k :v |
+				  stream nextPut: k -> v class ] ]
 ]
 
 { #category : #'skin dispatching' }

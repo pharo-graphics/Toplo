@@ -18,12 +18,10 @@ ToIntrinsicState >> applyOn: anElement fromQueue: aQueue [
 	" dispatch intrinsic state events in the predefined order: 
 	[ enabled ] focused? checked? selected* [ disabled ] "
 
-	| newPattern |
-	newPattern := self currentPattern.
-	previousPattern = newPattern ifTrue: [
+	self isUnchanged ifTrue: [
 			enqueued := false.
 			^ self ].
-	previousPattern := newPattern.
+	previousPattern := self currentPattern.
 
 	self prepareSkinEventsForDispatchingOn: anElement.
 
@@ -45,21 +43,27 @@ ToIntrinsicState >> applyOn: anElement fromQueue: aQueue [
 	enqueued := false
 ]
 
+{ #category : #'private - accessing' }
+ToIntrinsicState >> checkState [
+
+	^ checkedSkinEvent ifNotNil: [ :e | e checked ]
+]
+
 { #category : #accessing }
 ToIntrinsicState >> checkedSkinEvent: aSkinEvent [
 
 	checkedSkinEvent := aSkinEvent
 ]
 
-{ #category : #'skin dispatching' }
+{ #category : #'private - accessing' }
 ToIntrinsicState >> currentPattern [
 
 	^ Array new: 15 streamContents: [ :stream |
-			  stream nextPut: enabledSkinEvent enabled.
-			  stream nextPut: (focusedSkinEvent ifNotNil: [ :e | e focused ]).
-			  stream nextPut: (checkedSkinEvent ifNotNil: [ :e | e checked ]).
-			  stream nextPut: (selectedSkinEvent ifNotNil: [ :e | e selected ]).
-			  stream nextPut: otherSelectionSkinEventMap keys ]
+			  stream nextPut: self enablementState.
+			  stream nextPut: self focusState.
+			  stream nextPut: self checkState.
+			  stream nextPut: self selectionState.
+			  stream nextPut: self otherSelectionsState ]
 ]
 
 { #category : #'skin dispatching' }
@@ -75,6 +79,12 @@ ToIntrinsicState >> enabledSkinEvent: aSkinEvent [
 	enabledSkinEvent := aSkinEvent
 ]
 
+{ #category : #'private - accessing' }
+ToIntrinsicState >> enablementState [
+
+	^ enabledSkinEvent enabled
+]
+
 { #category : #accessing }
 ToIntrinsicState >> enqueued [
 
@@ -85,6 +95,12 @@ ToIntrinsicState >> enqueued [
 ToIntrinsicState >> enqueued: aBoolean [
 
 	enqueued := aBoolean
+]
+
+{ #category : #'private - accessing' }
+ToIntrinsicState >> focusState [
+
+	^ focusedSkinEvent ifNotNil: [ :e | e focused ]
 ]
 
 { #category : #accessing }
@@ -99,6 +115,23 @@ ToIntrinsicState >> initialize [
 	super initialize.
 	otherSelectionSkinEventMap := OrderedIdentityDictionary new.
 	enabledSkinEvent := ToEnabledSkinEvent new.
+]
+
+{ #category : #'private - testing' }
+ToIntrinsicState >> isUnchanged [
+
+	^ previousPattern notNil and: [
+			  previousPattern first = self enablementState and: [
+					  (previousPattern at: 2) = self focusState and: [
+							  (previousPattern at: 3) = self checkState and: [
+									  (previousPattern at: 4) = self selectionState and: [
+										  (previousPattern at: 5) = self otherSelectionsState ] ] ] ] ]
+]
+
+{ #category : #'private - accessing' }
+ToIntrinsicState >> otherSelectionsState [
+
+	^ otherSelectionSkinEventMap keys
 ]
 
 { #category : #'skin dispatching' }
@@ -129,4 +162,10 @@ ToIntrinsicState >> selectedSkinEvent: aSkinEvent [
 	otherSelectionSkinEventMap
 		at: aSkinEvent selectionOption
 		put: aSkinEvent
+]
+
+{ #category : #'private - accessing' }
+ToIntrinsicState >> selectionState [
+
+	^ selectedSkinEvent ifNotNil: [ :e | e selected ]
 ]

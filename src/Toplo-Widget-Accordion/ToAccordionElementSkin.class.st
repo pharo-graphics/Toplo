@@ -18,13 +18,6 @@ ToAccordionElementSkin >> collapseHeader: anHeader [
 ]
 
 { #category : #'event handling' }
-ToAccordionElementSkin >> deselectedSkinEvent: anEvent [
-
-	super deselectedSkinEvent: anEvent.
-	anEvent elementDo: [ :e | self collapseHeader: e header ]
-]
-
-{ #category : #'event handling' }
 ToAccordionElementSkin >> expandHeader: anHeader [
 
 	anHeader icon beDown
@@ -47,13 +40,6 @@ ToAccordionElementSkin >> installSkinEvent: anEvent [
 			arrowIm extent:
 				(e valueOfTokenNamed: #'iconic-arrow-breadth') asPoint.
 			e header icon: arrowIm ]
-]
-
-{ #category : #'event handling' }
-ToAccordionElementSkin >> selectedSkinEvent: anEvent [
-
-	super selectedSkinEvent: anEvent.
-	anEvent elementDo: [ :e | self expandHeader: e header ]
 ]
 
 { #category : #'event handling' }

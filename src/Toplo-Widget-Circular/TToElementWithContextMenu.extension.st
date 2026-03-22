@@ -7,5 +7,5 @@ TToElementWithContextMenu >> useCircularContextMenu [
 			ToContextMenuManager new
 				windowClass: ToCircularContextMenu;
 				placement: ToCircularMenuPickedPlacement new;
-				yourself ]
+				yourself ] 
 ]

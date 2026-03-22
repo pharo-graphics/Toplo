@@ -15,5 +15,5 @@ ToCircularMenuPickedPlacement >> positionElement: anElement onEvent: anEvent con
 	localPosition := theAnchor globalPointToLocal: anEvent position.
 	rootPosition := theAnchor localPointToGlobal: localPosition.
 	rootPosition := theRoot globalPointToLocal: rootPosition.
-	anElement position: rootPosition - (anElement measuredExtent / 2)
+	anElement position: rootPosition - (anElement measuredExtent / 2) 
 ]

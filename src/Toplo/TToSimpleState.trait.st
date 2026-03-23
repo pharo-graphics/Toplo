@@ -9,7 +9,7 @@ TToSimpleState >> applyOn: anElement fromQueue: aQueue [
 	| se |
 	se := self skinEvent.
 	se isConsumed ifTrue: [ ^ self ].
-	anElement spaceDo: [ :sp | se fillFromTime: anElement space time ].
+	anElement spaceDo: [ :sp | se fillFromTime: sp time ].
 	anElement dispatchEvent: se
 ]
 

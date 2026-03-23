@@ -113,7 +113,7 @@ ToIntrinsicState >> focusedSkinEvent: aSkinEvent [
 ToIntrinsicState >> initialize [ 
 
 	super initialize.
-	otherSelectionSkinEventMap := OrderedIdentityDictionary new.
+	otherSelectionSkinEventMap := SmallIdentityDictionary new.
 	enabledSkinEvent := ToEnabledSkinEvent new.
 ]
 

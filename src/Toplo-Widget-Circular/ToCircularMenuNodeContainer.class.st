@@ -1,6 +1,8 @@
 Class {
 	#name : #ToCircularMenuNodeContainer,
 	#superclass : #ToAnnulusSectorElement,
+	#traits : 'TToNodeContainer + TToItemNodeContainer',
+	#classTraits : 'TToNodeContainer classTrait + TToItemNodeContainer classTrait',
 	#instVars : [
 		'node'
 	],
@@ -22,7 +24,7 @@ ToCircularMenuNodeContainer >> newRawSkin [
 	^ ToCircularMenuNodeContainerSkin new
 ]
 
-{ #category : #accessing }
+{ #category : #'t - node container - requirements' }
 ToCircularMenuNodeContainer >> node [ 
 
 	^ node

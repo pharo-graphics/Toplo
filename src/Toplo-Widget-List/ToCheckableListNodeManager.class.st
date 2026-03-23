@@ -5,19 +5,7 @@ Class {
 }
 
 { #category : #initialization }
-ToCheckableListNodeManager >> buildNode: aNode [
-
-	super buildNode: aNode
-]
-
-{ #category : #initialization }
 ToCheckableListNodeManager >> defaultNodeFactory [ 
 
 	^ [ :holder | ToListCheckableNode new ]
-]
-
-{ #category : #initialization }
-ToCheckableListNodeManager >> unbuildNode: aNode [
-
-	super unbuildNode: aNode 
 ]

@@ -49,6 +49,36 @@ ToCircularMenuNodeContainerSkin >> installSkinEventExperimental2: anEvent [
 ]
 
 { #category : #'event handling' }
+ToCircularMenuNodeContainerSkin >> installSkinEventExperimental3: anEvent [
+
+	anEvent elementDo: [ :e |
+			| bezierPoints |
+			e border: (BlBorder paint: Color blue width: 2).
+			e whenLayoutedDoOnce: [
+					| outerBezier innerBezier |
+					e hasSubitems ifTrue: [
+							bezierPoints := e
+								                bezierControlPointsForRadius:
+								                e outerRadius - 4
+								                withStartRadialOffset: 8
+								                withEndRadialOffset: 8.
+							outerBezier := (BlBezierCurveGeometry controlPoints:
+								                bezierPoints) asElement.
+							outerBezier border: (BlBorder paint: Color blue width: 6).
+							e addChild: outerBezier.
+
+							bezierPoints := e
+								                bezierControlPointsForRadius:
+								                e innerRadius + 3
+								                withStartRadialOffset: 0
+								                withEndRadialOffset: 0.
+							innerBezier := (BlBezierCurveGeometry controlPoints:
+								                bezierPoints) asElement.
+							innerBezier border: (BlBorder paint: Color blue width: 3).
+							e addChild: innerBezier ] ] ]
+]
+
+{ #category : #'event handling' }
 ToCircularMenuNodeContainerSkin >> installSkinEventExperimental: anEvent [
 
 	anEvent elementDo: [ :e |

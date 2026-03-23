@@ -25,8 +25,8 @@ ToBasicListNodeManager >> buildNode: aNode [
 ToBasicListNodeManager >> buildNodeContainer: aNodeContainer [
 
 	| listElement cbox |
-	listElement := aNodeContainer holder listElement.
 	checkableNode ifFalse: [ ^ self ].
+	listElement := aNodeContainer holder listElement.
 	cbox := listElement newCheckboxInNodeContainer: aNodeContainer.
 	cbox constraintsDo: [ :c | c linear vertical alignCenter ].
 	aNodeContainer ensureStartContainer.

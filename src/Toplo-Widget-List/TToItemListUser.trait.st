@@ -101,7 +101,7 @@ TToItemListUser >> enabledItem: anItem [
 { #category : #'t - item list user - testing' }
 TToItemListUser >> hasItems [ 
 
-	^ self items notEmpty
+	^ self items isNotEmpty
 ]
 
 { #category : #'t - item list user - hidden/visible' }

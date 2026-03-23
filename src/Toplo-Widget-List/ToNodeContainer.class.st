@@ -7,6 +7,8 @@ I refer to the nodeHolder (a kind of `ToNodeHolder`).
 Class {
 	#name : #ToNodeContainer,
 	#superclass : #ToTripletContainer,
+	#traits : 'TToNodeContainer',
+	#classTraits : 'TToNodeContainer classTrait',
 	#category : #'Toplo-Widget-List-Node'
 }
 
@@ -111,7 +113,7 @@ ToNodeContainer >> holder: aNodeHolder [
 ToNodeContainer >> intersectionRectangleWithListElement [
 
 	| intersection bnds pbnds list |
-	list := self holder listElement.
+	list := self listElement.
 	bnds := self measuredBounds inSpace bounds asRectangle.
 	pbnds := self listElementReferenceBoundsInSpace asRectangle.
 	intersection := bnds intersect: pbnds.
@@ -143,12 +145,6 @@ ToNodeContainer >> isPartlyVisibleInListElement [
 		  ifNil: [ false ]
 ]
 
-{ #category : #accessing }
-ToNodeContainer >> listElement [ 
-
-	^ self holder listElement
-]
-
 { #category : #testing }
 ToNodeContainer >> listElementReferenceBoundsInSpace [
 
@@ -178,14 +174,8 @@ ToNodeContainer >> newStartContainer [
 	^ self newLinearContainer 
 ]
 
-{ #category : #accessing }
+{ #category : #'t - node container - requirements' }
 ToNodeContainer >> node [
 
 	^ self middleContainer 
-]
-
-{ #category : #accessing }
-ToNodeContainer >> nodeManager [ 
-
-	^ self listElement nodeManager
 ]

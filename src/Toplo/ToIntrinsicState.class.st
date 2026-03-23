@@ -118,6 +118,18 @@ ToIntrinsicState >> initialize [
 ]
 
 { #category : #'private - testing' }
+ToIntrinsicState >> isOtherSelectionsStateUnchangedOn: anElement [
+
+	| prev |
+	prev := previousPattern at: 5.
+	prev size = otherSelectionSkinEventMap size ifFalse: [ ^ false ].
+	prev associationsDo: [ :each |
+			(otherSelectionSkinEventMap at: each key ifAbsent: [ ^ false ])
+				class = each value class ifFalse: [ ^ false ] ].
+	^ true
+]
+
+{ #category : #'private - testing' }
 ToIntrinsicState >> isUnchangedOn: anElement [
 
 	^ previousPattern notNil and: [
@@ -125,15 +137,13 @@ ToIntrinsicState >> isUnchangedOn: anElement [
 					  (previousPattern at: 2) = (self focusStateOn: anElement) and: [
 							  (previousPattern at: 3) = self checkState and: [
 									  (previousPattern at: 4) = self selectionState and: [
-										  (previousPattern at: 5) = self otherSelectionsState ] ] ] ] ]
+										  self isOtherSelectionsStateUnchangedOn: anElement ] ] ] ] ]
 ]
 
 { #category : #'private - accessing' }
 ToIntrinsicState >> otherSelectionsState [
 
-	^ Array new: 15 streamContents: [ :stream |
-			  otherSelectionSkinEventMap keysAndValuesDo: [ :k :v |
-				  stream nextPut: k -> v class ] ]
+	^ otherSelectionSkinEventMap copy
 ]
 
 { #category : #'skin dispatching' }

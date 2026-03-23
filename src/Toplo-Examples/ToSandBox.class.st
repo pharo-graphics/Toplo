@@ -3225,7 +3225,7 @@ ToSandBox class >> example_ListTwoClasses [
 				     addChild: (ToLabeledIcon new labelText: dataItem asString);
 				     hMatchParent ].
 	l withRowNumbers.
-	l contextMenuBuilder: self listMenuFenuFactory.
+	l contextMenuBuilder: self listMenuFactory.
 	l dataAccessor addAll: (Smalltalk globals allClasses copyFrom: 1 to: 12).
 	l openInSpace
 ]
@@ -10048,7 +10048,7 @@ ToSandBox class >> listDashBoardFor: aBar [
 ]
 
 { #category : #list }
-ToSandBox class >> listMenuFenuFactory [
+ToSandBox class >> listMenuFactory [
 
 	^ [ :menu :request |
 	  | selectionModel indexes target |
@@ -10132,8 +10132,8 @@ ToSandBox class >> listMenuFenuFactory [
 				   clickAction: [
 					   indexes do: [ :idx |
 							   | di |
-							   di := (target nodeContainerAt: idx) isDisabled.
-							   (target nodeContainerAt: idx) disabled: di not ] ];
+							   di := (target nodeContainerAt: idx) node isDisabled.
+							   (target nodeContainerAt: idx) node disabled: di not ] ];
 				   yourself).
 		  selectionMenu addItem: (ToMenuItem new
 				   labelText: 'Set unselectable';
@@ -10361,7 +10361,7 @@ ToSandBox class >> listWithEditableAndContextMenu [
 					 label: lab;
 					 hMatchParent) ].
 
-	menuFactory := self listMenuFenuFactory.
+	menuFactory := self listMenuFactory.
 	l contextMenuBuilder: menuFactory.
 	l withRowNumbers.
 	^ l

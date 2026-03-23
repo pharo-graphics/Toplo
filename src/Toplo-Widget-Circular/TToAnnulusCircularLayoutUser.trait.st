@@ -21,7 +21,8 @@ TToAnnulusCircularLayoutUser >> layoutRadius [
 { #category : #'t - annulus circular layout user' }
 TToAnnulusCircularLayoutUser >> layoutRadius: aNumber [
 
-	layoutRadius := aNumber
+	layoutRadius := aNumber.
+	self requestConfiguration
 ]
 
 { #category : #'t - annulus circular layout user' }

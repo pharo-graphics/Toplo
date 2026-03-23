@@ -1806,7 +1806,7 @@ ToSandBox class >> example_CircularContextMenu [
 
 	pane useCircularContextMenu.
 	pane contextMenuBuilder: [ :contextMenu :request |
-			contextMenu layoutRadius: 80.
+			
 			item := ToMenuItem new.
 			item icon: (iconProvider iconNamed: 'filled_checklist').
 			contextMenu addItem: item.
@@ -1849,12 +1849,10 @@ ToSandBox class >> example_CircularContextMenuWithSubmenus [
 	vpane contextMenuBuilder: [ :contextMenu :request |
 			| menuItems item subMenu |
 			menuItems := OrderedCollection new.
-			contextMenu layoutRadius: 80.
 			contextMenu localTheme: ToRawDarkTheme new.
 
 			1 to: 8 do: [ :i |
 					item := ToCircularMenu new.
-					item layoutRadius: 60.
 					item icon:
 						(ToMaterialDesignIconProvider iconNamed: 'outlined_settings').
 

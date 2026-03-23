@@ -46,6 +46,12 @@ ToCircularMenu >> newItemList [
 	^ ToCircularMenuList new
 ]
 
+{ #category : #skin }
+ToCircularMenu >> newRawSkin [ 
+
+	^ ToCircularMenuSkin new
+]
+
 { #category : #'t - annulus sector layout user' }
 ToCircularMenu >> stateHolder [
 

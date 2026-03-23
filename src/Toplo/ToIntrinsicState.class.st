@@ -58,12 +58,12 @@ ToIntrinsicState >> checkedSkinEvent: aSkinEvent [
 { #category : #'private - accessing' }
 ToIntrinsicState >> currentPatternOn: anElement [
 
-	^ Array new: 15 streamContents: [ :stream |
-			  stream nextPut: self enablementState.
-			  stream nextPut: (self focusStateOn: anElement).
-			  stream nextPut: self checkState.
-			  stream nextPut: self selectionState.
-			  stream nextPut: self otherSelectionsState ]
+	^ {
+		  self enablementState.
+		  (self focusStateOn: anElement).
+		  self checkState.
+		  self selectionState.
+		  self otherSelectionsState }
 ]
 
 { #category : #'skin dispatching' }

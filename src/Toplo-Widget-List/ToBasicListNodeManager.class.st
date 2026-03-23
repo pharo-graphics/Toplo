@@ -5,23 +5,15 @@ For each data item I create a nodeContainer, its node and the holder that relate
 Class {
 	#name : #ToBasicListNodeManager,
 	#superclass : #Object,
+	#traits : 'TToListNodeManager',
+	#classTraits : 'TToListNodeManager classTrait',
 	#instVars : [
-		'checkableNode',
-		'nodeContainerFactory',
-		'nodeHolderFactory',
-		'nodeFactory',
-		'isBuildingFakeNodeContainer'
+		'checkableNode'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
 
-{ #category : #initialization }
-ToBasicListNodeManager >> buildNode: aNode [ 
-
-	
-]
-
-{ #category : #initialization }
+{ #category : #'t - list node manager' }
 ToBasicListNodeManager >> buildNodeContainer: aNodeContainer [
 
 	| listElement cbox |
@@ -47,74 +39,9 @@ ToBasicListNodeManager >> checkableNode: aBoolean [
 ]
 
 { #category : #initialization }
-ToBasicListNodeManager >> defaultNodeContainerFactory [
-
-	^ [ ToNodeContainer new ]
-]
-
-{ #category : #initialization }
-ToBasicListNodeManager >> defaultNodeFactory [
-
-	^ [ :holder | ToBasicListNode new ]
-]
-
-{ #category : #initialization }
-ToBasicListNodeManager >> defaultNodeHolderFactory [
-
-	^ [ ToNodeHolder new ]
-]
-
-{ #category : #initialization }
 ToBasicListNodeManager >> initialize [ 
 
 	super initialize.
-	checkableNode := false.
-	nodeContainerFactory := self defaultNodeContainerFactory.
-	nodeFactory := self defaultNodeFactory.
-	nodeHolderFactory := self defaultNodeHolderFactory
-]
-
-{ #category : #'instance creation' }
-ToBasicListNodeManager >> newHolder [
-
-	^ nodeHolderFactory value
-]
-
-{ #category : #'instance creation' }
-ToBasicListNodeManager >> newNodeContainer [ 
-
-	^ nodeContainerFactory value
-]
-
-{ #category : #'instance creation' }
-ToBasicListNodeManager >> newNodeForHolder: aNodeHolder [
-
-	^ nodeFactory cull: aNodeHolder
-]
-
-{ #category : #'instance creation' }
-ToBasicListNodeManager >> nodeContainerFactory: aValuable [
-	" aValuable that takes no argument an return a new node container "
-
-	nodeContainerFactory := aValuable
-]
-
-{ #category : #'instance creation' }
-ToBasicListNodeManager >> nodeFactory: aValuable [
-	" aValuable that takes a node holder as unique argument and which running results in a new node "
-
-	nodeFactory := aValuable
-]
-
-{ #category : #'instance creation' }
-ToBasicListNodeManager >> nodeHolderFactory: aValuable [
-	" aValuable that takes no argument an return a new holder "
-
-	nodeHolderFactory := aValuable
-]
-
-{ #category : #initialization }
-ToBasicListNodeManager >> unbuildNode: aNode [
-
-
+	self initializeAsListNodeManager.
+	checkableNode := false
 ]

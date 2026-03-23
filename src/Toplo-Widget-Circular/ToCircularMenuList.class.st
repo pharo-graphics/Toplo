@@ -28,10 +28,13 @@ ToCircularMenuList >> defaultInnerElementClass [
 { #category : #initialization }
 ToCircularMenuList >> defaultNodeManager [
 
-	^ super defaultNodeManager
-		  nodeContainerFactory: [ ToCircularMenuNodeContainer new ];
-		  nodeFactory: [ :holder | ToCircularMenuNode new ];
-		  yourself
+	^ self defaultNodeManagerClass new
+]
+
+{ #category : #initialization }
+ToCircularMenuList >> defaultNodeManagerClass [
+
+	^ ToCircularMenuNodeManager 
 ]
 
 { #category : #initialization }

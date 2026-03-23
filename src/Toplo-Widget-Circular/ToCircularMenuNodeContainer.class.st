@@ -13,9 +13,8 @@ Class {
 ToCircularMenuNodeContainer >> holder: anHolder [
 
 	super holder: anHolder.
-	node := ToCircularMenuNode new.
-	node holder: anHolder.
-	self addChild: node
+	node := self nodeManager newNodeForHolder: self holder.
+	node holder: anHolder
 ]
 
 { #category : #'instance creation' }

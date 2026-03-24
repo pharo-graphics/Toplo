@@ -70,7 +70,7 @@ ToIntrinsicState >> currentPatternOn: anElement [
 ToIntrinsicState >> dispatchSkinEvent: anEvent on: anElement [
 
 	anEvent ifNil: [ ^ self ].
-	anElement dispatchEvent: anEvent
+	anElement skinManager dispatchSkinEvent: anEvent
 ]
 
 { #category : #accessing }

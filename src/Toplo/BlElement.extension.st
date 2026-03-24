@@ -267,7 +267,7 @@ BlElement >> ensureCanManageToploSkin [
 BlElement >> ensureHaveSkinManager [
 
 	self ensureHaveToploExtension.
-	self toploExtension ensureHaveSkinManager
+	self ensuredSkinManager
 ]
 
 { #category : #'*Toplo' }
@@ -286,6 +286,8 @@ BlElement >> ensuredShortcutsStore [
 BlElement >> ensuredSkinManager [
 
 	^ self ensuredToploExtension ensuredSkinManager
+		  onInstalledIn: self;
+		  yourself
 ]
 
 { #category : #'*Toplo' }

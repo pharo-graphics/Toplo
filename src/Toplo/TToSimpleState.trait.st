@@ -10,7 +10,7 @@ TToSimpleState >> applyOn: anElement fromQueue: aQueue [
 	se := self skinEvent.
 	se isConsumed ifTrue: [ ^ self ].
 	anElement spaceDo: [ :sp | se fillFromTime: sp time ].
-	anElement dispatchEvent: se
+	anElement skinManager dispatchSkinEvent: se
 ]
 
 { #category : #'t - simple state' }

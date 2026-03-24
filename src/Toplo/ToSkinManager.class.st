@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'skinStateQueue',
 		'newSkinRequested',
-		'installedSkin'
+		'installedSkin',
+		'skinEventDispatcher'
 	],
 	#category : #'Toplo-Core-Skin'
 }
@@ -22,6 +23,12 @@ ToSkinManager >> applyEnqueuedStatesFor: anElement [
 ToSkinManager >> checkedSkinEvent: aCheckedSkinEvent in: anElement [
 
 	skinStateQueue checkedSkinEvent: aCheckedSkinEvent in: anElement
+]
+
+{ #category : #private }
+ToSkinManager >> dispatchSkinEvent: aSkinEvent [
+
+	skinEventDispatcher dispatchEvent: aSkinEvent
 ]
 
 { #category : #'skin state generation' }
@@ -60,7 +67,8 @@ ToSkinManager >> initialize [
 
 	newSkinRequested := false.
 	installedSkin := ToUnknownSkin instance.
-	skinStateQueue := ToSkinStateQueue new
+	skinStateQueue := ToSkinStateQueue new.
+	skinEventDispatcher := ToSkinEventDispatcher new
 ]
 
 { #category : #'skin - installing / uninstalling' }
@@ -94,7 +102,7 @@ ToSkinManager >> installSkin: aSkin in: anElement [
 	" store the skin "
 	aSkin isThemeSkin ifFalse: [ ToUnresolvedSkinError signal ].
 	installedSkin := aSkin.
-	anElement addEventHandler: installedSkin.
+	skinEventDispatcher addEventHandler: installedSkin.
 	self skinStateQueue enqueueInstallStateFor: anElement
 ]
 
@@ -116,6 +124,12 @@ ToSkinManager >> installedSkinDo: aBlock [
 ToSkinManager >> newSkinRequested [
 
 	^ newSkinRequested
+]
+
+{ #category : #'api - hooks' }
+ToSkinManager >> onInstalledIn: anElement [
+
+	skinEventDispatcher owner: anElement
 ]
 
 { #category : #'skin - install / uninstall request' }
@@ -187,6 +201,6 @@ ToSkinManager >> uninstallSkinIn: anElement [
 	installedSkin isUnknownSkin ifTrue: [ ^ self ].
 	installedSkin isUnresolvedSkin ifFalse: [
 			self skinStateQueue enqueueUninstallStateFor: anElement.
-			anElement removeEventHandler: installedSkin ].
+			skinEventDispatcher removeEventHandler: installedSkin ].
 	installedSkin := ToUnknownSkin instance
 ]

@@ -8,6 +8,12 @@ Class {
 }
 
 { #category : #accessing }
+ToListDataSourceActionCommand class >> action: aValuable [
+
+	^ self new action: aValuable
+]
+
+{ #category : #accessing }
 ToListDataSourceActionCommand >> action [
 
 	^ action

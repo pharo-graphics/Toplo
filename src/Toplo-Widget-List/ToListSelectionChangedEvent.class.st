@@ -3,10 +3,22 @@ Class {
 	#superclass : #ToListElementEvent,
 	#instVars : [
 		'selectionOption',
-		'selectionModel'
+		'appliedCommand'
 	],
 	#category : #'Toplo-Widget-List-Selection-Events'
 }
+
+{ #category : #accessing }
+ToListSelectionChangedEvent >> appliedCommand [
+
+	^ appliedCommand
+]
+
+{ #category : #accessing }
+ToListSelectionChangedEvent >> appliedCommand: aCommand [
+
+	appliedCommand := aCommand
+]
 
 { #category : #accessing }
 ToListSelectionChangedEvent >> selectedIndexes [ 
@@ -17,13 +29,7 @@ ToListSelectionChangedEvent >> selectedIndexes [
 { #category : #accessing }
 ToListSelectionChangedEvent >> selectionModel [
 
-	^ selectionModel
-]
-
-{ #category : #accessing }
-ToListSelectionChangedEvent >> selectionModel: aSelectionModel [
-
-	selectionModel := aSelectionModel
+	^ appliedCommand selectionModel
 ]
 
 { #category : #accessing }

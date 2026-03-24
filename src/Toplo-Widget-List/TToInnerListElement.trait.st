@@ -169,14 +169,6 @@ TToInnerListElement >> partlyVisibleNodesDo: aBlock [
 ]
 
 { #category : #'t - inner list element' }
-TToInnerListElement >> postponeAction: aValuable for: aTarget [
-
-	self dataSourceManager postponeAction: aValuable for: aTarget.
-	" ensure a layout here to trigger the action running"
-	self requestLayout
-]
-
-{ #category : #'t - inner list element' }
 TToInnerListElement >> postponeCommand: aCommand [
 
 	self dataSourceManager postponeCommand: aCommand.

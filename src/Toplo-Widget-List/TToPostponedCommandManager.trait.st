@@ -51,14 +51,6 @@ TToPostponedCommandManager >> nextFinalStepCommand [
 ]
 
 { #category : #'t - postponed command manager' }
-TToPostponedCommandManager >> postponeAction: aValuable for: aTarget [
-
-	self postponeCommand: (ToListDataSourceActionCommand new
-			 action: [ aValuable cull: aTarget ];
-			 yourself)
-]
-
-{ #category : #'t - postponed command manager' }
 TToPostponedCommandManager >> postponeCommand: aCommand [
 
 	self addFinalStepCommand: aCommand 

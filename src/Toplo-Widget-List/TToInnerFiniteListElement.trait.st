@@ -154,6 +154,7 @@ TToInnerFiniteListElement >> onItemRangeChanged: aPositionStart itemCount: anIte
 		pos := container holder position.
 		(pos >= aPositionStart and: [ pos < (aPositionStart + anItemCount) ])
 			ifTrue: [
+				container holder initializeNodeSelections.
 				container requestConfiguration ] ]
 ]
 

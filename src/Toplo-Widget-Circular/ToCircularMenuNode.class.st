@@ -39,6 +39,21 @@ ToCircularMenuNode >> applyConfiguration [
 	self fitContent
 ]
 
+{ #category : #'event handling' }
+ToCircularMenuNode >> enablementChangedEvent: anEvent [
+
+	self holder nodeContainer flagAsDisabled: self isDisabled
+]
+
+{ #category : #initialization }
+ToCircularMenuNode >> initialize [
+
+	super initialize.
+	self
+		addEventFilterOn: ToEnablementChangedEvent
+		do: [ :event | event sendTo: self ]
+]
+
 { #category : #'t - item node' }
 ToCircularMenuNode >> installEventDelegatorOnItem [
 

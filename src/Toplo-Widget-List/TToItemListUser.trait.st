@@ -145,6 +145,18 @@ TToItemListUser >> isItemContainer [
 	^ true
 ]
 
+{ #category : #'t - item list user - disable/ enable' }
+TToItemListUser >> isItemDisabled: anItem [
+
+	self itemList isDisabledAtPosition: anItem positionInList
+]
+
+{ #category : #'t - item list user - disable/ enable' }
+TToItemListUser >> isItemEnabled: anItem [
+
+	self itemList isEnabledAtPosition: anItem positionInList
+]
+
 { #category : #'t - item list user - configuration' }
 TToItemListUser >> isScrollable [
 

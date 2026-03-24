@@ -214,7 +214,8 @@ BlElement >> disable [
 { #category : #'*Toplo' }
 BlElement >> disabled: aBoolean [
 
-	self withAllChildrenBreadthFirstDo: [ :child | child flagAsDisabled: aBoolean ]
+	self withAllChildrenBreadthFirstDo: [ :child |
+		child flagAsDisabled: aBoolean ]
 ]
 
 { #category : #'*Toplo' }

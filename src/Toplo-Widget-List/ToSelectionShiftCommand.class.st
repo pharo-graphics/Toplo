@@ -28,6 +28,12 @@ ToSelectionShiftCommand >> fromIndex: anIndex [
 ]
 
 { #category : #accessing }
+ToSelectionShiftCommand >> indexes [ 
+
+	^ {  }
+]
+
+{ #category : #accessing }
 ToSelectionShiftCommand >> itemCount [
 
 	^ itemCount

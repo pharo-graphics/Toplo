@@ -184,11 +184,6 @@ ToNodeHolder >> nodeManager [
 { #category : #selection }
 ToNodeHolder >> notifySelectedSkinEvent: aSelectionEvent [
 
-	"selectionNotificationMap
-		at: aSelectionEvent selectionOption
-		put: aSelectionEvent selected."
-	"wasFocused := aSelectionEvent focused."
-
 	self nodeContainer skinManagerDo: [ :sm |
 		sm selectedSkinEvent: aSelectionEvent in: self nodeContainer ]
 ]

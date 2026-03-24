@@ -10176,8 +10176,7 @@ ToSandBox class >> listWithData: aCollection [
 			holder fontSize ifNil: [
 				holder fontSize: (rand nextIntegerBetween: 10 and: 16) ].
 			label := (ToLabel text:
-					          holder position asString , ': '
-					          , dataItem asString)
+					          holder position asString , ': ' , dataItem asString)
 				         fontSize: holder fontSize;
 				         yourself.
 			triplet startElement: ToIconicRemoveButton new.
@@ -10234,8 +10233,9 @@ ToSandBox class >> listWithData: aCollection [
 											  labelText: 'Unable/disable';
 											  clickAction: [
 													  idxes do: [ :idx |
-																  (bar nodeContainerAt: idx) disabled:
-																		  (bar nodeContainerAt: idx) isEnabled ] ];
+																  (bar isEnabledAtPosition: idx)
+																	  ifTrue: [ bar disabledAtPosition: idx ]
+																	  ifFalse: [ bar enabledAtPosition: idx ] ] ];
 											  yourself).
 									 m addItem: (ToMenuItem new
 											  labelText: 'Unselectable';

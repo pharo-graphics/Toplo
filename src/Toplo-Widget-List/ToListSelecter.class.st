@@ -297,13 +297,13 @@ ToListSelecter >> nextSelectableIndexToScrollTo [
 ToListSelecter >> onBasicCommandApplied: aCommand [
 
 	selectionChangedEventClass ifNil: [ ^ self ].
-	
+
 	element dispatchEvent: (ToListSelectionCommandAppliedEvent new
 			 command: aCommand;
 			 yourself).
 
 	element dispatchEvent: (selectionChangedEventClass new
-			 selectionModel: aCommand selectionModel;
+			 appliedCommand: aCommand;
 			 selectionOption: self selectionOption;
 			 yourself)
 ]

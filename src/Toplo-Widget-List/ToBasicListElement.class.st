@@ -11,7 +11,7 @@ Class {
 		'mouseMoveReplayRequested',
 		'innerElementClass',
 		'innerElement',
-		'postponedActions'
+		'postponedCommands'
 	],
 	#category : #'Toplo-Widget-List-Core'
 }
@@ -64,12 +64,12 @@ ToBasicListElement >> checkMouseMoveReplayRequest [
 ]
 
 { #category : #layout }
-ToBasicListElement >> checkPostponedActions [
+ToBasicListElement >> checkPostponedCommands [
 
-	postponedActions ifEmpty: [ ^ self ].
-	postponedActions do: [ :action |
-		self innerElement postponeAction: action for: self ].
-	postponedActions reset
+	postponedCommands ifEmpty: [ ^ self ].
+	postponedCommands do: [ :cmd |
+		self innerElement postponeCommand: cmd].
+	postponedCommands reset
 ]
 
 { #category : #layout }
@@ -323,7 +323,7 @@ ToBasicListElement >> hiddenSelectionModel [
 ToBasicListElement >> initialize [
 
 	super initialize.
-	postponedActions := OrderedCollection new.
+	postponedCommands := OrderedCollection new.
 	mouseMoveReplayRequested := false.
 	selectionModeMap := IdentityDictionary new.
 	
@@ -593,7 +593,7 @@ ToBasicListElement >> onLayoutDone [
 
 	super onLayoutDone.
 	self checkSelections.
-	self checkPostponedActions.
+	self checkPostponedCommands.
 	self checkMouseMoveReplayRequest
 ]
 
@@ -613,18 +613,19 @@ ToBasicListElement >> placeholderClass [
 { #category : #layout }
 ToBasicListElement >> postponeAction: aValuable [
 
-	innerElement ifNotNil: [ :inner |
-		^ inner postponeAction: aValuable for: self ].
-	postponedActions add: aValuable.
+	| cmd |
+	cmd := ToListDataSourceActionCommand action: aValuable.
+	innerElement ifNotNil: [ :inner | ^ inner postponeCommand: cmd ].
+	postponedCommands add: cmd.
 	self requestLayout
 ]
 
 { #category : #layout }
-ToBasicListElement >> postponeCommand: aCommand [
+ToBasicListElement >> postponeCommand: aCommand [ 
 
 	innerElement ifNotNil: [ :inner |
-		^ inner postponeCommand: aCommand ].
-	postponedActions add: [ self postponeCommand: aCommand  ].
+		^ inner postponeCommand: aCommand  ].
+	postponedCommands add: aCommand.
 	self requestLayout
 ]
 

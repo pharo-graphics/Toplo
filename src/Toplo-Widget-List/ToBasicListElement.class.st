@@ -390,6 +390,18 @@ ToBasicListElement >> innerElementClass: anInnerElementClass [
 			self requestLayout ]
 ]
 
+{ #category : #'accessing selecters' }
+ToBasicListElement >> isDisabledAtPosition: anInteger [
+
+	^ self disabledSelecter containsIndex: anInteger
+]
+
+{ #category : #'accessing selecters' }
+ToBasicListElement >> isEnabledAtPosition: anInteger [
+
+	^ (self isDisabledAtPosition: anInteger) not
+]
+
 { #category : #'fake container' }
 ToBasicListElement >> isFakeNodeContainer: aNodeContainer [ 
 

@@ -10049,129 +10049,112 @@ ToSandBox class >> listDashBoardFor: aBar [
 ToSandBox class >> listMenuFactory [
 
 	^ [ :menu :request |
-	  | selectionModel indexes target |
-	  target := request currentTarget.
-	  selectionModel := request selectionModel.
-	  indexes := request selectedIndexes.
-	  menu addItem: (ToMenuItem new
-			   labelText: 'Add initial Items';
-			   clickAction: [
-				   target dataAccessor addAll:
-						   (String loremIpsum: 20000) substrings ];
-			   yourself).
-	  menu addItem: (ToMenuItem new
-			   labelText: 'Inspect list';
-			   clickAction: [ target inspect ];
-			   yourself).
-	  menu addItem: (ToMenuItem new
-			   labelText: 'Statistics window';
-			   clickAction: [ target space showStatisticsWindow ];
-			   yourself).
-	  target dataAccessor ifNotEmpty: [
+		  | selectionModel indexes target |
+		  target := request currentTarget.
+		  selectionModel := request selectionModel.
+		  indexes := request selectedIndexes.
 		  menu addItem: (ToMenuItem new
-				   labelText: 'Select all';
-				   clickAction: [ target selecter selectAll ];
+				   labelText: 'Add initial Items';
+				   clickAction: [ target dataAccessor addAll: (String loremIpsum: 20000) substrings ];
 				   yourself).
 		  menu addItem: (ToMenuItem new
-				   labelText: 'Remove all';
-				   clickAction: [ target dataAccessor removeAll ];
+				   labelText: 'Inspect list';
+				   clickAction: [ target inspect ];
 				   yourself).
 		  menu addItem: (ToMenuItem new
-				   labelText: 'Show all';
-				   clickAction: [ target hiddenSelecter deselectAll ];
+				   labelText: 'Statistics window';
+				   clickAction: [ target space showStatisticsWindow ];
 				   yourself).
-		  target selectionOption isAnimated
-			  ifTrue: [
+		  target dataAccessor ifNotEmpty: [
 				  menu addItem: (ToMenuItem new
-						   labelText: 'stop selection transition animation';
-						   clickAction: [
-							   target selectionOption
-								   animationDuration: 0 milliSeconds ];
-						   yourself) ]
-			  ifFalse: [
+						   labelText: 'Select all';
+						   clickAction: [ target selecter selectAll ];
+						   yourself).
 				  menu addItem: (ToMenuItem new
-						   labelText: 'start selection transition animation';
-						   clickAction: [
-							   target selectionOption
-								   animationDuration: 200 milliSeconds ];
-						   yourself) ] ].
-	  indexes ifNotEmpty: [
-		  | selectionMenu |
-		  selectionMenu := ToMenu new.
-		  selectionMenu label: (ToLabel new text: 'Selection').
-		  indexes size = 1 ifTrue: [
-			  | container idx label |
-			  idx := indexes first.
-			  container := target nodeContainerAt: idx.
-			  label := container childWithId: #nodeLabel.
-			  selectionMenu addItem: (ToMenuItem new
-					   labelText: 'Inspect node';
-					   clickAction: [ container inspect ];
-					   yourself).
-			  selectionMenu addItem: (ToMenuItem new
-					   labelText: 'Edit';
-					   clickAction: [ label popupEditorEvent: nil ];
-					   yourself).
-			  selectionMenu addItem: (ToMenuItem new
-					   labelText: (label isMonoLine
-							    ifTrue: [ 'Be multiline' ]
-							    ifFalse: [ 'Be monoline' ]);
-					   clickAction: [
-						   container firstChild label monoLine: label isMonoLine not ];
-					   yourself).
-			  selectionMenu addItem: (ToMenuItem new
-					   labelText: 'Inspect';
-					   clickAction: [ container inspect ];
-					   yourself).
-			  selectionMenu addSeparator ].
+						   labelText: 'Remove all';
+						   clickAction: [ target dataAccessor removeAll ];
+						   yourself).
+				  menu addItem: (ToMenuItem new
+						   labelText: 'Show all';
+						   clickAction: [ target hiddenSelecter deselectAll ];
+						   yourself).
+				  target selectionOption isAnimated
+					  ifTrue: [
+							  menu addItem: (ToMenuItem new
+									   labelText: 'stop selection transition animation';
+									   clickAction: [ target selectionOption animationDuration: 0 milliSeconds ];
+									   yourself) ]
+					  ifFalse: [
+							  menu addItem: (ToMenuItem new
+									   labelText: 'start selection transition animation';
+									   clickAction: [ target selectionOption animationDuration: 200 milliSeconds ];
+									   yourself) ] ].
+		  indexes ifNotEmpty: [
+				  | selectionMenu |
+				  selectionMenu := ToMenu new.
+				  selectionMenu label: (ToLabel new text: 'Selection').
+				  indexes size = 1 ifTrue: [
+						  | container idx label |
+						  idx := indexes first.
+						  container := target nodeContainerAt: idx.
+						  label := container childWithId: #nodeLabel.
+						  selectionMenu addItem: (ToMenuItem new
+								   labelText: 'Inspect node';
+								   clickAction: [ container inspect ];
+								   yourself).
+						  selectionMenu addItem: (ToMenuItem new
+								   labelText: 'Edit';
+								   clickAction: [ label popupEditorEvent: nil ];
+								   yourself).
+						  selectionMenu addItem: (ToMenuItem new
+								   labelText: (label isMonoLine
+										    ifTrue: [ 'Be multiline' ]
+										    ifFalse: [ 'Be monoline' ]);
+								   clickAction: [ container firstChild label monoLine: label isMonoLine not ];
+								   yourself).
+						  selectionMenu addItem: (ToMenuItem new
+								   labelText: 'Inspect';
+								   clickAction: [ container inspect ];
+								   yourself).
+						  selectionMenu addSeparator ].
 
-		  selectionMenu addItem: (ToMenuItem new
-				   labelText: 'Enable/Disable';
-				   clickAction: [
-					   indexes do: [ :idx |
-							   | di |
-							   di := (target nodeContainerAt: idx) node isDisabled.
-							   (target nodeContainerAt: idx) node disabled: di not ] ];
-				   yourself).
-		  selectionMenu addItem: (ToMenuItem new
-				   labelText: 'Set unselectable';
-				   clickAction: [
-					   indexes do: [ :idx |
-							   target unselectableSelecter selectIndex: idx ] ];
-				   yourself).
-		  selectionMenu addItem: (ToMenuItem new
-				   labelText: 'Hide';
-				   clickAction: [
-					   indexes do: [ :idx | target hiddenSelecter selectIndex: idx ] ];
-				   yourself).
-		  selectionMenu addItem: (ToMenuItem new
-				   labelText: 'Insert before';
-				   clickAction: [
-					   | idx |
-					   idx := indexes first.
-					   target dataAccessor
-						   add:
-							   String loremIpsum substrings first , ' (inserted before)'
-						   beforeIndex: idx ];
-				   yourself).
-		  selectionMenu addItem: (ToMenuItem new
-				   labelText: 'Insert after';
-				   clickAction: [
-					   | idx |
-					   idx := indexes last.
-					   target dataAccessor
-						   add: String loremIpsum substrings first , ' (inserted after)'
-						   afterIndex: idx ];
-				   yourself).
-		  selectionMenu addSeparator.
-		  selectionMenu addItem: (ToMenuItem new
-				   labelText: 'Remove';
-				   clickAction: [
-					   indexes sort reverseDo: [ :idx |
-							   target dataAccessor removeAt: idx ] ];
-				   yourself).
-		  menu addSeparator.
-		  menu addItem: selectionMenu ] ]
+				  selectionMenu addItem: (ToMenuItem new
+						   labelText: 'Enable/Disable';
+						   clickAction: [
+								   indexes do: [ :idx |
+											   (target isEnabledAtPosition: idx)
+												   ifTrue: [ target disabledAtPosition: idx ]
+												   ifFalse: [ target enabledAtPosition: idx ] ] ];
+						   yourself).
+				  selectionMenu addItem: (ToMenuItem new
+						   labelText: 'Set unselectable';
+						   clickAction: [ indexes do: [ :idx | target unselectableSelecter selectIndex: idx ] ];
+						   yourself).
+				  selectionMenu addItem: (ToMenuItem new
+						   labelText: 'Hide';
+						   clickAction: [ indexes do: [ :idx | target hiddenSelecter selectIndex: idx ] ];
+						   yourself).
+				  selectionMenu addItem: (ToMenuItem new
+						   labelText: 'Insert before';
+						   clickAction: [
+								   | idx |
+								   idx := indexes first.
+								   target dataAccessor add: String loremIpsum substrings first , ' (inserted before)' beforeIndex: idx ];
+						   yourself).
+				  selectionMenu addItem: (ToMenuItem new
+						   labelText: 'Insert after';
+						   clickAction: [
+								   | idx |
+								   idx := indexes last.
+								   target dataAccessor add: String loremIpsum substrings first , ' (inserted after)' afterIndex: idx ];
+						   yourself).
+				  selectionMenu addSeparator.
+				  selectionMenu addItem: (ToMenuItem new
+						   labelText: 'Remove';
+						   clickAction: [ indexes sort reverseDo: [ :idx | target dataAccessor removeAt: idx ] ];
+						   yourself).
+				  menu addSeparator.
+				  menu addItem: selectionMenu ] ]
 ]
 
 { #category : #'finite list' }

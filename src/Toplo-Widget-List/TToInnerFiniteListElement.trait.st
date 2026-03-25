@@ -126,6 +126,12 @@ TToInnerFiniteListElement >> innerElement [
 	^ self
 ]
 
+{ #category : #accessing }
+TToInnerFiniteListElement >> layoutPositionsRange [
+
+	^ 1 to: self nodeContainers size
+]
+
 { #category : #'t - inner finite list element - initialization' }
 TToInnerFiniteListElement >> newNodeHolderFromDataSource: aDataSource [
 

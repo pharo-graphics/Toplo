@@ -5,8 +5,6 @@ I'm one of the leave of menu composite.
 Class {
 	#name : #ToToggleMenuItem,
 	#superclass : #ToMenuItem,
-	#traits : 'TToCheckable',
-	#classTraits : 'TToCheckable classTrait',
 	#category : #'Toplo-Widget-Menu-Items'
 }
 
@@ -16,6 +14,12 @@ ToToggleMenuItem >> initialize [
 	super initialize.
 	self closeOnPicking: false.
 	self initializeAsCheckable 
+]
+
+{ #category : #'t - element with action' }
+ToToggleMenuItem >> newClickAction: aValuable [
+
+	^ self newCheckAction: aValuable
 ]
 
 { #category : #skin }

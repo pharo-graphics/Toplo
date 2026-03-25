@@ -28,7 +28,7 @@ ToListDataSourceActionCommand >> action: aValuable [
 { #category : #application }
 ToListDataSourceActionCommand >> applyIn: anInfiniteElement [
 
-	action value
+	action cull: anInfiniteElement listElement
 ]
 
 { #category : #'infinite compatibility' }

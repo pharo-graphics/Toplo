@@ -2101,6 +2101,10 @@ ToSandBox class >> example_CircularMenuPane [
 	item icon: (iconProvider iconNamed: #outlined_sms).
 	circularMenu addItem: item.
 
+	item := ToToggleMenuItem new labelText: 'Toggle'.
+	item clickAction: [:evt | evt traceCr ].
+	circularMenu addItem: item.
+	
 	item := ToMenuItem new labelText: 'Inspect'.
 "	item constraints annulus sectorAngleWeight: 0.20."
 	item clickAction: [ space inspect ].

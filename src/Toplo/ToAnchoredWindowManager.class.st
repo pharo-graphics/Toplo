@@ -151,7 +151,7 @@ ToAnchoredWindowManager >> elementPositionInSpaceChangedEvent: anEvent [
 ]
 
 { #category : #'event handling' }
-ToAnchoredWindowManager >> elementRemovedFromParentEvent: anEvent [
+ToAnchoredWindowManager >> elementToBeRemovedFromParentEvent: anEvent [
 
 	self closeWindow
 ]
@@ -163,8 +163,7 @@ ToAnchoredWindowManager >> eventsToHandle [
 		  ToWindowRequest.
 		  ToOpenedClosedEvent.
 		  BlElementExtentChangedEvent.
-		  BlElementRemovedFromParentEvent.
-		  ToRemovedFromSpaceEvent.
+		  BlElementToBeRemovedFromParentEvent.
 		  BlElementPositionInSpaceChangedEvent.
 		  ToThemeInstalledEvent }
 ]
@@ -325,12 +324,6 @@ ToAnchoredWindowManager >> positionWindowOnEvent: anEvent context: aBlElementBou
 		positionElement: currentWindow
 		onEvent: anEvent
 		context: aBlElementBoundsUpdateContext
-]
-
-{ #category : #'event handling' }
-ToAnchoredWindowManager >> removedFromSpaceEvent: anEvent [
-
-	self closeWindow
 ]
 
 { #category : #'window handling' }

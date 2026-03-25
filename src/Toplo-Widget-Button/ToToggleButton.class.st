@@ -18,6 +18,12 @@ ToToggleButton >> initialize [
 	self clickEventClass: ToCheckableChangedEvent
 ]
 
+{ #category : #'t - element with action' }
+ToToggleButton >> newClickAction: aValuable [
+
+	^ self newCheckAction: aValuable
+]
+
 { #category : #skin }
 ToToggleButton >> newRawSkin [ 
 

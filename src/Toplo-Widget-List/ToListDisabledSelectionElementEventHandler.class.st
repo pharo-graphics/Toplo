@@ -19,8 +19,11 @@ ToListDisabledSelectionElementEventHandler >> listDisabledSelectionChangedEvent:
 	anEvent selectionModel selectedIndexesIntervalsDo: [ :int |
 			listElement selectionMode makeDisabledUnselectable ifTrue: [
 				listElement selecter deselectInterval: int ] ].
-	anEvent appliedCommand indexes do: [ :idx |
-		listElement dataSource notifyItemsChanged: (idx to: idx) ].
-	listElement requestUpdateSelectionMode:
-		listElement primarySelectionMode
+
+	listElement postponeAction: [
+			anEvent appliedCommand indexes do: [ :idx |
+					(listElement layoutPositionsRange includes: idx) ifTrue: [
+						listElement dataSource notifyItemsChanged: (idx to: idx) ] ].
+			listElement requestUpdateSelectionMode:
+				listElement primarySelectionMode ]
 ]

@@ -124,6 +124,12 @@ ToAccordionElement >> newBody [
 	^ ToAccordionBodyElement new
 ]
 
+{ #category : #'t - element with action' }
+ToAccordionElement >> newClickAction: aValuable [
+
+	^ self newCheckAction: aValuable
+]
+
 { #category : #'instance creation' }
 ToAccordionElement >> newHeader [ 
 

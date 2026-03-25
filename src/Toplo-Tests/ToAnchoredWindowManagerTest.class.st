@@ -186,7 +186,7 @@ ToAnchoredWindowManagerTest >> testElementPositionInSpaceChangedEvent [
 ]
 
 { #category : #tests }
-ToAnchoredWindowManagerTest >> testElementRemovedFromParentEvent [
+ToAnchoredWindowManagerTest >> testElementToBeRemovedFromParentEvent [
 
 	| win e windowManager closed |
 	e := ToElement new.
@@ -210,12 +210,6 @@ ToAnchoredWindowManagerTest >> testElementRemovedFromParentEvent [
 	space root removeChild: e.
 	self assert: closed.
 	self assert: windowManager currentWindow isNil
-]
-
-{ #category : #tests }
-ToAnchoredWindowManagerTest >> testElementRemovedFromSceneGraphEvent [
-
-	self testElementRemovedFromParentEvent 
 ]
 
 { #category : #tests }

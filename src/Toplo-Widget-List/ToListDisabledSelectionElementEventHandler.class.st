@@ -1,6 +1,10 @@
 Class {
 	#name : #ToListDisabledSelectionElementEventHandler,
 	#superclass : #ToListSelectionElementEventHandler,
+	#instVars : [
+		'postponeCommand',
+		'touchedIndexes'
+	],
 	#category : #'Toplo-Widget-List-Selection-Element'
 }
 
@@ -8,6 +12,13 @@ Class {
 ToListDisabledSelectionElementEventHandler >> eventsToHandle [
 
 	^ super eventsToHandle , { ToListDisabledSelectionChangedEvent }
+]
+
+{ #category : #nil }
+ToListDisabledSelectionElementEventHandler >> initialize [ 
+
+	super initialize.
+	touchedIndexes := OrderedCollection new
 ]
 
 { #category : #'element handlers' }
@@ -20,10 +31,16 @@ ToListDisabledSelectionElementEventHandler >> listDisabledSelectionChangedEvent:
 			listElement selectionMode makeDisabledUnselectable ifTrue: [
 				listElement selecter deselectInterval: int ] ].
 
-	listElement postponeAction: [
-			anEvent appliedCommand indexes do: [ :idx |
+	touchedIndexes addAll: anEvent appliedCommand indexes.
+	postponeCommand ifNotNil: [ ^ self ].
+	postponeCommand := ToListDataSourceActionCommand new.
+	postponeCommand action: [
+			touchedIndexes do: [ :idx |
 					(listElement layoutPositionsRange includes: idx) ifTrue: [
 						listElement dataSource notifyItemsChanged: (idx to: idx) ] ].
 			listElement requestUpdateSelectionMode:
-				listElement primarySelectionMode ]
+				listElement primarySelectionMode.
+			postponeCommand := nil.
+			touchedIndexes reset ].
+	listElement postponeCommand: postponeCommand
 ]

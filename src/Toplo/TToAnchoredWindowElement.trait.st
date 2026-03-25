@@ -18,6 +18,12 @@ TToAnchoredWindowElement >> anchorElement [
 ]
 
 { #category : #'t - anchored window element - accessing' }
+TToAnchoredWindowElement >> anchorElementDo: aValuable [
+
+	^ self manager ifNotNil: [ :m | m anchorElementDo: aValuable ]
+]
+
+{ #category : #'t - anchored window element - accessing' }
 TToAnchoredWindowElement >> anchorRoot [
 
 	^ self manager anchorRoot
@@ -27,6 +33,7 @@ TToAnchoredWindowElement >> anchorRoot [
 TToAnchoredWindowElement >> close [
 
 	self isOpened ifFalse: [ Error signal: 'Closing a closed window' ].
+	self allSubwindowsDo: [ :w | w close ].
 	self dispatchClosedEvent.
 	self stop.
 

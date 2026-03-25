@@ -52,7 +52,7 @@ ToTooltipManager >> mouseUpEvent: anEvent [
 	super mouseUpEvent: anEvent
 ]
 
-{ #category : #initialization }
+{ #category : #'window handling' }
 ToTooltipManager >> windowClass [
 
 	^ ToTooltipWindow

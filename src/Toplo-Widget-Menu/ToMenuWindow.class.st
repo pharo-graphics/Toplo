@@ -32,7 +32,7 @@ ToMenuWindow >> applyConfiguration [
 ]
 
 { #category : #'t - anchored window element - displaying' }
-ToMenuWindow >> close [ 
+ToMenuWindow >> close [
 
 	self itemList secondarySelecter deselectAll.
 	super close

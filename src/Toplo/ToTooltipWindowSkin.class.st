@@ -8,10 +8,14 @@ Class {
 ToTooltipWindowSkin >> closedSkinEvent: anEvent [
 
 	super closedSkinEvent: anEvent.
-	anEvent elementDo: [ :e | | screenshot |
-		screenshot := e screenshot.
-		e anchorRoot addChild: screenshot.
-		(e valueOfTokenNamed: #'window-closing-animation') value: screenshot ]
+	anEvent elementDo: [ :e |
+			e anchorElementDo: [ :ae |
+					ae isAttachedToSceneGraph ifTrue: [
+							| screenshot |
+							screenshot := e screenshot.
+							e anchorRoot addChild: screenshot.
+							(e valueOfTokenNamed: #'window-closing-animation') value:
+								screenshot ] ] ]
 ]
 
 { #category : #'event handling' }

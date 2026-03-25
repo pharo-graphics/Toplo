@@ -30,6 +30,12 @@ ToAnchoredWindowManager >> anchorElement [
 ]
 
 { #category : #accessing }
+ToAnchoredWindowManager >> anchorElementDo: aValuable [
+
+	^ anchorElement ifNotNil: [ :ae | aValuable value: ae ]
+]
+
+{ #category : #accessing }
 ToAnchoredWindowManager >> anchorRoot [
 	" the root element in which the window is placed "
 
@@ -330,7 +336,7 @@ ToAnchoredWindowManager >> positionWindowOnEvent: anEvent context: aBlElementBou
 { #category : #'event handling' }
 ToAnchoredWindowManager >> removedFromSpaceEvent: anEvent [
 
-	self closeWindow
+
 ]
 
 { #category : #'window handling' }

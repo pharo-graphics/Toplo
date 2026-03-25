@@ -101,6 +101,7 @@ ToSkinStateGenerator >> closedEvent: anEvent [
 	" directly dispatch the skin event to allow the hnadling of the closed window 
 	(with a closing animation as an example ) "
 
+	target isAttachedToSceneGraph ifFalse: [ ^ self ].
 	target skinManagerDo: [ :sm |
 		target dispatchEvent: (ToClosedSkinEvent sourceEvent: anEvent) ]
 ]

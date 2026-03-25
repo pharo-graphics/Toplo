@@ -143,13 +143,6 @@ ToPopupWindowManager >> defaultWindowStarter [
 	^ ToStandardPopupStarter new
 ]
 
-{ #category : #'event handling' }
-ToPopupWindowManager >> elementToBeRemovedFromParentEvent: anEvent [
-
-	super elementToBeRemovedFromParentEvent: anEvent.
-	delayedPopupHandler cleanUpCheckerIn: anchorElement 
-]
-
 { #category : #'api - accessing' }
 ToPopupWindowManager >> eventsToHandle [
 
@@ -348,6 +341,13 @@ ToPopupWindowManager >> popupOnPressed: aBoolean [
 
 	popupOnPressed := aBoolean.
 	delayedPopupHandler activateOnPressed: popupOnPressed
+]
+
+{ #category : #'event handling' }
+ToPopupWindowManager >> removedFromSpaceEvent: anEvent [
+
+	super removedFromSpaceEvent: anEvent.
+	delayedPopupHandler cleanUpCheckerIn: anchorElement 
 ]
 
 { #category : #'window handling' }

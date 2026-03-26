@@ -36,7 +36,8 @@ ToCircularMenu >> encompassing: aBoolean [
 { #category : #testing }
 ToCircularMenu >> isOutsideEvent: anEvent [
 
-	self listHolderDo: [ :h | ^ h nodeContainer isOutsideEvent: anEvent ].
+	self listHolderDo: [ :h |
+		(h nodeContainer isOutsideEvent: anEvent) ifFalse: [ ^ false ] ].
 	^ super isOutsideEvent: anEvent
 ]
 

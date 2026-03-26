@@ -9,13 +9,12 @@ ToToggleMenuItemSkin >> checkedSkinEvent: anEvent [
 
 	super checkedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-			e
-				listElementDo: [ :l |
-						e holder nodeContainer
-							addTokenNamed: #'color-bg-container'
-							withValue: (e valueOfTokenNamed: #'color-primary-checked') ]
-				ifNone: [
-				e background: (e valueOfTokenNamed: #'color-primary-checked') ].
+			e listElementDo: [ :l |
+					e holder nodeContainer
+						addTokenNamed: #'color-bg-container'
+						withValue: (e valueOfTokenNamed: #'color-primary-checked') ].
+
+			e background: (e valueOfTokenNamed: #'color-primary-checked').
 			e
 				addTokenNamed: #'color-text'
 				withValue: (e valueOfTokenNamed: #'text-color-primary-checked').
@@ -66,8 +65,8 @@ ToToggleMenuItemSkin >> uncheckedSkinEvent: anEvent [
 			e labelDo: [ :lab | lab requestNewSkin ].
 			e
 				listElementDo: [ :l |
-				e holder nodeContainer removeTokenNamed: #'color-bg-container' ]
-				ifNone: [ e background: BlBackground transparent ].
+				e holder nodeContainer removeTokenNamed: #'color-bg-container' ].
+			e background: BlBackground transparent.
 			e iconDo: [ :ic |
 				ic adaptToColor: (e valueOfTokenNamed: #'color-text') ] ]
 ]

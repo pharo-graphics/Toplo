@@ -41,6 +41,6 @@ ToListDisabledSelectionElementEventHandler >> listDisabledSelectionChangedEvent:
 			listElement requestUpdateSelectionMode:
 				listElement primarySelectionMode.
 			postponedCommand := nil.
-			touchedIndexes removeAll ].
+			touchedIndexes reset ].
 	listElement postponeCommand: postponedCommand
 ]

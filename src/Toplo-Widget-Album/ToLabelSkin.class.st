@@ -9,7 +9,7 @@ ToLabelSkin >> deselectedSkinEvent: anEvent [
 
 	super deselectedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-			"e text asString = 'Alaska' ifTrue: [ anEvent traceCr ]."
+			"e text asString = 'Toggle' ifTrue: [ anEvent traceCr ]."
 			e foreground: (e valueOfTokenNamed: #'color-text') ]
 ]
 

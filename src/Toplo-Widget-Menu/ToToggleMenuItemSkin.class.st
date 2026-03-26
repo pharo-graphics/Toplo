@@ -15,9 +15,16 @@ ToToggleMenuItemSkin >> checkedSkinEvent: anEvent [
 						withValue: (e valueOfTokenNamed: #'color-primary-checked') ].
 
 			e background: (e valueOfTokenNamed: #'color-primary-checked').
-			e
-				addTokenNamed: #'color-text'
-				withValue: (e valueOfTokenNamed: #'text-color-primary-checked').
+			e labelDo: [ :lab |
+					lab
+						addTokenNamed: #'color-text'
+						withValue: (e valueOfTokenNamed: #'text-color-primary-checked').
+					lab
+						addTokenNamed: #'selected-focused-foreground'
+						withValue: (e valueOfTokenNamed: #'text-color-primary-checked').
+					lab
+						addTokenNamed: #'selected-unfocused-foreground'
+						withValue: (e valueOfTokenNamed: #'text-color-primary-checked') ].
 
 			e iconDo: [ :ic |
 				ic adaptToColor:
@@ -50,6 +57,14 @@ ToToggleMenuItemSkin >> indeterminateSkinEvent: anEvent [
 				ic adaptToColor: (e valueOfTokenNamed: #'color-text') ] ]
 ]
 
+{ #category : #'event handling' }
+ToToggleMenuItemSkin >> installSkinEvent: anEvent [
+
+	super installSkinEvent: anEvent.
+	anEvent elementDo: [ :e | ]
+
+]
+
 { #category : #testing }
 ToToggleMenuItemSkin >> isTogglable [
 
@@ -61,10 +76,11 @@ ToToggleMenuItemSkin >> uncheckedSkinEvent: anEvent [
 
 	super uncheckedSkinEvent: anEvent.
 	anEvent elementDo: [ :e |
-			e removeTokenNamed: #'color-text'.
-			e labelDo: [ :lab | lab requestNewSkin ].
-			e
-				listElementDo: [ :l |
+			e labelDo: [ :lab |
+					lab removeTokenNamed: #'color-text'.
+					lab removeTokenNamed: #'selected-focused-foreground'.
+					lab removeTokenNamed: #'selected-unfocused-foreground' ].
+			e listElementDo: [ :l |
 				e holder nodeContainer removeTokenNamed: #'color-bg-container' ].
 			e background: BlBackground transparent.
 			e iconDo: [ :ic |

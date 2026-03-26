@@ -31,7 +31,7 @@ ToPropertyWriter >> animation: aPropertyAnimation [
 ]
 
 { #category : #'look event handling' }
-ToPropertyWriter >> applyOn: anObject [
+ToPropertyWriter >> applyOn: anObject withSkinEvent: aSkinEvent [
 
 	self writeTo: anObject
 ]

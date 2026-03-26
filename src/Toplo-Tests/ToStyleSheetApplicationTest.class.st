@@ -252,10 +252,10 @@ ToStyleSheetApplicationTest >> testSkinWith2SkinEventActionOnSameSkinEventEvent 
 	styleSheet select: (ToIdSelector new id: #a) style: [ :sr |
 		sr
 			when: ToInstallSkinEvent
-			do: [ :e | e border: (BlBorder paint: Color red width: 3) ].
+			do: [ :e :evt | e border: (BlBorder paint: Color red width: 3) ].
 		sr
 			when: ToInstallSkinEvent
-			do: [ :e | e border: (BlBorder paint: Color blue width: 1) ] ].
+			do: [ :e :evt | e border: (BlBorder paint: Color blue width: 1) ] ].
 
 	elem := ToElement new.
 	space root addChild: elem.

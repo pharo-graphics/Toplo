@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #'look event handling' }
-ToSkinEventListener >> applyOn: anObject [
+ToSkinEventListener >> applyOn: anObject withSkinEvent: aSkinEvent [
 
 	self subclassResponsibility 
 ]
@@ -55,5 +55,5 @@ ToSkinEventListener >> receiveEvent: aSkinEvent [
 	| target |
 	(self canReceiveEvent: aSkinEvent) ifFalse: [ ^ self ].
 	target := aSkinEvent currentTarget.
-	self applyOn: target
+	self applyOn: target withSkinEvent: aSkinEvent
 ]

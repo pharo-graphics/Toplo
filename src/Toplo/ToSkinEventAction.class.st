@@ -27,9 +27,9 @@ ToSkinEventAction >> action: aValuable [
 ]
 
 { #category : #'look event handling' }
-ToSkinEventAction >> applyOn: anObject [
+ToSkinEventAction >> applyOn: anObject withSkinEvent: aSkinEvent [
 
-	self action value: anObject
+	self action cull: anObject cull: aSkinEvent
 ]
 
 { #category : #testing }

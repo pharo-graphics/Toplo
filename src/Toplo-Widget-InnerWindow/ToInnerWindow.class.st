@@ -150,9 +150,10 @@ ToInnerWindow >> installRawStyle [
 	super installRawStyle.
 
 	self topBarElement
+		background: (self valueOfTokenNamed: #'background-color');
 		padding: (BlInsets top: 2 bottom: 1);
 		outskirts: BlOutskirts inside;
-		border: (	self valueOfTokenNamed: #'color-border')
+		border: (self valueOfTokenNamed: #'color-border')
 ]
 
 { #category : #'api - displaying' }

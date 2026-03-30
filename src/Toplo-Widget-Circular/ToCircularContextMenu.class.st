@@ -51,6 +51,20 @@ ToCircularContextMenu >> initialize [
 	self fitContent
 ]
 
+{ #category : #testing }
+ToCircularContextMenu >> isOutsideEvent: anEvent [
+
+	| windows |
+	windows := Array streamContents: [ :stream |
+			           self manager currentWindowDo: [ :w |
+				           w allSubwindowsDo: [ :sub | stream nextPut: sub ] ] ].
+	(windows allSatisfy: [ :w | w isOutsideEvent: anEvent ]) ifFalse: [
+		^ false ].
+	(self items allSatisfy: [ :it | it isOutsideEvent: anEvent ])
+		ifFalse: [ ^ false ].
+	^ super isOutsideEvent: anEvent
+]
+
 { #category : #'t - menu window model' }
 ToCircularContextMenu >> isTopMenu [
 
@@ -91,20 +105,6 @@ ToCircularContextMenu >> newItemList [
 ToCircularContextMenu >> newRawSkin [ 
 
 	^ ToCircularMenuWindowSkin new
-]
-
-{ #category : #layout }
-ToCircularContextMenu >> onLayout: aBounds context: aBlElementBoundsUpdateContext [
-
-	super onLayout: aBounds context: aBlElementBoundsUpdateContext.
-	self checkLayoutStepOnLayout: aBounds context: aBlElementBoundsUpdateContext
-]
-
-{ #category : #layout }
-ToCircularContextMenu >> onMeasure: anExtentMeasurementSpec [
-
-	self measureWithExtentMeasurementSpec: anExtentMeasurementSpec onEvent: self lastPopupEvent.
-	super onMeasure: anExtentMeasurementSpec
 ]
 
 { #category : #'t - annulus sector layout user' }

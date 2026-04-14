@@ -23,3 +23,9 @@ TToElement >> menuPaneDo: aBlock [
 
 	self flag: 'Check how to remove that'
 ]
+
+{ #category : #'instance creation' }
+TToElement >> newScrollableParent [
+
+	^ ToScrollableElement new
+]

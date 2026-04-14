@@ -56,10 +56,24 @@ ToAnnulusCircularLayout >> centroidOf: anElement in: aContainer [
 { #category : #layout }
 ToAnnulusCircularLayout >> layout: anElement in: aBounds context: aBlElementBoundsUpdateContext [
 
+	self
+		layoutSectors: anElement
+		in: aBounds
+		context: aBlElementBoundsUpdateContext.
+	super
+		layout: anElement
+		in: aBounds
+		context: aBlElementBoundsUpdateContext.
+
+	anElement invalidate
+]
+
+{ #category : #layout }
+ToAnnulusCircularLayout >> layoutSectors: anElement in: aBounds context: aBlElementBoundsUpdateContext [
+
 	| radius defaultGap sectorStartAngle remainder sectors numberWithGap |
 	sectors := anElement children accountedByLayout.
 	sectors isEmpty ifTrue: [ ^ self ].
-
 	radius := aBounds extent x / 2.
 	remainder := 360.
 	numberWithGap := 0.
@@ -69,12 +83,10 @@ ToAnnulusCircularLayout >> layout: anElement in: aBounds context: aBlElementBoun
 				 inSectorElement: each) ifNotNil: [ :gap |
 					remainder := remainder - gap.
 					numberWithGap := numberWithGap + 1 ] ].
-
 	defaultGap := numberWithGap < sectors size
 		              ifTrue: [ remainder / (sectors size - numberWithGap) ]
 		              ifFalse: [ 0 ].
 	sectorStartAngle := self startAngle + self startAngleOffset.
-
 	sectors do: [ :each |
 			| centroid edgePoint innerEdgePoint sectorGap |
 			centroid := self centroidOf: each in: anElement.
@@ -86,29 +98,22 @@ ToAnnulusCircularLayout >> layout: anElement in: aBounds context: aBlElementBoun
 				                  pointOnInnerPeripheryFromCenter: aBounds center
 				                  through: centroid
 				                  in: anElement.
-
 			each constraints annulusSector centroid: centroid.
 			each constraints annulusSector edgePoint: edgePoint.
 			each constraints annulusSector innerEdgePoint: innerEdgePoint.
 			each extent: anElement measuredExtent.
-
 			sectorGap := (each constraints annulus
 				              sectorAngleInDegreesWithRadius: radius
 				              inSectorElement: each)
 				             ifNotNil: [ :gap | gap ]
 				             ifNil: [ defaultGap ].
-
 			each
 				innerRadialRatio: self innerRadialRatio;
 				outerRadialRatio: self outerRadialRatio;
 				startAngle: sectorStartAngle;
 				endAngle: sectorStartAngle + sectorGap.
-			sectorStartAngle := sectorStartAngle + sectorGap ].
-	super
-		layout: anElement
-		in: aBounds
-		context: aBlElementBoundsUpdateContext.
-	anElement invalidate
+			sectorStartAngle := sectorStartAngle + sectorGap ]
+
 ]
 
 { #category : #private }

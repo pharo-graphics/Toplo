@@ -2214,7 +2214,6 @@ ToSandBox class >> example_CircularMenuPaneWithSubmenus2 [
 
 	item := ToCircularMenu new icon:
 		        (iconProvider iconNamed: 'filled_checklist').
-
 	item layoutRadius: 80.
 	
 	sub := ToMenuItem new labelText: 'Menu item 1'.
@@ -5617,33 +5616,34 @@ ToSandBox class >> example_SkinIsRenewWhenLableTextChange [
 ToSandBox class >> example_Smalltalk_ui_icons [
 
 	| column root vscrollBar container |
-	column := BlElement new
-		          layout: BlLinearLayout vertical;
+	column := ToPane vertical
 		          constraintsDo: [ :c |
-			          c horizontal fitContent.
-			          c vertical fitContent ];
+				          c horizontal matchParent.
+				          c vertical fitContent ];
 		          yourself.
 	Smalltalk ui icons allIconNames do: [ :k |
-		| lab im node |
-		im := ToImage new innerImage: (self iconNamed: k).
-		lab := ToLabel new text: k asString.
-		node := ToButton new icon: im; label: lab; yourself.
-		node width: 600.
-		node startFlexible: true.
-		column addChild: node ].
+			| lab im node |
+			im := ToImage new innerImage: (self iconNamed: k).
+			lab := ToLabel new text: k asString.
+			node := ToButton new
+				        icon: im;
+				        label: lab;
+				        yourself.
+			node hMatchParent.
+			node startFlexible: true.
+			column addChild: node ].
 
 	root := column asScrollableElement.
-	vscrollBar := BlVerticalScrollbarElement new.
+	vscrollBar := ToScrollbarElement new.
 	vscrollBar constraintsDo: [ :c |
-		c ignoreByLayout.
-		c margin: (BlInsets right: 2).
-		c ignored horizontal alignRight.
-		c ignored vertical alignBottom ].
+			c ignoreByLayout.
+			c ignored horizontal alignRight.
+			c ignored vertical alignBottom ].
 	vscrollBar attachTo: root.
 	container := BlElement new
 		             constraintsDo: [ :c |
-			             c horizontal matchParent.
-			             c vertical matchParent ];
+				             c horizontal matchParent.
+				             c vertical matchParent ];
 		             yourself.
 	container
 		addChild: root;

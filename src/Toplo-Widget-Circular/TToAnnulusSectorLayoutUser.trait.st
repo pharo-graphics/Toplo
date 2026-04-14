@@ -73,8 +73,19 @@ TToAnnulusSectorLayoutUser >> startAngle [
 TToAnnulusSectorLayoutUser >> startAngle: anAngleInDegrees [
 
 	(self startAngle closeTo: anAngleInDegrees) ifTrue: [ ^ self ].
-	self stateHolder startAngle: anAngleInDegrees.
-	self requestLayout
+	self stateHolder startAngle: anAngleInDegrees
+]
+
+{ #category : #'t - annulus sector layout user' }
+TToAnnulusSectorLayoutUser >> startAngleRadians [
+
+	^ self startAngle degreesToRadians 
+]
+
+{ #category : #'t - annulus sector layout user' }
+TToAnnulusSectorLayoutUser >> startAngleRadians: anAngleInRadians [
+
+	self startAngle: anAngleInRadians radiansToDegrees 
 ]
 
 { #category : #'t - annulus sector layout user' }

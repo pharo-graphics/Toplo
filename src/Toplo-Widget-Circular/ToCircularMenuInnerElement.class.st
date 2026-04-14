@@ -12,6 +12,12 @@ ToCircularMenuInnerElement >> addNodeContainer: aNodeContainer at: aPosition [
 	self addChild: aNodeContainer at: aPosition
 ]
 
+{ #category : #'t - circular element' }
+ToCircularMenuInnerElement >> defaultLayout [ 
+
+	^ ToCircularMenuLayout new
+]
+
 { #category : #initialization }
 ToCircularMenuInnerElement >> initialize [
 

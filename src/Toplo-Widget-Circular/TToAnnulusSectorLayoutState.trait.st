@@ -90,3 +90,15 @@ TToAnnulusSectorLayoutState >> startAngleOffset: anAngleInDegrees [
 
 	startAngleOffset := anAngleInDegrees
 ]
+
+{ #category : #'t - annulus sector layout state' }
+TToAnnulusSectorLayoutState >> startAngleRadians [
+
+	^ startAngle degreesToRadians 
+]
+
+{ #category : #'t - annulus sector layout state' }
+TToAnnulusSectorLayoutState >> startAngleRadians: anAngleInRadians [
+
+	startAngle := anAngleInRadians radiansToDegrees 
+]

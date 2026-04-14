@@ -12,7 +12,7 @@ Class {
 { #category : #accessing }
 ToAnnulusSectorElement >> arcLength [
 
-	^ self outerRadius * self deltaAngleInRadians - (self radialGap * 2)
+	^ self outerRadius * self deltaAngleRadians - (self radialGap * 2)
 ]
 
 { #category : #accessing }
@@ -80,7 +80,7 @@ ToAnnulusSectorElement >> chordLength [
 
 	| r |
 	r := self outerRadius.
-	^ 2 * r * (self deltaAngleInRadians / 2) sin - (self radialGap * 2)
+	^ 2 * r * (self deltaAngleRadians / 2) sin - (self radialGap * 2)
 ]
 
 { #category : #initialization }
@@ -96,8 +96,9 @@ ToAnnulusSectorElement >> defaultLayout [
 ]
 
 { #category : #accessing }
-ToAnnulusSectorElement >> deltaAngleInRadians [
-    ^ (self endAngleInRadians - self startAngleInRadians) \\ (2 * Float pi)
+ToAnnulusSectorElement >> deltaAngleRadians [
+
+    ^ (self endAngleRadians - self startAngleRadians) \\ (2 * Float pi)
 ]
 
 { #category : #accessing }
@@ -122,14 +123,19 @@ ToAnnulusSectorElement >> endAngle [
 ToAnnulusSectorElement >> endAngle: anAngleInDegrees [
 
 	(self endAngle closeTo: anAngleInDegrees) ifTrue: [ ^ self ].
-	layout endAngle: anAngleInDegrees.
-	self requestLayout
+	layout endAngle: anAngleInDegrees
 ]
 
 { #category : #accessing }
-ToAnnulusSectorElement >> endAngleInRadians [
+ToAnnulusSectorElement >> endAngleRadians [
 
 	^ self endAngle degreesToRadians 
+]
+
+{ #category : #accessing }
+ToAnnulusSectorElement >> endAngleRadians: anAngleInRadians [
+
+	self endAngle: anAngleInRadians radiansToDegrees 
 ]
 
 { #category : #initialization }
@@ -143,7 +149,7 @@ ToAnnulusSectorElement >> initialize [
 { #category : #accessing }
 ToAnnulusSectorElement >> innerArcLength [
 
-	^ (self innerRadius * self deltaAngleInRadians) - (self radialGap * 2)
+	^ (self innerRadius * self deltaAngleRadians) - (self radialGap * 2)
 ]
 
 { #category : #accessing }
@@ -151,7 +157,7 @@ ToAnnulusSectorElement >> innerChordLength [
 
 	 | r |
     r := self innerRadius.
-    ^ (2 * r * (self deltaAngleInRadians / 2) sin) - (self radialGap * 2)
+    ^ (2 * r * (self deltaAngleRadians / 2) sin) - (self radialGap * 2)
 ]
 
 { #category : #accessing }
@@ -167,8 +173,9 @@ ToAnnulusSectorElement >> innerRadius [
 ]
 
 { #category : #accessing }
-ToAnnulusSectorElement >> midAngleInRadians [
-    ^ self startAngleInRadians + (self deltaAngleInRadians / 2)
+ToAnnulusSectorElement >> midAngleRadians [
+
+    ^ self startAngleRadians + (self deltaAngleRadians / 2)
 ]
 
 { #category : #initialization }
@@ -198,12 +205,6 @@ ToAnnulusSectorElement >> radialGap: aNumber [
 	radialGap := aNumber.
 	self geometry: self newGeometry 
 	
-]
-
-{ #category : #accessing }
-ToAnnulusSectorElement >> startAngleInRadians [
-
-	^ self startAngle degreesToRadians 
 ]
 
 { #category : #'t - annulus circular layout user' }

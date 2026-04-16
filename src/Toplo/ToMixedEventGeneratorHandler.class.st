@@ -48,6 +48,7 @@ ToMixedEventGeneratorHandler >> initialize [
 { #category : #'event handling' }
 ToMixedEventGeneratorHandler >> mouseDownEvent: anEvent [
 
+	anEvent isConsumed ifTrue: [ ^ self ].
 	activateOnPressed ifFalse: [ ^ self ].
 
 	startEventClass = ToStartStillHoveredEvent ifTrue: [ ^ self ].
@@ -55,12 +56,14 @@ ToMixedEventGeneratorHandler >> mouseDownEvent: anEvent [
 	stopEventClass := ToStopStillPressedEvent.
 	repeatedEventClass := ToStillPressedEvent.
 
-	self startEvent: anEvent
+	self startEvent: anEvent copy.
+	anEvent consume
 ]
 
 { #category : #'event handling' }
 ToMixedEventGeneratorHandler >> mouseEnterEvent: anEvent [
 
+	anEvent isConsumed ifTrue: [ ^ self ].
 	activateOnHovered ifFalse: [ ^ self ].
 	startEventClass := ToStartStillHoveredEvent.
 	stopEventClass := ToStopStillHoveredEvent.

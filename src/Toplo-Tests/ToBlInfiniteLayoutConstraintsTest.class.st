@@ -5,6 +5,14 @@ Class {
 }
 
 { #category : #tests }
+ToBlInfiniteLayoutConstraintsTest >> testDecorationInsetsDefaultsToEmptyInsets [
+
+	self
+		assert: BlInfiniteLayoutConstraints new decorationInsets
+		equals: BlInsets empty
+]
+
+{ #category : #tests }
 ToBlInfiniteLayoutConstraintsTest >> testLinearLayoutReadsDecorationInsetsBeforeComputation [
 
 	| layout element |

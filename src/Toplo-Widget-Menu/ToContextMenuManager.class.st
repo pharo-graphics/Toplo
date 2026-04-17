@@ -10,7 +10,7 @@ Class {
 { #category : #'window handling' }
 ToContextMenuManager >> bottomUpCloseWindowRequestOnEvent: anEvent [ 
 
-	self closeWindowIfMinimumDelayExceededOnEvent: anEvent
+	self closeWindowNowOnEvent: anEvent
 ]
 
 { #category : #initialization }

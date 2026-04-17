@@ -47,6 +47,7 @@ ToTooltipManager >> mouseOutsideEvent: anEvent [
 { #category : #'event handling' }
 ToTooltipManager >> mouseUpEvent: anEvent [
 
+	self resetPopupHandlerOnEvent: anEvent.
 	closeOnReleased ifFalse: [ ^ self ].
 	super mouseUpEvent: anEvent
 ]

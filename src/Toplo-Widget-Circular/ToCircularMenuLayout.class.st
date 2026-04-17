@@ -13,9 +13,7 @@ ToCircularMenuLayout >> layoutSectors: anElement in: aBounds context: aBlElement
 		layoutSectors: anElement
 		in: aBounds
 		context: aBlElementBoundsUpdateContext.
-
-	parentMenu := anElement listElement menuListOwner.
-	parentMenu isSubmenu ifFalse: [ ^ self ].
+	anElement listElement menuListOwner isSubmenu ifFalse: [ ^ self ].
 
 	sectors := anElement children accountedByLayout.
 	sectors isEmpty ifTrue: [ ^ self ].
@@ -26,6 +24,7 @@ ToCircularMenuLayout >> layoutSectors: anElement in: aBounds context: aBlElement
 
 	sectorsMidAngle < Float pi ifFalse: [ ^ self ].
 
+	parentMenu := anElement listElement menuListOwner.
 	pmSector := parentMenu holder nodeContainer.
 	pmStartAngle := pmSector startAngleRadians.
 	pmEndAngle := pmSector endAngleRadians.

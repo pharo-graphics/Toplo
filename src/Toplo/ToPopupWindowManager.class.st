@@ -200,10 +200,6 @@ ToPopupWindowManager >> isPopover [
 ]
 
 { #category : #'event handling' }
-ToPopupWindowManager >> mouseDownEvent: anEvent [
-]
-
-{ #category : #'event handling' }
 ToPopupWindowManager >> mouseEnterEvent: anEvent [
 
 
@@ -230,7 +226,6 @@ ToPopupWindowManager >> mouseOutsideEvent: anEvent [
 { #category : #'event handling' }
 ToPopupWindowManager >> mouseUpEvent: anEvent [
 
-	self resetPopupHandlerOnEvent: anEvent.
 	closeOnReleased ifFalse: [ ^ self ].
 	self closeWindowIfMinimumDelayExceededOnEvent: anEvent
 ]
@@ -239,7 +234,6 @@ ToPopupWindowManager >> mouseUpEvent: anEvent [
 ToPopupWindowManager >> mouseUpOutsideEvent: anEvent [
 
 	self flag: 'Check how to refactor together with #mouseOutsideEvent: '. 
-	self resetPopupHandlerOnEvent: anEvent.
 	anEvent emitter = outsideEventFilter ifFalse: [ ^ self ].
 	checkOutsideEvent ifFalse: [ ^ self ].
 	anEvent sourceEvent consume.

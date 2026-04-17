@@ -82,16 +82,13 @@ TToEventGeneratorHandler >> startEvent: anEvent [
 
 	| target eventToUse |
 	checker ifNotNil: [ ^ self ].
-	anEvent isConsumed ifTrue: [ ^ self ].
 	target := anEvent currentTarget.
-	eventToUse := anEvent.
+	eventToUse := anEvent copy.
 	startTime := time now.
-
 	checker := BlRepeatedTaskAction new
 		           delay: delay asDuration;
 		           action: [
 			           self taskActionFromEvent: eventToUse in: target ].
-
 	standaloneMouseOutsideFilter ifTrue: [
 			| filter |
 			filter := ToOutsideEventFilter newOneShotInstance
@@ -99,7 +96,6 @@ TToEventGeneratorHandler >> startEvent: anEvent [
 				          element: target;
 				          yourself.
 			target space root addEventFilter: filter ].
-		
 	target enqueueTask: checker
 ]
 
@@ -114,8 +110,8 @@ TToEventGeneratorHandler >> stopTaskFromEvent: anEvent in: aTarget [
 
 	" check the checker to avoid infinite loop in case a cleanUp already occured"
 	checker ifNil: [ ^ self ].
-	self cleanUpCheckerIn: aTarget.
 	self newStopEvent ifNotNil: [ :stopEvent |
+			self cleanUpCheckerIn: aTarget.
 			aTarget dispatchEvent: (stopEvent
 					 sourceEvent: anEvent;
 					 yourself) ]
@@ -125,18 +121,18 @@ TToEventGeneratorHandler >> stopTaskFromEvent: anEvent in: aTarget [
 TToEventGeneratorHandler >> taskActionFromEvent: anEvent in: aTarget [
 
 	| evt now |
-	anEvent isConsumed ifTrue: [ ^ self ].
 	now := time now.
 	now >= (startTime + startDelay) ifFalse: [ ^ self ].
 	evt := startEvent
 		       ifNil: [
+						 
 				       startEvent := self newStartEvent
-					                     sourceEvent: anEvent;
+					                     sourceEvent: anEvent copy;
 					                     yourself ]
 		       ifNotNil: [
 				       needRepeatedEvent ifFalse: [ ^ self ].
 				       self newRepeatedEvent
-					       sourceEvent: anEvent;
+					       sourceEvent: anEvent copy;
 					       yourself ].
 	aTarget dispatchEvent: evt.
 	evt isConsumed ifTrue: [ self stopTaskFromEvent: anEvent in: aTarget ]

@@ -383,9 +383,7 @@ ToPopupWindowManager >> startStillPressedEvent: anEvent [
 	" first I have to test if I'am concerned by this event "
 
 	anEvent emitter = delayedPopupHandler ifFalse: [ ^ self ].
-	anEvent sourceEvent button = mouseButton ifFalse: [
-			self resetPopupHandlerOnEvent: anEvent.
-			^ self ].
+	anEvent sourceEvent button = mouseButton ifFalse: [ ^ self ].
 	currentWindow ifNotNil: [ " use case: the mouse is on a menu button and the menu window is opened. 
 		clicking on this menu button must close the button and cancel the pane auto open"
 			anchorElement menuPaneDo: [ :mp | mp stopAutoOpen ].

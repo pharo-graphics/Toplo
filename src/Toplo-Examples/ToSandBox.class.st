@@ -2389,6 +2389,62 @@ ToSandBox class >> example_ClassHierarchiesWithMethods [
 	treeElement openInSpace
 ]
 
+{ #category : #tree }
+ToSandBox class >> example_ClassHierarchiesWithMethodsWithSelectedPath [
+	"For this example we created a new wrapper dealing with classes and methods at the same time, a new Node was also created (ToTreeSubAndMethNode) to apply a new skin (ToTreeNodeSubAndMethSkin) with new icons and a different background color for methods.
+	This variant adds a text field at the top that reflects the current selected path."
+
+	| pane pathField treeElement |
+	pane := ToPane vertical.
+	pane matchParent.
+	pane layout cellSpacing: 5.
+
+	pathField := ToTextField new.
+	pathField
+		hMatchParent;
+		wrappingMode: false;
+		placeholderString: 'Selected path';
+		text: 'No selection'.
+
+	treeElement := self classTree.
+	treeElement matchParent.
+	treeElement useScrollbar: true.
+	treeElement dataAccessor add: ProtoObject.
+	treeElement dataAccessor add: BlElement.
+	treeElement dataAccessor add: Collection.
+	treeElement dataAccessor add: String.
+	treeElement
+		addEventHandlerOn: ToListPrimarySelectionChangedEvent
+		do: [ :evt |
+				| currentWrapper labels selectedIndex selectedPath |
+				evt selectedIndexes
+					ifEmpty: [ pathField text: 'No selection' ]
+					ifNotEmpty: [
+							selectedIndex := evt selectedIndexes first.
+							selectedPath := (evt currentTarget dataSource pathOfIndex:
+								                 selectedIndex) asArray.
+							labels := OrderedCollection new.
+							currentWrapper := evt currentTarget dataSource at:
+								                  selectedIndex.
+							[ currentWrapper isNil ] whileFalse: [
+									labels addFirst: (currentWrapper dataItem isClass
+											 ifTrue: [ currentWrapper dataItem name ]
+											 ifFalse: [ currentWrapper dataItem printString ]).
+									currentWrapper := currentWrapper parentWrapper ].
+							pathField text: (String streamContents: [ :stream |
+										 stream << selectedPath printString.
+										 labels ifNotEmpty: [
+												 stream << ' - '.
+												 labels doWithIndex: [ :label :index |
+														 index > 1 ifTrue: [ stream << ' > ' ].
+														 stream << label ] ] ]) ] ].
+
+	pane addChild: pathField.
+	pane addChild: treeElement.
+	pane openInSpace.
+	^ pane
+]
+
 { #category : #anchors }
 ToSandBox class >> example_ClockWithAnchors [
 

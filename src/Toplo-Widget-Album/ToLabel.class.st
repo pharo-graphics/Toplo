@@ -231,7 +231,7 @@ ToLabel >> isFrozen [
 { #category : #testing }
 ToLabel >> isMonoLine [
 
-	^ innerElement isMonoLine 
+	^ innerElement isMonoLine
 ]
 
 { #category : #testing }

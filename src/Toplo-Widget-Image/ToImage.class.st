@@ -285,6 +285,12 @@ ToImage >> rotateBy: aDegreesAngle [
 ]
 
 { #category : #accessing }
+ToImage >> sourceImage [
+
+	^ sourceImage
+]
+
+{ #category : #accessing }
 ToImage >> svgInnerImageId [
 
 	^ self class svgInnerImageId

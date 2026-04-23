@@ -66,7 +66,11 @@ TToLabeledIcon >> iconImage [
 { #category : #'t - labeled icon' }
 TToLabeledIcon >> iconImage: anElement [
 
-	self icon: (ToImage inner: anElement)
+	| img |
+	img := (anElement isKindOf: ToImage)
+		       ifFalse: [ ToImage inner: anElement ]
+		       ifTrue: [ anElement ].
+	self icon: img
 ]
 
 { #category : #'t - labeled icon' }

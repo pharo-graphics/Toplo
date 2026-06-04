@@ -31,7 +31,7 @@ ToCheckableState >> checked [
 ]
 
 { #category : #'checking protocol' }
-ToCheckableState >> checked: aBooleanOrIndeterminate requestBefore: requestBefore [
+ToCheckableState >> checked: aBooleanOrIndeterminate onEvent: anEvent requestBefore: requestBefore [
 
 	| current req |
 
@@ -60,16 +60,10 @@ ToCheckableState >> checked: aBooleanOrIndeterminate requestBefore: requestBefor
 	requestBefore ifTrue: [
 			req := ToCheckableCheckRequestEvent new
 				       requestedAction: [
-					       self privateNotifyChecked: aBooleanOrIndeterminate ];
+					       self privateNotifyChecked: aBooleanOrIndeterminate onEvent: anEvent];
 				       yourself.
 			^ owner dispatchRequest: req ].
-	self privateNotifyChecked: aBooleanOrIndeterminate
-]
-
-{ #category : #'checking protocol' }
-ToCheckableState >> ensureChecked: aBooleanOrIndeterminate [
-
-	self checked: aBooleanOrIndeterminate requestBefore: false
+	self privateNotifyChecked: aBooleanOrIndeterminate onEvent: anEvent
 ]
 
 { #category : #accessing }
@@ -129,7 +123,13 @@ ToCheckableState >> nextCheckValue [
 { #category : #'checking protocol' }
 ToCheckableState >> notifyChanged [ 
 
-	owner dispatchEvent: (ToCheckableChangedEvent checked: self isChecked)
+	self notifyChangedOnEvent: nil
+]
+
+{ #category : #'checking protocol' }
+ToCheckableState >> notifyChangedOnEvent: anEvent [
+
+	owner dispatchEvent: (ToCheckableChangedEvent checked: self isChecked onEvent: anEvent)
 ]
 
 { #category : #accessing }
@@ -165,17 +165,43 @@ ToCheckableState >> privateChecked: aBooleanOrIndeterminate [
 ]
 
 { #category : #'checking protocol' }
-ToCheckableState >> privateNotifyChecked: aBooleanOrIndeterminate [
+ToCheckableState >> privateChecked: aBooleanOrIndeterminate onEvent: anEvent [
+	" notice a change of the state and send an event for the skin.
+	Sent locally from the checkable>>checked: method and can be sent from
+	the checkableGroup of the checkable."
 
 	checked = aBooleanOrIndeterminate ifTrue: [ ^ self ].
-	self privateChecked: aBooleanOrIndeterminate.
-	self notifyChanged 
+	checked := aBooleanOrIndeterminate.
+
+	" finally dispatch the event used to generate the state for the skin.
+	implementation note: we need this additional event for the skin.
+	This event can be used if one need to handle the look change or a 
+	change in a checkable group (when an item in a group is checked, 
+	the others may be unchecked according to the group strategy). If one
+	need to handle the case where a checkable is unchecked because another
+	group item is checked, then one can use this event 
+	(example: ToAccordionElement)"
+	owner dispatchEvent: (ToCheckableCheckEvent checked: checked onEvent: anEvent)
+]
+
+{ #category : #'checking protocol' }
+ToCheckableState >> privateNotifyChecked: aBooleanOrIndeterminate onEvent: anEvent [
+
+	checked = aBooleanOrIndeterminate ifTrue: [ ^ self ].
+	self privateChecked: aBooleanOrIndeterminate onEvent: anEvent.
+	self notifyChangedOnEvent: anEvent
 ]
 
 { #category : #'checking protocol' }
 ToCheckableState >> requestChecked: aBooleanOrIndeterminate [ 
 
-	self checked: aBooleanOrIndeterminate requestBefore: true
+	self checked: aBooleanOrIndeterminate onEvent: nil requestBefore: true
+]
+
+{ #category : #'checking protocol' }
+ToCheckableState >> requestChecked: aBooleanOrIndeterminate onEvent: anEvent [
+
+	self checked: aBooleanOrIndeterminate onEvent: anEvent requestBefore: true
 ]
 
 { #category : #'checking protocol' }
@@ -199,4 +225,10 @@ ToCheckableState >> switchToNextCheckStateOnClick: aBoolean [
 	to let the user decide when to do it.
 	see https://github.com/pharo-graphics/Toplo/issues/336 "
 	switchToNextCheckStateOnClick := aBoolean
+]
+
+{ #category : #'checking protocol' }
+ToCheckableState >> switchToNextCheckStateOnEvent: anEvent [
+
+	self requestChecked: self nextCheckValue onEvent: anEvent
 ]

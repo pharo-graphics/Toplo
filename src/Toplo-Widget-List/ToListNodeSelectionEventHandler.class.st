@@ -135,12 +135,12 @@ ToListNodeSelectionEventHandler >> multipleSelectionListClickOnNodeEvent: anEven
 ]
 
 { #category : #'mouse handlers' }
-ToListNodeSelectionEventHandler >> notifyClickOnNodeFromEvent: anEvent [
+ToListNodeSelectionEventHandler >> notifyClickOnNodeOnEvent: anEvent [
 
 	| listElement node |
 	node := anEvent currentTarget.
 	listElement := node holder listElement.
-	listElement notifyClickOnNode: node fromEvent: anEvent
+	listElement notifyClickOnNode: node onEvent: anEvent
 ]
 
 { #category : #'selection events' }
@@ -163,7 +163,7 @@ ToListNodeSelectionEventHandler >> pickEvent: anEvent [
 	mode := listElement primarySelectionMode.
 	mode selectOnPressed ifTrue: [ ^ self ].
 	mode selectOnClick ifFalse: [ ^ self ].
-	self notifyClickOnNodeFromEvent: anEvent
+	self notifyClickOnNodeOnEvent: anEvent
 ]
 
 { #category : #'mouse handlers' }
@@ -174,7 +174,7 @@ ToListNodeSelectionEventHandler >> primaryMouseDownEvent: anEvent [
 	listElement := node holder listElement.
 	mode := listElement primarySelectionMode.
 	mode selectOnPressed ifFalse: [ ^ self ].
-	self notifyClickOnNodeFromEvent: anEvent
+	self notifyClickOnNodeOnEvent: anEvent
 ]
 
 { #category : #'single selection' }

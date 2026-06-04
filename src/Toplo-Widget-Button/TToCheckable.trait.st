@@ -85,12 +85,6 @@ TToCheckable >> ensureCheckableState [
 				 yourself) ]
 ]
 
-{ #category : #'t - checkable  - protocol' }
-TToCheckable >> ensureChecked: aBooleanOrIndeterminate [
-
-	self checkableState ensureChecked: aBooleanOrIndeterminate 
-]
-
 { #category : #'t - checkable - group' }
 TToCheckable >> group [
 
@@ -150,6 +144,12 @@ TToCheckable >> privateChecked: aBoolean [
 	self checkableState privateChecked: aBoolean
 ]
 
+{ #category : #'t - checkable - accessing' }
+TToCheckable >> privateChecked: aBoolean onEvent: anEvent [
+
+	self checkableState privateChecked: aBoolean onEvent: anEvent
+]
+
 { #category : #'t - checkable - group' }
 TToCheckable >> registerInGroup: aGroup [
 
@@ -193,6 +193,12 @@ TToCheckable >> switchToNextCheckStateOnClick [
 TToCheckable >> switchToNextCheckStateOnClick: aBoolean [
 
 	self checkableState switchToNextCheckStateOnClick: aBoolean
+]
+
+{ #category : #'t - checkable  - protocol' }
+TToCheckable >> switchToNextCheckStateOnEvent: anEvent [
+
+	self checkableState switchToNextCheckStateOnEvent: anEvent
 ]
 
 { #category : #'t - checkable  - protocol' }

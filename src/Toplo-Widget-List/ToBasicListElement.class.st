@@ -497,7 +497,7 @@ ToBasicListElement >> nodeManager [
 ]
 
 { #category : #'selection updating' }
-ToBasicListElement >> notifyClickOnNode: aNode fromEvent: anEvent [
+ToBasicListElement >> notifyClickOnNode: aNode onEvent: anEvent [
 
 	| req min |
 	aNode isAttachedToSceneGraph ifFalse: [ ^ self ].
@@ -507,20 +507,20 @@ ToBasicListElement >> notifyClickOnNode: aNode fromEvent: anEvent [
 	check if the selection has to be preserved.
 	If it is to be preserve the do nothing here.
 	The listElement event handler will request the focus"
-	(self isFocusable and: [ self hasFocus not ]) ifTrue: [
-		" the node may have the focus for keyboard input as an example.
+	(self isFocusable and: [ self hasFocus not ]) ifTrue: [ " the node may have the focus for keyboard input as an example.
 		The listElement should not take the focus in this case "
-		aNode hasFocus ifFalse: [self requestFocus].
-		min := self selectionMode minSelectedIndexesCountForSelectionPreserving.
-		self selectionModel selectedIndexesCount > min ifTrue: [
-			^ self ] ].
-	
+			aNode hasFocus ifFalse: [ self requestFocus ].
+			min := self selectionMode
+				       minSelectedIndexesCountForSelectionPreserving.
+			self selectionModel selectedIndexesCount > min ifTrue: [ ^ self ] ].
+
 	req := ToListClickOnNodeRequestEvent new
+		       sourceEvent: anEvent;
 		       requestedAction: [
-			       aNode dispatchEvent: (ToListClickOnNodeEvent new
-						        fillFromTime: aNode space time;
-						        sourceEvent: anEvent;
-						        yourself) ];
+				       aNode dispatchEvent: (ToListClickOnNodeEvent new
+							        fillFromTime: aNode space time;
+							        sourceEvent: anEvent;
+							        yourself) ];
 		       yourself.
 
 	aNode dispatchRequest: req

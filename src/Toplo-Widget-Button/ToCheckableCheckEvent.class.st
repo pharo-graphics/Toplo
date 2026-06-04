@@ -16,6 +16,15 @@ ToCheckableCheckEvent class >> checked: aBoolean [
 		  yourself
 ]
 
+{ #category : #'instance creation' }
+ToCheckableCheckEvent class >> checked: aBoolean onEvent: anEvent [
+
+	^ self new
+		  checked: aBoolean;
+		  sourceEvent: anEvent;
+		  yourself
+]
+
 { #category : #accessing }
 ToCheckableCheckEvent >> checked [
 

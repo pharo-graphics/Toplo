@@ -147,13 +147,13 @@ ToThemeExamples class >> example_BlElementWithTheme [
 
 	pn := BlElement new layout: (BlLinearLayout vertical cellSpacing: 10).
 	pn constraintsDo: [ :c |
-		c vertical matchParent.
-		c horizontal matchParent ].
+			c vertical matchParent.
+			c horizontal matchParent ].
 
 	pn2 := BlElement new layout: BlFrameLayout new.
 	pn2 constraintsDo: [ :c |
-		c vertical matchParent.
-		c horizontal matchParent ].
+			c vertical matchParent.
+			c horizontal matchParent ].
 	pn2 addChild: pn.
 
 	pn background: Color white.
@@ -164,12 +164,12 @@ ToThemeExamples class >> example_BlElementWithTheme [
 		                 labelText: 'Dark Theme';
 		                 beEndToStart;
 		                 checkAction: [ :evt |
-			                 pn localTheme: (evt currentTarget isChecked
-						                  ifTrue: [ ToBeeDarkTheme new ]
-						                  ifFalse: [ ToBeeTheme new ]).
-			                 evt currentTarget isChecked
-				                 ifTrue: [ pn background: Color gray ]
-				                 ifFalse: [ pn background: Color white ] ];
+				                 pn localTheme: (evt currentTarget isChecked
+							                  ifTrue: [ ToBeeDarkTheme new ]
+							                  ifFalse: [ ToBeeTheme new ]).
+				                 evt currentTarget isChecked
+					                 ifTrue: [ pn background: Color gray ]
+					                 ifFalse: [ pn background: Color white ] ];
 		                 yourself.
 
 	themeSwitcher defaultSkin: ToCheckboxSkin new.
@@ -183,7 +183,7 @@ ToThemeExamples class >> example_BlElementWithTheme [
 	helloWorld := ToTextField new text: 'Hello world'.
 	helloWorld addStamp: #description.
 	helloWorld
-		withLineWrapping;
+		wrappingMode: true;
 		beReadonlyWithoutSelection.
 	helloWorld localTheme: ToBeeTheme new.
 	pn addChild: hello.
@@ -191,11 +191,11 @@ ToThemeExamples class >> example_BlElementWithTheme [
 
 
 	listElement := ToListElement new nodeBuilder: [ :node :dataItem :holder |
-		               | lab |
-		               lab := dataItem.
-		               lab removeFromParent.
-		               lab hMatchParent.
-		               node addChild: lab ].
+			               | lab |
+			               lab := dataItem.
+			               lab removeFromParent.
+			               lab hMatchParent.
+			               node addChild: lab ].
 
 	listElement background: Color transparent.
 	typeArr := {
@@ -213,13 +213,13 @@ ToThemeExamples class >> example_BlElementWithTheme [
 		              ('H5' -> #H5) }.
 
 	typeArr do: [ :typeAssoc |
-		headingArr do: [ :headingAssoc |
-			| lab |
-			lab := ToLabel new.
-			lab addAllStamps: typeAssoc value.
-			lab addStamp: headingAssoc value.
-			lab text: typeAssoc key , ' ' , headingAssoc key.
-			listElement dataAccessor add: lab ] ].
+			headingArr do: [ :headingAssoc |
+					| lab |
+					lab := ToLabel new.
+					lab addAllStamps: typeAssoc value.
+					lab addStamp: headingAssoc value.
+					lab text: typeAssoc key , ' ' , headingAssoc key.
+					listElement dataAccessor add: lab ] ].
 	pn addChild: listElement.
 	listElement requestNewSkin.
 	space show

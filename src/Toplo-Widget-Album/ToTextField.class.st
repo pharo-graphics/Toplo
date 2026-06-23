@@ -30,22 +30,22 @@ ToTextField >> applyConfiguration [
 
 	super applyConfiguration.
 	self infinite vFitContent.
-	self next
+	self albumEditorElement
 		vFitContent;
 		hMatchParent.
-	self next next
+	self albumEditorElement next
 		vFitContent;
 		hMatchParent.
 	self vFitContent.
-	self next constraintsDo: [ :c |
+	self albumEditorElement constraintsDo: [ :c |
 			c linear vertical alignCenter.
 			c frame vertical alignCenter ].
 	wrappingMode
 		ifTrue: [
-				self next next hMatchParent.
+				self albumEditorElement next hMatchParent.
 				self infinite hMatchParent ]
 		ifFalse: [
-				self next next hFitContent.
+				self albumEditorElement next hFitContent.
 				self infinite hFitContent ]
 ]
 

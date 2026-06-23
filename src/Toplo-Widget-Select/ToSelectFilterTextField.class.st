@@ -12,7 +12,7 @@ ToSelectFilterTextField >> applyConfiguration [
 
 	super applyConfiguration.
 	self fitContent.
-	self next hFitContent 
+	self albumEditorElement hFitContent 
 ]
 
 { #category : #initialization }

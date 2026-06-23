@@ -7889,7 +7889,7 @@ ToSandBox class >> example_rootFrameWithContextMenu [
 
 	inner := ToPane horizontal.
 	textField := ToTextField new
-		             withLineWrapping;
+		             wrappingMode: true;
 		             width: 200.
 	inner addChild: (ToLabel new text: 'Token: ').
 	inner addChild: (ToSelectableLabel new text: 'Token: ').
@@ -8684,7 +8684,7 @@ ToSandBox class >> example_textFieldWithLineWrappingWithSaveCapability [
 
 	| t text |
 	t := ToTextField new
-		     withLineWrapping;
+		     wrappingMode: true;
 		     withSaveCapability.
 	t whenSaveRequestedDo: [ :saveRequested |
 			saveRequested accepted: true.

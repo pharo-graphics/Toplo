@@ -23,8 +23,8 @@ ToDiffAlbumsElement >> applyHighlightTo: src fromModifications: modifications [
 	modifications do: [ :join |
 			join lineRange do: [ :idx |
 					| deco segment |
-					segment := src next editor segmentCollector segments at: idx.
-					deco := (AlbSubtextElement editorElement: src next)
+					segment := src albumEditorElement editor segmentCollector segments at: idx.
+					deco := (AlbSubtextElement editorElement: src albumEditorElement)
 						        interval: (segment textStart to: segment textEnd);
 						        yourself.
 					deco addEventHandler: AlbSubtextElementEventHandler new.

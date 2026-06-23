@@ -205,9 +205,10 @@ ToDiffAlbumsElement >> initialize [
 ToDiffAlbumsElement >> initializeAlbums [
 
 	srcAlbum := ToAlbum new.
-	srcAlbum next beReadonlyWithSelection.
+	srcAlbum beReadonlyWithSelection.
+
 	targetAlbum := ToAlbum new.
-	targetAlbum next beReadonlyWithSelection.
+	targetAlbum beReadonlyWithSelection
 ]
 
 { #category : #private }

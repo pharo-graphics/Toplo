@@ -3487,7 +3487,7 @@ ToSandBox class >> example_ListWithAllClassesNone [
 
 	| l |
 	l := ToListElement new.
-	l primarySelectionMode disable.
+	l selecter disable.
 	l dataAccessor addAll:
 		(Smalltalk globals allClasses collect: [ :cls | cls name ]).
 	l openInSpace

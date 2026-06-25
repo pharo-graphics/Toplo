@@ -25,9 +25,7 @@ ToAlbum >> addEditsFeedbackLayer [
 { #category : #accessing }
 ToAlbum >> albumEditorElement [ 
 
-	^ self next next
-
-	
+	^ self next
 ]
 
 { #category : #configuration }

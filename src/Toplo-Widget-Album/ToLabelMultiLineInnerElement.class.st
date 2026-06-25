@@ -71,13 +71,13 @@ ToLabelMultiLineInnerElement >> isMonoLine [
 { #category : #'instance creation' }
 ToLabelMultiLineInnerElement >> newEditor [
 
-	| ed |
-	ed := ToAlbum new.
-	ed hMatchParent.
-	ed vFitContent.
-	ed next fitContent.
-	ed infinite fitContent.
-	^ ed
+	| editor |
+	editor := ToAlbum new.
+	editor hMatchParent.
+	editor vFitContent.
+	editor albumEditorElement fitContent.
+	editor infinite fitContent.
+	^ editor
 ]
 
 { #category : #'private - text splitting' }

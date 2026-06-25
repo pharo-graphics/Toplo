@@ -8,7 +8,7 @@ Class {
 ToSelectableLabel >> applyConfiguration [
 
 	super applyConfiguration.
-	self next hFitContent.
+	self albumEditorElement hFitContent.
 	self fitContent
 ]
 

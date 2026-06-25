@@ -80,7 +80,7 @@ ToCompletionEngine >> closeMenu [
 ToCompletionEngine >> completionToken [
 	"Return the word just before the caret"
 
-	^ (self editor privateText
+	^ (self editor text
 		   copyFrom: self completionTokenStart
 		   to: self editor selection firstIndex - 1) asString
 ]
@@ -129,7 +129,7 @@ ToCompletionEngine >> createContext [
 	^ self contextClass
 		  engine: self
 		  class: class
-		  source: editor privateText asString
+		  source: editor text asString
 		  position: editor cursor position
 ]
 
@@ -457,7 +457,7 @@ ToCompletionEngine >> smartBackspace [
 
 	| opposite smartCharacter index |
 	editor hasSelection ifTrue: [ ^ false ].
-	smartCharacter := editor privateText
+	smartCharacter := editor text
 		                  at: editor selection firstIndex - 1
 		                  ifAbsent: [ ^ false ]. "take the opposite"
 	opposite := self

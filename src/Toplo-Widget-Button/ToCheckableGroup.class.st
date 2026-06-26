@@ -11,27 +11,6 @@ Class {
 	#category : #'Toplo-Widget-Button-Checkable'
 }
 
-{ #category : #'registering / unregistering' }
-ToCheckableGroup >> add: aCheckable [
-	self
-		deprecated: 'send #register: instead'
-		transformWith:
-		'`@receiver add: `@arg' -> '`@receiver register: `@arg'.
-
-	self register: aCheckable
-]
-
-{ #category : #'registering / unregistering' }
-ToCheckableGroup >> addAll: aCollection [
-
-	self
-		deprecated: 'send #registerAll: instead'
-		transformWith:
-		'`@receiver addAll: `@arg' -> '`@receiver registerAll: `@arg'.
-
-	self registerAll: aCollection
-]
-
 { #category : #'checking / unchecking request' }
 ToCheckableGroup >> allowChangeWith: aCheckValue forCheckable: target [
 
@@ -39,27 +18,6 @@ ToCheckableGroup >> allowChangeWith: aCheckValue forCheckable: target [
 			 allowChangeWith: aCheckValue
 			 in: self
 			 forCheckable: target)
-]
-
-{ #category : #accessing }
-ToCheckableGroup >> buttons [
-	
-	self deprecated: 'send #registeredCheckables instead'
-		transformWith: '`@receiver buttons'
-						-> '`@receiver registeredCheckables'.
-
-	^ self registeredCheckables
-]
-
-{ #category : #accessing }
-ToCheckableGroup >> checkedButtons [
-
-	self
-		deprecated: 'send #checkedList instead'
-		transformWith:
-		'`@receiver checkedButtons' -> '`@receiver checkedList'.
-
-	^ self checkedList 
 ]
 
 { #category : #accessing }
@@ -138,27 +96,6 @@ ToCheckableGroup >> registeredCheckables [
 	^ registeredCheckables
 ]
 
-{ #category : #'registering / unregistering' }
-ToCheckableGroup >> remove: aCheckable [
-
-	self
-		deprecated: 'send #unregister: instead'
-		transformWith:
-		'`@receiver remove: `@arg' -> '`@receiver unregister: `@arg'.
-	self unregister: aCheckable 
-]
-
-{ #category : #'registering / unregistering' }
-ToCheckableGroup >> removeAll [
-
-	self
-		deprecated: 'send #unregisterAll instead'
-		transformWith: '`@receiver removeAll' -> '`@receiver unregisterAll'.
-
-
-	self unregisterAll
-]
-
 { #category : #'checking / unchecking request' }
 ToCheckableGroup >> uncheckAll [
 
@@ -171,16 +108,6 @@ ToCheckableGroup >> uncheckAllExcept: aButton [
 	(self registeredCheckables select: [ :b |
 		 b ~= aButton and: [ b isChecked ] ]) do: [ :b |
 		b privateChecked: false ]
-]
-
-{ #category : #accessing }
-ToCheckableGroup >> uncheckedButtons [
-
-	self
-		deprecated: 'send #uncheckedList instead'
-		transformWith:
-		'`@receiver uncheckedButtons' -> '`@receiver uncheckedList'.
-	^ self uncheckedList
 ]
 
 { #category : #accessing }

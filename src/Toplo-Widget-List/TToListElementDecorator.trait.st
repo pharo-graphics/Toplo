@@ -125,26 +125,6 @@ TToListElementDecorator >> scrollToDataSourcePosition: anIndex [
 ]
 
 { #category : #'t - list element decorator - infinite accessing' }
-TToListElementDecorator >> scrollToIndex: anIndex [
-	self
-		deprecated: 'Use scrollToDataSourcePosition: instead'
-		transformWith: '`@receiver scrollToIndex: `@argument'
-			-> '`@receiver scrollToDataSourcePosition: `@argument'.
-
-	self scrollToDataSourcePosition: anIndex
-]
-
-{ #category : #'t - list element decorator - infinite accessing' }
-TToListElementDecorator >> scrollToIndexAtTop: anIndex [
-
-	self
-		deprecated: 'Use scrollToDataSourcePosition: instead'
-		transformWith: '`@receiver scrollToIndexAtTop: `@argument'
-			-> '`@receiver scrollToDataSourcePosition: `@argument'.
-	self scrollToDataSourcePosition: anIndex
-]
-
-{ #category : #'t - list element decorator - infinite accessing' }
 TToListElementDecorator >> scrollTowardEndToDataSourcePosition: anIndex [
 
 	self next scrollTowardEndToDataSourcePosition: anIndex

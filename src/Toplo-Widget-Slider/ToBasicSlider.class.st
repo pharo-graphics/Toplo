@@ -14,7 +14,8 @@ Class {
 		'currentValue',
 		'sliderBar',
 		'sliderKnob',
-		'newValueCallback'
+		'newValueCallback',
+		'quantum'
 	],
 	#category : #'Toplo-Widget-Slider-Core'
 }
@@ -55,6 +56,7 @@ ToBasicSlider >> initializeDefaultValues [
 	maxValue := 100.0.
 	minValue := 0.0.
 	currentValue := 0.0.
+	quantum := 1
 ]
 
 { #category : #initialization }
@@ -126,6 +128,18 @@ ToBasicSlider >> newValueCallback [
 ToBasicSlider >> newValueCallback: anObject [
 
 	newValueCallback := anObject
+]
+
+{ #category : #accessing }
+ToBasicSlider >> quantum [
+
+	^ quantum
+]
+
+{ #category : #accessing }
+ToBasicSlider >> quantum: anObject [
+
+	quantum := anObject
 ]
 
 { #category : #'api - slider' }

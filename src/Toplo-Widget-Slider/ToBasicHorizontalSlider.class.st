@@ -57,7 +57,7 @@ ToBasicHorizontalSlider >> valueAtCoord: aPosition [
 	         / (posX - (sliderKnob width / 2)).
 	value := minValue + (valueDiff / coeff).
 
-	^ (value roundTo: 1) asFloat
+	^ (value roundTo: self quantum) asFloat
 ]
 
 { #category : #'api - transformations' }

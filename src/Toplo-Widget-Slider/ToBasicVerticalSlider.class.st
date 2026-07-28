@@ -62,7 +62,7 @@ ToBasicVerticalSlider >> valueAtCoord: aPosition [
 	          / (posY - (sliderKnob height / 2))).
 	value := maxValue - (valueDiff / coeff).
 
-	^ (value roundTo: 1) asFloat
+	^ (value roundTo: self quantum) asFloat
 ]
 
 { #category : #'api - transformations' }

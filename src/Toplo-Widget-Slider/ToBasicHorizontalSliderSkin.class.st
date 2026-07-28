@@ -1,11 +1,11 @@
 Class {
-	#name : #ToNewBasicHorizontalSliderSkin,
+	#name : #ToBasicHorizontalSliderSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Sliders-Core'
+	#category : #'Toplo-Widget-Slider-Core'
 }
 
 { #category : #initialization }
-ToNewBasicHorizontalSliderSkin >> initializeBarForElement: element [ 
+ToBasicHorizontalSliderSkin >> initializeBarForElement: element [ 
 
 	
 	| sliderBar |
@@ -20,7 +20,7 @@ ToNewBasicHorizontalSliderSkin >> initializeBarForElement: element [
 ]
 
 { #category : #initialization }
-ToNewBasicHorizontalSliderSkin >> initializeKnobForElement: element [
+ToBasicHorizontalSliderSkin >> initializeKnobForElement: element [
 
 	| sliderKnob pt |
 	sliderKnob := element sliderKnob.
@@ -30,7 +30,7 @@ ToNewBasicHorizontalSliderSkin >> initializeKnobForElement: element [
 	sliderKnob
 		geometry: BlCircleGeometry new;
 		background: Color lightRed;
-		size: pt;
+		extent: pt;
 		transformDo: [ :t | t translateBy: pt negated x / 2 @ 0 ].
 	sliderKnob whenLayoutedDoOnce: [
 			sliderKnob constraintsDo: [ :c |
@@ -39,10 +39,11 @@ ToNewBasicHorizontalSliderSkin >> initializeKnobForElement: element [
 ]
 
 { #category : #'event handling' }
-ToNewBasicHorizontalSliderSkin >> installSkinEvent: anEvent [
+ToBasicHorizontalSliderSkin >> installSkinEvent: anEvent [
 	"Be careful, adding padding makes the knob imprecise"
+
 	anEvent elementDo: [ :elt |
-			elt size: 200 @ 50.
+			elt extent: 200 @ 50.
 			elt layout: BlFrameLayout new.
 			elt clipChildren: false.
 			self initializeBarForElement: elt.

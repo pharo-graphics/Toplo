@@ -1,7 +1,7 @@
 Class {
 	#name : #ToSliderHorizontalGraduationSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Sliders-Core'
+	#category : #'Toplo-Widget-Slider-Core'
 }
 
 { #category : #'event handling' }

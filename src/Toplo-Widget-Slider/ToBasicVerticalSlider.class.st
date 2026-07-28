@@ -1,11 +1,11 @@
 Class {
-	#name : #ToNewBasicVerticalSlider,
-	#superclass : #ToNewBasicSlider,
-	#category : #'Toplo-Sliders-Core'
+	#name : #ToBasicVerticalSlider,
+	#superclass : #ToBasicSlider,
+	#category : #'Toplo-Widget-Slider-Core'
 }
 
 { #category : #examples }
-ToNewBasicVerticalSlider class >> simpleExample [
+ToBasicVerticalSlider class >> simpleExample [
 
 	<script>
 	| slider textElt space |
@@ -26,7 +26,7 @@ ToNewBasicVerticalSlider class >> simpleExample [
 ]
 
 { #category : #'api - transformations' }
-ToNewBasicVerticalSlider >> moveKnobTo: aPosition [
+ToBasicVerticalSlider >> moveKnobTo: aPosition [
 
 	| newPos newPosY |
 	newPos := aPosition.
@@ -44,13 +44,13 @@ ToNewBasicVerticalSlider >> moveKnobTo: aPosition [
 ]
 
 { #category : #'instance creation' }
-ToNewBasicVerticalSlider >> newRawSkin [
+ToBasicVerticalSlider >> newRawSkin [
 
-	^ ToNewBasicVerticalSliderSkin new
+	^ ToBasicVerticalSliderSkin new
 ]
 
 { #category : #'api - transformations' }
-ToNewBasicVerticalSlider >> valueAtCoord: aPosition [
+ToBasicVerticalSlider >> valueAtCoord: aPosition [
 
 	| valueDiff value coeff posY |
 	posY := aPosition y.
@@ -66,7 +66,7 @@ ToNewBasicVerticalSlider >> valueAtCoord: aPosition [
 ]
 
 { #category : #'api - transformations' }
-ToNewBasicVerticalSlider >> valueToCoord: aValue [
+ToBasicVerticalSlider >> valueToCoord: aValue [
 
 	| current total coeff |
 	current := aValue - self minValue.

@@ -1,11 +1,11 @@
 Class {
-	#name : #ToNewBasicVerticalSliderSkin,
+	#name : #ToBasicVerticalSliderSkin,
 	#superclass : #ToRawSkin,
-	#category : #'Toplo-Sliders-Core'
+	#category : #'Toplo-Widget-Slider-Core'
 }
 
 { #category : #initialization }
-ToNewBasicVerticalSliderSkin >> initializeBarForElement: element [
+ToBasicVerticalSliderSkin >> initializeBarForElement: element [
 
 	| sliderBar |
 	sliderBar := element sliderBar.
@@ -19,7 +19,7 @@ ToNewBasicVerticalSliderSkin >> initializeBarForElement: element [
 ]
 
 { #category : #initialization }
-ToNewBasicVerticalSliderSkin >> initializeKnobForElement: element [
+ToBasicVerticalSliderSkin >> initializeKnobForElement: element [
 
 	| sliderKnob pt |
 	sliderKnob := element sliderKnob.
@@ -38,7 +38,7 @@ ToNewBasicVerticalSliderSkin >> initializeKnobForElement: element [
 ]
 
 { #category : #'event handling' }
-ToNewBasicVerticalSliderSkin >> installSkinEvent: anEvent [
+ToBasicVerticalSliderSkin >> installSkinEvent: anEvent [
 	"Be careful, adding padding makes the knob imprecise"
 
 	anEvent elementDo: [ :elt |

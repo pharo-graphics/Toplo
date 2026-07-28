@@ -6,7 +6,7 @@ This slider aims to be the foundation of a new slider for Toplo, its design is s
 This slider was influenced by the `ToDesignSlider` and the `ToOldBasicSlider`.
 "
 Class {
-	#name : #ToNewBasicSlider,
+	#name : #ToBasicSlider,
 	#superclass : #ToElement,
 	#instVars : [
 		'minValue',
@@ -16,24 +16,24 @@ Class {
 		'sliderKnob',
 		'newValueCallback'
 	],
-	#category : #'Toplo-Sliders-Core'
+	#category : #'Toplo-Widget-Slider-Core'
 }
 
 { #category : #private }
-ToNewBasicSlider >> currentValue [
+ToBasicSlider >> currentValue [
 
 	^ currentValue
 ]
 
 { #category : #private }
-ToNewBasicSlider >> currentValue: aNumber [
+ToBasicSlider >> currentValue: aNumber [
 
 	currentValue := aNumber.
 	self newValueCallback ifNotNil: [ :e | e value: currentValue ]
 ]
 
 { #category : #initialization }
-ToNewBasicSlider >> initialize [
+ToBasicSlider >> initialize [
 
 	super initialize.
 	self initializeDefaultValues.
@@ -43,14 +43,14 @@ ToNewBasicSlider >> initialize [
 ]
 
 { #category : #'private - building' }
-ToNewBasicSlider >> initializeBar [
+ToBasicSlider >> initializeBar [
 
 	sliderBar := ToElement new.
 	self addChild: sliderBar
 ]
 
 { #category : #accessing }
-ToNewBasicSlider >> initializeDefaultValues [
+ToBasicSlider >> initializeDefaultValues [
 
 	maxValue := 100.0.
 	minValue := 0.0.
@@ -58,7 +58,7 @@ ToNewBasicSlider >> initializeDefaultValues [
 ]
 
 { #category : #initialization }
-ToNewBasicSlider >> initializeEvents [
+ToBasicSlider >> initializeEvents [
 
 	self
 		addEventHandlerOn: BlMouseDownEvent
@@ -74,110 +74,110 @@ ToNewBasicSlider >> initializeEvents [
 ]
 
 { #category : #'private - building' }
-ToNewBasicSlider >> initializeKnob [
+ToBasicSlider >> initializeKnob [
 
 	sliderKnob := ToElement new.
 	self addChild: sliderKnob
 ]
 
 { #category : #'api - values' }
-ToNewBasicSlider >> maxValue [
+ToBasicSlider >> maxValue [
 
 	^ maxValue
 ]
 
 { #category : #'api - values' }
-ToNewBasicSlider >> maxValue: anObject [
+ToBasicSlider >> maxValue: anObject [
 
 	maxValue := anObject
 ]
 
 { #category : #'api - values' }
-ToNewBasicSlider >> minValue [
+ToBasicSlider >> minValue [
 
 	^ minValue
 ]
 
 { #category : #'api - values' }
-ToNewBasicSlider >> minValue: aNumber [
+ToBasicSlider >> minValue: aNumber [
 
 	minValue := aNumber.
 ]
 
 { #category : #'api - transformations' }
-ToNewBasicSlider >> moveKnobTo: aPosition [
+ToBasicSlider >> moveKnobTo: aPosition [
 
 	self subclassResponsibility 
 ]
 
 { #category : #'instance creation' }
-ToNewBasicSlider >> newRawSkin [ 
+ToBasicSlider >> newRawSkin [ 
 
 	self subclassResponsibility 
 ]
 
 { #category : #private }
-ToNewBasicSlider >> newValueCallback [
+ToBasicSlider >> newValueCallback [
 
 	^ newValueCallback
 ]
 
 { #category : #'api - values' }
-ToNewBasicSlider >> newValueCallback: anObject [
+ToBasicSlider >> newValueCallback: anObject [
 
 	newValueCallback := anObject
 ]
 
 { #category : #'api - slider' }
-ToNewBasicSlider >> setToMaxValue [
+ToBasicSlider >> setToMaxValue [
 
 	self setValue: self maxValue.
 ]
 
 { #category : #'api - slider' }
-ToNewBasicSlider >> setToMinValue [
+ToBasicSlider >> setToMinValue [
 
 	self setValue: self minValue
 ]
 
 { #category : #'api - slider' }
-ToNewBasicSlider >> setValue: aValue [
+ToBasicSlider >> setValue: aValue [
 
 	self moveKnobTo: (self valueToCoord: aValue).
 ]
 
 { #category : #accessing }
-ToNewBasicSlider >> sliderBar [
+ToBasicSlider >> sliderBar [
 
 	^ sliderBar
 ]
 
 { #category : #accessing }
-ToNewBasicSlider >> sliderBar: anObject [
+ToBasicSlider >> sliderBar: anObject [
 
 	sliderBar := anObject
 ]
 
 { #category : #accessing }
-ToNewBasicSlider >> sliderKnob [
+ToBasicSlider >> sliderKnob [
 
 	^ sliderKnob
 ]
 
 { #category : #accessing }
-ToNewBasicSlider >> sliderKnob: anObject [
+ToBasicSlider >> sliderKnob: anObject [
 
 	sliderKnob := anObject
 ]
 
 { #category : #'api - transformations' }
-ToNewBasicSlider >> valueAtCoord: aPosition [
+ToBasicSlider >> valueAtCoord: aPosition [
 
 	self subclassResponsibility 
 ]
 
 { #category : #'api - transformations' }
-ToNewBasicSlider >> valueToCoord: aValue [
+ToBasicSlider >> valueToCoord: aValue [
 
 	self subclassResponsibility 
 ]

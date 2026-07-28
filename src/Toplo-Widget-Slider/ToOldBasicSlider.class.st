@@ -33,7 +33,7 @@ Class {
 		'sliderHandle',
 		'handlePushedPoint'
 	],
-	#category : #'Toplo-Sliders-Core'
+	#category : #'Toplo-Widget-Slider-Deprecated'
 }
 
 { #category : #building }

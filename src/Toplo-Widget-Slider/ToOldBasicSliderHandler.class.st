@@ -1,7 +1,7 @@
 Class {
 	#name : #ToOldBasicSliderHandler,
 	#superclass : #BlCustomEventHandler,
-	#category : #'Toplo-Sliders-Core'
+	#category : #'Toplo-Widget-Slider-Deprecated'
 }
 
 { #category : #'event management' }

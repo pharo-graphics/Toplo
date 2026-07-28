@@ -30,7 +30,7 @@ Class {
 		'valueLabel',
 		'name'
 	],
-	#category : #'Toplo-Sliders-Core'
+	#category : #'Toplo-Widget-Slider-Deprecated'
 }
 
 { #category : #'instance creation' }
@@ -802,7 +802,7 @@ ToDesignSlider >> updateColoredBarTo: aPosition [
 				coloredBar extent: (aPosition - coloredBar position) x @ barThickness ]
 		ifVertical: [
 				coloredBar position: aPosition x - (barThickness / 2) @ aPosition y.
-				coloredBar size: barThickness @ (bar position y + barLength - aPosition y) ]
+				coloredBar extent: barThickness @ (bar position y + barLength - aPosition y) ]
 ]
 
 { #category : #accessing }

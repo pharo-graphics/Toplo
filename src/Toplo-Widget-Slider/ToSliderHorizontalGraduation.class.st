@@ -7,7 +7,7 @@ Class {
 		'slider',
 		'stepValue'
 	],
-	#category : #'Toplo-Sliders-Core'
+	#category : #'Toplo-Widget-Slider-Core'
 }
 
 { #category : #initialization }

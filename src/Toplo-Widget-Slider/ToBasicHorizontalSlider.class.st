@@ -1,11 +1,11 @@
 Class {
-	#name : #ToNewBasicHorizontalSlider,
-	#superclass : #ToNewBasicSlider,
-	#category : #'Toplo-Sliders-Core'
+	#name : #ToBasicHorizontalSlider,
+	#superclass : #ToBasicSlider,
+	#category : #'Toplo-Widget-Slider-Core'
 }
 
 { #category : #examples }
-ToNewBasicHorizontalSlider class >> simpleExample [
+ToBasicHorizontalSlider class >> simpleExample [
 
 	<script>
 	| slider textElt space |
@@ -25,7 +25,7 @@ ToNewBasicHorizontalSlider class >> simpleExample [
 ]
 
 { #category : #'api - transformations' }
-ToNewBasicHorizontalSlider >> moveKnobTo: aPosition [
+ToBasicHorizontalSlider >> moveKnobTo: aPosition [
 
 	| newPos newPosX |
 	newPos := aPosition.
@@ -41,13 +41,13 @@ ToNewBasicHorizontalSlider >> moveKnobTo: aPosition [
 ]
 
 { #category : #'instance creation' }
-ToNewBasicHorizontalSlider >> newRawSkin [
+ToBasicHorizontalSlider >> newRawSkin [
 
-	^ ToNewBasicHorizontalSliderSkin new
+	^ ToBasicHorizontalSliderSkin new
 ]
 
 { #category : #'api - transformations' }
-ToNewBasicHorizontalSlider >> valueAtCoord: aPosition [
+ToBasicHorizontalSlider >> valueAtCoord: aPosition [
 
 	| valueDiff value coeff posX |
 	posX := aPosition x.
@@ -57,11 +57,11 @@ ToNewBasicHorizontalSlider >> valueAtCoord: aPosition [
 	         / (posX - (sliderKnob width / 2)).
 	value := minValue + (valueDiff / coeff).
 
-	^ (value roundTo: 1) asFloat
+	^ (value roundTo: self quantum) asFloat
 ]
 
 { #category : #'api - transformations' }
-ToNewBasicHorizontalSlider >> valueToCoord: aValue [
+ToBasicHorizontalSlider >> valueToCoord: aValue [
 
 	| current total coeff |
 	current := aValue - self minValue.

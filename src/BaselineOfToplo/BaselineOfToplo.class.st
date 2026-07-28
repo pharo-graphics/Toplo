@@ -177,6 +177,11 @@ BaselineOfToplo >> registerPackages: spec [
 				   #'Toplo-Widget-Button' #'Toplo-Widget-Image'
 				   #'Toplo-Widget-Menu' #'Toplo-Widget-Tag' #'Toplo-Theme' ) ].
 
+	spec package: #'Toplo-Widget-Slider' with: [
+			spec requires:
+				#( #Toplo  ) ].
+
+
 	spec
 		package: #'Toplo-Widget-Select-Tests'
 		with: [ spec requires: #( #Toplo #'Toplo-Widget-Select' ) ].

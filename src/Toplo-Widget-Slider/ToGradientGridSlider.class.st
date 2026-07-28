@@ -1,7 +1,7 @@
 Class {
 	#name : #ToGradientGridSlider,
 	#superclass : #ToDesignSlider,
-	#category : #'Toplo-Sliders-Core'
+	#category : #'Toplo-Widget-Slider-Deprecated'
 }
 
 { #category : #accessing }

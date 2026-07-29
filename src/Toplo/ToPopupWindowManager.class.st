@@ -154,6 +154,7 @@ ToPopupWindowManager >> eventsToHandle [
 		  ToStartStillPressedEvent.
 		  ToStopStillPressedEvent.
 		  BlMouseUpEvent.
+		  BlMouseDownEvent.
 		  BlMouseEnterEvent.
 		  BlMouseLeaveEvent }
 ]
@@ -197,6 +198,18 @@ ToPopupWindowManager >> installOutsideEventFilter [
 ToPopupWindowManager >> isPopover [
 
 	^ popover
+]
+
+{ #category : #'mouse handlers' }
+ToPopupWindowManager >> mouseDownEvent: anEvent [
+	" first I have to test if I'am concerned by this event "
+
+	anEvent button = mouseButton ifFalse: [ ^ self ].
+	currentWindow ifNotNil: [ " use case: the mouse is on a menu button and the menu window is opened. 
+		clicking on this menu button must close the button and cancel the pane auto open"
+			anchorElement menuPaneDo: [ :mp | mp stopAutoOpen ].
+			^ self ].
+	self popupEvent: anEvent
 ]
 
 { #category : #'event handling' }

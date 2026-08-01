@@ -82,7 +82,7 @@ TToElementWithPlaceholderTest >> testPlaceholderText [
 
 	| e ph |
 	e := ToTextField new extent: 100 asPoint.
-	e placeholderString: 'Enter text...'.
+	e placeholderText: 'Enter text...' asRopedText.
 	e showPlaceholder.
 
 	ph := e placeholderLayer.

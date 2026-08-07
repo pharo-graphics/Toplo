@@ -3,7 +3,9 @@ Class {
 	#superclass : #ToElement,
 	#instVars : [
 		'albums',
-		'title'
+		'title',
+		'showOnlySource',
+		'showOnlyDestination'
 	],
 	#category : #'Toplo-Widget-Diff'
 }
@@ -73,6 +75,24 @@ ToDiffElement >> rightLabel: anObject [
 ]
 
 { #category : #initialization }
+ToDiffElement >> showOnlyDestination: aBoolean [
+
+	showOnlyDestination = aBoolean ifTrue: [ ^ self ].
+	showOnlySource := false.
+	showOnlyDestination := aBoolean.
+	self updateLayout
+]
+
+{ #category : #initialization }
+ToDiffElement >> showOnlySource: aBoolean [
+
+	showOnlySource = aBoolean ifTrue: [ ^ self ].
+	showOnlyDestination := false.
+	showOnlySource := aBoolean.
+	self updateLayout
+]
+
+{ #category : #initialization }
 ToDiffElement >> srcAlbum [
 
 	^ albums srcAlbum
@@ -94,6 +114,15 @@ ToDiffElement >> targetAlbum [
 ToDiffElement >> targetText: aText [
 
 	self targetAlbum text: aText
+]
+
+{ #category : #initialization }
+ToDiffElement >> updateLayout [
+
+	self srcAlbum visibility: BlVisibility visible.
+	self targetAlbum visibility: BlVisibility visible.
+	showOnlySource ifTrue: [ self targetAlbum visibility: BlVisibility gone ].
+	showOnlyDestination ifTrue: [ self srcAlbum visibility: BlVisibility gone ]
 ]
 
 { #category : #initialization }

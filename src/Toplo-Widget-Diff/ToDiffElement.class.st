@@ -80,7 +80,7 @@ ToDiffElement >> showOnlyDestination: aBoolean [
 	showOnlyDestination = aBoolean ifTrue: [ ^ self ].
 	showOnlySource := false.
 	showOnlyDestination := aBoolean.
-	self updateLayout
+	self updateAlbumVisibility
 ]
 
 { #category : #initialization }
@@ -89,7 +89,7 @@ ToDiffElement >> showOnlySource: aBoolean [
 	showOnlySource = aBoolean ifTrue: [ ^ self ].
 	showOnlyDestination := false.
 	showOnlySource := aBoolean.
-	self updateLayout
+	self updateAlbumVisibility
 ]
 
 { #category : #initialization }
@@ -117,7 +117,7 @@ ToDiffElement >> targetText: aText [
 ]
 
 { #category : #initialization }
-ToDiffElement >> updateLayout [
+ToDiffElement >> updateAlbumVisibility [
 
 	self srcAlbum visibility: BlVisibility visible.
 	self targetAlbum visibility: BlVisibility visible.

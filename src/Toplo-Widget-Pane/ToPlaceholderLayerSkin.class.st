@@ -7,16 +7,11 @@ Class {
 { #category : #'event handling' }
 ToPlaceholderLayerSkin >> installSkinEvent: anEvent [
 
-	super installSkinEvent: anEvent.
-	anEvent elementDo: [ :e |
-			e
-				addTokenNamed: #'color-text'
-				withValue: (e valueOfTokenNamed: #'color-text-placeholder') ]
+	super installSkinEvent: anEvent
 ]
 
 { #category : #'event handling' }
 ToPlaceholderLayerSkin >> uninstallSkinEvent: anEvent [
 
-	super uninstallSkinEvent: anEvent.
-	anEvent elementDo: [ :e | e removeTokenNamed: #'color-text' ]
+	super uninstallSkinEvent: anEvent
 ]

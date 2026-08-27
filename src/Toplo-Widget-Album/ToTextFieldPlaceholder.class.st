@@ -10,3 +10,9 @@ ToTextFieldPlaceholder >> initialize [
 	super initialize.
 	self layout alignCenterLeft
 ]
+
+{ #category : #skin }
+ToTextFieldPlaceholder >> newRawSkin [ 
+
+	^ ToTextFieldPlaceholderSkin new
+]

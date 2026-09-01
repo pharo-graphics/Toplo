@@ -379,7 +379,8 @@ BlElement >> hasAllStamps: aSymbolCollection [
 BlElement >> hasFocusedParent [
 
 	^ self isFocused or: [
-		  self parent notNil and: [ self parent hasFocusedParent ] ]
+		  self parent notNil and: [ 
+			  self parent isRoot not and: [ self parent hasFocusedParent ] ] ]
 ]
 
 { #category : #'*Toplo' }

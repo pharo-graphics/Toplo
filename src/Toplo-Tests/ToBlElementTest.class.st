@@ -577,3 +577,41 @@ ToBlElementTest >> testValueOfTokenNamedWithNotFoundToken [
 	element removeFromParent.
 	self assert: (element valueOfTokenNamed: #testToken) equals: Color yellow
 ]
+
+{ #category : #'tests - focus' }
+ToBlElementTest >> testHasFocusedParentWhenParentIsFocused [
+
+	| container child |
+	container := BlElement new.
+	child := BlElement new.
+	container addChild: child.
+	space root addChild: container.
+	self waitTestingSpaces.
+	self deny: container hasFocusedParent.
+	self deny: child hasFocusedParent.
+
+	container requestFocus.
+	self waitTestingSpaces.
+	self assert: container isFocused.
+	self assert: container hasFocusedParent.
+	self deny: child isFocused.
+	self assert: child hasFocusedParent
+]
+
+{ #category : #'tests - focus' }
+ToBlElementTest >> testHasFocusedParentWhenSpaceRootIsFocused [
+
+	| container child |
+	container := BlElement new.
+	child := BlElement new.
+	container addChild: child.
+	space root addChild: container.
+	"Emulate the initial focus on space root that occurs when a space is shown."
+	space root requestFocus.
+	self waitTestingSpaces.
+	self assert: space root isFocused.
+	self deny: container isFocused.
+	self deny: container hasFocusedParent.
+	self deny: child isFocused.
+	self deny: child hasFocusedParent
+]

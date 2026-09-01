@@ -213,3 +213,24 @@ ToIntrinsicStateTest >> testApplyOnUnfocused [
 	self assert: (unfocusedEvt isKindOf: ToUnfocusedSkinEvent).
 	self assert: focusedEvt isNil
 ]
+
+{ #category : #running }
+ToIntrinsicStateTest >> testFocusStateWhenSpaceRootIsFocused [
+
+	| container child state |
+	container := ToElement new.
+	child := ToElement new.
+	container addChild: child.
+	state := ToIntrinsicState new.
+	space root addChild: container.
+	self waitTestingSpaces.
+	self assert: space root isFocused.
+	self deny: (state focusStateOn: container).
+	self deny: (state focusStateOn: child).
+
+	container requestFocus.
+	self waitTestingSpaces.
+	self assert: container isFocused.
+	self assert: (state focusStateOn: container).
+	self assert: (state focusStateOn: child)
+]

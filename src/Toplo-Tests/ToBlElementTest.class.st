@@ -606,6 +606,8 @@ ToBlElementTest >> testHasFocusedParentWhenSpaceRootIsFocused [
 	child := BlElement new.
 	container addChild: child.
 	space root addChild: container.
+	"Emulate the initial focus on space root that occurs when a space is shown."
+	space root requestFocus.
 	self waitTestingSpaces.
 	self assert: space root isFocused.
 	self deny: container isFocused.

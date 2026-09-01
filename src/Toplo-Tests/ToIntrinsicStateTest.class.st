@@ -215,6 +215,26 @@ ToIntrinsicStateTest >> testApplyOnUnfocused [
 ]
 
 { #category : #running }
+ToIntrinsicStateTest >> testApplyOnFocusedWhenChildOfSpaceRoot [
+
+	| e state focusedEvt |
+	e := ToElement new.
+	space root addChild: e.
+	"Emulate the initial focus on space root that occurs when a space is shown."
+	space root requestFocus.
+	state := ToIntrinsicState new.
+	"Initial application when added to space root (unfocused)"
+	state applyOn: e fromQueue: nil.
+
+	focusedEvt := nil.
+	e addEventHandlerOn: ToFocusedSkinEvent do: [ :event | focusedEvt := event ].
+	state focusedSkinEvent: ToFocusedSkinEvent new.
+	e requestFocus.
+	state applyOn: e fromQueue: nil.
+	self assert: (focusedEvt isKindOf: ToFocusedSkinEvent)
+]
+
+{ #category : #running }
 ToIntrinsicStateTest >> testFocusStateWhenSpaceRootIsFocused [
 
 	| container child state |
@@ -223,13 +243,13 @@ ToIntrinsicStateTest >> testFocusStateWhenSpaceRootIsFocused [
 	container addChild: child.
 	state := ToIntrinsicState new.
 	space root addChild: container.
-	self waitTestingSpaces.
+	"Emulate the initial focus on space root that occurs when a space is shown."
+	space root requestFocus.
 	self assert: space root isFocused.
 	self deny: (state focusStateOn: container).
 	self deny: (state focusStateOn: child).
 
 	container requestFocus.
-	self waitTestingSpaces.
 	self assert: container isFocused.
 	self assert: (state focusStateOn: container).
 	self assert: (state focusStateOn: child)

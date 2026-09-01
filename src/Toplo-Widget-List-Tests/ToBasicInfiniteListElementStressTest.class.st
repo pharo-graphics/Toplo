@@ -13,6 +13,12 @@ Class {
 	#category : #'Toplo-Widget-List-Tests-Core-FiniteListElement'
 }
 
+{ #category : #accessing }
+ToBasicInfiniteListElementStressTest class >> defaultTimeLimit [
+
+	^ 30 seconds
+]
+
 { #category : #actions }
 ToBasicInfiniteListElementStressTest >> actionAddAfterIndexIn: aList [
 

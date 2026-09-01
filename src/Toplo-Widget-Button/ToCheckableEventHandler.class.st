@@ -23,12 +23,19 @@ ToCheckableEventHandler >> clickEvent: anEvent [
 
 ]
 
+{ #category : #'event handling' }
+ToCheckableEventHandler >> doubleClickEvent: anEvent [
+
+	self clickEvent: anEvent
+]
+
 { #category : #'api - accessing' }
 ToCheckableEventHandler >> eventsToHandle [
 
 	^ {
 		  ToCheckableChangedEvent.
-		  BlClickEvent }
+		  BlClickEvent.
+		  BlDoubleClickEvent }
 ]
 
 { #category : #'event handling' }

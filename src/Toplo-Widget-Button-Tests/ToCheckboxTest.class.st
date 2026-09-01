@@ -124,7 +124,7 @@ ToCheckboxTest >> testStartUnchecked [
 { #category : #tests }
 ToCheckboxTest >> testSwitchToNextCheckStateOnClick [
 
-	| cb  |
+	| cb |
 	cb := ToCheckbox new.
 	space root addChild: cb.
 	self deny: cb checked.
@@ -132,11 +132,18 @@ ToCheckboxTest >> testSwitchToNextCheckStateOnClick [
 	self assert: cb checked.
 	cb switchToNextCheckStateOnClick: false.
 	BlSpace simulateClickOn: cb.
+	self assert: cb checked
+]
+
+{ #category : #tests }
+ToCheckboxTest >> testSwitchToNextCheckStateOnDoubleClick [
+
+	| cb |
+	cb := ToCheckbox new.
+	space root addChild: cb.
+	self deny: cb checked.
+	BlSpace simulateClickOn: cb.
 	self assert: cb checked.
-
-	
-	
-
-	
-
+	BlSpace simulateClickOn: cb.
+	self deny: cb checked
 ]

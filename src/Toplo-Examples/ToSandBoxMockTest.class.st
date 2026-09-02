@@ -22,7 +22,7 @@ ToSandBoxMockTest >> closeWindows [
 ToSandBoxMockTest >> testMocks [
 
 	| selectors errors sortedSelectors exceptions |
-	self skip.
+	"self skip."
 	self timeLimit: 120 seconds.
 	errors := OrderedCollection new.
 	exceptions := OrderedCollection new.
@@ -52,6 +52,5 @@ ToSandBoxMockTest >> testMocks [
 
 	self
 		assert: errors isEmpty
-		description:
-		'The following selectors are broken: ' , errors printString
+		description: 'The following selectors are broken: ', errors printString
 ]

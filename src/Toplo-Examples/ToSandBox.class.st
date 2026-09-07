@@ -3396,9 +3396,10 @@ ToSandBox class >> example_ListWithAllClassesAndTraitsSorted [
 	| l vscrollBar space |
 	l := ToListElement new nodeBuilder: [ :node :dataItem :holder |
 			node ensureCanManageToploSkin.
-		     node addChild: (ToClassNameViewExamplePart new
-				      class: dataItem position: holder position;
-				      yourself) ].
+			node addChild:
+				(ToClassNameViewExamplePart new
+					class: dataItem position: holder position;
+					yourself) ].
 	l withRowNumbers.
 	l dataAccessor addAll:
 		(Smalltalk allClassesAndTraits sorted: [ :a :b | a name < b name ]).
@@ -3692,7 +3693,6 @@ ToSandBox class >> example_Menu2 [
 
 { #category : #menu }
 ToSandBox class >> example_Menu3 [
-	<demo>
 	
 	| container |
 	container := ToElement new matchParent.
@@ -6137,7 +6137,6 @@ ToSandBox class >> example_ToggleButtonInListElement [
 
 	space := BlSpace new.
 	space root addChild: moveListElement.
-	space pulse.
 	space resizable: true.
 	space show
 ]
@@ -7141,7 +7140,7 @@ ToSandBox class >> example_hugePane [
 	space root addChild: pane.
 	space show.
 
-	space root inUIProcessDo: [
+	space root deferOrValue: [
 			1 to: 100 do: [ :i | 
 					| label button |
 					label := 'Button ' , i asString.

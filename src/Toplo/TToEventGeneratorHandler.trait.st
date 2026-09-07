@@ -135,5 +135,6 @@ TToEventGeneratorHandler >> taskActionFromEvent: anEvent in: aTarget [
 					       sourceEvent: anEvent copy;
 					       yourself ].
 	aTarget dispatchEvent: evt.
-	evt isConsumed ifTrue: [ self stopTaskFromEvent: anEvent in: aTarget ]
+	evt isConsumed ifTrue: [ self stopTaskFromEvent: anEvent in: aTarget ].
+	needRepeatedEvent ifFalse: [ self cleanUpCheckerIn: aTarget ]
 ]

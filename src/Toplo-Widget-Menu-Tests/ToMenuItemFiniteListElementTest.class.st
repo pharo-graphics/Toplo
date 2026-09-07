@@ -16,7 +16,8 @@ ToMenuItemFiniteListElementTest >> setUp [
 	super setUp.
 	l := ToMenuItemListElement new.
 	l vMatchParent.
-	space root addChild: l
+	space deferAndSettle: [
+		space root addChild: l ]
 ]
 
 { #category : #tests }
@@ -25,15 +26,15 @@ ToMenuItemFiniteListElementTest >> test [
 	| n |
 	self assert: l nodeContainers size equals: l dataAccessor size.
 	self assert: (l nodeManager isKindOf: ToItemListNodeManager).
-	l addAllItems:
-		((1 to: 10) collect: [ :i | ToMenuItem new labelText: i asString ]).
-	self waitTestingSpaces.
+
+	space deferAndSettle: [
+		l addAllItems:
+			((1 to: 10) collect: [ :i | ToMenuItem new labelText: i asString ]) ].
 	self assert: l nodeContainers size equals: 10.
 	n := l nodeContainers first.
 	self assert: (n node isKindOf: ToMenuItemNode).
 	self assert: (n holder isKindOf: ToItemNodeHolder).
 	self assert: (n holder dataItem isKindOf: ToMenuItem)
-	
 ]
 
 { #category : #tests }
@@ -41,8 +42,7 @@ ToMenuItemFiniteListElementTest >> testAddItem [
 
 	| n item |
 	item := ToMenuItem new labelText: '#1'.
-	l addItem: item.
-	self waitTestingSpaces.
+	space deferAndSettle: [ l addItem: item ].
 	self assert: l nodeContainers size equals: 1.
 	n := l nodeContainers first node.
 	self assert: (n isKindOf: ToMenuItemNode).
@@ -58,9 +58,9 @@ ToMenuItemFiniteListElementTest >> testDisableItemAfterAdding [
 	| n item |
 	self assert: l nodeContainers size equals: 0.
 	item := ToMenuItem new labelText: 'A'.
-	l addItem: item.
-	item disable.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		l addItem: item.
+		item disable ].
 	self assert: l nodeContainers size equals: 1.
 	n := l nodeContainers first node.
 	self assert: n holder dataItem identicalTo: item.
@@ -77,13 +77,13 @@ ToMenuItemFiniteListElementTest >> testDisableItemAfterAdding2 [
 	| n item |
 	self assert: l nodes size equals: 0.
 	item := ToMenuItem new labelText: 'A'.
-	l addItem: item.
+	space deferAndSettle: [ l addItem: item ].
 	item := ToMenuItem new labelText: 'B'.
-	l addItem: item.
-	item disable.
+	space deferAndSettle: [
+		l addItem: item.
+		item disable ].
 	item := ToMenuItem new labelText: 'C'.
-	l addItem: item.
-	self waitTestingSpaces.
+	space deferAndSettle: [ l addItem: item ].
 
 	n := l nodes first.
 	self assert: n item positionInList equals: 1.
@@ -93,7 +93,6 @@ ToMenuItemFiniteListElementTest >> testDisableItemAfterAdding2 [
 	self deny: n isDisabled.
 
 	n := l nodes second.
-	self waitTestingSpaces.
 	self assert: n item positionInList equals: 2.
 	self assert:
 		(l disabledSelectionModel containsIndex: n item positionInList).
@@ -115,8 +114,7 @@ ToMenuItemFiniteListElementTest >> testDisableItemBeforeAdding [
 	self assert: l nodes size equals: 0.
 	item := ToMenuItem new labelText: 'A'.
 	item disabled: true.
-	l addItem: item.
-	self waitTestingSpaces.
+	space deferAndSettle: [ l addItem: item ].
 
 	n := l nodes first.
 	self assert: n holder dataItem identicalTo: item.
@@ -134,13 +132,13 @@ ToMenuItemFiniteListElementTest >> testDisableItemBeforeAdding2 [
 	| n item |
 	self assert: l nodes size equals: 0.
 	item := ToMenuItem new labelText: 'A'.
-	l addItem: item.
+	space deferAndSettle: [ l addItem: item ].
 	item := ToMenuItem new labelText: 'B'.
-	item disable.
-	l addItem: item.
+	space deferAndSettle: [
+		item disable.
+		l addItem: item ].
 	item := ToMenuItem new labelText: 'C'.
-	l addItem: item.
-	self waitTestingSpaces.
+	space deferAndSettle: [ l addItem: item ].
 
 	n := l nodes first.
 	self assert: n item positionInList equals: 1.
@@ -150,7 +148,6 @@ ToMenuItemFiniteListElementTest >> testDisableItemBeforeAdding2 [
 	self deny: n isDisabled.
 
 	n := l nodes second.
-	self waitTestingSpaces.
 	self assert: n item positionInList equals: 2.
 	self assert:
 		(l disabledSelectionModel containsIndex: n item positionInList).

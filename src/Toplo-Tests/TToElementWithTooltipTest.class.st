@@ -14,17 +14,17 @@ TToElementWithTooltipTest >> testCloseTooltipOnMouseLeave [
 	e := ToElement new.
 	e extent: 50 @ 50.
 	e tooltipManagerDo: [ :m | m popupDelay: 10 milliSeconds ].
-	space root addChild: e.
+	space deferAndSettle: [ space root addChild: e ].
 	self assert: e currentTooltipWindow isNil.
 	e tooltipBuilder: [ :win :request |
 			win root addChild: (ToElement new
 					 extent: 20 @ 20;
 					 yourself) ].
-	BlSpace simulateMouseMoveInside: e.
-	BlSpace pulseUntilEmptyTaskQueue: space timeout: 50 milliSeconds.
+	e eventSimulator mouseMoveInside.
+	space waitUntilTrue: [ e currentTooltipWindow notNil ].
 	self assert: e currentTooltipWindow notNil.
-	BlSpace simulateMouseMoveOutside: e.
-	BlSpace pulseUntilEmptyTaskQueue: space timeout: 11 milliSeconds.
+	e eventSimulator mouseMoveOutside.
+	space waitUntilTrue: [ e currentTooltipWindow isNil ].
 	self assert: e currentTooltipWindow isNil.
 
 	^ e
@@ -38,19 +38,18 @@ TToElementWithTooltipTest >> testCloseTooltipOnMouseLeave2 [
 	e extent: 50 @ 50.
 	e tooltipManagerDo: [ :m | m closeOnLeaved: false ].
 	e tooltipManagerDo: [ :m | m popupDelay: 10 milliSeconds ].
-	space root addChild: e.
+	space deferAndSettle: [ space root addChild: e ].
 	self assert: e currentTooltipWindow isNil.
 	e tooltipBuilder: [ :win :request |
 			win root addChild: (ToElement new
 					 extent: 20 @ 20;
 					 yourself) ].
-	BlSpace simulateMouseMoveInside: e.
-	BlSpace pulseUntilEmptyTaskQueue: space timeout: 11 milliSeconds.
+	e eventSimulator mouseMoveInside.
+	space waitUntilTrue: [ e currentTooltipWindow notNil ].
 	self assert: e currentTooltipWindow notNil.
-	BlSpace simulateMouseMoveOutside: e.
-	self assert: e currentTooltipWindow notNil.
-
-	^ e
+	e eventSimulator mouseMoveOutside.
+	space waitForDuration: 50 milliSeconds.
+	self assert: e currentTooltipWindow notNil
 ]
 
 { #category : #tests }
@@ -212,23 +211,28 @@ TToElementWithTooltipTest >> testTooltipPopupDelay [
 	e tooltipManagerDo: [ :m |
 			m popupDelay: 100 milliSeconds.
 			self assert: m popupDelay equals: 100 milliSeconds ].
-	space root addChild: e.
-	e tooltipBuilder: [ :win :request |
+
+	space deferAndSettle: [
+		space root addChild: e.
+		e tooltipBuilder: [ :win :request |
 			win root addChild: (ToElement new
 					 extent: 20 @ 20;
-					 yourself) ].
-	BlSpace simulateMouseMoveInside: e.
-	BlSpace pulseUntilEmptyTaskQueue: space timeout: 50 milliSeconds.
+					 yourself) ] ].
+	
+	e eventSimulator mouseMoveInside.
+	space waitForDuration: 50 milliSeconds.
 	self assert: e currentTooltipWindow isNil.
-	BlSpace pulseUntilEmptyTaskQueue: space timeout: 51 milliSeconds.
-	self assert: e currentTooltipWindow notNil.
-	BlSpace simulateMouseMoveOutside: e.
-	self assert: e currentTooltipWindow isNil.
-	BlSpace simulateMouseMoveInside: e.
-	BlSpace pulseUntilEmptyTaskQueue: space timeout: 101 milliSeconds.
+
+	space waitUntilTrue: [ e currentTooltipWindow notNil ].
 	self assert: e currentTooltipWindow notNil.
 
-	^ e
+	e eventSimulator mouseMoveOutside.
+	space waitUntilTrue: [ e currentTooltipWindow isNil ].
+	self assert: e currentTooltipWindow isNil.
+
+	e eventSimulator mouseMoveInside.
+	space waitUntilTrue: [ e currentTooltipWindow notNil ].
+	self assert: e currentTooltipWindow notNil
 ]
 
 { #category : #tests }
@@ -238,8 +242,8 @@ TToElementWithTooltipTest >> testTooltipRequestEvent [
 	| tt e ttwin request |
 	tt := BlElement new.
 	e := ToElement new.
-	self assert: e hasTooltip not.
-	e tooltip: [:win :theRequest | win root addChild: tt. request := theRequest].
+	self deny: e hasTooltip.
+	e tooltip: [ :win :theRequest | win root addChild: tt. request := theRequest ].
 	self assert: e hasTooltip.
 	ttwin := e rawTooltipManager createNewWindowOnEvent: nil.
 	self assert: request class identicalTo: ttwin manager windowRequestClass.

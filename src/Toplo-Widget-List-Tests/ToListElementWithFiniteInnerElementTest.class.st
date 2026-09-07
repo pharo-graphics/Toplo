@@ -12,7 +12,7 @@ ToListElementWithFiniteInnerElementTest >> listWithRemoveRowButtons [
 
 	| list |
 	list := ToListElement finite.
-	space root addChild: list.
+	space deferAndSettle: [ space root addChild: list ].
 	list nodeBuilder: [ :node :dataItem :holder |
 		| line remBut filler |
 		line := ToPane horizontal id: #row.
@@ -43,7 +43,7 @@ ToListElementWithFiniteInnerElementTest >> statesOfAmerica [
 		#'New York'. #'North Carolina'. #'North Dakota'. #Ohio. #Oklahoma.
 		#Oregon. #'Pennsylvania Rhode Island'. #'South Carolina'.
 		#'South Dakota'. #Tennessee. #Texas. #Utah. #Vermont. #Virginia.
-		#Washington. #'West Virginia'. #Wisconsin. #Wyoming }.
+		#Washington. #'West Virginia'. #Wisconsin. #Wyoming }
 ]
 
 { #category : #'test selection - adding/removing' }
@@ -52,23 +52,19 @@ ToListElementWithFiniteInnerElementTest >> testCheckboxSelectionUpdatedAfterInse
 	| l |
 	l := ToListElement finite.
 	l useCheckbox: true.
-	space root addChild: l.
-	self waitTestingSpaces.
-	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
-	l selecter selectOnlyIndex: 3.
-	self waitTestingSpaces.
-	self applyAllEnqueuedStates.
-	l forceLayout.
-	self waitTestingSpaces.
-	self assert: l selectionModel selectedIndexes equals: { 3 }.
-	self assert: (l nodeContainers at: 3) checkbox isChecked.
-	l dataAccessor add: (self statesOfAmerica at: 6) afterIndex: 1.
-	self waitTestingSpaces.
-	self applyAllEnqueuedStates.
-	self assert: l selectionModel selectedIndexes equals: { 4 }.
-	self deny: (l nodeContainers at: 3) checkbox isChecked.
-	self assert: (l nodeContainers at: 4) checkbox isChecked.
+	space deferAndSettle: [
+		space root addChild: l .
+		l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5) ].
+	"Needs to be in a separate block"
+	space deferAndSettle: [
+		l selecter selectOnlyIndex: 3 ].
+	self assert: (l selectionModel selectedIndexes) equals: { 3 }.
+	self assert: ((l nodeContainers third) checkbox isChecked).
 
+	space deferAndSettle: [ l dataAccessor add: (self statesOfAmerica at: 6) afterIndex: 1 ].
+	self assert: (l selectionModel selectedIndexes) equals: { 4 }.
+	self deny: ((l nodeContainers third) checkbox isChecked).
+	self assert: ((l nodeContainers fourth) checkbox isChecked)
 ]
 
 { #category : #'test selection - adding/removing' }
@@ -78,24 +74,22 @@ ToListElementWithFiniteInnerElementTest >> testCheckboxSelectionUpdatedAfterInse
 	l := ToListElement finite.
 	l matchParent.
 	l useCheckbox: true.
-	space root addChild: l.
-	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
-	self assert: l dataAccessor size equals: 5.
-	l selecter selectOnlyIndex: 3.
-	l forceLayout.
-	self waitTestingSpaces.
-	self assert: l selectionModel selectedIndexes equals: { 3 }.
-	self assert: l nodeContainers third checkbox isChecked.
-	self assert: l nodeContainers size equals: 5.
-	l dataAccessor addAllFirst: (self statesOfAmerica copyFrom: 6 to: 10).
-	l forceLayout.
-	self waitTestingSpaces.
-	self assert: l dataAccessor size equals: 10.
-	self waitTestingSpaces.
-	self assert: (l selectionModel selectedIndexes) equals: { 8 }.
-	self deny: (l nodeContainers at: 3) checkbox isChecked.
-	self assert: (l nodeContainers at: 8) checkbox isChecked.
+	space deferAndSettle: [
+		space root addChild: l .
+		l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5) ].
+	self assert: (l dataAccessor size) equals: 5.
 
+	space deferAndSettle: [ l selecter selectOnlyIndex: 3 ].
+	self assert: (l selectionModel selectedIndexes) equals: { 3 }.
+	self assert: (l nodeContainers third checkbox isChecked).
+	self assert: (l nodeContainers size) equals: 5.
+
+	space deferAndSettle: [
+		l dataAccessor addAllFirst: (self statesOfAmerica copyFrom: 6 to: 10) ].
+	self assert: (l dataAccessor size) equals: 10.
+	self assert: (l selectionModel selectedIndexes) equals: { 8 }.
+	self deny: ((l nodeContainers third) checkbox isChecked).
+	self assert: ((l nodeContainers at: 8) checkbox isChecked)
 ]
 
 { #category : #'test selection - adding/removing' }
@@ -105,24 +99,22 @@ ToListElementWithFiniteInnerElementTest >> testCheckboxSelectionUpdatedAfterInse
 	l := ToListElement finite.
 	l matchParent.
 	l useCheckbox: true.
-	space root addChild: l.
-	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
-	self assert: l dataAccessor size equals: 5.
-	l selecter selectOnlyIndex: 3.
-	l forceLayout.
-	self waitTestingSpaces.
-	self assert: l selectionModel selectedIndexes equals: { 3 }.
-	self assert: l nodeContainers third checkbox isChecked.
-	self assert: l nodeContainers size equals: 5.
-	l dataAccessor addAllFirst: (self statesOfAmerica copyFrom: 6 to: 6).
-	l forceLayout.
-	self waitTestingSpaces.
-	self assert: l dataAccessor size equals: 6.
-	self waitTestingSpaces.
-	self assert: (l selectionModel selectedIndexes) equals: { 4 }.
-	self deny: (l nodeContainers at: 3) checkbox isChecked.
-	self assert: (l nodeContainers at: 4) checkbox isChecked.
+	space deferAndSettle: [
+		space root addChild: l .
+		l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5) ].
+	self assert: (l dataAccessor size) equals: 5.
 
+	space deferAndSettle: [ l selecter selectOnlyIndex: 3 ].
+	self assert: (l selectionModel selectedIndexes) equals: { 3 }.
+	self assert: (l nodeContainers third checkbox isChecked).
+	self assert: (l nodeContainers size) equals: 5.
+
+	space deferAndSettle: [
+		l dataAccessor addAllFirst: (self statesOfAmerica copyFrom: 6 to: 6) ].
+	self assert: (l dataAccessor size) equals: 6.
+	self assert: (l selectionModel selectedIndexes) equals: { 4 }.
+	self deny: ((l nodeContainers third) checkbox isChecked).
+	self assert: ((l nodeContainers fourth) checkbox isChecked)
 ]
 
 { #category : #'test selection - adding/removing' }
@@ -130,27 +122,23 @@ ToListElementWithFiniteInnerElementTest >> testCheckboxSelectionUpdatedAfterInse
 
 	| l |
 	l := ToListElement finite.
-	space root addChild: l.
 	l fitContent.
 	l useCheckbox: true.
-	self waitTestingSpaces.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	space deferAndSettle: [ space root addChild: l ].
 	self assert: l selectionModel isEmpty.
-	l selecter selectIndexes: #( 3 4 ).
-	self waitTestingSpaces.
-	l forceLayout.
-	self applyAllEnqueuedStates.
-	self assert: l selectionModel selectedIndexes equals: #( 3 4 ).
-	self assert: (l nodeContainers at: 3) checkbox isChecked.
-	self assert: (l nodeContainers at: 4) checkbox isChecked.
-	l dataAccessor add: (self statesOfAmerica at: 6) afterIndex: 1.
-	self waitTestingSpaces.
-	self applyAllEnqueuedStates.
-	self assert: l selectionModel selectedIndexes equals: #( 4 5 ).
-	self deny: (l nodeContainers at: 3) checkbox isChecked.
-	self assert: (l nodeContainers at: 4) checkbox isChecked.
-	self assert: (l nodeContainers at: 5) checkbox isChecked.
 
+	space deferAndSettle: [ l selecter selectIndexes: #( 3 4 ) ].
+	self assert: l selectionModel selectedIndexes equals: #( 3 4 ).
+	self assert: (l nodeContainers third) checkbox isChecked.
+	self assert: (l nodeContainers fourth) checkbox isChecked.
+
+	space deferAndSettle: [
+		l dataAccessor add: (self statesOfAmerica at: 6) afterIndex: 1 ].
+	self assert: l selectionModel selectedIndexes equals: #( 4 5 ).
+	self deny: (l nodeContainers third) checkbox isChecked.
+	self assert: (l nodeContainers fourth) checkbox isChecked.
+	self assert: (l nodeContainers fifth) checkbox isChecked
 ]
 
 { #category : #'test selection - adding/removing' }
@@ -159,24 +147,19 @@ ToListElementWithFiniteInnerElementTest >> testCheckboxSelectionUpdatedAfterInse
 	| l |
 	l := ToListElement finite.
 	l useCheckbox: true.
-	space root addChild: l.
 	l matchParent.
-	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 1).
-	self waitTestingSpaces.
-	l forceLayout.
-	l selecter selectIndex: 1.
-	self waitTestingSpaces.
-	self applyAllEnqueuedStates.
-	l forceLayout.
-	self assert: l selectionModel selectedIndexes equals: { 1 }.
-	self assert: (l nodeContainers at: 1) checkbox isChecked.
-	l dataAccessor addFirst: (self statesOfAmerica at: 6).
-	self waitTestingSpaces.
-	self applyAllEnqueuedStates.
-	self assert: l selectionModel selectedIndexes equals: { 2 }.
-	self deny: (l nodeContainers at: 1) checkbox isChecked.
-	self assert: (l nodeContainers at: 2) checkbox isChecked.
+	space deferAndSettle: [
+		space root addChild: l.
+		l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 1) ].
+	"Must be in a separate block to let layout process item addition before selection"
+	space deferAndSettle: [ l selecter selectIndex: 1 ].
+	self assert: (l selectionModel selectedIndexes) equals: { 1 }.
+	self assert: ((l nodeContainers first) checkbox isChecked).
 
+	space deferAndSettle: [ l dataAccessor addFirst: (self statesOfAmerica at: 6) ].
+	self assert: (l selectionModel selectedIndexes) equals: { 2 }.
+	self deny: ((l nodeContainers first) checkbox isChecked).
+	self assert: ((l nodeContainers second) checkbox isChecked)
 ]
 
 { #category : #'test selection - adding/removing' }
@@ -184,26 +167,20 @@ ToListElementWithFiniteInnerElementTest >> testDataRemovedWhenNodeRemoved [
 
 	| list but remButtons fillers |
 	list := self listWithRemoveRowButtons.
-	list dataAccessor addAll: (1 to: 2).
-	list innerElement forceLayout.
-	self waitTestingSpaces.
+	space deferAndSettle: [ list dataAccessor addAll: (1 to: 2) ].
 	self assert: list dataAccessor size equals: 2.
 	self assert: list nodeContainers size equals: 2.
 	fillers := (list innerElement allChildrenBreadthFirstSelect: [ :child |
-		            child id asString = 'filler' ]) asOrderedCollection.
+		child id asString = 'filler' ]) asOrderedCollection.
 	remButtons := (list innerElement allChildrenBreadthFirstSelect: [ :child |
-		               child id asString beginsWith: 'remove-button' ])
-		              asOrderedCollection.
-	" first click on the list to set the focus "
-	BlSpace simulateClickOn: fillers first.
+		child id asString beginsWith: 'remove-button' ]) asOrderedCollection.
+	fillers first eventSimulator click.
 	but := remButtons removeFirst.
-	BlSpace simulateClickOn: but.
-	self waitTestingSpaces.
+	but eventSimulator click.
 	but := remButtons removeFirst.
-	BlSpace simulateClickOn: but.
+	but eventSimulator click.
 	self assert: list dataAccessor isEmpty.
-	self assert:
-		list primarySelectionMode selectionOption selectionElements isEmpty
+	self assert: list primarySelectionMode selectionOption selectionElements isEmpty
 ]
 
 { #category : #'test selection - mode' }
@@ -211,16 +188,17 @@ ToListElementWithFiniteInnerElementTest >> testDisable [
 
 	| l |
 	l := ToListElement finite.
-	space root addChild: l.
 	l matchParent.
 	l dataAccessor addAll: { #A. #B. #C }.
-	l selecter selectOneMoreIndex: 2.
-	l secondarySelecter selectOneMoreIndex: 3.
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: l ].
+	"Must be in a separate block to let layout process item addition before selection"
+	space deferAndSettle: [
+		l selecter selectOneMoreIndex: 2.
+		l secondarySelecter selectOneMoreIndex: 3 ].
 	self assert: l selectionModel selectedIndexes equals: { 2 }.
 	self assert: l secondarySelectionModel selectedIndexes equals: { 3 }.
-	l disable.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l disable ].
 	self assert: l isDisabled.
 	self assert: l selectionModel isEmpty.
 	self assert: l secondarySelectionModel isEmpty.
@@ -247,10 +225,12 @@ ToListElementWithFiniteInnerElementTest >> testDisabledSelectionModel2 [
 
 	| l |
 	l := ToListElement finite.
-	space root addChild: l.
-	l dataAccessor addAll: { #A. #B. #C }.
-	l selecter selectOneMoreIndex: 2.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		space root addChild: l.
+		l dataAccessor addAll: { #A. #B. #C } ].
+	"Must be in a separate block to let layout build node containers before selection"
+	space deferAndSettle: [
+		l selecter selectOneMoreIndex: 2 ].
 	self assert: l selectionModel selectedIndexes equals: { 2 }.
 	self
 		assert: l disabledSelectionMode selectionModel
@@ -265,17 +245,17 @@ ToListElementWithFiniteInnerElementTest >> testDisabledWithFiveNodes [
 
 	| l |
 	l := ToListElement finite.
-	l dataAccessor add: 'first'.
-	space root addChild: l.
-	l innerElement forceLayout.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		l dataAccessor add: 'first'.
+		space root addChild: l ].
 	self assert: l nodeContainers size equals: 1.
-	l innerElement nodeContainers first holder disabled: true.
-	l dataAccessor addFirst: 'second'.
-	l dataAccessor add: 'third'.
-	l dataAccessor add: 'fourth' afterIndex: 2.
-	l dataAccessor addFirst: 'fifth'.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l innerElement nodeContainers first holder disabled: true ].
+	space deferAndSettle: [
+		l dataAccessor addFirst: 'second'.
+		l dataAccessor add: 'third'.
+		l dataAccessor add: 'fourth' afterIndex: 2.
+		l dataAccessor addFirst: 'fifth' ].
 	self assert: l disabledSelecter selectedIndexes equals: { 3 }
 ]
 
@@ -284,16 +264,16 @@ ToListElementWithFiniteInnerElementTest >> testDisabledWithFourNodes [
 
 	| l |
 	l := ToListElement finite.
-	l dataAccessor add: 'first'.
-	space root addChild: l.
-	l innerElement forceLayout.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		l dataAccessor add: 'first'.
+		space root addChild: l ].
 	self assert: l nodeContainers size equals: 1.
-	l nodeContainers first disabled: true.
-	l dataAccessor addFirst: 'second'.
-	l dataAccessor add: 'third'.
-	l dataAccessor add: 'fourth' afterIndex: 2.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l nodeContainers first disabled: true ].
+	space deferAndSettle: [
+		l dataAccessor addFirst: 'second'.
+		l dataAccessor add: 'third'.
+		l dataAccessor add: 'fourth' afterIndex: 2 ].
 	self assert: l disabledSelecter selectedIndexes equals: { 2 }
 ]
 
@@ -302,17 +282,16 @@ ToListElementWithFiniteInnerElementTest >> testDisabledWithFourNodes2 [
 
 	| l |
 	l := ToListElement finite.
-	space root addChild: l.
-	l dataAccessor add: 'first'.
-	l dataAccessor add: 'second'.
-	self waitTestingSpaces.
-	l requestLayout.
-	l innerElement forceLayout.
+	space deferAndSettle: [
+		space root addChild: l.
+		l dataAccessor add: 'first'.
+		l dataAccessor add: 'second' ].
 	self assert: l nodeContainers size equals: 2.
-	l nodeContainers second disabled: true.
-	l dataAccessor add: 'third'.
-	l dataAccessor add: 'fourth'.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l nodeContainers second disabled: true ].
+	space deferAndSettle: [
+		l dataAccessor add: 'third'.
+		l dataAccessor add: 'fourth' ].
 	self assert: l disabledSelecter selectedIndexes equals: { 2 }
 ]
 
@@ -321,14 +300,13 @@ ToListElementWithFiniteInnerElementTest >> testDisabledWithOneNode [
 
 	| l |
 	l := ToListElement finite.
-	space root addChild: l.
-	l dataAccessor add: 'first'.
-	l innerElement forceLayout.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		space root addChild: l.
+		l dataAccessor add: 'first' ].
 	self assert: l nodeContainers size equals: 1.
 	self assert: l disabledSelectionModel isEmpty.
-	l disabledSelecter selectOneMoreIndex: 1.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l disabledSelecter selectOneMoreIndex: 1 ].
 	self assert: l disabledSelecter selectedIndex equals: 1
 ]
 
@@ -337,21 +315,20 @@ ToListElementWithFiniteInnerElementTest >> testDisabledWithThreeNodes [
 
 	| l |
 	l := ToListElement finite.
-	l dataAccessor add: 'first'.
-	space root addChild: l.
-	l innerElement forceLayout.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		l dataAccessor add: 'first'.
+		space root addChild: l ].
 	self assert: l nodeContainers size equals: 1.
 	self assert: l disabledSelectionModel isEmpty.
-	l nodeContainers first holder disabled: true.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l nodeContainers first holder disabled: true ].
 	self assert: l disabledSelecter selectedIndex equals: 1.
-	l dataAccessor addFirst: 'second'.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l dataAccessor addFirst: 'second' ].
 	self assert: l disabledSelecter selectedIndex equals: 2.
 	self assert: l disabledSelecter selectedIndexes equals: { 2 }.
-	l dataAccessor add: 'third'.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l dataAccessor add: 'third' ].
 	self assert: l disabledSelecter selectedIndexes equals: { 2 }
 ]
 
@@ -360,17 +337,16 @@ ToListElementWithFiniteInnerElementTest >> testDisabledWithTwoNodes [
 
 	| l |
 	l := ToListElement finite.
-	l dataAccessor add: 'first'.
-	space root addChild: l.
-	l innerElement forceLayout.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		l dataAccessor add: 'first'.
+		space root addChild: l ].
 	self assert: l innerElement children size equals: 1.
 	self assert: l disabledSelectionModel isEmpty.
-	l disabledSelecter selectOneMoreIndex: 1.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l disabledSelecter selectOneMoreIndex: 1 ].
 	self assert: l disabledSelecter selectedIndex equals: 1.
-	l dataAccessor addFirst: 'second'.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l dataAccessor addFirst: 'second' ].
 	self assert: l disabledSelecter selectedIndex equals: 2.
 	self assert: l disabledSelecter selectedIndexes equals: { 2 }
 ]
@@ -380,17 +356,16 @@ ToListElementWithFiniteInnerElementTest >> testDisabledWithTwoNodes2 [
 
 	| l |
 	l := ToListElement finite.
-	l dataAccessor add: 'first'.
-	space root addChild: l.
-	l innerElement forceLayout.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		l dataAccessor add: 'first'.
+		space root addChild: l ].
 	self assert: l nodeContainers size equals: 1.
 	self assert: l disabledSelectionModel isEmpty.
-	l nodeContainers first disabled: true.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l nodeContainers first disabled: true ].
 	self assert: l disabledSelecter selectedIndex equals: 1.
-	l dataAccessor addFirst: 'second'.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l dataAccessor addFirst: 'second' ].
 	self assert: l disabledSelecter selectedIndex equals: 2.
 	self assert: l disabledSelecter selectedIndexes equals: { 2 }
 ]
@@ -400,18 +375,17 @@ ToListElementWithFiniteInnerElementTest >> testDisabledWithTwoNodes3 [
 
 	| l |
 	l := ToListElement finite.
-	l dataAccessor add: 'first'.
-	space root addChild: l.
-	l innerElement forceLayout.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		l dataAccessor add: 'first'.
+		space root addChild: l ].
 	self assert: l nodeContainers size equals: 1.
 	self assert: l disabledSelectionModel isEmpty.
-	l nodeContainers first disabled: true.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l nodeContainers first disabled: true ].
 	self assert: l disabledSelecter selectedIndex equals: 1.
 	self assert: l nodeContainers first node isDisabled.
-	l dataAccessor addFirst: 'second'.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l dataAccessor addFirst: 'second' ].
 	self assert: l disabledSelecter selectedIndex equals: 2.
 	self assert: l disabledSelecter selectedIndexes equals: { 2 }
 ]
@@ -421,35 +395,33 @@ ToListElementWithFiniteInnerElementTest >> testDoubleListsSelectionEvents [
 
 	| panel list1 list2 tabSize |
 	panel := ToPane new.
-	space root addChild: panel.
+	space deferAndSettle: [ space root addChild: panel ].
 	panel matchParent.
 	tabSize := 2.
 	list1 := ToListElement finite.
 	list2 := ToListElement finite.
 	1 to: tabSize do: [ :i |
-	list1 dataAccessor add: 'Hello ' , i asString ].
-	list1 innerElement forceLayout.
-	self waitTestingSpaces.
+		space deferAndSettle: [ list1 dataAccessor add: 'Hello ' , i asString ] ].
 	self assert: list1 nodeContainers size equals: tabSize.
 	1 to: tabSize do: [ :i |
-	list2 dataAccessor add: 'Goodbye ' , i asString ].
+		space deferAndSettle: [ list2 dataAccessor add: 'Goodbye ' , i asString ] ].
 
 	list1 addEventHandler: (BlEventHandler
-			 on: ToListPrimarySelectionChangedEvent
-			 do: [ :e |
-					 list2 selecter deselectAll.
-					 e currentTarget selectionModel selectedIndexesDo: [ :idx |
-						 list2 selecter selectOneMoreIndex: idx ].
-					 self waitTestingSpaces ]).
-	panel addChild: list1.
-	panel addChild: list2.
-	list1 selecter selectOneMoreIndex: 1.
-	self waitTestingSpaces.
+		on: ToListPrimarySelectionChangedEvent
+		do: [ :e |
+			list2 selecter deselectAll.
+			e currentTarget selectionModel selectedIndexesDo: [ :idx |
+				list2 selecter selectOneMoreIndex: idx ] ]).
+	space deferAndSettle: [
+		panel addChild: list1.
+		panel addChild: list2 ].
+	"Must be in a separate block to let layout attach lists before selection"
+	space deferAndSettle: [
+		list1 selecter selectOneMoreIndex: 1 ].
 	self assert: (list1 selectionModel containsIndex: 1).
 	self assert: (list2 selectionModel containsIndex: 1).
 
-	list2 selecter selectIndex: 2.
-	self waitTestingSpaces.
+	space deferAndSettle: [ list2 selecter selectIndex: 2 ].
 	self assert: (list2 selectionModel containsIndex: 2)
 ]
 
@@ -474,12 +446,12 @@ ToListElementWithFiniteInnerElementTest >> testEmptyListAddOrRemoveNextInSelecti
 
 	| l |
 	l := ToListElement finite.
-
 	l fitContent.
+	space deferAndSettle: [ space root addChild: l ].
 	self assert: l dataAccessor isEmpty.
-	l forceLayout.
 	self assert: l selectionModel isEmpty.
-	l selecter selectOneMoreIndex: l selecter nextSelectableIndex.
+
+	space deferAndSettle: [ l selecter selectOneMoreIndex: l selecter nextSelectableIndex ].
 	self assert: l selecter currentIndex isZero
 ]
 
@@ -489,11 +461,12 @@ ToListElementWithFiniteInnerElementTest >> testEmptyListAddOrRemovePreviousInSel
 	| l |
 	l := ToListElement finite.
 	l fitContent.
+	space deferAndSettle: [ space root addChild: l ].
 	self assert: l dataAccessor isEmpty.
-	l forceLayout.
 	self assert: l selectionModel isEmpty.
-	l selecter selectOneMoreIndex: l selecter previousSelectableIndex.
-	l selecter scrollToDataSourcePosition: l selecter currentIndex.
+
+	space deferAndSettle: [ l selecter selectOneMoreIndex: l selecter previousSelectableIndex ].
+	space deferAndSettle: [ l selecter scrollToDataSourcePosition: l selecter currentIndex ].
 	self assert: l selecter currentIndex isZero
 ]
 
@@ -502,15 +475,16 @@ ToListElementWithFiniteInnerElementTest >> testEmptyListSelectNextInSelection [
 
 	| l |
 	l := ToListElement finite.
-
 	l fitContent.
+	space deferAndSettle: [ space root addChild: l ].
 	self assert: l dataAccessor isEmpty.
-	l forceLayout.
 	self assert: l selectionModel isEmpty.
-	l selecter selectOneMoreIndex: l selecter nextSelectableIndex.
+
+	space deferAndSettle: [ l selecter selectOneMoreIndex: l selecter nextSelectableIndex ].
 	self assert: l selecter currentIndex isZero.
 	self assert: l selectionModel isEmpty.
-	l selecter selectOneMoreIndex: l selecter nextSelectableIndex.
+
+	space deferAndSettle: [ l selecter selectOneMoreIndex: l selecter nextSelectableIndex ].
 	self assert: l selecter currentIndex isZero.
 	self assert: l selectionModel isEmpty
 ]
@@ -520,13 +494,15 @@ ToListElementWithFiniteInnerElementTest >> testEmptyListSelectPreviousInSelectio
 
 	| l |
 	l := ToListElement finite.
-
 	l fitContent.
+	space deferAndSettle: [ space root addChild: l ].
 	self assert: l dataAccessor isEmpty.
-	l forceLayout.
-	l selecter selectOneMoreIndex: l selecter previousSelectableIndex.
-	l selecter selectOneMoreIndex: l selecter previousSelectableIndex.
-	l selecter scrollToDataSourcePosition: l selecter currentIndex.
+	self assert: l selectionModel isEmpty.
+
+	space deferAndSettle: [
+		l selecter selectOneMoreIndex: l selecter previousSelectableIndex.
+		l selecter selectOneMoreIndex: l selecter previousSelectableIndex ].
+	space deferAndSettle: [ l selecter scrollToDataSourcePosition: l selecter currentIndex ].
 	self assert: l selecter currentIndex isZero.
 	self assert: l selectionModel isEmpty
 ]
@@ -536,19 +512,21 @@ ToListElementWithFiniteInnerElementTest >> testEnable [
 
 	| l |
 	l := ToListElement finite.
-	space root addChild: l.
-
+	space deferAndSettle: [ space root addChild: l ].
 	l matchParent.
-	l dataAccessor addAll: { #A. #B. #C }.
-	l selecter selectOneMoreIndex: 2.
-	l secondarySelecter selectOneMoreIndex: 3.
-	l disable.
-	self waitTestingSpaces.
+	space deferAndSettle: [ l dataAccessor addAll: { #A. #B. #C } ].
+	"Must be in a separate block to let layout process item addition before selection"
+	space deferAndSettle: [
+		l selecter selectOneMoreIndex: 2.
+		l secondarySelecter selectOneMoreIndex: 3 ].
+	"Must be in a separate block to let layout process selection before disablement"
+	space deferAndSettle: [ l disable ].
 	self assert: l isDisabled.
 	self assert: l selectionModel isEmpty.
 	self assert: l secondarySelectionModel isEmpty.
 	l nodeContainersDo: [ :container | self assert: container isDisabled ].
-	l enable.
+
+	space deferAndSettle: [ l enable ].
 	self assert: l isEnabled.
 	self assert: l selectionModel isEmpty.
 	self assert: l secondarySelectionModel isEmpty.
@@ -576,7 +554,7 @@ ToListElementWithFiniteInnerElementTest >> testListElementWithFiveDefaultSelecti
 	| l |
 	l := ToListElement finite.
 	l fitContent.
-	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	space deferAndSettle: [ l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5) ].
 	self assert: l dataAccessor size equals: 5
 ]
 
@@ -586,20 +564,18 @@ ToListElementWithFiniteInnerElementTest >> testMakeDisabledUnselectable [
 	| l |
 	l := ToListElement finite.
 	l selectionMode makeDisabledUnselectable: true.
-	space root addChild: l.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
-	l disabledSelecter selectOneMoreIndex: 3.
-	self waitTestingSpaces.
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: l ].
+	space deferAndSettle: [ l disabledSelecter selectOneMoreIndex: 3 ].
 	self assert: l disabledSelecter selectedIndexes equals: { 3 }.
 	self assert: l unselectableSelecter selectedIndexes equals: {  }.
-	l selecter selectOneMoreIndex: 3.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l selecter selectOneMoreIndex: 3 ].
 	self assert: l selecter selectedIndexes equals: {  }.
-	l selectionMode makeDisabledUnselectable: false.
-	l selecter selectIndex: 3.
-	self waitTestingSpaces.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [
+		l selectionMode makeDisabledUnselectable: false .
+		l selecter selectIndex: 3 ].
 	self assert: l selecter selectedIndexes equals: { 3 }
 ]
 
@@ -608,27 +584,23 @@ ToListElementWithFiniteInnerElementTest >> testNodeDeselectedWhenNodeRemoved [
 
 	| list fillers remButtons but |
 	list := self listWithRemoveRowButtons.
-	list dataAccessor addAll: (1 to: 2).
-	space applyAllSkinInstallers.
-	space root forceLayout.
-	self waitTestingSpaces.
+	space deferAndSettle: [ list dataAccessor addAll: (1 to: 2) ].
 	self assert: list dataAccessor size equals: 2.
 	remButtons := (list innerElement allChildrenBreadthFirstSelect: [ :child |
 		               child id asString beginsWith: 'remove-button' ])
 		              asOrderedCollection.
 	fillers := (list selectChildrenWithId: #filler) asOrderedCollection.
-	BlSpace simulateMouseDownOn: fillers first.
-	BlSpace simulateMouseUpOn: fillers first.
-	self waitTestingSpaces.
+	fillers first eventSimulator mouseDown.
+	fillers first eventSimulator mouseUp.
 	self assert: list dataAccessor size equals: 2.
 	self assert: list selectionModel selectedIndexes equals: { 1 }.
 	self
 		assert:
 		list primarySelectionMode selectionOption selectionElements size
 		equals: 1.
-	but := remButtons at: 2.
-	BlSpace simulateMouseDownOn: but.
-	BlSpace simulateMouseUpOn: but.
+	but := remButtons second.
+	but eventSimulator mouseDown.
+	but eventSimulator mouseUp.
 	self assert: list dataAccessor size equals: 1.
 	self assert: list selectionModel selectedIndexes equals: { 1 }.
 	self
@@ -642,15 +614,11 @@ ToListElementWithFiniteInnerElementTest >> testNodeDeselectedWhenNodeRemoved2 [
 
 	| list fillers but |
 	list := self listWithRemoveRowButtons.
-	list dataAccessor addAll: (1 to: 2).
-	space applyAllSkinInstallers.
-	space root forceLayout.
-	self waitTestingSpaces.
+	space deferAndSettle: [ list dataAccessor addAll: (1 to: 2) ].
 	self assert: list dataAccessor size equals: 2.
 	fillers := (list selectChildrenWithId: #filler) asOrderedCollection.
-	BlSpace simulateMouseDownOn: fillers first.
-	BlSpace simulateMouseUpOn: fillers first.
-	self waitTestingSpaces.
+	fillers first eventSimulator mouseDown.
+	fillers first eventSimulator mouseUp.
 	self assert: list dataAccessor size equals: 2.
 	self assert: list selectionModel selectedIndexes equals: { 1 }.
 	self
@@ -658,9 +626,8 @@ ToListElementWithFiniteInnerElementTest >> testNodeDeselectedWhenNodeRemoved2 [
 		list primarySelectionMode selectionOption selectionElements size
 		equals: 1.
 	but := list childWithId: #'remove-button-1'.
-	BlSpace simulateMouseDownOn: but.
-	BlSpace simulateMouseUpOn: but.
-	self waitTestingSpaces.
+	but eventSimulator mouseDown.
+	but eventSimulator mouseUp.
 	self assert: list dataAccessor size equals: 1.
 	self assert: list selectionModel selectedIndexes isEmpty.
 	self assert:
@@ -672,15 +639,11 @@ ToListElementWithFiniteInnerElementTest >> testNodeDeselectedWhenNodeRemoved3 [
 
 	| list fillers but |
 	list := self listWithRemoveRowButtons.
-	list dataAccessor addAll: (1 to: 2).
-	space applyAllSkinInstallers.
-	space root forceLayout.
-	self waitTestingSpaces.
+	space deferAndSettle: [ list dataAccessor addAll: (1 to: 2) ].
 	self assert: list dataAccessor size equals: 2.
 	fillers := (list selectChildrenWithId: #filler) asOrderedCollection.
-	BlSpace simulateMouseDownOn: fillers first.
-	BlSpace simulateMouseUpOn: fillers first.
-	self waitTestingSpaces.
+	fillers first eventSimulator mouseDown.
+	fillers first eventSimulator mouseUp.
 	self assert: list dataAccessor size equals: 2.
 	self assert: list selectionModel selectedIndexes equals: { 1 }.
 	self
@@ -688,15 +651,13 @@ ToListElementWithFiniteInnerElementTest >> testNodeDeselectedWhenNodeRemoved3 [
 		list primarySelectionMode selectionOption selectionElements size
 		equals: 1.
 	but := list childWithId: #'remove-button-1'.
-	BlSpace simulateMouseDownOn: but.
-	BlSpace simulateMouseUpOn: but.
-	self waitTestingSpaces.
+	but eventSimulator mouseDown.
+	but eventSimulator mouseUp.
 	self assert: list dataAccessor size equals: 1.
 	self assert: list selectionModel selectedIndexes isEmpty.
 	but := list childWithId: #'remove-button-2'.
-	BlSpace simulateMouseDownOn: but.
-	BlSpace simulateMouseUpOn: but.
-	self waitTestingSpaces.
+	but eventSimulator mouseDown.
+	but eventSimulator mouseUp.
 	self assert: list dataAccessor size equals: 0.
 	self assert: list selectionModel selectedIndexes isEmpty.
 	self assert:
@@ -708,35 +669,31 @@ ToListElementWithFiniteInnerElementTest >> testNodeDeselectedWhenNodeRemoved4 [
 
 	| list fillers but |
 	list := self listWithRemoveRowButtons.
-	list dataAccessor addAll: (1 to: 2).
-	space applyAllSkinInstallers.
-	space root forceLayout.
-	self waitTestingSpaces.
-	self assert: list dataAccessor size equals: 2.
+	space deferAndSettle: [ list dataAccessor addAll: (1 to: 2) ].
+	self assert: (list dataAccessor size) equals: 2.
 	fillers := (list selectChildrenWithId: #filler) asOrderedCollection.
-	BlSpace simulateMouseDownOn: fillers first.
-	BlSpace simulateMouseUpOn: fillers first.
-	self waitTestingSpaces.
-	self assert: list dataAccessor size equals: 2.
-	self assert: list selectionModel selectedIndexes equals: { 1 }.
+	
+	fillers first eventSimulator mouseDown.
+	fillers first eventSimulator mouseUp.
+		
+	self assert: (list dataAccessor size) equals: 2.
+	self assert: (list selectionModel selectedIndexes) equals: { 1 }.
+	
 	but := list childWithId: #'remove-button-2'.
-	BlSpace simulateMouseDownOn: but.
-	BlSpace simulateMouseUpOn: but.
-	self waitTestingSpaces.
-	self assert: list dataAccessor size equals: 1.
-	self assert: list selectionModel selectedIndexes equals: { 1 }.
-	self
-		assert:
-		list primarySelectionMode selectionOption selectionElements size
-		equals: 1.
+	but eventSimulator mouseDown.
+	but eventSimulator mouseUp.
+		
+	self assert: (list dataAccessor size) equals: 1.
+	self assert: (list selectionModel selectedIndexes) equals: { 1 }.
+	self assert: (list primarySelectionMode selectionOption selectionElements size) equals: 1.
+	
 	but := list childWithId: #'remove-button-1'.
-	BlSpace simulateMouseDownOn: but.
-	BlSpace simulateMouseUpOn: but.
-	self waitTestingSpaces.
-	self assert: list dataAccessor size equals: 0.
-	self assert: list selectionModel selectedIndexes isEmpty.
-	self assert:
-		list primarySelectionMode selectionOption selectionElements isEmpty
+	but eventSimulator mouseDown.
+	but eventSimulator mouseUp.
+		
+	self assert: (list dataAccessor size) equals: 0.
+	self assert: (list selectionModel selectedIndexes isEmpty).
+	self assert: (list primarySelectionMode selectionOption selectionElements isEmpty)
 ]
 
 { #category : #'test - selection changed event' }
@@ -745,27 +702,25 @@ ToListElementWithFiniteInnerElementTest >> testPrimarySelectionChangedEventDispa
 
 	| l dispatchedEvent |
 	l := ToListElement finite.
-	space root addChild: l.
-	l fitContent.
-	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
-	l forceLayout.
-	self waitTestingSpaces.
-	l selecter selectOnlyIndex: 3.
-	" have to pulse space to get selection actually updated "
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		space root addChild: l.
+		l fitContent.
+		l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5) ].
+	"Must be in a separate block to let layout process item addition before selection"
+	space deferAndSettle: [
+		l selecter selectOnlyIndex: 3 ].
 	self assert: l selectionModel selectedIndexes equals: { 3 }.
 	self
 		assert: l selectionMode selectionContainer children size
 		equals: 1.
+
 	l
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent
 		do: [ :event | dispatchedEvent := event ].
 	dispatchedEvent := nil.
-	l dataAccessor removeAt: 3.
-	" have to pulse to get an updated datasource plus oupdated selection model "
-	self waitTestingSpaces.
-	self assert: l selectionModel selectedIndexes equals: {  }.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l dataAccessor removeAt: 3 ].
+	self assert: l selectionModel selectedIndexes equals: { }.
 	self assert: l selectionMode selectionContainer children isEmpty.
 	self assert: dispatchedEvent notNil
 ]
@@ -776,21 +731,17 @@ ToListElementWithFiniteInnerElementTest >> testPrimarySelectionChangedEventDispa
 
 	| l dispatchedEvent |
 	l := ToListElement finite.
-	space root addChild: l.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
-	self waitTestingSpaces.
 	l selecter selectOnlyIndex: 3.
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: l ].
 	l
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent
 		do: [ :event | dispatchedEvent := event ].
 	dispatchedEvent := nil.
-	l dataAccessor removeAt: 3.
-	" have to pulse to get an updated datasource plus oupdated selection model "
-	self waitTestingSpaces.
+	space deferAndSettle: [ l dataAccessor removeAt: 3 ].
+	" we get an updated datasource plus oupdated selection model "
 	self assert: l selectionModel selectedIndexes equals: {  }.
-	self waitTestingSpaces.
 	self assert: l selectionMode selectionContainer children isEmpty.
 	self assert: dispatchedEvent notNil
 ]
@@ -801,25 +752,24 @@ ToListElementWithFiniteInnerElementTest >> testPrimarySelectionChangedEventDispa
 
 	| l dispatchedEvent |
 	l := ToListElement finite.
-	space root addChild: l.
 	l fitContent.
-	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
-	l forceLayout.
-	l selecter selectOnlyIndex: 3.
-	" have to pulse space to get selection actually updated "
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		space root addChild: l.
+		l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5) ].
+	"Must be in a separate block to let layout process item addition before selection"
+	space deferAndSettle: [ l selecter selectOnlyIndex: 3 ].
 	self assert: l selectionModel selectedIndexes equals: { 3 }.
 	self
 		assert: l selectionMode selectionContainer children size
 		equals: 1.
+
 	l
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent
 		do: [ :event | dispatchedEvent := event ].
 	dispatchedEvent := nil.
 	self assert: l selectionModel selectedIndexes equals: { 3 }.
-	l dataAccessor removeAll.
-	" have to pulse to get an updated datasource plus oupdated selection model "
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l dataAccessor removeAll ].
 	self assert: l selectionModel selectedIndexes equals: {  }.
 	self assert: l selectionMode selectionContainer children isEmpty.
 	self assert: dispatchedEvent notNil
@@ -830,17 +780,16 @@ ToListElementWithFiniteInnerElementTest >> testRemoveAll [
 
 	| l |
 	l := ToListElement finite.
-	space root addChild: l.
 	l innerElement extent: 800 @ 600.
 	l fitContent.
-	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: l ].
+	space deferAndSettle: [ l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5) ].
 	self assert: l nodeContainers size equals: 5.
-	l selecter selectOnlyIndex: 2.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l selecter selectOnlyIndex: 2 ].
 	self assert: l selectionModel selectedIndexes equals: #( 2 ).
-	l dataAccessor removeAll.
-	self waitTestingSpaces.
+	
+	space deferAndSettle: [ l dataAccessor removeAll ].
 	self assert: l nodeContainers size equals: 0.
 	self assert: l selectionModel selectedIndexes isEmpty
 ]
@@ -850,28 +799,28 @@ ToListElementWithFiniteInnerElementTest >> testSelectAndScrollToNext [
 
 	| l |
 	l := ToListElement finite.
-	space root addChild: l.
+	space deferAndSettle: [ space root addChild: l ].
 	l fitContent.
-	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	space deferAndSettle: [ l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5) ].
 	self assert: l dataAccessor size equals: 5.
-	l forceLayout.
-	l selecter selectOneMoreIndex: 4.
-	l selecter selectOneMoreIndex: 2.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [
+		l selecter selectOneMoreIndex: 4.
+		l selecter selectOneMoreIndex: 2 ].
 	self assert: l selecter currentIndex equals: 2.
 	self
 		assert: l selectionModel selectedIndexes asArray
 		equals: #( 2 4 ).
-	l selecter selectIndex: l selecter nextSelectableIndex.
-	l selecter scrollToDataSourcePosition: l selecter currentIndex.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l selecter selectIndex: l selecter nextSelectableIndex ].
+	space deferAndSettle: [ l selecter scrollToDataSourcePosition: l selecter currentIndex ].
 	self assert: l selecter currentIndex equals: 3.
 	self
 		assert: l selectionModel selectedIndexes asArray
 		equals: #( 2 3 4 ).
-	l selecter selectIndex: l selecter nextSelectableIndex.
-	l selecter scrollToDataSourcePosition: l selecter currentIndex.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l selecter selectIndex: l selecter nextSelectableIndex ].
+	space deferAndSettle: [ l selecter scrollToDataSourcePosition: l selecter currentIndex ].
 	self assert: l selecter currentIndex equals: 4.
 	self
 		assert: l selectionModel selectedIndexes asArray
@@ -883,25 +832,24 @@ ToListElementWithFiniteInnerElementTest >> testSelectAndScrollToPrevious [
 
 	| l |
 	l := ToListElement finite.
-	space root addChild: l.
+	space deferAndSettle: [ space root addChild: l ].
 	l fitContent.
-	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	space deferAndSettle: [ l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5) ].
 	self assert: l dataAccessor size equals: 5.
-	l selecter selectOneMoreIndex: 4.
-	self waitTestingSpaces.
-	l forceLayout.
+
+	space deferAndSettle: [ l selecter selectOneMoreIndex: 4 ].
 	self assert: l selecter currentIndex equals: 4.
 	self assert: l selectionModel selectedIndexes asArray equals: #( 4 ).
-	l selecter selectOneMoreIndex: l selecter previousSelectableIndex.
-	l selecter scrollToDataSourcePosition: l selecter currentIndex.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l selecter selectOneMoreIndex: l selecter previousSelectableIndex ].
+	space deferAndSettle: [ l selecter scrollToDataSourcePosition: l selecter currentIndex ].
 	self assert: l selecter currentIndex equals: 3.
 	self
 		assert: l selectionModel selectedIndexes asArray
 		equals: #( 3 4 ).
-	l selecter selectIndex: l selecter previousSelectableIndex.
-	l selecter scrollToDataSourcePosition: l selecter currentIndex.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l selecter selectIndex: l selecter previousSelectableIndex ].
+	space deferAndSettle: [ l selecter scrollToDataSourcePosition: l selecter currentIndex ].
 	self assert: l selecter currentIndex equals: 2.
 	self
 		assert: l selectionModel selectedIndexes asArray
@@ -914,16 +862,15 @@ ToListElementWithFiniteInnerElementTest >> testSelectionAfterLastRemoval [
 	| l |
 	l := ToListElement finite.
 	l secondarySelectionMode selecter enabled: false.
-	space root addChild: l.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	space deferAndSettle: [ space root addChild: l ].
 	self assert: l selectionModel selectedIndexes isEmpty.
-	l selecter selectIndexes: #( 5 ).
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l selecter selectIndexes: #( 5 ) ].
 	self assert: l selectionModel selectedIndexes equals: #( 5 ).
-	self waitTestingSpaces.
-	l dataAccessor removeAt: 5.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l dataAccessor removeAt: 5 ].
 	self assert: l selectionModel selectedIndexes equals: #(  )
 ]
 
@@ -932,15 +879,14 @@ ToListElementWithFiniteInnerElementTest >> testSelectionUpdatedAfterInsert [
 
 	| l |
 	l := ToListElement finite.
-	space root addChild: l.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
 	l selecter selectOnlyIndex: 3.
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: l ].
 	self assert: l selecter currentIndex equals: 3.
-	l dataAccessor add: (self statesOfAmerica at: 6) afterIndex: 1.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [
+		l dataAccessor add: (self statesOfAmerica at: 6) afterIndex: 1  ].
 	self assert: l selecter currentIndex equals: 3.
-	self waitTestingSpaces.
 	self assert: l selectionModel lastIndex equals: 4
 ]
 
@@ -949,18 +895,18 @@ ToListElementWithFiniteInnerElementTest >> testSelectionUpdatedAfterInsert1 [
 
 	| l |
 	l := ToListElement finite.
-	space root addChild: l.
-	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	space deferAndSettle: [
+		space root addChild: l.
+		l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5) ].
 	self assert: l dataAccessor size equals: 5.
-	l selecter selectOnlyIndex: 3.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l selecter selectOnlyIndex: 3 ].
 	self assert: l selectionModel selectedIndexes equals: { 3 }.
 	self assert: l selecter currentIndex equals: 3.
-	l forceLayout.
 	self assert: l nodeContainers size equals: 5.
-	l dataAccessor addAllFirst: (self statesOfAmerica copyFrom: 6 to: 10).
+
+	space deferAndSettle: [ l dataAccessor addAllFirst: (self statesOfAmerica copyFrom: 6 to: 10) ].
 	self assert: l dataAccessor size equals: 10.
-	self waitTestingSpaces.
 	self assert: l nodeContainers size equals: 10.
 	self assert: l selectionModel lastIndex equals: 8
 ]
@@ -970,19 +916,18 @@ ToListElementWithFiniteInnerElementTest >> testSelectionUpdatedAfterInsert3 [
 
 	| l |
 	l := ToListElement finite.
-	space root addChild: l.
+	space deferAndSettle: [ space root addChild: l ].
 	l fitContent.
-	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
-	l forceLayout.
+	space deferAndSettle: [ l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5) ].
 	self assert: l selectionModel isEmpty.
-	l selecter selectIndexes: #( 3 4 ).
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l selecter selectIndexes: #( 3 4 ) ].
 	self assert: l selectionModel selectedIndexes equals: #( 3 4 ).
 	self assert: l selecter currentIndex equals: 4.
-	l dataAccessor add: (self statesOfAmerica at: 6) afterIndex: 1.
+
+	space deferAndSettle: [ l dataAccessor add: (self statesOfAmerica at: 6) afterIndex: 1 ].
 	self assert: l selecter currentIndex equals: 4.
 	self assert: l selecter currentIndex equals: 4.
-	self waitTestingSpaces.
 	self assert: l selectionModel selectedIndexes equals: #( 4 5 )
 ]
 
@@ -991,14 +936,11 @@ ToListElementWithFiniteInnerElementTest >> testSelectionUpdatedAfterRemove [
 
 	| l |
 	l := ToListElement finite.
-	space root addChild: l.
 	l fitContent.
-	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5) .
 	l selecter selectOnlyIndex: 3.
-	self waitTestingSpaces.
-	l dataAccessor removeAt: 2.
-
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: l ].
+	space deferAndSettle: [ l dataAccessor removeAt: 2 ].
 	self assert: l selectionModel selectedIndexes equals: { 2 }
 ]
 
@@ -1007,17 +949,19 @@ ToListElementWithFiniteInnerElementTest >> testSelectionUpdatedAfterRemove1 [
 
 	| l |
 	l := ToListElement finite.
-	space root addChild: l.
-	l fitContent.
-	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
-	l forceLayout.
-	l selecter selectOnlyIndex: 3.
-	self waitTestingSpaces.
-	self assert: l selectionModel selectedIndexes equals: { 3 }.
-	l dataAccessor removeAll.
-	self waitTestingSpaces.
-	self assert: l dataAccessor size equals: 0.
-	self assert: l selectionModel isEmpty
+	space deferAndSettle: [
+		space root addChild: l.
+		l fitContent ].
+	space deferAndSettle: [
+		l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5) ].
+	"Must be in a separate block to let layout process item addition before selection"
+	space deferAndSettle: [
+		l selecter selectOnlyIndex: 3 ].
+	self assert: (l selectionModel selectedIndexes) equals: { 3 }.
+
+	space deferAndSettle: [ l dataAccessor removeAll ].
+	self assert: (l dataAccessor size) equals: 0.
+	self assert: (l selectionModel isEmpty)
 ]
 
 { #category : #'test selection - adding/removing' }
@@ -1025,16 +969,15 @@ ToListElementWithFiniteInnerElementTest >> testSelectionUpdatedAfterRemove2 [
 
 	| l |
 	l := ToListElement finite.
-	space root addChild: l.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	space deferAndSettle: [ space root addChild: l ].
 	self assert: l dataAccessor size equals: 5.
-	self waitTestingSpaces.
 	self assert: l selectionModel isEmpty.
-	l selecter selectOnlyIndex: 3.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l selecter selectOnlyIndex: 3 ].
 	self assert: l selecter currentIndex equals: 3.
-	l dataAccessor removeAt: 4.
-	self waitTestingSpaces.
+	
+	space deferAndSettle: [ l dataAccessor removeAt: 4 ].
 	self assert: l selectionModel selectedIndexes equals: { 3 }
 ]
 
@@ -1043,16 +986,15 @@ ToListElementWithFiniteInnerElementTest >> testSelectionUpdatedAfterRemove3 [
 
 	| l |
 	l := ToListElement finite.
-	space root addChild: l.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	space deferAndSettle: [ space root addChild: l ].
 	self assert: l selectionModel selectedIndexes isEmpty.
-	l selecter selectIndexes: #( 3 4 ).
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l selecter selectIndexes: #( 3 4 ) ].
 	self assert: l selectionModel selectedIndexes equals: #( 3 4 ).
-	l dataAccessor removeAt: 2.
-	self waitTestingSpaces.
-	self waitTestingSpaces.
+	
+	space deferAndSettle: [ l dataAccessor removeAt: 2 ].
 	self assert: l selectionModel selectedIndexes equals: #( 2 3 )
 ]
 
@@ -1061,18 +1003,16 @@ ToListElementWithFiniteInnerElementTest >> testSelectionUpdatedAfterRemove4 [
 
 	| l |
 	l := ToListElement finite.
-	space root addChild: l.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: l ].
 	self assert: l dataAccessor size equals: 5.
 	self assert: l selectionModel selectedIndexes isEmpty.
-	l selecter selectIndexes: #( 2 ).
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l selecter selectIndexes: #( 2 ) ].
 	self assert: l selectionModel selectedIndexes equals: #( 2 ).
-	l dataAccessor removeAt: 2.
-	self waitTestingSpaces.
-	self waitTestingSpaces.
+	
+	space deferAndSettle: [ l dataAccessor removeAt: 2 ].
 	self assert: l selectionModel selectedIndexes isEmpty
 ]
 
@@ -1081,16 +1021,15 @@ ToListElementWithFiniteInnerElementTest >> testSelectionUpdatedAfterRemove5 [
 
 	| l |
 	l := ToListElement finite.
-	space root addChild: l.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	space deferAndSettle: [ space root addChild: l ].
 	self assert: l selectionModel selectedIndexes isEmpty.
-	l selecter selectIndexes: #( 3 4 ).
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l selecter selectIndexes: #( 3 4 ) ].
 	self assert: l selectionModel selectedIndexes equals: #( 3 4 ).
-	l dataAccessor removeAt: 3.
-	self waitTestingSpaces.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l dataAccessor removeAt: 3 ].
 	self assert: l selectionModel selectedIndexes equals: #( 3 )
 ]
 
@@ -1099,17 +1038,17 @@ ToListElementWithFiniteInnerElementTest >> testSelectionUpdatedAfterRemove6 [
 
 	| l |
 	l := ToListElement finite.
-	space root addChild: l.
 	l fitContent.
 	l dataAccessor addAll: (self statesOfAmerica copyFrom: 1 to: 5).
+	space deferAndSettle: [ space root addChild: l ].
 	self assert: l selectionModel selectedIndexes isEmpty.
-	l selecter selectIndexes: #( 3 4 ).
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l selecter selectIndexes: #( 3 4 ) ].
 	self assert: l selectionModel selectedIndexes equals: #( 3 4 ).
-	l dataAccessor removeAt: 3.
-	l dataAccessor removeAt: 3.
-	self waitTestingSpaces.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [
+		l dataAccessor removeAt: 3.
+		l dataAccessor removeAt: 3 ].
 	self assert: l selectionModel selectedIndexes equals: #(  )
 ]
 
@@ -1119,14 +1058,13 @@ ToListElementWithFiniteInnerElementTest >> testSelectionWithOneNode [
 	| l |
 	l := ToListElement finite.
 	l dataAccessor removeAll.
-	l dataAccessor add: 'first'.
-	space root addChild: l.
-	l innerElement forceLayout.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		l dataAccessor add: 'first'.
+		space root addChild: l ].
 	self assert: l innerElement children size equals: 1.
 	self assert: l selectionModel isEmpty.
-	l selecter selectOneMoreIndex: 1.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l selecter selectOneMoreIndex: 1 ].
 	self assert: l selecter selectedIndex equals: 1.
 	self assert: l selectionModel selectedIndexes equals: { 1 }
 ]
@@ -1136,16 +1074,16 @@ ToListElementWithFiniteInnerElementTest >> testSelectionWithTwoNodes [
 
 	| l |
 	l := ToListElement finite.
-	l dataAccessor add: 'first'.
-	space root addChild: l.
-	l innerElement forceLayout.	self waitTestingSpaces.
+	space deferAndSettle: [
+		l dataAccessor add: 'first'.
+		space root addChild: l ].
 	self assert: l innerElement children size equals: 1.
 	self assert: l selectionModel isEmpty.
-	l selecter selectOneMoreIndex: 1.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l selecter selectOneMoreIndex: 1 ].
 	self assert: l selecter selectedIndex equals: 1.
-	l dataAccessor addFirst: 'second'.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ l dataAccessor addFirst: 'second' ].
 	self assert: l selecter selectedIndex equals: 2.
 	self assert: l selecter selectedIndexes equals: { 2 }
 ]

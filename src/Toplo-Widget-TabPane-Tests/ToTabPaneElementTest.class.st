@@ -21,17 +21,14 @@ ToTabPaneElementTest >> setUp [
 	tabPane := ToTabPaneElement new.
 	tabPane horizontal: true.
 	tabPane matchParent.
-	space root addChild: tabPane.
-	tabPane forceLayout.
-	self waitTestingSpaces.
-	BlSpace simulateMouseMoveInside: tabPane.
-
+	space deferAndSettle: [ space root addChild: tabPane  ].
+	tabPane eventSimulator mouseMoveInside.
+	space settle
 ]
 
 { #category : #tests }
 ToTabPaneElementTest >> testCheckTabButton [
 
-	tabPane := ToTabPaneElement new.
 	tabPane itemBuilder: [ :tabItem :data |
 			tabItem
 				id: data asSymbol;
@@ -42,9 +39,10 @@ ToTabPaneElementTest >> testCheckTabButton [
 									 matchParent;
 									 yourself) ] ].
 
-	tabPane addTabItemData: 'First'.
+	space deferAndSettle: [ tabPane addTabItemData: 'First' ].
 	self deny: tabPane items first isChecked.
-	tabPane items first checked: true.
+	
+	space deferAndSettle: [ tabPane items first checked: true ].
 	self assert: tabPane items first isChecked
 ]
 
@@ -53,25 +51,28 @@ ToTabPaneElementTest >> testCloseLastPage [
 
 	| firstButton secondButton clicked |
 	self withTwoTabButtons.
+
 	firstButton := tabPane items first.
 	secondButton := tabPane items second.
-	firstButton removable: true.
-	secondButton removable: true.
-	firstButton holder node addRemoveButton. 
-	secondButton holder node  addRemoveButton. 
-	tabPane forceLayout.
+	space deferAndSettle: [
+		firstButton removable: true.
+		secondButton removable: true.
+		firstButton holder node addRemoveButton. 
+		secondButton holder node addRemoveButton ].
+
 	clicked := false.
-	self waitTestingSpacesTimeout: 400 milliSeconds.
 	secondButton removeButton
 		addEventHandlerOn: BlClickEvent
 		do: [ :evt | clicked := true ].
 	self assert: tabPane items size equals: 2.
 	self assert: secondButton removeButton notNil.
+
 	" one have first to ensure that the remove button is visible 
 	(with Raw skin, the remove button is only visible when the mouse is over its tab button) "
-	BlSpace simulateMouseMoveInside: secondButton removeButton.
-	BlSpace simulateClickOn: secondButton removeButton.
-	self waitTestingSpacesTimeout: 600 milliSeconds.
+	secondButton eventSimulator mouseMoveInside.
+	secondButton removeButton eventSimulator
+		mouseMoveInside;
+		click.
 	self assert: clicked.
 	self assert: tabPane items size equals: 1.
 	self assert: tabPane items first identicalTo: firstButton
@@ -82,24 +83,28 @@ ToTabPaneElementTest >> testCloseSelectedPage [
 
 	| firstButton secondButton |
 	self withTwoTabButtons.
+
 	firstButton := tabPane items first.
 	secondButton := tabPane items second.
-	firstButton removable: true.
-	secondButton removable: true.
-	firstButton holder node addRemoveButton. 
-	secondButton holder node  addRemoveButton. 
-	self waitTestingSpaces.
-	BlSpace simulateClickOn: secondButton.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		firstButton removable: true.
+		secondButton removable: true.
+		firstButton holder node addRemoveButton. 
+		secondButton holder node addRemoveButton ].
+
+	secondButton eventSimulator
+		mouseMoveInside;
+		click.
 	self assert: secondButton isSelected.
+
 	" after the click, the remove button should be visible "
-	BlSpace simulateMouseMoveInside: secondButton removeButton.
-	self waitTestingSpaces.
-	BlSpace simulateClickOn: secondButton removeButton.
-	self waitTestingSpaces.
+	secondButton eventSimulator mouseMoveInside.
+	secondButton removeButton eventSimulator
+		mouseMoveInside;
+		click.
 	self assert: tabPane items size equals: 1.
 	self assert: tabPane items first identicalTo: firstButton.
-	self assert: firstButton isSelected.
+	self assert: firstButton isSelected
 ]
 
 { #category : #tests }
@@ -107,31 +112,28 @@ ToTabPaneElementTest >> testCloseSelectedPage2 [
 
 	| firstButton secondButton |
 	self withTwoTabButtons.
+
 	firstButton := tabPane items first.
 	secondButton := tabPane items second.
-	firstButton removable: true.
-	secondButton removable: true.
-	firstButton holder node addRemoveButton. 
-	secondButton holder node addRemoveButton. 
-	self waitTestingSpaces.
-	BlSpace simulateMouseMoveInside: firstButton.
-	self waitTestingSpaces.
-	tabPane forceLayout.
-	BlSpace simulateClickOn: firstButton.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		firstButton removable: true.
+		secondButton removable: true.
+		firstButton holder node addRemoveButton. 
+		secondButton holder node addRemoveButton ].
+
+	firstButton eventSimulator
+		mouseMoveInside;
+		click.
 	self assert: firstButton isSelected.
+
 	" after the click, the remove button should be visible "
-	self waitTestingSpaces.
-	tabPane forceLayout.
-	BlSpace simulateMouseMoveInside: firstButton removeButton.
-	self waitTestingSpaces.
-	tabPane forceLayout.
-	BlSpace simulateClickOn: firstButton removeButton.
-	self waitTestingSpaces.
-	tabPane forceLayout.
+	firstButton eventSimulator mouseMoveInside.
+	firstButton removeButton eventSimulator
+		mouseMoveInside;
+		click.
 	self assert: tabPane items size equals: 1.
 	self assert: tabPane items first identicalTo: secondButton.
-	self assert: secondButton isSelected.
+	self assert: secondButton isSelected
 ]
 
 { #category : #tests }
@@ -140,29 +142,32 @@ ToTabPaneElementTest >> testCloseUnselectedPage [
 
 	| firstButton secondButton clicked |
 	self withTwoTabButtons.
+
 	firstButton := tabPane items first.
 	clicked := false.
 	secondButton := tabPane items second.
-	firstButton removable: true.
-	secondButton removable: true.
-	firstButton holder node addRemoveButton. 
-	secondButton holder node  addRemoveButton. 
-	tabPane forceLayout.
-	self waitTestingSpacesTimeout: 400 milliSeconds.
-	firstButton removeButton addEventHandlerOn: BlClickEvent do: [ :evt | clicked := true ].
-	BlSpace simulateMouseMoveInside: firstButton.
-	self waitTestingSpacesTimeout: 400 milliSeconds.
+	space deferAndSettle: [
+		firstButton removable: true.
+		secondButton removable: true.
+		firstButton holder node addRemoveButton. 
+		secondButton holder node addRemoveButton ].
+
+	firstButton removeButton
+		addEventHandlerOn: BlClickEvent
+		do: [ :evt | clicked := true ].
+	firstButton eventSimulator mouseMoveInside.
 	self deny: firstButton isSelected.
 	self deny: secondButton isSelected.
+
 	" after the click, the remove button should be visible "
-	BlSpace simulateMouseMoveInside: firstButton removeButton.
-	self waitTestingSpaces.
-	BlSpace simulateClickOn: firstButton removeButton.
-	self waitTestingSpacesTimeout: 400 milliSeconds.
+	firstButton eventSimulator mouseMoveInside.
+	firstButton removeButton eventSimulator
+		mouseMoveInside;
+		click.
 	self assert: clicked.
 	self assert: tabPane items size equals: 1.
 	self assert: tabPane items first identicalTo: secondButton.
-	self deny: secondButton isSelected.
+	self deny: secondButton isSelected
 ]
 
 { #category : #tests }
@@ -171,25 +176,30 @@ ToTabPaneElementTest >> testCloseUnselectedPage2 [
 
 	| firstButton secondButton |
 	self withTwoTabButtons.
+
 	firstButton := tabPane items first.
 	secondButton := tabPane items second.
-	firstButton removable: true.
-	secondButton removable: true.
-	firstButton holder node addRemoveButton. 
-	secondButton holder node  addRemoveButton. 
-	self waitTestingSpaces.
-	BlSpace simulateClickOn: firstButton.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		firstButton removable: true.
+		secondButton removable: true.
+		firstButton holder node addRemoveButton. 
+		secondButton holder node addRemoveButton ].
+
+	firstButton eventSimulator
+		mouseMoveInside;
+		click.
 	self assert: firstButton isSelected.
 	self deny: secondButton isSelected.
+
 	" one have first to ensure that the remove button is visible 
 	(with Raw skin, the remove button is only visible when the mouse is over its tab button) "
-	BlSpace simulateMouseMoveInside: secondButton removeButton.
-	BlSpace simulateClickOn: secondButton removeButton.
-	self waitTestingSpaces.
+	secondButton eventSimulator mouseMoveInside.
+	secondButton removeButton eventSimulator
+		mouseMoveInside;
+		click.
 	self assert: tabPane items size equals: 1.
 	self assert: tabPane items first identicalTo: firstButton.
-	self assert: firstButton isSelected.
+	self assert: firstButton isSelected
 ]
 
 { #category : #tests }
@@ -198,25 +208,30 @@ ToTabPaneElementTest >> testCloseUnselectedPage3 [
 
 	| firstButton secondButton |
 	self withTwoTabButtons.
+
 	firstButton := tabPane items first.
 	secondButton := tabPane items second.
-	firstButton removable: true.
-	secondButton removable: true.
-	firstButton holder node addRemoveButton. 
-	secondButton holder node  addRemoveButton. 
-	self waitTestingSpaces.
-	BlSpace simulateClickOn: secondButton.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		firstButton removable: true.
+		secondButton removable: true.
+		firstButton holder node addRemoveButton. 
+		secondButton holder node addRemoveButton ].
+
+	secondButton eventSimulator
+		mouseMoveInside;
+		click.
 	self deny: firstButton isSelected.
 	self assert: secondButton isSelected.
+
 	" one have first to ensure that the remove button is visible 
 	(with Raw skin, the remove button is only visible when the mouse is over its tab button) "
-	BlSpace simulateMouseMoveInside: secondButton removeButton.
-	BlSpace simulateClickOn: secondButton removeButton.
-	self waitTestingSpaces.
+	secondButton eventSimulator mouseMoveInside.
+	secondButton removeButton eventSimulator
+		mouseMoveInside;
+		click.
 	self assert: tabPane items size equals: 1.
 	self assert: tabPane items first identicalTo: firstButton.
-	self assert: firstButton isSelected.
+	self assert: firstButton isSelected
 ]
 
 { #category : #tests }
@@ -225,26 +240,30 @@ ToTabPaneElementTest >> testCloseUnselectedPage4 [
 
 	| firstButton secondButton |
 	self withTwoTabButtons.
+
 	firstButton := tabPane items first.
 	secondButton := tabPane items second.
-	firstButton removable: true.
-	secondButton removable: true.
-	firstButton holder node addRemoveButton. 
-	secondButton holder node  addRemoveButton. 
-	self waitTestingSpaces.
-	BlSpace simulateClickOn: firstButton.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		firstButton removable: true.
+		secondButton removable: true.
+		firstButton holder node addRemoveButton. 
+		secondButton holder node addRemoveButton ].
+
+	firstButton eventSimulator
+		mouseMoveInside;
+		click.
 	self assert: firstButton isSelected.
 	self deny: secondButton isSelected.
+
 	" one have first to ensure that the remove button is visible 
 	(with Raw skin, the remove button is only visible when the mouse is over its tab button) "
-	BlSpace simulateMouseMoveInside: firstButton removeButton.
-	self waitTestingSpaces.
-	BlSpace simulateClickOn: firstButton removeButton.
-	self waitTestingSpaces.
+	firstButton eventSimulator mouseMoveInside.
+	firstButton removeButton eventSimulator
+		mouseMoveInside;
+		click.
 	self assert: tabPane items size equals: 1.
 	self assert: tabPane items first identicalTo: secondButton.
-	self assert: secondButton isSelected.
+	self assert: secondButton isSelected
 ]
 
 { #category : #tests }
@@ -253,30 +272,35 @@ ToTabPaneElementTest >> testCloseUnselectedPage5 [
 
 	| firstButton secondButton |
 	self withTwoTabButtons.
+
 	firstButton := tabPane items first.
 	secondButton := tabPane items second.
-	firstButton removable: true.
-	secondButton removable: true.
-	firstButton holder node addRemoveButton. 
-	secondButton holder node  addRemoveButton. 
-	self waitTestingSpaces.
-	BlSpace simulateClickOn: firstButton.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		firstButton removable: true.
+		secondButton removable: true.
+		firstButton holder node addRemoveButton. 
+		secondButton holder node addRemoveButton ].
+
+	firstButton eventSimulator
+		mouseMoveInside;
+		click.
 	self assert: firstButton isSelected.
 	self deny: secondButton isSelected.
 	" one have first to ensure that the remove button is visible 
 	(with Raw skin, the remove button is only visible when the mouse is over its tab button) "
-	BlSpace simulateMouseMoveInside: firstButton removeButton.
-	BlSpace simulateClickOn: firstButton removeButton.
-	self waitTestingSpaces.
+	firstButton eventSimulator mouseMoveInside.
+	firstButton removeButton eventSimulator
+		mouseMoveInside;
+		click.
 	self assert: tabPane items size equals: 1.
 	self assert: tabPane items first identicalTo: secondButton.
 	self assert: secondButton isSelected.
 
 	firstButton := tabPane items first.
-	BlSpace simulateMouseMoveInside: firstButton removeButton.
-	BlSpace simulateClickOn: firstButton removeButton.
-	self waitTestingSpaces.
+	firstButton eventSimulator mouseMoveInside.
+	firstButton removeButton eventSimulator
+		mouseMoveInside;
+		click.
 	self assert: tabPane items size equals: 0.
 	self assert: tabPane body children isEmpty
 ]
@@ -289,12 +313,10 @@ ToTabPaneElementTest >> testIsSelected [
 	firstButton := tabPane items first.
 	secondButton := tabPane items second.
 
-	self waitTestingSpaces.
 	self deny: firstButton isSelected.
 	self deny: secondButton isSelected.
 
-	BlSpace simulateClickOn: secondButton.
-	self waitTestingSpaces.
+	secondButton eventSimulator click.
 	self assert: secondButton isSelected.
 	self deny: firstButton isSelected
 ]
@@ -307,27 +329,22 @@ ToTabPaneElementTest >> testPaneBuilderIsValuedOnSelect [
 	firstButton := tabPane items first.
 	secondButton := tabPane items second.
 	
-	self waitTestingSpaces.
 	self assert: firstTabBuildCount equals: 0.
 	self assert: secondTabBuildCount equals: 0.
 	
-	BlSpace simulateClickOn: secondButton.
-	self waitTestingSpaces.
+	secondButton eventSimulator click.
 	self assert: firstTabBuildCount equals: 0.
 	self assert: secondTabBuildCount equals: 1.
 
-	BlSpace simulateClickOn: firstButton.
-	self waitTestingSpaces.
+	firstButton eventSimulator click.
 	self assert: firstTabBuildCount equals: 1.
 	self assert: secondTabBuildCount equals: 1.
 
-	BlSpace simulateClickOn: secondButton.
-	self waitTestingSpaces.
+	secondButton eventSimulator click.
 	self assert: firstTabBuildCount equals: 1.
 	self assert: secondTabBuildCount equals: 1.
 
-	BlSpace simulateClickOn: firstButton.
-	self waitTestingSpaces.
+	firstButton eventSimulator click.
 	self assert: firstTabBuildCount equals: 1.
 	self assert: secondTabBuildCount equals: 1
 ]
@@ -339,24 +356,21 @@ ToTabPaneElementTest >> testPaneBuilderIsValuedOnSelect2 [
 	self withTwoTabButtons.
 	firstButton := tabPane items first.
 	secondButton := tabPane items second.
-	firstButton destroyPaneWhenDeselected: true.
-	secondButton destroyPaneWhenDeselected: true.
+	space deferAndSettle: [
+		firstButton destroyPaneWhenDeselected: true.
+		secondButton destroyPaneWhenDeselected: true ].
 	
-	self waitTestingSpaces.
-	
-	BlSpace simulateClickOn: secondButton.
-	self waitTestingSpaces.
+	secondButton eventSimulator click.
 
-	BlSpace simulateClickOn: firstButton.
-	self waitTestingSpaces.
+	firstButton eventSimulator click.
 
-	BlSpace simulateClickOn: secondButton.
-	self waitTestingSpaces.
+	secondButton eventSimulator click.
+
 	self assert: firstTabBuildCount equals: 1.
 	self assert: secondTabBuildCount equals: 2.
 
-	BlSpace simulateClickOn: firstButton.
-	self waitTestingSpaces.
+	firstButton eventSimulator click.
+
 	self assert: firstTabBuildCount equals: 2.
 	self assert: secondTabBuildCount equals: 2
 ]
@@ -367,28 +381,26 @@ ToTabPaneElementTest >> testRemoveAllItems [
 
 	| firstButton secondButton |
 	self withTwoTabButtons.
+
 	firstButton := tabPane items first.
 	secondButton := tabPane items second.
-	firstButton removable: true.
-	secondButton removable: true.
-	self waitTestingSpaces.
-	BlSpace simulateClickOn: firstButton.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		firstButton removable: true.
+		secondButton removable: true ].
+
+	firstButton eventSimulator click.
 	self assert: firstButton isSelected.
 	self deny: secondButton isSelected.
 	self assert: tabPane body children notEmpty.
-	tabPane removeAllItems.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ tabPane removeAllItems ].
 	self assert: tabPane items size equals: 0.
-	self assert: tabPane body children isEmpty.
-
-
+	self assert: tabPane body children isEmpty
 ]
 
 { #category : #tests }
 ToTabPaneElementTest >> testSelectTabButton [
 
-	tabPane := ToTabPaneElement new.
 	tabPane itemBuilder: [ :tabItem :data |
 			tabItem
 				id: data asSymbol;
@@ -399,35 +411,40 @@ ToTabPaneElementTest >> testSelectTabButton [
 									 matchParent;
 									 yourself) ] ].
 
-	tabPane addTabItemData: 'First'.
+	space deferAndSettle: [ tabPane addTabItemData: 'First' ].
 	self deny: tabPane items first isChecked.
-	tabPane selecter selectIndex: 1.
+
+	space deferAndSettle: [ tabPane selecter selectIndex: 1 ].
 	self assert: tabPane items first isChecked
 ]
 
 { #category : #tests }
 ToTabPaneElementTest >> withTwoTabButtons [
 
-	tabPane addItem: (ToTabButton new
-			 id: #first;
-			 labelText: 'First';
-			 paneBuilder: [ :body :btn :holder |
+	space deferAndSettle: [
+		tabPane addItem:
+			(ToTabButton new
+				 id: #first;
+				 labelText: 'First';
+				 paneBuilder: [ :body :btn :holder |
 					 firstTabBuildCount := firstTabBuildCount + 1.
-					 body addChild: (ToElement new
-								  background: Color red;
-								  matchParent;
-								  yourself) ];
-			 yourself).
+					 body addChild:
+						(ToElement new
+							background: Color red;
+							matchParent;
+							yourself) ];
+				 yourself).
 
-	tabPane addItem: (ToTabButton new
-			 id: #second;
-			 labelText: 'Second';
-			 paneBuilder: [ :body :btn :holder |
-					 secondTabBuildCount := secondTabBuildCount + 1.
-					 body addChild: (ToElement new
-								  background: Color green;
-								  matchParent;
-								  yourself) ];
-			 yourself).
-	self waitTestingSpaces 
+		tabPane addItem:
+			(ToTabButton new
+				 id: #second;
+				 labelText: 'Second';
+				 paneBuilder: [ :body :btn :holder |
+						secondTabBuildCount := secondTabBuildCount + 1.
+						body addChild:
+							(ToElement new
+								background: Color green;
+								matchParent;
+								yourself) ];
+				 yourself) ]
 ]

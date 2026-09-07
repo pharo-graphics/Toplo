@@ -7,15 +7,7 @@ Class {
 { #category : #tests }
 ToExperimentsMockTest >> closeWindows [
 
-	{
-		BlOSWindowSDL2Host.
-		BlMorphicWindowHost } do: [ :host |
-			host universe closeSpaces.
-			host
-				stop;
-				start ].
-	BlSpace allInstances do: [ :each | each close ].
-	BlParallelUniverse all do: [ :each | each closeSpaces ]
+	Toplo closeSpaces
 ]
 
 { #category : #tests }

@@ -7,6 +7,13 @@ Class {
 	#category : #'Toplo-Tests-Core-SpaceFrame'
 }
 
+{ #category : #running }
+ToSpacePhasesManagerTest >> setUp [
+
+	super setUp.
+	space host stop
+]
+
 { #category : #tests }
 ToSpacePhasesManagerTest >> testApplyAllConfigurationsIn [
 
@@ -126,13 +133,7 @@ ToSpacePhasesManagerTest >> testNeedSkinInstallPass [
 	self assert: space phasesManager needSkinInstallPass.
 	space applyAllSkinInstallers.
 	" all skin installers should have been applied "
-	self deny: space phasesManager needSkinInstallPass.
-
-	
-
-
-
-	
+	self deny: space phasesManager needSkinInstallPass
 ]
 
 { #category : #tests }
@@ -158,12 +159,7 @@ ToSpacePhasesManagerTest >> testNeedSkinStateApplicationPass [
 	self deny: space phasesManager needSkinInstallPass.
 	e addStamp: #stamp.
 	self assert: space phasesManager needSkinInstallPass.
-	self deny: space phasesManager needSkinStateApplicationPass.
-
-
-
-
-	
+	self deny: space phasesManager needSkinStateApplicationPass
 ]
 
 { #category : #tests }

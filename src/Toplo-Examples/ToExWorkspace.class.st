@@ -15,7 +15,7 @@ Class {
 ToExWorkspace class >> open [
 
 	<script>
-	self openInHost: BlOSWindowSDL2Host new
+	self openInHost: BlOSWindowSDL2Host default
 ]
 
 { #category : #'instance creation' }
@@ -33,14 +33,14 @@ ToExWorkspace class >> openInHost: aBlOSWindowHost [
 ToExWorkspace class >> openInMorphic [
 
 	<script>
-	self openInHost: BlMorphicWindowHost new
+	self openInHost: BlMorphicWindowHost default
 ]
 
 { #category : #'instance creation' }
 ToExWorkspace class >> openInSDL [
 
 	<script>
-	self openInHost: BlOSWindowSDL2Host new
+	self openInHost: BlOSWindowSDL2Host default
 ]
 
 { #category : #binding }

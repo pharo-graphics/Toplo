@@ -30,10 +30,11 @@ ToOutsideEventFilterTest >> addPane [
 		           yourself.
 	outsidePane matchParent.
 
-	filter pushElement: pane.
+	space deferAndSettle: [
+		filter pushElement: pane.
 
-	main addChild: pane.
-	main addChild: outsidePane
+		main addChild: pane.
+		main addChild: outsidePane ]
 ]
 
 { #category : #running }
@@ -65,12 +66,13 @@ ToOutsideEventFilterTest >> addPaneAndSubPane [
 		           yourself.
 	outsidePane matchParent.
 
-	filter pushElement: pane.
-	filter pushElement: subPane.
+	space deferAndSettle: [
+		filter pushElement: pane.
+		filter pushElement: subPane.
 
-	main addChild: pane.
-	main addChild: subPane.
-	main addChild: outsidePane
+		main addChild: pane.
+		main addChild: subPane.
+		main addChild: outsidePane ]
 ]
 
 { #category : #running }
@@ -80,13 +82,13 @@ ToOutsideEventFilterTest >> setUp [
 
 	main := ToPane horizontal.
 	main matchParent.
-	space root addChild: main.
+	space deferAndSettle: [ space root addChild: main ].
 
-	filter := ToOutsideEventFilter new
-		          eventsToHandle: { BlMouseUpEvent };
-		          yourself.
-	space root addEventFilter: filter.
-
+	filter :=
+		ToOutsideEventFilter new
+			eventsToHandle: { BlMouseUpEvent };
+			yourself.
+	space deferAndSettle: [ space root addEventFilter: filter ]
 ]
 
 { #category : #running }
@@ -99,10 +101,10 @@ ToOutsideEventFilterTest >> testOutsideEventWithOnePane [
 
 	pane addEventHandlerOn: ToMouseUpOutsideEvent do: [ :event | outsideEvent := event ].
 
-	BlSpace simulateClickOn: pane.
+	pane eventSimulator click.
 	self assert: outsideEvent isNil.
 	
-	BlSpace simulateClickOn: outsidePane.
+	outsidePane eventSimulator click.
 	self assert: outsideEvent notNil.
 	self assert: outsideEvent currentTarget equals: pane.
 	self assert: outsideEvent sourceEvent currentTarget equals: space root.
@@ -118,17 +120,15 @@ ToOutsideEventFilterTest >> testWithOnePane [
 	pane := main childWithId: #pane.
 	outsidePane := main childWithId: #outsidePane.
 
-	BlSpace simulateClickOn: pane.
+	pane eventSimulator click.
 	self assert: pane isAttachedToSceneGraph.
 	
-	BlSpace simulateClickOn: outsidePane.
+	outsidePane eventSimulator click.
 	self deny: pane isAttachedToSceneGraph.
 
 	self assert: (space root eventDispatcher filters includes: filter).
-	BlSpace simulateClickOn: outsidePane.
-	self deny: (space root eventDispatcher filters includes: filter).
-	
-
+	outsidePane eventSimulator click.
+	self deny: (space root eventDispatcher filters includes: filter)
 ]
 
 { #category : #running }
@@ -141,27 +141,25 @@ ToOutsideEventFilterTest >> testWithPaneAndSubPaneCheckAll [
 	subPane := main childWithId: #subPane.
 	outsidePane := main childWithId: #outsidePane.
 
-	BlSpace simulateClickOn: pane.
+	pane eventSimulator click.
 	self assert: pane isAttachedToSceneGraph.
 	self assert: subPane isAttachedToSceneGraph.
 
-	BlSpace simulateClickOn: subPane.
+	subPane eventSimulator click.
 	self assert: pane isAttachedToSceneGraph.
 	self assert: subPane isAttachedToSceneGraph.
 	
-	BlSpace simulateClickOn: outsidePane.
+	outsidePane eventSimulator click.
 	self assert: pane isAttachedToSceneGraph.
 	self deny: subPane isAttachedToSceneGraph.
 
-	BlSpace simulateClickOn: outsidePane.
+	outsidePane eventSimulator click.
 	self deny: pane isAttachedToSceneGraph.
 	self deny: subPane isAttachedToSceneGraph.
 
 	self assert: (space root eventDispatcher filters includes: filter).
-	BlSpace simulateClickOn: outsidePane.
-	self deny: (space root eventDispatcher filters includes: filter).
-	
-
+	outsidePane eventSimulator click.
+	self deny: (space root eventDispatcher filters includes: filter)
 ]
 
 { #category : #running }
@@ -174,27 +172,25 @@ ToOutsideEventFilterTest >> testWithPaneAndSubPaneCheckAllClickingOnSpaceRoot [
 	subPane := main childWithId: #subPane.
 	outsidePane := main childWithId: #outsidePane.
 
-	BlSpace simulateClickOn: pane.
+	pane eventSimulator click.
 	self assert: pane isAttachedToSceneGraph.
 	self assert: subPane isAttachedToSceneGraph.
 
-	BlSpace simulateClickOn: subPane.
+	subPane eventSimulator click.
 	self assert: pane isAttachedToSceneGraph.
 	self assert: subPane isAttachedToSceneGraph.
 	
-	BlSpace simulateClickOn: space root.
+	space root eventSimulator click.
 	self assert: pane isAttachedToSceneGraph.
 	self deny: subPane isAttachedToSceneGraph.
 
-	BlSpace simulateClickOn: space root.
+	space root eventSimulator click.
 	self deny: pane isAttachedToSceneGraph.
 	self deny: subPane isAttachedToSceneGraph.
 
 	self assert: (space root eventDispatcher filters includes: filter).
-	BlSpace simulateClickOn: space root.
-	self deny: (space root eventDispatcher filters includes: filter).
-	
-
+	space root eventSimulator click.
+	self deny: (space root eventDispatcher filters includes: filter)
 ]
 
 { #category : #running }
@@ -206,21 +202,15 @@ ToOutsideEventFilterTest >> testWithPaneAndSubPaneCheckTopOnly [
 	subPane := main childWithId: #subPane.
 	outsidePane := main childWithId: #outsidePane.
 
-	BlSpace simulateClickOn: pane.
-	self assert: pane isAttachedToSceneGraph.
-	self deny: subPane isAttachedToSceneGraph.
-
-	BlSpace simulateClickOn: subPane.
+	pane eventSimulator click.
 	self assert: pane isAttachedToSceneGraph.
 	self deny: subPane isAttachedToSceneGraph.
 	
-	BlSpace simulateClickOn: outsidePane.
+	outsidePane eventSimulator click.
 	self deny: pane isAttachedToSceneGraph.
 	self deny: subPane isAttachedToSceneGraph.
 
 	self assert: (space root eventDispatcher filters includes: filter).
-	BlSpace simulateClickOn: outsidePane.
-	self deny: (space root eventDispatcher filters includes: filter).
-	
-
+	outsidePane eventSimulator click.
+	self deny: (space root eventDispatcher filters includes: filter)
 ]

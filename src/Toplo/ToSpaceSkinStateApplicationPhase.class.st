@@ -4,9 +4,16 @@ Class {
 	#category : #'Toplo-Core-SpaceFrame'
 }
 
+{ #category : #testing }
+ToSpaceSkinStateApplicationPhase >> isSettledIn: aSpace [
+	"Return true if aSpace does not need a skin state application pass"
+
+	^ aSpace phasesManager needSkinStateApplicationPass not
+		and: [ aSpace root hasEnqueuedStates not ]
+]
+
 { #category : #accessing }
 ToSpaceSkinStateApplicationPhase >> name [
-	<return: #String>
 	
 	^ 'Skin state phase'
 ]

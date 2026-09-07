@@ -8,6 +8,7 @@ Class {
 ToSpaceSkinStateApplicationPhaseTest >> testStartSkinPhases [
 
 	" before the element is added in space, its space frame phases remain unchanged "
+	space checkToploPhases.
 	self assert: (space frame phases anySatisfy: [ :p |
 			 p isKindOf: ToSpaceSkinInstallerPhase ]).
 	self assert: (space frame phases anySatisfy: [ :p |
@@ -18,6 +19,7 @@ ToSpaceSkinStateApplicationPhaseTest >> testStartSkinPhases [
 ToSpaceSkinStateApplicationPhaseTest >> testStartStopSkinStatePhases [
 
 	| nb stopped |
+	space checkToploPhases.
 	nb := space frame phases size.
 	stopped := false.
 	space addEventHandlerOn: ToSpacePhasesStopped doOnce: [

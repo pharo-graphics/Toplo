@@ -28,8 +28,6 @@ ToBlElementTest >> testAddAllStamps [
 	self assert: (element hasStamp: #color).	
 	self assert: (element hasStamp: #background).
 	self assert: (element hasStamp: #blob).
-
-
 ]
 
 { #category : #'tests - token properties' }
@@ -50,7 +48,6 @@ ToBlElementTest >> testAddAllTokenProperties [
 	self assert: element  tokenPropertyMap size equals: 2.
 	self assert: (element tokenPropertyMap propertyNamed: #color1) value equals: Color white.
 	self assert: (element tokenPropertyMap propertyNamed: #color2) value equals: Color yellow.
-
 ]
 
 { #category : #'tests - stamp' }
@@ -68,7 +65,6 @@ ToBlElementTest >> testAddStamp [
 	self assert: (element hasStamp: #color).	
 	self assert: (element hasStamp: #background).
 	self assert: (element hasStamp: #blob)
-
 ]
 
 { #category : #'tests - token properties' }
@@ -105,12 +101,10 @@ ToBlElementTest >> testApplicableListenersFor [
 
 	| theme |
 	theme := ToStyleSheetThemeForTest new.
-	space toTheme: theme.
-	space root addChild: element.
-	self applyAllEnqueuedStates.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		space toTheme: theme.
+		space root addChild: element ].
 	self assert: (theme applicableListenersFor: element) size equals: 0
-	
 ]
 
 { #category : #tests }
@@ -119,14 +113,9 @@ ToBlElementTest >> testBlElementShouldNotHaveSkinManager [
 	element background: Color red.
 	element border: Color black.
 	self assert: element skinManager isNil.
-	space root addChild: element.
-	self assert: element skinManager isNil.
-	self waitTestingSpaces.
-	self assert: element skinManager isNil.
-	self applyAllEnqueuedStates.
-	self waitTestingSpaces.
-	self assert: element skinManager isNil.
 
+	space deferAndSettle: [ space root addChild: element ].
+	self assert: element skinManager isNil.
 ]
 
 { #category : #tests }
@@ -138,16 +127,9 @@ ToBlElementTest >> testBlElementShouldNotHaveSkinManagerEvenAsChildOfAToElement 
 	element border: Color black.
 	pane addChild: element.
 	self assert: element skinManager isNil.
-	space root addChild: pane.
-	self assert: element skinManager isNil.
-	self waitTestingSpaces.
-	self assert: element skinManager isNil.
-	self applyAllEnqueuedStates.
-	self waitTestingSpaces.
-	self assert: element skinManager isNil.
 
-
-
+	space deferAndSettle: [ space root addChild: pane ].
+	self assert: element skinManager isNil.
 ]
 
 { #category : #tests }
@@ -155,24 +137,18 @@ ToBlElementTest >> testElementRemovedFromSceneGraph [
 	" test that a requestUninstallSkin is sent to an element when it is removed from a space. "
 	" this ensures that the skin is removed if the element is added back as a child."
 
-	space root addChild: element.
-	self assert: element skinManager isNil.
-	space root removeChild: element.
-	self applyAllEnqueuedStates.
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: element ].
 	self assert: element skinManager isNil.
 
-	
-	
+	space deferAndSettle: [ space root removeChild: element ].
+	self assert: element skinManager isNil.
 ]
 
 { #category : #tests }
 ToBlElementTest >> testEnsureCanManageToploSkin [
 
 	element ensureCanManageToploSkin.
-	space root addChild: element.
-	self applyAllEnqueuedStates.
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: element ].
 	self assert: element skinManager installedSkin isThemeSkin 
 ]
 
@@ -221,7 +197,39 @@ ToBlElementTest >> testHasAllStamps [
 	element addAllStamps: { #color. #background }.
 	self assert: (element hasAllStamps: { #color. #background }).	
 	self deny: (element hasAllStamps: { #something. #background }).	
+]
 
+{ #category : #'tests - focus' }
+ToBlElementTest >> testHasFocusedParentWhenParentIsFocused [
+
+	| container child |
+	container := BlElement new.
+	child := BlElement new.
+	container addChild: child.
+	space deferAndSettle: [ space root addChild: container ].
+	self deny: container hasFocusedParent.
+	self deny: child hasFocusedParent.
+
+	space deferAndSettle: [ container requestFocus ].
+	self assert: container isFocused.
+	self assert: container hasFocusedParent.
+	self deny: child isFocused.
+	self assert: child hasFocusedParent
+]
+
+{ #category : #'tests - focus' }
+ToBlElementTest >> testHasFocusedParentWhenSpaceRootIsFocused [
+
+	| container child |
+	container := BlElement new.
+	child := BlElement new.
+	container addChild: child.
+	space deferAndSettle: [ space root addChild: container ].
+	self assert: space root isFocused.
+	self deny: container isFocused.
+	self deny: container hasFocusedParent.
+	self deny: child isFocused.
+	self deny: child hasFocusedParent
 ]
 
 { #category : #'tests - stamp' }
@@ -232,7 +240,6 @@ ToBlElementTest >> testHasStamp [
 	element addAllStamps: { #color. #background }.
 	self assert: (element hasStamp: #color ).	
 	self deny: (element hasStamp: #something ).	
-
 ]
 
 { #category : #'tests - token properties' }
@@ -341,8 +348,6 @@ ToBlElementTest >> testRemoveTokenPropertyNamed4 [
 	self assert: element tokenPropertyMap size equals: 1.
 	element tokenPropertyMap removePropertyNamed: #color.
 	self assert: element tokenPropertyMap isEmpty.
-
-
 ]
 
 { #category : #tests }
@@ -354,13 +359,12 @@ ToBlElementTest >> testRequestSkin [
 	element ensuredSkinManager requestNewSkinIn: element.
 	self assert: element skinManager newSkinRequested.
 	self assert: element skinManager installedSkin isUnknownSkin .
-	space root addChild: element.
-	self assert: element skinManager newSkinRequested.
-	self assert: element skinManager installedSkin isUnknownSkin.
-	space applyAllSkinInstallers.
+
+	space deferAndSettle: [
+		space root addChild: element.
+		element ensuredSkinManager requestNewSkinIn: element ].
 	self deny: element skinManager newSkinRequested.
 	self assert: element skinManager installedSkin isThemeSkin 
-	
 ]
 
 { #category : #tests }
@@ -369,16 +373,14 @@ ToBlElementTest >> testRequestSkin2 [
 	self assert: element skinManager isNil.
 	self assert: element skinManager isNil.
 	self assert: element skinManager isNil.
-	space root addChild: element.
+
+	space deferAndSettle: [ space root addChild: element ].
 	self assert: element skinManager isNil.
-	element ensuredSkinManager requestNewSkinIn: element.
+
+	space deferAndSettle: [ element ensuredSkinManager requestNewSkinIn: element ].
 	self assert: element skinManager notNil.
 	self deny: element skinManager newSkinRequested.
 	self assert: element skinManager installedSkin isThemeSkin.
-	" apply skin installer from space has no effect on e since it has no skinInstaller "
-	space applyAllSkinInstallers.
-	self deny: element skinManager newSkinRequested.
-	self assert: element skinManager installedSkin isThemeSkin
 ]
 
 { #category : #'tests - styleSheet' }
@@ -395,7 +397,6 @@ ToBlElementTest >> testSkinManager [
 	| skinManager |
 	skinManager := element skinManager.
 	self assert: skinManager isNil
-	
 ]
 
 { #category : #'tests - skin manager' }
@@ -445,7 +446,6 @@ ToBlElementTest >> testTokenPropertyMap [
 	| dict |
 	dict := element tokenPropertyMap.
 	self assert: dict isNil.
-
 ]
 
 { #category : #'tests - token properties' }
@@ -484,7 +484,7 @@ ToBlElementTest >> testTokenPropertyNamedFromBeforeSpaceShown2 [
 					 (e skinManager ifNotNil: [ :sm | sm installedSkin ]) notNil.
 				 self deny: e skinManager newSkinRequested.
 				 self assert: (e valueOfTokenNamed: #'background-color') notNil.
-				 e skinManager installNewSkinIn: e.
+				 e requestNewSkin.
 				 self deny: e background isTransparent ]).
 
 	e defaultSkin: ToBackgroundColorSkinForTest new.
@@ -505,7 +505,7 @@ ToBlElementTest >> testTokenPropertyNamedRequiresSpaceSkinPhasesStarted [
 			 on: ToSpacePhasesStarted
 			 do: [
 				 goneHere := true.
-				 e skinManager installNewSkinIn: e.
+				 e requestNewSkin.
 				 self deny: e background isTransparent ]).
 	e defaultSkin: ToBackgroundColorSkinForTest new.
 	space root addChild: e.
@@ -518,14 +518,13 @@ ToBlElementTest >> testUnsortedApplicableListenersFor [
 
 	| theme e |
 	theme := ToStyleSheetThemeForTest new.
-	space toTheme: theme.
-	space root addChild: element.
+	space deferAndSettle: [
+		space toTheme: theme.
+		space root addChild: element ].
 	self assert: (theme unsortedApplicableListenersFor: element) size equals: 0.
 	e := ToElement new.
-	space root addChild: e.
+	space deferAndSettle: [ space root addChild: e ].
 	self assert: (theme unsortedApplicableListenersFor: e) size equals: 5.
-
-	
 ]
 
 { #category : #'tests - stamp' }
@@ -534,9 +533,10 @@ ToBlElementTest >> testValueOfTokenNamed [
 	| theme |
 	element ensureCanManageToploSkin.
 	theme := ToRawThemeForTest new.
-	space toTheme: theme.
-	space root addTokenNamed: #testToken withValue: Color blue.
-	space root addChild: element.
+	space deferAndSettle: [
+		space toTheme: theme.
+		space root addTokenNamed: #testToken withValue: Color blue.
+		space root addChild: element ].
 	self assert: (element valueOfTokenNamed: #testToken) equals: Color blue
 ]
 
@@ -546,9 +546,10 @@ ToBlElementTest >> testValueOfTokenNamed2 [
 	| theme |
 	element ensureCanManageToploSkin.
 	theme := ToRawThemeForTest new.
-	space root addTokenNamed: #testToken withValue: Color blue.
-	space toTheme: theme.
-	space root addChild: element.
+	space deferAndSettle: [
+		space root addTokenNamed: #testToken withValue: Color blue.
+		space toTheme: theme.
+		space root addChild: element ].
 	self assert: (element valueOfTokenNamed: #testToken) equals: Color blue
 ]
 
@@ -572,46 +573,9 @@ ToBlElementTest >> testValueOfTokenNamedWithNotFoundToken [
 	element addTokenNamed: #testToken withValue: Color blue.
 	self assert: (element valueOfTokenNamed: #testToken) equals: Color blue.
 	element addTokenNamed: #testToken withValue: Color yellow.
-	space root addChild: element.
+	space deferAndSettle: [ space root addChild: element ].
 	self assert: (element valueOfTokenNamed: #testToken) equals: Color yellow.
-	element removeFromParent.
+
+	space deferAndSettle: [ element removeFromParent ].
 	self assert: (element valueOfTokenNamed: #testToken) equals: Color yellow
-]
-
-{ #category : #'tests - focus' }
-ToBlElementTest >> testHasFocusedParentWhenParentIsFocused [
-
-	| container child |
-	container := BlElement new.
-	child := BlElement new.
-	container addChild: child.
-	space root addChild: container.
-	self waitTestingSpaces.
-	self deny: container hasFocusedParent.
-	self deny: child hasFocusedParent.
-
-	container requestFocus.
-	self waitTestingSpaces.
-	self assert: container isFocused.
-	self assert: container hasFocusedParent.
-	self deny: child isFocused.
-	self assert: child hasFocusedParent
-]
-
-{ #category : #'tests - focus' }
-ToBlElementTest >> testHasFocusedParentWhenSpaceRootIsFocused [
-
-	| container child |
-	container := BlElement new.
-	child := BlElement new.
-	container addChild: child.
-	space root addChild: container.
-	"Emulate the initial focus on space root that occurs when a space is shown."
-	space root requestFocus.
-	self waitTestingSpaces.
-	self assert: space root isFocused.
-	self deny: container isFocused.
-	self deny: container hasFocusedParent.
-	self deny: child isFocused.
-	self deny: child hasFocusedParent
 ]

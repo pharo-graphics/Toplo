@@ -59,14 +59,15 @@ ToDemoPresenter class >> demo3 [
 	{
 		ToRawTheme.
 		ToRawDarkTheme } do: [ :themeClass |
-			containerElement addChild: (ToRadioButton new
+			containerElement addChild:
+				(ToRadioButton new
 					 labelText: themeClass label;
 					 in: [ :rad | rad userData at: #themeClass put: themeClass ];
 					 yourself) ].
 				
 	containerElement groupCheckAction: [ :evt |
-			containerElement space toTheme:
-				(evt checkedList anyOne userData at: #themeClass) new ].
+		containerElement space toTheme:
+			(evt checkedList anyOne userData at: #themeClass) new ].
 
 	containerElement children second checked: true.
 
@@ -94,8 +95,8 @@ ToDemoPresenter class >> open [
 { #category : #private }
 ToDemoPresenter >> drawOnCanvas: anElement [
 
-	self canva space toTheme: ToRawTheme new.
-	super drawOnCanvas: anElement.
+	self canvas space toTheme: ToRawTheme new.
+	super drawOnCanvas: anElement
 ]
 
 { #category : #accessing }

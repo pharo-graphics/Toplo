@@ -14,7 +14,7 @@ ToWorldMenu class >> menuCleanUpUniverseOn: aBuilder [
 		label: 'Cleanup Universe';
 		help: 'Close all spaces then restart the underlying host';
 		iconName: #smallDebug;
-		action: [ Toplo closeAllSpaces ]
+		action: [ Toplo closeSpaces ]
 ]
 
 { #category : #'menu - toplo' }

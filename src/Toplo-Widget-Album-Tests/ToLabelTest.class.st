@@ -10,29 +10,25 @@ Class {
 { #category : #tests }
 ToLabelTest >> testBeMonoline [
 
-	| lab |
-	lab := ToLabel new.
-	lab text: 'A'.
+	| label |
+	label := ToLabel new.
+	label text: 'A'.
 	" monoline by default "
-	self assert: (lab innerElement isKindOf: ToLabelMonoLineInnerElement).
-	lab beMultiLine.
-	self assert: (lab innerElement isKindOf: ToLabelMultiLineInnerElement).
-	lab beMonoLine.
-	self assert: (lab innerElement isKindOf: ToLabelMonoLineInnerElement).
-
-	
-
+	self assert: (label innerElement isKindOf: ToLabelMonoLineInnerElement).
+	label beMultiLine.
+	self assert: (label innerElement isKindOf: ToLabelMultiLineInnerElement).
+	label beMonoLine.
+	self assert: (label innerElement isKindOf: ToLabelMonoLineInnerElement)
 ]
 
 { #category : #tests }
 ToLabelTest >> testBeMultiline [
 
-	| lab |
-	lab := ToLabel new.
-	lab text: 'A'.
-	lab beMultiLine.
-	self assert: (lab innerElement isKindOf: ToLabelMultiLineInnerElement).
-
+	| label |
+	label := ToLabel new.
+	label text: 'A'.
+	label beMultiLine.
+	self assert: (label innerElement isKindOf: ToLabelMultiLineInnerElement)
 ]
 
 { #category : #tests }
@@ -44,9 +40,10 @@ ToLabelTest >> testSkinUpdatedAfterTextChanged [
 
 	" declare a specific style sheet theme with one property to change the defont font size "
 	theme := ToStyleSheetTheme new.
-	theme styleSheet addWritableProperty: (ToPseudoProperty new
-			 name: #'text-attributes-with-builder';
-			 writer: [ :e :v | e text attributes: v attributes. e applyStyle ]).
+	theme styleSheet addWritableProperty:
+		(ToPseudoProperty new
+			name: #'text-attributes-with-builder';
+			writer: [ :e :v | e text attributes: v attributes. e applyStyle ]).
 
 	theme select: #HUGE asStampSelector style: [ :sr |
 		sr
@@ -56,53 +53,46 @@ ToLabelTest >> testSkinUpdatedAfterTextChanged [
 					defaultFontSize: hugeFontSize;
 					yourself ] ].
 
-	space toTheme: theme.
-	label := ToLabel text: 'Hello'.
-	space root addChild: label.
-
-	self waitTestingSpaces.
-	attributes := label text attributesAt: 1.
-
 	" The default stylesheet theme has no rule by default, so the default attributes is not installed"
+	label := ToLabel text: 'Hello'.
+	space deferAndSettle: [
+		space toTheme: theme.
+		space root addChild: label ].
+	attributes := label text attributesAt: 1.
 	self assert: attributes isEmpty.
+
 	"adding a stamp should renew the skin (and then take the stamp into account)"
-	label addStamp: #HUGE.
-
-	self waitTestingSpaces.
-	fontSizeAttr := label text iterator
-		                detectAttribute: [ :a |
-		                a isKindOf: BlFontSizeDefaultAttribute ]
-		                ifFound: [ :a | a ]
-		                ifNone: [
-		                self fail:
-			                'should have a BlFontSizeDefaultAttribute' ].
-
+	space deferAndSettle: [ label addStamp: #HUGE ].
+	fontSizeAttr :=
+		label text iterator
+			detectAttribute: [ :a | a isKindOf: BlFontSizeDefaultAttribute ]
+			ifFound: [ :a | a ]
+			ifNone: [
+				self fail: 'should have a BlFontSizeDefaultAttribute' ].
 	self assert: fontSizeAttr size equals: hugeFontSize.
+
 	" changing the text should renew the skin (and then take the stamp into account again)"
-	label text: 'Goodbye'.
-	space applyAllSkinPhases.
+	space deferAndSettle: [ label text: 'Goodbye' ].
 	prevAttributes := attributes.
 	attributes := label text attributesAt: 1.
-	self assert: prevAttributes ~~ attributes.
-	fontSizeAttr := label text iterator
-		                detectAttribute: [ :a |
-		                a isKindOf: BlFontSizeDefaultAttribute ]
-		                ifFound: [ :a | a ]
-		                ifNone: [
-		                self fail:
-			                'should have a BlFontSizeDefaultAttribute' ].
+	self deny: prevAttributes identicalTo: attributes.
+	fontSizeAttr :=
+		label text iterator
+			detectAttribute: [ :a | a isKindOf: BlFontSizeDefaultAttribute ]
+			ifFound: [ :a | a ]
+			ifNone: [ self fail: 'should have a BlFontSizeDefaultAttribute' ].
 	self assert: fontSizeAttr size equals: hugeFontSize
 ]
 
 { #category : #tests }
 ToLabelTest >> testText [
 
-	| lab |
-	lab := ToLabel new.
-	self assert: lab text isEmpty.
-	lab text: 'A'.
-	self assert: (lab text isKindOf: BlRopedText).
-	self assert: lab text asString equals: 'A' 
+	| label |
+	label := ToLabel new.
+	self assert: label text isEmpty.
+	label text: 'A'.
+	self assert: (label text isKindOf: BlRopedText).
+	self assert: label text asString equals: 'A' 
 ]
 
 { #category : #tests }
@@ -114,42 +104,34 @@ ToLabelTest >> testTextChangePreserveAttributes2 [
 	hugeFontSize := 60.
 
 	label := ToLabel text: 'Hello'.
-	space root addChild: label.
-	space applyAllSkinPhases.
+	space deferAndSettle: [ space root addChild: label ].
 	attributes := label text attributesAt: 1.
 	" skin default attributes  "
 	self assert: attributes notEmpty.
 
-	label defaultFontSize: hugeFontSize.
-	fontSizeAttr := label text iterator
-		                detectAttribute: [ :a |
-		                a isKindOf: BlFontSizeDefaultAttribute ]
-		                ifFound: [ :a | a ]
-		                ifNone: [
-		                self fail:
-			                'should have a BlFontSizeDefaultAttribute' ].
+	space deferAndSettle: [ label defaultFontSize: hugeFontSize ].
+	fontSizeAttr :=
+		label text iterator
+			detectAttribute: [ :a | a isKindOf: BlFontSizeDefaultAttribute ]
+			ifFound: [ :a | a ]
+			ifNone: [ self fail: 'should have a BlFontSizeDefaultAttribute' ].
 	" remember that the skin drives the look so the font size is not applied here "
 	"self deny: fontSizeAttr size equals: hugeFontSize.
 	self
 		assert: fontSizeAttr size
 		equals: (label valueOfTokenNamed: #'font-size')."
-	space applyAllSkinPhases.
-	" changing the text should renew the skin (and then take the stamp into account again)"
-	label text: 'Goodbye'.
-	space applyAllSkinPhases.
 
+	" changing the text should renew the skin (and then take the stamp into account again)"
+	space deferAndSettle: [ label text: 'Goodbye' ].
 	self assert: label text asString equals: 'Goodbye'.
 	prevAttributes := attributes.
-
 	attributes := label text attributesAt: 1.
-	self assert: prevAttributes ~~ attributes.
-	fontSizeAttr := label text iterator
-		                detectAttribute: [ :a |
-		                a isKindOf: BlFontSizeDefaultAttribute ]
-		                ifFound: [ :a | a ]
-		                ifNone: [
-		                self fail:
-			                'should have a BlFontSizeDefaultAttribute' ].
+	self deny: prevAttributes identicalTo: attributes.
+	fontSizeAttr :=
+		label text iterator
+			detectAttribute: [ :a | a isKindOf: BlFontSizeDefaultAttribute ]
+			ifFound: [ :a | a ]
+			ifNone: [ self fail: 'should have a BlFontSizeDefaultAttribute' ].
 	self
 		assert: fontSizeAttr size
 		equals: (label valueOfTokenNamed: #'font-size')
@@ -158,12 +140,12 @@ ToLabelTest >> testTextChangePreserveAttributes2 [
 { #category : #tests }
 ToLabelTest >> testTextSharedWithInnerElement [
 
-	| lab inner |
-	lab := ToLabel new.
-	lab text: 'A'.
-	self assert: lab text identicalTo: lab innerElement text.
-	inner := lab innerElement.
-	lab beMultiLine.
-	self deny: inner identicalTo: lab innerElement.
-	self assert: lab text identicalTo: lab innerElement text.
+	| label inner |
+	label := ToLabel new.
+	label text: 'A'.
+	self assert: label text identicalTo: label innerElement text.
+	inner := label innerElement.
+	label beMultiLine.
+	self deny: inner identicalTo: label innerElement.
+	self assert: label text identicalTo: label innerElement text
 ]

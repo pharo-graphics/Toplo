@@ -31,8 +31,7 @@ ToRawSkinTest >> testBasicStyleSheet [
 				write: #background asWritableProperty
 				with: Color red ].
 	e styleSheet: styleSheet.
-	space root addChild: e.
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: e ].
 	self assert: e background paint color equals: Color red
 ]
 
@@ -48,8 +47,7 @@ ToRawSkinTest >> testButtonWithStyleSheet [
 				write: #background asWritableProperty
 				with: Color red ].
 	e styleSheet: styleSheet.
-	space root addChild: e.
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: e ].
 	self assert: e background paint color equals: Color red
 ]
 

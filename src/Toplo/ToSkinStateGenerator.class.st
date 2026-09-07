@@ -24,6 +24,7 @@ ToSkinStateGenerator class >> handledUIEvents [
 		  BlMouseUpEvent.
 		  BlMouseEnterEvent.
 		  BlMouseLeaveEvent.
+		  BlElementAddedToSceneGraphEvent.
 		  ToMouseUpOutsideEvent }
 ]
 
@@ -151,6 +152,17 @@ ToSkinStateGenerator >> dropEvent: anEvent [
 
 	target isEnabled ifFalse: [ ^ self ].
 	self enqueueTransientState: (ToDroppedSkinEvent sourceEvent: anEvent)
+]
+
+{ #category : #'event handling' }
+ToSkinStateGenerator >> elementAddedToSceneGraphEvent: anEvent [
+
+	| elem |
+	elem := anEvent target.
+	elem hasNewSkinRequested ifTrue: [
+		elem spaceDo: [ :sp | sp phasesManager needSkinInstallPass: true ] ].
+	elem hasEnqueuedStates ifTrue: [
+		elem spaceDo: [ :sp | sp phasesManager needSkinStateApplicationPass: true ] ]
 ]
 
 { #category : #'state generating' }

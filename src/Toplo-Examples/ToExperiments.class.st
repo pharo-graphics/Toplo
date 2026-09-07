@@ -697,8 +697,7 @@ ToExperiments class >> example_PasteUpWithPlaceHolder [
 			event consume ].
 	blue addEventHandlerOn: BlDragEvent do: [ :event |
 			event consume.
-			blue position: event position - pblue.
-			blue forceLayout ].
+			blue position: event position - pblue ].
 	blue addEventHandlerOn: BlDragEndEvent do: [ :event | event consume ].
 
 	blue
@@ -1621,7 +1620,6 @@ ToExperiments class >> example_twoChildrenMatchParentInFitContent [
 			c vertical matchParent ].
 	parent addChild: child.
 	parent addChild: child2.
-	parent forceLayout.
 	^ parent openInSpace 
 ]
 

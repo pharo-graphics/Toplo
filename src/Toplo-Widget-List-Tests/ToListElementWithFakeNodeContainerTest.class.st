@@ -10,11 +10,10 @@ ToListElementWithFakeNodeContainerTest >> testOneSpecifcNode [
 	| l |
 	l := ToListElementWithFakeNodeContainerForTest new.
 	l dataAccessor add: 'first'.
-	self waitTestingSpaces.
 	self assert: l dataSource first equals: 'first'.
+
 	" adding the list in the space consequence is a layout computing which update the list nodes"
-	space root addChild: l.
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: l ].
 	self assert: l nodeContainers size equals: 1.
 	self assert: l nodeContainers first node class identicalTo: ToListNodeForTest.	
 	self assert: l nodeContainers first holder class identicalTo: ToListNodeHolderForTest.	

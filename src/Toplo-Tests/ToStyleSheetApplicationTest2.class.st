@@ -21,7 +21,7 @@ ToStyleSheetApplicationTest2 >> testApplicationOnElement [
 
 	elem background: Color blue.
 	space toTheme: theme.
-	space root addChild: elem.
+	space deferAndSettle: [ space root addChild: elem ].
 	self assert: elem background paint color equals: Color red
 ]
 
@@ -48,10 +48,8 @@ ToStyleSheetApplicationTest2 >> testApplicationOnElementHovered [
 	elem position: 100 asPoint.
 	elem background: Color blue.
 	space toTheme: theme.
-	space root addChild: elem.
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: elem  ].
 	self assert: elem background paint color equals: Color red.
-	BlSpace simulateMouseMoveInside: elem.
-	self waitTestingSpaces.
+	elem eventSimulator mouseMoveInside.
 	self assert: elem background paint color equals: Color yellow
 ]

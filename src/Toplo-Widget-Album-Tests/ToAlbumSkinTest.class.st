@@ -11,16 +11,18 @@ Class {
 ToAlbumSkinTest >> testFocusedSkinEvent [
 
 	| a focusCount |
-	a := ToAlbum new extent: 100 asPoint.
-	space root addChild: a.
+	a := ToAlbum new.
+	a extent: 100 asPoint.
 	self deny: a hasFocus.
 	focusCount := 0.
 	a
 		addEventHandlerOn: ToFocusedSkinEvent
 		do: [ :event | focusCount := focusCount + 1 ].
-	a requestFocus.
-	self waitTestingSpaces.
-	space applyAllSkinPhases.
+
+	space deferAndSettle: [ space root addChild: a ].
+	self assert: focusCount equals: 0.
+
+	space deferAndSettle: [ a requestFocus ].
 	self assert: focusCount equals: 1
 ]
 
@@ -30,21 +32,19 @@ ToAlbumSkinTest >> testUnfocusedSkinEvent [
 	| a1 a2 unfocusCount |
 	a1 := ToListElement new extent: 100 asPoint.
 	a2 := ToAlbum new extent: 100 asPoint.
-	space root addChild: a1.
-	space root addChild: a2.
+	space deferAndSettle: [ 
+		space root addChild: a1.
+		space root addChild: a2 ].
 	self deny: a1 isFocused.
 	self deny: a2 isFocused.
 	unfocusCount := 0.
 	a2
 		addEventHandlerOn: ToUnfocusedSkinEvent
 		do: [ :event | unfocusCount := unfocusCount + 1 ].
-	a2 requestFocus.
-	self waitTestingSpaces.
-	space applyAllSkinPhases.
-	a1 requestFocus.
-	self waitTestingSpaces.
+	space deferAndSettle: [ a2 requestFocus ].
+	"Must be in a separate block to allow skin state updates of the first focus change to be processed"
+	space deferAndSettle: [ a1 requestFocus ].
 	self assert: a1 isFocused.
 	self deny: a2 isFocused.
-	space applyAllSkinPhases.
 	self assert: unfocusCount equals: 1
 ]

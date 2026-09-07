@@ -376,17 +376,36 @@ BlElement >> hasAllStamps: aSymbolCollection [
 ]
 
 { #category : #'*Toplo' }
+BlElement >> hasEnqueuedStates [
+
+	self skinManagerDo: [ :sm | 
+		sm skinStateQueue nextStates ifNotEmpty: [ ^ true ] ].
+	self childrenDo: [ :child | 
+		child hasEnqueuedStates ifTrue: [ ^ true ] ].
+	^ false
+]
+
+{ #category : #'*Toplo' }
 BlElement >> hasFocusedParent [
 
 	^ self isFocused or: [
-		  self parent notNil and: [ 
-			  self parent isRoot not and: [ self parent hasFocusedParent ] ] ]
+		self hasParent and: [ self parent isRoot not and: [ self parent hasFocusedParent ] ] ]
 ]
 
 { #category : #'*Toplo' }
 BlElement >> hasListHolder [
 
 	^ self constraints hasListHolder
+]
+
+{ #category : #'*Toplo' }
+BlElement >> hasNewSkinRequested [
+
+	self skinManagerDo: [ :sm | 
+		sm newSkinRequested ifTrue: [ ^ true ] ].
+	self childrenDo: [ :child | 
+		child hasNewSkinRequested ifTrue: [ ^ true ] ].
+	^ false
 ]
 
 { #category : #'*Toplo' }
@@ -756,7 +775,7 @@ BlElement >> requestNewSkin [
 { #category : #'*Toplo' }
 BlElement >> requestSkinApplication [
 
-	self spaceDo: [ :sp | sp requestNextPulse ]
+	self spaceDo: [ :sp | sp requestPulse ]
 ]
 
 { #category : #'*Toplo' }

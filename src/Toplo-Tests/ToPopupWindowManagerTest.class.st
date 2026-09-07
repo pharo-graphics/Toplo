@@ -27,13 +27,11 @@ ToPopupWindowManagerTest >> testAutoClosePickOutsideEventClass [
 	| e windowManager closed |
 	e := ToElement new.
 	e extent: 100 asPoint.
-	space root addChild: e.
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: e  ].
 
 	windowManager := ToPopupWindowManager new.
 	e addEventHandler: windowManager.
-	BlSpace simulateMouseDownOn: e.
-	self waitTestingSpaces.
+	e eventSimulator mouseDown.
 	self assert: windowManager currentWindow notNil.
 	self assert: windowManager currentWindow isOpened.
 	closed := false.
@@ -44,10 +42,10 @@ ToPopupWindowManagerTest >> testAutoClosePickOutsideEventClass [
 	two mouseUp are necessary because by default, windowManager popupOnMouseDown is true.
 	have a look at ToPopupPickOutsideEventFilter>>mouseUpEvent:
 	"
-	BlSpace simulateMouseUpOn: space root.
-	BlSpace simulateMouseDownOn: space root.
+	space root eventSimulator mouseUp.
+	space root eventSimulator mouseDown.
 	windowManager autoCloseDelay asDelay wait.
-	BlSpace simulateMouseUpOn: space root.
+	space root eventSimulator mouseUp.
 	" window is closed on mouse-up-outside"
 	self assert: windowManager currentWindow isNil.
 	self assert: closed
@@ -58,14 +56,13 @@ ToPopupWindowManagerTest >> testElementEventHandlerClass [
 
 	| win e windowManager |
 	e := ToElement new.
-	space root addChild: e.
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: e  ].
 
 	windowManager := ToPopupWindowManager new.
 	e addEventHandler: windowManager.
 	win := windowManager createNewWindowOnEvent: nil.
 	win popup.
-	self waitTestingSpaces.
+	space settle.
 	self assert: win anchorElement equals: e.
 	self assert: win manager currentWindow identicalTo: win.
 	win close.
@@ -77,19 +74,18 @@ ToPopupWindowManagerTest >> testElementPositionInSpaceChangedEvent [
 
 	| win e windowManager |
 	e := ToElement new.
-	space root addChild: e.
 	e position: 10 asPoint.
 	e extent: 10 asPoint.
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: e ].
 
 	windowManager := ToPopupWindowManager new.
 	e addEventHandler: windowManager.
 	win := windowManager createNewWindowOnEvent: nil.
 	win popup.
-	self waitTestingSpaces.
+	space settle.
 	self assert: win isOpened.
-	e position: 20 asPoint.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ e position: 20 asPoint ].
 	self assert: win isOpened
 ]
 
@@ -99,8 +95,7 @@ ToPopupWindowManagerTest >> testMouseDownEvent [
 	| e windowManager position event |
 	e := ToElement new.
 	e extent: 100 asPoint.
-	space root addChild: e.
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: e  ].
 
 	windowManager := ToPopupWindowManager new.
 
@@ -108,9 +103,8 @@ ToPopupWindowManagerTest >> testMouseDownEvent [
 	position := e bounds inSpace center.
 	event := BlMouseDownEvent primary position: position.
 	e dispatchEvent: event.
-	self waitTestingSpaces.
+	space settle.
 	self assert: windowManager currentWindow notNil.
-	self waitTestingSpaces.
 	self assert: windowManager currentWindow isOpened
 ]
 
@@ -120,14 +114,12 @@ ToPopupWindowManagerTest >> testMouseDownInElementEvent [
 	| e windowManager |
 	e := ToElement new.
 	e extent: 100 asPoint.
-	space root addChild: e.
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: e  ].
 
 	windowManager := ToPopupWindowManager new.
 
 	e addEventHandler: windowManager.
-	BlSpace simulateMouseDownOn: e.
-	self waitTestingSpaces.
+	e eventSimulator mouseDown.
 	self assert: windowManager currentWindow notNil.
 	self assert: windowManager currentWindow isOpened
 ]
@@ -138,14 +130,12 @@ ToPopupWindowManagerTest >> testMouseUpEvent [
 	| e windowManager closed position event |
 	e := ToElement new.
 	e extent: 100 asPoint.
-	space root addChild: e.
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: e  ].
 
 	windowManager := ToPopupWindowManager new.
 
 	e addEventHandler: windowManager.
-	BlSpace simulateMouseDownOn: e.
-	self waitTestingSpaces.
+	e eventSimulator mouseDown.
 	self assert: windowManager currentWindow notNil.
 	self assert: windowManager currentWindow isOpened.
 	closed := false.
@@ -157,7 +147,7 @@ ToPopupWindowManagerTest >> testMouseUpEvent [
 	event := BlMouseUpEvent primary position: position.
 	event fillFromTime: e space time.
 	e dispatchEvent: event.
-	self waitTestingSpaces.
+	space settle.
 
 	" window is closed on mouse-up "
 	self assert: windowManager currentWindow isNil.
@@ -170,14 +160,12 @@ ToPopupWindowManagerTest >> testMouseUpInElementEvent [
 	| e windowManager closed |
 	e := ToElement new.
 	e extent: 100 asPoint.
-	space root addChild: e.
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: e  ].
 
 	windowManager := ToPopupWindowManager new.
 
 	e addEventHandler: windowManager.
-	BlSpace simulateMouseDownOn: e.
-	self waitTestingSpaces.
+	e eventSimulator mouseDown.
 	self assert: windowManager currentWindow notNil.
 	self assert: windowManager currentWindow isOpened.
 	closed := false.
@@ -185,7 +173,7 @@ ToPopupWindowManagerTest >> testMouseUpInElementEvent [
 			 on: ToClosedEvent
 			 do: [ :event | closed := true ]).
 	(windowManager autoCloseDelay + 1 milliSecond) wait.
-	BlSpace simulateMouseUpOn: e.
+	e eventSimulator mouseUp.
 	" window is closed on mouse-up "
 	self assert: windowManager currentWindow isNil.
 	self assert: closed
@@ -197,14 +185,12 @@ ToPopupWindowManagerTest >> testMouseUpInElementEventAfterLongDelayShouldCloseWi
 	| e windowManager closed |
 	e := ToElement new.
 	e extent: 100 asPoint.
-	space root addChild: e.
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: e  ].
 
 	windowManager := ToPopupWindowManager new.
 
 	e addEventHandler: windowManager.
-	BlSpace simulateMouseDownOn: e.
-	self waitTestingSpaces.
+	e eventSimulator mouseDown.
 	self assert: windowManager currentWindow notNil.
 	self assert: windowManager currentWindow isOpened.
 	closed := false.
@@ -212,7 +198,7 @@ ToPopupWindowManagerTest >> testMouseUpInElementEventAfterLongDelayShouldCloseWi
 			 on: ToClosedEvent
 			 do: [ :event | closed := true ]).
 	(windowManager autoCloseDelay + 1 milliSecond) wait.
-	BlSpace simulateMouseUpOn: e.
+	e eventSimulator mouseUp.
 	" window is closed on mouse-up "
 	self assert: windowManager currentWindow isNil.
 	self assert: closed
@@ -225,14 +211,12 @@ ToPopupWindowManagerTest >> testMouseUpOutsideEvent [
 	e := ToElement new.
 	e extent: 100 asPoint.
 	e position: 100 asPoint.
-	space root addChild: e.
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: e  ].
 
 	windowManager := ToPopupWindowManager new.
 
 	e addEventHandler: windowManager.
-	BlSpace simulateMouseDownOn: e.
-	self waitTestingSpaces.
+	e eventSimulator mouseDown.
 	self assert: windowManager currentWindow notNil.
 	self assert: windowManager currentWindow isOpened.
 	closed := false.
@@ -244,7 +228,7 @@ ToPopupWindowManagerTest >> testMouseUpOutsideEvent [
 		         position: 0 @ 0;
 		         fillFromTime: space time.
 	e dispatchEvent: event.
-	self waitTestingSpaces.
+	space settle.
 
 	" window is closed on mouse-up "
 	self assert: windowManager currentWindow isNil.
@@ -257,8 +241,7 @@ ToPopupWindowManagerTest >> testNoAutoCloseEvenAfterLongDelay [
 	| e windowManager closed |
 	e := ToElement new.
 	e extent: 100 asPoint.
-	space root addChild: e.
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: e  ].
 
 	windowManager := ToPopupWindowManager new.
 	closed := false.
@@ -270,29 +253,25 @@ ToPopupWindowManagerTest >> testNoAutoCloseEvenAfterLongDelay [
 			 do: [ :event | closed := true ]).
 
 	e addEventHandler: windowManager.
-	BlSpace simulateMouseDownOn: e.
-	self waitTestingSpaces.
+	e eventSimulator mouseDown.
 	self assert: windowManager currentWindow notNil.
 	self assert: windowManager currentWindow isOpened.
-	BlSpace simulateMouseUpOn: e.
+	e eventSimulator mouseUp.
 	" window is not closed on mouse-up "
-	self waitTestingSpaces.
 	self assert: windowManager currentWindow notNil.
 	self deny: closed.
 
 	windowManager autoCloseDelay: 400 milliSeconds.
 	closed := false.
-	BlSpace simulateMouseDownOn: e.
-	BlSpace simulateMouseUpOn: e.
-	self waitTestingSpaces.
+	e eventSimulator mouseDown.
+	e eventSimulator mouseUp.
 	self assert: windowManager currentWindow notNil.
 	self deny: closed.
 
 	closed := false.
-	BlSpace simulateMouseDownOn: e.
-	800 milliSeconds asDelay wait.
-	BlSpace simulateMouseUpOn: e.
-	self waitTestingSpaces.
+	e eventSimulator mouseDown.
+	space waitForDuration: 400 milliSeconds.
+	e eventSimulator mouseUp.
 	self assert: windowManager currentWindow isNil.
 	self assert: closed
 ]
@@ -312,45 +291,36 @@ ToPopupWindowManagerTest >> testOnUninstalledIn [
 	| e windowManager |
 	e := ToElement new.
 	windowManager := ToPopupWindowManager new.
-	e addEventHandler: windowManager.
-
+	e addEventHandler: windowManager
 ]
 
 { #category : #tests }
 ToPopupWindowManagerTest >> testUseNoMouseButton [
 
-	| e windowManager event |
+	| e windowManager |
 	e := ToElement new.
 	e extent: 100 asPoint.
-	space root addChild: e.
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: e ].
 
 	windowManager := ToPopupWindowManager new.
 	windowManager useNoMouseButton.
 	e addEventHandler: windowManager.
-	event := BlMouseDownEvent primary.
-	event position: e bounds inSpace center.
-	BlSpace simulateEvent: event on: e.
-	self waitTestingSpaces.
+	e eventSimulator mouseDown.
 	self assert: windowManager currentWindow isNil
 ]
 
 { #category : #tests }
 ToPopupWindowManagerTest >> testUsePrimaryMouseButton [
 
-	| e windowManager event |
+	| e windowManager |
 	e := ToElement new.
 	e extent: 100 asPoint.
-	space root addChild: e.
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: e ].
 
 	windowManager := ToPopupWindowManager new.
 	windowManager usePrimaryMouseButton.
 	e addEventHandler: windowManager.
-	event := BlMouseDownEvent primary.
-	event position: e bounds inSpace center.
-	BlSpace simulateEvent: event on: e.
-	self waitTestingSpaces.
+	e eventSimulator mouseDown.
 	self assert: windowManager currentWindow notNil.
 	self assert: windowManager currentWindow isOpened
 ]
@@ -358,37 +328,30 @@ ToPopupWindowManagerTest >> testUsePrimaryMouseButton [
 { #category : #tests }
 ToPopupWindowManagerTest >> testUsePrimaryMouseButton2 [
 
-	| e windowManager event |
+	| e windowManager |
 	e := ToElement new.
 	e extent: 100 asPoint.
-	space root addChild: e.
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: e ].
 
 	windowManager := ToPopupWindowManager new.
 	windowManager usePrimaryMouseButton.
 	e addEventHandler: windowManager.
-	event := BlMouseDownEvent secondary.
-	event position: e bounds inSpace center.
-	BlSpace simulateEvent: event on: e.
+	e eventSimulator mouseDownButton: BlMouseButton secondary.
 	self assert: windowManager currentWindow isNil
 ]
 
 { #category : #tests }
 ToPopupWindowManagerTest >> testUseSecondaryMouseButton [
 
-	| e windowManager event |
+	| e windowManager |
 	e := ToElement new.
 	e extent: 100 asPoint.
-	space root addChild: e.
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: e ].
 
 	windowManager := ToPopupWindowManager new.
 	windowManager useSecondaryMouseButton.
 	e addEventHandler: windowManager.
-	event := BlMouseDownEvent secondary.
-	event position: e bounds inSpace center.
-	BlSpace simulateEvent: event on: e.
-	self waitTestingSpaces.
+	e eventSimulator mouseDownButton: BlMouseButton secondary.
 	self assert: windowManager currentWindow notNil.
 	self assert: windowManager currentWindow isOpened
 ]
@@ -396,17 +359,14 @@ ToPopupWindowManagerTest >> testUseSecondaryMouseButton [
 { #category : #tests }
 ToPopupWindowManagerTest >> testUseSecondaryMouseButton2 [
 
-	| e windowManager event |
+	| e windowManager |
 	e := ToElement new.
 	e extent: 100 asPoint.
-	space root addChild: e.
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: e ].
 
 	windowManager := ToPopupWindowManager new.
 	windowManager useSecondaryMouseButton.
 	e addEventHandler: windowManager.
-	event := BlMouseDownEvent primary.
-	event position: e bounds inSpace center.
-	BlSpace simulateEvent: event on: e.
+	e eventSimulator mouseDown.
 	self assert: windowManager currentWindow isNil
 ]

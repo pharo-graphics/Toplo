@@ -4,9 +4,15 @@ Class {
 	#category : #'Toplo-Core-SpaceFrame'
 }
 
+{ #category : #testing }
+ToSpaceConfigurationPhase >> isSettledIn: aSpace [
+	"Return true if aSpace does not need a configuration pass"
+
+	^ aSpace phasesManager needConfigurationPass not
+]
+
 { #category : #accessing }
 ToSpaceConfigurationPhase >> name [
-	<return: #String>
 	
 	^ 'Configuration phase'
 ]

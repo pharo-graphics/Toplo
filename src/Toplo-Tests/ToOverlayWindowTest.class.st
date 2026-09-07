@@ -12,20 +12,21 @@ ToOverlayWindowTest >> testWindowSize [
 
 	| win e windowManager |
 	e := ToElement new.
-	space root addChild: e.
-	e position: 10 asPoint.
-	e extent: 10 asPoint.
-	windowManager := ToAnchoredWindowManager overlay windowBuilder: [
-		                 :anchWin
-		                 :requestEvent |  ].
+	space deferAndSettle: [
+		space root addChild: e.
+		e position: 10 asPoint.
+		e extent: 10 asPoint ].
+	windowManager :=
+		ToAnchoredWindowManager overlay
+			windowBuilder: [ :anchWin :requestEvent |  ];
+			yourself.
 	e addEventHandler: windowManager.
-	win := windowManager createNewWindowOnEvent: nil.
-	win popup.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		win := windowManager createNewWindowOnEvent: nil.
+		win popup ].
 	self assert: win bounds inSpace extent equals: 10 asPoint.
 
-	e extent: 20 asPoint.
-	self waitTestingSpaces.
+	space deferAndSettle: [ e extent: 20 asPoint ].
 	self assert: win bounds inSpace extent equals: 20 asPoint
 ]
 
@@ -34,20 +35,21 @@ ToOverlayWindowTest >> testWindowSize2 [
 
 	| win e windowManager |
 	e := ToElement new.
-	space root addChild: e.
-	e position: 10 asPoint.
-	e extent: 10 asPoint.
-	windowManager := ToAnchoredWindowManager overlay windowBuilder: [
-		                 :anchWin
-		                 :requestEvent |
-		                 anchWin root addChild:
-			                 (ToElement new extent: 100 asPoint) ].
+	space deferAndSettle: [
+		space root addChild: e.
+		e position: 10 asPoint.
+		e extent: 10 asPoint ].
+	windowManager :=
+		ToAnchoredWindowManager overlay
+			windowBuilder: [ :anchWin :requestEvent |
+				anchWin root addChild: (ToElement new extent: 100 asPoint) ];
+			yourself.
 	e addEventHandler: windowManager.
-	win := windowManager createNewWindowOnEvent: nil.
-	win popup.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		win := windowManager createNewWindowOnEvent: nil.
+		win popup ].
 	self assert: win bounds inSpace extent equals: 10 asPoint.
-	e extent: 20 asPoint.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ e extent: 20 asPoint ].
 	self assert: win bounds inSpace extent equals: 20 asPoint
 ]

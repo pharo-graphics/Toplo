@@ -15,8 +15,7 @@ ToIntrinsicStateTest >> testApplyEnablementOn [
 	e addEventHandler: (BlEventHandler
 			 on: ToDisabledSkinEvent
 			 do: [ :event | receivedDisabledEvt := event ]).
-	space root addChild: e.
-	e skinManager installNewSkinIn: e.
+	space deferAndSettle: [ space root addChild: e ].
 	self assert: (receivedEnabledEvt isKindOf: ToEnabledSkinEvent)
 ]
 
@@ -32,8 +31,7 @@ ToIntrinsicStateTest >> testApplyEnablementOn2 [
 	e addEventHandler: (BlEventHandler
 			 on: ToDisabledSkinEvent
 			 do: [ :event | receivedDisabledEvt := event ]).
-	space root addChild: e.
-	e skinManager installNewSkinIn: e.
+	space deferAndSettle: [ space root addChild: e ].
 	self assert: (receivedEnabledEvt isKindOf: ToEnabledSkinEvent)
 ]
 
@@ -49,8 +47,7 @@ ToIntrinsicStateTest >> testApplyEnablementOn3 [
 	e addEventHandler: (BlEventHandler
 			 on: ToDisabledSkinEvent
 			 do: [ :event | receivedDisabledEvt := event ]).
-	space root addChild: e.
-	e skinManager installNewSkinIn: e.
+	space deferAndSettle: [ space root addChild: e ].
 	self assert: (receivedEnabledEvt isKindOf: ToEnabledSkinEvent)
 ]
 
@@ -66,8 +63,7 @@ ToIntrinsicStateTest >> testApplyEnablementOnWhenDisabled [
 	e addEventHandler: (BlEventHandler
 			 on: ToDisabledSkinEvent
 			 do: [ :event | receivedDisabledEvt := event ]).
-	space root addChild: e.
-	e skinManager installNewSkinIn: e.
+	space deferAndSettle: [ space root addChild: e ].
 	self assert: (receivedDisabledEvt isKindOf: ToDisabledSkinEvent)
 ]
 
@@ -83,7 +79,7 @@ ToIntrinsicStateTest >> testApplyEnablementOnWhenDisabled2 [
 	e addEventHandler: (BlEventHandler
 			 on: ToDisabledSkinEvent
 			 do: [ :event | receivedDisabledEvt := event ]).
-	space root addChild: e.
+	space deferAndSettle: [ space root addChild: e ].
 	self assert: (receivedDisabledEvt isKindOf: ToDisabledSkinEvent)
 ]
 
@@ -101,7 +97,6 @@ ToIntrinsicStateTest >> testApplyOnChecked [
 
 	| e state checkedEvt uncheckedEvt |
 	e := ToElement new.
-	space root addChild: e.
 	e addEventHandler: (BlEventHandler
 			 on: ToCheckedSkinEvent
 			 do: [ :event | checkedEvt := event ]).
@@ -109,7 +104,9 @@ ToIntrinsicStateTest >> testApplyOnChecked [
 			 on: ToUncheckedSkinEvent
 			 do: [ :event | uncheckedEvt := event ]).
 	state := ToIntrinsicState new checkedSkinEvent: ToCheckedSkinEvent new.
-	state applyOn: e fromQueue: nil.
+	space deferAndSettle: [
+		space root addChild: e.
+		state applyOn: e fromQueue: nil ].
 	self assert: (checkedEvt isKindOf: ToCheckedSkinEvent)
 ]
 
@@ -121,7 +118,6 @@ ToIntrinsicStateTest >> testApplyOnCheckedWhenDisabled [
 
 	| e state checkedEvt uncheckedEvt |
 	e := ToElement new.
-	space root addChild: e.
 	e disable.
 	e addEventHandler: (BlEventHandler
 			 on: ToCheckedSkinEvent
@@ -130,10 +126,13 @@ ToIntrinsicStateTest >> testApplyOnCheckedWhenDisabled [
 			 on: ToUncheckedSkinEvent
 			 do: [ :event | uncheckedEvt := event ]).
 	state := ToIntrinsicState new checkedSkinEvent: ToCheckedSkinEvent new.
-	state applyOn: e fromQueue: nil.
+	space deferAndSettle: [
+		space root addChild: e.
+		state applyOn: e fromQueue: nil ].
 	self assert: (checkedEvt isKindOf: ToCheckedSkinEvent).
 	state := ToIntrinsicState new checkedSkinEvent: ToUncheckedSkinEvent new.
-	state applyOn: e fromQueue: nil.
+	space deferAndSettle: [
+		state applyOn: e fromQueue: nil ].
 	self assert: (uncheckedEvt isKindOf: ToUncheckedSkinEvent)
 ]
 
@@ -142,7 +141,6 @@ ToIntrinsicStateTest >> testApplyOnFocused [
 
 	| e state focusedEvt unfocusedEvt |
 	e := ToElement new.
-	space root addChild: e.
 	e addEventHandler: (BlEventHandler
 			 on: ToFocusedSkinEvent
 			 do: [ :event | focusedEvt := event ]).
@@ -150,7 +148,9 @@ ToIntrinsicStateTest >> testApplyOnFocused [
 			 on: ToUnfocusedSkinEvent
 			 do: [ :event | unfocusedEvt := event ]).
 	state := ToIntrinsicState new focusedSkinEvent: ToFocusedSkinEvent new.
-	state applyOn: e fromQueue: nil.
+	space deferAndSettle: [
+		space root addChild: e.
+		state applyOn: e fromQueue: nil ].
 	self assert: (focusedEvt isKindOf: ToFocusedSkinEvent).
 	self assert: unfocusedEvt isNil
 ]
@@ -163,7 +163,6 @@ ToIntrinsicStateTest >> testApplyOnFocusedWhenDisabled [
 
 	| e state focusedEvt unfocusedEvt |
 	e := ToElement new.
-	space root addChild: e.
 	e disable.
 	e addEventHandler: (BlEventHandler
 			 on: ToFocusedSkinEvent
@@ -172,10 +171,13 @@ ToIntrinsicStateTest >> testApplyOnFocusedWhenDisabled [
 			 on: ToUnfocusedSkinEvent
 			 do: [ :event | unfocusedEvt := event ]).
 	state := ToIntrinsicState new focusedSkinEvent: ToFocusedSkinEvent new.
-	state applyOn: e fromQueue: nil.
+	space deferAndSettle: [
+		space root addChild: e.
+		state applyOn: e fromQueue: nil ].
 	self assert: (focusedEvt isKindOf: ToFocusedSkinEvent).
 	state := ToIntrinsicState new focusedSkinEvent: ToUnfocusedSkinEvent new.
-	state applyOn: e fromQueue: nil.
+	space deferAndSettle: [
+		state applyOn: e fromQueue: nil ].
 	self assert: (unfocusedEvt isKindOf: ToUnfocusedSkinEvent)
 ]
 
@@ -184,7 +186,6 @@ ToIntrinsicStateTest >> testApplyOnUnchecked [
 
 	| e state checkedEvt uncheckedEvt |
 	e := ToElement new.
-	space root addChild: e.
 	e addEventHandler: (BlEventHandler
 			 on: ToCheckedSkinEvent
 			 do: [ :event | checkedEvt := event ]).
@@ -192,7 +193,9 @@ ToIntrinsicStateTest >> testApplyOnUnchecked [
 			 on: ToUncheckedSkinEvent
 			 do: [ :event | uncheckedEvt := event ]).
 	state := ToIntrinsicState new checkedSkinEvent: ToUncheckedSkinEvent new.
-	state applyOn: e fromQueue: nil.
+	space deferAndSettle: [
+		space root addChild: e.
+		state applyOn: e fromQueue: nil ].
 	self assert: (uncheckedEvt isKindOf: ToUncheckedSkinEvent)
 ]
 
@@ -201,7 +204,6 @@ ToIntrinsicStateTest >> testApplyOnUnfocused [
 
 	| e state focusedEvt unfocusedEvt |
 	e := ToElement new.
-	space root addChild: e.
 	e addEventHandler: (BlEventHandler
 			 on: ToFocusedSkinEvent
 			 do: [ :event | focusedEvt := event ]).
@@ -209,29 +211,11 @@ ToIntrinsicStateTest >> testApplyOnUnfocused [
 			 on: ToUnfocusedSkinEvent
 			 do: [ :event | unfocusedEvt := event ]).
 	state := ToIntrinsicState new focusedSkinEvent: ToUnfocusedSkinEvent new.
-	state applyOn: e fromQueue: nil.
+	space deferAndSettle: [
+		space root addChild: e.
+		state applyOn: e fromQueue: nil ].
 	self assert: (unfocusedEvt isKindOf: ToUnfocusedSkinEvent).
 	self assert: focusedEvt isNil
-]
-
-{ #category : #running }
-ToIntrinsicStateTest >> testApplyOnFocusedWhenChildOfSpaceRoot [
-
-	| e state focusedEvt |
-	e := ToElement new.
-	space root addChild: e.
-	"Emulate the initial focus on space root that occurs when a space is shown."
-	space root requestFocus.
-	state := ToIntrinsicState new.
-	"Initial application when added to space root (unfocused)"
-	state applyOn: e fromQueue: nil.
-
-	focusedEvt := nil.
-	e addEventHandlerOn: ToFocusedSkinEvent do: [ :event | focusedEvt := event ].
-	state focusedSkinEvent: ToFocusedSkinEvent new.
-	e requestFocus.
-	state applyOn: e fromQueue: nil.
-	self assert: (focusedEvt isKindOf: ToFocusedSkinEvent)
 ]
 
 { #category : #running }
@@ -242,14 +226,12 @@ ToIntrinsicStateTest >> testFocusStateWhenSpaceRootIsFocused [
 	child := ToElement new.
 	container addChild: child.
 	state := ToIntrinsicState new.
-	space root addChild: container.
-	"Emulate the initial focus on space root that occurs when a space is shown."
-	space root requestFocus.
+	space deferAndSettle: [ space root addChild: container ].
 	self assert: space root isFocused.
 	self deny: (state focusStateOn: container).
 	self deny: (state focusStateOn: child).
 
-	container requestFocus.
+	space deferAndSettle: [ container requestFocus ].
 	self assert: container isFocused.
 	self assert: (state focusStateOn: container).
 	self assert: (state focusStateOn: child)

@@ -14,8 +14,7 @@ ToShrinkableContainerTest >> testContainerSizeChange [
 	e := self testShrinkableContainerNotVisible.
 	" make the container size smaller than the child size
 	this makes the shrink layer visible"
-	e extent: 20 asPoint.
-	self waitTestingSpaces.
+	space deferAndSettle: [ e extent: 20 asPoint ].
 	self
 		assert: e shrinkFeedbackLayer visibility
 		equals: BlVisibility visible.
@@ -27,12 +26,12 @@ ToShrinkableContainerTest >> testEnableShrinkLayer [
 
 	| e  |
 	e := ToShrinkableContainer new.
-	space root addChild: e.
-	e enableShrinkLayer: true.
+	space deferAndSettle: [
+		space root addChild: e.
+		e enableShrinkLayer: true ].
 	self assert: e shrinkFeedbackLayer notNil.
 	self assert: (e shrinkFeedbackLayer isKindOf: ToShrinkFeedbackLayer).
 	self assert: e shrinkFeedbackLayer visibility equals: BlVisibility hidden.
-	self waitTestingSpaces.
 	^ e
 ]
 
@@ -41,10 +40,12 @@ ToShrinkableContainerTest >> testEnableShrinkLayer2 [
 
 	| e  |
 	e := ToShrinkableContainer new.
-	space root addChild: e.
-	e enableShrinkLayer: true.
+	space deferAndSettle: [
+		space root addChild: e.
+		e enableShrinkLayer: true ].
 	self assert: e shrinkFeedbackLayer notNil.
-	e enableShrinkLayer: false.
+
+	space deferAndSettle: [ e enableShrinkLayer: false ].
 	self assert: e shrinkFeedbackLayer isNil.
 	^ e
 ]
@@ -55,9 +56,10 @@ ToShrinkableContainerTest >> testIsShrinked [
 	| e child |
 	e := ToShrinkableContainer new.
 	e extent: 100 asPoint.
-	space root addChild: e.
+	space deferAndSettle: [ space root addChild: e ].
 	self deny: e isShrinked.
-	e enableShrinkLayer: true.
+
+	space deferAndSettle: [ e enableShrinkLayer: true ].
 	self deny: e isShrinked.
 
 	child := ToElement new.
@@ -65,12 +67,10 @@ ToShrinkableContainerTest >> testIsShrinked [
 	" make the child size less than the container size
 	this let the shrink layer invisible"
 	child extent: 50 asPoint.
-	e addChild: child.
-
-	self waitTestingSpaces.
+	space deferAndSettle: [ e addChild: child ].
 	self deny: e isShrinked.
-	child extent: 150 asPoint.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ child extent: 150 asPoint ].
 	self assert: e isShrinked.
 	^ e
 ]
@@ -83,20 +83,19 @@ ToShrinkableContainerTest >> testIsShrinkedHorizontally [
 	" horizontal is the default "
 	e checkHorizontalShrinkability.
 	e width: 100.
-	space root addChild: e.
+	space deferAndSettle: [ space root addChild: e ].
 	child := ToElement new.
 	child id: #child.
 	" make the child size less than the container size
 	this let the shrink layer invisible"
 	child width: 50.
-	e addChild: child.
-	self waitTestingSpaces.
+	space deferAndSettle: [ e addChild: child ].
 	self deny: e isShrinked.
-	child width: 150.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ child width: 150 ].
 	self assert: e isShrinked.
-	e width: 200.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ e width: 200 ].
 	self deny: e isShrinked.
 	^ e
 ]
@@ -109,20 +108,19 @@ ToShrinkableContainerTest >> testIsShrinkedHorizontally2 [
 	" horizontal is the default "
 	e checkHorizontalShrinkability.
 	e height: 100.
-	space root addChild: e.
+	space deferAndSettle: [ space root addChild: e ].
 	child := ToElement new.
 	child id: #child.
 	" make the child size less than the container size
 	this let the shrink layer invisible"
 	child height: 50.
-	e addChild: child.
-	self waitTestingSpaces.
+	space deferAndSettle: [ e addChild: child ].
 	self deny: e isShrinked.
-	child height: 150.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ child height: 150 ].
 	self deny: e isShrinked.
-	e height: 200.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ e height: 200 ].
 	self deny: e isShrinked.
 	^ e
 ]
@@ -135,20 +133,19 @@ ToShrinkableContainerTest >> testIsShrinkedVertically [
 	" horizontal is the default "
 	e checkVerticalShrinkability.
 	e height: 100.
-	space root addChild: e.
+	space deferAndSettle: [ space root addChild: e ].
 	child := ToElement new.
 	child id: #child.
 	" make the child size less than the container size
 	this let the shrink layer invisible"
 	child height: 50.
-	e addChild: child.
-	self waitTestingSpaces.
+	space deferAndSettle: [ e addChild: child ].
 	self deny: e isShrinked.
-	child height: 150.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ child height: 150 ].
 	self assert: e isShrinked.
-	e height: 200.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ e height: 200 ].
 	self deny: e isShrinked.
 	^ e
 ]
@@ -161,20 +158,19 @@ ToShrinkableContainerTest >> testIsShrinkedVertically2 [
 	" horizontal is the default "
 	e checkVerticalShrinkability.
 	e width: 100.
-	space root addChild: e.
+	space deferAndSettle: [ space root addChild: e ].
 	child := ToElement new.
 	child id: #child.
 	" make the child size less than the container size
 	this let the shrink layer invisible"
 	child width: 50.
-	e addChild: child.
-	self waitTestingSpaces.
+	space deferAndSettle: [ e addChild: child ].
 	self deny: e isShrinked.
-	child width: 150.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ child width: 150 ].
 	self deny: e isShrinked.
-	e width: 200.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ e width: 200 ].
 	self deny: e isShrinked.
 	^ e
 ]
@@ -193,8 +189,7 @@ ToShrinkableContainerTest >> testShrinkableContainerNotVisible [
 	this let the shrink layer invisible"
 	child extent: 50 asPoint.
 	e addChild: child.
-	space root addChild: e.
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: e ].
 	self assert: e shrinkFeedbackLayer parent equals: e.
 	self
 		assert: e shrinkFeedbackLayer visibility
@@ -210,8 +205,7 @@ ToShrinkableContainerTest >> testShrinkableContainerVisible [
 	child := e childWithId: #child.
 	" make the child size greater than the container size
 	this makes the shrink layer visible"
-	child extent: 150 asPoint.
-	self waitTestingSpaces.
+	space deferAndSettle: [ child extent: 150 asPoint ].
 	self
 		assert: e shrinkFeedbackLayer visibility
 		equals: BlVisibility visible.

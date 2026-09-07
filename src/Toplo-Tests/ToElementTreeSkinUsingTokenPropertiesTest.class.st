@@ -33,7 +33,7 @@ ToElementTreeSkinUsingTokenPropertiesTest >> newElementTree [
 
 	child addChild: subChild.
 	parent addChild: child.
-	space root addChild: parent
+	space deferAndSettle: [ space root addChild: parent ]
 ]
 
 { #category : #running }
@@ -47,43 +47,37 @@ ToElementTreeSkinUsingTokenPropertiesTest >> setUp [
 ToElementTreeSkinUsingTokenPropertiesTest >> testChildSkinApplication [
 	" updating a token value in the parent should lead to the re-installation of children skins "
 
-	parent updateTokenNamed: #'element-color' withValue: Color white.
-	self waitTestingSpaces.
+	space deferAndSettle: [ parent updateTokenNamed: #'element-color' withValue: Color white ].
 	self assert: child background paint color equals: Color white
 ]
 
 { #category : #tests }
 ToElementTreeSkinUsingTokenPropertiesTest >> testInitialSkinsApplication [
 
-	self waitTestingSpaces.
 	self assert: (parent background isKindOf: BlPaintBackground).
 	self assert: (child background isKindOf: BlPaintBackground).
 	self assert: (subChild background isKindOf: BlPaintBackground).
 	self assert: parent background paint color equals: Color black.
 	self assert: child background paint color equals: Color black.
-	self assert: subChild background paint color equals: Color black.
-
+	self assert: subChild background paint color equals: Color black
 ]
 
 { #category : #tests }
 ToElementTreeSkinUsingTokenPropertiesTest >> testParentSkinApplication [
 	" updating a token value in the parent should lead to the re-installation of the parent skin "
 
-	parent updateTokenNamed: #'element-color' withValue: Color white.
-	self waitTestingSpaces.
-	self assert: parent background paint color equals: Color white.	
-
+	space deferAndSettle: [ parent updateTokenNamed: #'element-color' withValue: Color white ].
+	self assert: parent background paint color equals: Color white
 ]
 
 { #category : #tests }
 ToElementTreeSkinUsingTokenPropertiesTest >> testRemovingTokenLeadsToError [
-	" updating a token value in the parent should lead to the re-installation of children skins "
+	" removing a token value in the parent should lead to lookup error "
 
 	parent removeTokenNamed: #'element-color'.
-	self should: [ self waitTestingSpaces ] raise: ToTokenPropertyNotFoundError.
-	" add the token back because #tearDown sends #waitTestingSpaces "
-	parent addTokenNamed: #'element-color' withValue: Color black.
-	self waitTestingSpaces.
+	self should: [ child valueOfTokenNamed: #'element-color' ] raise: ToTokenPropertyNotFoundError.
+	" add the token back to allow clean skin application "
+	space deferAndSettle: [ parent addTokenNamed: #'element-color' withValue: Color black ].
 	self assert: parent background paint color equals: Color black
 ]
 
@@ -91,8 +85,7 @@ ToElementTreeSkinUsingTokenPropertiesTest >> testRemovingTokenLeadsToError [
 ToElementTreeSkinUsingTokenPropertiesTest >> testSubChildSkinApplication [
 	" updating a token value in the parent should lead to the re-installation of children skins "
 
-	parent updateTokenNamed: #'element-color' withValue: Color white.
-	self waitTestingSpaces.
+	space deferAndSettle: [ parent updateTokenNamed: #'element-color' withValue: Color white ].
 	self assert: subChild background paint color equals: Color white
 ]
 
@@ -100,13 +93,13 @@ ToElementTreeSkinUsingTokenPropertiesTest >> testSubChildSkinApplication [
 ToElementTreeSkinUsingTokenPropertiesTest >> testSubChildWithLocalTokenSkinApplication [
 	" updating a token value in the parent should lead to the re-installation of children skins "
 
-	parent updateTokenNamed: #'element-color' withValue: Color white.
-	child addTokenNamed: #'element-color' withValue: Color gray.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		parent updateTokenNamed: #'element-color' withValue: Color white.
+		child addTokenNamed: #'element-color' withValue: Color gray ].
 	self assert: parent background paint color equals: Color white.
 	self assert: child background paint color equals: Color gray.
 	self assert: subChild background paint color equals: Color gray.
-	child removeTokenNamed: #'element-color'.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ child removeTokenNamed: #'element-color' ].
 	self assert: subChild background paint color equals: Color white
 ]

@@ -22,16 +22,14 @@ ToTabGroupElementTest >> itemCheckedBeforeAddedInSpace [
 	" in case of infinite element, the layout must be done, 
 	so it means that an item can't be selected before 
 	the tabGroup is added in a space "
-	self flag: 'Check if it is possible to avoid the layout '.
-	tabGroup itemList useInfiniteLayout ifTrue: [ tabGroup forceLayout ].
-
 	firstItem := tabGroup items first.
 	self deny: firstItem isSelected.
-	firstItem checked: true.
+	tabGroup itemList useInfiniteLayout
+		ifTrue: [ tabGroup selecter selectIndex: 1 ]
+		ifFalse: [ firstItem checked: true ].
 	self assert: firstItem isChecked.
 
-	space root addChild: tabGroup.
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: tabGroup ].
 	self assert: firstItem isSelected
 ]
 
@@ -39,25 +37,24 @@ ToTabGroupElementTest >> itemCheckedBeforeAddedInSpace [
 ToTabGroupElementTest >> itemSelectedBeforeAddedInSpace [
 
 	| firstItem |
-	tabGroup addItem: (ToTabItemElement new
+	tabGroup addItem:
+		(ToTabItemElement new
 			 id: #first;
 			 labelText: 'First';
 			 yourself).
 
+	firstItem := tabGroup items first.
+	self deny: firstItem isSelected.
+
 	" in case of infinite element, the layout must be done, 
 	so it means that an item can't be selected before 
 	the tabGroup is added in a space "
-	self flag: 'Check if it is possible to avoid the layout '.
-	tabGroup itemList useInfiniteLayout ifTrue: [ tabGroup forceLayout ].
-
-	firstItem := tabGroup items first.
-	self deny: firstItem isSelected.
 	tabGroup selecter selectIndex: 1.
-	self assert: firstItem isChecked.
-	self assert: firstItem isSelected.
+	tabGroup itemList useInfiniteLayout ifFalse: [
+		self assert: firstItem isChecked.
+		self assert: firstItem isSelected ].
 
-	space root addChild: tabGroup.
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: tabGroup ].
 	self assert: firstItem isChecked.
 	self assert: firstItem isSelected
 ]
@@ -68,10 +65,7 @@ ToTabGroupElementTest >> setUp [
 	super setUp.
 	tabGroup := ToTabGroupElement new.
 	tabGroup matchParent.
-	space root addChild: tabGroup.
-	space root forceLayout.
-	self waitTestingSpaces 
-
+	space deferAndSettle: [ space root addChild: tabGroup ]
 ]
 
 { #category : #tests }
@@ -118,12 +112,10 @@ ToTabGroupElementTest >> testIsSelected [
 	firstItem := tabGroup items first.
 	secondItem := tabGroup items second.
 
-	self waitTestingSpaces.
 	self deny: firstItem isSelected.
 	self deny: secondItem isSelected.
 
-	BlSpace simulateClickOn: secondItem.
-	self waitTestingSpaces.
+	secondItem eventSimulator click.
 	self assert: secondItem isSelected.
 	self deny: firstItem isSelected
 ]
@@ -136,21 +128,19 @@ ToTabGroupElementTest >> testRemoveAllItems [
 	self withTwoTabItems.
 	firstButton := tabGroup items first.
 	secondButton := tabGroup items second.
-	firstButton removable: true.
-	secondButton removable: true.
-	self waitTestingSpaces.
-	BlSpace simulateClickOn: firstButton.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		firstButton removable: true.
+		secondButton removable: true  ].
+	firstButton eventSimulator click.
 	self assert: firstButton isSelected.
 	self deny: secondButton isSelected.
-	tabGroup removeAllItems.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ tabGroup removeAllItems  ].
 	self assert: tabGroup items size equals: 0.
 	self assert: tabGroup itemList items size equals: 0.
 	self assert: tabGroup itemList innerElement nodeContainers size equals: 0.
 	" the fake node remains "
 	self assert: tabGroup itemList innerElement trackElement children size equals: 0
-
 ]
 
 { #category : #tests }
@@ -160,14 +150,13 @@ ToTabGroupElementTest >> testRemoveItem [
 	self withTwoTabItems.
 	firstItem := tabGroup items first.
 	secondItem := tabGroup items second.
-	firstItem removable: true.
-	secondItem removable: true.
-	tabGroup forceLayout.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		firstItem removable: true.
+		secondItem removable: true  ].
 	clicked := false.
-	firstItem holder node addRemoveButton. 
-	secondItem holder node  addRemoveButton. 
-	self waitTestingSpacesTimeout: 400 milliSeconds.
+	space deferAndSettle: [
+		firstItem holder node addRemoveButton. 
+		secondItem holder node addRemoveButton  ].
 	secondItem removeButton
 		addEventHandlerOn: BlClickEvent
 		do: [ :evt | clicked := true ].
@@ -175,9 +164,10 @@ ToTabGroupElementTest >> testRemoveItem [
 	self assert: secondItem removeButton notNil.
 	" one have first to ensure that the remove button is visible 
 	(with Raw skin, the remove button is only visible when the mouse is over its tab button) "
-	BlSpace simulateMouseMoveInside: secondItem removeButton.
-	BlSpace simulateClickOn: secondItem removeButton.
-	self waitTestingSpacesTimeout: 600 milliSeconds.
+	secondItem eventSimulator mouseMoveInside.
+	secondItem removeButton eventSimulator
+		mouseMoveInside;
+		click.
 	self assert: clicked.
 	self assert: tabGroup items size equals: 1.
 	self assert: tabGroup items first identicalTo: firstItem
@@ -192,19 +182,20 @@ ToTabGroupElementTest >> testRemoveItem2 [
 	self withTwoTabItems.
 	firstItem := tabGroup items first.
 	secondItem := tabGroup items second.
-	firstItem removable: true.
-	secondItem removable: true.
-	firstItem holder node addRemoveButton. 
-	secondItem holder node  addRemoveButton. 
-	self waitTestingSpaces.
-	BlSpace simulateClickOn: secondItem.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		firstItem removable: true.
+		secondItem removable: true.
+		firstItem holder node addRemoveButton. 
+		secondItem holder node addRemoveButton  ].
+	secondItem eventSimulator
+		mouseMoveInside;
+		click.
 	self assert: secondItem isSelected.
 	" after the click, the remove button should be visible "
-	BlSpace simulateMouseMoveInside: secondItem removeButton.
-	self waitTestingSpaces.
-	BlSpace simulateClickOn: secondItem removeButton.
-	self waitTestingSpacesTimeout: 600 milliSeconds.
+	secondItem eventSimulator mouseMoveInside.
+	secondItem removeButton eventSimulator
+		mouseMoveInside;
+		click.
 	self assert: tabGroup items size equals: 1.
 	self assert: tabGroup items first identicalTo: firstItem.
 	self assert: firstItem isSelected
@@ -219,22 +210,23 @@ ToTabGroupElementTest >> testRemoveItem3 [
 	self withTwoTabItems.
 	firstItem := tabGroup items first.
 	secondItem := tabGroup items second.
-	firstItem removable: true.
-	secondItem removable: true.
-	firstItem holder node addRemoveButton. 
-	secondItem holder node  addRemoveButton. 
-	self waitTestingSpaces.
-	BlSpace simulateClickOn: firstItem.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		firstItem removable: true.
+		secondItem removable: true.
+		firstItem holder node addRemoveButton. 
+		secondItem holder node addRemoveButton  ].
+	firstItem eventSimulator
+		mouseMoveInside;
+		click.
 	self assert: firstItem isSelected.
 	" after the click, the remove button should be visible "
-	BlSpace simulateMouseMoveInside: firstItem removeButton.
-	self waitTestingSpaces.
-	BlSpace simulateClickOn: firstItem removeButton.
-	self waitTestingSpaces.
+	firstItem eventSimulator mouseMoveInside.
+	firstItem removeButton eventSimulator
+		mouseMoveInside;
+		click.
 	self assert: tabGroup items size equals: 1.
 	self assert: tabGroup items first identicalTo: secondItem.
-	self assert: secondItem isSelected.
+	self assert: secondItem isSelected
 ]
 
 { #category : #tests }
@@ -245,23 +237,25 @@ ToTabGroupElementTest >> testRemoveItem4 [
 	self withTwoTabItems.
 	firstItem := tabGroup items first.
 	secondItem := tabGroup items second.
-	firstItem removable: true.
-	secondItem removable: true.
-	firstItem holder node addRemoveButton. 
-	secondItem holder node  addRemoveButton. 
-	self waitTestingSpaces.
-	BlSpace simulateClickOn: secondItem.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		firstItem removable: true.
+		secondItem removable: true.
+		firstItem holder node addRemoveButton. 
+		secondItem holder node addRemoveButton  ].
+	secondItem eventSimulator
+		mouseMoveInside;
+		click.
 	self deny: firstItem isSelected.
 	self assert: secondItem isSelected.
 	" one have first to ensure that the remove button is visible 
 	(with Raw skin, the remove button is only visible when the mouse is over its tab button) "
-	BlSpace simulateMouseMoveInside: secondItem removeButton.
-	BlSpace simulateClickOn: secondItem removeButton.
-	self waitTestingSpaces.
+	secondItem eventSimulator mouseMoveInside.
+	secondItem removeButton eventSimulator
+		mouseMoveInside;
+		click.
 	self assert: tabGroup items size equals: 1.
 	self assert: tabGroup items first identicalTo: firstItem.
-	self assert: firstItem isSelected.
+	self assert: firstItem isSelected
 ]
 
 { #category : #tests }
@@ -272,23 +266,25 @@ ToTabGroupElementTest >> testRemoveItem5 [
 	self withTwoTabItems.
 	firstItem := tabGroup items first.
 	secondItem := tabGroup items second.
-	firstItem removable: true.
-	secondItem removable: true.
-	firstItem holder node addRemoveButton. 
-	secondItem holder node  addRemoveButton. 
-	self waitTestingSpaces.
-	BlSpace simulateClickOn: firstItem.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		firstItem removable: true.
+		secondItem removable: true.
+		firstItem holder node addRemoveButton. 
+		secondItem holder node addRemoveButton  ].
+	firstItem eventSimulator
+		mouseMoveInside;
+		click.
 	self assert: firstItem isSelected.
 	self deny: secondItem isSelected.
 	" one have first to ensure that the remove button is visible 
 	(with Raw skin, the remove button is only visible when the mouse is over its tab button) "
-	BlSpace simulateMouseMoveInside: firstItem removeButton.
-	BlSpace simulateClickOn: firstItem removeButton.
-	self waitTestingSpaces.
+	firstItem eventSimulator mouseMoveInside.
+	firstItem removeButton eventSimulator
+		mouseMoveInside;
+		click.
 	self assert: tabGroup items size equals: 1.
 	self assert: tabGroup items first identicalTo: secondItem.
-	self assert: secondItem isSelected.
+	self assert: secondItem isSelected
 ]
 
 { #category : #tests }
@@ -299,49 +295,50 @@ ToTabGroupElementTest >> testRemoveItem6 [
 	self withTwoTabItems.
 	firstItem := tabGroup items first.
 	secondItem := tabGroup items second.
-	firstItem removable: true.
-	secondItem removable: true.
-	firstItem holder node addRemoveButton. 
-	secondItem holder node  addRemoveButton. 
-	self waitTestingSpaces.
-	BlSpace simulateClickOn: firstItem.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		firstItem removable: true.
+		secondItem removable: true.
+		firstItem holder node addRemoveButton. 
+		secondItem holder node addRemoveButton  ].
+	firstItem eventSimulator
+		mouseMoveInside;
+		click.
 	self assert: firstItem isSelected.
 	self deny: secondItem isSelected.
 	" one have first to ensure that the remove button is visible 
 	(with Raw skin, the remove button is only visible when the mouse is over its tab button) "
-	BlSpace simulateMouseMoveInside: firstItem removeButton.
-	BlSpace simulateClickOn: firstItem removeButton.
-	self waitTestingSpaces.
+	firstItem eventSimulator mouseMoveInside.
+	firstItem removeButton eventSimulator
+		mouseMoveInside;
+		click.
 	self assert: tabGroup items size equals: 1.
 	self assert: tabGroup items first identicalTo: secondItem.
 	self assert: secondItem isSelected.
 
 	firstItem := tabGroup items first.
-	BlSpace simulateMouseMoveInside: firstItem removeButton.
-	BlSpace simulateClickOn: firstItem removeButton.
-	self waitTestingSpaces.
+	firstItem eventSimulator mouseMoveInside.
+	firstItem removeButton eventSimulator
+		mouseMoveInside;
+		click.
 	self assert: tabGroup items size equals: 0.
 	self assert: tabGroup itemList items size equals: 0.
 	self assert: tabGroup itemList innerElement nodeContainers size equals: 0.
 	" the fake node remains "
 	self assert: tabGroup itemList innerElement trackElement children size equals: 0
-
 ]
 
 { #category : #tests }
 ToTabGroupElementTest >> withTwoTabItems [
 
-	tabGroup addItem: (ToTabItemElement new
-			 id: #first;
-			 labelText: 'First';
-			 yourself).
-
-	tabGroup addItem: (ToTabItemElement new
-			 id: #second;
-			 labelText: 'Second';
-			 yourself).
-	self waitTestingSpaces.
-	tabGroup forceLayout.
-
+	space deferAndSettle: [
+		tabGroup addItem:
+			(ToTabItemElement new
+				 id: #first;
+				 labelText: 'First';
+				 yourself).
+		tabGroup addItem:
+			(ToTabItemElement new
+				 id: #second;
+				 labelText: 'Second';
+				 yourself) ]
 ]

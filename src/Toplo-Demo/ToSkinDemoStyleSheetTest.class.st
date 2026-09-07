@@ -60,10 +60,10 @@ ToSkinDemoStyleSheetTest >> testRuleBackgroundDependsOnParentOrChildren [
 		              position: 150 @ 50.
 	childElem := ToElement new.
 	parentElem addChild: childElem.
-	space toTheme: theme.
-	space root addChild: elem.
-	space root addChild: parentElem.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		space toTheme: theme.
+		space root addChild: elem.
+		space root addChild: parentElem ].
 	self assert: elem background paint color equals: Color red.
 	self assert: parentElem background paint color equals: Color blue.
 	self assert: childElem background paint color equals: Color green
@@ -112,9 +112,9 @@ ToSkinDemoStyleSheetTest >> testRuleBackgroundDependsOnSibling [
 			sibling1.
 			sibling2 }.
 
-	space toTheme: theme.
-	space root addChild: container.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		space toTheme: theme.
+		space root addChild: container ].
 	self assert: sibling1 background paint color equals: Color blue.
 	self assert: sibling2 background paint color equals: Color green.
 	self assert: container background paint color equals: Color red
@@ -168,27 +168,18 @@ ToSkinDemoStyleSheetTest >> testRuleBackgroundDependsOnSizeWithActionBlock [
 		              extent: 100 asPoint;
 		              position: 150 asPoint.
 
-	space root addChild: elem.
-	space root addChild: verticalElem.
-	space root addChild: horizontalElem.
-	space root addChild: biggerElem.
+	space deferAndSettle: [
+		space root addChild: elem.
+		space root addChild: verticalElem.
+		space root addChild: horizontalElem.
+		space root addChild: biggerElem ].
 
-	assertsTested := false.
-	space root whenLayoutedDoOnce: [
-			assertsTested := true.
-			space toTheme: theme.
-			self waitTestingSpaces.
-			self assert: elem background paint color equals: Color green.
-			self
-				assert: verticalElem background paint color
-				equals: Color yellow.
-			self
-				assert: horizontalElem background paint color
-				equals: Color blue.
-			self assert: biggerElem background paint color equals: Color red ].
+	space deferAndSettle: [ space toTheme: theme ].
 
-	space root forceLayout.
-	self assert: assertsTested
+	self assert: elem background paint color equals: Color green.
+	self assert: verticalElem background paint color equals: Color yellow.
+	self assert: horizontalElem background paint color equals: Color blue.
+	self assert: biggerElem background paint color equals: Color red
 ]
 
 { #category : #tests }

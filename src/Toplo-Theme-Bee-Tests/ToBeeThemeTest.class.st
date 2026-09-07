@@ -1,6 +1,3 @@
-"
-A ToBeeThemeTest is a test class for testing the behavior of ToBeeTheme
-"
 Class {
 	#name : #ToBeeThemeTest,
 	#superclass : #ToTestCaseWithSpace,
@@ -11,7 +8,7 @@ Class {
 ToBeeThemeTest >> setUp [ 
 
 	super setUp.
-	space toTheme: ToBeeTheme new.
+	space toTheme: ToBeeTheme new
 ]
 
 { #category : #tests }
@@ -19,9 +16,7 @@ ToBeeThemeTest >> testDefaultButtonSkin [
 
 	| button |
 	button := ToButton new.
-	space root addChild: button.
-	space applyAllSkinInstallers.
-	space applyAllEnqueuedStates.
+	space deferAndSettle: [ space root addChild: button ].
 
 	self assert: button border width equals: (button valueOfTokenNamed: #'line-width').
 	self assert: button border paint isColorPaint.
@@ -33,22 +28,19 @@ ToBeeThemeTest >> testSpaceRoot [
 
 	| theme e |
 	theme := ToStyleSheetTheme new.
-	space toTheme: theme.
 	e := ToElement new
 		     extent: 100 @ 100;
 		     position: 10 @ 10;
 		     addStamp: #machin;
 		     background: Color white.
-	space root addChild: e.
-	space applyAllSkinInstallers.
-	space applyAllEnqueuedStates.
+	space deferAndSettle: [
+		space toTheme: theme.
+		space root addChild: e ].
 	self
 		assert: space root background paint color
 		equals: (space root valueOfTokenNamed: 'background-color').
 	theme := ToBeeDarkTheme new.
-	space toTheme: theme.
-	space applyAllSkinInstallers.
-	space applyAllEnqueuedStates.
+	space deferAndSettle: [ space toTheme: theme ].
 	self
 		assert: space root background paint color
 		equals: (space root valueOfTokenNamed: 'background-color')

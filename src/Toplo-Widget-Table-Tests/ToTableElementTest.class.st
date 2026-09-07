@@ -15,7 +15,6 @@ ToTableElementTest >> setUp [
 
 	super setUp.
 	table := ToTableElement new.
-	space root addChild: table.
 	table columns: {
 			(ToTableColumn new
 				 title: 'Name';
@@ -29,14 +28,16 @@ ToTableElementTest >> setUp [
 				 yourself) }.
 	table dataAccessor addAll:
 		(Smalltalk globals allClasses copyFrom: 1 to: 3).
-	self waitTestingSpaces
+
+	space deferAndSettle: [ space root addChild: table ]
 ]
 
 { #category : #running }
 ToTableElementTest >> testAddColumn [
 
 	| rows |
-	table columns: {
+	space deferAndSettle: [
+		table columns: {
 			(ToTableColumn new
 				 title: 'Name 2';
 				 key: 'name';
@@ -51,9 +52,11 @@ ToTableElementTest >> testAddColumn [
 				 title: 'Number of variables 2';
 				 key: 'variables';
 				 dataIndex: 'numberOfVariables';
-				 yourself) }.
-	self waitTestingSpaces.
-	self assert: (table header) nodeContainer middleContainer children size equals: 3.
+				 yourself) } ].
+	self
+		assert: table header nodeContainer middleContainer children size
+		equals: 3.
+
 	rows := table selectChildrenWithId: #row.
 	self assert: rows isNotEmpty.
 	rows do: [ :row | self assert: row children size equals: 3 ]
@@ -63,9 +66,9 @@ ToTableElementTest >> testAddColumn [
 ToTableElementTest >> testAddElementInData [
 
 	self assert: (table selectChildrenWithId: #row) size equals: 3.
-	table dataAccessor addAll:
-		(Smalltalk globals allClasses copyFrom: 4 to: 6).
-	self waitTestingSpaces.
+
+	space deferAndSettle: [
+		table dataAccessor addAll: { Number. Float. Integer } ].
 	self assert: (table selectChildrenWithId: #row) size equals: 6
 ]
 

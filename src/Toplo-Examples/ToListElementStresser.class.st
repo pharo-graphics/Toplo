@@ -31,7 +31,7 @@ ToListElementStresser class >> run [
 ToListElementStresser class >> runInSDL [
 
 	<script>
-	self new runInHost: BlOSWindowSDL2Host new
+	self new runInHost: BlOSWindowSDL2Host default
 ]
 
 { #category : #actions }

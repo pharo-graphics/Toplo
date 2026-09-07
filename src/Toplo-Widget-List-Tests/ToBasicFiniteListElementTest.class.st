@@ -7,13 +7,6 @@ Class {
 	#category : #'Toplo-Widget-List-Tests-Core-FiniteListElement'
 }
 
-{ #category : #running }
-ToBasicFiniteListElementTest >> setUp [ 
-
-	super setUp.
-	l := ToBasicListElement finite.
-]
-
 { #category : #accessing }
 ToBasicFiniteListElementTest >> statesOfAmerica [
 
@@ -31,8 +24,20 @@ ToBasicFiniteListElementTest >> statesOfAmerica [
 { #category : #tests }
 ToBasicFiniteListElementTest >> testDataAccessorAddAll [
 
+	l := ToBasicListElement finite.
 	l dataAccessor addAll: self statesOfAmerica.
-	self waitTestingSpaces.
-	self assert: l dataSource size equals: self statesOfAmerica size.
-	space root addChild: l
+	space deferAndSettle: [ space root addChild: l ].
+
+	self assert: l dataSource size equals: self statesOfAmerica size
+]
+
+{ #category : #tests }
+ToBasicFiniteListElementTest >> testDataAccessorAddAllAfterAttach [
+
+	l := ToBasicListElement finite.
+	space deferAndSettle: [
+		space root addChild: l.
+		l dataAccessor addAll: self statesOfAmerica ].
+
+	self assert: l dataSource size equals: self statesOfAmerica size
 ]

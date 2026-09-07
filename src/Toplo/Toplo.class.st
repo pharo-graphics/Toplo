@@ -18,14 +18,17 @@ Toplo class >> announcer [
 { #category : #initialization }
 Toplo class >> closeAllSpaces [
 
-	BlOSWindowSDL2Host universe closeSpaces.
-	BlOSWindowSDL2Host
-		stop;
-		start.
-	BlMorphicWindowHost universe closeSpaces.
-	BlMorphicWindowHost
-		stop;
-		start
+	self
+		deprecated: 'Use #closeSpaces instead'
+		transformWith: '`@receiver closeAllSpaces' -> '`@receiver closeSpaces'.
+
+	self closeSpaces
+]
+
+{ #category : #initialization }
+Toplo class >> closeSpaces [
+
+	Bloc closeSpaces
 ]
 
 { #category : #settings }

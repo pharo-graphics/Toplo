@@ -13,9 +13,11 @@ ToBasicWindowElementTest >> testClose [
 	| w |
 	w := ToBasicWindowElement new.
 	self assert: w isClosed.
-	space root addChild: w.
+
+	space deferAndSettle: [ space root addChild: w ].
 	self deny: w isClosed.
-	w close.
+
+	space deferAndSettle: [ w close ].
 	self assert: w isClosed.
 	self deny: w isOpened 
 
@@ -54,7 +56,8 @@ ToBasicWindowElementTest >> testIsClosed [
 	| w |
 	w := ToBasicWindowElement new.
 	self assert: w isClosed.
-	space root addChild: w.
+
+	space deferAndSettle: [ space root addChild: w ].
 	self deny: w isClosed
 ]
 
@@ -64,7 +67,8 @@ ToBasicWindowElementTest >> testIsOpened [
 	| w |
 	w := ToBasicWindowElement new.
 	self assert: w isClosed.
-	space root addChild: w.
+
+	space deferAndSettle: [ space root addChild: w ].
 	self assert: w isOpened
 ]
 

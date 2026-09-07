@@ -54,14 +54,14 @@ BlSpace >> needSkinInstallPass [
 BlSpace >> needSkinInstallPass: aBoolean [
 
 	self phasesManager needSkinInstallPass: aBoolean.
-	aBoolean ifTrue: [ self requestNextPulse ]
+	aBoolean ifTrue: [ self requestPulse ]
 ]
 
 { #category : #'*Toplo' }
 BlSpace >> needSkinStateApplicationPass: aBoolean [
 
 	self phasesManager needSkinStateApplicationPass: aBoolean.
-	aBoolean ifTrue: [ self requestNextPulse ]
+	aBoolean ifTrue: [ self requestPulse ]
 ]
 
 { #category : #'*Toplo' }
@@ -80,7 +80,7 @@ BlSpace >> phasesManager [
 BlSpace >> requestNewConfigurationPass [
 
 	self phasesManager requestNewConfigurationPass.
-	self requestNextPulse 
+	self requestPulse 
 ]
 
 { #category : #'*Toplo' }

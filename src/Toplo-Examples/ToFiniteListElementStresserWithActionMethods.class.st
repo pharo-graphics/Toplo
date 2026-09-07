@@ -171,7 +171,7 @@ ToFiniteListElementStresserWithActionMethods >> processBlock [
 		  self maxRound timesRepeat: [
 				  round := round + 1.
 				  self selectActionsToRun shuffled do: [ :act |
-					  list inUIProcessDo: [ self perform: act with: list ] ] ].
+					  list deferOrValue: [ self perform: act with: list ] ] ].
 		  endTime := DateAndTime now.
 		  (endTime - startTime) asDuration traceCr ]
 ]

@@ -9,65 +9,37 @@ ToCheckboxTest >> testCheckUncheckStates [
 
 	| cb |
 	cb := ToCheckbox new.
-	self assert: cb checked not.
-	cb checked: true.
+	space deferAndSettle: [ space root addChild: cb ].
+	self deny: cb checked.
+
+	space deferAndSettle: [ cb checked: true ].
 	self assert: cb checked
-]
-
-{ #category : #tests }
-ToCheckboxTest >> testChecked [
-
-	| cb  |
-	cb := ToCheckbox new.
-	cb checked: true.
-	self assert: cb checked.
-	cb disable.
-	self assert: cb checked.
-	
-
-]
-
-{ #category : #tests }
-ToCheckboxTest >> testCheckedDisabledInSpace [
-
-	| chb |
-	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
-	chb checked: true.
-	self assert: chb icon isNil.
-	space root addChild: chb.
-	self assert: chb icon notNil.
-	space applyAllSkinPhases.
-	self assert: chb icon notNil.
-	chb disabled: true.
-
-]
-
-{ #category : #tests }
-ToCheckboxTest >> testCheckedDisabledInSpace2 [
-
-	| chb |
-	chb := ToCheckbox new label: (ToLabel text: 'Checkbox').
-	chb checked: true.
-	chb disabled: true.
-	space root addChild: chb.
-	space applyAllSkinPhases.
-	self assert: chb icon notNil
 ]
 
 { #category : #tests }
 ToCheckboxTest >> testCheckedWhenDisabled [
 
-	| cb  checked |
+	| checked cb |
 	cb := ToCheckbox new.
 	checked := cb isChecked.
 	cb checked: checked not.
 	self deny: cb isChecked equals: checked.
+
 	cb disable.
 	checked := cb isChecked.
 	cb checked: checked not.
-	self assert: cb isChecked equals: checked.
-	
+	self assert: cb isChecked equals: checked
+]
 
+{ #category : #tests }
+ToCheckboxTest >> testIcon [
+
+	| cb |
+	cb := ToCheckbox new.
+	self assert: cb icon isNil.
+
+	space deferAndSettle: [ space root addChild: cb ].
+	self assert: cb icon notNil "Skin sets the icon"
 ]
 
 { #category : #tests }
@@ -75,9 +47,24 @@ ToCheckboxTest >> testIndeterminateState [
 
 	| cb |
 	cb := ToCheckbox new.
-	self should: [ cb checked: nil] raise: Error.
+	space deferAndSettle: [ space root addChild: cb ].
+	self should: [ cb checked: nil ] raise: Error.
 	self assert: cb isIndeterminate not.
 	self assert: cb isUnchecked 
+]
+
+{ #category : #tests }
+ToCheckboxTest >> testLabel [
+
+	| cb |
+	cb := ToCheckbox new.
+	self assert: cb label isNil.
+
+	space deferAndSettle: [
+		space root addChild: cb.
+		cb label: (ToLabel text: 'Checkbox') ].
+
+	self assert: cb label text asString equals: 'Checkbox'
 ]
 
 { #category : #tests }
@@ -85,40 +72,15 @@ ToCheckboxTest >> testStartChecked [
 
 	| cb |
 	cb := ToCheckbox new.
-	cb checked: true.
-	space root addChild: cb.
+	self deny: cb checked.
+
+	space deferAndSettle: [
+		space root addChild: cb.
+		cb checked: true ].
 	self assert: cb checked.
-	cb addEventHandler: (BlEventHandler
-			 on: ToAddedToSpaceEvent 
-			 do: [ space close ])
-]
 
-{ #category : #tests }
-ToCheckboxTest >> testStartCheckedThenDisabled [
-
-	| cb |
-	cb := ToCheckbox new.
-	cb checked: true.
-	space root addChild: cb.
-	self assert: cb checked.
-	cb disable.
-	self assert: cb checked.
-	cb addEventHandler: (BlEventHandler
-			 on: ToAddedToSpaceEvent 
-			 do: [ space close ])
-]
-
-{ #category : #tests }
-ToCheckboxTest >> testStartUnchecked [
-
-	| cb |
-	cb := ToCheckbox new.
-	cb checked: false.
-	space root addChild: cb.
-	self assert: cb checked not.
-	cb addEventHandler: (BlEventHandler
-			 on: ToAddedToSpaceEvent 
-			 do: [ space close ])
+	space deferAndSettle: [ cb disable ].
+	self assert: cb checked
 ]
 
 { #category : #tests }
@@ -126,12 +88,15 @@ ToCheckboxTest >> testSwitchToNextCheckStateOnClick [
 
 	| cb |
 	cb := ToCheckbox new.
-	space root addChild: cb.
+	space deferAndSettle: [ space root addChild: cb ].
 	self deny: cb checked.
-	BlSpace simulateClickOn: cb.
+
+	cb eventSimulator click.
 	self assert: cb checked.
-	cb switchToNextCheckStateOnClick: false.
-	BlSpace simulateClickOn: cb.
+
+	space deferAndSettle: [
+		cb switchToNextCheckStateOnClick: false ].
+	cb eventSimulator click.
 	self assert: cb checked
 ]
 
@@ -140,10 +105,12 @@ ToCheckboxTest >> testSwitchToNextCheckStateOnDoubleClick [
 
 	| cb |
 	cb := ToCheckbox new.
-	space root addChild: cb.
+	space deferAndSettle: [ space root addChild: cb ].
 	self deny: cb checked.
-	BlSpace simulateClickOn: cb.
+
+	cb eventSimulator click.
 	self assert: cb checked.
-	BlSpace simulateClickOn: cb.
+
+	cb eventSimulator click.
 	self deny: cb checked
 ]

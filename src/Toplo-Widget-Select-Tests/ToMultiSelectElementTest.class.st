@@ -15,11 +15,13 @@ ToMultiSelectElementTest >> testAddDataAndSelectIndex [
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
-	cb popupDataAccessor addAll: {
+	space deferAndSettle: [
+		space root addChild: cb.
+		cb popupDataAccessor addAll: {
 			d1.
 			d2.
 			d3 }.
-	cb selecter selectOneMoreIndex: 1.
+		cb selecter selectOneMoreIndex: 1 ].
 	self assert: cb popupDataAccessor size equals: 3.
 	self assert: cb selecter selectedIndex equals: 1.
 	self
@@ -33,10 +35,12 @@ ToMultiSelectElementTest >> testAddRemoveOneStringData [
 	| cb d |
 	cb := ToMultiSelectElement new.
 	d := '#1'.
-
-	cb popupDataAccessor add: d.
+	space deferAndSettle: [
+		space root addChild: cb.
+		cb popupDataAccessor add: d ].
 	self assert: cb popupDataAccessor size equals: 1.
-	cb popupDataAccessor remove: d.
+
+	space deferAndSettle: [ cb popupDataAccessor remove: d ].
 	self assert: cb popupDataAccessor isEmpty
 ]
 
@@ -46,7 +50,9 @@ ToMultiSelectElementTest >> testNoSelectedData [
 	| cb d |
 	cb := ToMultiSelectElement new.
 	d := { '#1'. '#2'. '#3'. '#4'. '#5' }.
-	cb popupDataAccessor addAll: d.
+	space deferAndSettle: [
+		space root addChild: cb.
+		cb popupDataAccessor addAll: d ].
 	self assert: cb selecter selectedIndex isZero.
 	self assert: cb selecter selectedIndexes isEmpty
 
@@ -57,10 +63,10 @@ ToMultiSelectElementTest >> testNoSelectedData2 [
 
 	| cb |
 	cb := ToMultiSelectElement new.
-	space root addChild: cb.
+	space deferAndSettle: [ space root addChild: cb ].
 	self assert: cb selecter selectedIndex isZero.
-	cb selecter selectOneMoreIndex: 0.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ cb selecter selectOneMoreIndex: 0 ].
 	self assert: cb selecter selectedIndex isZero
 ]
 
@@ -69,23 +75,21 @@ ToMultiSelectElementTest >> testRemove [
 
 	| cb d1 d2 d3 |
 	cb := ToMultiSelectElement new.
-	space root addChild: cb.
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
-	cb popupDataAccessor addAll: {
+	space deferAndSettle: [
+		space root addChild: cb.
+		cb popupDataAccessor addAll: {
 			d1.
 			d2.
 			d3 }.
-	cb popupListElement forceLayout.
-	self waitTestingSpaces.
-	cb selecter selectOneMoreIndex: 1.
-	self waitTestingSpaces.
+		cb manager popup.
+		cb selecter selectOneMoreIndex: 1 ].
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement nodes size equals: 1.
-	cb popupDataAccessor removeFirst.
-	cb popupListElement forceLayout.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ cb popupDataAccessor removeFirst ].
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement nodes isEmpty
 ]
@@ -95,22 +99,21 @@ ToMultiSelectElementTest >> testRemove1 [
 
 	| cb d1 d2 d3 |
 	cb := ToMultiSelectElement new.
-	space root addChild: cb.
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
-	cb popupDataAccessor addAll: {
+	space deferAndSettle: [
+		space root addChild: cb.
+		cb popupDataAccessor addAll: {
 			d1.
 			d2.
 			d3 }.
-	cb popupListElement forceLayout.
-	cb selecter selectOneMoreIndex: 1.
-	self waitTestingSpaces.
+		cb manager popup.
+		cb selecter selectOneMoreIndex: 1 ].
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement nodes size equals: 1.
-	cb popupDataAccessor removeAt: 1.
-	cb popupListElement forceLayout.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ cb popupDataAccessor removeAt: 1 ].
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement nodes isEmpty
 ]
@@ -120,22 +123,21 @@ ToMultiSelectElementTest >> testRemove2 [
 
 	| cb d1 d2 d3 |
 	cb := ToMultiSelectElement new.
-	space root addChild: cb.
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
-	cb popupDataAccessor addAll: {
+	space deferAndSettle: [
+		space root addChild: cb.
+		cb popupDataAccessor addAll: {
 			d1.
 			d2.
 			d3 }.
-	cb popupListElement forceLayout.
-	cb selecter selectOneMoreIndex: 1.
-	self waitTestingSpaces.
+		cb manager popup.
+		cb selecter selectOneMoreIndex: 1 ].
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement nodes size equals: 1.
-	cb popupDataAccessor removeFrom: 1 to: 1.
-	cb popupListElement forceLayout.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ cb popupDataAccessor removeFrom: 1 to: 1 ].
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement nodes isEmpty
 ]
@@ -145,22 +147,21 @@ ToMultiSelectElementTest >> testRemove3 [
 
 	| cb d1 d2 d3 |
 	cb := ToMultiSelectElement new.
-	space root addChild: cb.
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
-	cb popupDataAccessor addAll: {
+	space deferAndSettle: [
+		space root addChild: cb.
+		cb popupDataAccessor addAll: {
 			d1.
 			d2.
 			d3 }.
-	cb popupListElement forceLayout.
-	cb selecter selectOneMoreIndex: 1.
-	self waitTestingSpaces.
+		cb manager popup.
+		cb selecter selectOneMoreIndex: 1 ].
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement nodes size equals: 1.
-	cb popupDataAccessor removeFrom: 1 to: 2.
-	cb popupListElement forceLayout.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ cb popupDataAccessor removeFrom: 1 to: 2 ].
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement nodes isEmpty
 ]
@@ -173,15 +174,18 @@ ToMultiSelectElementTest >> testRemove4 [
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
-	cb popupDataAccessor addAll: {
+	space deferAndSettle: [
+		space root addChild: cb.
+		cb popupDataAccessor addAll: {
 			d1.
 			d2.
 			d3 }.
-	cb selecter selectIndex: 1.
-	self waitTestingSpaces.
+		cb manager popup.
+		cb selecter selectIndex: 1 ].
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement nodes size equals: 1.
-	cb popupDataAccessor removeFrom: 1 to: 3.
+
+	space deferAndSettle: [ cb popupDataAccessor removeFrom: 1 to: 3 ].
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement nodes isEmpty
 ]
@@ -191,26 +195,23 @@ ToMultiSelectElementTest >> testRemove5 [
 
 	| cb d1 d2 d3 d4 |
 	cb := ToMultiSelectElement new.
-	space root addChild: cb.
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
 	d4 := '#4'.
-	cb popupDataAccessor addAll: {
+	space deferAndSettle: [
+		space root addChild: cb.
+		cb popupDataAccessor addAll: {
 			d1.
 			d2.
 			d3.
 			d4 }.
-	cb popupListElement forceLayout.
-	self waitTestingSpaces.
-	cb selecter selectOneMoreIndex: 1.
-	self waitTestingSpaces.
+		cb manager popup.
+		cb selecter selectOneMoreIndex: 1 ].
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb innerElement nodes size equals: 1.
 
-	cb popupDataAccessor removeFrom: 1 to: 3.
-	cb popupListElement forceLayout.
-	self waitTestingSpaces.
+	space deferAndSettle: [ cb popupDataAccessor removeFrom: 1 to: 3 ].
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb innerElement nodes isEmpty
 ]
@@ -220,23 +221,22 @@ ToMultiSelectElementTest >> testRemoveAll [
 
 	| cb d1 d2 d3 |
 	cb := ToMultiSelectElement new.
-	space root addChild: cb.
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
-	cb popupDataAccessor addAll: {
+	space deferAndSettle: [
+		space root addChild: cb.
+		cb popupDataAccessor addAll: {
 			d1.
 			d2.
 			d3 }.
-	cb popupListElement forceLayout.
-	cb selecter selectIndex: 1.
-	self waitTestingSpaces.
+		cb selecter selectIndex: 1 ].
+
 	self assert: cb selecter selectedIndex equals: 1.
 	self assert: cb header nodes size equals: 1.
 
-	cb popupDataAccessor removeAll.
-	cb popupListElement forceLayout.
-	self waitTestingSpaces.
+	space deferAndSettle: [ cb popupDataAccessor removeAll ].
+
 	self assert: cb selecter selectedIndexes equals: {  }.
 	self assert: cb header nodes isEmpty
 ]
@@ -249,11 +249,14 @@ ToMultiSelectElementTest >> testSelectAll [
 	d1 := '#1'.
 	d2 := '#2'.
 	d3 := '#3'.
-	cb popupDataAccessor addAll: {
+	space deferAndSettle: [
+		space root addChild: cb.
+		cb popupDataAccessor addAll: {
 			d1.
 			d2.
-			d3 }.
-	cb selecter selectAll.
+			d3 } ].
+	space deferAndSettle: [
+		cb selecter selectAll ].
 	self assert: cb selecter selectedIndexes equals: #(1 2 3).
 	self assert: cb innerElement nodes size equals: 3
 ]
@@ -263,16 +266,17 @@ ToMultiSelectElementTest >> testWithStructuredData [
 
 	| cb d idx selectedData |
 	cb := ToMultiSelectElement new.
-	space root addChild: cb.
-	cb popupListElement nodeBuilder: [ :node :assoc :holder |
-		node label: (ToLabel text: assoc key) ].
-	cb nodeBuilder: [ :node :assoc |
-		node label: (ToLabel text: assoc key) ].
-	cb popupListElement dataAccessor addAll: (d := {
-			      ('Bee Theme' -> ToBeeTheme).
-			      ('Raw Theme' -> ToRawTheme) }).
-	cb selecter selectOneMoreIndex: 1.
-	self waitTestingSpaces.
+	d := {
+      ('Bee Theme' -> ToBeeTheme).
+      ('Raw Theme' -> ToRawTheme) }.
+	space deferAndSettle: [
+		space root addChild: cb.
+		cb popupListElement nodeBuilder: [ :node :assoc :holder |
+			node label: (ToLabel text: assoc key) ].
+		cb nodeBuilder: [ :node :assoc |
+			node label: (ToLabel text: assoc key) ].
+		cb popupListElement dataAccessor addAll: d.
+		cb selecter selectOneMoreIndex: 1 ].
 	self assert: cb selectionModel selectedIndexesCount equals: 1.
 	idx := cb selectionModel selectedIndexes first.
 	selectedData := cb popupListElement dataAccessor at: idx.
@@ -280,8 +284,8 @@ ToMultiSelectElementTest >> testWithStructuredData [
 	self
 		assert: cb innerElement nodes first label text asString
 		equals: d first key.
-	cb selecter deselectAll.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ cb selecter deselectAll ].
 	self assert: cb selectionModel selectedIndexes isEmpty.
 	self assert: cb innerElement nodes isEmpty
 ]

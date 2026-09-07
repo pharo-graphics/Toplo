@@ -163,26 +163,27 @@ ToBasicInfiniteListElementStressTest >> randIndex [
 { #category : #tests }
 ToBasicInfiniteListElementStressTest >> runStress [
 
-	| sem |
-	list dataAccessor addAll:
-		((1 to: size) collect: [ :i | 'Hello ' , i asString ]).
-	list matchParent.
+	| isFinished |
+	space deferAndSettle: [ 
+		list dataAccessor addAll:
+			((1 to: size) collect: [ :i | 'Hello ' , i asString ]).
+		list matchParent.
+		space root addChild: list ].
 
-	sem := Semaphore new.
+	isFinished := false.
 	process := [
-		           round := 0.
-		           maxRound timesRepeat: [
-				           round := round + 1.
-				           self selectActionsToRun shuffled do: [ :act |
-					           self perform: act with: list ] ].
-		           sem signal ] newProcess.
+		round := 0.
+		maxRound timesRepeat: [
+			round := round + 1.
+			self selectActionsToRun shuffled do: [ :act |
+				space deferAndSettle: [ self perform: act with: list ] ] ].
+		isFinished := true ] newProcess.
 	process name: self class name.
 
-	space root addChild: list.
-	self waitTestingSpaces.
-
 	process resume.
-	sem wait.
+	
+	space waitUntilTrue: [ isFinished ].
+
 	self assert: round equals: maxRound
 ]
 
@@ -205,9 +206,8 @@ ToBasicInfiniteListElementStressTest >> setUp [
 { #category : #running }
 ToBasicInfiniteListElementStressTest >> tearDown [
 
-	process terminate.
-	super tearDown.
-
+	process ifNotNil: [ process terminate ].
+	super tearDown
 ]
 
 { #category : #tests }

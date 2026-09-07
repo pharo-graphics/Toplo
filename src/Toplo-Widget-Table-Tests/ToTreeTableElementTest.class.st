@@ -21,8 +21,9 @@ ToTreeTableElementTest >> setUp [
 	tree nodeManager childrenGetter: [ :dataItem |
 			Array streamContents: [ :stream |
 				dataItem do: [ :c | stream nextPut: c asSymbol ] ] ].
-	tree dataAccessor addAll: { #AAA. #BBB. #CCC }.
-	space root addChild: tree
+	space deferAndSettle: [
+		tree dataAccessor addAll: { #AAA. #BBB. #CCC }.
+		space root addChild: tree ]
 ]
 
 { #category : #'expanding-collapsing tests' }
@@ -31,14 +32,14 @@ ToTreeTableElementTest >> testCollapse [
 
 	| wrapper size |
 	"get the second node wrapper"
-	wrapper := tree dataSource at: 2.
+	wrapper := tree dataSource second.
 	"expand it, then no event should be dispateched"
 	size := tree dataSource size.
-	wrapper expand.
-	wrapper collapse.
+	space deferAndSettle: [
+		wrapper expand.
+		wrapper collapse ].
 	self deny: wrapper isExpanded.
-	self assert: tree dataSource size equals: size.
-	^ wrapper
+	self assert: tree dataSource size equals: size
 ]
 
 { #category : #'expanding-collapsing tests' }
@@ -48,20 +49,22 @@ ToTreeTableElementTest >> testCollapseWithSelectionBeforeCollapsedWrapper [
 
 	| selChangedEvent wrapper size |
 	selChangedEvent := nil.
-	tree selecter selectIndex: 1.
-	self waitTestingSpaces.
+	space deferAndSettle: [ tree selecter selectIndex: 1 ].
 	tree
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent
 		do: [ :event | selChangedEvent := event ].
+
 	" get the second node wrapper "
-	wrapper := tree dataSource at: 2.
+	wrapper := tree dataSource second.
+
 	"expand it, then no event should be dispateched"
 	size := tree dataSource size.
-	wrapper expand.
+	space deferAndSettle: [ wrapper expand ].
 	self assert: selChangedEvent isNil.
 	self assert: tree selecter selectedIndexes equals: { 1 }.
 	selChangedEvent := nil.
-	wrapper collapse.
+
+	space deferAndSettle: [ wrapper collapse ].
 	self assert: wrapper isCollapsed.
 	self assert: selChangedEvent isNil.
 	self assert: tree selecter selectedIndexes equals: { 1 }
@@ -72,15 +75,15 @@ ToTreeTableElementTest >> testExpand [
 
 	" the data source size increases when expanding a wrapper  "
 	| wrapper size |
+
 	" get the second node wrapper "
-	wrapper := tree dataSource at: 2.
+	wrapper := tree dataSource second.
+
 	"expand it, then no event should be dispateched"
 	size := tree dataSource size.
-	wrapper expand.
+	space deferAndSettle: [ wrapper expand ].
 	self assert: wrapper isExpanded.
-	self assert: tree dataSource size equals: size + 3.
-	^ wrapper
-
+	self assert: tree dataSource size equals: size + 3
 ]
 
 { #category : #'expanding-collapsing tests' }
@@ -91,11 +94,13 @@ ToTreeTableElementTest >> testExpandWithEmptySelection [
 	tree
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent
 		do: [ :event | selChangedEvent := event ].
+
 	" get the second node wrapper "
-	wrapper := tree dataSource at: 2.
+	wrapper := tree dataSource second.
+
 	"expand it, then no event should be dispateched"
 	size := tree dataSource size.
-	wrapper expand.
+	space deferAndSettle: [ wrapper expand ].
 	self assert: wrapper isExpanded.
 	self assert: tree dataSource size equals: size + 3.
 	self assert: selChangedEvent isNil
@@ -106,16 +111,15 @@ ToTreeTableElementTest >> testExpandWithSelectionBeforeExpandedWrapper [
 
 	| selChangedEvent wrapper size |
 	selChangedEvent := nil.
-	tree selecter selectIndex: 1.
-	self waitTestingSpaces.
+	space deferAndSettle: [ tree selecter selectIndex: 1 ].
 	tree
 		addEventHandlerOn: ToListPrimarySelectionChangedEvent
 		do: [ :event | selChangedEvent := event ].
 	" get the second node wrapper "
-	wrapper := tree dataSource at: 2.
+	wrapper := tree dataSource second.
 	"expand it, then no event should be dispateched"
 	size := tree dataSource size.
-	wrapper expand.
+	space deferAndSettle: [ wrapper expand ].
 	self assert: wrapper isExpanded.
 	self assert: tree dataSource size equals: size + 3.
 	self assert: selChangedEvent isNil.

@@ -12,14 +12,14 @@ ToOverlayWindowManagerTest >> testDefaultSizeHook [
 
 	| e windowManager win |
 	e := ToElement new.
-	space root addChild: e.
-	e position: 10 asPoint.
-	e extent: 10 asPoint.
+	space deferAndSettle: [
+		space root addChild: e.
+		e position: 10 asPoint.
+		e extent: 10 asPoint ].
 	windowManager := ToAnchoredWindowManager overlay.
 	e addEventHandler: windowManager.
 	win := windowManager createNewWindowOnEvent: nil.
-	win popup.
-	self waitTestingSpaces.
+	space deferAndSettle: [ win popup ].
 	self
 		assert: win measuredBounds inSpace extent
 		equals: e bounds inSpace extent
@@ -30,20 +30,18 @@ ToOverlayWindowManagerTest >> testElementEventHandlerClass [
 
 	| win e windowManager |
 	e := ToElement new.
-	space root addChild: e.
-	self waitTestingSpaces.
+	space deferAndSettle: [ space root addChild: e ].
 
 	windowManager := ToAnchoredWindowManager overlay.
 	e addEventHandler: windowManager.
 	win := windowManager createNewWindowOnEvent: nil.
-	win popup.
-	self waitTestingSpaces.
+	space deferAndSettle: [ win popup ].
 	self assert: win anchorElement equals: e.
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: ToAnchoredWindowManager ]).
-	win close.
+		eh isKindOf: ToAnchoredWindowManager ]).
+	space deferAndSettle: [ win close ].
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
-			 eh isKindOf: ToAnchoredWindowManager ])
+		eh isKindOf: ToAnchoredWindowManager ])
 ]
 
 { #category : #tests }
@@ -51,16 +49,16 @@ ToOverlayWindowManagerTest >> testElementExtentChangedEvent [
 
 	| e windowManager win |
 	e := ToElement new.
-	space root addChild: e.
-	e position: 10 asPoint.
-	e extent: 10 asPoint.
+	space deferAndSettle: [
+		space root addChild: e.
+		e position: 10 asPoint.
+		e extent: 10 asPoint ].
 	windowManager := ToAnchoredWindowManager overlay.
 	e addEventHandler: windowManager.
 	win := windowManager createNewWindowOnEvent: nil.
-	win popup.
-	self waitTestingSpaces.
+	space deferAndSettle: [ win popup ].
 	self assert: win bounds inSpace extent equals: 10 asPoint.
-	e extent: 100 asPoint.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ e extent: 100 asPoint ].
 	self assert: win bounds inSpace extent equals: 100 asPoint
 ]

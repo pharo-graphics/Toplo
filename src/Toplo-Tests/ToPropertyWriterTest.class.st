@@ -54,7 +54,7 @@ ToPropertyWriterTest >> testAnimationNeedPropertyWithReader [
 	propWriter animation: anim.
 	propWriter writeTo: w.
 
-	self waitTestingSpacesTimeout: 300 milliSeconds.
+	space waitUntilTrue: [ onFinishedDone ] forDuration: 1 second.
 	self assert: onFinishedDone
 ]
 
@@ -147,7 +147,7 @@ ToPropertyWriterTest >> testReceiveEventWithFeaturePropertyWithAnimationWithRawV
 	propWriter eventClass: ToHoveredSkinEvent.
 	propWriter animation: (anim := ToBackgroundColorAnimationForTest new property: prop).
 	target := BlElement new.
-	space root addChild: target.
+	space deferAndSettle: [ space root addChild: target ].
 	wasHere := false.
 	anim onFinishedDo: [ :w |
 		wasHere := true.
@@ -155,8 +155,8 @@ ToPropertyWriterTest >> testReceiveEventWithFeaturePropertyWithAnimationWithRawV
 		self assert: target background paint color equals: Color blue.
 		self assert: (prop read: target) equals: target background ].
 	propWriter receiveEvent: (ToHoveredSkinEvent new currentTarget: target).
-	" have to wait animation termination ".
-	self waitTestingSpaces.
+	" have to wait animation termination "
+	space settle.
 	self assert: wasHere.
 	self assert: target background paint color equals: Color blue
 ]
@@ -173,7 +173,7 @@ ToPropertyWriterTest >> testReceiveEventWithFeaturePropertyWithAnimationWithValu
 	propWriter eventClass: ToHoveredSkinEvent.
 	propWriter animation: (anim := ToBackgroundColorAnimationForTest new property: prop).
 	target := BlElement new.
-	space root addChild: target.
+	space deferAndSettle: [ space root addChild: target ].
 	wasHere := false.
 	anim onFinishedDo: [ :w |
 		wasHere := true.
@@ -185,7 +185,7 @@ ToPropertyWriterTest >> testReceiveEventWithFeaturePropertyWithAnimationWithValu
 	self assert: target2 identicalTo: target.
 	" have to wait animation termination "
 	self assert: target background paint isNil.
-	self waitTestingSpaces.
+	space settle.
 	self assert: wasHere.
 	self assert: target background paint color equals: Color blue
 ]
@@ -263,7 +263,7 @@ ToPropertyWriterTest >> testWithFeaturePropertyAndAnimation [
 
 	| w prop propWriter anim wasHere |
 	w := BlElement new.
-	space root addChild: w.
+	space deferAndSettle: [ space root addChild: w ].
 	prop := ToFeatureProperty new.
 	prop name: #background.
 	propWriter := ToPropertyWriter new.
@@ -277,7 +277,7 @@ ToPropertyWriterTest >> testWithFeaturePropertyAndAnimation [
 		self assert: w background paint color equals: Color blue.
 		self assert: (prop read: w) equals: w background ].
 	propWriter writeTo: w.
-	self waitTestingSpaces.
+	space settle.
 	self assert: wasHere
 ]
 
@@ -337,7 +337,7 @@ ToPropertyWriterTest >> testWithPseudoPropertyAndAnimation [
 
 	| w prop propWriter anim wasHere |
 	w := BlElement new.
-	space root addChild: w.
+	space deferAndSettle: [ space root addChild: w ].
 	prop := ToPseudoProperty new.
 	prop writer: [ :e :v | e background: v ].
 	prop reader: [ :e | e background ].
@@ -353,7 +353,7 @@ ToPropertyWriterTest >> testWithPseudoPropertyAndAnimation [
 		self assert: w background paint color equals: Color blue.
 		self assert: (prop read: w) equals: w background ].
 	propWriter writeTo: w.
-	self waitTestingSpaces.
+	space settle.
 	self assert: wasHere
 ]
 
@@ -362,7 +362,7 @@ ToPropertyWriterTest >> testWithPseudoPropertyWithValuableAndAnimation [
 
 	| w prop propWriter anim w2 wasHere |
 	w := BlElement new.
-	space root addChild: w.
+	space deferAndSettle: [ space root addChild: w ].
 	prop := ToPseudoProperty new.
 	prop writer: [ :e :v | e background: v ].
 	prop reader: [ :e | e background ].
@@ -379,7 +379,7 @@ ToPropertyWriterTest >> testWithPseudoPropertyWithValuableAndAnimation [
 		self assert: w background paint color equals: Color blue.
 		self assert: (prop read: w) equals: w background ].
 	propWriter writeTo: w.
-	self waitTestingSpaces.
+	space settle.
 	self assert: wasHere
 ]
 

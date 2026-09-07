@@ -10,160 +10,292 @@ Class {
 { #category : #'layout constraints' }
 ToLabeledIconEventHandlerTest >> testDirection [
 
-	| li |
+	| li newSkinRequested |
 	li := ToLabeledIcon new.
-	space root addChild: li.
+	space deferAndSettle: [ space root addChild: li ].
 
-	li beStartToEnd .
-	li skinManager forceNewSkinRequested: false in: li.
-	li direction: BlLayoutDirection rightToLeft.
-	self assert: li skinManager newSkinRequested.
-	li skinManager forceNewSkinRequested: false in: li.
-	li direction: BlLayoutDirection rightToLeft.
-	self deny: li skinManager newSkinRequested.
+	space deferAndSettle: [
+		li beStartToEnd.
+		li skinManager forceNewSkinRequested: false in: li.
+		li direction: BlLayoutDirection rightToLeft.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self assert: newSkinRequested.
 
-	li skinManager forceNewSkinRequested: false in: li.
-	li direction: BlLayoutDirection leftToRight.
-	self assert: li skinManager newSkinRequested.
-	li skinManager forceNewSkinRequested: false in: li.
-	li direction: BlLayoutDirection leftToRight.
-	self deny: li skinManager newSkinRequested.
+	space deferAndSettle: [
+		li skinManager forceNewSkinRequested: false in: li.
+		li direction: BlLayoutDirection rightToLeft.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self deny: newSkinRequested.
 
-	li direction: BlLayoutDirection rightToLeft.
-	self assert: li skinManager newSkinRequested
+	space deferAndSettle: [
+		li skinManager forceNewSkinRequested: false in: li.
+		li direction: BlLayoutDirection leftToRight.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self assert: newSkinRequested.
+
+	space deferAndSettle: [
+		li skinManager forceNewSkinRequested: false in: li.
+		li direction: BlLayoutDirection leftToRight.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self deny: newSkinRequested.
+
+	space deferAndSettle: [
+		li direction: BlLayoutDirection rightToLeft.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self assert: newSkinRequested
 ]
 
 { #category : #'layout constraints' }
 ToLabeledIconEventHandlerTest >> testLayoutDirectionChangedEvent [
 
-	| li |
+	| li newSkinRequested |
 	li := ToLabeledIcon new.
-	space root addChild: li.
-	li beStartToEnd.
-	li beEndToStart.
-	self assert: li skinManager newSkinRequested.
-	li skinManager forceNewSkinRequested: false in: li.
-	li beStartToEnd.
-	self assert: li skinManager newSkinRequested.
-	li skinManager forceNewSkinRequested: false in: li.
-	li startToEnd: false.
-	self assert: li skinManager newSkinRequested.
-	li skinManager forceNewSkinRequested: false in: li.
-	li startToEnd: true.
-	self assert: li skinManager newSkinRequested.
-	li skinManager forceNewSkinRequested: false in: li.
-	li endToStart: true.
-	self assert: li skinManager newSkinRequested.
-	li skinManager forceNewSkinRequested: false in: li.
-	li endToStart: false.
-	self assert: li skinManager newSkinRequested.
-	li skinManager forceNewSkinRequested: false in: li.
+	space deferAndSettle: [ space root addChild: li ].
+	
+	space deferAndSettle: [
+		li beStartToEnd.
+		li beEndToStart.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self assert: newSkinRequested.
 
+	space deferAndSettle: [
+		li skinManager forceNewSkinRequested: false in: li.
+		li beStartToEnd.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self assert: newSkinRequested.
+
+	space deferAndSettle: [
+		li skinManager forceNewSkinRequested: false in: li.
+		li startToEnd: false.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self assert: newSkinRequested.
+
+	space deferAndSettle: [
+		li skinManager forceNewSkinRequested: false in: li.
+		li startToEnd: true.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self assert: newSkinRequested.
+
+	space deferAndSettle: [
+		li skinManager forceNewSkinRequested: false in: li.
+		li endToStart: true.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self assert: newSkinRequested.
+
+	space deferAndSettle: [
+		li skinManager forceNewSkinRequested: false in: li.
+		li endToStart: false.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self assert: newSkinRequested.
+
+	space deferAndSettle: [
+		li skinManager forceNewSkinRequested: false in: li ]
 ]
 
 { #category : #'layout constraints' }
 ToLabeledIconEventHandlerTest >> testLayoutOrientationChangedEvent [
 
-	| li |
+	| li newSkinRequested |
 	li := ToLabeledIcon new.
-	space root addChild: li.
-	li beHorizontal.
-	li beVertical.
-	self assert: li skinManager newSkinRequested.
-	li skinManager forceNewSkinRequested: false in: li.
-	li beHorizontal.
-	self assert: li skinManager newSkinRequested.
-	li skinManager forceNewSkinRequested: false in: li.
-	li vertical: true.
-	self assert: li skinManager newSkinRequested.
-	li skinManager forceNewSkinRequested: false in: li.
-	li vertical: false.
-	self assert: li skinManager newSkinRequested.
-	li skinManager forceNewSkinRequested: false in: li.
-	li horizontal: false.
-	self assert: li skinManager newSkinRequested.
-	li skinManager forceNewSkinRequested: false in: li.
-	li horizontal: true.
-	self assert: li skinManager newSkinRequested.
-	li skinManager forceNewSkinRequested: false in: li.
+	space deferAndSettle: [ space root addChild: li ].
 
+	space deferAndSettle: [
+		li beHorizontal.
+		li beVertical.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self assert: newSkinRequested.
+
+	space deferAndSettle: [
+		li skinManager forceNewSkinRequested: false in: li.
+		li beHorizontal.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self assert: newSkinRequested.
+
+	space deferAndSettle: [
+		li skinManager forceNewSkinRequested: false in: li.
+		li vertical: true.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self assert: newSkinRequested.
+
+	space deferAndSettle: [
+		li skinManager forceNewSkinRequested: false in: li.
+		li vertical: false.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self assert: newSkinRequested.
+
+	space deferAndSettle: [
+		li skinManager forceNewSkinRequested: false in: li.
+		li horizontal: false.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self assert: newSkinRequested.
+
+	space deferAndSettle: [
+		li skinManager forceNewSkinRequested: false in: li.
+		li horizontal: true.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self assert: newSkinRequested.
+
+	space deferAndSettle: [
+		li skinManager forceNewSkinRequested: false in: li ]
 ]
 
 { #category : #'layout constraints' }
 ToLabeledIconEventHandlerTest >> testOrientation [
 
-	| li |
+	| li newSkinRequested |
 	li := ToLabeledIcon new.
-	space root addChild: li.
-	li beStartToEnd.
-	li skinManager forceNewSkinRequested: false in: li.
-	li orientation: BlLinearLayoutOrientation vertical.
-	self assert: li skinManager newSkinRequested.
-	li skinManager forceNewSkinRequested: false in: li.
-	li orientation: BlLinearLayoutOrientation vertical.
-	self deny: li skinManager newSkinRequested.
+	space deferAndSettle: [ space root addChild: li ].
 
-	li skinManager forceNewSkinRequested: false in: li.
-	li orientation: BlLinearLayoutOrientation horizontal.
-	self assert: li skinManager newSkinRequested.
-	li skinManager forceNewSkinRequested: false in: li.
-	li orientation: BlLinearLayoutOrientation horizontal.
-	self deny: li skinManager newSkinRequested
+	space deferAndSettle: [
+		li beStartToEnd.
+		li skinManager forceNewSkinRequested: false in: li.
+		li orientation: BlLinearLayoutOrientation vertical.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self assert: newSkinRequested.
+
+	space deferAndSettle: [
+		li skinManager forceNewSkinRequested: false in: li.
+		li orientation: BlLinearLayoutOrientation vertical.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self deny: newSkinRequested.
+
+	space deferAndSettle: [
+		li skinManager forceNewSkinRequested: false in: li.
+		li orientation: BlLinearLayoutOrientation horizontal.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self assert: newSkinRequested.
+
+	space deferAndSettle: [
+		li skinManager forceNewSkinRequested: false in: li.
+		li orientation: BlLinearLayoutOrientation horizontal.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self deny: newSkinRequested
 ]
 
 { #category : #'layout constraints' }
 ToLabeledIconEventHandlerTest >> testlayoutConstraintsChangedEvent [
 
-	| li |
+	| li newSkinRequested |
 	li := ToLabeledIcon new.
-	space root addChild: li.
-	li exact: 10 @ 10.
-	self deny: li skinManager newSkinRequested.
-	li skinManager forceNewSkinRequested: false in: li.
-	self deny: li skinManager newSkinRequested.
-	li fitContent.
-	self deny: li skinManager newSkinRequested.
-	li skinManager forceNewSkinRequested: false in: li.
-	self deny: li skinManager newSkinRequested.
-	li fitContentLimited.
-	self deny: li skinManager newSkinRequested.
-	li skinManager forceNewSkinRequested: false in: li.
-	self deny: li skinManager newSkinRequested.
-	li hExact: 20.
-	self deny: li skinManager newSkinRequested.
-	li skinManager forceNewSkinRequested: false in: li.
-	self deny: li skinManager newSkinRequested.
-	li hFitContent.
-	self deny: li skinManager newSkinRequested.
-	li skinManager forceNewSkinRequested: false in: li.
-	self deny: li skinManager newSkinRequested.
-	li hFitContentLimited.
-	self deny: li skinManager newSkinRequested.
-	li skinManager forceNewSkinRequested: false in: li.
-	self deny: li skinManager newSkinRequested.
-	li hMatchParent.
-	self deny: li skinManager newSkinRequested.
-	li skinManager forceNewSkinRequested: false in: li.
-	self deny: li skinManager newSkinRequested.
-	li matchParent.
-	self deny: li skinManager newSkinRequested.
-	li skinManager forceNewSkinRequested: false in: li.
-	self deny: li skinManager newSkinRequested.
-	li vExact: 20.
-	self deny: li skinManager newSkinRequested.
-	li skinManager forceNewSkinRequested: false in: li.
-	self deny: li skinManager newSkinRequested.
-	li vFitContent.
-	self deny: li skinManager newSkinRequested.
-	li skinManager forceNewSkinRequested: false in: li.
-	self deny: li skinManager newSkinRequested.
-	li vFitContentLimited.
-	self deny: li skinManager newSkinRequested.
-	li skinManager forceNewSkinRequested: false in: li.
-	self deny: li skinManager newSkinRequested.
-	li vMatchParent.
-	self deny: li skinManager newSkinRequested.
-	li skinManager forceNewSkinRequested: false in: li.
-	self deny: li skinManager newSkinRequested.
+	space deferAndSettle: [ space root addChild: li ].
 
+	space deferAndSettle: [
+		li exact: 10 @ 10.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self deny: newSkinRequested.
+
+	space deferAndSettle: [
+		li skinManager forceNewSkinRequested: false in: li.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self deny: newSkinRequested.
+
+	space deferAndSettle: [
+		li fitContent.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self deny: newSkinRequested.
+
+	space deferAndSettle: [
+		li skinManager forceNewSkinRequested: false in: li.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self deny: newSkinRequested.
+
+	space deferAndSettle: [
+		li fitContentLimited.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self deny: newSkinRequested.
+
+	space deferAndSettle: [
+		li skinManager forceNewSkinRequested: false in: li.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self deny: newSkinRequested.
+
+	space deferAndSettle: [
+		li hExact: 20.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self deny: newSkinRequested.
+
+	space deferAndSettle: [
+		li skinManager forceNewSkinRequested: false in: li.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self deny: newSkinRequested.
+
+	space deferAndSettle: [
+		li hFitContent.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self deny: newSkinRequested.
+
+	space deferAndSettle: [
+		li skinManager forceNewSkinRequested: false in: li.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self deny: newSkinRequested.
+
+	space deferAndSettle: [
+		li hFitContentLimited.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self deny: newSkinRequested.
+
+	space deferAndSettle: [
+		li skinManager forceNewSkinRequested: false in: li.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self deny: newSkinRequested.
+
+	space deferAndSettle: [
+		li hMatchParent.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self deny: newSkinRequested.
+
+	space deferAndSettle: [
+		li skinManager forceNewSkinRequested: false in: li.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self deny: newSkinRequested.
+
+	space deferAndSettle: [
+		li matchParent.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self deny: newSkinRequested.
+
+	space deferAndSettle: [
+		li skinManager forceNewSkinRequested: false in: li.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self deny: newSkinRequested.
+
+	space deferAndSettle: [
+		li vExact: 20.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self deny: newSkinRequested.
+
+	space deferAndSettle: [
+		li skinManager forceNewSkinRequested: false in: li.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self deny: newSkinRequested.
+
+	space deferAndSettle: [
+		li vFitContent.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self deny: newSkinRequested.
+
+	space deferAndSettle: [
+		li skinManager forceNewSkinRequested: false in: li.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self deny: newSkinRequested.
+
+	space deferAndSettle: [
+		li vFitContentLimited.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self deny: newSkinRequested.
+
+	space deferAndSettle: [
+		li skinManager forceNewSkinRequested: false in: li.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self deny: newSkinRequested.
+
+	space deferAndSettle: [
+		li vMatchParent.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self deny: newSkinRequested.
+
+	space deferAndSettle: [
+		li skinManager forceNewSkinRequested: false in: li.
+		newSkinRequested := li skinManager newSkinRequested ].
+	self deny: newSkinRequested
 ]

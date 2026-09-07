@@ -16,7 +16,7 @@ ToListElementSieveTest >> setUp [
 	super setUp.
 	list := ToListElement new.
 	sieve := list dataAccessor newSieve.
-	space root addChild: list
+	space deferAndSettle: [ space root addChild: list ]
 ]
 
 { #category : #accessing }
@@ -30,7 +30,7 @@ ToListElementSieveTest >> statesOfAmerica [
 		#'New York'. #'North Carolina'. #'North Dakota'. #Ohio. #Oklahoma.
 		#Oregon. #'Pennsylvania Rhode Island'. #'South Carolina'.
 		#'South Dakota'. #Tennessee. #Texas. #Utah. #Vermont. #Virginia.
-		#Washington. #'West Virginia'. #Wisconsin. #Wyoming }.
+		#Washington. #'West Virginia'. #Wisconsin. #Wyoming }
 ]
 
 { #category : #tests }
@@ -40,36 +40,39 @@ ToListElementSieveTest >> testCurrentData [
 	When the sieve  has a pattern, the original data is untouched even the list data source is updated"
 
 	| passedInHandler |
-	sieve filter: [ :anInteger :aPattern |
-		anInteger < aPattern asInteger ].
+	space deferAndSettle: [
+		sieve filter: [ :anInteger :aPattern |
+			anInteger < aPattern asInteger ] ].
 	self assert: sieve currentData isEmpty.
-	list dataAccessor addAll: (1 to: 10).
+
+	space deferAndSettle: [ list dataAccessor addAll: (1 to: 10) ].
 	passedInHandler := false.
 	list dataSource addEventHandlerOn: ToCollectionSievedEvent doOnce: [
 			passedInHandler := true.
 			self assert: sieve currentData asArray equals: #( 1 2 3 4 ) ].
-	sieve pattern: '5'.
+
+	space deferAndSettle: [ sieve pattern: '5' ].
 	500 milliSeconds wait.
-	self waitTestingSpaces.
+	space settle.
 	self assert: passedInHandler.
 	
 	passedInHandler := false.
 	list dataSource addEventHandlerOn: ToCollectionSievedEvent doOnce: [
 			passedInHandler := true.
 			self assert: sieve currentData asArray equals: #( 1 2 3 4 5 6 7 8 9 10) ].
-	sieve pattern: ''.
-	500 milliSeconds wait.
-	self waitTestingSpaces.
-	self assert: passedInHandler.
-	
 
+	space deferAndSettle: [ sieve pattern: '' ].
+	500 milliSeconds wait.
+	space settle.
+	self assert: passedInHandler
 ]
 
 { #category : #tests }
 ToListElementSieveTest >> testIsInstalled [
 
 	self assert: sieve isInstalled.
-	sieve onUninstalledIn: list.
+
+	space deferAndSettle: [ sieve onUninstalledIn: list ].
 	self deny: sieve isInstalled
 ]
 
@@ -115,7 +118,7 @@ ToListElementSieveTest >> testOnInstalledInTwiceRaiseError [
 ToListElementSieveTest >> testOnUninstalledIn [
 
 	| handlers |
-	sieve onUninstalledIn: list.
+	space deferAndSettle: [ sieve onUninstalledIn: list ].
 	self assert: sieve originalData isNil.
 	self assert: sieve selecter isNil.
 	self assert: sieve originalIndexMap isNil.
@@ -145,25 +148,29 @@ ToListElementSieveTest >> testOriginalData [
 	When the sieve  has a pattern, the original data is untouched even the list data source is updated"
 
 	| passedInHandler |
-	sieve filter: [ :anInteger :aPattern |
-		anInteger < aPattern asInteger ].
+	space deferAndSettle: [
+		sieve filter: [ :anInteger :aPattern |
+			anInteger < aPattern asInteger ] ].
 	self assert: sieve currentData isEmpty.
-	list dataAccessor addAll: (1 to: 10).
+
+	space deferAndSettle: [ list dataAccessor addAll: (1 to: 10) ].
 	self assert: sieve originalData size equals: 10.
 	1 to: 10 do: [ :idx |
 			self
 				assert: (sieve originalData at: idx)
 				equals: (list dataSource at: idx) ].
-	list dataAccessor add: 11.
+
+	space deferAndSettle: [ list dataAccessor add: 11 ].
 	self assert: sieve originalData last equals: 11.
 	passedInHandler := false.
 	list dataSource addEventHandlerOn: ToCollectionSievedEvent do: [
 			passedInHandler := true.
 			self assert: sieve originalData size equals: 11.
 			self assert: sieve currentData asArray equals: #( 1 2 3 4 ) ].
-	sieve pattern: '5'.
+
+	space deferAndSettle: [ sieve pattern: '5' ].
 	500 milliSeconds wait.
-	self waitTestingSpaces.
+	space settle.
 	self assert: passedInHandler
 ]
 
@@ -175,27 +182,21 @@ ToListElementSieveTest >> testOriginalIndexMap [
 
 	self assert: sieve originalIndexMap isEmpty.
 	
-	list dataAccessor addAll: (1 to: 10).
-	self waitTestingSpaces.
+	space deferAndSettle: [ list dataAccessor addAll: (1 to: 10) ].
 	self assert: sieve originalIndexMap size equals: 10.
 	1 to: 10 do: [ :idx |
 			self
 				assert: (sieve originalIndexMap at: idx)
 				equals: (list dataSource at: idx) ].
 			
-	list dataAccessor add: 11.
-	self waitTestingSpaces.
+	space deferAndSettle: [ list dataAccessor add: 11 ].
 	self assert: (sieve originalIndexMap at: 11) equals: 11.
 	
-	list dataAccessor removeFirst.
-	self waitTestingSpaces.
+	space deferAndSettle: [ list dataAccessor removeFirst ].
 	self assert: (sieve originalIndexMap at: 11) equals: 10.
 
-	list dataAccessor at: 1 put: 100.
-	self waitTestingSpaces.
+	space deferAndSettle: [ list dataAccessor at: 1 put: 100 ].
 	self assert: (sieve originalIndexMap at: 100) equals: 1.
-
-
 ]
 
 { #category : #'tests - selection' }
@@ -207,10 +208,10 @@ ToListElementSieveTest >> testOriginalIndexMapWhenDataAreAddedBeforeTheSieve [
 	"
 
 	list := ToListElement new.
-	space root addChild: list.
-	list dataAccessor addAll: (1 to: 10).
-	sieve := list dataAccessor newSieve.
-	self waitTestingSpaces.
+	space deferAndSettle: [
+		space root addChild: list.
+		list dataAccessor addAll: (1 to: 10).
+		sieve := list dataAccessor newSieve ].
 	self deny: sieve originalIndexMap isNil.
 	self deny: sieve originalIndexMap isEmpty.
 	
@@ -230,37 +231,36 @@ ToListElementSieveTest >> testOriginalIndexMapWhenDataAreAddedBeforeTheSieve2 [
 	Here te list is added late in the space. The index map update occurs after the list is added in the space   "
 
 	list := ToListElement new.
-	list dataAccessor addAll: (1 to: 10).
-	sieve := list dataAccessor newSieve.
+	space deferAndSettle: [
+		list dataAccessor addAll: (1 to: 10).
+		sieve := list dataAccessor newSieve ].
 	self deny: sieve originalIndexMap isNil.
-	
-	self waitTestingSpaces.
 	self deny: sieve originalIndexMap isEmpty.
 	self assert: sieve originalIndexMap size equals: 10.
 	1 to: 10 do: [ :idx |
-			self
-				assert: (sieve originalIndexMap at: idx)
-				equals: (list dataSource at: idx) ].
-
+		self
+			assert: (sieve originalIndexMap at: idx)
+			equals: (list dataSource at: idx) ].
 ]
 
 { #category : #'tests - selection' }
 ToListElementSieveTest >> testSelectionViaList [
 	" the selecter can be used to select item programatically "
 
-	list dataAccessor addAll: self statesOfAmerica.
-	list selecter selectOneMoreIndex: 3.
-	self waitTestingSpaces.
+	space deferAndSettle: [ list dataAccessor addAll: self statesOfAmerica ].
+	space deferAndSettle: [ list selecter selectOneMoreIndex: 3 ].
 	self assert: sieve selectionModel selectedIndexes equals: #( 3 ).
-	sieve pattern: 'Alabama'.
+
+	space deferAndSettle: [ sieve pattern: 'Alabama' ].
 	500 milliSeconds wait.
-	self waitTestingSpaces.
+	space settle.
 	self assert: list dataAccessor size equals: 1.
 	self assert: sieve selectionModel selectedIndexes equals: #( 3 ).
 	self assert: list selectionModel selectedIndexes equals: #(  ).
-	sieve pattern: ''.
+
+	space deferAndSettle: [ sieve pattern: '' ].
 	500 milliSeconds wait.
-	self waitTestingSpaces.
+	space settle.
 	self assert: sieve selectionModel selectedIndexes equals: #( 3 ).
 	self assert: list selectionModel selectedIndexes equals: #( 3 )
 ]
@@ -269,27 +269,30 @@ ToListElementSieveTest >> testSelectionViaList [
 ToListElementSieveTest >> testSelectionViaList2 [
 	" the selecter can be used to select item programatically "
 
-	list dataAccessor addAll: self statesOfAmerica.
+	space deferAndSettle: [ list dataAccessor addAll: self statesOfAmerica ].
 	" select California, Colorado and Connecticut "
-	list selecter selectIndex: 5 to: 7.
-	self waitTestingSpaces.
+	space deferAndSettle: [ list selecter selectIndex: 5 to: 7 ].
 	self assert: sieve selectionModel selectedIndexes equals: #( 5 6 7 ).
-	sieve pattern: 'Alabama'.
+
+	space deferAndSettle: [ sieve pattern: 'Alabama' ].
 	500 milliSeconds wait.
-	self waitTestingSpaces.
+	space settle.
 	self assert: list dataAccessor size equals: 1.
 	self assert: list selectionModel selectedIndexes equals: #(  ).
-	sieve pattern: 'C'.
+
+	space deferAndSettle: [ sieve pattern: 'C' ].
 	500 milliSeconds wait.
-	self waitTestingSpaces.
+	space settle.
 	self assert: list selectionModel selectedIndexes equals: #( 1 2 3 ).
-	sieve pattern: 'Co'.
+
+	space deferAndSettle: [ sieve pattern: 'Co' ].
 	500 milliSeconds wait.
-	self waitTestingSpaces.
+	space settle.
 	self assert: list selectionModel selectedIndexes equals: #( 1 2 ).
-	sieve pattern: 'Col'.
+
+	space deferAndSettle: [ sieve pattern: 'Col' ].
 	500 milliSeconds wait.
-	self waitTestingSpaces.
+	space settle.
 	self assert: list selectionModel selectedIndexes equals: #( 1 ).
 	self assert: list dataAccessor size equals: 1.
 	self assert: list dataAccessor first equals: 'Colorado'
@@ -299,19 +302,20 @@ ToListElementSieveTest >> testSelectionViaList2 [
 ToListElementSieveTest >> testSelectionViaSelecter [
 	" the selecter can be used to select item programatically "
 
-	list dataAccessor addAll: self statesOfAmerica.
-	sieve selecter selectOneMoreIndex: 3.
-	self waitTestingSpaces.
+	space deferAndSettle: [ list dataAccessor addAll: self statesOfAmerica ].
+	space deferAndSettle: [ sieve selecter selectOneMoreIndex: 3 ].
 	self assert: sieve selectionModel selectedIndexes equals: #( 3 ).
-	sieve pattern: 'Alabama'.
+
+	space deferAndSettle: [ sieve pattern: 'Alabama' ].
 	500 milliSeconds wait.
-	self waitTestingSpaces.
+	space settle.
 	self assert: list dataAccessor size equals: 1.
 	self assert: sieve selectionModel selectedIndexes equals: #( 3 ).
 	self assert: list selectionModel selectedIndexes equals: #(  ).
-	sieve pattern: ''.
+
+	space deferAndSettle: [ sieve pattern: '' ].
 	500 milliSeconds wait.
-	self waitTestingSpaces.
+	space settle.
 	self assert: sieve selectionModel selectedIndexes equals: #( 3 ).
 	self assert: list selectionModel selectedIndexes equals: #( 3 )
 ]

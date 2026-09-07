@@ -80,6 +80,7 @@ ToObservableCollectionFilterApplierTest >> testNotifySelectedIndexesInEmptyColle
 { #category : #tests }
 ToObservableCollectionFilterApplierTest >> testOnInstalledIn [ 
 
+	Processor yield.
 	self assert: filter semaphore notNil.
 	self assert: filter process notNil.
 	self assert: filter process isWaiting.

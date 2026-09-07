@@ -47,7 +47,7 @@ ToMultiSelectHeaderListElement >> assertMaxSelectedCount: aNumber [
 ToMultiSelectHeaderListElement >> checkHideSelectionFromListElement [
 
 	selectElement hideSelected ifFalse: [ ^ self ].
-	self popupListElement inUIProcessDo: [ self popupListElement hideSelection ]
+	self popupListElement deferOrValue: [ self popupListElement hideSelection ]
 ]
 
 { #category : #'accessing - selection' }

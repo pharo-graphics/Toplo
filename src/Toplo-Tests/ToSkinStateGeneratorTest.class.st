@@ -1,6 +1,3 @@
-"
-A ToSkinStateGeneratorTest is a test class for testing the behavior of ToSkinStateGenerator
-"
 Class {
 	#name : #ToSkinStateGeneratorTest,
 	#superclass : #ToTestCaseWithSpace,
@@ -14,11 +11,8 @@ ToSkinStateGeneratorTest >> newElementInSpace [
 	e := ToElement new.
 	self deny: e skinManager newSkinRequested.
 	e defaultSkin: ToRawSkin new.
-	space root addChild: e.
+	space deferAndSettle: [ space root addChild: e ].
 	self deny: e skinManager newSkinRequested.
-	" to install the element skin  "
-	space applyAllSkinInstallers.
-
 	^ e
 ]
 
@@ -111,7 +105,8 @@ ToSkinStateGeneratorTest >> testOnInstalledIn [
 		     ifNone: [  ].
 	self assert: h notNil.
 	self assert: h target identicalTo: e.
-	space root addChild: e
+
+	space deferAndSettle: [ space root addChild: e ]
 ]
 
 { #category : #tests }
@@ -128,7 +123,8 @@ ToSkinStateGeneratorTest >> testTarget [
 	gen := e eventDispatcher handlers detect: [ :h |
 		       h isKindOf: ToSkinStateGenerator ] ifNone: [].
 	self assert: gen notNil.
-	space root addChild: e.
+
+	space deferAndSettle: [ space root addChild: e ].
 	gen := e eventDispatcher handlers detect: [ :h |
 		       h isKindOf: ToSkinStateGenerator ].
 	self assert: gen notNil.
@@ -140,13 +136,14 @@ ToSkinStateGeneratorTest >> testWantsEvent [
 
 	| e gen  |
 	e := ToElement new.
-	space root addChild: e.
+	space deferAndSettle: [ space root addChild: e ].
 	self assert: e isEnabled.
 	gen := e eventDispatcher handlers detect: [ :h |
 		       h isKindOf: ToSkinStateGenerator ].
 	gen eventsToHandle do: [ :cC |
 		self assert: (gen wantsEvent: (cC new currentTarget: e)) ].
-	e disable.
+
+	space deferAndSettle: [ e disable ].
 	self deny: e isEnabled.
 	gen eventsToHandle do: [ :cC | self assert: (gen wantsEvent: (cC new currentTarget: e)) ].
 ]

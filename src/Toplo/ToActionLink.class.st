@@ -75,7 +75,7 @@ ToActionLink >> requestNextRunWithEvent: anEvent [
 	widget isAttachedToSceneGraph
 		ifTrue: [ self onNextRunActionRequest: anEvent ]
 		ifFalse: [
-		widget inUIProcessDo: [ self onNextRunActionRequest: anEvent ] ]
+		widget deferOrValue: [ self onNextRunActionRequest: anEvent ] ]
 ]
 
 { #category : #running }

@@ -11,23 +11,16 @@ Class {
 ToListElementSelectionSkinEventTest >> selectedSkinEventCountAfterRemove [
 	" check that the skin select event is sent to the right node "
 
-	listElement selecter deselectAll.
-	self waitTestingSpaces.
-	space applyAllSkinPhases.
-	listElement dataAccessor add: self statesOfAmerica first.
-	listElement dataAccessor add: self statesOfAmerica second.
-	self waitTestingSpaces.
-	listElement selecter selectIndex: 2.
-	self waitTestingSpaces.
-	space applyAllSkinPhases.
-	listElement forceLayout.
+	space deferAndSettle: [
+		listElement selecter deselectAll.
+		listElement dataAccessor add: self statesOfAmerica first.
+		listElement dataAccessor add: self statesOfAmerica second ].
+	"Must be in a separate block to let layout process item addition before selection"
+	space deferAndSettle: [ listElement selecter selectIndex: 2 ].
 	self assert: listElement nodeContainers size equals: 2.
 	self assert: listElement selectionModel selectedIndexes equals: #( 2 ).
 
-	listElement dataAccessor removeAt: 1.
-	space applyAllSkinPhases.
-	self waitTestingSpaces.
- 	listElement forceLayout.
+	space deferAndSettle: [ listElement dataAccessor removeAt: 1 ].
 	self assert: listElement nodeContainers size equals: 1.
 	self assert: listElement selectionModel selectedIndexes equals: #( 1 ).
 
@@ -43,24 +36,17 @@ ToListElementSelectionSkinEventTest >> selectedSkinEventCountAfterRemove [
 ToListElementSelectionSkinEventTest >> selectedSkinEventCountAfterSelect [
 	" check that the skin select event is sent to the right node "
 
-	listElement dataAccessor add: self statesOfAmerica first.
-	listElement dataAccessor add: self statesOfAmerica second.
-	listElement selecter selectIndex: 2.
-	self waitTestingSpaces.
-	listElement forceLayout.
-	
+	space deferAndSettle: [
+		listElement dataAccessor add: self statesOfAmerica first.
+		listElement dataAccessor add: self statesOfAmerica second ].
+	"Must be in a separate block to let layout process item addition before selection"
+	space deferAndSettle: [ listElement selecter selectIndex: 2 ].
 	self assert: listElement nodeContainers size equals: 2.
-	space applyAllSkinPhases.
-	
-	listElement selecter selectOnlyIndex: 1.
-	self waitTestingSpaces.
-	space applyAllSkinPhases.
 
-	listElement forceLayout.
+	space deferAndSettle: [ listElement selecter selectOnlyIndex: 1 ].
 	self assert: listElement selectionMode selectionContainer children size equals: 1.
 	self assert: listElement selectionMode selectionContainer children first nodeContainers size equals: 1.
 	self assert: listElement selectionMode selectionContainer children first nodeContainers first holder position equals: 1.
-
 ]
 
 { #category : #'test selection - skin' }
@@ -73,20 +59,12 @@ ToListElementSelectionSkinEventTest >> selectedSkinEventCountAfterSelect2 [
 	self selectedSkinEventCountAfterSelect.
 
 	" here, the selected index is 1 because of #testSelectedSkinEventCountAfterSelect invocation"
-	listElement selecter selectIndex: 2.
-	self waitTestingSpaces.
-	space applyAllSkinPhases.
-	listElement forceLayout.
-	
-	listElement selecter selectOnlyIndex: 1.
-	self waitTestingSpaces.
-	space applyAllSkinPhases.
-	
-	listElement forceLayout.
+	space deferAndSettle: [
+		listElement selecter selectIndex: 2 .
+		listElement selecter selectOnlyIndex: 1 ].
 	self assert: listElement selectionMode selectionContainer children size equals: 1.
 	self assert: listElement selectionMode selectionContainer children first nodeContainers size equals: 1.
 	self assert: listElement selectionMode selectionContainer children first nodeContainers first holder position equals: 1.
-
 ]
 
 { #category : #'test selection - skin' }
@@ -97,20 +75,12 @@ ToListElementSelectionSkinEventTest >> selectedSkinEventCountAfterSelect3 [
 	on the selected node "
 
 	" here, the selected index is 1 because of #testSelectedSkinEventCountAfterSelect invocation"
-	listElement selecter selectOnlyIndex: 2.
-	self waitTestingSpaces.
-	space applyAllSkinPhases.
-	listElement forceLayout.
-	
-	listElement selecter selectOnlyIndex: 1.
-	self waitTestingSpaces.
-	space applyAllSkinPhases.
-	
-	listElement forceLayout.
+	space deferAndSettle: [
+		listElement selecter selectOnlyIndex: 2 .
+		listElement selecter selectOnlyIndex: 1 ].
 	self assert: listElement selectionMode selectionContainer children size equals: 1.
 	self assert: listElement selectionMode selectionContainer children first nodeContainers size equals: 1.
 	self assert: listElement selectionMode selectionContainer children first nodeContainers first holder position equals: 1.
-
 ]
 
 { #category : #running }
@@ -121,11 +91,10 @@ ToListElementSelectionSkinEventTest >> setUp [
 	listElement innerElement.
 	listElement fitContent.
 
-	space root addChild: listElement.
-	listElement nodeBuilder: [ :node :dataItem :holder |
-		node addChild: (ToLabel text: dataItem) ].
-	self waitTestingSpaces.
-	listElement forceLayout
+	space deferAndSettle: [
+		space root addChild: listElement.
+		listElement nodeBuilder: [ :node :dataItem :holder |
+			node addChild: (ToLabel text: dataItem) ] ]
 ]
 
 { #category : #accessing }
@@ -146,8 +115,7 @@ ToListElementSelectionSkinEventTest >> statesOfAmerica [
 ToListElementSelectionSkinEventTest >> testFiniteSelectedSkinEventCountAfterRemove [
 	" check that the skin select event is sent to the right node "
 
-	listElement useInfiniteLayout: false.
-	self waitTestingSpaces.
+	space deferAndSettle: [ listElement useInfiniteLayout: false ].
 	self selectedSkinEventCountAfterRemove
 ]
 
@@ -155,9 +123,7 @@ ToListElementSelectionSkinEventTest >> testFiniteSelectedSkinEventCountAfterRemo
 ToListElementSelectionSkinEventTest >> testFiniteSelectedSkinEventCountAfterSelect [
 	" check that the skin select event is sent to the right node "
 
-	listElement useInfiniteLayout: false.
-	self waitTestingSpaces.
-
+	space deferAndSettle: [ listElement useInfiniteLayout: false ].
 	self selectedSkinEventCountAfterSelect
 ]
 
@@ -168,8 +134,7 @@ ToListElementSelectionSkinEventTest >> testFiniteSelectedSkinEventCountAfterSele
 	(the holder>>selectionNotificationMap map is up to date). So the result is that the deselection is only applied once
 	on the selected node "
 
-	listElement useInfiniteLayout: false.
-	self waitTestingSpaces.
+	space deferAndSettle: [ listElement useInfiniteLayout: false ].
 	self selectedSkinEventCountAfterSelect2
 ]
 
@@ -180,11 +145,10 @@ ToListElementSelectionSkinEventTest >> testFiniteSelectedSkinEventCountAfterSele
 	(the holder>>selectionNotificationMap map is up to date). So the result is that the deselection is only applied once
 	on the selected node "
 
-	listElement useInfiniteLayout: false.
-	self waitTestingSpaces.
+	space deferAndSettle: [ listElement useInfiniteLayout: false ].
 	self selectedSkinEventCountAfterSelect.
-	listElement requestFocus.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ listElement requestFocus ].
 	self selectedSkinEventCountAfterSelect3
 ]
 
@@ -219,10 +183,9 @@ ToListElementSelectionSkinEventTest >> testInfiniteSelectedSkinEventCountAfterSe
 	(the holder>>selectionNotificationMap map is up to date). So the result is that the deselection is only applied once
 	on the selected node "
 
-	listElement useInfiniteLayout: true.
-	self waitTestingSpaces.
+	space deferAndSettle: [ listElement useInfiniteLayout: true ].
 	self selectedSkinEventCountAfterSelect.
-	listElement requestFocus.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ listElement requestFocus ].
 	self selectedSkinEventCountAfterSelect3
 ]

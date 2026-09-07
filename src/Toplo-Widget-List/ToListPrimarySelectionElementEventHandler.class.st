@@ -39,7 +39,7 @@ ToListPrimarySelectionElementEventHandler >> listCheckableNodeUseChanged: anEven
 				listElement selectionMode selectOnClick: false ]
 		ifFalse: [
 		listElement selectionMode selectOnClick: wasSelectingOnClick ].
-	listElement inUIProcessDo: [ listElement notifyDataSourceChanged ]
+	listElement deferOrValue: [ listElement notifyDataSourceChanged ]
 ]
 
 { #category : #'element handlers' }

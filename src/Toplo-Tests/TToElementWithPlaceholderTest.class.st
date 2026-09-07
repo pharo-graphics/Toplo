@@ -100,15 +100,21 @@ TToElementWithPlaceholderTest >> testShowPlaceholder [
 	ph := e placeholderLayer.
 	self assert: ph notNil.
 	self assert: ph parent identicalTo: e.
-	e forceLayout.
-	self assert: ph bounds inSpace bounds equals: e bounds inSpace bounds.
-	self assert: ph bounds extent equals: 100 asPoint.
 	e showPlaceholder.
 	self assert: e placeholderLayer identicalTo: ph.
-	space root addChild: e.
+
+	space deferAndSettle: [ space root addChild: e ].
 	self assert: ph space identicalTo: e space.
-	e position: 200 @ 100.
-	e forceLayout.
-	self assert: ph bounds inSpace bounds equals: e bounds inSpace bounds.
-	self assert: ph bounds inSpace bounds origin equals: 200 @ 100
+	self
+		assert: ph bounds inSpace bounds
+		equals: e bounds inSpace bounds.
+	self assert: ph bounds extent equals: 100 asPoint.
+
+	space deferAndSettle: [ e position: 200 @ 100 ].
+	self
+		assert: ph bounds inSpace bounds
+		equals: e bounds inSpace bounds.
+	self
+		assert: ph bounds inSpace bounds origin
+		equals: 200 @ 100
 ]

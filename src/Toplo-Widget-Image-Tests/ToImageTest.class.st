@@ -3,7 +3,7 @@ A ToImageTest is a test class for testing the behavior of ToImage
 "
 Class {
 	#name : #ToImageTest,
-	#superclass : #TestCase,
+	#superclass : #ToParameterizedHostTest,
 	#category : #'Toplo-Widget-Image-Tests'
 }
 
@@ -14,7 +14,8 @@ ToImageTest >> testEmptyImage [
 	im := ToImage new.
 	self assert: (im innerImage isKindOf: BlElement).
 	self assert: im innerFormImage isNil.
-	im forceLayout.
+
+	space deferAndSettle: [ space root addChild: im ].
 	self assert: im extent equals: im defaultInnerImage extent.
 	passedHere := false.
 	self
@@ -34,13 +35,14 @@ ToImageTest >> testEmptyImage [
 ToImageTest >> testImageWithForm [
 
 	| im form passedHere found |
-	form := Smalltalk ui icons iconNamed: #delete.
+	form := self iconNamed: #delete.
 	im := ToImage new innerImage: form.
 	self assert: (im innerImage isKindOf: BlElement).
 	self assert: (im innerImage background isKindOf: BlImageBackground).
 	self assert: im innerImage background image equals: form.
 	self assert: im innerFormImage equals: form.
-	im forceLayout.
+
+	space deferAndSettle: [ space root addChild: im ].
 	self assert: im extent equals: form extent.
 	passedHere := false.
 	im withInnerFormDo: [ :f | passedHere := true ].

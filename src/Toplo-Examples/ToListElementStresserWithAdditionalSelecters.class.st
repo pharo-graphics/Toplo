@@ -22,7 +22,7 @@ ToListElementStresserWithAdditionalSelecters class >> run [
 ToListElementStresserWithAdditionalSelecters class >> runInSDL [
 
 	<script>
-	self new runInHost: BlOSWindowSDL2Host new
+	self new runInHost: BlOSWindowSDL2Host default
 ]
 
 { #category : #actions }

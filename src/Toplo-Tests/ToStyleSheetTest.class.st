@@ -1,6 +1,3 @@
-"
-A ToStyleSheetTest is a test class for testing the behavior of ToStyleSheet
-"
 Class {
 	#name : #ToStyleSheetTest,
 	#superclass : #ToTestCaseWithSpace,
@@ -58,8 +55,7 @@ ToStyleSheetTest >> testMyOutskirts [
 	e outskirts: BlOutskirts inside.
 	e localTheme: theme.
 	e styleSheet: styleSheet.
-	space root addChild: e.
-	space applyAllSkinPhases.
+	space deferAndSettle: [ space root addChild: e ].
 
 	writers := theme applicableWritersFor: e.
 	self assert: writers size equals: 1.
@@ -69,39 +65,47 @@ ToStyleSheetTest >> testMyOutskirts [
 { #category : #tests }
 ToStyleSheetTest >> testOnInstalledIn [
 
-	| sheet e child |
+	| sheet e child requested childRequested |
 	sheet := ToStyleSheet new.
 	e := ToElement new.
 	child := ToElement new.
 	e addChild: child.
-	space root addChild: e.
-	space applyAllSkinInstallers.
+	space deferAndSettle: [ space root addChild: e ].
 	self deny: e skinManager newSkinRequested.
 	self assert: e skinManager installedSkin isThemeSkin.
 	self deny: child skinManager newSkinRequested.
 	self assert: child skinManager installedSkin isThemeSkin.
-	e styleSheet: sheet.
-	self assert: e skinManager newSkinRequested.
-	self assert: child skinManager newSkinRequested.
 
+	space deferAndSettle: [
+		e styleSheet: sheet.
+		requested := e skinManager newSkinRequested.
+		childRequested := child skinManager newSkinRequested ].
+		
+	self assert: requested.
+	self assert: childRequested
 ]
 
 { #category : #tests }
 ToStyleSheetTest >> testOnUninstalledIn [
 
-	| sheet e child |
+	| sheet e child requested childRequested |
 	sheet := ToStyleSheet new.
 	e := ToElement new.
 	child := ToElement new.
 	e addChild: child.
-	space root addChild: e.
-	e styleSheet: sheet.
-	space applyAllSkinInstallers.
+	space deferAndSettle: [
+		space root addChild: e.
+		e styleSheet: sheet ].
 	self deny: e skinManager newSkinRequested.
 	self deny: child skinManager newSkinRequested.
-	e styleSheet: nil.
-	self assert: e skinManager newSkinRequested.
-	self deny: child skinManager newSkinRequested
+
+	space deferAndSettle: [
+		e styleSheet: nil.
+		requested := e skinManager newSkinRequested.
+		childRequested := child skinManager newSkinRequested ].
+		
+	self assert: requested.
+	self deny: childRequested
 ]
 
 { #category : #'writable property tests' }
@@ -122,8 +126,7 @@ ToStyleSheetTest >> testOutskirts [
 	e outskirts: BlOutskirts inside.
 	e localTheme: theme.
 	e styleSheet: styleSheet.
-	space root addChild: e.
-	space applyAllSkinPhases.
+	space deferAndSettle: [ space root addChild: e ].
 
 	writers := theme applicableWritersFor: e.
 	self assert: writers size equals: 1.

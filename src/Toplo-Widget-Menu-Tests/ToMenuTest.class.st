@@ -1,6 +1,3 @@
-"
-A ToMenuTest is a test class for testing the behavior of ToMenu
-"
 Class {
 	#name : #ToMenuTest,
 	#superclass : #ToParameterizedHostTest,
@@ -15,7 +12,7 @@ ToMenuTest >> setUp [
 
 	super setUp. 
 	m := ToMenu new labelText: 'Menu'.
-	space root addChild: m
+	space deferAndSettle: [ space root addChild: m ]
 ]
 
 { #category : #tests }
@@ -23,9 +20,9 @@ ToMenuTest >> testAddItem [
 
 	| n item |
 	item := ToMenuItem new labelText: 'Menu'.
-	m addItem: item.
-	m popupEvent: nil.
-	self waitTestingSpaces.
+	space deferAndSettle: [ 
+		m addItem: item.
+		m popupEvent: nil ].
 	self assert: m menuWindow itemList nodes size equals: 1.
 	n := m manager currentWindow itemList nodes first.
 	self assert: (n isKindOf: ToMenuItemNode).
@@ -39,12 +36,12 @@ ToMenuTest >> testAddItem [
 ToMenuTest >> testBuilderDisableItemAfterAdding [
 
 	| n item |
-	m builder: [ :theMenu :theRequest |
-		item := ToMenuItem new labelText: 'Item #1'.
-		theMenu addItem: item.
-		item disable ].
-	m popupEvent: nil.
-	self waitTestingSpaces.
+	space deferAndSettle: [ 
+		m builder: [ :theMenu :theRequest |
+			item := ToMenuItem new labelText: 'Item #1'.
+			theMenu addItem: item.
+			item disable ].
+		m popupEvent: nil ].
 	self assert: m menuWindow itemList nodes size equals: 1.
 	n := m menuWindow itemList nodes first.
 	self assert:
@@ -58,12 +55,12 @@ ToMenuTest >> testBuilderDisableItemAfterAdding [
 ToMenuTest >> testBuilderDisableItemBeforeAdding [
 
 	| n item |
-	m builder: [ :theMenu :theRequest |
-		item := ToMenuItem new labelText: 'Item #1'.
-		item disable.
-		theMenu addItem: item ].
-	m popupEvent: nil.
-	self waitTestingSpaces.
+	space deferAndSettle: [ 
+		m builder: [ :theMenu :theRequest |
+			item := ToMenuItem new labelText: 'Item #1'.
+			item disable.
+			theMenu addItem: item ].
+		m popupEvent: nil ].
 	self assert: m menuWindow itemList nodes size equals: 1.
 	n := m menuWindow itemList nodes first.
 	self assert:
@@ -80,13 +77,15 @@ ToMenuTest >> testCheckableItem [
 	item := ToRadioMenuItem new
 			 label: (ToLabel text: 'Dark theme');
 			 yourself.
-	m addItem: item.
-	m popupEvent: nil.
-	self waitTestingSpaces.
+	space deferAndSettle: [ 
+		m addItem: item.
+		m popupEvent: nil ].
 	self assert: m menuWindow itemList nodes size equals: 1.
-	item checked: true.
+
+	space deferAndSettle: [ item checked: true ].
 	self assert: item isChecked.
-	item checked: false.
+
+	space deferAndSettle: [ item checked: false ].
 	self deny: item isChecked
 ]
 
@@ -95,10 +94,10 @@ ToMenuTest >> testDisableItemAfterAdding [
 
 	| n item |
 	item := ToMenuItem new labelText: 'Item #1'.
-	m addItem: item.
-	item disable.
-	m popupEvent: nil.
-	self waitTestingSpaces.
+	space deferAndSettle: [ 
+		m addItem: item.
+		item disable.
+		m popupEvent: nil ].
 	self assert: m menuWindow itemList nodes size equals: 1.
 	n := m menuWindow itemList nodes first.
 	self assert:
@@ -113,10 +112,10 @@ ToMenuTest >> testDisableItemBeforeAdding [
 
 	| n item |
 	item := ToMenuItem new labelText: 'Menu'.
-	item disable.
-	m addItem: item.
-	m popupEvent: nil.
-	self waitTestingSpaces.
+	space deferAndSettle: [ 
+		item disable.
+		m addItem: item.
+		m popupEvent: nil ].
 	self assert: m menuWindow itemList nodes size equals: 1.
 	n := m menuWindow itemList nodes first.
 	self assert:

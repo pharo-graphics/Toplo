@@ -272,8 +272,13 @@ ToSelectElement >> sample: aDataItem [
 { #category : #'accessing - selection' }
 ToSelectElement >> selectedDataItems [
 
-	^ self selectionModel selectedIndexesCollect: [ :idx |
-		  self sieve originalData at: idx ]
+	| originalData |
+	originalData := self sieve originalData.
+
+	"The #select: guard safely reconciles selectionModel and originalData"
+	^ self selectionModel selectedIndexes
+		select: [ :idx | idx between: 1 and: originalData size ]
+		thenCollect: [ :idx | originalData at: idx ]
 ]
 
 { #category : #accessing }

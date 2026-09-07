@@ -27,11 +27,10 @@ ToTransientStateTest >> testOnAppliedOn [
 
 	| e stateEvt state |
 	e := ToElement new.
-	space root addChild: e.
+	space deferAndSettle: [ space root addChild: e ].
 	state := ToTransientStateStub skinEvent: (stateEvt := ToHoveredSkinEvent new).
-	state applyOn: e fromQueue: nil.
+	space deferAndSettle: [ state applyOn: e fromQueue: nil ].
 	self assert: state applyCount equals: 1
-	
 ]
 
 { #category : #tests }

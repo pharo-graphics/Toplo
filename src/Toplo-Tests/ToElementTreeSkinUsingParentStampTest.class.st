@@ -35,7 +35,7 @@ ToElementTreeSkinUsingParentStampTest >> newElementTree [
 
 	child addChild: subChild.
 	parent addChild: child.
-	space root addChild: parent
+	space deferAndSettle: [ space root addChild: parent ]
 ]
 
 { #category : #running }
@@ -49,39 +49,33 @@ ToElementTreeSkinUsingParentStampTest >> setUp [
 ToElementTreeSkinUsingParentStampTest >> testChildSkinApplication [
 	" updating a stamp in the parent should lead to the re-installation of children skins "
 
-	parent updateStamp: #'child-color' withValue: Color white.
-	self waitTestingSpaces.
+	space deferAndSettle: [ parent updateStamp: #'child-color' withValue: Color white ].
 	self assert: child background paint color equals: Color white
 ]
 
 { #category : #tests }
 ToElementTreeSkinUsingParentStampTest >> testInitialSkinsApplication [
 
-	self waitTestingSpaces.
 	self assert: (parent background isKindOf: BlPaintBackground).
 	self assert: (child background isKindOf: BlPaintBackground).
 	self assert: (subChild background isKindOf: BlPaintBackground).
 	self assert: parent background paint color equals: Color red.
 	self assert: child background paint color equals: Color blue.
-	self assert: subChild background paint color equals: Color yellow.
-
+	self assert: subChild background paint color equals: Color yellow
 ]
 
 { #category : #tests }
 ToElementTreeSkinUsingParentStampTest >> testParentSkinApplication [
 	" updating a stamp in the parent should lead to the re-installation of the parent skin "
 
-	parent updateStamp: #'parent-color' withValue: Color brown.
-	self waitTestingSpaces.
-	self assert: parent background paint color equals: Color brown.	
-
+	space deferAndSettle: [ parent updateStamp: #'parent-color' withValue: Color brown ].
+	self assert: parent background paint color equals: Color brown
 ]
 
 { #category : #tests }
 ToElementTreeSkinUsingParentStampTest >> testSubChildSkinApplication [
 	" updating a stamp in the parent should lead to the re-installation of children skins "
 
-	parent updateStamp: #'subChild-color' withValue: Color black.
-	self waitTestingSpaces.
+	space deferAndSettle: [ parent updateStamp: #'subChild-color' withValue: Color black ].
 	self assert: subChild background paint color equals: Color black
 ]

@@ -16,14 +16,14 @@ ToItemListElementTest >> add1To10 [
 	| n |
 	self assert: l nodeContainers size equals: l dataAccessor size.
 	self assert: (l nodeManager isKindOf: ToItemListNodeManager).
-	l addAllItems:
-		((1 to: 10) collect: [ :i | ToItemElementForTest new text: i asString ]).
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ 
+		l addAllItems:
+			((1 to: 10) collect: [ :i | ToItemElementForTest new text: i asString ]) ].
 	n := l nodes first.
 	self assert: (n isKindOf: ToItemNodeForTest).
 	self assert: (n holder isKindOf: ToItemListNodeHolderForTest).
 	self assert: (n holder dataItem isKindOf: ToItemElementForTest)
-	
 ]
 
 { #category : #tests }
@@ -31,11 +31,10 @@ ToItemListElementTest >> addAllItems [
 
 	| bar |
 	bar := l.
-	bar addAllItems:
-		((self statesOfAmerica ) collect: [ :v |
-			 ToToggleButton new labelText: v ]).
-	bar forceLayout.
-	self waitTestingSpaces.
+	space deferAndSettle: [ 
+		bar addAllItems:
+			((self statesOfAmerica ) collect: [ :v |
+				 ToToggleButton labelText: v ]) ].
 	bar nodeContainers withIndexDo: [ :it :idx |
 		self assert: it holder position equals: idx ].
 	bar nodeContainers withIndexDo: [ :it :idx |
@@ -63,8 +62,7 @@ ToItemListElementTest >> addItem [
 
 	| n item |
 	item := ToItemElementForTest new text: '#1'.
-	l addItem: item.
-	self waitTestingSpaces.
+	space deferAndSettle: [ l addItem: item ].
 	self assert: l nodeContainers size equals: 1.
 	n := l nodes first.
 	self assert: (n isKindOf: ToItemNodeForTest).
@@ -80,10 +78,9 @@ ToItemListElementTest >> disableItemAfterAdding [
 	| n item |
 	self assert: l nodeContainers size equals: 0.
 	item := ToItemElementForTest new text: 'A'.
-	l addItem: item.
-	item disable.
-	self waitTestingSpaces.
-	l forceLayout.
+	space deferAndSettle: [ 
+		l addItem: item.
+		item disable ].
 
 	n := l nodes first.
 	self assert: n holder dataItem identicalTo: item.
@@ -99,14 +96,15 @@ ToItemListElementTest >> disableItemAfterAdding2 [
 
 	| n item |
 	self assert: l nodeContainers size equals: 0.
-	item := ToItemElementForTest new text: 'A'.
-	l addItem: item.
-	item := ToItemElementForTest new text: 'B'.
-	l addItem: item.
-	item disable.
-	item := ToItemElementForTest new text: 'C'.
-	l addItem: item.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ 
+		item := ToItemElementForTest new text: 'A'.
+		l addItem: item.
+		item := ToItemElementForTest new text: 'B'.
+		l addItem: item.
+		item disable.
+		item := ToItemElementForTest new text: 'C'.
+		l addItem: item ].
 
 	n := l nodes first.
 	self assert: n item positionInList equals: 1.
@@ -116,7 +114,7 @@ ToItemListElementTest >> disableItemAfterAdding2 [
 	self deny: n isDisabled.
 
 	n := l nodes second.
-	self waitTestingSpaces.
+	space settle.
 	self assert: n item positionInList equals: 2.
 	self assert:
 		(l disabledSelectionModel containsIndex: n item positionInList).
@@ -137,9 +135,9 @@ ToItemListElementTest >> disableItemBeforeAdding [
 	| n item |
 	self assert: l nodeContainers size equals: 0.
 	item := ToItemElementForTest new text: 'A'.
-	item disabled: true.
-	l addItem: item.
-	self waitTestingSpaces.
+	space deferAndSettle: [ 
+		item disabled: true.
+		l addItem: item ].
 
 	n := l nodes first.
 	self assert: n holder dataItem identicalTo: item.
@@ -156,14 +154,15 @@ ToItemListElementTest >> disableItemBeforeAdding2 [
 
 	| n item |
 	self assert: l nodeContainers size equals: 0.
-	item := ToItemElementForTest new text: 'A'.
-	l addItem: item.
-	item := ToItemElementForTest new text: 'B'.
-	item disable.
-	l addItem: item.
-	item := ToItemElementForTest new text: 'C'.
-	l addItem: item.
-	self waitTestingSpaces.
+
+	space deferAndSettle: [ 
+		item := ToItemElementForTest new text: 'A'.
+		l addItem: item.
+		item := ToItemElementForTest new text: 'B'.
+		item disable.
+		l addItem: item.
+		item := ToItemElementForTest new text: 'C'.
+		l addItem: item ].
 
 	n := l nodes first.
 	self assert: n item positionInList equals: 1.
@@ -172,8 +171,8 @@ ToItemListElementTest >> disableItemBeforeAdding2 [
 	self deny: n item isDisabled.
 	self deny: n isDisabled.
 
+	space settle.
 	n := l nodes second.
-	self waitTestingSpaces.
 	self assert: n item positionInList equals: 2.
 	self assert:
 		(l disabledSelectionModel containsIndex: n item positionInList).
@@ -194,9 +193,9 @@ ToItemListElementTest >> setUp [
 	super setUp.
 	l := ToItemListElementForTest new.
 	l vMatchParent.
-	space root addChild: l.
-	l height: 30000.
-
+	space deferAndSettle: [ 
+		space root addChild: l.
+		l height: 30000 ].
 ]
 
 { #category : #accessing }
@@ -210,103 +209,103 @@ ToItemListElementTest >> statesOfAmerica [
 		#'New York'. #'North Carolina'. #'North Dakota'. #Ohio. #Oklahoma.
 		#Oregon. #'Pennsylvania Rhode Island'. #'South Carolina'.
 		#'South Dakota'. #Tennessee. #Texas. #Utah. #Vermont. #Virginia.
-		#Washington. #'West Virginia'. #Wisconsin. #Wyoming }.
+		#Washington. #'West Virginia'. #Wisconsin. #Wyoming }
 ]
 
 { #category : #tests }
 ToItemListElementTest >> testFinite [
 
-	l useInfiniteLayout: false.
+	space deferAndSettle: [ l useInfiniteLayout: false ].
 	self add1To10 
 ]
 
 { #category : #tests }
 ToItemListElementTest >> testFiniteAddAllItems [
 
-	l useInfiniteLayout: false.
+	space deferAndSettle: [ l useInfiniteLayout: false ].
 	self addAllItems
 ]
 
 { #category : #tests }
 ToItemListElementTest >> testFiniteAddItem [
 
-	l useInfiniteLayout: false.
+	space deferAndSettle: [ l useInfiniteLayout: false ].
 	self addItem
 ]
 
 { #category : #tests }
 ToItemListElementTest >> testFiniteDisableItemAfterAdding [
 
-	l useInfiniteLayout: false.
+	space deferAndSettle: [ l useInfiniteLayout: false ].
 	self disableItemAfterAdding
 ]
 
 { #category : #tests }
 ToItemListElementTest >> testFiniteDisableItemAfterAdding2 [
 
-	l useInfiniteLayout: false.
+	space deferAndSettle: [ l useInfiniteLayout: false ].
 	self disableItemAfterAdding2
 ]
 
 { #category : #tests }
 ToItemListElementTest >> testFiniteDisableItemBeforeAdding [
 
-	l useInfiniteLayout: false.
+	space deferAndSettle: [ l useInfiniteLayout: false ].
 	self disableItemBeforeAdding 
 ]
 
 { #category : #tests }
 ToItemListElementTest >> testFiniteDisableItemBeforeAdding2 [
 
-	l useInfiniteLayout: false.
+	space deferAndSettle: [ l useInfiniteLayout: false ].
 	self disableItemBeforeAdding2
 ]
 
 { #category : #tests }
 ToItemListElementTest >> testInfinite [
 
-	l useInfiniteLayout: true.
+	space deferAndSettle: [ l useInfiniteLayout: true ].
 	self add1To10
 ]
 
 { #category : #tests }
 ToItemListElementTest >> testInfiniteAddAllItems [
 
-	l useInfiniteLayout: true.
+	space deferAndSettle: [ l useInfiniteLayout: true ].
 	self addAllItems
 ]
 
 { #category : #tests }
 ToItemListElementTest >> testInfiniteAddItem [
 
-	l useInfiniteLayout: true.
+	space deferAndSettle: [ l useInfiniteLayout: true ].
 	self addItem
 ]
 
 { #category : #tests }
 ToItemListElementTest >> testInfiniteDisableItemAfterAdding [
 
-	l useInfiniteLayout: true.
+	space deferAndSettle: [ l useInfiniteLayout: true ].
 	self disableItemAfterAdding
 ]
 
 { #category : #tests }
 ToItemListElementTest >> testInfiniteDisableItemAfterAdding2 [
 
-	l useInfiniteLayout: true.
+	space deferAndSettle: [ l useInfiniteLayout: true ].
 	self disableItemAfterAdding2
 ]
 
 { #category : #tests }
 ToItemListElementTest >> testInfiniteDisableItemBeforeAdding [
 
-	l useInfiniteLayout: true.
+	space deferAndSettle: [ l useInfiniteLayout: true ].
 	self disableItemBeforeAdding 
 ]
 
 { #category : #tests }
 ToItemListElementTest >> testInfiniteDisableItemBeforeAdding2 [
 
-	l useInfiniteLayout: true.
+	space deferAndSettle: [ l useInfiniteLayout: true ].
 	self disableItemBeforeAdding2
 ]

@@ -168,8 +168,7 @@ TToElementWithContextMenuTest >> testCurrentContextMenu [
 		menu addAllItems: { ToMenuItem new } ].
 	self assert: e hasContextMenu.
 	self assert: e currentContextMenu notNil.
-	self assert: e currentContextMenu identicalTo: ttwin.
-	^ e
+	self assert: e currentContextMenu identicalTo: ttwin
 ]
 
 { #category : #tests }
@@ -184,8 +183,7 @@ TToElementWithContextMenuTest >> testCurrentContextMenu2 [
 	self assert: e currentContextMenu notNil.
 	self
 		assert: e currentContextMenu class
-		equals: e ensuredContextMenuManager windowClass.
-	^ e
+		equals: e ensuredContextMenuManager windowClass
 ]
 
 { #category : #tests }
@@ -207,8 +205,7 @@ TToElementWithContextMenuTest >> testEnsuredContextMenuManager [
 
 	space deferAndSettle: [ ttwin close ].
 	self assert: e ensuredContextMenuManager currentWindow isNil.
-	self assert: e ensuredContextMenuManager anchorElement identicalTo: e.
-	^ e
+	self assert: e ensuredContextMenuManager anchorElement identicalTo: e
 ]
 
 { #category : #tests }
@@ -238,8 +235,7 @@ TToElementWithContextMenuTest >> testNewContextMenu [
 	self assert: e currentContextMenu notNil.
 	self
 		assert: e currentContextMenu class
-		equals: e ensuredContextMenuManager windowClass.
-	^ e
+		equals: e ensuredContextMenuManager windowClass
 ]
 
 { #category : #tests }
@@ -256,8 +252,7 @@ TToElementWithContextMenuTest >> testNewContextMenuOnEvent [
 	self assert: e ensuredContextMenuManager currentWindow notNil.
 	self
 		assert: e currentContextMenu
-		identicalTo: e ensuredContextMenuManager currentWindow.
-	^ e
+		identicalTo: e ensuredContextMenuManager currentWindow
 ]
 
 { #category : #tests }

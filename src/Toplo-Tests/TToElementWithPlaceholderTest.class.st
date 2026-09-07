@@ -60,12 +60,6 @@ TToElementWithPlaceholderTest >> testPlaceholderElevation [
 ]
 
 { #category : #tests }
-TToElementWithPlaceholderTest >> testPlaceholderLayer [
-
-	self testHidePlaceholder 
-]
-
-{ #category : #tests }
 TToElementWithPlaceholderTest >> testPlaceholderString [
 
 	| e ph |

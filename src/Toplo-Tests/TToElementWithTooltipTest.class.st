@@ -207,10 +207,10 @@ TToElementWithTooltipTest >> testTooltipPopupDelay [
 	| e |
 	e := ToElement new.
 	e extent: 50 @ 50.
-
+	"Use a 300ms threshold after which the tooltip opens"
 	e tooltipManagerDo: [ :m |
-			m popupDelay: 100 milliSeconds.
-			self assert: m popupDelay equals: 100 milliSeconds ].
+		m popupDelay: 300 milliSeconds.
+		self assert: m popupDelay equals: 300 milliSeconds ].
 
 	space deferAndSettle: [
 		space root addChild: e.
@@ -218,18 +218,25 @@ TToElementWithTooltipTest >> testTooltipPopupDelay [
 			win root addChild: (ToElement new
 					 extent: 20 @ 20;
 					 yourself) ] ].
-	
+
+	"Hovering starts the delay countdown; the tooltip must not appear immediately"
 	e eventSimulator mouseMoveInside.
-	space waitForDuration: 50 milliSeconds.
 	self assert: e currentTooltipWindow isNil.
 
+	"After a little wait, the tooltip must still not be opened"
+	space waitForDuration: 20 milliSeconds.
+	self assert: e currentTooltipWindow isNil.
+
+	"Once the 300ms popupDelay elapses, the tooltip window opens"
 	space waitUntilTrue: [ e currentTooltipWindow notNil ].
 	self assert: e currentTooltipWindow notNil.
 
+	"Moving the mouse outside closes the tooltip"
 	e eventSimulator mouseMoveOutside.
 	space waitUntilTrue: [ e currentTooltipWindow isNil ].
 	self assert: e currentTooltipWindow isNil.
 
+	"Re-entering the element starts a new delay cycle and opens the tooltip again"
 	e eventSimulator mouseMoveInside.
 	space waitUntilTrue: [ e currentTooltipWindow notNil ].
 	self assert: e currentTooltipWindow notNil

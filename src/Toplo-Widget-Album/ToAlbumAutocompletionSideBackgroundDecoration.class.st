@@ -23,11 +23,13 @@ ToAlbumAutocompletionSideBackgroundDecoration >> aeBackgroundBoundsOn: aeCanvas 
 { #category : #accessing }
 ToAlbumAutocompletionSideBackgroundDecoration >> aeCairoScaledFontOn: aeCanvas in: anInfiniteElement [
 
-	| fontAndStyleBuilder freeTypeFont |
+	| fontAndStyleBuilder |
 	fontAndStyleBuilder := BlTextFontAndStyleBuilder new.
-	fontAndStyleBuilder familyName: anInfiniteElement listElement fontName.
-	freeTypeFont := fontAndStyleBuilder font asAeFTFace.
-	^ aeCanvas scaledFontForFace: freeTypeFont size: anInfiniteElement listElement fontSize
+	fontAndStyleBuilder
+		familyName: anInfiniteElement listElement fontName;
+		fontSize: anInfiniteElement listElement fontSize.
+
+	^ fontAndStyleBuilder aeCairoScaledFontOn: aeCanvas
 ]
 
 { #category : #initialization }

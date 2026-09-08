@@ -47,8 +47,12 @@ ToTooltipWindowTest >> testCurrentWindow [
 
 	| tooltipWindow |
 	tooltipWindow := self setUpTooltipWindow.
-	self assert: tooltipWindow notNil.
-	self assert: tooltipWindow isOpened
+	self
+		assert: tooltipWindow notNil
+		description: 'Tooltip window must be created'.
+	self
+		assert: tooltipWindow isOpened
+		description: 'Tooltip window must be opened'
 ]
 
 { #category : #tests }
@@ -64,5 +68,7 @@ ToTooltipWindowTest >> testDefaultElevation [
 { #category : #tests }
 ToTooltipWindowTest >> testInitialize [
 
-	self deny: ToTooltipWindow new hasManager
+	self
+		deny: ToTooltipWindow new hasManager
+		description: 'New tooltip window must not have a manager'
 ]

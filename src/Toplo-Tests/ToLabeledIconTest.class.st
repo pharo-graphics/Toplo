@@ -7,6 +7,26 @@ Class {
 	#category : #'Toplo-Tests-Core'
 }
 
+{ #category : #helpers }
+ToLabeledIconTest >> newLabeledIcon [
+
+	^ ToLabeledIcon new
+]
+
+{ #category : #helpers }
+ToLabeledIconTest >> newLabeledIconWithIcon [
+
+	| li |
+	li := self newLabeledIcon.
+	li icon:
+		(ToImage inner:
+			(BlElement new
+				extent: 60 @ 20;
+				background: (Color blue alpha: 0.2);
+				yourself)).
+	^ li
+]
+
 { #category : #running }
 ToLabeledIconTest >> setUp [ 
 
@@ -18,7 +38,8 @@ ToLabeledIconTest >> setUp [
 ToLabeledIconTest >> testBeIconFirst [
 
 	| li |
-	li := self testInitialize.
+	li := self newLabeledIcon.
+	space deferAndSettle: [ space root addChild: li ].
 
 	space deferAndSettle: [
 		li iconImage:
@@ -35,7 +56,8 @@ ToLabeledIconTest >> testBeIconFirst [
 ToLabeledIconTest >> testBeLabelFirst [
 
 	| li |
-	li := self testInitialize.
+	li := self newLabeledIcon.
+	space deferAndSettle: [ space root addChild: li ].
 
 	space deferAndSettle: [
 		li iconImage:
@@ -52,7 +74,8 @@ ToLabeledIconTest >> testBeLabelFirst [
 ToLabeledIconTest >> testFiller [
 
 	| li |
-	li := self testInitialize.
+	li := self newLabeledIcon.
+	space deferAndSettle: [ space root addChild: li ].
 
 	self assert: li startFiller isNil.
 
@@ -67,7 +90,8 @@ ToLabeledIconTest >> testFiller [
 ToLabeledIconTest >> testHasIcon [
 
 	| li |
-	li := self testInitialize.
+	li := self newLabeledIcon.
+	space deferAndSettle: [ space root addChild: li ].
 
 	self deny: li hasIcon.
 
@@ -86,7 +110,8 @@ ToLabeledIconTest >> testHasIcon [
 ToLabeledIconTest >> testHasLabel [
 
 	| li |
-	li := self testInitialize.
+	li := self newLabeledIcon.
+	space deferAndSettle: [ space root addChild: li ].
 
 	self deny: li hasLabel.
 
@@ -99,7 +124,8 @@ ToLabeledIconTest >> testHasLabel [
 ToLabeledIconTest >> testIcon [
 
 	| li |
-	li := self testInitialize.
+	li := self newLabeledIcon.
+	space deferAndSettle: [ space root addChild: li ].
 
 	space deferAndSettle: [
 		li icon:
@@ -121,7 +147,8 @@ ToLabeledIconTest >> testIcon [
 ToLabeledIconTest >> testIconContainer [
 
 	| li |
-	li := self testInitialize.
+	li := self newLabeledIcon.
+	space deferAndSettle: [ space root addChild: li ].
 
 	self assert: li iconContainer isNil.
 
@@ -141,7 +168,8 @@ ToLabeledIconTest >> testIconContainer [
 ToLabeledIconTest >> testIconContainerHeight [
 
 	| li |
-	li := self testWithLabelAndIcon.
+	li := self newLabeledIconWithIcon.
+	space deferAndSettle: [ space root addChild: li ].
 
 	space deferAndSettle: [ li iconContainer height: 40 ].
 	self
@@ -153,7 +181,8 @@ ToLabeledIconTest >> testIconContainerHeight [
 ToLabeledIconTest >> testIconContainerHeightVertical [
 
 	| li |
-	li := self testWithLabelAndIcon.
+	li := self newLabeledIconWithIcon.
+	space deferAndSettle: [ space root addChild: li ].
 
 	space deferAndSettle: [
 		li beVertical.
@@ -170,7 +199,8 @@ ToLabeledIconTest >> testIconContainerHeightVertical [
 ToLabeledIconTest >> testIconContainerWidth [
 
 	| li |
-	li := self testWithLabelAndIcon.
+	li := self newLabeledIconWithIcon.
+	space deferAndSettle: [ space root addChild: li ].
 
 	space deferAndSettle: [ li iconContainer width: 40 ].
 	self
@@ -185,8 +215,9 @@ ToLabeledIconTest >> testIconContainerWidth [
 ToLabeledIconTest >> testIconContainerWidthVertical [
 
 	| li |
-	li := self testWithLabelAndIcon.
-	
+	li := self newLabeledIconWithIcon.
+	space deferAndSettle: [ space root addChild: li ].
+
 	space deferAndSettle: [
 		li beVertical.
 		li iconContainer width: 40 ].
@@ -202,7 +233,8 @@ ToLabeledIconTest >> testIconContainerWidthVertical [
 ToLabeledIconTest >> testIconImage [
 
 	| li |
-	li := self testInitialize.
+	li := self newLabeledIcon.
+	space deferAndSettle: [ space root addChild: li ].
 
 	space deferAndSettle: [
 		li iconImage:
@@ -218,12 +250,11 @@ ToLabeledIconTest >> testIconImage [
 ToLabeledIconTest >> testInitialize [
 
 	| li |
-	li := ToLabeledIcon new.
+	li := self newLabeledIcon.
 	space deferAndSettle: [ space root addChild: li ].
 	self assert: li isStartToEnd.
 	self assert: li isHorizontal.
-	self assert: li extent equals: 0 asPoint.
-	^ li
+	self assert: li extent equals: 0 asPoint
 ]
 
 { #category : #tests }
@@ -284,7 +315,8 @@ ToLabeledIconTest >> testInterspaceWithLabelAndVertical [
 ToLabeledIconTest >> testIsExact [
 
 	| li |
-	li := self testInitialize.
+	li := self newLabeledIcon.
+	space deferAndSettle: [ space root addChild: li ].
 	space deferAndSettle: [ li extent: 10 @ 10 ].
 	self assert: li isExact.
 
@@ -296,7 +328,8 @@ ToLabeledIconTest >> testIsExact [
 ToLabeledIconTest >> testIsIconFirst [
 
 	| li |
-	li := self testInitialize.
+	li := self newLabeledIcon.
+	space deferAndSettle: [ space root addChild: li ].
 
 	space deferAndSettle: [ li beStartToEnd ].
 	self assert: li isStartToEnd.
@@ -308,7 +341,8 @@ ToLabeledIconTest >> testIsIconFirst [
 ToLabeledIconTest >> testIsLabelFirst [
 
 	| li |
-	li := self testInitialize.
+	li := self newLabeledIcon.
+	space deferAndSettle: [ space root addChild: li ].
 
 	space deferAndSettle: [ li beEndToStart ].
 	self assert: li isEndToStart.
@@ -321,7 +355,8 @@ ToLabeledIconTest >> testIsLabelFirst [
 ToLabeledIconTest >> testIsStartFlexible [
 
 	| li |
-	li := self testInitialize.
+	li := self newLabeledIcon.
+	space deferAndSettle: [ space root addChild: li ].
 
 	self deny: li isStartFlexible.
 
@@ -333,7 +368,8 @@ ToLabeledIconTest >> testIsStartFlexible [
 ToLabeledIconTest >> testLabel [
 
 	| li |
-	li := self testInitialize.
+	li := self newLabeledIcon.
+	space deferAndSettle: [ space root addChild: li ].
 
 	space deferAndSettle: [ li label: (ToLabel text: 'A') ].
 	self assert: li extent equals: li labelContainer extent.
@@ -341,16 +377,15 @@ ToLabeledIconTest >> testLabel [
 
 	space deferAndSettle: [ li label: nil ].
 	self assert: li label isNil.
-	self deny: li hasLabel.
-
-	^ li
+	self deny: li hasLabel
 ]
 
 { #category : #tests }
 ToLabeledIconTest >> testLabelContainer [
 
 	| li |
-	li := self testInitialize.
+	li := self newLabeledIcon.
+	space deferAndSettle: [ space root addChild: li ].
 
 	self assert: li labelContainer hasChildren not.
 	self assert: li labelContainer extent equals: 0 asPoint.
@@ -363,7 +398,8 @@ ToLabeledIconTest >> testLabelContainer [
 ToLabeledIconTest >> testLabelFirst [
 
 	| li |
-	li := self testInitialize.
+	li := self newLabeledIcon.
+	space deferAndSettle: [ space root addChild: li ].
 
 	space deferAndSettle: [
 		li iconImage:
@@ -382,7 +418,8 @@ ToLabeledIconTest >> testLabelFirst [
 ToLabeledIconTest >> testLabelText [
 
 	| li |
-	li := self testInitialize.
+	li := self newLabeledIcon.
+	space deferAndSettle: [ space root addChild: li ].
 
 	space deferAndSettle: [ li labelText: 'A' asRopedText ].
 	self assert: li label text asString equals: 'A'.
@@ -403,7 +440,8 @@ ToLabeledIconTest >> testLabelText [
 ToLabeledIconTest >> testStartAlignment [
 
 	| li |
-	li := self testInitialize.
+	li := self newLabeledIcon.
+	space deferAndSettle: [ space root addChild: li ].
 
 	space deferAndSettle: [
 		li icon:
@@ -430,7 +468,8 @@ ToLabeledIconTest >> testStartAlignment [
 ToLabeledIconTest >> testStartFlexible [
 
 	| li |
-	li := self testInitialize.
+	li := self newLabeledIcon.
+	space deferAndSettle: [ space root addChild: li ].
 
 	self assert: li startFiller isNil.
 
@@ -509,7 +548,8 @@ ToLabeledIconTest >> testStartFlexibleWithLabelAndVertical [
 ToLabeledIconTest >> testStartToEnd [
 
 	| li |
-	li := self testInitialize.
+	li := self newLabeledIcon.
+	space deferAndSettle: [ space root addChild: li ].
 
 	space deferAndSettle: [
 		li iconImage:
@@ -528,22 +568,14 @@ ToLabeledIconTest >> testStartToEnd [
 ToLabeledIconTest >> testWithLabelAndIcon [
 
 	| li |
-	li := self testLabel.
-
-	space deferAndSettle: [
-		li icon:
-			(ToImage inner:
-				(BlElement new
-					extent: 60 @ 20;
-					background: (Color blue alpha: 0.2);
-					yourself)) ].
+	li := self newLabeledIconWithIcon.
+	space deferAndSettle: [ space root addChild: li ].
 	self
 		assert: li width
 		equals: li labelContainer width + li iconContainer width.
 	self
 		assert: li height
-		equals: (li labelContainer height max: li iconContainer height).
-	^ li
+		equals: (li labelContainer height max: li iconContainer height)
 ]
 
 { #category : #tests }

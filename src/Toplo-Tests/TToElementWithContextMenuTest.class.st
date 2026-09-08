@@ -4,6 +4,16 @@ Class {
 	#category : #'Toplo-Tests-Core'
 }
 
+{ #category : #helpers }
+TToElementWithContextMenuTest >> newElementWithContextMenuBuilder [
+
+	| e |
+	e := ToElement new.
+	e contextMenuBuilder: [ :menu :request |
+		menu addAllItems: { ToMenuItem new } ].
+	^ e
+]
+
 { #category : #tests }
 TToElementWithContextMenuTest >> testContextMenu [
 
@@ -24,8 +34,7 @@ TToElementWithContextMenuTest >> testContextMenu [
 	self assert: ttwin root firstChild nodes first item identicalTo: tt.
 	self assert: ttwin anchorElement identicalTo: e.
 
-	space deferAndSettle: [ ttwin close ].
-	^ e
+	space deferAndSettle: [ ttwin close ]
 ]
 
 { #category : #tests }
@@ -81,7 +90,8 @@ TToElementWithContextMenuTest >> testContextMenuBuilder [
 TToElementWithContextMenuTest >> testContextMenuBuilder2 [
 
 	| e ttwin |
-	e := self testContextMenu.
+	e := self newElementWithContextMenuBuilder.
+	space deferAndSettle: [ space root addChild: e ].
 	self assert: e ensuredContextMenuManager currentWindow isNil.
 
 	space deferAndSettle: [
@@ -159,7 +169,7 @@ TToElementWithContextMenuTest >> testContextMenuRequest [
 TToElementWithContextMenuTest >> testCurrentContextMenu [
 
 	| e ttwin |
-	e := self testHasContextMenu.
+	e := self newElementWithContextMenuBuilder.
 	self assert: e currentContextMenu isNil.
 	self assert: (e eventDispatcher hasEventHandlerSuchThat: [ :eh |
 			 eh isKindOf: ToContextMenuManager ]).
@@ -168,8 +178,7 @@ TToElementWithContextMenuTest >> testCurrentContextMenu [
 		menu addAllItems: { ToMenuItem new } ].
 	self assert: e hasContextMenu.
 	self assert: e currentContextMenu notNil.
-	self assert: e currentContextMenu identicalTo: ttwin.
-	^ e
+	self assert: e currentContextMenu identicalTo: ttwin
 ]
 
 { #category : #tests }
@@ -184,8 +193,7 @@ TToElementWithContextMenuTest >> testCurrentContextMenu2 [
 	self assert: e currentContextMenu notNil.
 	self
 		assert: e currentContextMenu class
-		equals: e ensuredContextMenuManager windowClass.
-	^ e
+		equals: e ensuredContextMenuManager windowClass
 ]
 
 { #category : #tests }
@@ -207,8 +215,7 @@ TToElementWithContextMenuTest >> testEnsuredContextMenuManager [
 
 	space deferAndSettle: [ ttwin close ].
 	self assert: e ensuredContextMenuManager currentWindow isNil.
-	self assert: e ensuredContextMenuManager anchorElement identicalTo: e.
-	^ e
+	self assert: e ensuredContextMenuManager anchorElement identicalTo: e
 ]
 
 { #category : #tests }
@@ -220,8 +227,7 @@ TToElementWithContextMenuTest >> testHasContextMenu [
 	self should: [ e newContextMenuOnEvent: nil ] raise: Error.
 	e contextMenuBuilder: [ :menu :request |
 		menu addAllItems: { ToMenuItem new } ].
-	self assert: e rawContextMenuManager notNil.
-	^ e
+	self assert: e rawContextMenuManager notNil
 ]
 
 { #category : #tests }
@@ -238,8 +244,7 @@ TToElementWithContextMenuTest >> testNewContextMenu [
 	self assert: e currentContextMenu notNil.
 	self
 		assert: e currentContextMenu class
-		equals: e ensuredContextMenuManager windowClass.
-	^ e
+		equals: e ensuredContextMenuManager windowClass
 ]
 
 { #category : #tests }
@@ -256,8 +261,7 @@ TToElementWithContextMenuTest >> testNewContextMenuOnEvent [
 	self assert: e ensuredContextMenuManager currentWindow notNil.
 	self
 		assert: e currentContextMenu
-		identicalTo: e ensuredContextMenuManager currentWindow.
-	^ e
+		identicalTo: e ensuredContextMenuManager currentWindow
 ]
 
 { #category : #tests }
@@ -275,8 +279,8 @@ TToElementWithContextMenuTest >> testRawContextMenuManager [
 { #category : #tests }
 TToElementWithContextMenuTest >> testRemoveContextMenuBuilder [
 
-	|  e  |
-	e := self testContextMenu.
+	| e |
+	e := self newElementWithContextMenuBuilder.
 	self assert: e rawContextMenuManager notNil.
 	e removeContextMenuBuilder.
 	self assert: e rawContextMenuManager isNil

@@ -7,11 +7,30 @@ Class {
 	#category : #'Toplo-Tests-Core-Overlay'
 }
 
+{ #category : #helpers }
+ToShrinkableContainerTest >> newShrinkableContainerWithChild [
+
+	| e child |
+	e := ToShrinkableContainer new.
+	e enableShrinkLayer: true.
+	e extent: 100 asPoint.
+	e border: Color red.
+	child := ToElement new.
+	child id: #child.
+	" make the child size less than the container size
+	this let the shrink layer invisible"
+	child extent: 50 asPoint.
+	e addChild: child.
+	^ e
+]
+
 { #category : #tests }
 ToShrinkableContainerTest >> testContainerSizeChange [
 
 	| e |
-	e := self testShrinkableContainerNotVisible.
+	e := self newShrinkableContainerWithChild.
+	space deferAndSettle: [ space root addChild: e ].
+
 	" make the container size smaller than the child size
 	this makes the shrink layer visible"
 	space deferAndSettle: [ e extent: 20 asPoint ].
@@ -170,31 +189,23 @@ ToShrinkableContainerTest >> testIsShrinkedVertically2 [
 { #category : #tests }
 ToShrinkableContainerTest >> testShrinkableContainerNotVisible [
 
-	| e child |
-	e := ToShrinkableContainer new.
-	e enableShrinkLayer: true.
-	e extent: 100 asPoint.
-	e border: Color red.
-	child := ToElement new.
-	child id: #child.
-	" make the child size less than the container size
-	this let the shrink layer invisible"
-	child extent: 50 asPoint.
-	e addChild: child.
+	| e |
+	e := self newShrinkableContainerWithChild.
 	space deferAndSettle: [ space root addChild: e ].
 	self assert: e shrinkFeedbackLayer parent equals: e.
 	self
 		assert: e shrinkFeedbackLayer visibility
-		equals: BlVisibility hidden.
-	^ e
+		equals: BlVisibility hidden
 ]
 
 { #category : #tests }
 ToShrinkableContainerTest >> testShrinkableContainerVisible [
 
 	| e child |
-	e := self testShrinkableContainerNotVisible.
+	e := self newShrinkableContainerWithChild.
+	space deferAndSettle: [ space root addChild: e ].
 	child := e childWithId: #child.
+
 	" make the child size greater than the container size
 	this makes the shrink layer visible"
 	space deferAndSettle: [ child extent: 150 asPoint ].

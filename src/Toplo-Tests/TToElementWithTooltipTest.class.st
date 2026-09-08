@@ -7,6 +7,16 @@ Class {
 	#category : #'Toplo-Tests-Core'
 }
 
+{ #category : #helpers }
+TToElementWithTooltipTest >> newElementWithTooltip [
+
+	| e |
+	e := ToElement new.
+	e tooltip: [ :win :theRequest | win root addChild: BlElement new ].
+	e rawTooltipManager createNewWindowOnEvent: nil.
+	^ e
+]
+
 { #category : #tests }
 TToElementWithTooltipTest >> testCloseTooltipOnMouseLeave [
 
@@ -210,10 +220,10 @@ TToElementWithTooltipTest >> testRawTooltipManager [
 TToElementWithTooltipTest >> testRemoveTooltip [
 
 	| e |
-	e := self testTooltip.
+	e := self newElementWithTooltip.
 	self
 		assert: e hasTooltip
-		description: 'Element must have tooltip from testTooltip'.
+		description: 'Element must have tooltip'.
 
 	e removeTooltip.
 	self
@@ -228,10 +238,10 @@ TToElementWithTooltipTest >> testRemoveTooltip [
 TToElementWithTooltipTest >> testRemoveTooltipManager [
 
 	| e |
-	e := self testTooltip.
+	e := self newElementWithTooltip.
 	self
 		assert: e hasTooltip
-		description: 'Element must have tooltip from testTooltip'.
+		description: 'Element must have tooltip'.
 	self
 		assert: (e userData includesKey: #tooltipManager)
 		description: 'User data must contain tooltipManager key'.
@@ -266,8 +276,7 @@ TToElementWithTooltipTest >> testTooltip [
 		identicalTo: tt.
 	self
 		assert: ttwin anchorElement
-		identicalTo: e.
-	^ e
+		identicalTo: e
 ]
 
 { #category : #tests }

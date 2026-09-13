@@ -1309,7 +1309,9 @@ ToSandBox class >> example_BasicListWithAllClassesWithCheckboxes [
 
 	| l |
 	l := self example_BasicListWithAllClasses.
-	l toConfiguration useCheckbox: true
+	l space deferAndSettle: [
+		l toConfiguration useCheckbox: true ].
+	^ l
 ]
 
 { #category : #'wrapped list' }
@@ -2919,12 +2921,14 @@ ToSandBox class >> example_GeneralButtonWithIconAndLabel_matchParent [
 
 	| but |
 	but := self example_GeneralButtonWithIconAndLabel.
-	but layout alignCenter.
-	but childrenDo: [ :child |
-		child constraintsDo: [ :c |
-			c linear horizontal alignCenter.
-			c linear vertical alignCenter ] ].
-	but matchParent
+	but space deferAndSettle: [
+		but layout alignCenter.
+		but childrenDo: [ :child |
+			child constraintsDo: [ :c |
+				c linear horizontal alignCenter.
+				c linear vertical alignCenter ] ].
+		but matchParent ].
+	^ but
 ]
 
 { #category : #'general button' }
@@ -3100,46 +3104,51 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_interspace [
 
 	| but |
 	but := self example_LabeledIconlWithIconAndText.
-	but border: Color black.
-	but startInterspace: 100.
+	but space deferAndSettle: [
+		but border: Color black.
+		but startInterspace: 100 ].
 	^ but
 ]
 
 { #category : #'labeled icon' }
 ToSandBox class >> example_LabeledIconlWithIconAndText_labelFirst [
 
-	| but  |
+	| but |
 	but := self example_LabeledIconlWithIconAndText.
-	but endToStart: true.
+	but space deferAndSettle: [
+		but endToStart: true ].
 	^ but
 ]
 
 { #category : #'labeled icon' }
 ToSandBox class >> example_LabeledIconlWithIconAndText_labelFirst_startFlexible [
 
-	| but  |
+	| but |
 	but := self example_LabeledIconlWithIconAndText_labelFirst.
-	but startFlexible: true.
-	but matchParent.
+	but space deferAndSettle: [
+		but startFlexible: true.
+		but matchParent ].
 	^ but
 ]
 
 { #category : #'labeled icon' }
 ToSandBox class >> example_LabeledIconlWithIconAndText_labelFirst_vertical [
 
-	| but  |
+	| but |
 	but := self example_LabeledIconlWithIconAndText_labelFirst.
-	but vertical: true.
+	but space deferAndSettle: [
+		but vertical: true ].
 	^ but
 ]
 
 { #category : #'labeled icon' }
 ToSandBox class >> example_LabeledIconlWithIconAndText_labelFirst_vertical_startFlexible [
 
-	| but  |
+	| but |
 	but := self example_LabeledIconlWithIconAndText_labelFirst_vertical.
-	but startFlexible: true.
-	but matchParent.
+	but space deferAndSettle: [
+		but startFlexible: true.
+		but matchParent ].
 	^ but
 ]
 
@@ -3148,20 +3157,22 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_startAlignment [
 
 	| but |
 	but := self example_LabeledIconlWithIconAndText.
-	but border: Color black.
-	but startAlignment: 100.
+	but space deferAndSettle: [
+		but border: Color black.
+		but startAlignment: 100 ].
 	^ but
 ]
 
 { #category : #'labeled icon' }
 ToSandBox class >> example_LabeledIconlWithIconAndText_startFlexible [
 
-	| but  |
+	| but |
 	but := self example_LabeledIconlWithIconAndText.
-	but startFlexible: true.
-	but border: Color red.
-	but vFitContent.
-	but hMatchParent.
+	but space deferAndSettle: [
+		but startFlexible: true.
+		but border: Color red.
+		but vFitContent.
+		but hMatchParent ].
 	^ but
 ]
 
@@ -3186,18 +3197,20 @@ ToSandBox class >> example_LabeledIconlWithIconAndText_startFlexible_inFitConten
 { #category : #'labeled icon' }
 ToSandBox class >> example_LabeledIconlWithIconAndText_vertical [
 
-	| but  |
+	| but |
 	but := self example_LabeledIconlWithIconAndText.
-	but vertical: true.
+	but space deferAndSettle: [
+		but vertical: true ].
 	^ but
 ]
 
 { #category : #'labeled icon' }
 ToSandBox class >> example_LabeledIconlWithIconAndText_vertical_interspace [
 
-	| but  |
+	| but |
 	but := self example_LabeledIconlWithIconAndText_vertical.
-	but startInterspace: 20.
+	but space deferAndSettle: [
+		but startInterspace: 20 ].
 	^ but
 ]
 
@@ -3583,9 +3596,10 @@ ToSandBox class >> example_ListWithFloatButtons [
 			c anchors add:
 				(c anchors bottomRightAnchor on:
 					 floatAdd bottomLeftAnchor - (5 @ 0)) ] ).
-	
-	floatAdd attachToElement: list.
-	floatRemove attachToElement: list
+	list space deferAndSettle: [
+		floatAdd attachToElement: list.
+		floatRemove attachToElement: list ].
+	^ list
 ]
 
 { #category : #list }
@@ -3930,7 +3944,8 @@ ToSandBox class >> example_MenuPopover [
 
 	| menu |
 	menu := self example_Menu2.
-	menu manager popover: true.
+	menu space deferAndSettle: [
+		menu manager popover: true ].
 	^ menu
 ]
 
@@ -5079,9 +5094,11 @@ ToSandBox class >> example_SelectMultiFiltrableWithMatchParentMaxHeight [
 
 	| select |
 	select := self example_SelectMultiFiltrable.
-	select popupListElement dataAccessor updateAllWith:
-		(self statesOfAmericaWithColor copyFrom: 1 to: 15).
-	select manager withMatchParentMaxHeight.
+	select space deferAndSettle: [
+		select popupListElement dataAccessor updateAllWith:
+			(self statesOfAmericaWithColor copyFrom: 1 to: 15).
+		select manager withMatchParentMaxHeight ].
+	^ select
 ]
 
 { #category : #select }
@@ -5089,12 +5106,13 @@ ToSandBox class >> example_SelectMultiFiltrableWithMax [
 
 	| select |
 	select := self example_SelectMultiFiltrable.
-	select maxSelectedCount: 3.
-	select selecter selectIndex: 3.
-	select selecter selectIndex: 5.
-	select selecter selectIndex: 4.
-	select selecter selectIndex: 6.
-
+	select space deferAndSettle: [
+		select maxSelectedCount: 3.
+		select selecter selectIndex: 3.
+		select selecter selectIndex: 5.
+		select selecter selectIndex: 4.
+		select selecter selectIndex: 6 ].
+	^ select
 ]
 
 { #category : #select }
@@ -5165,19 +5183,21 @@ ToSandBox class >> example_SelectableLabeledIconlWithIconAndText [
 { #category : #'labeled icon' }
 ToSandBox class >> example_SelectableLabeledIconlWithIconAndText_labelFirst [
 
-	| but  |
+	| but |
 	but := self example_SelectableLabeledIconlWithIconAndText.
-	but endToStart: true.
+	but space deferAndSettle: [
+		but endToStart: true ].
 	^ but
 ]
 
 { #category : #'labeled icon' }
 ToSandBox class >> example_SelectableLabeledIconlWithIconAndText_labelFirst_startFlexible [
 
-	| but  |
+	| but |
 	but := self example_SelectableLabeledIconlWithIconAndText_labelFirst.
-	but startFlexible: true.
-	but matchParent.
+	but space deferAndSettle: [
+		but startFlexible: true.
+		but matchParent ].
 	^ but
 ]
 
@@ -5322,7 +5342,9 @@ ToSandBox class >> example_SieveOnList2With_AllMethods_MonoSelection [
 	| listElement assoc |
 	assoc := self example_SieveOnList2With_AllMethods.
 	listElement := assoc key.
-	listElement primarySelectionMode beSingleSelection
+	listElement space deferAndSettle: [
+		listElement primarySelectionMode beSingleSelection ].
+	^ assoc
 ]
 
 { #category : #list }
@@ -5603,11 +5625,10 @@ ToSandBox class >> example_SimpleTabPane [
 { #category : #tabPane }
 ToSandBox class >> example_SimpleTabPaneWithRemoveButtons [
 
-	| tabPane space |
-	space := BlSpace new.
+	| tabPane |
 	tabPane := self example_SimpleTabPane.
-	tabPane items do: [ :tabItem | tabItem removable: true ].
-
+	tabPane space deferAndSettle: [
+		tabPane items do: [ :tabItem | tabItem removable: true ] ].
 	^ tabPane
 ]
 
@@ -5748,8 +5769,8 @@ ToSandBox class >> example_TabGroupElementWithStartAndEndExtras [
 
 	| tabs |
 	tabs := self example_TabGroupElementWithUSStates.
-
-	tabs startExtraBuilder: [ :extra |
+	tabs space deferAndSettle: [
+		tabs startExtraBuilder: [ :extra |
 			| im menu menuPane |
 			menuPane := ToMenuPane new.
 			im := ToMaterialDesignIconProvider innerImageNamed:
@@ -5758,9 +5779,8 @@ ToSandBox class >> example_TabGroupElementWithStartAndEndExtras [
 			menu icon extent: 20 asPoint.
 			menuPane addItem: menu.
 			extra addChild: menuPane ].
-
-	tabs endExtraBuilder: [ :extra |
-		extra addChild: (ToButton new labelText: 'Bookmarks') ].
+		tabs endExtraBuilder: [ :extra |
+			extra addChild: (ToButton new labelText: 'Bookmarks') ] ].
 	^ tabs
 ]
 
@@ -6009,7 +6029,8 @@ ToSandBox class >> example_ThemeSelectPopover [
 
 	| select |
 	select := self example_ThemeSelectNoDeselection.
-	select manager popover: true.
+	select space deferAndSettle: [
+		select manager popover: true ].
 	^ select
 ]
 
@@ -6196,77 +6217,83 @@ ToSandBox class >> example_TripletElementWithIconAndText [
 { #category : #triplet }
 ToSandBox class >> example_TripletElementWithIconAndText_endAlignment [
 
-	| but  |
+	| but |
 	but := self example_TripletElementWithIconAndText.
-	but endAlignment: 50.
-	but border: Color red.
-	but vFitContent.
-	but hFitContent.
+	but space deferAndSettle: [
+		but endAlignment: 50.
+		but border: Color red.
+		but vFitContent.
+		but hFitContent ].
 	^ but
 ]
 
 { #category : #triplet }
 ToSandBox class >> example_TripletElementWithIconAndText_flexible_Interspace [
 
-	| but  |
+	| but |
 	but := self example_TripletElementWithIconAndText.
-	but startInterspace: 30.
-	but endInterspace: 30.
-	but startFlexible: true.
-	but endFlexible: true.
-	but border: Color red.
-	but vFitContent.
-	but hMatchParent.
+	but space deferAndSettle: [
+		but startInterspace: 30.
+		but endInterspace: 30.
+		but startFlexible: true.
+		but endFlexible: true.
+		but border: Color red.
+		but vFitContent.
+		but hMatchParent ].
 	^ but
 ]
 
 { #category : #triplet }
 ToSandBox class >> example_TripletElementWithIconAndText_startAlignment [
 
-	| but  |
+	| but |
 	but := self example_TripletElementWithIconAndText.
-	but startAlignment: 50.
-	but border: Color red.
-	but vFitContent.
-	but hFitContent.
+	but space deferAndSettle: [
+		but startAlignment: 50.
+		but border: Color red.
+		but vFitContent.
+		but hFitContent ].
 	^ but
 ]
 
 { #category : #triplet }
 ToSandBox class >> example_TripletElementWithIconAndText_startFlexible [
 
-	| but  |
+	| but |
 	but := self example_TripletElementWithIconAndText.
-	but startFlexible: true.
-	but border: Color red.
-	but vFitContent.
-	but hMatchParent.
+	but space deferAndSettle: [
+		but startFlexible: true.
+		but border: Color red.
+		but vFitContent.
+		but hMatchParent ].
 	^ but
 ]
 
 { #category : #triplet }
 ToSandBox class >> example_TripletElementWithIconAndText_startFlexible_startAlignment [
 
-	| but  |
+	| but |
 	but := self example_TripletElementWithIconAndText.
-	but startFlexible: true.
-	but startAlignment: 60.
-	but border: Color red.
-	but vFitContent.
-	but hMatchParent.
+	but space deferAndSettle: [
+		but startFlexible: true.
+		but startAlignment: 60.
+		but border: Color red.
+		but vFitContent.
+		but hMatchParent ].
 	^ but
 ]
 
 { #category : #triplet }
 ToSandBox class >> example_TripletElementWithIconAndText_startFlexible_startInterspace [
 
-	| but  |
+	| but |
 	but := self example_TripletElementWithIconAndText.
-	but startInterspace: 30.
-	but startFlexible: true.
-	but border: Color red.
-	but vFitContent.
-	but hMatchParent.
+	but space deferAndSettle: [
+		but startInterspace: 30.
+		but startFlexible: true.
+		but border: Color red.
+		but vFitContent.
+		but hMatchParent ].
 	^ but
 ]
 
@@ -6516,34 +6543,38 @@ ToSandBox class >> example_badgeOnAnIgnoredElement [
 { #category : #button }
 ToSandBox class >> example_buttonWith2Icons [
 
-	| but  |
+	| but |
 	but := self example_buttonWithIcon.
-	but clickAction: [ :evt | evt currentTarget requestFocus ].
-	but addEventHandlerOn: ToSkinEvent do: [ :event | event traceCr ].
-	but clickAction: [ :evt | evt target traceCr ].
-	but addEventHandlerOn: BlDoubleClickEvent do: [ :event | event traceCr ].
-	but label: (ToLabel text: 'Button with 2 icons').
-	but endElement: (ToImage inner: ToThemeIcons searchOutlined16x16).
+	but space deferAndSettle: [
+		but clickAction: [ :evt | evt currentTarget requestFocus ].
+		but addEventHandlerOn: ToSkinEvent do: [ :event | event traceCr ].
+		but clickAction: [ :evt | evt target traceCr ].
+		but addEventHandlerOn: BlDoubleClickEvent do: [ :event | event traceCr ].
+		but label: (ToLabel text: 'Button with 2 icons').
+		but endElement: (ToImage inner: ToThemeIcons searchOutlined16x16) ].
 	^ but
 ]
 
 { #category : #button }
 ToSandBox class >> example_buttonWith2IconsFlexible [
 
-	| but  |
+	| but |
 	but := self example_buttonWith2Icons.
-	but flexible: true.
-	but hMatchParent
+	but space deferAndSettle: [
+		but flexible: true.
+		but hMatchParent ].
+	^ but
 ]
 
 { #category : #button }
 ToSandBox class >> example_buttonWith2IconsVertical [
 
-	| but  |
+	| but |
 	but := self example_buttonWithIcon.
-	but label: (ToLabel text: 'Button with 2 icons').
-	but endElement: (ToImage inner: ToThemeIcons searchOutlined16x16).
-	but beVertical.
+	but space deferAndSettle: [
+		but label: (ToLabel text: 'Button with 2 icons').
+		but endElement: (ToImage inner: ToThemeIcons searchOutlined16x16).
+		but beVertical ].
 	^ but
 ]
 
@@ -6601,29 +6632,36 @@ ToSandBox class >> example_buttonWithIcon [
 { #category : #button }
 ToSandBox class >> example_buttonWithIconAndLabel [
 
-	| but  |
+	| but |
 	but := self example_buttonWithIcon.
-	but label: (ToLabel text: 'Button with label').
-	but clickAction: [ self inform: 'Action runned' ].
+	but space deferAndSettle: [
+		but label: (ToLabel text: 'Button with label').
+		but clickAction: [ self inform: 'Action runned' ] ].
 	^ but
 ]
 
 { #category : #button }
 ToSandBox class >> example_buttonWithIconAndLabelCentered [
 
-	| but  |
+	| but |
 	but := self example_buttonWithIconAndLabel.
-	but hMatchParent.
-	but alignCenter: true.
+	but space deferAndSettle: [
+		but layout alignCenter.
+		but childrenDo: [ :child |
+			child constraintsDo: [ :c |
+				c linear horizontal alignCenter.
+				c linear vertical alignCenter ] ].
+		but matchParent ].
 	^ but
 ]
 
 { #category : #button }
 ToSandBox class >> example_buttonWithIconAndLabelDisabled [
 
-	| but  |
+	| but |
 	but := self example_buttonWithIconDisabled.
-	but label: (ToLabel text: 'Button with label').
+	but space deferAndSettle: [
+		but label: (ToLabel text: 'Button with label') ].
 	^ but
 ]
 
@@ -8146,7 +8184,8 @@ ToSandBox class >> example_selectWith5NodesWithMatchParentMaxHeight [
 
 	| select |
 	select := self example_selectWith5Nodes.
-	select manager withMatchParentMaxHeight.
+	select space deferAndSettle: [
+		select manager withMatchParentMaxHeight ].
 	^ select
 ]
 
@@ -8602,7 +8641,6 @@ ToSandBox class >> example_textField0 [
 	| t |
 	t := ToTextField new text: 'AAAA'.
 	t background: Color yellow.
-	t inspect.
 	t openInSpace
 ]
 
@@ -8884,8 +8922,7 @@ ToSandBox class >> example_toButtonOrientationChanger [
 			but orientation: but orientation inverted ].
 	space := BlSpace new.
 	space root addChild: but.
-	space show.
-	space showStatisticsWindow
+	space show
 ]
 
 { #category : #tooltip }
@@ -9090,7 +9127,6 @@ ToSandBox class >> example_toImageWithSVG [
 	im := ToImage inner: (self pathBugSVG).
 	im extent: 30 asPoint.
 	im withNullSkin.
-	im inspect.
 	im openInSpace
 ]
 
@@ -9523,7 +9559,10 @@ ToSandBox class >> example_toTable1 [
 { #category : #table }
 ToSandBox class >> example_toTable1WithCheckbox [
 
-	self example_toTable1 useCheckbox: true
+	| table |
+	table := self example_toTable1.
+	table space deferAndSettle: [ table useCheckbox: true ].
+	^ table
 ]
 
 { #category : #table }
@@ -9587,39 +9626,7 @@ ToSandBox class >> example_toTableWithSort [
 ToSandBox class >> example_toTreeTable1 [
 
 	| table |
-	table := ToTreeTableElement new.
-	table nodeManager childrenGetter: [ :dataItem |
-		dataItem subclasses sorted: [ :a :b | a name < b name ] ].
-	table columns: {
-			(ToTableColumn new
-				 title: 'Name';
-				 key: 'name';
-				 dataIndex: #name;
-				 yourself).
-			(ToTableColumn new
-				 title: 'Number of methods';
-				 key: 'methods';
-				 dataIndex: #numberOfMethods;
-				 containerBuilder: [ :container |
-					 container background: (Color veryLightGray alpha: 0.2) ];
-				 yourself).
-			(ToTableColumn new
-				 title: 'Space used';
-				 key: 'space';
-				 dataIndex: #spaceUsed;
-				 yourself).
-			(ToTableColumn new
-				 title: 'Package';
-				 key: 'package';
-				 dataIndex: [ :cls | cls packageName ];
-				 containerBuilder: [ :container :column |
-					 container background: (Color veryLightGray alpha: 0.2) ];
-				 yourself) }.
-	table dataAccessor add: ProtoObject.
-	table dataAccessor add: BlElement.
-	table dataAccessor add: Collection.
-	table dataAccessor add: String.
-
+	table := self newTreeTable1.
 	table openInSpace.
 	^ table
 ]
@@ -9628,7 +9635,7 @@ ToSandBox class >> example_toTreeTable1 [
 ToSandBox class >> example_toTreeTable1WithCheckbox [
 
 	| table |
-	table := self example_toTreeTable1.
+	table := self newTreeTable1.
 	table useCheckbox: true.
 	table useScrollbar: true.
 	table list useInfiniteLayout: true.
@@ -9636,7 +9643,9 @@ ToSandBox class >> example_toTreeTable1WithCheckbox [
 			menu addItem: (ToMenuItem new
 					 labelText: 'Inspect';
 					 clickAction: [ table inspect ];
-					 yourself) ]
+					 yourself) ].
+	table openInSpace.
+	^ table
 ]
 
 { #category : #table }
@@ -10437,6 +10446,45 @@ ToSandBox class >> newPopup [
 		popup addChild: (ToLabel new text: 'A popup window') ].
 	e addEventHandler: popupWindowHandler.
 	^ popupWindowHandler
+]
+
+{ #category : #table }
+ToSandBox class >> newTreeTable1 [
+
+	| table |
+	table := ToTreeTableElement new.
+	table nodeManager childrenGetter: [ :dataItem |
+		dataItem subclasses sorted: [ :a :b | a name < b name ] ].
+	table columns: {
+			(ToTableColumn new
+				 title: 'Name';
+				 key: 'name';
+				 dataIndex: #name;
+				 yourself).
+			(ToTableColumn new
+				 title: 'Number of methods';
+				 key: 'methods';
+				 dataIndex: #numberOfMethods;
+				 containerBuilder: [ :container |
+					 container background: (Color veryLightGray alpha: 0.2) ];
+				 yourself).
+			(ToTableColumn new
+				 title: 'Space used';
+				 key: 'space';
+				 dataIndex: #spaceUsed;
+				 yourself).
+			(ToTableColumn new
+				 title: 'Package';
+				 key: 'package';
+				 dataIndex: [ :cls | cls packageName ];
+				 containerBuilder: [ :container :column |
+					 container background: (Color veryLightGray alpha: 0.2) ];
+				 yourself) }.
+	table dataAccessor add: ProtoObject.
+	table dataAccessor add: BlElement.
+	table dataAccessor add: Collection.
+	table dataAccessor add: String.
+	^ table
 ]
 
 { #category : #accordion }

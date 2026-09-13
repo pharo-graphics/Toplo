@@ -47,7 +47,7 @@ ToAnimatedIcon >> defaultDuration [
 { #category : #initialization }
 ToAnimatedIcon >> defaultLoops [
 
-	^ 10
+	^ nil
 ]
 
 { #category : #initialization }

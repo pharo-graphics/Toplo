@@ -15,7 +15,7 @@ Class {
 ToExWorkspace class >> open [
 
 	<script>
-	self openInHost: BlOSWindowSDL2Host default
+	self openInHost: Bloc preferredHost
 ]
 
 { #category : #'instance creation' }

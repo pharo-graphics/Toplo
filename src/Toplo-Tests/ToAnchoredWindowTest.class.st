@@ -62,17 +62,13 @@ ToAnchoredWindowTest >> testDefaultElevation [
 	space root addChild: e.
 	self waitTestingSpaces.
 
-	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
-		                 :anchWin
-		                 :element |  ].
+	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [ :anchWin :element |  ].
 	e addEventHandler: windowManager.
 	win := windowManager createNewWindowOnEvent: nil.
-	e position: 10 asPoint.
-	e extent: 10 asPoint.
+	e position: 10 @ 10.
+	e extent: 10 @ 10.
 	win popup.
-	self
-		assert: win elevation elevation
-		equals: win defaultElevation elevation
+	self assert: win elevation elevation equals: win defaultElevation elevation
 ]
 
 { #category : #tests }
@@ -457,13 +453,11 @@ ToAnchoredWindowTest >> testWindowSize [
 	| win e windowManager |
 	e := ToElement new.
 	space root addChild: e.
-	e position: 10 asPoint.
-	e extent: 10 asPoint.
+	e position: 10 @ 10.
+	e extent: 10 @ 10.
 	self waitTestingSpaces.
 
-	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
-		                 :anchWin
-		                 :element |  ].
+	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [ :anchWin :element |  ].
 	e addEventHandler: windowManager.
 	win := windowManager createNewWindowOnEvent: nil.
 	self assert: win constraints horizontal resizer isFitContent.
@@ -478,10 +472,8 @@ ToAnchoredWindowTest >> testWindowSize [
 	self assert: win root constraints vertical resizer isFitContent.
 	self assert: win bounds inSpace extent equals: 0 @ 0.
 	self assert: win root bounds inSpace extent equals: 0 @ 0.
-	e position: 20 asPoint.
+	e position: 20 @ 20.
 	self waitTestingSpaces.
-	self
-		assert: win bounds inSpace bounds origin
-		equals: e bounds inSpace bounds origin.
+	self assert: win bounds inSpace bounds origin equals: e bounds inSpace bounds origin.
 	self assert: win bounds inSpace extent equals: 0 @ 0
 ]

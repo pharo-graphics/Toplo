@@ -12,10 +12,10 @@ ToScriptableSkinTest >> testOnHoveredSkinEvent [
 
 	| te skin |
 	te := ToElement new.
-	te extent: 100 asPoint.
+	te extent: 100 @ 100.
 	skin := ToScriptableSkin new.
 	skin onHoveredSkinEvent: [ :e :evt |
-			e extent: 30 asPoint.
+			e extent: 30 @ 30.
 			e background: Color yellow ].
 	te defaultSkin: skin.
 	space root addChild: te.
@@ -23,7 +23,7 @@ ToScriptableSkinTest >> testOnHoveredSkinEvent [
 	BlSpace simulateMouseMoveInside: te.
 	self waitTestingSpaces.
 	self assert: te background paint color equals: Color yellow.
-	self assert: te extent equals: 30 asPoint
+	self assert: te extent equals: 30 @ 30
 ]
 
 { #category : #tests }
@@ -33,14 +33,14 @@ ToScriptableSkinTest >> testOnInstalledSkinEvent [
 	te := ToElement new.
 	skin := ToScriptableSkin new.
 	skin onInstallSkinEvent: [ :e :evt |
-			e extent: 30 asPoint.
+			e extent: 30 @ 30.
 			e background: Color yellow ].
 	te defaultSkin: skin.
 	space root addChild: te.
 	space startToploPhases.
 	self waitTestingSpaces.
 	self assert: te background paint color equals: Color yellow.
-	self assert: te extent equals: 30 asPoint
+	self assert: te extent equals: 30 @ 30
 ]
 
 { #category : #tests }
@@ -48,10 +48,10 @@ ToScriptableSkinTest >> testOnLeftSkinEvent [
 
 	| te skin |
 	te := ToElement new.
-	te extent: 100 asPoint.
+	te extent: 100 @ 100.
 	skin := ToScriptableSkin new.
 	skin onLeftSkinEvent: [ :e :evt |
-			e extent: 30 asPoint.
+			e extent: 30 @ 30.
 			e background: Color yellow ].
 	te defaultSkin: skin.
 	space root addChild: te.
@@ -60,5 +60,5 @@ ToScriptableSkinTest >> testOnLeftSkinEvent [
 	BlSpace simulateMouseMoveOutside: te.
 	self waitTestingSpaces.
 	self assert: te background paint color equals: Color yellow.
-	self assert: te extent equals: 30 asPoint
+	self assert: te extent equals: 30 @ 30
 ]

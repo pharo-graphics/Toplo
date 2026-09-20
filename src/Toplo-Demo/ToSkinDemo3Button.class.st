@@ -13,7 +13,7 @@ Class {
 ToSkinDemo3Button class >> exampleUsingTokens [
 
 	self new
-		position: 50 asPoint;
+		position: 50 @ 50;
 		initializeTokens;
 		openInSpace
 ]
@@ -24,11 +24,11 @@ ToSkinDemo3Button class >> exampleWithNewTheme [
 	| space |
 	space := BlSpace new.
 	space toTheme: ToSkinDemoTheme new.
-	
+
 	space root addChild: (self new
-		position: 50 asPoint;
-		yourself).
-	space show 
+			 position: 50 @ 50;
+			 yourself).
+	space show
 ]
 
 { #category : #public }

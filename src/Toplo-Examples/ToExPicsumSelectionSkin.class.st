@@ -34,7 +34,7 @@ ToExPicsumSelectionSkin >> installSkinEvent: anEvent [
 					c vertical fitContent.
 					c horizontal fitContent ].
 			im := ToImage inner: self pathCheckSVG.
-			im extent: 28 asPoint.
+			im extent: 28 @ 28.
 			im background: Color yellow.
 			im geometry: BlCircleGeometry new.
 			cont padding: (BlInsets all: 8).

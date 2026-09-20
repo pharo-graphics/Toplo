@@ -13,7 +13,7 @@ Class {
 ToSkinDemo2Button class >> exampleBasic [
 
 	self new
-		position: 50 asPoint;
+		position: 50 @ 50;
 		openInSpace
 ]
 
@@ -22,7 +22,7 @@ ToSkinDemo2Button class >> exampleWithAccessor [
 
 	| button |
 	button := self new
-		          position: 50 asPoint;
+		          position: 50 @ 50;
 		          clicked: true.
 	button openInSpace
 ]
@@ -32,16 +32,16 @@ ToSkinDemo2Button class >> exampleWithSideElementChangingClick [
 
 	| button side space |
 	button := self new
-		          position: 50 asPoint;
+		          position: 50 @ 50;
 		          clicked: true.
 
 	side := BlElement new
 		        position: 170 @ 50;
 		        background: Color lightBlue;
-				  addChild: (BlTextElement text: button clicked asRopedText );
+		        addChild: (BlTextElement text: button clicked asRopedText);
 		        addEventHandlerOn: BlClickEvent do: [ :e |
-			        button clicked: button clicked not.
-			        side firstChild text: button clicked asRopedText ];
+				        button clicked: button clicked not.
+				        side firstChild text: button clicked asRopedText ];
 		        yourself.
 
 	space := BlSpace new.

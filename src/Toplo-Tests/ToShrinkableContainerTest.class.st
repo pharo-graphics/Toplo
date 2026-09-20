@@ -14,11 +14,9 @@ ToShrinkableContainerTest >> testContainerSizeChange [
 	e := self testShrinkableContainerNotVisible.
 	" make the container size smaller than the child size
 	this makes the shrink layer visible"
-	e extent: 20 asPoint.
+	e extent: 20 @ 20.
 	self waitTestingSpaces.
-	self
-		assert: e shrinkFeedbackLayer visibility
-		equals: BlVisibility visible.
+	self assert: e shrinkFeedbackLayer visibility equals: BlVisibility visible.
 	^ e
 ]
 
@@ -54,7 +52,7 @@ ToShrinkableContainerTest >> testIsShrinked [
 
 	| e child |
 	e := ToShrinkableContainer new.
-	e extent: 100 asPoint.
+	e extent: 100 @ 100.
 	space root addChild: e.
 	self deny: e isShrinked.
 	e enableShrinkLayer: true.
@@ -64,12 +62,12 @@ ToShrinkableContainerTest >> testIsShrinked [
 	child id: #child.
 	" make the child size less than the container size
 	this let the shrink layer invisible"
-	child extent: 50 asPoint.
+	child extent: 50 @ 50.
 	e addChild: child.
 
 	self waitTestingSpaces.
 	self deny: e isShrinked.
-	child extent: 150 asPoint.
+	child extent: 150 @ 150.
 	self waitTestingSpaces.
 	self assert: e isShrinked.
 	^ e
@@ -185,20 +183,18 @@ ToShrinkableContainerTest >> testShrinkableContainerNotVisible [
 	| e child |
 	e := ToShrinkableContainer new.
 	e enableShrinkLayer: true.
-	e extent: 100 asPoint.
+	e extent: 100 @ 100.
 	e border: Color red.
 	child := ToElement new.
 	child id: #child.
 	" make the child size less than the container size
 	this let the shrink layer invisible"
-	child extent: 50 asPoint.
+	child extent: 50 @ 50.
 	e addChild: child.
 	space root addChild: e.
 	self waitTestingSpaces.
 	self assert: e shrinkFeedbackLayer parent equals: e.
-	self
-		assert: e shrinkFeedbackLayer visibility
-		equals: BlVisibility hidden.
+	self assert: e shrinkFeedbackLayer visibility equals: BlVisibility hidden.
 	^ e
 ]
 
@@ -210,10 +206,8 @@ ToShrinkableContainerTest >> testShrinkableContainerVisible [
 	child := e childWithId: #child.
 	" make the child size greater than the container size
 	this makes the shrink layer visible"
-	child extent: 150 asPoint.
+	child extent: 150 @ 150.
 	self waitTestingSpaces.
-	self
-		assert: e shrinkFeedbackLayer visibility
-		equals: BlVisibility visible.
+	self assert: e shrinkFeedbackLayer visibility equals: BlVisibility visible.
 	^ e
 ]

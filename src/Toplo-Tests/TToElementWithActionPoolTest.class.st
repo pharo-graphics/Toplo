@@ -14,7 +14,7 @@ Class {
 TToElementWithActionPoolTest >> setUp [
 
 	super setUp.
-	element := ToElement new extent: 50 asPoint.
+	element := ToElement new extent: 50 @ 50.
 	space root addChild: element
 ]
 

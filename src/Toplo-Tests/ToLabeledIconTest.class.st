@@ -203,7 +203,7 @@ ToLabeledIconTest >> testInitialize [
 	li applyConfiguration.
 	li forceLayout.
 
-	self assert: li extent equals: 0 asPoint.
+	self assert: li extent equals: 0 @ 0.
 	^ li
 ]
 
@@ -330,7 +330,7 @@ ToLabeledIconTest >> testLabelContainer [
 	| li |
 	li := self testInitialize.
 	self assert: li labelContainer hasChildren not.
-	self assert: li labelContainer extent equals: 0 asPoint.
+	self assert: li labelContainer extent equals: 0 @ 0.
 	li label: (ToLabel text: 'A').
 	li forceLayout.
 	self assert: li extent equals: li labelContainer extent.
@@ -375,7 +375,7 @@ ToLabeledIconTest >> testLabelText [
 	li label: nil.
 	li forceLayout.
 	self deny: li hasLabel.
-	self assert: li extent equals: 0 asPoint.
+	self assert: li extent equals: 0 @ 0.
 	^ li
 ]
 
@@ -425,14 +425,14 @@ ToLabeledIconTest >> testStartFlexible [
 ToLabeledIconTest >> testStartFlexibleInEmpty [
 
 	| li container |
-	container := ToElement new extent: 200 asPoint.
+	container := ToElement new extent: 200 @ 200.
 	li := ToLabeledIcon new.
 	li startFlexible: true.
 	self assert: li isStartFlexible.
 	li matchParent.
 	container addChild: li.
 	li forceLayout.
-	self assert: li extent equals: 200 asPoint.
+	self assert: li extent equals: 200 @ 200.
 	li vFitContent.
 	li forceLayout.
 	self assert: li width equals: 200.
@@ -446,7 +446,7 @@ ToLabeledIconTest >> testStartFlexibleInEmpty [
 ToLabeledIconTest >> testStartFlexibleWithLabel [
 
 	| li container |
-	container := ToElement new extent: 200 asPoint.
+	container := ToElement new extent: 200 @ 200.
 	li := ToLabeledIcon new.
 	li matchParent.
 	container addChild: li.
@@ -467,7 +467,7 @@ ToLabeledIconTest >> testStartFlexibleWithLabel [
 ToLabeledIconTest >> testStartFlexibleWithLabelAndVertical [
 
 	| li container |
-	container := ToElement new extent: 200 asPoint.
+	container := ToElement new extent: 200 @ 200.
 	li := ToLabeledIcon new.
 	li vertical: true.
 	li matchParent.

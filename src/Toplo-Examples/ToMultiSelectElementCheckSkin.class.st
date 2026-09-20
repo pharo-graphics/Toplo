@@ -12,8 +12,7 @@ ToMultiSelectElementCheckSkin >> installSkinEvent: anEvent [
 			| im cont bar w background |
 			w := 2.
 			e background: BlBackground transparent.
-			background := e valueOfTokenNamed:
-				              #'border-color-primary-selection'.
+			background := e valueOfTokenNamed: #'border-color-primary-selection'.
 			bar := BlElement new
 				       width: w;
 				       yourself.
@@ -32,7 +31,7 @@ ToMultiSelectElementCheckSkin >> installSkinEvent: anEvent [
 			im constraintsDo: [ :c |
 					c frame vertical alignCenter.
 					c frame horizontal alignRight ].
-			im extent: 16 asPoint.
+			im extent: 16 @ 16.
 			im background: Color transparent.
 			e layout: BlFrameLayout new.
 			e addChild: im ]

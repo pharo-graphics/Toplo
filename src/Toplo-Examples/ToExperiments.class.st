@@ -98,10 +98,10 @@ ToExperiments class >> example_DragAndDropWithLinearLayout [
 	container initializeAsPasteUp.
 
 	red := ToElement new id: #red.
-	red extent: 100 asPoint.
+	red extent: 100 @ 100.
 	red background: Color red.
 	blue := ToElement new id: #blue.
-	blue extent: 50 asPoint.
+	blue extent: 50 @ 50.
 	blue background: Color blue.
 
 	container addChildren: {
@@ -111,12 +111,8 @@ ToExperiments class >> example_DragAndDropWithLinearLayout [
 	space root addChild: container.
 	space show.
 
-	blue
-		addEventHandlerOn: BlDragEnterEvent
-		do: [ :event | blue border: (BlBorder paint: Color yellow width: 5) ].
-	blue
-		addEventHandlerOn: BlDragLeaveEvent
-		do: [ :event | blue border: BlBorder empty ]
+	blue addEventHandlerOn: BlDragEnterEvent do: [ :event | blue border: (BlBorder paint: Color yellow width: 5) ].
+	blue addEventHandlerOn: BlDragLeaveEvent do: [ :event | blue border: BlBorder empty ]
 ]
 
 { #category : #elements }
@@ -527,28 +523,26 @@ ToExperiments class >> example_MenuAroundCircle [
 	pane extent: (circleSize + 10) asPoint.
 	pane border: Color red.
 	innerCircle := ToElement new
-		          id: #blue;
-		          yourself.
+		               id: #blue;
+		               yourself.
 	innerCircle geometry: BlCircleGeometry new.
-	
+
 	innerCircle extent: circleSize asPoint.
 	innerCircle margin: (BlInsets all: (circleSize / 2) negated).
 	innerCircle constraintsDo: [ :c |
 			c ignoreByLayout.
-			c anchors add:
-				(c anchors centerAnchor on: c anchors parent centerAnchor) ].
+			c anchors add: (c anchors centerAnchor on: c anchors parent centerAnchor) ].
 	pane addChild: innerCircle.
 	outerCircle := ToElement new
-		          id: #blue;
-		          yourself.
+		               id: #blue;
+		               yourself.
 	innerCircle background: Color blue.
 	outerCircle geometry: BlCircleGeometry new.
 	outerCircle margin: (BlInsets all: (circleSize / 8) negated).
 	outerCircle extent: circleSize asPoint.
 	outerCircle constraintsDo: [ :c |
 			c ignoreByLayout.
-			c anchors add:
-				(c anchors centerAnchor on: c anchors parent centerAnchor) ].
+			c anchors add: (c anchors centerAnchor on: c anchors parent centerAnchor) ].
 	pane addChild: outerCircle.
 
 	nb := 6.
@@ -568,10 +562,9 @@ ToExperiments class >> example_MenuAroundCircle [
 							color := Color random.
 							iconImage := BlElement new
 								             padding: (BlInsets all: 2);
-								             geometry:
-									             (BlRoundedRectangleGeometry cornerRadius: 3);
+								             geometry: (BlRoundedRectangleGeometry cornerRadius: 3);
 								             background: color;
-								             extent: 16 asPoint;
+								             extent: 16 @ 16;
 								             yourself.
 							sm addItem: ((ToMenuItem new
 									  labelText: stream;
@@ -593,12 +586,10 @@ ToExperiments class >> example_MenuAroundCircle [
 
 			subMenu constraintsDo: [ :c |
 					c ignoreByLayout.
-					c anchors add: (c anchors centerAnchor on:
-							 (outerCircle perimeterAnchor degrees: degrees)) ].
+					c anchors add: (c anchors centerAnchor on: (outerCircle perimeterAnchor degrees: degrees)) ].
 			sector constraintsDo: [ :c |
 					c ignoreByLayout.
-					c anchors add: (c anchors horizontalCenterAnchor on:
-							 (innerCircle perimeterAnchor degrees: degrees + gap) ) ].
+					c anchors add: (c anchors horizontalCenterAnchor on: (innerCircle perimeterAnchor degrees: degrees + gap)) ].
 			pane addChild: sector.
 			subMenu elevation: (BlRelativeElevation elevation: 10).
 			pane addChild: subMenu ].
@@ -618,10 +609,10 @@ ToExperiments class >> example_PasteUpPane [
 	container initializeAsPasteUp.
 
 	red := ToElement new id: #red.
-	red extent: 100 asPoint.
+	red extent: 100 @ 100.
 	red background: Color red.
 	blue := ToElement new id: #blue.
-	blue extent: 50 asPoint.
+	blue extent: 50 @ 50.
 	blue background: Color blue.
 
 	container addChildren: {
@@ -631,12 +622,8 @@ ToExperiments class >> example_PasteUpPane [
 	space root addChild: container.
 	space show.
 
-	blue
-		addEventHandlerOn: BlDragEnterEvent
-		do: [ :event | blue border: (BlBorder paint: Color yellow width: 5) ].
-	blue
-		addEventHandlerOn: BlDragLeaveEvent
-		do: [ :event | blue border: BlBorder empty ]
+	blue addEventHandlerOn: BlDragEnterEvent do: [ :event | blue border: (BlBorder paint: Color yellow width: 5) ].
+	blue addEventHandlerOn: BlDragLeaveEvent do: [ :event | blue border: BlBorder empty ]
 ]
 
 { #category : #'drag and drop' }
@@ -654,10 +641,10 @@ ToExperiments class >> example_PasteUpWithPlaceHolder [
 	container showPlaceholder.
 
 	red := ToElement new id: #red.
-	red extent: 100 asPoint.
+	red extent: 100 @ 100.
 	red background: Color red.
 	blue := ToElement new id: #blue.
-	blue extent: 50 asPoint.
+	blue extent: 50 @ 50.
 	blue background: Color blue.
 
 	container addChildren: {
@@ -701,9 +688,7 @@ ToExperiments class >> example_PasteUpWithPlaceHolder [
 			blue forceLayout ].
 	blue addEventHandlerOn: BlDragEndEvent do: [ :event | event consume ].
 
-	blue
-		addEventHandlerOn: BlDragEnterEvent
-		do: [ :event | blue border: (BlBorder paint: Color yellow width: 5) ].
+	blue addEventHandlerOn: BlDragEnterEvent do: [ :event | blue border: (BlBorder paint: Color yellow width: 5) ].
 	blue
 		addEventHandlerOn: BlDragLeaveEvent
 		do: [ :event | "red addEventHandlerOn: BlDragEnterEvent do: [ :event | event consume. red background: Color random ].
@@ -855,9 +840,7 @@ ToExperiments class >> example_collapse1 [
 
 	opened := true.
 
-	bgPaint := BlLinearGradientPaint vertical
-		           from: Color lightGreen
-		           to: Color lightRed.
+	bgPaint := BlLinearGradientPaint vertical from: Color lightGreen to: Color lightRed.
 
 
 	openedAnimation := BlNumberTransition new
@@ -869,15 +852,12 @@ ToExperiments class >> example_collapse1 [
 		                   from: 0;
 		                   to: 150;
 		                   duration: 0.2 second;
-		                   onStepDo: [ :point |
-			                   collapsed height: 150 - point + 0.01 ].
+		                   onStepDo: [ :point | collapsed height: 150 - point + 0.01 ].
 
 	openCollapsedBlock := [
 		                      opened
-			                      ifTrue: [
-			                      collapsed addAnimation: openedAnimation copy ]
-			                      ifFalse: [
-			                      collapsed addAnimation: closedAnimation copy ] ].
+			                      ifTrue: [ collapsed addAnimation: openedAnimation copy ]
+			                      ifFalse: [ collapsed addAnimation: closedAnimation copy ] ].
 
 	bar := BlElement new
 		       background: Color lightBlue;
@@ -901,7 +881,7 @@ ToExperiments class >> example_collapse1 [
 	collapsedChild := BlElement new
 		                  background: Color purple;
 		                  extent: 50 @ 100;
-		                  position: 50 asPoint;
+		                  position: 50 @ 50;
 		                  yourself.
 	collapsed addChild: collapsedChild.
 
@@ -1545,11 +1525,7 @@ ToExperiments class >> example_twoChildrenInPolygon [
 
 	| top parent child child2 |
 	parent := ToPolyElement new layout: BlLinearLayout vertical.
-	parent effect:
-		(BlGaussianShadowEffect
-			 color: Color black
-			 width: 15
-			 offset: 0 asPoint).
+	parent effect: (BlGaussianShadowEffect color: Color black width: 15 offset: 0 @ 0).
 	parent constraintsDo: [ :c |
 			c horizontal fitContent.
 			c vertical fitContent ].
@@ -1682,8 +1658,7 @@ ToExperiments class >> newTreeElement [
 			align := anExWrapper level * 25.
 			triplet := ToTripletElement new.
 			triplet horizontal: true.
-			triplet middleElement:
-				(ToLabel new text: anExWrapper wrapped asString).
+			triplet middleElement: (ToLabel new text: anExWrapper wrapped asString).
 			arrowIcon := ToImage new.
 			hasChildren := anExWrapper hasChildren.
 			hasChildren ifTrue: [
@@ -1693,7 +1668,7 @@ ToExperiments class >> newTreeElement [
 						           ifFalse: [ #'iconic-arrow-right' ].
 					arrowIcon innerImage: (tree valueOfTokenNamed: arrowTk) ].
 			arrowIcon
-				extent: 18 asPoint;
+				extent: 18 @ 18;
 				id: #arrow.
 			iconContainer := ToElement new
 				                 fitContent;

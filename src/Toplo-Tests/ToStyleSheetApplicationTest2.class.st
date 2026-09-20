@@ -33,19 +33,13 @@ ToStyleSheetApplicationTest2 >> testApplicationOnElementHovered [
 	" default one rule "
 	theme addWritableProperty: (ToFeatureProperty name: #background).
 	theme select: ToElement asTypeSelector style: [ :sr |
-			sr
-				when: ToInstallSkinEvent
-				write: (theme property: #background)
-				with: [ :e | Color red ].
-			sr
-				when: ToHoveredSkinEvent
-				write: (theme property: #background)
-				with: [ :e | Color yellow ] ].
+			sr when: ToInstallSkinEvent write: (theme property: #background) with: [ :e | Color red ].
+			sr when: ToHoveredSkinEvent write: (theme property: #background) with: [ :e | Color yellow ] ].
 
 	elem := ToElement new.
 
-	elem extent: 20 asPoint.
-	elem position: 100 asPoint.
+	elem extent: 20 @ 20.
+	elem position: 100 @ 100.
 	elem background: Color blue.
 	space toTheme: theme.
 	space root addChild: elem.

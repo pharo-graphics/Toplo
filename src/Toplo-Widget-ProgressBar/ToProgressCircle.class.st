@@ -16,7 +16,7 @@ ToProgressCircle class >> example_CircleProgressBarFinite [
 
 	| p |
 	p := ToProgressCircle new.
-	p extent: 125 asPoint.
+	p extent: 125 @ 125.
 	p valueInPercentage: 0.75.
 	p openInSpace.
 
@@ -28,7 +28,7 @@ ToProgressCircle class >> example_CircleProgressBarFiniteWithIcon [
 
 	| p |
 	p := ToProgressCircle new.
-	p extent: 200 asPoint.
+	p extent: 200 @ 200.
 	p icon: (ToImage new innerImage: (self iconNamed: #glamorousAccept)).
 	p valueInPercentage: 0.75.
 	p openInSpace.
@@ -40,7 +40,7 @@ ToProgressCircle class >> example_CircleProgressBarFiniteWithLabel [
 
 	| p |
 	p := ToProgressCircle new.
-	p extent: 500 asPoint.
+	p extent: 500 @ 500.
 	p label: (ToLabel text: '75%').
 	p valueInPercentage: 0.75.
 	p openInSpace.
@@ -52,7 +52,7 @@ ToProgressCircle class >> example_CircleProgressBarInfinite [
 
 	| p |
 	p := ToProgressCircle new.
-	p extent: 125 asPoint.
+	p extent: 125 @ 125.
 	p valueInPercentage: 0.6.
 	p isInfinite: true.
 	p openInSpace.

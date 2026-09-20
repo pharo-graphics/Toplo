@@ -23,13 +23,11 @@ ToRawSkinTest >> testBasicStyleSheet [
 	| e styleSheet |
 	e := ToElement new.
 	e defaultSkin: ToRawSkin new.
-	e extent: 50 asPoint.
+	e extent: 50 @ 50.
 	styleSheet := ToStyleSheet new.
-	styleSheet select: ToElement asTypeSelector style: [ :sr |
-			sr
-				when: ToInstallSkinEvent
-				write: #background asWritableProperty
-				with: Color red ].
+	styleSheet
+		select: ToElement asTypeSelector
+		style: [ :sr | sr when: ToInstallSkinEvent write: #background asWritableProperty with: Color red ].
 	e styleSheet: styleSheet.
 	space root addChild: e.
 	self waitTestingSpaces.

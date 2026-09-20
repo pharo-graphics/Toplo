@@ -17,7 +17,7 @@ ToSkinDemo4Button class >> exampleWithNewTheme [
 	space toTheme: ToSkinDemoStyleSheetTheme new.
 
 	space root addChild: (self new
-			 position: 50 asPoint;
+			 position: 50 @ 50;
 			 yourself).
 	space show
 ]

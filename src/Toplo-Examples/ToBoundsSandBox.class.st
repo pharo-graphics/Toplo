@@ -29,39 +29,39 @@ ToBoundsSandBox class >> sandBox [
 
 	| main child1 child2 childchild11 childchild12 childchild21 childchild22 |
 	main := ToElement new
-		        extent: 500 asPoint;
+		        extent: 500 @ 500;
 		        id: #main;
 		        yourself.
 	main layout: BlLinearLayout horizontal.
 	child1 := ToElement new
-		          extent: 200 asPoint;
+		          extent: 200 @ 200;
 		          id: #child1;
 		          yourself.
 	child1 padding: (BlInsets all: 10).
 	child1 layout: BlLinearLayout horizontal.
 	child2 := ToElement new
-		          extent: 200 asPoint;
+		          extent: 200 @ 200;
 		          id: #child2;
 		          yourself.
 	child2 padding: (BlInsets all: 20).
 	child2 layout: BlLinearLayout horizontal.
 	childchild11 := ToElement new
-		                extent: 50 asPoint;
+		                extent: 50 @ 50;
 		                id: #childchild11;
 		                yourself.
 	childchild11 layout: BlLinearLayout horizontal.
 	childchild12 := ToElement new
-		                size: 50 asPoint;
+		                size: 50 @ 50;
 		                id: #childchild12;
 		                yourself.
 	childchild12 layout: BlLinearLayout horizontal.
 	childchild21 := ToElement new
-		                size: 50 asPoint;
+		                size: 50 @ 50;
 		                id: #childchild21;
 		                yourself.
 	childchild21 layout: BlLinearLayout horizontal.
 	childchild22 := ToElement new
-		                size: 50 asPoint;
+		                size: 50 @ 50;
 		                id: #childchild22;
 		                yourself.
 	childchild22 layout: BlLinearLayout horizontal.
@@ -85,6 +85,6 @@ ToBoundsSandBox class >> sandBox [
 			childchild21.
 			childchild22 }.
 
-	main position: 100 asPoint.
+	main position: 100 @ 100.
 	^ main
 ]

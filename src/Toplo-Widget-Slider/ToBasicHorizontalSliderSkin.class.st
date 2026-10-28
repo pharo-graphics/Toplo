@@ -22,7 +22,7 @@ ToBasicHorizontalSliderSkin >> initializeBarForElement: element [
 { #category : #initialization }
 ToBasicHorizontalSliderSkin >> initializeKnobForElement: element [
 
-	| sliderKnob pt |
+	| sliderKnob pt layoutHandler |
 	sliderKnob := element sliderKnob.
 	sliderKnob id: #sliderKnob.
 	sliderKnob zIndex: 4.
@@ -32,10 +32,13 @@ ToBasicHorizontalSliderSkin >> initializeKnobForElement: element [
 		background: Color lightRed;
 		extent: pt;
 		transformDo: [ :t | t translateBy: pt negated x / 2 @ 0 ].
-	sliderKnob whenLayoutedDoOnce: [
-			sliderKnob constraintsDo: [ :c |
-					c frame vertical alignCenter.
-					c frame horizontal alignLeftAt: pt x / 2 / element width ] ]
+	"Wait for a layout giving the slider a real width (it is 0 while the slider is gone)"
+	layoutHandler := sliderKnob addEventHandlerOn: BlElementLayoutComputedEvent do: [
+			                 element width isZero ifFalse: [
+					                 sliderKnob removeEventHandler: layoutHandler.
+					                 sliderKnob constraintsDo: [ :c |
+							                 c frame vertical alignCenter.
+							                 c frame horizontal alignLeftAt: pt x / 2 / element width ] ] ]
 ]
 
 { #category : #'event handling' }

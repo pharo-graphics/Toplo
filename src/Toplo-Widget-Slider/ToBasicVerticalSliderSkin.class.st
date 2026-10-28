@@ -21,7 +21,7 @@ ToBasicVerticalSliderSkin >> initializeBarForElement: element [
 { #category : #initialization }
 ToBasicVerticalSliderSkin >> initializeKnobForElement: element [
 
-	| sliderKnob pt |
+	| sliderKnob pt layoutHandler |
 	sliderKnob := element sliderKnob.
 	sliderKnob id: #sliderKnob.
 	sliderKnob zIndex: 4.
@@ -31,10 +31,13 @@ ToBasicVerticalSliderSkin >> initializeKnobForElement: element [
 		background: Color lightRed;
 		extent: pt;
 		transformDo: [ :t | t translateBy: 0 @ (pt negated y / 2) ].
-	sliderKnob whenLayoutedDoOnce: [
-			sliderKnob constraintsDo: [ :c |
-					c frame horizontal alignCenter.
-					c frame vertical alignTopAt: pt y / 2 / element height ] ]
+	"Wait for a layout giving the slider a real height (it is 0 while the slider is gone)"
+	layoutHandler := sliderKnob addEventHandlerOn: BlElementLayoutComputedEvent do: [
+			                 element height isZero ifFalse: [
+					                 sliderKnob removeEventHandler: layoutHandler.
+					                 sliderKnob constraintsDo: [ :c |
+							                 c frame horizontal alignCenter.
+							                 c frame vertical alignTopAt: pt y / 2 / element height ] ] ]
 ]
 
 { #category : #'event handling' }

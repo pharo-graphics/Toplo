@@ -28,14 +28,12 @@ ToBasicHorizontalSlider class >> simpleExample [
 ToBasicHorizontalSlider >> moveKnobTo: aPosition [
 
 	| newPos newPosX |
+	self width isZero ifTrue: [ ^ self ].
 	newPos := aPosition.
-	newPosX := newPos x
-		           clampBetween: sliderKnob width / 2
-		           and: self width - (sliderKnob width / 2).
+	newPosX := newPos x clampBetween: sliderKnob width / 2 and: self width - (sliderKnob width / 2).
 	newPos := newPosX @ newPos y.
 
-	sliderKnob constraintsDo: [ :c |
-		c frame horizontal alignLeftAt: newPosX / self width ].
+	sliderKnob constraintsDo: [ :c | c frame horizontal alignLeftAt: newPosX / self width ].
 
 	self currentValue: (self valueAtCoord: newPos)
 ]

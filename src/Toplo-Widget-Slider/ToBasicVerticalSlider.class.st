@@ -29,16 +29,13 @@ ToBasicVerticalSlider class >> simpleExample [
 ToBasicVerticalSlider >> moveKnobTo: aPosition [
 
 	| newPos newPosY |
+	self height isZero ifTrue: [ ^ self ].
 	newPos := aPosition.
-	newPosY := newPos y
-		           clampBetween: sliderKnob height / 2
-		           and: self height - (sliderKnob height / 2).
+	newPosY := newPos y clampBetween: sliderKnob height / 2 and: self height - (sliderKnob height / 2).
 	newPos := newPos x @ newPosY.
 
 	sliderKnob constraintsDo: [ :c |
-			c frame vertical alignment:
-				(BlVerticalCoordinateTopAlignment new coordinate:
-					 newPosY / self height) ].
+		c frame vertical alignment: (BlVerticalCoordinateTopAlignment new coordinate: newPosY / self height) ].
 
 	self currentValue: (self valueAtCoord: newPos)
 ]

@@ -46,6 +46,7 @@ TToTableRowNode >> recordCellsWidth [
 	columns := self holder listElement columns.
 	index := 1.
 	containers := self cellContainers.
+	containers ifEmpty: [ ^ self ].
 	containers allButLastDo: [ :cont |
 			state := self holder listElement columnStateAt: index.
 			cont updateWidthWith: state width.

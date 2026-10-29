@@ -24,3 +24,10 @@ ToSelectionAddRemoveCommand >> operation: aSelectionOperation [
 
 	operation := aSelectionOperation
 ]
+
+{ #category : #testing }
+ToSelectionAddRemoveCommand >> selectsBeyond: anItemCount [
+	"Only additions are concerned, removals beyond anItemCount are harmless"
+
+	^ operation isAdd and: [ self indexes anySatisfy: [ :i | i > anItemCount ] ]
+]

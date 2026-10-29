@@ -399,6 +399,26 @@ ToTabPaneElementTest >> testRemoveAllItems [
 ]
 
 { #category : #tests }
+ToTabPaneElementTest >> testRemoveAllTabsInSameFrameDoesNotFail [
+	"Regression: removing the checked first tab postpones checking the next tab,
+	which is removed in the same frame. The postponed action must not check it."
+
+	| firstButton secondButton |
+	self withTwoTabButtons.
+	firstButton := tabPane items first.
+	secondButton := tabPane items second.
+	space deferAndSettle: [ firstButton checked: true ].
+	self assert: firstButton isChecked.
+
+	space deferAndSettle: [
+			tabPane removeItem: firstButton.
+			tabPane removeItem: secondButton ].
+
+	self assert: tabPane items isEmpty.
+	self deny: secondButton isChecked
+]
+
+{ #category : #tests }
 ToTabPaneElementTest >> testSelectTabButton [
 
 	tabPane itemBuilder: [ :tabItem :data |

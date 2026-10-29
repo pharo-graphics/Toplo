@@ -32,3 +32,10 @@ ToWholeSelectionCommand >> indexes [
 
 	^ 1 to: selectionModel itemCount
 ]
+
+{ #category : #testing }
+ToWholeSelectionCommand >> selectsBeyond: anItemCount [
+	"I always apply to the current whole list"
+
+	^ false
+]

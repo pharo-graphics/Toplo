@@ -48,3 +48,10 @@ ToListElementCommand >> selectionModel: aSelectionModel [
 
 	selectionModel := aSelectionModel
 ]
+
+{ #category : #testing }
+ToListElementCommand >> selectsBeyond: anItemCount [
+	"Answer true if applying me would select an index greater than anItemCount"
+
+	^ false
+]

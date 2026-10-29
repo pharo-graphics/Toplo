@@ -16,9 +16,10 @@ ToListSelectionCommand >> applier: aCommandApplier [
 
 { #category : #application }
 ToListSelectionCommand >> applyIn: aListElement [
-"(selectionCommand isKindOf: ToIndexesSelectionCommand) ifTrue: [ self halt ]."
+	"Positions were computed before data source changes applied meanwhile"
 
-	applier applyCommand: selectionCommand 
+	(selectionCommand selectsBeyond: applier itemCount) ifTrue: [ ^ self ].
+	applier applyCommand: selectionCommand
 ]
 
 { #category : #accessing }

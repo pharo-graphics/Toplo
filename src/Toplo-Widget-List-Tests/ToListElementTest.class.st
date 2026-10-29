@@ -915,6 +915,27 @@ ToListElementTest >> testSelectAndScrollToPrevious [
 ]
 
 { #category : #'test selection - adding/removing' }
+ToListElementTest >> testSelectThenRemoveAllInSameFrameDoesNotFail [
+	"Regression: the selection command is postponed until layout while the removal
+	applies immediately. Replaying the stale selection of index 3 on an empty list
+	must be skipped instead of indexing beyond the data (SubscriptOutOfBounds)."
+
+	| list |
+	list := ToListElement new.
+	list matchParent.
+	space deferAndSettle: [
+			space root addChild: list.
+			list dataAccessor addAll: #( 'a' 'b' 'c' ) ].
+
+	space deferAndSettle: [
+			list selecter selectOnlyIndex: 3.
+			list dataAccessor removeAll ].
+
+	self assert: list dataAccessor isEmpty.
+	self assert: list selectionModel selectedIndexes isEmpty
+]
+
+{ #category : #'test selection - adding/removing' }
 ToListElementTest >> testSelectionAfterLastRemoval [
 
 	| l |

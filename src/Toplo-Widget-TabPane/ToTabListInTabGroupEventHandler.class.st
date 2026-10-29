@@ -39,7 +39,8 @@ ToTabListInTabGroupEventHandler >> itemRemovedFromListEvent: anEvent [
 	nextChecked := dataAccessor size < tabItemHolder position
 		               ifTrue: [ dataAccessor last ]
 		               ifFalse: [ dataAccessor at: tabItemHolder position ].
-	tabGroup itemList postponeAction: [ nextChecked checked: true ]
+	" nextChecked may have been removed too before the postponed action runs (e.g. remove all) "
+	tabGroup itemList postponeAction: [ (dataAccessor includes: nextChecked) ifTrue: [ nextChecked checked: true ] ]
 ]
 
 { #category : #'events handling' }

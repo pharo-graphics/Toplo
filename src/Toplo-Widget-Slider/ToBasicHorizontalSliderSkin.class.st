@@ -32,9 +32,9 @@ ToBasicHorizontalSliderSkin >> initializeKnobForElement: element [
 		background: Color lightRed;
 		extent: pt;
 		transformDo: [ :t | t translateBy: pt negated x / 2 @ 0 ].
-	"Wait for a layout giving the slider a real width (it is 0 while the slider is gone)"
+	"Wait for a layout giving the track a real width (it is 0 while the slider is gone)"
 	layoutHandler := sliderKnob addEventHandlerOn: BlElementLayoutComputedEvent do: [
-			                 element width isZero ifFalse: [
+			                 element track width isZero ifFalse: [
 					                 sliderKnob removeEventHandler: layoutHandler.
 					                 sliderKnob constraintsDo: [ :c | c frame vertical alignCenter ].
 					                 element placeKnobAtCurrentValue ] ]
@@ -46,7 +46,7 @@ ToBasicHorizontalSliderSkin >> installSkinEvent: anEvent [
 
 	anEvent elementDo: [ :elt |
 			elt extent: 200 @ 50.
-			elt layout: BlFrameLayout new.
+			elt updateLayout.
 			elt clipChildren: false.
 			self initializeBarForElement: elt.
 			self initializeKnobForElement: elt ]

@@ -15,7 +15,9 @@ Class {
 		'sliderBar',
 		'sliderKnob',
 		'newValueCallback',
-		'quantum'
+		'quantum',
+		'track',
+		'label'
 	],
 	#category : #'Toplo-Widget-Slider-Core'
 }
@@ -33,12 +35,19 @@ ToBasicSlider >> currentValue: aNumber [
 	self newValueCallback ifNotNil: [ :e | e value: currentValue ]
 ]
 
+{ #category : #testing }
+ToBasicSlider >> hasLabel [
+
+	^ label notNil
+]
+
 { #category : #initialization }
 ToBasicSlider >> initialize [
 
 	super initialize.
 	self initializeDefaultValues.
 	self initializeEvents.
+	self initializeTrack.
 	self initializeBar.
 	self initializeKnob
 ]
@@ -47,7 +56,7 @@ ToBasicSlider >> initialize [
 ToBasicSlider >> initializeBar [
 
 	sliderBar := ToElement new.
-	self addChild: sliderBar
+	track addChild: sliderBar
 ]
 
 { #category : #accessing }
@@ -62,24 +71,82 @@ ToBasicSlider >> initializeDefaultValues [
 { #category : #initialization }
 ToBasicSlider >> initializeEvents [
 
-	self
-		addEventHandlerOn: BlMouseDownEvent
-		do: [ :event |
-		self moveKnobTo: (self globalPointToLocal: event position) ].
+	self addEventHandlerOn: BlMouseDownEvent do: [ :event |
+			| position |
+			position := track globalPointToLocal: event position.
+			(self isOutsideTrack: position) ifFalse: [ self moveKnobTo: position ] ].
+	"Not consuming the drag start (e.g. on the label) means no drag events follow"
 	self
 		addEventHandlerOn: BlDragStartEvent
-		do: [ :event | event consume ].
-	self
-		addEventHandlerOn: BlDragEvent
-		do: [ :event |
-		self moveKnobTo: (self globalPointToLocal: event position) ]
+		do: [ :event | (self isOutsideTrack: (track globalPointToLocal: event position)) ifFalse: [ event consume ] ].
+	self addEventHandlerOn: BlDragEvent do: [ :event | self moveKnobTo: (track globalPointToLocal: event position) ]
 ]
 
 { #category : #'private - building' }
 ToBasicSlider >> initializeKnob [
 
 	sliderKnob := ToElement new.
-	self addChild: sliderKnob
+	track addChild: sliderKnob
+]
+
+{ #category : #'private - building' }
+ToBasicSlider >> initializeTrack [
+
+	track := ToElement new.
+	track layout: BlFrameLayout new.
+	track clipChildren: false.
+	track constraintsDo: [ :c |
+			c horizontal matchParent.
+			c vertical matchParent ].
+	self addChild: track
+]
+
+{ #category : #private }
+ToBasicSlider >> isOutsideTrack: aTrackLocalPoint [
+	"Only possible with a label: a click on the label must not change the value"
+
+	self hasLabel ifFalse: [ ^ false ].
+	^ (aTrackLocalPoint x between: 0 and: track width) not or: [ (aTrackLocalPoint y between: 0 and: track height) not ]
+]
+
+{ #category : #accessing }
+ToBasicSlider >> label [
+	"The ToLabel shown before the track, or nil"
+
+	^ label
+]
+
+{ #category : #accessing }
+ToBasicSlider >> labelText [
+
+	self hasLabel ifFalse: [ ^ nil ].
+	^ self label text asString
+]
+
+{ #category : #accessing }
+ToBasicSlider >> labelText: aString [
+	"Show aString before the track. nil or an empty string removes the label"
+
+	label ifNotNil: [ label removeFromParent ].
+	label := nil.
+	(aString isNil or: [ aString isEmpty ]) ifFalse: [
+			label := ToLabel text: aString asRopedText.
+			self addChildFirst: label ].
+	self updateLayout
+]
+
+{ #category : #'private - building' }
+ToBasicSlider >> layoutWithLabel [
+	"Put the label before the track, the track keeping the slider main-axis size"
+
+	self subclassResponsibility
+]
+
+{ #category : #'private - building' }
+ToBasicSlider >> layoutWithoutLabel [
+	"Restore the frame layout where the track matches the slider"
+
+	self subclassResponsibility
 ]
 
 { #category : #'api - values' }
@@ -141,7 +208,7 @@ ToBasicSlider >> placeKnobAt: aPosition [
 ToBasicSlider >> placeKnobAtCurrentValue [
 	"Place the knob for the current value without notifying the value callback (e.g. once the slider gets a size)"
 
-	(self width isZero or: [ self height isZero ]) ifTrue: [ ^ self ].
+	(track width isZero or: [ track height isZero ]) ifTrue: [ ^ self ].
 	self placeKnobAt: (self valueToCoord: self currentValue)
 ]
 
@@ -199,6 +266,22 @@ ToBasicSlider >> sliderKnob [
 ToBasicSlider >> sliderKnob: anObject [
 
 	sliderKnob := anObject
+]
+
+{ #category : #accessing }
+ToBasicSlider >> track [
+	"Holds the bar and the knob; value<->coordinate maths are relative to it"
+
+	^ track
+]
+
+{ #category : #'private - building' }
+ToBasicSlider >> updateLayout [
+	"Without a label the track alone fills the slider. Called by the skin and when the label changes"
+
+	self hasLabel
+		ifTrue: [ self layoutWithLabel ]
+		ifFalse: [ self layoutWithoutLabel ]
 ]
 
 { #category : #'api - transformations' }

@@ -10,9 +10,7 @@ ToSliderHorizontalGraduationSkin >> installSkinEvent: anEvent [
 	anEvent elementDo: [ :element |
 			element height: 25.
 			element clipChildren: false.
-			element slider whenLayoutedDoOnce: [
-				element width:
-					element slider width - element slider sliderKnob width ].
+			element slider whenLayoutedDoOnce: [ element width: element slider track width - element slider sliderKnob width ].
 			element constraintsDo: [ :c |
 					c frame vertical alignCenter.
 					c frame horizontal alignCenter ].

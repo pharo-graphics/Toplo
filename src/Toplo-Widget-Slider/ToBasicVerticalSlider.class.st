@@ -25,10 +25,32 @@ ToBasicVerticalSlider class >> simpleExample [
 	space show
 ]
 
+{ #category : #'private - building' }
+ToBasicVerticalSlider >> layoutWithLabel [
+	"Label above the track. The fixed height moves to the track and the slider fits its content, so the label heightens the slider instead of shrinking the track"
+
+	self layout: BlLinearLayout vertical.
+	label margin: (BlInsets bottom: 10).
+	label constraintsDo: [ :c | c linear horizontal alignCenter ].
+	self constraints vertical resizer isExact ifTrue: [
+			track height: self constraints vertical resizer size.
+			self vFitContent ]
+]
+
+{ #category : #'private - building' }
+ToBasicVerticalSlider >> layoutWithoutLabel [
+	"Give the track height back to the slider"
+
+	self layout: BlFrameLayout new.
+	track constraints vertical resizer isExact ifTrue: [
+			self height: track constraints vertical resizer size.
+			track vMatchParent ]
+]
+
 { #category : #'api - transformations' }
 ToBasicVerticalSlider >> moveKnobTo: aPosition [
 
-	self height isZero ifTrue: [ ^ self ].
+	track height isZero ifTrue: [ ^ self ].
 	self currentValue: (self valueAtCoord: (self placeKnobAt: aPosition))
 ]
 
@@ -40,12 +62,12 @@ ToBasicVerticalSlider >> newRawSkin [
 
 { #category : #'api - transformations' }
 ToBasicVerticalSlider >> placeKnobAt: aPosition [
-	"Place the knob center at aPosition, kept inside the slider, without changing the value. Answer the position actually used"
+	"Place the knob center at aPosition, kept inside the track, without changing the value. Answer the position actually used"
 
 	| newPosY |
-	newPosY := aPosition y clampBetween: sliderKnob height / 2 and: self height - (sliderKnob height / 2).
+	newPosY := aPosition y clampBetween: sliderKnob height / 2 and: track height - (sliderKnob height / 2).
 	sliderKnob constraintsDo: [ :c |
-		c frame vertical alignment: (BlVerticalCoordinateTopAlignment new coordinate: newPosY / self height) ].
+		c frame vertical alignment: (BlVerticalCoordinateTopAlignment new coordinate: newPosY / track height) ].
 	^ aPosition x @ newPosY
 ]
 
@@ -55,9 +77,9 @@ ToBasicVerticalSlider >> valueAtCoord: aPosition [
 	| valueDiff value coeff posY |
 	posY := aPosition y.
 	posY = (sliderKnob height / 2) ifTrue: [ ^ maxValue ].
-	posY = (self height - (sliderKnob height / 2)) ifTrue: [ ^ minValue ].
+	posY = (track height - (sliderKnob height / 2)) ifTrue: [ ^ minValue ].
 	valueDiff := maxValue - minValue.
-	coeff := self height - sliderKnob height / (posY - (sliderKnob height / 2)).
+	coeff := track height - sliderKnob height / (posY - (sliderKnob height / 2)).
 	value := maxValue - (valueDiff / coeff).
 	"No quantum (nil or zero) means no rounding"
 	(self quantum isNil or: [ self quantum isZero ]) ifTrue: [ ^ value asFloat ].
@@ -71,6 +93,5 @@ ToBasicVerticalSlider >> valueToCoord: aValue [
 	current := aValue - self minValue.
 	total := self maxValue - self minValue.
 	coeff := current / total.
-	^ 0 @ self height  - (sliderKnob height / 2
-	   + (self height - sliderKnob height * coeff))
+	^ 0 @ track height - (sliderKnob height / 2 + (track height - sliderKnob height * coeff))
 ]

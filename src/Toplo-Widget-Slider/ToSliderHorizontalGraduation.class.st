@@ -18,7 +18,7 @@ ToSliderHorizontalGraduation >> connectToSlider: aSlider [
 	maxValue := aSlider maxValue.
 	stepValue := maxValue - minValue / 4.
 	self initializeStepGraduations.
-	aSlider addChild: self
+	aSlider track addChild: self
 ]
 
 { #category : #initialization }

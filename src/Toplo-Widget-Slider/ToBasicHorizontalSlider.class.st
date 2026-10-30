@@ -27,15 +27,8 @@ ToBasicHorizontalSlider class >> simpleExample [
 { #category : #'api - transformations' }
 ToBasicHorizontalSlider >> moveKnobTo: aPosition [
 
-	| newPos newPosX |
 	self width isZero ifTrue: [ ^ self ].
-	newPos := aPosition.
-	newPosX := newPos x clampBetween: sliderKnob width / 2 and: self width - (sliderKnob width / 2).
-	newPos := newPosX @ newPos y.
-
-	sliderKnob constraintsDo: [ :c | c frame horizontal alignLeftAt: newPosX / self width ].
-
-	self currentValue: (self valueAtCoord: newPos)
+	self currentValue: (self valueAtCoord: (self placeKnobAt: aPosition))
 ]
 
 { #category : #'instance creation' }
@@ -45,16 +38,26 @@ ToBasicHorizontalSlider >> newRawSkin [
 ]
 
 { #category : #'api - transformations' }
+ToBasicHorizontalSlider >> placeKnobAt: aPosition [
+	"Place the knob center at aPosition, kept inside the slider, without changing the value. Answer the position actually used"
+
+	| newPosX |
+	newPosX := aPosition x clampBetween: sliderKnob width / 2 and: self width - (sliderKnob width / 2).
+	sliderKnob constraintsDo: [ :c | c frame horizontal alignLeftAt: newPosX / self width ].
+	^ newPosX @ aPosition y
+]
+
+{ #category : #'api - transformations' }
 ToBasicHorizontalSlider >> valueAtCoord: aPosition [
 
 	| valueDiff value coeff posX |
 	posX := aPosition x.
 	posX = (sliderKnob width / 2) ifTrue: [ ^ minValue ].
 	valueDiff := maxValue - minValue.
-	coeff := self width - sliderKnob width
-	         / (posX - (sliderKnob width / 2)).
+	coeff := self width - sliderKnob width / (posX - (sliderKnob width / 2)).
 	value := minValue + (valueDiff / coeff).
-
+	"No quantum (nil or zero) means no rounding"
+	(self quantum isNil or: [ self quantum isZero ]) ifTrue: [ ^ value asFloat ].
 	^ (value roundTo: self quantum) asFloat
 ]
 

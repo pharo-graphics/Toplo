@@ -36,9 +36,8 @@ ToBasicHorizontalSliderSkin >> initializeKnobForElement: element [
 	layoutHandler := sliderKnob addEventHandlerOn: BlElementLayoutComputedEvent do: [
 			                 element width isZero ifFalse: [
 					                 sliderKnob removeEventHandler: layoutHandler.
-					                 sliderKnob constraintsDo: [ :c |
-							                 c frame vertical alignCenter.
-							                 c frame horizontal alignLeftAt: pt x / 2 / element width ] ] ]
+					                 sliderKnob constraintsDo: [ :c | c frame vertical alignCenter ].
+					                 element placeKnobAtCurrentValue ] ]
 ]
 
 { #category : #'event handling' }

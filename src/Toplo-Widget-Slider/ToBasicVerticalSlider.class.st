@@ -28,22 +28,25 @@ ToBasicVerticalSlider class >> simpleExample [
 { #category : #'api - transformations' }
 ToBasicVerticalSlider >> moveKnobTo: aPosition [
 
-	| newPos newPosY |
 	self height isZero ifTrue: [ ^ self ].
-	newPos := aPosition.
-	newPosY := newPos y clampBetween: sliderKnob height / 2 and: self height - (sliderKnob height / 2).
-	newPos := newPos x @ newPosY.
-
-	sliderKnob constraintsDo: [ :c |
-		c frame vertical alignment: (BlVerticalCoordinateTopAlignment new coordinate: newPosY / self height) ].
-
-	self currentValue: (self valueAtCoord: newPos)
+	self currentValue: (self valueAtCoord: (self placeKnobAt: aPosition))
 ]
 
 { #category : #'instance creation' }
 ToBasicVerticalSlider >> newRawSkin [
 
 	^ ToBasicVerticalSliderSkin new
+]
+
+{ #category : #'api - transformations' }
+ToBasicVerticalSlider >> placeKnobAt: aPosition [
+	"Place the knob center at aPosition, kept inside the slider, without changing the value. Answer the position actually used"
+
+	| newPosY |
+	newPosY := aPosition y clampBetween: sliderKnob height / 2 and: self height - (sliderKnob height / 2).
+	sliderKnob constraintsDo: [ :c |
+		c frame vertical alignment: (BlVerticalCoordinateTopAlignment new coordinate: newPosY / self height) ].
+	^ aPosition x @ newPosY
 ]
 
 { #category : #'api - transformations' }
@@ -54,11 +57,10 @@ ToBasicVerticalSlider >> valueAtCoord: aPosition [
 	posY = (sliderKnob height / 2) ifTrue: [ ^ maxValue ].
 	posY = (self height - (sliderKnob height / 2)) ifTrue: [ ^ minValue ].
 	valueDiff := maxValue - minValue.
-	coeff :=
-	         (self height - sliderKnob height
-	          / (posY - (sliderKnob height / 2))).
+	coeff := self height - sliderKnob height / (posY - (sliderKnob height / 2)).
 	value := maxValue - (valueDiff / coeff).
-
+	"No quantum (nil or zero) means no rounding"
+	(self quantum isNil or: [ self quantum isZero ]) ifTrue: [ ^ value asFloat ].
 	^ (value roundTo: self quantum) asFloat
 ]
 

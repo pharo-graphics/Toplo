@@ -130,6 +130,21 @@ ToBasicSlider >> newValueCallback: anObject [
 	newValueCallback := anObject
 ]
 
+{ #category : #'api - transformations' }
+ToBasicSlider >> placeKnobAt: aPosition [
+	"Place the knob center at aPosition without changing the value. Answer the position actually used"
+
+	self subclassResponsibility
+]
+
+{ #category : #'api - transformations' }
+ToBasicSlider >> placeKnobAtCurrentValue [
+	"Place the knob for the current value without notifying the value callback (e.g. once the slider gets a size)"
+
+	(self width isZero or: [ self height isZero ]) ifTrue: [ ^ self ].
+	self placeKnobAt: (self valueToCoord: self currentValue)
+]
+
 { #category : #accessing }
 ToBasicSlider >> quantum [
 
@@ -156,8 +171,10 @@ ToBasicSlider >> setToMinValue [
 
 { #category : #'api - slider' }
 ToBasicSlider >> setValue: aValue [
+	"Keep the value even when the slider has no size yet: the knob cannot be placed then."
 
-	self moveKnobTo: (self valueToCoord: aValue).
+	currentValue := aValue.
+	self moveKnobTo: (self valueToCoord: aValue)
 ]
 
 { #category : #accessing }

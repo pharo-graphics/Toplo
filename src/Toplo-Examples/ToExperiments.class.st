@@ -1287,7 +1287,7 @@ ToExperiments class >> example_space [
 { #category : #frame }
 ToExperiments class >> example_testTwoChildrenOnOppositeSidesWithSpan [
 
-	<gtExample>
+	<script>
 	| parent left span right |
 	parent := BlElement new.
 	parent background: (Color gray alpha: 0.3).

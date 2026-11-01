@@ -51,17 +51,17 @@ ToBoundsSandBox class >> sandBox [
 		                yourself.
 	childchild11 layout: BlLinearLayout horizontal.
 	childchild12 := ToElement new
-		                size: 50 asPoint;
+		                extent: 50 asPoint;
 		                id: #childchild12;
 		                yourself.
 	childchild12 layout: BlLinearLayout horizontal.
 	childchild21 := ToElement new
-		                size: 50 asPoint;
+		                extent: 50 asPoint;
 		                id: #childchild21;
 		                yourself.
 	childchild21 layout: BlLinearLayout horizontal.
 	childchild22 := ToElement new
-		                size: 50 asPoint;
+		                extent: 50 asPoint;
 		                id: #childchild22;
 		                yourself.
 	childchild22 layout: BlLinearLayout horizontal.

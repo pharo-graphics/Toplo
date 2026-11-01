@@ -55,7 +55,7 @@ ToGradientGridSlider >> overLayer [
 		  	geometry: (BlRoundedRectangleGeometry cornerRadius: 10);
 			background: (Color red alpha:0.0);
 			border: (BlBorder paint: (Color r:42  g:42  b:42  range:255 ) width: width);
-		  	size: size;
+		  	extent: size;
 			layout: (BlGridLayout new
 			columnCount: 2);
 		  	yourself.
@@ -83,7 +83,7 @@ ToGradientGridSlider >> overLayer [
 				geometry: BlRectangleGeometry new;
 		 		border: (BlBorder
 				paint: (Color purple alpha:0.0) width: 2);
-				size:  6*2 @ self defaultBarThickness ;
+				extent:  6*2 @ self defaultBarThickness ;
 				background: (Color r:42  g:42  b:42  range:255 );
 				margin: (BlInsets left:0 right: num*2).
 				div addChild: elt. 
@@ -95,7 +95,7 @@ ToGradientGridSlider >> overLayer [
 				elt:= BlElement new
 				geometry: BlRectangleGeometry new;
 		 		border: (BlBorder paint: (Color purple alpha:0.0) width: 2);
-				size: self defaultBarThickness*2  @ 6*2;
+				extent: self defaultBarThickness*2  @ 6*2;
 				background: (Color r:42  g:42  b:42  range:255 );
 				margin: (BlInsets top:0 bottom: num*2).
 				div addChild: elt. 

@@ -257,7 +257,7 @@ ToOldBasicSlider >> buildVerticalBackground [
 	bgElt := ToElement new.
 	pt1 := barThickness
 	       @ (self widgetSize y - (2 * self sliderPixelMargin)).
-	bgElt size: pt1.
+	bgElt extent: pt1.
 	bgElt id: #sliderBackground.
 	pt2 := self widgetSize x / 2 - ( barThickness / 2)
 	       @ self sliderPixelMargin.
@@ -274,7 +274,7 @@ ToOldBasicSlider >> buildVerticalBar [
 
 	| bar |
 	bar := ToElement new.
-	bar size: barThickness
+	bar extent: barThickness
 		@ (self widgetSize y - (self valueToCoord: currentValue)
 			 - self sliderPixelMargin).
 	bar id: #sliderBar.
@@ -328,7 +328,7 @@ ToOldBasicSlider >> changedCurrentValue: aValue withSlider: aBool [
 				self sliderBar extent: v - self sliderPixelMargin @ self sliderBar extent y ]
 		ifFalse: [
 				aBool ifTrue: [ self sliderHandle ifNotNil: [ :sl | sl position: sl constraints position x @ v ] ].
-				self sliderBar size: barThickness @ (self widgetSize y - (self valueToCoord: currentValue) - self sliderPixelMargin).
+				self sliderBar extent: barThickness @ (self widgetSize y - (self valueToCoord: currentValue) - self sliderPixelMargin).
 				self sliderBar position: self widgetSize x / 2 - (barThickness / 2) @ (self valueToCoord: currentValue) ].
 	color := self colorForValue: aValue.
 	self sliderHandle background: color.

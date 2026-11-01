@@ -1069,7 +1069,7 @@ ToExperiments class >> example_frame [
 	expand clickAction: [
 			frame
 				position: 0 @ 0;
-				size: frame parent size ].
+				extent: frame parent size ].
 
 	title := ToLabel new
 		         text: 'Frame';

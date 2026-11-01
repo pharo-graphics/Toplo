@@ -55,7 +55,7 @@ ToGradientSlider >> overLayer [
 		  	geometry: (BlRoundedRectangleGeometry cornerRadius: 10);
 			background: (Color red alpha:0.0);
 			border: (BlBorder paint: (Color r:42  g:42  b:42  range:255 ) width: width);
-		  	size: size;
+		  	extent: size;
 			layout: (BlGridLayout new
 			columnCount: 2);
 		  	yourself.

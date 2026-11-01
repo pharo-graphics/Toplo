@@ -49,9 +49,9 @@ ToExamplesSmokeTest class >> settingsOn: aBuilder [
 
 	<systemsettings>
 	(aBuilder setting: #enabled)
-		parent: #Toplo;
+		parentName: #Toplo;
 		label: 'Enable Smoke tests';
-		default: true;
+		defaultValue: true;
 		target: self;
 		description: 'Enable or disable ToExamplesSmokeTest and its subclasses'
 ]

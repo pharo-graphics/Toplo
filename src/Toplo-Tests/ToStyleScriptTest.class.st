@@ -34,14 +34,14 @@ ToStyleScriptTest >> testAddSkinEventListener [
 	styleScript select: #button style: [ :theStyleScript |
 		theStyleScript addSkinEventListener: (ToPropertyWriter new
 				 property: (ToFeatureProperty new name: #size);
-				 value: 40 asPoint;
+				 value: 40 @ 40;
 				 yourself) ].
 	styleRule := styleScript styleRules first.
 	self assert: styleRule skinEventListeners size equals: 1.
 	writer := styleRule skinEventListeners first.
 	self assert: (writer property isKindOf: ToFeatureProperty).
 	self assert: writer property name equals: #size.
-	self assert: writer value equals: 40 asPoint
+	self assert: writer value equals: 40 @ 40
 ]
 
 { #category : #tests }
@@ -261,7 +261,7 @@ ToStyleScriptTest >> testWhenDo [
 		wasHere := true.
 		theStyleScript
 			when: ToEnabledSkinEvent
-			do: [ :e :evt | e extent: 40 asPoint ]].
+			do: [ :e :evt | e extent: 40 @ 40 ]].
 	self assert: styleScript styleRules size equals: 1.
 	styleRule := styleScript styleRules first.
 	self assert: wasHere.
@@ -312,7 +312,7 @@ ToStyleScriptTest >> testWhenWriteWith [
 		theStyleScript
 			when: ToEnabledSkinEvent
 			write: (ToFeatureProperty new name: #size)
-			with: [ :e | 40 asPoint ] ].
+			with: [ :e | 40 @ 40 ] ].
 	self assert: styleScript styleRules size equals: 1.
 	styleRule := styleScript styleRules first.
 	self assert: wasHere.
@@ -405,7 +405,7 @@ ToStyleScriptTest >> testWriteWith [
 		wasHere := true.
 		theStyleScript
 			write: (ToFeatureProperty new name: #size)
-			with: 40 asPoint ].
+			with: 40 @ 40 ].
 	self assert: styleScript styleRules size equals: 1.
 	styleRule := styleScript styleRules first.
 	self assert: wasHere.
@@ -415,7 +415,7 @@ ToStyleScriptTest >> testWriteWith [
 	self assert: writer eventClass equals: ToInstallSkinEvent.
 	self assert: (writer property isKindOf: ToFeatureProperty).
 	self assert: writer property name equals: #size.
-	self assert: writer value equals: 40 asPoint
+	self assert: writer value equals: 40 @ 40
 ]
 
 { #category : #tests }
@@ -428,7 +428,7 @@ ToStyleScriptTest >> testWriteWith2 [
 		wasHere := true.
 		theStyleScript
 			write: (ToFeatureProperty new name: #size)
-			with: [ :e | 40 asPoint ] ].
+			with: [ :e | 40 @ 40 ] ].
 	self assert: styleScript styleRules size equals: 1.
 	styleRule := styleScript styleRules first.
 	self assert: wasHere.

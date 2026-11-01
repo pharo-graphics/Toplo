@@ -11,7 +11,7 @@ Class {
 ToTextFieldTest >> testPlaceholderText [
 
 	| e ph |
-	e := ToTextField new extent: 100 asPoint.
+	e := ToTextField new extent: 100 @ 100.
 	e placeholderText: 'Enter text...'.
 	e showPlaceholder.
 

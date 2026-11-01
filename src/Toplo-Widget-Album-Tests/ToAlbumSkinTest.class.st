@@ -12,7 +12,7 @@ ToAlbumSkinTest >> testFocusedSkinEvent [
 
 	| a focusCount |
 	a := ToAlbum new.
-	a extent: 100 asPoint.
+	a extent: 100 @ 100.
 	self deny: a hasFocus.
 	focusCount := 0.
 	a
@@ -30,8 +30,8 @@ ToAlbumSkinTest >> testFocusedSkinEvent [
 ToAlbumSkinTest >> testUnfocusedSkinEvent [
 
 	| a1 a2 unfocusCount |
-	a1 := ToListElement new extent: 100 asPoint.
-	a2 := ToAlbum new extent: 100 asPoint.
+	a1 := ToListElement new extent: 100 @ 100.
+	a2 := ToAlbum new extent: 100 @ 100.
 	space deferAndSettle: [ 
 		space root addChild: a1.
 		space root addChild: a2 ].

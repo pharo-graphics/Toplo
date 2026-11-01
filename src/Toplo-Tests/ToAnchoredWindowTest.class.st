@@ -71,8 +71,8 @@ ToAnchoredWindowTest >> testDefaultElevation [
 	win := windowManager createNewWindowOnEvent: nil.
 
 	space deferAndSettle: [
-		e position: 10 asPoint.
-		e extent: 10 asPoint.
+		e position: 10 @ 10.
+		e extent: 10 @ 10.
 		win popup ].
 	self
 		assert: win elevation elevation
@@ -441,8 +441,8 @@ ToAnchoredWindowTest >> testWindowSize [
 
 	| win e windowManager |
 	e := ToElement new.
-	e position: 10 asPoint.
-	e extent: 10 asPoint.
+	e position: 10 @ 10.
+	e extent: 10 @ 10.
 	space deferAndSettle: [ space root addChild: e ].
 
 	windowManager := ToAnchoredWindowManagerForTest new windowBuilder: [
@@ -463,7 +463,7 @@ ToAnchoredWindowTest >> testWindowSize [
 	self assert: win bounds inSpace extent equals: 0 @ 0.
 	self assert: win root bounds inSpace extent equals: 0 @ 0.
 
-	space deferAndSettle: [ e position: 20 asPoint ].
+	space deferAndSettle: [ e position: 20 @ 20 ].
 	self
 		assert: win bounds inSpace bounds origin
 		equals: e bounds inSpace bounds origin.

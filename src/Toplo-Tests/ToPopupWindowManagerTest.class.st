@@ -26,7 +26,7 @@ ToPopupWindowManagerTest >> testAutoClosePickOutsideEventClass [
 
 	| e windowManager closed |
 	e := ToElement new.
-	e extent: 100 asPoint.
+	e extent: 100 @ 100.
 	space deferAndSettle: [ space root addChild: e  ].
 
 	windowManager := ToPopupWindowManager new.
@@ -74,8 +74,8 @@ ToPopupWindowManagerTest >> testElementPositionInSpaceChangedEvent [
 
 	| win e windowManager |
 	e := ToElement new.
-	e position: 10 asPoint.
-	e extent: 10 asPoint.
+	e position: 10 @ 10.
+	e extent: 10 @ 10.
 	space deferAndSettle: [ space root addChild: e ].
 
 	windowManager := ToPopupWindowManager new.
@@ -85,7 +85,7 @@ ToPopupWindowManagerTest >> testElementPositionInSpaceChangedEvent [
 	space settle.
 	self assert: win isOpened.
 
-	space deferAndSettle: [ e position: 20 asPoint ].
+	space deferAndSettle: [ e position: 20 @ 20 ].
 	self assert: win isOpened
 ]
 
@@ -94,7 +94,7 @@ ToPopupWindowManagerTest >> testMouseDownEvent [
 
 	| e windowManager position event |
 	e := ToElement new.
-	e extent: 100 asPoint.
+	e extent: 100 @ 100.
 	space deferAndSettle: [ space root addChild: e  ].
 
 	windowManager := ToPopupWindowManager new.
@@ -113,7 +113,7 @@ ToPopupWindowManagerTest >> testMouseDownInElementEvent [
 
 	| e windowManager |
 	e := ToElement new.
-	e extent: 100 asPoint.
+	e extent: 100 @ 100.
 	space deferAndSettle: [ space root addChild: e  ].
 
 	windowManager := ToPopupWindowManager new.
@@ -129,7 +129,7 @@ ToPopupWindowManagerTest >> testMouseUpEvent [
 
 	| e windowManager closed position event |
 	e := ToElement new.
-	e extent: 100 asPoint.
+	e extent: 100 @ 100.
 	space deferAndSettle: [ space root addChild: e  ].
 
 	windowManager := ToPopupWindowManager new.
@@ -159,7 +159,7 @@ ToPopupWindowManagerTest >> testMouseUpInElementEvent [
 
 	| e windowManager closed |
 	e := ToElement new.
-	e extent: 100 asPoint.
+	e extent: 100 @ 100.
 	space deferAndSettle: [ space root addChild: e  ].
 
 	windowManager := ToPopupWindowManager new.
@@ -184,7 +184,7 @@ ToPopupWindowManagerTest >> testMouseUpInElementEventAfterLongDelayShouldCloseWi
 
 	| e windowManager closed |
 	e := ToElement new.
-	e extent: 100 asPoint.
+	e extent: 100 @ 100.
 	space deferAndSettle: [ space root addChild: e  ].
 
 	windowManager := ToPopupWindowManager new.
@@ -209,8 +209,8 @@ ToPopupWindowManagerTest >> testMouseUpOutsideEvent [
 
 	| e windowManager closed event |
 	e := ToElement new.
-	e extent: 100 asPoint.
-	e position: 100 asPoint.
+	e extent: 100 @ 100.
+	e position: 100 @ 100.
 	space deferAndSettle: [ space root addChild: e  ].
 
 	windowManager := ToPopupWindowManager new.
@@ -240,7 +240,7 @@ ToPopupWindowManagerTest >> testNoAutoCloseEvenAfterLongDelay [
 
 	| e windowManager closed |
 	e := ToElement new.
-	e extent: 100 asPoint.
+	e extent: 100 @ 100.
 	space deferAndSettle: [ space root addChild: e  ].
 
 	windowManager := ToPopupWindowManager new.
@@ -299,7 +299,7 @@ ToPopupWindowManagerTest >> testUseNoMouseButton [
 
 	| e windowManager |
 	e := ToElement new.
-	e extent: 100 asPoint.
+	e extent: 100 @ 100.
 	space deferAndSettle: [ space root addChild: e ].
 
 	windowManager := ToPopupWindowManager new.
@@ -314,7 +314,7 @@ ToPopupWindowManagerTest >> testUsePrimaryMouseButton [
 
 	| e windowManager |
 	e := ToElement new.
-	e extent: 100 asPoint.
+	e extent: 100 @ 100.
 	space deferAndSettle: [ space root addChild: e ].
 
 	windowManager := ToPopupWindowManager new.
@@ -330,7 +330,7 @@ ToPopupWindowManagerTest >> testUsePrimaryMouseButton2 [
 
 	| e windowManager |
 	e := ToElement new.
-	e extent: 100 asPoint.
+	e extent: 100 @ 100.
 	space deferAndSettle: [ space root addChild: e ].
 
 	windowManager := ToPopupWindowManager new.
@@ -345,7 +345,7 @@ ToPopupWindowManagerTest >> testUseSecondaryMouseButton [
 
 	| e windowManager |
 	e := ToElement new.
-	e extent: 100 asPoint.
+	e extent: 100 @ 100.
 	space deferAndSettle: [ space root addChild: e ].
 
 	windowManager := ToPopupWindowManager new.
@@ -361,7 +361,7 @@ ToPopupWindowManagerTest >> testUseSecondaryMouseButton2 [
 
 	| e windowManager |
 	e := ToElement new.
-	e extent: 100 asPoint.
+	e extent: 100 @ 100.
 	space deferAndSettle: [ space root addChild: e ].
 
 	windowManager := ToPopupWindowManager new.

@@ -254,7 +254,7 @@ ToLabeledIconTest >> testInitialize [
 	space deferAndSettle: [ space root addChild: li ].
 	self assert: li isStartToEnd.
 	self assert: li isHorizontal.
-	self assert: li extent equals: 0 asPoint
+	self assert: li extent equals: 0 @ 0
 ]
 
 { #category : #tests }
@@ -388,7 +388,7 @@ ToLabeledIconTest >> testLabelContainer [
 	space deferAndSettle: [ space root addChild: li ].
 
 	self assert: li labelContainer hasChildren not.
-	self assert: li labelContainer extent equals: 0 asPoint.
+	self assert: li labelContainer extent equals: 0 @ 0.
 
 	space deferAndSettle: [ li label: (ToLabel text: 'A') ].
 	self assert: li extent equals: li labelContainer extent
@@ -433,7 +433,7 @@ ToLabeledIconTest >> testLabelText [
 
 	space deferAndSettle: [ li label: nil ].
 	self deny: li hasLabel.
-	self assert: li extent equals: 0 asPoint
+	self assert: li extent equals: 0 @ 0
 ]
 
 { #category : #tests }
@@ -482,7 +482,7 @@ ToLabeledIconTest >> testStartFlexible [
 ToLabeledIconTest >> testStartFlexibleInEmpty [
 
 	| li container |
-	container := ToElement new extent: 200 asPoint; yourself.
+	container := ToElement new extent: 200 @ 200; yourself.
 
 	li := ToLabeledIcon new.
 	li startFlexible: true.
@@ -490,7 +490,7 @@ ToLabeledIconTest >> testStartFlexibleInEmpty [
 	li matchParent.
 	container addChild: li.
 	space deferAndSettle: [ space root addChild: container ].
-	self assert: li extent equals: 200 asPoint.
+	self assert: li extent equals: 200 @ 200.
 
 	space deferAndSettle: [ li vFitContent ].
 	self assert: li width equals: 200.
@@ -504,7 +504,7 @@ ToLabeledIconTest >> testStartFlexibleInEmpty [
 ToLabeledIconTest >> testStartFlexibleWithLabel [
 
 	| li container |
-	container := ToElement new extent: 200 asPoint; yourself.
+	container := ToElement new extent: 200 @ 200; yourself.
 	li := ToLabeledIcon new.
 	li matchParent.
 	container addChild: li.
@@ -526,7 +526,7 @@ ToLabeledIconTest >> testStartFlexibleWithLabel [
 ToLabeledIconTest >> testStartFlexibleWithLabelAndVertical [
 
 	| li container |
-	container := ToElement new extent: 200 asPoint.
+	container := ToElement new extent: 200 @ 200.
 	li := ToLabeledIcon new.
 	li vertical: true.
 	li matchParent.

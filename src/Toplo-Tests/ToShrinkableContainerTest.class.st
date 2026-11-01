@@ -13,13 +13,13 @@ ToShrinkableContainerTest >> newShrinkableContainerWithChild [
 	| e child |
 	e := ToShrinkableContainer new.
 	e enableShrinkLayer: true.
-	e extent: 100 asPoint.
+	e extent: 100 @ 100.
 	e border: Color red.
 	child := ToElement new.
 	child id: #child.
 	" make the child size less than the container size
 	this let the shrink layer invisible"
-	child extent: 50 asPoint.
+	child extent: 50 @ 50.
 	e addChild: child.
 	^ e
 ]
@@ -33,7 +33,7 @@ ToShrinkableContainerTest >> testContainerSizeChange [
 
 	" make the container size smaller than the child size
 	this makes the shrink layer visible"
-	space deferAndSettle: [ e extent: 20 asPoint ].
+	space deferAndSettle: [ e extent: 20 @ 20 ].
 	self
 		assert: e shrinkFeedbackLayer visibility
 		equals: BlVisibility visible
@@ -71,7 +71,7 @@ ToShrinkableContainerTest >> testIsShrinked [
 
 	| e child |
 	e := ToShrinkableContainer new.
-	e extent: 100 asPoint.
+	e extent: 100 @ 100.
 	space deferAndSettle: [ space root addChild: e ].
 	self deny: e isShrinked.
 
@@ -82,11 +82,11 @@ ToShrinkableContainerTest >> testIsShrinked [
 	child id: #child.
 	" make the child size less than the container size
 	this let the shrink layer invisible"
-	child extent: 50 asPoint.
+	child extent: 50 @ 50.
 	space deferAndSettle: [ e addChild: child ].
 	self deny: e isShrinked.
 
-	space deferAndSettle: [ child extent: 150 asPoint ].
+	space deferAndSettle: [ child extent: 150 @ 150 ].
 	self assert: e isShrinked
 ]
 
@@ -208,7 +208,7 @@ ToShrinkableContainerTest >> testShrinkableContainerVisible [
 
 	" make the child size greater than the container size
 	this makes the shrink layer visible"
-	space deferAndSettle: [ child extent: 150 asPoint ].
+	space deferAndSettle: [ child extent: 150 @ 150 ].
 	self
 		assert: e shrinkFeedbackLayer visibility
 		equals: BlVisibility visible

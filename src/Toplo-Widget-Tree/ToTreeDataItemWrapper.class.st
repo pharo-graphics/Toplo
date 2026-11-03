@@ -165,7 +165,10 @@ ToTreeDataItemWrapper >> hasChildWrappers [
 { #category : #testing }
 ToTreeDataItemWrapper >> hasLeafDataItem [
 
-	^ self dataItem isNotNil and: [ self dataItemChildren isEmpty ]
+	self dataItem ifNil: [ ^ false ].
+	"With lazily computed children, a node that is not expanded is not known to be a leaf"
+	(self isCollapsed and: [ listElement nodeManager shouldLazilyComputeChildren ]) ifTrue: [ ^ false ].
+	^ self dataItemChildren isEmpty
 ]
 
 { #category : #testing }

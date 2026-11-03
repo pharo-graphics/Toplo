@@ -80,14 +80,14 @@ Toplo class >> settingsOn: aBuilder [
 	(aBuilder group: #Toplo)
 		label: 'Toplo';
 		description: 'Toplo settings';
-		parentName: #appearance;
+		parent: #appearance;
 		with: [
-				(aBuilder pickOne: #defaultThemeClass)
-					target: self;
-					order: 1;
-					label: 'Default theme';
-					domainValues: self supportedThemeClasses;
-					description: 'Choose the default theme for Toplo' ]
+			(aBuilder pickOne: #defaultThemeClass)
+				target: self;
+				order: 1;
+				label: 'Default theme';
+				domainValues: self supportedThemeClasses;
+				description: 'Choose the default theme for Toplo' ]
 ]
 
 { #category : #settings }

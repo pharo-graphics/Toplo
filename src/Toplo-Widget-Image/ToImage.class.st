@@ -48,9 +48,9 @@ ToImage class >> settingsOn: aBuilder [
 
 	<systemsettings>
 	(aBuilder setting: #allowFormColorChange)
-		parentName: #Toplo;
+		parent: #Toplo;
 		label: 'Enable Form color change in a ToImage';
-		defaultValue: false;
+		default: false;
 		target: self;
 		description: 'Allow/disallow form color change in a ToImage'
 ]

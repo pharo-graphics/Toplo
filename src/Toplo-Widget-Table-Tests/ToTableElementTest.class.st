@@ -72,6 +72,16 @@ ToTableElementTest >> testAddElementInData [
 	self assert: (table selectChildrenWithId: #row) size equals: 6
 ]
 
+{ #category : #tests }
+ToTableElementTest >> testEnableTypeAheadForwardsToList [
+
+	self deny: table list isTypeAheadEnabled.
+	table enableTypeAhead.
+	self assert: table list isTypeAheadEnabled.
+	table disableTypeAhead.
+	self deny: table list isTypeAheadEnabled
+]
+
 { #category : #running }
 ToTableElementTest >> testNumberOfColumn [
 

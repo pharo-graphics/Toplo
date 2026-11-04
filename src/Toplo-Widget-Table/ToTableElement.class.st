@@ -63,6 +63,18 @@ ToTableElement >> defaultLayout [
 	^ BlLinearLayout vertical
 ]
 
+{ #category : #'type-ahead' }
+ToTableElement >> disableTypeAhead [
+
+	self list disableTypeAhead
+]
+
+{ #category : #'type-ahead' }
+ToTableElement >> enableTypeAhead [
+
+	self list enableTypeAhead
+]
+
 { #category : #accessing }
 ToTableElement >> header [
 
@@ -288,6 +300,12 @@ ToTableElement >> selecter [
 ToTableElement >> showHeader: aBoolean [
 
 	showHeader := aBoolean
+]
+
+{ #category : #'type-ahead' }
+ToTableElement >> typeAheadMatcher: aBlock [
+
+	self list typeAheadMatcher: aBlock
 ]
 
 { #category : #initialization }

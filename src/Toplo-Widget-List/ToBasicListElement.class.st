@@ -244,6 +244,14 @@ ToBasicListElement >> dirtySelectionModesDo: aBlock [
 	^ self dirtySelectionModes do: aBlock
 ]
 
+{ #category : #'type-ahead' }
+ToBasicListElement >> disableTypeAhead [
+
+	self typeAheadHandler ifNotNil: [ :handler |
+			self removeEventHandler: handler.
+			self userData removeKey: #typeAheadHandler ]
+]
+
 { #category : #'accessing selecters' }
 ToBasicListElement >> disabledAtPosition: anInteger [
 
@@ -266,6 +274,16 @@ ToBasicListElement >> disabledSelectionMode [
 ToBasicListElement >> disabledSelectionModel [
 
 	^ self selectionModel disabledSelectionModel
+]
+
+{ #category : #'type-ahead' }
+ToBasicListElement >> enableTypeAhead [
+
+	| handler |
+	self isTypeAheadEnabled ifTrue: [ ^ self ].
+	handler := ToListTypeAheadEventHandler new.
+	self userData at: #typeAheadHandler put: handler.
+	self addEventHandler: handler
 ]
 
 { #category : #'accessing selecters' }
@@ -785,6 +803,27 @@ ToBasicListElement >> sort: aSortBlock [
 	self selecter
 		updateSelectionAfter: [ self dataAccessor sort: aSortBlock ]
 		withDataAccessor: self dataAccessor
+]
+
+{ #category : #'type-ahead' }
+ToBasicListElement >> typeAheadHandler [
+
+	^ self userData at: #typeAheadHandler ifAbsent: [ ]
+]
+
+{ #category : #'type-ahead' }
+ToBasicListElement >> typeAheadMatcher: aBlock [
+	"aBlock takes an item and the typed pattern and answers whether the item matches"
+
+	self enableTypeAhead.
+	self typeAheadHandler matcher: aBlock
+]
+
+{ #category : #'type-ahead' }
+ToBasicListElement >> typeAheadResetDelay: aDuration [
+
+	self enableTypeAhead.
+	self typeAheadHandler resetDelay: aDuration
 ]
 
 { #category : #'accessing selecters' }

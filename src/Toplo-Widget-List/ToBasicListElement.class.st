@@ -444,6 +444,12 @@ ToBasicListElement >> isSelectedAtPosition: anInteger [
 	^ self selectionModel containsIndex: anInteger
 ]
 
+{ #category : #'type-ahead' }
+ToBasicListElement >> isTypeAheadEnabled [
+
+	^ self typeAheadHandler isNotNil
+]
+
 { #category : #accessing }
 ToBasicListElement >> itemCount [
 

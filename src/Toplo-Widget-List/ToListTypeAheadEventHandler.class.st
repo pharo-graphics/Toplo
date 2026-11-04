@@ -33,6 +33,15 @@ ToListTypeAheadEventHandler >> defaultMatcher [
 	^ [ :item :aPattern | item asString asLowercase beginsWith: aPattern asLowercase ]
 ]
 
+{ #category : #'api - accessing' }
+ToListTypeAheadEventHandler >> eventsToHandle [
+
+	^ {
+		  BlTextInputEvent.
+		  BlKeyDownEvent.
+		  BlBlurEvent }
+]
+
 { #category : #testing }
 ToListTypeAheadEventHandler >> hasCommandModifier: aKeyModifiers [
 
@@ -49,10 +58,29 @@ ToListTypeAheadEventHandler >> initialize [
 ]
 
 { #category : #testing }
+ToListTypeAheadEventHandler >> isAcceptedText: aString [
+
+	^ aString isNotEmpty and: [ aString allSatisfy: [ :each | each isAlphaNumeric or: [ #( $_ $: ) includes: each ] ] ]
+]
+
+{ #category : #testing }
 ToListTypeAheadEventHandler >> isAimedAtList: anEvent [
 	"Ignore events aimed at a child element, such as a text field in a row"
 
 	^ anEvent target == anEvent currentTarget
+]
+
+{ #category : #'event handling' }
+ToListTypeAheadEventHandler >> keyDownEvent: anEvent [
+
+	(self isAimedAtList: anEvent) ifFalse: [ ^ self ].
+	pattern ifEmpty: [ ^ self ].
+	anEvent key = KeyboardKey escape ifTrue: [
+			anEvent consume.
+			^ self reset ].
+	anEvent key = KeyboardKey backspace ifFalse: [ ^ self ].
+	anEvent consume.
+	^ self removeLastCharacter
 ]
 
 { #category : #accessing }

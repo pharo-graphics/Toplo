@@ -44,8 +44,8 @@ ToStyleSheetApplicationTest2 >> testApplicationOnElementHovered [
 
 	elem := ToElement new.
 
-	elem extent: 20 asPoint.
-	elem position: 100 asPoint.
+	elem extent: 20 @ 20.
+	elem position: 100 @ 100.
 	elem background: Color blue.
 	space toTheme: theme.
 	space deferAndSettle: [ space root addChild: elem  ].

@@ -98,10 +98,10 @@ ToExperiments class >> example_DragAndDropWithLinearLayout [
 	container initializeAsPasteUp.
 
 	red := ToElement new id: #red.
-	red extent: 100 asPoint.
+	red extent: 100 @ 100.
 	red background: Color red.
 	blue := ToElement new id: #blue.
-	blue extent: 50 asPoint.
+	blue extent: 50 @ 50.
 	blue background: Color blue.
 
 	container addChildren: {
@@ -571,7 +571,7 @@ ToExperiments class >> example_MenuAroundCircle [
 								             geometry:
 									             (BlRoundedRectangleGeometry cornerRadius: 3);
 								             background: color;
-								             extent: 16 asPoint;
+								             extent: 16 @ 16;
 								             yourself.
 							sm addItem: ((ToMenuItem new
 									  labelText: stream;
@@ -618,10 +618,10 @@ ToExperiments class >> example_PasteUpPane [
 	container initializeAsPasteUp.
 
 	red := ToElement new id: #red.
-	red extent: 100 asPoint.
+	red extent: 100 @ 100.
 	red background: Color red.
 	blue := ToElement new id: #blue.
-	blue extent: 50 asPoint.
+	blue extent: 50 @ 50.
 	blue background: Color blue.
 
 	container addChildren: {
@@ -654,10 +654,10 @@ ToExperiments class >> example_PasteUpWithPlaceHolder [
 	container showPlaceholder.
 
 	red := ToElement new id: #red.
-	red extent: 100 asPoint.
+	red extent: 100 @ 100.
 	red background: Color red.
 	blue := ToElement new id: #blue.
-	blue extent: 50 asPoint.
+	blue extent: 50 @ 50.
 	blue background: Color blue.
 
 	container addChildren: {
@@ -883,7 +883,7 @@ ToExperiments class >> example_collapse1 [
 	collapsedChild := BlElement new
 		                  background: Color purple;
 		                  extent: 50 @ 100;
-		                  position: 50 asPoint;
+		                  position: 50 @ 50;
 		                  yourself.
 	collapsed addChild: collapsedChild.
 
@@ -1069,7 +1069,7 @@ ToExperiments class >> example_frame [
 	expand clickAction: [
 			frame
 				position: 0 @ 0;
-				size: frame parent size ].
+				extent: frame parent size ].
 
 	title := ToLabel new
 		         text: 'Frame';
@@ -1531,7 +1531,7 @@ ToExperiments class >> example_twoChildrenInPolygon [
 		(BlGaussianShadowEffect
 			 color: Color black
 			 width: 15
-			 offset: 0 asPoint).
+			 offset: 0 @ 0).
 	parent constraintsDo: [ :c |
 			c horizontal fitContent.
 			c vertical fitContent ].
@@ -1674,7 +1674,7 @@ ToExperiments class >> newTreeElement [
 						           ifFalse: [ #'iconic-arrow-right' ].
 					arrowIcon innerImage: (tree valueOfTokenNamed: arrowTk) ].
 			arrowIcon
-				extent: 18 asPoint;
+				extent: 18 @ 18;
 				id: #arrow.
 			iconContainer := ToElement new
 				                 fitContent;

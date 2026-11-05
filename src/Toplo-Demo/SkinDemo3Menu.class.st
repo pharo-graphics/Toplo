@@ -19,7 +19,7 @@ SkinDemo3Menu >> container [
 SkinDemo3Menu >> initialize [
 
 	super initialize.
-	self size: 100 @ 50.
+	self extent: 100 @ 50.
 	self margin: (BlInsets all: 2).
 	self clipChildren: false.
 	self initializeMenuItems.

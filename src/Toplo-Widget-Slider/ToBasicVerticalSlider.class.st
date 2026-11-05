@@ -9,7 +9,7 @@ ToBasicVerticalSlider class >> simpleExample [
 
 	<script>
 	| slider textElt space |
-	slider := self new position: 50 asPoint.
+	slider := self new position: 50 @ 50.
 
 	textElt := BlTextElement new
 		           position: 150 @ 100;

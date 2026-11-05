@@ -142,6 +142,17 @@ ToMenuBuilderO >> addConflict: aDuplicatedItem [
 ]
 
 { #category : #accessing }
+ToMenuBuilderO >> allItems [
+
+	| result |
+	result := OrderedCollection new.
+	collectedItems do: [ :each |
+			result add: each.
+			result addAll: each allChildren ].
+	^ result
+]
+
+{ #category : #accessing }
 ToMenuBuilderO >> allNamedItems [
 
 	^ collectedItems collect: [ :item | item name ]
@@ -150,13 +161,7 @@ ToMenuBuilderO >> allNamedItems [
 { #category : #editing }
 ToMenuBuilderO >> arrangeItems [
 
-	| newCollectedItem |
-	newCollectedItem := OrderedCollection new.
-	collectedItems do: [ :item |
-		(item parent isNil or:
-			 [ (self allNamedItems includes: item parent) not] ) ifTrue: [
-			newCollectedItem add: item ] ].
-	collectedItems := newCollectedItem.
+	collectedItems := collectedItems select: [ :item | item parentMenuItem isNil ].
 	self sortItems.
 	collectedItems do: [ :item | self sortedTree: item ]
 ]
@@ -237,6 +242,24 @@ ToMenuBuilderO >> groupNamed: aSymbol [
 	^ self itemNamed: aSymbol
 ]
 
+{ #category : #accessing }
+ToMenuBuilderO >> groups [
+
+	self
+		deprecated: 'Use #namesOfAlreadyExistingGroups instead'
+		transformWith: '`@receiver groups' -> '`@receiver namesOfAlreadyExistingGroups'.
+
+	^ self namesOfAlreadyExistingGroups
+]
+
+{ #category : #accessing }
+ToMenuBuilderO >> groupsNamed: aSymbol [
+
+	self deprecated: 'Use #groupNamed: instead' transformWith: '`@receiver groupsNamed: `@arg' -> '`@receiver groupNamed: `@arg'.
+
+	^ self groupNamed: aSymbol
+]
+
 { #category : #adding }
 ToMenuBuilderO >> handleAddToParent: aMenuRegistration [
 
@@ -267,16 +290,24 @@ ToMenuBuilderO >> handleDuplicatedShortcut: anItem [
 { #category : #'error handling' }
 ToMenuBuilderO >> handleGroupsUsage: anItem [
 
+	| groupItem parentMenu |
 	anItem name ifNil: [ ^ self ].
 	(self namesOfAlreadyExistingGroups includes: anItem name) ifTrue: [ ^ self ].
-	anItem parentMenuItem ifNotNil: [
-		(anItem groupName isNil and:
-			 [ anItem parentMenuItem groupName isNotNil]) ifTrue: [
-			anItem groupName: anItem parentMenuItem groupName ] ].
 	anItem groupName ifNil: [ ^ self ].
-	(self isAnExistingGroup: anItem groupName) ifFalse: [
-		self newGroup: anItem groupName ].
-	(self groupNamed: anItem groupName) addChild: anItem
+	(self isAnExistingGroup: anItem groupName) ifFalse: [ self newGroup: anItem groupName ].
+	groupItem := self groupNamed: anItem groupName.
+	(anItem isGroup not and: [ anItem parentMenuItem ~= groupItem ]) ifTrue: [
+			parentMenu := anItem parentMenuItem.
+			parentMenu
+				ifNotNil: [
+						parentMenu childrenItems remove: anItem ifAbsent: [ ].
+						groupItem parent isNil ifTrue: [
+								groupItem parent: parentMenu name.
+								groupItem parentMenuItem: parentMenu.
+								parentMenu addChild: groupItem ] ]
+				ifNil: [ currentRoot childrenItems remove: anItem ifAbsent: [ ] ].
+			groupItem addChild: anItem.
+			anItem parentMenuItem: groupItem ]
 ]
 
 { #category : #'error handling' }
@@ -350,10 +381,16 @@ ToMenuBuilderO >> item: aSymbol [
 { #category : #querying }
 ToMenuBuilderO >> itemNamed: aSymbol [
 
-	collectedItems do: [ :item | item name = aSymbol ifTrue: [ ^ item ] ].
-	self flag: 'why returning the current root when we do not find 
-	an item with the current name. This is a bug nest.'.
+	collectedItems do: [ :item | (item itemNamed: aSymbol) ifNotNil: [ :found | ^ found ] ].
 	^ currentRoot
+]
+
+{ #category : #querying }
+ToMenuBuilderO >> itemsNamed: aSymbol [
+
+	self deprecated: 'Use #itemNamed: instead' transformWith: '`@receiver itemsNamed: `@arg' -> '`@receiver itemNamed: `@arg'.
+
+	^ self itemNamed: aSymbol
 ]
 
 { #category : #querying }
@@ -370,12 +407,7 @@ ToMenuBuilderO >> lookUpForParent: aMenuRegistration [
 { #category : #accessing }
 ToMenuBuilderO >> namesOfAlreadyExistingGroups [
 
-	| groupsNames |
-	groupsNames := OrderedCollection new.
-	collectedItems do: [ :item |
-		item isGroup ifTrue: [
-			groupsNames add: item groupName ] ].
-	^ groupsNames 
+	^ self allItems select: [ :item | item isGroup ] thenCollect: [ :group | group groupName ]
 ]
 
 { #category : #accessing }

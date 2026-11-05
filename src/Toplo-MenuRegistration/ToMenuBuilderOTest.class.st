@@ -299,14 +299,9 @@ ToMenuBuilderOTest >> testItemInGroupAlreadyDeclared [
 		label: 'The root tools';
 		groupName: #OurGroup.
 	builder resolve.
-	self flag: #tofix. 
-	"We should only get one item: the group and it should have tools as children"
-	self 
-		assert: builder collectedItems size 
-		equals: 2.
-	self
-		assert: (builder groupNamed: #OurGroup) childrenItems first name
-		equals: #Tools
+
+	self assert: builder collectedItems size equals: 1.
+	self assert: (builder groupNamed: #OurGroup) childrenItems first name equals: #Tools
 ]
 
 { #category : #'tests - groups' }
@@ -455,23 +450,17 @@ ToMenuBuilderOTest >> testResolveWithDeclaresOneItemWithAParentAndAChild [
 		groupName: #BeautifulMenu;
 		label: 'The coolest tool here';
 		with: [
-			(builder item: #MyMenuChild)
-				parent: #MyMenu;
-				label: 'My own cool tool also here' ].
+				(builder item: #MyMenuChild)
+					parent: #MyMenu;
+					label: 'My own cool tool also here' ].
 
 	builder resolve.
 	self assert: builder namesOfAlreadyExistingGroups size equals: 1.
+	self assert: (builder groupNamed: #BeautifulMenu) childrenItems size equals: 1.
 	self
-		assert: (builder groupNamed: #BeautifulMenu) childrenItems size
-		equals: 2.
-	self
-		assert:
-			((builder groupNamed: #BeautifulMenu) childrenItems collect: [
-				 :item | item name ])
-		equals: { #MyMenu. #MyMenuChild } asOrderedCollection.
-	self
-		assert: (builder itemNamed: #MyMenu) childrenItems first parent
-		equals: #MyMenu
+		assert: ((builder groupNamed: #BeautifulMenu) childrenItems collect: [ :item | item name ])
+		equals: { #MyMenu } asOrderedCollection.
+	self assert: (builder itemNamed: #MyMenu) childrenItems first parent equals: #MyMenu
 ]
 
 { #category : #'tests - resolve phase' }
@@ -688,6 +677,68 @@ ToMenuBuilderOTest >> testThreeDepth [
 
 
 	self assert: builder collectedItems size equals: 3
+]
+
+{ #category : #'tests - visitor' }
+ToMenuBuilderOTest >> testToploVisitorWithGroupAndSeparators [
+
+	| visitor pane |
+	(builder group: #FileOps) withSeparatorAfter.
+	(builder item: #NewFile)
+		label: 'New File';
+		groupName: #FileOps.
+	(builder item: #OpenFile)
+		label: 'Open File';
+		groupName: #FileOps.
+	(builder item: #Exit) label: 'Exit'.
+	builder resolve.
+	self assert: builder collectedItems size equals: 2.
+	self assert: (builder itemNamed: #NewFile) name equals: #NewFile.
+	self assert: (builder itemNamed: #OpenFile) name equals: #OpenFile.
+	self assert: (builder itemNamed: #Exit) name equals: #Exit.
+
+	visitor := ToploVisitor new.
+	pane := visitor visitMenuBuilder: builder.
+	self assert: pane items size equals: 4.
+	self assert: pane items first class equals: ToMenuItem.
+	self assert: pane items second class equals: ToMenuItem.
+	self assert: pane items third class equals: ToSeparatorMenuItem.
+	self assert: pane items fourth class equals: ToMenuItem
+]
+
+{ #category : #'tests - visitor' }
+ToMenuBuilderOTest >> testToploVisitorWithGroupInSubmenuAndSeparators [
+
+	| visitor pane fileMenu |
+	(builder item: #FileMenu) label: 'File'.
+	(builder group: #FileOps)
+		parent: #FileMenu;
+		withSeparatorAfter.
+	(builder item: #NewFile)
+		label: 'New File';
+		groupName: #FileOps.
+	(builder item: #OpenFile)
+		label: 'Open File';
+		groupName: #FileOps.
+	(builder item: #Exit)
+		label: 'Exit';
+		parent: #FileMenu.
+	builder resolve.
+	self assert: builder collectedItems size equals: 1.
+	self assert: (builder itemNamed: #NewFile) name equals: #NewFile.
+	self assert: (builder itemNamed: #OpenFile) name equals: #OpenFile.
+	self assert: (builder itemNamed: #Exit) name equals: #Exit.
+
+	visitor := ToploVisitor new.
+	pane := visitor visitMenuBuilder: builder.
+	self assert: pane items size equals: 1.
+	fileMenu := pane items first.
+	self assert: fileMenu class equals: ToMenu.
+	self assert: fileMenu items size equals: 4.
+	self assert: fileMenu items first class equals: ToMenuItem.
+	self assert: fileMenu items second class equals: ToMenuItem.
+	self assert: fileMenu items third class equals: ToSeparatorMenuItem.
+	self assert: fileMenu items fourth class equals: ToMenuItem
 ]
 
 { #category : #'tests - groups' }

@@ -54,6 +54,17 @@ ToMenuUserDeclarationO >> addChild: aMenuRegistration [
 ]
 
 { #category : #accessing }
+ToMenuUserDeclarationO >> allChildren [
+
+	| result |
+	result := OrderedCollection new.
+	childrenItems do: [ :child |
+			result add: child.
+			result addAll: child allChildren ].
+	^ result
+]
+
+{ #category : #accessing }
 ToMenuUserDeclarationO >> arguments [
 	^ arguments
 ]
@@ -79,9 +90,7 @@ ToMenuUserDeclarationO >> builder: aBuilder [
 { #category : #testing }
 ToMenuUserDeclarationO >> childrenFromGroup: aGroupName [
 
-	^ childrenItems select: [ :item | 
-			item groupName = aGroupName 
-				and: [ item isGroup = false ]]
+	^ childrenItems select: [ :item | item groupName = aGroupName and: [ item isGroup not ] ]
 ]
 
 { #category : #accessing }
@@ -220,6 +229,14 @@ ToMenuUserDeclarationO >> isGroup [
 ToMenuUserDeclarationO >> isGroup: aBoolean [
 
 	isGroup := aBoolean
+]
+
+{ #category : #querying }
+ToMenuUserDeclarationO >> itemNamed: aSymbol [
+
+	name = aSymbol ifTrue: [ ^ self ].
+	childrenItems do: [ :child | (child itemNamed: aSymbol) ifNotNil: [ :found | ^ found ] ].
+	^ nil
 ]
 
 { #category : #accessing }

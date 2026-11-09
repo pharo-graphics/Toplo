@@ -14,8 +14,8 @@ ToOverlayWindowTest >> testWindowSize [
 	e := ToElement new.
 	space deferAndSettle: [
 		space root addChild: e.
-		e position: 10 asPoint.
-		e extent: 10 asPoint ].
+		e position: 10 @ 10.
+		e extent: 10 @ 10 ].
 	windowManager :=
 		ToAnchoredWindowManager overlay
 			windowBuilder: [ :anchWin :requestEvent |  ];
@@ -24,10 +24,10 @@ ToOverlayWindowTest >> testWindowSize [
 	space deferAndSettle: [
 		win := windowManager createNewWindowOnEvent: nil.
 		win popup ].
-	self assert: win bounds inSpace extent equals: 10 asPoint.
+	self assert: win bounds inSpace extent equals: 10 @ 10.
 
-	space deferAndSettle: [ e extent: 20 asPoint ].
-	self assert: win bounds inSpace extent equals: 20 asPoint
+	space deferAndSettle: [ e extent: 20 @ 20 ].
+	self assert: win bounds inSpace extent equals: 20 @ 20
 ]
 
 { #category : #tests }
@@ -37,19 +37,19 @@ ToOverlayWindowTest >> testWindowSize2 [
 	e := ToElement new.
 	space deferAndSettle: [
 		space root addChild: e.
-		e position: 10 asPoint.
-		e extent: 10 asPoint ].
+		e position: 10 @ 10.
+		e extent: 10 @ 10 ].
 	windowManager :=
 		ToAnchoredWindowManager overlay
 			windowBuilder: [ :anchWin :requestEvent |
-				anchWin root addChild: (ToElement new extent: 100 asPoint) ];
+				anchWin root addChild: (ToElement new extent: 100 @ 100) ];
 			yourself.
 	e addEventHandler: windowManager.
 	space deferAndSettle: [
 		win := windowManager createNewWindowOnEvent: nil.
 		win popup ].
-	self assert: win bounds inSpace extent equals: 10 asPoint.
+	self assert: win bounds inSpace extent equals: 10 @ 10.
 
-	space deferAndSettle: [ e extent: 20 asPoint ].
-	self assert: win bounds inSpace extent equals: 20 asPoint
+	space deferAndSettle: [ e extent: 20 @ 20 ].
+	self assert: win bounds inSpace extent equals: 20 @ 20
 ]

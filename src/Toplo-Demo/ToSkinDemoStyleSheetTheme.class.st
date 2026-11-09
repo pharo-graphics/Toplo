@@ -18,7 +18,7 @@ ToSkinDemoStyleSheetTheme class >> exampleBasicRuleChangingBackgroundWhenInstall
 			write: (theme property: #background)
 			with: [ :e | Color red ] ].
 
-	elem := ToElement new position: 50 asPoint.
+	elem := ToElement new position: 50 @ 50.
 	elem background: Color blue.
 	space := BlSpace new.
 	space toTheme: theme.
@@ -55,12 +55,12 @@ ToSkinDemoStyleSheetTheme class >> exampleRuleBackgroundDependsOnParentOrChildre
 					write: (theme property: #background)
 					with: [ :e | Color blue ] ] ].
 
-	elem := ToElement new position: 50 asPoint.
+	elem := ToElement new position: 50 @ 50.
 	parentElem := ToElement new
 						layout: BlBasicLayout new;
-		              size: 100 asPoint;
+		              extent: 100 @ 100;
 		              position: 150 @ 50.
-	childElem := ToElement new position: 25 asPoint.
+	childElem := ToElement new position: 25 @ 25.
 	parentElem addChild: childElem.
 	space := BlSpace new.
 	space toTheme: theme.
@@ -100,10 +100,10 @@ ToSkinDemoStyleSheetTheme class >> exampleRuleBackgroundDependsOnSibling [
 
 	container := ToElement new
 		             layout: BlBasicLayout new;
-		             size: 250 @ 150;
-		             position: 50 asPoint.
+		             extent: 250 @ 150;
+		             position: 50 @ 50.
 	sibling1 := ToElement new
-		            position: 50 asPoint;
+		            position: 50 @ 50;
 		            addStamp: #sibling1.
 	sibling2 := ToElement new
 		            position: 150 @ 50;
@@ -154,16 +154,16 @@ ToSkinDemoStyleSheetTheme class >> exampleRuleBackgroundDependsOnSizeWithActionB
 							write: (theme property: #background)
 							with: [ :e | Color yellow ] ] ] ].
 
-	elem := ToElement new size: 50 asPoint; position: 50 asPoint.
+	elem := ToElement new extent: 50 @ 50; position: 50 @ 50.
 	verticalElem := ToElement new
-		                size: 50 @ 100;
+		                extent: 50 @ 100;
 		                position: 50 @ 150.
 	horizontalElem := ToElement new
-		                  size: 100 @ 50;
+		                  extent: 100 @ 50;
 		                  position: 150 @ 50.
 	biggerElem := ToElement new
-		              size: 100 asPoint;
-		              position: 150 asPoint.
+		              extent: 100 @ 100;
+		              position: 150 @ 150.
 
 	space := BlSpace new.
 	space root whenLayoutedDoOnce: [ space toTheme: theme].
@@ -192,7 +192,7 @@ ToSkinDemoStyleSheetTheme class >> exampleRuleNestedInOtherRuleDependsOnStamp [
 				write: (theme property: #background)
 				with: [ :e | Color green ] ] ].
 
-	elem := ToElement new position: 50 asPoint.
+	elem := ToElement new position: 50 @ 50.
 	elem background: Color blue.
 	stampedElem := ToElement new
 		               position: 150 @ 50;

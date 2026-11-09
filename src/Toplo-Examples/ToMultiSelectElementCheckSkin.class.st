@@ -32,7 +32,7 @@ ToMultiSelectElementCheckSkin >> installSkinEvent: anEvent [
 			im constraintsDo: [ :c |
 					c frame vertical alignCenter.
 					c frame horizontal alignRight ].
-			im extent: 16 asPoint.
+			im extent: 16 @ 16.
 			im background: Color transparent.
 			e layout: BlFrameLayout new.
 			e addChild: im ]

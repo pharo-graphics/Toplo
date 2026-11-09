@@ -93,7 +93,7 @@ ToCircularMenuNodeContainerSkin >> installSkinEventExperimental: anEvent [
 					 width: 2;
 					 build).
 			element := ToMaterialDesignIconProvider iconNamed: 'outlined_add'.
-			element extent: 20 asPoint.
+			element extent: 20 @ 20.
 			element innerImageColor: Color blue.
 			e whenLayoutedDoOnce: [
 					rotation := e startAngle + e endAngle / 2.

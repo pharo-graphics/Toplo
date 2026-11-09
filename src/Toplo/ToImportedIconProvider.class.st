@@ -103,7 +103,7 @@ ToImportedIconProvider class >> listElementWithAllIcons [
 									 element := (dataItem value
 										             iconNamed: dataItem key
 										             inProvider: icProvider)
-										            extent: 100 asPoint;
+										            extent: 100 @ 100;
 										            yourself.
 									 element inspect ]) ] ].
 
@@ -130,7 +130,7 @@ ToImportedIconProvider class >> listElementWithAllIcons [
 			imPane background: Color veryVeryLightGray.
 			imPane addChild:
 				((iconStyle iconNamed: iconName inProvider: icProvider)
-					 extent: 24 asPoint;
+					 extent: 24 @ 24;
 					 yourself).
 			imPane firstChild withAllChildrenDepthFirstDo: [ :child |
 				child hasChildren ifFalse: [ child background: Color red ] ].

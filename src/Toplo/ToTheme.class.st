@@ -193,7 +193,7 @@ ToTheme class >> defaultTokenProperties [
 			   value: (BlGaussianShadowEffect
 					    color: Color lightGray
 					    width: 15
-					    offset: 0 asPoint)).
+					    offset: 0 @ 0)).
 
 		  (ToTokenProperty
 			   name: #'color-bg-container'

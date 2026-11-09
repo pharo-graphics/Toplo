@@ -10,14 +10,14 @@ Class {
 { #category : #examples }
 ToSkinDemo1Button class >> exampleSimpleElementAsButton [
 
-	self new position: 50 asPoint; openInSpace 
+	self new position: 50 @ 50; openInSpace 
 ]
 
 { #category : #examples }
 ToSkinDemo1Button class >> exampleToElementWithSkinApplied [
 
 	| button |
-	button := ToElement new position: 50 asPoint.
+	button := ToElement new position: 50 @ 50.
 button defaultSkin: ToSkinDemo1ButtonSkin new.
 button openInSpace
 ]
@@ -33,7 +33,7 @@ ToSkinDemo1Button >> click [
 ToSkinDemo1Button >> initialize [
 
 	super initialize.
-	self size: 100 @ 50.
+	self extent: 100 @ 50.
 	self geometry: (BlRoundedRectangleGeometry cornerRadius: 5).
 	self background: Color lightRed.
 	self margin: (BlInsets all: 2).

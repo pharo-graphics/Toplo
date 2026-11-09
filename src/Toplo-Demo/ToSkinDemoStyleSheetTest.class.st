@@ -54,9 +54,9 @@ ToSkinDemoStyleSheetTest >> testRuleBackgroundDependsOnParentOrChildren [
 							write: (theme property: #background)
 							with: [ :e | Color blue ] ] ].
 
-	elem := ToElement new position: 50 asPoint.
+	elem := ToElement new position: 50 @ 50.
 	parentElem := ToElement new
-		              extent: 100 asPoint;
+		              extent: 100 @ 100;
 		              position: 150 @ 50.
 	childElem := ToElement new.
 	parentElem addChild: childElem.
@@ -101,9 +101,9 @@ ToSkinDemoStyleSheetTest >> testRuleBackgroundDependsOnSibling [
 	container := ToElement new
 		             layout: BlBasicLayout new;
 		             extent: 250 @ 150;
-		             position: 50 asPoint.
+		             position: 50 @ 50.
 	sibling1 := ToElement new
-		            position: 50 asPoint;
+		            position: 50 @ 50;
 		            addStamp: #sibling1.
 	sibling2 := ToElement new
 		            position: 150 @ 50;
@@ -156,8 +156,8 @@ ToSkinDemoStyleSheetTest >> testRuleBackgroundDependsOnSizeWithActionBlock [
 										with: [ :e | Color yellow ] ] ] ].
 
 	elem := ToElement new
-		        extent: 50 asPoint;
-		        position: 50 asPoint.
+		        extent: 50 @ 50;
+		        position: 50 @ 50.
 	verticalElem := ToElement new
 		                extent: 50 @ 100;
 		                position: 50 @ 150.
@@ -165,8 +165,8 @@ ToSkinDemoStyleSheetTest >> testRuleBackgroundDependsOnSizeWithActionBlock [
 		                  extent: 100 @ 50;
 		                  position: 150 @ 50.
 	biggerElem := ToElement new
-		              extent: 100 asPoint;
-		              position: 150 asPoint.
+		              extent: 100 @ 100;
+		              position: 150 @ 150.
 
 	space deferAndSettle: [
 		space root addChild: elem.

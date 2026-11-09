@@ -98,7 +98,7 @@ ToAnchoredElement >> defaultElevation [
 { #category : #initialization }
 ToAnchoredElement >> defaultOffset [
 
-	^ 0 asPoint
+	^ 0 @ 0
 
 ]
 

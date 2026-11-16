@@ -130,6 +130,7 @@ ToTableHeaderRowNodeContainer >> recordCellsWidth [
 
 	| last |
 	self cellContainers ifEmpty: [ ^ self ].
+	self width isZero ifTrue: [ ^ self ].
 	self cellContainers allButLastDo: [ :e | e updateWidthWith: e width ].
 	last := self cellContainers last.
 	last column resizable ifTrue: [ ^ self ].

@@ -265,6 +265,9 @@ ToTableElement >> otherDividersUpdate: aDivider [
 { #category : #initialization }
 ToTableElement >> recordCellsWidth [
 
+	header width isZero ifTrue: [
+		self isAttachedToSceneGraph ifTrue: [ header whenLayoutedDoOnce: [ self recordCellsWidth ] ].
+		^ self ].
 	header recordCellsWidth.
 	list recordCellsWidth
 ]

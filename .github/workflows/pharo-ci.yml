@@ -7,9 +7,11 @@ name: Pharo CI (reusable)
 # and an Iceberg with pharo-vcs/iceberg#2085: until then, `metacello install`
 # rejects --mvs and --dev and every build fails.
 #
-# The reports are read from the text `metacello install` prints. Its first
-# line counts the findings ("2 errors, 1 warnings, 5 infos"). The day the
-# command line can write the reports to files, read those instead.
+# The reports are read from the text `metacello install` prints last on
+# stdout. Its first line counts the findings ("2 errors, 1 warnings, 5 infos").
+# Until pharo-project/pharo#20253, a resolution with errors prints a stack
+# trace instead of the report. The day the command line can write the reports
+# to files, read those instead.
 
 on:
   workflow_call:
@@ -80,10 +82,11 @@ jobs:
         id: install
         working-directory: pharo
         run: |
-          # The arguments are split as a shell would, after expanding $WORKSPACE
+          # The arguments are split as a shell would, after expanding $WORKSPACE.
+          # Only stdout is kept: the report is its end; stderr stays in the log
           eval "set -- $INSTALL"
           set -o pipefail
-          ./pharo Pharo.image metacello install --mvs "$@" 2>&1 | tee install.log
+          ./pharo Pharo.image metacello install --mvs "$@" | tee install.log
         timeout-minutes: 30
 
       - name: Verbose report
@@ -92,7 +95,7 @@ jobs:
         run: |
           # A second resolution, without saving, only for the full report
           eval "set -- $INSTALL"
-          ./pharo Pharo.image metacello install --mvs --verbose --no-save "$@" > verbose.log 2>&1 || true
+          ./pharo Pharo.image metacello install --mvs --verbose --no-save "$@" > verbose.log || true
         timeout-minutes: 30
 
       - name: Extract the reports
@@ -100,10 +103,9 @@ jobs:
         if: ${{ !cancelled() }}
         working-directory: pharo
         run: |
-          # The report is the text of a notice, between its "Notice: " line and the next bar of =
+          # The report is the end of stdout, from the line that counts the findings
           extract() {
-            awk '/^Notice: [0-9]+ errors, [0-9]+ warnings, [0-9]+ infos/ { found = 1; sub(/^Notice: /, "") }
-                 found && /^====================/ { exit }
+            awk '/^[0-9]+ errors, [0-9]+ warnings, [0-9]+ infos/ { found = 1 }
                  found { print }' "$1"
           }
           extract install.log > report.txt

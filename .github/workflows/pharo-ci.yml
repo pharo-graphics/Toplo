@@ -61,6 +61,13 @@ jobs:
           # Iceberg opens the checkout as a clone (gitlocal://): it needs the whole history
           fetch-depth: 0
 
+      - name: Put the checkout on a branch
+        run: |
+          # A pull request is checked out on a detached HEAD, which Iceberg cannot
+          # open as gitlocal:// (it takes "Detached at <commit>" as a revision).
+          # Remove once Iceberg's IceGitLocalRepositoryType>>mcRepository is fixed.
+          git symbolic-ref --quiet HEAD > /dev/null || git switch --create ci
+
       - name: Download Pharo
         run: |
           mkdir pharo

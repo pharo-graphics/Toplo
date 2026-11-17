@@ -1,0 +1,66 @@
+name: Metacello report comment
+
+# Comments Metacello's short report on the PR when a build of the Metacello
+# workflow has errors or warnings. It keeps one comment per PR, edited on each
+# run, and says so once the PR is clean.
+#
+# It runs apart from the build (workflow_run) because a PR from a fork builds
+# with a token that cannot comment. It never checks out nor runs the PR's
+# code: it only reads the reports the build kept, as data.
+
+on:
+  workflow_run:
+    workflows: [Metacello]
+    types: [completed]
+
+permissions:
+  actions: read
+  pull-requests: write
+
+jobs:
+  comment:
+    if: ${{ github.event.workflow_run.event == 'pull_request' }}
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: ${{ github.repository }}
+    steps:
+      - name: Download the reports
+        uses: actions/download-artifact@v4
+        with:
+          pattern: comment-*
+          path: reports
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Comment
+        run: |
+          marker='<!-- metacello-report -->'
+          pr=$(cat reports/*/pr 2>/dev/null | head -1)
+          # The number comes from the PR's build: take it only if it is one
+          if ! [[ "$pr" =~ ^[0-9]+$ ]]; then
+            echo "No PR number in the reports"
+            exit 0
+          fi
+          {
+            echo "$marker"
+            for build in reports/*/; do
+              read -r errors warnings < "$build/counts"
+              if [ "$errors" != 0 ] || [ "$warnings" != 0 ]; then
+                cat "$build/report.md"
+                echo
+              fi
+            done
+          } > body.md
+          comment=$(gh api "repos/$REPO/issues/$pr/comments" --paginate \
+            --jq ".[] | select(.user.login == \"github-actions[bot]\" and (.body | startswith(\"$marker\"))) | .id" | head -1)
+          if [ "$(wc -l < body.md)" -le 1 ]; then
+            # Clean: only say so when a comment reported problems before
+            [ -z "$comment" ] && exit 0
+            { echo "$marker"; echo "Metacello finds no errors or warnings anymore."; } > body.md
+          fi
+          if [ -z "$comment" ]; then
+            gh api "repos/$REPO/issues/$pr/comments" -F body=@body.md > /dev/null
+          else
+            gh api --method PATCH "repos/$REPO/issues/comments/$comment" -F body=@body.md > /dev/null
+          fi

@@ -1,0 +1,189 @@
+name: Pharo CI (reusable)
+
+# Loads projects with Metacello's minimal version selection (MVS), some of
+# them in dev mode, runs their tests and keeps Metacello's report.
+#
+# Needs a Pharo 15 image with Metacello dev mode (pharo-project/pharo#20252)
+# and an Iceberg with pharo-vcs/iceberg#2085: until then, `metacello install`
+# rejects --mvs and --dev and every build fails.
+#
+# The reports are read from the text `metacello install` prints last on
+# stdout. Its first line counts the findings ("2 errors, 1 warnings, 5 infos").
+# Until pharo-project/pharo#20253, a resolution with errors prints a stack
+# trace instead of the report. The day the command line can write the reports
+# to files, read those instead.
+
+on:
+  workflow_call:
+    inputs:
+      name:
+        description: Name of this build, for the job names, artifacts and the PR comment (dev, integration...)
+        type: string
+        required: true
+      install:
+        description: >-
+          Arguments for `metacello install --mvs`, as written on the command line.
+          $WORKSPACE is the checkout of the calling repository, for example
+          `--dev Toplo gitlocal://$WORKSPACE`.
+        type: string
+        required: true
+      tests:
+        description: Patterns of the packages to test, as given to the `test` command line; empty runs no tests
+        type: string
+        default: ''
+      os:
+        description: JSON list of the runners to build on
+        type: string
+        default: '["macos-latest", "windows-latest"]'
+      image:
+        description: Zeroconf script that downloads the Pharo image and its VM
+        type: string
+        default: https://get.pharo.org/64/150+vm
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ${{ fromJSON(inputs.os) }}
+    runs-on: ${{ matrix.os }}
+    name: ${{ inputs.name }} on ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    env:
+      INSTALL: ${{ inputs.install }}
+      TESTS: ${{ inputs.tests }}
+      IMAGE: ${{ inputs.image }}
+      BUILD: ${{ inputs.name }}-${{ matrix.os }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          # Iceberg opens the checkout as a clone (gitlocal://): it needs the whole history
+          fetch-depth: 0
+
+      - name: Put the checkout on a branch
+        run: |
+          # A pull request is checked out on a detached HEAD, which Iceberg cannot
+          # open as gitlocal:// (it takes "Detached at <commit>" as a revision).
+          # Remove once Iceberg's IceGitLocalRepositoryType>>mcRepository is fixed.
+          git symbolic-ref --quiet HEAD > /dev/null || git switch --create ci
+
+      - name: Download Pharo
+        run: |
+          mkdir pharo
+          cd pharo
+          curl --fail --silent --show-error --location "$IMAGE" | bash
+          # $WORKSPACE as Pharo reads a path: on Windows, Git Bash's /d/a/... is D:/a/...
+          echo "WORKSPACE=$(cd "$GITHUB_WORKSPACE" && (pwd -W 2>/dev/null || pwd))" >> "$GITHUB_ENV"
+
+      - name: Install
+        id: install
+        working-directory: pharo
+        run: |
+          # The arguments are split as a shell would, after expanding $WORKSPACE.
+          # Only stdout is kept: the report is its end; stderr stays in the log
+          eval "set -- $INSTALL"
+          set -o pipefail
+          ./pharo Pharo.image metacello install --mvs "$@" | tee install.log
+        timeout-minutes: 30
+
+      - name: Verbose report
+        if: ${{ !cancelled() }}
+        working-directory: pharo
+        run: |
+          # A second resolution, without saving, only for the full report
+          eval "set -- $INSTALL"
+          ./pharo Pharo.image metacello install --mvs --verbose --no-save "$@" > verbose.log || true
+        timeout-minutes: 30
+
+      - name: Extract the reports
+        id: report
+        if: ${{ !cancelled() }}
+        working-directory: pharo
+        run: |
+          # The report is the end of stdout, from the line that counts the findings
+          extract() {
+            awk '/^[0-9]+ errors, [0-9]+ warnings, [0-9]+ infos/ { found = 1 }
+                 found { print }' "$1"
+          }
+          extract install.log > report.txt
+          extract verbose.log > report-verbose.txt
+          if [ ! -s report.txt ]; then
+            echo "::error::No Metacello report in the output of metacello install"
+            echo "missing=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          read -r errors warnings < <(head -1 report.txt | sed -E 's/^([0-9]+) errors, ([0-9]+) warnings.*/\1 \2/')
+          echo "errors=$errors" >> "$GITHUB_OUTPUT"
+          echo "warnings=$warnings" >> "$GITHUB_OUTPUT"
+          { echo "# Metacello report: $BUILD"; echo; echo '```'; cat report-verbose.txt; echo '```'; } > report-verbose.md
+
+      - name: Keep the verbose report
+        id: verbose
+        if: ${{ !cancelled() && steps.report.outputs.missing != 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: report-verbose-${{ env.BUILD }}
+          path: pharo/report-verbose.md
+
+      - name: Short report
+        if: ${{ !cancelled() && steps.report.outputs.missing != 'true' }}
+        working-directory: pharo
+        env:
+          VERBOSE_URL: ${{ steps.verbose.outputs.artifact-url }}
+          ERRORS: ${{ steps.report.outputs.errors }}
+          WARNINGS: ${{ steps.report.outputs.warnings }}
+        run: |
+          {
+            echo "### Metacello report: $BUILD"
+            echo
+            echo '```'
+            cat report.txt
+            echo '```'
+            echo
+            echo "[Verbose report]($VERBOSE_URL)"
+          } > report.md
+          cat report.md >> "$GITHUB_STEP_SUMMARY"
+          # What the PR comment workflow reads: the counts, the short report, and the PR
+          mkdir comment
+          cp report.md comment/report.md
+          echo "$ERRORS $WARNINGS" > comment/counts
+          echo "${{ github.event.pull_request.number }}" > comment/pr
+
+      - name: Keep the short report for the PR comment
+        if: ${{ !cancelled() && steps.report.outputs.missing != 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: comment-${{ env.BUILD }}
+          path: pharo/comment/
+
+      - name: Test
+        if: ${{ steps.install.outcome == 'success' && inputs.tests != '' }}
+        working-directory: pharo
+        run: |
+          # The patterns are split on spaces, never expanded as file names
+          read -ra patterns <<< "$TESTS"
+          ./pharo Pharo.image test --junit-xml-output --fail-on-failure "${patterns[@]}"
+        timeout-minutes: 30
+
+      - name: Keep the test results
+        if: ${{ !cancelled() && steps.install.outcome == 'success' && inputs.tests != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: tests-${{ env.BUILD }}
+          path: pharo/*.xml
+
+      - name: Fail on resolution errors
+        if: ${{ !cancelled() }}
+        env:
+          MISSING: ${{ steps.report.outputs.missing }}
+          ERRORS: ${{ steps.report.outputs.errors }}
+        run: |
+          # Warnings and infos only go in the report; errors fail the build
+          if [ "$MISSING" = true ]; then exit 1; fi
+          if [ "$ERRORS" != 0 ]; then
+            echo "::error::Metacello found $ERRORS errors resolving the dependencies"
+            exit 1
+          fi

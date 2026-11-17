@@ -1,0 +1,37 @@
+name: Metacello
+
+# Toplo loaded with Metacello's minimal version selection, in two builds:
+# - dev: Toplo from this checkout, its dependencies as BaselineOfToplo asks for them;
+# - integration: Bloc, Album and Alexandrie also in dev mode, at their dev branches.
+#   It warns early that something upstream breaks Toplo; it is not meant to be
+#   required for merging.
+# Pharo 14 has no MVS: it keeps the smalltalkCI workflow (Tests.yml).
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * *"   # Nightly, to catch upstream changes while Toplo does not change
+
+jobs:
+  dev:
+    uses: ./.github/workflows/pharo-ci.yml
+    with:
+      name: dev
+      install: --dev Toplo gitlocal://$WORKSPACE
+      tests: Toplo.*
+
+  integration:
+    uses: ./.github/workflows/pharo-ci.yml
+    with:
+      name: integration
+      # XMLParser is not ours to follow: Bloc's dev branch asks for its master,
+      # so it is put in dev mode at its released version.
+      install: >-
+        --dev Toplo gitlocal://$WORKSPACE
+        --dev Bloc github://pharo-graphics/Bloc:dev
+        --dev Album github://pharo-graphics/Album:dev
+        --dev Alexandrie github://pharo-graphics/Alexandrie:dev
+        --dev XMLParser github://pharo-contributions/XML-XMLParser:v3.6.3
+      tests: Toplo.*

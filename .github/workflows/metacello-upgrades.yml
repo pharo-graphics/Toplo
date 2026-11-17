@@ -1,0 +1,65 @@
+name: Metacello upgrades
+
+# Weekly: opens an issue, or updates the one open, when Metacello finds newer
+# versions of what BaselineOfToplo asks for (the "Toplo ... can ask for" lines
+# of the verbose report). Toplo decides when to move.
+#
+# The command line cannot resolve without loading yet, so this loads Toplo as
+# the dev build does, without running the tests.
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * 1"   # Mondays
+
+jobs:
+  resolve:
+    uses: ./.github/workflows/pharo-ci.yml
+    with:
+      name: upgrades
+      install: --dev Toplo gitlocal://$WORKSPACE
+      os: '["macos-latest"]'
+
+  issue:
+    needs: resolve
+    # Resolution errors fail the resolve job, but its report still lists the upgrades
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_REPO: ${{ github.repository }}
+      TITLE: Newer versions of Toplo's dependencies
+    steps:
+      - name: Download the verbose report
+        uses: actions/download-artifact@v4
+        with:
+          name: report-verbose-upgrades-macos-latest
+
+      - name: Open or update the issue
+        run: |
+          # The block that starts with "Toplo <version> can ask for" and its indented lines
+          awk '/^Toplo .* can ask for$/ { found = 1; print; next }
+               found && /^  / { print; next }
+               { found = 0 }' report-verbose.md > upgrades.txt
+          issue=$(gh issue list --state open --search "in:title \"$TITLE\"" --json number,title \
+            --jq ".[] | select(.title == \"$TITLE\") | .number" | head -1)
+          if [ ! -s upgrades.txt ]; then
+            echo "No newer versions"
+            exit 0
+          fi
+          {
+            echo "Metacello finds newer versions of what BaselineOfToplo asks for:"
+            echo
+            echo '```'
+            cat upgrades.txt
+            echo '```'
+            echo
+            echo "From the [weekly check]($GITHUB_SERVER_URL/$GH_REPO/actions/runs/$GITHUB_RUN_ID)."
+          } > body.md
+          if [ -z "$issue" ]; then
+            gh issue create --title "$TITLE" --body-file body.md
+          else
+            gh issue edit "$issue" --body-file body.md
+          fi

@@ -19,7 +19,7 @@ jobs:
     uses: ./.github/workflows/pharo-ci.yml
     with:
       name: dev
-      install: --dev Toplo tonel://$WORKSPACE/src
+      install: --dev Toplo gitlocal://$WORKSPACE
       tests: Toplo.*
 
   integration:
@@ -29,9 +29,9 @@ jobs:
       # XMLParser is not ours to follow: Bloc's dev branch asks for its master,
       # so it is put in dev mode at its released version.
       install: >-
-        --dev Toplo tonel://$WORKSPACE/src
-        --dev Bloc github://pharo-graphics/Bloc:dev/src
-        --dev Album github://pharo-graphics/Album:dev/src
-        --dev Alexandrie github://pharo-graphics/Alexandrie:dev/src
-        --dev XMLParser github://pharo-contributions/XML-XMLParser:v3.6.3/src
+        --dev Toplo gitlocal://$WORKSPACE
+        --dev Bloc github://pharo-graphics/Bloc:dev
+        --dev Album github://pharo-graphics/Album:dev
+        --dev Alexandrie github://pharo-graphics/Alexandrie:dev
+        --dev XMLParser github://pharo-contributions/XML-XMLParser:v3.6.3
       tests: Toplo.*

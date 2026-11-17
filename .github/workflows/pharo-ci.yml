@@ -22,7 +22,7 @@ on:
         description: >-
           Arguments for `metacello install --mvs`, as written on the command line.
           $WORKSPACE is the checkout of the calling repository, for example
-          `--dev Toplo tonel://$WORKSPACE/src`.
+          `--dev Toplo gitlocal://$WORKSPACE`.
         type: string
         required: true
       tests:
@@ -57,6 +57,9 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v7
+        with:
+          # Iceberg opens the checkout as a clone (gitlocal://): it needs the whole history
+          fetch-depth: 0
 
       - name: Download Pharo
         run: |

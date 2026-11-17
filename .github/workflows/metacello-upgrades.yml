@@ -17,7 +17,7 @@ jobs:
     uses: ./.github/workflows/pharo-ci.yml
     with:
       name: upgrades
-      install: --dev Toplo tonel://$WORKSPACE/src
+      install: --dev Toplo gitlocal://$WORKSPACE
       os: '["macos-latest"]'
 
   issue:

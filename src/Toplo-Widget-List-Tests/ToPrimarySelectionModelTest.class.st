@@ -32,7 +32,7 @@ ToPrimarySelectionModelTest >> testCopySelectionFrom [
 	dup recordSubSelectionModel: sub copy.
 	dup copySelectionFrom: s.
 	self assert: (dup containsIndex: 10).
-	self assert: (dup subSelectionModelWithId: #sub) notNil.
+	self assert: (dup subSelectionModelWithId: #sub) isNotNil.
 	self deny: (dup subSelectionModelWithId: #sub) identicalTo: sub
 ]
 

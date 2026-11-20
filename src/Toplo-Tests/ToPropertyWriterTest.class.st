@@ -14,7 +14,7 @@ ToPropertyWriterTest >> testAnimation [
 	propWriter := ToPropertyWriter new.
 	self assert: propWriter animation isNil.
 	propWriter animation: ToPropertyBorderColorTransitionAnimation new.
-	self assert: propWriter animation notNil
+	self assert: propWriter animation isNotNil
 ]
 
 { #category : #'test writing' }

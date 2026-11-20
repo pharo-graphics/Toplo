@@ -54,7 +54,7 @@ ToListSelectionWithSeparateElementVariant >> canAnimateSelectionUpdateIn: aListE
 	^ self isAnimated and: [
 			  representation isComposite not and: [
 				  aListElement useCheckbox not and: [
-					  previousSelectionBounds notNil ] ] ]
+					  previousSelectionBounds isNotNil ] ] ]
 ]
 
 { #category : #adding }

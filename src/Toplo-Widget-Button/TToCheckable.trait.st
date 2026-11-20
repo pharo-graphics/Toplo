@@ -98,7 +98,7 @@ TToCheckable >> initializeAsCheckable [
 { #category : #'t - checkable - testing' }
 TToCheckable >> isCheckable [
 
-	^ self checkableState notNil
+	^ self checkableState isNotNil
 ]
 
 { #category : #'t - checkable - testing' }

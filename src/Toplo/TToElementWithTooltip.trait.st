@@ -21,7 +21,7 @@ TToElementWithTooltip >> ensuredTooltipManager [
 TToElementWithTooltip >> hasTooltip [
 	" do not use #tooltipWindowHandler to avoid TooltipWindowHandler installation here "
 
-	^ self rawTooltipManager notNil
+	^ self rawTooltipManager isNotNil
 ]
 
 { #category : #'t - element with tooltip' }

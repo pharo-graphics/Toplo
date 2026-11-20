@@ -70,7 +70,7 @@ ToSingleSelectionModelSelecterTest >> testDispatchSelectionChanged [
 			 do: [ :event | selChangedEvent := event ]).
 
 	space deferAndSettle: [ selecter selectIndex: 2 ].
-	self assert: selChangedEvent notNil.
+	self assert: selChangedEvent isNotNil.
 	self assert: element selectionModel selectedIndexes equals: { 2 }.
 
 	selChangedEvent := nil.

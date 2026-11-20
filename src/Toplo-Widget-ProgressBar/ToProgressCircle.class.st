@@ -69,13 +69,13 @@ ToProgressCircle >> defaultLayout [
 { #category : #testing }
 ToProgressCircle >> hasIcon [
 
-	^ self icon notNil
+	^ self icon isNotNil
 ]
 
 { #category : #testing }
 ToProgressCircle >> hasLabel [
 
-	^ self label notNil
+	^ self label isNotNil
 ]
 
 { #category : #accessing }

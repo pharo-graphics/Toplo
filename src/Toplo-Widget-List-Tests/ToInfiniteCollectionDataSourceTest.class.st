@@ -70,7 +70,7 @@ ToInfiniteCollectionDataSourceTest >> testRangeChangedNotification [
 	self assert: rangeEvent isNil.
 
 	l dataSource  at: 2 put: nil.
-	self assert: rangeEvent notNil.
+	self assert: rangeEvent isNotNil.
 	self assert: rangeEvent position equals: 2.
 	self assert: rangeEvent itemCount equals: 1.
 	self assert: l dataSource itemCount equals: l dataSource itemCount.
@@ -93,7 +93,7 @@ ToInfiniteCollectionDataSourceTest >> testRangeInsertedNotification [
 			 on: BlInfiniteDataSourceItemRangeInserted
 			 do: [ :event | rangeEvent := event ]).
 	l dataSource addAll: self statesOfAmerica.
-	self assert: rangeEvent notNil.
+	self assert: rangeEvent isNotNil.
 	self assert: rangeEvent position equals: 1.
 	self assert: rangeEvent itemCount equals: self statesOfAmerica size.
 	self assert: l dataSource size equals: l dataSource itemCount.
@@ -112,7 +112,7 @@ ToInfiniteCollectionDataSourceTest >> testRangeRemovedNotification [
 			 do: [ :event | rangeEvent := event ]).
 	l dataSource addAll: self statesOfAmerica.
 	l dataSource remove: self statesOfAmerica first.
-	self assert: rangeEvent notNil.
+	self assert: rangeEvent isNotNil.
 	self assert: rangeEvent position equals: 1.
 	self assert: rangeEvent itemCount equals: 1.
 	self

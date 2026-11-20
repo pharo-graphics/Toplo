@@ -57,7 +57,7 @@ ToTabGroupInTabPaneEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 	anEvent selectedIndexes size = 1 ifFalse: [ ^ self ].
 	button := tabGroup items at: anEvent selectedIndexes first.
 	bodyPane := button bodyPane.
-	(bodyPane notNil and: [ button destroyPaneWhenDeselected not ])
+	(bodyPane isNotNil and: [ button destroyPaneWhenDeselected not ])
 		ifTrue: [
 				body addChild: bodyPane.
 				^ self ].

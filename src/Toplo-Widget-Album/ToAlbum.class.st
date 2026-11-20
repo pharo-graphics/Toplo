@@ -126,7 +126,7 @@ ToAlbum >> focusHolder [
 { #category : #testing }
 ToAlbum >> haveVisibleScrollbar [
 
-	^ scrollbar notNil and: [ scrollbar isVisible ]
+	^ scrollbar isNotNil and: [ scrollbar isVisible ]
 ]
 
 { #category : #initialization }

@@ -15,7 +15,7 @@ ToCircularMenuLayout >> layoutSectors: anElement in: aBounds context: aBlElement
 		context: aBlElementBoundsUpdateContext.
 
 	parentMenu := anElement listElement menuListOwner.
-	(parentMenu notNil and: [ parentMenu isSubmenu ]) ifFalse: [ ^ self ].
+	(parentMenu isNotNil and: [ parentMenu isSubmenu ]) ifFalse: [ ^ self ].
 
 	sectors := anElement children accountedByLayout.
 	sectors isEmpty ifTrue: [ ^ self ].

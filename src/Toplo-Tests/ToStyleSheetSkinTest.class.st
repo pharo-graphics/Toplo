@@ -71,7 +71,7 @@ ToStyleSheetSkinTest >> testPropertyWriterOrderMatter [
 				error := err.
 				w skinManager skinStateQueue resetStates ] ].
 
-	self assert: error notNil.
+	self assert: error isNotNil.
 	self deny: (w layout isKindOf: BlLinearLayout).
 
 	" Now change writers order and it should be ok "

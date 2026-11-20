@@ -161,7 +161,7 @@ ToAnchoredElement >> referenceElement [
 { #category : #accessing }
 ToAnchoredElement >> referenceElement: anElement [
 
-	(anElement notNil and: [ self referenceElement notNil ]) ifTrue: [ 
+	(anElement isNotNil and: [ self referenceElement isNotNil ]) ifTrue: [ 
 			Error signal: 'Already attached to an element' ].
 	self constraintsDo: [ :c | c anchors referenceElement: anElement ]
 ]

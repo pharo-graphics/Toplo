@@ -258,7 +258,7 @@ ToSelectionModelTest >> testOn [
 	| s |
 	s := ToSelectionModel new.
 	s on: self.
-	self assert: s itemCountGetter notNil.
+	self assert: s itemCountGetter isNotNil.
 	self assert: s itemCountGetter value equals: self itemCount 
 ]
 
@@ -652,7 +652,7 @@ ToSelectionModelTest >> testUnderlyingModel [
 
 	| s |
 	s := ToSelectionModel new.
-	self assert: (s underlyingModel notNil)
+	self assert: (s underlyingModel isNotNil)
 ]
 
 { #category : #tests }

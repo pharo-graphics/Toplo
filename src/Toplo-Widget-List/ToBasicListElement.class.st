@@ -304,7 +304,7 @@ ToBasicListElement >> flagAsDisabled: aBoolean [
 { #category : #testing }
 ToBasicListElement >> haveInnerElement [
 
-	^ innerElement notNil
+	^ innerElement isNotNil
 ]
 
 { #category : #testing }

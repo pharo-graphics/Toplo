@@ -65,7 +65,7 @@ ToTabPaneElementTest >> testCloseLastPage [
 		addEventHandlerOn: BlClickEvent
 		do: [ :evt | clicked := true ].
 	self assert: tabPane items size equals: 2.
-	self assert: secondButton removeButton notNil.
+	self assert: secondButton removeButton isNotNil.
 
 	" one have first to ensure that the remove button is visible 
 	(with Raw skin, the remove button is only visible when the mouse is over its tab button) "

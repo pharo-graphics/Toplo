@@ -78,7 +78,7 @@ ToIconProviderGenerator class >> generateIconProviderMethodsInClass: aClass with
 			| loadable |
 			loadable := ([ BlSvgConverter convertFromString: assoc value value ]
 				             on: Error
-				             do: [  ]) notNil.
+				             do: [  ]) isNotNil.
 			loadable
 				ifTrue: [
 					| code |

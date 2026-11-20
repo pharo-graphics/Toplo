@@ -27,7 +27,7 @@ ToItemsQueryRunnerTest >> testOnInstalledIn [
 		assert: queryRunner delay
 		equals: queryRunner defaultDelay.
 	self assert: queryRunner items equals: #(  ).
-	self assert: queryRunner fetcher notNil.
+	self assert: queryRunner fetcher isNotNil.
 	self assert: (target eventDispatcher handlers anySatisfy: [ :h |
 			 (h isKindOf: BlEventHandler) and: [
 				 h eventClass = ToItemsQueryRequestEvent ] ])

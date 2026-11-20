@@ -38,7 +38,7 @@ ToBasicSlider >> currentValue: aNumber [
 { #category : #testing }
 ToBasicSlider >> hasLabel [
 
-	^ label notNil
+	^ label isNotNil
 ]
 
 { #category : #initialization }

@@ -777,7 +777,7 @@ ToListElementTest >> testPrimarySelectionChangedEventDispatch [
 	space deferAndSettle: [ l dataAccessor removeAt: 3 ].
 	self assert: l selectionModel selectedIndexes equals: {  }.
 	self assert: l selectionMode selectionContainer children isEmpty.
-	self assert: dispatchedEvent notNil
+	self assert: dispatchedEvent isNotNil
 ]
 
 { #category : #'test - selection changed event' }
@@ -800,7 +800,7 @@ ToListElementTest >> testPrimarySelectionChangedEventDispatch1 [
 	space deferAndSettle: [ l dataAccessor removeAt: 3 ].
 	self assert: l selectionModel selectedIndexes equals: {  }.
 	self assert: l selectionMode selectionContainer children isEmpty.
-	self assert: dispatchedEvent notNil
+	self assert: dispatchedEvent isNotNil
 ]
 
 { #category : #'test - selection changed event' }
@@ -828,7 +828,7 @@ ToListElementTest >> testPrimarySelectionChangedEventDispatchAfterRemoveAll [
 	space deferAndSettle: [ l dataAccessor removeAll ].
 	self assert: l selectionModel selectedIndexes equals: {  }.
 	self assert: l selectionMode selectionContainer children isEmpty.
-	self assert: dispatchedEvent notNil
+	self assert: dispatchedEvent isNotNil
 ]
 
 { #category : #'test selection - adding/removing' }

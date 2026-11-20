@@ -80,13 +80,13 @@ ToListElementSieveTest >> testIsInstalled [
 ToListElementSieveTest >> testOnInstalledIn [
 
 	| handlers |
-	self assert: sieve originalData notNil.
+	self assert: sieve originalData isNotNil.
 	self assert: (sieve originalData isKindOf: ToCollectionMirror).
 	self assert: sieve originalData mirrored equals: list dataSource.
 	self assert: sieve currentData identicalTo: sieve originalData.
 	self assert: sieve selectionModel equals: list selectionModel.
-	self assert: sieve selecter notNil.
-	self assert: sieve originalIndexMap notNil.
+	self assert: sieve selecter isNotNil.
+	self assert: sieve originalIndexMap isNotNil.
 	self deny: sieve selectionModel identicalTo: list selectionModel.
 	
 	handlers := sieve eventDispatcher handlers.

@@ -46,7 +46,7 @@ ToExTreeDataWrapper >> childrenInterval [
 	first := idx.
 	[
 	idx <= dataAccessor size and: [
-		(dataAccessor at: idx) parentWrapper notNil and: [
+		(dataAccessor at: idx) parentWrapper isNotNil and: [
 			(dataAccessor at: idx) hasParentWrapper: self ] ] ] whileTrue: [
 		idx := idx + 1 ].
 	last := idx - 1.

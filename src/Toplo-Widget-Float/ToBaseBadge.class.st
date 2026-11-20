@@ -70,5 +70,5 @@ ToBaseBadge >> detachFromElement [
 { #category : #'attaching  / detaching' }
 ToBaseBadge >> isAttached [
 
-	^ self referenceElement notNil
+	^ self referenceElement isNotNil
 ]

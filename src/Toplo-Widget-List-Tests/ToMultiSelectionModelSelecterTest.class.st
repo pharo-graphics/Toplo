@@ -65,7 +65,7 @@ ToMultiSelectionModelSelecterTest >> testDispatchSelectionChanged [
 	space deferAndSettle: [
 		selecter selectionModel deselectAll.
 		selecter selectIndexes: { 2. 6. 9 } ].
-	self assert: selChangedEvent notNil.
+	self assert: selChangedEvent isNotNil.
 
 	selChangedEvent := nil.
 	" no change "

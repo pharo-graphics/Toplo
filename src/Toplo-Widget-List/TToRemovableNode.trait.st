@@ -21,7 +21,7 @@ TToRemovableNode >> addRemoveButton [
 { #category : #'t - removable node' }
 TToRemovableNode >> isRemovable [
 
-	^ self item notNil and: [self item isRemovable]
+	^ self item isNotNil and: [self item isRemovable]
 ]
 
 { #category : #'t - removable node' }

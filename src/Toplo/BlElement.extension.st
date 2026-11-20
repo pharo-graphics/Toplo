@@ -412,7 +412,7 @@ BlElement >> hasNewSkinRequested [
 BlElement >> hasStamp [
 	"Return true if the BlElement has stamp (one or more), false if not"
 
-	^ self stampMap notNil and: [self stampMap isNotEmpty ]
+	^ self stampMap isNotNil and: [self stampMap isNotEmpty ]
 ]
 
 { #category : #'*Toplo' }

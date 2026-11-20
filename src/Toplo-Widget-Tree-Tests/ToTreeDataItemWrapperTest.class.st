@@ -35,7 +35,7 @@ ToTreeDataItemWrapperTest >> testCollapseEventDispatched [
 	wrapper expandAll.
 	self assert: tree dataSource size equals: size + 4.
 	wrapper collapse.
-	self assert: dispatchedEvent notNil.
+	self assert: dispatchedEvent isNotNil.
 	self assert: dispatchedEvent wrapper equals: wrapper.
 	self assert: dispatchCount equals: 1
 ]
@@ -83,7 +83,7 @@ ToTreeDataItemWrapperTest >> testExpandAllEventDispatched [
 	dispatchedEvent := nil.
 	dispatchCount := 0.
 	wrapper expandAll.
-	self assert: dispatchedEvent notNil.
+	self assert: dispatchedEvent isNotNil.
 	self assert: dispatchedEvent deeply.
 	self assert: dispatchedEvent wrapper equals: wrapper.
 	self assert: dispatchCount equals: 1.
@@ -106,7 +106,7 @@ ToTreeDataItemWrapperTest >> testExpandEventDispatched [
 	wrapper := tree dataSource at: 5.
 	dispatchedEvent := nil.
 	wrapper expand.
-	self assert: dispatchedEvent notNil.
+	self assert: dispatchedEvent isNotNil.
 	self deny: dispatchedEvent deeply.
 	self assert: dispatchedEvent wrapper equals: wrapper.
 	self assert: tree dataSource size equals: size + 1

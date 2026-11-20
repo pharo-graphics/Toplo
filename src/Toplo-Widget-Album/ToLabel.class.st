@@ -156,14 +156,14 @@ ToLabel >> foreground: aBlPaint [
 ToLabel >> hasEditor [
 	" my window manager has a window "
 
-	^ editorWindowManager notNil and: [
-		  editorWindowManager currentWindow notNil ]
+	^ editorWindowManager isNotNil and: [
+		  editorWindowManager currentWindow isNotNil ]
 ]
 
 { #category : #accessing }
 ToLabel >> hasText [
 
-	^ self text notNil and: [ self text isNotEmpty ]
+	^ self text isNotNil and: [ self text isNotEmpty ]
 ]
 
 { #category : #initialization }
@@ -207,7 +207,7 @@ ToLabel >> innerElement: anInnerElement [
 { #category : #testing }
 ToLabel >> isEditable [
 
-	^ editorWindowManager notNil 
+	^ editorWindowManager isNotNil 
 ]
 
 { #category : #accessing }

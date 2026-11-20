@@ -36,19 +36,19 @@ TToTripletElement >> endElementDo: aBlock [
 { #category : #'t - triplet element - testing' }
 TToTripletElement >> hasEndElement [
 
-	^ endElement notNil
+	^ endElement isNotNil
 ]
 
 { #category : #'t - triplet element - testing' }
 TToTripletElement >> hasMiddleElement [
 
-	^ middleElement notNil
+	^ middleElement isNotNil
 ]
 
 { #category : #'t - triplet element - testing' }
 TToTripletElement >> hasStartElement [
 
-	^ startElement notNil
+	^ startElement isNotNil
 ]
 
 { #category : #'t - triplet element - initialization' }

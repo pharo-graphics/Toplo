@@ -74,7 +74,7 @@ TToLookEventListenerRegistryTest >> testSkinEventListenerIndex [
 
 	| e |
 	e := ToPropertyWritersHolderElementForTest new.
-	self assert: e skinEventListeners notNil.
+	self assert: e skinEventListeners isNotNil.
 	self assert: e skinEventListeners size equals: 0
 ]
 

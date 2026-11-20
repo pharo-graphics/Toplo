@@ -132,7 +132,7 @@ ToIntrinsicState >> isOtherSelectionsStateUnchangedOn: anElement [
 { #category : #'private - testing' }
 ToIntrinsicState >> isUnchangedOn: anElement [
 
-	^ previousPattern notNil and: [
+	^ previousPattern isNotNil and: [
 			  previousPattern first = self enablementState and: [
 					  (previousPattern at: 2) = (self focusStateOn: anElement) and: [
 							  (previousPattern at: 3) = self checkState and: [

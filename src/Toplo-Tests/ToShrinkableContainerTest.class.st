@@ -47,7 +47,7 @@ ToShrinkableContainerTest >> testEnableShrinkLayer [
 	space deferAndSettle: [
 		space root addChild: e.
 		e enableShrinkLayer: true ].
-	self assert: e shrinkFeedbackLayer notNil.
+	self assert: e shrinkFeedbackLayer isNotNil.
 	self assert: (e shrinkFeedbackLayer isKindOf: ToShrinkFeedbackLayer).
 	self assert: e shrinkFeedbackLayer visibility equals: BlVisibility hidden
 ]
@@ -60,7 +60,7 @@ ToShrinkableContainerTest >> testEnableShrinkLayer2 [
 	space deferAndSettle: [
 		space root addChild: e.
 		e enableShrinkLayer: true ].
-	self assert: e shrinkFeedbackLayer notNil.
+	self assert: e shrinkFeedbackLayer isNotNil.
 
 	space deferAndSettle: [ e enableShrinkLayer: false ].
 	self assert: e shrinkFeedbackLayer isNil

@@ -105,7 +105,7 @@ ToOutsideEventFilterTest >> testOutsideEventWithOnePane [
 	self assert: outsideEvent isNil.
 	
 	outsidePane eventSimulator click.
-	self assert: outsideEvent notNil.
+	self assert: outsideEvent isNotNil.
 	self assert: outsideEvent currentTarget equals: pane.
 	self assert: outsideEvent sourceEvent currentTarget equals: space root.
 	self assert: outsideEvent sourceEvent target equals: outsidePane.

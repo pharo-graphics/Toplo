@@ -671,7 +671,7 @@ ToExperiments class >> example_PasteUpWithPlaceHolder [
 			| dragged |
 			event consume.
 			dragged := container findMouseEventTargetAt: event position.
-			(dragged notNil and: [ dragged ~= container ]) ifTrue: [
+			(dragged isNotNil and: [ dragged ~= container ]) ifTrue: [
 					pred := event position - dragged position.
 					container detachChild: dragged.
 					phpane attachChild: dragged ] ].

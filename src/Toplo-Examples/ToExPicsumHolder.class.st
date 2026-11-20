@@ -28,7 +28,7 @@ ToExPicsumHolder >> loadImage [
 	self terminateLoader.
 	self dataItem ifNil: [ ^ self ].
 	form := self dataItem loadedForm.
-	(form notNil and: [ form extent = self node measuredExtent asIntegerPoint ]) ifTrue: [ ^ self ].
+	(form isNotNil and: [ form extent = self node measuredExtent asIntegerPoint ]) ifTrue: [ ^ self ].
 
 	loader := [
 		          | timesRetry byteArray |

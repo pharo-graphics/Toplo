@@ -92,19 +92,19 @@ ToSpacePhasesManager >> isApplyingConfigurations [
 { #category : #testing }
 ToSpacePhasesManager >> isConfigurationPhaseInstalledIn: aSpace [
 
-	^ (self installedConfigurationPhaseIn: aSpace) notNil
+	^ (self installedConfigurationPhaseIn: aSpace) isNotNil
 ]
 
 { #category : #testing }
 ToSpacePhasesManager >> isSkinInstallerPhaseInstalledIn: aSpace [
 
-	^ (self installedSkinInstallerPhaseIn: aSpace) notNil
+	^ (self installedSkinInstallerPhaseIn: aSpace) isNotNil
 ]
 
 { #category : #testing }
 ToSpacePhasesManager >> isSkinStateApplicationPhaseInstalledIn: aSpace [
 
-	^ (self installedSkinStateApplicationPhaseIn: aSpace) notNil
+	^ (self installedSkinStateApplicationPhaseIn: aSpace) isNotNil
 ]
 
 { #category : #accessing }

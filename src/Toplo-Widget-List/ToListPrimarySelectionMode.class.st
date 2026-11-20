@@ -122,9 +122,9 @@ ToListPrimarySelectionMode >> onClickEvent: anEvent onMultpleSelectionListNode: 
 	| index modifiers shift primaryModifier passiveNode |
 	index := aNode holder position.
 	modifiers := anEvent sourceEvent modifiers.
-	shift := modifiers notNil and: [ modifiers isShift ].
+	shift := modifiers isNotNil and: [ modifiers isShift ].
 
-	primaryModifier := modifiers notNil and: [
+	primaryModifier := modifiers isNotNil and: [
 		                   modifiers isPrimaryModifier ].
 	" a passive node is a node that can't be selected directly with the mouse.
 	As an example, a list that uses a checkbox on each node to drive the selection "
@@ -165,9 +165,9 @@ ToListPrimarySelectionMode >> onClickEvent: anEvent onSingleSelectionListNode: a
 
 	index := aNode holder position.
 	modifiers := anEvent sourceEvent modifiers.
-	shift := modifiers notNil and: [ modifiers isShift ].
+	shift := modifiers isNotNil and: [ modifiers isShift ].
 
-	primaryModifier := modifiers notNil and: [
+	primaryModifier := modifiers isNotNil and: [
 		                   modifiers isPrimaryModifier ].
 	" a passive node is a node that can't be selected directly with the mouse.
 	As an example, a list that uses a checkbox on each node to drive the selection "

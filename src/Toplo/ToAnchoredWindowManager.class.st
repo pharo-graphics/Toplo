@@ -190,7 +190,7 @@ ToAnchoredWindowManager >> hasInlineWindow [
 { #category : #testing }
 ToAnchoredWindowManager >> hasWindow [
 
-	^ currentWindow notNil
+	^ currentWindow isNotNil
 ]
 
 { #category : #initialization }

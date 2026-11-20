@@ -69,13 +69,13 @@ ToProgressBar >> defaultLayout [
 { #category : #testing }
 ToProgressBar >> hasIcon [
 
-	^ self icon notNil
+	^ self icon isNotNil
 ]
 
 { #category : #testing }
 ToProgressBar >> hasLabel [
 
-	^ self label notNil 
+	^ self label isNotNil 
 ]
 
 { #category : #accessing }

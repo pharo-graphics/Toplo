@@ -78,7 +78,7 @@ TToElementWithContextMenu >> ensuredContextMenuManager [
 TToElementWithContextMenu >> hasContextMenu [
 	" do not use #contextMenuWindowHandler to avoid ContextMenuWindowHandler installation here "
 
-	^ self currentContextMenu notNil
+	^ self currentContextMenu isNotNil
 ]
 
 { #category : #'t - element with context menu' }

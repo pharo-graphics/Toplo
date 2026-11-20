@@ -38,7 +38,7 @@ TToPasteUpPane >> initializeAsPasteUp [
 		| dragged |
 		event consume.
 		dragged := self findMouseEventTargetAt: event position.
-		(dragged notNil and: [ dragged ~= self ]) ifTrue: [
+		(dragged isNotNil and: [ dragged ~= self ]) ifTrue: [
 			self initialGap: event position - dragged position.
 			self removeChild: dragged.
 			field addChild: dragged ] ].

@@ -56,10 +56,10 @@ ToTreeElementTest >> testCollapseWithDirectCollapsedWrapperChildrenSelected [
 	selChangedEvent := nil.
 	space deferAndSettle: [ tree selecter selectIndex: 3 ].
 	self assert: tree selecter selectedIndexes equals: { 3 }.
-	self assert: selChangedEvent notNil.
+	self assert: selChangedEvent isNotNil.
 	selChangedEvent := nil.
 	space deferAndSettle: [ wrapper collapse ].
-	self assert: selChangedEvent notNil.
+	self assert: selChangedEvent isNotNil.
 	self assert: selChangedEvent selectedIndexes equals: {  }.
 	self assert: tree selecter selectedIndexes equals: {  }
 ]
@@ -83,13 +83,13 @@ ToTreeElementTest >> testCollapseWithSelectionAfterCollapsedWrapper [
 	size := tree dataSource size.
 	space deferAndSettle: [ wrapper expand ].
 	self assert: count equals: 1.
-	self assert: selChangedEvent notNil.
+	self assert: selChangedEvent isNotNil.
 	self assert: tree selecter selectedIndexes equals: { 6 }.
 	selChangedEvent := nil.
 	space deferAndSettle: [ wrapper collapse ].
 	self assert: wrapper isCollapsed.
 	self assert: count equals: 2.
-	self assert: selChangedEvent notNil.
+	self assert: selChangedEvent isNotNil.
 	self assert: tree selecter selectedIndexes equals: { 3 }
 ]
 
@@ -142,11 +142,11 @@ ToTreeElementTest >> testCollapseWithSubSubCollapsedWrapperChildrenSelected [
 	self assert: tree dataSource fourth parentWrapper equals: subWrapper.
 	selChangedEvent := nil.
 	space deferAndSettle: [ tree selecter selectIndex: 4 ].
-	self assert: selChangedEvent notNil.
+	self assert: selChangedEvent isNotNil.
 	self assert: tree selecter selectedIndexes equals: { 4 }.
 	selChangedEvent := nil.
 	space deferAndSettle: [ wrapper collapse ].
-	self assert: selChangedEvent notNil.
+	self assert: selChangedEvent isNotNil.
 	self assert: selChangedEvent selectedIndexes equals: {  }.
 	self assert: tree selecter selectedIndexes equals: {  }
 ]
@@ -203,7 +203,7 @@ ToTreeElementTest >> testExpandWithSelectionAfterExpandedWrapper [
 	self assert: wrapper isExpanded.
 	self assert: tree dataSource size equals: size + 3.
 	self assert: count equals: 1.
-	self assert: selChangedEvent notNil.
+	self assert: selChangedEvent isNotNil.
 	self assert: tree selecter selectedIndexes equals: { 6 }
 ]
 

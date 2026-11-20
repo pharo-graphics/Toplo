@@ -109,15 +109,15 @@ ToAnchoredWindowManagerTest >> testElement [
 	self assert: win anchorElement equals: e.
 
 	space deferAndSettle: [ win popup ].
-	self assert: openEventFromWindow notNil.
+	self assert: openEventFromWindow isNotNil.
 	self assert: openEventFromWindow currentTarget equals: win.
-	self assert: openEventFromWidget notNil.
+	self assert: openEventFromWidget isNotNil.
 	self assert: openEventFromWidget currentTarget equals: e.
 
 	space deferAndSettle: [ win close ].
-	self assert: closeEventFromWindow notNil.
+	self assert: closeEventFromWindow isNotNil.
 	self assert: closeEventFromWindow currentTarget equals: win.
-	self assert: closeEventFromWidget notNil.
+	self assert: closeEventFromWidget isNotNil.
 	self assert: closeEventFromWidget currentTarget equals: e
 ]
 

@@ -54,7 +54,7 @@ ToElementPropertyIndex >> hasProperty: anElementProperty [
 	| key prop |
 	key := anElementProperty name asSymbol.
 	prop := self propertyNamed: key ifAbsent: [  ].
-	^ prop notNil and: [ prop value = anElementProperty value ]
+	^ prop isNotNil and: [ prop value = anElementProperty value ]
 ]
 
 { #category : #'change notification' }

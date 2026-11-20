@@ -286,9 +286,9 @@ ToElementTest >> testWithoutSkinNonContamination [
 	self deny: (e skinManager newSkinRequested).
 	self assert: (e skinManager installedSkin) isNullSkin.
 	self deny: (child skinManager newSkinRequested).
-	self assert: (child skinManager installedSkin) notNil.
+	self assert: (child skinManager installedSkin) isNotNil.
 	self deny: (childchild skinManager newSkinRequested).
-	self assert: (childchild skinManager installedSkin) notNil
+	self assert: (childchild skinManager installedSkin) isNotNil
 ]
 
 { #category : #'test initialize' }

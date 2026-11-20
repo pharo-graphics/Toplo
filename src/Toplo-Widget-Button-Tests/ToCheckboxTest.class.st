@@ -39,7 +39,7 @@ ToCheckboxTest >> testIcon [
 	self assert: cb icon isNil.
 
 	space deferAndSettle: [ space root addChild: cb ].
-	self assert: cb icon notNil "Skin sets the icon"
+	self assert: cb icon isNotNil "Skin sets the icon"
 ]
 
 { #category : #tests }

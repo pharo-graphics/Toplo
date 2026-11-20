@@ -64,9 +64,9 @@ ToPopupWindowTest >> testElementWithLabelEditorAndPopupWindowManager [
 	windowManager := ToPopupWindowManager new.
 	e addEventHandler: windowManager.
 	e eventSimulator mouseDown.
-	space waitUntilTrue: [ windowManager currentWindow notNil ].
+	space waitUntilTrue: [ windowManager currentWindow isNotNil ].
 	self
-		assert: windowManager currentWindow notNil
+		assert: windowManager currentWindow isNotNil
 		description: 'Popup window must be created on mouse down'.
 	self
 		assert: windowManager currentWindow isOpened
@@ -74,12 +74,12 @@ ToPopupWindowTest >> testElementWithLabelEditorAndPopupWindowManager [
 
 	e popupEditorEvent: nil.
 
-	space waitUntilTrue: [ e editorWindowManager notNil ].
+	space waitUntilTrue: [ e editorWindowManager isNotNil ].
 	self
-		assert: e editorWindowManager notNil
+		assert: e editorWindowManager isNotNil
 		description: 'Editor window manager must be created'.
 	self
-		assert: e editorWindowManager editor notNil
+		assert: e editorWindowManager editor isNotNil
 		description: 'Editor element must be present in editor window'.
 	self
 		assert: e editorWindowManager editor text asString
@@ -111,12 +111,12 @@ ToPopupWindowTest >> testElementWithTooltipAndPopupWindowManager [
 		win root addChild: (ToLabel text: 'Tooltip content') ].
 	tooltipWindowManager := e ensuredTooltipManager.
 	self
-		assert: tooltipWindowManager notNil
+		assert: tooltipWindowManager isNotNil
 		description: 'Tooltip manager must be installed'.
 
 	" mouse down immediately followed by a mouse up -> the popup should stay opened"
 	e eventSimulator mouseDown.
-	space waitUntilTrue: [ windowManager currentWindow notNil ].
+	space waitUntilTrue: [ windowManager currentWindow isNotNil ].
 	self
 		assert: windowManager currentWindow isOpened
 		description: 'Popup must open on mouse down'.
@@ -131,7 +131,7 @@ ToPopupWindowTest >> testElementWithTooltipAndPopupWindowManager [
 		description: 'Popup must stay open after a quick click'.
 
 	e eventSimulator mouseDown.
-	space waitUntilTrue: [ windowManager currentWindow notNil ].
+	space waitUntilTrue: [ windowManager currentWindow isNotNil ].
 	self
 		assert: windowManager currentWindow isOpened
 		description: 'Popup must still be open on second mouse down'.
@@ -160,10 +160,10 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp [
 
 	" mouse down immediately followed by a mouse up -> the popup should stay opened"
 	e eventSimulator mouseDown.
-	space waitUntilTrue: [ windowManager currentWindow notNil ].
+	space waitUntilTrue: [ windowManager currentWindow isNotNil ].
 	e eventSimulator mouseUp.
 	self
-		assert: windowManager currentWindow notNil
+		assert: windowManager currentWindow isNotNil
 		description: 'Popup must exist after immediate click'.
 	self
 		assert: windowManager currentWindow isOpened
@@ -174,9 +174,9 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp [
 
 	" mouse down then waiting for a delay < autoclose delay then a mouse up -> the popup should stay opened"
 	e eventSimulator mouseDown.
-	space waitUntilTrue: [ windowManager currentWindow notNil ].
+	space waitUntilTrue: [ windowManager currentWindow isNotNil ].
 	self
-		assert: windowManager currentWindow notNil
+		assert: windowManager currentWindow isNotNil
 		description: 'Popup must be created on second mouse down'.
 	self
 		assert: windowManager currentWindow isOpened
@@ -185,7 +185,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp [
 	space waitForDuration: 50 milliSeconds.
 	e eventSimulator mouseUp.
 	self
-		assert: windowManager currentWindow notNil
+		assert: windowManager currentWindow isNotNil
 		description: 'Popup must remain open when released before autoCloseDelay'.
 	self
 		assert: windowManager currentWindow isOpened
@@ -195,7 +195,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownDelayUp [
 	e eventSimulator mouseDown.
 	space waitForDuration: 600 milliSeconds.
 	self
-		assert: windowManager currentWindow notNil
+		assert: windowManager currentWindow isNotNil
 		description: 'Popup must still exist during long hold'.
 	self
 		assert: windowManager currentWindow isOpened
@@ -232,10 +232,10 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseDownOutside [
 	"Use a generous delay to give a safe margin against CI thread scheduling lag"
 	windowManager autoCloseDelay: 500 milliSeconds.
 	e eventSimulator mouseDown.
-	space waitUntilTrue: [ windowManager currentWindow notNil ].
+	space waitUntilTrue: [ windowManager currentWindow isNotNil ].
 	e eventSimulator mouseUp.
 	self
-		assert: windowManager currentWindow notNil
+		assert: windowManager currentWindow isNotNil
 		description: 'Popup must open on click'.
 
 	space root eventSimulator mouseDown.
@@ -276,10 +276,10 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseUpOutsideOnASibling [
 	windowManager autoCloseDelay: 500 milliSeconds.
 	" mouse down on widget then up on popup"
 	e eventSimulator mouseDown.
-	space waitUntilTrue: [ windowManager currentWindow notNil ].
+	space waitUntilTrue: [ windowManager currentWindow isNotNil ].
 	e eventSimulator mouseUp.
 	self
-		assert: windowManager currentWindow notNil
+		assert: windowManager currentWindow isNotNil
 		description: 'Popup must exist after opening click'.
 	self
 		assert: windowManager currentWindow isOpened
@@ -289,7 +289,7 @@ ToPopupWindowTest >> testPopupOpenCloseWithMouseUpOutsideOnASibling [
 	windowManager currentWindow eventSimulator mouseUp.
 	space waitForDuration: 600 milliSeconds.
 	self
-		assert: windowManager currentWindow notNil
+		assert: windowManager currentWindow isNotNil
 		description: 'Popup must remain open after click inside the popup itself'.
 	self
 		assert: windowManager currentWindow isOpened

@@ -18,19 +18,19 @@ TToLabeledIcon >> endIcon: anElement [
 { #category : #'t - labeled icon' }
 TToLabeledIcon >> hasEndIcon [
 
-	^ self endIcon notNil
+	^ self endIcon isNotNil
 ]
 
 { #category : #'t - labeled icon' }
 TToLabeledIcon >> hasIcon [
 
-	^ self icon notNil
+	^ self icon isNotNil
 ]
 
 { #category : #'t - labeled icon' }
 TToLabeledIcon >> hasLabel [
 
-	^ self label notNil
+	^ self label isNotNil
 ]
 
 { #category : #'t - labeled icon' }

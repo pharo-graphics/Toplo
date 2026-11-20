@@ -126,13 +126,13 @@ ToMenu >> isMenu [
 { #category : #testing }
 ToMenu >> isMenuPaneMenu [
 
-	^ self menuPane notNil
+	^ self menuPane isNotNil
 ]
 
 { #category : #testing }
 ToMenu >> isOpened [ 
 
-	^ self menuWindow notNil and: [ self menuWindow isOpened ]
+	^ self menuWindow isNotNil and: [ self menuWindow isOpened ]
 ]
 
 { #category : #testing }
@@ -152,7 +152,7 @@ ToMenu >> isOutsideEvent: anEvent [
 { #category : #'t - menu item' }
 ToMenu >> isSubmenu [
 
-	^ self parentMenu notNil
+	^ self parentMenu isNotNil
 ]
 
 { #category : #'t - menu window model' }

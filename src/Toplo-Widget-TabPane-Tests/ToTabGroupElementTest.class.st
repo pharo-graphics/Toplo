@@ -161,7 +161,7 @@ ToTabGroupElementTest >> testRemoveItem [
 		addEventHandlerOn: BlClickEvent
 		do: [ :evt | clicked := true ].
 	self assert: tabGroup items size equals: 2.
-	self assert: secondItem removeButton notNil.
+	self assert: secondItem removeButton isNotNil.
 	" one have first to ensure that the remove button is visible 
 	(with Raw skin, the remove button is only visible when the mouse is over its tab button) "
 	secondItem eventSimulator mouseMoveInside.

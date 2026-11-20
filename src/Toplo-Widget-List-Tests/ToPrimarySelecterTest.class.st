@@ -40,7 +40,7 @@ ToPrimarySelecterTest >> testAddCommand [
 				        operation: ToAddSelectionOperation new;
 				        yourself) ].
 	self assert: element selectionModel isNotEmpty.
-	self assert: selChangedEvent notNil
+	self assert: selChangedEvent isNotNil
 ]
 
 { #category : #tests }

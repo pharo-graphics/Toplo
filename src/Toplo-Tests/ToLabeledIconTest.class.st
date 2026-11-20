@@ -83,7 +83,7 @@ ToLabeledIconTest >> testFiller [
 	self assert: li startFiller isNil.
 
 	space deferAndSettle: [ li startFlexible: true ].
-	self assert: li startFiller notNil
+	self assert: li startFiller isNotNil
 ]
 
 { #category : #tests }
@@ -159,7 +159,7 @@ ToLabeledIconTest >> testIconContainer [
 					extent: 60 @ 20;
 					background: (Color blue alpha: 0.2);
 					yourself)) ].
-	self assert: li startContainer notNil.
+	self assert: li startContainer isNotNil.
 	self assert: li width equals: li iconContainer width.
 	self assert: li height equals: li iconContainer height
 ]
@@ -474,7 +474,7 @@ ToLabeledIconTest >> testStartFlexible [
 	self assert: li startFiller isNil.
 
 	space deferAndSettle: [ li startFlexible: true ].
-	self assert: li startFiller notNil.
+	self assert: li startFiller isNotNil.
 	self assert: li isStartFlexible
 ]
 

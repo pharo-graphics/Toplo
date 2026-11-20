@@ -32,7 +32,7 @@ ToPopupWindowManagerTest >> testAutoClosePickOutsideEventClass [
 	windowManager := ToPopupWindowManager new.
 	e addEventHandler: windowManager.
 	e eventSimulator mouseDown.
-	self assert: windowManager currentWindow notNil.
+	self assert: windowManager currentWindow isNotNil.
 	self assert: windowManager currentWindow isOpened.
 	closed := false.
 	windowManager currentWindow addEventHandler: (BlEventHandler
@@ -104,7 +104,7 @@ ToPopupWindowManagerTest >> testMouseDownEvent [
 	event := BlMouseDownEvent primary position: position.
 	e dispatchEvent: event.
 	space settle.
-	self assert: windowManager currentWindow notNil.
+	self assert: windowManager currentWindow isNotNil.
 	self assert: windowManager currentWindow isOpened
 ]
 
@@ -120,7 +120,7 @@ ToPopupWindowManagerTest >> testMouseDownInElementEvent [
 
 	e addEventHandler: windowManager.
 	e eventSimulator mouseDown.
-	self assert: windowManager currentWindow notNil.
+	self assert: windowManager currentWindow isNotNil.
 	self assert: windowManager currentWindow isOpened
 ]
 
@@ -136,7 +136,7 @@ ToPopupWindowManagerTest >> testMouseUpEvent [
 
 	e addEventHandler: windowManager.
 	e eventSimulator mouseDown.
-	self assert: windowManager currentWindow notNil.
+	self assert: windowManager currentWindow isNotNil.
 	self assert: windowManager currentWindow isOpened.
 	closed := false.
 	windowManager currentWindow addEventHandler: (BlEventHandler
@@ -166,7 +166,7 @@ ToPopupWindowManagerTest >> testMouseUpInElementEvent [
 
 	e addEventHandler: windowManager.
 	e eventSimulator mouseDown.
-	self assert: windowManager currentWindow notNil.
+	self assert: windowManager currentWindow isNotNil.
 	self assert: windowManager currentWindow isOpened.
 	closed := false.
 	windowManager currentWindow addEventHandler: (BlEventHandler
@@ -191,7 +191,7 @@ ToPopupWindowManagerTest >> testMouseUpInElementEventAfterLongDelayShouldCloseWi
 
 	e addEventHandler: windowManager.
 	e eventSimulator mouseDown.
-	self assert: windowManager currentWindow notNil.
+	self assert: windowManager currentWindow isNotNil.
 	self assert: windowManager currentWindow isOpened.
 	closed := false.
 	windowManager currentWindow addEventHandler: (BlEventHandler
@@ -217,7 +217,7 @@ ToPopupWindowManagerTest >> testMouseUpOutsideEvent [
 
 	e addEventHandler: windowManager.
 	e eventSimulator mouseDown.
-	self assert: windowManager currentWindow notNil.
+	self assert: windowManager currentWindow isNotNil.
 	self assert: windowManager currentWindow isOpened.
 	closed := false.
 	windowManager currentWindow addEventHandler: (BlEventHandler
@@ -254,18 +254,18 @@ ToPopupWindowManagerTest >> testNoAutoCloseEvenAfterLongDelay [
 
 	e addEventHandler: windowManager.
 	e eventSimulator mouseDown.
-	self assert: windowManager currentWindow notNil.
+	self assert: windowManager currentWindow isNotNil.
 	self assert: windowManager currentWindow isOpened.
 	e eventSimulator mouseUp.
 	" window is not closed on mouse-up "
-	self assert: windowManager currentWindow notNil.
+	self assert: windowManager currentWindow isNotNil.
 	self deny: closed.
 
 	windowManager autoCloseDelay: 400 milliSeconds.
 	closed := false.
 	e eventSimulator mouseDown.
 	e eventSimulator mouseUp.
-	self assert: windowManager currentWindow notNil.
+	self assert: windowManager currentWindow isNotNil.
 	self deny: closed.
 
 	closed := false.
@@ -321,7 +321,7 @@ ToPopupWindowManagerTest >> testUsePrimaryMouseButton [
 	windowManager usePrimaryMouseButton.
 	e addEventHandler: windowManager.
 	e eventSimulator mouseDown.
-	self assert: windowManager currentWindow notNil.
+	self assert: windowManager currentWindow isNotNil.
 	self assert: windowManager currentWindow isOpened
 ]
 
@@ -352,7 +352,7 @@ ToPopupWindowManagerTest >> testUseSecondaryMouseButton [
 	windowManager useSecondaryMouseButton.
 	e addEventHandler: windowManager.
 	e eventSimulator mouseDownButton: BlMouseButton secondary.
-	self assert: windowManager currentWindow notNil.
+	self assert: windowManager currentWindow isNotNil.
 	self assert: windowManager currentWindow isOpened
 ]
 

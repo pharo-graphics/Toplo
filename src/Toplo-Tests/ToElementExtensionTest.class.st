@@ -61,7 +61,7 @@ ToElementExtensionTest >> testNewElement [
 ToElementExtensionTest >> testSetStyleSheetIn [
 
 	element ensuredToploExtension setStyleSheet: ToStyleSheet new in: element.
-	self assert: element toploExtension styleSheet notNil
+	self assert: element toploExtension styleSheet isNotNil
 ]
 
 { #category : #'tests - skin manager' }

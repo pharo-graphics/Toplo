@@ -128,7 +128,7 @@ ToSkinManagerTest >> testElementRemovedFromSceneGraph [
 	| e sk |
 	e := ToElement new.
 	space deferAndSettle: [ space root addChild: e ].
-	self assert: e skinManager notNil.
+	self assert: e skinManager isNotNil.
 	e skinManagerDo: [ :sm | sk := sm installedSkin ].
 	self deny: sk isUnknownSkin.
 
@@ -240,12 +240,12 @@ ToSkinManagerTest >> testInstallSkinIn3 [
 	e := BlElement new.
 	eventHandlerCount := e eventDispatcher handlers size.
 	e ensureHaveSkinManager.
-	self assert: e skinManager notNil.
+	self assert: e skinManager isNotNil.
 	skin := ToSkin new.
 	e skinManager installSkin: skin in: e.
 	self assert: (e eventDispatcher handlers
 			 detect: [ :h | h == skin ]
-			 ifNone: [  ]) notNil.
+			 ifNone: [  ]) isNotNil.
 	self assert: e skinManager installedSkin identicalTo: skin.
 	self
 		assert: e eventDispatcher handlers size
@@ -458,7 +458,7 @@ ToSkinManagerTest >> testSkinStateQueue [
 
 	| e |
 	e := ToElement new.
-	self assert: e skinManager skinStateQueue notNil
+	self assert: e skinManager skinStateQueue isNotNil
 ]
 
 { #category : #tests }
@@ -484,7 +484,7 @@ ToSkinManagerTest >> testUninstallSkinIn2 [
 	e ensureHaveSkinManager.
 	eventHandlerCount := e eventDispatcher handlers size.
 	space root addChild: e.
-	self assert: e skinManager notNil.
+	self assert: e skinManager isNotNil.
 	skin := ToRawSkin new.
 	e skinManager uninstallSkinIn: e.
 	e skinManager installSkin: skin in: e.
@@ -500,7 +500,7 @@ ToSkinManagerTest >> testUninstallSkinIn2 [
 	self
 		assert: e eventDispatcher handlers size
 		equals: eventHandlerCount.
-	self assert: e skinManager notNil.
+	self assert: e skinManager isNotNil.
 	self
 		assert: e skinManager installedSkin
 		identicalTo: ToUnknownSkin instance

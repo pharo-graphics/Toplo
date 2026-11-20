@@ -23,7 +23,7 @@ ToTooltipWindowTest >> setUpTooltipWindow [
 
 	element eventSimulator mouseMoveInside.
 	space waitUntilTrue: [
-		windowManager currentWindow notNil and: [
+		windowManager currentWindow isNotNil and: [
 			windowManager currentWindow isOpened ] ].
 
 	^ windowManager currentWindow
@@ -48,7 +48,7 @@ ToTooltipWindowTest >> testCurrentWindow [
 	| tooltipWindow |
 	tooltipWindow := self setUpTooltipWindow.
 	self
-		assert: tooltipWindow notNil
+		assert: tooltipWindow isNotNil
 		description: 'Tooltip window must be created'.
 	self
 		assert: tooltipWindow isOpened

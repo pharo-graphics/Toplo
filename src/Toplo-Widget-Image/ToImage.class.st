@@ -273,7 +273,7 @@ ToImage >> innerSvgImageColor: aColor [
 { #category : #'private loading' }
 ToImage >> isLoading [
 
-	^ loader notNil
+	^ loader isNotNil
 ]
 
 { #category : #rotation }

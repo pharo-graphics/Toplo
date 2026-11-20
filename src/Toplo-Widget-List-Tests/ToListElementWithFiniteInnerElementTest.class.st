@@ -722,7 +722,7 @@ ToListElementWithFiniteInnerElementTest >> testPrimarySelectionChangedEventDispa
 	space deferAndSettle: [ l dataAccessor removeAt: 3 ].
 	self assert: l selectionModel selectedIndexes equals: { }.
 	self assert: l selectionMode selectionContainer children isEmpty.
-	self assert: dispatchedEvent notNil
+	self assert: dispatchedEvent isNotNil
 ]
 
 { #category : #'test - selection changed event' }
@@ -743,7 +743,7 @@ ToListElementWithFiniteInnerElementTest >> testPrimarySelectionChangedEventDispa
 	" we get an updated datasource plus oupdated selection model "
 	self assert: l selectionModel selectedIndexes equals: {  }.
 	self assert: l selectionMode selectionContainer children isEmpty.
-	self assert: dispatchedEvent notNil
+	self assert: dispatchedEvent isNotNil
 ]
 
 { #category : #'test - selection changed event' }
@@ -772,7 +772,7 @@ ToListElementWithFiniteInnerElementTest >> testPrimarySelectionChangedEventDispa
 	space deferAndSettle: [ l dataAccessor removeAll ].
 	self assert: l selectionModel selectedIndexes equals: {  }.
 	self assert: l selectionMode selectionContainer children isEmpty.
-	self assert: dispatchedEvent notNil
+	self assert: dispatchedEvent isNotNil
 ]
 
 { #category : #'test selection - adding/removing' }

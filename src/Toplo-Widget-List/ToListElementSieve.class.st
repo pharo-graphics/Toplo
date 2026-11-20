@@ -78,7 +78,7 @@ ToListElementSieve >> installFilterApplierIn: aListElement [
 { #category : #accessing }
 ToListElementSieve >> isInstalled [
 
-	^ originalData notNil
+	^ originalData isNotNil
 ]
 
 { #category : #private }

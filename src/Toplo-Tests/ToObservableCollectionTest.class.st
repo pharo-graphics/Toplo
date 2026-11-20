@@ -18,7 +18,7 @@ ToObservableCollectionTest >> testAddAfter [
 
 	l add: 88 after: 1.
 
-	self assert: i notNil.
+	self assert: i isNotNil.
 	self assert: i equals: (2 to: 2).
 
 	self
@@ -140,7 +140,7 @@ ToObservableCollectionTest >> testAddBefore [
 
 	l add: 88 before: 1.
 
-	self assert: i notNil.
+	self assert: i isNotNil.
 	self assert: i equals: (1 to: 1).
 
 	self
@@ -171,7 +171,7 @@ ToObservableCollectionTest >> testAddBeforeAndRemove [
 
 	l add: 88 before: 1.
 
-	self assert: i notNil.
+	self assert: i isNotNil.
 	self assert: i equals: (1 to: 1).
 
 	self
@@ -201,7 +201,7 @@ ToObservableCollectionTest >> testAddBeforeIndex [
 
 	l add: 88 beforeIndex: 1.
 
-	self assert: i notNil.
+	self assert: i isNotNil.
 	self assert: i equals: (1 to: 1).
 
 	self
@@ -230,7 +230,7 @@ ToObservableCollectionTest >> testAddFirst [
 
 	l addFirst: 88.
 
-	self assert: i notNil.
+	self assert: i isNotNil.
 	self assert: i equals: (1 to: 1).
 
 	self
@@ -261,7 +261,7 @@ ToObservableCollectionTest >> testAddLast [
 
 	l addLast: 88.
 
-	self assert: i notNil.
+	self assert: i isNotNil.
 	self assert: i equals: (5 to: 5).
 
 	self
@@ -276,7 +276,7 @@ ToObservableCollectionTest >> testAddLast [
 		assert: l asOrderedCollection
 		equals: #(1 2 3 4 88 99) asOrderedCollection.
 
-	self assert: i notNil.
+	self assert: i isNotNil.
 	self assert: i equals: (6 to: 6)
 ]
 
@@ -378,7 +378,7 @@ ToObservableCollectionTest >> testRegisterActionLink [
 	self
 		assert: l asOrderedCollection
 		equals: #( 88 ) asOrderedCollection.
-	self assert: i notNil.
+	self assert: i isNotNil.
 	self assert: i equals: (1 to: 1).
 	l add: 99.
 	self assert: i equals: (2 to: 2).
@@ -547,7 +547,7 @@ ToObservableCollectionTest >> testUpdateAllWith [
 
 	l updateAllWith: #(  ).
 
-	self assert: i notNil.
+	self assert: i isNotNil.
 	self assert: i equals: (1 to: 4).
 
 	self assert: l asOrderedCollection equals: #(  ) asOrderedCollection.

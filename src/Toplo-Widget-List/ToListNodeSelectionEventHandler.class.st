@@ -44,7 +44,7 @@ ToListNodeSelectionEventHandler >> eventsToHandle [
 { #category : #'multiple selection' }
 ToListNodeSelectionEventHandler >> hasClickLauncher [
 
-	^ clickLauncher notNil
+	^ clickLauncher isNotNil
 ]
 
 { #category : #'multiple selection' }
@@ -63,8 +63,8 @@ ToListNodeSelectionEventHandler >> launchClick: aBlock event: anEvent [
 			^ self ].
 
 	modifiers := anEvent sourceEvent modifiers.
-	shift := modifiers notNil and: [ modifiers isShift ].
-	primaryModifier := modifiers notNil and: [
+	shift := modifiers isNotNil and: [ modifiers isShift ].
+	primaryModifier := modifiers isNotNil and: [
 		                   modifiers isPrimaryModifier ].
 
 	" do not try double click if ctrl or Cmd or shift is pressed "

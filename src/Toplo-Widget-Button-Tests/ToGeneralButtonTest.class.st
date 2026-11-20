@@ -23,5 +23,5 @@ ToGeneralButtonTest >> testGeneralButtonTooltip [
 	button := ToGeneralButton new.
 	button tooltipText: 'I am a tooltip content'.
 	self assert: button currentTooltipWindow isNil.
-	self assert: button rawTooltipManager notNil
+	self assert: button rawTooltipManager isNotNil
 ]

@@ -65,7 +65,7 @@ TToElementWithActionPoolTest >> testClickAction [
 	received := nil.
 	element clickAction: [ :evt | received := evt ].
 	element eventSimulator click.
-	self assert: received notNil
+	self assert: received isNotNil
 	
 ]
 
@@ -77,7 +77,7 @@ TToElementWithActionPoolTest >> testClickAction2 [
 	element clickAction: [ :evt |
 			received := evt ].
 	element eventSimulator click.
-	self assert: received notNil
+	self assert: received isNotNil
 ]
 
 { #category : #tests }
@@ -99,7 +99,7 @@ TToElementWithActionPoolTest >> testGroupCheckAction [
 	space deferAndSettle: [
 		space root addChild: group.
 		group items second checked: true ].
-	self assert: received notNil.
+	self assert: received isNotNil.
 	self assert: theGroup identicalTo: group.
 	self assert: theList size equals: 1.
 	self
@@ -117,11 +117,11 @@ TToElementWithActionPoolTest >> testNewCheckAction [
 	action := checkable newCheckAction: [ :evt |
 			          received := evt.
 			          passedInAction := true ].
-	self assert: action notNil.
+	self assert: action isNotNil.
 
 	space deferAndSettle: [ space root addChild: checkable ].
 	checkable eventSimulator click.
-	self assert: received notNil.
+	self assert: received isNotNil.
 	self assert: passedInAction.
 
 	prevReceived := received.
@@ -147,9 +147,9 @@ TToElementWithActionPoolTest >> testNewClickAction [
 	action := element newClickAction: [ :evt |
 			          received := evt.
 			          passedInAction := true ].
-	self assert: action notNil.
+	self assert: action isNotNil.
 	element eventSimulator click.
-	self assert: received notNil.
+	self assert: received isNotNil.
 	self assert: passedInAction.
 	prevReceived := received.
 	received := nil.
@@ -183,7 +183,7 @@ TToElementWithActionPoolTest >> testNewGroupCheckAction [
 		space root addChild: group.
 		group items second checked: true ].
 	" waited to update the data source "
-	self assert: received notNil.
+	self assert: received isNotNil.
 	self assert: theGroup identicalTo: group.
 	self assert: theList size equals: 1.
 	self assert: theList first identicalTo: group items second

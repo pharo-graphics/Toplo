@@ -57,5 +57,5 @@ ToBeeThemeTest >> testWriteablePropertyList [
 		count := (index at: p name) + 1.
 		index at: p name put: count ].
 	index keysAndValuesDo: [ :k :v | self assert: v identicalTo: 1 ].
-	space toTheme styleSheet defaultWritablePropertyList do: [ :p | self assert: (space toTheme styleSheet writablePropertyNamed: p name) notNil ]
+	space toTheme styleSheet defaultWritablePropertyList do: [ :p | self assert: (space toTheme styleSheet writablePropertyNamed: p name) isNotNil ]
 ]

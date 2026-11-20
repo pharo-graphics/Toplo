@@ -173,7 +173,7 @@ ToSelectorInterpreter >> visitParentSelector: aSelector [
 		self push: current.
 		aSelector right accept: self.
 		self pop.
-		(depth notNil or: [ result ]) ifTrue: [ ^ self ] ] ] repeat
+		(depth isNotNil or: [ result ]) ifTrue: [ ^ self ] ] ] repeat
 ]
 
 { #category : #visiting }

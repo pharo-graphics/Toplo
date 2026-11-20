@@ -84,13 +84,13 @@ TToAnchoredWindowElement >> element [
 { #category : #'t - anchored window element - testing' }
 TToAnchoredWindowElement >> hasAnchorElement [
 
-	^ self anchorElement notNil
+	^ self anchorElement isNotNil
 ]
 
 { #category : #'t - anchored window element - testing' }
 TToAnchoredWindowElement >> hasManager [
 
-	^ self manager notNil
+	^ self manager isNotNil
 ]
 
 { #category : #'t - anchored window element - testing' }

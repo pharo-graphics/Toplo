@@ -3,7 +3,7 @@ Extension { #name : #BlInfiniteLayoutConstraints }
 { #category : #'*Toplo' }
 BlInfiniteLayoutConstraints >> hasListHolder [
 
-	^ holder notNil
+	^ holder isNotNil
 ]
 
 { #category : #'*Toplo' }

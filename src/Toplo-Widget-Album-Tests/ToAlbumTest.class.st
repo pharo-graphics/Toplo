@@ -15,6 +15,6 @@ ToAlbumTest >> testWithEditsFeedback [
 	a withEditsFeedback: false.
 	self assert: a editsFeedbackLayer isNil.
 	a withEditsFeedback: true.
-	self assert: a editsFeedbackLayer notNil.
+	self assert: a editsFeedbackLayer isNotNil.
 
 ]

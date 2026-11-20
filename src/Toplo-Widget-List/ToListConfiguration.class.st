@@ -87,7 +87,7 @@ ToListConfiguration >> exactNodeWidth: aNumber [
 { #category : #testing }
 ToListConfiguration >> haveVisibleScrollbar [
 
-	^ scrollbar notNil and: [ scrollbar isVisible ]
+	^ scrollbar isNotNil and: [ scrollbar isVisible ]
 ]
 
 { #category : #initialization }

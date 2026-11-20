@@ -54,7 +54,7 @@ ToAnchoredWindowTest >> testClosedEventClass [
 
 	" need to wait space pulsing "
 	space deferAndSettle: [ win close ].
-	self assert: closeEvent notNil
+	self assert: closeEvent isNotNil
 ]
 
 { #category : #tests }
@@ -99,8 +99,8 @@ ToAnchoredWindowTest >> testDispatchClosedEvent [
 	space deferAndSettle: [
 		win popup .
 		win close ].
-	self assert: closedEventReceivedByWin notNil.
-	self assert: closedEventReceivedByElement notNil
+	self assert: closedEventReceivedByWin isNotNil.
+	self assert: closedEventReceivedByElement isNotNil
 ]
 
 { #category : #tests }
@@ -121,8 +121,8 @@ ToAnchoredWindowTest >> testDispatchOpenedEvent [
 			 do: [ :event | openedEventReceivedByElement := event ]).
 
 	space deferAndSettle: [ win popup ].
-	self assert: openedEventReceivedByWin notNil.
-	self assert: openedEventReceivedByElement notNil
+	self assert: openedEventReceivedByWin isNotNil.
+	self assert: openedEventReceivedByElement isNotNil
 ]
 
 { #category : #tests }
@@ -233,8 +233,8 @@ ToAnchoredWindowTest >> testOnOpened [
 			 do: [ :event | openedEventReceivedByElement := event ]).
 
 	space deferAndSettle: [ win popup ].
-	self assert: openedEventReceivedByWin notNil.
-	self assert: openedEventReceivedByElement notNil
+	self assert: openedEventReceivedByWin isNotNil.
+	self assert: openedEventReceivedByElement isNotNil
 ]
 
 { #category : #tests }
@@ -256,7 +256,7 @@ ToAnchoredWindowTest >> testOpenedEventClass [
 
 	space deferAndSettle: [ win popup ].
 	" need to wait space pulsing "
-	self assert: openedEvent notNil
+	self assert: openedEvent isNotNil
 ]
 
 { #category : #tests }
@@ -272,7 +272,7 @@ ToAnchoredWindowTest >> testPopup [
 
 	space deferAndSettle: [ win popup ].
 	self assert: win isOpened.
-	self assert: win parent notNil
+	self assert: win parent isNotNil
 ]
 
 { #category : #tests }
@@ -328,8 +328,8 @@ ToAnchoredWindowTest >> testPopupEventNotInSpace [
 		space root addChild: e .
 		win popup .
 		win close ].
-	self assert: closeEventFromWindow notNil.
-	self assert: closeEventFromWidget notNil
+	self assert: closeEventFromWindow isNotNil.
+	self assert: closeEventFromWidget isNotNil
 ]
 
 { #category : #tests }
@@ -374,7 +374,7 @@ ToAnchoredWindowTest >> testPopupTimestamp [
 	self assert: win popupTimestamp isNil.
 
 	space deferAndSettle: [ win popup ].
-	self assert: win popupTimestamp notNil.
+	self assert: win popupTimestamp isNotNil.
 	timeStamp := win popupTimestamp.
 	self assert: win popupTimestamp <= DateAndTime now.
 	self assert: win isOpened.
@@ -405,7 +405,7 @@ ToAnchoredWindowTest >> testValueOfTokenNamedInWindow [
 	self
 		assert: (e valueOfTokenNamed: #'test-background-color')
 		equals: Color white.
-	self assert: lab notNil.
+	self assert: lab isNotNil.
 	self assert: lab lookupTheme identicalTo: win lookupTheme.
 	self
 		assert: (lab valueOfTokenNamed: #'test-background-color')

@@ -12,7 +12,7 @@ ToSkinStateQueueTest >> newElementInSpace [
 	self deny: e skinManager newSkinRequested.
 
 	space deferAndSettle: [ space root addChild: e ].
-	self assert: e skinManager notNil.
+	self assert: e skinManager isNotNil.
 	^ e
 ]
 
@@ -25,7 +25,7 @@ ToSkinStateQueueTest >> testEnqueueInstallStateFor [
 	self assert: isk isThemeSkin.
 	q := e skinManager skinStateQueue.
 	q := ToSkinStateQueue new.
-	self assert: q nextStates notNil.
+	self assert: q nextStates isNotNil.
 	self assert: q nextStates size isZero.
 	sk := ToRawSkin new.
 	e defaultSkin: sk.
@@ -57,7 +57,7 @@ ToSkinStateQueueTest >> testEnqueueInstallStateForThroughARequest [
 	self assert: isk isThemeSkin.
 	q := e skinManager skinStateQueue.
 	q := ToSkinStateQueue new.
-	self assert: q nextStates notNil.
+	self assert: q nextStates isNotNil.
 	self assert: q nextStates size isZero.
 	sk := ToRawSkin new.
 	
@@ -78,7 +78,7 @@ ToSkinStateQueueTest >> testInitialize [
 
 	| q |
 	q := ToSkinStateQueue new.
-	self assert: q nextStates notNil
+	self assert: q nextStates isNotNil
 ]
 
 { #category : #tests }
@@ -88,6 +88,6 @@ ToSkinStateQueueTest >> testInitializeThroughAnElement [
 	e := self newElementInSpace.
 	q := e skinManager skinStateQueue.
 	q := ToSkinStateQueue new.
-	self assert: q nextStates notNil.
+	self assert: q nextStates isNotNil.
 	self assert: q nextStates size isZero
 ]

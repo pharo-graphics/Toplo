@@ -16,10 +16,10 @@ TToElementWithPlaceholderTest >> testHidePlaceholder [
 		thePlaceholder addChild: (BlElement new id: #child) ].
 	e showPlaceholder.
 	ph := e placeholderLayer.
-	self assert: ph notNil.
+	self assert: ph isNotNil.
 	self assert: ph parent identicalTo: e.
 	e hidePlaceholder.
-	self assert: e placeholderLayer notNil.
+	self assert: e placeholderLayer isNotNil.
 	self deny: e placeholderLayer isVisible.
 	self assert: ph parent identicalTo: e
 ]
@@ -39,7 +39,7 @@ TToElementWithPlaceholderTest >> testPlaceholderBuilder [
 	e := ToElementWithPlaceholderForTest new extent: 100 @ 100.
 	e placeholderBuilder: [ :thePlaceholder :theElement |
 		thePlaceholder addChild: (BlElement new id: #child) ].
-	self assert: e placeholderLayer notNil.
+	self assert: e placeholderLayer isNotNil.
 	self assert: e placeholderLayer firstChild id asSymbol equals: #child
 ]
 
@@ -92,7 +92,7 @@ TToElementWithPlaceholderTest >> testShowPlaceholder [
 		thePlaceholder addChild: (BlElement new id: #child) ].
 	e showPlaceholder.
 	ph := e placeholderLayer.
-	self assert: ph notNil.
+	self assert: ph isNotNil.
 	self assert: ph parent identicalTo: e.
 	e showPlaceholder.
 	self assert: e placeholderLayer identicalTo: ph.

@@ -48,7 +48,7 @@ ToPropertyIndexTest >> testIndex [
 
 	| idx |
 	idx := ToPropertyIndex new.
-	self assert: idx index notNil.
+	self assert: idx index isNotNil.
 	
 ]
 

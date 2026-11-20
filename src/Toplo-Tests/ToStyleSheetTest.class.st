@@ -29,7 +29,7 @@ ToStyleSheetTest >> testInitialize [
 
 	| sheet |
 	sheet := ToStyleSheet new.
-	self assert: sheet styleRules notNil.
+	self assert: sheet styleRules isNotNil.
 	self assert: sheet styleRules size equals: sheet defaultScript styleRules size.
 	self assert: sheet inherits.
 ]

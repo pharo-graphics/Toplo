@@ -34,7 +34,7 @@ ToPropertyIndex >> allPropertyNames [
 { #category : #testing }
 ToPropertyIndex >> hasPropertyNamed: aName [
 
-	^ (self propertyNamed: aName asSymbol) notNil
+	^ (self propertyNamed: aName asSymbol) isNotNil
 ]
 
 { #category : #accessing }

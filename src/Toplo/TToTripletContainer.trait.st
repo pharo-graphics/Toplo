@@ -114,7 +114,7 @@ TToTripletContainer >> endFillerBuilder: aBlock [
 { #category : #'t - triplet container - accessing' }
 TToTripletContainer >> endFlexible [
 
-	^ endFiller notNil
+	^ endFiller isNotNil
 ]
 
 { #category : #'t - triplet container - accessing' }
@@ -350,7 +350,7 @@ TToTripletContainer >> startFillerBuilder: aBlock [
 { #category : #'t - triplet container - accessing' }
 TToTripletContainer >> startFlexible [
 
-	^ startFiller notNil
+	^ startFiller isNotNil
 ]
 
 { #category : #'t - triplet container - accessing' }

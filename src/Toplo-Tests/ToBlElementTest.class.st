@@ -38,9 +38,9 @@ ToBlElementTest >> testAddAllTokenProperties [
 			(#color1 -> Color blue) asTokenProperty.
 			(#color2 -> Color red) asTokenProperty }.
 	self assert:
-		(s := element tokenPropertyMap propertyNamed: #color1) notNil.
+		(s := element tokenPropertyMap propertyNamed: #color1) isNotNil.
 	self assert:
-		(s := element tokenPropertyMap propertyNamed: #color2) notNil.
+		(s := element tokenPropertyMap propertyNamed: #color2) isNotNil.
 	self assert: element tokenPropertyMap size equals: 2.
 	element tokenPropertyMap addAllProperties: {
 			(#color1 -> Color white) asTokenProperty.
@@ -72,13 +72,13 @@ ToBlElementTest >> testAddTokenProperty [
 
 	| s s2 |
 	element ensuredTokenPropertyMap addProperty: (#color -> Color blue) asTokenProperty.
-	self assert: (s := element tokenPropertyMap propertyNamed: #color) notNil.
+	self assert: (s := element tokenPropertyMap propertyNamed: #color) isNotNil.
 	self assert: (s isKindOf: ToTokenProperty).
 	self assert: s name equals: #color.
 	self assert: s value equals: Color blue.
 	self assert: element tokenPropertyMap size equals: 1.
 	element tokenPropertyMap addProperty: (#color -> Color red) asTokenProperty.
-	self assert: (s2 := element tokenPropertyMap propertyNamed: #color) notNil.
+	self assert: (s2 := element tokenPropertyMap propertyNamed: #color) isNotNil.
 	self assert: s2 name equals: #color.
 	self assert: s2 value equals: Color red.
 	self assert: s ~~ s2.
@@ -175,7 +175,7 @@ ToBlElementTest >> testEnsuredStampMap [
 	| map |
 	self assert: element stampMap  isNil.
 	map := element ensuredStampMap.
-	self assert: map notNil.
+	self assert: map isNotNil.
 	self assert: map identicalTo: element stampMap
 ]
 
@@ -185,7 +185,7 @@ ToBlElementTest >> testEnsuredTokenPropertyMap [
 	| map |
 	self assert: element tokenPropertyMap isNil.
 	map := element ensuredTokenPropertyMap.
-	self assert: map notNil.
+	self assert: map isNotNil.
 	self assert: map identicalTo: element tokenPropertyMap
 ]
 
@@ -263,7 +263,7 @@ ToBlElementTest >> testLocalTokenPropertyNamed [
 	(element ensuredTokenPropertyMap)
 		addProperty: #color asTokenProperty.
 	s := element tokenPropertyMap propertyNamed: #color.
-	self assert: s notNil.
+	self assert: s isNotNil.
 	self assert: (s isKindOf: ToTokenProperty).
 	self assert: s name equals: #color.
 	self assert: s value
@@ -378,7 +378,7 @@ ToBlElementTest >> testRequestSkin2 [
 	self assert: element skinManager isNil.
 
 	space deferAndSettle: [ element ensuredSkinManager requestNewSkinIn: element ].
-	self assert: element skinManager notNil.
+	self assert: element skinManager isNotNil.
 	self deny: element skinManager newSkinRequested.
 	self assert: element skinManager installedSkin isThemeSkin.
 ]
@@ -387,7 +387,7 @@ ToBlElementTest >> testRequestSkin2 [
 ToBlElementTest >> testSetStyleSheetIn [
 
 	element ensuredToploExtension setStyleSheet: ToStyleSheet new in: element.
-	self assert: element toploExtension styleSheet notNil.
+	self assert: element toploExtension styleSheet isNotNil.
 	self assert: element styleSheet identicalTo: element toploExtension styleSheet
 ]
 
@@ -459,7 +459,7 @@ ToBlElementTest >> testTokenPropertyNamed [
 	element tokenPropertyMap addProperty: (#layout -> BlLinearLayout horizontal) asTokenProperty.
 	element tokenPropertyMap addProperty: (p := (#something -> #something) asTokenProperty).
 	self assert: (element tokenPropertyMap propertyNamed: #something) equals: p.
-	self assert: (element tokenPropertyMap propertyNamed: #color) notNil
+	self assert: (element tokenPropertyMap propertyNamed: #color) isNotNil
 ]
 
 { #category : #'tests - token properties' }
@@ -481,9 +481,9 @@ ToBlElementTest >> testTokenPropertyNamedFromBeforeSpaceShown2 [
 			 do: [
 				 goneHere := true.
 				 self assert:
-					 (e skinManager ifNotNil: [ :sm | sm installedSkin ]) notNil.
+					 (e skinManager ifNotNil: [ :sm | sm installedSkin ]) isNotNil.
 				 self deny: e skinManager newSkinRequested.
-				 self assert: (e valueOfTokenNamed: #'background-color') notNil.
+				 self assert: (e valueOfTokenNamed: #'background-color') isNotNil.
 				 e requestNewSkin.
 				 self deny: e background isTransparent ]).
 

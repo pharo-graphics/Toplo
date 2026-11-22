@@ -1,3 +1,30 @@
+"
+I am the body of a `ToAccordionElement`: the part shown when the accordion is expanded and hidden when it is collapsed. I keep a builder block and build my content from it lazily, when I am shown.
+
+## Examples
+
+```
+ToAccordionBodyElement exampleExpanded
+```
+
+## Design Rationale
+
+- My children live in an inner `content` element, not directly in me. Collapsing makes `content` gone (`BlVisibility gone`), so it takes no room in the layout while its children are kept. `ToAccordionBodyElementSkin` puts the padding on `content`, not on me, so a collapsed body has no height.
+- `switchExpanded` runs the builder only when nothing has been built yet or when the content is not preserved. With preserved content (the default), the user finds the body as they left it, for example with the text they typed.
+- `builder:` marks me as not built, so the next expansion uses the new block.
+
+## Usage
+
+1. `ToAccordionElement>>newBody` creates me when the accordion is initialized; the accordion keeps me and answers me with `body`.
+2. The accordion forwards `bodyBuilder:` to my `builder:` and `preserveBody:` to my `preservedContent:`.
+3. When the checked state of the accordion changes, `ToAccordionElement>>privateExpanded:` sends me `switchExpanded` or `switchCollapsed`.
+
+I am stateful: what `switchExpanded` does depends on whether I was already built and on `preservedContent:`.
+
+## Invariants and Assumptions
+
+- The builder receives `content`, never me: it adds children to that element and may assume it is empty, since I remove its children before running the builder.
+"
 Class {
 	#name : #ToAccordionBodyElement,
 	#superclass : #ToElement,
@@ -9,6 +36,16 @@ Class {
 	],
 	#category : #'Toplo-Widget-Accordion'
 }
+
+{ #category : #examples }
+ToAccordionBodyElement class >> exampleExpanded [
+
+	<sampleInstance>
+	^ self new
+		  builder: [ :content | content addChild: (ToLabel text: 'Body content') ];
+		  switchExpanded;
+		  yourself
+]
 
 { #category : #accessing }
 ToAccordionBodyElement >> builder: aValuable [

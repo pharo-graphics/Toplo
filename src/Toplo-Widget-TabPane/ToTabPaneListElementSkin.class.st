@@ -42,3 +42,10 @@ ToTabPaneListElementSkin >> uninstallSelectionFactoriesIn: aTabBar [
 	previousSelectionFactory := nil.
 	previousSecondarySelectionFactory := nil
 ]
+
+{ #category : #'event handling' }
+ToTabPaneListElementSkin >> uninstallSkinEvent: anEvent [
+
+	super uninstallSkinEvent: anEvent.
+	anEvent elementDo: [ :e | self uninstallSelectionFactoriesIn: e ]
+]

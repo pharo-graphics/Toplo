@@ -1,3 +1,25 @@
+"
+I am the raw skin of `ToDivider`. I make the bar visible only when it matters: I show a resize cursor and a hovered background when the pointer is over it, and a pressed background while it is pressed. The colors are the `#'divider-hovered-background'` and `#'divider-pressed-background'` tokens, the default background otherwise.
+
+## Examples
+
+```
+ToPaneDivider exampleDefault
+```
+
+## Design Rationale
+
+- The bar is thin and sits over the content, so a permanent color would draw a line between the elements. A quiet default and a visible hover are enough to find it.
+
+## Usage
+
+1. `ToRawTheme>>newSkinFor:` creates me by sending `newRawSkin` to the divider.
+2. The `ToSkinManager` of the divider installs me and sends me its skin events.
+
+## Implementation Notes
+
+- `innerImageIn:` answers a handle icon that nothing in me uses.
+"
 Class {
 	#name : #ToDividerSkin,
 	#superclass : #ToRawSkin,

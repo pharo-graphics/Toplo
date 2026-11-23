@@ -1,3 +1,26 @@
+"
+I am the event handler that turns the Bloc drag events received by a `ToDivider` into divider requests and events.
+
+I remember where the drag started, both the position of the pointer and of the divider, and compute each delta from there. A move is therefore always relative to the start of the drag, so rounding does not accumulate.
+
+## Examples
+
+```
+ToPaneDivider exampleDefault
+```
+
+## Design Rationale
+
+- The divider moves inside the action of `ToDividerDragRequestEvent`: a denied request leaves it where it was.
+- The delta keeps only the axis across the divider, the other coordinate is zero.
+
+## Usage
+
+1. `ToDivider>>defaultEventHandler` creates me and `ToDivider>>initialize` adds me to the divider. `ToPaneDivider` uses my subclass `ToPaneDividerEventHandler`.
+2. The divider sends me the drag events. I dispatch the requests and events on it.
+
+I keep the state of one drag, so I serve a single divider.
+"
 Class {
 	#name : #ToDividerEventHandler,
 	#superclass : #BlCustomEventHandler,

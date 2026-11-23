@@ -1,3 +1,16 @@
+"
+I am the raw skin of `ToTabListSecondarySelectionElement`. In a list that is not flowable, I give it the visibility of its tab and the color of the `#'tab-color-secondary-selection'` token.
+
+## Examples
+
+```
+ToTabPaneElement exampleTabs
+```
+
+## Usage
+
+`ToRawTheme>>newSkinFor:` creates me by sending `newRawSkin` to the selection element.
+"
 Class {
 	#name : #ToTabListSecondarySelectionElementSkin,
 	#superclass : #ToListSecondarySelectionElementSkin,

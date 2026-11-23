@@ -1,3 +1,20 @@
+"
+I connect the list of a `ToTabGroupElement` with the group. I forward the item events, select another tab when the selected one is removed, scroll the selected tab into view, and tell the group which tabs are hidden.
+
+## Examples
+
+```
+ToTabGroupElement exampleTabs
+```
+
+## Design Rationale
+
+- When the selected tab is removed, the tab that takes its place is selected, or the last one. I postpone it, because other tabs may be removed in the same frame.
+
+## Usage
+
+`ToTabGroupElement>>initialize` creates me and adds me to its list.
+"
 Class {
 	#name : #ToTabListInTabGroupEventHandler,
 	#superclass : #BlCustomEventHandler,

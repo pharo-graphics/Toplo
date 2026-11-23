@@ -1,3 +1,16 @@
+"
+I am the raw skin of `ToTabListPrimarySelectionElement`. I give it the visibility of the tab it belongs to, so that the bar of a hidden tab is hidden too.
+
+## Examples
+
+```
+ToTabPaneElement exampleManyTabs
+```
+
+## Usage
+
+`ToRawTheme>>newSkinFor:` creates me by sending `newRawSkin` to the selection element.
+"
 Class {
 	#name : #ToTabListPrimarySelectionElementSkin,
 	#superclass : #ToListPrimarySelectionElementSkin,

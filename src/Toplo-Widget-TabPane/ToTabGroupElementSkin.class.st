@@ -1,3 +1,16 @@
+"
+I am the raw skin of `ToTabGroupElement`. I make it transparent and without border, and pad the container of the add button and the menu with the `#'padding-content-H'` or `#'padding-content-V'` token, according to the orientation.
+
+## Examples
+
+```
+ToTabGroupElement exampleTabs
+```
+
+## Usage
+
+`ToRawTheme>>newSkinFor:` creates me by sending `newRawSkin` to the group.
+"
 Class {
 	#name : #ToTabGroupElementSkin,
 	#superclass : #ToRawSkin,

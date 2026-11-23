@@ -1,3 +1,16 @@
+"
+I am the raw skin of `ToTabPaneNode`. I give the selected foreground of the tab the color of the bar (`#'color-primary-checked'` token) when the list is not flowable, and let the theme decide otherwise.
+
+## Examples
+
+```
+ToTabPaneElement exampleTabs
+```
+
+## Usage
+
+`ToRawTheme>>newSkinFor:` creates me by sending `newRawSkin` to the node.
+"
 Class {
 	#name : #ToTabPaneNodeSkin,
 	#superclass : #ToTabNodeSkin,

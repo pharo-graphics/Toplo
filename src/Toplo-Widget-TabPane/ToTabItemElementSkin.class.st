@@ -1,3 +1,16 @@
+"
+I am the raw skin of `ToTabItemElement`. I remove border and background, space the icon and the label, color the icons after the state (text, disabled, or selected with and without focus), and show a link cursor when the pointer is over the tab.
+
+## Examples
+
+```
+ToTabGroupElement exampleTabs
+```
+
+## Usage
+
+`ToRawTheme>>newSkinFor:` creates me by sending `newRawSkin` to the item. The icon color of a selected tab comes from the `#'selected-focused-foreground'` and `#'selected-unfocused-foreground'` tokens.
+"
 Class {
 	#name : #ToTabItemElementSkin,
 	#superclass : #ToRawSkin,

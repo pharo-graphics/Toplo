@@ -1,3 +1,16 @@
+"
+I am the raw skin of `ToAddTabButton`. I show a border when the pointer is over the button.
+
+## Examples
+
+```
+ToTabPaneElement exampleRemovableTabs
+```
+
+## Usage
+
+`ToRawTheme>>newSkinFor:` creates me by sending `newRawSkin` to the button.
+"
 Class {
 	#name : #ToAddTabButtonSkin,
 	#superclass : #ToIconicAddButtonSkin,

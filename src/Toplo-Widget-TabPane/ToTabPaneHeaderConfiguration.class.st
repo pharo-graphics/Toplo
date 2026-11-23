@@ -1,3 +1,24 @@
+"
+I am the configuration of a `ToTabPaneHeaderElement`: I give the header its size, translate its alignment into flexible sides, and make the tab group fill the header or fit its tabs.
+
+## Examples
+
+```
+ToTabPaneElement exampleTabs
+```
+
+## Design Rationale
+
+- The alignment is a matter of fillers: at the start only the end side is flexible, in the middle both are, and without alignment none is, so the tab group takes the whole width.
+
+## Usage
+
+`ToTabPaneHeaderElement>>newToConfiguration` creates me. The header applies me when it needs a configuration. `matchParentMode:` is set by the header, in compact mode.
+
+## Implementation Notes
+
+- When there is no flexible side and the tab group is not flowable, I scroll the selected tab into view after the next layout.
+"
 Class {
 	#name : #ToTabPaneHeaderConfiguration,
 	#superclass : #ToTripletContainerConfiguration,

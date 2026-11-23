@@ -1,3 +1,24 @@
+"
+I am the raw skin of `ToAccordionElement`. I give the accordion its frame and the arrow that shows whether it is expanded.
+
+When I am installed, I set the border (none when the accordion has the `#borderless` stamp, the `#'border-paint'` token otherwise) and the rounded corners (`border-radius` token). I also put in the header a `ToIconicArrowButton`, sized with the `#'iconic-arrow-breadth'` token, pointing down when the accordion is expanded and right when it is collapsed. On checked and unchecked skin events, `expandHeader:` and `collapseHeader:` turn the arrow.
+
+## Examples
+
+```
+ToAccordionElement scriptAccordionsInPane
+```
+
+## Design Rationale
+
+- The arrow belongs to the skin, not to the header: a theme decides how the expanded state looks, and the header only offers a place for the icon (`ToAccordionHeaderElement>>icon:`).
+- The accordion expanded state is its checked state, so I react to the checkable skin events (`checkedSkinEvent:`, `uncheckedSkinEvent:`) rather than to a dedicated expansion event.
+
+## Usage
+
+1. `ToRawTheme>>newSkinFor:` creates me by sending `newRawSkin` to the accordion (`ToAccordionElement>>newRawSkin`), when the accordion gets a skin in a space.
+2. The `ToSkinManager` of the accordion installs me and sends me the skin events of the accordion.
+"
 Class {
 	#name : #ToAccordionElementSkin,
 	#superclass : #ToRawSkin,

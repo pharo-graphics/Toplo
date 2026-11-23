@@ -1,8 +1,46 @@
+"
+I provide the few SVG icons that Toplo itself needs and that are not taken from the Ant Design or Material Design sets: a pending-work gear, a close cross, an empty box, a resize corner and drag handles. Each icon is a class method of my `accessing` protocol answering an SVG document as a string.
+
+Like the other `ToImportedIconProvider` subclasses, I answer an icon by name: `iconNamed:` answers a `ToImage`, `innerImageNamed:` the SVG string.
+
+## Examples
+
+```
+ToMiscellaneousIcons exampleRoundClose.
+ToMiscellaneousIcons scriptAllIcons.
+```
+
+## Design Rationale
+
+- My icons are SVG strings rather than forms, so a `ToImage` can scale them to any extent and skins can recolor them with `innerImageColor:`.
+- I keep Toplo's own icons apart from the large imported icon sets, so that core widgets do not depend on a particular style of those sets.
+
+## Usage
+
+I am used through my class side; nobody creates my instances.
+
+2. `ToTheme class>>defaultTokenProperties` declares the `#empty_box` token with `filled_emptyBox`, which `ToEmptySkin` shows in `ToEmpty` elements.
+3. The skin of `ToTextResizeBottomRightIcon` shows `filled_resize_bottom_right`.
+
+## Implementation Notes
+
+- An SVG icon has no extent of its own: give the `ToImage` an extent (`extent: 32 @ 32`) to see it.
+- `listElementWithAllIcons`, inherited from `ToImportedIconProvider`, finds no icon in me: it only lists the icons of the Ant Design and Material Design styles. Use `scriptAllIcons` to see mine. This is a known issue.
+"
 Class {
 	#name : #ToMiscellaneousIcons,
 	#superclass : #ToImportedIconProvider,
 	#category : #'Toplo-Core-Theme'
 }
+
+{ #category : #examples }
+ToMiscellaneousIcons class >> exampleRoundClose [
+
+	<sampleInstance>
+	^ (self iconNamed: #round_close)
+		  extent: 32 @ 32;
+		  yourself
+]
 
 { #category : #accessing }
 ToMiscellaneousIcons class >> filled_emptyBox [
@@ -41,6 +79,34 @@ ToMiscellaneousIcons class >> round_close [
 	(see https://uxwing.com/license/) "
 
 	^ '<?xml version="1.0" encoding="utf-8"?><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="122.881px" height="122.88px" viewBox="0 0 122.881 122.88" enable-background="new 0 0 122.881 122.88" xml:space="preserve"><g><path fill-rule="evenodd" clip-rule="evenodd" d="M61.44,0c33.933,0,61.441,27.507,61.441,61.439 c0,33.933-27.508,61.44-61.441,61.44C27.508,122.88,0,95.372,0,61.439C0,27.507,27.508,0,61.44,0L61.44,0z M81.719,36.226 c1.363-1.363,3.572-1.363,4.936,0c1.363,1.363,1.363,3.573,0,4.936L66.375,61.439l20.279,20.278c1.363,1.363,1.363,3.573,0,4.937 c-1.363,1.362-3.572,1.362-4.936,0L61.44,66.376L41.162,86.654c-1.362,1.362-3.573,1.362-4.936,0c-1.363-1.363-1.363-3.573,0-4.937 l20.278-20.278L36.226,41.162c-1.363-1.363-1.363-3.573,0-4.936c1.363-1.363,3.573-1.363,4.936,0L61.44,56.504L81.719,36.226 L81.719,36.226z"/></g></svg>'
+]
+
+{ #category : #script }
+ToMiscellaneousIcons class >> scriptAllIcons [
+	"Opens a pane showing every icon I provide (the methods of my accessing protocol), at 32x32, with its name below."
+
+	<example>
+	| pane |
+	pane := ToPane new.
+	pane layout: BlFlowLayout horizontal.
+	pane width: 480.
+	pane vFitContent.
+	pane padding: (BlInsets all: 10).
+	(self class selectorsInProtocol: #accessing) sorted do: [ :iconName |
+		| cell |
+		cell := ToElement new.
+		cell layout: (BlLinearLayout vertical cellSpacing: 5).
+		cell fitContent.
+		cell padding: (BlInsets all: 10).
+		cell addChildren: {
+			((self iconNamed: iconName)
+				 extent: 32 @ 32;
+				 constraintsDo: [ :c | c linear horizontal alignCenter ];
+				 yourself).
+			(ToLabel text: iconName) }.
+		pane addChild: cell ].
+	pane openInSpace.
+	^ pane
 ]
 
 { #category : #accessing }

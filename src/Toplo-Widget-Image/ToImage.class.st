@@ -1,3 +1,39 @@
+"
+I am a Toplo element that shows an image. I take an image source (a `Form`, an SVG document as a string, or any object that answers an element to `asElement`) and convert it into an inner element that I display centered. I give Toplo one kind of element for icons and pictures, whatever their source, that skins can recolor and widgets can lay out like any other element.
+
+`inner:` creates me with a source and `innerImage:` changes it; `sourceImage` answers the source and `innerImage` the element built from it. `innerImageColor:` recolors me and `adaptToColor:` lets a skin recolor me when the setting allows it.
+
+## Examples
+
+```
+ToImage exampleForm.
+ToImage exampleSvg.
+ToImage exampleColoredSvg.
+ToImage scriptImageSources.
+```
+
+## Design Rationale
+
+- I keep the source and the inner element apart. The source is what clients gave and can give again (`sourceImage`), for example to build a new image from the same source instead of moving me to another parent. The inner element is a private conversion: a `Form` becomes an element with a `BlImageBackground`, an SVG string becomes the element built by `BlSvgConverter`, and any other object becomes `asElement`. I tag the inner element with an id (`ToImage class>>formInnerImageId`, `svgInnerImageId`, `unknownInnerImageId`) so that `innerFormImage` and `innerSvgImage` know what they hold.
+- Setting the same source again does nothing, so skins and widgets can send `innerImage:` on each update without rebuilding the element.
+- Recoloring depends on the kind of source. An SVG image colors its leaf elements. A form is replaced by a copy with the new color and the alpha of the original, so its shape stays. Skins send `adaptToColor:` when the foreground changes (hovered, pressed, disabled); it recolors SVG images but leaves forms alone unless the `allowFormColorChange` setting (Toplo settings, off by default) is on, since most forms are colored pictures rather than glyphs.
+- I prevent mouse events on my children, so that a click on the picture targets me: widgets that contain me (buttons, menu items) see me as a leaf.
+- `fromUrl:` loads a remote image in a background process. It shows a pending icon at once, tries up to five times, and shows a close icon if it fails. `terminateLoader` stops the loading.
+
+## Usage
+
+1. Icon providers create me: `ToLocationIconProvider>>iconNamed:ifAbsent:` and `ToImportedIconProvider class>>iconNamed:ifAbsent:` answer me wrapping their icon. Widgets wrap a raw source in me: `ToButton>>iconImage:` and `TToLabeledIcon>>iconImage:` send `ToImage inner:` when they do not get a `ToImage`. `TToImageHolder>>initializeAsImageHolder` gives each `ToIcon` an empty one.
+2. My container keeps me as a child. Skins recolor me: `ToButtonSkin` and `ToMenuItemSkin` send `adaptToColor:`, `ToCheckboxSkin` sends `innerImageColor:`.
+
+I am mutable: `innerImage:` replaces my child, and colors replace or change the inner element. Like any element, use me from the UI process.
+
+## Implementation Notes
+
+- A form gives me its extent, but an SVG inner element matches its parent while I fit my content: give me an extent (`extent: 32 @ 32`) when I show an SVG image, or I have none.
+- An element given as a source is used as my child, not copied, and its id is replaced by `#unknown`.
+- Recoloring a form goes through `innerImage:`, so `sourceImage` then answers the recolored copy and the original form is lost. This is a known issue.
+- `innerForm` and `formColor:` are deprecated: use `innerFormImage` and `innerImageColor:`.
+"
 Class {
 	#name : #ToImage,
 	#superclass : #ToElement,
@@ -25,6 +61,31 @@ ToImage class >> allowFormColorChange: aBoolean [
 	AllowFormColorChange := aBoolean
 ]
 
+{ #category : #examples }
+ToImage class >> exampleColoredSvg [
+
+	<sampleInstance>
+	^ self exampleSvg
+		  innerImageColor: Color red;
+		  yourself
+]
+
+{ #category : #examples }
+ToImage class >> exampleForm [
+
+	<sampleInstance>
+	^ self inner: (self iconNamed: #delete)
+]
+
+{ #category : #examples }
+ToImage class >> exampleSvg [
+
+	<sampleInstance>
+	^ (self inner: ToMiscellaneousIcons filled_pending_work)
+		  extent: 32 @ 32;
+		  yourself
+]
+
 { #category : #accessing }
 ToImage class >> formInnerImageId [
 
@@ -41,6 +102,32 @@ ToImage class >> fromUrl: anUrl [
 ToImage class >> inner: anImage [
 
 	^ self new innerImage: anImage
+]
+
+{ #category : #script }
+ToImage class >> scriptImageSources [
+	"The sources a ToImage accepts, side by side: a Form, an SVG string, the same SVG colored in red, a rotated Form, and a plain Bloc element."
+
+	<example>
+	| pane rotated element |
+	pane := ToPane new.
+	pane layout: (BlLinearLayout horizontal cellSpacing: 20).
+	pane fitContent.
+	pane padding: (BlInsets all: 20).
+	rotated := self exampleForm.
+	rotated rotateBy: 45.
+	element := BlElement new
+		           extent: 16 @ 16;
+		           background: Color orange;
+		           yourself.
+	pane addChildren: {
+		self exampleForm.
+		self exampleSvg.
+		self exampleColoredSvg.
+		rotated.
+		(self inner: element) }.
+	pane openInSpace.
+	^ pane
 ]
 
 { #category : #settings }

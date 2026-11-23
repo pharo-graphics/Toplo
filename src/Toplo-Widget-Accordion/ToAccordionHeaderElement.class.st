@@ -1,3 +1,30 @@
+"
+I am the header of a `ToAccordionElement`: the row that stays visible when the accordion is collapsed. I lay out three areas in a `ToTripletElement`: the expand icon, the content, and an extra area for small actions.
+
+## Examples
+
+```
+ToAccordionHeaderElement exampleWithLabel
+```
+
+## Design Rationale
+
+- `builder:` runs its block at once on my content, after removing the previous children. The body builder runs lazily, but I am always visible, so there is nothing to defer.
+- The position of the icon is a configuration: `expandIconAtStart:` records the choice and requests a configuration, and `applyConfiguration` rearranges the triplet. With the icon at the start, the icon is the start element of the triplet and the extra area its end element. Otherwise both go into one end element, extra area first.
+- The end side of the triplet is flexible and my content fits its children, so the extra area and an icon at the end are pushed to the right edge.
+
+## Usage
+
+1. `ToAccordionElement>>newHeader` creates me when the accordion is initialized; the accordion keeps me and answers me with `header`.
+2. The accordion forwards `headerBuilder:` to my `builder:`, and `headerExtraBuilder:` and `expandIconAtStart:` to mine.
+3. `ToAccordionElementSkin` gives me my arrow with `icon:` when it is installed, and turns it with `icon beDown` and `icon beRight` when the accordion is expanded or collapsed.
+
+I live as long as my accordion; I am not meant to be moved to another one.
+
+## Implementation Notes
+
+- `icon` answers the first child of the icon container. It fails before my skin is installed, since the arrow is put there by `ToAccordionElementSkin`.
+"
 Class {
 	#name : #ToAccordionHeaderElement,
 	#superclass : #ToElement,

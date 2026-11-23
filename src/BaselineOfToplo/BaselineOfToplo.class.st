@@ -153,6 +153,10 @@ BaselineOfToplo >> registerPackages: spec [
 		package: #'Toplo-Widget-Pane'
 		with: [ spec requires: #( #Toplo #'Toplo-Theme' ) ].
 
+	spec
+		package: #'Toplo-Widget-Pane-Tests'
+		with: [ spec requires: #( #'Toplo-Tests' #'Toplo-Widget-Pane' ) ].
+
 	"Incubator"
 	spec package: #'Toplo-Incubator' with: [
 			spec requires:

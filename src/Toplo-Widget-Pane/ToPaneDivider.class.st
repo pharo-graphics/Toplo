@@ -56,14 +56,6 @@ ToPaneDivider >> firstResizedElement: anElement [
 	firstResizedElement := anElement
 ]
 
-{ #category : #initialization }
-ToPaneDivider >> initialize [
-
-	super initialize.
-	self constraintsDo: [ :c | c ignoreByLayout ].
-	self addEventHandler: self defaultEventHandler 
-]
-
 { #category : #layout }
 ToPaneDivider >> layoutHorizontally [
 
@@ -71,7 +63,7 @@ ToPaneDivider >> layoutHorizontally [
 	firstY := self topResizedElement bounds bottom
 	          + self topResizedElement margin bottom.
 	secondY := self bottomResizedElement bounds top
-	           - self bottomResizedElement margin bottom.
+	           - self bottomResizedElement margin top.
 
 	gap := secondY - firstY / 2 - (self thickness / 2).
 	" since I'm ignored by layout, I can set my position explicitely here "

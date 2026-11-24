@@ -55,18 +55,18 @@ ToDemoPresenter class >> demo3 [
 
 	<demo>
 	| containerElement |
-	containerElement := ToCheckableGroupPane vertical.
+	containerElement := ToCheckableGroupPane vertical matchParent; yourself.
 	{
 		ToRawTheme.
 		ToRawDarkTheme } do: [ :themeClass |
 			containerElement addChild:
 				(ToRadioButton new
-					 labelText: themeClass label;
-					 in: [ :rad | rad userData at: #themeClass put: themeClass ];
-					 yourself) ].
-				
+					labelText: themeClass label;
+					in: [ :rad | rad userData at: #themeClass put: themeClass ];
+					yourself) ].
+
 	containerElement groupCheckAction: [ :evt |
-		containerElement space toTheme:
+		containerElement localTheme:
 			(evt checkedList anyOne userData at: #themeClass) new ].
 
 	containerElement children second checked: true.
@@ -90,13 +90,6 @@ ToDemoPresenter class >> open [
 	<script>
 
 	super open
-]
-
-{ #category : #private }
-ToDemoPresenter >> drawOnCanvas: anElement [
-
-	self canvas space toTheme: ToRawTheme new.
-	super drawOnCanvas: anElement
 ]
 
 { #category : #accessing }

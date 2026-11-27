@@ -8,6 +8,14 @@ Class {
 }
 
 { #category : #tests }
+ToAlbumTest >> testFocusGoesToTheEditor [
+
+	| album |
+	album := ToAlbum new.
+	self assert: album focusDelegate identicalTo: album infinite focusDelegate
+]
+
+{ #category : #tests }
 ToAlbumTest >> testWithEditsFeedback [
 
 	| a |

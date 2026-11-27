@@ -160,7 +160,7 @@ ToTabGroupElement >> endExtraBuilder: aValuable [
 ]
 
 { #category : #'focus requesting' }
-ToTabGroupElement >> focusHolder [
+ToTabGroupElement >> focusDelegate [
 
 	^ self itemList
 ]

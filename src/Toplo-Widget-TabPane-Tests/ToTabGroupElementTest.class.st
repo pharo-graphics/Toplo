@@ -85,6 +85,14 @@ ToTabGroupElementTest >> testFiniteItemSelectedBeforeAddedInSpace [
 ]
 
 { #category : #tests }
+ToTabGroupElementTest >> testFocusGoesToTheItemList [
+
+	| group |
+	group := ToTabGroupElement new.
+	self assert: group focusDelegate identicalTo: group itemList
+]
+
+{ #category : #tests }
 ToTabGroupElementTest >> testInfiniteItemCheckedBeforeAddedInSpace [
 
 	" Notice that a tabgroup is not made to be used in an infinite.

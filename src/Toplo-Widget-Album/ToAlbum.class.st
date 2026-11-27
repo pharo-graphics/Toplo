@@ -118,9 +118,9 @@ ToAlbum >> flash [
 ]
 
 { #category : #'focus requesting' }
-ToAlbum >> focusHolder [
+ToAlbum >> focusDelegate [
 
-	^ self infinite focusHolder
+	^ self infinite focusDelegate
 ]
 
 { #category : #testing }

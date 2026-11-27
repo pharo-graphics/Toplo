@@ -1,3 +1,16 @@
+"
+I am the configuration of a `ToTabGroupElement`: I pass its orientation, its side and its resizers on to its list, orient its end containers, and update the add button.
+
+## Examples
+
+```
+ToTabGroupElement exampleTabs
+```
+
+## Usage
+
+`ToTabGroupElement>>newToConfiguration` creates me, and the group applies me when it needs a configuration.
+"
 Class {
 	#name : #ToTabGroupElementConfiguration,
 	#superclass : #ToTripletContainerConfiguration,

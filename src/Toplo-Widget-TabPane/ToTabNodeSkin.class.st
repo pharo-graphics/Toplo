@@ -1,3 +1,20 @@
+"
+I am the raw skin of `ToTabNode`. I give the node its padding, place the remove button on the side of the label, and show it only while the pointer is over the tab, with the animation of the `#'window-opening-animation'` token.
+
+## Examples
+
+```
+ToTabPaneElement exampleRemovableTabs
+```
+
+## Design Rationale
+
+- The remove button is on the left of the label, or on its right when the tabs are on the end side of a vertical list, so that it stays away from the body.
+
+## Usage
+
+`ToRawTheme>>newSkinFor:` creates me by sending `newRawSkin` to the node.
+"
 Class {
 	#name : #ToTabNodeSkin,
 	#superclass : #ToRawSkin,

@@ -1,3 +1,21 @@
+"
+I am the selection element of a tab list that draws the selection of a tab as a bar along the content, rather than behind the tab. `breadth` is the thickness of the bar.
+
+## Examples
+
+```
+ToTabPaneElement exampleTabs
+```
+
+## Design Rationale
+
+- I am placed at the edge of the tabs next to the body, which depends on the orientation and on `atStartSide`. I take the padding of the parents of the tab into account, so that I am over the track of the list.
+- In a flowable list the tabs are on several lines, so I behave as an ordinary selection element.
+
+## Usage
+
+`ToTabPaneListElementSkin` creates my subclasses as the selection elements of its list. I am used through them.
+"
 Class {
 	#name : #ToTabListSelectionElement,
 	#superclass : #ToListSelectionElement,

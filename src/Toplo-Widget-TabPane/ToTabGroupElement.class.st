@@ -1,3 +1,35 @@
+"
+I am a row or a column of tabs, with what goes with them: a button that adds a tab, a menu for the tabs that do not fit, and extra elements on both sides. I have no body: use me alone for tabs that only change what a client shows, and see `ToTabPaneElement` for tabs with panes.
+
+`addTabItemData:` adds a tab, built by the block of `itemBuilder:`. `startExtraBuilder:` and `endExtraBuilder:` add elements on my sides.
+
+## Examples
+
+```
+ToTabGroupElement exampleTabs
+```
+
+## Design Rationale
+
+- The tabs are the items of a `ToTabListElement`, and I use `TToItemListUser`, so selection and item management come from the list.
+- A tab is added to the list before its builder runs, so that the builder can use the holder of the item. The builder receives the tab, the data and the holder.
+- A data object is not stored by the tab. It is only given to the builder, and `addTabItemDataFactory:` creates the one of a tab added with the button.
+- The add button and the invisible nodes menu are always there and hidden when unused. The menu appears only when I am neither flowable nor auto-distributed, since otherwise every tab is visible or wraps.
+
+## Usage
+
+1. A client creates me, or `ToTabPaneHeaderElement>>newTabGroupElement` creates my subclass `ToTabPaneGroupElement`.
+2. `itemBuilder:` is set before adding tabs with `addTabItemData:`.
+3. The list tells which tabs are hidden (`ToTabListInTabGroupEventHandler`), and I update the menu in `onInvisibleNodeContainers:visibleNodeContainers:`.
+4. I dispatch `ToListPrimarySelectionChangedEvent` and the list item events to my own listeners.
+
+`atStartSide:` tells on which side of the content the tabs are; the selection is drawn on the opposite edge.
+
+## Implementation Notes
+
+- With `hidePartlyVisibleNodes: true`, the tabs the list reports as invisible and that come after the last visible one are hidden, with their selection element.
+- `visibleNodes` and `invisibleNodes` are deprecated: use `visibleNodeContainers` and `invisibleNodeContainers`.
+"
 Class {
 	#name : #ToTabGroupElement,
 	#superclass : #ToTripletContainer,
@@ -19,6 +51,26 @@ Class {
 	],
 	#category : #'Toplo-Widget-TabPane-TabGroup'
 }
+
+{ #category : #examples }
+ToTabGroupElement class >> exampleTabs [
+	"A group of three tabs, without any body."
+
+	<example>
+	^ self instanceWithTabs openInSpace
+]
+
+{ #category : #instances }
+ToTabGroupElement class >> instanceWithTabs [
+
+	<sampleInstance>
+	| group |
+	group := self new hMatchParent.
+	group vFitContent.
+	group itemBuilder: [ :item :label | item labelText: label ].
+	#( 'Daily' 'Weekly' 'Monthly' ) do: [ :label | group addTabItemData: label ].
+	^ group
+]
 
 { #category : #adding }
 ToTabGroupElement >> addNewTabItem [
@@ -258,7 +310,7 @@ ToTabGroupElement >> invisibleNodeContainers [
 
 { #category : #accessing }
 ToTabGroupElement >> invisibleNodeMenuItemBuilder: aValuable [
-	"a valuable takes the menu item, the invisible node and the menu request as arguments "
+	"a valuable takes the menu item (which knows the invisible node, see ToTabInvisibleNodeMenuItem>>#tabNode) and the menu request as arguments "
 
 	invisibleNodeMenuItemBuilder := aValuable
 ]

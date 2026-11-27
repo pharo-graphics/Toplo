@@ -1,3 +1,20 @@
+"
+I am the raw skin of `ToTabInvisibleNodeMenuItem`. I draw a bar at the left of the item when its tab is the selected one.
+
+## Examples
+
+```
+ToTabPaneElement exampleManyTabs
+```
+
+## Usage
+
+`ToRawTheme>>newSkinFor:` creates me by sending `newRawSkin` to the item.
+
+## Implementation Notes
+
+- The bar is added to the node of the item each time I am installed.
+"
 Class {
 	#name : #ToTabInvisibleNodeMenuItemSkin,
 	#superclass : #ToMenuItemSkin,

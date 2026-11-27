@@ -1,3 +1,29 @@
+"
+I am the event handler of a `ToPaneDivider`: I add to the drag the resizing of the two elements it separates. See `ToDividerEventHandler` for the drag requests and events.
+
+When the drag starts I remember the bounds of both elements, and each step resizes them from there. I also keep the divider in step with its pane: orientation, extent, and position of its elements.
+
+## Examples
+
+```
+ToPaneDivider exampleDefault
+```
+
+## Design Rationale
+
+- I listen to the pane and to the elements only while the divider is in the pane: the listeners are added when it is added to its parent and removed with it.
+- Minimum extents stop an element from collapsing when the pointer goes past it.
+
+## Usage
+
+1. `ToPaneDivider>>defaultEventHandler` creates me and the divider adds me in `initialize`.
+2. The divider sends me the drag events and the events of being added to and removed from its parent.
+
+## Implementation Notes
+
+- The elements are resized even when the drag request is denied: only the divider events are not dispatched. This is a known issue.
+- In a left-to-right pane the delta is negated because `resizeBounds:by:onEvent:` subtracts the horizontal delta.
+"
 Class {
 	#name : #ToPaneDividerEventHandler,
 	#superclass : #ToDividerEventHandler,

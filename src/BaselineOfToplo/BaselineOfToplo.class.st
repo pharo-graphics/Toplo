@@ -95,6 +95,11 @@ BaselineOfToplo >> registerPackages: spec [
 				#( #Toplo #'Toplo-Widget-Button' #'Toplo-Widget-List'
 				   #'Toplo-Theme' ) ].
 
+	spec package: #'Toplo-Widget-Accordion-Tests' with: [
+			spec requires:
+				#( #'Toplo-Tests' #'Toplo-Widget-Accordion'
+				   #'Toplo-Widget-Album' ) ].
+
 	spec
 		package: #'Toplo-Widget-ProgressBar'
 		with: [ spec requires: #( #Toplo #'Toplo-Theme' ) ].
@@ -152,6 +157,10 @@ BaselineOfToplo >> registerPackages: spec [
 	spec
 		package: #'Toplo-Widget-Pane'
 		with: [ spec requires: #( #Toplo #'Toplo-Theme' ) ].
+
+	spec
+		package: #'Toplo-Widget-Pane-Tests'
+		with: [ spec requires: #( #'Toplo-Tests' #'Toplo-Widget-Pane' ) ].
 
 	"Incubator"
 	spec package: #'Toplo-Incubator' with: [

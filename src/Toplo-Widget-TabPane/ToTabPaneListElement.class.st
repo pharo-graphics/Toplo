@@ -1,3 +1,16 @@
+"
+I am the list of the tabs of a tab pane. My nodes are `ToTabPaneNode`s and my skin draws the selection as a bar along the body. See `ToTabListElement` for the rest.
+
+## Examples
+
+```
+ToTabPaneElement exampleTabs
+```
+
+## Usage
+
+`ToTabPaneGroupElement>>listElementClass` answers me.
+"
 Class {
 	#name : #ToTabPaneListElement,
 	#superclass : #ToTabListElement,

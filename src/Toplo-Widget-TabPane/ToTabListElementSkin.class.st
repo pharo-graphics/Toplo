@@ -1,3 +1,16 @@
+"
+I am the raw skin of `ToTabListElement`. I remove border and padding, and clear the secondary selection when the pointer leaves the list.
+
+## Examples
+
+```
+ToTabListElement exampleTabs
+```
+
+## Usage
+
+`ToRawTheme>>newSkinFor:` creates me by sending `newRawSkin` to the list.
+"
 Class {
 	#name : #ToTabListElementSkin,
 	#superclass : #ToItemListElementSkin,

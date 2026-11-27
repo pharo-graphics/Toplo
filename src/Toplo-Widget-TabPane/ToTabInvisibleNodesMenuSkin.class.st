@@ -1,3 +1,16 @@
+"
+I am the raw skin of `ToTabInvisibleNodesMenu`. I give the menu an icon with three dots, horizontal or vertical according to the orientation of the tab group.
+
+## Examples
+
+```
+ToTabPaneElement exampleManyTabs
+```
+
+## Usage
+
+`ToRawTheme>>newSkinFor:` creates me by sending `newRawSkin` to the menu.
+"
 Class {
 	#name : #ToTabInvisibleNodesMenuSkin,
 	#superclass : #ToMenuSkin,

@@ -12,6 +12,18 @@ Class {
 	#category : #'Toplo-Widget-TabPane-Tests-TabPane'
 }
 
+{ #category : #helpers }
+ToTabPaneElementTest >> selectionEventsOfPaneWhile: aBlock [
+	"Answer how many primary selection events the tab pane dispatches while the block runs."
+
+	| count |
+	count := 0.
+	tabPane addEventHandlerOn: ToListPrimarySelectionChangedEvent do: [ :event | count := count + 1 ].
+	aBlock value.
+	space settle.
+	^ count
+]
+
 { #category : #running }
 ToTabPaneElementTest >> setUp [
 
@@ -436,6 +448,41 @@ ToTabPaneElementTest >> testSelectTabButton [
 
 	space deferAndSettle: [ tabPane selecter selectIndex: 1 ].
 	self assert: tabPane items first isChecked
+]
+
+{ #category : #tests }
+ToTabPaneElementTest >> testSelectionEventIsForwardedWhenGoingBackToATab [
+
+	| count |
+	self withTwoTabButtons.
+	tabPane items first eventSimulator click.
+	tabPane items second eventSimulator click.
+	count := self selectionEventsOfPaneWhile: [ tabPane items first eventSimulator click ].
+	self assert: tabPane items first isChecked.
+	self assert: firstTabBuildCount equals: 1.
+	self assert: count equals: 1
+]
+
+{ #category : #tests }
+ToTabPaneElementTest >> testSelectionEventIsForwardedWhenSelectionBecomesEmpty [
+
+	| count |
+	self withTwoTabButtons.
+	tabPane items first eventSimulator click.
+	count := self selectionEventsOfPaneWhile: [ space deferAndSettle: [ tabPane selecter deselectAll ] ].
+	self assert: tabPane selectionModel isEmpty.
+	self assert: count equals: 1
+]
+
+{ #category : #tests }
+ToTabPaneElementTest >> testSelectionEventIsForwardedWhenShowingNewTab [
+
+	| count |
+	self withTwoTabButtons.
+	tabPane items first eventSimulator click.
+	count := self selectionEventsOfPaneWhile: [ tabPane items second eventSimulator click ].
+	self assert: tabPane items second isChecked.
+	self assert: count equals: 1
 ]
 
 { #category : #tests }

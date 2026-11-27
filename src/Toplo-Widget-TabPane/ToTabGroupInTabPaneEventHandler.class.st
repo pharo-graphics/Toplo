@@ -74,6 +74,14 @@ ToTabGroupInTabPaneEventHandler >> itemRemovedFromListEvent: anEvent [
 { #category : #'events handling' }
 ToTabGroupInTabPaneEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 
+	self showPaneSelectedBy: anEvent.
+	tabPane dispatchEvent: anEvent copy
+]
+
+{ #category : #'events handling' }
+ToTabGroupInTabPaneEventHandler >> showPaneSelectedBy: anEvent [
+	"Show the pane of the selected tab in the body, or leave the body empty when not exactly one tab is selected."
+
 	| body button bodyPane tabGroup |
 	tabGroup := anEvent currentTarget.
 	body := tabPane body.
@@ -86,7 +94,7 @@ ToTabGroupInTabPaneEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 				body addChild: bodyPane.
 				^ self ].
 	bodyPane ifNil: [ bodyPane := button paneFactory value ].
-	bodyPane  matchParent.
+	bodyPane matchParent.
 	bodyPane
 		addEventHandlerOn: BlElementRemovedFromSceneGraphEvent
 		do: [ self applyPaneDestroyerOfTabButton: button ].
@@ -95,8 +103,7 @@ ToTabGroupInTabPaneEventHandler >> listPrimarySelectionChangedEvent: anEvent [
 		cull: bodyPane
 		cull: button
 		cull: button holder.
-	body addChild: bodyPane.
-	tabPane dispatchEvent: anEvent copy
+	body addChild: bodyPane
 ]
 
 { #category : #accessing }
